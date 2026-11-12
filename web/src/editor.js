@@ -57,6 +57,7 @@ export class Editor {
   }
 
   inSet(p, a, set) {
+    if (set.kind === 'any') return true;
     if (set.kind === 'plane') return a === set.axis && p[a] === set.coord;
     return set.d[0] * p[0] + set.d[1] * p[1] + set.d[2] * p[2] === set.s;
   }

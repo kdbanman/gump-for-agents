@@ -65,5 +65,15 @@ export function statsCPU(cells, nx, ny, nz) {
     }
   }
   const pop = count[0] + count[1] + count[2];
-  return pop ? { pop, count, lo, hi, loS, hiS } : { pop, count, lo: null, hi: null, loS: null, hiS: null };
+  if (!pop) return { pop, count, lo: null, hi: null, loS: null, hiS: null, faceHi: null, faceLo: null };
+  // live cells on the outermost layer of each of the 8 hull faces
+  const faceHi = [0, 0, 0, 0], faceLo = [0, 0, 0, 0];
+  for (let k = 0; k < nz; k++) for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) {
+    const c = cells[i + nx * (j + ny * k)];
+    for (let a = 0; a < 3; a++) if ((c >> a) & 1) {
+      const p = [2 * i, 2 * j, 2 * k]; p[a] += 1;
+      DIAGONALS.forEach((d, n) => { const s = d[0] * p[0] + d[1] * p[1] + d[2] * p[2]; if (s === hiS[n]) faceHi[n]++; if (s === loS[n]) faceLo[n]++; });
+    }
+  }
+  return { pop, count, lo, hi, loS, hiS, faceHi, faceLo };
 }

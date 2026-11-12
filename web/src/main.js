@@ -27,9 +27,9 @@ const fmt = (n) => n == null ? '–' : Math.round(n).toLocaleString('en-US');
 // ---------------------------------------------------------------- URL / spec
 const DEFAULTS = { seed: 'cube', n: 11, k: 5, H: 60, shape: 'cube', density: 0.3, layers: 3, rng: 1,
   box: 'auto', bc: 'dead', speed: 'max', view: 'auto', face: 0.6, gen: 0, play: 0, lanes: 32, cells: '', cz: '',
-  abs: 0, g0: 0, cam: '', color: 'orientation', diag: 0, slice: '', ortho: 0, rec: 1, kwin: 0 };
+  abs: 0, g0: 0, cam: '', color: 'orientation', diag: 0, slice: '', ortho: 0, rec: 1, kwin: 0, focus: '' };
 const NUMERIC = ['n', 'k', 'H', 'density', 'layers', 'rng', 'face', 'gen', 'play', 'lanes', 'abs', 'g0', 'diag', 'ortho', 'rec', 'kwin'];
-const VIEW_KEYS = ['box', 'bc', 'speed', 'view', 'face', 'gen', 'play', 'lanes', 'cam', 'color', 'diag', 'slice', 'ortho', 'rec', 'abs', 'g0', 'kwin'];
+const VIEW_KEYS = ['box', 'bc', 'speed', 'view', 'face', 'gen', 'play', 'lanes', 'cam', 'color', 'diag', 'slice', 'ortho', 'rec', 'abs', 'g0', 'kwin', 'focus'];
 
 function readURL() {
   const q = new URLSearchParams(location.search);
@@ -174,6 +174,7 @@ async function resetToSeed() {
   setPlaying(!!spec.play || app.runUntil > 0);
   frameCamera(seed.pts.length ? seed.pts.map((v, i) => v + shift[i % 3]) : null);
   applySliceFromSpec();
+  setFocus(defaultFocus());
   writeURL();
   syncForm();
 }
@@ -347,6 +348,8 @@ function legend() {
   const sw = (c) => `<i class="sw" style="background:rgb(${c.join(',')})"></i>`;
   const m = app.spec.color;
   if (m === 'layer') return `${sw(PALETTE.abc[0])}A ${sw(PALETTE.abc[1])}B ${sw(PALETTE.abc[2])}C — kagome layers along ${DIAG_NAMES[app.diag]}, by (s−1)/2 mod 3`;
+  if (m === 'fate') return `from each cell's live-neighbour count n: ${sw(PALETTE.x.map(v => Math.round(v * 0.6)))}survives (n = 3–5) · ${sw(PALETTE.dies)}dies next · ${sw(PALETTE.born)}born next (n = 4, 5) · ${sw(PALETTE.near)}<i>outline</i>: dead with n = 3, one live neighbour short of birth`;
+  if (m === 'neighbourhood') return `click any face to focus it. ${sw(PALETTE.focus)}focus and its 12 neighbours by layer offset Δs along ${DIAG_NAMES[app.diag]}: ${PALETTE.ds.map((c, i) => sw(c) + (['−4 (1)', '−2 (2)', '0 (6)', '+2 (2)', '+4 (1)'][i])).join(' ')} — full size = live, smaller = dead`;
   if (m === 'change') return `${sw(PALETTE.born)}born this generation · ${sw(PALETTE.x.map(v => Math.round(v * 0.55)))}survived (dimmed orientation colour) · ${sw(PALETTE.died)}died (small)`;
   return `${sw(PALETTE.x)}x-normal ${sw(PALETTE.y)}y-normal ${sw(PALETTE.z)}z-normal`;
 }
@@ -553,13 +556,8 @@ async function leaveEdit(keep = true) {
   updateBoxInfo(); writeURL(); syncForm();
 }
 function onEditClick(e) {
-  const rect = canvas.getBoundingClientRect();
-  const ndc = new THREE.Vector2(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1);
-  const rc = new THREE.Raycaster();
-  rc.setFromCamera(ndc, camera);
-  const half = app.dims.map(v => v / 2);
-  const o = rc.ray.origin, d = rc.ray.direction;
-  const hit = editor.pick([o.x + half[0], o.y + half[1], o.z + half[2]], [d.x, d.y, d.z], app.edit);
+  const [o, d] = cubeRay(e);
+  const hit = editor.pick(o, d, app.edit);
   if (!hit) return;
   const n = editor.toggle(hit.p, DIAGONALS[app.diag]);
   $('e-status').textContent = `${hit.p.join(',')} ${n > 1 ? `(+${n - 1} by symmetry)` : ''}`;
@@ -660,9 +658,27 @@ $('e-run').addEventListener('click', async () => { await leaveEdit(true); setPla
 let down = null;
 canvas.addEventListener('pointerdown', (e) => { down = [e.clientX, e.clientY]; });
 canvas.addEventListener('pointerup', (e) => {
-  if (app.edit && down && Math.hypot(e.clientX - down[0], e.clientY - down[1]) < 4) onEditClick(e);
+  const click = down && Math.hypot(e.clientX - down[0], e.clientY - down[1]) < 4;
   down = null;
+  if (!click) return;
+  if (app.edit) onEditClick(e);
+  else if (app.spec.color === 'neighbourhood') { const hit = pickAny(e); if (hit) setFocus(hit.p); }
 });
+function cubeRay(e) {
+  const rect = canvas.getBoundingClientRect();
+  const ndc = new THREE.Vector2(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1);
+  const rc = new THREE.Raycaster(); rc.setFromCamera(ndc, camera);
+  const o = rc.ray.origin, d = rc.ray.direction;
+  return [[o.x + app.dims[0] / 2, o.y + app.dims[1] / 2, o.z + app.dims[2] / 2], [d.x, d.y, d.z]];
+}
+// first slot (live or dead) under the cursor
+function pickAny(e) { editor.dims = app.dims; const [o, d] = cubeRay(e); return editor.pick(o, d, { kind: 'any' }, 0.5 * Number($('v-face').value)); }
+function setFocus(p) { app.focus = p; app.spec.focus = p.join(','); view.setFocus(p); writeURL(); }
+function defaultFocus() {
+  const v = String(app.spec.focus || '').split(',').map(Number);
+  if (v.length === 3 && v.every(Number.isInteger) && ((v[0] & 1) + (v[1] & 1) + (v[2] & 1)) === 1) return v;
+  return [2 * Math.floor(app.dims[0] / 2) + 1, 2 * Math.floor(app.dims[1] / 2), 2 * Math.floor(app.dims[2] / 2)];
+}
 window.addEventListener('keydown', async (e) => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
   if (app.edit) {

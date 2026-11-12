@@ -13,7 +13,7 @@ const canvas = document.createElement('canvas');
 const gl = canvas.getContext('webgl2');
 
 function firstDiff(a, b) { for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return i; return -1; }
-const KEYS = ['pop', 'count', 'lo', 'hi', 'loS', 'hiS'];
+const KEYS = ['pop', 'count', 'lo', 'hi', 'loS', 'hiS', 'faceHi', 'faceLo'];
 const sameStats = (g, c) => KEYS.every(k => JSON.stringify(g[k]) === JSON.stringify(c[k]));
 
 // ---- random soups: GPU vs CPU, state-for-state, plus GPU stats vs CPU stats ----
@@ -182,13 +182,55 @@ async function layerTests() {
   record('firewall detection (>=3 empty layers inside the hull)', JSON.stringify(fw) === JSON.stringify([{ from: 5, to: 9 }, { from: 19, to: 25 }]), JSON.stringify(fw));
 }
 
+// ---- the renderer's GLSL neighbour count (fate / neighbourhood modes) vs the CPU definition ----
+async function nbrTests() {
+  const { cellGLSL } = await import('../src/gl/cellglsl.js');
+  const { layoutGLSL } = await import('../src/gl/layout.js');
+  const { program, FULLSCREEN_VS, intTexture, framebuffer, rawPassState } = await import('../src/gl/util.js');
+  const { offsets } = await import('../src/cpu.js');
+  for (const [dims, torus] of [[[7, 6, 5], false], [[7, 6, 5], true], [[33, 4, 3], true], [[3, 3, 3], true]]) {
+    const [nx, ny, nz] = dims;
+    const rnd = mulberry32(nx * 31 + (torus ? 1 : 0));
+    const cells = new Uint8Array(nx * ny * nz).map(() => (rnd() < 0.4 ? 1 : 0) | (rnd() < 0.4 ? 2 : 0) | (rnd() < 0.4 ? 4 : 0));
+    const sim = new Sim(gl, nx, ny, nz, { torus });
+    sim.upload(cells);
+    const fs = `#version 300 es
+precision highp float; precision highp int; precision highp usampler2D;
+${layoutGLSL(sim.layout)}
+${cellGLSL()}
+out uvec4 o;
+void main() { ivec2 q = ivec2(gl_FragCoord.xy); int a = q.x % 3, i = q.x / 3, j = q.y % NY, k = q.y / NY;
+  o = uvec4(uint(nbrCount(ivec3(i, j, k), a)), 0u, 0u, 0u); }`;
+    const prog = program(gl, FULLSCREEN_VS, fs);
+    const W = 3 * nx, H = ny * nz, tex = intTexture(gl, gl.RGBA32UI, W, H), fb = framebuffer(gl, [tex]);
+    rawPassState(gl); gl.viewport(0, 0, W, H); gl.useProgram(prog.program);
+    gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, sim.texture); gl.uniform1i(prog.uniforms.S, 0);
+    gl.bindVertexArray(gl.createVertexArray()); gl.drawArrays(gl.TRIANGLES, 0, 3);
+    const out = new Uint32Array(W * H * 4); gl.readPixels(0, 0, W, H, gl.RGBA_INTEGER, gl.UNSIGNED_INT, out);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    const N = [nx, ny, nz];
+    const at = (q) => { const a = (q[0] & 1) ? 0 : (q[1] & 1) ? 1 : 2; const c = q.map((v, t) => (v - (t === a ? 1 : 0)) / 2);
+      for (let t = 0; t < 3; t++) if (c[t] < 0 || c[t] >= N[t]) { if (!torus) return 0; c[t] = ((c[t] % N[t]) + N[t]) % N[t]; }
+      return (cells[c[0] + nx * (c[1] + ny * c[2])] >> a) & 1; };
+    let bad = 0;
+    for (let k = 0; k < nz; k++) for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) for (let a = 0; a < 3; a++) {
+      const p = [2 * i, 2 * j, 2 * k]; p[a]++;
+      const n = offsets(a).reduce((s, o) => s + at([p[0] + o[0], p[1] + o[1], p[2] + o[2]]), 0);
+      if (out[4 * ((j + ny * k) * W + 3 * i + a)] !== n) bad++;
+    }
+    record(`renderer neighbour count ${dims.join('x')} ${torus ? 'torus' : 'dead'} (fate colour mode)`, bad === 0, `${bad} of ${3 * nx * ny * nz} cells differ`);
+    sim.dispose();
+  }
+}
+
 window.runTests = async (params = {}) => {
-  const which = params.only ? params.only.split(',') : ['soups', 'golden', 'async', 'ring', 'layers'];
+  const which = params.only ? params.only.split(',') : ['soups', 'golden', 'async', 'ring', 'layers', 'nbr'];
   try {
     if (which.includes('soups')) await randomSoups(params);
     if (which.includes('async')) await asyncStats();
     if (which.includes('ring')) await ringStats();
     if (which.includes('layers')) await layerTests();
+    if (which.includes('nbr')) await nbrTests();
     if (which.includes('golden')) await golden(params);
   } catch (e) { record('exception', false, e.stack || String(e)); }
   return results;

@@ -18,69 +18,21 @@
 import * as THREE from 'three';
 import { layoutGLSL } from './gl/layout.js';
 import { brickGLSL } from './gl/bricks.js';
+import { CELL_GLSL } from './gl/cellglsl.js';
 
 export const PALETTE = {
   x: [117, 149, 172], y: [107, 126, 81], z: [245, 153, 78], background: '#484340',
   abc: [[214, 96, 77], [86, 168, 160], [228, 196, 92]],
   born: [255, 238, 150], died: [150, 52, 46],
+  dies: [222, 70, 58], near: [235, 235, 225],
+  // neighbourhood: layer offset ds = -4, -2, 0, +2, +4 along the chosen diagonal; the focus cell
+  ds: [[64, 110, 200], [130, 180, 235], [150, 148, 140], [245, 175, 110], [215, 95, 40]], focus: [255, 255, 255],
 };
 const v3 = (c) => new THREE.Vector3(c[0] / 255, c[1] / 255, c[2] / 255);
-export const COLOR_MODES = ['orientation', 'layer', 'change'];
+export const COLOR_MODES = ['orientation', 'layer', 'change', 'fate', 'neighbourhood'];
+// modes that draw dead slots too (translucent), so they always use the quads
+export const SLOT_MODES = ['fate', 'neighbourhood'];
 
-const CELL_GLSL = `
-uniform usampler2D S, P;
-uniform vec3 colX, colY, colZ, colA, colB, colC, colBorn, colDied, bg;
-uniform int colorMode;
-uniform bool sliceOn;
-uniform vec3 sliceD;
-uniform float sliceLo, sliceHi;
-uniform int editKind, editAxis;
-uniform float editCoord, editS;
-uniform vec3 editD;
-uniform float faceScale;
-
-uint comp(uvec3 v, int a) { return a == 0 ? v.x : (a == 1 ? v.y : v.z); }
-bool inEditSet(vec3 p, int a) {
-  if (editKind == 1) return a == editAxis && p[a] == editCoord;
-  if (editKind == 2) return dot(p, editD) == editS;
-  return true;
-}
-// Cell (cube c, axis a): is it drawn, its base colour, its face scale and 'live' flag.
-// cat: 0 hidden, 1 live (opaque), 2 dead slot of the edit set (ghost), 3 live outside the edit set (faint)
-int cellCat(ivec3 c, int a, out vec3 base, out float scale) {
-  uint now = comp(cellBits(S, c), a);
-  uint before = colorMode == 2 ? comp(cellBits(P, c), a) : now;
-  vec3 p = vec3(2 * c); p[a] += 1.0;
-  if (sliceOn) { float s = dot(p, sliceD); if (s < sliceLo || s > sliceHi) return 0; }
-  bool inSet = inEditSet(p, a);
-  scale = faceScale;
-  vec3 orient = a == 0 ? colX : (a == 1 ? colY : colZ);
-  if (colorMode == 1) {
-    int l = int(dot(p, sliceD));
-    l = ((l - 1) / 2) % 3; if (l < 0) l += 3;     // ABC stacking along the slicer's diagonal
-    base = l == 0 ? colA : (l == 1 ? colB : colC);
-  } else if (colorMode == 2) {
-    if (now != 0u && before == 0u) base = colBorn;
-    else if (now != 0u) base = orient * 0.55;
-    else { base = colDied; scale = faceScale * 0.45; }
-  } else base = orient;
-  bool shown = now != 0u || (colorMode == 2 && before != 0u);
-  if (editKind == 0) return shown ? 1 : 0;
-  if (inSet) return shown ? 1 : 2;
-  return shown ? 3 : 0;
-}
-
-uniform vec3 lightDir;
-uniform float fogNear, fogFar, border;
-vec3 shade(vec3 base, vec3 n, vec3 toEye, float depth, vec2 uv) {
-  float lit = 0.62 + 0.30 * abs(dot(n, lightDir)) + 0.12 * abs(dot(n, toEye));
-  vec3 c = base * lit;
-  float e = max(abs(uv.x), abs(uv.y));
-  c *= mix(1.0, 0.72, border * smoothstep(0.80, 0.92, e));
-  float f = clamp((depth - fogNear) / max(fogFar - fogNear, 1e-3), 0.0, 1.0);
-  return mix(c, bg, 0.55 * f * f);
-}
-`;
 
 function commonUniforms() {
   return {
@@ -90,6 +42,9 @@ function commonUniforms() {
     colX: { value: v3(PALETTE.x) }, colY: { value: v3(PALETTE.y) }, colZ: { value: v3(PALETTE.z) },
     colA: { value: v3(PALETTE.abc[0]) }, colB: { value: v3(PALETTE.abc[1]) }, colC: { value: v3(PALETTE.abc[2]) },
     colBorn: { value: v3(PALETTE.born) }, colDied: { value: v3(PALETTE.died) },
+    colDies: { value: v3(PALETTE.dies) }, colNear: { value: v3(PALETTE.near) }, colFocus: { value: v3(PALETTE.focus) },
+    colDs0: { value: v3(PALETTE.ds[0]) }, colDs1: { value: v3(PALETTE.ds[1]) }, colDs2: { value: v3(PALETTE.ds[2]) }, colDs3: { value: v3(PALETTE.ds[3]) }, colDs4: { value: v3(PALETTE.ds[4]) },
+    focusP: { value: new THREE.Vector3(1, 0, 0) }, focusA: { value: 0 },
     bg: { value: v3([0x48, 0x43, 0x40]) },
     colorMode: { value: 0 },
     sliceOn: { value: false }, sliceD: { value: new THREE.Vector3(1, 1, 1) }, sliceLo: { value: 0 }, sliceHi: { value: 0 },
@@ -133,7 +88,7 @@ void main() {
   ivec3 c = ivec3(id % NX, (id / NX) % NY, id / (NX * NY));
   vec3 base; float scale;
   int cat = cellCat(c, axis, base, scale);
-  bool draw = pass == 0 ? cat == 1 : (cat == 2 || cat == 3);
+  bool draw = pass == 0 ? cat == 1 : (cat >= 2);
   if (!draw) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); return; }
   vec3 centre = vec3(c) + 0.5; vec3 n;
   vec3 off;
@@ -165,6 +120,7 @@ void main() {
     float e = max(abs(vUV.x), abs(vUV.y));
     fragColor = vec4(mix(vec3(0.85), vBase, 0.4), e > 0.84 ? 0.32 : 0.035);
   } else if (vCat == 3) fragColor = vec4(c, 0.28);
+  else if (vCat == 4) fragColor = vec4(c, 0.55);
   else fragColor = vec4(c, 1.0);
 }`,
   });
@@ -323,12 +279,17 @@ export class CellView {
   }
 
   // The view actually drawn: the editor always uses the quads (it needs the ghost pass).
+  get slotsShown() { return this.editing || this.uniforms.colorMode.value >= 3; }
   setMode(mode) {
     this.mode = mode;
-    const m = this.editing ? 'quads' : mode;
-    for (const [k, mesh] of Object.entries(this.meshes)) mesh.visible = k === m || (k === 'ghosts' && this.editing);
+    const m = this.drawn;
+    for (const [k, mesh] of Object.entries(this.meshes)) mesh.visible = k === m || (k === 'ghosts' && this.slotsShown);
   }
-  get drawn() { return this.editing ? 'quads' : this.mode; }
+  get drawn() { return this.slotsShown ? 'quads' : this.mode; }
+  setFocus(p) {        // doubled coordinates of the neighbourhood's focus cell
+    this.uniforms.focusP.value.set(p[0], p[1], p[2]);
+    this.uniforms.focusA.value = (p[0] & 1) ? 0 : (p[1] & 1) ? 1 : 2;
+  }
 
   setEdit(set) {     // null, { kind: 'plane', axis, coord } or { kind: 'layer', d, s }
     const u = this.uniforms;
@@ -345,7 +306,7 @@ export class CellView {
     if (slice) { u.sliceD.value.fromArray(slice.d); u.sliceLo.value = slice.lo; u.sliceHi.value = slice.hi; }
   }
   setLayerDiag(d) { if (!this.uniforms.sliceOn.value) this.uniforms.sliceD.value.fromArray(d); }
-  setColorMode(m) { this.uniforms.colorMode.value = Math.max(0, COLOR_MODES.indexOf(m)); }
+  setColorMode(m) { this.uniforms.colorMode.value = Math.max(0, COLOR_MODES.indexOf(m)); this.setMode(this.mode); }
 
   // hull: { loS, hiS } valid for the current state (or older: it only shrinks), or null.
   setHullClip(hull) {
