@@ -46,9 +46,15 @@ const HK2: u64 = 0xD6E8_FEB8_6659_FD93;
 
 #[inline(always)]
 fn hmix(v: u64, gi: u64) -> u64 {
-    // zero words contribute nothing, so the hash does not depend on how the index range
-    // is split between threads (halo positions are always zero in the kernel output)
-    let x = (v ^ gi.wrapping_mul(HK1)).wrapping_mul(HK2);
+    hmix_key(v, gi.wrapping_mul(HK1))
+}
+
+/// Per-word hash term. Zero words contribute nothing, so the hash does not depend on how
+/// the index range is split between threads (halo positions are always zero in the
+/// kernel output).
+#[inline(always)]
+fn hmix_key(v: u64, key: u64) -> u64 {
+    let x = (v ^ key).wrapping_mul(HK2);
     if v != 0 {
         x ^ (x >> 32)
     } else {
@@ -83,8 +89,51 @@ fn count12(v: [u64; 12]) -> [u64; 4] {
     [c0, c1, c2, c3]
 }
 
+/// Hand-written AVX-512 path for B45/S345: every full adder is two `vpternlogq`
+/// (xor3 = 0x96, majority = 0xE8), the rule three more. LLVM's own lowering of the same
+/// expressions used about twice as many vector ops.
+#[cfg(target_feature = "avx512f")]
+mod v512 {
+    use std::arch::x86_64::*;
+    pub type V = __m512i;
+
+    #[inline(always)]
+    fn fa(a: V, b: V, c: V) -> (V, V) {
+        unsafe { (_mm512_ternarylogic_epi64::<0x96>(a, b, c), _mm512_ternarylogic_epi64::<0xE8>(a, b, c)) }
+    }
+    #[inline(always)]
+    fn ha(a: V, b: V) -> (V, V) {
+        unsafe { (_mm512_xor_si512(a, b), _mm512_and_si512(a, b)) }
+    }
+
+    /// Next state of 512 cells: centre `alive`, 12 neighbour vectors, validity mask `vm`.
+    #[inline(always)]
+    pub fn gump(alive: V, v: [V; 12], vm: V) -> V {
+        let (s1, k1) = fa(v[0], v[1], v[2]);
+        let (s2, k2) = fa(v[3], v[4], v[5]);
+        let (s3, k3) = fa(v[6], v[7], v[8]);
+        let (s4, k4) = fa(v[9], v[10], v[11]);
+        let (t1, m1) = fa(s1, s2, s3);
+        let (c0, m2) = ha(t1, s4);
+        let (u1, n1) = fa(k1, k2, k3);
+        let (u2, n2) = fa(k4, m1, m2);
+        let (c1, n3) = ha(u1, u2);
+        let (c2, c3) = fa(n1, n2, n3);
+        unsafe {
+            // u = c1 & c0 & alive (count 3 and alive, given c2 = c3 = 0 below)
+            let u = _mm512_ternarylogic_epi64::<0x80>(c1, c0, alive);
+            // r = (c2 & !c1) | (!c2 & u)      — counts 4,5 | (3 & alive)
+            let r = _mm512_ternarylogic_epi64::<0x3A>(c2, c1, u);
+            // r & !c3 & vm
+            _mm512_ternarylogic_epi64::<0x20>(r, c3, vm)
+        }
+    }
+}
+
 /// A rule as a boolean function of (centre, count bits), applied to 64 lanes at once.
 pub trait RuleKernel: Copy + Send + Sync {
+    /// B45/S345: eligible for the hand-written AVX-512 ternary-logic path
+    const IS_GUMP: bool = false;
     fn apply(&self, alive: u64, c: [u64; 4]) -> u64;
 }
 
@@ -92,6 +141,7 @@ pub trait RuleKernel: Copy + Send + Sync {
 #[derive(Clone, Copy)]
 pub struct GumpRule;
 impl RuleKernel for GumpRule {
+    const IS_GUMP: bool = true;
     #[inline(always)]
     fn apply(&self, alive: u64, c: [u64; 4]) -> u64 {
         // 4 = 0100, 5 = 0101, 3 = 0011
@@ -209,6 +259,18 @@ unsafe fn block<R: RuleKernel, const L: usize>(rule: R, p: Ins, i: usize, s: usi
     let xm_ps = ld::<L>(p.xm, i + s);
     let yc_ps = ld::<L>(p.yc, i + s);
     let yc_psm1 = ld::<L>(p.yc, i + s - 1);
+    #[cfg(target_feature = "avx512f")]
+    if L == 8 && R::IS_GUMP {
+        use std::mem::transmute_copy as tc;
+        let v = |a: &[u64; L]| -> v512::V { tc(a) };
+        let out = |a: v512::V| -> [u64; L] { tc(&a) };
+        let (xc5, yc5, zc5, xm5, vm5) = (v(&xc), v(&yc), v(&zc), v(&xm), v(&vm));
+        let (yc_m15, zc_ms5) = (v(&yc_m1), v(&zc_ms));
+        let nx = v512::gump(xc5, [v(&x_a), v(&x_b), v(&x_c), v(&x_d), yc5, yc_m15, v(&yp0), v(&yp_m1), zc5, zc_ms5, v(&zp0), v(&zp_ms)], vm5);
+        let ny = v512::gump(yc5, [v(&ym_ms), v(&ym_ps), v(&yp_ms), v(&yp_ps), zc5, zc_ms5, v(&zc_p1), v(&zc_p1ms), xc5, xm5, v(&xc_p1), v(&xm_p1)], vm5);
+        let nz = v512::gump(zc5, [v(&zm_m1), v(&zm_p1), v(&zp_m1), v(&zp_p1), xc5, xm5, v(&xc_ps), v(&xm_ps), yc5, yc_m15, v(&yc_ps), v(&yc_psm1)], vm5);
+        return [out(nx), out(ny), out(nz), xc, yc, zc];
+    }
     let mut nx = [0u64; L];
     let mut ny = [0u64; L];
     let mut nz = [0u64; L];
@@ -248,10 +310,13 @@ impl<const L: usize> Accum<L> {
     }
     #[inline(always)]
     fn add(&mut self, r: &[[u64; L]; 6], i: usize, hbase: [u64; 3]) {
+        // key(gi) = gi·HK1 computed as one scalar multiply per orientation plus constant
+        // lane offsets, so the vector loop has one 64-bit multiply per word, not two
+        let kb = [0, 1, 2].map(|a| (i as u64 + hbase[a]).wrapping_mul(HK1));
         for l in 0..L {
-            let gi = (i + l) as u64;
+            let lk = (l as u64).wrapping_mul(HK1);
             for a in 0..3 {
-                self.hash[l] = self.hash[l].wrapping_add(hmix(r[a][l], gi + hbase[a]));
+                self.hash[l] = self.hash[l].wrapping_add(hmix_key(r[a][l], kb[a].wrapping_add(lk)));
                 self.pop[a][l] += r[a][l].count_ones() as u64;
             }
             self.diff[l] |= (r[0][l] ^ r[3][l]) | (r[1][l] ^ r[4][l]) | (r[2][l] ^ r[5][l]);
