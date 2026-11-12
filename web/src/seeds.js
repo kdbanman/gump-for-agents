@@ -32,7 +32,7 @@ export function legacySeedSpan(H, fraction = 0.38) {
   return [lo, hi];
 }
 
-export const SEED_KINDS = ['cube', 'key', 'soup', 'legacy'];
+export const SEED_KINDS = ['cube', 'key', 'soup', 'legacy', 'cells'];
 export const SOUP_SHAPES = ['cube', 'oct', 'slab'];
 
 // spec: { seed, n, k, H, shape, density, layers, rng }
@@ -51,6 +51,14 @@ export function makeSeed(spec) {
     const H = spec.H;
     const [lo, hi] = legacySeedSpan(H);
     return { pts: boxCells([lo, lo, lo], [hi, hi, hi]), name: `legacy closed cube, H=${H} (side ${(hi - lo) / 2})`, legacyH: H };
+  }
+  if (s === 'cells') {           // explicit list "x,y,z;x,y,z;..." in doubled coordinates
+    const pts = [];
+    for (const t of String(spec.cells || '').split(';')) {
+      const v = t.split(',').map(Number);
+      if (v.length === 3 && v.every(Number.isInteger) && isCell(...v)) pts.push(...v);
+    }
+    return { pts: Int32Array.from(pts), name: `${pts.length / 3} listed cells` };
   }
   if (s === 'soup') {
     const rnd = mulberry32(spec.rng >>> 0);
