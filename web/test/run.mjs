@@ -81,6 +81,61 @@ if (!only || only.split(',').includes('app')) {
     record(`app: views agree (${q})`, r.fg > 5000 && r.blob <= Math.max(4, r.fg * 5e-4) && r.diff / r.fg < 0.1 && r.diffI === 0 && r.diffB === 0,
       `${r.fg} face pixels; ray-march vs quads: ${r.diff} outline pixels differ, ${r.blob} interior; instanced vs quads: ${r.diffI}; brick skipping (${r.bricks}³) vs none: ${r.diffB}`);
   }
+  // editor: clicks toggle cells (with an O_h orbit), the stats follow, the edited state is
+  // shareable through the URL (plain cells= and deflated cz=) and reloads identically.
+  {
+    const st = () => page.evaluate(() => ({ pop: gump.last && gump.last.s.pop, gen: gump.gen, n: gump.editor.cells ? gump.editor.cells.reduce((a, v) => a + ((v & 1) + ((v >> 1) & 1) + ((v >> 2) & 1)), 0) : null, url: location.search }));
+    await page.goto(`${base}/?seed=cells&cells=&box=11&cam=0.2,0.3,1,1.2`);
+    await page.waitForFunction(() => window.gump && window.gump.last);
+    await page.keyboard.press('e');
+    await page.selectOption('#e-kind', 'plane'); await page.selectOption('#e-axis', '2');
+    const box = await page.locator('#view').boundingBox();
+    await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+    await page.waitForTimeout(400);
+    const a = await st();
+    await page.click('#e-undo');
+    await page.selectOption('#e-sym', 'Oh');
+    await page.mouse.click(box.x + box.width / 2 + 40, box.y + box.height / 2 + 25);
+    await page.waitForTimeout(400);
+    const b = await st();
+    const sym = await page.evaluate(async () => {
+      const { groupElements } = await import('/web/src/symmetry.js');
+      const E = gump.editor, G = groupElements('Oh'), c = E.centre, [nx, ny] = E.dims;
+      let ok = true;
+      E.cells.forEach((v, idx) => { for (let a = 0; a < 3; a++) if ((v >> a) & 1) {
+        const p = [2 * (idx % nx), 2 * (Math.floor(idx / nx) % ny), 2 * Math.floor(idx / (nx * ny))]; p[a]++;
+        for (const g of G) { const q = [0, 1, 2].map(i => c[i] + g[i][0] * (p[0] - c[0]) + g[i][1] * (p[1] - c[1]) + g[i][2] * (p[2] - c[2])); if (q.every((x, t) => x >= 0 && x <= 2 * E.dims[t] - 1) && !E.get(q)) ok = false; }
+      } });
+      return ok;
+    });
+    record('editor: click toggles a cell; O_h painting adds a symmetric orbit; stats follow', a.n === 1 && a.pop === 1 && b.n > 1 && b.pop === b.n && sym, `after click 1: ${a.n} cells (pop ${a.pop}); after O_h click: ${b.n} cells (pop ${b.pop}), orbit closed under O_h: ${sym}`);
+    await page.keyboard.press('Escape');
+    await page.waitForFunction(() => location.search.includes('seed=cells') && !gump.edit);
+    const plainUrl = await page.evaluate(() => location.search);
+    const before = await page.evaluate(() => Array.from(gump.sim.download()).join(''));
+    await page.goto(`${base}/${plainUrl}`); await page.waitForFunction(() => window.gump && window.gump.last);
+    const after = await page.evaluate(() => Array.from(gump.sim.download()).join(''));
+    record('editor: edited state round-trips through a cells= link', plainUrl.includes('cells=') && before === after, plainUrl.slice(0, 90));
+    // a bigger edit -> compressed link; edit a paused run mid-way, generation numbering continues
+    await page.goto(`${base}/?seed=cube&n=5&gen=7`); await waitRun();
+    await page.keyboard.press('e');
+    await page.selectOption('#e-kind', 'layer');
+    await page.fill('#e-rho', '0.5'); await page.click('#e-rand');
+    await page.waitForTimeout(300);
+    await page.keyboard.press('Escape');
+    await page.waitForFunction(() => location.search.includes('cz=') && !gump.edit, null, { timeout: 10000 });
+    const czUrl = await page.evaluate(() => location.search);
+    const s1 = await page.evaluate(() => ({ cells: Array.from(gump.sim.download()).join(''), gen: gump.gen }));
+    await page.goto(`${base}/${czUrl}&gen=${s1.gen + 5}`); await waitRun();
+    const s2 = await page.evaluate(() => ({ gen: gump.gen, pop: gump.last.s.pop }));
+    await page.goto(`${base}/${czUrl}`); await page.waitForFunction(() => window.gump && window.gump.last);
+    const s3 = await page.evaluate(() => ({ cells: Array.from(gump.sim.download()).join(''), gen: gump.gen }));
+    // reference: the same edited state stepped 5 times in place
+    await page.evaluate(() => { gump.sim.step(5); });
+    const ref = await page.evaluate(async () => (await import('/web/src/cpu.js')).statsCPU(gump.sim.download(), ...gump.dims).pop);
+    record('editor: mid-run edit -> compressed cz= link reloads identically and resumes the generation count',
+      s3.cells === s1.cells && s3.gen === s1.gen && s2.gen === s1.gen + 5 && s2.pop === ref, `${czUrl.length} chars; edited at gen ${s1.gen}; +5 gens pop ${s2.pop} (in place: ${ref})`);
+  }
   await page.close();
 }
 
