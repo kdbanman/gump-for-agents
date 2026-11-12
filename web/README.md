@@ -146,7 +146,7 @@ Drag to orbit, wheel to zoom.
     node test/run.mjs                           # everything, ~6 min on software GL (shared machine)
     node test/run.mjs only=soups,async,ring,layers,nbr,gallery,app,dist   # skip the golden runs and the tour
 
-Headless Chromium with SwiftShader WebGL2 (no flags needed). 77 checks:
+Headless Chromium with SwiftShader WebGL2 (no flags needed). 79 checks:
 
 - **golden**: the GPU stepper reproduces the population of every generation of
   `reference/golden/*.txt` (closed cubes, side 8–11, up to 4,218 generations). It is checked in

@@ -571,7 +571,7 @@ function enterEdit() {
 function editChanged() {
   app.sim.upload(editor.cells);
   app.bricksDirty = true; app.edited = true;
-  app.prevHull = null; app.initialHull = null; app.faceS = null;   // an edit can grow the hull: restart the bookkeeping
+  app.prevHull = null; app.initialHull = null; app.faceS = null; app.faceA = null; app.symmetric = null;   // an edit can grow the hull: restart the bookkeeping
   statsNow();
 }
 async function leaveEdit(keep = true) {
@@ -738,7 +738,7 @@ window.addEventListener('keydown', async (e) => {
 const fmtT = (t) => !isFinite(t) ? '∞' : t < 1e6 ? fmt(t) : `10^${Math.log10(t).toFixed(1)}`;
 function faceTable() {
   const s = app.last && app.last.s;
-  if (!s || !s.faceHi || !app.faceA || app.torus) {
+  if (!s || !s.faceHi || !app.faceA || !app.faceS || app.torus) {
     $('facetab').innerHTML = ''; $('facenote').textContent = app.torus ? 'no faces on a torus' : ''; return;
   }
   const sym = app.symmetric && app.symmetric.value;
