@@ -45,7 +45,10 @@ _Last updated 2026-11-12 by the lead._
    chaos (regions die in lockstep), effective face area A/7.7. The side-13 cube lasts ~10⁵
    generations because it is symmetric; the same hull filled asymmetrically would hold each
    face ~10⁴¹. The legacy cube lifetimes n = 11–15 fall at unremarkable quantiles of the law's
-   prediction; n = 16 is predicted at 2.4×10⁸ (90%: 3.9×10⁷–6.3×10⁸) and is running.
+   prediction. **n = 16 was predicted at 2.4×10⁸ (90%: 3.9×10⁷–6.3×10⁸) and missed**: it is
+   alive at 1.025×10⁹ with no face lost (checkpoint in `research/data/`). The cubes' own face
+   fluctuations show the cost per site still rising with face size, so the proportional
+   "A/7.7" transfer under-predicts beyond the sizes it was fitted on (notebook, last entry).
 5. Debris is built from a small fauna: cubes, kagome hexagons, vertex stars (a sealed
    12-cell universe), hinged period-2 flippers, and rare clockwork up to period 66.
 6. In rule space (960 rules, B ⊆ {4..7}, S ⊆ {2..7}) torus chaos is common, but long-lived
@@ -56,6 +59,10 @@ _Last updated 2026-11-12 by the lead._
 - PR #1 merged to main (everything above). The lead measured the fluctuations of living faces
   (`research/experiments/face_fluct.py`): the face law's 0.209 looks like the value at zero of
   a size-independent large-deviation curve (≈0.20 by extrapolation) — notebook, last entry.
+
+- Side 16: stopped at generation 1,025,000,000, alive (the session's job limit, not the
+  automaton). A direct test of the symmetric law at larger faces is running
+  (`research/experiments/sym_soup_peels.py`, R = 37 and 39).
 
 ## Ideas not yet started
 - Web: a gallery of atlas objects; a guided tour of the storyline.
