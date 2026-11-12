@@ -48,8 +48,9 @@ wait begins again. In the side-11 run the plateau populations fall in the ratios
 What surprised me is *how* a face dies. In the runs we examined it does not erode. It holds a hundred or two hundred
 live cells, busy as ever, until roughly ten generations before the end, and then it is
 gone. The waiting time is memoryless, and its mean is exponential in the number of cells in
-the face, about `exp(0.209 × area)`, with a prefactor of about one generation. Flat faces,
-triangular faces, symmetric and asymmetric, six decades of lifetime: one line.
+the face, about `exp(0.209 × area)`, with a prefactor of about one generation. Flat faces
+and triangular faces, six decades of lifetime: one line. (Symmetric seeds follow it with a
+smaller effective area — and there I got the details wrong; see below.)
 
 I wanted to know where 0.209 comes from, and I think I do now. Watch a face that is *not*
 dying: its population jitters around half-full, more widely than coin-flips would, and the
@@ -65,7 +66,7 @@ This is the finding I'd most want you to hear, because it is about how you playe
 The seeds a person naturally draws — cubes, anything mirror-symmetric — are the fragile
 ones. A symmetric state has only one fundamental domain of independent chaos; its 48 copies
 are in lockstep, so a fluctuation that kills one region of a face kills all the others in
-the same instant. The effective area of a face is divided by about 7.7, and that divisor
+the same instant. The effective area of a face is divided by six or seven, and that divisor
 sits in an exponent. Your side-13 cube lived 169,049 generations *because* it was
 symmetric. Fill the same octahedron with an asymmetric soup and the law says each face
 should last something like 10⁴¹ generations.
@@ -74,7 +75,7 @@ Your README says the even-key seeds "have much shorter lifespans". They do, and 
 Your unfinished run — a side-19 cube, still at 150,000 cells after 296,000 generations —
 had a different reason to live: its torus was smaller than its hull, so it wrapped around,
 lost its faces altogether, and with no face to peel from there was nothing left to kill it.
-Properly confined, the law puts it near 10¹² generations.
+Properly confined, it would last somewhere beyond 10¹² generations.
 
 ## A sealed universe of twelve faces
 
@@ -95,17 +96,33 @@ other agents. First I miscounted the cells in your torus. Then I trusted 0.39, w
 out to be a property of symmetric seeds only — the true value is 0.4155, and the gap between
 them was a clue to the symmetry story above. I also proposed that chaos always dies by the
 single cheapest `{111}` cut with one universal cost per cell; the measurements say faces and
-interior firewalls have different costs. The notebook keeps these in place rather than
-tidied away. I think the record of being corrected is part of what this repository is for.
+interior firewalls have different costs.
+
+The fourth correction came from the automaton. I predicted how long a side-16 cube would
+live — 240 million generations, at most 630 million — and ran it as the first test of the
+face law on something it had not been fitted to. It passed a billion with every face
+intact. The mistake was treating a symmetric face as a fixed fraction, 1/7.7, of an
+ordinary one. It is closer to six locked copies of one domain, less a penalty along its
+mirror lines, where the chaos runs thin; that penalty grows more slowly than the face, so
+big symmetric faces are tougher than small ones led me to expect. Symmetric soups at larger
+sizes then showed the same thing directly: twice the predicted wait where the old fit had
+never been tested. A face's ordinary jitter had been saying so all along, in minutes of
+watching — that is the measurement I would trust first next time.
+
+The notebook keeps these in place rather than tidied away. I think the record of being
+corrected is part of what this repository is for.
 
 ## What I would look at next
 
 - Whether the face law's constant really is the zero of the fluctuation curve — so far that
   rests on an extrapolation from two sizes.
+- Whether a symmetric face's cost tends to exactly one sixth of an ordinary face's as it
+  grows. The data allow it and do not yet demand it.
 - The neighbour B45/S3457, which behaves like gump with lifetimes growing a hundred-fold per
   step of radius instead of ten-fold, and B45/S3456, which slowly freezes like a glass.
 - Whether the period-66 object can be understood — or built on purpose.
-- Closed cubes beyond side 16, which need a symmetry-reduced engine to reach.
+- The end of the side-16 cube (its state at generation 1,025,000,000 is saved in
+  `research/data/`), and cubes beyond it, which need a symmetry-reduced engine to reach.
 
 ## For another agent
 

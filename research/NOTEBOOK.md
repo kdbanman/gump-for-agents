@@ -498,6 +498,35 @@ generation, using only runs in which no face died (fixed geometry; 3 runs at R=1
   measured 5–11% (fixed-depth J/A; Gaussian μ²/2v) to extinction moves the side-16 first plateau from 2×10⁸ to
   roughly 5×10⁸–1.6×10⁹, where surviving 10⁹ is unremarkable. The asymmetric law (0.209 per site, tested directly
   to A = 84) is not touched by this; what failed is the proportional transfer "effective area A/7.7".
-  Direct test (running): residence times of O_h-symmetric soups at R = 37 and 39
-  (`python3 research/experiments/sym_soup_peels.py 37 64 1e8`; validated at R = 27: 4903 [4140, 6012] at A = 315
-  against the law's 4576) — the law says 4.7×10⁶ at A = 570 and 2.4×10⁷ at A = 630.
+  Direct test: residence times of O_h-symmetric soups at R = 37 and 39, next item.
+- **[measured]** **The direct test confirms it.** `python3 research/experiments/sym_soup_peels.py 37 64 1e8` and
+  `… 39 24 4e7` (O_h-symmetric cube-centred soups run to their end or the cap; residence at each hull radius,
+  mean = exposure / deaths; validated first at R = 27: 4903 [4140, 6012] at A = 315 against the law's 4576):
+
+  | A (R) | deaths | mean residence [95%] | ln | law | ln − law |
+  |---|---|---|---|---|---|
+  | 630 (39) | 13 of 24 | 5.4×10⁷ [3.5, 11.9]×10⁷ | 17.81 | 17.00 | +0.82 |
+  | 570 (37) | 64 + 10 | 8.9×10⁶ [7.2, 11.8]×10⁶; 9.7×10⁶ | 16.00; 16.09 | 15.36 | +0.64; +0.72 |
+  | 513 (35) | 64 + 10 | 1.66×10⁶ [1.34, 2.20]×10⁶; 6.3×10⁵ | 14.32; 13.35 | 13.81 | +0.51; −0.47 |
+  | 459 (33) | 63 + 10 | 2.29×10⁵; 3.4×10⁵ | 12.34; 12.75 | 12.34 | −0.01; +0.40 |
+  | 408 (31) | 63 | 5.8×10⁴ | 10.97 | 10.96 | +0.01 |
+  | 360 … 234 | 60, 53, 52, 41 | | 9.56, 8.27, 7.08, 6.41 | | −0.09, −0.15, −0.20, +0.19 |
+
+  The law holds up to A ≈ 460 and is low by a factor 1.9 at A = 570 (74 deaths) and 2.3 at A = 630. ln τ / A climbs
+  from 0.0269 (A = 459) to 0.0283 (A = 630), +5% — the same drift the face fluctuations showed (+4–8% in J/A over the
+  same range) in minutes of sampling instead of an hour of waiting for deaths.
+- **[measured]** Fits to all cube-centred symmetric residences with A ≥ 234 (the peeling study's per-state hazards
+  plus these batches; 36 points, 2,365 deaths; weights = deaths):
+  proportional `a + bA`: b = 0.0287, χ² = 59.9; with curvature `a + bA + cA²`: 0.564 + 0.02178·A + 9.09×10⁻⁶·A², χ² = 41.6;
+  `a + bA + c√A`: χ² = 42.1; **slope pinned to the asymmetric constant over the face's six lockstep copies,
+  `a + (0.209/6)·A + c√A`: 1.57 + 0.0348·A − 0.236·√A, χ² = 47.4** — better than the free proportional fit with the
+  same number of parameters. (The lead's batches alone give the same ordering: 29.8, 20.9, 21.2, 24.4 on 20 points.)
+- **[conjecture]** So "effective area A/7.7" was never a constant. The data are consistent with the simplest
+  symmetry argument — a face is six independent-chaos domains in lockstep, cost 0.209·A/6 — minus a boundary term
+  from the mirror lines that grows only like √A. The divisor 7.7 is what that looks like around A ≈ 350 and it drifts
+  towards 6 as faces grow. Not established: the free fits prefer an even steeper asymptote (b ≈ 0.042 ± large), and
+  the vertex-centred ×1.5 has only been measured at A ≤ 408.
+- **Revised expectations** (curved fits, cube-centred; add ln 1.5 for even n if the vertex factor carries over):
+  A = 693 → ln τ = 19.5–20.0, so the side-16 first plateau has mean ≈ 4–7×10⁸ instead of 2×10⁸, and being alive at
+  1.025×10⁹ is a 10–25% event rather than a 0.5% one. Side 17 (A = 828): ≈2–6×10¹⁰ (was 6×10⁹). The legacy side-19
+  cube, properly confined (A = 1053): 10¹³–10¹⁴ on these fits, far outside any data.
