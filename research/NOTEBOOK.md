@@ -458,3 +458,46 @@ generation, using only runs in which no face died (fixed geometry; 3 runs at R=1
   ≈1 generation. The "sudden collapse" is what the cheap last stretch of the rate function
   (below x ≈ 0.1) looks like in time. Caveats: an extrapolation, two sizes, five runs.
   A direct test: push the tail measurement to x → 0 at smaller A, or by importance sampling.
+
+## 2026-11-12 — side 16 outlives its prediction; in symmetric faces the cost per site grows with size (lead)
+
+- **[measured]** `research/experiments/cube_ckpt.sh 16` (checkpointed `gump run --cube 16`). At generation
+  **1,025,000,000** the side-16 cube is alive: population 16,080, hull radius 42 on all four diagonals —
+  *no face layer has died yet*. The run was stopped there by the session's limit on background jobs, not by the
+  automaton. The state is kept in `research/data/cube16_gen1025000000.gump`; resume with
+  `gump run --snapshot research/data/cube16_gen1025000000.gump` (≈10⁵ generations/s on one core).
+- **The prediction failed at its stated confidence.** The peeling entry above gave mean 2.4×10⁸, 90% interval
+  [3.9×10⁷, 6.3×10⁸], of which the first plateau (R = 42, A = 693) is ≈2.0×10⁸. An exponential wait with that
+  mean survives to 1.025×10⁹ with probability e^−5.3 ≈ 0.5%. (The lead had written down 10⁹ beforehand as the
+  point where the law would be in trouble.) In hindsight the series was already leaning: sides 14 and 15 sit at
+  quantiles 0.93 and 0.73 of their predictions, and two single residences are 5.5× and 7.2× their predicted means
+  (side 14 at R = 30; side 15 at R = 37, 33.2M generations against 4.6M) — a KS test over 24 residences does not see tails.
+- **[measured]** The face is ordinary. `gump occupancy --snapshot research/data/cube16_gen1025000000.gump --from 0
+  --to 20000 --layer 45`: 0.4–0.5 in six domains, 0.3–0.4 along the three mirror lines, 0.2 at the centre, 0.1–0.2
+  in the corners; no cell frozen, no persistent structure protecting it.
+- **[measured]** Fluctuations of the cubes' living outer faces, sampled every generation
+  (`python3 research/experiments/sym_face_fluct.py FROM TO -- SEED`; all 8 faces are images of one, so one layer
+  is read). J(x) = −ln P(n/A ≤ x); "c" = cube-centred, "v" = vertex-centred.
+
+  | seed, window | R | A | mean /site | var /site | J(0.25) | J(0.20) | J(0.15) | J(0.10) | J/A at 0.25, 0.20, 0.15 (×10⁻³) |
+  |---|---|---|---|---|---|---|---|---|---|
+  | `--cube 13`, 200–130,000 | 33 c | 459 | 0.421 | 2.95 | 3.85 | 5.35 | 6.81 | 8.08 | 8.4, 11.7, 14.8 |
+  | `--cube 14`, 200–2M | 36 v | 513 | 0.441 | 2.97 | 4.79 | 6.31 | 8.16 | 10.01 | 9.3, 12.3, 15.9 |
+  | `--cube 15`, 2.5M–4.5M | 37 c | 570 | 0.435 | 2.81 | 5.05 | 6.80 | 8.85 | 10.90 | 8.9, 11.9, 15.5 |
+  | `--cube 15`, 200–2M | 39 c | 630 | 0.441 | 2.76 | 5.72 | 7.71 | 10.10 | – | 9.1, 12.2, 16.0 |
+  | side-16 checkpoint, 2M gens | 42 v | 693 | 0.454 | 2.83 | 6.73 | 8.98 | – | – | 9.7, 13.0, – |
+
+  The variance per site is 6.4–6.9× the asymmetric face's 0.43 (six lockstep copies, a little more). At equal depth
+  the cost **per site is not constant**: it rises 4–8% from A = 459 to 630 (cube-centred) and 4–6% from 513 to 693
+  (vertex-centred), at every depth measured; J itself grows by 1.47 for an area ratio of 1.37, and by 1.41 for 1.35.
+  The mean density rises with it (0.421 → 0.454): the depleted mirror lines and corners are a shrinking share of
+  a larger face. The side-15 face at R = 37 is unremarkable on this measure, so its long residence is not explained.
+- **[conjecture]** The symmetric law ln τ = −0.14 + 0.0272·A is a local fit (per-state hazards, A = 198–513) to
+  something whose cost per site still climbs slowly with size — a boundary term from the mirror lines, of relative
+  order 1/√A — so it under-predicts beyond its range. At an exponent of 19 each 1% is a factor 1.2: carrying the
+  measured 5–11% (fixed-depth J/A; Gaussian μ²/2v) to extinction moves the side-16 first plateau from 2×10⁸ to
+  roughly 5×10⁸–1.6×10⁹, where surviving 10⁹ is unremarkable. The asymmetric law (0.209 per site, tested directly
+  to A = 84) is not touched by this; what failed is the proportional transfer "effective area A/7.7".
+  Direct test (running): residence times of O_h-symmetric soups at R = 37 and 39
+  (`python3 research/experiments/sym_soup_peels.py 37 64 1e8`; validated at R = 27: 4903 [4140, 6012] at A = 315
+  against the law's 4576) — the law says 4.7×10⁶ at A = 570 and 2.4×10⁷ at A = 630.
