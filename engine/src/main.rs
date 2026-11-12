@@ -51,7 +51,7 @@ RUN OPTIONS
   --every K                sample every K generations (time series)
   --layers                 include per-layer populations (4 diagonals) in samples
   --lite                   samples without layer analysis (no hull/firewalls; faster on huge tori)
-  --threads T              threads per generation (default: auto, by box size)
+  --threads T              threads per generation (default 1; for big tori on an idle machine)
   --hash-window N          generations remembered for cycle detection (default 1048576)
 
 OUTPUTS
@@ -317,11 +317,10 @@ fn build_seed(a: &Args, sp: &SeedParams) -> Seed {
     unreachable!()
 }
 
-fn auto_threads(geo: &Geometry) -> usize {
-    let cores = std::thread::available_parallelism().map(|n| n.get()).unwrap_or(1);
-    // below ~1.5M cells a generation takes < ~50 µs: barrier overhead dominates
-    let by_size = geo.cells() / 1_500_000;
-    by_size.clamp(1, cores)
+fn auto_threads(_geo: &Geometry) -> usize {
+    // Threads per generation pay off only for big boxes on an otherwise idle machine
+    // (see README); default to 1 and let callers opt in with --threads.
+    1
 }
 
 /// Build the simulator for a seed. Returns (sim, seed cells not placed).

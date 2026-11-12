@@ -685,48 +685,40 @@ impl BitSim {
             return max;
         }
         let nz = self.geo.n[2];
-        let bounds: Vec<(usize, usize)> = (0..t).map(|ti| (1 + ti * nz / t, 1 + (ti + 1) * nz / t)).collect();
+        // chunks of rows handed out dynamically: a descheduled thread (oversubscribed
+        // machine) delays nobody, the others just take its chunks
+        let rows_per_chunk = (nz / (4 * t)).max(4);
+        let chunks: Vec<(usize, usize)> =
+            (1..=nz).step_by(rows_per_chunk).map(|k0| (k0, (k0 + rows_per_chunk).min(nz + 1))).collect();
         while self.seams.len() < t {
             self.seams.push(vec![0; 5 * self.plane]);
         }
         let seam_ptrs: Vec<SeamPtr> = self.seams.iter_mut().map(|v| SeamPtr(v.as_mut_ptr())).collect();
-        let barrier = SpinBarrier::new(t);
-        let shared = SharedCtx(std::cell::UnsafeCell::new(None));
-        let accs: Vec<PaddedAcc> = (0..t).map(|_| PaddedAcc(std::cell::UnsafeCell::new(StepAcc::default()))).collect();
+        let team = Team::new(t, chunks);
         let mut done = 0u64;
         std::thread::scope(|sc| {
             for ti in 1..t {
-                let (barrier, shared, accs, b, sp) = (&barrier, &shared, &accs, bounds[ti], seam_ptrs[ti]);
-                sc.spawn(move || loop {
-                    barrier.wait();
-                    // SAFETY: the main thread writes `shared` only between the second
-                    // barrier of a step and the first barrier of the next.
-                    let ctx = unsafe { *shared.0.get() };
-                    let Some(ctx) = ctx else { break };
-                    let mut acc = StepAcc::default();
-                    unsafe { ctx.run(b.0, b.1, sp.get(), &mut acc) };
-                    unsafe { *accs[ti].0.get() = acc };
-                    barrier.wait();
+                let (team, sp) = (&team, seam_ptrs[ti]);
+                sc.spawn(move || {
+                    let mut seen = 0u64;
+                    while team.wait_epoch(&mut seen) {
+                        team.work(ti, seen, sp.get());
+                    }
                 });
             }
             let mut go = true;
+            let mut epoch = 0u64;
             while go && done < max {
                 self.prepare();
-                let ctx = self.ctx();
-                unsafe { *shared.0.get() = Some(ctx) };
-                barrier.wait();
-                let mut acc = StepAcc::default();
-                unsafe { ctx.run(bounds[0].0, bounds[0].1, seam_ptrs[0].get(), &mut acc) };
-                barrier.wait();
-                for a in accs.iter().skip(1) {
-                    acc.merge(unsafe { &*a.0.get() });
-                }
+                epoch += 1;
+                team.publish(self.ctx(), epoch);
+                team.work(0, epoch, seam_ptrs[0].get());
+                let acc = team.finish();
                 self.finish(acc);
                 done += 1;
                 go = f(self);
             }
-            unsafe { *shared.0.get() = None };
-            barrier.wait();
+            team.quit();
         });
         done
     }
@@ -850,51 +842,132 @@ impl SeamPtr {
 #[repr(align(128))]
 struct PaddedAcc(std::cell::UnsafeCell<StepAcc>);
 unsafe impl Sync for PaddedAcc {}
-struct SharedCtx(std::cell::UnsafeCell<Option<Ctx>>);
-unsafe impl Sync for SharedCtx {}
-
-/// Barrier that spins briefly, then blocks on a condition variable. Pure spinning is
-/// disastrous when the machine is oversubscribed (a spinning thread steals the core the
-/// straggler needs); pure blocking costs a futex round trip per generation.
-struct SpinBarrier {
-    n: usize,
-    count: std::sync::atomic::AtomicUsize,
-    epoch: std::sync::atomic::AtomicU64,
+/// A team of threads stepping one simulation: the main thread publishes a generation
+/// (epoch); every thread, main included, claims row chunks with a CAS on
+/// `(epoch << 32) | next_chunk`; the main thread waits until all chunks are done. Idle
+/// workers spin briefly, then sleep on a condition variable. A descheduled worker (on an
+/// oversubscribed machine) therefore never stalls a generation.
+struct Team {
+    epoch_chunk: std::sync::atomic::AtomicU64,
+    done: std::sync::atomic::AtomicUsize,
+    quit: std::sync::atomic::AtomicBool,
+    sleepers: std::sync::atomic::AtomicUsize,
+    ctx: std::cell::UnsafeCell<Option<Ctx>>,
+    chunks: Vec<(usize, usize)>,
+    accs: Vec<PaddedAcc>,
     lock: std::sync::Mutex<()>,
     cv: std::sync::Condvar,
 }
+unsafe impl Sync for Team {}
 
-impl SpinBarrier {
-    fn new(n: usize) -> Self {
-        SpinBarrier {
-            n,
-            count: std::sync::atomic::AtomicUsize::new(0),
-            epoch: std::sync::atomic::AtomicU64::new(0),
+impl Team {
+    fn new(threads: usize, chunks: Vec<(usize, usize)>) -> Team {
+        use std::sync::atomic::*;
+        Team {
+            epoch_chunk: AtomicU64::new(0),
+            done: AtomicUsize::new(0),
+            quit: AtomicBool::new(false),
+            sleepers: AtomicUsize::new(0),
+            ctx: std::cell::UnsafeCell::new(None),
+            chunks,
+            accs: (0..threads).map(|_| PaddedAcc(std::cell::UnsafeCell::new(StepAcc::default()))).collect(),
             lock: std::sync::Mutex::new(()),
             cv: std::sync::Condvar::new(),
         }
     }
-    fn wait(&self) {
+
+    /// Main thread: start generation `epoch` with `ctx`.
+    fn publish(&self, ctx: Ctx, epoch: u64) {
         use std::sync::atomic::Ordering::*;
-        let e = self.epoch.load(Acquire);
-        if self.count.fetch_add(1, AcqRel) + 1 == self.n {
-            self.count.store(0, Relaxed);
-            let _g = self.lock.lock().unwrap();
-            self.epoch.store(e + 1, Release);
-            drop(_g);
-            self.cv.notify_all();
-            return;
+        for a in &self.accs {
+            // SAFETY: every chunk of the previous epoch is done; nobody writes accs now.
+            unsafe { *a.0.get() = StepAcc::default() };
         }
-        for _ in 0..4000 {
-            if self.epoch.load(Acquire) != e {
+        self.done.store(0, Relaxed);
+        unsafe { *self.ctx.get() = Some(ctx) };
+        self.epoch_chunk.store(epoch << 32, SeqCst);
+        if self.sleepers.load(SeqCst) > 0 {
+            let _g = self.lock.lock().unwrap();
+            self.cv.notify_all();
+        }
+    }
+
+    /// Worker: wait for an epoch newer than `seen` (updated). False when quitting.
+    fn wait_epoch(&self, seen: &mut u64) -> bool {
+        use std::sync::atomic::Ordering::*;
+        let newer = |s: &Self| (s.epoch_chunk.load(SeqCst) >> 32) > *seen || s.quit.load(SeqCst);
+        let mut spins = 0u32;
+        while !newer(self) {
+            if spins < 20_000 {
+                std::hint::spin_loop();
+                spins += 1;
+            } else {
+                self.sleepers.fetch_add(1, SeqCst);
+                let mut g = self.lock.lock().unwrap();
+                while !newer(self) {
+                    g = self.cv.wait(g).unwrap();
+                }
+                drop(g);
+                self.sleepers.fetch_sub(1, SeqCst);
+            }
+        }
+        if self.quit.load(SeqCst) {
+            return false;
+        }
+        *seen = self.epoch_chunk.load(SeqCst) >> 32;
+        true
+    }
+
+    /// Claim and run chunks of `epoch` until none are left.
+    fn work(&self, ti: usize, epoch: u64, seam: *mut u64) {
+        use std::sync::atomic::Ordering::*;
+        loop {
+            let cur = self.epoch_chunk.load(Acquire);
+            if cur >> 32 != epoch {
                 return;
             }
-            std::hint::spin_loop();
+            let idx = (cur & 0xffff_ffff) as usize;
+            if idx >= self.chunks.len() {
+                return;
+            }
+            if self.epoch_chunk.compare_exchange_weak(cur, cur + 1, AcqRel, Relaxed).is_err() {
+                continue;
+            }
+            // SAFETY: the epoch cannot end before this claimed chunk is done, so the main
+            // thread does not touch ctx/accs meanwhile; chunks are disjoint row ranges.
+            let ctx = unsafe { (*self.ctx.get()).unwrap() };
+            let (k0, k1) = self.chunks[idx];
+            let mut acc = StepAcc::default();
+            unsafe { ctx.run(k0, k1, seam, &mut acc) };
+            unsafe { (*self.accs[ti].0.get()).merge(&acc) };
+            self.done.fetch_add(1, Release);
         }
-        let mut g = self.lock.lock().unwrap();
-        while self.epoch.load(Acquire) == e {
-            g = self.cv.wait(g).unwrap();
+    }
+
+    /// Main thread: wait for all chunks, return the merged reductions.
+    fn finish(&self) -> StepAcc {
+        use std::sync::atomic::Ordering::*;
+        let mut spins = 0u32;
+        while self.done.load(Acquire) < self.chunks.len() {
+            if spins < 50_000 {
+                std::hint::spin_loop();
+                spins += 1;
+            } else {
+                std::thread::yield_now();
+            }
         }
+        let mut acc = StepAcc::default();
+        for a in &self.accs {
+            acc.merge(unsafe { &*a.0.get() });
+        }
+        acc
+    }
+
+    fn quit(&self) {
+        use std::sync::atomic::Ordering::SeqCst;
+        self.quit.store(true, SeqCst);
+        let _g = self.lock.lock().unwrap();
+        self.cv.notify_all();
     }
 }
 
