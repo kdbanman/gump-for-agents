@@ -31,7 +31,10 @@ conjectured, with the command that reproduces it. The short version:
 5. **Symmetry is fatal.** A symmetric seed has only one fundamental domain's worth of
    independent chaos, so its faces fail together. The original's side-13 cube lives 169,049
    generations *because* it is symmetric; an asymmetric soup in the same hull would be
-   expected to hold each face for ~10⁴¹.
+   expected to hold each face for ~10⁴¹. (Our first out-of-sample prediction, the lifetime
+   of a side-16 cube, failed — it is alive past 10⁹ generations against a predicted
+   2.4×10⁸ — and the repair is in the notebook: large symmetric faces are tougher than a
+   fixed "effective area" allows.)
 6. **The debris has a small anatomy**: single cubes, kagome hexagons, the *vertex star* (the
    12 faces around one lattice vertex — a sealed universe of 4,096 states), period-2 "hinges"
    whose faces swing 90°, and rare clockwork with periods up to 66.

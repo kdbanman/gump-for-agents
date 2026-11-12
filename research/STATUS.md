@@ -45,12 +45,28 @@ _Last updated 2026-11-12 by the lead._
    chaos (regions die in lockstep), effective face area A/7.7. The side-13 cube lasts ~10⁵
    generations because it is symmetric; the same hull filled asymmetrically would hold each
    face ~10⁴¹. The legacy cube lifetimes n = 11–15 fall at unremarkable quantiles of the law's
-   prediction; n = 16 is predicted at 2.4×10⁸ (90%: 3.9×10⁷–6.3×10⁸) and is running.
+   prediction. **n = 16 was predicted at 2.4×10⁸ (90%: 3.9×10⁷–6.3×10⁸) and missed**: it is
+   alive at 1.025×10⁹ with no face lost (checkpoint in `research/data/`). Cause, measured two
+   ways (face fluctuations of the cubes; residence times of symmetric soups at R = 37, 39):
+   the cost per site in a symmetric face rises with face size, so "A/7.7" under-predicts
+   beyond the sizes it was fitted on — by 1.9× at A = 570, 2.3× at A = 630. The data fit
+   ln τ ≈ 1.57 + (0.209/6)·A − 0.236·√A: six lockstep domains minus a mirror-line boundary
+   term. Revised side-16 first plateau: 4–7×10⁸ (notebook, last entry).
 5. Debris is built from a small fauna: cubes, kagome hexagons, vertex stars (a sealed
    12-cell universe), hinged period-2 flippers, and rare clockwork up to period 66.
 6. In rule space (960 rules, B ⊆ {4..7}, S ⊆ {2..7}) torus chaos is common, but long-lived
    *confined* chaos is not, and gump is a **minimal** member of that region: remove any one
    count from B45/S345 and lifetimes collapse; add S2 or S7 and they grow ≥30×.
+
+## Most recent
+- PR #1 merged to main (everything above). The lead measured the fluctuations of living faces
+  (`research/experiments/face_fluct.py`): the face law's 0.209 looks like the value at zero of
+  a size-independent large-deviation curve (≈0.20 by extrapolation) — notebook, last entry.
+
+- Side 16: stopped at generation 1,025,000,000, alive (the session's job limit, not the
+  automaton); resume from `research/data/cube16_gen1025000000.gump` if its end is wanted.
+- Open: the vertex-centred factor at large faces; the asymptotic slope (is it exactly
+  0.209/6?); side 15's 33M-generation stay at R = 37, 3.7× even the corrected mean.
 
 ## Ideas not yet started
 - Web: a gallery of atlas objects; a guided tour of the storyline.

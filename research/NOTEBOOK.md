@@ -433,3 +433,100 @@ symmetric chaos in a quick test (the soups died at gen 2). It was not investigat
   16³ torus now seeds 3,738 of 12,288 cells (0.30; ~256 independent orbits) and runs chaotic.
   `gump ensemble --layer-deaths` gives exact peel generations from packed ensembles;
   `engine/scripts/face_law.py` reproduces `research/experiments/verify_face_law.py`.
+
+## 2026-11-12 — where the 0.209 comes from: the far tail of a living face's fluctuations (lead)
+
+`python3 research/experiments/face_fluct.py 11 60000 1 2 3 4 5 6 7 8` and `… 13 150000 1 2`:
+asymmetric octahedral soups, the population n of each outer face layer sampled every
+generation, using only runs in which no face died (fixed geometry; 3 runs at R=11, 2 at R=13,
+1.4M and 2.4M face-generations).
+
+- **[measured]** A living face is overdispersed and left-skewed: mean 0.496 / 0.505 per site,
+  variance 0.437 / 0.421 per site (binomial would be 0.25), skew −0.2; autocorrelation 0.5 at
+  lag 1, gone by lag ~20.
+- **[measured]** The empirical rate function I(x) = −ln P(n/A ≤ x) / A agrees between the two
+  sizes where they overlap — I(0.15) = 0.127 (A=63) and 0.137 (A=84); I(0.25) = 0.084 and 0.092 —
+  so P(n/A ≤ x) ≈ exp(−A·I(x)) with a size-independent I, as a large-deviation principle requires.
+- **[measured]** A Gaussian with the measured mean and variance matches I(x) for
+  x ≈ 0.15–0.25 but overshoots further out: at x = 0.06 the data give 0.175, the Gaussian 0.214;
+  extrapolated to x = 0 the Gaussian gives 0.28–0.30.
+- **[conjecture]** The face law's constant is I(0). Continuing the measured curve from
+  x = 0.06 to 0 gives ≈0.20 (a linear continuation gives 0.204; the curve is flattening),
+  against 0.209 ± 0.002 from extinction times. If so, a face's death needs no special
+  mechanism: τ_face ≈ 1 / P(the face is empty under its ordinary stationary fluctuations),
+  about one independent "attempt" per generation, which is why the law's prefactor is
+  ≈1 generation. The "sudden collapse" is what the cheap last stretch of the rate function
+  (below x ≈ 0.1) looks like in time. Caveats: an extrapolation, two sizes, five runs.
+  A direct test: push the tail measurement to x → 0 at smaller A, or by importance sampling.
+
+## 2026-11-12 — side 16 outlives its prediction; in symmetric faces the cost per site grows with size (lead)
+
+- **[measured]** `research/experiments/cube_ckpt.sh 16` (checkpointed `gump run --cube 16`). At generation
+  **1,025,000,000** the side-16 cube is alive: population 16,080, hull radius 42 on all four diagonals —
+  *no face layer has died yet*. The run was stopped there by the session's limit on background jobs, not by the
+  automaton. The state is kept in `research/data/cube16_gen1025000000.gump`; resume with
+  `gump run --snapshot research/data/cube16_gen1025000000.gump` (≈10⁵ generations/s on one core).
+- **The prediction failed at its stated confidence.** The peeling entry above gave mean 2.4×10⁸, 90% interval
+  [3.9×10⁷, 6.3×10⁸], of which the first plateau (R = 42, A = 693) is ≈2.0×10⁸. An exponential wait with that
+  mean survives to 1.025×10⁹ with probability e^−5.3 ≈ 0.5%. (The lead had written down 10⁹ beforehand as the
+  point where the law would be in trouble.) In hindsight the series was already leaning: sides 14 and 15 sit at
+  quantiles 0.93 and 0.73 of their predictions, and two single residences are 5.5× and 7.2× their predicted means
+  (side 14 at R = 30; side 15 at R = 37, 33.2M generations against 4.6M) — a KS test over 24 residences does not see tails.
+- **[measured]** The face is ordinary. `gump occupancy --snapshot research/data/cube16_gen1025000000.gump --from 0
+  --to 20000 --layer 45`: 0.4–0.5 in six domains, 0.3–0.4 along the three mirror lines, 0.2 at the centre, 0.1–0.2
+  in the corners; no cell frozen, no persistent structure protecting it.
+- **[measured]** Fluctuations of the cubes' living outer faces, sampled every generation
+  (`python3 research/experiments/sym_face_fluct.py FROM TO -- SEED`; all 8 faces are images of one, so one layer
+  is read). J(x) = −ln P(n/A ≤ x); "c" = cube-centred, "v" = vertex-centred.
+
+  | seed, window | R | A | mean /site | var /site | J(0.25) | J(0.20) | J(0.15) | J(0.10) | J/A at 0.25, 0.20, 0.15 (×10⁻³) |
+  |---|---|---|---|---|---|---|---|---|---|
+  | `--cube 13`, 200–130,000 | 33 c | 459 | 0.421 | 2.95 | 3.85 | 5.35 | 6.81 | 8.08 | 8.4, 11.7, 14.8 |
+  | `--cube 14`, 200–2M | 36 v | 513 | 0.441 | 2.97 | 4.79 | 6.31 | 8.16 | 10.01 | 9.3, 12.3, 15.9 |
+  | `--cube 15`, 2.5M–4.5M | 37 c | 570 | 0.435 | 2.81 | 5.05 | 6.80 | 8.85 | 10.90 | 8.9, 11.9, 15.5 |
+  | `--cube 15`, 200–2M | 39 c | 630 | 0.441 | 2.76 | 5.72 | 7.71 | 10.10 | – | 9.1, 12.2, 16.0 |
+  | side-16 checkpoint, 2M gens | 42 v | 693 | 0.454 | 2.83 | 6.73 | 8.98 | – | – | 9.7, 13.0, – |
+
+  The variance per site is 6.4–6.9× the asymmetric face's 0.43 (six lockstep copies, a little more). At equal depth
+  the cost **per site is not constant**: it rises 4–8% from A = 459 to 630 (cube-centred) and 4–6% from 513 to 693
+  (vertex-centred), at every depth measured; J itself grows by 1.47 for an area ratio of 1.37, and by 1.41 for 1.35.
+  The mean density rises with it (0.421 → 0.454): the depleted mirror lines and corners are a shrinking share of
+  a larger face. The side-15 face at R = 37 is unremarkable on this measure, so its long residence is not explained.
+- **[conjecture]** The symmetric law ln τ = −0.14 + 0.0272·A is a local fit (per-state hazards, A = 198–513) to
+  something whose cost per site still climbs slowly with size — a boundary term from the mirror lines, of relative
+  order 1/√A — so it under-predicts beyond its range. At an exponent of 19 each 1% is a factor 1.2: carrying the
+  measured 5–11% (fixed-depth J/A; Gaussian μ²/2v) to extinction moves the side-16 first plateau from 2×10⁸ to
+  roughly 5×10⁸–1.6×10⁹, where surviving 10⁹ is unremarkable. The asymmetric law (0.209 per site, tested directly
+  to A = 84) is not touched by this; what failed is the proportional transfer "effective area A/7.7".
+  Direct test: residence times of O_h-symmetric soups at R = 37 and 39, next item.
+- **[measured]** **The direct test confirms it.** `python3 research/experiments/sym_soup_peels.py 37 64 1e8` and
+  `… 39 24 4e7` (O_h-symmetric cube-centred soups run to their end or the cap; residence at each hull radius,
+  mean = exposure / deaths; validated first at R = 27: 4903 [4140, 6012] at A = 315 against the law's 4576):
+
+  | A (R) | deaths | mean residence [95%] | ln | law | ln − law |
+  |---|---|---|---|---|---|
+  | 630 (39) | 13 of 24 | 5.4×10⁷ [3.5, 11.9]×10⁷ | 17.81 | 17.00 | +0.82 |
+  | 570 (37) | 64 + 10 | 8.9×10⁶ [7.2, 11.8]×10⁶; 9.7×10⁶ | 16.00; 16.09 | 15.36 | +0.64; +0.72 |
+  | 513 (35) | 64 + 10 | 1.66×10⁶ [1.34, 2.20]×10⁶; 6.3×10⁵ | 14.32; 13.35 | 13.81 | +0.51; −0.47 |
+  | 459 (33) | 63 + 10 | 2.29×10⁵; 3.4×10⁵ | 12.34; 12.75 | 12.34 | −0.01; +0.40 |
+  | 408 (31) | 63 | 5.8×10⁴ | 10.97 | 10.96 | +0.01 |
+  | 360 … 234 | 60, 53, 52, 41 | | 9.56, 8.27, 7.08, 6.41 | | −0.09, −0.15, −0.20, +0.19 |
+
+  The law holds up to A ≈ 460 and is low by a factor 1.9 at A = 570 (74 deaths) and 2.3 at A = 630. ln τ / A climbs
+  from 0.0269 (A = 459) to 0.0283 (A = 630), +5% — the same drift the face fluctuations showed (+4–8% in J/A over the
+  same range) in minutes of sampling instead of an hour of waiting for deaths.
+- **[measured]** Fits to all cube-centred symmetric residences with A ≥ 234 (the peeling study's per-state hazards
+  plus these batches; 36 points, 2,365 deaths; weights = deaths):
+  proportional `a + bA`: b = 0.0287, χ² = 59.9; with curvature `a + bA + cA²`: 0.564 + 0.02178·A + 9.09×10⁻⁶·A², χ² = 41.6;
+  `a + bA + c√A`: χ² = 42.1; **slope pinned to the asymmetric constant over the face's six lockstep copies,
+  `a + (0.209/6)·A + c√A`: 1.57 + 0.0348·A − 0.236·√A, χ² = 47.4** — better than the free proportional fit with the
+  same number of parameters. (The lead's batches alone give the same ordering: 29.8, 20.9, 21.2, 24.4 on 20 points.)
+- **[conjecture]** So "effective area A/7.7" was never a constant. The data are consistent with the simplest
+  symmetry argument — a face is six independent-chaos domains in lockstep, cost 0.209·A/6 — minus a boundary term
+  from the mirror lines that grows only like √A. The divisor 7.7 is what that looks like around A ≈ 350 and it drifts
+  towards 6 as faces grow. Not established: the free fits prefer an even steeper asymptote (b ≈ 0.042 ± large), and
+  the vertex-centred ×1.5 has only been measured at A ≤ 408.
+- **Revised expectations** (curved fits, cube-centred; add ln 1.5 for even n if the vertex factor carries over):
+  A = 693 → ln τ = 19.5–20.0, so the side-16 first plateau has mean ≈ 4–7×10⁸ instead of 2×10⁸, and being alive at
+  1.025×10⁹ is a 10–25% event rather than a 0.5% one. Side 17 (A = 828): ≈2–6×10¹⁰ (was 6×10⁹). The legacy side-19
+  cube, properly confined (A = 1053): 10¹³–10¹⁴ on these fits, far outside any data.
