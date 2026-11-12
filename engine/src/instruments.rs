@@ -123,6 +123,39 @@ impl Sample {
     }
 }
 
+/// Population and per-layer populations of a cell list, with the layer ranges of `geo`
+/// (identical `LayerHist`s to [`sample`] on a simulator with that geometry).
+pub fn sample_cells(cells: &[P3], geo: &crate::lattice::Geometry, gen: u64) -> Sample {
+    let modulus = geo.layer_modulus();
+    let mut hists: Vec<LayerHist> = (0..4)
+        .map(|d| {
+            let (smin, smax) = geo.layer_range(d);
+            LayerHist { s_min: smin, counts: vec![0; ((smax - smin) / 2 + 1) as usize], modulus }
+        })
+        .collect();
+    let mut pop_axis = [0u64; 3];
+    for &p in cells {
+        pop_axis[crate::lattice::cell_axis(p).unwrap()] += 1;
+        for (d, h) in hists.iter_mut().enumerate() {
+            let s = crate::lattice::layer(p, d);
+            let idx = match modulus {
+                None => (s - h.s_min) / 2,
+                Some(m) => (s.rem_euclid(m) - 1) / 2,
+            };
+            h.counts[idx as usize] += 1;
+        }
+    }
+    let mut it = hists.into_iter();
+    Sample {
+        gen,
+        pop: cells.len() as u64,
+        pop_axis,
+        changed: None,
+        bbox: None,
+        layers: Some([it.next().unwrap(), it.next().unwrap(), it.next().unwrap(), it.next().unwrap()]),
+    }
+}
+
 /// Measure `sim` now. `layers` adds the per-layer populations (one pass over live cells).
 pub fn sample(sim: &BitSim, layers: bool) -> Sample {
     let geo = sim.geometry();
@@ -211,6 +244,7 @@ pub struct LayerEvent {
 
 /// Tracks, per diagonal layer, when it was last seen alive and when it became provably
 /// dead forever. Feed it samples with layers, in increasing generation order.
+#[derive(Clone)]
 pub struct LayerTracker {
     pub s_min: [i64; 4],
     pub last_alive: [Vec<Option<u64>>; 4],

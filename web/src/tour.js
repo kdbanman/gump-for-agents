@@ -45,9 +45,9 @@ export const SCENES = [
       <p>Watch an 11×11×11 cube: it grows along the axes, where nothing stops it, until it fills its
       octahedron (the faint outline), and then it can grow no further. So no pattern can travel or grow forever, and
       every finite pattern eventually repeats. ${tag('proved')} ${src(A, 'Hence any finite pattern', 'T2, consequences')}</p>
-      <p>Chaos advances into empty space at about 0.18 cube per generation across cube faces, 0.17
-      across cube edges, and exactly 0 across the diagonal planes, so the octahedron is the shape
-      everything grows into. ${tag('measured')} ${src(N, 'Chaos invading vacuum', 'notebook: fronts')}</p>`,
+      <p>A flat front of chaos advances into empty space at about 0.18 cube per generation along the
+      axes, 0.17 along the face diagonals, and exactly 0 across the diagonal planes. So the octahedron is the
+      shape everything grows into. ${tag('measured')} ${src(N, 'Chaos invading vacuum', 'notebook: fronts')}</p>`,
     spec: { seed: 'cube', n: 11, speed: '5', play: 1, face: 0.6, cam: '1,0.75,1.35,1.2' },
     kymo: false,
   },
@@ -95,12 +95,12 @@ export const SCENES = [
     body: `<p>Fill a box that wraps around (no faces, no edges) with random faces and it settles into a
       steady churn, whatever the box size: <b>0.4155</b> of all faces alive. About half the live faces
       die each generation and as many are born. ${tag('measured')} ${src(N, 'Steady density', 'notebook: bulk')}
-      Watch the population readout settle there.</p>
+      Watch the density readout, under the population, settle there.</p>
       <p>The churn looks the same in every direction, and correlations die within about one cube. Flip a single face and the
       difference spreads as a sphere at about 0.85 cube per generation. It crosses the diagonal planes
       freely: the barrier of T2 holds only against empty space. ${tag('measured')} ${src(N, 'Damage from one flipped cell', 'notebook: damage')}</p>
-      <p>On a box this size the churn is effectively immortal: whole-torus soups above about 600
-      cells were never seen to die. ${tag('measured')} ${src(N, 'Whole-torus soups (no faces) die', 'notebook')}</p>`,
+      <p>On a box this size the churn is effectively immortal. Wrap-around soups of a few hundred
+      cells die quickly, but none of 512 soups of 6³ cubes or larger died within 10<sup>6</sup> generations. ${tag('measured')} ${src(N, 'Whole-torus soups (no faces) die', 'notebook')}</p>`,
     spec: { seed: 'soup', shape: 'cube', n: 20, box: 20, bc: 'torus', density: 0.3, rng: 5, speed: '30', play: 1, cam: '1,0.75,1.35,1' },
     kymo: false,
   },

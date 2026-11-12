@@ -362,6 +362,7 @@ function updateInstruments(now) {
   if (last) {
     const s = last.s;
     $('pop').textContent = fmt(s.pop);
+    $('density').textContent = (s.pop / (3 * app.dims[0] * app.dims[1] * app.dims[2])).toFixed(4);
     $('popx').textContent = fmt(s.count[0]); $('popy').textContent = fmt(s.count[1]); $('popz').textContent = fmt(s.count[2]);
     const lag = app.gen - last.gen;
     $('statsage').textContent = (app.rec ? 'statistics of every generation' : 'statistics sampled every ~40 ms') +

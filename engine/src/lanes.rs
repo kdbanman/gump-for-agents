@@ -18,7 +18,7 @@
 //! for every period up to `closing` (and up to `window` for cycles caught at checkpoints).
 
 use crate::fast::BitSim;
-use crate::instruments::{sample, Halt, LayerTracker, Sample, Status};
+use crate::instruments::{sample, sample_cells, Halt, LayerEvent, LayerTracker, Sample, Status};
 use crate::lattice::{Geometry, Hull, P3};
 use crate::rule::Rule;
 use crate::run::RunResult;
@@ -39,11 +39,15 @@ pub struct LaneOpts {
     pub closing: u64,
     /// layer tracker (layer_events / theorem_violations in the summary)
     pub need_layers: bool,
+    /// report irreversible layer deaths with exact generations (at most this many per run)
+    pub deaths: Option<usize>,
+    /// report the hull at this generation
+    pub hull_at: Option<u64>,
 }
 
 impl Default for LaneOpts {
     fn default() -> Self {
-        LaneOpts { cap: 1_000_000, check_every: 32, window: 1 << 11, ring: 64, closing: 512, need_layers: true }
+        LaneOpts { cap: 1_000_000, check_every: 32, window: 1 << 11, ring: 64, closing: 512, need_layers: true, deaths: None, hull_at: None }
     }
 }
 
@@ -61,6 +65,10 @@ pub struct Done<T> {
     pub tag: T,
     pub res: RunResult,
     pub sim: BitSim,
+    /// irreversible layer deaths with exact generations (if requested), in order
+    pub deaths: Vec<LayerEvent>,
+    /// (generation, hull) if `hull_at` was requested and reached
+    pub hull_at: Option<(u64, Option<Hull>)>,
 }
 
 struct Lane<T> {
@@ -72,6 +80,11 @@ struct Lane<T> {
     seen: HashMap<u64, u64>,
     order: VecDeque<(u64, u64)>,
     t0: Instant,
+    /// exact layer-death tracking: tracker, events, global gen it has been fed up to
+    tracker: Option<LayerTracker>,
+    deaths: Vec<LayerEvent>,
+    processed: u64,
+    hull_at: Option<(u64, Option<Hull>)>,
 }
 
 /// Run all jobs that `next_job` yields, `lanes` at a time, in boxes `pack_geo`.
@@ -108,15 +121,25 @@ pub fn run_lanes<T>(
                     sim.set_lane_cells(r, &job.cells);
                     let nat = natural_sim(&job.natural, rule, &job.cells, job.start_gen);
                     let first = sample(&nat, true);
-                    let lane = Lane {
+                    let mut lane = Lane {
                         start: g,
                         peak: (first.pop, job.start_gen),
-                        first,
                         seen: HashMap::new(),
                         order: VecDeque::new(),
                         t0: Instant::now(),
+                        tracker: opts.deaths.map(|_| LayerTracker::new()),
+                        deaths: Vec::new(),
+                        processed: g,
+                        hull_at: None,
+                        first,
                         job,
                     };
+                    if let Some(t) = lane.tracker.as_mut() {
+                        lane.deaths.extend(t.update(&lane.first));
+                    }
+                    if opts.hull_at == Some(lane.job.start_gen) {
+                        lane.hull_at = Some((lane.job.start_gen, lane.first.hull()));
+                    }
                     if lane.first.pop == 0 && !birth0 {
                         let s0 = lane.job.start_gen;
                         finish(lane, Halt { status: Status::Extinct, period: 1, cycle_start: s0, detected: s0 }, vec![], rule, opts, &mut done);
@@ -149,6 +172,10 @@ pub fn run_lanes<T>(
             if pop > lane.peak.0 {
                 lane.peak = (pop, abs);
             }
+            if opts.hull_at == Some(abs) {
+                let s = sample_cells(&sim.lane_cells(r), &lane.job.natural, abs);
+                lane.hull_at = Some((abs, s.hull()));
+            }
             let halt = if pop == 0 && !birth0 {
                 Some((Halt { status: Status::Extinct, period: 1, cycle_start: abs, detected: abs }, vec![]))
             } else if acc.diff & sim.lane_mask(r) == 0 {
@@ -159,7 +186,8 @@ pub fn run_lanes<T>(
                 None
             };
             if let Some((h, cells)) = halt {
-                let lane = slots[r].take().unwrap();
+                let mut lane = slots[r].take().unwrap();
+                catch_up(&sim, r, &mut lane, &ring, rule);
                 if h.status == Status::Running {
                     finish_running(lane, cells, abs, rule, opts, &mut done);
                 } else {
@@ -182,6 +210,7 @@ pub fn run_lanes<T>(
             ring.push_back((g, words));
             for r in 0..lanes {
                 let Some(lane) = slots[r].as_mut() else { continue };
+                catch_up(&sim, r, lane, &ring, rule);
                 let h = hashes[r];
                 if let Some(&g0) = lane.seen.get(&h) {
                     if let Some((halt, cells)) = resolve(&sim, r, lane, g0, g, &ring, rule) {
@@ -342,5 +371,43 @@ fn report<T>(lane: Lane<T>, h: Option<Halt>, cells: Vec<P3>, fin_gen: u64, rule:
         }
         res.theorem_violations = t.violations.len() as u64;
     }
-    done(Done { tag: lane.job.tag, res, sim });
+    let mut deaths: Vec<LayerEvent> = lane.deaths.into_iter().filter(|e| e.gen <= fin_gen).collect();
+    if let Some(n) = opts.deaths {
+        deaths.truncate(n);
+    }
+    done(Done { tag: lane.job.tag, res, sim, deaths, hull_at: lane.hull_at });
+}
+
+/// Feed the lane's layer tracker every generation from the last one it saw up to the
+/// current one (global). Cheap path: one sample now; only if that reveals a new
+/// irreversible death is the window re-simulated generation by generation (from the
+/// ring snapshot / seed at `processed`), so event generations are exact.
+fn catch_up<T>(sim: &BitSim, r: usize, lane: &mut Lane<T>, ring: &VecDeque<(u64, Vec<u64>)>, rule: Rule) {
+    let g = sim.generation();
+    let Some(tracker) = lane.tracker.as_mut() else { return };
+    if g <= lane.processed {
+        return;
+    }
+    let s_now = sample_cells(&sim.lane_cells(r), &lane.job.natural, lane.job.start_gen + (g - lane.start));
+    let mut peek = tracker.clone();
+    if peek.update(&s_now).is_empty() {
+        *tracker = peek;
+        lane.processed = g;
+        return;
+    }
+    // re-simulate (processed, g]
+    let base_cells = if lane.processed == lane.start {
+        lane.job.cells.clone()
+    } else {
+        let words = &ring.iter().find(|(gq, _)| *gq == lane.processed).expect("snapshot at last processed checkpoint").1;
+        sim.lane_cells_in(words, r)
+    };
+    let geo = sim.lane_geometry().unwrap().clone();
+    let mut u = lane_sim(&geo, rule, &base_cells);
+    for gg in lane.processed + 1..=g {
+        u.step();
+        let s = sample_cells(&u.cells(), &lane.job.natural, lane.job.start_gen + (gg - lane.start));
+        lane.deaths.extend(tracker.update(&s));
+    }
+    lane.processed = g;
 }
