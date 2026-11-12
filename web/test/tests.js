@@ -3,7 +3,7 @@ import { Sim } from '../src/gl/sim.js';
 import { Stats } from '../src/gl/stats.js';
 import { stepCPU, statsCPU } from '../src/cpu.js';
 import { makeSeed, autoBox, placeSeed, mulberry32, legacySeedSpan } from '../src/seeds.js';
-import { layerCounts, layerCountsCells, firewalls, hullSites, hullOfCounts } from '../src/layers.js';
+import { layerCounts, layerCountsCells, firewalls, hullSites, hullOfCounts, faceSites, isOhSymmetric, DIAGONALS as DIAG4 } from '../src/layers.js';
 
 const log = (...a) => { const s = a.join(' '); console.log(s); document.getElementById('log').textContent += s + '\n'; };
 const results = [];
@@ -176,6 +176,35 @@ async function layerTests() {
     const tot = sites.map(x => x.reduce((a, b) => a + b, 0));
     const okSoup = sites.every((x, n) => x.every((v, i) => v >= lc[n].counts[i])) && tot.every(t => t === tot[0]);
     record('hull sites per layer (density denominators)', okAll && okSoup, `full box: ${okAll}; soup hull holds ${tot[0]} sites on every diagonal`);
+  }
+  // face areas A of the peeling law: enumerated layer by layer vs the brute-force site counts
+  {
+    const checks = [];
+    for (const [spec, extra] of [[{ seed: 'cube', n: 7 }, 0], [{ seed: 'soup', shape: 'oct', n: 6, density: 0.4, rng: 3 }, 0], [{ seed: 'cube', n: 4 }, -3]]) {
+      const sd = makeSeed(spec), box = autoBox(sd.pts);
+      const dims = box.dims.map(N => N + extra);                       // extra < 0: the hull pokes out of the box
+      const cells = new Uint8Array(dims[0] * dims[1] * dims[2]);
+      placeSeed(sd.pts, dims, box.shift.map(v => v + 2 * Math.floor(extra / 2)), false, cells);
+      const lc = layerCountsCells(cells, dims), hull = hullOfCounts(lc), sites = hullSites(dims, hull), fs = faceSites(dims, hull);
+      const ref = [0, 1, 2, 3].flatMap(n => [sites[n][(hull.hiS[n] - lc[n].base) / 2], sites[n][(hull.loS[n] - lc[n].base) / 2]]);
+      const got = [0, 1, 2, 3].flatMap(n => [fs.hi[n], fs.lo[n]]);
+      checks.push({ ok: JSON.stringify(ref) === JSON.stringify(got), got });
+    }
+    record('face areas A (peeling law) = brute-force sites of the outermost layers', checks.every(c => c.ok), checks.map(c => c.got.join('/')).join(' · '));
+  }
+  // O_h symmetry detection (peeling law's symmetric divisor)
+  {
+    const live = (pts) => { const out = []; for (let q = 0; q < pts.length; q += 3) out.push([pts[q], pts[q + 1], pts[q + 2]]); return out; };
+    const hullOfPts = (cells) => ({ loS: [0, 1, 2, 3].map(n => Math.min(...cells.map(p => DIAG4[n][0] * p[0] + DIAG4[n][1] * p[1] + DIAG4[n][2] * p[2]))), hiS: [0, 1, 2, 3].map(n => Math.max(...cells.map(p => DIAG4[n][0] * p[0] + DIAG4[n][1] * p[1] + DIAG4[n][2] * p[2]))) });
+    const cases = [
+      ['closed cube n=5 (cube-centred)', live(makeSeed({ seed: 'cube', n: 5 }).pts), true],
+      ['closed cube n=6 (vertex-centred)', live(makeSeed({ seed: 'cube', n: 6 }).pts), true],
+      ['closed cube n=5 minus one cell', live(makeSeed({ seed: 'cube', n: 5 }).pts).slice(1), false],
+      ['legacy key 5 (C3v only)', live(makeSeed({ seed: 'key', k: 5 }).pts), false],
+      ['octahedral soup', live(makeSeed({ seed: 'soup', shape: 'oct', n: 5, density: 0.4, rng: 1 }).pts), false],
+    ];
+    const res = cases.map(([name, c, want]) => ({ name, got: isOhSymmetric(c, hullOfPts(c)), want }));
+    record('O_h symmetry detection', res.every(r => r.got === r.want), res.map(r => `${r.name}: ${r.got}`).join('; '));
   }
   // firewall detection
   const fw = firewalls({ base: 1, counts: Uint32Array.from([0, 3, 0, 0, 0, 5, 0, 0, 2, 0, 0, 0, 0, 1, 0]) });

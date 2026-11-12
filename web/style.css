@@ -74,3 +74,4 @@ a.src { color: #9fd0f0; font-size: 11px; font-family: ui-monospace, monospace; }
 #objcard ul { margin: 4px 0; padding-left: 16px; }
 #objcard .live { margin-top: 4px; }
 @media (max-width: 900px) { #tour, #gallery, #objcard { width: calc(100vw - 16px); } }
+#facetab td:first-child { text-align: left; } #facetab { font-size: 11px; } #facenote { margin: 2px 0 3px; }

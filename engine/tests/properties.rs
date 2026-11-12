@@ -178,3 +178,42 @@ fn still_life_on_torus_is_still() {
         }
     }
 }
+
+#[test]
+fn symmetric_soups_density_and_invariance() {
+    use gump::sym;
+    for (name, _) in sym::GROUPS {
+        let group = sym::group(name).unwrap();
+        for center in [[0i64, 0, 0], [1, 1, 1]] {
+            for torus in [true, false] {
+                let p = 0.35;
+                let (cells, all, geo) = if torus {
+                    let geo = Geometry::new([10, 10, 10], [0, 0, 0], Boundary::Torus);
+                    let (lo, hi) = geo.doubled_bounds();
+                    let reg = Region::Box { lo, hi };
+                    (seeds::soup_sym(&reg, p, 7, &group, center, Some(&geo)), geo.cells(), Some(geo))
+                } else {
+                    let reg = Region::Oct { center, r: 17 };
+                    (seeds::soup_sym(&reg, p, 7, &group, center, None), seeds::soup(&reg, 1.0, 0).len(), None)
+                };
+                // sampling error: orbits of size <= |G| are the independent units
+                let n_orbits = (all as f64 / group.len() as f64).max(1.0);
+                let frac = cells.len() as f64 / all as f64;
+                let sigma = (p * (1.0 - p) / n_orbits).sqrt();
+                assert!((frac - p).abs() < 5.0 * sigma + 0.01, "{name} c={center:?} torus={torus}: density {frac}");
+                // exact invariance
+                let set: std::collections::HashSet<P3> = cells.iter().copied().collect();
+                for g in &group {
+                    for &q in &cells {
+                        let mut img = g.apply_about(q, center);
+                        if let Some(geo) = &geo {
+                            let (a, c) = geo.locate(img).unwrap();
+                            img = geo.to_doubled(a, c);
+                        }
+                        assert!(set.contains(&img), "{name} c={center:?} torus={torus}: not invariant");
+                    }
+                }
+            }
+        }
+    }
+}

@@ -3,7 +3,8 @@
 // docs/AUTOMATON.md or the atlas (exhaustive search), [measured] in research/NOTEBOOK.md,
 // [conjecture] where that is all it is. "watch" marks what the scene itself shows.
 
-const A = 'docs/AUTOMATON.md', N = 'research/NOTEBOOK.md';
+const A = 'docs/AUTOMATON.md', N = 'research/NOTEBOOK.md', ST = 'research/STATUS.md';
+const fig = (f, label) => `<a class="src" href="source.html?f=${f}" target="_blank" rel="noopener">${label}</a>`;
 const src = (f, find, label) => `<a class="src" href="source.html?f=${f}#${encodeURIComponent(find)}" target="_blank" rel="noopener">${label}</a>`;
 const tag = (t) => `<span class="tag ${t}">${t}</span>`;
 
@@ -43,7 +44,10 @@ export const SCENES = [
       that octahedron can only shrink. ${tag('proved')} ${src(A, 'T2 (octahedral confinement)', 'T2')}</p>
       <p>Watch an 11×11×11 cube: it grows along the axes, where nothing stops it, until it fills its
       octahedron (the faint outline), and then it can grow no further. So no pattern can travel or grow forever, and
-      every finite pattern eventually repeats. ${tag('proved')} ${src(A, 'Hence any finite pattern', 'T2, consequences')}</p>`,
+      every finite pattern eventually repeats. ${tag('proved')} ${src(A, 'Hence any finite pattern', 'T2, consequences')}</p>
+      <p>Chaos advances into empty space at about 0.18 cube per generation across cube faces, 0.17
+      across cube edges, and exactly 0 across the diagonal planes, so the octahedron is the shape
+      everything grows into. ${tag('measured')} ${src(N, 'Chaos invading vacuum', 'notebook: fronts')}</p>`,
     spec: { seed: 'cube', n: 11, speed: '5', play: 1, face: 0.6, cam: '1,0.75,1.35,1.2' },
     kymo: false,
   },
@@ -73,7 +77,9 @@ export const SCENES = [
       <p>Thin stacks of planes cannot sustain chaos. On wrap-around slabs, random soups one plane thick
       die in about 5–12 generations, two planes thick in about 50–100, and both grow only logarithmically
       with area. From three planes, lifetimes grow exponentially with size: three planes is the critical
-      thickness. ${tag('measured')} ${src(N, 'critical thickness is 3 layers', 'notebook: thickness')}</p>
+      thickness. ${tag('measured')} ${src(N, 'critical thickness is 3 layers', 'notebook: thickness')}
+      Thin slabs do not die by losing a face: they die when a firewall forms <i>across</i> them, along one
+      of the other diagonals. ${tag('measured')} ${src(N, 'Thin slabs and the cheapest cut', 'notebook: cuts')}</p>
       <p>Compare finite slabs of 1, 2 and 3 planes here, coloured by plane (A, B, C stack like this
       forever). ${tag('watch')}</p>`,
     variants: [
@@ -84,19 +90,36 @@ export const SCENES = [
     kymo: true,
   },
   {
+    id: 'chaos',
+    title: 'Chaos is a phase',
+    body: `<p>Fill a box that wraps around (no faces, no edges) with random faces and it settles into a
+      steady churn, whatever the box size: <b>0.4155</b> of all faces alive. About half the live faces
+      die each generation and as many are born. ${tag('measured')} ${src(N, 'Steady density', 'notebook: bulk')}
+      Watch the population readout settle there.</p>
+      <p>The churn looks the same in every direction, and correlations die within about one cube. Flip a single face and the
+      difference spreads as a sphere at about 0.85 cube per generation. It crosses the diagonal planes
+      freely: the barrier of T2 holds only against empty space. ${tag('measured')} ${src(N, 'Damage from one flipped cell', 'notebook: damage')}</p>
+      <p>On a box this size the churn is effectively immortal: whole-torus soups above about 600
+      cells were never seen to die. ${tag('measured')} ${src(N, 'Whole-torus soups (no faces) die', 'notebook')}</p>`,
+    spec: { seed: 'soup', shape: 'cube', n: 20, box: 20, bc: 'torus', density: 0.3, rng: 5, speed: '30', play: 1, cam: '1,0.75,1.35,1' },
+    kymo: false,
+  },
+  {
     id: 'peel',
     title: 'Long calm, then the faces peel',
-    body: `<p>A big cube (11 on a side) fills its octahedron with churning chaos at a steady density of
-      about 0.39 and holds it for thousands of generations. ${tag('measured')} ${src(N, 'Mean population on each plateau', 'notebook')}</p>
+    body: `<p>Confined in its octahedron, a big cube (11 on a side) churns for thousands of generations at
+      about 0.39 alive, lower than the 0.4155 of free chaos. Its perfect symmetry is the reason: faces on
+      the cube's mirror planes are depleted. ${tag('measured')} ${src(N, 'Confined chaos: the 0.39 is a symmetry artefact', 'notebook: symmetry')}</p>
       <p>Then it loses the outermost plane of every face at once. That plane can never be re-seeded (T2),
-      so the population drops to a lower plateau, and the octahedron shrinks a step at a time: here at
-      generations 3,290, 3,477 and 3,796. This is the staircase in the original program's population plots. ${tag('measured')}
-      ${src(N, 'Hull radius (outermost live layer', 'notebook: peeling')}</p>
-      <p>The run starts at generation 3,200. Watch the layer chart: the top and bottom rows go black for good. The
-      <i>faces</i> readout on the right counts the live cells on each face's outermost plane. Why the
-      faces fail and the bulk does not, and how long a face survives, is open: the working idea is that a
-      face's death is a rare large fluctuation, so its waiting time grows exponentially with the face's
-      area. ${tag('conjecture')} ${src(N, 'Interpretation (', 'notebook')}</p>`,
+      so the octahedron shrinks a step at a time: here at generations 3,290, 3,477 and 3,796. This is the staircase in the
+      original program's population plots. ${tag('measured')} ${src(N, 'Hull radius (outermost live layer', 'notebook: peeling')}</p>
+      <p>How long a face lasts follows one law over six decades. The wait is memoryless, with mean
+      about e<sup>0.209·A</sup> generations for a face plane of A sites. ${tag('measured')} ${src(N, 'Flat faces (slab, m = 8', 'notebook: face law')} ${fig('research/figures/peel_face_law.png', 'figure')}
+      A symmetric pattern counts as if its faces were 7.7 times smaller, because symmetric regions die in lockstep. ${tag('measured')} ${src(N, 'effective area A/7.7', 'notebook')}
+      So the side-13 cube lasts about 10<sup>5</sup> generations <i>because</i> it is symmetric. By the law, the same
+      octahedron filled asymmetrically would hold each face for about 10<sup>41</sup>. ${tag('measured')} (law, extrapolated) ${src(ST, 'face ~10', 'status')}</p>
+      <p>The run starts at generation 3,200. In the layer chart, the top and bottom rows go black for good.
+      The <i>faces</i> table on the right gives each face's live cells, its site count A, and the law's mean wait.</p>`,
     spec: { seed: 'cube', n: 11, gen: 3200, speed: '30', play: 1, kwin: 1000, cam: '1,0.75,1.35,1.2' },
     kymo: true,
   },
@@ -131,7 +154,11 @@ export const SCENES = [
       ${src(N, 'asymmetric octahedral soups', 'notebook')}. Then explore freely: the
       gallery, the editor (press <b>E</b> to paint faces, with symmetry if you like), the layer slicer, and
       the colour modes. <i>Fate</i> mode shows which faces are about to die or be born. Every view has a
-      shareable link.</p>`,
+      shareable link.</p>
+      <p>Why this rule? Among 960 neighbouring rules, chaos on a wrap-around box is common, but long-lived
+      chaos <i>confined</i> to an octahedron is not. Gump is a minimal member of that rare group: remove any
+      one count from B45/S345 and lifetimes collapse; add survival at 2 or 7 and they grow 30× or more. ${tag('measured')}
+      ${src(N, 'is one of the 50 minimal elements', 'notebook: rule space')} ${fig('research/figures/phase_rulemap.png', 'rule map')}</p>`,
     spec: { seed: 'soup', shape: 'oct', n: 8, density: 0.35, rng: 7, speed: 'max', play: 1, cam: '1,0.75,1.35,1.2' },
     kymo: true,
     gallery: true,

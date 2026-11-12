@@ -110,3 +110,63 @@ export function hullOfCounts(diags) {
   }
   return { loS, hiS };
 }
+
+// Sites of the outermost layer of each of the 8 hull faces (layer s = hiS[n] and s = loS[n]),
+// inside the hull and the box: the face area A of the peeling law. Enumerates only the layer
+// (one candidate cell per (x, y) pair), so it is cheap enough to redo whenever the hull changes.
+export function faceSites(dims, hull) {
+  const { loS, hiS } = hull;
+  const lim = dims.map(N => 2 * N - 1);
+  const count = (n, s) => {
+    const d = DIAGONALS[n];
+    let c = 0;
+    for (let x = 0; x <= lim[0]; x++) for (let y = 0; y <= lim[1]; y++) {
+      const z = d[2] * (s - d[0] * x - d[1] * y);
+      if (z < 0 || z > lim[2] || ((x & 1) + (y & 1) + (z & 1)) !== 1) continue;
+      const p = [x, y, z];
+      if (DIAGONALS.every((e, m) => { const t = e[0] * p[0] + e[1] * p[1] + e[2] * p[2]; return t >= loS[m] && t <= hiS[m]; })) c++;
+    }
+    return c;
+  };
+  return { hi: [0, 1, 2, 3].map(n => count(n, hiS[n])), lo: [0, 1, 2, 3].map(n => count(n, loS[n])) };
+}
+
+// Is the live set invariant under the full cube group O_h about the hull's centre? Checked on the
+// three generators (swap x,y; cycle x->y->z; x -> -x). cells: array of doubled [x,y,z].
+export function isOhSymmetric(cells, hull) {
+  if (!cells.length || !hull) return false;
+  const m = hull.loS.map((lo, n) => (lo + hull.hiS[n]) / 2);
+  const cz = (m[0] - m[1]) / 2, cy = (m[0] - m[2]) / 2, cx = m[0] - cy - cz;
+  if (![cx, cy, cz].every(Number.isInteger) || -cx + cy + cz !== m[3]) return false;
+  if (new Set([cx & 1, cy & 1, cz & 1]).size !== 1) return false;     // a cube centre or a vertex
+  const key = (p) => `${p[0]},${p[1]},${p[2]}`;
+  const live = new Set(cells.map(key));
+  const gens = [([x, y, z]) => [y, x, z], ([x, y, z]) => [z, x, y], ([x, y, z]) => [-x, y, z]];
+  for (const p of cells) {
+    const v = [p[0] - cx, p[1] - cy, p[2] - cz];
+    for (const g of gens) { const q = g(v); if (!live.has(key([q[0] + cx, q[1] + cy, q[2] + cz]))) return false; }
+  }
+  return true;
+}
+
+// Live cells of a snapshot as doubled coordinates (for the symmetry check).
+export function liveCells(texels, L) {
+  const out = [];
+  const { WN, TILESX, ny, nz, width } = L;
+  for (let k = 0; k < nz; k++) {
+    const ox = (k % TILESX) * WN, oy = Math.floor(k / TILESX) * ny;
+    for (let j = 0; j < ny; j++) for (let w = 0; w < WN; w++) {
+      const t = 4 * ((oy + j) * width + ox + w);
+      for (let a = 0; a < 3; a++) {
+        let v = texels[t + a];
+        while (v) { const low = v & -v, b = 31 - Math.clz32(low); v ^= low; const p = [2 * (b * WN + w), 2 * j, 2 * k]; p[a]++; out.push(p); }
+      }
+    }
+  }
+  return out;
+}
+
+// The measured peeling law (research/NOTEBOOK.md, "how chaos dies"): a face layer of A sites
+// dies after a memoryless wait of mean exp(-0.09 + 0.209 A) generations; for O_h-symmetric
+// states use A / 7.7. An estimate from a fit, not a guarantee: waits are exponential.
+export const faceLaw = (A, symmetric = false) => Math.exp(-0.09 + 0.209 * (symmetric ? A / 7.7 : A));

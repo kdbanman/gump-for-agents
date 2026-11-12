@@ -338,7 +338,12 @@ fn build_seed(a: &Args, sp: &SeedParams) -> Seed {
             if let Some(g) = group.iter().find(|g| !gump::sym::maps_cells_to_cells(g, center)) {
                 die(&format!("--sym {gname} about {center:?} does not map cells to cells ({g:?}); use a cube centre (all even) or a vertex (all odd)"));
             }
-            let cells = seeds::soup_sym(&region, sp.density, sp.rng, &group, center);
+            if let Some(g) = torus.as_ref() {
+                if !seeds::torus_admits(&group, g) {
+                    die(&format!("--sym {gname} permutes axes of unequal length on torus {:?}", g.n));
+                }
+            }
+            let cells = seeds::soup_sym(&region, sp.density, sp.rng, &group, center, torus.as_ref());
             return plain(cells, format!("soup p={} rng={} sym={} {}", sp.density, sp.rng, gname, region.describe()));
         }
         let cells = seeds::soup(&region, sp.density, sp.rng);

@@ -214,21 +214,35 @@ pub fn soup(region: &Region, density: f64, seed: u64) -> Vec<P3> {
 /// Symmetric soup: one random draw per orbit of `group` (elements of O_h acting about
 /// `center`), so the soup is invariant under the group. Orbits are visited in the same
 /// canonical order as [`soup`] (a cell draws when it is the first of its orbit to be
-/// visited); every member of a live orbit is live, even if it lies outside the region
-/// (use a region symmetric about `center`).
-pub fn soup_sym(region: &Region, density: f64, seed: u64, group: &[crate::sym::Elem], center: P3) -> Vec<P3> {
+/// visited); every member of a live orbit is live. In open space use a region symmetric
+/// about `center` (members outside the region are live too). On a torus pass its geometry
+/// as `torus`: images are then reduced to the torus's fundamental domain, so orbits are
+/// orbits of the group acting on the torus (each cell is in exactly one).
+pub fn soup_sym(region: &Region, density: f64, seed: u64, group: &[crate::sym::Elem], center: P3, torus: Option<&crate::lattice::Geometry>) -> Vec<P3> {
     let mut rng = Rng::new(seed);
     let (lo, hi) = region.bounds();
+    let reduce = |q: P3| -> P3 {
+        match torus {
+            Some(g) => {
+                let (a, c) = g.locate(q).expect("cell");
+                g.to_doubled(a, c)
+            }
+            None => q,
+        }
+    };
     let mut done: std::collections::HashSet<P3> = std::collections::HashSet::new();
     let mut v = Vec::new();
     for z in lo[2]..=hi[2] {
         for y in lo[1]..=hi[1] {
             for x in lo[0]..=hi[0] {
-                let p = [x, y, z];
-                if cell_axis(p).is_none() || !region.contains(p) || done.contains(&p) {
+                if cell_axis([x, y, z]).is_none() || !region.contains([x, y, z]) {
                     continue;
                 }
-                let orbit: std::collections::BTreeSet<P3> = group.iter().map(|g| g.apply_about(p, center)).collect();
+                let p = reduce([x, y, z]);
+                if done.contains(&p) {
+                    continue;
+                }
+                let orbit: std::collections::BTreeSet<P3> = group.iter().map(|g| reduce(g.apply_about(p, center))).collect();
                 let live = rng.chance(density);
                 for q in orbit {
                     done.insert(q);
@@ -240,7 +254,14 @@ pub fn soup_sym(region: &Region, density: f64, seed: u64, group: &[crate::sym::E
         }
     }
     v.sort();
+    v.dedup();
     v
+}
+
+/// Does every element of `group` map the torus `geo` onto itself (axes it permutes must
+/// have equal sizes)?
+pub fn torus_admits(group: &[crate::sym::Elem], geo: &crate::lattice::Geometry) -> bool {
+    group.iter().all(|g| (0..3).all(|t| geo.n[t] == geo.n[g.perm[t]]))
 }
 
 /// Parse a cell list: one cell per line, three integers (doubled coordinates) separated

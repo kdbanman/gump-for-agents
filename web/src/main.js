@@ -13,7 +13,7 @@ import { Bricks } from './gl/bricks.js';
 import { Readback } from './gl/readback.js';
 import { CellView, PALETTE } from './render.js';
 import { makeSeed, autoBox, placeSeed, hullPolytope, reembed, hullOf } from './seeds.js';
-import { DIAGONALS, DIAG_NAMES, layerRange } from './layers.js';
+import { DIAGONALS, DIAG_NAMES, layerRange, faceSites, faceLaw } from './layers.js';
 import { Strip } from './strip.js';
 import { Kymo } from './kymo.js';
 import { Faces, FACE_NAMES } from './faces.js';
@@ -175,8 +175,8 @@ async function resetToSeed() {
   const h0 = hullOf(seed.pts);
   buildSim(dims, spec.bc === 'torus', cells);
   app.seedName = seed.name + (dropped ? ` (${dropped} cells did not fit)` : '');
-  app.gen = spec.g0 || 0; app.acc = 0;
-  app.initialHull = null; app.prevHull = null; app.events = []; app.last = null;
+  app.gen = spec.g0 || 0; app.acc = 0; app.initialGen = app.gen;
+  app.initialHull = null; app.prevHull = null; app.events = []; app.last = null; app.faceS = null; app.symmetric = null;
   // T2: if the seed's hull fits the box, the run is the infinite-space run forever. Cleared for
   // good by anything that may have let the boundary act (seed clipped, resize below the hull).
   app.exact = !dropped && (!h0 || hullFits(hullPolytope({ loS: h0.loS.map((v, n) => v + dot(DIAGONALS[n], shift)), hiS: h0.hiS.map((v, n) => v + dot(DIAGONALS[n], shift)) })));
@@ -299,6 +299,13 @@ function onStats(gen, s, exact) {
     });
   }
   app.prevHull = h;
+  // face areas A (sites of each outermost layer inside the hull) and when each face's layer became outermost
+  const fs = faceSites(app.dims, h);
+  app.faceA = [...fs.hi, ...fs.lo];
+  const sNow = [...h.hiS, ...h.loS];
+  if (!app.faceS) app.faceSince = sNow.map(() => gen);
+  else app.faceSince = sNow.map((v, q) => v === app.faceS[q] ? app.faceSince[q] : gen);
+  app.faceS = sNow;
   if (!app.torus) view.setHullClip(h);
   const poly = hullPolytope(h);
   const pos = [];
@@ -317,6 +324,7 @@ worker.onmessage = (e) => {
   app.snap.ms = ms;
   app.snap.interval = Math.max(30, 3 * ms);
   if (id !== app.simId) return;
+  if (e.data.symmetric !== null && e.data.symmetric !== undefined) app.symmetric = { value: e.data.symmetric, gen };
   for (const f of kymo.add(gen, diags))
     pushEvent(`gen ≤${fmt(gen)}: firewall along ${DIAG_NAMES[f.diag]}, empty layers s ${f.from}…${f.to} (T3: permanent)`);
   app.layerGen = gen;
@@ -365,6 +373,7 @@ function updateInstruments(now) {
   $('k-foot').title = lg != null ? `layer analysis of gen ${lg} took ${app.snap.ms.toFixed(1)} ms in the worker` : '';
   $('hullevents').innerHTML = app.events.slice(0, 60).map(e => `<div>${e}</div>`).join('');
   $('legend').innerHTML = legend();
+  faceTable();
   objCard();
   strip.draw();
   faces.draw();
@@ -561,7 +570,7 @@ function enterEdit() {
 function editChanged() {
   app.sim.upload(editor.cells);
   app.bricksDirty = true; app.edited = true;
-  app.prevHull = null; app.initialHull = null;          // an edit can grow the hull: restart the bookkeeping
+  app.prevHull = null; app.initialHull = null; app.faceS = null;   // an edit can grow the hull: restart the bookkeeping
   statsNow();
 }
 async function leaveEdit(keep = true) {
@@ -723,6 +732,25 @@ window.addEventListener('keydown', async (e) => {
   else if (e.key === ']') moveSlice(1);
   else if (e.key >= '1' && e.key <= '9') { Object.assign(app.spec, { seed: 'key', k: Number(e.key), box: 'auto', gen: 0, play: 0, cz: '', abs: 0, g0: 0 }); resetToSeed(); }
 });
+
+// ---------------------------------------------------------------- per-face table + peeling law
+const fmtT = (t) => !isFinite(t) ? '∞' : t < 1e6 ? fmt(t) : `10^${Math.log10(t).toFixed(1)}`;
+function faceTable() {
+  const s = app.last && app.last.s;
+  if (!s || !s.faceHi || !app.faceA || app.torus) {
+    $('facetab').innerHTML = ''; $('facenote').textContent = app.torus ? 'no faces on a torus' : ''; return;
+  }
+  const sym = app.symmetric && app.symmetric.value;
+  const live = [...s.faceHi, ...s.faceLo];
+  const rows = ['<tr><th>face</th><th>layer s</th><th>live</th><th>sites A</th><th title="mean wait to extinction from the measured law">law τ</th><th>held for</th></tr>'];
+  for (let q = 0; q < 8; q++) {
+    const A = app.faceA[q], t = faceLaw(A, sym), alt = faceLaw(A, !sym);
+    rows.push(`<tr><td>${FACE_NAMES[q]}</td><td>${app.faceS[q]}</td><td>${live[q]}</td><td>${A}</td><td title="${sym ? 'without' : 'with'} the symmetric divisor: ${fmtT(alt)}">${fmtT(t)}</td><td>${fmt(app.gen - app.faceSince[q])}${app.faceSince[q] === app.initialGen ? '+' : ''}</td></tr>`);
+  }
+  $('facetab').innerHTML = rows.join('');
+  const symTxt = app.symmetric == null ? 'symmetry not yet checked' : sym ? `state is O_h-symmetric (checked at gen ${fmt(app.symmetric.gen)}), so A/7.7 is used` : `state is not O_h-symmetric (gen ${fmt(app.symmetric.gen)})`;
+  $('facenote').innerHTML = `law τ = e<sup>−0.09 + 0.209·A</sup>, the measured mean wait for a face layer of A sites to die (flat faces; octahedral faces ran 1.2–1.8× longer). ${symTxt}. Waits are memoryless: a face that has held long is not "due"; a smaller τ means a likelier next peel. <a class="src" href="source.html?f=research/NOTEBOOK.md#${encodeURIComponent('Flat faces (slab, m = 8')}" target="_blank" rel="noopener">source</a>`;
+}
 
 // ---------------------------------------------------------------- atlas object card
 function objCard() {

@@ -20,6 +20,10 @@ const q = new URLSearchParams(location.search);
 const f = q.get('f') || 'docs/AUTOMATON.md';
 const find = decodeURIComponent(location.hash.slice(1));
 document.getElementById('name').textContent = f;
+if (/^research\/figures\/[\w.-]+\.png$/.test(f)) {
+  document.getElementById('doc').outerHTML = `<img src="${new URL(f, SOURCES)}" alt="${f}" style="max-width:100%;background:#fff">`;
+  throw new Error('image shown');   // stop here
+}
 const ok = /^[\w./-]+\.md$/.test(f) && !f.includes('..');
 const text = ok ? await fetch(new URL(f, SOURCES)).then(r => r.ok ? r.text() : `could not load ${f}`) : 'not a source file';
 const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
