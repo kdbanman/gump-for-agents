@@ -17,8 +17,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 S = os.path.join(HERE, '..', 'scratch', 'peeling')
 
 
-def cell_s(R):
-    v = geom.octa(R)
+def cell_s(R, vertex=False):
+    v = geom.octa(R, False, vertex)
     P = np.array(v.cells)
     return np.stack([P @ np.array(d) for d in geom.DIAGS], 1)   # [n, 4]
 
@@ -42,14 +42,16 @@ def areas(Sm, C):
 
 def replay(rec, t0):
     R = rec['R']
-    Sm = cell_s(R)
-    c0 = R if R % 2 else R - 1
+    Sm = cell_s(R, rec.get('vertex', False))
+    c0s = [int(max(sg * Sm[:, d])) for d in range(4) for sg in (1, -1)]   # initial outer layer of each face
     cache = {}
     ev, ex = defaultdict(int), defaultdict(float)
     first = []   # first peel after t0: (time, area of that face, censored?)
     for r in rec['reps']:
         end = r['settle'] if r['settle'] >= 0 else rec['gen_end']
-        C = [c0] * 8
+        if end <= t0:            # chaos never established: died in the transient
+            continue
+        C = list(c0s)
         tprev = 0
         hist = defaultdict(list)
         for t, f, c in r['hist']:
@@ -91,7 +93,7 @@ if __name__ == '__main__':
     for line in open(os.path.join(S, 'octa.jsonl')):
         rec = json.loads(line)
         ev, ex, first = replay(rec, a.t0)
-        out.append(dict(R=rec['R'], p=rec['p'], sym=rec['sym'], tag=rec['tag'], cap=rec['cap'],
+        out.append(dict(R=rec['R'], p=rec['p'], sym=rec['sym'], vertex=rec.get('vertex', False), tag=rec['tag'], cap=rec['cap'],
                         hazard={str(A): [ev.get(A, 0), ex[A]] for A in sorted(ex)}, first=first))
         f = np.array([x[0] for x in first]); obs = np.array([not x[2] for x in first])
         print(f"R={rec['R']} p={rec['p']} sym={rec['sym']}: first peel after t0: {obs.sum()}/{len(f)}, "

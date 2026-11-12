@@ -17,10 +17,10 @@ ap = argparse.ArgumentParser()
 ap.add_argument('R', type=int); ap.add_argument('p', type=float); ap.add_argument('cap', type=int)
 ap.add_argument('--sym', action='store_true'); ap.add_argument('--W', type=int, default=8)
 ap.add_argument('--seed', type=int, default=1); ap.add_argument('--K', type=int, default=16)
-ap.add_argument('--tag', default='')
+ap.add_argument('--tag', default=''); ap.add_argument('--vertex', action='store_true')
 a = ap.parse_args()
-v = geom.octa(a.R, a.sym)
-seed = a.seed * 1000003 + a.R * 101 + int(a.p * 1000) * 7 + 5 * a.sym
+v = geom.octa(a.R, a.sym, a.vertex)
+seed = a.seed * 1000003 + a.R * 101 + int(a.p * 1000) * 7 + 5 * a.sym + 3 * a.vertex
 st, pop, la = v.run(a.W, a.p, seed, a.cap, a.K)
 ge = v.gen_end
 keys = [k for k, _ in v.layers]
@@ -44,10 +44,10 @@ for r in range(len(st)):
         dd[(t, f)] = c
     hist = sorted([t, f, c] for (t, f), c in dd.items())
     reps.append(dict(hist=hist, settle=int(st[r]), pop=int(pop[r])))
-rec = dict(R=a.R, p=a.p, sym=a.sym, cap=a.cap, gen_end=ge, seed=seed, K=a.K, tag=a.tag, reps=reps)
+rec = dict(R=a.R, p=a.p, sym=a.sym, vertex=a.vertex, cap=a.cap, gen_end=ge, seed=seed, K=a.K, tag=a.tag, reps=reps)
 out = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'scratch', 'peeling', 'octa.jsonl')
 with open(out, 'a') as f:
     f.write(json.dumps(rec) + '\n')
 life = np.array([r['settle'] if r['settle'] >= 0 else np.inf for r in reps])
-print(f"octa R={a.R} p={a.p} sym={a.sym} end={ge}: settled {np.sum(life < np.inf)}/{len(reps)}, "
+print(f"octa R={a.R} p={a.p} sym={a.sym} vertex={a.vertex} end={ge}: settled {np.sum(life < np.inf)}/{len(reps)}, "
       f"median life {np.median(life):.4g}", flush=True)

@@ -142,25 +142,29 @@ def torus(N, m=None):
 OH = [(perm, sg) for perm in itertools.permutations(range(3)) for sg in itertools.product((1, -1), repeat=3)]
 
 
-def octa(R, sym=False):
+def octa(R, sym=False, vertex=False):
+    """vertex=True: centred on the lattice vertex c = (1,1,1) (like even closed cubes), |p - c|_1 <= R."""
     cells, idx = [], {}
+    o = 1 if vertex else 0
     rng = range(-R, R + 1)
     for x in rng:
         for y in rng:
             for z in rng:
-                if abs(x) + abs(y) + abs(z) <= R and (x % 2) + (y % 2) + (z % 2) == 1:
-                    idx[(x, y, z)] = len(cells); cells.append((x, y, z))
+                if abs(x) + abs(y) + abs(z) <= R and ((x + o) % 2) + ((y + o) % 2) + ((z + o) % 2) == 1:
+                    p = (x + o, y + o, z + o)
+                    idx[p] = len(cells); cells.append(p)
 
     def canon(q):
         return idx.get(tuple(q))
     if sym:
         orbit, oid = [], {}
         for p in cells:
-            key = min(tuple(sg[k] * p[perm[k]] for k in range(3)) for perm, sg in OH)
+            q = [v - o for v in p]
+            key = min(tuple(sg[k] * q[perm[k]] for k in range(3)) for perm, sg in OH)
             orbit.append(oid.setdefault(key, len(oid)))
     else:
         orbit = list(range(len(cells)))
-    return Vessel(cells, canon, orbit, _layers(cells), f'octa{R}_{int(sym)}')
+    return Vessel(cells, canon, orbit, _layers(cells), f'octa{R}_{int(sym)}{"v" if vertex else ""}')
 
 
 if __name__ == '__main__':

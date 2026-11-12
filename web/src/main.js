@@ -16,9 +16,12 @@ import { makeSeed, autoBox, placeSeed, hullPolytope, reembed, hullOf } from './s
 import { DIAGONALS, DIAG_NAMES, layerRange } from './layers.js';
 import { Strip } from './strip.js';
 import { Kymo } from './kymo.js';
+import { Faces, FACE_NAMES } from './faces.js';
 import { Editor } from './editor.js';
 import { GROUPS } from './symmetry.js';
 import { encodeCells, decodeCells, cellsToText } from './cellcodec.js';
+import { loadGallery, findItem, describe, speedFor, renderGallery } from './gallery.js';
+import { SCENES } from './tour.js';
 
 const $ = (id) => document.getElementById(id);
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
@@ -27,8 +30,8 @@ const fmt = (n) => n == null ? '–' : Math.round(n).toLocaleString('en-US');
 // ---------------------------------------------------------------- URL / spec
 const DEFAULTS = { seed: 'cube', n: 11, k: 5, H: 60, shape: 'cube', density: 0.3, layers: 3, rng: 1,
   box: 'auto', bc: 'dead', speed: 'max', view: 'auto', face: 0.6, gen: 0, play: 0, lanes: 32, cells: '', cz: '',
-  abs: 0, g0: 0, cam: '', color: 'orientation', diag: 0, slice: '', ortho: 0, rec: 1, kwin: 0, focus: '' };
-const NUMERIC = ['n', 'k', 'H', 'density', 'layers', 'rng', 'face', 'gen', 'play', 'lanes', 'abs', 'g0', 'diag', 'ortho', 'rec', 'kwin'];
+  abs: 0, g0: 0, cam: '', color: 'orientation', diag: 0, slice: '', ortho: 0, rec: 1, kwin: 0, focus: '', id: '', gap: 3 };
+const NUMERIC = ['n', 'k', 'H', 'density', 'layers', 'gap', 'rng', 'face', 'gen', 'play', 'lanes', 'abs', 'g0', 'diag', 'ortho', 'rec', 'kwin', 'gap'];
 const VIEW_KEYS = ['box', 'bc', 'speed', 'view', 'face', 'gen', 'play', 'lanes', 'cam', 'color', 'diag', 'slice', 'ortho', 'rec', 'abs', 'g0', 'kwin', 'focus'];
 
 function readURL() {
@@ -43,7 +46,8 @@ function seedKeys(spec) {
   if (spec.seed === 'key') keys.push('k');
   if (spec.seed === 'legacy') keys.push('H');
   if (spec.seed === 'cells') keys.push(spec.cz ? 'cz' : 'cells');
-  if (spec.seed === 'soup') keys.push('shape', 'n', 'density', 'rng', ...(spec.shape === 'slab' ? ['layers'] : []));
+  if (spec.seed === 'atlas') keys.push('id');
+  if (spec.seed === 'soup') keys.push('shape', 'n', 'density', 'rng', ...(spec.shape === 'slab' ? ['layers'] : []), ...(spec.shape === 'gap' ? ['gap'] : []));
   return keys;
 }
 function shareURL(extra = {}) {
@@ -51,6 +55,7 @@ function shareURL(extra = {}) {
   const q = new URLSearchParams();
   for (const k of seedKeys(s)) q.set(k, s[k]);
   for (const k of VIEW_KEYS) if (s[k] !== DEFAULTS[k]) q.set(k, s[k]);
+  if (tour.open && !extra.noTour) { q.set('tour', tour.i); if (tour.v) q.set('v', tour.v); }
   return `${location.origin}${location.pathname}?${q}`;
 }
 function writeURL() { history.replaceState(null, '', shareURL({ gen: 0, play: 0 })); }
@@ -107,11 +112,12 @@ app.diag = Math.min(3, Math.max(0, app.spec.diag | 0));
 const strip = new Strip($('strip'));
 const kymo = new Kymo($('kymo'), $('kprof'), $('k-label'), { onPickLayer: (n, s) => { setDiag(n); setSlice(true, s, s); } });
 const editor = new Editor();
+const faces = new Faces($('faces'));
 const snapRB = new Readback(gl);
 const worker = new Worker(new URL('./analysis-worker.js', import.meta.url), { type: 'module' });
 window.gump = app;   // for tests / console poking
 app.three = { renderer, scene, get camera() { return camera; }, view, gl };
-app.kymo = kymo; app.editor = editor;
+app.kymo = kymo; app.editor = editor; app.faces = faces;
 
 function buildSim(dims, torus, cells) {
   if (app.sim) { app.stats.dispose(); app.sim.dispose(); app.bricks.dispose(); }
@@ -155,7 +161,13 @@ async function resetToSeed() {
   if (spec.seed === 'cells' && spec.cz) {
     try { const pts = await decodeCells(spec.cz); seed = { pts, name: `${pts.length / 3} cells (from link)` }; }
     catch (e) { seed = { pts: new Int32Array(0), name: 'unreadable cell link' }; }
+  } else if (spec.seed === 'atlas') {
+    await loadGallery();
+    const it = findItem(spec.id);
+    seed = it ? { pts: Int32Array.from(it.cells.flat()), name: `atlas ${it.id}` } : { pts: new Int32Array(0), name: `unknown atlas object ${spec.id}` };
+    app.atlas = it;
   } else seed = makeSeed(spec);
+  if (spec.seed !== 'atlas') app.atlas = null;
   if (app.edit) leaveEdit(false);
   const { dims, shift } = boxFromSpec(spec, seed.pts);
   const cells = new Uint8Array(dims[0] * dims[1] * dims[2]);
@@ -168,7 +180,7 @@ async function resetToSeed() {
   // T2: if the seed's hull fits the box, the run is the infinite-space run forever. Cleared for
   // good by anything that may have let the boundary act (seed clipped, resize below the hull).
   app.exact = !dropped && (!h0 || hullFits(hullPolytope({ loS: h0.loS.map((v, n) => v + dot(DIAGONALS[n], shift)), hiS: h0.hiS.map((v, n) => v + dot(DIAGONALS[n], shift)) })));
-  strip.clear();
+  strip.clear(); faces.clear();
   statsNow();
   app.runUntil = spec.gen > app.gen ? spec.gen : 0;
   setPlaying(!!spec.play || app.runUntil > 0);
@@ -200,6 +212,15 @@ function placeCamera(dir, dist) {
   controls.target.set(0, 0, 0);
   fitOrtho();
   controls.update();
+}
+let viewShift = 0;
+function centreView() {
+  const w = parseFloat(canvas.style.width) || 1, h = parseFloat(canvas.style.height) || 1;
+  const over = ['tour', 'gallery', 'objcard'].map(id => $(id)).find(el => el.classList.contains('open'));
+  const dx = over && window.innerWidth > 900 ? Math.round((over.offsetWidth + 8) / 2) : 0;
+  if (dx === viewShift && (!dx || (persp.view && persp.view.fullWidth === w && persp.view.fullHeight === h))) return;
+  viewShift = dx;
+  for (const cam of [persp, ortho]) { if (dx) cam.setViewOffset(w, h, -dx, 0, w, h); else cam.clearViewOffset(); }
 }
 function setOrtho(on) {
   const next = on ? ortho : persp;
@@ -258,6 +279,7 @@ function pushEvent(msg) { app.events.unshift(msg); app.events.length = Math.min(
 function onStats(gen, s, exact) {
   app.last = { gen, s, exact };
   strip.add(gen, s.pop, s.count);
+  if (s.faceHi) faces.add(gen, [...s.faceHi, ...s.faceLo], exact);
   if (!(s.pop && s.loS)) {
     if (app.hullPoly) { hullLines.geometry.setDrawRange(0, 0); app.hullPoly = null; }
     return;
@@ -269,8 +291,11 @@ function onStats(gen, s, exact) {
   if (p) {
     const at = exact ? `gen ${fmt(gen)}` : `gen ≤${fmt(gen)}`;
     DIAGONALS.forEach((d, n) => {
-      if (h.hiS[n] < p.hiS[n]) { pushEvent(`${at}: ${DIAG_NAMES[n]} max s ${p.hiS[n]} → ${h.hiS[n]}`); kymo.mark(gen, n); }
-      if (h.loS[n] > p.loS[n]) { pushEvent(`${at}: ${DIAG_NAMES[n]} min s ${p.loS[n]} → ${h.loS[n]}`); kymo.mark(gen, n); }
+      // the outermost layer of a face went extinct (permanently, T2); its last population is in the previous sample
+      const lastPop = (q) => { const v = faces.val[q]; return v.length > 1 ? v[v.length - 2] : '?'; };
+      const before = exact ? 'the generation before' : 'at the previous sample';
+      if (h.hiS[n] < p.hiS[n]) { pushEvent(`${at}: face ${FACE_NAMES[n]} layer s=${p.hiS[n]} extinct (held ${lastPop(n)} cells ${before}); max s → ${h.hiS[n]}`); kymo.mark(gen, n); faces.extinct(gen, n); }
+      if (h.loS[n] > p.loS[n]) { pushEvent(`${at}: face ${FACE_NAMES[n + 4]} layer s=${p.loS[n]} extinct (held ${lastPop(n + 4)} cells ${before}); min s → ${h.loS[n]}`); kymo.mark(gen, n); faces.extinct(gen, n + 4); }
     });
   }
   app.prevHull = h;
@@ -340,7 +365,9 @@ function updateInstruments(now) {
   $('k-foot').title = lg != null ? `layer analysis of gen ${lg} took ${app.snap.ms.toFixed(1)} ms in the worker` : '';
   $('hullevents').innerHTML = app.events.slice(0, 60).map(e => `<div>${e}</div>`).join('');
   $('legend').innerHTML = legend();
+  objCard();
   strip.draw();
+  faces.draw();
   kymo.draw();
 }
 
@@ -444,7 +471,8 @@ function frame(now) {
   // 4. Layer analysis on its own cadence (snapshot -> worker).
   snapshots(now);
 
-  // 5. Render at display rate.
+  // 5. Render at display rate (centred in the part of the canvas not covered by a left overlay).
+  centreView();
   renderer.resetState();
   controls.update();
   const ray = view.drawn === 'raymarch';
@@ -565,7 +593,7 @@ function onEditClick(e) {
 }
 
 // ---------------------------------------------------------------- UI wiring
-const FORM = ['seed', 'n', 'k', 'H', 'shape', 'density', 'layers', 'rng', 'cells', 'box', 'bc'];
+const FORM = ['seed', 'n', 'k', 'H', 'shape', 'density', 'layers', 'gap', 'rng', 'cells', 'id', 'box', 'bc'];
 // 'auto': vertex-pulled quads cost ~18 vertices per cell slot every frame; the ray-marcher costs
 // ~pixels x path length inside the hull, minus empty bricks. Quads up to ~2.7M slots.
 function viewMode() {
@@ -623,7 +651,7 @@ $('k-mode').addEventListener('change', () => kymo.setMode($('k-mode').value));
 $('k-win').addEventListener('change', () => { app.spec.kwin = Number($('k-win').value); kymo.setWindow(app.spec.kwin); writeURL(); });
 $('k-hide').addEventListener('click', () => { $('layers').classList.toggle('collapsed'); $('k-hide').textContent = $('layers').classList.contains('collapsed') ? '+' : '–'; });
 $('share').addEventListener('click', async () => {
-  const url = shareURL({ gen: app.gen, play: app.playing ? 1 : 0 });
+  const url = shareURL({ gen: app.gen, play: app.playing ? 1 : 0, noTour: true });
   try { await navigator.clipboard.writeText(url); $('share').textContent = 'copied ✓'; } catch { prompt('link', url); }
   setTimeout(() => { $('share').textContent = 'copy link'; }, 1500);
 });
@@ -696,6 +724,76 @@ window.addEventListener('keydown', async (e) => {
   else if (e.key >= '1' && e.key <= '9') { Object.assign(app.spec, { seed: 'key', k: Number(e.key), box: 'auto', gen: 0, play: 0, cz: '', abs: 0, g0: 0 }); resetToSeed(); }
 });
 
+// ---------------------------------------------------------------- atlas object card
+function objCard() {
+  const el = $('objcard'), it = app.atlas;
+  const show = it && !tour.open && !$('gallery').classList.contains('open');
+  el.classList.toggle('open', !!show);
+  if (!show) return;
+  const phase = ((app.gen - (app.spec.g0 || 0)) % it.period + it.period) % it.period;
+  const live = app.last && app.last.gen === app.gen ? app.last.s.pop : null;
+  const want = it.pops[phase];
+  const check = live == null ? '' : live === want ? ` <span class="ok">✓ matches the catalogue</span>` : ` <span class="alert">✗ catalogue says ${want}</span>`;
+  const key = `${it.id}|${phase}|${live}`;
+  if (el.dataset.key === key) return;
+  el.dataset.key = key;
+  el.innerHTML = `<div class="row"><b>${it.id}</b><span class="dim">${it.category.title}</span></div>` +
+    (it.note ? `<div>${it.note}</div>` : '') + `<ul>${describe(it).map(f => `<li>${f}</li>`).join('')}</ul>` +
+    `<div class="live dim">phase ${phase} of ${it.period} · live ${live ?? '…'}${check}</div>` +
+    `<div class="buttons"><button id="oc-gal">▦ gallery</button></div>`;
+  $('oc-gal').addEventListener('click', openGallery);
+}
+async function openGallery() {
+  await loadGallery();
+  renderGallery($('gallery'), pickAtlas, app.spec.seed === 'atlas' ? app.spec.id : null);
+  $('gallery').classList.add('open');
+  if (tour.open) closeTour();
+}
+async function pickAtlas(id) {
+  await loadGallery();
+  const it = findItem(id);
+  Object.assign(app.spec, { ...DEFAULTS, seed: 'atlas', id, speed: it ? speedFor(it) : '2', play: 1, face: 0.7, rec: app.spec.rec, view: app.spec.view });
+  await resetToSeed();
+  renderGallery($('gallery'), pickAtlas, id);
+  $('gallery').classList.remove('open');
+}
+$('galBtn').addEventListener('click', () => $('gallery').classList.contains('open') ? $('gallery').classList.remove('open') : openGallery());
+
+// ---------------------------------------------------------------- the tour
+const tour = { open: false, i: 0, v: 0 };
+async function showScene(i, v = 0) {
+  i = Math.max(0, Math.min(SCENES.length - 1, i));
+  const sc = SCENES[i];
+  v = sc.variants ? Math.max(0, Math.min(sc.variants.length - 1, v)) : 0;
+  Object.assign(tour, { open: true, i, v });
+  $('tour').classList.add('open'); $('gallery').classList.remove('open');
+  $('t-step').textContent = `tour · ${i + 1} of ${SCENES.length}`;
+  $('t-title').textContent = sc.title;
+  $('t-body').innerHTML = sc.body;
+  $('t-variants').innerHTML = (sc.variants || []).map((x, j) => `<button data-v="${j}" class="${j === v ? 'on' : ''}">${x.label}</button>`).join('') +
+    (sc.gallery ? '<button id="t-gal">▦ open the gallery</button>' : '');
+  $('t-variants').querySelectorAll('[data-v]').forEach(b => b.addEventListener('click', () => showScene(i, Number(b.dataset.v))));
+  if (sc.gallery) $('t-gal').addEventListener('click', openGallery);
+  $('t-prev').disabled = i === 0; $('t-next').textContent = i === SCENES.length - 1 ? 'explore freely →' : 'next →';
+  const spec = sc.variants ? sc.variants[v].spec : sc.spec;
+  setOrtho(false);
+  app.spec = { ...DEFAULTS, rec: app.spec.rec, ...spec };
+  $('layers').classList.toggle('collapsed', !sc.kymo); $('k-hide').textContent = sc.kymo ? '–' : '+';
+  await resetToSeed();
+}
+function closeTour() {
+  tour.open = false; $('tour').classList.remove('open'); writeURL();
+}
+$('tourBtn').addEventListener('click', () => showScene(tour.i, tour.v));
+$('t-close').addEventListener('click', closeTour);
+$('t-prev').addEventListener('click', () => showScene(tour.i - 1));
+$('t-next').addEventListener('click', () => tour.i === SCENES.length - 1 ? closeTour() : showScene(tour.i + 1));
+
 resize();
 setOrtho(!!app.spec.ortho);
-resetToSeed().then(() => requestAnimationFrame(frame));
+{
+  // Landing: no parameters -> the tour; ?tour=N[&v=M] -> that scene; anything else -> that run.
+  const q = new URLSearchParams(location.search);
+  const start = !location.search || q.has('tour') ? showScene(Number(q.get('tour') || 0), Number(q.get('v') || 0)) : resetToSeed();
+  start.then(() => requestAnimationFrame(frame));
+}

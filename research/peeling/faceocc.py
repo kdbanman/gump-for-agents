@@ -20,13 +20,13 @@ def main():
     k = sys.argv.index('--'); out, T0, T1, DT = sys.argv[1], *map(int, sys.argv[2:5]); args = sys.argv[k + 1:]
     tmp = tempfile.mkdtemp()
     snap, cl = os.path.join(tmp, 's.gump'), os.path.join(tmp, 'c.txt')
-    subprocess.run([G, 'run', *args, '--gens', str(T0), '--no-halt', '--snapshot-out', snap, '--cells-out', cl, '--out', '/dev/null'], check=True, capture_output=True)
+    subprocess.run([G, 'run', *args, '--gens', str(T0), '--no-halt', '--snapshot-out', snap, '--cells-out', cl], check=True, capture_output=True)
     P = cells(cl); S = P @ D.T
     C = [(S[:, d].max(), -S[:, d].min()) for d in range(4)]
     occ = {}; n = 0
     t = T0
     while t < T1:
-        subprocess.run([G, 'run', '--snapshot', snap, '--gens', str(DT), '--no-halt', '--snapshot-out', snap + '2', '--cells-out', cl, '--out', '/dev/null'], check=True, capture_output=True)
+        subprocess.run([G, 'run', '--snapshot', snap, '--gens', str(DT), '--no-halt', '--snapshot-out', snap + '2', '--cells-out', cl], check=True, capture_output=True)
         os.replace(snap + '2', snap); t += DT
         P = cells(cl)
         if len(P) == 0:

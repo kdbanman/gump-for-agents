@@ -33,7 +33,7 @@ export function legacySeedSpan(H, fraction = 0.38) {
 }
 
 export const SEED_KINDS = ['cube', 'key', 'soup', 'legacy', 'cells'];
-export const SOUP_SHAPES = ['cube', 'oct', 'slab'];
+export const SOUP_SHAPES = ['cube', 'oct', 'slab', 'gap'];
 
 // spec: { seed, n, k, H, shape, density, layers, rng }
 // Returns { pts, name, legacyH? } — legacyH means "absolute legacy array coordinates on an H/2 torus".
@@ -67,6 +67,11 @@ export function makeSeed(spec) {
     if (spec.shape === 'oct') {  // L1 ball of radius 2n (doubled) about a cube centre
       const R = 2 * n;
       return { pts: boxCells([-R, -R, -R], [R, R, R], (x, y, z) => Math.abs(x) + Math.abs(y) + Math.abs(z) <= R && pick()), name: `soup ${rho} in octahedron r=${n}` };
+    }
+    if (spec.shape === 'gap') {   // soup in a cube of side 2n+1 cubes, minus `gap` empty {111} layers through the middle
+      const R = 2 * n, g = spec.gap | 0;
+      const lo = 1 - 2 * Math.floor(g / 2), hi = lo + 2 * (g - 1);   // the g odd layers s = d.p nearest 0
+      return { pts: boxCells([-R, -R, -R], [R, R, R], (x, y, z) => { const t = x + y + z; return (g <= 0 || t < lo || t > hi) && pick(); }), name: `soup ${rho} either side of a ${g}-layer gap` };
     }
     if (spec.shape === 'slab') { // m consecutive {111} layers (d = (1,1,1)), clipped to |p|_inf <= 2n
       const m = spec.layers, R = 2 * n;

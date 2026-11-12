@@ -15,6 +15,16 @@
 <body>
 <canvas id="view"></canvas>
 
+<div id="tour">
+  <div class="row head"><span class="dim" id="t-step"></span><button id="t-close" title="leave the tour (the current scene keeps running)">explore freely →</button></div>
+  <h2 id="t-title"></h2>
+  <div id="t-body"></div>
+  <div class="buttons" id="t-variants"></div>
+  <div class="row foot"><button id="t-prev">← back</button><span class="legendtags"><span class="tag proved">proved</span> <span class="tag measured">measured</span> <span class="tag conjecture">conjecture</span> <span class="tag watch">watch</span></span><button id="t-next">next →</button></div>
+</div>
+<div id="gallery"></div>
+<div id="objcard"></div>
+
 <div id="layers">
   <div class="row head">
     <span><b>{111} layers</b> along <select id="k-diag" class="diag"></select></span>
@@ -31,7 +41,8 @@
 </div>
 
 <aside id="panel">
-  <header><b>gump</b> <span class="dim">faces of the cubic honeycomb · B45/S345</span></header>
+  <header><b>gump</b> <span class="dim">faces of the cubic honeycomb · B45/S345</span>
+    <div class="buttons"><button id="tourBtn" title="a guided walk through what is known">▶ tour</button><button id="galBtn" title="objects from the research atlas">▦ gallery</button></div></header>
 
   <section id="readout">
     <div class="big"><span class="lbl">generation</span> <span id="gen">0</span></div>
@@ -63,6 +74,8 @@
   <section>
     <h3>hull <span class="dim">layers s = d·p along body diagonals (only ever shrink)</span></h3>
     <table id="hull"></table>
+    <div class="dim small" id="facehead">live cells on each face's outermost layer, last 2,000 generations (tick = that layer went extinct)</div>
+    <canvas id="faces" width="300" height="72"></canvas>
     <div id="hullevents" class="events"></div>
   </section>
 
@@ -140,14 +153,16 @@
     <div class="form">
       <label>kind <select id="f-seed">
         <option value="cube">closed cube</option><option value="key">legacy key 1–9</option>
-        <option value="soup">random soup</option><option value="legacy">legacy cube (H)</option><option value="cells">cell list</option>
+        <option value="soup">random soup</option><option value="legacy">legacy cube (H)</option><option value="cells">cell list</option><option value="atlas">atlas object</option>
       </select></label>
+      <label data-for="atlas">id <input id="f-id" size="8"></label>
       <label data-for="cube soup">n <input id="f-n" type="number" min="1" max="200" value="11"></label>
       <label data-for="key">key <input id="f-k" type="number" min="1" max="9" value="5"></label>
       <label data-for="legacy">H <input id="f-H" type="number" min="4" max="400" value="60"></label>
-      <label data-for="soup">shape <select id="f-shape"><option value="cube">cube</option><option value="oct">octahedron</option><option value="slab">{111} slab</option></select></label>
+      <label data-for="soup">shape <select id="f-shape"><option value="cube">cube</option><option value="oct">octahedron</option><option value="slab">{111} slab</option><option value="gap">soup with a {111} gap</option></select></label>
       <label data-for="soup">density <input id="f-density" type="number" min="0" max="1" step="0.05" value="0.3"></label>
       <label data-for="soup">layers <input id="f-layers" type="number" min="1" max="99" value="3"></label>
+      <label data-for="soup">gap <input id="f-gap" type="number" min="0" max="20" value="3"></label>
       <label data-for="cells" title="doubled coordinates x,y,z;x,y,z;… (exactly one odd)">cells <input id="f-cells" size="22"></label>
       <label data-for="soup">rng <input id="f-rng" type="number" min="0" value="1"></label>
       <label>box <input id="f-box" size="8" value="auto" title="auto, N, or nx,ny,nz (cubes)"></label>

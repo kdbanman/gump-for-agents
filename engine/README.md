@@ -32,7 +32,15 @@ $G run --cells pattern.txt --rule B4/S345 --torus 20,20,40
 $G run --snapshot state.gump --gens 500 --snapshot-out later.gump
 $G info --legacy-key 9                             # seed/box/hull, no stepping
 $G ensemble --soup 0.3 --radius 10 --runs 100 --vary density=0.2,0.3,0.4 > runs.jsonl
+$G ensemble --soup 0.3 --radius 16 --sym oh --runs 50  # O_h-symmetric soups
 $G bench                                           # performance suite
+$G show --cube 1                                   # text: the pattern's {111} layers (kagome)
+$G show --soup 0.3 --radius 8 --rng 20 --orbit     # a period-14 oscillator, phase by phase
+$G show --cube 13 --gens 100000 --layer 33         # one face layer of the octahedron
+$G show --cube 5 --gens 20 --slice z=0             # an axis-aligned slice
+$G describe --soup 0.3 --radius 8 --rng 20 --catalogue research/atlas/catalogue.jsonl
+$G png --cube 13 --gens 100000 --view proj-diag --out oct.png
+$G png --view kymo --kymo kymo.csv --events deaths.jsonl --diag 0 --out kymo.png
 ```
 
 Coordinates are always **doubled** (`docs/AUTOMATON.md` §1): a cell is a point with exactly
@@ -70,16 +78,60 @@ the exact generation the cycle was entered (all earlier states are distinct). Ev
 cycle is verified exactly by stepping a copy `period` generations and comparing states.
 Tested against brute-force cycle finding on small tori.
 
-**Ensembles.** `gump ensemble` runs independent runs over all cores (one run per thread),
-RNG seeds `rng, rng+1, …`, optional parameter grid (`--vary density=…`, `radius`, `half`,
-`rule`, `slab-layers`); one summary line per run (with `run`, `rng`, `params`) plus a final
-`ensemble_summary` (runs/s). Default cap 10⁶ gens per run.
+**Ensembles.** `gump ensemble` runs independent runs over all cores, RNG seeds
+`rng, rng+1, …`, optional parameter grid (`--vary density=…`, `radius`, `half`, `rule`,
+`slab-layers`); one summary line per run (with `run`, `rng`, `params`) plus a final
+`ensemble_summary` (runs/s). Default cap 10⁶ gens per run. Engine (`src/lanes.rs`):
+runs sharing a box and rule are **packed 2–4 per machine word** (lane r = bit columns
+`[rB, (r+1)B)`; the seam shift is masked / rotated per lane so lanes never interact), and
+lanes are refilled as runs finish. Soups in open space share the box of their whole
+region (it holds every soup's hull, so it is exact by T2). Halting: extinction and still
+lifes exactly every generation from per-lane population and changed bits computed in the
+kernel; cycles from a per-lane hash every `--check-every K` generations (default 32): the
+first repeated checkpoint hash gives a candidate, the exact period comes from stepping a
+copy until it returns, the exact cycle start from re-simulating two copies `p` apart from
+the newest snapshot (ring of 64) that precedes the cycle; at the cap, a closing check
+(up to 512 generations) catches cycles completed since the last useful checkpoint. Every
+summary is rebuilt in the run's own natural box, so the output is **identical to the
+per-generation engine** field for field except timing (`scripts/check_ensemble.py`, 15
+cases, 1,100+ runs: 0 mismatches). `--per-gen-hash` restores the previous engine,
+`--no-pack` one run per word.
+
+**Text renderings (`gump show`).** A `{111}` layer is a kagome lattice; reflected so the
+diagonal is `[111]`, its cells are all `(x, y)` except `(odd, odd)`, drawn at column
+`2x + y`, row `y` — true positions, so even rows are full, odd rows hold every other site,
+and blanks are hexagon centres (`●` live, `·` dead site; `--ascii` → `o .`; `--orient`
+→ `x y z` by orientation). A pattern is shown as its stack of layers along the diagonal it
+is thinnest in (one shared frame); `--orbit` evolves to the final cycle and prints its
+phases side by side; `--layer S` one layer; `--slice z=C` an axis-aligned slice (even C:
+faces cutting the plane as `|` / `-`; odd C: faces in the plane as `#`). Renderings over
+`--max-chars` (20,000) are refused with a hint.
+
+**Images (`gump png`).** Dependency-free PNG: `--view proj-x|proj-y|proj-z` (live cells per
+line, one pixel per doubled unit × `--scale`), `proj-diag` (projection along diagonal
+`--diag`, every site of the projected kagome stack), `layer --layer S` (one kagome layer:
+dead sites grey, live cells coloured by orientation), `slab --layers-range S0:S1`
+(coloured by layer), `slice --slice z=C`, `kymo --kymo F.csv [--events F.jsonl]` (layer vs
+time for one diagonal, time downwards, bucket means; irreversible layer deaths in red).
+
+**Describe (`gump describe`).** Evolves the pattern to its final cycle and prints one JSON
+line: status, period, cycle_start, pops per phase, union, `sym` (stabiliser of the
+canonical phase in translations × O_h), `spacetime_sym`, layer extents along the 4
+diagonals (explicit `dir`s), `nbr_components`, `canonical` cells (the atlas convention),
+`catalogue_id` with `--catalogue research/atlas/catalogue.jsonl`, and `pieces`: the
+R-connected components of the final orbit, each described the same way plus whether it
+evolves `independent`ly. `--as-is` describes the input itself. Validated on all 1,307
+catalogue objects (`cargo test --release --test catalogue`).
 
 **Soups.** `--soup P` with `--radius R` (octahedron Σ|p−c| ≤ R), `--half H|HX,HY,HZ` (box),
 `--slab-layers M [--diag D]` (M consecutive {111} layers; bounded by `--half` in open space,
 wrapping on a torus), or the whole torus. `--center`, `--rng`. Each cell of the region, in
 order z, y, x (doubled coordinates), draws one xoshiro256** value: a soup is a function of
-(region, P, rng) only, independent of the box it is placed in.
+(region, P, rng) only, independent of the box it is placed in. `--sym G` makes the soup
+invariant under a point group about `--center` (one draw per orbit, orbits in the same
+order): `oh` (48), `o`, `td`, `th` (24), `d4h` (16), `d3d` (12), `d2h` (8, the three
+coordinate mirrors), `c4v` (8), `c3v` (6), `c3`, `ci`, `c1`; the centre must be a cube
+centre (all even) or a vertex (all odd).
 
 ## Snapshot format (`.gump`, version 1)
 
@@ -133,7 +185,15 @@ Files: `src/fast.rs` (kernel), `src/scalar.rs`, `src/lattice.rs` (coordinates, h
 | original's side-12 (24,286 gens) and side-13 (169,049 gens) logs | `python3 engine/scripts/check_golden.py $L/population24.txt 65 $L/population26.txt 70` (`L=/home/user/kdbanman/gump/dev/cubic_init_results`) | exact at every generation, open space (and torus 35 for side 13); halt detected at exactly the log's last generation |
 | state-for-state vs `reference/oracle.py`: random soups, 5 rules, tori 4–12 and open octahedra | `python3 engine/scripts/check_oracle.py --cases 15 --gens 40` | all exact |
 | fast vs scalar: torus/open, box shapes incl. 1×1×1, 63/64/65/67/96/128/130/140-wide (word seams, prime widths), 5 rules, threaded | `cargo test --release --test fast_vs_scalar` | pass |
-| T2 (hull never grows; auto box = padded box; hull-restricted kernel), T3 (3 dead layers stay dead on tori, 4 axes), layer tracker never sees a proven-dead layer revive, snapshot round trip, halting vs brute force | `cargo test --release --test properties` | pass |
+| T2 (hull never grows; auto box = padded box; hull-restricted kernel), T3 (3 dead layers stay dead on tori, 4 axes), layer tracker never sees a proven-dead layer revive, snapshot round trip, halting vs brute force, still lifes on tori | `cargo test --release --test properties` | pass |
+| packed lanes = separate runs, every generation (open and torus, 1–4 lanes, W = 1 and 2, 3 rules, hull-restricted), per-lane population / changed bits / hashes | `cargo test --release --test lanes` | pass |
+| packed + checkpoint-hash ensembles = per-generation ensembles, field for field | `python3 engine/scripts/check_ensemble.py` | 15 cases, 0 mismatches |
+| `describe` (period, pops, union, sym, spacetime_sym, layers, nbr_components, canonical form) on every atlas catalogue object | `cargo test --release --test catalogue` | 1,307 / 1,307 |
+
+**Fixed in round two:** on a torus the kernel's changed flag counted halo copies, so still
+lifes were never seen as "unchanged"; the per-generation hash then caught them as
+`status: periodic, period: 1` (cycle start and generation were right, the label was
+wrong). Open-space runs were not affected. Now `still`, with a test.
 
 ## Performance
 

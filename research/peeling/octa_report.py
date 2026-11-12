@@ -30,11 +30,11 @@ for h, r in zip(H, recs):
     mean, (lo, hi), k = exp_fit(f, obs)
     life = np.array([x['settle'] if x['settle'] >= 0 else np.inf for x in r['reps']])
     A0 = [x[1] for x in h['first'] if not x[2]]
-    first_rows.append(dict(R=h['R'], p=h['p'], sym=int(h['sym']), replicas=len(f), first_peels=k, mean_first=round(mean, 1),
+    first_rows.append(dict(R=h['R'], p=h['p'], sym=int(h['sym']) + int(h.get('vertex', False)), replicas=len(r['reps']), established=len(f), first_peels=k, mean_first=round(mean, 1),
                            ci_lo=round(lo, 1), ci_hi=round(hi, 1), cv_first=round(f[obs].std() / f[obs].mean(), 3) if k else '',
                            median_area_first=float(np.median(A0)) if A0 else '',
                            life_median=float(np.median(life)), life_censored=int(np.sum(life == np.inf)), cap=r['cap']))
-    key = (h['R'], h['p'], int(h['sym']))
+    key = (h['R'], h['p'], int(h['sym']) + int(h.get('vertex', False)))
     for A, (e, T) in h['hazard'].items():
         pool[key][int(A)][0] += e; pool[key][int(A)][1] += T
 for key, d in sorted(pool.items()):
