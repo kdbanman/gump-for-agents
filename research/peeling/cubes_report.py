@@ -29,8 +29,11 @@ print(f'sym law: ln tau = {a:.3f} + {b:.5f} A  (se {math.sqrt(cov[0,0]):.3f}, {m
       f'slab c = 0.2088 -> A_eff = A / {0.2088 / b:.2f}')
 
 
+VF = 1.5   # vertex-centred symmetric soups outlive cube-centred ones of equal face area by 1.47x (R=28 vs 27) and 1.54x (32 vs 31)
+
+
 def tau(Rv, vertex):
-    return math.exp(a + b * face_area(Rv, vertex))
+    return math.exp(a + b * face_area(Rv, vertex)) * (VF if vertex else 1.0)
 
 
 res_rows, life_rows = [], []
@@ -65,6 +68,12 @@ for n in (16, 17):   # predictions only
     pred = sum(tau(Rv, vertex) for Rv in range(R0, 20, -2))
     life_rows.append(dict(n=n, R0=R0, area0=face_area(R0, vertex), observed='', predicted_mean=round(pred),
                           first_plateau_share=round(tau(R0, vertex) / pred, 3), ratio=''))
+rng = np.random.default_rng(1)
+for r in life_rows:
+    n = r['n']; v = n % 2 == 0
+    L = sum(rng.exponential(tau(Rv, v), 200000) for Rv in range(r['R0'], 20, -2))
+    r['pred_5pct'], r['pred_95pct'] = [round(x) for x in np.quantile(L, [0.05, 0.95])]
+    r['obs_quantile'] = round(float((L < r['observed']).mean()), 3) if r['observed'] != '' else ''
 for name, rr in (('cube_residence.csv', res_rows), ('cube_lifetime.csv', life_rows)):
     with open(os.path.join(HERE, name), 'w', newline='') as fh:
         wr = csv.DictWriter(fh, fieldnames=list(rr[0])); wr.writeheader(); wr.writerows(rr)
