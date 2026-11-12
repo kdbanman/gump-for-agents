@@ -368,8 +368,11 @@ pub struct BitSim {
     plane: usize,
     cur: Vec<u64>,
     nxt: Vec<u64>,
-    /// seam planes: [X(i-1) for w=0, Y(i-1) for w=0, Y(i+1) for w=W-1, Z(i-1) w=0, Z(i+1) w=W-1]
-    seam: Vec<u64>,
+    /// per-thread seam planes: [X(i-1) for w=0, Y(i-1) for w=0, Y(i+1) for w=W-1,
+    /// Z(i-1) for w=0, Z(i+1) for w=W-1]; each thread fills the rows it needs
+    seams: Vec<Vec<u64>>,
+    /// `cur`'s torus halo needs a refresh (after edits); steps keep it fresh themselves
+    halo_dirty: bool,
     /// validity mask per padded plane position: B-bit mask inside, 0 on the halo
     vmask: Vec<u64>,
     gen: u64,
@@ -420,7 +423,8 @@ impl BitSim {
             plane,
             cur: vec![0; len],
             nxt: vec![0; len],
-            seam: vec![0; 5 * plane],
+            seams: vec![vec![0; 5 * plane]],
+            halo_dirty: true,
             gen: 0,
             prev_valid: false,
             last: None,
@@ -488,6 +492,7 @@ impl BitSim {
                 }
                 self.prev_valid = false;
                 self.last = None;
+                self.halo_dirty = true;
                 true
             }
             None => false,
@@ -501,6 +506,7 @@ impl BitSim {
 
     pub fn clear(&mut self) {
         self.cur.iter_mut().for_each(|w| *w = 0);
+        self.halo_dirty = true;
         self.prev_valid = false;
         self.last = None;
     }
@@ -612,52 +618,20 @@ impl BitSim {
         }
     }
 
-    fn fill_seam(&mut self) {
-        let (nw, plane, nb, mask) = (self.nw, self.plane, self.nb as u32, self.mask);
-        let torus = self.geo.boundary == Boundary::Torus;
-        let first = |a: usize| (a * nw) * plane;
-        let last = |a: usize| (a * nw + nw - 1) * plane;
-        // (source plane start, shift towards higher i?)
-        let jobs = [(last(0), true), (last(1), true), (first(1), false), (last(2), true), (first(2), false)];
-        for (t, &(src, up)) in jobs.iter().enumerate() {
-            let s = &self.cur[src..src + plane];
-            let d = &mut self.seam[t * plane..(t + 1) * plane];
-            if up {
-                // value for plane 0 at i-1: bit b <- bit b-1 of plane W-1; bit 0 <- bit B-1 (torus)
-                if torus {
-                    for (o, &v) in d.iter_mut().zip(s) {
-                        *o = ((v << 1) & mask) | ((v >> (nb - 1)) & 1);
-                    }
-                } else {
-                    for (o, &v) in d.iter_mut().zip(s) {
-                        *o = (v << 1) & mask;
-                    }
-                }
-            } else {
-                // value for plane W-1 at i+1: bit b <- bit b+1 of plane 0; bit B-1 <- bit 0 (torus)
-                if torus {
-                    for (o, &v) in d.iter_mut().zip(s) {
-                        *o = (v >> 1) | ((v & 1) << (nb - 1));
-                    }
-                } else {
-                    for (o, &v) in d.iter_mut().zip(s) {
-                        *o = v >> 1;
-                    }
-                }
-            }
-        }
-    }
-
     /// Raw kernel context for the current buffers.
     fn ctx(&mut self) -> Ctx {
         Ctx {
             cur: self.cur.as_ptr(),
             nxt: self.nxt.as_mut_ptr(),
-            seam: self.seam.as_ptr(),
             vmask: self.vmask.as_ptr(),
             nw: self.nw,
+            nb: self.nb,
+            mask: self.mask,
             plane: self.plane,
             sj: self.sj,
+            ny: self.geo.n[1],
+            nz: self.geo.n[2],
+            torus: self.geo.boundary == Boundary::Torus,
             stats: self.kernel_stats,
             generic: if self.rule.is_gump() { None } else { Some(GenericRule::new(self.rule)) },
             rows: self.rows.as_ref().map(|r| (r.as_ptr(), r.len())),
@@ -665,8 +639,10 @@ impl BitSim {
     }
 
     fn prepare(&mut self) {
-        self.fill_halo();
-        self.fill_seam();
+        if self.halo_dirty {
+            self.fill_halo();
+            self.halo_dirty = false;
+        }
     }
 
     fn finish(&mut self, acc: StepAcc) {
@@ -681,8 +657,9 @@ impl BitSim {
         self.prepare();
         let ctx = self.ctx();
         let mut acc = StepAcc::default();
+        let seam = self.seams[0].as_mut_ptr();
         // SAFETY: ctx points at live buffers of self; rows 1..=nz written by this call only.
-        unsafe { ctx.run(1, self.geo.n[2] + 1, &mut acc) };
+        unsafe { ctx.run(1, self.geo.n[2] + 1, seam, &mut acc) };
         self.finish(acc);
     }
 
@@ -709,13 +686,17 @@ impl BitSim {
         }
         let nz = self.geo.n[2];
         let bounds: Vec<(usize, usize)> = (0..t).map(|ti| (1 + ti * nz / t, 1 + (ti + 1) * nz / t)).collect();
+        while self.seams.len() < t {
+            self.seams.push(vec![0; 5 * self.plane]);
+        }
+        let seam_ptrs: Vec<SeamPtr> = self.seams.iter_mut().map(|v| SeamPtr(v.as_mut_ptr())).collect();
         let barrier = SpinBarrier::new(t);
         let shared = SharedCtx(std::cell::UnsafeCell::new(None));
         let accs: Vec<PaddedAcc> = (0..t).map(|_| PaddedAcc(std::cell::UnsafeCell::new(StepAcc::default()))).collect();
         let mut done = 0u64;
         std::thread::scope(|sc| {
             for ti in 1..t {
-                let (barrier, shared, accs, b) = (&barrier, &shared, &accs, bounds[ti]);
+                let (barrier, shared, accs, b, sp) = (&barrier, &shared, &accs, bounds[ti], seam_ptrs[ti]);
                 sc.spawn(move || loop {
                     barrier.wait();
                     // SAFETY: the main thread writes `shared` only between the second
@@ -723,7 +704,7 @@ impl BitSim {
                     let ctx = unsafe { *shared.0.get() };
                     let Some(ctx) = ctx else { break };
                     let mut acc = StepAcc::default();
-                    unsafe { ctx.run(b.0, b.1, &mut acc) };
+                    unsafe { ctx.run(b.0, b.1, sp.get(), &mut acc) };
                     unsafe { *accs[ti].0.get() = acc };
                     barrier.wait();
                 });
@@ -735,7 +716,7 @@ impl BitSim {
                 unsafe { *shared.0.get() = Some(ctx) };
                 barrier.wait();
                 let mut acc = StepAcc::default();
-                unsafe { ctx.run(bounds[0].0, bounds[0].1, &mut acc) };
+                unsafe { ctx.run(bounds[0].0, bounds[0].1, seam_ptrs[0].get(), &mut acc) };
                 barrier.wait();
                 for a in accs.iter().skip(1) {
                     acc.merge(unsafe { &*a.0.get() });
@@ -843,7 +824,8 @@ impl Clone for BitSim {
             plane: self.plane,
             cur: self.cur.clone(),
             nxt: self.nxt.clone(),
-            seam: self.seam.clone(),
+            seams: vec![self.seams[0].clone()],
+            halo_dirty: self.halo_dirty,
             vmask: self.vmask.clone(),
             gen: self.gen,
             prev_valid: self.prev_valid,
@@ -852,6 +834,16 @@ impl Clone for BitSim {
             threads: 1,
             rows: self.rows.clone(),
         }
+    }
+}
+
+#[derive(Clone, Copy)]
+struct SeamPtr(*mut u64);
+unsafe impl Send for SeamPtr {}
+unsafe impl Sync for SeamPtr {}
+impl SeamPtr {
+    fn get(self) -> *mut u64 {
+        self.0
     }
 }
 
@@ -911,11 +903,15 @@ impl SpinBarrier {
 struct Ctx {
     cur: *const u64,
     nxt: *mut u64,
-    seam: *const u64,
     vmask: *const u64,
     nw: usize,
+    nb: usize,
+    mask: u64,
     plane: usize,
     sj: usize,
+    ny: usize,
+    nz: usize,
+    torus: bool,
     stats: bool,
     generic: Option<GenericRule>,
     /// per padded k: inclusive padded j-range to compute (None: everything)
@@ -925,24 +921,75 @@ unsafe impl Send for Ctx {}
 unsafe impl Sync for Ctx {}
 
 impl Ctx {
-    /// SAFETY: pointers valid for the buffers' lengths; no concurrent writer to `cur`,
-    /// `seam`; rows `k0..k1` of the output planes written by this call only.
-    unsafe fn run(&self, k0: usize, k1: usize, acc: &mut StepAcc) {
-        match (self.generic, self.stats) {
-            (None, true) => self.run_impl::<GumpRule, true>(GumpRule, k0, k1, acc),
-            (None, false) => self.run_impl::<GumpRule, false>(GumpRule, k0, k1, acc),
-            (Some(g), true) => self.run_impl::<GenericRule, true>(g, k0, k1, acc),
-            (Some(g), false) => self.run_impl::<GenericRule, false>(g, k0, k1, acc),
-        }
-    }
-
-    unsafe fn run_impl<R: RuleKernel, const STATS: bool>(&self, rule: R, k0: usize, k1: usize, acc: &mut StepAcc) {
+    /// One generation for padded rows `k0..k1`: build this thread's seam rows
+    /// `k0-1..=k1` (from `cur`, whose halo is complete), run the kernel into `nxt`, then
+    /// (torus) refresh `nxt`'s halo for the rows written — so the next generation needs no
+    /// serial preparation.
+    /// SAFETY: pointers valid for the buffers' lengths; `seam` private to the caller (5
+    /// planes); no concurrent writer to `cur`; rows `k0..k1` of `nxt` (plus halo row 0 if
+    /// `k1 == nz+1`, halo row nz+1 if `k0 == 1`) written by this call only.
+    unsafe fn run(&self, k0: usize, k1: usize, seam: *mut u64, acc: &mut StepAcc) {
         if k0 >= k1 {
             return;
         }
+        self.seam_rows(seam, k0 - 1, k1);
+        match (self.generic, self.stats) {
+            (None, true) => self.run_impl::<GumpRule, true>(GumpRule, k0, k1, seam, acc),
+            (None, false) => self.run_impl::<GumpRule, false>(GumpRule, k0, k1, seam, acc),
+            (Some(g), true) => self.run_impl::<GenericRule, true>(g, k0, k1, seam, acc),
+            (Some(g), false) => self.run_impl::<GenericRule, false>(g, k0, k1, seam, acc),
+        }
+        if self.torus {
+            self.halo_rows(k0, k1);
+        }
+    }
+
+    /// Seam planes, padded rows `r0..=r1`.
+    unsafe fn seam_rows(&self, seam: *mut u64, r0: usize, r1: usize) {
+        let (nw, plane, sj, nb, mask) = (self.nw, self.plane, self.sj, self.nb as u32, self.mask);
+        let first = |a: usize| (a * nw) * plane;
+        let last = |a: usize| (a * nw + nw - 1) * plane;
+        // (source plane, towards higher i?)
+        let jobs = [(last(0), true), (last(1), true), (first(1), false), (last(2), true), (first(2), false)];
+        let (lo, n) = (r0 * sj, (r1 + 1 - r0) * sj);
+        for (t, &(src, up)) in jobs.iter().enumerate() {
+            let s = std::slice::from_raw_parts(self.cur.add(src + lo), n);
+            let d = std::slice::from_raw_parts_mut(seam.add(t * plane + lo), n);
+            match (up, self.torus) {
+                // plane 0 at i-1: bit b <- bit b-1 of plane W-1; bit 0 <- bit B-1 (torus)
+                (true, true) => d.iter_mut().zip(s).for_each(|(o, &v)| *o = ((v << 1) & mask) | ((v >> (nb - 1)) & 1)),
+                (true, false) => d.iter_mut().zip(s).for_each(|(o, &v)| *o = (v << 1) & mask),
+                // plane W-1 at i+1: bit b <- bit b+1 of plane 0; bit B-1 <- bit 0 (torus)
+                (false, true) => d.iter_mut().zip(s).for_each(|(o, &v)| *o = (v >> 1) | ((v & 1) << (nb - 1))),
+                (false, false) => d.iter_mut().zip(s).for_each(|(o, &v)| *o = v >> 1),
+            }
+        }
+    }
+
+    /// Torus halo of `nxt` for rows `k0..k1` (j columns), plus the k halo rows owned by
+    /// the first / last row block.
+    unsafe fn halo_rows(&self, k0: usize, k1: usize) {
+        let (ny, nz, sj) = (self.ny, self.nz, self.sj);
+        for pl in 0..3 * self.nw {
+            let p = std::slice::from_raw_parts_mut(self.nxt.add(pl * self.plane), self.plane);
+            for k in k0..k1 {
+                let r = k * sj;
+                p[r] = p[r + ny];
+                p[r + ny + 1] = p[r + 1];
+            }
+            if k0 == 1 {
+                p.copy_within(sj..2 * sj, (nz + 1) * sj);
+            }
+            if k1 == nz + 1 {
+                p.copy_within(nz * sj..(nz + 1) * sj, 0);
+            }
+        }
+    }
+
+    unsafe fn run_impl<R: RuleKernel, const STATS: bool>(&self, rule: R, k0: usize, k1: usize, seam: *mut u64, acc: &mut StepAcc) {
         let (nw, plane, sj) = (self.nw, self.plane, self.sj);
         let pl = |a: usize, w: usize| std::slice::from_raw_parts(self.cur.add((a * nw + w) * plane), plane);
-        let seam = |t: usize| std::slice::from_raw_parts(self.seam.add(t * plane), plane);
+        let seam = |t: usize| std::slice::from_raw_parts(seam.add(t * plane) as *const u64, plane);
         let vm = std::slice::from_raw_parts(self.vmask, plane);
         let rows = (k1 - k0) * sj;
         let rr = self.rows.map(|(p, n)| std::slice::from_raw_parts(p, n));
