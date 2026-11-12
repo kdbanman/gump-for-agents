@@ -3,7 +3,7 @@
 // docs/AUTOMATON.md or the atlas (exhaustive search), [measured] in research/NOTEBOOK.md,
 // [conjecture] where that is all it is. "watch" marks what the scene itself shows.
 
-const A = 'docs/AUTOMATON.md', N = 'research/NOTEBOOK.md', ST = 'research/STATUS.md';
+const A = 'docs/AUTOMATON.md', N = 'research/NOTEBOOK.md', ST = 'research/STATUS.md', W = 'docs/WHAT-I-SEE.md';
 const fig = (f, label) => `<a class="src" href="source.html?f=${f}" target="_blank" rel="noopener">${label}</a>`;
 const src = (f, find, label) => `<a class="src" href="source.html?f=${f}#${encodeURIComponent(find)}" target="_blank" rel="noopener">${label}</a>`;
 const tag = (t) => `<span class="tag ${t}">${t}</span>`;
@@ -117,7 +117,9 @@ export const SCENES = [
       about e<sup>0.209·A</sup> generations for a face plane of A sites. ${tag('measured')} ${src(N, 'Flat faces (slab, m = 8', 'notebook: face law')} ${fig('research/figures/peel_face_law.png', 'figure')}
       A symmetric pattern counts as if its faces were 7.7 times smaller, because symmetric regions die in lockstep. ${tag('measured')} ${src(N, 'effective area A/7.7', 'notebook')}
       So the side-13 cube lasts about 10<sup>5</sup> generations <i>because</i> it is symmetric. By the law, the same
-      octahedron filled asymmetrically would hold each face for about 10<sup>41</sup>. ${tag('measured')} (law, extrapolated) ${src(ST, 'face ~10', 'status')}</p>
+      octahedron filled asymmetrically would hold each face for about 10<sup>41</sup>. ${tag('measured')} (law, extrapolated) ${src(ST, 'face ~10', 'status')}
+      The original's unfinished side-19 run outlived everything only because its torus was too small:
+      it wrapped around and lost its faces. Properly confined, the law puts it near 10<sup>12</sup> generations. (law, extrapolated) ${src(W, 'Properly confined, the law puts it', 'what I see')}</p>
       <p>The run starts at generation 3,200. In the layer chart, the top and bottom rows go black for good.
       The <i>faces</i> table on the right gives each face's live cells, its site count A, and the law's mean wait.</p>`,
     spec: { seed: 'cube', n: 11, gen: 3200, speed: '30', play: 1, kwin: 1000, cam: '1,0.75,1.35,1.2' },

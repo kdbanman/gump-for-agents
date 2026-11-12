@@ -97,6 +97,11 @@ ENSEMBLE
            generation. Output identical to per-generation hashing (periods <= 512 at the
            cap, <= 2048 elsewhere). --per-gen-hash: the previous engine (one run per
            thread, hash every generation); --no-pack: one run per word.
+  --layer-deaths N|all     add "layer_deaths": the first N irreversible layer deaths
+                           [{gen, axis, dir, s, cause}] with exact generations (cause hull:
+                           outside the hull, T2; firewall: inside >= 3 dead layers, T3), the
+                           same events as `run --events F --every 1`
+  --hull-at G              add "hull_at": {gen, hull} at generation G
 "#;
 
 struct Args {
@@ -577,6 +582,11 @@ fn cmd_ensemble(a: &Args) {
     let per_gen_hash = a.flag("per-gen-hash");
     let no_pack = a.flag("no-pack");
     let check_every: u64 = a.num("check-every").unwrap_or(32);
+    let layer_deaths: Option<usize> = a.get("layer-deaths").map(|v| if v == "all" { usize::MAX } else { v.parse().unwrap_or_else(|_| die("--layer-deaths N|all")) });
+    let hull_at: Option<u64> = a.num("hull-at");
+    if per_gen_hash && (layer_deaths.is_some() || hull_at.is_some()) {
+        die("--layer-deaths / --hull-at need the packed engine (drop --per-gen-hash)");
+    }
     // validate the seed options once (also consumes the option names)
     let _ = build_seed(a, &base);
     a.get("margin");
@@ -688,6 +698,8 @@ fn cmd_ensemble(a: &Args) {
             check_every: check_every.max(1),
             window: ((1usize << 16) / check_every.max(1) as usize).max(64),
             need_layers: opts.need_layers,
+            deaths: layer_deaths,
+            hull_at,
             ..Default::default()
         };
         let next_group = AtomicUsize::new(0);
@@ -712,7 +724,23 @@ fn cmd_ensemble(a: &Args) {
                             let s = d.tag;
                             total_gens.fetch_add(d.res.gens_run() as usize, Ordering::Relaxed);
                             let seed = Seed { cells: vec![], desc: s.desc.clone(), geo: None, gen: s.gen, rule: None };
-                            write_line(summary_json(&d.sim, &seed, &d.res, extra(s.idx, &s.params, &s.sp, s.lost)));
+                            let mut ex = extra(s.idx, &s.params, &s.sp, s.lost);
+                            if layer_deaths.is_some() {
+                                let ev: Vec<Raw> = d
+                                    .deaths
+                                    .iter()
+                                    .map(|e| Raw(Obj::new().f("gen", &e.gen).f("axis", &e.axis).f("dir", &gump::lattice::DIAGS[e.axis]).f("s", &e.s).f("cause", e.cause).end()))
+                                    .collect();
+                                ex.push(("layer_deaths", Raw(ev.json())));
+                            }
+                            if let Some(g) = hull_at {
+                                let v = match &d.hull_at {
+                                    Some((gg, h)) => Obj::new().f("gen", gg).f("hull", &Raw(hull_json(h))).end(),
+                                    None => Obj::new().f("gen", &g).f("hull", &Raw("null".into())).f("reached", &false).end(),
+                                };
+                                ex.push(("hull_at", Raw(v)));
+                            }
+                            write_line(summary_json(&d.sim, &seed, &d.res, ex));
                         },
                     );
                 });

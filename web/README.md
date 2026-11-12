@@ -11,7 +11,7 @@ dependency (`three@0.186.1`), no bundler.
 generations of the hull shrinks, from the per-generation statistics). That is the staircase
 collapse of `research/NOTEBOOK.md`, peeling one layer per face.*
 
-Opening the app with no parameters starts a **guided tour**: eight live scenes, from what a cell
+Opening the app with no parameters starts a **guided tour**: nine live scenes, from what a cell
 is to the peel and the fauna. Every statement in the tour is tagged *proved*, *measured*,
 *conjecture* or *watch* (what the scene itself shows) and links to the line of `docs/AUTOMATON.md`
 or `research/NOTEBOOK.md` that establishes it. *explore freely →* leaves the tour with the current
@@ -30,7 +30,7 @@ scene still running; **▦ gallery** browses 41 objects from the research atlas.
 
 `npm ci && node tools/build.mjs` in `web/` writes `web/dist/`. Every path in it is relative, so
 the directory can be served from any URL path. It holds the app, `data/gallery.json`, the three
-three.js files it uses, the four documents the tour cites (under `sources/`), and `.nojekyll`.
+three.js files it uses, the documents and two figures the tour cites (under `sources/`), and `.nojekyll`.
 Nothing is fetched from outside the site; the test `dist` checks this by serving the build from
 a sub-path.
 
@@ -73,7 +73,13 @@ Drag to orbit, wheel to zoom.
 - **Hull table**: min/max `s = d·p` for the four body diagonals, width in layers, and width at
   the start. A side that has ever moved is highlighted and logged with its generation, because
   that is an irreversible event (T2).
-- **Faces**: the live cells on the outermost layer of each of the 8 hull faces, every generation,
+- **Faces table**: for each of the 8 hull faces, its outermost layer `s`, its live cells, its
+  site count A (enumerated exactly whenever the hull changes), and the measured peeling law's
+  mean wait `e^(−0.09+0.209·A)`. The worker checks each snapshot for O_h symmetry; when the state
+  is symmetric, `A/7.7` is used, and the other figure is in the tooltip. The table also shows how
+  long the face has held its current layer. It is labelled as the law's estimate: waits are
+  memoryless, so a long-held face is not "due".
+- **Faces sparklines**: the live cells on the outermost layer of each of the 8 hull faces, every generation,
   as sparklines over the last 2,000 generations. The same GPU reduction counts the cells
   *attaining* each diagonal extreme (a max-with-count reduction), so this is exact and costs no
   extra pass. When a face layer dies, the log records the generation and how many cells it held
@@ -173,7 +179,7 @@ Headless Chromium with SwiftShader WebGL2 (no flags needed). 77 checks:
   catalogue's population in every phase, and returns to phase 0 exactly after one period and not
   before.
 - **tour**:
-  - All 18 source links find their quoted text in the cited file.
+  - Every source link finds its quoted text in the cited file.
   - The bare URL lands on the tour, and every scene and variant loads without errors.
   - In the firewall scene, the 3-plane gap is still empty at generation 40 (T3), and in this
     run the 2-plane gap holds hundreds of cells.
