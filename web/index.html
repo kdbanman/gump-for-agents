@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gump</title>
+<link rel="stylesheet" href="./style.css">
+<script type="importmap">
+{ "imports": {
+  "three": "./node_modules/three/build/three.module.js",
+  "three/addons/": "./node_modules/three/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<canvas id="view"></canvas>
+
+<div id="tour">
+  <div class="row head"><span class="dim" id="t-step"></span><button id="t-close" title="leave the tour (the current scene keeps running)">explore freely →</button></div>
+  <h2 id="t-title"></h2>
+  <div id="t-body"></div>
+  <div class="buttons" id="t-variants"></div>
+  <div class="row foot"><button id="t-prev">← back</button><span class="legendtags"><span class="tag proved">proved</span> <span class="tag measured">measured</span> <span class="tag conjecture">conjecture</span> <span class="tag watch">watch</span></span><button id="t-next">next →</button></div>
+</div>
+<div id="gallery"></div>
+<div id="objcard"></div>
+
+<div id="layers">
+  <div class="row head">
+    <span><b>{111} layers</b> along <select id="k-diag" class="diag"></select></span>
+    <select id="k-mode" title="colour"><option value="density">density in hull</option><option value="count">live count</option></select>
+    <select id="k-win" title="time window"><option value="0">all</option><option value="1000">last 1k</option><option value="10000">last 10k</option><option value="100000">last 100k</option><option value="1000000">last 1M</option></select>
+    <span class="dim" id="k-label"></span>
+    <button id="k-hide" title="hide / show">–</button>
+  </div>
+  <div class="kbody">
+    <canvas id="kymo" width="560" height="150"></canvas>
+    <canvas id="kprof" width="70" height="150"></canvas>
+  </div>
+  <div class="dim small" id="k-foot">colour = live cells ÷ sites of the layer inside the snapshot's hull, 0…0.6 (or the raw count); black = empty: an outer layer that empties can never be re-seeded (T2) · ticks = hull shrinks · boxes = firewalls (≥3 empty layers inside, T3)</div>
+</div>
+
+<aside id="panel">
+  <header><b>gump</b> <span class="dim">faces of the cubic honeycomb · B45/S345</span>
+    <div class="buttons"><button id="tourBtn" title="a guided walk through what is known">▶ tour</button><button id="galBtn" title="objects from the research atlas">▦ gallery</button></div></header>
+
+  <section id="readout">
+    <div class="big"><span class="lbl">generation</span> <span id="gen">0</span></div>
+    <div class="big"><span class="lbl">generations/s</span> <span id="gps">–</span></div>
+    <div class="row dim"><span id="spf"></span><span id="fps"></span></div>
+    <div class="big"><span class="lbl">population</span> <span id="pop">–</span></div>
+    <div class="row orient">
+      <span><i class="sw sx"></i>x <b id="popx">–</b></span>
+      <span><i class="sw sy"></i>y <b id="popy">–</b></span>
+      <span><i class="sw sz"></i>z <b id="popz">–</b></span>
+    </div>
+    <div class="row dim"><span>density of the box</span><span id="density">–</span></div>
+    <div class="dim" id="statsage"></div>
+    <canvas id="strip" width="300" height="80"></canvas>
+  </section>
+
+  <section>
+    <div class="buttons">
+      <button id="play" title="space">▶ play</button>
+      <button id="step" title="period / right arrow">step</button>
+      <label>speed <select id="speed">
+        <option value="1">1/s</option><option value="2">2/s</option><option value="5">5/s</option>
+        <option value="10">10/s</option><option value="30">30/s</option><option value="60">60/s</option>
+        <option value="200">200/s</option><option value="1000">1k/s</option><option value="max" selected>max</option>
+      </select></label>
+      <label title="reduce statistics after every generation (exact strip and shrink log); off = sampled every ~40 ms, faster for small boxes"><input id="rec" type="checkbox" checked> every-gen stats</label>
+    </div>
+  </section>
+
+  <section>
+    <h3>hull <span class="dim">layers s = d·p along body diagonals (only ever shrink)</span></h3>
+    <table id="hull"></table>
+    <h3 style="margin-top:6px">faces <span class="dim">the outermost layer of each of the 8 hull faces</span></h3>
+    <table id="facetab"></table>
+    <div class="dim small" id="facenote"></div>
+    <canvas id="faces" width="300" height="72"></canvas>
+    <div id="hullevents" class="events"></div>
+  </section>
+
+  <section>
+    <h3>view</h3>
+    <div class="form">
+      <label>render <select id="v-mode"><option value="auto">auto</option><option value="raymarch">ray-march (DDA)</option><option value="quads">quads (vertex-pulled)</option><option value="instanced">quads (instanced)</option></select></label>
+      <label>colour <select id="v-color"><option value="orientation">orientation</option><option value="layer">layer ABC along d</option><option value="change">born / survived / died</option><option value="fate">fate: next generation</option><option value="neighbourhood">neighbourhood of a face</option></select></label>
+      <label>face size <input id="v-face" type="range" min="0.2" max="1" step="0.05" value="0.6"></label>
+      <label><input id="v-border" type="checkbox" checked> edges</label>
+      <label><input id="v-hull" type="checkbox" checked> hull</label>
+      <label><input id="v-box" type="checkbox" checked> box</label>
+      <label><input id="v-ortho" type="checkbox"> orthographic</label>
+      <button id="v-along" title="view straight down the chosen diagonal">look along d</button>
+      <button id="v-reset">reset camera</button>
+    </div>
+    <div id="legend" class="dim small"></div>
+  </section>
+
+  <section>
+    <h3>{111} slicer <span class="dim">show only layers lo ≤ d·p ≤ hi</span></h3>
+    <div class="form">
+      <label>d <select id="s-diag" class="diag"></select></label>
+      <label><input id="s-on" type="checkbox"> slice</label>
+      <label>lo <input id="s-lo" type="number" step="2"></label>
+      <label>hi <input id="s-hi" type="number" step="2"></label>
+    </div>
+    <div class="buttons">
+      <button id="s-down" title="[  move the slice down one layer">◀</button>
+      <button id="s-up" title="]  move the slice up one layer">▶</button>
+      <button id="s-one">1 layer</button>
+      <button id="s-facehi" title="the outermost live layer on the + side">face +</button>
+      <button id="s-facelo" title="the outermost live layer on the − side">face −</button>
+      <button id="s-all">whole hull</button>
+    </div>
+  </section>
+
+  <section id="editsec">
+    <h3>edit <span class="dim">construct a seed or edit a paused run</span></h3>
+    <div class="buttons"><button id="e-toggle" title="E">✎ edit</button><span id="e-status" class="dim"></span></div>
+    <div id="e-tools">
+      <div class="form">
+        <label>set <select id="e-kind"><option value="layer">{111} layer along d</option><option value="plane">axis plane</option></select></label>
+        <label data-e="plane">normal <select id="e-axis"><option value="0">x</option><option value="1">y</option><option value="2" selected>z</option></select></label>
+        <label>at <input id="e-coord" type="number" step="2"></label>
+        <button id="e-down" title="↓">◀</button><button id="e-up" title="↑">▶</button>
+        <label>symmetry <select id="e-sym"></select></label>
+        <span class="dim" id="e-centre"></span>
+      </div>
+      <div class="buttons">
+        <button id="e-fill">fill set</button>
+        <label><input id="e-rho" type="number" min="0" max="1" step="0.05" value="0.35"></label><button id="e-rand">random fill</button>
+        <button id="e-clearset">clear set</button><button id="e-clear">clear all</button>
+        <button id="e-undo" title="ctrl+z">undo</button>
+        <button id="e-run" title="Enter">done ▶ run</button>
+      </div>
+      <div class="dim small">click a slot of the set to toggle it (and its orbit) · drag to orbit · ↑↓ move the set · Esc done</div>
+    </div>
+  </section>
+
+  <section>
+    <h3>environment</h3>
+    <div id="boxinfo"></div>
+    <div id="edge" class="alert"></div>
+    <div class="buttons">
+      <input id="resizeN" size="9" placeholder="N or nx,ny,nz">
+      <button id="resize" title="re-embed the current state, centred">resize</button>
+      <button id="fit" title="smallest box holding the current hull forever">fit hull</button>
+      <button id="bcToggle">⇄ torus</button>
+    </div>
+  </section>
+
+  <section>
+    <h3>seed</h3>
+    <div class="form">
+      <label>kind <select id="f-seed">
+        <option value="cube">closed cube</option><option value="key">legacy key 1–9</option>
+        <option value="soup">random soup</option><option value="legacy">legacy cube (H)</option><option value="cells">cell list</option><option value="atlas">atlas object</option>
+      </select></label>
+      <label data-for="atlas">id <input id="f-id" size="8"></label>
+      <label data-for="cube soup">n <input id="f-n" type="number" min="1" max="200" value="11"></label>
+      <label data-for="key">key <input id="f-k" type="number" min="1" max="9" value="5"></label>
+      <label data-for="legacy">H <input id="f-H" type="number" min="4" max="400" value="60"></label>
+      <label data-for="soup">shape <select id="f-shape"><option value="cube">cube</option><option value="oct">octahedron</option><option value="slab">{111} slab</option><option value="gap">soup with a {111} gap</option></select></label>
+      <label data-for="soup">density <input id="f-density" type="number" min="0" max="1" step="0.05" value="0.3"></label>
+      <label data-for="soup">layers <input id="f-layers" type="number" min="1" max="99" value="3"></label>
+      <label data-for="soup">gap <input id="f-gap" type="number" min="0" max="20" value="3"></label>
+      <label data-for="cells" title="doubled coordinates x,y,z;x,y,z;… (exactly one odd)">cells <input id="f-cells" size="22"></label>
+      <label data-for="soup">rng <input id="f-rng" type="number" min="0" value="1"></label>
+      <label>box <input id="f-box" size="8" value="auto" title="auto, N, or nx,ny,nz (cubes)"></label>
+      <label>boundary <select id="f-bc"><option value="dead">dead outside</option><option value="torus">torus</option></select></label>
+    </div>
+    <div class="buttons"><button id="apply">reset to seed</button><button id="share">copy link</button></div>
+  </section>
+  <footer class="dim">space play · . step · E edit · [ ] move slice · 1–9 legacy keys · drag orbit · wheel zoom</footer>
+</aside>
+<script type="module" src="./src/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "gump-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "WebGL2 compute + three.js viewer for the gump automaton",
+  "scripts": {
+    "serve": "node tools/serve.mjs",
+    "build": "node tools/build.mjs",
+    "test": "node test/run.mjs"
+  },
+  "dependencies": {
+    "three": "0.186.1"
+  }
+}

@@ -1,0 +1,10 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>gump web tests</title></head>
+<body style="background:#222;color:#ddd;font:12px monospace">
+<pre id="log"></pre>
+<script type="module">
+import './tests.js';
+const q = Object.fromEntries(new URLSearchParams(location.search));
+if (!('manual' in q)) window.runTests(q).then(r => { window.__results = r; });
+</script>
+</body></html>

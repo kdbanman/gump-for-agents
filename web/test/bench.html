@@ -1,0 +1,29 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>gump stepper bench</title></head>
+<body style="background:#222;color:#ddd;font:12px monospace"><pre id="log"></pre>
+<script type="module">
+// Raw stepping throughput: generations/s and cell-updates/s for each layout and size.
+// ?sizes=32,64,128&lanes=1,32&ms=1500
+import { Sim } from '../src/gl/sim.js';
+import { mulberry32 } from '../src/seeds.js';
+const q = new URLSearchParams(location.search);
+const sizes = (q.get('sizes') || '32,64,128').split(',').map(Number);
+const lanesList = (q.get('lanes') || '1,32').split(',').map(Number);
+const ms = Number(q.get('ms') || 1500);
+const gl = document.createElement('canvas').getContext('webgl2');
+const out = [];
+
+for (const N of sizes) for (const maxLanes of lanesList) {
+  const sim = new Sim(gl, N, N, N, { maxLanes });
+  const rnd = mulberry32(1);
+  sim.upload(new Uint8Array(N * N * N).map(() => (rnd() < 0.3) | ((rnd() < 0.3) << 1) | ((rnd() < 0.3) << 2)));
+  sim.step(2); sim.download();
+  let gens = 0, batch = 1; const t0 = performance.now();
+  while (performance.now() - t0 < ms) { sim.step(batch); sim.sync(); gens += batch; batch = Math.min(batch * 2, 256); }
+  const dt = (performance.now() - t0) / 1000;
+  const r = { N, lanes: sim.layout.LANES, atlas: `${sim.layout.width}x${sim.layout.height}`, gensPerSec: +(gens / dt).toFixed(1), cellUpdatesPerSec: +(gens * 3 * N ** 3 / dt / 1e6).toFixed(1) + 'M' };
+  out.push(r); document.getElementById('log').textContent += JSON.stringify(r) + '\n';
+  sim.dispose();
+}
+window.__results = out;
+</script></body></html>

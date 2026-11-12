@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gump — source</title>
+<style>
+:root { --bg: #2b2725; --fg: #e8e2dc; --dim: #a39a92; --hi: #ffcf7a; }
+html, body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.5 ui-monospace, Menlo, Consolas, monospace; }
+main { max-width: 900px; margin: 0 auto; padding: 16px; }
+pre { white-space: pre-wrap; word-wrap: break-word; margin: 0; }
+.h { color: var(--hi); font-weight: bold; }
+.mark { background: rgba(255, 207, 122, 0.18); }
+a { color: #9fd0f0; }
+header { color: var(--dim); margin-bottom: 12px; }
+</style></head>
+<body><main><header><a href="./">← back to gump</a> · <span id="name"></span></header><pre id="doc">loading…</pre></main>
+<script type="module">
+// Shows one of the project's markdown sources as text. ?f=docs/AUTOMATON.md#T2 scrolls to and
+// highlights the first line containing "T2" (the fragment after # is a plain-text search).
+import { SOURCES } from './src/config.js';
+const q = new URLSearchParams(location.search);
+const f = q.get('f') || 'docs/AUTOMATON.md';
+const find = decodeURIComponent(location.hash.slice(1));
+document.getElementById('name').textContent = f;
+if (/^research\/figures\/[\w.-]+\.png$/.test(f)) {
+  document.getElementById('doc').outerHTML = `<img src="${new URL(f, SOURCES)}" alt="${f}" style="max-width:100%;background:#fff">`;
+  throw new Error('image shown');   // stop here
+}
+const ok = /^[\w./-]+\.md$/.test(f) && !f.includes('..');
+const text = ok ? await fetch(new URL(f, SOURCES)).then(r => r.ok ? r.text() : `could not load ${f}`) : 'not a source file';
+const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+let hit = -1;
+const lines = text.split('\n').map((l, i) => {
+  const isHit = find && hit < 0 && l.includes(find);
+  if (isHit) hit = i;
+  return `<span id="L${i}" class="${/^#/.test(l) ? 'h' : ''}${isHit ? ' mark' : ''}">${esc(l)}</span>`;
+});
+document.getElementById('doc').innerHTML = lines.join('\n');
+if (hit >= 0) document.getElementById('L' + hit).scrollIntoView({ block: 'center' });
+</script></body></html>

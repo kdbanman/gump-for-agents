@@ -1,0 +1,20 @@
+<!doctype html><html><body><pre id="log"></pre><script type="module">
+// Does the asynchronous statistics readback stall the JS thread? Queue GPU work, then time start().
+import { Sim } from '../src/gl/sim.js';
+import { Stats } from '../src/gl/stats.js';
+import { mulberry32 } from '../src/seeds.js';
+const gl = document.createElement('canvas').getContext('webgl2');
+const N = 96, sim = new Sim(gl, N, N, N, {}), stats = new Stats(gl, sim.layout);
+const rnd = mulberry32(3);
+sim.upload(new Uint8Array(N ** 3).map(() => (rnd() < 0.3) | ((rnd() < 0.3) << 1) | ((rnd() < 0.3) << 2)));
+stats.computeSync(sim.texture);
+const out = [];
+for (const steps of [0, 20, 80]) {
+  let t = performance.now(); sim.step(steps); gl.flush(); const tIssue = performance.now() - t;
+  t = performance.now(); stats.start(sim.texture, steps); const tStart = performance.now() - t;
+  t = performance.now(); let polls = 0; while (!stats.poll()) { polls++; await new Promise(r => setTimeout(r, 0)); } const tLand = performance.now() - t;
+  t = performance.now(); sim.step(steps); stats.computeSync(sim.texture); const tSync = performance.now() - t;
+  out.push({ steps, issueMs: +tIssue.toFixed(1), asyncStartMs: +tStart.toFixed(1), asyncLandMs: +tLand.toFixed(1), polls, blockingMs: +tSync.toFixed(1) });
+}
+window.__results = out;
+</script></body></html>
