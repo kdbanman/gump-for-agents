@@ -256,3 +256,13 @@ Code, commands and `rules.csv`: `research/phase/README.md`. Figures: `research/f
   140 (B456/S4567), 98 (B467/S34567).
 - **[measured]** Birth at 3 (tori only): B34/S345 (ρ 0.40), B35/S345 (0.41), B345/S345 (0.43), B3/S345 (0.36) sustain chaos from every p0 incl. 0.7, and invade
   vacuum across `{111}` planes too (a 24-cube vacuum gap filled within 40 gens). No confinement, no octahedra.
+
+## 2026-11-12 — density, again (lead)
+
+- **[measured]** Lead's independent check of the phase study's headline: 32³ torus soup,
+  generations 1000–6000, mean density **0.4152** (`gump run --soup 0.3 --torus 32 --rng 5
+  --gens 6000 --every 20 --lite --format csv --out F`). The earlier entries' "bulk ≈0.39–0.40"
+  came from O_h-symmetric seeds and the legacy torus run; the bulk value is 0.4155, symmetric
+  octahedra sit at ≈0.39 because mirror-plane cells are depleted, and asymmetric octahedral
+  soups have *denser* faces (≈0.51) than bulk. So "the face is hot" is true for asymmetric
+  seeds and was wrong-for-the-right-reason in my first entry.
