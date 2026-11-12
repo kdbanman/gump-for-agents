@@ -93,8 +93,8 @@ copy until it returns, the exact cycle start from re-simulating two copies `p` a
 the newest snapshot (ring of 64) that precedes the cycle; at the cap, a closing check
 (up to 512 generations) catches cycles completed since the last useful checkpoint. Every
 summary is rebuilt in the run's own natural box, so the output is **identical to the
-per-generation engine** field for field except timing (`scripts/check_ensemble.py`, 15
-cases, 1,100+ runs: 0 mismatches). `--per-gen-hash` restores the previous engine,
+per-generation engine** field for field except timing (`scripts/check_ensemble.py`, 14
+cases, 1,180 runs: 0 mismatches). `--per-gen-hash` restores the previous engine,
 `--no-pack` one run per word.
 
 **Text renderings (`gump show`).** A `{111}` layer is a kagome lattice; reflected so the
@@ -187,7 +187,7 @@ Files: `src/fast.rs` (kernel), `src/scalar.rs`, `src/lattice.rs` (coordinates, h
 | fast vs scalar: torus/open, box shapes incl. 1×1×1, 63/64/65/67/96/128/130/140-wide (word seams, prime widths), 5 rules, threaded | `cargo test --release --test fast_vs_scalar` | pass |
 | T2 (hull never grows; auto box = padded box; hull-restricted kernel), T3 (3 dead layers stay dead on tori, 4 axes), layer tracker never sees a proven-dead layer revive, snapshot round trip, halting vs brute force, still lifes on tori | `cargo test --release --test properties` | pass |
 | packed lanes = separate runs, every generation (open and torus, 1–4 lanes, W = 1 and 2, 3 rules, hull-restricted), per-lane population / changed bits / hashes | `cargo test --release --test lanes` | pass |
-| packed + checkpoint-hash ensembles = per-generation ensembles, field for field | `python3 engine/scripts/check_ensemble.py` | 15 cases, 0 mismatches |
+| packed + checkpoint-hash ensembles = per-generation ensembles, field for field | `python3 engine/scripts/check_ensemble.py` | 14 cases, 1,180 runs, 0 mismatches |
 | `describe` (period, pops, union, sym, spacetime_sym, layers, nbr_components, canonical form) on every atlas catalogue object | `cargo test --release --test catalogue` | 1,307 / 1,307 |
 
 **Fixed in round two:** on a torus the kernel's changed flag counted halo copies, so still
