@@ -11,11 +11,34 @@ dependency (`three@0.186.1`), no bundler.
 generations of the hull shrinks, from the per-generation statistics). That is the staircase
 collapse of `research/NOTEBOOK.md`, peeling one layer per face.*
 
+Opening the app with no parameters starts a **guided tour**: eight live scenes, from what a cell
+is to the peel and the fauna. Every statement in the tour is tagged *proved*, *measured*,
+*conjecture* or *watch* (what the scene itself shows) and links to the line of `docs/AUTOMATON.md`
+or `research/NOTEBOOK.md` that establishes it. *explore freely →* leaves the tour with the current
+scene still running; **▦ gallery** browses 41 objects from the research atlas.
+
+![tour scene 7: the vertex star, coloured by {111} layer](docs/tour-fauna-vertex-star.png)
+
 ## Run
 
     cd web && npm install          # three only
     npm run serve                  # http://127.0.0.1:8173/web/
-    npm run build                  # dist/ = deployable static site (copies the three files it uses)
+    npm run build                  # dist/ = the deployable static site
+    node tools/gallery.mjs         # regenerate data/gallery.json from research/atlas/catalogue.jsonl
+
+## Deploy (any static host)
+
+`npm ci && node tools/build.mjs` in `web/` writes `web/dist/`. Every path in it is relative, so
+the directory can be served from any URL path. It holds the app, `data/gallery.json`, the three
+three.js files it uses, the four documents the tour cites (under `sources/`), and `.nojekyll`.
+Nothing is fetched from outside the site; the test `dist` checks this by serving the build from
+a sub-path.
+
+- **GitHub Pages**: copy `web/deploy/github-pages.yml` to `.github/workflows/pages.yml`, then set
+  *Settings → Pages → Source* to *GitHub Actions*. Each push to `main` publishes
+  `https://<owner>.github.io/<repo>/`. If the repository is private, Pages needs a plan that
+  allows it.
+- **Anything else**: upload the contents of `web/dist/`.
 
 Everything a run depends on is in the URL, so any run can be shared (**copy link** adds the
 current generation, which the app fast-forwards to on load):
@@ -25,12 +48,14 @@ current generation, which the app fast-forwards to on load):
 | `seed=cube&n=11` | closed cube of side n (all faces of an n³ block of cubes) |
 | `seed=key&k=5` | the original's number-key seeds 1–9 |
 | `seed=legacy&H=60` | the original's default seed for habitat size H (`bc=torus` + even H = its exact array torus) |
-| `seed=soup&shape=cube\|oct\|slab&n=12&density=0.3&rng=1[&layers=3]` | random soup in a cube of side n, an L1-ball of radius n cubes, or m `{111}` layers |
+| `seed=soup&shape=cube\|oct\|slab\|gap&n=12&density=0.3&rng=1[&layers=3][&gap=3]` | random soup in a cube of side n, an L1-ball of radius n cubes, m `{111}` layers, or a cube minus `gap` empty `{111}` planes through its middle |
+| `seed=atlas&id=P66.27a` | an object from the gallery (`data/gallery.json`) |
+| `tour=N[&v=M]` | open the tour at scene N (variant M) |
 | `seed=cells&cells=x,y,z;…` or `seed=cells&cz=…` | explicit cells, doubled coordinates; `cz` = deflate-raw + base64url of a one-byte-per-cube bitmap (what the editor writes for > 40 cells) |
 | `box=auto\|N\|NXxNYxNZ`, `abs=1` | `auto` = smallest box holding the seed's diagonal hull forever (T2) plus 2 cubes; `abs=1` = cells are absolute array coordinates in that box (edited states) |
 | `bc=dead\|torus` | outside of the box is dead, or the box wraps |
 | `gen=G`, `g0=G0`, `play=1`, `speed=max\|1…1000` | fast-forward to G (at `speed`); `g0` = generation number of the seed (edited mid-run) |
-| `view=auto\|raymarch\|quads\|instanced`, `color=orientation\|layer\|change`, `face=0.6`, `cam=x,y,z[,zoom]`, `ortho=1` | |
+| `view=auto\|raymarch\|quads\|instanced`, `color=orientation\|layer\|change\|fate\|neighbourhood`, `focus=x,y,z`, `face=0.6`, `cam=x,y,z[,zoom]`, `ortho=1` | |
 | `diag=0..3`, `slice=lo,hi`, `kwin=1000`, `rec=0` | the chosen diagonal (kymograph, slicer, layer colours, look-along), the `{111}` slice, the kymograph window, sampled instead of every-generation statistics |
 
 Keys: space play/pause, `.`/→ step, `E` edit, `[` `]` move the slice, 1–9 legacy key seeds.
@@ -48,6 +73,20 @@ Drag to orbit, wheel to zoom.
 - **Hull table**: min/max `s = d·p` for the four body diagonals, width in layers, and width at
   the start. A side that has ever moved is highlighted and logged with its generation, because
   that is an irreversible event (T2).
+- **Faces**: the live cells on the outermost layer of each of the 8 hull faces, every generation,
+  as sparklines over the last 2,000 generations. The same GPU reduction counts the cells
+  *attaining* each diagonal extreme (a max-with-count reduction), so this is exact and costs no
+  extra pass. When a face layer dies, the log records the generation and how many cells it held
+  the generation before, and the sparkline gets a tick.
+- **Gallery** (**▦ gallery**): 41 atlas objects in 7 groups: the smallest still lifes, the
+  vertex star and its contents, hinges, common ash, clockwork (p3–p66), kagome objects, and
+  pieces of the original's ash.
+  - **Source data**: `tools/gallery.mjs` selects them from `research/atlas/catalogue.jsonl` by
+    rule plus a short list of names. It takes the cells from the catalogue and re-steps every
+    object (CPU), so the build fails if a period or phase population disagrees.
+  - **Object card**: period, populations, symmetry, layer extents, where the object was found,
+    and a note. Every generation it compares the live population with the catalogue's
+    population for that phase (✓ / ✗).
 - **`{111}` layers** (bottom left): a kymograph along the chosen diagonal, with time across, layer
   `s` up the side, and colour by layer.
   - Colour is either the **density** (live cells ÷ sites of that layer inside the snapshot's own
@@ -64,9 +103,18 @@ Drag to orbit, wheel to zoom.
     generations.
 - **View**:
   - Renderers: auto, the ray-march (DDA), vertex-pulled quads, or instanced quads.
-  - **Colour modes**: *orientation* (the original's palette); *layer ABC* (`(s−1)/2 mod 3`
-    along the chosen diagonal, which shows the kagome stacking); *born / survived / died* (the
-    previous generation is the other ping-pong texture; died cells are drawn small).
+  - **Colour modes**:
+    - *orientation*: the original's palette.
+    - *layer ABC*: `(s−1)/2 mod 3` along the chosen diagonal, which shows the kagome stacking.
+    - *born / survived / died*: the previous generation is the other ping-pong texture; died
+      cells are drawn small.
+    - *fate*: each face's live-neighbour count, computed in the shader. It shows survivors,
+      faces that die next generation, dead faces born next generation (translucent), and dead
+      faces one live neighbour short of birth (outline).
+    - *neighbourhood*: a focus face (click to choose) and its 12 neighbours, coloured by layer
+      offset −4 / −2 / 0 / +2 / +4. They always fall 1, 2, 6, 2, 1 (T1).
+
+    Fate and neighbourhood draw dead slots too, so they always use the quads.
   - Options: face size, orthographic camera, *look along d*.
 - **`{111}` slicer**: show only layers `lo ≤ d·p ≤ hi`. It can step a layer at a time, jump to
   the outermost live layer on either side (*face +* / *face −*), or show the whole hull. Both the
@@ -89,10 +137,10 @@ Drag to orbit, wheel to zoom.
 
 ## Test
 
-    node test/run.mjs                           # everything, ~3 min on software GL
-    node test/run.mjs only=soups,async,ring,layers,app   # skip the golden runs (~1.5 min)
+    node test/run.mjs                           # everything, ~6 min on software GL (shared machine)
+    node test/run.mjs only=soups,async,ring,layers,nbr,gallery,app,dist   # skip the golden runs and the tour
 
-Headless Chromium with SwiftShader WebGL2 (no flags needed). 66 checks:
+Headless Chromium with SwiftShader WebGL2 (no flags needed). 77 checks:
 
 - **golden**: the GPU stepper reproduces the population of every generation of
   `reference/golden/*.txt` (closed cubes, side 8–11, up to 4,218 generations). It is checked in
@@ -119,8 +167,23 @@ Headless Chromium with SwiftShader WebGL2 (no flags needed). 66 checks:
     through a compressed `cz=` link reloads bit-identically, resumes the generation count, and
     steps on to the same population as the in-place run.
 
+- **nbr**: the renderer's GLSL neighbour count (fate / neighbourhood modes), compiled into a
+  test pass, equals the CPU definition for every cell (torus and dead, 4 boxes).
+- **gallery**: every gallery object, stepped on the GPU, has the catalogue's period, the
+  catalogue's population in every phase, and returns to phase 0 exactly after one period and not
+  before.
+- **tour**:
+  - All 18 source links find their quoted text in the cited file.
+  - The bare URL lands on the tour, and every scene and variant loads without errors.
+  - In the firewall scene, the 3-plane gap is still empty at generation 40 (T3), and in this
+    run the 2-plane gap holds hundreds of cells.
+  - The atlas card's live phase check passes.
+- **dist**: the static build, served from a sub-path, runs the tour, the gallery and the
+  worker, and shows a cited source, with every request staying inside the site.
+
 Tools:
 - `test/shot.mjs out.png "<query>" <gen>` saves a screenshot.
+- `test/tourshot.mjs outdir 3:1@25 …` screenshots tour scenes.
 - `test/peelshot.mjs` makes the peel image above.
 - `test/bench*.mjs` are the benchmarks below.
 - `node test/bench.mjs keys.html` runs the legacy key seeds to completion.
