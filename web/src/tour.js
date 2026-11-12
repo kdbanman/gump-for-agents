@@ -41,10 +41,10 @@ export const SCENES = [
       faces. A dead face just beyond it sees at most 1 + 2 = 3 live neighbours, never the 4 it needs to be
       born. So nothing is ever born outside the octahedron cut out by the eight outermost planes, and
       that octahedron can only shrink. ${tag('proved')} ${src(A, 'T2 (octahedral confinement)', 'T2')}</p>
-      <p>Watch a 5×5×5 cube: it grows along the axes, where nothing stops it, until it fills its
+      <p>Watch an 11×11×11 cube: it grows along the axes, where nothing stops it, until it fills its
       octahedron (the faint outline), and then it can grow no further. So no pattern can travel or grow forever, and
       every finite pattern eventually repeats. ${tag('proved')} ${src(A, 'Hence any finite pattern', 'T2, consequences')}</p>`,
-    spec: { seed: 'cube', n: 5, speed: '5', play: 1, face: 0.6, cam: '1,0.75,1.35,1.4' },
+    spec: { seed: 'cube', n: 11, speed: '5', play: 1, face: 0.6, cam: '1,0.75,1.35,1.2' },
     kymo: false,
   },
   {
@@ -55,11 +55,12 @@ export const SCENES = [
       <p>Two empty planes are not enough: a face in the gap can collect 1 + 2 live neighbours from one side
       and 1 from the other. ${tag('proved')} ${src(A, 'Two dead layers are', 'T3')}</p>
       <p>Below the view, the layer chart shows each plane along the diagonal as a row (colour = how full it
-      is, black = empty) with time running to the right. With a 3-plane gap the black band never closes.
+      is, black = empty) with time running to the right; the 3D view looks along the planes, so the gap is the
+      empty stripe. With a 3-plane gap the black band never closes.
       Switch to the 2-plane gap: in this run it fills within a few generations. ${tag('watch')}</p>`,
     variants: [
-      { label: '3-plane gap', spec: { seed: 'soup', shape: 'gap', n: 6, gap: 3, density: 0.4, rng: 2, speed: '5', play: 1, color: 'layer', cam: '1,1,1,1.4', face: 0.7 } },
-      { label: '2-plane gap', spec: { seed: 'soup', shape: 'gap', n: 6, gap: 2, density: 0.4, rng: 2, speed: '5', play: 1, color: 'layer', cam: '1,1,1,1.4', face: 0.7 } },
+      { label: '3-plane gap', spec: { seed: 'soup', shape: 'gap', n: 6, gap: 3, density: 0.4, rng: 2, speed: '5', play: 1, color: 'layer', cam: '1,-1,0,1.5', ortho: 1, face: 0.6 } },
+      { label: '2-plane gap', spec: { seed: 'soup', shape: 'gap', n: 6, gap: 2, density: 0.4, rng: 2, speed: '5', play: 1, color: 'layer', cam: '1,-1,0,1.5', ortho: 1, face: 0.6 } },
     ],
     kymo: true,
   },

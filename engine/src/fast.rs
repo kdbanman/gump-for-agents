@@ -417,12 +417,13 @@ impl<const L: usize> Accum<L> {
                     self.hash[l] = self.hash[l].wrapping_add(hmix_key(r[a][l], kb[a].wrapping_add(lk)));
                 }
             }
-            if MODE == 3 {
-                // x + 2y = r0 + r1 + r2 per bit (a full adder), then popcount per lane
+            if MODE >= 3 {
+                // x + 2y = r0 + r1 + r2 per bit (a full adder), then popcount per lane;
+                // MODE = 2 + number of lanes
                 let (a, b, c) = (r[0][l], r[1][l], r[2][l]);
                 let x = a ^ b ^ c;
                 let y = (a & b) | (c & (a ^ b));
-                for q in 0..MAX_LANES {
+                for q in 0..(MODE as usize - 2).min(MAX_LANES) {
                     self.lane[q][l] += (x & lm[q]).count_ones() as u64 + 2 * (y & lm[q]).count_ones() as u64;
                 }
             }
@@ -863,7 +864,7 @@ impl BitSim {
             ny: self.geo.n[1],
             nz: self.geo.n[2],
             torus: self.geo.boundary == Boundary::Torus,
-            stats: self.stats_mode.code(),
+            stats: if self.stats_mode == StatsMode::Lanes { 2 + self.lanes as u8 } else { self.stats_mode.code() },
             lm: [self.lane_masks[0].0, self.lane_masks[1].0, self.lane_masks[2].0, self.lane_masks[3].0],
             seg_lo: self.lane_masks.iter().fold(0, |m, l| m | l.1),
             seg_hi: self.lane_masks.iter().fold(0, |m, l| m | l.2),
@@ -1375,7 +1376,10 @@ impl Ctx {
                     0 => self.run_impl::<$t, 0>($r, k0, k1, seam, acc),
                     1 => self.run_impl::<$t, 1>($r, k0, k1, seam, acc),
                     2 => self.run_impl::<$t, 2>($r, k0, k1, seam, acc),
-                    _ => self.run_impl::<$t, 3>($r, k0, k1, seam, acc),
+                    3 => self.run_impl::<$t, 3>($r, k0, k1, seam, acc),
+                    4 => self.run_impl::<$t, 4>($r, k0, k1, seam, acc),
+                    5 => self.run_impl::<$t, 5>($r, k0, k1, seam, acc),
+                    _ => self.run_impl::<$t, 6>($r, k0, k1, seam, acc),
                 }
             };
         }
