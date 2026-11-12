@@ -5,12 +5,14 @@ _Last updated 2026-11-12 by the lead._
 ## Built and verified
 - `reference/` oracle — matches the original's logs, sides 8–12 (13 via the engine on the legacy torus).
 - `engine/` — Rust, bit-exact vs oracle and all legacy logs; ≈4×10¹⁰ cell-updates/s/core.
+  Round two: `gump show` (text renderings, kagome layers), `png`, `describe` (re-derives all 1,307
+  atlas objects), packed ensembles (≈4× for small boxes), `--sym` symmetric soups. Not built: a
+  symmetry-reduced stepper (would buy closed cubes beyond side 16).
 - `web/` v1 — WebGL2 bit-packed stepper + three.js views; 49/49 tests.
 - `research/atlas/` — exhaustive still lifes ≤16 cells, oscillators, vertex star, legacy ash, critical thickness.
 - `research/phase/` — the chaotic state as a phase; 960-rule survey (`research/figures/phase_rulemap.png`).
 
 ## In flight
-- Engine round two: text/PNG renders and `describe`, faster ensembles, (stretch) mirror-symmetric stepping.
 - Web round two: layer kymograph, `{111}` slicer, colour modes, seed constructor, render scaling.
 - Peeling study (`research/peeling/`): statistics of face extinction and of transverse firewalls;
   the "cheapest `{111}` cut" hypothesis.

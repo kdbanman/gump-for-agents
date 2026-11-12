@@ -139,6 +139,66 @@ if (!only || only.split(',').includes('app')) {
   await page.close();
 }
 
+// ---- tour: every source link points at text that exists; every scene loads; the claims the
+// scenes demonstrate hold in the run; the atlas card's live check and the landing page.
+if (!only || only.split(',').includes('tour')) {
+  const fs = await import('node:fs');
+  const { SCENES } = await import('../src/tour.js');
+  const missing = [];
+  let links = 0;
+  for (const sc of SCENES) for (const m of sc.body.matchAll(/source\.html\?f=([^#"]+)#([^"]+)"/g)) {
+    links++;
+    const text = fs.readFileSync(new URL(`../../${m[1]}`, import.meta.url), 'utf8');
+    if (!text.includes(decodeURIComponent(m[2]))) missing.push(`${sc.id}: ${m[1]} "${decodeURIComponent(m[2])}"`);
+  }
+  record(`tour: all ${links} source links find their quoted text`, !missing.length && links >= 15, missing.join('; '));
+
+  const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  const errors = [];
+  page.on('pageerror', e => errors.push(e.message));
+  page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
+  const at = (g) => page.waitForFunction((g) => window.gump && gump.gen >= g && gump.last && gump.last.gen >= g, g, { timeout: 600000, polling: 200 });
+  // landing page (no parameters) = the tour's first scene
+  await page.goto(`${base}/`); await at(0);
+  const land = await page.evaluate(() => ({ open: document.getElementById('tour').classList.contains('open'), title: document.getElementById('t-title').textContent, pop: gump.last.s.pop }));
+  record('tour: the bare URL lands on the tour', land.open && land.title === 'Cells are the faces of cubes' && land.pop === 108, JSON.stringify(land));
+  // every scene and variant (the peel scene's 3,200-generation fast-forward is only started)
+  const loads = [];
+  for (let i = 0; i < SCENES.length; i++) for (let v = 0; v < (SCENES[i].variants || [0]).length; v++) {
+    await page.goto(`${base}/?tour=${i}&v=${v}`);
+    await page.waitForFunction(() => window.gump && gump.last, null, { timeout: 600000 });
+    const r = await page.evaluate(() => ({ title: document.getElementById('t-title').textContent, seed: gump.seedName, target: gump.runUntil }));
+    loads.push(`${i}.${v} ${r.seed}`);
+    if (SCENES[i].id === 'peel' && r.target !== 3200) errors.push('peel scene does not fast-forward to 3200');
+  }
+  record(`tour: all scenes and variants load without errors`, !errors.length, errors.length ? errors.join(' | ') : loads.join(' · '));
+  // the firewall scene: the 3-plane gap stays empty, the 2-plane gap is breached
+  // the gap planes from the seed's definition (s = d.p in seed coordinates, shifted by the placement)
+  const gapCounts = () => page.evaluate(async () => {
+    const { layerCountsCells } = await import('/web/src/layers.js');
+    const { makeSeed, autoBox } = await import('/web/src/seeds.js');
+    const seed = makeSeed(gump.spec), box = autoBox(seed.pts), g = gump.spec.gap;
+    const lo = 1 - 2 * Math.floor(g / 2) + box.shift[0] + box.shift[1] + box.shift[2];
+    const r = layerCountsCells(gump.sim.download(), gump.dims)[0];
+    return { gen: gump.gen, g, counts: Array.from({ length: g }, (_, i) => r.counts[(lo + 2 * i - r.base) / 2]) };
+  });
+  const fw = SCENES.findIndex(s => s.id === 'firewall');
+  const gapResult = [];
+  for (const v of [0, 1]) {
+    await page.goto(`${base}/?tour=${fw}&v=${v}`); await at(40);
+    gapResult.push(await gapCounts());
+  }
+  const [g3, g2] = gapResult;
+  record('tour: firewall scene — 3 empty planes stay empty (T3), 2 are breached in this run', g3.g === 3 && g3.counts.every(x => x === 0) && g2.g === 2 && g2.counts.some(x => x > 0),
+    `live cells in the gap planes at gen ${g3.gen}: ${g3.counts.join(',')} (3-plane gap); at gen ${g2.gen}: ${g2.counts.join(',')} (2-plane gap)`);
+  // atlas card: live population checked against the catalogue, phase by phase
+  await page.goto(`${base}/?seed=atlas&id=P14.17a&gen=17`); await at(17);
+  await page.waitForTimeout(400);
+  const card = await page.evaluate(() => document.getElementById('objcard').innerText);
+  record('atlas card: live phase matches the catalogue', /phase 3 of 14/.test(card) && card.includes('✓ matches the catalogue'), card.split('\n').slice(-2).join(' / '));
+  await page.close();
+}
+
 await browser.close(); server.close();
 const failed = results.filter(r => !r.ok);
 console.log(`\n${results.length - failed.length}/${results.length} passed in ${((Date.now() - t0) / 1000).toFixed(1)} s`);

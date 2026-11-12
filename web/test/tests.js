@@ -223,14 +223,41 @@ void main() { ivec2 q = ivec2(gl_FragCoord.xy); int a = q.x % 3, i = q.x / 3, j 
   }
 }
 
+// ---- every gallery object, on the GPU: period, population of every phase, exact recurrence ----
+async function galleryTests() {
+  const data = await (await fetch('../data/gallery.json')).json();
+  let n = 0; const bad = [];
+  for (const cat of data.categories) for (const it of cat.items) {
+    n++;
+    const pts = Int32Array.from(it.cells.flat()), box = autoBox(pts);
+    const cells = new Uint8Array(box.dims[0] * box.dims[1] * box.dims[2]);
+    placeSeed(pts, box.dims, box.shift, false, cells);
+    const sim = new Sim(gl, ...box.dims, {}), stats = new Stats(gl, sim.layout);
+    sim.upload(cells);
+    const start = sim.download();
+    let ok = true;
+    for (let g = 0; g < it.period && ok; g++) {
+      if (stats.computeSync(sim.texture).pop !== it.pops[g]) ok = false;
+      sim.step(1);
+      const now = sim.download();
+      const same = now.every((v, i) => v === start[i]);
+      if (same !== (g === it.period - 1)) ok = false;      // back to phase 0 exactly after one period, not before
+    }
+    if (!ok) bad.push(it.id);
+    stats.dispose(); sim.dispose();
+  }
+  record(`gallery: all ${n} objects have the catalogue's period and phase populations on the GPU`, !bad.length, bad.length ? `mismatch: ${bad.join(' ')}` : `periods ${[...new Set(data.categories.flatMap(c => c.items.map(i => i.period)))].sort((a, b) => a - b).join(',')}`);
+}
+
 window.runTests = async (params = {}) => {
-  const which = params.only ? params.only.split(',') : ['soups', 'golden', 'async', 'ring', 'layers', 'nbr'];
+  const which = params.only ? params.only.split(',') : ['soups', 'golden', 'async', 'ring', 'layers', 'nbr', 'gallery'];
   try {
     if (which.includes('soups')) await randomSoups(params);
     if (which.includes('async')) await asyncStats();
     if (which.includes('ring')) await ringStats();
     if (which.includes('layers')) await layerTests();
     if (which.includes('nbr')) await nbrTests();
+    if (which.includes('gallery')) await galleryTests();
     if (which.includes('golden')) await golden(params);
   } catch (e) { record('exception', false, e.stack || String(e)); }
   return results;

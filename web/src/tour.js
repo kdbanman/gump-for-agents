@@ -115,7 +115,7 @@ export const SCENES = [
     variants: [
       { label: 'vertex star', spec: { seed: 'atlas', id: 'S12a', speed: '2', play: 1, face: 0.7 } },
       { label: 'hinge (p2)', spec: { seed: 'atlas', id: 'P2.6a', speed: '2', play: 1, face: 0.7 } },
-      { label: 'clockwork p66', spec: { seed: 'atlas', id: 'P66.27a', speed: '15', play: 1, face: 0.7 } },
+      { label: 'clockwork p66', spec: { seed: 'atlas', id: 'P66.27a', speed: '10', play: 1, face: 0.7 } },
       { label: 'side-9 ash', spec: { seed: 'cube', n: 9, gen: 71, speed: '5', play: 0, face: 0.7 } },
     ],
     gallery: true,

@@ -266,3 +266,16 @@ Code, commands and `rules.csv`: `research/phase/README.md`. Figures: `research/f
   octahedra sit at ≈0.39 because mirror-plane cells are depleted, and asymmetric octahedral
   soups have *denser* faces (≈0.51) than bulk. So "the face is hot" is true for asymmetric
   seeds and was wrong-for-the-right-reason in my first entry.
+
+## 2026-11-12 — reading the smallest fauna as text (lead)
+
+`gump show --cells F [--orbit]` draws a pattern as its stack of kagome layers. Read that way:
+
+- **[measured]** closed cube (S6a) = two triangles in *adjacent* layers (3 + 3).
+- **[measured]** S6b = two triangles with one *empty* layer between them (two cube corners
+  meeting at a vertex).
+- **[measured]** vertex star (S12a) = triangle + kagome hexagon + triangle (3 + 6 + 3):
+  it is S6b with the kagome-hexagon still life slotted into the gap. Both halves are still
+  lifes on their own, and so is their union.
+- **[measured]** the smallest oscillator (P2.6a, "propeller") = one fixed triangle, and in the
+  next layer the hexagon's two alternate triangles taking turns: a blinking half-star.
