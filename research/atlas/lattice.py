@@ -141,3 +141,28 @@ def fmt(cells):
 
 def parse(s):
     return tuple(tuple(int(v) for v in t.split(',')) for t in s.split())
+
+
+def canonical_orbit(phases):
+    """Orient/translate/phase-shift an orbit so that phase 0 is the canonical form of the
+    lexicographically least canonical phase.  Returns list of sorted cell tuples."""
+    phases = [frozenset(p) for p in phases]
+    best = None
+    for k, p in enumerate(phases):
+        for g in GROUP:
+            img = apply(g, p)
+            mn = [min(c[i] for c in img) for i in range(3)]
+            sh = [2 * (m // 2) for m in mn]
+            key = tuple(sorted(tuple(c[i] - sh[i] for i in range(3)) for c in img))
+            if best is None or key < best[0]:
+                best = (key, k, g, sh)
+    _, k, g, sh = best
+    L = len(phases)
+    return [tuple(sorted(tuple(c[i] - sh[i] for i in range(3)) for c in apply(g, phases[(k + t) % L]))) for t in range(L)]
+
+
+def spacetime_sym(phases):
+    """Number of (g, phase shift) pairs in O_h x Z_P mapping the orbit onto itself up to translation."""
+    phases = [frozenset(p) for p in phases]
+    n0 = [normal(p) for p in phases]
+    return sum(1 for g in GROUP for k in range(len(phases)) if normal(apply(g, phases[0])) == n0[k])
