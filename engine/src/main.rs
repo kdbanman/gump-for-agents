@@ -22,6 +22,26 @@ USAGE
   gump info     [SEED] [SPACE]                           seed/box/hull as JSON, no stepping
   gump convert  [SEED] [SPACE] [--snapshot-out F] [--cells-out F]   e.g. snapshot <-> cell list
   gump bench    [--quick]                                performance suite (JSON lines)
+  gump show     [SEED] [SPACE] [--gens G] [VIEW]          text rendering (kagome layers / slices)
+  gump png      [SEED] [SPACE] [--gens G] --view V --out F   PNG image
+  gump describe [SEED] [--gens G] [--as-is] [--catalogue F]  period, symmetry, layers, pieces (JSON)
+
+SHOW (text)   default: the pattern as its stack of {111} layers along the diagonal it is
+              thinnest in; each layer is a kagome lattice (● live, · dead site, blank =
+              hexagon centre / not a cell)
+  --orbit                  evolve to the final cycle and show its phases side by side
+  --diag D                 layers along diagonal D; --layer S: only layer S
+  --slice x|y|z=C          axis-aligned slice (faces as | - in even planes, # in odd planes)
+  --orient                 live cells as x/y/z by orientation; --ascii: o and . glyphs
+  --max-chars N            refuse bigger renderings (default 20000)
+PNG    --view proj-x|proj-y|proj-z|proj-diag [--diag D] | layer --layer S | slab --layers-range S0:S1
+              | slice --slice z=C | kymo --kymo F.csv [--events F.jsonl] [--diag D] [--height H]
+       --scale N (pixels per unit, default 6)
+DESCRIBE  evolves the pattern to its final cycle (cap --cap, default 1e5) and reports
+          status, period, pops per phase, union, sym (stabiliser in translations x O_h),
+          spacetime_sym, layer extents on the 4 diagonals, nbr_components, canonical cells,
+          pieces (R-connected components, each with the same fields); --catalogue
+          research/atlas/catalogue.jsonl adds catalogue ids; --as-is describes the input itself
 
 SEED (exactly one; coordinates are doubled: a cell has exactly one odd coordinate)
   --cube N                 closed cube of side N cubes, all internal faces live (3N²(N+1) cells)
@@ -77,7 +97,7 @@ struct Args {
     used: Mutex<std::collections::BTreeSet<String>>,
 }
 
-const BOOL_FLAGS: &[&str] = &["no-halt", "layers", "quick", "lite"];
+const BOOL_FLAGS: &[&str] = &["no-halt", "layers", "quick", "lite", "ascii", "orient", "orbit", "as-is", "per-gen-hash", "no-pack"];
 
 impl Args {
     fn parse() -> Args {
@@ -656,6 +676,196 @@ fn cmd_bench(a: &Args) {
     }
 }
 
+/// Seed → simulator → advanced by --gens. Returns (sim, seed, rule).
+fn pattern(a: &Args) -> (BitSim, Seed, Rule) {
+    let sp = seed_params(a);
+    let seed = build_seed(a, &sp);
+    let rule = if a.get("rule").is_some() { sp.rule } else { seed.rule.unwrap_or(sp.rule) };
+    let (mut sim, lost) = make_sim(a, &seed, rule);
+    if lost > 0 {
+        eprintln!("gump: warning: {lost} seed cells lie outside the box and were dropped");
+    }
+    a.get("margin");
+    a.get("origin");
+    let g: u64 = a.num("gens").unwrap_or(0);
+    let h = gump::instruments::sample(&sim, true).hull();
+    sim.restrict_to_hull(h.as_ref());
+    sim.steps(g);
+    (sim, seed, rule)
+}
+
+fn parse_slice(v: &str) -> (usize, i64) {
+    let (ax, c) = v.split_once('=').unwrap_or_else(|| die("--slice AXIS=C, e.g. z=0"));
+    let ax = match ax {
+        "x" => 0,
+        "y" => 1,
+        "z" => 2,
+        _ => die("--slice axis must be x, y or z"),
+    };
+    (ax, c.parse().unwrap_or_else(|_| die("bad --slice coordinate")))
+}
+
+fn cmd_show(a: &Args) {
+    use gump::render::*;
+    let ascii = a.flag("ascii");
+    let g = if ascii { Glyphs::ascii(a.flag("orient")) } else { Glyphs::unicode(a.flag("orient")) };
+    let orbit = a.flag("orbit");
+    let diag: Option<usize> = a.num("diag");
+    let layer_s: Option<i64> = a.num("layer");
+    let slice_v = a.get("slice");
+    let max_chars: usize = a.num("max-chars").unwrap_or(20_000);
+    let cap: u64 = a.num("cap").unwrap_or(100_000);
+    let (sim, _seed, rule) = pattern(a);
+    a.check_unused();
+    let cells = sim.cells();
+    // the phases to show
+    let (phases, head): (Vec<Vec<P3>>, String) = if orbit {
+        let o = gump::describe::evolve(&cells, rule, cap);
+        let ph: Vec<Vec<P3>> = o.phases.into_iter().take(16).collect();
+        let head = format!("{} period {:?} from gen {:?} (+{} gens before)", o.status, o.period, o.cycle_start.map(|c| c + sim.generation()), sim.generation());
+        (ph, head)
+    } else {
+        (vec![cells.clone()], format!("gen {} pop {}", sim.generation(), cells.len()))
+    };
+    let mut blocks = Vec::new();
+    let union: Vec<P3> = phases.iter().flatten().copied().collect();
+    if let Some(v) = slice_v {
+        let (ax, c) = parse_slice(&v);
+        let (u, w) = match ax {
+            0 => (1, 2),
+            1 => (0, 2),
+            _ => (0, 1),
+        };
+        let sel: Vec<&P3> = union.iter().filter(|p| p[ax] == c).collect();
+        let lo = [sel.iter().map(|p| p[u]).min().unwrap_or(0) - 1, sel.iter().map(|p| p[w]).min().unwrap_or(0) - 1];
+        let hi = [sel.iter().map(|p| p[u]).max().unwrap_or(0) + 1, sel.iter().map(|p| p[w]).max().unwrap_or(0) + 1];
+        for (k, ph) in phases.iter().enumerate() {
+            let live: std::collections::HashSet<P3> = ph.iter().copied().collect();
+            let mut b = vec![format!("phase {k}: {}={c} ({}) ", ["x", "y", "z"][ax], ph.iter().filter(|p| p[ax] == c).count())];
+            b.extend(slice(&live, ax, c, lo, hi, ascii));
+            blocks.push(b);
+        }
+    } else {
+        let d = diag.unwrap_or_else(|| thinnest_diag(&union));
+        let frame = Frame::of(&union, d, 0);
+        for (k, ph) in phases.iter().enumerate() {
+            let title = if phases.len() > 1 { format!("phase {k}") } else { String::new() };
+            let mut b = vec![];
+            match (layer_s, frame) {
+                (Some(sv), _) => {
+                    let sel: Vec<P3> = ph.iter().copied().filter(|&p| gump::lattice::layer(p, d) == sv).collect();
+                    let fr = Frame::of(&union.iter().copied().filter(|&p| gump::lattice::layer(p, d) == sv).collect::<Vec<_>>(), d, 0);
+                    b.push(format!("{title} s={sv} ({})", sel.len()));
+                    if let Some(fr) = fr {
+                        b.extend(kagome_layer(&sel.iter().copied().collect(), d, sv, fr, g));
+                    }
+                }
+                (None, Some(fr)) => {
+                    b.push(title.clone());
+                    let live: std::collections::HashSet<P3> = ph.iter().copied().collect();
+                    let s: Vec<i64> = union.iter().map(|&p| gump::lattice::layer(p, d)).collect();
+                    let (lo, hi) = (*s.iter().min().unwrap(), *s.iter().max().unwrap());
+                    for sv in (lo..=hi).step_by(2) {
+                        b.push(format!("s={sv} ({})", ph.iter().filter(|&&p| gump::lattice::layer(p, d) == sv).count()));
+                        b.extend(kagome_layer(&live, d, sv, fr, g));
+                    }
+                }
+                (None, None) => b.push("(empty)".into()),
+            }
+            blocks.push(b);
+        }
+        emit_line(&format!("{head}; layers along {:?} (diag {d})", gump::lattice::DIAGS[d]));
+    }
+    let lines = if blocks.len() > 1 { hjoin(&blocks, 3) } else { blocks.concat() };
+    let n: usize = lines.iter().map(|l| l.len() + 1).sum();
+    if n > max_chars {
+        die(&format!("rendering is {n} chars (> --max-chars {max_chars}); pick one --layer S or a --slice, or raise --max-chars"));
+    }
+    for l in lines {
+        emit_line(l.trim_end());
+    }
+}
+
+fn cmd_png(a: &Args) {
+    use gump::render::*;
+    let out = a.get("out").unwrap_or_else(|| die("png needs --out FILE.png"));
+    let view = a.get("view").unwrap_or_else(|| "proj-diag".into());
+    let scale: f64 = a.num("scale").unwrap_or(6.0);
+    let img = if view == "kymo" {
+        let f = a.get("kymo").unwrap_or_else(|| die("--view kymo needs --kymo FILE.csv"));
+        let axis: usize = a.num("diag").unwrap_or(0);
+        let ev = a.get("events");
+        let max_h: usize = a.num("height").unwrap_or(1000);
+        a.check_unused();
+        let text = std::fs::read_to_string(&f).unwrap_or_else(|e| die(&format!("{f}: {e}")));
+        let mut lines = text.lines();
+        let header: Vec<i64> = lines.next().unwrap_or("").split(',').skip(2).filter_map(|t| t.parse().ok()).collect();
+        let mut rows = Vec::new();
+        for l in lines {
+            let v: Vec<&str> = l.split(',').collect();
+            if v.len() < 2 || v[1].parse::<usize>().ok() != Some(axis) {
+                continue;
+            }
+            let g: u64 = v[0].parse().unwrap_or(0);
+            rows.push((g, v[2..].iter().map(|x| x.parse::<f64>().unwrap_or(0.0)).collect::<Vec<f64>>()));
+        }
+        let mut deaths = Vec::new();
+        if let Some(ef) = ev {
+            let t = std::fs::read_to_string(&ef).unwrap_or_else(|e| die(&format!("{ef}: {e}")));
+            for l in t.lines() {
+                let num = |k: &str| l.split(&format!("\"{k}\":")).nth(1).and_then(|r| r.split([',', '}']).next()).and_then(|x| x.trim().parse::<i64>().ok());
+                if num("axis") == Some(axis as i64) {
+                    if let (Some(s), Some(g)) = (num("s"), num("gen")) {
+                        if let Some(col) = header.iter().position(|&h| h == s) {
+                            deaths.push((col, g as u64));
+                        }
+                    }
+                }
+            }
+        }
+        png_kymo(&rows, &deaths, scale.max(1.0) as usize, max_h)
+    } else {
+        let diag: usize = a.num("diag").unwrap_or(0);
+        let layer_s: Option<i64> = a.num("layer");
+        let layers = a.get("layers-range");
+        let slice_v = a.get("slice");
+        let (sim, _, _) = pattern(a);
+        a.check_unused();
+        let cells = sim.cells();
+        match view.as_str() {
+            "proj-x" => png_axis_projection(&cells, 0, scale as usize),
+            "proj-y" => png_axis_projection(&cells, 1, scale as usize),
+            "proj-z" => png_axis_projection(&cells, 2, scale as usize),
+            "proj-diag" => png_diag_projection(&cells, diag, scale),
+            "layer" => {
+                let s = layer_s.unwrap_or_else(|| die("--view layer needs --layer S"));
+                png_layers(&cells, diag, s, s, scale)
+            }
+            "slab" => {
+                let r = layers.unwrap_or_else(|| die("--view slab needs --layers-range S0:S1"));
+                let (x, y) = r.split_once(':').unwrap_or_else(|| die("--layers-range S0:S1"));
+                png_layers(&cells, diag, x.parse().unwrap_or_else(|_| die("bad S0")), y.parse().unwrap_or_else(|_| die("bad S1")), scale)
+            }
+            "slice" => {
+                let (ax, c) = parse_slice(&slice_v.unwrap_or_else(|| die("--view slice needs --slice z=C")));
+                png_slice(&cells, ax, c, scale as usize)
+            }
+            v => die(&format!("unknown --view {v} (proj-x|proj-y|proj-z|proj-diag|layer|slab|slice|kymo)")),
+        }
+    };
+    std::fs::write(&out, img.png()).unwrap_or_else(|e| die(&format!("{out}: {e}")));
+    emit_line(&Obj::new().f("type", "png").f("out", &out).f("view", &view).f("width", &img.w).f("height", &img.h).end());
+}
+
+fn cmd_describe(a: &Args) {
+    let cap: u64 = a.num("cap").unwrap_or(100_000);
+    let as_is = a.flag("as-is");
+    let cat = a.get("catalogue").map(|f| gump::describe::load_catalogue(&f).unwrap_or_else(|e| die(&e)));
+    let (sim, _, rule) = pattern(a);
+    a.check_unused();
+    emit_line(&gump::describe::describe(&sim.cells(), rule, cap, as_is, cat.as_ref()));
+}
+
 fn main() {
     let a = Args::parse();
     match a.cmd.as_str() {
@@ -664,6 +874,9 @@ fn main() {
         "info" => cmd_info(&a),
         "convert" => cmd_convert(&a),
         "bench" => cmd_bench(&a),
+        "show" => cmd_show(&a),
+        "png" => cmd_png(&a),
+        "describe" => cmd_describe(&a),
         "help" | "--help" | "-h" => print!("{HELP}"),
         c => die(&format!("unknown command '{c}' (try gump help)")),
     }
