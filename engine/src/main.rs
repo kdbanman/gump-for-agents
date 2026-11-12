@@ -88,6 +88,12 @@ ENSEMBLE
   --vary KEY=V1,V2,...     sweep: density, radius, half, rule, slab-layers (repeatable)
   --threads T              parallel runs (default: all cores)
   --gens N                 cap per run (default 10^6)
+  (engine) runs whose boxes fit are packed 2-4 per machine word; cycles are found from a
+           per-run hash every --check-every K generations (default 32) with the exact
+           cycle start recovered by re-simulation; extinction/still lifes are exact every
+           generation. Output identical to per-generation hashing (periods <= 512 at the
+           cap, <= 2048 elsewhere). --per-gen-hash: the previous engine (one run per
+           thread, hash every generation); --no-pack: one run per word.
 "#;
 
 struct Args {
@@ -549,6 +555,9 @@ fn cmd_ensemble(a: &Args) {
     }
     let opts = run_opts(a, 1_000_000);
     let out = a.get("out");
+    let per_gen_hash = a.flag("per-gen-hash");
+    let no_pack = a.flag("no-pack");
+    let check_every: u64 = a.num("check-every").unwrap_or(32);
     // validate the seed options once (also consumes the option names)
     let _ = build_seed(a, &base);
     a.get("margin");
@@ -576,41 +585,121 @@ fn cmd_ensemble(a: &Args) {
             jobs.push((jobs.len(), g.clone(), sp));
         }
     }
-    let next = AtomicUsize::new(0);
     let sink: Mutex<Box<dyn Write + Send>> = Mutex::new(match &out {
         Some(f) => Box::new(BufWriter::new(std::fs::File::create(f).unwrap_or_else(|e| die(&format!("{f}: {e}"))))),
         None => Box::new(std::io::stdout()),
     });
     let t0 = Instant::now();
     let total_gens = AtomicUsize::new(0);
-    std::thread::scope(|sc| {
-        for _ in 0..threads.max(1) {
-            sc.spawn(|| loop {
-                let i = next.fetch_add(1, Ordering::Relaxed);
-                if i >= jobs.len() {
-                    break;
-                }
-                let (idx, params, sp) = &jobs[i];
-                let seed = build_seed(a, sp);
-                let (mut sim, lost) = make_sim(a, &seed, sp.rule);
-                sim.set_threads(1);
-                let mut o2 = opts.clone();
-                o2.hash_window = o2.hash_window.min(1 << 16);
-                let res = run(&mut sim, &o2, &mut Sinks::default());
-                total_gens.fetch_add(res.gens_run() as usize, Ordering::Relaxed);
-                let pj: Vec<Raw> = params.iter().map(|(k, v)| Raw(Obj::new().f("key", k).f("value", v).end())).collect();
-                let line = summary_json(
-                    &sim,
-                    &seed,
-                    &res,
-                    vec![("run", Raw(idx.to_string())), ("rng", Raw(sp.rng.to_string())), ("params", Raw(pj.json())), ("dropped_cells", Raw(lost.to_string()))],
-                );
-                let mut s = sink.lock().unwrap();
-                let _ = writeln!(s, "{line}");
-                let _ = s.flush();
-            });
+    let write_line = |line: String| {
+        let mut s = sink.lock().unwrap();
+        let _ = writeln!(s, "{line}");
+        let _ = s.flush();
+    };
+    let extra = |idx: usize, params: &Vec<(String, String)>, sp: &SeedParams, lost: usize| {
+        let pj: Vec<Raw> = params.iter().map(|(k, v)| Raw(Obj::new().f("key", k).f("value", v).end())).collect();
+        vec![("run", Raw(idx.to_string())), ("rng", Raw(sp.rng.to_string())), ("params", Raw(pj.json())), ("dropped_cells", Raw(lost.to_string()))]
+    };
+    if per_gen_hash {
+        let next = AtomicUsize::new(0);
+        std::thread::scope(|sc| {
+            for _ in 0..threads.max(1) {
+                sc.spawn(|| loop {
+                    let i = next.fetch_add(1, Ordering::Relaxed);
+                    if i >= jobs.len() {
+                        break;
+                    }
+                    let (idx, params, sp) = &jobs[i];
+                    let seed = build_seed(a, sp);
+                    let (mut sim, lost) = make_sim(a, &seed, sp.rule);
+                    sim.set_threads(1);
+                    let mut o2 = opts.clone();
+                    o2.hash_window = o2.hash_window.min(1 << 16);
+                    let res = run(&mut sim, &o2, &mut Sinks::default());
+                    total_gens.fetch_add(res.gens_run() as usize, Ordering::Relaxed);
+                    write_line(summary_json(&sim, &seed, &res, extra(*idx, params, sp, lost)));
+                });
+            }
+        });
+    } else {
+        // Group runs that can share words: same lane box and rule. Soups in open space use
+        // the box of their whole region (it holds every soup's hull, so T2 makes it exact).
+        use std::collections::{HashMap, VecDeque};
+        struct Spec {
+            idx: usize,
+            params: Vec<(String, String)>,
+            sp: SeedParams,
+            cells: Vec<P3>,
+            desc: String,
+            natural: Geometry,
+            gen: u64,
+            lost: usize,
         }
-    });
+        let mut groups: Vec<(Geometry, Rule, Mutex<VecDeque<Spec>>)> = Vec::new();
+        let mut gindex: HashMap<(Geometry, Rule), usize> = HashMap::new();
+        let mut region_box: HashMap<String, Geometry> = HashMap::new();
+        let margin: usize = a.num("margin").unwrap_or(1);
+        for (idx, params, sp) in &jobs {
+            let seed = build_seed(a, sp);
+            let (sim, lost) = make_sim(a, &seed, sp.rule);
+            let natural = sim.geometry().clone();
+            let confined = sp.rule.min_birth().is_none_or(|b| b >= 4);
+            let pack = if a.kv.contains_key("soup") && natural.boundary == Boundary::Open && a.get("box").is_none() && confined {
+                let region = soup_region(a, sp, None);
+                let key = format!("{region:?}");
+                region_box
+                    .entry(key)
+                    .or_insert_with(|| {
+                        let full = seeds::soup(&region, 1.0, 0);
+                        Hull::of_cells(&full).map(|h| Geometry::open_for_hull(&h, margin)).unwrap_or_else(|| natural.clone())
+                    })
+                    .clone()
+            } else {
+                natural.clone()
+            };
+            let cells = seed.cells.into_iter().filter(|&p| natural.contains_doubled(p)).collect();
+            let gi = *gindex.entry((pack.clone(), sp.rule)).or_insert_with(|| {
+                groups.push((pack.clone(), sp.rule, Mutex::new(VecDeque::new())));
+                groups.len() - 1
+            });
+            groups[gi].2.lock().unwrap().push_back(Spec { idx: *idx, params: params.clone(), sp: sp.clone(), cells, desc: seed.desc, natural, gen: seed.gen, lost });
+        }
+        let lopts = gump::lanes::LaneOpts {
+            cap: opts.max_gens.unwrap_or(1_000_000),
+            check_every: check_every.max(1),
+            window: ((1usize << 16) / check_every.max(1) as usize).max(64),
+            need_layers: opts.need_layers,
+            ..Default::default()
+        };
+        let next_group = AtomicUsize::new(0);
+        std::thread::scope(|sc| {
+            for _ in 0..threads.max(1) {
+                sc.spawn(|| loop {
+                    // the next group with work left (round robin)
+                    let ng = groups.len();
+                    let start = next_group.fetch_add(1, Ordering::Relaxed);
+                    let Some(gi) = (0..ng).map(|o| (start + o) % ng).find(|&g| !groups[g].2.lock().unwrap().is_empty()) else { break };
+                    let (geo, rule, q) = &groups[gi];
+                    let lanes = if no_pack { 1 } else { BitSim::max_lanes(geo.n[0]) };
+                    gump::lanes::run_lanes(
+                        geo,
+                        *rule,
+                        lanes,
+                        &lopts,
+                        || {
+                            q.lock().unwrap().pop_front().map(|s| gump::lanes::Job { cells: s.cells.clone(), natural: s.natural.clone(), start_gen: s.gen, tag: s })
+                        },
+                        |d| {
+                            let s = d.tag;
+                            total_gens.fetch_add(d.res.gens_run() as usize, Ordering::Relaxed);
+                            let seed = Seed { cells: vec![], desc: s.desc.clone(), geo: None, gen: s.gen, rule: None };
+                            write_line(summary_json(&d.sim, &seed, &d.res, extra(s.idx, &s.params, &s.sp, s.lost)));
+                        },
+                    );
+                });
+            }
+        });
+    }
     let el = t0.elapsed().as_secs_f64();
     let line = Obj::new()
         .f("type", "ensemble_summary")

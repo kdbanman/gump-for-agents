@@ -157,3 +157,24 @@ fn still_life_and_extinction() {
     assert_eq!(r.halt.unwrap().status, Status::Extinct);
     assert_eq!(r.halt.unwrap().cycle_start, 1);
 }
+
+#[test]
+fn still_life_on_torus_is_still() {
+    // a unit cube on a small torus: the halo holds copies of live cells, which must not
+    // count as "changed"
+    for n in [1usize, 2, 3, 5] {
+        let geo = Geometry::new([n, n + 1, n + 2], [0, 0, 0], Boundary::Torus);
+        let mut s = BitSim::new(geo, Rule::GUMP).unwrap();
+        s.set_cells(&seeds::closed_cube(1));
+        s.step();
+        let changed = s.cells() != BitSim::new(s.geometry().clone(), Rule::GUMP).map(|mut t| { t.set_cells(&seeds::closed_cube(1)); t.cells() }).unwrap();
+        let acc = s.last_step().unwrap();
+        assert_eq!(acc.diff != 0, changed, "torus {n}");
+        if !changed {
+            let mut s2 = BitSim::new(s.geometry().clone(), Rule::GUMP).unwrap();
+            s2.set_cells(&seeds::closed_cube(1));
+            let r = run(&mut s2, &RunOpts::default(), &mut Sinks::default());
+            assert_eq!(r.halt.unwrap().status, Status::Still);
+        }
+    }
+}

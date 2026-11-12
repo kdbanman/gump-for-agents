@@ -9,6 +9,7 @@ pub mod seeds;
 pub mod render;
 pub mod snapshot;
 pub mod sym;
+pub mod lanes;
 pub mod lattice;
 pub mod rule;
 pub mod scalar;

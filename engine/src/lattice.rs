@@ -60,7 +60,7 @@ pub fn offsets(axis: usize) -> [P3; 12] {
     out
 }
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum Boundary {
     /// Periodic in all three directions with period `2·n[t]` in doubled coordinates.
     Torus,
@@ -80,7 +80,7 @@ impl Boundary {
 
 /// The simulation box: `n` cubes per direction, cube `(i,j,k)` (local, `0 ≤ i < n[0]` …)
 /// is absolute cube `(i,j,k) + origin`.
-#[derive(Clone, Debug, PartialEq, Eq)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct Geometry {
     pub n: [usize; 3],
     pub origin: [i64; 3],

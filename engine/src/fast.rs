@@ -241,12 +241,43 @@ impl RuleKernel for GenericRule {
     }
 }
 
+/// What the kernel reduces while stepping (see [`BitSim::stats_mode`]).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum StatsMode {
+    /// nothing (fastest)
+    None,
+    /// population per orientation + changed bits
+    Lite,
+    /// `Lite` + the 64-bit state hash (per-generation cycle detection)
+    Full,
+    /// population per lane (segment) + changed bits — for packed ensembles
+    Lanes,
+}
+
+impl StatsMode {
+    fn code(self) -> u8 {
+        match self {
+            StatsMode::None => 0,
+            StatsMode::Lite => 1,
+            StatsMode::Full => 2,
+            StatsMode::Lanes => 3,
+        }
+    }
+}
+
+/// Maximum number of runs packed side by side in one word.
+pub const MAX_LANES: usize = 4;
+
 /// Per-generation reductions computed inside the kernel (when enabled).
 #[derive(Clone, Copy, Default, Debug)]
 pub struct StepAcc {
     pub hash: u64,
     pub pop: [u64; 3],
+    /// OR over all words of (new ^ old): bit b set iff some cell in bit column b changed.
+    /// Nonzero iff anything changed; `diff & lane_mask(r)` tells lane r.
     pub diff: u64,
+    /// population per lane (`StatsMode::Lanes`)
+    pub lane_pop: [u64; MAX_LANES],
 }
 
 impl StepAcc {
@@ -254,6 +285,9 @@ impl StepAcc {
         self.hash = self.hash.wrapping_add(o.hash);
         for a in 0..3 {
             self.pop[a] += o.pop[a];
+        }
+        for r in 0..MAX_LANES {
+            self.lane_pop[r] += o.lane_pop[r];
         }
         self.diff |= o.diff;
     }
@@ -324,7 +358,8 @@ unsafe fn block<R: RuleKernel, const L: usize>(rule: R, p: Ins, i: usize, s: usi
         let nx = v512::and(rule.apply_v(xc5, cx), vm5);
         let ny = v512::and(rule.apply_v(yc5, cy), vm5);
         let nz = v512::and(rule.apply_v(zc5, cz), vm5);
-        return [out(nx), out(ny), out(nz), xc, yc, zc];
+        // old values masked like the new ones: on a torus the halo columns hold copies
+        return [out(nx), out(ny), out(nz), out(v512::and(xc5, vm5)), out(v512::and(yc5, vm5)), out(v512::and(zc5, vm5))];
     }
     let mut nx = [0u64; L];
     let mut ny = [0u64; L];
@@ -349,7 +384,8 @@ unsafe fn block<R: RuleKernel, const L: usize>(rule: R, p: Ins, i: usize, s: usi
         ]);
         nz[l] = rule.apply(zc[l], cz) & vm[l];
     }
-    [nx, ny, nz, xc, yc, zc]
+    let m = |a: [u64; L]| -> [u64; L] { std::array::from_fn(|l| a[l] & vm[l]) };
+    [nx, ny, nz, m(xc), m(yc), m(zc)]
 }
 
 #[derive(Clone, Copy)]
@@ -357,24 +393,42 @@ struct Accum<const L: usize> {
     hash: [u64; L],
     pop: [[u64; L]; 3],
     diff: [u64; L],
+    lane: [[u64; L]; MAX_LANES],
 }
 
 impl<const L: usize> Accum<L> {
     fn new() -> Self {
-        Accum { hash: [0; L], pop: [[0; L]; 3], diff: [0; L] }
+        Accum { hash: [0; L], pop: [[0; L]; 3], diff: [0; L], lane: [[0; L]; MAX_LANES] }
     }
     #[inline(always)]
-    fn add(&mut self, r: &[[u64; L]; 6], i: usize, hbase: [u64; 3]) {
+    fn add<const MODE: u8>(&mut self, r: &[[u64; L]; 6], i: usize, hbase: [u64; 3], lm: &[u64; MAX_LANES]) {
         // key(gi) = gi·HK1 computed as one scalar multiply per orientation plus constant
         // lane offsets, so the vector loop has one 64-bit multiply per word, not two
         let kb = [0, 1, 2].map(|a| (i as u64 + hbase[a]).wrapping_mul(HK1));
         for l in 0..L {
-            let lk = (l as u64).wrapping_mul(HK1);
-            for a in 0..3 {
-                self.hash[l] = self.hash[l].wrapping_add(hmix_key(r[a][l], kb[a].wrapping_add(lk)));
-                self.pop[a][l] += r[a][l].count_ones() as u64;
+            if MODE == 1 || MODE == 2 {
+                for a in 0..3 {
+                    self.pop[a][l] += r[a][l].count_ones() as u64;
+                }
             }
-            self.diff[l] |= (r[0][l] ^ r[3][l]) | (r[1][l] ^ r[4][l]) | (r[2][l] ^ r[5][l]);
+            if MODE == 2 {
+                let lk = (l as u64).wrapping_mul(HK1);
+                for a in 0..3 {
+                    self.hash[l] = self.hash[l].wrapping_add(hmix_key(r[a][l], kb[a].wrapping_add(lk)));
+                }
+            }
+            if MODE == 3 {
+                // x + 2y = r0 + r1 + r2 per bit (a full adder), then popcount per lane
+                let (a, b, c) = (r[0][l], r[1][l], r[2][l]);
+                let x = a ^ b ^ c;
+                let y = (a & b) | (c & (a ^ b));
+                for q in 0..MAX_LANES {
+                    self.lane[q][l] += (x & lm[q]).count_ones() as u64 + 2 * (y & lm[q]).count_ones() as u64;
+                }
+            }
+            if MODE >= 1 {
+                self.diff[l] |= (r[0][l] ^ r[3][l]) | (r[1][l] ^ r[4][l]) | (r[2][l] ^ r[5][l]);
+            }
         }
     }
     fn into_acc(self, acc: &mut StepAcc) {
@@ -382,6 +436,9 @@ impl<const L: usize> Accum<L> {
             acc.hash = acc.hash.wrapping_add(self.hash[l]);
             for a in 0..3 {
                 acc.pop[a] += self.pop[a][l];
+            }
+            for q in 0..MAX_LANES {
+                acc.lane_pop[q] += self.lane[q][l];
             }
             acc.diff |= self.diff[l];
         }
@@ -393,13 +450,14 @@ impl<const L: usize> Accum<L> {
 /// zeroes them). Outputs are the row range `k0..k1` of the output planes.
 #[allow(clippy::too_many_arguments)]
 #[inline(always)]
-fn kernel_rows<R: RuleKernel, const STATS: bool>(
+fn kernel_rows<R: RuleKernel, const MODE: u8>(
     rule: R,
     p: Ins,
     ox: &mut [u64], oy: &mut [u64], oz: &mut [u64],
     k0: usize, k1: usize, sj: usize,
     hbase: [u64; 3],
     rows: Option<&[(u32, u32)]>,
+    lm: &[u64; MAX_LANES],
     acc: &mut StepAcc,
 ) {
     let plane = p.xc.len();
@@ -428,8 +486,8 @@ fn kernel_rows<R: RuleKernel, const STATS: bool>(
                 std::ptr::write_unaligned(ox.as_mut_ptr().add(o) as *mut [u64; LANES], r[0]);
                 std::ptr::write_unaligned(oy.as_mut_ptr().add(o) as *mut [u64; LANES], r[1]);
                 std::ptr::write_unaligned(oz.as_mut_ptr().add(o) as *mut [u64; LANES], r[2]);
-                if STATS {
-                    a8.add(&r, i, hbase);
+                if MODE > 0 {
+                    a8.add::<MODE>(&r, i, hbase, lm);
                 }
                 i += LANES;
             }
@@ -439,8 +497,8 @@ fn kernel_rows<R: RuleKernel, const STATS: bool>(
                 ox[o] = r[0][0];
                 oy[o] = r[1][0];
                 oz[o] = r[2][0];
-                if STATS {
-                    a1.add(&r, i, hbase);
+                if MODE > 0 {
+                    a1.add::<MODE>(&r, i, hbase, lm);
                 }
                 i += 1;
             }
@@ -467,7 +525,7 @@ fn kernel_rows<R: RuleKernel, const STATS: bool>(
             }
         }
     }
-    if STATS {
+    if MODE > 0 {
         a8.into_acc(acc);
         a1.into_acc(acc);
     }
@@ -500,8 +558,14 @@ pub struct BitSim {
     prev_valid: bool,
     /// stats of the most recent step (if computed in-kernel)
     last: Option<StepAcc>,
-    /// compute hash / population / changed flag inside the kernel
-    pub kernel_stats: bool,
+    /// what the kernel reduces each generation (default `Full`)
+    pub stats_mode: StatsMode,
+    /// packed runs: number of lanes (1 = an ordinary simulation)
+    lanes: usize,
+    /// per lane: (all its bits, its lowest bit column, its highest bit column)
+    lane_masks: [(u64, u64, u64); MAX_LANES],
+    /// packed runs: the box of one run (lane r = cubes `[r·nx, (r+1)·nx)` along x)
+    lane_geo: Option<Geometry>,
     threads: usize,
     /// open boxes: per padded k, the padded j-range meeting the diagonal hull
     rows: Option<Vec<(u32, u32)>>,
@@ -509,7 +573,12 @@ pub struct BitSim {
 
 impl BitSim {
     pub fn new(geo: Geometry, rule: Rule) -> Result<BitSim, String> {
-        let (nw, nb) = match geo.boundary {
+        let (nw, nb) = Self::packing_for(&geo);
+        Self::new_with_packing(geo, rule, nw, nb)
+    }
+
+    fn packing_for(geo: &Geometry) -> (usize, usize) {
+        match geo.boundary {
             Boundary::Torus => pack_torus(geo.n[0]),
             Boundary::Open => {
                 let (w, b) = pack_open(geo.n[0]);
@@ -520,7 +589,10 @@ impl BitSim {
                     (w, b)
                 }
             }
-        };
+        }
+    }
+
+    fn new_with_packing(geo: Geometry, rule: Rule, nw: usize, nb: usize) -> Result<BitSim, String> {
         assert_eq!(nw * nb, geo.n[0]);
         let sj = geo.n[1] + 2;
         let plane = sj * (geo.n[2] + 2);
@@ -548,10 +620,50 @@ impl BitSim {
             gen: 0,
             prev_valid: false,
             last: None,
-            kernel_stats: true,
+            stats_mode: StatsMode::Full,
+            lanes: 1,
+            lane_masks: [(mask, 1, 1u64 << (nb - 1)), (0, 0, 0), (0, 0, 0), (0, 0, 0)],
+            lane_geo: None,
             threads: 1,
             rows: None,
         })
+    }
+
+    /// `(W, B)` with `W·B = nx` and `lanes·B ≤ 64` (smallest W), if any.
+    pub fn lane_packing(nx: usize, lanes: usize) -> Option<(usize, usize)> {
+        if lanes == 0 || lanes > MAX_LANES {
+            return None;
+        }
+        (nx.div_ceil(64 / lanes).max(1)..=nx).find(|&w| nx % w == 0 && lanes * (nx / w) <= 64).map(|w| (w, nx / w))
+    }
+
+    /// Most lanes (≤ MAX_LANES) that fit runs `nx` cubes wide without more words per row
+    /// than a single run needs.
+    pub fn max_lanes(nx: usize) -> usize {
+        let w1 = Self::lane_packing(nx, 1).map(|p| p.0).unwrap_or(usize::MAX);
+        (1..=MAX_LANES).rev().find(|&k| Self::lane_packing(nx, k).is_some_and(|p| p.0 <= w1)).unwrap_or(1)
+    }
+
+    /// `lanes` independent runs side by side, each in the box `run_geo` (every lane has the
+    /// same box, boundary and rule). Lane r occupies bit columns `[r·B, (r+1)·B)` of every
+    /// word, i.e. cubes `[r·nx, (r+1)·nx)` of a box `lanes` times wider; the seam shift
+    /// is masked per lane (and rotates per lane on a torus), so lanes never interact.
+    pub fn new_packed(run_geo: &Geometry, rule: Rule, lanes: usize) -> Result<BitSim, String> {
+        let (w, b) = Self::lane_packing(run_geo.n[0], lanes).ok_or_else(|| format!("cannot pack {lanes} lanes of width {}", run_geo.n[0]))?;
+        let geo = Geometry::new([run_geo.n[0] * lanes, run_geo.n[1], run_geo.n[2]], run_geo.origin, run_geo.boundary);
+        let mut sim = BitSim::new_with_packing(geo, rule, w, b * lanes)?;
+        sim.lanes = lanes;
+        for r in 0..MAX_LANES {
+            sim.lane_masks[r] = if r < lanes {
+                let m = if b == 64 { !0 } else { ((1u64 << b) - 1) << (r * b) };
+                (m, 1u64 << (r * b), 1u64 << (r * b + b - 1))
+            } else {
+                (0, 0, 0)
+            };
+        }
+        sim.lane_geo = Some(run_geo.clone());
+        sim.stats_mode = StatsMode::Lanes;
+        Ok(sim)
     }
 
     pub fn geometry(&self) -> &Geometry {
@@ -745,14 +857,17 @@ impl BitSim {
             nxt: self.nxt.as_mut_ptr(),
             vmask: self.vmask.as_ptr(),
             nw: self.nw,
-            nb: self.nb,
             mask: self.mask,
             plane: self.plane,
             sj: self.sj,
             ny: self.geo.n[1],
             nz: self.geo.n[2],
             torus: self.geo.boundary == Boundary::Torus,
-            stats: self.kernel_stats,
+            stats: self.stats_mode.code(),
+            lm: [self.lane_masks[0].0, self.lane_masks[1].0, self.lane_masks[2].0, self.lane_masks[3].0],
+            seg_lo: self.lane_masks.iter().fold(0, |m, l| m | l.1),
+            seg_hi: self.lane_masks.iter().fold(0, |m, l| m | l.2),
+            lane_bits: (self.nb / self.lanes) as u32,
             generic: if self.rule.is_gump() { None } else { Some(GenericRule::new(self.rule)) },
             rows: self.rows.as_ref().map(|r| (r.as_ptr(), r.len())),
         }
@@ -769,7 +884,7 @@ impl BitSim {
         std::mem::swap(&mut self.cur, &mut self.nxt);
         self.gen += 1;
         self.prev_valid = true;
-        self.last = if self.kernel_stats { Some(acc) } else { None };
+        self.last = if self.stats_mode != StatsMode::None { Some(acc) } else { None };
     }
 
     /// Advance one generation (single-threaded; see [`BitSim::run_steps`] for threads).
@@ -848,20 +963,41 @@ impl BitSim {
     /// About 2× fewer words for octahedral hulls. `None` (or a torus, or a rule with
     /// births below 4) computes everything. Returns whether a restriction is active.
     pub fn restrict_to_hull(&mut self, hull: Option<&crate::lattice::Hull>) -> bool {
-        let ok = self.geo.boundary == Boundary::Open && self.rule.min_birth().is_none_or(|b| b >= 4);
-        let Some(h) = hull.filter(|_| ok) else {
+        let Some(h) = hull else {
             self.rows = None;
             return false;
         };
         debug_assert!(self.cells().iter().all(|&p| h.contains(p)));
+        let geo = self.geo.clone();
+        self.restrict_rows_by(|a, i, j, k| h.contains(geo.to_doubled(a, [i, j, k])))
+    }
+
+    /// Packed runs: restrict to the union of the lanes' hulls (`None` = lane unused).
+    pub fn restrict_to_lane_hulls(&mut self, hulls: &[Option<crate::lattice::Hull>]) -> bool {
+        let Some(lg) = self.lane_geo.clone() else { return false };
+        let nx = lg.n[0];
+        let hs: Vec<Option<crate::lattice::Hull>> = hulls.to_vec();
+        self.restrict_rows_by(|a, i, j, k| {
+            let r = i / nx;
+            hs.get(r).and_then(|h| h.as_ref()).is_some_and(|h| h.contains(lg.to_doubled(a, [i % nx, j, k])))
+        })
+    }
+
+    /// Compute only rows `(j, k)` containing a cell `(a, i, j, k)` with `hit` true. Only for
+    /// open boxes and rules with min birth ≥ 4 (T2); otherwise clears the restriction.
+    pub fn restrict_rows_by(&mut self, hit: impl Fn(usize, usize, usize, usize) -> bool) -> bool {
+        let ok = self.geo.boundary == Boundary::Open && self.rule.min_birth().is_none_or(|b| b >= 4);
+        if !ok {
+            self.rows = None;
+            return false;
+        }
         let (nx, ny, nz) = (self.geo.n[0], self.geo.n[1], self.geo.n[2]);
         let mut rows = vec![(1u32, 0u32); nz + 2];
         for k in 0..nz {
             let mut jl = u32::MAX;
             let mut jh = 0u32;
             for j in 0..ny {
-                let hit = (0..3).any(|a| (0..nx).any(|i| h.contains(self.geo.to_doubled(a, [i, j, k]))));
-                if hit {
+                if (0..3).any(|a| (0..nx).any(|i| hit(a, i, j, k))) {
                     jl = jl.min(j as u32 + 1);
                     jh = jh.max(j as u32 + 1);
                 }
@@ -887,6 +1023,106 @@ impl BitSim {
         self.prev_valid = false;
         self.rows = Some(rows);
         true
+    }
+
+    // ---------------------------------------------------------------- packed lanes
+
+    pub fn lanes(&self) -> usize {
+        self.lanes
+    }
+    /// Bit columns of lane `r`.
+    pub fn lane_mask(&self, r: usize) -> u64 {
+        self.lane_masks[r].0
+    }
+    /// The box of one lane (packed sims only).
+    pub fn lane_geometry(&self) -> Option<&Geometry> {
+        self.lane_geo.as_ref()
+    }
+
+    /// Put cells (doubled coordinates of the lane's own box) into lane `r`. Returns how
+    /// many could not be placed.
+    pub fn set_lane_cells(&mut self, r: usize, cells: &[P3]) -> usize {
+        let lg = self.lane_geo.clone().expect("not a packed sim");
+        let mut lost = 0;
+        for &p in cells {
+            match lg.locate(p) {
+                Some((a, mut c)) => {
+                    c[0] += r * lg.n[0];
+                    let (i, b) = self.word_index(a, c);
+                    self.cur[i] |= 1 << b;
+                }
+                None => lost += 1,
+            }
+        }
+        self.prev_valid = false;
+        self.last = None;
+        self.halo_dirty = true;
+        lost
+    }
+
+    /// Kill every cell of lane `r` (both buffers).
+    pub fn clear_lane(&mut self, r: usize) {
+        let m = !self.lane_masks[r].0;
+        self.cur.iter_mut().for_each(|w| *w &= m);
+        self.nxt.iter_mut().for_each(|w| *w &= m);
+        self.prev_valid = false;
+        self.last = None;
+        self.halo_dirty = true;
+    }
+
+    /// A copy of the current state words (for `lane_cells_in`).
+    pub fn state_words(&self) -> Vec<u64> {
+        self.cur.clone()
+    }
+
+    /// Live cells of lane `r` in `words` (a `state_words` copy), in the lane's coordinates.
+    pub fn lane_cells_in(&self, words: &[u64], r: usize) -> Vec<P3> {
+        let lg = self.lane_geo.as_ref().expect("not a packed sim");
+        let (ny, nz) = (self.geo.n[1], self.geo.n[2]);
+        let m = self.lane_masks[r].0;
+        let mut v = Vec::new();
+        for a in 0..3 {
+            for w in 0..self.nw {
+                let base = (a * self.nw + w) * self.plane;
+                for k in 0..nz {
+                    let row = base + (k + 1) * self.sj + 1;
+                    for j in 0..ny {
+                        let mut x = words[row + j] & m;
+                        while x != 0 {
+                            let b = x.trailing_zeros() as usize;
+                            x &= x - 1;
+                            let i = (b * self.nw + w) % lg.n[0];
+                            v.push(lg.to_doubled(a, [i, j, k]));
+                        }
+                    }
+                }
+            }
+        }
+        v.sort();
+        v
+    }
+
+    pub fn lane_cells(&self, r: usize) -> Vec<P3> {
+        self.lane_cells_in(&self.cur, r)
+    }
+
+    /// Per-lane state hashes (a full pass; meant for checkpoints).
+    pub fn lane_hashes(&self) -> [u64; MAX_LANES] {
+        let nz = self.geo.n[2];
+        let mut h = [0u64; MAX_LANES];
+        for pl in 0..3 * self.nw {
+            let base = pl * self.plane;
+            for i in self.sj + 1..(nz + 1) * self.sj - 1 {
+                let v = self.cur[base + i] & self.vmask[i];
+                if v == 0 {
+                    continue;
+                }
+                for (r, hr) in h.iter_mut().enumerate().take(self.lanes) {
+                    *hr = hr.wrapping_add(hmix(v & self.lane_masks[r].0, (i + base) as u64));
+                }
+            }
+        }
+        h
     }
 
     /// Fraction of padded rows' words the kernel computes (1.0 without a restriction).
@@ -942,7 +1178,10 @@ impl Clone for BitSim {
             gen: self.gen,
             prev_valid: self.prev_valid,
             last: self.last,
-            kernel_stats: self.kernel_stats,
+            stats_mode: self.stats_mode,
+            lanes: self.lanes,
+            lane_masks: self.lane_masks,
+            lane_geo: self.lane_geo.clone(),
             threads: 1,
             rows: self.rows.clone(),
         }
@@ -1098,14 +1337,18 @@ struct Ctx {
     nxt: *mut u64,
     vmask: *const u64,
     nw: usize,
-    nb: usize,
     mask: u64,
     plane: usize,
     sj: usize,
     ny: usize,
     nz: usize,
     torus: bool,
-    stats: bool,
+    stats: u8,
+    lm: [u64; MAX_LANES],
+    /// lowest / highest bit column of every lane, and lane width in bits
+    seg_lo: u64,
+    seg_hi: u64,
+    lane_bits: u32,
     generic: Option<GenericRule>,
     /// per padded k: inclusive padded j-range to compute (None: everything)
     rows: Option<(*const (u32, u32), usize)>,
@@ -1126,11 +1369,19 @@ impl Ctx {
             return;
         }
         self.seam_rows(seam, k0 - 1, k1);
-        match (self.generic, self.stats) {
-            (None, true) => self.run_impl::<GumpRule, true>(GumpRule, k0, k1, seam, acc),
-            (None, false) => self.run_impl::<GumpRule, false>(GumpRule, k0, k1, seam, acc),
-            (Some(g), true) => self.run_impl::<GenericRule, true>(g, k0, k1, seam, acc),
-            (Some(g), false) => self.run_impl::<GenericRule, false>(g, k0, k1, seam, acc),
+        macro_rules! go {
+            ($r:expr, $t:ty) => {
+                match self.stats {
+                    0 => self.run_impl::<$t, 0>($r, k0, k1, seam, acc),
+                    1 => self.run_impl::<$t, 1>($r, k0, k1, seam, acc),
+                    2 => self.run_impl::<$t, 2>($r, k0, k1, seam, acc),
+                    _ => self.run_impl::<$t, 3>($r, k0, k1, seam, acc),
+                }
+            };
+        }
+        match self.generic {
+            None => go!(GumpRule, GumpRule),
+            Some(g) => go!(g, GenericRule),
         }
         if self.torus {
             self.halo_rows(k0, k1);
@@ -1139,7 +1390,8 @@ impl Ctx {
 
     /// Seam planes, padded rows `r0..=r1`.
     unsafe fn seam_rows(&self, seam: *mut u64, r0: usize, r1: usize) {
-        let (nw, plane, sj, nb, mask) = (self.nw, self.plane, self.sj, self.nb as u32, self.mask);
+        let (nw, plane, sj, mask) = (self.nw, self.plane, self.sj, self.mask);
+        let (lo_m, hi_m, lb) = (self.seg_lo, self.seg_hi, self.lane_bits);
         let first = |a: usize| (a * nw) * plane;
         let last = |a: usize| (a * nw + nw - 1) * plane;
         // (source plane, towards higher i?)
@@ -1149,12 +1401,14 @@ impl Ctx {
             let s = std::slice::from_raw_parts(self.cur.add(src + lo), n);
             let d = std::slice::from_raw_parts_mut(seam.add(t * plane + lo), n);
             match (up, self.torus) {
-                // plane 0 at i-1: bit b <- bit b-1 of plane W-1; bit 0 <- bit B-1 (torus)
-                (true, true) => d.iter_mut().zip(s).for_each(|(o, &v)| *o = ((v << 1) & mask) | ((v >> (nb - 1)) & 1)),
-                (true, false) => d.iter_mut().zip(s).for_each(|(o, &v)| *o = (v << 1) & mask),
-                // plane W-1 at i+1: bit b <- bit b+1 of plane 0; bit B-1 <- bit 0 (torus)
-                (false, true) => d.iter_mut().zip(s).for_each(|(o, &v)| *o = (v >> 1) | ((v & 1) << (nb - 1))),
-                (false, false) => d.iter_mut().zip(s).for_each(|(o, &v)| *o = v >> 1),
+                // plane 0 at i-1: bit b <- bit b-1 of plane W-1; a lane's lowest bit <- its
+                // highest (torus) or 0 (open). One lane: lo_m = bit 0, hi_m = bit B-1.
+                (true, true) => d.iter_mut().zip(s).for_each(|(o, &v)| *o = ((v << 1) & mask & !lo_m) | ((v >> (lb - 1)) & lo_m)),
+                (true, false) => d.iter_mut().zip(s).for_each(|(o, &v)| *o = (v << 1) & mask & !lo_m),
+                // plane W-1 at i+1: bit b <- bit b+1 of plane 0; a lane's highest bit <- its
+                // lowest (torus) or 0 (open)
+                (false, true) => d.iter_mut().zip(s).for_each(|(o, &v)| *o = ((v >> 1) & !hi_m) | ((v & lo_m) << (lb - 1))),
+                (false, false) => d.iter_mut().zip(s).for_each(|(o, &v)| *o = (v >> 1) & !hi_m),
             }
         }
     }
@@ -1179,7 +1433,7 @@ impl Ctx {
         }
     }
 
-    unsafe fn run_impl<R: RuleKernel, const STATS: bool>(&self, rule: R, k0: usize, k1: usize, seam: *mut u64, acc: &mut StepAcc) {
+    unsafe fn run_impl<R: RuleKernel, const MODE: u8>(&self, rule: R, k0: usize, k1: usize, seam: *mut u64, acc: &mut StepAcc) {
         let (nw, plane, sj) = (self.nw, self.plane, self.sj);
         let pl = |a: usize, w: usize| std::slice::from_raw_parts(self.cur.add((a * nw + w) * plane), plane);
         let seam = |t: usize| std::slice::from_raw_parts(seam.add(t * plane) as *const u64, plane);
@@ -1200,7 +1454,7 @@ impl Ctx {
             };
             let o = |a: usize| std::slice::from_raw_parts_mut(self.nxt.add((a * nw + w) * plane + k0 * sj), rows);
             let hb = [(w * plane) as u64, ((nw + w) * plane) as u64, ((2 * nw + w) * plane) as u64];
-            kernel_rows::<R, STATS>(rule, ins, o(0), o(1), o(2), k0, k1, sj, hb, rr, acc);
+            kernel_rows::<R, MODE>(rule, ins, o(0), o(1), o(2), k0, k1, sj, hb, rr, &self.lm, acc);
         }
     }
 }
