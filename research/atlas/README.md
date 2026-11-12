@@ -6,7 +6,7 @@ code, the search spaces, and the catalogue.
 
 ## Catalogue: `catalogue.jsonl`
 
-One JSON object per line, for 1146 objects, each re-stepped with `reference/oracle.py` (`oracle_ok`,
+One JSON object per line, for 1307 objects, each re-stepped with `reference/oracle.py` (`oracle_ok`,
 all true). Fields:
 - `id`: `S<n><letter>` still life, `P<p>.<minpop><letter>` oscillator; prefix `K` = confined to one `{111}` layer.
 - `cells`: phase 0 in doubled coordinates, canonical orientation (later phases follow by stepping).
@@ -41,7 +41,7 @@ by `lattice.step` (an independent sparse stepper) in `still_stats.py` / `build_c
     gcc -O2 -o $S/sl research/atlas/slsearch.c; gcc -O2 -o $S/osc research/atlas/oscsearch.c
     $S/sl 14 > $S/sl_R_14.txt                       # R-connected still lifes <= 14 (2 min)
     $S/sl 16 -s > $S/sl_strong_16.txt               # strongly connected still lifes <= 16 (~30 CPU-min; split by axis: `sl 16 2 -s`)
-    $S/osc 2 12 > $S/osc_P2_N12.txt                 # period-2 oscillators, union <= 12
+    $S/osc 2 13 > $S/osc_P2_N13.txt                 # period-2 oscillators, union <= 13 (11 min); also: osc 3 12 (20 min), osc 4 10
     $S/osc 1 24 -k > $S/kag_still_24.txt            # kagome still lifes <= 24 (1 min)
     $S/osc 2 18 -k > $S/kag_osc_P2_N18.txt          # kagome p2, union <= 18
     python3 research/atlas/still_stats.py $S/sl_strong_16.txt

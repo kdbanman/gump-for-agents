@@ -88,7 +88,7 @@ What this predicts, and what would falsify it:
 
 ## 2026-11-12 — atlas of small objects (atlas agent)
 
-Code, catalogue (1146 objects, every one re-stepped by the oracle) and exact search spaces:
+Code, catalogue (1307 objects, every one re-stepped by the oracle) and exact search spaces:
 `research/atlas/README.md`. Commands below assume `S=research/scratch/atlas` and the binaries built as in that README.
 
 **Still lifes**
@@ -109,18 +109,19 @@ Code, catalogue (1146 objects, every one re-stepped by the oracle) and exact sea
   Most of the small fauna is the cube or a piece of a vertex star.
 
 **Oscillators: they exist, and they are everywhere**
-- **[proved, exhaustive]** Period 2: the smallest union is 9 cells; classes by union size 9, 10, 11, 12: **3, 6, 4, 11**
-  (`$S/osc 2 12`). The smallest phase is 6 cells (`P2.6a`: 3 stator cells plus a 3-fold "propeller" rotor of 6).
+- **[proved, exhaustive]** Period 2: the smallest union is 9 cells; classes by union size 9, 10, 11, 12, 13: **3, 6, 4, 11, 10**
+  (`$S/osc 2 13`, 11 min). The smallest phase is 6 cells (`P2.6a`: 3 stator cells plus a 3-fold "propeller" rotor of 6).
   All 13 with union ≤ 11 are *flips* (phase 1 is congruent to phase 0), and their rotors are perfect matchings of **hinges**:
-  a live face swings 90° onto a face sharing an edge. For larger p2 from soups this holds for about half (88/170).
-- **[proved, exhaustive]** No period-3 oscillator has union ≤ 11 (`$S/osc 3 11`), and none of period 4 has union ≤ 10. The smallest from soups:
-  p3 union 13, p4 union 14.
-- **[measured]** Soups in octahedral vessels (18,900 soups, L1 radius 5–9, ρ = 0.25–0.6, `harvest.py`) leave oscillators in 11%
-  of runs. Object periods seen: **1–16, 20, 22, 48, 66**. Recurrent high-period objects: `P14.17a` (union 24, 64 times),
-  `P16.15a` (30 cells, 28 times), `P10.15a` (11 times), `P5.17a` (99 times). `P11.23a` and `P13.22a` have prime periods.
+  a live face swings 90° onto a face sharing an edge. For larger p2 from soups this holds for only about half (88/170).
+- **[proved, exhaustive]** No period-3 oscillator has union ≤ 12 (`$S/osc 3 12`, 20 min), and none of period 4 has union ≤ 10 (`$S/osc 4 10`).
+  The smallest from soups: p3 union 13 (`P3.11a`), p4 union 14 (`P4.11a`). Hence **the smallest p3 has union exactly 13** (lower bound exhaustive, attained by `P3.11a`; uniqueness at 13 unchecked).
+- **[measured]** Soups in octahedral vessels (26,900 soups, L1 radius 5–9, ρ = 0.25–0.6, `harvest.py`) leave oscillators in 11%
+  of runs. Object periods seen: **1–16, 20, 22, 48, 66**. Recurrent high-period objects: `P14.17a` (union 24, 88 times),
+  `P16.15a` (union 30, 37 times), `P10.15a` (15), `P15.22a` (11), `P22.20a` (6), `P11.23a` (4); common low periods: `P3.13a` (165),
+  `P5.17a` (149), `P2.6a` (119). `P11.23a` and `P13.22a` have prime periods.
   `P48.34a` (56 cells) and `P66.27a` (45 cells) are single neighbour-connected objects whose rotors are not composites:
   50 of 56 and 40 of 45 cells carry the full period. `P10.17a` and `P14.20a` have no stator at all (36 cells, all moving).
-- **[measured]** The most common ash (3D soups): cube `S6a` (2825), vertex star `S12a` (1923), `S12i` (654), `S9a` (296), the hexagon.
+- **[measured]** The most common ash (3D soups): cube `S6a` (4024), vertex star `S12a` (2755), `S12i` (928), `S9a` (422).
 
 **Kagome automaton (one layer, 6 neighbours)**
 - **[proved]** The smallest kagome oscillator is period 2 with union 18 (a 12-cell stator around a hexagon whose alternate
