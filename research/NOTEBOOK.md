@@ -394,3 +394,26 @@ symmetric chaos in a quick test (the soups died at gen 2). It was not investigat
   an asymmetric box of the same volume (c > 1), not shorter. The face picture still matters for vessels (d2h faces are uncut but in lockstep; td/oh faces
   are also cut along their medians), but the order of magnitude follows from |G| alone. For the legacy series: side 13 (R = 33, oh) lived 1.7×10⁵,
   close to oh's median here (2.5×10⁵), and like an asymmetric vessel of R ≈ 12.
+
+## 2026-11-12 — independent check of the face law; two studies reconciled (lead)
+
+- **[measured]** Through the main engine only (`python3 research/experiments/verify_face_law.py 9 240`
+  and `… 11 120 2000000`): asymmetric octahedral soups, p = 0.35, wait from generation 60 to the
+  first face death among runs whose hull is still the full octahedron.
+  R=9 (A=45): mean 2.60×10³ ± 0.17×10³ (221 runs), CV 1.03 → τ_face 2.1×10⁴.
+  R=11 (A=63): mean 9.4×10⁴ ± 0.9×10⁴ (118 runs), CV 0.99 → τ_face 7.5×10⁵.
+  Waits are exponential; slope between the two radii 0.199 ± 0.006 per face cell (study: 0.209 ±
+  0.002 on flat slabs); octahedral faces 1.6–1.9× tougher than the flat-slab line. Agrees.
+- **[measured]** Engine bug found by the phase study and reproduced: `--sym` soups on a whole
+  torus are overfilled (`gump run --soup 0.35 --torus 16 --sym oh --rng 3` → seed population
+  11,388 of 12,288). Open-space symmetric soups unaffected. Reported to the engine.
+- **Unresolved, probably compatible:** the peeling study binned the symmetric side-11 face
+  coarsely (interior 0.47, edges 0.38, corners 0.22: "not a ring"); the phase study binned the
+  side-13 face by symmetry class (centroid 0.19, medians 0.26, corners 0.16, band 0.42–0.44:
+  "ring is real"). Both are consistent with a face whose mirror lines are depleted. An
+  occupancy-map instrument has been requested to settle it.
+- **[measured, two studies]** Why symmetric seeds die fast: mostly **lockstep** (one
+  fundamental domain of independent chaos — holds on tori with no faces at all), with mirror
+  depletion a second-order extra. Peeling study: effective face area A/7.7 for O_h (not A/6).
+  Phase study: lifetime of a symmetric system ≈ that of an asymmetric one with c × (volume/|G|),
+  c ≈ 1.5–3.5.
