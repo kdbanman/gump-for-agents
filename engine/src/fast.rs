@@ -279,6 +279,7 @@ fn kernel_rows<R: RuleKernel, const STATS: bool>(
     ox: &mut [u64], oy: &mut [u64], oz: &mut [u64],
     k0: usize, k1: usize, sj: usize,
     hbase: [u64; 3],
+    rows: Option<&[(u32, u32)]>,
     acc: &mut StepAcc,
 ) {
     let plane = p.xc.len();
@@ -293,31 +294,57 @@ fn kernel_rows<R: RuleKernel, const STATS: bool>(
     let obase = k0 * sj;
     let mut a8 = Accum::<LANES>::new();
     let mut a1 = Accum::<1>::new();
-    let mut i = lo;
-    // SAFETY: for lo ≤ i and i + L ≤ hi: i - 1 - sj ≥ (k0-1)·sj ≥ 0 and
-    // i + L - 1 + 1 + sj ≤ (k1+1)·sj - 1 < plane; outputs i - obase + L ≤ orows.
-    unsafe {
-        while i + LANES <= hi {
-            let r = block::<R, LANES>(rule, p, i, sj);
-            let o = i - obase;
-            std::ptr::write_unaligned(ox.as_mut_ptr().add(o) as *mut [u64; LANES], r[0]);
-            std::ptr::write_unaligned(oy.as_mut_ptr().add(o) as *mut [u64; LANES], r[1]);
-            std::ptr::write_unaligned(oz.as_mut_ptr().add(o) as *mut [u64; LANES], r[2]);
-            if STATS {
-                a8.add(&r, i, hbase);
+    // Compute words [from, to) (to ≤ hi) in blocks of LANES; if `round_up`, the last
+    // block may run past `to` (but not past `hi`): the extra words are dead forever
+    // (outside the hull) or halo, so they write 0 over 0 and add nothing to the stats.
+    let mut span = |from: usize, to: usize, round_up: bool| -> usize {
+        let mut i = from;
+        // SAFETY: for lo ≤ i and i + L ≤ hi: i - 1 - sj ≥ (k0-1)·sj ≥ 0 and
+        // i + L - 1 + 1 + sj ≤ (k1+1)·sj - 1 < plane; outputs i - obase + L ≤ orows.
+        unsafe {
+            while i + LANES <= hi && (i + LANES <= to || (round_up && i < to)) {
+                let r = block::<R, LANES>(rule, p, i, sj);
+                let o = i - obase;
+                std::ptr::write_unaligned(ox.as_mut_ptr().add(o) as *mut [u64; LANES], r[0]);
+                std::ptr::write_unaligned(oy.as_mut_ptr().add(o) as *mut [u64; LANES], r[1]);
+                std::ptr::write_unaligned(oz.as_mut_ptr().add(o) as *mut [u64; LANES], r[2]);
+                if STATS {
+                    a8.add(&r, i, hbase);
+                }
+                i += LANES;
             }
-            i += LANES;
+            while i < to {
+                let r = block::<R, 1>(rule, p, i, sj);
+                let o = i - obase;
+                ox[o] = r[0][0];
+                oy[o] = r[1][0];
+                oz[o] = r[2][0];
+                if STATS {
+                    a1.add(&r, i, hbase);
+                }
+                i += 1;
+            }
         }
-        while i < hi {
-            let r = block::<R, 1>(rule, p, i, sj);
-            let o = i - obase;
-            ox[o] = r[0][0];
-            oy[o] = r[1][0];
-            oz[o] = r[2][0];
-            if STATS {
-                a1.add(&r, i, hbase);
+        i
+    };
+    match rows {
+        None => {
+            span(lo, hi, false);
+        }
+        Some(rows) => {
+            // only the j-range of each row that intersects the (convex) diagonal hull
+            let mut pos = lo;
+            for k in k0..k1 {
+                let (jl, jh) = rows[k];
+                if jl > jh {
+                    continue;
+                }
+                let from = (k * sj + jl as usize).max(pos);
+                let to = k * sj + jh as usize + 1;
+                if from < to {
+                    pos = span(from, to, true);
+                }
             }
-            i += 1;
         }
     }
     if STATS {
@@ -325,7 +352,6 @@ fn kernel_rows<R: RuleKernel, const STATS: bool>(
         a1.into_acc(acc);
     }
 }
-
 
 /// Bit-sliced simulator. See module docs for the layout.
 pub struct BitSim {
@@ -354,6 +380,8 @@ pub struct BitSim {
     /// compute hash / population / changed flag inside the kernel
     pub kernel_stats: bool,
     threads: usize,
+    /// open boxes: per padded k, the padded j-range meeting the diagonal hull
+    rows: Option<Vec<(u32, u32)>>,
 }
 
 impl BitSim {
@@ -398,6 +426,7 @@ impl BitSim {
             last: None,
             kernel_stats: true,
             threads: 1,
+            rows: None,
         })
     }
 
@@ -631,6 +660,7 @@ impl BitSim {
             sj: self.sj,
             stats: self.kernel_stats,
             generic: if self.rule.is_gump() { None } else { Some(GenericRule::new(self.rule)) },
+            rows: self.rows.as_ref().map(|r| (r.as_ptr(), r.len())),
         }
     }
 
@@ -720,6 +750,63 @@ impl BitSim {
         done
     }
 
+    /// Open boxes, rules with min birth ≥ 4: compute only rows that meet the diagonal hull
+    /// `hull` (which must contain every live cell; by T2 nothing outside it ever lives).
+    /// About 2× fewer words for octahedral hulls. `None` (or a torus, or a rule with
+    /// births below 4) computes everything. Returns whether a restriction is active.
+    pub fn restrict_to_hull(&mut self, hull: Option<&crate::lattice::Hull>) -> bool {
+        let ok = self.geo.boundary == Boundary::Open && self.rule.min_birth().is_none_or(|b| b >= 4);
+        let Some(h) = hull.filter(|_| ok) else {
+            self.rows = None;
+            return false;
+        };
+        debug_assert!(self.cells().iter().all(|&p| h.contains(p)));
+        let (nx, ny, nz) = (self.geo.n[0], self.geo.n[1], self.geo.n[2]);
+        let mut rows = vec![(1u32, 0u32); nz + 2];
+        for k in 0..nz {
+            let mut jl = u32::MAX;
+            let mut jh = 0u32;
+            for j in 0..ny {
+                let hit = (0..3).any(|a| (0..nx).any(|i| h.contains(self.geo.to_doubled(a, [i, j, k]))));
+                if hit {
+                    jl = jl.min(j as u32 + 1);
+                    jh = jh.max(j as u32 + 1);
+                }
+            }
+            if jl <= jh {
+                rows[k + 1] = (jl, jh);
+            }
+        }
+        // Words the kernel no longer computes must be 0 in both buffers. `cur` is (all
+        // live cells are inside the hull); the spare buffer may still hold an older,
+        // larger pattern, so clear it there.
+        for pl in 0..3 * self.nw {
+            for (k, &(jl, jh)) in rows.iter().enumerate() {
+                let row = pl * self.plane + k * self.sj;
+                for j in 0..self.sj {
+                    if !(jl as usize..=jh as usize).contains(&j) {
+                        debug_assert_eq!(self.cur[row + j] & self.vmask[k * self.sj + j], 0);
+                        self.nxt[row + j] = 0;
+                    }
+                }
+            }
+        }
+        self.prev_valid = false;
+        self.rows = Some(rows);
+        true
+    }
+
+    /// Fraction of padded rows' words the kernel computes (1.0 without a restriction).
+    pub fn work_fraction(&self) -> f64 {
+        match &self.rows {
+            None => 1.0,
+            Some(r) => {
+                let n: usize = r.iter().map(|&(a, b)| if a <= b { (b - a + 1) as usize } else { 0 }).sum();
+                n as f64 / (self.geo.n[1] * self.geo.n[2]) as f64
+            }
+        }
+    }
+
     /// Exact state equality (same geometry assumed).
     pub fn same_state(&self, other: &BitSim) -> bool {
         if self.geo != other.geo {
@@ -763,6 +850,7 @@ impl Clone for BitSim {
             last: self.last,
             kernel_stats: self.kernel_stats,
             threads: 1,
+            rows: self.rows.clone(),
         }
     }
 }
@@ -773,34 +861,47 @@ unsafe impl Sync for PaddedAcc {}
 struct SharedCtx(std::cell::UnsafeCell<Option<Ctx>>);
 unsafe impl Sync for SharedCtx {}
 
-/// Sense-reversing spin barrier; falls back to `yield_now` after a while so that an
-/// oversubscribed machine does not livelock.
+/// Barrier that spins briefly, then blocks on a condition variable. Pure spinning is
+/// disastrous when the machine is oversubscribed (a spinning thread steals the core the
+/// straggler needs); pure blocking costs a futex round trip per generation.
 struct SpinBarrier {
     n: usize,
     count: std::sync::atomic::AtomicUsize,
-    sense: std::sync::atomic::AtomicBool,
+    epoch: std::sync::atomic::AtomicU64,
+    lock: std::sync::Mutex<()>,
+    cv: std::sync::Condvar,
 }
 
 impl SpinBarrier {
     fn new(n: usize) -> Self {
-        SpinBarrier { n, count: std::sync::atomic::AtomicUsize::new(0), sense: std::sync::atomic::AtomicBool::new(false) }
+        SpinBarrier {
+            n,
+            count: std::sync::atomic::AtomicUsize::new(0),
+            epoch: std::sync::atomic::AtomicU64::new(0),
+            lock: std::sync::Mutex::new(()),
+            cv: std::sync::Condvar::new(),
+        }
     }
     fn wait(&self) {
         use std::sync::atomic::Ordering::*;
-        let s = self.sense.load(Acquire);
+        let e = self.epoch.load(Acquire);
         if self.count.fetch_add(1, AcqRel) + 1 == self.n {
             self.count.store(0, Relaxed);
-            self.sense.store(!s, Release);
-        } else {
-            let mut spins = 0u32;
-            while self.sense.load(Acquire) == s {
-                if spins < 20_000 {
-                    std::hint::spin_loop();
-                    spins += 1;
-                } else {
-                    std::thread::yield_now();
-                }
+            let _g = self.lock.lock().unwrap();
+            self.epoch.store(e + 1, Release);
+            drop(_g);
+            self.cv.notify_all();
+            return;
+        }
+        for _ in 0..4000 {
+            if self.epoch.load(Acquire) != e {
+                return;
             }
+            std::hint::spin_loop();
+        }
+        let mut g = self.lock.lock().unwrap();
+        while self.epoch.load(Acquire) == e {
+            g = self.cv.wait(g).unwrap();
         }
     }
 }
@@ -817,6 +918,8 @@ struct Ctx {
     sj: usize,
     stats: bool,
     generic: Option<GenericRule>,
+    /// per padded k: inclusive padded j-range to compute (None: everything)
+    rows: Option<(*const (u32, u32), usize)>,
 }
 unsafe impl Send for Ctx {}
 unsafe impl Sync for Ctx {}
@@ -842,6 +945,7 @@ impl Ctx {
         let seam = |t: usize| std::slice::from_raw_parts(self.seam.add(t * plane), plane);
         let vm = std::slice::from_raw_parts(self.vmask, plane);
         let rows = (k1 - k0) * sj;
+        let rr = self.rows.map(|(p, n)| std::slice::from_raw_parts(p, n));
         for w in 0..nw {
             let ins = Ins {
                 xc: pl(0, w),
@@ -856,7 +960,7 @@ impl Ctx {
             };
             let o = |a: usize| std::slice::from_raw_parts_mut(self.nxt.add((a * nw + w) * plane + k0 * sj), rows);
             let hb = [(w * plane) as u64, ((nw + w) * plane) as u64, ((2 * nw + w) * plane) as u64];
-            kernel_rows::<R, STATS>(rule, ins, o(0), o(1), o(2), k0, k1, sj, hb, acc);
+            kernel_rows::<R, STATS>(rule, ins, o(0), o(1), o(2), k0, k1, sj, hb, rr, acc);
         }
     }
 }

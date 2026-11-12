@@ -26,7 +26,8 @@ fn t2_hull_never_grows_and_autobox_is_exact() {
         for rule in [Rule::GUMP, Rule::parse("B4567/S2345").unwrap()] {
             let cells = seeds::soup(region, 0.35, 10 + i as u64);
             let mut a = open_sim(&cells, 1, rule);
-            let mut b = open_sim(&cells, 6, rule); // much bigger box
+            assert!(a.restrict_to_hull(Hull::of_cells(&cells).as_ref()));
+            let mut b = open_sim(&cells, 6, rule); // much bigger box, no restriction
             let mut hull = Hull::of_cells(&cells).unwrap();
             let mut tracker = LayerTracker::new();
             tracker.update(&sample(&a, true));
@@ -43,6 +44,7 @@ fn t2_hull_never_grows_and_autobox_is_exact() {
                     assert!(h.0[d].0 >= hull.0[d].0 && h.0[d].1 <= hull.0[d].1, "hull grew");
                 }
                 hull = h;
+                a.restrict_to_hull(Some(&hull));
                 tracker.update(&sample(&a, true));
             }
             assert!(tracker.violations.is_empty(), "proven-dead layer came back: {:?}", tracker.violations);

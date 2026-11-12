@@ -187,6 +187,8 @@ pub fn run(sim: &mut BitSim, opts: &RunOpts, sinks: &mut Sinks) -> RunResult {
     let need_layers = opts.need_layers || sinks.kymo.is_some() || sinks.events.is_some();
 
     let first = sample(sim, true);
+    let mut restricted_hull = first.hull();
+    sim.restrict_to_hull(restricted_hull.as_ref());
     let mut res = RunResult {
         start_gen: start,
         final_gen: start,
@@ -309,6 +311,13 @@ pub fn run(sim: &mut BitSim, opts: &RunOpts, sinks: &mut Sinks) -> RunResult {
             }
             if sampling && (g - start) % opts.every == 0 {
                 let s = sample(sim, need_layers);
+                // the hull only shrinks (T2): tighten the kernel's work region
+                if let (Some(h), Some(old)) = (s.hull(), restricted_hull.as_ref()) {
+                    if h != *old {
+                        sim.restrict_to_hull(Some(&h));
+                        restricted_hull = Some(h);
+                    }
+                }
                 emit(&s, acc.hash, sinks, &mut res, &mut tracker, &mut kymo);
                 last_sampled = g;
             }
