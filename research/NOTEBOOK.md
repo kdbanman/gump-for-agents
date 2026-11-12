@@ -42,3 +42,44 @@ Newest entries at the bottom. Each claim is tagged **[proved]**, **[measured]** 
 6. The kagome sub-automaton (one layer), and the 2- and 3-layer slabs, as automata in their own right.
 7. Front speeds along the axes; damage spreading; mean-field vs measured density.
 8. Neighbouring rules on the same lattice (any min-birth ≥ 4 rule is confined): is B45/S345 special?
+
+## 2026-11-12 — the staircase is the octahedron peeling, one `{111}` layer at a time (lead)
+
+Side-11 closed cube, oracle run, per-layer populations along `d = (1,1,1)` recorded every
+generation (script: `research/experiments/kymo11.py`).
+
+- **[measured]** Hull radius (outermost live layer, doubled units about the centre) over time:
+  31 → 29 (gen 2) → 27 (gen 5), then **27 for 3,285 generations**, then
+  **25 at gen 3290, 23 at gen 3477, 21 at gen 3796**, then everything dies at gen ≈4218.
+  Monotone, as T2 demands.
+- **[measured]** Mean population on each plateau: ≈4150, ≈3300, ≈2550, ≈2000.
+  Ratios to the first: 0.79, 0.61, 0.48. Predicted by hull volume `(R/27)³`: 0.79, 0.62, 0.47.
+  **Plateau height ∝ R³; each stair is the loss of exactly one layer from every face.**
+- **[measured]** The outermost live layer (the triangular face, 315 sites at R=27) carries
+  ≈123 live cells — density ≈0.39, *higher* than the bulk's ≈0.30. The surface is hot, not cold.
+- **[measured]** No interior firewall ever forms in this run; all loss is from the outside in,
+  until a final collapse from R=21 in which all remaining layers die within ~30 generations.
+
+Interpretation (**[conjecture]**, the working model going forward):
+
+> Chaos lives in the bulk; death comes from the faces. Each `{111}` face is a quasi-2D
+> active layer that can never be re-seeded once empty (T2). Its extinction is a rare
+> large-deviation event, so the waiting time to peel should be ≈ exponential in the face's
+> *effective* area — the area divided by the order of the symmetry acting on it.
+
+What this predicts, and what would falsify it:
+
+1. Waiting times to peel are memoryless (exponentially distributed) at fixed geometry,
+   with `ln(mean) ≈ a + c·A_eff`.
+2. O_h-symmetric seeds die enormously faster than asymmetric soups of the same size (the
+   fundamental domain of a face is 1/6 of it) — the original README noticed exactly this.
+   Asymmetric octahedral soups should show comparable lifetimes at radius ≈ R/√6.
+3. A torus has no faces, so a torus-filling soup should be effectively immortal — the
+   original's unfinished side-19 run. Only a spontaneous 3-layer interior firewall can kill it.
+4. Clean test geometry: an m-layer `{111}` slab on a torus (two free faces, no edges or
+   corners). Peeling time vs cross-section area isolates the face mechanism; and thinning
+   slabs ask a new question — **is there a critical thickness below which chaos cannot
+   sustain itself?** (One layer dies in ~10 generations.)
+5. Closed-cube lifetimes (4218, 24286, 169049 for n = 11, 12, 13) should continue roughly as
+   `ln τ ≈ a + b·n²` with b ≈ 0.077: about 1.3×10⁶, 1.3×10⁷, 1.4×10⁸ generations for n = 14, 15, 16.
+   (Three single samples cannot yet distinguish n² from n or n³ — that is the point of running them.)

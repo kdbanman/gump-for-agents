@@ -103,8 +103,8 @@ def main():
         return
 
     ref = [int(l.split()[1]) for l in open(a.compare) if l.strip()]
-    pad = 12 if H % 2 == 0 else 13                    # padded box: even size, same parity of coordinates
-    HP = H + 2 * pad
+    pad = 12                                          # even shift keeps coordinate parity
+    HP = H + 2 * pad + (H % 2)                        # padded box must be a proper (even) torus
     mp = masks(HP)
     hp = fill_box(HP, lo + pad, hi + pad, mp)
     gens = len(ref) - 1 if a.gens is None else min(a.gens, len(ref) - 1)
