@@ -89,8 +89,8 @@ fn count12(v: [u64; 12]) -> [u64; 4] {
     [c0, c1, c2, c3]
 }
 
-/// Hand-written AVX-512 path for B45/S345: every full adder is two `vpternlogq`
-/// (xor3 = 0x96, majority = 0xE8), the rule three more. LLVM's own lowering of the same
+/// Hand-written AVX-512 path: every full adder is two `vpternlogq` (xor3 = 0x96,
+/// majority = 0xE8); B45/S345 is three more ops, other rules a 31-way multiplexer tree. LLVM's own lowering of the same
 /// expressions used about twice as many vector ops.
 #[cfg(target_feature = "avx512f")]
 mod v512 {
@@ -106,9 +106,9 @@ mod v512 {
         unsafe { (_mm512_xor_si512(a, b), _mm512_and_si512(a, b)) }
     }
 
-    /// Next state of 512 cells: centre `alive`, 12 neighbour vectors, validity mask `vm`.
+    /// 12 one-bit inputs per lane → count bits `[c0, c1, c2, c3]`.
     #[inline(always)]
-    pub fn gump(alive: V, v: [V; 12], vm: V) -> V {
+    pub fn count12(v: [V; 12]) -> [V; 4] {
         let (s1, k1) = fa(v[0], v[1], v[2]);
         let (s2, k2) = fa(v[3], v[4], v[5]);
         let (s3, k3) = fa(v[6], v[7], v[8]);
@@ -119,14 +119,39 @@ mod v512 {
         let (u2, n2) = fa(k4, m1, m2);
         let (c1, n3) = ha(u1, u2);
         let (c2, c3) = fa(n1, n2, n3);
+        [c0, c1, c2, c3]
+    }
+
+    /// B45/S345 from the count bits.
+    #[inline(always)]
+    pub fn gump_rule(alive: V, c: [V; 4]) -> V {
+        let [c0, c1, c2, c3] = c;
         unsafe {
             // u = c1 & c0 & alive (count 3 and alive, given c2 = c3 = 0 below)
             let u = _mm512_ternarylogic_epi64::<0x80>(c1, c0, alive);
             // r = (c2 & !c1) | (!c2 & u)      — counts 4,5 | (3 & alive)
             let r = _mm512_ternarylogic_epi64::<0x3A>(c2, c1, u);
-            // r & !c3 & vm
-            _mm512_ternarylogic_epi64::<0x20>(r, c3, vm)
+            // r & !c3
+            _mm512_andnot_si512(c3, r)
         }
+    }
+
+    #[inline(always)]
+    pub fn zero() -> V {
+        unsafe { _mm512_setzero_si512() }
+    }
+    #[inline(always)]
+    pub fn and(a: V, b: V) -> V {
+        unsafe { _mm512_and_si512(a, b) }
+    }
+    /// `s ? b : a` per bit
+    #[inline(always)]
+    pub fn sel(s: V, a: V, b: V) -> V {
+        unsafe { _mm512_ternarylogic_epi64::<0xAC>(s, a, b) }
+    }
+    #[inline(always)]
+    pub fn sel_const(s: V, a: u64, b: u64) -> V {
+        unsafe { sel(s, _mm512_set1_epi64(a as i64), _mm512_set1_epi64(b as i64)) }
     }
 }
 
@@ -135,6 +160,9 @@ pub trait RuleKernel: Copy + Send + Sync {
     /// B45/S345: eligible for the hand-written AVX-512 ternary-logic path
     const IS_GUMP: bool = false;
     fn apply(&self, alive: u64, c: [u64; 4]) -> u64;
+    /// The same on 512 lanes (AVX-512 path).
+    #[cfg(target_feature = "avx512f")]
+    fn apply_v(&self, alive: v512::V, c: [v512::V; 4]) -> v512::V;
 }
 
 /// Hand-specialised B45/S345: born iff count ∈ {4,5}; survive iff count ∈ {3,4,5}.
@@ -142,6 +170,11 @@ pub trait RuleKernel: Copy + Send + Sync {
 pub struct GumpRule;
 impl RuleKernel for GumpRule {
     const IS_GUMP: bool = true;
+    #[cfg(target_feature = "avx512f")]
+    #[inline(always)]
+    fn apply_v(&self, alive: v512::V, c: [v512::V; 4]) -> v512::V {
+        v512::gump_rule(alive, c)
+    }
     #[inline(always)]
     fn apply(&self, alive: u64, c: [u64; 4]) -> u64 {
         // 4 = 0100, 5 = 0101, 3 = 0011
@@ -169,6 +202,25 @@ fn sel(s: u64, a: u64, b: u64) -> u64 {
     (a & !s) | (b & s)
 }
 impl RuleKernel for GenericRule {
+    #[cfg(target_feature = "avx512f")]
+    #[inline(always)]
+    fn apply_v(&self, alive: v512::V, c: [v512::V; 4]) -> v512::V {
+        let mut f = [v512::zero(); 2];
+        for (al, l) in self.leaves.iter().enumerate() {
+            let mut m = [v512::zero(); 8];
+            for t in 0..8 {
+                m[t] = v512::sel_const(c[0], l[2 * t], l[2 * t + 1]);
+            }
+            let mut n = [v512::zero(); 4];
+            for t in 0..4 {
+                n[t] = v512::sel(c[1], m[2 * t], m[2 * t + 1]);
+            }
+            let o0 = v512::sel(c[2], n[0], n[1]);
+            let o1 = v512::sel(c[2], n[2], n[3]);
+            f[al] = v512::sel(c[3], o0, o1);
+        }
+        v512::sel(alive, f[0], f[1])
+    }
     #[inline(always)]
     fn apply(&self, alive: u64, c: [u64; 4]) -> u64 {
         let mut f = [0u64; 2];
@@ -260,15 +312,18 @@ unsafe fn block<R: RuleKernel, const L: usize>(rule: R, p: Ins, i: usize, s: usi
     let yc_ps = ld::<L>(p.yc, i + s);
     let yc_psm1 = ld::<L>(p.yc, i + s - 1);
     #[cfg(target_feature = "avx512f")]
-    if L == 8 && R::IS_GUMP {
+    if L == 8 {
         use std::mem::transmute_copy as tc;
         let v = |a: &[u64; L]| -> v512::V { tc(a) };
         let out = |a: v512::V| -> [u64; L] { tc(&a) };
         let (xc5, yc5, zc5, xm5, vm5) = (v(&xc), v(&yc), v(&zc), v(&xm), v(&vm));
         let (yc_m15, zc_ms5) = (v(&yc_m1), v(&zc_ms));
-        let nx = v512::gump(xc5, [v(&x_a), v(&x_b), v(&x_c), v(&x_d), yc5, yc_m15, v(&yp0), v(&yp_m1), zc5, zc_ms5, v(&zp0), v(&zp_ms)], vm5);
-        let ny = v512::gump(yc5, [v(&ym_ms), v(&ym_ps), v(&yp_ms), v(&yp_ps), zc5, zc_ms5, v(&zc_p1), v(&zc_p1ms), xc5, xm5, v(&xc_p1), v(&xm_p1)], vm5);
-        let nz = v512::gump(zc5, [v(&zm_m1), v(&zm_p1), v(&zp_m1), v(&zp_p1), xc5, xm5, v(&xc_ps), v(&xm_ps), yc5, yc_m15, v(&yc_ps), v(&yc_psm1)], vm5);
+        let cx = v512::count12([v(&x_a), v(&x_b), v(&x_c), v(&x_d), yc5, yc_m15, v(&yp0), v(&yp_m1), zc5, zc_ms5, v(&zp0), v(&zp_ms)]);
+        let cy = v512::count12([v(&ym_ms), v(&ym_ps), v(&yp_ms), v(&yp_ps), zc5, zc_ms5, v(&zc_p1), v(&zc_p1ms), xc5, xm5, v(&xc_p1), v(&xm_p1)]);
+        let cz = v512::count12([v(&zm_m1), v(&zm_p1), v(&zp_m1), v(&zp_p1), xc5, xm5, v(&xc_ps), v(&xm_ps), yc5, yc_m15, v(&yc_ps), v(&yc_psm1)]);
+        let nx = v512::and(rule.apply_v(xc5, cx), vm5);
+        let ny = v512::and(rule.apply_v(yc5, cy), vm5);
+        let nz = v512::and(rule.apply_v(zc5, cz), vm5);
         return [out(nx), out(ny), out(nz), xc, yc, zc];
     }
     let mut nx = [0u64; L];
