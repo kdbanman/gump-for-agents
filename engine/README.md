@@ -208,12 +208,24 @@ generations. `gump bench` reproduces the table (`--threads 1,2,4`).
 | side-13 closed cube in its 40³ hull box, full kernel | 1 | 1.2–1.3 × 10⁵ | 2.3–2.4 × 10¹⁰ |
 | same, kernel restricted to rows meeting the hull (default in `run`) | 1 | 2.2–2.4 × 10⁵ | 4.3–4.5 × 10¹⁰ box-equivalent |
 | the whole legacy side-13 run, 169,049 gens, with per-generation halting detection | 1 | 0.84 s total (2.0 × 10⁵) | |
+| side-14 cube to its period-2 cycle (4,460,298 gens), load ≈ 8 | 1 | 32 s total (1.4 × 10⁵) | |
 | soup p=0.3, 64³ torus | 1 | 5.0–5.2 × 10⁴ | 3.9–4.1 × 10¹⁰ |
 | soup p=0.3, 128³ torus | 1 / 2 | 7.0 × 10³ / 1.1 × 10⁴ | 4.4 / 7.0 × 10¹⁰ |
 | soup p=0.3, 256³ torus | 1 / 2 | 850 / 1,320 | 4.3 / 6.7 × 10¹⁰ |
 | 64³ torus without in-kernel hash/population (library, `kernel_stats = false`) | 1 | 5.8–6.4 × 10⁴ | 4.6–5.1 × 10¹⁰ |
 | non-default rule (multiplexer kernel), 64³ torus | 1 | 2.4–2.9 × 10⁴ | 1.9–2.3 × 10¹⁰ |
 | ensemble: octahedral soups R=20, p=0.3 (box 22³; B=22 of 64 bits used), 20,000-gen cap | 1 / 4 | 6.4 × 10⁵ / 1.2 × 10⁶ aggregate | 32 / 59 runs/s |
+
+**Ensembles, round two** (single thread, best of 3, machine load ≈ 8; `--per-gen-hash` =
+previous engine; ratios are the meaningful part):
+
+| ensemble | lanes | per-gen hash | checkpoints, 1 lane | packed (default) | gain |
+|---|---:|---:|---:|---:|---:|
+| octahedral soups R=20, p=0.3, 32 runs × 20,000 gens (box 22³) | 2 | 5.1–6.1 × 10⁵ gens/s | 5.5 × 10⁵ | 9.2 × 10⁵–1.0 × 10⁶ | 1.5–2.0× |
+| octahedral soups R=10, p=0.3, 200 runs to halt (box 12³) | 4 | 1.5–1.7 × 10⁶ | 1.4–1.9 × 10⁶ | 6.0–6.7 × 10⁶ | 3.5–4.5× |
+| 3-layer slabs on a 16³ torus, p=0.4, 32 runs × 20,000 gens | 4 | 6.1 × 10⁵ | 6.7 × 10⁵ | 2.4 × 10⁶ | 3.9× |
+
+Dropping the per-generation hash alone gains little (≤ 15%); the gain is the packing.
 
 Octahedral soups of radius 20 do not halt within 3 × 10⁶ generations, hence the cap.
 With 4 threads per generation the busy machine made things slower than 2; on an idle machine
