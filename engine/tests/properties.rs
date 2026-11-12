@@ -17,8 +17,8 @@ fn open_sim(cells: &[P3], margin: usize, rule: Rule) -> BitSim {
 fn t2_hull_never_grows_and_autobox_is_exact() {
     for (i, region) in [
         Region::Oct { center: [0, 0, 0], r: 14 },
-        Region::Box { center: [1, 0, 3], half: [9, 6, 11] },
-        Region::Slab { axis: 2, s0: -3, m: 4, center: [0, 0, 0], half: [12, 12, 12] },
+        Region::cbox([1, 0, 3], [9, 6, 11]),
+        Region::Slab { axis: 2, s0: -3, m: 4, lo: [-12; 3], hi: [12; 3], modulus: None },
     ]
     .iter()
     .enumerate()
@@ -56,7 +56,7 @@ fn t3_three_dead_layers_stay_dead() {
     for d in 0..4 {
         for seed in 0..3u64 {
             let geo = Geometry::new([12, 12, 12], [0, 0, 0], Boundary::Torus);
-            let all = seeds::soup(&Region::Box { center: [11, 11, 11], half: [12, 12, 12] }, 0.35, seed * 7 + d as u64);
+            let all = seeds::soup(&Region::Box { lo: [0; 3], hi: [23; 3] }, 0.35, seed * 7 + d as u64);
             let gap = |p: &P3| {
                 let s = gump::lattice::layer(*p, d).rem_euclid(24);
                 (5..=9).contains(&s)
@@ -82,7 +82,7 @@ fn t3_three_dead_layers_stay_dead() {
 fn snapshot_roundtrip() {
     for boundary in [Boundary::Open, Boundary::Torus] {
         let geo = Geometry::new([70, 9, 13], [-3, 4, -20], boundary);
-        let cells: Vec<P3> = seeds::soup(&Region::Box { center: [0, 15, -14], half: [60, 8, 12] }, 0.2, 5)
+        let cells: Vec<P3> = seeds::soup(&Region::cbox([0, 15, -14], [60, 8, 12]), 0.2, 5)
             .into_iter()
             .filter(|&p| geo.contains_doubled(p))
             .collect();
@@ -123,7 +123,7 @@ fn halting_matches_brute_force() {
     for n in [3usize, 4, 5] {
         for seed in 0..12u64 {
             let geo = Geometry::new([n; 3], [0; 3], Boundary::Torus);
-            let cells = seeds::soup(&Region::Box { center: [n as i64 - 1; 3], half: [n as i64; 3] }, 0.3, seed);
+            let cells = seeds::soup(&Region::Box { lo: [0; 3], hi: [2 * n as i64 - 1; 3] }, 0.3, seed);
             let mut sim = BitSim::new(geo, Rule::GUMP).unwrap();
             sim.set_cells(&cells);
             let want = brute_cycle(sim.clone(), 3000);

@@ -80,10 +80,11 @@ pub fn hull_json(h: &Option<Hull>) -> String {
     }
 }
 
-fn sample_json(s: &Sample, with_layers: bool) -> String {
+fn sample_json(s: &Sample, with_layers: bool, hash: u64) -> String {
     let mut o = Obj::new()
         .f("type", "sample")
         .f("gen", &s.gen)
+        .f("hash", &format!("{hash:016x}"))
         .f("pop", &s.pop)
         .f("pop_axis", &s.pop_axis)
         .f("changed", &s.changed)
@@ -209,7 +210,7 @@ pub fn run(sim: &mut BitSim, opts: &RunOpts, sinks: &mut Sinks) -> RunResult {
     let mut csv_header_done = false;
 
     // emit one sample (and its derived records)
-    let mut emit = |s: &Sample, sinks: &mut Sinks, res: &mut RunResult, tracker: &mut Option<LayerTracker>, kymo: &mut Option<Kymo>| {
+    let mut emit = |s: &Sample, hash: u64, sinks: &mut Sinks, res: &mut RunResult, tracker: &mut Option<LayerTracker>, kymo: &mut Option<Kymo>| {
         if let Some(t) = tracker.as_mut() {
             let ev = t.update(s);
             res.layer_events += ev.len() as u64;
@@ -238,7 +239,7 @@ pub fn run(sim: &mut BitSim, opts: &RunOpts, sinks: &mut Sinks) -> RunResult {
         if let Some((out, fmt)) = sinks.samples.as_mut() {
             match fmt {
                 Format::Jsonl => {
-                    let _ = writeln!(out, "{}", sample_json(s, opts.layers_in_samples));
+                    let _ = writeln!(out, "{}", sample_json(s, opts.layers_in_samples, hash));
                 }
                 Format::Csv => {
                     if !csv_header_done {
@@ -253,7 +254,7 @@ pub fn run(sim: &mut BitSim, opts: &RunOpts, sinks: &mut Sinks) -> RunResult {
 
     let sampling = opts.every > 0;
     if sampling || need_layers {
-        emit(&first, sinks, &mut res, &mut tracker, &mut kymo);
+        emit(&first, res.hash, sinks, &mut res, &mut tracker, &mut kymo);
     }
     if let Some(out) = sinks.poplog.as_mut() {
         let _ = writeln!(out, "{} {}", start, first.pop);
@@ -308,7 +309,7 @@ pub fn run(sim: &mut BitSim, opts: &RunOpts, sinks: &mut Sinks) -> RunResult {
             }
             if sampling && (g - start) % opts.every == 0 {
                 let s = sample(sim, need_layers);
-                emit(&s, sinks, &mut res, &mut tracker, &mut kymo);
+                emit(&s, acc.hash, sinks, &mut res, &mut tracker, &mut kymo);
                 last_sampled = g;
             }
             !(res.halt.is_some() && opts.stop_on_halt)
@@ -316,15 +317,16 @@ pub fn run(sim: &mut BitSim, opts: &RunOpts, sinks: &mut Sinks) -> RunResult {
     }
 
     let fin = sample(sim, true);
+    let fin_hash = sim.state_hash();
     if (sampling || need_layers) && last_sampled != sim.generation() {
-        emit(&fin, sinks, &mut res, &mut tracker, &mut kymo);
+        emit(&fin, fin_hash, sinks, &mut res, &mut tracker, &mut kymo);
     }
     res.final_gen = sim.generation();
     res.pop = fin.pop;
     res.pop_axis = fin.pop_axis;
     res.hull_final = fin.hull();
     res.firewalls_final = fin.firewalls();
-    res.hash = sim.state_hash();
+    res.hash = fin_hash;
     res.elapsed = t0.elapsed().as_secs_f64();
     for o in [sinks.samples.as_mut().map(|x| &mut x.0), sinks.events.as_mut(), sinks.poplog.as_mut(), sinks.trace.as_mut()]
         .into_iter()

@@ -110,27 +110,37 @@ pub fn legacy_key(h: i64, k: i64) -> Vec<P3> {
 /// Regions for random soups (all in doubled coordinates).
 #[derive(Clone, Debug)]
 pub enum Region {
-    /// `|p_t − c_t| ≤ half_t` for every t.
-    Box { center: P3, half: [i64; 3] },
+    /// `lo_t ≤ p_t ≤ hi_t` for every t (see [`Region::cbox`] for centre/half-width).
+    Box { lo: P3, hi: P3 },
     /// `Σ|p_t − c_t| ≤ r` (an octahedron, the shape of a diagonal hull).
     Oct { center: P3, r: i64 },
     /// `m` consecutive `{111}` layers `s_d ∈ {s0, s0+2, …, s0+2(m−1)}` along diagonal
-    /// axis `axis`, intersected with a box.
-    Slab { axis: usize, s0: i64, m: i64, center: P3, half: [i64; 3] },
+    /// axis `axis`, intersected with the box `[lo, hi]`. With `modulus` (a torus whose
+    /// layers repeat with period `2g`, see `Geometry::layer_modulus`) layers are compared
+    /// mod `modulus`, so the slab wraps consistently.
+    Slab { axis: usize, s0: i64, m: i64, lo: P3, hi: P3, modulus: Option<i64> },
 }
 
 impl Region {
+    /// Box `|p_t − c_t| ≤ half_t`.
+    pub fn cbox(center: P3, half: [i64; 3]) -> Region {
+        let (lo, hi) = Self::span(center, half);
+        Region::Box { lo, hi }
+    }
+
+    pub fn span(center: P3, half: [i64; 3]) -> (P3, P3) {
+        let mut lo = [0; 3];
+        let mut hi = [0; 3];
+        for t in 0..3 {
+            lo[t] = center[t] - half[t];
+            hi[t] = center[t] + half[t];
+        }
+        (lo, hi)
+    }
+
     pub fn bounds(&self) -> (P3, P3) {
         match self {
-            Region::Box { center, half } | Region::Slab { center, half, .. } => {
-                let mut lo = [0; 3];
-                let mut hi = [0; 3];
-                for t in 0..3 {
-                    lo[t] = center[t] - half[t];
-                    hi[t] = center[t] + half[t];
-                }
-                (lo, hi)
-            }
+            Region::Box { lo, hi } | Region::Slab { lo, hi, .. } => (*lo, *hi),
             Region::Oct { center, r } => {
                 let mut lo = [0; 3];
                 let mut hi = [0; 3];
@@ -151,9 +161,12 @@ impl Region {
         match self {
             Region::Box { .. } => true,
             Region::Oct { center, r } => (0..3).map(|t| (p[t] - center[t]).abs()).sum::<i64>() <= *r,
-            Region::Slab { axis, s0, m, .. } => {
+            Region::Slab { axis, s0, m, modulus, .. } => {
                 let s = layer(p, *axis);
-                s >= *s0 && s <= s0 + 2 * (m - 1)
+                match modulus {
+                    None => s >= *s0 && s <= s0 + 2 * (m - 1),
+                    Some(md) => (s - s0).rem_euclid(*md) <= 2 * (m - 1),
+                }
             }
         }
     }
@@ -169,12 +182,11 @@ impl Region {
 
     pub fn describe(&self) -> String {
         match self {
-            Region::Box { center, half } => format!("box center={:?} half={:?}", center, half),
+            Region::Box { lo, hi } => format!("box lo={:?} hi={:?}", lo, hi),
             Region::Oct { center, r } => format!("oct center={:?} r={}", center, r),
-            Region::Slab { axis, s0, m, center, half } => format!(
-                "slab axis={:?} s0={} m={} box center={:?} half={:?}",
-                DIAGS[*axis], s0, m, center, half
-            ),
+            Region::Slab { axis, s0, m, lo, hi, modulus } => {
+                format!("slab axis={:?} s0={} m={} box lo={:?} hi={:?} mod={:?}", DIAGS[*axis], s0, m, lo, hi, modulus)
+            }
         }
     }
 }

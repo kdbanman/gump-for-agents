@@ -50,6 +50,7 @@ RUN OPTIONS
   --no-halt                keep going after extinction/still life/cycle (needs --gens)
   --every K                sample every K generations (time series)
   --layers                 include per-layer populations (4 diagonals) in samples
+  --lite                   samples without layer analysis (no hull/firewalls; faster on huge tori)
   --threads T              threads per generation (default: auto, by box size)
   --hash-window N          generations remembered for cycle detection (default 1048576)
 
@@ -76,7 +77,7 @@ struct Args {
     used: Mutex<std::collections::BTreeSet<String>>,
 }
 
-const BOOL_FLAGS: &[&str] = &["no-halt", "layers", "quick", "no-stats"];
+const BOOL_FLAGS: &[&str] = &["no-halt", "layers", "quick", "lite"];
 
 impl Args {
     fn parse() -> Args {
@@ -226,24 +227,13 @@ fn soup_region(a: &Args, sp: &SeedParams, torus: Option<&Geometry>) -> Region {
             die("--soup needs a region: --radius R (octahedron), --half H (box), or a --torus")
         }
     });
-    let whole = |g: &Geometry| -> ([i64; 3], [i64; 3]) {
-        let (lo, hi) = g.doubled_bounds();
-        let mut c = [0; 3];
-        let mut h = [0; 3];
-        for t in 0..3 {
-            // cover [lo, hi] exactly with centre c and half h (hi - lo is odd: use lo..hi)
-            c[t] = (lo[t] + hi[t]).div_euclid(2);
-            h[t] = (hi[t] - lo[t] + 1) / 2;
-        }
-        (c, h)
-    };
+    let whole = |g: &Geometry| -> (P3, P3) { g.doubled_bounds() };
     match region.as_str() {
         "oct" => Region::Oct { center, r: sp.radius.unwrap_or_else(|| die("--region oct needs --radius")) },
-        "box" => Region::Box { center, half: sp.half.unwrap_or_else(|| die("--region box needs --half")) },
+        "box" => Region::cbox(center, sp.half.unwrap_or_else(|| die("--region box needs --half"))),
         "all" => {
-            let g = torus.unwrap_or_else(|| die("--region all needs a --torus"));
-            let (c, h) = whole(g);
-            Region::Box { center: c, half: h }
+            let (lo, hi) = whole(torus.unwrap_or_else(|| die("--region all needs a --torus")));
+            Region::Box { lo, hi }
         }
         "slab" => {
             let m = sp.slab_layers.unwrap_or_else(|| die("--region slab needs --slab-layers M"));
@@ -251,13 +241,13 @@ fn soup_region(a: &Args, sp: &SeedParams, torus: Option<&Geometry>) -> Region {
             if axis > 3 {
                 die("--diag must be 0..3");
             }
-            let (c, h) = match (sp.half, torus) {
-                (Some(h), _) => (center, h),
+            let (lo, hi) = match (sp.half, torus) {
+                (Some(h), _) => Region::span(center, h),
                 (None, Some(g)) => whole(g),
                 (None, None) => die("a slab in open space needs --half to bound it"),
             };
             let cs = gump::lattice::layer(center, axis);
-            Region::Slab { axis, s0: Region::slab_s0(m, cs), m, center: c, half: h }
+            Region::Slab { axis, s0: Region::slab_s0(m, cs), m, lo, hi, modulus: torus.and_then(|g| g.layer_modulus()) }
         }
         r => die(&format!("unknown region '{r}'")),
     }
@@ -385,7 +375,7 @@ fn run_opts(a: &Args, default_cap: u64) -> RunOpts {
         stop_on_halt: !no_halt,
         every: a.num("every").unwrap_or(0),
         layers_in_samples: a.flag("layers"),
-        need_layers: a.flag("layers") || a.get("kymo").is_some() || a.get("events").is_some(),
+        need_layers: !a.flag("lite") || a.flag("layers") || a.get("kymo").is_some() || a.get("events").is_some(),
         hash_window: a.num("hash-window").unwrap_or(1 << 20),
     }
 }
@@ -646,17 +636,8 @@ fn cmd_bench(a: &Args) {
     }
     for &n in &[64usize, 128, 256] {
         let geo = Geometry::new([n; 3], [0; 3], Boundary::Torus);
-        let (c, h) = {
-            let (lo, hi) = geo.doubled_bounds();
-            let mut c = [0; 3];
-            let mut h = [0; 3];
-            for t in 0..3 {
-                c[t] = (lo[t] + hi[t]).div_euclid(2);
-                h[t] = (hi[t] - lo[t] + 1) / 2;
-            }
-            (c, h)
-        };
-        let cells = seeds::soup(&Region::Box { center: c, half: h }, 0.3, 1);
+        let (lo, hi) = geo.doubled_bounds();
+        let cells = seeds::soup(&Region::Box { lo, hi }, 0.3, 1);
         let mut base = BitSim::new(geo, Rule::GUMP).unwrap();
         base.set_cells(&cells);
         let gens = ((4.0e9 / (3.0 * (n * n * n) as f64)) * scale).max(10.0) as u64;
