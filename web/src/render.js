@@ -44,10 +44,12 @@ function commonUniforms(stateTex) {
     fogNear: { value: 0 }, fogFar: { value: 1 },
     border: { value: 1 },
     dims: { value: new THREE.Vector3(1, 1, 1) },
+    hullLo: { value: new THREE.Vector4() }, hullHi: { value: new THREE.Vector4() }, hullOn: { value: 0 },
   };
 }
 
-function instancedMaterial(layout, uniforms) {
+// pulled = true: no instancing, no attributes; 6 vertices per cell from gl_VertexID.
+function quadMaterial(layout, uniforms, pulled) {
   return new THREE.RawShaderMaterial({
     glslVersion: THREE.GLSL3,
     uniforms,
@@ -60,13 +62,14 @@ uniform mat4 modelViewMatrix, projectionMatrix, modelMatrix;
 uniform vec3 cameraPosition;
 uniform float faceScale;
 uniform vec3 dims;
-in vec3 position;          // quad corner in (u, v) = position.xy, each +-1
+${pulled ? 'const vec2 CORNERS[6] = vec2[6](vec2(-1,-1), vec2(1,-1), vec2(1,1), vec2(-1,-1), vec2(1,1), vec2(-1,1));'
+          : 'in vec3 position;          // quad corner in (u, v) = position.xy, each +-1'}
 flat out int vAxis;
 out vec3 vNormal, vToEye;
 out vec2 vUV;
 out float vDepth;
 void main() {
-  int id = gl_InstanceID;
+${pulled ? 'int id = gl_VertexID / 6; vec2 q = CORNERS[gl_VertexID - id * 6];' : 'int id = gl_InstanceID; vec2 q = position.xy;'}
   int axis = id % 3; id /= 3;
   ivec3 c = ivec3(id % NX, (id / NX) % NY, id / (NX * NY));
   uvec3 bits = cellBits(S, c);
@@ -74,14 +77,14 @@ void main() {
   if (alive == 0u) { gl_Position = vec4(2.0, 2.0, 2.0, 1.0); return; }
   vec3 centre = vec3(c) + 0.5; vec3 n = vec3(0.0);
   vec3 off;
-  vec2 uv = position.xy * 0.5 * faceScale;
+  vec2 uv = q * 0.5 * faceScale;
   if (axis == 0) { centre.x += 0.5; n = vec3(1, 0, 0); off = vec3(0.0, uv.x, uv.y); }
   else if (axis == 1) { centre.y += 0.5; n = vec3(0, 1, 0); off = vec3(uv.y, 0.0, uv.x); }
   else { centre.z += 0.5; n = vec3(0, 0, 1); off = vec3(uv.x, uv.y, 0.0); }
   vec3 world = centre + off - 0.5 * dims;
   vec4 mv = modelViewMatrix * vec4(world, 1.0);
   gl_Position = projectionMatrix * mv;
-  vAxis = axis; vNormal = n; vUV = position.xy;
+  vAxis = axis; vNormal = n; vUV = q;
   vToEye = normalize(cameraPosition - world);
   vDepth = -mv.z;
 }`,
@@ -123,6 +126,8 @@ uniform vec3 cameraPosition;
 uniform mat4 viewMatrix, projectionMatrix;
 uniform float faceScale;
 uniform vec3 dims;
+uniform vec4 hullLo, hullHi;   // diagonal hull (doubled coords), used to clip rays when hullOn
+uniform float hullOn;
 in vec3 vWorld;
 out vec4 fragColor;
 void main() {
@@ -132,6 +137,18 @@ void main() {
   vec3 t0 = (vec3(0.0) - ro) * inv, t1 = (dims - ro) * inv;
   vec3 tmin = min(t0, t1), tmax = max(t0, t1);
   float tNear = max(max(tmin.x, tmin.y), tmin.z), tFar = min(min(tmax.x, tmax.y), tmax.z);
+  if (hullOn > 0.5) {
+    // The hull only ever shrinks (T2), so a slightly stale hull still contains every live cell.
+    // Face squares reach at most 2*faceScale doubled units across a layer: margin 2.5.
+    const mat4 D = mat4(1, 1, 1, 0,  1, 1, -1, 0,  1, -1, 1, 0,  -1, 1, 1, 0);
+    vec4 a = vec4(2.0 * ro - 1.0, 0.0) * D, b = vec4(2.0 * rd, 0.0) * D;   // s(t) = a + b t, per diagonal
+    for (int q = 0; q < 4; q++) {
+      float lo = hullLo[q] - 2.5, hi = hullHi[q] + 2.5;
+      if (abs(b[q]) < 1e-6) { if (a[q] < lo || a[q] > hi) discard; continue; }
+      float u = (lo - a[q]) / b[q], v = (hi - a[q]) / b[q];
+      tNear = max(tNear, min(u, v)); tFar = min(tFar, max(u, v));
+    }
+  }
   if (tFar < max(tNear, 0.0)) discard;
   float tStart = max(tNear, 0.0) - 1e-4;
   vec3 p = ro + rd * tStart;
@@ -197,13 +214,18 @@ export class CellView {
     quad.setAttribute('position', new THREE.Float32BufferAttribute([-1, -1, 0, 1, -1, 0, 1, 1, 0, -1, 1, 0], 3));
     quad.setIndex([0, 1, 2, 0, 2, 3]);
     quad.instanceCount = 3 * layout.nx * layout.ny * layout.nz;
-    const inst = new THREE.Mesh(quad, instancedMaterial(layout, this.uniforms));
+    const inst = new THREE.Mesh(quad, quadMaterial(layout, this.uniforms, false));
     inst.frustumCulled = false;
+
+    const pulledGeom = new THREE.BufferGeometry();
+    pulledGeom.setDrawRange(0, 18 * layout.nx * layout.ny * layout.nz);
+    const pulled = new THREE.Mesh(pulledGeom, quadMaterial(layout, this.uniforms, true));
+    pulled.frustumCulled = false;
 
     const box = new THREE.Mesh(new THREE.BoxGeometry(layout.nx + 0.02, layout.ny + 0.02, layout.nz + 0.02), raymarchMaterial(layout, this.uniforms));
     box.frustumCulled = false;
 
-    this.meshes = { instanced: inst, raymarch: box };
+    this.meshes = { instanced: inst, quads: pulled, raymarch: box };
     for (const m of Object.values(this.meshes)) this.group.add(m);
     this.setMode(this.mode);
   }
@@ -214,6 +236,12 @@ export class CellView {
   }
 
   // Called every frame before rendering.
+  // hull: { loS, hiS } valid for the current state (or older: it only shrinks), or null.
+  setHullClip(hull) {
+    this.uniforms.hullOn.value = hull ? 1 : 0;
+    if (hull) { this.uniforms.hullLo.value.fromArray(hull.loS); this.uniforms.hullHi.value.fromArray(hull.hiS); }
+  }
+
   update(simTexture, camera, { faceScale, border }) {
     this.stateTex.sourceTexture = simTexture;
     this.uniforms.faceScale.value = faceScale;

@@ -12,14 +12,14 @@ const lanesList = (q.get('lanes') || '1,32').split(',').map(Number);
 const ms = Number(q.get('ms') || 1500);
 const gl = document.createElement('canvas').getContext('webgl2');
 const out = [];
-const finish = () => { const px = new Uint32Array(4); gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.finish(); };
+
 for (const N of sizes) for (const maxLanes of lanesList) {
   const sim = new Sim(gl, N, N, N, { maxLanes });
   const rnd = mulberry32(1);
   sim.upload(new Uint8Array(N * N * N).map(() => (rnd() < 0.3) | ((rnd() < 0.3) << 1) | ((rnd() < 0.3) << 2)));
   sim.step(2); sim.download();
   let gens = 0, batch = 1; const t0 = performance.now();
-  while (performance.now() - t0 < ms) { sim.step(batch); sim.readTexels.call({ gl, layout: { width: 1, height: 1 }, fb: sim.fb, cur: sim.cur }); gens += batch; batch = Math.min(batch * 2, 256); }
+  while (performance.now() - t0 < ms) { sim.step(batch); sim.sync(); gens += batch; batch = Math.min(batch * 2, 256); }
   const dt = (performance.now() - t0) / 1000;
   const r = { N, lanes: sim.layout.LANES, atlas: `${sim.layout.width}x${sim.layout.height}`, gensPerSec: +(gens / dt).toFixed(1), cellUpdatesPerSec: +(gens * 3 * N ** 3 / dt / 1e6).toFixed(1) + 'M' };
   out.push(r); document.getElementById('log').textContent += JSON.stringify(r) + '\n';

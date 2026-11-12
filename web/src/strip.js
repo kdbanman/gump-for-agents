@@ -40,7 +40,7 @@ export class Strip {
     };
     [PALETTE.x, PALETTE.y, PALETTE.z].forEach((c, i) => line(this.c[i], rgb(c, 0.9), 1));
     line(this.p, 'rgba(240,234,228,0.95)', 1.3);
-    ctx.fillStyle = 'rgba(232,226,220,0.75)'; ctx.font = `${10 * dpr}px monospace`;
+    ctx.fillStyle = 'rgba(232,226,220,0.75)'; ctx.font = `${10 * dpr}px monospace`; ctx.textAlign = 'left';
     ctx.fillText(`max ${pmax.toLocaleString('en-US')}`, pad + 2, pad + 10 * dpr);
     ctx.textAlign = 'right'; ctx.fillText(`gen ${g1.toLocaleString('en-US')}`, W - pad, H - pad - 2);
   }

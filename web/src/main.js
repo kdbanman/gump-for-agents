@@ -5,16 +5,17 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { Sim } from './gl/sim.js';
 import { Stats } from './gl/stats.js';
 import { CellView, PALETTE } from './render.js';
-import { makeSeed, autoBox, placeSeed, hullPolytope, reembed } from './seeds.js';
+import { makeSeed, autoBox, placeSeed, hullPolytope, reembed, hullOf } from './seeds.js';
 import { DIAGONALS } from './cpu.js';
 import { Strip } from './strip.js';
 
 const $ = (id) => document.getElementById(id);
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 const fmt = (n) => n == null ? '–' : Math.round(n).toLocaleString('en-US');
 
 // ---------------------------------------------------------------- URL / spec
 const DEFAULTS = { seed: 'cube', n: 11, k: 5, H: 60, shape: 'cube', density: 0.3, layers: 3, rng: 1,
-  box: 'auto', bc: 'dead', speed: 'max', view: 'raymarch', face: 0.6, gen: 0, play: 0, lanes: 32, cells: '', cam: '' };
+  box: 'auto', bc: 'dead', speed: 'max', view: 'auto', face: 0.6, gen: 0, play: 0, lanes: 32, cells: '', cam: '' };
 const NUMERIC = ['n', 'k', 'H', 'density', 'layers', 'rng', 'face', 'gen', 'play', 'lanes'];
 
 function readURL() {
@@ -78,6 +79,7 @@ const app = {
 };
 const strip = new Strip($('strip'));
 window.gump = app;   // for tests / console poking
+app.three = { renderer, scene, camera, view, gl };
 
 function buildSim(dims, torus, cells) {
   if (app.sim) { app.stats.dispose(); app.sim.dispose(); }
@@ -87,9 +89,11 @@ function buildSim(dims, torus, cells) {
   app.sim.upload(cells);
   renderer.resetState();
   view.setLayout(app.sim.layout);
+  view.setMode(viewMode());
   boxLines.geometry.dispose();
   boxLines.geometry = new THREE.EdgesGeometry(new THREE.BoxGeometry(dims[0], dims[1], dims[2]));
   app.statsDirty = true;
+  view.setHullClip(null);      // re-armed by the first statistics of this state
   updateBoxInfo();
 }
 
@@ -118,13 +122,16 @@ function resetToSeed() {
   strip.clear();
   app.runUntil = spec.gen || 0;
   setPlaying(!!spec.play || app.runUntil > 0);
-  frameCamera();
+  frameCamera(seed.pts);
   writeURL();
   syncForm();
 }
 
-function frameCamera() {
-  const r = 0.5 * Math.hypot(...app.dims);
+function frameCamera(pts) {
+  // frame the seed's hull (what can ever be alive), not the whole box
+  let r = 0.5 * Math.hypot(...app.dims);
+  const h = pts && pts.length ? hullOf(pts) : null;
+  if (h) { const poly = hullPolytope(h); r = Math.min(r, 0.25 * Math.hypot(...[0, 1, 2].map(t => poly.hi[t] - poly.lo[t] + 2)) + 1); }
   const c = String(app.spec.cam || '').split(',').map(Number);
   const dir = (c.length >= 3 && c.every(Number.isFinite) ? new THREE.Vector3(c[0], c[1], c[2]) : new THREE.Vector3(1.0, 0.75, 1.35)).normalize();
   const zoom = c.length === 4 && c[3] > 0 ? c[3] : 1;
@@ -134,7 +141,7 @@ function frameCamera() {
   controls.update();
 }
 
-function setPlaying(p) { app.playing = p; $('play').textContent = p ? '❚❚ pause' : '▶ play'; }
+function setPlaying(p) { if (p && !app.playing) app.stepsWindow = []; app.playing = p; $('play').textContent = p ? '❚❚ pause' : '▶ play'; }
 
 function stepOnce() { setPlaying(false); app.runUntil = 0; app.sim.step(1); app.gen++; app.statsDirty = true; }
 
@@ -144,6 +151,9 @@ function resizeTo(dims, shiftOverride) {
   const shift = shiftOverride || dims.map((N, t) => 2 * Math.floor((N - old[t]) / 2));
   const r = reembed(cells, old, dims, shift, app.torus);
   buildSim(dims, app.torus, r.cells);
+  // keep hull bookkeeping in the new array frame (s = d.p shifts by d.shift)
+  const mv = (h) => h && { loS: h.loS.map((v, n) => v + dot(DIAGONALS[n], shift)), hiS: h.hiS.map((v, n) => v + dot(DIAGONALS[n], shift)) };
+  app.prevHull = mv(app.prevHull); app.initialHull = mv(app.initialHull);
   app.spec.box = dims.join(',');
   if (r.dropped) pushEvent(`resize dropped ${r.dropped} live cells`);
   frameCamera(); writeURL(); syncForm();
@@ -173,6 +183,7 @@ function onStats(gen, s) {
       });
     }
     app.prevHull = h;
+    if (!app.torus) view.setHullClip(h);
     const poly = hullPolytope(h);
     const pos = [];
     for (const [a, b] of poly.edges) for (const v of [poly.verts[a], poly.verts[b]])
@@ -197,9 +208,10 @@ function updateBoxInfo() {
 function updateInstruments(now) {
   $('gen').textContent = fmt(app.gen);
   // generations/s over the last second of issued steps (stepping is fence-throttled, so issued ≈ completed)
-  const w = app.stepsWindow; while (w.length && now - w[0][0] > 1000) w.shift();
-  const span = w.length ? Math.max(250, now - w[0][0]) : 1;
-  const gps = w.reduce((a, x) => a + x[1], 0) / span * 1000;
+  // (time, generation) history; rate over the last ~1-2 s
+  const w = app.stepsWindow; w.push([now, app.gen]);
+  while (w.length > 2 && now - w[1][0] > 1000) w.shift();
+  const gps = w.length > 1 && now > w[0][0] ? (app.gen - w[0][1]) / (now - w[0][0]) * 1000 : 0;
   $('gps').textContent = app.playing ? (gps >= 100 ? fmt(gps) : gps.toFixed(1)) : 'paused';
   const ft = app.frameTimes; const fps = ft.length > 1 ? 1000 * (ft.length - 1) / (ft[ft.length - 1] - ft[0]) : 0;
   $('spf').textContent = `${Math.round(app.spf)} gens/frame budget`;
@@ -240,7 +252,7 @@ function edgeStatus(s) {
     const ext = Math.max(...[0, 1, 2].map(t => s.hi[t] - s.lo[t] - (2 * app.dims[t] - 6)));
     if (ext > 0) msgs.push('<span class="alert">pattern spans the torus: it interacts with its own wrapped image</span>');
   } else if (gap <= 2) msgs.push('<span class="alert">⚠ live cells at the boundary: births outside are being suppressed</span>');
-  else if (gap <= 8) msgs.push(`<span class="alert">live cells ${Math.floor(gap / 2)} cubes from the boundary</span>`);
+  else if (gap <= 8) msgs.push(`<span class="alert">live cells ${Math.floor(gap / 2)} cube${Math.floor(gap / 2) === 1 ? '' : 's'} from the boundary</span>`);
   const poly = app.hullPoly;
   if (poly) {
     const fits = app.torus
@@ -277,7 +289,7 @@ function frame(now) {
     else { app.acc = Math.min(app.acc + Number(app.spec.speed) * dt, Math.max(cap, 1)); want = Math.floor(app.acc); }
     steps = Math.min(want, cap);
     if (app.spec.speed !== 'max' && !(app.runUntil > app.gen)) app.acc -= steps;
-    if (steps > 0) { app.sim.step(steps); app.gen += steps; app.stepsWindow.push([now, steps]); }
+    if (steps > 0) { app.sim.step(steps); app.gen += steps; }
     if (app.runUntil && app.gen >= app.runUntil) { app.runUntil = 0; if (!app.spec.play) setPlaying(false); app.statsDirty = true; }
   }
 
@@ -304,12 +316,18 @@ function frame(now) {
 
 // ---------------------------------------------------------------- UI wiring
 const FORM = ['seed', 'n', 'k', 'H', 'shape', 'density', 'layers', 'rng', 'cells', 'box', 'bc'];
+// 'auto': vertex-pulled quads cost ~18 vertices per cell slot every frame; the ray-marcher costs
+// ~pixels x path length inside the hull. Quads up to ~2.7M cell slots, ray-march beyond.
+function viewMode() {
+  if (app.spec.view !== 'auto') return app.spec.view;
+  return 3 * app.dims[0] * app.dims[1] * app.dims[2] <= 2.7e6 ? 'quads' : 'raymarch';
+}
 function syncForm() {
   for (const k of FORM) $('f-' + k).value = app.spec[k];
   $('speed').value = String(app.spec.speed);
   $('v-mode').value = app.spec.view;
   $('v-face').value = app.spec.face;
-  view.setMode(app.spec.view);
+  view.setMode(viewMode());
   showSeedFields();
 }
 function showSeedFields() {
@@ -324,7 +342,7 @@ $('apply').addEventListener('click', () => { readForm(); app.spec.gen = 0; app.s
 $('play').addEventListener('click', () => setPlaying(!app.playing));
 $('step').addEventListener('click', stepOnce);
 $('speed').addEventListener('change', () => { app.spec.speed = $('speed').value; app.acc = 0; writeURL(); });
-$('v-mode').addEventListener('change', () => { app.spec.view = $('v-mode').value; view.setMode(app.spec.view); writeURL(); });
+$('v-mode').addEventListener('change', () => { app.spec.view = $('v-mode').value; view.setMode(viewMode()); writeURL(); });
 $('v-face').addEventListener('input', () => { app.spec.face = Number($('v-face').value); writeURL(); });
 $('share').addEventListener('click', async () => {
   const url = shareURL({ gen: app.gen, play: app.playing ? 1 : 0 });

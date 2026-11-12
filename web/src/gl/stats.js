@@ -129,10 +129,6 @@ export class Stats {
       if (w === 1 && h === 1) break;
       w = Math.ceil(w / B); h = Math.ceil(h / B);
     }
-    this.pbo = gl.createBuffer();
-    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, this.pbo);
-    gl.bufferData(gl.PIXEL_PACK_BUFFER, 48, gl.STREAM_READ);
-    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     this.pending = null;   // { sync, tag }
   }
@@ -190,11 +186,15 @@ export class Stats {
     if (this.pending) return false;
     const gl = this.gl;
     this._reduce(stateTex);
-    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, this.pbo);
+    // A fresh buffer per readback: Chrome keeps a client-side shadow of READ buffers and warns
+    // (and drops the shadow) if one is rewritten; buffers are tiny, so never reuse them.
+    const pbo = gl.createBuffer();
+    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, pbo);
+    gl.bufferData(gl.PIXEL_PACK_BUFFER, 48, gl.STREAM_READ);
     this._readTo(null);
     gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    this.pending = { sync: gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0), tag };
+    this.pending = { sync: gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0), tag, pbo };
     gl.flush();
     return true;
   }
@@ -207,9 +207,10 @@ export class Stats {
     if (st !== gl.SIGNALED) return null;
     gl.deleteSync(this.pending.sync);
     const u = new Uint32Array(12);
-    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, this.pbo);
+    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, this.pending.pbo);
     gl.getBufferSubData(gl.PIXEL_PACK_BUFFER, 0, u);
     gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+    gl.deleteBuffer(this.pending.pbo);
     const tag = this.pending.tag;
     this.pending = null;
     return { tag, stats: decode(u) };
@@ -217,9 +218,8 @@ export class Stats {
 
   dispose() {
     const gl = this.gl;
-    if (this.pending) gl.deleteSync(this.pending.sync);
+    if (this.pending) { gl.deleteSync(this.pending.sync); gl.deleteBuffer(this.pending.pbo); }
     for (const lv of this.levels) { lv.tex.forEach(t => gl.deleteTexture(t)); gl.deleteFramebuffer(lv.fb); }
-    gl.deleteBuffer(this.pbo);
     gl.deleteProgram(this.first.program); gl.deleteProgram(this.reduce.program);
     gl.deleteVertexArray(this.vao);
   }

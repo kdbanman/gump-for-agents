@@ -143,6 +143,13 @@ export class Sim {
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
     return out;
   }
+  // Wait for all queued work (reads one texel). Benchmarks only.
+  sync() {
+    const gl = this.gl, px = new Uint32Array(4);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, this.fb[this.cur]);
+    gl.readPixels(0, 0, 1, 1, gl.RGBA_INTEGER, gl.UNSIGNED_INT, px);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  }
   download() { return unpackCells(this.layout, this.readTexels()); }
 
   step(n = 1) {
