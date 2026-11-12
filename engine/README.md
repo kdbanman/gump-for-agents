@@ -41,6 +41,9 @@ $G show --cube 5 --gens 20 --slice z=0             # an axis-aligned slice
 $G describe --soup 0.3 --radius 8 --rng 20 --catalogue research/atlas/catalogue.jsonl
 $G png --cube 13 --gens 100000 --view proj-diag --out oct.png
 $G png --view kymo --kymo kymo.csv --events deaths.jsonl --diag 0 --out kymo.png
+$G occupancy --cube 13 --from 10000 --to 110000 --layer 33 --png face.png --npy occ.npy
+$G ensemble --soup 0.35 --radius 11 --runs 118 --gens 400000 --layer-deaths all --hull-at 60
+$G run --cube 16 --checkpoint c16.gump --checkpoint-every 25000000   # resume: --snapshot c16.gump
 ```
 
 Coordinates are always **doubled** (`docs/AUTOMATON.md` §1): a cell is a point with exactly
@@ -96,6 +99,27 @@ summary is rebuilt in the run's own natural box, so the output is **identical to
 per-generation engine** field for field except timing (`scripts/check_ensemble.py`, 14
 cases, 1,180 runs: 0 mismatches). `--per-gen-hash` restores the previous engine,
 `--no-pack` one run per word.
+
+**Layer deaths in ensembles.** `--layer-deaths N|all` adds `"layer_deaths": [{gen, axis,
+dir, s, cause}]` to each summary — the same irreversible deaths, with the same exact
+generations, as `gump run --events F --every 1` (`scripts/check_deaths.py`: 1,002 events in
+57 runs, open / torus slabs / boxes / cube, identical). Cost: one layer histogram per lane
+per checkpoint; only when it reveals a new death is the window since the previous
+checkpoint re-simulated generation by generation. `--hull-at G` adds `"hull_at": {gen,
+hull}`. `scripts/face_law.py R RUNS [CAP]` is `research/experiments/verify_face_law.py`
+through one ensemble call (identical numbers; R=11, 118 runs: 15 s vs 127 s).
+
+**Occupancy (`gump occupancy`).** Steps to `--from`, then counts for every cell how many of
+the states in `[--from, --to)` have it live. `--layer S [--diag D]` prints the layer's map in
+the kagome layout (digit = ⌊10 × fraction⌋, `·` never live; all sites inside the hull at
+`--from`), adds a radial profile (mean occupancy vs in-plane distance from the diagonal
+through the hull centre) to the JSON line, and `--png` draws it (ramp 0..`--vmax`).
+`--npy F` writes all counts as NumPy `<u4`, shape `(3, NZ, NY, NX)` (cell `(a,i,j,k)` at
+doubled `2(i+OX, j+OY, k+OZ) + e_a`; dims/origin in the JSON), `--csv F` the nonzero cells.
+
+**Checkpoints.** `gump run --checkpoint F --checkpoint-every N` rewrites snapshot `F`
+atomically at every generation divisible by N; resume with `--snapshot F`. Halting detection
+restarts at the resume point (a cycle entered earlier is reported from the resume generation).
 
 **Text renderings (`gump show`).** A `{111}` layer is a kagome lattice; reflected so the
 diagonal is `[111]`, its cells are all `(x, y)` except `(odd, odd)`, drawn at column
@@ -188,7 +212,16 @@ Files: `src/fast.rs` (kernel), `src/scalar.rs`, `src/lattice.rs` (coordinates, h
 | T2 (hull never grows; auto box = padded box; hull-restricted kernel), T3 (3 dead layers stay dead on tori, 4 axes), layer tracker never sees a proven-dead layer revive, snapshot round trip, halting vs brute force, still lifes on tori | `cargo test --release --test properties` | pass |
 | packed lanes = separate runs, every generation (open and torus, 1–4 lanes, W = 1 and 2, 3 rules, hull-restricted), per-lane population / changed bits / hashes | `cargo test --release --test lanes` | pass |
 | packed + checkpoint-hash ensembles = per-generation ensembles, field for field | `python3 engine/scripts/check_ensemble.py` | 14 cases, 1,180 runs, 0 mismatches |
+| ensemble `--layer-deaths` = `run --events --every 1` | `python3 engine/scripts/check_deaths.py` | 57 runs, 1,002 events, identical |
+| symmetric soups: density, exact invariance (12 groups, torus/open, centre/vertex); occupancy counts | `cargo test --release --test properties` | pass |
 | `describe` (period, pops, union, sym, spacetime_sym, layers, nbr_components, canonical form) on every atlas catalogue object | `cargo test --release --test catalogue` | 1,307 / 1,307 |
+
+**Fixed in round three:** `--sym` soups on a whole torus were overfilled (orbit images
+outside the fundamental domain were not reduced mod the torus, so cells were covered by
+several orbits: ~93% instead of P). Orbits are now orbits of the group on the torus (the
+orbit-size histograms equal `research/phase/sym.py`'s, `cargo run --release --example
+orbit_stats 8`); groups permuting axes of unequal length are refused. Test: density within
+sampling error and exact invariance for all 12 groups × both centre types × torus/open.
 
 **Fixed in round two:** on a torus the kernel's changed flag counted halo copies, so still
 lifes were never seen as "unchanged"; the per-generation hash then caught them as
