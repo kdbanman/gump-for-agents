@@ -178,3 +178,20 @@ Code, catalogue (1307 objects, every one re-stepped by the oracle) and exact sea
 - **[measured]** Oscillators exist: periods 2, 3, 4, 5, 8, 14 seen in soup ash
   (`gump run --soup 0.3 --radius 8 --rng 20` → period 14, 18 cells).
 - Web app (`web/`) v1 verified: `node test/run.mjs` 49/49; GPU path bit-exact on the golden logs.
+
+## 2026-11-12 — closed cubes 14 and 15; web views (lead)
+
+- **[measured]** Closed cube side 14: **4,460,298** generations, ends in a period-2 oscillator
+  of 528 cells. Side 15: **37,367,092** generations, ends **extinct** (population 0).
+  (`research/experiments/cubes.sh 14 15`; layer-death events in `research/scratch/cubes/`.)
+  Both peel layer by layer like 11 and 13. Series for n = 11…15: 4218, 24286, 169049,
+  4460298, 37367092; ln τ = 8.35, 10.10, 12.04, 15.31, 17.44 — about +2.3 per side, single
+  draws each, so not yet able to separate ln τ ∝ n from ∝ n².
+- **[measured]** Vertex star re-verified independently by the lead: a star cell sees 5 star
+  cells, no outside cell sees more than 2, all 4096 states stay inside and settle within
+  3 generations (2750 die; still lifes of 6, 7, 8, 9, 12 cells; period-2 with 6–9 cells).
+  In the dual (bond) picture the star is the 12 edges of a dual cube and the closed cube is
+  the 6 bonds at a dual vertex.
+- **[conjecture → lead]** From the web viewer's `{111}` slicer, one snapshot (side 11, gen 1500):
+  the outermost face layer's live cells form a ring with an empty middle and empty corners.
+  If typical, a face is not a homogeneous 2D layer. Being measured by the peeling study.
