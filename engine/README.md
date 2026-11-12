@@ -137,38 +137,42 @@ Files: `src/fast.rs` (kernel), `src/scalar.rs`, `src/lattice.rs` (coordinates, h
 
 ## Performance
 
-Measured on the 4-vCPU Xeon (Granite Rapids, AVX-512) **while other agents kept the machine
-busy** (load average 5–9). Single-thread numbers were reproducible to ~±25%; parallel
-numbers were not measurable: four *independent* copies of the same single-threaded
-benchmark together ran only ~1.2× faster than one copy, i.e. about one core was free.
-Cell-updates = 3 × cubes in the box × generations.
+Measured on the 4-vCPU Xeon (Granite Rapids, AVX-512) **while other agents kept 2–3 of the
+4 cores busy** (load average 4–9; four independent copies of one single-threaded benchmark
+together ran only 1.2–2× faster than one copy). Single-thread numbers are reproducible to
+~±20%; multi-thread numbers reflect the contention. Cell-updates = 3 × cubes in the box ×
+generations. `gump bench` reproduces the table (`--threads 1,2,4`).
 
-| workload | gens/s | cell-updates/s |
-|---|---:|---:|
-| side-13 closed cube in its 40³ hull box, full kernel | 0.9–1.2 × 10⁵ | 1.8–2.3 × 10¹⁰ |
-| same, kernel restricted to rows meeting the hull (default in `run`) | 1.4–2.0 × 10⁵ | 2.7–3.8 × 10¹⁰ box-equivalent |
-| the whole legacy side-13 run (169,049 gens, per-generation halting, poplog) | 1.2 s | |
-| soup p=0.3, 64³ torus | 3.3–4.9 × 10⁴ | 2.6–3.9 × 10¹⁰ |
-| soup p=0.3, 128³ torus | 4.7–6.3 × 10³ | 3.0–4.0 × 10¹⁰ |
-| soup p=0.3, 256³ torus | 5.0–7.9 × 10² | 2.5–3.9 × 10¹⁰ |
-| same three without in-kernel hash/population (`kernel_stats = false`, library only) | +15–25% | up to 4.3 × 10¹⁰ |
-| non-default rule (generic multiplexer kernel), 64³ | ~1.7 × 10⁴ | ~1.4 × 10¹⁰ |
-| ensemble, octahedral soups R=20 p=0.3 (box 22³, B=22 of 64 bits used), per core | 5.6 × 10⁵ | |
+| workload | threads | gens/s | cell-updates/s |
+|---|---:|---:|---:|
+| side-13 closed cube in its 40³ hull box, full kernel | 1 | 1.2–1.3 × 10⁵ | 2.3–2.4 × 10¹⁰ |
+| same, kernel restricted to rows meeting the hull (default in `run`) | 1 | 2.2–2.4 × 10⁵ | 4.3–4.5 × 10¹⁰ box-equivalent |
+| the whole legacy side-13 run, 169,049 gens, with per-generation halting detection | 1 | 0.84 s total (2.0 × 10⁵) | |
+| soup p=0.3, 64³ torus | 1 | 5.0–5.2 × 10⁴ | 3.9–4.1 × 10¹⁰ |
+| soup p=0.3, 128³ torus | 1 / 2 | 7.0 × 10³ / 1.1 × 10⁴ | 4.4 / 7.0 × 10¹⁰ |
+| soup p=0.3, 256³ torus | 1 / 2 | 850 / 1,320 | 4.3 / 6.7 × 10¹⁰ |
+| 64³ torus without in-kernel hash/population (library, `kernel_stats = false`) | 1 | 5.8–6.4 × 10⁴ | 4.6–5.1 × 10¹⁰ |
+| non-default rule (multiplexer kernel), 64³ torus | 1 | 2.4–2.9 × 10⁴ | 1.9–2.3 × 10¹⁰ |
+| ensemble: octahedral soups R=20, p=0.3 (box 22³; B=22 of 64 bits used), 20,000-gen cap | 1 / 4 | 6.4 × 10⁵ / 1.2 × 10⁶ aggregate | 32 / 59 runs/s |
 
-Octahedral soups of radius 20 do not halt within 3 × 10⁶ generations, so ensemble
-throughput is per generation: at a 20,000-generation cap, ~28 runs/s per core.
-`--threads 2/4` on 64³–256³ tori was *slower* than 1 thread here (contention); the code
-path is tested for exactness, its scaling is unmeasured.
+Octahedral soups of radius 20 do not halt within 3 × 10⁶ generations, hence the cap.
+With 4 threads per generation the busy machine made things slower than 2; on an idle machine
+expect near-linear scaling for ≥128³ (the team claims row chunks dynamically, no serial
+phase). The default is 1 thread per run; ensembles use one run per core.
 
-**Profile (from the instruction mix; no `perf` on this machine).** Per block of 8 words
-(512 cells × 3 orientations): 31 unaligned 512-bit loads, ~70 `vpternlogq`/logic ops
-(3 adder trees + rule), 3 stores, plus ~15 ops for the per-generation hash/popcount/changed
-reductions (two `vpmullq` per word dominate those). ~100 cycles per block ≈ 60% of the two
-512-bit ALU ports: the kernel is ALU-bound, not memory-bound, even at 256³ (12.6 MB/gen).
-Ideas, roughly by expected gain: (1) share partial sums between orientations and between
-neighbouring words (e.g. `X[i]+X[i-1]` feeds both Y and Z; `Y[j]+Y[j-1]` feeds X and Z) —
-maybe −25% ops; (2) a cheaper per-generation hash (NH-style `vpmuludq`) or hashing only
-every K gens with exact back-tracking for the cycle start; (3) for ensembles of small boxes,
-pack 2–3 runs side by side in each 64-bit word (B=22 wastes 2/3 of every word) — ~2–3×
-runs/s; (4) an O_h-reduced stepper for symmetric seeds (48×); (5) temporal blocking (2–4
-generations per pass over a cache tile) for tori beyond L2.
+**Profile (from the hot loop's instruction mix; no `perf` here).** Per block of 8 words
+(512 cells × 3 orientations): 31 unaligned 512-bit loads, 3 stores, 57 `vpternlogq` + 12
+other logic ops (three 12-input carry-save trees at 2 ternary ops per full adder, rule in
+3 ops), ~24 register copies (ternlog overwrites an input), and ~30 ops of per-generation
+reductions (hash: one `vpmullq` per word; popcounts; changed flag). The kernel is bound by
+the two 512-bit ALU ports, not by memory, even at 256³ (12.6 MB per generation). Letting
+LLVM lower the same boolean expressions produced ~2× the ops; the hand-written ternary-logic
+path gave ~1.3×.
+
+**Next steps, by expected gain.** (1) Ensembles of small boxes: pack 2–3 runs side by side
+in each 64-bit word (R=20 boxes use 22 of 64 bits) — ~2.5× runs/s. (2) Share partial sums
+across orientations and neighbouring words (`X[i]+X[i−1]` feeds both Y and Z,
+`Y[j]+Y[j−1]` feeds X and Z) — maybe −20% ops. (3) Hash every K generations and recover the
+exact cycle start by re-simulation from a checkpoint — removes most of the 20–25% stats
+cost. (4) Temporal blocking (several generations per pass over a tile) for tori beyond L2;
+the halo is already per-chunk. (5) O_h-reduced stepper for symmetric seeds (48×).
