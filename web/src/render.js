@@ -163,8 +163,8 @@ void main() {
   vec3 c = shade(vBase, n, normalize(vToEye), vDepth, vUV);
   if (vCat == 2) {          // dead slot of the edit set: a faint outline
     float e = max(abs(vUV.x), abs(vUV.y));
-    fragColor = vec4(mix(vec3(0.85), vBase, 0.4), e > 0.82 ? 0.55 : 0.07);
-  } else if (vCat == 3) fragColor = vec4(c, 0.13);
+    fragColor = vec4(mix(vec3(0.85), vBase, 0.4), e > 0.84 ? 0.32 : 0.035);
+  } else if (vCat == 3) fragColor = vec4(c, 0.28);
   else fragColor = vec4(c, 1.0);
 }`,
   });

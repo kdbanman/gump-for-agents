@@ -119,6 +119,9 @@ function buildSim(dims, torus, cells) {
   app.sim = new Sim(gl, dims[0], dims[1], dims[2], { torus, maxLanes: app.spec.lanes });
   app.stats = new Stats(gl, app.sim.layout);
   app.bricks = new Bricks(gl, app.sim.layout);
+  // brick skipping measured 0.85-1.75x under SwiftShader (the hull clip already removes most empty
+  // space); it only pays in bigger boxes
+  app.useBricks = Math.max(...dims) > 48;
   app.sim.upload(cells);
   renderer.resetState();
   view.setLayout(app.sim.layout, app.bricks.layout);
@@ -442,8 +445,8 @@ function frame(now) {
   renderer.resetState();
   controls.update();
   const ray = view.drawn === 'raymarch';
-  if (ray && app.bricksDirty) { app.bricks.update(app.sim.texture, app.sim.prevTexture, app.spec.color === 'change'); app.bricksDirty = false; renderer.resetState(); }
-  view.update(app.sim, app.bricks.tex, ray, camera, { faceScale: Number($('v-face').value), border: $('v-border').checked ? 1 : 0 });
+  if (ray && app.useBricks && app.bricksDirty) { app.bricks.update(app.sim.texture, app.sim.prevTexture, app.spec.color === 'change'); app.bricksDirty = false; renderer.resetState(); }
+  view.update(app.sim, app.bricks.tex, ray && app.useBricks, camera, { faceScale: Number($('v-face').value), border: $('v-border').checked ? 1 : 0 });
   hullLines.visible = $('v-hull').checked;
   boxLines.visible = $('v-box').checked;
   renderer.render(scene, camera);
