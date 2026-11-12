@@ -55,6 +55,9 @@ SEED (exactly one; coordinates are doubled: a cell has exactly one odd coordinat
       --diag D             diagonal axis 0..3 = [111],[-111],[1-11],[11-1]
       --center X,Y,Z       region centre (default 0,0,0)
       --rng SEED           RNG seed (default 1)
+      --sym G              symmetric soup: one draw per orbit of point group G about
+                           --center (a cube centre or vertex): oh o td th d4h d3d d2h c4v
+                           c3v c3 ci c1 (axis-specific groups use z / [111])
   --cells FILE             cell list: lines "x y z" (doubled coords), '#' comments
   --snapshot FILE          a .gump snapshot (its box/boundary/rule/gen are used unless overridden)
 
@@ -327,6 +330,17 @@ fn build_seed(a: &Args, sp: &SeedParams) -> Seed {
         // a torus region needs the torus geometry, which needs no cells
         let torus = a.kv.get("torus").map(|_| build_space(a, &[], None));
         let region = soup_region(a, sp, torus.as_ref());
+        if let Some(gname) = a.get("sym") {
+            let group = gump::sym::group(&gname).unwrap_or_else(|| {
+                die(&format!("unknown --sym {gname}; groups: {}", gump::sym::GROUPS.iter().map(|g| g.0).collect::<Vec<_>>().join(", ")))
+            });
+            let center = a.get("center").map(|c| triple(&c)).unwrap_or([0, 0, 0]);
+            if let Some(g) = group.iter().find(|g| !gump::sym::maps_cells_to_cells(g, center)) {
+                die(&format!("--sym {gname} about {center:?} does not map cells to cells ({g:?}); use a cube centre (all even) or a vertex (all odd)"));
+            }
+            let cells = seeds::soup_sym(&region, sp.density, sp.rng, &group, center);
+            return plain(cells, format!("soup p={} rng={} sym={} {}", sp.density, sp.rng, gname, region.describe()));
+        }
         let cells = seeds::soup(&region, sp.density, sp.rng);
         return plain(cells, format!("soup p={} rng={} {}", sp.density, sp.rng, region.describe()));
     }

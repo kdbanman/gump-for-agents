@@ -211,6 +211,38 @@ pub fn soup(region: &Region, density: f64, seed: u64) -> Vec<P3> {
     v
 }
 
+/// Symmetric soup: one random draw per orbit of `group` (elements of O_h acting about
+/// `center`), so the soup is invariant under the group. Orbits are visited in the same
+/// canonical order as [`soup`] (a cell draws when it is the first of its orbit to be
+/// visited); every member of a live orbit is live, even if it lies outside the region
+/// (use a region symmetric about `center`).
+pub fn soup_sym(region: &Region, density: f64, seed: u64, group: &[crate::sym::Elem], center: P3) -> Vec<P3> {
+    let mut rng = Rng::new(seed);
+    let (lo, hi) = region.bounds();
+    let mut done: std::collections::HashSet<P3> = std::collections::HashSet::new();
+    let mut v = Vec::new();
+    for z in lo[2]..=hi[2] {
+        for y in lo[1]..=hi[1] {
+            for x in lo[0]..=hi[0] {
+                let p = [x, y, z];
+                if cell_axis(p).is_none() || !region.contains(p) || done.contains(&p) {
+                    continue;
+                }
+                let orbit: std::collections::BTreeSet<P3> = group.iter().map(|g| g.apply_about(p, center)).collect();
+                let live = rng.chance(density);
+                for q in orbit {
+                    done.insert(q);
+                    if live {
+                        v.push(q);
+                    }
+                }
+            }
+        }
+    }
+    v.sort();
+    v
+}
+
 /// Parse a cell list: one cell per line, three integers (doubled coordinates) separated
 /// by spaces, tabs or commas; `#` starts a comment.
 pub fn parse_cells(text: &str) -> Result<Vec<P3>, String> {
