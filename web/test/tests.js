@@ -3,7 +3,7 @@ import { Sim } from '../src/gl/sim.js';
 import { Stats } from '../src/gl/stats.js';
 import { stepCPU, statsCPU } from '../src/cpu.js';
 import { makeSeed, autoBox, placeSeed, mulberry32, legacySeedSpan } from '../src/seeds.js';
-import { layerCounts, layerCountsCells, firewalls } from '../src/layers.js';
+import { layerCounts, layerCountsCells, firewalls, hullSites, hullOfCounts } from '../src/layers.js';
 
 const log = (...a) => { const s = a.join(' '); console.log(s); document.getElementById('log').textContent += s + '\n'; };
 const results = [];
@@ -164,6 +164,19 @@ async function layerTests() {
   const b = layerCountsCells(cells, [20, 20, 20]);
   record('analysis worker round trip', r.diags.every((d, n) => d.counts.every((v, i) => v === b[n].counts[i])), `${r.ms.toFixed(1)} ms in worker`);
   w.terminate(); sim.dispose();
+  // sites per layer inside a hull: with the box's own range every site counts (= counts of a full
+  // state); with a real hull, sites >= live cells in every layer and the per-diagonal totals agree
+  {
+    const dims = [7, 9, 8], full = new Uint8Array(7 * 9 * 8).fill(7);
+    const all = layerCountsCells(full, dims), hAll = hullOfCounts(all);
+    const sAll = hullSites(dims, hAll);
+    const okAll = sAll.every((x, n) => x.every((v, i) => v === all[n].counts[i]));
+    const rnd = mulberry32(9); const soup = new Uint8Array(7 * 9 * 8).map((_, i) => (i % 11 < 5 && rnd() < 0.6) ? 7 : 0);
+    const lc = layerCountsCells(soup, dims), sites = hullSites(dims, hullOfCounts(lc));
+    const tot = sites.map(x => x.reduce((a, b) => a + b, 0));
+    const okSoup = sites.every((x, n) => x.every((v, i) => v >= lc[n].counts[i])) && tot.every(t => t === tot[0]);
+    record('hull sites per layer (density denominators)', okAll && okSoup, `full box: ${okAll}; soup hull holds ${tot[0]} sites on every diagonal`);
+  }
   // firewall detection
   const fw = firewalls({ base: 1, counts: Uint32Array.from([0, 3, 0, 0, 0, 5, 0, 0, 2, 0, 0, 0, 0, 1, 0]) });
   record('firewall detection (>=3 empty layers inside the hull)', JSON.stringify(fw) === JSON.stringify([{ from: 5, to: 9 }, { from: 19, to: 25 }]), JSON.stringify(fw));

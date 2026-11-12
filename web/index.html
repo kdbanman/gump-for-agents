@@ -18,6 +18,8 @@
 <div id="layers">
   <div class="row head">
     <span><b>{111} layers</b> along <select id="k-diag" class="diag"></select></span>
+    <select id="k-mode" title="colour"><option value="density">density in hull</option><option value="count">live count</option></select>
+    <select id="k-win" title="time window"><option value="0">all</option><option value="1000">last 1k</option><option value="10000">last 10k</option><option value="100000">last 100k</option><option value="1000000">last 1M</option></select>
     <span class="dim" id="k-label"></span>
     <button id="k-hide" title="hide / show">–</button>
   </div>
@@ -25,7 +27,7 @@
     <canvas id="kymo" width="560" height="150"></canvas>
     <canvas id="kprof" width="70" height="150"></canvas>
   </div>
-  <div class="dim small" id="k-foot">colour = live cells in the layer (black = empty: an outer layer that empties can never be re-seeded, T2) · ticks = hull shrinks · boxes = firewalls (≥3 empty layers inside, T3)</div>
+  <div class="dim small" id="k-foot">colour = live cells ÷ sites of the layer inside the snapshot's hull, 0…0.6 (or the raw count); black = empty: an outer layer that empties can never be re-seeded (T2) · ticks = hull shrinks · boxes = firewalls (≥3 empty layers inside, T3)</div>
 </div>
 
 <aside id="panel">

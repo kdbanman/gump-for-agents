@@ -13,12 +13,15 @@ function ramp(v) {
   return [a[0] + (b[0] - a[0]) * f, a[1] + (b[1] - a[1]) * f, a[2] + (b[2] - a[2]) * f];
 }
 const EMPTY = [12, 10, 10];
+export const DMAX = 0.6;   // density colour scale: 0 .. DMAX
 
 export class Kymo {
   constructor(canvas, profile, label, { onPickLayer } = {}) {
     this.canvas = canvas; this.profile = profile; this.label = label;
     this.onPickLayer = onPickLayer;
     this.diag = 0;
+    this.window = 0;     // 0 = whole history, else the last `window` generations
+    this.mode = 'density';   // 'density' = live / sites of the layer inside the snapshot's hull; 'count'
     this.marks = [];     // [{ gen, diag }] hull-shrink events (exact generations, from the stats ring)
     this.slice = null;   // { diag, lo, hi } layer range shown in the 3D view
     this.clear();
@@ -47,6 +50,8 @@ export class Kymo {
   }
   mark(gen, diag) { this.marks.push({ gen, diag }); this.dirty = true; }
   setDiag(n) { this.diag = n; this.dirty = true; }
+  setWindow(w) { this.window = w; this.dirty = true; }
+  setMode(m) { this.mode = m; this.dirty = true; }
   setSlice(s) { this.slice = s; this.dirty = true; }
 
   // y extent: layers that were ever alive along the current diagonal
@@ -63,7 +68,10 @@ export class Kymo {
     const cv = this.canvas, W = cv.width, H = cv.height, n = this.cols.length;
     if (!n) return null;
     const ext = this._extent(); if (!ext) return null;
-    const g0 = this.cols[0].gen, g1 = Math.max(this.cols[n - 1].gen, g0 + 1);
+    // sample-and-hold: each column lasts until the next snapshot; the last one gets the mean spacing
+    const gl = this.cols[n - 1].gen;
+    const g0 = this.window ? Math.max(this.cols[0].gen, gl - this.window) : this.cols[0].gen;
+    const g1 = Math.max(gl + (n > 1 ? (gl - this.cols[0].gen) / (n - 1) : 1), g0 + 1);
     const layers = (ext.hi - ext.lo) / 2 + 1;
     return { W, H, g0, g1, ext, layers };
   }
@@ -77,7 +85,8 @@ export class Kymo {
     const col = this._colAt(gen);
     const d = col.diags[this.diag];
     const i = (s - d.base) / 2;
-    return { s, gen: col.gen, count: i >= 0 && i < d.counts.length ? d.counts[i] : 0 };
+    const ok = i >= 0 && i < d.counts.length;
+    return { s, gen: col.gen, count: ok ? d.counts[i] : 0, sites: ok ? d.sites[i] : 0 };
   }
   _colAt(gen) {   // latest snapshot at or before gen
     let a = 0, b = this.cols.length - 1;
@@ -97,6 +106,7 @@ export class Kymo {
     const { W, H, g0, g1, ext, layers } = g;
     const img = ctx.createImageData(W, H);
     const norm = Math.sqrt(this.maxc[this.diag]);
+    const dens = this.mode === 'density';
     const rowS = new Int32Array(H);
     for (let y = 0; y < H; y++) rowS[y] = ext.lo + 2 * Math.floor((H - 1 - y) / H * layers);
     let ci = 0;
@@ -107,7 +117,7 @@ export class Kymo {
       for (let y = 0; y < H; y++) {
         const i = (rowS[y] - d.base) / 2;
         const c = i >= 0 && i < d.counts.length ? d.counts[i] : 0;
-        const rgb = c ? ramp(Math.sqrt(c) / norm) : EMPTY;
+        const rgb = !c ? EMPTY : dens ? ramp(d.sites[i] ? c / d.sites[i] / DMAX : 1) : ramp(Math.sqrt(c) / norm);
         const o = 4 * (y * W + x);
         img.data[o] = rgb[0]; img.data[o + 1] = rgb[1]; img.data[o + 2] = rgb[2]; img.data[o + 3] = 255;
       }
@@ -132,16 +142,17 @@ export class Kymo {
     // profile of the latest snapshot
     const last = this.cols[this.cols.length - 1], d = last.diags[this.diag];
     const PW = this.profile.width, PH = this.profile.height;
-    let mx = 1; for (const c of d.counts) mx = Math.max(mx, c);
+    const val = (i) => this.mode === 'density' ? (d.sites[i] ? d.counts[i] / d.sites[i] : 0) : d.counts[i];
+    let mx = this.mode === 'density' ? DMAX : 1; if (this.mode !== 'density') for (const c of d.counts) mx = Math.max(mx, c);
     pctx.fillStyle = 'rgba(240,226,200,0.85)';
     for (let i = 0; i < d.counts.length; i++) {
       const s = d.base + 2 * i; if (s < ext.lo || s > ext.hi || !d.counts[i]) continue;
       const y = PH - 1 - ((s - ext.lo) / 2 + 1) / layers * PH;
-      pctx.fillRect(0, y, Math.max(1, d.counts[i] / mx * PW), Math.max(1, PH / layers - (layers < PH / 3 ? 1 : 0)));
+      pctx.fillRect(0, y, Math.max(1, Math.min(1, val(i) / mx) * PW), Math.max(1, PH / layers - (layers < PH / 3 ? 1 : 0)));
     }
     const step = this.cols.length > 1 ? (last.gen - this.cols[0].gen) / (this.cols.length - 1) : 0;
-    let txt = `${DIAG_NAMES[this.diag]} layers s ${ext.lo + 4}…${ext.hi - 4} · ${this.cols.length} snapshots, gen ${this.cols[0].gen.toLocaleString('en-US')}–${last.gen.toLocaleString('en-US')} (≈ every ${step < 10 ? step.toFixed(1) : Math.round(step).toLocaleString('en-US')} gens)`;
-    if (this.hover) txt = `gen ${this.hover.gen.toLocaleString('en-US')} · layer s=${this.hover.s} · ${this.hover.count} cells — click to slice`;
+    let txt = `${DIAG_NAMES[this.diag]} s ${ext.lo + 4}…${ext.hi - 4} · gen ${Math.round(g0).toLocaleString('en-US')}–${last.gen.toLocaleString('en-US')} · ${this.cols.length} snapshots, ≈ every ${step < 10 ? step.toFixed(1) : Math.round(step).toLocaleString('en-US')} gens`;
+    if (this.hover) { const h = this.hover; txt = `gen ${h.gen.toLocaleString('en-US')} · layer s=${h.s} · ${h.count} live${h.sites ? ` of ${h.sites} sites in the hull (${(h.count / h.sites).toFixed(2)})` : ''} — click to slice`; }
     this.label.textContent = txt;
   }
 }

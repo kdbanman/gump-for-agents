@@ -81,3 +81,32 @@ export function firewalls({ base, counts }) {
   }
   return out;
 }
+
+// Number of cell sites per layer (4 diagonals) inside the hull {loS <= d.p <= hiS} and the box.
+// The denominator for layer densities. O(cells in box); callers cache it per hull.
+export function hullSites(dims, hull) {
+  const ranges = DIAGONALS.map(d => layerRange(dims, d));
+  const sites = ranges.map(r => new Uint32Array(r.count));
+  const [nx, ny, nz] = dims;
+  const { loS, hiS } = hull;
+  for (let k = 0; k < nz; k++) for (let j = 0; j < ny; j++) for (let i = 0; i < nx; i++) for (let a = 0; a < 3; a++) {
+    const px = 2 * i + (a === 0), py = 2 * j + (a === 1), pz = 2 * k + (a === 2);
+    const s0 = px + py + pz, s1 = px + py - pz, s2 = px - py + pz, s3 = -px + py + pz;
+    if (s0 < loS[0] || s0 > hiS[0] || s1 < loS[1] || s1 > hiS[1] || s2 < loS[2] || s2 > hiS[2] || s3 < loS[3] || s3 > hiS[3]) continue;
+    sites[0][(s0 - ranges[0].base) >> 1]++; sites[1][(s1 - ranges[1].base) >> 1]++;
+    sites[2][(s2 - ranges[2].base) >> 1]++; sites[3][(s3 - ranges[3].base) >> 1]++;
+  }
+  return sites;
+}
+
+// The hull of a layer-count result: outermost non-empty layer per diagonal.
+export function hullOfCounts(diags) {
+  const loS = [], hiS = [];
+  for (const { base, counts } of diags) {
+    let lo = -1, hi = -1;
+    for (let i = 0; i < counts.length; i++) if (counts[i]) { if (lo < 0) lo = i; hi = i; }
+    if (lo < 0) return null;
+    loS.push(base + 2 * lo); hiS.push(base + 2 * hi);
+  }
+  return { loS, hiS };
+}

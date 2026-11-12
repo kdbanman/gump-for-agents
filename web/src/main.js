@@ -27,9 +27,9 @@ const fmt = (n) => n == null ? '–' : Math.round(n).toLocaleString('en-US');
 // ---------------------------------------------------------------- URL / spec
 const DEFAULTS = { seed: 'cube', n: 11, k: 5, H: 60, shape: 'cube', density: 0.3, layers: 3, rng: 1,
   box: 'auto', bc: 'dead', speed: 'max', view: 'auto', face: 0.6, gen: 0, play: 0, lanes: 32, cells: '', cz: '',
-  abs: 0, g0: 0, cam: '', color: 'orientation', diag: 0, slice: '', ortho: 0, rec: 1 };
-const NUMERIC = ['n', 'k', 'H', 'density', 'layers', 'rng', 'face', 'gen', 'play', 'lanes', 'abs', 'g0', 'diag', 'ortho', 'rec'];
-const VIEW_KEYS = ['box', 'bc', 'speed', 'view', 'face', 'gen', 'play', 'lanes', 'cam', 'color', 'diag', 'slice', 'ortho', 'rec', 'abs', 'g0'];
+  abs: 0, g0: 0, cam: '', color: 'orientation', diag: 0, slice: '', ortho: 0, rec: 1, kwin: 0 };
+const NUMERIC = ['n', 'k', 'H', 'density', 'layers', 'rng', 'face', 'gen', 'play', 'lanes', 'abs', 'g0', 'diag', 'ortho', 'rec', 'kwin'];
+const VIEW_KEYS = ['box', 'bc', 'speed', 'view', 'face', 'gen', 'play', 'lanes', 'cam', 'color', 'diag', 'slice', 'ortho', 'rec', 'abs', 'g0', 'kwin'];
 
 function readURL() {
   const q = new URLSearchParams(location.search);
@@ -411,12 +411,12 @@ function frame(now) {
     let cap = gpuIdle ? Math.floor(app.spf) : 1;
     if (app.rec) cap = Math.min(cap, RING - 1 - app.stats.unflushed);
     let want;
-    if (app.runUntil > app.gen) want = app.runUntil - app.gen;
+    if (app.runUntil > app.gen && app.spec.speed === 'max') want = app.runUntil - app.gen;
     else if (app.spec.speed === 'max') want = cap;
     else { app.acc = Math.min(app.acc + Number(app.spec.speed) * dt, Math.max(cap, 1)); want = Math.floor(app.acc); }
-    const steps = Math.max(0, Math.min(want, cap));
+    const steps = Math.max(0, Math.min(want, cap, app.runUntil > app.gen ? app.runUntil - app.gen : Infinity));
     app.budgetBound = want >= cap;
-    if (app.spec.speed !== 'max' && !(app.runUntil > app.gen)) app.acc -= steps;
+    if (app.spec.speed !== 'max') app.acc -= steps;
     if (steps > 0) {
       if (app.rec) for (let i = 0; i < steps; i++) { app.sim.step(1); app.gen++; app.stats.record(app.sim.texture, app.gen); }
       else { app.sim.step(steps); app.gen += steps; }
@@ -579,6 +579,7 @@ function syncForm() {
   $('v-color').value = app.spec.color;
   $('v-ortho').checked = !!app.spec.ortho;
   $('rec').checked = app.rec;
+  $('k-win').value = String(app.spec.kwin); kymo.setWindow(app.spec.kwin);
   view.setColorMode(app.spec.color);
   view.setMode(viewMode());
   showSeedFields();
@@ -617,6 +618,8 @@ $('s-one').addEventListener('click', () => setSlice(true, app.slice.lo, app.slic
 $('s-facehi').addEventListener('click', () => { const h = hullS(); if (h) setSlice(true, h[1], h[1]); });
 $('s-facelo').addEventListener('click', () => { const h = hullS(); if (h) setSlice(true, h[0], h[0]); });
 $('s-all').addEventListener('click', () => { const h = hullS(); if (h) setSlice(true, h[0], h[1]); });
+$('k-mode').addEventListener('change', () => kymo.setMode($('k-mode').value));
+$('k-win').addEventListener('change', () => { app.spec.kwin = Number($('k-win').value); kymo.setWindow(app.spec.kwin); writeURL(); });
 $('k-hide').addEventListener('click', () => { $('layers').classList.toggle('collapsed'); $('k-hide').textContent = $('layers').classList.contains('collapsed') ? '+' : '–'; });
 $('share').addEventListener('click', async () => {
   const url = shareURL({ gen: app.gen, play: app.playing ? 1 : 0 });

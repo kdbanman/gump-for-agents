@@ -1,0 +1,33 @@
+<!doctype html><html><body><pre id="log"></pre><script type="module">
+// Cost of every-generation statistics (step + reduction into the ring) vs plain stepping, and
+// the layer analysis (worker code) on a full snapshot.  ?sizes=16,36,128,256
+import { Sim } from '../src/gl/sim.js';
+import { Stats } from '../src/gl/stats.js';
+import { layerCounts } from '../src/layers.js';
+import { mulberry32 } from '../src/seeds.js';
+const q = new URLSearchParams(location.search);
+const sizes = (q.get('sizes') || '16,36,128').split(',').map(Number);
+const ms = Number(q.get('ms') || 2000);
+const gl = document.createElement('canvas').getContext('webgl2');
+const out = [];
+for (const N of sizes) {
+  const sim = new Sim(gl, N, N, N, {}), stats = new Stats(gl, sim.layout);
+  const rnd = mulberry32(1);
+  sim.upload(new Uint8Array(N * N * N).map(() => (rnd() < 0.3) | ((rnd() < 0.3) << 1) | ((rnd() < 0.3) << 2)));
+  const r = { N, passes: stats.passes };
+  for (const rec of [false, true]) {
+    let gens = 0, batch = 1, g = 0; const t0 = performance.now();
+    while (performance.now() - t0 < ms) {
+      for (let i = 0; i < batch; i++) { sim.step(1); g++; if (rec) stats.record(sim.texture, g); }
+      if (rec) stats.flush();
+      sim.sync(); stats.poll(); gens += batch; batch = Math.min(batch * 2, 512);
+    }
+    r[rec ? 'gensPerSecRecorded' : 'gensPerSec'] = +(gens / ((performance.now() - t0) / 1000)).toFixed(1);
+  }
+  const tex = sim.readTexels(); const t1 = performance.now(); layerCounts(tex, sim.layout);
+  r.layerAnalysisMs = +(performance.now() - t1).toFixed(1); r.snapshotMB = +(tex.byteLength / 1e6).toFixed(2);
+  out.push(r); document.getElementById('log').textContent += JSON.stringify(r) + '\n';
+  stats.dispose(); sim.dispose();
+}
+window.__results = out;
+</script></body></html>
