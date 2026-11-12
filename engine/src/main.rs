@@ -129,7 +129,7 @@ impl Args {
 }
 
 /// Print one line to stdout; exit quietly if the reader went away (e.g. `| head`).
-fn out(line: &str) {
+fn emit_line(line: &str) {
     let mut so = std::io::stdout().lock();
     if writeln!(so, "{line}").and_then(|_| so.flush()).is_err() {
         exit(0);
@@ -451,7 +451,7 @@ fn cmd_run(a: &Args) {
         let hdr = format!("gen {} rule {} pop {}", sim.generation(), sim.rule(), res.pop);
         std::fs::write(&f, seeds::format_cells(&sim.cells(), &hdr)).unwrap_or_else(|e| die(&format!("{f}: {e}")));
     }
-    out(&summary_json(&sim, &seed, &res, vec![("dropped_cells", Raw(lost.to_string()))]));
+    emit_line(&summary_json(&sim, &seed, &res, vec![("dropped_cells", Raw(lost.to_string()))]));
 }
 
 fn cmd_info(a: &Args) {
@@ -481,7 +481,7 @@ fn cmd_info(a: &Args) {
         .f("box_cells", &sim.geometry().cells())
         .f("dropped_cells", &lost)
         .f("hash", &format!("{:016x}", sim.state_hash()));
-    out(&o.end());
+    emit_line(&o.end());
 }
 
 fn cmd_convert(a: &Args) {
@@ -504,7 +504,7 @@ fn cmd_convert(a: &Args) {
         let hdr = format!("gen {} rule {}", sim.generation(), sim.rule());
         std::fs::write(&f, seeds::format_cells(&sim.cells(), &hdr)).unwrap_or_else(|e| die(&format!("{f}: {e}")));
     }
-    out(&Obj::new().f("type", "convert").f("pop", &sim.population()).f("dropped_cells", &lost).end());
+    emit_line(&Obj::new().f("type", "convert").f("pop", &sim.population()).f("dropped_cells", &lost).end());
 }
 
 fn cmd_ensemble(a: &Args) {
@@ -639,10 +639,10 @@ fn cmd_bench(a: &Args) {
         let mut sim = BitSim::new(geo, Rule::GUMP).unwrap();
         sim.set_cells(&cells);
         sim.steps(2000); // into the chaotic plateau
-        out(&bench_one("cube13_hullbox", sim.clone(), (20000.0 * scale) as u64, 1));
+        emit_line(&bench_one("cube13_hullbox", sim.clone(), (20000.0 * scale) as u64, 1));
         let h = gump::instruments::sample(&sim, true).hull();
         sim.restrict_to_hull(h.as_ref());
-        out(&bench_one("cube13_hullbox_restricted", sim, (20000.0 * scale) as u64, 1));
+        emit_line(&bench_one("cube13_hullbox_restricted", sim, (20000.0 * scale) as u64, 1));
     }
     for &n in &[64usize, 128, 256] {
         let geo = Geometry::new([n; 3], [0; 3], Boundary::Torus);
@@ -652,7 +652,7 @@ fn cmd_bench(a: &Args) {
         base.set_cells(&cells);
         let gens = ((4.0e9 / (3.0 * (n * n * n) as f64)) * scale).max(10.0) as u64;
         for &t in &threads_list {
-            out(&bench_one(&format!("soup0.3_torus{n}"), base.clone(), gens, t));
+            emit_line(&bench_one(&format!("soup0.3_torus{n}"), base.clone(), gens, t));
         }
     }
 }
