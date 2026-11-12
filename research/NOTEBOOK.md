@@ -417,3 +417,19 @@ symmetric chaos in a quick test (the soups died at gen 2). It was not investigat
   depletion a second-order extra. Peeling study: effective face area A/7.7 for O_h (not A/6).
   Phase study: lifetime of a symmetric system ≈ that of an asymmetric one with c × (volume/|G|),
   c ≈ 1.5–3.5.
+
+## 2026-11-12 — the face of a symmetric seed, settled (lead)
+
+- **[measured]** `gump occupancy --cube 13 --from 10000 --to 110000 --layer 33` (re-run by the
+  lead; 100,000 frames, the hull is at radius 33 throughout): the outer face of the
+  O_h-symmetric side-13 cube is depleted at its centre (≈0.2), along the three lines joining
+  the centre to the edge midpoints (0.2–0.3 against 0.4–0.5 either side) and at its corners;
+  mean 0.42. `gump occupancy --soup 0.3 --radius 33 --rng 1 --from 10000 --to 110000 --layer 33`
+  (engine agent's run): an asymmetric face of the same size is uniform at 0.52–0.54 out to the
+  rim, only the three corners lower. So the "ring" seen in the viewer is real and is a
+  property of the symmetric *state* (its mirror lines), not of faces. The phase study had this
+  right; the peeling study's coarser bins averaged it away.
+- **[measured]** Engine round three verified by the lead: 27 tests, 7/7 golden; `--sym oh` on a
+  16³ torus now seeds 3,738 of 12,288 cells (0.30; ~256 independent orbits) and runs chaotic.
+  `gump ensemble --layer-deaths` gives exact peel generations from packed ensembles;
+  `engine/scripts/face_law.py` reproduces `research/experiments/verify_face_law.py`.

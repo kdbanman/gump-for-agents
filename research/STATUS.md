@@ -8,6 +8,8 @@ _Last updated 2026-11-12 by the lead._
   Round two: `gump show` (text renderings, kagome layers), `png`, `describe` (re-derives all 1,307
   atlas objects), packed ensembles (≈4× for small boxes), `--sym` symmetric soups. Not built: a
   symmetry-reduced stepper (would buy closed cubes beyond side 16).
+  Round three: `--sym` torus soups fixed, `ensemble --layer-deaths` (exact peel times),
+  `gump occupancy` (time-averaged maps), `--checkpoint` for restartable runs.
 - `web/` v1 — WebGL2 bit-packed stepper + three.js views; 49/49 tests.
 - `research/atlas/` — exhaustive still lifes ≤16 cells, oscillators, vertex star, legacy ash, critical thickness.
 - `research/peeling/` — the face law, cuts, symmetric effective area, account of the cube series.
@@ -16,8 +18,7 @@ _Last updated 2026-11-12 by the lead._
 
 ## In flight
 - Web: folding the peeling law and density corrections into the tour; face-lifetime readout.
-- Engine round three: fix `--sym` torus soups (overfilled), peel timing in ensemble summaries, occupancy maps.
-- Closed cubes of side 15, 16 (`research/experiments/cubes.sh`).
+- Closed cube of side 16, checkpointed (`research/experiments/cube_ckpt.sh 16`; re-run to resume).
 
 ## The storyline so far
 1. Birth cannot cross a `{111}` plane (T2) ⇒ finite seeds are trapped in octahedral hulls; no
