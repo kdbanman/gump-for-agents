@@ -2,6 +2,8 @@
 //! honeycomb, rule B45/S345). See `docs/AUTOMATON.md` and `engine/README.md`.
 pub mod fast;
 pub mod instruments;
+pub mod json;
+pub mod run;
 pub mod seeds;
 pub mod snapshot;
 pub mod lattice;

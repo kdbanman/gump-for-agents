@@ -46,8 +46,14 @@ const HK2: u64 = 0xD6E8_FEB8_6659_FD93;
 
 #[inline(always)]
 fn hmix(v: u64, gi: u64) -> u64 {
+    // zero words contribute nothing, so the hash does not depend on how the index range
+    // is split between threads (halo positions are always zero in the kernel output)
     let x = (v ^ gi.wrapping_mul(HK1)).wrapping_mul(HK2);
-    x ^ (x >> 32)
+    if v != 0 {
+        x ^ (x >> 32)
+    } else {
+        0
+    }
 }
 
 #[inline(always)]
