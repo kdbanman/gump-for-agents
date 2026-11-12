@@ -1,0 +1,25 @@
+[package]
+name = "gump"
+version = "0.1.0"
+edition = "2021"
+description = "Fast bit-sliced engine and agent-facing CLI for the gump automaton (faces of the cubic honeycomb, B45/S345)"
+license = "MIT"
+
+[dependencies]
+
+[lib]
+name = "gump"
+path = "src/lib.rs"
+
+[[bin]]
+name = "gump"
+path = "src/main.rs"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+debug = 1
+
+[profile.test]
+opt-level = 3
