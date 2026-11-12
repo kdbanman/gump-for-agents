@@ -825,7 +825,8 @@ fn cmd_show(a: &Args) {
     let (phases, head): (Vec<Vec<P3>>, String) = if orbit {
         let o = gump::describe::evolve(&cells, rule, cap);
         let ph: Vec<Vec<P3>> = o.phases.into_iter().take(16).collect();
-        let head = format!("{} period {:?} from gen {:?} (+{} gens before)", o.status, o.period, o.cycle_start.map(|c| c + sim.generation()), sim.generation());
+        let f = |v: Option<u64>| v.map(|x| x.to_string()).unwrap_or_else(|| "-".into());
+        let head = format!("{}, period {}, cycle from gen {}", o.status, f(o.period), f(o.cycle_start.map(|c| c + sim.generation())));
         (ph, head)
     } else {
         (vec![cells.clone()], format!("gen {} pop {}", sim.generation(), cells.len()))
