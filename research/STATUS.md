@@ -52,6 +52,11 @@ _Last updated 2026-11-12 by the lead._
    *confined* chaos is not, and gump is a **minimal** member of that region: remove any one
    count from B45/S345 and lifetimes collapse; add S2 or S7 and they grow ≥30×.
 
+## Most recent
+- PR #1 merged to main (everything above). The lead measured the fluctuations of living faces
+  (`research/experiments/face_fluct.py`): the face law's 0.209 looks like the value at zero of
+  a size-independent large-deviation curve (≈0.20 by extrapolation) — notebook, last entry.
+
 ## Ideas not yet started
 - Web: a gallery of atlas objects; a guided tour of the storyline.
 - A write-up for humans (and one for agents) once the peeling law is quantitative.

@@ -433,3 +433,28 @@ symmetric chaos in a quick test (the soups died at gen 2). It was not investigat
   16³ torus now seeds 3,738 of 12,288 cells (0.30; ~256 independent orbits) and runs chaotic.
   `gump ensemble --layer-deaths` gives exact peel generations from packed ensembles;
   `engine/scripts/face_law.py` reproduces `research/experiments/verify_face_law.py`.
+
+## 2026-11-12 — where the 0.209 comes from: the far tail of a living face's fluctuations (lead)
+
+`python3 research/experiments/face_fluct.py 11 60000 1 2 3 4 5 6 7 8` and `… 13 150000 1 2`:
+asymmetric octahedral soups, the population n of each outer face layer sampled every
+generation, using only runs in which no face died (fixed geometry; 3 runs at R=11, 2 at R=13,
+1.4M and 2.4M face-generations).
+
+- **[measured]** A living face is overdispersed and left-skewed: mean 0.496 / 0.505 per site,
+  variance 0.437 / 0.421 per site (binomial would be 0.25), skew −0.2; autocorrelation 0.5 at
+  lag 1, gone by lag ~20.
+- **[measured]** The empirical rate function I(x) = −ln P(n/A ≤ x) / A agrees between the two
+  sizes where they overlap — I(0.15) = 0.127 (A=63) and 0.137 (A=84); I(0.25) = 0.084 and 0.092 —
+  so P(n/A ≤ x) ≈ exp(−A·I(x)) with a size-independent I, as a large-deviation principle requires.
+- **[measured]** A Gaussian with the measured mean and variance matches I(x) for
+  x ≈ 0.15–0.25 but overshoots further out: at x = 0.06 the data give 0.175, the Gaussian 0.214;
+  extrapolated to x = 0 the Gaussian gives 0.28–0.30.
+- **[conjecture]** The face law's constant is I(0). Continuing the measured curve from
+  x = 0.06 to 0 gives ≈0.20 (a linear continuation gives 0.204; the curve is flattening),
+  against 0.209 ± 0.002 from extinction times. If so, a face's death needs no special
+  mechanism: τ_face ≈ 1 / P(the face is empty under its ordinary stationary fluctuations),
+  about one independent "attempt" per generation, which is why the law's prefactor is
+  ≈1 generation. The "sudden collapse" is what the cheap last stretch of the rate function
+  (below x ≈ 0.1) looks like in time. Caveats: an extrapolation, two sizes, five runs.
+  A direct test: push the tail measurement to x → 0 at smaller A, or by importance sampling.

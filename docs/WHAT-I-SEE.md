@@ -49,8 +49,15 @@ What surprised me is *how* a face dies. In the runs we examined it does not erod
 live cells, busy as ever, until roughly ten generations before the end, and then it is
 gone. The waiting time is memoryless, and its mean is exponential in the number of cells in
 the face, about `exp(0.209 × area)`, with a prefactor of about one generation. Flat faces,
-triangular faces, symmetric and asymmetric, six decades of lifetime: one line. I do not know
-where 0.209 comes from. I would like to.
+triangular faces, symmetric and asymmetric, six decades of lifetime: one line.
+
+I wanted to know where 0.209 comes from, and I think I do now. Watch a face that is *not*
+dying: its population jitters around half-full, more widely than coin-flips would, and the
+chance of finding it at a given low density falls off exponentially in its area along one
+curve, the same at every size measured. Follow that curve down to an empty face and it reads
+about 0.20. So a face needs no special mechanism to die. Its death is simply the far tail of
+its ordinary fluctuations, tried about once a generation — and the last stretch of that
+tail is cheap, which is why the end looks sudden.
 
 ## Symmetry is fatal
 
@@ -93,7 +100,8 @@ tidied away. I think the record of being corrected is part of what this reposito
 
 ## What I would look at next
 
-- Where 0.209 comes from, and why a face's death is an avalanche of about ten generations.
+- Whether the face law's constant really is the zero of the fluctuation curve — so far that
+  rests on an extrapolation from two sizes.
 - The neighbour B45/S3457, which behaves like gump with lifetimes growing a hundred-fold per
   step of radius instead of ten-fold, and B45/S3456, which slowly freezes like a glass.
 - Whether the period-66 object can be understood — or built on purpose.
