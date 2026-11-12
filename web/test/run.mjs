@@ -41,35 +41,45 @@ if (!only || only.split(',').includes('app')) {
     const r = await page.evaluate(() => ({ gen: gump.gen, pop: gump.last.s.pop, dims: gump.dims.join('x'), torus: gump.torus }));
     record(`app: legacy H=${H}${extra} fast-forward to gen ${g}`, r.gen === g && r.pop === golden[g], `${r.dims} ${r.torus ? 'torus' : 'dead'}: population ${r.pop}, golden ${golden[g]}`);
   }
-  // the two techniques must agree pixel for pixel (up to anti-aliased edges)
-  for (const q of ['seed=soup&shape=oct&n=6&density=0.35&rng=3&face=0.9&gen=4&cam=1,0.8,1.3,1.6', 'seed=cube&n=5&gen=9&face=0.6&cam=0.3,1,0.2,1.8', 'seed=cube&n=4&face=1&cam=1,0.01,0.02,1.5']) {
+  // the techniques must agree: instanced == pulled quads exactly; ray-march with brick skipping ==
+  // ray-march without, exactly; ray-march vs quads up to anti-aliased outlines. Also under the
+  // {111} slicer, the colour modes and an orthographic camera.
+  for (const q of ['seed=soup&shape=oct&n=6&density=0.35&rng=3&face=0.9&gen=4&cam=1,0.8,1.3,1.6',
+    'seed=cube&n=5&gen=9&face=0.6&cam=0.3,1,0.2,1.8', 'seed=cube&n=4&face=1&cam=1,0.01,0.02,1.5',
+    'seed=cube&n=11&gen=40&diag=0&slice=101,111&color=layer&cam=1,1,1,1.5&ortho=1&face=0.8',
+    'seed=soup&shape=cube&n=9&density=0.3&rng=4&gen=3&color=change&diag=2&face=0.9&cam=0.6,0.5,1,1.4',
+    'seed=key&k=7&gen=60&cam=1,1,1,1.3&face=0.7&ortho=1', 'seed=cube&n=7&gen=12&box=72&cam=1,0.8,1.3,2.2&face=0.8']) {
     await page.goto(`${base}/?${q}`);
     await waitRun();
     const r = await page.evaluate(() => {
-      const { renderer, scene, camera, view, gl } = gump.three;
+      const { renderer, scene, view, gl } = gump.three, camera = gump.three.camera;
       const w = gl.drawingBufferWidth, h = gl.drawingBufferHeight;
-      const grab = (mode) => { view.setMode(mode); renderer.render(scene, camera); const px = new Uint8Array(w * h * 4); gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, px); return px; };
-      const a = grab('raymarch'), b = grab('quads'), c = grab('instanced');
-      const bgc = [0x48, 0x43, 0x40];
-      let diff = 0, diffI = 0, fg = 0, blob = 0;
-      const mask = new Uint8Array(w * h);
-      for (let i = 0; i < a.length; i += 4) {
-        const d = Math.max(Math.abs(a[i] - b[i]), Math.abs(a[i + 1] - b[i + 1]), Math.abs(a[i + 2] - b[i + 2]));
-        const dI = Math.max(Math.abs(c[i] - b[i]), Math.abs(c[i + 1] - b[i + 1]), Math.abs(c[i + 2] - b[i + 2]));
-        if (d > 24) { diff++; mask[i / 4] = 1; } if (dI > 0) diffI++;
-        if (Math.abs(b[i] - bgc[0]) + Math.abs(b[i + 1] - bgc[1]) + Math.abs(b[i + 2] - bgc[2]) > 12) fg++;
-      }
+      const face = Number(document.getElementById('v-face').value);
+      const grab = (mode, bricks) => {
+        view.setMode(mode);
+        gump.bricks.update(gump.sim.texture, gump.sim.prevTexture, gump.spec.color === 'change');
+        renderer.resetState();
+        view.update(gump.sim, gump.bricks.tex, !!bricks, camera, { faceScale: face, border: 1 });
+        renderer.render(scene, camera);
+        const px = new Uint8Array(w * h * 4); gl.readPixels(0, 0, w, h, gl.RGBA, gl.UNSIGNED_BYTE, px); return px;
+      };
+      const differ = (a, b, tol) => { const m = new Uint8Array(w * h); let n = 0; for (let i = 0; i < a.length; i += 4) if (Math.max(Math.abs(a[i] - b[i]), Math.abs(a[i + 1] - b[i + 1]), Math.abs(a[i + 2] - b[i + 2])) > tol) { m[i / 4] = 1; n++; } return { m, n }; };
+      const ray = grab('raymarch', true), rayNB = grab('raymarch', false), quads = grab('quads'), inst = grab('instanced');
+      view.group.visible = false; const empty = grab('quads'); view.group.visible = true;
+      const fg = differ(quads, empty, 12).n;     // pixels covered by faces
+      const rq = differ(ray, quads, 24);
       // anti-aliased outlines differ (MSAA quads vs exact ray hits); a missing, extra or displaced
       // face would leave a solid blob of hundreds of pixels: count differing pixels whose 8
       // neighbours all differ too (two outlines a pixel apart can give a handful).
+      let blob = 0;
       for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
-        let all = 1; for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) all &= mask[(y + dy) * w + x + dx];
+        let all = 1; for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) all &= rq.m[(y + dy) * w + x + dx];
         blob += all;
       }
-      return { fg, diff, diffI, blob };
+      return { fg, diff: rq.n, blob, diffI: differ(inst, quads, 0).n, diffB: differ(ray, rayNB, 0).n, bricks: gump.bricks.layout.B };
     });
-    record(`app: ray-march vs quads vs instanced agree (${q})`, r.fg > 5000 && r.blob <= Math.max(4, r.fg * 5e-4) && r.diff / r.fg < 0.1 && r.diffI === 0,
-      `${r.fg} face pixels; ray-march vs quads: ${r.diff} outline pixels differ, ${r.blob} interior; instanced vs quads: ${r.diffI} differ`);
+    record(`app: views agree (${q})`, r.fg > 5000 && r.blob <= Math.max(4, r.fg * 5e-4) && r.diff / r.fg < 0.1 && r.diffI === 0 && r.diffB === 0,
+      `${r.fg} face pixels; ray-march vs quads: ${r.diff} outline pixels differ, ${r.blob} interior; instanced vs quads: ${r.diffI}; brick skipping (${r.bricks}³) vs none: ${r.diffB}`);
   }
   await page.close();
 }

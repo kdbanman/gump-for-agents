@@ -443,7 +443,7 @@ function frame(now) {
   controls.update();
   const ray = view.drawn === 'raymarch';
   if (ray && app.bricksDirty) { app.bricks.update(app.sim.texture, app.sim.prevTexture, app.spec.color === 'change'); app.bricksDirty = false; renderer.resetState(); }
-  view.update(app.sim, ray ? app.bricks.tex : null, camera, { faceScale: Number($('v-face').value), border: $('v-border').checked ? 1 : 0 });
+  view.update(app.sim, app.bricks.tex, ray, camera, { faceScale: Number($('v-face').value), border: $('v-border').checked ? 1 : 0 });
   hullLines.visible = $('v-hull').checked;
   boxLines.visible = $('v-box').checked;
   renderer.render(scene, camera);

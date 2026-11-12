@@ -209,7 +209,7 @@ void clipSlab(float a, float b, float lo, float hi, inout float tNear, inout flo
 
 void main() {
   vec3 rd = isOrtho ? normalize(camDir) : normalize(vWorld - cameraPosition);
-  vec3 ro = (isOrtho ? vWorld - rd * 2.0 * length(dims) : cameraPosition) + 0.5 * dims;   // cube space
+  vec3 ro = (isOrtho ? vWorld - rd * (length(dims) + 1.0) : cameraPosition) + 0.5 * dims;   // cube space
   vec3 inv = 1.0 / rd;
   vec3 t0 = (vec3(0.0) - ro) * inv, t1 = (dims - ro) * inv;
   vec3 tmin = min(t0, t1), tmax = max(t0, t1);
@@ -253,8 +253,10 @@ void main() {
       }
     }
     int a = tNext.x < tNext.y ? (tNext.x < tNext.z ? 0 : 2) : (tNext.y < tNext.z ? 1 : 2);
-    float t = tNext[a];
-    if (t > tFar + 1e-4) break;
+    if (tNext[a] > tFar + 1e-4) break;
+    // the crossing itself from the plane equation (not the accumulated tNext), so that a walk
+    // restarted after brick skipping hits exactly the same points as an uninterrupted one
+    float t = (float(c[a] + max(stp[a], 0)) - ro[a]) * inv[a];
     // crossing the plane between c and c + stp[a]*e_a: that face is the +a face of the lower cube
     ivec3 f = c; if (stp[a] < 0) f[a] -= 1;
     if (all(greaterThanEqual(f, ivec3(0))) && all(lessThan(f, N))) {
@@ -352,12 +354,14 @@ export class CellView {
   }
 
   // Called every frame before rendering.
-  update(sim, bricksTex, camera, { faceScale, border }) {
+  // bricksTex must always be a valid texture (an integer sampler left without one makes the draw
+  // fail); useBricks says whether the ray-marcher may trust it (it is only rebuilt when drawn).
+  update(sim, bricksTex, useBricks, camera, { faceScale, border }) {
     const u = this.uniforms;
     u.S.value.sourceTexture = sim.texture;
     u.P.value.sourceTexture = sim.prevTexture;
     u.Bk.value.sourceTexture = bricksTex;
-    u.brickOn.value = !!bricksTex;
+    u.brickOn.value = !!useBricks;
     u.faceScale.value = faceScale;
     u.border.value = border;
     u.isOrtho.value = !!camera.isOrthographicCamera;
