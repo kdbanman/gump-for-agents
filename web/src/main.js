@@ -115,10 +115,14 @@ function resetToSeed() {
   const { dims, shift } = boxFromSpec(spec, seed.pts);
   const cells = new Uint8Array(dims[0] * dims[1] * dims[2]);
   const dropped = placeSeed(seed.pts, dims, shift, spec.bc === 'torus', cells);
+  const h0 = hullOf(seed.pts);
   buildSim(dims, spec.bc === 'torus', cells);
   app.seedName = seed.name + (dropped ? ` (${dropped} cells did not fit)` : '');
   app.gen = 0; app.acc = 0;
   app.initialHull = null; app.prevHull = null; app.events = []; app.last = null;
+  // T2: if the seed's hull fits the box, the run is the infinite-space run forever. Cleared for
+  // good by anything that may have let the boundary act (seed clipped, resize below the hull).
+  app.exact = !dropped && (!h0 || hullFits(hullPolytope({ loS: h0.loS.map((v, n) => v + dot(DIAGONALS[n], shift)), hiS: h0.hiS.map((v, n) => v + dot(DIAGONALS[n], shift)) })));
   strip.clear();
   app.runUntil = spec.gen || 0;
   setPlaying(!!spec.play || app.runUntil > 0);
@@ -150,11 +154,13 @@ function resizeTo(dims, shiftOverride) {
   const old = app.dims, cells = app.sim.download();
   const shift = shiftOverride || dims.map((N, t) => 2 * Math.floor((N - old[t]) / 2));
   const r = reembed(cells, old, dims, shift, app.torus);
+  const h = hullOf(r.pts);
   buildSim(dims, app.torus, r.cells);
+  if (r.dropped || (h && !hullFits(hullPolytope(h)))) app.exact = false;
   // keep hull bookkeeping in the new array frame (s = d.p shifts by d.shift)
   const mv = (h) => h && { loS: h.loS.map((v, n) => v + dot(DIAGONALS[n], shift)), hiS: h.hiS.map((v, n) => v + dot(DIAGONALS[n], shift)) };
   app.prevHull = mv(app.prevHull); app.initialHull = mv(app.initialHull);
-  app.spec.box = dims.join(',');
+  app.spec.box = dims.join('x');
   if (r.dropped) pushEvent(`resize dropped ${r.dropped} live cells`);
   frameCamera(); writeURL(); syncForm();
 }
@@ -242,24 +248,31 @@ function hullTable(s) {
   $('hull').innerHTML = rows.join('');
 }
 
+// Does a hull polytope (doubled coords, array frame) fit the current box? Dead outside: every
+// cell it can hold is representable (0 <= p <= 2N-1). Torus: conservative, it stays clear of its
+// own wrapped images by more than the interaction range.
+function hullFits(poly) {
+  return app.torus ? [0, 1, 2].every(t => poly.hi[t] - poly.lo[t] <= 2 * app.dims[t] - 6)
+    : [0, 1, 2].every(t => poly.lo[t] >= 0 && poly.hi[t] <= 2 * app.dims[t] - 1);
+}
+
 function edgeStatus(s) {
   const el = $('edge');
   if (!s.pop) { el.innerHTML = '<span class="dim">no live cells</span>'; return; }
   const lim = app.dims.map(N => 2 * N - 1);
   const gap = Math.min(...[0, 1, 2].map(t => Math.min(s.lo[t], lim[t] - s.hi[t])));   // doubled units
   const msgs = [];
+  const poly = app.hullPoly;
+  const fits = poly && hullFits(poly);
   if (app.torus) {
     const ext = Math.max(...[0, 1, 2].map(t => s.hi[t] - s.lo[t] - (2 * app.dims[t] - 6)));
     if (ext > 0) msgs.push('<span class="alert">pattern spans the torus: it interacts with its own wrapped image</span>');
   } else if (gap <= 2) msgs.push('<span class="alert">⚠ live cells at the boundary: births outside are being suppressed</span>');
-  else if (gap <= 8) msgs.push(`<span class="alert">live cells ${Math.floor(gap / 2)} cube${Math.floor(gap / 2) === 1 ? '' : 's'} from the boundary</span>`);
-  const poly = app.hullPoly;
+  else if (gap <= 8) msgs.push(`<span class="${fits ? 'dim' : 'alert'}">live cells ${Math.floor(gap / 2)} cube${Math.floor(gap / 2) === 1 ? '' : 's'} from the boundary</span>`);
   if (poly) {
-    const fits = app.torus
-      ? [0, 1, 2].every(t => poly.hi[t] - poly.lo[t] <= 2 * app.dims[t] - 6)
-      : [0, 1, 2].every(t => poly.lo[t] >= 0 && poly.hi[t] <= lim[t]);
-    msgs.push(fits ? '<span class="ok">hull fits: this run equals the infinite-space run, forever (T2)</span>'
-      : '<span class="alert">hull exceeds the box: the boundary can change the outcome</span>');
+    msgs.push(!fits ? '<span class="alert">hull exceeds the box: the boundary can change the outcome</span>'
+      : app.exact ? '<span class="ok">hull fits: this run equals the infinite-space run, forever (T2)</span>'
+      : '<span class="ok">hull fits from now on</span> <span class="dim">(earlier generations may have felt the boundary)</span>');
   }
   el.innerHTML = msgs.join('<br>');
 }
@@ -358,6 +371,8 @@ $('bcToggle').addEventListener('click', () => {
   const cells = app.sim.download();
   app.spec.bc = app.torus ? 'dead' : 'torus';
   buildSim(app.dims, !app.torus, cells);
+  const h = hullOf(reembed(cells, app.dims, app.dims, [0, 0, 0], app.torus).pts);
+  if (h && !hullFits(hullPolytope(h))) app.exact = false;
   writeURL(); syncForm();
 });
 window.addEventListener('keydown', (e) => {
