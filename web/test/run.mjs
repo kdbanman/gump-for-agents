@@ -199,6 +199,37 @@ if (!only || only.split(',').includes('tour')) {
   await page.close();
 }
 
+// ---- the static build, served from a sub-path the way GitHub Pages serves a project site
+if (!only || only.split(',').includes('dist')) {
+  const { execFileSync } = await import('node:child_process');
+  const fs = await import('node:fs'), os = await import('node:os'), path = await import('node:path');
+  execFileSync(process.execPath, [new URL('../tools/build.mjs', import.meta.url).pathname], { stdio: 'ignore' });
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'gump-dist-'));
+  fs.cpSync(new URL('../dist', import.meta.url).pathname, path.join(root, 'some-repo'), { recursive: true });
+  const ds = await serve(0, root);
+  const url = `http://127.0.0.1:${ds.address().port}/some-repo/`;
+  const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
+  const errors = [], requests = [];
+  page.on('pageerror', e => errors.push(e.message));
+  page.on('requestfailed', r => errors.push('failed ' + r.url()));
+  page.on('response', r => { if (r.status() >= 400) errors.push(`${r.status()} ${r.url()}`); requests.push(r.url()); });
+  await page.goto(url);
+  await page.waitForFunction(() => window.gump && gump.last && document.getElementById('tour').classList.contains('open'), null, { timeout: 120000 });
+  await page.click('#galBtn');
+  await page.waitForSelector('#gallery .chip');
+  await page.click('#gallery .chip[data-id="P2.6a"]');
+  await page.waitForFunction(() => gump.spec.id === 'P2.6a' && gump.gen >= 4 && gump.kymo.cols.length > 0, null, { timeout: 120000 });
+  const src = await browser.newPage();
+  await src.goto(`${url}source.html?f=docs/AUTOMATON.md#T2%20(octahedral`);
+  await src.waitForFunction(() => document.querySelector('.mark'), null, { timeout: 30000 });
+  const mark = await src.evaluate(() => document.querySelector('.mark').textContent);
+  const outside = requests.filter(u => !u.startsWith(url));
+  record('dist: the static build works from a sub-path (tour, gallery, worker, sources)', !errors.length && !outside.length && mark.includes('T2'),
+    errors.length ? errors.join(' | ') : outside.length ? `requests outside the site: ${outside.join(' ')}` : `${requests.length} requests, all under ${url}`);
+  await src.close(); await page.close(); ds.close();
+  fs.rmSync(root, { recursive: true, force: true });
+}
+
 await browser.close(); server.close();
 const failed = results.filter(r => !r.ok);
 console.log(`\n${results.length - failed.length}/${results.length} passed in ${((Date.now() - t0) / 1000).toFixed(1)} s`);

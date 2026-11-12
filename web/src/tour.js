@@ -105,7 +105,9 @@ export const SCENES = [
     title: 'What is left: the fauna',
     body: `<p>When the chaos dies it leaves debris built from a small fauna.
       The <b>vertex star</b> is the 12 faces meeting at one corner. No face outside it ever sees more than 2
-      of them, so it is a sealed little universe, and all of its 4,096 states settle within 3 generations. ${tag('proved')} ${src(N, 'The vertex star is a closed vessel', 'atlas')}</p>
+      of them, so it is a sealed little universe, and all of its 4,096 states settle within 3 generations. ${tag('proved')} ${src(N, 'The vertex star is a closed vessel', 'atlas')}
+      Coloured by diagonal plane, it reads as a triangle, a kagome hexagon and a triangle in three
+      consecutive planes. ${tag('measured')} ${src(N, 'vertex star (S12a) = triangle', 'notebook')}</p>
       <p><b>Hinges</b> are the smallest oscillators: faces that swing 90° about an edge every generation.
       Every period-2 oscillator up to 11 cells works this way. ${tag('proved')} ${src(N, 'Period 2: the smallest union', 'atlas')}
       Rarer <b>clockwork</b> runs at periods up to 66. ${tag('measured')} ${src(N, 'Soups in octahedral vessels', 'atlas')}</p>
@@ -113,7 +115,7 @@ export const SCENES = [
       8 faces of its octahedron. ${tag('measured')} ${src(N, '**Legacy ash**', 'atlas')}
       The gallery holds 41 objects from the atlas.</p>`,
     variants: [
-      { label: 'vertex star', spec: { seed: 'atlas', id: 'S12a', speed: '2', play: 1, face: 0.7 } },
+      { label: 'vertex star', spec: { seed: 'atlas', id: 'S12a', speed: '2', play: 1, face: 0.7, color: 'layer', cam: '1,1,1.6,1' } },
       { label: 'hinge (p2)', spec: { seed: 'atlas', id: 'P2.6a', speed: '2', play: 1, face: 0.7 } },
       { label: 'clockwork p66', spec: { seed: 'atlas', id: 'P66.27a', speed: '10', play: 1, face: 0.7 } },
       { label: 'side-9 ash', spec: { seed: 'cube', n: 9, gen: 71, speed: '5', play: 0, face: 0.7 } },
