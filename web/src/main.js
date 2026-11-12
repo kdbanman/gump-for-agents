@@ -294,13 +294,15 @@ function frame(now) {
   // 2. Stepping: as many generations as the adaptive budget allows.
   let steps = 0;
   if (app.playing) {
-    if (gpuIdle) app.spf = Math.min(app.spf * 1.1 + 1, 200000); else app.spf = Math.max(1, app.spf * 0.7);
+    // grow only when the budget was the limiting factor last frame
+    if (gpuIdle) { if (app.budgetBound) app.spf = Math.min(app.spf * 1.1 + 1, 200000); } else app.spf = Math.max(1, app.spf * 0.7);
     const cap = gpuIdle ? Math.floor(app.spf) : 1;
     let want;
     if (app.runUntil > app.gen) want = app.runUntil - app.gen;
     else if (app.spec.speed === 'max') want = cap;
     else { app.acc = Math.min(app.acc + Number(app.spec.speed) * dt, Math.max(cap, 1)); want = Math.floor(app.acc); }
     steps = Math.min(want, cap);
+    app.budgetBound = want >= cap;
     if (app.spec.speed !== 'max' && !(app.runUntil > app.gen)) app.acc -= steps;
     if (steps > 0) { app.sim.step(steps); app.gen += steps; }
     if (app.runUntil && app.gen >= app.runUntil) { app.runUntil = 0; if (!app.spec.play) setPlaying(false); app.statsDirty = true; }
