@@ -3,6 +3,7 @@ import { Sim } from '../src/gl/sim.js';
 import { Stats } from '../src/gl/stats.js';
 import { stepCPU, statsCPU } from '../src/cpu.js';
 import { makeSeed, autoBox, placeSeed, mulberry32, legacySeedSpan } from '../src/seeds.js';
+import { layerCounts, layerCountsCells, firewalls } from '../src/layers.js';
 
 const log = (...a) => { const s = a.join(' '); console.log(s); document.getElementById('log').textContent += s + '\n'; };
 const results = [];
@@ -105,16 +106,76 @@ async function asyncStats() {
   const sync = stats.computeSync(sim.texture);
   stats.start(sim.texture, 5);
   let r = null, polls = 0;
-  while (!(r = stats.poll())) { polls++; await new Promise(res => setTimeout(res, 1)); }
+  while (!(r = stats.poll().sample)) { polls++; await new Promise(res => setTimeout(res, 1)); }
   record('async PBO+fence stats equal blocking stats', sameStats(r.stats, sync) && r.tag === 5, `${polls} polls`);
   stats.dispose(); sim.dispose();
 }
 
+// ---- per-generation ring: every generation's stats, in order, across ring wrap-around ----
+async function ringStats() {
+  const cases = [[[5, 5, 5], true, 4200, 37], [[24, 20, 30], false, 60, 7], [[70, 66, 64], false, 25, 9]];
+  for (const [dims, torus, gens, flushEvery] of cases) {
+    const [nx, ny, nz] = dims;
+    const rnd = mulberry32(nx * 7 + gens);
+    let cells = new Uint8Array(nx * ny * nz).map(() => (rnd() < 0.3 ? 1 : 0) | (rnd() < 0.3 ? 2 : 0) | (rnd() < 0.3 ? 4 : 0));
+    const sim = new Sim(gl, nx, ny, nz, { torus });
+    const stats = new Stats(gl, sim.layout);
+    sim.upload(cells);
+    const expect = [statsCPU(cells, nx, ny, nz)];
+    stats.record(sim.texture, 0);
+    for (let g = 1; g <= gens; g++) {
+      sim.step(1); stats.record(sim.texture, g);
+      cells = stepCPU(cells, nx, ny, nz, torus); expect.push(statsCPU(cells, nx, ny, nz));
+      if (g % flushEvery === 0) stats.flush();
+    }
+    stats.flush();
+    const got = [];
+    while (got.length < gens + 1) { got.push(...stats.poll().samples); await new Promise(res => setTimeout(res, 1)); }
+    let bad = got.findIndex((x, g) => x.gen !== g || !sameStats(x.stats, expect[g]));
+    record(`stats ring ${dims.join('x')} ${torus ? 'torus' : 'dead'}: ${gens + 1} generations (${stats.passes} reduction passes, flush every ${flushEvery})`,
+      bad < 0, bad < 0 ? '' : `gen ${bad}: ${JSON.stringify(got[bad])} vs ${JSON.stringify(expect[bad])}`);
+    stats.dispose(); sim.dispose();
+  }
+}
+
+// ---- {111} layer counts from a snapshot (worker code) vs from the dense cells ----
+async function layerTests() {
+  for (const [dims, maxLanes] of [[[13, 9, 11], 32], [[40, 33, 35], 32], [[17, 6, 22], 5], [[9, 9, 9], 1]]) {
+    const [nx, ny, nz] = dims;
+    const rnd = mulberry32(nx + ny);
+    let cells = new Uint8Array(nx * ny * nz).map(() => (rnd() < 0.3 ? 1 : 0) | (rnd() < 0.2 ? 2 : 0) | (rnd() < 0.1 ? 4 : 0));
+    const sim = new Sim(gl, nx, ny, nz, { maxLanes });
+    sim.upload(cells); sim.step(3);
+    for (let g = 0; g < 3; g++) cells = stepCPU(cells, nx, ny, nz, false);
+    const a = layerCounts(sim.readTexels(), sim.layout), b = layerCountsCells(cells, dims);
+    const ok = a.every((d, n) => d.base === b[n].base && d.counts.length === b[n].counts.length && d.counts.every((v, i) => v === b[n].counts[i]));
+    const tot = a.map(d => d.counts.reduce((x, y) => x + y, 0));
+    record(`layer counts ${dims.join('x')} lanes<=${maxLanes}`, ok && tot.every(t => t === statsCPU(cells, nx, ny, nz).pop), `layers per diagonal ${a.map(d => d.counts.length).join('/')}`);
+    sim.dispose();
+  }
+  // through the real worker
+  const w = new Worker(new URL('../src/analysis-worker.js', import.meta.url), { type: 'module' });
+  const sim = new Sim(gl, 20, 20, 20, {});
+  const rnd = mulberry32(5);
+  const cells = new Uint8Array(8000).map(() => (rnd() < 0.3 ? 7 : 0));
+  sim.upload(cells);
+  const texels = sim.readTexels();
+  const r = await new Promise(res => { w.onmessage = e => res(e.data); w.postMessage({ id: 1, gen: 0, layout: sim.layout, texels }, [texels.buffer]); });
+  const b = layerCountsCells(cells, [20, 20, 20]);
+  record('analysis worker round trip', r.diags.every((d, n) => d.counts.every((v, i) => v === b[n].counts[i])), `${r.ms.toFixed(1)} ms in worker`);
+  w.terminate(); sim.dispose();
+  // firewall detection
+  const fw = firewalls({ base: 1, counts: Uint32Array.from([0, 3, 0, 0, 0, 5, 0, 0, 2, 0, 0, 0, 0, 1, 0]) });
+  record('firewall detection (>=3 empty layers inside the hull)', JSON.stringify(fw) === JSON.stringify([{ from: 5, to: 9 }, { from: 19, to: 25 }]), JSON.stringify(fw));
+}
+
 window.runTests = async (params = {}) => {
-  const which = params.only ? params.only.split(',') : ['soups', 'golden', 'async'];
+  const which = params.only ? params.only.split(',') : ['soups', 'golden', 'async', 'ring', 'layers'];
   try {
     if (which.includes('soups')) await randomSoups(params);
     if (which.includes('async')) await asyncStats();
+    if (which.includes('ring')) await ringStats();
+    if (which.includes('layers')) await layerTests();
     if (which.includes('golden')) await golden(params);
   } catch (e) { record('exception', false, e.stack || String(e)); }
   return results;

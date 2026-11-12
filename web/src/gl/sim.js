@@ -120,15 +120,21 @@ export class Sim {
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
   }
   get texture() { return this.tex[this.cur]; }
+  // The previous generation (the other ping-pong texture). After upload it equals the current one.
+  get prevTexture() { return this.tex[1 - this.cur]; }
+  get framebuffer() { return this.fb[this.cur]; }
   get dims() { return [this.layout.nx, this.layout.ny, this.layout.nz]; }
 
   upload(cells) {
     const gl = this.gl, L = this.layout;
     const words = packCells(L, cells, new Uint32Array(L.width * L.height * 4));
     rawPassState(gl);
-    gl.bindTexture(gl.TEXTURE_2D, this.tex[this.cur]);
     const data = L.plain ? Uint8Array.from(words) : words;
-    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, L.width, L.height, gl.RGBA_INTEGER, L.plain ? gl.UNSIGNED_BYTE : gl.UNSIGNED_INT, data);
+    for (const t of this.tex) {
+      gl.bindTexture(gl.TEXTURE_2D, t);
+      gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, L.width, L.height, gl.RGBA_INTEGER, L.plain ? gl.UNSIGNED_BYTE : gl.UNSIGNED_INT, data);
+    }
+    gl.bindTexture(gl.TEXTURE_2D, null);
   }
 
   // Blocking readback; for tests, resizing and snapshots, never the frame loop.

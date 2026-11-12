@@ -1,16 +1,23 @@
-// GPU statistics: a multi-pass reduction over the state atlas followed by an *asynchronous*
-// readback (readPixels into a PIXEL_PACK_BUFFER + fenceSync, polled from the frame loop), so
-// gathering statistics never stalls stepping or rendering.
+// GPU statistics: a reduction over the state atlas, read back asynchronously.
 //
 // Reduced quantities (doubled coordinates, array frame):
 //   per-orientation populations; max of +-x, +-y, +-z (axis-aligned bounding box);
 //   max of +-s for the 4 body diagonals d, s = d.p (the diagonal hull, docs/AUTOMATON.md §3).
 // Maxima are stored as (v + 32768) in 16-bit halves, 0 meaning "no live cell".
+//
+// Two ways to use it:
+//  - sampled: start(tex, tag) / poll()  — one reduction, read back when ready;
+//  - every generation: record(tex, gen) after each step writes the result into slot gen % RING
+//    of a ring texture; flush() queues an async readback of the slots written since the last
+//    flush; pollRing() returns { gen, stats } for every generation, in order. Nothing is missed
+//    as long as fewer than RING generations are recorded between flushes.
 import { program, FULLSCREEN_VS, intTexture, framebuffer, rawPassState } from './util.js';
 import { layoutGLSL } from './layout.js';
+import { Readback } from './readback.js';
 
-const B0 = 8;   // first-pass block (texels per side)
-const B = 4;    // later passes
+const B0 = 8;      // first-pass block (texels per side)
+const BMAX = 16;   // a later pass reduces at most BMAX x BMAX per fragment; the last pass all that is left
+export const RING = 4096;
 
 const COMMON = `
 uint popc(uint v) {
@@ -83,14 +90,14 @@ const REDUCE_FS = `#version 300 es
 precision highp float; precision highp int; precision highp usampler2D;
 ${COMMON}
 uniform usampler2D T0, T1, T2;
-uniform ivec2 inSize;
+uniform ivec2 inSize, block, outOrigin;
 layout(location = 0) out uvec4 o0;
 layout(location = 1) out uvec4 o1;
 layout(location = 2) out uvec4 o2;
 void main() {
-  ivec2 base = ivec2(gl_FragCoord.xy) * ${B};
+  ivec2 base = (ivec2(gl_FragCoord.xy) - outOrigin) * block;
   uvec4 a0 = uvec4(0u), a1 = uvec4(0u), a2 = uvec4(0u);
-  for (int dy = 0; dy < ${B}; dy++) for (int dx = 0; dx < ${B}; dx++) {
+  for (int dy = 0; dy < block.y; dy++) for (int dx = 0; dx < block.x; dx++) {
     ivec2 p = base + ivec2(dx, dy);
     if (p.x >= inSize.x || p.y >= inSize.y) continue;
     uvec4 t0 = texelFetch(T0, p, 0), t1 = texelFetch(T1, p, 0), t2 = texelFetch(T2, p, 0);
@@ -101,9 +108,11 @@ void main() {
   o0 = a0; o1 = a1; o2 = a2;
 }`;
 
-function decode(u) {
-  const f = (q) => { const word = u[[3, 4, 5, 6, 7, 8, 9, 10][q >> 1]]; const h = (q & 1) ? (word & 0xffff) : (word >>> 16); return h ? h - 32768 : null; };
-  const count = [u[0], u[1], u[2]];
+// Decode one reduced texel (12 uints: attachments 0,1,2 x RGBA) at offset `o` of `u`.
+export function decodeStats(u, o = 0) {
+  const word = (q) => u[o + 3 + (q >> 1)];
+  const f = (q) => { const w = word(q); const h = (q & 1) ? (w & 0xffff) : (w >>> 16); return h ? h - 32768 : null; };
+  const count = [u[o], u[o + 1], u[o + 2]];
   const pop = count[0] + count[1] + count[2];
   if (!pop) return { pop, count, lo: null, hi: null, loS: null, hiS: null };
   const m = Array.from({ length: 14 }, (_, q) => f(q));
@@ -112,6 +121,14 @@ function decode(u) {
     hi: [m[0], m[1], m[2]], lo: [-m[3], -m[4], -m[5]],
     hiS: [m[6], m[7], m[8], m[9]], loS: [-m[10], -m[11], -m[12], -m[13]],
   };
+}
+// The 12 uints of a texel as read back are attachment-major; regroup per texel.
+function regroup(data, n) {
+  // data: [att0 texel0..n-1][att1 ...][att2 ...], 4 uints per texel
+  const out = new Uint32Array(12 * n);
+  for (let i = 0; i < n; i++) for (let a = 0; a < 3; a++) for (let c = 0; c < 4; c++)
+    out[12 * i + 4 * a + c] = data[4 * (a * n + i) + c];
+  return out;
 }
 
 export class Stats {
@@ -123,103 +140,143 @@ export class Stats {
     this.vao = gl.createVertexArray();
     this.levels = [];
     let w = Math.ceil(layout.width / B0), h = Math.ceil(layout.height / B0);
-    for (;;) {
-      const tex = [0, 1, 2].map(() => intTexture(gl, gl.RGBA32UI, w, h));
-      this.levels.push({ w, h, tex, fb: framebuffer(gl, tex) });
-      if (w === 1 && h === 1) break;
-      w = Math.ceil(w / B); h = Math.ceil(h / B);
+    this.levels.push(this._level(w, h, [B0, B0]));
+    while (w > 1 || h > 1) {
+      const last = w <= BMAX && h <= BMAX;
+      const block = last ? [w, h] : [Math.min(BMAX, w), Math.min(BMAX, h)];
+      w = Math.ceil(w / block[0]); h = Math.ceil(h / block[1]);
+      this.levels.push(this._level(w, h, block));
     }
+    this.ringTex = [0, 1, 2].map(() => intTexture(gl, gl.RGBA32UI, RING, 1));
+    this.ringFb = framebuffer(gl, this.ringTex);
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    this.pending = null;   // { sync, tag }
+    this.rb = new Readback(gl);
+    this.ringFrom = null;     // first generation recorded but not yet flushed
+    this.ringTo = null;       // one past the last recorded generation
+    this.sampled = null;      // pending sampled job
   }
+  _level(w, h, block) {
+    const tex = [0, 1, 2].map(() => intTexture(this.gl, this.gl.RGBA32UI, w, h));
+    return { w, h, block, tex, fb: framebuffer(this.gl, tex) };
+  }
+  get passes() { return this.levels.length; }
 
-  _reduce(stateTex) {
+  // Run the reduction; the final 1x1 result goes to `target` = { fb, x } (default: last level).
+  _reduce(stateTex, target) {
     const gl = this.gl;
     rawPassState(gl);
     gl.bindVertexArray(this.vao);
     let prev = null;
-    for (const lv of this.levels) {
-      gl.bindFramebuffer(gl.FRAMEBUFFER, lv.fb);
-      gl.viewport(0, 0, lv.w, lv.h);
+    this.levels.forEach((lv, li) => {
+      const toRing = target && li === this.levels.length - 1;
+      gl.bindFramebuffer(gl.FRAMEBUFFER, toRing ? target.fb : lv.fb);
+      gl.viewport(toRing ? target.x : 0, 0, lv.w, lv.h);
       if (!prev) {
         gl.useProgram(this.first.program);
         gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, stateTex);
         gl.uniform1i(this.first.uniforms.S, 0);
         gl.uniform2i(this.first.uniforms.inSize, this.layout.width, this.layout.height);
       } else {
+        const u = this.reduce.uniforms;
         gl.useProgram(this.reduce.program);
         prev.tex.forEach((t, i) => { gl.activeTexture(gl.TEXTURE0 + i); gl.bindTexture(gl.TEXTURE_2D, t); });
-        gl.uniform1i(this.reduce.uniforms.T0, 0); gl.uniform1i(this.reduce.uniforms.T1, 1); gl.uniform1i(this.reduce.uniforms.T2, 2);
-        gl.uniform2i(this.reduce.uniforms.inSize, prev.w, prev.h);
+        gl.uniform1i(u.T0, 0); gl.uniform1i(u.T1, 1); gl.uniform1i(u.T2, 2);
+        gl.uniform2i(u.inSize, prev.w, prev.h);
+        gl.uniform2i(u.block, lv.block[0], lv.block[1]);
+        gl.uniform2i(u.outOrigin, toRing ? target.x : 0, 0);
       }
       gl.drawArrays(gl.TRIANGLES, 0, 3);
       prev = lv;
-    }
+    });
     for (let i = 2; i >= 0; i--) { gl.activeTexture(gl.TEXTURE0 + i); gl.bindTexture(gl.TEXTURE_2D, null); }
     gl.bindVertexArray(null);
-    return prev; // the 1x1 level, still bound as framebuffer
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
   }
 
-  _readTo(dst) {
-    const gl = this.gl;
-    for (let i = 0; i < 3; i++) {
-      gl.readBuffer(gl.COLOR_ATTACHMENT0 + i);
-      if (dst) gl.readPixels(0, 0, 1, 1, gl.RGBA_INTEGER, gl.UNSIGNED_INT, dst, i * 4);
-      else gl.readPixels(0, 0, 1, 1, gl.RGBA_INTEGER, gl.UNSIGNED_INT, i * 16);
-    }
-    gl.readBuffer(gl.COLOR_ATTACHMENT0);
-  }
+  // A one-level-only reduction needs the first pass to write straight into the ring.
+  _single() { return this.levels.length === 1; }
 
-  // Blocking variant (tests, single-step): returns decoded stats now.
+  // Blocking (tests, single steps in tests): decoded stats now.
   computeSync(stateTex) {
     const gl = this.gl;
     this._reduce(stateTex);
-    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+    const lv = this.levels[this.levels.length - 1];
     const u = new Uint32Array(12);
-    this._readTo(u);
+    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, lv.fb);
+    for (let i = 0; i < 3; i++) { gl.readBuffer(gl.COLOR_ATTACHMENT0 + i); gl.readPixels(0, 0, 1, 1, gl.RGBA_INTEGER, gl.UNSIGNED_INT, u, 4 * i); }
+    gl.readBuffer(gl.COLOR_ATTACHMENT0);
     gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    return decode(u);
+    return decodeStats(u);
   }
 
-  // Asynchronous variant: start if nothing is in flight. Returns true if started.
+  // ---- sampled
   start(stateTex, tag) {
-    if (this.pending) return false;
-    const gl = this.gl;
+    if (this.sampled) return false;
     this._reduce(stateTex);
-    // A fresh buffer per readback: Chrome keeps a client-side shadow of READ buffers and warns
-    // (and drops the shadow) if one is rewritten; buffers are tiny, so never reuse them.
-    const pbo = gl.createBuffer();
-    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, pbo);
-    gl.bufferData(gl.PIXEL_PACK_BUFFER, 48, gl.STREAM_READ);
-    this._readTo(null);
-    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
-    this.pending = { sync: gl.fenceSync(gl.SYNC_GPU_COMMANDS_COMPLETE, 0), tag, pbo };
-    gl.flush();
+    const lv = this.levels[this.levels.length - 1];
+    this.sampled = this.rb.start([0, 1, 2].map(a => ({ fb: lv.fb, attachment: a, x: 0, y: 0, w: 1, h: 1 })), { kind: 'sample', tag });
     return true;
   }
+  get pending() { return this.sampled; }
 
-  // Non-blocking: returns { tag, stats } once the readback has landed, else null.
+  // ---- every generation
+  record(stateTex, gen) {
+    if (this._single()) {                       // tiny atlas: reduce normally, copy the texel over
+      this._reduce(stateTex);
+      this._copyToRing(gen % RING);
+    } else {
+      this._reduce(stateTex, { fb: this.ringFb, x: gen % RING });
+    }
+    if (this.ringFrom === null) this.ringFrom = gen;
+    this.ringTo = gen + 1;
+  }
+  _copyToRing(slot) {
+    const gl = this.gl, lv = this.levels[0];
+    gl.bindFramebuffer(gl.READ_FRAMEBUFFER, lv.fb);
+    for (let a = 0; a < 3; a++) {
+      gl.readBuffer(gl.COLOR_ATTACHMENT0 + a);
+      gl.bindTexture(gl.TEXTURE_2D, this.ringTex[a]);
+      gl.copyTexSubImage2D(gl.TEXTURE_2D, 0, slot, 0, 0, 0, 1, 1);
+    }
+    gl.readBuffer(gl.COLOR_ATTACHMENT0);
+    gl.bindTexture(gl.TEXTURE_2D, null);
+    gl.bindFramebuffer(gl.READ_FRAMEBUFFER, null);
+  }
+  get unflushed() { return this.ringFrom === null ? 0 : this.ringTo - this.ringFrom; }
+  flush() {
+    if (this.ringFrom === null) return;
+    const g0 = this.ringFrom, n = this.ringTo - this.ringFrom;
+    if (n > RING) throw new Error('stats ring overrun');
+    const s0 = g0 % RING, n1 = Math.min(n, RING - s0), n2 = n - n1;
+    const reads = [];
+    for (const [x, w] of [[s0, n1], [0, n2]]) if (w > 0) for (let a = 0; a < 3; a++) reads.push({ fb: this.ringFb, attachment: a, x, y: 0, w, h: 1 });
+    this.rb.start(reads, { kind: 'ring', g0, n1, n2 });
+    this.ringFrom = null;
+  }
+
+  // Returns { samples: [{gen, stats}] (every recorded generation, in order), sample: {tag, stats} | null }
   poll() {
-    if (!this.pending) return null;
-    const gl = this.gl;
-    const st = gl.getSyncParameter(this.pending.sync, gl.SYNC_STATUS);
-    if (st !== gl.SIGNALED) return null;
-    gl.deleteSync(this.pending.sync);
-    const u = new Uint32Array(12);
-    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, this.pending.pbo);
-    gl.getBufferSubData(gl.PIXEL_PACK_BUFFER, 0, u);
-    gl.bindBuffer(gl.PIXEL_PACK_BUFFER, null);
-    gl.deleteBuffer(this.pending.pbo);
-    const tag = this.pending.tag;
-    this.pending = null;
-    return { tag, stats: decode(u) };
+    const out = { samples: [], sample: null };
+    for (const job of this.rb.poll()) {
+      if (job.tag.kind === 'sample') { out.sample = { tag: job.tag.tag, stats: decodeStats(regroup(job.data, 1)) }; this.sampled = null; continue; }
+      const { g0, n1, n2 } = job.tag;
+      let off = 0, g = g0;
+      for (const n of [n1, n2]) {
+        if (!n) continue;
+        const u = regroup(job.data.subarray(off, off + 12 * n), n);
+        for (let i = 0; i < n; i++) out.samples.push({ gen: g++, stats: decodeStats(u, 12 * i) });
+        off += 12 * n;
+      }
+    }
+    return out;
   }
 
   dispose() {
     const gl = this.gl;
-    if (this.pending) { gl.deleteSync(this.pending.sync); gl.deleteBuffer(this.pending.pbo); }
+    this.rb.dispose();
     for (const lv of this.levels) { lv.tex.forEach(t => gl.deleteTexture(t)); gl.deleteFramebuffer(lv.fb); }
+    this.ringTex.forEach(t => gl.deleteTexture(t)); gl.deleteFramebuffer(this.ringFb);
     gl.deleteProgram(this.first.program); gl.deleteProgram(this.reduce.program);
     gl.deleteVertexArray(this.vao);
   }

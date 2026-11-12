@@ -1,13 +1,24 @@
-// App shell: decoupled loop (GPU stepping under an adaptive per-frame budget, rendering at
-// display rate, statistics by GPU reduction + async readback on their own cadence), UI, URL state.
+// App shell. Three decoupled activities share one WebGL2 context:
+//  - stepping: as many generations per frame as an adaptive budget allows (fence back-pressure);
+//  - statistics: GPU reduction after every generation into a ring texture, read back
+//    asynchronously (or, if switched off, sampled every ~40 ms);
+//  - analysis: whole-state snapshots read back asynchronously and analysed in a worker
+//    ({111} layer populations -> kymograph, firewalls), each tagged with its generation;
+// and rendering at display rate. Plus UI, editor and URL state.
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { Sim } from './gl/sim.js';
-import { Stats } from './gl/stats.js';
+import { Stats, RING } from './gl/stats.js';
+import { Bricks } from './gl/bricks.js';
+import { Readback } from './gl/readback.js';
 import { CellView, PALETTE } from './render.js';
 import { makeSeed, autoBox, placeSeed, hullPolytope, reembed, hullOf } from './seeds.js';
-import { DIAGONALS } from './cpu.js';
+import { DIAGONALS, DIAG_NAMES, layerRange } from './layers.js';
 import { Strip } from './strip.js';
+import { Kymo } from './kymo.js';
+import { Editor } from './editor.js';
+import { GROUPS } from './symmetry.js';
+import { encodeCells, decodeCells, cellsToText } from './cellcodec.js';
 
 const $ = (id) => document.getElementById(id);
 const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
@@ -15,8 +26,10 @@ const fmt = (n) => n == null ? '–' : Math.round(n).toLocaleString('en-US');
 
 // ---------------------------------------------------------------- URL / spec
 const DEFAULTS = { seed: 'cube', n: 11, k: 5, H: 60, shape: 'cube', density: 0.3, layers: 3, rng: 1,
-  box: 'auto', bc: 'dead', speed: 'max', view: 'auto', face: 0.6, gen: 0, play: 0, lanes: 32, cells: '', cam: '' };
-const NUMERIC = ['n', 'k', 'H', 'density', 'layers', 'rng', 'face', 'gen', 'play', 'lanes'];
+  box: 'auto', bc: 'dead', speed: 'max', view: 'auto', face: 0.6, gen: 0, play: 0, lanes: 32, cells: '', cz: '',
+  abs: 0, g0: 0, cam: '', color: 'orientation', diag: 0, slice: '', ortho: 0, rec: 1 };
+const NUMERIC = ['n', 'k', 'H', 'density', 'layers', 'rng', 'face', 'gen', 'play', 'lanes', 'abs', 'g0', 'diag', 'ortho', 'rec'];
+const VIEW_KEYS = ['box', 'bc', 'speed', 'view', 'face', 'gen', 'play', 'lanes', 'cam', 'color', 'diag', 'slice', 'ortho', 'rec', 'abs', 'g0'];
 
 function readURL() {
   const q = new URLSearchParams(location.search);
@@ -29,7 +42,7 @@ function seedKeys(spec) {
   if (spec.seed === 'cube') keys.push('n');
   if (spec.seed === 'key') keys.push('k');
   if (spec.seed === 'legacy') keys.push('H');
-  if (spec.seed === 'cells') keys.push('cells');
+  if (spec.seed === 'cells') keys.push(spec.cz ? 'cz' : 'cells');
   if (spec.seed === 'soup') keys.push('shape', 'n', 'density', 'rng', ...(spec.shape === 'slab' ? ['layers'] : []));
   return keys;
 }
@@ -37,7 +50,7 @@ function shareURL(extra = {}) {
   const s = { ...app.spec, ...extra };
   const q = new URLSearchParams();
   for (const k of seedKeys(s)) q.set(k, s[k]);
-  for (const k of ['box', 'bc', 'speed', 'view', 'face', 'gen', 'play', 'lanes', 'cam']) if (s[k] !== DEFAULTS[k]) q.set(k, s[k]);
+  for (const k of VIEW_KEYS) if (s[k] !== DEFAULTS[k]) q.set(k, s[k]);
   return `${location.origin}${location.pathname}?${q}`;
 }
 function writeURL() { history.replaceState(null, '', shareURL({ gen: 0, play: 0 })); }
@@ -50,7 +63,9 @@ const renderer = new THREE.WebGLRenderer({ canvas, context: gl, antialias: true 
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(PALETTE.background);
-const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 5000);
+const persp = new THREE.PerspectiveCamera(40, 1, 0.1, 5000);
+const ortho = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 5000);
+let camera = persp;
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 const view = new CellView(scene);
@@ -63,91 +78,148 @@ function resize() {
   const w = wide ? window.innerWidth - 332 : window.innerWidth, h = window.innerHeight;
   canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
   renderer.setSize(w, h, false);
-  camera.aspect = w / h; camera.updateProjectionMatrix();
+  persp.aspect = w / h; persp.updateProjectionMatrix();
+  fitOrtho();
+}
+function fitOrtho() {
+  const w = parseFloat(canvas.style.width) || 1, h = parseFloat(canvas.style.height) || 1;
+  const dist = camera.position.distanceTo(controls.target);
+  const half = dist * Math.tan(THREE.MathUtils.degToRad(persp.fov / 2));
+  ortho.left = -half * w / h; ortho.right = half * w / h; ortho.top = half; ortho.bottom = -half;
+  ortho.updateProjectionMatrix();
 }
 window.addEventListener('resize', resize);
 
 // ---------------------------------------------------------------- app state
 const app = {
   spec: readURL(),
-  sim: null, stats: null, dims: null, torus: false,
+  sim: null, stats: null, bricks: null, dims: null, torus: false, simId: 0,
   gen: 0, playing: false, runUntil: 0,
   spf: 1, acc: 0, frameFence: null,
-  last: null, initialHull: null, prevHull: null, events: [],
+  last: null, initialHull: null, prevHull: null, events: [], hullPoly: null,
   stepsWindow: [], lastFrame: performance.now(), frameTimes: [],
-  statsInterval: 40, lastStatsStart: 0, statsDirty: true,
+  statsInterval: 40, lastStatsStart: 0, statsDirty: true, bricksDirty: true,
+  rec: true, snap: { pending: false, busy: false, last: 0, interval: 30, ms: 0, lastGen: -1 },
+  diag: 0, slice: { on: false, lo: 0, hi: 0 }, edit: null,
 };
+app.rec = !!app.spec.rec;
+app.diag = Math.min(3, Math.max(0, app.spec.diag | 0));
 const strip = new Strip($('strip'));
+const kymo = new Kymo($('kymo'), $('kprof'), $('k-label'), { onPickLayer: (n, s) => { setDiag(n); setSlice(true, s, s); } });
+const editor = new Editor();
+const snapRB = new Readback(gl);
+const worker = new Worker(new URL('./analysis-worker.js', import.meta.url), { type: 'module' });
 window.gump = app;   // for tests / console poking
-app.three = { renderer, scene, camera, view, gl };
+app.three = { renderer, scene, get camera() { return camera; }, view, gl };
+app.kymo = kymo; app.editor = editor;
 
 function buildSim(dims, torus, cells) {
-  if (app.sim) { app.stats.dispose(); app.sim.dispose(); }
-  app.dims = dims; app.torus = torus;
+  if (app.sim) { app.stats.dispose(); app.sim.dispose(); app.bricks.dispose(); }
+  app.dims = dims; app.torus = torus; app.simId++;
   app.sim = new Sim(gl, dims[0], dims[1], dims[2], { torus, maxLanes: app.spec.lanes });
   app.stats = new Stats(gl, app.sim.layout);
+  app.bricks = new Bricks(gl, app.sim.layout);
   app.sim.upload(cells);
   renderer.resetState();
-  view.setLayout(app.sim.layout);
+  view.setLayout(app.sim.layout, app.bricks.layout);
   view.setMode(viewMode());
   boxLines.geometry.dispose();
   boxLines.geometry = new THREE.EdgesGeometry(new THREE.BoxGeometry(dims[0], dims[1], dims[2]));
-  app.statsDirty = true;
+  app.statsDirty = true; app.bricksDirty = true;
+  app.snap.pending = false; app.snap.lastGen = -1;
+  kymo.clear();
   view.setHullClip(null);      // re-armed by the first statistics of this state
   updateBoxInfo();
 }
+// Statistics of the generation the sim now holds (after reset, edit, resize).
+function statsNow() { if (app.rec) app.stats.record(app.sim.texture, app.gen); else app.statsDirty = true; }
 
 function boxFromSpec(spec, pts) {
   if (spec.seed === 'legacy' && spec.box === 'auto' && spec.H % 2 === 0 && spec.bc === 'torus')
     return { dims: [spec.H / 2, spec.H / 2, spec.H / 2], shift: [0, 0, 0] };   // the original's array torus
-  const auto = autoBox(pts);
-  if (spec.box === 'auto') return auto;
   const d = String(spec.box).split(/[,x]/).map(Number).filter(v => v > 0);
-  const dims = d.length === 3 ? d : [d[0], d[0], d[0]];
+  const given = spec.box !== 'auto' && d.length ? (d.length === 3 ? d : [d[0], d[0], d[0]]) : null;
+  if (spec.abs && given) return { dims: given, shift: [0, 0, 0] };              // absolute array coordinates
+  const auto = autoBox(pts);
+  if (!given) return auto;
   // centre the seed: keep auto's centring relative to the box centre
-  const shift = dims.map((N, t) => auto.shift[t] + 2 * Math.floor((N - auto.dims[t]) / 2));
-  return { dims, shift };
+  return { dims: given, shift: given.map((N, t) => auto.shift[t] + 2 * Math.floor((N - auto.dims[t]) / 2)) };
 }
 
-function resetToSeed() {
+async function resetToSeed() {
   const spec = app.spec;
-  const seed = makeSeed(spec);
+  let seed;
+  if (spec.seed === 'cells' && spec.cz) {
+    try { const pts = await decodeCells(spec.cz); seed = { pts, name: `${pts.length / 3} cells (from link)` }; }
+    catch (e) { seed = { pts: new Int32Array(0), name: 'unreadable cell link' }; }
+  } else seed = makeSeed(spec);
+  if (app.edit) leaveEdit(false);
   const { dims, shift } = boxFromSpec(spec, seed.pts);
   const cells = new Uint8Array(dims[0] * dims[1] * dims[2]);
   const dropped = placeSeed(seed.pts, dims, shift, spec.bc === 'torus', cells);
   const h0 = hullOf(seed.pts);
   buildSim(dims, spec.bc === 'torus', cells);
   app.seedName = seed.name + (dropped ? ` (${dropped} cells did not fit)` : '');
-  app.gen = 0; app.acc = 0;
+  app.gen = spec.g0 || 0; app.acc = 0;
   app.initialHull = null; app.prevHull = null; app.events = []; app.last = null;
   // T2: if the seed's hull fits the box, the run is the infinite-space run forever. Cleared for
   // good by anything that may have let the boundary act (seed clipped, resize below the hull).
   app.exact = !dropped && (!h0 || hullFits(hullPolytope({ loS: h0.loS.map((v, n) => v + dot(DIAGONALS[n], shift)), hiS: h0.hiS.map((v, n) => v + dot(DIAGONALS[n], shift)) })));
   strip.clear();
-  app.runUntil = spec.gen || 0;
+  statsNow();
+  app.runUntil = spec.gen > app.gen ? spec.gen : 0;
   setPlaying(!!spec.play || app.runUntil > 0);
-  frameCamera(seed.pts);
+  frameCamera(seed.pts.length ? seed.pts.map((v, i) => v + shift[i % 3]) : null);
+  applySliceFromSpec();
   writeURL();
   syncForm();
 }
 
+let framedR = 10;
 function frameCamera(pts) {
   // frame the seed's hull (what can ever be alive), not the whole box
   let r = 0.5 * Math.hypot(...app.dims);
   const h = pts && pts.length ? hullOf(pts) : null;
   if (h) { const poly = hullPolytope(h); r = Math.min(r, 0.25 * Math.hypot(...[0, 1, 2].map(t => poly.hi[t] - poly.lo[t] + 2)) + 1); }
+  framedR = r;
   const c = String(app.spec.cam || '').split(',').map(Number);
   const dir = (c.length >= 3 && c.every(Number.isFinite) ? new THREE.Vector3(c[0], c[1], c[2]) : new THREE.Vector3(1.0, 0.75, 1.35)).normalize();
   const zoom = c.length === 4 && c[3] > 0 ? c[3] : 1;
-  camera.position.copy(dir.multiplyScalar(r / Math.sin(THREE.MathUtils.degToRad(camera.fov / 2)) * 0.8 / zoom));
+  placeCamera(dir, r / Math.sin(THREE.MathUtils.degToRad(persp.fov / 2)) * 0.8 / zoom);
+}
+function placeCamera(dir, dist) {
+  for (const cam of [persp, ortho]) {
+    cam.position.copy(dir.clone().normalize().multiplyScalar(dist));
+    cam.near = framedR * 0.01; cam.far = framedR * 40; cam.updateProjectionMatrix();
+  }
+  ortho.zoom = 1;
   controls.target.set(0, 0, 0);
-  camera.near = r * 0.01; camera.far = r * 20; camera.updateProjectionMatrix();
+  fitOrtho();
   controls.update();
 }
+function setOrtho(on) {
+  const next = on ? ortho : persp;
+  if (next === camera) return;
+  next.position.copy(camera.position); next.up.copy(camera.up);
+  camera = next; controls.object = camera;
+  app.spec.ortho = on ? 1 : 0;
+  fitOrtho(); controls.update();
+}
+function lookAlong() {
+  const d = new THREE.Vector3(...DIAGONALS[app.diag]);
+  placeCamera(d, camera.position.distanceTo(controls.target) || framedR * 3);
+}
 
-function setPlaying(p) { if (p && !app.playing) app.stepsWindow = []; app.playing = p; $('play').textContent = p ? '❚❚ pause' : '▶ play'; }
+function setPlaying(p) {
+  if (p && app.edit) leaveEdit(true);
+  if (p && !app.playing) app.stepsWindow = [];
+  app.playing = p; $('play').textContent = p ? '❚❚ pause' : '▶ play';
+}
 
-function stepOnce() { setPlaying(false); app.runUntil = 0; app.sim.step(1); app.gen++; app.statsDirty = true; }
+function stepOnce() {
+  if (app.edit) leaveEdit(true);
+  setPlaying(false); app.runUntil = 0; app.sim.step(1); app.gen++; app.bricksDirty = true; statsNow();
+}
 
 // Resize on the fly, preserving state (blocking readback; user action only).
 function resizeTo(dims, shiftOverride) {
@@ -160,9 +232,12 @@ function resizeTo(dims, shiftOverride) {
   // keep hull bookkeeping in the new array frame (s = d.p shifts by d.shift)
   const mv = (h) => h && { loS: h.loS.map((v, n) => v + dot(DIAGONALS[n], shift)), hiS: h.hiS.map((v, n) => v + dot(DIAGONALS[n], shift)) };
   app.prevHull = mv(app.prevHull); app.initialHull = mv(app.initialHull);
+  if (app.slice.on) { const ds = dot(DIAGONALS[app.diag], shift); app.slice.lo += ds; app.slice.hi += ds; }
   app.spec.box = dims.join('x');
   if (r.dropped) pushEvent(`resize dropped ${r.dropped} live cells`);
-  frameCamera(); writeURL(); syncForm();
+  pushEvent(`gen ${fmt(app.gen)}: resized to ${dims.join('×')} (layer history restarts)`);
+  statsNow();
+  frameCamera(r.pts); applySlice(); writeURL(); syncForm();
 }
 function fitHull() {
   const cells = app.sim.download();
@@ -173,35 +248,61 @@ function fitHull() {
 }
 
 // ---------------------------------------------------------------- statistics → instruments
-function pushEvent(msg) { app.events.unshift(msg); app.events.length = Math.min(app.events.length, 50); }
+function pushEvent(msg) { app.events.unshift(msg); app.events.length = Math.min(app.events.length, 200); }
 
-function onStats(gen, s) {
-  app.last = { gen, s };
+// One generation's statistics (every generation when recording; samples otherwise).
+function onStats(gen, s, exact) {
+  app.last = { gen, s, exact };
   strip.add(gen, s.pop, s.count);
-  if (s.pop && s.loS) {
-    const h = { loS: s.loS.slice(), hiS: s.hiS.slice() };
-    if (!app.initialHull) app.initialHull = h;
-    if (app.prevHull) {
-      DIAGONALS.forEach((d, n) => {
-        const name = `(${d.map(v => v > 0 ? '+' : '−').join('')})`;
-        if (h.hiS[n] < app.prevHull.hiS[n]) pushEvent(`gen ≤${gen}: ${name} max s ${app.prevHull.hiS[n]} → ${h.hiS[n]}`);
-        if (h.loS[n] > app.prevHull.loS[n]) pushEvent(`gen ≤${gen}: ${name} min s ${app.prevHull.loS[n]} → ${h.loS[n]}`);
-      });
-    }
-    app.prevHull = h;
-    if (!app.torus) view.setHullClip(h);
-    const poly = hullPolytope(h);
-    const pos = [];
-    for (const [a, b] of poly.edges) for (const v of [poly.verts[a], poly.verts[b]])
-      pos.push(v[0] / 2 + 0.5 - app.dims[0] / 2, v[1] / 2 + 0.5 - app.dims[1] / 2, v[2] / 2 + 0.5 - app.dims[2] / 2);
-    hullLines.geometry.dispose();
-    hullLines.geometry = new THREE.BufferGeometry();
-    hullLines.geometry.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-    app.hullPoly = poly;
-  } else {
-    hullLines.geometry.setDrawRange(0, 0);
-    app.hullPoly = null;
+  if (!(s.pop && s.loS)) {
+    if (app.hullPoly) { hullLines.geometry.setDrawRange(0, 0); app.hullPoly = null; }
+    return;
   }
+  const p = app.prevHull;
+  if (p && s.loS.every((v, n) => v === p.loS[n]) && s.hiS.every((v, n) => v === p.hiS[n])) return;
+  const h = { loS: s.loS.slice(), hiS: s.hiS.slice() };
+  if (!app.initialHull) app.initialHull = h;
+  if (p) {
+    const at = exact ? `gen ${fmt(gen)}` : `gen ≤${fmt(gen)}`;
+    DIAGONALS.forEach((d, n) => {
+      if (h.hiS[n] < p.hiS[n]) { pushEvent(`${at}: ${DIAG_NAMES[n]} max s ${p.hiS[n]} → ${h.hiS[n]}`); kymo.mark(gen, n); }
+      if (h.loS[n] > p.loS[n]) { pushEvent(`${at}: ${DIAG_NAMES[n]} min s ${p.loS[n]} → ${h.loS[n]}`); kymo.mark(gen, n); }
+    });
+  }
+  app.prevHull = h;
+  if (!app.torus) view.setHullClip(h);
+  const poly = hullPolytope(h);
+  const pos = [];
+  for (const [a, b] of poly.edges) for (const v of [poly.verts[a], poly.verts[b]])
+    pos.push(v[0] / 2 + 0.5 - app.dims[0] / 2, v[1] / 2 + 0.5 - app.dims[1] / 2, v[2] / 2 + 0.5 - app.dims[2] / 2);
+  hullLines.geometry.dispose();
+  hullLines.geometry = new THREE.BufferGeometry();
+  hullLines.geometry.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  app.hullPoly = poly;
+}
+
+// Whole-state snapshots -> worker -> {111} layer populations.
+worker.onmessage = (e) => {
+  const { id, gen, diags, ms } = e.data;
+  app.snap.busy = false;
+  app.snap.ms = ms;
+  app.snap.interval = Math.max(30, 3 * ms);
+  if (id !== app.simId) return;
+  for (const f of kymo.add(gen, diags))
+    pushEvent(`gen ≤${fmt(gen)}: firewall along ${DIAG_NAMES[f.diag]}, empty layers s ${f.from}…${f.to} (T3: permanent)`);
+  app.layerGen = gen;
+};
+function snapshots(now) {
+  for (const job of snapRB.poll()) {
+    app.snap.pending = false;
+    if (job.tag.simId !== app.simId) continue;
+    app.snap.busy = true;
+    worker.postMessage({ id: job.tag.simId, gen: job.tag.gen, layout: app.sim.layout, texels: job.data }, [job.data.buffer]);
+  }
+  if (app.snap.pending || app.snap.busy || now - app.snap.last < app.snap.interval || app.snap.lastGen === app.gen) return;
+  const L = app.sim.layout;
+  snapRB.start([{ fb: app.sim.framebuffer, x: 0, y: 0, w: L.width, h: L.height }], { gen: app.gen, simId: app.simId });
+  app.snap.pending = true; app.snap.last = now; app.snap.lastGen = app.gen;
 }
 
 function updateBoxInfo() {
@@ -213,12 +314,10 @@ function updateBoxInfo() {
 
 function updateInstruments(now) {
   $('gen').textContent = fmt(app.gen);
-  // generations/s over the last second of issued steps (stepping is fence-throttled, so issued ≈ completed)
-  // (time, generation) history; rate over the last ~1-2 s
   const w = app.stepsWindow; w.push([now, app.gen]);
   while (w.length > 2 && now - w[1][0] > 1000) w.shift();
   const gps = w.length > 1 && now > w[0][0] ? (app.gen - w[0][1]) / (now - w[0][0]) * 1000 : 0;
-  $('gps').textContent = app.playing ? (gps >= 100 ? fmt(gps) : gps.toFixed(1)) : 'paused';
+  $('gps').textContent = app.edit ? 'editing' : app.playing ? (gps >= 100 ? fmt(gps) : gps.toFixed(1)) : 'paused';
   const ft = app.frameTimes; const fps = ft.length > 1 ? 1000 * (ft.length - 1) / (ft[ft.length - 1] - ft[0]) : 0;
   $('spf').textContent = `${Math.round(app.spf)} gens/frame budget`;
   $('fps').textContent = `${fps.toFixed(0)} fps`;
@@ -227,23 +326,37 @@ function updateInstruments(now) {
     const s = last.s;
     $('pop').textContent = fmt(s.pop);
     $('popx').textContent = fmt(s.count[0]); $('popy').textContent = fmt(s.count[1]); $('popz').textContent = fmt(s.count[2]);
-    $('statsage').textContent = last.gen === app.gen ? 'statistics current' : `statistics from gen ${fmt(last.gen)} (sampled asynchronously)`;
+    const lag = app.gen - last.gen;
+    $('statsage').textContent = (app.rec ? 'statistics of every generation' : 'statistics sampled every ~40 ms') +
+      (lag ? ` · shown: gen ${fmt(last.gen)} (${fmt(lag)} behind)` : ' · current');
     hullTable(s);
     edgeStatus(s);
   }
-  $('hullevents').innerHTML = app.events.map(e => `<div>${e}</div>`).join('');
+  const lg = app.layerGen;
+  $('k-foot').title = lg != null ? `layer analysis of gen ${lg} took ${app.snap.ms.toFixed(1)} ms in the worker` : '';
+  $('hullevents').innerHTML = app.events.slice(0, 60).map(e => `<div>${e}</div>`).join('');
+  $('legend').innerHTML = legend();
   strip.draw();
+  kymo.draw();
+}
+
+function legend() {
+  const sw = (c) => `<i class="sw" style="background:rgb(${c.join(',')})"></i>`;
+  const m = app.spec.color;
+  if (m === 'layer') return `${sw(PALETTE.abc[0])}A ${sw(PALETTE.abc[1])}B ${sw(PALETTE.abc[2])}C — kagome layers along ${DIAG_NAMES[app.diag]}, by (s−1)/2 mod 3`;
+  if (m === 'change') return `${sw(PALETTE.born)}born this generation · ${sw(PALETTE.x.map(v => Math.round(v * 0.55)))}survived (dimmed orientation colour) · ${sw(PALETTE.died)}died (small)`;
+  return `${sw(PALETTE.x)}x-normal ${sw(PALETTE.y)}y-normal ${sw(PALETTE.z)}z-normal`;
 }
 
 function hullTable(s) {
   const rows = ['<tr><th>d</th><th>min s</th><th>max s</th><th>layers</th><th>start</th></tr>'];
   DIAGONALS.forEach((d, n) => {
-    const name = `(${d.map(v => v > 0 ? '+' : '−').join('')})`;
+    const name = DIAG_NAMES[n];
     if (!s.loS) { rows.push(`<tr><td>${name}</td><td colspan=4>empty</td></tr>`); return; }
     const i0 = app.initialHull;
     const w = (s.hiS[n] - s.loS[n]) / 2 + 1, w0 = i0 ? (i0.hiS[n] - i0.loS[n]) / 2 + 1 : w;
     const cl = (b) => b ? ' class="shrunk"' : '';
-    rows.push(`<tr><td>${name}</td><td${cl(i0 && s.loS[n] > i0.loS[n])}>${s.loS[n]}</td><td${cl(i0 && s.hiS[n] < i0.hiS[n])}>${s.hiS[n]}</td><td${cl(w < w0)}>${w}</td><td class="dim">${w0}</td></tr>`);
+    rows.push(`<tr${n === app.diag ? ' class="sel"' : ''}><td>${name}</td><td${cl(i0 && s.loS[n] > i0.loS[n])}>${s.loS[n]}</td><td${cl(i0 && s.hiS[n] < i0.hiS[n])}>${s.hiS[n]}</td><td${cl(w < w0)}>${w}</td><td class="dim">${w0}</td></tr>`);
   });
   $('hull').innerHTML = rows.join('');
 }
@@ -292,34 +405,45 @@ function frame(now) {
   }
 
   // 2. Stepping: as many generations as the adaptive budget allows.
-  let steps = 0;
-  if (app.playing) {
+  if (app.playing && !app.edit) {
     // grow only when the budget was the limiting factor last frame
     if (gpuIdle) { if (app.budgetBound) app.spf = Math.min(app.spf * 1.1 + 1, 200000); } else app.spf = Math.max(1, app.spf * 0.7);
-    const cap = gpuIdle ? Math.floor(app.spf) : 1;
+    let cap = gpuIdle ? Math.floor(app.spf) : 1;
+    if (app.rec) cap = Math.min(cap, RING - 1 - app.stats.unflushed);
     let want;
     if (app.runUntil > app.gen) want = app.runUntil - app.gen;
     else if (app.spec.speed === 'max') want = cap;
     else { app.acc = Math.min(app.acc + Number(app.spec.speed) * dt, Math.max(cap, 1)); want = Math.floor(app.acc); }
-    steps = Math.min(want, cap);
+    const steps = Math.max(0, Math.min(want, cap));
     app.budgetBound = want >= cap;
     if (app.spec.speed !== 'max' && !(app.runUntil > app.gen)) app.acc -= steps;
-    if (steps > 0) { app.sim.step(steps); app.gen += steps; }
-    if (app.runUntil && app.gen >= app.runUntil) { app.runUntil = 0; if (!app.spec.play) setPlaying(false); app.statsDirty = true; }
+    if (steps > 0) {
+      if (app.rec) for (let i = 0; i < steps; i++) { app.sim.step(1); app.gen++; app.stats.record(app.sim.texture, app.gen); }
+      else { app.sim.step(steps); app.gen += steps; }
+      app.bricksDirty = true;
+    }
+    if (app.runUntil && app.gen >= app.runUntil) { app.runUntil = 0; if (!app.spec.play) setPlaying(false); statsNow(); }
   }
 
-  // 3. Statistics on their own cadence; never blocking.
+  // 3. Statistics: flush this frame's ring slots; collect whatever has landed. Never blocks.
+  if (app.rec) app.stats.flush();
   const got = app.stats.poll();
-  if (got) onStats(got.tag, got.stats);
-  if (!app.stats.pending && (app.statsDirty || (app.playing && now - app.lastStatsStart > app.statsInterval))) {
+  for (const x of got.samples) onStats(x.gen, x.stats, true);
+  if (got.sample) onStats(got.sample.tag, got.sample.stats, false);
+  if (!app.rec && !app.stats.pending && (app.statsDirty || (app.playing && now - app.lastStatsStart > app.statsInterval))) {
     app.stats.start(app.sim.texture, app.gen);
     app.lastStatsStart = now; app.statsDirty = false;
   }
 
-  // 4. Render at display rate.
+  // 4. Layer analysis on its own cadence (snapshot -> worker).
+  snapshots(now);
+
+  // 5. Render at display rate.
   renderer.resetState();
   controls.update();
-  view.update(app.sim.texture, camera, { faceScale: Number($('v-face').value), border: $('v-border').checked ? 1 : 0 });
+  const ray = view.drawn === 'raymarch';
+  if (ray && app.bricksDirty) { app.bricks.update(app.sim.texture, app.sim.prevTexture, app.spec.color === 'change'); app.bricksDirty = false; renderer.resetState(); }
+  view.update(app.sim, ray ? app.bricks.tex : null, camera, { faceScale: Number($('v-face').value), border: $('v-border').checked ? 1 : 0 });
   hullLines.visible = $('v-hull').checked;
   boxLines.visible = $('v-box').checked;
   renderer.render(scene, camera);
@@ -329,10 +453,120 @@ function frame(now) {
   if (!app.lastUI || now - app.lastUI > 120) { app.lastUI = now; updateInstruments(now); }
 }
 
+// ---------------------------------------------------------------- diagonal, slicer, colour
+function setDiag(n) {
+  app.diag = n; app.spec.diag = n;
+  for (const el of document.querySelectorAll('select.diag')) el.value = String(n);
+  kymo.setDiag(n);
+  view.setLayerDiag(DIAGONALS[n]);
+  if (app.slice.on) { const s = clampSlice(app.slice.lo, app.slice.hi); app.slice.lo = s[0]; app.slice.hi = s[1]; }
+  if (app.edit && app.edit.kind === 'layer') { app.edit.d = DIAGONALS[n]; clampEdit(); }
+  applySlice(); writeURL();
+}
+function clampSlice(lo, hi) {
+  const r = layerRange(app.dims, DIAGONALS[app.diag]);
+  const top = r.base + 2 * (r.count - 1);
+  const fix = (v) => { v = Math.round(v); if (!(v & 1)) v += 1; return Math.min(top, Math.max(r.base, v)); };
+  lo = fix(lo); hi = fix(hi);
+  return lo <= hi ? [lo, hi] : [hi, lo];
+}
+function setSlice(on, lo = app.slice.lo, hi = app.slice.hi) {
+  [lo, hi] = clampSlice(lo, hi);
+  app.slice = { on, lo, hi };
+  applySlice(); writeURL();
+}
+function applySlice() {
+  const s = app.slice;
+  view.setLayerDiag(DIAGONALS[app.diag]);
+  view.setSlice(s.on ? { d: DIAGONALS[app.diag], lo: s.lo, hi: s.hi } : null);
+  kymo.setSlice(s.on ? { diag: app.diag, lo: s.lo, hi: s.hi } : null);
+  app.spec.slice = s.on ? `${s.lo},${s.hi}` : '';
+  $('s-on').checked = s.on; $('s-lo').value = s.lo; $('s-hi').value = s.hi;
+}
+function applySliceFromSpec() {
+  const v = String(app.spec.slice || '').split(',').map(Number);
+  setDiag(app.diag);
+  if (v.length === 2 && v.every(Number.isFinite)) setSlice(true, v[0], v[1]);
+  else { const h = app.last && app.last.s.loS; setSlice(false, h ? h[app.diag] : 1, h ? h[app.diag] : 1); }
+}
+function moveSlice(k) { setSlice(true, app.slice.lo + 2 * k, app.slice.hi + 2 * k); }
+function hullS() { const s = app.last && app.last.s; return s && s.loS ? [s.loS[app.diag], s.hiS[app.diag]] : null; }
+
+// ---------------------------------------------------------------- editor
+function editSetFromUI() {
+  const kind = $('e-kind').value;
+  return kind === 'plane' ? { kind, axis: Number($('e-axis').value), coord: Number($('e-coord').value) }
+    : { kind, d: DIAGONALS[app.diag], s: Number($('e-coord').value) };
+}
+function clampEdit() {
+  const set = app.edit, r = Editor.range(set, app.dims);
+  const key = set.kind === 'plane' ? 'coord' : 's';
+  let v = Math.round(set[key]); if (!(v & 1)) v += 1;
+  set[key] = Math.min(r.hi, Math.max(r.lo, v));
+  $('e-coord').value = set[key];
+  view.setEdit(set);
+  document.querySelectorAll('[data-e]').forEach(el => { el.style.display = set.kind === el.dataset.e ? '' : 'none'; });
+}
+function enterEdit() {
+  if (app.edit) return;
+  setPlaying(false); app.runUntil = 0;
+  editor.begin(app.sim.download(), app.dims);
+  editor.group = $('e-sym').value;
+  const c = editor.centre;
+  // start on the set through the pattern's centre
+  const kind = $('e-kind').value;
+  app.edit = kind === 'plane' ? { kind, axis: Number($('e-axis').value), coord: 0 } : { kind, d: DIAGONALS[app.diag], s: 0 };
+  if (kind === 'plane') { const v = c[app.edit.axis]; app.edit.coord = (v & 1) ? v : v + 1; }
+  else app.edit.s = dot(DIAGONALS[app.diag], c) | 1;
+  clampEdit();
+  $('editsec').classList.add('on'); $('e-toggle').textContent = '✓ done';
+  $('e-centre').textContent = `centre ${c.join(',')}`;
+  view.setMode(viewMode());
+  $('e-status').textContent = '';
+}
+function editChanged() {
+  app.sim.upload(editor.cells);
+  app.bricksDirty = true; app.edited = true;
+  app.prevHull = null; app.initialHull = null;          // an edit can grow the hull: restart the bookkeeping
+  statsNow();
+}
+async function leaveEdit(keep = true) {
+  if (!app.edit) return;
+  app.edit = null;
+  view.setEdit(null); view.setMode(viewMode());
+  $('editsec').classList.remove('on'); $('e-toggle').textContent = '✎ edit';
+  const cells = editor.end();
+  if (!keep || !app.edited) return;
+  app.edited = false;
+  // the edited state becomes the run's seed: absolute array coordinates in this box, from this generation
+  const r = reembed(cells, app.dims, app.dims, [0, 0, 0], app.torus);
+  const h = hullOf(r.pts);
+  app.exact = !h || hullFits(hullPolytope(h));
+  pushEvent(`gen ${fmt(app.gen)}: state edited (${r.pts.length / 3} cells); hull bookkeeping restarts`);
+  Object.assign(app.spec, { seed: 'cells', box: app.dims.join('x'), abs: 1, g0: app.gen, bc: app.torus ? 'torus' : 'dead' });
+  if (r.pts.length / 3 <= 40) { app.spec.cells = cellsToText(r.pts); app.spec.cz = ''; }
+  else { app.spec.cz = await encodeCells(r.pts); app.spec.cells = ''; }
+  app.seedName = `edited state, ${r.pts.length / 3} cells`;
+  updateBoxInfo(); writeURL(); syncForm();
+}
+function onEditClick(e) {
+  const rect = canvas.getBoundingClientRect();
+  const ndc = new THREE.Vector2(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1);
+  const rc = new THREE.Raycaster();
+  rc.setFromCamera(ndc, camera);
+  const half = app.dims.map(v => v / 2);
+  const o = rc.ray.origin, d = rc.ray.direction;
+  const hit = editor.pick([o.x + half[0], o.y + half[1], o.z + half[2]], [d.x, d.y, d.z], app.edit);
+  if (!hit) return;
+  const n = editor.toggle(hit.p, DIAGONALS[app.diag]);
+  $('e-status').textContent = `${hit.p.join(',')} ${n > 1 ? `(+${n - 1} by symmetry)` : ''}`;
+  editChanged();
+}
+
 // ---------------------------------------------------------------- UI wiring
 const FORM = ['seed', 'n', 'k', 'H', 'shape', 'density', 'layers', 'rng', 'cells', 'box', 'bc'];
 // 'auto': vertex-pulled quads cost ~18 vertices per cell slot every frame; the ray-marcher costs
-// ~pixels x path length inside the hull. Quads up to ~2.7M cell slots, ray-march beyond.
+// ~pixels x path length inside the hull, minus empty bricks. Quads up to ~2.7M slots.
 function viewMode() {
   if (app.spec.view !== 'auto') return app.spec.view;
   return 3 * app.dims[0] * app.dims[1] * app.dims[2] <= 2.7e6 ? 'quads' : 'raymarch';
@@ -342,6 +576,10 @@ function syncForm() {
   $('speed').value = String(app.spec.speed);
   $('v-mode').value = app.spec.view;
   $('v-face').value = app.spec.face;
+  $('v-color').value = app.spec.color;
+  $('v-ortho').checked = !!app.spec.ortho;
+  $('rec').checked = app.rec;
+  view.setColorMode(app.spec.color);
   view.setMode(viewMode());
   showSeedFields();
 }
@@ -351,14 +589,35 @@ function showSeedFields() {
 }
 function readForm() {
   for (const k of FORM) { const v = $('f-' + k).value; app.spec[k] = NUMERIC.includes(k) ? Number(v) : v; }
+  app.spec.cz = ''; app.spec.abs = 0; app.spec.g0 = 0;
 }
+for (const el of document.querySelectorAll('select.diag')) {
+  el.innerHTML = DIAG_NAMES.map((n, i) => `<option value="${i}">${n}</option>`).join('');
+  el.addEventListener('change', () => setDiag(Number(el.value)));
+}
+$('e-sym').innerHTML = Object.entries(GROUPS).map(([k, g]) => `<option value="${k}">${g.label}</option>`).join('');
 $('f-seed').addEventListener('change', showSeedFields);
 $('apply').addEventListener('click', () => { readForm(); app.spec.gen = 0; app.spec.play = 0; resetToSeed(); });
 $('play').addEventListener('click', () => setPlaying(!app.playing));
 $('step').addEventListener('click', stepOnce);
 $('speed').addEventListener('change', () => { app.spec.speed = $('speed').value; app.acc = 0; writeURL(); });
+$('rec').addEventListener('change', () => { app.stats.flush(); app.rec = $('rec').checked; app.spec.rec = app.rec ? 1 : 0; statsNow(); writeURL(); });
 $('v-mode').addEventListener('change', () => { app.spec.view = $('v-mode').value; view.setMode(viewMode()); writeURL(); });
+$('v-color').addEventListener('change', () => { app.spec.color = $('v-color').value; view.setColorMode(app.spec.color); app.bricksDirty = true; writeURL(); });
 $('v-face').addEventListener('input', () => { app.spec.face = Number($('v-face').value); writeURL(); });
+$('v-ortho').addEventListener('change', () => { setOrtho($('v-ortho').checked); writeURL(); });
+$('v-along').addEventListener('click', lookAlong);
+$('v-reset').addEventListener('click', () => { app.spec.cam = ''; frameCamera(null); });
+$('s-on').addEventListener('change', () => setSlice($('s-on').checked));
+$('s-lo').addEventListener('change', () => setSlice(true, Number($('s-lo').value), Math.max(Number($('s-lo').value), app.slice.hi)));
+$('s-hi').addEventListener('change', () => setSlice(true, Math.min(app.slice.lo, Number($('s-hi').value)), Number($('s-hi').value)));
+$('s-up').addEventListener('click', () => moveSlice(1));
+$('s-down').addEventListener('click', () => moveSlice(-1));
+$('s-one').addEventListener('click', () => setSlice(true, app.slice.lo, app.slice.lo));
+$('s-facehi').addEventListener('click', () => { const h = hullS(); if (h) setSlice(true, h[1], h[1]); });
+$('s-facelo').addEventListener('click', () => { const h = hullS(); if (h) setSlice(true, h[0], h[0]); });
+$('s-all').addEventListener('click', () => { const h = hullS(); if (h) setSlice(true, h[0], h[1]); });
+$('k-hide').addEventListener('click', () => { $('layers').classList.toggle('collapsed'); $('k-hide').textContent = $('layers').classList.contains('collapsed') ? '+' : '–'; });
 $('share').addEventListener('click', async () => {
   const url = shareURL({ gen: app.gen, play: app.playing ? 1 : 0 });
   try { await navigator.clipboard.writeText(url); $('share').textContent = 'copied ✓'; } catch { prompt('link', url); }
@@ -375,15 +634,46 @@ $('bcToggle').addEventListener('click', () => {
   buildSim(app.dims, !app.torus, cells);
   const h = hullOf(reembed(cells, app.dims, app.dims, [0, 0, 0], app.torus).pts);
   if (h && !hullFits(hullPolytope(h))) app.exact = false;
-  writeURL(); syncForm();
+  statsNow(); writeURL(); syncForm();
 });
-window.addEventListener('keydown', (e) => {
+// editor
+$('e-toggle').addEventListener('click', () => app.edit ? leaveEdit(true) : enterEdit());
+$('e-kind').addEventListener('change', () => { if (app.edit) { const old = app.edit; app.edit = editSetFromUI(); if (app.edit.kind !== old.kind) { const c = editor.centre; if (app.edit.kind === 'plane') app.edit.coord = c[app.edit.axis] | 1; else app.edit.s = dot(DIAGONALS[app.diag], c) | 1; } clampEdit(); } });
+$('e-axis').addEventListener('change', () => { if (app.edit) { app.edit.axis = Number($('e-axis').value); app.edit.coord = editor.centre[app.edit.axis] | 1; clampEdit(); } });
+$('e-coord').addEventListener('change', () => { if (app.edit) { app.edit[app.edit.kind === 'plane' ? 'coord' : 's'] = Number($('e-coord').value); clampEdit(); } });
+const moveEdit = (k) => { if (!app.edit) return; app.edit[app.edit.kind === 'plane' ? 'coord' : 's'] += 2 * k; clampEdit(); };
+$('e-up').addEventListener('click', () => moveEdit(1));
+$('e-down').addEventListener('click', () => moveEdit(-1));
+$('e-sym').addEventListener('change', () => { editor.group = $('e-sym').value; });
+$('e-fill').addEventListener('click', () => { if (app.edit && editor.fillSet(app.edit, 1)) editChanged(); });
+$('e-rand').addEventListener('click', () => { if (app.edit && editor.fillSet(app.edit, 1, Number($('e-rho').value))) editChanged(); });
+$('e-clearset').addEventListener('click', () => { if (app.edit && editor.fillSet(app.edit, 0)) editChanged(); });
+$('e-clear').addEventListener('click', () => { if (app.edit) { editor.clearAll(); editChanged(); } });
+$('e-undo').addEventListener('click', () => { if (app.edit && editor.undo()) editChanged(); });
+$('e-run').addEventListener('click', async () => { await leaveEdit(true); setPlaying(true); });
+let down = null;
+canvas.addEventListener('pointerdown', (e) => { down = [e.clientX, e.clientY]; });
+canvas.addEventListener('pointerup', (e) => {
+  if (app.edit && down && Math.hypot(e.clientX - down[0], e.clientY - down[1]) < 4) onEditClick(e);
+  down = null;
+});
+window.addEventListener('keydown', async (e) => {
   if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
+  if (app.edit) {
+    if (e.key === 'ArrowUp') { e.preventDefault(); return moveEdit(1); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); return moveEdit(-1); }
+    if ((e.ctrlKey || e.metaKey) && e.key === 'z') { if (editor.undo()) editChanged(); return; }
+    if (e.key === 'Escape' || e.key === 'e' || e.key === 'E') return leaveEdit(true);
+    if (e.key === 'Enter') { await leaveEdit(true); return setPlaying(true); }
+  }
   if (e.key === ' ') { e.preventDefault(); setPlaying(!app.playing); }
   else if (e.key === '.' || e.key === 'ArrowRight') stepOnce();
-  else if (e.key >= '1' && e.key <= '9') { Object.assign(app.spec, { seed: 'key', k: Number(e.key), box: 'auto', gen: 0, play: 0 }); resetToSeed(); }
+  else if (e.key === 'e' || e.key === 'E') enterEdit();
+  else if (e.key === '[') moveSlice(-1);
+  else if (e.key === ']') moveSlice(1);
+  else if (e.key >= '1' && e.key <= '9') { Object.assign(app.spec, { seed: 'key', k: Number(e.key), box: 'auto', gen: 0, play: 0, cz: '', abs: 0, g0: 0 }); resetToSeed(); }
 });
 
 resize();
-resetToSeed();
-requestAnimationFrame(frame);
+setOrtho(!!app.spec.ortho);
+resetToSeed().then(() => requestAnimationFrame(frame));

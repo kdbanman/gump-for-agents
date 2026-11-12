@@ -15,6 +15,19 @@
 <body>
 <canvas id="view"></canvas>
 
+<div id="layers">
+  <div class="row head">
+    <span><b>{111} layers</b> along <select id="k-diag" class="diag"></select></span>
+    <span class="dim" id="k-label"></span>
+    <button id="k-hide" title="hide / show">–</button>
+  </div>
+  <div class="kbody">
+    <canvas id="kymo" width="560" height="150"></canvas>
+    <canvas id="kprof" width="70" height="150"></canvas>
+  </div>
+  <div class="dim small" id="k-foot">colour = live cells in the layer (black = empty: an outer layer that empties can never be re-seeded, T2) · ticks = hull shrinks · boxes = firewalls (≥3 empty layers inside, T3)</div>
+</div>
+
 <aside id="panel">
   <header><b>gump</b> <span class="dim">faces of the cubic honeycomb · B45/S345</span></header>
 
@@ -29,7 +42,7 @@
       <span><i class="sw sz"></i>z <b id="popz">–</b></span>
     </div>
     <div class="dim" id="statsage"></div>
-    <canvas id="strip" width="300" height="90"></canvas>
+    <canvas id="strip" width="300" height="80"></canvas>
   </section>
 
   <section>
@@ -41,6 +54,7 @@
         <option value="10">10/s</option><option value="30">30/s</option><option value="60">60/s</option>
         <option value="200">200/s</option><option value="1000">1k/s</option><option value="max" selected>max</option>
       </select></label>
+      <label title="reduce statistics after every generation (exact strip and shrink log); off = sampled every ~40 ms, faster for small boxes"><input id="rec" type="checkbox" checked> every-gen stats</label>
     </div>
   </section>
 
@@ -48,6 +62,63 @@
     <h3>hull <span class="dim">layers s = d·p along body diagonals (only ever shrink)</span></h3>
     <table id="hull"></table>
     <div id="hullevents" class="events"></div>
+  </section>
+
+  <section>
+    <h3>view</h3>
+    <div class="form">
+      <label>render <select id="v-mode"><option value="auto">auto</option><option value="raymarch">ray-march (DDA)</option><option value="quads">quads (vertex-pulled)</option><option value="instanced">quads (instanced)</option></select></label>
+      <label>colour <select id="v-color"><option value="orientation">orientation</option><option value="layer">layer ABC along d</option><option value="change">born / survived / died</option></select></label>
+      <label>face size <input id="v-face" type="range" min="0.2" max="1" step="0.05" value="0.6"></label>
+      <label><input id="v-border" type="checkbox" checked> edges</label>
+      <label><input id="v-hull" type="checkbox" checked> hull</label>
+      <label><input id="v-box" type="checkbox" checked> box</label>
+      <label><input id="v-ortho" type="checkbox"> orthographic</label>
+      <button id="v-along" title="view straight down the chosen diagonal">look along d</button>
+      <button id="v-reset">reset camera</button>
+    </div>
+    <div id="legend" class="dim small"></div>
+  </section>
+
+  <section>
+    <h3>{111} slicer <span class="dim">show only layers lo ≤ d·p ≤ hi</span></h3>
+    <div class="form">
+      <label>d <select id="s-diag" class="diag"></select></label>
+      <label><input id="s-on" type="checkbox"> slice</label>
+      <label>lo <input id="s-lo" type="number" step="2"></label>
+      <label>hi <input id="s-hi" type="number" step="2"></label>
+    </div>
+    <div class="buttons">
+      <button id="s-down" title="[  move the slice down one layer">◀</button>
+      <button id="s-up" title="]  move the slice up one layer">▶</button>
+      <button id="s-one">1 layer</button>
+      <button id="s-facehi" title="the outermost live layer on the + side">face +</button>
+      <button id="s-facelo" title="the outermost live layer on the − side">face −</button>
+      <button id="s-all">whole hull</button>
+    </div>
+  </section>
+
+  <section id="editsec">
+    <h3>edit <span class="dim">construct a seed or edit a paused run</span></h3>
+    <div class="buttons"><button id="e-toggle" title="E">✎ edit</button><span id="e-status" class="dim"></span></div>
+    <div id="e-tools">
+      <div class="form">
+        <label>set <select id="e-kind"><option value="layer">{111} layer along d</option><option value="plane">axis plane</option></select></label>
+        <label data-e="plane">normal <select id="e-axis"><option value="0">x</option><option value="1">y</option><option value="2" selected>z</option></select></label>
+        <label>at <input id="e-coord" type="number" step="2"></label>
+        <button id="e-down" title="↓">◀</button><button id="e-up" title="↑">▶</button>
+        <label>symmetry <select id="e-sym"></select></label>
+        <span class="dim" id="e-centre"></span>
+      </div>
+      <div class="buttons">
+        <button id="e-fill">fill set</button>
+        <label><input id="e-rho" type="number" min="0" max="1" step="0.05" value="0.35"></label><button id="e-rand">random fill</button>
+        <button id="e-clearset">clear set</button><button id="e-clear">clear all</button>
+        <button id="e-undo" title="ctrl+z">undo</button>
+        <button id="e-run" title="Enter">done ▶ run</button>
+      </div>
+      <div class="dim small">click a slot of the set to toggle it (and its orbit) · drag to orbit · ↑↓ move the set · Esc done</div>
+    </div>
   </section>
 
   <section>
@@ -82,18 +153,7 @@
     </div>
     <div class="buttons"><button id="apply">reset to seed</button><button id="share">copy link</button></div>
   </section>
-
-  <section>
-    <h3>view</h3>
-    <div class="form">
-      <label>render <select id="v-mode"><option value="auto">auto</option><option value="raymarch">ray-march (DDA)</option><option value="quads">quads (vertex-pulled)</option><option value="instanced">quads (instanced)</option></select></label>
-      <label>face size <input id="v-face" type="range" min="0.2" max="1" step="0.05" value="0.6"></label>
-      <label><input id="v-border" type="checkbox" checked> face edges</label>
-      <label><input id="v-hull" type="checkbox" checked> hull</label>
-      <label><input id="v-box" type="checkbox" checked> box</label>
-    </div>
-  </section>
-  <footer class="dim">space play · . step · 1–9 legacy keys · drag orbit · wheel zoom</footer>
+  <footer class="dim">space play · . step · E edit · [ ] move slice · 1–9 legacy keys · drag orbit · wheel zoom</footer>
 </aside>
 <script type="module" src="./src/main.js"></script>
 </body>

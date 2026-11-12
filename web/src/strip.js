@@ -8,9 +8,9 @@ export class Strip {
   constructor(canvas) { this.canvas = canvas; this.clear(); }
   clear() { this.g = []; this.p = []; this.c = [[], [], []]; this.dirty = true; }
   add(gen, pop, count) {
-    if (this.g.length && gen <= this.g[this.g.length - 1]) {          // same generation re-sampled
-      if (gen === this.g[this.g.length - 1]) return;
-      this.clear();
+    if (this.g.length && gen <= this.g[this.g.length - 1]) {
+      if (gen === this.g[this.g.length - 1]) { this.g.pop(); this.p.pop(); this.c.forEach(a => a.pop()); }   // re-sampled (e.g. after an edit)
+      else this.clear();
     }
     this.g.push(gen); this.p.push(pop); count.forEach((v, i) => this.c[i].push(v));
     if (this.g.length > 4000) {                                          // decimate, keep the shape
