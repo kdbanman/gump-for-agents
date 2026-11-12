@@ -106,9 +106,11 @@ T2–T3 hold for any outer-totalistic rule on this neighbourhood whose smallest 
   a vertex (`n` even), full O_h symmetry. Its hull radius is `3n − 2` (L1, doubled units,
   about its centre), i.e. the hull is **3× wider than the seed**.
 - Number-key seeds (`generateFull`, key `K ∈ 1..9`, `H = 50`): every valid cell with all
-  coordinates in `[lo, lo + K + 8]`, `lo = H/2 − (K+8)/2` (integer division). Even `K`:
-  both ends even (an "open" cube, O_h-symmetric). Odd `K`: one end odd, one even — symmetric
-  only under permutations of the axes (C₃ᵥ about the `(1,1,1)` diagonal).
+  coordinates in `[lo, lo + K + 8]`, `lo = H/2 − (K+8)/2` (integer division). At `H = 50`:
+  `K = 4, 8` have both ends odd — **closed** cubes of side 6 and 8 (key 8 is exactly the
+  golden side-8 run, ending static at 384 cells). `K = 2, 6` have both ends even — "open"
+  cubes (no caps; O_h-symmetric). Odd `K`: one end odd, one even — symmetric only under
+  permutations of the axes (C₃ᵥ about the `(1,1,1)` diagonal); these flatten into `{111}` slabs.
 - Logs are `generation population` lines; line 0 is `0 0` (the seed's population was never
   recorded), line `g ≥ 1` is the population after `g` iterations. Logs stop when the
   state went static.
