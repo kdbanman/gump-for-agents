@@ -13,6 +13,9 @@ Scripts (all small; bulk output goes to `research/scratch/phase/`, `S` below). E
 | `front.py`, `front_planar.py $S/fplanar72.npz 72 110 4` | chaos→vacuum fronts (box seed; planar {100}/{110}/{111} fronts) |
 | `survey.py torus/vessel` | rule survey (all B ⊆ {4..7} non-empty × S ⊆ {2..7}, 960 rules) |
 | `rulemap.py $S/survey_torus.jsonl $S/survey_vessel.jsonl` | → `rules.csv` (one row per rule) and `../figures/phase_rulemap.png` |
+| `sym.py soup/classes/mf` | symmetric torus soups (oh, th, td, d2h; mirrors mod 2N), density per symmetric-site class, orbit mean field |
+| `sym_torus_life.sh G N RUNS CAP OUT` | lifetimes of symmetric whole-torus soups (set `GUMP` to an engine binary) |
+| `fig_sym.py` | → `../figures/phase_symmetry.png` (site classes; symmetric vessel and torus lifetimes) |
 | `fig_bulk.py` | → `../figures/phase_bulk.png`, `../figures/phase_spread.png` |
 
 `rules.csv` columns: `torus` class over four whole-torus soups (24³, p0 0.15/0.3/0.5/0.7, 3000 gens:
