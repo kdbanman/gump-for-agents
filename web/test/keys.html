@@ -1,0 +1,33 @@
+<!doctype html><html><body><pre id="log"></pre><script type="module">
+// Legacy key seeds 1-9 in exact (auto, dead-outside) boxes: hull widths over time, until static.
+import { Sim } from '../src/gl/sim.js';
+import { Stats } from '../src/gl/stats.js';
+import { makeSeed, autoBox, placeSeed } from '../src/seeds.js';
+const gl = document.createElement('canvas').getContext('webgl2');
+const out = [];
+const maxGen = Number(new URLSearchParams(location.search).get('max') || 20000);
+for (let k = 1; k <= 9; k++) {
+  const seed = makeSeed({ seed: 'key', k });
+  const box = autoBox(seed.pts);
+  const cells = new Uint8Array(box.dims[0] * box.dims[1] * box.dims[2]);
+  placeSeed(seed.pts, box.dims, box.shift, false, cells);
+  const sim = new Sim(gl, ...box.dims, {}), stats = new Stats(gl, sim.layout);
+  sim.upload(cells);
+  const width = (s) => s.loS ? s.hiS.map((h, n) => (h - s.loS[n]) / 2 + 1) : [0, 0, 0, 0];
+  const w0 = width(stats.computeSync(sim.texture));
+  let g = 0, prev = null, last, staticAt = null, firstFlat = null;
+  while (g < maxGen) {
+    sim.step(1); g++;
+    if (g % 2 === 0 || g < 50) {
+      const t = sim.readTexels();
+      if (prev && t.every((v, i) => v === prev[i])) { staticAt = g; break; }
+      if (g % 2 === 0) prev = t;
+    }
+  }
+  last = stats.computeSync(sim.texture);
+  out.push({ k, dims: box.dims.join('x'), seedPop: seed.pts.length / 3, hullStart: w0.join('/'), end: staticAt ? `static/period<=2 by ${staticAt}` : `running at ${g}`, finalPop: last.pop, hullEnd: width(last).join('/') });
+  document.getElementById('log').textContent += JSON.stringify(out[out.length - 1]) + '\n';
+  stats.dispose(); sim.dispose();
+}
+window.__results = out;
+</script></body></html>

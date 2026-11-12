@@ -9,7 +9,7 @@ const server = await serve(0);
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1280, height: 800 } });
 page.on('pageerror', e => console.log('PAGE ERROR', e.message));
-await page.goto(`http://127.0.0.1:${server.address().port}/web/test/${pageName}?${args.join('&')}`);
+await page.goto(`http://127.0.0.1:${server.address().port}/web/test/${pageName}?${args.join('&')}`, { waitUntil: 'commit' });
 await page.waitForFunction(() => window.__results, null, { timeout: 0, polling: 500 });
 for (const r of await page.evaluate(() => window.__results)) console.log(JSON.stringify(r));
 await browser.close(); server.close();
