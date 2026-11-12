@@ -217,3 +217,25 @@ fn symmetric_soups_density_and_invariance() {
         }
     }
 }
+
+#[test]
+fn occupancy_counts() {
+    // period-14 oscillator from a soup: counts over one period sum to the sum of phase pops
+    let cells = seeds::soup(&Region::Oct { center: [0, 0, 0], r: 8 }, 0.3, 20);
+    let mut sim = open_sim(&cells, 1, Rule::GUMP);
+    sim.steps(48);
+    let mut pops = 0;
+    let mut probe = sim.clone();
+    for _ in 0..14 {
+        pops += probe.population();
+        probe.step();
+    }
+    let occ = gump::occupancy::Occupancy::accumulate(&mut sim, 14);
+    assert_eq!(occ.counts.iter().map(|&c| c as u64).sum::<u64>(), pops);
+    assert!(occ.nonzero().iter().all(|&(_, c)| c <= 14));
+    // npy header is 64-byte aligned
+    let b = occ.npy();
+    let hl = u16::from_le_bytes([b[8], b[9]]) as usize;
+    assert_eq!((10 + hl) % 64, 0);
+    assert_eq!(b.len(), 10 + hl + 4 * occ.counts.len());
+}

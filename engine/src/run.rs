@@ -28,11 +28,13 @@ pub struct RunOpts {
     pub need_layers: bool,
     /// detect cycles by hashing every generation (window = hashes kept)
     pub hash_window: usize,
+    /// write a snapshot to this file every N generations (atomically: tmp + rename)
+    pub checkpoint: Option<(String, u64)>,
 }
 
 impl Default for RunOpts {
     fn default() -> Self {
-        RunOpts { max_gens: None, stop_on_halt: true, every: 0, layers_in_samples: false, need_layers: false, hash_window: 1 << 20 }
+        RunOpts { max_gens: None, stop_on_halt: true, every: 0, layers_in_samples: false, need_layers: false, hash_window: 1 << 20, checkpoint: None }
     }
 }
 
@@ -306,6 +308,14 @@ pub fn run(sim: &mut BitSim, opts: &RunOpts, sinks: &mut Sinks) -> RunResult {
                             d.forget(acc.hash);
                             d.observe(g, acc.hash);
                         }
+                    }
+                }
+            }
+            if let Some((path, n)) = &opts.checkpoint {
+                if *n > 0 && g % n == 0 {
+                    let tmp = format!("{path}.tmp");
+                    if std::fs::write(&tmp, crate::snapshot::Snapshot::from_sim(sim).encode()).is_ok() {
+                        let _ = std::fs::rename(&tmp, path);
                     }
                 }
             }

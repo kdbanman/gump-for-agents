@@ -11,6 +11,7 @@ pub mod snapshot;
 pub mod sym;
 pub mod lanes;
 pub mod lattice;
+pub mod occupancy;
 pub mod rule;
 pub mod scalar;
 

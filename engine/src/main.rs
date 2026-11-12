@@ -25,6 +25,11 @@ USAGE
   gump show     [SEED] [SPACE] [--gens G] [VIEW]          text rendering (kagome layers / slices)
   gump png      [SEED] [SPACE] [--gens G] --view V --out F   PNG image
   gump describe [SEED] [--gens G] [--as-is] [--catalogue F]  period, symmetry, layers, pieces (JSON)
+  gump occupancy [SEED] [SPACE] --from G0 --to G1 [--layer S --diag D] [--png F] [--npy F] [--csv F]
+                 fraction of generations in [G0, G1) each cell is live: text map of layer S
+                 (kagome layout, digit = floor(10 x fraction), · = never live; sites inside the
+                 hull at G0), radial profile, PNG (--scale, --vmax), whole box as .npy counts
+                 (shape 3,NZ,NY,NX) or CSV x,y,z,count; --lite: JSON only
 
 SHOW (text)   default: the pattern as its stack of {111} layers along the diagonal it is
               thinnest in; each layer is a kagome lattice (● live, · dead site, blank =
@@ -76,6 +81,10 @@ RUN OPTIONS
   --lite                   samples without layer analysis (no hull/firewalls; faster on huge tori)
   --threads T              threads per generation (default 1; for big tori on an idle machine)
   --hash-window N          generations remembered for cycle detection (default 1048576)
+  --checkpoint F [--checkpoint-every N]   rewrite snapshot F (atomically) at every generation
+                           divisible by N (default 1e7); resume with --snapshot F. A resumed
+                           run starts its halting detection afresh: a cycle entered before
+                           the resume point is reported as starting at the resume generation
 
 OUTPUTS
   --out FILE               time series (default stdout); --format jsonl|csv
@@ -434,6 +443,7 @@ fn run_opts(a: &Args, default_cap: u64) -> RunOpts {
         layers_in_samples: a.flag("layers"),
         need_layers: !a.flag("lite") || a.flag("layers") || a.get("kymo").is_some() || a.get("events").is_some(),
         hash_window: a.num("hash-window").unwrap_or(1 << 20),
+        checkpoint: a.get("checkpoint").map(|f| (f, a.num("checkpoint-every").unwrap_or(10_000_000))),
     }
 }
 
@@ -1003,6 +1013,83 @@ fn cmd_describe(a: &Args) {
     emit_line(&gump::describe::describe(&sim.cells(), rule, cap, as_is, cat.as_ref()));
 }
 
+fn cmd_occupancy(a: &Args) {
+    let from: u64 = a.num("from").unwrap_or(0);
+    let to: u64 = a.num("to").unwrap_or_else(|| die("occupancy needs --to G1 (window [--from, --to))"));
+    if to <= from {
+        die("--to must exceed --from");
+    }
+    let d: usize = a.num("diag").unwrap_or(0);
+    let layer_s: Option<i64> = a.num("layer");
+    let png = a.get("png");
+    let npy = a.get("npy");
+    let csv = a.get("csv");
+    let scale: f64 = a.num("scale").unwrap_or(10.0);
+    let vmax: f64 = a.num("vmax").unwrap_or(1.0);
+    let quiet = a.flag("lite");
+    let sp = seed_params(a);
+    let seed = build_seed(a, &sp);
+    let rule = if a.get("rule").is_some() { sp.rule } else { seed.rule.unwrap_or(sp.rule) };
+    let (mut sim, _) = make_sim(a, &seed, rule);
+    a.get("margin");
+    a.get("origin");
+    a.check_unused();
+    let h0 = gump::instruments::sample(&sim, true).hull();
+    sim.restrict_to_hull(h0.as_ref());
+    sim.steps(from - sim.generation().min(from));
+    let s0 = gump::instruments::sample(&sim, true);
+    let hull = s0.hull();
+    let t0 = Instant::now();
+    let occ = gump::occupancy::Occupancy::accumulate(&mut sim, to - from);
+    let mut o = Obj::new()
+        .f("type", "occupancy")
+        .f("seed", &seed.desc)
+        .f("from", &from)
+        .f("to", &to)
+        .f("frames", &occ.frames)
+        .f("hull_at_from", &Raw(hull_json(&hull)))
+        .f("mean_pop", &(occ.counts.iter().map(|&c| c as u64).sum::<u64>() as f64 / occ.frames as f64))
+        .f("dims", &occ.geo.n)
+        .f("origin", &occ.geo.origin);
+    if let Some(s) = layer_s {
+        let sites = occ.layer_sites(d, s, hull.as_ref());
+        let center = match &hull {
+            Some(h) => {
+                let (lo, hi) = h.doubled_bbox();
+                [(lo[0] + hi[0]) as f64 / 2.0, (lo[1] + hi[1]) as f64 / 2.0, (lo[2] + hi[2]) as f64 / 2.0]
+            }
+            None => [0.0; 3],
+        };
+        let prof = occ.radial_profile(d, &sites, center);
+        let mean = sites.iter().map(|&p| occ.frac(p)).sum::<f64>() / sites.len().max(1) as f64;
+        if !quiet {
+            emit_line(&format!("occupancy of layer s={s} along {:?}, gens [{from}, {to}): digit = floor(10 x fraction live), · = never live", gump::lattice::DIAGS[d]));
+            for l in occ.layer_text(d, s, &sites) {
+                emit_line(&l);
+            }
+        }
+        if let Some(f) = &png {
+            std::fs::write(f, occ.layer_png(d, s, &sites, scale, vmax).png()).unwrap_or_else(|e| die(&format!("{f}: {e}")));
+        }
+        let pj: Vec<Raw> = prof.iter().map(|&(r, m, n)| Raw(Obj::new().f("r", &r).f("mean", &m).f("sites", &n).end())).collect();
+        o = o.f("layer", &Raw(Obj::new().f("dir", &gump::lattice::DIAGS[d]).f("s", &s).f("sites", &sites.len()).f("mean", &mean).f("radial_profile", &pj).end()));
+    } else if png.is_some() {
+        die("--png needs --layer S");
+    }
+    if let Some(f) = &npy {
+        std::fs::write(f, occ.npy()).unwrap_or_else(|e| die(&format!("{f}: {e}")));
+        o = o.f("npy", f).f("npy_layout", "counts[a][k][j][i], cell (a,i,j,k) at doubled 2(i+OX, j+OY, k+OZ) + e_a");
+    }
+    if let Some(f) = &csv {
+        let mut t = String::from("x,y,z,count\n");
+        for (p, c) in occ.nonzero() {
+            t.push_str(&format!("{},{},{},{}\n", p[0], p[1], p[2], c));
+        }
+        std::fs::write(f, t).unwrap_or_else(|e| die(&format!("{f}: {e}")));
+    }
+    emit_line(&o.f("elapsed_s", &t0.elapsed().as_secs_f64()).end());
+}
+
 fn main() {
     let a = Args::parse();
     match a.cmd.as_str() {
@@ -1014,6 +1101,7 @@ fn main() {
         "show" => cmd_show(&a),
         "png" => cmd_png(&a),
         "describe" => cmd_describe(&a),
+        "occupancy" => cmd_occupancy(&a),
         "help" | "--help" | "-h" => print!("{HELP}"),
         c => die(&format!("unknown command '{c}' (try gump help)")),
     }
