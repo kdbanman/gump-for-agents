@@ -110,16 +110,42 @@ fill the hull). Neither touches the 0.05τ tail: under-0.05 counts are 88 vs 74 
 `python3 research/lineage/perturb.py 13 TS 150 4 3`; `python3 research/lineage/analyze_perturb.py [CSV] [R]`. For each
 of 150 structured lineages alive at TS, the state at TS was continued unperturbed (it reproduces the lineage's own
 remaining wait exactly in all 150 cases — a check of `--cells` restarts) and as 4 copies each with one distinct live
-orbit killed. Residuals in units of τ_e:
+orbit killed. Residual waits (time from TS to the death of that plateau's layer) in units of τ_e. The two batches
+use the same lineages at TS = 20,000 and 40,000, so their unperturbed residuals are not independent (they differ by
+20,000 generations); they are shown separately.
 
-PERTURB_TABLE
+| | sources | unperturbed: mean, CV, > 4τ (exp.) | copies: n, mean, CV, > 4τ (exp.) | KS p (unpert. / copies) | Spearman(own, mean of copies) | copies: Kruskal–Wallis over sources, ICC of ln x |
+|---|---|---|---|---|---|---|
+| TS = 20,000 | 148 | 1.03, 1.22, 6 (2.7) | 592, 1.00, 0.94, 8 (10.8) | 0.26 / 0.87 | +0.20 (p 0.016) | p 0.054, +0.06 |
+| TS = 40,000 | 149 | 1.10, 1.20, 8 (2.7) | 596, 1.05, 0.96, 13 (10.9) | 0.33 / 0.06 | +0.23 (p 0.005) | p 0.12, +0.03 |
+| both, sources at r = 33 only | 215 | 1.14, 1.14, 11 (3.9) | 860, 1.05, 0.94, 16 (15.8) | 0.52 / 0.14 | +0.17 (p 0.011) | p 0.043, +0.05 |
+
+(`python3 research/lineage/analyze_perturb.py research/scratch/lineage/perturb_13_20000.csv`, `… perturb_13_40000.csv`,
+`… --r=33`; the curated CSVs are in `data/`.)
+
+- **Copies are exponential and statistically identical to fresh lineages** (mean 1.00–1.05, CV 0.94–0.96, tails as expected).
+- **The lineage's own continuation is mildly long-tailed in this sample** (6 and 8 beyond 4τ where 2.7 were expected;
+  P ≈ 0.06 and 0.02 for each batch alone, not independent). But these unperturbed residuals are simply the
+  lineages' own first plateaus, and over all 612 structured first plateaus the tail is 15 vs 11.2 (§1): this sample
+  of 150 is not representative of anything special. [measured]
+- **Surprise: copies remember their source a little.** The mean residual of a source's four copies rises with the
+  source's own residual: by tertile of the own residual (means 0.17, 0.61, 2.3 τ), the copies' means are 0.89, 0.98, 1.13
+  (TS = 20,000) and 0.90, 1.03, 1.21 (TS = 40,000). The rank correlation survives dropping all waits under 0.2 τ
+  (ρ = +0.30 and +0.29, p = 0.001 each), so it is not the shared first few hundred generations after TS (a face
+  already in its final plunge); and it does not depend on seed family (Kruskal–Wallis over families p 0.44, 0.96).
+  So a state carries a slow variable that sets its hazard to within roughly ±15–25% and outlives a one-orbit flip
+  for at least ~0.2 τ ≈ 5×10⁴ generations. [measured] What it is (debris in the face layer's corners and edges?
+  a slow mode of the layer-population profile?) is not known. [conjecture] It resets, or is too weak to see, across
+  a peel (§2: consecutive plateaus uncorrelated).
+- **It is far too weak for the cube puzzle.** A hazard multiplier spread of ±25% that held for a whole plateau would raise
+  the CV of residences only to ≈ 1.05 and the fraction beyond 4τ from 1.8% to ≈ 2.5%; the cubes need ≈ 19%.
 
 ### 5. The cube anomaly itself, re-tested [measured]
 
 `python3 research/lineage/cube_recheck.py` (200,000 Monte Carlo replicas of 16 plateaus):
 - with each τ drawn from its posterior (deaths, exposure; the ×1.6 vertex factor with 15% spread):
   P(sum ≥ 27.2) = 0.009, P(≥ 3 beyond 4τ) = 0.011;
-- with the null taken as the empirical shape of 4,277 lineage plateaus instead of an exact exponential:
+- with the null taken as the empirical shape of 4,517 lineage plateaus instead of an exact exponential:
   P(sum ≥ 27.2) = 0.008, P(≥ 3 beyond 4τ) = 0.004, P(≥ 3 under 0.05) = 0.039, both together 0.0001;
 - look-elsewhere over the four statistics (sum, > 4, < 0.05, KS): the smallest p (0.003) is reached by chance
   with probability 0.008.
@@ -135,4 +161,9 @@ Remember also that the statistic was chosen after side 16 finished.
   plateaus at 38v and none above. [conjecture] A size-specific lineage effect appearing only above R = 38 is not excluded,
   but there is no mechanism for it, copies of the side-16 state at R = 40 and 42 agree with soups
   (`research/fluct/`), and nothing at 31–38 trends toward it.
-- The weak source effect in §4 (see the table) is below what could produce the cube tails even if real.
+- The slow variable of §4: what it is, how long it lasts (≥ 0.2 τ; the test here cannot see beyond the plateau), and
+  whether it is larger in bigger faces. A cheap next step: copies made at several lags after a common source, to
+  measure the decay of the own/copy correlation; and a search for what distinguishes high- from low-hazard states
+  (`gump occupancy` maps of the outer layer for the top and bottom tertile).
+- The cube-in-shell lineages at 35c (after a peel from 37c) ran short, 0.57 τ_q (35 deaths); probably one of many
+  comparisons, not followed up.
