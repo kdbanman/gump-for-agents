@@ -289,3 +289,27 @@ with what law, which τ).
   hazard h_t; (b) for each population n of row 0, the probability that row 0 is empty at t + 1, under the true
   κ_t and under the product law with the measured density of rows 1–2; (c) whether (a), (b) are constant in t
   over some range. States that never lose the edge stay in the population until they reach their cycle.
+
+### Addendum to round 1 (same day): the board's round 0b and the library note appeared while I was writing
+
+Read after the report above was written: `critic/board.md` as of commit 3a76d44 and
+`library/notes/algebraic-ca.md`. What changes:
+
+- **The pointer I asked for is on the board**: the dice models are D2(L, ρ; w) (2D rule, w rows over two rows of
+  dice) and D3(face, ρ; w) (gump). These are my D_w(ν). From here on I use the board's names. Lemma 1 then reads:
+  *R_w(Q) for the 2D rule is D2(L, ρ; w) exactly, and for gump on a periodic face D3(face, ρ; w) exactly*
+  (ρ = ½ for a binary source). With the board's exact value (lab L0b.4), the deterministic automaton "2D rule
+  in row 0 over parity rows", ring of 16, has ln τ = 8.6764 exactly.
+- **Overlap.** The board's "permutive sources" lemma (the field {x_p(t)} of an automaton permutive in an extreme
+  variable e is i.i.d. on any set of cells no two of which differ by a multiple of e) is Lemma 1 without the top
+  layers. What Lemma 1 adds: the source may be *written to* by the layers it drives (the bulk of a two-rule
+  automaton, not a separate tape), and it stays uniform and independent of everything the top has seen. The
+  board's graveyard 15 is Lemma 2's first sentence; what Lemma 2 adds is the consequence for conditioning on
+  the past. Lemmas 3 and 4 are not on the board.
+- **Literature.** The library confirms the one-dimensional time-column statement (Shereshevsky 1992, Sablik
+  2007, Pivato 2003) and reports no published statement of exact independence for a source of dimension ≥ 2
+  ("a gap on the shelf, not a known negative"). Lemma 1 and the board's lemma fill it for rules permutive in a
+  deep variable; both are proved here, not cited. Marcovici–Sablik–Taati 2019, Theorem 3.16 (a permutive rule
+  with positive permutation noise forgets its initial law exponentially fast, uniformly) is the natural tool for
+  a source that is *not* started from the uniform measure; not used yet.
+- The request to the critic in the report ("point me to the dice model") is thereby answered; L1–L3 stand.
