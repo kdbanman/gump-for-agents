@@ -29,12 +29,11 @@ _Last updated 2026-11-13 by the lead._
   `swarm/PROBLEM.md`; results in each `journal.md` and `claims.md`; the critic's map is `swarm/critic/board.md`
   (its first pass already corrected several numbers the lead had been quoting: read E1–E11). The lead drives the
   rounds (`LEAD.md`, "The swarm"). Nothing in it is established until a fresh reader has audited it.
-- GPU session "Modal API" (see `LEAD.md`): pull request 8 is open (`research/gpu/`). UNVERIFIED claims in it: the
-  asymmetric face law curves upward beyond A = 84 (ln τ = 23.38 at A = 108, 29.3 at A = 135; the extrapolated
-  0.2077 would be wrong); symmetric forecasts at A = 759, 828 hit; O_h soup lineages memoryless at R = 36–40 v;
-  τ(R = 40 v) = 8.6×10⁷, not 7.1×10⁷. An Opus reviewer is trying to break it: `research/audit/REVIEW-gpu-pr8.md`.
-  Before merging: read the review, re-derive one headline number, then record (notebook, CLAIMS, fluct README,
-  OPEN-PROBLEMS 6, 8, 9, and `cube_vs_ensemble.py` if τ at R = 40 changes).
+- GPU session "Modal API" (see `LEAD.md`): pull request 8 reviewed and merged 2026-11-13 (notebook entry; review in
+  `research/audit/REVIEW-gpu-pr8.md`; corrected reading at the top of `research/gpu/README.md`). Fixes asked of
+  that session, not yet done: reword four statements, commit the negative controls, make failed checks exit
+  non-zero, refuse duplicate (vessel, seed) runs. Asked next: slab faces at A > 90, octahedral faces at A ≥ 165,
+  a longer cube-centred symmetric run (does the death rate really fall with age?).
 
 ## Next (lead's list; pick by judgment)
 - Lineage study is in (notebook 2026-11-13, `research/lineage/`): cube-like seeds wait like soups at R ≤ 38. Open from it:
@@ -81,7 +80,8 @@ _Last updated 2026-11-13 by the lead._
    **Face death is the stationary tail, measured to one cell** (`research/fluct/README.md`):
    ln P(n = k) is straight down to k = 1, the death rate is its next point (h ≈ 0.6·P(n = 1)),
    62% of deaths are from a single cell, the usual 3-cell ember is one kagome triangle;
-   −ln h/A → 0.2077 ± 0.0014 + 0.55/A. Path-splitting (FFS) does not help: the plunge takes
+   −ln h/A → 0.2077 ± 0.0014 + 0.55/A [retired 2026-11-13: the fit missed its own data; measured local
+   slopes rise to 0.221 at A = 135, limit unknown]. Path-splitting (FFS) does not help: the plunge takes
    ~10 generations. Brute force on an O_h orbit-reduced stepper (`research/fluct/fl.c`) does.
 5. Debris is built from a small fauna: cubes, kagome hexagons, vertex stars (a sealed
    12-cell universe), hinged period-2 flippers, and rare clockwork up to period 66.

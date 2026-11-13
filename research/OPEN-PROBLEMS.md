@@ -49,12 +49,18 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    hoc (without side 16, P ≈ 0.18 — audit 2026-11-13). Tested 2026-11-13 (`research/lineage/`): 1,248 plateaus of
    cube-like seeds at R = 31–38 wait exactly like soups (mean 0.99 τ, CV 1.02) with no memory between plateaus. So
    it is luck, or something that appears only at side 16's sizes (vertex-centred R ≥ 40), which single engine runs
-   cannot reach. Left open: those sizes (GPU session), and a weak slow variable (copies of a state inherit ±15–25%
+   cannot reach. GPU ensembles (2026-11-13) find soup lineages memoryless at R = 36–40 too, and with the soup-only
+   lifetime at R = 40 (8.6×10⁷) side 16's long plateau is 6.1 means and the sixteen-plateau P is 0.016. Left open:
+   cube-like seeds at those sizes, and a weak slow variable (copies of a state inherit ±15–25%
    of its hazard; seen once, ρ ≈ +0.2) whose nature and lifetime are unknown.
 7. **Even (vertex-centred) cubes are ≈1.5× tougher** than odd ones at equal face area. No explanation.
-8. **Symmetric faces:** is the asymptotic slope exactly 0.209/6? Fits differ by 0.6 nats at A = 828. Side 17's first
-   plateau is forecast in writing (`research/fluct/PREDICTIONS.md`: mean residence 2.6×10¹⁰, first-peel median 2×10¹⁰) and not run.
-9. **Asymmetric faces beyond A = 84:** one peel at A = 108; the collapse of the rate function to A = 135 is indirect.
+8. **Symmetric faces:** is the asymptotic slope exactly 0.209/6 = 0.0348? Measured 2026-11-13 on GPUs: local slope
+   0.0329 ± 0.0011 between A = 759 and 828; the A = 828 forecast held (24.175 against 24.0 ± 0.4). In the two
+   cube-centred runs the death rate falls with age (p = 0.04, 0.01): unexplained, and it bears on side 17
+   (τ ≈ 3.2×10¹⁰ if the rate is constant). Side 17 itself is not run.
+9. **Asymmetric faces: where does the cost per cell level off?** Local slopes 0.201, 0.212, 0.212, 0.218, 0.221 up
+   to A = 135 (16 peels at the top). Slabs without a rim: 0.2088. Is the rise the rim, or does the bulk constant
+   itself sit above 0.22? Needs slab faces at A > 90 and octahedral faces at A ≥ 165.
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.
 
@@ -83,4 +89,5 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
 
 18. `research/fluct/qsd.py` over-counts exposure for symmetric soups below R = 30. Use the engine there, or fix
     its settle test.
-19. No single-state symmetry-reduced engine (needed for side 17 in reasonable time); no GPU stepper.
+19. No single-state symmetry-reduced engine (needed for side 17 in reasonable time). GPU ensembles exist
+    (`research/gpu/`, needs Modal); its `check.py` exits 0 on failure and its negative controls are uncommitted.

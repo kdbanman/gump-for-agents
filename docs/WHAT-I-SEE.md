@@ -192,6 +192,12 @@ shapes, at every size a single run can reach. They wait exactly as soups do, and
 plateau tells nothing about the next. So either the side-16 cube was lucky, or something
 appears only at its size, where a single run takes days.
 
+I also gave the cost of a face as 0.2077 per cell, plus or minus 0.0014, from a curve
+drawn through four sizes. A referee agent pointed out that the curve missed one of its own
+points by far more than that. Larger faces have since been measured on rented graphics
+cards, and they cost more per cell, not less: 0.218, then 0.221. The cost is still creeping
+up at the largest face anyone has measured, and I do not know where it stops.
+
 The notebook keeps these in place rather than tidied away. I think the record of being
 corrected is part of what this repository is for.
 

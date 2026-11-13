@@ -896,3 +896,32 @@ schedules already on record. Not checked: the runs themselves were not repeated,
   quoted claims match the notes. Not checked: the other 57 sources. Several primaries (Tél–Lai 2008,
   Bramson–Neuhauser 1994, Crutchfield–Kaneko 1988) sit behind publisher pages that refuse agents.
 
+## 2026-11-13 — GPU ensembles: larger faces cost more per cell; two forecasts hold (GPU session; reviewed; lead's check)
+
+The second session's work (`research/gpu/`, data in `research/data/gpu_facelaw/`; merged as pull request 8 after an
+adversarial review, `research/audit/REVIEW-gpu-pr8.md`).
+
+- **[measured] Asymmetric octahedral faces beyond A = 84.** ln τ_face = 23.376 ± 0.031 at A = 108 (1,059 peels) and
+  29.34 ± 0.25 at A = 135 (16 peels). With the verified smaller sizes (6.804, 9.819, 13.633, 18.077 at A = 30…84)
+  the local slopes are 0.201, 0.212, 0.212, 0.218, 0.221: the cost per cell is still rising. My extrapolated
+  "0.2077 ± 0.0014" is retired: its fit missed one of its own points by 28 standard errors. The limit is unknown.
+  Rim-free slab faces sit at 0.2088 ± 0.0009 (A = 27–90), so part of the rise may be the rim: these faces are
+  mostly rim cells (swarm board E3).
+- **[measured] Symmetric faces; forecasts written first.** Cube-centred A = 759: 21.903 ± 0.031; A = 828:
+  24.175 ± 0.072 (my forecast 24.0 ± 0.4: inside); vertex-centred A = 759: 22.409 ± 0.040. Vertex/cube factor 1.66
+  at A = 759. Local slope 759 → 828: 0.0329 ± 0.0011 (0.209/6 = 0.0348). Side 17's first plateau: τ ≈ 3.2×10¹⁰.
+  Caveat (review): the cube-centred death rate falls with age in both runs (p = 0.04, 0.01).
+- **[measured] Memoryless at R = 36, 38, 40** (vertex-centred O_h soups; τ = 2.25×10⁶, 1.25×10⁷, 8.63×10⁷), which
+  reaches one of side 16's sizes. About 0.5–1% of peels are followed by the next layer within ~20 generations
+  (the same double peels the lineage study saw).
+- **τ at R = 40 and the side-16 puzzle.** `cube_vs_ensemble.py` used 7.1×10⁷, which pools soups with copies of the
+  cube itself. With the soup value the R = 40 plateau is 6.1 τ (P = 0.002), not 7.4, and the sixteen-plateau sum has
+  P = 0.016, not 0.008. Still post hoc; a little weaker.
+- **How it was checked.** Reviewer: every table re-derived from committed data; kernel B emulated on a CPU and
+  compared with `fl.c` and the engine (exact; broken kernels caught); an independent CPU run at A = 84
+  (18.154 ± 0.025 against 18.141); duplicate-soup search (none beyond chance). Lead: A = 108 and A = 135 from the raw
+  death lists with separate code (23.376, 29.341), and the split of A = 108 deaths by age (596 before half-time, 463
+  after; 587 and 472 expected for a memoryless wait with reseeding). Not checkable here: execution on the GPU
+  itself, and any size ≥ 108 against a second implementation.
+- Corrections to the pull request's own wording are at the top of `research/gpu/README.md`.
+

@@ -43,6 +43,11 @@ Tags: **[proved]**, **[measured]** (n, error, command), **[conjecture]**. Comman
 > Audit 2026-11-13: correction 2 below is right about the number (2300) but wrong about the cause — the start
 > time makes no difference; the lead's 2,600 was a 1.7σ high sample of 240 runs. And the "3.3" of correction 3 is
 > 2.0 for fresh soups, 2.4 with the cube's copies pooled (`sym_fit.py` prints both).
+> 2026-11-13, late: **"I(0) = 0.2077 ± 0.0014 + 0.55/A" is retired.** That fit misses its own A = 45 point by 0.08
+> nats (28 standard errors), so the error bar was not one. Measured lifetimes: ln τ = 6.804, 9.819, 13.633, 18.077
+> (A = 30…84, here) and 23.376 ± 0.031, 29.34 ± 0.25 (A = 108, 135; `research/gpu/`, reviewed). Local slopes 0.201,
+> 0.212, 0.212, 0.218, 0.221: the cost per cell of an octahedral face is still rising at A = 135, and its limit is
+> not known. Rim-free slab faces: 0.2088 ± 0.0009 (A = 27–90). The forecast for A = 828 (24.0 ± 0.4) held: 24.175 ± 0.072.
 
 ## Verdict
 

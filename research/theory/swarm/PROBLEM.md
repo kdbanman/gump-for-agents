@@ -12,7 +12,8 @@ hull's outer face layers one at a time. The wait for a face of A cells to die is
     ln τ_face ≈ c + γ·A        (γ ≈ 0.21–0.22 per cell)
 
 Verified: A = 30, 45, 63, 84 on octahedral hulls, and rim-free slab faces A = 27–90 (slope 0.2088 ± 0.0009).
-Unverified: A = 108, 135 (a GPU session's numbers, under review).
+Reviewed 2026-11-13: A = 108, 135 (GPU ensembles; tables re-derived, kernel emulated exactly on a CPU; no second
+implementation at those sizes).
 
 The same happens one dimension down: for the 2D rule B34/S234 on the range-2 cross (`research/toy2d/`),
 an edge row of L cells dies after a memoryless wait with ln τ_edge ≈ c′ + γ₂·L, γ₂ between 0.36 and 0.42
@@ -58,7 +59,7 @@ Partial results are wanted. A proved lemma beats a plausible theory. A theorem h
 | fact | where |
 |---|---|
 | gump, octahedral faces: ln τ = 6.804, 9.819, 13.633, 18.077 at A = 30, 45, 63, 84; local slopes 0.201, 0.212, 0.212 (level or rising; these faces are mostly rim, board E3) | fluct README; board E2 |
-| **unverified**: ln τ_face = 23.376 ± 0.031, 29.34 ± 0.25 at A = 108, 135 (local slopes 0.218, 0.221) | pull request 8 |
+| ln τ_face = 23.376 ± 0.031, 29.34 ± 0.25 at A = 108, 135 (local slopes 0.218, 0.221): reviewed, see `research/audit/REVIEW-gpu-pr8.md`; the cost per cell is still rising | `research/gpu/README.md` |
 | the living face's population n has a log-tail roughly straight down to n = 1 (ratio p_k/p_{k+1} ≈ 0.6–0.7, with structure at k = 2, 3); death rate h ≈ 0.6·P(n = 1); 62% of deaths come from one cell; the favoured 3-cell state is a kagome triangle | fluct README; notebook 2026-11-13 |
 | 2D rule: tail straight to n = 1; h/p₁ falls 0.52 → 0.27 with L; a few per cent of deaths at small L come from a nearly full row (board E9) | toy2d README |
 | symmetric (O_h) faces: slope a few times smaller (free fits 0.024–0.044 per cell; γ/6 was imposed, not measured, board E5); vertex-centred hulls ≈ 1.5–1.7× longer-lived than cube-centred at equal area | fluct README, `sym_fit.py` |
