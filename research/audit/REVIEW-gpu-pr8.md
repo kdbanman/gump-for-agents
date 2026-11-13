@@ -292,3 +292,30 @@ Not checked: which periods the 35 kind-3 settles at R = 36 had (the JSON does no
   README should name which one each comparison uses and why.
 
 ## Fixes required before merge / things to note
+
+Required before merge:
+1. **Restate claim 2.** Drop "0.39 nats (13σ) above the line": the line 0.2077·A + 0.55 is a QSD-endpoint fit
+   that already misses verified lifetimes by ±0.08 nats at A = 45 and 84. Say instead: local slopes of measured
+   lifetimes rise (0.201, 0.212, 0.212, 0.218–0.221); A = 108 is 0.21 ± 0.04 nats above the straight line through
+   the verified A = 45–84 points and consistent (1.2σ) with curved fits to them; curvature is 2.6σ from GPU points
+   alone and ~5σ with the CPU points. Note that octahedral faces at A ≥ 45 cost more per site than rim-free slabs
+   (0.2088).
+2. **Commit the negative controls** the README describes, or remove the sentence.
+3. **Make checks fail loudly:** non-zero exit from `check.py` and the Modal check entrypoints on failure.
+4. **Duplicate guard:** refuse to merge two runs with the same (vessel, seed); key the shared-age check by file.
+5. **Aftershock wording:** the excess is double peels within ~20 generations of the peel, not a fragile layer over
+   0.01τ.
+6. **Claim 5 wording:** `qsd.py` detects periods dividing 840; the R = 36 problem shown is that of a period-≤2
+   detector. No recorded number is shown to be biased.
+7. **τ(40v) "21% above the file":** say the file's 7.1 × 10⁷ pools copies of the side-16 cube with soups; the soup
+   values agree (8.18 × 10⁷ ± 15%).
+
+To note (not blocking):
+- Cube-centred 43c and 45c hazards fall with age (Weibull k = 0.94, 0.84; p = 0.04, 0.01). Flag in the README
+  next to the side-17 forecast; a dedicated longer cube-centred run would settle it and bears on OPEN-PROBLEMS 6.
+- `cube_vs_ensemble.py` pools cube copies into the soup reference τ; with soup-only τ the side-16 R = 40 plateau is
+  6.1τ (P = 0.002), the 16-plateau sum P = 0.016 (was 0.008).
+- R = 135 rests on hazard flatness over three unobserved decades (stated in the PR).
+- The post-peel stage A samples the first 9,216 peels in time (length-biased toward short first plateaus).
+- Commit a script for the 5τ-window lineage numbers (or adopt `research/audit/gpu_pr8/lineage_r40.py`).
+- Throughput table and the 373-soup settle file are not reproducible from committed files without Modal.
