@@ -87,13 +87,17 @@ or a sharply stated conjecture with a rate, (iii) what remains is characterised.
 
 ### G — generality (is any of this about gump?)
 
-- **G1 A 2D toy.** Moore-neighbourhood rules with no birth below 4 are confined to their bounding box. Is there
-  one with long-lived confined chaos that dies edge by edge? Edges of length L instead of faces of area A: cheap,
-  exhaustive at small sizes, easy to draw. If the area law, the straight tail and the symmetric collapse all
-  reappear, the phenomenon is a class, and the 2D case is where proofs should be tried first.
+- **G1 [measured; law checked by the lead] A 2D gump exists** (`research/toy2d/`): B34/S234 on the range-2 cross
+  neighbourhood. Box confinement, steady chaos, memoryless edge death with ln τ = 0.73 + 0.416·L, straight tail to
+  one cell, T5 and the T6 analogue, symmetric collapse by ½ in the exponent. The Moore neighbourhood is the wrong
+  analogue (a line holds too few of its neighbours). *This is now the place to try proofs and exhaustive small
+  cases* (M2, M4, E2, S6's percolation step), and the simplest object to put in a paper.
+  *Open:* why rotation symmetry that fixes no edge still shortens life; the slope beyond L = 36.
 - **G2 Neighbours of gump** (B45/S3457, B45/S3456; the 960-rule survey): which statements survive?
-- **G3 Capped-threshold rules as a family:** S5 holds for any rule of the form "threshold with hysteresis, plus an
-  upper cap", on any graph. How much of gump's behaviour is a property of that family?
+- **G3 Capped-threshold rules as a family:** T5 holds for any "threshold with hysteresis plus exceptions" on any
+  graph. Two members now show the whole phenomenon (gump; the 2D cross rule), each the only member of its
+  neighbourhood's family that does. What singles them out — the fraction of the neighbourhood lying in a
+  confining hyperplane (6/12, 4/8), the threshold near a third, the cap? A statement of the class is open.
 
 ## Writing it up (when there is enough)
 

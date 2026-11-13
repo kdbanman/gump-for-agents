@@ -39,6 +39,12 @@ surrounds them; in two layers thirty-six can. In three layers no finite set of c
 that property. So in the full automaton nothing can die for good from the inside. Death has
 to come in from a face, or cut the whole vessel in two. That is what the staircase is.
 
+And it is not only gump. An agent went looking for a flat cousin and found one: on a square
+grid where each cell watches the two cells either side of it along its row and its column,
+the same recipe — born or kept at three, counting itself, dead at five — gives chaos shut
+in a rectangle that dies one whole edge at a time, after a wait that grows exponentially
+with the length of the edge. I checked the law myself, after first getting it wrong.
+
 ## A lattice with a hidden grain
 
 Faces of a cubic honeycomb sound like a cubic thing. But the diagonal layers are **kagome

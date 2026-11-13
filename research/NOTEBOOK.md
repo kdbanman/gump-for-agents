@@ -814,3 +814,37 @@ statement to annotate:
   (0.2088 ± 0.0009)·A over the m = 8 slab batches with A ≥ 27 (the quoted ±0.06, ±0.002 are conservative).
 - (audit T1, T2) `reference/oracle.py --compare`, `reference/check_theory.py` (T1) and `research/peeling/validate.py`
   now exit non-zero on a mismatch; `validate.py` creates `research/scratch/peeling/` itself.
+
+## 2026-11-13 — a 2D gump: the phenomenon is a class (toy-2D agent; central law checked by the lead)
+
+Full study: `research/toy2d/README.md` (forecasts in `research/toy2d/PREDICTIONS.md`; figures
+`research/figures/toy2d_law.png`, `toy2d_box.png`). Question (PROGRAM G1): does any 2D rule do what gump does?
+
+- **[measured] Yes: B34/S234 on the square lattice with the range-2 cross neighbourhood** (±1,0), (±2,0), (0,±1),
+  (0,±2) — "alive next iff n + x ≥ 3, except that a cell with n ≥ 5 dies", gump's construction one dimension down.
+  Confined to its bounding box, which only shrinks **[proved]**; steady chaos inside (density 0.472); a whole edge
+  row dies after a memoryless wait with **ln τ_edge = 0.73 + 0.416·L** for L = 12–36 (τ from 286 to 5.8×10⁶
+  generations; 495–4,067 deaths per size; strips 16 deep, periodic along the edge); ln P(n = k) of a living edge is
+  straight down to k = 1 and the death rate is its next point; the threshold lemma (T5) holds with the exceptions
+  exactly at overcrowded cells **[proved]**; no finite sealed set exists (T6 analogue) **[proved]**. It is the only
+  capped threshold on that neighbourhood that sustains confined chaos, as gump is minimal in its own rule family.
+  *Lead's check* (own numpy stepper, `python3 research/experiments/toy2d_check.py 12 16 20 24`): ln τ_edge = 5.85,
+  7.43, 9.13, 10.88 at L = 12, 16, 20, 24 (108–415 deaths each) against the law's 5.72, 7.39, 9.05, 10.71; slope
+  0.42. The lead's first version of this check gave nonsense (τ ≈ 20,000 at L = 12) because it counted settled
+  debris as living edges; strips that settle or are cut must be censored — the same trap as `qsd.py` below R = 30.
+- **[proved] Why the Moore neighbourhood is the wrong analogue** (agent): a lattice line holds only 2 of the 8 Moore
+  neighbours, so confinement forces birth at ≥ 4 of 8, a majority threshold; a `{111}` plane holds 6 of gump's 12
+  and a line holds 4 of the cross's 8, which lets the threshold sit near a third. **[measured]** No capped-threshold
+  Moore rule sustains confined chaos; 93 of the 711 longest-lived Moore rules do die edge by edge but need survival
+  at low counts (best measured: B45/S23467, ln τ = 4.32 + 0.259·L for L = 24–44).
+- **[measured] Symmetry, with forecasts made first.** A mirror perpendicular to the edge multiplies the slope by 0.42;
+  the full square symmetry by exactly 0.50: halved in the exponent, as two lockstep copies should. **Forecast
+  failed:** symmetries that fix no edge were predicted to cost nothing; four-fold rotation lowers the slope (0.274
+  against 0.343) and the diagonal mirror misses its predicted factor. Not understood.
+- **[measured] Face versus firewall, again.** Long strips are cut across by three dead columns before an edge dies
+  (from L ≈ 24–28 at depth 16); counted separately, the edge law stays linear. In an L×L box the cut costs 3L cells
+  against L for an edge, so edges win.
+- **A coincidence to be suspicious of:** the 2D slope per edge cell, 0.416, is twice gump's 0.208 per face cell to
+  three figures. No reason is known; do not build on it.
+- Not settled: the slope beyond L = 36; why four-fold symmetry shortens life; the full rate function; rules the
+  first screen dropped (B34/S234 itself was added by hand); the triangular lattice.
