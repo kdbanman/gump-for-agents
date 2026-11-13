@@ -112,3 +112,37 @@ hierarchy's slopes shifted by the offset seen at c₂ (0.453) and the steady-sta
 can keep for three generations (0.441); it is an estimate, the inequality is a theorem.
 *Refuted if* the slope is below 0.430 (a three-generation route much cheaper than either guide) or above 0.468
 (which would contradict the theorem: then the experiment or the lab's c₂ is wrong).
+
+## 2026-11-13, probability, P-E1, P-E2, P-E3 (filed at the end of round 2, after the critic's reply to round 1)
+
+**P-E1. The ring's step comes down, in the dice model.** D2(L, 0.472): one row of B34/S234 on a ring of L cells,
+the two cells beneath each cell redrawn Bernoulli(0.472) every generation (the kernel of `critic/lab/prob_r1.py`;
+exact to L = 19). Beyond that by sampling: replicas started from soup, reseeded at death, ages below 50 not
+measured (the second eigenvalue is about 0.5), h = deaths / exposure, τ = 1/h. L = 30, 34, 38.
+*Prediction:* the slope of ln τ between L = 30 and L = 38 is **0.48 ± 0.03** (exact step at L = 15…19: 0.52–0.53;
+dead-ended and reflecting intervals: 0.460 from 15 cells on).
+*Why (two lines):* a ring with four dead cells in a row is, for as long as they stay dead, the dead-ended interval
+four cells shorter, and keeping them dead costs a bounded factor per generation (probability journal, entry 8,
+Proposition W: h_ring(L) ≥ w^{n+1}·P(the interval started from the ring's law dies at step n + 1), w ≥ 0.047). So the
+ring cannot keep an exponent above the interval's unless a dying interval needs its walls for a time that grows
+with L, and then the ring has the same route with a gap for a wall.
+*Refuted if* the slope is ≥ 0.51 (the ring keeps its own exponent) or ≤ 0.45.
+
+**P-E2. Ends multiply.** D2(·, 0.472) on an interval with one dead end and one reflecting end, M = 15…19, exact
+(lab request R8). *Prediction:* ln τ = **8.695, 9.155, 9.615, 10.075, 10.535** at M = 15, 16, 17, 18, 19, each
+± 0.01: the mean of the dead-ended and the reflecting values (lab L4.2).
+*Why:* those two differ by a constant 0.837 with equal steps, which is what independent end factors give.
+*Refuted if* the value at M = 19 is off by more than 0.02.
+
+**P-E3. A model in which the front is a theorem.** OP₅(½): on a ring of L cells, or an interval of M cells with
+nothing outside, every cell within distance 2 of a live cell is alive next with probability ½, independently;
+all other cells are dead. Exact, 8…19 cells (lab request R5).
+*Predictions:* (i) the ring's step of ln τ from L = 18 to 19 is **0.41 ± 0.05**; (ii) the interval's step from
+M = 18 to 19 is the same within 0.03; (iii) ln τ_ring(19) − ln τ_dead(19) = **+2.0 ± 1.0**, changing by less than
+0.2 between 15 and 19 cells. (That τ_dead ≤ τ_ring at every size is a theorem: the model is monotone.)
+*Why (two lines):* a dead run of ℓ cells becomes one of ℓ − 4 + Y₁ + Y₂ cells, Y geometric; its growth costs
+ln((1 + √5)/2) = 0.4812 per cell (journal, entry 9, Proposition F: proved as an upper bound on the exponent),
+less 1/L for the L places a run can start and a little for cells already out of reach; at a wall the run needs
+no nucleation, which is the constant in (iii). The opposite sign of (iii) in D2 (the interval outlives the ring
+at every L ≤ 19) is the overcrowding cap.
+*Refuted if* the ring's step is above 0.49 or below 0.34, or (iii) is negative.

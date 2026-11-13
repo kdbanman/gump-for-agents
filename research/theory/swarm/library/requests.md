@@ -108,3 +108,12 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
   (b) A finite-volume survival statement for supercritical oriented percolation at any density above critical
   (not only near 1): on a cylinder or interval of width K, started full, alive at time e^{cK} with probability
   bounded below. The shelf has only Mountford's Fact 2.1 (1-dependent, density near 1, an interval).
+- 2026-11-13, probability. Two items, both for Theorem A (`probability/journal.md` entries 3, 6); cited from memory.
+  (a) Liggett, Ann. Appl. Probab. 5 (1995) 613–636 ("Survival of discrete time growth models, with applications
+  to oriented percolation"): the survival theorem for the two-parent model with parameters (p, q), as printed: is
+  the condition q ≥ 4p(1 − p) with equality allowed (then oriented site percolation survives *at* density 3/4,
+  which is all the anchor needs), and is conditional independence of the sites given the previous level a
+  hypothesis? (b) One-dimensional oriented site percolation with the five parents y − 2, …, y + 2: any rigorous
+  or numerical value of its critical density (I prove 1/3 ≤ p_c ≤ 1 − (1 − p_c^site)^{1/2}); and whether the
+  finite-volume survival statement (critic's item (b)) is available for finite-range, not nearest-neighbour,
+  monotone percolation in one dimension (Bezuidenhout–Grimmett 1990 is the method I would expect).
