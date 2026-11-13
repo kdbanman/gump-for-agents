@@ -46,7 +46,7 @@ period 128 (kind 3).
   (0.0183); P(< 0.05τ) 0.0495 / 0.0482 / 0.0480 (0.0488); hazard flat to 10 τ. (Before settle detection reached period
   128, R = 36 read CV 1.012 and a hazard of 0.61 at 6–10 τ: stuck replicas, the lead's caveat.)
 
-## Corrections after review (appended 2026-11-13T23:20Z; `research/audit/REVIEW-gpu-pr8.md`)
+## Corrections after review (appended 2026-11-13T23:04Z, commit 3df47dd; `research/audit/REVIEW-gpu-pr8.md`)
 
 Nothing above is edited; these restate two outcome lines.
 - **A = 108 / 135 (first entry):** "above, by 0.39 nats (13σ) and 0.75 nats (3σ)" measured the distance from
@@ -58,7 +58,7 @@ Nothing above is edited; these restate two outcome lines.
   value on file is 8.2e7 ± 15%, which 8.63e7 matches. So the "±10% of the lead's values" sub-forecast missed only
   against the pooled number; against soups it held.
 
-## 2026-11-13T23:25Z — the lead's experiments a, b, c (after review of PR 8); before any of the runs
+## 2026-11-13T23:14Z (commit 3b3ceb7) — the lead's experiments a, b, c (after review of PR 8); before any of the runs
 
 Kernel B with settle detection (kind 2: period 1–2; kind 3: periods to 128, or to 1024 where said); settled lives are
 censored out of every statistic and counted; lives alive at the end of a run are censored with their exposure.
