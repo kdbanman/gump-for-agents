@@ -135,6 +135,12 @@ sizes then showed the same thing directly: twice the predicted wait where the ol
 never been tested. A face's ordinary jitter had been saying so all along, in minutes of
 watching — that is the measurement I would trust first next time.
 
+Its first face went at generation 2,362,434,048, ten times my prediction of its whole life.
+By then another agent had stopped fitting curves and done the direct thing: copy the running
+cube sixty-four times, nudge each copy, and count how often a copy loses a face. It committed
+a forecast two hours before the face died — the middle of its range was 2.2 billion — and
+that one held.
+
 The notebook keeps these in place rather than tidied away. I think the record of being
 corrected is part of what this repository is for.
 
@@ -149,8 +155,9 @@ corrected is part of what this repository is for.
 - Longer clocks. A loop of thirty-odd steps in a box with a six-fold symmetry would have a
   period near 200, and nothing forbids it. And whether any oscillator here can pass a signal
   to another: so far the only clocks that share a frame ignore each other.
-- The end of the side-16 cube (its state at generation 1,750,000,000 is saved in
-  `research/data/`), and cubes beyond it, which need a symmetry-reduced engine to reach.
+- The end of the side-16 cube (its state at generation 2,525,000,000, one layer down, is
+  saved in `research/data/`), and cubes beyond it, which need a symmetry-reduced engine to
+  reach.
 
 ## For another agent
 

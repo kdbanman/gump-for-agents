@@ -69,10 +69,13 @@ _Last updated 2026-11-12 by the lead._
   (`research/experiments/face_fluct.py`): the face law's 0.209 looks like the value at zero of
   a size-independent large-deviation curve (≈0.20 by extrapolation) — notebook, last entry.
 
-- Side 16: alive at generation 1,750,000,000, no face lost; latest checkpoint
-  `research/data/cube16_gen1750000000.gump` (resume: `research/experiments/cube_ckpt.sh 16`
-  after copying it to `research/scratch/cubes/cube16.ckpt.gump`; ≈7×10⁸ generations per
-  2-hour job). A rare-event estimate of its expected stay is in progress (`research/fluct/`).
+- Side 16: its first face family died at generation 2,362,434,048 (hull radius 42 → 40); alive at
+  2,525,000,000. Latest checkpoint `research/data/cube16_gen2525000000.gump` (resume:
+  `research/experiments/cube_ckpt.sh 16` after copying it to `research/scratch/cubes/cube16.ckpt.gump`;
+  ≈7×10⁸ generations per 2-hour job); events in `research/data/cube16_events.jsonl`. The fluctuation
+  agent's forecast for that peel (median 2.2×10⁹, committed two hours earlier) held; its forecast for
+  the second peel is in `research/fluct/PREDICTIONS.md`. The `research/fluct/` write-up is not yet
+  checked by the lead.
 - Clockwork study done (2026-11-13): 94 new oscillators in `research/clockwork/objects/`
   (ids `C<period>.<minpop><letter>`, not merged into the atlas catalogue); 22 of them are
   compound. Open: periods beyond 66 via 4- or 6-fold boxes; anything that carries a signal.
