@@ -11,7 +11,10 @@
  *                     the freeze mask stays in registers); compute the new state into registers
  *                  B  write it to shared memory; warp-OR the XOR-against-two-back into dac[t%3]
  *                  C  warp-OR the face entries (each face's list padded to whole warps) into acc[t%3]
- * with a __syncthreads after each phase; the reduction buffers rotate over three generations so that zeroing,
+ * with a __syncthreads after each phase. For the first K_PW generations of every launch each replica is also compared with
+ * its launch-start state (still in GA): a replica that returns to it at generation p is periodic with period dividing p
+ * and gets a kind-3 event (kind 2: period 1 or 2, kind 1: a face died). So every cycle of period <= K_PW is caught
+ * within one launch of entering it, at ~K_PW/launch-length extra cost; the reduction buffers rotate over three generations so that zeroing,
  * accumulating and reading never overlap. Semantics are identical to gump_run in kernel.cuh (same events, same
  * generation numbers, same freezing); the global layout differs: state[(column * NP) + node].
  *
@@ -25,6 +28,9 @@ DEV u32 warp_or(u32 v) {
   return v;
 }
 
+#ifndef K_PW
+#define K_PW 128
+#endif
 #ifndef K_MINB
 #define K_MINB 1
 #endif
@@ -35,11 +41,12 @@ gump_shared(const u32 *__restrict__ pk, const u32 *__restrict__ fe, u32 *GA, u32
   u32 *cur = sm;                         /* K_WB * K_NP */
   u32 *acc = sm + K_WB * K_NP;               /* 3 x 8 x K_WB face ORs */
   u32 *dac = acc + 3 * 8 * K_WB;           /* 3 x K_WB settle ORs */
+  u32 *sac = dac + 3 * K_WB;               /* 3 x K_WB launch-snapshot ORs (periods <= K_PW) */
   const int tid = threadIdx.x, lane = tid & 31;
   const size_t gbase = (size_t)blockIdx.x * K_WB * K_NP;
   for (int k = tid; k < K_WB * K_NP; k += K_T) cur[k] = GA[gbase + k];
-  for (int k = tid; k < 27 * K_WB; k += K_T) acc[k] = 0;
-  u32 pkr[K_J][6], p2[K_J][K_WB], nr[K_J][K_WB], frz[K_WB], dif[K_WB], fer[K_Q];
+  for (int k = tid; k < 30 * K_WB; k += K_T) acc[k] = 0;
+  u32 pkr[K_J][6], p2[K_J][K_WB], nr[K_J][K_WB], frz[K_WB], dif[K_WB], sdf[K_WB], fer[K_Q];
 #pragma unroll
   for (int j = 0; j < K_J; j++) {
 #pragma unroll
@@ -49,7 +56,7 @@ gump_shared(const u32 *__restrict__ pk, const u32 *__restrict__ fe, u32 *GA, u32
     for (int w = 0; w < K_WB; w++) { p2[j][w] = i < K_N ? GB[gbase + w * K_NP + i] : 0; nr[j][w] = 0; }
   }
 #pragma unroll
-  for (int w = 0; w < K_WB; w++) { frz[w] = frz_g[blockIdx.x * K_WB + w]; dif[w] = 0; }
+  for (int w = 0; w < K_WB; w++) { frz[w] = frz_g[blockIdx.x * K_WB + w]; dif[w] = 0; sdf[w] = 0; }
 #pragma unroll
   for (int q = 0; q < K_Q; q++) fer[q] = fe[q * K_T + tid];
   __syncthreads();
@@ -63,12 +70,14 @@ gump_shared(const u32 *__restrict__ pk, const u32 *__restrict__ fe, u32 *GA, u32
         u32 dead = 0;
 #pragma unroll
         for (int f = 0; f < K_NF; f++) dead |= ~acc[pb * 8 * K_WB + f * K_WB + w];
-        const u32 newly = freeze ? (dead | ~dac[pb * K_WB + w]) & ~frz[w] : 0;
+        const u32 still = ~dac[pb * K_WB + w];
+        const u32 per = (t - 1 <= K_PW) ? ~sac[pb * K_WB + w] : 0u;   /* back to the launch-start state: period t-1 */
+        const u32 newly = freeze ? (dead | still | per) & ~frz[w] : 0;
         if (tid == 0) {
           u32 m = newly;
           while (m) {
             const int b = __ffs(m) - 1, r = (blockIdx.x * K_WB + w) * 32 + b;
-            ev_t[r] = (u32)(t - 1); ev_k[r] = (dead >> b & 1) ? 1 : 2;
+            ev_t[r] = (u32)(t - 1); ev_k[r] = (dead >> b & 1) ? 1 : (still >> b & 1) ? 2 : 3;
             m &= m - 1;
           }
         }
@@ -77,7 +86,7 @@ gump_shared(const u32 *__restrict__ pk, const u32 *__restrict__ fe, u32 *GA, u32
       if (t > gens) break;
       const int zb = (t + 1) % 3;
       for (int k = tid; k < 8 * K_WB; k += K_T) acc[zb * 8 * K_WB + k] = 0;
-      if (tid < K_WB) dac[zb * K_WB + tid] = 0;
+      if (tid < K_WB) { dac[zb * K_WB + tid] = 0; sac[zb * K_WB + tid] = 0; }
     }
 #pragma unroll
     for (int j = 0; j < K_J; j++) {
@@ -92,6 +101,7 @@ gump_shared(const u32 *__restrict__ pk, const u32 *__restrict__ fe, u32 *GA, u32
           const u32 me = c[i];
           const u32 r = rule12(c[n0], c[n1], c[n2], c[n3], c[n4], c[n5], c[n6], c[n7], c[n8], c[n9], c[n10], c[n11], me) & ~frz[w];
           dif[w] |= r ^ p2[j][w];
+          if (t <= K_PW) sdf[w] |= r ^ GA[gbase + w * K_NP + i];      /* GA still holds the launch-start state */
           p2[j][w] = me;
           nr[j][w] = r;
         }
@@ -113,6 +123,14 @@ gump_shared(const u32 *__restrict__ pk, const u32 *__restrict__ fe, u32 *GA, u32
       const u32 d = warp_or(dif[w]);
       if (lane == 0 && d) atomicOr(dac + cb * K_WB + w, d);
       dif[w] = 0;
+    }
+    if (t <= K_PW) {
+#pragma unroll
+      for (int w = 0; w < K_WB; w++) {
+        const u32 d = warp_or(sdf[w]);
+        if (lane == 0 && d) atomicOr(sac + cb * K_WB + w, d);
+        sdf[w] = 0;
+      }
     }
     __syncthreads();
     /* C */

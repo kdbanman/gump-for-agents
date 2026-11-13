@@ -166,6 +166,44 @@ def check_fl(backend, WT, R=11, T=2000, sym=False, p=0.35, **kw):
     return ok and agree
 
 
+
+def check_periodic(path, pw=128, K=1000, **kw):
+    """settle detection against the engine's own cycle detection (R = 9 soups run to their end by `gump ensemble`):
+    period <= 2 -> kind 2 exactly at cycle_start + 2; 2 < period <= pw -> kind 3 at L + period, L = the first launch
+    start >= cycle_start; period > pw -> never flagged. Faces off, so only settling ends a life."""
+    d = np.load(path)
+    bits0, meta = d['bits'], d['meta']
+    v = fl.Vessel(fl.octa_hull(9), 'c', False)
+    s = gsim.Sim(v, 0, 'gpu', faces=False, pw=pw, **kw)
+    lanes = np.arange(len(meta)) * (s.R // len(meta))
+    bits = np.zeros((s.R, v.n), bool); bits[lanes] = bits0
+    s.set_all(bits)
+    G = int(meta[:, 3].max()) + 2 * K + pw + 10
+    ev = {}
+    g = 0
+    while g < G:
+        reps, tt, kk = s.step(K)
+        for r, t, k in zip(reps, tt, kk):
+            ev[int(r)] = (g + int(t), int(k))
+        g += K
+    bad, n2, n3, nnone = [], 0, 0, 0
+    for lane, (rng, status, p, c, gen) in zip(lanes, meta):
+        if p <= 2:
+            want = (c + 2, 2); n2 += 1
+        elif p <= pw:
+            L = -(-c // K) * K
+            want = (L + p, 3); n3 += 1
+        else:
+            want = None; nnone += 1
+        got = ev.get(int(lane))
+        if got != want:
+            bad.append((int(rng), int(status), int(p), int(c), want, got))
+    ok = not bad
+    print(f'settle detection pw={pw} [{s.kernel}]: {n2} period<=2 (kind 2 at cycle_start+2), {n3} with 2<p<={pw} (kind 3 at '
+          f'L+p), {nnone} with p>{pw} (no event): {"all as expected" if ok else f"{len(bad)} WRONG: {bad[:6]}"}', flush=True)
+    return ok
+
+
 M64 = (1 << 64) - 1
 
 

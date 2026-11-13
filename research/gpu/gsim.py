@@ -42,7 +42,7 @@ def graph(v):
     return nb, fmask, len(v.face_groups)
 
 
-def shared_layout(v, J):
+def shared_layout(v, J, faces=True):
     """node order (orientation, then x, y, z), packed neighbour table, padded face-entry table for kernel_shared."""
     n = v.n
     nb, fmask, nf = graph(v)
@@ -58,18 +58,20 @@ def shared_layout(v, J):
     pk = pairs.reshape(J, T, 6).transpose(0, 2, 1).reshape(J * 6, T)  # pk[j*6+k][tid]
     ents = []
     fm = fmask[perm]
+    if not faces:
+        nf = 0
     for f in range(nf):
         idx = np.nonzero(fm >> f & 1)[0]
         pad = (-len(idx)) % 32
         ents += [int(i) | (f << 16) for i in idx] + [n] * pad
-    Q = math.ceil(len(ents) / T)
+    Q = max(1, math.ceil(len(ents) / T))
     ents += [n] * (Q * T - len(ents))
     fe = np.array(ents, np.uint32).reshape(Q, T)
     return dict(perm=perm, pk=np.ascontiguousarray(pk), fe=fe, T=T, Q=Q, nf=nf)
 
 
 class Sim:
-    def __init__(self, v, WT=None, backend='gpu', seedable=None, block=128, kernel=None, WB=None, J=None, blocks=None, minb=1):
+    def __init__(self, v, WT=None, backend='gpu', seedable=None, block=128, kernel=None, WB=None, J=None, blocks=None, minb=1, faces=True, pw=128):
         self.v, self.n, self.backend = v, v.n, backend
         self.kernel = kernel or ('shared' if backend == 'gpu' else 'global')
         n = self.n
@@ -83,16 +85,16 @@ class Sim:
             smax = dev.attributes['MaxSharedMemoryPerBlockOptin']
             NP = n + 1
             # defaults from research/gpu/README.md's sweep: two nodes per thread more than the minimum, 2 columns per block
-            WB = WB or max(1, min(2, (min(smax, dev.attributes['MaxSharedMemoryPerMultiprocessor'] // minb) - 1024) // (4 * (NP + 27))))
+            WB = WB or max(1, min(2, (min(smax, dev.attributes['MaxSharedMemoryPerMultiprocessor'] // minb) - 1024) // (4 * (NP + 30))))
             J = max(J or 2 * math.ceil(n / 1024), math.ceil(n / 1024))
-            L = shared_layout(v, J)
+            L = shared_layout(v, J, faces)
             self.perm, self.T, self.WB, self.J = L['perm'], L['T'], WB, J
             self.blocks = blocks or dev.attributes['MultiProcessorCount']
             WT = self.blocks * WB
-            self.smem = 4 * (WB * NP + 27 * WB)
+            self.smem = 4 * (WB * NP + 30 * WB)
             assert self.smem <= smax, (self.smem, smax)
             opts = ('--std=c++11', f'-DK_N={n}', f'-DK_NP={NP}', f'-DK_WB={WB}', f'-DK_T={L["T"]}', f'-DK_J={J}',
-                    f'-DK_Q={L["Q"]}', f'-DK_NF={L["nf"]}', f'-DK_MINB={minb}')
+                    f'-DK_Q={L["Q"]}', f'-DK_NF={L["nf"]}', f'-DK_MINB={minb}', f'-DK_PW={pw}')
             mod = cp.RawModule(code=open(KERNEL).read() + open(KERNEL_SHARED).read(), options=opts)
             self._run = mod.get_function('gump_shared')
             self._run.max_dynamic_shared_size_bytes = self.smem
@@ -125,7 +127,8 @@ class Sim:
     # --- stepping -------------------------------------------------------------------------------------------------
     def step(self, gens, freeze=True):
         """step all replicas `gens` generations. Returns (replicas frozen during this call, generation within the call
-        1..gens at which it happened, kind 1 = some face layer extinct / 2 = settled, period 1 or 2)."""
+        1..gens at which it happened, kind 1 = some face layer extinct / 2 = settled, period 1 or 2 / 3 (shared kernel
+        only) = back to its launch-start state within the first `pw` generations, i.e. periodic with period <= pw)."""
         assert gens >= 1
         before = self._np(self.frz)
         if self.kernel == 'shared':

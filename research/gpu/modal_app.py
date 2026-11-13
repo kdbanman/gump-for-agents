@@ -81,6 +81,23 @@ def check_every(cases: str = f'{ROOT}/research/scratch/gpu/engine_cases.npz'):
 
 
 @app.function(gpu='A10G', timeout=1800)
+def check_periodic_remote(cases: bytes) -> bool:
+    _setup()
+    import check
+    with open('/tmp/periodic.npz', 'wb') as f:
+        f.write(cases)
+    ok = check.check_periodic('/tmp/periodic.npz', pw=128)
+    ok &= check.check_periodic('/tmp/periodic.npz', pw=32)
+    ok &= check.check_periodic('/tmp/periodic.npz', pw=128, J=3, WB=1, blocks=12)
+    return ok
+
+
+@app.local_entrypoint()
+def check_periodic(cases: str = f'{ROOT}/research/scratch/gpu/periodic_cases.npz'):
+    print('remote checks:', 'ALL OK' if check_periodic_remote.remote(open(cases, 'rb').read()) else 'FAILURES')
+
+
+@app.function(gpu='A10G', timeout=1800)
 def check_reseed_remote() -> bool:
     _setup()
     import check
@@ -175,21 +192,21 @@ def bench_shared(gpu: str = 'T4', quick: bool = False):
 
 
 @app.function(gpu='A10G', timeout=6 * 3600)
-def facelaw_remote(R: int, minutes: float, seed: int):
+def facelaw_remote(R: int, minutes: float, seed: int, centre: str = 'c', sym: bool = False):
     _setup()
     import facelaw
-    return facelaw.run(R, minutes * 60, seed, log=lambda x: print(x, flush=True))
+    return facelaw.run(R, minutes * 60, seed, centre=centre, sym=sym, log=lambda x: print(x, flush=True))
 
 
 @app.local_entrypoint()
-def facelaw(r: int, minutes: float = 10, seed: int = 1, gpu: str = 'A10G', copies: int = 1):
+def facelaw(r: int, minutes: float = 10, seed: int = 1, gpu: str = 'A10G', copies: int = 1, centre: str = 'c', sym: bool = False):
     """`copies` containers in parallel (seeds seed..seed+copies-1); compact results to research/data/gpu_facelaw/."""
     import json
     d = f'{ROOT}/research/data/gpu_facelaw'
     os.makedirs(d, exist_ok=True)
     f = facelaw_remote.with_options(gpu=gpu)
-    for out in f.starmap([(r, minutes, seed + i) for i in range(copies)]):
-        path = f'{d}/R{r}_s{out["seed"]}_{gpu}.json'
+    for out in f.starmap([(r, minutes, seed + i, centre, sym) for i in range(copies)]):
+        path = f'{d}/{"sym" + centre if sym else ""}R{r}_s{out["seed"]}_{gpu}.json'
         with open(path, 'w') as fh:
             json.dump(dict(out, gpu=gpu), fh)
         print('saved', path, 'gens', out['gens'], 'replicas', out['replicas'], 'wall', round(out['wall_s']))
