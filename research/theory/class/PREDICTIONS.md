@@ -207,3 +207,21 @@ With the measured torus densities, R₁ = (a⁰ + 1)ρ^(b−1):
 
 Monotone claim, whatever the thresholds: within each family the slope increases with the cap up to c = K_f.
 To be measured at L up to ~100 (m = 16–24), same censoring.
+
+---
+
+## Stage 5 — a rule for the lower edge of the chaos window, appended before any 3D scan output existed
+
+*Seen since stage 4: tri18 (2D) up to c = 16. `scan3d.log` is still empty (the 3D queue waits for the 2D scan).*
+
+The mean-field proxy for the bulk failed in 2D in both directions (cross3/cross4 chaotic far above its window;
+star2 c = 8, tristar2 c = 8, tristar3 c = 10–12 not chaotic although it said so). What the 2D data do show:
+**chaos already at the lowest caps (c = b + 2 or b + 3) exactly when b/K ≤ 0.375** — cross2 0.375, cross3 0.33,
+cross4 0.31, gump 0.33 yes; star2 and tristar2 0.42, tristar3 0.39, tri18 0.44, Moore 0.5 no (their chaos, if any,
+starts at or above the wall cap K_f + 1, or past K_f). Offered reason: a sparse bulk at a low cap survives its
+synchronous overcrowding crashes only if chaos can re-invade vacuum, and a flat front into vacuum sees K/2
+neighbours, so the slack (K/2 − b)/K must be large enough.
+
+**Calls for 3D (rule: chaos at some cap ≤ b + 3 iff b/K ≤ 0.38):** yes for fcc (0.33), bcc8 (0.375), bcc14 (0.36),
+sc6 (0.33), sc18 (0.33), face8 (0.375), face18 (0.33), cross3d2 (0.25); **no for bond10 (0.40)**; sc26 (0.385) too
+close to call. Where the answer is no, no cap can be both chaotic and within reach of the faces, so no gump.

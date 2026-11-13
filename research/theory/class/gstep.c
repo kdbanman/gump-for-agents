@@ -206,6 +206,20 @@ int main(int argc, char **argv) {
     printf("],\"facedeath\":[");
     for (int j = 0; j < nF; j++) { printf("%s[", j ? "," : ""); for (int r = 0; r < NR; r++) printf("%s%ld", r ? "," : "", fd[j][r]); printf("]"); }
     printf("]}\n");
+  } else if (!strcmp(mode, "gap")) { /* gstep gap GRAPH B S b p seed Tburn Trun KILLFILE : watched face 0 */
+    long Tb = atol(argv[8]), Tr = atol(argv[9]); FILE *f = fopen(argv[10], "rb"); if (!f) { perror(argv[10]); return 2; }
+    int32_t nk; rdi(f, &nk, 1); int32_t *kl = malloc(4 * (size_t)(nk + 1)); rdi(f, kl, nk); fclose(f);
+    reseed(~0ULL);
+    double em = 0, ev = 0; int ne = 0;
+    for (long t = 0; t < Tb; t++) { step();
+      if (t >= Tb - 64) { double m = 0, v = 0; for (int r = 0; r < NR; r++) { int cnt = 0; for (int q = 0; q < flen[0]; q++) cnt += (x0[fcell[0][q]] >> r) & 1; m += cnt; v += (double)cnt * cnt; }
+        m /= NR; v = v / NR - m * m; em += m; ev += v; ne++; } }
+    printf("{\"eq_mean\":%.4f,\"eq_var\":%.4f,\"L\":%d,\"nk\":%d,\"rows\":[", em / ne, ev / ne, flen[0], nk);
+    for (int q = 0; q < nk; q++) x0[kl[q]] = 0;
+    for (long t = 0; t <= Tr; t++) { double m = 0, v = 0; int dead = 0;
+      for (int r = 0; r < NR; r++) { int cnt = 0; for (int q = 0; q < flen[0]; q++) cnt += (x0[fcell[0][q]] >> r) & 1; m += cnt; v += (double)cnt * cnt; if (!cnt) dead++; }
+      m /= NR; v = v / NR - m * m; printf("%s[%ld,%.4f,%.4f,%d]", t ? "," : "", t, m, v, dead); step(); }
+    printf("]}\n");
   } else if (!strcmp(mode, "trace")) { /* gstep trace GRAPH B S b INITFILE(as argv[6]) dummy T : replica 0 from a byte file */
     long T = atol(argv[8]); FILE *f = fopen(argv[6], "rb"); if (!f) { perror(argv[6]); return 2; }
     for (int i = 0; i < N; i++) { int ch = fgetc(f); x0[i] = (ch == 1) ? ~0ULL : 0; } fclose(f);
