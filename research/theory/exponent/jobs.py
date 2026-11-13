@@ -57,7 +57,7 @@ def box(Ls=(12, 16, 20, 24), tag='box'):
     pass
 
 def slabmodel(sizes=((3, 3), (3, 4), (4, 4), (4, 5)), ws=(2, 3, 4, 5, 6, 8), tag='slabmodel', rho=RHO_GUMP):
-    bud = {27: 20, 36: 40, 48: 120, 60: 400, 75: 900}
+    bud = {27: 20, 36: 40, 48: 120, 60: 400, 75: 1500}
     for a, b in sizes:
         for w in ws:
             xp.run('slab_%dx%d_w%d' % (a, b, w), xp.gump_slab_model(a, b, w), rule=xp.GUMP, p=0.35, T0=300, rho=[rho, rho],
@@ -103,6 +103,8 @@ if __name__ == '__main__':
         cross3()
     elif job == 'slabmodel':
         slabmodel()
+    elif job == 'slab75':
+        slabmodel(sizes=((5, 5),), ws=(5,))
     elif job == 'rhoscan8':
         rhoscan8()
     else:
