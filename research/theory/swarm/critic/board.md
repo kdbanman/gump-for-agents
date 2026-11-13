@@ -1,7 +1,7 @@
 # Board (critic)
 
-_Kept by the critic. Last update: 2026-11-13, after the reply to path's round 1 (PROBLEM.md as revised at 22:30
-UTC; the round 1 reports of source and counting are written and not yet read). Scripts named here are in `critic/lab/`; run them from that directory. "Checked" means I
+_Kept by the critic. Last update: 2026-11-13, after the replies to path and source, round 1 (the round 1 reports
+of counting and probability are written and not yet read). Scripts named here are in `critic/lab/`; run them from that directory. "Checked" means I
 re-derived or recomputed it; "read" means I compared the statement with its source and did nothing more.
 Proofs and commands behind every "checked" are in `critic/journal.md`._
 
@@ -9,15 +9,17 @@ Proofs and commands behind every "checked" are in `critic/journal.md`._
 
 | who | directory | toolkit | state |
 |---|---|---|---|
-| probability | `swarm/probability/` | dice in place of chaos: particle systems, coupling, percolation, contours | no report yet |
+| probability | `swarm/probability/` | dice in place of chaos: particle systems, coupling, percolation, contours | round 1 written; reply pending |
 | counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | round 1 written; reply pending |
 | path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | round 1 answered (`to-path.md`) |
-| source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | round 1 written; reply pending |
-| librarian | `swarm/library/` | primary papers: `shelf.md` (one line per source), `notes/`, `requests.md` (append-only, anyone) | shelf: finite contact process; non-monotone systems; algebraic and permutive automata |
+| source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | round 1 answered (`to-source.md`) |
+| librarian | `swarm/library/` | primary papers: `shelf.md` (one line per source), `notes/`, `requests.md` (append-only, anyone) | first pass finished: 59 sources, ten notes files |
 
 Where lines could meet, which I watch: the probability of an empty edge under a product measure (a transfer
 matrix about a dice model); quasi-stationary measures and escape rates; the face game with free cells beneath;
-the dice model itself (probability fixes it, source drives it deterministically, counting counts its trapdoor).
+the dice model itself (probability fixes it, source drives it deterministically, counting counts its trapdoor);
+**hypotheses on equal-time one-step kernels** (path's Theorem P and source's Lemma 3 are the same projection:
+path holds certificates on the face population, source holds classes of drive kernels and deterministic relatives).
 
 ## Errors in the problem statement (and in the sources it lists)
 
@@ -199,6 +201,10 @@ None of these changes the problem. Each is a number or sentence a proof could le
 | sealed sets = complements of bootstrap-closed sets; isoperimetry of sealed sets in hulls (aim A) | path (L3, L4) | L3, L4 proved, checked; A exact to R = 10 (lab), open in general; false in wide slabs (E12) |
 | one exponent 0.345 for the 2D rule in every geometry, a ring carrying a power of L (G1) | path | guess from committed data; exam E1 filed. D2 on a segment is exact (lab L1.5): undecided |
 | flash or front; the remnant | path (G2, exam E2) | gump: not a flash of fixed length (E14). 2D: open |
+| a deterministic relative that is a dice model exactly: true rule in the top w layers over a deep-permutive bulk, feedback allowed (R_w(Q), "gump on parity") | source (Lemma 1) | proved, checked. Needs a half-infinite reservoir |
+| the death law of a face depends on the bulk only through the equal-time conditional law κ_t of the two layers beneath given the w layers above; a class 𝒦 of such kernels on which the dice theorem holds (Aim B) | source (Lemma 3, C9) | Lemma 3 proved, checked; 𝒦 is a goal, nothing proved |
+| entropy accounting: what a finite vessel cannot supply | source (Lemma 2) | proved; excludes conditioning on the whole past only (reply, item 2) |
+| threshold lemma with weights decaying in space; a threshold bulk is not a source | source (Lemma 4, Cor. 4a, 4b) | proved, checked; constants poor (C_U ≈ 1.4×10⁶ per cell) |
 
 ## Graveyard: ideas already tried here and dropped, with the reason
 
@@ -213,10 +219,14 @@ None of these changes the problem. Each is a number or sentence a proof could le
    basin is 5–94% of all states; most immortal cycles are debris of period ≤ 2.
 5. **Energy arguments for freezing or for a critical drive rate.** One-layer oscillators of periods 3–12 balance
    drive and dissipation exactly; the threshold lemma is false on infinite configurations.
-6. **Block construction and comparison with oriented percolation for an edge driven by an unknown outside.**
-   Reported to fail at the first step: the rule is not monotone, and an unknown outside contaminates two cells
-   per side per generation, the speed at which anything spreads. (`exponent/theorems.md`; their argument, not
-   broken by me. The library's `notes/nonmonotone.md` §1 has the comparison theorem as stated without monotonicity.)
+6. **Block construction for an edge driven by an unknown outside.** The exponent study reported it failing at the
+   first step and gave two reasons. Only the second stands. The comparison theorem (Durrett, Ten lectures, Thms
+   4.1–4.3; `library/notes/nonmonotone.md` §1; read in the note) assumes nothing about monotonicity: it needs a
+   set H of block configurations and a good event of probability > 1 − 6^{−4(2M+1)²} that works **for every
+   configuration outside the block**. That uniformity over the outside is the obstruction: an unknown outside
+   contaminates two cells per side per generation. With dice beneath, the adversary is only the rest of the
+   same row. Bramson–Ding–Durrett carry out a block construction for a non-monotone process (same note, §3).
+   The comparison is along one direction: for a finite chain of m blocks it gives e^{cm}, a side, not an area.
 7. **Shallow dice models as a formula for the constant.** 2D, one row: 0.52–0.53 (exact); three rows still 10%
    high; gump at depth 3 misses by 0.3–1.0 nats; depth 4–8 agrees (sampled, unchecked). See E13.
 8. **The stabiliser rule for symmetry** (exponent ÷ order of the face's stabiliser): wrong as a complete account
@@ -229,7 +239,8 @@ None of these changes the problem. Each is a number or sentence a proof could le
 14. **A monotone process below the capped rule.** Any monotone map H ≤ G has H∘H = ∅ (checked). A comparison from
     below must leave the full state space.
 15. **Exact dice from a confined deterministic source for the whole lifetime.** Entropy: N cells give at most N
-    bits of dice; lifetimes are e^{cA}. Exact transfer needs a reservoir that deep.
+    bits of dice; lifetimes are e^{cA}. Exact transfer needs a reservoir that deep (source Lemma 2 states it as
+    Σ_t H(b_t | whole past) ≤ N). This excludes properties that condition on the whole past, not on a window.
 16. **"No small sealed set ⇒ death cannot nucleate."** Not an implication (sealed = safe against every outside),
     and its premise fails in wide slabs and strips (E12).
 17. **Reading a slope from exact data at L < 15 in the one-row dice model.** The step of ln τ per cell oscillates
@@ -237,6 +248,9 @@ None of these changes the problem. Each is a number or sentence a proof could le
 18. **Theorem P with φ = r^{min(n,K)}** (path's hypothesis H as first stated). Rows n = 1, 2 do not contract for any
     r ≤ 0.9, in gump's measured table and in D2: from one cell the face dies with probability 0.37–0.41 (D2: 0.28)
     and does not drift up. The first three or four values of φ must be free (lab L1.1, L1.2).
+19. **An exact quasi-stationary law, or an exactly geometric wait, for the deterministic rule in a finite vessel.**
+    None exists (lemma exchange, "trapdoors" (v)). "Memoryless" there is an approximate statement about a window
+    of times; exact statements need dice or an infinite system.
 
 ## Lemma exchange
 
@@ -270,11 +284,35 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 - **Trapdoors** (checked). (i) Bijection, T = ∞ off the cycles meeting H: mean T ≥ |X|/(2|H|) − 1/2.
   (ii) Any map, any invariant μ: P_μ(T ≤ t) ≤ (t + 1)μ(H). (iii) Finite vessel, H_k = {face non-empty now, empty k
   generations later}: μ(H_k) = 0 for every invariant μ. (iv) Uniform start, any map:
-  P(T ≤ t) ≤ Σ_{s ≤ t} |F⁻ˢ(H)|/|X|.
+  P(T ≤ t) ≤ Σ_{s ≤ t} |F⁻ˢ(H)|/|X|. (v) A map of a finite set with a hole has no conditionally invariant
+  probability with 0 < λ < 1 (the librarian's remark in `notes/escape-rates.md` B1; checked: every point of the
+  support has a preimage in the support, so the support contains a cycle, and around a cycle of length k
+  μ(y) ≤ λ^k μ(y)).
+- **Local threshold lemma** (source Lemma 4; proof checked; identity and inequality verified on every pair of
+  states of the hull R = 2v and of the 2D box 3 × 4, and term by term over every local picture). With weights
+  a_i = λ^{−d_i} (d any 1-Lipschitz function on the cell graph, 1 < λ² < 4/3; 2D: < 3/2) and S = Σ a_i² < ∞:
+  m·Σ_{mismatches that are not O1} a_i² ≤ (12λ + 1 + θ′)S + c′·Σ_{O1 events} a_i², on finite or infinite vessels.
+  **Corollary (settles threshold.md §6):** under the uncapped rule on the infinite lattice every cell has at most
+  C_U mismatches, uniformly in the configuration, so every cell is eventually of period ≤ 2; a threshold bulk
+  has entropy rate zero at any finite set of cells. Statement and proof: `source/journal.md` S5.
+- **Starvation** (checked, two lines): in a face with at most three live cells no live face cell is overcrowded
+  (k ≤ 2, b ≤ 3). So in a death from n ≤ 3 (94% of gump's measured deaths) every cell dies with n ≤ 2.
+- **Markovian projection** (source Lemma 3; checked): for any process and any map π to a finite set, the law of
+  π(ω_t) evolves by the one-step kernels K_t(s, s′) = P(π(ω_{t+1}) = s′ | π(ω_t) = s); the hitting time of an
+  absorbing set has exactly the law of the absorption time of the inhomogeneous chain (K_t). For a face: K_t is
+  the true rule fed by κ_t(β | z), the equal-time conditional law of the two layers beneath given the w layers
+  above. Path's Theorem P is a certificate on these kernels. If the conditional law given "alive, unsettled" is
+  constant in t the hazard is constant (the converse is false).
 - **Permutive sources** (checked: proof; enumeration). Automaton on Z^d permutive in the variable at a vertex
   e ≠ 0 of its neighbourhood, uniform product start, P a set of cells no two of which differ by a multiple of e:
   the field {x_p(t) : p ∈ P, t ≥ 0} is i.i.d. uniform. (One-sided permutivity suffices; rule 30 qualifies.) Each
-  value consumes the fresh initial cell p + te.
+  value consumes the fresh initial cell p + te. **With feedback** (source Lemma 1; proof checked; exact check on
+  a 3 × 7 box): if the bulk below depth w is permutive in each cell's deep neighbour (two layers in), the top w
+  layers run the true rule and the bulk may read them, then from (any law) ⊗ (uniform) the top w layers are
+  exactly the dice chain D2 / D3 with ρ = ½. Literature (`library/notes/algebraic-ca.md`, read in the note): the
+  one-dimensional bipermutive statement is Shereshevsky–Afraimovich / Sablik / Pivato (r − l adjacent columns);
+  no published statement of exact independence in dimension ≥ 2 was found, so both lemmas here stand on their
+  own proofs.
 - **Sealed sets** (checked: proof re-derived; exact minimisation). Hulls R = 3…10: the smallest sealed set is one
   whole face, proved optimal (`sealed_min.py`). The smallest one containing no whole face (12, 18, 33, 39, 57 cells
   at R = 3…7) is a face minus a few cells, thickened: not a different object. Slabs: bands, see E12; the face is
@@ -293,12 +331,25 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
   finite chain the absorption time is exactly geometric with 1 − λ = Σ μ(x) d(x). For dice models only. (Primary
   source not on the shelf: requests item 8.)
 - **Mixing ⇒ exponential** (theorems.md E; checked, one-line chain rule): if the conditional probability that a
-  block of m cells is empty given the blocks before it are empty is ≤ θ < 1, then h ≤ θ^⌊L/m⌋.
+  block of m cells is empty given the blocks before it are empty is ≤ θ < 1, then h ≤ θ^⌊L/m⌋. The published
+  relative (Galves–Schmitt 1990; `notes/escape-rates.md` A1, read in the note) is for a deterministic map with an
+  *invariant* measure, ratio mixing in *time*, and events that are cylinders in time: it gives an exponential
+  law with scale 1/μ(D_n). In two dimensions ratio (ψ) mixing is too strong even for the high-temperature Ising
+  model; there e^{−c n^d} comes from the Gibbs property (Abadi–Chazottes–Redig–Verbitskiy; same note, A3).
 - **Gump face cell** (checked): an interior face cell has 6 neighbours in the face, 2 one layer in, 1 two layers in.
-- **From the library** (read on the shelf, not in the papers): finite contact process, d = 1: the upper bound on
-  the lifetime uses only monotonicity, the lower bound duality (`notes/contact-finite.md` §1); Mountford 1993,
-  Prop. 1.2: a general criterion "fast regeneration ⇒ memoryless"; Durrett–Schonmann 1988 (large deviations): an
-  empty interval costs e^{−cn} under the contact process's stationary law (`notes/ld-contact-percolation.md`).
+- **From the library** (read in the notes, not in the papers). Finite contact process, d = 1: the upper bound on
+  the lifetime uses only monotonicity, the lower bound duality (`contact-finite.md` §1). Mountford 1993, Prop.
+  1.2: if from every start the process is, after a time a(n), dead or equal to the process started full, and it
+  survives b(n) ≫ a(n) with probability → 1, then τ/Eτ → exponential; its proof uses attractiveness for one of the
+  two inequalities (§3). Schapira–Valesin, Prop. 2.9: E τ_G ≥ c(2|G|³)^{−(N+1)} ∏ E τ_{G_i} over disjoint
+  connected pieces of a tree, which gives e^{c|G|} from pieces (§6; monotonicity is used). Durrett–Schonmann
+  1988: an empty interval costs e^{−cn} under the contact process's stationary law, and a proved "area above,
+  perimeter below" dichotomy (`ld-contact-percolation.md`). Quasi-stationary laws of finite chains:
+  Méléard–Villemonais, Prop. 2 and Thm 7 (`qsd.md`), which is the readable source for "Darroch–Seneta"; the rate
+  measured after T0 is the quasi-stationary rate only if T0 exceeds the relaxation time (their Remark 3; in D2
+  the second eigenvalue is ≈ 0.5). D2 is a probabilistic cellular automaton; D3 is one only with the cube
+  triples as sites (`pca.md` with the cube lemma). Supertransients (`supertransients.md`): chaos lasting
+  e^{c·size} with a memoryless collapse has a numerical literature and no proofs.
 
 ## Lab results
 
@@ -324,6 +375,9 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 | L1.3 | path LR3: population of a dying face at lag s before death (existing `pre` arrays) | mean n at lags 1…6, 8, 10, 12, 16: A = 84: 1.6, 3.4, 6.4, 9.7, 13.6, 17.6, 26.0, 31.8, 35.2, 39.9 (living mean 42.4); A = 30: 1.6, 3.8, 6.5, 8.3, 9.3, 10.1, 11.4, 12.2, 12.6, 13.2 (13.6). Half the living mean at lag 3.2, 4.7, 5.9, 6.8; 90% at lag 11, 13, 13, 14 | `path_r1.py lr3` |
 | L1.4 | path LR2: Theorem P on the exact lumped table of D2(L, 0.472) | geometric φ: best bound 1.02, 0.97, 0.88, 0.80 at L = 8, 10, 12, 14 (useless). φ free: bound/h = 8.8, 10.4, 11.5, 12.6, 13.6 at L = 8…16 (a = 0.8) | `path_r1.py lr2`, `lr2b` |
 | L1.5 | D2 on a segment (two dead ends) = D2 on a ring with two adjacent cells removed | ln τ = 4.506, 5.106, 5.486, 5.847, 6.286, 6.764, 7.259, 7.740, 8.201, 8.655 at L = 5…14 cells; steps 0.495, 0.481, 0.461, 0.454 at L = 11…14. Longer-lived than the ring of equal length by 2.07 nats at L = 5 and 1.08 at L = 14 | `path_r1.py seg` |
+| L2.1 | source L1: 2D rule in row 0 over a parity bulk with feedback, box 3 × 7, every state | initial state ↦ (row 0 at t = 0; rows 1–2 at t = 0, 1, 2) is a bijection of {0,1}²¹. Control with a bulk reaching one row per generation: 32,768 of 2,097,152 records | `source_r1.py l1` |
+| L2.2 | source L2: local threshold lemma | identity and inequality on all 2²⁴ pairs of states, hull R = 2v (λ = 1.1) and box 3 × 4 (λ = 1.15); termwise bounds sharp. Gump lattice: shells 1, 12, 70, 212, 464, 820; S(1.1) = 13,336; C_U = 1.4×10⁶ | `source_r1.py l2` |
+| L2.3 | source L3: equal-time kernel of rows 1–2 given row 0, 2D strip 4 × 6, uniform start, every state | no quasi-stationary window: the unsettled population with row 0 alive is 1.65×10⁷ at t = 0, 768 at t = 20, 0 at t = 21; hazard 0.10–0.22 for t = 1…10. P(row 0 empty next \| one cell) = 0.46–0.60 against 0.22–0.26 for dice of the same density; two cells: 0.03–0.54 against 0.002 | `source_r1.py l3` |
 | L1.6 | refits of the empty-window decrement (committed `gap.json`) | limit 0.348 (c/ℓ), 0.355 (e^{−ℓ/20}), 0.370 (c/ℓ²), 0.373 (e^{−ℓ/10}) on ℓ = 20…38, all acceptable | `path_r1.py data` |
 
 ## The lab: what it can do, how to ask
@@ -343,17 +397,19 @@ quasi-stationary laws for dice models on a ring of L ≤ 18 (cells updating inde
 A request needs: the vessel (kind and dimensions); the rule; what is random and with what law, if anything;
 the event; and the convention for states that never die. No Monte Carlo, nothing over a few minutes.
 
-**Existing tallies.** A request may ask for arithmetic on tallies that already exist on this disk
-(`research/scratch/fluct/qsd_R*.npz`: face-population histograms, one-step transitions from n < A/2, the last 64
-generations before each death, for hulls R = 7…13). They are not in git; I check them against the committed
-summary before use and say so. No new runs.
+**Existing tallies.** A request may ask for arithmetic on the tallies of `research/fluct/qsd.py` for hulls
+R = 7, 9, 11, 13 (A = 30…84). The bulk files (`research/scratch/fluct/qsd_R*.npz`) are not in git; the tables the
+lab reads are saved in **`critic/lab/data/fluct_tables.npz`** (66 kB, committed; made by `curate_fluct.py`, which
+checks deaths against the committed `qsd_summary.json`): one-step transitions of the face population from
+n < A/2 (`Tr`), the face-population histogram (`H`), the joint histogram of the face and the A cells one layer
+beneath it (`J`), deaths and exposure, and for each lag 0…64 before a death the histogram of the dying face's
+population (`prehist`). `path_r1.py` reads only that file. No new runs.
 
 ## Citations
 
-Before leaning on a published theorem, look on `library/shelf.md`. On the shelf now: the finite contact process
-(Durrett–Liu, Durrett–Schonmann, Mountford 1993, and three later papers) and non-monotone survival (Durrett's
-comparison theorem, Bramson–Neuhauser only through secondary accounts), algebraic and permutive automata, and
-escape rates and hitting times (the last two not yet compared by me with the board's "permutive sources" and
-"trapdoors" lemmas; due with the replies to source and counting). **Not on the shelf yet, though used on this
-board or in PROBLEM.md:** Darroch–Seneta; Goles–Olivos; probabilistic cellular automata. Where the board uses one of these it gives or points to a
-self-contained proof.
+Before leaning on a published theorem, look on `library/shelf.md` (59 sources) and in `library/notes/`. Every
+literature statement on this board is now either on the shelf (and marked "read in the note": I compared with
+the librarian's note, not with the paper) or carries its own proof here. Known gaps on the shelf that touch the
+board: the Goles–Olivos and Goles–Fogelman-Soulié–Pellegrin primaries (T5 does not depend on them: its proof is
+self-contained and checked; the librarian could not verify 26N + 1 against them, I re-derived it from the proof);
+Darroch–Seneta 1965 itself (read through Méléard–Villemonais); Bramson–Neuhauser 1994 (secondary accounts only).

@@ -344,3 +344,40 @@ Script: `lab/path_r1.py`. What was established (the reply has the short form, th
 - **Refits of the window decrement** (`data`): the extrapolated limit depends on the assumed approach (0.348 to
   0.373 on ℓ ≥ 20). My error model treats numerator and denominator counts as independent, which overstates the
   errors; the χ² values are for ranking the forms only.
+
+## 2026-11-13, reply to source, round 1 (`to-source.md`); the librarian's first pass; curated tallies
+
+Script: `lab/source_r1.py`.
+
+- **Checked and found correct:** source's Lemma 1 (exact source with feedback; the triangular-bijection proof, and
+  `l1`: a bijection of {0,1}²¹ on the 3 × 7 box); Lemma 2 (chain rule); Lemma 3 (one-step projection) and its
+  transfer identity; Lemma 4 (weighted pair energy K = Σ a_i a_j W_ij x_i(t) x_j(t−1) − θ′ Σ a_i²(x_i(t) + x_i(t−1));
+  proof followed; `l2`: identity and inequality on all 2²⁴ pairs of states of the hull R = 2v and of the box 3 × 4,
+  and the termwise bounds over every local picture, where the minima equal m and −c′ exactly). Corollary 4a
+  (uncapped rule on infinite configurations: at most C_U mismatches per cell, hence cellwise period ≤ 2) follows
+  and closes the open item of `research/theory/threshold.md` §6. For gump at λ = 1.1, S = 13,336 and
+  C_U = 1.4×10⁶.
+- **Corrections sent:** "constant hazard ⇔ constant conditional law" is only ⇐; Lemma 2(b) excludes conditioning
+  on the whole past, not on a window (a maximal-length shift register is nearly uniform given fewer than N
+  previous bits); two wordings in Corollary 4b.
+- **A two-line lemma of mine, put on the board ("starvation"):** in a face with ≤ 3 live cells a live face cell has
+  k ≤ 2 and b ≤ 3, so n ≤ 5: never overcrowded. Deaths from n ≤ 3 are deaths by n ≤ 2.
+- **L3** (`l3`): the 2D strip 4 × 6 has no quasi-stationary window (the unsettled population with row 0 alive is
+  gone by t = 21), and in it the rows beneath a one- or two-cell edge are far more lethal than dice of the same
+  density (×2 at one cell, ×16 to ×250 at two). No vessel that can be enumerated will have a window.
+- **The librarian's remark "a finite deterministic system has no non-trivial conditionally invariant measure"
+  is right.** My proof: let μ on M (the complement of the hole) satisfy Σ_{x ∈ M, Tx = y} μ(x) = λ μ(y), 0 < λ < 1.
+  Every y in the support has a preimage in the support, so following preimages the support contains a cycle
+  y, Ty, …, T^k y = y inside M. Along it λ μ(Ty) ≥ μ(y), so μ(y) ≤ λ^k μ(y) and μ(y) = 0: contradiction. (The
+  librarian's `qsd.md` gives another proof: the map restricted to M is a 0/1 matrix whose non-zero eigenvalues
+  are roots of unity.) Board: lemma exchange "trapdoors" (v); graveyard 19.
+- **Library items taken to the board, each compared with the note (not with the paper):** Durrett's comparison
+  theorem has no monotonicity hypothesis and needs uniformity over the outside (graveyard 6 reworded);
+  Galves–Schmitt 1990 and Abadi–Chazottes–Redig–Verbitskiy under "mixing ⇒ exponential"; Mountford 1993 Prop. 1.2
+  and Schapira–Valesin Prop. 2.9, with where they use monotonicity; Méléard–Villemonais as the readable source for
+  Darroch–Seneta; supertransients.
+- **Decision (at the lead's request): the tallies the lab reads are now a committed file,**
+  `lab/data/fluct_tables.npz` (66 kB), written by `lab/curate_fluct.py` from `research/scratch/fluct/qsd_R*.npz`.
+  It holds Tr, H, J, deaths, exposure, and per-lag histograms of the pre-death population (the raw `pre` arrays
+  are 30 MB). `path_r1.py lr1`, `lr1b`, `lr3` read only that file and reproduce the numbers of the reply to path
+  (re-run after the change). The "first lag with n ≥ half the living mean" histogram is stored too (`lasthalf`).
