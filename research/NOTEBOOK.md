@@ -733,3 +733,48 @@ Question put to the agent: is a face's death just the far tail of its ordinary f
   at 2.8, 7.4, 2.6 and 1.2 means; all 16 large plateaus of cubes 13–16 sum to 27.2 means against 16 (P = 0.008).
   The puzzle of the previous entry stands and is now only about cube lineages, not about one hull size. Open.
 - The side-17 forecast is unchanged by the extra R = 41 data (fits give ln τ(828) = 23.7–24.2; forecast 24.0 ± 0.4).
+
+## 2026-11-13 — where the chaos comes from; nothing dies locally in three layers (lead and theory agent)
+
+Notes with full proofs and commands: `research/theory/threshold.md`, `research/theory/thickness.md`. Programme:
+`research/theory/PROGRAM.md`. The lead proposed the lemma and checked the agent's audit with separate code.
+
+- **[proved] The threshold lemma.** In a finite vessel gump is a symmetric threshold automaton with one exception.
+  The *uncapped* rule "alive next iff n + x ≥ 4" has the Goles–Olivos energy E(t) = −x(t)ᵀ(A + I)x(t−1) +
+  3.5(|x(t)| + |x(t−1)|) (ordered pairs), which never increases and drops by ≥ ½ for every cell with
+  x(t+1) ≠ x(t−1); so it reaches period ≤ 2 within 26N + 1 steps. Gump differs from it exactly at *overcrowded*
+  cells (n ≥ 6, where gump says dead). For gump the change of energy is an **exact identity ΔE = D − Q**: Q the
+  dissipation at non-overcrowded cells, D the drive, which enters only at overcrowded cells that were alive two
+  steps earlier ("O1 events"). Consequences: an orbit with no O1 events from some time on has period ≤ 2; over any
+  cycle total drive equals total dissipation; every oscillator of period ≥ 3 has O1 events, at least about a tenth
+  as many per period as it has cells of period ≥ 3. The lemma is false for infinite configurations (uncapped fronts
+  advance forever). Checks: `python3 research/theory/check_threshold.py` (all 329 catalogued objects of period ≥ 3
+  have an overcrowded cell; the uncapped rule on 80 soups freezes in ≤ 8 steps); the identity holds at every one of
+  300 steps of a chaotic orbit in the lead's own code and in `research/theory/energy.py`.
+  Citation status: the agent read two secondary sources for the energy argument (arXiv 1108.2974, 2309.01854);
+  the primary papers (Goles & Olivos 1980; Goles, Fogelman-Soulié & Pellegrin 1985) were not opened.
+- **[measured]** (agent, `research/theory/overcrowd.py`) In bulk chaos 40% of cells are overcrowded every generation
+  and 11.5% are O1 events; activity is 3.9 changes per O1 event (proved ceiling 20). On octahedron faces the O1 rate
+  is 0.073, and 0.035 in the 50 generations before a face dies. Period-≤2 debris has none. The drive rate, not E
+  itself, separates chaos from debris.
+- **[disproved] "One layer always freezes to period ≤ 2"** (the lead's hoped-for theorem, PROGRAM S6). The one-layer
+  automaton has oscillators of periods 3–12, including 5, 7 and 11, with rotors of 3–15 cells in large still
+  stators (`research/theory/kagome_osc.json`; re-stepped by the lead: periods and one-layer thickness confirmed).
+  Typical one- and two-layer soups do still freeze; that is a statement about typical states, not all states.
+- **[proved] Sealed sets, and why the threshold is three layers** (agent; proof read and checked by the lead).
+  Call a set of cells *sealed* if each of its cells has ≤ 3 neighbours outside it. A dead sealed set stays dead
+  whatever happens elsewhere, unions of sealed sets are sealed, so the largest dead sealed set K(t) only grows:
+  this is the skeleton, made exact. **In one layer a 6-cell hexagon ring is sealed, and so is every half-plane (a
+  one-layer pattern never leaves its convex hull); in two layers a 36-cell set is sealed. In three or more layers,
+  and in 3D, no finite set is sealed.** The proof takes the cell of the set furthest along a generic in-plane
+  direction: it has 3 in-layer neighbours beyond it, and in a boundary layer either one of its two neighbours in the
+  next layer or — because their in-plane offsets satisfy ē = −2(ā + b̄) — its one neighbour two layers on. That
+  last neighbour exists only if there is a third layer. In an octahedral vessel every sealed set therefore touches
+  the outside: **unconditional death cannot start in the interior; it can only come in from a face or span the
+  vessel as a firewall**, which is what the peeling study measured.
+- **[measured]** (agent) In one-layer soups K covers 25% of cells at t = 0 and 92% at t = 5, and the rest breaks
+  into finite pockets by t ≈ 3; two layers take ≈ 50 generations; in three layers K stays empty.
+- **[conjecture]** Thin slabs cannot sustain chaos because the unsealed region stops percolating; reduced in
+  `thickness.md` §4 to a percolation statement that a computer-assisted block argument might prove.
+- Not done: minimality of the 36-cell two-layer set outside a finite patch; the smallest sealed set of a thick
+  torus slab beyond N = 4 (it is one whole face layer at N = 3, 4).

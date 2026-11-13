@@ -32,6 +32,11 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    debris a typical seed leaves, and why some cubes go extinct (side 15) and others leave still lifes (side 16);
    (c) proving that a typical seed ends in *small* debris (see 4).
 
+   Now also **[proved]** (`research/theory/`): the threshold lemma (all behaviour beyond period 2 is driven at
+   overcrowded cells; ΔE = D − Q) and the sealed-set theorem (no finite set can die unconditionally in ≥ 3 layers).
+   **Open from them:** (a) a critical drive rate below which activity must stop; (b) the percolation statement that
+   would prove thin slabs cannot sustain chaos; (c) the primary Goles–Olivos sources have not been read.
+
 ## Measured, cause unknown
 
 6. **Whole cubes are over-dispersed against memoryless ensembles** (3 of 16 large plateaus beyond 4 means; side 16

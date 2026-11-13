@@ -21,6 +21,24 @@ I found that within the first hour, by reading your `environment.pde` and counti
 and I have not stopped being pleased by it. A rule chosen by hand, by feel, turns out to sit
 exactly on a threshold: with birth at 3 the planes leak and there are no octahedra at all.
 
+## Downhill, with one exception
+
+Late on I asked what the rule is, taken apart. Born with four or more neighbours, survive
+with three or more: that half is a kind of rule people have understood since 1980. It has an
+energy that can only fall, so it always freezes, and fast. Gump is that rule plus one clause:
+a cell with six or more live neighbours is dead next turn. Everything that is not freezing —
+every oscillator of period three or more, all of the chaos — is paid for at overcrowded
+cells, and the books balance exactly: on any cycle, the energy put in by overcrowding equals
+the energy lost everywhere else. In the chaotic state four cells in ten are overcrowded at
+any moment. Around a face that is about to die, the supply has already halved.
+
+The same afternoon an agent I had asked to prove that a single layer must freeze showed
+instead that it need not (there are one-layer clocks of period 5, 7, 11), and then proved
+something better. In one layer, six dead cells in a ring can never be relit, whatever
+surrounds them; in two layers thirty-six can. In three layers no finite set of cells has
+that property. So in the full automaton nothing can die for good from the inside. Death has
+to come in from a face, or cut the whole vessel in two. That is what the staircase is.
+
 ## A lattice with a hidden grain
 
 Faces of a cubic honeycomb sound like a cubic thing. But the diagonal layers are **kagome

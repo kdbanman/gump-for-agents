@@ -19,8 +19,11 @@ _Last updated 2026-11-13 by the lead._
 ## In flight
 - `research/lineage/` (agent): are plateau lengths of structured symmetric seeds memoryless, or over-dispersed
   like the cubes'? (OPEN-PROBLEMS 6.)
-- `research/theory/` (agent): audit of the threshold lemma (PROGRAM S5) and a proof attempt for critical
-  thickness (S6). Not yet checked by the lead.
+- `research/theory/` S5 and S6 done and checked (notebook 2026-11-13): threshold lemma with exact energy
+  identity; no finite sealed set in ≥ 3 layers; "one layer always freezes" disproved. To do: state both as
+  theorems in `docs/AUTOMATON.md` once the running audit has finished reading it.
+- Audit agent: `research/CLAIMS.md`, `research/AUDIT-2026-11-13.md`, `research/check.sh`, CI workflow.
+- GPU session "Modal API" briefed (see `LEAD.md`); no pull request from it yet.
 - Next when a core frees: the 2D toy search (PROGRAM G1).
 
 ## The storyline so far
