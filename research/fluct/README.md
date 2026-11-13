@@ -36,7 +36,8 @@ Tags: **[proved]**, **[measured]** (n, error, command), **[conjecture]**. Comman
 > (`research/experiments/face_endgame_check.py`) and stand. The side-16 second plateau ended at 2,886,100,480:
 > inside the fit-only forecast, outside the clone-run one; the cube ended at 2,919,617,676. The symmetric table in
 > `data/sym_residence.csv` now also holds the lead's runs (vertex-centred R = 32, 34, 38, 40; copies of the
-> 2.875×10⁹ state): the vertex/cube factor is a flat ≈1.5 from A = 360 to 630 and high only at A = 693.
+> 2.875×10⁹ state): the vertex/cube factor is a flat ≈1.5 from A = 360 to 630, and 2.0 ± 0.4 at A = 693 once
+> fresh soups are measured properly (45 deaths; the 3.3 of correction 3 below leaned on copies of the cube).
 > `qsd.py`'s symmetric ensembles are not reliable below R = 30 (settled debris is counted as a living face:
 > R = 24 v reads 6.2×10⁴ where the engine gives 630). Details: `research/NOTEBOOK.md`, 2026-11-13.
 

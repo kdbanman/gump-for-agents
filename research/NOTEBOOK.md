@@ -714,3 +714,22 @@ Question put to the agent: is a face's death just the far tail of its ordinary f
   against 5,550; R = 30: 2.18×10⁴ against 2.07×10⁴ ± 0.09×10⁴; R = 29 (cube-centred): 1.44×10⁴ against
   1.36×10⁴. Probably oscillating debris of a period its settle test does not cover. Negligible where chaos cannot
   settle before a face dies (R ≥ 32: settles are under 2% of deaths; none from R = 36). Use the engine below R = 30.
+
+## 2026-11-13 — radius 42 is not a special size; what is odd is the cube (lead)
+
+- **[measured]** Three one-hour ensembles of fresh O_h soups on the orbit stepper:
+  `QSD_SALT=xa python3 research/fluct/qsd.py sym 42 v 3500 1 lite`, the same with `QSD_SALT=xb`, and
+  `QSD_SALT=xa … sym 41 c 3500 1 lite` (the salt gives an independent ensemble with its own file and seeds).
+  Vertex-centred R = 42: 24 and 16 deaths in 1.28×10¹⁰ replica-generations each; with the agent's 5, **45 deaths,
+  τ = 7.1×10⁸ (90%: 5.6–9.2×10⁸)**. Cube-centred R = 41: 38 deaths; with the agent's 20, **58 deaths,
+  τ = 3.5×10⁸ (2.9–4.4×10⁸)**. Table: `python3 research/fluct/sym_fit.py`.
+- **The vertex/cube factor at A = 693 is 2.0 (ln 0.70 ± 0.20)**, 1.5σ above the flat 1.5 of A = 360–630. The 3.1 of
+  the previous entry leaned on the copies of the cube; fresh soups do not show it. R = 42 is an ordinary size.
+- **Copies of the cube against fresh soups in the same hull:** at R = 42, copies of the 1.025×10⁹ state give
+  1.08×10⁹ (24 deaths) against the soups' 7.1×10⁸ — a ratio of 1.5, ln 0.42 ± 0.25, 1.7σ. At R = 40 copies and
+  soups agree (8.2 and 5.7 against 8.2 ×10⁷). No clear difference.
+- **The cube itself:** its first plateau, 2.362×10⁹, is 3.3 soup means (P = 0.036), or 2.8 means of soups and copies
+  pooled (P = 0.06). `python3 research/experiments/cube_vs_ensemble.py` now reads: side 16's four largest plateaus
+  at 2.8, 7.4, 2.6 and 1.2 means; all 16 large plateaus of cubes 13–16 sum to 27.2 means against 16 (P = 0.008).
+  The puzzle of the previous entry stands and is now only about cube lineages, not about one hull size. Open.
+- The side-17 forecast is unchanged by the extra R = 41 data (fits give ln τ(828) = 23.7–24.2; forecast 24.0 ± 0.4).

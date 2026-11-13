@@ -17,8 +17,7 @@ _Last updated 2026-11-13 by the lead._
 - `research/phase/` — the chaotic state as a phase; 960-rule survey (`research/figures/phase_rulemap.png`).
 
 ## In flight
-- One-hour ensembles at A = 693 (R = 42 vertex-centred, R = 41 cube-centred) to settle whether R = 42 is
-  anomalously long-lived (`QSD_SALT=xa python3 research/fluct/qsd.py sym 42 v 3500 1 lite`; notebook, last entries).
+- Nothing running.
 
 ## The storyline so far
 1. Birth cannot cross a `{111}` plane (T2) ⇒ finite seeds are trapped in octahedral hulls; no
@@ -50,7 +49,7 @@ _Last updated 2026-11-13 by the lead._
    `research/data/cube16_*`). What was wrong: the cost per site in a symmetric face rises with
    face size, so "A/7.7" under-predicts beyond its fitted range; cube-centred O_h faces follow
    ln τ ≈ 0.69 + (0.209/6)·A − 0.195·√A to A = 693 (`research/fluct/sym_fit.py`), and
-   vertex-centred ones (even cubes) are a flat 1.5× tougher up to A = 630.
+   vertex-centred ones (even cubes) are ≈1.5× tougher (A = 360–630; 2.0 ± 0.4 at A = 693).
    **Face death is the stationary tail, measured to one cell** (`research/fluct/README.md`):
    ln P(n = k) is straight down to k = 1, the death rate is its next point (h ≈ 0.6·P(n = 1)),
    62% of deaths are from a single cell, the usual 3-cell ember is one kagome triangle;
@@ -80,7 +79,8 @@ _Last updated 2026-11-13 by the lead._
   first-plateau mean of 2.6×10¹⁰ (not run).
 - **Open puzzle:** whole cubes are over-dispersed against the memoryless ensembles — 3 of 16
   large plateaus beyond 4 means, 3 under 0.05 (`research/experiments/cube_vs_ensemble.py`;
-  P ≈ 0.01). And R = 42 vertex-centred sits 2× above the trend of its neighbours (2.4σ).
+  P ≈ 0.01); side 16's four largest plateaus ran 2.8, 7.4, 2.6 and 1.2 means. Hull radius 42
+  itself is an ordinary size (fresh soups: τ = 7.1×10⁸, 45 deaths). No mechanism known.
 - `research/fluct/qsd.py` is unreliable for symmetric soups below R = 30 (settled debris
   counted as a living face); use the engine there.
 - Clockwork study done (2026-11-13): 94 new oscillators in `research/clockwork/objects/`
