@@ -68,3 +68,16 @@ A1 (Galves–Schmitt 1990): "ratio mixing ⇒ exponential law" is a theorem for 
 *invariant* measure. A3 (Abadi–Chazottes–Redig–Verbitskiy): in two dimensions ψ-mixing fails even for the
 high-temperature Ising model; what gives e^{−c n^d} there is the Gibbs property. A class 𝒦 for a
 two-dimensional face should be of that non-uniform kind.
+
+## 2026-11-13. Addendum to the reply to round 1: the probability line's dice model
+
+Probability has reported. Its model is **E₁(π)** (board, "Definitions"): a ring of L cells following the 2D rule,
+the number b ∈ {0, 1, 2} of live cells beneath each cell drawn i.i.d. with a law π = (π₀, π₁, π₂); τ = 1/(1 − λ).
+D2(L, ρ) is π = Bin(2, ρ). What it has proved (modulo two cited percolation facts, not yet on the shelf):
+e^{cL} ≤ τ_L ≤ 3p^{−3L} when p = min(π₀, π₂) > 0.4991, i.e. only near the **anchor π = (½, 0, ½): the two cells
+beneath an edge cell are equal, by a fair coin.** It has also proved that for independent rows (Bin(2, ρ),
+ρ ≥ 0.46) no one-step monotone comparison can work. So:
+- your R_1(Q) with a binary deep-permutive bulk is E₁(Bin(2, ½)) = (¼, ½, ¼), where nothing is proved yet;
+- a relative that realises the anchor needs both cells beneath an edge cell to carry the same fresh bit at every
+  generation. For such a relative Theorem A would be a theorem about a deterministic automaton on a half-plane.
+Exact values (lab L4.1): at the anchor ln τ = 6.5319, 9.4733, 12.2492, 13.5946 at L = 8, 12, 16, 18 (step ≈ 0.67).

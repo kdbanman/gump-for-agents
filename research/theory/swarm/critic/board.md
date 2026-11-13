@@ -1,7 +1,7 @@
 # Board (critic)
 
-_Kept by the critic. Last update: 2026-11-13, after the replies to path, source and counting, round 1 (the
-round 1 report of probability is written and not yet read). Scripts named here are in `critic/lab/`; run them from that directory. "Checked" means I
+_Kept by the critic. Last update: 2026-11-13, after the replies to all four lines, round 1 (the round 2 reports
+of path and source are written and not yet read). Scripts named here are in `critic/lab/`; run them from that directory. "Checked" means I
 re-derived or recomputed it; "read" means I compared the statement with its source and did nothing more.
 Proofs and commands behind every "checked" are in `critic/journal.md`._
 
@@ -9,10 +9,10 @@ Proofs and commands behind every "checked" are in `critic/journal.md`._
 
 | who | directory | toolkit | state |
 |---|---|---|---|
-| probability | `swarm/probability/` | dice in place of chaos: particle systems, coupling, percolation, contours | round 1 written; reply pending |
+| probability | `swarm/probability/` | dice in place of chaos: particle systems, coupling, percolation, contours | round 1 answered (`to-probability.md`) |
 | counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | round 1 answered (`to-counting.md`) |
-| path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | round 1 answered (`to-path.md`) |
-| source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | round 1 answered (`to-source.md`) |
+| path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | round 1 answered (`to-path.md`); round 2 written, reply pending |
+| source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | round 1 answered (`to-source.md`); round 2 written, reply pending |
 | librarian | `swarm/library/` | primary papers: `shelf.md` (one line per source), `notes/`, `requests.md` (append-only, anyone) | first pass finished: 59 sources, ten notes files |
 
 Where lines could meet, which I watch: the probability of an empty edge under a product measure (a transfer
@@ -53,6 +53,14 @@ None of these changes the problem. Each is a number or sentence a proof could le
   runs falls with age.
 - **E6. The 2D symmetry ratios 0.42 and 0.50 have different baselines** (0.1733/0.41 in strips; 0.171/0.343 in
   boxes). The symmetric slopes are equal; the asymmetric baselines differ.
+- **E15. The 2D rule's "anomalous" ratios are reproduced exactly by one row over dice.** In D2(·, 0.472) (lab L4.2,
+  exact to 19 cells): an interval with dead ends and one with reflecting ends (= a mirror-symmetric ring of twice
+  the length) have the same exponent, 0.460 per cell, with a constant ratio of lifetimes; the ring has 0.52–0.53
+  at L = 15–19. Ratios: mirror ring / ring = 0.44 (2D rule: 0.42); dead ends / ring = 0.88 (2D rule: 0.34 against
+  0.38–0.44); dead = reflecting (2D rule: 0.340 against 2 × 0.1733 = 0.347). So "a mirror costs less than half" and
+  "a box edge costs less than a ring" are properties of an edge over dice: they need no deterministic chaos and
+  no geometry of the bulk. Whether the ring's excess is a different exponent or a power of L (≈ L^{1.0–1.2} in τ)
+  is not decided at these sizes, in D2 or in the 2D rule.
 - **E7. The lineage rows (slow variable; 1% double peels) were measured on O_h-symmetric states only.**
 - **E8. In the 2D strips the edge wait is a competing hazard.** At depth 16 the strip is cut across by three dead
   columns far more often than it loses an edge (cuts + interior firewalls against edge deaths: 4,768 / 898 at
@@ -106,7 +114,9 @@ None of these changes the problem. Each is a number or sentence a proof could le
 - "The face layer over fresh random layers, where an empty face is absorbing by T2": true (a dead face cell sees
   at most 3 cells beneath; 2D: 2). This is the exponent study's one-row model; it is defined below as D2 / D3 and
   is now exact for the 2D rule (lab L0b.4). Not in the graveyard: item 6 is about an *unknown* outside, item 7
-  about this model's constant. No lower bound e^{cL} is proved for it. Two structural facts: in D2 the cells
+  about this model's constant. A lower bound e^{cL} is now proved (probability's Theorem A, modulo two cited
+  percolation facts) only near the law "b = 0 or 2 by a fair coin"; for independent rows (ρ ≥ 0.46) probability
+  proved that no one-step monotone comparison can give it (its Lemma 2). Two structural facts: in D2 the cells
   update independently given the row, with two deterministic transitions ((dead, k = 0) stays dead; (live, k = 2)
   stays alive); in D3 the noise is shared inside each cube triple and independent between triples (cube lemma).
 
@@ -185,6 +195,13 @@ None of these changes the problem. Each is a number or sentence a proof could le
   periodic face follow gump, the next two layers are dice. These are `toy_model`, `gump_model`,
   `gump_slab_model` of `research/theory/exponent/xp.py`. For a dice model τ = 1/(1 − λ), λ the Perron eigenvalue of
   the kernel on living states, is well defined (Darroch–Seneta).
+  **E₁(π)** (the probability line's model; it contains D2): the same ring, the number b ∈ {0, 1, 2} of live cells
+  beneath each cell drawn i.i.d. with any law π = (π₀, π₁, π₂). D2(L, ρ) is π = Bin(2, ρ). The **anchor**
+  π = (½, 0, ½) means "the two cells beneath are equal, by a fair coin". Given the row, the cells update
+  independently: P(alive | live, k) = π₂, π₁+π₂, 1, π₀+π₁, π₀ and P(alive | dead, k) = 0, π₂, π₁+π₂, π₀+π₁, π₀ for
+  k = 0…4 live in-row neighbours (checked). If π₀, π₂ > 0 no state is immortal and the chain on non-empty rows is
+  irreducible and aperiodic. The same model on an interval with **dead** ends (a box edge) or **reflecting** ends
+  (a mirror-symmetric ring of twice the length with mirrored dice) is used in the lab table.
 
 ## Facts table of PROBLEM.md: what I checked
 
@@ -215,6 +232,10 @@ None of these changes the problem. Each is a number or sentence a proof could le
 | boundary conditions and symmetry at a fixed horizon: free ends ≥ ring, mirror ≥ half, C4 and diagonal = no symmetry | counting (Prop. 4) | proved, checked at k = 1 on small boxes; c⁰_k = c_k verified for k = 1, 2 (lab) |
 | the second-order lift as an invertible relative | counting (Lemma 2) | proved, checked: its faces never die |
 | collision entropy of the top three rows as a countable hypothesis (claim 15) | counting | inequality proved; hypothesis fails from generation 2 in every vessel that can be enumerated (lab L3.5) |
+| the dice model E₁(π) (one row of the 2D rule over i.i.d. b with any law); its sharp one-step monotone minorant; the law as a theorem near π = (½, 0, ½) by comparison with oriented site percolation | probability (Lemma 1, Theorem A) | proved, checked, modulo F1 (critical density of oriented site percolation ≤ 0.7491) and F2 (finite-volume survival), both requested from the library |
+| one-step comparisons cannot reach independent rows; block comparisons over n generations must seed at nearly full speed | probability (Lemma 2, claim 8) | proved, checked |
+| a multi-generation criterion for E₁(π) (T1); boundary conditions do not change the exponent of a dice model, hence "mirror = exactly half" (T2) | probability | guesses. T2: exact data say dead = reflecting (0.460), ring higher at L ≤ 19 (E15) |
+| **meeting point of three lines: "one exponent ≈ 0.345 for the 2D rule; the ring's excess is a prefactor"** | path (G1, exam E1: data side and the power of L), counting (Prop. 4, C1: fixed horizons), probability (T2: the dice model) | open; see E15 |
 | a deterministic relative that is a dice model exactly: true rule in the top w layers over a deep-permutive bulk, feedback allowed (R_w(Q), "gump on parity") | source (Lemma 1) | proved, checked. Needs a half-infinite reservoir |
 | the death law of a face depends on the bulk only through the equal-time conditional law κ_t of the two layers beneath given the w layers above; a class 𝒦 of such kernels on which the dice theorem holds (Aim B) | source (Lemma 3, C9) | Lemma 3 proved, checked; 𝒦 is a goal, nothing proved |
 | entropy accounting: what a finite vessel cannot supply | source (Lemma 2) | proved; excludes conditioning on the whole past only (reply, item 2) |
@@ -250,8 +271,12 @@ None of these changes the problem. Each is a number or sentence a proof could le
 11. **Cubes outlive their ensembles / lineage memory.** Post hoc; not a fact to explain.
 12. **"The plunge lengthens with L in the 2D rule."** Reported false (two-generation flash; unchecked).
 13. **"A gump face can die in one generation whatever its configuration."** False; see E10.
-14. **A monotone process below the capped rule.** Any monotone map H ≤ G has H∘H = ∅ (checked). A comparison from
-    below must leave the full state space.
+14. **A monotone process below the capped rule.** Deterministic rule: any monotone map H ≤ G has H∘H = ∅
+    (checked). Dice models, one-step comparisons (probability, entries 2, 4; checked): for two or more rows over
+    dice and for a gump face over dice there is none (the all-alive state dies whatever the dice show); for one
+    row over dice the largest one is explicit (rates min(π₀, π₂), min(π₀, 1 − π₀), π₀) and it dies in O(log L)
+    generations for independent rows with ρ ≥ 0.46 (contraction 0.9475 per generation at ρ = 0.472). A comparison
+    with a monotone process must use several generations, or leave independent rows.
 15. **Exact dice from a confined deterministic source for the whole lifetime.** Entropy: N cells give at most N
     bits of dice; lifetimes are e^{cA}. Exact transfer needs a reservoir that deep (source Lemma 2 states it as
     Σ_t H(b_t | whole past) ≤ N). This excludes properties that condition on the whole past, not on a window.
@@ -298,6 +323,13 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 - **Capped against uncapped** (checked). Gᵗ(S) ⊆ Fᵗ(S) for the uncapped monotone rule F, also with shared dice.
   Any monotone H ≤ G satisfies H(S) ⊆ G(all alive) = the six vertex cells of a cube-centred hull, the four
   corners of a box, nothing in slabs, strips, tori, vertex-centred hulls; and H∘H = ∅.
+- **One row over dice** (probability, entries 1–4; checked). E₁(π): cells independent given the row (table under
+  "Definitions"); from every state the empty row is reached within three generations with probability ≥ p^{3L},
+  p = min(π₀, π₂), so E T ≤ 3p^{−3L}. The row dominates five-parent oriented site percolation of density p
+  (every cell within distance 2 of a live cell is alive next with probability ≥ p, whatever the row). **Theorem A:**
+  if 1 − (1 − p)² exceeds the critical density of two-parent oriented site percolation, then τ_L ≥ e^{cL} (even
+  L): blocks of two cells in a frame drifting one cell per generation. Five-parent oriented percolation dies for
+  density < 1/3. Statement and proofs: `probability/journal.md`.
 - **Finite-horizon law for the 2D rule** (counting Theorem 3; proof checked; exact checks on strips). From the
   uniform soup, in a strip with ≥ 2k + 1 rows, P(edge empty at generation k) = tr(M_kᴸ)/2^{(2k+1)L} ≤ m_k e^{−c_k L},
   M_k a 0/1 matrix on windows of 4k columns of rows 0…2k; c_k is also the exact decay rate of empty windows of the
@@ -414,6 +446,9 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 | L3.5 | counting 6: collision probability of the top three rows at generation j from soup, strips 4 × 5, 4 × 6, 5 × 5 | excess (1/L) ln(8ᴸ Σ μ²): 0.44, 0.46, 0.37 at j = 1; 0.99, 1.03, 0.92 at j = 2; 1.73, 1.74, 1.74 at j = 8 (to compare with c₁ = 0.5515) | `counting_r1.py coll` |
 | L3.6 | second-order lift, every pair-state (2D strip 2 × 5; gump hull R = 1c) | bijection; "face empty now" has frequency 2⁻ᴬ; nothing enters "empty twice running" | `counting_r1.py lift` |
 | L3.7 | C4 boxes in the committed toy2d file | settling is 97%, 81%, 66%, 54%, 42%, 32% of all exits at L = 16…36 (box without symmetry: 71 of 4,297 at L = 16, ≤ 3 beyond): the C4 slope 0.28 is a hazard among replicas that have not settled | `counting_r1.py data` |
+| L4.1 | probability R1, R2: tables of E₁(π); ln τ_L on the ring, L = 5…18, three laws | tables confirmed. (½, 0, ½): 6.5319, 9.4733, 12.2492, 13.5946 at L = 8, 12, 16, 18; steps 0.685, 0.679, 0.675, 0.671 at L = 15…18. Bin(2, ½): 9.7375 at L = 18, steps 0.543, 0.528, 0.528, 0.533. Bin(2, 0.472): as L0b.4 (independent code), 10.2118 at L = 19 | `prob_r1.py tables`, `ring 18` (1½ min) |
+| L4.2 | probability R3: D2(·, 0.472) on an interval of M cells, dead ends and reflecting ends, M = 5…19 | dead: ln τ = 6.7641, 7.7402, 8.6551, 9.5731, 10.4946, 10.9538 at M = 10, 12, 14, 16, 18, 19; steps 0.457, 0.461, 0.461, 0.460, 0.459 at M = 15…19. Reflecting: 5.9342, 6.8792, 7.8154, 8.7365, 9.6563, 10.1164; steps 0.461, 0.460, 0.460, 0.460, 0.460. Dead − reflecting = 0.837 ± 0.001 at M = 15…19. Ring − dead = −2.07, −1.38, −1.08, −0.74 at L = 5, 10, 14, 19; on L ≥ 11: −4.30 + 1.21 ln L (rms 0.016) or −2.27 + 0.082 L (rms 0.028) | `prob_r1.py ends 19` (2½ min) |
+| L4.3 | probability, Lemma 2(b): contraction of the sharp minorant | κ (their formula) 0.9552, 0.9475, 0.9322 at ρ = 0.46, 0.472, 0.5; exact sup of E Φ′/Φ over all η on a ring of 14: 0.9262, 0.9187, 0.9322 | `prob_r1.py tables` |
 | L1.6 | refits of the empty-window decrement (committed `gap.json`) | limit 0.348 (c/ℓ), 0.355 (e^{−ℓ/20}), 0.370 (c/ℓ²), 0.373 (e^{−ℓ/10}) on ℓ = 20…38, all acceptable | `path_r1.py data` |
 
 ## The lab: what it can do, how to ask
@@ -427,7 +462,8 @@ under side conditions (hulls to about 700 cells, slabs to about 250); feasibilit
 configuration beneath that does X" (SAT); the face game on a face of ≤ 18 cells; linear programmes over
 certificates (Theorem P) on an exact or tallied one-step table; transfer-matrix eigenvalues for
 any explicitly stated finite-window model (to about 2¹⁶ window states); exact killed-chain eigenvalues and
-quasi-stationary laws for dice models on a ring of L ≤ 18 (cells updating independently given the row) or on
+quasi-stationary rates for one row over dice (any law π, ring or interval, to about 19 cells; `prob_r1.py`
+applies the kernel without storing it), full quasi-stationary laws on a ring of L ≤ 18 (`dice_w1.py`) or on
 ≤ 2¹⁴ states otherwise; joint laws of permutive automata on small windows.
 
 A request needs: the vessel (kind and dimensions); the rule; what is random and with what law, if anything;

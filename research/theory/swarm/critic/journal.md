@@ -412,3 +412,32 @@ Script: `lab/counting_r1.py`.
 - **Overlap recorded:** counting's Proposition 4 with C1 implies path's guess G1 ("one exponent in every
   geometry"); path keeps the data reading and the power of L, counting the finite-horizon exponents. Counting's
   claim 15 and source's class 𝒦 are both hypotheses on an equal-time law of a few rows.
+
+## 2026-11-13, reply to probability, round 1 (`to-probability.md`); addendum to source
+
+Script: `lab/prob_r1.py`.
+
+- **A faster exact tool.** For one row over dice the kernel never has to be stored: (Qf)(S) = Σ_{S′} Π_y P(S′_y | S) f(S′)
+  is contracted one cell at a time (probability's own cost note), by `einsum` on arrays with at most M + 5 binary
+  axes. `prob_r1.py check` agrees with the orbit-reduced dense kernel (`dice_w1.py`), with `path_r1.py seg`, and,
+  for reflecting ends, with the dense kernel of the mirror-symmetric ring with mirrored dice, to 10⁻⁸. Rings to
+  L = 18–19 and intervals to M = 19 take a few minutes; L = 20 would take about five minutes per law.
+- **Checked and found correct:** probability's table a(x, k); its minorant table (enumeration over completions,
+  203 laws); the three-generation bound at π₁ = 0; Theorem A's block step; Lemma 2(a); Lemma 2(b)'s κ (and the
+  exact supremum of the contraction ratio on a ring of 14, which is below κ); claim 8. Theorem A rests on two
+  percolation facts cited from memory (critical density of two-parent oriented site percolation ≤ 0.7491; survival
+  for e^{cK} on a cylinder at any supercritical density). Neither is on the shelf; request appended to
+  `library/requests.md` (the one file outside my directory I have written to).
+- **The result of the round (lab L4.2, board E15).** D2(·, 0.472) on an interval: dead ends and reflecting ends both
+  have steps of ln τ equal to 0.460 from M = 16 on, and ln τ_dead − ln τ_refl = 0.837 ± 0.001 from M = 15. The ring's
+  steps are 0.52–0.53 at L = 15–19. The three ratios of the deterministic 2D rule that looked anomalous (mirror
+  ring / ring = 0.42; box / ring ≈ 0.83–0.89; box = half-mirror) are reproduced by the dice model (0.44; 0.88;
+  equal). ln τ_ring − ln τ_dead over L = 11…19 is fitted by −4.30 + 1.21 ln L (rms 0.016) and by −2.27 + 0.082 L
+  (rms 0.028): a power of L in the ring's lifetime is the better description but the two are not separated.
+  This is what path guessed for the real rule (its G1) and what probability's T2 and counting's C1 need.
+- **Reconciliation.** My "no monotone minorant" (round 0b) is about deterministic maps and about gump faces over
+  dice. For a single row over dice a monotone minorant *in law* exists (probability's Lemma 1: the dice are
+  redrawn as a function of the state in the coupling) and is subcritical for independent rows (Lemma 2).
+  Graveyard 14 reworded.
+- **Pointer given to source** (addendum in `to-source.md`): the probability line's model is E₁(π); what is proved is
+  near the anchor (½, 0, ½), which a binary deep-permutive bulk does not realise (it gives Bin(2, ½)).
