@@ -552,23 +552,31 @@ phase k, per-cell periods of P66.27a, C48.24a, C36.33a, C12.43a, C40.24a: all as
   the README): **C48.24a, period 48 = 6 × 8**, in a 42-cell box with a six-fold rotoreflection — every 8 generations
   the whole plate reappears turned 60° about (−1,1,1) and inverted; **C36.33a, 36 = 4 × 9** (quarter turn about a
   cube axis every 9 generations; fills the 60-cell vertex-centred octahedron); **C12.43a, 12 = 6 × 2** (same box);
-  **C40.24a, 40 = 2 × 20**; P15.22a = 3 × 5. None was ever seen in soup. This chooses m, not L: SAT for a prescribed
-  (g, L) stalls beyond ≈27 cells and L ≈ 5, and nothing here is modular — the "part" is the whole box.
+  **C40.24a, 40 = 2 × 20**. None of these four was ever seen in soup. (The catalogue's P15.22a, seen 11 times in
+  soup, is 3 × 5: a third of a turn about (1,1,1) every 5 generations.) This chooses m, not L: SAT for a prescribed
+  (g, L) stalls beyond ≈27 cells and L ≈ 5.
 - **[measured] Census of small closed boxes.** All 402 diagonal hulls three layers thick with 15–66 cells, 50,000
   random states each (`python3 research/clockwork/box_census.py enum 3 15 66; … run 3 50000; … report 3`,
-  ≈45 CPU-min): 9,700 distinct oscillators of period ≥ 3 (the atlas had 329 objects of all kinds), thirteen new
-  periods (17, 18, 19, 21, 24, 25, 26, 28, 30, 32, 34, 35, 44). Four-layer boxes give far less (139 boxes, longest
-  new period 28). P66.27a itself has a basin of 4.1×10⁻⁴ in its own box and turned up in 112 of the 113 census boxes
+  ≈45 CPU-min): 9,700 distinct R-connected oscillators of period ≥ 3 (the atlas had 329). Four-layer boxes give
+  far less (139 boxes, longest new period 28). P66.27a itself has a basin of 4.1×10⁻⁴ in its own box and turned up in 112 of the 113 census boxes
   that contain that box: it is rare in soup because soup rarely leaves an isolated plate of that shape
   [conjecture], not because it is a delicate attractor.
-- **[measured] The twist does not pick long loops; it multiplies ordinary ones** (lead;
-  `python3 research/clockwork/twist_stats.py` writes the per-object rows, then tabulate L = P/m). Among the 9,700
-  census objects, twisted ones are a steady 3–6% at every quotient length L (L ≥ 3: 308 of 9,527; L ≥ 7: 31 of 774;
-  L ≥ 12: 10 of 170; L ≥ 16: 5 of 87), while the number of objects falls steeply with L. Doubling (or ×6) therefore
-  throws the twisted minority far out into the tail of *periods*: every object of period 26, 34, 48 or 66 is
-  twisted. Ranked by L the record-holders are untwisted — C44.26a (L = 44) and C35.29a (35) — and P66.27a's loop
-  of 33 is third. So the longest clock on record is the third-longest loop, counted twice. Among oscillators that
-  fill their own hull (period ≥ 7), 16 of 21 are twisted.
+- **[measured] 249 of the 9,700 are compound clocks, and two of the "new periods" exist only that way** (lead;
+  `python3 research/experiments/census_twist.py`, 15 s, re-steps every census object with its own stepper). In
+  249 objects no cell has the full period: they are two (rarely three) sub-clocks of coprime periods on a shared
+  frame — C44.26a is a period-4 rotor and a period-11 rotor (7 and 14 cells) on 14 stator cells; C30.32a is 5 with
+  6; nine of the thirteen saved period-20s are 4 with 5. Since every cell keeps its sub-clock's period whatever
+  the phase of the other, nothing passes between the rotors (Life calls such periods "trivial"). 22 of the 94
+  saved objects are of this kind. With them set aside, the new periods are 17, 18, 19, 21, 24, 25, 26, 28, 32,
+  34, 35 from the census and 36, 40 from the symmetric boxes; 30 and 44 are not periods of any single loop found.
+- **[measured] The twist does not pick long loops; it multiplies ordinary ones** (lead; same command). Among the
+  9,451 indivisible census objects, twisted ones are a steady 3–8% at every quotient length L (L ≥ 3: 295 of
+  9,278; L ≥ 7: 30 of 670; L ≥ 12: 9 of 120; L ≥ 16: 5 of 66), while the number of objects falls steeply with L.
+  Doubling (or ×6) therefore throws the twisted minority far out into the tail of *periods*: every indivisible
+  object of period 26, 34, 48 or 66 is twisted. Ranked by L, the longest loop is untwisted — C35.29a, L = 35, 37
+  of its 47 cells carrying the full period — and P66.27a's loop of 33 is second. So the longest clock on record is
+  the second-longest loop, counted twice. Among oscillators that fill their own hull (period ≥ 7), 16 of 21 are
+  twisted (agent's count).
 - **[conjecture]** Periods well beyond 66 are there to be found by the same route: a loop of quotient length ≈30
   in a box with a 4- or 6-fold symmetry would have period 120–200. The search problem is that large symmetric
   boxes rarely settle into a cycle that spans them.
