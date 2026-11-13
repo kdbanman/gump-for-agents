@@ -413,3 +413,40 @@ that a cell with six live in-face neighbours dies whatever the dice.
 - Exam: P-E1 (D2 ring: slope 0.48 ± 0.03 between L = 30 and 38), P-E2 (mixed ends = mean of the two, exact),
   P-E3 (OP₅(½) exact: step 0.41 ± 0.05, ring − interval = +2.0 ± 1.0) are in `swarm/PREDICTIONS.md`.
 - Library: one request appended (Liggett's theorem at equality; five-parent oriented percolation).
+
+## Round 2 report (interim, paused)
+
+Paused at the lead's request, 2026-11-13. The full round 2 report is the section "Round 2 report" above; this
+is the state for whoever resumes.
+
+**Done and committed (I stand behind these as written).**
+- Entries 1–4 (round 1), checked by the critic: the dice model E₁(π), its τ, Lemma 1 (sharp one-step minorant),
+  Theorem A (modulo F1, F2), Lemma 2 (one-step comparison dead for independent rows).
+- Entry 6, Theorem A′: the lower bound needs only conditional weight ≥ p at b = 0 and b = 2; any bulk.
+- Entry 7, Lemma 3: d + Qg ≤ ag + ε at every living state, 0 ≤ g ≤ 1, a + ε < 1 ⇒ τ ≥ 1/ε.
+- Entry 8, Proposition W (a), (b), (d): exact inequality between a ring (or reflecting interval) and the
+  dead-ended interval four cells shorter; (c) the conditional bound under H(n, c).
+- Entry 9, Proposition F: τ_L(OP₅(p)) ≤ C·L·β*(p)^L, ln β*(½) = 0.4812.
+- Exam entries P-E1, P-E2, P-E3 in `swarm/PREDICTIONS.md`; one library request appended. `claims.md` is current.
+
+**Half-done (not to be leaned on).**
+- Proposition W(c) is a dichotomy, not a proof of T2b: H(n, c) with n = O(log L) is not established, and the
+  exact tables to L = 19 show the ring falling behind the interval by about 0.065 per cell. The second branch
+  ("a free gap serves as the wall") is a heuristic.
+- The dead end of entry 7 (no certificate of the form r^{additive health}) rests on a local form of the
+  three-move game that is asserted, not written out.
+- Theorem A still waits for F1 (critical density of oriented site percolation below 3/4, or Liggett's theorem at
+  equality) and F2 (finite-volume survival); neither is on the shelf. Odd L is not written.
+- Irreducibility of the chain on a dead-ended interval is not proved (entry 10).
+- Round 2 has not been read by the critic; lab requests R5–R9 (report above) are unanswered.
+
+**Next, in order.**
+1. Read the critic's reply and the answers to R6, R7 (how long a dying interval needs its walls; how D2 dies).
+   If the death is short: bound n* and state T2b for D2 under a checked finite property. If it is a front:
+   write the front version of Proposition W (gap ends in place of walls).
+2. Score P-E2 and P-E3 against R8, R5 as soon as they are run; they test the end-factor and front pictures.
+3. T3, the gump face: with the cube lemma D3 is a product over triples; find out whether any dice law gives a
+   percolation anchor, given that a cell with six live in-face neighbours dies whatever the dice (entry 2,
+   fact 2). Nothing has been started on this.
+4. A certificate for Lemma 3 of contour or matrix-product form, first for OP₅ (where survival is known), then
+   for E₁ away from the anchor. Not started.
