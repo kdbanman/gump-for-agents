@@ -5,8 +5,8 @@ Stage 1  python3 search.py stage1 moore OUT.jsonl [shard nshards]
          0.5, 256 soups each, cap 4000 generations. Records median lifetime (settle gen; capped runs count as
          cap) and fraction still running.
 Stage 2  python3 search.py stage2 moore IN.jsonl OUT.jsonl [minmed]
-         rules whose stage-1 median at either p is >= minmed (default 300): box L = 6, 8, 10, 12, 14, 16, at
-         the better p, cap 2*10^5, 256 soups; plus the first edge-death time.
+         rules whose stage-1 median at either p is >= minmed (default 300): box L = 8, 10, 12, 14, 16, at
+         the better p, cap 5*10^4, 256 soups; plus the first edge-death time.
 """
 import json, sys, time
 import numpy as np
@@ -48,8 +48,8 @@ def stage2(lat, inp, out, minmed=300):
             p = 0.3 if r['p0.3']['med'] >= r['p0.5']['med'] else 0.5
             rec = dict(rule=r['rule'], B=r['B'], S=r['S'], p=p, L={})
             t0 = time.time()
-            for L in (6, 8, 10, 12, 14, 16):
-                cap = 200000
+            for L in (8, 10, 12, 14, 16):
+                cap = 50000
                 a = geom.life((r['B'], r['S']), lat, 'box', (L,), p, 7 + L, cap)
                 st = stats(a, cap)
                 ev = a[:, 2:6].astype(float); ev[ev < 0] = np.inf

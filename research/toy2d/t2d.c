@@ -13,7 +13,8 @@
  *   t2d trace GRAPH B S p seed gens          replica 0 only: per generation, population and line counts
  *
  * B, S are bit masks over the neighbour count (bit k = count k).  Settled = period 1 or 2 (state(t) ==
- * state(t-2)), checked every generation, or period dividing 840 (checked every 840 generations).
+ * state(t-2)), checked every generation, or equal to a snapshot taken at the last multiple of 64 (periods <= 64)
+ * or of 4096 (periods <= 4096); the settle time is then reported as the snapshot's time (an upper bound).
  */
 #include <stdint.h>
 #include <stdio.h>
@@ -30,7 +31,7 @@ typedef uint64_t u64;
 static int N, K, R, M, E;
 static int32_t *nb, *orb;
 static int *lflag, *llen, **lcell, *elen, **eline;
-static u64 *x0, *x1, *x2, *snap; /* x0 = current, x1 = t-1, x2 = t-2 */
+static u64 *x0, *x1, *x2, *snap, *snapB; /* x0 = current, x1 = t-1, x2 = t-2 */
 static int nterm; static int tk[16], tmode[16]; /* tmode: 1 = birth only, 2 = survive only, 3 = both */
 
 static u64 rs[4];
@@ -61,7 +62,7 @@ static void load(const char *fn) {
   for (int e = 0; e < E; e++) { rdi(f, h, 1); elen[e] = h[0]; eline[e] = malloc(4 * (elen[e] + 1)); rdi(f, eline[e], elen[e]); }
   fclose(f);
   x0 = calloc((size_t)(N + 1) * W, 8); x1 = calloc((size_t)(N + 1) * W, 8);
-  x2 = calloc((size_t)(N + 1) * W, 8); snap = calloc((size_t)(N + 1) * W, 8);
+  x2 = calloc((size_t)(N + 1) * W, 8); snap = calloc((size_t)(N + 1) * W, 8); snapB = calloc((size_t)(N + 1) * W, 8);
 }
 static void setrule(int B, int S) {
   nterm = 0;
@@ -126,9 +127,9 @@ static void settled2(u64 *s) {
   for (int i = 0; i < N; i++) for (int w = 0; w < W; w++) s[w] |= x0[(size_t)i * W + w] ^ x2[(size_t)i * W + w];
   for (int w = 0; w < W; w++) s[w] = ~s[w];
 }
-static void settled840(u64 *s) {
+static void settledsnap(const u64 *sn, u64 *s) {
   for (int w = 0; w < W; w++) s[w] = 0;
-  for (int i = 0; i < N; i++) for (int w = 0; w < W; w++) s[w] |= x0[(size_t)i * W + w] ^ snap[(size_t)i * W + w];
+  for (int i = 0; i < N; i++) for (int w = 0; w < W; w++) s[w] |= x0[(size_t)i * W + w] ^ sn[(size_t)i * W + w];
   for (int w = 0; w < W; w++) s[w] = ~s[w];
 }
 /* bit-sliced population count of a line, per replica */
@@ -149,7 +150,7 @@ int main(int argc, char **argv) {
   u64 *alive = malloc(8 * (size_t)(M + 1) * W), sm[W], ev[W];
   if (!strcmp(mode, "life")) {
     long Tmax = atol(argv[7]);
-    seed_all(); memcpy(snap, x0, 8 * (size_t)(N + 1) * W);
+    seed_all(); memcpy(snap, x0, 8 * (size_t)(N + 1) * W); memcpy(snapB, x0, 8 * (size_t)(N + 1) * W);
     long *settle = malloc(8 * NR), *evt = malloc(8 * (size_t)NR * (E + 1));
     for (int r = 0; r < NR; r++) settle[r] = -1;
     for (size_t i = 0; i < (size_t)NR * E; i++) evt[i] = -1;
@@ -164,11 +165,12 @@ int main(int argc, char **argv) {
       }
       settled2(sm);
       for (int r = 0; r < NR; r++) if (settle[r] < 0 && (sm[r / 64] >> (r % 64) & 1)) { settle[r] = t - 2 < 0 ? 0 : t - 2; left--; }
-      if (t % 840 == 0) {
-        settled840(sm);
-        for (int r = 0; r < NR; r++) if (settle[r] < 0 && (sm[r / 64] >> (r % 64) & 1)) { settle[r] = t - 840; left--; }
-        memcpy(snap, x0, 8 * (size_t)(N + 1) * W);
-      }
+      if (t > 64) { settledsnap(snap, sm);
+        for (int r = 0; r < NR; r++) if (settle[r] < 0 && (sm[r / 64] >> (r % 64) & 1)) { settle[r] = (t - 1) / 64 * 64; left--; } }
+      if (t > 4096) { settledsnap(snapB, sm);
+        for (int r = 0; r < NR; r++) if (settle[r] < 0 && (sm[r / 64] >> (r % 64) & 1)) { settle[r] = (t - 1) / 4096 * 4096; left--; } }
+      if (t % 64 == 0) memcpy(snap, x0, 8 * (size_t)(N + 1) * W);
+      if (t % 4096 == 0) memcpy(snapB, x0, 8 * (size_t)(N + 1) * W);
     }
     for (int r = 0; r < NR; r++) {
       printf("%ld %d", settle[r], popall(r));
@@ -193,7 +195,7 @@ int main(int argc, char **argv) {
   }
   if (!strcmp(mode, "qsd")) {
     long T0 = atol(argv[7]); double gens = atof(argv[8]); const char *out = argv[9];
-    seed_all(); memcpy(snap, x0, 8 * (size_t)(N + 1) * W);
+    seed_all(); memcpy(snap, x0, 8 * (size_t)(N + 1) * W); memcpy(snapB, x0, 8 * (size_t)(N + 1) * W);
     long *age = calloc(NR, 8);
     int nh = 0; for (int l = 0; l < M; l++) if (lflag[l] & 1) nh++;
     int maxlen = 0; for (int l = 0; l < M; l++) if (llen[l] > maxlen) maxlen = llen[l];
@@ -202,7 +204,7 @@ int main(int argc, char **argv) {
     double exposure = 0; long ndeath_e[64] = {0}, early = 0, settles = 0, settles_exp = 0;
     double from[8] = {0}; /* histogram-line count at t-1 for deaths of single-line events: 0..7 (7 = >=7) */
     double aexp[64] = {0}, adeath[64] = {0};
-    long ndeaths = 0;
+    long ndeaths = 0; double bflips = 0, eflips = 0;
     FILE *dl = NULL; char dfn[4096]; snprintf(dfn, sizeof dfn, "%s.deaths", out); dl = fopen(dfn, "w");
     for (double g = 0; g < gens; g += 1) {
       /* exposure: replicas with age >= T0 before the step */
@@ -212,6 +214,9 @@ int main(int argc, char **argv) {
       step();
       for (int r = 0; r < NR; r++) age[r]++;
       long t = (long)g + 1;
+      for (int i = 0; i < N; i++) for (int w = 0; w < W; w++) bflips += __builtin_popcountll((x0[(size_t)i * W + w] ^ x2[(size_t)i * W + w]) & expm[w]);
+      for (int l = 0; l < M; l++) if (lflag[l] & 1) for (int j = 0; j < llen[l]; j++) for (int w = 0; w < W; w++) {
+        size_t c = (size_t)lcell[l][j] * W + w; eflips += __builtin_popcountll((x0[c] ^ x2[c]) & expm[w]); }
       line_alive(alive);
       int killed[NR]; memset(killed, 0, sizeof killed);
       for (int e = 0; e < E; e++) {
@@ -227,7 +232,10 @@ int main(int argc, char **argv) {
         }
       }
       settled2(sm);
-      if (t % 840 == 0) { u64 s8[W]; settled840(s8); for (int w = 0; w < W; w++) sm[w] |= s8[w]; memcpy(snap, x0, 8 * (size_t)(N + 1) * W); }
+      { u64 s8[W]; settledsnap(snap, s8); for (int w = 0; w < W; w++) sm[w] |= s8[w];
+        if (t > 4096) { settledsnap(snapB, s8); for (int w = 0; w < W; w++) sm[w] |= s8[w]; }
+        if (t % 64 == 0) memcpy(snap, x0, 8 * (size_t)(N + 1) * W);
+        if (t % 4096 == 0) memcpy(snapB, x0, 8 * (size_t)(N + 1) * W); }
       for (int r = 0; r < NR; r++) if (!killed[r] && (sm[r / 64] >> (r % 64) & 1)) { killed[r] = 2; settles++; if (expm[r / 64] >> (r % 64) & 1) settles_exp++; }
       /* histogram of living, measured replicas (state after the step, if they are exposed next step) */
       int anym = 0; for (int r = 0; r < NR; r++) if (!killed[r] && age[r] >= T0) { anym = 1; break; }
@@ -243,6 +251,7 @@ int main(int argc, char **argv) {
     FILE *f = fopen(out, "w");
     fprintf(f, "replicas %d\nT0 %ld\ngens %.0f\nexposure %.0f\ndeaths %ld\nearly %ld\nsettles %ld\nsettles_exposed %ld\nhistlines %d\n",
             NR, T0, gens, exposure, ndeaths, early, settles, settles_exp, nh);
+    fprintf(f, "bulk_flips %.0f\nedge_flips %.0f\ncells %d\n", bflips, eflips, N);
     fprintf(f, "deaths_by_event"); for (int e = 0; e < E && e < 64; e++) fprintf(f, " %ld", ndeath_e[e]); fprintf(f, "\n");
     fprintf(f, "from"); for (int k = 0; k < 8; k++) fprintf(f, " %.0f", from[k]); fprintf(f, "\n");
     fprintf(f, "age_exposure"); for (int b = 0; b < 64; b++) fprintf(f, " %.0f", aexp[b]); fprintf(f, "\n");
