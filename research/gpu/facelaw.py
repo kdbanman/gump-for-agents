@@ -16,7 +16,7 @@ import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 AREA = lambda R: 3 * ((R - 1) // 2 + 1) * ((R - 1) // 2 + 2) // 2
-SLAB_LAW = lambda A: math.exp(-0.09 + 0.209 * A)          # tau_face, research/STATUS.md
+SLAB_LAW = lambda A: math.exp(-0.09 + 0.209 * A)          # tau_face of flat slab faces (research/STATUS.md); only printed as a ratio
 
 
 def run(R, wall_s, seed, p=0.35, launch_s=1.0, log=print, centre='c', sym=False, raw_cap=60000, **cfg):
@@ -145,17 +145,23 @@ def summary(paths):
     by_R = {}
     for p in paths:
         r = json.load(open(p))
+        r['_path'] = p
         by_R.setdefault((r.get('sym', False), r.get('centre', 'c'), r['R']), []).append(r)
     rows = []
     for (sym, centre, R), recs in sorted(by_R.items()):
+        seeds = [r['seed'] for r in recs]
+        if len(set(seeds)) < len(seeds):    # the same (vessel, seed) twice is the same soups twice: refuse to pool
+            dups = [r['_path'] for r in recs if seeds.count(r['seed']) > 1]
+            raise SystemExit(f'refusing to merge runs with the same vessel and seed: {dups}')
         seen = {}
-        for r in recs:      # independent runs share no death age (the seed-collision bug of 2026-11-13 showed up this way)
+        for r in recs:      # independent runs rarely share a death age; the seed-collision bug of 2026-11-13 showed up this way
             for a in set(r['death_ages'] or []):
                 if a > 10 ** 4:
-                    seen.setdefault(a, set()).add(r['seed'])
-        dup = {a: sd for a, sd in seen.items() if len(sd) > 1}
+                    seen.setdefault(a, set()).add(r['_path'])
+        dup = {a: f for a, f in seen.items() if len(f) > 1}
         if dup:
-            print(f'WARNING R={R}: runs share {len(dup)} death ages (not independent?):', list(dup.items())[:5])
+            print(f'WARNING R={R}: {len(dup)} death ages > 10^4 appear in more than one file (chance coincidences are possible '
+                  f'in large runs; many mean the runs repeat each other):', list(dup.items())[:3])
         agg, deaths, expo, da = merge(recs)
         A = recs[0]['A']
         nf = 1 if sym else 8                     # symmetric: the eight faces die together, tau is the mean residence
@@ -186,16 +192,18 @@ def summary(paths):
                                                         for h in L['hazard_by_age'] if h['rate_x_tau'] is not None))
         hz = [(EDGES[i], EDGES[i + 1], int(deaths[i]), int(expo[i])) for i in range(len(deaths)) if expo[i] > 0 and EDGES[i] >= 200]
         print('  hazard by age (deaths / exposure):', '; '.join(f'[{lo:.0e},{hi:.0e}) {d}/{e:.2e}={d / e:.3g}' for lo, hi, d, e in hz if d or e > 0))
-    # the face law: ln tau_face = ln(8 x first-peel mean), against the straight line of research/fluct (I(0) = 0.2077 + 0.55/A)
+    # the face law: ln tau_face = ln(8 x first-peel mean), with the cost per cell and the local slope between sizes.
+    # (Not compared with 0.2077 A + 0.55: that line is a QSD-endpoint fit that misses verified lifetimes by 0.08 nats at
+    # A = 45 and 84; research/audit/REVIEW-gpu-pr8.md, claim 2.)
     t = [r for r in rows if r['T0'] == 200 and not r['sym']]
     if t:
-        print('\n   A   deaths   ln tau_face      fluct line 0.2077A+0.55   excess   per site   local slope')
+        print('\n   A   deaths   ln tau_face      per cell   local slope')
         prev = None
         for r in t:
-            lt = math.log(8 * r['mean']); se = 1 / math.sqrt(r['deaths']); line = 0.2077 * r['A'] + 0.55
-            sl = f'{(lt - prev[1]) / (r["A"] - prev[0]):.4f}' if prev else ''
-            print(f'{r["A"]:4d} {r["deaths"]:8d}   {lt:7.3f} +- {se:.3f}   {line:7.3f}                  {lt - line:+.2f}    {lt / r["A"]:.4f}     {sl}')
-            prev = (r['A'], lt)
+            lt = math.log(8 * r['mean']); se = 1 / math.sqrt(r['deaths'])
+            sl = f'{(lt - prev[1]) / (r["A"] - prev[0]):.4f} +- {math.hypot(se, prev[2]) / (r["A"] - prev[0]):.4f}' if prev else ''
+            print(f'{r["A"]:4d} {r["deaths"]:8d}   {lt:7.3f} +- {se:.3f}   {lt / r["A"]:.4f}     {sl}')
+            prev = (r['A'], lt, se)
     ts = [r for r in rows if r['T0'] == 1000 and r['sym']]
     if ts:
         print('\n O_h   R    A   deaths   ln tau (T0 = 1000)')
