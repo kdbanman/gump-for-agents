@@ -1,0 +1,277 @@
+#!/usr/bin/env python3
+"""Bit-exact checks of kernel.cuh.
+
+  python3 research/gpu/check.py engine-cases OUT.npz      # needs the engine: states at g0 and g0+T from `gump run`
+  python3 research/gpu/check.py all [cpu|gpu] [CASES.npz] # kernel vs the engine cases, and vs fl.c
+
+* engine: start every case's state (from `gump run` at g0) in a few lanes spread over the words, random soups in all
+  other lanes, step T generations, compare those lanes with `gump run`'s state at g0 + T (cell for cell).
+* fl.c, stepping: identical soups in both, compare every replica's full state every 250 generations.
+* fl.c, events: per replica, the first generation at which some face layer is extinct (fl.c's run_until with lo = 0)
+  must equal the kernel's kind-1 event generation.
+"""
+import os, sys, time
+import numpy as np
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import gsim
+from gsim import fl
+
+ENGINE_CASES = [  # (gump seed args, centre, sym, g0, T)  -- the cases of research/fluct/validate.py
+    (['--soup', '0.35', '--radius', '11', '--rng', '5'], 'c', False, 30, 3000),
+    (['--soup', '0.35', '--radius', '19', '--rng', '7'], 'c', False, 30, 2000),
+    (['--soup', '0.35', '--radius', '27', '--sym', 'oh', '--rng', '3'], 'c', True, 30, 3000),
+    (['--soup', '0.35', '--radius', '24', '--sym', 'oh', '--rng', '4', '--center', '1,1,1'], 'v', True, 30, 3000),
+    (['--snapshot', os.path.join(fl.ROOT, 'research/data/cube16_gen1025000000.gump')], 'v', True, 0, 3000),
+]
+
+
+def cell_hash(cells):
+    """order-independent 64-bit hash of a set of cells (doubled coordinates); same in the engine-case builder and on
+    the GPU side, so every generation can be compared without shipping traces"""
+    c = np.asarray(cells, np.int64).reshape(-1, 3) + 4096
+    z = ((c[:, 0] << 26) | (c[:, 1] << 13) | c[:, 2]).astype(np.uint64)
+    with np.errstate(over='ignore'):
+        z = z + np.uint64(0x9E3779B97F4A7C15)
+        z = (z ^ (z >> np.uint64(30))) * np.uint64(0xBF58476D1CE4E5B9)
+        z = (z ^ (z >> np.uint64(27))) * np.uint64(0x94D049BB133111EB)
+        z = z ^ (z >> np.uint64(31))
+        return int(z.sum(dtype=np.uint64))
+
+
+def trace_hashes(args, g0, T):
+    """hash of the engine's state after each of generations g0+1 .. g0+T (gump run --trace, one line per generation)"""
+    f = os.path.join(fl.SCR, f'trace_{os.getpid()}.txt')
+    import subprocess
+    subprocess.run([fl.GUMP, 'run', *args, '--gens', str(g0 + T), '--no-halt', '--trace', f], capture_output=True, check=True)
+    out = []
+    with open(f) as fh:
+        for k, line in enumerate(fh):
+            if g0 + 1 <= k <= g0 + T:
+                parts = line.split()[1:]
+                cells = np.array([list(map(int, p.split(','))) for p in parts], np.int64) if parts else np.zeros((0, 3), np.int64)
+                out.append(cell_hash(cells))
+    os.remove(f)
+    assert len(out) == T, (len(out), T)
+    return np.array(out, np.uint64)
+
+
+def engine_cases(out):
+    rec = {}
+    for k, (args, centre, sym, g0, T) in enumerate(ENGINE_CASES):
+        c0, s0 = fl.gump_cells(args, g0, 'g0')
+        cT, _ = fl.gump_cells(args, g0 + T, 'gT')
+        rec[f'c{k}_hashes'] = trace_hashes(args, g0, T)
+        rec[f'c{k}_cells0'], rec[f'c{k}_cellsT'] = c0, cT
+        rec[f'c{k}_meta'] = np.array([centre == 'v', sym, T] + [x for lh in s0['hull_final'] for x in lh])
+        print(f'case {k}: {" ".join(args)[-50:]}  g0={g0} T={T} pop {len(c0)} -> {len(cT)}', flush=True)
+    np.savez_compressed(out, n=len(ENGINE_CASES), **rec)
+
+
+def check_engine(path, backend, WT, **kw):
+    d = np.load(path)
+    ok_all = True
+    for k in range(int(d['n'])):
+        meta = d[f'c{k}_meta']
+        centre, sym, T = ('v' if meta[0] else 'c'), bool(meta[1]), int(meta[2])
+        hull = [[int(meta[3 + 2 * i]), int(meta[4 + 2 * i])] for i in range(4)]
+        v = fl.Vessel(hull, centre, sym)
+        s = gsim.Sim(v, WT, backend, **kw)
+        rng = np.random.default_rng(k)
+        bits = rng.random((s.R, v.n)) < 0.35
+        lanes = sorted({0, 1, 31, 32, s.R // 2 + 5, s.R - 1})
+        b0 = fl.bits_from_cells(v, d[f'c{k}_cells0'])
+        bits[lanes] = b0
+        s.set_all(bits)
+        t = time.time()
+        s.step(T, freeze=False)
+        out = s.get_all()
+        want = set(map(tuple, d[f'c{k}_cellsT']))
+        res = [set(map(tuple, fl.cells_from_bits(v, out[r]))) == want for r in lanes]
+        ok = all(res)
+        ok_all &= ok
+        print(f'engine case {k} [{s.kernel}]: nodes {v.n:5d} sym {sym!s:5} T {T}: lanes {lanes} {"equal" if ok else "DIFFER " + str(res)}'
+              f'  ({time.time() - t:.1f} s)', flush=True)
+    return ok_all
+
+
+def check_engine_every(path, backend, WT, **kw):
+    """the acceptance bar: the engine's state every generation (hash of the cell set) in several lanes, T generations"""
+    d = np.load(path)
+    ok_all = True
+    for k in range(int(d['n'])):
+        meta = d[f'c{k}_meta']
+        centre, sym, T = ('v' if meta[0] else 'c'), bool(meta[1]), int(meta[2])
+        hull = [[int(meta[3 + 2 * i]), int(meta[4 + 2 * i])] for i in range(4)]
+        want = d[f'c{k}_hashes']
+        v = fl.Vessel(hull, centre, sym)
+        s = gsim.Sim(v, WT, backend, **kw)
+        rng = np.random.default_rng(k)
+        bits = rng.random((s.R, v.n)) < 0.35
+        lanes = sorted({0, 31, 32, s.R // 2 + 5, s.R - 1})
+        bits[lanes] = fl.bits_from_cells(v, d[f'c{k}_cells0'])
+        s.set_all(bits)
+        t0 = time.time(); bad = 0; first = None
+        for t in range(T):
+            s.step(1, freeze=False)
+            for b in s.get_lanes(lanes):
+                if cell_hash(fl.cells_from_bits(v, b)) != int(want[t]):
+                    bad += 1; first = t + 1 if first is None else first
+        ok = bad == 0
+        ok_all &= ok
+        print(f'engine every generation, case {k} [{s.kernel} {kw}]: nodes {v.n:5d} sym {sym!s:5} centre {centre}: {T} gens x '
+              f'{len(lanes)} lanes {"all equal" if ok else f"{bad} MISMATCHES, first at generation {first}"} ({time.time() - t0:.0f} s)', flush=True)
+    return ok_all
+
+
+def check_fl(backend, WT, R=11, T=2000, sym=False, p=0.35, **kw):
+    hull = fl.octa_hull(R)
+    v = fl.Vessel(hull, 'c', sym)
+    s = gsim.Sim(v, WT, backend, **kw)
+    f = fl.Sim(v, W=s.R // 64)
+    rng = np.random.default_rng(R)
+    seedable = gsim.seed_mask(v, R) if not sym else np.ones(v.n, bool)
+    bits = (rng.random((s.R, v.n)) < p) & seedable
+    s.set_all(bits); f.set_all(bits)
+    ok = True
+    for t0 in range(0, T, 250):
+        s.step(250, freeze=False); f.run(250, record=False)
+        same = np.array_equal(s.get_all(), f.get_all())
+        ok &= same
+        if not same:
+            print(f'  fl.c stepping DIFFERS at generation {t0 + 250}'); break
+    print(f'fl.c stepping [{s.kernel} {kw} J={getattr(s, "J", None)} T={getattr(s, "T", None)}], p={p}, R={R} sym={sym} nodes {v.n} replicas {s.R} x {T} gens: {"equal" if ok else "DIFFER"}', flush=True)
+    # events
+    s.set_all(bits); f.set_all(bits)
+    sg, sm, _ = f.run_until(T, np.zeros(s.R, np.int32), np.full(s.R, 1 << 30, np.int32))
+    got = np.full(s.R, -1); kind = np.zeros(s.R, int)
+    done = 0
+    while done < T:
+        reps, tt, kk = s.step(100)
+        got[reps] = tt + done; kind[reps] = kk
+        done += 100
+    born_dead = (sm == 0) & (sg == 0)               # a face empty in the initial soup: fl.c stops at 0, the kernels
+    fd = (sm == 0) & ~born_dead                     # check after each step, so they report generation 1
+    mine = (kind == 1) & ~born_dead
+    agree = np.array_equal(fd, mine) and np.array_equal(sg[fd], got[mine]) and np.all(got[born_dead] == 1)
+    if not agree:
+        bad = np.nonzero((fd != mine) | (fd & (sg != got)))[0][:10]
+        print('  mismatches (replica, fl.c gen, fl.c m, kernel gen, kernel kind):',
+              [(int(r), int(sg[r]), int(sm[r]), int(got[r]), int(kind[r])) for r in bad])
+    if born_dead.any():
+        print(f'  {born_dead.sum()} replicas started with an empty face (fl.c: generation 0; kernel: 1)')
+    st_fl, st_me = sm == -2, kind == 2
+    if kw.get('keep'):                              # frozen replicas keep their state at the event, as fl.c's do
+        m = kind != 3                               # fl.c does not stop periodic replicas; the kernel freezes them
+        same_end = np.array_equal(s.get_all()[m], f.get_all()[m])
+        agree &= same_end
+        print(f'  keep=True: final states of {m.sum()} replicas (frozen at their event, or running) {"identical to fl.c" if same_end else "DIFFER from fl.c"}')
+    print(f'fl.c events, R={R} p={p}: face deaths {fd.sum()} (fl.c) vs {mine.sum()} (kernel), generations '
+          f'{"identical" if agree else "DIFFER"}; settled {st_fl.sum()} vs {st_me.sum()} '
+          f'(kernel also catches still lifes at t=1; same set: {np.array_equal(st_fl, st_me)})', flush=True)
+    return ok and agree
+
+
+
+def check_periodic(path, pw=128, K=1000, **kw):
+    """settle detection against the engine's own cycle detection (R = 9 soups run to their end by `gump ensemble`):
+    period <= 2 -> kind 2 exactly at cycle_start + 2; 2 < period <= pw -> kind 3 at L + period, L = the first launch
+    start >= cycle_start; period > pw -> never flagged. Faces off, so only settling ends a life."""
+    d = np.load(path)
+    bits0, meta = d['bits'], d['meta']
+    v = fl.Vessel(fl.octa_hull(9), 'c', False)
+    s = gsim.Sim(v, 0, 'gpu', faces=False, pw=pw, **kw)
+    lanes = np.arange(len(meta)) * (s.R // len(meta))
+    bits = np.zeros((s.R, v.n), bool); bits[lanes] = bits0
+    s.set_all(bits)
+    G = int(meta[:, 3].max()) + 2 * K + pw + 10
+    ev = {}
+    g = 0
+    while g < G:
+        reps, tt, kk = s.step(K)
+        for r, t, k in zip(reps, tt, kk):
+            ev[int(r)] = (g + int(t), int(k))
+        g += K
+    bad, n2, n3, nnone = [], 0, 0, 0
+    for lane, (rng, status, p, c, gen) in zip(lanes, meta):
+        if p <= 2:
+            want = (c + 2, 2); n2 += 1
+        elif p <= pw:
+            L = -(-c // K) * K
+            want = (L + p, 3); n3 += 1
+        else:
+            want = None; nnone += 1
+        got = ev.get(int(lane))
+        if got != want:
+            bad.append((int(rng), int(status), int(p), int(c), want, got))
+    ok = not bad
+    print(f'settle detection pw={pw} [{s.kernel}]: {n2} period<=2 (kind 2 at cycle_start+2), {n3} with 2<p<={pw} (kind 3 at '
+          f'L+p), {nnone} with p>{pw} (no event): {"all as expected" if ok else f"{len(bad)} WRONG: {bad[:6]}"}', flush=True)
+    return ok
+
+
+M64 = (1 << 64) - 1
+
+
+def _mix64(z):
+    z = (z + 0x9E3779B97F4A7C15) & M64
+    z = ((z ^ (z >> 30)) * 0xBF58476D1CE4E5B9) & M64
+    z = ((z ^ (z >> 27)) * 0x94D049BB133111EB) & M64
+    return z ^ (z >> 31)
+
+
+def soup_bits(seed, r, n_nodes, seedable, p):
+    """kernel.cuh's soup_bit for replica r over kernel node indices 0..n-1 (python ints, exact)"""
+    thr = min(int(p * 2.0 ** 64), 2 ** 64 - 1)
+    h = _mix64((_mix64(seed) + r) & M64)
+    return np.array([bool(seedable[i]) and _mix64((h + i) & M64) < thr for i in range(n_nodes)])
+
+
+def check_reseed(backend='gpu', R=15, WT=0, **kw):
+    """reseed a set of replicas: their states must be the hash soup, the others untouched; then stepping on must still
+    agree with fl.c (state and face-death events)"""
+    v = fl.Vessel(fl.octa_hull(R), 'c', False)
+    sd = gsim.seed_mask(v, R)
+    s = gsim.Sim(v, WT, backend, seedable=sd, **kw)
+    rng = np.random.default_rng(5)
+    bits = (rng.random((s.R, v.n)) < 0.35) & sd
+    s.set_all(bits)
+    reps = np.array(sorted({0, 1, 31, 32, 33, 63, 64, s.R // 2, s.R - 2, s.R - 1}))
+    seed, p = 12345678901, 0.2
+    s.reseed(reps, seed, p)
+    got = s.get_all()
+    others = np.setdiff1d(np.arange(s.R), reps)
+    ok = np.array_equal(got[others], bits[others])
+    perm = s.perm if s.perm is not None else np.arange(v.n)       # kernel node i' = vessel node perm[i']
+    sdk = np.r_[sd[perm]]
+    for r in reps:
+        want_k = soup_bits(seed, int(r), v.n, sdk, p)
+        want = np.zeros(v.n, bool); want[perm] = want_k
+        ok &= np.array_equal(got[r], want)
+    dens = got[reps][:, sd].mean()
+    f = fl.Sim(v, W=s.R // 64); f.set_all(got)
+    s.set_all(got)
+    sg, sm, _ = f.run_until(3000, np.zeros(s.R, np.int32), np.full(s.R, 1 << 30, np.int32))
+    gotT = np.full(s.R, -1); kind = np.zeros(s.R, int); done = 0
+    while done < 3000:
+        rr, tt, kk = s.step(100); gotT[rr] = tt + done; kind[rr] = kk; done += 100
+    fd = (sm == 0) & (sg > 0); mine = (kind == 1)
+    ev_ok = np.array_equal(fd, mine) and np.array_equal(sg[fd], gotT[mine])
+    print(f'reseed [{s.kernel}] R={R}: {len(reps)} replicas reseeded {"as hashed" if ok else "WRONG"}, others untouched, '
+          f'density {dens:.3f} (p = {p}); events after reseed {mine.sum()} vs fl.c {fd.sum()}: {"identical" if ev_ok else "DIFFER"}',
+          flush=True)
+    return ok and ev_ok
+
+
+if __name__ == '__main__':
+    if sys.argv[1] == 'engine-cases':
+        engine_cases(sys.argv[2])
+    else:
+        backend = sys.argv[2] if len(sys.argv) > 2 else 'cpu'
+        WT = 4 if backend == 'cpu' else 1024
+        ok = True
+        if len(sys.argv) > 3:
+            ok &= check_engine(sys.argv[3], backend, WT)
+        ok &= check_fl(backend, WT, R=7, T=3000)
+        ok &= check_fl(backend, WT, R=9, T=3000)
+        ok &= check_fl(backend, WT, R=13, T=1000)
+        print('ALL OK' if ok else 'FAILURES')
