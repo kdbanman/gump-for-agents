@@ -115,11 +115,12 @@ export const SCENES = [
       original program's population plots. ${tag('measured')} ${src(N, 'Hull radius (outermost live layer', 'notebook: peeling')}</p>
       <p>How long a face lasts follows one law over six decades. The wait is memoryless, with mean
       about e<sup>0.209·A</sup> generations for a face plane of A sites. ${tag('measured')} ${src(N, 'Flat faces (slab, m = 8', 'notebook: face law')} ${fig('research/figures/peel_face_law.png', 'figure')}
-      A symmetric pattern counts as if its faces were 7.7 times smaller, because symmetric regions die in lockstep. ${tag('measured')} ${src(N, 'effective area A/7.7', 'notebook')}
+      A symmetric pattern counts as if its faces were about seven times smaller, because symmetric regions die in lockstep. ${tag('measured')} ${src(N, 'effective area A/7.7', 'notebook')}
+      That factor shrinks as faces grow: a side-16 cube has outlived our first prediction more than sevenfold. ${tag('measured')} ${src(N, 'side 16 outlives its prediction', 'notebook: side 16')}
       So the side-13 cube lasts about 10<sup>5</sup> generations <i>because</i> it is symmetric. By the law, the same
       octahedron filled asymmetrically would hold each face for about 10<sup>41</sup>. ${tag('measured')} (law, extrapolated) ${src(ST, 'face ~10', 'status')}
       The original's unfinished side-19 run outlived everything only because its torus was too small:
-      it wrapped around and lost its faces. Properly confined, the law puts it near 10<sup>12</sup> generations. (law, extrapolated) ${src(W, 'Properly confined, the law puts it', 'what I see')}</p>
+      it wrapped around and lost its faces. Properly confined, it would last somewhere beyond 10<sup>12</sup> generations. (law, extrapolated) ${src(W, 'Properly confined, it would last', 'what I see')}</p>
       <p>The run starts at generation 3,200. In the layer chart, the top and bottom rows go black for good.
       The <i>faces</i> table on the right gives each face's live cells, its site count A, and the law's mean wait.</p>`,
     spec: { seed: 'cube', n: 11, gen: 3200, speed: '30', play: 1, kwin: 1000, cam: '1,0.75,1.35,1.2' },
