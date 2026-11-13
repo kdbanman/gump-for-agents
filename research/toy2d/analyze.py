@@ -33,7 +33,11 @@ for L in sorted(db, key=int):
     hist = np.array(r['hist'], float); P = hist / hist.sum()
     p = [P[k] if k < len(P) else 0 for k in range(6)]
     # straight line through ln p_k over the lowest decade with data (k = 1..kmax where p_k <= 10 p_1)
-    ks = [k for k in range(1, len(P)) if P[k] > 0 and P[k] <= 10 * P[1]]
+    ks = []
+    for k in range(1, len(P)):   # contiguous from k = 1 while p_k stays within a decade of p_1
+        if P[k] <= 0 or P[k] > 10 * P[1]:
+            break
+        ks.append(k)
     ks = ks if len(ks) >= 2 else [1, 2]
     if P[1] > 0 and P[2] > 0:
         c = np.polyfit(ks, np.log(P[ks]), 1)
