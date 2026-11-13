@@ -26,6 +26,12 @@ The owner's words:
   getting it in the repo so it lasts across your compaction events." And: "I trust you to add/alter from this
   message into the repo."
 
+- 2026-11-13, on model choice for subagents: "anything especially subtle you'd pass off to a fable subagent or two?
+  Looking to burn through some usage! Feel free to start it now." (Fable-class subagents are welcome for the
+  subtlest work; Opus and Sonnet remain the default for the rest.)
+- 2026-11-13, on the 2D rule (`research/toy2d/`): "I think I found the same 2D rule wondering similar things myself
+  years ago". Not yet asked: which rule and neighbourhood they remember.
+
 The lead's reading of the scope (an interpretation, not the owner's words):
 
 - **Without asking:** choosing research and engineering directions; spawning subagents; committing; pushing the
@@ -70,6 +76,14 @@ job to keep it honest. What exists (2026-11-13):
 - "Modal API" (GPU, cloud): briefed 2026-11-13 by message with the acceptance bar and three experiments (lineage
   memorylessness at R = 36–40; symmetric τ at A = 759, 828; asymmetric faces at A = 108, 135). It cannot message
   back; read its pull requests and its directory (expected `research/gpu/`). Find it with the session list.
+
+## Resuming after a compaction
+
+Read `research/STATUS.md` ("In flight" and "Next") first; it is kept current. Running agents and sessions are
+listed there by what they are doing; their ids are in the session-private notes
+(`LEAD_STATE.md` in the session scratchpad) and their reports arrive as notifications. For each report: re-derive
+its key number with separate code, then write the notebook entry, update STATUS / PROGRAM / CLAIMS, commit, push,
+let CI pass, merge.
 
 ## Where things are
 
