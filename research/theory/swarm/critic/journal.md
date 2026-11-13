@@ -147,3 +147,164 @@ cell whose face neighbours are (5,4,4), (3,4,6), (4,5,4), (4,3,6), (6,2,5), (2,6
 (3,4,4), (4,3,4), (2,2,5). (4,5,4) is a y-normal cell whose face neighbours are (5,4,4), (3,6,4), (4,4,5),
 (4,6,3), (6,5,2), (2,5,6): two alive; beneath it (3,4,4), (4,4,3), (2,5,2). The first needs (3,4,4) alive,
 the second needs it dead.
+
+## 2026-11-13, round 0b (second critic): the revised PROBLEM.md, its four starting points
+
+I am the successor of the critic who wrote everything above. I took over `board.md`, this journal and `lab/` as
+they stood (commit 0fc0da1). Both self-tests still print ALL OK (`python3 toy2d_lab.py selftest`, 5 s;
+`python3 gump_lab.py selftest`, 1 s). PROBLEM.md was revised twice after round 0: it now has "Starting points"
+(board E11 said they were missing), a fourth line (**source**) and a librarian (commit 13bbdad). New scripts this
+round: `startpoints.py` (subcommands below; `python3 startpoints.py all` → ALL OK in 12 s) and `dice_w1.py`.
+
+### 1. Counting: the bijection lemma is true, with a convention; a stronger form; what it cannot reach
+
+Let f be a bijection of a finite set X, H ⊆ X non-empty, T(x) = min{t ≥ 0 : fᵗ(x) ∈ H}, T = ∞ if the cycle of x
+misses H. **Claim (PROBLEM.md): the mean of T over X is ≥ |X|/(2|H|) − 1/2.** Proof. If a cycle misses H the mean
+is infinite. Otherwise a cycle of length ℓ carrying m points of H is cut into gaps g₁ + … + g_m = ℓ, and the points
+of a gap have T = 0, 1, …, g − 1, so the cycle contributes Σ g_i(g_i − 1)/2 ≥ (ℓ²/m − ℓ)/2. The function (ℓ, m) ↦ ℓ²/m
+is convex and homogeneous, hence subadditive, so Σ_cycles ℓ²/m ≥ |X|²/|H|. ∎ Equality iff all gaps are equal.
+Checked exhaustively for every permutation of n ≤ 7 points and every H (689,569 cases; `startpoints.py bijection`).
+Three things a user of the lemma must know.
+- *Convention.* With the mean taken over the points that do fall, the bound is |X′|/(2|H|) − 1/2, X′ = the union of
+  the cycles that meet H, and can be far below |X|/(2|H|) − 1/2 (identity map, H one point: 0 against (n − 1)/2).
+- *It bounds a mean. The union bound is stronger and simpler:* #{x : T(x) ≤ t} ≤ (t + 1)|H|, because {T ≤ t} is the
+  union of the t + 1 sets f⁻ˢ(H). It needs only that the measure is invariant: for any map F and any F-invariant
+  probability μ, P_μ(T ≤ t) ≤ (t + 1) μ(H). It bounds the whole law of T and implies the mean bound.
+- *For gump and the 2D rule in a finite vessel no invariant measure charges the trapdoor.* Every invariant
+  probability measure of a map of a finite set sits on cycles. Let H_k = {face non-empty now, empty k generations
+  later}. A periodic state in H_k would have an empty face at time k, hence at all later times (T2), hence at a
+  multiple of its period, hence now: contradiction. So μ(H_k) = 0 for every invariant μ and the bound is empty.
+  For a uniform start and a map that is not a bijection, P(T ≤ t) ≤ Σ_{s ≤ t} |F⁻ˢ(H)|/|X|: the object to count is
+  the k-step preimage, as the starting point says.
+How far from invertible (`startpoints.py image`, every state): one generation loses 2.5 of 20 bits (2D box 4 × 5),
+2.4 of 24 (strip 4 × 6), 1.7 of 12 (gump hull R = 2v), counted as log₂(|X|/|F(X)|); |Fᵗ(X)|/|X| = 0.19, 0.076, 0.037,
+0.019, 0.011, 0.0066 for t = 1…6 in the 4 × 6 strip; the eventual image is 0.05–0.2% of the states (12% in the
+12-cell hull).
+
+### 2. Probability: the capped rule against the monotone rule (two-line lemmas)
+
+G = gump (or the 2D rule), F = the uncapped threshold rule (alive next iff n + x ≥ 4, resp. 3). F is monotone,
+G ≤ F at every cell, and they differ exactly at cells with n ≥ 6 (resp. 5) (`startpoints.py monotone`).
+- **Majorant.** Gᵗ(S) ⊆ Fᵗ(S) for all t (induction: G(Gᵗ⁻¹S) ⊆ F(Gᵗ⁻¹S) ⊆ F(Fᵗ⁻¹S)); the same with shared dice
+  beneath a driven face. So the monotone rule bounds the capped lifetime from *above* only.
+- **No monotone minorant.** If H is monotone and H ≤ G then H(S) ⊆ H(V) ⊆ G(V) for every S (V = all cells alive),
+  and H(H(S)) ⊆ H(G(V)) ⊆ G(G(V)). Computed: G(V) is the six vertex cells of a cube-centred hull (in-vessel degree
+  4; R = 5, 7, 9), the four corners of a 2D box, and empty in vertex-centred hulls (R = 6), slabs, strips and tori;
+  G(G(V)) = ∅ in every case. So **every monotone map below the capped rule dies within two generations from every
+  state.** For a driven periodic face the same holds dice by dice: a full face has k = 6 in-face neighbours at
+  every cell, so G_ω(full face) = ∅ for every ω.
+Consequence for the starting point "the cap as a bounded perturbation of a monotone rule in the regime that
+matters": a sandwich from below on the whole state space does not exist; the regime (a class of configurations)
+has to be named, and it is not invariant under the dynamics for free.
+
+### 3. The cube lemma: how a gump face shares the cells beneath it
+
+Face layer d·p = R for a diagonal d (say d = (1,1,1)). A cell p of it with normal axis a is the "top" face q + e_a
+of the cube with centre q = p − e_a (all even, d·q = R − 1). That cube's six faces are q ± e_x, q ± e_y, q ± e_z:
+three in the face layer and three in the layer R − 2. From the offsets (AUTOMATON §2), with {a, b, c} = {x, y, z}:
+the two neighbours of p one layer in are p − e_a − e_b = q − e_b and p − e_a − e_c = q − e_c (the two bottom faces
+of its own cube that are perpendicular to it); two of its in-layer neighbours are q + e_b, q + e_c (the other two
+top faces of its cube); its neighbour two layers in is p − 2e_b − 2e_c, and p ↦ p − 2e_b − 2e_c is injective.
+**So the face layer is the disjoint union of triples (the three top faces of one cube, a kagome triangle of one
+of the two orientations, one cell of each normal axis); beneath a triple lie the three bottom faces u_x, u_y, u_z of
+the same cube and three private cells v_x, v_y, v_z; and the number of live cells beneath the face cell of axis a is
+b_a = u_b + u_c + v_a.** Different cubes share nothing. Checked on the R = 13 hull face (`startpoints.py
+triangles`): all 84 cells fall into 28 triples, rim included; 84 cells one layer in, each beneath exactly two face
+cells; cells two layers in private. Of the 64 values of (b_x, b_y, b_z) ∈ {0..3}³ exactly 40 occur; (3, 0, ·) does
+not (b_x = 3 forces u_z = 1, so b_y ≥ 1): this is the frustration of board E10 in closed form. One-generation
+emptiability of a face is therefore a condition cube by cube; recomputed that way it reproduces the SAT counts of
+round 0 (187 of 512 at R = 3; 180,615 of 262,144 at R = 5 cannot be emptied in one generation).
+**Face game on hull faces** (`startpoints.py game 3`, `game 5`; the latter takes 2¼ minutes): with the cells beneath
+chosen freely each generation, every configuration of the R = 3 face (9 cells) and of the R = 5 face (18 cells) can
+be emptied in at most **two** generations (R = 5: 81,528 in one, 180,615 in two, none in more). Not known for
+larger or periodic faces (the first periodic face without doubled neighbours is 3 × 3, 27 cells).
+
+### 4. The one-row dice model of the 2D rule, exactly
+
+Model **D2(L, ρ)** (= `toy_model(1, L)` of `exponent/xp.py`): a ring of L edge cells follows B34/S234; the two cells
+beneath each edge cell are i.i.d. Bernoulli(ρ), redrawn every generation. Given the row the cells update
+independently with P(alive | own state s, k live in-row neighbours) = P(k + b ≤ 4, k + b + s ≥ 3); (dead, k = 0)
+stays dead and (live, k = 2) stays alive with probability one, every other case is random. `dice_w1.py` builds
+the kernel on the orbits of the dihedral group and takes its Perron eigenvalue λ; τ = 1/(1 − λ).
+Validation (`python3 dice_w1.py check` → ALL OK): kernel against direct enumeration of the 2L cells beneath (L = 5);
+reduced against full kernel (L = 8); and against the exponent study's *sampled* values: exact ln τ = 4.4000, 6.4169,
+8.6350 at L = 8, 12, 16 against 4.390 ± 0.018, 6.418 ± 0.010, 8.622 ± 0.012. So graveyard 7's first number is now
+checked. Table (`python3 dice_w1.py 0.472 18`, 15 s):
+
+| L | 8 | 10 | 12 | 13 | 14 | 15 | 16 | 17 | 18 |
+|---|---|---|---|---|---|---|---|---|---|
+| ln τ | 4.4000 | 5.3838 | 6.4169 | 7.0061 | 7.5765 | 8.1122 | 8.6350 | 9.1571 | 9.6834 |
+| step from L − 1 | 0.615 | 0.428 | 0.550 | 0.589 | 0.570 | 0.536 | 0.523 | 0.522 | 0.526 |
+| h/p₁ | 0.428 | 0.409 | 0.399 | 0.396 | 0.394 | 0.394 | 0.394 | 0.394 | 0.395 |
+| deaths from n = 1 | 66% | 69% | 71% | 72% | 72% | 72% | 72% | 72% | 72% |
+| deaths from n ≥ 7 | 30% | 23% | 17% | 15% | 12% | 11% | 9% | 8% | 7% |
+
+Quasi-stationary density 0.645–0.650; second eigenvalue 0.47–0.52 (L = 9–13), so the model forgets its state in
+about 1.5 generations. **The step per cell oscillates with L (0.43 at L = 10, 0.59 at L = 13) and is 0.52–0.53 from
+L = 16**: no slope should be read from exact data at L < 15. Unlike the real 2D rule, h/p₁ is flat (0.394) from
+L = 13. ρ = 0.5 instead of 0.472 changes ln τ by +0.04 at L = 16 (8.6764; step 0.528).
+Product-measure one-step cost (`iid_flash.py`), for comparison: 0.760 per cell at the model's own density 0.6455,
+0.5515 at p_e = ρ = 1/2 (i.e. a fraction 0.5761ᴸ of all states of edge + two rows has an empty edge next).
+
+### 5. Path: crossing times; sealed sets beyond the face
+
+- `startpoints.py crossing`: the farthest two cells of a hull face are 5, 6, 7, 8, 9, 10 generations apart at
+  R = 7, 9, 11, 13, 15, 17 (graph distance; the same through the vessel as inside the face layer); from the
+  best-placed cell everything is within 4–8. The measured plunge takes 10–12 generations at A = 30–84 (ordinary
+  until −16): longer than the crossing time of every face on which it was measured.
+- Hulls (`sealed_min.py`, integer programme): the smallest non-empty sealed set is one whole face, proved optimal,
+  for R = 3c, 4v, 5c, 6v, 7c (round 0) and now 8v, 9c, 10v (30, 45, 45 cells; 1–14 s). R = 11, 13: not proved within
+  100 s. The "smallest sealed set containing no whole face" of round 0 (57 cells at R = 7) is a face minus three
+  cells thickened into the next layer (27 of the 30 cells of one face), not a different kind of object.
+- Periodic slabs (`startpoints.py slab`; my slab stepper is validated there against the open-lattice stepper on the
+  unrolled pattern): three consecutive layers of any of the other three diagonals close up on the torus and are
+  sealed (two are not). For an N × N torus the band has 13N cells at m = 3, 36N at m = 8, 54N at m = 12 layers
+  (≈ 4.5·m·N) against 3N² for a face: **smaller than the face once N > about 1.5·m** (65 < 75 at 5 × 5 × 3; 468 < 507
+  at 13 × 13 × 8). The integer programme proves the face is the smallest sealed set at 3 × 3 × 3, 4 × 4 × 3, 4 × 4 × 4,
+  3 × 3 × 8, and finds the 65-cell band at 5 × 5 × 3 (optimality not proved within the time limit). This is thickness.md's remark
+  and the notebook's measured "transverse firewall" channel (2026-11-12: ln τ_fw ≈ −1.4 + 0.54·N·m + 0.22·N, about
+  0.12 per band cell); PROBLEM.md's facts table does not mention it.
+
+### 6. Source: permutive automata as dice
+
+**Lemma.** Let a cellular automaton on Z^d over a finite alphabet have neighbourhood N and local rule f, let
+e ∈ N, e ≠ 0, be a vertex of N in the sense that some linear ℓ has ℓ(e) > ℓ(n) for all other n ∈ N, and let f be
+permutive in the variable at e (a bijection of it for every setting of the others). Start from the uniform product
+measure. If P is a set of cells no two of which differ by an integer multiple of e, then
+{x_p(t) : p ∈ P, t ≥ 0} are i.i.d. uniform.
+*Proof.* x_p(t) depends on the initial cells p + N_t (N_t the t-fold sumset), on which ℓ is maximal exactly at
+p + te. (i) For fixed values of the other cells of p + N_t, x_{p+te}(0) ↦ x_p(t) is a bijection: by induction, in
+x_p(t+1) = f(x_{p+n}(t) : n ∈ N) only the variable n = e involves the cell p + (t+1)e (the others live on
+p + n + N_t, where ℓ < ℓ(p) + (t+1)ℓ(e)), that variable is a bijection of it, and f is permutive there. (ii) Take
+finitely many (p_i, t_i) with the cells q_i = p_i + t_i e distinct (that is the hypothesis on P), ordered by ℓ(q_i).
+The last value is a bijection of x_{q_m}(0) given all other initial cells, and no earlier value depends on q_m
+(ℓ(q_m) ≥ ℓ(q_i) and q_m ≠ q_i). So it is uniform and independent of the earlier ones; induct. ∎
+So the statement in PROBLEM.md ("bipermutive, one cell") is true and needs permutivity on one side only (rule 30
+qualifies). The classical bipermutive statement (r − l adjacent columns of a one-dimensional rule with
+neighbourhood {l..r}) is a different sufficient condition. `startpoints.py source` checks both by enumeration:
+rule 30, one cell, t ≤ 6: all 128 words equally often; rule 30, two adjacent cells: 200 of 1,024 words; rule 90, two
+adjacent cells: uniform, three: not; x′ = x₊₂ ⊕ (x₀ ∧ x₊₁) (e = 2), cells 0 and 1: uniform, cells 0 and 2: not; in two
+dimensions the linear rule on offsets (0,0), (1,0), (0,2) makes rows 1 and 2 (5 columns, t ≤ 4) independent (rank 50
+of 50 over GF(2)), the rule on (0,0), (1,0), (0,1) does not (rank 34).
+Two cautions. **Entropy.** A deterministic system started from N random bits emits at most N bits of exact dice;
+in the lemma each die x_p(t) uses up the fresh cell p + te, so dice for T generations need a source T·|e| deep. A
+confined vessel of N cells cannot supply exact dice to a face for the e^{cA} generations a lifetime theorem is
+about; "word for word" transfer needs an unbounded reservoir. **Confinement.** A binary rule with a quiescent
+dead state that is permutive at e gives birth from a single live neighbour (the cell p − e of a lone live cell p),
+so T2 and T3 fail inside any such source; what survives is that an empty face over it is absorbing, which uses only
+the face rule and the number of cells beneath a face cell (3 < 4; in 2D 2 < 3).
+
+### 7. T5 re-derived (threshold.md §2–3; the first critic had checked the rule text only)
+
+ΔE = −Σ_i (x_i(t+1) − x_i(t−1))(h_i(t) − 3.5) follows from the symmetry of W in two lines; the case analysis
+(non-overcrowded mismatch: ≤ −1/2; overcrowded and alive at t − 1: h − 3.5 ≥ 2.5; overcrowded and dead at t − 1: 0)
+is right; −6N ≤ E ≤ 7N; hence with no O1 event from some time on the orbit has period ≤ 2 within 26N + 1 steps.
+"Freezes" in the source starting point means "reaches period ≤ 2".
+
+### Decisions about the board
+
+E11 closed (the starting points are now in PROBLEM.md) and replaced by a section "The lead's starting points: what
+I checked"; E12–E14 added; graveyard items 14–16 added (monotone minorant; exact dice from a finite reservoir;
+"not sealed ⇒ cannot nucleate"); the dice models get names (D2, D3) so that lines can be pointed at one object;
+library and source added to the map. Citations: the shelf (`library/shelf.md`) exists since 22:30; board lemmas
+taken from the literature are marked with whether they are on it.
