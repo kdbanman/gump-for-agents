@@ -68,14 +68,41 @@ Ran:
    these data; the PR should not quote a single asymptotic number and does not.
 8. **R = 17:** 16 deaths in three runs at ages ≤ 0.0015τ; it rests entirely on the hazard being flat over three
    more decades (the PR says so). The seed-3 run was kept from a batch whose three containers ran the same initial
-   soups (permuted); keeping one of three is legitimate as long as the choice was not made by outcome — the PR
-   keeps s3 because it predates nothing else; not checkable, and immaterial at ±0.25.
+   soups (permuted; see claim 6); keeping one of three is legitimate as long as the choice was not made by outcome.
+   Whether it was is not checkable (the other two files are not committed); immaterial at ±0.25.
 
 Not checked: the kernel's correctness at R = 15 and 17 on a GPU (see claim 1); an independent CPU measurement at
 A = 108 (≈ 1 death per 6 minutes on one core; not enough in the time available to test a 0.2-nat effect).
 An independent CPU measurement at A = 84 is below (filled in when the run ends).
 
 ## Claim 6: seed-collision bug found and fixed
+
+**Verdict: confirmed — the bug is as described, the fix removes it, and no committed result is contaminated.** One
+weakness in the guard that was added (below).
+
+Ran `python3 research/audit/gpu_pr8/seedhash.py` (new: a Python copy of `soup_bit`'s seed/replica hashing, old and
+new, fed the seeds exactly as `facelaw.py` and `postpeel.py` pass them: `(s << 32) + rnd`, rnd = 0 for the initial
+soups and +1 per reseed round) and `dupcheck.py` (above).
+
+- Old hash `mix64(seed ^ (r << 32))`: seeds 1, 2, 3 in parallel → 409,600 of 614,400 (seed, round, replica)
+  streams collide (the runs are permutations of each other); a single seed → 0 collisions. So the R = 11, 13, 15
+  runs (single seed 1, old hash) contain no internal duplicates, as the PR says, and R17_s3 (old hash) is internally
+  clean.
+- New hash `mix64(mix64(seed) + r)`: 0 collisions for seeds (1, 2, 3) and (3, 11, 12); old-s3 vs new-s11/s12
+  streams share nothing. A collision now needs `mix64(s) + r = mix64(s') + r'` mod 2⁶⁴, chance ~ (runs² × replicas) /
+  2⁶⁴: nil. Lanes of one 32-bit word are distinct replicas r, so they cannot collide; containers differ by seed
+  (`copies` gives seed, seed+1, …).
+- Committed data: no death age > 10⁴ is shared between the three R = 17 runs; within runs, repeated ages match
+  chance (R = 13: 37 pairs vs 34.6; vertex R = 40: 8 vs 6.7, and the raw births of those 8 pairs are all different,
+  so they are different soups). Runs with > 50,000 deaths (R = 11, vertex R = 36, 38) store no ages and cannot be
+  checked this way; they are single-seed runs, clean by the argument above.
+- Every committed file has a distinct seed per (vessel): 1 (R = 11, 13, 15), 3/11/12 (R = 17), 101–103, 201–203,
+  301–302.
+
+Weakness: the duplicate guard in `facelaw.py summary` keys shared ages by `r['seed']`, so two files **with the
+same seed** (the realistic mistake: re-running `--seed 12`) produce one seed per age and **no warning**; it also
+only prints, and is blind to runs with > 50,000 deaths. Fix: refuse to merge two runs with equal (vessel, seed), and
+key the age check by file.
 
 ## Claim 3: symmetric faces at A = 759, 828 against forecasts
 
