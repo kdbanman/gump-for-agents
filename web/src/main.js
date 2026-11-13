@@ -30,9 +30,9 @@ const fmt = (n) => n == null ? '–' : Math.round(n).toLocaleString('en-US');
 // ---------------------------------------------------------------- URL / spec
 const DEFAULTS = { seed: 'cube', n: 11, k: 5, H: 60, shape: 'cube', density: 0.3, layers: 3, rng: 1,
   box: 'auto', bc: 'dead', speed: 'max', view: 'auto', face: 0.6, gen: 0, play: 0, lanes: 32, cells: '', cz: '',
-  abs: 0, g0: 0, cam: '', color: 'orientation', diag: 0, slice: '', ortho: 0, rec: 1, kwin: 0, focus: '', id: '', gap: 3 };
-const NUMERIC = ['n', 'k', 'H', 'density', 'layers', 'gap', 'rng', 'face', 'gen', 'play', 'lanes', 'abs', 'g0', 'diag', 'ortho', 'rec', 'kwin', 'gap'];
-const VIEW_KEYS = ['box', 'bc', 'speed', 'view', 'face', 'gen', 'play', 'lanes', 'cam', 'color', 'diag', 'slice', 'ortho', 'rec', 'abs', 'g0', 'kwin', 'focus'];
+  abs: 0, g0: 0, cam: '', color: 'orientation', diag: 0, slice: '', ortho: 0, rec: 1, kwin: 0, focus: '', id: '', gap: 3, stride: 1 };
+const NUMERIC = ['n', 'k', 'H', 'density', 'layers', 'gap', 'rng', 'face', 'gen', 'play', 'lanes', 'abs', 'g0', 'diag', 'ortho', 'rec', 'kwin', 'gap', 'stride'];
+const VIEW_KEYS = ['box', 'bc', 'speed', 'view', 'face', 'gen', 'play', 'lanes', 'cam', 'color', 'diag', 'slice', 'ortho', 'rec', 'abs', 'g0', 'kwin', 'focus', 'stride'];
 
 function readURL() {
   const q = new URLSearchParams(location.search);
@@ -241,9 +241,15 @@ function setPlaying(p) {
   app.playing = p; $('play').textContent = p ? '❚❚ pause' : '▶ play';
 }
 
+// stride K: one displayed step is K generations (speed counts displayed steps); max speed ignores it
+const stride = () => Math.max(1, Math.floor(Number(app.spec.speed === 'max' ? 1 : app.spec.stride) || 1));
 function stepOnce() {
   if (app.edit) leaveEdit(true);
-  setPlaying(false); app.runUntil = 0; app.sim.step(1); app.gen++; app.bricksDirty = true; statsNow();
+  setPlaying(false); app.runUntil = 0;
+  const k = stride();
+  if (app.rec && k > 1) for (let i = 0; i < k; i++) { app.sim.step(1); app.gen++; app.stats.record(app.sim.texture, app.gen); }
+  else { app.sim.step(k); app.gen += k; }
+  app.bricksDirty = true; statsNow();
 }
 
 // Resize on the fly, preserving state (blocking readback; user action only).
@@ -456,10 +462,11 @@ function frame(now) {
     let want;
     if (app.runUntil > app.gen && app.spec.speed === 'max') want = app.runUntil - app.gen;
     else if (app.spec.speed === 'max') want = cap;
-    else { app.acc = Math.min(app.acc + Number(app.spec.speed) * dt, Math.max(cap, 1)); want = Math.floor(app.acc); }
-    const steps = Math.max(0, Math.min(want, cap, app.runUntil > app.gen ? app.runUntil - app.gen : Infinity));
+    else { app.acc = Math.min(app.acc + Number(app.spec.speed) * dt, Math.max(cap, 1)); want = Math.floor(app.acc) * stride(); }
+    let steps = Math.max(0, Math.min(want, cap, app.runUntil > app.gen ? app.runUntil - app.gen : Infinity));
+    if (!app.runUntil && stride() > 1) steps -= steps % stride();   // whole displayed steps only, so phases stay aligned
     app.budgetBound = want >= cap;
-    if (app.spec.speed !== 'max') app.acc -= steps;
+    if (app.spec.speed !== 'max') app.acc -= steps / stride();
     if (steps > 0) {
       if (app.rec) for (let i = 0; i < steps; i++) { app.sim.step(1); app.gen++; app.stats.record(app.sim.texture, app.gen); }
       else { app.sim.step(steps); app.gen += steps; }
@@ -613,6 +620,9 @@ function viewMode() {
 function syncForm() {
   for (const k of FORM) $('f-' + k).value = app.spec[k];
   $('speed').value = String(app.spec.speed);
+  const st = $('stride');
+  if (![...st.options].some(o => o.value === String(app.spec.stride))) st.add(new Option(String(app.spec.stride), String(app.spec.stride)));
+  st.value = String(app.spec.stride);
   $('v-mode').value = app.spec.view;
   $('v-face').value = app.spec.face;
   $('v-color').value = app.spec.color;
@@ -641,6 +651,7 @@ $('apply').addEventListener('click', () => { readForm(); app.spec.gen = 0; app.s
 $('play').addEventListener('click', () => setPlaying(!app.playing));
 $('step').addEventListener('click', stepOnce);
 $('speed').addEventListener('change', () => { app.spec.speed = $('speed').value; app.acc = 0; writeURL(); });
+$('stride').addEventListener('change', () => { app.spec.stride = Number($('stride').value); app.acc = 0; writeURL(); });
 $('rec').addEventListener('change', () => { app.stats.flush(); app.rec = $('rec').checked; app.spec.rec = app.rec ? 1 : 0; statsNow(); writeURL(); });
 $('v-mode').addEventListener('change', () => { app.spec.view = $('v-mode').value; view.setMode(viewMode()); writeURL(); });
 $('v-color').addEventListener('change', () => { app.spec.color = $('v-color').value; view.setColorMode(app.spec.color); app.bricksDirty = true; writeURL(); });

@@ -1,0 +1,149 @@
+# Clockwork: P66.27a, closed boxes, and twisted cycles
+
+Study of the period-66 oscillator `P66.27a` and its kin (clockwork agent, 2026-11-13).
+Tags: **[proved]** = exact argument or exhaustive in a stated space; **[measured]** = counts with the command;
+**[conjecture]**. All commands run from `research/clockwork/`; bulk output goes to `research/scratch/clockwork/`.
+
+## What P66.27a is, in one paragraph
+
+A flat plate three kagome layers thick (the `{111}` layers s = 1, 3, 5 along d = (−1,1,1)), about four cubes
+across. Its diagonal hull is exactly 45 cells, 15 per layer, and **every one of those 45 cells is live in some
+phase**: the oscillator fills its own box completely. By T2 the box is closed, so P66.27a is a single cycle of a
+finite 45-bit map. The box has one non-trivial symmetry, the mirror M: (x,y,z) ↦ (6−y, 6−x, z) (plane x+y = 6,
+which contains the slab normal, so it mirrors each kagome layer in itself). **Phase t+33 is exactly the mirror image
+of phase t.** The thing runs 33 generations, then has become its own reflection, runs 33 more and is back. The rim of
+the plate is almost rigid (2 true stator cells, 4 more live in 65 of 66 phases); the duty cycle falls steadily
+towards the middle, and the two cells at the centre of the mirror line are live only 6 and 10 times per cycle. A
+churning interior inside a nearly rigid frame: a drum skin, not a train of gears.
+
+## Mechanism
+
+- **[proved]** (`python3 -c` in `cw.py` terms: `find_map(orb[0], orb[k])` over k): the only pair (g, k) with
+  g(phase 0) = phase k, k ≠ 0, is g = M above, k = 33. P48.34a is the same kind: g = (x,y,z) ↦ (x,z,y), k = 24.
+- **[proved] Twist lemma.** Let a box B (diagonal hull) have symmetry group G (G commutes with the box map F).
+  For a cycle C of period P, let Γ = {g ∈ G : g(C) = C}. Then g ↦ k(g), defined by g(x₀) = F^k(x₀), is a
+  homomorphism Γ → Z_P whose kernel is the stabiliser of x₀. So Γ/Stab ≅ Z_m is cyclic, and
+  **P = m · L**, with L the length of the cycle in the quotient (states modulo G) and m the "twist".
+  For a subgroup of O_h, m ∈ {1, 2, 3, 4, 6}. A cell fixed by the twisting element has period dividing L.
+  P66.27a: m = 2, **L = 33**; the three cells on the mirror plane — (4,2,3), (2,4,1), (2,4,3) — have period
+  exactly 33, as they must. So 66 is not 2·3·11 from three gears: it is a 33-cycle of the quotient that closes
+  with a reflection.
+- **[measured] One indivisible loop.** Per-cell periods: 40 cells period 66, 3 cells (the mirror line) period 33,
+  2 stator cells (1,2,0), (4,5,0) period 1. No cell has period 2, 3, 6, 11 or 22, and no part oscillates alone.
+  The two mirror halves are coupled every generation: a cross-mirror neighbour is decisive for some cell's
+  next state in every one of the 66 generations (at least 4 per generation, 602 per cycle). There is no
+  travelling signal to point at: the change set (5–15 cells per generation) stays spread over the plate, its
+  centroid never more than 2.3 doubled units from the mirror plane.
+- **[measured] Rim and interior.** Duty cycle (fraction of phases live) vs number of neighbours inside the box:
+  cells with 4–6 in-box neighbours (the rim) 0.65–1.00, 14 of 16 above 0.8; cells with 8–9 in-box neighbours
+  0.09–0.76. The "stator" is the rim of the box, not cubes, hexagons or vertex stars.
+
+## Robustness
+
+`python3 perturb.py P66.27a` (5 min): every cell of the union and its neighbour shell, flipped in each of
+phases 0–32 (phases 33–65 are mirror images): 6,600 trials, run to their final cycle in an exact octahedral vessel.
+- **[measured]** heals 2001 (30%), dies 949, breaks into other ash 3650; never "survives with debris".
+  Flipping a live cell heals 175/1064 (16%). Even adding a lone cell *outside* the box with one in-box
+  neighbour (it dies at once) breaks the oscillator 1518/3531 times: one generation of +1 on one rim
+  cell is enough. Heal time median 1, max 21 generations; failures settle in median 26, max 122.
+- **[measured]** Ash of the failures: cubes S6a (488), vertex stars S12a (191), S12i, **P20.29a (127)**,
+  S12e, … P20.29a lives in the same 45-cell box (below).
+- **[measured]** 5 of the 2001 heals come back **phase-shifted** (by 10, 20, 25, 34, 47 generations):
+  the clock can be set by a poke, rarely.
+- **[proved]** The mirror image of P66.27a is P66.27a (its orbit contains it); the phases are chiral, the orbit is not.
+
+## The box is the machine
+
+- **[measured]** Phase portrait of P66.27a's own box (`python3 portrait.py P66.27a 1000000`, 90 s): uniform
+  random states of the 45 cells end in P66.27a with probability **4.1×10⁻⁴** (414/10⁶), max transient 146.
+  The other long cycles of the same box: P20.29a (two mirror copies, 2.1×10⁻³ each), P16.15a (two copies),
+  new P14s, P12, P10s, P8s and 20 distinct P7s. **Only P66.27a fills the box**, and it is the only cycle there
+  that is its own mirror image.
+- **[measured] Box census** (`python3 box_census.py enum 3 15 66; … run 3 50000; … report 3`, ≈ 45 CPU-min):
+  all 402 boxes (diagonal hulls up to translation × O_h) that are 3 layers thick along their thinnest diagonal,
+  with 15–66 cells; 50,000 uniform states each (20.1 M runs). **9,700 distinct objects of period ≥ 3**, of which
+  9,562 are not in the atlas catalogue (which has 329). Periods found: 3–22, 24, 25, 26, 28, 30, 32, 34, 35, 44,
+  48, 66. P66.27a was found in 112 of the 113 boxes that contain a copy of its box (151 placements, 1,032 hits).
+- **[measured] Compound objects (lead's check, `python3 research/experiments/census_twist.py`).** 249 of the
+  9,700 census objects have no cell of the full period: two or three sub-clocks of coprime periods on a shared
+  frame, with nothing passing between them (each cell keeps its sub-clock's period). Periods 30 and 44 occur only
+  this way (C30.32a = 5 with 6; C44.26a = 4 with 11), as do 22 of the 94 saved objects (9 of the 13 C20s, 5 C18s,
+  3 C22s, 2 C24s, C21.36a). The longest single untwisted loop is C35.29a.
+- **[measured]** 4-layer census (`python3 box_census.py enum 4 24 64; … run 4 30000; … report 4`, ≈ 12 CPU-min): 139 boxes
+  whose thinnest diagonal spans 4 layers, 24–64 cells, 4.17 M states: 2,752 objects of period ≥ 3, longest new
+  period 28; it recovers P48.34a (whose 56-cell hull is 4 layers thick) and P66.27a, and adds only two new objects
+  of period ≥ 17. Three layers — the slab's critical thickness in the atlas — is where the long cycles are.
+- **[measured] Twists dominate the long periods** (`python3 twist_stats.py`): among objects with even period
+  P ≥ 8, the twisted fraction rises with P: P8 42/187, P10 26/152, P12 18/54, P18 7/14, P24 3/4, and every object
+  with P = 26, 34, 48, 66 is twisted. Among objects of period ≥ 7 whose union is their whole hull, 16 of 21 are
+  twisted; among the rest, 101 of 853.
+- **[conjecture]** Why: a twist multiplies the quotient length by m, and a twisted orbit's union is Γ-invariant,
+  so it sweeps a symmetric region — the box. Long-period box-fillers are twisted cycles of small symmetric boxes.
+- **[conjecture] Why P66.27a is rare in octahedral soup but common in boxes:** in its own box it is a
+  4×10⁻⁴ attractor; an octahedral soup must, in addition, leave an isolated, correctly shaped 3-layer plate
+  with nothing within reach (one stray neighbour breaks it half the time). The atlas saw it once in 26,900 soups.
+
+## Construction: choose the symmetry, get the multiplier
+
+The twist lemma is a design rule: **period = (order of the twisting symmetry) × (quotient length)**, and a box
+with symmetry g is where g-twisted cycles live. Testing it by choosing boxes for their symmetry
+(`portrait.py S6:a,b NS SEED`: vertex-centred box, radius a along the axis d4, b along the other three):
+- **[measured]** Box 148 = `S6:2,4` (42 cells, symmetry D3d, contains the 6-fold rotoreflection S6),
+  3×10⁶ states (`python3 portrait.py 5,13,-1,7,-1,7,1,5 3000000 7`): the only box-filling cycles are
+  **C48.24a** (period **48 = 6 × 8**, two chiral copies, basin 2.3×10⁻⁶ each) and a P16 (three copies).
+  C48.24a is a **screw**: phase t+8 is phase t under S6 (rotate 60° about (−1,1,1) and invert through (3,3,3)),
+  t+16 a 3-fold rotation, t+24 the inversion. Soup never produced it; it is not P48.34a (different box, m = 6 vs 2).
+- **[measured]** `S6:4,4` (60 cells, full O_h): box-filling **C36.33a (36 = 4 × 9, 4-fold twist)** and
+  **C12.43a (12 = 6 × 2)**; also C8.24a/b, C8.23a (8 = 4 × 2) and P15.22a (15 = 3 × 5). So every twist order the
+  lemma allows (2, 3, 4, 6) occurs.
+- **[measured]** `S6:2,6` (78 cells): **C40.24a (40 = 2 × 20, fills its 47-cell hull)**, P66.27a, C34s, C28s.
+  `S6:4,6` (132 cells, 5 layers): P48.34a (24 hits in 6×10⁵), new C26.37a.
+- **[proved]** In the 18-cell S6 box (box 6) SAT is exhaustive (`python3 vessel_sat.py 6 L --box --twist T --all --true`):
+  the only twisted cycles for the two order-6 twists and the inversion, L ∈ {1,…,10, 12, 14, 16, 20}, are L = 1 (P6.13b/c-type screws, each generation
+  is the last one turned by S6; and 13 flip p2's) and L = 3 with the inversion (period 6).
+- Not achieved: assembling a chosen period from understood *parts*. Nothing in the twisted objects is modular; the
+  "part" is the whole box. (The compound objects above are modular, but only as non-communicating sub-clocks.) SAT that would force a chosen (g, L) works only for small boxes: in 27 cells, L = 4
+  takes 117 s and L = 5 does not finish in 240 s; P66.27a itself (45 cells, glide, L = 33) is not recovered in
+  600 s. The design rule is therefore "choose the box's symmetry, then sample", which picks the multiplier m but
+  not L.
+
+## New objects
+
+94 oscillators, each re-stepped by `reference/oracle.py` for two full periods (`objects/verify_oracle.txt`, all OK;
+`python3 verify.py objects/<id>.cells <P> …`). Phase 0 in doubled coordinates, canonical orientation:
+`objects/<id>.cells`; metadata (period, pops, union, hull, layers, sym, spacetime_sym, twist, quotient length,
+how often found — `boxes` there counts placements, i.e. distinct cycles of a box containing the object): `objects/census_long.jsonl` (box census, period ≥ 17), `objects/census4_long.jsonl` (4-layer census) and `objects/portrait_objects.jsonl`
+(symmetric boxes). Ids are `C<period>.<minpop><letter>` to avoid clashing with the catalogue; the lead may rename.
+Highlights: C48.24a (6-fold screw), C36.33a (4-fold), C12.43a (6-fold, fills 60), C40.24a, C44.26a (compound, 4 with 11), C35.29a,
+C34.19a/b, C34.21a (all mirror-glides of quotient length 17), C30.32a, the C32 family (20 objects, all in the
+57-cell [3,3,9,9] box), C26.20a, C25.22a, prime periods C17.* (7+3), C19.39a.
+The ≈9,500 shorter-period census objects are in `research/scratch/clockwork/census_3_objects.json` (not individually
+oracle-checked; every one was re-stepped by `lattice.step`).
+
+## Not settled
+
+- Whether P66.27a is the only period-66 cycle of its box: SAT did not finish; sampling at 10⁶ says no other
+  cycle has basin > ~5×10⁻⁶.
+- A proof of the conjecture that long periods favour twists (a random-equivariant-map model would be the place to start).
+- Signals: none found. The only "input" is that some pokes reset the clock's phase.
+
+## Files
+
+`cw.py` helpers (orbits, symmetries, hulls as vessels, batch runner) · `runinit.c` C runner for given initial
+states · `perturb.py` · `portrait.py` · `box_census.py` · `twist_stats.py` · `vessel_sat.py` (SAT in a box, with
+`--twist`) · `harvest_portraits.py` · `verify.py` · `objects/`.
+
+## What to show a human first
+
+1. P66.27a, phases 0 and 33 side by side, as its three kagome layers along (−1,1,1):
+   `engine/target/release/gump show --cells research/clockwork/views/P66.27a.cells --orbit --max-chars 200000`
+   (catalogue cells, copied) — phase 33 is phase 0 in a mirror. Then the hull
+   (all 45 cells) next to phase 0: the oscillator fills its box.
+2. C48.24a, phases 0, 8, 16, 24, 32, 40: the same plate turned by 60° and inverted each time
+   (`gump show --cells research/clockwork/objects/C48.24a.cells --orbit --max-chars 200000`).
+
+What is beautiful or strange: the longest clocks in this universe are not built from gears; they are the
+rare cycles that close up only after a reflection or a turn of their own box, so their period is a symmetry's
+order times something that has no smaller structure. P66.27a spends 33 generations becoming its own mirror
+image. C48.24a turns a sixth of the way round every 8 generations and never repeats a phase until it has gone
+all the way round.

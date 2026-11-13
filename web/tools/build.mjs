@@ -21,7 +21,7 @@ for (const f of ['build/three.module.js', 'build/three.core.js', 'examples/jsm/c
   cp(path.join(T, f), path.join('vendor/three', f));
 fs.writeFileSync(path.join(DIST, 'index.html'), fs.readFileSync(path.join(WEB, 'index.html'), 'utf8').replaceAll('./node_modules/three/', './vendor/three/'));
 // the documents the tour links to, served next to the app
-const SOURCES = ['docs/AUTOMATON.md', 'docs/WHAT-I-SEE.md', 'research/NOTEBOOK.md', 'research/STATUS.md', 'research/atlas/README.md',
+const SOURCES = ['docs/AUTOMATON.md', 'docs/WHAT-I-SEE.md', 'research/NOTEBOOK.md', 'research/STATUS.md', 'research/atlas/README.md', 'research/clockwork/README.md',
   'research/figures/peel_face_law.png', 'research/figures/phase_rulemap.png'];
 for (const f of SOURCES) cp(f, path.join('sources', f), REPO);
 fs.writeFileSync(path.join(DIST, 'src/config.js'), "// static build: the cited documents are copied to ./sources/\nexport const SOURCES = new URL('../sources/', import.meta.url).href;\n");

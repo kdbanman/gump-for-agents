@@ -258,6 +258,7 @@ async function galleryTests() {
   let n = 0; const bad = [];
   for (const cat of data.categories) for (const it of cat.items) {
     n++;
+    if (!(it.twist >= 1) || it.twist * it.quotient !== it.period) { bad.push(it.id + ':twist'); continue; }
     const pts = Int32Array.from(it.cells.flat()), box = autoBox(pts);
     const cells = new Uint8Array(box.dims[0] * box.dims[1] * box.dims[2]);
     placeSeed(pts, box.dims, box.shift, false, cells);

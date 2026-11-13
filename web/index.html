@@ -68,6 +68,9 @@
         <option value="10">10/s</option><option value="30">30/s</option><option value="60">60/s</option>
         <option value="200">200/s</option><option value="1000">1k/s</option><option value="max" selected>max</option>
       </select></label>
+      <label title="generations advanced per displayed step (applies when speed is not max). For a twisted oscillator, its quotient length shows the twist: C48.24a at 8 turns a sixth of a turn per step">stride <select id="stride">
+        <option value="1" selected>1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="6">6</option><option value="8">8</option><option value="9">9</option><option value="12">12</option><option value="20">20</option><option value="24">24</option><option value="33">33</option>
+      </select></label>
       <label title="reduce statistics after every generation (exact strip and shrink log); off = sampled every ~40 ms, faster for small boxes"><input id="rec" type="checkbox" checked> every-gen stats</label>
     </div>
   </section>

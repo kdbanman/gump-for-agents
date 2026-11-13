@@ -3,7 +3,7 @@
 // docs/AUTOMATON.md or the atlas (exhaustive search), [measured] in research/NOTEBOOK.md,
 // [conjecture] where that is all it is. "watch" marks what the scene itself shows.
 
-const A = 'docs/AUTOMATON.md', N = 'research/NOTEBOOK.md', ST = 'research/STATUS.md', W = 'docs/WHAT-I-SEE.md';
+const CW = 'research/clockwork/README.md', A = 'docs/AUTOMATON.md', N = 'research/NOTEBOOK.md', ST = 'research/STATUS.md', W = 'docs/WHAT-I-SEE.md';
 const fig = (f, label) => `<a class="src" href="source.html?f=${f}" target="_blank" rel="noopener">${label}</a>`;
 const src = (f, find, label) => `<a class="src" href="source.html?f=${f}#${encodeURIComponent(find)}" target="_blank" rel="noopener">${label}</a>`;
 const tag = (t) => `<span class="tag ${t}">${t}</span>`;
@@ -115,11 +115,12 @@ export const SCENES = [
       original program's population plots. ${tag('measured')} ${src(N, 'Hull radius (outermost live layer', 'notebook: peeling')}</p>
       <p>How long a face lasts follows one law over six decades. The wait is memoryless, with mean
       about e<sup>0.209·A</sup> generations for a face plane of A sites. ${tag('measured')} ${src(N, 'Flat faces (slab, m = 8', 'notebook: face law')} ${fig('research/figures/peel_face_law.png', 'figure')}
-      A symmetric pattern counts as if its faces were 7.7 times smaller, because symmetric regions die in lockstep. ${tag('measured')} ${src(N, 'effective area A/7.7', 'notebook')}
+      A symmetric pattern counts as if its faces were about seven times smaller, because symmetric regions die in lockstep. ${tag('measured')} ${src(N, 'effective area A/7.7', 'notebook')}
+      That factor shrinks as faces grow: a side-16 cube kept its first face for 2.36×10<sup>9</sup> generations, ten times our first prediction. ${tag('measured')} ${src(N, 'side 16 outlives its prediction', 'notebook: side 16')}
       So the side-13 cube lasts about 10<sup>5</sup> generations <i>because</i> it is symmetric. By the law, the same
       octahedron filled asymmetrically would hold each face for about 10<sup>41</sup>. ${tag('measured')} (law, extrapolated) ${src(ST, 'face ~10', 'status')}
       The original's unfinished side-19 run outlived everything only because its torus was too small:
-      it wrapped around and lost its faces. Properly confined, the law puts it near 10<sup>12</sup> generations. (law, extrapolated) ${src(W, 'Properly confined, the law puts it', 'what I see')}</p>
+      it wrapped around and lost its faces. Properly confined, it would last somewhere beyond 10<sup>12</sup> generations. (law, extrapolated) ${src(W, 'Properly confined, it would last', 'what I see')}</p>
       <p>The run starts at generation 3,200. In the layer chart, the top and bottom rows go black for good.
       The <i>faces</i> table on the right gives each face's live cells, its site count A, and the law's mean wait.</p>`,
     spec: { seed: 'cube', n: 11, gen: 3200, speed: '30', play: 1, kwin: 1000, cam: '1,0.75,1.35,1.2' },
@@ -135,14 +136,17 @@ export const SCENES = [
       consecutive planes. ${tag('measured')} ${src(N, 'vertex star (S12a) = triangle', 'notebook')}</p>
       <p><b>Hinges</b> are the smallest oscillators: faces that swing 90° about an edge every generation.
       Every period-2 oscillator up to 11 cells works this way. ${tag('proved')} ${src(N, 'Period 2: the smallest union', 'atlas')}
-      Rarer <b>clockwork</b> runs at periods up to 66. ${tag('measured')} ${src(N, 'Soups in octahedral vessels', 'atlas')}</p>
+      Rarer <b>clockwork</b> runs at periods up to 22 in soup ash. ${tag('measured')} ${src(N, 'Soups in octahedral vessels', 'atlas')}
+      The longest periods are <b>twisted</b>: after only P/m generations the object comes back as a rotated or mirrored copy of itself, m = 2, 3, 4 or 6 being the order of a symmetry of its box.
+      The 42-cell plate C48.24a is a screw: every 8 generations it reappears turned 60° and inverted, 6 × 8 = 48. ${tag('measured')} ${src(CW, 'C48.24a** (period **48 = 6 × 8**', 'clockwork')}</p>
       <p>The original's side-9 cube ends as one cube in the middle and a kagome hexagon on each of the
       8 faces of its octahedron. ${tag('measured')} ${src(N, '**Legacy ash**', 'atlas')}
-      The gallery holds 41 objects from the atlas.</p>`,
+      The gallery holds 47 objects from the atlas and the clockwork study.</p>`,
     variants: [
       { label: 'vertex star', spec: { seed: 'atlas', id: 'S12a', speed: '2', play: 1, face: 0.7, color: 'layer', cam: '1,1,1.6,1' } },
       { label: 'hinge (p2)', spec: { seed: 'atlas', id: 'P2.6a', speed: '2', play: 1, face: 0.7 } },
       { label: 'clockwork p66', spec: { seed: 'atlas', id: 'P66.27a', speed: '10', play: 1, face: 0.7 } },
+      { label: 'screw C48.24a', spec: { seed: 'atlas', id: 'C48.24a', speed: '2', stride: 8, play: 1, face: 0.7 } },
       { label: 'side-9 ash', spec: { seed: 'cube', n: 9, gen: 71, speed: '5', play: 0, face: 0.7 } },
     ],
     gallery: true,

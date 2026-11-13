@@ -530,3 +530,206 @@ generation, using only runs in which no face died (fixed geometry; 3 runs at R=1
   A = 693 → ln τ = 19.5–20.0, so the side-16 first plateau has mean ≈ 4–7×10⁸ instead of 2×10⁸, and being alive at
   1.025×10⁹ is a 10–25% event rather than a 0.5% one. Side 17 (A = 828): ≈2–6×10¹⁰ (was 6×10⁹). The legacy side-19
   cube, properly confined (A = 1053): 10¹³–10¹⁴ on these fits, far outside any data.
+
+## 2026-11-13 — clockwork: the long periods are short loops that close with a twist (clockwork agent; checked by the lead)
+
+Full study, scripts and 94 new oscillators: `research/clockwork/README.md`. The lead re-derived the headline facts
+with an independent set-based stepper written from the rule text (periods, the symmetry carrying phase 0 to
+phase k, per-cell periods of P66.27a, C48.24a, C36.33a, C12.43a, C40.24a: all as stated).
+
+- **[proved] P66.27a is a 33-step loop that returns as its own mirror image.** It is a plate three kagome layers
+  thick whose diagonal hull has 45 cells, all of them live in some phase; by T2 the hull is a closed box, so the
+  object is one cycle of a 45-bit map. Phase t+33 = phase t reflected in the plane x + y = 6. 40 cells have period
+  66, the 3 cells on the mirror have period 33, 2 are stator. No cell has period 2, 3, 6, 11 or 22: nothing in it
+  is a gear. (`python3 research/clockwork/verify.py …`; `gump show --cells research/clockwork/views/P66.27a.cells --orbit --max-chars 200000`.)
+- **[proved] Twist lemma.** In a box with symmetry group G (which commutes with the box map F), let a cycle of
+  period P first return to a symmetric image of itself after L generations, F^L(x) = g·x. Then P = m·L, where m is
+  the order of g acting on the cycle, m ∈ {1, 2, 3, 4, 6} for subgroups of O_h, and any cell fixed by g has period
+  dividing L. (g ↦ phase shift is a homomorphism from the cycle's symmetries to Z_P; its image is cyclic.) This is
+  what Life catalogues call an oscillator's "mod" (there period/mod ∈ {1, 2, 4}); the cubic lattice adds 3 and 6.
+- **[measured] All four twist orders occur, and choosing a box for its symmetry finds them.**
+  Sampling random states of boxes picked for their symmetry (`python3 research/clockwork/portrait.py …`, commands in
+  the README): **C48.24a, period 48 = 6 × 8**, in a 42-cell box with a six-fold rotoreflection — every 8 generations
+  the whole plate reappears turned 60° about (−1,1,1) and inverted; **C36.33a, 36 = 4 × 9** (quarter turn about a
+  cube axis every 9 generations; fills the 60-cell vertex-centred octahedron); **C12.43a, 12 = 6 × 2** (same box);
+  **C40.24a, 40 = 2 × 20**. None of these four was ever seen in soup. (The catalogue's P15.22a, seen 11 times in
+  soup, is 3 × 5: a third of a turn about (1,1,1) every 5 generations.) This chooses m, not L: SAT for a prescribed
+  (g, L) stalls beyond ≈27 cells and L ≈ 5.
+- **[measured] Census of small closed boxes.** All 402 diagonal hulls three layers thick with 15–66 cells, 50,000
+  random states each (`python3 research/clockwork/box_census.py enum 3 15 66; … run 3 50000; … report 3`,
+  ≈45 CPU-min): 9,700 distinct R-connected oscillators of period ≥ 3 (the atlas had 329). Four-layer boxes give
+  far less (139 boxes, longest new period 28). P66.27a itself has a basin of 4.1×10⁻⁴ in its own box and turned up in 112 of the 113 census boxes
+  that contain that box: it is rare in soup because soup rarely leaves an isolated plate of that shape
+  [conjecture], not because it is a delicate attractor.
+- **[measured] 249 of the 9,700 are compound clocks, and two of the "new periods" exist only that way** (lead;
+  `python3 research/experiments/census_twist.py`, 15 s, re-steps every census object with its own stepper). In
+  249 objects no cell has the full period: they are two (rarely three) sub-clocks of coprime periods on a shared
+  frame — C44.26a is a period-4 rotor and a period-11 rotor (7 and 14 cells) on 14 stator cells; C30.32a is 5 with
+  6; nine of the thirteen saved period-20s are 4 with 5. Since every cell keeps its sub-clock's period whatever
+  the phase of the other, nothing passes between the rotors (Life calls such periods "trivial"). 22 of the 94
+  saved objects are of this kind. With them set aside, the new periods are 17, 18, 19, 21, 24, 25, 26, 28, 32,
+  34, 35 from the census and 36, 40 from the symmetric boxes; 30 and 44 are not periods of any single loop found.
+- **[measured] The twist does not pick long loops; it multiplies ordinary ones** (lead; same command). Among the
+  9,451 indivisible census objects, twisted ones are a steady 3–8% at every quotient length L (L ≥ 3: 295 of
+  9,278; L ≥ 7: 30 of 670; L ≥ 12: 9 of 120; L ≥ 16: 5 of 66), while the number of objects falls steeply with L.
+  Doubling (or ×6) therefore throws the twisted minority far out into the tail of *periods*: every indivisible
+  object of period 26, 34, 48 or 66 is twisted. Ranked by L, the longest loop is untwisted — C35.29a, L = 35, 37
+  of its 47 cells carrying the full period — and P66.27a's loop of 33 is second. So the longest clock on record is
+  the second-longest loop, counted twice. Among oscillators that fill their own hull (period ≥ 7), 16 of 21 are
+  twisted (agent's count).
+- **[conjecture]** Periods well beyond 66 are there to be found by the same route: a loop of quotient length ≈30
+  in a box with a 4- or 6-fold symmetry would have period 120–200. The search problem is that large symmetric
+  boxes rarely settle into a cycle that spans them.
+- **[measured] Fragile, and settable.** 6,600 single-cell flips of P66.27a (every cell of the union and its
+  neighbour shell, phases 0–32; `python3 research/clockwork/perturb.py P66.27a`, 5 min): 30% heal (median 1
+  generation), 14% die, 55% break into other objects; a lone extra cell just outside the box breaks it 43% of the
+  time. Five of the 2,001 heals come back phase-shifted (by 10, 20, 25, 34, 47 generations). No travelling signal
+  was found anywhere in it: the changing cells stay spread over the plate every generation.
+- Not settled: whether P66.27a is the only period-66 cycle of its box (SAT did not finish; none other with basin
+  above ≈5×10⁻⁶); whether any of these objects can carry or gate a signal.
+
+## 2026-11-13 — side 16 at 1.75×10⁹ (lead)
+
+- **[measured]** `research/experiments/cube_ckpt.sh 16`, second 2-hour job: alive at generation 1,750,000,000,
+  hull radius 42, no face lost; checkpoint `research/data/cube16_gen1750000000.gump`. Its instantaneous population
+  (13,320) is far below the 16,080 of the earlier checkpoint, but that is ordinary lockstep fluctuation: over
+  60,000 generations from either checkpoint the total population has mean 15,800, s.d. 1,050, range 10,800–19,800,
+  and the time-averaged layer profiles agree to 1 part in 300. The state is statistically unchanged.
+- Surviving this long is a 2–10% event even under the corrected fits of the previous entry (first-plateau means
+  4.4–7.5×10⁸ with the vertex factor): every estimate so far has been too low, in the same direction.
+
+## 2026-11-13 — side 16 loses its first face at 2.36×10⁹; a forecast made in advance holds (lead)
+
+- **[measured]** `research/experiments/cube_ckpt.sh 16`, fourth 2-hour job: all eight faces of the side-16 cube
+  died together, last alive at generation **2,362,434,048** (events are sampled every 64). The hull went from
+  radius 42 to 40 on every diagonal (A = 693 → 630). Event log so far: `research/data/cube16_events.jsonl`;
+  states before and after: `research/data/cube16_gen1750000000.gump`, `…gen2525000000.gump` (alive, population
+  13,968, hull radius 40). To see the peel again: copy the 1.75×10⁹ checkpoint to
+  `research/scratch/cubes/cube16.ckpt.gump` and run the script (≈1.5 hours on one core).
+- **Scorecard for the first plateau.** One exponential wait T constrains its mean only to [T/3.7, T/0.025] =
+  [6.4×10⁸, 9.3×10¹⁰] at 95%, so this is a test of predictions, not a measurement of the mean.
+
+  | prediction of the mean | made | T / mean | P(wait ≥ T) |
+  |---|---|---|---|
+  | peeling law, effective area A/7.7: 2.0×10⁸ | before the run | 11.8 | 7×10⁻⁶ |
+  | curved fits to symmetric soups, ×1.5 vertex factor: 4.4–7.5×10⁸ | at 1.0×10⁹ | 5.4–3.1 | 0.5–4% |
+  | clones of the 1.025×10⁹ state with Fleming–Viot restarts (`research/fluct/`): 1.04×10⁹, 90% CI 0.63–2.1×10⁹ | at 1.5×10⁹ | 2.3 (1.1 at the CI's top) | 10% (32%) |
+
+  The fluctuation agent turned the last line into a forecast for the running cube — death at median 2.2×10⁹,
+  90% interval 1.50–5.2×10⁹ — and committed it (`research/fluct/PREDICTIONS.md`, commit 2e72d57, 01:28:41Z) about
+  two hours before the peel (event file written 03:43Z). The outcome sits at the 58th percentile of that forecast.
+  It is the first out-of-sample prediction in this project that has held. It is also wide (a factor 3.5), is
+  conditional on the cube having reached 1.45×10⁹, and its own mean still leans low; one event cannot say more.
+- **What was wrong with the lead's fits.** They were fitted to *cube-centred* symmetric soups and carried to this
+  *vertex-centred* hull by a factor 1.5 measured only at A ≤ 408. If the clone estimate is right the factor at
+  A = 693 is 2–3.5, not 1.5. **[conjecture]** The vertex-centred advantage grows with face size. Untested directly.
+- **The second plateau is running long too.** R = 40, A = 630, vertex-centred; alive at 2,525,000,000, i.e. 1.6×10⁸
+  generations in. Cube-centred symmetric soups at the same area gave a mean of 5.4×10⁷ [3.5, 11.9]×10⁷ (entry of
+  2026-11-12), 8×10⁷ with the ×1.5: the cube has already stayed twice that (a 13% event; 5% without the factor).
+
+## 2026-11-13 — a face dies off the end of a straight line (fluctuation agent; checked by the lead)
+
+Full study: `research/fluct/README.md` (tools, tables, negative results), figure `research/figures/fluct_tail.png`.
+Question put to the agent: is a face's death just the far tail of its ordinary fluctuations (entry of 2026-11-12,
+"where the 0.209 comes from"), or does it need a mechanism of its own?
+
+- **[measured] It is the tail, and the tail is now measured to its last cell instead of extrapolated.** For
+  asymmetric octahedral soups at R = 7, 9, 11, 13 (A = 30, 45, 63, 84) the quasi-stationary distribution of a face's
+  population n was sampled down to n = 1 together with the death rate h per face-generation. ln P(n = k) is a
+  straight line from k ≈ 10 down to k = 1 (each cell fewer costs a factor ≈ 0.65), and the death rate is that line's
+  next point: h / P(n=1) = 0.645, 0.613, 0.601, 0.594, against P(1)/P(2) ≈ 0.66. The end-game does not depend on
+  size: 62–63% of deaths are from one surviving cell, 23–25% from two; a face at n = 1 dies rather than recovers
+  with probability 0.67–0.72; the point of no return is n ≈ 1.5. All of exp(−0.2·A) is in the chance of being
+  down to one cell. Endpoint: −ln h / A = 0.2268, 0.2182, 0.2164, 0.2152 → **I(0) = 0.2077 ± 0.0014 + 0.55/A**,
+  i.e. the face law's 0.209 (`python3 research/fluct/analyze_qsd.py`, `analyze_tail.py`).
+  *Lead's check with the engine only* (`python3 research/experiments/face_endgame_check.py 9 16000`: 13,765 first
+  peels, kymograph every generation): mean first-peel time 2312 ± 20 (agent 2300 ± 6), −ln h/A = 0.2183,
+  h/P(1) = 0.621, P(k)/P(k+1) = 0.658, 0.499, 0.778, 0.650, 0.630, 0.652, 0.655 … for k = 1, 2, 3 …, deaths from
+  n = 1 / 2 / 3: 62 / 23 / 10%. R = 7: −ln h/A = 0.2274 (agent 0.2268). Also `python3 research/fluct/validate.py` → ALL OK
+  (the agent's orbit-reduced bit-sliced stepper against `gump run`, every generation, five cases).
+- **[measured] Correction to the lead:** the R = 9 first-peel mean is 2300, not 2.60×10³ ± 0.17×10³ (entry of
+  2026-11-12); and near n = 0 the curve is straight in n, not "flattening". Extrapolating from n/A ≥ 0.1, which is
+  all one has on large faces, misses ln h by 0.5–0.8 nats: the 0.20 the lead got that way was right partly by luck.
+- **[measured] The last ember is a triangle** (lead; `python3 research/experiments/near_death_shapes.py 9 300 1000`,
+  a from-the-rule stepper, 1,263 face-generations at n = 3). The only irregularity on the line is an excess at
+  n = 3 (P(2)/P(3) = 0.50, P(3)/P(4) = 0.78). 38% of three-cell faces are one shape: three faces round a single
+  cube corner, a triangle of the kagome layer. It holds for 1.9 generations on average (up to 15), and when it
+  changes it usually grows (n ≥ 4: 60%; straight to 0: 1%). Two-cell faces are an edge-sharing pair 54% of the time.
+- **[measured] n is the only simple coordinate and a poor one.** For faces with 1 ≤ n ≤ 4, n removes 16–18% of
+  the uncertainty about die-or-recover; the layer below adds 2–5%; no linear mix does better. A dying face is
+  ordinary until ≈16 generations before the end, then falls in 10–12, on top of a layer below that only sags to
+  0.6–0.75 of its mean and has recovered to 0.7–0.9 at the moment of death (`coord.py`, `predeath.py`).
+- **[measured] Negative result: splitting along n does not help.** Forward-flux sampling is unbiased (within
+  0.1–0.2 nats at R = 9, 11) but gains nothing: two clones differing by one flipped cell have 55–95% correlated
+  fates, because the plunge is faster than a perturbation spreads. The rare event is a rare configuration reached
+  in ten generations, not a slow rare path. What reaches big symmetric faces instead is brute force on an O_h
+  orbit-reduced stepper (`research/fluct/fl.c`): the side-16 state is 946 nodes and 64 copies run at 3–7×10⁶
+  replica-generations per second per core.
+- **[measured] Symmetric faces** (same stepper; `research/fluct/data/sym_residence.csv`): cube-centred O_h soups
+  give ln τ = 10.99, 12.47, 14.15, 15.88, 17.80, 19.71 at A = 408 … 693 (1,087 … 20 deaths), agreeing with the
+  lead's gump batches at every size and with the lead's curved fit to A = 693. The same end-game appears in units
+  of orbits (deaths from n = 3, 6, 9, 12; a favoured nine-cell state). Vertex-centred values are in the next entry.
+- **Not settled:** whether 0.208 per site holds beyond A = 84 for asymmetric faces (one peel at A = 108; the rate
+  function collapses to A = 135, which is indirect); the asymptotic symmetric slope (fits differ by 0.6 nats at A = 828).
+
+## 2026-11-13 — the side-16 cube ends at 2,919,617,676; it outlived its own copies (lead)
+
+- **[measured]** `research/experiments/cube_ckpt.sh 16` ran to its end: **still life at generation 2,919,617,676**,
+  96 cells (`research/data/cube16_summary.json`, events `research/data/cube16_events.jsonl`). The prediction made
+  before the run was 2.4×10⁸ (90%: 3.9×10⁷–6.3×10⁸): low by a factor 12. Schedule (hull radius: residence):
+
+  | R (A) | 42 (693) | 40 (630) | 38 (570) | 36 (513) | 34 (459) | 32 (408) | 30 | 28, 26 | 24 | 22 |
+  |---|---|---|---|---|---|---|---|---|---|---|
+  | generations | 2.362×10⁹ | 5.237×10⁸ | 3.08×10⁷ | 2.71×10⁶ | 7,040 | 27,712 | 128 | 1,344 | 256 | 64 |
+
+  The last 37,000 generations took seven layers. What is left is twelve copies of the still life **S8b** (four faces
+  round an edge, capped by a 2×2 plate), two on each half of the three coordinate axes, 2.75 and 9.25 cube-widths
+  from the centre. S8b is also in the ash of the legacy side-10 cube. (Side 15, by contrast, went extinct.)
+- **Forecasts for the second peel** (`research/fluct/PREDICTIONS.md`, both committed and pushed while the cube was
+  at ≈2.55×10⁹): from fits, median 2.60×10⁹, 90% 2.531–2.89×10⁹ — the peel at **2,886,100,480** is inside, at its
+  95th percentile; from 64 copies of the 2.525×10⁹ state (τ = 8.2×10⁷, 31 deaths), 90% 2.529–2.78×10⁹ — **missed**.
+- **[measured] The ensemble mean at R = 40 is not in doubt.** Three independent estimates on the agent's orbit
+  stepper: copies of the cube at 2.525×10⁹: 8.2×10⁷ (31 deaths); copies of the cube at 2.875×10⁹, eleven million
+  generations before it actually peeled: 5.7×10⁷ (65 deaths; lead,
+  `python3 research/fluct/qsd.py snap <state> v 900 1 lite`); fresh vertex-centred O_h soups: 8.2×10⁷ (46 deaths;
+  lead, `qsd.py sym 40 v 900 1 lite`). Pooled 7.1×10⁷. **The cube itself stayed 5.24×10⁸ at R = 40: 7.4 means,
+  probability 6×10⁻⁴ for an exponential wait.**
+- **[measured] Vertex-centred series completed** (lead; `qsd.py sym R v …` at R = 32, 34, 38, 40; table
+  `research/fluct/data/sym_residence.csv`, `python3 research/fluct/sym_fit.py`). τ_vertex / τ_cube at equal area:
+  1.51, 1.52, 1.53, 1.60, 1.49, 1.31 ± 0.17 at A = 360 … 630 — a constant ≈1.5 — and **3.1 (ln 1.12 ± 0.29) at
+  A = 693**, where the vertex value rests on copies of the cube (24 deaths) and soups (5 deaths) and the cube-centred
+  one on 20 deaths. So the lead's conjecture of two entries ago (the factor *grows* with size) is wrong as stated:
+  it is flat to A = 630; R = 42 alone is high, by 2.4σ. One-hour runs to firm up both numbers at A = 693 are the
+  next entry.
+- **[measured] Every large plateau of cubes 13–16 against the ensemble mean at the same hull**
+  (`python3 research/experiments/cube_vs_ensemble.py`): of 16 plateaus with A ≥ 408, three lasted more than 4 means
+  (side 15 at R = 37 and 33: 4.2 each; side 16 at R = 40: 7.4; 0.29 expected, P = 0.003) and three less than 0.05
+  (0.78 expected); the sum of T/τ is 26.5 against 16 (P = 0.011). **[conjecture]** Residences of whole cubes are
+  over-dispersed relative to the memoryless ensemble — both tails. The ensembles themselves are exponential to 30
+  means (hazard flat in age, 66,555 deaths at R = 30). No mechanism is known: a clone is the cube's own state with
+  one orbit flipped, and inherits anything slow. It may be luck at the 1% level. Open.
+- **Caveat on the orbit stepper at small sizes** (lead): `qsd.py`'s symmetric ensembles over-count exposure when
+  chaos settles into debris that keeps cells in the outer layer — at R = 24 (vertex) it reports τ = 6.2×10⁴ where
+  single engine runs give 630 (300 soups; 65 end still or periodic with the face layer occupied); R = 28: 6,930
+  against 5,550; R = 30: 2.18×10⁴ against 2.07×10⁴ ± 0.09×10⁴; R = 29 (cube-centred): 1.44×10⁴ against
+  1.36×10⁴. Probably oscillating debris of a period its settle test does not cover. Negligible where chaos cannot
+  settle before a face dies (R ≥ 32: settles are under 2% of deaths; none from R = 36). Use the engine below R = 30.
+
+## 2026-11-13 — radius 42 is not a special size; what is odd is the cube (lead)
+
+- **[measured]** Three one-hour ensembles of fresh O_h soups on the orbit stepper:
+  `QSD_SALT=xa python3 research/fluct/qsd.py sym 42 v 3500 1 lite`, the same with `QSD_SALT=xb`, and
+  `QSD_SALT=xa … sym 41 c 3500 1 lite` (the salt gives an independent ensemble with its own file and seeds).
+  Vertex-centred R = 42: 24 and 16 deaths in 1.28×10¹⁰ replica-generations each; with the agent's 5, **45 deaths,
+  τ = 7.1×10⁸ (90%: 5.6–9.2×10⁸)**. Cube-centred R = 41: 38 deaths; with the agent's 20, **58 deaths,
+  τ = 3.5×10⁸ (2.9–4.4×10⁸)**. Table: `python3 research/fluct/sym_fit.py`.
+- **The vertex/cube factor at A = 693 is 2.0 (ln 0.70 ± 0.20)**, 1.5σ above the flat 1.5 of A = 360–630. The 3.1 of
+  the previous entry leaned on the copies of the cube; fresh soups do not show it. R = 42 is an ordinary size.
+- **Copies of the cube against fresh soups in the same hull:** at R = 42, copies of the 1.025×10⁹ state give
+  1.08×10⁹ (24 deaths) against the soups' 7.1×10⁸ — a ratio of 1.5, ln 0.42 ± 0.25, 1.7σ. At R = 40 copies and
+  soups agree (8.2 and 5.7 against 8.2 ×10⁷). No clear difference.
+- **The cube itself:** its first plateau, 2.362×10⁹, is 3.3 soup means (P = 0.036), or 2.8 means of soups and copies
+  pooled (P = 0.06). `python3 research/experiments/cube_vs_ensemble.py` now reads: side 16's four largest plateaus
+  at 2.8, 7.4, 2.6 and 1.2 means; all 16 large plateaus of cubes 13–16 sum to 27.2 means against 16 (P = 0.008).
+  The puzzle of the previous entry stands and is now only about cube lineages, not about one hull size. Open.
+- The side-17 forecast is unchanged by the extra R = 41 data (fits give ln τ(828) = 23.7–24.2; forecast 24.0 ± 0.4).

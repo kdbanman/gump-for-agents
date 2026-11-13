@@ -27,17 +27,25 @@ conjectured, with the command that reproduces it. The short version:
 4. **Chaos dies from its faces, suddenly.** The long plateau and staircase collapse in the
    original's plots is the octahedron losing one whole face layer at a time. The wait for a
    face to die is memoryless, with mean ≈ `exp(0.209 × cells in the face)` generations —
-   one line across six decades of lifetime.
+   one line across six decades of lifetime. The constant is the far end of the face's
+   ordinary fluctuations, measured down to its last cell: each cell fewer is about two-thirds
+   as likely, and the death rate is the next point on that line
+   ([`research/fluct/README.md`](research/fluct/README.md)).
 5. **Symmetry is fatal.** A symmetric seed has only one fundamental domain's worth of
    independent chaos, so its faces fail together. The original's side-13 cube lives 169,049
    generations *because* it is symmetric; an asymmetric soup in the same hull would be
    expected to hold each face for ~10⁴¹. (Our first out-of-sample prediction, the lifetime
-   of a side-16 cube, failed — it is alive past 10⁹ generations against a predicted
-   2.4×10⁸ — and the repair is in the notebook: large symmetric faces are tougher than a
-   fixed "effective area" allows.)
+   of a side-16 cube, failed: it lived 2,919,617,676 generations, twelve times the prediction,
+   and ended as twelve small still lifes on the axes. The repair is in the notebook: large
+   symmetric faces are tougher than a fixed "effective area" allows. A forecast for its first
+   face, made from perturbed copies of the running cube and committed two hours ahead, held;
+   the same method missed the second face sevenfold, and why is open.)
 6. **The debris has a small anatomy**: single cubes, kagome hexagons, the *vertex star* (the
    12 faces around one lattice vertex — a sealed universe of 4,096 states), period-2 "hinges"
-   whose faces swing 90°, and rare clockwork with periods up to 66.
+   whose faces swing 90°, and rare clockwork with periods up to 66. The long periods are short
+   loops that close with a twist: the period-66 object is a 33-step loop that returns as its own
+   mirror image, and a period-48 "screw" turns 60° every 8 generations
+   ([`research/clockwork/`](research/clockwork/README.md)).
 7. **B45/S345 is a corner case in rule space.** Among 960 neighbouring rules, long-lived
    confined chaos is uncommon, and gump is a minimal member: remove any one count and it dies young.
 
