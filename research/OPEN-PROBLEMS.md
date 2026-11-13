@@ -74,6 +74,10 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
 16. Whether Eppstein's bounding-diamond argument (arXiv 0911.2890) is the same method as T2: one agent says yes,
     the reviewer could not read the paper. Someone should read it.
 17. No automaton on this lattice and no lifetime-versus-symmetry result was found in two searches. Absence of evidence.
+    The area law itself does have prior art, found 2026-11-13: *supertransients* (chaos lasting exp(c·size), then
+    abrupt memoryless collapse), numerical only, nothing proved (`PRIOR-ART.md`, last section;
+    `research/theory/swarm/library/`). The key reviews (Tél–Lai 2008) and Bramson–Neuhauser 1994 could not be
+    opened by an agent; someone with a browser should read them before a paper claims anything.
 
 ## Tools
 

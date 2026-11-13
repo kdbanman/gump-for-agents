@@ -9,8 +9,9 @@
   python3 path_r1.py lr2b     the same with phi free (linear programme): what the population alone can certify
   python3 path_r1.py seg      D2 on a segment (two dead ends) against D2 on a ring, exact (bears on guess G1)
 
-lr1 and lr3 read tallies that are NOT in git (research/scratch/fluct/qsd_R*.npz, written by research/fluct/qsd.py
-on 2026-11-13). They are checked here against the committed research/fluct/data/qsd_summary.json before use.
+lr1, lr1b and lr3 read data/fluct_tables.npz, a small committed copy (made by curate_fluct.py) of the tables they
+need from the bulk tallies research/scratch/fluct/qsd_R*.npz, which are not in git. Deaths and exposure are checked
+against the committed research/fluct/data/qsd_summary.json before use.
 """
 import sys, os, json
 import numpy as np
@@ -101,9 +102,16 @@ def data():
 
 
 # --------------------------------------------------------------------------------------------------- lr1
+_CUR = None
+
+
 def load_npz(R):
-    fn = os.path.join(RES, 'scratch', 'fluct', f'qsd_R{R}.npz')
-    return np.load(fn, allow_pickle=True)
+    """the tables of hull R from the committed curated file data/fluct_tables.npz (made by curate_fluct.py from
+    research/scratch/fluct/qsd_R*.npz, which is not in git)."""
+    global _CUR
+    if _CUR is None:
+        _CUR = np.load(os.path.join(HERE, 'data', 'fluct_tables.npz'))
+    return {k: _CUR[f'{k}_{R}'] for k in ('Tr', 'H', 'deaths', 'expo', 'prehist', 'lasthalf')}
 
 
 def npz_against_summary():
@@ -150,30 +158,39 @@ def lr1():
               "   mean step E[k' - k], k = 1, 2, 3, 5, 10: " + ', '.join(f"{mean_step[k]:+.2f}" for k in (1, 2, 3, 5, 10)))
 
 
+def _quantile(hist, q):
+    c = np.cumsum(hist); n = c[-1]
+    # same convention as numpy.percentile (linear interpolation between order statistics)
+    pos = q / 100.0 * (n - 1)
+    lo, hi = int(np.floor(pos)), int(np.ceil(pos))
+    vlo = int(np.searchsorted(c, lo + 1)); vhi = int(np.searchsorted(c, hi + 1))
+    return vlo + (vhi - vlo) * (pos - lo)
+
+
 def lr3():
-    print("LR3. face population n at lag s before the death (lag 0 = empty), from the `pre` arrays")
+    print("LR3. face population n at lag s before the death (lag 0 = empty), from the pre-death histories")
     s = json.load(open(os.path.join(RES, 'fluct', 'data', 'qsd_summary.json')))['sizes']
+    lags = (1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 20, 24, 32, 48, 64)
     for R in (7, 9, 11, 13):
         z = load_npz(R)
-        pre = z['pre'][:, :, 0].astype(float)          # (deaths, 65): index 64 = the death
+        ph = z['prehist'].astype(float)                 # (65, A+1)
         A = AREA[R]; mean_live = s[str(R)]['mean'] * A
-        lag = lambda j: pre[:, 64 - j]
-        assert (lag(0) == 0).all()
-        print(f"  A = {A}: {len(pre)} deaths; living mean {mean_live:.1f} cells")
-        print("    lag:     " + ' '.join(f"{j:5d}" for j in (1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 20, 24, 32, 48, 64)))
-        print("    mean n:  " + ' '.join(f"{lag(j).mean():5.1f}" for j in (1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 20, 24, 32, 48, 64)))
+        nd = ph[0].sum()
+        assert ph[0, 0] == nd
+        vals = np.arange(A + 1)
+        m = (ph * vals).sum(1) / nd
+        print(f"  A = {A}: {int(nd)} deaths; living mean {mean_live:.1f} cells")
+        print("    lag:     " + ' '.join(f"{j:5d}" for j in lags))
+        print("    mean n:  " + ' '.join(f"{m[j]:5.1f}" for j in lags))
         for qq, nm in ((25, 'q25:     '), (50, 'median:  '), (75, 'q75:     ')):
-            print("    " + nm + ' '.join(f"{np.percentile(lag(j), qq):5.1f}" for j in (1, 2, 3, 4, 5, 6, 8, 10, 12, 14, 16, 20, 24, 32, 48, 64)))
-        m = np.array([lag(j).mean() for j in range(0, 65)])
+            print("    " + nm + ' '.join(f"{_quantile(ph[j], qq):5.1f}" for j in lags))
         half = next(j for j in range(1, 65) if m[j] >= mean_live / 2)
-        # interpolate
         j0 = half - 1
         x = j0 + (mean_live / 2 - m[j0]) / (m[half] - m[j0])
         q90 = next((j for j in range(1, 65) if m[j] >= 0.9 * mean_live), None)
-        # per-death: last lag at which the face still had at least half the living mean
-        last_half = np.array([next((j for j in range(1, 65) if row[64 - j] >= mean_live / 2), 65) for row in pre])
-        print(f"    mean crosses half the living mean at lag {x:.1f}; reaches 90% of it at lag {q90}; per death, the last time "
-              f"n >= half the living mean: median lag {np.median(last_half):.0f}, quartiles {np.percentile(last_half, 25):.0f}-{np.percentile(last_half, 75):.0f}")
+        lh = z['lasthalf'].astype(float)
+        print(f"    mean crosses half the living mean at lag {x:.1f}; reaches 90% of it at lag {q90}; per death, the first lag "
+              f"at which n >= half the living mean: median {_quantile(lh, 50):.0f}, quartiles {_quantile(lh, 25):.0f}-{_quantile(lh, 75):.0f}")
 
 
 # --------------------------------------------------------------------------------------------------- lr2

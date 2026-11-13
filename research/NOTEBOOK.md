@@ -879,3 +879,20 @@ structured mean 1.00, CV 1.02, 26 beyond 4τ (22.7 expected); KS against soups p
 against own wait ρ = +0.19 and +0.23 (permutation p 0.010, 0.003). The data's cube 13 and 14 rows match the
 schedules already on record. Not checked: the runs themselves were not repeated, and the seed generator is the agent's.
 
+## 2026-11-13 — the area law has a name: supertransients (swarm librarian; two sources re-opened by the lead)
+
+- **[read]** Deterministic chaos that lasts a time exponential in system size and then collapses abruptly, with
+  exponentially distributed lifetimes, is a known numerical phenomenon in physics (*supertransients*, from
+  Crutchfield–Kaneko 1988; *stable chaos* for cellular-automaton-like coupled maps). Houghton et al. 2010 report
+  τ(L) = exp(AL + B) with "Poisson statistics", and collapse only with non-periodic boundaries. Nothing is proved
+  in any source the librarian could open. Notes, with each statement tagged by how far the source was read:
+  `research/theory/swarm/library/notes/supertransients.md`; index of 59 sources: `library/shelf.md`.
+- Our earlier survey missed this (`PRIOR-ART.md` §3 said "no precedent" for a deterministic system; narrowed there
+  today). What may still be ours: confinement and firewall as theorems, collapse by layers, the exponent set by
+  the area of one face, the tail measured to one cell, the symmetry effects.
+- **[read]** Contact process: exponential in volume in d ≥ 2 is Mountford 1999; Durrett–Liu and Durrett–Schonmann
+  are one-dimensional. No finite-size exponential-lifetime theorem without monotonicity was found.
+- Lead's check: opened arXiv 0902.2545 and eprints.whiterose.ac.uk/10731 (abstract level): titles, authors and the
+  quoted claims match the notes. Not checked: the other 57 sources. Several primaries (Tél–Lai 2008,
+  Bramson–Neuhauser 1994, Crutchfield–Kaneko 1988) sit behind publisher pages that refuse agents.
+

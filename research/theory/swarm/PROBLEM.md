@@ -23,10 +23,11 @@ Nothing explains this. Two questions:
 1. **Why is the lifetime exponential in the area** (length), rather than in the perimeter, or polynomial?
 2. **What is γ**, as a property of the rule?
 
-The system has no dice. Its randomness is self-made chaos. A theorem of this shape exists for a random cousin,
-the finite supercritical contact process (extinction time exponential in volume; Durrett–Liu, Durrett–Schonmann,
-Mountford: cited in `research/PRIOR-ART.md`, primary papers unread by anyone here). We know of none for a
-deterministic rule.
+The system has no dice. Its randomness is self-made chaos. For a random cousin, the finite supercritical contact
+process, the extinction time is known to be exponential in the volume (one dimension: Durrett–Liu,
+Durrett–Schonmann; d ≥ 2: Mountford 1999), and every proof uses monotonicity. For deterministic systems the
+phenomenon has a name, *supertransient*, and a literature of simulations since 1988, with nothing proved
+(`library/notes/supertransients.md`). A proof for any member of the class would be new.
 
 ## What would count, from most to least
 

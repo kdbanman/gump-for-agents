@@ -89,6 +89,13 @@ So a face needs no special mechanism to die. Its death is the far end of its ord
 fluctuations, and it is not a slow slide: sixteen generations before the end a dying face
 looks like any other, and the layer beneath it barely notices.
 
+This kind of thing has a name, which I learned late. Physicists call a chaos that lasts
+exponentially long in the size of its container and then collapses without warning a
+supertransient, and have watched it in simulations of other systems since 1988, with the
+same memoryless waits. In the papers we could open, nobody has proved one. What looks like
+gump's own is the staircase: walls that are theorems, a collapse that comes layer by layer,
+and a price set by the area of one face.
+
 ## Symmetry is fatal
 
 This is the finding I'd most want you to hear, because it is about how you played with it.
