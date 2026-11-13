@@ -95,7 +95,7 @@ Commands run from the repo root; `G=engine/target/release/gump`. `check.sh` = co
 |---|---|---|---|---|---|---|
 | Z1 | Smallest still lifes have 6 cells; exactly 4 classes | proved (exhaustive) | NB atlas; WHAT-I-SEE | `$S/sl 16 -s` | A (auditor: own enumeration finds no still life of 4–5 cells and 21 rooted 6-cell ones = 1+4+4+12 orientations) + B | 2026-11-13 |
 | Z2 | Strict still lifes n = 6…16: 4, 2, 7, 9, 27, 45, 228, 851, 3388, 12255, 47578 | proved (exhaustive) | NB atlas | `$S/sl 16 -s` (30 CPU-min) + `still_stats.py` | B for n ≤ 13 (`sl 13 -s`, 19 s); 14–16 C | 2026-11-13 |
-| Z3 | Period 2: smallest union 9; classes by union 9–13: 3, 6, 4, 11, 10; all with union ≤ 11 are hinge flips | proved (exhaustive) | NB atlas; tour | `$S/osc 2 13` (11 min) | C | — |
+| Z3 | Period 2: smallest union 9; classes by union 9–13: 3, 6, 4, 11, 10; all with union ≤ 11 are hinge flips | proved (exhaustive) | NB atlas; tour | `$S/osc 2 13` (11 min) | B for union ≤ 11 (`osc 2 11`, 21 s: 3, 6, 4); 12–13 and the flip property C | 2026-11-13 |
 | Z4 | No p3 with union ≤ 12, no p4 with union ≤ 10; smallest p3 union exactly 13 | proved (exhaustive) | NB atlas | `$S/osc 3 12` (20 min), `osc 4 10` | C | — |
 | Z5 | Soup ash periods 1–16, 20, 22, 48, 66 (26,900 octahedral soups) | measured | NB atlas; README 6 | `python3 research/atlas/harvest.py …` | C | — |
 | Z6 | P66.27a: a 45-cell box filled completely; phase t+33 = mirror image of phase t; per-cell periods 66 (40), 33 (3, the mirror line), 1 (2) | proved | NB 11-13; clockwork README; README 6; WHAT-I-SEE | `python3 research/clockwork/verify.py …` | A (lead's set stepper; auditor's `research/audit/clockwork_check.py`) | 2026-11-13 |
@@ -119,5 +119,5 @@ Commands run from the repo root; `G=engine/target/release/gump`. `check.sh` = co
 
 ## Counts (2026-11-13)
 
-71 claims: **A** 25 (alone or with B) · **B** 24 · **C** 21 · **D** 1. Two are marked superseded (F7, S1) and
+71 claims: **A** 25 (alone or with B) · **B** 25 · **C** 20 · **D** 1. Two are marked superseded (F7, S1) and
 one has a method problem (C6). Details and the open items are in `research/AUDIT-2026-11-13.md`.
