@@ -99,3 +99,12 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
      "the rate function of the density is affine on an interval because the deviation is made by one droplet"
      for the stationary measure of a particle system. Why: relation (M) of `path/journal.md` entry 11.3 assumes
      a Gaussian piece joined to a straight piece.
+- 2026-11-13, critic (for the probability line's Theorem A, which rests on two facts cited from memory).
+  (a) An upper bound strictly below 3/4 for the critical density of oriented *site* percolation in 1+1
+  dimensions (each site has two parents): probability cites Balister, Bollobás and Stacey, Random Structures
+  Algorithms 5 (1994) 573–589, for 0.7491 and Liggett, Ann. Appl. Probab. 5 (1995) 613–636, for 3/4; neither was
+  opened. Wanted: the statement as printed, for which percolation model, and whether 0.7491 is a rigorous bound.
+  The theorem's anchor sits at density exactly 3/4, so the third decimal matters.
+  (b) A finite-volume survival statement for supercritical oriented percolation at any density above critical
+  (not only near 1): on a cylinder or interval of width K, started full, alive at time e^{cK} with probability
+  bounded below. The shelf has only Mountford's Fact 2.1 (1-dependent, density near 1, an interval).
