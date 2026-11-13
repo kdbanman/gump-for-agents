@@ -90,6 +90,23 @@ def main():
               f"Mann-Whitney p = {stats.mannwhitneyu(xs['struct'], xs['soup']).pvalue:.3f}, "
               f"log-mean ratio {math.log(np.mean(xs['struct']) / np.mean(xs['soup'])):+.3f}")
 
+    print("\n== structured lineages against engine soup lineages at the same radius (tau_e = soup exposure / deaths) ==")
+    print("   r c  soup deaths  tau_e      struct deaths  mean T/tau_e [95%]      >4    <0.05   KS p")
+    xe = []
+    for (kind, rr, c), lst in sorted(by.items(), key=lambda kv: (kv[0][2], -kv[0][1])):
+        if kind != "struct" or ("soup", rr, c) not in by: continue
+        sl = by[("soup", rr, c)]; ds = sum(r["died"] for r in sl)
+        if ds < 30: continue
+        te = sum(r["T"] for r in sl) / ds
+        x = np.array([r["T"] / te for r in lst if r["died"]])
+        if len(x) < 10: continue
+        if te >= 1e4: xe += list(x)
+        k = len(x); m = x.mean()
+        lo, hi = stats.gamma.ppf(0.025, k, scale=1 / k), stats.gamma.ppf(0.975, k, scale=1 / k)
+        print(f"  {rr:2d} {c}  {ds:6d}  {te:10.4g}    {k:6d}     {m:5.2f} [{m/hi:4.2f}, {m/lo:4.2f}]   {(x>4).sum():3d}/{k*math.exp(-4):4.1f} {(x<0.05).sum():3d}/{k*(1-math.exp(-0.05)):4.1f}  {stats.kstest(x, 'expon').pvalue:5.3f}")
+    s = summary(xe, "struct pooled, tau_e >= 1e4")
+    if s: print(s)
+
     print("\n== hazard vs age within a plateau (units 1/tau_q; 1 = memoryless at the ensemble rate), reliable radii ==")
     edges = [0, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 4, 1e9]
     for kind in ("struct", "soup"):

@@ -63,6 +63,8 @@ def one(job):
         args = ["--cells", cf] + args
     out = subprocess.run([G, "run"] + args + ["--events", ev, "--every", "8"], capture_output=True, text=True).stdout
     summ = json.loads(out.strip().split("\n")[-1])
+    if not summ.get("hull_initial"):                              # seed burned out at once: no hull, no plateaus
+        os.remove(ev); cf and os.remove(cf); return []
     smax = max(summ["hull_initial"][0]); last = schedule(ev, s0)
     os.remove(ev); cf and os.remove(cf)
     rows = plateaus(last, smax, s0, summ["gen"], summ["status"])
