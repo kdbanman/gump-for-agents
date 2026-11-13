@@ -60,7 +60,7 @@ def path_cost(m, u0, path):
     c += float(m.lam[0] * -np.log(max(1 - fin[0], 1e-300)))
     return c
 
-def optimise(m, u0, T, tries=8, seed=0):
+def optimise(m, u0, T, tries=4, seed=0):
     rng = np.random.default_rng(seed); best = (np.inf, None)
     w = m.w
     for it in range(tries):
@@ -73,7 +73,7 @@ def optimise(m, u0, T, tries=8, seed=0):
         if r.fun < best[0]: best = (float(r.fun), (1 / (1 + np.exp(-r.x))).reshape(T, w))
     return best
 
-def study(name, mk, ws, Ts=(0, 1, 2, 3, 4, 6, 8, 12)):
+def study(name, mk, ws, Ts=(0, 1, 2, 3, 4, 6, 8, 12, 16)):
     for w in ws:
         m = mk(w); at = m.attractor(); u0 = at[-1]
         per = 'fixed point' if np.abs(at[-1] - at[-2]).max() < 1e-9 else ('period 2' if np.abs(at[-1] - at[-3]).max() < 1e-9 else 'not periodic')

@@ -6,7 +6,7 @@ RHO_TOY = 0.472      # bulk density of the toy on a torus (research/toy2d README
 RHO_GUMP = 0.4155    # bulk density of gump (PROGRAM D4)
 
 def budget(L):
-    return {8: 20, 12: 25, 16: 40, 20: 60, 24: 150, 28: 300, 32: 600, 36: 1200}.get(L, 60)
+    return {8: 20, 12: 25, 16: 40, 20: 60, 24: 150, 28: 300, 32: 600, 36: 1200, 40: 60}.get(L, 60)
 
 def model(ws, Ls, rho=RHO_TOY, tag='model', deaths=3000, scale=1.0):
     for L in Ls:
@@ -78,7 +78,9 @@ if __name__ == '__main__':
         model((1, 2, 3, 4, 6, 8), (28,))
         truth((28,))
     elif job == 'model3':
-        model((1, 4, 8), (32,), deaths=1500)
+        model((6, 8), (32,), deaths=2000)
+        model((6,), (36,), deaths=1500, scale=1.25)
+        model((6,), (40,), deaths=600, scale=40)
     elif job == 'gap':
         g = xp.toy_strip(16, 128)
         xp.run('gap_H16_L128', g, deaths=10 ** 9, maxsec=float(sys.argv[2]) if len(sys.argv) > 2 else 900, tag='gap', chunk=500)
