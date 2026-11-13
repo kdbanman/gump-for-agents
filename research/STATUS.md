@@ -24,7 +24,8 @@ _Last updated 2026-11-13 by the lead._
   theorems in `docs/AUTOMATON.md` once the running audit has finished reading it.
 - Audit agent: `research/CLAIMS.md`, `research/AUDIT-2026-11-13.md`, `research/check.sh`, CI workflow.
 - GPU session "Modal API" briefed (see `LEAD.md`); no pull request from it yet.
-- Next when a core frees: the 2D toy search (PROGRAM G1).
+- 2D toy found and its law checked (notebook 2026-11-13, `research/toy2d/`): B34/S234 on the range-2 cross.
+  Next: use it for proofs and exhaustive small cases (PROGRAM M2, M4, E2).
 
 ## The storyline so far
 1. Birth cannot cross a `{111}` plane (T2) ⇒ finite seeds are trapped in octahedral hulls; no

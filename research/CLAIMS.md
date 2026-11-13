@@ -117,6 +117,15 @@ Commands run from the repo root; `G=engine/target/release/gump`. `check.sh` = co
 | Q3 | B45/S3457 grows ~100× per radius step: medians 79, 3.5×10⁴, ≥10⁶ at R = 6, 8, 10 | measured | NB phase; WHAT-I-SEE; OPEN-PROBLEMS 15 | `$G ensemble --soup 0.35 --radius R --runs 16 --rule B45/S3457 --gens 1000000 --hash-window 65536` for R = 6, 8, 10 (the NB's command says radii 5, 7, 9) | B (79, 34,970, all 16 running at 10⁶) | 2026-11-13 |
 | Q4 | Birth at 3 breaks confinement (B3x/S345 invade vacuum across `{111}`) | measured | NB phase; WHAT-I-SEE | `survey.py` / ensembles | C (consistent with T2's hypothesis min B ≥ 4) | — |
 
+## Added after the first audit
+
+| id | claim | tag | where | reproduce | level | checked |
+|---|---|---|---|---|---|---|
+| G1 | 2D gump: B34/S234 on the range-2 cross has memoryless edge death with ln τ_edge = 0.73 + 0.416·L (L = 12–36) | measured | NB 2026-11-13; toy2d README | `research/toy2d/` (`law.py`, `analyze.py`) | A (lead's own stepper, L = 12–24: slope 0.42; `python3 research/experiments/toy2d_check.py 12 16 20 24`) | 2026-11-13 |
+| G2 | 2D toy: box confinement, T5 and no finite sealed set | proved | toy2d README | `python3 research/toy2d/structure2d.py` | C (lead re-derived confinement and the 3-row firewall by hand only) | 2026-11-13 |
+| G3 | 2D toy: mirror symmetry multiplies the slope by 0.42, full square symmetry by 0.50; four-fold rotation also shortens life (forecast failed) | measured | NB 2026-11-13; toy2d PREDICTIONS | `research/toy2d/` | C | — |
+| G4 | No capped-threshold Moore rule sustains confined chaos; 93 of 711 long-lived Moore rules die edge by edge | measured | toy2d README | `research/toy2d/` | C | — |
+
 ## Counts (2026-11-13)
 
 71 claims: **A** 25 (alone or with B) · **B** 25 · **C** 20 · **D** 1. Two are marked superseded (F7, S1) and

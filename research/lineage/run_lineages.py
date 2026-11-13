@@ -41,7 +41,7 @@ def schedule(ev, s0):
     for line in open(ev):
         e = json.loads(line)
         if e["type"] == "layer_death" and e["axis"] == 0 and e["cause"] == "hull" and e["s"] > 0:
-            last.setdefault(e["s"], e["last_alive"])
+            last.setdefault(e["s"], e["last_alive"] or 0)
     return last
 
 def plateaus(last, smax, s0, end, status):
