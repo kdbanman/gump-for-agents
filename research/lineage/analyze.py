@@ -107,6 +107,35 @@ def main():
     s = summary(xe, "struct pooled, tau_e >= 1e4")
     if s: print(s)
 
+    print("\n== does a lineage carry a persistent toughness? consecutive plateaus of one run (tau_e >= 1e4, both peeled) ==")
+    te_of = {}
+    for (kind, rr, c), sl in by.items():
+        if kind == "soup":
+            ds = sum(r["died"] for r in sl)
+            if ds >= 30: te_of[(rr, c)] = sum(r["T"] for r in sl) / ds
+    for kind in ("struct", "soup"):
+        runs = collections.defaultdict(list)
+        for r in rows:
+            if r["kind"] == kind: runs[r["tag"]].append(r)
+        a, b, lin = [], [], []
+        for tag, lst in runs.items():
+            lst.sort(key=lambda r: r["idx"])
+            xs_ = [(r["T"] / te_of[(r["r"], r["centre"])] if r["died"] else None) for r in lst
+                   if (r["r"], r["centre"]) in te_of and te_of[(r["r"], r["centre"])] >= 1e4]
+            for u, v in zip(xs_, xs_[1:]):
+                if u is not None and v is not None: a.append(u); b.append(v)
+            xs_ = [x for x in xs_ if x is not None]
+            if len(xs_) >= 2: lin.append(xs_)
+        if len(a) < 10: continue
+        rho, p = stats.spearmanr(a, b)
+        # lineage random effect: compare the spread of per-lineage mean log x with a permutation null
+        allx = np.concatenate([np.array(l) for l in lin]); sizes = [len(l) for l in lin]
+        stat = lambda arr: np.var([np.mean(np.log(arr[s:s + n])) for s, n in zip(np.cumsum([0] + sizes[:-1]), sizes)])
+        obs = stat(allx); rg = np.random.default_rng(0)
+        null = [stat(rg.permutation(allx)) for _ in range(2000)]
+        print(f" {kind:6s}: {len(a)} consecutive pairs, Spearman rho {rho:+.3f} (p {p:.3f});  {len(lin)} lineages with >= 2 plateaus: "
+              f"var of lineage mean ln x {obs:.3f} vs shuffled {np.mean(null):.3f} (p {np.mean(np.array(null) >= obs):.3f})")
+
     print("\n== hazard vs age within a plateau (units 1/tau_q; 1 = memoryless at the ensemble rate), reliable radii ==")
     edges = [0, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 4, 1e9]
     for kind in ("struct", "soup"):
