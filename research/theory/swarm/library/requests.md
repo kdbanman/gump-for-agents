@@ -9,11 +9,15 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
      multidimensional contact process") and 1999 ("Existence of a constant for finite system extinction");
      Cassandro–Galves–Olivieri–Vares 1984 (pathwise approach to metastability); Schonmann 1985. Wanted: the exact
      theorems, and exactly where attractiveness (monotonicity) and duality are used.
+     → see notes/contact-finite.md (and notes/ld-contact-percolation.md). Mountford 1999, CGOV 1984 and
+       Schonmann 1985 are abstract-only (paywalled).
   2. Non-monotone systems with an absorbing state: Bramson–Neuhauser 1994 ("Survival of one-dimensional cellular
      automata under random perturbations"); threshold contact processes; Chatterjee–Durrett ("Persistence of
      activity in threshold contact processes …", lifetime exponential in system size on random graphs);
      Mountford–Valesin on annealed Boolean networks. Wanted: any exponential-lifetime theorem that survives
      without monotonicity.
+     → see notes/nonmonotone.md. Bramson–Neuhauser could not be opened (Project Euclid refuses automated
+       clients); secondary accounts only. The threshold-contact papers are about a monotone process.
   3. Supertransients (chaotic transients whose lifetime grows exponentially with system size): Crutchfield–Kaneko
      1988 ("Are attractors relevant to turbulence?"); Kaneko 1990; Tél–Lai 2008 (Physics Reports, "Chaotic
      transients in spatially extended systems"); Wackerbauer–Showalter 2003. Wanted: what is claimed, what is
@@ -26,6 +30,7 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
      ("Limit measures for affine cellular automata"); Pivato's survey "Ergodic theory of cellular automata";
      bipermutive automata and the independence of a cell's states over time (Shereshevsky 1992; Kleveland 1997).
      Wanted for the source line: the exact statement about time-columns, and what is known in two dimensions.
+     → see notes/algebraic-ca.md (§1c for the exact statement). Kleveland 1997 and Pivato's survey not obtained.
   6. Probabilistic cellular automata: Lebowitz–Maes–Speer 1990; the Mairesse–Marcovici survey (2014); criteria
      for exponential mixing at high noise.
   7. Threshold networks: Goles–Olivos 1980; Goles–Fogelman-Soulié–Pellegrin 1985; the Goles–Martínez book.
