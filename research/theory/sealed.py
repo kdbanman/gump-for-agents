@@ -160,3 +160,45 @@ def minimal_sat(m, R, kmax):
 
 if __name__ == '__main__' and sys.argv[1:2] == ['minsat']:
     minimal_sat(int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]))
+
+
+def torus_min_sat(N, m, kmax):
+    """Smallest nonempty sealed set in the m-layer slab on the N x N torus (vessel.slab), by SAT; compared with
+    the size of a transverse T3 firewall (3 consecutive layers along another diagonal, intersected with the slab)."""
+    from pysat.card import CardEnc, EncType
+    from pysat.formula import IDPool
+    from pysat.solvers import Cadical153
+    from vessel import slab
+    v = slab(N, m); nb = v.nb; n = len(nb); pool = IDPool(); X = [pool.id(('c', i)) for i in range(n)]
+    cl = []
+    for i in range(n):
+        ins = [X[j] for j in nb[i] if j >= 0]
+        need = len(ins) - 3
+        if need > 0:
+            enc = CardEnc.atleast(lits=ins, bound=need, vpool=pool, encoding=EncType.seqcounter)
+            cl += [c + [-X[i]] for c in enc.clauses]
+    cl.append(X)                                              # nonempty
+    def solve(K):
+        enc = CardEnc.atmost(lits=X, bound=K, vpool=pool, encoding=EncType.seqcounter)
+        with Cadical153(bootstrap_with=cl + enc.clauses) as s:
+            if s.solve():
+                mdl = set(l for l in s.get_model() if l > 0)
+                return [i for i in range(n) if X[i] in mdl]
+        return None
+    lo, hi = 0, kmax; best = solve(hi)                      # invariant: none with <= lo, one with <= hi
+    if best is None:
+        print(f'torus slab N={N} m={m}: none with <= {kmax}'); return
+    hi = len(best)
+    while hi - lo > 1:
+        mid = (lo + hi) // 2; r = solve(mid)
+        if r is None: lo = mid
+        else: best, hi = r, len(r)
+    W = [v.cells[i] for i in best]
+    lay = sorted(set(sum(c) for c in W))
+    print(f'torus slab N={N} m={m} ({n} cells): smallest nonempty sealed set has {hi} cells (none with {lo}); '
+          f'its cells per (1,1,1) layer: {[sum(1 for c in W if sum(c) == s) for s in lay]}', flush=True)
+    return W
+
+
+if __name__ == '__main__' and sys.argv[1:2] == ['torusmin']:
+    torus_min_sat(int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]))
