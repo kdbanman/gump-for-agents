@@ -684,7 +684,7 @@ Question put to the agent: is a face's death just the far tail of its ordinary f
 
   The last 37,000 generations took seven layers. What is left is twelve copies of the still life **S8b** (four faces
   round an edge, capped by a 2×2 plate), two on each half of the three coordinate axes, 2.75 and 9.25 cube-widths
-  from the centre. S8b is also in the ash of the legacy side-10 cube. (Side 15 went extinct; 13 and 14: see their summaries.)
+  from the centre. S8b is also in the ash of the legacy side-10 cube. (Side 15, by contrast, went extinct.)
 - **Forecasts for the second peel** (`research/fluct/PREDICTIONS.md`, both committed and pushed while the cube was
   at ≈2.55×10⁹): from fits, median 2.60×10⁹, 90% 2.531–2.89×10⁹ — the peel at **2,886,100,480** is inside, at its
   95th percentile; from 64 copies of the 2.525×10⁹ state (τ = 8.2×10⁷, 31 deaths), 90% 2.529–2.78×10⁹ — **missed**.
@@ -713,4 +713,4 @@ Question put to the agent: is a face's death just the far tail of its ordinary f
   single engine runs give 630 (300 soups; 65 end still or periodic with the face layer occupied); R = 28: 6,930
   against 5,550; R = 30: 2.18×10⁴ against 2.07×10⁴ ± 0.09×10⁴; R = 29 (cube-centred): 1.44×10⁴ against
   1.36×10⁴. Probably oscillating debris of a period its settle test does not cover. Negligible where chaos cannot
-  settle before a face dies (R ≥ 32: under 1% of replicas ever settle). Use the engine below R = 30.
+  settle before a face dies (R ≥ 32: settles are under 2% of deaths; none from R = 36). Use the engine below R = 30.

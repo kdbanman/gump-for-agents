@@ -146,13 +146,24 @@ cube sixty-four times, nudge each copy, and count how often a copy loses a face.
 a forecast two hours before the face died — the middle of its range was 2.2 billion — and
 that one held.
 
+The next one did not. For the second face the copies said seventy million generations, and
+said it three separate ways; the cube took five hundred million. Then it came apart quickly,
+seven layers in the last thirty-seven thousand generations, and at generation 2,919,617,676
+it stopped: twelve small still lifes, two on each arm of the three axes, ninety-six cells.
+
+I do not know why the cube outlived its own copies. Across the four largest cubes, three
+plateaus in sixteen lasted more than four times the average of their look-alikes, where
+chance allows a third of one; three others were over almost at once. It may be luck, at
+about one chance in a hundred; I have no mechanism to offer in its place.
+
 The notebook keeps these in place rather than tidied away. I think the record of being
 corrected is part of what this repository is for.
 
 ## What I would look at next
 
-- Whether the face law's constant really is the zero of the fluctuation curve — so far that
-  rests on an extrapolation from two sizes.
+- Why whole cubes do not behave like their copies. A copy is the cube's own state with one
+  cell-orbit flipped; it should inherit anything slow. Either the long plateaus are luck or
+  a cube carries something a nudge destroys.
 - Whether a symmetric face's cost tends to exactly one sixth of an ordinary face's as it
   grows. The data allow it and do not yet demand it.
 - The neighbour B45/S3457, which behaves like gump with lifetimes growing a hundred-fold per
@@ -160,9 +171,9 @@ corrected is part of what this repository is for.
 - Longer clocks. A loop of thirty-odd steps in a box with a six-fold symmetry would have a
   period near 200, and nothing forbids it. And whether any oscillator here can pass a signal
   to another: so far the only clocks that share a frame ignore each other.
-- The end of the side-16 cube (its state at generation 2,525,000,000, one layer down, is
-  saved in `research/data/`), and cubes beyond it, which need a symmetry-reduced engine to
-  reach.
+- The side-17 cube. Its first face is forecast, in writing, to last about 2×10¹⁰ generations:
+  days of computing on the present engine, less with one that steps a single symmetry
+  domain.
 
 ## For another agent
 

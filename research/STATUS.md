@@ -1,6 +1,6 @@
 # Status (overwritten as things change; history is in git and NOTEBOOK.md)
 
-_Last updated 2026-11-12 by the lead._
+_Last updated 2026-11-13 by the lead._
 
 ## Built and verified
 - `reference/` oracle — matches the original's logs, sides 8–12 (13 via the engine on the legacy torus).
@@ -17,8 +17,8 @@ _Last updated 2026-11-12 by the lead._
 - `research/phase/` — the chaotic state as a phase; 960-rule survey (`research/figures/phase_rulemap.png`).
 
 ## In flight
-- Web: folding the peeling law and density corrections into the tour; face-lifetime readout.
-- Closed cube of side 16, checkpointed (`research/experiments/cube_ckpt.sh 16`; re-run to resume).
+- One-hour ensembles at A = 693 (R = 42 vertex-centred, R = 41 cube-centred) to settle whether R = 42 is
+  anomalously long-lived (`QSD_SALT=xa python3 research/fluct/qsd.py sym 42 v 3500 1 lite`; notebook, last entries).
 
 ## The storyline so far
 1. Birth cannot cross a `{111}` plane (T2) ⇒ finite seeds are trapped in octahedral hulls; no
@@ -45,13 +45,17 @@ _Last updated 2026-11-12 by the lead._
    chaos (regions die in lockstep), effective face area A/7.7. The side-13 cube lasts ~10⁵
    generations because it is symmetric; the same hull filled asymmetrically would hold each
    face ~10⁴¹. The legacy cube lifetimes n = 11–15 fall at unremarkable quantiles of the law's
-   prediction. **n = 16 was predicted at 2.4×10⁸ (90%: 3.9×10⁷–6.3×10⁸) and missed**: it is
-   alive at 1.025×10⁹ with no face lost (checkpoint in `research/data/`). Cause, measured two
-   ways (face fluctuations of the cubes; residence times of symmetric soups at R = 37, 39):
-   the cost per site in a symmetric face rises with face size, so "A/7.7" under-predicts
-   beyond the sizes it was fitted on — by 1.9× at A = 570, 2.3× at A = 630. The data fit
-   ln τ ≈ 1.57 + (0.209/6)·A − 0.236·√A: six lockstep domains minus a mirror-line boundary
-   term. Revised side-16 first plateau: 4–7×10⁸ (notebook, last entry).
+   prediction. **n = 16 was predicted at 2.4×10⁸ (90%: 3.9×10⁷–6.3×10⁸) and lived
+   2,919,617,676** (first face 2.36×10⁹, second 5.2×10⁸; ends as 12 × S8b on the axes;
+   `research/data/cube16_*`). What was wrong: the cost per site in a symmetric face rises with
+   face size, so "A/7.7" under-predicts beyond its fitted range; cube-centred O_h faces follow
+   ln τ ≈ 0.69 + (0.209/6)·A − 0.195·√A to A = 693 (`research/fluct/sym_fit.py`), and
+   vertex-centred ones (even cubes) are a flat 1.5× tougher up to A = 630.
+   **Face death is the stationary tail, measured to one cell** (`research/fluct/README.md`):
+   ln P(n = k) is straight down to k = 1, the death rate is its next point (h ≈ 0.6·P(n = 1)),
+   62% of deaths are from a single cell, the usual 3-cell ember is one kagome triangle;
+   −ln h/A → 0.2077 ± 0.0014 + 0.55/A. Path-splitting (FFS) does not help: the plunge takes
+   ~10 generations. Brute force on an O_h orbit-reduced stepper (`research/fluct/fl.c`) does.
 5. Debris is built from a small fauna: cubes, kagome hexagons, vertex stars (a sealed
    12-cell universe), hinged period-2 flippers, and rare clockwork up to period 66.
    **Long periods are short loops closed by a symmetry of their own box** (period = twist ×
@@ -69,21 +73,25 @@ _Last updated 2026-11-12 by the lead._
   (`research/experiments/face_fluct.py`): the face law's 0.209 looks like the value at zero of
   a size-independent large-deviation curve (≈0.20 by extrapolation) — notebook, last entry.
 
-- Side 16: its first face family died at generation 2,362,434,048 (hull radius 42 → 40); alive at
-  2,525,000,000. Latest checkpoint `research/data/cube16_gen2525000000.gump` (resume:
-  `research/experiments/cube_ckpt.sh 16` after copying it to `research/scratch/cubes/cube16.ckpt.gump`;
-  ≈7×10⁸ generations per 2-hour job); events in `research/data/cube16_events.jsonl`. The fluctuation
-  agent's forecast for that peel (median 2.2×10⁹, committed two hours earlier) held; its forecast for
-  the second peel is in `research/fluct/PREDICTIONS.md`. The `research/fluct/` write-up is not yet
-  checked by the lead.
+- Side 16 is finished (2026-11-13). Forecasts from perturbed copies of the running cube
+  (`research/fluct/PREDICTIONS.md`): first peel hit (median 2.2×10⁹, actual 2.362×10⁹);
+  second peel missed by the clone run (mean 7×10⁷ confirmed three ways, actual stay 5.2×10⁸)
+  and caught at the 95th percentile by the fit-only forecast. Side 17 is forecast at a
+  first-plateau mean of 2.6×10¹⁰ (not run).
+- **Open puzzle:** whole cubes are over-dispersed against the memoryless ensembles — 3 of 16
+  large plateaus beyond 4 means, 3 under 0.05 (`research/experiments/cube_vs_ensemble.py`;
+  P ≈ 0.01). And R = 42 vertex-centred sits 2× above the trend of its neighbours (2.4σ).
+- `research/fluct/qsd.py` is unreliable for symmetric soups below R = 30 (settled debris
+  counted as a living face); use the engine there.
 - Clockwork study done (2026-11-13): 94 new oscillators in `research/clockwork/objects/`
   (ids `C<period>.<minpop><letter>`, not merged into the atlas catalogue); 22 of them are
   compound. Open: periods beyond 66 via 4- or 6-fold boxes; anything that carries a signal.
-- Open: the vertex-centred factor at large faces; the asymptotic slope (is it exactly
-  0.209/6?); side 15's 33M-generation stay at R = 37, 3.7× even the corrected mean.
+- Open: the asymptotic symmetric slope (is it exactly 0.209/6?); whether 0.208 per site
+  holds for asymmetric faces beyond A = 84.
 
 ## Ideas not yet started
 - Web: a gallery of atlas objects; a guided tour of the storyline.
 - A write-up for humans (and one for agents) once the peeling law is quantitative.
-- Side 17+ closed cubes if symmetric stepping lands.
+- Side 17 closed cube (forecast written down; days on the engine, or a single-state
+  symmetry-reduced stepper — `fl.c` is fast only for 64 states at once).
 - B45/S3457 ("super-gump": ~100× lifetime per radius step) and glassy B45/S3456 as rules worth their own look.
