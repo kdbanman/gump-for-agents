@@ -8,6 +8,7 @@ Exact computations only.
   python3 startpoints.py crossing    path: generations needed to cross a face, against the length of the plunge
   python3 startpoints.py slab        path: sealed bands (transverse firewalls) in periodic slabs, against the face
   python3 startpoints.py image       counting: how far from invertible (|F^t(X)| / |X|, small vessels)
+  python3 startpoints.py source      source: permutive automata as exact dice; which sets of cells get i.i.d. columns
   python3 startpoints.py all         everything except `game 5` and the slower integer programmes
 """
 import sys, os, itertools, random
@@ -438,12 +439,13 @@ def slab_report(ip=True):
         rows.append((a, b, m, A, best))
         print(f"  {a}x{b}, m={m}: face {A} cells (sealed); smallest band: {best[1]} cells along {best[0]}, "
               f"sealed: {best[2]} (two layers only: sealed {best[3]}); band/face = {best[1] / A:.2f}")
-    print("  band = 4.5 m min(a,b) cells for a = b; smaller than the face (3ab) iff a > 1.5 m")
+    print("  for a = b = N the band has 36N cells at m = 8, 54N at m = 12, 13N at m = 3 (about 4.5 m N): smaller than the")
+    print("  face (3 N^2) once N exceeds about 1.5 m")
     if ip:
         print("  smallest nonempty sealed set (integer programme, proved optimal unless said):")
-        for (a, b, m) in ((3, 3, 3), (4, 4, 3), (5, 5, 3), (6, 6, 3), (4, 4, 4), (3, 3, 8)):
+        for (a, b, m) in ((3, 3, 3), (4, 4, 3), (4, 4, 4), (3, 3, 8), (5, 5, 3)):
             cells, nb = make_slab(a, b, m)
-            W, res = sm.min_sealed(nb, 3, time_limit=150)
+            W, res = sm.min_sealed(nb, 3, time_limit=60)
             lay = {}
             for i in W:
                 lay[cells[i][2]] = lay.get(cells[i][2], 0) + 1
@@ -474,6 +476,102 @@ def image():
               f"= {sizes[-1] / (1 << N):.5f}; entropy lost in one step {N - np.log2(sizes[0]):.2f} of {N} bits")
 
 
+# --------------------------------------------------------------------------------------------------- source
+def _columns(f, offs, cells, T):
+    """1D automaton with local rule f on offsets `offs`, binary. Over every initial condition on the window that
+    matters: the tuple (x_p(t) : t = 0..T, p in cells). Returns (number of distinct tuples, all equally frequent?,
+    number of values, window width)."""
+    lo = min(cells) + T * min(min(offs), 0); hi = max(cells) + T * max(max(offs), 0)
+    W = hi - lo + 1
+    cnt = {}
+    for init in range(1 << W):
+        cur = {lo + i: (init >> i) & 1 for i in range(W)}
+        vals = []
+        for t in range(T + 1):
+            vals += [cur[p] for p in cells]
+            cur = {p: f(*[cur[p + o] for o in offs]) for p in cur if all((p + o) in cur for o in offs)}
+        k = tuple(vals)
+        cnt[k] = cnt.get(k, 0) + 1
+    return len(cnt), len(set(cnt.values())) == 1, len(cells) * (T + 1), W
+
+
+def _rank_gf2(rows):
+    rows = list(rows); r = 0
+    piv = {}
+    for v in rows:
+        while v:
+            h = v.bit_length() - 1
+            if h in piv:
+                v ^= piv[h]
+            else:
+                piv[h] = v; r += 1
+                break
+    return r
+
+
+def _linear_forms(offs2, P, T, box):
+    """2D linear rule over GF(2): x_p(t+1) = sum of x_{p+o}(t), o in offs2. Each x_p(t) as a bitmask of initial sites."""
+    idx = {}
+    def form0(p):
+        return 1 << idx.setdefault(p, len(idx))
+    cache = {}
+    def form(p, t):
+        if t == 0:
+            return form0(p)
+        k = (p, t)
+        if k not in cache:
+            v = 0
+            for o in offs2:
+                v ^= form((p[0] + o[0], p[1] + o[1]), t - 1)
+            cache[k] = v
+        return cache[k]
+    return [form(p, t) for t in range(T + 1) for p in P]
+
+
+def source():
+    print("permutive automata as exact dice (the 'source' starting point), uniform product measure")
+    print("  LEMMA (proof in critic/journal.md): rule permutive in one variable e that is a vertex of its neighbourhood,")
+    print("  e != 0; cells P no two of which differ by a multiple of e  =>  {x_p(t): p in P, t >= 0} i.i.d. uniform.")
+    r30 = lambda a, b, c: a ^ (b | c)                       # permutive in a (offset -1) only
+    n, flat, m, W = _columns(r30, (-1, 0, 1), [0], 6)
+    check(n == 1 << m and flat, f"rule 30 (permutive in the left variable only): one cell, t = 0..6: all {1 << m} words, equally often ({1 << W} initial windows)")
+    n, flat, m, W = _columns(r30, (-1, 0, 1), [0, 1], 4)
+    print(f"       rule 30, two adjacent cells (they differ by e = -1), t = 0..4: {n} of {1 << m} words occur, equally often: {flat}  -> not i.i.d.")
+    r90 = lambda a, b, c: a ^ c                             # permutive in both outer variables
+    n, flat, m, W = _columns(r90, (-1, 0, 1), [0, 1], 4)
+    check(n == 1 << m and flat, f"rule 90 (bipermutive): two adjacent cells, t = 0..4: all {1 << m} words, equally often "
+                                f"(the classical statement: r - l adjacent columns; the lemma's condition is sufficient, not necessary)")
+    n, flat, m, W = _columns(r90, (-1, 0, 1), [0, 1, 2], 3)
+    print(f"       rule 90, three adjacent cells, t = 0..3: {n} of {1 << m} words occur  -> not i.i.d.")
+    b4 = lambda a, b, c, d: a ^ d ^ (b & c)                 # offsets -1..2, permutive in both outer variables, not linear
+    n, flat, m, W = _columns(b4, (-1, 0, 1, 2), [0, 1, 2], 3)
+    check(n == 1 << m and flat, f"x' = x[-1] xor x[+2] xor (x[0] and x[+1]) (bipermutive, not linear): three adjacent cells, t = 0..3: all {1 << m} words")
+    g = lambda a, b, c: c ^ (a & b)                         # offsets 0, 1, 2; permutive in c (e = 2), not linear
+    n, flat, m, W = _columns(g, (0, 1, 2), [0, 1], 4)
+    check(n == 1 << m and flat, f"x' = x[+2] xor (x[0] and x[+1]) (e = 2): cells 0 and 1 jointly, t = 0..4: all {1 << m} words, equally often")
+    n, flat, m, W = _columns(g, (0, 1, 2), [0, 2], 3)
+    print(f"       same rule, cells 0 and 2 (they differ by e), t = 0..3: {n} of {1 << m} words occur  -> not i.i.d.")
+    xr = lambda a, b: a ^ b
+    n, flat, m, W = _columns(xr, (0, 1), [0, 1], 3)
+    print(f"       x' = x[0] xor x[+1], cells 0 and 1, t = 0..3: {n} of {1 << m} words occur  -> not i.i.d.")
+    maj = lambda a, b, c: int(a + b + c >= 2)
+    n, flat, m, W = _columns(maj, (-1, 0, 1), [0], 5)
+    print(f"       majority (monotone, permutive in nothing), one cell, t = 0..5: {n} of {1 << m} words occur, equally often: {flat}")
+    # two dimensions, linear: two whole rows beneath an edge
+    P = [(i, j) for j in (1, 2) for i in range(5)]
+    T = 4
+    f1 = _linear_forms([(0, 0), (1, 0), (0, 2)], P, T, None)
+    check(_rank_gf2(f1) == len(f1), f"2D linear rule on offsets (0,0),(1,0),(0,2) (e = (0,2)): rows 1 and 2, 5 columns, t = 0..{T}: "
+                                    f"{len(f1)} values, rank {_rank_gf2(f1)} over GF(2) -> i.i.d. uniform")
+    f2 = _linear_forms([(0, 0), (1, 0), (0, 1)], P, T, None)
+    print(f"       offsets (0,0),(1,0),(0,1) (every vertex e has a multiple joining the two rows or lying in a row): "
+          f"{len(f2)} values, rank {_rank_gf2(f2)} -> not independent")
+    f3 = _linear_forms([(0, 0), (1, 0), (0, 1)], [(i, 1) for i in range(5)], T, None)
+    print(f"       same rule, one row only (e = (0,1)): {len(f3)} values, rank {_rank_gf2(f3)}")
+    print("  ENTROPY BOUND: a deterministic system started from N random bits emits at most N bits of exact dice. In the")
+    print("  lemma each die x_p(t) uses up one fresh initial cell p + t e: dice for T generations need a source T|e| deep.")
+
+
 if __name__ == '__main__':
     what = sys.argv[1] if len(sys.argv) > 1 else 'all'
     if what in ('bijection', 'all'):
@@ -490,4 +588,6 @@ if __name__ == '__main__':
         slab_report(ip=(what == 'slab'))
     if what in ('image', 'all'):
         image()
+    if what in ('source', 'all'):
+        source()
     print('ALL OK' if OK else 'SOMETHING FAILED')
