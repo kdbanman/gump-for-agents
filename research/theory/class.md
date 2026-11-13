@@ -159,17 +159,19 @@ The largest such W is the (b − 1)-core of the subgraph induced on the cells of
 **Corollary (walls).** With u sealed, face-cell degree K_f = a⁰ + a⁻: if a⁰ ≥ b − 1 and **c ≥ K_f + 1**, a fully
 live boundary layer of a slab is immortal — the face can never die, the hull can never shrink past it.
 
-### 1.7 Corollary F — the window, and why the confining plane must hold two lines [proved, given F2]
+### 1.7 Corollary F — how many caps a face can feel [proved]
 
-One type, tight b (b = a⁻ + 1). Then a⁰ = K − 2b + 2 and K_f = K − b + 1.
-- **F1** The cap can act on a face cell only if c ≤ K_f = K − b + 1; beyond that the face is a pure threshold layer
-  (never overcrowded), and a wall if moreover K ≥ 3b − 3.
-- **F2** [measured, no exception in 29 families; mean-field: f′(ρ*) > −1] the cap c = b + 1 never gives a chaotic
-  bulk (B is the single count b; Life, (3, 4) on Moore, is the famous marginal member and it settles).
-- Hence a capped threshold with a chaotic bulk and faces the cap can reach needs **b + 2 ≤ c ≤ K − b + 1**, so
-  K ≥ 2b + 1, i.e. **b < K/2 strictly and a⁰ ≥ 4**: the confining hyperplane must contain at least two lines of
-  neighbours. Lattices with a⁰ = 2 (Moore, von Neumann, triangular, kagome, honeycomb with ≤ 12) have b = K/2 and
-  K_f = b + 1: every chaotic cap is out of reach of their faces.
+One type, tight b (b = a⁻ + 1). Then a⁰ = K − 2b + 2 and K_f = K − b + 1. The cap can act on a face cell only if
+c ≤ K_f; beyond that the face is a pure threshold layer (never overcrowded), and a wall if moreover a⁰ ≥ b − 1.
+A rule with any births has c ≥ b + 1. So the caps within reach of the faces are
+
+  **b + 1 ≤ c ≤ K − b + 1 — exactly a⁰ − 1 of them.**
+
+The interval is nonempty iff b ≤ K/2, the same condition as unsealability (C2). So the number of neighbours in the
+confining hyperplane counts the rules that can be gumps: lattices with a⁰ = 2 (Moore, von Neumann, triangular,
+kagome, honeycomb) have b = K/2 and **one** candidate, c = K/2 + 1, the rule B{K/2}/S{K/2 − 1, K/2}; a⁰ = 4 gives three
+(cross2: c = 4, 5, 6), a⁰ = 6 five (gump: c = 5…9), a⁰ = 8 seven. Whether a candidate
+is chaotic in the bulk is a separate, measured matter (§3–§5).
 
 ### 1.8 Proposition G — no finite region is shielded [proved]
 

@@ -185,7 +185,7 @@ def gump_hull(R):
 
 
 def slab_cells(a, b, layers):
-    """cells of {111} layers s = x+y+z in `layers`, modulo the in-plane translations (2a,-2a,0), (0,2b,-2b):
+    """cells of {111} layers s = x+y+z in `layers`, modulo the in-plane translations (2a,0,-2a), (0,2b,-2b):
     canonical representative (x mod 2a, y mod 2b, s).  3ab cells per layer (a kagome torus of a x b unit cells)."""
     out = []
     for s in layers:
@@ -221,21 +221,18 @@ def gump_slab(a, b, m, fw=3):
     lines = [((5 if j in (0, m - 1) else (4 if (j < 4 or j >= m - 4) else 0)), [ix[c] for c in cells if c[2] == s])
              for j, s in enumerate(layers)]
     events = [[0], [m - 1]] + [list(range(y, y + fw)) for y in range(1, m - fw)]
-    # oblique layers: s' = s - 2x (period 4a), s - 2y (period 4b), s - 2z = 2x + 2y - s (constant on the torus classes
-    # only modulo gcd; use the class of (x + y) modulo 2*lcm-free: handled by brute force below)
-    for name, f, per in (('x', lambda x, y, s: (s - 2 * x) % (4 * a), 4 * a), ('y', lambda x, y, s: (s - 2 * y) % (4 * b), 4 * b)):
-        vals = sorted(set(f(*c) for c in cells))
+    # oblique layers of the other three diagonals wrap the torus, whose translations are (2a,0,-2a), (0,2b,-2b):
+    # s - 2x has period 4a, s - 2y period 4b, 2x + 2y - s period 4 gcd(a, b); three adjacent dead ones are a firewall (T3)
+    from math import gcd
+    for f, per in ((lambda x, y, s: (s - 2 * x) % (4 * a), 4 * a),
+                   (lambda x, y, s: (s - 2 * y) % (4 * b), 4 * b),
+                   (lambda x, y, s: (2 * x + 2 * y - s) % (4 * gcd(a, b)), 4 * gcd(a, b))):
+        vals = sorted(set(f(*c) for c in cells)); nv = len(vals)
+        if nv < 4:
+            continue
         base = len(lines)
         for v in vals:
             lines.append((0, [ix[c] for c in cells if f(*c) == v]))
-        nv = len(vals)
-        events += [[base + (i + j) % nv for j in range(fw)] for i in range(nv)]
-    if a == b:                                           # third oblique family is periodic only on square tori
-        f = lambda x, y, s: (2 * x + 2 * y - s) % (4 * a)
-        vals = sorted(set(f(*c) for c in cells)); base = len(lines)
-        for v in vals:
-            lines.append((0, [ix[c] for c in cells if f(*c) == v]))
-        nv = len(vals)
         events += [[base + (i + j) % nv for j in range(fw)] for i in range(nv)]
     profs = [(0, list(range(0, min(4, m)))), (1, list(range(m - 1, max(m - 5, -1), -1)))]
     return dict(name='gump_slab_%dx%d_m%d' % (a, b, m), N=len(cells), M=0, nb=nb, lines=lines, events=events,
