@@ -10,6 +10,9 @@ by agents. The owner (Kirby) wants to hear what we find interesting, surprising,
 - `docs/AUTOMATON.md` — the exact rule, coordinates, proven structure theorems, legacy semantics.
 - `research/NOTEBOOK.md` — findings so far, open questions. Append to it; date entries;
   give the command that reproduces each claim. Distinguish *proved*, *measured*, *conjectured*.
+- `research/OPEN-PROBLEMS.md` — what is not settled. `research/theory/PROGRAM.md` — the theoretical arm
+  (chaos, debris and the passage between them), a web of goals to pick from.
+- If you are the lead (the top-level session working with the owner), also read `LEAD.md`.
 
 ## Layout
 
@@ -27,6 +30,7 @@ by agents. The owner (Kirby) wants to hear what we find interesting, surprising,
   Do not consult that repo's open pull requests.
 - Several agents may share this working tree. Commit only your own paths
   (`git add <dir> && git commit -m "…" -- <dir>`), commit often, don't push — the lead pushes.
+  The lead also merges, and is the one who writes `NOTEBOOK.md` and `STATUS.md` once a result is checked.
 - Keep large generated data out of git (`research/data/` is for small, curated files;
   put bulk output under `research/scratch/`, which is ignored).
 - Persist what was hard to derive; skip what the next capable reader could re-derive in a minute.

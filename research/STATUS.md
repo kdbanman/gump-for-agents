@@ -17,7 +17,11 @@ _Last updated 2026-11-13 by the lead._
 - `research/phase/` — the chaotic state as a phase; 960-rule survey (`research/figures/phase_rulemap.png`).
 
 ## In flight
-- Nothing running.
+- `research/lineage/` (agent): are plateau lengths of structured symmetric seeds memoryless, or over-dispersed
+  like the cubes'? (OPEN-PROBLEMS 6.)
+- `research/theory/` (agent): audit of the threshold lemma (PROGRAM S5) and a proof attempt for critical
+  thickness (S6). Not yet checked by the lead.
+- Next when a core frees: the 2D toy search (PROGRAM G1).
 
 ## The storyline so far
 1. Birth cannot cross a `{111}` plane (T2) ⇒ finite seeds are trapped in octahedral hulls; no
@@ -88,6 +92,12 @@ _Last updated 2026-11-13 by the lead._
   compound. Open: periods beyond 66 via 4- or 6-fold boxes; anything that carries a signal.
 - Open: the asymptotic symmetric slope (is it exactly 0.209/6?); whether 0.208 per site
   holds for asymmetric faces beyond A = 84.
+
+- 2026-11-13: prior-art survey and adversarial second pass (`research/PRIOR-ART.md`): no automaton on this
+  lattice found, no lifetime-versus-symmetry result found; cite Eppstein (arXiv 0911.2890) for confinement.
+  Open problems consolidated in `research/OPEN-PROBLEMS.md`. Theory programme started
+  (`research/theory/PROGRAM.md`); first result, the threshold lemma: gump is a symmetric threshold automaton
+  except at overcrowded cells (n ≥ 6), so all non-period-2 behaviour needs overcrowding.
 
 ## Ideas not yet started
 - Web: a gallery of atlas objects; a guided tour of the storyline.
