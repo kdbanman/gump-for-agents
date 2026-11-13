@@ -369,3 +369,106 @@ of ℓ cells in its steady state one needs age ≳ ℓ/4 (Lemma 6), i.e. M_k wit
 larger than the vessel's own state space. Finite-horizon counting gives the transient law exactly and the
 steady law not at all. This is the same obstruction as "the bound is useful only while k ≲ √L" of entry 4, seen
 from the other side.
+
+## 2026-11-13 · 11 · The dice gap at horizon 2: what can be said by hand, and the exact comparison to run
+
+The lead's question for this line: one row over dice has the right form and too large a constant (2D rule:
+0.52–0.53 per cell, exact, against 0.36–0.42; board E13). By the hierarchy identity (entry 10) the true rule and
+D2 agree exactly at horizon 1 and first differ at horizon 2, where the rows beneath are no longer fresh. So the
+gap can be isolated, exactly, in its first generation.
+
+**Lemma 7 (a live edge cell thins its own support) [proved, by hand].** Uniform soup, half-plane. Given the
+state s of the edge cell (x, 0) at generation 0, the cells beneath it are alive at generation 1 with probability
+
+| | (x, 1) | (x, 2) | expected b₁(x) |
+|---|---|---|---|
+| s = 0 | 85/128 = 0.664 | 161/256 = 0.629 | 331/256 = 1.293 |
+| s = 1 | 76/128 = 0.594 | 119/256 = 0.465 | 271/256 = 1.059 |
+
+*Proof.* (x, 1) has seven neighbours in the half-plane: (x, 0) and six others, m ~ Bin(6, ½), n = s + m. Born iff
+n ∈ {3, 4}, survives iff n ∈ {2, 3, 4}, own state fair. s = 0: (35 + 50)/128. s = 1: m ∈ {2, 3} or m ∈ {1, 2, 3}:
+(35 + 41)/128. (x, 2) has eight: (x, 0) and seven others, m ~ Bin(7, ½). s = 0: (70 + 91)/256. s = 1:
+(56 + 63)/256. ∎
+At density ½ a cell beneath is more often overcrowded than starved, so one more live neighbour above removes
+0.23 live cells beneath on average. Which way this moves the cost of emptying the edge is **not decided by the
+lemma**: a sparse edge dies when b is low under its live cells (kill sets {0,1} for k = 0, {0} for k = 1) *and*
+low under their dead neighbours (dead, k = 1: {0,1}; k = 2: {0}); the feedback lowers b under the former and
+raises it under the latter. Crude count for one isolated live cell with four dead neighbours, cells beneath
+treated as independent with the densities of the table: (1 − 0.594·0.465)(1 − 0.664·0.629)⁴ = 0.083, against
+(1 − 0.588²)⁵ = 0.120 for dice of the same mean density: the feedback makes the *last* step dearer, not cheaper.
+So if the true two-step cost is below the dice one, it is not because of this column-by-column feedback.
+
+**The exact comparison (lab request 2).** Four numbers at horizon 2, each a transfer-matrix exponent:
+- V0, the true rule: c_2 = 0.467693.
+- V1, fresh fair dice at generation 1 (= D2(L, ½) from a uniform row).
+- V2, fresh dice at generation 1 with the true one-column law of the pair ((x,1), (x,2)) at generation 1,
+  independent between columns and of row 0 (isolates the density: 0.629 and 0.547 instead of ½).
+- V3, the same with the true law of that pair given (s₀(x), s₁(x)), the edge cell's own two states (isolates the
+  feedback of Lemma 7).
+V1 − V2 is the effect of the density, V2 − V3 of the own-column feedback, V3 − V0 of everything spatial.
+
+## 2026-11-13 · 12 · Gump: exact one-step death probabilities of the smallest faces over dice [proved]
+
+Corollaries of Lemma 5, for a slab face over cells beneath that are independent with density ρ (D3 with one face
+layer; at ρ = ½ also the true rule's first generation from soup).
+- **Lone cell** (one live face cell, k = 0). It dies iff b ≤ 2; its two cube-mates stay dead iff b ≤ 2 (k = 1);
+  its four other in-face neighbours lie in four different cubes and stay dead iff b ≤ 2. So
+  **P(face empty next) = (1 − 3ρ³ + 3ρ⁵ − ρ⁶)(1 − ρ³)⁴** = (45/64)(7/8)⁴ = 0.412 at ρ = ½; 0.607 at ρ = 0.4155.
+- **Lone triangle** (the three top faces of one cube; each has k = 2, kill set {0}). It dies iff **all six cells
+  beneath its cube are dead**; its twelve dead neighbours (k = 1 each) lie two by two in six cubes and none is
+  born iff no b = 3 there. So **P(face empty next) = (1 − ρ)⁶ (1 − 2ρ³ + ρ⁵)⁶** = 0.0036 at ρ = ½; 0.017 at
+  ρ = 0.4155. A cell of the triangle survives iff at least one of its three cells beneath is alive.
+*Smallest case check by hand:* ρ = ½, lone cell: of the 64 states beneath its cube 64 − 3·8 + 3·2 − 1 = 45 give no
+b = 3 in the cube.
+*Reading (for the path line, not a claim of mine).* The measured one-step death probabilities of gump's faces
+are 0.37–0.41 from one cell and 0.019 from three (board L1.1; 38% of three-cell faces are triangles). The
+lone-cell formula gives that value at ρ ≈ 0.50–0.52, not at the bulk density 0.4155 (0.61): under a nearly dead
+face the cells beneath behave like fair dice. The triangle is 100 times harder to lose than a cell at ρ = ½,
+which is the size of the excess at n = 3 in the tail (p₂/p₃ ≈ 0.5, p₃/p₄ ≈ 0.8).
+
+---
+
+## Round 2 report (2026-11-13)
+
+**Claims now** (full list in `claims.md`).
+- Standing from round 1, confirmed by the critic: Lemmas 1, 2, 5; Theorem 3 with **c_1 = 0.551535,
+  c_2 = 0.467693**; Proposition 4 with c⁰_k = c_k for k = 1, 2 [all proved].
+- New: Lemma 6 (gaps persist: q_{k+j}(ℓ) ≥ q_k(ℓ + 4j)) and its consequences: the fixed-age exponent depends on the
+  soup (c_k(p) ≤ −ln(1 − p)); the true rule is a dice model at every fixed age (D2 with w ≥ 2k − 1 rows) [proved].
+- New: Lemma 7 (a live edge cell lowers the expected live count beneath it from 331/256 to 271/256) [proved];
+  exact one-step death probabilities of a lone cell and a lone triangle of a gump face over dice [proved].
+- Withdrawn: C1 and the comparison of Proposition 4 with measured slopes; the hypothesis of claim 15.
+- Guess C1′: c_∞(π) ≤ γ for every soup, with equality when the soup's first generations offer no cheaper route.
+
+**Weakest step.** There is no proved link, in either direction, between any number this line can compute and
+the measured law. Lemma 6 shows why the natural link fails (order of limits), and I see no way round it by
+counting: the steady state of a window of ℓ cells needs horizon ≳ ℓ/4. What the line has are exact statements
+about the first generations of a soup, and exact one-step probabilities over dice. C1′ is untested; request 1
+would test it where both sides are exact.
+
+**Lab requests** (exact; in order of use to me).
+1. *Fixed-age exponents of D2 against its quasi-stationary exponent.* D2(L, ρ) on a ring, row 0 started
+   Bernoulli(p), event "row empty at generation k" (absorbing): c_k = −ln of the Perron eigenvalue of the
+   transfer matrix on windows of four cells of each of the rows S_0 … S_{k−1} (2^{4k} states; weight
+   p^{s}(1−p)^{1−s} for S_0, P(S_{t+1}(x) | S_t window) between rows, w(S_{k−1} window) at the end). k = 1 … 4 at
+   (p, ρ) = (½, ½), (0.472, 0.472), (0.6455, 0.472). And the exact steps of ln τ of D2(L, ½) at L = 15 … 18 to
+   set beside them. Question: does c_k level off, and at the ring's step (0.52–0.53) or below it?
+2. *The dice gap at horizon 2* (entry 11): the exponents V1, V2, V3 (V1 is request 1 at k = 2, p = ρ = ½). For
+   V2, V3 the pair law at generation 1 is that of the true rule from the uniform soup in the half-plane (a
+   function of a 5 × 5 neighbourhood; exact by enumeration).
+3. *What a dying soup looks like:* in the Perron (tilted) measures of M_1 and M_2 at density ½, the density of
+   live edge cells at generation 0 and (k = 2) at generation 1, and the frequency of the windows 00000 and of
+   isolated live cells.
+4. *Gump's c_1* on a slab face three top cubes wide (the critic's offer: 2^18 states): growth rate per face cell
+   of Σ_S Π_q W_q(S), at density ½ and at 0.4155. My hand estimate is 0.54; the point is the ratio to the measured
+   0.21, against 0.55/0.41 for the 2D rule.
+5. *Check of entry 12:* slab face 3 × 3 top cubes (or any face without doubled neighbours), cells beneath
+   uniform: number of states beneath (of those that matter) for which a lone cell, and a lone triangle, leave
+   the face empty next generation; against 0.41216 and 0.003553.
+
+**Next.** If request 1 shows c_k levelling at the quasi-stationary step, C1′ becomes a usable conjecture and I
+state it as the line's formula for the 2D rule, with c_3 (exam C-E2) as its test on the true rule. If c_k falls
+through the quasi-stationary step, transient deaths dominate at fixed age even for fair soups and the
+finite-horizon programme has no bearing on γ; I would then stop it and spend the remaining effort on exact
+one-step counts for gump faces over dice (entry 12 extended to all states with ≤ 4 cells), which the path and
+source lines can use.
