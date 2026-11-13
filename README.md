@@ -32,12 +32,15 @@ conjectured, with the command that reproduces it. The short version:
    independent chaos, so its faces fail together. The original's side-13 cube lives 169,049
    generations *because* it is symmetric; an asymmetric soup in the same hull would be
    expected to hold each face for ~10⁴¹. (Our first out-of-sample prediction, the lifetime
-   of a side-16 cube, failed — it is alive past 10⁹ generations against a predicted
+   of a side-16 cube, failed — it is alive past 1.7×10⁹ generations against a predicted
    2.4×10⁸ — and the repair is in the notebook: large symmetric faces are tougher than a
    fixed "effective area" allows.)
 6. **The debris has a small anatomy**: single cubes, kagome hexagons, the *vertex star* (the
    12 faces around one lattice vertex — a sealed universe of 4,096 states), period-2 "hinges"
-   whose faces swing 90°, and rare clockwork with periods up to 66.
+   whose faces swing 90°, and rare clockwork with periods up to 66. The long periods are short
+   loops that close with a twist: the period-66 object is a 33-step loop that returns as its own
+   mirror image, and a period-48 "screw" turns 60° every 8 generations
+   ([`research/clockwork/`](research/clockwork/README.md)).
 7. **B45/S345 is a corner case in rule space.** Among 960 neighbouring rules, long-lived
    confined chaos is uncommon, and gump is a minimal member: remove any one count and it dies young.
 

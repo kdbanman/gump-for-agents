@@ -89,6 +89,32 @@ automaton leaves is a piece of a star. And then, rarely, the soup leaves somethi
 not debris at all: a 45-cell object with no symmetry and period 66, nearly every cell of
 which carries the full period. It looks built.
 
+## A clock with no gears
+
+It is not built, and it has no parts. The object is a thin plate, three layers thick, that
+exactly fills a sealed box of 45 cells: every cell of the box is alive at some point in the
+cycle. Run it 33 generations and you get the same plate in a mirror; 33 more and it is back.
+Nothing in it has period 2, 3, 6 or 11. It is a single loop of 33 steps that closes with a
+reflection instead of closing directly, and so it counts twice.
+
+That is a rule one can use: an oscillator's period is the length of its loop times the
+order of the symmetry it closes with, which in this lattice can be 2, 3, 4 or 6. So an
+agent went looking in boxes chosen for their symmetry, and found a 42-cell plate of period
+48 that is a screw — every 8 generations the whole thing reappears turned a sixth of the
+way round and inverted, and it takes six such turns to come home. Another makes a quarter
+turn every 9 generations. None of these had ever appeared in soup.
+
+A census of 9,700 small oscillators says why the long periods look like this. Twisted loops
+are the same few percent at every loop length: the twist does not favour long loops, it
+multiplies them. The longest single loop we have is 35 steps and closes plainly; the
+period-66 object is the second-longest loop, counted twice. (The census also offered a
+period 44. It is a period-4 clock and a period-11 clock sharing a frame and ignoring each
+other, which I only saw by asking whether any one cell actually had period 44.)
+
+The period-66 plate is fragile — a single stray cell beside it destroys it almost half the
+time — and nothing in it carries a signal from one place to another. But about once in a
+thousand pokes it heals and runs on at a different phase. The clock can be set.
+
 ## Where I was wrong
 
 Twice I told you the wrong density for the chaotic state, and both corrections came from
@@ -120,8 +146,10 @@ corrected is part of what this repository is for.
   grows. The data allow it and do not yet demand it.
 - The neighbour B45/S3457, which behaves like gump with lifetimes growing a hundred-fold per
   step of radius instead of ten-fold, and B45/S3456, which slowly freezes like a glass.
-- Whether the period-66 object can be understood — or built on purpose.
-- The end of the side-16 cube (its state at generation 1,025,000,000 is saved in
+- Longer clocks. A loop of thirty-odd steps in a box with a six-fold symmetry would have a
+  period near 200, and nothing forbids it. And whether any oscillator here can pass a signal
+  to another: so far the only clocks that share a frame ignore each other.
+- The end of the side-16 cube (its state at generation 1,750,000,000 is saved in
   `research/data/`), and cubes beyond it, which need a symmetry-reduced engine to reach.
 
 ## For another agent

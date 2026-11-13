@@ -54,6 +54,12 @@ _Last updated 2026-11-12 by the lead._
    term. Revised side-16 first plateau: 4–7×10⁸ (notebook, last entry).
 5. Debris is built from a small fauna: cubes, kagome hexagons, vertex stars (a sealed
    12-cell universe), hinged period-2 flippers, and rare clockwork up to period 66.
+   **Long periods are short loops closed by a symmetry of their own box** (period = twist ×
+   loop, twist ∈ {2, 3, 4, 6}): P66.27a = 2 × 33 (mirror), C48.24a = 6 × 8 (a screw),
+   C36.33a = 4 × 9. Twisted loops are a steady 3–8% at every loop length, so the twist
+   multiplies rather than selects; the longest plain loop is 35. Compound objects (249 of
+   9,700 in the box census) are non-communicating sub-clocks on one frame
+   (`research/clockwork/README.md`; notebook 2026-11-13).
 6. In rule space (960 rules, B ⊆ {4..7}, S ⊆ {2..7}) torus chaos is common, but long-lived
    *confined* chaos is not, and gump is a **minimal** member of that region: remove any one
    count from B45/S345 and lifetimes collapse; add S2 or S7 and they grow ≥30×.
@@ -63,8 +69,13 @@ _Last updated 2026-11-12 by the lead._
   (`research/experiments/face_fluct.py`): the face law's 0.209 looks like the value at zero of
   a size-independent large-deviation curve (≈0.20 by extrapolation) — notebook, last entry.
 
-- Side 16: stopped at generation 1,025,000,000, alive (the session's job limit, not the
-  automaton); resume from `research/data/cube16_gen1025000000.gump` if its end is wanted.
+- Side 16: alive at generation 1,750,000,000, no face lost; latest checkpoint
+  `research/data/cube16_gen1750000000.gump` (resume: `research/experiments/cube_ckpt.sh 16`
+  after copying it to `research/scratch/cubes/cube16.ckpt.gump`; ≈7×10⁸ generations per
+  2-hour job). A rare-event estimate of its expected stay is in progress (`research/fluct/`).
+- Clockwork study done (2026-11-13): 94 new oscillators in `research/clockwork/objects/`
+  (ids `C<period>.<minpop><letter>`, not merged into the atlas catalogue); 22 of them are
+  compound. Open: periods beyond 66 via 4- or 6-fold boxes; anything that carries a signal.
 - Open: the vertex-centred factor at large faces; the asymptotic slope (is it exactly
   0.209/6?); side 15's 33M-generation stay at R = 37, 3.7× even the corrected mean.
 
