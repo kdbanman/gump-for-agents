@@ -212,7 +212,17 @@ barriers; the shim aborts if threads of a block ever disagree on the number of b
 reviewer's pthread shim (`shared_shim.cpp`) is the same design but too slow on one core; superseded. Host layout
 from the PR's own `gsim.shared_layout`. Results:
 
-RESULTS_PLACEHOLDER
+- stepping, every replica's full state equal to `fl.c`'s after launches of 1, 7, 250, 1000, 1, 250 generations:
+  R = 7 (production J, T = 160), R = 9 (J = 8, T = 64, 2 blocks), R = 7 (WB = 1), and **R = 15 in the exact shape
+  of the committed A = 108 run (n = 2,064, J = 6, T = 352, WB = 2)** — all equal;
+- face-death generation of every replica equal to `fl.c`'s, launches of 100 and 1,000: R = 7 (64 deaths), R = 9
+  (93), R = 15 (no deaths within 3,000 generations, so at R = 15 only stepping is really tested);
+- settling: 60 R = 7 soups that the engine runs into cycles of period 1–5: kind 2 at cycle start + 2 and kind 3 at
+  (first launch start ≥ cycle start) + period, all 60 exact;
+- engine: asymmetric R = 11 soup and O_h vertex R = 24 soup, 4 lanes each, state after 3,000 generations equal to
+  `gump run`'s;
+- `ALL OK`, exit 0. The same with the block's threads scheduled in reverse order (`ORDER=rev`, all but the R = 15
+  case): `ALL OK` — no dependence on thread order between barriers was found.
 
 Negative controls (mine): `MUTANT=neighbour|lastface|period2 python3 research/audit/gpu_pr8/shared_cpu_check.py PR8`
 builds a kernel broken in one token — one neighbour read twice (wrong rule); the last face never checked (missed
