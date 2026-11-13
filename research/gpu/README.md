@@ -179,6 +179,29 @@ to period 128; T0 = 1000; τ = mean residence (the eight faces of a symmetric st
   plateaus long is not in O_h soup lineages at R = 36–40. [conjecture] It is in the cube's own lineage (its states
   are not typical O_h soup states; see the lead's copies-vs-soups comparison at R = 42).
 
+## Third use: the lead's experiments after review (a, b, c) [measured]
+
+Forecasts committed first (`PREDICTIONS.md`, commit 3b3ceb7, 23:14Z); outcomes appended there.
+
+**c. Cube-like seeds at vertex-centred R = 40 are memoryless.** `python3 research/gpu/cubelike.py prepare
+research/scratch/gpu/cubelike_v40.npz` (fl.c, local, 2 s), `modal run research/gpu/modal_app.py::cubelike` (A10G,
+28 min), `python3 research/gpu/cubelike.py analyse research/data/gpu_facelaw/cubelike_v40.json`. 7,807 deterministic O_h
+seeds — closed cube 14 plus the shell of side 16 minus 1, 2 or 3 of its 36 orbits (`seeds.py`'s `sc`, `sc2`, and the
+same with three) — run 1,000 generations; 3,893 are then at exactly R = 40, 3,857 distinct. Each lineage is followed
+through its plateau at 40 (from generation 1000), then at 38 and 36 (state kept at each peel), cap 12 τ (never reached).
+T/τ with the fresh-soup τ of this directory:
+
+| plateau | lineages | settled (excluded) | mean T/τ | CV | > 4τ (exp.) | < 0.05τ (exp.) | KS (5% crit.) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| R = 40, first | 3,849 | 8 | 0.991 ± 0.016 | 0.999 | 71 (70.5) | 195 (188) | 0.008 (0.022) |
+| R = 38, after a peel | 3,845 | 4 | 1.011 ± 0.016 | 0.992 | 69 (70.4) | 186 (188) | 0.015 (0.022) |
+| R = 36, after a peel | 3,832 | 13 | 0.983 ± 0.016 | 0.986 | 62 (70.2) | 218 (187) | 0.013 (0.022) |
+
+The cubes' R = 40 regime (side 16's second plateau lasted 6.1 soup τ) is reached here by 3,849 cube-like lineages,
+and they wait exactly like soups and exactly like Exp(τ): 1.8% beyond 4τ against the cubes' 3 of 16. The excess of
+short waits at 36 (218 vs 187, 2.3σ) is where double peels would put it. OPEN-PROBLEMS 6 is not explained by
+structured seeds either, up to R = 40.
+
 ## Using it for a new ensemble experiment
 
 Anything that is "many independent replicas of one vessel, stopped at an event" fits: write a driver like `facelaw.py`

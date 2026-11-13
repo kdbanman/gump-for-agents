@@ -184,7 +184,7 @@ def summary(paths):
             mean = a['exposure'] / a['deaths']
             print(f'  T0={T0:5d}: deaths {a["deaths"]:7d} settled {a["settled"]} (period > 2: {a.get("settled_long", "n/a")}) censored {a["censored"]} excluded {a["excluded"]}: '
                   f'mean first-peel wait {mean:.4g} +- {mean / math.sqrt(a["deaths"]):.2g} (ln {math.log(mean):.3f} +- '
-                  f'{1 / math.sqrt(a["deaths"]):.3f}); slab law / 8 = {pred:.3g}, ratio {mean / pred:.2f}')
+                  f'{1 / math.sqrt(a["deaths"]):.3f}); slab law / {nf} = {pred:.3g}, ratio {mean / pred:.2f}')
             rows.append(dict(R=R, A=A, sym=sym, centre=centre, geo=geo, nf=nf, T0=T0, deaths=a['deaths'], exposure=a['exposure'], mean=mean))
         if da is not None and len(da) > 2:
             w = da[da >= 200] - 200
