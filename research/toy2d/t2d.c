@@ -221,7 +221,9 @@ int main(int argc, char **argv) {
       int killed[NR]; memset(killed, 0, sizeof killed);
       for (int e = 0; e < E; e++) {
         for (int w = 0; w < W; w++) { u64 d = ~0ULL; for (int j = 0; j < elen[e]; j++) d &= ~alive[(size_t)eline[e][j] * W + w]; ev[w] = d; }
-        for (int r = 0; r < NR; r++) if (!killed[r] && (ev[r / 64] >> (r % 64) & 1)) {
+        for (int w = 0; w < W; w++) for (u64 m = ev[w]; m; m &= m - 1) {
+          int r = w * 64 + __builtin_ctzll(m);
+          if (killed[r]) continue;
           killed[r] = 1;
           if (expm[r / 64] >> (r % 64) & 1) {
             ndeath_e[e < 63 ? e : 63]++; ndeaths++;

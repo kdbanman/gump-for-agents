@@ -11,8 +11,9 @@ Vessels:
 Symmetry of the seed (orbits of the seeding map; the dynamics preserves it):
   none, mx (x -> -x), my, mxy, c2, c4, d4, diag (x <-> y), t<k> (strip: translation by L/k)
 Lines watched: box -> the 4 edges (flag 1 = histogram), strip -> every row (edges flagged 1).
-Events: box -> each edge empty; strip -> each edge row empty (events 0, 1), then each interior pair of
-adjacent rows empty (FIREWALL rows: a firewall), events 2...
+Events: box -> each edge empty; strip -> each edge row empty (events 0, 1), then each interior run of FIREWALL
+adjacent rows empty (a firewall; W - FIREWALL - 1 events), then each run of FIREWALL adjacent columns empty
+(a transverse firewall; L events). Lines: rows 0..W-1, then columns 0..L-1.
 """
 import os, struct, subprocess, sys
 import numpy as np
@@ -101,6 +102,11 @@ def build(lattice, vessel, dims, sym='none'):
             lines.append((1 if y in (0, Wd - 1) else 0, [idx[y, x] for x in range(Lx)]))
         fw = FIREWALL[lattice]
         events = [[0], [Wd - 1]] + [list(range(y, y + fw)) for y in range(1, Wd - fw)]
+        # transverse firewalls: fw consecutive dead columns across the whole strip cut the periodic strip open
+        # (vertical lattice lines confine too), after which it is a finite box that peels from its short sides
+        for x in range(Lx):
+            lines.append((0, [idx[y, x] for y in range(Wd)]))
+        events += [[Wd + (x + j) % Lx for j in range(fw)] for x in range(Lx)]
     return dict(N=N, nb=nb, orb=orb, R=R, lines=lines, events=events, shape=(Wd, Lx), idx=idx)
 
 
@@ -129,7 +135,7 @@ def compile_bin(W=4):
 
 
 def graph_file(lattice, vessel, dims, sym='none'):
-    fn = os.path.join(SCR, 'g_%s_%s_%s_%s.bin' % (lattice, vessel, 'x'.join(map(str, dims)), sym))
+    fn = os.path.join(SCR, 'g_%s_%s_%s_%s%s.bin' % (lattice, vessel, 'x'.join(map(str, dims)), sym, '_v2' if vessel == 'strip' else ''))
     if not os.path.exists(fn):
         os.makedirs(SCR, exist_ok=True)
         write(build(lattice, vessel, dims, sym), fn)
