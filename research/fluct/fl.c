@@ -161,7 +161,7 @@ long fl_run(long gens, uint16_t *counts, uint32_t *ages, double reseed_p) {
 /* stop per replica when m <= lo[r] or m >= hi[r]; stop_gen[r] = generations stepped (-1: not stopped by maxgens);
  * stop_m[r] = m at stop (or at the end). minm[r] = smallest m seen (incl. start). Returns gens stepped. */
 long fl_run_until(long maxgens, const int32_t *lo, const int32_t *hi, int32_t *stop_gen, int32_t *stop_m, int32_t *minm) {
-  int R = 64 * W; u64 *frz = calloc(W, 8); int left = 0;
+  int R = 64 * W; u64 *frz = calloc(W, 8), *dif = calloc(W, 8); int left = 0;
   uint16_t *row = malloc(2 * (size_t)G * R);
   int32_t *m = malloc(4 * (size_t)R);
   long t = 0;
@@ -179,8 +179,12 @@ long fl_run_until(long maxgens, const int32_t *lo, const int32_t *hi, int32_t *s
       else { left++; stop_m[r] = m[r]; stop_gen[r] = -1; }
     }
     if (!left || t >= maxgens) break;
-    step(frz, NULL); t++;
+    for (int w = 0; w < W; w++) dif[w] = 0;
+    step(frz, dif); t++;
+    /* settled (period 1 or 2; valid from the second step of this call): stop with stop_m = -2 */
+    if (t >= 2) for (int r = 0; r < R; r++) if (!(frz[r / 64] >> (r % 64) & 1) && !(dif[r / 64] >> (r % 64) & 1)) {
+      frz[r / 64] |= 1ULL << (r % 64); stop_gen[r] = (int32_t)t; stop_m[r] = -2; }
   }
-  settle_buf(); free(frz); free(row); free(m);
+  settle_buf(); free(frz); free(row); free(m); free(dif);
   return t;
 }

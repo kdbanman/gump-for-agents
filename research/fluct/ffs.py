@@ -70,7 +70,7 @@ class FFS:
         for r in range(R):
             sim.set(r, self.basin.fresh(self.rng)); self.perturb(r)
         configs, anc = [], []
-        expo = 0; deaths = 0; crossings = 0; pool_live = []
+        expo = 0; deaths = 0; crossings = 0; settles = 0
         t_wall = time.time()
         while crossings < N0:
             meas = age >= self.T0
@@ -81,7 +81,9 @@ class FFS:
             sg, sm, mm = sim.run_until(gens, lo, hi)
             stepped = np.where(sg >= 0, sg, gens)
             expo += int(stepped[meas].sum()); age += stepped
-            for r in np.nonzero((sg >= 0) & meas)[0]:
+            for r in np.nonzero(sm == -2)[0]:          # settled (chaos over): not a death, not exposure from here on
+                settles += 1; self._refresh(r, age, armed, configs)
+            for r in np.nonzero((sg >= 0) & meas & (sm != -2))[0]:
                 if armed[r]:                       # crossed lam0
                     configs.append((np.packbits(sim.get(r)), crossings)); crossings += 1; armed[r] = False
                     if sm[r] == 0:
@@ -95,7 +97,7 @@ class FFS:
                 mnow = self.m_now()
                 for r in np.nonzero(~meas & (mnow == 0))[0]:
                     self._refresh(r, age, armed, configs)
-        return configs, crossings / expo, dict(expo=expo, deaths=deaths, crossings=crossings, wall=time.time() - t_wall)
+        return configs, crossings / expo, dict(expo=expo, deaths=deaths, crossings=crossings, settles=settles, wall=time.time() - t_wall)
 
     def _refresh(self, r, age, armed, configs):
         if self.basin.kind == 'snap':
@@ -109,7 +111,7 @@ class FFS:
 
     def stage(self, configs, lam_next, lamA, M, chunk=32, maxlen=200000):
         sim, R, n = self.sim, self.R, self.v.n
-        launched = done = succ = 0; out = []; lens = []
+        launched = done = succ = nset = 0; out = []; lens = []
         slot = np.full(R, -1)                    # config index per slot, -1 idle
         order = np.concatenate([self.rng.permutation(len(configs)) for _ in range(M // max(1, len(configs)) + 1)])[:M]  # stratified
         steps = np.zeros(R, np.int64)
@@ -125,7 +127,8 @@ class FFS:
             for r in np.nonzero(act)[0]:
                 if sg[r] >= 0:
                     steps[r] += sg[r]; done += 1; lens.append(int(steps[r]))
-                    if sm[r] <= lam_next:
+                    if sm[r] == -2: nset += 1                 # settled during the trial: a failure
+                    elif sm[r] <= lam_next:
                         succ += 1; out.append((np.packbits(sim.get(r)), configs[slot[r]][1]))
                     slot[r] = -1
                 else:

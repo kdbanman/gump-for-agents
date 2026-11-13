@@ -14,36 +14,77 @@ soup. A state is "measured" when its age (gens since its soup) is >= T0. Accumul
 Resumable: everything (state included) is saved to research/scratch/fluct/qsd_R{R}.npz every SAVE seconds.
 
   python3 research/fluct/qsd.py R SECONDS [W] [lite]     SECONDS = total wall time (re-running tops up to it)
+  python3 research/fluct/qsd.py sym R c|v SECONDS [W] [lite]     O_h-symmetric soups (one draw per orbit), T0 = 1000
+  python3 research/fluct/qsd.py snap FILE c|v SECONDS [W] [lite]  copies of a symmetric snapshot, Fleming-Viot restarts
 """
 import os, sys, time
 import numpy as np
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fl
 
-R = int(sys.argv[1]); SECS = float(sys.argv[2]); W = int(sys.argv[3]) if len(sys.argv) > 3 else 4
-LITE = 'lite' in sys.argv[4:]          # skip transitions / committor / pre-death (large R: no deaths)
-P, T0, CH, SAVE, LAG = 0.35, 200, 2048, 120, 64
-v = fl.Vessel(fl.octa_hull(R), 'c', False)
+args = sys.argv[1:]
+KIND = 'asym'
+if args[0] in ('sym', 'snap'):
+    KIND = args[0]; SPEC = args[1]; CEN = args[2]; args = args[3:]
+else:
+    SPEC = args[0]; args = args[1:]
+SECS = float(args[0]); W = int(args[1]) if len(args) > 1 else 4
+LITE = 'lite' in args[2:]              # skip transitions / committor / pre-death (large R: no deaths)
+P, CH, SAVE, LAG = 0.35, 2048, 120, 64
+T0 = 200 if KIND == 'asym' else 1000
+if KIND == 'asym':
+    R = int(SPEC); v = fl.Vessel(fl.octa_hull(R), 'c', False); TAG = f'R{R}'
+elif KIND == 'sym':
+    R = int(SPEC); v = fl.Vessel(fl.octa_hull(R, CEN), CEN, True); TAG = f'sym{R}{CEN}'
+else:
+    cells0, summ0 = fl.gump_cells(['--snapshot', SPEC], 0, 'snapq')
+    v = fl.Vessel(summ0['hull_final'], CEN, True); SNAPBITS = fl.bits_from_cells(v, cells0)
+    TAG = 'snap_' + os.path.basename(SPEC).split('.')[0]; R = None
+    PERT = np.nonzero(v.node_depth() >= 3)[0]
+NFACE = len(v.face_groups)
 A = v.A; A2 = int(v.groups[v.sub_groups[0]][1].sum())
 KMAX = A // 2 + 1; NRET = int(np.ceil(0.5 * A))
 FG, SG = v.face_groups, v.sub_groups
-path = os.path.join(fl.SCR, f'qsd_R{R}.npz')
+path = os.path.join(fl.SCR, f'qsd_{TAG}.npz')
 sim = fl.Sim(v, W)
 NR = sim.R
 acc = dict(H=np.zeros(A + 1, np.int64), Hm=np.zeros(A + 1, np.int64), J=np.zeros((A + 1, A2 + 1), np.int64),
            deaths=np.zeros(1, np.int64), expo=np.zeros(1, np.int64), Tr=np.zeros((KMAX, A + 1), np.int64),
            Cm=np.zeros((KMAX, A2 + 1, 2), np.int64), cens=np.zeros(1, np.int64), pre=np.zeros((0, LAG + 1, 2), np.int16),
-           fdeaths=np.zeros(8, np.int64), settles=np.zeros(1, np.int64), gens=np.zeros(1, np.int64), seg=np.zeros(1, np.int64), wall=np.zeros(1))
+           fdeaths=np.zeros(NFACE, np.int64), settles=np.zeros(1, np.int64), eage=np.zeros(40, np.int64), dage=np.zeros(40, np.int64), gens=np.zeros(1, np.int64), seg=np.zeros(1, np.int64), wall=np.zeros(1))
 if os.path.exists(path):
     z = np.load(path)
-    for k in acc: acc[k] = z[k]
+    for k in acc:
+        if k in z.files: acc[k] = z[k]
     sim.state[:] = z['state']; sim.age[:] = z['age']
     print(f'resumed: {acc["gens"][0]} gens, {acc["deaths"][0]} deaths')
 else:
-    rng = np.random.default_rng(1000 + R)
-    sim.set_all(rng.random((NR, v.n)) < P)
+    rng = np.random.default_rng([1000, len(TAG), sum(map(ord, TAG))])
+    if KIND == 'snap':
+        for r in range(NR):
+            sim.set(r, SNAPBITS); sim.flip(r, int(PERT[rng.integers(len(PERT))]))
+    else:
+        sim.set_all(rng.random((NR, v.n)) < P)
 acc['seg'] += 1
-fl.lib().fl_seed(int(R * 1000003 + acc['seg'][0]))
+fl.lib().fl_seed(int(sum(map(ord, TAG)) * 1000003 + acc['seg'][0]))
+fvrng = np.random.default_rng([7, int(acc['seg'][0]), sum(map(ord, TAG))])
+
+
+def fleming_viot(c, a):
+    """snap mode: rows after a replica's death are blanked (age 0); dead replicas become perturbed copies of living
+    measured ones (their age restarts, so the copy is not measured for T0 generations)."""
+    m = c[:, v.face_groups, :].min(1)                 # (T, R)
+    deadrows = m == 0
+    first = np.where(deadrows.any(0), deadrows.argmax(0), -1)
+    died = np.nonzero(first >= 0)[0]
+    for r in died:
+        a[first[r] + 1:, r] = 0
+    alive = [q for q in range(NR) if first[q] < 0 and sim.age[q] >= T0]
+    for r in died:
+        src = alive[fvrng.integers(len(alive))] if alive else None
+        bits = sim.get(src) if src is not None else SNAPBITS
+        sim.set(r, bits); sim.flip(r, int(PERT[fvrng.integers(len(PERT))])); sim.age[r] = 0
+    return len(died)
 
 
 def save():
@@ -53,7 +94,7 @@ def save():
 
 
 def unpack(c, a):
-    """counts (T,G,R), ages (T,R) -> n (T,R,8), n2 (T,R,8), age (T,R)"""
+    """counts (T,G,R), ages (T,R) -> n (T,R,F), n2 (T,R,F), age (T,R)"""
     n = np.transpose(c[:, FG, :], (0, 2, 1)).astype(np.int32)
     n2 = np.transpose(c[:, SG, :], (0, 2, 1)).astype(np.int32)
     return n, n2, a.astype(np.int64)
@@ -61,7 +102,9 @@ def unpack(c, a):
 
 prev = None; t_start = time.time(); last_save = t_start; s_seen = 0
 while acc['wall'][0] + (time.time() - last_save) < SECS:
-    c, a, _ = sim.run(CH, record=True, reseed_p=P, ages=True)
+    c, a, _ = sim.run(CH, record=True, reseed_p=0.0 if KIND == 'snap' else P, ages=True)
+    if KIND == 'snap':
+        fleming_viot(c, a)
     cur = unpack(c, a)
     s_now = fl.lib().fl_settles(); acc['settles'] += s_now - s_seen; s_seen = s_now
     acc['gens'] += CH
@@ -90,6 +133,8 @@ while acc['wall'][0] + (time.time() - last_save) < SECS:
         acc['expo'] += int(ex.sum())
         dd = ex & dead[sl]
         acc['deaths'] += int(dd.sum())
+        ab = np.minimum(39, np.log2(np.maximum(age[sl], 1)).astype(np.int64) * 2 + (np.log2(np.maximum(age[sl], 1)) % 1 >= 0.5))   # half-octave age bins
+        acc['eage'] += np.bincount(ab[ex], minlength=40); acc['dage'] += np.bincount(ab[dd], minlength=40)
         tt, rr = np.nonzero(dd)
         for t, r in zip(tt, rr):
             fdead = np.nonzero(n[t, r] == 0)[0]
@@ -128,5 +173,5 @@ while acc['wall'][0] + (time.time() - last_save) < SECS:
 acc['wall'] += time.time() - last_save
 save()
 H = acc['H']; d = acc['deaths'][0]; e = acc['expo'][0]
-print(f'R={R} A={A}: {acc["gens"][0]} gens x {NR} replicas; measured face-gens {H.sum()}; deaths {d}, exposure {e}'
+print(f'{TAG} A={A}: {acc["gens"][0]} gens x {NR} replicas; measured face-gens {H.sum()}; deaths {d}, exposure {e}'
       f' (settled and reseeded: {acc["settles"][0]})' f' -> first-peel mean {e / max(d, 1):.4g} (+-{e / max(d, 1) / np.sqrt(max(d, 1)):.2g}); pre-death histories {len(acc["pre"])}')
