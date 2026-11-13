@@ -133,7 +133,7 @@ patches of radius 3, 6, 10 is (almost) the whole patch for m = 1, ~85% of it for
 **Torus slabs, m = 3** (`python3 research/theory/sealed.py torusmin N 3 500`; SAT, exact): N = 3 (81 cells): the smallest nonempty sealed set has **27** cells; N = 4 (144 cells):
 **48** cells — in both cases exactly one whole boundary layer (3N² cells, one `{111}` face of the slab). So in small
 thick slabs the cheapest permanent death is a face; a transverse firewall (∝ m·N) must win for larger N, as measured
-in the notebook, but the exact SAT minimum for N ≥ 5 did not finish in 25 minutes and was not pursued.
+in the notebook, but the exact SAT minimum for N ≥ 5 was not obtained (the runs were stopped by hand before finishing).
 
 ## 3. The skeleton in soups [measured]
 
