@@ -124,3 +124,49 @@ is predicted NOT a gump** (bulk dies or freezes) and will be scanned too.
 GUMP for cross3, fcc, bcc8 (one cap each); **not** for sc26 (a⁰/K = 0.31), tri18 (0.22), star2 / tristar2 (0.33),
 bond10 (0.40); silent on sc6 (a⁰/K = 0.67, b/K = 0.33). Rows 7, 8, 11, 31, 33 and the second caps of rows 2, 5, 23,
 27, 30, 32 discriminate between the two criteria.
+
+---
+
+## Stage 2 — appended after the first two test families (cross3, cross4), before looking at any other
+
+*Same day. Seen so far from the test set: the cross3 and cross4 scans (2D), nothing else — the 2D scan is still
+running and I have not read its output beyond cross4; no 3D run has been started. (Also seen: `energy.py selftest`
+printed torus densities for tri6 c = 5 (0.576, chaotic) and fcc c = 6 (0.391, chaotic).)*
+
+What cross3/cross4 showed (misses of stage 1, recorded here so they are not forgotten): the bulk is chaotic over a
+much wider range of caps than the mean-field proxy allows (cross3 c = 6…11, cross4 c = 7…14); faces at the low caps
+are **weak** (cross3 c = 6: ln τ = 5.7, 7.2, 9.8 at L = 28, 48, 96, i.e. 0.05–0.08 per cell, and dead within ten
+generations at L = 12), strong only near c = K_f (cross3 c = 9: 0.42 per cell; cross4 c = 12: 0.29), walls at
+c = K_f + 1 exactly as the armour lemma says. So Q1 (cap-independence of the slope) is false in 2D, and
+"C1–C4 ⇒ strong gump" is false: the strength of a face needs its own index.
+
+**New index (stage-2 hypothesis).** Treat the boundary layer as a contact-type process fed by the bulk, with the
+empty layer as its absorbing state. A lone live face cell survives iff all its a⁻ = b − 1 inward neighbours are
+alive, and each of its a⁰ in-layer neighbours is born under the same condition, so its mean offspring is
+
+  R₁ = (a⁰ + 1) · ρ^(b−1)   (ρ = bulk density; a priori ρ ≈ 0.87 × mean-field ρ*).
+
+2D training + cross3/cross4: R₁ = 1.12 (cross2, slope 0.42), 1.19 (cross3 c = 9, 0.42), 0.92 (cross4 c = 12, 0.29),
+0.63 (Moore, 0.05), 0.42 (cross3 c = 6, 0.06). 3D training: R₁ = 0.50, 0.78, 1.15 for the face lattice c = 6, 7, 8,
+all with slope 0.21 — so in 3D the threshold is lower and I do not understand the flat slope.
+
+**Stage-2 calls** (they overrule the stage-1 "GUMP" verdicts where they differ; both are scored):
+
+| lattice | a⁰, a⁻ | caps → R₁ (a priori) | stage-2 call |
+|---|---|---|---|
+| star2, tristar2 | 4, 4 | c = 8 → 0.32 | weak or no face law (slope < 0.10) — *reverses stage 1* |
+| tristar3 | 6, 6 | c = 10, 11, 12 → 0.05, 0.09, 0.15 | **no face law (erosion)** — *reverses* |
+| tri18 | 4, 7 | c = 11 → 0.01 | **no face law** — *reverses* |
+| tri12, hex12, moore_r2 | 2–4, 5–10 | < 0.05 | no face law (stage 1 said weak or none) |
+| vn, tri6, kagome6 | 2, 1–2 | 0.9–1.9 | walls (unchanged) |
+| fcc | 6, 3 | c = 6 → 0.40; c = 7 → 0.65 | face law at both (c = 6 borderline) |
+| bcc8, face8 | 4, 2 | c = 5 → 1.02 | face law, strong |
+| bcc14 | 6, 4 | c = 7, 8 → 0.15, 0.28; c = 9, 10 → 0.44, 0.64 | **none at c = 7; marginal at 8** — *reverses*; face law at 9–10 if the bulk is chaotic there |
+| sc6 | 4, 1 | c = 4 → 2.3 | face law, strong |
+| sc18, face18 | 8, 5 | c = 8, 9, 10 → 0.05, 0.10, 0.16; c = 12, 13 → 0.36, 0.52 | **none at 8–10** — *reverses*; face law only at c ≥ 12 if chaotic there |
+| sc26 | 8, 9 | every cap < 0.03 | **no face law at any cap** — *reverses* (agrees with the brief's "fraction in the plane" intuition) |
+| cross3d2 | 8, 2 | c = 5, 6 → 1.05, 1.47 | face law, strong |
+| bond10 | 4, 3 | c = 6 → 0.42 | face law (borderline) |
+
+3D threshold used: face law iff R₁ ≳ 0.35 (the face lattice at 0.50 is the only calibration point); 2D: strong iff
+R₁ ≳ 0.9, weak for 0.35–0.9, none below.

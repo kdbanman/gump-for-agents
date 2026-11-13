@@ -71,16 +71,16 @@ if __name__ == "__main__":
         bk = RN.bulk(a.lattice, B, S, n=a.n, T=a.T, quiet=True)
         p = max(0.3, min(0.8, bk["dens"] + 0.05)) if bk["dens"] and bk["dens"] > 0.05 else None
         faces = []
-        for n in sizes:
-            f = RN.face(a.lattice, B, S, m, n, sec=a.sec, p=p, quiet=True)
+        for n in (sizes if bk["cls"] in ("chaos", "glass") else sizes[:1]):
+            f = RN.face(a.lattice, B, S, m, n, sec=(a.sec if bk["cls"] in ("chaos", "glass") else min(a.sec, 4)), p=p, quiet=True)
             faces.append(f)
-            if f["face"] < 5 and (f["seal"] + f["p2"] + f["cyc"]) < 5 and len(faces) >= 1 and bk["cls"] == "chaos":
-                break  # already beyond the budget
+            if f["face"] < 5 and (f["seal"] + f["p2"] + f["cyc"]) < 5 and sum(f["early"]) < 200 and bk["cls"] == "chaos":
+                break  # already beyond the budget (no endings at all, early or late)
         v = verdict(bk, faces)
         line = (f"{a.lattice:9s} c={c:2d} {TH.rule_name(B, S):20s} bulk={bk['cls']:6s} rho={bk['dens']:.3f} act={bk['act']:.3f} | " +
                 " ; ".join(f"A={f['A']}: face={f['face']} seal={f['seal']} set={f['p2'] + f['cyc']} "
                            f"lnT={'%.2f' % f['lntau'] if f['lntau'] else '-'} cv={'%.2f' % f['cv'] if f['cv'] else '-'} "
-                           f"rf={f['dens'][1]:.2f} af={f['act'][1]:.2f}" for f in faces) + f" | {v}")
+                           f"early={sum(f['early'])} rf={f['dens'][1]:.2f} af={f['act'][1]:.2f}" for f in faces) + f" | {v}")
         print(line, flush=True)
         RN.save(dict(kind="scan", lattice=a.lattice, b=b, c=c, rule=TH.rule_name(B, S), verdict=v, bulk=bk["cls"],
                      rho=bk["dens"], act=bk["act"], faces=[{k: f[k] for k in ("A", "m", "n", "face", "seal", "p2", "cyc", "lntau", "cv", "dens", "act", "exposure", "early")} for f in faces]))
