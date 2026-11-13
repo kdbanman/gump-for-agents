@@ -400,3 +400,16 @@ the dead end of entry 7 the local three-move game is asserted. F1, F2 are still 
 theorem under a checked finite property, or write the front version. Then T3: the gump face. The cube lemma makes
 D3 a product over triples; the first question is whether any dice law gives a percolation anchor there, given
 that a cell with six live in-face neighbours dies whatever the dice.
+
+## 2026-11-13, entry 10: errata to entries 5 and 8; exam and library
+
+- Entry 5, last item, wording: the dead-ended interval of M cells is the ring of M cells *with its wrap-around
+  neighbours removed* (equivalently the ring of M + 2 cells with two adjacent cells removed), not "with cells
+  removed" at equal length. The monotone comparison meant is at equal length: fewer parents, same dice.
+- Entry 8: "as n → ∞ the ratio → 1" assumes that the dead-ended interval chain has one dominant class charged by ν.
+  I have not proved irreducibility on an interval (in the full interval the two end cells have k = 2 and are
+  forced, so the ring's argument "from the full row every subset is a next state" does not carry over). Parts
+  (a)–(d) do not use it; h_d there is 1 − (largest eigenvalue), as in the lab tables.
+- Exam: P-E1 (D2 ring: slope 0.48 ± 0.03 between L = 30 and 38), P-E2 (mixed ends = mean of the two, exact),
+  P-E3 (OP₅(½) exact: step 0.41 ± 0.05, ring − interval = +2.0 ± 1.0) are in `swarm/PREDICTIONS.md`.
+- Library: one request appended (Liggett's theorem at equality; five-parent oriented percolation).
