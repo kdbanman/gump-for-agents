@@ -7,8 +7,8 @@ Tags as elsewhere: **[measured]** (with the command), **[conjecture]**.
 > every table here from the committed data, emulated kernel B on a CPU against `fl.c` and the engine (exact,
 > including the A = 108 run's shape, and with three deliberately broken kernels caught), and ran an independent
 > CPU measurement at A = 84 (18.154 ± 0.025 against 18.141 here). The lead re-derived the A = 108 and A = 135
-> lifetimes from the raw death lists (23.376 ± 0.031, 29.34 ± 0.25). **The numbers stand. Read these statements
-> below with the following corrections:**
+> lifetimes from the raw death lists (23.376 ± 0.031, 29.34 ± 0.25). **The numbers stand. The first version
+> of this page made the statements quoted below; they were wrong as worded and have since been corrected:**
 > - "A = 108 sits 0.39 nats (13σ) above the line 0.2077·A + 0.55": that line never fitted the verified lifetimes
 >   (it misses A = 45 and 84 by 0.08 nats). The finding is: local slopes rise, 0.201, 0.212, 0.212, 0.218, 0.221;
 >   A = 108 is 0.21 ± 0.04 nats above the straight line through the verified A = 45–84 points; curvature is 2.6σ
