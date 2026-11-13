@@ -58,9 +58,9 @@ def run(g, rule, rho, name, rounds=20, reps=2000, burn=250, T=48, seed_cells=1, 
                 cand = [fidx[int(j)] for j in nbf[c0[i]] if int(j) in fidx]
                 for j in rng.permutation(cand)[:seed_cells - 1]: keep[i, j] = True
         xf = np.zeros((reps, A), np.uint8); xf[keep] = 1; x[:, face] = xf
-        ns = [x[:, face].sum(1)]
+        ns = [x[:, face].sum(1).astype(np.int64)]
         for t in range(T):
-            x = step(x, rng); ns.append(x[:, face].sum(1))
+            x = step(x, rng); ns.append(x[:, face].sum(1).astype(np.int64))
         traj.append(np.array(ns).T[alive])
         print('round %d/%d  %.0f s' % (r + 1, rounds, time.time() - t0), flush=True)
     n = np.concatenate(traj)                              # (trajectories, T+1)

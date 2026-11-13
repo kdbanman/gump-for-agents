@@ -118,3 +118,18 @@ hull face of A ≤ 84 are rim cells with only 4 in-layer neighbours).
 
 **F10 (forecast, before the run).** `xp.gump_model(13, 4)` (A = 84) gives ln τ within 0.2 nats of the measured
 18.077 ± 0.054 (confidence 65%; the run will have few deaths, ± 0.15 or so).
+
+## 2026-11-13T19:14Z — outcomes of F3 and F7(a)
+
+`python3 jobs.py gap 600; python3 report.py gap` (strips 16 × 128, 2.7×10¹¹ window samples, E(ℓ) down to 5×10⁻¹⁰):
+the cost of one more empty cell, −ln[E(ℓ+1)/E(ℓ)], is 0.471 at ℓ = 5, 0.434 at 10, 0.397 at 20, 0.382 at 30 and
+0.376 ± 0.002 over ℓ = 34–41, still creeping down.
+
+- **F3: hit, and sharper than forecast.** Over ℓ = 20–40 the decrement is 0.376–0.397 against lifetime slopes of
+  0.412, 0.411 (mine, L = 20–28) and 0.421, 0.382 (toy2d, L = 28–36): inside the 10% band. More: with one shift and
+  one prefactor, **τ_edge(L) = 12.1 / E(L − 6.5)** reproduces all seven measured lifetimes from L = 12 to 36 (ln τ
+  5.6 … 15.6) with residuals +0.03, −0.02, −0.01, −0.01, +0.03, +0.07, +0.05 nats.
+- **F7(a): hit.** The toy's exponent is not 0.416. The lifetime slope falls with L (0.441, 0.434, 0.412, 0.411 per cell
+  between L = 12, 16, 20, 24, 28), the static decrement has reached 0.376 at ℓ ≈ 40, and a + I·L + b·ln L fitted to
+  the seven lifetimes gives I = 0.364 ± 0.006, b = 1.14 ± 0.12 (χ² 4.6/4; the straight line: χ² 95/5). The asymptotic
+  value is 0.36–0.38, i.e. 1.75–1.83 × gump's 0.2077, not 2.000.
