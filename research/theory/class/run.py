@@ -94,7 +94,7 @@ def face(lat, B, S, m, n, sec=60, p=None, T0=200, maxg=10 ** 9, seed=1, u=None, 
     os.remove(fn)
     A = V.info["face_cells"]
     nf = r["face"]
-    tau = 2 * r["exposure"] / nf if nf else None
+    tau = 2 * (r["exposure"] + r["running"]) / nf if nf else None   # replicas still running at the end are censored, not dropped
     lntau = math.log(tau) if nf else None
     mean_age = r["sum_age"] / nf if nf else None
     cv = None
