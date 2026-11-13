@@ -597,3 +597,32 @@ phase k, per-cell periods of P66.27a, C48.24a, C36.33a, C12.43a, C40.24a: all as
   and the time-averaged layer profiles agree to 1 part in 300. The state is statistically unchanged.
 - Surviving this long is a 2–10% event even under the corrected fits of the previous entry (first-plateau means
   4.4–7.5×10⁸ with the vertex factor): every estimate so far has been too low, in the same direction.
+
+## 2026-11-13 — side 16 loses its first face at 2.36×10⁹; a forecast made in advance holds (lead)
+
+- **[measured]** `research/experiments/cube_ckpt.sh 16`, fourth 2-hour job: all eight faces of the side-16 cube
+  died together, last alive at generation **2,362,434,048** (events are sampled every 64). The hull went from
+  radius 42 to 40 on every diagonal (A = 693 → 630). Event log so far: `research/data/cube16_events.jsonl`;
+  states before and after: `research/data/cube16_gen1750000000.gump`, `…gen2525000000.gump` (alive, population
+  13,968, hull radius 40). To see the peel again: copy the 1.75×10⁹ checkpoint to
+  `research/scratch/cubes/cube16.ckpt.gump` and run the script (≈1.5 hours on one core).
+- **Scorecard for the first plateau.** One exponential wait T constrains its mean only to [T/3.7, T/0.025] =
+  [6.4×10⁸, 9.3×10¹⁰] at 95%, so this is a test of predictions, not a measurement of the mean.
+
+  | prediction of the mean | made | T / mean | P(wait ≥ T) |
+  |---|---|---|---|
+  | peeling law, effective area A/7.7: 2.0×10⁸ | before the run | 11.8 | 7×10⁻⁶ |
+  | curved fits to symmetric soups, ×1.5 vertex factor: 4.4–7.5×10⁸ | at 1.0×10⁹ | 5.4–3.1 | 0.5–4% |
+  | clones of the 1.025×10⁹ state with Fleming–Viot restarts (`research/fluct/`): 1.04×10⁹, 90% CI 0.63–2.1×10⁹ | at 1.5×10⁹ | 2.3 (1.1 at the CI's top) | 10% (32%) |
+
+  The fluctuation agent turned the last line into a forecast for the running cube — death at median 2.2×10⁹,
+  90% interval 1.50–5.2×10⁹ — and committed it (`research/fluct/PREDICTIONS.md`, commit 2e72d57, 01:28:41Z) about
+  two hours before the peel (event file written 03:43Z). The outcome sits at the 58th percentile of that forecast.
+  It is the first out-of-sample prediction in this project that has held. It is also wide (a factor 3.5), is
+  conditional on the cube having reached 1.45×10⁹, and its own mean still leans low; one event cannot say more.
+- **What was wrong with the lead's fits.** They were fitted to *cube-centred* symmetric soups and carried to this
+  *vertex-centred* hull by a factor 1.5 measured only at A ≤ 408. If the clone estimate is right the factor at
+  A = 693 is 2–3.5, not 1.5. **[conjecture]** The vertex-centred advantage grows with face size. Untested directly.
+- **The second plateau is running long too.** R = 40, A = 630, vertex-centred; alive at 2,525,000,000, i.e. 1.6×10⁸
+  generations in. Cube-centred symmetric soups at the same area gave a mean of 5.4×10⁷ [3.5, 11.9]×10⁷ (entry of
+  2026-11-12), 8×10⁷ with the ×1.5: the cube has already stayed twice that (a 13% event; 5% without the factor).
