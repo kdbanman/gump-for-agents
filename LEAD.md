@@ -77,6 +77,8 @@ job to keep it honest. What exists (2026-11-13):
   memorylessness at R = 36–40; symmetric τ at A = 759, 828; asymmetric faces at A = 108, 135). It cannot message
   back; read its pull requests and its directory (expected `research/gpu/`). Find it with the session list.
 
+## The swarm
+
 - 2026-11-13, on a swarm of Fable solvers with a critic (the lead proposed the area law as its problem): "Want to do
   it? Some more usage just freed up! just pull the trigger if so. make sure they record their journals … Just in
   case usage runs out and we can't recover their threads". Set up in `research/theory/swarm/` (PROBLEM.md has the
