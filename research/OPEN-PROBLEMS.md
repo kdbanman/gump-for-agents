@@ -20,9 +20,10 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
      A matching lower bound would be a contour argument of the kind used for the contact process;
    - deriving 0.208 from a model: near empty the face is one small cluster and P(k cells) falls by a constant
      factor 0.65 per cell, which is what a birth–death walk of a single cluster would give.
-4. **[conjecture, heuristic] "Chaos always ends" is false as a theorem but true with overwhelming probability.**
-   If the chaotic map is treated as a random map with killing rate h = 1/τ, about τ of the 2^N hull states lie on
-   cycles that never lose a face, and a random seed reaches one before peeling with probability ~τ²/2^N.
+4. **[open question] "Chaos always ends" is false as a theorem but plausibly true with overwhelming probability.**
+   A rough guess has been that, with killing rate h = 1/τ, about τ of the 2^N hull states lie on cycles that never
+   lose a face, so a random seed reaches one with probability ~τ²/2^N. That is not derived: for a uniformly random
+   map on M states only about √(πM/2) states are cyclic, so the τ-scaling needs a stated model (audit 2026-11-13, U5).
    The long-period oscillators in small boxes (period 66 in a 45-cell hull) are the small-N end of the same thing.
    Not checked numerically. A seed that is *extinct* (population 0) is not the generic end either: still lifes remain.
 
@@ -45,7 +46,7 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    lineages with the test fixed in advance: `research/lineage/`, and the GPU session.
 7. **Even (vertex-centred) cubes are ≈1.5× tougher** than odd ones at equal face area. No explanation.
 8. **Symmetric faces:** is the asymptotic slope exactly 0.209/6? Fits differ by 0.6 nats at A = 828. Side 17's first
-   plateau is forecast in writing (`research/fluct/PREDICTIONS.md`: ≈2×10¹⁰) and not run.
+   plateau is forecast in writing (`research/fluct/PREDICTIONS.md`: mean residence 2.6×10¹⁰, first-peel median 2×10¹⁰) and not run.
 9. **Asymmetric faces beyond A = 84:** one peel at A = 108; the collapse of the rate function to A = 135 is indirect.
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.

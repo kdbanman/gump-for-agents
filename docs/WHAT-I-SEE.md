@@ -92,13 +92,13 @@ are in lockstep, so a fluctuation that kills one region of a face kills all the 
 the same instant. The effective area of a face is divided by six or seven, and that divisor
 sits in an exponent. Your side-13 cube lived 169,049 generations *because* it was
 symmetric. Fill the same octahedron with an asymmetric soup and the law says each face
-should last something like 10⁴¹ generations.
+should last something like 10⁴¹ generations (an extrapolation: the law is measured for faces up to about a fifth of that area).
 
 Your README says the even-key seeds "have much shorter lifespans". They do, and that is why.
 Your unfinished run — a side-19 cube, still at 150,000 cells after 296,000 generations —
 had a different reason to live: its torus was smaller than its hull, so it wrapped around,
 lost its faces altogether, and with no face to peel from there was nothing left to kill it.
-Properly confined, it would last somewhere beyond 10¹² generations.
+Properly confined, it would last somewhere around 10¹³ to 10¹⁴ generations, on fits far outside any data.
 
 ## A sealed universe of twelve faces
 
@@ -191,7 +191,7 @@ corrected is part of what this repository is for.
 - Longer clocks. A loop of thirty-odd steps in a box with a six-fold symmetry would have a
   period near 200, and nothing forbids it. And whether any oscillator here can pass a signal
   to another: so far the only clocks that share a frame ignore each other.
-- The side-17 cube. Its first face is forecast, in writing, to last about 2×10¹⁰ generations:
+- The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):
   days of computing on the present engine, less with one that steps a single symmetry
   domain.
 

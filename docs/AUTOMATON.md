@@ -115,7 +115,9 @@ T2–T3 hold for any outer-totalistic rule on this neighbourhood whose smallest 
   recorded), line `g ≥ 1` is the population after `g` iterations. Logs stop when the
   state went static.
 
-Legacy closed-cube runs (`dev/cubic_init_results` in the original repo):
+Legacy closed-cube runs (`dev/cubic_init_results` in the original repo). Convention: a "lifetime" is the
+generation at which the final state is entered (the engine's `cycle_start`). A few notebook figures (side 14,
+4,460,298; side 16, 2,919,617,676) are the engine's `detected_gen`, 1–2 generations later.
 
 | side n | H   | span (lo..hi) | generations | final population | status here |
 |-------:|----:|:-------------:|------------:|-----------------:|:------------|
@@ -123,8 +125,8 @@ Legacy closed-cube runs (`dev/cubic_init_results` in the original repo):
 | 9      | 50  | 17..35        | 71          | 54               | oracle matches every generation |
 | 10     | 55  | 17..37        | 65          | 264              | oracle matches every generation |
 | 11     | 60  | 19..41        | 4,218       | 36               | oracle matches every generation |
-| 12     | 65  | 21..45        | 24,286      | 288              | see notebook |
-| 13     | 70  | 23..49        | 169,049     | 108              | see notebook |
+| 12     | 65  | 21..45        | 24,286      | 288              | oracle and engine match every generation |
+| 13     | 70  | 23..49        | 169,049     | 108              | engine matches every generation (oracle not run) |
 | 19     | 100 (inferred) | 31..69 | unfinished at 295,971 | ≈150,000 | hull radius 55 > torus half-width 50: confinement broken by wraparound, the torus fills with soup |
 
 The first four logs are copied to `reference/golden/`. The larger ones stay in the original

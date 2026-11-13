@@ -46,7 +46,7 @@ export const SCENES = [
       octahedron (the faint outline), and then it can grow no further. So no pattern can travel or grow forever, and
       every finite pattern eventually repeats. ${tag('proved')} ${src(A, 'Hence any finite pattern', 'T2, consequences')}</p>
       <p>A flat front of chaos advances into empty space at about 0.18 cube per generation along the
-      axes, 0.17 along the face diagonals, and exactly 0 across the diagonal planes. So the octahedron is the
+      axes, 0.16 to 0.17 along the face diagonals, and exactly 0 across the diagonal planes. So the octahedron is the
       shape everything grows into. ${tag('measured')} ${src(N, 'Chaos invading vacuum', 'notebook: fronts')}</p>`,
     spec: { seed: 'cube', n: 11, speed: '5', play: 1, face: 0.6, cam: '1,0.75,1.35,1.2' },
     kymo: false,
@@ -118,9 +118,9 @@ export const SCENES = [
       A symmetric pattern counts as if its faces were about seven times smaller, because symmetric regions die in lockstep. ${tag('measured')} ${src(N, 'effective area A/7.7', 'notebook')}
       That factor shrinks as faces grow: a side-16 cube kept its first face for 2.36×10<sup>9</sup> generations, ten times our first prediction. ${tag('measured')} ${src(N, 'side 16 outlives its prediction', 'notebook: side 16')}
       So the side-13 cube lasts about 10<sup>5</sup> generations <i>because</i> it is symmetric. By the law, the same
-      octahedron filled asymmetrically would hold each face for about 10<sup>41</sup>. ${tag('measured')} (law, extrapolated) ${src(ST, 'face ~10', 'status')}
+      octahedron filled asymmetrically would hold each face for about 10<sup>41</sup> (the law extrapolated fivefold in face area, far beyond the data). ${tag('conjecture')} ${src(ST, 'face ~10', 'status')}
       The original's unfinished side-19 run outlived everything only because its torus was too small:
-      it wrapped around and lost its faces. Properly confined, it would last somewhere beyond 10<sup>12</sup> generations. (law, extrapolated) ${src(W, 'Properly confined, it would last', 'what I see')}</p>
+      it wrapped around and lost its faces. Properly confined, it would last somewhere around 10<sup>13</sup> to 10<sup>14</sup> generations (extrapolated from fits, far outside any data). ${tag('conjecture')} ${src(W, 'Properly confined, it would last', 'what I see')}</p>
       <p>The run starts at generation 3,200. In the layer chart, the top and bottom rows go black for good.
       The <i>faces</i> table on the right gives each face's live cells, its site count A, and the law's mean wait.</p>`,
     spec: { seed: 'cube', n: 11, gen: 3200, speed: '30', play: 1, kwin: 1000, cam: '1,0.75,1.35,1.2' },
@@ -136,7 +136,7 @@ export const SCENES = [
       consecutive planes. ${tag('measured')} ${src(N, 'vertex star (S12a) = triangle', 'notebook')}</p>
       <p><b>Hinges</b> are the smallest oscillators: faces that swing 90° about an edge every generation.
       Every period-2 oscillator up to 11 cells works this way. ${tag('proved')} ${src(N, 'Period 2: the smallest union', 'atlas')}
-      Rarer <b>clockwork</b> runs at periods up to 22 in soup ash. ${tag('measured')} ${src(N, 'Soups in octahedral vessels', 'atlas')}
+      Rarer <b>clockwork</b> runs at periods up to 66 in soup ash. ${tag('measured')} ${src(N, 'Soups in octahedral vessels', 'atlas')}
       The longest periods are <b>twisted</b>: after only P/m generations the object comes back as a rotated or mirrored copy of itself, m = 2, 3, 4 or 6 being the order of a symmetry of its box.
       The 42-cell plate C48.24a is a screw: every 8 generations it reappears turned 60° and inverted, 6 × 8 = 48. ${tag('measured')} ${src(CW, 'C48.24a** (period **48 = 6 × 8**', 'clockwork')}</p>
       <p>The original's side-9 cube ends as one cube in the middle and a kagome hexagon on each of the
@@ -163,7 +163,7 @@ export const SCENES = [
       shareable link.</p>
       <p>Why this rule? Among 960 neighbouring rules, chaos on a wrap-around box is common, but long-lived
       chaos <i>confined</i> to an octahedron is not. Gump is a minimal member of that rare group: remove any
-      one count from B45/S345 and lifetimes collapse; add survival at 2 or 7 and they grow 30× or more. ${tag('measured')}
+      one count from B45/S345 and lifetimes collapse; add survival at 2 or 7 and they grow 29× or more. ${tag('measured')}
       ${src(N, 'is one of the 50 minimal elements', 'notebook: rule space')} ${fig('research/figures/phase_rulemap.png', 'rule map')}</p>`,
     spec: { seed: 'soup', shape: 'oct', n: 8, density: 0.35, rng: 7, speed: 'max', play: 1, cam: '1,0.75,1.35,1.2' },
     kymo: true,
