@@ -4,7 +4,8 @@
   taskset -c 3 python3 research/audit/gpu_pr8/shared_cpu_check.py PR8_WORKTREE [--skip-fl]
 
 The kernel source is compiled unchanged apart from replacing its `extern __shared__` declaration by a pointer, inside
-shared_shim.cpp (POSIX threads for the block, barriers for __syncthreads and for warp shuffles). The host-side layout
+shared_shim_uc.cpp (user-level threads for the block, round-robin barriers for __syncthreads and warp shuffles; the
+earlier pthread shim, shared_shim.cpp, is correct in design but far too slow on one core). The host-side layout
 (node order, packed neighbour table, face-entry table) comes from the PR's own gsim.shared_layout, as in production.
 Checks:
   1 stepping: every replica's full state equal to fl.c's after every launch (launch lengths 1, 7, 250, 1000), freeze off
@@ -49,8 +50,8 @@ class SharedCPU:
         so = os.path.join(d, 'k.so')
         defs = [f'-DK_N={n}', f'-DK_NP={n + 1}', f'-DK_WB={WB}', f'-DK_T={L["T"]}', f'-DK_J={J}', f'-DK_Q={L["Q"]}',
                 f'-DK_NF={L["nf"]}', '-DK_MINB=1', f'-DK_PW={pw}', '-DK_KEEP=0']
-        subprocess.check_call(['g++', '-O1', '-std=c++11', '-w', '-shared', '-fPIC', '-pthread', '-o', so,
-                               os.path.join(HERE, 'shared_shim.cpp'), '-I', d, '-I', os.path.join(PR, 'research/gpu')] + defs)
+        subprocess.check_call(['g++', '-O2', '-std=c++11', '-w', '-shared', '-fPIC', '-pthread', '-o', so,
+                               os.path.join(HERE, 'shared_shim_uc.cpp'), '-I', d, '-I', os.path.join(PR, 'research/gpu')] + defs)
         self.lib = ctypes.CDLL(so)
         self.pk = np.ascontiguousarray(L['pk'], np.uint32); self.fe = np.ascontiguousarray(L['fe'], np.uint32)
         self.A = np.zeros(self.WT * self.NP, np.uint32); self.B = np.zeros_like(self.A)
@@ -72,7 +73,8 @@ class SharedCPU:
     def step(self, gens, freeze=True):
         before = self.frz.copy()
         P = lambda a: a.ctypes.data_as(ctypes.c_void_p)
-        self.lib.run(self.blocks, P(self.pk), P(self.fe), P(self.A), P(self.B), gens, int(freeze), P(self.frz), P(self.ev_t), P(self.ev_k))
+        bad = self.lib.run(self.blocks, P(self.pk), P(self.fe), P(self.A), P(self.B), gens, int(freeze), P(self.frz), P(self.ev_t), P(self.ev_k))
+        assert bad == 0, 'threads of a block disagreed on the number of barriers passed'
         newly = self.frz & ~before
         reps = np.nonzero(np.unpackbits(newly.view(np.uint8), bitorder='little'))[0]
         return reps, self.ev_t[reps].astype(np.int64), self.ev_k[reps].astype(np.int64)
@@ -94,7 +96,8 @@ def soups(v, R, nrep, seed, p=0.35):
 
 
 # 1 + 2: against fl.c (asymmetric R = 7 with 2 warps per block, R = 9 with the production J)
-for R, J, WB, blocks in (() if SKIP12 else ((7, None, 2, 1), (9, 'x', 2, 2), (7, 'x', 1, 2))):   # None = production J
+PROD = '--prod15' in sys.argv     # also R = 15 in the production shape of the committed R = 15 run (J = 6, T = 352)
+for R, J, WB, blocks in (() if SKIP12 else ((7, None, 2, 1), (9, 'x', 2, 2), (7, 'x', 1, 2)) + (((15, None, 2, 2),) if PROD else ())):   # None = production J
     v = fl.Vessel(fl.octa_hull(R), 'c', False)
     s = SharedCPU(v, WB=WB, J=(math.ceil(v.n / 64) if J == 'x' else None), blocks=blocks)
     b0 = soups(v, R, s.R, 100 + R)

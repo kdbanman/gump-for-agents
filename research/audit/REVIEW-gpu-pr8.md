@@ -184,6 +184,50 @@ Ran `lineage_r40.py` and `postpeel_check.py` (earlier reviewer's; read, both use
 
 ## Claim 5: qsd.py's settle flaw matters at R = 36
 
+**Verdict: wrong as stated about `qsd.py`; right about a detector that only sees periods 1–2. No number recorded in
+this repo is shown to be biased by it, and the bias at R = 36 is bounded well below the quoted errors.**
+
+Read `research/fluct/fl.c` (`fl_run`, used by `qsd.py` for soup ensembles) and the GPU data.
+
+- The PR's evidence is a 90-second GPU run *before kind 3 existed*, i.e. with a settle test for periods 1–2 only
+  (hazard 0.61 ± 0.05 per τ at 6–10τ, CV 1.012). That run is not committed. It shows that a period-≤2 test is not
+  enough at R = 36; it says nothing about `qsd.py`, whose `fl_run` reseeds replicas that repeat with period 1–2
+  every generation **and with any period dividing 840 (1–8, 10, 12, 14, 15, …) at every multiple of 840
+  generations** (present since `c77cd7f`, the first QSD commit, so in every soup row of `sym_residence.csv`).
+  `qsd.py` misses only periods that do not divide 840 (9, 11, 13, 16, …). The cube-copy ("snap") rows run with
+  `reseed_p = 0`, i.e. with no settle test at all; that does not affect any soup value.
+- Size of the effect at R = 36 (GPU, kind 3 active): 286 settles in ≈ 100,000 lives after T0, of which 35 (0.035%)
+  have period 3–128. A replica stuck with its face alive adds at most the rest of the run to the exposure, so the
+  relative bias in τ is ≲ (stuck fraction per life) × (run length / τ): ≲ 0.035% × 30 ≈ 1% even if every period-3+
+  cycle were missed. The recorded orbit-stepper value agrees with the GPU's: 36v 2.235 × 10⁶ ± 2.1% vs
+  2.247 × 10⁶ ± 0.3%; 38v 1.174 × 10⁷ ± 6% vs 1.254 × 10⁷ (the CPU value is *lower*, the opposite of inflation).
+- So: the R = 24–30 problem noted in the notebook (debris of periods `qsd.py` misses) is real there; at R = 36 the
+  recorded numbers are not measurably biased. The GPU kernel itself needs kind 3 at R = 36, which the PR added.
+  The README sentence should say "a period-1/2 test is not enough at R = 36", not that `qsd.py`'s flaw applies there.
+
+Not checked: which periods the 35 kind-3 settles at R = 36 had (the JSON does not record periods).
+
 ## General code review
+
+- **Files outside `research/gpu/` and `research/data/gpu_facelaw/`:** none in the net diff. `research/NOTEBOOK.md`
+  was edited in `258978d` and reverted in `fa1e067`; net zero. (Squash or leave; harmless.)
+- **Secrets:** none found (searched the full patch history of the branch for token/key/secret patterns and Modal
+  token variables).
+- **Checks that exit 0 on failure:** `research/gpu/check.py` (prints `FAILURES`, exits 0) and every Modal
+  entrypoint in `modal_app.py` (`check`, `check_every`, `check_periodic`, `check_keep`, `check_defaults`: print
+  only). A caller or `check.sh` cannot detect a failure from the exit status. Fix: `sys.exit(1)` / raise.
+- **Results that depend on uncommitted state:** (a) the engine reference cases
+  (`research/scratch/gpu/engine_cases.npz`) are regenerated from the engine by a committed command — fine;
+  (b) the **negative controls** claimed in the README ("expected hashes shifted by one generation; one orbit flipped
+  at the start fail as they should") are **not in the committed code** — no function in `check.py` or
+  `modal_app.py` does either; (c) the 5τ-window lineage numbers for R = 40 in PREDICTIONS.md come from an analysis
+  not in the PR (reproduced here by `lineage_r40.py`); (d) the 90-second R = 36 run behind claim 5 is not committed;
+  (e) the R = 17 seed-1/2 containers are discarded and not committed (fine, but say the choice of s3 was made before
+  looking at its result, if it was); (f) throughput rows are in `research/scratch/gpu/` (ignored) — the table is not
+  reproducible from the repo without re-running on Modal.
+- **Duplicate guard** in `facelaw.py summary` keyed by seed: silent on a repeated seed (claim 6).
+- `facelaw.py`'s `SLAB_LAW` comment cites `research/STATUS.md` for e^(−0.09 + 0.209A); the asymmetric octahedral
+  comparisons in the README use 0.2077A + 0.55 instead. Two different "the repo's law" lines are in play; the
+  README should name which one each comparison uses and why.
 
 ## Fixes required before merge / things to note
