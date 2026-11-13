@@ -5,7 +5,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.join(HERE, '..', '..')
 sys.path.insert(0, os.path.join(ROOT, 'research', 'atlas'))
 from lattice import (step, nbrs, axis, apply, normal, canon, GROUP, DIAGS, components,  # noqa: E402,F401
-                     oracle_orbit, period, canonical_orbit, spacetime_sym, thickness)
+                     oracle_orbit, period, canonical_orbit, spacetime_sym, thickness, sym_order)
 
 CAT = os.path.join(ROOT, 'research', 'atlas', 'catalogue.jsonl')
 SCR = os.path.join(ROOT, 'research', 'scratch', 'clockwork')

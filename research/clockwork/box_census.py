@@ -14,7 +14,7 @@ THICK: number of {111} layers along the thinnest diagonal (d4 = (-1,1,1)).
 import argparse, glob, json, os, sys, time
 from collections import Counter, defaultdict
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from cw import (hull_cells, canon, cell_vessel, step, components, fmt_key, catalogue, SCR, hull_ranges)  # noqa: E402
+from cw import (sym_order, spacetime_sym, hull_cells, canon, cell_vessel, step, components, fmt_key, catalogue, SCR, hull_ranges)  # noqa: E402
 
 MINP = 3
 
@@ -44,6 +44,10 @@ def enum_boxes(thick, nmin, nmax, wmax=9):
                             seen[key] = tr
     boxes = sorted(seen.items(), key=lambda kv: (len(kv[0]), kv[0]))
     return [dict(id=i, n=len(k), ranges=tr) for i, (k, tr) in enumerate(boxes)]
+
+
+def parse_key(k):
+    return frozenset(tuple(map(int, t.split(','))) for t in k.split())
 
 
 def run_box(box, ns, seed):
@@ -120,13 +124,23 @@ def main():
                     d = objs[o['key']]; d['boxes'] += 1; d['hits'] += c['count']; d['period'] = o['period']
                     d['union'] = o['union']; d['fills'] |= o['fills_box']; d['nbox'] = min(d['nbox'], r['box']['n'])
         print(f'{len(files)} boxes, {tot} states sampled, {len(objs)} distinct objects of period >= {MINP}')
+        for k, d in objs.items():          # symmetry of each object: sym of phase 0, spacetime symmetry
+            if d['period'] >= 7:
+                c0 = parse_key(k); ph = [c0]
+                for _ in range(d['period'] - 1):
+                    ph.append(step(ph[-1]))
+                d['sym'] = sym_order(c0); d['st'] = spacetime_sym(ph)
+                d['glide'] = d['st'] > d['sym'] * 1   # an orbit symmetry that shifts the phase
+                d['pops'] = [len(q) for q in ph]
         byp = defaultdict(list)
         for k, d in objs.items():
             byp[d['period']].append((k, d))
         for p in sorted(byp):
             L = byp[p]
             known = [keyid[k] for k, _ in L if k in keyid]
-            print('P%-4d objects %4d  new %4d  known %s' % (p, len(L), len(L) - len(known), ' '.join(sorted(known)[:12])))
+            g = sum(1 for _, d in L if d.get('glide'))
+            print('P%-4d objects %4d  new %4d  glide %3d  max-union %3d  known %s' % (p, len(L), len(L) - len(known), g,
+                  max(d['union'] for _, d in L), ' '.join(sorted(known)[:12])))
         json.dump({k: dict(d, id=keyid.get(k)) for k, d in objs.items()}, open(os.path.join(SCR, f'census_{a.thick}_objects.json'), 'w'))
 
 
