@@ -77,3 +77,16 @@ OK   C34.21a.cells period 34 pop0 23 pops 21..26
 OK   C35.29a.cells period 35 pop0 35 pops 29..40
 OK   C44.26a.cells period 44 pop0 30 pops 26..32
 OK   C48.24a.cells period 48 pop0 32 pops 24..32
+OK   C26.37a.cells period 26 pop0 41 pops 37..42
+OK   C24.24b.cells period 24 pop0 25 pops 24..30
+OK   C20.25a.cells period 20 pop0 29 pops 25..29
+OK   C18.24b.cells period 18 pop0 28 pops 24..35
+OK   C17.42a.cells period 17 pop0 48 pops 42..49
+OK   C17.24a.cells period 17 pop0 31 pops 24..32
+OK   C40.24a.cells period 40 pop0 34 pops 24..37
+OK   C17.46a.cells period 17 pop0 51 pops 46..55
+OK   C36.33a.cells period 36 pop0 45 pops 33..46
+OK   C12.43a.cells period 12 pop0 44 pops 43..44
+OK   C8.24a.cells period 8 pop0 24 pops 24..26
+OK   C8.24b.cells period 8 pop0 24 pops 24..25
+OK   C8.23a.cells period 8 pop0 25 pops 23..25
