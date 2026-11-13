@@ -17,14 +17,18 @@ _Last updated 2026-11-13 by the lead._
 - `research/phase/` — the chaotic state as a phase; 960-rule survey (`research/figures/phase_rulemap.png`).
 
 ## In flight (2026-11-13, late)
-- `research/theory/class.md` (Fable agent): what is the class of "gumps"? Abstract confinement / firewall /
-  sealed-set theory, a criterion, predictions committed before testing on other lattices.
-- `research/theory/exponent.md` (Fable agent): where the exponent comes from — exact small systems in the 2D toy,
-  the rate function, a model that reproduces 0.416 and then predicts gump's 0.208, a theorem if one can be had.
-- `research/theory/swarm/` (four Fable agents, started 2026-11-13 at the owner's word): three solvers
-  (`probability`, `counting`, `path`) and a critic on one problem, the area law, by pure reasoning. Rules in
-  `swarm/PROBLEM.md`. Everything they think is in their `journal.md` and `claims.md`; the critic's map is
-  `swarm/critic/board.md`. The lead drives the rounds (`LEAD.md`, "The swarm"). Nothing in it is checked yet.
+- A usage limit stopped every agent at about 20:00 UTC on 2026-11-13. State left behind:
+  - `research/theory/class.md`: the class agent had finished ("final" in its last commits). Not yet checked by
+    the lead or attacked by a second agent.
+  - `research/theory/exponent/`: the exponent agent was stopped before writing its report (`exponent.md` is a
+    stub). Its forecasts and outcomes are in `exponent/PREDICTIONS.md`, its theorems in `exponent/theorems.md`
+    (Lemma A, consequence (c) there is false: swarm board E10). Needs a successor to write it up, then checking.
+  - `research/audit/gpu_pr8/`: partial scripts from the reviewer of pull request 8; no review written. Restarted.
+- `research/theory/swarm/` (relaunched about 22:15 UTC at the owner's word): three Fable solvers (`probability`,
+  `counting`, `path`) and a critic on one problem, the area law, by mathematics alone. Problem and rules in
+  `swarm/PROBLEM.md`; results in each `journal.md` and `claims.md`; the critic's map is `swarm/critic/board.md`
+  (its first pass already corrected several numbers the lead had been quoting: read E1–E11). The lead drives the
+  rounds (`LEAD.md`, "The swarm"). Nothing in it is established until a fresh reader has audited it.
 - GPU session "Modal API" (see `LEAD.md`): pull request 8 is open (`research/gpu/`). UNVERIFIED claims in it: the
   asymmetric face law curves upward beyond A = 84 (ln τ = 23.38 at A = 108, 29.3 at A = 135; the extrapolated
   0.2077 would be wrong); symmetric forecasts at A = 759, 828 hit; O_h soup lineages memoryless at R = 36–40 v;

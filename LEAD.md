@@ -79,12 +79,27 @@ job to keep it honest. What exists (2026-11-13):
 
 ## The swarm
 
-- 2026-11-13, on a swarm of Fable solvers with a critic (the lead proposed the area law as its problem): "Want to do
-  it? Some more usage just freed up! just pull the trigger if so. make sure they record their journals … Just in
-  case usage runs out and we can't recover their threads". Set up in `research/theory/swarm/` (PROBLEM.md has the
-  rules; each solver keeps `journal.md` and `claims.md`; the critic keeps `critic/board.md`). The lead drives the
-  rounds: a solver's round report → resume the critic to review it → resume the solver with the reply. Agent ids
-  are in the scratchpad notes; if the threads are lost, restart from the journals.
+- 2026-11-13, the owner, on a swarm of Fable solvers with a critic (the lead proposed the area law as its problem):
+  "Want to do it? Some more usage just freed up! Just pull the trigger if so. Make sure they record any
+  potentially _important_ or _subtle_ aspects in their journals. I'm sure we'll rapidly hit usage caps, and we
+  don't want to retread their steps." And: "Anthropic will block our API requests if it looks like we're trying
+  to extract reasoning tokens. We're definitely _not_ trying to do that, so don't structure the prompt in a way
+  that will look like actual reasoning extraction. Their journals only need to have stuff that comes from their
+  actual output."
+- The lead's reading: a journal holds results written up for a successor (definitions, lemmas with proofs,
+  counterexamples, dead ends with the mathematical reason, subtle points). No prompt or rule may ask an agent to
+  transcribe or log its working. This applies to every agent brief from now on, not only the swarm.
+- History: the first launch (about 19:35 UTC) was stopped within half an hour by a usage limit and a run of
+  blocked requests. The three solvers had written nothing. The critic's first pass survived in
+  `research/theory/swarm/critic/` and corrected the problem statement (board E1–E11). Relaunched about 22:15 UTC
+  with fresh agents and reworded rules.
+- Set-up: `research/theory/swarm/` (PROBLEM.md has the problem and rules; each solver keeps `journal.md` and
+  `claims.md`; the critic keeps `critic/board.md`, `critic/journal.md`, `critic/to-<solver>.md`, `critic/lab/`).
+  The lead drives the rounds: a solver ends its turn with "round k written" → message the critic to review it →
+  when the critic ends its turn, message the solver that the reply is in `critic/to-<solver>.md`. Snapshot-commit
+  and push between events. Stop when a round gives no new proved step. Agent ids are in the scratchpad notes; if
+  a thread is lost, start a fresh agent on the same directory: the journals are written for that.
+- Afterwards: a fresh reader (not the critic) audits what is claimed; the predictions in `swarm/PREDICTIONS.md` get run.
 
 ## Resuming after a compaction
 
