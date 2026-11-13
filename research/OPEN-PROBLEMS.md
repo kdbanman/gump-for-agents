@@ -46,8 +46,11 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
 
 6. **Do whole cubes outlive their ensembles?** Side 16 stayed 7.4 ensemble means at R = 40 (P = 6×10⁻⁴ for that
    one plateau) and 2.8, 2.6, 1.2 at its other large ones. A count over cubes 13–16 gives P ≈ 0.01, but it is post
-   hoc (it includes the plateaus that prompted it; without side 16, P ≈ 0.18 — audit 2026-11-13). Needs fresh
-   lineages with the test fixed in advance: `research/lineage/`, and the GPU session.
+   hoc (without side 16, P ≈ 0.18 — audit 2026-11-13). Tested 2026-11-13 (`research/lineage/`): 1,248 plateaus of
+   cube-like seeds at R = 31–38 wait exactly like soups (mean 0.99 τ, CV 1.02) with no memory between plateaus. So
+   it is luck, or something that appears only at side 16's sizes (vertex-centred R ≥ 40), which single engine runs
+   cannot reach. Left open: those sizes (GPU session), and a weak slow variable (copies of a state inherit ±15–25%
+   of its hazard; seen once, ρ ≈ +0.2) whose nature and lifetime are unknown.
 7. **Even (vertex-centred) cubes are ≈1.5× tougher** than odd ones at equal face area. No explanation.
 8. **Symmetric faces:** is the asymptotic slope exactly 0.209/6? Fits differ by 0.6 nats at A = 828. Side 17's first
    plateau is forecast in writing (`research/fluct/PREDICTIONS.md`: mean residence 2.6×10¹⁰, first-peel median 2×10¹⁰) and not run.

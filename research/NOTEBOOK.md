@@ -848,3 +848,34 @@ Full study: `research/toy2d/README.md` (forecasts in `research/toy2d/PREDICTIONS
   three figures. No reason is known; do not build on it.
 - Not settled: the slope beyond L = 36; why four-fold symmetry shortens life; the full rate function; rules the
   first screen dropped (B34/S234 itself was added by hand); the triangular lattice.
+
+## 2026-11-13 — cube-like seeds wait like soups; the cubes' long stays are luck or something only side 16 has (lineage agent; checked by the lead)
+
+Question (OPEN-PROBLEMS 6): the legacy cubes 13–16 sat on some plateaus far longer than the ensemble means. Do
+runs from structured seeds wait differently from soups? Study in `research/lineage/` (README, scripts, all
+17,195 plateaus in `data/plateaus.csv.gz`). Engine-only single runs; 2,728 distinct lineages.
+
+- **[measured] No.** 1,248 plateaus of deterministic cube-like seeds (cubes with surface orbits removed, hollow
+  cubes, cube 13 inside a side-15 shell), at hull radius 31–37 (cube-centred) and 32–38 (vertex-centred): T/τ has
+  mean 0.99, CV 1.02, 27 beyond 4τ where 22.9 are expected. 3,261 soup plateaus: mean 0.98, CV 1.00. Two-sample
+  KS p = 0.98. `python3 research/lineage/analyze.py`.
+- **[measured] No memory from one plateau to the next**: Spearman ρ = −0.013 over 1,201 consecutive pairs.
+- **[measured] The 16 cube plateaus are still a ~1% outlier** against this (3 of 16 beyond 4τ against 27 of 1,248:
+  Fisher p = 0.005), and the weight is side 16: sides 13–15 alone sum to 12.8τ against 10 (P = 0.18). The statistic
+  was still chosen after side 16 finished. Side 16's own sizes (vertex-centred R ≥ 40) are out of reach of single
+  engine runs, so "something only very large cubes have" is not excluded; nothing at R ≤ 38 trends toward it.
+- **[measured once, small] A state carries a slow variable.** For 150 source states, four copies each with one orbit
+  flipped: copies are exponential (CV 0.95), but their mean wait rises with the source's own remaining wait
+  (Spearman +0.2, p ≈ 0.01; bottom to top third 0.89 → 1.1–1.2 τ). The two batches use the same lineages 20,000
+  generations apart, so this is one observation, not two. Far too weak for the cube puzzle (it would give ~2.2%
+  beyond 4τ; the cubes need ~19%). What the variable is: unknown. Needs a replication on other sources.
+- [measured] About 1% of peels are followed by a second within 0.005τ; otherwise the hazard after a peel is flat from the start.
+- Not followed up: cube-in-shell runs at 35c and 37c ran short (0.78 and 0.74 of the soup mean; 77 and 36 deaths).
+
+Lead's check, sharing no code with the agent's analysis and taking the reference lifetimes from the soup lineages
+in the same file rather than from the orbit-stepper ensembles (`python3 research/experiments/lineage_check.py`):
+structured mean 1.00, CV 1.02, 26 beyond 4τ (22.7 expected); KS against soups p = 0.99; consecutive plateaus
+ρ = −0.016 ± 0.040 (626 pairs at reliable radii); P(≥ 3 of 16 beyond 4τ at the structured rate) = 0.0045; copies
+against own wait ρ = +0.19 and +0.23 (permutation p 0.010, 0.003). The data's cube 13 and 14 rows match the
+schedules already on record. Not checked: the runs themselves were not repeated, and the seed generator is the agent's.
+

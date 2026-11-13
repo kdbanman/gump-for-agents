@@ -17,8 +17,6 @@ _Last updated 2026-11-13 by the lead._
 - `research/phase/` — the chaotic state as a phase; 960-rule survey (`research/figures/phase_rulemap.png`).
 
 ## In flight (2026-11-13, late)
-- `research/lineage/` (Opus agent, long-running): are plateau lengths of structured symmetric seeds memoryless,
-  or do cube-like lineages outlive their ensembles? (OPEN-PROBLEMS 6; the test must be fixed in advance.)
 - `research/theory/class.md` (Fable agent): what is the class of "gumps"? Abstract confinement / firewall /
   sealed-set theory, a criterion, predictions committed before testing on other lattices.
 - `research/theory/exponent.md` (Fable agent): where the exponent comes from — exact small systems in the 2D toy,
@@ -26,6 +24,9 @@ _Last updated 2026-11-13 by the lead._
 - GPU session "Modal API" (see `LEAD.md`): briefed with three experiments; no pull request yet.
 
 ## Next (lead's list; pick by judgment)
+- Lineage study is in (notebook 2026-11-13, `research/lineage/`): cube-like seeds wait like soups at R ≤ 38. Open from it:
+  replicate the weak "slow variable" (copies remember their source, ρ ≈ +0.2) on other sources; side 16's own sizes
+  (vertex-centred R ≥ 40) need the GPU session.
 - Check each report above independently before recording it (see `LEAD.md`, "Resuming").
 - Have a fresh agent try to break the two Fable agents' claims once they land.
 - Full web test suite has not been re-run since the tour text edits of 2026-11-13 (tour tests pass).
