@@ -8,6 +8,8 @@ exactly like `gump --cube N`.
   decor:N:K      closed cube plus the K-th O_h orbit of dead cells in the shell max|p-c| in (N, N+2]
   nest:N:K       hollow shell of side N (its surface faces) + the inner shells of sides N-2, N-4, ... selected by the
                  bits of K (bit j = side N-2-2j), plus, if bit 7 is set, the closed cube of the largest selected side
+  sc:N:K         closed cube of side N plus the hollow shell of side N+2, minus the K-th O_h orbit of that shell's
+                 cells (orbits sorted outermost first; K = -1: nothing removed). sc2:N:A:B removes two. Side 13 + shell 15 starts at r = 37.
   hollow:N:K     closed cube minus all faces strictly inside the concentric cube of side K (K < N, same parity)
   python3 research/lineage/seeds.py FAMILY:N:K OUT.txt     writes a gump cell list
 """
@@ -40,13 +42,20 @@ def orbits_of(cells, c):
     return out
 
 def make(spec):
-    fam, n, k = spec.split(":"); n, k = int(n), int(k); c = centre(n)
+    fam, n, k = spec.split(":")[:3]; n, k = int(n), int(k); c = centre(n)
     cube = box_cells(c, n)
     if fam == "cube": return cube
     if fam == "notch": return cube - orbits_of(cube, c)[k]
     if fam == "decor":
         ring = box_cells(c, n + 2) - cube
         return cube | orbits_of(ring, c)[k]
+    if fam == "sc":
+        sh = shell_cells(c, n + 2); cells = cube | sh
+        if k >= 0: cells -= orbits_of(sh, c)[::-1][k]
+        return cells
+    if fam == "sc2":                                    # sc2:N:A:B  - as sc, two shell orbits A < B removed
+        a, b = k, int(spec.split(":")[3]); sh = shell_cells(c, n + 2); o = orbits_of(sh, c)[::-1]
+        return (cube | sh) - o[a] - o[b]
     if fam == "hollow":
         assert k < n and (n - k) % 2 == 0
         inner = {p for p in box_cells(c, k) if all(abs(p[i] - c[i]) < k for i in range(3))}

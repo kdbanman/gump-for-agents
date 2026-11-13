@@ -5,3 +5,4 @@ mv research/scratch/lineage/plateaus_struct12.csv research/scratch/lineage/plate
 python3 research/lineage/run_lineages.py struct 12 600 3
 python3 research/lineage/run_lineages.py struct 14 300 3 4e7 84
 python3 research/lineage/perturb.py 13 20000 150 4 3
+python3 research/lineage/run_lineages.py sc 13 80 3 4e7 0

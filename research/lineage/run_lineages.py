@@ -4,6 +4,9 @@
   python3 research/lineage/run_lineages.py struct N COUNT [JOBS=3] [CAP=4e7] [START=0]
         COUNT structured O_h seeds built on the closed cube of side N (research/lineage/seeds.py):
         the cube itself, cube minus one surface orbit (notch), minus two (notch2), hollow cubes, nested shells
+  python3 research/lineage/run_lineages.py sc N COUNT [JOBS=3] [CAP=4e7] [START=0]
+        COUNT seeds sc:N:K, then sc2:N:A:B (seeds.py), from index START: the cube of side N inside a shell of side N+2, one shell orbit
+        removed. N = 13 starts at hull radius 37 (rows have kind 'struct'; file plateaus_sc<N>.csv)
   python3 research/lineage/run_lineages.py soup R COUNT [JOBS=3] [CAP=4e7] [START=0]
         COUNT O_h-symmetric soups (density 0.35) in the octahedron of radius R, centred on a cube centre (R odd)
         or a vertex (R even), rng START+1 ...
@@ -77,7 +80,12 @@ def main():
     start = int(sys.argv[6]) if len(sys.argv) > 6 else 0
     s0 = 0 if N % 2 else 3
     todo = []
-    if kind == "struct":
+    if kind == "sc":                                         # cube N + shell N+2 minus one shell orbit
+        nsh = len(seeds.orbits_of(seeds.shell_cells(seeds.centre(N), N + 2), seeds.centre(N)))
+        specs = [f"sc:{N}:{k}" for k in range(-1, nsh)] + [f"sc2:{N}:{a}:{b}" for a, b in itertools.combinations(range(nsh), 2)]
+        for sp in specs[start:start + count]:
+            todo.append(("struct", sp, ["--gens", str(cap)], s0, seeds.make(sp)))
+    elif kind == "struct":
         specs, cube, orbs = struct_specs(N)
         for tag, how in specs[start:start + count]:
             if tag == "cube": cells = cube; tag = f"cube:{N}:0"
