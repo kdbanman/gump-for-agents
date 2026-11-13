@@ -1,0 +1,6 @@
+{"vessel": "asym R=15 (A=108)", "nodes": 2064, "backend": "fl.c 1 thread", "W": 4, "replicas": 256, "gens": 16384, "s": 1.612, "node_updates_per_s": 5370000000.0, "replica_gens_per_s": 2600000.0}
+{"vessel": "asym R=15 (A=108)", "nodes": 2064, "backend": "fl.c 1 thread", "W": 16, "replicas": 1024, "gens": 4096, "s": 1.41, "node_updates_per_s": 6140000000.0, "replica_gens_per_s": 2970000.0}
+{"vessel": "asym R=19 (A=165)", "nodes": 4020, "backend": "fl.c 1 thread", "W": 4, "replicas": 256, "gens": 4096, "s": 0.796, "node_updates_per_s": 5290000000.0, "replica_gens_per_s": 1320000.0}
+{"vessel": "asym R=19 (A=165)", "nodes": 4020, "backend": "fl.c 1 thread", "W": 16, "replicas": 1024, "gens": 1024, "s": 0.684, "node_updates_per_s": 6170000000.0, "replica_gens_per_s": 1530000.0}
+{"vessel": "O_h vertex hull 45 (1366 orbits)", "nodes": 1366, "backend": "fl.c 1 thread", "W": 4, "replicas": 256, "gens": 16384, "s": 1.061, "node_updates_per_s": 5400000000.0, "replica_gens_per_s": 3950000.0}
+{"vessel": "O_h vertex hull 45 (1366 orbits)", "nodes": 1366, "backend": "fl.c 1 thread", "W": 16, "replicas": 1024, "gens": 4096, "s": 0.915, "node_updates_per_s": 6260000000.0, "replica_gens_per_s": 4580000.0}

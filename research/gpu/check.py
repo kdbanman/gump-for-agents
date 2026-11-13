@@ -94,8 +94,10 @@ def check_engine(path, backend, WT, **kw):
     return ok_all
 
 
-def check_engine_every(path, backend, WT, **kw):
-    """the acceptance bar: the engine's state every generation (hash of the cell set) in several lanes, T generations"""
+def check_engine_every(path, backend, WT, control=None, Tmax=None, label=None, **kw):
+    """the acceptance bar: the engine's state every generation (hash of the cell set) in several lanes, T generations.
+    control='shift' compares with the engine's next generation instead, control='flip' starts from the engine's state
+    with one deep node flipped: both must fail (negative controls; see check_negative_controls)."""
     d = np.load(path)
     ok_all = True
     for k in range(int(d['n'])):
@@ -108,19 +110,69 @@ def check_engine_every(path, backend, WT, **kw):
         rng = np.random.default_rng(k)
         bits = rng.random((s.R, v.n)) < 0.35
         lanes = sorted({0, 31, 32, s.R // 2 + 5, s.R - 1})
-        bits[lanes] = fl.bits_from_cells(v, d[f'c{k}_cells0'])
+        b0 = fl.bits_from_cells(v, d[f'c{k}_cells0'])
+        if control == 'flip':
+            b0 = b0.copy(); b0[int(np.argmax(v.node_depth()))] ^= True
+        bits[lanes] = b0
         s.set_all(bits)
+        T = min(T, Tmax or T) - (1 if control == 'shift' else 0)
         t0 = time.time(); bad = 0; first = None
         for t in range(T):
             s.step(1, freeze=False)
+            ref = int(want[t + 1 if control == 'shift' else t])
             for b in s.get_lanes(lanes):
-                if cell_hash(fl.cells_from_bits(v, b)) != int(want[t]):
+                if cell_hash(fl.cells_from_bits(v, b)) != ref:
                     bad += 1; first = t + 1 if first is None else first
         ok = bad == 0
         ok_all &= ok
+        if control:
+            print(f'  negative control {control}, case {label if label is not None else k}: {bad} mismatches (first at generation {first})', flush=True)
+            continue
         print(f'engine every generation, case {k} [{s.kernel} {kw}]: nodes {v.n:5d} sym {sym!s:5} centre {centre}: {T} gens x '
               f'{len(lanes)} lanes {"all equal" if ok else f"{bad} MISMATCHES, first at generation {first}"} ({time.time() - t0:.0f} s)', flush=True)
     return ok_all
+
+
+def check_negative_controls(path, backend, WT, **kw):
+    """the every-generation check must fail when it should: against the engine's state one generation later, and
+    from a start state with one node (the deepest) flipped. Returns True if every case caught both."""
+    ok = True
+    for control in ('shift', 'flip'):
+        d = np.load(path)
+        for k in range(int(d['n'])):
+            sub = {kk: d[kk] for kk in d.files if kk.startswith(f'c{k}_')}
+            tmp = os.path.join(fl.SCR, f'one_case_{os.getpid()}.npz')
+            np.savez(tmp, n=1, **{kk.replace(f'c{k}_', 'c0_'): vv for kk, vv in sub.items()})
+            caught = not check_engine_every(tmp, backend, WT, control=control, Tmax=300, label=k, **kw)
+            os.remove(tmp)
+            ok &= caught
+            if not caught:
+                print(f'  NEGATIVE CONTROL NOT CAUGHT: {control}, case {k}', flush=True)
+    print(f'negative controls [{kw}]: {"all caught" if ok else "SOME NOT CAUGHT"}', flush=True)
+    return ok
+
+
+def periodic_cases(out, runs=4000, R=9):
+    """the settle-detection test set: R = 9 soups that `gump ensemble` runs to their end; all cycles of period > 2
+    plus 120 random others (still, extinct, period 2). Needs the engine."""
+    import json, subprocess
+    res = subprocess.run([fl.GUMP, 'ensemble', '--soup', '0.35', '--radius', str(R), '--rng', '5000', '--runs', str(runs),
+                          '--gens', '300000'], capture_output=True, text=True, check=True).stdout
+    summ = [json.loads(l) for l in res.splitlines()]
+    summ = [r for r in summ if r['type'] == 'summary']
+    longp = [r for r in summ if r['status'] == 'periodic' and r['period'] > 2]
+    rng = np.random.default_rng(0)
+    others = [i for i, r in enumerate(summ) if not (r['status'] == 'periodic' and r['period'] > 2)]
+    sel = longp + [summ[i] for i in rng.choice(others, 120, replace=False)]
+    v = fl.Vessel(fl.octa_hull(R), 'c', False)
+    bits, meta = [], []
+    for r in sel:
+        c, _ = fl.gump_cells(['--soup', '0.35', '--radius', str(R), '--rng', str(r['rng'])], 0, 'p0')
+        bits.append(fl.bits_from_cells(v, c))
+        meta.append([r['rng'], {'still': 1, 'extinct': 0, 'periodic': 2}[r['status']], r['period'] or 0,
+                     r['cycle_start'] if r['cycle_start'] is not None else -1, r['gen']])
+    np.savez_compressed(out, bits=np.array(bits), meta=np.array(meta))
+    print(f'{len(longp)} cases with period > 2, 120 others -> {out}')
 
 
 def check_fl(backend, WT, R=11, T=2000, sym=False, p=0.35, **kw):
@@ -265,13 +317,18 @@ def check_reseed(backend='gpu', R=15, WT=0, **kw):
 if __name__ == '__main__':
     if sys.argv[1] == 'engine-cases':
         engine_cases(sys.argv[2])
+    elif sys.argv[1] == 'periodic-cases':
+        periodic_cases(sys.argv[2])
     else:
         backend = sys.argv[2] if len(sys.argv) > 2 else 'cpu'
         WT = 4 if backend == 'cpu' else 1024
         ok = True
         if len(sys.argv) > 3:
             ok &= check_engine(sys.argv[3], backend, WT)
+            ok &= check_engine_every(sys.argv[3], backend, WT)
+            ok &= check_negative_controls(sys.argv[3], backend, WT)
         ok &= check_fl(backend, WT, R=7, T=3000)
         ok &= check_fl(backend, WT, R=9, T=3000)
         ok &= check_fl(backend, WT, R=13, T=1000)
         print('ALL OK' if ok else 'FAILURES')
+        sys.exit(0 if ok else 1)
