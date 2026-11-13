@@ -79,3 +79,18 @@ Interim scores (details in exponent.md once written):
   the row (L = 12, 16, 20, 24) and two generations before it is already 0.61, 0.55, 0.46, 0.39 against a living mean of
   0.58: the edge dies in a two-generation flash at every size (`python3 report.py endgame`). Only a mild sag
   (≤ 12% over the previous ten generations) grows with L.
+
+## 2026-11-13T18:41Z — periodic faces (written with the hull runs R = 7, 9 at w ≤ 4 on screen, R = 11 not yet run)
+
+Seen so far for hull faces: A = 30: ln τ = 5.88, 6.38, 7.13, 6.55, 6.58 for w = 1…5 (measured 6.80); A = 45: 8.73, 9.91,
+10.54, 9.81 for w = 1…4 (measured 9.82). The convergence in w is not monotone in gump (w = 3 is the *worst* depth),
+and the R = 7 hull is too small to have a bulk under its faces (its fifth layer is the centre).
+
+**F8. Like for like: periodic faces.** `xp.gump_slab(a, b, 12)` (a slab of twelve {111} layers on a torus, two
+faces of 3ab cells, deterministic) against `xp.gump_slab_model(a, b, w)` (top w layers on Bernoulli(0.4155) noise),
+A = 27, 36, 48, 60. *Forecasts:* (a) the model converges to the slab's truth: |Δ ln τ| ≤ 0.15 at every A for
+w = 6 and w = 8 (confidence 65%); (b) w = 3 is again the worst of w ≥ 2 and too tough; (c) the periodic face's
+slope differs from the hull's 0.208 by more than 5% (this is F7b; I lean "higher", because half the cells of a
+hull face of A ≤ 84 are rim cells with only 4 in-layer neighbours).
+**F9.** With eight rows the toy model does not care what the noise density is: ln τ at L = 16, 20 for ρ = 0.30 and
+0.60 within 0.1 of the ρ = 0.472 values (confidence 55%) — i.e. the bulk density is not really an input.

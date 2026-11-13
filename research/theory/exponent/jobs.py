@@ -56,6 +56,18 @@ def box(Ls=(12, 16, 20, 24), tag='box'):
     """the toy in L x L boxes is in research/toy2d; here: strips with OPEN ends are not needed."""
     pass
 
+def slabmodel(sizes=((3, 3), (3, 4), (4, 4), (4, 5)), ws=(2, 3, 4, 5, 6, 8), tag='slabmodel', rho=RHO_GUMP):
+    bud = {27: 20, 36: 40, 48: 120, 60: 400, 75: 900}
+    for a, b in sizes:
+        for w in ws:
+            xp.run('slab_%dx%d_w%d' % (a, b, w), xp.gump_slab_model(a, b, w), rule=xp.GUMP, p=0.35, T0=300, rho=[rho, rho],
+                   deaths=3000, maxsec=bud[3 * a * b], tag=tag)
+
+def rhoscan8(Ls=(16, 20), rhos=(0.30, 0.60), tag='rhoscan'):
+    for L in Ls:
+        for r in rhos:
+            xp.run('w8_L%d_rho%.2f' % (L, r), xp.toy_model(8, L), rho=[r, r], deaths=3000, maxsec=budget(L), tag=tag)
+
 if __name__ == '__main__':
     job = sys.argv[1]
     if job == 'model1':
@@ -87,5 +99,9 @@ if __name__ == '__main__':
         slab()
     elif job == 'cross3':
         cross3()
+    elif job == 'slabmodel':
+        slabmodel()
+    elif job == 'rhoscan8':
+        rhoscan8()
     else:
         raise SystemExit('unknown job')

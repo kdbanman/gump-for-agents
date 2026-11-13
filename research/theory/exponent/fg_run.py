@@ -4,9 +4,9 @@ import json, math, os, subprocess, sys, time
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCR = os.path.join(HERE, '..', '..', 'scratch', 'exponent')
-VESSELS = [('strip', 2, L) for L in range(5, 17)] + [('strip', 3, L) for L in range(5, 11)] + \
-          [('strip', 4, L) for L in range(5, 9)] + [('strip', 5, 5), ('strip', 5, 6), ('strip', 6, 5)] + \
-          [('box', 4, 4), ('box', 4, 5), ('box', 5, 5), ('box', 4, 6), ('box', 5, 6), ('box', 4, 7), ('box', 4, 8), ('box', 3, 10)]
+VESSELS = [('strip', 2, L) for L in range(5, 15)] + [('strip', 3, L) for L in range(5, 11)] + \
+          [('strip', 4, L) for L in range(5, 9)] + [('strip', 5, 5), ('strip', 5, 6)] + \
+          [('box', 4, 4), ('box', 4, 5), ('box', 5, 5), ('box', 4, 6), ('box', 5, 6), ('box', 4, 7), ('box', 4, 8), ('strip', 2, 16)]
 
 def parse(fn):
     d = {}
