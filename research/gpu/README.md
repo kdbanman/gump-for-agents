@@ -24,13 +24,31 @@ only 2–3× better per dollar than CPUs; keeping the state in shared memory is 
 | `facelaw.py` | the face-law measurement (time to the first face-layer death of octahedral soups). |
 | `modal_app.py` | Modal entry points: `check`, `bench`, `bench_shared`, `cpubench`, `facelaw`. |
 
-Semantics of both kernels: every replica is stepped exactly (B45/S345 on the vessel graph; outside the vessel is dead
-forever by T2). After every generation, a replica whose initial-hull face layer (any of the 8; for O_h vessels, the
-one representative face) is extinct gets a kind-1 event at that generation, one that is unchanged from two generations
-back (period 1 or 2) a kind-2 event; it is then frozen (state forced to 0) until the host reseeds it. Longer periods
-are not detected. Events are exact to the generation; face extinction is permanent (T2), so it is never missed.
+Semantics: every replica is stepped exactly (B45/S345 on the vessel graph; outside the vessel is dead forever by T2).
+After every generation, a replica whose initial-hull face layer (any of the 8; for O_h vessels, the one representative
+face) is extinct gets a kind-1 event at that generation, one that is unchanged from two generations back (period 1 or
+2) a kind-2 event; kernel B also compares every replica with its launch-start state during the first 128 generations
+of each launch, so a replica in any cycle of period 3..128 gets a kind-3 event (at generation p of the first launch
+that starts inside the cycle). The replica is then frozen (state forced to 0) until the host reseeds it. Face
+extinction is permanent (T2), so it is never missed; kind 1 and 2 are exact to the generation.
+
+**Why kind 3 matters** [measured]: O_h soups at vertex-centred R = 36 settle into debris of period > 2 that keeps
+the face layer occupied in ≈ 0.04% of lives; without kind 3 those replicas never die, and a 90-second run already
+showed a hazard of 0.61 ± 0.05 per τ at ages 6–10 τ and a CV of 1.012 (the lead's warning about `qsd.py`'s settle
+test, which applies at R = 36 too, not only below 30). With kind 3: CV 0.998, hazard flat to 10 τ.
+The asymmetric runs below predate kind 3; they recorded no settling at all and their hazards are flat to ~10 τ.
 
 ## Correctness [measured]
+
+**The acceptance bar (bit-exact against the engine every generation):** `modal run research/gpu/modal_app.py::check_every`
+— the five cases below, each in five lanes, compared every generation for 2,000–3,000 generations through an
+order-independent hash of the live-cell set (`check.cell_hash`; the expected hashes come from `gump run --trace`), for
+kernel B in its production shape, in a non-default shape, and for kernel A: all equal. Negative controls (expected
+hashes shifted by one generation; one orbit flipped at the start) fail as they should.
+**Settling:** `modal run research/gpu/modal_app.py::check_periodic` — 373 R = 9 soups that `gump ensemble` ran to
+their end (still, extinct, period 2, and 253 cycles of period 3–66): kind 2 exactly at cycle_start + 2, kind 3
+exactly at (first launch start ≥ cycle_start) + period, and with a 32-generation window the period-48 and -66 cases
+unflagged.
 
 `modal run research/gpu/modal_app.py::check --gpu T4` (engine cases from
 `python3 research/gpu/check.py engine-cases research/scratch/gpu/engine_cases.npz`; the CPU build of kernel A:

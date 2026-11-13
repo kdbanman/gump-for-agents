@@ -71,7 +71,7 @@ def shared_layout(v, J, faces=True):
 
 
 class Sim:
-    def __init__(self, v, WT=None, backend='gpu', seedable=None, block=128, kernel=None, WB=None, J=None, blocks=None, minb=1, faces=True, pw=128):
+    def __init__(self, v, WT=None, backend='gpu', seedable=None, block=128, kernel=None, WB=None, J=None, blocks=None, minb=1, faces=True, pw=128, keep=False):
         self.v, self.n, self.backend = v, v.n, backend
         self.kernel = kernel or ('shared' if backend == 'gpu' else 'global')
         n = self.n
@@ -94,7 +94,7 @@ class Sim:
             self.smem = 4 * (WB * NP + 30 * WB)
             assert self.smem <= smax, (self.smem, smax)
             opts = ('--std=c++11', f'-DK_N={n}', f'-DK_NP={NP}', f'-DK_WB={WB}', f'-DK_T={L["T"]}', f'-DK_J={J}',
-                    f'-DK_Q={L["Q"]}', f'-DK_NF={L["nf"]}', f'-DK_MINB={minb}', f'-DK_PW={pw}')
+                    f'-DK_Q={L["Q"]}', f'-DK_NF={L["nf"]}', f'-DK_MINB={minb}', f'-DK_PW={pw}', f'-DK_KEEP={int(keep)}')
             mod = cp.RawModule(code=open(KERNEL).read() + open(KERNEL_SHARED).read(), options=opts)
             self._run = mod.get_function('gump_shared')
             self._run.max_dynamic_shared_size_bytes = self.smem

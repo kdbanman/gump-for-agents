@@ -160,6 +160,11 @@ def check_fl(backend, WT, R=11, T=2000, sym=False, p=0.35, **kw):
     if born_dead.any():
         print(f'  {born_dead.sum()} replicas started with an empty face (fl.c: generation 0; kernel: 1)')
     st_fl, st_me = sm == -2, kind == 2
+    if kw.get('keep'):                              # frozen replicas keep their state at the event, as fl.c's do
+        m = kind != 3                               # fl.c does not stop periodic replicas; the kernel freezes them
+        same_end = np.array_equal(s.get_all()[m], f.get_all()[m])
+        agree &= same_end
+        print(f'  keep=True: final states of {m.sum()} replicas (frozen at their event, or running) {"identical to fl.c" if same_end else "DIFFER from fl.c"}')
     print(f'fl.c events, R={R} p={p}: face deaths {fd.sum()} (fl.c) vs {mine.sum()} (kernel), generations '
           f'{"identical" if agree else "DIFFER"}; settled {st_fl.sum()} vs {st_me.sum()} '
           f'(kernel also catches still lifes at t=1; same set: {np.array_equal(st_fl, st_me)})', flush=True)

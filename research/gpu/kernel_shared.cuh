@@ -28,6 +28,9 @@ DEV u32 warp_or(u32 v) {
   return v;
 }
 
+#ifndef K_KEEP
+#define K_KEEP 0
+#endif
 #ifndef K_PW
 #define K_PW 128
 #endif
@@ -99,7 +102,12 @@ gump_shared(const u32 *__restrict__ pk, const u32 *__restrict__ fe, u32 *GA, u32
         for (int w = 0; w < K_WB; w++) {
           const u32 *c = cur + w * K_NP;
           const u32 me = c[i];
-          const u32 r = rule12(c[n0], c[n1], c[n2], c[n3], c[n4], c[n5], c[n6], c[n7], c[n8], c[n9], c[n10], c[n11], me) & ~frz[w];
+          const u32 r0 = rule12(c[n0], c[n1], c[n2], c[n3], c[n4], c[n5], c[n6], c[n7], c[n8], c[n9], c[n10], c[n11], me);
+#if K_KEEP
+          const u32 r = (r0 & ~frz[w]) | (me & frz[w]);    /* frozen replicas keep their state at the event (as fl.c) */
+#else
+          const u32 r = r0 & ~frz[w];                      /* frozen replicas are cleared */
+#endif
           dif[w] |= r ^ p2[j][w];
           if (t <= K_PW) sdf[w] |= r ^ GA[gbase + w * K_NP + i];      /* GA still holds the launch-start state */
           p2[j][w] = me;

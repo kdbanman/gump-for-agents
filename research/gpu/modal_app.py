@@ -98,6 +98,38 @@ def check_periodic(cases: str = f'{ROOT}/research/scratch/gpu/periodic_cases.npz
 
 
 @app.function(gpu='A10G', timeout=1800)
+def check_keep_remote() -> bool:
+    _setup()
+    import check
+    ok = True
+    for R, p, T in ((9, 0.35, 3000), (13, 0.2, 3000), (17, 0.2, 3000)):
+        ok &= check.check_fl('gpu', 0, R=R, T=T, p=p, keep=True)
+    return ok
+
+
+@app.local_entrypoint()
+def check_keep():
+    print('remote checks:', 'ALL OK' if check_keep_remote.remote() else 'FAILURES')
+
+
+@app.function(gpu='A10G', timeout=4 * 3600)
+def postpeel_remote(R: int, centre: str, states: int, seed: int, tau_b: float):
+    _setup()
+    import postpeel
+    return postpeel.run(R, centre, states, seed, tau_b=tau_b, log=lambda x: print(x, flush=True))
+
+
+@app.local_entrypoint()
+def postpeel(r: int, centre: str = 'v', states: int = 9000, seed: int = 301, tau_b: float = 0.0):
+    import json
+    out = postpeel_remote.remote(r, centre, states, seed, tau_b or None)
+    path = f'{ROOT}/research/data/gpu_facelaw/postpeel_{centre}R{r}_s{seed}.json'
+    with open(path, 'w') as fh:
+        json.dump(out, fh)
+    print('saved', path, 'states', out['states'], 'wall', round(out['wall_s']))
+
+
+@app.function(gpu='A10G', timeout=1800)
 def check_reseed_remote() -> bool:
     _setup()
     import check
