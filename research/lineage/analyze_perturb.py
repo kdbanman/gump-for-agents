@@ -18,6 +18,7 @@ f = sys.argv[1] if len(sys.argv) > 1 else "research/scratch/lineage/perturb_13_2
 if not os.path.exists(f): f = "research/lineage/data/perturb_13_20000.csv"
 src = collections.defaultdict(dict); cens = 0
 for r in csv.DictReader(open(f)):
+    if int(r["r0"]) not in TAU: continue                       # sources whose first plateau is below r = 31: skipped
     if r["died"] != "1": cens += 1
     src[int(r["src"])][int(r["copy"])] = int(r["resid"]) / TAU[int(r["r0"])]
 src = {s: d for s, d in src.items() if len(d) >= 3}
