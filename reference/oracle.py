@@ -123,6 +123,8 @@ def main():
         if g % 20000 == 0: print(f"  ... gen {g} ({time.time() - t:.0f}s)", flush=True)
     print(f"done: {gens} gens in {time.time() - t:.0f}s; mismatches vs log: {mism}; final population {pop} "
           f"(padded box: {popp}); torus divergence: {diverged}; edge contact: {edge}")
+    if mism:
+        sys.exit(1)   # audit T1: a mismatch must fail the command, not only print
 
 
 if __name__ == "__main__":

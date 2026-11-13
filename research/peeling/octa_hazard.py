@@ -57,6 +57,7 @@ def replay(rec, t0):
         for t, f, c in r['hist']:
             hist[t].append((f, c))
         got_first = False
+        full = True              # hull still the full octahedron at t0 (audit W3: shrunk hulls have smaller faces)
         for t in sorted(hist) + [None]:
             tt = end if t is None else min(t, end)
             key = tuple(C)
@@ -69,17 +70,18 @@ def replay(rec, t0):
                 for f in fam:
                     ex[A[f]] += tt - lo
             if t is None or t > end:
-                if not got_first and None not in C:
+                if not got_first and None not in C and full:
                     first.append((end - t0, -1, True))
                 break
             moved = [f for f, c in hist[t]]
             if t > t0 and None not in C:
                 for f in (moved[:1] if rec['sym'] else moved):
                     ev[A[f]] += 1
-                if not got_first:
-                    first.append((t - t0, A[moved[0]], False)); got_first = True
+                if not got_first and full:
+                    first.append((t - t0, A[moved[0]], False))
+                got_first = True
             elif t <= t0:
-                pass
+                full = False
             for f, c in hist[t]:
                 C[f] = c
             tprev = t

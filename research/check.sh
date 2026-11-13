@@ -60,7 +60,7 @@ grepok "threshold lemma checks (S5)"  "period>=3', 'overcrowded'\) 329" "period>
 grepok "energy identity selftest"     "^selftest ok" "FAIL|Traceback|AssertionError" python3 research/theory/energy.py selftest
 # --- other steppers in the repo, bit-exact against the engine ---
 grepok "fluct orbit stepper (fl.c)"   "^ALL OK" "" python3 research/fluct/validate.py
-mkdir -p research/scratch/peeling   # validate.py writes there before creating it (fresh checkouts; see audit)
+mkdir -p research/scratch/peeling   # harmless: validate.py now creates it itself (audit T2)
 grepok "peeling replica stepper (rep.c)" "octa15.* match " "MISMATCH" python3 research/peeling/validate.py
 grepok "phase numpy stepper (gl.py)"  "^ALL OK" "MISMATCH" python3 research/phase/check_numpy.py
 # --- numbers re-derived from committed data ---

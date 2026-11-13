@@ -8,6 +8,7 @@ for a in range(3):
         h = collections.Counter(sum(di*oi for di,oi in zip(d,o)) for o in offsets(a))
         ok &= (dict(h) == {-4:1, -2:2, 0:6, 2:2, 4:1})
 print("T1 layer histogram {-4:1,-2:2,0:6,+2:2,+4:1} for all 3 orientations x 8 diagonals:", ok)
+assert ok, "T1 layer histogram failed"
 # axis-aligned half-space: max neighbours a cell at distance 1 outside can have inside
 for a in range(3):
     for ax in range(3):

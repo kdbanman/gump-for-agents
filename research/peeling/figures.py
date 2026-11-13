@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 HERE = os.path.dirname(os.path.abspath(__file__))
 FIG = os.path.join(HERE, '..', 'figures')
 rd = lambda n: list(csv.DictReader(open(os.path.join(HERE, n))))
-C_FACE, A_FACE = 0.2088, -0.090     # slab fit (NOTEBOOK)
+C_FACE, A_FACE = 0.2088, -0.090     # slab fit: face_law_fit.py
 K_SYM = 8.0                          # symmetric divisor used for plotting
 plt.rcParams.update({'font.size': 11})
 col = dict(slab='#1f5fa8', octa='#d9631e', sym='#2a9d4b', vtx='#7b3fa0', cube='#222222', fw='#b8326a')
