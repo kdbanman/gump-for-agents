@@ -84,10 +84,11 @@ _Last updated 2026-11-13 by the lead._
   second peel missed by the clone run (mean 7×10⁷ confirmed three ways, actual stay 5.2×10⁸)
   and caught at the 95th percentile by the fit-only forecast. Side 17 is forecast at a
   first-plateau mean of 2.6×10¹⁰ (not run).
-- **Open puzzle:** whole cubes are over-dispersed against the memoryless ensembles — 3 of 16
-  large plateaus beyond 4 means, 3 under 0.05 (`research/experiments/cube_vs_ensemble.py`;
-  P ≈ 0.01); side 16's four largest plateaus ran 2.8, 7.4, 2.6 and 1.2 means. Hull radius 42
-  itself is an ordinary size (fresh soups: τ = 7.1×10⁸, 45 deaths). No mechanism known.
+- **Open question, not a finding:** side 16's largest plateaus ran 2.8, 7.4, 2.6 and 1.2 ensemble means. The
+  "over-dispersion, P ≈ 0.01" over cubes 13–16 (`research/experiments/cube_vs_ensemble.py`) is post hoc — it
+  includes the side-16 plateaus that suggested it; sides 13–15 alone give P ≈ 0.18 (audit, finding 1). The
+  proper test is on fresh lineages: `research/lineage/`, and the GPU session's experiment 1. Hull radius 42
+  itself is an ordinary size (fresh soups: τ = 7.1×10⁸, 45 deaths).
 - `research/fluct/qsd.py` is unreliable for symmetric soups below R = 30 (settled debris
   counted as a living face); use the engine there.
 - Clockwork study done (2026-11-13): 94 new oscillators in `research/clockwork/objects/`

@@ -39,8 +39,10 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
 
 ## Measured, cause unknown
 
-6. **Whole cubes are over-dispersed against memoryless ensembles** (3 of 16 large plateaus beyond 4 means; side 16
-   stayed 7.4 means at R = 40; P ≈ 0.01). Luck or real? In progress: `research/lineage/`.
+6. **Do whole cubes outlive their ensembles?** Side 16 stayed 7.4 ensemble means at R = 40 (P = 6×10⁻⁴ for that
+   one plateau) and 2.8, 2.6, 1.2 at its other large ones. A count over cubes 13–16 gives P ≈ 0.01, but it is post
+   hoc (it includes the plateaus that prompted it; without side 16, P ≈ 0.18 — audit 2026-11-13). Needs fresh
+   lineages with the test fixed in advance: `research/lineage/`, and the GPU session.
 7. **Even (vertex-centred) cubes are ≈1.5× tougher** than odd ones at equal face area. No explanation.
 8. **Symmetric faces:** is the asymptotic slope exactly 0.209/6? Fits differ by 0.6 nats at A = 828. Side 17's first
    plateau is forecast in writing (`research/fluct/PREDICTIONS.md`: ≈2×10¹⁰) and not run.

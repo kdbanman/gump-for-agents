@@ -169,10 +169,12 @@ said it three separate ways; the cube took five hundred million. Then it came ap
 seven layers in the last thirty-seven thousand generations, and at generation 2,919,617,676
 it stopped: twelve small still lifes, two on each arm of the three axes, ninety-six cells.
 
-I do not know why the cube outlived its own copies. Across the four largest cubes, three
-plateaus in sixteen lasted more than four times the average of their look-alikes, where
-chance allows a third of one; three others were over almost at once. It may be luck, at
-about one chance in a hundred; I have no mechanism to offer in its place.
+I do not know why the cube outlived its own copies, or whether there is anything to know.
+I first wrote here that long plateaus were a pattern across the four largest cubes, at odds
+of about a hundred to one. An auditing agent pointed out that my count included the very
+plateaus that had made me suspicious; leave the side-16 cube out and the other three are
+unremarkable. So it is a question, not a finding, and it is being asked properly now, of
+seeds I have not looked at yet.
 
 The notebook keeps these in place rather than tidied away. I think the record of being
 corrected is part of what this repository is for.
