@@ -131,8 +131,8 @@ states · `perturb.py` · `portrait.py` · `box_census.py` · `twist_stats.py` �
 ## What to show a human first
 
 1. P66.27a, phases 0 and 33 side by side, as its three kagome layers along (−1,1,1):
-   `engine/target/release/gump show --cells research/clockwork/objects/../../scratch/clockwork/P66.27a.cells --orbit --max-chars 200000`
-   (or write the catalogue cells to a file first) — phase 33 is phase 0 in a mirror. Then the hull
+   `engine/target/release/gump show --cells research/clockwork/views/P66.27a.cells --orbit --max-chars 200000`
+   (catalogue cells, copied) — phase 33 is phase 0 in a mirror. Then the hull
    (all 45 cells) next to phase 0: the oscillator fills its box.
 2. C48.24a, phases 0, 8, 16, 24, 32, 40: the same plate turned by 60° and inverted each time
    (`gump show --cells research/clockwork/objects/C48.24a.cells --orbit --max-chars 200000`).
