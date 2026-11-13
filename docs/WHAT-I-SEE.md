@@ -52,13 +52,18 @@ the face, about `exp(0.209 × area)`, with a prefactor of about one generation. 
 and triangular faces, six decades of lifetime: one line. (Symmetric seeds follow it with a
 smaller effective area — and there I got the details wrong; see below.)
 
-I wanted to know where 0.209 comes from, and I think I do now. Watch a face that is *not*
-dying: its population jitters around half-full, more widely than coin-flips would, and the
-chance of finding it at a given low density falls off exponentially in its area along one
-curve, the same at every size measured. Follow that curve down to an empty face and it reads
-about 0.20. So a face needs no special mechanism to die. Its death is simply the far tail of
-its ordinary fluctuations, tried about once a generation — and the last stretch of that
-tail is cheap, which is why the end looks sudden.
+I wanted to know where 0.209 comes from, and now it has been measured. Watch a face that is
+*not* dying: its population jitters around half-full, more widely than coin-flips would, and
+the chance of finding it at a given low density falls off exponentially in its area along
+one curve, the same at every size. An agent followed that curve all the way to the bottom,
+on faces small enough to die often. Near the bottom it is a ruler-straight line: each cell
+fewer is about two-thirds as likely, down to a single cell, and the death rate is simply the
+line's next point. Six times in ten a face dies from one last cell. When three are left they
+are usually a triangle, three faces round one corner of a cube — the last ember.
+
+So a face needs no special mechanism to die. Its death is the far end of its ordinary
+fluctuations, and it is not a slow slide: sixteen generations before the end a dying face
+looks like any other, and the layer beneath it barely notices.
 
 ## Symmetry is fatal
 

@@ -671,3 +671,46 @@ Question put to the agent: is a face's death just the far tail of its ordinary f
   of orbits (deaths from n = 3, 6, 9, 12; a favoured nine-cell state). Vertex-centred values are in the next entry.
 - **Not settled:** whether 0.208 per site holds beyond A = 84 for asymmetric faces (one peel at A = 108; the rate
   function collapses to A = 135, which is indirect); the asymptotic symmetric slope (fits differ by 0.6 nats at A = 828).
+
+## 2026-11-13 — the side-16 cube ends at 2,919,617,676; it outlived its own copies (lead)
+
+- **[measured]** `research/experiments/cube_ckpt.sh 16` ran to its end: **still life at generation 2,919,617,676**,
+  96 cells (`research/data/cube16_summary.json`, events `research/data/cube16_events.jsonl`). The prediction made
+  before the run was 2.4×10⁸ (90%: 3.9×10⁷–6.3×10⁸): low by a factor 12. Schedule (hull radius: residence):
+
+  | R (A) | 42 (693) | 40 (630) | 38 (570) | 36 (513) | 34 (459) | 32 (408) | 30 | 28, 26 | 24 | 22 |
+  |---|---|---|---|---|---|---|---|---|---|---|
+  | generations | 2.362×10⁹ | 5.237×10⁸ | 3.08×10⁷ | 2.71×10⁶ | 7,040 | 27,712 | 128 | 1,344 | 256 | 64 |
+
+  The last 37,000 generations took seven layers. What is left is twelve copies of the still life **S8b** (four faces
+  round an edge, capped by a 2×2 plate), two on each half of the three coordinate axes, 2.75 and 9.25 cube-widths
+  from the centre. S8b is also in the ash of the legacy side-10 cube. (Side 15 went extinct; 13 and 14: see their summaries.)
+- **Forecasts for the second peel** (`research/fluct/PREDICTIONS.md`, both committed and pushed while the cube was
+  at ≈2.55×10⁹): from fits, median 2.60×10⁹, 90% 2.531–2.89×10⁹ — the peel at **2,886,100,480** is inside, at its
+  95th percentile; from 64 copies of the 2.525×10⁹ state (τ = 8.2×10⁷, 31 deaths), 90% 2.529–2.78×10⁹ — **missed**.
+- **[measured] The ensemble mean at R = 40 is not in doubt.** Three independent estimates on the agent's orbit
+  stepper: copies of the cube at 2.525×10⁹: 8.2×10⁷ (31 deaths); copies of the cube at 2.875×10⁹, eleven million
+  generations before it actually peeled: 5.7×10⁷ (65 deaths; lead,
+  `python3 research/fluct/qsd.py snap <state> v 900 1 lite`); fresh vertex-centred O_h soups: 8.2×10⁷ (46 deaths;
+  lead, `qsd.py sym 40 v 900 1 lite`). Pooled 7.1×10⁷. **The cube itself stayed 5.24×10⁸ at R = 40: 7.4 means,
+  probability 6×10⁻⁴ for an exponential wait.**
+- **[measured] Vertex-centred series completed** (lead; `qsd.py sym R v …` at R = 32, 34, 38, 40; table
+  `research/fluct/data/sym_residence.csv`, `python3 research/fluct/sym_fit.py`). τ_vertex / τ_cube at equal area:
+  1.51, 1.52, 1.53, 1.60, 1.49, 1.31 ± 0.17 at A = 360 … 630 — a constant ≈1.5 — and **3.1 (ln 1.12 ± 0.29) at
+  A = 693**, where the vertex value rests on copies of the cube (24 deaths) and soups (5 deaths) and the cube-centred
+  one on 20 deaths. So the lead's conjecture of two entries ago (the factor *grows* with size) is wrong as stated:
+  it is flat to A = 630; R = 42 alone is high, by 2.4σ. One-hour runs to firm up both numbers at A = 693 are the
+  next entry.
+- **[measured] Every large plateau of cubes 13–16 against the ensemble mean at the same hull**
+  (`python3 research/experiments/cube_vs_ensemble.py`): of 16 plateaus with A ≥ 408, three lasted more than 4 means
+  (side 15 at R = 37 and 33: 4.2 each; side 16 at R = 40: 7.4; 0.29 expected, P = 0.003) and three less than 0.05
+  (0.78 expected); the sum of T/τ is 26.5 against 16 (P = 0.011). **[conjecture]** Residences of whole cubes are
+  over-dispersed relative to the memoryless ensemble — both tails. The ensembles themselves are exponential to 30
+  means (hazard flat in age, 66,555 deaths at R = 30). No mechanism is known: a clone is the cube's own state with
+  one orbit flipped, and inherits anything slow. It may be luck at the 1% level. Open.
+- **Caveat on the orbit stepper at small sizes** (lead): `qsd.py`'s symmetric ensembles over-count exposure when
+  chaos settles into debris that keeps cells in the outer layer — at R = 24 (vertex) it reports τ = 6.2×10⁴ where
+  single engine runs give 630 (300 soups; 65 end still or periodic with the face layer occupied); R = 28: 6,930
+  against 5,550; R = 30: 2.18×10⁴ against 2.07×10⁴ ± 0.09×10⁴; R = 29 (cube-centred): 1.44×10⁴ against
+  1.36×10⁴. Probably oscillating debris of a period its settle test does not cover. Negligible where chaos cannot
+  settle before a face dies (R ≥ 32: under 1% of replicas ever settle). Use the engine below R = 30.

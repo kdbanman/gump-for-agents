@@ -38,3 +38,10 @@ ln tau = 10.99, 12.47, 14.15, 15.88, 17.80, 19.64 (A = 408 … 693; 1087 … 20 
 (`python3 research/fluct/sym_fit.py`). Taking **ln tau = 24.0 +- 0.4: mean first-plateau residence ≈ 2.6e10
 (68%: 1.8e10 .. 4.0e10)**. As a single run (memoryless, tau uncertainty folded in): first peel at generation
 **median 2.0e10, 50% 0.8e10 .. 4.1e10, 90% 1.4e9 .. 1.0e11**. (No vertex factor applies: 17 is odd.)
+
+## Outcome of the side-16 second-plateau predictions (appended by the lead, 2026-11-13)
+The R = 40 face family died at last_alive = **2,886,100,480** (`research/data/cube16_events.jsonl`). Fit-only entry
+(04:08Z; 90% 2.531e9 .. 2.89e9): **inside**, at its 95th percentile. Clone-run entry (04:18Z; 90% 2.529e9 .. 2.78e9):
+**missed** (the cube stayed 4.4 clone-means beyond the checkpoint). The clone mean itself was confirmed twice more
+(copies of the 2.875e9 state: 5.7e7, 65 deaths; fresh vertex-centred O_h soups at R = 40: 8.2e7, 46 deaths).
+The cube ended at generation 2,919,617,676 (still life, 96 cells). See NOTEBOOK.md, 2026-11-13.

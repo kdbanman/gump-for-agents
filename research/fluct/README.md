@@ -32,6 +32,14 @@ Tags: **[proved]**, **[measured]** (n, error, command), **[conjecture]**. Comman
    clone outcomes 55–95% correlated — a dip to death takes ~10 generations, faster than a perturbation spreads.
    What does reach the big faces is symmetry reduction + bit-slicing: brute force at A = 693 is a 10-minute job.
 
+> **Lead's notes after checking (2026-11-13).** The small-face results below were re-derived with the engine alone
+> (`research/experiments/face_endgame_check.py`) and stand. The side-16 second plateau ended at 2,886,100,480:
+> inside the fit-only forecast, outside the clone-run one; the cube ended at 2,919,617,676. The symmetric table in
+> `data/sym_residence.csv` now also holds the lead's runs (vertex-centred R = 32, 34, 38, 40; copies of the
+> 2.875×10⁹ state): the vertex/cube factor is a flat ≈1.5 from A = 360 to 630 and high only at A = 693.
+> `qsd.py`'s symmetric ensembles are not reliable below R = 30 (settled debris is counted as a living face:
+> R = 24 v reads 6.2×10⁴ where the engine gives 630). Details: `research/NOTEBOOK.md`, 2026-11-13.
+
 ## Verdict
 
 **Supported, and in a sharper form than conjectured** [measured]. A face's death is the stationary tail

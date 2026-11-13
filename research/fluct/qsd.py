@@ -35,7 +35,7 @@ T0 = 200 if KIND == 'asym' else 1000
 if KIND == 'asym':
     R = int(SPEC); v = fl.Vessel(fl.octa_hull(R), 'c', False); TAG = f'R{R}'
 elif KIND == 'sym':
-    R = int(SPEC); v = fl.Vessel(fl.octa_hull(R, CEN), CEN, True); TAG = f'sym{R}{CEN}'
+    R = int(SPEC); v = fl.Vessel(fl.octa_hull(R, CEN), CEN, True); TAG = f'sym{R}{os.environ.get("QSD_SALT", "")}{CEN}'   # QSD_SALT=xa: an independent ensemble (own file, own seeds)
 else:
     cells0, summ0 = fl.gump_cells(['--snapshot', SPEC], 0, 'snapq')
     v = fl.Vessel(summ0['hull_final'], CEN, True); SNAPBITS = fl.bits_from_cells(v, cells0)
