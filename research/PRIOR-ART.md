@@ -131,3 +131,103 @@ every loop length), which I found no precedent for.
 - Several sources were seen only as search summaries; the search tool is lossy. Re-open before citing in a
   write-up: 1204.1906, 1810.06040, Mountford, Collet et al., Bays 1987/2005.
 - Eppstein's diamond-hull proof is the key related result; if we write up T2/T3, cite it prominently.
+
+## Adversarial review (second pass)
+
+Date 2026-11-13. Goal: refute verdicts (a) and (b). Only pages I opened are cited; "search summary" = seen only in
+a search result and NOT usable as a citation. Many conwaylife.com pages return 403 to the fetcher (use the
+conwaylife.njohnston.ca mirror); several arXiv PDFs return unreadable compressed text (Eppstein 0911.2890,
+Guttesen 2608.27622, 1203.1644), so claims about their bodies could not be re-verified.
+
+### (a) "No cellular automaton has been studied on this lattice" -- STANDS (with caveats)
+
+Refutation attempt failed. Searched: rectified cubic honeycomb / cuboctahedral lattice, ReO3/perovskite, Cu3Au,
+kagome / hyperkagome / pyrochlore, FCC 12-neighbour, face/edge-cell CA, Golly/LifeWiki/forum threads. Nothing on
+this vertex set. Nearest misses (none is our lattice + dynamics):
+- LifeWiki Cubic honeycomb (mirror, https://conwaylife.njohnston.ca/wiki/Cubic_honeycomb), opened: "Using only
+  "edge" cells corresponds to operating on an A3≅D3 root lattice" and "Combinations of layers can also be
+  considered". These are sub-neighbourhoods of the Moore neighbourhood on Z^3 (the 12 edge-diagonal offsets =
+  FCC), so a 12-neighbour FCC CA is conceptually on LifeWiki. It is a different graph from ours (cells here
+  are the 3 sites per cube, not one), so this WEAKENS only the statement "12-neighbour 3D automata are unstudied",
+  not our lattice claim. Our paper-style claim should say "on this lattice", not "with 12 neighbours".
+- Wolfram NKS note (https://wolframscience.com/nks/notes-5-2--other-geometries-for-cellular-automata/), opened:
+  "the rhombic dodecahedron (12) (e.g. face-centered cubic crystals)"; the page does not mention kagome,
+  rectified, octahedral or cuboctahedral lattices. Shape list only.
+- ConwayLife forum "Breeders and such like" (mirror https://conwaylife.njohnston.ca/forums/viewtopic.php?t=471),
+  opened: apg, 19 Jul 2010, lists 3D lattice options including "The face-centred cubic lattice (12 neighbours)"
+  and notes "lots of options as you move to three dimensions". A list of options, no rule run on ours.
+  (Claims in a search summary that the thread says only Moore was explored: not seen in the opened text.)
+- Guttesen, Game of Life on Archimedean Lattices (https://arxiv.org/abs/2608.27622), abstract opened: "explore
+  Conway's Game of Life (GoL) on six composite Archimedean lattices". 2D; no 3D lattice. Body unreadable.
+- Hyperkagome/pyrochlore: search found only physics lattice-model pages, no CA. ABC kagome IrMn3 (1510.05924)
+  stays as the physics (Monte Carlo) neighbour, as in section 2.
+Residual risk: paywalled or non-indexed physics/materials literature (lattice-gas or Ising dynamics on the
+anion sublattice of perovskite) was not searched exhaustively; "absence of evidence" stands.
+
+### (b) "Symmetric ICs shorten lifetimes exponentially appears new" -- STANDS
+
+Refutation attempt failed. Searched Catagolue/apgsearch symmetric soups, methuselah/lifespan by symmetry,
+extinction time with symmetry, QSD with symmetry reduction, effective system size.
+- Life Lexicon "soup" (https://playgameoflife.com/lexicon/soup), opened: "symmetric soups tend to create large
+  symmetrical objects at a much higher rate" and "The results for these two types of soups can differ". About
+  object content, not lifetimes. (Upgrades the earlier "snippet only" note to opened.)
+- Catagolue/apgsearch pages came only as search summaries: symmetric censuses are kept in separate symmetry
+  classes; no lifespan statistics by symmetry were seen. Not opened, so not citable.
+- Extinction-time results found (e.g. Battle of the Sexes, arXiv 0709.0225, SIS QSD papers) were search
+  summaries only; they give exponential-in-N extinction but nothing about symmetric starts. Not opened.
+Nothing found stating that symmetry reduces effective size to A/|G| for lifetimes. Note the idea is mathematically
+close to standard "symmetry-reduced" invariant-subspace dynamics, so "new" should be worded "not found".
+
+### Snippet-only items: confirmed or struck
+- Conway-life "lowest birth >= 4 never grows beyond bounding box": CONFIRMED via
+  https://conwaylife.njohnston.ca/wiki/Outer-totalistic , quote "since no patterns can ever grow beyond their
+  initial bounding box" (rules whose lowest birth condition is 4 or more; 16384 rules).
+- arXiv 1204.1906 (vertex-colorings of cubic honeycomb): opened abstract. Quote: "we discuss vertex-colorings of
+  the cubic honeycomb"; "demonstrate the structure and symmetries of certain cubic crystals". It does NOT mention
+  ReO3 or perovskite in the abstract. STRIKE the ReO3/perovskite attribution (keep only as vertex-colourings of
+  {4,3,4}).
+- arXiv 1810.06040: opened. It is "The Contact Process on Random Graphs and Galton-Watson Trees", NOT a survey of
+  finite-volume extinction and says nothing about exponential-in-volume extinction. STRIKE. Replace with
+  Mountford, Mourrat, Valesin, Yao, https://arxiv.org/abs/1203.2972 (opened): "uniformly over all trees of degree
+  bounded by a given number, the expectation of tau grows exponentially with the number of vertices" and tau over
+  its mean "converges in distribution to the unitary exponential distribution". (Bounded-degree trees, not
+  lattices; Durrett-Liu / Durrett-Schonmann remain unopened.)
+- Buca et al. rule 54, https://arxiv.org/abs/1901.00845: opened. Title "Exact large deviation statistics and
+  trajectory phase transition of a deterministic boundary driven cellular automaton"; stochastic boundary driving,
+  time-extensive observables. Fine as "large deviations in CA exist"; it is not about QSD or density tails.
+- Collet-Martinez-San Martin book: Springer page redirected to a login wall; NOT opened. STRIKE as citation (leave
+  as "standard textbook, unverified"). The memoryless-exponential statement is nonetheless standard QSD theory.
+- Bays 2005 (complex-systems.com/?p=2198): fetch returned HTTP 500; unopened. Triangular/hexagonal Bays work is
+  supported instead by Wikipedia Life-like CA (opened): "Bays has also studied two-dimensional life-like CA with
+  triangular or hexagonal neighborhoods." Drop the Complex Systems 15(3) citation or mark unverified.
+- Bays 1987: search results show the abstract and a later retrospective naming the 1987 rules 4,5/5 and 5,6,7/6
+  (search summary, not opened). Wikipedia: "Carter Bays has proposed a variety of generalizations of the Game of
+  Life to three-dimensional CA". Keep Wikipedia as the citation.
+- Playgameoflife lexicon "symmetric": now opened, see (b).
+- Guttesen kagome paper: the abstract confirms "six composite Archimedean lattices" only. The survey's "glider gun
+  (period 276)" and "puffer" details, and the statement that it is "growth-capable" with Conway's neighbourhood,
+  come from search summaries and could not be verified (PDF unreadable). Mark "period 276" UNVERIFIED.
+- Eppstein 0911.2890: PDF unreadable to the fetcher this time; the section-1 claims about the bounding-diamond
+  argument and "can the diamond shrink" are NOT re-verified. Wikipedia's no-B0..B3 bounding-box statement is
+  confirmed (opened).
+
+### Corrections to Mod / trivial-oscillator statements
+- conwaylife.com/wiki/Mod still returns 403; the mirror https://conwaylife.njohnston.ca/wiki/Mod was re-read.
+  Confirmed quotes: hex/triangular grid: "The mod of an oscillator can be identical to its period, but it can also
+  be half of its period", "a third of its period (for oscillators that rotate 120 degrees a third of the way
+  through their evolution)", "or a sixth of its period (for oscillators that rotate 60 degrees a third of the way
+  through their evolution)", plus "Oscillators with a mod one sixth of their period must be centered around either
+  a hexagonal cell or a triangular grid's vertex". So period/2, /3, /6 are stated as above.
+  Corrections: (i) the half case on the hex page is attributed to a FLIP, not a 180-degree rotation; (ii) the
+  page's own 60-degree wording ("a third of the way") is odd (internally inconsistent with a sixth) and should
+  not be quoted as a derivation; (iii) for the square grid, the page gives only "may be a quarter of the period"
+  and half via examples (Clock, Phoenix 1; Sixty-nine = quarter) -- it does not spell out "180 degrees or flip" for
+  half or "90 degrees" for a quarter, so those parentheticals in section 5 are our gloss, not the page's.
+  (iv) "mod" is also described as sometimes meaning ordinary modulus, not to be confused with the mod of a pattern.
+- Trivial oscillators: the survey said LifeWiki's Oscillator page "does not define trivial or compound". That is
+  right for that page, but LifeWiki does define it elsewhere: https://conwaylife.njohnston.ca/wiki/Non-trivial ,
+  quote "A period-n oscillator is considered non-trivial if it contains at least one cell that oscillates at the
+  full period ... if it is not made up solely of separate oscillators with smaller periods". The Life Lexicon
+  (https://playgameoflife.com/lexicon/trivial_(2)) says "A trivial period-N oscillator is one in which every cell
+  oscillates at some smaller factor of N". Neither page uses the word "compound". So "trivial/non-trivial" is
+  established LifeWiki terminology (use it); "compound" remains unsourced (our own term).
