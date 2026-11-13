@@ -3,7 +3,7 @@
 // docs/AUTOMATON.md or the atlas (exhaustive search), [measured] in research/NOTEBOOK.md,
 // [conjecture] where that is all it is. "watch" marks what the scene itself shows.
 
-const A = 'docs/AUTOMATON.md', N = 'research/NOTEBOOK.md', ST = 'research/STATUS.md', W = 'docs/WHAT-I-SEE.md';
+const CW = 'research/clockwork/README.md', A = 'docs/AUTOMATON.md', N = 'research/NOTEBOOK.md', ST = 'research/STATUS.md', W = 'docs/WHAT-I-SEE.md';
 const fig = (f, label) => `<a class="src" href="source.html?f=${f}" target="_blank" rel="noopener">${label}</a>`;
 const src = (f, find, label) => `<a class="src" href="source.html?f=${f}#${encodeURIComponent(find)}" target="_blank" rel="noopener">${label}</a>`;
 const tag = (t) => `<span class="tag ${t}">${t}</span>`;
@@ -135,14 +135,17 @@ export const SCENES = [
       consecutive planes. ${tag('measured')} ${src(N, 'vertex star (S12a) = triangle', 'notebook')}</p>
       <p><b>Hinges</b> are the smallest oscillators: faces that swing 90° about an edge every generation.
       Every period-2 oscillator up to 11 cells works this way. ${tag('proved')} ${src(N, 'Period 2: the smallest union', 'atlas')}
-      Rarer <b>clockwork</b> runs at periods up to 66. ${tag('measured')} ${src(N, 'Soups in octahedral vessels', 'atlas')}</p>
+      Rarer <b>clockwork</b> runs at periods up to 22 in soup ash. ${tag('measured')} ${src(N, 'Soups in octahedral vessels', 'atlas')}
+      The longest periods are <b>twisted</b>: after only P/m generations the object comes back as a rotated or mirrored copy of itself, m = 2, 3, 4 or 6 being the order of a symmetry of its box.
+      The 42-cell plate C48.24a is a screw: every 8 generations it reappears turned 60° and inverted, 6 × 8 = 48. ${tag('measured')} ${src(CW, 'C48.24a** (period **48 = 6 × 8**', 'clockwork')}</p>
       <p>The original's side-9 cube ends as one cube in the middle and a kagome hexagon on each of the
       8 faces of its octahedron. ${tag('measured')} ${src(N, '**Legacy ash**', 'atlas')}
-      The gallery holds 41 objects from the atlas.</p>`,
+      The gallery holds 47 objects from the atlas and the clockwork study.</p>`,
     variants: [
       { label: 'vertex star', spec: { seed: 'atlas', id: 'S12a', speed: '2', play: 1, face: 0.7, color: 'layer', cam: '1,1,1.6,1' } },
       { label: 'hinge (p2)', spec: { seed: 'atlas', id: 'P2.6a', speed: '2', play: 1, face: 0.7 } },
       { label: 'clockwork p66', spec: { seed: 'atlas', id: 'P66.27a', speed: '10', play: 1, face: 0.7 } },
+      { label: 'screw C48.24a', spec: { seed: 'atlas', id: 'C48.24a', speed: '2', stride: 8, play: 1, face: 0.7 } },
       { label: 'side-9 ash', spec: { seed: 'cube', n: 9, gen: 71, speed: '5', play: 0, face: 0.7 } },
     ],
     gallery: true,

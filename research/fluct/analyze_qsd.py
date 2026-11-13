@@ -114,20 +114,20 @@ json.dump(out, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'da
 
 # ---- collapse: I_A(x) = I_inf(x) + b(x)/A, weighted least squares over sizes (errors from counts / 3, autocorrelation)
 print()
-print('finite-size form: I_A(x) = I_inf(x) + b(x) / A   (sizes with >= 100 counts below x)')
+print('finite-size form: I_A(x) = I_inf(x) + b(x) / A, unweighted fit (ln P interpolated linearly at n = xA; chi2 in units of (1e-3)^2)')
 coll = {}
 for x in XS + [0.0]:
     pts = []
     for R in Rs:
         z = np.load(os.path.join(fl.SCR, f'qsd_R{R}.npz')); H = z['H'].astype(float); A = len(H) - 1; N = H.sum()
         if x > 0:
-            c = H[:int(math.floor(x * A + 1e-9)) + 1].sum()
-            if c < 100: continue
-            I = -math.log(c / N) / A; se = 1 / math.sqrt(c / 3) / A
+            lc = np.log(np.maximum(np.cumsum(H), 1e-300) / N); y = x * A; k0 = int(math.floor(y))
+            if np.cumsum(H)[k0] < 100: continue
+            I = -(lc[k0] + (y - k0) * (lc[min(k0 + 1, A)] - lc[k0])) / A; se = 1e-3   # ln P interpolated at y = xA
         else:
             d = z['deaths'][0]
             if d < 20: continue
-            I = -math.log(d / z['expo'][0] / 8) / A; se = 1 / math.sqrt(d) / A
+            I = -math.log(d / z['expo'][0] / 8) / A; se = 1e-3
         pts.append((A, I, se))
     if len(pts) < 3: continue
     Av, Iv, sv = map(np.array, zip(*pts))
@@ -135,7 +135,7 @@ for x in XS + [0.0]:
     cov = np.linalg.inv(X.T @ (X * Wt[:, None])); beta = cov @ (X.T @ (Wt * Iv))
     chi2 = float((((X @ beta) - Iv) ** 2 * Wt).sum())
     coll[x] = dict(Iinf=beta[0], se=math.sqrt(cov[0, 0]), b=beta[1], chi2=chi2, dof=len(pts) - 2, A=[int(a) for a in Av])
-    print(f'  x={x:4.2f}: I_inf = {beta[0]:.4f} +- {math.sqrt(cov[0, 0]):.4f}, b = {beta[1]:+.3f}; chi2 {chi2:.1f} / {len(pts) - 2} dof; A = {list(Av.astype(int))}; '
+    print(f'  x={x:4.2f}: I_inf = {beta[0]:.4f} +- {math.sqrt(cov[0, 0]):.4f}, b = {beta[1]:+.3f}; chi2 {chi2:.1f} / {len(pts) - 2} dof; A = {[int(a) for a in Av]}; '
           + ', '.join(f'{a}:{i:.4f}' for a, i in zip(Av.astype(int), Iv)))
 json.dump(dict(sizes={str(k): v for k, v in out.items()}, collapse={str(k): v for k, v in coll.items()}),
           open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'qsd_summary.json'), 'w'), indent=1, default=float)

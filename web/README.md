@@ -15,7 +15,7 @@ Opening the app with no parameters starts a **guided tour**: nine live scenes, f
 is to the peel and the fauna. Every statement in the tour is tagged *proved*, *measured*,
 *conjecture* or *watch* (what the scene itself shows) and links to the line of `docs/AUTOMATON.md`
 or `research/NOTEBOOK.md` that establishes it. *explore freely →* leaves the tour with the current
-scene still running; **▦ gallery** browses 41 objects from the research atlas.
+scene still running; **▦ gallery** browses 47 objects from the research atlas and the clockwork study.
 
 ![tour scene 7: the vertex star, coloured by {111} layer](docs/tour-fauna-vertex-star.png)
 
@@ -54,6 +54,7 @@ current generation, which the app fast-forwards to on load):
 | `seed=cells&cells=x,y,z;…` or `seed=cells&cz=…` | explicit cells, doubled coordinates; `cz` = deflate-raw + base64url of a one-byte-per-cube bitmap (what the editor writes for > 40 cells) |
 | `box=auto\|N\|NXxNYxNZ`, `abs=1` | `auto` = smallest box holding the seed's diagonal hull forever (T2) plus 2 cubes; `abs=1` = cells are absolute array coordinates in that box (edited states) |
 | `bc=dead\|torus` | outside of the box is dead, or the box wraps |
+| `stride=K` | generations per displayed step when `speed` is a number (default 1) |
 | `gen=G`, `g0=G0`, `play=1`, `speed=max\|1…1000` | fast-forward to G (at `speed`); `g0` = generation number of the seed (edited mid-run) |
 | `view=auto\|raymarch\|quads\|instanced`, `color=orientation\|layer\|change\|fate\|neighbourhood`, `focus=x,y,z`, `face=0.6`, `cam=x,y,z[,zoom]`, `ortho=1` | |
 | `diag=0..3`, `slice=lo,hi`, `kwin=1000`, `rec=0` | the chosen diagonal (kymograph, slicer, layer colours, look-along), the `{111}` slice, the kymograph window, sampled instead of every-generation statistics |
@@ -84,9 +85,11 @@ Drag to orbit, wheel to zoom.
   *attaining* each diagonal extreme (a max-with-count reduction), so this is exact and costs no
   extra pass. When a face layer dies, the log records the generation and how many cells it held
   the generation before, and the sparkline gets a tick.
-- **Gallery** (**▦ gallery**): 41 atlas objects in 7 groups: the smallest still lifes, the
-  vertex star and its contents, hinges, common ash, clockwork (p3–p66), kagome objects, and
-  pieces of the original's ash.
+- **Gallery** (**▦ gallery**): 47 objects in 8 groups: the smallest still lifes, the
+  vertex star and its contents, hinges, common ash, clockwork (p3–p22), twisted clocks (p12–p66, from the atlas
+  and `research/clockwork/objects/`), kagome objects, and pieces of the original's ash. A twisted object's period
+  is shown as m × L; set `stride=L` (selector next to speed) to advance L generations per displayed step, e.g.
+  `?seed=atlas&id=C48.24a&speed=2&stride=8` turns a sixth of a turn per step.
   - **Source data**: `tools/gallery.mjs` selects them from `research/atlas/catalogue.jsonl` by
     rule plus a short list of names. It takes the cells from the catalogue and re-steps every
     object (CPU), so the build fails if a period or phase population disagrees.
