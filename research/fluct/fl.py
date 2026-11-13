@@ -149,6 +149,7 @@ def lib():
         L.fl_counts.argtypes = [P(np.uint16)]
         L.fl_run.restype = ctypes.c_long
         L.fl_run.argtypes = [ctypes.c_long, ctypes.c_void_p, ctypes.c_void_p, ctypes.c_double]
+        L.fl_settles.restype = ctypes.c_long
         L.fl_run_until.restype = ctypes.c_long
         L.fl_run_until.argtypes = [ctypes.c_long, P(np.int32), P(np.int32), P(np.int32), P(np.int32), P(np.int32)]
         _lib = L
@@ -183,7 +184,7 @@ class Sim:
         nres = lib().fl_run(gens, c.ctypes.data if record else None, a.ctypes.data if ages else None, reseed_p)
         return c, a, nres
 
-    def run_until(self, maxgens, lo, hi):
+    def run_until(self, maxgens, lo, hi):  # -> stop_gen, m at stop, min m seen
         sg = np.zeros(self.R, np.int32); sm = np.zeros(self.R, np.int32); mm = np.zeros(self.R, np.int32)
         lib().fl_run_until(maxgens, np.ascontiguousarray(lo, np.int32), np.ascontiguousarray(hi, np.int32), sg, sm, mm)
         return sg, sm, mm
@@ -207,7 +208,7 @@ class Sim:
     def set_all(self, bits):
         n = self.v.n
         assert bits.shape == (self.R, n)
-        by = np.packbits(bits.T, axis=1, bitorder='little')       # n x 8W
+        by = np.ascontiguousarray(np.packbits(bits.T, axis=1, bitorder="little"))   # n x 8W
         self.state[:n] = by.view(np.uint64).reshape(n, self.W)
         self.state[n] = 0
 

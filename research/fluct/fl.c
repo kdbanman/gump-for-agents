@@ -68,7 +68,7 @@ uint32_t *fl_age(void) { return age; }
 #define FA(a, b, c, sum, car) { u64 _x = (a) ^ (b); sum = _x ^ (c); car = ((a) & (b)) | (_x & (c)); }
 
 /* one generation cur -> nxt_; frozen replicas (bits set in frz[w]) keep their state */
-static void step(const u64 *frz) {
+static void step(const u64 *frz, u64 *diff) {
   for (int i = 0; i < n; i++) {
     const int32_t *q = nb + 12 * (size_t)i; u64 *o = nxt_ + (size_t)i * W; const u64 *me = cur + (size_t)i * W;
     const u64 *x0 = cur + (size_t)q[0] * W, *x1 = cur + (size_t)q[1] * W, *x2 = cur + (size_t)q[2] * W, *x3 = cur + (size_t)q[3] * W,
@@ -83,6 +83,7 @@ static void step(const u64 *frz) {
       FA(f0, f1, f2, b2, b3);
       u64 r = ~b3 & ((b2 & ~b1) | (me[w] & ~b2 & b1 & b0));
       if (frz) r = (r & ~frz[w]) | (me[w] & frz[w]);
+      if (diff) diff[w] |= r ^ o[w];          /* o held the state two generations back (double buffer) */
       o[w] = r;
     }
   }
@@ -121,12 +122,30 @@ static void reseed(int r, double p) {
 /* step gens generations; counts[t][g][r] (uint16) after step t (may be NULL), ages[t][r] age after step t (may be NULL).
  * reseed_p > 0: a replica with a face count 0 after a step is recorded (its counts row shows the 0) and then reseeded.
  * Returns number of reseeds. */
+static long gclock = 0, nsettle = 0; static u64 *snap840 = NULL;
+long fl_settles(void) { return nsettle; }
 long fl_run(long gens, uint16_t *counts, uint32_t *ages, double reseed_p) {
   int R = 64 * W; long nres = 0;
   uint16_t *tmp = malloc(2 * (size_t)G * R);
+  u64 *diff = calloc(W, 8);
+  if (!snap840) snap840 = calloc((size_t)(n + 1) * W, 8);
   for (long t = 0; t < gens; t++) {
-    step(NULL);
+    for (int w = 0; w < W; w++) diff[w] = 0;
+    step(NULL, diff);
     for (int r = 0; r < R; r++) age[r]++;
+    gclock++;
+    if (reseed_p > 0) {
+      /* settled replicas (period 1 or 2 now; any period dividing 840 at multiples of 840) are reseeded; their age
+         restarts, so python's age >= T0 cut drops them. Checked only for age > 2 (the buffer holds that replica's
+         own state two generations back). */
+      if (gclock % 840 == 0) {
+        for (int w = 0; w < W; w++) { u64 eq = ~0ULL;
+          for (int i = 0; i < n; i++) eq &= ~(cur[(size_t)i * W + w] ^ snap840[(size_t)i * W + w]);
+          for (int k = 0; k < 64; k++) if ((eq >> k & 1) && age[64 * w + k] > 840) diff[w] &= ~(1ULL << k); else if (eq >> k & 1) diff[w] |= 1ULL << k; }
+        memcpy(snap840, cur, 8 * (size_t)(n + 1) * W);
+      }
+      for (int r = 0; r < R; r++) if (!(diff[r / 64] >> (r % 64) & 1) && age[r] > 2) { reseed(r, reseed_p); nsettle++; age[r] = 0; }
+    }
     uint16_t *row = counts ? counts + (size_t)t * G * R : tmp;
     if (counts || reseed_p > 0) fl_counts(row);
     if (ages) memcpy(ages + (size_t)t * R, age, 4 * (size_t)R);
@@ -135,7 +154,7 @@ long fl_run(long gens, uint16_t *counts, uint32_t *ages, double reseed_p) {
       if (dead) { reseed(r, reseed_p); nres++; }
     }
   }
-  settle_buf(); free(tmp);
+  settle_buf(); free(tmp); free(diff);
   return nres;
 }
 
@@ -160,7 +179,7 @@ long fl_run_until(long maxgens, const int32_t *lo, const int32_t *hi, int32_t *s
       else { left++; stop_m[r] = m[r]; stop_gen[r] = -1; }
     }
     if (!left || t >= maxgens) break;
-    step(frz); t++;
+    step(frz, NULL); t++;
   }
   settle_buf(); free(frz); free(row); free(m);
   return t;
