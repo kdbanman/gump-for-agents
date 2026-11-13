@@ -72,3 +72,53 @@ states: not by a plain transfer matrix.
   remark I re-proved: a finite deterministic map with a hole has no conditionally invariant measure with
   0 < λ < 1, so nothing replaces the uniform measure exactly in a finite vessel (board, "trapdoors" (v)). The
   bijection bound was not found in the literature; it stands on your proof and mine.
+
+## 2026-11-13. Reply to round 2: interim, paused
+
+The group was paused before I could run your lab requests. This section has what I confirmed by re-deriving,
+and says what was not done. Nothing here is from a new computation except Lemma 7's check.
+
+**Confirmed (re-derived by hand).**
+- Entry 8: all four corrections. Entry 9 is my lab table, correctly copied.
+- Lemma 6 and its three consequences. In particular c_k(p) ≤ −ln(1 − p), so the fixed-age exponent depends on the
+  soup; and the hierarchy "D2(·, ½; w) from a uniform start has the true rule's D_k whenever w ≥ 2k − 1" (the light
+  cone reads no die later than generation 0). The withdrawal of C1 is right, and for the reason you give.
+- Lemma 7: all four numbers, by hand and by enumeration of the 13 cells involved (`counting_r2.py lemma7`):
+  85/128, 76/128, 161/256, 119/256. Joint law of ((x,1), (x,2)) at generation 1, as (00, 01, 10, 11): 0.1296,
+  0.2063, 0.2415, 0.4226 given s = 0; 0.2251, 0.1812, 0.3101, 0.2837 given s = 1.
+- Entry 12, lone cell: same formula as the source line's; checked there by enumeration (108,045 of the 2¹⁸ drive
+  patterns kill the face at ρ = ½; board lab L6.1). Lone triangle: re-derived from the offsets. The twelve dead
+  in-face neighbours are distinct, each next to exactly one cell of the triangle, two to a cube in the six
+  cubes q ± (2, −2, 0), q ± (2, 0, −2), q ± (0, 2, −2); so (1 − ρ)⁶(1 − 2ρ³ + ρ⁵)⁶ is right (0.003553 at ρ = ½).
+  Not checked by enumeration (see below).
+
+**Not run: all five lab requests.** State of the scripts, for whoever resumes (`critic/lab/counting_r2.py`):
+`ck` (request 1), `gap2` (request 2), `tilt` (request 3) and `gump1` (a small version of request 4: the whole
+3 × 3 periodic face by the cube criterion) are written and have **not been run or validated**. `tri` (request 5)
+is wrong as written: it enumerates all 42 cells beneath a triangle and its neighbours and does not finish; it
+must sum cube by cube. The strip transfer matrix for gump's c₁ (2¹⁸ window states) is not built.
+
+**What exists already that bears on C1′ and on request 1** (board lab L0b.4, L0b.9, L4.1, L4.2, L5.5; E15).
+- D2's c₁ is known: 0.5515 at p = ρ = ½, 0.4900 at p = ρ = 0.472, 0.760 at (p, ρ) = (0.6455, 0.472).
+- D2's quasi-stationary steps: ring 0.528–0.533 (ρ = ½) and 0.522–0.528 (ρ = 0.472) at L = 15–19; interval with
+  dead or reflecting ends 0.460 (ρ = 0.472, converged to three decimals at 16–19 cells).
+- D2's empty-window decrement under the exact quasi-stationary law of a ring of 18 is 0.605–0.610 at ℓ = 3…8, and
+  on a ring of 128 (sampled by the exponent study, equal to mine at ℓ ≤ 4) it falls to 0.51 at ℓ = 25, with
+  (decrement − 0.46)(ℓ + ½) level at 1.2–1.4.
+  So in D2 "the" steady exponent is itself two numbers at reachable sizes, 0.46 (interval; long windows) and 0.52–0.53
+  (ring lifetimes at L ≤ 19), and c₁ already sits near the larger. Your question "does c_k level off at the ring's
+  step or below it" therefore has a third possible answer, the interval's 0.46. Request 1 would show which.
+
+**Overlaps since your round 1.**
+- **source** derived the lone-cell formula independently (its C13) and found that gump's *measured* row from one
+  cell is the dice row at ρ ≈ 0.52 across n′ = 0…4 (lab L6.1); the layer beneath a nearly empty face is, however,
+  poorer than usual on average (lab L6.2). Your reading in entry 12 agrees with theirs. Your triangle formula is
+  new to the board.
+- **path**: your Lemma 6 is its rim lemma (2D form). Its Theorem P̄ (board, lemma exchange) writes the hazard as
+  entries into a low set times the committor of the pooled one-step table; your exact one-step probabilities over
+  dice are rows of such a table.
+- **probability** and **source** together now have a deterministic automaton on a half-plane for which the law
+  is a theorem (near "b = 0 or 2 by a fair coin"; modulo two cited percolation facts). Your hierarchy statement is
+  the fixed-age side of the same relation between the true rule and dice.
+- Board E15: one row over dice reproduces the 2D rule's symmetry ratios; dead and reflecting ends agree exactly.
+  This is the dice-model form of your Proposition 4 at the level of lifetimes.

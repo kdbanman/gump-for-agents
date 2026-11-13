@@ -1,18 +1,63 @@
 # Board (critic)
 
-_Kept by the critic. Last update: 2026-11-13, after the replies to path and source, round 2 (counting's round 2
-report is written and not yet read). Scripts named here are in `critic/lab/`; run them from that directory. "Checked" means I
-re-derived or recomputed it; "read" means I compared the statement with its source and did nothing more.
-Proofs and commands behind every "checked" are in `critic/journal.md`._
+_Kept by the critic. **State: PAUSED on 2026-11-13 (usage budget), in the middle of the reply to counting's
+round 2.** A successor should read "Where the queue stands" just below, then the rest. Scripts named here are
+in `critic/lab/`; run them from that directory. "Checked" means a critic re-derived or recomputed it; "read"
+means the statement was compared with its source and nothing more. Proofs and commands behind every "checked"
+are in `critic/journal.md`._
+
+## Where the queue stands (written at the pause)
+
+| line | last report | critic's reply | what is owed |
+|---|---|---|---|
+| path | round 3, **interim** (written at the pause) | rounds 1, 2 answered in `to-path.md` | review of the interim round 3; tell path about source's monotone-kernel comparison (lemma exchange, "Monotone comparison for a projected statistic"): promised, not yet in `to-path.md` |
+| source | round 3, **interim** | rounds 1, 2 answered in `to-source.md` (plus an addendum with the dice-model pointer) | review of the interim round 3 |
+| counting | round 2 | round 1 answered; round 2 answered **in part** ("interim, paused" section of `to-counting.md`) | its five lab requests (none run); see below |
+| probability | round 2, **interim** | round 1 answered in `to-probability.md` | review of the interim round 2 |
+
+**Lab work owed or half done.**
+- Counting, round 2, requests 1–5 (`counting/journal.md`, round 2 report). `lab/counting_r2.py` has `lemma7` (run,
+  ok) and `ck`, `gap2`, `tilt`, `gump1` **written but never run or validated** (treat them as drafts: validate
+  `ck` at k = 1 against 0.551535 and at k = 2 against a direct ring sum, both of which the function already tries
+  to do). `tri` is wrong as written (it enumerates 2⁴² drive patterns): sum cube by cube instead. The strip
+  transfer matrix for gump's one-generation exponent (2¹⁸ window states, 2⁹ transitions) was offered and not built.
+- The face game on a periodic face without doubled neighbours (3 × 3, 27 cells) needs a vectorised or compiled
+  version; `source_r2.py l7` (18 cells) already takes five minutes.
+- A request of mine is pending in `library/requests.md` (last entry): the two percolation facts under
+  probability's Theorem A (critical density of oriented site percolation ≤ 0.7491; survival for e^{cK} on a
+  cylinder at any supercritical density). When answered, update "who is using which idea" and tell probability.
+- Slow commands, for planning: `startpoints.py game 5` 2¼ min; `startpoints.py slab` 2 min; `counting_r1.py lemma5`
+  1¾ min; `prob_r1.py ring 18` 1½ min; `prob_r1.py ends 19` 2½ min; `source_r2.py l7` 5 min. Everything else is
+  seconds. The two self-tests (`toy2d_lab.py selftest`, `gump_lab.py selftest`) were last run at the start of this
+  critic's session and printed ALL OK; nothing they depend on has been edited since.
+
+**Overlaps I was watching** (each is also in "Who is using which idea").
+1. *One exponent for the 2D rule (≈ 0.345) in every geometry, the ring's excess being a power of L.* Path guessed
+   it from data (G1; exam E1), counting has the fixed-horizon theorem (Prop. 4; its bridge C1 is withdrawn),
+   probability has it as a guess for dice models (T2). The exact dice data (E15, lab L4.2, L5.5) support it and do
+   not settle the ring. Nobody has a derivation of the power.
+2. *Hypotheses on equal-time one-step kernels.* Path: certificates on the population (Theorems P, P̄; H′ not
+   size-independent on the tallies). Source: the drive kernel κ_t (Lemma 3; Theorems H, U; finite energy fails
+   strictly in the one enumerable vessel). Counting's collision-entropy version is withdrawn. Lab L5.3 (the
+   population is not Markov along death paths) says the population alone is too coarse.
+3. *The last cells.* Source (C13, C14), counting (entry 12: lone cell, lone triangle), path (the remnant curve):
+   the row from one cell is that of dice at density ≈ 0.52; the layer beneath as a whole is poorer than usual.
+4. *A deterministic relative with a theorem.* Source's C1′ realises probability's anchor; Theorem A then holds
+   for a deterministic automaton on a half-plane, modulo the two cited facts. Neither line has written the joint
+   statement.
+
+**Exam entries on file** (`swarm/PREDICTIONS.md`; none reviewed by me beyond what the replies say): path E1
+(notched ring), E2 (remnant at lag 2), E3 (remnant on a slab face); counting C-E1 (revised) and C-E2; source S-E1
+(its three numbers are my exact D2 values at ρ = ½), S-E2. Probability had filed none when I last looked.
 
 ## Who is here
 
 | who | directory | toolkit | state |
 |---|---|---|---|
-| probability | `swarm/probability/` | dice in place of chaos: particle systems, coupling, percolation, contours | round 1 answered (`to-probability.md`) |
-| counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | round 1 answered (`to-counting.md`); round 2 written, reply pending |
-| path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | rounds 1, 2 answered (`to-path.md`) |
-| source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | rounds 1, 2 answered (`to-source.md`) |
+| probability | `swarm/probability/` | dice in place of chaos: particle systems, coupling, percolation, contours | round 1 answered (`to-probability.md`); interim round 2 unreviewed |
+| counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | round 1 answered; round 2 answered in part (interim; lab requests not run) |
+| path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | rounds 1, 2 answered (`to-path.md`); interim round 3 unreviewed |
+| source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | rounds 1, 2 answered (`to-source.md`); interim round 3 unreviewed |
 | librarian | `swarm/library/` | primary papers: `shelf.md` (one line per source), `notes/`, `requests.md` (append-only, anyone) | first pass finished: 59 sources, ten notes files |
 
 Where lines could meet, which I watch: the probability of an empty edge under a product measure (a transfer
@@ -237,7 +282,8 @@ None of these changes the problem. Each is a number or sentence a proof could le
 | every permanent loss is the extinction of a minimal sealed set (Proposition S); the wait is then set by the smallest sealed set: a face in a hull, a band in a wide slab | path | S proved, checked; the conclusion is conditional on H′ for that set |
 | γ from the tail: γ = θρ − θ²σ²/2 (relation M) | path | sketched; its tangency assumption fails on the histograms and the formula is 0.9–1.6 nats too large at A = 63, 84 (lab L5.4) |
 | biased voter dynamics as a caricature in which the area law is exact (Proposition R) | path | proved, checked |
-| finite-horizon exponents from soup: λ(T ≤ k) = tr(M_kᴸ)/2^{(2k+1)L}, c_k decreasing in k, c_∞ = lim c_k; conjecture C1: the measured exponent of each geometry is c_∞ | counting (Theorem 3, C1) | theorem proved, checked (c₁, c₂ exact); C1 a guess, in tension with three measured slopes |
+| finite-horizon exponents from soup: λ(T ≤ k) = tr(M_kᴸ)/2^{(2k+1)L}, c_k decreasing in k, c_∞ = lim c_k | counting (Theorem 3) | theorem proved, checked (c₁, c₂ exact). The bridge to the measured law (C1) is **withdrawn** by counting in round 2: the fixed-age exponent depends on the soup (c_k(p) ≤ −ln(1 − p), its Lemma 6; re-derived) and long gaps made early persist. What is left is a guess C1′ (c_∞ ≤ γ, equality for soups with no cheaper early route); its test on D2 (lab request 1) has not been run |
+| at a fixed age the true rule is a dice model (D2 with w ≥ 2k − 1 rows gives the true rule's D_k); a live edge cell thins the cells beneath it (Lemma 7); one-generation death probabilities of a lone cell and a lone triangle of a gump face over dice | counting (round 2) | proved; re-derived by hand (Lemma 7 also by enumeration); the triangle formula not yet checked by enumeration |
 | boundary conditions and symmetry at a fixed horizon: free ends ≥ ring, mirror ≥ half, C4 and diagonal = no symmetry | counting (Prop. 4) | proved, checked at k = 1 on small boxes; c⁰_k = c_k verified for k = 1, 2 (lab) |
 | the second-order lift as an invertible relative | counting (Lemma 2) | proved, checked: its faces never die |
 | collision entropy of the top three rows as a countable hypothesis (claim 15) | counting | inequality proved; hypothesis fails from generation 2 in every vessel that can be enumerated (lab L3.5) |
@@ -394,6 +440,12 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
   drives of the other units, each unit's drive avoids its death set with probability ≥ 1 − θ, then h ≤ E[θ^F];
   if every drive value has conditional probability ≥ δ, then h ≥ E[δ^F; no unit locked] ≥ δ⁵·P(n = 1), and the
   lifetime is ≤ g·δ^{−gU} with g the depth of the face game. For dice these hold with δ = min(ρ, 1 − ρ)² (2D).
+- **A lone triangle under dice** (counting, entry 12; re-derived by hand from the offsets, not enumerated): the
+  three faces of one cube alone in a gump face die together iff all six cells beneath that cube are dead, and
+  their twelve dead in-face neighbours (two to a cube, six cubes, each next to one cell of the triangle) are not
+  born with probability (1 − 2ρ³ + ρ⁵)⁶: P(face empty next) = (1 − ρ)⁶(1 − 2ρ³ + ρ⁵)⁶ = 0.0036 at ρ = ½.
+- **Gaps persist** (counting Lemma 6 = path's rim lemma for the 2D edge; checked): an empty window of ℓ + 4j edge
+  cells at generation k leaves its middle ℓ cells empty at generation k + j, whatever lies beneath.
 - **The last cell under dice** (source C13; checked by enumeration): a lone interior cell of a gump face over
   product dice of density ρ dies with probability (1 − 3ρ³ + 3ρ⁵ − ρ⁶)(1 − ρ³)⁴ and has 7ρ³ cells next on average
   (2D: (1 − ρ²)⁵ and 5ρ²).
@@ -502,6 +554,7 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 | L6.3 | source L6: D2(L, ρ; w) at ρ = 0.30, 0.472, 0.60 | w = 1: 7.8410, 8.6350, 8.4511 at L = 16 (spread 0.79; 0.21 at L = 8). w = 2: 3.5793, 3.9535, 3.9906 at L = 8 (spread 0.41); 2.2983, 2.3191, 2.1890 at L = 5. At equal L = 5…8 the spread is 0.13, 0.22, 0.31, 0.41 at w = 2 against 0.13, 0.10, 0.13, 0.21 at w = 1 | `source_r2.py l6` |
 | L6.4 | source L7: face game on periodic gump faces | 2 × 2: 2,661 emptied in one generation, 1,434 in two; 3 × 2: 112,743 and 149,400; none in more | `source_r2.py l7` (5 min) |
 | L6.5 | source L8: conditional law of the two cells beneath an edge cell given the edge and the other cells' drives, 2D strip 4 × 6 | t = 0: P(death set) ∈ [0.18, 0.82] in every context; t = 3, 5, 8, 10: exactly 0 or 1 in 39%, 63%, 83%, 90% of contexts (8.7%, 19%, 37%, 56% of the mass) | `source_r2.py l8` |
+| L7.1 | counting round 2, Lemma 7 (the only item of that round run before the pause) | P((x,1) alive at generation 1 \| s) = 85/128, 76/128; P((x,2) alive \| s) = 161/256, 119/256 for s = 0, 1; joint law of the pair (00, 01, 10, 11): 0.1296, 0.2063, 0.2415, 0.4226 (s = 0); 0.2251, 0.1812, 0.3101, 0.2837 (s = 1) | `counting_r2.py lemma7` |
 | L1.6 | refits of the empty-window decrement (committed `gap.json`) | limit 0.348 (c/ℓ), 0.355 (e^{−ℓ/20}), 0.370 (c/ℓ²), 0.373 (e^{−ℓ/10}) on ℓ = 20…38, all acceptable | `path_r1.py data` |
 
 ## The lab: what it can do, how to ask

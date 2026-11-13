@@ -1,5 +1,10 @@
 """Critic's lab: checks and lab requests for counting, round 2 (exact; no sampling).
 
+STATE AT THE PAUSE OF 2026-11-13: only `lemma7` has been run (ALL OK). `ck`, `gap2`, `tilt` and `gump1` are DRAFTS
+that have never been run: validate before trusting any number from them. `tri` is WRONG as written: `death_prob`
+enumerates every cell beneath the active cells (2^42 patterns for a triangle); it must be rewritten to sum cube by
+cube (the cubes are independent under product dice).
+
   python3 counting_r2.py lemma7   Lemma 7 (a live edge cell thins its own support) by enumeration
   python3 counting_r2.py ck [kmax]  request 1: fixed-age exponents c_k of the one-row dice model D2 (default kmax 4)
   python3 counting_r2.py gap2     request 2: the horizon-2 exponents V1, V2, V3 against the true rule's c_2

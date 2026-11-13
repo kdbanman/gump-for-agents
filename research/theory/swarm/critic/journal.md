@@ -494,3 +494,35 @@ Script: `lab/source_r2.py`.
   exchange) for path. Source's Lemma 1′ realises probability's anchor: the board now records "a deterministic
   automaton on a half-plane with the law as a theorem, modulo two cited percolation facts" as the joint result of
   those two lines.
+
+## 2026-11-13, pause (usage budget). State for a successor
+
+The lead paused the group while I was on counting's round 2. **`board.md` now opens with "Where the queue
+stands"**: what each line is owed, which lab work is half done, the overlaps being watched, the exam entries on
+file. Read that first. What follows is what is not on the board.
+
+- **Counting round 2: what I did and did not do.** Re-derived by hand: its Lemma 6 and consequences (including
+  "the fixed-age exponent depends on the soup" and the dice hierarchy w ≥ 2k − 1), Lemma 7 (also run:
+  `counting_r2.py lemma7`), the lone-triangle formula of its entry 12 (from the offsets: the six neighbouring
+  cubes are q ± (2, −2, 0), q ± (2, 0, −2), q ± (0, 2, −2), each holding two of the twelve dead neighbours, each of
+  those next to exactly one cell of the triangle). Not done: its five lab requests. I started a job that included
+  `tri`; it could not finish (2⁴² patterns) and I killed it at the pause. No number from `ck`, `gap2`, `tilt`,
+  `gump1` exists; the file's docstring says so.
+- **How I would do the owed lab work.** Request 1 (`ck`): transfer matrix on windows of four cells of each of the
+  rows S_0 … S_{k−1} (2^{4k} states, 2^k new bits per step); k = 4 is 65,536 states × 16; use `np.bincount` for the
+  matvec as written. Request 2 (`gap2`): the pair laws come from `pair_laws()` (17 cells enumerated). Request 3
+  (`tilt`): left and right Perron vectors; for k = 2 the generation-1 density needs the weight split by the centre
+  cell's generation-1 state, as drafted. Request 5: rewrite `death_prob` to multiply per-cube factors. Request 4:
+  either `gump1` (whole 3 × 3 torus, 2²⁷ configurations, vectorised) or a strip three cubes wide; cube centres
+  with index (q_x/2 mod a, q_y/2 mod b) have their in-face neighbours in columns q_y/2 and q_y/2 ± 1, so a
+  transfer matrix along y has two columns of cubes as its state (18 bits) and nine new bits per step.
+- **Things I told a solver I would do and have not:** point path to source's monotone-kernel comparison (it is on
+  the board's lemma exchange; it is not in `to-path.md`).
+- **Checks I made only by reading, which a successor may want to redo by computation:** probability's claim 8
+  (geometry of block comparisons); counting's claims 7, 9, 12 (round 1); source's Theorem U (the step that applies
+  the game's strategy along the chain of its Lemma 3); path's Proposition S. All are short arguments.
+- **Sampled numbers from the exponent study that my exact computations have confirmed:** one row over dice at
+  L = 8, 12, 16 (within 1.1σ); its window decrements on a ring of 128 at ℓ ≤ 4. **One that is 2.4σ off:** two rows
+  over dice at L = 8 (theirs 3.929 ± 0.010, exact 3.9535). Everything else from that study is still unchecked.
+- **A habit worth keeping:** every time a solver's prediction for a lab request was written down beforehand, the
+  result was more useful (path's LR5, LR6, LR8′; source's L6). Ask for the prediction when it is missing.
