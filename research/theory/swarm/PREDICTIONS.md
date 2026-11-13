@@ -88,3 +88,27 @@ or at the cap (S9, Lemma 5); the exponent study found no dependence on the dice 
 So the randomness a face uses is made in the layers just beneath it by the true rule, and a parity automaton
 below depth six is as good a bulk as gump's own (Conjecture S, journal S12).
 *Refuted if* either gump value is off by more than 0.2 nats from the slab's.
+
+## 2026-11-13, counting, revision of C-E1 and a new entry C-E2 (filed at the end of round 2)
+
+**C-E1, revised** (after the critic's reply: O_h faces and the 2D mirror ring have so far been cheaper per
+independent cell than asymmetric ones). Same experiment. *Prediction:* slope of ln τ_fix between A = 84 and
+A = 135: **0.105 ± 0.009** (was 0.110 ± 0.010); *refuted if* below 0.094 or above 0.118.
+*What changed and why:* the basis of the first entry (the measured exponent as a limit of fixed-age exponents)
+is withdrawn (counting journal, entry 10), so "at least half" is no longer backed by a theorem that reaches the
+measured law. What is left is the count of independent cells, (A + cells on the mirror)/2, times the asymmetric
+0.2195 of these sizes, minus a mirror-line term taken from the O_h fit of `research/fluct` (−0.196·√A for three
+mirror lines, so −0.065·√A for one: −0.003 in the slope at A ≈ 108). A slope near 0.09 would say that a mirror
+line costs several times more than a third of the O_h term.
+
+**C-E2. The cost of dying by generation 3.** 2D rule (B34/S234, cross2), periodic strips of 7 or more rows (only
+rows 0–6 matter), every cell Bernoulli(½) at generation 0, no warm-up, no reseeding. P₃(L) = fraction of soups
+whose row 0 is empty at generation 3, L = 20, 24, 28, 32 (about 10⁹ soups at L = 32).
+*Prediction:* −ln P₃(L) is a straight line in L with slope **c₃ = 0.447 ± 0.012**; in any case c₃ ≤ 0.467693.
+*Why (two lines):* at every fixed age the from-soup death probability is exactly tr(M_k^L)/2^{(2k+1)L}
+(counting journal, Theorem 3), with exponents c₁ = 0.551535, c₂ = 0.467693 computed by the lab and c₃ ≤ c₂ proved;
+c₃ itself needs 2³⁶ window states and has not been computed. The value is read off two rough guides, the dice
+hierarchy's slopes shifted by the offset seen at c₂ (0.453) and the steady-state window cost at the length a gap
+can keep for three generations (0.441); it is an estimate, the inequality is a theorem.
+*Refuted if* the slope is below 0.430 (a three-generation route much cheaper than either guide) or above 0.468
+(which would contradict the theorem: then the experiment or the lab's c₂ is wrong).
