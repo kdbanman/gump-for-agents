@@ -109,7 +109,7 @@ cell has F = 5, 18 drive cells matter, and 108,045 of the 2¹⁸ patterns kill t
   | 63 | 0.363 | 0.355 | 0.342 | 0.345 | 0.339 | 0.350 | 0.445 | 0.441 |
   | 84 | 0.394 | 0.377 | 0.360 | 0.361 | 0.354 | 0.347 | 0.446 | 0.444 |
 
-  Beneath a face of one to twelve cells the layer has 80–88% of its usual density (A = 63, 84), and it is a
+  Beneath a face of one to twelve cells the layer has 76–88% of its usual density (A = 63, 84), and it is a
   little denser under one cell than under three to six.
 - **L6. No.** ln τ at ρ = 0.30, 0.472, 0.60. w = 1: 4.1933, 4.4000, 4.2963 (L = 8); 6.1131, 6.4169, 6.1907 (12);
   7.8410, 8.6350, 8.4511 (16). w = 2 (two rows over two rows of dice, death = row 0 empty; kernel checked against
