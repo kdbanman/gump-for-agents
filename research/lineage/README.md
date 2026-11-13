@@ -125,7 +125,7 @@ use the same lineages at TS = 20,000 and 40,000, so their unperturbed residuals 
 
 - **Copies are exponential and statistically identical to fresh lineages** (mean 1.00–1.05, CV 0.94–0.96, tails as expected).
 - **The lineage's own continuation is mildly long-tailed in this sample** (6 and 8 beyond 4τ where 2.7 were expected;
-  P ≈ 0.06 and 0.02 for each batch alone, not independent). But these unperturbed residuals are simply the
+  P = 0.06 and 0.006 for each batch alone, not independent). But these unperturbed residuals are simply the
   lineages' own first plateaus, and over all 612 structured first plateaus the tail is 15 vs 11.2 (§1): this sample
   of 150 is not representative of anything special. [measured]
 - **Surprise: copies remember their source a little.** The mean residual of a source's four copies rises with the
@@ -138,7 +138,8 @@ use the same lineages at TS = 20,000 and 40,000, so their unperturbed residuals 
   a slow mode of the layer-population profile?) is not known. [conjecture] It resets, or is too weak to see, across
   a peel (§2: consecutive plateaus uncorrelated).
 - **It is far too weak for the cube puzzle.** A hazard multiplier spread of ±25% that held for a whole plateau would raise
-  the CV of residences only to ≈ 1.05 and the fraction beyond 4τ from 1.8% to ≈ 2.5%; the cubes need ≈ 19%.
+  the CV of residences only to 1.04–1.06 and the fraction beyond 4τ from 1.8% to 2.1–2.3% (lognormal spread σ = 0.2–0.25,
+  simulated); the cubes need ≈ 19%.
 
 ### 5. The cube anomaly itself, re-tested [measured]
 
