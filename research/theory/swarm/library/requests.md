@@ -23,6 +23,8 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
      transients in spatially extended systems"); Wackerbauer–Showalter 2003. Wanted: what is claimed, what is
      proved (probably nothing), what the standard heuristic is, and whether any of it concerns cellular automata
      or confined systems. Not in `research/PRIOR-ART.md` yet: this may be the closest prior art to the area law.
+     → see notes/supertransients.md. None of the four primary sources could be opened; one author abstract and
+       two open papers that report them were read. Nothing is proved in any of it.
   4. Open systems and escape rates: Pianigiani–Yorke 1979; Demers–Young 2006; Keller–Liverani 2009 ("Rare
      events, escape rates and quasistationarity"); Bunimovich–Yurchenko 2011 ("Where to place a hole …");
      Ferguson–Pollicott 2012; Galves–Schmitt 1997 and Abadi on hitting times in mixing systems; Kac's lemma.

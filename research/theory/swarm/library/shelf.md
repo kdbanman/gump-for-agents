@@ -74,3 +74,14 @@ How to read the notes: each statement is tagged [paper], [secondary: X] or [abst
 | O. Häggström, J. Jonasson, "Uniqueness and non-uniqueness in percolation theory", Probab. Surv. 3 (2006) 289–344; arXiv:math/0612812 | https://arxiv.org/abs/math/0612812 | Definition 12.1 and footnote | `source-requests.md` §4 | definition of finite energy, insertion and deletion tolerance |
 | C. Temmel, "Shearer's measure and stochastic domination of product measures", J. Theoret. Probab. (2012); arXiv:1105.1683 | https://arxiv.org/abs/1105.1683 | §1–2, Theorem 5 | `source-requests.md` §4 | states the Liggett–Schonmann–Stacey hypothesis and theorem |
 | A. Bušić, J. Mairesse, I. Marcovici, "Probabilistic cellular automata, invariant measures, and perfect sampling", arXiv:1010.3133 | https://arxiv.org/abs/1010.3133 | Definition 2.2, algorithm data | `source-requests.md` §1 | a PCA as a deterministic local function of an i.i.d. space-time array |
+
+## 3. Supertransients and stable chaos (closest prior art to the phenomenon; all numerical)
+
+| source | where read | read | notes | why it matters |
+|---|---|---|---|---|
+| J. P. Crutchfield, K. Kaneko, "Are attractors relevant to turbulence?", Phys. Rev. Lett. 60 (1988) 2715–2718 | https://csc.ucdavis.edu/~chaos/chaos/pubs/aart-title.html (author's page) | abstract (article behind APS bot wall) | `supertransients.md` §1 | origin: turbulent transients lasting "faster than exponentially" in the system volume |
+| A. Politi, A. Torcini, "Stable chaos", arXiv:0902.2545 | https://arxiv.org/abs/0902.2545 | §1, §3 (start), §4 (start) | `supertransients.md` §2 | CA-like coupled maps: transient exponential in size; explicit analogy with chaotic cellular automata |
+| S. M. Houghton, E. Knobloch, S. M. Tobias, M. R. E. Proctor, "Transient spatiotemporal chaos in the complex Ginzburg–Landau equation on long domains", Phys. Lett. A 374 (2010) 2030–2034 | https://eprints.whiterose.ac.uk/10731/ (university repository) | abstract, intro, lifetime results, conclusion | `supertransients.md` §3 | τ(L) = exp(AL + B), Poisson lifetimes, collapse only with non-periodic boundaries; reports Wackerbauer–Showalter and Tél–Lai |
+| T. Tél, Y.-C. Lai, "Chaotic transients in spatially extended systems", Phys. Rep. 460 (2008) 245–275 | sciencedirect.com | **not obtained** | `supertransients.md` §4 | the review; presumably where the heuristic is written out |
+| R. Wackerbauer, K. Showalter, "Collapse of spatiotemporal chaos", Phys. Rev. Lett. 91 (2003) 174103 | journals.aps.org | **not obtained**; via Houghton et al. | `supertransients.md` §3–4 | exponential lifetime in reaction–diffusion systems |
+| K. Kaneko, "Supertransients, spatiotemporal intermittency and stability of fully developed spatiotemporal chaos", Phys. Lett. A 149 (1990) 105 | — | **not obtained**; citation unverified | `supertransients.md` §4 | origin of the word |
