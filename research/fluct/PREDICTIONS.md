@@ -22,3 +22,10 @@ Made without looking at the cube's event log after the first peel. Inputs: cube-
 checkpoint, so (predictive, uncertainty of tau folded in as ~14 effective deaths):
 **second peel at generation median 2.60e9, 50% interval 2.556e9 .. 2.68e9, 90% interval 2.531e9 .. 2.89e9.**
 A direct clone run from `research/data/cube16_gen2525000000.gump` follows (next entry) but this entry stands as the prediction.
+
+## 2026-11-13T04:18:44Z — side-16 second plateau, direct clone run (supplements the fit-only entry above)
+64 copies of `research/data/cube16_gen2525000000.gump` (R = 40, vertex-centred, A = 630), one orbit flip each,
+Fleming-Viot restarts, T0 = 1000: **31 deaths in 2.54e9 replica-generations, tau = 8.2e7 (ln 18.22 +- 0.18)**,
+consistent with the fit-only 1.1e8. Predictive, alive at 2,525,000,000: median **2.58e9**, 50% 2.549e9 .. 2.64e9,
+90% **2.529e9 .. 2.78e9** (`python3 research/fluct/predict.py snap_cube16_gen2525000000 --now 2.525e9`).
+Still made without looking at the cube's event log after the first peel.
