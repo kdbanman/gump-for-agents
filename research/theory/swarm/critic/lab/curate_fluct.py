@@ -7,6 +7,8 @@ Kept for each hull R = 7, 9, 11, 13 (face area A = 30, 45, 63, 84):
   Tr_R[k, k']      one-step transitions of the population of a face from k < (A+1)//2 to k' (k' = 0: that face died),
                    over replicas with all 8 faces alive and age >= T0 = 200 (see qsd.py for the exact conditions)
   H_R[n]           histogram of the face population over measured living states (8 faces pooled)
+  J_R[n, n2]       joint histogram of the face population n and the population n2 of the layer beneath it
+                   (the next {111} layer inward), same states
   deaths_R, expo_R deaths and replica-generations of exposure (hazard per face = deaths / (8 * expo))
   prehist_R[s, n]  number of recorded deaths whose dying face had n live cells s generations before the death
                    (s = 0..64; row 0 is all at n = 0). From the `pre` array, which is too large to commit whole.
@@ -28,6 +30,7 @@ if __name__ == '__main__':
         assert int(z['deaths'][0]) == s[str(R)]['deaths'], "scratch tallies do not match the committed summary"
         out[f'Tr_{R}'] = z['Tr'].astype(np.int64)
         out[f'H_{R}'] = z['H'].astype(np.int64)
+        out[f'J_{R}'] = z['J'].astype(np.int64)
         out[f'deaths_{R}'] = z['deaths'].astype(np.int64)
         out[f'expo_{R}'] = z['expo'].astype(np.int64)
         pre = z['pre'][:, :, 0].astype(np.int64)                     # (deaths, 65); index 64 = the death
