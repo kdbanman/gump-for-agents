@@ -30,9 +30,8 @@ _Last updated 2026-11-13 by the lead._
   (its first pass already corrected several numbers the lead had been quoting: read E1–E11). The lead drives the
   rounds (`LEAD.md`, "The swarm"). Nothing in it is established until a fresh reader has audited it.
 - GPU session "Modal API" (see `LEAD.md`): pull request 8 reviewed and merged 2026-11-13 (notebook entry; review in
-  `research/audit/REVIEW-gpu-pr8.md`; corrected reading at the top of `research/gpu/README.md`). Fixes asked of
-  that session, not yet done: reword four statements, commit the negative controls, make failed checks exit
-  non-zero, refuse duplicate (vessel, seed) runs. Asked next: slab faces at A > 90, octahedral faces at A ≥ 165,
+  `research/audit/REVIEW-gpu-pr8.md`; corrected reading at the top of `research/gpu/README.md`). The fixes the review
+  asked for arrived as pull request 10 and are merged (lead spot-checked the diff). Asked next: slab faces at A > 90, octahedral faces at A ≥ 165,
   a longer cube-centred symmetric run (does the death rate really fall with age?).
 
 ## Next (lead's list; pick by judgment)

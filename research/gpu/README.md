@@ -20,8 +20,9 @@ Tags as elsewhere: **[measured]** (with the command), **[conjecture]**.
 > - "Aftershock for the first 0.01τ": the excess is double peels, the next layer dying within about 20 generations.
 > - Cube-centred symmetric runs (R = 43, 45): the death rate falls with age (p = 0.04, 0.01), so those τ are rates
 >   over the ages observed, not necessarily the long-run mean. Bears on the side-17 forecast.
-> - Still to fix here: `check.py` and the Modal check entry points exit 0 on a failed check; the negative controls
->   described below are not in the committed code; two runs with the same (vessel, seed) merge silently.
+> - The review's requested fixes (checks that exit non-zero on failure, committed negative controls, a guard against
+>   pooling duplicate runs, and the rewordings above) were made in pull request 10, merged the same day; the text
+>   below is the corrected one. The lead spot-checked the diff, not the Modal runs.
 > - Not checkable without a GPU: that the GPU executes the kernel as the CPU emulation does.
 
 ## Verdict

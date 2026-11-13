@@ -90,4 +90,4 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
 18. `research/fluct/qsd.py` over-counts exposure for symmetric soups below R = 30. Use the engine there, or fix
     its settle test.
 19. No single-state symmetry-reduced engine (needed for side 17 in reasonable time). GPU ensembles exist
-    (`research/gpu/`, needs Modal); its `check.py` exits 0 on failure and its negative controls are uncommitted.
+    (`research/gpu/`, needs Modal).
