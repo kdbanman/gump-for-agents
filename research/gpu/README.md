@@ -226,4 +226,8 @@ Anything that is "many independent replicas of one vessel, stopped at an event" 
   allowed; `facelaw.py` therefore returns a compact summary (exact per-T0 aggregates, age-binned deaths and exposure,
   raw death ages only if < 50,000). Keep other results small too.
 - Several `modal run`s started within seconds of each other hit "App create rate limit exceeded"; stagger them.
+- `modal run` ties a run to the local client: when this session's worker restarted (2026-11-13, 23:50Z) the
+  ephemeral apps of three running jobs stopped and their results were lost (≈ $2 of compute). Long runs now go
+  through the deployed app: `modal deploy research/gpu/modal_app.py` once, then `python3 research/gpu/jobs.py spawn
+  facelaw '{...}'` and later `python3 research/gpu/jobs.py collect` (call ids in `research/scratch/gpu/jobs.json`).
 - Budget: $30/month of Modal credits. `modal billing report --for "this month" --show-resources` shows the spend.
