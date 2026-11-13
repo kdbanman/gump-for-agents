@@ -57,3 +57,34 @@ quasi-stationary tail ratio p_k/p_{k+1}, averaged over 6 ≤ k ≤ 12, is **0.63
 the same slope of ln τ, which by relation (M) of journal 11.3 means the same tail slope.
 *Refuted if* the lag-3 or lag-4 mean differs from the hull's by more than 20%, or the tail ratio is outside
 0.57–0.69.
+
+## 2026-11-13, source, S-E1 and S-E2 (filed at the end of round 2)
+
+**S-E1. A deterministic automaton with an exactly known lifetime.** "2D rule over parity": cells (x, j), x ∈ Z_L,
+0 ≤ j ≤ H. Row 0 follows B34/S234 on the cross (it reads rows 1 and 2; nothing lies above it). Rows 1…H follow
+"alive next iff the number of live cross neighbours is odd" (row 0 counts as a neighbour of rows 1 and 2; rows
+beyond H read as dead). Start: every cell Bernoulli(½). A replica ends when row 0 is empty, or is censored at
+generation ⌊H/2⌋ (after that the reservoir is exhausted and the claim does not apply); so H ≥ 2 × (longest run
+wanted). Hazard h = deaths / exposure of row 0 over ages ≥ 30; τ = 1/h.
+*Prediction:* **ln τ = 6.4282 (L = 12), 7.6056 (L = 14), 8.6764 (L = 16)**, each within three sampling errors
+(3/√deaths), no other error; the hazard is flat in age; and from a row 0 with exactly one live cell the edge
+dies at the next generation with probability (3/4)⁵ = 0.2373.
+*Why (two lines):* a bulk rule that is permutive in each cell's neighbour two rows down delivers, to anything
+above it and whatever that writes back, fresh uniform bits for ever (source journal S2, Lemma 1); so row 0 is
+exactly the dice chain D2(L, ½; 1), whose τ the lab has computed exactly (`critic/lab/dice_w1.py 0.5 17`).
+*Refuted if* any of the three differs by more than three sampling errors. (This tests the lemma, the lab's
+eigenvalue and the experiment at once; a miss would mean one of them is wrong.)
+
+**S-E2. The face does not notice what the bulk is, six layers down.** Gump's driven-face model on periodic faces
+with the dice at density ½ instead of the bulk density: D3(face 3 × 4, ρ = ½; w = 6) and D3(face 4 × 4, ρ = ½; w = 6)
+(`gump_slab_model(a, b, 6)` of `research/theory/exponent/xp.py` with its noise density set to 0.5; by Lemma 1 this
+is the law of the deterministic automaton "gump in the top six layers over a parity bulk").
+*Prediction:* **ln τ = 7.40 ± 0.08 at A = 36 and 9.94 ± 0.08 at A = 48**: the deterministic slab's own values
+(7.398, 9.936), although the layers beneath now have density 0.5 and no correlations at all. The 2D analogue,
+D2(L, ½; 8): **7.43 ± 0.04 at L = 16, 9.16 ± 0.05 at L = 20**.
+*Why (two lines):* what a face does beyond period 2 is paid for by overcrowding within a few layers of it
+(source journal S5, Lemma 4), and a cell forwards what lies beneath it only when its count sits at the threshold
+or at the cap (S9, Lemma 5); the exponent study found no dependence on the dice density at depth 8 in 2D (its F9).
+So the randomness a face uses is made in the layers just beneath it by the true rule, and a parity automaton
+below depth six is as good a bulk as gump's own (Conjecture S, journal S12).
+*Refuted if* either gump value is off by more than 0.2 nats from the slab's.
