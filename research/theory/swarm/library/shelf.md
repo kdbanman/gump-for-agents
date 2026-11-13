@@ -85,3 +85,39 @@ How to read the notes: each statement is tagged [paper], [secondary: X] or [abst
 | T. Tél, Y.-C. Lai, "Chaotic transients in spatially extended systems", Phys. Rep. 460 (2008) 245–275 | sciencedirect.com | **not obtained** | `supertransients.md` §4 | the review; presumably where the heuristic is written out |
 | R. Wackerbauer, K. Showalter, "Collapse of spatiotemporal chaos", Phys. Rev. Lett. 91 (2003) 174103 | journals.aps.org | **not obtained**; via Houghton et al. | `supertransients.md` §3–4 | exponential lifetime in reaction–diffusion systems |
 | K. Kaneko, "Supertransients, spatiotemporal intermittency and stability of fully developed spatiotemporal chaos", Phys. Lett. A 149 (1990) 105 | — | **not obtained**; citation unverified | `supertransients.md` §4 | origin of the word |
+
+## 6. Probabilistic cellular automata
+
+| source | where read | read | notes | why it matters |
+|---|---|---|---|---|
+| J. L. Lebowitz, C. Maes, E. R. Speer, "Statistical mechanics of probabilistic cellular automata", J. Statist. Phys. 59 (1990) 117–170 | https://link.springer.com/article/10.1007/BF01015566 | abstract (paywalled) | `pca.md` §1 | space-time histories of a PCA as a Gibbs state in d + 1 dimensions; large deviations; high-noise uniqueness |
+| I. Marcovici, M. Sablik, S. Taati (as in section 5) | https://arxiv.org/abs/1712.05500 | §2.2–2.4, §3.2 | `pca.md` §2 | explicit high-noise criterion p_? < p_c(N) by comparison with directed percolation |
+| J. Mairesse, I. Marcovici, "Around probabilistic cellular automata", Theoret. Comput. Sci. 559 (2014) | sciencedirect.com; hal-01194762 (no file) | **not obtained** | `pca.md` §3 | the survey |
+
+## 7. Threshold networks
+
+| source | where read | read | notes | why it matters |
+|---|---|---|---|---|
+| C. J. Kuhlman, H. S. Mortveit, D. Murrugarra, V. S. A. Kumar, "Bifurcations in Boolean networks", arXiv:1108.2974 | https://arxiv.org/abs/1108.2974 | intro, §3.1, appendix (statement) | `threshold-networks.md` | English statement of the Goles–Olivos period-two theorem for a real symmetric matrix; bi-threshold extension |
+| E. Goles, P. Montealegre, M. Ríos-Wilson, S. Sené, "Dynamical stability of threshold networks over undirected signed graphs", arXiv:2309.01854 | https://arxiv.org/abs/2309.01854 | §4.1 | `threshold-networks.md` | attributions of period two and of the energy |
+| E. Goles, J. Olivos, "Periodic behaviour of generalized threshold functions", Discrete Math. 30 (1980) 187–189; and "Comportement périodique des fonctions à seuil binaires et applications", Discrete Appl. Math. 3 (1981) 93–105 | sciencedirect.com | **not obtained** (bot wall) | `threshold-networks.md` | the primaries behind T5 |
+| E. Goles-Chacc, F. Fogelman-Soulié, D. Pellegrin, "Decreasing energy functions as a tool for studying threshold networks", Discrete Appl. Math. 12 (1985) 261–277 | sciencedirect.com | **not obtained** | `threshold-networks.md` | the energy and transient bounds; the 26N + 1 bound in T5 is unverified against it |
+| E. Goles, S. Martínez, *Neural and Automata Networks* (Kluwer 1990) | — | **not obtained** (book) | `threshold-networks.md` | — |
+
+## 8. Quasi-stationary distributions
+
+| source | where read | read | notes | why it matters |
+|---|---|---|---|---|
+| S. Méléard, D. Villemonais, "Quasi-stationary distributions and population processes", Probab. Surv. 9 (2012) 340–410; arXiv:1112.4732 | https://arxiv.org/abs/1112.4732 | §2.1, §3 | `qsd.md` | QSD ⇔ QLD; exact exponential law from a QSD; finite-state existence and uniqueness; relaxation versus extinction time |
+| J. N. Darroch, E. Seneta, "On quasi-stationary distributions in absorbing discrete-time finite Markov chains", J. Appl. Probab. 2 (1965) 88–100 | — | **not obtained**; via Méléard–Villemonais | `qsd.md` | the original finite-chain theorem |
+| P. Collet, S. Martínez, J. San Martín, *Quasi-Stationary Distributions* (Springer 2013) | — | **not obtained** (book) | `qsd.md` | — |
+
+## Could not be reached at all (for whoever has a browser)
+
+Project Euclid (bot wall): Bramson–Neuhauser 1994; Liggett–Schonmann–Stacey 1997; Abadi 2004.
+ams.org (bot wall): Pianigiani–Yorke 1979; Kleveland 1997; Moran 1995.
+sciencedirect.com (bot wall): Tél–Lai 2008; Kaneko 1990; Goles–Olivos 1980, 1981; Goles et al. 1985;
+Ginosar–Holzman 2000; Mairesse–Marcovici 2014. journals.aps.org (bot wall): Crutchfield–Kaneko 1988;
+Wackerbauer–Showalter 2003. Paywalled: Mountford 1999; Cassandro et al. 1984; Schonmann 1985;
+Lebowitz–Maes–Speer 1990; Nisan 1992; Pivato's survey; the books. The first three groups are open access to a
+person; I did not try to get round the walls.

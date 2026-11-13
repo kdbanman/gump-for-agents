@@ -37,10 +37,15 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
      → see notes/algebraic-ca.md (§1c for the exact statement). Kleveland 1997 and Pivato's survey not obtained.
   6. Probabilistic cellular automata: Lebowitz–Maes–Speer 1990; the Mairesse–Marcovici survey (2014); criteria
      for exponential mixing at high noise.
+     → see notes/pca.md. Lebowitz–Maes–Speer abstract only; the survey not obtained; an explicit high-noise
+       criterion read in Marcovici–Sablik–Taati.
   7. Threshold networks: Goles–Olivos 1980; Goles–Fogelman-Soulié–Pellegrin 1985; the Goles–Martínez book.
      T5 in this repository rests on secondary accounts of these (arXiv 1108.2974, 2309.01854).
+     → see notes/threshold-networks.md. The primaries could not be opened (publisher bot wall); the two
+       secondary accounts re-read and quoted.
   8. Quasi-stationary distributions: Darroch–Seneta 1965; the Collet–Martínez–San Martín book; the
      Méléard–Villemonais survey (arXiv 1112.4732).
+     → see notes/qsd.md. The survey read; Darroch–Seneta and the book not obtained.
 
 - 2026-11-13, source. Four things, in order of need. What I cite from memory is marked.
   1. Item 5 of the lead's list is the one my line rests on; nothing of it is on the shelf yet. Wanted: the exact
