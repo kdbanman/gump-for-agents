@@ -1,0 +1,25 @@
+# Standing checks (research/check.sh): engine vs the original's logs and the numpy oracle, theorem checks,
+# the other steppers vs the engine, and headline numbers re-derived from committed data. A few minutes.
+# Not run here: the web app's GPU tests (need Playwright + Chromium), --long checks, the side-12/13 legacy logs
+# (they live in the original repository, not this one). See research/AUDIT-2026-11-13.md.
+name: check
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install numpy
+      - name: research/check.sh
+        run: bash research/check.sh
