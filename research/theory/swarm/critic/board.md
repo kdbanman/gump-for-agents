@@ -1,7 +1,7 @@
 # Board (critic)
 
-_Kept by the critic. Last update: 2026-11-13, after the reply to path's round 2 (source's round 2 report is
-written and not yet read). Scripts named here are in `critic/lab/`; run them from that directory. "Checked" means I
+_Kept by the critic. Last update: 2026-11-13, after the replies to path and source, round 2 (counting's round 2
+report is written and not yet read). Scripts named here are in `critic/lab/`; run them from that directory. "Checked" means I
 re-derived or recomputed it; "read" means I compared the statement with its source and did nothing more.
 Proofs and commands behind every "checked" are in `critic/journal.md`._
 
@@ -10,9 +10,9 @@ Proofs and commands behind every "checked" are in `critic/journal.md`._
 | who | directory | toolkit | state |
 |---|---|---|---|
 | probability | `swarm/probability/` | dice in place of chaos: particle systems, coupling, percolation, contours | round 1 answered (`to-probability.md`) |
-| counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | round 1 answered (`to-counting.md`) |
+| counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | round 1 answered (`to-counting.md`); round 2 written, reply pending |
 | path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | rounds 1, 2 answered (`to-path.md`) |
-| source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | round 1 answered (`to-source.md`); round 2 written, reply pending |
+| source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | rounds 1, 2 answered (`to-source.md`) |
 | librarian | `swarm/library/` | primary papers: `shelf.md` (one line per source), `notes/`, `requests.md` (append-only, anyone) | first pass finished: 59 sources, ten notes files |
 
 Where lines could meet, which I watch: the probability of an empty edge under a product measure (a transfer
@@ -248,6 +248,10 @@ None of these changes the problem. Each is a number or sentence a proof could le
 | a deterministic relative that is a dice model exactly: true rule in the top w layers over a deep-permutive bulk, feedback allowed (R_w(Q), "gump on parity") | source (Lemma 1) | proved, checked. Needs a half-infinite reservoir |
 | the death law of a face depends on the bulk only through the equal-time conditional law κ_t of the two layers beneath given the w layers above; a class 𝒦 of such kernels on which the dice theorem holds (Aim B) | source (Lemma 3, C9) | Lemma 3 proved, checked; 𝒦 is a goal, nothing proved |
 | entropy accounting: what a finite vessel cannot supply | source (Lemma 2) | proved; excludes conditioning on the whole past only (reply, item 2) |
+| any probabilistic automaton with rational local randomness is the top of a deterministic one; in particular the probability line's anchor; the relative has an exact quasi-stationary law (C1′, C1″) | source | proved, checked. **With probability's Theorem A: a deterministic automaton on a half-plane for which e^{cL} ≤ τ_L is a theorem (modulo the two cited percolation facts)** |
+| equal-time finite energy of the drive given the face, in units (edge cells; cube triples): E[δ^F; killable] ≤ h ≤ E[θ^F]; lifetime ≤ g·δ^{−gU} (Theorems H, U) | source | proved, checked, as conditional statements. The hypotheses fail strictly in the one vessel where they can be tested (lab L6.5); g = 2 on four faces |
+| the last cell: dice of density ρ give P(death) = (1 − 3ρ³ + 3ρ⁵ − ρ⁶)(1 − ρ³)⁴; gump's measured row from one cell is that of ρ ≈ 0.52 | source (C13, C14) | formula proved, checked; the fit holds across the whole row (lab L6.1); but the layer beneath a nearly empty face is poorer than usual, not richer (lab L6.2) |
+| screening: beyond some depth the exponent does not depend on the drive, so gump and "gump on parity" share it (Conjecture S) | source | guess; no exact support at depth 2 (lab L6.3) |
 | threshold lemma with weights decaying in space; a threshold bulk is not a source | source (Lemma 4, Cor. 4a, 4b) | proved, checked; constants poor (C_U ≈ 1.4×10⁶ per cell) |
 
 ## Graveyard: ideas already tried here and dropped, with the reason
@@ -377,6 +381,22 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
   has entropy rate zero at any finite set of cells. Statement and proof: `source/journal.md` S5.
 - **Starvation** (checked, two lines): in a face with at most three live cells no live face cell is overcrowded
   (k ≤ 2, b ≤ 3). So in a death from n ≤ 3 (94% of gump's measured deaths) every cell dies with n ≤ 2.
+- **Monotone comparison for a projected statistic** (source, round 2 report; checked, two lines): if q is a
+  stochastically monotone kernel on {0, …, A} with 0 absorbing and every true one-step row dominates it,
+  K_t(n, ·) ⪰ q(n, ·) for all t and n, then the law of the statistic at time t dominates λ₀qᵗ, so
+  P(T > t) ≥ P_q(T > t); with ⪯ the reverse. No Markov property of the statistic is needed (it uses the
+  Markovian projection). An alternative to a certificate for Theorem P̄.
+- **Frozen cells** (source Lemma 5; checked): a cell with one unknown neighbour (the deep one) is determined one
+  generation ahead unless k + x = 3 or k = 5 (2D: k + x = 2 or k = 4): the threshold and the cap are the only
+  contexts in which a cell passes on what lies beneath it.
+- **Finite energy of the drive** (source Theorems H, U; checked as conditional statements). Units = edge cells
+  (2D) or cube triples (gump); F = number of units whose fate depends on their drive. If, given the face and the
+  drives of the other units, each unit's drive avoids its death set with probability ≥ 1 − θ, then h ≤ E[θ^F];
+  if every drive value has conditional probability ≥ δ, then h ≥ E[δ^F; no unit locked] ≥ δ⁵·P(n = 1), and the
+  lifetime is ≤ g·δ^{−gU} with g the depth of the face game. For dice these hold with δ = min(ρ, 1 − ρ)² (2D).
+- **The last cell under dice** (source C13; checked by enumeration): a lone interior cell of a gump face over
+  product dice of density ρ dies with probability (1 − 3ρ³ + 3ρ⁵ − ρ⁶)(1 − ρ³)⁴ and has 7ρ³ cells next on average
+  (2D: (1 − ρ²)⁵ and 5ρ²).
 - **Markovian projection** (source Lemma 3; checked): for any process and any map π to a finite set, the law of
   π(ω_t) evolves by the one-step kernels K_t(s, s′) = P(π(ω_{t+1}) = s′ | π(ω_t) = s); the hitting time of an
   absorbing set has exactly the law of the absorption time of the inhomogeneous chain (K_t). For a face: K_t is
@@ -389,7 +409,9 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
   value consumes the fresh initial cell p + te. **With feedback** (source Lemma 1; proof checked; exact check on
   a 3 × 7 box): if the bulk below depth w is permutive in each cell's deep neighbour (two layers in), the top w
   layers run the true rule and the bulk may read them, then from (any law) ⊗ (uniform) the top w layers are
-  exactly the dice chain D2 / D3 with ρ = ½. Literature (`library/notes/algebraic-ca.md`, read in the note): the
+  exactly the dice chain D2 / D3 with ρ = ½; with any local rule on top, any chain driven by fresh uniform
+  symbols (so any rational law π in E₁(π), by two decoder rows reading one symbol), and started from
+  (quasi-stationary law) ⊗ uniform the wait is exactly geometric (source C1′, C1″; checked). Literature (`library/notes/algebraic-ca.md`, read in the note): the
   one-dimensional bipermutive statement is Shereshevsky–Afraimovich / Sablik / Pivato (r − l adjacent columns);
   no published statement of exact independence in dimension ≥ 2 was found, so both lemmas here stand on their
   own proofs.
@@ -404,7 +426,8 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 - **The 2D edge game** (`exponent/theorems.md` B; proof read and found correct; brute force re-run to L = 11):
   with the rows beneath chosen freely, every edge configuration on a ring of L ≥ 5 can be emptied in three
   generations, and the lone triple (L ≥ 9) not in two. **The gump face game** (checked, exact): every
-  configuration of the hull faces R = 3 and R = 5 can be emptied in two generations; larger faces unknown.
+  configuration of the hull faces R = 3 and R = 5 and of the periodic faces 2 × 2 and 3 × 2 can be emptied in two
+  generations; larger faces unknown.
 - **Upper bounds of the right form** (theorems.md B′, C; correct, trivial): noisy rule E T ≤ ε^{−L}; driven edge
   E T ≤ 3δ^{−3L}. No lower bound of the form e^{cL} is proved anywhere in the repository.
 - **Darroch–Seneta** (theorems.md D; finite-matrix proof given there, read): from a quasi-stationary law of a
@@ -474,6 +497,11 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 | L5.4 | path LR7: tail slopes; the histogram against its own parabola | slope of ln p_k at k = 12: 0.372, 0.444, 0.485, 0.555 ± 0.05 at A = 45, 63, 84, 108; A ≥ 135 not measurable. A = 84: the histogram leaves its parabola near n = 28 and its slope is below both the parabola's and the tail's down to n ≈ 14. ln p(mean) − ln p(1) = 10.55, 14.85 at A = 63, 84; relation (M) gives 11.47, 16.41 | `path_r2.py lr7` |
 | L5.5 | path LR8′: empty-window probabilities under the exact quasi-stationary law of D2(0.472) | segment of 18: corner decrement 0.508, 0.475, 0.486, 0.504, 0.518, 0.529 at ℓ = 3…8 (at ℓ = 4: 0.535, 0.498, 0.482, 0.475 for 12, 14, 16, 18 cells); ring of 18 and centred windows: 0.605–0.610 at ℓ = 3…8 | `path_r2.py lr8` |
 | L5.6 | checks for path round 2 | Theorem P̄ on the worked walk; Proposition R on four graphs, every start; Corollary 4a's inequalities on hulls R = 7, 9, 11 | `path_r2.py pbar`, `deep` |
+| L6.1 | source L4, L5: the row from one cell | measured P(n′ = 0…4 \| n = 1): 0.384, 0.355, 0.175, 0.070, 0.014 (A = 45); 0.377, 0.353, 0.181, 0.069, 0.016 (A = 63); dice at ρ = 0.52: 0.367, 0.378, 0.179, 0.059, 0.015; at ρ = ½: 0.4122 (108,045 of 2¹⁸ drive patterns), 0.3729, 0.1565, 0.0465; at 0.4155: 0.6065, 0.3035, 0.0737, 0.0141 | `source_r2.py l4`, `l5` |
+| L6.2 | source L4: density of the A cells one layer beneath a face of n cells (curated `J`) | n = 1, 3, 6, 12, mode: 0.329, 0.310, 0.327, 0.362, 0.438 (A = 45); 0.363, 0.342, 0.339, 0.350, 0.445 (A = 63); 0.394, 0.360, 0.354, 0.347, 0.446 (A = 84) | `source_r2.py l4` |
+| L6.3 | source L6: D2(L, ρ; w) at ρ = 0.30, 0.472, 0.60 | w = 1: 7.8410, 8.6350, 8.4511 at L = 16 (spread 0.79; 0.21 at L = 8). w = 2: 3.5793, 3.9535, 3.9906 at L = 8 (spread 0.41); 2.2983, 2.3191, 2.1890 at L = 5. At equal L = 5…8 the spread is 0.13, 0.22, 0.31, 0.41 at w = 2 against 0.13, 0.10, 0.13, 0.21 at w = 1 | `source_r2.py l6` |
+| L6.4 | source L7: face game on periodic gump faces | 2 × 2: 2,661 emptied in one generation, 1,434 in two; 3 × 2: 112,743 and 149,400; none in more | `source_r2.py l7` (5 min) |
+| L6.5 | source L8: conditional law of the two cells beneath an edge cell given the edge and the other cells' drives, 2D strip 4 × 6 | t = 0: P(death set) ∈ [0.18, 0.82] in every context; t = 3, 5, 8, 10: exactly 0 or 1 in 39%, 63%, 83%, 90% of contexts (8.7%, 19%, 37%, 56% of the mass) | `source_r2.py l8` |
 | L1.6 | refits of the empty-window decrement (committed `gap.json`) | limit 0.348 (c/ℓ), 0.355 (e^{−ℓ/20}), 0.370 (c/ℓ²), 0.373 (e^{−ℓ/10}) on ℓ = 20…38, all acceptable | `path_r1.py data` |
 
 ## The lab: what it can do, how to ask

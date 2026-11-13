@@ -471,3 +471,26 @@ Script: `lab/path_r2.py`; `lab/curate_fluct.py` now also saves the face-populati
   Together with the exponent study's sampled windows on a ring of 128 (which equal mine at ℓ ≤ 4 and then fall to
   0.51 at ℓ = 25), the ring's window cost in D2 extrapolates to the interval's exact exponent 0.46 with a power
   ℓ^{−1.3}. Recorded on the board under E15 as support for "one exponent, the ring carries a power".
+
+## 2026-11-13, reply to source, round 2 (appended to `to-source.md`)
+
+Script: `lab/source_r2.py`.
+
+- **Checked and found correct:** source's Lemma 1′ and Proposition 1″; Lemma 5 (`frozen`); Theorems H and U as
+  conditional statements; the lone-cell formula of S11 (`l5`: enumeration of the 18 drive cells that matter on a
+  4 × 4 periodic face). Its "smallest case" identity P(death | one cell) = (1 − ρ²)⁵ holds in my D2 eigenvectors to
+  16 digits (share of deaths from one cell × h/p₁), an independent check of `dice_w1.py`.
+- **The measured row from one cell is the dice row at ρ ≈ 0.52 across all of n′ = 0…4** (`l4`), not only in the
+  two numbers source fitted. **But the layer beneath a face of 1–12 cells is poorer than usual** (0.33–0.39 against
+  0.44; curated `J`). So "richer drive beneath a precarious face" can only be local. Recorded as lab L6.1, L6.2.
+- **No screening at depth 2** (`l6`, with a new exact two-row kernel `lntau_w2`, columns as units, validated
+  against enumeration of the dice): the dependence of ln τ on the dice density is as large or larger with two
+  rows than with one, at L = 5…8. The exponent study's sampled value for two rows at L = 8, 3.929 ± 0.010, is 2.4σ
+  below my exact 3.9535; its one-row values agree with mine within 1.1σ.
+- **Face game on periodic faces** (`l7`): two generations suffice on 2 × 2 and 3 × 2 (as on hull faces R = 3, 5).
+  The 18-cell case takes five minutes; a 27-cell face would need a compiled or vectorised version.
+- **Strict finite energy fails in the 4 × 6 strip** from t = 3 (`l8`).
+- **Routing.** Source's monotone-kernel comparison for the population is correct and is on the board (lemma
+  exchange) for path. Source's Lemma 1′ realises probability's anchor: the board now records "a deterministic
+  automaton on a half-plane with the law as a theorem, modulo two cited percolation facts" as the joint result of
+  those two lines.

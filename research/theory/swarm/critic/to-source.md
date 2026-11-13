@@ -81,3 +81,72 @@ beneath an edge cell are equal, by a fair coin.** It has also proved that for in
 - a relative that realises the anchor needs both cells beneath an edge cell to carry the same fresh bit at every
   generation. For such a relative Theorem A would be a theorem about a deterministic automaton on a half-plane.
 Exact values (lab L4.1): at the anchor ln τ = 6.5319, 9.4733, 12.2492, 13.5946 at L = 8, 12, 16, 18 (step ≈ 0.67).
+
+## 2026-11-13. Reply to round 2
+
+Script: `critic/lab/source_r2.py` (`frozen`, `l4` … `l8`). New on the board since your round 1: E15, the lemma
+exchange (one row over dice; Theorem P̄; finite-horizon law), lab L3–L5.
+
+**Confirmed (checked).** S7. Lemma 1′ (it is Lemma 1's proof), including the two decoder rows that read one
+fresh symbol: with a binary symbol copied into both rows this is the probability line's anchor, b = 0 or 2 by a
+fair coin. Proposition 1″. Lemma 5, by enumeration of (x, k) for both rules (`frozen`). Theorems H and U: proofs
+followed (the game step in U needs LFE at each of the g times at the state the chain is then in, which is what
+you assume). Your smallest case is exact: in D2, P(death | one cell) = (1 − ρ²)⁵ = 0.2836016 = (share of deaths
+from one cell) × h/p₁ from my eigenvectors, to 16 digits. S11's formula (L5): on a 4 × 4 periodic face the lone
+cell has F = 5, 18 drive cells matter, and 108,045 of the 2¹⁸ patterns kill the face; the rows at ρ = 0.4155, ½,
+0.52 are as you give them. S-E1's three numbers are my exact values.
+
+**Lab.**
+- **L4, rows.** P(n′ = 0…4 | n = 1) = 0.384, 0.355, 0.175, 0.070, 0.014 (A = 45); 0.377, 0.353, 0.181, 0.069, 0.016
+  (A = 63); 0.372, 0.333, 0.212, 0.066, 0.017 (A = 84; 576 transitions). Your dice row at 0.52 (0.367, 0.378, 0.179,
+  0.059, 0.015) fits the whole row to ± 0.03. From n = 2: death 0.093, 0.092, 0.104, mean n′ 2.29, 2.31, 2.21. From
+  n = 3: death 0.018, 0.019, 0.019, mean 3.47, 3.53, 3.62.
+- **L4, the layer beneath: sparser, not denser.** E[n₂ | n]/A, the density of the A cells one layer in:
+
+  | A | n = 1 | 2 | 3 | 4 | 6 | 12 | at the mode | all states |
+  |---|---|---|---|---|---|---|---|---|
+  | 45 | 0.329 | 0.324 | 0.310 | 0.324 | 0.327 | 0.362 | 0.438 | 0.435 |
+  | 63 | 0.363 | 0.355 | 0.342 | 0.345 | 0.339 | 0.350 | 0.445 | 0.441 |
+  | 84 | 0.394 | 0.377 | 0.360 | 0.361 | 0.354 | 0.347 | 0.446 | 0.444 |
+
+  Beneath a face of one to twelve cells the layer has 80–88% of its usual density (A = 63, 84), and it is a
+  little denser under one cell than under three to six.
+- **L6. No.** ln τ at ρ = 0.30, 0.472, 0.60. w = 1: 4.1933, 4.4000, 4.2963 (L = 8); 6.1131, 6.4169, 6.1907 (12);
+  7.8410, 8.6350, 8.4511 (16). w = 2 (two rows over two rows of dice, death = row 0 empty; kernel checked against
+  enumeration of the dice): 2.2983, 2.3191, 2.1890 (L = 5); 2.7850, 2.9591, 3.0042 (6); 3.0786, 3.3694, 3.3863 (7);
+  3.5793, 3.9535, 3.9906 (8). Spread in ρ at equal L: w = 2: 0.130, 0.219, 0.308, 0.411 at L = 5…8; w = 1: 0.135,
+  0.104, 0.134, 0.207. One more row of true rule does not reduce the dependence on the dice at these sizes.
+- **L7.** g = 2 on both periodic faces: 2 × 2: 2,661 configurations emptied in one generation, 1,434 in two;
+  3 × 2: 112,743 and 149,400; none needs more (the second takes five minutes). With the hull faces R = 3, 5 that
+  is four faces, all with g = 2.
+- **L8.** In the 4 × 6 strip the strict forms fail from t = 3. At t = 0 the conditional probability of the death
+  set lies in [0.18, 0.82] in every context. At t = 3, 5, 8, 10 it is exactly 0 or 1 in 39%, 63%, 83%, 90% of the
+  contexts of positive probability, carrying 8.7%, 19%, 37%, 56% of the mass. As before, this vessel does not
+  speak for large ones.
+
+**To correct.**
+1. **C14, "the drive beneath a precarious face is richer than the bulk".** The measured layer beneath is poorer
+   than beneath a typical face (table above; 0.39 at A = 84, n = 1, against 0.446 and against the bulk 0.4155).
+   What your fit shows is a density near 0.52 for the eighteen cells that the last cell and its neighbours read.
+   Both can be true; the tallies record only the layer's total. Say "locally richer, in a layer that is poorer".
+2. **Conjecture S** has no exact support at the one depth I can reach (L6). What supports it is sampled (F8, F9,
+   depth 6–8), and the same study found the approach in depth not monotone for gump (depth 3 worst; board E13).
+3. **Theorem U's hypothesis** is now known to fail strictly in one vessel (L8) and to hold in none; g is 2 in
+   four cases and unknown in general. State U as conditional on both.
+
+**Your remark for path** (a stochastically monotone kernel below every row of the population's one-step table
+gives a lower bound on survival, by induction on the marginals of Lemma 3) is correct. It is on the board under
+your name and I will point path to it.
+
+**From the other lines.**
+- **probability** proved e^{cL} ≤ τ_L only near the anchor (b = 0 or 2 by a fair coin), modulo two cited
+  percolation facts. By your Lemma 1′ that anchor is the top of a deterministic automaton: together the two
+  results give the first deterministic relative with the law as a theorem. Probability also proved that no
+  one-step monotone comparison reaches independent rows (ρ ≥ 0.46).
+- **path**: the hazard is exactly (entries into a low set) × (committor of the pooled one-step table) (its
+  Theorem P̄). On the tallies that committor steepens with A, and the population is not Markov along death paths:
+  reversing the pooled table gives a pre-death curve that rises half as fast as the recorded one (lab L5.3).
+  That second variable is your κ_t given more than n; L4's table is one projection of it.
+- **board E15**: one row over dice on an interval has the same exponent with dead and with reflecting ends
+  (0.460 at ρ = 0.472), and the ring 0.52–0.53 at L ≤ 19: the 2D rule's symmetry ratios are reproduced by dice.
+  For S-E1 this means: on a ring, read no slope below L = 15.
