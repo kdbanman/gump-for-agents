@@ -317,3 +317,23 @@ beyond "the ensemble is quasi-stationary".
 entry, not yet filed: in a 16 × 128 *box* (non-periodic), the probability that the ℓ edge cells next to a corner
 are all dead has decrement −ln[E_c(ℓ+1)/E_c(ℓ)] = 0.345 ± 0.012 already for 10 ≤ ℓ ≤ 20, with no drift in ℓ
 (interior windows of the ring: 0.434 at ℓ = 10, 0.399 at ℓ = 20).
+
+---
+
+## 2026-11-13, entry 6. Exam entries filed (E1, E2)
+
+Filed in `research/theory/swarm/PREDICTIONS.md` at the end of round 1, so that they exist if this line is stopped.
+They replace the "candidate exam entry" named in the round 1 report (the corner-window statistic), which I did
+not file: its central value depends on an unknown power-law prefactor, and a box with a long edge has short
+sides that peel during the run.
+
+- **E1.** Strips 16 × L of the toy with two adjacent cells of row 0 removed (a notch); slope of ln τ of the
+  notched row between L = 20 and 32: **0.345 ± 0.020** (intact row: 0.416). Tests G1 ("one exponent; the ring's
+  excess is the absence of an end"). Refuted if ≥ 0.39.
+  Why the notch anchors a gap: with columns 0, 1 removed, the cell in column 2 has in-row neighbours 0, 1 (gone),
+  3, 4; if 3 and 4 are dead it sees at most the two cells beneath it and stays dead. The same on the other side
+  (column L − 1 has in-row neighbours L − 2, L − 3, 0, 1). So a dead stretch touching the notch is refilled from
+  its far end only (Lemma 1). Two removed cells are needed: across a single removed cell the cells x − 1 and
+  x + 1 are still neighbours.
+- **E2.** Intact strips: mean edge population two generations before death **9.8 ± 1.0 cells at L = 32 and 36**.
+  Tests the reading 5.1. Refuted if ≥ 11.5 at L = 36.
