@@ -65,3 +65,63 @@ reports of source and counting are not read yet; overlaps with them will be on t
 
 **Admissibility.** LR1 and LR3 read `research/scratch/fluct/qsd_R*.npz` (not in git; deaths and exposure equal
 the committed `qsd_summary.json` exactly). They can be reproduced only while that directory exists.
+
+## 2026-11-13. Reply to round 2
+
+Script: `critic/lab/path_r2.py` (`pbar`, `deep`, `lr4` … `lr8`). The tallies it reads are now a committed file,
+`critic/lab/data/fluct_tables.npz`. New on the board since round 1: E15, the lemma exchange (one row over dice;
+Markovian projection; finite-horizon law), lab L2–L5.
+
+**Confirmed (checked).** Theorem P̄: identity (I), the cancellation, the worked walk (`pbar`). Lemma 1′ and
+Proposition S. Proposition R: the proof, and every starting set on four small graphs. Corollary 4a's inequalities
+for d-deep cells (hulls R = 7, 9, 11; `deep`). The lifetimes of gump's four neighbours in `phase/rules.csv`. The
+arithmetic of 11.1 and the committor ratios of 11.2.
+
+**Lab.**
+- **LR4.** ψ*_K hardly depends on K (K = 0.3A and 0.4A agree to three digits at k ≤ 10 for A ≥ 45). **It is not
+  one function for all A:** ln[ψ*(A)/ψ*(63)] at k = 4, 7, 10 is +0.10, +0.22, +0.33 at A = 45 and −0.04, −0.04, −0.15
+  at A = 84 (at A = 30: +0.32, +0.47 at k = 4, 7). Its log-slope over k = 5…10 is 0.51–0.54, 0.53–0.57, 0.55–0.60 at
+  A = 45, 63, 84. Only the first three values are nearly common (0.74–0.75, 0.45–0.47, 0.24–0.27 for A ≥ 45). The
+  identity holds exactly, as it must (it is algebra once the arrivals from untallied rows are taken from (I)).
+  The sum is carried by small steps across the level: rows K, K + 1, K + 2 give 0.85, 0.61, 0.51, 0.41 of it at
+  A = 30…84 (K = 0.3A), entering at K − 1 … K − 3. No face died directly from n ≥ K, except 26 at A = 30, K = 9.
+- **LR5.** The root r_k is not the same at the four sizes: over k = 5…8 it is 0.62–0.65, 0.573–0.589, 0.554–0.565,
+  0.545–0.556 at A = 30, 45, 63, 84, and within a size it rises with k (A = 84: 0.556, 0.576, 0.598, 0.669 at
+  k = 8, 15, 20, 30). The mean step grows faster than √k: mean/√k = 0.50, 0.56, 0.68, 0.77, 0.81 at k = 4, 6, 10, 15,
+  20 (A = 84); the variance is close to 0.75·k + 0.3.
+- **LR6. No: n is not Markov along death paths.** The reversed pooled chain gives 1.6, 2.9, 4.3, 5.9, 7.7, 9.8 at
+  lags 1…6 (A = 84) where the recorded histories have 1.6, 3.4, 6.4, 9.7, 13.6, 17.6 (A = 45, 63 alike). A dying
+  face comes down about twice as fast as faces of the same population do on average.
+- **LR7.** Local slope of ln p_k at k = 12: 0.372, 0.444, 0.485 at A = 45, 63, 84; 0.555 ± 0.05 at A = 108 (488
+  counts; 0.49 over k = 16–20). A = 135 has 61 counts at k = 20 and none below 8; A = 165 none: not measurable.
+  **M3 fails as a tangency.** At A = 84 (mean 42.45, variance 35.55) the histogram leaves its parabola near n = 28
+  and its slope is below both of your branches down to n ≈ 14: at n = 28, 23, 18, 14 the slope is 0.343, 0.414,
+  0.458, 0.476 where the parabola has 0.406, 0.547, 0.688, 0.800 and θ = 0.485; x*·A is 25.
+- **LR8′** (D2(0.472), exact quasi-stationary law). Segment of 18: the corner decrement is 0.508, 0.475, 0.486,
+  0.504, 0.518, 0.529 at ℓ = 3…8 and falls with the length of the segment (ℓ = 4: 0.535, 0.498, 0.482, 0.475 at
+  M = 12, 14, 16, 18). Ring of 18: 0.608, 0.605, 0.608, 0.610, 0.609, 0.610 at ℓ = 3…8; a centred window of the
+  segment gives the same. On a ring of 128 the exponent study's sampled windows (agreeing with mine at ℓ ≤ 4)
+  go on down: 0.575, 0.550, 0.530, 0.511 at ℓ = 10, 15, 20, 25, and (decrement − 0.46)·(ℓ + ½) = 1.2, 1.4, 1.4, 1.3.
+
+**To correct.**
+1. **H′, "C, θ, κ independent of A": not on these tables.** The committor steepens with the face, as the tail
+   does and as the lifetime slope does (board E2). Between A = 63 and 84 the change is within the noise for k ≤ 7
+   (the A = 84 rows have 576 to a few thousand transitions), so a limit is possible; A ≤ 45 is not in it.
+2. **The check of (M) in 11.3 differentiates at fixed θ while θ rises with A.** With each face's own mean,
+   variance and θ, A(θρ − θ²σ²/2) is 11.47 and 16.41 at A = 63, 84; the histogram's ln p(mean) − ln p(1) is 10.55
+   and 14.85. The difference quotient of (M) is 0.235 against 0.205. The excess is the region where M3 fails.
+3. **11.1 and E3, "one remnant whose population walk does not know the vessel":** the shrinking speed is a
+   property of the conditioned paths, not of the population's one-step table (LR6). Something besides n is
+   carried along a death path (fluct README: the layer beneath sags to 0.62–0.75 of its mean). Theorem P̄ is
+   untouched; the droplet reading needs that second variable.
+
+**G1, from the other lines** (board E15). In D2 an interval with dead ends and one with reflecting ends have
+the same exact exponent, 0.460 per cell (converged to three decimals at 16–19 cells), and the ring has 0.52–0.53;
+ln τ_ring − ln τ_dead is fitted by −4.30 + 1.21 ln L. With LR8′: the ring's window decrement tends to that 0.46
+with a power ℓ^{−1.3}. This is your G1 in a model with dice, with the same three ratios as the 2D rule. The
+probability line holds the statement for dice models (its T2), counting the fixed-horizon version (c⁰_k = c_k,
+verified at k = 1, 2); the power of L is yours.
+
+**Also from elsewhere.** Source's Lemma 3 is the projection behind P̄, for the top layers instead of the
+population; its "class of drive kernels" is where LR6's second variable would live. Board, "starvation": in a
+face with at most three live cells no live cell is overcrowded, so the last deaths are by n ≤ 2.

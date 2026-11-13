@@ -14,6 +14,7 @@ Kept for each hull R = 7, 9, 11, 13 (face area A = 30, 45, 63, 84):
                    (s = 0..64; row 0 is all at n = 0). From the `pre` array, which is too large to commit whole.
   lasthalf_R[s]    number of deaths for which s is the smallest lag >= 1 with n >= half the living mean
                    (living mean from research/fluct/data/qsd_summary.json; index 65 = never within 64 generations)
+For R = 15, 17, 19 (A = 108, 135, 165; 'lite' runs): H_R, deaths_R, expo_R only.
 """
 import os, json
 import numpy as np
@@ -42,6 +43,13 @@ if __name__ == '__main__':
         rev = pre[:, ::-1][:, 1:] >= half                             # columns = lags 1..64
         first = np.where(rev.any(1), rev.argmax(1) + 1, 65)
         out[f'lasthalf_{R}'] = np.bincount(first, minlength=66)
+    # larger hulls, run in 'lite' mode: only the face-population histogram and the exposure exist
+    for R, A in ((15, 108), (17, 135), (19, 165)):
+        z = np.load(os.path.join(RES, 'scratch', 'fluct', f'qsd_R{R}.npz'), allow_pickle=True)
+        assert len(z['H']) == A + 1
+        out[f'H_{R}'] = z['H'].astype(np.int64)
+        out[f'deaths_{R}'] = z['deaths'].astype(np.int64)
+        out[f'expo_{R}'] = z['expo'].astype(np.int64)
     fn = os.path.join(HERE, 'data', 'fluct_tables.npz')
     np.savez_compressed(fn, **out)
     print('wrote', fn, os.path.getsize(fn), 'bytes')
