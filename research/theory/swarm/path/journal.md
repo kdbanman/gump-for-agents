@@ -679,3 +679,102 @@ remnant is one object in every vessel. What could break it: in a hull the last r
 the rim (hull faces outlive slab faces of equal area by a constant factor 1.7–1.9, which I read as an anchoring
 of the last remnant, an O(1) effect); if so the hull's curve at lags 1–2 is a corner curve and the slab's will
 differ.
+
+---
+
+## 2026-11-13, entry 15. After the critic's reply to round 2: corrections, and two pieces of unfinished work
+
+Written when the group was paused; nothing here was sent to the lab. Lab ids are the board's.
+
+**15.1 Corrections (I accept all three).**
+- **H′, "C, θ, κ independent of A", is false on the tables** (lab L5.1): the committor ψ* of the pooled table
+  steepens with the face (log-slope over k = 5…10: 0.51–0.54, 0.53–0.57, 0.55–0.60 at A = 45, 63, 84). What the
+  critic's numbers do show: at fixed k, ψ*_A(k) *falls* as A grows (ln[ψ*(A)/ψ*(63)] = +0.32, +0.47 at A = 30;
+  +0.10, +0.22, +0.33 at A = 45; −0.04, −0.04, −0.15 at A = 84, for k = 4, 7, (10)). A lower bound on τ needs only
+  an inequality ψ*_A(k) ≤ C e^{−θ₀k} up to k = κA with one θ₀ > 0; a committor that is monotone in A would give
+  it from the smallest face. I have not tested monotonicity beyond these twelve numbers. Theorem P̄ is untouched.
+- **Relation (M) is withdrawn as a quantitative statement** (lab L5.4). Its tangency assumption M3 fails: at
+  A = 84 the histogram's slope lies below both branches from n ≈ 28 down to n ≈ 14; the formula is 0.9–1.6 nats
+  too large at A = 63, 84 and its difference quotient is 0.235 against 0.205. My check in 11.3 was wrong in the way
+  the critic says (it differentiated at fixed θ while θ rises with A). What survives is only the identity of
+  Theorem P̄, h = entries × ψ*, which makes the tail slope and the committor slope the same function up to the
+  rate at which a face of k cells moves on.
+- **"One remnant whose population walk does not know the vessel" (11.1, 11.2, the rationale of E3) is not
+  supported.** The pooled one-step table, reversed from the deaths, gives 1.6, 2.9, 4.3, 5.9, 7.7, 9.8 at lags 1…6
+  where the histories have 1.6, 3.4, 6.4, 9.7, 13.6, 17.6 (lab L5.3): a dying face comes down twice as fast as faces
+  of the same population do on average, so something besides n is carried along a death path. The reading
+  "√n falls by 0.59 per generation" stands as a statement about conditioned paths. E3 stays filed; its two
+  lines of reasoning are weaker than I wrote.
+
+**15.2 Unfinished: the exponent as an integral of local roots [guessed; arithmetic not done on the tables].**
+The critic's roots r_k of Σ_{k′} T̄(k, k′) r^{k′−k} = 1 (lab L5.2) are not one number, but θ = −ln r_k looks like a
+function of x = k/A for A ≥ 45: 0.60 (x = 0.08, A = 84), 0.59 (0.095, 84), 0.58 (0.10, 63), 0.54 (0.14, 45),
+0.55 (0.18, 84), 0.51 (0.24, 84), 0.40 (0.36, 84); A = 30 lies below (0.455 at 0.22). For a chain whose one-step
+law varies slowly with the level, the committor is ψ*(K) ≈ exp(−Σ_{k<K} θ_k) (the usual WKB evaluation), so with
+Theorem P̄ the law would read ln τ ≈ A·∫₀^ρ θ(x) dx. A straight line through the seven values, cut off at the mean
+density, integrates to about 0.21. This is eight numbers read off the critic's reply and a ruler; the sum
+Σ_k θ_k over the committed tables (`critic/lab/data/fluct_tables.npz`) is the first thing to compute. Also from
+L5.2: mean step ≈ 0.5–0.8·√k and variance ≈ 0.75·k, and 2·mean/variance reproduces the roots to about 5% at
+k = 10, 15, 20 (0.57, 0.53, 0.48 against 0.58, 0.55, 0.51). If this holds up, γ is the quasi-potential of the
+population's effective one-step dynamics, with drift and variance as its only inputs.
+
+**15.3 Unfinished: the power of L in one dimension (G1) [sketched model; mixed scorecard].**
+*Readings of committed data* (`research/theory/exponent/data/gap.json`, key `gap_H16_L128`, and the seven
+lifetimes of `research/toy2d/data/law_cross2_B34S234.json`; calculator fits, not new data):
+- ln E(ℓ) = c − gℓ − b ln ℓ, free b: (g, b) = (0.351, 0.97), (0.346, 1.09), (0.345, 1.13) on ℓ = 10–38, 15–38, 20–40.
+  With an offset, E ∝ (ℓ + ℓ₀)^{−b} e^{−gℓ} on ℓ = 8–40: b = 1: ℓ₀ = 1, g = 0.351, rms 0.0068; b = 3/2: ℓ₀ = 5,
+  g = 0.340, rms 0.0033; b = 2: ℓ₀ = 9, g = 0.331, rms 0.0020. **The file does not determine the power.** With
+  b = 3/2 the exponent is 0.340, the box-edge slope.
+- The ring's lifetime follows the window probability with *no* factor L: τ(L)·E(L − m)·L^p is constant over
+  L = 12…36 with χ² = 20 (p = 0, m = 6), 45 (p = ½), 248 (p = 1), on 7 points.
+*A mechanism.* For cells that are dead now let T(x) ≥ 0 be the number of generations x has been continuously
+dead (the death-age profile). Model: the weight of a profile is a product over neighbouring pairs of a
+symmetric function w(T(x+1) − T(x)), W = Σ_j w(j). Then, exactly or by standard random-walk facts (the last two
+cited from memory):
+  - a whole segment with free ends dying now (min T = 0): Σ = W^{L−1}, no power (each sequence of steps
+    corresponds to exactly one profile with minimum 0) **[proved, in the model]**;
+  - a whole ring dying now: W^L × P(the step walk returns to 0 after L steps) ~ L^{−1/2};
+  - a window of a long row, both ends next to living cells (ends pinned near 0, T ≥ 0): ~ ℓ^{−3/2};
+  - a window with one end at a dead wall (free there) and one pinned: ~ ℓ^{−1/2}.
+*Scorecard.* Segments: no power (exact in D2 to three decimals; straight laws in the 2D rule): **agrees**.
+Windows: the 2D rule fits (ℓ + 5)^{−3/2} e^{−0.340ℓ}; in D2 the sampled decrement minus 1.5/(ℓ + ½) is 0.432, 0.453,
+0.457, 0.452 at ℓ = 10, 15, 20, 25 against the exact 0.460: **compatible, not decided**. Rings: the model says
+hazard ≈ L × (window probability), which the 2D rule's seven lifetimes reject (χ² 248); and in D2 the ring's steps
+at L = 15–18 are level at 0.522–0.526, i.e. 0.062–0.066 above 0.460, where the return probability of any walk with
+geometric steps gives at most 0.040 (calculator, 0.02 ≤ u ≤ 0.3): **disagrees at every accessible size**. Corner
+windows in D2 (lab L5.5: 0.475 at ℓ = 4 on a segment of 18, still falling with the segment's length) are already
+near 0.46, not near 0.46 + 1/(2ℓ) = 0.57: **disagrees, at a small ℓ**.
+So the ordering "free ends: none; no free end: a power" comes out, and the powers do not. A reading I have not
+tested: at these sizes a ring dies in two or three generations (board E14), a flat profile, and its slope is
+the flash cost; the walk regime needs many steps of the profile. The object T(x) is, I believe, the height of
+the dual contour of the contact-process proofs (planar duality in `library/notes/contact-finite.md` §2), whose
+Ornstein–Zernike corrections are exactly these powers; I have not opened a source for that.
+
+---
+
+## Round 3 report (interim, paused)
+
+**Done.** The three corrections of 15.1 (H′ as stated false on the tables; relation (M) withdrawn; the remnant
+is a property of conditioned paths). `claims.md` is current. Exam entries E1, E2, E3 are in
+`swarm/PREDICTIONS.md` and I leave them as filed (E3 with the weaker rationale noted in 15.1).
+
+**Half-done.**
+- 15.2: γ = ∫₀^ρ θ(x) dx with θ(x) the local root of the population's one-step law. Missing: the sum over the
+  committed tables against −ln h at the four sizes; the collapse of θ in k/A; rows above A/2 (not tallied).
+- 15.3: the power of L. A profile model gives no power for free ends and powers for rings and windows; the
+  window fit is compatible, the ring is not at any accessible size. Missing: an exact test in D2 of whether the
+  death-age profile fluctuates at all (see below); a source for the contour reading.
+- H′ in its inequality form (ψ*_A(k) non-increasing in A): read off twelve numbers, not tested.
+
+**What my line has given, as I would rank it.** Proved and checked: the rim lemma and its sealed-set form
+(L1, L1′), Proposition S (every permanent loss is the extinction of a minimal sealed set), Theorems P and P̄
+(the hazard from a one-step table, no Markov property), Proposition R, R5. Conditional: "why area in a hull, a
+band in a wide slab" (S plus a hypothesis on refilling). Not achieved: a formula for γ; any theorem for gump
+or the 2D rule themselves.
+
+**Next, when resumed** (nothing started). (1) Lab: Σ_k θ_k and 2·mean/variance per row from
+`critic/lab/data/fluct_tables.npz`, summed to the mean, against −ln h; θ against k/A at the four sizes; ψ*_A(k)
+against A at fixed k. (2) Lab, exact in D2 on a ring of 16–18: the mean population 1…6 generations before death
+from the exact reversed chain, and the mean age of the central cell of an empty window of ℓ cells: O(1) (flash),
+growing (profile walk), or ∝ ℓ (fronts). (3) Library: Ornstein–Zernike corrections for the dual contour of the
+one-dimensional contact process in a strip, on a cylinder and in a half-plane.
