@@ -21,6 +21,13 @@ image = (modal.Image.from_registry('nvidia/cuda:12.4.1-devel-ubuntu22.04', add_p
 app = modal.App('gump-gpu', image=image)
 
 
+def _report(ok):
+    """print the verdict and fail the `modal run` (non-zero exit) if a check failed"""
+    print('remote checks:', 'ALL OK' if ok else 'FAILURES')
+    if not ok:
+        raise SystemExit(1)
+
+
 def _setup():
     sys.path.insert(0, f'{R}/research/gpu')
     os.chdir(R)
@@ -71,13 +78,14 @@ def check_every_remote(cases: bytes) -> bool:
     ok = True
     for kw in (dict(kernel='shared'), dict(kernel='shared', J=3, WB=2, blocks=6), dict(kernel='global')):
         ok &= check.check_engine_every('/tmp/cases.npz', 'gpu', 1024, **kw)
+    ok &= check.check_negative_controls('/tmp/cases.npz', 'gpu', 1024, kernel='shared')
     print('ALL OK' if ok else 'FAILURES', flush=True)
     return ok
 
 
 @app.local_entrypoint()
 def check_every(cases: str = f'{ROOT}/research/scratch/gpu/engine_cases.npz'):
-    print('remote checks:', 'ALL OK' if check_every_remote.remote(open(cases, 'rb').read()) else 'FAILURES')
+    _report(check_every_remote.remote(open(cases, 'rb').read()))
 
 
 @app.function(gpu='A10G', timeout=1800)
@@ -94,7 +102,7 @@ def check_periodic_remote(cases: bytes) -> bool:
 
 @app.local_entrypoint()
 def check_periodic(cases: str = f'{ROOT}/research/scratch/gpu/periodic_cases.npz'):
-    print('remote checks:', 'ALL OK' if check_periodic_remote.remote(open(cases, 'rb').read()) else 'FAILURES')
+    _report(check_periodic_remote.remote(open(cases, 'rb').read()))
 
 
 @app.function(gpu='A10G', timeout=1800)
@@ -109,7 +117,7 @@ def check_keep_remote() -> bool:
 
 @app.local_entrypoint()
 def check_keep():
-    print('remote checks:', 'ALL OK' if check_keep_remote.remote() else 'FAILURES')
+    _report(check_keep_remote.remote())
 
 
 @app.function(gpu='A10G', timeout=4 * 3600)
@@ -143,9 +151,9 @@ def check_reseed_remote() -> bool:
 @app.local_entrypoint()
 def check_defaults(reseed_only: bool = False):
     if reseed_only:
-        print('remote checks:', 'ALL OK' if check_reseed_remote.remote() else 'FAILURES')
+        _report(check_reseed_remote.remote())
         return
-    print('remote checks:', 'ALL OK' if check_defaults_remote.remote() else 'FAILURES')
+    _report(check_defaults_remote.remote())
 
 
 @app.function(gpu='T4', timeout=3600)
@@ -191,7 +199,7 @@ def cpubench_remote():
 @app.local_entrypoint()
 def check(gpu: str = 'T4', cases: str = f'{ROOT}/research/scratch/gpu/engine_cases.npz'):
     ok = check_remote.with_options(gpu=gpu).remote(open(cases, 'rb').read())
-    print('remote checks:', 'ALL OK' if ok else 'FAILURES')
+    _report(ok)
 
 
 @app.local_entrypoint()
