@@ -185,3 +185,25 @@ finite dead tube. **Call:** bond10 c = 6 is *not* a gump even if its bulk is cha
 face" endings will not be rare compared with face deaths and their rate will grow with the face area, so the wait
 does not grow exponentially with the face. (This overrules stage 1 row 33 and the stage-2 "borderline face law".)
 The same peeling finds nothing in 4 layers of face8 and sc26 (2 layers: sealed sets in both).
+
+---
+
+## Stage 4 — out-of-sample test of R₁ inside the cross families (appended before measuring)
+
+*Seen since stage 3: tristar3 scan. The first scan measured cross3 only at c = 6 (after a manual re-run at L = 28–96)
+and c = 9, cross4 only at c = 12; the other caps died before the burn-in at L = 12 and were not followed up.*
+
+With the measured torus densities, R₁ = (a⁰ + 1)ρ^(b−1):
+
+| family | cap | ρ (torus) | R₁ | call (2D: strong ≥ 0.9, weak 0.35–0.9, none < 0.35) |
+|---|---|---|---|---|
+| cross3 | 7 | 0.452 | 0.65 | weak: slope 0.05–0.15 per cell |
+| cross3 | 8 | 0.502 | 0.89 | strong or nearly: slope 0.15–0.42 |
+| cross4 | 7 | 0.334 | 0.11 | **no face law** (wait saturates or falls with L) |
+| cross4 | 8 | 0.401 | 0.23 | no face law |
+| cross4 | 9 | 0.436 | 0.33 | none or barely (slope < 0.05) |
+| cross4 | 10 | 0.478 | 0.47 | weak (0.03–0.12) |
+| cross4 | 11 | 0.524 | 0.68 | weak-to-middling (0.08–0.2) |
+
+Monotone claim, whatever the thresholds: within each family the slope increases with the cap up to c = K_f.
+To be measured at L up to ~100 (m = 16–24), same censoring.
