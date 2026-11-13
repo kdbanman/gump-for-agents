@@ -1,7 +1,7 @@
 # Board (critic)
 
-_Kept by the critic. Last update: 2026-11-13, after the replies to path and source, round 1 (the round 1 reports
-of counting and probability are written and not yet read). Scripts named here are in `critic/lab/`; run them from that directory. "Checked" means I
+_Kept by the critic. Last update: 2026-11-13, after the replies to path, source and counting, round 1 (the
+round 1 report of probability is written and not yet read). Scripts named here are in `critic/lab/`; run them from that directory. "Checked" means I
 re-derived or recomputed it; "read" means I compared the statement with its source and did nothing more.
 Proofs and commands behind every "checked" are in `critic/journal.md`._
 
@@ -10,7 +10,7 @@ Proofs and commands behind every "checked" are in `critic/journal.md`._
 | who | directory | toolkit | state |
 |---|---|---|---|
 | probability | `swarm/probability/` | dice in place of chaos: particle systems, coupling, percolation, contours | round 1 written; reply pending |
-| counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | round 1 written; reply pending |
+| counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | round 1 answered (`to-counting.md`) |
 | path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | round 1 answered (`to-path.md`) |
 | source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | round 1 answered (`to-source.md`) |
 | librarian | `swarm/library/` | primary papers: `shelf.md` (one line per source), `notes/`, `requests.md` (append-only, anyone) | first pass finished: 59 sources, ten notes files |
@@ -31,10 +31,12 @@ None of these changes the problem. Each is a number or sentence a proof could le
   With a ln L term the coefficient of L is 0.374 ± 0.009; with a 1/L term, 0.395 ± 0.005; from L ≥ 20 alone,
   0.410 ± 0.003. **The 2D target is 0.36–0.42, not 0.416.** (PROBLEM.md now says so.)
 - **E2. Gump: the slope does not fall.** Verified octahedral data are A = 30, 45, 63, 84 (ln τ = 6.804, 9.819,
-  13.633, 18.077 ± 0.003, 0.003, 0.008, 0.054); local slopes 0.2010, 0.2119, 0.2116. A = 108, 135 are the
-  unverified GPU numbers; the "0.218" quoted for them uses the GPU's own value at A = 84 (18.141); from the
-  verified 18.077 it is 0.221. The old fit 0.2077 + 0.55/A misses the A = 45 point by 28 standard errors.
-  Rim-free (periodic slab) faces: 0.2088 ± 0.0009, A = 27–90.
+  13.633, 18.077 ± 0.003, 0.003, 0.008, 0.054); local slopes 0.2010, 0.2119, 0.2116. A = 108, 135 (23.376 ± 0.031,
+  29.34 ± 0.25; GPU ensembles) are now **reviewed** (`research/audit/REVIEW-gpu-pr8.md`: tables re-derived, kernel
+  emulated exactly on a CPU, an independent CPU run at A = 84 gives 18.154 ± 0.025; no second implementation at
+  those sizes; read, not checked by me). Local slopes there: 0.218 from the GPU's own A = 84 value, 0.221 from the
+  verified one; then 0.221. The cost per cell is still rising at A = 135. The old fit 0.2077 + 0.55/A misses the
+  A = 45 point by 28 standard errors. Rim-free (periodic slab) faces: 0.2088 ± 0.0009, A = 27–90.
 - **E3. Octahedral faces of these sizes are mostly rim** (checked, `checks_round0.py`). A face of the hull of
   radius R = 2k − 1 has A = 3k(k+1)/2 cells: 3 corner cells with 4 neighbours inside the vessel, 6(k−1) rim
   cells with 7, and A − 6k + 3 interior cells with 9. Interior cells: 9 of 30, 18 of 45, 30 of 63, 45 of 84,
@@ -44,6 +46,11 @@ None of these changes the problem. Each is a number or sentence a proof could le
   means the outermost *live* layer and the 773 layer deaths include every later, smaller layer. The 0.035 is an
   average over the last 50 generations; it does not by itself show a 50-generation precursor.
 - **E5. "Symmetric faces: slope ≈ γ/6" was imposed, not measured.** Free fits give 0.024–0.044 (fluct README §3).
+  New, reviewed (GPU; CLAIMS GP2, grade B−, read): ln τ = 21.903 ± 0.031 and 24.175 ± 0.072 at A = 759, 828
+  (cube-centred), 22.409 ± 0.040 at A = 759 (vertex-centred). Local slope 759 → 828: 0.0329 per cell, i.e. 0.197
+  per independent cell (×6), against 0.163 from the A/7.7 law of A = 198–513: symmetric faces are cheaper per
+  independent cell than asymmetric ones and the gap is closing with size. The death rate in those cube-centred
+  runs falls with age.
 - **E6. The 2D symmetry ratios 0.42 and 0.50 have different baselines** (0.1733/0.41 in strips; 0.171/0.343 in
   boxes). The symmetric slopes are equal; the asymmetric baselines differ.
 - **E7. The lineage rows (slow variable; 1% double peels) were measured on O_h-symmetric states only.**
@@ -104,6 +111,9 @@ None of these changes the problem. Each is a number or sentence a proof could le
   stays alive); in D3 the noise is shared inside each cube triple and independent between triples (cube lemma).
 
 **counting.**
+- "For an invertible relative the law reduces to counting the trapdoor": **void.** In a bijective relative
+  nothing is absorbing: the second-order lift of gump is a bijection confined to the same hulls, "face empty now"
+  has frequency exactly 2⁻ᴬ, and no state ever enters "face empty twice running" (counting's Lemma 2; checked).
 - The bijection lemma is true **if a point that never falls counts as T = ∞** (checked: proof, and every
   permutation of ≤ 7 points). Over the points that do fall the bound is |X′|/(2|H|) − 1/2 with X′ the cycles that
   meet H. The union bound #{T ≤ t} ≤ (t + 1)|H| is stronger, bounds the law and not only the mean, and holds for
@@ -111,9 +121,9 @@ None of these changes the problem. Each is a number or sentence a proof could le
 - "What replaces the uniform measure": in a finite vessel every invariant measure of gump or of the 2D rule
   gives the trapdoor measure zero (face death is irreversible; lemma exchange). An invariant measure is therefore
   not the replacement, in any finite vessel.
-- "Countable exactly for small k": 2D, k = 1: a 16 × 16 transfer matrix (`iid_flash.py`; under the uniform measure
-  a fraction 0.5761ᴸ of the states of edge + two rows has an empty edge next). k = 2 needs 2¹⁶ window states
-  (feasible on request); k = 3 needs 2³⁶ (not by a plain transfer matrix). Gump, k = 1: a condition cube by cube
+- "Countable exactly for small k": done for the 2D rule at k = 1, 2 (counting's Theorem 3; lab L3.1, L3.2): the
+  from-soup probability that the edge is empty at generation k decays exactly like e^{−c_k L} with c₁ = 0.551535,
+  c₂ = 0.467693. k = 3 needs 2³⁶ window states (not by a plain transfer matrix). Gump, k = 1: a condition cube by cube
   (cube lemma), so a two-dimensional count; exact on hull faces by enumeration, on strips by transfer matrix.
 - "Too large a constant": see E13.
 
@@ -181,12 +191,12 @@ None of these changes the problem. Each is a number or sentence a proof could le
 | row | status |
 |---|---|
 | gump ln τ at A = 30…84 | read against fluct README and `fluct/data/qsd_summary.json`: reproduces. See E2 |
-| GPU numbers at A = 108, 135 | not checked (under review elsewhere). See E2 for the quoted slopes |
+| GPU numbers at A = 108, 135 | reviewed elsewhere (read: `research/audit/REVIEW-gpu-pr8.md`); not recomputed by me. See E2 |
 | straight tail, ratio 0.6–0.7, h ≈ 0.6·P(1), 62% from one cell | recomputed from `qsd_summary.json`: h/p₁ = 0.645, 0.613, 0.601, 0.594; p_k/p_{k+1} = 0.65–0.69 (k = 1), 0.47–0.56 (k = 2), 0.74–0.87 (k = 3), 0.60–0.70 (k = 4…7). The ratio at k ≥ 4 drifts down with size: "size-independent end-game" holds to about 10% |
 | favoured 3-cell state is a kagome triangle | read (notebook 2026-11-13: 38% of three-cell faces, 1,263 face-generations, one vessel R = 9). It is the triple of the cube lemma: the three faces of one cube |
 | 2D law, tail, h/p₁ 0.52 → 0.27 | recomputed from the data file: reproduces; see E1, E8, E9 |
-| symmetric gump faces | read; see E5 |
-| 2D symmetry ratios | read; see E6 |
+| symmetric gump faces | read; see E5 (with the new points at A = 759, 828) |
+| 2D symmetry ratios | read; local slopes recomputed from the committed files (lab L1.6, L3.7); see E6. The C4 slope is measured under heavy settling |
 | overcrowding rates | read; see E4. Not re-measured |
 | sealed sets: 6-ring, 36-cell set, none in ≥ 3 layers; face smallest in a hull | proof of Theorem 3 re-derived; 6-ring minimal by search; 36-cell set not checked; hulls exact to R = 10; see E12 for slabs |
 | slow variable; 1% double peels | read; see E7 |
@@ -201,6 +211,10 @@ None of these changes the problem. Each is a number or sentence a proof could le
 | sealed sets = complements of bootstrap-closed sets; isoperimetry of sealed sets in hulls (aim A) | path (L3, L4) | L3, L4 proved, checked; A exact to R = 10 (lab), open in general; false in wide slabs (E12) |
 | one exponent 0.345 for the 2D rule in every geometry, a ring carrying a power of L (G1) | path | guess from committed data; exam E1 filed. D2 on a segment is exact (lab L1.5): undecided |
 | flash or front; the remnant | path (G2, exam E2) | gump: not a flash of fixed length (E14). 2D: open |
+| finite-horizon exponents from soup: λ(T ≤ k) = tr(M_kᴸ)/2^{(2k+1)L}, c_k decreasing in k, c_∞ = lim c_k; conjecture C1: the measured exponent of each geometry is c_∞ | counting (Theorem 3, C1) | theorem proved, checked (c₁, c₂ exact); C1 a guess, in tension with three measured slopes |
+| boundary conditions and symmetry at a fixed horizon: free ends ≥ ring, mirror ≥ half, C4 and diagonal = no symmetry | counting (Prop. 4) | proved, checked at k = 1 on small boxes; c⁰_k = c_k verified for k = 1, 2 (lab) |
+| the second-order lift as an invertible relative | counting (Lemma 2) | proved, checked: its faces never die |
+| collision entropy of the top three rows as a countable hypothesis (claim 15) | counting | inequality proved; hypothesis fails from generation 2 in every vessel that can be enumerated (lab L3.5) |
 | a deterministic relative that is a dice model exactly: true rule in the top w layers over a deep-permutive bulk, feedback allowed (R_w(Q), "gump on parity") | source (Lemma 1) | proved, checked. Needs a half-infinite reservoir |
 | the death law of a face depends on the bulk only through the equal-time conditional law κ_t of the two layers beneath given the w layers above; a class 𝒦 of such kernels on which the dice theorem holds (Aim B) | source (Lemma 3, C9) | Lemma 3 proved, checked; 𝒦 is a goal, nothing proved |
 | entropy accounting: what a finite vessel cannot supply | source (Lemma 2) | proved; excludes conditioning on the whole past only (reply, item 2) |
@@ -251,6 +265,9 @@ None of these changes the problem. Each is a number or sentence a proof could le
 19. **An exact quasi-stationary law, or an exactly geometric wait, for the deterministic rule in a finite vessel.**
     None exists (lemma exchange, "trapdoors" (v)). "Memoryless" there is an approximate statement about a window
     of times; exact statements need dice or an infinite system.
+20. **An invertible relative with a lifetime law.** A bijection of a finite set has no absorbing set that is
+    entered from outside; the face of the second-order lift never dies (counting Lemma 2). The uniform measure
+    gives frequencies of "empty now", not lifetimes.
 
 ## Lemma exchange
 
@@ -281,6 +298,18 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 - **Capped against uncapped** (checked). Gᵗ(S) ⊆ Fᵗ(S) for the uncapped monotone rule F, also with shared dice.
   Any monotone H ≤ G satisfies H(S) ⊆ G(all alive) = the six vertex cells of a cube-centred hull, the four
   corners of a box, nothing in slabs, strips, tori, vertex-centred hulls; and H∘H = ∅.
+- **Finite-horizon law for the 2D rule** (counting Theorem 3; proof checked; exact checks on strips). From the
+  uniform soup, in a strip with ≥ 2k + 1 rows, P(edge empty at generation k) = tr(M_kᴸ)/2^{(2k+1)L} ≤ m_k e^{−c_k L},
+  M_k a 0/1 matrix on windows of 4k columns of rows 0…2k; c_k is also the exact decay rate of empty windows of the
+  infinite edge at generation k; 0 < c_{k+1} ≤ c_k < ln 2. **c₁ = 0.551535, c₂ = 0.467693** (density 0.472: 0.489963,
+  0.4671). Box edge (free ends): the same count with closed walks at the all-dead window, and the same exponent
+  for k = 1, 2 (its class is dominant). Statement and proof: `counting/journal.md` entries 4, 5. This is a law at
+  fixed age as L grows; it is not the measured law (the bound is useful only while k ≲ √L).
+- **Lone-cube guard** (counting, entry 4; argument read): the six faces of a cube whose top faces lie in a face
+  layer, alone in a dead box of half-width 2k + 2, keep that face alive for k generations whatever is outside the
+  box. Hence for a slab face P(dead by generation k) ≤ e^{−c⁻_k A} from soup, c⁻_k > 0 for each k.
+- **Symmetry inside a light cone** (counting Prop. 4(e); read): under a G-symmetric soup, a set whose
+  k-generation cone meets each G-orbit at most once has the same law as under the free soup.
 - **Trapdoors** (checked). (i) Bijection, T = ∞ off the cycles meeting H: mean T ≥ |X|/(2|H|) − 1/2.
   (ii) Any map, any invariant μ: P_μ(T ≤ t) ≤ (t + 1)μ(H). (iii) Finite vessel, H_k = {face non-empty now, empty k
   generations later}: μ(H_k) = 0 for every invariant μ. (iv) Uniform start, any map:
@@ -378,6 +407,13 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 | L2.1 | source L1: 2D rule in row 0 over a parity bulk with feedback, box 3 × 7, every state | initial state ↦ (row 0 at t = 0; rows 1–2 at t = 0, 1, 2) is a bijection of {0,1}²¹. Control with a bulk reaching one row per generation: 32,768 of 2,097,152 records | `source_r1.py l1` |
 | L2.2 | source L2: local threshold lemma | identity and inequality on all 2²⁴ pairs of states, hull R = 2v (λ = 1.1) and box 3 × 4 (λ = 1.15); termwise bounds sharp. Gump lattice: shells 1, 12, 70, 212, 464, 820; S(1.1) = 13,336; C_U = 1.4×10⁶ | `source_r1.py l2` |
 | L2.3 | source L3: equal-time kernel of rows 1–2 given row 0, 2D strip 4 × 6, uniform start, every state | no quasi-stationary window: the unsettled population with row 0 alive is 1.65×10⁷ at t = 0, 768 at t = 20, 0 at t = 21; hazard 0.10–0.22 for t = 1…10. P(row 0 empty next \| one cell) = 0.46–0.60 against 0.22–0.26 for dice of the same density; two cells: 0.03–0.54 against 0.002 | `source_r1.py l3` |
+| L3.1 | counting 1, 2: c₁; strips and boxes of 3 rows, every state; classes of the k = 1 graph | c₁ = 0.551535. Row 0 empty next: strips 3 × 5…8: 2,507, 10,846, 47,383, 209,825; boxes 3 × 5…7: 2,977, 13,850, 64,434; all equal to the transfer-matrix counts. The 16-state graph is strongly connected: ρ⁰₁ = ρ₁ | `counting_r1.py c1` |
+| L3.2 | counting 3: c₂ (2¹⁶ window states) | c₂ = 0.467693 (ρ₂ = 20.046271 of 32); checked against every state of strips 5 × 4 (224,471) and 5 × 5 (7,043,564); class of the all-dead window: 54,591 states, dominant, ρ⁰₂ = ρ₂. Density 0.472: c₁ = 0.489963, c₂ = 0.4671 | `counting_r1.py c2` |
+| L3.3 | counting 4: periodic gump faces, one-generation emptiability, SAT against the cube criterion | 2 × 2 (12 cells): 2,662 of 4,096; 3 × 2 (18 cells): 112,744 of 262,144; no disagreement (both tori have doubled neighbours) | `counting_r1.py lemma5` (1¾ min) |
+| L3.4 | C4 box 7 × 7, every symmetric state, k = 1 | top edge empty next in 502 of 8,192 = constrained band 251 of 4,096 = 0.061279; box without symmetry 0.030725 | `counting_r1.py c4` |
+| L3.5 | counting 6: collision probability of the top three rows at generation j from soup, strips 4 × 5, 4 × 6, 5 × 5 | excess (1/L) ln(8ᴸ Σ μ²): 0.44, 0.46, 0.37 at j = 1; 0.99, 1.03, 0.92 at j = 2; 1.73, 1.74, 1.74 at j = 8 (to compare with c₁ = 0.5515) | `counting_r1.py coll` |
+| L3.6 | second-order lift, every pair-state (2D strip 2 × 5; gump hull R = 1c) | bijection; "face empty now" has frequency 2⁻ᴬ; nothing enters "empty twice running" | `counting_r1.py lift` |
+| L3.7 | C4 boxes in the committed toy2d file | settling is 97%, 81%, 66%, 54%, 42%, 32% of all exits at L = 16…36 (box without symmetry: 71 of 4,297 at L = 16, ≤ 3 beyond): the C4 slope 0.28 is a hazard among replicas that have not settled | `counting_r1.py data` |
 | L1.6 | refits of the empty-window decrement (committed `gap.json`) | limit 0.348 (c/ℓ), 0.355 (e^{−ℓ/20}), 0.370 (c/ℓ²), 0.373 (e^{−ℓ/10}) on ℓ = 20…38, all acceptable | `path_r1.py data` |
 
 ## The lab: what it can do, how to ask

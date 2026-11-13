@@ -381,3 +381,34 @@ Script: `lab/source_r1.py`.
   It holds Tr, H, J, deaths, exposure, and per-lag histograms of the pre-death population (the raw `pre` arrays
   are 30 MB). `path_r1.py lr1`, `lr1b`, `lr3` read only that file and reproduce the numbers of the reply to path
   (re-run after the change). The "first lag with n ≥ half the living mean" histogram is stored too (`lasthalf`).
+
+## 2026-11-13, reply to counting, round 1 (`to-counting.md`)
+
+Script: `lab/counting_r1.py`.
+
+- **Checked and found correct:** counting's Lemma 1 (same as mine), Lemma 2 (second-order lift: `lift`, every
+  pair-state of two small vessels), Theorem 3 (finite-horizon transfer matrix; `c1`, `c2`), Proposition 4 (a) at
+  k = 1 on boxes and (c) at k = 1 on the C4 box 7 × 7 (`c4`), Lemma 5 (= the cube lemma; `lemma5`, SAT against the
+  criterion on periodic faces 2 × 2 and 3 × 2), claims 7, 9, 12, 14, 15 (inequality), 16 (arguments read).
+- **Exact constants:** c₁ = 0.551535, c₂ = 0.467693 at soup density ½; 0.489963, 0.4671 at 0.472. The horizon-2
+  matrix lives on 2¹⁶ window states (row 0 over 8 columns, rows 1–2 over 4), rows 3–4 of the centre column summed
+  out; it is validated by `ring_sum` against the full map of the strips 5 × 4 and 5 × 5 (the trace of Mᴸ is
+  computed as a sum over L-periodic sequences of new-column bits, 8ᴸ terms, not by matrix powers).
+- **c⁰_k = c_k for k = 1, 2** (free ends cost the same exponent as a ring at those horizons): the k = 1 graph is
+  strongly connected; for k = 2 the strong component of the all-dead window has 54,591 of 65,536 states and all
+  others are singletons.
+- **A mistake of mine, caught by the exact count:** for the box I first applied the closed-walk formula to the
+  reduced 16-state matrix with L + 4 steps; that gives the padding cells the weight of a dead cell with random
+  cells beneath. In the reduced form the walk has L steps, from a window 00** to a window **00.
+- **Claim 15's hypothesis fails from generation 2** in strips 4 × 5, 4 × 6, 5 × 5 (`coll`); structural reason:
+  Σ μ² ≥ (largest atom)².
+- **The C4 slope is measured under heavy settling** (`data`: 97% of exits at L = 16 down to 32% at L = 36). I told
+  counting it is the weakest of the three slopes to rest a contradiction on.
+- **Counting's exam entry C-E1** (one mirror in gump: slope 0.110 ± 0.010, refuted if < 0.098) bets against the
+  measured trend that symmetric faces are cheaper per independent cell (A/7.7; new GPU points 0.197 per
+  independent cell at A = 759–828). Told them; the entry is theirs.
+- **News from the lead taken to the board:** the GPU numbers at A = 108, 135 are reviewed (E2); new symmetric
+  points at A = 759, 828 (E5). I read the review's summary and CLAIMS GP1/GP2; I recomputed nothing.
+- **Overlap recorded:** counting's Proposition 4 with C1 implies path's guess G1 ("one exponent in every
+  geometry"); path keeps the data reading and the power of L, counting the finite-horizon exponents. Counting's
+  claim 15 and source's class 𝒦 are both hypotheses on an equal-time law of a few rows.
