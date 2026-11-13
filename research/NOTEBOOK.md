@@ -530,3 +530,62 @@ generation, using only runs in which no face died (fixed geometry; 3 runs at R=1
   A = 693 → ln τ = 19.5–20.0, so the side-16 first plateau has mean ≈ 4–7×10⁸ instead of 2×10⁸, and being alive at
   1.025×10⁹ is a 10–25% event rather than a 0.5% one. Side 17 (A = 828): ≈2–6×10¹⁰ (was 6×10⁹). The legacy side-19
   cube, properly confined (A = 1053): 10¹³–10¹⁴ on these fits, far outside any data.
+
+## 2026-11-13 — clockwork: the long periods are short loops that close with a twist (clockwork agent; checked by the lead)
+
+Full study, scripts and 94 new oscillators: `research/clockwork/README.md`. The lead re-derived the headline facts
+with an independent set-based stepper written from the rule text (periods, the symmetry carrying phase 0 to
+phase k, per-cell periods of P66.27a, C48.24a, C36.33a, C12.43a, C40.24a: all as stated).
+
+- **[proved] P66.27a is a 33-step loop that returns as its own mirror image.** It is a plate three kagome layers
+  thick whose diagonal hull has 45 cells, all of them live in some phase; by T2 the hull is a closed box, so the
+  object is one cycle of a 45-bit map. Phase t+33 = phase t reflected in the plane x + y = 6. 40 cells have period
+  66, the 3 cells on the mirror have period 33, 2 are stator. No cell has period 2, 3, 6, 11 or 22: nothing in it
+  is a gear. (`python3 research/clockwork/verify.py …`; `gump show --cells research/clockwork/views/P66.27a.cells --orbit --max-chars 200000`.)
+- **[proved] Twist lemma.** In a box with symmetry group G (which commutes with the box map F), let a cycle of
+  period P first return to a symmetric image of itself after L generations, F^L(x) = g·x. Then P = m·L, where m is
+  the order of g acting on the cycle, m ∈ {1, 2, 3, 4, 6} for subgroups of O_h, and any cell fixed by g has period
+  dividing L. (g ↦ phase shift is a homomorphism from the cycle's symmetries to Z_P; its image is cyclic.) This is
+  what Life catalogues call an oscillator's "mod" (there period/mod ∈ {1, 2, 4}); the cubic lattice adds 3 and 6.
+- **[measured] All four twist orders occur, and choosing a box for its symmetry finds them.**
+  Sampling random states of boxes picked for their symmetry (`python3 research/clockwork/portrait.py …`, commands in
+  the README): **C48.24a, period 48 = 6 × 8**, in a 42-cell box with a six-fold rotoreflection — every 8 generations
+  the whole plate reappears turned 60° about (−1,1,1) and inverted; **C36.33a, 36 = 4 × 9** (quarter turn about a
+  cube axis every 9 generations; fills the 60-cell vertex-centred octahedron); **C12.43a, 12 = 6 × 2** (same box);
+  **C40.24a, 40 = 2 × 20**; P15.22a = 3 × 5. None was ever seen in soup. This chooses m, not L: SAT for a prescribed
+  (g, L) stalls beyond ≈27 cells and L ≈ 5, and nothing here is modular — the "part" is the whole box.
+- **[measured] Census of small closed boxes.** All 402 diagonal hulls three layers thick with 15–66 cells, 50,000
+  random states each (`python3 research/clockwork/box_census.py enum 3 15 66; … run 3 50000; … report 3`,
+  ≈45 CPU-min): 9,700 distinct oscillators of period ≥ 3 (the atlas had 329 objects of all kinds), thirteen new
+  periods (17, 18, 19, 21, 24, 25, 26, 28, 30, 32, 34, 35, 44). Four-layer boxes give far less (139 boxes, longest
+  new period 28). P66.27a itself has a basin of 4.1×10⁻⁴ in its own box and turned up in 112 of the 113 census boxes
+  that contain that box: it is rare in soup because soup rarely leaves an isolated plate of that shape
+  [conjecture], not because it is a delicate attractor.
+- **[measured] The twist does not pick long loops; it multiplies ordinary ones** (lead;
+  `python3 research/clockwork/twist_stats.py` writes the per-object rows, then tabulate L = P/m). Among the 9,700
+  census objects, twisted ones are a steady 3–6% at every quotient length L (L ≥ 3: 308 of 9,527; L ≥ 7: 31 of 774;
+  L ≥ 12: 10 of 170; L ≥ 16: 5 of 87), while the number of objects falls steeply with L. Doubling (or ×6) therefore
+  throws the twisted minority far out into the tail of *periods*: every object of period 26, 34, 48 or 66 is
+  twisted. Ranked by L the record-holders are untwisted — C44.26a (L = 44) and C35.29a (35) — and P66.27a's loop
+  of 33 is third. So the longest clock on record is the third-longest loop, counted twice. Among oscillators that
+  fill their own hull (period ≥ 7), 16 of 21 are twisted.
+- **[conjecture]** Periods well beyond 66 are there to be found by the same route: a loop of quotient length ≈30
+  in a box with a 4- or 6-fold symmetry would have period 120–200. The search problem is that large symmetric
+  boxes rarely settle into a cycle that spans them.
+- **[measured] Fragile, and settable.** 6,600 single-cell flips of P66.27a (every cell of the union and its
+  neighbour shell, phases 0–32; `python3 research/clockwork/perturb.py P66.27a`, 5 min): 30% heal (median 1
+  generation), 14% die, 55% break into other objects; a lone extra cell just outside the box breaks it 43% of the
+  time. Five of the 2,001 heals come back phase-shifted (by 10, 20, 25, 34, 47 generations). No travelling signal
+  was found anywhere in it: the changing cells stay spread over the plate every generation.
+- Not settled: whether P66.27a is the only period-66 cycle of its box (SAT did not finish; none other with basin
+  above ≈5×10⁻⁶); whether any of these objects can carry or gate a signal.
+
+## 2026-11-13 — side 16 at 1.75×10⁹ (lead)
+
+- **[measured]** `research/experiments/cube_ckpt.sh 16`, second 2-hour job: alive at generation 1,750,000,000,
+  hull radius 42, no face lost; checkpoint `research/data/cube16_gen1750000000.gump`. Its instantaneous population
+  (13,320) is far below the 16,080 of the earlier checkpoint, but that is ordinary lockstep fluctuation: over
+  60,000 generations from either checkpoint the total population has mean 15,800, s.d. 1,050, range 10,800–19,800,
+  and the time-averaged layer profiles agree to 1 part in 300. The state is statistically unchanged.
+- Surviving this long is a 2–10% event even under the corrected fits of the previous entry (first-plateau means
+  4.4–7.5×10⁸ with the vertex factor): every estimate so far has been too low, in the same direction.
