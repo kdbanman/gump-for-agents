@@ -313,3 +313,251 @@ Read after the report above was written: `critic/board.md` as of commit 3a76d44 
   with positive permutation noise forgets its initial law exponentially fast, uniformly) is the natural tool for
   a source that is *not* started from the uniform measure; not used yet.
 - The request to the critic in the report ("point me to the dice model") is thereby answered; L1–L3 stand.
+
+---
+
+## 2026-11-13, round 2
+
+Read for this round: `critic/to-source.md` (reply to round 1), the board as of commit cc0b7a3,
+`library/notes/source-requests.md`, `algebraic-ca.md`, `nonmonotone.md`; the committed data files
+`research/theory/exponent/data/hierarchy.json`, `gump_model.json` and the outcomes F8, F9 in
+`research/theory/exponent/PREDICTIONS.md` (sampled values of the dice models; unchecked by the critic).
+
+### S7. Corrections to round 1 (all four of the critic's points accepted)
+
+1. **S4(b), C4.** Only one direction holds: *if* the conditional law of (Z_t, b_t) given {T > t, not settled} is
+   constant in t, the hazard is constant. The converse is false (two living states with the same death
+   probability and a law alternating between them).
+2. **S3, Lemma 2(b).** The entropy count excludes properties that condition on the *whole* past of the drive (more
+   of the past than the vessel holds). It says nothing about a window of m generations: a maximal-length shift
+   register is nearly uniform given any m < N earlier bits for 2^N − 1 steps. The sentence in bold in S3 should
+   read "…that conditions on the whole past of the drive…". For gump a window condition fails for a different,
+   local reason: S9 below.
+3. **Cor. 4b(iv).** "The last cells die at mismatches" is wrong at the step of dying (born at t − 1 and dead at
+   t + 1 is no mismatch). The correct and sharper statement is the critic's (board, "starvation"): in a face with at
+   most three live cells no live face cell is overcrowded (k ≤ 2, b ≤ 3, n ≤ 5), so in a death from n ≤ 3 every cell
+   dies with n ≤ 2. The figure "halves in the 50 generations before" is board E4, an average over layers of all
+   sizes, and should not be quoted as a property of faces of a given size.
+4. **Cor. 4b(ii).** The weight of an O1 event at graph distance d is λ^{−2d} with λ^{−2} *above* 3/4 (gump; above
+   2/3 in 2D): the discount per step is at best just short of a factor 4/3, and only as m → 0.
+
+The library (source-requests §2) confirms that the published period-two theorems on infinite graphs
+(Moran; Ginosar–Holzman; Tamuz–Tessler, Theorem 1.5, read by the librarian) are for majority with odd degree; no
+infinite-graph statement for general thresholds with a self-weight was found. Attribution for Lemma 4: energy of
+Goles–Olivos, geometric weights of Ginosar–Holzman and Tamuz–Tessler, extended here to the threshold 4 of 13 and
+to the capped rule. Their constant, ((d+1)/(d−1))·d·M_d, is of the same kind as C_U.
+
+### S8. Lemma 1 for an arbitrary top; an exact quasi-stationary law [proved]
+
+**Lemma 1′.** The proof of Lemma 1 uses nothing about the top w layers except that they are finitely many layers
+whose cells read no deeper than 𝓛_{w+1}. So it holds with *any* local rule and any finite alphabets in the top
+w layers: over a deep-permutive bulk started uniform, the top is the Markov chain Z_{t+1} = G̃(Z_t, U_t) with U_t
+fresh uniform symbols on 𝓛_w ∪ 𝓛_{w+1}. Hence every probabilistic cellular automaton on finitely many layers
+whose local randomness is a function of finitely many fresh uniform symbols (all probabilities rational) is the
+top of a deterministic automaton. In particular: D2 and D3 with any rational ρ (source alphabet Z_m, a top cell
+reads y as alive iff y < k); any rational law π on the number b ∈ {0, 1, 2} of live cells beneath an edge cell
+(two decoder rows, both functions of one fresh symbol of the row below them); drive laws that depend on the top
+state one generation earlier (decoder cells that read the top). What makes the write-back harmless, in the
+terms of the librarian's note (source-requests §1): the top reads 𝓛_w ∪ 𝓛_{w+1}, while the symbol that masks what
+it writes into a source cell p comes from D(p), two layers deeper, and is independent of everything the top has
+read (Lemma 1). In their counterexample x ↦ x + w(x) the boundary word is a function of the very symbol that
+should mask it; a finite window always ends in such cells, which is the ⌊H/2⌋ of S3.
+
+**Proposition 1″ (an exact conditionally invariant measure).** Let μ be a quasi-stationary law of the finite
+chain D_w(ν) (eigenvalue λ; Darroch–Seneta, read through `library/notes/qsd.md`). In R_w(Q) started from
+μ ⊗ uniform, the law of the whole configuration at time t conditioned on {T > t} is again μ ⊗ uniform, and
+P(T > t) = λ^t exactly.
+*Proof.* By Lemma 1 the source at time 1 is uniform and independent of (Z_0, Z_1); conditioning on {Z_1 alive}, an
+event of Z_1, leaves the source uniform and independent of Z_1, and Z_1 given alive has law μ. Induct. ∎
+So the deterministic automaton R_w(Q) has an exact quasi-stationary law and an exactly geometric wait. A finite
+deterministic system has neither (board, trapdoors (v); `notes/escape-rates.md` B1). That contrast is the whole
+difference between the relative and gump, in one line: the relative owns a conditionally invariant measure
+because fresh symbols keep arriving.
+
+### S9. Lemma 5 (frozen drive cells: why a one-generation window is already too much to condition on) [proved]
+
+**Lemma 5.** Gump, any vessel. Let p ∈ 𝓛_w have state x and k live neighbours in 𝓛_{≤ w+1} at time t. Its state at
+t + 1 is a function of (x, k), whatever 𝓛_{w+2} holds, **unless k + x = 3 or k = 5**. A cell of 𝓛_{w+1} (three
+neighbours in 𝓛_{w+2} ∪ 𝓛_{w+3}) is determined by (x, k) iff (x, k) = (0, 0) or k ≥ 6. For the 2D rule: unless
+k + x = 2 or k = 4; and (two unknown neighbours) iff (x, k) = (0, 0), (1, 2) or k ≥ 5.
+*Proof.* p has one neighbour deeper than 𝓛_{w+1}, so n ∈ {k, k + 1}; "alive next iff n + x ≥ 4 and n ≤ 5" gives
+different answers at n = k and n = k + 1 iff k + x = 3 (the threshold) or k = 5 (the cap). For three unknown
+neighbours n ranges over [k, k + 3], which lies outside [4 − x, 5] iff k + 3 < 4 − x or k ≥ 6, and never inside.
+(2D, two unknown: [k, k + 2] lies inside [3 − x, 4] exactly for (x, k) = (1, 2), the safe cell of Lemma A.) ∎
+
+Consequences. (i) Given the top w + 2 layers at time t, a drive cell of 𝓛_w at time t + 1 has a conditional law
+that is a point mass in every context except the two named; no bound δ ≤ P(drive cell alive | previous
+generation) ≤ 1 − δ holds over all contexts. Fresh dice at every generation (D2, D3) differ from gump's drive
+by an unbounded likelihood ratio over two consecutive generations, at every depth w. So the dice models are
+not small perturbations of gump in any ratio sense that involves two times; whatever makes them work at depth
+4–8 is screening by the layers above (S12), not closeness of the drive. (ii) The two sensitive contexts are
+T5's two mechanisms: the threshold (present in the uncapped rule, where by Cor. 4a it carries boundedly many
+changes per cell) and the cap. A bulk cell passes on what lies beneath it only when its count is at the
+threshold or at the cap; the parity bulk of R_w passes it on always.
+
+### S10. What equal-time finite energy of the drive gives: Theorems U and H [proved]
+
+w = 1. A *unit* is an edge cell (2D) or the three face cells of one cube (gump, periodic face or interior;
+board, cube lemma). ω_c is the drive read by unit c: the two cells beneath (2D), or the six cells
+(u_x, u_y, u_z, v_x, v_y, v_z) with b_a = u_b + u_c + v_a (gump). Units read disjoint sets of drive cells which
+together make up 𝓛_1 ∪ 𝓛_2 (each cell of 𝓛_1 is a face of exactly one cube of the layer; D is a bijection
+𝓛_0 → 𝓛_2). For a face state z let D_c(z) be the set of values of ω_c for which every face cell of unit c is dead
+at the next generation. Unit c is *inert* in z if D_c(z) is everything (2D: a dead cell with k = 0), *locked* if
+D_c(z) = ∅ (2D: a live cell with k = 2; gump: board E10). F(z) = number of non-inert units; z is *killable* if no
+unit is locked. The face is empty at t + 1 iff ω_c(t) ∈ D_c(Z_t) for every unit.
+
+Hypotheses on the equal-time kernel κ_t of S4, for all face states z of positive probability at time t:
+- **UFE(θ):** for every non-inert unit c, κ_t(ω_c ∈ D_c(z) | z, the drives of all other units) ≤ θ < 1.
+- **LFE(δ):** for every unit c and every value ω, κ_t(ω_c = ω | z, the drives of all other units) ≥ δ > 0.
+(Uniform finite energy of the drive given the face, in units; Newman–Schulman's notion, through
+`library/notes/source-requests.md` §4. For dice: δ = min(ρ, 1−ρ)² in 2D and ⁶ in gump, θ = 1 − δ.)
+
+**Theorem H.** UFE(θ) at time t gives h_t ≤ E[θ^{F(Z_t)} | T > t]. LFE(δ) at time t gives
+h_t ≥ E[δ^{F(Z_t)} ; Z_t killable | T > t].
+*Proof.* By Lemma 3, h_t = Σ_z λ_t(z | alive) κ_t(∩_c {ω_c ∈ D_c(z)} | z). Order the units; the chain rule writes
+the last factor as a product over units of κ_t(ω_c ∈ D_c | z, earlier units in their D's), and each factor is an
+average of conditional probabilities given all other units' drives: ≤ θ for a non-inert unit, ≥ δ for a
+non-inert, non-locked one, = 1 for an inert one. ∎
+
+**Theorem U.** Let g be a number of generations in which the free-drive face game empties every state (2D,
+L ≥ 5: g = 3, `exponent/theorems.md` Theorem B; gump: g = 2 on the hull faces R = 3, 5, board L0b.3; not known in
+general), and U the number of units (L, or A/3). If LFE(δ) holds at times t, …, t + g − 1 then
+P(T ≤ t + g | T > t) ≥ δ^{gU}; on a window of gj generations P(T > t + gj | T > t) ≤ (1 − δ^{gU})^j.
+*Proof.* The game's strategy prescribes at each of its g steps a non-empty set of drives for each unit; by the
+chain rule its κ-probability is ≥ δ^U at whatever state the chain is in; apply this along the Markov chain of
+Lemma 3. ∎
+
+*Smallest cases.* A lone cell (2D, or gump interior): the non-inert units are its own and those of its four
+other in-face neighbours' cells, F = 5 in both rules, none locked. So **δ⁵·P(n_t = 1 | T > t) ≤ h_t**: under
+LFE the ratio h/p₁ is bounded below independently of the size of the face. In D2(L, ρ) the factor is exact,
+(1 − ρ²)⁵ = 0.2836 at ρ = 0.472, and the board's exact h/p₁ = 0.394 with 72% of deaths from one cell is
+0.72 × 0.394 = 0.2837.
+
+What these are worth. Theorem U is an **upper bound e^{CA} on the lifetime of the deterministic rule, in a vessel
+of any depth, under one equal-time hypothesis** (the only unconditional bound is 2^N, the volume). Theorem H
+says the hazard is an exponential moment of the number of active units of the face, with base between δ and θ:
+"death is the tail of the living face's own distribution" becomes an inequality, and the area law's lower bound
+is reduced to: UFE, plus "the living face is rarely sparse". Neither theorem bounds that tail. Both hypotheses
+quantify over *all* face states at the times concerned, including states of tiny probability, and UFE/LFE in
+the strict form fail if some face state and some drive elsewhere force a unit's drive (a pattern on three
+layers with no predecessor would do it). They are exactly testable in an enumerable vessel; I do not know that
+they hold in gump.
+
+### S11. The end-game rows under dice, in closed form, against the measured ones [formula proved; comparison uses measured numbers]
+
+By Lemma 3 with π = the face population, the death law depends on the rows K_t(n, ·) = law of the next
+population given n. For n = 1 and product dice the row is explicit.
+
+**Gump, lone interior face cell** (axis x of cube c). The only cells that can be alive next are the lone cell and
+its six in-face neighbours, each iff its b = 3. Two of the six are the other two cells of cube c; the other four
+lie in four different cubes. With A_x = {u_y = u_z = v_x = 1} etc.:
+P(some cell of cube c alive next) = 3ρ³ − 3ρ⁵ + ρ⁶, and each of the four others is alive with probability ρ³,
+independently. So
+
+  P(death | lone cell) = (1 − 3ρ³ + 3ρ⁵ − ρ⁶)(1 − ρ³)⁴,   E[n′ | lone cell] = 7ρ³.
+
+| ρ | P(n′ = 0) | P(1) | P(2) | P(3) | E n′ |
+|---|---|---|---|---|---|
+| 0.4155 (bulk density; D3 at w = 1) | 0.6065 | 0.3035 | 0.0737 | 0.0141 | 0.50 |
+| ½ (gump on parity, w = 1) | 0.4122 = 108045/262144 | 0.3729 | 0.1565 | 0.0465 | 0.875 |
+| 0.52 | 0.367 | 0.378 | 0.179 | 0.059 | 0.98 |
+
+**2D, lone edge cell:** P(death) = (1 − ρ²)⁵, E n′ = 5ρ²: 0.2836 and 1.11 at ρ = 0.472; 0.2373 and 1.25 at ρ = ½.
+
+Measured (board L1.1, hull faces A = 30…84): P(death | n = 1) = 0.41, 0.38, 0.38, 0.37 and E[n′ | n = 1] = 1.00
+(A = 63). So from its last cell a gump face dies with probability 0.38, not the 0.61 of dice at the bulk
+density, and has one descendant on average, not half of one. **One number, an effective density ≈ 0.52 of the
+cells beneath a last cell and its neighbours, reproduces both** (death 0.38 ⇔ ρ = 0.514; mean 1 ⇔ ρ = 0.523).
+Caveats: hull faces are mostly rim (E3) and the formula is for an interior cell; a rim cell has fewer
+neighbours to be born, so the interior value implied by the data is lower than 0.38 and ρ_eff a little higher;
+and "product at density 0.52" is a one-parameter description, not a derived law. The same reading of the 2D
+data (toy2d README: deaths from one cell 53% and h/p₁ = 0.45 at L = 16, 46% and 0.28 at L = 32) gives
+P(death | n = 1) = 0.24 and 0.13, i.e. ρ_eff = 0.50 and 0.58 against a bulk 0.472.
+
+Reading, in the terms of S4: κ_t(· | z) for a precarious z is *richer* than dice of the bulk density, in both
+rules: a face cell that is still alive is alive because of what lies beneath it, and what lies beneath
+persists. (The 4 × 6 strip of L3 shows the opposite sign; the critic's judgement that no enumerable vessel
+speaks for the regime of the law stands.) Structure behind it, from the cube lemma and the notebook's fauna: a
+kagome triangle in the face (38% of three-cell faces, notebook 2026-11-13) has k = 2 for each cell, so each
+survives iff its b ≥ 1. If the triangle is the three faces of an inner cube and the cube's other three faces
+(its u's, in 𝓛_1) are alive, every b ≥ 2: this is the closed-cube still life S6a seen from above. If it is the
+other orientation and its three private cells (the v's, a triangle in 𝓛_2) are alive, every b ≥ 1: the still
+life S6b. Either way the last ember is the top of a still life whose other half is the drive.
+
+Two consequences. (i) For gump, dice at density ½ have an end-game much closer to the true one than dice at
+the bulk density (0.41 against 0.38 measured; 0.61). "Gump on parity" is, at the last cell, a better model than
+D3 at 0.4155. (ii) The class 𝒦 of Aim B cannot be "close to product at the bulk density": the true kernel is
+tilted by a factor 1.6 in the death probability already at n = 1. It has to allow a density beneath the face
+that depends on the face.
+
+### S12. Where the dice are needed: screening [guessed, with the evidence]
+
+Evidence already in the repository (sampled; unchecked): the 2D driven model D2(L, ρ; 8) has
+ln τ = 7.432 / 7.417 at L = 16 and 9.151 / 9.182 at L = 20 for ρ = 0.30 / 0.60 against 7.432, 9.165 at ρ = 0.472
+(exponent study F9), and 7.426, 9.055 for the true rule in 16 rows; D3 on periodic faces at depth 6 and 8 is
+within 0.03 nats of the true slab at A = 27…60 (F8). At depth 1 the dependence on ρ is not small
+(D2(16, ρ; 1): 8.6350 at 0.472, 8.6764 at 0.5, exact).
+
+**Conjecture S (screening).** For each rule there is a depth w₀ such that, for w ≥ w₀, the exponent of the driven
+system D_w[κ] is the same for every drive kernel κ in a class that contains product dice of any density in an
+interval around the bulk density and the true bulk. Then, by Lemma 1, **gump has the same exponent as the
+deterministic automaton R_w(parity)**, whose top is an honest finite Markov chain; and the answer to (b) is that
+the bulk has to satisfy nothing dice-like: the randomness a face uses is made in the w₀ layers beneath it, by
+the true rule, and the bulk below only has to keep 𝓛_{w₀} in the chaotic phase. Lemma 4 (activity at the face
+is paid for by overcrowding discounted geometrically with depth) and Lemma 5 (a cell forwards what is beneath
+it only at the threshold or the cap) are the two proved statements pointing this way; neither proves it.
+What would prove it is a contraction statement for the map (law of the drive at depth w) ↦ (law of the top
+w − 2 layers and their drive), which is a uniqueness statement for the quasi-stationary law in the depth
+direction. Not attempted yet. An exact small test is requested below (L6).
+
+---
+
+## Round 2 report
+
+**Claims.**
+1. [proved] Lemma 1′: any local rule on the top layers over a deep-permutive bulk is a chain driven by fresh
+   uniform symbols; so every rational probabilistic automaton on finitely many layers is the top of a
+   deterministic one. Prop. 1″: R_w(Q) has an exact conditionally invariant measure μ ⊗ uniform and an exactly
+   geometric wait.
+2. [proved] Lemma 5: a drive cell's next state is fixed by the previous generation of the layers above and
+   around it except at the threshold (k + x = 3) or the cap (k = 5).
+3. [proved] Theorem H: under equal-time finite energy of the drive given the face (units = cells or cube
+   triples), E[δ^F; killable] ≤ h ≤ E[θ^F], F = number of active units of the face; h ≥ δ⁵ p₁. Theorem U: under
+   LFE(δ), lifetime ≤ g·δ^{−gU}, a bound in the area for any depth of vessel (g = 3 in 2D; g known only for two
+   hull faces in gump).
+4. [formula proved] From a lone interior cell, dice of density ρ give P(death) = (1 − 3ρ³ + 3ρ⁵ − ρ⁶)(1 − ρ³)⁴,
+   E n′ = 7ρ³ (2D: (1 − ρ²)⁵, 5ρ²). [measured numbers read against it] gump's last cell behaves as if the cells
+   beneath had density ≈ 0.52, not 0.4155.
+5. [guessed] Conjecture S (screening): beyond a depth w₀ the exponent does not depend on the drive, so gump and
+   R_w(parity) share it.
+Corrections S7 accepted in full; `claims.md` updated.
+
+**Weakest step.** Theorems H and U quantify over every face state; I have no evidence that UFE/LFE hold in
+gump, and a local pattern without predecessor would break the strict form. S11 fits one parameter to two
+numbers from hull faces that are mostly rim. Conjecture S rests on sampled values I cannot check and on no
+mathematics beyond Lemmas 4 and 5.
+
+**A remark for the critic to route (not my toolkit).** For the population alone, a comparison needs no
+certificate: if q is a stochastically monotone kernel on {0, …, A} with 0 absorbing and every true row dominates
+it, K_t(n, ·) ⪰ q(n, ·), then by induction on Lemma 3's marginals λ_t ⪰ λ_0 q^t, so P(T > t) ≥ P_q(T > t); and with
+⪯ the reverse. If path does not have this, it is theirs.
+
+**Lab requests** (exact or arithmetic on existing tallies).
+- L4. From `fluct_tables.npz`: the rows Tr[1, ·], Tr[2, ·], Tr[3, ·] (law of n′) at A = 45, 63, 84, to set against the
+  ρ = 0.52 row of S11 (0.367, 0.378, 0.179, 0.059, 0.015); and from J: E[n₂ | n]/A for n = 1, …, 6 and at the mode
+  of n, each A. (Is the layer beneath a nearly empty face denser or sparser than beneath a typical one?)
+- L5. Check of S11's formula by enumeration of the drive around a lone cell of a periodic face (the six cells of
+  its cube and the three beneath each of its four other in-face neighbours): P(face empty next) = 0.6065 at
+  ρ = 0.4155 and 108045/262144 at ρ = ½; and that F = 5.
+- L6. Sensitivity to the drive, exact: ln τ of D2(L, ρ; w) at ρ = 0.30, 0.472, 0.60 for w = 1, L = 8, 12, 16 and for
+  w = 2, L = 5, 6, 7 (2^14 states). Question: is the spread in ρ smaller at w = 2 than at w = 1 at equal L?
+- L7. The free-drive face game on periodic gump faces of 12 and 18 cells (slabs 2 × 2 and 2 × 3): the largest
+  number of generations any configuration needs (g of Theorem U).
+- L8 (if cheap). UFE/LFE in the 4 × 6 strip at t = 3, …, 10: over all edge states of positive probability and all
+  cells, the largest and smallest values of κ_t(b_x ∈ S | edge, the other cells' b) for S ranging over the death
+  sets D_x(z); in particular whether any is exactly 0 or 1 for a non-inert, non-locked cell.
+
+**Next.** (i) Conjecture S: try to prove a weak form for the relatives themselves (monotonicity or continuity of
+τ(D_w(ρ)) in ρ is not available; what might be is a bound on how much the top w − 2 layers' equal-time law can
+depend on the drive law, through Lemma 5's sensitive contexts). (ii) Use L4 to decide whether a state-dependent
+density ρ(n) is a workable 𝒦. (iii) Exam entries S-E1, S-E2 are filed in `swarm/PREDICTIONS.md`.
