@@ -45,3 +45,13 @@ The R = 40 face family died at last_alive = **2,886,100,480** (`research/data/cu
 **missed** (the cube stayed 4.4 clone-means beyond the checkpoint). The clone mean itself was confirmed twice more
 (copies of the 2.875e9 state: 5.7e7, 65 deaths; fresh vertex-centred O_h soups at R = 40: 8.2e7, 46 deaths).
 The cube ended at generation 2,919,617,676 (still life, 96 cells). See NOTEBOOK.md, 2026-11-13.
+
+## Outcome, 2026-11-13 (late): A = 759 and 828, symmetric faces (GPU session; reviewed)
+
+Forecast above for cube-centred R = 45, A = 828: ln τ = 24.0 ± 0.4. Measured (`research/gpu/`, 192 deaths):
+**24.175 ± 0.072. Inside.** Also measured: cube-centred R = 43 (A = 759) 21.903 ± 0.031 (1,057 deaths); vertex-centred
+R = 44 (A = 759) 22.409 ± 0.040 (637). The GPU session's own forecasts for those (21.8 ± 0.2, 22.3 ± 0.4) were
+committed before its runs (`research/gpu/PREDICTIONS.md`) and held. So side 17's first plateau has τ ≈ 3.2×10¹⁰.
+Caveat from the review: in both cube-centred runs the death rate falls with age (p = 0.04, 0.01), so the long-run
+mean could be longer. Side 17 itself has not been run.
+

@@ -17,11 +17,23 @@ _Last updated 2026-11-13 by the lead._
 - `research/phase/` — the chaotic state as a phase; 960-rule survey (`research/figures/phase_rulemap.png`).
 
 ## In flight (2026-11-13, late)
-- `research/theory/class.md` (Fable agent): what is the class of "gumps"? Abstract confinement / firewall /
-  sealed-set theory, a criterion, predictions committed before testing on other lattices.
-- `research/theory/exponent.md` (Fable agent): where the exponent comes from — exact small systems in the 2D toy,
-  the rate function, a model that reproduces 0.416 and then predicts gump's 0.208, a theorem if one can be had.
-- GPU session "Modal API" (see `LEAD.md`): briefed with three experiments; no pull request yet.
+- A usage limit stopped every agent at about 20:00 UTC on 2026-11-13. State left behind:
+  - `research/theory/class.md`: the class agent had finished ("final" in its last commits). Not yet checked by
+    the lead or attacked by a second agent.
+  - `research/theory/exponent/`: the exponent agent was stopped before writing its report (`exponent.md` is a
+    stub). Its forecasts and outcomes are in `exponent/PREDICTIONS.md`, its theorems in `exponent/theorems.md`
+    (Lemma A, consequence (c) there is false: swarm board E10). Needs a successor to write it up, then checking.
+  - `research/audit/gpu_pr8/`: partial scripts from the reviewer of pull request 8; no review written. Restarted.
+- `research/theory/swarm/` (relaunched about 22:05 UTC at the owner's word): four Fable solvers (`probability`,
+  `counting`, `path`, and from about 22:20 `source`), a librarian (`library/`: primary papers read, theorems as stated) and a critic on one problem, the area law, by mathematics alone. Problem and rules in
+  `swarm/PROBLEM.md`; results in each `journal.md` and `claims.md`; the critic's map is `swarm/critic/board.md`
+  (its first pass already corrected several numbers the lead had been quoting: read E1–E11). The lead drives the
+  rounds (`LEAD.md`, "The swarm"). Nothing in it is established until a fresh reader has audited it.
+- GPU session "Modal API" (see `LEAD.md`): pull request 8 reviewed and merged 2026-11-13 (notebook entry; review in
+  `research/audit/REVIEW-gpu-pr8.md`; corrected reading at the top of `research/gpu/README.md`). Fixes asked of
+  that session, not yet done: reword four statements, commit the negative controls, make failed checks exit
+  non-zero, refuse duplicate (vessel, seed) runs. Asked next: slab faces at A > 90, octahedral faces at A ≥ 165,
+  a longer cube-centred symmetric run (does the death rate really fall with age?).
 
 ## Next (lead's list; pick by judgment)
 - Lineage study is in (notebook 2026-11-13, `research/lineage/`): cube-like seeds wait like soups at R ≤ 38. Open from it:
@@ -68,7 +80,8 @@ _Last updated 2026-11-13 by the lead._
    **Face death is the stationary tail, measured to one cell** (`research/fluct/README.md`):
    ln P(n = k) is straight down to k = 1, the death rate is its next point (h ≈ 0.6·P(n = 1)),
    62% of deaths are from a single cell, the usual 3-cell ember is one kagome triangle;
-   −ln h/A → 0.2077 ± 0.0014 + 0.55/A. Path-splitting (FFS) does not help: the plunge takes
+   −ln h/A → 0.2077 ± 0.0014 + 0.55/A [retired 2026-11-13: the fit missed its own data; measured local
+   slopes rise to 0.221 at A = 135, limit unknown]. Path-splitting (FFS) does not help: the plunge takes
    ~10 generations. Brute force on an O_h orbit-reduced stepper (`research/fluct/fl.c`) does.
 5. Debris is built from a small fauna: cubes, kagome hexagons, vertex stars (a sealed
    12-cell universe), hinged period-2 flippers, and rare clockwork up to period 66.

@@ -97,6 +97,9 @@ and "forward flux fails because the plunge takes about 10 generations". Treat th
 effective-Markov-chain claim as the novelty; its justification (why an effective memoryless description holds)
 has no citation I found.
 
+[Narrowed 2026-11-13: deterministic chaos lasting exp(c·size) with memoryless collapse is a known *numerical*
+phenomenon, the supertransient. See "Supertransients and stable chaos" at the end of this file.]
+
 ## 4. Symmetry shortens lifetimes
 
 - No source found that states or measures it. Lexicon pages (playgameoflife.com/lexicon/symmetric, soup;
@@ -231,3 +234,36 @@ close to standard "symmetry-reduced" invariant-subspace dynamics, so "new" shoul
   (https://playgameoflife.com/lexicon/trivial_(2)) says "A trivial period-N oscillator is one in which every cell
   oscillates at some smaller factor of N". Neither page uses the word "compound". So "trivial/non-trivial" is
   established LifeWiki terminology (use it); "compound" remains unsourced (our own term).
+
+## Supertransients and stable chaos (added 2026-11-13)
+
+From the swarm's library (`research/theory/swarm/library/shelf.md`, `notes/supertransients.md`; each statement
+there is tagged by how far the source was read). The lead re-opened two of the sources to abstract level
+(Politi–Torcini, arXiv 0902.2545; Houghton–Knobloch–Tobias–Proctor, Phys. Lett. A 374 (2010) 2030, author
+copy at eprints.whiterose.ac.uk/10731): titles, authors and the quoted claims match.
+
+- **The area law is an instance of a named phenomenon.** *Supertransients*: spatially extended deterministic
+  systems that are chaotic for a time growing exponentially (or faster) with system size, then collapse abruptly,
+  with exponentially distributed lifetimes. Crutchfield–Kaneko 1988 (coupled map lattices; abstract only: "faster
+  than exponentially with increasing system volume"); Wackerbauer–Showalter 2003 (reaction–diffusion; not
+  obtained); Houghton et al. 2010 (complex Ginzburg–Landau in one dimension: τ(L) = exp(AL + B), "Poisson
+  statistics", and the collapse appears only with non-periodic boundaries, through boundary layers of fixed
+  thickness); review Tél–Lai 2008 (Phys. Rep. 460; not obtained). *Stable chaos* (Politi–Torcini 2009) is the
+  cellular-automaton-like case, with transient time exponential in chain length.
+- **Nothing is proved** in anything the librarian could open; every statement is a fit to simulations. The
+  standard picture is a non-attracting chaotic set with a small escape rate.
+- **No source read treats a deterministic cellular automaton with an absorbing state**, or a law in the area of
+  a boundary face rather than the size of the whole system.
+- **Revised verdict for §3.** Not new: deterministic chaos with lifetime exponential in size and memoryless
+  collapse. Possibly new: (a) an automaton whose confinement and firewall are theorems, so that collapse proceeds
+  layer by layer; (b) the exponent set by the area of one face of a three-dimensional vessel; (c) the measured
+  tail down to one cell, with the death rate as its next point; (d) the symmetry effects; (e) any proof at all,
+  for any member of the class.
+- **Corrections to §3's contact-process entry** (`library/notes/contact-finite.md`): Durrett–Liu and
+  Durrett–Schonmann are one-dimensional; exponential-in-volume in d ≥ 2 is Mountford 1999 (abstract only);
+  Mountford 1993 proves the exponential limit law. No finite-size exponential-lifetime theorem without
+  monotonicity was found (`notes/nonmonotone.md`).
+- Not obtained (publisher pages refuse automated clients; a person with a browser could fetch them): Tél–Lai 2008,
+  Crutchfield–Kaneko 1988, Kaneko 1990, Wackerbauer–Showalter 2003, Bramson–Neuhauser 1994. The shelf ends with
+  the full list.
+

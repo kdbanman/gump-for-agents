@@ -1,0 +1,112 @@
+life bcc14     B567/S4567                       R= 3 N=  175 p=0.45: median 57 (q25 43, q75 72), unfinished 0/64 at T=100000, final density 0.179
+life bcc14     B567/S4567                       R= 4 N=  369 p=0.45: median 164 (q25 137, q75 196), unfinished 0/64 at T=100000, final density 0.072
+life bcc14     B567/S4567                       R= 5 N=  671 p=0.45: median 627 (q25 471, q75 718), unfinished 0/64 at T=100000, final density 0.038
+life bcc8      B34/S234                         R= 3 N=  175 p=0.5: median 916 (q25 646, q75 1152), unfinished 0/64 at T=100000, final density 0.210
+life bcc8      B34/S234                         R= 4 N=  369 p=0.5: median 17600 (q25 13205, q75 24256), unfinished 0/64 at T=100000, final density 0.095
+life bcc8      B34/S234                         R= 5 N=  671 p=0.5: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.517
+life bcc8      B34/S234                         R= 6 N= 1105 p=0.5: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.517
+life bcc8      B345/S2345                       R= 3 N=  175 p=0.57: median 768 (q25 384, q75 1600), unfinished 0/64 at T=100000, final density 0.755
+life bcc8      B345/S2345                       R= 4 N=  369 p=0.57: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.694
+life bcc8      B345/S2345                       R= 5 N=  671 p=0.57: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.664
+life bond10    B45/S345                         R= 4 N=  264 p=0.45: median 24 (q25 19, q75 38), unfinished 0/64 at T=100000, final density 0.147
+life bond10    B45/S345                         R= 5 N=  510 p=0.45: median 46 (q25 37, q75 62), unfinished 0/64 at T=100000, final density 0.118
+life bond10    B45/S345                         R= 6 N=  876 p=0.45: median 74 (q25 53, q75 95), unfinished 0/64 at T=100000, final density 0.109
+life bond10    B45/S345                         R= 7 N= 1386 p=0.45: median 124 (q25 101, q75 153), unfinished 0/64 at T=100000, final density 0.086
+life bond10    B456/S3456                       R= 4 N=  264 p=0.55: median 1152 (q25 896, q75 1664), unfinished 0/64 at T=100000, final density 0.334
+life bond10    B456/S3456                       R= 5 N=  510 p=0.55: median 45120 (q25 20480, q75 100000), unfinished 17/64 at T=100000, final density 0.268
+life bond10    B456/S3456                       R= 6 N=  876 p=0.55: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.460
+life cross2    B34/S234                         R= 5 N=  121 p=0.5: median 377 (q25 232, q75 530), unfinished 0/64 at T=200000, final density 0.280
+life cross2    B34/S234                         R= 6 N=  169 p=0.5: median 896 (q25 448, q75 1117), unfinished 0/64 at T=200000, final density 0.162
+life cross2    B34/S234                         R= 7 N=  225 p=0.5: median 1994 (q25 1477, q75 2899), unfinished 0/64 at T=200000, final density 0.159
+life cross2    B34/S234                         R= 8 N=  289 p=0.5: median 4172 (q25 2752, q75 7049), unfinished 0/64 at T=200000, final density 0.145
+life cross2    B34/S234                         R= 9 N=  361 p=0.5: median 9600 (q25 7531, q75 12854), unfinished 0/64 at T=200000, final density 0.133
+life cross2    B34/S234                         R=10 N=  441 p=0.5: median 19673 (q25 15885, q75 28821), unfinished 0/64 at T=200000, final density 0.112
+life cross3    B45/S345                         R= 8 N=  289 p=0.4: median 121 (q25 88, q75 137), unfinished 0/64 at T=200000, final density 0.030
+life cross3    B45/S345                         R=12 N=  625 p=0.4: median 344 (q25 289, q75 397), unfinished 0/64 at T=200000, final density 0.013
+life cross3    B45/S345                         R=16 N= 1089 p=0.4: median 869 (q25 704, q75 982), unfinished 0/64 at T=200000, final density 0.009
+life cross3    B45/S345                         R=20 N= 1681 p=0.4: median 1676 (q25 1472, q75 1833), unfinished 0/64 at T=200000, final density 0.006
+life cross3    B456/S3456                       R= 6 N=  169 p=0.45: median 109 (q25 54, q75 191), unfinished 0/64 at T=100000, final density 0.109
+life cross3    B456/S3456                       R= 8 N=  289 p=0.45: median 364 (q25 240, q75 532), unfinished 0/64 at T=100000, final density 0.080
+life cross3    B456/S3456                       R=10 N=  441 p=0.45: median 978 (q25 633, q75 1632), unfinished 0/64 at T=100000, final density 0.060
+life cross3    B456/S3456                       R=12 N=  625 p=0.45: median 3081 (q25 2262, q75 4328), unfinished 0/64 at T=100000, final density 0.044
+life cross3    B4567/S34567                     R= 5 N=  121 p=0.5: median 96 (q25 43, q75 178), unfinished 0/64 at T=100000, final density 0.245
+life cross3    B4567/S34567                     R= 6 N=  169 p=0.5: median 212 (q25 64, q75 458), unfinished 0/64 at T=100000, final density 0.218
+life cross3    B4567/S34567                     R= 7 N=  225 p=0.5: median 331 (q25 152, q75 678), unfinished 0/64 at T=100000, final density 0.169
+life cross3    B4567/S34567                     R= 8 N=  289 p=0.5: median 900 (q25 509, q75 1509), unfinished 0/64 at T=100000, final density 0.152
+life cross3    B4567/S34567                     R= 9 N=  361 p=0.5: median 1403 (q25 469, q75 2776), unfinished 0/64 at T=100000, final density 0.146
+life cross3    B45678/S345678                   R= 5 N=  121 p=0.55: median 256 (q25 88, q75 576), unfinished 0/64 at T=200000, final density 0.576
+life cross3    B45678/S345678                   R= 6 N=  169 p=0.55: median 839 (q25 415, q75 1600), unfinished 0/64 at T=200000, final density 0.410
+life cross3    B45678/S345678                   R= 7 N=  225 p=0.55: median 1216 (q25 539, q75 2240), unfinished 0/64 at T=200000, final density 0.372
+life cross3    B45678/S345678                   R= 8 N=  289 p=0.55: median 3141 (q25 615, q75 5359), unfinished 0/64 at T=200000, final density 0.374
+life cross3    B45678/S345678                   R= 9 N=  361 p=0.55: median 4096 (q25 1856, q75 9545), unfinished 0/64 at T=200000, final density 0.362
+life cross3d2  B34/S234                         R= 3 N=  343 p=0.4: median 87889 (q25 58664, q75 100000), unfinished 24/64 at T=100000, final density 0.173
+life cross3d2  B34/S234                         R= 4 N=  729 p=0.4: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.427
+life cross3d2  B34/S234                         R= 5 N= 1331 p=0.4: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.407
+life cross3d2  B34/S234                         R= 6 N= 2197 p=0.4: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.407
+life cross3d2  B345/S2345                       R= 3 N=  343 p=0.45: median 100000 (q25 75456, q75 100000), unfinished 40/64 at T=100000, final density 0.456
+life cross3d2  B345/S2345                       R= 4 N=  729 p=0.45: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.493
+life cross3d2  B345/S2345                       R= 5 N= 1331 p=0.45: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.479
+life cross4    B5678/S45678                     R= 8 N=  289 p=0.44: median 129 (q25 38, q75 219), unfinished 0/64 at T=100000, final density 0.103
+life cross4    B5678/S45678                     R=10 N=  441 p=0.44: median 256 (q25 27, q75 448), unfinished 0/64 at T=100000, final density 0.088
+life cross4    B5678/S45678                     R=12 N=  625 p=0.44: median 320 (q25 85, q75 861), unfinished 0/64 at T=100000, final density 0.075
+life cross4    B56789(10)(11)/S456789(10)(11)   R= 6 N=  169 p=0.57: median 147 (q25 65, q75 363), unfinished 0/64 at T=200000, final density 0.596
+life cross4    B56789(10)(11)/S456789(10)(11)   R= 8 N=  289 p=0.57: median 1077 (q25 448, q75 2810), unfinished 0/64 at T=200000, final density 0.400
+life cross4    B56789(10)(11)/S456789(10)(11)   R=10 N=  441 p=0.57: median 1856 (q25 64, q75 7984), unfinished 0/64 at T=200000, final density 0.362
+life cross4    B56789(10)(11)/S456789(10)(11)   R=12 N=  625 p=0.57: median 1432 (q25 166, q75 14204), unfinished 0/64 at T=200000, final density 0.333
+life cross4    B56789/S456789                   R= 6 N=  169 p=0.48: median 48 (q25 11, q75 96), unfinished 0/64 at T=100000, final density 0.209
+life cross4    B56789/S456789                   R= 8 N=  289 p=0.48: median 158 (q25 22, q75 287), unfinished 0/64 at T=100000, final density 0.155
+life cross4    B56789/S456789                   R=10 N=  441 p=0.48: median 64 (q25 14, q75 768), unfinished 0/64 at T=100000, final density 0.119
+life face8     B34/S234                         R= 4 N=  264 p=0.5: median 1516 (q25 1100, q75 1904), unfinished 0/64 at T=100000, final density 0.247
+life face8     B34/S234                         R= 5 N=  510 p=0.5: median 15716 (q25 13055, q75 19904), unfinished 0/64 at T=100000, final density 0.121
+life face8     B34/S234                         R= 6 N=  876 p=0.5: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.440
+life fcc       B45/S345                         R= 3 N=  231 p=0.42: median 162 (q25 105, q75 203), unfinished 0/64 at T=100000, final density 0.040
+life fcc       B45/S345                         R= 4 N=  489 p=0.42: median 832 (q25 672, q75 1152), unfinished 0/64 at T=100000, final density 0.022
+life fcc       B45/S345                         R= 5 N=  891 p=0.42: median 9847 (q25 7602, q75 13678), unfinished 0/64 at T=100000, final density 0.011
+life fcc       B45/S345                         R= 6 N= 1469 p=0.42: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.393
+life fcc       B45/S345                         R= 7 N= 2255 p=0.42: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.408
+life fcc       B456/S3456                       R= 3 N=  231 p=0.48: median 4617 (q25 2824, q75 6797), unfinished 0/64 at T=100000, final density 0.096
+life fcc       B456/S3456                       R= 4 N=  489 p=0.48: median 100000 (q25 100000, q75 100000), unfinished 60/64 at T=100000, final density 0.483
+life fcc       B456/S3456                       R= 5 N=  891 p=0.48: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.520
+life fcc       B456/S3456                       R= 6 N= 1469 p=0.48: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.513
+life fcc       B4567/S34567                     R= 3 N=  231 p=0.52: median 100000 (q25 87680, q75 100000), unfinished 47/64 at T=100000, final density 0.587
+life fcc       B4567/S34567                     R= 4 N=  489 p=0.52: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.632
+life fcc       B4567/S34567                     R= 5 N=  891 p=0.52: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.599
+life fcc       B45678/S345678                   R= 3 N=  231 p=0.57: median 14784 (q25 7473, q75 31616), unfinished 0/64 at T=100000, final density 0.710
+life fcc       B45678/S345678                   R= 4 N=  489 p=0.57: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.711
+life fcc       B45678/S345678                   R= 5 N=  891 p=0.57: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.688
+life gump      B45/S345                         R= 4 N=  264 p=0.444: median 314 (q25 231, q75 421), unfinished 0/64 at T=100000, final density 0.044
+life gump      B45/S345                         R= 5 N=  510 p=0.444: median 3682 (q25 2555, q75 7759), unfinished 0/64 at T=100000, final density 0.021
+life gump      B45/S345                         R= 6 N=  876 p=0.444: median 100000 (q25 91744, q75 100000), unfinished 43/64 at T=100000, final density 0.294
+life gump      B456/S3456                       R= 4 N=  264 p=0.521: median 16896 (q25 9977, q75 29306), unfinished 0/64 at T=100000, final density 0.222
+life gump      B456/S3456                       R= 5 N=  510 p=0.521: median 100000 (q25 100000, q75 100000), unfinished 63/64 at T=100000, final density 0.561
+life gump      B456/S3456                       R= 6 N=  876 p=0.521: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.562
+life gump      B4567/S34567                     R= 4 N=  264 p=0.587: median 192 (q25 128, q75 320), unfinished 0/64 at T=100000, final density 0.732
+life gump      B4567/S34567                     R= 5 N=  510 p=0.587: median 1024 (q25 576, q75 1792), unfinished 0/64 at T=100000, final density 0.699
+life gump      B4567/S34567                     R= 6 N=  876 p=0.587: median 4224 (q25 2688, q75 7488), unfinished 0/64 at T=100000, final density 0.675
+life moore     B456/S3456                       R= 6 N=   85 p=0.6: median 31 (q25 21, q75 37), unfinished 0/64 at T=200000, final density 0.200
+life moore     B456/S3456                       R=10 N=  221 p=0.6: median 100 (q25 77, q75 116), unfinished 0/64 at T=200000, final density 0.101
+life moore     B456/S3456                       R=14 N=  421 p=0.6: median 192 (q25 163, q75 219), unfinished 0/64 at T=200000, final density 0.054
+life moore     B456/S3456                       R=18 N=  685 p=0.6: median 332 (q25 286, q75 353), unfinished 0/64 at T=200000, final density 0.039
+life moore     B456/S3456                       R=24 N= 1201 p=0.6: median 610 (q25 547, q75 657), unfinished 0/64 at T=200000, final density 0.023
+life sc18      B6789/S56789                     R= 3 N=  343 p=0.44: median 355 (q25 256, q75 512), unfinished 0/64 at T=100000, final density 0.079
+life sc18      B6789/S56789                     R= 4 N=  729 p=0.44: median 10107 (q25 7296, q75 15446), unfinished 0/64 at T=100000, final density 0.034
+life sc18      B6789/S56789                     R= 5 N= 1331 p=0.44: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.475
+life sc18      B6789/S56789                     R= 6 N= 2197 p=0.44: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.479
+life sc6       B2/S12                           R= 2 N=  125 p=0.4: median 2752 (q25 1410, q75 5021), unfinished 0/64 at T=100000, final density 0.043
+life sc6       B2/S12                           R= 3 N=  343 p=0.4: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.405
+life sc6       B2/S12                           R= 4 N=  729 p=0.4: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.398
+life sc6       B2/S12                           R= 5 N= 1331 p=0.4: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.395
+life sc6       B23/S123                         R= 2 N=  125 p=0.52: median 4096 (q25 2158, q75 8704), unfinished 0/64 at T=100000, final density 0.639
+life sc6       B23/S123                         R= 3 N=  343 p=0.52: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.557
+life sc6       B23/S123                         R= 4 N=  729 p=0.52: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.548
+life sc6       B23/S123                         R= 5 N= 1331 p=0.52: median 100000 (q25 100000, q75 100000), unfinished 64/64 at T=100000, final density 0.534
+life sc6       B234/S1234                       R= 2 N=  125 p=0.63: median 33 (q25 20, q75 64), unfinished 0/64 at T=100000, final density 0.808
+life sc6       B234/S1234                       R= 3 N=  343 p=0.63: median 128 (q25 128, q75 192), unfinished 0/64 at T=100000, final density 0.743
+life sc6       B234/S1234                       R= 4 N=  729 p=0.63: median 320 (q25 256, q75 448), unfinished 0/64 at T=100000, final density 0.725
+life vn        B2/S12                           R= 4 N=   81 p=0.47: median 110 (q25 64, q75 128), unfinished 0/64 at T=200000, final density 0.172
+life vn        B2/S12                           R= 6 N=  169 p=0.47: median 293 (q25 192, q75 384), unfinished 0/64 at T=200000, final density 0.122
+life vn        B2/S12                           R= 8 N=  289 p=0.47: median 640 (q25 512, q75 831), unfinished 0/64 at T=200000, final density 0.086
+life vn        B2/S12                           R=10 N=  441 p=0.47: median 1443 (q25 1152, q75 1680), unfinished 0/64 at T=200000, final density 0.050
+life vn        B2/S12                           R=12 N=  625 p=0.47: median 2752 (q25 2368, q75 3329), unfinished 0/64 at T=200000, final density 0.043
+life vn        B2/S12                           R=14 N=  841 p=0.47: median 5376 (q25 4836, q75 6080), unfinished 0/64 at T=200000, final density 0.031
+life vn        B2/S12                           R=16 N= 1089 p=0.47: median 8763 (q25 7808, q75 10160), unfinished 0/64 at T=200000, final density 0.025
