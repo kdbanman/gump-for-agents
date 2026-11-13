@@ -185,7 +185,7 @@ def main():
         for r in nbrs(q):
             if r not in St:
                 outside[r] += 1
-    settle_ok = True; died = 0
+    settle_ok = True; died = 0; sl = set(); p2 = set()
     for mask in range(1 << 12):
         S = frozenset(star[i] for i in range(12) if mask >> i & 1)
         hist = [S]
@@ -195,8 +195,18 @@ def main():
         # settled by gen 3 means hist[3] is on a cycle of period <= 2 that continues
         settle_ok &= hist[5] == hist[3] and (hist[4] == hist[3] or hist[5] == hist[3])
         died += len(hist[5]) == 0
-    report("star", len(star) == 12 and set(inside) == {5} and max(outside.values()) <= 2 and settle_ok and died == 2750,
-           f"12 cells, inner degree {set(inside)}, max outside count {max(outside.values())}, all 4096 settle by gen 3, {died} die (NOTEBOOK 2750)")
+        if hist[0] and hist[1] == hist[0]:
+            sl.add(hist[0])
+        elif hist[2] == hist[0] and hist[1] != hist[0]:
+            p2.add(hist[0])
+    G = [(pm, sg) for pm in itertools.permutations(range(3)) for sg in itertools.product((1, -1), repeat=3)]
+    def can(S):  # canonical form under the 48 symmetries fixing the vertex v
+        return min(tuple(sorted(tuple(sg[i] * (c[pm[i]] - v[i]) + v[i] for i in range(3)) for c in S)) for pm, sg in G)
+    slc = len({can(S) for S in sl}); p2c = len({min(can(S), can(step(S))) for S in p2})
+    report("star", len(star) == 12 and set(inside) == {5} and max(outside.values()) <= 2 and settle_ok and died == 2750
+           and len(sl) == 107 and len(p2) == 390 and slc == 10 and p2c == 14,
+           f"12 cells, inner degree {set(inside)}, max outside count {max(outside.values())}, all 4096 settle by gen 3, "
+           f"{died} die (2750), {len(sl)} still lifes (107), {len(p2)//2} two-cycles (195); classes {slc} SL (10), {p2c} p2 (14)")
     cube1 = frozenset([(1, 0, 0), (-1, 0, 0), (0, 1, 0), (0, -1, 0), (0, 0, 1), (0, 0, -1)])
     report("smallsl", step(cube1) == cube1, "closed unit cube is a still life (each cell sees 4)")
     if use_engine and os.path.exists(GUMP):
