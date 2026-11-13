@@ -125,6 +125,9 @@ Commands run from the repo root; `G=engine/target/release/gump`. `check.sh` = co
 | G2 | 2D toy: box confinement, T5 and no finite sealed set | proved | toy2d README | `python3 research/toy2d/structure2d.py` | C (lead re-derived confinement and the 3-row firewall by hand only) | 2026-11-13 |
 | G3 | 2D toy: mirror symmetry multiplies the slope by 0.42, full square symmetry by 0.50; four-fold rotation also shortens life (forecast failed) | measured | NB 2026-11-13; toy2d PREDICTIONS | `research/toy2d/` | C | — |
 | G4 | No capped-threshold Moore rule sustains confined chaos; 93 of 711 long-lived Moore rules die edge by edge | measured | toy2d README | `research/toy2d/` | C | — |
+| L1 | Runs from cube-like O_h seeds wait like O_h soups and like Exp(τ) at hull radius 31–38: mean 0.99 τ, CV 1.02, KS p 0.98 (1,248 vs 3,261 plateaus); no correlation between consecutive plateaus | measured | NB 2026-11-13; lineage README | `python3 research/lineage/analyze.py` | B (lead re-derived from the committed plateaus with separate code and soup-only references: `research/experiments/lineage_check.py`; runs not repeated) | 2026-11-13 |
+| L2 | Copies of a state with one orbit flipped inherit a little of its hazard (Spearman +0.2 between own remaining wait and the copies' mean; ±15–25%) | measured once | NB 2026-11-13; lineage README §4 | `python3 research/lineage/analyze_perturb.py` | C (lead re-derived ρ from the committed CSVs; one set of 150 sources, two non-independent batches; no replication) | 2026-11-13 |
+| L3 | The 16 legacy cube plateaus remain a ~1% outlier against the lineage data; without side 16, P = 0.18 | measured, post hoc | lineage README §5 | `python3 research/lineage/cube_recheck.py` | C (statistic chosen after side 16 finished) | 2026-11-13 |
 
 ## Counts (2026-11-13)
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Unperturbed vs one-orbit-flip continuations of many structured lineages (output of perturb.py).
 
-  python3 research/lineage/analyze_perturb.py [CSV|-] [R]   (R: only sources whose first plateau is at radius R)     (default research/scratch/lineage/perturb_13_20000.csv,
-                                                         else research/lineage/data/perturb_13_20000.csv)
+  python3 research/lineage/analyze_perturb.py [CSV ...] [--r=R]   (R: only sources whose first plateau is at radius R)     (default: perturb_13_20000.csv and perturb_13_40000.csv
+                                                         in research/scratch/lineage/, else research/lineage/data/)
 Residual waits are scaled by the engine-soup mean at the source's radius (tau_e; analyze.py's table: 33c 2.423e5,
 35c from the orbit-stepper 1.399e6). Tests:
   - copy 0 (the lineage itself) and copies 1..K against Exp(1): mean, CV, tails, KS
@@ -14,17 +14,20 @@ import sys, os, csv, math, collections
 import numpy as np
 from scipy import stats
 TAU = {33: 2.423e5, 35: 1.399e6, 31: 5.904e4}
-f = sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] != "-" else "research/scratch/lineage/perturb_13_20000.csv"
-ONLY = int(sys.argv[2]) if len(sys.argv) > 2 else None              # optional: only sources at this radius
-if not os.path.exists(f): f = "research/lineage/data/perturb_13_20000.csv"
-src = collections.defaultdict(dict); cens = 0
-for r in csv.DictReader(open(f)):
-    if int(r["r0"]) not in TAU or (ONLY and int(r["r0"]) != ONLY): continue                       # sources whose first plateau is below r = 31: skipped
-    if r["died"] != "1": cens += 1
-    src[int(r["src"])][int(r["copy"])] = int(r["resid"]) / TAU[int(r["r0"])]
+args = [a for a in sys.argv[1:] if not a.startswith("--r=")]
+ONLY = next((int(a[4:]) for a in sys.argv[1:] if a.startswith("--r=")), None)     # only sources at this radius
+files = args or [f for f in ("research/scratch/lineage/perturb_13_20000.csv", "research/scratch/lineage/perturb_13_40000.csv")
+                 if os.path.exists(f)] or ["research/lineage/data/perturb_13_20000.csv", "research/lineage/data/perturb_13_40000.csv"]
+src = collections.defaultdict(dict); cens = 0; radii = collections.Counter()
+for fi, f in enumerate(files):
+    for r in csv.DictReader(open(f)):
+        if int(r["r0"]) not in TAU or (ONLY and int(r["r0"]) != ONLY): continue   # sources below r = 31 skipped
+        if r["died"] != "1": cens += 1
+        if r["copy"] == "0": radii[int(r["r0"])] += 1
+        src[(fi, int(r["src"]))][int(r["copy"])] = int(r["resid"]) / TAU[int(r["r0"])]
 src = {s: d for s, d in src.items() if len(d) >= 3}
 K = max(len(d) for d in src.values()) - 1
-print(f"{len(src)} source states, up to {K} perturbed copies each, {cens} censored; radii {collections.Counter(int(r['r0']) for r in csv.DictReader(open(f)) if r['copy']=='0')}")
+print(f"{files}: {len(src)} source states, up to {K} perturbed copies each, {cens} censored; sources by radius {dict(radii)}")
 def line(x, label):
     x = np.array(x); n = len(x)
     print(f"  {label:28s} n={n:4d} mean {x.mean():5.3f} (Gamma p {2*min(stats.gamma.cdf(x.sum(), n), stats.gamma.sf(x.sum(), n)):.3f})"

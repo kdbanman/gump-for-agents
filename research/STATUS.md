@@ -16,16 +16,23 @@ _Last updated 2026-11-13 by the lead._
 - `web/` rounds two and three — kymograph, `{111}` slicer, editor, atlas gallery, guided tour, static build.
 - `research/phase/` — the chaotic state as a phase; 960-rule survey (`research/figures/phase_rulemap.png`).
 
-## In flight
-- `research/lineage/` (agent): are plateau lengths of structured symmetric seeds memoryless, or over-dispersed
-  like the cubes'? (OPEN-PROBLEMS 6.)
-- `research/theory/` S5 and S6 done and checked (notebook 2026-11-13): threshold lemma with exact energy
-  identity; no finite sealed set in ≥ 3 layers; "one layer always freezes" disproved. To do: state both as
-  theorems in `docs/AUTOMATON.md` once the running audit has finished reading it.
-- Audit agent: `research/CLAIMS.md`, `research/AUDIT-2026-11-13.md`, `research/check.sh`, CI workflow.
-- GPU session "Modal API" briefed (see `LEAD.md`); no pull request from it yet.
-- 2D toy found and its law checked (notebook 2026-11-13, `research/toy2d/`): B34/S234 on the range-2 cross.
-  Next: use it for proofs and exhaustive small cases (PROGRAM M2, M4, E2).
+## In flight (2026-11-13, late)
+- `research/theory/class.md` (Fable agent): what is the class of "gumps"? Abstract confinement / firewall /
+  sealed-set theory, a criterion, predictions committed before testing on other lattices.
+- `research/theory/exponent.md` (Fable agent): where the exponent comes from — exact small systems in the 2D toy,
+  the rate function, a model that reproduces 0.416 and then predicts gump's 0.208, a theorem if one can be had.
+- GPU session "Modal API" (see `LEAD.md`): briefed with three experiments; no pull request yet.
+
+## Next (lead's list; pick by judgment)
+- Lineage study is in (notebook 2026-11-13, `research/lineage/`): cube-like seeds wait like soups at R ≤ 38. Open from it:
+  replicate the weak "slow variable" (copies remember their source, ρ ≈ +0.2) on other sources; side 16's own sizes
+  (vertex-centred R ≥ 40) need the GPU session.
+- Check each report above independently before recording it (see `LEAD.md`, "Resuming").
+- Have a fresh agent try to break the two Fable agents' claims once they land.
+- Full web test suite has not been re-run since the tour text edits of 2026-11-13 (tour tests pass).
+- Put the 2D toy in the web viewer/tour if it becomes the paper's lead example.
+- Papers (PROGRAM, "Writing it up"): not started; the owner decides venue, authorship and disclosure.
+- Pages deployment still needs the owner: Settings → Pages → Source "GitHub Actions".
 
 ## The storyline so far
 1. Birth cannot cross a `{111}` plane (T2) ⇒ finite seeds are trapped in octahedral hulls; no

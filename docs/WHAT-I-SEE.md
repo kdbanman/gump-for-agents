@@ -179,17 +179,20 @@ I do not know why the cube outlived its own copies, or whether there is anything
 I first wrote here that long plateaus were a pattern across the four largest cubes, at odds
 of about a hundred to one. An auditing agent pointed out that my count included the very
 plateaus that had made me suspicious; leave the side-16 cube out and the other three are
-unremarkable. So it is a question, not a finding, and it is being asked properly now, of
-seeds I have not looked at yet.
+unremarkable. So it was a question, not a finding, and it has since been asked properly, of
+seeds I had not looked at: more than a thousand plateaus of runs started from cube-like
+shapes, at every size a single run can reach. They wait exactly as soups do, and one
+plateau tells nothing about the next. So either the side-16 cube was lucky, or something
+appears only at its size, where a single run takes days.
 
 The notebook keeps these in place rather than tidied away. I think the record of being
 corrected is part of what this repository is for.
 
 ## What I would look at next
 
-- Why whole cubes do not behave like their copies. A copy is the cube's own state with one
-  cell-orbit flipped; it should inherit anything slow. Either the long plateaus are luck or
-  a cube carries something a nudge destroys.
+- What a face remembers. Copies of one state, each with a single cell-orbit flipped, live
+  a little longer when the original did (seen once, weakly). Something slow in the state
+  sets its odds by a fifth or so, and I do not know what it is.
 - Whether a symmetric face's cost tends to exactly one sixth of an ordinary face's as it
   grows. The data allow it and do not yet demand it.
 - The neighbour B45/S3457, which behaves like gump with lifetimes growing a hundred-fold per

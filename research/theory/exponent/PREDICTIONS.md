@@ -1,0 +1,135 @@
+# Forecasts for the exponent study (append-only)
+
+Each entry is written and committed before the run that tests it. Outcomes are appended below the entry they
+score, never edited in. "Truth" for the toy = `research/toy2d/README.md` §4.1 (ln τ_edge = 0.73 + 0.416·L, strips
+16 × L, L = 12–36); for gump = `research/fluct/README.md` §1 (−ln h/A = 0.2268, 0.2182, 0.2164, 0.2152 at
+A = 30, 45, 63, 84; I(0) = 0.2077 + 0.55/A).
+
+## 2026-11-13T17:57Z — before any run except the engine validation
+
+What I had seen when writing this: the validation runs (`validate.py`: toy L = 12, 16 and gump R = 9 reproduce the
+published numbers), the `fg_check.py` cases (N ≤ 18: e.g. strip 3 × 6 has 2,259 cyclic states and 20% of all states
+never lose an edge), and a mean-field iteration of the w = 1 model (edge density 0.68 against a measured ≈ 0.5).
+
+**F1. Random map with killing (PROGRAM E2, OPEN-PROBLEMS item 4), exact small vessels, N = 24–32.**
+The heuristic predicts ≈ |G|·τ states on immortal cycles and an immortal basin of ≈ |G|·τ²/2^N of all states
+(τ = mean edge-death time, |G| = order of the vessel's symmetry group), i.e. basins of order 10⁻⁶ at N = 30.
+*My forecast: it fails by orders of magnitude, in a specific way.* (a) The immortal basin is between 3% and 60% of
+all states in every vessel with N ≥ 24. (b) States on immortal cycles number between 10⁴ and 10⁶ in the 4 × 8 strip
+(N = 32) and ≥ 90% of them have period 1 or 2 — they are debris that happens to touch every edge, which a random
+map does not have. (c) Restricted to cycles of period ≥ 8 the heuristic is not absurd: the number of states on
+immortal cycles of period ≥ 8 is within a factor 30 of |G|·τ_tail, where τ_tail is the reciprocal of the hazard of
+the death-time distribution at t ≥ 20 (confidence 50%). (d) The death-time distribution over all states is not
+exponential at these sizes: > 95% of mortal states die within 10 generations, and whatever tail exists has a rate
+whose dependence on L at fixed H ≤ 5 is much weaker than the law's (slope of −ln hazard per unit L below 0.2).
+
+**F2. The final plunge in the toy.** In gump a dying face is ordinary until ≈ 16 generations before death at every
+size. *Forecast: in the toy the plunge lengthens with L* — the lag at which the mean pre-death edge population
+crosses half the living mean grows by at least a factor 1.5 from L = 16 to L = 32 (confidence 60%; my reason is
+that h/p₁ falls with L in the toy and not in gump, which smells like a slow retreat with the rows beneath
+relaxing). If it does not lengthen, the two automata die the same way and splitting methods fail in both.
+
+**F3. Death = a gap as long as the edge.** Define E(ℓ) = probability that a given window of ℓ consecutive cells of
+a long living edge (L = 128) is empty. *Forecast: −d ln E/dℓ at ℓ = 20–40 equals the local slope of ln τ(L) at
+L = 20–36 within 10%* (i.e. lies in 0.37–0.45; confidence 60%), so that the exponent is a static property of the
+infinite edge's stationary state, as γ is for the contact process (Durrett–Schonmann).
+
+**F4. The driven-edge model** (`xp.toy_model(w, L)`): rows 0..w−1 follow the rule, rows w, w+1 are i.i.d.
+Bernoulli(0.472) redrawn every generation (0.472 = bulk density of the toy on a torus, `research/toy2d` §4.3).
+*Forecast:* w = 1 is long-lived with a clean exponential law, but its slope is **not** within 15% of 0.416 (I lean
+to "higher", 60/40: mean field makes the lone row denser than the real edge); the slope converges to the truth
+within 10% only for w ≥ 4.
+
+**F5. The same recipe for gump — recipe fixed now, number to be entered below before any comparison.**
+Let w* be the smallest w whose toy-model slope (fit of ln τ over L = 12–28, same L as available) is within 10% of
+0.416. The gump prediction is the slope of ln τ against A, A = 30, 45, 63 (R = 7, 9, 11), of
+`xp.gump_model(R, w*)`: the top w* {111} layers of the octahedral hull follow B45/S345 and the next two layers are
+i.i.d. Bernoulli(0.4155) (gump's bulk density, PROGRAM D4). No parameter is tuned on gump. *Forecast: the gump
+model's ln τ at A = 30, 45, 63 is within 0.5 nats of the measured 6.80, 9.82, 13.63 and its slope within 10% of the
+measured (13.63 − 6.80)/33 = 0.207* (confidence 50%).
+
+**F6. Noise.** Toy with independent deaths at rate ε per live cell per generation, strips 16 × L. *Forecast:*
+ln τ is continuous at ε → 0 (ε = 10⁻⁴ and 10⁻³ within 3% of ε = 0 at L = 16 and 20), and the slope decreases
+linearly, I(ε) ≈ I(0) − c·ε with 1 < c < 6.
+
+**F7. The coincidence 0.416 = 2 × 0.208.** *Forecast: chance.* Tests I will run: (a) the asymptotic toy slope from
+F3 / longer edges differs from 2 × 0.2077 = 0.415 by more than 3%; (b) gump with *periodic* faces (a slab of {111}
+layers on a torus — the like-for-like partner of the toy's periodic strip) has a slope different from 0.208 by
+more than 5%, as the toy's box edges (0.343) differ from its strip edges (0.416); (c) a third family member,
+B45/S345 on the 2D range-3 cross (12 neighbours, 6 in-row, 3 below: gump's counts with a 1D edge), if it
+sustains chaos at all, has a slope that is neither 0.208 nor 0.416 within 10%.
+
+## 2026-11-13T18:20Z — w* fixed (F5), before any gump-model run
+
+Toy-model slopes, fit of ln τ over L = 12–28 (`python3 report.py hier`; w = 6, 8 and my own truth run only to L = 24
+at this moment): w = 1: 0.5308 ± 0.0011, w = 2: 0.4904 ± 0.0010, **w = 3: 0.4553 ± 0.0009**, w = 4: 0.4434 ± 0.0010,
+w = 6: 0.4377 ± 0.0015, w = 8: 0.4342 ± 0.0015; truth (strips 16 × L, L = 12–24, this engine): 0.4288 ± 0.0014;
+toy2d's published fit 0.416. The smallest w within 10% of 0.416 (≤ 0.4576) is **w* = 3** (w = 2 misses both 0.416
+and 0.429 by more than 10%). So the gump prediction of F5 is the output of `xp.gump_model(R, 3)` with noise density
+0.4155 at R = 7, 9, 11; I will also run w = 1, 2, 4, 5 to see the convergence, but w = 3 is the forecast.
+
+Sub-forecast, from the toy's pattern (model at w = 3 is +0.01, +0.05, +0.15, +0.27 nats above the truth at
+L = 12, 16, 20, 24, i.e. slightly too tough, increasingly with size): the gump model at w = 3 will come out *above*
+the measured ln τ, by 0.1–0.6 nats at A = 63, with slope 0.21–0.23 against the measured 0.207.
+
+Interim scores (details in exponent.md once written):
+- F4: **hit** so far — w = 1 has a clean law with slope 0.531 (28% above 0.416, "higher" as leaned); but
+  convergence within 10% is reached at w = 3, not "only for w ≥ 4" (that clause: **miss**).
+- F2: **miss** — in strips 16 × L the mean edge density one generation before death is 0.29, 0.19, 0.13, 0.10 of
+  the row (L = 12, 16, 20, 24) and two generations before it is already 0.61, 0.55, 0.46, 0.39 against a living mean of
+  0.58: the edge dies in a two-generation flash at every size (`python3 report.py endgame`). Only a mild sag
+  (≤ 12% over the previous ten generations) grows with L.
+
+## 2026-11-13T18:41Z — periodic faces (written with the hull runs R = 7, 9 at w ≤ 4 on screen, R = 11 not yet run)
+
+Seen so far for hull faces: A = 30: ln τ = 5.88, 6.38, 7.13, 6.55, 6.58 for w = 1…5 (measured 6.80); A = 45: 8.73, 9.91,
+10.54, 9.81 for w = 1…4 (measured 9.82). The convergence in w is not monotone in gump (w = 3 is the *worst* depth),
+and the R = 7 hull is too small to have a bulk under its faces (its fifth layer is the centre).
+
+**F8. Like for like: periodic faces.** `xp.gump_slab(a, b, 12)` (a slab of twelve {111} layers on a torus, two
+faces of 3ab cells, deterministic) against `xp.gump_slab_model(a, b, w)` (top w layers on Bernoulli(0.4155) noise),
+A = 27, 36, 48, 60. *Forecasts:* (a) the model converges to the slab's truth: |Δ ln τ| ≤ 0.15 at every A for
+w = 6 and w = 8 (confidence 65%); (b) w = 3 is again the worst of w ≥ 2 and too tough; (c) the periodic face's
+slope differs from the hull's 0.208 by more than 5% (this is F7b; I lean "higher", because half the cells of a
+hull face of A ≤ 84 are rim cells with only 4 in-layer neighbours).
+**F9.** With eight rows the toy model does not care what the noise density is: ln τ at L = 16, 20 for ρ = 0.30 and
+0.60 within 0.1 of the ρ = 0.472 values (confidence 55%) — i.e. the bulk density is not really an input.
+
+## 2026-11-13T18:57Z — outcome of F5 (gump, the committed recipe) and a follow-up forecast
+
+`python3 jobs.py gump; python3 report.py gump` — ln τ_face of `xp.gump_model(R, w)`, noise density 0.4155:
+
+| w | A = 30 (R = 7) | A = 45 (R = 9) | A = 63 (R = 11) |
+|---|---|---|---|
+| 1 | 5.877 ± 0.016 | 8.731 ± 0.012 | 12.463 ± 0.014 |
+| 2 | 6.378 ± 0.009 | 9.914 ± 0.011 | 14.274 ± 0.024 |
+| **3 (the forecast)** | **7.126 ± 0.012** | **10.542 ± 0.015** | **14.653 ± 0.032** |
+| 4 | 6.550 ± 0.009 | 9.808 ± 0.010 | 13.653 ± 0.022 |
+| 5 | 6.580 ± 0.009 | 9.782 ± 0.010 | 13.592 ± 0.022 |
+| measured hull (research/fluct) | 6.804 ± 0.003 | 9.819 ± 0.003 | 13.633 ± 0.008 |
+
+- **F5: miss.** At the committed depth w* = 3 the model is too tough by 0.32, 0.72 and 1.02 nats (I allowed 0.5) and
+  its slope over A = 30–63 is 0.228 against 0.207 (10.2% high; I allowed 10%). The sub-forecast "above by 0.1–0.6
+  at A = 63, slope 0.21–0.23" got the sign and the slope and missed the size.
+- What the same table shows without a forecast behind it: at **w = 4 and 5 the model reproduces the measured
+  faces at A = 45 and 63 to −0.01, +0.02 (w = 4) and −0.04, −0.04 (w = 5) nats**, slope 0.2136 / 0.2117 against the
+  measured 0.2119. At A = 30 it is 0.25 low: the R = 7 hull has no bulk under its faces. The depth chosen from the
+  toy by a 10% criterion was one layer too shallow; w = 3 is the worst depth in gump.
+
+**F10 (forecast, before the run).** `xp.gump_model(13, 4)` (A = 84) gives ln τ within 0.2 nats of the measured
+18.077 ± 0.054 (confidence 65%; the run will have few deaths, ± 0.15 or so).
+
+## 2026-11-13T19:14Z — outcomes of F3 and F7(a)
+
+`python3 jobs.py gap 600; python3 report.py gap` (strips 16 × 128, 2.7×10¹¹ window samples, E(ℓ) down to 5×10⁻¹⁰):
+the cost of one more empty cell, −ln[E(ℓ+1)/E(ℓ)], is 0.471 at ℓ = 5, 0.434 at 10, 0.397 at 20, 0.382 at 30 and
+0.376 ± 0.002 over ℓ = 34–41, still creeping down.
+
+- **F3: hit, and sharper than forecast.** Over ℓ = 20–40 the decrement is 0.376–0.397 against lifetime slopes of
+  0.412, 0.411 (mine, L = 20–28) and 0.421, 0.382 (toy2d, L = 28–36): inside the 10% band. More: with one shift and
+  one prefactor, **τ_edge(L) = 12.1 / E(L − 6.5)** reproduces all seven measured lifetimes from L = 12 to 36 (ln τ
+  5.6 … 15.6) with residuals +0.03, −0.02, −0.01, −0.01, +0.03, +0.07, +0.05 nats.
+- **F7(a): hit.** The toy's exponent is not 0.416. The lifetime slope falls with L (0.441, 0.434, 0.412, 0.411 per cell
+  between L = 12, 16, 20, 24, 28), the static decrement has reached 0.376 at ℓ ≈ 40, and a + I·L + b·ln L fitted to
+  the seven lifetimes gives I = 0.364 ± 0.006, b = 1.14 ± 0.12 (χ² 4.6/4; the straight line: χ² 95/5). The asymptotic
+  value is 0.36–0.38, i.e. 1.75–1.83 × gump's 0.2077, not 2.000.

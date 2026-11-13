@@ -1,0 +1,128 @@
+# cross3: K=12 b=4 u=(-1, 0) slab m=16 sizes=[12, 20, 28]
+cross3    c= 5 B4/S34               bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- rf=-1.00 af=-1.00 | die
+cross3    c= 6 B45/S345             bulk=chaos  rho=0.392 act=0.463 | A=12: face=0 seal=0 set=0 lnT=- cv=- rf=-1.00 af=-1.00 | GUMP?(no deaths)
+cross3    c= 7 B456/S3456           bulk=chaos  rho=0.452 act=0.485 | A=12: face=0 seal=0 set=0 lnT=- cv=- rf=-1.00 af=-1.00 | GUMP?(no deaths)
+cross3    c= 8 B4567/S34567         bulk=chaos  rho=0.502 act=0.487 | A=12: face=3 seal=0 set=0 lnT=3.15 cv=- rf=0.88 af=0.62 | unclear
+cross3    c= 9 B45678/S345678       bulk=chaos  rho=0.554 act=0.473 | A=12: face=54 seal=32 set=1 lnT=4.32 cv=0.98 rf=0.79 af=0.26 ; A=20: face=25951 seal=37915 set=121 lnT=7.82 cv=1.00 rf=0.76 af=0.28 ; A=28: face=1167 seal=12783 set=0 lnT=10.97 cv=1.01 rf=0.76 af=0.28 | GUMP slope=0.416
+cross3    c=10 B456789/S3456789     bulk=chaos  rho=0.615 act=0.430 | A=12: face=0 seal=4965 set=802 lnT=- cv=- rf=1.00 af=0.00 ; A=20: face=0 seal=47962 set=733 lnT=- cv=- rf=1.00 af=0.00 ; A=28: face=0 seal=1799 set=4 lnT=- cv=- rf=1.00 af=0.00 | CUT
+cross3    c=11 B456789(10)/S3456789(10) bulk=chaos  rho=0.690 act=0.324 | A=12: face=0 seal=9393 set=11551 lnT=- cv=- rf=1.00 af=0.00 ; A=20: face=0 seal=19751 set=35420 lnT=- cv=- rf=1.00 af=0.00 ; A=28: face=0 seal=1136 set=6581 lnT=- cv=- rf=1.00 af=0.00 | WALL
+cross3    c=12 B456789(10)(11)/S3456789(10)(11) bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- rf=-1.00 af=-1.00 | freeze
+cross3    c=13 B456789(10)(11)(12)/S3456789(10)(11)(12) bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- rf=-1.00 af=-1.00 | freeze
+# cross4: K=16 b=5 u=(-1, 0) slab m=16 sizes=[12, 20, 28]
+cross4    c= 6 B5/S45               bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- rf=-1.00 af=-1.00 | die
+cross4    c= 7 B56/S456             bulk=chaos  rho=0.334 act=0.424 | A=12: face=0 seal=0 set=0 lnT=- cv=- rf=-1.00 af=-1.00 | GUMP?(no deaths)
+cross4    c= 8 B567/S4567           bulk=chaos  rho=0.401 act=0.478 | A=12: face=0 seal=0 set=0 lnT=- cv=- rf=-1.00 af=-1.00 | GUMP?(no deaths)
+cross4    c= 9 B5678/S45678         bulk=chaos  rho=0.436 act=0.490 | A=12: face=0 seal=0 set=0 lnT=- cv=- rf=-1.00 af=-1.00 | GUMP?(no deaths)
+cross4    c=10 B56789/S456789       bulk=chaos  rho=0.478 act=0.494 | A=12: face=0 seal=0 set=0 lnT=- cv=- rf=-1.00 af=-1.00 | GUMP?(no deaths)
+cross4    c=11 B56789(10)/S456789(10) bulk=chaos  rho=0.524 act=0.479 | A=12: face=0 seal=0 set=0 lnT=- cv=- rf=-1.00 af=-1.00 | GUMP?(no deaths)
+cross4    c=12 B56789(10)(11)/S456789(10)(11) bulk=chaos  rho=0.566 act=0.468 | A=12: face=20 seal=4 set=3 lnT=4.19 cv=1.11 rf=0.88 af=0.18 ; A=20: face=25814 seal=27871 set=3218 lnT=6.61 cv=1.00 rf=0.79 af=0.26 ; A=28: face=7233 seal=19057 set=240 lnT=8.76 cv=0.98 rf=0.79 af=0.26 | GUMP slope=0.286
+cross4    c=13 B56789(10)(11)(12)/S456789(10)(11)(12) bulk=chaos  rho=0.608 act=0.441 | A=12: face=0 seal=4487 set=6866 lnT=- cv=- rf=1.00 af=0.00 ; A=20: face=0 seal=55683 set=14788 lnT=- cv=- rf=1.00 af=0.00 ; A=28: face=0 seal=11912 set=1945 lnT=- cv=- rf=1.00 af=0.00 | CUT
+cross4    c=14 B56789(10)(11)(12)(13)/S456789(10)(11)(12)(13) bulk=chaos  rho=0.657 act=0.389 | A=12: face=0 seal=18 set=327 lnT=- cv=- rf=1.00 af=0.00 ; A=20: face=0 seal=35616 set=42470 lnT=- cv=- rf=1.00 af=0.00 ; A=28: face=0 seal=5497 set=5131 lnT=- cv=- rf=1.00 af=0.00 | CUT
+cross4    c=15 B56789(10)(11)(12)(13)(14)/S456789(10)(11)(12)(13)(14) bulk=freeze rho=0.751 act=0.013 | A=12: face=0 seal=0 set=0 lnT=- cv=- rf=-1.00 af=-1.00 | freeze
+cross4    c=16 B56789(10)(11)(12)(13)(14)(15)/S456789(10)(11)(12)(13)(14)(15) bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- rf=-1.00 af=-1.00 | freeze
+cross4    c=17 B56789(10)(11)(12)(13)(14)(15)(16)/S456789(10)(11)(12)(13)(14)(15)(16) bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- rf=-1.00 af=-1.00 | freeze
+# star2: K=12 b=5 u=(-1, 0) slab m=16 sizes=[12, 20, 28]
+star2     c= 6 B5/S45               bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=6065779 rf=-1.00 af=-1.00 | die
+star2     c= 7 B56/S456             bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=3167747 rf=-1.00 af=-1.00 | freeze
+star2     c= 8 B567/S4567           bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=1449897 rf=-1.00 af=-1.00 | freeze
+star2     c= 9 B5678/S45678         bulk=chaos  rho=0.527 act=0.496 | A=12: face=0 seal=18609 set=120 lnT=- cv=- early=2182822 rf=1.00 af=0.00 ; A=20: face=0 seal=22519 set=0 lnT=- cv=- early=10646 rf=1.00 af=0.00 ; A=28: face=0 seal=634 set=0 lnT=- cv=- early=78 rf=1.00 af=0.00 | CUT
+star2     c=10 B56789/S456789       bulk=chaos  rho=0.590 act=0.474 | A=12: face=0 seal=27922 set=141 lnT=- cv=- early=2238448 rf=1.00 af=0.00 ; A=20: face=0 seal=17046 set=0 lnT=- cv=- early=10482 rf=1.00 af=0.00 ; A=28: face=0 seal=391 set=0 lnT=- cv=- early=93 rf=1.00 af=0.00 | CUT
+star2     c=11 B56789(10)/S456789(10) bulk=chaos  rho=0.639 act=0.425 | A=12: face=0 seal=28040 set=192 lnT=- cv=- early=2518579 rf=1.00 af=0.00 ; A=20: face=0 seal=16128 set=0 lnT=- cv=- early=15609 rf=1.00 af=0.00 ; A=28: face=0 seal=279 set=0 lnT=- cv=- early=136 rf=1.00 af=0.00 | CUT
+star2     c=12 B56789(10)(11)/S456789(10)(11) bulk=freeze rho=0.832 act=0.017 | A=12: face=0 seal=6 set=580 lnT=- cv=- early=647171 rf=1.00 af=0.00 | freeze
+star2     c=13 B56789(10)(11)(12)/S456789(10)(11)(12) bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=7514907 rf=-1.00 af=-1.00 | freeze
+# tristar2: K=12 b=5 u=(-1, -1) slab m=16 sizes=[12, 20, 28]
+tristar2  c= 6 B5/S45               bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=5605844 rf=-1.00 af=-1.00 | die
+tristar2  c= 7 B56/S456             bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=2721813 rf=-1.00 af=-1.00 | die
+tristar2  c= 8 B567/S4567           bulk=chaos  rho=0.643 act=0.059 | A=12: face=15 seal=1 set=24 lnT=5.34 cv=1.51 early=2854970 rf=0.66 af=0.05 ; A=20: face=258 seal=907 set=8625 lnT=11.31 cv=1.08 early=522704 rf=0.67 af=0.16 ; A=28: face=31 seal=133 set=6993 lnT=11.33 cv=3.82 early=550997 rf=0.69 af=0.05 | GUMP slope=0.374
+tristar2  c= 9 B5678/S45678         bulk=freeze rho=0.664 act=0.007 | A=12: face=0 seal=5086 set=6064 lnT=- cv=- early=382671 rf=1.00 af=0.00 | freeze
+tristar2  c=10 B56789/S456789       bulk=freeze rho=0.681 act=0.017 | A=12: face=0 seal=168 set=1710 lnT=- cv=- early=432768 rf=1.00 af=0.00 | freeze
+tristar2  c=11 B56789(10)/S456789(10) bulk=freeze rho=0.694 act=0.013 | A=12: face=0 seal=239 set=3420 lnT=- cv=- early=464842 rf=1.00 af=0.00 | freeze
+tristar2  c=12 B56789(10)(11)/S456789(10)(11) bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=1012020 rf=-1.00 af=-1.00 | freeze
+tristar2  c=13 B56789(10)(11)(12)/S456789(10)(11)(12) bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=7920852 rf=-1.00 af=-1.00 | freeze
+# tristar3: K=18 b=7 u=(-1, -1) slab m=16 sizes=[12, 20, 28]
+tristar3  c= 8 B7/S67               bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=4930045 rf=-1.00 af=-1.00 | die
+tristar3  c= 9 B78/S678             bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=5842343 rf=-1.00 af=-1.00 | die
+tristar3  c=10 B789/S6789           bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=2306249 rf=-1.00 af=-1.00 | die
+tristar3  c=11 B789(10)/S6789(10)   bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=1815901 rf=-1.00 af=-1.00 | freeze
+tristar3  c=12 B789(10)(11)/S6789(10)(11) bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=1445781 rf=-1.00 af=-1.00 | die
+tristar3  c=13 B789(10)(11)(12)/S6789(10)(11)(12) bulk=chaos  rho=0.502 act=0.490 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=3485939 rf=-1.00 af=-1.00 ; A=20: face=0 seal=38123 set=367 lnT=- cv=- early=413131 rf=1.00 af=0.00 ; A=28: face=0 seal=5834 set=5 lnT=- cv=- early=14773 rf=1.00 af=0.00 | CUT
+tristar3  c=14 B789(10)(11)(12)(13)/S6789(10)(11)(12)(13) bulk=chaos  rho=0.546 act=0.485 | A=12: face=0 seal=1 set=0 lnT=- cv=- early=3788454 rf=-1.00 af=-1.00 ; A=20: face=0 seal=38885 set=464 lnT=- cv=- early=484488 rf=1.00 af=0.00 ; A=28: face=0 seal=5704 set=4 lnT=- cv=- early=13718 rf=1.00 af=0.00 | CUT
+tristar3  c=15 B789(10)(11)(12)(13)(14)/S6789(10)(11)(12)(13)(14) bulk=chaos  rho=0.586 act=0.477 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=4374395 rf=-1.00 af=-1.00 ; A=20: face=0 seal=31592 set=2468 lnT=- cv=- early=757160 rf=1.00 af=0.00 ; A=28: face=0 seal=7334 set=107 lnT=- cv=- early=19586 rf=1.00 af=0.00 | CUT
+tristar3  c=16 B789(10)(11)(12)(13)(14)(15)/S6789(10)(11)(12)(13)(14)(15) bulk=chaos  rho=0.639 act=0.442 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=4047619 rf=-1.00 af=-1.00 ; A=20: face=0 seal=36113 set=5811 lnT=- cv=- early=615996 rf=1.00 af=0.00 ; A=28: face=0 seal=6557 set=156 lnT=- cv=- early=10681 rf=1.00 af=0.00 | CUT
+tristar3  c=17 B789(10)(11)(12)(13)(14)(15)(16)/S6789(10)(11)(12)(13)(14)(15)(16) bulk=chaos  rho=0.687 act=0.377 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=4274736 rf=-1.00 af=-1.00 ; A=20: face=0 seal=13528 set=24934 lnT=- cv=- early=523215 rf=1.00 af=0.00 ; A=28: face=0 seal=7515 set=8908 lnT=- cv=- early=19069 rf=1.00 af=0.00 | WALL
+tristar3  c=18 B789(10)(11)(12)(13)(14)(15)(16)(17)/S6789(10)(11)(12)(13)(14)(15)(16)(17) bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=1746815 rf=-1.00 af=-1.00 | freeze
+tristar3  c=19 B789(10)(11)(12)(13)(14)(15)(16)(17)(18)/S6789(10)(11)(12)(13)(14)(15)(16)(17)(18) bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=6903213 rf=-1.00 af=-1.00 | freeze
+# tri18: K=18 b=8 u=(-1, -1) slab m=16 sizes=[12, 20, 28]
+tri18     c= 9 B8/S78               bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=5478615 rf=-1.00 af=-1.00 | die
+tri18     c=10 B89/S789             bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=5655054 rf=-1.00 af=-1.00 | die
+tri18     c=11 B89(10)/S789(10)     bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=5262961 rf=-1.00 af=-1.00 | die
+tri18     c=12 B89(10)(11)/S789(10)(11) bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=3328814 rf=-1.00 af=-1.00 | die
+tri18     c=13 B89(10)(11)(12)/S789(10)(11)(12) bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=2287861 rf=-1.00 af=-1.00 | die
+tri18     c=14 B89(10)(11)(12)(13)/S789(10)(11)(12)(13) bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=1743908 rf=-1.00 af=-1.00 | die
+tri18     c=15 B89(10)(11)(12)(13)(14)/S789(10)(11)(12)(13)(14) bulk=chaos  rho=0.577 act=0.450 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=4742644 rf=-1.00 af=-1.00 ; A=20: face=253 seal=32 set=0 lnT=4.25 cv=0.96 early=1386958 rf=0.54 af=0.26 ; A=28: face=543 seal=256 set=0 lnT=4.94 cv=1.06 early=692958 rf=0.49 af=0.25 | GUMP? slope=0.087
+tri18     c=16 B89(10)(11)(12)(13)(14)(15)/S789(10)(11)(12)(13)(14)(15) bulk=chaos  rho=0.623 act=0.430 | A=12: face=0 seal=405 set=47 lnT=- cv=- early=3934141 rf=1.00 af=0.00 ; A=20: face=0 seal=36136 set=197 lnT=- cv=- early=263243 rf=1.00 af=0.00 ; A=28: face=0 seal=2190 set=2 lnT=- cv=- early=6221 rf=1.00 af=0.00 | CUT
+tri18     c=17 B89(10)(11)(12)(13)(14)(15)(16)/S789(10)(11)(12)(13)(14)(15)(16) bulk=chaos  rho=0.669 act=0.382 | A=12: face=0 seal=525 set=130 lnT=- cv=- early=3814352 rf=1.00 af=0.00 ; A=20: face=0 seal=35031 set=293 lnT=- cv=- early=309234 rf=1.00 af=0.00 ; A=28: face=0 seal=2075 set=2 lnT=- cv=- early=6681 rf=1.00 af=0.00 | CUT
+tri18     c=18 B89(10)(11)(12)(13)(14)(15)(16)(17)/S789(10)(11)(12)(13)(14)(15)(16)(17) bulk=freeze rho=0.466 act=0.016 | A=12: face=0 seal=0 set=21 lnT=- cv=- early=969369 rf=1.00 af=0.00 | freeze
+tri18     c=19 B89(10)(11)(12)(13)(14)(15)(16)(17)(18)/S789(10)(11)(12)(13)(14)(15)(16)(17)(18) bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=7314765 rf=-1.00 af=-1.00 | freeze
+# vn: K=4 b=2 u=(-1, 0) slab m=16 sizes=[12, 20, 28]
+vn        c= 3 B2/S12               bulk=chaos  rho=0.468 act=0.477 | A=12: face=220753 seal=13615 set=3 lnT=5.62 cv=1.00 early=784279 rf=0.46 af=0.36 ; A=20: face=124852 seal=13238 set=0 lnT=7.09 cv=1.01 early=53857 rf=0.43 af=0.34 ; A=28: face=37307 seal=17892 set=0 lnT=8.23 cv=0.99 early=7663 rf=0.42 af=0.33 | GUMP slope=0.163
+vn        c= 4 B23/S123             bulk=chaos  rho=0.644 act=0.378 | A=12: face=0 seal=7455 set=187468 lnT=- cv=- early=28574 rf=1.00 af=0.00 ; A=20: face=0 seal=0 set=147731 lnT=- cv=- early=12598 rf=1.00 af=0.00 ; A=28: face=0 seal=0 set=130998 lnT=- cv=- early=4236 rf=1.00 af=0.00 | WALL
+vn        c= 5 B234/S1234           bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=3207672 rf=-1.00 af=-1.00 | freeze
+# tri6: K=6 b=3 u=(-1, -1) slab m=16 sizes=[12, 20, 28]
+tri6      c= 4 B3/S23               bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=4002718 rf=-1.00 af=-1.00 | freeze
+tri6      c= 5 B34/S234             bulk=freeze rho=0.664 act=0.010 | A=12: face=0 seal=21880 set=54054 lnT=- cv=- early=12490 rf=1.00 af=0.00 | freeze
+tri6      c= 6 B345/S2345           bulk=freeze rho=0.755 act=0.024 | A=12: face=0 seal=0 set=107 lnT=- cv=- early=1111813 rf=1.00 af=0.00 | freeze
+tri6      c= 7 B3456/S23456         bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=5075421 rf=-1.00 af=-1.00 | freeze
+# kagome6: K=6 b=3 u=(-1, -1) slab m=16 sizes=[12, 20, 28]
+kagome6   c= 4 B3/S23               bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=2074530 rf=-1.00 af=-1.00 | freeze
+kagome6   c= 5 B34/S234             bulk=glass  rho=0.661 act=0.010 | A=12: face=0 seal=0 set=211785 lnT=- cv=- early=233798 rf=1.00 af=0.00 ; A=20: face=0 seal=0 set=148273 lnT=- cv=- early=67008 rf=1.00 af=0.00 ; A=28: face=0 seal=0 set=104670 lnT=- cv=- early=23345 rf=1.00 af=0.00 | WALL
+kagome6   c= 6 B345/S2345           bulk=chaos  rho=0.697 act=0.250 | A=12: face=0 seal=2 set=179446 lnT=- cv=- early=301751 rf=1.00 af=0.00 ; A=20: face=0 seal=0 set=130183 lnT=- cv=- early=98937 rf=1.00 af=0.00 ; A=28: face=0 seal=0 set=101809 lnT=- cv=- early=45023 rf=1.00 af=0.00 | WALL
+kagome6   c= 7 B3456/S23456         bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=2434769 rf=-1.00 af=-1.00 | freeze
+# tri12: K=12 b=6 u=(-2, -1) slab m=16 sizes=[12, 20, 28]
+tri12     c= 7 B6/S56               bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=6448987 rf=-1.00 af=-1.00 | die
+tri12     c= 8 B67/S567             bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=7849692 rf=-1.00 af=-1.00 | die
+tri12     c= 9 B678/S5678           bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=3950313 rf=-1.00 af=-1.00 | die
+tri12     c=10 B6789/S56789         bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=1468428 rf=-1.00 af=-1.00 | freeze
+tri12     c=11 B6789(10)/S56789(10) bulk=chaos  rho=0.606 act=0.371 | A=12: face=0 seal=13971 set=10109 lnT=- cv=- early=12458 rf=1.00 af=0.00 ; A=20: face=0 seal=35 set=9 lnT=- cv=- early=36 rf=1.00 af=0.00 ; A=28: face=0 seal=0 set=0 lnT=- cv=- early=24 rf=1.00 af=0.00 | WALL
+tri12     c=12 B6789(10)(11)/S56789(10)(11) bulk=freeze rho=0.820 act=0.008 | A=12: face=0 seal=0 set=154 lnT=- cv=- early=562796 rf=1.00 af=0.00 | freeze
+tri12     c=13 B6789(10)(11)(12)/S56789(10)(11)(12) bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=9979217 rf=-1.00 af=-1.00 | freeze
+# hex12: K=12 b=6 u=(-2, -1) slab m=16 sizes=[12, 20, 28]
+hex12     c= 7 B6/S56               bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=10114931 rf=-1.00 af=-1.00 | die
+hex12     c= 8 B67/S567             bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=11928601 rf=-1.00 af=-1.00 | die
+hex12     c= 9 B678/S5678           bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=7025951 rf=-1.00 af=-1.00 | die
+hex12     c=10 B6789/S56789         bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=3574849 rf=-1.00 af=-1.00 | die
+hex12     c=11 B6789(10)/S56789(10) bulk=chaos  rho=0.623 act=0.394 | A=12: face=3098 seal=37 set=42 lnT=4.25 cv=1.06 early=2335793 rf=0.71 af=0.16 ; A=20: face=32170 seal=303 set=5 lnT=5.05 cv=1.01 early=678332 rf=0.68 af=0.14 ; A=28: face=41632 seal=1111 set=6 lnT=5.65 cv=1.01 early=322141 rf=0.66 af=0.12 | GUMP slope=0.087
+hex12     c=12 B6789(10)(11)/S56789(10)(11) bulk=glass  rho=0.828 act=0.031 | A=12: face=0 seal=0 set=5792 lnT=- cv=- early=1481551 rf=0.95 af=0.06 ; A=20: face=0 seal=0 set=13493 lnT=- cv=- early=388031 rf=0.95 af=0.06 ; A=28: face=0 seal=0 set=11792 lnT=- cv=- early=144838 rf=0.96 af=0.05 | WALL
+hex12     c=13 B6789(10)(11)(12)/S56789(10)(11)(12) bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=16687192 rf=-1.00 af=-1.00 | freeze
+# moore_r2: K=24 b=11 u=(-1, -1) slab m=16 sizes=[12, 20, 28]
+moore_r2  c=12 B(11)/S(10)(11)      bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=4810527 rf=-1.00 af=-1.00 | die
+moore_r2  c=13 B(11)(12)/S(10)(11)(12) bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=5669918 rf=-1.00 af=-1.00 | die
+moore_r2  c=14 B(11)(12)(13)/S(10)(11)(12)(13) bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=7094110 rf=-1.00 af=-1.00 | die
+moore_r2  c=15 B(11)(12)(13)(14)/S(10)(11)(12)(13)(14) bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=5231463 rf=-1.00 af=-1.00 | die
+moore_r2  c=16 B(11)(12)(13)(14)(15)/S(10)(11)(12)(13)(14)(15) bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=4024372 rf=-1.00 af=-1.00 | die
+moore_r2  c=17 B(11)(12)(13)(14)(15)(16)/S(10)(11)(12)(13)(14)(15)(16) bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=3002223 rf=-1.00 af=-1.00 | die
+moore_r2  c=18 B(11)(12)(13)(14)(15)(16)(17)/S(10)(11)(12)(13)(14)(15)(16)(17) bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=2250236 rf=-1.00 af=-1.00 | die
+moore_r2  c=19 B(11)(12)(13)(14)(15)(16)(17)(18)/S(10)(11)(12)(13)(14)(15)(16)(17)(18) bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=1713065 rf=-1.00 af=-1.00 | die
+moore_r2  c=20 B(11)(12)(13)(14)(15)(16)(17)(18)(19)/S(10)(11)(12)(13)(14)(15)(16)(17)(18)(19) bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=1391440 rf=-1.00 af=-1.00 | die
+moore_r2  c=21 B(11)(12)(13)(14)(15)(16)(17)(18)(19)(20)/S(10)(11)(12)(13)(14)(15)(16)(17)(18)(19)(20) bulk=glass  rho=0.594 act=0.416 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=5418679 rf=-1.00 af=-1.00 ; A=20: face=0 seal=0 set=0 lnT=- cv=- early=1784431 rf=-1.00 af=-1.00 ; A=28: face=0 seal=0 set=0 lnT=- cv=- early=892995 rf=-1.00 af=-1.00 | glass/noevents
+moore_r2  c=22 B(11)(12)(13)(14)(15)(16)(17)(18)(19)(20)(21)/S(10)(11)(12)(13)(14)(15)(16)(17)(18)(19)(20)(21) bulk=chaos  rho=0.579 act=0.344 | A=12: face=0 seal=286 set=433 lnT=- cv=- early=2532942 rf=1.00 af=0.00 ; A=20: face=0 seal=8165 set=12643 lnT=- cv=- early=43101 rf=1.00 af=0.00 ; A=28: face=0 seal=442 set=421 lnT=- cv=- early=802 rf=1.00 af=0.00 | CUT
+moore_r2  c=23 B(11)(12)(13)(14)(15)(16)(17)(18)(19)(20)(21)(22)/S(10)(11)(12)(13)(14)(15)(16)(17)(18)(19)(20)(21)(22) bulk=freeze rho=0.114 act=0.024 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=6749899 rf=-1.00 af=-1.00 | freeze
+moore_r2  c=24 B(11)(12)(13)(14)(15)(16)(17)(18)(19)(20)(21)(22)(23)/S(10)(11)(12)(13)(14)(15)(16)(17)(18)(19)(20)(21)(22)(23) bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=968795 rf=-1.00 af=-1.00 | freeze
+moore_r2  c=25 B(11)(12)(13)(14)(15)(16)(17)(18)(19)(20)(21)(22)(23)(24)/S(10)(11)(12)(13)(14)(15)(16)(17)(18)(19)(20)(21)(22)(23)(24) bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=7838309 rf=-1.00 af=-1.00 | freeze
+# hex9: K=9 b=5 u=(-2, -1) slab m=16 sizes=[12, 20, 28]
+hex9      c= 6 B5/S45               bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=16970250 rf=-1.00 af=-1.00 | die
+hex9      c= 7 B56/S456             bulk=die    rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=16451993 rf=-1.00 af=-1.00 | die
+hex9      c= 8 B567/S4567           bulk=glass  rho=0.199 act=0.005 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=79619177 rf=-1.00 af=-1.00 ; A=20: face=0 seal=0 set=0 lnT=- cv=- early=46106380 rf=-1.00 af=-1.00 ; A=28: face=0 seal=0 set=0 lnT=- cv=- early=32105757 rf=-1.00 af=-1.00 | glass/noevents
+hex9      c= 9 B5678/S45678         bulk=glass  rho=0.669 act=0.017 | A=12: face=0 seal=0 set=12 lnT=- cv=- early=14484609 rf=0.99 af=0.02 ; A=20: face=0 seal=0 set=2 lnT=- cv=- early=6720249 rf=1.00 af=0.01 ; A=28: face=0 seal=0 set=0 lnT=- cv=- early=4102833 rf=-1.00 af=-1.00 | WALL
+hex9      c=10 B56789/S456789       bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=24631660 rf=-1.00 af=-1.00 | freeze
+# hex3: K=3 b=2 u=(-1, -1) slab m=16 sizes=[12, 20, 28]
+hex3      c= 3 B2/S12               bulk=glass  rho=0.536 act=0.019 | A=24: face=0 seal=0 set=0 lnT=- cv=- early=6762593 rf=-1.00 af=-1.00 ; A=40: face=0 seal=0 set=0 lnT=- cv=- early=4132864 rf=-1.00 af=-1.00 ; A=56: face=0 seal=0 set=0 lnT=- cv=- early=2879488 rf=-1.00 af=-1.00 | glass/noevents
+hex3      c= 4 B23/S123             bulk=freeze rho=-1.000 act=-1.000 | A=24: face=0 seal=0 set=0 lnT=- cv=- early=4107406 rf=-1.00 af=-1.00 | freeze
+# kagome4: K=4 b=3 u=(-1, -1) slab m=16 sizes=[12, 20, 28]
+kagome4   c= 4 B3/S23               bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=8006650 rf=-1.00 af=-1.00 | freeze
+kagome4   c= 5 B34/S234             bulk=freeze rho=-1.000 act=-1.000 | A=12: face=0 seal=0 set=0 lnT=- cv=- early=6509237 rf=-1.00 af=-1.00 | freeze
+# kagome8: K=8 b=5 u=(-2, -1) slab m=16 sizes=[12, 20, 28]
+kagome8   c= 6 B5/S45               bulk=die    rho=-1.000 act=-1.000 | A=24: face=0 seal=0 set=0 lnT=- cv=- early=9692672 rf=-1.00 af=-1.00 | die
+kagome8   c= 7 B56/S456             bulk=die    rho=-1.000 act=-1.000 | A=24: face=0 seal=0 set=0 lnT=- cv=- early=9077657 rf=-1.00 af=-1.00 | die
+kagome8   c= 8 B567/S4567           bulk=freeze rho=0.476 act=0.003 | A=24: face=0 seal=0 set=0 lnT=- cv=- early=12204011 rf=-1.00 af=-1.00 | freeze
+kagome8   c= 9 B5678/S45678         bulk=freeze rho=-1.000 act=-1.000 | A=24: face=0 seal=0 set=0 lnT=- cv=- early=12576943 rf=-1.00 af=-1.00 | freeze
