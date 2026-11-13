@@ -21,7 +21,12 @@ _Last updated 2026-11-13 by the lead._
   sealed-set theory, a criterion, predictions committed before testing on other lattices.
 - `research/theory/exponent.md` (Fable agent): where the exponent comes from — exact small systems in the 2D toy,
   the rate function, a model that reproduces 0.416 and then predicts gump's 0.208, a theorem if one can be had.
-- GPU session "Modal API" (see `LEAD.md`): briefed with three experiments; no pull request yet.
+- GPU session "Modal API" (see `LEAD.md`): pull request 8 is open (`research/gpu/`). UNVERIFIED claims in it: the
+  asymmetric face law curves upward beyond A = 84 (ln τ = 23.38 at A = 108, 29.3 at A = 135; the extrapolated
+  0.2077 would be wrong); symmetric forecasts at A = 759, 828 hit; O_h soup lineages memoryless at R = 36–40 v;
+  τ(R = 40 v) = 8.6×10⁷, not 7.1×10⁷. An Opus reviewer is trying to break it: `research/audit/REVIEW-gpu-pr8.md`.
+  Before merging: read the review, re-derive one headline number, then record (notebook, CLAIMS, fluct README,
+  OPEN-PROBLEMS 6, 8, 9, and `cube_vs_ensemble.py` if τ at R = 40 changes).
 
 ## Next (lead's list; pick by judgment)
 - Lineage study is in (notebook 2026-11-13, `research/lineage/`): cube-like seeds wait like soups at R ≤ 38. Open from it:
