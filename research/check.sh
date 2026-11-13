@@ -65,14 +65,14 @@ grepok "phase numpy stepper (gl.py)"  "^ALL OK" "MISMATCH" python3 research/phas
 # --- numbers re-derived from committed data ---
 run  "headline numbers from data (audit)" python3 research/audit/data_claims.py
 # --- exact engine facts that the storyline quotes (side 11 and 13 peel schedules) ---
-peel() {  # peel N "expected last_alive list for axis 0, s>0, cause hull"
+peel() {  # peel N "last_alive of the outer layers (axis 0, s>0, hull)\ncycle_start final_pop"
   local tmp; tmp=$(mktemp -d)
   $G run --cube "$1" --events "$tmp/ev.jsonl" --every 1 --out /dev/null > "$tmp/sum.json" || return 1
   local got; got=$(python3 -c "
 import json,sys
 ev=[json.loads(l) for l in open('$tmp/ev.jsonl')]
 print(' '.join(str(e['last_alive']) for e in sorted(ev,key=lambda e:-e['s']) if e['axis']==0 and e['s']>0 and e['cause']=='hull' and e['last_alive']>4))
-s=json.loads(open('$tmp/sum.json').read().splitlines()[-1]); print(s['gen'], s['pop'])")
+s=json.loads(open('$tmp/sum.json').read().splitlines()[-1]); print(s['cycle_start'], s['pop'])")
   rm -rf "$tmp"
   [ "$got" = "$2" ] || { echo "got: $got"; echo "want: $2"; return 1; }
 }
