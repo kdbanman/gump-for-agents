@@ -4,7 +4,8 @@ python3 law.py RULE LATTICE W L1,L2,... [--deaths 300] [--maxsec 600] [--sym non
 Output: research/scratch/toy2d/law_<lat>_<rule>_W<W>_<sym>_<tag>.json, one record per L (re-running tops up).
 Per L: exposure (replica-generations at age >= T0), deaths per event, settles, edge-row histogram (pooled over
 both edges), 'from' (edge population one generation before an edge death), hazard by age (log2 bins), and the
-list of ages at death (for CV). h = edge deaths / (2 * exposure) is the death rate of one edge.
+list of ages at death (for CV). h = edge deaths / (NE * exposure) is the death rate of one edge (NE = 2 edges in a strip, 4 in a box;
+for --vessel box the W argument is ignored except in the file name, L is the box side).
 """
 import argparse, json, os, time
 import numpy as np
@@ -16,8 +17,10 @@ ap.add_argument('--deaths', type=int, default=300); ap.add_argument('--maxsec', 
 ap.add_argument('--sym', default='none'); ap.add_argument('--p', type=float, default=0.4)
 ap.add_argument('--T0', type=int, default=300); ap.add_argument('--tag', default='a')
 ap.add_argument('--chunk', type=float, default=0)
+ap.add_argument('--vessel', default='strip')  # strip (2 edges, periodic x) or box (L x L, 4 edges)
 a = ap.parse_args()
-fn = os.path.join(geom.SCR, 'law_%s_%s_W%d_%s_%s.json' % (a.lat, a.rule.replace('/', ''), a.W, a.sym, a.tag))
+NE = 2 if a.vessel == 'strip' else 4
+fn = os.path.join(geom.SCR, 'law_%s_%s_%s%d_%s_%s.json' % (a.lat, a.rule.replace('/', ''), 'W' if a.vessel == 'strip' else 'box', a.W, a.sym, a.tag))
 db = json.load(open(fn)) if os.path.exists(fn) else {}
 for L in map(int, a.Ls.split(',')):
     rec = db.get(str(L), dict(exposure=0, deaths_by_event=[], settles=0, early=0, hist=[], frm=[0] * 8,
@@ -26,13 +29,14 @@ for L in map(int, a.Ls.split(',')):
     gens = a.chunk or 20000
     while time.time() - t0 < a.maxsec:
         ev = rec['deaths_by_event']
-        ed = (ev[0] + ev[1]) if ev else 0
+        ed = sum(ev[:NE]) if ev else 0
         if ed >= a.deaths:
             break
         seed = 1000 * L + rec['chunks'] + 17
-        out = os.path.join(geom.SCR, 'lawtmp_%s_%d_%s.txt' % (a.tag, L, a.sym))
+        out = os.path.join(geom.SCR, 'lawtmp_%s_%s_%s_%s%d_%d_%s.txt' % (a.lat, a.rule.replace('/', ''), a.tag, a.vessel, a.W, L, a.sym))
         tc = time.time()
-        d = geom.qsd(a.rule, a.lat, 'strip', (a.W, L), a.p, seed, a.T0, int(gens), out, sym=a.sym)
+        dims = (a.W, L) if a.vessel == 'strip' else (L,)
+        d = geom.qsd(a.rule, a.lat, a.vessel, dims, a.p, seed, a.T0, int(gens), out, sym=a.sym)
         dt = time.time() - tc
         rec['chunks'] += 1
         rec['exposure'] += d['exposure']; rec['settles'] += d['settles']; rec['early'] += d['early']
@@ -45,14 +49,14 @@ for L in map(int, a.Ls.split(',')):
         rec['bulk_flips'] += d['bulk_flips']; rec['edge_flips'] += d['edge_flips']; rec['cells'] = d['cells']
         for line in open(out + '.deaths'):
             e, age = map(int, line.split())
-            if e in (0, 1):
+            if e < NE:
                 rec['ages'].append(age)
         # grow the chunk so that each chunk is ~60 s
         gens = min(max(gens * min(4.0, 60.0 / max(dt, 1e-3)), 2000), 5e7)
     db[str(L)] = rec
     json.dump(db, open(fn, 'w'))
-    ev = rec['deaths_by_event']; ed = ev[0] + ev[1]
-    hh = ed / (2 * rec['exposure']) if rec['exposure'] else float('nan')
+    ev = rec['deaths_by_event']; ed = sum(ev[:NE])
+    hh = ed / (NE * rec['exposure']) if rec['exposure'] else float('nan')
     print('L=%d exposure %.3g edge deaths %d firewalls %d settles %d  tau_edge = %.4g (ln %.3f +- %.3f)' %
-          (L, rec['exposure'], ed, sum(ev[2:]), rec['settles'], 1 / hh if hh else float('inf'),
+          (L, rec['exposure'], ed, sum(ev[NE:]), rec['settles'], 1 / hh if hh else float('inf'),
            -np.log(hh) if hh else float('inf'), 1 / np.sqrt(ed) if ed else float('nan')), flush=True)

@@ -26,7 +26,7 @@ with open(out, 'a') as f:
         p = 0.3 if r['p0.3']['med'] >= r['p0.5']['med'] else 0.5
         rec = dict(rule=r['rule'], B=r['B'], S=r['S'], p=p)
         for L in (12, 20):
-            fn = os.path.join(geom.SCR, 'screen_tmp_%d.txt' % sh)
+            fn = os.path.join(geom.SCR, 'screen_tmp_%s_%d_%d.txt' % (LAT, sh, os.getpid()))
             d = geom.qsd((r['B'], r['S']), LAT, 'strip', (10, L), p, 11 + L, 200, 20000, fn)
             e = d['exposure']; ev = d['deaths_by_event']
             edge = ev[0] + ev[1]; fw = ev[2:].sum()
