@@ -91,7 +91,7 @@ job to keep it honest. What exists (2026-11-13):
   transcribe or log its working. This applies to every agent brief from now on, not only the swarm.
 - History: the first launch (about 19:35 UTC) was stopped within half an hour by a usage limit and a run of
   blocked requests. The three solvers had written nothing. The critic's first pass survived in
-  `research/theory/swarm/critic/` and corrected the problem statement (board E1–E11). Relaunched about 22:15 UTC
+  `research/theory/swarm/critic/` and corrected the problem statement (board E1–E11). Relaunched about 22:05 UTC
   with fresh agents and reworded rules.
 - Set-up: `research/theory/swarm/` (PROBLEM.md has the problem and rules; each solver keeps `journal.md` and
   `claims.md`; the critic keeps `critic/board.md`, `critic/journal.md`, `critic/to-<solver>.md`, `critic/lab/`).

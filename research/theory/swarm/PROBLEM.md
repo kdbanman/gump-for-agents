@@ -2,7 +2,7 @@
 
 _Set up by the lead, 2026-11-13, at the owner's request. Revised the same day after the critic's first pass
 (`critic/board.md`, E1–E11) and after the first set of agents was stopped by a usage limit; a fourth line
-("source") and a librarian were added at 22:30 UTC. Mathematics only: no new simulations (rules below)._
+("source") and a librarian were added at about 22:20 UTC. Mathematics only: no new simulations (rules below)._
 
 ## The problem
 
