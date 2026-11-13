@@ -26,6 +26,8 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
   4. Open systems and escape rates: Pianigiani–Yorke 1979; Demers–Young 2006; Keller–Liverani 2009 ("Rare
      events, escape rates and quasistationarity"); Bunimovich–Yurchenko 2011 ("Where to place a hole …");
      Ferguson–Pollicott 2012; Galves–Schmitt 1997 and Abadi on hitting times in mixing systems; Kac's lemma.
+     → see notes/escape-rates.md. Pianigiani–Yorke not obtained (via Demers–Young); the Galves–Schmitt paper
+       read is the 1990 one; Kac's lemma not sourced.
   5. Algebraic automata as random sources: Lind 1984; Ferrari–Maass–Martínez–Ney 2000; Pivato–Yassawi 2002, 2004
      ("Limit measures for affine cellular automata"); Pivato's survey "Ergodic theory of cellular automata";
      bipermutive automata and the independence of a cell's states over time (Shereshevsky 1992; Kleveland 1997).
