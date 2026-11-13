@@ -256,7 +256,10 @@ hull of 12 (2D) or 6 (3D) layers. All have b ≤ K/2 except those marked.
 Checks: `python3 validate.py` → ALL OK (my C stepper against numpy on 15 vessels of 11 lattices, the sealed-set
 routine against plain peeling, and the face lattice against the golden side-8 log, 23 generations, final 384);
 `python3 confine.py` → ALL OK (Theorem A on 11 lattices: no live cell ever outside the polytope in 200 generations; a
-birth outside found for the cheapest unsealed ray where one exists); `python3 energy.py selftest` → ALL OK.
+birth outside found for the cheapest unsealed ray where one exists); `python3 energy.py selftest` → ALL OK. `python3 independent.py` re-checks the two headline finds with plain numpy rolls
+that share no code with the above: vn B2/S12 torus density 0.465 (gstep 0.468), box lifetimes 128 and 512 at sides
+9 and 13 as upper bounds from power-of-two snapshots (gstep medians 110 and 293), no cell outside the bounding box;
+fcc B45/S345 torus density 0.392 (gstep 0.394).
 
 ## 3. Method and the operational definition [measured throughout]
 
@@ -491,6 +494,7 @@ and four more with thinner hull evidence.
 cd research/theory/class
 cc -O3 -march=native -o ../../scratch/class/gstep gstep.c -lm; cp ../../scratch/class/gstep ../../scratch/class/gstep_gap
 python3 lattices.py; python3 validate.py; python3 confine.py; python3 energy.py selftest      # all "ALL OK"
+python3 independent.py                                                                        # numpy-only re-check of vn and fcc
 python3 theory.py table; python3 indices.py > data/indices.txt                                # §2 (no dynamics)
 python3 pits.py bond10 4 4; python3 pits.py gump 4 2; python3 pits.py gump 4 3; python3 armour.py gump 4 6
 python3 scan.py gump 4 --cs 5,6,7,8,9,10,11,12; python3 scan.py cross2 3; python3 scan.py moore 4   # training
