@@ -170,3 +170,18 @@ all with slope 0.21 — so in 3D the threshold is lower and I do not understand 
 
 3D threshold used: face law iff R₁ ≳ 0.35 (the face lattice at 0.50 is the only calibration point); 2D: strong iff
 R₁ ≳ 0.9, weak for 0.35–0.9, none below.
+
+---
+
+## Stage 3 — one more call, appended before any bond10 dynamics was run
+
+*Seen since stage 2: star2 and tristar2 scans (2D). The 3D queue has not reached bond10.*
+
+`python3 pits.py bond10 4 4` (exact peeling) finds a **finite sealed set spanning all four layers of a 4-layer
+{111} slab** of bond10 (402 cells of a 637-cell patch), although the full lattice has none (b = 4 ≤ K/2 = 5) and no
+pit was found in a half-space. The forward-count certificate fails for bond10 at every thickness (the three inward
+offsets of a cell lie in an open half-plane after projection). So on bond10, unlike gump, a slab can be pierced by a
+finite dead tube. **Call:** bond10 c = 6 is *not* a gump even if its bulk is chaotic — in slabs "sealed, not a
+face" endings will not be rare compared with face deaths and their rate will grow with the face area, so the wait
+does not grow exponentially with the face. (This overrules stage 1 row 33 and the stage-2 "borderline face law".)
+The same peeling finds nothing in 4 layers of face8 and sc26 (2 layers: sealed sets in both).

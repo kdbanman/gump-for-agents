@@ -57,6 +57,8 @@ if __name__ == "__main__":
     ap.add_argument("--w", type=int, default=1)
     ap.add_argument("--n", type=int)
     ap.add_argument("--T", type=int, default=4096)
+    ap.add_argument("--areas", help="target face sizes in cells (sizes are then chosen per lattice)")
+    ap.add_argument("--cmax", type=int)
     a = ap.parse_args()
     L = LT.get(a.lattice)
     b = a.b if a.b is not None else TH.confinement(L)["b_min"]
@@ -65,6 +67,12 @@ if __name__ == "__main__":
     sizes = [int(x) for x in a.sizes.split(",")] if a.sizes else ([12, 20] if L.dim == 2 else [3, 4])
     m = a.m if a.m else (16 if L.dim == 2 else 8)
     u = TH.sealed_rays(L, b)[0]
+    if a.areas:
+        import vessel as VS
+        per = VS.slab(L, tuple(u), 2, 2).info["face_cells"] / (2 ** (L.dim - 1))
+        sizes = sorted({max(2, round((float(x) / per) ** (1.0 / (L.dim - 1)))) for x in a.areas.split(",")})
+    if a.cmax:
+        cs = [c for c in cs if c <= a.cmax]
     print(f"# {a.lattice}: K={K} b={b} u={u} slab m={m} sizes={sizes}")
     for c in cs:
         B, S = TH.capped(b, c, K, a.w)
