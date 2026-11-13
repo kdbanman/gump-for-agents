@@ -17,6 +17,15 @@ The owner's words:
   and sessions, feel free to write that to CLAUDE.md or similar".
 - On the theory programme: "you could add it to the repo as a theoretical arm, and march it forward with subagents."
 
+- 2026-11-13, on a second cloud session with GPU access (titled "Modal API"; it writes and tests GPU code for
+  this repo on Modal): "Feel free to delegate experiments to them … You can manage their PRs how you like (e.g.
+  subagent reviews, you merge, whatever you like)."
+- 2026-11-13, on correctness: "it's important to set up processes that catch incorrectness or inaccuracies in both
+  new and existing work. Your technical abilities are far beyond mine in this domain, so I can't review for you."
+  And: "protect your context window so it's preserved for the most interesting stuff … protect what's important by
+  getting it in the repo so it lasts across your compaction events." And: "I trust you to add/alter from this
+  message into the repo."
+
 The lead's reading of the scope (an interpretation, not the owner's words):
 
 - **Without asking:** choosing research and engineering directions; spawning subagents; committing; pushing the
@@ -41,6 +50,26 @@ The lead's reading of the scope (an interpretation, not the owner's words):
 - Cost is welcome but be judicious (paraphrase). The owner's email address is private: never send it anywhere.
 - What the owner asked for, beyond the build: "what do you find interesting, surprising, beautiful? … i'd love to
   know what you see and think about it." `docs/WHAT-I-SEE.md` is the running answer.
+
+## Nobody else can review this
+
+The owner has said they cannot check the technical work. So the checking has to be built in, and it is the lead's
+job to keep it honest. What exists (2026-11-13):
+
+- `research/CLAIMS.md` — a ledger of headline claims with how each was verified (A independently re-derived,
+  B re-run, C command only, D not reproducible). Prefer raising a claim's level to adding a new claim.
+- `research/check.sh` and `.github/workflows/check.yml` — fast exact anchors, run on every pull request.
+- Dated audits (`research/AUDIT-*.md`) by an agent that did not do the work and is told to assume it is wrong.
+- Forecasts committed before outcomes; prior art checked by a second, adversarial reviewer.
+- For other sessions' pull requests (the GPU session): bit-exactness against the engine is the bar for any new
+  stepper; review by a subagent that did not write the code; the lead re-derives one headline number before merging.
+(The first three are being built by the audit agent as this is written; if they are missing, that is the first job.)
+
+## Other sessions
+
+- "Modal API" (GPU, cloud): briefed 2026-11-13 by message with the acceptance bar and three experiments (lineage
+  memorylessness at R = 36–40; symmetric τ at A = 759, 828; asymmetric faces at A = 108, 135). It cannot message
+  back; read its pull requests and its directory (expected `research/gpu/`). Find it with the session list.
 
 ## Where things are
 

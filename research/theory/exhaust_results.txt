@@ -1,0 +1,189 @@
+== p q r m = 3 1 1 1
+cells 9 states 512 rule gump
+max transient 3 (example state 0x1f), mean transient 1.660, garden-of-eden 414
+period 1: 4 cycles, 4 states, example 0x0
+period 2: 18 cycles, 36 states, example 0x63
+-- uncapped:
+max transient 2 (example state 0xf), mean transient 1.348, garden-of-eden 414
+period 1: 2 cycles, 2 states, example 0x0
+period 2: 18 cycles, 36 states, example 0x63
+== p q r m = 5 1 1 1
+cells 15 states 32768 rule gump
+max transient 12 (example state 0x66f), mean transient 4.304, garden-of-eden 27976
+period 1: 91 cycles, 91 states, example 0x0
+period 2: 65 cycles, 130 states, example 0x509f
+-- uncapped:
+max transient 7 (example state 0x367), mean transient 2.366, garden-of-eden 28366
+period 1: 102 cycles, 102 states, example 0x0
+period 2: 100 cycles, 200 states, example 0x509f
+== p q r m = 6 1 1 1
+cells 18 states 262144 rule gump
+max transient 14 (example state 0x16fd), mean transient 3.801, garden-of-eden 237158
+period 1: 276 cycles, 276 states, example 0x0
+period 2: 190 cycles, 380 states, example 0x204fd
+period 6: 3 cycles, 18 states, example 0x3ffdb
+-- uncapped:
+max transient 7 (example state 0x2337), mean transient 2.461, garden-of-eden 240894
+period 1: 370 cycles, 370 states, example 0x0
+period 2: 220 cycles, 440 states, example 0x204fd
+== p q r m = 7 1 1 1
+cells 21 states 2097152 rule gump
+max transient 15 (example state 0x195ff), mean transient 4.750, garden-of-eden 1948918
+period 1: 372 cycles, 372 states, example 0x0
+period 2: 259 cycles, 518 states, example 0x19f7dd
+-- uncapped:
+max transient 8 (example state 0xea1f), mean transient 2.603, garden-of-eden 1971122
+period 1: 422 cycles, 422 states, example 0x0
+period 2: 378 cycles, 756 states, example 0x1aab1d
+== p q r m = 7 2 1 1
+cells 21 states 2097152 rule gump
+max transient 28 (example state 0xd35e), mean transient 6.333, garden-of-eden 1603419
+period 1: 3865 cycles, 3865 states, example 0x0
+period 2: 2170 cycles, 4340 states, example 0x600ff
+period 6: 21 cycles, 126 states, example 0x64ddf
+-- uncapped:
+max transient 11 (example state 0xbb17), mean transient 2.993, garden-of-eden 1708664
+period 1: 4216 cycles, 4216 states, example 0x0
+period 2: 3206 cycles, 6412 states, example 0x600ff
+== p q r m = 8 1 1 1
+cells 24 states 16777216 rule gump
+max transient 20 (example state 0x32fb17), mean transient 5.120, garden-of-eden 15948880
+period 1: 2137 cycles, 2137 states, example 0x0
+period 2: 1172 cycles, 2344 states, example 0x3fe77
+period 3: 64 cycles, 192 states, example 0x3f7ff
+period 6: 4 cycles, 24 states, example 0x777777
+period 8: 2 cycles, 16 states, example 0xbac98a
+-- uncapped:
+max transient 11 (example state 0x5d29d), mean transient 2.707, garden-of-eden 16100426
+period 1: 2170 cycles, 2170 states, example 0x0
+period 2: 1520 cycles, 3040 states, example 0x3b23f
+== p q r m = 4 1 2 1
+cells 24 states 16777216 rule gump
+max transient 31 (example state 0x28e7b2), mean transient 6.280, garden-of-eden 13714104
+period 1: 4433 cycles, 4433 states, example 0x0
+period 2: 3460 cycles, 6920 states, example 0x256d7
+period 4: 132 cycles, 528 states, example 0x33f5d7
+period 6: 20 cycles, 120 states, example 0xeffcd7
+period 8: 4 cycles, 32 states, example 0xdbdb4
+-- uncapped:
+max transient 11 (example state 0xef35), mean transient 3.247, garden-of-eden 14549162
+period 1: 5610 cycles, 5610 states, example 0x0
+period 2: 5944 cycles, 11888 states, example 0x256d7
+== p q r m = 2 0 2 1
+cells 12 states 4096 rule gump
+max transient 8 (example state 0x2bf), mean transient 1.985, garden-of-eden 2383
+period 1: 57 cycles, 57 states, example 0x0
+period 2: 336 cycles, 672 states, example 0x55
+-- uncapped:
+max transient 3 (example state 0x1f), mean transient 1.312, garden-of-eden 2698
+period 1: 58 cycles, 58 states, example 0x0
+period 2: 364 cycles, 728 states, example 0x55
+== p q r m = 3 1 1 2
+cells 18 states 262144 rule gump
+max transient 13 (example state 0x6b7), mean transient 3.748, garden-of-eden 191772
+period 1: 112 cycles, 112 states, example 0x0
+period 2: 273 cycles, 546 states, example 0x63
+period 4: 18 cycles, 72 states, example 0x2b37b
+period 6: 15 cycles, 90 states, example 0x28e5e
+-- uncapped:
+max transient 7 (example state 0x1a91), mean transient 1.967, garden-of-eden 226998
+period 1: 49 cycles, 49 states, example 0x0
+period 2: 279 cycles, 558 states, example 0x63
+== p q r m = 2 0 2 2
+cells 24 states 16777216 rule gump
+max transient 56 (example state 0xaf04b), mean transient 10.460, garden-of-eden 9899090
+period 1: 1234 cycles, 1234 states, example 0x0
+period 2: 5367 cycles, 10734 states, example 0x55
+period 3: 24 cycles, 72 states, example 0x8170c5
+period 4: 384 cycles, 1536 states, example 0x50975
+period 5: 24 cycles, 120 states, example 0x8c433a
+period 6: 120 cycles, 720 states, example 0x7794
+period 8: 12 cycles, 96 states, example 0x419d7
+period 10: 24 cycles, 240 states, example 0x570ac
+period 12: 8 cycles, 96 states, example 0x36e3e5
+-- uncapped:
+max transient 11 (example state 0x1b512), mean transient 2.509, garden-of-eden 15219880
+period 1: 980 cycles, 980 states, example 0x0
+period 2: 12122 cycles, 24244 states, example 0x55
+== p q r m = 3 0 3 1
+cells 27 states 134217728 rule gump
+max transient 17 (example state 0x6e57d), mean transient 4.906, garden-of-eden 117813474
+period 1: 5944 cycles, 5944 states, example 0x0
+period 2: 16371 cycles, 32742 states, example 0x93b6
+period 3: 81 cycles, 243 states, example 0x16ffef
+period 4: 486 cycles, 1944 states, example 0x11e7df9
+period 6: 297 cycles, 1782 states, example 0x7fbebbd
+== p q r m = 3 1 3 1
+cells 27 states 134217728 rule gump
+max transient 39 (example state 0x3f468f), mean transient 6.807, garden-of-eden 115051794
+period 1: 8008 cycles, 8008 states, example 0x0
+period 2: 3879 cycles, 7758 states, example 0x93b6
+period 3: 9 cycles, 27 states, example 0x1f7feff
+period 4: 135 cycles, 540 states, example 0x11ccffa
+== p q r m = 9 1 1 1
+cells 27 states 134217728 rule gump
+max transient 25 (example state 0x2e956f), mean transient 5.597, garden-of-eden 129525291
+period 1: 4288 cycles, 4288 states, example 0x0
+period 2: 2700 cycles, 5400 states, example 0x3fe77
+period 3: 72 cycles, 216 states, example 0x3f7ff
+== p q r m = 9 2 1 1
+cells 27 states 134217728 rule gump
+max transient 39 (example state 0x9a9b3e), mean transient 6.807, garden-of-eden 115051794
+period 1: 8008 cycles, 8008 states, example 0x0
+period 2: 3879 cycles, 7758 states, example 0x8474af
+period 3: 9 cycles, 27 states, example 0x3fcffef
+period 4: 135 cycles, 540 states, example 0x184755f
+== p q r m = 9 4 1 1
+cells 27 states 134217728 rule gump
+max transient 25 (example state 0x211f7f), mean transient 5.597, garden-of-eden 129525291
+period 1: 4288 cycles, 4288 states, example 0x0
+period 2: 2700 cycles, 5400 states, example 0x404b7f4
+period 3: 72 cycles, 216 states, example 0x1ef1ff
+== p q r m = 10 1 1 1
+cells 30 states 1073741824 rule gump
+max transient 25 (example state 0x3339577), mean transient 5.822, garden-of-eden 1047343081
+period 1: 9799 cycles, 9799 states, example 0x0
+period 2: 4774 cycles, 9548 states, example 0x3fe77
+period 3: 160 cycles, 480 states, example 0x3f7ff
+period 4: 50 cycles, 200 states, example 0x285ff237
+period 20: 4 cycles, 80 states, example 0x3b39d9bf
+== p q r m = 5 1 2 1
+cells 30 states 1073741824 rule gump
+max transient 56 (example state 0x39a4f93), mean transient 7.430, garden-of-eden 945497517
+period 1: 28169 cycles, 28169 states, example 0x0
+period 2: 13319 cycles, 26638 states, example 0x123ffb
+period 3: 40 cycles, 120 states, example 0x281ff7bf
+period 4: 165 cycles, 660 states, example 0x27fc7584
+period 6: 60 cycles, 360 states, example 0x4f7f436
+period 8: 15 cycles, 120 states, example 0x3113ffd2
+== p q r m = 10 3 1 1
+cells 30 states 1073741824 rule gump
+max transient 56 (example state 0x6cac5d5), mean transient 7.430, garden-of-eden 945497517
+period 1: 28169 cycles, 28169 states, example 0x0
+period 2: 13319 cycles, 26638 states, example 0x88007ff
+period 3: 40 cycles, 120 states, example 0x3d1dcfde
+period 4: 165 cycles, 660 states, example 0x89d2fff
+period 6: 60 cycles, 360 states, example 0x7d6f3e
+period 8: 15 cycles, 120 states, example 0xcf84fd3
+== p q r m = 5 1 1 2
+cells 30 states 1073741824 rule gump
+max transient 88 (example state 0x1b0a6d2), mean transient 12.906, garden-of-eden 845112838
+period 1: 3135 cycles, 3135 states, example 0x0
+period 2: 2103 cycles, 4206 states, example 0x509f
+period 3: 35 cycles, 105 states, example 0x1f90b5
+period 4: 80 cycles, 320 states, example 0x80bd012
+period 5: 30 cycles, 150 states, example 0x80bd037
+period 6: 35 cycles, 210 states, example 0x7714ac
+period 8: 15 cycles, 120 states, example 0x185714ae
+period 70: 2 cycles, 140 states, example 0x2eabfb9d
+== p q r m = 5 2 1 2
+cells 30 states 1073741824 rule gump
+max transient 88 (example state 0x5539f4), mean transient 12.906, garden-of-eden 845112838
+period 1: 3135 cycles, 3135 states, example 0x0
+period 2: 2103 cycles, 4206 states, example 0xc57
+period 3: 35 cycles, 105 states, example 0x70398c6
+period 4: 80 cycles, 320 states, example 0x23b144
+period 5: 30 cycles, 150 states, example 0x66391c4
+period 6: 35 cycles, 210 states, example 0x2e0c4662
+period 8: 15 cycles, 120 states, example 0x3fc1b192
+period 70: 2 cycles, 140 states, example 0x377768df

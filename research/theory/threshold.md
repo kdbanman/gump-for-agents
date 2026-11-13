@@ -121,7 +121,19 @@ ceiling allows, in chaos and clockwork alike.
 
 **Faces and the run-up to a face death** (octahedral soups, cube-centred, ρ = 0.4; 'face' = outermost live
 `{111}` layer in each of 8 directions; 'pre-death' = that layer in the 50 generations before it empties):
-FACE_TABLE
+`python3 research/theory/overcrowd.py octa 9 30 2 200000` (510-cell vessel, 30 soups, lifetimes 1,153–15,580,
+773 layer deaths after generation 51; chaos = generations 21 … μ−100):
+
+| where | overcrowded | O1 | M |
+|---|---|---|---|
+| whole vessel, chaos | 0.255 | 0.097 | 0.384 |
+| outermost live layer (8 directions), chaos | 0.135 | 0.073 | 0.343 |
+| that layer, 50 generations before it empties | 0.065 | 0.035 | 0.169 |
+| final cycles (all 30 of period ≤ 2) | 0.004 | 0 | 0 |
+
+A face is driven at ~¾ of the vessel's rate (its cells miss 3 of their 12 neighbours), and in the 50 generations
+before it dies its drive has already halved: a dying face is a starved face, not a face killed in full activity.
+E per hull cell: 0.89 ± 0.17 in chaos, 0.047 in the final cycles.
 
 **Thin slabs** (time course, mean over 40 soups, N = 16, ρ = 0.4, `overcrowd.py timecourse 16 m 40 1001 7`):
 | t | 1 | 5 | 10 | 20 | 50 | 100 | 1000 |

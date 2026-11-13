@@ -27,24 +27,23 @@ or a sharply stated conjecture with a rate, (iii) what remains is characterised.
 ### S — structure (provable now)
 
 - **S1–S4 [proved]** T1–T4; the twist lemma (period = loop × order of closing symmetry).
-- **S5 [proved; proof below, to be audited] The threshold lemma.** Gump is a symmetric threshold automaton with one
-  exception. Let n be a cell's live-neighbour count and x its state. The *uncapped* rule "alive next iff n + x ≥ 4"
-  (birth at ≥ 4, survival at ≥ 3) is a threshold network with symmetric weights, so by the Goles–Olivos argument it
-  has the non-increasing energy E(t) = −Σ_{i~j or i=j} x_i(t) x_j(t−1) + 3.5 Σ_i (x_i(t) + x_i(t−1)), which drops by
-  ≥ ½ for every cell with x(t+1) ≠ x(t−1). Hence it reaches period ≤ 2 within O(N) steps. Gump differs from it
-  exactly at *overcrowded* cells (n ≥ 6, where gump says dead). So:
-  **(a)** any orbit of gump with no overcrowded cell from some time on has period ≤ 2;
-  **(b)** every oscillator of period ≥ 3 has an overcrowded cell at some phase;
-  **(c)** along any gump orbit, ΔE ≤ −½·#{cells with x(t+1) ≠ x(t−1), not overcrowded} + Σ_{overcrowded i, x_i(t−1)=1} (n_i + x_i − 3.5).
-  Energy enters only at overcrowded cells. *Chaos is sustained overcrowding; without it the rule is a gradient flow.*
-  Checked (`python3 research/theory/check_threshold.py`): all 329 catalogued objects of period ≥ 3 have an overcrowded
-  cell; the uncapped rule on 80 soups (hulls of 264 and 876 cells) always freezes, in ≤ 8 steps.
-  *Ways on:* audit the proof and the citation; turn (c) into bounds (how much overcrowding does sustained activity
-  need per unit volume?); measure the overcrowding rate in chaos, at a dying face, in debris, as an order parameter.
-- **S6 [open] Critical thickness as a theorem.** Measured: one or two `{111}` layers cannot sustain activity, three
-  can. In one isolated layer a cell has ≤ 6 neighbours, so it is overcrowded only when completely surrounded — the
-  energy budget (c) may be enough to prove freezing outright. Two layers: ≤ 8 neighbours. A proof would make
-  "a vessel too thin for chaos" rigorous, and with the skeleton give a *definition of debris by geometry*.
+- **S5 [proved; audited] The threshold lemma** (`threshold.md`). In a finite vessel, gump is the symmetric
+  threshold rule "alive next iff n + x ≥ 4" except at *overcrowded* cells (n ≥ 6, where gump says dead). With the
+  Goles–Olivos energy E(t) = −x(t)ᵀ(A + I)x(t−1) + 3.5(|x(t)| + |x(t−1)|): the uncapped rule reaches period ≤ 2
+  within 26N + 1 steps; for gump **ΔE = D − Q exactly**, with dissipation Q at ordinary cells and drive D only at
+  overcrowded cells that were alive two steps before (O1 events). So no O1 events ⇒ period ≤ 2; on any cycle drive
+  equals dissipation; every oscillator of period ≥ 3 has O1 events. *Chaos is sustained drive; without it the rule
+  is a gradient flow.* Measured: O1 rate 0.115 per cell per generation in bulk chaos, 0.035 at a face about to die,
+  0 in period-≤2 debris. False for infinite configurations. Primary citations still unread.
+  *Ways on:* is there a critical drive rate below which activity cannot persist (a proof would be a rigorous
+  "debris" criterion)? Does the drive rate at a face predict its death better than its population does (M1)?
+- **S6 [proved, in a different form than hoped] Why three layers** (`thickness.md`). A set is *sealed* if each of
+  its cells has ≤ 3 neighbours outside it; a dead sealed set stays dead whatever happens elsewhere, and the largest
+  one, K(t), only grows — the skeleton, made exact. Finite sealed sets exist in one layer (6 cells) and two (36);
+  **in three or more layers and in 3D none exists**, so in a hull every sealed set touches the outside. The hoped-for
+  "one layer always freezes" is false: one-layer oscillators of periods 3–12 exist.
+  *Open:* thin slabs lose chaos because the unsealed region stops percolating (stated precisely in `thickness.md` §4;
+  a computer-assisted proof looks possible). And in ≥ 3 layers: bound how fast a face-touching sealed set can grow.
 - **S7 [open] General confinement.** For which lattices, neighbourhoods and rules does "a dead cell sees fewer live
   cells across a plane than birth needs" hold, and what hull shapes result? Relation to Eppstein's classification
   (`PRIOR-ART.md`; his proof still needs reading). A clean general theorem is paper material on its own.
@@ -54,7 +53,9 @@ or a sharply stated conjecture with a rate, (iii) what remains is characterised.
 ### D — definitions to try
 
 - **D1 Debris by dynamics:** eventually free of overcrowding (then period ≤ 2 by S5) — misses the clockwork.
-- **D2 Debris by geometry:** every component of the skeleton's complement is too thin to hold chaos (needs S6).
+- **D2 Debris by geometry:** the unsealed region V \ K(t) consists of pockets too thin to hold chaos. Exact
+  objects now exist for this (S6); what is missing is the percolation step.
+- **D1′ Chaos by drive:** a positive rate of O1 events per cell (S5). Cheap to measure, and zero on period-≤2 debris.
 - **D3 Chaos by damage:** a single flip's damage spreads linearly (measured 0.85 cube/gen); debris heals or confines it.
 - **D4 Chaos by measure:** locally typical for a shift-invariant, mixing invariant measure on the infinite lattice
   (density 0.4155). Existence of invariant measures is free; uniqueness and mixing are the hard part everywhere.
@@ -77,8 +78,9 @@ or a sharply stated conjecture with a rate, (iii) what remains is characterised.
 ### E — end states (what is left)
 
 - **E1 [measured] The ash census** (`research/atlas/`): what a typical seed leaves. No theory of its composition.
-- **E2 [heuristic] Random map with killing.** Treat chaos in a vessel of N cells as a random map killed at rate
-  1/τ: ≈ τ states on immortal cycles; a seed reaches one with probability ~τ²/2^N. Testable in small vessels, where
+- **E2 [heuristic, untested] Random map with killing.** Model: a uniformly random map on M = 2^N states, each step
+  independently fatal with probability 1/τ, τ ≪ √M. Then ≈ τ states lie on immortal cycles and a random seed
+  reaches one with probability ≈ τ²/M (derivation in `OPEN-PROBLEMS.md`, item 4). Testable in small vessels, where
   it should also predict the *clockwork*: periods, counts and basins of long oscillators (with the twist lemma as
   the birthday paradox modulo symmetry). Links E to M and to `research/clockwork/`.
 - **E3 [open] Why does side 15 go extinct and side 16 leave twelve S8b?** What the final collapse selects.

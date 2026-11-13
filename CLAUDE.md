@@ -34,3 +34,7 @@ by agents. The owner (Kirby) wants to hear what we find interesting, surprising,
 - Keep large generated data out of git (`research/data/` is for small, curated files;
   put bulk output under `research/scratch/`, which is ignored).
 - Persist what was hard to derive; skip what the next capable reader could re-derive in a minute.
+- No human reviews the technical work here, so claims are checked by construction: say how a number can be
+  reproduced, say what you did *not* check, and expect a second agent to try to break it. A stepper or engine
+  is trusted only when bit-exact against the engine/oracle. `research/check.sh` must pass before a merge;
+  `research/CLAIMS.md` records how well each headline claim has been verified.

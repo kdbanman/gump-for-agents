@@ -202,3 +202,41 @@ def torus_min_sat(N, m, kmax):
 
 if __name__ == '__main__' and sys.argv[1:2] == ['torusmin']:
     torus_min_sat(int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]))
+
+
+def pockets(N, m, nsoups, seed, rho=0.4, times=(0, 1, 2, 3, 5, 10, 20)):
+    """Components (under the neighbour relation) of the unsealed region U(t) = V \\ K(t) on an N x N torus slab.
+    Each component of U is a closed subsystem from then on (its outside neighbours are dead forever), so if every
+    component is small and does not wrap, every cell is eventually periodic with a small transient.
+    Also the local skeleton K_hex(t): union of kagome hexagon rings (6-cell sealed sets, m = 1) dead at some time <= t."""
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+    from vessel import slab
+    v = slab(N, m); st = Stepper(v.nb); nbm = st.nb; n = st.N
+    rows = np.repeat(np.arange(n), 12); cols = v.nb.reshape(-1); ok = cols >= 0
+    rng = np.random.default_rng(seed)
+    res = {t: [] for t in times}
+    for _ in range(nsoups):
+        x = (rng.random(n) < rho).astype(np.int8); K = np.zeros(n, bool)
+        for t in range(max(times) + 1):
+            W = (x == 0) | K
+            while True:
+                out = (~np.append(W, True)[nbm]).sum(1); W2 = W & (out <= 3)
+                if (W2 == W).all(): break
+                W = W2
+            K = W
+            if t in times:
+                U = ~K
+                keep = ok & U[rows] & U[np.where(ok, cols, 0)]
+                g = coo_matrix((np.ones(keep.sum()), (rows[keep], cols[keep])), shape=(n, n))
+                nc, lab = connected_components(g, directed=False)
+                sizes = np.bincount(lab[U]) if U.any() else np.array([0])
+                res[t].append((U.mean(), sizes.max() if len(sizes) else 0))
+            x, _ = st.step(x)
+    print(f'pockets N={N} m={m} ({n} cells) rho={rho} soups={nsoups}: t: unsealed fraction, largest pocket (mean, max) | ' +
+          ' '.join(f'{t}:{np.mean([a for a, b in r]):.3f},{np.mean([b for a, b in r]):.0f},{max(b for a, b in r)}' for t, r in res.items()), flush=True)
+
+
+if __name__ == '__main__' and sys.argv[1:2] == ['pockets']:
+    pockets(int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5]), float(sys.argv[6]) if len(sys.argv) > 6 else 0.4,
+            tuple(map(int, sys.argv[7].split(','))) if len(sys.argv) > 7 else (0, 1, 2, 3, 5, 10, 20))

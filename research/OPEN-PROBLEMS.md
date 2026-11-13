@@ -20,9 +20,14 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
      A matching lower bound would be a contour argument of the kind used for the contact process;
    - deriving 0.208 from a model: near empty the face is one small cluster and P(k cells) falls by a constant
      factor 0.65 per cell, which is what a birth–death walk of a single cluster would give.
-4. **[conjecture, heuristic] "Chaos always ends" is false as a theorem but true with overwhelming probability.**
-   If the chaotic map is treated as a random map with killing rate h = 1/τ, about τ of the 2^N hull states lie on
-   cycles that never lose a face, and a random seed reaches one before peeling with probability ~τ²/2^N.
+4. **[open question] "Chaos always ends" is false as a theorem but plausibly true with overwhelming probability.**
+   **Stated model [heuristic, untested]:** a uniformly random map on M = 2^N states in which every step is
+   independently fatal (a face dies) with probability h = 1/τ, τ ≪ √M. A random map has on average 1/k cycles of
+   length k; a k-cycle is immortal with probability (1 − h)^k; so the expected number of states on immortal cycles
+   is Σ_k (1 − h)^k ≈ τ. A random orbit closes on itself at step t with probability ≈ t/M and is still alive then
+   with probability (1 − h)^t, so it reaches an immortal cycle with probability ≈ Σ_t (t/M)(1 − h)^t ≈ τ²/M.
+   (Without killing, √(πM/2) states are cyclic; the killing is what cuts that to τ.) Whether gump's chaos behaves
+   like such a map is the open part — testable in small vessels (PROGRAM E2).
    The long-period oscillators in small boxes (period 66 in a 45-cell hull) are the small-N end of the same thing.
    Not checked numerically. A seed that is *extinct* (population 0) is not the generic end either: still lifes remain.
 
@@ -32,13 +37,20 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    debris a typical seed leaves, and why some cubes go extinct (side 15) and others leave still lifes (side 16);
    (c) proving that a typical seed ends in *small* debris (see 4).
 
+   Now also **[proved]** (`research/theory/`): the threshold lemma (all behaviour beyond period 2 is driven at
+   overcrowded cells; ΔE = D − Q) and the sealed-set theorem (no finite set can die unconditionally in ≥ 3 layers).
+   **Open from them:** (a) a critical drive rate below which activity must stop; (b) the percolation statement that
+   would prove thin slabs cannot sustain chaos; (c) the primary Goles–Olivos sources have not been read.
+
 ## Measured, cause unknown
 
-6. **Whole cubes are over-dispersed against memoryless ensembles** (3 of 16 large plateaus beyond 4 means; side 16
-   stayed 7.4 means at R = 40; P ≈ 0.01). Luck or real? In progress: `research/lineage/`.
+6. **Do whole cubes outlive their ensembles?** Side 16 stayed 7.4 ensemble means at R = 40 (P = 6×10⁻⁴ for that
+   one plateau) and 2.8, 2.6, 1.2 at its other large ones. A count over cubes 13–16 gives P ≈ 0.01, but it is post
+   hoc (it includes the plateaus that prompted it; without side 16, P ≈ 0.18 — audit 2026-11-13). Needs fresh
+   lineages with the test fixed in advance: `research/lineage/`, and the GPU session.
 7. **Even (vertex-centred) cubes are ≈1.5× tougher** than odd ones at equal face area. No explanation.
 8. **Symmetric faces:** is the asymptotic slope exactly 0.209/6? Fits differ by 0.6 nats at A = 828. Side 17's first
-   plateau is forecast in writing (`research/fluct/PREDICTIONS.md`: ≈2×10¹⁰) and not run.
+   plateau is forecast in writing (`research/fluct/PREDICTIONS.md`: mean residence 2.6×10¹⁰, first-peel median 2×10¹⁰) and not run.
 9. **Asymmetric faces beyond A = 84:** one peel at A = 108; the collapse of the rate function to A = 135 is indirect.
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.

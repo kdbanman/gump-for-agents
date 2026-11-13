@@ -34,7 +34,7 @@ conjectured, with the command that reproduces it. The short version:
 5. **Symmetry is fatal.** A symmetric seed has only one fundamental domain's worth of
    independent chaos, so its faces fail together. The original's side-13 cube lives 169,049
    generations *because* it is symmetric; an asymmetric soup in the same hull would be
-   expected to hold each face for ~10⁴¹. (Our first out-of-sample prediction, the lifetime
+   expected, on the face law extrapolated fivefold in area, to hold each face for ~10⁴¹. (Our first out-of-sample prediction, the lifetime
    of a side-16 cube, failed: it lived 2,919,617,676 generations, twelve times the prediction,
    and ended as twelve small still lifes on the axes. The repair is in the notebook: large
    symmetric faces are tougher than a fixed "effective area" allows. A forecast for its first

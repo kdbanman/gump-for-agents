@@ -57,7 +57,7 @@ for name, X in forms.items():
     cov = np.linalg.inv(Xm.T @ (Xm * W[:, None])); b = cov @ (Xm.T @ (W * yy))
     chi2 = float(((Xm @ b - yy) ** 2 * W).sum()); dof = len(A_) - len(b)
     out = []
-    for Aq in (693, 759, 828):
+    for Aq in (693, 759, 828, 1053):   # 1053 = the legacy side-19 cube, properly confined: an extrapolation far outside the data
         xq = Xq(np.array([float(Aq)]))[0]; m = float(xq @ b) + (0.209 / 6 * Aq if X is None else 0)
         se = math.sqrt(float(xq @ cov @ xq)) * max(1.0, math.sqrt(chi2 / max(dof, 1)))
         out.append((Aq, m, se))
@@ -69,4 +69,10 @@ for a, l, se, d, e in V:
     direct = [(lc, sc) for (Ac, lc, sc) in C if Ac == a]
     ref = direct[0] if direct else (cc[0] if cc else None)
     if ref:
+        if a == 693:   # fresh soups only (no copies of the cube16 snapshots); this is the value the notebook / STATUS quote
+            sv = [r for r in rows if r['A'] == 693 and r['cen'] == 'v' and not r['tag'].startswith('snap')]
+            dv, ev = sum(r['deaths'] for r in sv), sum(r['expo'] for r in sv)
+            sc = [r for r in rows if r['A'] == 693 and r['cen'] == 'c']
+            dc, ec = sum(r['deaths'] for r in sc), sum(r['expo'] for r in sc)
+            print(f'  A=693, fresh soups only ({dv} vertex deaths, {dc} cube deaths): ln(tau_v / tau_c) = {math.log((ev / dv) / (ec / dc)):+.2f} +- {math.hypot(1 / math.sqrt(dv), 1 / math.sqrt(dc)):.2f}  (factor {(ev / dv) / (ec / dc):.2f}; the line below pools the cube16 copies into the vertex value)')
         print(f'  A={a}: ln(tau_v / tau_c) = {l - ref[0]:+.2f} +- {math.hypot(se, ref[1]):.2f}  (factor {math.exp(l - ref[0]):.2f}; reference {"measured" if direct else "fit"})')

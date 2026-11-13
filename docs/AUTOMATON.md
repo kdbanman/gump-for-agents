@@ -92,6 +92,28 @@ its own / adjacent / next-adjacent layers.
 
 T2–T3 hold for any outer-totalistic rule on this neighbourhood whose smallest birth count is ≥ 4.
 
+**T5 (threshold lemma).** In a finite vessel (a torus, or a region whose outside is dead forever), write `n` for a
+cell's live-neighbour count and `x` for its state. The *uncapped* rule "alive next iff `n + x ≥ 4`" is a threshold
+network with symmetric weights, so the energy `E(t) = −x(t)ᵀ(A + I)x(t−1) + 3.5(|x(t)| + |x(t−1)|)` (`A` the
+adjacency matrix; ordered pairs) never increases and the rule reaches period ≤ 2 within `26N + 1` steps. Gump
+differs from it exactly at *overcrowded* cells (`n ≥ 6`, where gump says dead), and for gump `ΔE = D − Q` exactly:
+`Q ≥ 0` is dissipated at non-overcrowded cells with `x(t+1) ≠ x(t−1)`, and the drive `D ≥ 0` enters only at
+overcrowded cells that were alive at `t−1`. Hence an orbit with no such events from some time on has period ≤ 2,
+and every oscillator of period ≥ 3 has them. False for infinite configurations.
+*(Proof, audit and measurements: `research/theory/threshold.md`.)*
+
+**T6 (sealed sets; why three layers).** Call a set of cells *sealed* if each of its cells has at most 3 neighbours
+outside it. A dead sealed set stays dead whatever happens elsewhere; unions of sealed sets are sealed, so the
+largest dead sealed set `K(t)` only grows (T2's outside of a hull and T3's firewalls are instances). In a slab of
+one layer a 6-cell hexagon ring is sealed, and so is every half-plane (a one-layer pattern never leaves its convex
+hull); in two layers a 36-cell set is sealed. **In a slab of three or more layers, and in the full lattice, no
+finite set is sealed**; in a diagonal-hull vessel every component of a sealed set is adjacent to the outside.
+*Proof idea.* Take the cell of the set furthest along a generic in-plane direction `v`: 3 of its 6 in-layer
+neighbours lie beyond it. In a boundary layer its two neighbours `a, b` one layer in and its one neighbour `e` two
+layers in satisfy `ē = −2(ā + b̄)` in projection, so if neither `a` nor `b` lies beyond it, `e` does — and `e`
+exists only if there is a third layer. ∎ *(Full proof: `research/theory/thickness.md`.)*
+One-layer oscillators of periods 3–12 exist, so "thin slabs freeze" is a statement about typical states only.
+
 ## 4. Legacy semantics (for reproducing the original's runs)
 
 - State is an `H×H×H` int array over doubled coordinates `0..H-1`; only exactly-one-odd
@@ -115,7 +137,9 @@ T2–T3 hold for any outer-totalistic rule on this neighbourhood whose smallest 
   recorded), line `g ≥ 1` is the population after `g` iterations. Logs stop when the
   state went static.
 
-Legacy closed-cube runs (`dev/cubic_init_results` in the original repo):
+Legacy closed-cube runs (`dev/cubic_init_results` in the original repo). Convention: a "lifetime" is the
+generation at which the final state is entered (the engine's `cycle_start`). A few notebook figures (side 14,
+4,460,298; side 16, 2,919,617,676) are the engine's `detected_gen`, 1–2 generations later.
 
 | side n | H   | span (lo..hi) | generations | final population | status here |
 |-------:|----:|:-------------:|------------:|-----------------:|:------------|
@@ -123,8 +147,8 @@ Legacy closed-cube runs (`dev/cubic_init_results` in the original repo):
 | 9      | 50  | 17..35        | 71          | 54               | oracle matches every generation |
 | 10     | 55  | 17..37        | 65          | 264              | oracle matches every generation |
 | 11     | 60  | 19..41        | 4,218       | 36               | oracle matches every generation |
-| 12     | 65  | 21..45        | 24,286      | 288              | see notebook |
-| 13     | 70  | 23..49        | 169,049     | 108              | see notebook |
+| 12     | 65  | 21..45        | 24,286      | 288              | oracle and engine match every generation |
+| 13     | 70  | 23..49        | 169,049     | 108              | engine matches every generation (oracle not run) |
 | 19     | 100 (inferred) | 31..69 | unfinished at 295,971 | ≈150,000 | hull radius 55 > torus half-width 50: confinement broken by wraparound, the torus fills with soup |
 
 The first four logs are copied to `reference/golden/`. The larger ones stay in the original

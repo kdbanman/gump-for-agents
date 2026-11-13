@@ -19,8 +19,11 @@ _Last updated 2026-11-13 by the lead._
 ## In flight
 - `research/lineage/` (agent): are plateau lengths of structured symmetric seeds memoryless, or over-dispersed
   like the cubes'? (OPEN-PROBLEMS 6.)
-- `research/theory/` (agent): audit of the threshold lemma (PROGRAM S5) and a proof attempt for critical
-  thickness (S6). Not yet checked by the lead.
+- `research/theory/` S5 and S6 done and checked (notebook 2026-11-13): threshold lemma with exact energy
+  identity; no finite sealed set in ≥ 3 layers; "one layer always freezes" disproved. To do: state both as
+  theorems in `docs/AUTOMATON.md` once the running audit has finished reading it.
+- Audit agent: `research/CLAIMS.md`, `research/AUDIT-2026-11-13.md`, `research/check.sh`, CI workflow.
+- GPU session "Modal API" briefed (see `LEAD.md`); no pull request from it yet.
 - Next when a core frees: the 2D toy search (PROGRAM G1).
 
 ## The storyline so far
@@ -37,9 +40,9 @@ _Last updated 2026-11-13 by the lead._
    memoryless collapse whose cost is exponential in the number of cells that must die:
    - **a face layer goes extinct (peeling)** — mean wait τ_face ≈ exp(−0.09 + 0.209·A)
      generations, A = sites in the outer layer; one line over six decades for flat slab
-     faces, octahedral faces (≈1.5× tougher), symmetric soups and the closed cubes
+     faces, octahedral faces (≈1.7–1.9× tougher), symmetric soups and the closed cubes
      (`research/figures/peel_face_law.png`; independently re-checked by the lead,
-     `research/experiments/verify_face_law.py`: CV of waits 1.0, slope 0.199 ± 0.006);
+     `research/experiments/face_endgame_check.py`: −ln h/A = 0.2183 at A = 45, engine only);
    - **an interior 3-layer firewall** — ≈0.12 per cell of the band (≈0.36 per unit of
      cross-section), so it wins only where a cross-section is much smaller than a face:
      thin slabs (crossover at thickness ≈ width), never octahedra;
@@ -47,13 +50,13 @@ _Last updated 2026-11-13 by the lead._
    **Symmetry is fatal**: an O_h-symmetric state has one fundamental domain of independent
    chaos (regions die in lockstep), effective face area A/7.7. The side-13 cube lasts ~10⁵
    generations because it is symmetric; the same hull filled asymmetrically would hold each
-   face ~10⁴¹. The legacy cube lifetimes n = 11–15 fall at unremarkable quantiles of the law's
+   face ~10⁴¹ (the face law extrapolated fivefold in area; not measured). The legacy cube lifetimes n = 11–15 fall at unremarkable quantiles of the law's
    prediction. **n = 16 was predicted at 2.4×10⁸ (90%: 3.9×10⁷–6.3×10⁸) and lived
    2,919,617,676** (first face 2.36×10⁹, second 5.2×10⁸; ends as 12 × S8b on the axes;
    `research/data/cube16_*`). What was wrong: the cost per site in a symmetric face rises with
    face size, so "A/7.7" under-predicts beyond its fitted range; cube-centred O_h faces follow
    ln τ ≈ 0.69 + (0.209/6)·A − 0.195·√A to A = 693 (`research/fluct/sym_fit.py`), and
-   vertex-centred ones (even cubes) are ≈1.5× tougher (A = 360–630; 2.0 ± 0.4 at A = 693).
+   vertex-centred ones (even cubes) are ≈1.5× tougher (A = 360–630; 2.0 ± 0.4 at A = 693 for fresh soups only; `sym_fit.py` prints 2.39 when the cube's own copies are pooled in).
    **Face death is the stationary tail, measured to one cell** (`research/fluct/README.md`):
    ln P(n = k) is straight down to k = 1, the death rate is its next point (h ≈ 0.6·P(n = 1)),
    62% of deaths are from a single cell, the usual 3-cell ember is one kagome triangle;
@@ -69,7 +72,7 @@ _Last updated 2026-11-13 by the lead._
    (`research/clockwork/README.md`; notebook 2026-11-13).
 6. In rule space (960 rules, B ⊆ {4..7}, S ⊆ {2..7}) torus chaos is common, but long-lived
    *confined* chaos is not, and gump is a **minimal** member of that region: remove any one
-   count from B45/S345 and lifetimes collapse; add S2 or S7 and they grow ≥30×.
+   count from B45/S345 and lifetimes collapse; add S2 or S7 and they grow ≥29× (those medians sit at the 10⁵ cap).
 
 ## Most recent
 - PR #1 merged to main (everything above). The lead measured the fluctuations of living faces
@@ -81,10 +84,11 @@ _Last updated 2026-11-13 by the lead._
   second peel missed by the clone run (mean 7×10⁷ confirmed three ways, actual stay 5.2×10⁸)
   and caught at the 95th percentile by the fit-only forecast. Side 17 is forecast at a
   first-plateau mean of 2.6×10¹⁰ (not run).
-- **Open puzzle:** whole cubes are over-dispersed against the memoryless ensembles — 3 of 16
-  large plateaus beyond 4 means, 3 under 0.05 (`research/experiments/cube_vs_ensemble.py`;
-  P ≈ 0.01); side 16's four largest plateaus ran 2.8, 7.4, 2.6 and 1.2 means. Hull radius 42
-  itself is an ordinary size (fresh soups: τ = 7.1×10⁸, 45 deaths). No mechanism known.
+- **Open question, not a finding:** side 16's largest plateaus ran 2.8, 7.4, 2.6 and 1.2 ensemble means. The
+  "over-dispersion, P ≈ 0.01" over cubes 13–16 (`research/experiments/cube_vs_ensemble.py`) is post hoc — it
+  includes the side-16 plateaus that suggested it; sides 13–15 alone give P ≈ 0.18 (audit, finding 1). The
+  proper test is on fresh lineages: `research/lineage/`, and the GPU session's experiment 1. Hull radius 42
+  itself is an ordinary size (fresh soups: τ = 7.1×10⁸, 45 deaths).
 - `research/fluct/qsd.py` is unreliable for symmetric soups below R = 30 (settled debris
   counted as a living face); use the engine there.
 - Clockwork study done (2026-11-13): 94 new oscillators in `research/clockwork/objects/`

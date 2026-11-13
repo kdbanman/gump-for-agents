@@ -146,6 +146,7 @@ Code, catalogue (1307 objects, every one re-stepped by the oracle) and exact sea
 - **[measured]** m = 3: τ̄ = 75, 488, 2592, 13598, 76458 for N = 3…7 (200/100/100/100/50 soups). m = 4: 149, 2780, 33657 (N = 3, 4, 5).
   m = 5: 246, 9701 (N = 3, 4). For N ≥ 8, 39/40 (N = 8) and 40/40 (N = 12) m = 3 soups and 20/20 m = 4 soups (N = 8)
   had not settled after 5×10⁴ generations, holding density ≈ 0.47. That is higher than the 3D bulk (≈ 0.30): thin slabs are "all surface".
+  [Corrected 2026-11-13 (audit, finding W2): the 3D bulk is 0.4155 (re-run: 0.415516 ± 0.000003 on 64³), not 0.30, which came from the miscount corrected in the first entry. Slabs are dense because faces are (face density ≈ 0.51); asymmetric confined chaos is 0.434.]
   **ln τ̄ is linear in N, not N²**: slope ≈ 1.7 per unit N for m = 3 (1.87, 1.67, 1.66, 1.72), ≈ 2.7 for m = 4, ≈ 3.7 for m = 5.
 - **[measured]** Mechanism: in 30/30 soups (N = 5, m = 3) and 30/30 (N = 4, m = 4), death came right after the first
   **transverse T3 firewall**: three consecutive empty `{111}` layers along one of the *other* three diagonals cut the slab
@@ -248,8 +249,10 @@ Code, commands and `rules.csv`: `research/phase/README.md`. Figures: `research/f
   142 of them have 4 ∈ B. Gump (median 3420) is longer-lived than 832 of the 960. **B45/S345 is one of the 50 minimal elements of the long-lived set:
   removing any bit collapses it** (B4/S345 104, B5/S345 21, B45/S45 20, B45/S35 22, B45/S34 36 gens) **while adding most bits extends it**:
   B456/S345 5.7×10³, B457/S345 8.9×10³, B45/S2345 ≥ 10⁵, B45/S3457 ≥ 10⁵. Gump sits on the edge of the region, at a corner, not in its interior.
+  [Note 2026-11-13 (audit, finding I5): 10⁵ is the survey's cap; the next bullet re-ran B45/S3457 with a cap of 10⁶.]
 - **[measured]** B45/S3457 is the neighbour to look at: medians 79, 3.5×10⁴, ≥ 10⁶ for radius 6, 8, 10 (gump: 28, 254, 3420), i.e. ~100× per radius step vs
   gump's ~10×; torus density 0.458. B45/S2345: 90, 1203, 6×10⁵. (`$G ensemble --soup 0.35 --radius 6 --runs 16 --vary rule=… --vary radius=5,7,9`.)
+  [Corrected 2026-11-13 (audit, finding I5): the command above does not give these numbers; the radii are 6, 8, 10 (not 5, 7, 9) and the cap is 10⁶. Reproduces exactly (79, 34,970, and 16/16 still running at 10⁶ for radius 10): `for R in 6 8 10; do $G ensemble --soup 0.35 --radius $R --runs 16 --rng 1 --vary 'rule=B45/S3457' --gens 1000000; done`, median of `cycle_start` per radius.]
 - **[measured]** B45/S3456 (adding survival at 6) is qualitatively different: a **glassy** rule. On a 32³ torus activity decays from 5% to 0.2% of cells per gen
   over ~5000 gens at density 0.51, and the whole torus locks into cycles of period 120, 2280, 3312, 3960 (4 soups). In vessels it freezes fast (59).
 - **[measured]** Oscillator-rich neighbours: in B567/S23456 85% of vessel soups end in a period > 1 cycle (gump 19%) and live long (1.7×10⁴); periods up to
@@ -300,6 +303,7 @@ CIs are 95% (χ²). Figures: `research/figures/peel_face_law.png`, `research/fig
   4.8×10⁵, 3.9×10⁷ — octahedral faces are 1.2–1.8× *more* robust. The per-face hazard over every hull state of every
   history (pooled, faces of A = 14–84) follows the same line. First peels are exponential (CV 1.06 at R = 11).
   (`python3 research/peeling/octa.py 11 0.3 1000000; python3 research/peeling/octa_hazard.py; python3 research/peeling/octa_report.py`.)
+  [Corrected 2026-11-13 (audit, finding W3): the first-peel table counted runs whose hull had already shrunk before t0, whose faces are smaller (R = 9: CV 1.26, 1,620). `octa_hazard.py` now keeps only runs with the full hull at t0 and `octa_first.csv` is regenerated (`python3 research/peeling/octa_hazard.py; python3 research/peeling/octa_report.py`). R = 9, 11, 13 now give means 2.29×10³, 9.95×10⁴, 9.4×10⁶ (R = 9: 295 runs, CV 1.03; the engine with the lead's protocol gives 2,459 ± 97), i.e. τ_face = 1.8×10⁴, 8.0×10⁵, 7.5×10⁷ and factors 1.7, 1.7, 1.9 over the slab law: "1.2–1.8× more robust" should read **1.7–1.9×**, in line with the lead's 1.6–1.9×. The next bullet's p = 0.2 row ("median A 35, CV 4.3") and the symmetric first-peel rows moved with the same filter (p = 0.2 now has only 6 established runs); the per-face hazards, which the A/7.7 fits use, are unchanged.]
 - **[measured]** Once the hull is filled, density does not matter: R = 11 first-peel means 0.91, 1.08, 1.00, 1.04 ×10⁵ for
   p = 0.3, 0.4, 0.5, 0.6. Below that the chaos never fills the hull: p = 0.2 peels from small faces (median A 35, CV 4.3),
   p = 0.15 dies in the transient in 93% of soups.
@@ -307,6 +311,7 @@ CIs are 95% (χ²). Figures: `research/figures/peel_face_law.png`, `research/fig
   128–256 runs): ln τ = −0.14 + 0.0272·A over per-state hazards with A ≥ 198, i.e. A_eff = A/(7.7 ± 0.2) against the slab
   constant. Vertex-centred symmetric soups (as even closed cubes) live 1.5× longer at equal face area (R = 28 vs 27: 5.8 vs
   4.0 ×10³; 32 vs 31: 8.2 vs 5.4 ×10⁴). **[conjecture]** the extra loss beyond A/6 is the phase study's depleted mirror-plane cells.
+  [Note 2026-11-13 (audit, finding I8): the face-law figure (`research/peeling/figures.py`, `K_SYM`) plots symmetric faces at A/8.0, not the A/7.7 quoted here.]
 - **[measured]** Time-averaged occupancy of the side-11 cube's outer face over its 3000-gen plateau (150 samples, 8 faces):
   interior 0.47, edge rows 0.38, corners 0.22 — **not a ring**; the viewer's ring was one snapshot. A face dies suddenly:
   90–230 live cells until ≈10 generations before extinction, last survivors 2–3 rows from the edge (side 11 at gen 3289,
@@ -404,6 +409,7 @@ symmetric chaos in a quick test (the soups died at gen 2). It was not investigat
   R=11 (A=63): mean 9.4×10⁴ ± 0.9×10⁴ (118 runs), CV 0.99 → τ_face 7.5×10⁵.
   Waits are exponential; slope between the two radii 0.199 ± 0.006 per face cell (study: 0.209 ±
   0.002 on flat slabs); octahedral faces 1.6–1.9× tougher than the flat-slab line. Agrees.
+  [Note 2026-11-13 (audit, finding I1): the 0.199 comes from the 240-run R = 9 sample, which was a 1.7σ high draw (reproduced exactly with the same seeds: 2,599.8 ± 174.9; 1,024 soups give 2,313 ± 75). With 2,300 the slope from R = 9 to 11 is 0.212. The independent anchor is the engine-only end-game check, `face_endgame_check.py`: −ln h/A = 0.2183 at A = 45.]
 - **[measured]** Engine bug found by the phase study and reproduced: `--sym` soups on a whole
   torus are overfilled (`gump run --soup 0.35 --torus 16 --sym oh --rng 3` → seed population
   11,388 of 12,288). Open-space symmetric soups unaffected. Reported to the engine.
@@ -472,6 +478,7 @@ generation, using only runs in which no face died (fixed geometry; 3 runs at R=1
   point where the law would be in trouble.) In hindsight the series was already leaning: sides 14 and 15 sit at
   quantiles 0.93 and 0.73 of their predictions, and two single residences are 5.5× and 7.2× their predicted means
   (side 14 at R = 30; side 15 at R = 37, 33.2M generations against 4.6M) — a KS test over 24 residences does not see tails.
+  [Corrected 2026-11-13 (audit, finding I8): with the mean 2.0×10⁸ the probability is e^−5.1 ≈ 0.6%.]
 - **[measured]** The face is ordinary. `gump occupancy --snapshot research/data/cube16_gen1025000000.gump --from 0
   --to 20000 --layer 45`: 0.4–0.5 in six domains, 0.3–0.4 along the three mirror lines, 0.2 at the centre, 0.1–0.2
   in the corners; no cell frozen, no persistent structure protecting it.
@@ -521,6 +528,7 @@ generation, using only runs in which no face died (fixed geometry; 3 runs at R=1
   `a + bA + c√A`: χ² = 42.1; **slope pinned to the asymmetric constant over the face's six lockstep copies,
   `a + (0.209/6)·A + c√A`: 1.57 + 0.0348·A − 0.236·√A, χ² = 47.4** — better than the free proportional fit with the
   same number of parameters. (The lead's batches alone give the same ordering: 29.8, 20.9, 21.2, 24.4 on 20 points.)
+  [Superseded 2026-11-13 (audit, finding I3): the refit with all data to A = 693 is 0.698 + (0.209/6)·A − 0.196·√A (`python3 research/fluct/sym_fit.py`, `research/fluct/data/sym_residence.csv`); STATUS 4 quotes it.]
 - **[conjecture]** So "effective area A/7.7" was never a constant. The data are consistent with the simplest
   symmetry argument — a face is six independent-chaos domains in lockstep, cost 0.209·A/6 — minus a boundary term
   from the mirror lines that grows only like √A. The divisor 7.7 is what that looks like around A ≈ 350 and it drifts
@@ -530,6 +538,7 @@ generation, using only runs in which no face died (fixed geometry; 3 runs at R=1
   A = 693 → ln τ = 19.5–20.0, so the side-16 first plateau has mean ≈ 4–7×10⁸ instead of 2×10⁸, and being alive at
   1.025×10⁹ is a 10–25% event rather than a 0.5% one. Side 17 (A = 828): ≈2–6×10¹⁰ (was 6×10⁹). The legacy side-19
   cube, properly confined (A = 1053): 10¹³–10¹⁴ on these fits, far outside any data.
+  [Note 2026-11-13 (audit, finding U3): `python3 research/fluct/sym_fit.py` now prints the A = 1053 extrapolation: ln τ = 31.0–32.1 over the fits, i.e. 3×10¹³–8×10¹³; one range, 10¹³–10¹⁴, is used everywhere. An extrapolation, not a measurement.]
 
 ## 2026-11-13 — clockwork: the long periods are short loops that close with a twist (clockwork agent; checked by the lead)
 
@@ -620,6 +629,7 @@ phase k, per-cell periods of P66.27a, C48.24a, C36.33a, C12.43a, C40.24a: all as
   two hours before the peel (event file written 03:43Z). The outcome sits at the 58th percentile of that forecast.
   It is the first out-of-sample prediction in this project that has held. It is also wide (a factor 3.5), is
   conditional on the cube having reached 1.45×10⁹, and its own mean still leans low; one event cannot say more.
+  [Note 2026-11-13 (audit, finding I8): the table's "at 1.5×10⁹" is a rounding; the forecast was conditioned on the cube being alive at 1.45×10⁹ (`research/fluct/PREDICTIONS.md`).]
 - **What was wrong with the lead's fits.** They were fitted to *cube-centred* symmetric soups and carried to this
   *vertex-centred* hull by a factor 1.5 measured only at A ≤ 408. If the clone estimate is right the factor at
   A = 693 is 2–3.5, not 1.5. **[conjecture]** The vertex-centred advantage grows with face size. Untested directly.
@@ -650,6 +660,7 @@ Question put to the agent: is a face's death just the far tail of its ordinary f
 - **[measured] Correction to the lead:** the R = 9 first-peel mean is 2300, not 2.60×10³ ± 0.17×10³ (entry of
   2026-11-12); and near n = 0 the curve is straight in n, not "flattening". Extrapolating from n/A ≥ 0.1, which is
   all one has on large faces, misses ln h by 0.5–0.8 nats: the 0.20 the lead got that way was right partly by luck.
+  [Corrected 2026-11-13 (audit, finding I1): the start time is not the cause. Re-running the lead's command reproduces 2,599.8 ± 174.9 exactly (same seeds); the same protocol with 1,024 soups gives 2,313 ± 75 at T0 = 60 and 2,307 ± 77 at T0 = 200. The 240-run sample was a 1.7σ high draw: sampling noise, not a protocol difference.]
 - **[measured] The last ember is a triangle** (lead; `python3 research/experiments/near_death_shapes.py 9 300 1000`,
   a from-the-rule stepper, 1,263 face-generations at n = 3). The only irregularity on the line is an excess at
   n = 3 (P(2)/P(3) = 0.50, P(3)/P(4) = 0.78). 38% of three-cell faces are one shape: three faces round a single
@@ -704,7 +715,9 @@ Question put to the agent: is a face's death just the far tail of its ordinary f
 - **[measured] Every large plateau of cubes 13–16 against the ensemble mean at the same hull**
   (`python3 research/experiments/cube_vs_ensemble.py`): of 16 plateaus with A ≥ 408, three lasted more than 4 means
   (side 15 at R = 37 and 33: 4.2 each; side 16 at R = 40: 7.4; 0.29 expected, P = 0.003) and three less than 0.05
-  (0.78 expected); the sum of T/τ is 26.5 against 16 (P = 0.011). **[conjecture]** Residences of whole cubes are
+  (0.78 expected); the sum of T/τ is 26.5 against 16 (P = 0.011). [Corrected 2026-11-13 (audit, finding 1): this test is post hoc — it
+  includes the side-16 plateaus that prompted it; sides 13–15 alone sum to 12.8 means against 10, P ≈ 0.18. Not
+  evidence; a question for fresh lineages.] **[conjecture]** Residences of whole cubes are
   over-dispersed relative to the memoryless ensemble — both tails. The ensembles themselves are exponential to 30
   means (hazard flat in age, 66,555 deaths at R = 30). No mechanism is known: a clone is the cube's own state with
   one orbit flipped, and inherits anything slow. It may be luck at the 1% level. Open.
@@ -725,11 +738,79 @@ Question put to the agent: is a face's death just the far tail of its ordinary f
   τ = 3.5×10⁸ (2.9–4.4×10⁸)**. Table: `python3 research/fluct/sym_fit.py`.
 - **The vertex/cube factor at A = 693 is 2.0 (ln 0.70 ± 0.20)**, 1.5σ above the flat 1.5 of A = 360–630. The 3.1 of
   the previous entry leaned on the copies of the cube; fresh soups do not show it. R = 42 is an ordinary size.
+  [Note 2026-11-13 (audit, finding I2): 2.0 is for fresh soups only (45 vertex deaths against 58 cube deaths). `sym_fit.py` pools the cube's own copies into the vertex value and gives ln 0.87 ± 0.18, factor 2.39; it now prints both, labelled.]
 - **Copies of the cube against fresh soups in the same hull:** at R = 42, copies of the 1.025×10⁹ state give
   1.08×10⁹ (24 deaths) against the soups' 7.1×10⁸ — a ratio of 1.5, ln 0.42 ± 0.25, 1.7σ. At R = 40 copies and
   soups agree (8.2 and 5.7 against 8.2 ×10⁷). No clear difference.
 - **The cube itself:** its first plateau, 2.362×10⁹, is 3.3 soup means (P = 0.036), or 2.8 means of soups and copies
   pooled (P = 0.06). `python3 research/experiments/cube_vs_ensemble.py` now reads: side 16's four largest plateaus
   at 2.8, 7.4, 2.6 and 1.2 means; all 16 large plateaus of cubes 13–16 sum to 27.2 means against 16 (P = 0.008).
+  [Corrected 2026-11-13 (audit, finding 1): post hoc, as above; the P-value should not be quoted as evidence.]
   The puzzle of the previous entry stands and is now only about cube lineages, not about one hull size. Open.
 - The side-17 forecast is unchanged by the extra R = 41 data (fits give ln τ(828) = 23.7–24.2; forecast 24.0 ± 0.4).
+
+## 2026-11-13 — where the chaos comes from; nothing dies locally in three layers (lead and theory agent)
+
+Notes with full proofs and commands: `research/theory/threshold.md`, `research/theory/thickness.md`. Programme:
+`research/theory/PROGRAM.md`. The lead proposed the lemma and checked the agent's audit with separate code.
+
+- **[proved] The threshold lemma.** In a finite vessel gump is a symmetric threshold automaton with one exception.
+  The *uncapped* rule "alive next iff n + x ≥ 4" has the Goles–Olivos energy E(t) = −x(t)ᵀ(A + I)x(t−1) +
+  3.5(|x(t)| + |x(t−1)|) (ordered pairs), which never increases and drops by ≥ ½ for every cell with
+  x(t+1) ≠ x(t−1); so it reaches period ≤ 2 within 26N + 1 steps. Gump differs from it exactly at *overcrowded*
+  cells (n ≥ 6, where gump says dead). For gump the change of energy is an **exact identity ΔE = D − Q**: Q the
+  dissipation at non-overcrowded cells, D the drive, which enters only at overcrowded cells that were alive two
+  steps earlier ("O1 events"). Consequences: an orbit with no O1 events from some time on has period ≤ 2; over any
+  cycle total drive equals total dissipation; every oscillator of period ≥ 3 has O1 events, at least about a tenth
+  as many per period as it has cells of period ≥ 3. The lemma is false for infinite configurations (uncapped fronts
+  advance forever). Checks: `python3 research/theory/check_threshold.py` (all 329 catalogued objects of period ≥ 3
+  have an overcrowded cell; the uncapped rule on 80 soups freezes in ≤ 8 steps); the identity holds at every one of
+  300 steps of a chaotic orbit in the lead's own code and in `research/theory/energy.py`.
+  Citation status: the agent read two secondary sources for the energy argument (arXiv 1108.2974, 2309.01854);
+  the primary papers (Goles & Olivos 1980; Goles, Fogelman-Soulié & Pellegrin 1985) were not opened.
+- **[measured]** (agent, `research/theory/overcrowd.py`) In bulk chaos 40% of cells are overcrowded every generation
+  and 11.5% are O1 events; activity is 3.9 changes per O1 event (proved ceiling 20). On octahedron faces the O1 rate
+  is 0.073, and 0.035 in the 50 generations before a face dies. Period-≤2 debris has none. The drive rate, not E
+  itself, separates chaos from debris.
+- **[disproved] "One layer always freezes to period ≤ 2"** (the lead's hoped-for theorem, PROGRAM S6). The one-layer
+  automaton has oscillators of periods 3–12, including 5, 7 and 11, with rotors of 3–15 cells in large still
+  stators (`research/theory/kagome_osc.json`; re-stepped by the lead: periods and one-layer thickness confirmed).
+  Typical one- and two-layer soups do still freeze; that is a statement about typical states, not all states.
+- **[proved] Sealed sets, and why the threshold is three layers** (agent; proof read and checked by the lead).
+  Call a set of cells *sealed* if each of its cells has ≤ 3 neighbours outside it. A dead sealed set stays dead
+  whatever happens elsewhere, unions of sealed sets are sealed, so the largest dead sealed set K(t) only grows:
+  this is the skeleton, made exact. **In one layer a 6-cell hexagon ring is sealed, and so is every half-plane (a
+  one-layer pattern never leaves its convex hull); in two layers a 36-cell set is sealed. In three or more layers,
+  and in 3D, no finite set is sealed.** The proof takes the cell of the set furthest along a generic in-plane
+  direction: it has 3 in-layer neighbours beyond it, and in a boundary layer either one of its two neighbours in the
+  next layer or — because their in-plane offsets satisfy ē = −2(ā + b̄) — its one neighbour two layers on. That
+  last neighbour exists only if there is a third layer. In an octahedral vessel every sealed set therefore touches
+  the outside: **unconditional death cannot start in the interior; it can only come in from a face or span the
+  vessel as a firewall**, which is what the peeling study measured.
+- **[measured]** (agent) In one-layer soups K covers 25% of cells at t = 0 and 92% at t = 5, and the rest breaks
+  into finite pockets by t ≈ 3; two layers take ≈ 50 generations; in three layers K stays empty.
+- **[conjecture]** Thin slabs cannot sustain chaos because the unsealed region stops percolating; reduced in
+  `thickness.md` §4 to a percolation statement that a computer-assisted block argument might prove.
+- Not done: minimality of the 36-cell two-layer set outside a finite patch; the smallest sealed set of a thick
+  torus slab beyond N = 4 (it is one whole face layer at N = 3, 4).
+
+## 2026-11-13 — audit corrections (lead's session; findings in `research/AUDIT-2026-11-13.md`)
+An agent that did none of the work audited all of it, assuming it wrong until reproduced. It re-derived T1–T4, the
+twist lemma, the threshold lemma and the sealed-set theorem, and found bit-exactness intact; it also found the
+errors noted in brackets through this notebook. The most serious was the lead's: the "cubes are over-dispersed,
+P ≈ 0.01" count was post hoc (finding 1). Standing checks now exist: `bash research/check.sh` (20 exact checks,
+≈ 25 s; run in CI on every pull request) and `research/CLAIMS.md` (71 headline claims graded A–D).
+Corrections to older entries are bracketed notes placed after the statement they correct. Items that have no older
+statement to annotate:
+- **[measured]** (audit I7) The numpy oracle reproduces the side-12 log at every generation, with no torus divergence
+  and no edge contact (5.5 min): `python3 reference/oracle.py legacy-cube 65 --compare <orig>/dev/cubic_init_results/population24.txt`.
+  The engine matches sides 12 and 13.
+- (audit I6) A "lifetime" is the generation at which the final state is entered (the engine's `cycle_start`); the
+  side-14 (4,460,298) and side-16 (2,919,617,676) figures are `detected_gen`, 1–2 generations later (AUTOMATON §4).
+- (audit U2) The ≈10⁴¹ generations per face quoted for an asymmetric soup in the side-13 hull is the face law
+  extrapolated fivefold in area (A ≤ 90 measured, A = 459 asked); a **[conjecture]**, not a measurement. The side-19
+  figure (10¹³–10¹⁴) is likewise an extrapolation of the symmetric fits.
+- (audit U4) The face-law constants are fitted by `python3 research/peeling/face_law_fit.py`: −0.091 ± 0.047 +
+  (0.2088 ± 0.0009)·A over the m = 8 slab batches with A ≥ 27 (the quoted ±0.06, ±0.002 are conservative).
+- (audit T1, T2) `reference/oracle.py --compare`, `reference/check_theory.py` (T1) and `research/peeling/validate.py`
+  now exit non-zero on a mismatch; `validate.py` creates `research/scratch/peeling/` itself.

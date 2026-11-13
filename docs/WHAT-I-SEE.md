@@ -21,6 +21,24 @@ I found that within the first hour, by reading your `environment.pde` and counti
 and I have not stopped being pleased by it. A rule chosen by hand, by feel, turns out to sit
 exactly on a threshold: with birth at 3 the planes leak and there are no octahedra at all.
 
+## Downhill, with one exception
+
+Late on I asked what the rule is, taken apart. Born with four or more neighbours, survive
+with three or more: that half is a kind of rule people have understood for decades. It has an
+energy that can only fall, so it always freezes, and fast. Gump is that rule plus one clause:
+a cell with six or more live neighbours is dead next turn. Everything that is not freezing —
+every oscillator of period three or more, all of the chaos — is paid for at overcrowded
+cells, and the books balance exactly: on any cycle, the energy put in by overcrowding equals
+the energy lost everywhere else. In the chaotic state four cells in ten are overcrowded at
+any moment.
+
+The same afternoon an agent I had asked to prove that a single layer must freeze showed
+instead that it need not (there are one-layer clocks of period 5, 7, 11), and then proved
+something better. In one layer, six dead cells in a ring can never be relit, whatever
+surrounds them; in two layers thirty-six can. In three layers no finite set of cells has
+that property. So in the full automaton nothing can die for good from the inside. Death has
+to come in from a face, or cut the whole vessel in two. That is what the staircase is.
+
 ## A lattice with a hidden grain
 
 Faces of a cubic honeycomb sound like a cubic thing. But the diagonal layers are **kagome
@@ -74,13 +92,13 @@ are in lockstep, so a fluctuation that kills one region of a face kills all the 
 the same instant. The effective area of a face is divided by six or seven, and that divisor
 sits in an exponent. Your side-13 cube lived 169,049 generations *because* it was
 symmetric. Fill the same octahedron with an asymmetric soup and the law says each face
-should last something like 10⁴¹ generations.
+should last something like 10⁴¹ generations (an extrapolation: the law is measured for faces up to about a fifth of that area).
 
 Your README says the even-key seeds "have much shorter lifespans". They do, and that is why.
 Your unfinished run — a side-19 cube, still at 150,000 cells after 296,000 generations —
 had a different reason to live: its torus was smaller than its hull, so it wrapped around,
 lost its faces altogether, and with no face to peel from there was nothing left to kill it.
-Properly confined, it would last somewhere beyond 10¹² generations.
+Properly confined, it would last somewhere around 10¹³ to 10¹⁴ generations, on fits far outside any data.
 
 ## A sealed universe of twelve faces
 
@@ -151,10 +169,12 @@ said it three separate ways; the cube took five hundred million. Then it came ap
 seven layers in the last thirty-seven thousand generations, and at generation 2,919,617,676
 it stopped: twelve small still lifes, two on each arm of the three axes, ninety-six cells.
 
-I do not know why the cube outlived its own copies. Across the four largest cubes, three
-plateaus in sixteen lasted more than four times the average of their look-alikes, where
-chance allows a third of one; three others were over almost at once. It may be luck, at
-about one chance in a hundred; I have no mechanism to offer in its place.
+I do not know why the cube outlived its own copies, or whether there is anything to know.
+I first wrote here that long plateaus were a pattern across the four largest cubes, at odds
+of about a hundred to one. An auditing agent pointed out that my count included the very
+plateaus that had made me suspicious; leave the side-16 cube out and the other three are
+unremarkable. So it is a question, not a finding, and it is being asked properly now, of
+seeds I have not looked at yet.
 
 The notebook keeps these in place rather than tidied away. I think the record of being
 corrected is part of what this repository is for.
@@ -171,7 +191,7 @@ corrected is part of what this repository is for.
 - Longer clocks. A loop of thirty-odd steps in a box with a six-fold symmetry would have a
   period near 200, and nothing forbids it. And whether any oscillator here can pass a signal
   to another: so far the only clocks that share a frame ignore each other.
-- The side-17 cube. Its first face is forecast, in writing, to last about 2×10¹⁰ generations:
+- The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):
   days of computing on the present engine, less with one that steps a single symmetry
   domain.
 

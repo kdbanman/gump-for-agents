@@ -26,29 +26,33 @@ def step(S, cap=True):
     cnt = counts(S)
     if cap: return frozenset(c for c, k in cnt.items() if k in (4, 5) or (k == 3 and c in S)), cnt
     return frozenset(c for c, k in cnt.items() if k >= 4 or (k == 3 and c in S)), cnt
-# 1. catalogue: does every period>=3 object have an overcrowded cell (>=6 live neighbours) at some phase?
-cat = [json.loads(l) for l in open('research/atlas/catalogue.jsonl')]
-res = collections.Counter()
-for o in cat:
-    S = frozenset(tuple(c) for c in o['cells']); P = o['period']; over = False
-    for t in range(P):
-        S2, cnt = step(S)
-        if any(k >= 6 for k in cnt.values()): over = True
-        S = S2
-    res[('period>=3' if P >= 3 else f'period {P}', 'overcrowded' if over else 'never overcrowded')] += 1
-for k, v in sorted(res.items()): print(k, v)
-# 2. uncapped rule B4+/S3+ on soups in an octahedral hull: period <= 2 always? transient?
-D = [(1, 1, 1), (1, 1, -1), (1, -1, 1), (-1, 1, 1)]
-for R in (7, 11):
-    hull = [c for c in itertools.product(range(-R - 1, R + 2), repeat=3)
-            if sum(x & 1 for x in c) == 1 and all(abs(sum(d[i] * c[i] for i in range(3))) <= R for d in D)]
-    per = collections.Counter(); tr = []
-    for s in range(40):
-        rng = random.Random(s); S = frozenset(c for c in hull if rng.random() < rng.choice((0.2, 0.35, 0.5, 0.7)))
-        hist = [S]
-        for t in range(1, 400):
-            S, _ = step(S, cap=False); hist.append(S)
-            if t >= 2 and hist[t] == hist[t - 2]:
-                per[1 if hist[t] == hist[t - 1] else 2] += 1; tr.append(t - 2); break
-        else: per['>2 or no convergence in 400'] += 1
-    print(f"uncapped, R={R} ({len(hull)} cells): final periods {dict(per)}, transient max {max(tr)}, mean {sum(tr)/len(tr):.1f}")
+def main():
+    # 1. catalogue: does every period>=3 object have an overcrowded cell (>=6 live neighbours) at some phase?
+    cat = [json.loads(l) for l in open('research/atlas/catalogue.jsonl')]
+    res = collections.Counter()
+    for o in cat:
+        S = frozenset(tuple(c) for c in o['cells']); P = o['period']; over = False
+        for t in range(P):
+            S2, cnt = step(S)
+            if any(k >= 6 for k in cnt.values()): over = True
+            S = S2
+        res[('period>=3' if P >= 3 else f'period {P}', 'overcrowded' if over else 'never overcrowded')] += 1
+    for k, v in sorted(res.items()): print(k, v)
+    # 2. uncapped rule B4+/S3+ on soups in an octahedral hull: period <= 2 always? transient?
+    D = [(1, 1, 1), (1, 1, -1), (1, -1, 1), (-1, 1, 1)]
+    for R in (7, 11):
+        hull = [c for c in itertools.product(range(-R - 1, R + 2), repeat=3)
+                if sum(x & 1 for x in c) == 1 and all(abs(sum(d[i] * c[i] for i in range(3))) <= R for d in D)]
+        per = collections.Counter(); tr = []
+        for s in range(40):
+            rng = random.Random(s); S = frozenset(c for c in hull if rng.random() < rng.choice((0.2, 0.35, 0.5, 0.7)))
+            hist = [S]
+            for t in range(1, 400):
+                S, _ = step(S, cap=False); hist.append(S)
+                if t >= 2 and hist[t] == hist[t - 2]:
+                    per[1 if hist[t] == hist[t - 1] else 2] += 1; tr.append(t - 2); break
+            else: per['>2 or no convergence in 400'] += 1
+        print(f"uncapped, R={R} ({len(hull)} cells): final periods {dict(per)}, transient max {max(tr)}, mean {sum(tr)/len(tr):.1f}")
+
+if __name__ == '__main__':
+    main()

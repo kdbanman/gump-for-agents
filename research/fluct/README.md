@@ -40,6 +40,9 @@ Tags: **[proved]**, **[measured]** (n, error, command), **[conjecture]**. Comman
 > fresh soups are measured properly (45 deaths; the 3.3 of correction 3 below leaned on copies of the cube).
 > `qsd.py`'s symmetric ensembles are not reliable below R = 30 (settled debris is counted as a living face:
 > R = 24 v reads 6.2×10⁴ where the engine gives 630). Details: `research/NOTEBOOK.md`, 2026-11-13.
+> Audit 2026-11-13: correction 2 below is right about the number (2300) but wrong about the cause — the start
+> time makes no difference; the lead's 2,600 was a 1.7σ high sample of 240 runs. And the "3.3" of correction 3 is
+> 2.0 for fresh soups, 2.4 with the cube's copies pooled (`sym_fit.py` prints both).
 
 ## Verdict
 
