@@ -42,6 +42,7 @@ MUTANTS = {   # MUTANT=name: one-token breakages of kernel_shared.cuh
     'period2':   ('p2[j][w] = me;', 'p2[j][w] = r;'),                     # 'two back' is really 'now': false kind 2
 }
 MUTANT = os.environ.get('MUTANT')
+REV = os.environ.get('ORDER') == 'rev'     # ORDER=rev: block threads scheduled in reverse order
 
 
 class SharedCPU:
@@ -54,7 +55,7 @@ class SharedCPU:
         src = open(os.path.join(PR, 'research/gpu/kernel_shared.cuh')).read()
         decl = 'extern __shared__ u32 sm[];'
         assert src.count(decl) == 1
-        tag = f'n{n}_wb{WB}_t{L["T"]}_j{J}_q{L["Q"]}_nf{L["nf"]}_pw{pw}'
+        tag = f'n{n}_wb{WB}_t{L["T"]}_j{J}_q{L["Q"]}_nf{L["nf"]}_pw{pw}' + ('_rev' if REV else '')
         d = os.path.join(SCR, 'build_' + tag); os.makedirs(d, exist_ok=True)
         src = src.replace(decl, 'u32 *sm = g_sm;')
         if MUTANT:                    # negative control: a deliberately broken kernel must FAIL these checks
@@ -65,7 +66,7 @@ class SharedCPU:
         open(os.path.join(d, 'kernel_shared_sub.cuh'), 'w').write(src)
         so = os.path.join(d, 'k.so')
         defs = [f'-DK_N={n}', f'-DK_NP={n + 1}', f'-DK_WB={WB}', f'-DK_T={L["T"]}', f'-DK_J={J}', f'-DK_Q={L["Q"]}',
-                f'-DK_NF={L["nf"]}', '-DK_MINB=1', f'-DK_PW={pw}', '-DK_KEEP=0']
+                f'-DK_NF={L["nf"]}', '-DK_MINB=1', f'-DK_PW={pw}', '-DK_KEEP=0'] + (['-DORDER_REV'] if REV else [])
         subprocess.check_call(['g++', '-O2', '-std=c++11', '-w', '-shared', '-fPIC', '-pthread', '-o', so,
                                os.path.join(HERE, 'shared_shim_uc.cpp'), '-I', d, '-I', os.path.join(PR, 'research/gpu')] + defs)
         self.lib = ctypes.CDLL(so)

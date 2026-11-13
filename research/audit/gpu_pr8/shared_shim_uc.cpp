@@ -59,7 +59,14 @@ extern "C" int run(int blocks, const u32 *pk, const u32 *fe, u32 *GA, u32 *GB, i
     }
     for (;;) {
       int alive = 0;
-      for (int t = 0; t < K_T; t++) if (!done_[t]) { g_tid = t; swapcontext(&sched_ctx, &th_ctx[t]); alive++; }
+      for (int k = 0; k < K_T; k++) {
+#ifdef ORDER_REV       /* threads in reverse order between barriers: a missing barrier would make results order-dependent */
+        const int t = K_T - 1 - k;
+#else
+        const int t = k;
+#endif
+        if (!done_[t]) { g_tid = t; swapcontext(&sched_ctx, &th_ctx[t]); alive++; }
+      }
       for (int t = 1; t < K_T; t++) if (nbar[t] != nbar[0] || done_[t] != done_[0]) bad = 1;
       if (bad || !alive) break;
     }

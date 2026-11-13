@@ -183,6 +183,56 @@ Ran `lineage_r40.py` and `postpeel_check.py` (earlier reviewer's; read, both use
 
 ## Claim 1: kernels bit-exact against the engine; settle detection
 
+**Verdict: the production kernel's logic is confirmed on the CPU (bit-exact against `fl.c` and the engine, events
+and settling exact, including R = 15 in the exact shape of the committed A = 108 run); the GPU runs themselves
+are not checkable here. The claimed negative controls are not in the committed code (I supplied three of my own,
+all caught).**
+
+Code read against `docs/AUTOMATON.md`:
+- `rule12` is a carry-save adder over the 12 neighbours giving a 4-bit count; `~b3 & ((b2 & ~b1) | (me & ~b2 & b1 &
+  b0))` is alive iff count ∈ {4, 5} or (alive and count = 3): B45/S345. Correct for counts 0–12.
+- Outside the vessel is a sentinel row that is never written (zero forever; exact by T2). Neighbour indices are
+  16-bit (asserted n < 65535).
+- Face reductions: each face's entry list is padded with the sentinel to a multiple of 32 and T is a multiple of
+  32, so every warp's 32 entries in a slot belong to one face and lane 0's face index is the right one (a mixed warp
+  would credit one face's cells to another and *miss* deaths, i.e. inflate lifetimes; it cannot happen with this
+  layout). Rotating reduction buffers (t mod 3) are zeroed and read in different phases; no race found.
+- Kind 2 compares the new state with the state two generations back (carried across launches in GB); after a
+  reseed both buffers hold the soup, so the first-generation test is "period 1", never a false period 2. Kind 3
+  compares with the launch-start state for the first 128 generations of each launch; a match means a true cycle (the
+  dynamics are deterministic), so kind 3 has no false positives, and catches every period ≤ 128 within one launch of
+  entering the cycle.
+- Events are recorded at generation t − 1 at the start of iteration t, and the freeze takes effect from generation
+  t: same as kernel A (event and freeze in the same iteration). Frozen replicas are zeroed (or kept, `K_KEEP`).
+
+Ran (one core): `taskset -c 3 python3 research/audit/gpu_pr8/shared_cpu_check.py PR8 --prod15`. This compiles the
+PR's `kernel_shared.cuh` unchanged except the `extern __shared__` declaration, with `shared_shim_uc.cpp` (new:
+user-level threads, a block's threads run round-robin between barriers; warp shuffles through a buffer between two
+barriers; the shim aborts if threads of a block ever disagree on the number of barriers passed). The earlier
+reviewer's pthread shim (`shared_shim.cpp`) is the same design but too slow on one core; superseded. Host layout
+from the PR's own `gsim.shared_layout`. Results:
+
+RESULTS_PLACEHOLDER
+
+Negative controls (mine): `MUTANT=neighbour|lastface|period2 python3 research/audit/gpu_pr8/shared_cpu_check.py PR8`
+builds a kernel broken in one token — one neighbour read twice (wrong rule); the last face never checked (missed
+deaths, the failure that would inflate lifetimes); "two back" replaced by "now" (false settles). All three are
+caught (stepping, face-death and settle checks fail respectively).
+
+On the PR's own validation: the every-generation engine comparison (`check_engine_every`) hashes the full live-cell
+set of five lanes every generation for 2,000–3,000 generations (64-bit order-independent sum of a mixing hash; a
+wrong state passes with probability ~2⁻⁶⁴ per comparison) against `gump run --trace`; the expected hashes are not
+committed but are regenerated from the engine by a committed command, which is better. It runs with freezing
+off, so events are validated only against `fl.c` (R = 7, 9, 13 and the R = 15 reseed check) — adequate, since
+`fl.c` is itself engine-validated. The **negative controls the README describes are not in `check.py` or
+`modal_app.py`**; they must be committed or the sentence removed. The 373-soup settle validation
+(`check_periodic`) reads a file built outside the PR (`research/scratch/...`); its builder is not committed.
+
+Not checked: anything executed on a GPU (warp-synchronous behaviour, NVRTC compilation, real shared-memory
+races that a sequential emulation cannot exhibit, e.g. a missing `__syncthreads` that happens to be harmless in
+round-robin order). I found no such missing barrier by reading; the emulation runs threads in a fixed order, so it
+would not reveal one.
+
 ## Claim 5: qsd.py's settle flaw matters at R = 36
 
 **Verdict: wrong as stated about `qsd.py`; right about a detector that only sees periods 1–2. No number recorded in
