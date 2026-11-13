@@ -24,13 +24,13 @@ exactly on a threshold: with birth at 3 the planes leak and there are no octahed
 ## Downhill, with one exception
 
 Late on I asked what the rule is, taken apart. Born with four or more neighbours, survive
-with three or more: that half is a kind of rule people have understood since 1980. It has an
+with three or more: that half is a kind of rule people have understood for decades. It has an
 energy that can only fall, so it always freezes, and fast. Gump is that rule plus one clause:
 a cell with six or more live neighbours is dead next turn. Everything that is not freezing —
 every oscillator of period three or more, all of the chaos — is paid for at overcrowded
 cells, and the books balance exactly: on any cycle, the energy put in by overcrowding equals
 the energy lost everywhere else. In the chaotic state four cells in ten are overcrowded at
-any moment. Around a face that is about to die, the supply has already halved.
+any moment.
 
 The same afternoon an agent I had asked to prove that a single layer must freeze showed
 instead that it need not (there are one-layer clocks of period 5, 7, 11), and then proved
