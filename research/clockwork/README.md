@@ -127,3 +127,18 @@ oracle-checked; every one was re-stepped by `lattice.step`).
 `cw.py` helpers (orbits, symmetries, hulls as vessels, batch runner) · `runinit.c` C runner for given initial
 states · `perturb.py` · `portrait.py` · `box_census.py` · `twist_stats.py` · `vessel_sat.py` (SAT in a box, with
 `--twist`) · `harvest_portraits.py` · `verify.py` · `objects/`.
+
+## What to show a human first
+
+1. P66.27a, phases 0 and 33 side by side, as its three kagome layers along (−1,1,1):
+   `engine/target/release/gump show --cells research/clockwork/objects/../../scratch/clockwork/P66.27a.cells --orbit --max-chars 200000`
+   (or write the catalogue cells to a file first) — phase 33 is phase 0 in a mirror. Then the hull
+   (all 45 cells) next to phase 0: the oscillator fills its box.
+2. C48.24a, phases 0, 8, 16, 24, 32, 40: the same plate turned by 60° and inverted each time
+   (`gump show --cells research/clockwork/objects/C48.24a.cells --orbit --max-chars 200000`).
+
+What is beautiful or strange: the longest clocks in this universe are not built from gears; they are the
+rare cycles that close up only after a reflection or a turn of their own box, so their period is a symmetry's
+order times something that has no smaller structure. P66.27a spends 33 generations becoming its own mirror
+image. C48.24a turns a sixth of the way round every 8 generations and never repeats a phase until it has gone
+all the way round.
