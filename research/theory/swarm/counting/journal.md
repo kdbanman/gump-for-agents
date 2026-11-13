@@ -287,3 +287,85 @@ Proposition 4 (O_h faces: exponent ≥ γ/6) are not written out.
 
 **Next.** Aims 1–3 of entry 7 in that order; if the lab finds ρ⁰_1 < ρ_1, Proposition 4(d) changes and I
 rewrite the consequences. Exam entry filed in `PREDICTIONS.md` (provisional; see there).
+
+---
+
+## 2026-11-13 · 8 · Corrections to round 1 (after the critic's reply)
+
+1. **Entry 6, item 3:** "the nine cells beneath" should read **six**: three shared (q − e_x, q − e_y, q − e_z) and
+   three private (q + e_a − 2e_b − 2e_c). The formulas there (six bits, 64 cases) are right.
+2. **Entry 6, corollary for b ≡ 0:** a cell with k = 6 is dead next whatever lies beneath. Correct statement: with
+   the layers beneath empty a face dies iff every live cell has k ≤ 2 or k = 6 and every dead cell has k ≤ 3 or
+   k = 6; with them full (b ≡ 3) iff every live cell has k ≥ 3 and no dead cell has k ∈ {1, 2}.
+3. **Claim 15 (collision entropy): the inequality stands, the hypothesis is dead.** Lab L3.5: the excess
+   (1/L) ln(8^L Σ_u μ_j(u)²) is 0.92–1.03 at generation 2 and 1.7 at generation 8 in strips 4 × 5, 4 × 6, 5 × 5,
+   against the c_1 = 0.5515 it must stay below; restricting to living rows does not save it (0.64–0.73 at j = 2).
+   *Why it cannot be repaired in this form:* Σ μ² ≥ (largest atom)², so one configuration of the three rows with
+   probability above 2^{−1.5L} e^{(c_1−δ)L/2} breaks it, and a non-injective map makes such atoms (the empty band;
+   debris). A global Rényi entropy of order > 1 sees the heaviest configuration, not the typical one. A usable
+   version must bound a *conditional* law block by block (the board's "mixing ⇒ exponential"; the source line's
+   class of drive kernels). I leave it to them.
+4. **C1 is withdrawn** (entry 10 says why), and with it the paragraph "Consequence … Against the data" of
+   entry 5: the fixed-horizon statements of Proposition 4 are theorems, but nothing proved connects them to
+   the measured slopes of rings, boxes and C4 boxes. Two facts from the critic bear on that paragraph and should
+   travel with it: in the committed C4 file settling is 97% … 32% of all exits at L = 16 … 36, so its slope 0.28
+   is a hazard among the few replicas that have not settled; and the one-row dice model D2 on a segment is
+   longer-lived than on a ring at every L ≤ 14 with smaller steps (0.45–0.50 against 0.52–0.53), so "free ends
+   below ring in slope at small sizes" needs nothing deterministic and nothing global.
+
+## 2026-11-13 · 9 · The exact constants (lab L3.1–L3.4), for the record
+
+2D rule, uniform soup (density ½): **c_1 = 0.551535** (ρ_1 = 4.608520 of 8), **c_2 = 0.467693**
+(ρ_2 = 20.046271 of 32). Soup of density 0.472: c_1 = 0.489963, c_2 = 0.4671. The class of the all-dead window is
+dominant for k = 1 (the 16-state graph is strongly connected) and k = 2 (54,591 of 65,536 window states; every
+other class is a single state): **c⁰_k = c_k for k = 1, 2**, so at horizons 1 and 2 a box edge and a ring have the
+same exponent exactly. Counts confirmed on every state: strips 3 × 5 … 3 × 8: 2,507, 10,846, 47,383, 209,825;
+boxes 3 × 5 … 3 × 7: 2,977, 13,850, 64,434; strips 5 × 4, 5 × 5 at generation 2: 224,471, 7,043,564; C4 box 7 × 7:
+502 of 8,192 symmetric states = 251 of 4,096 constrained bands. c_3 would need 2^36 window states.
+*What the numbers show.* (i) The soup density matters at horizon 1 (0.552 against 0.490) and no longer at
+horizon 2 (0.4677 against 0.4671). (ii) One more generation lowers the cost by 0.084 (density ½) or 0.023
+(density 0.472). (iii) Successive counts approach the eigenvalue slowly from below (ratios 4.326, 4.369, 4.428
+against 4.6085 at L = 5 … 8): a local slope read at L < 10 is 4–6% low.
+
+## 2026-11-13 · 10 · Lemma 6 (gaps persist) and why a fixed-age exponent is not the measured one
+
+**Lemma 6 [proved].** For the edge row of the 2D rule, whatever lies beneath it (true rule, dice, anything): if
+the edge cells of a window of ℓ + 4j consecutive cells are dead at generation k, the middle ℓ are dead at
+generation k + j. Hence for every translation-invariant initial law, q_{k+j}(ℓ) ≥ q_k(ℓ + 4j).
+*Proof.* A dead edge cell whose four in-row neighbours are dead has n = b ≤ 2 < 3 and stays dead; so an empty
+window loses at most two cells at each end per generation. ∎ (Gump: the path line's rim lemma gives the same
+with in-face speed 1.)
+
+**Consequences [proved].** Write c_k(π) for the exponent of entry 4 with the soup replaced by a product (or any
+finite-range Markov) initial law π; Theorem 3 holds verbatim with weights.
+1. c_k(π) ≤ c_0(π), the cost of an empty window under π itself: for the Bernoulli(p) soup **c_k(p) ≤ −ln(1 − p)
+   for every k**, so c_∞(p) → 0 as p → 0. *The fixed-age exponent is a property of the rule and the soup, not of
+   the rule.* (Round 1 said "from the rule alone": wrong.)
+2. A gap of length ℓ made at any age is still there, in part, ℓ/4 generations later. So in the limit "L → ∞ at
+   fixed age", which is the limit of Theorem 3, the first generations are never forgotten: c_k(π) is the cost per
+   cell of the cheapest way to make *long gaps by age k, starting from π*. The measured law is the other order,
+   age → ∞ at fixed L. The two can only agree if no route through the soup's first generations is cheaper than
+   the routes of the steady state, and counting at a fixed age cannot tell whether that is so.
+3. **Dice hierarchy.** For D2(L, ½; w) (true rule in the top w rows over two rows of fresh fair dice) started
+   uniform, P(row 0 empty at generation k) equals the true rule's D_k(L) whenever w ≥ 2k − 1. *Proof.* Row 0 at
+   generation k reads rows ≤ 2(k − t) of generation t; for t = 0 these are uniform in both systems (rows ≤ 2k ≤ w + 1);
+   for t ≥ 1 they are rows ≤ 2k − 2 ≤ w − 1, computed by the rule from rows ≤ 2k of generation t − 1, and no die
+   later than generation 0 is read. ∎ So the true rule and the dice models share c_1 (all w), c_2 (w ≥ 3), c_3
+   (w ≥ 5): *at a fixed age the true rule is a dice model.* What the true rule has and the dice models lack is
+   only visible at ages beyond (w + 1)/2.
+
+**What survives of C1.** The following is the most that I think is true, and none of it is proved.
+C1′ [guessed]: if the hazard of soup-started replicas of age ≥ j₀ is e^{−γ L + o(L)} uniformly in L for some
+fixed j₀, then c_∞(π) ≤ γ for every π (deaths at ages j₀ … k are among the deaths by age k); equality holds for
+those soups that have no cheaper route through their first generations. For the 2D rule at density ½ the first
+two generations are not cheaper than any measured slope (c_1, c_2 > 0.44), and c_2 does not depend on the
+density near ½, so density ½ is a candidate for equality; nothing more can be said without c_k for larger k.
+Requested (report): the same sequence for D2, where c_1 … c_4 need 2⁴ … 2¹⁶ window states and the
+quasi-stationary exponent is exact (lab L0b.4). That is a place where the two orders of limit can be compared
+with no sampling on either side.
+
+**Dead end recorded: the measured exponent as a limit of fixed-age transfer-matrix exponents.** To see a window
+of ℓ cells in its steady state one needs age ≳ ℓ/4 (Lemma 6), i.e. M_k with k ≳ L/4, of size 2^{4k(2k+1)}:
+larger than the vessel's own state space. Finite-horizon counting gives the transient law exactly and the
+steady law not at all. This is the same obstruction as "the bound is useful only while k ≲ √L" of entry 4, seen
+from the other side.
