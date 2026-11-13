@@ -94,3 +94,27 @@ slope differs from the hull's 0.208 by more than 5% (this is F7b; I lean "higher
 hull face of A ≤ 84 are rim cells with only 4 in-layer neighbours).
 **F9.** With eight rows the toy model does not care what the noise density is: ln τ at L = 16, 20 for ρ = 0.30 and
 0.60 within 0.1 of the ρ = 0.472 values (confidence 55%) — i.e. the bulk density is not really an input.
+
+## 2026-11-13T18:57Z — outcome of F5 (gump, the committed recipe) and a follow-up forecast
+
+`python3 jobs.py gump; python3 report.py gump` — ln τ_face of `xp.gump_model(R, w)`, noise density 0.4155:
+
+| w | A = 30 (R = 7) | A = 45 (R = 9) | A = 63 (R = 11) |
+|---|---|---|---|
+| 1 | 5.877 ± 0.016 | 8.731 ± 0.012 | 12.463 ± 0.014 |
+| 2 | 6.378 ± 0.009 | 9.914 ± 0.011 | 14.274 ± 0.024 |
+| **3 (the forecast)** | **7.126 ± 0.012** | **10.542 ± 0.015** | **14.653 ± 0.032** |
+| 4 | 6.550 ± 0.009 | 9.808 ± 0.010 | 13.653 ± 0.022 |
+| 5 | 6.580 ± 0.009 | 9.782 ± 0.010 | 13.592 ± 0.022 |
+| measured hull (research/fluct) | 6.804 ± 0.003 | 9.819 ± 0.003 | 13.633 ± 0.008 |
+
+- **F5: miss.** At the committed depth w* = 3 the model is too tough by 0.32, 0.72 and 1.02 nats (I allowed 0.5) and
+  its slope over A = 30–63 is 0.228 against 0.207 (10.2% high; I allowed 10%). The sub-forecast "above by 0.1–0.6
+  at A = 63, slope 0.21–0.23" got the sign and the slope and missed the size.
+- What the same table shows without a forecast behind it: at **w = 4 and 5 the model reproduces the measured
+  faces at A = 45 and 63 to −0.01, +0.02 (w = 4) and −0.04, −0.04 (w = 5) nats**, slope 0.2136 / 0.2117 against the
+  measured 0.2119. At A = 30 it is 0.25 low: the R = 7 hull has no bulk under its faces. The depth chosen from the
+  toy by a 10% criterion was one layer too shallow; w = 3 is the worst depth in gump.
+
+**F10 (forecast, before the run).** `xp.gump_model(13, 4)` (A = 84) gives ln τ within 0.2 nats of the measured
+18.077 ± 0.054 (confidence 65%; the run will have few deaths, ± 0.15 or so).
