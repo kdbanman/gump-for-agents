@@ -4,7 +4,20 @@ Adversarial review, 2026-11-13. Branch `claude/awesome-cray-boq9vz` at **be7b01d
 Worktree used read-only; no GPU, no Modal. Scripts: `research/audit/gpu_pr8/` (some written by an earlier reviewer
 that stopped before writing a verdict; each is re-read and its use stated below).
 
-Status: in progress. Verdicts are written as they are reached.
+Status: complete (all six claims reviewed).
+
+## Summary
+
+| claim | verdict |
+|---|---|
+| 2 asymmetric law curves upward | numbers confirmed (re-derived; GPU matches CPU at A = 63, 84, incl. a new independent CPU run at 84); "13σ above the line" wrong as framed; rising local slope real, A = 108 is +0.21 ± 0.04 above the straight line through verified A = 45–84 |
+| 6 seed collision fixed | confirmed; no contaminated data; guard misses a repeated seed |
+| 3 symmetric A = 759, 828 | confirmed (re-derived; forecasts committed first); cube-centred hazards fall with age (p = 0.04, 0.01), unflagged |
+| 4 lineages memoryless; τ(40v) +21% | memorylessness confirmed; 8.63e7 right for soups, the 7.1e7 on file pooled cube copies; "aftershock" = double peels within ~20 generations |
+| 1 bit-exact kernels | kernel logic confirmed on CPU emulation incl. the R = 15 production shape; GPU execution not checkable; README's negative controls not committed |
+| 5 qsd.py flaw at R = 36 | wrong as stated: qsd.py detects periods dividing 840; no recorded number shown biased (bound ≲ 1%) |
+
+Merge after the required fixes below (wording and checks; no number in the PR needs to change).
 
 ## Files touched outside research/gpu/ and research/data/gpu_facelaw/
 
@@ -73,7 +86,12 @@ Ran:
 
 Not checked: the kernel's correctness at R = 15 and 17 on a GPU (see claim 1); an independent CPU measurement at
 A = 108 (≈ 1 death per 6 minutes on one core; not enough in the time available to test a 0.2-nat effect).
-An independent CPU measurement at A = 84 is below (filled in when the run ends).
+**Independent CPU measurement at A = 84** (new; shares no code with `research/gpu/`: numpy soups, `fl.c`
+stepping, engine-validated): `nice python3 research/audit/gpu_pr8/flc_facelaw.py 13 3000 4 1 20000` (one core, 50
+min, 256 replicas, ages to 6.5τ) → `research/audit/gpu_pr8/flc_R13_s1.json`: 1,652 deaths, 0 settles, mean
+9.58 × 10⁶, **ln τ_face = 18.154 ± 0.025**, against the GPU's 18.141 ± 0.005 (0.5σ) and the earlier CPU 18.077 ±
+0.054. The GPU pipeline is right at A = 84. (With this point in place of the earlier CPU value, the 84 → 108 local
+slope is 0.2176 ± 0.0017 and the straight line through A = 45, 63, 84 is unchanged within its error.)
 
 ## Claim 6: seed-collision bug found and fixed
 
