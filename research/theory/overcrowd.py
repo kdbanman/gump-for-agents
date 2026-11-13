@@ -108,7 +108,7 @@ def octa_runs(R, nsoups, seed, maxgen):
     v = octa('cube', R); st = Stepper(v.nb); N = st.N
     P = np.array(v.cells); S = P @ DIAGS.T            # layer coordinate along each diagonal, (N,4)
     rng = np.random.default_rng(seed)
-    agg = {k: np.zeros(5) for k in ('bulk', 'face', 'predeath', 'cycle')}   # cell-gens, over, O1, M, live
+    agg = {k: np.zeros(5) for k in ('vessel', 'face', 'predeath', 'cycle')}   # cell-gens, over, O1, M, live
     Echaos, Ecyc, lifetimes, deaths = [], [], [], 0
     for sidx in range(nsoups):
         xm1 = (rng.random(N) < 0.4).astype(np.int8); x, _ = st.step(xm1)
@@ -135,13 +135,19 @@ def octa_runs(R, nsoups, seed, maxgen):
             print('soup', sidx, 'unsettled at', maxgen); continue
         T = t + 1; period = T - mu
         lifetimes.append(mu)
+        # the final cycle, one full period with x(t-1) on the cycle
+        cur = xp1.copy(); prev = cur
+        for _ in range(period - 1): prev, _n = st.step(prev)
+        for _ in range(period):
+            nxt, n = st.step(cur)
+            ov, o1, mis, _, _ = eventmasks(st, prev, cur, nxt, n)
+            agg['cycle'] += (N, ov.sum(), o1.sum(), mis.sum(), 0); Ecyc.append(energy2(st, cur, prev) / 2 / N)
+            prev, cur = cur, nxt
         # classify steps: chaos = steps < mu - 100 ; cycle = steps >= mu (state index), one full period
         for k, (ovi, o1i, misi, E) in enumerate(recs):
             tt = k + 1                                   # this record is step tt -> tt+1, events at time tt
-            if tt >= mu:
-                agg['cycle'] += (N, len(ovi), len(o1i), len(misi), 0); Ecyc.append(E / N)
-            elif tt < mu - 100 and tt > 20:
-                agg['bulk'] += (N, len(ovi), len(o1i), len(misi), 0); Echaos.append(E / N)
+            if tt < mu - 100 and tt > 20:
+                agg['vessel'] += (N, len(ovi), len(o1i), len(misi), 0); Echaos.append(E / N)
                 e = ext[k]
                 if e is not None:                        # outermost live layer along each of the 8 directions
                     for j in range(8):
