@@ -133,3 +133,32 @@ the cost of one more empty cell, −ln[E(ℓ+1)/E(ℓ)], is 0.471 at ℓ = 5, 0.
   between L = 12, 16, 20, 24, 28), the static decrement has reached 0.376 at ℓ ≈ 40, and a + I·L + b·ln L fitted to
   the seven lifetimes gives I = 0.364 ± 0.006, b = 1.14 ± 0.12 (χ² 4.6/4; the straight line: χ² 95/5). The asymptotic
   value is 0.36–0.38, i.e. 1.75–1.83 × gump's 0.2077, not 2.000.
+
+## 2026-11-13T19:34Z — gump beyond A = 84: curvature and asymptote (F11), written at the lead's request
+
+**Disclosure.** The lead's note that prompts this entry quotes an unverified GPU report (ln τ_face = 13.635, 18.141,
+23.376 ± 0.031, 29.34 ± 0.25 at A = 63, 84, 108, 135), so this forecast is *not blind* to it. What I can commit is
+what my own runs imply, with the reasoning, before the review settles the numbers. I have not used the GPU numbers
+below. Nothing in my comparisons so far used the constant 0.208 as the target: the model was tested against the
+directly measured lifetimes at A = 30, 45, 63 (`research/fluct`), and from here on I will not quote "reproduces
+0.208" as a test.
+
+Inputs (all mine, `python3 jobs.py slab; python3 jobs.py slabmodel; python3 jobs.py gump`):
+1. *Periodic faces* (no rim), truth pooled with the w = 5, 6, 8 models that agree with it: ln τ = 5.503 ± 0.005,
+   7.398 ± 0.007, 9.936 ± 0.006, 12.496 ± 0.009 at A = 27, 36, 48, 60. Local slope per site **0.2106 ± 0.0010,
+   0.2114 ± 0.0008, 0.2134 ± 0.0009**: it *rises* with size (2.5σ), and so does the cost per live cell (deterministic
+   slabs alone: 0.394 ± 0.005, 0.398 ± 0.004, 0.408 ± 0.004). This cannot be a rim effect.
+2. *Hull faces*, driven-face model: slope between A = 45 and 63 is 0.2136 ± 0.0013 (w = 4), 0.2117 ± 0.0014 (w = 5);
+   measured 0.2119. The mean population of a hull face is linear in A to three figures in fluct's table
+   (⟨n⟩ = 0.532·A − 2.3 for A = 30…165), so a rim term in ⟨n⟩ does not bend the law either.
+3. Hull and periodic faces cost the same per live cell at these sizes (0.395–0.398 against 0.394–0.408).
+
+**F11.** (a) *Direction:* the local slope of ln τ_face against A does **not** keep falling towards 0.2077 beyond A = 84;
+it stays level or rises. Specifically ln τ(108) − ln τ(84) = 24 × (0.216 ± 0.004) = **5.18 ± 0.10** and
+ln τ(135) − ln τ(108) = 27 × (0.218 ± 0.006) = **5.89 ± 0.16** (fluct's 0.2077·A + 0.55 implies 4.98 and 5.61).
+(b) *Asymptote:* the per-site exponent of large asymmetric faces lies in **0.214–0.225** (confidence 70%); it is not
+0.2077 ± 0.0014 (confidence 85%). The basis is the weak rise in input 1 extrapolated to saturation, so the upper end
+is soft. (c) *My own model, testable here:* the periodic model at A = 75 (`xp.gump_slab_model(5, 5, 5)`) has
+ln τ(75) − ln τ(60) = 15 × (0.2145 ± 0.0030), i.e. **ln τ(75) = 15.74 ± 0.05**, slope not below 0.2115.
+(d) I have no mechanism for the rise. Candidate, untested: at small areas faster collapse routes supplement
+cell-by-cell erosion (the toy has such a second channel, 20% of deaths at L = 12 and 1% at L = 28), and they fade.
