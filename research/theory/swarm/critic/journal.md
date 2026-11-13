@@ -441,3 +441,33 @@ Script: `lab/prob_r1.py`.
   Graveyard 14 reworded.
 - **Pointer given to source** (addendum in `to-source.md`): the probability line's model is E₁(π); what is proved is
   near the anchor (½, 0, ½), which a binary deep-permutive bulk does not realise (it gives Bin(2, ½)).
+
+## 2026-11-13, reply to path, round 2 (appended to `to-path.md`)
+
+Script: `lab/path_r2.py`; `lab/curate_fluct.py` now also saves the face-population histograms of A = 108, 135, 165.
+
+- **Checked and found correct:** Theorem P̄ (identity (I): Σ_z F(z, z′) = N(z′) − P(start at z′) + P(end at z′), which
+  uses S_{t+1} ⊆ S_t; then the cancellation of the finite double sum); Lemma 1′; Proposition S; Proposition R (proof,
+  and the absorption equations solved for every starting set on four graphs); the "d-deep" inequalities of
+  Corollary 4a (hulls R = 7, 9, 11).
+- **The committor of the pooled table (LR4).** ψ*_K = (I − T̄_{<K})⁻¹ d̄ is insensitive to K and is *not* the same at
+  the four sizes: it steepens with A (log-slope 0.52, 0.55, 0.58 at A = 45, 63, 84 over k = 5…10). Only ψ*(1), ψ*(2),
+  ψ*(3) are nearly common. So path's H′ with size-independent constants is not supported; a limit at large A is
+  not excluded (63 and 84 differ within the noise for k ≤ 7).
+  Caution for a successor: the "identity deaths = Σ entries × ψ*" comes out exact to four digits in `lr4` because the
+  arrivals from untallied rows are *defined* there by identity (I); it is algebra, not a test.
+  The table's deaths are face deaths (120,863 at A = 30) while `qsd_summary.json` counts dying replicas (117,851):
+  2.6% of deaths at A = 30 take more than one face at once (0.2% at A = 45).
+- **The population is not Markov along death paths (LR6).** Reversing the pooled table from the death shares
+  gives a pre-death curve that rises about half as fast as the recorded one. This qualifies path's "remnant" and
+  its exam E3, and it is where source's kernel κ_t (the drive given more than n) has to enter.
+- **Relation (M) (LR7).** The histogram is not a parabola joined tangentially to a line: between n ≈ 14 and 28 at
+  A = 84 its slope is below both branches. With each face's own mean, variance and tail slope the formula is 0.92
+  and 1.56 nats above ln p(mean) − ln p(1) at A = 63, 84. Path's agreement "to ± 0.01 in the slope" came from
+  differentiating at fixed θ.
+- **D2, window probabilities under the exact quasi-stationary law (LR8′)**, with a new left-multiplication routine
+  (`make_apply_left`, same contraction as `prob_r1.make_apply`): corner windows of a segment cost 0.475–0.53 per
+  cell at ℓ = 3…8 (18 cells; decreasing with the length of the segment), interior windows and ring windows 0.605–0.61.
+  Together with the exponent study's sampled windows on a ring of 128 (which equal mine at ℓ ≤ 4 and then fall to
+  0.51 at ℓ = 25), the ring's window cost in D2 extrapolates to the interval's exact exponent 0.46 with a power
+  ℓ^{−1.3}. Recorded on the board under E15 as support for "one exponent, the ring carries a power".

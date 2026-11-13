@@ -1,7 +1,7 @@
 # Board (critic)
 
-_Kept by the critic. Last update: 2026-11-13, after the replies to all four lines, round 1 (the round 2 reports
-of path and source are written and not yet read). Scripts named here are in `critic/lab/`; run them from that directory. "Checked" means I
+_Kept by the critic. Last update: 2026-11-13, after the reply to path's round 2 (source's round 2 report is
+written and not yet read). Scripts named here are in `critic/lab/`; run them from that directory. "Checked" means I
 re-derived or recomputed it; "read" means I compared the statement with its source and did nothing more.
 Proofs and commands behind every "checked" are in `critic/journal.md`._
 
@@ -11,7 +11,7 @@ Proofs and commands behind every "checked" are in `critic/journal.md`._
 |---|---|---|---|
 | probability | `swarm/probability/` | dice in place of chaos: particle systems, coupling, percolation, contours | round 1 answered (`to-probability.md`) |
 | counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | round 1 answered (`to-counting.md`) |
-| path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | round 1 answered (`to-path.md`); round 2 written, reply pending |
+| path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | rounds 1, 2 answered (`to-path.md`) |
 | source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | round 1 answered (`to-source.md`); round 2 written, reply pending |
 | librarian | `swarm/library/` | primary papers: `shelf.md` (one line per source), `notes/`, `requests.md` (append-only, anyone) | first pass finished: 59 sources, ten notes files |
 
@@ -60,7 +60,10 @@ None of these changes the problem. Each is a number or sentence a proof could le
   0.38–0.44); dead = reflecting (2D rule: 0.340 against 2 × 0.1733 = 0.347). So "a mirror costs less than half" and
   "a box edge costs less than a ring" are properties of an edge over dice: they need no deterministic chaos and
   no geometry of the bulk. Whether the ring's excess is a different exponent or a power of L (≈ L^{1.0–1.2} in τ)
-  is not decided at these sizes, in D2 or in the 2D rule.
+  is not decided at these sizes, in D2 or in the 2D rule. Supporting the power: the empty-window decrement of D2
+  on a long ring (exponent study, sampled, L = 128; equal to my exact values at ℓ ≤ 4) falls from 0.60 at ℓ = 5 to
+  0.51 at ℓ = 25, and (decrement − 0.46)·(ℓ + ½) is level at 1.2–1.4 for ℓ = 10–25: the ring's window cost tends to
+  the interval's exponent with a power ℓ^{−1.3}, as the 2D rule's does to 0.345 with ℓ^{−1.1} (path's reading).
 - **E7. The lineage rows (slow variable; 1% double peels) were measured on O_h-symmetric states only.**
 - **E8. In the 2D strips the edge wait is a competing hazard.** At depth 16 the strip is cut across by three dead
   columns far more often than it loses an edge (cuts + interior firewalls against edge deaths: 4,768 / 898 at
@@ -100,7 +103,10 @@ None of these changes the problem. Each is a number or sentence a proof could le
   3.2, 4.7, 5.9, 6.8 generations at A = 30, 45, 63, 84, and looking back from the death the mean population is one
   curve at every size until it saturates (1.6, 3.5, 6.4, 9.7, 13.6, 17.6 at lags 1…6). The farthest two cells of
   those faces are 5, 6, 7, 8 generations apart (`startpoints.py crossing`). "Ordinary until −16, then 10–12
-  generations" (fluct README) describes the largest of these faces, not a size-independent plunge.
+  generations" (fluct README) describes the largest of these faces, not a size-independent plunge. And the
+  population is not Markov along a death path (lab L5.3): the pooled one-step table, reversed from the deaths,
+  gives 1.6, 2.9, 4.3, 5.9, 7.7, 9.8 at lags 1…6. A dying face falls about twice as fast as faces of the same
+  population do on average: a second variable (the cells beneath) is carried along.
 
 ## The lead's starting points: what I checked
 
@@ -224,10 +230,13 @@ None of these changes the problem. Each is a number or sentence a proof could le
 | idea | who | state |
 |---|---|---|
 | the face as a system driven through b(c); rim lemma (holes heal only from the rim; recovery at speed ≤ 1) | path (L1) | proved, checked |
-| a one-step inequality for a statistic of the face bounds the hazard, no Markov property (Theorem P) | path | proved, checked. As first stated (geometric φ) its hypothesis is false; with φ free it holds on the measured rows with a loss of 4.0 nats at every size (lab L1.2) |
+| a one-step inequality for a statistic of the face bounds the hazard, no Markov property (Theorem P); pooled form: deaths = entries into a low set × the committor ψ* of the pooled one-step table (Theorem P̄) | path | both proved, checked. Hypothesis H (geometric φ) false; H′ (ψ* ≤ C e^{−θk} with constants independent of A): on the tallies ψ* steepens with A, θ = 0.52, 0.55, 0.58 at A = 45, 63, 84 (lab L5.1) |
 | sealed sets = complements of bootstrap-closed sets; isoperimetry of sealed sets in hulls (aim A) | path (L3, L4) | L3, L4 proved, checked; A exact to R = 10 (lab), open in general; false in wide slabs (E12) |
 | one exponent 0.345 for the 2D rule in every geometry, a ring carrying a power of L (G1) | path | guess from committed data; exam E1 filed. D2 on a segment is exact (lab L1.5): undecided |
-| flash or front; the remnant | path (G2, exam E2) | gump: not a flash of fixed length (E14). 2D: open |
+| flash or front; the remnant | path (G2, exams E2, E3) | gump: a shrinking remnant, √n falling ≈ 0.59 per generation looking back from death (data reading, checked arithmetic); but n is not Markov along death paths (lab L5.3). 2D: open |
+| every permanent loss is the extinction of a minimal sealed set (Proposition S); the wait is then set by the smallest sealed set: a face in a hull, a band in a wide slab | path | S proved, checked; the conclusion is conditional on H′ for that set |
+| γ from the tail: γ = θρ − θ²σ²/2 (relation M) | path | sketched; its tangency assumption fails on the histograms and the formula is 0.9–1.6 nats too large at A = 63, 84 (lab L5.4) |
+| biased voter dynamics as a caricature in which the area law is exact (Proposition R) | path | proved, checked |
 | finite-horizon exponents from soup: λ(T ≤ k) = tr(M_kᴸ)/2^{(2k+1)L}, c_k decreasing in k, c_∞ = lim c_k; conjecture C1: the measured exponent of each geometry is c_∞ | counting (Theorem 3, C1) | theorem proved, checked (c₁, c₂ exact); C1 a guess, in tension with three measured slopes |
 | boundary conditions and symmetry at a fixed horizon: free ends ≥ ring, mirror ≥ half, C4 and diagonal = no symmetry | counting (Prop. 4) | proved, checked at k = 1 on small boxes; c⁰_k = c_k verified for k = 1, 2 (lab) |
 | the second-order lift as an invertible relative | counting (Lemma 2) | proved, checked: its faces never die |
@@ -316,6 +325,16 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
   window P(death next | Z) + E[φ(Z′); still observed | Z] ≤ a·φ(Z) + ε, with censoring rate ≤ s̄ and a + ε ≤ 1 − s̄,
   a < 1 − s̄, then the hazard is at most ε(1 − s̄)/(1 − s̄ − a) after a burn-in. No Markov property is used. Statement
   and proof: `path/journal.md` entry 3.
+- **Theorem P̄** (path, entry 8; proof checked). Pool over any window: N(z) exposure at Z = z, D(z) deaths from z,
+  F(z, z′) observed transitions. For a finite "low" set 𝓛 and any ψ ≥ 0 on 𝓛 with D(z) + Σ_{z′∈𝓛} F(z, z′)ψ(z′) ≤
+  N(z)ψ(z): Deaths ≤ (deaths from outside 𝓛) + Σ_{entries z → z′ into 𝓛} ψ(z′) + a boundary term; an identity for
+  ψ* = (I − T̄_𝓛)⁻¹ d̄, the committor of the pooled table. No Markov property, no uniformity in time.
+- **Sealed subsystems** (path L1′, Proposition S; checked): inside any sealed set life spreads only from life in
+  the set; the permanently dead region grows only by extinctions of whole sealed sets, and the first permanent
+  loss is the extinction of an inclusion-minimal sealed set.
+- **Biased voter dynamics** (path Proposition R; checked on small graphs): on any finite graph, with spread at
+  rate λ and retreat at rate 1 across every occupied–vacant pair, a set of n sites dies out before filling the
+  graph with probability (λ⁻ⁿ − λ⁻ᴺ)/(1 − λ⁻ᴺ). An exact area law for a droplet; a caricature, not a relative.
 - **Sealed = complement of a bootstrap-closed set** (path L3; checked): the unsealed region V \ K(t) is the
   θ-neighbour bootstrap closure of the live set and never grows. **Top-layer rigidity** (path L4; checked): a cell
   in the top layer of a sealed set whose three upward neighbours are in the vessel has all its other neighbours in
@@ -449,6 +468,12 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 | L4.1 | probability R1, R2: tables of E₁(π); ln τ_L on the ring, L = 5…18, three laws | tables confirmed. (½, 0, ½): 6.5319, 9.4733, 12.2492, 13.5946 at L = 8, 12, 16, 18; steps 0.685, 0.679, 0.675, 0.671 at L = 15…18. Bin(2, ½): 9.7375 at L = 18, steps 0.543, 0.528, 0.528, 0.533. Bin(2, 0.472): as L0b.4 (independent code), 10.2118 at L = 19 | `prob_r1.py tables`, `ring 18` (1½ min) |
 | L4.2 | probability R3: D2(·, 0.472) on an interval of M cells, dead ends and reflecting ends, M = 5…19 | dead: ln τ = 6.7641, 7.7402, 8.6551, 9.5731, 10.4946, 10.9538 at M = 10, 12, 14, 16, 18, 19; steps 0.457, 0.461, 0.461, 0.460, 0.459 at M = 15…19. Reflecting: 5.9342, 6.8792, 7.8154, 8.7365, 9.6563, 10.1164; steps 0.461, 0.460, 0.460, 0.460, 0.460. Dead − reflecting = 0.837 ± 0.001 at M = 15…19. Ring − dead = −2.07, −1.38, −1.08, −0.74 at L = 5, 10, 14, 19; on L ≥ 11: −4.30 + 1.21 ln L (rms 0.016) or −2.27 + 0.082 L (rms 0.028) | `prob_r1.py ends 19` (2½ min) |
 | L4.3 | probability, Lemma 2(b): contraction of the sharp minorant | κ (their formula) 0.9552, 0.9475, 0.9322 at ρ = 0.46, 0.472, 0.5; exact sup of E Φ′/Φ over all η on a ring of 14: 0.9262, 0.9187, 0.9322 | `prob_r1.py tables` |
+| L5.1 | path LR4: committor ψ*_K of the pooled one-step table (curated tallies) | ψ*(1…6) = 0.753, 0.463, 0.268, 0.150, 0.087, 0.051 (A = 45); 0.739, 0.448, 0.250, 0.135, 0.075, 0.042 (A = 63); 0.735, 0.474, 0.245, 0.130, 0.072, 0.040 (A = 84); insensitive to K; log-slope over k = 5…10: 0.51–0.54, 0.53–0.57, 0.55–0.60. Entries into {n < K} are small steps across K; the entry sum equals the deaths exactly (algebra) | `path_r2.py lr4` |
+| L5.2 | path LR5: one-step change of the face population by row | mean step at k = 2, 5, 10, 20: +0.21, +1.19, +2.15, +3.62 (A = 84); +0.31, +1.14, +1.98, +2.93 (A = 63); Lundberg root r_k over k = 5…8: 0.62–0.65, 0.57–0.59, 0.55–0.57, 0.55–0.56 at A = 30, 45, 63, 84 | `path_r2.py lr5` |
+| L5.3 | path LR6: pre-death curve from the pooled table reversed | 1.6, 2.9, 4.3, 5.9, 7.7, 9.8 at lags 1…6 (A = 84) against the recorded 1.6, 3.4, 6.4, 9.7, 13.6, 17.6: not Markov | `path_r2.py lr6` |
+| L5.4 | path LR7: tail slopes; the histogram against its own parabola | slope of ln p_k at k = 12: 0.372, 0.444, 0.485, 0.555 ± 0.05 at A = 45, 63, 84, 108; A ≥ 135 not measurable. A = 84: the histogram leaves its parabola near n = 28 and its slope is below both the parabola's and the tail's down to n ≈ 14. ln p(mean) − ln p(1) = 10.55, 14.85 at A = 63, 84; relation (M) gives 11.47, 16.41 | `path_r2.py lr7` |
+| L5.5 | path LR8′: empty-window probabilities under the exact quasi-stationary law of D2(0.472) | segment of 18: corner decrement 0.508, 0.475, 0.486, 0.504, 0.518, 0.529 at ℓ = 3…8 (at ℓ = 4: 0.535, 0.498, 0.482, 0.475 for 12, 14, 16, 18 cells); ring of 18 and centred windows: 0.605–0.610 at ℓ = 3…8 | `path_r2.py lr8` |
+| L5.6 | checks for path round 2 | Theorem P̄ on the worked walk; Proposition R on four graphs, every start; Corollary 4a's inequalities on hulls R = 7, 9, 11 | `path_r2.py pbar`, `deep` |
 | L1.6 | refits of the empty-window decrement (committed `gap.json`) | limit 0.348 (c/ℓ), 0.355 (e^{−ℓ/20}), 0.370 (c/ℓ²), 0.373 (e^{−ℓ/10}) on ℓ = 20…38, all acceptable | `path_r1.py data` |
 
 ## The lab: what it can do, how to ask
@@ -475,7 +500,8 @@ lab reads are saved in **`critic/lab/data/fluct_tables.npz`** (66 kB, committed;
 checks deaths against the committed `qsd_summary.json`): one-step transitions of the face population from
 n < A/2 (`Tr`), the face-population histogram (`H`), the joint histogram of the face and the A cells one layer
 beneath it (`J`), deaths and exposure, and for each lag 0…64 before a death the histogram of the dying face's
-population (`prehist`). `path_r1.py` reads only that file. No new runs.
+population (`prehist`); for A = 108, 135, 165 the histogram only. `path_r1.py` and `path_r2.py` read only that
+file. No new runs.
 
 ## Citations
 

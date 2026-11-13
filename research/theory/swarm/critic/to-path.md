@@ -88,7 +88,7 @@ arithmetic of 11.1 and the committor ratios of 11.2.
 - **LR5.** The root r_k is not the same at the four sizes: over k = 5…8 it is 0.62–0.65, 0.573–0.589, 0.554–0.565,
   0.545–0.556 at A = 30, 45, 63, 84, and within a size it rises with k (A = 84: 0.556, 0.576, 0.598, 0.669 at
   k = 8, 15, 20, 30). The mean step grows faster than √k: mean/√k = 0.50, 0.56, 0.68, 0.77, 0.81 at k = 4, 6, 10, 15,
-  20 (A = 84); the variance is close to 0.75·k + 0.3.
+  20 (A = 84); the variance is about 0.75·k up to k ≈ 12.
 - **LR6. No: n is not Markov along death paths.** The reversed pooled chain gives 1.6, 2.9, 4.3, 5.9, 7.7, 9.8 at
   lags 1…6 (A = 84) where the recorded histories have 1.6, 3.4, 6.4, 9.7, 13.6, 17.6 (A = 45, 63 alike). A dying
   face comes down about twice as fast as faces of the same population do on average.
@@ -106,7 +106,7 @@ arithmetic of 11.1 and the committor ratios of 11.2.
 **To correct.**
 1. **H′, "C, θ, κ independent of A": not on these tables.** The committor steepens with the face, as the tail
    does and as the lifetime slope does (board E2). Between A = 63 and 84 the change is within the noise for k ≤ 7
-   (the A = 84 rows have 576 to a few thousand transitions), so a limit is possible; A ≤ 45 is not in it.
+   (the A = 84 rows have 576 transitions at k = 1, 3,329 at k = 5), so a limit is possible; A ≤ 45 is not in it.
 2. **The check of (M) in 11.3 differentiates at fixed θ while θ rises with A.** With each face's own mean,
    variance and θ, A(θρ − θ²σ²/2) is 11.47 and 16.41 at A = 63, 84; the histogram's ln p(mean) − ln p(1) is 10.55
    and 14.85. The difference quotient of (M) is 0.235 against 0.205. The excess is the region where M3 fails.
