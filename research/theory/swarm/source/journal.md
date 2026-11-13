@@ -561,3 +561,189 @@ it, K_t(n, ·) ⪰ q(n, ·), then by induction on Lemma 3's marginals λ_t ⪰ �
 τ(D_w(ρ)) in ρ is not available; what might be is a bound on how much the top w − 2 layers' equal-time law can
 depend on the drive law, through Lemma 5's sensitive contexts). (ii) Use L4 to decide whether a state-dependent
 density ρ(n) is a workable 𝒦. (iii) Exam entries S-E1, S-E2 are filed in `swarm/PREDICTIONS.md`.
+
+---
+
+## 2026-11-13, round 3
+
+Read for this round: the critic's addendum (the probability line's model E₁(π) and its Theorem A, as stated on
+the board, "Definitions" and lemma exchange "One row over dice") and the reply to round 2 with lab L4–L8.
+I have not read the probability line's directory; everything I use of it is the board's statement.
+
+### S13. Corrections to round 2 (all three accepted)
+
+1. **S11 / C14.** "The drive beneath a precarious face is richer than the bulk" is wrong as worded. Lab L4: the
+   whole layer beneath a face of one to twelve cells has density 0.33–0.39 (A = 45…84) against 0.44 beneath a
+   typical face: it is *poorer*. What the n = 1 row shows is that the eighteen cells read by the last cell and
+   its six neighbours behave like dice at density ≈ 0.52. Correct statement: **locally richer, in a layer that
+   is poorer.** The fit is better than I had a right to expect: the dice row at 0.52,
+   (0.367, 0.378, 0.179, 0.059, 0.015), against the measured rows (0.384, 0.355, 0.175, 0.070, 0.014),
+   (0.377, 0.353, 0.181, 0.069, 0.016), (0.372, 0.333, 0.212, 0.066, 0.017) at A = 45, 63, 84: one parameter, five
+   numbers, all within 0.03 (two of the five were used to choose the parameter). It fits the picture of S11:
+   what survives of a face is the top of a small supported structure, and the support is under the survivors,
+   not under the face.
+2. **Conjecture S** has no exact support: at the one depth the lab can reach (w = 2, L = 5…8, lab L6) the spread
+   of ln τ over ρ ∈ {0.30, 0.472, 0.60} is larger than at w = 1, and grows with L. Its support is the sampled
+   values at depth 6–8 only, and the approach in depth is not monotone for gump (board E13). Tag stays "guessed";
+   S-E2 is its test.
+3. **Theorems H and U** are implications whose hypotheses are known to fail in the one vessel where they could
+   be examined (lab L8: in the 4 × 6 strip, from t = 3 the conditional probability of a death set is exactly 0 or 1
+   in 39–90% of the contexts) and are known to hold in none. Theorem U is in addition conditional on g (g = 2 on
+   four gump faces, lab L7 and L0b.3; unknown in general). They stand as "what finite energy of the drive would
+   give", not as descriptions of gump.
+
+### S14. Theorem A: a deterministic automaton for which the length law is a theorem [proved here: (i); cited: (ii)]
+
+**The automaton 𝒜(L).** Cells (x, j), x ∈ Z_L, j = 0, 1, 2, …; states 0/1.
+- Row 0 follows the 2D rule B34/S234 on the cross: its neighbours are (x ± 1, 0), (x ± 2, 0), (x, 1), (x, 2).
+- Every cell of a row j ≥ 1 copies the cell two rows beneath it: y_{t+1}(x, j) = y_t(x, j + 2).
+- Start: row 0 with any law; beneath it, independent fair bits ξ_{x,i} (i ≥ 1), each written into the two cells
+  (x, 2i − 1) and (x, 2i).
+
+Then y_t(x, 1) = y_t(x, 2) = ξ_{x, t+1} for all t ≥ 0: the two cells beneath an edge cell are always equal, and the
+bit they carry at generation t has not been read before. So row 0 is exactly the probability line's chain E₁(π)
+at its anchor π = (½, 0, ½), from generation 0. (The bulk rule is the simplest deep-permutive rule of S1 and the
+statement is Lemma 1 for a start that is uniform on the paired configurations; here it can be seen directly.)
+
+*Variant from the uniform product measure* (Lemma 1′, checked by the critic): rows 1 and 2 both copy the cell of
+row 3 in their column, y_{t+1}(x, 1) = y_{t+1}(x, 2) = y_t(x, 3); rows j ≥ 3 follow any deep-permutive rule, for
+instance parity on the cross, and may read rows 1 and 2; start uniform on rows ≥ 3, anything above. Then row 0
+is E₁(½, 0, ½) from generation 1. With a source alphabet Z_m and two decoder maps φ₁, φ₂ : Z_m → {0, 1} in rows
+1, 2, the same construction gives E₁(π) for every rational π.
+
+**Theorem A.** For even L let λ_L be the Perron eigenvalue of E₁(½, 0, ½) on non-empty rows, μ_L its
+quasi-stationary law and τ_L = 1/(1 − λ_L).
+(i) [source; S8, Prop. 1″] In 𝒜(L) started with row 0 distributed as μ_L, the edge dies at a time T with
+P(T > t) = λ_L^t exactly, and conditioned on {T > t} the configuration has again the starting law. From any
+other law of row 0 with a live cell, P(T > t) = c·λ_L^t (1 + o(1)) (the chain on non-empty rows is irreducible
+and aperiodic; board, "Definitions").
+(ii) [the probability line's Theorem A and its three-generation bound, as stated on the board; its lower bound
+is modulo two percolation facts not yet on the shelf, F1: the critical density of two-parent oriented site
+percolation is ≤ 0.7491, and F2: finite-volume survival] there is c > 0 with **e^{cL} ≤ τ_L ≤ 3·8^L**.
+(iii) [lab L4.1, exact] ln τ_L = 6.5319, 9.4733, 12.2492, 13.5946 at L = 8, 12, 16, 18 (≈ 0.67 per cell).
+
+So 𝒜(L) is a fully deterministic cellular automaton, with the 2D rule's own edge, in which an edge row of L
+cells dies after an exactly memoryless wait whose mean is exponential in L, with proof (modulo F1, F2).
+
+**How 𝒜(L) differs from the 2D rule in a strip, exactly.**
+
+| | 2D rule, strip W × L | 𝒜(L) |
+|---|---|---|
+| rule and neighbourhood of the edge row | B34/S234, cross | the same |
+| rule beneath | B34/S234 | copy the cell two rows down (variant: two decoder rows, then any deep-permutive rule) |
+| what an edge cell reads beneath it | two cells, different, correlated in time and with the edge | two equal cells carrying one fresh fair bit: the cell follows B34/S234 on its four in-row neighbours when the bit is 0, B12/S012 when it is 1 |
+| vessel | W rows, finite | half-infinite; with H rows beneath the statement holds for ⌊H/2⌋ generations |
+| feedback from the edge into the bulk | yes | not needed (allowed in the variant) |
+| empty edge absorbing (T2); three-generation game | yes | yes |
+| wait | memoryless as measured, after T0, settled replicas removed | exactly geometric from μ_L ⊗ start |
+| exponent per cell | 0.36–0.42 (measured) | ≈ 0.67 (exact to L = 18); proved positive and ≤ ln 8 |
+| energy and overcrowding in the bulk (T5) | drive only at overcrowded cells | none: the bulk is a conveyor |
+
+The relative is far from the rule in its exponent and in everything beneath the edge. It is close in one
+respect only: the edge itself is the rule's edge, and the mechanism the probability line uses (every cell
+within distance 2 of a live cell can be made alive by b = 0 or by b = 2) is a property of that edge.
+For gump no such relative has the law as a theorem: the dice theorem is for the 2D edge. One structural
+obstacle to copying it, for whoever tries: **a gump face can overcrowd itself and a 2D edge cannot.** A face cell
+with all six in-face neighbours alive is dead next whatever lies beneath (n ≥ 6); an edge cell has at most
+four in-row neighbours, below the cap of five, and can always be kept alive by b = 0. Also a dead face cell
+with three live in-face neighbours is born only for b ∈ {1, 2}, so a two-valued drive (b = 0 or 3 for a whole
+cube) does not reach every cell near a live one; three values are needed.
+
+### S15. Theorem L: how a dice theorem of the comparison kind transfers to a deterministic system [proved]
+
+The probability line's lower bound goes through one inequality: the row dominates five-parent oriented site
+percolation of density p. That inequality needs much less than dice.
+
+For an edge state z ⊂ Z_L let E(z) be the cells within distance 2 of a live cell, and for x ∈ E(z) let A_x(z) ⊂
+{0, 1, 2} be the values of b_x for which x is alive next: non-empty for every x ∈ E(z) (it always contains 0 or 2).
+- **INS(p) at time t** (insertion tolerance of the drive): for every edge state z of positive probability and
+  every x ∈ E(z), κ_t(b_x ∈ A_x(z) | z, (b_y)_{y ≠ x}) ≥ p. (κ_t is the equal-time kernel of S4, w = 1.)
+- Percolation: ω(x, s) i.i.d. Bernoulli(p); W_{s+1} = {x : ω(x, s + 1) = 1 and W_s meets {x, x ± 1, x ± 2}}.
+
+**Theorem L.** Take the 2D rule in any vessel, of any depth, with any initial law (deterministic bulk
+included), or any other process whose edge row follows the rule. If INS(p) holds at the times t₀ ≤ t < t₁, then
+for every t ≤ t₁ the law of the edge at time t dominates the law of W_{t − t₀} started from W₀ = (the edge at t₀):
+there is a coupling with W_{t−t₀} ⊆ Z_t. Hence P(T > t) ≥ P(W_{t−t₀} ≠ ∅), and every lower bound on the survival of
+five-parent oriented site percolation of density p on the ring (the probability line's Theorem A when
+1 − (1 − p)² exceeds the two-parent critical density, i.e. p > 0.4991 given F1) is a lower bound for the edge on
+that window.
+*Proof.* Induction on t, on marginal laws only. Suppose (Z_t, W) are coupled with W ⊆ Z_t. Given Z_t = z, the next
+edge is {x : b_x ∈ A_x(z)} with b drawn from κ_t(· | z) (Lemma 3). By INS(p), each indicator Y_x = 1[b_x ∈ A_x(z)],
+x ∈ E(z), has conditional probability ≥ p given the others, hence given Y_1, …, Y_{i−1} in any order; drawing them
+in turn with uniforms U_x, Y_x = 1[U_x < P(Y_x = 1 | earlier)], and putting ω_x = 1[U_x < p], gives ω i.i.d.
+Bernoulli(p) with ω_x ≤ Y_x on E(z); draw ω independently off E(z). Then W′ = {x : ω_x = 1, W meets {x, x±1, x±2}}
+⊆ {x ∈ E(z) : ω_x = 1} ⊆ Z_{t+1}, because W ⊆ z. The law of ω does not depend on (z, W), so W′ has the percolation
+law from W, and Z_{t+1} has the law λ_t K_{t+1} = λ_{t+1}. ∎
+
+Remarks. (a) The hypothesis is one-sided, at equal time, about one cell given the row and the drive of the
+other cells; no independence between cells, no mixing in time, no stationarity. This is the weakest property I
+can state under which the one existing dice theorem transfers, and it is exactly computable in an enumerable
+vessel. (b) In 𝒜(L) it holds with p = ½ for all t. With a paired conveyor started from biased bits (density q)
+it holds with p = min(q, 1 − q). (c) **It fails for the 2D rule's own statistics, and already for independent
+dice at the bulk density**: a lone cell or a dead cell with one live neighbour is alive next only for b = 2,
+probability ρ² = 0.22 at ρ = 0.472 (0.25–0.34 at the effective densities of S11), far below 0.4991. So what
+stands between the theorem and the 2D rule is not the quality of the rule's self-made randomness; it is the
+reach of the dice theorem, which needs each such cell to be kept alive with probability ½. (d) *Lemma 3 at lag
+k.* λ_{t+k} = λ_t K_t^{(k)} with K_t^{(k)}(z, ·) the law of the top k generations later given the present top state
+only. A dice theorem proved with block events k generations long transfers, by the same induction along
+t₀, t₀ + k, t₀ + 2k, …, under the corresponding domination hypothesis on K_t^{(k)}. Nothing about the past and
+nothing about the intermediate states of the bulk enters beyond that kernel.
+
+### S16. Where the line stands [assessment]
+
+In the order of PROBLEM.md's list of what would count.
+
+- *A theorem for gump or the 2D rule themselves:* none, and not by this route. The source toolkit proves
+  randomness from permutivity and an invariant product measure; gump has neither (it forwards information only
+  at the threshold or the cap, Lemma 5; it is far from surjective), and in a finite vessel there is not enough
+  entropy for any statement that conditions on the whole past (Lemma 2) nor any exact quasi-stationary law
+  (board, trapdoors (v)). What a proof would have to control is the equal-time kernel κ_t (Lemma 3), a property
+  of the quasi-stationary state itself.
+- *A close relative for which the law is a theorem, relation stated exactly:* 𝒜(L), S14, with the probability
+  line (modulo F1, F2). Its limits are in the table of S14. Every dice model with rational local randomness
+  has such a relative (Lemma 1′), so each further dice theorem becomes a theorem about a deterministic automaton
+  at no cost; "gump on parity" R_w is the one for D3 at ρ = ½.
+- *A theorem under one stated, testable hypothesis:* Theorem L (lower bound, hypothesis INS(p), p > 0.4991; the
+  hypothesis is false for the 2D rule's statistics, which is informative); Theorems H and U (hazard between two
+  exponential moments of the face's active units; lifetime at most exponential in the area for any depth;
+  hypotheses fail strictly in the one enumerable test).
+- *A formula for γ:* none.
+- *Side facts:* h/p₁ bounded below independently of A under finite energy, with the exact dice value
+  (1 − ρ²)⁵ (2D) and (1 − 3ρ³ + 3ρ⁵ − ρ⁶)(1 − ρ³)⁴ (gump); gump's whole n = 1 row is that of dice at local density
+  0.52; the last ember as the top of a still life (S11). T5: Lemma 4 and Corollaries 4a, 4b (a threshold bulk is
+  not a source; activity at a face is bounded by overcrowding discounted with depth); Corollary 4a closes the
+  question left open in threshold.md §6.
+- *Open, mine, not reachable with these tools as far as I can see:* Conjecture S (screening); a class 𝒦 that
+  contains gump's κ_t and carries a lower bound (S11 and Theorem L(c) say what it must allow: a drive whose
+  local density depends on the face, and cells kept alive with probability well below ½); C8 beyond its sketch.
+
+I judge that this line has given what it can. The two exam entries stand as filed.
+
+---
+
+## Round 3 report (final)
+
+**Claims added.**
+1. [proved, with the probability line's Theorem A cited from the board, modulo F1, F2] Theorem A: the
+   deterministic automaton 𝒜(L) (the 2D rule's edge over a conveyor of paired fair bits) has an exactly
+   geometric wait with e^{cL} ≤ τ_L ≤ 3·8^L; exact values to L = 18 from the lab. Table of differences from the
+   2D rule in S14.
+2. [proved] Theorem L: under equal-time insertion tolerance INS(p) of the drive, the edge of any process that
+   follows the 2D rule in row 0 dominates five-parent oriented site percolation of density p, in marginal law
+   at each time; so the dice theorem transfers on any window where INS(p > 0.4991) holds. INS at that level is
+   false for dice at the bulk density and for the measured rule.
+3. [remark] A gump face can overcrowd itself (six live in-face neighbours kill a cell whatever lies beneath);
+   a 2D edge cannot. A two-valued coherent drive does not suffice for gump.
+Corrections S13 accepted; `claims.md` is final; exam entries S-E1 and S-E2 are in `swarm/PREDICTIONS.md`.
+
+**Weakest step.** Theorem A(ii) is not mine and rests on F1 with almost no margin (1 − (1 − ½)² = 0.75 against
+0.7491). Theorem L's hypothesis is one I can only show to hold in relatives. Everything about gump's own bulk
+in this journal is either a no-go statement (Lemmas 2, 5), an exact reduction (Lemma 3), a qualitative bound
+(Lemma 4), a reading of tallies (S11, S13.1) or a guess (Conjecture S).
+
+**Lab requests.** None. If someone continues: the dice rows from an edge-sharing pair and from the two
+orientations of a kagome triangle at ρ = 0.4155, ½, 0.52 (enumeration of the drive, as in L5), to set against the
+measured n = 2 and n = 3 rows (death 0.09–0.10 and 0.018–0.019); and INS for the 4 × 6 strip as L8 was done for
+the death sets.
+
+**State.** The line is finished in my judgement (S16).
