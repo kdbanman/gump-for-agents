@@ -71,6 +71,57 @@ L4 (Ada, $0.80/h) could not be measured: no capacity for 10 minutes on 2026-11-1
 Kernel B runs only a few thousand replicas per GPU (A10G: 72 blocks × 2 words × 32 = 4,608), so each replica
 advances ≈ 2 × 10⁵ generations per second: ensembles reach old ages, which is what a hazard measurement needs.
 
+## First use: the asymmetric face law beyond A = 84 [measured]
+
+`modal run research/gpu/modal_app.py::facelaw --r R --minutes M --seed S [--copies K]` (A10G), then
+`python3 research/gpu/facelaw.py summary "research/data/gpu_facelaw/*.json"`. Asymmetric octahedral soups,
+p = 0.35 in |p|₁ ≤ R, open space; wait from age T0 = 200 to the first extinct face layer (any of 8); mean = exposure /
+deaths. τ_face = 8 × mean (8 independent faces). The R = 9 row is the fluctuation agent's (`research/fluct/README.md`).
+
+| R | A | peels | A10G time | first-peel mean | ln τ_face | straight line 0.2077·A + 0.55 | excess | local slope |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 9 | 45 | 137,243 | (CPU) | 2,300 ± 6 | 9.820 | 9.90 | −0.08 | |
+| 11 | 63 | 764,941 | 2 min | 1.043 × 10⁵ ± 0.1% | 13.635 ± 0.001 | 13.635 | 0.00 | 0.2119 |
+| 13 | 84 | 34,026 | 4 min | 9.45 × 10⁶ ± 0.5% | 18.141 ± 0.005 | 17.997 | +0.14 | 0.2146 |
+| 15 | 108 | 1,059 | 30 min | 1.77 × 10⁹ ± 3% | 23.376 ± 0.031 | 22.982 | **+0.39** | 0.2181 ± 0.0013 |
+| 17 | 135 | 16 | 3.5 h | 6.9 × 10¹¹ ± 25% | 29.34 ± 0.25 | 28.59 | **+0.75** | 0.221 ± 0.009 |
+
+- **Calibration:** R = 11 and 13 reproduce the fluctuation agent's 1.04 × 10⁵ ± 0.008 and 8.86 × 10⁶ ± 0.48 (and
+  the hazard is flat in age from 200 to 10⁶ at R = 11, within ±1% per bin; at R = 15 from 3 × 10⁵ to 6 × 10⁸).
+- **The face law curves upward.** The local slope rises steadily, 0.212 → 0.215 → 0.218 → 0.221 per site, and the
+  straight line fitted to the stationary-distribution endpoints at A ≤ 84 (I(0) = 0.2077 + 0.55/A) falls 0.39 nats
+  (13σ) short at A = 108 and 0.75 nats (3σ) short at A = 135. A quadratic in A fits all five sizes
+  (ln τ_face ≈ 0.479 + 0.2045·A + 6.9 × 10⁻⁵·A², χ² = 0.1 for 2 degrees of freedom); the quadratic through only the
+  three precise points (A = 63, 84, 108) gives 29.37 at A = 135, against the measured 29.34 ± 0.25. Cost per site,
+  ln τ_face / A: 0.2164, 0.2160, 0.2164, 0.2173 at A = 63 … 135 — a minimum near A ≈ 80, then rising. This is the
+  same direction as the symmetric faces (whose cost per site also rises with face size, `research/fluct/sym_fit.py`).
+  [conjecture] Extrapolations that use 0.208–0.209 per site for large asymmetric faces are lower bounds.
+- Caveats: at R = 17 the replicas reach ages ≤ 8 × 10⁸, ≈ 1/900 of the mean; the estimate assumes the hazard stays
+  flat beyond (it is flat over 3–4 decades at R = 11–15, and the 16 deaths at R = 17 spread over 3 × 10⁷–10⁹ without
+  a trend beyond Poisson noise). Only period-1/2 settling is detected; none occurred.
+- **Bug found and fixed on the way:** the first R = 17 batch (3 containers, seeds 1–3) repeated the same soups —
+  `soup_bit` combined seed and replica as `seed ^ (r << 32)` while the driver passed `seed << 32`, so (s, r) and
+  (s′, r ⊕ s ⊕ s′) collided. Identical death ages across containers gave it away. R = 11–15 were single runs and are
+  unaffected (within a run all (seed, replica) pairs differ); of that batch only the seed-3 container is kept
+  (`R17_s3_A10G.json`, 4 of the 16 peels; it is independent of the later seeds 11–12, which use the new hash).
+  `facelaw.py summary` now warns when runs share death ages.
+
+## Using it for a new ensemble experiment
+
+Anything that is "many independent replicas of one vessel, stopped at an event" fits: write a driver like `facelaw.py`
+(build a `fl.Vessel`, `Sim(v, seedable=...)`, loop `step` / `reseed`, record lives), add a Modal function next to
+`facelaw_remote`, and return a **compact** result (see below). Things to know:
+
+- Replicas of one `Sim` share the vessel (graph and face groups). Different vessels or rules need different `Sim`s;
+  the rule is fixed to B45/S345 in `rule12` (a different rule is a different carry-save tail, a few lines).
+- Events are per replica: kind 1 = some face group's OR is 0 (any of up to 8 groups; for O_h vessels the one
+  representative face), kind 2 = period 1 or 2. Anything else (a population threshold, a hash for long periods) needs
+  a new reduction in phase C of `kernel_shared.cuh`.
+- Seeds: `reseed(reps, seed, p)` is a pure function of (seed, replica, node); give every run and every reseed round
+  its own seed. Two runs with equal seeds repeat each other exactly (that is how the collision bug was found).
+- Validate any change with `modal run research/gpu/modal_app.py::check` and `::check_defaults` (≈ 3 min, a few cents).
+- Cost guide (A10G, $1.10/h): ≈ 10⁹ replica-generations per second for a 2,000-node vessel.
+
 ## Running on Modal from this environment
 
 - `input-plane.us-east.modal.com` had to be added to the environment's allowed hosts for `modal run` (done
