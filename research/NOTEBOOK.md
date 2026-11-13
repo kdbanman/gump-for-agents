@@ -733,3 +733,30 @@ Question put to the agent: is a face's death just the far tail of its ordinary f
   at 2.8, 7.4, 2.6 and 1.2 means; all 16 large plateaus of cubes 13–16 sum to 27.2 means against 16 (P = 0.008).
   The puzzle of the previous entry stands and is now only about cube lineages, not about one hull size. Open.
 - The side-17 forecast is unchanged by the extra R = 41 data (fits give ln τ(828) = 23.7–24.2; forecast 24.0 ± 0.4).
+
+## 2026-11-13 — GPUs on Modal; the asymmetric face law curves upward beyond A = 84 (GPU agent)
+
+- **[measured] Engine.** `research/gpu/`: replicas of gump bit-sliced 32 to a word (as `fl.c`) on any vessel graph, on
+  Modal GPUs via CuPy. The kernel that keeps each block's whole vessel state in shared memory for the whole launch
+  runs 2.0–2.7 × 10¹² node-updates/s on an A10G (≈ 400 Modal CPU cores of `fl.c`, ≈ 17× the work per dollar); the
+  straightforward global-memory port is memory-bound at 2.3 × 10¹¹. Bit-exact against `gump run` (the five
+  `validate.py` cases incl. the side-16 checkpoint) and `fl.c` (states, and 50,000+ face-death generations).
+  A single trajectory cannot use a GPU (states are a few KB): long single runs stay on the CPU engine.
+  Details, tables, how to run: `research/gpu/README.md`.
+- **[measured] Face law, asymmetric octahedral soups (p = 0.35), first peel after T0 = 200, τ_face = 8 × mean:**
+  ln τ_face = 13.635 ± 0.001, 18.141 ± 0.005, 23.376 ± 0.031, 29.34 ± 0.25 at A = 63, 84, 108, 135
+  (R = 11, 13, 15, 17; 764,941 / 34,026 / 1,059 / 16 peels; ≈ 4 A10G-hours in all).
+  `modal run research/gpu/modal_app.py::facelaw --r 15 --minutes 30 --seed 1`;
+  `python3 research/gpu/facelaw.py summary "research/data/gpu_facelaw/*.json"`.
+  R = 11, 13 reproduce the fluctuation agent's means (1.04 × 10⁵, 8.86 × 10⁶) at 10–100× the precision.
+- **The open question "does 0.208 per site hold beyond A = 84" — no: the law curves upward.** Local slopes
+  0.212 (45→63), 0.215, 0.218 ± 0.001, 0.221 ± 0.009 (108→135); the straight line I(0) = 0.2077 + 0.55/A is 0.39 nats
+  short at A = 108 (13σ) and 0.75 short at A = 135 (3σ). A quadratic, ln τ_face ≈ 0.479 + 0.2045 A + 6.9 × 10⁻⁵ A²,
+  fits A = 45–135 (χ² = 0.1, 2 dof); fitted to A = 63–108 alone it gives 29.37 at A = 135 (measured 29.34 ± 0.25).
+  Cost per site is smallest near A ≈ 80 (0.2160) and rising (0.2173 at 135) — the same direction as the symmetric
+  faces. [conjecture] Asymmetric extrapolations at 0.208–0.209 per site (e.g. "~10⁴¹ per face" for an asymmetric
+  side-13 hull) are lower bounds. Caveat: at A = 135 replicas only reach ages ≈ 1/900 of the mean; the hazard is flat
+  over 3–4 decades of age at A = 63–108.
+- **Lesson (seeds):** a first parallel R = 17 batch repeated itself — the soup hash mixed seed and replica as
+  `seed ^ (r << 32)` and the seeds were `s << 32`; identical death ages across containers exposed it. Fixed (seed and
+  replica hashed in turn); the summary script now flags shared death ages.
