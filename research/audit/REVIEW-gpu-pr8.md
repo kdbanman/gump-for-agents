@@ -117,8 +117,9 @@ PR branch.
 - **Order of commits:** forecasts `0171bd9` (18:01:46Z, PREDICTIONS.md only); settle detection to period 128
   `d67ad50` (18:13Z); R = 36/38 vertex data `2cd7142` (18:25Z); R = 43c, 45c, 44v, 40v data and outcomes `be7b01d`
   (19:01Z). The outcome section only appends (`git diff 0171bd9 be7b01d -- PREDICTIONS.md` has no removed lines).
-  Commit times are the author's own clock, so this shows order, not wall time; the runs need 30–45 min each and
-  could not have finished between 18:13 and 18:01. The A = 108/135 "expectation" is honestly labelled as recorded
+  Commit times are the author's own clock, so this shows order, not wall time. Supporting evidence that the
+  symmetric runs came after the forecasts: they used the period-128 settle test (`kind 3` counts are present in
+  their JSON) that was committed only at 18:13, after the forecast commit. The A = 108/135 "expectation" is honestly labelled as recorded
   after the fact.
 - **Re-derived** (T0 = 1000, τ = exposure/deaths): 43c 21.903 ± 0.031 (1,057), 45c 24.175 ± 0.072 (192), 44v
   22.409 ± 0.040 (637). No settles of any kind in these runs (kind 3 active); no replica censored before the end

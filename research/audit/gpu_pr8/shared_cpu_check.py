@@ -15,6 +15,8 @@ Checks:
   4 engine:   one asymmetric soup (R = 11) and one O_h vertex soup (R = 24) from `gump run`, compared with the engine's
               state after 3000 generations in 4 lanes
 Exit status 1 on any failure.
+Negative controls: MUTANT=neighbour|lastface|period2 builds a deliberately broken kernel; the script then exits 0
+only if some check fails (the mutant is caught).
 
 Run pinned to one core (taskset -c N): the block is emulated with K_T threads.
 """
@@ -34,6 +36,14 @@ GUMP = os.path.join(ROOT, 'engine', 'target', 'release', 'gump')
 fl.GUMP = GUMP                    # the PR checkout has no engine build; use this tree's
 
 
+MUTANTS = {   # MUTANT=name: one-token breakages of kernel_shared.cuh
+    'neighbour': ('c[n10], c[n11], me)', 'c[n10], c[n10], me)'),          # one neighbour read twice: wrong rule
+    'lastface':  ('for (int f = 0; f < K_NF; f++) dead', 'for (int f = 0; f < K_NF - 1; f++) dead'),   # one face never checked
+    'period2':   ('p2[j][w] = me;', 'p2[j][w] = r;'),                     # 'two back' is really 'now': false kind 2
+}
+MUTANT = os.environ.get('MUTANT')
+
+
 class SharedCPU:
     def __init__(self, v, WB=2, J=None, blocks=2, faces=True, pw=128):
         n = v.n; self.v, self.n = v, n
@@ -46,7 +56,13 @@ class SharedCPU:
         assert src.count(decl) == 1
         tag = f'n{n}_wb{WB}_t{L["T"]}_j{J}_q{L["Q"]}_nf{L["nf"]}_pw{pw}'
         d = os.path.join(SCR, 'build_' + tag); os.makedirs(d, exist_ok=True)
-        open(os.path.join(d, 'kernel_shared_sub.cuh'), 'w').write(src.replace(decl, 'u32 *sm = g_sm;'))
+        src = src.replace(decl, 'u32 *sm = g_sm;')
+        if MUTANT:                    # negative control: a deliberately broken kernel must FAIL these checks
+            old, new = MUTANTS[MUTANT]
+            assert src.count(old) == 1, MUTANT
+            src = src.replace(old, new); tag += '_mut_' + MUTANT
+            d = os.path.join(SCR, 'build_' + tag); os.makedirs(d, exist_ok=True)
+        open(os.path.join(d, 'kernel_shared_sub.cuh'), 'w').write(src)
         so = os.path.join(d, 'k.so')
         defs = [f'-DK_N={n}', f'-DK_NP={n + 1}', f'-DK_WB={WB}', f'-DK_T={L["T"]}', f'-DK_J={J}', f'-DK_Q={L["Q"]}',
                 f'-DK_NF={L["nf"]}', '-DK_MINB=1', f'-DK_PW={pw}', '-DK_KEEP=0']
@@ -97,7 +113,10 @@ def soups(v, R, nrep, seed, p=0.35):
 
 # 1 + 2: against fl.c (asymmetric R = 7 with 2 warps per block, R = 9 with the production J)
 PROD = '--prod15' in sys.argv     # also R = 15 in the production shape of the committed R = 15 run (J = 6, T = 352)
-for R, J, WB, blocks in (() if SKIP12 else ((7, None, 2, 1), (9, 'x', 2, 2), (7, 'x', 1, 2)) + (((15, None, 2, 2),) if PROD else ())):   # None = production J
+CONFIGS = (() if SKIP12 else ((7, None, 2, 1), (9, 'x', 2, 2), (7, 'x', 1, 2)) + (((15, None, 2, 2),) if PROD else ()))
+if MUTANT:
+    CONFIGS = ((7, None, 2, 1),)
+for R, J, WB, blocks in CONFIGS:   # None = production J
     v = fl.Vessel(fl.octa_hull(R), 'c', False)
     s = SharedCPU(v, WB=WB, J=(math.ceil(v.n / 64) if J == 'x' else None), blocks=blocks)
     b0 = soups(v, R, s.R, 100 + R)
@@ -122,6 +141,10 @@ for R, J, WB, blocks in (() if SKIP12 else ((7, None, 2, 1), (9, 'x', 2, 2), (7,
         print(f'     events R={R} launches of {K}: face deaths fl.c {fd.sum()} kernel {mine.sum()}; fl.c settled {st_fl.sum()}, '
               f'kernel kind 2 {(kind == 2).sum()}, kind 3 {(kind == 3).sum()}')
         report(f'face-death generations vs fl.c, R={R}, launches of {K}', agree)
+
+if MUTANT and MUTANT != 'period2':
+    print(f'mutant {MUTANT}:', 'caught (some check FAILED, as it must)' if not ok_all else 'NOT CAUGHT')
+    sys.exit(0 if not ok_all else 1)
 
 # 3: settling against the engine's cycle detection (R = 7 soups, faces off)
 cases = []
@@ -155,6 +178,10 @@ for lane, (rng_i, p, c) in zip(lanes, cases):
     if ev.get(int(lane)) != want:
         bad.append((rng_i, p, c, want, ev.get(int(lane))))
 report(f'settle events vs engine cycle detection ({len(cases)} soups, launches of {K}); wrong: {bad[:5]}', not bad)
+
+if MUTANT:
+    print(f'mutant {MUTANT}:', 'caught (some check FAILED, as it must)' if not ok_all else 'NOT CAUGHT')
+    sys.exit(0 if not ok_all else 1)
 
 # 4: engine, 3000 generations
 for args, centre, sym in ((['--soup', '0.35', '--radius', '11', '--rng', '5'], 'c', False),

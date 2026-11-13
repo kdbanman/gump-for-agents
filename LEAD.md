@@ -99,6 +99,12 @@ job to keep it honest. What exists (2026-11-13):
   when the critic ends its turn, message the solver that the reply is in `critic/to-<solver>.md`. Snapshot-commit
   and push between events. Stop when a round gives no new proved step. Agent ids are in the scratchpad notes; if
   a thread is lost, start a fresh agent on the same directory: the journals are written for that.
+- 2026-11-13, later, the owner: "Now that this is running smoothly, Feel free to add another two agents to the
+  swarm. I think there's room in the usage. Have them serve whatever role you think could be productive." Added: a
+  fourth solver, **source** (the self-made randomness itself: provably random deterministic sources, and what
+  gump's bulk would have to satisfy), and a **librarian** (`swarm/library/`: reads the primary papers, keeps a
+  shelf of theorems as stated with their hypotheses; solvers append to `library/requests.md`; resume the
+  librarian when requests have accumulated).
 - Afterwards: a fresh reader (not the critic) audits what is claimed; the predictions in `swarm/PREDICTIONS.md` get run.
 
 ## Resuming after a compaction

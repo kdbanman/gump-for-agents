@@ -24,8 +24,8 @@ _Last updated 2026-11-13 by the lead._
     stub). Its forecasts and outcomes are in `exponent/PREDICTIONS.md`, its theorems in `exponent/theorems.md`
     (Lemma A, consequence (c) there is false: swarm board E10). Needs a successor to write it up, then checking.
   - `research/audit/gpu_pr8/`: partial scripts from the reviewer of pull request 8; no review written. Restarted.
-- `research/theory/swarm/` (relaunched about 22:15 UTC at the owner's word): three Fable solvers (`probability`,
-  `counting`, `path`) and a critic on one problem, the area law, by mathematics alone. Problem and rules in
+- `research/theory/swarm/` (relaunched about 22:15 UTC at the owner's word): four Fable solvers (`probability`,
+  `counting`, `path`, and from 22:30 `source`), a librarian (`library/`: primary papers read, theorems as stated) and a critic on one problem, the area law, by mathematics alone. Problem and rules in
   `swarm/PROBLEM.md`; results in each `journal.md` and `claims.md`; the critic's map is `swarm/critic/board.md`
   (its first pass already corrected several numbers the lead had been quoting: read E1–E11). The lead drives the
   rounds (`LEAD.md`, "The swarm"). Nothing in it is established until a fresh reader has audited it.
