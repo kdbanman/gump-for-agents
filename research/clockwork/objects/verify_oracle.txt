@@ -90,3 +90,5 @@ OK   C12.43a.cells period 12 pop0 44 pops 43..44
 OK   C8.24a.cells period 8 pop0 24 pops 24..26
 OK   C8.24b.cells period 8 pop0 24 pops 24..25
 OK   C8.23a.cells period 8 pop0 25 pops 23..25
+OK   C20.32c.cells period 20 pop0 39 pops 32..39
+OK   C18.27c.cells period 18 pop0 29 pops 27..31
