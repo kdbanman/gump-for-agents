@@ -26,7 +26,7 @@ with open(os.path.join(HERE, 'data', 'sym_residence.csv'), 'w') as fh:
             lo, hi = stats.chi2.ppf([0.05, 0.95], 2 * d) / 2
             tau = e / d; r.update(tau=tau, ln=math.log(tau), se=1 / math.sqrt(d), lo=e / hi, hi=e / lo)
         else:
-            lo = stats.chi2.ppf(0.10, 2) / 2; r.update(tau=None, ln=None, se=None, lo=e / lo, hi=None)   # 90% lower bound
+            lo = stats.chi2.ppf(0.90, 2) / 2; r.update(tau=None, ln=None, se=None, lo=e / lo, hi=None)   # 90% lower bound: E / 2.30
         s = (f'{r["tag"]:28s} {r["A"]:4d} {r["cen"]} {d:6d} {r["tau"] or 0:10.4g} {r["ln"] or 0:7.2f} {r["se"] or 0:5.2f}  '
              f'{r["lo"]:.3g} .. {r["hi"] if r["hi"] else float("inf"):.3g}   {r["mean"]:.3f}  {r["var"]:.2f}')
         print(s if d else s + '   (no death: tau > lo at 90%)')
@@ -36,10 +36,10 @@ with open(os.path.join(HERE, 'data', 'sym_residence.csv'), 'w') as fh:
 pool = {}
 for r in rows:
     p = pool.setdefault((r['A'], r['cen']), [0, 0.0]); p[0] += r['deaths']; p[1] += r['expo']
-C = sorted((A, math.log(e / d), 1 / math.sqrt(d)) for (A, c), (d, e) in pool.items() if c == 'c' and d >= 20)
+C = sorted((A, math.log(e / d), 1 / math.sqrt(d)) for (A, c), (d, e) in pool.items() if c == 'c' and d >= 10)
 V = sorted((A, math.log(e / d), 1 / math.sqrt(d), d, e) for (A, c), (d, e) in pool.items() if c == 'v' and d >= 3)
 A_, y, s = map(np.array, zip(*C))
-print(f'\ncube-centred points used (deaths >= 20): {[int(a) for a in A_]}')
+print(f'\ncube-centred points used (deaths >= 10): {[int(a) for a in A_]}')
 forms = {
     'a + bA': lambda A: np.stack([np.ones_like(A), A], 1),
     'a + bA + c sqrt(A)': lambda A: np.stack([np.ones_like(A), A, np.sqrt(A)], 1),

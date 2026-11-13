@@ -29,3 +29,12 @@ Fleming-Viot restarts, T0 = 1000: **31 deaths in 2.54e9 replica-generations, tau
 consistent with the fit-only 1.1e8. Predictive, alive at 2,525,000,000: median **2.58e9**, 50% 2.549e9 .. 2.64e9,
 90% **2.529e9 .. 2.78e9** (`python3 research/fluct/predict.py snap_cube16_gen2525000000 --now 2.525e9`).
 Still made without looking at the cube's event log after the first peel.
+
+## 2026-11-13T04:50Z — side-17 closed cube, first plateau
+The cube series loses its two outermost layers by generation ~64 (sides 13–16: hull 3n−2 → plateau 3n−6), so side 17
+plateaus at hull radius 45, cube-centred, **A = 828**. O_h soups, cube-centred, brute force on the orbit stepper:
+ln tau = 10.99, 12.47, 14.15, 15.88, 17.80, 19.64 (A = 408 … 693; 1087 … 20 deaths) and one death at A = 759
+(ln 22.5 +- 1.0). Fits a + bA (+ c sqrt(A) | + cA^2 | slope pinned to 0.209/6) give ln tau(828) = 23.7 / 24.3 / 24.4 / 23.9
+(`python3 research/fluct/sym_fit.py`). Taking **ln tau = 24.0 +- 0.4: mean first-plateau residence ≈ 2.6e10
+(68%: 1.8e10 .. 4.0e10)**. As a single run (memoryless, tau uncertainty folded in): first peel at generation
+**median 2.0e10, 50% 0.8e10 .. 4.1e10, 90% 1.4e9 .. 1.0e11**. (No vertex factor applies: 17 is odd.)
