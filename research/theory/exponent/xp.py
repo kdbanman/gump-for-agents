@@ -184,6 +184,78 @@ def gump_hull(R):
                 A=len(lines[0][1]))
 
 
+def slab_cells(a, b, layers):
+    """cells of {111} layers s = x+y+z in `layers`, modulo the in-plane translations (2a,-2a,0), (0,2b,-2b):
+    canonical representative (x mod 2a, y mod 2b, s).  3ab cells per layer (a kagome torus of a x b unit cells)."""
+    out = []
+    for s in layers:
+        for x in range(2 * a):
+            for y in range(2 * b):
+                z = s - x - y
+                if (x % 2) + (y % 2) + (z % 2) == 1:
+                    out.append((x, y, s))
+    return out
+
+
+def _slab_nb(cells, a, b, dynamic):
+    ix = {c: i for i, c in enumerate(cells)}
+    nb = np.full((dynamic, 12), -1, int)
+    for i, (x, y, s) in enumerate(cells[:dynamic]):
+        p = (x, y, s - x - y)
+        ax = [c % 2 for c in p].index(1)
+        for k, o in enumerate(GOFF[ax]):
+            q = (p[0] + o[0], p[1] + o[1], p[2] + o[2])
+            c = (q[0] % (2 * a), q[1] % (2 * b), sum(q))
+            if c in ix:
+                nb[i, k] = ix[c]
+    return nb, ix
+
+
+def gump_slab(a, b, m, fw=3):
+    """Deterministic slab of m {111} layers, periodic in-plane (a x b kagome cells, 3ab cells per layer); both
+    outer layers are faces.  Events: 0, 1 = a face layer empty; then interior firewalls (3 adjacent dead layers);
+    then oblique firewalls (3 adjacent dead layers of one of the other three diagonals, which wrap the torus)."""
+    layers = [-(2 * j + 1) for j in range(m)]           # s = -1, -3, ..., top face first
+    cells = slab_cells(a, b, layers)
+    nb, ix = _slab_nb(cells, a, b, len(cells))
+    lines = [((5 if j in (0, m - 1) else (4 if (j < 4 or j >= m - 4) else 0)), [ix[c] for c in cells if c[2] == s])
+             for j, s in enumerate(layers)]
+    events = [[0], [m - 1]] + [list(range(y, y + fw)) for y in range(1, m - fw)]
+    # oblique layers: s' = s - 2x (period 4a), s - 2y (period 4b), s - 2z = 2x + 2y - s (constant on the torus classes
+    # only modulo gcd; use the class of (x + y) modulo 2*lcm-free: handled by brute force below)
+    for name, f, per in (('x', lambda x, y, s: (s - 2 * x) % (4 * a), 4 * a), ('y', lambda x, y, s: (s - 2 * y) % (4 * b), 4 * b)):
+        vals = sorted(set(f(*c) for c in cells))
+        base = len(lines)
+        for v in vals:
+            lines.append((0, [ix[c] for c in cells if f(*c) == v]))
+        nv = len(vals)
+        events += [[base + (i + j) % nv for j in range(fw)] for i in range(nv)]
+    if a == b:                                           # third oblique family is periodic only on square tori
+        f = lambda x, y, s: (2 * x + 2 * y - s) % (4 * a)
+        vals = sorted(set(f(*c) for c in cells)); base = len(lines)
+        for v in vals:
+            lines.append((0, [ix[c] for c in cells if f(*c) == v]))
+        nv = len(vals)
+        events += [[base + (i + j) % nv for j in range(fw)] for i in range(nv)]
+    profs = [(0, list(range(0, min(4, m)))), (1, list(range(m - 1, max(m - 5, -1), -1)))]
+    return dict(name='gump_slab_%dx%d_m%d' % (a, b, m), N=len(cells), M=0, nb=nb, lines=lines, events=events,
+                profs=profs, nedge=2, A=3 * a * b)
+
+
+def gump_slab_model(a, b, w, fw=3):
+    """Driven-face model with a periodic face: top w layers follow the rule, the next two are noise."""
+    layers = [-(2 * j + 1) for j in range(w + 2)]
+    cells = slab_cells(a, b, layers)
+    N = 3 * a * b * w
+    nb, ix = _slab_nb(cells, a, b, N)
+    cls = [0 if c[2] == layers[w] else 1 for c in cells[N:]]
+    lines = [((5 if j == 0 else 4), [ix[c] for c in cells if c[2] == layers[j]]) for j in range(w)]
+    events = [[0]] + [list(range(y, y + fw)) for y in range(1, w - fw + 1)]
+    profs = [(0, list(range(0, min(4, w))))]
+    return dict(name='gump_slabmodel_%dx%d_w%d' % (a, b, w), N=N, M=len(cells) - N, nb=nb, cls=cls, lines=lines,
+                events=events, profs=profs, nedge=1, A=3 * a * b)
+
+
 # ---------------------------------------------------------------------------------------------------- runs
 def read_out(fn):
     d = {}

@@ -58,3 +58,24 @@ layers on a torus — the like-for-like partner of the toy's periodic strip) has
 more than 5%, as the toy's box edges (0.343) differ from its strip edges (0.416); (c) a third family member,
 B45/S345 on the 2D range-3 cross (12 neighbours, 6 in-row, 3 below: gump's counts with a 1D edge), if it
 sustains chaos at all, has a slope that is neither 0.208 nor 0.416 within 10%.
+
+## 2026-11-13T18:20Z — w* fixed (F5), before any gump-model run
+
+Toy-model slopes, fit of ln τ over L = 12–28 (`python3 report.py hier`; w = 6, 8 and my own truth run only to L = 24
+at this moment): w = 1: 0.5308 ± 0.0011, w = 2: 0.4904 ± 0.0010, **w = 3: 0.4553 ± 0.0009**, w = 4: 0.4434 ± 0.0010,
+w = 6: 0.4377 ± 0.0015, w = 8: 0.4342 ± 0.0015; truth (strips 16 × L, L = 12–24, this engine): 0.4288 ± 0.0014;
+toy2d's published fit 0.416. The smallest w within 10% of 0.416 (≤ 0.4576) is **w* = 3** (w = 2 misses both 0.416
+and 0.429 by more than 10%). So the gump prediction of F5 is the output of `xp.gump_model(R, 3)` with noise density
+0.4155 at R = 7, 9, 11; I will also run w = 1, 2, 4, 5 to see the convergence, but w = 3 is the forecast.
+
+Sub-forecast, from the toy's pattern (model at w = 3 is +0.01, +0.05, +0.15, +0.27 nats above the truth at
+L = 12, 16, 20, 24, i.e. slightly too tough, increasingly with size): the gump model at w = 3 will come out *above*
+the measured ln τ, by 0.1–0.6 nats at A = 63, with slope 0.21–0.23 against the measured 0.207.
+
+Interim scores (details in exponent.md once written):
+- F4: **hit** so far — w = 1 has a clean law with slope 0.531 (28% above 0.416, "higher" as leaned); but
+  convergence within 10% is reached at w = 3, not "only for w ≥ 4" (that clause: **miss**).
+- F2: **miss** — in strips 16 × L the mean edge density one generation before death is 0.29, 0.19, 0.13, 0.10 of
+  the row (L = 12, 16, 20, 24) and two generations before it is already 0.61, 0.55, 0.46, 0.39 against a living mean of
+  0.58: the edge dies in a two-generation flash at every size (`python3 report.py endgame`). Only a mild sag
+  (≤ 12% over the previous ten generations) grows with L.
