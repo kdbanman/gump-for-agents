@@ -41,9 +41,10 @@ Diffusions and Dynamical Systems* (Springer 2013). Not open.
   the non-empty states is irreducible and aperiodic. That proviso is not automatic: the board records states
   from which the true rule never empties an edge (debris touching every edge); a dice model can inherit closed
   classes of survivors, and then there is no absorption with probability one, or several QSDs.
-- To the **deterministic rule in a finite vessel**: no. A deterministic map is a 0/1 matrix; restricted to
-  the surviving states its non-zero eigenvalues are roots of unity, so there is no QSD with 0 < λ < 1 (the
-  same fact from the open-systems side is in `escape-rates.md` B1).
+- To the **deterministic rule in a finite vessel**: no. [mine] A deterministic map is a 0/1 matrix with one
+  entry per row; restricted to the non-absorbed states its non-zero eigenvalues are roots of unity, so there
+  is no QSD with 0 < λ < 1 (the same fact from the open-systems side, with a source for the criterion, is in
+  `escape-rates.md` B1).
 - Remark 3 is the precise form of the question "which τ?": a hazard measured among replicas older than T₀ is
   the QSD rate only if T₀ exceeds the relaxation time 1/(χ − θ), and is meaningful only if that time is much
   shorter than 1/θ. The contact-process theorems (`contact-finite.md` §3, Proposition 1.2) are proofs of

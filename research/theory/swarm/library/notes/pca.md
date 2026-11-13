@@ -48,13 +48,16 @@ update-function formalism it surveys is in Bušić–Mairesse–Marcovici (arXiv
 
 ## Does it apply here?
 
-- A face or edge driven by independent layers beneath is a PCA on the face (the layers are the noise), but
-  the noise is **not zero-range and not positive**: the empty face is absorbing, so the PCA is trivially
-  "ergodic" towards the empty state on an infinite face only if it dies, and the interesting object is the
-  survival. Theorem 3.5 gives uniqueness (hence, with an absorbing state, extinction), not a lifetime.
-  Read the other way, it is a *sufficient condition for a dice model to be boring*: if the dependence of a
-  cell's update on its face neighbours is weak enough (p_? < p_c(N)), information does not percolate in
-  space-time and the infinite face dies.
+- Is a face or edge driven by fresh independent layers beneath a PCA at all? A PCA updates sites
+  independently given the present configuration. For the 2D rule's edge this holds (different edge cells have
+  different cells beneath them: board, lemma exchange). For a gump face it does not: each cell one layer in
+  lies beneath two face cells (same source), so neighbouring updates share dice. The theorems here are stated
+  for PCA; the gump face needs the shared cells to be made part of the state.
+- Where the dice model is a PCA, it has an absorbing state (the empty edge), so its transition probabilities
+  are not positive and "ergodic" can only mean "the infinite system dies". Theorem 3.5 then reads as a
+  sufficient condition for a dice model to be uninteresting: if p_?(Φ) < p_c(N), information does not percolate
+  in space-time, the invariant measure is unique, hence it is the empty state. It says nothing about the
+  lifetime of a finite edge when p_? is above the threshold.
 - p_?(Φ) is computable by hand for any explicit dice model (it needs only the local transition table), so the
   criterion is a cheap check of which side of the percolation threshold a proposed model is on.
 - The Lebowitz–Maes–Speer correspondence (stationary space-time law of a d-dimensional PCA = Gibbs state in

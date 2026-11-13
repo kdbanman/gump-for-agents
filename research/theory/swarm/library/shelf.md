@@ -32,20 +32,16 @@ How to read the notes: each statement is tagged [paper], [secondary: X] or [abst
 | T. Mountford, D. Valesin, "Supercriticality of annealed approximations of Boolean networks", arXiv:1007.0862 | https://arxiv.org/abs/1007.0862 | abstract, §1 | `nonmonotone.md` §4 | the same with the sharp condition qr > 1 |
 | R. Durrett, "Interacting particle systems: ideas, techniques, applications" (book draft, 2 Sept 2026) | https://sites.math.duke.edu/~rtd/PASTA/PASTAcon.html | contents; text searched for two topics | `nonmonotone.md`, last section | current textbook account of block constructions; nothing found on finite non-attractive lifetimes |
 
-## 5. Algebraic and permutive automata as random sources
+## 3. Supertransients and stable chaos (closest prior art to the phenomenon; all numerical)
 
 | source | where read | read | notes | why it matters |
 |---|---|---|---|---|
-| M. A. Shereshevsky, "Ergodic properties of certain surjective cellular automata", Monatsh. Math. 114 (1992) 305–316 | https://eudml.org/doc/178592 (scan at GDZ Göttingen) | abstract, §1–2 statements | `algebraic-ca.md` §1a | bipermutative ⇒ conjugate to one-sided full shift (credited to Shereshevsky–Afraimovich); Bernoulli, K, k-mixing; a non-ergodic permutative example |
-| M. Sablik, "Measure rigidity for algebraic bipermutative cellular automata", Ergodic Theory Dynam. Systems 27 (2007) | https://www.math.univ-toulouse.fr/~msablik/article/2007-etds.pdf (author's copy) | §1, part of §2 | `algebraic-ca.md` §1b, §6 | writes the conjugacy out: columns of width t = r − l |
-| M. Pivato, "Invariant measures for bipermutative cellular automata", arXiv:math/0306211 | https://arxiv.org/abs/math/0306211 | §1–2, conclusion | `algebraic-ca.md` §1b, §6 | one-sided column conjugacy (Lemma 8); rigidity of the uniform measure |
-| D. A. Lind, "Applications of ergodic theory and sofic systems to cellular automata", Physica D 10 (1984) 36–44 | https://sites.math.washington.edu/~lind/Papers/ApplicationsToCA.pdf (author's copy, scan) | §1–4 | `algebraic-ca.md` §2 | mod-2 rule: exact pattern frequencies a.e.; Cesàro convergence of Bernoulli measures to Haar, no plain convergence |
-| P. A. Ferrari, A. Maass, S. Martínez, P. Ney, "Cesàro mean distribution of group automata starting from measures with summable decay", Ergodic Theory Dynam. Systems (2000); arXiv:math/9912135 | https://arxiv.org/abs/math/9912135 | abstract, §1 | `algebraic-ca.md` §3 | randomisation from non-product initial laws under a ratio-type decay condition |
-| M. Pivato, R. Yassawi, "Limit measures for affine cellular automata", Ergodic Theory Dynam. Systems 22 (2002) 1269–1287; arXiv:math/0108082 | https://arxiv.org/abs/math/0108082 | §1, definitions, Thms 12, 15 | `algebraic-ca.md` §4 | harmonic mixing + diffusion ⇒ convergence to Haar, in every dimension D ≥ 1 |
-| I. Marcovici, M. Sablik, S. Taati, "Ergodicity of some classes of cellular automata subject to noise", Electron. J. Probab. 24 (2019) paper 41; arXiv:1712.05500 | https://arxiv.org/abs/1712.05500 | §1–2, statements of Thms 3.16, 5.1 | `algebraic-ca.md` §5, `pca.md` | permutive rule + doubly stochastic noise is exponentially ergodic in every window; secondary source for Bramson–Neuhauser |
-| M. A. Shereshevsky, V. S. Afraimovich, "Bipermutative cellular automata are topologically conjugate to the one-sided Bernoulli shift", Random Comput. Dynam. 1 (1992) | — | **not obtained** | `algebraic-ca.md` §1a | the original of the conjugacy theorem |
-| R. Kleveland, "Mixing properties of one-dimensional cellular automata", Proc. Amer. Math. Soc. 125 (1997) 1755–1766 | ams.org | **not obtained** (AMS site refuses automated clients) | `algebraic-ca.md`, corrections | listed by the lead; content unverified |
-| M. Pivato, "Ergodic theory of cellular automata", in Encyclopedia of Complexity and Systems Science (Springer 2009) | DOI 10.1007/978-0-387-30440-3_178 | **not obtained** (not open) | `algebraic-ca.md`, corrections | the survey; primary papers used instead |
+| J. P. Crutchfield, K. Kaneko, "Are attractors relevant to turbulence?", Phys. Rev. Lett. 60 (1988) 2715–2718 | https://csc.ucdavis.edu/~chaos/chaos/pubs/aart-title.html (author's page) | abstract (article behind APS bot wall) | `supertransients.md` §1 | origin: turbulent transients lasting "faster than exponentially" in the system volume |
+| A. Politi, A. Torcini, "Stable chaos", arXiv:0902.2545 | https://arxiv.org/abs/0902.2545 | §1, §3 (start), §4 (start) | `supertransients.md` §2 | CA-like coupled maps: transient exponential in size; explicit analogy with chaotic cellular automata |
+| S. M. Houghton, E. Knobloch, S. M. Tobias, M. R. E. Proctor, "Transient spatiotemporal chaos in the complex Ginzburg–Landau equation on long domains", Phys. Lett. A 374 (2010) 2030–2034 | https://eprints.whiterose.ac.uk/10731/ (university repository) | abstract, intro, lifetime results, conclusion | `supertransients.md` §3 | τ(L) = exp(AL + B), Poisson lifetimes, collapse only with non-periodic boundaries; reports Wackerbauer–Showalter and Tél–Lai |
+| T. Tél, Y.-C. Lai, "Chaotic transients in spatially extended systems", Phys. Rep. 460 (2008) 245–275 | sciencedirect.com | **not obtained** | `supertransients.md` §4 | the review; presumably where the heuristic is written out |
+| R. Wackerbauer, K. Showalter, "Collapse of spatiotemporal chaos", Phys. Rev. Lett. 91 (2003) 174103 | journals.aps.org | **not obtained**; via Houghton et al. | `supertransients.md` §3–4 | exponential lifetime in reaction–diffusion systems |
+| K. Kaneko, "Supertransients, spatiotemporal intermittency and stability of fully developed spatiotemporal chaos", Phys. Lett. A 149 (1990) 105 | — | **not obtained**; citation unverified | `supertransients.md` §4 | origin of the word |
 
 ## 4. Escape rates, holes, hitting times
 
@@ -60,31 +56,20 @@ How to read the notes: each statement is tagged [paper], [secondary: X] or [abst
 | L. A. Bunimovich, A. Yurchenko, "Where to place a hole to achieve a maximal escape rate", arXiv:0811.4438 | https://arxiv.org/abs/0811.4438 | abstract, statements | `escape-rates.md` B3 | full shift, word holes: equal measure, different rates, ordered by recurrence time, at all finite times |
 | A. Ferguson, M. Pollicott, "Escape rates for Gibbs measures", arXiv:1009.0086 | https://arxiv.org/abs/1009.0086 | §1, Thms 5.1, 5.3, Cor. 5.4 | `escape-rates.md` B4 | the same for subshifts of finite type with Gibbs measures; entropy drop |
 
-## Requests from the source line (2026-11-13)
+## 5. Algebraic and permutive automata as random sources
 
 | source | where read | read | notes | why it matters |
 |---|---|---|---|---|
-| O. Tamuz, R. J. Tessler, "Majority dynamics and the retention of information", Israel J. Math. 206 (2015) 483–507; arXiv:1307.4035 | https://arxiv.org/abs/1307.4035 | §1, §3.1 | `source-requests.md` §2 | majority dynamics on infinite graphs of slow growth: period ≤ 2, explicit bound on the number of changes per vertex |
-| G. Moran, "On the period-two-property of the majority operator in infinite graphs", Trans. Amer. Math. Soc. 347 (1995) 1649–1667 | ams.org | **not obtained** (bot wall); via Tamuz–Tessler | `source-requests.md` §2 | the original infinite-graph theorem |
-| Y. Ginosar, R. Holzman, "The majority action on infinite graphs: strings and puppets", Discrete Math. 215 (2000) 59–72 | sciencedirect.com | **not obtained** (bot wall); via Tamuz–Tessler | `source-requests.md` §2 | the strengthened theorem |
-| R. Impagliazzo, N. Nisan, A. Wigderson, "Pseudorandomness for network algorithms", STOC 1994 | https://www.cs.huji.ac.il/~noam/prcc.ps (author's copy; text extracted crudely from PostScript) | §1, §4.1 | `source-requests.md` §3 | generator with seed O((S + log(n/ε)) log n) fooling space-S machines that read their random tape boundedly often |
-| N. Nisan, "RL ⊆ SC", Comput. Complexity 4 (1994) 1–11 | https://www.cs.huji.ac.il/~noam/sc.ps (author's copy; same) | §2, §4.1 | `source-requests.md` §3 | restates the 1992 generator and its hashing lemma |
-| N. Nisan, "Pseudorandom generators for space-bounded computation", Combinatorica 12 (1992) 449–461 | — | **not obtained**; via the two above and Vadhan | `source-requests.md` §3 | the original |
-| S. Vadhan, *Pseudorandomness*, Found. Trends Theor. Comput. Sci. 7 (2012) | https://people.seas.harvard.edu/~salil/pseudorandomness/ (author's copy) | §6.1, §8.2.1 | `source-requests.md` §3–4 | statements of Nisan's theorem and of Santha–Vazirani sources |
-| O. Häggström, J. Jonasson, "Uniqueness and non-uniqueness in percolation theory", Probab. Surv. 3 (2006) 289–344; arXiv:math/0612812 | https://arxiv.org/abs/math/0612812 | Definition 12.1 and footnote | `source-requests.md` §4 | definition of finite energy, insertion and deletion tolerance |
-| C. Temmel, "Shearer's measure and stochastic domination of product measures", J. Theoret. Probab. (2012); arXiv:1105.1683 | https://arxiv.org/abs/1105.1683 | §1–2, Theorem 5 | `source-requests.md` §4 | states the Liggett–Schonmann–Stacey hypothesis and theorem |
-| A. Bušić, J. Mairesse, I. Marcovici, "Probabilistic cellular automata, invariant measures, and perfect sampling", arXiv:1010.3133 | https://arxiv.org/abs/1010.3133 | Definition 2.2, algorithm data | `source-requests.md` §1 | a PCA as a deterministic local function of an i.i.d. space-time array |
-
-## 3. Supertransients and stable chaos (closest prior art to the phenomenon; all numerical)
-
-| source | where read | read | notes | why it matters |
-|---|---|---|---|---|
-| J. P. Crutchfield, K. Kaneko, "Are attractors relevant to turbulence?", Phys. Rev. Lett. 60 (1988) 2715–2718 | https://csc.ucdavis.edu/~chaos/chaos/pubs/aart-title.html (author's page) | abstract (article behind APS bot wall) | `supertransients.md` §1 | origin: turbulent transients lasting "faster than exponentially" in the system volume |
-| A. Politi, A. Torcini, "Stable chaos", arXiv:0902.2545 | https://arxiv.org/abs/0902.2545 | §1, §3 (start), §4 (start) | `supertransients.md` §2 | CA-like coupled maps: transient exponential in size; explicit analogy with chaotic cellular automata |
-| S. M. Houghton, E. Knobloch, S. M. Tobias, M. R. E. Proctor, "Transient spatiotemporal chaos in the complex Ginzburg–Landau equation on long domains", Phys. Lett. A 374 (2010) 2030–2034 | https://eprints.whiterose.ac.uk/10731/ (university repository) | abstract, intro, lifetime results, conclusion | `supertransients.md` §3 | τ(L) = exp(AL + B), Poisson lifetimes, collapse only with non-periodic boundaries; reports Wackerbauer–Showalter and Tél–Lai |
-| T. Tél, Y.-C. Lai, "Chaotic transients in spatially extended systems", Phys. Rep. 460 (2008) 245–275 | sciencedirect.com | **not obtained** | `supertransients.md` §4 | the review; presumably where the heuristic is written out |
-| R. Wackerbauer, K. Showalter, "Collapse of spatiotemporal chaos", Phys. Rev. Lett. 91 (2003) 174103 | journals.aps.org | **not obtained**; via Houghton et al. | `supertransients.md` §3–4 | exponential lifetime in reaction–diffusion systems |
-| K. Kaneko, "Supertransients, spatiotemporal intermittency and stability of fully developed spatiotemporal chaos", Phys. Lett. A 149 (1990) 105 | — | **not obtained**; citation unverified | `supertransients.md` §4 | origin of the word |
+| M. A. Shereshevsky, "Ergodic properties of certain surjective cellular automata", Monatsh. Math. 114 (1992) 305–316 | https://eudml.org/doc/178592 (scan at GDZ Göttingen) | abstract, §1–2 statements | `algebraic-ca.md` §1a | bipermutative ⇒ conjugate to one-sided full shift (credited to Shereshevsky–Afraimovich); Bernoulli, K, k-mixing; a non-ergodic permutative example |
+| M. Sablik, "Measure rigidity for algebraic bipermutative cellular automata", Ergodic Theory Dynam. Systems 27 (2007) | https://www.math.univ-toulouse.fr/~msablik/article/2007-etds.pdf (author's copy) | §1, part of §2 | `algebraic-ca.md` §1b, §6 | writes the conjugacy out: columns of width t = r − l |
+| M. Pivato, "Invariant measures for bipermutative cellular automata", arXiv:math/0306211 | https://arxiv.org/abs/math/0306211 | §1–2, conclusion | `algebraic-ca.md` §1b, §6 | one-sided column conjugacy (Lemma 8); rigidity of the uniform measure |
+| D. A. Lind, "Applications of ergodic theory and sofic systems to cellular automata", Physica D 10 (1984) 36–44 | https://sites.math.washington.edu/~lind/Papers/ApplicationsToCA.pdf (author's copy, scan) | §1–4 | `algebraic-ca.md` §2 | mod-2 rule: exact pattern frequencies a.e.; Cesàro convergence of Bernoulli measures to Haar, no plain convergence |
+| P. A. Ferrari, A. Maass, S. Martínez, P. Ney, "Cesàro mean distribution of group automata starting from measures with summable decay", Ergodic Theory Dynam. Systems (2000); arXiv:math/9912135 | https://arxiv.org/abs/math/9912135 | abstract, §1 | `algebraic-ca.md` §3 | randomisation from non-product initial laws under a ratio-type decay condition |
+| M. Pivato, R. Yassawi, "Limit measures for affine cellular automata", Ergodic Theory Dynam. Systems 22 (2002) 1269–1287; arXiv:math/0108082 | https://arxiv.org/abs/math/0108082 | §1, definitions, Thms 12, 15 | `algebraic-ca.md` §4 | harmonic mixing + diffusion ⇒ convergence to Haar, in every dimension D ≥ 1 |
+| I. Marcovici, M. Sablik, S. Taati, "Ergodicity of some classes of cellular automata subject to noise", Electron. J. Probab. 24 (2019) paper 41; arXiv:1712.05500 | https://arxiv.org/abs/1712.05500 | §1–2, statements of Thms 3.16, 5.1 | `algebraic-ca.md` §5, `pca.md` | permutive rule + doubly stochastic noise is exponentially ergodic in every window; secondary source for Bramson–Neuhauser |
+| M. A. Shereshevsky, V. S. Afraimovich, "Bipermutative cellular automata are topologically conjugate to the one-sided Bernoulli shift", Random Comput. Dynam. 1 (1992) | — | **not obtained** | `algebraic-ca.md` §1a | the original of the conjugacy theorem |
+| R. Kleveland, "Mixing properties of one-dimensional cellular automata", Proc. Amer. Math. Soc. 125 (1997) 1755–1766 | ams.org | **not obtained** (AMS site refuses automated clients) | `algebraic-ca.md`, corrections | listed by the lead; content unverified |
+| M. Pivato, "Ergodic theory of cellular automata", in Encyclopedia of Complexity and Systems Science (Springer 2009) | DOI 10.1007/978-0-387-30440-3_178 | **not obtained** (not open) | `algebraic-ca.md`, corrections | the survey; primary papers used instead |
 
 ## 6. Probabilistic cellular automata
 
@@ -111,6 +96,21 @@ How to read the notes: each statement is tagged [paper], [secondary: X] or [abst
 | S. Méléard, D. Villemonais, "Quasi-stationary distributions and population processes", Probab. Surv. 9 (2012) 340–410; arXiv:1112.4732 | https://arxiv.org/abs/1112.4732 | §2.1, §3 | `qsd.md` | QSD ⇔ QLD; exact exponential law from a QSD; finite-state existence and uniqueness; relaxation versus extinction time |
 | J. N. Darroch, E. Seneta, "On quasi-stationary distributions in absorbing discrete-time finite Markov chains", J. Appl. Probab. 2 (1965) 88–100 | — | **not obtained**; via Méléard–Villemonais | `qsd.md` | the original finite-chain theorem |
 | P. Collet, S. Martínez, J. San Martín, *Quasi-Stationary Distributions* (Springer 2013) | — | **not obtained** (book) | `qsd.md` | — |
+
+## Requests from the source line (2026-11-13)
+
+| source | where read | read | notes | why it matters |
+|---|---|---|---|---|
+| O. Tamuz, R. J. Tessler, "Majority dynamics and the retention of information", Israel J. Math. 206 (2015) 483–507; arXiv:1307.4035 | https://arxiv.org/abs/1307.4035 | §1, §3.1 | `source-requests.md` §2 | majority dynamics on infinite graphs of slow growth: period ≤ 2, explicit bound on the number of changes per vertex |
+| G. Moran, "On the period-two-property of the majority operator in infinite graphs", Trans. Amer. Math. Soc. 347 (1995) 1649–1667 | ams.org | **not obtained** (bot wall); via Tamuz–Tessler | `source-requests.md` §2 | the original infinite-graph theorem |
+| Y. Ginosar, R. Holzman, "The majority action on infinite graphs: strings and puppets", Discrete Math. 215 (2000) 59–72 | sciencedirect.com | **not obtained** (bot wall); via Tamuz–Tessler | `source-requests.md` §2 | the strengthened theorem |
+| R. Impagliazzo, N. Nisan, A. Wigderson, "Pseudorandomness for network algorithms", STOC 1994 | https://www.cs.huji.ac.il/~noam/prcc.ps (author's copy; text extracted crudely from PostScript) | §1, §4.1 | `source-requests.md` §3 | generator with seed O((S + log(n/ε)) log n) fooling space-S machines that read their random tape boundedly often |
+| N. Nisan, "RL ⊆ SC", Comput. Complexity 4 (1994) 1–11 | https://www.cs.huji.ac.il/~noam/sc.ps (author's copy; same) | §2, §4.1 | `source-requests.md` §3 | restates the 1992 generator and its hashing lemma |
+| N. Nisan, "Pseudorandom generators for space-bounded computation", Combinatorica 12 (1992) 449–461 | — | **not obtained**; via the two above and Vadhan | `source-requests.md` §3 | the original |
+| S. Vadhan, *Pseudorandomness*, Found. Trends Theor. Comput. Sci. 7 (2012) | https://people.seas.harvard.edu/~salil/pseudorandomness/ (author's copy) | §6.1, §8.2.1 | `source-requests.md` §3–4 | statements of Nisan's theorem and of Santha–Vazirani sources |
+| O. Häggström, J. Jonasson, "Uniqueness and non-uniqueness in percolation theory", Probab. Surv. 3 (2006) 289–344; arXiv:math/0612812 | https://arxiv.org/abs/math/0612812 | Definition 12.1 and footnote | `source-requests.md` §4 | definition of finite energy, insertion and deletion tolerance |
+| C. Temmel, "Shearer's measure and stochastic domination of product measures", J. Theoret. Probab. (2012); arXiv:1105.1683 | https://arxiv.org/abs/1105.1683 | §1–2, Theorem 5 | `source-requests.md` §4 | states the Liggett–Schonmann–Stacey hypothesis and theorem |
+| A. Bušić, J. Mairesse, I. Marcovici, "Probabilistic cellular automata, invariant measures, and perfect sampling", arXiv:1010.3133 | https://arxiv.org/abs/1010.3133 | Definition 2.2, algorithm data | `source-requests.md` §1 | a PCA as a deterministic local function of an i.i.d. space-time array |
 
 ## Could not be reached at all (for whoever has a browser)
 
