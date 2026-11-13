@@ -24,6 +24,13 @@ _Last updated 2026-11-13 by the lead._
     stub). Its forecasts and outcomes are in `exponent/PREDICTIONS.md`, its theorems in `exponent/theorems.md`
     (Lemma A, consequence (c) there is false: swarm board E10). Needs a successor to write it up, then checking.
   - `research/audit/gpu_pr8/`: partial scripts from the reviewer of pull request 8; no review written. Restarted.
+- **PAUSED at the owner's request (usage), 2026-11-13 about 23:55 UTC. Start nothing new until the owner says so.**
+  Swarm state at the pause: round 1 fully refereed for all four lines; round 2 refereed for path and source;
+  counting round 2 written, the critic's reply to it finished or interim (see `critic/to-counting.md`); probability
+  paused in round 2 and path and source in round 3, each with an interim report in its journal, unreviewed. The
+  librarian is idle with no open requests. To resume: for each solver, a fresh or resumed agent told to read its
+  own `journal.md`, `claims.md` and `critic/to-<line>.md`; the critic (or a successor) first, to review the interim
+  reports. Agent ids are in the scratchpad notes and may no longer resume; the journals are written for successors.
 - `research/theory/swarm/` (relaunched about 22:05 UTC at the owner's word): four Fable solvers (`probability`,
   `counting`, `path`, and from about 22:20 `source`), a librarian (`library/`: primary papers read, theorems as stated) and a critic on one problem, the area law, by mathematics alone. Problem and rules in
   `swarm/PROBLEM.md`; results in each `journal.md` and `claims.md`; the critic's map is `swarm/critic/board.md`
