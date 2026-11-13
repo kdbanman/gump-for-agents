@@ -64,6 +64,11 @@ phases 0–32 (phases 33–65 are mirror images): 6,600 trials, run to their fin
   with 15–66 cells; 50,000 uniform states each (20.1 M runs). **9,700 distinct objects of period ≥ 3**, of which
   9,562 are not in the atlas catalogue (which has 329). Periods found: 3–22, 24, 25, 26, 28, 30, 32, 34, 35, 44,
   48, 66. P66.27a was found in 112 of the 113 boxes that contain a copy of its box (151 placements, 1,032 hits).
+- **[measured] Compound objects (lead's check, `python3 research/experiments/census_twist.py`).** 249 of the
+  9,700 census objects have no cell of the full period: two or three sub-clocks of coprime periods on a shared
+  frame, with nothing passing between them (each cell keeps its sub-clock's period). Periods 30 and 44 occur only
+  this way (C30.32a = 5 with 6; C44.26a = 4 with 11), as do 22 of the 94 saved objects (9 of the 13 C20s, 5 C18s,
+  3 C22s, 2 C24s, C21.36a). The longest single untwisted loop is C35.29a.
 - **[measured]** 4-layer census (`python3 box_census.py enum 4 24 64; … run 4 30000; … report 4`, ≈ 12 CPU-min): 139 boxes
   whose thinnest diagonal spans 4 layers, 24–64 cells, 4.17 M states: 2,752 objects of period ≥ 3, longest new
   period 28; it recovers P48.34a (whose 56-cell hull is 4 layers thick) and P66.27a, and adds only two new objects
@@ -96,8 +101,8 @@ with symmetry g is where g-twisted cycles live. Testing it by choosing boxes for
 - **[proved]** In the 18-cell S6 box (box 6) SAT is exhaustive (`python3 vessel_sat.py 6 L --box --twist T --all --true`):
   the only twisted cycles for the two order-6 twists and the inversion, L ∈ {1,…,10, 12, 14, 16, 20}, are L = 1 (P6.13b/c-type screws, each generation
   is the last one turned by S6; and 13 flip p2's) and L = 3 with the inversion (period 6).
-- Not achieved: assembling a chosen period from understood *parts*. Nothing in these objects is modular; the
-  "part" is the whole box. SAT that would force a chosen (g, L) works only for small boxes: in 27 cells, L = 4
+- Not achieved: assembling a chosen period from understood *parts*. Nothing in the twisted objects is modular; the
+  "part" is the whole box. (The compound objects above are modular, but only as non-communicating sub-clocks.) SAT that would force a chosen (g, L) works only for small boxes: in 27 cells, L = 4
   takes 117 s and L = 5 does not finish in 240 s; P66.27a itself (45 cells, glide, L = 33) is not recovered in
   600 s. The design rule is therefore "choose the box's symmetry, then sample", which picks the multiplier m but
   not L.
@@ -109,7 +114,7 @@ with symmetry g is where g-twisted cycles live. Testing it by choosing boxes for
 `objects/<id>.cells`; metadata (period, pops, union, hull, layers, sym, spacetime_sym, twist, quotient length,
 how often found — `boxes` there counts placements, i.e. distinct cycles of a box containing the object): `objects/census_long.jsonl` (box census, period ≥ 17), `objects/census4_long.jsonl` (4-layer census) and `objects/portrait_objects.jsonl`
 (symmetric boxes). Ids are `C<period>.<minpop><letter>` to avoid clashing with the catalogue; the lead may rename.
-Highlights: C48.24a (6-fold screw), C36.33a (4-fold), C12.43a (6-fold, fills 60), C40.24a, C44.26a, C35.29a,
+Highlights: C48.24a (6-fold screw), C36.33a (4-fold), C12.43a (6-fold, fills 60), C40.24a, C44.26a (compound, 4 with 11), C35.29a,
 C34.19a/b, C34.21a (all mirror-glides of quotient length 17), C30.32a, the C32 family (20 objects, all in the
 57-cell [3,3,9,9] box), C26.20a, C25.22a, prime periods C17.* (7+3), C19.39a.
 The ≈9,500 shorter-period census objects are in `research/scratch/clockwork/census_3_objects.json` (not individually
