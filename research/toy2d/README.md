@@ -16,7 +16,8 @@ death of a whole edge row after a memoryless wait with **ln τ_edge = 0.73 + 0.4
 generations); a population distribution of the living edge whose log-tail is straight down to n = 1 with the
 death rate as its next point; a mirror-symmetric edge that dies exponentially sooner; the threshold lemma; and no
 finite sealed set. It is also *minimal* in its family exactly as gump is in its: of the capped thresholds
-B3…/S2… on cross2 only the cap at 5 lives (gump: only the cap at 6).
+B3…/S2… on cross2 only the cap at 5 lives (B3/S2, B3/S23, B345/S2345 … all settle), as gump is a
+minimal member of its own rule neighbourhood.
 
 On the **Moore** lattice the phenomenon exists but is not "gump": confinement forces birth ≥ 4 of 8, a *majority*
 threshold, and no capped-threshold Moore rule sustains confined chaos (all five die or settle; B456/S3456 is chaotic
@@ -169,7 +170,7 @@ its two ends, which advance into it.
 Without transverse events, τ_edge at W = 16 *saturated* above L ≈ 28 (ln τ 10.9, 11.2, 11.4, 11.5, 11.7 at
 L = 28…48) and a kymograph showed why (`kymo.py B34/S234 cross2 16 64`): the strip had first been cut by three
 dead columns (3W = 48 cells; vertical lines confine too), turned into a short box, and lost its short sides. With
-those cuts counted as events, they outnumber edge deaths from L ≈ 24 at W = 16 (22,252 vs 676 at L = 32). This is
+those cuts counted as events, they outnumber edge deaths from L ≈ 24–28 at W = 16 (22,252 vs 676 at L = 32). This is
 gump's face-versus-firewall competition (firewalls win where the cross-section is smaller than the face): in an
 L×L box the cut costs 3L cells against L for an edge, so edges win.
 
@@ -219,7 +220,7 @@ slower (32-cell stretch closes in ≈ 100 generations).
 | (vii) no finite sealed set (T6) | none in ≥ 3 layers or 3D | none in Z²; in a strip every sealed set spans it [proved] |
 | competing channel | 3-layer interior firewalls, win only in thin slabs | 3-column transverse cuts, win in strips with L ≳ 1.5 W |
 | holes | a hole in a face heals from its rim (a curve) | a gap in an edge closes from its two ends |
-| minimality | removing any count from B45/S345 kills it | the other caps (4, 6, 7, 8) on cross2 all settle |
+| minimality | removing any count from B45/S345 collapses lifetimes | the other caps on cross2 (B3/S2, B3/S23, B345/S2345, …) all settle |
 
 ## 8. Surprises
 1. The Moore lattice — the obvious 2D setting — is the wrong one for the capped-threshold mechanism, for a

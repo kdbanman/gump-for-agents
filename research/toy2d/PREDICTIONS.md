@@ -18,3 +18,12 @@ F4. **Square box, full D4 symmetry.** The stabiliser of an edge in D4 is one mir
 F5. **Square box, C4 rotation or the diagonal mirror alone.** No edge is mapped to itself, so the exponent is
     *unchanged*; only the number of independent edges drops (4 → 1 for C4, 4 → 2 for the diagonal mirror), so
     the first-edge wait grows by ≈4× and ≈2× respectively. Symmetry is fatal only when it fixes an edge.
+
+## Outcomes (measured after the above was committed; details in README.md section 5)
+
+- F1 hit at the low edge of the band: slope ratio 0.42 (cross2 B34/S234), 0.46 (Moore B45/S23467).
+- F2 hit: 1,631 +- 25 vs 1,679 +- 26.
+- F3 hit within 25%: ratio 2.22, 2.41, 2.50 at L = 16, 20, 24.
+- F4 hit: box slope 0.171 vs 0.343, ratio 0.50.
+- F5 diagonal mirror: exponent unchanged (hit) but waits x1.0-1.16, not x2 (miss).
+- F5 C4: miss -- slope 0.274 vs 0.343 and waits shorter than asymmetric boxes.
