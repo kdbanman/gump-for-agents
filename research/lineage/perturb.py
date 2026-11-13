@@ -37,11 +37,11 @@ def job(a):
                    capture_output=True, text=True)
     st = cells_of(base + "_st.txt"); c = seeds.centre(int(tag.split(":")[1])); rng = random.Random(src)
     out = []
+    inner = seeds.orbits_of([p for p in st if sum(abs(p[i] - c[i]) for i in range(3)) < r0 - 8], c)
+    picks = rng.sample(range(len(inner)), K)                    # K distinct live orbits
     for k in range(K + 1):
         cs = set(st)
-        if k:
-            inner = [p for p in st if sum(abs(p[i] - c[i]) for i in range(3)) < r0 - 8]
-            cs -= seeds.orbit(rng.choice(inner), c)
+        if k: cs -= inner[picks[k - 1]]
         write(cs, f"{base}_{k}.txt")
         w, died = wait_for(f"{base}_{k}.txt", s0 + r0, cap, f"pt_{src}_{k}")
         os.remove(f"{base}_{k}.txt"); out.append((src, k, w, died, resid, tag, r0))
