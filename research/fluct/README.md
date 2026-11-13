@@ -20,9 +20,13 @@ Tags: **[proved]**, **[measured]** (n, error, command), **[conjecture]**. Comman
 2. **R = 9 first-peel mean: 2300 ± 6** (137,243 peels), not 2.60×10³ ± 0.17×10³ [measured; 1.8σ apart — the lead's
    value is high or uses an earlier start, T0 = 60 vs my 200; the hazard is flat in age from 200 to 7×10⁵ at R = 11].
    R = 11: 1.04×10⁵ ± 0.008×10⁵ (16,240 peels; agrees with 9.4×10⁴ ± 0.9×10⁴). R = 13: 8.86×10⁶ ± 0.48×10⁶ (342 peels).
-3. **The symmetric "vertex factor" is ≈1.55 and roughly constant** (1.53 at A = 360, 1.60 at 513, 1.53 at 630,
-   1.5–2.7 at 693 with poor statistics), not a growing correction; and the side-16 face is an ordinary member of its
-   class (copies of the cube and O_h soups at the same hull give the same residence).
+3. **Side 16's first plateau was under-predicted because of the vertex factor, not the cube-centred law**
+   [measured]. Cube-centred O_h faces follow the lead's revised fit closely up to A = 693 (measured ln τ = 19.64 ± 0.22
+   at A = 693 vs the fit's 19.47). But the vertex/cube factor at equal area, ≈1.5–1.6 at A = 360, 513, 630
+   (1.53, 1.60 ± 0.06, 1.53 ± 0.3), is **3.3 (ln 1.19 ± 0.28) at A = 693**: side-16 copies and vertex soups give
+   τ = 1.1×10⁹, not 4–7×10⁸. Whether the factor really grows or A = 630's clone value is low is not settled (2.6σ).
+   The side-16 face is an ordinary member of its class: copies of the cube (24 deaths) and O_h soups at the same hull
+   (5 deaths) agree.
 4. **Splitting along n does not work in this system** (negative result; the lead's option 3): forward-flux sampling
    is unbiased within ~0.1 nats where checkable (A = 45, 63) but gains almost nothing, because one flipped cell leaves
    clone outcomes 55–95% correlated — a dip to death takes ~10 generations, faster than a perturbation spreads.
@@ -38,7 +42,8 @@ sizes; all the size dependence is in P_qs(n = 1) ≈ exp(−A·I(0)). The rate f
 corrections ≤ 0.25/A. Two caveats: n is the right *coordinate* only in a weak sense — it explains ≈18–20% of a near-empty
 face's fate, the layer below adds 1–5%, nothing simple does better; the fate is decided by the next few generations of
 chaos. And a tail *extrapolated* from x ≥ 0.1 to 0 is unreliable by 0.5–4 nats; the endpoint must be measured.
-Predictions: side 16's first plateau **hit** (predicted median 2.2×10⁹, 90% 1.50–5.2×10⁹; died at 2.362×10⁹).
+Predictions: side 16's first plateau **hit** (predicted median 2.2×10⁹, 90% 1.50–5.2×10⁹; died at 2.362×10⁹);
+second plateau (R = 40) and side 17 predicted in `PREDICTIONS.md` before they resolved.
 
 ## Tools (all validated against the engine)
 
@@ -48,7 +53,7 @@ Predictions: side 16's first plateau **hit** (predicted median 2.2×10⁹, 90% 1
   Vessels are exact diagonal hulls (T2). **O_h orbit reduction**: an O_h-symmetric state is stepped on one node per
   orbit (a node's neighbours are the orbits of its representative's 12 neighbours); the side-16 cube is 946 nodes
   instead of ≈45,000 cells, and 64 diversified copies run at ≈3–7×10⁶ replica-generations/s on one core
-  (≈30–60× the engine on the same state, per core).
+  (≈30–60× the engine's throughput per core for ensembles; no gain for a single state).
 - `validate.py` — **[measured]** bit-exact agreement with `gump run` for 2000–3000 generations, every generation
   (outer-layer count against gump's kymograph) and the final cell set: asymmetric soups R = 11, 19; O_h soups
   R = 27 (cube-centred) and 24 (vertex-centred); the side-16 checkpoint; plus distinct states in distinct lanes
@@ -82,7 +87,7 @@ density 0.35, T0 = 200) and `run_qsd.sh b` (R = 15, 17, 19, `lite`). Tables: `py
 | 84 | 0.505 | 0.423 | .0296 | .0645 | .0860 | .1090 | .1329 | .1571 | .1822 | **.2152** | 342 |
 | 108 | 0.511 | 0.415 | .0283 | .0637 | .0855 | .1091 | .1337 | .1587 | – | (1 peel) | 1 |
 | 135 | 0.515 | 0.409 | .0272 | .0628 | .0849 | .1090 | .1354 | – | – | – | 0 |
-| 165 | see `data/qsd_summary.json` |
+| 165 | 0.517 | 0.405 | .0263 | .0633 | .0849 | .1086 | – | – | – | – | 0 |
 
 Fits I_A(x) = I∞(x) + b(x)/A over all sizes: b = +0.24 (x=0.4), +0.10 (0.3), −0.01 (0.25), −0.14 (0.2), −0.25 (0.15),
 −0.22 (0.1): finite-size corrections are a few % at A = 30 and < 1% at A ≥ 100; no drift of the curve with size.
@@ -146,7 +151,20 @@ model of the face's stationary measure, which we do not have.
 `python3 research/fluct/sym_fit.py` → `data/sym_residence.csv`. Mean residence = exposure/deaths, states after
 T0 = 1000 generations, 64 replicas.
 
-SYM_TABLE
+| A | centre | source | deaths | mean residence τ | ln τ ± | n/A | var/A |
+|---|---|---|---|---|---|---|---|
+| 360 | v | O_h soups R=30 | 66,555 | 2.18×10⁴ | 9.99 ± 0.004 | 0.407 | 4.61 |
+| 408 | c | R=31 | 1,087 | 5.95×10⁴ | 10.99 ± 0.03 | 0.412 | 3.08 |
+| 459 | c | R=33 | 5,141 | 2.61×10⁵ | 12.47 ± 0.01 | 0.421 | 2.93 |
+| 513 | c | R=35 | 933 | 1.40×10⁶ | 14.15 ± 0.03 | 0.429 | 2.86 |
+| 513 | v | R=36 (side-14 plateau) | 2,177 | 2.24×10⁶ | 14.62 ± 0.02 | 0.441 | 2.97 |
+| 570 | c | R=37 | 167 | 7.9×10⁶ | 15.88 ± 0.08 | 0.435 | 2.80 |
+| 630 | c | R=39 | 96 | 5.4×10⁷ | 17.80 ± 0.10 | 0.441 | 2.76 |
+| 630 | v | copies of `cube16_gen2525000000` (R=40) | 31 | 8.2×10⁷ | 18.22 ± 0.18 | 0.451 | 2.87 |
+| 693 | c | R=41 | 20 | 3.4×10⁸ | 19.64 ± 0.22 | 0.446 | 2.73 |
+| 693 | v | copies of `cube16_gen1025000000` | 24 | 1.08×10⁹ | 20.80 ± 0.20 | 0.454 | 2.83 |
+| 693 | v | O_h soups R=42 | 5 | 1.25×10⁹ | 20.94 ± 0.45 | 0.454 | 2.83 |
+| 759 | c | R=43 | 1 | 6×10⁹ (90%: 2×10⁹ … 1.2×10¹¹) | 22.5 ± 1.0 | 0.450 | 2.70 |
 
 **[measured] Agreement with the lead's gump batches**: A = 408: 5.9×10⁴ (lead 5.8×10⁴); 459: 2.6×10⁵ (2.3, 3.4×10⁵);
 513: 1.40×10⁶ (1.66×10⁶ [1.34, 2.20]); 570: 7.9×10⁶ (8.9×10⁶ [7.2, 11.8]); 630: 5.4×10⁷ (5.4×10⁷ [3.5, 11.9]).
@@ -157,11 +175,23 @@ favoured nine-cell configuration, the symmetric twin of the asymmetric n = 3 exc
 predicts ln h within 0.1–0.7 nats (the orbit lattice of n makes it rougher). The symmetric face's plunge takes ≈16
 generations, like the asymmetric one.
 
-**Fits of ln τ(A), cube-centred** (weights = deaths; 5 points 408–630 plus 693 and 759 where measured): FITS_TEXT
+**Fits of ln τ(A), cube-centred** (weights = deaths; 5 points 408–630 plus 693 and 759 where measured): a + bA: b = 0.0304, χ² 6.2/4 → ln τ(828) = 23.72;
+a + bA + c√A: χ² 2.4/3 → 24.27 ± 0.30; a + bA + cA²: χ² 2.8/3 → 24.36 ± 0.37; the lead's a + (0.209/6)A + c√A
+(c = −0.197): χ² 4.1/4 → 23.90 ± 0.10. All agree with the single death at 759 (fits 21.6–22.0 vs 22.5 ± 1.0). The
+lead's form, refitted on these data, matches the cube-centred points as well as anything [measured]; whether the
+slope is really 0.209/6 is not decided by them (free slopes 0.024–0.044 depending on the curvature term).
 
 ## 4. Predictions (timestamped in `PREDICTIONS.md`)
 
-PRED_TEXT
+- **Side 16, first plateau (R = 42, A = 693, vertex):** committed 01:28Z with 8 deaths: τ = 1.04×10⁹, death at median
+  2.2×10⁹, 90% 1.50–5.2×10⁹. **Outcome (from the lead): died at last_alive = 2,362,434,048 — inside, at predictive
+  quantile ≈ 0.57.** Final ensemble estimate: τ = 1.11×10⁹ (90% CI 0.84–1.55×10⁹; 29 deaths, copies + soups).
+- **Side 16, second plateau (R = 40, A = 630, vertex):** committed 04:08Z from fits only (τ ≈ 1.1×10⁸; death median
+  2.60×10⁹, 90% 2.531–2.89×10⁹ given alive at 2.525×10⁹), then a 10-minute clone run from the 2.525×10⁹ checkpoint:
+  τ = 8.2×10⁷ (31 deaths), death median 2.58×10⁹, 90% 2.529–2.78×10⁹. Outcome not known to me at writing.
+- **Side 17, first plateau (R = 45, A = 828, cube-centred):** ln τ = 24.0 ± 0.4, τ ≈ 2.6×10¹⁰ (68%: 1.8–4.0×10¹⁰);
+  first peel at median 2×10¹⁰, 90% 1.4×10⁹–1.0×10¹¹ — days of single-core engine time, so a direct test is possible
+  but long. (The orbit stepper's gain is throughput over 64 replicas; for one state it is no faster than the engine.)
 
 ## What I could not settle
 
