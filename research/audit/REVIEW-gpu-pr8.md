@@ -106,6 +106,78 @@ key the age check by file.
 
 ## Claim 3: symmetric faces at A = 759, 828 against forecasts
 
+**Verdict: the three numbers are confirmed from the committed data and the forecasts were committed first; the
+pipeline agrees with independent CPU data where sizes overlap. One unflagged caveat: in both cube-centred runs the
+hazard falls with age (p = 0.04 and 0.01), so "τ = mean residence" there is a rate over the observed window.**
+
+Ran `rederive.py`, `agetrend.py` (new: Weibull fit with right censoring, likelihood-ratio test of a constant hazard,
+on every run with raw lives; a power-law-in-age fit on the age bins otherwise), and `git log`/`git show --stat` on the
+PR branch.
+
+- **Order of commits:** forecasts `0171bd9` (18:01:46Z, PREDICTIONS.md only); settle detection to period 128
+  `d67ad50` (18:13Z); R = 36/38 vertex data `2cd7142` (18:25Z); R = 43c, 45c, 44v, 40v data and outcomes `be7b01d`
+  (19:01Z). The outcome section only appends (`git diff 0171bd9 be7b01d -- PREDICTIONS.md` has no removed lines).
+  Commit times are the author's own clock, so this shows order, not wall time; the runs need 30–45 min each and
+  could not have finished between 18:13 and 18:01. The A = 108/135 "expectation" is honestly labelled as recorded
+  after the fact.
+- **Re-derived** (T0 = 1000, τ = exposure/deaths): 43c 21.903 ± 0.031 (1,057), 45c 24.175 ± 0.072 (192), 44v
+  22.409 ± 0.040 (637). No settles of any kind in these runs (kind 3 active); no replica censored before the end
+  except by the end of the run; no repeated death ages.
+- **Forecasts:** 43c forecast was 21.8 ± 0.2 (the lead's 21.6–22.0): hit. 44v 22.3 ± 0.4: hit. 45c 24.0 ± 0.4
+  (lead) / 24.2 ± 0.4 (author's lean): hit. The forecasts are wide (±0.2–0.4 nats), so these hits test little.
+- **Cross-check with independent CPU data** (`research/fluct/data/sym_residence.csv`, orbit stepper; and the
+  engine-only soup lineages, `lineage_check.py`): only the vertex-centred sizes overlap, through the same GPU
+  pipeline: 36v GPU 2.247e6 vs CPU 2.235e6 ± 2.1% (2,177 deaths) and engine lineages 2.485e6 ± 5.8% (300) — 1.75σ;
+  38v 1.254e7 vs 1.174e7 ± 6% (279) — 1.1σ; 40v see claim 4. The single CPU death at 43c (ln 22.6 ± 1.0) is
+  uninformative. No CPU data at 44v or 45c.
+- **Age dependence (new):** cube-centred 43c: Weibull shape k = 0.94 (0.915–0.969), LR test p = 0.04; deaths in
+  the last quarter of the age range 188 vs 222 expected. 45c: k = 0.84 (0.78–0.90), p = 0.01. Vertex 44v: k = 0.97,
+  p = 0.5; all asymmetric runs and vertex 36/38: flat. Two cube-centred runs, both falling, is suggestive, not
+  conclusive (post hoc, 12 runs tested). Either the fresh cube-centred soups die faster when young (then the long-run
+  mean residence is *larger* than quoted, e.g. side 17's 3.2 × 10¹⁰ is low), or some replicas get stuck in debris
+  the period-128 test misses (then the quoted τ is slightly *high*). It is in the direction of OPEN-PROBLEMS 6
+  (cube plateaus over-dispersed), which the PR says soup lineages do not show — but it tested only vertex-centred
+  lineages. Worth a dedicated run; not a merge blocker if the README says so.
+
+Not checked: anything at 44v/45c against a second implementation (none exists); the kernel at these sizes on a GPU.
+
+## Claim 4: O_h vertex lineages R = 36, 38, 40 memoryless; tau(40) 21% above the file
+
+**Verdict: memorylessness confirmed from the data; τ(40v) = 8.63 × 10⁷ is right for fresh soups, and the 7.1 × 10⁷
+"on file" is not a soup value — it pools 46 soup deaths with 96 deaths of copies of the side-16 cube's own states.
+The "aftershock" is real but misdescribed: it is near-simultaneous double peels within ~20 generations, not a
+fragile layer over 0.01τ.**
+
+Ran `lineage_r40.py` and `postpeel_check.py` (earlier reviewer's; read, both use their own unpacking), and
+`research/experiments/cube_vs_ensemble.py`.
+
+- 40v from raw lives (own code): τ = 8.63e7 (45,785 deaths); complete lives with a 5τ window: 27,294, CV 0.966
+  (exponential 0.972), P(> 4τ) 0.0169 (0.0183), P(< 0.05τ) 0.0480 (0.0488); hazard × τ by age flat from 0.001τ to
+  10τ within Poisson error (first 0.001τ: 35 deaths vs 50 expected, young soups slightly *safer*). Settled lives
+  (33) carry 0.08% of the exposure; excluding them changes τ by 0.1%. The PR's numbers reproduce. The 10τ-window
+  statistics in the committed JSON for 40v are empty (`complete_lives: 0`); the 5τ numbers in PREDICTIONS.md come
+  from an analysis step not committed in the PR (`lineage_r40.py` here reproduces it).
+- 36v, 38v: the JSON lineage blocks (computed on the GPU host from all lives) give CV 0.998 / 1.002, KS 0.0045 /
+  0.0020 (5% critical 0.0054 / 0.0052), hazard flat to 10τ. Cannot be recomputed here (no raw lives stored).
+- **τ(40v) against the file:** `sym_residence.csv` at A = 630 v has sym40v (fresh soups) 8.18e7 ± 15% (46 deaths)
+  — agrees with the GPU (0.4σ) — and two rows of copies of the side-16 cube (`snap_cube16_gen2525000000`, 31
+  deaths, 8.2e7; `snap_cube16_gen2875000000`, 65 deaths, 5.73e7). `cube_vs_ensemble.py` pools all three:
+  142 deaths, 7.06e7. The GPU soup value is 2.4σ above the pool and 3.3σ above the 2875M copies. So the "21%" is
+  not a discrepancy between two soup measurements; it is copies vs soups — itself evidence that the cube's states
+  are not typical soup states (the PR's own conjecture).
+- **Consequence for `cube_vs_ensemble.py`:** with the GPU soup τ at 513v, 570v, 630v, side 16's R = 40 plateau is
+  T/τ = 6.07 (P = 0.0023) instead of 7.41 (P = 0.0006); the 16-plateau sum is 25.6 instead of 27.2 (P = 0.016
+  instead of 0.008); three plateaus beyond 4τ either way (P = 0.003). OPEN-PROBLEMS 6 survives, a little weaker.
+  Pooling cube copies into the reference τ, as that script does, is the wrong reference for testing the cube.
+- **Post-peel waits:** mean / stationary τ = 0.989 ± 0.010 (38→36) and 0.998 ± 0.010 (40→38): reproduced. The
+  excess early deaths are almost all in the first 10⁻⁵τ (≈ 20 generations): 37 and 27 deaths where ≈ 0.1 are
+  expected, many at a wait of 1–2 generations; from 10⁻⁴τ on the hazard is stationary (e.g. [10⁻³, 10⁻²)τ: 87 vs 82,
+  84 vs 82). That is the next layer dying together with the old one (double peels, ≈ 0.3–0.4% of peels), not a
+  layer that "starts slightly fragile". README and PREDICTIONS should say so.
+- Stage A collects the first 9,216 peels in time, so lineages with long first plateaus are under-represented; if
+  consecutive plateaus were correlated this would bias the post-peel mean low. Moot given the result, but it should
+  be stated.
+
 ## Claim 4: O_h vertex lineages R = 36, 38, 40 memoryless; tau(40) 21% above the file
 
 ## Claim 1: kernels bit-exact against the engine; settle detection
