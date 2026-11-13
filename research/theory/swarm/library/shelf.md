@@ -59,3 +59,18 @@ How to read the notes: each statement is tagged [paper], [secondary: X] or [abst
 | G. Keller, C. Liverani, "Rare events, escape rates and quasistationarity: some exact formulae", arXiv:0810.2229 | https://arxiv.org/abs/0810.2229 | §1–3.1, §5.2 | `escape-rates.md` B2 | escape rate = μ(hole) × (1 − immediate-return factor) to first order |
 | L. A. Bunimovich, A. Yurchenko, "Where to place a hole to achieve a maximal escape rate", arXiv:0811.4438 | https://arxiv.org/abs/0811.4438 | abstract, statements | `escape-rates.md` B3 | full shift, word holes: equal measure, different rates, ordered by recurrence time, at all finite times |
 | A. Ferguson, M. Pollicott, "Escape rates for Gibbs measures", arXiv:1009.0086 | https://arxiv.org/abs/1009.0086 | §1, Thms 5.1, 5.3, Cor. 5.4 | `escape-rates.md` B4 | the same for subshifts of finite type with Gibbs measures; entropy drop |
+
+## Requests from the source line (2026-11-13)
+
+| source | where read | read | notes | why it matters |
+|---|---|---|---|---|
+| O. Tamuz, R. J. Tessler, "Majority dynamics and the retention of information", Israel J. Math. 206 (2015) 483–507; arXiv:1307.4035 | https://arxiv.org/abs/1307.4035 | §1, §3.1 | `source-requests.md` §2 | majority dynamics on infinite graphs of slow growth: period ≤ 2, explicit bound on the number of changes per vertex |
+| G. Moran, "On the period-two-property of the majority operator in infinite graphs", Trans. Amer. Math. Soc. 347 (1995) 1649–1667 | ams.org | **not obtained** (bot wall); via Tamuz–Tessler | `source-requests.md` §2 | the original infinite-graph theorem |
+| Y. Ginosar, R. Holzman, "The majority action on infinite graphs: strings and puppets", Discrete Math. 215 (2000) 59–72 | sciencedirect.com | **not obtained** (bot wall); via Tamuz–Tessler | `source-requests.md` §2 | the strengthened theorem |
+| R. Impagliazzo, N. Nisan, A. Wigderson, "Pseudorandomness for network algorithms", STOC 1994 | https://www.cs.huji.ac.il/~noam/prcc.ps (author's copy; text extracted crudely from PostScript) | §1, §4.1 | `source-requests.md` §3 | generator with seed O((S + log(n/ε)) log n) fooling space-S machines that read their random tape boundedly often |
+| N. Nisan, "RL ⊆ SC", Comput. Complexity 4 (1994) 1–11 | https://www.cs.huji.ac.il/~noam/sc.ps (author's copy; same) | §2, §4.1 | `source-requests.md` §3 | restates the 1992 generator and its hashing lemma |
+| N. Nisan, "Pseudorandom generators for space-bounded computation", Combinatorica 12 (1992) 449–461 | — | **not obtained**; via the two above and Vadhan | `source-requests.md` §3 | the original |
+| S. Vadhan, *Pseudorandomness*, Found. Trends Theor. Comput. Sci. 7 (2012) | https://people.seas.harvard.edu/~salil/pseudorandomness/ (author's copy) | §6.1, §8.2.1 | `source-requests.md` §3–4 | statements of Nisan's theorem and of Santha–Vazirani sources |
+| O. Häggström, J. Jonasson, "Uniqueness and non-uniqueness in percolation theory", Probab. Surv. 3 (2006) 289–344; arXiv:math/0612812 | https://arxiv.org/abs/math/0612812 | Definition 12.1 and footnote | `source-requests.md` §4 | definition of finite energy, insertion and deletion tolerance |
+| C. Temmel, "Shearer's measure and stochastic domination of product measures", J. Theoret. Probab. (2012); arXiv:1105.1683 | https://arxiv.org/abs/1105.1683 | §1–2, Theorem 5 | `source-requests.md` §4 | states the Liggett–Schonmann–Stacey hypothesis and theorem |
+| A. Bušić, J. Mairesse, I. Marcovici, "Probabilistic cellular automata, invariant measures, and perfect sampling", arXiv:1010.3133 | https://arxiv.org/abs/1010.3133 | Definition 2.2, algorithm data | `source-requests.md` §1 | a PCA as a deterministic local function of an i.i.d. space-time array |

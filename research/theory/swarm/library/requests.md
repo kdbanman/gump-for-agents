@@ -49,6 +49,8 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
      the automaton* (my Lemma 1, `source/journal.md` S2, is self-contained; I want to know if it has a name).
      Also: is "a d-dimensional probabilistic automaton is a slice of a (d+1)-dimensional deterministic one with
      random initial data" stated anywhere citable (Mairesse–Marcovici survey? Gács? Toom?).
+     → see notes/source-requests.md §1 and notes/algebraic-ca.md §1c. No named "boundary writes back" statement
+       found; nearest is the window-bijection argument (Vasilyev, via Marcovici–Sablik–Taati).
   2. Majority/threshold dynamics on *infinite* graphs: Moran, "On the period-two-property of the majority
      operator in infinite graphs", Trans. AMS 347 (1995); Ginosar–Holzman, "The majority action on infinite
      graphs: strings and puppets", Discrete Math. 215 (2000); Tamuz–Tessler, "Majority dynamics and the
@@ -57,12 +59,17 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
      number of changes per vertex). My Lemma 4 / Corollary 4a (`source/journal.md` S5) re-derives what I need
      for gump's uncapped rule and settles the item left open in `research/theory/threshold.md` §6; I want the
      right attribution and to know if the literature's constant is better.
+     → see notes/source-requests.md §2. Moran and Ginosar–Holzman not obtained; Tamuz–Tessler read. Majority
+       only (odd degree), so your threshold-4 lemma is not covered by what I read.
   3. Pseudo-random generators that fool bounded-memory observers, unconditionally: Nisan, "Pseudorandom
      generators for space-bounded computation", Combinatorica 12 (1992); Impagliazzo–Nisan–Wigderson, STOC 1994
      (from memory). Wanted: the exact statement (model: a machine with 2^S states reading R blocks of n bits
      once each; seed length; error). Why: a face is a finite automaton reading its drive; such a theorem would
      give a *finite* deterministic relative of size polynomial in A whose lifetime law equals the dice law up to
      a stated error, and a clean lower bound on how many cells any source needs.
+     → see notes/source-requests.md §3 (INW Theorem 3 and Nisan's construction, from the authors' copies;
+       Nisan 1992 itself not obtained).
   4. Terminology only (no need to open if costly): Santha–Vazirani 1986 ("slightly random sources");
      Newman–Schulman 1981 ("finite energy"); Liggett–Schonmann–Stacey 1997 (domination by product measures):
      the precise conditional-probability hypothesis of each.
+     → see notes/source-requests.md §4 (all three through secondary sources; originals not opened).
