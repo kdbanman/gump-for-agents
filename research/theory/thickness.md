@@ -130,7 +130,10 @@ not excluded. Exhaustive DFS (`sealed.py minimal 2 …`) excludes ≤ 9 cells ev
 Patch check (`python3 research/theory/sealed.py patches`): the largest sealed subset of hexagonal / parallelogram
 patches of radius 3, 6, 10 is (almost) the whole patch for m = 1, ~85% of it for m = 2, and **empty** for m = 3, 4, 5.
 
-**Torus slabs, m = 3** (`python3 research/theory/sealed.py torusmin N 3 500`; SAT, exact): TORUSMIN
+**Torus slabs, m = 3** (`python3 research/theory/sealed.py torusmin N 3 500`; SAT, exact): N = 3 (81 cells): the smallest nonempty sealed set has **27** cells; N = 4 (144 cells):
+**48** cells — in both cases exactly one whole boundary layer (3N² cells, one `{111}` face of the slab). So in small
+thick slabs the cheapest permanent death is a face; a transverse firewall (∝ m·N) must win for larger N, as measured
+in the notebook, but the exact SAT minimum for N ≥ 5 did not finish in 25 minutes and was not pursued.
 
 ## 3. The skeleton in soups [measured]
 
