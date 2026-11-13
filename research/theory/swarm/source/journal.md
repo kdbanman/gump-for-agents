@@ -721,7 +721,10 @@ I judge that this line has given what it can. The two exam entries stand as file
 
 ---
 
-## Round 3 report (final)
+## Round 3 report (interim, paused)
+
+_Written when the lead paused the group (usage budget). Everything above in round 3 (S13–S16) is finished
+work that I stand behind; nothing was cut off in the middle of an argument._
 
 **Claims added.**
 1. [proved, with the probability line's Theorem A cited from the board, modulo F1, F2] Theorem A: the
@@ -746,4 +749,12 @@ orientations of a kagome triangle at ρ = 0.4155, ½, 0.52 (enumeration of the d
 measured n = 2 and n = 3 rows (death 0.09–0.10 and 0.018–0.019); and INS for the 4 × 6 strip as L8 was done for
 the death sets.
 
-**State.** The line is finished in my judgement (S16).
+**Done.** S13 (corrections), S14 (Theorem A and the table of differences), S15 (Theorem L), S16 (assessment);
+`claims.md` brought up to date; exam entries filed in round 2.
+**Half-done.** Nothing. Not yet checked by the critic: S14 (the direct argument for 𝒜(L) is three lines; the
+variant is Lemma 1′, already checked), S15 (the marginal-coupling induction), and the remark on gump's
+self-overcrowding.
+**What I would do next, if resumed.** (1) Read the critic's reply to this round and correct. (2) If the
+probability line has by then a multi-generation criterion (its T1), state the lag-k form of Theorem L against
+it (S15, remark (d)). (3) Otherwise close: in my judgement the line has given what it can (S16), and the next
+message from me would be `source: finished`.
