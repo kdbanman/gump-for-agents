@@ -586,3 +586,24 @@ handled is |W′| > A(R − 2): it needs a *stability* statement (a sealed set o
 at least 3k − δ cells of W in the outer shell), and I have no approach to that except case analysis at the rims.
 I stop here on A: the exact result for R ≤ 10 is the critic's, the general statement stays a conjecture, and
 Proposition S does not need it for a given face.
+
+---
+
+## 2026-11-13, entry 13. Errata to entries 7, 11 and 12 (found on re-reading before the round report)
+
+- **Entry 7, item 4.** Now checked in `research/phase/rules.csv` (columns med6, med8, med10 = median lifetime in
+  hulls of three sizes): B45/S34: 10.5, 20, 36; B45/S35: 7, 14.5, 22; B45/S45: 6, 12.5, 20; B4/S345: 8, 50, 104;
+  gump: 28, 254, 3,420. All four neighbours are classed "chaos" on a torus and share gump's graph and θ = 4.
+- **Entry 11.3, relation (M).** The remainder is not O(1): a normalised Gaussian has ln p_peak = −½ ln(2πσ²A), so
+
+      −ln h = A·(θρ − θ²σ²/2) + ½ ln(2πσ²A) + O(1),   local slope of ln τ = θρ − θ²σ²/2 + 1/(2A).
+
+  With the measured tail slopes θ = 0.46, 0.485, 0.51 the predicted local slopes become 0.213, 0.220, 0.226 at
+  A ≈ 54, 74, 96, against 0.212, 0.212, 0.221. With or without the logarithm (M) holds to about ± 0.01 in the
+  slope and no better; the constant-θ fit quoted there (θ = 0.48, offset 1.80) becomes θ ≈ 0.46 with a flat
+  remainder. The O(1) term is not transferable between vessels: with the hull's offset and any plausible mean
+  and variance, (M) would put a periodic slab face of 60 cells about 1.5 nats above its measured ln τ. **(M) is a
+  statement about slopes only.**
+- **Entry 12, "where the induction stalls".** The two sub-cases described as handled (W′ = ∅; W′ a face of
+  V_{R−2}) are sketches: I did not check the cells near the rims and corners of the faces, where some of the
+  cells beneath a face cell lie on another face. Only Corollary 4a is proved there.

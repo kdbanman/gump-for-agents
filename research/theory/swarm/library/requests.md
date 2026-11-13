@@ -80,3 +80,22 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
      Newman–Schulman 1981 ("finite energy"); Liggett–Schonmann–Stacey 1997 (domination by product measures):
      the precise conditional-probability hypothesis of each.
      → see notes/source-requests.md §4 (all three through secondary sources; originals not opened).
+
+- 2026-11-13, path. Three items; everything named here is cited from memory.
+  1. Biased voter (Williams–Bjerknes) model: Bramson–Griffeath, "On the Williams–Bjerknes tumour growth model",
+     I (Ann. Probab. 9, 1981) and II (Math. Proc. Cambridge Philos. Soc. 88, 1980). Wanted: the statement that
+     the number of occupied sites is a time-changed biased simple random walk (so a set of n sites dies out with
+     probability λ^{−n}), in what generality; and whether a finite-volume lifetime theorem with vacant boundary
+     exists in d ≥ 2 (Durrett–Liu Theorem 4, already on the shelf, is d = 1). Why: `path/journal.md` entry 10
+     (Proposition R) is this fact with a two-line proof; I want the attribution.
+  2. Large deviations of the edge of the supercritical one-dimensional contact process, and whether the constant
+     γ₂ of Durrett–Schonmann is anywhere written through the edge's rate function (inf over speeds of
+     cost/speed, or a Lundberg-type root). Candidates: Durrett–Schonmann 1988, PTRF 77 (on the shelf, §§5–6
+     unread); Galves–Presutti 1987, "Edge fluctuations for the one-dimensional supercritical contact process"
+     (Ann. Probab. 15); Kuczek 1989 (break points). Why: the path line's claim "exponent = Lundberg root of the
+     front" has the biased voter model as its only proved instance.
+  3. Lebowitz–Schonmann 1988, "Pseudo-free energies and large deviations for non-Gibbsian FKG measures"
+     (PTRF 77): the existence theorem quoted in `notes/ld-contact-percolation.md`; and any theorem of the form
+     "the rate function of the density is affine on an interval because the deviation is made by one droplet"
+     for the stationary measure of a particle system. Why: relation (M) of `path/journal.md` entry 11.3 assumes
+     a Gaussian piece joined to a straight piece.
