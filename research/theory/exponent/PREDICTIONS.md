@@ -162,3 +162,39 @@ is soft. (c) *My own model, testable here:* the periodic model at A = 75 (`xp.gu
 ln τ(75) − ln τ(60) = 15 × (0.2145 ± 0.0030), i.e. **ln τ(75) = 15.74 ± 0.05**, slope not below 0.2115.
 (d) I have no mechanism for the rise. Candidate, untested: at small areas faster collapse routes supplement
 cell-by-cell erosion (the toy has such a second channel, 20% of deaths at L = 12 and 1% at L = 28), and they fade.
+
+## 2026-11-13T19:56Z — outcomes of F1, F6, F7(b, c), F8, F9; an amendment to the F7(a) entry
+
+- **F1 (random map with killing; `python3 fg_run.py run 32`, exact, 30 vessels to N = 32): the headline hit, three
+  clauses missed.** The heuristic fails by orders of magnitude because of debris, as forecast: 20–1,000 times more
+  states on immortal cycles than |G|τ, and 5–94% of all states never lose an edge against a predicted 10⁻⁷–10⁻⁴.
+  (a) *miss as stated*: the immortal basin is 5–29% in strips with H ≥ 4 and in boxes, but 49–94% in two- and
+  three-row strips (I said 3–60% everywhere). (b) *half*: the 4 × 8 strip has 42,493 states on immortal cycles
+  (inside 10⁴–10⁶) but only 72% of them have period ≤ 2 (I said ≥ 90%; periods 3–7 are common). (c) *hit where it
+  can be tested*: states on immortal cycles of period ≥ 8 exist in 10 of 17 vessels with N ≥ 24 and number 0.3–8
+  times |G|τ there. (d) **miss**: I said no clean exponential and a rate hardly depending on L. In fact the exact
+  hazard over all initial states is flat — 0.102–0.111 for generations 6–16 in the 4 × 8 strip, 0.13–0.15 for 4–20
+  in 4 × 7 — and −ln h rises by 0.43, 0.64, 0.29 per cell at H = 4, L = 5…8.
+- **F6 (noise; `python3 jobs.py noise`): continuity hit, slope missed.** ln τ at L = 16, 20 is 7.433, 7.398 / 9.139,
+  9.136 at ε = 10⁻⁴, 10⁻³ against 7.407 / 9.142 at ε = 0 (within 0.4%). But 3% noise changes the slope by only
+  −0.023 ± 0.004 (c = 0.8 ± 0.15; I said 1 < c < 6). At L = 12 the limit is singular for the reason the brief warns
+  about: uncensored debris (ln τ = 7.11 at ε = 10⁻⁴ against 5.64).
+- **F7(b), F8(c) (periodic gump faces): miss.** Periodic and octahedral faces have the same slope (0.2095, 0.2126,
+  0.2133 against 0.2010, 0.2119, 0.2116); I had forecast a difference above 5%.
+- **F7(c) (third family member; `python3 jobs.py cross3`): hit.** B45/S345 on the 2D range-3 cross sustains chaos
+  and loses edges memorylessly (CV 0.97–1.02) with ln τ = 4.08, 5.25, 5.98, 6.60, 7.16, 7.67, 8.15 at L = 16…64: the
+  local slope falls from 0.147 to 0.060 per cell and has not levelled; neither 0.21 nor 0.42.
+- **F8(a) hit, F8(b) miss.** Periodic model against periodic slab: w = 6, 8 within 0.03 nats at all four areas
+  (allowed 0.15); w = 4, 5 within 0.05. w = 3 is too tough by 0.11–0.26 but is *not* the worst depth (w = 2:
+  +0.6–1.2); the hull's non-monotone convergence does not recur.
+- **F9 hit.** Eight-row toy model at noise density 0.30 / 0.60: ln τ = 7.432 / 7.417 (L = 16), 9.151 / 9.182 (L = 20)
+  against 7.432, 9.165 at 0.472; all within 0.02.
+- **Amendment to the F7(a) outcome above.** "The asymptotic value is 0.36–0.38" was too strong. Splitting the
+  deaths by channel (`report.py` §2 table) shows that most of the curvature of ln τ(L) below L = 20 is the fading
+  dense channel; the sparse channel alone has local slopes 0.411, 0.419, 0.405, 0.408 ± 0.005 between L = 12 and 28.
+  The static decrement (0.376 at ℓ ≈ 40) and the log-corrected fit (0.364) still point lower, toy2d's last step
+  (0.382 ± 0.015 between L = 32 and 36) agrees with them at 2σ, and my last two residuals against 12.1/E(L − 6.5)
+  are positive. Honest range for the toy's asymptotic exponent: **0.36–0.41**; F7(a)'s claim (more than 3% below
+  0.415) is supported by two of three estimators, not settled. Runs at L = 32–40 on the six- and eight-row models are
+  queued; forecast for them: sparse-channel slope between L = 32 and 40 in 0.385–0.410 (i.e. it does not follow
+  the window cost down to 0.376 by L = 40; confidence 55%).

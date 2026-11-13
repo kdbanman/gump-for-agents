@@ -35,9 +35,11 @@ def hier():
         t = np.array([v if v is not None else np.nan for v in tr['lntau']], float)
         line(a, Ls, y - t, c, 'w = %d' % w)
         ok = np.isfinite(y - t)
-        a.annotate('w = %d' % w, (Ls[ok][-1], (y - t)[ok][-1]), xytext=(6, 0), textcoords='offset points', va='center', color=INK2, fontsize=8)
+        dy = {4: 7, 6: 0, 8: -8}.get(w, 0)
+        a.annotate('w = %d' % w, (Ls[ok][-1], (y - t)[ok][-1]), xytext=(7, dy), textcoords='offset points', va='center', color=INK2, fontsize=8)
     a.axhline(0, color=INK, lw=1.2, zorder=2)
-    a.annotate('deterministic strip (truth)', (Ls[1], 0), xytext=(0, -11), textcoords='offset points', color=INK2, fontsize=8)
+    a.annotate('0 = deterministic strip (truth)', (Ls[1], 0), xytext=(2, 22), textcoords='offset points', color=INK2, fontsize=8)
+    a.legend(loc='upper left', fontsize=8, title='rows that follow the rule', title_fontsize=8)
     a.set_xlabel('edge length L (cells)'); a.set_ylabel('ln τ(model) − ln τ(truth)')
     a.set_title('Rows of the rule on coin-flip noise: excess lifetime over the true edge', loc='left', fontsize=9.5, color=INK)
     a.set_xlim(Ls[1] - 1, Ls[-1] + 3.2); a.set_xticks(Ls[1:])
@@ -53,39 +55,51 @@ def hier():
     fig.tight_layout(); fig.savefig(os.path.join(FIG, 'exponent_hierarchy.png'), dpi=160); plt.close(fig)
 
 def flash():
-    t = xp.load('truth'); m = xp.load('model')
-    fig, axs = plt.subplots(1, 3, figsize=(11.5, 3.9), sharey=True)
+    t = xp.load('truth'); sl = xp.load('slab'); g = xp.load('gump')
+    fig, axs = plt.subplots(1, 3, figsize=(11.8, 4.0), sharey=True)
     lags = np.arange(1, 25)
-    def prof(r, i):
-        pr = r['prof']; ng = sum(1 for k in pr if k.startswith('profn')); n0 = sum(pr['profn%d' % g][0] for g in range(ng))
-        return sum(np.array(pr['prof%d_%d' % (g, i)]) for g in range(ng)) / n0 / r['llen']
-    for ax, (r, title, nrow) in zip(axs, ((t['H16_L16'], 'true strip, L = 16', 4), (t['H16_L28'], 'true strip, L = 28', 4), (m['w1_L28'], 'one row on noise (w = 1), L = 28', 1))):
-        for i, c in zip(range(nrow), BLUES[::-1][1:]):
-            v = prof(r, i)
-            line(ax, -lags, v[lags - 1], c, 'row %d%s' % (i, ' (edge)' if i == 0 else ''), ms=4.5, lw=1.8)
-            ax.annotate('row %d' % i, (-24, v[23]), xytext=(-4, 0), textcoords='offset points', ha='right', va='center', color=INK2, fontsize=8)
-        ax.set_title(title, loc='left', fontsize=9.5, color=INK); ax.set_xlabel('generations before the edge is empty')
-        ax.set_xlim(-28.5, 0.5); ax.set_ylim(0, 0.68)
-    axs[0].set_ylabel('mean density of the row'); axs[0].legend(loc='lower left', fontsize=8)
-    fig.suptitle('The last generations of an edge: a slow sag, then a two-generation flash in which rows 0–2 starve together', x=0.01, ha='left', fontsize=10)
+    def prof(r, i, size):
+        pr = r['prof']; ng = sum(1 for k in pr if k.startswith('profn')); n0 = sum(pr['profn%d' % gq][0] for gq in range(ng))
+        return sum(np.array(pr['prof%d_%d' % (gq, i)]) for gq in range(ng)) / n0 / size
+    gm = xp.gump_model(11, 5); gsz = [len(l[1]) for l in gm['lines']]
+    panels = ((t['H16_L28'], 'toy: edge of a 16 x 28 strip', [28] * 4, 'row'),
+              (sl['slab_4x5_m12'], 'gump: periodic face, A = 60', [60] * 3, 'layer'),
+              (g['R11_w5'], 'gump: octahedral face, A = 63 (model, w = 5)', gsz[:4], 'layer'))
+    for ax, (r, title, sizes, word) in zip(axs, panels):
+        for i, c in zip(range(len(sizes)), BLUES[::-1][1:]):
+            v = prof(r, i, sizes[i])
+            ax.plot(-lags, v[lags - 1], '-', color=c, lw=2.0, marker='o', ms=4.2, mec=SURF, mew=0.8,
+                    label='%s %d%s' % (word, i, ' (boundary)' if i == 0 else ''), solid_capstyle='round')
+        ax.set_title(title, loc='left', fontsize=9.5, color=INK); ax.set_xlabel('generations before the boundary is empty')
+        ax.set_xlim(-24.6, 0.4); ax.set_ylim(0, 0.62); ax.legend(loc='lower left', fontsize=8)
+    axs[0].set_ylabel('mean density of the row / layer')
+    fig.suptitle('The last generations before death: the toy flashes (rows 0-2 starve together in two generations), gump erodes', x=0.01, ha='left', fontsize=10)
     fig.tight_layout(rect=(0, 0, 1, 0.95)); fig.savefig(os.path.join(FIG, 'exponent_flash.png'), dpi=160); plt.close(fig)
 
 def gump():
     g = json.load(open(os.path.join(DATA, 'gump_model.json')))
     A = {7: 30, 9: 45, 11: 63, 13: 84}
-    xs = [A[R] for R in g['R']]
-    fig, ax = plt.subplots(figsize=(6.4, 4.2))
-    tv = np.array([g['truth'][str(a)][0] for a in xs])
-    for w, c in zip(sorted(g['rows'], key=int), BLUES):
-        y = np.array([v if v is not None else np.nan for v in g['rows'][w]['lntau']], float)
-        line(ax, xs, y - tv, c, 'w = %s' % w)
-        ok = np.isfinite(y)
-        ax.annotate('w = %s' % w, (np.array(xs)[ok][-1], (y - tv)[ok][-1]), xytext=(6, 0), textcoords='offset points', va='center', color=INK2, fontsize=8)
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(11.0, 4.2), sharey=True)
+    ws_all = [1, 2, 3, 4, 5, 6, 8]; col = dict(zip(ws_all, ['#b7d3f6', '#86b6ef', '#5598e7', '#2a78d6', '#1c5cab', '#104281', '#0d366b']))
+    for w in sorted(g['rows'], key=int):
+        xs = [A[R] for R, v in zip(g['R'], g['rows'][w]['lntau']) if v is not None]
+        y = np.array([v - g['truth'][str(A[R])][0] for R, v in zip(g['R'], g['rows'][w]['lntau']) if v is not None])
+        line(ax, xs, y, col[int(w)], 'w = %s' % w)
+        ax.annotate('w = %s' % w, (xs[-1], y[-1]), xytext=(7, {4: 5, 5: -6}.get(int(w), 0)), textcoords='offset points', va='center', color=INK2, fontsize=8)
     ax.axhline(0, color=INK, lw=1.2)
-    ax.annotate('measured octahedral faces (research/fluct)', (xs[0], 0), xytext=(0, -11), textcoords='offset points', color=INK2, fontsize=8)
-    ax.set_xlabel('face area A (cells)'); ax.set_ylabel('ln τ(model) − ln τ(measured)'); ax.set_xticks(xs); ax.set_xlim(xs[0] - 3, xs[-1] + 7)
-    ax.set_title('gump: top w {111} layers on Bernoulli(0.4155) noise against the real hull', loc='left', fontsize=9.5, color=INK)
-    fig.tight_layout(); fig.savefig(os.path.join(FIG, 'exponent_gump.png'), dpi=160); plt.close(fig)
+    ax.set_xlabel('face area A (cells)'); ax.set_ylabel('ln tau(model) - ln tau(deterministic)'); ax.set_xticks([30, 45, 63, 84]); ax.set_xlim(26, 92)
+    ax.set_title('Octahedral faces (truth: research/fluct)', loc='left', fontsize=9.5, color=INK)
+    sm = xp.load('slabmodel'); st = xp.load('slab'); sizes = ((3, 3), (3, 4), (4, 4), (4, 5))
+    for w in (2, 3, 4, 5, 6, 8):
+        y = [xp.summary(sm['slab_%dx%d_w%d' % (a, b, w)])['lntau'] - xp.summary(st['slab_%dx%d_m12' % (a, b)])['lntau'] for a, b in sizes]
+        xs = [3 * a * b for a, b in sizes]
+        line(bx, xs, y, col[w], 'w = %d' % w)
+        bx.annotate('w = %d' % w, (xs[-1], y[-1]), xytext=(7, {4: 8, 5: 2, 6: -4, 8: -10}.get(w, 0)), textcoords='offset points', va='center', color=INK2, fontsize=8)
+    bx.axhline(0, color=INK, lw=1.2); bx.set_xticks([27, 36, 48, 60]); bx.set_xlim(24, 66); bx.set_xlabel('face area A (cells)')
+    bx.set_title('Periodic faces (truth: 12-layer slab on a torus)', loc='left', fontsize=9.5, color=INK)
+    ax.legend(loc='upper left', fontsize=8, title='layers that follow the rule', title_fontsize=8)
+    fig.suptitle('gump: top w {111} layers on Bernoulli(0.4155) coin flips against the deterministic automaton', x=0.01, ha='left', fontsize=10)
+    fig.tight_layout(rect=(0, 0, 1, 0.95)); fig.savefig(os.path.join(FIG, 'exponent_gump.png'), dpi=160); plt.close(fig)
 
 def rate():
     d = json.load(open(os.path.join(HERE, '..', '..', 'scratch', 'toy2d', 'law_cross2_B34S234_W16_none_main.json')))
