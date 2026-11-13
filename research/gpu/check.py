@@ -25,11 +25,42 @@ ENGINE_CASES = [  # (gump seed args, centre, sym, g0, T)  -- the cases of resear
 ]
 
 
+def cell_hash(cells):
+    """order-independent 64-bit hash of a set of cells (doubled coordinates); same in the engine-case builder and on
+    the GPU side, so every generation can be compared without shipping traces"""
+    c = np.asarray(cells, np.int64).reshape(-1, 3) + 4096
+    z = ((c[:, 0] << 26) | (c[:, 1] << 13) | c[:, 2]).astype(np.uint64)
+    with np.errstate(over='ignore'):
+        z = z + np.uint64(0x9E3779B97F4A7C15)
+        z = (z ^ (z >> np.uint64(30))) * np.uint64(0xBF58476D1CE4E5B9)
+        z = (z ^ (z >> np.uint64(27))) * np.uint64(0x94D049BB133111EB)
+        z = z ^ (z >> np.uint64(31))
+        return int(z.sum(dtype=np.uint64))
+
+
+def trace_hashes(args, g0, T):
+    """hash of the engine's state after each of generations g0+1 .. g0+T (gump run --trace, one line per generation)"""
+    f = os.path.join(fl.SCR, f'trace_{os.getpid()}.txt')
+    import subprocess
+    subprocess.run([fl.GUMP, 'run', *args, '--gens', str(g0 + T), '--no-halt', '--trace', f], capture_output=True, check=True)
+    out = []
+    with open(f) as fh:
+        for k, line in enumerate(fh):
+            if g0 + 1 <= k <= g0 + T:
+                parts = line.split()[1:]
+                cells = np.array([list(map(int, p.split(','))) for p in parts], np.int64) if parts else np.zeros((0, 3), np.int64)
+                out.append(cell_hash(cells))
+    os.remove(f)
+    assert len(out) == T, (len(out), T)
+    return np.array(out, np.uint64)
+
+
 def engine_cases(out):
     rec = {}
     for k, (args, centre, sym, g0, T) in enumerate(ENGINE_CASES):
         c0, s0 = fl.gump_cells(args, g0, 'g0')
         cT, _ = fl.gump_cells(args, g0 + T, 'gT')
+        rec[f'c{k}_hashes'] = trace_hashes(args, g0, T)
         rec[f'c{k}_cells0'], rec[f'c{k}_cellsT'] = c0, cT
         rec[f'c{k}_meta'] = np.array([centre == 'v', sym, T] + [x for lh in s0['hull_final'] for x in lh])
         print(f'case {k}: {" ".join(args)[-50:]}  g0={g0} T={T} pop {len(c0)} -> {len(cT)}', flush=True)
@@ -60,6 +91,35 @@ def check_engine(path, backend, WT, **kw):
         ok_all &= ok
         print(f'engine case {k} [{s.kernel}]: nodes {v.n:5d} sym {sym!s:5} T {T}: lanes {lanes} {"equal" if ok else "DIFFER " + str(res)}'
               f'  ({time.time() - t:.1f} s)', flush=True)
+    return ok_all
+
+
+def check_engine_every(path, backend, WT, **kw):
+    """the acceptance bar: the engine's state every generation (hash of the cell set) in several lanes, T generations"""
+    d = np.load(path)
+    ok_all = True
+    for k in range(int(d['n'])):
+        meta = d[f'c{k}_meta']
+        centre, sym, T = ('v' if meta[0] else 'c'), bool(meta[1]), int(meta[2])
+        hull = [[int(meta[3 + 2 * i]), int(meta[4 + 2 * i])] for i in range(4)]
+        want = d[f'c{k}_hashes']
+        v = fl.Vessel(hull, centre, sym)
+        s = gsim.Sim(v, WT, backend, **kw)
+        rng = np.random.default_rng(k)
+        bits = rng.random((s.R, v.n)) < 0.35
+        lanes = sorted({0, 31, 32, s.R // 2 + 5, s.R - 1})
+        bits[lanes] = fl.bits_from_cells(v, d[f'c{k}_cells0'])
+        s.set_all(bits)
+        t0 = time.time(); bad = 0; first = None
+        for t in range(T):
+            s.step(1, freeze=False)
+            for b in s.get_lanes(lanes):
+                if cell_hash(fl.cells_from_bits(v, b)) != int(want[t]):
+                    bad += 1; first = t + 1 if first is None else first
+        ok = bad == 0
+        ok_all &= ok
+        print(f'engine every generation, case {k} [{s.kernel} {kw}]: nodes {v.n:5d} sym {sym!s:5} centre {centre}: {T} gens x '
+              f'{len(lanes)} lanes {"all equal" if ok else f"{bad} MISMATCHES, first at generation {first}"} ({time.time() - t0:.0f} s)', flush=True)
     return ok_all
 
 

@@ -194,6 +194,23 @@ class Sim:
         out = np.empty_like(bits); out[:, self.perm] = bits
         return out
 
+    def get_lanes(self, lanes):
+        """(len(lanes), n) bool for a few replicas, downloading only their word-columns."""
+        n = self.n
+        lanes = np.asarray(lanes)
+        w = self.xp.asarray(lanes >> 5)
+        cur = self._cur()
+        if self.kernel == 'shared':
+            cols = cur.reshape(self.WT, n + 1)[w, :n]
+        else:
+            cols = cur.reshape(n + 1, self.WT)[:n, w].T
+        cols = self._np(cols)
+        bits = ((cols >> (lanes & 31).astype(np.uint32)[:, None]) & 1).astype(bool)
+        if self.perm is None:
+            return bits
+        out = np.empty_like(bits); out[:, self.perm] = bits
+        return out
+
     def set_all(self, bits):
         """bits (R, n) bool -> both buffers (so period checks start clean); unfreezes everything."""
         n = self.n

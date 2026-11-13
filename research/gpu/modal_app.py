@@ -60,6 +60,26 @@ def check_defaults_remote() -> bool:
     return ok
 
 
+@app.function(gpu='A10G', timeout=3600)
+def check_every_remote(cases: bytes) -> bool:
+    """the lead's acceptance bar: bit-exact against the engine every generation (five cases incl. vertex-centred and
+    the side-16 snapshot), for kernel B in its production shape and a non-default one, and for kernel A"""
+    _setup()
+    import check
+    with open('/tmp/cases.npz', 'wb') as f:
+        f.write(cases)
+    ok = True
+    for kw in (dict(kernel='shared'), dict(kernel='shared', J=3, WB=2, blocks=6), dict(kernel='global')):
+        ok &= check.check_engine_every('/tmp/cases.npz', 'gpu', 1024, **kw)
+    print('ALL OK' if ok else 'FAILURES', flush=True)
+    return ok
+
+
+@app.local_entrypoint()
+def check_every(cases: str = f'{ROOT}/research/scratch/gpu/engine_cases.npz'):
+    print('remote checks:', 'ALL OK' if check_every_remote.remote(open(cases, 'rb').read()) else 'FAILURES')
+
+
 @app.function(gpu='A10G', timeout=1800)
 def check_reseed_remote() -> bool:
     _setup()
