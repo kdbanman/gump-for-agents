@@ -175,7 +175,27 @@ L×L box the cut costs 3L cells against L for an edge, so edges win.
 
 ## 5. Symmetry (forecasts in `PREDICTIONS.md`)
 
-SYMTABLE
+All on cross2 B34/S234 (`./run_sym.sh`, plus `law.py ... --vessel box --sym c4 32,36`, `--sym none 32`,
+`--sym d4 32`; curated in `data/law_cross2_B34S234_{mx,my,t2,box_*}.json`). τ_first = mean wait for the *first*
+edge death of the vessel (lockstep edges count once). Errors on ln τ are 0.015–0.05.
+
+| forecast | measured | verdict |
+|---|---|---|
+| **F2** translation by L/2 at L = 32 = asymmetric strip at L = 16 (exact) | τ_edge 1,631 ± 25 vs 1,679 ± 26 (Δ ln τ = 0.029 ± 0.023) | **hit** (machinery check) |
+| **F1** mirror x → −x (perpendicular to the edges): slope I/2, ratio 0.5 ± 0.1 | strips W = 16, L = 16–56: ln τ = 1.83 + **0.1733 ± 0.0009**·L (χ² 1.5/4) vs 0.410–0.416 asymmetric: ratio **0.42**. Moore B45/S23467: 0.1191 ± 0.0010 (L = 24–56) vs 0.259: ratio **0.46** | **hit, at the low edge**: symmetric edges cost 8–17% *less* per independent cell |
+| **F3** mirror y → −y (swaps the two edges): τ_first × 2, slope unchanged | τ_first(my)/τ_first(asym) = 2.22, 2.41, 2.50 at L = 16, 20, 24 | **hit within 25%** (drifting up) |
+| **F4** square box with D4: exponent × ½ (not ⅛) | box, ln τ_first = 4.92, 5.60, 6.28, 6.99 at L = 20–32: slope **0.171** vs **0.343** asymmetric: ratio **0.50** | **hit** |
+| **F5a** diagonal mirror alone: slope unchanged, τ_first × 2 | ln τ_first 5.44, 6.76, 8.06, 9.41, 10.97 vs 5.39, 6.71, 8.10, 9.40, 10.82 (L = 12–28): slope 0.364 vs 0.340, **ratio of waits ≈ 1.0–1.16, not 2** | **half miss**: exponent unchanged, but each independent edge dies twice as fast as a free one |
+| **F5b** C4 alone: slope unchanged, τ_first × 4 | ln τ_first 5.92 … 11.50 at L = 16–36: slope **0.274** vs 0.343, and τ_first(c4)/τ_first(asym) = 0.45, 0.30, 0.18, 0.16 at L = 16, 20, 28, 32 | **miss**: C4 lowers the exponent by ≈ 20% and the wait is *shorter* |
+
+Reading: "symmetry is fatal in proportion to the stabiliser of the dying face" (1/|stabiliser| of the exponent) is
+right for the symmetries that fix an edge (mirror ⊥ edge, D4: × ½; gump's O_h: ≈ ⅙). It is wrong as a complete
+account: symmetries that fix no edge still shorten life in a box. Small-L symmetric boxes also settle easily
+(d4: at L = 12 every soup settles, at L = 16 the few survivors give an outlier τ, so d4 is fitted from L = 20;
+c4: 62 M settles at L = 12), the analogue of gump's symmetric-soup debris problem. **[conjecture]** the corner
+couples each edge to its symmetric partners (under the diagonal mirror the corner sits on the mirror line; under
+C4 the edge's two ends are images of each other through the corners, so the four edges form one ring of period L),
+and correlated corners are where edges start to die. Not tested.
 
 ## 6. Moore B45/S23467 [measured]
 `python3 law.py B45/S23467 moore 16 8,12,...,44 --tag main` (→ `data/law_moore_B45S23467.json`): ln τ_edge =
@@ -194,7 +214,7 @@ slower (32-cell stretch closes in ≈ 100 generations).
 | (ii) steady chaos | density 0.4155, drive 0.115 | density 0.472, drive 0.119 [measured] |
 | (iii) death by a whole face/edge, memoryless, exp. in size | ln τ ≈ 0.208·A | **ln τ ≈ 0.73 + 0.416·L**, CV ≈ 1 [measured, L = 12–36] |
 | (iv) straight tail to n = 1, h its next point | within 0.06–0.08 nats; h/p₁ ≈ 0.6 constant | within 0.02–0.23 nats; h/p₁ 0.52 → 0.27, falling with L [measured] |
-| (v) symmetric seeds die sooner | O_h: slope ≈ 0.209/6 (face stabiliser C3v, order 6) | SYMSUMMARY |
+| (v) symmetric seeds die sooner | O_h: slope ≈ 0.209/6 (face stabiliser C3v, order 6) | mirror ⊥ edge and D4: slope × 0.42–0.50 (edge stabiliser order 2) [measured]; C4 and the diagonal mirror, which fix no edge, still shorten life (× 0.8 slope for C4) — not predicted |
 | (vi) capped threshold, drive at overcrowded cells (T5) | yes | yes, exceptions = {n ≥ 5} exactly [proved] |
 | (vii) no finite sealed set (T6) | none in ≥ 3 layers or 3D | none in Z²; in a strip every sealed set spans it [proved] |
 | competing channel | 3-layer interior firewalls, win only in thin slabs | 3-column transverse cuts, win in strips with L ≳ 1.5 W |
@@ -209,11 +229,14 @@ slower (32-cell stretch closes in ≈ 100 generations).
 3. A naive strip measurement looked like a broken law (saturating τ): the strip was being cut across, not peeled.
 4. The mirror-symmetric edge costs less per independent cell than an asymmetric one (§5) — the same direction as
    gump's "A/7.7 then rising", but here with no sign of rising up to L = 56.
+5. My forecast that symmetries fixing no edge cost nothing in the exponent failed for C4 (slope × 0.8, waits
+   shorter than asymmetric ones) and half-failed for the diagonal mirror. The stabiliser rule is not the whole story.
 
 ## 9. Not checked / open
 - Whether I stays ≈ 0.41 beyond L = 36 for cross2 (deaths cost 900 s per point at L = 36; L = 40 needs ~1 h).
 - The rate-function collapse (gump's I(x) curve) — only the endpoint was measured.
 - The 15,000 Moore and 27,000 cross2 rules screened out at L = 10, and cross2 rules with |B| + |S| > 7.
+- Why C4 and the diagonal mirror shorten life (corner conjecture, §5); whether the C4 slope recovers at large L.
 - Triangular lattice; hex measured only structurally; the other cross2 EDGE rules' laws.
 - A proof of anything metastable: the 2D case is now available for M2/M3 of the programme (a 1D edge driven by a
   2D bulk, whose gaps close from two ends, is the natural object for a contour or gambler's-ruin argument).
