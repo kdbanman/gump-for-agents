@@ -24,7 +24,7 @@ def run(R, wall_s, seed, p=0.35, launch_s=1.0, log=print, **cfg):
     from gsim import fl
     v = fl.Vessel(fl.octa_hull(R), 'c', sym=False)
     s = gsim.Sim(v, backend='gpu', seedable=gsim.seed_mask(v, R), **cfg)
-    s.reseed(np.arange(s.R), seed=seed << 32, p=p)
+    s.reseed(np.arange(s.R), seed=seed << 32, p=p)       # soup_bit hashes seed and replica separately
     birth = np.zeros(s.R, np.int64)
     ages, kinds = [], []
     G, rnd, K = 0, 1, 1024
@@ -90,6 +90,14 @@ def summary(paths):
         by_R.setdefault(r['R'], []).append(r)
     rows = []
     for R, recs in sorted(by_R.items()):
+        seen = {}
+        for r in recs:      # independent runs share no death age (the seed-collision bug of 2026-11-13 showed up this way)
+            for a in set(r['death_ages'] or []):
+                if a > 10 ** 4:
+                    seen.setdefault(a, set()).add(r['seed'])
+        dup = {a: sd for a, sd in seen.items() if len(sd) > 1}
+        if dup:
+            print(f'WARNING R={R}: runs share {len(dup)} death ages (not independent?):', list(dup.items())[:5])
         agg, deaths, expo, da = merge(recs)
         A = AREA(R)
         pred = SLAB_LAW(A) / 8
@@ -110,6 +118,16 @@ def summary(paths):
             print(f'  CV of uncensored waits (T0=200): {w.std() / w.mean():.2f} (biased low by censoring when lives are cut short)')
         hz = [(EDGES[i], EDGES[i + 1], int(deaths[i]), int(expo[i])) for i in range(len(deaths)) if expo[i] > 0 and EDGES[i] >= 200]
         print('  hazard by age (deaths / exposure):', '; '.join(f'[{lo:.0e},{hi:.0e}) {d}/{e:.2e}={d / e:.3g}' for lo, hi, d, e in hz if d or e > 0))
+    # the face law: ln tau_face = ln(8 x first-peel mean), against the straight line of research/fluct (I(0) = 0.2077 + 0.55/A)
+    t = [r for r in rows if r['T0'] == 200]
+    if t:
+        print('\n   A   deaths   ln tau_face      fluct line 0.2077A+0.55   excess   per site   local slope')
+        prev = None
+        for r in t:
+            lt = math.log(8 * r['mean']); se = 1 / math.sqrt(r['deaths']); line = 0.2077 * r['A'] + 0.55
+            sl = f'{(lt - prev[1]) / (r["A"] - prev[0]):.4f}' if prev else ''
+            print(f'{r["A"]:4d} {r["deaths"]:8d}   {lt:7.3f} +- {se:.3f}   {line:7.3f}                  {lt - line:+.2f}    {lt / r["A"]:.4f}     {sl}')
+            prev = (r['A'], lt)
     return rows
 
 

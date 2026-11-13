@@ -42,6 +42,43 @@ def check_remote(cases: bytes) -> bool:
     return ok
 
 
+@app.function(gpu='A10G', timeout=1800)
+def check_defaults_remote() -> bool:
+    """the production configuration (kernel B defaults) on the face-law vessels: stepping, and events with sparse
+    soups whose faces die quickly"""
+    _setup()
+    import check
+    ok = True
+    for R, T in ((13, 1500), (15, 1500), (17, 1500)):
+        ok &= check.check_fl('gpu', 0, R=R, T=T)
+    for R, p, T in ((13, 0.2, 3000), (15, 0.2, 3000), (17, 0.2, 3000), (17, 0.15, 3000), (17, 0.25, 6000)):
+        ok &= check.check_fl('gpu', 0, R=R, T=T, p=p)
+    for R in (15, 17):
+        ok &= check.check_reseed('gpu', R)
+        ok &= check.check_reseed('gpu', R, kernel='global', WT=1024)
+    print('ALL OK' if ok else 'FAILURES', flush=True)
+    return ok
+
+
+@app.function(gpu='A10G', timeout=1800)
+def check_reseed_remote() -> bool:
+    _setup()
+    import check
+    ok = True
+    for R in (15, 17):
+        ok &= check.check_reseed('gpu', R)
+        ok &= check.check_reseed('gpu', R, kernel='global', WT=1024)
+    return ok
+
+
+@app.local_entrypoint()
+def check_defaults(reseed_only: bool = False):
+    if reseed_only:
+        print('remote checks:', 'ALL OK' if check_reseed_remote.remote() else 'FAILURES')
+        return
+    print('remote checks:', 'ALL OK' if check_defaults_remote.remote() else 'FAILURES')
+
+
 @app.function(gpu='T4', timeout=3600)
 def bench_remote(names=None, WTs=(2048, 8192, 32768, 131072), blocks=(128,), freeze=False):
     _setup()

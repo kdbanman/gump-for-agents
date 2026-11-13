@@ -87,8 +87,10 @@ DEV u64 mix64(u64 z) {
   return z ^ (z >> 31);
 }
 
-/* soup bit of node i for replica r: Bernoulli(thr / 2^64) on seedable nodes */
-DEV int soup_bit(u64 seed, int r, int i, u64 thr) { return mix64(mix64(seed ^ ((u64)r << 32)) + (u64)i) < thr; }
+/* soup bit of node i for replica r: Bernoulli(thr / 2^64) on seedable nodes. Seed and replica are hashed in turn
+ * (an earlier version combined them as seed ^ (r << 32), which made (seed, r) and (seed', r ^ seed ^ seed') collide
+ * when seeds were themselves shifted by 32: parallel runs with seeds 1, 2, 3 repeated each other's soups). */
+DEV int soup_bit(u64 seed, int r, int i, u64 thr) { return mix64(mix64(mix64(seed) + (u64)r) + (u64)i) < thr; }
 
 #ifdef __CUDACC_RTC__
 extern "C" __global__ void gump_run(int n, int WT, const int *__restrict__ nb, const unsigned char *__restrict__ fmask,
