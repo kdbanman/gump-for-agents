@@ -36,7 +36,7 @@ def engine_cases(out):
     np.savez_compressed(out, n=len(ENGINE_CASES), **rec)
 
 
-def check_engine(path, backend, WT):
+def check_engine(path, backend, WT, **kw):
     d = np.load(path)
     ok_all = True
     for k in range(int(d['n'])):
@@ -44,7 +44,7 @@ def check_engine(path, backend, WT):
         centre, sym, T = ('v' if meta[0] else 'c'), bool(meta[1]), int(meta[2])
         hull = [[int(meta[3 + 2 * i]), int(meta[4 + 2 * i])] for i in range(4)]
         v = fl.Vessel(hull, centre, sym)
-        s = gsim.Sim(v, WT, backend)
+        s = gsim.Sim(v, WT, backend, **kw)
         rng = np.random.default_rng(k)
         bits = rng.random((s.R, v.n)) < 0.35
         lanes = sorted({0, 1, 31, 32, s.R // 2 + 5, s.R - 1})
@@ -58,15 +58,15 @@ def check_engine(path, backend, WT):
         res = [set(map(tuple, fl.cells_from_bits(v, out[r]))) == want for r in lanes]
         ok = all(res)
         ok_all &= ok
-        print(f'engine case {k}: nodes {v.n:5d} sym {sym!s:5} T {T}: lanes {lanes} {"equal" if ok else "DIFFER " + str(res)}'
+        print(f'engine case {k} [{s.kernel}]: nodes {v.n:5d} sym {sym!s:5} T {T}: lanes {lanes} {"equal" if ok else "DIFFER " + str(res)}'
               f'  ({time.time() - t:.1f} s)', flush=True)
     return ok_all
 
 
-def check_fl(backend, WT, R=11, T=2000, sym=False):
+def check_fl(backend, WT, R=11, T=2000, sym=False, **kw):
     hull = fl.octa_hull(R)
     v = fl.Vessel(hull, 'c', sym)
-    s = gsim.Sim(v, WT, backend)
+    s = gsim.Sim(v, WT, backend, **kw)
     f = fl.Sim(v, W=s.R // 64)
     rng = np.random.default_rng(R)
     seedable = gsim.seed_mask(v, R) if not sym else np.ones(v.n, bool)
@@ -79,7 +79,7 @@ def check_fl(backend, WT, R=11, T=2000, sym=False):
         ok &= same
         if not same:
             print(f'  fl.c stepping DIFFERS at generation {t0 + 250}'); break
-    print(f'fl.c stepping, R={R} sym={sym} nodes {v.n} replicas {s.R} x {T} gens: {"equal" if ok else "DIFFER"}', flush=True)
+    print(f'fl.c stepping [{s.kernel} {kw}], R={R} sym={sym} nodes {v.n} replicas {s.R} x {T} gens: {"equal" if ok else "DIFFER"}', flush=True)
     # events
     s.set_all(bits); f.set_all(bits)
     sg, sm, _ = f.run_until(T, np.zeros(s.R, np.int32), np.full(s.R, 1 << 30, np.int32))
@@ -89,9 +89,16 @@ def check_fl(backend, WT, R=11, T=2000, sym=False):
         reps, tt, kk = s.step(100)
         got[reps] = tt + done; kind[reps] = kk
         done += 100
-    fd = sm == 0                                    # fl.c: stopped because a face count reached 0
-    mine = kind == 1
-    agree = np.array_equal(fd, mine) and np.array_equal(sg[fd], got[mine])
+    born_dead = (sm == 0) & (sg == 0)               # a face empty in the initial soup: fl.c stops at 0, the kernels
+    fd = (sm == 0) & ~born_dead                     # check after each step, so they report generation 1
+    mine = (kind == 1) & ~born_dead
+    agree = np.array_equal(fd, mine) and np.array_equal(sg[fd], got[mine]) and np.all(got[born_dead] == 1)
+    if not agree:
+        bad = np.nonzero((fd != mine) | (fd & (sg != got)))[0][:10]
+        print('  mismatches (replica, fl.c gen, fl.c m, kernel gen, kernel kind):',
+              [(int(r), int(sg[r]), int(sm[r]), int(got[r]), int(kind[r])) for r in bad])
+    if born_dead.any():
+        print(f'  {born_dead.sum()} replicas started with an empty face (fl.c: generation 0; kernel: 1)')
     st_fl, st_me = sm == -2, kind == 2
     print(f'fl.c events, R={R}: face deaths {fd.sum()} (fl.c) vs {mine.sum()} (kernel), generations '
           f'{"identical" if agree else "DIFFER"}; settled {st_fl.sum()} vs {st_me.sum()} '

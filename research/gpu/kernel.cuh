@@ -102,12 +102,12 @@ extern "C" __global__ void gump_run(int n, int WT, const int *__restrict__ nb, c
 /* reseed replicas reps[0..nrep) with a soup (written to both buffers, so period checks start clean); one thread per
  * (replica, node); replicas sharing a word are written with atomics */
 extern "C" __global__ void gump_reseed(int n, int WT, const unsigned char *__restrict__ seedable, u32 *A, u32 *B,
-                                       const int *__restrict__ reps, int nrep, u64 seed, u64 thr) {
+                                       const int *__restrict__ reps, int nrep, u64 seed, u64 thr, int layout) {
   long long idx = (long long)blockIdx.x * blockDim.x + threadIdx.x;
   if (idx >= (long long)nrep * n) return;
   int k = (int)(idx / n), i = (int)(idx % n), r = reps[k];
   u32 mask = 1u << (r & 31);
-  size_t o = (size_t)i * WT + (r >> 5);
+  size_t o = layout ? (size_t)(r >> 5) * (n + 1) + i : (size_t)i * WT + (r >> 5);   /* layout 1: kernel_shared */
   if (seedable[i] && soup_bit(seed, r, i, thr)) { atomicOr(A + o, mask); atomicOr(B + o, mask); }
   else { atomicAnd(A + o, ~mask); atomicAnd(B + o, ~mask); }
 }
