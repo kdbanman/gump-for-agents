@@ -79,8 +79,7 @@ if __name__ == '__main__':
         truth((28,))
     elif job == 'model3':
         model((6, 8), (32,), deaths=2000)
-        model((6,), (36,), deaths=1500, scale=1.25)
-        model((6,), (40,), deaths=600, scale=40)
+        model((6,), (36,), deaths=1200, scale=1.1)
     elif job == 'gap':
         g = xp.toy_strip(16, 128)
         xp.run('gap_H16_L128', g, deaths=10 ** 9, maxsec=float(sys.argv[2]) if len(sys.argv) > 2 else 900, tag='gap', chunk=500)
