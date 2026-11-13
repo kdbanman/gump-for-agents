@@ -4,6 +4,7 @@ Lattices (neighbourhood offsets on Z^2):
   moore  8 neighbours                   confinement: birth >= 4 (axis and diagonal half-planes)
   vn     4 neighbours (von Neumann)     birth >= 2 confines axis half-planes, >= 3 also diagonals
   hex    6 neighbours (axial coords)    birth >= 3 confines the three lattice-line half-planes
+  cross2 8 neighbours (+-1,0),(+-2,0),(0,+-1),(0,+-2)   birth >= 3 confines axis half-planes (not diagonals)
 Vessels:
   box L      L x L cells, everything outside dead forever (a valid vessel when births are confined)
   strip W L  W rows, L columns, periodic in x; rows outside dead forever
@@ -11,7 +12,7 @@ Symmetry of the seed (orbits of the seeding map; the dynamics preserves it):
   none, mx (x -> -x), my, mxy, c2, c4, d4, diag (x <-> y), t<k> (strip: translation by L/k)
 Lines watched: box -> the 4 edges (flag 1 = histogram), strip -> every row (edges flagged 1).
 Events: box -> each edge empty; strip -> each edge row empty (events 0, 1), then each interior pair of
-adjacent rows empty (a firewall), events 2...
+adjacent rows empty (FIREWALL rows: a firewall), events 2...
 """
 import os, struct, subprocess, sys
 import numpy as np
@@ -24,7 +25,10 @@ OFFS = {
     'moore': [(dx, dy) for dy in (-1, 0, 1) for dx in (-1, 0, 1) if (dx, dy) != (0, 0)],
     'vn': [(1, 0), (-1, 0), (0, 1), (0, -1)],
     'hex': [(1, 0), (-1, 0), (0, 1), (0, -1), (1, -1), (-1, 1)],
+    'cross2': [(1, 0), (-1, 0), (2, 0), (-2, 0), (0, 1), (0, -1), (0, 2), (0, -2)],
 }
+# dead rows needed for a firewall (a cell in it sees < bmin live cells whatever lies outside)
+FIREWALL = {'moore': 2, 'vn': 2, 'hex': 2, 'cross2': 3}
 
 
 def build(lattice, vessel, dims, sym='none'):
@@ -95,7 +99,8 @@ def build(lattice, vessel, dims, sym='none'):
     else:
         for y in range(Wd):
             lines.append((1 if y in (0, Wd - 1) else 0, [idx[y, x] for x in range(Lx)]))
-        events = [[0], [Wd - 1]] + [[y, y + 1] for y in range(1, Wd - 2)]
+        fw = FIREWALL[lattice]
+        events = [[0], [Wd - 1]] + [list(range(y, y + fw)) for y in range(1, Wd - fw)]
     return dict(N=N, nb=nb, orb=orb, R=R, lines=lines, events=events, shape=(Wd, Lx), idx=idx)
 
 

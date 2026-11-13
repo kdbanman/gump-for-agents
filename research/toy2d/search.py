@@ -12,8 +12,8 @@ import json, sys, time
 import numpy as np
 import geom
 
-KMAX = {'moore': 8, 'vn': 4, 'hex': 6}
-BMIN = {'moore': 4, 'vn': 2, 'hex': 3}
+KMAX = {'moore': 8, 'vn': 4, 'hex': 6, 'cross2': 8}
+BMIN = {'moore': 4, 'vn': 2, 'hex': 3, 'cross2': 3}
 
 
 def rulestr(B, S):
