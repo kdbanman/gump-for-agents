@@ -3,8 +3,10 @@
   python3 path_r1.py psharp   the worked numbers of Theorem P / Corollary P1 (biased walk, K = 2 and K = 30)
   python3 path_r1.py data     the data readings of path's entry 3 and entry 5 (committed files only)
   python3 path_r1.py lr1      LR1: generating-function test of (*)(i) on the measured one-step table Tr[k, k']
+  python3 path_r1.py lr1b     the same table with phi free (linear programme)
   python3 path_r1.py lr3      LR3: the last generations before a face death
   python3 path_r1.py lr2      LR2: the certificate of Theorem P on the exact one-row dice model D2(L, 0.472)
+  python3 path_r1.py lr2b     the same with phi free (linear programme): what the population alone can certify
   python3 path_r1.py seg      D2 on a segment (two dead ends) against D2 on a ring, exact (bears on guess G1)
 
 lr1 and lr3 read tallies that are NOT in git (research/scratch/fluct/qsd_R*.npz, written by research/fluct/qsd.py
@@ -264,6 +266,88 @@ def seg():
         ps, pr = ls, lr
 
 
+
+
+# ------------------------------------------------------------------------------- best certificate over all phi
+def best_phi(T, a):
+    """min eps s.t. T(n,0) + sum_{n'>=1} T(n,n') phi(n') <= a phi(n) + eps for all n >= 1, 0 <= phi <= 1 (a linear programme)."""
+    from scipy.optimize import linprog
+    L = T.shape[0] - 1
+    c = np.zeros(L + 1); c[L] = 1.0                       # variables phi(1..L), eps
+    Aub = np.zeros((L, L + 1)); bub = np.zeros(L)
+    Aub[:, :L] = T[1:, 1:] - a * np.eye(L); Aub[:, L] = -1.0
+    bub[:] = -T[1:, 0]
+    res = linprog(c, A_ub=Aub, b_ub=bub, bounds=[(0, 1)] * L + [(0, None)], method='highs')
+    return res.x[L], res.x[:L]
+
+
+def lr2b():
+    print("LR2, continued: the best bound Theorem P can give from the population alone, phi free (linear programme),")
+    print("     on the exact lumped table of D2(L, 0.472). bound = min over a of eps*(a)/(1-a).")
+    for L in (8, 10, 12, 14, 16):
+        h, pn, T = lumped(L, 0.472)
+        out = []
+        for a in (0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.95):
+            eps, phi = best_phi(T, a)
+            if a + eps <= 1:
+                out.append((eps / (1 - a), a, eps, phi))
+        b, a, eps, phi = min(out, key=lambda t: t[0])
+        print(f"  L = {L}: h = {h:.3e}; best bound {b:.3e} at a = {a} (eps = {eps:.3e}): loss {np.log(b / h):+.2f} nats; "
+              f"phi(1..6) = " + ', '.join(f"{x:.3g}" for x in phi[:6]) + f"; phi at the mode = {phi[int(np.argmax(pn)) - 1]:.2e}")
+        print("        bound/h by a: " + ', '.join(f"a={t[1]}: {t[0] / h:.2f}" for t in out))
+
+
+
+
+# ---------------------------------------------------------- LR1, continued: phi free on the measured gump table
+def lr1b():
+    """(*) of Theorem P on the measured rows k = 1..KM-1 (KM about A/2) with phi free on 1..K-1 and constant from K
+    on (phi(k) = phi(K) for k >= K), for K a few rows below KM:  minimise eps subject to, for every measured row k,
+        T(k,0) + sum_{k'>=1} T(k,k') phi(min(k',K))  <=  a phi(min(k,K)) + eps,     0 <= phi <= 1.
+    Bound on the hazard: eps/(1-a) (censoring ignored). The rows above KM are not in the tallies; the bound assumes
+    they are no worse than the measured rows K..KM-1. Unobserved transitions count as impossible, so at A = 63, 84
+    (few deaths) the answer is optimistic."""
+    from scipy.optimize import linprog
+    s = json.load(open(os.path.join(RES, 'fluct', 'data', 'qsd_summary.json')))['sizes']
+    print("LR1, continued: the best bound eps/(1-a) from the measured rows with phi free below K, constant above")
+    for R in (7, 9, 11, 13):
+        Tr = load_npz(R)['Tr'].astype(float)
+        KM = Tr.shape[0]; A = AREA[R]
+        T = Tr / np.maximum(Tr.sum(1), 1)[:, None]
+        lnh = s[str(R)]['ln_h']
+        best = None; table = []
+        for K in sorted(set([4, 6, 8, 10, KM - 8, KM - 5, KM - 3])):
+            if K < 2 or K > KM - 2:
+                continue
+            for a in (0.6, 0.7, 0.8, 0.9, 0.95):
+                c = np.zeros(K + 1); c[K] = 1.0                      # phi(1..K), eps
+                Aub = np.zeros((KM - 1, K + 1)); bub = np.zeros(KM - 1)
+                for k in range(1, KM):
+                    for kp in range(1, T.shape[1]):
+                        if T[k, kp] > 0:
+                            Aub[k - 1, min(kp, K) - 1] += T[k, kp]
+                    Aub[k - 1, min(k, K) - 1] -= a
+                    Aub[k - 1, K] = -1.0
+                    bub[k - 1] = -T[k, 0]
+                r = linprog(c, A_ub=Aub, b_ub=bub, bounds=[(0, 1)] * K + [(0, None)], method='highs')
+                if r.status != 0:
+                    continue
+                eps = r.x[K]; b = eps / (1 - a)
+                table.append((K, a, b))
+                if a + eps <= 1 and (best is None or b < best[0]):
+                    best = (b, K, a, eps, r.x[:K])
+        b, K, a, eps, phi = best
+        print(f"  A = {A}: -ln h = {-lnh:.2f}. Best: K = {K} (K/A = {K / A:.2f}), a = {a}: bound {b:.3e}, -ln = {-np.log(b):.2f}, "
+              f"loss {np.log(b) - lnh:+.2f} nats")
+        print("        phi(1..8) = " + ', '.join(f"{x:.3g}" for x in phi[:8]) + f"; phi(K) = {phi[-1]:.3g}; ratios phi(k+1)/phi(k), k = 1..7: "
+              + ', '.join(f"{phi[k + 1] / phi[k]:.2f}" for k in range(0, min(7, K - 1))))
+        byK = {}
+        for KK, aa, bb in table:
+            if KK not in byK or bb < byK[KK][1]:
+                byK[KK] = (aa, bb)
+        print("        -ln(bound) by K (best a): " + ', '.join(f"K={KK}: {-np.log(max(bb, 1e-300)):.2f} (a={aa})" for KK, (aa, bb) in sorted(byK.items())))
+
+
 if __name__ == '__main__':
     what = sys.argv[1]
-    dict(psharp=psharp, data=data, lr1=lr1, lr2=lr2, lr3=lr3, seg=seg)[what]()
+    dict(psharp=psharp, data=data, lr1=lr1, lr1b=lr1b, lr2=lr2, lr2b=lr2b, lr3=lr3, seg=seg)[what]()

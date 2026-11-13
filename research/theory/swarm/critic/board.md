@@ -1,7 +1,7 @@
 # Board (critic)
 
-_Kept by the critic. Last update: 2026-11-13, round 0b (second critic; PROBLEM.md as revised at 22:30 UTC, before
-any reply to a solver). Scripts named here are in `critic/lab/`; run them from that directory. "Checked" means I
+_Kept by the critic. Last update: 2026-11-13, after the reply to path's round 1 (PROBLEM.md as revised at 22:30
+UTC; the round 1 reports of source and counting are written and not yet read). Scripts named here are in `critic/lab/`; run them from that directory. "Checked" means I
 re-derived or recomputed it; "read" means I compared the statement with its source and did nothing more.
 Proofs and commands behind every "checked" are in `critic/journal.md`._
 
@@ -10,10 +10,10 @@ Proofs and commands behind every "checked" are in `critic/journal.md`._
 | who | directory | toolkit | state |
 |---|---|---|---|
 | probability | `swarm/probability/` | dice in place of chaos: particle systems, coupling, percolation, contours | no report yet |
-| counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | no report yet |
-| path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | round 1 written; reply pending |
-| source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | no report yet |
-| librarian | `swarm/library/` | primary papers: `shelf.md` (one line per source), `notes/`, `requests.md` (append-only, anyone) | shelf sections 1–2 written (finite contact process; non-monotone systems) |
+| counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | round 1 written; reply pending |
+| path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | round 1 answered (`to-path.md`) |
+| source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | round 1 written; reply pending |
+| librarian | `swarm/library/` | primary papers: `shelf.md` (one line per source), `notes/`, `requests.md` (append-only, anyone) | shelf: finite contact process; non-monotone systems; algebraic and permutive automata |
 
 Where lines could meet, which I watch: the probability of an empty edge under a product measure (a transfer
 matrix about a dice model); quasi-stationary measures and escape rates; the face game with free cells beneath;
@@ -76,11 +76,14 @@ None of these changes the problem. Each is a number or sentence a proof could le
   nat *shorter*-lived with nearly the same slope (0.190, 0.207 against 0.201, 0.212); at depth 2 and 3 the slope is
   too large (0.236–0.242; 0.228), at depth 4–5 it agrees. The gap has no single sign.
 - **E14. "Death takes a few generations and happens everywhere on the face at once" is two statements of
-  different standing.** 2D: a two-generation flash at L = 12–24 (exponent study, sampled; unchecked): at 2 cells
-  per generation nothing can cross those rows in that time. Gump: the plunge takes 10–12 generations (ordinary
-  until −16; ≈ 16 for the symmetric faces), and the farthest two cells of a face of A = 30, 45, 63, 84 are 5, 6, 7,
-  8 generations apart (checked, `startpoints.py crossing`). On every gump face measured, the plunge is longer than
-  the crossing time: those data cannot tell "everywhere at once" from "spreading from a place".
+  different standing.** 2D: the last two generations go from about nine cells to two to none at L = 12–24, with
+  a sag of ≤ 12% over the ten generations before (exponent study, sampled; unchecked): at 2 cells per generation
+  nothing crosses those rows in that time. Gump: **the collapse is not of fixed length.** From the existing
+  pre-death histories (lab L1.3): the lag at which the mean population of a dying face is half the living mean is
+  3.2, 4.7, 5.9, 6.8 generations at A = 30, 45, 63, 84, and looking back from the death the mean population is one
+  curve at every size until it saturates (1.6, 3.5, 6.4, 9.7, 13.6, 17.6 at lags 1…6). The farthest two cells of
+  those faces are 5, 6, 7, 8 generations apart (`startpoints.py crossing`). "Ordinary until −16, then 10–12
+  generations" (fluct README) describes the largest of these faces, not a size-independent plunge.
 
 ## The lead's starting points: what I checked
 
@@ -113,8 +116,8 @@ None of these changes the problem. Each is a number or sentence a proof could le
 - "Too large a constant": see E13.
 
 **path.**
-- "A rare configuration, not a slow path; a few generations; everywhere at once": see E14. For gump "a few" is
-  10–16.
+- "A rare configuration, not a slow path; a few generations; everywhere at once": see E14. In gump the collapse
+  lengthens with the face (half-way lag 3.2 → 6.8 generations from A = 30 to 84).
 - "γ = cost per cell of the cheapest killing pattern, priced by the chaotic phase's own space-time measure": not
   yet a statement, because the measure is not defined. In a finite vessel no invariant measure carries chaos
   (lemma exchange). The candidates are a quasi-stationary law (exists for dice models; for the deterministic
@@ -189,7 +192,13 @@ None of these changes the problem. Each is a number or sentence a proof could le
 
 ## Who is using which idea
 
-(No replies written yet. Path's round 1 is being read.)
+| idea | who | state |
+|---|---|---|
+| the face as a system driven through b(c); rim lemma (holes heal only from the rim; recovery at speed ≤ 1) | path (L1) | proved, checked |
+| a one-step inequality for a statistic of the face bounds the hazard, no Markov property (Theorem P) | path | proved, checked. As first stated (geometric φ) its hypothesis is false; with φ free it holds on the measured rows with a loss of 4.0 nats at every size (lab L1.2) |
+| sealed sets = complements of bootstrap-closed sets; isoperimetry of sealed sets in hulls (aim A) | path (L3, L4) | L3, L4 proved, checked; A exact to R = 10 (lab), open in general; false in wide slabs (E12) |
+| one exponent 0.345 for the 2D rule in every geometry, a ring carrying a power of L (G1) | path | guess from committed data; exam E1 filed. D2 on a segment is exact (lab L1.5): undecided |
+| flash or front; the remnant | path (G2, exam E2) | gump: not a flash of fixed length (E14). 2D: open |
 
 ## Graveyard: ideas already tried here and dropped, with the reason
 
@@ -225,6 +234,9 @@ None of these changes the problem. Each is a number or sentence a proof could le
     and its premise fails in wide slabs and strips (E12).
 17. **Reading a slope from exact data at L < 15 in the one-row dice model.** The step of ln τ per cell oscillates
     between 0.43 and 0.62 for L = 8–14 before settling near 0.52–0.53 (lab L0b.4).
+18. **Theorem P with φ = r^{min(n,K)}** (path's hypothesis H as first stated). Rows n = 1, 2 do not contract for any
+    r ≤ 0.9, in gump's measured table and in D2: from one cell the face dies with probability 0.37–0.41 (D2: 0.28)
+    and does not drift up. The first three or four values of φ must be free (lab L1.1, L1.2).
 
 ## Lemma exchange
 
@@ -240,7 +252,18 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
   orientations, one cell of each normal axis; hull rims included). Beneath a triple lie the other three faces
   u_x, u_y, u_z of the same cube (one layer in) and three private cells v_x, v_y, v_z (two layers in), and the
   number of live cells beneath the face cell of axis a is **b_a = u_b + u_c + v_a**. Nothing is shared between
-  cubes. Of the 64 triples (b_x, b_y, b_z) exactly 40 occur; (3, 0, ·) does not.
+  cubes. Of the 64 triples (b_x, b_y, b_z) exactly 40 occur; (3, 0, ·) does not. The three corner cells of a
+  hull face have only two cells beneath, both shared: they have no private cell.
+- **Rim lemma** (path L1; checked): a dead face cell all of whose in-face neighbours are dead stays dead whatever
+  lies beneath. So the live set of a face spreads at in-face speed ≤ 1 and a hole is refilled only from its rim.
+- **Theorem P** (path; proof checked). For any process, any statistic Z of it, any 0 ≤ φ ≤ 1: if at every time of a
+  window P(death next | Z) + E[φ(Z′); still observed | Z] ≤ a·φ(Z) + ε, with censoring rate ≤ s̄ and a + ε ≤ 1 − s̄,
+  a < 1 − s̄, then the hazard is at most ε(1 − s̄)/(1 − s̄ − a) after a burn-in. No Markov property is used. Statement
+  and proof: `path/journal.md` entry 3.
+- **Sealed = complement of a bootstrap-closed set** (path L3; checked): the unsealed region V \ K(t) is the
+  θ-neighbour bootstrap closure of the live set and never grows. **Top-layer rigidity** (path L4; checked): a cell
+  in the top layer of a sealed set whose three upward neighbours are in the vessel has all its other neighbours in
+  the set.
 - **Capped against uncapped** (checked). Gᵗ(S) ⊆ Fᵗ(S) for the uncapped monotone rule F, also with shared dice.
   Any monotone H ≤ G satisfies H(S) ⊆ G(all alive) = the six vertex cells of a cube-centred hull, the four
   corners of a box, nothing in slabs, strips, tori, vertex-centred hulls; and H∘H = ∅.
@@ -296,6 +319,12 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 | L0b.7 | how far from invertible | bits lost in one generation, log₂(\|X\|/\|F(X)\|): 2.5 of 20 (box 4 × 5), 2.4 of 24 (strip 4 × 6), 1.7 of 12 (hull R = 2v); eventual image 0.19%, 0.046%, 12% of states | `startpoints.py image` |
 | L0b.8 | permutive rules as dice, small cases | see lemma exchange | `startpoints.py source` |
 | L0b.9 | one-generation emptying under product measures (2D) | cost per cell 0.5515 at p_e = ρ = 1/2; 0.672 at (0.58, 0.472); 0.760 at (0.6455, 0.472) | `iid_flash.py` |
+| L1.1 | path LR1: a_k(r) = Σ Tr[k,k′] r^{k′−k} / Σ Tr[k,k′] on the measured one-step table of the face population (existing tallies, not in git) | a₁(r) > 1 for all r ≤ 0.90 at A = 30, 45, 63, 84 (r = 0.65: 1.117, 1.093, 1.086, 1.075); a₂ > 1 for r ≤ 0.70–0.75. P(death \| n = 1) = 0.41, 0.38, 0.38, 0.37; P(death \| n = 2…5) ≈ 0.10, 0.019, 0.005, 0.001; mean step from n = 1, 2, 3, 5, 10 at A = 63: 0.00, +0.31, +0.53, +1.14, +1.98 | `path_r1.py lr1` |
+| L1.2 | the same table, φ free below K and constant above (linear programme) | best bound: −ln = 2.82, 5.78, 9.53, 14.02 at A = 30, 45, 63, 84 against −ln h = 6.81, 9.82, 13.63, 18.08: loss 4.0 nats at every size; K/A = 0.43–0.48, a = 0.95; φ(1), φ(2), φ(3) = 0.84–0.90, 0.56–0.64, 0.32–0.43, then ratios 0.55–0.63. Rows above A/2 are not in the tallies; A = 63, 84 optimistic | `path_r1.py lr1b` |
+| L1.3 | path LR3: population of a dying face at lag s before death (existing `pre` arrays) | mean n at lags 1…6, 8, 10, 12, 16: A = 84: 1.6, 3.4, 6.4, 9.7, 13.6, 17.6, 26.0, 31.8, 35.2, 39.9 (living mean 42.4); A = 30: 1.6, 3.8, 6.5, 8.3, 9.3, 10.1, 11.4, 12.2, 12.6, 13.2 (13.6). Half the living mean at lag 3.2, 4.7, 5.9, 6.8; 90% at lag 11, 13, 13, 14 | `path_r1.py lr3` |
+| L1.4 | path LR2: Theorem P on the exact lumped table of D2(L, 0.472) | geometric φ: best bound 1.02, 0.97, 0.88, 0.80 at L = 8, 10, 12, 14 (useless). φ free: bound/h = 8.8, 10.4, 11.5, 12.6, 13.6 at L = 8…16 (a = 0.8) | `path_r1.py lr2`, `lr2b` |
+| L1.5 | D2 on a segment (two dead ends) = D2 on a ring with two adjacent cells removed | ln τ = 4.506, 5.106, 5.486, 5.847, 6.286, 6.764, 7.259, 7.740, 8.201, 8.655 at L = 5…14 cells; steps 0.495, 0.481, 0.461, 0.454 at L = 11…14. Longer-lived than the ring of equal length by 2.07 nats at L = 5 and 1.08 at L = 14 | `path_r1.py seg` |
+| L1.6 | refits of the empty-window decrement (committed `gap.json`) | limit 0.348 (c/ℓ), 0.355 (e^{−ℓ/20}), 0.370 (c/ℓ²), 0.373 (e^{−ℓ/10}) on ℓ = 20…38, all acceptable | `path_r1.py data` |
 
 ## The lab: what it can do, how to ask
 
@@ -305,7 +334,8 @@ checked there against the open-lattice stepper).
 
 Available on request, exact only: the fate of every state of a vessel with ≤ 26 cells; smallest sealed sets
 under side conditions (hulls to about 700 cells, slabs to about 250); feasibility questions "is there a
-configuration beneath that does X" (SAT); the face game on a face of ≤ 18 cells; transfer-matrix eigenvalues for
+configuration beneath that does X" (SAT); the face game on a face of ≤ 18 cells; linear programmes over
+certificates (Theorem P) on an exact or tallied one-step table; transfer-matrix eigenvalues for
 any explicitly stated finite-window model (to about 2¹⁶ window states); exact killed-chain eigenvalues and
 quasi-stationary laws for dice models on a ring of L ≤ 18 (cells updating independently given the row) or on
 ≤ 2¹⁴ states otherwise; joint laws of permutive automata on small windows.
@@ -313,11 +343,17 @@ quasi-stationary laws for dice models on a ring of L ≤ 18 (cells updating inde
 A request needs: the vessel (kind and dimensions); the rule; what is random and with what law, if anything;
 the event; and the convention for states that never die. No Monte Carlo, nothing over a few minutes.
 
+**Existing tallies.** A request may ask for arithmetic on tallies that already exist on this disk
+(`research/scratch/fluct/qsd_R*.npz`: face-population histograms, one-step transitions from n < A/2, the last 64
+generations before each death, for hulls R = 7…13). They are not in git; I check them against the committed
+summary before use and say so. No new runs.
+
 ## Citations
 
 Before leaning on a published theorem, look on `library/shelf.md`. On the shelf now: the finite contact process
 (Durrett–Liu, Durrett–Schonmann, Mountford 1993, and three later papers) and non-monotone survival (Durrett's
-comparison theorem, Bramson–Neuhauser only through secondary accounts). **Not on the shelf yet, though used on
-this board or in PROBLEM.md:** Darroch–Seneta; Goles–Olivos; anything on permutive automata; Kac's lemma and
-escape rates; probabilistic cellular automata. Where the board uses one of these it gives or points to a
+comparison theorem, Bramson–Neuhauser only through secondary accounts), algebraic and permutive automata, and
+escape rates and hitting times (the last two not yet compared by me with the board's "permutive sources" and
+"trapdoors" lemmas; due with the replies to source and counting). **Not on the shelf yet, though used on this
+board or in PROBLEM.md:** Darroch–Seneta; Goles–Olivos; probabilistic cellular automata. Where the board uses one of these it gives or points to a
 self-contained proof.

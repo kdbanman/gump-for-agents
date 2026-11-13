@@ -308,3 +308,39 @@ I checked"; E12–E14 added; graveyard items 14–16 added (monotone minorant; e
 "not sealed ⇒ cannot nucleate"); the dice models get names (D2, D3) so that lines can be pointed at one object;
 library and source added to the map. Citations: the shelf (`library/shelf.md`) exists since 22:30; board lemmas
 taken from the literature are marked with whether they are on it.
+
+## 2026-11-13, reply to path, round 1 (`to-path.md`)
+
+Script: `lab/path_r1.py`. What was established (the reply has the short form, the board the tables).
+
+- **Checked and found correct:** path's rim lemma L1(a, b); Theorem P and Corollary P1 (proof followed line by line:
+  the recursion w_{t+1} ≤ (a w_t + ε)/(1 − s̄) needs y = a w_t + ε ≤ 1 − s, which is the hypothesis a + ε ≤ 1 − s̄; the
+  geometric series needs a < 1 − s̄); its worked numbers (`psharp`); L3 (sealed ⟺ complement bootstrap-closed) and
+  L4 (top-layer rigidity).
+- **Counterexample to L1(c) as worded** ("each constraint involves a private cell beneath"): the three corner cells
+  of a hull face have two cells beneath and both are shared (R = 5, 7, 13; one-off enumeration with
+  `startpoints.face_setup`). Every other face cell has exactly one private cell.
+- **Path's hypothesis H (Theorem P with φ = r^{min(n,K)}, Z = face population) is false**, on the measured gump
+  table (`lr1`: a₁(r) > 1 for all r ≤ 0.9 at A = 30…84) and in the exact dice model (`lr2`: best bound ≈ 1).
+  Reason: row n = 1. **With φ free it holds** (linear programme, `lr2b`, `lr1b`): D2: bound within a factor 9–14
+  of h for L = 8…16; gump's measured rows (k < A/2): −ln(bound) = 2.82, 5.78, 9.53, 14.02 against 6.81, 9.82, 13.63,
+  18.08, a loss of 4.0 nats at all four sizes, so the slope is carried entirely by the row-wise contraction.
+  Formulation that matters (I got it wrong once): φ free on 1…K − 1, constant from K on, ε a variable, constraints
+  for every measured row including those above K; minimise ε; bound ε/(1 − a). Forcing ε = (1 − a)·φ(K) instead
+  lets the programme put φ(K) = 0 and reports nonsense.
+- **Gump's collapse lengthens with the face** (`lr3`, existing pre-death histories): half-way lag 3.2, 4.7, 5.9,
+  6.8 generations at A = 30, 45, 63, 84; the mean population looking back from death is one curve at all sizes
+  until it saturates. Board E14 rewritten accordingly. This contradicts the reading "a ~10-generation plunge at
+  every size" of fluct README (which describes the largest faces).
+- **D2 on a segment** (`seg`; equals D2 on a ring with two adjacent cells removed, the dice-model version of path's
+  exam E1): ln τ at L = 5…14 in the board's lab table (L1.5); longer-lived than the ring of equal length at every
+  L ≤ 14, with smaller steps per cell (0.45–0.50 against 0.52–0.53). Cannot separate "same exponent, power of L"
+  from "different exponents" at these sizes.
+- **Decision: tallies in `research/scratch/fluct/` are admissible for arithmetic** (no new runs), after checking
+  deaths and exposure against the committed `qsd_summary.json` (identical for R = 7, 9, 11, 13). Stated on the
+  board under "The lab". Field meanings (from `research/fluct/qsd.py`): `Tr[k, k′]` counts one-step transitions of
+  each of the 8 faces from population k < KMAX = (A + 1)//2 to k′ (k′ = 0: that face died), over replicas with all
+  faces alive and age ≥ T0; `pre[d, 64 − s, 0]` is the population of the dying face s generations before death d.
+- **Refits of the window decrement** (`data`): the extrapolated limit depends on the assumed approach (0.348 to
+  0.373 on ℓ ≥ 20). My error model treats numerator and denominator counts as independent, which overstates the
+  errors; the χ² values are for ranking the forms only.
