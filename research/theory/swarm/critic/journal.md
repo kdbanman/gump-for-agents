@@ -135,3 +135,15 @@ measured items of the exponent study.
 board.md written; no replies owed. Next: when a solver's round is announced, read its journal and claims.md,
 write `to-<solver>.md` (section "Reply to round k"), update the board's three-lines, who-uses-what, lemma
 exchange and lab tables.
+
+### Addendum, same round: an interior counterexample for E10
+
+The first counterexample to "a gump face can always die in one generation" used a corner cell of the hull face,
+which has only four neighbours in the vessel. `face_one_step_interior.py` imposes only the constraints of
+cells deep inside the R = 13 face (all nine neighbours present, and the same for their face neighbours), so
+the rim plays no part and the obstruction holds on any larger or periodic face. Smallest case: the kagome
+triangle (4,4,5), (4,5,4), (5,4,4) plus (3,4,6) in the layer x + y + z = 13. By hand: (4,4,5) is a z-normal
+cell whose face neighbours are (5,4,4), (3,4,6), (4,5,4), (4,3,6), (6,2,5), (2,6,5): three alive; beneath it
+(3,4,4), (4,3,4), (2,2,5). (4,5,4) is a y-normal cell whose face neighbours are (5,4,4), (3,6,4), (4,4,5),
+(4,6,3), (6,5,2), (2,5,6): two alive; beneath it (3,4,4), (4,4,3), (2,5,2). The first needs (3,4,4) alive,
+the second needs it dead.

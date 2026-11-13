@@ -47,13 +47,15 @@ None of these changes the problem. Each is a number or sentence a proof could le
 - **E10. A false "[proved]" statement in `research/theory/exponent/theorems.md`, Lemma A, consequence (c):**
   "A gump face can always die in one generation given suitable layers beneath." The per-cell half is true (no
   face cell is safe). The statement about the face is false, because neighbouring face cells share the cells
-  beneath them. Exhaustive (`face_one_step.py`): on the 18-cell face of the R = 5 hull, 180,615 of the 262,144
-  configurations cannot be emptied in one generation whatever lies beneath; on the 9-cell face of R = 3, 187 of
-  512. Smallest counterexample, checked by hand: live cells (0,0,5), (0,1,4), (0,2,3), (1,0,4). Cell (0,0,5) has
-  two live face neighbours and dies only if both cells beneath it are dead; (0,1,4) has three and dies only if
-  all three beneath it are alive; they share the cell (−1,0,4). What is true on those two faces: every
-  configuration with ≤ 3 live cells can be emptied in one generation; on the R = 3 face every configuration can
-  be emptied in two (`face_game.py`).
+  beneath them. Counterexample in the interior of a face, checked by hand: in the layer x + y + z = 13 let
+  (4,4,5), (4,5,4), (5,4,4) (a kagome triangle) and (3,4,6) be alive and their other face neighbours dead.
+  (4,4,5) has three live face neighbours, so it dies only if n ≥ 6: all three cells beneath it alive, among
+  them (3,4,4). (4,5,4) has two, so it dies only if n ≤ 2: all three beneath it dead, among them (3,4,4).
+  Exhaustive (`face_one_step.py`, `face_one_step_interior.py`): on the 18-cell face of the R = 5 hull, 180,615
+  of the 262,144 configurations cannot be emptied in one generation whatever lies beneath; on the 9-cell face
+  of R = 3, 187 of 512. What is true on those two faces: every configuration with ≤ 3 live cells can be emptied
+  in one generation; on the R = 3 face every configuration can be emptied in two (`face_game.py`). How many
+  generations a large face needs in the worst case is not known (the 2D edge needs three, for every L).
 - **E11.** I did not find the lead's "starting thoughts" in the repository, so I have not checked them.
 
 ## Definitions a proof must match
@@ -175,7 +177,7 @@ From the repository, usable by all three. "Checked" = by me, this round.
 | L0.2 | smallest gump vessels, every state | R = 1c (6 cells): 2 cyclic states. R = 2v (12 cells, the vertex star): 498 cyclic states (108 fixed, 390 of period 2), 2,750 states end extinct, max transient 3: agrees with CLAIMS T10. 910 of 4,096 states never lose a face | `gump_lab.py census 2 v` |
 | L0.3 | 2D, every state | strip 3 × 6: 2,259 cyclic states (369 / 1,710 / 180 of period 1 / 2 / 4); 52,463 of 262,144 states never lose an edge; longest wait for an edge death 10. Box 4 × 5: 2,005 cyclic states (periods 1, 2, 3, 4); 258,644 of 1,048,576 never lose an edge; longest wait 22 | `toy2d_lab.py census strip 3 6` |
 | L0.4 | smallest sealed sets | see lemma exchange | `sealed_min.py` |
-| L0.5 | gump face emptied in one generation? | no in general; see E10 | `face_one_step.py 3`, `5` |
+| L0.5 | gump face emptied in one generation? | no in general; see E10. Interior patch of 9 cells, central cell alive: all configurations with ≤ 3 live cells can be emptied, 6 of the 56 with 4 cannot | `face_one_step.py 3`, `5`; `face_one_step_interior.py` |
 | L0.6 | refit of the 2D law | see E1 | inline, journal |
 
 ## The lab: what it can do, how to ask
