@@ -30,7 +30,7 @@ def box_cells(c, h):
 
 def shell_cells(c, h):
     """surface faces of the cube [c-h, c+h]^3: cells lying in one of its six bounding planes, inside the square"""
-    return {p for p in box_cells(c, h) if any(abs(p[i] - c[i]) == h and (p[i] - c[i]) % 2 for i in range(3))}
+    return {p for p in box_cells(c, h) if any(abs(p[i] - c[i]) == h and p[i] % 2 for i in range(3))}
 
 def orbits_of(cells, c):
     seen, out = set(), []
