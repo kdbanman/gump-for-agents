@@ -124,6 +124,38 @@ deaths. τ_face = 8 × mean (8 independent faces). The R = 9 row is the fluctuat
   (`R17_s3_A10G.json`, 4 of the 16 peels; it is independent of the later seeds 11–12, which use the new hash).
   `facelaw.py summary` now warns when runs share death ages.
 
+## Second use: the lead's experiments 1 and 2 (O_h-symmetric soups) [measured]
+
+Forecasts were committed first (`PREDICTIONS.md`, 18:05Z); outcomes are appended there. Kernel with settle detection
+to period 128; T0 = 1000; τ = mean residence (the eight faces of a symmetric state die together).
+
+| O_h soups | A | deaths | A10G time | ln τ | forecast |
+|---|---:|---:|---:|---:|---|
+| vertex R = 36 | 513 | 99,763 | 1.5 min | 14.625 ± 0.003 | (τ 2.2e6) |
+| vertex R = 38 | 570 | 112,545 | 8 min | 16.345 ± 0.003 | (τ 1.2e7) |
+| vertex R = 40 | 630 | 45,785 | 30 min | 18.273 ± 0.005 | (τ 7.1e7: 21% low) |
+| cube R = 43 | 759 | 1,057 | 30 min | **21.903 ± 0.031** | 21.6–22.0 |
+| vertex R = 44 | 759 | 637 | 30 min | **22.409 ± 0.040** | 22.3 ± 0.4 |
+| cube R = 45 | 828 | 192 | 45 min | **24.175 ± 0.072** | 24.0 ± 0.4 |
+
+- **Side 17 without running it:** its first plateau is the cube-centred A = 828 hull; τ = 3.2 × 10¹⁰ (68%:
+  2.9–3.4 × 10¹⁰), inside the forecast. Local cube-centred slope 759 → 828: 0.0329 ± 0.0011 per site (0.209/6 =
+  0.0348; the lead's a + (0.209/6)A − 0.195√A has slope 0.031 there and lies 0.14 / 0.25 nats below the two new
+  points). Vertex/cube factor at A = 759: 1.66 ± 0.08.
+- **Single lineages are memoryless** (R = 36, 38, 40): CV, P(> 4τ), P(< 0.05τ), KS and the hazard to 10 τ all match
+  an exponential (numbers in `PREDICTIONS.md`), once settled debris of any period ≤ 128 is removed.
+- **The wait immediately after a peel** (`postpeel.py`; `modal run research/gpu/modal_app.py::postpeel --r 40
+  --centre v --states 9216 --tau-b 1.254e7`): fresh soups peel at R; their post-peel states (kept by the K_KEEP freeze,
+  checked against `fl.c`) run on in the hull one layer smaller. 9,216 post-peel states each:
+  R = 38 → 36: mean wait **0.989 ± 0.010** of the stationary τ(36), CV 0.991; R = 40 → 38: **0.998 ± 0.010** of
+  τ(38), CV 1.002. One deviation: an **aftershock** — in the first 0.01 τ after a peel the hazard is 1.55× (141
+  deaths vs ≈ 91) and 1.36× (124 vs ≈ 91) the stationary rate, then flat; ≈ 0.5% extra early deaths. The newly exposed
+  layer starts slightly fragile [conjecture: it was depleted while the old outer layer died].
+- **For OPEN-PROBLEMS 6** (cube plateaus over-dispersed): neither a fresh lineage nor the plateau right after a peel
+  shows memory in the direction of long plateaus; the aftershock shortens plateaus slightly. Whatever makes the cubes'
+  plateaus long is not in O_h soup lineages at R = 36–40. [conjecture] It is in the cube's own lineage (its states
+  are not typical O_h soup states; see the lead's copies-vs-soups comparison at R = 42).
+
 ## Using it for a new ensemble experiment
 
 Anything that is "many independent replicas of one vessel, stopped at an event" fits: write a driver like `facelaw.py`
