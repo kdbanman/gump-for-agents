@@ -17,6 +17,7 @@ image = (modal.Image.from_registry('nvidia/cuda:12.4.1-devel-ubuntu22.04', add_p
          .pip_install('numpy==2.2.6', 'cupy-cuda12x==13.4.1')
          .add_local_file(f'{ROOT}/research/fluct/fl.py', f'{R}/research/fluct/fl.py')
          .add_local_file(f'{ROOT}/research/fluct/fl.c', f'{R}/research/fluct/fl.c')
+         .add_local_file(f'{ROOT}/research/peeling/geom.py', f'{R}/research/peeling/geom.py')
          .add_local_dir(f'{ROOT}/research/gpu', f'{R}/research/gpu', ignore=['__pycache__', '*.npz']))
 app = modal.App('gump-gpu', image=image)
 
@@ -96,6 +97,7 @@ def check_periodic_remote(cases: bytes) -> bool:
         f.write(cases)
     ok = check.check_periodic('/tmp/periodic.npz', pw=128)
     ok &= check.check_periodic('/tmp/periodic.npz', pw=32)
+    ok &= check.check_periodic('/tmp/periodic.npz', pw=1024)
     ok &= check.check_periodic('/tmp/periodic.npz', pw=128, J=3, WB=1, blocks=12)
     return ok
 
@@ -135,6 +137,25 @@ def postpeel(r: int, centre: str = 'v', states: int = 9000, seed: int = 301, tau
     with open(path, 'w') as fh:
         json.dump(out, fh)
     print('saved', path, 'states', out['states'], 'wall', round(out['wall_s']))
+
+
+@app.function(gpu='A10G', timeout=1800)
+def check_slab_remote(cases: bytes) -> bool:
+    """slab vessels: every generation against the engine's torus slab, and stepping + face deaths against fl.c on the
+    production slab graphs (kernel B, production shape)"""
+    _setup()
+    import check
+    with open('/tmp/slab.npz', 'wb') as f:
+        f.write(cases)
+    ok = check.check_slab_every('/tmp/slab.npz', 'gpu', 0)
+    for N1, N2 in ((6, 6), (6, 7)):
+        ok &= check.check_fl_slab('gpu', 0, N1, N2, 8, T=3000, p=0.2)
+    return ok
+
+
+@app.local_entrypoint()
+def check_slab(cases: str = f'{ROOT}/research/scratch/gpu/slab_cases.npz'):
+    _report(check_slab_remote.remote(open(cases, 'rb').read()))
 
 
 @app.function(gpu='A10G', timeout=1800)
@@ -232,21 +253,54 @@ def bench_shared(gpu: str = 'T4', quick: bool = False):
 
 
 @app.function(gpu='A10G', timeout=6 * 3600)
-def facelaw_remote(R: int, minutes: float, seed: int, centre: str = 'c', sym: bool = False):
+def facelaw_remote(R: int, minutes: float, seed: int, centre: str = 'c', sym: bool = False, slab: str = '', p: float = 0.0,
+                   WB: int = 0, pw: int = 128):
     _setup()
     import facelaw
-    return facelaw.run(R, minutes * 60, seed, centre=centre, sym=sym, log=lambda x: print(x, flush=True))
+    sl = tuple(int(x) for x in slab.split('x')) if slab else None
+    cfg = dict(pw=pw)
+    if WB:
+        cfg['WB'] = WB
+    return facelaw.run(R, minutes * 60, seed, p=p or (0.4 if sl else 0.35), centre=centre, sym=sym, slab=sl,
+                       log=lambda x: print(x, flush=True), **cfg)
 
 
 @app.local_entrypoint()
-def facelaw(r: int, minutes: float = 10, seed: int = 1, gpu: str = 'A10G', copies: int = 1, centre: str = 'c', sym: bool = False):
+def facelaw(r: int = 0, minutes: float = 10, seed: int = 1, gpu: str = 'A10G', copies: int = 1, centre: str = 'c', sym: bool = False,
+            slab: str = '', wb: int = 0, pw: int = 128):
+    """slab='6x7x8' runs a rim-free slab (p = 0.4 unless given); wb, pw: columns per block, settle window."""
     """`copies` containers in parallel (seeds seed..seed+copies-1); compact results to research/data/gpu_facelaw/."""
     import json
     d = f'{ROOT}/research/data/gpu_facelaw'
     os.makedirs(d, exist_ok=True)
     f = facelaw_remote.with_options(gpu=gpu)
-    for out in f.starmap([(r, minutes, seed + i, centre, sym) for i in range(copies)]):
-        path = f'{d}/{"sym" + centre if sym else ""}R{r}_s{out["seed"]}_{gpu}.json'
+    for out in f.starmap([(r, minutes, seed + i, centre, sym, slab, 0.0, wb, pw) for i in range(copies)]):
+        tag = f'slab{slab}' if slab else f'{"sym" + centre if sym else ""}R{r}'
+        path = f'{d}/{tag}_s{out["seed"]}_{gpu}.json'
         with open(path, 'w') as fh:
             json.dump(dict(out, gpu=gpu), fh)
         print('saved', path, 'gens', out['gens'], 'replicas', out['replicas'], 'wall', round(out['wall_s']))
+
+
+@app.function(gpu='A10G', timeout=4 * 3600)
+def cubelike_remote(data: bytes):
+    _setup()
+    import io, numpy as np, cubelike
+    d = np.load(io.BytesIO(data))
+    states = np.unpackbits(d['states'], axis=1)[:, :int(d['n'])].astype(bool)
+    return cubelike.run(states, log=lambda x: print(x, flush=True))
+
+
+@app.local_entrypoint()
+def cubelike(prepared: str = f'{ROOT}/research/scratch/gpu/cubelike_v40.npz'):
+    """the lead's experiment c; `python3 research/gpu/cubelike.py prepare` makes the input (fl.c, local)"""
+    import json, numpy as np
+    raw = open(prepared, 'rb').read()
+    d = np.load(prepared)
+    res = cubelike_remote.remote(raw)
+    out = dict(lineages=int(len(d['specs'])), nseeds=int(d['nseeds']), hist=json.loads(str(d['hist'])), burst=int(d['burst']),
+               specs=d['specs'].tolist(), result={str(k): v for k, v in res.items()})
+    path = f'{ROOT}/research/data/gpu_facelaw/cubelike_v40.json'
+    with open(path, 'w') as fh:
+        json.dump(out, fh)
+    print('saved', path)

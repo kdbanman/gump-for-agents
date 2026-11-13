@@ -57,3 +57,30 @@ Nothing above is edited; these restate two outcome lines.
 - **τ(R = 40 v) "+21%":** the 7.1e7 in the lead's message pools soups with copies of the side-16 cube; the soup-only
   value on file is 8.2e7 ± 15%, which 8.63e7 matches. So the "±10% of the lead's values" sub-forecast missed only
   against the pooled number; against soups it held.
+
+## 2026-11-13T23:25Z — the lead's experiments a, b, c (after review of PR 8); before any of the runs
+
+Kernel B with settle detection (kind 2: period 1–2; kind 3: periods to 128, or to 1024 where said); settled lives are
+censored out of every statistic and counted; lives alive at the end of a run are censored with their exposure.
+
+**a. Do rim-free slab faces cost more per cell beyond A = 90?** Flat slabs, m = 8 layers, p = 0.4, near-square in-plane
+tori (`vessels.SlabVessel`, the statistic of `research/peeling/face_law_fit.py`: ln τ_face = ln(2 × mean wait from
+generation 0 to the first extinct outer layer); the CPU line is −0.091 + 0.2088·A for A = 27–90). Sizes: 6×6 (A = 108)
+and 6×7 (A = 126). The line predicts ln τ_face = 22.46 and 26.22. **Forecast: on the line within ±0.15 at both**
+(0.2088 per cell holds; the octahedral rise to 0.218–0.221 is a rim effect). Probability I give it: 0.6. The
+alternative I would read as "the bulk constant rises": both points above the line by > 0.2, with the excess growing.
+Octahedral A = 165 is not affordable (≈ 10⁶ GPU-seconds per death at the octahedral rate); not run.
+
+**b. Does the cube-centred hazard really fall with age?** One long run, O_h cube-centred R = 43 (A = 759), 2,304
+replicas (WB = 1, so each ages ≈ 2× faster), settle window 1,024, 3 hours: ages to ≈ 3 τ. **Forecast: the hazard is
+flat beyond the first 0.05 τ — a Weibull fit to ages ≥ 0.05 τ gives a shape 0.95–1.05 — and τ = 3.25 × 10⁹ within
+± 10%.** Probability 0.6; the alternative (k < 0.95 over the whole range) would mean young cube-centred soups die
+faster and the side-17 mean is above 3.2 × 10¹⁰.
+
+**c. Plateaus of cube-like seeds at vertex-centred R = 40.** 7,807 deterministic O_h seeds: closed cube 14 plus the
+shell of side 16 minus 1, 2 or 3 shell orbits (`cubelike.py`); a 1,000-generation burst (fl.c, local) leaves 3,857
+distinct lineages at exactly R = 40; each is followed through its plateau at 40, then (state kept at the peel) 38, then
+36, with a cap of 12 τ. τ(40, 38, 36) = 8.63e7, 1.254e7, 2.247e6 (fresh soups, this directory). **Forecast: memoryless
+at all three radii — mean T/τ within 1.00 ± 0.06 at 40 (± 0.08 at 38, 36), CV of uncensored waits within ± 0.05 of an
+exponential's, P(> 4τ) 1.8% ± 0.6%, P(< 0.05τ) 4.9% ± 1%, KS below the 5% critical value.** I.e. cube-like lineages
+do not reproduce the cubes' long plateaus (3 of 16 beyond 4τ) at R = 40 either. Probability 0.75.
