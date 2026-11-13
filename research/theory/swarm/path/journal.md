@@ -607,3 +607,75 @@ Proposition S does not need it for a given face.
 - **Entry 12, "where the induction stalls".** The two sub-cases described as handled (W′ = ∅; W′ a face of
   V_{R−2}) are sketches: I did not check the cells near the rims and corners of the faces, where some of the
   cells beneath a face cell lie on another face. Only Corollary 4a is proved there.
+
+---
+
+## Round 2 report
+
+**Corrected or withdrawn** (entry 7): L1(c) "private cell" (false at hull corners; the cube lemma is the
+statement); hypothesis H with φ = r^{min(n,K)} (false, lab L1.1); G2's gump half (the data decide: the collapse
+lengthens with the face); R5's example (now gump's own neighbours B45/S34, B45/S35, B45/S45, B4/S345: same graph,
+θ = 4, chaotic on a torus, median lifetimes 20–104 where gump has 3,420).
+
+**Claims.**
+- **Theorem P̄** (entry 8): for any process and statistic, pooled over a window, Deaths ≤ direct deaths from
+  outside a low set 𝓛 + Σ over entries into 𝓛 of ψ(entry point) + a boundary term, for every ψ ≥ 0 superharmonic
+  for the pooled one-step table on 𝓛; an identity for the table's own committor ψ*. No Markov property, no
+  uniformity in time, no constant a, censoring free. **[proved]**
+- **H′** (entry 8): ψ*_K(k) ≤ C e^{−θk} at the entry rows, K = κA, for the population of a gump hull face. Then
+  ln τ ≥ θ(κA − J) − const. **[hypothesis; consistent with L1.2 on the tallied rows, A ≤ 84]**
+- **Lemma 1′, Proposition S** (entry 9): inside any sealed set life spreads only from life in the set; the
+  skeleton grows only by extinctions of these contact-type subsystems; the first permanent loss is the extinction
+  of a minimal sealed set. **[proved]** With H′ for the set, this is the precise form of "why area": a face in a
+  hull, a band in a wide slab (E12). **[conditional]**
+- **Proposition R** (entry 10): for biased voter dynamics on any finite graph a set of n sites dies out with
+  probability (λ^{−n} − λ^{−N})/(1 − λ^{−N}): the area law for a droplet, exact, by the martingale λ^{−n}. **[proved]**
+  A caricature of the mechanism, not a relative of the rule.
+- **The remnant** (entry 11): looking back from death √n falls by ≈ 0.59 per generation at every size: death is
+  a shrinking droplet **[data]**. Committor slope 0.55 and tail slope 0.46 are one exponent θ ≈ 0.50 with
+  power-law prefactors **[guessed]**. **(M)** γ = θρ − θ²σ²/2 (+ 1/(2A) in the local slope): the lifetime slope
+  from the tail slope and the mean and variance of the living face; holds to ± 0.01 on the slopes at
+  A = 54–96 **[sketched; slopes only, entry 13]**.
+- **Corollary 4a** (entry 12) **[proved]**; aim A stays a conjecture beyond R = 10 and I have stopped working on it.
+- G1 (one exponent for the 2D rule, rings carrying a power of L) and exam entries E1, E2: unchanged, **[guessed]**.
+
+**Weakest steps.** (1) H′ can be checked only where deaths are already frequent. What would make it a law is
+that ψ* is one function of k for all A (the remnant does not know the face); I have the critic's four tables
+and no argument. (2) (M) describes a shape (parabola joined to a line); assumption M3 is unchecked and its
+remainder is vessel-dependent. (3) For the 2D rule this round adds nothing: there Theorem P̄'s entry term is
+itself the rare event. (4) The C4 box (entry 5.3) is still unexplained.
+
+**Lab requests.** LR4–LR7 are arithmetic on the existing tallies; LR8′ is exact.
+- LR4. For A = 30, 45, 63, 84 and K = ⌈0.3A⌉, ⌈0.4A⌉: ψ*_K = (I − T̄_{<K})⁻¹ d̄ from `Tr` (rows 1…K − 1); its values
+  and local log-slopes; whether ψ*_K(k), k ≤ 10, is the same function at the four sizes. Then the identity of
+  Theorem P̄: entries into {< K} from the tallied rows K ≤ k < KMAX, plus entries from rows ≥ KMAX obtained from
+  identity (I) (histogram `H` minus tallied inflow), each times ψ*, over exposure, against h̄; and which entry
+  rows carry the sum.
+- LR5. Per row k < KMAX: mean and variance of the one-step change, and the root r_k ∈ (0, 1) of
+  Σ_{k′} T̄(k, k′) r^{k′−k} = 1. The droplet reading predicts r_k level for k ≥ 6, equal across sizes (0.60–0.63),
+  and a mean step growing like √k.
+- LR6. The pre-death curve predicted by the pooled table alone (time-reversed chain T̃(k′ → k) ∝ N(k) T̄(k, k′),
+  started from the death shares), lags 1…6, against 1.6, 3.4, 6.4, 9.7, 13.6, 17.6. Is n Markov along death paths?
+- LR7. d ln p_k/dk over 8 ≤ k ≤ 20 at A = 108, 135, 165 (`H` of R = 15, 17, 19); and at A = 63, 84 the histogram
+  against the parabola of its own mean and variance down to x* = ρ − θσ² (assumption M3).
+- LR8′. D2(ρ = 0.472), quasi-stationary law μ. (a) Segment, L = 12 and 14: E_c(ℓ) = μ(cells 1…ℓ dead),
+  ℓ = 1…L − 4. (b) Ring, L = 16 or 18: E(ℓ) = μ(a fixed window of ℓ cells dead). The front picture predicts: the
+  corner decrement −ln[E_c(ℓ+1)/E_c(ℓ)] is level from small ℓ at some θ_c; the ring's decrement approaches θ_c
+  from above; both lifetime steps tend to θ_c. A level corner decrement near 0.45 with a ring decrement that
+  stays near 0.52 would refute "one exponent" in D2.
+
+**Next.** If LR4 shows ψ* universal: state the area law for gump as one theorem under H′ with the remnant
+defined on an infinite face, and look for the weakest property of the cells beneath a rim that gives the
+upward drift. Otherwise: the 2D rule, where the open question is the route (E2).
+
+---
+
+## 2026-11-13, entry 14. Exam entry E3 filed
+
+In `research/theory/swarm/PREDICTIONS.md`: on the periodic slab face of 60 cells (5 × 4 × 8), (i) mean population
+of the dying face at lags 1–4: 1.6 ± 0.15, 3.4 ± 0.35, 6.4 ± 0.6, 9.7 ± 1.0; (ii) tail ratio p_k/p_{k+1} over
+6 ≤ k ≤ 12: 0.63 ± 0.03; (iii) 62 ± 5% of deaths from one cell. It tests the claim behind H′ and (M) that the
+remnant is one object in every vessel. What could break it: in a hull the last remnant may sit at a corner or on
+the rim (hull faces outlive slab faces of equal area by a constant factor 1.7–1.9, which I read as an anchoring
+of the last remnant, an O(1) effect); if so the hull's curve at lags 1–2 is a corner curve and the slab's will
+differ.

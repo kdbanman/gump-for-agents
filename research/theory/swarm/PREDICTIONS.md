@@ -42,3 +42,18 @@ gump the asymmetric baseline is not in doubt (slab and hull faces share a slope)
 measured ratio 0.42 would break this inequality if the ring's 0.41 were its limit.
 *Refuted if* the slope is below 0.098 (ratio under 0.46: the mirror-symmetric face is cheaper per independent
 cell than an asymmetric one) or above 0.122.
+
+## 2026-11-13, path, E3 (filed in round 2, after the critic's reply to round 1)
+
+**E3. Gump's remnant on a face without a rim.** Periodic slab 5 × 4 × 8 (face area A = 60; `gump_slab` of
+`research/theory/exponent/xp.py`), soups, states older than T0, the last generations before each face death
+recorded as in `research/fluct/qsd.py`.
+*Predictions:* (i) the mean population of the dying face 1, 2, 3, 4 generations before its death is
+**1.6 ± 0.15, 3.4 ± 0.35, 6.4 ± 0.6, 9.7 ± 1.0** (the curve measured on hull faces, A = 63 and 84); (ii) the
+quasi-stationary tail ratio p_k/p_{k+1}, averaged over 6 ≤ k ≤ 12, is **0.63 ± 0.03** (hull, A = 63: 0.63);
+(iii) 62 ± 5% of deaths come from a one-cell face.
+*Why (two lines):* a face dies by the shrinking of one remnant, whose population walk does not know the vessel
+(path journal 11.1, 11.2); hull faces are "mostly rim" (board E3) and slab faces have none, yet the two have
+the same slope of ln τ, which by relation (M) of journal 11.3 means the same tail slope.
+*Refuted if* the lag-3 or lag-4 mean differs from the hull's by more than 20%, or the tail ratio is outside
+0.57–0.69.
