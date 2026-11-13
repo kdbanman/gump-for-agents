@@ -715,7 +715,9 @@ Question put to the agent: is a face's death just the far tail of its ordinary f
 - **[measured] Every large plateau of cubes 13–16 against the ensemble mean at the same hull**
   (`python3 research/experiments/cube_vs_ensemble.py`): of 16 plateaus with A ≥ 408, three lasted more than 4 means
   (side 15 at R = 37 and 33: 4.2 each; side 16 at R = 40: 7.4; 0.29 expected, P = 0.003) and three less than 0.05
-  (0.78 expected); the sum of T/τ is 26.5 against 16 (P = 0.011). **[conjecture]** Residences of whole cubes are
+  (0.78 expected); the sum of T/τ is 26.5 against 16 (P = 0.011). [Corrected 2026-11-13 (audit, finding 1): this test is post hoc — it
+  includes the side-16 plateaus that prompted it; sides 13–15 alone sum to 12.8 means against 10, P ≈ 0.18. Not
+  evidence; a question for fresh lineages.] **[conjecture]** Residences of whole cubes are
   over-dispersed relative to the memoryless ensemble — both tails. The ensembles themselves are exponential to 30
   means (hazard flat in age, 66,555 deaths at R = 30). No mechanism is known: a clone is the cube's own state with
   one orbit flipped, and inherits anything slow. It may be luck at the 1% level. Open.
@@ -743,6 +745,7 @@ Question put to the agent: is a face's death just the far tail of its ordinary f
 - **The cube itself:** its first plateau, 2.362×10⁹, is 3.3 soup means (P = 0.036), or 2.8 means of soups and copies
   pooled (P = 0.06). `python3 research/experiments/cube_vs_ensemble.py` now reads: side 16's four largest plateaus
   at 2.8, 7.4, 2.6 and 1.2 means; all 16 large plateaus of cubes 13–16 sum to 27.2 means against 16 (P = 0.008).
+  [Corrected 2026-11-13 (audit, finding 1): post hoc, as above; the P-value should not be quoted as evidence.]
   The puzzle of the previous entry stands and is now only about cube lineages, not about one hull size. Open.
 - The side-17 forecast is unchanged by the extra R = 41 data (fits give ln τ(828) = 23.7–24.2; forecast 24.0 ± 0.4).
 
@@ -792,6 +795,11 @@ Notes with full proofs and commands: `research/theory/threshold.md`, `research/t
   torus slab beyond N = 4 (it is one whole face layer at N = 3, 4).
 
 ## 2026-11-13 — audit corrections (lead's session; findings in `research/AUDIT-2026-11-13.md`)
+An agent that did none of the work audited all of it, assuming it wrong until reproduced. It re-derived T1–T4, the
+twist lemma, the threshold lemma and the sealed-set theorem, and found bit-exactness intact; it also found the
+errors noted in brackets through this notebook. The most serious was the lead's: the "cubes are over-dispersed,
+P ≈ 0.01" count was post hoc (finding 1). Standing checks now exist: `bash research/check.sh` (20 exact checks,
+≈ 25 s; run in CI on every pull request) and `research/CLAIMS.md` (71 headline claims graded A–D).
 Corrections to older entries are bracketed notes placed after the statement they correct. Items that have no older
 statement to annotate:
 - **[measured]** (audit I7) The numpy oracle reproduces the side-12 log at every generation, with no torus divergence

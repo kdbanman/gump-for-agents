@@ -78,8 +78,9 @@ or a sharply stated conjecture with a rate, (iii) what remains is characterised.
 ### E — end states (what is left)
 
 - **E1 [measured] The ash census** (`research/atlas/`): what a typical seed leaves. No theory of its composition.
-- **E2 [heuristic] Random map with killing.** Treat chaos in a vessel of N cells as a random map killed at rate
-  1/τ: ≈ τ states on immortal cycles; a seed reaches one with probability ~τ²/2^N. Testable in small vessels, where
+- **E2 [heuristic, untested] Random map with killing.** Model: a uniformly random map on M = 2^N states, each step
+  independently fatal with probability 1/τ, τ ≪ √M. Then ≈ τ states lie on immortal cycles and a random seed
+  reaches one with probability ≈ τ²/M (derivation in `OPEN-PROBLEMS.md`, item 4). Testable in small vessels, where
   it should also predict the *clockwork*: periods, counts and basins of long oscillators (with the twist lemma as
   the birthday paradox modulo symmetry). Links E to M and to `research/clockwork/`.
 - **E3 [open] Why does side 15 go extinct and side 16 leave twelve S8b?** What the final collapse selects.

@@ -21,9 +21,13 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    - deriving 0.208 from a model: near empty the face is one small cluster and P(k cells) falls by a constant
      factor 0.65 per cell, which is what a birth–death walk of a single cluster would give.
 4. **[open question] "Chaos always ends" is false as a theorem but plausibly true with overwhelming probability.**
-   A rough guess has been that, with killing rate h = 1/τ, about τ of the 2^N hull states lie on cycles that never
-   lose a face, so a random seed reaches one with probability ~τ²/2^N. That is not derived: for a uniformly random
-   map on M states only about √(πM/2) states are cyclic, so the τ-scaling needs a stated model (audit 2026-11-13, U5).
+   **Stated model [heuristic, untested]:** a uniformly random map on M = 2^N states in which every step is
+   independently fatal (a face dies) with probability h = 1/τ, τ ≪ √M. A random map has on average 1/k cycles of
+   length k; a k-cycle is immortal with probability (1 − h)^k; so the expected number of states on immortal cycles
+   is Σ_k (1 − h)^k ≈ τ. A random orbit closes on itself at step t with probability ≈ t/M and is still alive then
+   with probability (1 − h)^t, so it reaches an immortal cycle with probability ≈ Σ_t (t/M)(1 − h)^t ≈ τ²/M.
+   (Without killing, √(πM/2) states are cyclic; the killing is what cuts that to τ.) Whether gump's chaos behaves
+   like such a map is the open part — testable in small vessels (PROGRAM E2).
    The long-period oscillators in small boxes (period 66 in a 45-cell hull) are the small-N end of the same thing.
    Not checked numerically. A seed that is *extinct* (population 0) is not the generic end either: still lifes remain.
 
