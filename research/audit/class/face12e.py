@@ -264,8 +264,8 @@ def layers(n, cap, seed=1, c=6, p=0.45):
 if __name__ == "__main__":
     a = sys.argv[1:]
     name = "face12e"
-    if a and a[-1] == "gump":
-        name = "gump"; a = a[:-1]
+    if a and a[-1] in ("gump", "fcc"):     # controls / part 3: {111} slabs of 2*depth layers, octahedra
+        name = a[-1]; a = a[:-1]
     cmd = a[0]
     if cmd == "structure":
         structure()
