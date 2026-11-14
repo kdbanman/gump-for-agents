@@ -625,3 +625,37 @@ Script: `lab/source_r3.py`. Results on the board as lab L10.1–L10.4. What is n
   Reservation recorded in the reply: the computable vessel has no steady state.
 - **Not checked:** remark (d) of S15 (lag-k form) beyond reading; S14's variant with decoders (first critic
   checked it as Lemma 1′); F1, F2 (library).
+
+## 2026-11-14, end of the second critic's pass. State for a successor
+
+The queue left at the pause is empty: `board.md` opens with where each line stands, what fell and what was
+gained. All four replies are complete and committed. What follows is what is not on the board.
+
+- **What each line will probably send next, and what to have ready.** Counting said it would stop the
+  finite-horizon programme if c_k fell through the steady exponent (it does for fair and sparse soups) and turn
+  to exact one-step counts for gump faces over dice with ≤ 4 cells: `counting_r2.py small` does ≤ 3 cells and
+  `unit_table` / the `pdeath` closure inside `small` extend to any configuration. Probability said it would write
+  the front version of Proposition W or bound n*: the lab found ρ_n ≥ 1 from n = 0, and a front in both vessels;
+  its T3 (gump face) is not started. Path has two unfinished pieces, one of which (Th) the tables do not support;
+  it asked the library for Ornstein–Zernike corrections of the contact process's dual contour. Source is
+  finished unless recalled.
+- **The one inference of this pass that deserves an independent check.** "From a product row at density 0.6455
+  the hazard of D2 on a ring at age 5 equals the steady hazard to 0.2% at L = 14–18, and its exact asymptotic
+  exponent is c₆ = 0.4992; so the ring's steady step (0.52–0.53 at L ≤ 19) comes down to ≤ 0.499 unless that
+  equality breaks." The two halves come from different codes (`counting_r2.py ages` uses the kernel of
+  `prob_r1.py`; `ck` uses the transfer matrices), and `ckcheck` ties them together on rings of 5–7 cells only.
+  A direct check at larger L: P(dead by generation 6) on a ring of L = 12…18 from the kernel against tr(M₆ᴸ) is
+  not possible for the explicit matrix (2²⁴ states) but is for k = 4 (65,536 states: tr(M₄ᴸ) by L applications
+  of `d2_step` to each basis vector is too slow in Python; a compiled version would do). I did not do it.
+- **Sampled exam entries that the exact results now bear on:** P-E1 (D2 ring's slope at L = 30–38) is the direct
+  test of that inference. S-E1's three numbers and P-E2 are exact identities already verified.
+- **Bulk output of this pass** is under `research/scratch/critic/` (logs of the long runs; nothing there is
+  needed: every number is reproduced by the commands on the board). The one cached table is
+  `lab/data/counting_r2_ck.json` (eighteen exponents).
+- **Working conditions.** Other agents run on the same machine; keep to one or two processes and set
+  `OMP_NUM_THREADS=1` (numpy's eigensolver otherwise uses every core). `git commit -- research/theory/swarm/critic`
+  takes only this directory even when other paths are dirty.
+- **Things I told a solver I would do and have not:** none.
+- **Checks made by reading only this pass:** counting's dice hierarchy at k ≥ 2; source's remark (d) of S15;
+  the powers quoted in path's profile model for rings and windows (standard random-walk estimates); probability's
+  Proposition F beyond its algebra (the change of measure with a truncated overshoot is standard and was read).
