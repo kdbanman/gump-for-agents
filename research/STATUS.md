@@ -67,38 +67,14 @@ _Last updated 2026-11-14 by the lead._
   (4) a second small revision of `class.md` (clauses 3, 5, 6; an edge term); (5) after the owner's Fable reset
   (they said about 9am their time, probably 16:00 UTC): the fresh-reader audit of counting and path, and a new
   theory push on the sharpened problem: derive the 0.2 per cell from six layers of the rule over noise.
-- **Swarm (state 2026-11-14, about 07:25 UTC).** The critic's successor answered every report on file
-  (`critic/board.md` opens with the state; replies in `critic/to-<line>.md`): nothing tagged proved was found wrong;
-  three guesses fell (counting's bridge C1′, path's "ln τ = A·∫θ", every equal-time transfer hypothesis); the source
-  line is finished and the critic agrees. **Solvers restarted 07:35 UTC** (fresh successors on probability, path and
-  counting, each with the critic's reply; the owner had just opened the whole account up to 95% of the session and
-  weekly limits, `LEAD.md`). When they report, a fresh critic successor reviews the new rounds in one pass. Started
-  07:50 UTC as well: the fresh-reader audit of the one finished theorem chain (source's and probability's Theorem A;
-  writes `swarm/audit/AUDIT-theoremA.md`), and a reviser applying the class review to `research/theory/class.md`.
-  **Critic's third pass, done 09:50 UTC** (`critic/to-counting.md`, `to-path.md`, `to-probability.md`, board E16 on):
-  nothing tagged proved in counting round 3, path round 4 or probability round 3 was found wrong; counting and
-  probability are **finished**. Qualified: counting's "the sheet cannot live without the layer" holds on box walls
-  only (3.9% of periodic 4 × 4 sheets persist); a mirror does not exactly halve the slope (0.0991 against 0.1104 at
-  A = 84–108); probability's Lemma 4 is about independent counts, not cells; path's Theorem Q has a side condition
-  false as worded; the measured population tables are not yet extensive (two faces of 45 cells are 4–7% easier to
-  empty than one of 90). **Path's closing round is written** (10:27 UTC; journal entries 22–24, closing report,
-  `claims.md` final): V depends on how the table is continued below row 5 (0.2191 or 0.2054 at A = 84); Theorem Q's
-  side condition repaired; a lower-bound theorem V⁻ with certificate (1 − δ)V + δ·(block bound) under hypotheses
-  (E), R, R⁺, B⁺, of which (E) (sub-extensive tables) is untested for gump. **Running (Fable, started 10:30 UTC):**
-  the last critic pass, checking V⁻ line by line and writing a **closing table of the whole swarm** at the top of
-  `critic/board.md`. When it reports: write the swarm's closing notebook entry from that table (what each line
-  proved and who checked it, what is conditional, what fell, exam scores), update `research/theory/PROGRAM.md`, and
-  the swarm is closed. Still owed after that, and worth Fable once the owner has reset the window: a fresh-reader
-  audit of counting's and path's proved claims (only probability and source have had one). The audit of the Theorem A chain is done (`swarm/audit/AUDIT-theoremA.md`): the
-  theorem stands, conditional on two cited percolation statements; recorded in the notebook (2026-11-14, "a
-  deterministic relative…") and as CLAIMS row SW1, with the lead's own simulation. The audit's part B also passed
-  every proved claim of the probability and source lines; counting's and path's have had no fresh reader yet.
-  Earlier: a librarian (successor) on the two percolation facts that probability's and
-  source's Theorem A rest on (`library/requests.md`, last two blocks), and an examiner running the sampled entries of
-  `swarm/PREDICTIONS.md` (writes `swarm/exam/OUTCOMES.md`). Stop a line when a round gives no new proved step (each
-  solver was told that a closing report is a good outcome). Then a fresh reader (not the critic) audits every claim tagged "proved" across the four `claims.md`,
-  first of all the chain "a deterministic automaton with a theorem" (source's Theorem A with probability's Theorem A).
-  Only after that does anything from the swarm go into the notebook, `CLAIMS.md` or `docs/AUTOMATON.md`.
+- **Swarm: closed 2026-11-14** (`research/theory/swarm/critic/board.md`, closing table at the top; notebook entry
+  "the theory swarm is closed"). No proof of the area law and no derivation of the constant. Stands: a deterministic
+  relative with an exponential law (audited; CLAIMS SW1); exact reductions and a conditional area law for gump
+  (path's P̄ and Theorem Q on a measured hypothesis; one critic, no second reader); the fixed-age theory of soups
+  (counting). Exam: five hold, four fail or missed, two undecided, three not run (C-E3, path E4, P-E4). **Owed, and
+  worth Fable after the owner's reset:** a fresh-reader audit of counting's and path's proved claims; then, as a new
+  effort, the sharpened problem (the constant from five or six layers over noise: transfer matrices at finite depth,
+  the committor of the population table).
 - **`research/theory/class.md`**: attacked 2026-11-14 (`research/audit/REVIEW-class.md`; notebook entry of that date).
   Its theorems stand; its first clause does not (sealing is a property of a half-space, not a direction), and the
   edge-neighbour rule the owner meant to write in 2012 (there called `face12e`; not gump) turned out to be a gump in a

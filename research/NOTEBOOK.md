@@ -1285,3 +1285,55 @@ project: the open problem "why about 0.21 per cell" no longer needs gump's bulk.
 layers of the rule over independent coins, a probabilistic cellular automaton of finite depth, for which lifetimes
 can be computed exactly at small sizes and sampled at large ones without the deterministic bulk. Not checked by
 anyone: the report's §§2, 6.1, 8–10 tables, the gump two-generation face game, `fg.c` beyond N = 24.
+
+## 2026-11-14 — the theory swarm is closed: no proof of the area law; what it did establish
+
+Four solver lines (probability, counting, path, source), a librarian, four critic passes, an examiner and one
+fresh-reader audit, 2026-11-13 to 14, on one problem: why the wait before a face dies is exponential in its area, by
+mathematics alone. The closing table is at the top of `research/theory/swarm/critic/board.md` (the board is closed);
+proofs are in each line's `journal.md`, verdicts in `critic/to-<line>.md`. In the critic's words, which are the right
+strength: **no line proved the area law for gump or for the 2D rule, and no line derived the constant from the
+rule.** "Why area" and "what is the constant" are open.
+
+What stands, and who checked it:
+
+- **A deterministic relative with an exponential law** (probability and source; critic and the independent audit):
+  entry of this date above, CLAIMS SW1. Conditional on two published percolation statements not verified here at
+  the source. Not self-made randomness.
+- **Exact reductions for gump** (path; one critic per round, no second reader): every permanent loss is the
+  extinction, at one instant, of an inclusion-minimal sealed set; the death rate equals the entry flux into a low set
+  times the committor of the pooled one-step population table, with no Markov assumption (P̄); the exponent lies
+  between a block bound and a sum of local roots, with equality for skip-free tables.
+- **A conditional area law** (path's Theorem Q; one critic): ln τ ≥ θ₀(κA − k₀) − ln Φ *if* sparse faces regrow at a
+  rate bounded below on rows k₀ … κA of the table (hypothesis R). R(0.35, 0.40, 5) holds on the four measured hull
+  tables (A = 30–84); it is not derived from the rule. It accounts for 0.13–0.14 of the 0.21 per cell (0.16–0.18
+  with the measured entry term). The sharper Theorem V⁻ stands as mathematics but adds at most 0.35 nats at the
+  measured sizes, and its hypothesis (sub-extensive tables) fails on rows above 0.3·A between the tallied sizes.
+- **Fixed-age theory of soups** (counting; one critic): the chance that a fresh soup's edge is dead by generation k
+  is a transfer-matrix quantity, exactly computable. It describes the transient, not the steady law (its exam
+  entry failed, and the author withdrew the bridge).
+- **Exact facts about face12e and symmetric faces** (counting; one critic): a lone cell on a face12e sheet dies in
+  one generation with probability 3793/8192; cube- and vertex-centred O_h faces have equal orbit counts, so the
+  factor between them is a boundary effect.
+
+One number is left as a conjecture: the quasi-potential V = 0.2191 per cell at A = 84, a functional of a measured
+table with a stated continuation, to be compared only with hull slopes at A ≥ 84 (0.218, 0.221). The alternative
+0.2054 is contradicted by the tallies.
+
+What fell, each for a stated reason (the board's graveyard): closures by independent cells; fixed-age exponents as
+the law; "ln τ = A·∫θ"; "one remnant in every vessel"; the ring exponent coming down to the interval's; every
+equal-time transfer hypothesis. Exam: five entries hold, four fail or missed, two undecided, three not run (C-E3,
+path E4, P-E4).
+
+Facts the swarm leaves without an account: the constant for either rule; the rise of the cost per cell with A; the
+symmetric slopes and the vertex/cube factor; face12e's 0.205 and fcc's 0.181.
+
+Not checked by anyone: the two percolation statements at the source; any link from the rule to the pooled table;
+counting's and path's proofs by a reader other than one critic (the audit covered probability and source only);
+path's closing theorems were written and checked on the same day. The lead read the closing table and the
+audit, re-derived the relative's lifetime (entry above), and proved nothing here.
+
+Where this leaves the problem, with the exponent study's result of the same day: the constant belongs to five or
+six layers of the rule over independent noise, and the reductions above say what has to be computed there (the
+committor of a population table, or better a direct transfer-matrix calculation at finite depth). That is a smaller
+problem than the one the swarm was given.
