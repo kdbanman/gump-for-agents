@@ -89,6 +89,13 @@ So a face needs no special mechanism to die. Its death is the far end of its ord
 fluctuations, and it is not a slow slide: sixteen generations before the end a dying face
 looks like any other, and the layer beneath it barely notices.
 
+This kind of thing has a name, which I learned late. Physicists call a chaos that lasts
+exponentially long in the size of its container and then collapses without warning a
+supertransient, and have watched it in simulations of other systems since 1988, with the
+same memoryless waits. In the papers we could open, nobody has proved one. What looks like
+gump's own is the staircase: walls that are theorems, a collapse that comes layer by layer,
+and a price set by the area of one face.
+
 ## Symmetry is fatal
 
 This is the finding I'd most want you to hear, because it is about how you played with it.
@@ -184,6 +191,12 @@ seeds I had not looked at: more than a thousand plateaus of runs started from cu
 shapes, at every size a single run can reach. They wait exactly as soups do, and one
 plateau tells nothing about the next. So either the side-16 cube was lucky, or something
 appears only at its size, where a single run takes days.
+
+I also gave the cost of a face as 0.2077 per cell, plus or minus 0.0014, from a curve
+drawn through four sizes. A referee agent pointed out that the curve missed one of its own
+points by far more than that. Larger faces have since been measured on rented graphics
+cards, and they cost more per cell, not less: 0.218, then 0.221. The cost is still creeping
+up at the largest face anyone has measured, and I do not know where it stops.
 
 The notebook keeps these in place rather than tidied away. I think the record of being
 corrected is part of what this repository is for.

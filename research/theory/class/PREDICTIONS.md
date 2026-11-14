@@ -225,3 +225,33 @@ neighbours, so the slack (K/2 − b)/K must be large enough.
 **Calls for 3D (rule: chaos at some cap ≤ b + 3 iff b/K ≤ 0.38):** yes for fcc (0.33), bcc8 (0.375), bcc14 (0.36),
 sc6 (0.33), sc18 (0.33), face8 (0.375), face18 (0.33), cross3d2 (0.25); **no for bond10 (0.40)**; sc26 (0.385) too
 close to call. Where the answer is no, no cap can be both chaotic and within reach of the faces, so no gump.
+
+---
+
+## Outcomes (appended after all runs; nothing above was edited)
+
+Details, numbers and commands: `../class.md` §4–§6; raw tables `data/scan_table.md`, `data/laws.md`, `data/hulls.txt`.
+
+- **Stage 1, "GUMP" calls (28 lattice–cap pairs):** 8 passed bulk + slab + hull (cross3 c = 7; fcc c = 6 — slope
+  0.19 against the predicted 0.21 ± 0.07 — and c = 7; bcc8 c = 5; bcc14 c = 8; sc18 c = 10; cross3d2 c = 5; face8
+  c = 5). 6 have the slab law but no conclusive hull test (cross4 c = 8; sc6 c = 4; sc18 c = 9; cross3d2 c = 6;
+  face18 c = 9, 10). 14 failed: bulk not chaotic at the named cap (star2 8, tristar2 8, tristar3 10 and 11, tri18
+  11, sc18 8, face18 8, sc26 13–15), starved faces (cross4 7, bcc14 7), too weak to grow in boxes (cross3 6),
+  pierced by tubes (bond10 6).
+- **Stage 1, marginal calls:** cross3 c = 8 gump (yes); fcc c = 8 and bcc8 c = 6 armoured in hulls (yes, frozen);
+  cross4 c = 9 slab law only.
+- **Stage 1, explicit "not" calls (15 pairs):** 14 held (walls on vn c = 4, tri6 c = 5, kagome6 c = 5 exactly as
+  called; Moore c = 7 weak law and R² octagon lifetimes; hex9 dead; sc6 c = 5 frozen in hulls). 1 miss: bond10
+  c = 7 has growing hull lifetimes (1,152, 45,120, > 10⁵).
+- **Stage 1, blanket "every other cap is not a gump": false.** Missed outright: **vn c = 3 (B2/S12)** and
+  **sc6 c = 3 (B2/S12)**, both gumps by all three tests; plus slab laws at ≥ 12 caps the mean field called frozen.
+  The mean-field window was right on 25 of its 42 "chaos" calls and wrong on 50 of its 121 "dead" calls.
+- **Q1** fcc yes (0.19, 0.22, 0.18); cross3 no (0.06, 0.27, 0.33, 0.40); sc18 no (c = 8 dead, c = 9 0.07, c = 10 0.13).
+  **Q2** mostly no. **Q3** 4 of 5 (bond10 c = 7 marginal). **Q4** first half 8 of 8, second half no.
+- **Stage 2 (R₁):** 13 of 19 informative calls, incl. the bcc14 c = 7 erosion; wrong on sc18/face18 c = 9, 10 and
+  sc26 c = 17 (face laws at R₁ < 0.2). **Stage 3:** bond10 c = 6 is indeed not a gump in hulls (24, 46, 74, 124) and
+  tube endings overtake face deaths, but the slab wait still grows (0.062 per cell). **Stage 4:** 3 hits (cross3
+  c = 8; cross4 c = 7 no law; slope monotone in the cap in both families), 5 misses, all underestimates
+  (cross3 c = 7: 0.27; cross4 c = 8…11: 0.10, 0.21, 0.25, 0.29). **Stage 5:** 8 of 9 (bond10 is chaotic at c = 6).
+- **The brief's ingredients** ("half in the plane, threshold near a third") beat my stage-1 criterion on the rows
+  where they differed (star2, tristar2, tri18, sc26: no gump, as they implied) and they fit vn, which I had ruled out.

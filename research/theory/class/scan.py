@@ -91,4 +91,4 @@ if __name__ == "__main__":
                            f"early={sum(f['early'])} rf={f['dens'][1]:.2f} af={f['act'][1]:.2f}" for f in faces) + f" | {v}")
         print(line, flush=True)
         RN.save(dict(kind="scan", lattice=a.lattice, b=b, c=c, rule=TH.rule_name(B, S), verdict=v, bulk=bk["cls"],
-                     rho=bk["dens"], act=bk["act"], faces=[{k: f[k] for k in ("A", "m", "n", "face", "seal", "p2", "cyc", "lntau", "cv", "dens", "act", "exposure", "early")} for f in faces]))
+                     rho=bk["dens"], act=bk["act"], faces=[{k: f[k] for k in ("A", "m", "n", "face", "seal", "p2", "cyc", "lntau", "cv", "dens", "act", "exposure", "running", "early")} for f in faces]))

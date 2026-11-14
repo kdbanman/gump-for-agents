@@ -3,6 +3,27 @@
 GPU agent, 2026-11-13. Question from Kirby: can small, cheap GPUs (Modal) run this automaton well?
 Tags as elsewhere: **[measured]** (with the command), **[conjecture]**.
 
+> **Lead's notes after review (2026-11-13).** An adversarial review (`research/audit/REVIEW-gpu-pr8.md`) re-derived
+> every table here from the committed data, emulated kernel B on a CPU against `fl.c` and the engine (exact,
+> including the A = 108 run's shape, and with three deliberately broken kernels caught), and ran an independent
+> CPU measurement at A = 84 (18.154 ± 0.025 against 18.141 here). The lead re-derived the A = 108 and A = 135
+> lifetimes from the raw death lists (23.376 ± 0.031, 29.34 ± 0.25). **The numbers stand. Read these statements
+> below with the following corrections:**
+> - "A = 108 sits 0.39 nats (13σ) above the line 0.2077·A + 0.55": that line never fitted the verified lifetimes
+>   (it misses A = 45 and 84 by 0.08 nats). The finding is: local slopes rise, 0.201, 0.212, 0.212, 0.218, 0.221;
+>   A = 108 is 0.21 ± 0.04 nats above the straight line through the verified A = 45–84 points; curvature is 2.6σ
+>   from the GPU points alone, about 5σ with the CPU points.
+> - "The `qsd.py` settle concern is real at R = 36 too": `qsd.py` detects every period dividing 840. What was shown
+>   is the failure of a detector that sees only periods 1–2. No number recorded in this repository is shown biased.
+> - "τ(R = 40 v) is 21% above the 7.1e7 on file": the file's number pools soups with copies of the side-16 cube.
+>   The soup-only value on file (8.2×10⁷ ± 15%) agrees with 8.63×10⁷ here.
+> - "Aftershock for the first 0.01τ": the excess is double peels, the next layer dying within about 20 generations.
+> - Cube-centred symmetric runs (R = 43, 45): the death rate falls with age (p = 0.04, 0.01), so those τ are rates
+>   over the ages observed, not necessarily the long-run mean. Bears on the side-17 forecast.
+> - Still to fix here: `check.py` and the Modal check entry points exit 0 on a failed check; the negative controls
+>   described below are not in the committed code; two runs with the same (vessel, seed) merge silently.
+> - Not checkable without a GPU: that the GPU executes the kernel as the CPU emulation does.
+
 ## Verdict
 
 **Yes, for ensembles; no, for single trajectories.** [measured] One research state is tiny (the side-16 cube's O_h

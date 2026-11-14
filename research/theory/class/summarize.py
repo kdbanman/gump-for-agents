@@ -9,8 +9,23 @@ import lattices as LT, theory as TH
 RES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "scratch", "class", "results.jsonl")
 
 
+def fix(f):
+    """tau with the replicas still running at the end counted as censored exposure (early records lack 'running')."""
+    if f.get("face") and "running" in f and f.get("exposure") is not None:
+        f["lntau"] = math.log(2 * (f["exposure"] + f["running"]) / f["face"])
+    return f
+
+
 def load():
-    return [json.loads(l) for l in open(RES) if l.strip()]
+    out = []
+    for l in open(RES):
+        if not l.strip():
+            continue
+        r = json.loads(l)
+        if r.get("kind") == "face":
+            fix(r)
+        out.append(r)
+    return out
 
 
 def geom(lat, b):
@@ -48,8 +63,14 @@ if __name__ == "__main__":
     recs = load()
     if sys.argv[1] == "scan":
         last = {}
+        run_of = {(r["lattice"], r["rule"], r["A"], r["face"], round(r["exposure"])): r["running"]
+                  for r in recs if r.get("kind") == "face"}
         for r in recs:
             if r.get("kind") == "scan":
+                for f in r["faces"]:      # scans stored before the censoring fix lack 'running': take it from the raw record
+                    if "running" not in f:
+                        f["running"] = run_of.get((r["lattice"], r["rule"], f["A"], f["face"], round(f["exposure"])), 0.0)
+                    fix(f)
                 last[(r["lattice"], r["c"])] = r
         cur = None
         for (lat, c), r in sorted(last.items(), key=lambda kv: (LT.ALL.index(kv[0][0]), kv[0][1])):
@@ -67,6 +88,36 @@ if __name__ == "__main__":
             rule = r["rule"] if len(r["rule"]) < 26 else f"cap {c}"
             print(f"| {c} | {rule} | {r['bulk']} | {rho if rho is None else round(rho, 3)} | {r['act'] if r['act'] > 0 else '-'} | "
                   f"{'-' if R1 is None else round(R1, 2)} | {fs} | {classify(r)} |")
+    elif sys.argv[1] == "laws":
+        import numpy as np
+        groups = {}
+        for r in recs:
+            if r.get("kind") == "face" and r["face"] >= 8:
+                groups.setdefault((r["lattice"], r["rule"], tuple(r["u"])), {})[(r["A"], r["m"])] = r
+        print("| lattice | rule | face normal | points (A: ln τ ± err; m = depth) | slope per face cell (weighted fit, all points) | last-interval slope | CV range |")
+        print("|---|---|---|---|---|---|---|")
+        for (lat, rule, u), d in sorted(groups.items(), key=lambda kv: (LT.ALL.index(kv[0][0]), kv[0][1])):
+            # one point per A: the deepest slab measured
+            byA = {}
+            for (A, m), r in d.items():
+                if A not in byA or m > byA[A]["m"]:
+                    byA[A] = r
+            pts = sorted(byA.items())
+            if len(pts) < 2:
+                continue
+            A = np.array([p[0] for p in pts], float)
+            y = np.array([p[1]["lntau"] for p in pts])
+            e = np.array([max(1 / math.sqrt(p[1]["face"]), 0.02) for p in pts])
+            w = 1 / e ** 2
+            Am, ym = (w * A).sum() / w.sum(), (w * y).sum() / w.sum()
+            sl = (w * (A - Am) * (y - ym)).sum() / (w * (A - Am) ** 2).sum()
+            se = math.sqrt(1 / (w * (A - Am) ** 2).sum())
+            last = (y[-1] - y[-2]) / (A[-1] - A[-2])
+            cvs = [p[1]["cv"] for p in pts if p[1]["cv"] is not None and p[1]["face"] >= 50]
+            ptxt = "; ".join(f"{int(a)}: {yy:.2f}±{ee:.2f} (m={p[1]['m']})" for a, yy, ee, p in zip(A, y, e, pts))
+            rname = rule if len(rule) < 24 else rule[:22] + "…"
+            print(f"| {lat} | {rname} | {list(u)} | {ptxt} | {sl:.3f} ± {se:.3f} | {last:.3f} | "
+                  f"{(str(round(min(cvs), 2)) + '–' + str(round(max(cvs), 2))) if cvs else '-'} |")
     else:
         print("lattice\trule\tu\tm\tA\tN\tface\tseal\tsettle\tearly\tlntau\terr\tcv\trho_int\trho_face\tact_face\tgens")
         for r in recs:
