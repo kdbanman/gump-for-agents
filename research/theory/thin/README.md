@@ -73,7 +73,7 @@ their length grows; none has stopped moving at the largest length reached.
 | route | quantity | largest length | value there | extrapolated |
 |---|---|---|---|---|
 | 1. rings | local slope of ln τ_ring(b) | b = 32 → 36 | 0.3103(62) | falls by about 0.007 per four sites; no stable fit |
-| 2. segments | local slope of ln τ_seg(n) | SEGLAST | straight line through n ≥ 21: SEGFIT1; with a 1/n term: SEGFIT2; with a ln n term: SEGFIT3 |
+| 2. segments | local slope of ln τ_seg(n) | n = 29 → 33 | 0.2971(13) | straight line through n ≥ 21: 0.2978(3); with a 1/n term: 0.293(3); with a ln n term: 0.288(5) |
 | 3. empty windows, ring of 64 | k(l) | l = 34 | 0.3347(25) | g + a/(l + l0), l0 = 0, 1, 2 on l = 16 … 40: 0.309, 0.307, 0.305 (a = 0.8–1.0) |
 | 4. front from a wall, segment of 61 | k_wall(x) | x = 30 | 0.3120(12) | g + a/x: 0.3033(3) on x = 12 … 32, 0.3031(6) on 16 … 36 (a = 0.30); g + a/√x fits worse and its g moves with the range (0.280, 0.285, 0.288) |
 
@@ -85,8 +85,10 @@ Local slopes, per site (per cell in brackets):
 | ≈ 22 | 0.3312(18) [0.1104] | 0.2990(7) [0.0997] at 23 | 0.3469(3) | 0.3170(4) |
 | ≈ 26 | 0.3259(26) [0.1086] | 0.2967(9) [0.0989] at 27 | 0.3411(7) | 0.3156(6) |
 | ≈ 30 | 0.3188(40) [0.1063] | 0.2971(13) [0.0990] at 31 | 0.3372(12) | 0.3120(12) |
-| ≈ 34 | 0.3103(62) [0.1034] | SEG35 | 0.3347(25) | 0.3151(26) |
+| ≈ 34 | 0.3103(62) [0.1034] | (n = 37, 45: see below) | 0.3347(25) | 0.3151(26) |
+
 SEGMORE
+
 - The segment slope is the lowest and has been flat at 0.297 since n ≈ 25 (0.3093, 0.3018, 0.2990, 0.2967, 0.2971
   at n = 15, 19, 23, 27, 31); the three others are above it and falling towards 0.30–0.31.
 - The front's distance from a wall is the cleanest: one front, nothing to nucleate, no deaths needed, and the
@@ -150,10 +152,12 @@ for w = 1 … 5 against 0.337 deterministic; segments 0.372, 0.413, 0.348, 0.311
 `python3 analyze.py qsd det_b24 det_b32 seg_det_n21` **[measured]**.
 
 - Looking back from a death, the mean face population falls steadily: 1.7, 4.1, 7.3, 10.1, 12.6, 14.8 cells at
-  1 … 6 generations before the end, the same on every ring from b = 24 to 36 (segments: 1.7, 4.1, 7.0, 9.2, 11.0,
-  12.5 at n = 21), about 2.4 cells = 1.8 sites per generation; the lag at which half of the living population
-  (1.33 cells per site) is gone grows with the size: 3.2, 5.6, 7.9, 9.4 generations at b = 16, 24, 32, 36. The
-  face does not vanish in a flash; an island shrinks from its ends at about 0.9 sites per generation per end.
+  1 … 6 generations before the end, the same on every ring from b = 20 to 36 (segments: 1.7, 4.1, 7.0, 9.2, 11.0,
+  12.5 at n = 21), about 2.7 cells = 2 sites per generation; the lag at which half of the living population
+  (1.33 cells per site) is gone grows in proportion to the size: 4.2, 5.4, 6.6, 7.8, 8.9, 10.4 generations at
+  b = 16, 20, …, 36 (0.29 per site), and 3.7, 6.6, 9.8, 11.5 at n = 13, 21, 29, 33 for segments (0.39 per site).
+  The face does not vanish in a flash: an island shrinks from its ends, at 0.85–1 site per generation per end
+  on a ring.
 - The last step is the same at every size: 58.6% of deaths are from one live cell, 24.5% from two, 10% from
   three, 4% from four.
 - In the living state the face holds 0.4437 of its cells (interior layers 0.397); a segment's face 0.371 of the
@@ -214,7 +218,33 @@ on age, 1% of lives end in a repeating state and the two faces often die togethe
 
 ## 7. Wider faces
 
-PENDING_WIDER
+**[measured]** for the torus (1,2),(0,b), shortest loop squared 7 (`ringk.c`; `python3 analyze.py life 'det_k2_b*'`):
+
+PENDING_K2
+
+What the same method says as the face widens, and what it would take:
+
+- The tori (1,k),(0,b) are rings of b sites of three cells for every k (the site index is j − k·i mod b; shifts
+  reach k + 1 sites), so everything of §3 can be asked of them; `ringk.c` steps k = 1 … 5 (shortest loop squared
+  3, 7, 13, 21, 31), validated cell by cell. The census's 0.141 belongs to shortest loop squared 4, which is not
+  of this form (two cubes per ring position) and was not stepped here.
+- The census slopes of wider tori are local slopes of ring laws too, and should come down with length as the
+  thin torus's did (0.115 → 0.103 between A = 54 and 102, limit 0.100). How much of the rise 0.10 → 0.19 → 0.21
+  with the loop is asymptotic and how much is the ring's bend is not known.
+- Reading **[conjectured]**: the cost per cell is the price of pushing a front line back by one cell, and a longer
+  front line is harder to push because its cells hold each other up sideways; on the thinnest torus the line is
+  one site long and "sideways" is the face's own tail. The saturation near 0.21 would then be the price per cell
+  for a straight front line in a wide face, or the point where a wide face stops dying by fronts at all.
+- **To reach the wide face by derivation** one would need (i) a closure, and the cheapest one that works is five
+  layers over coins, with the interior density as an input; (ii) the large-deviation rate of a front line in that
+  model, a two-dimensional problem with 15 cells per site. Exact enumeration is out by many orders: even the
+  one-layer model on the thinnest torus needs more than twenty sites, 2^60 states. A rate of this kind can be
+  *computed* without waiting for deaths by sampling the tilted front process (cloning), on the deterministic
+  system itself; that would extend the measurements to faces whose lifetime cannot be simulated, but it is a
+  measurement, not a derivation. No small parameter was found that would make one possible: the cost per cell is
+  0.1–0.2 nats, the events behind it involve three to five layers and tens of sites, and the two simplest
+  closures (coins beneath: +22% in slope; the face's own one-generation statistics: +11%) fail in the same
+  direction for a reason that is measured (§4, §6b).
 
 ## 8. Subtle points
 
