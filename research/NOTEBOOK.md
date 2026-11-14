@@ -1632,3 +1632,36 @@ each a few minutes; outputs in `audit/out/`).
 - What this changes: nothing in the swarm's bottom line. Both lines of the closed swarm that had proofs (path and
   counting) have now been read by two independent readers; the errors found were in wordings and in one
   convergence, none in a proof.
+
+## 2026-11-14 — corrections from the fact-check of the manuscript draft (traced by a subagent; spot-checked by the lead)
+
+- **Memoryless slab faces (entry of 2026-11-12, "how chaos dies"; ledger F5).** "CV 0.96–1.05, KS p 0.5–0.96 for
+  A ≥ 36" is what the four m = 8 batches of the face-law fit (`research/peeling/face_law_fit.py`'s selection) with
+  A ≥ 36 and a test give: 3×4, 3×5, 4×4, 4×5 (A = 36–60), CV 0.964–1.045, KS p 0.519–0.96; the fit's batches at
+  A ≥ 72 have no test (55–475 of 512 runs censored at the cap). Over all 14 batches of `research/peeling/slab_area.csv` with A ≥ 36 and a test,
+  p runs 0.042–0.974 (one below 0.05, 4×5×10) and CV 0.962–1.06. `python3 -c "import csv; [print(r['N1'],r['N2'],r['m'],r['cv'],r['ks_p']) for r in csv.DictReader(open('research/peeling/slab_area.csv')) if r['ks_p']!='nan' and int(r['A'])>=36]"`.
+- **SH4 (entry "every torus of a given area").** The 0.0135 ± 0.0021 by which 4×4 lies below the (12; 19) class at
+  A = 48 is the review's value; the census (`research/shape2/data/A48.csv`, 9.93842 − 9.93237, each ± 1/√F) gives
+  0.0061 ± 0.0028. Pooled by inverse variance: 0.0108 ± 0.0017 (6.4 SE); agreement χ² = 4.4 on 1 (p = 0.036); with
+  the error scaled by √χ², 3.0 SE. "Not ordered by shortest loop" stands.
+- **Table 8 of the shape2 study, loop² 4, 60 → 72:** `research/shape2/data/explore_report.txt` and
+  `python3 research/audit/shape2_lead_check.py` give 0.1353 (± 0.0008); `research/shape2/README.md`:189 prints
+  0.1346 ± 0.0010.
+- **Engine-only R = 9 (entry "a face dies off the end of a straight line").** Re-running
+  `python3 research/experiments/face_endgame_check.py 9 16000` reproduces 13,765 peels, exposure 31,826,744,
+  mean 2312.1 ± 19.7, −ln h/A = 0.2183, so ln τ_face = ln(8 × 2312.1) = 9.825 ± 0.009.
+- **Twist lemma (entry of 2026-11-13).** The step giving m ∈ {1, 2, 3, 4, 6} is now written out in
+  `research/clockwork/README.md`: G (the box's lattice symmetries p ↦ Rp + t, R ∈ O_h) embeds in O_h by linear
+  part (a translation fixing a finite set is trivial), elements of O_h have orders 1, 2, 3, 4, 6 (R^c diagonal for
+  c the order of R's permutation), and m divides the order of any g with k(g) = P/m. The hypothesis that G
+  consists of lattice symmetries was implicit before.
+- **Side-16 face deaths** 2,362,434,048 and 2,886,100,480 are last-alive generations (checks every 64); by the
+  first-empty definition they lie in 2,362,434,049–112 and 2,886,100,481–544 (`research/data/cube16_events.jsonl`).
+- Lead's checks: the counts for F5 from `slab_area.csv` (14 batches, p 0.042–0.974, one below 0.05); the pooled
+  SH4 value by arithmetic (0.0108 ± 0.0017, χ² 4.5 on 1); the twist lemma's new step read line by line (the linear-part
+  map is injective on the symmetries of a finite box; orders in O_h are 1, 2, 3, 4, 6; m divides the order of g): it
+  holds for lattice symmetries, which is now a stated hypothesis. Not checked by the lead: the R = 9 re-run, the
+  side-16 event file, whether the oscillator search (`find_map`) only ever uses lattice symmetries.
+- Source: `docs/paper/FACTCHECK.md` (30 discrepancies in `docs/paper/draft.md`; all resolved or recorded there). The
+  draft's novelty wording now follows `research/PRIOR-ART.md` strictly: three results (sealed sets, the boundary
+  layer over noise, the shape dependence) had no recorded search; a third prior-art pass is running.

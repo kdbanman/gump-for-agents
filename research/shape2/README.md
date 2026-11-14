@@ -186,7 +186,7 @@ Cost per cell between areas by systole² (classes pooled in each area; `explore.
 | systole² | 3 | 4 | 7 | 12 | 13 | 16 |
 |---|---|---|---|---|---|---|
 | b(48→60) | 0.1148 ± 0.0003 | 0.1414 ± 0.0003 | 0.1918 ± 0.0003 | 0.2073 ± 0.0002 | 0.2090 ± 0.0003 | 0.2125 ± 0.0003 |
-| b(60→72) | 0.1107 ± 0.0004 | 0.1346 ± 0.0010 | 0.1872 ± 0.0010 | 0.2049 ± 0.0009 | 0.2061 ± 0.0007 | 0.2076 ± 0.0006 |
+| b(60→72) | 0.1107 ± 0.0004 | 0.1353 ± 0.0008 | 0.1872 ± 0.0010 | 0.2049 ± 0.0009 | 0.2061 ± 0.0007 | 0.2076 ± 0.0006 |
 
 (b(60→72) uses research/shape's A = 72 values for systole² ≥ 9.) These compare different lattices of equal systole,
 so b is a systole-indexed slope, not one torus grown. Every slope falls a little from 48→60 to 60→72.
