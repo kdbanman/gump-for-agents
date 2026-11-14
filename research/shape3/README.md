@@ -16,9 +16,11 @@ Reduced Gram matrix of the period lattice (Q1, 2B, Q2): Q1 = shortest loop², Q2
 So within a group of equal A and Q1 the lattice up to isometry is fixed by one number, Q2, or B, or the angle, or
 the third loop Q3 = Q1 + Q2 − 2B (which falls as Q2 rises), or x = Re τ = B/Q1 of the shape modulus
 τ = (B + i√D)/Q1, whose imaginary part h = √D/Q1 is fixed. Every candidate that sees only the flat torus (loop
-lengths, theta series, angle, number of shortest loops) is a function of x within a group. Two classes with equal
-Gram matrix (same flat torus, rotated against the cell lattice) would separate metric from lattice-scale candidates;
-none exists for Q1 ≥ 9 at A ≤ 72 (`python3 research/shape3/enum3.py 12 24`). And the equal-loop groups with Q1 ≥ 12
+lengths, theta series, angle, number of shortest loops) is a function of x within a group. More: at every index
+n ≤ 28 (A ≤ 84) no two classes share a Gram matrix (checked by enumeration), so the class itself, and with it every
+lattice-scale quantity (rows, transverse layers, firewall cuts), is a function of the Gram matrix. At these sizes
+no experiment can separate "metric" from "lattice-scale" candidates; only the form of the function of x (and of A
+and h) can be tested. And the equal-loop groups with Q1 ≥ 12
 are few: at A ≤ 84 they occur only at A = 48, 60, 72 and 84 (none at 54, 63, 66 or 75), two pairs and one triple
 at 72. Below saturation, Q1 = 9 groups exist at A = 36, 45, 54, 63, 72.
 

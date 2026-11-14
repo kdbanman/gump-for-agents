@@ -5,6 +5,8 @@
     python3 analyze.py win TAG [lmax]        # empty-window probability E(l), cost k(l) = -ln E(l+1)/E(l), jackknife errors
     python3 analyze.py qsd TAG               # face population in the living state, deaths by population one generation before
     python3 analyze.py static WINTAG LIFETAG...   # ln tau(b) + ln E(b - s) for shifts s (E from WINTAG)
+    python3 analyze.py wall TAG              # face with a wall: P(the x sites next to the wall are empty), cost per site
+    python3 analyze.py fit TAG lmin lmax     # k(l) = g + a/l and g + a/(l + l0) on the window costs of TAG
 
 E(l): probability that l given consecutive sites of a living face are empty (site s = {Z_s, Y_s, X_{s+1}}),
 from the histogram of maximal empty runs: E(l) = sum_r N_r (r - l + 1)^+ / (samples x b).
@@ -102,6 +104,52 @@ def static(wintag, lifetags):
         print(f'  {b:2d}  ' + ' '.join(f'{lt + le[b - s]:8.3f}' if b - s < len(le) and np.isfinite(le[b - s]) else '    -   ' for s in range(0, 9)))
 
 
+def wall(tag, quiet=False):
+    """front distance from the wall: W(x) = P(the x sites next to the wall are empty), both sides"""
+    cs = chunks(tag); b = int(cs[0]['head']['b']); G = int(cs[0]['head']['notch']); n = b - G
+    out = {}
+    for key in ('hfl', 'hfr'):
+        def lnW(cc, key=key):
+            h = sum(c[key] for c in cc); tot = h.sum()
+            with np.errstate(divide='ignore'):
+                return np.log(np.cumsum(h[::-1])[::-1][:n + 1] / tot)
+        def kap(cc, f=lnW):
+            e = f(cc); return e[:-1] - e[1:]
+        out[key] = jack(cs, lnW) + jack(cs, kap)
+    if not quiet:
+        print(f'{tag}: segment of n = {n} sites (b = {b}, wall {G}); W(x) = P(the x sites next to the wall are empty)')
+        print('  x   ln W left   k_left(x)   +-       ln W right  k_right(x)  +-')
+        for x in range(1, n):
+            l, r = out['hfl'], out['hfr']
+            if not (np.isfinite(l[0][x + 1]) and np.isfinite(r[0][x + 1])):
+                break
+            print(f'{x:3d}  {l[0][x]:9.4f}  {l[2][x]:8.4f} {l[3][x]:8.4f}    {r[0][x]:9.4f}  {r[2][x]:8.4f} {r[3][x]:8.4f}')
+    return out
+
+
+def fitk(l, k, ke):
+    """weighted least squares of k(l) on [1, 1/l]; and scan of l0 for g + a/(l + l0)"""
+    res = {}
+    w = 1 / np.maximum(ke, 1e-5)
+    for l0 in (0, 1, 2, 3, 5, 8):
+        Am = np.vstack([np.ones_like(l, float), 1 / (l + l0)]).T
+        coef, *_ = np.linalg.lstsq(Am * w[:, None], k * w, rcond=None)
+        chi = (((Am @ coef - k) * w) ** 2).sum()
+        cov = np.linalg.inv((Am * w[:, None]).T @ (Am * w[:, None]))
+        res[l0] = (coef[0], math.sqrt(cov[0, 0]), coef[1], chi, len(l) - 2)
+    return res
+
+
+def fit(tag, lmin, lmax):
+    le, ee, k, ke = win(tag, quiet=True)
+    l = np.arange(lmin, lmax + 1)
+    res = fitk(l, k[lmin:lmax + 1], ke[lmin:lmax + 1])
+    print(f'{tag}: k(l) = g + a / (l + l0) on l = {lmin}..{lmax}')
+    for l0, (g, ge, a, chi, dof) in res.items():
+        print(f'   l0 = {l0}: g = {g:.4f} +- {ge:.4f} per site ({g / 3:.4f} per cell), a = {a:.3f}, chi2 = {chi:.1f} / {dof}')
+    return res
+
+
 if __name__ == '__main__':
     cmd = sys.argv[1]
     if cmd == 'life':
@@ -113,3 +161,7 @@ if __name__ == '__main__':
             qsd(t)
     elif cmd == 'static':
         static(sys.argv[2], sys.argv[3:])
+    elif cmd == 'wall':
+        wall(sys.argv[2])
+    elif cmd == 'fit':
+        fit(sys.argv[2], int(sys.argv[3]), int(sys.argv[4]))

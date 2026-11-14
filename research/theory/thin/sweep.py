@@ -5,6 +5,7 @@
     python3 sweep.py seg n [rho16]         # segment of n sites {Z_s, Y_s, X_{s+1}}, s = 0..n-1, cells outside held
                                            # dead (n <= 8: 3n + 5 bits)
     python3 sweep.py table                 # the filed table: rings 5..6, segments 2..8
+    python3 sweep.py seq                   # steps of ln tau between successive exact segments, and their limit
 
 Model and triples: exact1.py. Result: h = quasi-stationary probability that the face is empty one generation
 later; ln tau = -ln h. Results are appended to data/exact.json.
@@ -97,8 +98,31 @@ def solve(kind, n, rho16=26112, tol=1e-11, quiet=False):
     return h, lt
 
 
+def seq(rho16=26112):
+    """Steps s_n = ln tau_seg(n) - ln tau_seg(n-1); limit by Aitken's formula on the last three steps (exact if the
+    steps approach their limit geometrically); the spread between the last step and that limit is the error offered."""
+    d = json.load(open(DATA))
+    a = {v['n']: v['lntau'] for v in d.values() if v['kind'] == 'seg' and v['rho16'] == rho16}
+    ns = sorted(a)
+    print('  n   ln tau_seg (exact)   step      Aitken limit of the steps')
+    steps = {}
+    for n in ns:
+        line = f'{n:3d}   {a[n]:.6f}'
+        if n - 1 in a:
+            steps[n] = a[n] - a[n - 1]; line += f'          {steps[n]:.4f}'
+            if n - 2 in steps:
+                s0, s1, s2 = steps[n - 2], steps[n - 1], steps[n]
+                den = s2 - 2 * s1 + s0
+                if abs(den) > 1e-12:
+                    line += f'    {s2 - (s2 - s1) ** 2 / den:.4f}  (ratio of successive differences {(s2 - s1) / (s1 - s0):+.3f})'
+        print(line)
+    return a, steps
+
+
 if __name__ == '__main__':
-    if sys.argv[1] == 'table':
+    if sys.argv[1] == 'seq':
+        seq()
+    elif sys.argv[1] == 'table':
         for b in (5, 6):
             solve('ring', b)
         for n in range(2, 9):
