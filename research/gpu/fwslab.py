@@ -53,7 +53,7 @@ def firewalled(bits, rs):
     return fw, which
 
 
-def run(N1, N2, m, wall_s, seed, p=0.4, launch_s=1.0, log=print, raw_cap=300000, max_launch=1 << 18):
+def run(N1, N2, m, wall_s, seed, p=0.4, launch_s=1.0, log=print, raw_cap=150000, max_launch=1 << 18):
     """max_launch caps the launch length (a firewall life is counted to its detection, at most one launch late: keep it
     well below the firewall mean). Results carry the UTC start, exact totals, per-life data when there are at most
     raw_cap lives, and always age histograms by kind (deaths and exposure per age bin) for burn-in checks."""
