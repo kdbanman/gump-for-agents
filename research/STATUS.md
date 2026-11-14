@@ -1,6 +1,6 @@
 # Status (overwritten as things change; history is in git and NOTEBOOK.md)
 
-_Last updated 2026-11-13 by the lead._
+_Last updated 2026-11-14 by the lead._
 
 ## Built and verified
 - `reference/` oracle — matches the original's logs, sides 8–12 (13 via the engine on the legacy torus).
@@ -28,7 +28,10 @@ _Last updated 2026-11-13 by the lead._
   where you left off (and/or head wherever you like next)". The lead reads this as leave to resume by judgment, mindful of
   usage (the pause was for usage). Restarted so far (2026-11-14): one agent, a successor to the swarm's critic, clearing the
   queue at the top of `swarm/critic/board.md` (counting round 2 and its lab requests; the interim rounds of probability, path
-  and source). The solvers wait for its replies. Everything else below is still the state at the pause.
+  and source). The solvers wait for its replies. Also started (about 06:15 UTC): an adversarial reviewer of the GPU
+  session's pull request 12 (writes `research/audit/REVIEW-gpu-pr12.md`), and an adversarial checker of
+  `research/theory/class.md` (writes `research/audit/REVIEW-class.md`; its out-of-sample test is the edge-neighbour
+  rule, there called `face12e`). Everything else below is still the state at the pause.
 - **PAUSED at the owner's request (usage), 2026-11-13 about 23:55 UTC.** (Lifted 2026-11-14, see above.)
   Swarm state at the pause: round 1 fully refereed for all four lines; round 2 refereed for path and source;
   counting round 2 written, the critic's reply to it finished or interim (see `critic/to-counting.md`); probability
@@ -61,9 +64,11 @@ _Last updated 2026-11-13 by the lead._
   it's time to characterize the class that behaves like gump does."
 - **`research/theory/exponent/`**: needs a successor to write `exponent.md` from `PREDICTIONS.md`, `theorems.md` and
   the data, then checking. Lemma A, consequence (c) in `theorems.md` is false (swarm board E10).
-- **GPU session:** expect a pull request with three experiments (slab faces at A > 90 and octahedral A = 165;
-  a longer cube-centred symmetric run; cube-like seeds at vertex-centred R = 40), forecasts first. Review as for
-  pull request 8: adversarial agent, re-derive one number, then merge and record.
+- **GPU session:** pull request 12 has arrived (2026-11-14): rim-free slab faces at A = 108, 126 (claim: on the old
+  line, so the octahedral rise in cost per cell is a rim effect), a long cube-centred symmetric run at R = 43 (claim:
+  the death rate does not fall with age), cube-like seeds at vertex-centred R = 40 (claim: memoryless). Under review
+  as for pull request 8: adversarial agent, the lead re-derives one number, then merge and record. If claim a holds,
+  the swarm's target constant and `swarm/PROBLEM.md` need a note (the critic's board corrected these numbers once).
 - **Prior art:** Tél–Lai 2008 and Bramson–Neuhauser 1994 are unread (publisher pages refuse agents); the owner was
   told they could fetch them. `PRIOR-ART.md`'s older sections still hold "snippet only" items the library now covers.
 - Lineage study: replicate the weak "slow variable" (copies remember their source, ρ ≈ +0.2) on other sources.
