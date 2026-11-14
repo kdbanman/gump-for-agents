@@ -58,14 +58,11 @@ _Last updated 2026-11-14 by the lead._
 ## Next (lead's list; pick by judgment)
 - **State at 11:30 UTC, 2026-11-14 (after a compaction).** Done since 10:30 and recorded: the exponent study
   (reviewed, corrected, notebook, CLAIMS X1-X3), the swarm's close, the essay section "Coins will do", the second
-  revision of `class.md`. **Running:** (a) the adversarial review of the GPU session's **pull request 16** (Opus;
-  writes `research/audit/REVIEW-gpu-pr16.md`, scripts in `research/audit/gpu_pr16/`): fourteen firewall-resolved
-  slabs say a narrower periodic face dies sooner at equal area. The lead's own re-derivation from the JSON summary
-  fields is done and agrees with every headline number (`research/audit/gpu_pr16_lead_check.py`, results in its
-  docstring); it also shows where to doubt: the local slope falls exactly where firewalls end over 99% of lives
-  (short side 3: 0.1966 then 0.1902; short side 4: 0.2065 then 0.2025). When the review is in: fixes to the session
-  by message if any, CI, merge with the full head sha, `git fetch origin main` and merge into the branch, notebook
-  entry, CLAIMS (GP8 or a new row), tell the owner. (b) done 11:50 UTC: the overview page was refreshed (9b5dc03: plates for
+  revision of `class.md`. **Pull request 16 (GPU: the shape of a periodic face) is merged** (squash bad62e3, 12:06 UTC) after its
+  review (`research/audit/REVIEW-gpu-pr16.md`), the lead's re-derivation (`research/audit/gpu_pr16_lead_check.py`)
+  and seven text fixes: notebook entry "equal areas, different lifetimes", CLAIMS GP9. Offered to the GPU session as
+  optional and only if cheap: about 2,500 face deaths at 5×8×8, which would decide between "offset in the short side"
+  (every family 0.2072) and "term in the long side" (b(5) = 0.2081). Nothing is running. (b) done 11:50 UTC: the overview page was refreshed (9b5dc03: plates for
   face12e, the family, where the exponent lives; the swarm closed; "Open now") and republished to the same private
   link (`LEAD.md`); it does not yet carry pull request 16's width result. Pull request 15 is the lead's open one. **After the owner's Fable reset** (about 9am their time,
   probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
