@@ -79,3 +79,22 @@ My credences before the runs: H1 0.35, H0 0.35, H0′ 0.15, something else 0.15.
 All 13 HNFs above at A = 72, rep.c stepper validated against the engine for each (`research/shape/tslab.py validate
 a k b 4000 24`: MATCH for all 13; a deliberately wrong tiling gives MISMATCH), target ≈ 5,000 face deaths each
 (± 0.014), caps of 5 × 10⁵ generations, 1,024 lives per run. Then, time permitting, A = 60 (index 20).
+
+## Addendum, A = 60 (index 20), written while the A = 72 runs were in progress and before looking at any of their output
+
+Shapes at index 20 (`python3 research/shape/lattice.py 20`): there is no systole² 21 and no width 3. Tori to run,
+with invariants from `models.invariants`:
+
+| torus (HNF) | Gram | systole² | hex systole | row closures | cheapest cut |
+|---|---|---:|---:|---|---:|
+| (4,0),(0,5) = 4×5 | (16,12,21) | 16 | 4 | 4, 5, 20 | 144 |
+| (5,1),(0,4) | (16,4,19) | 16 | 4 | 20, 4, 10 | 144 |
+| (4,2),(0,5) | (13,10,25) | 13 | 4 | 20, 5, 20 | 180 |
+| (4,3),(0,5) | (12,0,25) | 12 | 4 | 20, 5, 20 | 180 |
+| (2,2),(0,10) | (12,12,28) | 12 | 4 | 10, 10, 10 | 360 |
+
+Known: 4×5×8 = 12.486 (GPU; 12.487 ± 0.001 in the review's age bins). Forecasts, as differences from 4×5:
+- H1: (5,1) 0 (equal systole); (4,2) −0.14; (4,3) and (2,2) −0.19, and equal to each other.
+- H0 (hex systole): all four 0.
+- H0′ (rows): (5,1) 0; (4,2) and (4,3) about +0.07; (2,2) well above (+0.3 or more).
+Refutation criteria as at A = 72.
