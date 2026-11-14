@@ -1,0 +1,40 @@
+anchors: A=48: 9.9324 +- 0.0020, A=75: 15.6614 +- 0.0026, A=108: 22.5684 +- 0.0411
+flat:    a = -0.2503, c = 0.21214 +- 0.00012; chi2 5.2/1 (p 0.022); residual at 6x6 -0.093
+massive: xi = 0.70: a = 0.130, c = 0.2080 +- 0.0018, g = 0.1863 +- 0.0815  (exact through the anchors)
+massive: xi = 0.95: a = 0.308, c = 0.2069 +- 0.0023, g = 0.0670 +- 0.0293  (exact through the anchors)
+massive: xi = 1.20: a = 0.565, c = 0.2055 +- 0.0029, g = 0.0428 +- 0.0187  (exact through the anchors)
+rising:  c_h = 0.2226: a = 0.379, rho = -0.1633; chi2 14.4/1; 6x6 is -0.155 (-3.8 sigma) from it
+rising:  c_h = 0.2317: a = 0.928, rho = -0.3055; chi2 26.2/1; 6x6 is -0.208 (-5.1 sigma) from it
+
+  n  lattice       A  loop  cut   planned   | flat            | massive (xi 0.95)   xi 0.70  xi 1.20 | rising 0.2226  rising 0.2317 | measured
+ 16  (4, 0, 4)     48  4.00   144     --    |   9.933 +- 0.005 |   9.932 +- 0.002     9.932    9.932 |   9.933          9.933       | 9.9324 +- 0.0020
+ 19  (1, 7, 19)    57  4.36  None  +-0.0032 |  11.842 +- 0.004 |  11.855 +- 0.006    11.857   11.853 |  11.835         11.828       | 
+ 21  (1, 4, 21)    63  4.58  None  +-0.0032 |  13.115 +- 0.004 |  13.128 +- 0.006    13.130   13.127 |  13.107         13.100       | 
+ 25  (5, 0, 5)     75  5.00   180     --    |  15.661 +- 0.006 |  15.661 +- 0.003    15.661   15.661 |  15.660         15.660       | 15.6614 +- 0.0026
+ 27  (3, 3, 9)     81  5.20   324  +-0.0032 |  16.933 +- 0.007 |  16.923 +- 0.006    16.922   16.923 |  16.940         16.946       | 
+ 28  (2, 4, 14)    84  5.29   504  +-0.0032 |  17.570 +- 0.008 |  17.552 +- 0.009    17.551   17.553 |  17.581         17.591       | 
+ 31  (1, 5, 31)    93  5.57  None  +-0.0058 |  19.479 +- 0.010 |  19.437 +- 0.019    19.435   19.438 |  19.506         19.530       | 
+ 36  (6, 0, 6)    108  6.00   216  +-0.0224 |  22.661 +- 0.014 |  22.568 +- 0.041    22.568   22.568 |  22.723         22.777       | 22.5684 +- 0.0411
+ 37  (1, 10, 37)  111  6.08  None  +-0.0224 |  23.298 +- 0.015 |  23.194 +- 0.046    23.194   23.193 |  23.367         23.428       | 
+
+local slopes between consecutive tori (planned error from the planned deaths; anchors as measured)
+  A  48 ->  57: flat 0.2121 | massive 0.2136 (xi 0.70: 0.2139, xi 1.20: 0.2134) | rising 0.2113, 0.2106 | planned error 0.0004
+  A  57 ->  63: flat 0.2121 | massive 0.2123 (xi 0.70: 0.2122, xi 1.20: 0.2123) | rising 0.2121, 0.2120 | planned error 0.0007
+  A  63 ->  75: flat 0.2121 | massive 0.2111 (xi 0.70: 0.2109, xi 1.20: 0.2112) | rising 0.2128, 0.2133 | planned error 0.0003
+  A  75 ->  81: flat 0.2121 | massive 0.2102 (xi 0.70: 0.2100, xi 1.20: 0.2103) | rising 0.2134, 0.2144 | planned error 0.0007
+  A  81 ->  84: flat 0.2121 | massive 0.2098 (xi 0.70: 0.2097, xi 1.20: 0.2099) | rising 0.2136, 0.2149 | planned error 0.0015
+  A  84 ->  93: flat 0.2121 | massive 0.2094 (xi 0.70: 0.2094, xi 1.20: 0.2095) | rising 0.2139, 0.2155 | planned error 0.0007
+  A  93 -> 108: flat 0.2121 | massive 0.2088 (xi 0.70: 0.2089, xi 1.20: 0.2087) | rising 0.2145, 0.2165 | planned error 0.0015
+  A 108 -> 111: flat 0.2121 | massive 0.2084 (xi 0.70: 0.2086, xi 1.20: 0.2082) | rising 0.2148, 0.2171 | planned error 0.0105
+  A  48 ->  63: flat 0.2121 | massive 0.2131 | rising 0.2116, 0.2112 | planned error 0.0002
+  A  84 -> 111: flat 0.2121 | massive 0.2090 | rising 0.2143, 0.2162 | planned error 0.0008
+  A  93 -> 111: flat 0.2121 | massive 0.2087 | rising 0.2145, 0.2166 | planned error 0.0013
+
+separation of the readings in units of the planned error (forecast errors of flat and rising included):
+  n = 19 (A = 57): massive - flat = +0.013 (+2.6), rising(0.2226) - flat = -0.007 (-1.5), rising(0.2317) - flat = -0.014
+  n = 21 (A = 63): massive - flat = +0.013 (+2.7), rising(0.2226) - flat = -0.008 (-1.6), rising(0.2317) - flat = -0.015
+  n = 27 (A = 81): massive - flat = -0.011 (-1.4), rising(0.2226) - flat = +0.007 (+0.9), rising(0.2317) - flat = +0.013
+  n = 28 (A = 84): massive - flat = -0.018 (-2.1), rising(0.2226) - flat = +0.011 (+1.3), rising(0.2317) - flat = +0.021
+  n = 31 (A = 93): massive - flat = -0.042 (-3.6), rising(0.2226) - flat = +0.027 (+2.3), rising(0.2317) - flat = +0.051
+  n = 36 (A = 108): massive - flat = -0.093 (-3.5), rising(0.2226) - flat = +0.062 (+2.3), rising(0.2317) - flat = +0.115
+  n = 37 (A = 111): massive - flat = -0.104 (-3.9), rising(0.2226) - flat = +0.070 (+2.6), rising(0.2317) - flat = +0.130
