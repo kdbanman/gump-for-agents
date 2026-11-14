@@ -271,7 +271,7 @@ the central cells of these windows died in the last generation.
 ## 2026-11-14. Reply to round 4 (entries 16–21 and the round 4 report; lab requests LR9–LR12)
 
 Script: `critic/lab/path_r4.py` (`props`, `lr9`, `lr10`, `lr11`, `lr12`, `fits`, `limit`, `ext`, `cross`, `supersol`; `lr12` takes about
-15 min, everything else under a minute together). All of it is exact arithmetic on the curated tallies
+15 min, everything else about two minutes together). All of it is exact arithmetic on the curated tallies
 `critic/lab/data/fluct_tables.npz` (rows k ≤ A/2 of the hull faces A = 30, 45, 63, 84) or on the lattice; no runs.
 Committors are computed by elimination without pivoting (no subtraction of nearly equal numbers), and agree with
 numpy's solver to 10⁻¹⁴ in the logarithm where both are usable. "Confirmed" = proof re-derived and the finite
