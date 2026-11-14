@@ -34,7 +34,7 @@ What can be said instead **[measured]**:
 > The cost per cell of the thinnest face, in the limit of a long face, is **0.099 ± 0.004 per cell**
 > (0.298 ± 0.011 per site of three cells). The census values 0.115 (A 48 → 60) and 0.111 (60 → 72) are
 > reproduced (0.1144(3), 0.1104(6)) and are local slopes of a ring law that is still bending at A = 108, where
-> the local slope is 0.103(2). A face with two free ends (a segment) shows 0.099 per cell from A = 75 on.
+> the local slope is 0.103(2). A face with two free ends (a segment) shows 0.0993(3) per cell from A = 75 to 135.
 
 The error is dominated by the extrapolation, not by statistics: four different finite-size routes are given in
 §3 with what each says.
@@ -73,7 +73,7 @@ each tend to γ per site as their length grows; only the segment's has stopped m
 | route | quantity | largest length | value there | extrapolated |
 |---|---|---|---|---|
 | 1. rings | local slope of ln τ_ring(b) | b = 32 → 36 | 0.3103(62) | falls by about 0.007 per four sites; no stable fit |
-| 2. segments | local slope of ln τ_seg(n) | n = 33 → 37 | 0.2951(20) | straight line through n ≥ 25: 0.2969(4); with a 1/n term (n ≥ 17, 21, 25): 0.293–0.296; with a ln n term: 0.288–0.295 |
+| 2. segments | local slope of ln τ_seg(n) | n = 37 → 45 | 0.2998(27) | straight line through n ≥ 25: 0.2970(4); with a 1/n term (fits from n ≥ 17, 21, 25): 0.294–0.298; with a ln n term: 0.289–0.299 |
 | 3. empty windows, ring of 64 | k(l) | l = 34 | 0.3347(25) | g + a/(l + l0), l0 = 0, 1, 2 on l = 16 … 40: 0.309, 0.307, 0.305 (a = 0.8–1.0) |
 | 4. front from a wall, segment of 61 | k_wall(x) | x = 30 | 0.3120(12) | g + a/x: 0.3033(3) on x = 12 … 32, 0.3031(6) on 16 … 36 (a = 0.30); g + a/√x fits worse and its g moves with the range (0.280, 0.285, 0.288) |
 
@@ -86,25 +86,31 @@ Local slopes, per site (per cell in brackets):
 | ≈ 26 | 0.3259(26) [0.1086] | 0.2967(9) [0.0989] at 27 | 0.3411(7) | 0.3156(6) |
 | ≈ 30 | 0.3188(40) [0.1063] | 0.2977(12) [0.0992] at 31 | 0.3372(12) | 0.3120(12) |
 | ≈ 34 | 0.3103(62) [0.1034] | 0.2951(20) [0.0984] at 35 | 0.3347(25) | 0.3151(26) |
+| ≈ 41 | | 0.2998(27) [0.0999] at 41 | | |
 
-SEGMORE
+Segments: ln τ = 6.7257(8), 7.9635(11), 9.1708(15), 10.3666(22), 11.5533(29), 12.7443(38), 13.9246(73),
+16.3227(201) at n = 13, 17, 21, 25, 29, 33, 37, 45; the 61-site segment, run for its wall statistics, had 14
+deaths: 21.02(27), slope from n = 45: 0.294(17). Rings: 8.6470(16), 10.0199(36), 11.3448(63), 12.6482(83),
+13.9233(139), 15.1644(204) at b = 16, 20, …, 36 (census: 8.6426(20), 10.0201(29), 11.3481(40)).
 
-- The segment slope is the lowest and has been flat at 0.296–0.297 since n ≈ 25 (0.3095, 0.3018, 0.2990, 0.2967,
-  0.2977, 0.2951 at n = 15, 19, 23, 27, 31, 35; every n from 5 to 25 was run and the steps fall smoothly, with no
-  effect of n modulo anything); the three others are above it and falling towards 0.30–0.31.
+- The segment slope is the lowest and has been flat at 0.295–0.300 since n ≈ 25 (0.3095, 0.3018, 0.2990, 0.2967,
+  0.2977, 0.2951, 0.2998 at n = 15, 19, 23, 27, 31, 35, 41; every n from 5 to 25 was run and the steps fall
+  smoothly, with no effect of n modulo anything); the three others are above it and falling towards 0.30–0.31.
 - The front's distance from a wall is the cleanest: one front, nothing to nucleate, no deaths needed, and the
-  form g + a/x gives the same g on every range of x. It says W(x) ∝ x^(−0.30) e^(−0.303 x).
+  form g + a/x gives the same g on every range of x. It says W(x) ∝ x^(−0.30) e^(−0.303 x). The 45-site segment
+  gives the same k_wall within 0.0003 for x ≤ 16 and +0.001, +0.002 at x = 18, 20 (the island left is then short,
+  §5), so the 61-site values are good to about 0.001 up to x ≈ 32.
 - **Reading [conjectured].** One γ, the price per site of pushing a front back. A window needs a gap to be born
   and two fronts (hence a larger power: E(l) ∝ l^(−0.9) e^(−γ l)); a ring needs the same and dies when the island
   left is gone; a segment needs only its two wall fronts to meet, which for independent fronts with the law of
   route 4 gives ln τ_seg ≈ γ n − 0.4 ln n: a slope *below* γ, rising towards it, after the fall from above that
-  the small sizes show. That would put the flat 0.297 at n = 25–37 at the turn of the curve and γ at 0.303. It is
+  the small sizes show. That would put the flat 0.297 at n = 25–45 at the turn of the curve and γ at 0.303. It is
   not established: the alternative that all four keep falling to about 0.29 is excluded only if the form g + a/x
   of route 4 is right.
 - **Value.** γ = **0.298 ± 0.011 per site, 0.099 ± 0.004 per cell**: the interval runs from the lowest fit of the
-  segment lifetimes with a correction term (0.288, a ln n term) to the window extrapolation (0.309), and the two
+  segment lifetimes with a correction term (0.289, a ln n term) to the window extrapolation (0.309), and the two
   routes with stable fits (segments, straight: 0.297; wall: 0.303) sit inside it. Read from lifetimes alone, as
-  the census reads it, the cost per cell of a face with free ends is 0.0988(2) between A = 75 and 111.
+  the census reads it, the cost per cell of a face with free ends is 0.0993(3) between A = 75 and 135.
 - The static formulation fails as a short cut **[measured]**: ln τ_ring(b) + ln E(b − s) is not constant for any
   shift s (`python3 analyze.py static win_det_b64 'det_b[0-9]*'`): for s = 0 it falls from 0.77 at b = 16 to 0.41
   at b = 36. The ring's lifetime grows more slowly than 1/E(b), by a factor b^0.45 over this range.
@@ -253,11 +259,10 @@ the face alone, 4.1213(7), 4.5433(5) for the knowing coins):
 | 16 | 48 | 9.8131(24) | 9.8122(20) | | 3.24 |
 | 20 | 60 | 12.1242(83) | 12.1133(31) | 0.1926(7) | 3.78 |
 | 24 | 72 | 14.3286(124) | 14.3592(116) | 0.1837(12) | 4.44 |
-| 28 | 84 | K2B28 | | K2S28 | K2L28 |
+| 28 | 84 | 16.5100(171) | | 0.1818(18) | 4.99 |
 
-- The census is reproduced (+0.4σ, +1.2σ, −1.8σ) and the local slope falls here too, faster than on the thinnest
-  torus: the census's 0.19 is not an asymptotic value either. Three slopes do not fix a limit (a form g + c/b
-  through them would give 0.14–0.15 per cell; the same form misjudges the thinnest torus).
+- The census is reproduced (+0.4σ, +1.2σ, −1.8σ) and the local slope falls here too (0.1926, 0.1837, 0.1818):
+  the census's 0.19 is not an asymptotic value either. Three slopes do not fix a limit.
 - It dies the same way, faster: looking back from a death the population is 1.7, 4.0, 9, 16, 21, 25 cells at 1 … 6
   generations (b = 24, mean 36.4), and the lag at which half is gone grows by 0.14 generations per site
   (thinnest torus: 0.30). The face is denser: 0.5056 of its cells alive, against 0.4437.

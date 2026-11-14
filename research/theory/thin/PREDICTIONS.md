@@ -221,3 +221,22 @@ route 2): 6.7262(14), 9.1708(15), 11.5533(29), 13.9246(73) at n = 13, 21, 29, 37
 the corrected one; with the wrong n = 13 value known when F6 was written the first slope was 0.295 and the law
 looked straight from the start) and is flat only from n ≈ 25. Whether the ring's slope falls "towards the same
 value" is not settled: it is 0.3103(62) at b = 34 and still falling.
+
+## Scores, fourth part (2026-11-14 23:25)
+
+**F8: hit on all three parts, two of them at the edge.** `python3 analyze.py life 'det_k2_b*'`.
+(a) 9.8131(24), 12.1242(83), 14.3286(124) against the census 9.8122(20), 12.1133(31), 14.3592(116): +0.4σ,
++1.2σ, −1.8σ. (b) Half-collapse lags 3.24, 3.78, 4.44, 4.99 at b = 16, 20, 24, 28: lag(24)/lag(16) = 1.37, at the
+lower edge of 1.35–1.65; the lag grows linearly with b but not in proportion (it has an offset of about one
+generation). (c) ln tau at b = 28: 16.5100(171), at the lower edge of 16.50–16.61; cost per cell from A = 72:
+0.1818(18), inside 0.1785–0.1875. The run was stopped after 3,439 deaths.
+
+**F14: hit.** ln tau_seg(45) = 16.3227(201), inside 16.26–16.35; mean slope between n = 29 and 45: 0.2981(13)
+per site. The alternative "slope = 0.282 + 0.36/n" (16.22) is 5σ away. The segment law is straight within
+±0.003 per site from n = 25 to 45.
+
+## Tally
+
+Hit: F1, F2 (where tested), F6, F8, F9, F10, F12, F14. Half: F3 (w ≥ 5 hit, w = 4 half, w ≤ 3 miss, w = 1 with
+the wrong sign), F4, F11 (a hit; b, c miss), F13. Miss: F5 (all parts), F7. The misses have one thing in
+common: I expected every finite-size quantity to settle sooner and lower than it did.
