@@ -122,6 +122,13 @@ for sel, lab_sel in [(hull, 'all six sizes'), (hull[1:], 'A >= 45')]:
                 print(f'      without the largest {nh}: c = {h[3].theta[1]:.4f}; forecast residuals {h[4]}')
         SCORES.append(('hull, ' + lab_sel, name, len(r.theta), r, hs))
 
+print('-- the A = 30 face against the forms fitted to A >= 45:')
+for name in ('H1  a + cA + r k', 'HL  a + cA + p lnA'):
+    r = fitlin(name, HULL, hull[1:]); yf, ef = r.predict(hull[0])
+    print(f'      {name}: forecast {yf:.3f} +- {ef:.3f}, measured {hull[0]["y"]:.3f} +- {hull[0]["se"]:.3f}, '
+          f'residual {hull[0]["y"] - yf:+.3f}')
+print('   rim cells as a share of the face: ' + ', '.join(f'A={p["A"]}: {100*p["rim"]/p["A"]:.0f}%' for p in hull))
+
 # ------------------------------------------------------------------------------------------------ 2. symmetric
 section('2. O_h-SYMMETRIC hull faces (cost per cell of the symmetric face, c6; 6 c6 would equal c under "lockstep")')
 for S, t in [(symc, 'cube-centred'), (symv, 'vertex-centred')]:

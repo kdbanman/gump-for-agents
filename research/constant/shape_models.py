@@ -217,6 +217,8 @@ def slopes():
                 pts.append(dict(s=math.sqrt(q), q=q, y=(v[0] - u[0]) / (A2 - A1), se=math.hypot(u[1], v[1]) / (A2 - A1)))
         print(f'cost per cell between A = {A1} and {A2}: ' + ', '.join(f'loop^2 {p["q"]}: {p["y"]:.4f} +- {p["se"]:.4f}'
                                                                         for p in pts))
+        print('   intercept of the line through the two areas: ' + ', '.join(
+            f'loop^2 {p["q"]}: {pooled(A1, p["q"])[0] - p["y"] * A1:+.2f}' for p in pts))
         for nm, f, t0, names in [
                 ('c - D exp(-s/xi)', lambda t, p: t[0] - math.exp(t[1]) * math.exp(-p['s'] / t[2]), [0.21, 0.0, 0.7],
                  ['c', 'ln D', 'xi']),

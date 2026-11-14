@@ -72,6 +72,10 @@ local slopes: 30->45: 0.2010 +- 0.0003, 45->63: 0.2119 +- 0.0002, 63->84: 0.2146
         hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.0009 (+0.0 s)
         hull  A=135 k= 9                29.3411 +- 0.2500  resid -0.0169 (-0.1 s)
       without the largest 1: c = 0.2639; forecast residuals hull  A=135 k= 9: -0.020 (-0.1 s)
+-- the A = 30 face against the forms fitted to A >= 45:
+      H1  a + cA + r k: forecast 6.702 +- 0.010, measured 6.805 +- 0.003, residual +0.104
+      HL  a + cA + p lnA: forecast 6.714 +- 0.011, measured 6.805 +- 0.003, residual +0.092
+   rim cells as a share of the face: A=30: 70%, A=45: 60%, A=63: 52%, A=84: 46%, A=108: 42%, A=135: 38%
 
 ==============================================================================================================
 2. O_h-SYMMETRIC hull faces (cost per cell of the symmetric face, c6; 6 c6 would equal c under "lockstep")
