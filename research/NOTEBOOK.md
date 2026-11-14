@@ -1337,3 +1337,56 @@ Where this leaves the problem, with the exponent study's result of the same day:
 six layers of the rule over independent noise, and the reductions above say what has to be computed there (the
 committor of a population table, or better a direct transfer-matrix calculation at finite depth). That is a smaller
 problem than the one the swarm was given.
+
+## 2026-11-14 — equal areas, different lifetimes: the shape of a periodic face matters (GPU session's pull request 16; reviewed; lead's check)
+
+The question left open by the entry "slab faces with the firewall channel resolved": is the cost per cell of a slab
+face rising with area, or does the face's width matter? The GPU session ran fourteen periodic gump slabs s×M×8
+(two faces of A = 3·s·M cells each; soup 0.4; every life ended at its first event, a face death or a transverse
+firewall counted as its own channel; ln τ_face = ln(2 × exposure / face deaths)), in four families by short side s.
+Review: `research/audit/REVIEW-gpu-pr16.md` (independent recomputation, fits, an independent CPU run). The lead's
+re-derivation: `python3 research/audit/gpu_pr16_lead_check.py research/data/gpu_facelaw` (results in its docstring).
+
+| s | ln τ_face at A = … (share of lives ended by a firewall) | slope within the family |
+|---|---|---|
+| 3 | 11.082 (54; 13%), 14.621 ± 0.003 (72; 87%), 18.046 ± 0.011 (90; 99.6%) | 0.1966 then 0.1902: curved |
+| 4 | 12.486 (60), 14.971 ± 0.002 (72), 17.465 ± 0.005 (84), 19.943 ± 0.018 (96), 22.373 ± 0.042 (108; 99.2%) | 0.2072 ± 0.0001 |
+| 5 | 15.661 ± 0.003 (75), 18.786 ± 0.011 (90), 21.890 ± 0.040 (105), 25.046 ± 0.073 (120; 92%) | 0.2082 ± 0.0006 |
+| 6 | 22.568 ± 0.041 (108; 2%), 26.405 ± 0.104 (126; 24%) | 0.213 ± 0.006 |
+
+- **[measured, three pairs; one confirmed by independent code] At equal area the narrower face dies sooner.**
+  4×9 against 6×6 at 108 cells: −0.196 ± 0.059. 3×8 against 4×6 at 72 cells: −0.349 ± 0.004. 3×10 against 5×6 at
+  90 cells: −0.740 ± 0.016. The reviewer's CPU run (a different stepper, checked against the engine on both slabs,
+  channels resolved) gives −0.344 ± 0.020 for the pair at 72 cells. The same slab in both orientations agrees to
+  −0.002 ± 0.003. The session's own forecast, committed before the runs, was "area only"; it missed, and says so.
+- **[measured] The face hazard does not depend on the age of the life** from about 200 generations on, in every slab
+  with age histograms (review, claim 3), so the rates are not rates of young states even where firewalls end 99% of
+  lives. Under the launch caps used, the detection-time bias is at most +0.006 (s = 3) and +0.0015 (s = 4), in the
+  direction that makes the gaps look larger, and far below them.
+- **[measured] Width 3 is a different animal.** Its line is curved (the quadratic term is nine standard errors from
+  zero) and its chord, 0.196 per cell, is well below the others. Its last point is also the one where 99.6% of lives
+  end in a firewall, so "curved" and "biased by the competing channel" are not separated there: with the cheapest cut
+  at 36·s cells, width and firewall share are one variable by design. Within s = 4 the share runs from 0.5% to 99%
+  and the line does not bend.
+- **[measured] For widths 4 to 6 the data do not need a width-dependent cost per cell.** One slope, 0.2072 ± 0.0001,
+  with an intercept rising with the short side (0.053, 0.121, 0.203 for s = 4, 5, 6), fits at χ² = 8.4 on 8 (reviewer
+  and lead, separately). So does a model with one parameter fewer, ln τ = a + 0.2117·A − 0.054·M with M the long
+  side (χ² = 5.6 on 9). The two cannot be told apart here: within a family both are straight lines, and they differ
+  only in predicting b(5) = 0.2072 or 0.2081 and b(6) = 0.2072 or 0.2087, where the measurements are 0.2082 ± 0.0006
+  and 0.213 ± 0.006. Either way **the correction to the area law is linear in a side length**, about +0.07 per unit
+  of short side at fixed area, or −0.05 per unit of long side.
+- **[consequence, measured] The old slab line's slope was inflated by mixing widths.** Fitted with area alone, the
+  slabs with s ≥ 4 give 0.2085 per cell (and a hopeless χ² of 512 on 10), above every family's own slope, because
+  wider slabs were also the larger ones. The 0.2088 of the CPU table (CLAIMS F4, A = 27–90, mixed widths) is a slope
+  of that kind. The session's conjecture that 0.2088 averages narrow slabs *down* from an octahedral 0.216–0.221 has
+  the sign wrong and does not stand (review, claim 4): b(5) is thirteen standard errors below 0.216.
+- **[open] The cost per cell of a wide periodic face** is 0.2072 if the width enters as an offset and 0.2117 if the
+  long side does; b(6) = 0.213 ± 0.006 allows both. Deciding needs b(5) to about ± 0.0003 (some 2,500 face deaths at
+  5×8×8, where there are 189), or a seventh width, each about fifty times the cost of the last. Octahedral faces
+  (0.216–0.221 measured) are not periodic and have edges; nothing here connects the two numbers.
+- **[conjecture, lead]** A term linear in a side is what a line-like object would cost: if the event that kills a
+  face has to close around the short way of the torus (or is helped by a seam along the long way), its price
+  carries a term in that length. A bulk finite-size effect would instead fall off exponentially in the width. Not
+  tested; the place to look is where on the face the last cells die, by width.
+- Not checked: the GPU runs were not repeated on a second GPU; no CPU check at 90 or 108 cells (too slow); whether
+  near-firewall states raise the face hazard at s = 3 (the per-state data were not kept).
