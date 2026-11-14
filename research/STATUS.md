@@ -72,9 +72,9 @@ _Last updated 2026-11-14 by the lead._
   areas). Lead's check of the tables: `research/audit/shape2_lead_check.py`. **Reviewed (18:05 UTC) and recorded**:
   `research/audit/REVIEW-shape2.md` (independent stepper; claims 1-4 stand with corrections; no law passes at any
   area; the A = 60 pair is 0.0142 ± 0.0019 over four runs); notebook entry "every torus of a given area"; CLAIMS
-  SH2 (corrected), SH3-SH5. Owed: the review's eight corrections applied to `research/shape2/README.md` and one
-  overview update (one Opus agent, started 18:15 UTC), then publish the overview. Fable was 0.92 at 18:04 UTC, not
-  reset: no Fable agent, lead turns few, until the owner resets.
+  SH2 (corrected), SH3-SH5. The review's corrections are applied to `research/shape2/README.md` (9ffb393) and the
+  overview carries the census (ab66ba7; published 18:20 UTC, version 6). Nothing is running. Fable was 0.92 at
+  18:04 UTC, not reset: no Fable agent, lead turns few, until the owner resets (usage check re-armed for 19:39 UTC).
   (ii) done: `README.md` (item 4 reworded; new items 8-10) and the web tour and
   face-table note now agree with today's entries (f4410be; web suite 79/79, check.sh 20/20; the lead read the diff).
   Left as they are: the "~10⁴¹" extrapolation (labelled as one), "twelve times" (lifetime) and "ten times" (first
