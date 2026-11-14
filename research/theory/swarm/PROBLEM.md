@@ -68,7 +68,7 @@ Partial results are wanted. A proved lemma beats a plausible theory. A theorem h
 | two-layer slabs have finite sealed sets (36 cells) and one-layer ones have 6-cell rings; three or more layers have none [proved]. In a hull the smallest sealed set is a whole face (exact, R ≤ 7) | thickness.md; board, lemma exchange |
 | symmetric states carry a slow variable: copies with one orbit flipped inherit ±15–25% of the hazard (seen once) | `research/lineage/README.md` §4 |
 | the plunge is fast: about 10 generations in gump, a two-generation flash in 2D (unchecked); clones differing by one cell near death share their fate 55–95% of the time | fluct README §2; board, graveyard 2, 12 |
-| *added by the lead, 2026-11-14.* gump, rim-free slab faces (8 layers, periodic in plane): on the line −0.091 + 0.2088·A through A = 108 (22.470 ± 0.047 there); an octahedral face of the same area is 0.91 ± 0.06 higher. Beyond A = 108 nothing is settled: the one larger slab point (A = 126) is confounded by transverse firewalls (corrected local slope ≈ 0.216, uncorrected 0.204) | notebook 2026-11-14; `research/audit/REVIEW-gpu-pr12.md` |
+| *added by the lead, 2026-11-14; revised the same day after the firewall-resolved runs.* gump, rim-free slab faces (8 layers, periodic in plane), face channel with transverse firewalls counted separately: ln τ_face = 22.537 ± 0.031 at A = 108 (6×6×8) and 26.405 ± 0.104 at A = 126 (6×7×8); the line −0.091 + 0.2088·A fitted to A = 27–90 is 0.08 and 0.19 below them; slope 108 → 126 is 0.215 ± 0.006. Not decided whether the cost per cell rises or the face's width matters (residual from the line by the slab's short side: 3: −0.05; 4: 0.00; 5: +0.11; 6: +0.08, +0.19). An octahedral face at A = 108 is 0.84 ± 0.04 higher than the slab face. The firewall rate depends on the cut alone (26.8 at cut 216) | `research/NOTEBOOK.md`, 2026-11-14 (two entries); `research/audit/REVIEW-gpu-pr14.md` |
 | *added 2026-11-14.* A second lattice for any formula to hit. **face12e** (gump's cells and rule, but the four coplanar neighbours share an edge; not gump): confined to a box; a wall dies when the sheet of wall faces and the layer beneath it are empty together; ln τ = 6.428, 7.999, 10.183, 12.089, 14.542 at 16, 20, 25, 30, 36 wall faces, memoryless. That is 0.410 per wall face, or 0.205 per cell of the layer beneath, which is the layer whose emptiness is the permanent event and whose cells have the neighbour counts of a gump face cell (6 in the layer, 2 one layer in, 1 two layers in) plus 2 outward in the sheet. Also fcc B45/S345: 0.181 per face cell | notebook 2026-11-14; `research/audit/REVIEW-class.md` §2.2, §3.1 |
 | *added 2026-11-14.* Symmetric soups do not age: cube-centred O_h, R = 43, 5,971 deaths, Weibull shape 1.02 (1.00–1.04) | notebook 2026-11-14 |
 
@@ -134,6 +134,11 @@ reads them and keeps `library/shelf.md` (one line per source: what it is, where 
 gump). Before you lean on a theorem from the literature, look for it on the shelf. To ask for a source or a
 question about one, append a line to `library/requests.md` (your line's name, what you need, why). You may still
 open papers yourself; say what you opened and what you cite from memory.
+
+*Added by the lead, 2026-11-14.* If a site refuses automated clients (Project Euclid and the Royal Society's pages
+do), record the source as "not obtained" and look for an open copy or an open paper that quotes the statement. Do
+not route around the refusal with a remote browser or any other means. State of the two facts under Theorem A
+(`library/notes/oriented-percolation.md`): both are second-hand; neither primary paper has been opened.
 
 ## Rules
 

@@ -99,6 +99,11 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
      "the rate function of the density is affine on an interval because the deviation is made by one droplet"
      for the stationary measure of a particle system. Why: relation (M) of `path/journal.md` entry 11.3 assumes
      a Gaussian piece joined to a straight piece.
+  → partly answered 2026-11-14: item 1, see notes/contact-finite.md §7 (the walk fact is Williams–Bjerknes's own
+    observation, any bounded-degree graph, via Louidor–Tessler–Vandenberg-Rodes; Bramson–Griffeath not opened;
+    no d ≥ 2 finite-volume theorem with vacant boundary found). Items 2 and 3 not answered: Galves–Presutti
+    1987 (Project Euclid) and Lebowitz–Schonmann 1988 (Springer) not reachable; §§5–6 of Durrett–Schonmann
+    1988 (reprint on the shelf) not yet read.
 - 2026-11-13, critic (for the probability line's Theorem A, which rests on two facts cited from memory).
   (a) An upper bound strictly below 3/4 for the critical density of oriented *site* percolation in 1+1
   dimensions (each site has two parents): probability cites Balister, Bollobás and Stacey, Random Structures
@@ -117,3 +122,34 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
   or numerical value of its critical density (I prove 1/3 ≤ p_c ≤ 1 − (1 − p_c^site)^{1/2}); and whether the
   finite-volume survival statement (critic's item (b)) is available for finite-range, not nearest-neighbour,
   monotone percolation in one dimension (Bezuidenhout–Grimmett 1990 is the method I would expect).
+  → (critic) answered 2026-11-14: see notes/oriented-percolation.md, §1 (a) and §3 (b). (a) 0.7491 is for two-parent
+    oriented site percolation, BBS 1994, computer-assisted, called rigorous by two later papers; the 1994 paper
+    itself not opened. (b) printed for a cylinder (periodic), all p > p_c, any finite neighbourhood
+    (Hartarsky–Szabó Cor. 4.8, proof sketched); nothing printed for an interval except Mountford's near-1 fact.
+  → (probability) answered 2026-11-14: see notes/oriented-percolation.md, §2 (a) and §4 (b). (a) Liggett 1995
+    not opened; second-hand, Prop. 2.1 assumes p > 1/2 and q ≥ 4p(1 − p) with equality; the survival theorem
+    at equality unread. (b) no value for five-parent site percolation found (bond k = 5 Monte Carlo: 0.2249);
+    finite-volume survival on a cylinder covered by Hartarsky–Szabó Cor. 4.8.
+- 2026-11-14, path. One item; everything named is cited from memory, nothing opened. Wanted: the exact statement
+  and hypotheses of a *discrete-time* Freidlin–Wentzell theorem for density-dependent Markov chains with an
+  absorbing state: if the one-step law from density x satisfies a large-deviation principle with speed N and rate
+  I(x → y), then the probability of reaching 0 before returning to the stable density, and the mean extinction
+  time, are exp(∓N·V) with V(x) = inf over finite paths of Σ I(x_i → x_{i+1}). Candidates: Morrow and Sawyer, Ann.
+  Probab. 17 (1989) 1124–1146 (chains of Wright–Fisher type); Klebaner and Zeitouni, Ann. Appl. Probab. 4 (1994)
+  (exit problem for density-dependent branching); Kifer, "Random Perturbations of Dynamical Systems" (1988),
+  the discrete-time chapters; Högnäs 1997 (stochastic Ricker model). Two questions: (a) what is assumed near the
+  absorbing state, where the population is O(1) and the scaling fails; (b) is the inequality "V ≤ the integral of
+  the local Lundberg roots, with equality for branching or skip-free chains" stated anywhere. Why:
+  `path/journal.md` entry 17.5 states this limit as a sketch (claim V) and proves only the two one-sided finite
+  inequalities (Propositions T, T′).
+- 2026-11-14, probability (round 3; low priority, for whoever continues the line). Thank you for
+  `notes/oriented-percolation.md`; Theorem A is restated on it (`probability/journal.md` entry 11). Two things
+  would remove what is still second-hand or missing. (a) Hartarsky–Szabó Theorem 24 as printed (the finite
+  renormalisation criterion: which blocks, which up-set A, which "worst-case block-to-block probabilities", how
+  the 8/9 enters, and whether the sites may be finitely dependent): it is the only finite, exactly checkable
+  test for "above critical" on the shelf, and the lab could run it for five-parent percolation at density ½
+  (that would replace Balister–Bollobás–Stacey's 0.7491 under Theorem A) and perhaps for the percolation of
+  entry 13. (b) Liggett 1995 itself, if it can ever be opened: does the survival theorem cover density exactly
+  3/4, and does his class of "processes whose states are finite sets of integers" include a site with three or
+  five parents (a Holley–Liggett renewal measure for the five-parent model at ½ would make the theorem's
+  non-emptiness independent of any computer-assisted bound)?

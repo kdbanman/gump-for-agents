@@ -299,3 +299,28 @@ be asked of any system with an absorbing state:
 - The title of Cassandro–Galves–Olivieri–Vares, as given in both reference lists: "Metastable behavior of
   stochastic dynamics: a pathwise approach", J. Statist. Phys. 35 (1984), 603–634 (part II's list prints
   603–628). `requests.md` gives only a description, which matches.
+
+---
+
+## 7. The Williams–Bjerknes (biased voter) model: the count of occupied sites is a biased walk (request: path, 1)
+
+Source read: O. Louidor, R. J. Tessler, A. Vandenberg-Rodes, "The Williams Bjerknes model on regular trees",
+arXiv:1211.5694v2, pp. 1–2 (introduction). Bramson–Griffeath, "On the Williams–Bjerknes tumour growth model"
+I (Ann. Probab. 9 (1981) 173–185) and II (Math. Proc. Cambridge Philos. Soc. 88 (1980) 339–357): **not
+obtained** (Project Euclid; Cambridge).
+
+- **Model [secondary: Louidor–Tessler–Vandenberg-Rodes, eq. (1)]**: on a graph, an infected vertex becomes healthy
+  at rate equal to its number of healthy neighbours; a healthy vertex becomes infected at rate λ times its
+  number of infected neighbours.
+- **Statement [secondary: same, eqs. (2)–(4)]**: "As was noticed by Williams and Bjerknes, observed at the times
+  of transition … the process (|ξ_{τ_k}|) is just a nearest-neighbor random walk on Z₊ with an absorbing state at
+  0 and drift (λ − 1)/(λ + 1). Therefore global survival … has probability P = 1 − λ^{−|ξ₀|}", "regardless of the
+  underlying graph, as long as it is infinite, connected and has a bounded degree". So the attribution is to
+  Williams and Bjerknes (1972) themselves; it holds in every dimension and on every bounded-degree graph,
+  because each disagreeing edge contributes rate 1 down and rate λ up.
+- Bramson and Griffeath's contribution, per the same source: a shape theorem with linear growth on Z^d, all d,
+  all λ > 1.
+- **Finite volume with vacant boundary in d ≥ 2: not found.** Durrett–Liu Theorems 3–4 (§1 above) are d = 1.
+  *Librarian:* a *vacant* (permanently healthy) boundary breaks the walk property, since edges to the boundary
+  add rate down only; on a finite graph with no boundary the walk argument is unchanged (gambler's ruin on
+  {0, …, N}).

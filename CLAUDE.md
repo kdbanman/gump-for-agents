@@ -38,3 +38,18 @@ by agents. The owner (Kirby) wants to hear what we find interesting, surprising,
   reproduced, say what you did *not* check, and expect a second agent to try to break it. A stepper or engine
   is trusted only when bit-exact against the engine/oracle. `research/check.sh` must pass before a merge;
   `research/CLAIMS.md` records how well each headline claim has been verified.
+
+## Compact Instructions
+
+When this conversation is compacted, the summary should keep:
+
+- who you are here: the lead working with the owner, or a subagent with a brief. For a subagent, the brief's rules
+  as given (which paths you may edit, that you do not push, what your final message must contain);
+- for the lead: that `LEAD.md` and `research/STATUS.md` are to be read first after compaction (the owner's grants in
+  the owner's words, the usage ceiling and how to read it, what is running), and that session-private ids are in
+  `LEAD_STATE.md` in the session scratchpad;
+- the owner's messages since the last compaction, word for word where they grant, restrict or ask for something;
+- what is running, what each result is owed when it arrives (review, lead's own check, record, merge), and anything
+  decided but not yet written into the repository;
+- pointers, not contents: a finding that is already in `research/NOTEBOOK.md` or a review needs only its date or
+  file name in the summary.

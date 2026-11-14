@@ -20,6 +20,8 @@ How to read the notes: each statement is tagged [paper], [secondary: X] or [abst
 | M. Cassandro, A. Galves, E. Olivieri, M. E. Vares, "Metastable behavior of stochastic dynamics: a pathwise approach", J. Statist. Phys. 35 (1984) 603–634 | https://link.springer.com/article/10.1007/BF01010826 | abstract (paywalled) | `contact-finite.md`, corrections | origin of the exponential limit law (d = 1, large λ) |
 | R. H. Schonmann, "Metastability for the contact process", J. Statist. Phys. 41 (1985) 445–464 | https://link.springer.com/article/10.1007/BF01009017 | abstract (paywalled) | `contact-finite.md`, corrections | the limit law for all λ > λ_c (d = 1) |
 | R. Durrett, R. H. Schonmann, "Large deviations for the contact process and two dimensional percolation", Probab. Theory Related Fields 77 (1988) 583–603 | https://sites.math.duke.edu/~rtd/reprints/paper43.pdf | statements | `ld-contact-percolation.md` | a proved "area above, perimeter below" dichotomy; empty interval costs e^{−cn} under the contact process's stationary law |
+| O. Louidor, R. J. Tessler, A. Vandenberg-Rodes, "The Williams Bjerknes model on regular trees", arXiv:1211.5694 | https://arxiv.org/abs/1211.5694 | introduction | `contact-finite.md` §7 | the count of occupied sites is a biased walk on any bounded-degree graph; survival 1 − λ^{−n} |
+| M. Bramson, D. Griffeath, "On the Williams–Bjerknes tumour growth model" I, Ann. Probab. 9 (1981); II, Math. Proc. Cambridge Philos. Soc. 88 (1980) | projecteuclid.org; cambridge.org | **not obtained**; via Louidor et al. | `contact-finite.md` §7 | shape theorem, all d |
 
 ## 2. Non-monotone systems with an absorbing state; the block construction
 
@@ -112,9 +114,26 @@ How to read the notes: each statement is tagged [paper], [secondary: X] or [abst
 | C. Temmel, "Shearer's measure and stochastic domination of product measures", J. Theoret. Probab. (2012); arXiv:1105.1683 | https://arxiv.org/abs/1105.1683 | §1–2, Theorem 5 | `source-requests.md` §4 | states the Liggett–Schonmann–Stacey hypothesis and theorem |
 | A. Bušić, J. Mairesse, I. Marcovici, "Probabilistic cellular automata, invariant measures, and perfect sampling", arXiv:1010.3133 | https://arxiv.org/abs/1010.3133 | Definition 2.2, algorithm data | `source-requests.md` §1 | a PCA as a deterministic local function of an i.i.d. space-time array |
 
+## 9. Oriented percolation in 1+1 dimensions (requests of 2026-11-13 from the critic and probability)
+
+| source | where read | read | notes | why it matters |
+|---|---|---|---|---|
+| P. Balister, B. Bollobás, A. Stacey, "Upper bounds for the critical probability of oriented percolation in two dimensions", Proc. Roy. Soc. London A 440 (1993) 201–220 | Crossref record (abstract); royalsocietypublishing.org refuses automated clients | abstract | `oriented-percolation.md` §1 | bond ≤ 0.6863; its site number 0.72599 is a misprint (per Hartarsky–Szabó) |
+| P. Balister, B. Bollobás, A. Stacey, "Improved upper bounds for the critical probability of oriented percolation in two dimensions", Random Structures Algorithms 5 (1994) 573–589 | Crossref record (abstract without its formula) | **not obtained**; statement via Hartarsky–Szabó and Holmes–Salisbury | `oriented-percolation.md` §1 | two-parent oriented **site** percolation p_c ≤ 0.7491, computer-assisted (second-hand) |
+| T. M. Liggett, "Survival of discrete time growth models, with applications to oriented percolation", Ann. Appl. Probab. 5 (1995) 613–636 | projecteuclid.org (article page in a cloud browser; PDF text unreadable) | abstract; Prop. 2.1 hypothesis and eq. (1.4) via Ráth–Valesin | `oriented-percolation.md` §2 | p_c ≤ 3/4 site, ≤ 2/3 bond; hypothesis q ≥ 4p(1−p) with equality, p > 1/2 (second-hand) |
+| I. Hartarsky, R. Szabó, "Generalised oriented site percolation", Markov Process. Related Fields 28 (2022); arXiv:2103.15621 | https://arxiv.org/abs/2103.15621 (v3 and v1) | §1, §3, §4.1–4.2, Cor. 4.8; v1 §5.5, §5.7.2, App. A.4 | `oriented-percolation.md` §§1, 3, 4 | any finite neighbourhood, all p > p_c: on a cylinder of width n started full, E τ ≥ e^{cn} and τ/Eτ → exponential (proof sketched) |
+| B. Ráth, D. Valesin, "On the threshold of spread-out contact process percolation", arXiv:1912.09825 | https://arxiv.org/abs/1912.09825 (v3) | Def. 3.5, App. 7.2 | `oriented-percolation.md` §2 | quotes Liggett 1995 Prop. 2.1 and (1.4) and applies them at p = 3/4 |
+| M. Holmes, T. S. Salisbury, "Forward clusters for degenerate random environments", Combin. Probab. Comput. 25 (2016); arXiv:1307.2787 | https://arxiv.org/abs/1307.2787 (v1) | pp. 3–4 | `oriented-percolation.md` §1 | calls 0.7491 (site, BBS 1994) the best rigorous bound |
+| P. A. Gomes, A. Pereira, "Upper bounds for critical probabilities in Bernoulli percolation models", J. Appl. Probab. (2025); arXiv:2106.10388 | https://arxiv.org/abs/2106.10388 (v2) | §4.4 | `oriented-percolation.md` §1 | uses Liggett's ≤ 3/4 (site) and ≤ 2/3 (bond) |
+| R. Durrett, "Oriented percolation in two dimensions", Ann. Probab. 12 (1984) 999–1040 | https://sites.math.duke.edu/~rtd/reprints/paper23.pdf (scan) | pp. 999–1001 (contents, model) | `oriented-percolation.md` §3 | bond model; no finite-interval section in the contents |
+| C. Bezuidenhout, G. Grimmett 1990 (Ann. Probab. 18); C. Bezuidenhout, L. Gray 1994 (Ann. Probab. 22) | projecteuclid.org | **not obtained**; block construction via Hartarsky–Szabó | `oriented-percolation.md` §3 | the renormalisation valid at every p > p_c; Bezuidenhout–Gray covers finite range |
+| J. Wang, Q. Liu, Y. Deng, "A high-precision Monte Carlo study of directed percolation in (1+1) and higher dimensions", arXiv:1201.3006 | https://arxiv.org/abs/1201.3006 (v1) | Table IX | `oriented-percolation.md` §1 | numerical site p_c = 0.70548525(9) |
+| D. J. B. Soares, J. S. Andrade, H. J. Herrmann, "Precise calculation of the threshold of various directed percolation models on a square lattice", arXiv:cond-mat/0503408 | https://arxiv.org/abs/cond-mat/0503408 | whole (2 pages) | `oriented-percolation.md` §4 | numerical **bond** thresholds with k parents; k = 5: 0.2249 |
+
 ## Could not be reached at all (for whoever has a browser)
 
-Project Euclid (bot wall): Bramson–Neuhauser 1994; Liggett–Schonmann–Stacey 1997; Abadi 2004.
+Project Euclid (bot wall): Bramson–Neuhauser 1994; Liggett–Schonmann–Stacey 1997; Abadi 2004; Liggett 1995
+(page reached in a cloud browser, PDF text not readable); Bezuidenhout–Grimmett 1990; Bezuidenhout–Gray 1994.
 ams.org (bot wall): Pianigiani–Yorke 1979; Kleveland 1997; Moran 1995.
 sciencedirect.com (bot wall): Tél–Lai 2008; Kaneko 1990; Goles–Olivos 1980, 1981; Goles et al. 1985;
 Ginosar–Holzman 2000; Mairesse–Marcovici 2014. journals.aps.org (bot wall): Crutchfield–Kaneko 1988;

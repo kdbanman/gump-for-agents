@@ -267,3 +267,260 @@ the central cells of these windows died in the last generation.
 - One-step death probabilities of every gump face configuration of ≤ 3 cells over dice are now exact (board,
   lemma exchange, "small faces under dice"): rows of the table Theorem P̄ runs on, with the shape resolved. The
   two orientations of a three-cell triangle differ by a factor 4 (0.0036 and 0.0009 at density ½).
+
+## 2026-11-14. Reply to round 4 (entries 16–21 and the round 4 report; lab requests LR9–LR12)
+
+Script: `critic/lab/path_r4.py` (`props`, `lr9`, `lr10`, `lr11`, `lr12`, `fits`, `limit`, `ext`, `cross`, `supersol`; `lr12` takes about
+15 min, everything else about two minutes together). All of it is exact arithmetic on the curated tallies
+`critic/lab/data/fluct_tables.npz` (rows k ≤ A/2 of the hull faces A = 30, 45, 63, 84) or on the lattice; no runs.
+Committors are computed by elimination without pivoting (no subtraction of nearly equal numbers), and agree with
+numpy's solver to 10⁻¹⁴ in the logarithm where both are usable. "Confirmed" = proof re-derived and the finite
+content computed. Board ids: L12.1–L12.10.
+
+### 1. Standing of the claims
+
+| claim | verdict | how |
+|---|---|---|
+| T′ (17.2), block bound | **confirmed** | proof (e^{−θ₀(k−k₀)⁺} is a supersolution; Theorem P̄'s comparison); worked case (walk on {0…3}, up ¾: ψ*(2) = 1/13 ≤ 1/9); 23,850 cases on 4,000 random tables, half with censored mass (`props`) |
+| T (17.3), root sum as a bound from the other side | **confirmed** | proof; worked case 2/27 ≤ 1/13; 7,023 cases on 2,000 random tables |
+| X (17.4 a, b, c) | **confirmed** | (a) 2,000 random skip-free chains inside the stated range; (b) offspring 0 or 2 with probabilities ¼, ¾: q = 1/3 and q² harmonic; (c) 1.695 < 1.863 < 2.234 |
+| two-patch identity (17.6) | **confirmed** | rows convolve, transforms multiply; it is the construction of LR11 |
+| Q (17.6) | **confirmed as an implication**; one side condition ("C bounded") does not hold as worded and one is known on half its range, §2 | from P̄ and T′, line by line |
+| C and its corollary (entry 18) | **confirmed**; the monotone rows of q are needed | 3,000 random monotone kernels with a dominating pooled table, censoring included (largest excess of ψ* over ψ_q 6 × 10⁻¹⁵). Without monotone rows it fails: q(1, ·) = 0.99 δ₁ + 0.01 δ₃, q(2, ·) = 0.9 δ₀ + 0.1 δ₃, K = 3; the table with row 1 moved to 2 dominates q row by row and has ψ*(1) = 0.891 > ψ_q(1) = 0 |
+| F (entry 20) | **confirmed** | (i), (ii) on the neighbour lists of walls 3 × 3 … 5 × 5 (`counting_r3.py structure`); (iii) by integer programme: in every vessel tried W is sealed and no non-empty proper subset is (§5) |
+| V (17.5, 21) | sketched, as you tag it. The limit statement holds on the chains you asked for; your number for it does not come out of the request as written; §3 | LR10, LR11 |
+| 16.1, the two fits of the E1 table | arithmetic confirmed (1.656 ± 0.165 ln L − 4.41, χ² 0.25; 0.065 ± 0.006 L − 0.73, χ² 0.32) | `fits` |
+| entry 21's table | reproduced with the cancellation-free solver (17.137, 34.829, 70.472, 142.215) | `limit` |
+| entry 19 (dead end) | your script reproduces your table when run (50 s); I did not audit the closure | `python3 path/mf_deadend.py 100` |
+
+Nothing tagged proved was found wrong.
+
+### 2. Theorem Q: which hypotheses do the work, and what the tables say (LR9, `lr9`)
+
+**R(κ, θ₀, k₀).** min of θ_k over k₀ ≤ k < ⌈0.35A⌉, and the row where it is attained:
+
+| A | k₀ = 1 | k₀ = 2 | k₀ = 3 | k₀ = 4, 5 | largest root | roots non-increasing from |
+|---|---|---|---|---|---|---|
+| 30 | 0.000 (row 1) | 0.276 (row 2) | 0.390 (row 3) | **0.4034** (row 10) | 0.483 at row 5 | row 5 |
+| 45 | 0.000 | 0.331 | 0.4261 (row 15) | **0.4261** | 0.556 at row 5 | row 5 |
+| 63 | 0.005 | 0.340 | 0.4117 (row 22) | **0.4117** | 0.590 at row 5 | row 5 |
+| 84 | 0.049 | 0.226 | 0.4172 (row 29) | **0.4172** | 0.615 at row 4 | row 12 (row 4 if rises below 0.01 are ignored) |
+
+So **R(0.35, 0.40, 5) holds on all four tables**, A = 30 included (by 0.003; your "fails at A = 30" was about the
+roots at fixed x, which are lower there, not about the block minimum). k₀ can be 3 from A = 45 on; it cannot be 2
+or 1 at any size: one or two cells have no usable root (rows 1 and 2 at A = 84: 0.05 and 0.23, on 576 and 840
+exposures). The roots are not non-increasing at A = 84 before row 12, which matters for T's "+ const", not for Q.
+
+**"No face dies directly from K cells or more."** Tallied rows K ≤ k ≤ A/2: 1, 0, 0, 0 deaths (A = 30, 45, 63, 84).
+Rows above A/2 are not in the tallies, so the condition is known on half of its range only.
+
+**"The crossings undershoot by a bounded exponential moment."** Not bounded, and harmless (`lr9`, `cross`).
+On the tallies C = E_cross[e^{θ₀(K − z′)}] = **2.42, 3.08, 3.70, 4.45** at A = 30, 45, 63, 84 (θ₀ = the block's minimum; ln C/A =
+0.029, 0.025, 0.021, 0.018). On the m-fold chain of the A = 84 table, with the chain's own stationary law
+(restarted at the top row at death; Grassmann–Taksar–Heyman elimination, no subtractions; at m = 1 it gives 4.34
+against the tallies' 4.45):
+
+| cells | 84 | 168 | 336 | 672 | 1344 |
+|---|---|---|---|---|---|
+| C | 4.34 | 6.56 | 11.5 | 23.7 | 58.4 |
+| ln C per cell | 0.0175 | 0.0112 | 0.0073 | 0.0047 | 0.0030 |
+| mean undershoot K − z′, cells | 2.50 | 2.79 | 3.04 | 3.16 | 3.19 |
+| mean start z − K, cells | 5.6 | 10.4 | 19.6 | 39.0 | 80.1 |
+| log-slope of the living law at K | 0.297 | 0.339 | 0.356 | 0.3635 | 0.369 |
+
+The mean undershoot is bounded (about three cells); its exponential moment at θ₀ is not. The reason is one
+line: crossings come from z = K + j with weight μ(z) ∝ e^{σj}, σ the living law's log-slope at K, so the undershoot
+has law ∝ e^{−σu}·G(u) with G the tail of the σ-tilted down-step, whose length is of order A; and σ = V′(κ) is
+smaller than the root Θ(κ) ≥ θ₀ (0.37 against 0.41 here; your own first-order formula V′ = Θ − ½|Θ′|b says so).
+Then C grows like exp(A·max_y ∫_y^κ (θ₀ − V′)), a rate of order 0.0005 per cell here (increments of ln C per cell
+between successive m: 0.0049, 0.0033, 0.0022, 0.0013). So the conclusion of Q should read
+ln τ ≥ (θ₀κ − ε)A − const with ε = limsup ln C/A, or θ₀ should be taken at most the living law's log-slope at K
+(then C is bounded); either way the exponent 0.14 is not touched in the second decimal.
+The remark that "the crossing term is carried by drops of one to three cells" holds by count (91%, 86%, 80%,
+78% of the crossings land one to three cells below K at A = 30…84; 68% in the limit) and no longer by weight:
+share of the ψ*-weighted entry flux by depth of landing (1–3 cells | 4–6 | 7 or more): 0.70 | 0.28 | 0.02 at A = 30;
+0.55 | 0.35 | 0.11 at 45; 0.41 | 0.34 | 0.25 at 63; **0.33 | 0.30 | 0.36 at 84**.
+
+**What Q gives on the tables.** With the block's own minimum as θ₀ and k₀ = 5: θ₀(K − 1 − k₀) = 2.02, 4.26, 7.00, 10.01
+(0.067A … 0.119A). Best block over (κ, k₀): 2.94, 5.26, 7.82, 10.85 (slopes between sizes 0.155, 0.142, 0.144). The
+bound on the hazard through the tallied entries (flux times the block certificate over exposure): −ln = 4.42,
+6.96, 9.88, 13.51 against −ln h = 6.81, 9.82, 13.63, 18.08 (slopes 0.169, 0.162, 0.173 against 0.201, 0.212, 0.212). And
+the identity cannot be closed on the tallies: 3%, 14%, 15%, 11% of the deaths from the low set are not accounted
+for by tallied entries with the exact ψ* (entries from rows above A/2 are missing).
+So: **Q is a theorem, its main hypothesis R holds on every table, and it proves about two thirds of the
+exponent** (0.13–0.14 per cell by the block, 0.16–0.17 if the flux is credited). The one-step fact it rests on
+(a sparse face regrows at an exponential rate bounded below up to a third of its area) is measured, pooled
+over the living ensemble, and not derived, as you say.
+
+**Collapse (the rest of LR9).** Per cell of the face, at x = k/A, sizes 30, 45, 63, 84:
+
+| | x = 0.15 | 0.25 | 0.35 | 0.45 |
+|---|---|---|---|---|
+| mean step / A | 0.0256, 0.0285, 0.0300, 0.0309 | 0.0343, 0.0399, 0.0426, 0.0442 | 0.0372, 0.0431, 0.0463, 0.0485 | 0.0230, 0.0279, 0.0313, 0.0338 |
+| variance / A | 0.108, 0.108, 0.111, 0.114 | 0.158, 0.168, 0.1745, 0.179 | 0.195, 0.213, 0.2255, 0.2346 | 0.232, 0.258, 0.276, 0.288 |
+| third cumulant / A | 0.009, 0.025, 0.030, 0.036 | 0.010, 0.020, 0.024, 0.024 | 0.005, 0.000, −0.004, −0.009 | −0.040, −0.062, −0.085, −0.101 |
+| root | 0.481, 0.548, 0.5645, 0.573 | 0.437, 0.485, 0.500, 0.504 | 0.386, 0.407, 0.411, 0.411 | 0.198, 0.213, 0.223, 0.228 |
+
+The roots collapse better than the cumulants they are made of: from A = 63 to 84 the root moves by less than 1%
+at x = 0.25–0.40 (2.6% at 0.45), the mean step per cell by 3–8% and the variance per cell by 2–5% (they move
+together, which is why the root moves less), and the third cumulant has not collapsed at x = 0.15 or 0.45.
+Variance per live cell is 0.64–0.87 at A = 84. At x = 0.05 the root is 0.14, 0.36, 0.51, 0.61:
+no collapse at the sparse end, where the row is a fixed number of cells (1.5 to 4), not a fixed density.
+**Extensivity fails by a measurable amount at these sizes** (`ext`): two independent faces of 45 cells, built
+from the A = 45 table, have −ln ψ*(top) = 17.10–17.60 (0.190–0.196 per cell); the line through the measured tables
+gives 18.39 at A = 90 (0.204 per cell). Two or three faces of 30: 0.164–0.176 per cell against 0.198–0.204. A face
+of mA cells is harder to empty than m faces of A cells, by 4–7% from A = 45 and by 12–20% from A = 30.
+
+### 3. Claim V (LR10, LR11)
+
+**The limit statement is right on the chains you asked for.** m-fold chain of the A = 84 table (`lr11`),
+−ln ψ* at the top row and its increment per cell between successive m:
+
+| m (cells) | as requested (rows 1, 2, … of the table at the bottom) | increment | variant: below 5m cells, clusters of 5 (T₅^{∗a} ∗ T_c) | increment |
+|---|---|---|---|---|
+| 1 (84) | 17.077 | | 17.077 | |
+| 2 (168) | 34.407 | 0.2063 | 35.001 | 0.2134 |
+| 4 (336) | 69.057 | 0.2063 | 71.381 | 0.2165 |
+| 8 (672) | 138.255 | 0.2059 | 144.665 | 0.2181 |
+| 16 (1344) | 276.504 | 0.2057 | 291.725 | 0.2188 |
+| recursion with the same rows' own rates (LR10 b) | | **0.2054** | | **0.2191** |
+
+In both families the increment converges to the value of recursion (3) run with each row's own rate (Legendre
+transform of the row), to 3 × 10⁻⁴ at m = 16. Both sides of (1) for these chains: block bound 0.131–0.133 (0.142–0.144
+in the variant), sum of roots 0.2153–0.2155 (0.227–0.230) per cell: the committor's exponent is strictly between
+them and is not the root sum, as you say.
+
+**Your prediction for LR11 misses as the request is written, and holds on the chain your calculator assumes.**
+Predicted: the second doubling adds 36.6 ± 1.2. Exact: **34.65**; first doubling 17.33. In the variant: **36.38**
+(first 17.92). The difference is the bottom of the chain. The request stretches rows 1–4 of the table with m
+(roots 0.05, 0.23, 0.53, 0.62), so the sparse end of a face of 84m cells is m patches of one to four cells each;
+`bellman.py` continues the root of row 5 (0.607) down to zero. Four rows of 0.607 against 0.05 + 0.23 + 0.53 + 0.62
+is 1.0 nat per 84 cells, 0.012 per cell: the whole gap between 0.2054 and 0.2191. The measured tables side with the
+calculator's assumption in kind: rows 1 and 2 have small roots at every size (a boundary layer of fixed width in
+k, not in x), so they should cost O(1), not O(A). Record the miss and its reason; do not record it as a hit.
+
+**The numbers for V on each table** (`lr10`; S at the top tallied row over A, grids of ½ to 1/16 cell
+extrapolated; allowing rising steps changes nothing at grid ¼):
+
+| | A = 45 | 63 | 84 |
+|---|---|---|---|
+| (a) `bellman.py` on every row's root and variance (rows ≥ 5) | 0.2056 | 0.2148 | **0.2180** |
+| its ∫Θ; first-order value; block bound | 0.2167; 0.2087; 0.1424 | 0.2269; 0.2178; 0.1438 | 0.2305; 0.2204; 0.1440 |
+| (b) each row's own rate, rows as tallied | 0.1867 | 0.1997 | 0.2054 |
+| (b) own rates, clusters of 5 below row 5 | 0.2098 | 0.2168 | **0.2191** |
+| the same with Gaussian rates from each row's mean and variance | 0.2061 | 0.2119 | 0.2140 |
+| the table's own −ln ψ*(top row)/A | 0.1919 | 0.1996 | 0.2033 |
+| slope of −ln ψ*(top row) from the size before | 0.226 | 0.219 | 0.214 |
+
+- Your 0.218 is reproduced from the rows (0.2180), and the typed-in data give the same. With exact rates it is
+  0.2191; with a Gaussian of each row's mean and variance 0.2140. So the Gaussian closure is good to 0.5% when it
+  is fed (root, variance) and 2% low when fed (mean, variance): the skewness matters, and feeding the root
+  absorbs most of it. The minimising path with exact rates (42, 39.5, 35.5, 30.5, 25.5, 21.0, 17.2, 14.0, 11.2, 9.0,
+  7.0, 5.5, 4.2, 3.2) has the shape of yours: four or five cells a generation, then a factor 0.78.
+- **V rises with the table**: 0.2056, 0.2148, 0.2180 (a); 0.2098, 0.2168, 0.2191 (b). The steps shrink by a factor
+  of about three (0.007, 0.002); if that continues the limit is 0.220, your guess. Three points.
+- **Finite-size direction.** For one fixed table the increment per cell approaches V from below (0.2134 from 84 to
+  168 cells against 0.2191), as in your entry 21. The measured slopes at A = 84–135 are 0.218 and 0.221, around V of
+  the A = 84 table, where a fixed table would show 0.213–0.215. So the table is still changing with A (the roots
+  and cumulants above; `ext`), and V of the largest table is not yet the asymptotic exponent.
+
+**Which hypotheses carry V, and are the measured facts compatible with them?**
+1. *Extensivity of the pooled one-step law.* Between A = 63 and 84 the roots collapse to 1% at x = 0.25–0.40, the
+   first two cumulants to 2–8%; a doubled face of 45 is 4–7% easier to empty than a real face of 90. Compatible as a limit, not reached
+   at A ≤ 84. The slab's face (E3) has a different late curve; nothing says its table is the hull's.
+2. *The sparse end costs O(1)* (the continuation below row 5). Compatible with the tables in kind (above); the
+   number moves by 0.012 per cell between the two continuations, more than the gap between V and ∫Θ.
+3. *Decreasing paths suffice.* Confirmed for the recursion with exact rates. Not confirmed for the faces: rows
+   above A/2 are untallied.
+4. *The pooled table.* By Theorem P̄ the hazard is exactly the entry flux times the committor of this table, so
+   V is a statement about a measured table, exact in the extensive limit. It turns "why area" into two measured
+   one-step facts (extensivity, positive roots up to a fixed density) and derives neither from the rule. You say
+   so; the report's sentence "the exponent is the discrete-time quasi-potential of the population's one-step
+   law" should carry "of the pooled table measured in the living state" every time.
+
+**The half of V that bounds ln τ from below is within reach of your own tools** (`supersol`). Take the m-fold
+chain of a table and let W(n) = m·V(n/m) be the value of the recursion on the chain's own states, with each row's
+own rate I and rising steps allowed, so that W(n) ≤ m·I(n → n′) + W(n′) for every n′. Chernoff's bound for a point
+gives q(n, n′) ≤ e^{−m·I(n → n′)} with no further assumption (n′ = 0 included). For ψ = e^{−(1−δ)W}:
+
+    Σ_{n′} q(n, n′)·ψ(n′)/ψ(n)  ≤  Σ_{n′} exp(−m·[δ·I + (1 − δ)·(I + V(y) − V(x))]),    x = n/m, y = n′/m.
+
+Both brackets are ≥ 0 (the second is Bellman's inequality). The first vanishes only at the row's mean y = x + b(x),
+and there the sum of the two is at least (1 − δ)(V(x + b) − V(x)) > 0. So on any range of densities where the drift
+b and V′ are bounded below, every term is ≤ e^{−m·c(δ)}, there are at most mA + 1 terms, and ψ is a supersolution of
+(∗̄) for m ≥ m₀(δ): Proposition T′ with the full exponent. Exactly, on the m-fold chain of the A = 84 table (clusters
+of 5 at the bottom), the rows on which ψ is a supersolution:
+
+| δ | m = 1 | 2 | 4 | 8 | 16 |
+|---|---|---|---|---|---|
+| 0.2 | 4…42 (to the top) | 8…84 (top) | 8…168 (top) | 8…336 (top) | 8…672 (top) |
+| 0.1 | 5…30 (0.71 of the top) | to 0.81 | 0.89 | 0.95 | 0.98 |
+| 0.05 | 6…26 (0.62) | 0.74 | 0.83 | 0.89 | 0.95 |
+| 0.02 | 13…14 (0.33) | 0.36 | 0.66 | 0.78 | 0.88 |
+
+and where the block reaches the top row, ψ* ≤ ψ/ψ(n₀) holds, as it must. The two boundary layers (a few rows at the
+bottom; the last few per cent below the mean, where b and V′ vanish) cost o(A). Written out this is **Theorem Q
+with (1 − δ)·V in place of θ₀κ, for exactly extensive tables**: it contains Q (V ≥ sup κΘ(κ)), needs no Gaussian
+closure and no restriction to decreasing paths, and leaves the extensivity of the real tables as the one
+measured hypothesis. The other half (ψ* ≥ e^{−(1+δ)W}, a tube around the minimising path) needs a local lower
+bound for each step and is not needed for a lower bound on ln τ.
+
+### 4. Exam
+
+- **E1 (holds), E2 (not refuted, central value high at L = 36), E3 (fails).** The consequences you draw in entry 16
+  are the right ones and nothing is reinterpreted: "one remnant in every vessel" and relation (M) are withdrawn,
+  Dr is restricted to hulls, "levelling off near 9–10" is withdrawn, the ring part of W is withdrawn with the
+  correct reason (a product of pair weights gives L^{−1/2} whatever the weights). One caution: "the lag-2 count has
+  a maximum near L = 24–32" rests on one point with a crude error (7.99 ± 0.38; chunks 7.0–8.5); "does not grow" is
+  what is established.
+- **E4 (filed).** Two remarks for whoever scores it. (i) The window (refuted beyond ± 0.025) is twice the distance
+  between V and the withdrawn Th (∫Θ exceeds V by 0.0125 at A = 84): the entry cannot tell them apart. Ask also
+  which of V, ∫Θ and the table's own slope is nearest the measured one. (ii) On the hull tables V of a table
+  against the measured slope at the next sizes is 0.2056 against 0.212 (A = 45), 0.2148 against 0.212 (63), 0.2180
+  against 0.218 and 0.221 (84): either sign, up to 0.006. Entry 21's fixed-table effect (slope 0.003–0.007 below V)
+  is hidden by the drift of the table, which has the other sign. All of it is inside your bars.
+
+### 5. LR12 and Lemma F (`lr12`; log `research/scratch/critic/r4_lr12.log`)
+
+Periodic walls N × M, slab D cubes deep, integer programme over all cells (scipy's `milp`), then the
+inclusion-minimal sealed sets found one by one by forbidding supersets.
+- **Lemma F (iii)**: in walls 3 × 3 and 4 × 4 with D = 2, 3, 4, wall 3 × 5 with D = 2 and wall 5 × 5 with D = 4, W is
+  sealed and the programme "a non-empty sealed proper subset of W" is infeasible.
+- **The smallest sealed set has min(3NM, (5D + 2)·min(N, M)) cells**: 27 (3 × 3; D = 2, 3, 4), 48 (4 × 4; at D = 2 a tie
+  between W and the eight transverse bands), **36 < 45 for 3 × 5, D = 2** (a transverse band is smaller than W),
+  75 (5 × 5, D = 4). So **W is the smallest iff 3·max(N, M) ≤ 5D + 2**. At the measured slabs (D = 4, walls up to
+  6 × 6: 18 < 22) it is, strictly.
+- **Other inclusion-minimal sealed sets**: transverse bands (three consecutive y- or z-layers, even, odd, even:
+  (5D + 2)·N cells: 36, 51, 66, 68, 88, 110); interior bands of three x-layers (even, odd, even: 5NM cells: 45, 80,
+  125; only for D ≥ 3; at D = 2 the set of x-layers {2, 3, 4} is sealed but contains a smaller one); and irregular
+  sets that are neither (39 cells in 3 × 3 × 2, by x-layer 3, 17, 6, 7, 6; 51 in 3 × 5 × 2; 56 in 3 × 3 × 3; 64 in
+  4 × 4 × 2). The search for further ones was cut at 20 s per programme in the larger vessels: the list of
+  shapes is not proved complete; the minima are.
+
+### 6. Verdict on the line, and on the closing round
+
+What stands as proved: T′, T, X, C (monotone q), F, the two-patch identity, Q as an implication; with the
+earlier L1, L1′, S, P, P̄, R, R5. What fell this round, by your own hand and correctly: Th, the ring part of W,
+"one remnant", the mean-field value. What is unproved and carries the line's main statement: V (a limit theorem
+for extensive chains, standard in kind, not proved here and not obtained from the library) and every link from
+the rule to the table (R, extensivity).
+
+**A closing round is worth running only as a short one, and not for new mathematics.** LR10 and LR11 are
+answered above; E4 does not need to be waited for (its window cannot refute V, §4). The round should do three
+things and stop:
+1. *State V with its continuation.* "γ = V[rates of the pooled table], the sparse end counted as O(1)": 0.2191 on
+   the A = 84 hull table with exact rates (0.2180 Gaussian on root and variance), rising with the table (0.2098,
+   0.2168, 0.2191), against measured slopes 0.212, 0.218, 0.221. Record the LR11 miss as a miss of the request as
+   written, with the reason.
+2. *Repair Q's statement*: replace "C bounded" by ln C ≤ εA (or take θ₀ no larger than the living law's
+   log-slope at K) and say "by count" in the sentence on drops of one to three cells; say that R holds at A = 30
+   too and that k₀ ≥ 3.
+3. *One proof, which is yours to write*: the supersolution half of V for exactly extensive tables (§3, last
+   part: Chernoff's point bound, Bellman's inequality, a uniform slack away from the two boundary layers). It
+   would turn "V [sketched]" into "ln τ ≥ (1 − δ)·V·A − const for the m-fold family [proved]", with Theorem Q as
+   the special case of one block, and it would say exactly what is assumed about the rule: that the pooled
+   one-step law of a face of mA cells is, in the limit, the m-fold convolution of that of A cells. The lab's
+   table (δ = 0.2 at every m; δ = 0.05 on 95% of the rows at 1,344 cells) says the statement is true on the
+   chains that matter. If it resists a day's work, say where, and close.
+Do not spend the round on the ring's power of L or on the sparse-face root from the rule: both are named in
+your report as outside this toolkit, and I agree.

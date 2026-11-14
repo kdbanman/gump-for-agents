@@ -1,0 +1,32 @@
+(1) pi = (1/2, 0, 1/2): minorant table of Lemma 1(b) reproduced on Z_7: True
+(1) pi = (1/4, 1/2, 1/4): minorant table of Lemma 1(b) reproduced on Z_7: True
+(1) pi = (3/10, 1/2, 1/5): minorant table of Lemma 1(b) reproduced on Z_7: True
+(1) pi = (3/5, 1/5, 1/5): minorant table of Lemma 1(b) reproduced on Z_7: True
+(2) rho = 0.460: s = 0.2116, pbar = 0.2916, kappa = 0.9552 (2 sum g >= 4 c5: True); max over eta, L=5..14 of E Phi'/Phi = 0.9262 <= kappa: True
+(2) rho = 0.472: s = 0.2228, pbar = 0.2788, kappa = 0.9475 (2 sum g >= 4 c5: True); max over eta, L=5..14 of E Phi'/Phi = 0.9187 <= kappa: True
+(2) rho = 0.500: s = 0.2500, pbar = 0.2500, kappa = 0.9322 (2 sum g >= 4 c5: True); max over eta, L=5..14 of E Phi'/Phi = 0.9322 <= kappa: True
+(2) rho = 0.600: s = 0.1600, pbar = 0.1600, kappa = 0.6619 (2 sum g >= 4 c5: True); max over eta, L=5..14 of E Phi'/Phi = 0.6619 <= kappa: True
+    uniform rates s = pbar = p: kappa(p) = 1 at p = 0.2763 (claimed 0.2763)
+(3) L=9: max |Q_ring(S,S') - w(S) Q_dead(S,S')| over S, S' in A: 5.6e-17;  h_ring >= w_min^(n+1) P_nu(T_d=n+1), n<=7: True  (h_ring = 7.0454e-03, m_G = 0.0373, w_min = 0.0469)
+(3) L=10: max |Q_ring(S,S') - w(S) Q_dead(S,S')| over S, S' in A: 5.6e-17;  h_ring >= w_min^(n+1) P_nu(T_d=n+1), n<=7: True  (h_ring = 4.5903e-03, m_G = 0.0404, w_min = 0.0469)
+(3) L=11: max |Q_ring(S,S') - w(S) Q_dead(S,S')| over S, S' in A: 5.6e-17;  h_ring >= w_min^(n+1) P_nu(T_d=n+1), n<=7: True  (h_ring = 2.8321e-03, m_G = 0.0420, w_min = 0.0469)
+(4) OP5(1/2), ln tau dead-ended interval <= ln tau ring, M = 5..14: True
+    5: 3.159<=3.466  6: 3.637<=4.062  7: 4.088<=4.626  8: 4.520<=5.159  9: 4.938<=5.666  10: 5.346<=6.151  11: 5.746<=6.621  12: 6.141<=7.079  13: 6.533<=7.528  14: 6.921<=7.969
+(5) layer histogram of the 12 neighbours (T1): {-4: 1, -2: 2, 0: 6, 2: 2, 4: 1}
+    cells read beneath by the lone cell and its six in-face neighbours: 18
+    rho = 1/2: face empty next for 108045 of 2^18 patterns = 0.412159; closed form 108045/262144 = 0.412159; E n' = 0.875000 (7 rho^3 = 0.875000)
+    rho = 0.4155: P(face empty next) = 0.606477, closed form 0.606477
+    rho = 0.5200: P(face empty next) = 0.366806, closed form 0.366806
+    2D lone edge cell, rho = 1/2: empty next for 243 of 1024 patterns; (1 - rho^2)^5 = 243/1024
+(6) gump, one unknown neighbour: undetermined (x,k) = [(0, 3), (0, 5), (1, 2), (1, 5)]  [claimed: k+x=3 or k=5]
+    gump, three unknown: determined (x,k), k<=9 = [(0, 0), (0, 6), (0, 7), (0, 8), (0, 9), (1, 6), (1, 7), (1, 8), (1, 9)]  [claimed: (0,0) or k>=6]
+    2D, one unknown: undetermined (x,k) = [(0, 2), (0, 4), (1, 1), (1, 4)]  [claimed: k+x=2 or k=4]
+    2D, two unknown: determined (x,k), k<=6 = [(0, 0), (0, 5), (0, 6), (1, 2), (1, 5), (1, 6)]  [claimed: (0,0), (1,2) or k>=5]
+(7) gump face cell with 6 live in-face neighbours: alive next for some b in 0..3, x in {0,1}? False
+    dead gump face cell with 3 live in-face neighbours is born exactly for b in [1, 2]
+    2D two-row slab all alive: row 0 has n >= 5 (4 in-row + row 1), row 1 has n >= 5 (4 in-row + row 0): alive next possible? False
+A7 ALL OK
+
+real	2m12.457s
+user	2m22.501s
+sys	0m0.580s

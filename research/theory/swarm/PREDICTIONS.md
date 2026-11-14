@@ -161,3 +161,116 @@ entry's refutation threshold: 0.02). **Holds.**
 0.008. (iii) ln τ_ring(19) − ln τ_dead(19) = +1.263 (predicted +2.0 ± 1.0), change between 15 and 19 cells 0.166
 (predicted < 0.2): holds. By the entry's own criteria (ring's step in [0.34, 0.49], (iii) positive) it is **not
 refuted**; its sub-claim (ii) is off. Full tables: `critic/to-probability.md`, reply to round 2, R5 and R8.
+
+## 2026-11-14, examiner: outcomes of path E1, source S-E1, counting C-E2 (sampled)
+
+Protocols committed before the runs; full tables and commands in `research/theory/swarm/exam/OUTCOMES.md`.
+
+**Path E1** (notched strips 16 × L). ln τ_notch = 8.517, 9.900, 11.320, 12.666 (± 0.03) at L = 20, 24, 28, 32;
+ln τ_notch(32) − ln τ_notch(20) = 4.149 ± 0.043, slope 0.3458 ± 0.0036 (predicted 0.345 ± 0.020; refuted if ≥ 0.39).
+The intact row 15 of the same strips: slope 0.412 ± 0.005. **Holds.**
+
+**Source S-E1** (2D rule over a parity bulk, H = 400). ln τ = 6.4330 ± 0.0142, 7.5973 ± 0.0132, 8.6746 ± 0.0130 at
+L = 12, 14, 16 (predicted 6.4282, 7.6056, 8.6764: deviations +0.3σ, −0.6σ, −0.1σ); hazard flat in age (ages 30–99
+against 100–199 within 1σ); P(row 0 empty next | one live cell) = 0.240, 0.241, 0.234 (± 0.0035) against 0.2373.
+**Holds.**
+
+**Counting C-E2** (2D rule dead by generation 3 from fair soups, 2 × 10⁸ … 10⁹ soups). −ln P₃ = 7.2385, 8.7149,
+10.1824, 11.6366 (± 0.003–0.011) at L = 20, 24, 28, 32: slope 0.3676 ± 0.0006 (predicted 0.447 ± 0.012; refuted
+below 0.430). Same samples, k = 1, 2: 0.542 ± 0.007, 0.479 ± 0.002 (lab c₁ 0.5515, c₂ 0.4677). **Fails**; the
+inequality c₃ ≤ c₂ holds.
+
+## 2026-11-14, examiner: outcome of path E2 (sampled)
+
+Intact strips 16 × L, mean dying-edge population two generations before death (exponent study's lag-2 convention):
+**9.09 ± 0.08 at L = 32 (719 deaths), 7.99 ± 0.38 at L = 36 (420 deaths)**; predicted 9.8 ± 1.0 at both, refuted if
+≥ 11.5 at L = 36. Not refuted; inside the bar at L = 32, below it at L = 36 (by ≈ 2σ, rough batch-means error).
+Details: `research/theory/swarm/exam/OUTCOMES.md`.
+
+## 2026-11-14, examiner: outcome of path E3 (sampled)
+
+Slab 5 × 4 × 8 (A = 60), 3,188 face deaths. Mean dying-face population at lags 1–4: **1.66, 4.29, 10.70, 18.40**
+(± 0.01–0.18) against 1.6, 3.4, 6.4, 9.7 predicted; tail ratio over 6 ≤ k ≤ 12: **0.677 ± 0.002** (predicted
+0.63 ± 0.03; window 0.57–0.69); one-cell deaths **59.4 ± 0.9%** (predicted 62 ± 5%). Lags 3 and 4 differ from the
+hull's by 67% and 90% (criterion: 20%): **refuted**; lag 1 and the one-cell share hold.
+Details: `research/theory/swarm/exam/OUTCOMES.md`.
+
+## 2026-11-14, counting, C-E3 (filed in the line's closing round, after the outcome of C-E2; nothing has been run on this quantity)
+
+**C-E3. The last cell of a face12e wall dies over fair dice, at the rate that lattice's own sharing gives.**
+face12e B45/S345, the slabs of `research/audit/REVIEW-class.md` §2.2 (four cubes deep, periodic wall 4 × 4 and
+5 × 5, soups of density 0.45, ages ≥ 200). For each wall and each generation t at which its sheet of wall faces
+is empty and the layer beneath it has exactly one live cell: is the band (sheet and layer) empty at t + 1?
+*Prediction:* the fraction is **0.44 ± 0.05** at both sizes, and the two sizes agree within 0.03.
+*Why (two lines):* with the sheet empty, a lone cell of the layer leaves the band empty iff none of seven cells
+(itself and its six in-layer neighbours) has its three cells beneath all alive; the cells beneath are 6 cube
+bottoms on a 2 × 3 ladder and 7 private cells (counting journal, entry 14). Over independent cells of density ρ
+that is a polynomial worth 3793/8192 = 0.463 at ρ = ½, 0.42 at 0.52, 0.67 at the bulk density 0.40. Gump's own
+polynomial (0.412 at ½) meets gump's measured 0.37–0.41 at ρ = 0.50–0.52 and not at its bulk density (0.61):
+beneath a dying face the cells act like fair dice. The entry bets that this carries over, face12e's sharing
+making the escape more likely than in gump.
+*Refuted if* above 0.55 or below 0.36.
+
+## 2026-11-14, examiner: outcome of source S-E2 (sampled)
+
+Driven faces over fair dice: gump D3(3 × 4, ½; 6) **7.3967 ± 0.0088**, D3(4 × 4, ½; 6) **9.9446 ± 0.0140** (predicted
+7.40 ± 0.08, 9.94 ± 0.08; refuted if off the slabs' 7.398, 9.936 by > 0.2); 2D D2(16, ½; 8) **7.4032 ± 0.0089**,
+D2(20, ½; 8) **9.1504 ± 0.0095** (predicted 7.43 ± 0.04, 9.16 ± 0.05). **Holds.**
+Details: `research/theory/swarm/exam/OUTCOMES.md`.
+
+## 2026-11-14, path, E4 (filed in round 4, after the outcomes of E1–E3 and the critic's reply to round 3; nothing has been run on either quantity)
+
+**E4. The exponent from a one-step table, on a rim-free face and on a second lattice.** For a watched layer with
+population n_t (death: n = 0) tally the pooled one-step table T(k, k′) of n over living, exposed states (as `Tr` of
+`research/fluct/qsd.py`; k′ = 0 included; rows 5 ≤ k < the living mean). For each row, normalised over its
+uncensored transitions, compute θ_k, the positive root of Σ_{k′} T(k, k′)·e^{−θ(k′ − k)} = 1, and the variance of k′ − k.
+Write {"A", "mean", "k", "theta", "var"} to a JSON file and run
+`python3 research/theory/swarm/path/bellman.py file.json`; V is the line "Bellman value".
+(a) Gump slab 5 × 4 × 8, face population (A = 60, the E3 vessel).
+(b) face12e slab four cubes deep, wall 5 × 5 (`research/audit/REVIEW-class.md` §2.2), n = population of the layer
+of perpendicular faces beneath the wall sheet (50 cells; "A" = 50), death = that layer empty.
+*Predictions:* (a) **V = 0.211 ± 0.012** (the slab's measured slope of ln τ per cell is 0.2088–0.2121);
+(b) **V = 0.205 ± 0.015 per cell of the layer** (measured wall law: 0.410 per wall face, 0.205 per cell of the
+layer). In both, the script's "int Theta" exceeds V by 0.005–0.02.
+*Why (two lines):* the hazard is the entry flux times the committor of this table, an identity (path journal,
+Theorem P̄), and when the one-step law is extensive the committor's exponent per cell is the value of a recursion
+in two functions of the density, the local root and the step variance (journal entry 17.5; proved bounds
+sup κΘ(κ) ≤ V ≤ ∫Θ). On the hull tables at A = 84 the recursion gives 0.218 where the neighbouring slopes are
+0.212 and 0.218. It is a statement about each vessel's own table; it does not say the two vessels share a root
+curve (E3 says they need not).
+*Refuted if* either V differs from the measured slope by more than 0.025.
+
+## 2026-11-14, probability, P-E4 (filed in round 3 by the successor on the line; P-E1 not yet scored when filed)
+
+**P-E4. The monotone process beneath a gump face over dice is supercritical, but not by much.** Model M(s) (no
+automaton is run; it is a percolation). Cells: a periodic gump face of n × n cubes, 3n² cells: the faces p (doubled
+coordinates, exactly one odd) of one layer x + y + z = const, identified under the translations 2n(e_x − e_y) and
+2n(e_y − e_z); the six neighbours of a cell with normal axis a (other axes b, c) are p ± (e_a − e_b), p ± (e_a − e_c),
+p ± 2(e_b − e_c). Every generation t ≥ 0 every cell draws an independent mark: K with probability s, G with
+probability s, nothing otherwise. η_0 = all cells; η_{t+1} = the cells y that carry G at t + 1, have a cell of η_t among
+themselves and their six neighbours, and have a neighbour that carried K at t. Death: η = ∅ (absorbing; a Markov
+chain, nothing to censor). τ = exposure / deaths at ages ≥ 30, replicas restarted at death. n = 4 and 6 (A = 48,
+108); s = 0.24, 0.27, 0.30, 1/3. Δ(s) := ln τ(108) − ln τ(48); if no replica dies at A = 108 within the budget,
+report the lower bound.
+*Predictions:* (i) Δ(1/3) ≥ 1.5 (lifetime exponential in the area: supercritical). (ii) The value s_c at which Δ
+crosses 1.0 (linear interpolation between the two neighbouring values of s) is **0.27 ± 0.035**.
+*Why (two lines):* a gump face whose count beneath has conditional weight ≥ s at 0, at 3 and on {1, 2} dominates
+M(s), cap included, because every face cell can be killed from beneath whatever the face does (probability
+journal, entry 13, Lemma 4); s ≤ 1/3 is forced. The number is a rough estimate: effective site density
+s(1 − (1 − s)^{5…6}) against a critical density 0.20–0.24 for seven parents in 2 + 1 dimensions (entry 14.4).
+*Refuted if* Δ(1/3) < 1.0 (then no dice law makes this comparison survive and the route to a theorem for a gump
+face over dice through Lemma 4 is closed), or if s_c < 0.22.
+
+## 2026-11-14, examiner: outcome of counting C-E1, revised (sampled)
+
+Cube-centred hulls, soups symmetric under x ↔ y, density 0.35, T0 = 200: ln τ_fix = **9.0169 ± 0.0017, 11.3951 ±
+0.0051, 14.2505 ± 0.0157** at A = 84, 108, 135 (R = 13, 15, 17); slope **0.1026 ± 0.0003** between A = 84 and 135
+(predicted 0.105 ± 0.009; refuted below 0.094 or above 0.118); first death on a fixed face in > 99.9% of replicas.
+**Holds.** Details: `research/theory/swarm/exam/OUTCOMES.md`.
+
+## 2026-11-14, examiner: outcome of probability P-E1 (sampled)
+
+D2(L, 0.472) on rings, T0 = 50: ln τ = **15.843 ± 0.025, 17.900 ± 0.042, 19.941 ± 0.089** at L = 30, 34, 38 (1,578,
+572, 127 deaths); slope 30 → 38 **0.512 ± 0.012** (LSQ 0.513 ± 0.009). Predicted 0.48 ± 0.03, refuted if ≥ 0.51:
+the measurement sits on the refutation line, so **not decidable** at this sample; the predicted 0.48 is 2.8σ below
+it and the interval's 0.460 is 4σ below. Details: `research/theory/swarm/exam/OUTCOMES.md`.

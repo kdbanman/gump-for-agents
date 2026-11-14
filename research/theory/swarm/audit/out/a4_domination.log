@@ -1,0 +1,17 @@
+(1) L=5  c->W bijection for every S: True;  E(S)&W <= S': True;  all eta<=S: True
+(1) L=6  c->W bijection for every S: True;  E(S)&W <= S': True;  all eta<=S: True
+(1) L=7  c->W bijection for every S: True;  E(S)&W <= S': True;  all eta<=S: True
+(1) L=8  c->W bijection for every S: True;  E(S)&W <= S': True;  all eta<=S (not run): True
+(1) L=9  c->W bijection for every S: True;  E(S)&W <= S': True;  all eta<=S (not run): True
+(2) L=6  xi'(i) >= V(i) max(xi(i), xi(i+1)) for all eta, W, i, t in {0,1}: True;  V i.i.d. Bernoulli(3/4): True
+(2) L=8  xi'(i) >= V(i) max(xi(i), xi(i+1)) for all eta, W, i, t in {0,1}: True;  V i.i.d. Bernoulli(3/4): True
+(2) L=10  xi'(i) >= V(i) max(xi(i), xi(i+1)) for all eta, W, i, t in {0,1}: True;  V i.i.d. Bernoulli(3/4): True
+(2) L=12  xi'(i) >= V(i) max(xi(i), xi(i+1)) for all eta, W, i, t in {0,1}: True;  V i.i.d. Bernoulli(3/4): True
+(3) L= 6  t<=400: anchor >= OP5(1/2): True (min margin over t>=2: 8.545e-03);  OP5(1/2) >= 2dOP(3/4) on Z_3: True (min margin over t>=2: 9.142e-04);  at t=400: 4.2709e-02, 9.6350e-04, 4.9280e-05
+(3) L= 8  t<=400: anchor >= OP5(1/2): True (min margin over t>=2: 2.899e-03);  OP5(1/2) >= 2dOP(3/4) on Z_4: True (min margin over t>=2: 2.930e-03);  at t=400: 5.5615e-01, 9.9961e-02, 6.8621e-03
+(3) L=10  t<=400: anchor >= OP5(1/2): True (min margin over t>=2: 9.747e-04);  OP5(1/2) >= 2dOP(3/4) on Z_5: True (min margin over t>=2: 1.297e-03);  at t=400: 8.7818e-01, 4.2661e-01, 5.8504e-02
+(3) L=12  t<=400: anchor >= OP5(1/2): True (min margin over t>=2: 3.263e-04);  OP5(1/2) >= 2dOP(3/4) on Z_6: True (min margin over t>=2: 5.177e-04);  at t=400: 9.6929e-01, 7.1456e-01, 1.7552e-01
+(3) L=14  t<=400: anchor >= OP5(1/2): True (min margin over t>=2: 1.087e-04);  OP5(1/2) >= 2dOP(3/4) on Z_7: True (min margin over t>=2: 1.961e-04);  at t=400: 9.9239e-01, 8.7123e-01, 3.2684e-01
+    cross-check of the two percolation steppers (L=8, t<=50): 0.0e+00, 2.2e-16
+(4) L=6, Gibbs drive depending on the row, INS(p) with p = 0.4047: P(edge meets C at t) >= P(OP5(p) meets C at t) for all C, t<=6: True (min margin 2.479e-02)
+A4 ALL OK
