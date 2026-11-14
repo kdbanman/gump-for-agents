@@ -88,20 +88,20 @@ _Last updated 2026-11-14 by the lead._
   exponentially; rim-free slab faces are on the old line through A = 108, and an octahedral face there is 0.91 nats
   tougher. Does not stand: "the rise is a rim effect" and the slope 0.204 from 108 to 126 (the 6×7×8 run counts
   firewalls as peels; about a fifth of its deaths). The session made the five wording fixes (its commit 3cfab59; the
-  lead read the diff) and **pull request 12 was merged 2026-11-14, 07:50 UTC**. It is now running the same slab with
+  lead read the diff) and **pull request 12 was merged 2026-11-14 (time of the merge commit: `git log -1 --format=%cI 07743dd`)**. It is now running the same slab with
   firewalls detected (`research/gpu/fwslab.py`; forecast and two validation targets committed first in
   `research/gpu/PREDICTIONS.md`: firewall-first share 10–30%, ln τ_face(126) = 26.30 ± 0.15). Expect a pull request;
   review it as before (does its validation at 3×6×8 and 4×7×8 reproduce `slab_fw.csv`?), re-derive one number, merge.
-  At 07:55 UTC the session was idle (its runs were due about 07:45); the lead messaged it: restart its branch from
+  At about 07:50 UTC the session was idle (its runs were due about 07:45); the lead messaged it: restart its branch from
   main, score the run against the forecast, data per death in `research/data/gpu_facelaw/`, censor every period,
   then a control at 6×6×8 with the firewall channel resolved. It cannot reply: look at its branch
   `claude/awesome-cray-boq9vz` and the pull request list from time to time.
-- **Exam (swarm), state 07:55 UTC:** `swarm/exam/OUTCOMES.md` has protocols, validations and three outcomes: path E1
+- **Exam (swarm), state about 07:50 UTC:** `swarm/exam/OUTCOMES.md` has protocols, validations and three outcomes: path E1
   holds (notched strips, slope 0.3458 ± 0.0036 against 0.345 ± 0.020), source S-E1 holds (the edge over a parity bulk
   has the dice chain's lifetime, three sizes inside 0.7σ), counting C-E2 fails (−ln P₃ slope 0.368 against 0.447 ±
   0.012). Still to come: P-E1, path E2, path E3, source S-E2, C-E1. The examiner's waiter script had stalled (it
-  matched its own command line); the lead resumed it 07:55. The hook `.claude/after-compaction.md` fired as designed
-  at the compaction of 07:50 UTC.
+  matched its own command line); the lead resumed it then. The hook `.claude/after-compaction.md` fired as designed
+  at the compaction just before (about 07:47 UTC).
 - **Prior art:** Tél–Lai 2008 and Bramson–Neuhauser 1994 are unread (publisher pages refuse agents); the owner was
   told they could fetch them. `PRIOR-ART.md`'s older sections still hold "snippet only" items the library now covers.
 - Lineage study: replicate the weak "slow variable" (copies remember their source, ρ ≈ +0.2) on other sources.
