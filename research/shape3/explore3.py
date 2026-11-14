@@ -32,3 +32,33 @@ if __name__ == '__main__':
             print(f'{first} | {c} | ({g["q1"]},{2*g["B"]:.0f},{g["q2"]}) | {g["x"]:.3f} | {inv["rows"]} | '
                   f'{tuple(p // 2 for p in inv["periods"])} | {inv["cut"]} | {T[c]["W"] / T[c]["F"]:.4f} | '
                   f'{1e6 * 8 * near[c][0] / near[c][1]:.2f} |')
+
+    # post hoc: refit every candidate on all pairs (the three known values pooled with this experiment's
+    # re-measurements, and every new pair); chi^2 of the best fit
+    import numpy as np
+    from scipy.optimize import least_squares
+    from scipy.stats import chi2
+    import predict3 as P
+    meas = {}
+    for lab, X, Y in PAIRS:
+        if X in T and Y in T and lab != 'T02':
+            (vx, ex), (vy, ey) = lnt(T[X]['exposure'], T[X]['F']), lnt(T[Y]['exposure'], T[Y]['F'])
+            meas[lab] = (3 * X[0] * X[2], X, Y, vy - vx, math.hypot(ex, ey))
+    for lab, A, X, Y, d, e in P.KNOWN:     # pool the published value with the re-measurement
+        if lab in meas:
+            d2, e2 = meas[lab][3], meas[lab][4]; w1, w2 = 1 / e ** 2, 1 / e2 ** 2
+            meas[lab] = (A, X, Y, (d * w1 + d2 * w2) / (w1 + w2), (w1 + w2) ** -0.5)
+        else:
+            meas[lab] = (A, X, Y, d, e)
+    for title, keep in (('all pairs', lambda k: True), ('shortest loop^2 >= 12 only (P, T, N)', lambda k: k[0] in 'PTN')):
+        sub = {k: v for k, v in meas.items() if keep(k)}
+        print(f'\nPost hoc refit of each candidate on {title} (' + ', '.join(sorted(sub)) + '):')
+        for name, (f, p0) in P.CANDS.items():
+            best = None
+            starts = [p0] if len(p0) == 1 else [[lb, K] for lb in (-2, 1, 4, 7) for K in (0.2, 0.65, 1.4, 2.5)]
+            for s0 in starts:
+                r = least_squares(lambda p: np.array([(f(A, X, Y, p) - d) / e for A, X, Y, d, e in sub.values()]), s0)
+                best = r if best is None or r.cost < best.cost else best
+            dof = len(sub) - len(p0)
+            print(f'  {name:11s} chi2 {2 * best.cost:8.1f} on {dof}  p {chi2.sf(2 * best.cost, dof):.2g}  params {np.round(best.x, 5).tolist()}')
+    print('  pooled pair values: ' + '; '.join(f'{k} {v[3]:+.4f} ± {v[4]:.4f}' for k, v in sorted(meas.items())))
