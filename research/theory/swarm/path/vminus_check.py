@@ -156,8 +156,8 @@ def root(row, n):
 def certificate(T, W, th0, delta, e=0.0, full_rows=None):
     """Theorem V-.  Row n is good if  e^{(1-delta) e} sum_{n' <= n1} [T(n, n') e^{-th0 (n' - n)}]^delta <= 1  (the sharp
     form), or, when full_rows is given, if (e^e N_n)^{1-delta} M_n(th0)^delta <= 1 (the form of the statement).
-    Returns n0 (least row with all of n0..n1 good; None if the top row is bad) and the exponent
-    g(n) = [(1 - delta)(W(n) - max_{j < n0} W(j)) + delta th0 (n - n0)]^+ , so that psi* <= exp(-g)."""
+    Returns n0 = k0 + 1 (least row with all of n0..n1 good; None if the top row is bad) and the exponent
+    g(n) = [(1 - delta)(W(n) - max_{j <= k0} W(j)) + delta th0 (n - k0)]^+ , so that psi* <= exp(-g)."""
     n1 = T.shape[0] - 1
     good = np.zeros(n1 + 1, bool)
     for n in range(1, n1 + 1):
@@ -171,7 +171,7 @@ def certificate(T, W, th0, delta, e=0.0, full_rows=None):
     n0 = int(bad.max()) + 1 if len(bad) else 1
     if n0 > n1:
         return None, None
-    g = np.maximum((1 - delta) * (W - W[:n0].max()) + delta * th0 * (np.arange(n1 + 1) - n0), 0.0)
+    g = np.maximum((1 - delta) * (W - W[:n0].max()) + delta * th0 * (np.arange(n1 + 1) - n0 + 1), 0.0)
     return n0, g
 
 
@@ -211,8 +211,8 @@ def random_tables(trials=3000, seed=1):
         used += 1
         for delta in (0.3, 0.5, 0.7, 0.9, 1.0):
             for th0 in rng.uniform(0.05, 1.5, size=3):
-                if delta < 1 and not e:                               # the same formula with the hypothesis dropped (n0 = 1)
-                    g = np.maximum((1 - delta) * W + delta * th0 * (np.arange(n1 + 1) - 1), 0.0)
+                if delta < 1 and not e:                               # the same formula with the hypothesis dropped (k0 = 0)
+                    g = np.maximum((1 - delta) * W + delta * th0 * np.arange(n1 + 1), 0.0)
                     teeth_cases += 1
                     teeth += int((-np.log(psi[1:]) - g[1:]).min() < -1e-9)
                 for fr in (None, full):
@@ -222,10 +222,10 @@ def random_tables(trials=3000, seed=1):
                     cases += 1
                     gap = (-np.log(psi[1:]) - g[1:]).min()
                     worst = min(worst, gap)
-                    strict += int(delta < 1 and g[n1] > th0 * (n1 - n0) + 1e-9)
+                    strict += int(delta < 1 and g[n1] > th0 * (n1 - n0 + 1) + 1e-9)
     check(worst >= -1e-9, f"{cases} cases on {used} tables: -ln psi* >= the certified exponent at every row (smallest gap {worst:.2e}); "
-                          f"in {strict} cases with delta < 1 the certificate at the top row beats the block bound theta0 (n1 - n0)")
-    check(teeth > 0, f"the test can fail: with the good-row hypothesis dropped (n0 = 1) the same formula is violated in {teeth} of {teeth_cases} cases")
+                          f"in {strict} cases with delta < 1 the certificate at the top row beats the block bound theta0 (n1 - k0)")
+    check(teeth > 0, f"the test can fail: with the good-row hypothesis dropped (k0 = 0) the same formula is violated in {teeth} of {teeth_cases} cases")
 
 
 # ----------------------------------------------------------------------------------------------- entry 23
@@ -298,6 +298,21 @@ def undershoot(ms=(1, 2, 4, 8, 16)):
         out[m] = (chi, C, chi * C + direct, cplus)
         print(f"      m = {m:2d} ({84 * m} cells): K = {K}, theta0 = {th0:.4f}; ln chi = {np.log(chi):.2f}; C = {C:.2f}; Phi = {chi * C + direct:.3e}; "
               f"C+ = {cplus:.3f}; -ln[Phi e^(-theta0 (K - 5 m))] = {-np.log(chi * C + direct) + th0 * (K - 5 * m):.2f} against -ln h = {-np.log(h):.2f}", flush=True)
+    print("  (c) entry 24.4, condition B+ on the tallied rows above the low set {1..K-1}: the largest W(K-1) - W(z') + ln T(z, z'), K <= z <= A/2, z' < K")
+    bplus = []
+    for R in (9, 11, 13):
+        A = AREA[R]
+        Tr, N, Tb, expo = table(R)
+        KM = Tr.shape[0]
+        rws = [np.array([1.0])] + [Tb[k].copy() for k in range(1, KM)]
+        n1 = int(np.ceil(0.35 * A)) - 1
+        line = f"      A = {A}:"
+        for name, W in (("W_J", w_legendre(rws, n1)), ("W°", w_path(square(rws, n1)))):
+            worst = max(W[n1] - W[zp] + np.log(Tb[z, zp]) for z in range(n1 + 1, KM) for zp in range(n1 + 1) if Tb[z, zp] > 0)
+            bplus.append(worst)
+            line += f" {name}: {worst:+.3f};"
+        print(line)
+    check(max(bplus) <= 0, "B+ holds with e = 0 on every tallied row above K, for W_J and for W°")
     check(all(out[b][1] > out[a][1] for a, b in zip(ms, ms[1:])) and all(out[b][2] < out[a][2] for a, b in zip(ms, ms[1:]))
           and all(v[2] <= v[3] + 1e-12 for v in out.values()) and all(v[3] < 1.1 for v in out.values())
           and all(v[2] <= v[3] + 1e-12 and v[3] < 1.1 for v in res.values()),
@@ -338,7 +353,7 @@ def thresholds():
 def vminus(mmax=16):
     print("Entry 24.8. Theorem V- on the m-fold chains of the A = 84 table. Low set {1..n1}, n1 = ceil(top 84 m) - 1 (or the top tallied row).")
     print("  Admissible W: W_J (Chernoff cost of each row; for rows as tallied this is m I(n/m -> n'/m)) and W° (most probable path).")
-    print("  Certified = the largest exponent at n1 over delta in {0.3, ..., 1.0} and theta0 in {0.02, ..., 0.60} for which every row n0..n1 is good (sharp form).")
+    print("  Certified = the largest exponent at n1 over delta in {0.3, ..., 1.0} and theta0 in {0.02, ..., 0.60} for which every row n0..n1 is good (sharp form); k0 = n0 - 1.")
     Tr, N, Tb, H = table(13)
     KT = Tr.shape[0] - 1
     rows = [np.array([1.0])] + [Tb[k].copy() for k in range(1, KT + 1)]

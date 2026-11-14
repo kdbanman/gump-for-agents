@@ -1456,7 +1456,7 @@ is that of the chain restarted at its top row, the critic's construction; it is 
 above the mean.
 *Not known.* The tallies hold no row above A/2, and 32%, 44%, 49%, 51% of the exposure is there (A = 30 … 84).
 Φ and C⁺ above are over rows K ≤ z ≤ A/2. A crossing from above A/2 to below K is a one-step drop of more than
-0.15A cells (13 cells at A = 84, against a step with standard deviation 5); whether such steps matter, and
+0.15A cells (at least 14 cells at A = 84, against a step with standard deviation 5); whether such steps matter, and
 whether a face dies directly from above A/2, the tables cannot say. R⁺ is therefore checked on the lower half
 of its range, as the critic said of the condition it replaces.
 
@@ -1467,7 +1467,307 @@ of its range, as the critic said of the condition it replaces.
 - "The crossing term is carried by drops of one to three cells" is true **by count** (91%, 86%, 80%, 78% of the
   crossings land one to three cells below K) and false by weight: the ψ*-weighted share of those landings is
   0.70, 0.55, 0.41, 0.33, and at A = 84 a third of the weight lands seven or more cells below K.
-- What Q proves on the tables: 0.13–0.14 per cell from the block alone; with the measured Φ credited the slopes
-  of the last-but-one row above are 0.170, 0.162, 0.173 against the hazard's 0.201, 0.212, 0.212. On the chain:
-  0.151–0.153 against 0.211–0.219. The rest of the exponent is in the roots above θ₀ inside the block and in the
-  entry flux, which is what Theorem V⁻ (entry 24) is for.
+- What Q proves on the tables: 0.13–0.14 per cell from the block alone; with the measured Φ credited, the
+  slopes of θ₀(K − k₀) − ln Φ between sizes are 0.170, 0.162, 0.173 against the hazard's 0.201, 0.212, 0.212. On
+  the chain: 0.151–0.153 against 0.211–0.219. The rest of the exponent is in the roots above θ₀ inside the block,
+  which is what Theorem V⁻ (entry 24) is for.
+
+---
+
+## 2026-11-14, entry 24. Theorem V⁻: the quasi-potential bounds the committor's exponent from below
+
+The critic's third item (reply to round 4, §3 end and §6.3): prove that e^{−(1−δ)mV} is a supersolution on the
+m-fold family, so that "ln τ ≥ (1 − δ)·V·A for extensive tables" is a theorem containing Q.
+
+**Outcome: proved, with a changed certificate.** The function shown to be a supersolution is
+e^{−m[(1−δ)V + δθ₀(x − x₀)]}: V mixed with the block bound of Proposition T′. Its exponent is at least (1 − δ)(V − V̄(x₀)),
+so the theorem asked for holds, and at δ = 1 it is Theorem Q word for word. The reason for the mixture: a proof
+needs every term of a row sum to be small by a margin that grows with the face. For V alone the margin near the
+row's mean step is V(x + b) − V(x), a property of V that no one-step hypothesis bounds below (24.5). The linear
+term brings in the margin of hypothesis R, which is a statement about one row at a time. Nothing in 24.1–24.6
+uses a property of gump: T̄ is the pooled one-step table of any statistic (entries 8, 17.1).
+
+**24.1 Setting, and what "admissible" means.** One table: T̄(n, n′) for n ∈ 𝓛 = {1, …, n₁} and n′ ≥ 0, row sums ≤ 1
+(the censored mass is missing), column 0 is death; rows above n₁ are not used. ψ* is the committor of 𝓛 (17.1):
+the smallest non-negative solution of ψ(n) = T̄(n, 0) + Σ_{n′ ∈ 𝓛} T̄(n, n′)ψ(n′), with ψ*(0) = 1. For a row n and real s
+
+    M_n(s) = Σ_{n′ ≥ 0} T̄(n, n′)·e^{−s(n′ − n)},        N_n = #{ n′ ≤ n₁ : T̄(n, n′) > 0 }.
+
+A real function W on {0, …, n₁} with W(0) = 0 is **admissible with slack e ≥ 0 on the rows k₀ < n ≤ n₁** if
+
+    W(n) − W(n′)  ≤  −ln T̄(n, n′) + e        for k₀ < n ≤ n₁,  0 ≤ n′ ≤ n₁                                   (B)
+
+(Bellman's inequality for the one-step cost −ln T̄; nothing is asked where T̄(n, n′) = 0). Three admissible functions:
+- **W°**(n) = the least value of Σ_i −ln T̄(z_i, z_{i+1}) over paths n = z₀, z₁, …, z_N = 0 with z_i ∈ 𝓛 for i < N: minus the
+  logarithm of the probability of the most probable path to death inside the low set. It is the largest
+  admissible function with e = 0 on all rows.
+- **W_J**: the same with the cost J_n(n′) = sup_{s real} [s(n − n′) − ln M_n(s)]. Chernoff's bound for a point,
+  T̄(n, n′)·e^{−s(n′ − n)} ≤ M_n(s) for every real s, gives J_n(n′) ≤ −ln T̄(n, n′); so W_J ≤ W° and W_J is admissible.
+- In an extensive family, W(n) = m·V(n/m) (24.3).
+
+**24.2 Theorem V⁻ [proved].** Let θ₀ > 0, 0 < δ ≤ 1, e ≥ 0, 0 ≤ k₀ < n₁, and let W be admissible with slack e on the
+rows k₀ < n ≤ n₁. Suppose every one of these rows is *good*:
+
+    (e^e·N_n)^{1−δ} · M_n(θ₀)^δ  ≤  1.                                                                       (G)
+
+Then for every n ∈ 𝓛
+
+    ψ*(n)  ≤  exp( −[ (1 − δ)(W(n) − W̄₀) + δθ₀(n − k₀) ]⁺ ),        W̄₀ = max_{0 ≤ j ≤ k₀} W(j).
+
+In the other direction, for any table, ψ*(n) ≥ e^{−W°(n)}.
+
+*Proof.* Put G(n) = (1 − δ)W(n) + δθ₀(n − k₀)⁺, u₀ = (1 − δ)W̄₀, g = (G − u₀)⁺ and ψ = e^{−g} on {0, …, n₁}. For j ≤ k₀,
+G(j) = (1 − δ)W(j) ≤ u₀, so g(j) = 0; in particular ψ(0) = 1, the boundary value of a committor. Claim: ψ is a
+supersolution, Σ_{n′ = 0}^{n₁} T̄(n, n′)ψ(n′) ≤ ψ(n) for every n ∈ 𝓛 (the term n′ = 0 is the death term).
+If g(n) = 0, the right side is 1 and the left side is at most the row sum, because ψ ≤ 1.
+If g(n) > 0, then n > k₀, so (B) and (G) hold at row n; and g(n) = G(n) − u₀, while g(n′) ≥ G(n′) − u₀ for every n′.
+Hence, by (n − k₀)⁺ − (n′ − k₀)⁺ ≤ n − n′ (true because n > k₀) and then (B),
+
+    g(n) − g(n′)  ≤  G(n) − G(n′)  ≤  (1 − δ)(W(n) − W(n′)) + δθ₀(n − n′)  ≤  (1 − δ)(−ln T̄(n, n′) + e) + δθ₀(n − n′),
+
+so each term of the row sum satisfies
+
+    T̄(n, n′)·ψ(n′)/ψ(n)  ≤  e^{(1−δ)e} · [ T̄(n, n′)·e^{−θ₀(n′ − n)} ]^δ.                                          (1)
+
+The numbers a_{n′} = T̄(n, n′)e^{−θ₀(n′ − n)}, n′ ≤ n₁, are N_n in number where they are not zero, and their sum is at
+most M_n(θ₀). By concavity of t ↦ t^δ, Σ a_{n′}^δ ≤ N_n^{1−δ}·(Σ a_{n′})^δ. So
+Σ_{n′ ≤ n₁} T̄(n, n′)ψ(n′)/ψ(n) ≤ (e^e N_n)^{1−δ}·M_n(θ₀)^δ ≤ 1 by (G). This proves the claim, and the committor lies below
+every non-negative supersolution (ψ ≥ d̄ + T̄_𝓛ψ gives ψ ≥ Σ_{i ≤ I} T̄_𝓛^i d̄ for every I, and ψ* is the limit).
+The last sentence of the theorem: the table's chain follows a given path n = z₀, …, z_N = 0 inside 𝓛 with
+probability Π T̄(z_i, z_{i+1}), and ψ*(n) is the probability of the union of all such paths. ∎
+
+*Smallest case by hand.* The walk on {0, 1, 2, 3}, up ¾, down ¼, 𝓛 = {1, 2}: ψ*(1) = 4/13, ψ*(2) = 1/13. W°(1) = ln 4,
+W°(2) = 2 ln 4 = 2.773 ≥ −ln ψ*(2) = 2.565. With e^{θ₀} = √3: M_n(θ₀) = ¼√3 + ¾/√3 = 0.866; N₁ = 2 (targets 0 and 2), N₂ = 1
+(target 1; 3 is outside). Row 2 is good for every δ; row 1 is good iff 2^{1−δ}·0.866^δ ≤ 1, i.e. δ ≥ 0.828. With δ = 0.9,
+k₀ = 0: the bound at n = 2 is 0.1 × 2.773 + 0.9 × 0.549 × 2 = 1.266 ≤ 2.565. (Proposition T′, the case δ = 1 with
+θ₀ = ln 3, gives 2.197: on a table this small the mixture does not help.)
+
+*Remarks.*
+1. *Where the exponential comes from.* In (1) the factor T̄^{1−δ} of each term has been spent against the
+   certificate: that is admissibility, the most the table allows. The factor T̄^δ is left over, and what is left
+   over has to pay for the number of targets. It can if the tilted row has total mass well below one: (G).
+2. *δ = 1 is Proposition T′.* (G) becomes M_n(θ₀) ≤ 1, hypothesis R, the bound is e^{−θ₀(n − k₀)⁺}, and W plays no
+   part. For δ < 1, (G) asks for a **margin**: M_n(θ₀) ≤ (e^e N_n)^{−(1−δ)/δ}. One table has no reason to have it. A
+   family whose margins grow in proportion to its size has it from some size on (24.3).
+3. *Sharp form.* The proof uses only e^{(1−δ)e}·Σ_{n′ ≤ n₁} [T̄(n, n′)e^{−θ₀(n′ − n)}]^δ ≤ 1, which is weaker than (G). It is
+   what `vminus_check.py` tests.
+4. *For one table the two sides are* (1 − δ)(W°(n) − W̄₀°) + δθ₀(n − k₀) ≤ −ln ψ*(n) ≤ W°(n), whenever (G) holds.
+
+**24.3 Extensive families: what the word has to mean.**
+
+*Rates and the quasi-potential.* A rate family on (0, x₁]: for each x a convex function Λ_x on the real line
+with Λ_x(0) ≤ 0. Put I(x → y) = sup_{s real} [s(x − y) − Λ_x(s)] ≥ 0, V(0) = 0 and, for 0 < x ≤ x₁,
+
+    V(x) = inf { Σ_{i<N} I(z_i → z_{i+1}) :  N ≥ 1,  z₀ = x,  z_N = 0,  0 < z_i ≤ x₁ for 0 < i < N },
+
+the quasi-potential of the low set [0, x₁]; I assume it finite. By construction V(x) ≤ I(x → y) + V(y) for
+0 < x ≤ x₁, 0 ≤ y ≤ x₁, and V is the largest function with V(0) = 0 that satisfies this (sum the inequality along a
+path). Rising steps are allowed, inside the low set. Two consequences: (i) if Λ_x(θ₀) ≤ 0 for x₀ ≤ x ≤ x₁ then
+V(x) ≥ θ₀(x − x₀)⁺, because U(x) = θ₀(x − x₀)⁺ satisfies the same inequality (I(x → y) ≥ θ₀(x − y) − Λ_x(θ₀)): this
+is "sup κΘ(κ) ≤ V" of 17.5, proved now for V itself and not through a limit. (ii) V(x) ≤ I(x → 0).
+
+*Definition (E).* Tables T̄^{(m)}, one for each scale m in an unbounded set, with low sets {1, …, n₁(m)},
+n₁(m) = ⌊m x₁⌋, are **sub-extensive over (Λ_x) on (x₀, x₁], with error e_m**, if for every row n with
+x₀ < n/m ≤ x₁ and every real s
+
+    ln M^{(m)}_n(s)  ≤  m·Λ_{n/m}(s) + e_m.                                                                   (E)
+
+**Exactly extensive** means equality with e_m = 0. (E) is a large-deviation *upper* bound for the one-step law
+of the statistic, in Chernoff's form, with speed m, uniform over the rows of the block. It asks nothing about
+lower bounds, about two steps, or about a Markov property.
+
+*Lemma E1 (the m-fold family of a table is exactly extensive) [proved].* Base table with rows T_1, …, T_{k₁}
+(laws on {0, 1, …}), T₀ = δ₀, Λ_k = ln M_k, Λ₀ = 0. The m-fold chain has rows q_m(mk + r, ·) = T_k^{∗(m−r)} ∗ T_{k+1}^{∗r},
+0 ≤ r < m. Then ln M^{(m)}_n(s) = m·Λ_{n/m}(s) for every n and every real s, with Λ_x = (1 − f)Λ_k + fΛ_{k+1}, x = k + f.
+*Proof.* The next population is a sum of m independent variables, m − r with law T_k and r with law T_{k+1}, and
+the present one is (m − r)k + r(k + 1) = n. So the step is the sum of the m steps, and its transform is
+M_k(s)^{m−r}·M_{k+1}(s)^r. ∎
+
+*Corollary V⁻(E) [proved].* Let (T̄^{(m)}) be sub-extensive over (Λ_x) on (x₀, x₁] with error e_m, and suppose
+
+    (R_ε)    Λ_x(θ₀) ≤ −ε₀    for x₀ < x ≤ x₁,    for some θ₀ > 0 and ε₀ > 0
+
+(hypothesis R with a margin). Let 0 < δ ≤ 1. Then for every m with
+
+    δ·m·ε₀  ≥  e_m + (1 − δ)·ln(m x₁ + 1)                                                                    (S)
+
+and every n ≤ n₁(m), with k₀ = ⌊m x₀⌋,
+
+    −ln ψ*_m(n)  ≥  (1 − δ)·m·( V(n/m) − V̄ ) + δθ₀(n − k₀),          V̄ = sup_{0 ≤ y ≤ x₀} V(y).
+
+If e_m = o(m), (S) holds for all large m; letting m → ∞ and then δ → 0, for every x in (x₀, x₁] such that mx is an
+integer along the sequence,
+
+    liminf_{m → ∞}  −(1/m)·ln ψ*_m(m x)  ≥  V(x) − V̄.
+
+*Proof.* By (E) and Chernoff's bound for a point, −ln T̄^{(m)}(n, n′) ≥ J_n(n′) ≥ m·I(n/m → n′/m) − e_m ≥
+m·(V(n/m) − V(n′/m)) − e_m: the function W(n) = m·V(n/m) is admissible with slack e_m on the rows k₀ < n ≤ n₁. By (E)
+and (R_ε), M_n(θ₀) ≤ e^{e_m − mε₀}, and N_n ≤ n₁ + 1 ≤ m x₁ + 1; so (e^{e_m}N_n)^{1−δ}·M_n(θ₀)^δ ≤
+exp(e_m + (1 − δ)ln(m x₁ + 1) − δmε₀) ≤ 1 by (S): every row of the block is good. Theorem V⁻, and W̄₀ ≤ mV̄. ∎
+
+*For the m-fold family of a table*, (E) holds with e = 0 by Lemma E1; (R_ε) on (k₀, k₁] is M_k(θ₀) ≤ e^{−ε₀} at the
+integer rows k₀ ≤ k ≤ k₁ (Λ_x(θ₀) is piecewise linear in x); and (S), δmε₀ ≥ (1 − δ)ln(mk₁ + 1), holds for every
+m ≥ m₀(δ), its least solution (the difference of the two sides is convex in m and vanishes at 0). So
+
+    m ≥ m₀(δ):    −ln ψ*_m(n)  ≥  (1 − δ)·m·(V(n/m) − V̄) + δθ₀(n − mk₀)    for mk₀ < n ≤ mk₁,
+
+with ψ*_m the committor of the low set {1, …, mk₁} and V the quasi-potential of the interpolated rates on
+[0, k₁]. **This is the statement the critic asked for**: on the m-fold family the committor's exponent per patch
+is, in the limit, at least V(k) − V̄. Theorem Q's exponent θ₀(k − k₀) is the case δ = 1, so the limit is at least the
+larger of the two; and when the bottom costs nothing extensive (next paragraph) it is at least V(k), which is
+above every block bound by (i).
+
+*The bottom rows.* V̄ is the price of the rows left free, and in the m-fold family it is extensive (m patches
+of at most k₀ cells each have to be emptied). It is of order one in two situations.
+- *Every row of the base table has a positive root* (the A = 84 table: the least are 0.049 at row 1 and 0.088
+  at row 42). Take θ₀ below all of them, so M_k(θ₀) ≤ e^{−ε₀} for 1 ≤ k ≤ k₁. A row n < m is T₁^{∗n}: M_n(θ₀) ≤ e^{−nε₀}
+  and N_n ≤ J₁n + 1, J₁ the largest value row 1 charges. So such a row is good as soon as
+  δnε₀ ≥ (1 − δ)ln(J₁n + 1): from a row n₀(δ) on, the same for every m; and V(y) ≤ I(y → 0) ≤ y·w₁ for y ≤ 1,
+  w₁ = −ln T̄(1, 0). Theorem V⁻ with k₀ = n₀(δ) − 1 gives, for m ≥ max(m₀(δ), n₀(δ)),
+  −ln ψ*_m(n) ≥ (1 − δ)(m·V(n/m) − n₀(δ)w₁) + δθ₀(n − n₀(δ)), hence **liminf −(1/m)·ln ψ*_m(mk) ≥ V(k) for every row k**:
+  the lower half of claim V for this chain, with nothing subtracted.
+- *A real family of faces.* Sparse rows are a fixed number of cells, not a fixed density. If their margin is
+  proportional to their population, M_n(θ₀) ≤ e^{−cn}, then, because a gump face has **N_n ≤ 7n + 1** (the rim
+  lemma, L1(a): the next live set lies in the closed in-face neighbourhoods of the live cells; 5n + 1 for the 2D
+  rule), the rows from some n₀(δ, c) on are good at every size, and the bottom costs W̄₀ = O(1). This is the
+  one place where a proved fact about the rule enters the count. (With an error e_m → ∞ in (E), the first good
+  row moves up to about e_m/δc and the bottom costs O(e_m) = o(m).)
+
+*How large is "large"* (`python3 vminus_check.py m0`; the A = 84 table, per patch of 84 cells):
+
+| block of rows | best θ₀ | margin ε₀, nats per patch | m₀(δ = 0.5) | m₀(0.2) | m₀(0.1) |
+|---|---|---|---|---|---|
+| 5 … 29 (to 0.35A) | 0.300 | 0.176 | 41 | 197 | 489 |
+| 5 … 37 (to 0.45A) | 0.186 | 0.150 | 50 | 242 | 599 |
+| 5 … 42 (the top tallied row) | 0.044 | 0.026 | 374 | 1,734 | 4,210 |
+| 1 … 42 | 0.024 | 0.0003 | 49,000 | 217,000 | 513,000 |
+
+(A = 45 and 63: 47 and 42 at δ = 0.5 for the block to 0.35A.) So the sufficient condition of the proof starts to
+hold at faces of several thousand cells (41 × 84 = 3,400 at δ = ½), and for the whole table, bottom and top
+included, it is a statement about the limit only. The lab finds the property itself far earlier:
+e^{−(1−δ)W} is a supersolution up to the top row at δ = 0.2 from m = 1 (L12.10). The proof gives away two things:
+the count (a row's mass sits on about √(mv) targets, not on m x₁), and the slack (it uses δε₀, at most δ·I(x → x),
+the cost of standing still; the terms of the true row sum have slack δ·I(x → y*) at the optimal step and
+(1 − δ)(V(x + b) − V(x)) at the mean step).
+
+**24.4 From the committor to the hazard: the top.** As in Theorem Q (23.2), Theorem P̄ turns a supersolution
+into a bound on the measured hazard through the entries into the low set, and those depend on the rows above
+it. Write K = n₁ + 1.
+
+*Corollary H [proved].* In the setting of Theorem V⁻, let ψ be its certificate. Over any window
+
+    Deaths/Expo  ≤  Φ[ψ] + (boundary term)/Expo,        Φ[ψ] = Σ_{z ≥ K} p_z · Σ_{z′ = 0}^{n₁} T̄(z, z′)·ψ(z′).
+
+If every visited row z ≥ K satisfies
+
+    (R⁺)   M_z(θ₀) ≤ C⁺·e^{θ₀(z − K)},          (B⁺)   W(n₁) − W(z′) ≤ −ln T̄(z, z′) + e   for 0 ≤ z′ ≤ n₁,
+
+then  Φ[ψ] ≤ (e^e·K)^{1−δ}·(C⁺)^δ·exp( −[(1 − δ)(W(n₁) − W̄₀) + δθ₀(K − k₀)] ), so that
+
+    ln τ  ≥  (1 − δ)(W(n₁) − W̄₀) + δθ₀(K − k₀) − (1 − δ)(e + ln K) − δ·ln C⁺ − (window term).
+
+*Proof.* The first line is Theorem P̄ for 𝓛 = {1, …, n₁}, a direct death being the term z′ = 0 (ψ(0) = 1). For the
+bound, ψ(z′) ≤ e^{u₀ − G(z′)} and, by (B⁺) and (z′ − k₀)⁺ ≥ z′ − k₀, G(n₁) − G(z′) ≤ (1 − δ)(−ln T̄(z, z′) + e) + δθ₀(n₁ − z′).
+So T̄(z, z′)·e^{G(n₁) − G(z′)} ≤ e^{(1−δ)e}·[T̄(z, z′)e^{θ₀(n₁ − z′)}]^δ; the sum over the at most K targets z′ ≤ n₁ is at most
+(e^e K)^{1−δ}·[e^{−θ₀(z − n₁)}M_z(θ₀)]^δ ≤ (e^e K)^{1−δ}·(C⁺e^{−θ₀})^δ, by concavity and (R⁺). Multiply by e^{u₀ − G(n₁)} =
+exp(−[(1 − δ)(W(n₁) − W̄₀) + δθ₀(n₁ − k₀)]) and sum over z with Σ p_z ≤ 1. ∎
+
+At δ = 1 this is Theorem Q in the form of 23.2. R⁺ is the condition of entry 23. B⁺ says that landing at z′ from
+above the low set is at least as unlikely as the cheapest descent from n₁ to z′ inside it; in an extensive
+family it holds for W = mV(·/m) when V is the quasi-potential of a low set large enough to contain the visited
+rows and does not fall above x₁. On the tallied rows K ≤ z ≤ A/2 of the hull tables, with K = ⌈0.35A⌉, B⁺ holds
+with e = 0 for W_J and for W° (largest value of W(n₁) − W(z′) + ln T̄(z, z′): −2.4, −2.6, −2.8 for W_J and −0.7, −0.6,
+−0.6 for W° at A = 45, 63, 84; `vminus_check.py q`, part c). Rows above A/2: not tallied.
+
+**24.5 Why not V alone: the critic's form, and what it needs.**
+
+*Proposition [proved].* Let W be admissible with e = 0 on the rows k₀ < n ≤ n₁, 0 < δ < 1, and a, c₁ > 0. Suppose
+that for each of these rows every target n′ ≤ n₁ has W(n′) − W(n) ≥ c₁ or T̄(n, n′) ≤ e^{−a}, and that
+e^{−(1−δ)c₁} + (n₁ + 1)·e^{−δa} ≤ 1. Then ψ*(n) ≤ e^{−(1−δ)(W(n) − W̄₀)⁺}.
+*Proof.* The construction of 24.2 with θ₀ = 0. At a row with g(n) > 0, targets of the first kind have
+ψ(n′)/ψ(n) ≤ e^{−(1−δ)c₁} and total mass at most 1; targets of the second kind have
+T̄(n, n′)ψ(n′)/ψ(n) ≤ T̄(n, n′)^δ ≤ e^{−δa}, and there are at most n₁ + 1 of them. ∎
+
+In an extensive family (W = mV(·/m), c₁ = mc, a = mα) the hypothesis reads: every step of cost I(x → y) < α gains
+at least c in V. With a drift b ≥ b₀ and V increasing at a rate bounded below this holds, and it is the
+critic's sketch made exact. It gives the certificate e^{−(1−δ)mV} itself, and a small threshold. What it costs is a
+hypothesis about V, a global object, where R_ε is about one row at a time. Bellman's inequality gives
+V(x + b(x)) ≥ V(x) and nothing more, and R puts no lower bound on the gain.
+*Example* (`python3 vminus_check.py example`). Rows k = 1, 2, 3 that go to 0 with probability c = 0.01 and to
+k + 1 otherwise. Roots 4.60, 2.25, 1.45; margins −ln M_k(1) = 0.94, 0.83, 0.57: R_ε holds comfortably. But the face is
+killed all at once whatever its population, so V is nearly flat at ln(1/c) = 4.605: V(2) − V(1) ≈ 0.01, and less
+from 2 to 3 (not resolved on these lattices).
+On the m-fold chains (low set {1, …, 3m}; δ = 0.2 and 0.5), e^{−(1−δ)W} with W the chain's own W_J is not a
+supersolution at m = 5 and 10 (6 and 11 rows fail, all with 1 ≤ x ≤ 2, where W is exactly flat on the lattice) and
+is one from m = 20; the function of Theorem V⁻ (θ₀ = 1, block from x = 1) is a supersolution at every m tried, and
+(S) holds from m = 5 at δ = 0.5. So "e^{−(1−δ)mV} is a supersolution for m ≥ m₀" is true in this family too, but its
+m₀ is set by the gain of V, which the one-step margins do not see.
+
+**24.6 The other half [sketched].** Proved: ψ*(n) ≥ e^{−W°(n)} (24.2), and Proposition T (the root sum bounds the
+exponent from above). Missing for "−(1/m)·ln ψ*_m(mk) → V(k) on an exactly extensive family": W°_m(mk) ≤ m·V(k) + o(m).
+The last step of a path is exact in the m-fold family: q_m(n, 0) = e^{−m·I(n/m → 0)} (all m patches die; 0 is the
+lowest point of every row's support, and the Chernoff bound is attained as s → ∞). For the other steps one needs
+(a) q_m(n, n′) ≥ exp(−m·I(n/m → n′/m) − o(m)) for some lattice point n′ within O(√m) of a prescribed target,
+uniformly in the row (tilt the m summands to the target's mean; Chebyshev puts mass 3/4 within two standard
+deviations, so one of those O(√m) points carries mass of order 1/√m), and (b) continuity of I and V in the
+starting point, to absorb the O(1/√m) displacement of each landing point along a path with a bounded number of
+steps. Both are standard for sums of independent lattice variables; I have not written them out, and the
+library request on discrete-time quasi-potentials is unanswered, so nothing is cited. Numerically the two
+sides close slowly: W°_m(n₁)/m = 30.7, 28.2, 25.2, 22.7, 20.9, 19.6 at m = 1, …, 32 against −ln ψ*_m(n₁)/m = 17.09 … 17.27
+and V = 17.25 (rows as tallied, n₁ = 42m − 1; `vminus_check.py v 32`). The exact committors of lab L12.5 are the
+evidence that the limit is V: increments within 3 × 10⁻⁴ of it at 1,344 cells, in both continuations.
+
+**24.7 What this says about gump, and what it does not.**
+1. *It is a theorem about tables.* For gump it reads: **if** the pooled one-step tables of the face population,
+   A → ∞, are sub-extensive over some rate family with a margin on densities up to κ ((E), (R_ε)), and the rows
+   above κA satisfy R⁺ and B⁺, **then** liminf (1/A)·ln τ_A ≥ V(κ) − (the bottom's share), V the quasi-potential of
+   that rate family. "Why area" is then two one-step facts about the living ensemble: the population's step is
+   at least as concentrated as that of independent patches, and sparse faces regrow with a margin. Neither is
+   derived from the rule, and by R5 (entry 4) neither can follow from the graph and θ alone.
+2. *The measured tables are not extensive yet* (22.3, point 2): two independent faces of 45 cells are 4–7%
+   easier to empty than the measured tables' line gives for one face of 90. That is the sign (E) asks for, the
+   larger face at least as concentrated as the m-fold of the smaller. But (E) is an inequality for every row
+   and every real s, and nobody has tested it: no two tallied sizes are multiples of one another (30, 45, 63,
+   84), and hull faces change shape with size (E3).
+3. *(E) is not "distant patches are independent".* The pooled row of two independent halves is a mixture over
+   the split of the population between them, and on the A = 84 table k ↦ ln M_k(s) is convex for s > 0 (30 of the
+   37 second differences at s = 0.3, rows 5 … 41). So an uneven split has a larger transform than the even one:
+   by 0.017, 0.019, 0.066 nats at an imbalance of three cells around k = 10, 20, 30, against margins of 0.2–0.4.
+   This is an effect of order one per patch, of lower order only when patches are large. The m-fold chain is
+   the even-split idealisation; a derivation of (E) from a mixing property of the rule would have to control
+   the split as well.
+4. *At the measured sizes it adds nothing to Q.* On each tallied table by itself no δ < 1 makes the rows good;
+   the best certified exponent is the block bound (11.9 nats at A = 84 with the top at 0.35A, against
+   −ln ψ* = 14.8). The mixture starts to count at thousands of cells (24.3, 24.8), and only if the tables there
+   are sub-extensive continuations of the measured ones.
+5. *The V of the theorem is the limit's*, not that of the A = 84 table (0.2191 with its continuation, and rising).
+6. *The top is half known*: R⁺ and B⁺ hold on the tallied rows between K and A/2; the rows above A/2, half of the
+   exposure, are not tallied.
+7. *It is about the population alone.* By Theorem P̄ that is exact for the hazard, but it describes an average
+   over whatever else a death path carries (the layer beneath; E3, L5.3), not a mechanism.
+
+**24.8 Checks** (`vminus_check.py`, my own code; it reads only the critic's data file. `all` takes a minute and a
+half on one core, `v 32` three minutes more).
+- `random`: Theorem V⁻ on 3,000 random tables (upward drift, long jumps, censored mass in half, slack e > 0 in a
+  third), 41,773 cases with all rows of the block good: −ln ψ* ≥ the certified exponent at every row, smallest gap
+  0.002; in 19,498 of them the certificate at the top row beats the block bound. Negative control: the same
+  formula with the good-row hypothesis dropped is violated in 14,773 of 23,652 cases.
+- `v`: the m-fold chains of the A = 84 table, both continuations, low sets up to 0.35A, 0.45A and the top row,
+  δ ∈ {0.3, …, 1}, θ₀ ∈ {0.02, …, 0.60}, sharp form of (G), W = W_J and W = W°: no violation; −ln ψ* ≤ W° always.
+  What the theorem certifies there (rows as tallied, top at 0.45A, nats per cell of the face):
+
+  | cells of the face | 336 | 672 | 1,344 | 2,688 |
+  |---|---|---|---|---|
+  | exact −ln ψ*(n₁) | 0.2009 | 0.2005 | 0.2001 | 0.1998 |
+  | certified by Theorem V⁻ with W_J | 0.0943 | 0.0966 | 0.1084 | 0.1207 |
+  | … at δ = | 0.9 | 0.8 | 0.7 | 0.6 |
+  | certified with W° | 0.1008 | 0.1047 | 0.1158 | 0.1266 |
+  | block bound (δ = 1, sharp form) | 0.0943 | 0.0940 | 0.0938 | 0.0939 |
+  | W°(n₁), the upper side | 0.2888 | 0.2608 | 0.2404 | 0.2260 |
+
+  The certificate leaves the block bound from 672 cells on and climbs as δ can be lowered; its limit is the
+  recursion's value (0.1998 at 0.45A for this continuation), which the exact committor has reached. With the
+  top at 0.35A: certified 0.1274, 0.1280, 0.1309, 0.1357 (δ = 1, 1, 0.9, 0.6) against 0.1737 … 0.1716 exact.
+- `q`, `m0`, `example`: the numbers of 23.3, 24.3, 24.4, 24.5.
+Not checked by anyone but me: the statement and proof of 24.2–24.4 (lab request LR13 below). Not checked at all:
+(E) on any real pair of sizes; anything above A/2.
