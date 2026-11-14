@@ -53,11 +53,18 @@ _Last updated 2026-11-14 by the lead._
   Research itself is still paused.
 
 ## Next (lead's list; pick by judgment)
-- **Swarm, when resumed:** the critic (or a successor) first, to review the interim reports (probability round 2,
-  path and source round 3) and run counting's round-2 lab requests; then each solver from its own journal. Stop a
-  line when a round gives no new proved step. Then a fresh reader (not the critic) audits every claim tagged
-  "proved" across the four `claims.md`, and the entries in `swarm/PREDICTIONS.md` get run. Only after that does
-  anything from the swarm go into the notebook, `CLAIMS.md` or `docs/AUTOMATON.md`.
+- **Swarm (state 2026-11-14, about 09:00 UTC).** The critic's successor answered every report on file
+  (`critic/board.md` opens with the state; replies in `critic/to-<line>.md`): nothing tagged proved was found wrong;
+  three guesses fell (counting's bridge C1′, path's "ln τ = A·∫θ", every equal-time transfer hypothesis); the source
+  line is finished and the critic agrees. **The solvers have not been told to continue**, on purpose: first the
+  cheap, decisive things. Running now: a librarian (successor) on the two percolation facts that probability's and
+  source's Theorem A rest on (`library/requests.md`, last two blocks), and an examiner running the sampled entries of
+  `swarm/PREDICTIONS.md` (writes `swarm/exam/OUTCOMES.md`). When both report: decide which of probability, path and
+  counting get another round (give each its reply and the exam outcomes; stop a line when a round gives no new
+  proved step; counting said it would stop its finite-horizon programme if c_k fell through the steady exponent,
+  and it does). Then a fresh reader (not the critic) audits every claim tagged "proved" across the four `claims.md`,
+  first of all the chain "a deterministic automaton with a theorem" (source's Theorem A with probability's Theorem A).
+  Only after that does anything from the swarm go into the notebook, `CLAIMS.md` or `docs/AUTOMATON.md`.
 - **`research/theory/class.md`**: attacked 2026-11-14 (`research/audit/REVIEW-class.md`; notebook entry of that date).
   Its theorems stand; its first clause does not (sealing is a property of a half-space, not a direction), and the
   edge-neighbour rule the owner meant to write in 2012 (there called `face12e`; not gump) turned out to be a gump in a
