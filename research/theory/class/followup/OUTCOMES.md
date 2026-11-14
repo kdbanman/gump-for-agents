@@ -25,6 +25,23 @@ consecutive checks = 1,024 generations; censored). τ per wall = (walls) × expo
 error on ln τ = 1/√deaths. Hazard = τ in three or more consecutive age bins (log2 bins merged to ≥ max(20, deaths/5)
 deaths each). "Oldest" = age of the oldest replica alive at the end.
 
+## Scorecard
+
+| forecast | outcome | verdict |
+|---|---|---|
+| P1.1 confinement in the position-aware hull, kagome8 and hex9, caps 5–8 | 0 escapes in 1,536 soups × 300 generations | **holds** |
+| P1.2 (guess) chaotic in-reach cap, p = 0.35 each | kagome8: none (c = 7 glass); hex9: c = 7 and c = 8 chaotic | — (a guess, not the class) |
+| P1.3 hex9 c = 7: whole-wall, memoryless, ln τ rising, no pits | yes at 7 lengths (n = 8 … 20), CV 0.97–1.02, flat hazard, 3 pits in 215,000 events; but concave (0.69 → 0.53 per cell) | **holds**, "linear" only approximately |
+| P1.4 c = 8 armour: no wall death | the armoured band never dies; the band beneath it does, memorylessly, in strips; hulls: no permanent death in 2 × 10⁶ | **holds** as stated; clause 3 silent on the under-armour law |
+| P1.5 hull lifetimes grow, sparse debris (hex9 c = 7) | 24 → 4,102 for R = 2 … 7, density 0.29 → 0.04 | holds (rough) |
+| P2.1 kagome4 slope 0.70 ± 0.08 per wall-row cell, memoryless, straight | 0.772 ± 0.003, straight over n = 6 … 18, memoryless — once frozen walls are censored | **holds** in number; the predicted cause of the old drift (cuts) was **wrong**: it was frozen walls |
+| P2.2 kagome4 no pits | 0 | holds |
+| P3.1 bond10 boxes from the slab law (4³: 600–1,500) | 4³ ≈ 1 × 10⁹ (4 of 64 died by 10⁸) | **fails** (expected), reason found: edges |
+| P3.2 bond10 c = 6 boxes freeze with the corner armour alive | 128/128 | **holds** |
+| P3.3 H2 (a wall cannot die while its neighbours live) | columns 24–196× tougher than slabs per wall; box edge rows dense (0.7) | **supported**; H1 alone refuted, H3 refuted |
+| P4.1 face12e 7³: 9–33 of 128 finished by 3 × 10⁷ | FILLSCORE | FILLV |
+| P4.2 face12e O_h-symmetric boxes 10–100 generations, ≥ 10³ shorter at 6³ | 3–19 for 4³ … 8³; 74,000× at 6³ | **holds** |
+
 ## 1. kagome8 and hex9 at b = 4
 
 **Confinement (P1.1): holds.** `python3 two_d.py confine LAT c` (192 soups of density 0.5 in hexagonal seeds of

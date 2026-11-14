@@ -207,7 +207,7 @@ def r12():
     Rr = 20000; T = 12
     S = (rng.random((Rr, n)) < 0.5)
     eta = S.copy(); Z = ~S
-    bad = 0; marks = np.zeros(3); pairs = np.zeros((3, 3)); alive_eta = []
+    bad = 0; marks = np.zeros(3); pairs = np.zeros((3, 3)); nontrivial = 0
     prevM = None
     for t in range(T):
         k = S[:, nbr].sum(2); x = S.astype(int)
@@ -226,11 +226,10 @@ def r12():
             for u in range(3):
                 for v in range(3): pairs[u, v] += ((prevM == u) & (M == v)).sum()
         S, eta, Z, prevM = Snew, etanew, (M == 0), M
-        alive_eta.append(float(eta.any(1).mean()))
+        nontrivial += int(eta.sum())
     freq = marks / marks.sum(); joint = pairs / pairs.sum()
     check(bad == 0, f"(c): 20,000 faces x 12 generations with every die drawn: eta_t inside S_t and no cell marked K alive, without exception (the marks' frequencies K, G, N: {freq[0]:.4f}, {freq[1]:.4f}, {freq[2]:.4f};"
-          f" largest |joint - product| of a cell's marks in successive generations {np.abs(joint - np.outer(joint.sum(1), joint.sum(0))).max():.1e})")
-    print(f"      [not a lifetime measurement: share of the 20,000 faces with eta non-empty at generations 1, 4, 8, 12: {alive_eta[0]:.3f}, {alive_eta[3]:.3f}, {alive_eta[7]:.3f}, {alive_eta[11]:.3f}; exam P-E4 is the examiner's]")
+          f" largest |joint - product| of a cell's marks in successive generations {np.abs(joint - np.outer(joint.sum(1), joint.sum(0))).max():.1e}; the test is not vacuous: {nontrivial:,} cell-generations of eta alive)")
     # what real cells beneath do to the hypothesis: the cube lemma, b_a = u_b + u_c + v_a for the three faces of one top cube
     trip = set()
     for u in itertools.product((0, 1), repeat=3):
@@ -238,13 +237,16 @@ def r12():
             trip.add((u[1] + u[2] + v[0], u[0] + u[2] + v[1], u[0] + u[1] + v[2]))
     check(len(trip) == 40 and not any(t[0] == 3 and t[1] == 0 for t in trip), "cube lemma: of the 64 triples of counts beneath one cube 40 occur, and (3, 0, .) does not: independent counts with pi0 pi3 > 0 are not counts of cells")
     # one-generation killability of a cube triple by real cells: is there, for every (x, k) of its three cells, a pattern beneath that kills all three?
-    unk = []
+    unk = []; npic = 0
     states = [(x, k) for x in (0, 1) for k in range(7)]
     for st in itertools.product(states, repeat=3):
+        # the three cells of a cube are mutual in-face neighbours: k_i counts the two mates and four other cells
+        if not all(st[(i + 1) % 3][0] + st[(i + 2) % 3][0] <= st[i][1] <= st[(i + 1) % 3][0] + st[(i + 2) % 3][0] + 4 for i in range(3)): continue
+        npic += 1
         if not any(all(t[i] not in B(*st[i]) for i in range(3)) for t in trip): unk.append(st)
-    ex = ((1, 3), (1, 2), (0, 0))
-    check(len(unk) > 0 and ex in unk, f"with real cells beneath, {len(unk)} of the {len(states) ** 3} local pictures of a cube triple cannot be killed together by any pattern of the six cells (example: a live cell with k = 3 needs b = 3, a live cell with k = 2 needs b = 0);"
-          " so Lemma 4 (a) and the bound E T <= s^-A are statements about F(pi), not about a face over dice cells (D3); board E10")
+    ex = ((1, 3), (1, 2), (1, 2))
+    check(len(unk) > 0 and ex in unk, f"with real cells beneath, {len(unk)} of the {npic} local pictures (x, k) of a cube triple cannot be killed together by any pattern of the six cells (example, board E10: three live cells with k = 3, 2, 2: the first needs b = 3, the others b = 0);"
+          " so Lemma 4 (a) and the bound E T <= s^-A are statements about F(pi), not about a face over dice cells (D3)")
     # per-cell kill and per-cell grow under D3 with density rho: P(b = 0), P(b = 3) given the other two cells' counts can be 0
     zero = sum(1 for t in trip if t[0] == 3) and not any(t[0] == 0 and t[1] == 3 for t in trip)
     check(zero, "   in D3, P(b_a = 0 | b_b = 3) = 0: the conditional hypothesis of Lemma 4 fails inside a cube for every density")

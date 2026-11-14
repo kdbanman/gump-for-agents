@@ -13,7 +13,7 @@ definition "the twelve faces that share an edge" and compares.
   python3 counting_r3.py structure   Proposition F items 1-3, 5 and path's Lemma F (i), (ii) read off the graph; the lone closed cube
   python3 counting_r3.py lone        lab request 1: 3,793 of 2^13; the ladder polynomial coefficient by coefficient
   python3 counting_r3.py pi1         lab request 2: configuration Pi_1 on walls 3 x 4 and 4 x 4; the table of classes
-  python3 counting_r3.py theta       lab request 2, second part: Theta on box walls n x n, n = 3..7
+  python3 counting_r3.py theta       lab request 2, second part: Theta on box walls n x n, n = 3..7; every sheet of the periodic walls 3 x 3, 4 x 4, 5 x 5 (1 min)
   python3 counting_r3.py oh          lab request 3: the O_h faces R = 3, 5, 7, 9 (cube-centred), 4, 6, 8, 10 (vertex-centred)
   python3 counting_r3.py lemma8      Lemma 8 on D2 rings: the Perron vector phi, the doom mass pi(1 - phi) of product rows,
                                      the inequality against exact P(T <= k)   (about 2 min)
@@ -298,6 +298,35 @@ def theta():
             good &= (s == (d >= t)).all()
             hist.append(int(s.sum()))
         check(good and t <= nn, f"box wall {nn} x {nn}: Theta^j(full) = {{d >= j}} (d = l1 distance to the nearest corner) for every j; empty after {t} steps and not after {t - 1} (populations {hist}); bound n = {nn}")
+    # (b') periodic walls n x n (the vessel of the measured wall law): every sheet, Theta iterated
+    for nn in (3, 4, 5):
+        nbits = nn * nn
+        S = np.arange(1 << nbits, dtype=np.uint32)
+        full = np.uint32((1 << nbits) - 1)
+        col0 = np.uint32(sum(1 << (nn * i) for i in range(nn))); colL = np.uint32(sum(1 << (nn * i + nn - 1) for i in range(nn)))
+        def th(s):
+            up = ((s << np.uint32(nn)) | (s >> np.uint32(nbits - nn))) & full
+            dn = ((s >> np.uint32(nn)) | (s << np.uint32(nbits - nn))) & full
+            lf = ((s << np.uint32(1)) & ~col0 & full) | ((s >> np.uint32(nn - 1)) & col0)
+            rt = ((s >> np.uint32(1)) & ~colL) | ((s << np.uint32(nn - 1)) & colL & full)
+            all4 = up & dn & lf & rt
+            three = (up & dn & lf) | (up & dn & rt) | (up & lf & rt) | (dn & lf & rt)
+            return all4 | (s & three)
+        cur = S.copy(); alive = np.ones(len(S), bool); steps_to_die = np.zeros(len(S), np.int16)
+        t = 0
+        while t < 4 * nn:
+            cur = th(cur); t += 1
+            newly = alive & (cur == 0); steps_to_die[newly] = t; alive &= ~newly
+        lim = cur[alive]
+        per2 = bool((th(th(lim)) == lim).all()); nfix = int((th(lim) == lim).sum())
+        rows = [np.uint32(sum(1 << (nn * i + j) for j in range(nn))) for i in range(nn)]
+        cols = [np.uint32(sum(1 << (nn * i + j) for i in range(nn))) for j in range(nn)]
+        pairs = [rows[i] | rows[(i + 1) % nn] for i in range(nn)] + [cols[j] | cols[(j + 1) % nn] for j in range(nn)]
+        contains = np.zeros(len(S), bool)
+        for pm in pairs: contains |= (S & pm) == pm
+        check(per2 and bool(alive[contains].all()) and int((~alive).sum()) > 0,
+              f"periodic wall {nn} x {nn}: of the {len(S):,} sheets {int(alive.sum()):,} ({alive.mean():.3%}) are never emptied by Theta: all {int(contains.sum()):,} that contain two adjacent full rows or columns, and "
+              f"{int((alive & ~contains).sum()):,} others; they end in {len(np.unique(lim)):,} distinct sets, fixed or of period 2 ({nfix:,} of the sheets end fixed); every other sheet is empty within {int(steps_to_die.max())} steps")
     # (c) a box of face12e itself: the sheet of a wall of a 5^3 box with the layer beneath held empty
     nn = 5
     cells, nbr = lc.graph((2 * nn + 3, 2 * nn + 3, 2 * nn + 3), (False, False, False), "edge")
@@ -452,6 +481,19 @@ def lemma8(Ls=(10, 12, 14, 16, 18)):
     print("   ratio pi(1 - phi) / h (how many generations of steady hazard the doomed starts of the soup are worth):")
     for (p, rho) in c2.PAIRS:
         print(f"   p = {p}, rho = {rho}:  " + ', '.join(f"L = {L}: {res[(p, rho, L)]['doom'] / res[(p, rho, L)]['h']:.2f}" for L in Ls))
+    print("   the same ratio for the steady state itself, mu(1 - phi) / h (mu the quasi-stationary law; P_mu(T <= k) = 1 - lambda^k exactly):")
+    for rho in sorted({r for (_, r) in c2.PAIRS}):
+        p = [q for (q, r) in c2.PAIRS if r == rho][0]
+        print(f"   rho = {rho}:  " + ', '.join(f"L = {L}: {(1 - res[(p, rho, L)]['muphi']) / res[(p, rho, L)]['h']:.2f}" for L in Ls))
+    print("   excess of the soup over the steady state, e(pi) = 1 - pi(phi) / mu(phi) over living starts (= lim_k [P_pi(T <= k) - (1 - lambda^k)] / lambda^k), in units of h:")
+    sign = {}
+    for (p, rho) in c2.PAIRS:
+        ex = [(1 - res[(p, rho, L)]['piphi'] / (1 - res[(p, rho, L)]['nu0']) / res[(p, rho, L)]['muphi']) / res[(p, rho, L)]['h'] for L in Ls]
+        sign[(p, rho)] = ex
+        print(f"   p = {p}, rho = {rho}:  " + ', '.join(f"L = {L}: {e:+.2f}" for L, e in zip(Ls, ex)))
+    check(all(1 - res[key]['muphi'] > 2 * res[key]['h'] for key in res),
+          "with max phi = 1 the steady state's own doom mass mu(1 - phi) exceeds 2 h at every size: the term pi(1 - phi) of Lemma 8 is not small against h even for pi = mu")
+    return res, sign
 
 
 if __name__ == '__main__':

@@ -10,6 +10,7 @@
   python3 path_r4.py lr12    LR12 and Lemma F: sealed sets of face12e slabs (integer programme), walls 3 x 3 and 4 x 4, 2-4 cubes deep
   python3 path_r4.py fits    arithmetic of entry 16.1 (ring minus anchored row against ln L and against L)
   python3 path_r4.py limit   path's check_limit.py redone with a cancellation-free solver (is 'exact linear algebra' exact at e^-286?)
+  python3 path_r4.py ext     m independent faces of A cells against the measured table of m A cells (is the step extensive at A <= 84?)
   python3 path_r4.py all
 """
 import sys, os, json, itertools, subprocess
@@ -397,9 +398,13 @@ def lr11(R=13, ms=(1, 2, 4, 8, 16)):
             lims.append((Sdec[-1], Sdec[int(round(0.45 * A)) * sub]))
         lt, l45 = 2 * lims[1][0] - lims[0][0], 2 * lims[1][1] - lims[0][1]
         print(f"      the recursion with the same rows' own rates (LR10 b, grids 1/8 and 1/16 extrapolated): {lt / A:.4f} per cell at the top row, {l45 / A:.4f} at 0.45 A")
+        last = (vals[16]['top'] - vals[8]['top']) / (8 * A)
+        check(abs(last - lt / A) < 5e-4, f"claim V on this family: the increment per cell from m = 8 to 16 ({last:.4f}) is within 5e-4 of the recursion's value ({lt / A:.4f})")
         allv[floor] = vals
     d2 = allv[0][4]['top'] - allv[0][2]['top']
-    check(abs(d2 - 36.6) <= 1.2, f"path's prediction for the request as written: the second doubling adds 36.6 +- 1.2 to -ln psi* at the top row; exact: {d2:.2f}")
+    d2v = allv[5][4]['top'] - allv[5][2]['top']
+    check(abs(d2 - 36.6) > 1.2 and abs(d2v - 36.6) <= 1.2,
+          f"path's prediction (the second doubling adds 36.6 +- 1.2 at the top row) MISSES on the chain as requested ({d2:.2f}) and holds on the variant with clusters of 5 cells at the bottom ({d2v:.2f})")
     print("      path's Gaussian closure on typed-in numbers (bellman.py): 0.218 to the mean density, 0.2135 to 0.45")
     return allv
 
@@ -502,6 +507,33 @@ def limit():
         check(abs(mine - said[A]) < 2e-3, f"A = {A}: -ln psi*(0.45 A) = {mine:.3f} by elimination without pivoting; the journal's table says {said[A]}")
 
 
+# ------------------------------------------------------------------------------------------------ extensivity across tables
+def ext():
+    """Is the table of a larger face the chain of m independent smaller faces? (the hypothesis behind claim V and LR11)"""
+    print("Extensivity across the measured tables: -ln psi*(top row) of m independent faces of area A against the table of area m A")
+    act = {}
+    for R in (7, 9, 11, 13):
+        A = AREA[R]; Tr, N, Tb = q2.table(R); KM = Tr.shape[0]
+        act[A] = -np.log(committor_pos(Tb[1:KM, 1:KM].copy(), Tb[1:KM, 0].copy())[-1])
+    As = sorted(act); sl = np.polyfit(As[1:], [act[a] for a in As[1:]], 1)
+    print("   measured tables: " + ', '.join(f"A = {a}: {act[a]:.3f} ({act[a] / a:.4f} A)" for a in As) + f"; line through A = 45, 63, 84: {sl[1]:.2f} + {sl[0]:.4f} A")
+    out = {}
+    for R, m in ((7, 2), (7, 3), (9, 2)):
+        A = AREA[R]; Tr, N, Tb = q2.table(R); KM = Tr.shape[0]; KT = KM - 1
+        rows = [np.array([1.0])] + [Tb[k].copy() for k in range(1, KM)]
+        for floor in (0, 5):
+            q = mfold(rows, m, floor=floor); n = m * KT
+            T = np.zeros((n, n)); d = np.zeros(n)
+            for i in range(1, n + 1):
+                row = q[i]; d[i - 1] = row[0]; w = row[1:n + 1]; T[i - 1, :len(w)] = w
+            v = -np.log(committor_pos(T, d)[-1]); out[(A, m, floor)] = v
+            print(f"   {m} faces of {A} cells ({'rows 1..4 as tallied' if not floor else 'clusters of 5 at the bottom'}): {v:.3f} = {v / (m * A):.4f} per cell; "
+                  f"the line through the measured tables at A = {m * A}: {sl[1] + sl[0] * m * A:.3f} = {(sl[1] + sl[0] * m * A) / (m * A):.4f} per cell")
+    check(all(out[(a, m, f)] < sl[1] + sl[0] * m * a - 0.5 for (a, m, f) in out),
+          "a face of m A cells is harder to empty than m independent faces of A cells in every case (the tables are not extensive copies of one another at A <= 84)")
+    return out
+
+
 if __name__ == '__main__':
     cmd = sys.argv[1] if len(sys.argv) > 1 else 'all'
     if cmd in ('props', 'all'): props()
@@ -511,4 +543,5 @@ if __name__ == '__main__':
     if cmd in ('lr12', 'all'): lr12()
     if cmd in ('fits', 'all'): fits()
     if cmd in ('limit', 'all'): limit()
+    if cmd in ('ext', 'all'): ext()
     print('ALL OK' if OK else 'SOMETHING FAILED')
