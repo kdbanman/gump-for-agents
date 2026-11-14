@@ -57,19 +57,18 @@ const sci = v => { const e = Math.floor(Math.log10(v)), m = v / Math.pow(10, e);
 (function () {
   const Fa = D.family;
   // what seals a wall: for gump a diagonal cut, for face12e a cut through a sheet of face centres; either way 2 + 1 = 3 < 4
-  const H = $('#f-halfspace'), svg = S('svg', { viewBox: '0 0 300 152', width: 300, height: 152, role: 'img', 'aria-label': 'An empty cell just outside a sealed cut sees at most three live cells inside; birth needs four' }, H);
+  const H = $('#f-halfspace'), svg = S('svg', { viewBox: '0 0 300 154', width: 300, height: 154, role: 'img', 'aria-label': 'An empty cell just outside a sealed cut sees at most three live cells inside; birth needs four' }, H);
   [[0, 'gump', 'a diagonal cut'], [150, 'face12e', 'a cut through face centres']].forEach(([x0, lab, lab2]) => {
-    S('rect', { x: x0 + 4, y: 70, width: 142, height: 76, fill: 'var(--ember)', 'fill-opacity': .08 }, svg);
+    S('rect', { x: x0 + 4, y: 70, width: 142, height: 84, fill: 'var(--ember)', 'fill-opacity': .08 }, svg);
     S('line', { x1: x0 + 4, x2: x0 + 146, y1: 70, y2: 70, stroke: 'var(--ink)', 'stroke-width': 1.5 }, svg);
     const cx = x0 + 75;
     [[cx - 18, 92], [cx + 18, 92], [cx, 122]].forEach(([x, y]) => { S('line', { x1: cx, y1: 50, x2: x, y2: y, stroke: 'var(--ember)', 'stroke-opacity': .7 }, svg); S('circle', { cx: x, cy: y, r: 6, fill: 'var(--ember)', stroke: 'var(--surface)', 'stroke-width': 1.5 }, svg); });
     S('rect', { x: cx - 7, y: 43, width: 14, height: 14, fill: 'var(--surface)', stroke: 'var(--ink)', 'stroke-width': 2 }, svg);
-    S('text', { x: cx + 12, y: 54, 'text-anchor': 'start', class: 't-mono' }, svg).textContent = 'sees 2 + 1 = 3 < 4';
+    S('text', { x: cx, y: 145, 'text-anchor': 'middle', class: 't-strong' }, svg).textContent = '2 + 1 = 3 < 4';
     S('text', { x: cx, y: 12, 'text-anchor': 'middle', class: 't-strong' }, svg).textContent = lab;
     S('text', { x: cx, y: 25, 'text-anchor': 'middle' }, svg).textContent = lab2;
   });
   S('text', { x: 8, y: 66, class: 't-mono' }, svg).textContent = 'outside';
-  S('text', { x: 8, y: 142, class: 't-mono' }, svg).textContent = 'inside';
 
   const C = $('#f-fam');
   Fa.rows.forEach(r => {

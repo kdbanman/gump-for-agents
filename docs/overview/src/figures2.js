@@ -24,7 +24,7 @@ function gens(ln) { // e^ln as a readable number of generations
     L.slab_gpu.forEach(r => dot(f, r[0], r[1] / LN10, 'var(--s3)', () => ['Slab face, ' + r[0] + ' sites (GPU)', gens(r[1]) + ' generations', 'firewall deaths counted apart; ± ' + r[2] + ' in ln'], { hollow: true, se: r[2] / LN10, r: 3.8 }));
     S('path', { class: 'ln', stroke: 'var(--s2)', 'stroke-width': 1.5, d: pathOf(f, L.mirror.map(r => [r[0], r[1] / LN10])) }, f.svg);
     L.mirror.forEach(r => dot(f, r[0], r[1] / LN10, 'var(--s2)', () => ['Hull face cut by one mirror, ' + r[0] + ' sites', gens(r[1]) + ' generations', 'one run by the swarm’s examiner'], { r: 3.8 }));
-    const mm = L.mirror[L.mirror.length - 1]; S('text', { x: f.X(mm[0]), y: f.Y(mm[1] / LN10) + 18, 'text-anchor': 'end', class: 't-strong halo' }, f.svg).textContent = 'one mirror: half the price';
+    const mm = L.mirror[1]; S('text', { x: f.X(mm[0]) + 30, y: f.Y(mm[1] / LN10) + 22, 'text-anchor': 'end', class: 't-strong halo' }, f.svg).textContent = 'one mirror: half the price';
     const s0 = L.oct[0]; S('text', { x: f.X(s0[0]) + 9, y: f.Y(s0[2] / LN10) + 14 }, f.svg).textContent = s0[0] + ' sites: ' + gens(s0[2]);
   });
   tableView($('#t-law'), ['face', 'sites', 'ln(mean life)', '± s.e.', 'deaths'],

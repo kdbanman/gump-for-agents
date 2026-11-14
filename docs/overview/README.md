@@ -18,3 +18,23 @@ paused. Published as a private artifact (the link is in `LEAD.md`); `index.html`
   The swarm section reports what the swarm's files say; none of it has been audited.
 - To refresh it after new results: update or regenerate the files in `data/sources/`, run the two commands, and
   republish `index.html` to the same artifact.
+
+## Refresh of 2026-11-14 (afternoon)
+
+Added the plates "The rule you meant" (face12e, which is not gump), "The family" and "Where the exponent lives"
+(`src/plates-new.html`, drawn by `src/figures3.js`); rewrote "The swarm" (closed) and "Open now"; added GPU slab
+faces at 108 and 126 sites, the slab slope 108 → 126 and hull faces cut by one mirror to the area-law plate, and
+the no-ageing tile to "Luck or lineage".
+
+- Every new number comes from `data/sources/update-2026-11-14.json`. Each item there carries the sentence it was
+  copied from (`quote`) and where (`src`: the notebook entry of that date, or a CLAIMS row). `collect.py` refuses to
+  run unless each quote occurs, whitespace aside, in `research/NOTEBOOK.md` or `research/CLAIMS.md` and each number
+  in `value` occurs in its quote. So a quote that is later edited in the notebook breaks the build: re-copy it.
+- `collect.py` now also reads the claim counts from the "Counts" line of `research/CLAIMS.md`, and the commit count,
+  last commit and merged pull requests (subjects ending "(#N)") from `git`; the milestones of 2026-11-14 are in the
+  update file with their commit hashes.
+- Typed into the sources, not drawn from data: the lists of what stands and what fell in the swarm plate
+  (`figures3.js`, from the notebook entry "the theory swarm is closed") and the text of "Open now" (from
+  `research/STATUS.md` as of this refresh: the GPU width experiment is running).
+- Not shown: CLAIMS grades per new number (the cards say "one run" or "one agent" where CLAIMS grades it C);
+  the per-line round counts of the swarm (stale since the pause, so dropped).
