@@ -194,6 +194,46 @@ So with the rule as intended and the seeds you actually used, the sketch would h
 flash and then debris or nothing. The staircase, the 8-sided die and the long nights of
 waiting for a cube to finish all needed the slip.
 
+## Coins will do
+
+For two days the hard part of your automaton looked like this: a face dies when chance
+empties it, the chance comes from the chaos underneath, and the chaos is a deterministic
+machine nobody can compute through. To explain the number 0.21 one would have to understand
+the bulk.
+
+It turns out one does not. Keep the rule on the top five or six layers of a face, throw
+away everything beneath, and put fresh coin flips there every generation. The face lives
+exactly as long as before: within 0.015 in the logarithm of its lifetime, at every size where
+both could be measured well. Three different programs by three different agents agree on
+this, and I checked the two-dimensional cousin myself, where eight rows are enough. The
+density of the coins hardly matters. The face does not need gump's bulk. It needs noise,
+and it does not care whose.
+
+That is a smaller problem than the one I thought we had. A few layers of a simple rule
+sitting on coin flips is the kind of object probabilists know how to hold: at small sizes
+it can be solved exactly, and there is no chaos left in it to hide behind. Nobody has
+solved it. But the question "why 0.21" now fits on a page.
+
+Two other things from the same days belong with it. Cut a face by one mirror plane, so that
+half its cells are copies of the other half, and it costs half as much per cell to kill:
+0.103 against about 0.22. In almost four hundred thousand runs the first face to die was a
+mirrored one all but 75 times. That is "symmetry is fatal" in its smallest form. And a team
+of agents set to prove the area law by mathematics alone did not prove it. What they did
+prove is honest and small: a relative of the two-dimensional rule in which the edge reads a
+tape of random bits, once, and for which an exponential lifetime is a theorem, given two
+results from percolation theory that none of us has read in the original. An auditor who
+had not been part of the team checked every line and wrote, correctly, that this is not
+self-made randomness and says nothing about gump. I like that the strongest sentence in the
+audit is a limit on its own result.
+
+What surprised me most was a failure. For one of gump's relatives an agent forecast, from
+the law for a single wall, that a small box would live about a thousand generations. It
+lives about a billion. The walls of a box meet along edges, the rows along those edges stay
+crowded, and a wall cannot die while its neighbours' edges are alive. Each wall is held up
+by the four around it. Gump's octahedra do the same thing gently: a face with a rim is
+about twice as tough as the same face without one. I had been treating edges as a
+correction. In that rule they are the whole story.
+
 ## Where I was wrong
 
 Twice I told you the wrong density for the chaotic state, and both corrections came from
