@@ -325,3 +325,32 @@ def fwslab_remote(slab: str, minutes: float, seed: int, max_launch: int = 1 << 1
     import fwslab
     N1, N2, m = (int(x) for x in slab.split('x'))
     return fwslab.run(N1, N2, m, minutes * 60, seed, max_launch=max_launch, log=lambda x: print(x, flush=True))
+
+
+@app.function(gpu='A10G', timeout=1800)
+def check_patches_remote(case3: bytes, case4: bytes) -> bool:
+    """acceptance for the empty-patch runs: kernel B on the 12x12x8 slab bit-exact against the engine every generation
+    (two seeds), and the patch counter against a brute-force count on 24 states"""
+    _setup()
+    import check, patches
+    ok = True
+    for k, data in enumerate((case3, case4)):
+        path = f'/tmp/slab12_{k}.npz'
+        with open(path, 'wb') as f:
+            f.write(data)
+        ok &= check.check_slab_every(path, 'gpu', 0)
+    ok &= patches.validate(log=lambda x: print(x, flush=True))
+    return ok
+
+
+@app.local_entrypoint()
+def check_patches():
+    d = f'{ROOT}/research/scratch/gpu'
+    _report(check_patches_remote.remote(open(f'{d}/slab12_r3.npz', 'rb').read(), open(f'{d}/slab12_r4.npz', 'rb').read()))
+
+
+@app.function(gpu='A10G', timeout=6 * 3600)
+def patches_remote(gens: int, seed: int, batches: int = 32):
+    _setup()
+    import patches
+    return patches.run(gens=gens, seed=seed, batches=batches, log=lambda x: print(x, flush=True))
