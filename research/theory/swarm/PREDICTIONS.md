@@ -179,3 +179,10 @@ against 100–199 within 1σ); P(row 0 empty next | one live cell) = 0.240, 0.24
 10.1824, 11.6366 (± 0.003–0.011) at L = 20, 24, 28, 32: slope 0.3676 ± 0.0006 (predicted 0.447 ± 0.012; refuted
 below 0.430). Same samples, k = 1, 2: 0.542 ± 0.007, 0.479 ± 0.002 (lab c₁ 0.5515, c₂ 0.4677). **Fails**; the
 inequality c₃ ≤ c₂ holds.
+
+## 2026-11-14, examiner: outcome of path E2 (sampled)
+
+Intact strips 16 × L, mean dying-edge population two generations before death (exponent study's lag-2 convention):
+**9.09 ± 0.08 at L = 32 (719 deaths), 7.99 ± 0.38 at L = 36 (420 deaths)**; predicted 9.8 ± 1.0 at both, refuted if
+≥ 11.5 at L = 36. Not refuted; inside the bar at L = 32, below it at L = 36 (by ≈ 2σ, rough batch-means error).
+Details: `research/theory/swarm/exam/OUTCOMES.md`.

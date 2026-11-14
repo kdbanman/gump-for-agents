@@ -202,3 +202,23 @@ bars. The theorem c₃ ≤ c₂ is respected. What the outcome says, in the entr
 far more than either guide allowed (c₂ − c₃ ≈ 0.10 against the predicted 0.02); c₃ already lies below the steady
 exponent of the ring (0.38–0.42 at these lengths) and near path's 0.345 for edges with ends, so the fixed-age
 hierarchy falls through the steady value by k = 3, as the critic's board reports for D2 at larger k.
+
+### Path E2 — remnant two generations before an edge dies: **not refuted; the central value misses at L = 36**
+
+`python3 exam.py e2; python3 report.py e2` (≈ 5 min of one core). Intact strips 16 × L, both edges pooled.
+
+| L | edge deaths | ln τ_edge | lag 1 | **lag 2** | lag 3 | lag 4 | living mean |
+|---|---|---|---|---|---|---|---|
+| 32 | 719 | 13.973 ± 0.037 (toy2d 14.051 ± 0.038) | 2.04 ± 0.09 | **9.09 ± 0.08** | 13.14 ± 0.11 | 13.69 ± 0.17 | ≈ 18.5 |
+| 36 | 420 | 15.428 ± 0.049 (toy2d 15.580 ± 0.045) | 1.83 ± 0.03 | **7.99 ± 0.38** | 11.95 ± 0.24 | 13.65 ± 0.50 | ≈ 20.8 |
+
+Errors are batch means over 4 and 6 chunks of unequal size (crude; per-chunk lag-2 means at L = 36 range
+7.0–8.5 over the three chunks with ≥ 100 deaths). Censored: 22,089 and 61,992 transverse cuts and firewalls; no
+settled replica. (ln τ at L = 36 is 2.3σ below toy2d's table; L = 32 agrees at 1.5σ.)
+Predicted 9.8 ± 1.0 at both sizes; refuted if ≥ 11.5 at L = 36. L = 32: inside the bar. L = 36: 7.99, below the
+bar's lower end (8.8) by 2.1 of my (rough) errors. The refutation criterion is not met, by a wide margin.
+**Verdict: not refuted; the prediction's central value holds at L = 32 and is too high at L = 36.** In the entry's
+terms: the edge does not die in a flash from its living density (0.25 and 0.22 of the row two generations out,
+against 0.58), and what is left two generations before death is a remnant of 8–9 cells whose size does not grow
+with L; if anything it is still falling, which the "size-independent ten-cell remnant" reading did not say. The
+pre-death curve (lag 4 ≈ 13.7 at both sizes) also shows the collapse starts three to four generations out.
