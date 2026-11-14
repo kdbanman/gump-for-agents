@@ -26,8 +26,10 @@ conjectured, with the command that reproduces it. The short version:
    correlations shorter than one cube, in which a single flipped cell spreads as a sphere.
 4. **Chaos dies from its faces, suddenly.** The long plateau and staircase collapse in the
    original's plots is the octahedron losing one whole face layer at a time. The wait for a
-   face to die is memoryless, with mean ≈ `exp(0.209 × cells in the face)` generations —
-   one line across six decades of lifetime. The constant is the far end of the face's
+   face to die is memoryless, and its mean grows by about e^0.21 per cell in the face —
+   every extra cell makes a face last about a quarter longer, across six decades of lifetime.
+   (The first fit, `exp(−0.09 + 0.209 × cells)` on flat faces, mixes faces of different widths;
+   see item 8.) The constant is the far end of the face's
    ordinary fluctuations, measured down to its last cell: each cell fewer is about two-thirds
    as likely, and the death rate is the next point on that line
    ([`research/fluct/README.md`](research/fluct/README.md)).
@@ -48,6 +50,19 @@ conjectured, with the command that reproduces it. The short version:
    ([`research/clockwork/`](research/clockwork/README.md)).
 7. **B45/S345 is a corner case in rule space.** Among 960 neighbouring rules, long-lived
    confined chaos is uncommon, and gump is a minimal member: remove any one count and it dies young.
+8. **A face's lifetime depends on its shape, not only its area.** On wrap-around slabs a
+   narrower face of the same area dies sooner (slabs 3×10 against 5×6 at 90 cells: 0.74 lower
+   in ln τ), and on twisted slabs the lifetime rises with the face's shortest closed loop,
+   though that is not the only variable. For widths 4–6 the cost per cell is between 0.2072
+   and 0.2117, not yet settled; every periodic-face constant so far carries a wrap-around term.
+9. **The exponent lives in a thin skin.** Keep the rule on a face's top five or six layers and
+   replace everything beneath by fresh coin flips every generation: a slab face lives as long as
+   on the real thing (within 0.015 in ln τ at 27–60 cells). A mirror plane through a hull face
+   roughly halves the price: 0.103 per cell against about 0.22.
+10. **No proof of the area law yet.** A swarm of theory agents proved exact reductions, an area
+   law conditional on a measured property of the rule, and an exponential law for a
+   deterministic relative of the 2D rule (resting on two published percolation results), but neither "why area" nor the constant. What is left
+   is smaller: five or six layers of the rule over independent noise.
 
 [`docs/WHAT-I-SEE.md`](docs/WHAT-I-SEE.md) is the lead's own account of what is interesting,
 surprising and beautiful here. [`research/STATUS.md`](research/STATUS.md) is the current state of play.

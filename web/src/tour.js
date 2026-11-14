@@ -113,8 +113,10 @@ export const SCENES = [
       <p>Then it loses the outermost plane of every face at once. That plane can never be re-seeded (T2),
       so the octahedron shrinks a step at a time: here at generations 3,290, 3,477 and 3,796. This is the staircase in the
       original program's population plots. ${tag('measured')} ${src(N, 'Hull radius (outermost live layer', 'notebook: peeling')}</p>
-      <p>How long a face lasts follows one law over six decades. The wait is memoryless, with mean
-      about e<sup>0.209·A</sup> generations for a face plane of A sites. ${tag('measured')} ${src(N, 'Flat faces (slab, m = 8', 'notebook: face law')} ${fig('research/figures/peel_face_law.png', 'figure')}
+      <p>How long a face lasts follows one law over six decades. The wait is memoryless, and its mean grows
+      by about e<sup>0.21</sup> for every site in the face plane: each extra site makes a face last about a quarter longer. ${tag('measured')} ${src(N, 'Flat faces (slab, m = 8', 'notebook: face law')} ${fig('research/figures/peel_face_law.png', 'figure')}
+      Area is not all: at equal area a narrower wrap-around face dies sooner, and the first fit's 0.209 mixes widths. ${tag('measured')} ${src(N, 'equal areas, different lifetimes', 'notebook: shape')}
+      The price is set in a thin skin: keep the rule on a face's top five or six layers, replace everything beneath with coin flips every generation, and the face lives about as long. Why it is about 0.21 has not been proved. ${tag('measured')} ${src(N, 'where the exponent lives', 'notebook: exponent')}
       A symmetric pattern counts as if its faces were about seven times smaller, because symmetric regions die in lockstep. ${tag('measured')} ${src(N, 'effective area A/7.7', 'notebook')}
       That factor shrinks as faces grow: a side-16 cube kept its first face for 2.36×10<sup>9</sup> generations, ten times our first prediction. ${tag('measured')} ${src(N, 'side 16 outlives its prediction', 'notebook: side 16')}
       So the side-13 cube lasts about 10<sup>5</sup> generations <i>because</i> it is symmetric. By the law, the same

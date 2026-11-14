@@ -761,7 +761,7 @@ function faceTable() {
   }
   $('facetab').innerHTML = rows.join('');
   const symTxt = app.symmetric == null ? 'symmetry not yet checked' : sym ? `state is O_h-symmetric (checked at gen ${fmt(app.symmetric.gen)}), so A/7.7 is used` : `state is not O_h-symmetric (gen ${fmt(app.symmetric.gen)})`;
-  $('facenote').innerHTML = `law τ = e<sup>−0.09 + 0.209·A</sup>, the measured mean wait for a face layer of A sites to die (flat faces; octahedral faces ran 1.2–1.8× longer). ${symTxt}. Waits are memoryless: a face that has held long is not "due"; a smaller τ means a likelier next peel. <a class="src" href="source.html?f=research/NOTEBOOK.md#${encodeURIComponent('Flat faces (slab, m = 8')}" target="_blank" rel="noopener">source</a>`;
+  $('facenote').innerHTML = `law τ = e<sup>−0.09 + 0.209·A</sup>, the measured mean wait for a face layer of A sites to die (a fit to flat faces of mixed widths, A = 27–90; at equal area a narrower face dies sooner; octahedral faces ran 1.7–1.9× longer). ${symTxt}. Waits are memoryless: a face that has held long is not "due"; a smaller τ means a likelier next peel. <a class="src" href="source.html?f=research/NOTEBOOK.md#${encodeURIComponent('Flat faces (slab, m = 8')}" target="_blank" rel="noopener">source</a>`;
 }
 
 // ---------------------------------------------------------------- atlas object card
