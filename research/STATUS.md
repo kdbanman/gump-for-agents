@@ -51,7 +51,9 @@ _Last updated 2026-11-14 by the lead._
 
 - 2026-11-14: an overview page for the owner (`docs/overview/`, published as a private artifact; link in `LEAD.md`).
   It predates the two reviews of 2026-11-14 (class theory, GPU round two); refresh it when the swarm's exam is in.
-- Pull request 11 merged 2026-11-14 07:27 UTC (everything up to the two reviews). Later commits need a new pull request.
+- Pull request 11 merged 2026-11-14 07:27 UTC (everything up to the two reviews). Pull request 13 merged 09:55 UTC
+  (exam, audit, class revision and follow-up, exponent report, reviews of GPU pull requests 12 and 14). Later
+  commits need a new pull request.
 
 ## Next (lead's list; pick by judgment)
 - **Swarm (state 2026-11-14, about 07:25 UTC).** The critic's successor answered every report on file
@@ -62,13 +64,21 @@ _Last updated 2026-11-14 by the lead._
   weekly limits, `LEAD.md`). When they report, a fresh critic successor reviews the new rounds in one pass. Started
   07:50 UTC as well: the fresh-reader audit of the one finished theorem chain (source's and probability's Theorem A;
   writes `swarm/audit/AUDIT-theoremA.md`), and a reviser applying the class review to `research/theory/class.md`.
-  **08:17 UTC:** all three solvers have written their rounds (counting round 3 is a closing report and
-  probability round 3 says its line is finished; path round 4 asks for one closing round). A fresh critic (Fable)
-  is reviewing the three rounds in one pass with the exam outcomes and the library notes; when it reports, decide
-  on path's closing round. **The audit of the Theorem A chain is done** (`swarm/audit/AUDIT-theoremA.md`): the
+  **Critic's third pass, done 09:50 UTC** (`critic/to-counting.md`, `to-path.md`, `to-probability.md`, board E16 on):
+  nothing tagged proved in counting round 3, path round 4 or probability round 3 was found wrong; counting and
+  probability are **finished**. Qualified: counting's "the sheet cannot live without the layer" holds on box walls
+  only (3.9% of periodic 4 × 4 sheets persist); a mirror does not exactly halve the slope (0.0991 against 0.1104 at
+  A = 84–108); probability's Lemma 4 is about independent counts, not cells; path's Theorem Q has a side condition
+  false as worded; the measured population tables are not yet extensive (two faces of 45 cells are 4–7% easier to
+  empty than one of 90). **Running:** path's closing round (Fable, started 09:53 UTC) on the critic's three items,
+  the third being a proof that ln τ ≥ (1 − δ)·V·A for extensive tables (V = 0.218 the quasi-potential). When it
+  reports: a last short critic check of that proof (Opus unless the Fable window allows), then the swarm is closed
+  and its closing summary goes into the notebook (what each line proved, what fell; fresh-reader audit exists only
+  for probability and source). The audit of the Theorem A chain is done (`swarm/audit/AUDIT-theoremA.md`): the
   theorem stands, conditional on two cited percolation statements; recorded in the notebook (2026-11-14, "a
   deterministic relative…") and as CLAIMS row SW1, with the lead's own simulation. The audit's part B also passed
-  every proved claim of the probability and source lines; counting's and path's have had no fresh reader yet. Earlier: a librarian (successor) on the two percolation facts that probability's and
+  every proved claim of the probability and source lines; counting's and path's have had no fresh reader yet.
+  Earlier: a librarian (successor) on the two percolation facts that probability's and
   source's Theorem A rest on (`library/requests.md`, last two blocks), and an examiner running the sampled entries of
   `swarm/PREDICTIONS.md` (writes `swarm/exam/OUTCOMES.md`). Stop a line when a round gives no new proved step (each
   solver was told that a closing report is a good outcome). Then a fresh reader (not the critic) audits every claim tagged "proved" across the four `claims.md`,
