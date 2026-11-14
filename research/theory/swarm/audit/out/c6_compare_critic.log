@@ -23,3 +23,10 @@
   gump slab 3 x 2: face configurations that can be emptied in one generation 112744 of 262144; states that empty the face 4227908776111 of 2^54   (critic: 112,744 of 262,144 faces)
   Lemma 8 on the one-row dice chain D2(L, 1/2), ring (critic, reply to round 3, section 2):
     L = 10: h = 4.504e-03; min phi = 0.60; mu(1 - phi)/h = 3.68; fair product row on living rows: pi(1 - phi)/h = 3.35, e(pi)/h = -0.34
+    L = 12: h = 1.615e-03; min phi = 0.59; mu(1 - phi)/h = 4.71; fair product row on living rows: pi(1 - phi)/h = 4.43, e(pi)/h = -0.29
+    critic: h = 4.50e-3, 1.62e-3; min phi 0.59; 3.7, 4.7; 3.35, 4.43; -0.34, -0.29
+  face12e sheet map Theta on a 4 x 4 torus: checkerboard -> its complement: True (the period-2 orbits of the critic's E19)
+
+real	1m4.251s
+user	0m59.660s
+sys	0m0.649s

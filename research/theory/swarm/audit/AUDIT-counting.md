@@ -1,12 +1,13 @@
 # Audit of the counting line (`research/theory/swarm/counting/claims.md`)
 
 _Second reader, 2026-11-14. Audited: `counting/claims.md` and `counting/journal.md` at commit `7c018f9`.
-Verdicts were formed from the statements and the journal's proofs, and written into this file (commits `e769776`,
-and the commit that added this sentence), before anything of the critic's was opened (`critic/to-counting.md`,
-`critic/board.md`); the section "Where I differ from the critic" was written afterwards. All code is the audit's
-own (`c0_lib.py` … `c5_measure.py` here, and `p0_lib.py` from the audit of the path line), written from
-`docs/AUTOMATON.md` and, for the 2D rule and face12e, from their one-line definitions in `PROBLEM.md`. The only
-import from the repository is `reference/oracle.py`; no data file is read._
+Verdicts were formed from the statements and the journal's proofs and committed (`e769776`: from reading alone;
+`7f7dd9c`: after recomputation) before anything of the critic's was opened (`critic/to-counting.md`,
+`critic/board.md`, the lab); the section "Where I differ from the critic" was written afterwards and changed no
+verdict. All code is the audit's own (`c0_lib.py` … `c5_measure.py` here, and `p0_lib.py` from the audit of the
+path line), written from `docs/AUTOMATON.md` and, for the 2D rule and face12e, from their one-line definitions in
+`PROBLEM.md`. The only import from the repository is `reference/oracle.py`; no data file is read. One script,
+`c6_compare_critic.py`, written after the verdicts, calls the critic's lab code to compare numbers._
 
 ## Summary
 
@@ -59,6 +60,7 @@ All in this directory; each runs on one core; logs in `out/`.
 | `python3 c3_face12e.py` | 2 min | claims 6 (face12e), 21, 22, 23 |
 | `python3 c4_oh_faces.py` | 2 s | claim 24 |
 | `python3 c5_measure.py` | 3 min | claims 1, 2, 3, 15, 17, 18, 19, 20 |
+| `OMP_NUM_THREADS=1 python3 c6_compare_critic.py` | 1 min | after the verdicts: the critic's c_2(0.472) iterated to convergence; exact ring slopes at L = 20–32; the critic's counts recomputed |
 
 ## 1. Claim 5: the constants
 
@@ -174,6 +176,62 @@ product measure: correct, and it concerns another line's object, which was not e
   more"). The bound m_k e^{−c_kL} can be useful only while k ≲ √L: that is right. As a positive statement,
   "lifetimes ≥ c√L" needs inf_k c_k > 0, which is the guess C2. What is proved is c_k ≥ 2^{−(4k+1)(2k+1)}/(4k + 1)
   (the guard), which gives T > k with high probability only for k ≲ (log₂ L / 8)^{1/2}.
+
+## Corrected wordings, gathered (ready to paste into `counting/claims.md`)
+
+- **5.** "… **c_1 = 0.551535, c_2 = 0.467693** (density ½); 0.489963, **0.4668** at density 0.472 …" (also journal
+  entry 9; `critic/to-counting.md` round 1; board L3.2 and lemma exchange "Finite-horizon law").
+- **11.** "With the layers beneath empty a gump face dies iff every live cell has k ≤ 2 or k = 6 and every dead cell
+  k ≤ 3 or k = 6; **a full rim-free face (every cell with six in-face neighbours) always dies**."
+- **19.** "Lemma 8, any finite absorbing chain, **any initial law π (φ := 0 on the dead state)**: P_π(T ≤ k) ≤
+  (1 − λ^k) π(φ) + π(1 − φ) ≤ k h + π(1 − φ), φ **a non-negative eigenvector for the spectral radius λ** with max 1.
+  Hence for dice chains, **with c_k(π) the chain's own fixed-age exponents**, c_∞(π) ≥ min(γ⁻, θ⁻(π)) …"
+- **20.** "Lemma 2′: if g preserves μ and g(H) ⊆ H then μ-almost no point outside H enters H. **A relative with an
+  invariant measure that is positive on every living state has no face that dies.**"
+
+## Where I differ from the critic
+
+The critic (`critic/to-counting.md`, replies to rounds 1–3; board, closing table) confirms every claim tagged
+proved. So do I, with the four reservations of the summary. Where the two readings overlap in numbers they agree:
+2,507 … 209,825; 2,977, 13,850, 64,434; 224,471 and 7,043,564; ρ_1, ρ_2; 54,591; 502 of 8,192; 40 of 64; 185 of 2⁹,
+20,941 of 2¹⁸, 2,662 of 4,096 and 112,744 of 262,144 (gump slabs); 108,045·2¹² = 45·56⁴ of 2³⁰ and 25⁶·2⁶ = 50⁶ of
+2⁴²; 85/128 …; the collision excesses; 3,793; 35,028,992 and 7,668,236,288; the O_h counts; h, min φ, μ(1 − φ)/h,
+π(1 − φ)/h and e(π)/h of the dice ring at L = 10, 12 (`c6`, part D).
+
+**Differences.**
+
+1. **c_2 at density 0.472 is 0.4668, not 0.4671** (claim 5; journal entry 9; the critic's reply to round 1; board
+   L3.2 and "Finite-horizon law" in the lemma exchange). The number is the critic's, and it is an unconverged power
+   iteration: `counting_r1.spectral` stops at 400 iterations, and at this density the second eigenvalue is 0.99 of
+   the first. The lab's own output shows it (`counting_r1.py c2` prints c_2 = 0.467096 and c⁰_2 = 0.467079 for one
+   and the same eigenvalue). The critic's matrix with 3,000 iterations gives 0.466846, the audit's value
+   (`c6`, part A). At density ½ the gap is wide and 400 iterations suffice (0.467693 is right).
+2. **Claim 11, "a full face always dies"**: confirmed by the critic without the restriction to rim-free faces (§2).
+   The board knows the fact (its remark that a full face of a large hull keeps at most its rim); the list's sentence
+   was not corrected.
+3. **Claim 20, second sentence**: confirmed by the critic as it stands. The board's own form ("trapdoors" (iii):
+   μ(H_k) = 0 for every invariant μ) is the correct one; the list's "no relative with an invariant measure charging
+   the living states has a face that dies" is not, unless "charging" means positive on every living state (§4).
+4. **Claim 19.** The critic checks the lemma with π "restricted to living rows"; the corollary as written uses
+   product laws, which charge the dead row (§3: put φ = 0 there). The critic's caution E21 (with max φ = 1 the term
+   π(1 − φ) is a few h even for the steady state itself, so "doomed start" is a figure of speech) is right and I
+   had not seen it before reading the reply; `c6` reproduces its numbers at L = 10, 12.
+5. **Things the critic left as "read" or "unchecked" that are checked here.**
+   - Claim 6 for face12e, the light-cone step: read line by line (same induction as for gump; the speed is one cube
+     per generation in both lattices) and tested against random outsides (`c3`).
+   - Claim 14 for k ≥ 2 ("by the argument only: the lab has no dice model with w ≥ 3"): the dice chain with w = 3
+     and w = 4 propagated exactly on rings of 4 and 5; equal to the true rule at k = 2; w = 1, 2 differ (`c1`).
+   - Claim 24 beyond N = 4: listed to N = 9 and at R = 35, 36 (`c4`).
+   - Claim 8 (b): the mirror-ring count against the bound for L = 8…22; (c) for the diagonal mirror (`c1`).
+   - Claim 4 at L = 1…4 (the quotient reading) and the open-word form 1ᵀM^ℓ1 by brute force.
+   - Claim 10 on a hull (cells outside count 0): every state of the R = 3 face and the cells beneath.
+6. **Agreement on two cautions of the critic that I reached separately.** "c_3 = 0.36 ± 0.01" leans on a
+   finite-size allowance taken from k = 2 (the critic: the approach is slower at k = 3; here: the exact slope at
+   L = 20–32 is 0.4777 at k = 2 and 0.5516 at k = 1, so the sample quoted at k = 1, 0.542, is itself 0.0095 off). And
+   F.4 is a box-wall statement (critic's E19, with the period-2 orbits on periodic walls, which I did not enumerate;
+   the checkerboard is verified in `c6`).
+
+Nothing the critic confirmed is wrong in substance; the only wrong number in the line's list came from the lab.
 
 ## Not checked
 
