@@ -134,9 +134,10 @@ _Last updated 2026-11-14 by the lead._
   spent (about $25.80 of $30 this month): no further GPU request without asking the owner.**
   Reviewed 23:25 UTC (`research/audit/REVIEW-gpu-pr18.md`: merge after eight text fixes; the table is confirmed by an
   independent CPU stepper up to 4×4; the 4×5 rhombus is 1.9–2.6σ lower on the CPU, and the reviewer is lengthening
-  that run; "well above the lifetime range" compared an incremental cost that includes perimeter). Fixes sent to
-  the GPU session 23:28 UTC; subscribed to the pull request. On its push: read the diff against the list, CI, merge
-  with the full head sha, fetch main, notebook entry, CLAIMS.
+  that run; "well above the lifetime range" compared an incremental cost that includes perimeter). Fixes applied by the
+  GPU session (de00831), read against the list by the lead, CI green, **merged 23:31 UTC (squash 5d62eae)**; main
+  merged into the branch; notebook entry "empty patches on a face too large to die"; CLAIMS GP10. Open: the 4×5
+  point (the reviewer's longer CPU run).
   Owed for each when it reports: the lead's own check of one key number, an adversarial review (Opus) for (2) and (4),
   notebook, CLAIMS, STATUS. Usage timer every 60 minutes while Fable agents run.
   (ii) done: `README.md` (item 4 reworded; new items 8-10) and the web tour and

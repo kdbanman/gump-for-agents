@@ -1796,3 +1796,44 @@ each a few minutes; outputs in `audit/out/`).
   analyst's forecasts under the single-constant readings are local slopes 0.2117 → 0.2136, with the existing 6×6 run
   already 2.7–3.2σ below them (`research/constant/PREDICTIONS.md`, part C and its addendum; committed before any of
   those runs exist). Neither measurement has been run; both need the GPU.
+
+## 2026-11-14 — empty patches on a face too large to die: the forecast missed as stated, and the perimeter-free cost falls into the lifetime range (GPU session's pull request 18; adversarial review with an independent CPU stepper; lead's recomputation)
+
+- What was done (`research/gpu/README.md`, section "Empty patches on a large living face"; raw counts
+  `research/data/gpu_patches/`): a periodic slab 12 × 12 × 8 (A = 432 per face), 3.04 × 10¹⁰ replica-generations,
+  no face death, settling or firewall in any replica. At every generation, on both faces, the number of translates
+  of each fixed patch shape (rhombi a × b of 3ab cells, strips 1 × b, hexagonal balls) whose cells are all dead.
+  Forecasts were committed before any code (312b0bc; the lead's is in this notebook, entry "a forecast before the
+  run").
+- **Measured** (ln P of an empty patch; reproduced digit for digit by `python3 research/audit/gpu_pr18_lead_check.py
+  research/data/gpu_patches/patches_s81*_A10G.csv`; confirmed up to 4×4 by the reviewer's own stepper and counter
+  on the CPU, |z| ≤ 1.9): rhombi 2×2 −6.254, 2×3 −8.793, 3×3 −12.128, 3×4 −15.400, 4×4 −19.423 ± 0.007,
+  4×5 −23.318 ± 0.047 (654 hits), 5×5 −28.4 ± 0.6 (4 hits), none at 5×6 and 6×6. Strips cost a flat 0.55 per cell.
+  At 36 cells a 1 × 12 strip is e^−4.5 as likely as the 3 × 4 rhombus. Persistence (empty again one generation
+  later) falls with size, 0.38 → 0.10.
+- **The lead's forecast is missed as stated.** It said the fit ln P = const − c·cells − σ·perimeter over the rhombi
+  from 2×2 would give c = 0.21 ± 0.015, and that outside 0.17–0.25 "the static picture fails". The fit gives
+  c = 0.264, σ = 0.119, and does not describe the data (χ² 3,369 / 3; its c moves to 0.211 or 0.249 when the
+  smallest shapes are dropped). So the criterion was badly designed: it presumed the two-term form. The miss is a
+  failure of that form, not evidence about the static picture.
+- **Post hoc (the lead's reading after seeing the data, checked by the review and re-derived by the GPU session):**
+  along a sequence of similar shapes (a × a, or a × (a+1)) the second difference of ln P removes the constant and
+  any term linear in the side (perimeter, corners, the two orientations). It gives a perimeter-free cost per cell of
+  0.273, 0.252, 0.237, **0.2185 ± 0.008** at middle shapes of 12, 18, 27, 36 cells: still falling, and at the
+  largest size inside the lifetime laws' range. It does not remove a logarithm or a 1/a term. Extrapolations that
+  fit give 0.21 (corrections ∝ 1/n) or 0.16 (∝ 1/√n); the review's range for the asymptote is 0.16–0.24.
+  **So: compatible with "a face dies as an empty patch of its own size at about 0.21 per cell"; not established.**
+- Found by the review: the patches are built from the three +faces of a cube, so the two faces of the slab carry
+  the two inequivalent orientations of each shape, and the table averages them (the inner orientation is more often
+  empty, by about 0.007 per perimeter pair; no effect on second differences). The incremental cost "0.32–0.42 per
+  cell, well above the lifetime range" of the first write-up included the added perimeter and was not comparable.
+- **Open: the 4×5 point.** The reviewer's CPU run has it at −23.75 ± 0.16 (43 hits), 1.9–2.6σ below the GPU's.
+  The last second difference rests on it (with the CPU value it would be about 0.29). The reviewer is running ten
+  times longer; until that is in, 0.2185 ± 0.008 is the GPU's number with one unresolved cross-check.
+- Not checked: the GPU code was read, not run, by the review; patches beyond 4×5 (they need a biased estimator);
+  dependence on slab thickness, soup density and face size; whether a 12 × 12 face is in the same state as the face
+  of a small dying slab; emptiness in the layers beneath.
+- The analyst's blind forecast for this experiment (`research/constant/PREDICTIONS.md`, part A: c = 0.212 ± 0.015,
+  σ > 0 at about 0.086 per cut pair, −ln P = 5.0, 9.5, 15.3, 22.4, 30.8 for 2×2 … 6×6) is to be scored against the
+  table: measured −ln P at 2×2, 3×3, 4×4 is 6.25, 12.13, 19.42 against its 5.0, 9.5, 15.3 (the lead's arithmetic:
+  low by 1.3, 2.6, 4.1); σ's sign is right, its size 0.119 against 0.086 under the failing two-term fit.
