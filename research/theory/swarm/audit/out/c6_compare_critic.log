@@ -15,3 +15,11 @@
 
 === C. exact slopes of -ln D_k(L) on rings between L = 20 and 32 (entry 13 quotes samples 0.542, 0.479)
   k = 1 (all 16 eigenvalues): -ln D_1 = [11.0305, 13.2368, 15.443, 17.6491], slope 0.55155; limit 0.551535
+  k = 2 (leading 40 eigenvalues; first two 20.0463, 18.6749): -ln D_2 = [9.1354, 11.0568, 12.9666, 14.8676], slope 0.47766; limit 0.467693
+
+=== D. numbers of the critic's replies recomputed with the audit's code
+  gump slab 1 x 1: face configurations that can be emptied in one generation 8 of 8; states that empty the face 185 of 2^9   (critic: 185 of 2^9 states)
+  gump slab 2 x 2: face configurations that can be emptied in one generation 2662 of 4096; states that empty the face 259065805 of 2^36   (critic: 2,662 of 4,096 faces)
+  gump slab 3 x 2: face configurations that can be emptied in one generation 112744 of 262144; states that empty the face 4227908776111 of 2^54   (critic: 112,744 of 262,144 faces)
+  Lemma 8 on the one-row dice chain D2(L, 1/2), ring (critic, reply to round 3, section 2):
+    L = 10: h = 4.504e-03; min phi = 0.60; mu(1 - phi)/h = 3.68; fair product row on living rows: pi(1 - phi)/h = 3.35, e(pi)/h = -0.34
