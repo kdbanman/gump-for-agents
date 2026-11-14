@@ -12,7 +12,9 @@
  * when an interior layer of a det slab is found empty at a snapshot, or at the cap. Then the lane is reseeded.
  * Hazards are for ages >= T0 (age = generations since the soup).
  *
- * usage: ring det|model b m_or_w rho16 p0_16 seed GENS T0 CAP GS OUT [-i init.txt] [-d dump.txt]
+ * usage: ring det|model b m_or_w rho16 p0_16 seed GENS T0 CAP GS OUT [-i init.txt] [-d dump.txt] [-n G]
+ *   -n G  a wall: the face cells of sites 0..G-1 (site s = {Z_s, Y_s, X_{s+1}}) are held dead, so the face is a
+ *         segment of b - G sites with free ends (G >= 3: the two ends do not see each other within the face)
  *   GS  sample the face statistics every GS generations (0 = none)
  *   -i  lane 0 starts from the listed cells (index (t*3+o)*b+c)       -d  dump every lane every generation
  * Output OUT (text, key value...): totals, age-binned exposure/deaths, face-population histogram, deaths by
@@ -36,6 +38,8 @@ static int b, nt, ndyn, model;      /* nt = layers stored (m, or w + 2), ndyn = 
 static u64 MASK;
 static vec S[MAXT][3], Tn[MAXT][3], SNAP[MAXT][3];
 static vec rs[4];                    /* xoshiro256++ state, one stream per lane */
+static u64 NOTCH[3];                 /* face cells held dead (a wall across the face): sites 0..G-1 = {Z_s, Y_s, X_{s+1}} */
+static int G = 0, nface_g, ft_g[2];
 
 static inline vec rotlv(vec x, int k) { return (x << k) | (x >> (64 - k)); }
 static inline vec rnd(void) {
@@ -79,6 +83,7 @@ static void step(void) {
     Tn[t][o] = ~b3 & ((b2 & ~b1) | (S[t][o] & ~b2 & b1 & b0));   /* n in {4,5}, or alive and n = 3 */
   }
   for (int t = 0; t < ndyn; t++) for (int o = 0; o < 3; o++) S[t][o] = Tn[t][o];
+  if (G) for (int k = 0; k < nface_g; k++) for (int o = 0; o < 3; o++) { vec m = {0}; m += ~NOTCH[o]; S[ft_g[k]][o] &= m; }
 }
 
 static unsigned rho16, p016;
@@ -88,6 +93,7 @@ static void noise(void) {
 }
 static void reseed(int l) {
   for (int t = 0; t < ndyn; t++) for (int o = 0; o < 3; o++) { vec r = bern(p016); S[t][o][l] = r[l] & MASK; }
+  if (G) for (int k = 0; k < nface_g; k++) for (int o = 0; o < 3; o++) S[ft_g[k]][o][l] &= ~NOTCH[o];
   for (int t = 0; t < ndyn; t++) for (int o = 0; o < 3; o++) SNAP[t][o][l] = ~0ULL;   /* never equal */
 }
 static inline int facepop(int t, int l) {
@@ -111,21 +117,24 @@ int main(int argc, char **argv) {
   rho16 = atoi(argv[4]); p016 = atoi(argv[5]); u64 seed = strtoull(argv[6], 0, 10);
   long GENS = atol(argv[7]), T0 = atol(argv[8]), CAP = atol(argv[9]); int GS = atoi(argv[10]); const char *outf = argv[11];
   const char *initf = 0, *dumpf = 0;
-  for (int i = 12; i < argc; i++) { if (!strcmp(argv[i], "-i")) initf = argv[++i]; else if (!strcmp(argv[i], "-d")) dumpf = argv[++i]; }
+  for (int i = 12; i < argc; i++) { if (!strcmp(argv[i], "-i")) initf = argv[++i]; else if (!strcmp(argv[i], "-d")) dumpf = argv[++i]; else if (!strcmp(argv[i], "-n")) G = atoi(argv[++i]); }
   if (b < 5 || b > 64) { fprintf(stderr, "need 5 <= b <= 64\n"); return 1; }
   ndyn = mw; nt = model ? mw + 2 : mw; if (nt > MAXT) { fprintf(stderr, "too many layers\n"); return 1; }
   MASK = b == 64 ? ~0ULL : ((1ULL << b) - 1);
   int nface = model ? 1 : 2, ft[2] = {0, ndyn - 1};
+  nface_g = nface; ft_g[0] = 0; ft_g[1] = ndyn - 1;
+  if (G) { u64 w = (1ULL << G) - 1; NOTCH[2] = w; NOTCH[1] = w; NOTCH[0] = (w << 1) & MASK; }
   smx = seed * 0x2545F4914F6CDD1DULL + 0x1234567ULL;
   for (int i = 0; i < 4; i++) for (int l = 0; l < NL; l++) rs[i][l] = splitmix();
   for (int i = 0; i < 16; i++) rnd();
   long born[NL]; for (int l = 0; l < NL; l++) { reseed(l); born[l] = 0; }
   if (initf) { for (int t = 0; t < ndyn; t++) for (int o = 0; o < 3; o++) S[t][o][0] = 0;
-    FILE *f = fopen(initf, "r"); int c; while (fscanf(f, "%d", &c) == 1) S[c / (3 * b)][(c / b) % 3][0] |= 1ULL << (c % b); fclose(f); }
+    FILE *f = fopen(initf, "r"); int c; while (fscanf(f, "%d", &c) == 1) S[c / (3 * b)][(c / b) % 3][0] |= 1ULL << (c % b); fclose(f);
+    if (G) for (int k = 0; k < nface; k++) for (int o = 0; o < 3; o++) S[ft[k]][o][0] &= ~NOTCH[o]; }
   FILE *df = dumpf ? fopen(dumpf, "w") : 0;
   /* statistics */
   double E0 = 0; long F0 = 0, nF = 0, nS = 0, nI = 0, nC = 0, nBoth = 0;
-  static long hpop[200], dpop[200], hrun[66], hmax[66]; long nsamp = 0;
+  static long hpop[200], dpop[200], hrun[66], hmax[66], hfl[66], hfr[66]; long nsamp = 0;
   static double pre[LAG + 1]; static long npre = 0;
   static unsigned char rb[NL][2][LAG];           /* face populations of the last LAG generations */
   static long dlag[LAG + 1][200];                /* dlag[k][n]: deaths with face population n, k generations before */
@@ -151,7 +160,8 @@ int main(int argc, char **argv) {
           int eq = 1; for (int t = 0; t < ndyn && eq; t++) for (int o = 0; o < 3; o++) if (S[t][o][l] != SNAP[t][o][l]) { eq = 0; break; }
           for (int t = 0; t < ndyn; t++) for (int o = 0; o < 3; o++) SNAP[t][o][l] = S[t][o][l];
           if (eq) { end = 2; nS++; }
-          else if (!model) { for (int t = 1; t < ndyn - 1; t++) if (!(S[t][0][l] | S[t][1][l] | S[t][2][l])) { end = 3; } if (end == 3) nI++; }
+          else if (!model) { for (int t = 1; t + 2 < ndyn - 1; t++) { int d3 = 1; for (int u = t; u < t + 3; u++) if (S[u][0][l] | S[u][1][l] | S[u][2][l]) d3 = 0;
+            if (d3) end = 3; } if (end == 3) nI++; }   /* three adjacent dead interior layers: a firewall (T3) */
         }
         if (!end && CAP && age >= CAP) { end = 4; nC++; }
         if (!end && smp && age >= T0) for (int k = 0; k < nface; k++) {
@@ -163,6 +173,8 @@ int main(int argc, char **argv) {
             while (D) { int tz = __builtin_ctzll(D); D >>= tz; int len = __builtin_ctzll(~D); hrun[len]++; if (len > mx) mx = len;
               D = len < 64 ? D >> len : 0; } }
           hmax[mx]++;
+          if (G) { u64 q = occ >> G; int fl = q ? __builtin_ctzll(q) : b - G; int fr = occ ? __builtin_clzll(occ) - (64 - b) : b - G;
+            hfl[fl]++; hfr[fr]++; }
         }
       }
       if (end) {
@@ -178,8 +190,8 @@ int main(int argc, char **argv) {
   for (int l = 0; l < NL; l++) { long L = GENS - born[l]; add_expo(L); if (L > T0) E0 += (double)(L - T0); }
   if (df) { dump(df, GENS, 'S'); fclose(df); }
   FILE *o = fopen(outf, "w");
-  fprintf(o, "mode %s b %d layers %d rho16 %u p016 %u seed %llu gens %ld T0 %ld cap %ld gs %d lanes %d\n", argv[1], b, mw, rho16, p016,
-          (unsigned long long)seed, GENS, T0, CAP, GS, NL);
+  fprintf(o, "mode %s b %d layers %d rho16 %u p016 %u seed %llu gens %ld T0 %ld cap %ld gs %d lanes %d notch %d\n", argv[1], b, mw, rho16, p016,
+          (unsigned long long)seed, GENS, T0, CAP, GS, NL, G);
   fprintf(o, "tot expo %.0f deaths %ld alldeaths %ld both %ld settled %ld interior %ld capped %ld nsamp %ld npre %ld\n", E0, F0, nF, nBoth, nS, nI, nC, nsamp, npre);
   fprintf(o, "expo"); for (int k = 0; k < NB; k++) fprintf(o, " %.0f", expo[k]); fprintf(o, "\n");
   fprintf(o, "deaths"); for (int k = 0; k < NB; k++) fprintf(o, " %ld", deaths[k]); fprintf(o, "\n");
@@ -187,6 +199,8 @@ int main(int argc, char **argv) {
   fprintf(o, "dpop"); for (int k = 0; k <= 3 * b; k++) fprintf(o, " %ld", dpop[k]); fprintf(o, "\n");
   fprintf(o, "hrun"); for (int k = 0; k <= b; k++) fprintf(o, " %ld", hrun[k]); fprintf(o, "\n");
   fprintf(o, "hmax"); for (int k = 0; k <= b; k++) fprintf(o, " %ld", hmax[k]); fprintf(o, "\n");
+  fprintf(o, "hfl"); for (int k = 0; k <= b; k++) fprintf(o, " %ld", hfl[k]); fprintf(o, "\n");
+  fprintf(o, "hfr"); for (int k = 0; k <= b; k++) fprintf(o, " %ld", hfr[k]); fprintf(o, "\n");
   fprintf(o, "pre"); for (int k = 1; k <= LAG; k++) fprintf(o, " %.0f", pre[k]); fprintf(o, "\n");
   for (int j = 1; j <= 4; j++) { fprintf(o, "dlag%d", j); for (int k = 0; k <= 3 * b; k++) fprintf(o, " %ld", dlag[j][k]); fprintf(o, "\n"); }
   fclose(o);

@@ -51,3 +51,27 @@ of b = 64; k(l) = -ln[E(l+1)/E(l)].
 (a) k(l) decreases with l, and its mean over l = 30..40 is within 0.02 of the lifetime slope per site between
 b = 32 and b = 48.
 (b) ln tau(b) + ln E(b - s) is constant within +-0.10 over b = 16..48 for one shift s between 0 and 6 sites.
+
+## Block 2 (2026-11-14, before any run with a wall, and before the b = 64 window run)
+
+Known now (not yet scored above): deterministic rings 8.647, 10.020, 11.345, 12.648, 13.927 at b = 16…32
+(local slopes per site 0.343, 0.331, 0.326, 0.320: still falling); models at b = 16: w = 1…6 give +1.29, +1.38,
++0.49, +0.049, +0.006, +0.012 against the deterministic ring; one-layer model at b = 24: 13.21 (slope 0.410 per
+site against 0.337). Looking back from a death the face population falls by 2.2–2.5 cells per generation for more
+than twelve generations: the thin face dies by an island shrinking from both ends, not in a flash. Windows on the
+b = 24 ring: k(l) falls to 0.416 at l = 10 and then rises (the ring is too short).
+
+Reading (conjecture): ln tau = g·b + (power of b); the power comes from where and how the gap starts. A face with
+a wall across it (cells of 3 sites held dead: a segment of n = b − 3 sites with free ends) needs no nucleation: both
+gaps are there from the start.
+
+**F6 (segments of the deterministic thin face).** ln tau_seg(n), n = 13, 21, 29, 37 (b = 16, 24, 32, 40, wall 3):
+the three local slopes agree within ±0.012 per site (no drift like the ring's), and their value lies in
+0.28–0.32 per site (0.093–0.107 per cell). The ring's local slope keeps falling towards the same value.
+
+**F7 (one-layer model, segments).** For the one-layer model on coins, the local slope of ln tau_seg(n) between
+n = 6 and n = 8 is within 3% of the slope between n = 16 and n = 24. (If so, the exact solution of segments of
+≤ 8 sites gives the model's asymptotic cost; if not, it does not.)
+
+**F5 stands as committed** (windows on the b = 64 ring); added before that run: (c) on the b = 64 ring the
+minimum of k(l) over l ≤ 40 is below 0.33 per site.

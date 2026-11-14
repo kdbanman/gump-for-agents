@@ -2,7 +2,7 @@
 """Driver for ring.c (thin torus, packed rings).
 
     python3 run.py validate                       # ring.c against the reference stepper (= oracle) and the engine
-    python3 run.py run TAG det|model b m_or_w SECONDS [T0] [GS] [rho16]   # chunks until SECONDS; resumable
+    python3 run.py run TAG det|model b m_or_w SECONDS [T0] [GS] [rho16] [WALL]   # chunks until SECONDS; resumable
     python3 run.py stats TAG...                   # ln tau per tag from the chunk files (prefix match with *)
 
 Chunk files: research/scratch/thin/<TAG>/c<k>.txt (one per chunk, seed = hash of tag and k). A run can be killed
@@ -31,9 +31,9 @@ def build():
         os.replace(BIN + '.new', BIN)
 
 
-def ring(mode, b, mw, seed, gens, T0, out, cap=0, gs=0, rho=RHO, p0=P0, extra=()):
+def ring(mode, b, mw, seed, gens, T0, out, cap=0, gs=0, rho=RHO, p0=P0, extra=(), notch=0):
     subprocess.check_call([BIN, mode, str(b), str(mw), str(rho), str(p0), str(seed), str(gens), str(T0), str(cap),
-                           str(gs), out, *extra])
+                           str(gs), out, *extra, *(('-n', str(notch)) if notch else ())])
 
 
 def parse(path):
@@ -59,20 +59,26 @@ def read_dump(path, b, nt):
     return np.array([[rows[(g, l)] for l in range(NLn)] for g in range(G)])
 
 
-def validate_dump(mode, b, mw, gens, seed=5):
+def validate_dump(mode, b, mw, gens, seed=5, notch=0):
     """Every lane, every generation: the dumped next state is the reference stepper's image of the dumped state,
     except where a life ended; ends (deaths, ages) are recomputed and compared with ring's own tallies."""
     nt = mw + 2 if mode == 'model' else mw
     dp = os.path.join(OUT, f'dump_{os.getpid()}.txt'); out = os.path.join(OUT, f'vout_{os.getpid()}.txt')
-    ring(mode, b, mw, seed, gens, 0, out, extra=('-d', dp))
+    ring(mode, b, mw, seed, gens, 0, out, extra=('-d', dp), notch=notch)
     D = read_dump(dp, b, nt); r = parse(out)
     nb = thin.graph(b, nt)
     nd = mw * 3 * b
     faces = [np.arange(3 * b)] + ([np.arange((mw - 1) * 3 * b, mw * 3 * b)] if mode == 'det' else [])
+    wall = np.zeros(nd, bool)                       # face cells held dead: sites 0..notch-1 = {Z_s, Y_s, X_{s+1}}
+    for f in faces:
+        for s_ in range(notch):
+            wall[f[0] + 2 * b + s_] = wall[f[0] + b + s_] = wall[f[0] + (s_ + 1) % b] = True
+    assert not D[:, :, :nd][:, :, wall].any(), 'a wall cell is alive in the dump'
     bad = 0; deaths = 0; expo = 0; born = np.zeros(D.shape[1], int); other = 0; steps = 0
     for g in range(gens):
         for l in range(D.shape[1]):
             nxt = thin.step_ref(D[g, l], nb)[:nd]
+            nxt[wall] = 0
             nde = sum(int(nxt[f].sum() == 0) for f in faces)
             got = D[g + 1, l][:nd]
             steps += 1
@@ -85,7 +91,7 @@ def validate_dump(mode, b, mw, gens, seed=5):
                     bad += 1
     expo += int((gens - born).sum())
     ok = bad == 0 and deaths == int(r['tot']['alldeaths']) and (other > 0 or expo == int(r['expo'].sum()))
-    msg = (f'validate_dump {mode} b={b} layers={mw}: {steps} lane-steps, {bad} wrong, deaths {deaths} '
+    msg = (f'validate_dump {mode} b={b} layers={mw} wall={notch}: {steps} lane-steps, {bad} wrong, deaths {deaths} '
            f'(ring: {int(r["tot"]["alldeaths"])}), exposure {expo} (ring: {int(r["expo"].sum())}), snapshot ends {other}')
     if mode == 'model':
         nz = D[:gens, :, nd:].astype(float)                  # coins
@@ -147,18 +153,18 @@ def chunk_seed(tag, k):
     return int(hashlib.sha256(f'{tag}:{k}'.encode()).hexdigest()[:12], 16)
 
 
-def run(tag, mode, b, mw, seconds, T0=256, gs=0, rho=RHO, gens=None):
+def run(tag, mode, b, mw, seconds, T0=256, gs=0, rho=RHO, gens=None, notch=0):
     build()
     d = os.path.join(OUT, tag); os.makedirs(d, exist_ok=True)
     t0 = time.time(); k = len(glob.glob(os.path.join(d, 'c*.txt')))
     # chunk length: about 60 s
     if gens is None:
-        tt = time.time(); ring(mode, b, mw, 1, 20000, T0, os.path.join(OUT, f'probe_{os.getpid()}.txt'), gs=gs, rho=rho)
+        tt = time.time(); ring(mode, b, mw, 1, 20000, T0, os.path.join(OUT, f'probe_{os.getpid()}.txt'), gs=gs, rho=rho, notch=notch)
         os.remove(os.path.join(OUT, f'probe_{os.getpid()}.txt'))
         gens = max(20000, int(20000 * 60 / max(time.time() - tt, 1e-3)))
     while time.time() - t0 < seconds:
         tmp = os.path.join(d, f'tmp_{os.getpid()}')
-        ring(mode, b, mw, chunk_seed(tag, k), gens, T0, tmp, gs=gs, rho=rho)
+        ring(mode, b, mw, chunk_seed(tag, k), gens, T0, tmp, gs=gs, rho=rho, notch=notch)
         os.replace(tmp, os.path.join(d, f'c{k}.txt')); k += 1
     print(f'{tag}: {k} chunks', flush=True)
 
@@ -174,13 +180,15 @@ def load(tag):
             acc = r; acc['n'] = 1; continue
         for k, v in r.items():
             if k == 'head':
-                assert v['mode'] == acc['head']['mode'] and v['b'] == acc['head']['b'] and v['layers'] == acc['head']['layers'] \
-                    and v['T0'] == acc['head']['T0'] and v['rho16'] == acc['head']['rho16']
+                assert all(v[q] == acc['head'][q] for q in ('mode', 'b', 'layers', 'T0', 'rho16')) \
+                    and v.get('notch', '0') == acc['head'].get('notch', '0')
             elif k == 'tot':
                 for kk in v:
                     acc['tot'][kk] += v[kk]
-            else:
+            elif k in acc and len(acc[k]) == len(v):
                 acc[k] = acc[k] + v
+            elif k not in acc:
+                acc[k] = v
         acc['n'] += 1
     return acc
 
@@ -225,6 +233,8 @@ if __name__ == '__main__':
         for (mode, b, mw, g) in [('det', 16, 8, 400), ('det', 5, 8, 300), ('det', 64, 8, 150), ('det', 7, 3, 1000),
                                  ('model', 16, 5, 300), ('model', 6, 1, 2000), ('model', 64, 2, 150), ('model', 9, 3, 1000)]:
             ok &= validate_dump(mode, b, mw, g)
+        for (mode, b, mw, g, nn) in [('det', 12, 8, 600, 3), ('det', 64, 8, 100, 5), ('model', 9, 1, 2000, 3), ('model', 20, 5, 300, 4)]:
+            ok &= validate_dump(mode, b, mw, g, notch=nn)
         for (b, m, g) in [(16, 8, 3000), (24, 8, 3000), (40, 8, 1500)]:
             ok &= validate_engine(b, m, g)[0]
         print('ALL OK' if ok else 'FAILED')
@@ -234,6 +244,7 @@ if __name__ == '__main__':
         T0 = int(sys.argv[7]) if len(sys.argv) > 7 else 256
         gs = int(sys.argv[8]) if len(sys.argv) > 8 else 0
         rho = int(sys.argv[9]) if len(sys.argv) > 9 else RHO
-        run(tag, mode, b, mw, seconds, T0, gs, rho)
+        notch = int(sys.argv[10]) if len(sys.argv) > 10 else 0
+        run(tag, mode, b, mw, seconds, T0, gs, rho, notch=notch)
     elif cmd == 'stats':
         stats(sys.argv[2:] or ['*'])
