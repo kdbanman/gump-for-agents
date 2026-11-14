@@ -62,3 +62,20 @@
     rho = 0.7: enumeration 0.000009, polynomial 0.000009
     Monte Carlo, whole slab, fair cells beneath, seed 5: 6867 of 2000000 = 0.003433
     Monte Carlo, whole slab, fair cells beneath, seed 1: 21289 of 6000000 = 0.003548
+    Monte Carlo, whole slab, fair cells beneath, seed 2: 21083 of 6000000 = 0.003514
+    Monte Carlo, whole slab, fair cells beneath, seed 3: 21399 of 6000000 = 0.003566
+    pooled: 70638 of 20000000 = 0.003532 +- 0.000013  (-1.56 sigma from 0.003553)
+    control, slab 2 x 2 (doubled neighbours): lone cell 0.269165, not 0.412159
+
+=== claim 6 (gump): a lone top cube in a dead box of half-width 2k + 2 lasts k generations against any outside  [463 s]
+  k = 1, box half-width  4 (journal): cube not intact after 1 generations in 0 of 1800 random outsides
+  k = 1, box half-width  2 (control: 2k): cube not intact after 1 generations in 0 of 1800 random outsides
+  k = 1, box half-width  0 (control: 2k - 2): cube not intact after 1 generations in 1796 of 1800 random outsides
+  k = 2, box half-width  6 (journal): cube not intact after 2 generations in 0 of 1800 random outsides
+  k = 2, box half-width  4 (control: 2k): cube not intact after 2 generations in 0 of 1800 random outsides
+  k = 2, box half-width  2 (control: 2k - 2): cube not intact after 2 generations in 1663 of 1800 random outsides
+  k = 3, box half-width  8 (journal): cube not intact after 3 generations in 0 of 1800 random outsides
+  k = 3, box half-width  6 (control: 2k): cube not intact after 3 generations in 0 of 1800 random outsides
+  k = 3, box half-width  4 (control: 2k - 2): cube not intact after 3 generations in 0 of 1800 random outsides
+
+all assertions passed  [471 s]
