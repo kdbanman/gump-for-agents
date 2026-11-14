@@ -113,6 +113,14 @@ _Last updated 2026-11-14 by the lead._
   main, score the run against the forecast, data per death in `research/data/gpu_facelaw/`, censor every period,
   then a control at 6×6×8 with the firewall channel resolved. It cannot reply: look at its branch
   `claude/awesome-cray-boq9vz` and the pull request list from time to time.
+  **Pull request 14 is open (seen 09:27 UTC)**: validations hold (3×6×8, 4×7×8 against the CPU table); 6×7×8 face
+  channel 26.405 ± 0.104 and firewall channel 26.866 ± 0.186 with 24% firewall-first (all three forecasts hit);
+  6×6×8 control 22.568 ± 0.041 with 2.1% firewalls; pooled A = 108 22.536 ± 0.031; slope 108 → 126 0.215 ± 0.006,
+  which the session calls not decided. The lead re-derived all of these from the per-life data
+  (`python3 research/audit/gpu_pr14_lead_check.py <dir of the fwslab JSON files>`; hazard flat in age). An Opus
+  reviewer is attacking `fwslab.py`'s logic and running a channel-resolved CPU check at 3×6×8
+  (`research/audit/REVIEW-gpu-pr14.md`). When it reports: fixes to the session if any, merge, notebook entry
+  (CLAIMS GP8 changes: the A = 126 face value is now measured).
 - **Exam (swarm): done 2026-11-14** (`swarm/exam/OUTCOMES.md`; notebook entry of that date; CLAIMS SW2–SW4). Hold:
   path E1 (notched edge 0.346), source S-E1 and S-E2 (faces over dice; six layers suffice for gump), counting C-E1
   (one mirror halves the price, 0.1026 per cell). Fail: counting C-E2, path E3. Undecided: P-E1 (0.512 ± 0.012 on its
