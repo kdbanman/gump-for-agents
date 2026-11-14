@@ -4,6 +4,7 @@
     python3 others.py bond10             bond10, b = 3: confinement, torus for c = 4..8
     python3 others.py bond10 slab C n gens     slab with odd walls, n x n cubes, cap C
     python3 others.py bond10 life C n cap      box of n^3 cubes with odd walls
+    python3 others.py bond10-endings n T       bond10 at b = 4 in class.md's {111} slab: which dead sealed set comes first
 """
 import itertools, json, sys
 import numpy as np
@@ -159,5 +160,57 @@ if __name__ == "__main__":
             kag_life(int(a[2]), int(a[3]), int(a[4]) if len(a) > 4 else 3)
         else:
             kagome(int(a[1]) if len(a) > 1 else 3)
+    elif a[0] == "bond10-endings":
+        pass
     else:
         bond10(a[1:])
+
+
+def bond10_endings(n=4, T=4096, batches=8, c=6, m=8, p=0.45, every=16):
+    """bond10 at class.md's b = 4 (B45/S345 for c = 6) in class.md's vessel: {111} slab of m layers, periodic face
+    of n x n periods.  For each soup: which permanent dead set appears first -- a face (a boundary {111} layer empty),
+    an axis firewall (three consecutive x-, y- or z-layers, even-odd-even, empty) or a firewall of another diagonal
+    (two consecutive layers empty).  Checked every `every` generations."""
+    L = aud.lattice("bond10")
+    B, S = aud.capped(4, c, 10)
+    V, layer = aud.slab111(L, m, n, n)
+    P = np.array(V.cells)
+    P8 = 2 * n
+    faces = [np.nonzero(layer == 0)[0], np.nonzero(layer == m - 1)[0]]
+    axis = []
+    for a in range(3):
+        co = P[:, a] % P8
+        for k in range(n):
+            axis.append(np.nonzero(np.isin(co, [(2 * k) % P8, (2 * k + 1) % P8, (2 * k + 2) % P8]))[0])
+    diag = []
+    for d in ((1, 1, -1), (1, -1, 1), (-1, 1, 1)):
+        h = (P @ np.array(d)) % (4 * n)
+        for k in range(1, 4 * n, 2):
+            diag.append(np.nonzero(np.isin(h, [k, (k + 2) % (4 * n)]))[0])
+    # every such set must be sealed for b = 4 in this vessel, or the test is meaningless
+    ok_axis = all(len(aud.largest_sealed_subset(V, W, 4)) == len(W) for W in axis[:3])
+    ok_diag = all(len(aud.largest_sealed_subset(V, W, 4)) == len(W) for W in diag[:3])
+    rng = np.random.default_rng(n)
+    cnt = {"face": 0, "axis firewall": 0, "diagonal firewall": 0, "several at once": 0, "none": 0}
+    for bt in range(batches):
+        x = aud.pack((rng.random((64, V.N)) < p).astype(np.uint8))
+        done = np.zeros(64, bool)
+        for t in range(every, T + 1, every):
+            for _ in range(every):
+                x = aud.step(V, x, B, S)
+            u = aud.unpack(x)
+            for r in np.nonzero(~done)[0]:
+                ev = [name for name, sets in (("face", faces), ("axis firewall", axis), ("diagonal firewall", diag))
+                      if any(not u[r, g].any() for g in sets)]
+                if ev:
+                    done[r] = True
+                    cnt[ev[0] if len(ev) == 1 else "several at once"] += 1
+            if done.all():
+                break
+        cnt["none"] += int((~done).sum())
+    print(f"bond10 B{B}/S{S}, {{111}} slab {m} layers, face {n}x{n} periods ({len(faces[0])} cells): axis bands sealed: "
+          f"{ok_axis}, diagonal bands sealed: {ok_diag}; first permanent dead set in {64 * batches} soups: {cnt}")
+
+
+if __name__ == "__main__" and sys.argv[1] == "bond10-endings":
+    bond10_endings(int(sys.argv[2]), int(sys.argv[3]))

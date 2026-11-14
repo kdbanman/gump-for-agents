@@ -16,11 +16,11 @@ about gump.*
 
 | part | verdict |
 |---|---|
-| 1. Proofs | Theorems A–G are correct as stated, C4's wording apart. What fails is what the summary and the table make of them. (a) Being sealed is a property of a **half-space** (direction and position of the plane), not of a direction, as soon as there are several cell types; clause 1's "proved iff; the hull is the polytope of those rays" is false, and six rows of the lattice table are wrong or incomplete. Gump's own row is unaffected. (b) C4 is wrong as worded (the code computes the right thing). (c) Clause 3 is tagged "proved"; what is proved is conditional, the rest is measured, and the document's own data contradict half of it. |
+| 1. Proofs | Theorems A–G are correct as stated, C4's wording apart. What fails is what the summary and the table make of them. (a) Being sealed is a property of a **half-space** (direction and position of the plane), not of a direction, as soon as there are several cell types; clause 1's "proved iff; the hull is the polytope of those rays" is false, and the table's entries for six lattices are wrong or incomplete. Gump's own row is unaffected. (b) C4 is wrong as worded (the code computes the right thing). (c) Clause 3 is tagged "proved"; what is proved is conditional, the rest is measured, and the document's own data contradict half of it. |
 | 2. face12e | The criterion as written says: no sealed direction at b = 4, not confined, not a gump. In fact [proved + measured]: confined to a box, chaotic on the torus (ρ = 0.398), walls die two sheets at a time after a memoryless wait with ln τ = 6.43 → 14.54 for 16 → 36 wall faces, box lifetimes 10, 60, 439, 9,855, 707,038 for 2³ … 6³ cubes, ending in sparse debris. It passes all three of class.md's tests. The lead's quick look is right on every point it makes. |
 | 3. Measured claims | Reproduced with independent code: gump caps 6 and 7 slab laws (slopes 0.2121 and 0.2156 against 0.212 and 0.215; ln τ within 0.02 at four sizes each), fcc at four of five sizes, the wall at K_f + 1, octahedron lifetimes. Recounted and holding: "38 walls", "14 of 15", the git order of predictions and data. Not holding as stated: "identical" (the two gump laws cross and differ by 1.6 ± 0.3 % in slope); fcc slope "0.19" (0.181 ± 0.001; the 0.19 leans on one size below the burn-in); "46 of 50" (42 by the scoring rule fixed in advance); "8 / 6 / 14" (a judgment: the hull rule depends on an arbitrary size step and by its letter fails cross2, the project's 2D gump, and vn B2/S12). |
 | 4. Clause 5 | A threshold drawn between two eroding cases and four weak ones, with two exceptions on the wrong side already in the author's table. On face12e it gives the wrong call or the right one depending on which layer's degree is called K_f. Not a criterion. |
-| 5. The class | What can be signed is a list of proved necessary-in-practice structure (sealed half-spaces, no finite sealed set, no armour, two-sided drive) plus a measured regularity (chaotic bulk ⇒ whole-wall memoryless death: 42 of the author's 50 pairs by the rule he fixed in advance, and face12e). No clause predicts chaos or the strength of the law, and "is a gump" is not sharply defined for weak laws. |
+| 5. The class | What can be signed is a list of proved structure (sealed half-spaces, no finite sealed set, armour, two-sided drive) plus a measured regularity (chaotic bulk ⇒ whole-wall memoryless death: 42 of the author's 50 pairs by the rule he fixed in advance, and face12e). No clause predicts chaos or the strength of the law, and "is a gump" is not sharply defined for weak laws. |
 
 **The single most important correction:** replace sealed *directions* by sealed *half-spaces* in Theorem A, clause 1
 and the table (§1.2). It is what makes the criterion miss face12e, mis-row bond10, face8 and three 2D lattices, and
@@ -133,9 +133,9 @@ cube is three times wider.
    threshold lower).
 2. The table's bond10 row (b = 4, a⁰ = 4, a⁻ = 3, K_f = 7, b/K = 0.40) is the row of a non-tight b. Everything
    class.md concludes from bond10 being the odd one out — "the one chaotic in-reach rule that is not a gump", the
-   3/8 rule's "bond10 exception", "C2 has no converse for slabs" — is about a rule with six sealed wall directions
-   the analysis did not know it had. Its periodic {111} slabs can be cut by axis firewalls (three layers: even, odd,
-   even) and its octahedral hull vessels are not its hulls.
+   3/8 rule's "bond10 exception" — is about a family one above tight, with six sealed wall directions the analysis
+   did not know it had, and its octahedral hull vessels are not its hulls. At its tight b = 3 it has strong slab
+   laws at two chaotic caps (§2.4).
 3. For several types a wall is a **band** of layers (between two consecutive sealed positions), not a layer, and
    "the face cell", a⁰, K_f and "reach" are not single numbers (face12e: sheet cells have degree 8, the layer beneath
    11; §2.2, §4).
@@ -172,8 +172,20 @@ cells) and M = 4 (402 cells) and **none** for M = 5, 6, 8 (patches of 988, 1,173
 (the corner cut off by three axis planes at odd position, peeled; `python3 proofs.py bond10`) gives 1,176 cells in
 a 4-layer slab, none in an 8-layer slab, none in a half-space. The slab runs were 8 layers deep. "A slab of any
 thickness I tried" and §8.6 "finite sealed tubes through every slab" should read "slabs of 3 and 4 layers". What
-does cut thicker slabs is the axis firewall of §1.2 (three x-layers, even, odd, even, for bond10 at b = 3 and 4, for
-face8 at b = 3 and for face12e at b = 4 [computed by peeling]), which is not finite but wraps a periodic face.
+ends the 8-layer replicas other than a face death is not a tube. Counted directly in class.md's vessel
+(`python3 others.py bond10-endings n 8192`, B45/S345, 512 soups per size, first permanent dead set):
+
+| face cells | a face | firewall of another diagonal (two layers, wraps the periodic face) | axis firewall (three layers) | several within 16 generations | none by 8,192 |
+|---|---|---|---|---|---|
+| 27 | 415 | 47 | 0 | 31 | 19 |
+| 48 | 369 | 63 | 5 | 22 | 53 |
+| 75 | 222 | 167 | 3 | 26 | 94 |
+
+The "tube endings" that overtake face deaths (class.md: 0.13, 0.28, 1.04 per face death; here 0.11, 0.18, 0.77) are
+**transverse firewalls**, which bond10's width of 2 makes cheap and whose cross-section grows with the side of
+the face, not its area. That is a property of periodic slabs of a lattice with thin firewalls, not a failure of C2's
+converse. (The axis firewalls of §1.2 — three x-layers, even, odd, even, for bond10 at b = 3 and 4, face8 at b = 3,
+face12e at b = 4 [computed by peeling] — exist but rarely come first in this vessel.)
 
 ### 1.4 On gump's own three-type lattice
 
@@ -360,10 +372,11 @@ out of reach of this wall (the wall-row cell has degree 2 < c = 3, and a⁰ = 0)
 | boxes n = 2 … 5 | my guess: growing | B34/S234: 5, 262, then **none of 64 finished in 300,000** at n = 4 and n = 5 (at n = 4 no wall has died after 20,000 generations in any soup, although a periodic wall of the same area waits 3,100). B345/S2345: 5, 15, 2,053, unfinished; endings dense (0.54–0.65) |
 
 At its real tight b, bond10 has strong slab laws (0.5 per wall face) at two chaotic caps. Its boxes are far more
-robust than its periodic slabs: the sheets of adjacent walls interlock along the box edges (each wall-sheet cell
-has all its neighbours beneath, and at an edge those belong to the next wall's sheet). Whether B34/S234 in a box
-of 4³ ever dies I do not know. So the changed criterion is not shown to call bond10 correctly; what is shown is
-that class.md's bond10 conclusions concern b = 4, one above tight.
+robust than its periodic slabs [measured]; why, I have not established ([conjecture] the sheets of adjacent walls
+support each other along the box edges: every neighbour of a wall-sheet cell lies beneath it, and at an edge
+those belong to the next wall's sheet). Whether B34/S234 in a box of 4³ ever dies I do not know. So the changed
+criterion is not shown to call bond10 correctly; what is shown is that class.md's bond10 conclusions concern
+b = 4, one above tight.
 
 kagome8 and hex9 at b = 4 were not run.
 
@@ -589,9 +602,10 @@ sharp edge on the weak side: vn B2/S12 (0.12 per cell), cross3 B45/S345 (0.05) a
    hull is the polytope of those rays" for several types. Correct the rows: bond10 (tight b = 3; at b = 4 the hull
    is octahedron ∩ box), face8 (octahedron ∩ box), kagome4 (b = 2), kagome8 and hex9 (b = 4); add face12e. Say that
    gump's row is exact.
-2. **bond10:** withdraw "the one chaotic in-reach rule that is not a gump", "C2 has no converse for slabs" as
-   phrased, and "tubes through every slab" (3 and 4 layers only, by the author's own script). Its b = 4 family is
-   one above tight and has six wall directions the analysis missed.
+2. **bond10:** withdraw "C2 has no converse for slabs" as phrased and "tubes through every slab" (finite sealed
+   sets at 3 and 4 layers only, by the author's own script; the non-face endings of the 8-layer runs are transverse
+   two-layer firewalls). Say that its b = 4 family is one above tight and has six wall directions the analysis
+   missed, and qualify "the one chaotic in-reach rule that is not a gump" accordingly.
 3. **Clause 3:** tag it [proved conditional + measured]; state it as "no armoured set" (Theorem E), which needs no
    choice of "the face cell"; note sc26 c = 18, 19 and bond10 c = 7 as its own data against the printed form.
 4. **Clause 5:** demote to an observation about two cases, or define K_f for a multi-layer wall and state what
@@ -628,7 +642,8 @@ sharp edge on the weak side: vn B2/S12 (0.12 per cell), cross3 B45/S345 (0.05) a
   For kagome4 strips it matters and those numbers are rough.
 - **face12e:** one cap in depth (c = 6); walls of 16–36 faces, rectangles only; slab depth 4 cubes (6 cubes at
   one size gives ln τ higher by 0.05, not followed up); boxes to 6³; no symmetric seeds; no study of the debris.
-- **bond10 at b = 3:** whether its boxes of 4³ and larger ever die. **kagome8, hex9 at b = 4:** not run.
+- **bond10 at b = 3:** whether its boxes of 4³ and larger ever die. **bond10 at b = 4:** what makes its octahedra
+  die in linear time (class.md's 24, 46, 74, 124) was not examined. **kagome8, hex9 at b = 4:** not run.
 - **The converse of clause 1** (an unconfined capped threshold has unbounded patterns): no proof, no
   counterexample.
 - `thickness.md` and `threshold.md`, which class.md cites for T5 and T6, were not reviewed; I re-derived only what
@@ -649,6 +664,7 @@ python3 face12e.py bulk; python3 face12e.py bulk 6 gump                         
 ./run_measured.sh gump; ./run_measured.sh fcc      # part 3 slab laws                            (25 + 12 min)
 ./run_extra.sh                      # kagome4 b = 2, bond10 b = 3, vn boxes, face12e other caps   (about 20 min)
 ./run_last.sh                       # how a face12e box dies, cuts in its slabs, octahedron lifetimes (3 min)
+for n in 3 4 5; do python3 others.py bond10-endings $n 8192; done   # what ends bond10's {111} slabs at b = 4 (1 min)
 python3 summary.py                  # the tables of this report from the outputs above
 python3 recount.py                  # the tallies of section 3.3 and 4 from the author's committed data
 ```
