@@ -7,6 +7,11 @@ jointly, with chi-square, every residual, and out-of-sample forecasts of the lar
 
 Models are stated in README.md.  Points come from load.py (recomputed from tracked data).  A fit "FAILS" when its
 chi-square has p < 0.01 at the statistical errors of the points.
+
+Sections: 1 hull faces, 2 symmetric faces, 3 periodic faces (3b wide classes, 3c equilateral tori), 4 one c for both
+families (every pairing of a hull form with a periodic form; the test is the 1-dof penalty), 5 summary table,
+6 a design check (what more deaths at hull A = 108 would decide).  The forms Hk, HA, H2b, HLk, Hsat, Hside and the
+width laws PD, PD2, PDe, PD1 were added after the review (research/audit/REVIEW-constant.md), which found them.
 """
 import math, os, sys
 import numpy as np
@@ -97,7 +102,7 @@ RECT = {
     'PD1 a(s) + A (c - D e^(-s/1))': ([ind(4), A, ind(5), ind(6), Aexp(1.0)], ['a4', 'c', 'a5', 'a6', 'D']),
     'Pcw a + cA + kappa F': ([one, A, Fb], ['a', 'c', 'kappa']),
 }
-PER_OFFSETS = ('PO', 'PD ', 'PD2', 'PDe', 'PD1')      # forms with one offset per width
+PER_OFFSETS = ('PO ', 'PD ', 'PD2', 'PDe', 'PD1')      # forms with one offset per width
 
 
 def fitlin(name, lib, pts):
@@ -509,3 +514,43 @@ for fam, name, npar, r, hs in SCORES:
     print(f'{fam:24s} {name:30s} {npar:3d} {r.chi2:8.1f}/{r.dof:<3d} {r.p:8.2g} {cval:8.4f}   {cells[0]:>24s}   '
           f'{cells[1]:>24s}')
 print('(c for the symmetric families is 6 c6.)')
+
+# ------------------------------------------------------------------------------------------------ 6. a design check
+section('6. DESIGN CHECK (no new data): what 10^4 deaths at hull A = 108 would decide.  The A = 108 point is\n'
+        '   replaced by a value with error 0.01, (a) at its present centre, (b) at the level of the single-c readings\n'
+        '   (0.05 lower), and the whole matrix of section 4 is fitted again.')
+
+
+def scan(hmod):
+    out = []
+    for hname, hc in HC3.items():
+        for pname in PC:
+            o = joint(hname, hc, pname, hmod[1:], quiet=True); o['cut'] = 'A >= 45'; out.append(o)
+    for hname, hc in HC4.items():
+        for pname in PC:
+            o = joint(hname, hc, pname, hmod, quiet=True); o['cut'] = 'six sizes'; out.append(o)
+    for hname in ('k + 1/k', 'k + 1/k^2', 'lnA + 1/k'):
+        for pname in PC:
+            o = joint(hname, HC4[hname], pname, hmod[1:], quiet=True); o['cut'] = 'A >= 45 (two terms)'; out.append(o)
+    return out
+
+
+for title, shift in (('(a) centre as now', 0.0), ('(b) 0.05 lower', -0.05)):
+    hmod = [dict(p) for p in hull]
+    hmod[4]['y'] += shift; hmod[4]['se'] = 0.01
+    print(f'-- {title}: hull A = 108 at {hmod[4]["y"]:.3f} +- 0.010; slope 84 -> 108 = '
+          f'{(hmod[4]["y"] - hmod[3]["y"]) / 24:.4f} +- {math.hypot(0.01, hmod[3]["se"]) / 24:.4f}')
+    print('   hull alone: ' + '; '.join(
+        f'{n.split()[0]} chi2 {r.chi2:.1f}/{r.dof} (p {r.p:.2g}) c {r.theta[1]:.4f}' for n, r in
+        [(n, fitlin(n, HULL, hmod[1:])) for n in ('H1  a + cA + r k', 'HL  a + cA + p lnA', 'Hk  a + cA + q/k',
+                                                  'HA  a + cA + q/A')]
+        + [(n, fitlin(n, HULL, hmod)) for n in ('H2  a + cA + r k + q/k', 'H2b a + cA + r k + q/k^2',
+                                                'HLk a + cA + p lnA + q/k')]
+        + [(n, fitnl(n, hmod)) for n in HULL_NL]))
+    res = scan(hmod)
+    ok = [o for o in res if passes(o)]
+    print(f'   single-c pairings that pass (p >= 0.01): {len(ok)} of {len(res)} (now {len([o for o in PASS if "63" not in o["cut"]])})'
+          + (f'; c from {min(o["r"].theta[0] for o in ok):.4f} to {max(o["r"].theta[0] for o in ok):.4f}' if ok else ''))
+    for o in sorted(ok, key=lambda o: o['r'].theta[0]):
+        print(f'      {o["cut"]:20s} {o["h"]:14s} x {o["p"]:20s} c = {o["r"].theta[0]:.4f}  joint p {o["r"].p:.2g}  '
+              f'penalty p {o["ppen"]:.2g}')

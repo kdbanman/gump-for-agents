@@ -134,6 +134,17 @@ My expectation, outside the models: a measured |d| above 0.008 on T01 or T12 wou
 values within ± 0.008 (2σ of the planned ± 0.004) leave the models standing on the wide pairs while P1, P2, Q36
 and Q45 already refute them as a theory of the second variable.
 
+**Correction after review (2026-11-14): what was in the tree when part B was committed.** The review
+(`research/audit/REVIEW-constant.md`, section 7) checked the commit order. When this part was committed (5dd18b9,
+22:02:22), `research/shape3/data/runs.csv` already held rows for **P3** (added in f30c27c, 21:14:07, before I read
+`report.txt` at 831947a, 21:30:08) and for **T72** (the tori of T01 and T12) and **N72** (added in 13b4000,
+21:56:44, five and a half minutes before my commit). Only **P2** and **Q63** were absent from the tree. So for P3,
+T01, T12 and N72 the word "blind" above rests on my statement that I had not read those rows (I had opened the
+first rows of `runs.csv`), not on the commit order, and should be read as "not consulted", not as "blind by
+construction". The forecast numbers themselves use no research/shape3 data: the reviewer refitted set W
+independently (κ = −1.368) and reproduced every entry of the (a) column. I have not opened `research/shape3/`
+since; the commit times here are from `git log` only.
+
 ## C. Equilateral face tori (constant shape): forecasts under three readings, before the request is sent
 
 Added 2026-11-14 at the lead's request, before the GPU session is asked for measurement 1 of the write-up.
@@ -230,3 +241,47 @@ of c_h, shown by the two columns.)
 
 **My own expectation** (conjecture): massive in sign, that is a falling slope, Δ between −0.005 and −0.001, with
 c between 0.205 and 0.210. I put 60% on massive surviving, 30% on flat, under 10% on rising.
+
+### C, addendum after the review (2026-11-14): the single-c readings, still before any of these runs
+
+Written after reading `research/audit/REVIEW-constant.md` and before any of the new tori exists
+(`research/data/gpu_facelaw/` holds the same 36 files; HEAD 703629d). The forecasts above are unchanged. Numbers:
+the second half of `out/eq_forecast.txt`.
+
+The review found single-c descriptions of the hull and rectangular families with c = 0.2155 (saturating hull
+slope), 0.2179 (hull correction q/A) and 0.2190 (q/k), all with the periodic cost per cell of a strip of width s
+equal to c − D/s and one offset a(s) per width. For tori of constant shape s = √(A/3), so that form is
+a(s) + c·A − √3·D·√A: with an offset at most linear in s it is my "rising" form with c_h = c, and (a, ρ) free.
+c − D/s is the cost per cell of a strip (the slope at fixed width); it is not the local slope of this family,
+which is c − D/(2s) plus the offset's derivative.
+
+Fitted to the three anchors (2 parameters, 1 dof): c = 0.2155: χ² 7.7 (6 × 6 lies 0.113 = 2.7σ below);
+c = 0.2179: χ² 9.7 (0.127, 3.1σ); c = 0.2190: χ² 10.7 (0.133, 3.2σ). With all three of (a, c, ρ) free the anchors
+give c = 0.196 ± 0.007, ρ = +0.25 ± 0.11 (the falling slope). The review's own (c, D) = (0.2179, 0.043) with one
+constant offset has χ² 75 on 2.
+
+| n | A | c = 0.2155 | c = 0.2179 | c = 0.2190 | flat (above) |
+|---:|---:|---:|---:|---:|---:|
+| 19 | 57 | 11.840 | 11.838 | 11.837 | 11.842 |
+| 21 | 63 | 13.112 | 13.111 | 13.110 | 13.115 |
+| 27 | 81 | 16.936 | 16.937 | 16.938 | 16.933 |
+| 28 | 84 | 17.574 | 17.576 | 17.577 | 17.570 |
+| 31 | 93 | 19.488 | 19.494 | 19.497 | 19.479 |
+| 36 | 108 | 22.681 | 22.695 | 22.702 | 22.661 |
+| 37 | 111 | 23.320 | 23.336 | 23.344 | 23.298 |
+
+Local slopes: 0.2119, 0.2117, 0.2116 at A = 48 → 57, rising to 0.2130, 0.2136, 0.2139 at 108 → 111;
+Δ = slope(84 → 111) − slope(48 → 63) = **+0.0009, +0.0015, +0.0018** (flat 0, massive −0.0041; planned error
+± 0.0008). So Δ alone separates these readings from flat by only 1.1 to 2.2σ, and no single torus separates them
+by 2σ.
+
+**The statistic that does separate them** is the fit of a + c·A + ρ·√A to all nine tori: with the plan as stated
+it gives c to ± 0.0016 and ρ to ± 0.026 (now ± 0.0069 and ± 0.11). Flat is ρ = 0 (c = 0.2121); the single-c
+readings are ρ = −0.052, −0.090, −0.107 (2.0, 3.5, 4.1σ from flat); a falling slope is ρ > 0.
+
+- **A single-c reading with c ≥ 0.2155 and a smooth offset is refuted** if that fit gives ρ ≥ 0 (2σ above the
+  least negative of the three, −0.052), or if the topped-up 6 × 6 stays below 22.615 (3σ of ± 0.022 below 22.681).
+  It then survives only with offsets a(s) that are not smooth in s, which the rectangular family cannot test.
+- **It is supported** if ρ comes out at −0.05 to −0.11 with c = 0.2155 to 0.2190 ± 0.0016; flat (ρ = 0) is then
+  refuted at 2 to 4σ.
+- Raising n = 31 to 10⁵ deaths and 6 × 6 and n = 37 to 10⁴ each brings the errors to ± 0.0011 and ± 0.019.

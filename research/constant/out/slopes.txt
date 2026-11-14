@@ -14,3 +14,13 @@ cost per cell between A = 60 and 72: loop^2 3: 0.1107 +- 0.0004, loop^2 4: 0.135
       residuals: +0.0003, -0.0050, +0.0085, +0.0046, +0.0039, -0.0004
    c - D / s^n: chi2 = 156.8 / 3 (p = 9.2e-34) FAILS (p < 0.01); c = 0.22367 +- 0.0013, ln D = -0.89449 +- 0.035, n = 2.3272 +- 0.082
       residuals: +0.0008, -0.0069, +0.0060, +0.0037, +0.0032, -0.0002
+
+decay length xi of c - D exp(-s/xi) by the loop classes fitted (cube steps):
+   A = 48 -> 60, all six classes             : xi = 0.715 +- 0.008, asymptote c = 0.2171 +- 0.0003, chi2 352.7/3
+   A = 48 -> 60, without loop^2 3            : xi = 0.566 +- 0.009, asymptote c = 0.2140 +- 0.0002, chi2 61.8/2
+   A = 48 -> 60, without loop^2 4 (tie bias) : xi = 0.637 +- 0.008, asymptote c = 0.2149 +- 0.0003, chi2 38.1/2
+   A = 48 -> 60, loop^2 >= 7                 : xi = 1.049 +- 0.099, asymptote c = 0.2206 +- 0.0015, chi2 0.2/1
+   A = 60 -> 72, all six classes             : xi = 0.742 +- 0.020, asymptote c = 0.2122 +- 0.0005, chi2 95.3/3
+   A = 60 -> 72, without loop^2 3            : xi = 0.519 +- 0.022, asymptote c = 0.2088 +- 0.0003, chi2 1.5/2
+   A = 60 -> 72, without loop^2 4 (tie bias) : xi = 0.601 +- 0.022, asymptote c = 0.2095 +- 0.0004, chi2 3.7/2
+   A = 60 -> 72, loop^2 >= 7                 : xi = 0.424 +- 0.085, asymptote c = 0.2081 +- 0.0006, chi2 0.4/1

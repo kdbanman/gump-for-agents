@@ -1,0 +1,33 @@
+census A = 48, 60, loop^2 >= 7 (11 classes): kappa = -1.008 +- 0.008 (statistical), +- 0.082 (x sqrt(chi2/dof)); chi2 859.5/8
+      A= 48    (7, 4, 28)      F = 0.695  resid +0.0382 (+19.4 s)
+      A= 48   (12, 0, 16)      F = 0.534  resid -0.0119 (-5.9 s)
+      A= 48  (12, 12, 19)      F = 0.531  resid -0.0006 (-0.3 s)
+      A= 48   (13, 8, 16)      F = 0.525  resid -0.0061 (-3.0 s)
+      A= 48  (16, 16, 16) 4x4  F = 0.517  resid -0.0213 (-10.6 s)
+      A= 60    (7, 2, 43)      F = 0.843  resid -0.0470 (-15.2 s)
+      A= 60   (12, 0, 25)      F = 0.572  resid -0.0159 (-5.1 s)
+      A= 60  (12, 12, 28)      F = 0.572  resid -0.0083 (-2.7 s)
+      A= 60  (13, 10, 25)      F = 0.554  resid -0.0049 (-1.6 s)
+      A= 60   (16, 4, 19)      F = 0.529  resid -0.0023 (-1.0 s)
+      A= 60  (16, 12, 21) 4x5  F = 0.526  resid +0.0067 (+7.5 s)
+      without A= 48    (7, 4, 28)      kappa = -1.175
+      without A= 48   (12, 0, 16)      kappa = -1.015
+      without A= 48  (12, 12, 19)      kappa = -1.008
+      without A= 48   (13, 8, 16)      kappa = -1.012
+      without A= 48  (16, 16, 16) 4x4  kappa = -1.027
+      without A= 60    (7, 2, 43)      kappa = -0.765
+      without A= 60   (12, 0, 25)      kappa = -1.005
+      without A= 60  (12, 12, 28)      kappa = -1.007
+      without A= 60  (13, 10, 25)      kappa = -1.008
+      without A= 60   (16, 4, 19)      kappa = -1.009
+      without A= 60  (16, 12, 21) 4x5  kappa = -0.961
+   jackknife over the 11 classes: +- 0.28; range -1.17 to -0.77
+one area at a time (a + kappa F, loop^2 >= 7): the form says kappa is the same at every area
+   A = 48 (5 classes): kappa = -0.72 +- 0.05 (inflated; chi2 42/3); with the 0.015 floor -0.72 +- 0.10 (chi2 0.7/3)
+   A = 60 (6 classes): kappa = -1.18 +- 0.03 (inflated; chi2 35/4); with the 0.015 floor -1.16 +- 0.06 (chi2 0.5/4)
+   A = 72 (11 classes): kappa = -1.43 +- 0.03 (inflated; chi2 57/9); with the 0.015 floor -1.41 +- 0.04 (chi2 14.1/9)
+other selections (a + c A + kappa F):
+   census A = 48, 60, loop^2 >= 12    ( 9): kappa = -1.29 +- 0.18 (inflated; chi2 99/6); with the 0.015 floor -1.24 +- 0.32 (chi2 1.7/6)
+   wide (loop^2 >= 12), every area    (26): kappa = -1.37 +- 0.13 (inflated; chi2 320/23); with the 0.015 floor -1.19 +- 0.11 (chi2 18.6/23)
+   loop^2 >= 13, every area           (20): kappa = -1.50 +- 0.21 (inflated; chi2 289/17); with the 0.015 floor -1.18 +- 0.15 (chi2 17.8/17)
+   loop^2 >= 7, every area            (33): kappa = -1.22 +- 0.05 (inflated; chi2 2501/30); with the 0.015 floor -1.37 +- 0.03 (chi2 122.7/30)

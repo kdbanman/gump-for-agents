@@ -38,3 +38,40 @@ separation of the readings in units of the planned error (forecast errors of fla
   n = 31 (A = 93): massive - flat = -0.042 (-3.6), rising(0.2226) - flat = +0.027 (+2.3), rising(0.2317) - flat = +0.051
   n = 36 (A = 108): massive - flat = -0.093 (-3.5), rising(0.2226) - flat = +0.062 (+2.3), rising(0.2317) - flat = +0.115
   n = 37 (A = 111): massive - flat = -0.104 (-3.9), rising(0.2226) - flat = +0.070 (+2.6), rising(0.2317) - flat = +0.130
+
+====================================================================================================
+single-c readings of the review on the equilateral tori:  a + c A + rho sqrt(A), c fixed, (a, rho) fitted to the anchors
+  the three anchors alone (a, c, rho all free, exact): c = 0.1963 +- 0.0069, rho = +0.247 +- 0.108
+  c = 0.2155 (saturating hull x D/s): a = -0.049, rho = -0.0524 (D if a(s) is constant: 0.030); chi2 7.7/1 (p 0.0056); 6x6 is -0.113 (-2.7 sigma) from it
+  c = 0.2179 (1/A hull x D/s): a = +0.096, rho = -0.0899 (D if a(s) is constant: 0.052); chi2 9.7/1 (p 0.0018); 6x6 is -0.127 (-3.1 sigma) from it
+  c = 0.219 (1/k hull x D/s): a = +0.162, rho = -0.1070 (D if a(s) is constant: 0.062); chi2 10.7/1 (p 0.001); 6x6 is -0.133 (-3.2 sigma) from it
+  the review's own parameters with one constant offset (c = 0.2179, D = 0.043: a + c A - sqrt(3) D sqrt(A)):
+     a = -0.020; chi2 75.3/2; residuals A=48: +0.010 (+4.8 s), A=75: -0.016 (-6.0 s), A=108: -0.170 (-4.1 s)
+
+  n    A   planned  | c = 0.2155 | c = 0.2179 | c = 0.219 | flat (above)
+ 16   48     --    |      9.933 |      9.933 |      9.933 |   9.933
+ 19   57  +-0.0032 |     11.840 |     11.838 |     11.837 |  11.842
+ 21   63  +-0.0032 |     13.112 |     13.111 |     13.110 |  13.115
+ 25   75     --    |     15.660 |     15.660 |     15.660 |  15.661
+ 27   81  +-0.0032 |     16.936 |     16.937 |     16.938 |  16.933
+ 28   84  +-0.0032 |     17.574 |     17.576 |     17.577 |  17.570
+ 31   93  +-0.0058 |     19.488 |     19.494 |     19.497 |  19.479
+ 36  108  +-0.0224 |     22.681 |     22.695 |     22.702 |  22.661
+ 37  111  +-0.0224 |     23.320 |     23.336 |     23.344 |  23.298
+  local slopes:
+  A  48 ->  57: 0.2119 | 0.2117 | 0.2116 | cost per cell of a strip of that width, c - D/s with c = 0.2179, D = 0.043: 0.2072 -> 0.2080
+  A  57 ->  63: 0.2121 | 0.2121 | 0.2121 | cost per cell of a strip of that width, c - D/s with c = 0.2179, D = 0.043: 0.2080 -> 0.2085
+  A  63 ->  75: 0.2123 | 0.2125 | 0.2126 | cost per cell of a strip of that width, c - D/s with c = 0.2179, D = 0.043: 0.2085 -> 0.2093
+  A  75 ->  81: 0.2125 | 0.2128 | 0.2129 | cost per cell of a strip of that width, c - D/s with c = 0.2179, D = 0.043: 0.2093 -> 0.2096
+  A  81 ->  84: 0.2126 | 0.2130 | 0.2131 | cost per cell of a strip of that width, c - D/s with c = 0.2179, D = 0.043: 0.2096 -> 0.2098
+  A  84 ->  93: 0.2127 | 0.2131 | 0.2133 | cost per cell of a strip of that width, c - D/s with c = 0.2179, D = 0.043: 0.2098 -> 0.2102
+  A  93 -> 108: 0.2129 | 0.2134 | 0.2137 | cost per cell of a strip of that width, c - D/s with c = 0.2179, D = 0.043: 0.2102 -> 0.2107
+  A 108 -> 111: 0.2130 | 0.2136 | 0.2139 | cost per cell of a strip of that width, c - D/s with c = 0.2179, D = 0.043: 0.2107 -> 0.2108
+  A  48 ->  63: 0.2120 | 0.2119 | 0.2118 | cost per cell of a strip of that width, c - D/s with c = 0.2179, D = 0.043: 0.2072 -> 0.2085
+  A  84 -> 111: 0.2128 | 0.2133 | 0.2136 | cost per cell of a strip of that width, c - D/s with c = 0.2179, D = 0.043: 0.2098 -> 0.2108
+  Delta = slope(84 -> 111) - slope(48 -> 63), planned error 0.0008: c = 0.2155: +0.0009, c = 0.2179: +0.0015, c = 0.219: +0.0018
+  error of (c, rho) in a + c A + rho sqrt(A) from the equilateral tori: now (three anchors) 0.0069, 0.108
+     with the plan as stated: 0.0016, 0.026
+     n = 31 at 1e5 deaths as well: 0.0014, 0.023
+     n = 31 at 1e5, 6x6 and n = 37 at 1e4: 0.0011, 0.019
+     6x6 at 1e4 only: 0.0014, 0.023

@@ -124,3 +124,67 @@ for n in (19, 21, 27, 28, 31, 36, 37):
     print(f'  n = {n} (A = {r["A"]}): massive - flat = {r["mas"]-r["flat"]:+.3f} ({(r["mas"]-r["flat"])/s:+.1f}), '
           f'rising(0.2226) - flat = {r["r1"]-r["flat"]:+.3f} ({(r["r1"]-r["flat"])/s:+.1f}), '
           f'rising(0.2317) - flat = {r["r2"]-r["flat"]:+.3f}')
+
+# ------------------------------------------------------------------------------------------------------------------
+# Added 2026-11-14 after the review (research/audit/REVIEW-constant.md, sections 4 and 8.1), still before any of the
+# new tori exists.  The review's single-c readings give a strip of width s the cost per cell c - D/s with offsets a(s)
+# free.  For tori of constant shape s = sqrt(A/3), so  a(s) + A (c - D/s) = a(s) + c A - sqrt(3) D sqrt(A):  with a(s)
+# at most linear in s this is the 'rising' form with c_h = c and rho free.  The cost per cell c - D/s is NOT the local
+# slope of this family: that is c - D/(2s) (+ a'(s) terms).
+print('\n' + '=' * 100)
+print('single-c readings of the review on the equilateral tori:  a + c A + rho sqrt(A), c fixed, (a, rho) fitted to '
+      'the anchors')
+X = np.array([[1.0, p['A'], math.sqrt(p['A'])] for p in anch])
+th3 = np.linalg.solve(X, np.array([p['y'] for p in anch]))
+Xi = np.linalg.inv(X); cov3 = Xi @ np.diag([p['se'] ** 2 for p in anch]) @ Xi.T
+print(f'  the three anchors alone (a, c, rho all free, exact): c = {th3[1]:.4f} +- {math.sqrt(cov3[1,1]):.4f}, '
+      f'rho = {th3[2]:+.3f} +- {math.sqrt(cov3[2,2]):.3f}')
+SINGLE = {0.2155: 'saturating hull x D/s', 0.2179: '1/A hull x D/s', 0.2190: '1/k hull x D/s'}
+RS = {ch: rising(ch) for ch in SINGLE}
+for ch, r in RS.items():
+    z = (anch[2]['y'] - r.f(r.theta, anch[2])) / anch[2]['se']
+    print(f'  c = {ch} ({SINGLE[ch]}): a = {r.theta[0]:+.3f}, rho = {r.theta[1]:+.4f} (D if a(s) is constant: '
+          f'{-r.theta[1]/math.sqrt(3):.3f}); chi2 {r.chi2:.1f}/1 (p {r.p:.2g}); 6x6 is '
+          f'{anch[2]["y"] - r.f(r.theta, anch[2]):+.3f} ({z:+.1f} sigma) from it')
+print('  the review\'s own parameters with one constant offset (c = 0.2179, D = 0.043: a + c A - sqrt(3) D sqrt(A)):')
+D_rev = 0.043
+r0 = wls.fit('', lambda t, p: t[0] + 0.2179 * p['A'] - math.sqrt(3) * D_rev * math.sqrt(p['A']), [0.0], anch, ['a'])
+print(f'     a = {r0.theta[0]:+.3f}; chi2 {r0.chi2:.1f}/2; residuals ' + ', '.join(
+    f'A={p["A"]}: {d:+.3f} ({z:+.1f} s)' for p, d, z in r0.resid()))
+print('\n  n    A   planned  | ' + ' | '.join(f'c = {ch}' for ch in RS) + ' | flat (above)')
+for n in sorted(TORI):
+    p = pts[n]
+    print(f'{n:3d} {p["A"]:4d}  {("+-%.4f" % rows[n]["se"]) if rows[n]["se"] else "   --   ":>8s} | ' + ' | '.join(
+        f'{r.f(r.theta, p):10.3f}' for r in RS.values()) + f' | {rows[n]["flat"]:7.3f}')
+print('  local slopes:')
+for u, v in list(zip(ns, ns[1:])) + [(16, 21), (28, 37)]:
+    dA = pts[v]['A'] - pts[u]['A']
+    print(f'  A {pts[u]["A"]:3d} -> {pts[v]["A"]:3d}: ' + ' | '.join(
+        f'{(r.f(r.theta, pts[v]) - r.f(r.theta, pts[u]))/dA:.4f}' for r in RS.values())
+        + f' | cost per cell of a strip of that width, c - D/s with c = 0.2179, D = 0.043: '
+          f'{0.2179 - D_rev/math.sqrt(u):.4f} -> {0.2179 - D_rev/math.sqrt(v):.4f}')
+print('  Delta = slope(84 -> 111) - slope(48 -> 63), planned error 0.0008: ' + ', '.join(
+    f'c = {ch}: {(r.f(r.theta, pts[37]) - r.f(r.theta, pts[28]))/27 - (r.f(r.theta, pts[21]) - r.f(r.theta, pts[16]))/15:+.4f}'
+    for ch, r in RS.items()))
+# what the planned runs would determine in the three-parameter form a + c A + rho sqrt(A)  (flat: rho = 0;
+# the single-c readings: c = 0.2155 ... 0.2190 with rho = -0.05 ... -0.11; a falling slope: rho > 0)
+def design(err):
+    As = sorted(err)
+    X_ = np.array([[1.0, A_, math.sqrt(A_)] for A_ in As]); W_ = np.diag([1 / err[A_] ** 2 for A_ in As])
+    return np.linalg.inv(X_.T @ W_ @ X_)
+
+
+plan_err = {48: anch[0]['se'], 75: anch[1]['se']}
+for n_, d_ in PLAN.items():
+    plan_err[3 * n_] = 1 / math.sqrt(d_ + (592 if n_ == 36 else 0))
+print('  error of (c, rho) in a + c A + rho sqrt(A) from the equilateral tori: now (three anchors) '
+      f'{math.sqrt(cov3[1,1]):.4f}, {math.sqrt(cov3[2,2]):.3f}')
+C = design(plan_err)
+print(f'     with the plan as stated: {math.sqrt(C[1,1]):.4f}, {math.sqrt(C[2,2]):.3f}')
+for title, upd in (('n = 31 at 1e5 deaths as well', {93: 1e5}), ('n = 31 at 1e5, 6x6 and n = 37 at 1e4', {93: 1e5, 108: 1e4, 111: 1e4}),
+                   ('6x6 at 1e4 only', {108: 1e4})):
+    e2 = dict(plan_err)
+    for A_, d_ in upd.items():
+        e2[A_] = 1 / math.sqrt(d_)
+    C = design(e2)
+    print(f'     {title}: {math.sqrt(C[1,1]):.4f}, {math.sqrt(C[2,2]):.3f}')
