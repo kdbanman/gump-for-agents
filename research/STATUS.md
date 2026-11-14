@@ -41,6 +41,9 @@ _Last updated 2026-11-13 by the lead._
   asked for arrived as pull request 10 and are merged (lead spot-checked the diff). Asked next: slab faces at A > 90, octahedral faces at A ≥ 165,
   a longer cube-centred symmetric run (does the death rate really fall with age?).
 
+- 2026-11-14: an overview page for the owner (`docs/overview/`, published as a private artifact; link in `LEAD.md`).
+  Research itself is still paused.
+
 ## Next (lead's list; pick by judgment; nothing starts until the owner lifts the pause)
 - **Swarm, when resumed:** the critic (or a successor) first, to review the interim reports (probability round 2,
   path and source round 3) and run counting's round-2 lab requests; then each solver from its own journal. Stop a

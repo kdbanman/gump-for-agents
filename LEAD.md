@@ -121,6 +121,16 @@ let CI pass, merge.
 `research/OPEN-PROBLEMS.md` · `research/theory/PROGRAM.md` (the theoretical arm) · `research/PRIOR-ART.md` ·
 `docs/WHAT-I-SEE.md` (the essay for the owner).
 
+## The overview page
+
+- 2026-11-14, the owner, while research was paused: "before we start the research back up, can you create a
+  visual, text-minimal explainer artifact of the directions and findings so far? feel free to delegate to opus
+  subagents for subtasks".
+- Made and published privately: https://claude.ai/artifact/EngGcGwZcZ2DG71aNgnvaA ("The Gump Map"). Source and
+  rebuild steps are in `docs/overview/` (see its README). To update it, rebuild and publish
+  `docs/overview/index.html` to that same link. It is a view of the repository, not a record: nothing is
+  established by appearing on it.
+
 ## Habits that have served (not rules)
 
 - Re-derive a subagent's key numbers independently before recording them; several headline claims changed that way.

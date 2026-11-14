@@ -1,0 +1,47 @@
+<section class="plate" id="law">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">The area law</p><span class="st st-meas">measured, re-checked</span><span class="st st-ret">limit 0.2077 ± 0.0014 retired</span></div>
+    <h2>Every extra site makes a face last about a quarter longer. The price per site is still creeping up.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c8 panel">
+      <h3>How long a face lasts, by its area</h3>
+      <div id="f-law"></div>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--s1)"></span>faces of an octahedral hull, on the engine</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--s1)"></span>the same on rented GPUs</span><span class="key"><span class="sw dot" style="background:var(--s3)"></span>flat slab faces with no rim</span></div>
+      <div id="t-law"></div>
+      <figcaption>Ten decades of waiting time. Flat rim-free faces follow one straight line, 0.2088 per site. Faces of a hull are mostly rim, last longer, and bend upward.</figcaption>
+    </figure>
+    <figure class="fig c4 panel">
+      <h3>The price of one more site</h3>
+      <div id="f-slopes"></div>
+      <figcaption>Slope between neighbouring sizes of hull face. The fitted limit 0.2077 missed its own data by 28 error bars. <b>Where the price levels off is not known.</b></figcaption>
+    </figure>
+  </div>
+  <div class="nums">
+    <div class="num"><span class="v">0.21 <small>per site</small></span><span class="l">to lose a face: all of it must empty at once</span></div>
+    <div class="num"><span class="v">0.12 <small>per cell</small></span><span class="l">to cut the vessel in two with three dead layers; cheaper per cell, but it wins only in thin slabs</span></div>
+    <div class="num"><span class="v">10 <small>generations</small></span><span class="l">the final plunge: too fast for path-splitting tricks to help</span></div>
+  </div>
+</section>
+
+<section class="plate" id="sym">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">Symmetry</p><span class="st st-meas">measured, re-checked</span><span class="st st-open">slope of one sixth: assumed, not measured</span></div>
+    <h2>Symmetry is fatal. The seeds a person draws are the fragile ones.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>Faces of fully symmetric soups</h3>
+      <div id="f-sym"></div>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--s2)"></span>centred on a cube (odd cubes)</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--s2)"></span>centred on a vertex (even cubes), about 1.5× tougher</span><span class="key"><span class="sw line" style="background:var(--ink-3)"></span>six locked copies, less a mirror-line penalty</span></div>
+      <div id="t-sym"></div>
+      <figcaption>A symmetric state is 48 copies of one region in lockstep: one fluctuation empties all eight faces together. By the law above, an <b>asymmetric</b> face of 459 sites would last about 10⁴¹ generations (an extrapolation); the symmetric one lasts 260,000.</figcaption>
+    </figure>
+    <figure class="fig c5 panel">
+      <h3>Your closed cubes, side 8 to 16</h3>
+      <div id="f-cubes"></div>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--s2)"></span>lifetime</span><span class="key"><span class="sw" style="background:var(--ink-3);width:5px;height:12px"></span>forecast made beforehand</span></div>
+      <figcaption>Side 16 was forecast at 240 million generations and lived <b>2,919,617,676</b>. Big symmetric faces are tougher than small ones suggested. Side 17 has not been run.</figcaption>
+    </figure>
+  </div>
+</section>
