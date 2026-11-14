@@ -274,3 +274,22 @@ one out. Fit for the rhombi from 2×2 up: ln P = const − c·cells − σ·peri
   0.8. The incremental cost per cell along the rhombus sequence (−Δ ln P / Δ cells) **falls with size** — 0.7.
   Persistence P(empty at t and t+1) / P(empty at t) **rises with patch size** — 0.7. No face death and no firewall in
   any replica — 0.99. The 6×6 rhombus gets 50–2,000 hits in ≈ 10¹⁰ replica-generations.
+
+## 2026-11-14T21:47Z — outcome: empty patches on a large living face (forecast: commit 312b0bc)
+
+`python3 research/gpu/patches.py table research/data/gpu_patches/patches_s81*_A10G.csv`. Ran: three seeds (811–813),
+2,000 generations discarded, then 2.2 × 10⁶ generations each, counted at every generation, 4,608 replicas:
+**3.04 × 10¹⁰ replica-generations** (8.76 × 10¹² samples per rhombus shape: replica × face × translate). No face death,
+no settling, no firewall in any replica (checked: kernel events after burn-in 0; firewall test every 2¹⁶ generations, 0).
+- Rhombi, ln P(empty): 2×2 −6.254, 2×3 −8.793, 3×3 −12.128, 3×4 −15.400, 4×4 −19.423 ± 0.007, 4×5 −23.318 ± 0.047
+  (654 hits), 5×5 −28.4 ± 0.6 (4 hits), 5×6 and 6×6 **0 hits**. Incremental cost per cell 0.423, 0.371, 0.364, 0.335,
+  0.325 ± 0.004 (12 → 60 cells).
+- **The lead's forecast (c = 0.21 ± 0.015; outside 0.17–0.25 the static picture fails): missed.** The fit
+  ln P = const − c·cells − σ·perimeter over 2×2 … 4×5 gives c = 0.264, σ = 0.119, but with χ² = 3,369 for 3 dof the
+  form does not describe the data: the cost per cell is still falling at 60 cells (0.325) and has not approached any
+  asymptote. What is shown: over 12–60 cells an empty patch costs 0.32–0.42 per cell, well above the lifetime laws'
+  0.205–0.221, and still decreasing; whether it decreases to ≈ 0.21 at larger patches is not reached.
+- **Mine:** c = 0.21 ± 0.04 — **missed** (same fit). σ > 0 — **hit** (σ = 0.119; at 36 cells the 1×12 strip is
+  e^(−4.5) as likely as the 3×4 rhombus). Incremental cost falls with size — **hit**. Persistence rises with size —
+  **missed** (it falls: 0.381 for 1×1, 0.286 for 2×2, 0.101 for 4×5). No face death or firewall — **hit**. 6×6 gets
+  50–2,000 hits — **missed** (0; ln P extrapolates to ≈ −37, far below what 10¹⁰ replica-generations reach).

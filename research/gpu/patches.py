@@ -34,7 +34,7 @@ extern "C" __global__ void patch_count(const u32* __restrict__ GA, int NP, int W
     u32* prev, u32* hits, u32* hits2, u32* samples) {
   int idx = blockIdx.x * blockDim.x + threadIdx.x;
   if (idx >= nitems * WT) return;
-  int item = idx / WT, w = idx % WT;
+  int w = idx / nitems, item = idx % nitems;      /* neighbouring threads read one replica column: cached, not strided */
   u32 acc = 0;
   const u32* col = GA + (size_t)w * NP;
   for (int c = off[item]; c < off[item + 1]; c++) acc |= col[cells[c]];
@@ -130,7 +130,7 @@ class Counter:
 
     def totals(self):
         cp = self.cp
-        f = lambda a: cp.asnumpy(a.reshape(self.nitems, self.s.WT).sum(1, dtype=cp.uint64)).astype(np.int64)
+        f = lambda a: cp.asnumpy(a.reshape(self.s.WT, self.nitems).sum(0, dtype=cp.uint64)).astype(np.int64)
         return f(self.hits), f(self.hits2), f(self.samples)
 
 
@@ -220,43 +220,73 @@ def validate(N=12, m=8, snapshots=24, seed=7, p=0.4, burn=2000, spacing=97, log=
     return ok
 
 
+def to_csv(json_path):
+    """raw counts of one run as CSV: one row per (time batch, shape); the JSON beside it keeps the run's metadata"""
+    r = json.load(open(json_path))
+    out = json_path[:-5] + '.csv'
+    with open(out, 'w') as f:
+        f.write('seed,batch,shape,cells,perimeter,translates,samples,hits,hits_t_and_t1\n')
+        for b in range(len(r['batches']['hits'])):
+            for k, sh in enumerate(r['shapes']):
+                f.write(f"{r['seed']},{b},{sh['name']},{sh['cells']},{sh['perimeter']},{sh['translates']},"
+                        f"{r['batches']['samples'][b][k]},{r['batches']['hits'][b][k]},{r['batches']['hits2'][b][k]}\n")
+    return out
+
+
+def load_csv(paths):
+    import csv
+    rows = [row for p in paths for row in csv.DictReader(open(p))]
+    seeds = sorted({row['seed'] for row in rows})
+    names = list(dict.fromkeys(row['shape'] for row in rows))
+    meta = {row['shape']: dict(name=row['shape'], cells=int(row['cells']), perimeter=int(row['perimeter']),
+                               translates=int(row['translates']),
+                               kind='rhombus' if row['shape'].startswith('rhombus') else ('strip' if row['shape'].startswith('strip') else 'ball'))
+            for row in rows}
+    batches = sorted({(row['seed'], int(row['batch'])) for row in rows})
+    bi = {b: i for i, b in enumerate(batches)}
+    H = np.zeros((len(batches), len(names)), np.int64); H2 = H.copy(); S = H.copy()
+    for row in rows:
+        i, k = bi[(row['seed'], int(row['batch']))], names.index(row['shape'])
+        H[i, k], H2[i, k], S[i, k] = int(row['hits']), int(row['hits_t_and_t1']), int(row['samples'])
+    return seeds, [meta[n] for n in names], H, H2, S
+
+
 def table(paths):
-    recs = [json.load(open(p)) for p in paths]
-    seeds = [r['seed'] for r in recs]
-    if len(set(seeds)) < len(seeds):
-        raise SystemExit('two runs with the same seed')
-    meta = recs[0]['shapes']
-    H = np.sum([np.sum(r['batches']['hits'], 0) for r in recs], 0)
-    H2 = np.sum([np.sum(r['batches']['hits2'], 0) for r in recs], 0)
-    S = np.sum([np.sum(r['batches']['samples'], 0) for r in recs], 0)
-    # batch-means error of ln P (batches of all runs pooled)
-    bh = np.concatenate([np.array(r['batches']['hits']) for r in recs]); bs = np.concatenate([np.array(r['batches']['samples']) for r in recs])
-    print(f'{len(recs)} runs, {sum(r["gens"] * r["replicas"] for r in recs):.3g} replica-generations after burn-in; '
-          f'frozen after burn-in {sum(r["frozen_after_burn"] for r in recs)}, firewall-dropped {sum(r["firewall_dropped"] for r in recs)}')
-    print(' shape                cells  perim  translates      samples          hits    ln P            persist P(t,t+1)/P(t)')
+    """every table of the README from the committed CSVs (batch-means errors over all time batches of all runs)"""
+    seeds, meta, bh, bh2, bs = load_csv(paths)
+    H, H2, S = bh.sum(0), bh2.sum(0), bs.sum(0)
+    print(f'{len(seeds)} runs (seeds {", ".join(seeds)}), {len(bh)} time batches, {S[0] / 288:.3g} replica-generations '
+          f'after burn-in (each sample = one replica, face and translate)')
+    print(' shape                cells  perim  translates          samples          hits    ln P             persist P(t,t+1)/P(t)')
     rows = []
     for k, sh in enumerate(meta):
         P = H[k] / S[k] if S[k] else float('nan')
         fr = bh[:, k] / np.maximum(bs[:, k], 1)
-        se = (fr.std(ddof=1) / math.sqrt(len(fr)) / P) if H[k] > 0 and P > 0 else float('nan')
+        se = (fr.std(ddof=1) / math.sqrt(len(fr)) / P) if H[k] > 0 else float('nan')
+        se = max(se, 1 / math.sqrt(H[k])) if H[k] > 0 else se        # never below the Poisson floor
         lp = math.log(P) if H[k] > 0 else float('nan')
         per = H2[k] / H[k] if H[k] else float('nan')
-        print(f' {sh["name"]:20s} {sh["cells"]:5d} {sh["perimeter"]:6d} {sh["translates"]:10d} {S[k]:14d} {H[k]:12d}   '
+        print(f' {sh["name"]:20s} {sh["cells"]:5d} {sh["perimeter"]:6d} {sh["translates"]:10d} {S[k]:16d} {H[k]:12d}   '
               f'{lp:8.3f} +- {se:.3f}   {per:.3f}')
         rows.append(dict(sh, samples=int(S[k]), hits=int(H[k]), hits2=int(H2[k]), lnP=lp, se=se))
     rh = [r for r in rows if r['kind'] == 'rhombus' and r['cells'] >= 12 and r['hits'] >= 10]
     if len(rh) >= 4:
-        y = np.array([r['lnP'] for r in rh]); w = 1 / np.array([max(r['se'], 1e-4) for r in rh]) ** 2
+        y = np.array([r['lnP'] for r in rh]); w = 1 / np.array([r['se'] for r in rh]) ** 2
         X = np.c_[np.ones(len(rh)), -np.array([r['cells'] for r in rh], float), -np.array([r['perimeter'] for r in rh], float)]
         cov = np.linalg.inv(X.T @ (X * w[:, None])); beta = cov @ (X.T @ (w * y)); chi2 = float((w * (y - X @ beta) ** 2).sum())
-        print(f'\nfit, rhombi 2x2 and up with >= 10 hits ({len(rh)} shapes): ln P = {beta[0]:.3f} - c cells - sigma perimeter;'
-              f' c = {beta[1]:.4f} +- {math.sqrt(cov[1, 1]):.4f}, sigma = {beta[2]:.4f} +- {math.sqrt(cov[2, 2]):.4f}, '
-              f'chi2 = {chi2:.1f} for {len(rh) - 3} dof (batch-means errors)')
-        inc = [(-(b['lnP'] - a['lnP']) / (b['cells'] - a['cells'])) for a, b in zip(rh[:-1], rh[1:])]
-        print('incremental cost per cell along the rhombi:', ', '.join(f'{a["cells"]}->{b["cells"]}: {x:.4f}' for a, b, x in zip(rh[:-1], rh[1:], inc)))
+        print(f'\nfit, rhombi 2x2 and up with >= 10 hits ({len(rh)} shapes, {rh[0]["cells"]}-{rh[-1]["cells"]} cells): ln P = '
+              f'{beta[0]:.3f} - c cells - sigma perimeter; c = {beta[1]:.4f} +- {math.sqrt(cov[1, 1]):.4f}, sigma = '
+              f'{beta[2]:.4f} +- {math.sqrt(cov[2, 2]):.4f}; chi2 = {chi2:.1f} for {len(rh) - 3} dof')
+        inc = [(-(b['lnP'] - a['lnP']) / (b['cells'] - a['cells']), math.hypot(a['se'], b['se']) / (b['cells'] - a['cells']))
+               for a, b in zip(rh[:-1], rh[1:])]
+        print('incremental cost per cell along the rhombi:', '; '.join(f'{a["cells"]}->{b["cells"]}: {x:.4f} +- {e:.4f}'
+                                                                     for a, b, (x, e) in zip(rh[:-1], rh[1:], inc)))
     return rows
 
 
 if __name__ == '__main__':
     if sys.argv[1] == 'table':
         table(sys.argv[2:])
+    elif sys.argv[1] == 'csv':
+        for p in sys.argv[2:]:
+            print(to_csv(p))
