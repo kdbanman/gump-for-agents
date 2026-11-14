@@ -334,8 +334,8 @@ comparison of octahedra with slabs below shows to be only approximately harmless
 periodic state while a face is still occupied never die and must be censored at every period (Section 12).
 
 **Memoryless.** **[measured]** (F5; A) For the slab faces of the face-law fit below (m = 8, near-square) with
-A ≥ 36 that have enough first deaths to test (four batches, 3 × 4, 3 × 5, 4 × 4, 4 × 5, A = 36–60; the batches at
-A ≥ 72 are too censored to test), the first-death times have coefficient of variation 0.964–1.045 and pass a
+A ≥ 36 that carry a test in the table (four batches, 3 × 4, 3 × 5, 4 × 4, 4 × 5, A = 36–60; the fit's batches at
+A ≥ 72 had 55–475 of their 512 runs censored at the run's cap and have no CV or KS value), the first-death times have coefficient of variation 0.964–1.045 and pass a
 Kolmogorov–Smirnov test against the exponential (p = 0.519–0.96) (`research/peeling/slab_area.csv`, columns cv,
 ks_p). Over every batch of that table with A ≥ 36 and a test (14 batches, all thicknesses and shapes) p runs from
 0.042 to 0.974, one batch (4 × 5 × 10) below 0.05, and the CV from 0.962 to 1.06. An independent
