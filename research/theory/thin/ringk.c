@@ -12,9 +12,13 @@
  *          w+1 is redrawn alive with probability rho16/65536 before every generation
  *
  * Each lane lives successive lives: a life starts from a soup of density p0 and ends when a face is empty
- * (checked every generation), when its dynamic state repeats (snapshot comparison every PER generations),
- * when an interior layer of a det slab is found empty at a snapshot, or at the cap. Then the lane is reseeded.
- * Hazards are for ages >= T0 (age = generations since the soup).
+ * (checked every generation), when its state repeats (any period: every generation the state is compared with
+ * the lane's snapshot, taken at ages 16, 32, 64, ...; the life is then cut at the snapshot's age), when three
+ * adjacent interior layers of a det slab are found dead (looked for every PER generations), or at the cap. Then
+ * the lane is reseeded. Hazards are for ages >= T0 (age = generations since the soup).
+ * Repeating states. det: the whole slab is periodic with living faces. model: only looked for with w >= 4 and
+ * layers 1..w-1 all dead; then no coin can raise a cell (a cell of layer w-1 sees three coins, B needs four) and
+ * the face runs alone for ever. For w <= 3 the coins always reach the rule's layers and nothing is looked for.
  *
  * usage: ring det|model b m_or_w rho16 p0_16 seed GENS T0 CAP GS OUT [-i init.txt] [-d dump.txt] [-n G]
  *   -n G  a wall: the face cells of sites 0..G-1 (site s = {Z_s, Y_s, X_{s+1}}) are held dead, so the face is a
@@ -42,6 +46,7 @@ static int KT = 1;
 static int b, nt, ndyn, model;      /* nt = layers stored (m, or w + 2), ndyn = dynamic layers */
 static u64 MASK;
 static vec S[MAXT][3], Tn[MAXT][3], SNAP[MAXT][3];
+static long snapage[NL];             /* age at which lane l's snapshot was taken (0: none) */
 static vec rs[4];                    /* xoshiro256++ state, one stream per lane */
 static u64 NOTCH[3];                 /* face cells held dead (a wall across the face): sites 0..G-1 = {Z_s, Y_s, X_{s+1}} */
 static int G = 0, nface_g, ft_g[2];
@@ -101,7 +106,7 @@ static void noise(void) {
 static void reseed(int l) {
   for (int t = 0; t < ndyn; t++) for (int o = 0; o < 3; o++) { vec r = bern(p016); S[t][o][l] = r[l] & MASK; }
   if (G) for (int k = 0; k < nface_g; k++) for (int o = 0; o < 3; o++) S[ft_g[k]][o][l] &= ~NOTCH[o];
-  for (int t = 0; t < ndyn; t++) for (int o = 0; o < 3; o++) SNAP[t][o][l] = ~0ULL;   /* never equal */
+  snapage[l] = 0;
 }
 static inline int facepop(int t, int l) {
   return __builtin_popcountll(S[t][0][l]) + __builtin_popcountll(S[t][1][l]) + __builtin_popcountll(S[t][2][l]);
@@ -164,13 +169,16 @@ int main(int argc, char **argv) {
         if (age - 1 >= T0) for (int k = 0; k < nface; k++) if (k ? dead1 : dead0) dpop[rb[l][k][(g1 - 1) % LAG]]++;
       } else {
         for (int k = 0; k < nface; k++) rb[l][k][g1 % LAG] = (unsigned char)facepop(ft[k], l);
-        if (chk) {
+        if (snapage[l] && (!model || ndyn >= 4)) {   /* a repeating state (see the head of this file) */
           int eq = 1; for (int t = 0; t < ndyn && eq; t++) for (int o = 0; o < 3; o++) if (S[t][o][l] != SNAP[t][o][l]) { eq = 0; break; }
-          for (int t = 0; t < ndyn; t++) for (int o = 0; o < 3; o++) SNAP[t][o][l] = S[t][o][l];
+          if (eq && model) for (int t = 1; t < ndyn; t++) if (S[t][0][l] | S[t][1][l] | S[t][2][l]) eq = 0;
           if (eq) { end = 2; nS++; }
-          else if (!model) { for (int t = 1; t + 2 < ndyn - 1; t++) { int d3 = 1; for (int u = t; u < t + 3; u++) if (S[u][0][l] | S[u][1][l] | S[u][2][l]) d3 = 0;
-            if (d3) end = 3; } if (end == 3) nI++; }   /* three adjacent dead interior layers: a firewall (T3) */
         }
+        if (!end && age >= 16 && !(age & (age - 1))) {
+          for (int t = 0; t < ndyn; t++) for (int o = 0; o < 3; o++) SNAP[t][o][l] = S[t][o][l];
+          snapage[l] = age; }
+        if (!end && chk && !model) { for (int t = 1; t + 2 < ndyn - 1; t++) { int d3 = 1; for (int u = t; u < t + 3; u++) if (S[u][0][l] | S[u][1][l] | S[u][2][l]) d3 = 0;
+            if (d3) end = 3; } if (end == 3) nI++; }   /* three adjacent dead interior layers: a firewall (T3) */
         if (!end && CAP && age >= CAP) { end = 4; nC++; }
         if (!end && smp && age >= T0) for (int k = 0; k < nface; k++) {
           int t = ft[k]; hpop[rb[l][k][g1 % LAG]]++; nsamp++;
@@ -187,8 +195,7 @@ int main(int argc, char **argv) {
         }
       }
       if (end) {
-        long L = end == 2 ? age - PER : age;       /* a repeating state was already repeating one period ago */
-        if (L < 0) L = 0;
+        long L = end == 2 ? snapage[l] : age;      /* a repeating state was already repeating at its snapshot */
         add_expo(L); if (L > T0) E0 += (double)(L - T0);
         if (df) { }
         reseed(l); born[l] = g1;

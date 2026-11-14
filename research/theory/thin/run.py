@@ -79,25 +79,40 @@ def validate_dump(mode, b, mw, gens, seed=5, notch=0, k=1, force_k=False):
         for s_ in range(notch):
             wall[f[0] + 2 * b + s_] = wall[f[0] + b + s_] = wall[f[0] + (s_ + 1) % b] = True
     assert not D[:, :, :nd][:, :, wall].any(), 'a wall cell is alive in the dump'
-    bad = 0; deaths = 0; expo = 0; born = np.zeros(D.shape[1], int); other = 0; steps = 0
+    # every end of a life is re-derived here by ring.c's stated rules (head of ring.c), not read from its output
+    NLn = D.shape[1]
+    bad = 0; deaths = 0; expo = 0; born = np.zeros(NLn, int); settled = 0; interior = 0; steps = 0
+    snap = [None] * NLn; snapage = [0] * NLn
     for g in range(gens):
-        for l in range(D.shape[1]):
+        for l in range(NLn):
             nxt = thin.step_ref(D[g, l], nb)[:nd]
             nxt[wall] = 0
+            g1 = g + 1; age = g1 - born[l]; end = 0; L = age
             nde = sum(int(nxt[f].sum() == 0) for f in faces)
             got = D[g + 1, l][:nd]
             steps += 1
             if nde:
-                deaths += nde; expo += g + 1 - born[l]; born[l] = g + 1
+                deaths += nde; end = 1
+            else:
+                if snapage[l] and (mode == 'det' or mw >= 4) and (nxt == snap[l]).all() and (mode == 'det' or not nxt[3 * b:].any()):
+                    end = 2; settled += 1; L = snapage[l]
+                if not end and age >= 16 and age & (age - 1) == 0:
+                    snap[l] = nxt.copy(); snapage[l] = age
+                if not end and g1 % 840 == 0 and mode == 'det':
+                    alive = nxt.reshape(mw, 3 * b).any(1)
+                    if any(not alive[t:t + 3].any() for t in range(1, mw - 3)):
+                        end = 3; interior += 1
+            if end:
+                expo += L; born[l] = g1; snapage[l] = 0; snap[l] = None
             elif not (got == nxt).all():
-                if (g + 1) % 840 == 0:
-                    other += 1; expo += g + 1 - born[l]; born[l] = g + 1   # snapshot event (not re-derived here)
-                else:
-                    bad += 1
+                bad += 1
     expo += int((gens - born).sum())
-    ok = bad == 0 and deaths == int(r['tot']['alldeaths']) and (other > 0 or expo == int(r['expo'].sum()))
+    t = r['tot']
+    ok = (bad == 0 and deaths == int(t['alldeaths']) and settled == int(t['settled']) and interior == int(t['interior'])
+          and expo == int(r['expo'].sum()))
     msg = (f'validate_dump {mode}{" [ringk]" if (k != 1 or force_k) else ""} (1,{k}),(0,{b}) layers={mw} wall={notch}: {steps} lane-steps, {bad} wrong, deaths {deaths} '
-           f'(ring: {int(r["tot"]["alldeaths"])}), exposure {expo} (ring: {int(r["expo"].sum())}), snapshot ends {other}')
+           f'(ring: {int(t["alldeaths"])}), repeating {settled} ({int(t["settled"])}), firewall {interior} ({int(t["interior"])}), '
+           f'exposure {expo} ({int(r["expo"].sum())})')
     if mode == 'model':
         nz = D[:gens, :, nd:].astype(float)                  # coins
         dens = nz.mean(); n = nz.size
@@ -198,13 +213,26 @@ def load(tag):
     return acc
 
 
-def lntau(acc):
-    """per-face ln tau = ln(nface * exposure / deaths), error 1/sqrt(deaths)"""
+def lntau(acc, cut=30.0, full=False):
+    """Per-face ln tau = ln(nface * exposure / deaths) from the age-binned record, ages in [T0, 2^K): K is the first
+    bin edge beyond `cut` mean lives (survival e^-cut: no life of the chaotic state gets there). Exposure found
+    beyond 2^K is a life that stopped dying without being recognised as repeating (README, "Subtle points"); it is
+    left out and reported by `stats` (and returned with full=True). Error 1/sqrt(deaths)."""
     nface = 2 if acc['head']['mode'] == 'det' else 1
-    F, E = acc['tot']['deaths'], acc['tot']['expo']
+    T0 = int(acc['head']['T0']); k0 = T0.bit_length() - 1
+    assert 1 << k0 == T0, 'T0 must be a power of two (the age bins are powers of two)'
+    e, d = np.asarray(acc['expo'], float), np.asarray(acc['deaths'], float)
+    K = k0 + 1
+    while K < len(e):
+        E, F = e[k0:K].sum(), d[k0:K].sum()
+        if F > 0 and (1 << K) >= cut * E / F:
+            break
+        K += 1
+    E, F = e[k0:K].sum(), d[k0:K].sum()
     if F == 0:
-        return float('nan'), float('nan'), 0
-    return math.log(nface * E / F), 1 / math.sqrt(F), int(F)
+        return (float('nan'), float('nan'), 0, 0.0) if full else (float('nan'), float('nan'), 0)
+    out = (math.log(nface * E / F), 1 / math.sqrt(F), int(F))
+    return out + (float(e[K:].sum()),) if full else out
 
 
 def stats(tags):
@@ -213,7 +241,7 @@ def stats(tags):
             tag = os.path.basename(d); acc = load(tag)
             if acc is None:
                 continue
-            lt, er, F = lntau(acc); h = acc['head']; t = acc['tot']
+            lt, er, F, excess = lntau(acc, full=True); h = acc['head']; t = acc['tot']
             # hazard in three age classes of the binned record (ages >= T0)
             T0 = int(h['T0']); ex, de = acc['expo'], acc['deaths']
             ks = [k for k in range(len(ex)) if (1 << k) - 1 >= T0 and ex[k] > 0]
@@ -225,7 +253,7 @@ def stats(tags):
                 thirds = ' '.join(f'{math.log(nf * ex[p].sum() / de[p].sum()):.3f}' if p and de[p].sum() > 0 else '-' for p in parts)
             print(f'{tag:28s} {h["mode"]:5s} b={h["b"]:>2s} A={3 * int(h["b"]):3d} layers={h["layers"]} chunks={acc["n"]:4d} '
                   f'deaths={F:8d} ln tau = {lt:.4f} +- {er:.4f}  settled={int(t["settled"])} interior={int(t["interior"])} '
-                  f'both={int(t["both"])}  by age: {thirds}')
+                  f'both={int(t["both"])}  by age: {thirds}' + (f'  LEFT OUT: {excess:.3g} lane-generations of lives older than 30 mean lives' if excess else ''))
 
 
 if __name__ == '__main__':
@@ -240,12 +268,17 @@ if __name__ == '__main__':
             ok &= validate_dump(mode, b, mw, g)
         for (mode, b, mw, g, nn) in [('det', 12, 8, 600, 3), ('det', 64, 8, 100, 5), ('model', 9, 1, 2000, 3), ('model', 20, 5, 300, 4)]:
             ok &= validate_dump(mode, b, mw, g, notch=nn)
+        # small systems, where lives end in repeating states and behind firewalls: every such end re-derived
+        for (mode, b, mw, g, nn) in [('det', 5, 8, 5040, 0), ('det', 6, 9, 5040, 0), ('det', 7, 3, 2000, 0), ('det', 9, 5, 3000, 3),
+                                     ('model', 8, 4, 4000, 3), ('model', 7, 5, 4000, 0), ('det', 16, 12, 200, 3), ('model', 16, 8, 200, 3)]:
+            ok &= validate_dump(mode, b, mw, g, notch=nn)
         for (b, m, g) in [(16, 8, 3000), (24, 8, 3000), (40, 8, 1500)]:
             ok &= validate_engine(b, m, g)[0]
         # ringk.c: equal to the reference stepper at k = 1 (with and without wall) and on the wider tori; engine
         for (mode, b, mw, g, nn, kk) in [('det', 16, 8, 300, 0, 1), ('det', 12, 8, 400, 3, 1), ('model', 9, 3, 600, 0, 1),
                                           ('det', 16, 8, 300, 0, 2), ('det', 20, 8, 200, 0, 3), ('det', 24, 8, 150, 0, 4),
-                                          ('model', 16, 5, 200, 0, 2), ('det', 11, 3, 600, 0, 2)]:
+                                          ('model', 16, 5, 200, 0, 2), ('det', 11, 3, 600, 0, 2),
+                                          ('det', 7, 8, 5040, 0, 2), ('model', 9, 4, 4000, 0, 2)]:
             ok &= validate_dump(mode, b, mw, g, notch=nn, k=kk, force_k=True)
         for (b, m, g, kk) in [(16, 8, 2000, 2), (24, 8, 2000, 2), (20, 8, 2000, 3)]:
             ok &= validate_engine(b, m, g, k=kk)[0]
