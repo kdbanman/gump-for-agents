@@ -131,7 +131,7 @@ _Last updated 2026-11-14 by the lead._
   slope 108 → 126 0.215 ± 0.006, not decided between a rising cost per cell and a *width* effect (the review's post hoc
   fit with a short-side term). **Running at the GPU session (asked 09:40 UTC):** the pair 4×9×8 against 6×6×8 at
   A = 108 (a width effect predicts 0.23 ± 0.08 lower), and width families s = 3 … 6 at A ≤ 96 with ≥ 2,000 deaths
-  each; forecasts first. Expect pull request 15; review as before.
+  each; forecasts first. Expect pull request 16 (15 is the lead's own, opened 09:57 UTC); review as before.
 - **Exam (swarm): done 2026-11-14** (`swarm/exam/OUTCOMES.md`; notebook entry of that date; CLAIMS SW2–SW4). Hold:
   path E1 (notched edge 0.346), source S-E1 and S-E2 (faces over dice; six layers suffice for gump), counting C-E1
   (one mirror halves the price, 0.1026 per cell). Fail: counting C-E2, path E3. Undecided: P-E1 (0.512 ± 0.012 on its

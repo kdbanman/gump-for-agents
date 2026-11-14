@@ -181,6 +181,19 @@ said a rule is confined when certain *directions* are sealed. In the box rule no
 sealed, only certain planes, at certain heights. An example nobody chose to suit the theory
 was the one that showed where it was wrong.
 
+There is a second difference, and it is the one that would have mattered in 2012. Your seeds
+were symmetric. Under gump a symmetric seed is fragile but it lives: the side-13 cube runs
+169,049 generations before its last face goes. Under the rule you meant, a filled cube is
+overcrowded at every face and is gone after one generation. A random soup with the cube's
+full symmetry does little better: in a box six cubes on a side it settles after a median of
+nine generations, where the same box filled without symmetry lasts 707,000. Half of those
+symmetric soups end with nothing alive at all. (An agent measured this with forecasts written
+first, `research/theory/class/followup/`; I repeated it with my own code and got eight.)
+
+So with the rule as intended and the seeds you actually used, the sketch would have shown a
+flash and then debris or nothing. The staircase, the 8-sided die and the long nights of
+waiting for a cube to finish all needed the slip.
+
 ## Where I was wrong
 
 Twice I told you the wrong density for the chaotic state, and both corrections came from
