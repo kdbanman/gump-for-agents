@@ -20,7 +20,9 @@ present in the repository as a checked result, a tracked data file or a runnable
    written, checked and re-derived by automated agents; the audits are careful and used independent code, but a
    mathematician has not read Theorems 5 and 6, the twist lemma, or the conditional theorems.
 5. **Prior art for the hazard identity** (entry flux × committor). The library has nothing on transition-path
-   theory or committor identities; the draft carries a `[citation needed]`.
+   theory or committor identities; the draft carries a `[citation needed]`. *Update 2026-11-14:* the Markov
+   quasi-stationary flux identity 1/τ = Σ W_r π_r is now cited (Assaf–Meerson 2017, eq. 6, §2 read); the committor
+   and transition-path part is still unsearched and keeps its `[citation needed]`.
 
 ## 2. Literature
 
@@ -29,8 +31,34 @@ present in the repository as a checked result, a tracked data file or a runnable
    boundary face, not volume" and "the bulk can be replaced by noise" are new within that literature rest on the
    absence of evidence in the few sources opened. A person with library access must read these before any
    novelty claim.
+   *Update 2026-11-14 (third pass and its adversarial review, `research/PRIOR-ART.md`; shelf §§10–11).* Obtained
+   since: Houghton et al. 2010 in full; Carretero-González et al. 1999 in full (noise at the edges of a window, the
+   mirror of the draft's §6) and its citing works as titles; Sugimura–Kori 2015, Nemoto–Alexakis 2021 and
+   Assaf–Meerson 2017 in the parts named on the shelf (the tail formula, now presented as known); Vidmar–Rappel
+   2019 in its relevant sections and Rappel et al. 2022 in full (boundary-controlled death, now presented as
+   known); Caselle–Gliozzi–Vinti 1993 in full and Nardi–Zocca in §§1–2 (shape of a torus in equilibrium; the
+   shortest loop as controlling length is a theorem there). Abstract only: dos Santos et al. 2008 (as paraphrased by
+   a fetch tool), Mikkelsen–van Hecke–Bohr, Goldenfeld et al. 2010, Lilienkamp et al. 2017, Tuckett et al. 2019,
+   Neuhaus–Hager 2003. Still not obtained: Tél–Lai 2008 (author copy, HTTP 503 three times), Tél 2015, Crutchfield–
+   Kaneko 1988 beyond its abstract, Kaneko 1990, Wackerbauer–Showalter 2003, a 2007 Wackerbauer paper on noise and
+   the collapse of spatiotemporal chaos (search result only), Nåsell 2011 (Springer login), Lilienkamp et al. full
+   text, Nemoto–Alexakis 2018, Lüscher–Symanzik–Weisz 1980, Leung–Zia 1990, the citation lists of Houghton et al.
+   and Sugimura–Kori (citation index refused). Not searched: pipe-flow puff lifetime against pipe length;
+   Kuramoto–Sivashinsky lifetimes; Gray–Scott beyond Wackerbauer–Showalter; anisotropic-Ising and in-field
+   nucleation on rectangular tori (Borgs–Chayes–Tetali 2012 is the next lead); quantum-memory lifetime reviews;
+   emptiness formation; non-English literature. The "not found" statements of draft §11 for the boundary layer over
+   noise and for fixed-area shape of a chaotic transient survive two searches, one adversarial, and no more.
 7. **Eppstein's paper was read once and could not be re-read.** Whether its bounding-diamond argument is the same
    method as Theorem 2, and what it says about shrinking hulls, is unverified (OPEN-PROBLEMS 16).
+7a. **Sealed sets and firewalls: the classical sources are known but partly unread.** Since 2026-11-14 the draft
+   presents the largest dead sealed set as a 9-core / the complement of a threshold-4 bootstrap closure (Miller 2016,
+   k-core and bootstrap sections read) and the firewall as a blocking word (Blanchard–Tisseur 2000, §§1, 2.2 read;
+   Bollobás–Smith–Uzzell 2015, §1 read). Not obtained: Kůrka 1997 (not attempted), the Gamber (Burkhead) thesis on
+   d-dimensional blocking patterns (aggregator copy only), Gravner–Griffeath's own papers on the subcritical class
+   (known through Bollobás–Smith–Uzzell); abstract only: Sablik–Theyssier 2011, Audouard–Theyssier, Goles et al. on
+   freezing automata, Salo–Theyssier–Törmä, Balister–Bollobás–Przykucki–Smith. The reviewer's reading of Theorem 6
+   as "not subcritical" in Gravner–Griffeath's sense is not checked. Not searched: Boolean-network frozen cores and
+   trap spaces (a probable further home for sealed sets).
 8. **Goles–Olivos 1980/81 and Goles–Fogelman-Soulié–Pellegrin 1985 are unread**; the transient bound 26N + 1 has
    not been compared with theirs; whether energy identities with a drive term for capped rules are known is not
    checked.
@@ -111,7 +139,9 @@ present in the repository as a checked result, a tracked data file or a runnable
 ## 6. Things the draft says that a referee could attack
 
 34. "Chaotic" is used without a quantitative definition (see 13).
-35. "A new instance of a known phenomenon" for the area law depends entirely on gap 6.
+35. "A new instance of a known phenomenon" for the area law depends entirely on gap 6. Since 2026-11-14 two parts
+    once offered as possibly new are presented as instances of known results (the tail formula; death through the
+    boundary); the remaining "not found" statements are only as strong as the searches in gap 6.
 36. The claim that the exponent is "made in a boundary layer" is established to 0.015 in ln τ only for periodic
     faces at A ≤ 75; for octahedral faces there is a 4–5σ offset of 0.03–0.04, and the adequate depth was chosen
     after seeing the data.

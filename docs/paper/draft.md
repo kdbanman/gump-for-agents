@@ -39,7 +39,12 @@ set in a boundary layer driven by noise. **Not proved:** the area law, and its c
 rigorously (a conditional area law resting on a measured hypothesis; an exponential law for a deterministic
 relative of a two-dimensional analogue, conditional on two published percolation statements), relate the
 phenomenon to supertransient chaos, and say which parts our literature search did not find and which parts have
-not been searched for at all.
+not been searched for at all. Several pieces are instances of known results, and we say so where they appear: the
+tail statement is the standard flux identity of quasi-stationary distributions, already used for deterministic
+spatially extended transients; that death enters through a boundary is published for spiral-defect chaos; that
+the shorter side of a torus controls a lifetime is a theorem for equilibrium tunnelling; and the dead sets that
+stay dead unconditionally are a 9-core, the complement of a bootstrap-percolation closure, with the firewall a
+blocking set in the sense of cellular-automaton dynamics (Section 11).
 
 ## 1. Introduction
 
@@ -59,7 +64,11 @@ sustains chaos for a time that is astronomically long in the hull's size, and th
 that the theorems single out: the extinction of an outer {111} layer (after which, by confinement, that layer is
 dead for ever and the hull is one layer smaller), or a three-layer firewall. We measure the waiting-time law of
 those events (Section 5), find where its exponent is made (Section 6), and find that it depends on the shape and
-symmetry of the face in ways not yet reduced to a formula (Sections 5.5 and 7).
+symmetry of the face in ways not yet reduced to a formula (Sections 5.5 and 7). Section 11 places each result
+against the nearest work our searches found; several are instances of known results (the quasi-stationary flux
+identity for the death rate, boundary-controlled death, the shorter side of a torus setting an equilibrium
+tunnelling time, blocking sets and k-cores for the sets that die for ever), and what may be ours is stated there
+narrowly.
 
 The results fall into three kinds, and we keep them apart throughout.
 
@@ -173,6 +182,10 @@ enough.
 C + 6 likewise from the other side, and a cell of layer C + 4 at most 1 + 1 = 2. With only two dead layers a cell
 of one of them can have 1 + 2 on one side and 1 on the other, which is 4. ∎ The statement holds for infinite and
 toroidal configurations too.
+*Remark.* Read along one diagonal with whole layers as letters, a firewall is a *blocking word* in the sense of
+Kůrka and Blanchard–Tisseur [BT00], of the simplest kind (its image is "dead" at every time); it is also the
+non-monotone, three-dimensional counterpart of the bootstrap-percolation fact that an empty strip of a width set by
+the rule, orthogonal to a pair of stable directions, stays empty [BSU15].
 
 **Theorem 4 (closed sub-automata; the kagome stack) [proved]** (T4; A). A pattern contained in m consecutive
 layers stays in them. The cells of one {111} layer form a kagome lattice: the four in-layer perpendicular
@@ -243,6 +256,17 @@ generic in R³: six neighbours of the maximiser are outside. The torus and hull 
 the cover and by adjoining the (sealed) outside of the hull. ∎ (Full proofs: `research/theory/thickness.md` §2.
 The minimality of the 36-cell two-layer set is computer-checked within a finite patch only, grade C, and is not
 claimed.)
+
+*Remark (a restatement in classical terms, checked from the definitions; `docs/AUTOMATON.md`, after T6).* Every
+cell has 12 neighbours, so "at most 3 neighbours outside" is "at least 9 inside": the largest dead sealed set K(t)
+is the **9-core** of the graph induced on the dead cells. Equivalently it is the set never reached when the live
+cells are closed under bootstrap percolation with threshold 4 (a cell joins once 4 of its neighbours have); that
+k-core and bootstrap percolation are complementary in this way is published [Mil16]. "K(t) only grows" is then
+the comparison of gump with that monotone rule (the uncapped rule U of Theorem 5), and follows from the definition;
+it is a remark, not a result. The object is classical; what is specific to this lattice is (b) and (c), the
+statement about three layers and the finite sealed sets of one and two layers. (A further reading, that (b) says
+threshold-4 bootstrap percolation on this lattice is not *subcritical* in the sense of Gravner–Griffeath, known to
+us through [BSU15], is a reviewer's and is not checked here.)
 
 Theorem 6 says that in three or more layers unconditional death cannot start locally: it must come in from a face
 or span the vessel. This is the mechanism the measurements of Section 5 find. It also explains, as far as a
@@ -405,7 +429,12 @@ from T₀ on, and p_k the quasi-stationary probability that n = k. At R = 7, 9, 
   face reduced to one cell dies rather than recovers with probability 0.67–0.72.
 
 So, at these sizes, τ_face ≈ 1/(0.6·p₁): the whole factor e^{−0.2A} is the quasi-stationary probability of being
-down to one cell, and no separate mechanism of death is needed. The endpoints are −ln h/A = 0.2268, 0.2182,
+down to one cell, and no separate mechanism of death is needed. The relation itself is not new: rate = Σ (exit
+rate × quasi-stationary probability of the state exited from) is the standard flux identity of quasi-stationary
+distributions [AM17, eq. 6], and it has been used for deterministic spatially extended transients with a measured
+distribution: spiral-defect counts [SK15, VR19] and pipe-flow puffs [NA21]. What these measurements add is the
+count followed down to a single cell with the exit rate measured rather than fitted, in a deterministic automaton.
+The endpoints are −ln h/A = 0.2268, 0.2182,
 0.2164, 0.2152 at A = 30, 45, 63, 84 (F9; B for these four values; the limit fitted to them is withdrawn). A tail
 extrapolated from densities n/A ≥ 0.1, which is all one can sample on large faces, misses ln h by 0.5–0.8; the
 endpoint has to be measured. Figure: `research/figures/fluct_tail.png`.
@@ -610,6 +639,18 @@ reduction survives at larger A, where the cost per cell is still drifting (Table
 octahedral faces is unexplained. No theorem is claimed. Figures of the study (not re-examined for this draft):
 `research/figures/exponent_gump.png`, `research/figures/exponent_hierarchy.png`.
 
+*Relation to known work.* The method is an instance of a known one, run in mirror image: Carretero-González et
+al. [CG99] drive a small window of a chaotic coupled map lattice with white noise at its edges and recover the
+large lattice's one- and two-point statistics, exponentially fast in the window size (full text read); dos Santos
+et al. [dS08] call such inputs a thermal bath (abstract only, as paraphrased by a fetch tool). They keep a window
+and randomise its outside; we keep the boundary layer and randomise the inside, and neither compares lifetimes.
+That death enters through the boundary is also not ours: for spiral-defect chaos the death rate is proportional to
+the length of the non-conducting boundary [VR19, R22], and [HKTP10] fit boundary layers of fixed thickness with
+interior defect production as under periodic conditions (full text read), but model the lifetime in the whole
+length. Not found in our searches: a work that replaces a chaotic interior by noise and compares transient
+lifetimes or escape rates, or that attributes a supertransient's exponent to a thin layer over noise. The review
+[TL08] was not obtained.
+
 ## 7. The lifetime of a periodic face depends on its shape
 
 Slab faces are tori. If the face law were a law of area, tori of equal area would have equal lifetimes. They do
@@ -727,6 +768,21 @@ family of periodic faces measured so far isolates the constant c of an unwrapped
 ±0.004: the families give 0.205 to 0.2125 at these sizes, and octahedral faces give 0.215–0.221 (Table 2), with
 nothing yet connecting the two. Second, the thin tori are quasi-one-dimensional systems with their own costs per
 cell (0.11, 0.14, 0.19), which may be within reach of a transfer-matrix calculation.
+
+*Relation to known work.* That the shape of a torus at fixed area changes an exponential time is known in
+equilibrium. For zero-field Ising and Potts Metropolis dynamics on a K × L grid at low temperature, Nardi and
+Zocca prove that the tunnelling time is asymptotically exponential with exponent 2·min{K, L} + 2 under periodic
+boundaries [NZ17, Thm 1.1; §§1–2 read]: on a rectangular torus the shorter side, which is the shortest loop, sets
+the exponent at leading order, so the use of the shortest loop as the length that controls a lifetime is not ours.
+Caselle, Gliozzi and Vinti measure the tunnelling splitting through a 3D Ising interface on a periodic L1 × L2
+cross-section as e^{−σL1L2} times a universal function of L1/L2, tested at equal area [CGV93, read in full]. Both
+are reversible, equilibrium interfaces on untwisted rectangles. For a twist, the nearest work found is about
+quantum memories: the logical failure rate of surface codes under biased noise is controlled by gcd(j, k) of the
+lattice dimensions [T19, abstract only; open boundaries, not a torus]. In three dimensions, lifetimes of
+excitable-media transients grow only above a critical thickness [LCP17, abstract only], a statement of the same
+shape as Section 3's role of thickness three, but not a fixed-area shape test. Not found in our searches: any
+dependence of a chaotic-transient, turbulent, nucleation or extinction lifetime on the aspect ratio or twist of a
+periodic domain at fixed size, or a second shape variable beyond the shortest loop.
 
 Figure 3 (placeholder; does not exist): *ln τ_face at A = 72 against shortest loop length (Table 7), with the
 A = 60 and A = 48 classes offset, and the two equal-shortest-loop pairs marked.* Figure 4 (placeholder): *cost
@@ -937,55 +993,71 @@ face.
 
 ## 11. What is new here and what is not
 
-This section relies entirely on the project's prior-art survey (`research/PRIOR-ART.md`, two search passes on
-2026-11-13, and the theory effort's library, `research/theory/swarm/library/shelf.md`). That survey was made by
-web search with a lossy fetcher; several key sources could not be opened (notably the review [TL08]); and
-"not found" below means not found by that survey, nothing stronger.
+This section relies entirely on the project's prior-art survey (`research/PRIOR-ART.md`: two search passes on
+2026-11-13; a third pass on 2026-11-14 aimed at the boundary layer over noise, the shape of a periodic face and
+sealed sets; and an adversarial review of that third pass, which tried to refute each "not found" and overrides
+the pass where they differ) and the theory effort's library (`research/theory/swarm/library/shelf.md`, §§10–11
+for the 2026-11-14 works). The survey was made by web search with a lossy fetcher and no citation index (one
+citation list was obtained, for [CG99]); several key sources could not be opened (notably the review [TL08]); and
+"not found" below means not found by that survey, nothing stronger. How far each work was read is in the
+References.
 
 | result | nearest known work recorded | judgment |
 |---|---|---|
 | The automaton itself (faces of the cubic honeycomb, this neighbourhood) | No automaton on this vertex set found in two searches. Near misses: 12-neighbour sub-neighbourhoods of the Moore neighbourhood (the fcc lattice) on LifeWiki's cubic-honeycomb page [LW-CH]; Life on kagome and other Archimedean lattices, in 2D [G]; the same lattice studied as an antiferromagnet, not a cellular automaton [arXiv:1510.05924] | **Not found in our search** as a cellular automaton "on this lattice" (not "with 12 neighbours"). Not a result in itself |
-| Confinement to the diagonal hull, no spaceships (Thm 2); firewalls (Thm 3); kagome sub-automata (Thm 4) | Eppstein [E09]: no births on 1–3 neighbours implies confinement to the bounding box for Life-like rules; a bounding-diamond argument of the same shape for some B3 rules. LifeWiki [LW-OT]: rules with lowest birth ≥ 4 never grow beyond their bounding box | **New instances of a known principle.** The method is not new. The {111} half-space on this lattice, the octahedral hull that only shrinks, and the three-layer firewall were not found stated. (The survey's second pass could not re-read [E09]'s body) |
+| Confinement to the diagonal hull, no spaceships (Thm 2); firewalls (Thm 3); kagome sub-automata (Thm 4) | Eppstein [E09]: no births on 1–3 neighbours implies confinement to the bounding box for Life-like rules; a bounding-diamond argument of the same shape for some B3 rules. LifeWiki [LW-OT]: rules with lowest birth ≥ 4 never grow beyond their bounding box. For the firewall: blocking words [BT00, after Kůrka], a word whose occurrence "completely disconnects coordinates to its right and left"; in d ≥ 2, blocking patterns [AC25, definitions; the thesis they cite not obtained]; an empty strip orthogonal to stable directions stays empty under monotone bootstrap rules [BSU15] | **New instances of known principles.** The method is not new, and the firewall is a blocking word of the simplest kind (constant image "dead"), read along one direction with layers as letters. The {111} half-space on this lattice, the octahedral hull that only shrinks, and the three-layer threshold were not found stated. Possibly ours, narrowly: a blocking set for a non-monotone rule whose blocking letter is the quiescent state, in 3D on this lattice. (The survey's second pass could not re-read [E09]'s body) |
 | Threshold lemma with the exact identity ΔE = D − Q (Thm 5) | Period-two theorem and energy for symmetric threshold networks [GO80, GO81, GFP85], read only through [KMMK11, GMRS23] | **Standard theorem, applied.** The observation that a capped rule is a symmetric threshold network except at overcrowded cells, with an exact drive term there, was not found; it is elementary. [citation needed: whether energy identities with a drive term for capped or bi-threshold rules are in Goles–Martínez or later work] |
-| No finite sealed set in ≥ 3 layers; finite sealed sets in 1 and 2 (Thm 6) | Nothing recorded | **No prior-art search has been made yet.** Elementary |
-| Memoryless collapse with mean lifetime exponential in size (Section 5.2) | Supertransients [CK88, WS03, HKTP10, TL08] and stable chaos [PT09]: numerical only. [HKTP10] reports τ(L) = exp(AL + B), Poisson statistics, and collapse only with non-periodic boundaries through boundary layers of fixed thickness. For stochastic monotone systems the analogue is a theorem: the finite contact process [DL88, DS88, M93, M99, MMVY12]; exact exponential law from a quasi-stationary distribution [MV12] | **A new instance of a known phenomenon.** Not found in our search, within it: (i) confinement and firewall are theorems, so collapse proceeds by irreversible layer events that can be timed one by one; (ii) the exponent is set by the area of one face of a three-dimensional vessel, not the volume; (iii) a deterministic cellular automaton with an absorbing state (none in the sources read) |
-| Death as the end of the quasi-stationary tail, measured to one cell (Section 5.3) | QSD theory [MV12, DS65]; large deviations in cellular automata are studied [BGPV19]; our search found nothing on a density tail used as an extinction-rate predictor | The structure is **standard**; the measurement down to k = 1, with the death rate as the next point, **was not found in our search** |
-| The exponent is made in five or six layers over independent noise (Section 6) | Dice models of deterministic networks with lifetime e^{cn} (monotone) [CD11, MV10]; probabilistic cellular automata [LMS90, MST19]; boundary layers of fixed thickness in [HKTP10] | **No prior-art search has been made yet** for this statement. The idea that boundaries of fixed thickness control the collapse is in [HKTP10]; whether replacing the bulk by noise has been tested for supertransients is not known to us (the review [TL08] is unread) |
+| Sealed sets; no finite sealed set in ≥ 3 layers; finite sealed sets in 1 and 2 (Thm 6) | The largest dead sealed set is the 9-core of the dead cells, equivalently the complement of the live set's closure under threshold-4 bootstrap percolation (Remark after Thm 6); k-core and bootstrap percolation are complementary [Mil16, k-core and bootstrap sections read]; blocking words [BT00]; in freezing automata the frozen set grows by definition of the class [GMMO19, STT21, abstracts only]; Gravner–Griffeath's subcritical class, "closed cofinite proper subsets", quoted in [BSU15] (Gravner–Griffeath's own papers not read) | **The object is classical.** "The largest sealed set only grows" follows from the definition (comparison with the monotone rule U) and is a remark, not a result; no sentence stating it for a non-monotone rule was found, which we do not count as novelty. Possibly ours, narrowly: the lattice-specific facts, namely no finite sealed set from three layers on, the hexagon ring in one layer and the 36-cell set in two. Elementary. Not searched: Boolean-network frozen cores and trap spaces |
+| Memoryless collapse with mean lifetime exponential in size (Section 5.2) | Supertransients [CK88, WS03, HKTP10, TL08] and stable chaos [PT09]: numerical only. [HKTP10] reports τ(L) = exp(AL + B), Poisson statistics, and collapse only with non-periodic boundaries through boundary layers of fixed thickness. For stochastic monotone systems the analogue is a theorem: the finite contact process [DL88, DS88, M93, M99, MMVY12]; exact exponential law from a quasi-stationary distribution [MV12]. Death through the boundary: for spiral-defect chaos the death rate is proportional to the length of the non-conducting boundary and τ is exponential in the area [VR19, abstract and relevant sections; R22, full text] | **A new instance of a known phenomenon**, and boundary-controlled death is an instance of a known result [VR19, HKTP10]. Not found in our search, within it: (i) confinement and firewall are theorems, so collapse proceeds by irreversible layer events that can be timed one by one; (ii) the exponent is set by the area of one face of a three-dimensional vessel whose walls are theorems, not the volume; (iii) a deterministic cellular automaton with an absorbing state (none in the sources read) |
+| Death as the end of the quasi-stationary tail, measured to one cell (Section 5.3) | The flux identity 1/τ = Σ_r W_r π_r [AM17, §2 read, eq. 6]; QSD theory [MV12, DS65]; the same relation in deterministic spatially extended transients, each with a measured distribution: spiral-defect counts T(N) = 1/(Z p(2)) [SK15, §§I, III, IV read], 1/τ = W₋₁(1)P_qs(1) + W₋₂(2)P_qs(2) checked against simulation [VR19], pipe-flow puffs τ_d = δt/P(h_th) [NA21, §§1–3 read], extreme-value view [GGG10, abstract only]; the SIS form 1/(μ₁q₁) [N11, not obtained]; large deviations in cellular automata [BGPV19] | **An instance of a known result** (the quasi-stationary flux identity), with precedents in deterministic systems. Possibly ours, narrowly: the count followed down to a single cell (ln p_k linear to k = 1) with the exit rate measured rather than fitted, in a deterministic automaton. That narrower form was not found in our searches |
+| The exponent is made in five or six layers over independent noise (Section 6) | Window of a chaotic coupled map lattice driven by white-noise boundary inputs reproduces the bulk's statistics [CG99, read in full; its 12 citing works, read as titles, have none on lifetimes]; "thermal bath" inputs [dS08, abstract as paraphrased]; deterministic CML "behave like stochastic models" [MvHB02, abstract]; boundary layers of fixed thickness, lifetime still fitted in the whole length [HKTP10, now read in full]; boundary-controlled death [VR19, R22]; dice models of deterministic networks with lifetime e^{cn} (monotone) [CD11, MV10]; probabilistic cellular automata [LMS90, MST19] | **The method is an instance of a known one** ([CG99], in mirror image: they randomise the outside of a window, we the inside of a boundary layer), and that death enters through the boundary is known [VR19]. **Not found in our searches:** a reduction of a transient lifetime to a thin layer over noise, or any comparison of lifetimes or escape rates with the chaotic interior replaced by noise. The review [TL08] and a 2007 paper on noise and the collapse of spatiotemporal chaos (seen as a search result only) were not read |
 | Symmetric initial conditions die exponentially sooner (Section 5.5) | Nothing found on lifetimes. Life lexicon: symmetric soups produce different objects [LL-soup]; symmetric soup censuses (apgsearch, Catagolue) were seen in search results only, not opened, and are not citable | **Not found in our search** as a quantified result. Conceptually close to standard symmetry reduction |
-| Lifetime of a periodic face depends on its shape at fixed area (Section 7) | Open systems with holes of equal measure and different escape rates, ordered by recurrence time [BY08]; escape rate = measure of the hole times one minus a return factor [KL08]; [HKTP10] on the role of boundary conditions | **No prior-art search has been made yet**; the works listed are related reading from the library, not the result of a search for this effect. At present a negative result (no law fits). The analogy with [BY08] is ours and is untested |
+| Lifetime of a periodic face depends on its shape at fixed area (Section 7) | Proved for equilibrium tunnelling: zero-field Ising/Potts on a K × L torus, exponent 2·min{K, L} + 2 with an exponential limit law [NZ17, §§1–2 read]; tunnelling splitting through a 3D Ising interface on a periodic L1 × L2 cross-section depends on L1/L2 at equal area [CGV93, read in full]; droplet shape transitions on tori [NH03, abstract]; surface-code failure controlled by gcd of the lattice dimensions [T19, abstract only]; critical thickness for 3D transients [LCP17, abstract only]; plane-Couette lifetimes against box size with shape not separated [Man09, a miss]; holes of equal measure with different escape rates [BY08], escape-rate formulae [KL08] | **The shortest loop of a torus controlling an exponential time is an instance of a known result** (equilibrium tunnelling, [NZ17] at leading order, [CGV93] in the prefactor). **Not found in our searches:** a dependence of a chaotic-transient, turbulent, nucleation or extinction lifetime on aspect ratio or twist at fixed size; a second shape variable. Possibly ours, narrowly: the twisted-torus census for a chaotic transient, with the refutation of every law in area and shortest loop. The analogy with [BY08] is ours and is untested |
 | Period = twist × loop; statistics of twisted oscillators (Section 8) | Period and "mod" in Life catalogues, including thirds and sixths on hexagonal and triangular grids [LW-Mod]; trivial versus non-trivial oscillators [LW-NT] | The lemma is a **re-expression of period/mod**. The three-dimensional screw twists and the statistics were not found in our search |
-| Conditional area law; hazard identity (Section 10.2a) | Not surveyed. [citation needed: committor and flux identities in transition-path theory and in QSD theory; the project's library has none] | Unknown. The identity is of a standard kind; its use without a Markov property, and the reduction of the area law to a one-step hypothesis on a pooled table, may or may not be known |
+| Conditional area law; hazard identity (Section 10.2a) | The quasi-stationary flux identity in its Markov form [AM17, eq. 6]. Not surveyed otherwise. [citation needed: committor and flux identities in transition-path theory; the project's library has none] | Unknown. The identity is of a standard kind; its use without a Markov property, and the reduction of the area law to a one-step hypothesis on a pooled table, may or may not be known |
 | Exponential law for the automaton 𝒜(L) (Section 10.2b) | Comparison with oriented percolation [L95, BBS94, HS22]; the one recorded non-monotone cellular-automaton survival theorem is [BN94] (not obtained); no finite-size exponential-lifetime theorem without monotonicity was found | A **constructed example** using standard tools. Honest but artificial: a random tape read once |
 | Minimality of the rule among its neighbours; the class (Section 9) | Survey of 6,144 outer-totalistic rules with metastable states and nucleation [RK14] | Survey-level; a new instance |
 
 **Ranking.** The four results we judge most likely to interest a reader who knows cellular automata and
-metastability, with what each still lacks before it could carry a paper.
+metastability, with what each still lacks before it could carry a paper. Revised 2026-11-14 after the third
+search pass and its review; the order is unchanged, the claims attached to each are narrower, and each item says
+why it stays.
 
-1. **The face-extinction law in an automaton with proved confinement, and its tail measured to one cell**
-   (Sections 3, 5.2, 5.3). *Why:* it is a supertransient whose collapse is decomposed by theorems into
-   irreversible events, measured over more than twenty units of ln τ, with a mechanism-free account of the death
-   rate; it is simple enough to be a model system for proofs. *Missing:* the law is measured, not proved; the
-   constant is neither derived nor even isolated (rising octahedral slope, wrap-around terms); nothing at A ≥ 108
-   has a second implementation; the top point has 16 deaths; the review [TL08] and the primary supertransient
-   papers must be read by a person before any claim of novelty for "area, not volume".
+1. **The face-extinction law in an automaton with proved confinement** (Sections 3, 5.2, 5.3). *Why:* it is a
+   supertransient whose collapse is decomposed by theorems into irreversible events, measured over more than
+   twenty units of ln τ; it is simple enough to be a model system for proofs. *Why it stays first:* the new prior
+   art takes from it the tail relation (an instance of the quasi-stationary flux identity, with precedents in
+   [SK15, VR19, NA21]) and boundary-controlled death [VR19], but nothing found has a face-area law in a vessel
+   whose walls are theorems. *Missing:* the law is measured, not proved; the constant is neither derived nor
+   even isolated (rising octahedral slope, wrap-around terms); nothing at A ≥ 108 has a second implementation;
+   the top point has 16 deaths; the review [TL08] and the primary supertransient papers must be read by a person
+   before any claim of novelty for "area, not volume".
 2. **The exponent is made in a boundary layer over noise** (Section 6). *Why:* it turns a question about
    deterministic chaos into one about a finite-depth probabilistic automaton, where the tools that prove
    exponential lifetimes for stochastic systems might apply; it was confirmed by independent code and by a
-   forecast. *Missing:* sizes beyond A = 84; an account of the 0.03–0.04 offset for octahedral faces; any
-   theorem for the noise-driven model; a check that this is not already known for supertransients.
+   forecast. *Why it stays second:* the method has a mirror-image precedent [CG99] and death through the boundary
+   is known [VR19], but the reduction of a lifetime to a thin layer over noise was not found in two searches, one
+   of them adversarial. *Missing:* sizes beyond A = 84; an account of the 0.03–0.04 offset for octahedral faces;
+   any theorem for the noise-driven model; [TL08] unread.
 3. **Symmetry shortens lifetimes exponentially** (Section 5.5). *Why:* it is simple to state, large (a symmetric
    face of 759 cells lives like an asymmetric one of about 100), explains a visible feature of the 2012 runs, and
-   was not found in the literature searched. *Missing:* the asymptotic slope is not determined (free fits
-   0.024–0.044 per cell); the factor 1.5 between centres is unexplained; the general "volume over group order"
-   statement is grade C; in the 2D analogue a forecast for rotations failed and is not understood.
+   was not found in the literature searched. *Why it stays third:* the 2026-11-14 searches did not address it, so
+   its standing is as before. *Missing:* the asymptotic slope is not determined (free fits 0.024–0.044 per cell);
+   the factor 1.5 between centres is unexplained; the general "volume over group order" statement is grade C; in
+   the 2D analogue a forecast for rotations failed and is not understood.
 4. **The structure theorems as a package** (Section 3): confinement and firewalls, the exact energy identity, and
    the sealed-set dichotomy at thickness three. *Why:* complete proofs, short, and they are what makes the rest
-   measurable; this is the only part that could be written up as it stands. *Missing:* a reading of [E09] and of
-   the Goles primaries to place Theorems 2 and 5 correctly; the proofs have been re-derived by independent
-   automated readers and brute-force checked, and have not been read by a mathematician.
+   measurable; this is the only part that could be written up as it stands. *Why it stays fourth, and narrower:*
+   its interest was always as a foundation, and the review shows the firewall is a blocking word and the sealed
+   sets a 9-core, so what remains ours is lattice-specific (the {111} half-space, the three-layer threshold, the
+   one- and two-layer sealed sets). *Missing:* a reading of [E09] and of the Goles primaries to place Theorems 2
+   and 5 correctly; the proofs have been re-derived by independent automated readers and brute-force checked,
+   and have not been read by a mathematician.
 
-For the shape dependence of Section 7 no prior-art search has been made yet; it is the most thoroughly
-cross-checked measurement in the paper, but as it stands it is a refutation (no law in area and shortest loop) without a replacement; it would
+The shape dependence of Section 7 stays outside the list: it is the most thoroughly cross-checked measurement in
+the paper, but as it stands it is a refutation (no law in area and shortest loop) without a replacement, and the
+searches now show that the shortest loop as the controlling length is a theorem in equilibrium [NZ17], so what
+could be ours is narrower (fixed-area shape and twist for a chaotic transient, and the second variable). It would
 move up the list if the second variable were found or if the thin-torus costs per cell were computed exactly.
 
 ## 12. Methods and reproducibility
@@ -1024,6 +1096,10 @@ output is not tracked, and some analysis scripts need it (listed in `docs/paper/
 Only works recorded in `research/PRIOR-ART.md` or `research/theory/swarm/library/shelf.md` are cited, with how
 far each was read there. No citation has been checked against a library by a person.
 
+- [AC25] N. Ait Sadi, R. Chemlal, "Irrational eigenvalues of D-dimensional cellular automata", arXiv:2509.00933.
+  *Definitions and attributions (HTML v1).*
+- [AM17] M. Assaf, B. Meerson, "WKB theory of large deviations in stochastic populations", J. Phys. A 50 (2017)
+  263001; arXiv:1612.01470. *§2.*
 - [BBS94] P. Balister, B. Bollobás, A. Stacey, "Improved upper bounds for the critical probability of oriented
   percolation in two dimensions", Random Structures Algorithms 5 (1994) 573–589. *Not obtained; statement
   second-hand.*
@@ -1031,15 +1107,27 @@ far each was read there. No citation has been checked against a library by a per
   a deterministic boundary driven cellular automaton", arXiv:1901.00845. *Abstract page opened.*
 - [BN94] M. Bramson, C. Neuhauser, "Survival of one-dimensional cellular automata under random perturbations",
   Ann. Probab. 22 (1994) 244–263. *Not obtained.*
+- [BSU15] B. Bollobás, P. Smith, A. Uzzell, "Monotone cellular automata in a random environment", Combin. Probab.
+  Comput. 24 (2015); arXiv:1204.3980. *§1 (Defs 1.2–1.3 and discussion).*
+- [BT00] F. Blanchard, P. Tisseur, "Some properties of cellular automata with equicontinuity points", Ann. Inst.
+  H. Poincaré Probab. Statist. 36 (2000) 569–582; arXiv:math/0312137. *§1, §2.2.*
 - [BY08] L. A. Bunimovich, A. Yurchenko, "Where to place a hole to achieve a maximal escape rate",
   arXiv:0811.4438. *Abstract and statements.*
 - [CD11] S. Chatterjee, R. Durrett, "Persistence of activity in threshold contact processes, an 'annealed
   approximation' of random Boolean networks", Random Structures Algorithms 39 (2011) 228–246; arXiv:0911.5339.
   *§1.*
+- [CG99] R. Carretero-González, S. Ørstavik, J. Huke, D. S. Broomhead, J. Stark, "Thermodynamic limit from small
+  lattices of coupled maps", Phys. Rev. Lett. 83 (1999) 3633–3636; arXiv:chao-dyn/9904009. *Whole (4 pages); its
+  citing works read as titles only.*
+- [CGV93] M. Caselle, F. Gliozzi, S. Vinti, "Finite-size effects in the interface of 3D Ising model", Phys. Lett.
+  B 302 (1993) 74–79; arXiv:hep-lat/9212013. *Whole.*
 - [CK88] J. P. Crutchfield, K. Kaneko, "Are attractors relevant to turbulence?", Phys. Rev. Lett. 60 (1988)
   2715–2718. *Abstract only.*
 - [DL88] R. Durrett, X.-F. Liu, "The contact process on a finite set", Ann. Probab. 16 (1988) 1158–1173.
   *Statements and proofs of Thms 1, 2, 4.*
+- [dS08] A. M. dos Santos, R. L. Viana, S. R. Lopes, S. E. de S. Pinto, A. M. Batista, "Collective behavior in
+  coupled chaotic map lattices with random perturbations", Physica A 387 (2008) 1655–1668. *Abstract, as
+  paraphrased by the fetch tool; full text not obtained.*
 - [DS65] J. N. Darroch, E. Seneta, "On quasi-stationary distributions in absorbing discrete-time finite Markov
   chains", J. Appl. Probab. 2 (1965) 88–100. *Not obtained.*
 - [DS88] R. Durrett, R. H. Schonmann, "The contact process on a finite set. II", Ann. Probab. 16 (1988)
@@ -1050,6 +1138,10 @@ far each was read there. No citation has been checked against a library by a per
   *Abstract only.*
 - [GFP85] E. Goles-Chacc, F. Fogelman-Soulié, D. Pellegrin, "Decreasing energy functions as a tool for studying
   threshold networks", Discrete Appl. Math. 12 (1985) 261–277. *Not obtained.*
+- [GGG10] N. Goldenfeld, N. Guttenberg, G. Gioia, "Extreme fluctuations and the finite lifetime of the turbulent
+  state", Phys. Rev. E 81 (2010) 035304(R); arXiv:0906.3572. *Abstract only.*
+- [GMMO19] E. Goles, D. Maldonado, P. Montealegre, N. Ollinger, "On the complexity of the stability problem of
+  binary freezing totalistic cellular automata", arXiv:1912.02953. *Abstract only.*
 - [GMRS23] E. Goles, P. Montealegre, M. Ríos-Wilson, S. Sené, "Dynamical stability of threshold networks over
   undirected signed graphs", arXiv:2309.01854. *§4.1.*
 - [GO80, GO81] E. Goles, J. Olivos, "Periodic behaviour of generalized threshold functions", Discrete Math. 30
@@ -1057,7 +1149,8 @@ far each was read there. No citation has been checked against a library by a per
   3 (1981) 93–105. *Not obtained.*
 - [HKTP10] S. M. Houghton, E. Knobloch, S. M. Tobias, M. R. E. Proctor, "Transient spatiotemporal chaos in the
   complex Ginzburg–Landau equation on long domains", Phys. Lett. A 374 (2010) 2030–2034. *Abstract,
-  introduction, lifetime results, conclusion.*
+  introduction, lifetime results, conclusion; on 2026-11-14 the whole (White Rose copy), including the
+  boundary-layer fit and the reference list.*
 - [HS22] I. Hartarsky, R. Szabó, "Generalised oriented site percolation", Markov Process. Related Fields 28
   (2022); arXiv:2103.15621. *Statements; the proof of Cor. 4.8 is a sketch.*
 - [KL08] G. Keller, C. Liverani, "Rare events, escape rates and quasistationarity: some exact formulae",
@@ -1066,6 +1159,8 @@ far each was read there. No citation has been checked against a library by a per
   arXiv:1108.2974. *Introduction, §3.1, appendix.*
 - [L95] T. M. Liggett, "Survival of discrete time growth models, with applications to oriented percolation",
   Ann. Appl. Probab. 5 (1995) 613–636. *Abstract; key statement second-hand.*
+- [LCP17] T. Lilienkamp, J. Christoph, U. Parlitz, "Features of chaotic transients in excitable media governed by
+  spiral and scroll waves", Phys. Rev. Lett. 119 (2017) 054101. *Abstract only.*
 - [LL-soup] Life Lexicon, "soup", https://playgameoflife.com/lexicon/soup. *Opened.*
 - [LMS90] J. L. Lebowitz, C. Maes, E. R. Speer, "Statistical mechanics of probabilistic cellular automata",
   J. Statist. Phys. 59 (1990) 117–170. *Abstract only.*
@@ -1075,6 +1170,10 @@ far each was read there. No citation has been checked against a library by a per
   Bull. 36 (1993) 216–226. *Whole.*
 - [M99] T. S. Mountford, "Existence of a constant for finite system extinction", J. Statist. Phys. 96 (1999)
   1331–1341. *Abstract only.*
+- [Man09] P. Manneville, "Spatiotemporal perspective on the decay of turbulence in wall-bounded flows", Phys. Rev.
+  E 79 (2009) 025301(R); arXiv:1102.5703. *Via the fetch tool (ar5iv).*
+- [Mil16] J. C. Miller, "Equivalence of several generalized percolation models on networks", Phys. Rev. E 94
+  (2016) 032313; arXiv:1505.01396. *k-core and bootstrap sections.*
 - [MMVY12] T. Mountford, J.-C. Mourrat, D. Valesin, Q. Yao, "Exponential extinction time of the contact process
   on finite graphs", arXiv:1203.2972. *Statements.*
 - [MST19] I. Marcovici, M. Sablik, S. Taati, "Ergodicity of some classes of cellular automata subject to noise",
@@ -1083,11 +1182,33 @@ far each was read there. No citation has been checked against a library by a per
   arXiv:1007.0862. *Abstract, §1.*
 - [MV12] S. Méléard, D. Villemonais, "Quasi-stationary distributions and population processes", Probab. Surv. 9
   (2012) 340–410; arXiv:1112.4732. *§2.1, §3.*
+- [MvHB02] R. Mikkelsen, M. van Hecke, T. Bohr, "Universal and non-universal properties of transitions to
+  spatio-temporal chaos in coupled map lattices", arXiv:cond-mat/0207208. *Abstract only.*
+- [N11] I. Nåsell, *Extinction and Quasi-Stationarity in the Stochastic Logistic SIS Model* (Springer, 2011).
+  *Not obtained; statement from a search result.*
+- [NA21] T. Nemoto, A. Alexakis, "Do extreme events trigger turbulence decay? A numerical study of turbulence
+  decay time in pipe flows", J. Fluid Mech. 912 (2021) A38; arXiv:2005.03530. *§§1–3.*
+- [NH03] T. Neuhaus, J. S. Hager, "2D crystal shapes, droplet condensation and exponential slowing down in
+  simulations of first-order phase transitions", J. Stat. Phys. 113 (2003) 47–83; arXiv:cond-mat/0201324.
+  *Abstract only.*
+- [NZ17] F. R. Nardi, A. Zocca, "Tunneling behavior of Ising and Potts models in the low-temperature regime",
+  arXiv:1708.09677. *§§1–2. Place of publication not checked.*
 - [PT09] A. Politi, A. Torcini, "Stable chaos", arXiv:0902.2545. *§1 and the starts of §3, §4.*
+- [R22] W.-J. Rappel et al., "Stochastic termination of spiral wave dynamics in cardiac tissue", Front. Netw.
+  Physiol. 2 (2022) 809532. *Full text, via the fetch tool.*
 - [RK14] Reia, Kinouchi, "Conway's game of life is a near-critical metastable state in the multiverse of
   cellular automata", arXiv:1407.1006. *Abstract only.*
+- [SK15] K. Sugimura, H. Kori, "Exponential system-size dependence of the lifetime of transient spiral chaos in
+  excitable and oscillatory media", Phys. Rev. E 92 (2015) 062915; arXiv:1512.08333. *§§I, III, IV.*
+- [STT21] V. Salo, G. Theyssier, I. Törmä, "Cellular automata and bootstrap percolation", arXiv:2110.00656.
+  *Abstract only.*
+- [T19] D. K. Tuckett, A. S. Darmawan, C. T. Chubb, S. Bravyi, S. D. Bartlett, S. T. Flammia, "Tailoring surface
+  codes for highly biased noise", Phys. Rev. X 9 (2019) 041031; arXiv:1812.08186. *Abstract only.*
 - [TL08] T. Tél, Y.-C. Lai, "Chaotic transients in spatially extended systems", Phys. Rep. 460 (2008) 245–275.
-  *Not obtained.*
+  *Not obtained (an author copy exists and returned HTTP 503 three times on 2026-11-14).*
+- [VR19] D. Vidmar, W.-J. Rappel, "Extinction dynamics of spiral defect chaos" (arXiv title "Extinction dynamics
+  of cardiac fibrillation"), Phys. Rev. E 99 (2019) 012407; arXiv:1808.01991. *Abstract and the relevant
+  sections, via the fetch tool.*
 - [WS03] R. Wackerbauer, K. Showalter, "Collapse of spatiotemporal chaos", Phys. Rev. Lett. 91 (2003) 174103.
   *Not obtained; known through [HKTP10].*
 - [arXiv:1510.05924] "Monte Carlo Simulations of ABC Stacked Kagome Lattice Thin Films". *Abstract only.*
