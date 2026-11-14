@@ -34,6 +34,9 @@ def out_path(job, res):
     if job['fn'] == 'facelaw':
         tag = f"slab{a['slab']}" if a.get('slab') else f"{'sym' + a.get('centre', 'c') if a.get('sym') else ''}R{a['R']}"
         return os.path.join(ROOT, 'research', 'data', 'gpu_facelaw', f"{tag}_s{a['seed']}_A10G.json")
+    if job['fn'] == 'patches':
+        os.makedirs(os.path.join(ROOT, 'research', 'data', 'gpu_patches'), exist_ok=True)
+        return os.path.join(ROOT, 'research', 'data', 'gpu_patches', f"patches_s{a['seed']}_A10G.json")
     if job['fn'] == 'fwslab':
         return os.path.join(ROOT, 'research', 'data', 'gpu_facelaw', f"fwslab{a['slab']}_s{a['seed']}_A10G.json")
     raise ValueError(job['fn'])
