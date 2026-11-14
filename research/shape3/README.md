@@ -211,7 +211,7 @@ The same, split by set (the split is not in PREDICTIONS.md):
   The per-torus values agree with the earlier independent runs (above).
 - Events are resolved every 8 generations, not per generation; ties are ≤ 0.4% of face deaths here and moving them
   changes no difference by more than 0.0005.
-- The A = 72 precision (± 0.0045 to ± 0.006) is short of the ± 0.003 asked: it excludes the size-free candidates
+- The A = 72 precision (± 0.0041 to ± 0.0061) is short of the ± 0.003 asked: it excludes the size-free candidates
   (forecasts 0.007–0.015) but cannot tell K2 or K3 (≤ 0.003) from zero, nor K2 from K3 anywhere.
 - Whether the loop² 9 sign change is a small-area effect (A = 36 is a 36-cell face) or a property of loop² 9: only
   three pairs, one per area.
