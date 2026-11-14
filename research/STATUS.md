@@ -65,7 +65,12 @@ _Last updated 2026-11-14 by the lead._
   (every family 0.2072) and "term in the long side" (b(5) = 0.2081). **The twisted-torus experiment is done, reviewed and recorded** (`research/shape/README.md`,
   `research/audit/REVIEW-shape.md`, notebook entry "the shortest way round", CLAIMS SH1, SH2): at equal area the
   lifetime of a periodic face rises with its shortest closed loop (two independent codes); at A = 60 a second
-  variable shows (two tori with the same shortest loop differ by 0.018 ± 0.004). The review's seven corrections are applied to the write-up (6f995a2). **Running:** nothing (15:50 UTC). **The second-reader audit of path's
+  variable shows (two tori with the same shortest loop differ by 0.018 ± 0.004). The review's seven corrections are applied to the write-up (6f995a2). **Running (started 15:48 UTC, both Opus):** (i) a census of every torus of one area
+  (`research/shape2/`, forecasts first): ln τ_face for all classes of period lattices at A = 60 and A = 48, to find
+  what the lifetime at fixed area is a function of (candidate laws: shortest loop; two successive minima; a sum
+  over loop classes); when it reports: lead's check from the counts, an adversarial review if a law is claimed,
+  notebook, CLAIMS. (ii) a consistency pass on `README.md` and `web/src/tour.js` against today's notebook entries
+  (the flat-face law mixes widths; the new results); when it reports: read the diff, run the web suite. **The second-reader audit of path's
   proofs is done** (`research/theory/swarm/audit/AUDIT-path.md`; notebook entry "the path line's proofs read a
   second time"; CLAIMS SW5): every proved claim correct or correct in a narrower wording; the conditional area law
   holds from (R) + (Φ) + (W), not from "R and R⁺"; Lemma S needed relative minimality. The audit's corrected wordings are in `path/claims.md` (a0508c8; one number
