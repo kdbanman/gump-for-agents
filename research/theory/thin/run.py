@@ -2,7 +2,8 @@
 """Driver for ring.c (thin torus, packed rings).
 
     python3 run.py validate                       # ring.c against the reference stepper (= oracle) and the engine
-    python3 run.py run TAG det|model b m_or_w SECONDS [T0] [GS] [rho16] [WALL]   # chunks until SECONDS; resumable
+    python3 run.py run TAG det|model b m_or_w SECONDS [T0] [GS] [rho16] [WALL] [K]   # chunks until SECONDS; resumable
+                                                  # (K: the wider torus (1,K),(0,b), stepped by ringk.c)
     python3 run.py stats TAG...                   # ln tau per tag from the chunk files (prefix match with *)
 
 Chunk files: research/scratch/thin/<TAG>/c<k>.txt (one per chunk, seed = hash of tag and k). A run can be killed
@@ -15,6 +16,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 OUT = os.path.join(ROOT, 'research', 'scratch', 'thin')
 BIN = os.path.join(OUT, 'ring')
+BINK = os.path.join(OUT, 'ringk')       # the tori (1,k),(0,b); ring.c is the reference for k = 1
 ENGINE = os.path.join(ROOT, 'engine', 'target', 'release', 'gump')
 sys.path.insert(0, HERE)
 import thin  # noqa: E402
@@ -25,14 +27,17 @@ RHO = 26112         # coin density 102/256 = 0.3984 (x 65536): the thin torus's 
 
 def build():
     os.makedirs(OUT, exist_ok=True)
-    src = [os.path.join(HERE, f) for f in ('ring.c', 'nbr.h')]
-    if not os.path.exists(BIN) or os.path.getmtime(BIN) < max(map(os.path.getmtime, src)):
-        subprocess.check_call(['gcc', '-O3', '-march=native', '-o', BIN + '.new', src[0]])
-        os.replace(BIN + '.new', BIN)
+    for exe, files in ((BIN, ('ring.c', 'nbr.h')), (BINK, ('ringk.c', 'nbrk.h'))):
+        src = [os.path.join(HERE, f) for f in files]
+        if not os.path.exists(exe) or os.path.getmtime(exe) < max(map(os.path.getmtime, src)):
+            subprocess.check_call(['gcc', '-O3', '-march=native', '-o', exe + '.new', src[0]])
+            os.replace(exe + '.new', exe)
 
 
-def ring(mode, b, mw, seed, gens, T0, out, cap=0, gs=0, rho=RHO, p0=P0, extra=(), notch=0):
-    subprocess.check_call([BIN, mode, str(b), str(mw), str(rho), str(p0), str(seed), str(gens), str(T0), str(cap),
+def ring(mode, b, mw, seed, gens, T0, out, cap=0, gs=0, rho=RHO, p0=P0, extra=(), notch=0, k=1, force_k=False):
+    if k != 1 or force_k:
+        extra = (*extra, '-k', str(k))
+    subprocess.check_call([BINK if (k != 1 or force_k) else BIN, mode, str(b), str(mw), str(rho), str(p0), str(seed), str(gens), str(T0), str(cap),
                            str(gs), out, *extra, *(('-n', str(notch)) if notch else ())])
 
 
@@ -59,14 +64,14 @@ def read_dump(path, b, nt):
     return np.array([[rows[(g, l)] for l in range(NLn)] for g in range(G)])
 
 
-def validate_dump(mode, b, mw, gens, seed=5, notch=0):
+def validate_dump(mode, b, mw, gens, seed=5, notch=0, k=1, force_k=False):
     """Every lane, every generation: the dumped next state is the reference stepper's image of the dumped state,
     except where a life ended; ends (deaths, ages) are recomputed and compared with ring's own tallies."""
     nt = mw + 2 if mode == 'model' else mw
     dp = os.path.join(OUT, f'dump_{os.getpid()}.txt'); out = os.path.join(OUT, f'vout_{os.getpid()}.txt')
-    ring(mode, b, mw, seed, gens, 0, out, extra=('-d', dp), notch=notch)
+    ring(mode, b, mw, seed, gens, 0, out, extra=('-d', dp), notch=notch, k=k, force_k=force_k)
     D = read_dump(dp, b, nt); r = parse(out)
-    nb = thin.graph(b, nt)
+    nb = thin.graph(b, nt, k)
     nd = mw * 3 * b
     faces = [np.arange(3 * b)] + ([np.arange((mw - 1) * 3 * b, mw * 3 * b)] if mode == 'det' else [])
     wall = np.zeros(nd, bool)                       # face cells held dead: sites 0..notch-1 = {Z_s, Y_s, X_{s+1}}
@@ -91,7 +96,7 @@ def validate_dump(mode, b, mw, gens, seed=5, notch=0):
                     bad += 1
     expo += int((gens - born).sum())
     ok = bad == 0 and deaths == int(r['tot']['alldeaths']) and (other > 0 or expo == int(r['expo'].sum()))
-    msg = (f'validate_dump {mode} b={b} layers={mw} wall={notch}: {steps} lane-steps, {bad} wrong, deaths {deaths} '
+    msg = (f'validate_dump {mode}{" [ringk]" if (k != 1 or force_k) else ""} (1,{k}),(0,{b}) layers={mw} wall={notch}: {steps} lane-steps, {bad} wrong, deaths {deaths} '
            f'(ring: {int(r["tot"]["alldeaths"])}), exposure {expo} (ring: {int(r["expo"].sum())}), snapshot ends {other}')
     if mode == 'model':
         nz = D[:gens, :, nd:].astype(float)                  # coins
@@ -109,14 +114,14 @@ def validate_dump(mode, b, mw, gens, seed=5, notch=0):
     return ok
 
 
-def validate_engine(b, m, gens, seed=3):
+def validate_engine(b, m, gens, seed=3, k=1):
     """Lane 0 from a listed soup against the engine on the cubic b-torus (b copies), population every generation."""
     rng = np.random.default_rng(seed)
     n = m * 3 * b
     live = np.nonzero(rng.random(n) < 0.4)[0]
     ini = os.path.join(OUT, f'ini_{os.getpid()}.txt'); open(ini, 'w').write('\n'.join(map(str, live)))
     dp = os.path.join(OUT, f'dump_{os.getpid()}.txt'); out = os.path.join(OUT, f'vout_{os.getpid()}.txt')
-    ring('det', b, m, seed, gens, 0, out, extra=('-i', ini, '-d', dp))
+    ring('det', b, m, seed, gens, 0, out, extra=('-i', ini, '-d', dp), k=k)
     mine = []
     for line in open(dp):
         p = line.split()
@@ -127,7 +132,7 @@ def validate_engine(b, m, gens, seed=3):
         t, o, c = i // (3 * b), (i // b) % 3, i % b
         p0 = thin.doubled(t, o, c)
         for s in range(b):
-            pts.add(((p0[0] + 2 * s) % (2 * b), (p0[1] + 2 * s) % (2 * b), (p0[2] - 4 * s) % (2 * b)))
+            pts.add(((p0[0] + 2 * s) % (2 * b), (p0[1] + 2 * k * s) % (2 * b), (p0[2] - 2 * (1 + k) * s) % (2 * b)))
     assert len(pts) == b * len(live)
     cf = os.path.join(OUT, f'cells_{os.getpid()}.txt'); open(cf, 'w').write('\n'.join(' '.join(map(str, q)) for q in sorted(pts)))
     pl = os.path.join(OUT, f'pl_{os.getpid()}.txt')
@@ -144,7 +149,7 @@ def validate_engine(b, m, gens, seed=3):
     for f in (ini, dp, out, cf, pl):
         os.remove(f)
     ok = nmatch >= min(gens, 200)
-    print(f'validate_engine b={b} m={m}: populations equal to the engine (x{b} copies) for the first {nmatch} generations '
+    print(f'validate_engine (1,{k}),(0,{b}) m={m}: populations equal to the engine (x{b} copies) for the first {nmatch} generations '
           f'of {gens} (a mismatch after a face death is the reseeding); {len(set(mine[:nmatch]))} distinct', 'OK' if ok else 'FAIL')
     return ok, nmatch
 
@@ -153,20 +158,20 @@ def chunk_seed(tag, k):
     return int(hashlib.sha256(f'{tag}:{k}'.encode()).hexdigest()[:12], 16)
 
 
-def run(tag, mode, b, mw, seconds, T0=256, gs=0, rho=RHO, gens=None, notch=0):
+def run(tag, mode, b, mw, seconds, T0=256, gs=0, rho=RHO, gens=None, notch=0, k=1):
     build()
     d = os.path.join(OUT, tag); os.makedirs(d, exist_ok=True)
-    t0 = time.time(); k = len(glob.glob(os.path.join(d, 'c*.txt')))
+    t0 = time.time(); nchunk = len(glob.glob(os.path.join(d, 'c*.txt')))
     # chunk length: about 60 s
     if gens is None:
-        tt = time.time(); ring(mode, b, mw, 1, 20000, T0, os.path.join(OUT, f'probe_{os.getpid()}.txt'), gs=gs, rho=rho, notch=notch)
+        tt = time.time(); ring(mode, b, mw, 1, 20000, T0, os.path.join(OUT, f'probe_{os.getpid()}.txt'), gs=gs, rho=rho, notch=notch, k=k)
         os.remove(os.path.join(OUT, f'probe_{os.getpid()}.txt'))
         gens = max(20000, int(20000 * 60 / max(time.time() - tt, 1e-3)))
     while time.time() - t0 < seconds:
         tmp = os.path.join(d, f'tmp_{os.getpid()}')
-        ring(mode, b, mw, chunk_seed(tag, k), gens, T0, tmp, gs=gs, rho=rho, notch=notch)
-        os.replace(tmp, os.path.join(d, f'c{k}.txt')); k += 1
-    print(f'{tag}: {k} chunks', flush=True)
+        ring(mode, b, mw, chunk_seed(tag, nchunk), gens, T0, tmp, gs=gs, rho=rho, notch=notch, k=k)
+        os.replace(tmp, os.path.join(d, f'c{nchunk}.txt')); nchunk += 1
+    print(f'{tag}: {nchunk} chunks', flush=True)
 
 
 def load(tag):
@@ -181,7 +186,7 @@ def load(tag):
         for k, v in r.items():
             if k == 'head':
                 assert all(v[q] == acc['head'][q] for q in ('mode', 'b', 'layers', 'T0', 'rho16')) \
-                    and v.get('notch', '0') == acc['head'].get('notch', '0')
+                    and v.get('notch', '0') == acc['head'].get('notch', '0') and v.get('twist', '1') == acc['head'].get('twist', '1')
             elif k == 'tot':
                 for kk in v:
                     acc['tot'][kk] += v[kk]
@@ -237,6 +242,13 @@ if __name__ == '__main__':
             ok &= validate_dump(mode, b, mw, g, notch=nn)
         for (b, m, g) in [(16, 8, 3000), (24, 8, 3000), (40, 8, 1500)]:
             ok &= validate_engine(b, m, g)[0]
+        # ringk.c: equal to the reference stepper at k = 1 (with and without wall) and on the wider tori; engine
+        for (mode, b, mw, g, nn, kk) in [('det', 16, 8, 300, 0, 1), ('det', 12, 8, 400, 3, 1), ('model', 9, 3, 600, 0, 1),
+                                          ('det', 16, 8, 300, 0, 2), ('det', 20, 8, 200, 0, 3), ('det', 24, 8, 150, 0, 4),
+                                          ('model', 16, 5, 200, 0, 2), ('det', 11, 3, 600, 0, 2)]:
+            ok &= validate_dump(mode, b, mw, g, notch=nn, k=kk, force_k=True)
+        for (b, m, g, kk) in [(16, 8, 2000, 2), (24, 8, 2000, 2), (20, 8, 2000, 3)]:
+            ok &= validate_engine(b, m, g, k=kk)[0]
         print('ALL OK' if ok else 'FAILED')
         sys.exit(0 if ok else 1)
     elif cmd == 'run':
@@ -245,6 +257,7 @@ if __name__ == '__main__':
         gs = int(sys.argv[8]) if len(sys.argv) > 8 else 0
         rho = int(sys.argv[9]) if len(sys.argv) > 9 else RHO
         notch = int(sys.argv[10]) if len(sys.argv) > 10 else 0
-        run(tag, mode, b, mw, seconds, T0, gs, rho, notch=notch)
+        kk = int(sys.argv[11]) if len(sys.argv) > 11 else 1
+        run(tag, mode, b, mw, seconds, T0, gs, rho, notch=notch, k=kk)
     elif cmd == 'stats':
         stats(sys.argv[2:] or ['*'])

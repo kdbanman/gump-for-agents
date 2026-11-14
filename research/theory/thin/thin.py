@@ -7,7 +7,8 @@ class (1,1),(0,b), shortest loop squared 3, face area A = 3b). Every cube of lay
 (the +x, +y, +z faces of the cube at site c).
 
     python3 thin.py table            # the helical neighbour table, derived from docs/AUTOMATON.md's offsets
-    python3 thin.py oracle b m G     # reference stepper against reference/oracle.py, every cell, G generations
+    python3 thin.py oracle b m G [k] # reference stepper against reference/oracle.py, every cell, G generations
+                                     # (k: the wider torus (1,k),(0,b); default 1)
     python3 thin.py header           # write nbr.h for ring.c / cyl.c from the derived table
 
 The table is *derived* here from the doubled-coordinate offsets (the same construction as reference/oracle.py),
@@ -43,15 +44,16 @@ def doubled(t, o, c):
     return tuple(p)
 
 
-def site_of(p, b):
-    """(t, o, c) of the doubled coordinate p on the quotient by (1,1,-2), (0,b,-b)."""
+def site_of(p, b, k=1):
+    """(t, o, c) of the doubled coordinate p on the quotient by (1,k,-1-k), (0,b,-b): c = j - k i mod b."""
     o = next(x for x in range(3) if p[x] % 2)
     cube = [(p[x] - (1 if x == o else 0)) // 2 for x in range(3)]
-    return sum(cube), o, (cube[1] - cube[0]) % b
+    return sum(cube), o, (cube[1] - k * cube[0]) % b
 
 
-def helical(bs=(7, 11, 16)):
-    """For each orientation the 12 neighbours as (dt, o2, dc); asserts independence of b, c, t."""
+def helical(bs=(23, 29, 32), k=1):
+    """For each orientation the 12 neighbours as (dt, o2, dc) on the torus (1,k),(0,b); asserts independence of
+    b, c, t (for b large enough that the shifts, at most k + 1, do not wrap)."""
     tab = None
     for b in bs:
         for t in (0, 3):
@@ -61,7 +63,7 @@ def helical(bs=(7, 11, 16)):
                     p = doubled(t, o, c)
                     lst = []
                     for off in offsets(o):
-                        t2, o2, c2 = site_of(tuple(p[x] + off[x] for x in range(3)), b)
+                        t2, o2, c2 = site_of(tuple(p[x] + off[x] for x in range(3)), b, k)
                         dc = (c2 - c) % b
                         if dc > b // 2:
                             dc -= b
@@ -74,9 +76,10 @@ def helical(bs=(7, 11, 16)):
 
 
 TAB = helical()
+TABK = {k: helical(k=k) for k in range(1, 6)}      # wider tori (1,k),(0,b): shortest loop squared 3, 7, 13, 21, 31 for k = 1..5
 
 
-def graph(b, m):
+def graph(b, m, k=1):
     """Cell index (t, o, c) -> t*3*b + o*b + c; neighbour array [n, 12] with -1 outside layers 0..m-1."""
     n = m * 3 * b
     nb = np.full((n, 12), -1, np.int64)
@@ -84,9 +87,9 @@ def graph(b, m):
         for o in range(3):
             for c in range(b):
                 i = (t * 3 + o) * b + c
-                for k, (dt, o2, dc) in enumerate(TAB[o]):
+                for q, (dt, o2, dc) in enumerate(TABK[k][o]):
                     if 0 <= t + dt < m:
-                        nb[i, k] = ((t + dt) * 3 + o2) * b + (c + dc) % b
+                        nb[i, q] = ((t + dt) * 3 + o2) * b + (c + dc) % b
     return nb
 
 
@@ -97,9 +100,9 @@ def step_ref(x, nb):
     return (((x == 0) & ((cnt == 4) | (cnt == 5))) | ((x == 1) & (cnt >= 3) & (cnt <= 5))).astype(np.int8)
 
 
-def check_simple(b, m=8):
+def check_simple(b, m=8, k=1):
     """True if no cell has a repeated neighbour or itself as neighbour (the torus is a simple graph)."""
-    nb = graph(b, m)
+    nb = graph(b, m, k)
     for i, row in enumerate(nb):
         r = [v for v in row if v >= 0]
         if len(set(r)) != len(r) or i in r:
@@ -107,16 +110,16 @@ def check_simple(b, m=8):
     return True
 
 
-def oracle_check(b, m, G, seed=1, p=0.4):
+def oracle_check(b, m, G, seed=1, p=0.4, k=1):
     """Reference stepper against reference/oracle.py on the cubic torus of b^3 cubes, every cell, G generations."""
     sys.path.insert(0, os.path.join(ROOT, 'reference'))
     import oracle
     assert b >= m + 3, 'need three dead layers between the slab and its image'
     H = 2 * b
     rng = np.random.default_rng(seed)
-    nb = graph(b, m)
+    nb = graph(b, m, k)
     x = (rng.random(m * 3 * b) < p).astype(np.int8)
-    # embedding: cell (t, o, c) and its b copies under (x, x, -2x)
+    # embedding: cell (t, o, c) and its b copies under (x, kx, -(1+k)x)
     coords = np.zeros((m * 3 * b, b, 3), np.int64)
     for t in range(m):
         for o in range(3):
@@ -124,7 +127,7 @@ def oracle_check(b, m, G, seed=1, p=0.4):
                 i = (t * 3 + o) * b + c
                 p0 = doubled(t, o, c)
                 for s in range(b):
-                    coords[i, s] = [(p0[0] + 2 * s) % H, (p0[1] + 2 * s) % H, (p0[2] - 4 * s) % H]
+                    coords[i, s] = [(p0[0] + 2 * s) % H, (p0[1] + 2 * k * s) % H, (p0[2] - 2 * (1 + k) * s) % H]
     flat = coords.reshape(-1, 3)
     assert len({tuple(q) for q in flat}) == len(flat), 'copies overlap'
     h = np.zeros((H, H, H), np.int8)
@@ -143,22 +146,33 @@ def oracle_check(b, m, G, seed=1, p=0.4):
         x = step_ref(x, nb)
         got = h[coords[:, :, 0], coords[:, :, 1], coords[:, :, 2]]
         if not (got == x[:, None]).all() or int(h.sum()) != b * int(x.sum()):
-            print(f'oracle_check b={b} m={m}: MISMATCH at generation {g + 1}')
+            print(f'oracle_check (1,{k}),(0,{b}) m={m}: MISMATCH at generation {g + 1}')
             return False
         pops.append(int(x.sum()))
-    print(f'oracle_check b={b} m={m}: {G} generations, every cell of every copy equal, nothing live outside; '
+    print(f'oracle_check (1,{k}),(0,{b}) m={m}: {G} generations, every cell of every copy equal, nothing live outside; '
           f'populations {pops[:3]} .. {pops[-1]}, {len(set(pops))} distinct')
     return True
 
 
 def write_header():
-    names = 'XYZ'
+    """nbr.h (the thinnest torus, used by ring.c) and nbrk.h (the tori (1,k),(0,b), k = 1..5, used by ringk.c)"""
     with open(os.path.join(HERE, 'nbr.h'), 'w') as f:
         f.write('/* generated by thin.py header from docs/AUTOMATON.md offsets: for orientation o, the 12 neighbours\n'
                 '   (dt, o2, dc): layer t + dt, orientation o2, site c + dc. Do not edit. */\n')
         f.write('static const int NBR[3][12][3] = {\n')
         for o in range(3):
             f.write('  { ' + ', '.join('{%d,%d,%d}' % e for e in TAB[o]) + ' },\n')
+        f.write('};\n')
+    with open(os.path.join(HERE, 'nbrk.h'), 'w') as f:
+        f.write('/* generated by thin.py header from docs/AUTOMATON.md offsets: on the torus (1,k),(0,b), for orientation o,\n'
+                '   the 12 neighbours (dt, o2, dc): layer t + dt, orientation o2, site c + dc. NBRK[k]. Do not edit. */\n')
+        f.write('#define KMAX 5\n#define DCMAX 6\n')
+        f.write('static const int NBRK[KMAX + 1][3][12][3] = {\n { {{0}} },\n')
+        for k in range(1, 6):
+            f.write(' {\n')
+            for o in range(3):
+                f.write('  { ' + ', '.join('{%d,%d,%d}' % e for e in TABK[k][o]) + ' },\n')
+            f.write(' },\n')
         f.write('};\n')
 
 
@@ -170,8 +184,8 @@ if __name__ == '__main__':
         print('simple graph for b = 3..8:', [check_simple(b) for b in range(3, 9)])
     elif cmd == 'oracle':
         b, m, G = map(int, sys.argv[2:5])
-        ok = oracle_check(b, m, G)
+        ok = oracle_check(b, m, G, k=int(sys.argv[5]) if len(sys.argv) > 5 else 1)
         sys.exit(0 if ok else 1)
     elif cmd == 'header':
         write_header()
-        print('wrote nbr.h')
+        print('wrote nbr.h, nbrk.h')

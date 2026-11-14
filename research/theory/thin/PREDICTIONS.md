@@ -75,3 +75,16 @@ n = 6 and n = 8 is within 3% of the slope between n = 16 and n = 24. (If so, the
 
 **F5 stands as committed** (windows on the b = 64 ring); added before that run: (c) on the b = 64 ring the
 minimum of k(l) over l ≤ 40 is below 0.33 per site.
+
+## Block 3 (2026-11-14, before any run on a wider torus)
+
+Known: `ringk.c` steps the tori (1,k),(0,b) (validated against the reference stepper and the engine; no lifetime
+run yet). Census values for (1,2),(0,b) (shortest loop squared 7): 9.8122(20), 12.1133(31), 14.3592(116) at
+b = 16, 20, 24; cost per cell 0.1918 then 0.1872.
+
+**F8 (the next torus, loop squared 7).**
+(a) `ringk.c` reproduces the three census values within 3 sigma (errors combined).
+(b) It dies the same way: the lag at which half the face population is gone, looking back from a death, grows
+    in proportion to b: lag(b = 24) / lag(b = 16) between 1.35 and 1.65.
+(c) The local cost per cell keeps falling: ln tau at b = 28 (A = 84) between 16.50 and 16.61
+    (cost per cell from A = 72 between 0.1785 and 0.1875).
