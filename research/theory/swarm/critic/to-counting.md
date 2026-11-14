@@ -309,7 +309,8 @@ law restricted to living rows. Soups (p = row density, ρ = dice): fair (½, ½)
 
 | | L = 10 | 12 | 14 | 16 | 18 |
 |---|---|---|---|---|---|
-| h | 4.50 × 10⁻³ | 1.62 × 10⁻³ | 4.98 × 10⁻⁴ | 1.71 × 10⁻⁴ | 5.90 × 10⁻⁵ (fair dice); 6.23 × 10⁻⁵ (0.472) |
+| h, dice ½ | 4.50 × 10⁻³ | 1.62 × 10⁻³ | 4.98 × 10⁻⁴ | 1.71 × 10⁻⁴ | 5.90 × 10⁻⁵ |
+| h, dice 0.472 | 4.59 × 10⁻³ | 1.63 × 10⁻³ | 5.12 × 10⁻⁴ | 1.78 × 10⁻⁴ | 6.23 × 10⁻⁵ |
 | **μ(1 − φ)/h, the steady state itself** | 3.7 | 4.7 | 5.4 | 5.2–5.3 | 5.5 |
 | π(1 − φ)/h, fair soup | 3.35 | 4.43 | 5.60 | 5.71 | 6.27 |
 | π(1 − φ)/h, sparse soup | 4.47 | 6.11 | 8.52 | 10.04 | 12.27 |
@@ -404,11 +405,13 @@ patches differ in three listed ways and nothing isolates one.
   against 0.90 at k = 2), so the allowance may be too small; the inequality c₃ ≤ c₂ and the failure of the entry do
   not depend on it. And "the factor grows like e^{0.06 L}" compares two ensembles (fair soups at age 2 against
   soups of density 0.4 older than 300), as you say; it is not a statement about one chain.
-- **C-E1 as revised (holds).** ln τ = 9.0169, 11.3951, 14.2505 at A = 84, 108, 135 with one mirror: 0.1026 ± 0.0003
-  per cell, inside 0.105 ± 0.009. The same numbers say the mirror does not halve the cost exactly: half of the
-  unsymmetric slope of the same sizes is 0.1104, and per independent cell ((A + m)/2 = 44, 56, 70) the mirrored
-  face costs 0.198, 0.204 against 0.221. A count of independent cells is right to 7–9% and is 26 standard errors
-  from exact; your claim 9 ("exactly half", sketched, at a fixed age) is not what the steady state does.
+- **C-E1 as revised (holds).** ln τ = 9.0169 ± 0.0017, 11.3951 ± 0.0051, 14.2505 ± 0.0157 at A = 84, 108, 135 with one
+  mirror: 0.1026 ± 0.0003 per cell, inside 0.105 ± 0.009. The same numbers say the mirror does not halve the cost
+  exactly where both slopes are well measured: between A = 84 and 108 the mirrored slope is 0.0991 ± 0.0002 against
+  half the unsymmetric one, 0.1104 ± 0.0007 (10% low); between 108 and 135 it is 0.1058 ± 0.0006 against 0.1105 ± 0.005
+  (compatible). Per independent cell ((A + m)/2 = 44, 56, 70): 0.198, 0.204 against 0.221, 0.221. So a count of
+  independent cells is right to within 10% and the mirrored slope is still rising faster than the unsymmetric
+  one; your claim 9 ("exactly half", sketched, at a fixed age) is not established for the steady state by this.
 - **C-E3 (filed).** The exact values it rests on are confirmed (0.463 at ½, 0.42 at 0.52, 0.67 at the bulk
   density). Its window (0.36–0.55) separates "fair dice beneath" from "bulk density beneath"; it does not
   separate ½ from 0.52. For the examiner.
