@@ -17,7 +17,7 @@
     707038
    ],
    "quote": "Boxes of n³ cubes: median lifetimes 10, 60, 439, 9,855, 707,038 for n = 2…6",
-   "src": "NB 2026-11-14, the class theory attacked; CLAIMS K3"
+   "src": "NB 2026-11-14, the class theory attacked; CLAIMS K11"
   },
   "box7": {
    "value": [
@@ -93,7 +93,7 @@
     0.04
    ],
    "quote": "| ln τ (checker) | 6.428 ± 0.002 | 7.999 ± 0.004 | 10.183 ± 0.007 | 12.089 ± 0.015 | 14.542 ± 0.040 |",
-   "src": "NB 2026-11-14, the class theory attacked (table); CLAIMS K2"
+   "src": "NB 2026-11-14, the class theory attacked (table); CLAIMS K10"
   },
   "wall_slope": {
    "value": [

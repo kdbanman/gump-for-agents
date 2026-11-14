@@ -179,7 +179,7 @@ neighbours, and the full automaton is an ABC stack of kagome layers in which a c
 own layer, 2 + 2 of the adjacent layers and 1 + 1 of the layers after those.
 
 Theorems 2 and 3 hold for every outer-totalistic rule on this neighbourhood whose smallest birth count is at
-least 4. More generally **[proved]** (ledger K1 of the class study; A): for any lattice, any neighbourhood and
+least 4. More generally **[proved]** (ledger K9, the class study; A): for any lattice, any neighbourhood and
 least birth count b, the outside of a half-space H = {u·p ≤ C}, once dead, stays dead if and only if no cell
 outside H has b or more neighbours inside H; with one cell type the condition depends on the direction u alone
 (`research/audit/REVIEW-class.md` §1.2). Theorem 2 is the case u = d, b = 4.
@@ -781,7 +781,7 @@ dead notch has slope 0.346 against 0.412 for the intact edge. That the 2D slope 
 slope of the 3D rule to three figures has no known reason, and given Section 7 neither number is an asymptotic
 constant.
 
-**Other lattices.** **[proved]** (ledger K1 of the class study; A) Confinement is a property of half-spaces
+**Other lattices.** **[proved]** (ledger K9, the class study; A) Confinement is a property of half-spaces
 (Section 3). **[measured]** (K4; B) On the face-centred cubic lattice with 12 neighbours, B45/S345 has a
 memoryless slab face law with slope 0.181 ± 0.001 per face cell. The variant of the present rule with
 edge-sharing coplanar neighbours is likewise confined (to a box), chaotic, and dies a wall at a time, and is not

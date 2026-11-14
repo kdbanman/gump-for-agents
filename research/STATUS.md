@@ -10,13 +10,13 @@ _Last updated 2026-11-14 by the lead._
   symmetry-reduced stepper (would buy closed cubes beyond side 16).
   Round three: `--sym` torus soups fixed, `ensemble --layer-deaths` (exact peel times),
   `gump occupancy` (time-averaged maps), `--checkpoint` for restartable runs.
-- `web/` v1 — WebGL2 bit-packed stepper + three.js views; 49/49 tests.
+- `web/` v1 — WebGL2 bit-packed stepper + three.js views; web suite 79/79 (`cd web && node test/run.mjs`, re-run 2026-11-14).
 - `research/atlas/` — exhaustive still lifes ≤16 cells, oscillators, vertex star, legacy ash, critical thickness.
 - `research/peeling/` — the face law, cuts, symmetric effective area, account of the cube series.
 - `web/` rounds two and three — kymograph, `{111}` slicer, editor, atlas gallery, guided tour, static build.
 - `research/phase/` — the chaotic state as a phase; 960-rule survey (`research/figures/phase_rulemap.png`).
 
-## In flight (2026-11-13, late)
+## In flight on 2026-11-13, late (historical; what is running now is in the state block under "Next")
 - A usage limit stopped every agent at about 20:00 UTC on 2026-11-13. State left behind:
   - `research/theory/class.md`: the class agent had finished ("final" in its last commits). Not yet checked by
     the lead or attacked by a second agent.
@@ -65,11 +65,10 @@ _Last updated 2026-11-14 by the lead._
   (every family 0.2072) and "term in the long side" (b(5) = 0.2081). **The twisted-torus experiment is done, reviewed and recorded** (`research/shape/README.md`,
   `research/audit/REVIEW-shape.md`, notebook entry "the shortest way round", CLAIMS SH1, SH2): at equal area the
   lifetime of a periodic face rises with its shortest closed loop (two independent codes); at A = 60 a second
-  variable shows (two tori with the same shortest loop differ by 0.018 ± 0.004). The review's seven corrections are applied to the write-up (6f995a2). (i) **the census of tori is done** (`research/shape2/README.md`; every class at A = 48 and
+  variable shows (two tori with the same shortest loop differ by 0.0142 ± 0.0019 over four runs, CLAIMS SH2; first published as 0.019 ± 0.004). The review's seven corrections are applied to the write-up (6f995a2). (i) **the census of tori is done** (`research/shape2/README.md`; every class at A = 48 and
   60, five more at 72; forecasts first): none of the candidate laws holds at all three areas; the cost per cell
   depends on the shortest loop (0.11, 0.14, 0.19 at loop² 3, 4, 7; 0.205-0.21 from 12 up); at A = 48 the shortest
-  loop stops mattering above √12; a second variable at equal shortest loop shows again (0.014 ± 0.003 at both
-  areas). Lead's check of the tables: `research/audit/shape2_lead_check.py`. **Reviewed (18:05 UTC) and recorded**:
+  loop stops mattering above √12; a second variable at equal shortest loop shows again (0.0142 ± 0.0019 at A = 60, 0.0151 ± 0.0017 at A = 48; CLAIMS SH2). Lead's check of the tables: `research/audit/shape2_lead_check.py`. **Reviewed (18:05 UTC) and recorded**:
   `research/audit/REVIEW-shape2.md` (independent stepper; claims 1-4 stand with corrections; no law passes at any
   area; the A = 60 pair is 0.0142 ± 0.0019 over four runs); notebook entry "every torus of a given area"; CLAIMS
   SH2 (corrected), SH3-SH5. The review's corrections are applied to `research/shape2/README.md` (9ffb393) and the
@@ -81,8 +80,10 @@ _Last updated 2026-11-14 by the lead._
   (3) Fable, **done 20:52 UTC**: a manuscript-style draft for an outside reader, `docs/paper/draft.md` (results graded
   A or B only; section "What is new here and what is not"), with `INCONSISTENCIES.md` (34 places where the repository
   disagrees with itself) and `GAPS.md` (38). Nothing leaves the repository. An Opus editor is resolving the
-  inconsistencies (items in STATUS/NOTEBOOK come back as `docs/paper/FOR-LEAD.md` for the lead to apply); then an
-  Opus fact-check of the draft against the ledger is owed;
+  inconsistencies (items in STATUS/NOTEBOOK come back as `docs/paper/FOR-LEAD.md` for the lead to apply); done 21:22 UTC
+  (24 fixed, the lead applied the STATUS/NOTEBOOK parts from `docs/paper/FOR-LEAD.md`; notebook entry "consistency
+  corrections"; the ledger's class rows K1-K3 are now K9-K11 and its tally was recounted: 108 rows, A 40, B 40,
+  C 27, D 1). An Opus fact-check of the draft against the ledger is running -> `docs/paper/FACTCHECK.md`;
   (4) Opus: the second variable, pairs of tori with equal area and equal shortest loop, candidates fixed and
   forecasts committed first -> `research/shape3/`.
   Owed for each when it reports: the lead's own check of one key number, an adversarial review (Opus) for (2) and (4),
@@ -152,7 +153,7 @@ _Last updated 2026-11-14 by the lead._
   fit with a short-side term). **Running at the GPU session (asked 09:40 UTC):** the pair 4×9×8 against 6×6×8 at
   A = 108 (a width effect predicts 0.23 ± 0.08 lower), and width families s = 3 … 6 at A ≤ 96 with ≥ 2,000 deaths
   each; forecasts first. Expect pull request 16 (15 is the lead's own, opened 09:57 UTC); review as before.
-- **Exam (swarm): done 2026-11-14** (`swarm/exam/OUTCOMES.md`; notebook entry of that date; CLAIMS SW2–SW4). Hold:
+- **Exam (swarm): done 2026-11-14** (`swarm/exam/OUTCOMES.md`; notebook entry of that date; CLAIMS SW2–SW4). Hold (of the examiner's eight sampled entries):
   path E1 (notched edge 0.346), source S-E1 and S-E2 (faces over dice; six layers suffice for gump), counting C-E1
   (one mirror halves the price, 0.1026 per cell). Fail: counting C-E2, path E3. Undecided: P-E1 (0.512 ± 0.012 on its
   refutation line 0.51; needs about 3.5 core-hours more at L = 38), path E2. New entries filed by the solvers since
@@ -180,9 +181,12 @@ _Last updated 2026-11-14 by the lead._
    symmetric octahedra run at ≈0.39. Every legacy cube run is of this kind.
 4. Chaos is metastable and dies only by irreversible `{111}` events, each a rare, sudden,
    memoryless collapse whose cost is exponential in the number of cells that must die:
-   - **a face layer goes extinct (peeling)** — mean wait τ_face ≈ exp(−0.09 + 0.209·A)
-     generations, A = sites in the outer layer; one line over six decades for flat slab
-     faces, octahedral faces (≈1.7–1.9× tougher), symmetric soups and the closed cubes
+   - **a face layer goes extinct (peeling)** — mean wait τ_face ≈ exp(≈0.21·A)
+     generations, A = sites in the outer layer, over six decades; not one line: the first fit
+     −0.09 + 0.209·A mixes slab widths (within a width family 0.2072, and a narrower face dies sooner; CLAIMS F4, GP9),
+     octahedral faces are 1.7–1.9× tougher at A = 45–84 and 0.84–0.91 nats at A = 108, with local slopes rising to
+     0.221 (GP1, GP7), periodic faces carry a shape term that depends on how the face closes on itself (SH1–SH5),
+     and symmetric faces follow their own law (S2)
      (`research/figures/peel_face_law.png`; independently re-checked by the lead,
      `research/experiments/face_endgame_check.py`: −ln h/A = 0.2183 at A = 45, engine only);
    - **an interior 3-layer firewall** — ≈0.12 per cell of the band (≈0.36 per unit of
@@ -190,15 +194,15 @@ _Last updated 2026-11-14 by the lead._
      thin slabs (crossover at thickness ≈ width), never octahedra;
    - the bulk without faces (whole torus) is effectively immortal above ≈600 cells.
    **Symmetry is fatal**: an O_h-symmetric state has one fundamental domain of independent
-   chaos (regions die in lockstep), effective face area A/7.7. The side-13 cube lasts ~10⁵
+   chaos (regions die in lockstep), effective face area roughly A/6 to A/8 (the early fit A/7.7, CLAIMS S1, is superseded beyond A ≈ 460; see S2 below). The side-13 cube lasts ~10⁵
    generations because it is symmetric; the same hull filled asymmetrically would hold each
    face ~10⁴¹ (the face law extrapolated fivefold in area; not measured). The legacy cube lifetimes n = 11–15 fall at unremarkable quantiles of the law's
    prediction. **n = 16 was predicted at 2.4×10⁸ (90%: 3.9×10⁷–6.3×10⁸) and lived
    2,919,617,676** (first face 2.36×10⁹, second 5.2×10⁸; ends as 12 × S8b on the axes;
    `research/data/cube16_*`). What was wrong: the cost per site in a symmetric face rises with
    face size, so "A/7.7" under-predicts beyond its fitted range; cube-centred O_h faces follow
-   ln τ ≈ 0.69 + (0.209/6)·A − 0.195·√A to A = 693 (`research/fluct/sym_fit.py`), and
-   vertex-centred ones (even cubes) are ≈1.5× tougher (A = 360–630; 2.0 ± 0.4 at A = 693 for fresh soups only; `sym_fit.py` prints 2.39 when the cube's own copies are pooled in).
+   ln τ ≈ 0.698 + (0.209/6)·A − 0.196·√A to A = 693 (`research/fluct/sym_fit.py`), and
+   vertex-centred ones (even cubes) are ≈1.5× tougher (A = 408–630; 2.0 ± 0.4 at A = 693 for fresh soups only; `sym_fit.py` prints 2.39 when the cube's own copies are pooled in).
    **Face death is the stationary tail, measured to one cell** (`research/fluct/README.md`):
    ln P(n = k) is straight down to k = 1, the death rate is its next point (h ≈ 0.6·P(n = 1)),
    62% of deaths are from a single cell, the usual 3-cell ember is one kagome triangle;
@@ -238,8 +242,7 @@ _Last updated 2026-11-14 by the lead._
 - Clockwork study done (2026-11-13): 94 new oscillators in `research/clockwork/objects/`
   (ids `C<period>.<minpop><letter>`, not merged into the atlas catalogue); 22 of them are
   compound. Open: periods beyond 66 via 4- or 6-fold boxes; anything that carries a signal.
-- Open: the asymptotic symmetric slope (is it exactly 0.209/6?); whether 0.208 per site
-  holds for asymmetric faces beyond A = 84.
+- Open: the asymptotic symmetric slope (is it exactly 0.209/6?); whether the cost per site of asymmetric faces levels off (it rises past A = 84 on octahedral faces, to 0.221 at A = 135, CLAIMS GP1; on slabs width matters, GP9).
 
 - 2026-11-13: prior-art survey and adversarial second pass (`research/PRIOR-ART.md`): no automaton on this
   lattice found, no lifetime-versus-symmetry result found; cite Eppstein (arXiv 0911.2890) for confinement.

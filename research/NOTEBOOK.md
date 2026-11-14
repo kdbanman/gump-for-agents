@@ -1536,3 +1536,54 @@ each a few minutes; outputs in `audit/out/`).
   the families give 0.205 to 0.2125 at these sizes. And the thin tori are a new handle for theory: a face three
   cells around is a quasi-one-dimensional system with a cost per cell (0.11) that a transfer matrix over the
   short direction might reach exactly, with 0.14, 0.19, 0.21 as the next rungs.
+
+## 2026-11-14 — consistency corrections (consistency pass; numbers traced to data or scripts)
+
+- **Local slopes of octahedral faces** (entry "GPU ensembles", lines 905–906): "0.201, 0.212, 0.212, 0.218, 0.221"
+  mixes two values of ln τ_face at A = 84: 18.077 (CPU, 342 deaths) for 63 → 84 and 18.141 ± 0.005 (GPU, 34,026
+  deaths) for 84 → 108. With 18.141 throughout: **0.201, 0.212, 0.215, 0.218, 0.221**, the GPU README's table
+  column; with 18.077 throughout, 0.201, 0.212, 0.212, 0.221, 0.221. (Arithmetic on the lifetimes 6.804, 9.819,
+  13.633, ·, 23.376, 29.34 at A = 30, 45, 63, 84, 108, 135.) [INCONSISTENCIES A2]
+- **Vertex/cube factors** (entry "side-16 cube ends", line 710): the six factors "1.51, 1.52, 1.53, 1.60, 1.49,
+  1.31 at A = 360 … 630" have five sources: `sym_residence.csv` has no cube-centred row at A = 360, and no version
+  of the csv ever had one (checked back to d09388a, where the row set was added); `python3 research/fluct/sym_fit.py`
+  prints the five at A = 408 … 630. Where 1.51 came from was not found. The flat ≈1.5 holds over **A = 408–630**;
+  line 739's "A = 360–630" likewise. The 3.1 (ln 1.12 ± 0.29) at A = 693 is right: pooled vertex value (24 copies +
+  5 soups) against the csv's 19.705 for `sym41c`; the fluctuation README's 3.3 used 19.64, a value the csv does not
+  give (now corrected there). [B2, B3]
+- **Density at R = 11** (entry "how chaos dies", line 307): from the regenerated `research/peeling/octa_first.csv`
+  the first-peel means for p = 0.3, 0.4, 0.5, 0.6 are **1.00, 1.08, 1.00, 1.05 × 10⁵** (99,545; 108,090; 100,483;
+  105,280), not 0.91, 1.08, 1.00, 1.04. The conclusion (density does not matter once the hull is filled) stands. [B12]
+- **Thickness at A = 48** (same entry, line 298): `peeling/slab_area.csv` gives 9,878.7, 10,354.1, 10,323.0,
+  10,345.8, 10,346.9, i.e. **9.9, 10.4, 10.3, 10.3, 10.3 × 10³** for m = 7, 8, 9, 10, 12 (the last two were
+  written 10.4). [B13]
+- **Side-16 first-peel forecast** (entry "side 16 loses its first face", line 629): with the committed forecast's
+  inputs (8 deaths in 8.3×10⁹ replica-generations, alive at 1.45×10⁹; `predict.py`'s Lomax law) the outcome
+  2,362,434,048 sits at quantile **0.566, the 57th percentile**, not the 58th. (`fluct/PREDICTIONS.md`'s "≈ 0.55" is
+  the same quantity, rounded down.) [B14]
+- **4 × 6 × 8 slab face** (entry "equal areas, different lifetimes", line 1353): the run's own value is
+  **14.970 ± 0.002** (`python3 research/audit/gpu_pr16/recompute.py research/data/gpu_facelaw`); 14.971 is what one
+  gets by pooling it with the same slab in the other orientation, 6 × 4 × 8 (14.972). The table's row is the width-4
+  family, so 14.970 is the entry. [B6]
+- **Count of claims** (entry "audit corrections", line 802): the ledger had 71 rows on 2026-11-13; it has 108 now.
+  [C2; the same sentence is at `research/AUDIT-2026-11-13.md:4`, which is right for its date]
+- **Index of sources** (entry "supertransients", line 889): `research/theory/swarm/library/shelf.md` now has 73 rows,
+  not 59. [C4]
+- **Exam score** (heading at line 1112 against line 1325): the heading counts the examiner's eight sampled entries
+  (four hold, two fail, two undecided); line 1325 counts every entry of the board's closing table (five hold, four
+  fail or missed, two undecided, three not run). Both are right for their sets. [C5]
+- **Gump's slab slope in comparisons with other rules** (entry "the class theory attacked", line 1034, "gump's 0.212
+  per face cell"): that is the area-only slope of slab faces of mixed widths over A = 27–75 (`theory/class.md`:488–489;
+  0.2121 ± 0.0004 in `audit/REVIEW-class.md`:399). CLAIMS F4 (0.2088, A = 27–90) and GP9 (0.2072 within a width
+  family; 0.2085 area-only over s ≥ 4) are the same kind of slope over other sets of faces. [B11]
+- **Shortest-loop step 12 → 16 at A = 60** (line 1435: 0.051 ± 0.005): `shape/README.md` gives 0.052 ± 0.005 from
+  the same classes (12.481 − 12.429); the census (line 1508, CLAIMS SH4) gives +0.056 to +0.063 with every class.
+  The 0.051/0.052 difference was not traced (rounding of unrounded group means is likely, not checked). [B8]
+- Lead's spot checks of this list: the five slopes by arithmetic; `python3 research/fluct/sym_fit.py` (0.698134,
+  −0.195996; vertex-centred points start at A = 360, cube-centred ones do not); the R = 11 means in
+  `research/peeling/octa_first.csv`; the A = 48 rows of `research/peeling/slab_area.csv`; 14.970 and 14.972 from
+  `research/audit/gpu_pr16/recompute.py`. All as stated. Not re-checked by the lead: the csv's history, the quantile
+  0.566, the shelf's row count. Source of the list: `docs/paper/INCONSISTENCIES.md` (34 places found while a
+  manuscript-style draft was written, `docs/paper/draft.md`), resolved in 629fd03…15b1b4c; the ledger's ids K1–K3
+  of the class study are now K9–K11, and its tally was recounted mechanically (108 rows: A 40, B 40, C 27, D 1; the
+  earlier "A 43" had misread areas such as "A = 84" as grades).
