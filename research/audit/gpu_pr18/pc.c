@@ -7,6 +7,8 @@
  * Usage: pc PROG W p seed B G NB OUT [-i cells.txt -t T]   (-i: replica 0 starts from the listed cell indices; -t:
  *   after T generations print replica 0's live cell indices and exit -- the engine check)
  * OUT: one line per (batch, group): batch name samples hits hits2
+ * -e SUBSTR (repeatable) -E FILE: every hit of a group whose name contains SUBSTR is logged to FILE as
+ *   "gen replica group translate" (follow-up run: clustering of the rare 4x4 / 4x5 hits)
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,8 +24,9 @@ int main(int argc, char **argv) {
   if (argc < 9) { fprintf(stderr, "usage\n"); return 1; }
   int W = atoi(argv[2]); double p = atof(argv[3]); sm = strtoull(argv[4], 0, 10) * 0x2545F4914F6CDD1DULL + 777;
   long B = atol(argv[5]), G = atol(argv[6]); int NB = atoi(argv[7]); const char *outf = argv[8];
-  const char *initf = 0; long T = -1;
-  for (int i = 9; i < argc; i++) { if (!strcmp(argv[i], "-i")) initf = argv[++i]; else if (!strcmp(argv[i], "-t")) T = atol(argv[++i]); }
+  const char *initf = 0, *evf = 0; long T = -1; const char *pat[16]; int npat = 0;
+  for (int i = 9; i < argc; i++) { if (!strcmp(argv[i], "-i")) initf = argv[++i]; else if (!strcmp(argv[i], "-t")) T = atol(argv[++i]);
+    else if (!strcmp(argv[i], "-e")) pat[npat++] = argv[++i]; else if (!strcmp(argv[i], "-E")) evf = argv[++i]; }
   FILE *f = fopen(argv[1], "rb"); int n = rdi(f);
   int *nb = malloc(4 * 12 * (size_t)n); for (int i = 0; i < 12 * n; i++) nb[i] = rdi(f);
   int nf[2]; int *fc[2];
@@ -36,6 +39,8 @@ int main(int argc, char **argv) {
   for (int g = 0; g < ng; g++) { int L = rdi(f); gname[g] = calloc(L + 1, 1); if (fread(gname[g], 1, L, f) != (size_t)L) return 2;
     gn[g] = rdi(f); gid[g] = malloc(4 * gn[g]); for (int i = 0; i < gn[g]; i++) gid[g][i] = rdi(f); }
   fclose(f);
+  int *logg = calloc(ng, sizeof(int)); FILE *evo = evf ? fopen(evf, "w") : 0;
+  for (int g = 0; g < ng; g++) for (int k = 0; k < npat; k++) if (strstr(gname[g], pat[k])) logg[g] = 1;
   int tot = n + 1 + nn;                                   /* value slots: cells, sentinel n, nodes */
   u64 *a = calloc((size_t)tot * W, 8), *b = calloc((size_t)tot * W, 8), *old = calloc((size_t)n * W, 8);
   u64 thr = (u64)(p * 18446744073709551616.0);
@@ -80,7 +85,8 @@ int main(int argc, char **argv) {
     for (int g = 0; g < ng; g++) {
       long h = 0, h2 = 0;
       for (int i = 0; i < gn[g]; i++, it++) { const u64 *v = a + (size_t)gid[g][i] * W; u64 *pv = prev + (size_t)it * W;
-        for (int w = 0; w < W; w++) { u64 e = ~v[w] & mask[w]; h += __builtin_popcountll(e); if (!first) h2 += __builtin_popcountll(e & pv[w]); pv[w] = e; } }
+        for (int w = 0; w < W; w++) { u64 e = ~v[w] & mask[w]; h += __builtin_popcountll(e);
+          if (e && evo && logg[g]) for (u64 x = e; x; x &= x - 1) fprintf(evo, "%ld %d %d %d\n", g1, 64 * w + __builtin_ctzll(x), g, i); if (!first) h2 += __builtin_popcountll(e & pv[w]); pv[w] = e; } }
       long ms = 0; for (int w = 0; w < W; w++) ms += __builtin_popcountll(mask[w]);
       H[g] += h; H2[g] += h2; S[g] += ms * gn[g];
     }
@@ -92,6 +98,6 @@ int main(int argc, char **argv) {
     }
   }
   fprintf(out, "#masked\tface %ld\tsettle %ld\n", nface, nsettle);
-  fclose(out);
+  fclose(out); if (evo) fclose(evo);
   return 0;
 }
