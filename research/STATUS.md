@@ -65,7 +65,10 @@ _Last updated 2026-11-14 by the lead._
   **08:17 UTC:** all three solvers have written their rounds (counting round 3 is a closing report and
   probability round 3 says its line is finished; path round 4 asks for one closing round). A fresh critic (Fable)
   is reviewing the three rounds in one pass with the exam outcomes and the library notes; when it reports, decide
-  on path's closing round. The audit of the Theorem A chain is still running. Earlier: a librarian (successor) on the two percolation facts that probability's and
+  on path's closing round. **The audit of the Theorem A chain is done** (`swarm/audit/AUDIT-theoremA.md`): the
+  theorem stands, conditional on two cited percolation statements; recorded in the notebook (2026-11-14, "a
+  deterministic relative…") and as CLAIMS row SW1, with the lead's own simulation. The audit's part B also passed
+  every proved claim of the probability and source lines; counting's and path's have had no fresh reader yet. Earlier: a librarian (successor) on the two percolation facts that probability's and
   source's Theorem A rest on (`library/requests.md`, last two blocks), and an examiner running the sampled entries of
   `swarm/PREDICTIONS.md` (writes `swarm/exam/OUTCOMES.md`). Stop a line when a round gives no new proved step (each
   solver was told that a closing report is a good outcome). Then a fresh reader (not the critic) audits every claim tagged "proved" across the four `claims.md`,

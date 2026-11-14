@@ -1064,3 +1064,47 @@ oracle with gump's offsets): `python3 lead_check.py slab 4 4 8000 2048 1` → 6.
 10.186 ± 0.008 (15,171 deaths, 12 minutes). A first version that censored only
 period-2 states read 6.495 and 8.027: replicas that settle into longer cycles never die and inflate τ at old ages.
 The same trap as the PR 12 reviewer's with `fl.c`; any wall-law estimator must censor every period.
+
+## 2026-11-14 — a deterministic relative of the 2D rule with an exponential law (swarm: source and probability lines; fresh-reader audit; lead's check)
+
+The first result of the theory swarm to pass an audit by a reader who is neither a solver nor the critic
+(`research/theory/swarm/audit/AUDIT-theoremA.md`; its scripts `a1`–`a10` there share nothing with the critic's lab).
+
+**The automaton 𝒜(L).** Cells (x, j), x on a ring of L columns, rows j = 0, 1, 2, … Row 0 follows the 2D rule
+B34/S234 on the range-2 cross with nothing above it. Every other row copies the row two below. Initial state: any
+row 0; beneath it independent fair bits, each written into two consecutive rows. The update is deterministic; the
+only randomness is the initial tape, which the conveyor brings to the edge two rows a generation.
+
+- **[proved; audited]** Row 0 is exactly a Markov chain: a cell within distance 2 of a live cell is alive next with
+  probability ½, except that a live cell with two live in-row neighbours survives surely. From its quasi-stationary
+  law the edge dies after an exactly geometric wait of mean τ_L, and τ_L ≤ 3·8^L. τ_L is at least the lifetime of
+  five-parent oriented site percolation of density ½ on the same ring.
+- **[proved, conditional; audited]** *If* (F1) the critical density of two-parent oriented site percolation is
+  below ¾ (Balister–Bollobás–Stacey 1994, p_c ≤ 0.7491, computer-assisted; nobody here has read the primary paper;
+  the audit adds a second route through Liggett 1995 at exactly ¾) *and* (F2) supercritical oriented site
+  percolation on a cylinder of circumference n lives e^{cn} (Hartarsky–Szabó 2022, Cor. 4.8; read in the paper, its
+  proof there is a sketch), *then* e^{cL} ≤ τ_L ≤ 3·8^L for all large L, odd or even. No unconditional exponential
+  lower bound survives.
+- **[exact]** ln τ_L = 6.5319, 9.4733, 12.2492, 13.5946 at L = 8, 12, 16, 18 (the audit's `a3_chain.py 18`): about
+  0.67–0.71 per cell, against 0.36–0.42 measured for the 2D rule's own edge in a strip.
+
+**What it is not.** The audit's own words are the right ones: a deterministic map reading a random tape once. The
+edge consumes L fresh bits a generation for ever; the bulk neither reads the edge nor transforms what it carries;
+the two cells beneath an edge cell are always equal, which the rule's own bulk does not do. It is not self-made
+randomness, and it says nothing about gump or about the 2D rule in a vessel run by the rule. The method provably
+stops short of both (the audit's §4: for independent rows beneath at the bulk density the best one-step monotone
+minorant dies in O(log L) generations; a gump face cell with six live in-face neighbours dies whatever is beneath).
+Its use to the project is as a fixed point: the simplest system with the 2D rule's own edge in which "memoryless,
+exponential in the length" is a theorem, with a precise list of what a proof for the rule itself may not use.
+
+The audit also went through every other claim tagged "proved" in the probability and source lines (its part B):
+all correct, one worded too widely (probability claim 8). It found no wrong verdict of the critic's. Counting's and
+path's proved claims have not had a fresh reader.
+
+Lead's check (`research/audit/swarm/lead_check_theoremA.py`, plain numpy, no shared code):
+`python3 lead_check_theoremA.py literal 8 4000 512 1` (the map on the whole array, tape of 8,000 rows) →
+ln τ = 6.519 ± 0.019; `lazy 8 20000 4096 2` (rows 1, 2 drawn fresh each generation) → 6.535 ± 0.003;
+`lazy 12 60000 4096 3` → 9.463 ± 0.007. Exact: 6.5319, 9.4733. The swarm's examiner, separately, measured the
+variant with a parity bulk at L = 12, 14, 16 inside 0.7σ of the corresponding exact chain
+(`research/theory/swarm/exam/OUTCOMES.md`, S-E1). Not checked by the lead: the proofs line by line (the auditor
+did), the two literature statements (nobody has, in the primary sources).

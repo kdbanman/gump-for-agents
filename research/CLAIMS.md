@@ -142,8 +142,16 @@ Commands run from the repo root; `G=engine/target/release/gump`. `check.sh` = co
 | K4 | `class.md`: theorems A–G hold as stated (C4's wording apart); its clause 1 ("iff", hull = polytope of sealed directions) fails for several cell types; "46 of 50" is 42 by the pre-fixed rule; fcc slope 0.181; clause 5 is a fit | reviewed | REVIEW-class; note at the head of class.md | `python3 research/audit/class/recount.py`, `proofs.py`, `run_measured.sh` | B (one adversarial checker with independent code; proofs not read by a third party) | 2026-11-14 |
 | K5 | Kagome B2/S12 is a candidate 2D gump (hexagonal hull, ρ = 0.48, strip law, growing hexagon lifetimes); bond10 is tight at b = 3 with strong slab laws | measured (rough) | REVIEW-class §2.4 | `python3 research/audit/class/others.py kagome …`, `others.py bond10 …` | C (transverse cuts not censored; endings by snapshot) | 2026-11-14 |
 
+## The swarm (`research/theory/swarm/`)
+
+Nothing from the swarm is a claim of the project until a fresh reader has audited it.
+
+| id | claim | tag | where | reproduce | level | checked |
+|---|---|---|---|---|---|---|
+| SW1 | The automaton 𝒜(L) (row 0: B34/S234 on the cross; other rows copy the row two below; fair bits in pairs of rows beneath): its edge is exactly a Markov chain with a geometric death law, τ_L ≤ 3·8^L, and e^{cL} ≤ τ_L for large L **if** two published percolation statements hold (p_c(two-parent, site) < ¾; exponential survival on a cylinder); ln τ = 6.5319, 9.4733 at L = 8, 12. Not self-made randomness; nothing about gump | proved (conditional on two cited statements, read second-hand or as a sketch) | NB 2026-11-14; `swarm/audit/AUDIT-theoremA.md` | `cd research/theory/swarm/audit && python3 a2_automaton.py && python3 a3_chain.py 18`; `python3 research/audit/swarm/lead_check_theoremA.py lazy 12 60000 4096 3` | A (proof audited line by line by a fresh reader with its own enumerations; the lead's simulation gives 6.535 ± 0.003, 9.463 ± 0.007; the examiner's parity variant agrees) | 2026-11-14 |
+
 ## Counts (recounted 2026-11-14)
 
-91 claims, by the best grade any part of the claim has: **A** 32 (16 alone, 14 with B, 2 with C) · **B** 35 (28 alone,
+92 claims, by the best grade any part of the claim has: **A** 33 (17 alone, 14 with B, 2 with C) · **B** 35 (28 alone,
 7 with C for part of the claim) · **C** 23 · **D** 1. Four are marked superseded (F7, S1, F9, GP4) and
 one has a method problem (C6). Details and the open items are in `research/AUDIT-2026-11-13.md`.
