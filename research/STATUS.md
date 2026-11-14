@@ -62,13 +62,12 @@ _Last updated 2026-11-14 by the lead._
   review (`research/audit/REVIEW-gpu-pr16.md`), the lead's re-derivation (`research/audit/gpu_pr16_lead_check.py`)
   and seven text fixes: notebook entry "equal areas, different lifetimes", CLAIMS GP9. Offered to the GPU session as
   optional and only if cheap: about 2,500 face deaths at 5×8×8, which would decide between "offset in the short side"
-  (every family 0.2072) and "term in the long side" (b(5) = 0.2081). **The twisted-torus experiment is done** (`research/shape/README.md`; forecasts committed first): at
-  A = 72 the lifetime is a monotone function of the shortest loop of the periodic face (ten tori, six loop lengths,
-  agreement within groups χ² 1.8 on 7); at A = 60 two shapes with the same shortest loop differ by 0.019 ± 0.004,
-  so the shortest loop is the main variable but not the only one. The lead's check of the tables and the lattice
-  arithmetic is done (`research/audit/shape_lead_check.py`). **Running (Opus, CPU): its adversarial review**,
-  `research/audit/REVIEW-shape.md`, with an independent rerun of the A = 60 pair. When it reports: notebook entry,
-  CLAIMS, one overview refresh covering this and pull request 16, merge pull request 15. (b) done 11:50 UTC: the overview page was refreshed (9b5dc03: plates for
+  (every family 0.2072) and "term in the long side" (b(5) = 0.2081). **The twisted-torus experiment is done, reviewed and recorded** (`research/shape/README.md`,
+  `research/audit/REVIEW-shape.md`, notebook entry "the shortest way round", CLAIMS SH1, SH2): at equal area the
+  lifetime of a periodic face rises with its shortest closed loop (two independent codes); at A = 60 a second
+  variable shows (two tori with the same shortest loop differ by 0.018 ± 0.004). **Running (Opus):** an editor
+  applying the review's seven corrections to `research/shape/README.md`; a refresh of the overview page for this and
+  pull request 16 (then the lead publishes it). (b) done 11:50 UTC: the overview page was refreshed (9b5dc03: plates for
   face12e, the family, where the exponent lives; the swarm closed; "Open now") and republished to the same private
   link (`LEAD.md`); it does not yet carry pull request 16's width result. Pull request 15 is the lead's open one. **After the owner's Fable reset** (about 9am their time,
   probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
