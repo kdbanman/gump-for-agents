@@ -304,3 +304,15 @@ def cubelike(prepared: str = f'{ROOT}/research/scratch/gpu/cubelike_v40.npz'):
     with open(path, 'w') as fh:
         json.dump(out, fh)
     print('saved', path)
+
+
+@app.function(timeout=900)
+def relay_remote(call_id: str):
+    """fetch a finished call's result inside Modal and return it zlib-compressed: results above a few MB otherwise come
+    back through a blob host this environment does not reach (see README, Running on Modal)"""
+    import base64, json, zlib
+    import modal as m
+    res = m.FunctionCall.from_id(call_id).get()
+    sizes = {k: len(json.dumps(v)) for k, v in res.items()}
+    z = base64.b64encode(zlib.compress(json.dumps(res).encode(), 9)).decode()
+    return dict(sizes=sizes, z=z)

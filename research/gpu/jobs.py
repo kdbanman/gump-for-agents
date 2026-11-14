@@ -57,8 +57,15 @@ def collect(wait=False):
             res = modal.FunctionCall.from_id(j['call']).get(timeout=None if wait else 0)
         except TimeoutError:
             print('running ', j['fn'], j['args'], j['call']); continue
+        except Exception as e:  # noqa: BLE001 - a large result: fetch it compressed through relay_remote
+            if 'ProxyError' not in repr(e):
+                raise
+            import base64, zlib
+            r = modal.Function.from_name(APP, 'relay_remote').remote(j['call'])
+            print('relayed ', j['call'], 'field sizes', r['sizes'], 'compressed', len(r['z']))
+            res = json.loads(zlib.decompress(base64.b64decode(r['z'])))
         except Exception as e:  # noqa: BLE001 - report and keep going
-            print('FAILED  ', j['fn'], j['args'], j['call'], repr(e)[:200]); j['done'] = 'failed'; continue
+            print('FAILED  ', j['fn'], j['args'], j['call'], repr(e)[:200]); continue
         p = out_path(j, res)
         with open(p, 'w') as fh:
             json.dump(dict(res, gpu='A10G'), fh)

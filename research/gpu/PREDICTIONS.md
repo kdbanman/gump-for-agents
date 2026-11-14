@@ -95,3 +95,15 @@ local slope 108 → 126: 0.204 ± 0.006. No settling recorded (kinds 2, 3: 0). S
 A = 126; the octahedral faces' 0.218–0.221 is a rim effect (at A = 108 an octahedral face is 0.91 nats tougher than a
 rim-free one). Caveat: ages ≤ 1.5 × 10⁹, ≈ 1/75 of the A = 126 mean; the estimate assumes the hazard stays flat beyond,
 as at every size where it could be checked.
+
+## Outcome of experiment b (appended 2026-11-14T03:15Z)
+
+`python3 research/gpu/weibull.py research/data/gpu_facelaw/symcR43_s501_A10G.json` (A10G, 3 h, 2,304 replicas,
+settle window 1,024; spawned through `jobs.py`, fetched through `relay_remote`). **The cube-centred death rate does
+not fall with age — forecast held.** 5,971 deaths, ages to 2.6 τ, 1 settle: τ = **3.201 × 10⁹** (ln 21.887 ± 0.013;
+the earlier run's 3.253 × 10⁹, 0.5σ). Censored Weibull shape: **1.020** (95% 1.000–1.041) over all ages, **1.030**
+(1.002–1.059) over ages ≥ 0.05 τ (forecast 0.95–1.05). Hazard × τ by age, deaths / expected: 0.03–0.1 τ 0.99,
+0.1–0.2 0.93, 0.2–0.3 1.03, 0.3–0.5 0.99, 0.5–0.75 0.99, 0.75–1 1.04, 1–1.5 1.00, 1.5–2 1.13, 2–3 1.02. The earlier
+runs' falling hazards (k = 0.94 at R = 43, 0.84 at R = 45, re-derived here with the same numbers as the review) were
+noise at R = 43; R = 45 was not re-run, so its k = 0.84 is untested, but nothing at R = 43 supports it. The side-17
+mean (3.2 × 10¹⁰ from R = 45) stands as a long-run mean to the extent R = 43 is a guide.

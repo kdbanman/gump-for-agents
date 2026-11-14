@@ -199,6 +199,13 @@ A = 27–90):
 Local slope 108 → 126: 0.204 ± 0.006. At A = 108 an octahedral face (23.376) is 0.91 nats tougher than a rim-free one.
 Octahedral A = 165 was not run (≈ 10⁶ GPU-seconds per death).
 
+**b. The cube-centred death rate does not fall with age.** One 3-hour run at R = 43 (A = 759), 2,304 replicas
+(`WB = 1`, so each ages twice as fast), settle window 1,024: 5,971 deaths, ages to 2.6 τ, τ = 3.201 × 10⁹
+(ln 21.887 ± 0.013; earlier run 3.253 × 10⁹). `python3 research/gpu/weibull.py research/data/gpu_facelaw/symcR43_s501_A10G.json`:
+censored Weibull shape 1.020 (95% 1.000–1.041), 1.030 (1.002–1.059) beyond 0.05 τ; the hazard is flat from 0.03 τ to
+3 τ within Poisson error. The k = 0.94 / 0.84 of the two shorter runs (ages ≤ 0.23 τ, ≤ 0.04 τ) were noise at R = 43;
+R = 45 was not re-run.
+
 **c. Cube-like seeds at vertex-centred R = 40 are memoryless.** `python3 research/gpu/cubelike.py prepare
 research/scratch/gpu/cubelike_v40.npz` (fl.c, local, 2 s), `modal run research/gpu/modal_app.py::cubelike` (A10G,
 28 min), `python3 research/gpu/cubelike.py analyse research/data/gpu_facelaw/cubelike_v40.json`. 7,807 deterministic O_h
@@ -246,4 +253,6 @@ Anything that is "many independent replicas of one vessel, stopped at an event" 
   ephemeral apps of three running jobs stopped and their results were lost (≈ $2 of compute). Long runs now go
   through the deployed app: `modal deploy research/gpu/modal_app.py` once, then `python3 research/gpu/jobs.py spawn
   facelaw '{...}'` and later `python3 research/gpu/jobs.py collect` (call ids in `research/scratch/gpu/jobs.json`).
+  A spawned call's result goes through the blocked blob host above ~100 KB (the 140 KB R = 43 result did); `collect`
+  then fetches it through `relay_remote`, which reads the result inside Modal and returns it zlib-compressed.
 - Budget: $30/month of Modal credits. `modal billing report --for "this month" --show-resources` shows the spend.
