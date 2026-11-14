@@ -236,9 +236,10 @@ from scipy.stats import spearmanr
 pts = [(sig, sl, lat, c) for sig, lat, c, sl, ok in tab if ok and sl is not None]
 rho_s, pval = spearmanr([p[0] for p in pts], [p[1] for p in pts])
 print(f"   {len(pts)} in-reach chaotic pairs with a law: Spearman rank correlation of sigma with slope {rho_s:.2f} (p = {pval:.3f})")
-hi = [p for p in pts if p[0] >= 0.89]
+hi = [p for p in pts if p[0] >= 0.885]          # class.md's "sigma >= 0.89" (fcc c = 6 and bcc14 c = 8 are 0.887, 0.886)
 rho_h, pv_h = spearmanr([p[0] for p in hi], [p[1] for p in hi])
-print(f"   the {len(hi)} with sigma >= 0.89: {rho_h:.2f} (p = {pv_h:.2f}); slopes there range {min(p[1] for p in hi):.3f} .. {max(p[1] for p in hi):.3f}")
+print(f"   the {len(hi)} with sigma >= 0.885: {rho_h:.2f} (p = {pv_h:.2f}); slopes there range {min(p[1] for p in hi):.3f} .. {max(p[1] for p in hi):.3f}")
+print(f"   the {len(pts) - len(hi)} with a law below that: {[(round(p[0], 2), p[2], p[3], round(p[1], 3)) for p in pts if p[0] < 0.885]}")
 lo4 = [(sig, lat, c, sl, ok) for sig, lat, c, sl, ok in tab if sig < 0.85]
 print(f"   pairs with sigma < 0.85: {[(round(s, 2), l, c, 'law ' + format(sl, '.3f') if ok else 'no law') for s, l, c, sl, ok in lo4]}")
 nolaw = [(round(sig, 2), lat, c) for sig, lat, c, sl, ok in tab if not ok]

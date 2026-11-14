@@ -16,9 +16,9 @@ about gump.*
 
 | part | verdict |
 |---|---|
-| 1. Proofs | Theorems A–G hold as stated, with three exceptions. (a) Being sealed is a property of a **half-space** (direction and position of the plane), not of a direction, as soon as there are several cell types; clause 1's "proved iff; the hull is the polytope of those rays" is false, and six rows of the lattice table are wrong or incomplete. Gump's own row is unaffected. (b) C4 is wrong as worded (the code computes the right thing). (c) Clause 3 is tagged "proved"; what is proved is conditional, the rest is measured, and the document's own data contradict half of it. |
+| 1. Proofs | Theorems A–G are correct as stated, C4's wording apart. What fails is what the summary and the table make of them. (a) Being sealed is a property of a **half-space** (direction and position of the plane), not of a direction, as soon as there are several cell types; clause 1's "proved iff; the hull is the polytope of those rays" is false, and six rows of the lattice table are wrong or incomplete. Gump's own row is unaffected. (b) C4 is wrong as worded (the code computes the right thing). (c) Clause 3 is tagged "proved"; what is proved is conditional, the rest is measured, and the document's own data contradict half of it. |
 | 2. face12e | The criterion as written says: no sealed direction at b = 4, not confined, not a gump. In fact [proved + measured]: confined to a box, chaotic on the torus (ρ = 0.398), walls die two sheets at a time after a memoryless wait with ln τ = 6.43 → 14.54 for 16 → 36 wall faces, box lifetimes 10, 60, 439, 9,855, 707,038 for 2³ … 6³ cubes, ending in sparse debris. It passes all three of class.md's tests. The lead's quick look is right on every point it makes. |
-| 3. Measured claims | Reproduced: gump caps 6 and 7 slab laws (my ln τ within 0.02 of the author's at four sizes each), walls at K_f + 1, the "38 walls", "14 of 15", the git order of predictions and data. Not reproduced as stated: "identical" (the two laws differ by 2 % in slope, significantly); fcc slope "0.19" (0.181 ± 0.001; the 0.19 leans on one size below the burn-in); "46 of 50" (42 by the scoring rule that was fixed in advance); "8 / 6 / 14" (needs case-by-case judgment: the hull rule depends on an arbitrary size step and by its letter fails cross2, the project's 2D gump). |
+| 3. Measured claims | Reproduced with independent code: gump caps 6 and 7 slab laws (slopes 0.2121 and 0.2156 against 0.212 and 0.215; ln τ within 0.02 at four sizes each), fcc at four of five sizes, the wall at K_f + 1, octahedron lifetimes. Recounted and holding: "38 walls", "14 of 15", the git order of predictions and data. Not holding as stated: "identical" (the two gump laws cross and differ by 1.6 ± 0.3 % in slope); fcc slope "0.19" (0.181 ± 0.001; the 0.19 leans on one size below the burn-in); "46 of 50" (42 by the scoring rule fixed in advance); "8 / 6 / 14" (a judgment: the hull rule depends on an arbitrary size step and by its letter fails cross2, the project's 2D gump, and vn B2/S12). |
 | 4. Clause 5 | A threshold drawn between two eroding cases and four weak ones, with two exceptions on the wrong side already in the author's table. On face12e it gives the wrong call or the right one depending on which layer's degree is called K_f. Not a criterion. |
 | 5. The class | What can be signed is a list of proved necessary-in-practice structure (sealed half-spaces, no finite sealed set, no armour, two-sided drive) plus a measured regularity (chaotic bulk ⇒ whole-wall memoryless death: 42 of the author's 50 pairs by the rule he fixed in advance, and face12e). No clause predicts chaos or the strength of the law, and "is a gump" is not sharply defined for weak laws. |
 
@@ -37,7 +37,7 @@ it removes the "iff".
 | "u is sealed iff c(u) ≤ b − 1" | holds, with sealed meaning "for every C" | |
 | A(iii) specialisation, rays | holds | |
 | A(iv) one type: a⁰ ≥ K − 2b + 2 | holds | |
-| A(v) hull | the inclusion holds; "the hull **is** the polytope of those rays", and N1 "necessary … an iff", **fail** for several types | §1.2 |
+| A(v) hull_b is invariant, bounded iff U_b positively spans | holds | but hull_b is not the smallest invariant polytope when there are several types |
 | B firewalls | holds (one type). With several types the position of the band matters | §2.2 |
 | C sealed sets, C1 | hold | |
 | C2 dichotomy b ≤ K/2 | holds (one type). Also true on gump's three-type lattice [computed] | §1.4 |
@@ -49,7 +49,11 @@ it removes the "iff".
 | E armour, corollary (walls) | hold, as conditionals ("once fully alive") | |
 | F reach of caps | holds (one type, tight b) | |
 | G no shielded region | holds | |
+| Summary clause 1 "[proved iff; the hull is the polytope of those rays]", §5 N1 "necessary … an iff" | **fails** for several cell types (face12e, b = 4, by hand); for one type the iff holds for half-spaces, and "necessary for confinement" is unproved | §1.2, §1.3 |
+| Summary clause 2 "[proved iff for one cell type]" | holds | = C2 |
 | Summary clause 3 "[proved]", §5 N3 "proved necessary" | **overstated** | §1.3 |
+| Summary clause 4 "[proved]" | holds | = D |
+| "a spanning set of directions" (summary, §2) | must be *positively* spanning, as §5 says | `theory.confinement` tests linear rank; equivalent for every lattice of the table, where c(−u) = c(u) |
 
 ### 1.2 Sealing belongs to a half-space, not to a direction
 
@@ -97,7 +101,7 @@ in 3D, ≤ 8 in 2D, every plane position; `python3 seal.py LATTICE` for detail].
 
 | lattice | types | class.md (directions) | half-spaces | consequence |
 |---|---|---|---|---|
-| all 20 one-type lattices | 1 | | identical | none, as (iii) requires |
+| all 19 one-type lattices | 1 | | identical | none, as (iii) requires |
 | **gump** | 3 | b = 4, 8 diagonals | identical | none: every diagonal layer holds all three types, and no plane of any other scanned direction is sealed at any position |
 | face18, kagome6, hex12 | 3, 3, 2 | b = 6, 3, 6 | identical | none |
 | **face12e** (not in the table) | 3 | no sealed direction at b = 4; tight b = 5 | **b = 4**: 6 axis directions, plane through a sheet of face centres | confined to a box at b = 4 |
@@ -168,7 +172,8 @@ cells) and M = 4 (402 cells) and **none** for M = 5, 6, 8 (patches of 988, 1,173
 (the corner cut off by three axis planes at odd position, peeled; `python3 proofs.py bond10`) gives 1,176 cells in
 a 4-layer slab, none in an 8-layer slab, none in a half-space. The slab runs were 8 layers deep. "A slab of any
 thickness I tried" and §8.6 "finite sealed tubes through every slab" should read "slabs of 3 and 4 layers". What
-does cut thicker slabs is the axis firewall of §1.2, which is not finite but wraps a periodic face.
+does cut thicker slabs is the axis firewall of §1.2 (three x-layers, even, odd, even, for bond10 at b = 3 and 4, for
+face8 at b = 3 and for face12e at b = 4 [computed by peeling]), which is not finite but wraps a periodic face.
 
 ### 1.4 On gump's own three-type lattice
 
@@ -255,7 +260,11 @@ A = 25: 10.235 ± 0.011 (0.05 higher).
   is the death of the layer of y/z-faces beneath the sheet.** That layer has 2A cells with 6 in-layer neighbours, 2
   one layer in and 1 two layers in — the counts of a gump face cell (fcc: 6 and 3) — and per cell of it the slope
   is 0.205 (gump 0.212, fcc 0.181, both B45/S345).
-- *Transverse cuts.* [[CUTS]]
+- *Transverse cuts.* A periodic slab can also be cut for good by a transverse firewall (three y- or z-layers,
+  even, odd, even, wrapping the face), which my runs do not censor. Counted directly
+  (`python3 face12e.py cuts n T`, checked every 64 generations): of 512 soups on 4 × 4 the first permanent event is
+  a wall death in 453, a cut in 13, both within one 64-generation window in 41; of 192 soups on 5 × 5, 187, 2 and 3.
+  So cuts precede 1–3 % of wall deaths (at most 11 % at the smallest size) and do not carry the law.
 
 **Boxes** [measured, `python3 face12e.py life n cap`, 64 soups, density 0.45; lifetime = first t with
 x(t) = x(t + 2)]:
@@ -272,7 +281,13 @@ x(t) = x(t + 2)]:
 Ratios 6.0, 7.3, 22, 72: faster than exponential in the side, as a wait exponential in the wall area requires
 (ln of the ratio over the increase of n²: 0.36, 0.28, 0.35, 0.39).
 
-**How a box dies** [measured, `python3 face12e.py layers 5 80000`]: [[LAYERS]]
+**How a box dies** [measured, `python3 face12e.py layers 5 80000`]: 64 soups in a box of 5³ cubes, tracking the sealed box
+(a side shrinks by one cube when a wall sheet and the layer beneath it are empty together). 61 of 64 settle within
+80,000 generations (median 13,508). Before settling a soup loses on average **11.1 of its 15 layers of cubes**
+(minimum 7), each as a whole; the sealed box left at the end has a median volume of 2 cubes of the 125; 22 of 64
+end empty, the rest in debris of mean population 9. The first permanent layer death comes at generation 9,408
+(median), the last at 13,623: the box stands intact for two thirds of its life and then comes down layer by layer.
+In 4³ (same command with `4 6000`): 7.6 layer deaths per soup, first at 284, last at 419, settled at 424.
 
 By class.md's operational definition (bulk chaos ∧ face law with CV in [0.8, 1.25] ∧ hull lifetimes growing by more
 than e per size step, runs ending) face12e B45/S345 is a gump, *strong* (slope ≥ 0.15) however the face is counted.
@@ -289,7 +304,7 @@ and `edge.py` (same offsets as mine). Not checked out, not merged.
 | a filled closed cube dies in one generation | every cell of a closed box has ≥ 6 = c live neighbours; closed cubes of 2³, 3³, 5³ → 0 alive after one step | agree |
 | torus density about 0.40 from 0.15, 0.3, 0.5; collapse from 0.7 | 0.397–0.400 from 0.25–0.55 (0.382 from 0.15); 63/64 collapse from 0.7 | agree |
 | boxes: 4³ median about 500 (450–770), 5³ 8,700 (5,800–15,100), 6³ none in 60,000, 7³ none in 40,000; resolution 256, density 0.4 | 439 (279–594), 9,855 (6,159–17,848), 707,038, none in 300,000; exact settling time, density 0.45 | agree within the lead's resolution and sample |
-| it dies a slab at a time (population plateaus 193, 156, 120 in 5³) | [[LAYERS-SHORT]] | agree |
+| it dies a slab at a time (population plateaus 193, 156, 120 in 5³) | 11 of the 15 cube layers of a 5³ box die, one whole layer at a time, before the soup settles; 2 cubes of 125 left (median) | agree |
 | "the live-box read-out flickers at even coordinates" | explained: the wall sheet alone empties 4–10 times as often as a wall dies, and comes back | agree |
 | not looked at: memoryless? cost per cell? firewall? debris? | memoryless (CV 0.98–1.00, flat hazard over 2¹¹ in age); 0.41 per wall face; three layers (even, odd, even); debris of density 0.01–0.02, 40 % of endings empty | new |
 | "both rules are gumps" | yes, by class.md's three tests | agree |
@@ -330,7 +345,7 @@ forward count)" and the scan ran it at b = 3 only, where it freezes). `python3 o
 
 So the plain kagome lattice carries a rule with all three signatures, on a lattice the table excludes; "two
 dimensions has only the crosses" (§8.2) needs it added or tested away. Caveats: my strip runs do not censor
-transverse cuts, which are finite in 2D (settled replicas are 20–50 % as many as the deaths from n = 6 on, and the CV
+transverse cuts, which are finite in 2D (censored settled replicas are 18–92 % as many as the deaths, and the CV
 drifts to the edge of the accepted range); the hexagon endings from R = 6 on are long-period oscillators found by
 snapshot at powers of two, so those medians are upper bounds within a factor 2. By clause 3 as printed the cap is
 out of reach of this wall (the wall-row cell has degree 2 < c = 3, and a⁰ = 0); by the Theorem-E form it is fine.
@@ -361,7 +376,46 @@ ends when a boundary layer is empty or when it becomes periodic (censored); `./r
 `./run_measured.sh fcc`, `python3 summary.py`. Unlike the author I do not censor replicas that acquire a dead sealed
 set other than a face (1 % of endings in his gump runs, 16 % at fcc A = 25).
 
-[[MEASURED]]
+| A | gump B45/S345, mine | class.md | gump lattice B456/S3456, mine | class.md | cap 7 − cap 6, mine |
+|---|---|---|---|---|---|
+| 27 | 5.488 ± 0.002 | 5.48 | 5.442 ± 0.002 | 5.42 | −0.046 ± 0.003 |
+| 36 | 7.381 ± 0.003 | 7.39 | 7.336 ± 0.003 | 7.33 | −0.045 ± 0.004 |
+| 48 | 9.931 ± 0.006 | 9.92 | 9.879 ± 0.006 | 9.88 | −0.052 ± 0.008 |
+| 60 | 12.484 ± 0.014 | 12.50 ± 0.04 | 12.601 ± 0.015 | 12.59 ± 0.04 | +0.117 ± 0.021 |
+| 75 | 15.713 ± 0.051 (384 deaths) | 15.53 ± 0.20 (24) | 15.895 ± 0.056 (320) | 15.92 ± 0.23 (19) | +0.18 ± 0.08 |
+| slope per cell | **0.2121 ± 0.0004** | 0.212 ± 0.001 | **0.2156 ± 0.0005** | 0.215 ± 0.001 | 0.0035 ± 0.0006 |
+| CV of the wait | 0.99–1.01 | 0.96–1.01 | 0.99–1.02 | 0.97–1.02 | |
+
+- **"0.215 vs 0.212 per cell, five sizes": reproduced** to the third decimal with independent code, and with 16
+  times the deaths at the largest size. The waits are memoryless in my runs too (τ by age of the replica is flat
+  within the noise of the bins at every size).
+- **"Identical" is too strong.** The two laws cross: cap 7 is shorter-lived by 0.05 at A ≤ 48 and longer-lived by
+  0.12 and 0.18 at A = 60 and 75; the slopes differ by 1.6 ± 0.3 %. The boundary layers are not alike either (density
+  0.52 at cap 6, 0.62 at cap 7). "Equal within 0.2 in ln τ over ten units of ln τ" is what the data say.
+
+| A | fcc B45/S345, mine | class.md |
+|---|---|---|
+| 25 | (4.872 ± 0.005, not comparable) | 4.61 |
+| 36 | 6.837 ± 0.002 | 6.85 |
+| 49 | 9.226 ± 0.005 | 9.25 |
+| 64 | 11.913 ± 0.011 | 11.97 ± 0.04 |
+| 81 | 14.959 ± 0.035 (816 deaths) | 14.68 ± 0.24 (17) |
+| slope per cell | **0.181 ± 0.001** (successive 0.179, 0.184, 0.179, 0.179) | 0.189 ± 0.001 (all five); 0.159 (last interval) |
+
+- **The fcc slope is 0.18, not 0.19.** Four of five sizes agree within the errors. The author's 0.189 is a weighted
+  fit dominated by A = 25, where the wait (100 generations) is half the burn-in, a million replicas die before
+  they are counted for every ten thousand that are, and 16 % of the counted endings are sealed-set censorings; my
+  code does not censor those and gives 4.87 there, with a hazard that falls with age (115 → 658), so that point is
+  not a measurement of the same thing in either run. From A = 36 up the author's own numbers give 0.174. The
+  prediction "0.21 ± 0.07" holds for any of these values; an interval of a third either way is not a sharp test.
+- For both rules my boundary and interior densities agree with `faces.tsv` (gump 0.517 / 0.411 against 0.518 /
+  0.411; fcc 0.465 / 0.394 against 0.465 / 0.394).
+
+**Octahedron lifetimes** (`./run_last.sh`, 64 soups each; median and quartiles; class.md in brackets): gump cap 6,
+R = 4: 299 (217–380) [314]; R = 5: 4,671 (2,717–6,908) [3,682]. Gump lattice cap 7, R = 4: 21,450 (9,075–32,775),
+final density 0.23 [16,896; 0.22]. fcc cap 6, R = 3, 4, 5: 132, 958, 11,503 [162, 832, 9,847]. All within the
+quartile spread of 64 soups; cell counts 264, 510, 231, 489, 891 as in `hulls.txt`. "c = 7 lives ≥ 50× longer than
+c = 6 in octahedra" holds at R = 4 in my runs too (72×).
 
 ### 3.2 "Walls, no exception"
 
@@ -377,7 +431,21 @@ with my stepper (`./run_measured.sh fcc`, last four lines):
 Reproduced: between c = K_f and c = K_f + 1 the boundary goes from dying every 75,000 generations to never, and
 it sits at density 1.000 from soups of density 0.45. The same holds on face12e, a lattice the author never saw: a
 wall sheet (degree 8, 4 in-sheet neighbours) set fully alive over a random interior is broken in 64/64 soups at
-c = 7 and c = 8 and in 0/64 at c = 9 and c = 10 (`python3 proofs.py wallprop`). [[F12CAPS]]
+c = 7 and c = 8 and in 0/64 at c = 9 and c = 10 (`python3 proofs.py wallprop`). From soups, without help
+(`./run_extra.sh`, last block):
+
+| face12e cap | torus (10³ cubes, 64 soups × 6 densities) | slab: ln τ at 16, 25 wall faces | wall-sheet density |
+|---|---|---|---|
+| 5 (B4/S34) | dies | — | — |
+| 6 (B45/S345) | chaotic, ρ = 0.398 | 6.43, 10.18 | 0.49–0.52 |
+| 7 (B456/S3456) | chaotic, ρ = 0.46 | 6.00, 9.65 | 0.63–0.66 |
+| 8 (B4567/S34567) | chaotic, ρ = 0.52 | 6.01, 9.69 | 0.76–0.77 |
+| 9 (B45678/S345678) | chaotic, ρ = 0.57 | **no death** in 1.8 × 10⁷ and 3.2 × 10⁷ replica-generations | **1.000** |
+| 10 | chaotic, ρ = 0.63 | not run | |
+
+Two of class.md's observations pass here, out of sample: the wall cap is exact (dying at c = K_f = 8, immortal at
+9), and in 3D the slope barely notices the cap (0.42, 0.41, 0.41 per wall face between these two sizes at caps 6,
+7, 8, with wall densities from 0.5 to 0.77).
 The count "38, no exception" is recounted in §3.3.
 
 ### 3.3 Recounts from the committed data (`python3 recount.py`)
@@ -395,14 +463,20 @@ median × ≥ e per size step at two consecutive steps, runs ending, unfinished 
 | "all 38 pairs beyond reach with a⁰ ≥ b − 1 are walls, no exception … 18 families" | 60 such pairs scanned in 20 families; 38 in 18 families have anything alive after the burn-in; in all 38 every slab run has boundary density 1.00 and zero face deaths. The verdict column says WALL for 26 and "freeze" for 12; the torus is chaotic in 25, frozen in 12, glass in 1 | holds. Worth saying that only 25 of the 38 have a chaotic bulk |
 | "28 'GUMP' calls: 8 passed all three, 6 slab law without conclusive hull, 14 failed" | 28 calls. Mechanically: 4 pass all three (fcc 6, bcc8 5, bcc14 8, sc18 10); 2 more if every step into an unfinished size counts (fcc 7, cross3d2 5: one finished size each); cross3 7 misses the hull rule by one step (ratios 3.34, **2.69**, 3.15); face8 5 misses the slab rule (8 deaths at its second size). Those are the author's 8. The 6 and the 14 recount as stated (10 + 2 + 1 + 1), with tristar2 c = 8 counted as "bulk not chaotic" here but as one of the 50 chaotic pairs in S1 | 8 / 6 / 14 stands as a judgment, not as a mechanical score |
 | "14 of 15 explicit 'not a gump' calls held" | 15 pairs, 14 hold, bond10 c = 7 is the miss. Five of the 14 hold because the torus dies at the named cap (tri18 12, tri12 9, hex12 9, moore_r2 15, 16), so the stated reason, passive faces, was not tested; three (hex3, kagome4, kagome8) were scanned at the direction-only b (§1.2) | holds as counted |
-| "two gumps were missed outright (vn c = 3, sc6 c = 3)" | see below | the hull evidence for both is thinner than for rules scored as misses |
+| "two gumps were missed outright (vn c = 3, sc6 c = 3)" | vn fails the hull rule by its letter and passes a step-free one (below); sc6 c = 3 has one finished hull size | holds for vn after the re-run below; thin for sc6 |
 
 **The hull rule is not well defined, and decides the headline.** "× ≥ e per size step" depends on the step, which
 was chosen per family. By the letter, the project's reference 2D gump fails it (cross2 B34/S234, sides 11…21 in
 steps of 2: ratios 2.38, 2.23, 2.09, 2.30, 2.05), and so does **vn B2/S12**, class.md's headline find (sides 9…33
 in steps of 4: 2.66, 2.18, 2.25, 1.91, 1.95, 1.63, every one below e and falling). cross3 B45/S345 (sides 17…41 in
 steps of 8: 2.84, 2.53, 1.93) is scored as a failed call, "too weak to grow in boxes". Per unit of side the rates
-are: cross2 0.36–0.43, steady; vn 0.245 → 0.122, halving; cross3 c = 6 0.13 → 0.08. [[VNBOX]]
+are: cross2 0.36–0.43, steady; vn 0.245 → 0.122, halving; cross3 c = 6 0.13 → 0.08. Run further with my stepper
+(`python3 vnbox.py`, sides 9 … 81; half the endings are long-period oscillators caught by snapshot, so medians are
+upper bounds within a factor 2): 8,889 at side 33 (author 8,763), 345,930 at side 65, about 2.1 × 10⁶ at side 81:
+**0.11 per unit of side from 33 to 81, the strip slope at L = 64–80 (0.12)**. So vn B2/S12 does keep growing exponentially, at a rate that no step of 4 turns into a factor e; the
+"miss" stands, and the rule that scores it needs replacing by a rate per unit of side compared with the slab
+slope. By that measure the line between vn (0.12, "a gump") and cross3 c = 6 (slab 0.05, box 0.08 at side 37,
+"a miss") is a factor of two in a rate, not a difference in kind.
 sc6 B2/S12 is called a gump on one hull size that finished (R = 2: 2,752; R = 3, 4, 5 all unfinished at 10⁵ with
 density 0.40, i.e. still full).
 
@@ -446,20 +520,20 @@ min on one core" for the two scans is about twice what the file times allow.)
 | 0.77 | bond10 c = 6 | memoryless law, 0.06 per cell |
 | 0.80 | cross4 c = 7 | eroding (no law) |
 | 0.85–0.88 | sc18 c = 9, face18 c = 9, sc26 c = 17, cross3 c = 6 | laws of 0.06–0.12 |
-| ≥ 0.89 | 34 pairs with a law | slopes 0.10 … 0.44 |
+| ≥ 0.89 | 36 pairs with a law | slopes 0.10 … 0.44 |
 
 - The line at 0.85 was drawn after the fact between the two eroding cases it was introduced to explain and the
   weak laws just above them. Of the four pairs below it, two erode and two have a memoryless law. Above it, two
   of 46 have none by the author's count (tristar2 c = 8 at σ = 1.03, cross3d2 c = 10 at 2.19, both put down to a
   glassy bulk).
-- As a predictor of strength it carries nothing above the line: among the 34 pairs with σ ≥ 0.89 and a law, the
-  rank correlation of σ with the slope is −0.04 (p = 0.8); over all 42 it is 0.38, all of it from the eight pairs
+- As a predictor of strength it carries nothing above the line: among the 36 pairs with σ ≥ 0.89 and a law, the
+  rank correlation of σ with the slope is 0.03 (p = 0.9); over all 42 it is 0.38, all of it from the six pairs
   below 0.89 being weak.
 - **Out of sample it has no success.** face12e: with K_f as the summary defines it (K minus the most neighbours
   behind the plane: 12 − 4 = 8, the wall-sheet cell) σ = 8 × 0.398 / 4 = 0.80, the value of cross4 c = 7, and clause
   5 says starved. The wall is the densest layer of the slab (0.52 against 0.40 inside) and the law is strong
-  (0.41 per wall face, 0.205 per cell of the layer that dies). With K_f as `theory.py table` would print it (the largest a⁰ + a⁻ over
-  types: 9, the y/z-faces) σ = 0.90 and clause 5 passes by 0.05. kagome4 B2/S12 (§2.4): σ = 0.48 with K_f = 2 (the
+  (0.41 per wall face, 0.205 per cell of the layer that dies). With K_f as `theory.py table` would print it (the
+  largest a⁰ + a⁻ over types: 9, the y/z-faces) σ = 0.90 and clause 5 passes by 0.05. kagome4 B2/S12 (§2.4): σ = 0.48 with K_f = 2 (the
   wall row), 0.96 with K_f = 4. An index that flips with the choice of layer cannot be scored.
 
 **What would make it a criterion, and what would falsify it.** Fix in advance which layer K_f refers to (the natural
@@ -495,11 +569,12 @@ cell types:
 5. **Whole-wall death [measured].** With 1–3 in force, no armour, and a torus state that is chaotic at that cap, the
    wall band dies as a whole after a wait that is memoryless and exponential in the wall's area. Re-measured with
    independent code: gump caps 6 and 7 (0.212 and 0.216 per cell, five sizes), fcc cap 6 (0.181, five sizes),
-   face12e cap 6 (0.41 per wall face, five sizes; new). In the author's data: 42 of 50 pairs by the rule fixed in
-   advance, 46 by his count; the exceptions are two eroding walls (cross4 c = 7, bcc14 c = 7) and glassy bulks.
+   face12e caps 6, 7, 8 (0.41 per wall face; five sizes at cap 6; new), and more roughly kagome4 B2/S12 and bond10
+   B34/S234, B345/S2345 in slabs (new). In the author's data: 42 of 50 pairs by the rule fixed in advance, 46 by his
+   count; the exceptions are two eroding walls (cross4 c = 7, bcc14 c = 7) and glassy bulks.
 6. **Lifetime in the hull [measured].** Where a hull was run to completion at three or more sizes, lifetimes grow
    as the wall law dictates and end in sparse debris: gump cap 6 and fcc cap 6 (author's runs), face12e cap 6
-   (mine: 10, 60, 439, 9,855, 707,038), vn B2/S12 (0.11 per unit of side up to side 65, mine).
+   (mine: 10, 60, 439, 9,855, 707,038), vn B2/S12 (0.11 per unit of side up to side 81, mine).
 7. **[conjecture]** Under 1–3 and a chaotic bulk the wall band is a metastable process whose only absorbing state
    is the empty band, with a wait exponential in its area. **Nothing is conjectured, because nothing is known,**
    about which caps are chaotic (class.md says so) or about how strong the law is (clause 5 does not do it).
@@ -529,7 +604,7 @@ sharp edge on the weak side: vn B2/S12 (0.12 per cell), cross3 B45/S345 (0.05) a
    slope; rescore vn, cross2, cross3 c = 6, 7 with it; say that sc6 B2/S12 and cross3d2 B34/S234 rest on one finished
    hull size, face8 B34/S234 on 8 slab deaths at its second size. tristar2 c = 8 is "chaotic" in S1 and "bulk not
    chaotic" in the scorecard.
-9. **"Identical slab face law"** → "equal within 0.1 in ln τ at five sizes; the slopes differ by 2 %" (§3.1).
+9. **"Identical slab face law"** → "equal within 0.2 in ln τ at five sizes; the slopes differ by 1.6 %" (§3.1).
 10. **fcc slope** 0.19 → 0.18 (the 0.19 leans on A = 25, where the wait is half the burn-in); the prediction
     0.21 ± 0.07 still holds.
 11. **§8.2** "two dimensions has only the crosses": kagome B2/S12 is a candidate with all three signatures (§2.4).
@@ -546,7 +621,7 @@ sharp edge on the weak side: vn B2/S12 (0.12 per cell), cross3 B45/S345 (0.05) a
   face12e). The mean-field numbers and R₁ were not looked at.
 - **Measurements not repeated:** every 2D scan, the vn strip law, Moore rows, the weak laws, the O1/U1 rates of N4,
   the gap-healing test of §8.5, stages 2–5 of the scorecard (I recounted stage 1 and the two headline tallies
-  only), all hull runs of class.md except vn's.
+  only), all hull runs of class.md except vn's, gump's at R = 4, 5 and fcc's at R = 3–5.
 - **Censoring.** My slab runs censor replicas that become periodic but not replicas that acquire a dead sealed set
   other than a face, which the author's do. It is immaterial for gump at A ≥ 27 and fcc at A ≥ 36 (agreement within
   0.02–0.06) and it is why I have no like-for-like number at fcc A = 25. For face12e see "transverse cuts" in §2.2.
@@ -571,9 +646,9 @@ python3 proofs.py bond10; python3 proofs.py wallprop; python3 proofs.py armour  
 python3 face12e.py structure; python3 face12e.py confine; python3 face12e.py confine-others    # 1 s, 20 s, 20 s
 python3 face12e.py bulk; python3 face12e.py bulk 6 gump                                        # 3 s each
 ./run_face12e.sh                    # face12e slabs and boxes                                    (about 12 min)
-python3 face12e.py layers 5 80000; python3 face12e.py cuts 4 4000 8; python3 face12e.py cuts 5 60000 2
 ./run_measured.sh gump; ./run_measured.sh fcc      # part 3 slab laws                            (25 + 12 min)
-./run_extra.sh                      # kagome4 b = 2, bond10 b = 3, vn boxes, face12e other caps   (about 15 min)
+./run_extra.sh                      # kagome4 b = 2, bond10 b = 3, vn boxes, face12e other caps   (about 20 min)
+./run_last.sh                       # how a face12e box dies, cuts in its slabs, octahedron lifetimes (3 min)
 python3 summary.py                  # the tables of this report from the outputs above
 python3 recount.py                  # the tallies of section 3.3 and 4 from the author's committed data
 ```
