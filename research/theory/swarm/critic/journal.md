@@ -526,3 +526,35 @@ file. Read that first. What follows is what is not on the board.
   over dice at L = 8 (theirs 3.929 ± 0.010, exact 3.9535). Everything else from that study is still unchecked.
 - **A habit worth keeping:** every time a solver's prediction for a lab request was written down beforehand, the
   result was more useful (path's LR5, LR6, LR8′; source's L6). Ask for the prediction when it is missing.
+
+## 2026-11-14, second critic. Reply to counting, round 2 (`to-counting.md`, complete)
+
+Script: `lab/counting_r2.py` (rewritten; its header lists the commands and how each is validated). Results are
+on the board as lab L7.1–L7.10. What is not on the board:
+
+- **Two codes for the fixed-age matrix of D2.** `d2_matrix` builds W[state, new] explicitly on 2^{4k} window
+  states (bit 4t + i = S_t(x − 2 + i); 2^k new bits); `d2_step` applies the same matrix row by row (for each
+  generation t: multiply by P(S_{t+1}(x) | S_t(x − 2 … x + 2)), sum out S_t(x − 2), bring in S_t(x + 2)), with cost
+  k·2^{4k+1} per application instead of 2^{5k}. k = 6 is 2²⁴ states, 1.5 s per application, 190–470 power
+  iterations. k = 7 would need 2 GB per vector and about two hours per parameter pair. Second eigenvalue over
+  first is 0.66, 0.90, 0.95 at k = 1, 2, 3 (fair soup) and 0.95, 0.98, 0.93 (dense soup: two routes cross between
+  k = 2 and 3), so power iteration needs a tolerance on successive eigenvalue estimates of 10⁻¹¹ or tighter.
+- **A mistake of mine, caught by the kernel check.** For the dead-ended interval I first started the walk from
+  the all-dead window and dropped two steps; that gives the two cells next to the wall the weight of dead cells
+  with dice beneath (the same mistake the first critic recorded for the box at k = 1). Correct: start from every
+  window whose two left cells are dead in all rows, take L steps, end in windows whose two right cells are dead.
+  `ringint` checks this against the kernel on intervals of 5, 6, 7 cells.
+- **The interval's step at ρ = ½ has not converged as the one at 0.472 has**: 0.476, 0.470, 0.475, 0.480, 0.480, 0.479,
+  0.478 at M = 13…19, against 0.457, 0.461, 0.461, 0.460, 0.459. So "c_k(½, ½) crosses the interval's steady exponent
+  at k = 5–6" is a statement within ± 0.003.
+- **Gump strip.** State = two columns of three cubes (18 bits), kernel K[c, prev, next] stored whole (2²⁷ doubles,
+  1 GB); the per-cube table is indexed by (state, in-face count) of its three cells, 14³ entries, and the index
+  is additive over the three columns, so the kernel is three table look-ups. The geometry is read off the slab
+  face 3 × 5 (`strip_tables`), not written by hand. Cube (i, j) has its in-face neighbours in the cubes
+  (i ± 1, j), (i, j ± 1), (i + 1, j − 1), (i − 1, j + 1).
+- **Readings I gave counting that are mine and not theorems:** that c_k from a dense soup approaches the
+  interval's exponent like 0.24/k because a death that needs a time proportional to L is being forced into k
+  generations; that the "dice gap at horizon 2" is a change of route.
+- **Not checked by computation:** the dice hierarchy at k ≥ 2 (no dice model with three or more rule rows in
+  the lab; the argument is a light cone). Claims 1–9 and 11 of counting were confirmed by the first critic and
+  not re-derived by me.

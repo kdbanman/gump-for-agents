@@ -16,6 +16,7 @@
   python3 counting_r2.py small         every face configuration of one, two or three nearby cells: P(face empty next) over dice
   python3 counting_r2.py gump1         request 4: gump's one-generation exponent on a strip three top cubes wide,
                                        and on the whole 3 x 3 periodic face (4 min)
+  python3 counting_r2.py gump2         request 4: the two routes (crowded, thin) on that strip (1 min)
 
 How each part is validated (every command prints its own checks and ends with ALL OK or SOMETHING FAILED):
   ck       The transfer matrix on windows of four cells of the rows S_0..S_{k-1} exists in two codes: `d2_matrix`
@@ -826,6 +827,38 @@ def gump1():
           f"ratio c_1 / 0.21 = {res[0.5][0] / 0.21:.2f} (2D rule: 0.5515 / 0.36..0.42 = 1.3..1.5)")
 
 
+def gump2():
+    """the two routes at one generation on the strip three cubes wide: leading eigenvalues (ARPACK), and the Perron
+    eigenvalue of the matrix restricted to thin columns (at most 3 of 9 cells alive) and to crowded ones (at least 6)."""
+    from scipy.sparse.linalg import LinearOperator, eigs
+    print("request 4, the two routes: strip three top cubes wide, eigenvalues of the one-generation matrix (cost per face cell = -ln(eigenvalue)/9)")
+    for p in (0.5, 0.4155):
+        K = strip_kernel(p, p)
+        n = K.shape[0]
+        op = LinearOperator((n * n, n * n), matvec=lambda v: np.einsum('pc,cpn->cn', v.reshape(n, n), K).reshape(-1), dtype=np.float64)
+        vals = eigs(op, k=3, which='LM', tol=1e-11, return_eigenvectors=False)
+        vals = vals[np.argsort(-np.abs(vals))]
+        popc = np.zeros(n, np.int64)
+        for b in range(9): popc += (np.arange(n) >> b) & 1
+        out = []
+        for name, keep in (('thin columns only (<= 3 of 9 alive)', popc <= 3), ('crowded columns only (>= 6 of 9 alive)', popc >= 6)):
+            Km = K * keep[:, None, None] * keep[None, :, None] * keep[None, None, :]
+            v = np.outer(keep, keep).astype(float); v /= v.sum(); lam = 0.0
+            for it in range(5000):
+                u = np.einsum('pc,cpn->cn', v, Km); l2 = u.sum()
+                if l2 == 0: lam = 0.0; break
+                u /= l2
+                if it > 20 and abs(l2 - lam) < 1e-13 * l2: lam = l2; break
+                v, lam = u, l2
+            out.append(f"{name}: {(-np.log(lam) / 9 if lam > 0 else float('inf')):.4f}")
+            del Km
+        print(f"   p = {p}: leading eigenvalues " + ', '.join(f"{v.real:.5e}{'' if abs(v.imag) < 1e-12 else f'{v.imag:+.2e}i'}" for v in vals) +
+              "; costs " + ', '.join(f"{-np.log(abs(v)) / 9:.4f}" for v in vals) + ";  " + ';  '.join(out), flush=True)
+        if p == 0.5:
+            check(abs(-np.log(abs(vals[0])) / 9 - 0.48066) < 1e-5, "p = 1/2: the leading eigenvalue is the one found by power iteration in `gump1` (0.48066)")
+        del K
+
+
 if __name__ == '__main__':
     what = sys.argv[1]
     if what == 'lemma7': lemma7()
@@ -841,4 +874,5 @@ if __name__ == '__main__':
     elif what == 'tri': tri()
     elif what == 'small': small()
     elif what == 'gump1': gump1()
+    elif what == 'gump2': gump2()
     print('ALL OK' if OK else 'SOMETHING FAILED')
