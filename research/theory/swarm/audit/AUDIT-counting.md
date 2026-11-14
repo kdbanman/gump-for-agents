@@ -26,7 +26,7 @@ with the scripts below, exhaustively where the size allows. A recomputation was 
 | 7 | box edge: [M_k^{L+4k}]_{00}; c⁰_k ≥ c_k; equality for k = 1, 2 (5a, 9) | **correct** | read; [M_1^{L+4}]_{00} = brute count on boxes 3 × L, L = 1…7 (7, 35, 148, 656, 2977, 13850, 64434); k = 2: path sums of the 2^16-state matrix = brute counts on boxes 5 × L, L = 1…5; class of the all-dead state: strongly connected for k = 1; 54,591 of 65,536 for k = 2, every other class one state without a loop, ρ⁰ = ρ to 10⁻⁶ (`c1`) |
 | 8 | mirror ≥ c_k/2; C4 or a diagonal mirror exactly c⁰_k; no symmetry inside a light cone (5b, c, e) | **correct** | read; mirror rings L = 8…22 (brute at L = 8) against the bound; C4 box 7 × 7: 502 of 8,192, 4,096 bands; C4 and diagonal boxes 7, 8: band counts between [M^{L−2}]_{00} and [M^{L+4}]_{00}; (e) on the C4 box 11 × 11 (`c1`) |
 | 9 | "mirror = exactly half" | sketched: out of scope | |
-| 10 | gump: the cells beneath belong to the top cubes; 40 of 64; emptiable cube by cube; λ(T ≤ 1) = 2^{−A}Σ_SΠ_qW_q (6, 8) | **correct** (with entry 8's "six") | read; offsets; B enumerated; K(s, k) from the rule; the product formula against every state of the hull R = 3 face and the cells beneath (2^24) and of a slab 2 × 1 (2^18); on a slab 2 × 2 for 18 face configurations × all 2^24 states beneath (`c2`) |
+| 10 | gump: the cells beneath belong to the top cubes; 40 of 64; emptiable cube by cube; λ(T ≤ 1) = 2^{−A}Σ_SΠ_qW_q (6, 8) | **correct** (with entry 8's "six") | read; offsets; B enumerated; K(s, k) from the rule; the product formula against every state of the hull R = 3 face and the cells beneath (2^24) and of a slab 2 × 1 (2^18); on a slab 2 × 2 (18 face configurations) and on the vertex-centred hull R = 4 (14 face configurations, six rim cells alone in their cubes) against all 2^24 states beneath (`c2`) |
 | 11 | beneath empty: dies iff (live: k ≤ 2 or 6; dead: k ≤ 3 or 6); "a full face always dies" (6, 8) | first part **correct**; second **true but narrower than worded**: a rim-free face only, §2 | read; all 4,096 configurations of the slab 2 × 2 face over empty and over full layers; the full face of the hull R = 3 over empty layers keeps 6 of its 9 cells (`c2`) |
 | 12 | gaps persist (10) | **correct** | read; every state of the ring 3 × 8 for ℓ = 1…4, j = 1; 200,000 random states for j = 2, 3; control with a narrower margin fails (`c1`) |
 | 13 | c_k(p) ≤ −ln(1 − p) (10) | **correct** | read; c_1(p), c_2(p) at nine densities (`c1`) |
@@ -56,7 +56,7 @@ All in this directory; each runs on one core; logs in `out/`.
 | `python3 p0_lib.py` | 1 s | (path audit) the gump stepper against `reference/oracle.py`, bit for bit |
 | `python3 c0_lib.py` | 2 s | the 2D stepper against a naive per-cell loop; the table w(s, k) |
 | `python3 c1_transfer.py` | 4 min | claims 4, 5, 7, 8, 12, 13, 14 |
-| `python3 c2_gump_face.py` | 7 min | claims 6 (gump), 10, 11, 16 |
+| `python3 c2_gump_face.py` | 8 min | claims 6 (gump), 10, 11, 16 |
 | `python3 c3_face12e.py` | 2 min | claims 6 (face12e), 21, 22, 23 |
 | `python3 c4_oh_faces.py` | 2 s | claim 24 |
 | `python3 c5_measure.py` | 3 min | claims 1, 2, 3, 15, 17, 18, 19, 20 |
@@ -176,6 +176,9 @@ product measure: correct, and it concerns another line's object, which was not e
 - **Claim 10.** The product formula needs the six cells beneath a top cube distinct and present (a slab at least
   three layers deep; in a hull, cells outside count 0, as the journal says). On small periodic faces in-face
   neighbours coincide and k must be counted with multiplicity; then the formula still holds (slab 2 × 1, 2 × 2).
+- **Entry 13, "two one-line facts behind the crowded route [proved]"** (not in the list): read, correct. A live
+  edge cell with four live in-row neighbours dies iff b ≥ 1, so a full ring (L ≥ 5) over cells of density ρ dies
+  with probability (1 − (1 − ρ)²)^L (the table w(live, 4) = 3/4 at ½ is this); the gump half is claim 11.
 - **Claim 21, F.4.** "Gone in n steps" is exact for odd n; for even n the sheet is gone in n − 1 steps (max d = n − 2).
 - **Claim 23.** The lab request asks for a wall "at least 3 × 3"; 2 × 3 already has the six cubes distinct (also
   3,793). On 2 × 2 the count differs (376 of 2^10).
@@ -251,8 +254,12 @@ Nothing the critic confirmed is wrong in substance; the only wrong number in the
 - Theorem 3 for k ≥ 3 by computation (M_3 has 2^84 states; the reduced matrix 2^36). The proof does not depend on k.
 - Claim 8 (b), (c) for k = 2 by computation; (b) for the D4 box by computation (read only).
 - Claim 14 for k = 3 by computation (the 7 × 5 strip has 2^35 states).
-- Claim 10's product formula on the vertex-centred hull R = 4 by enumeration of every state (33 cells); the audit's
-  formula code handles its lone rim cells, but only the cube-centred hull R = 3 and the slabs were enumerated.
+- Claim 10's product formula on the vertex-centred hull R = 4 for every face configuration (33 cells): 14 of the 512
+  face configurations were enumerated against all 2^24 states beneath; the cube-centred hull R = 3 and the slab
+  2 × 1 were enumerated completely.
+- Proposition G (a)'s remark that Theorem 3 carries over to face12e strips of fixed width, and entry 10's
+  parenthesis that the path line's rim lemma gives Lemma 6 for gump with in-face speed 1: read, nothing computed
+  (the rim lemma is L1 of the path line, audited in `AUDIT-path.md`).
 - The statement quoted in entry 14 that the plane above a face12e wall is sealed was checked from the offsets (a
   cell above sees at most 3 below); `research/audit/REVIEW-class.md` was not read.
 - No library source was opened; the line cites none in a proof (Kari is cited from memory in a remark).
