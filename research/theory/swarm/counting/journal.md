@@ -472,3 +472,237 @@ through the quasi-stationary step, transient deaths dominate at fixed age even f
 finite-horizon programme has no bearing on γ; I would then stop it and spend the remaining effort on exact
 one-step counts for gump faces over dice (entry 12 extended to all states with ≤ 4 cells), which the path and
 source lines can use.
+
+---
+
+_Round 3 (2026-11-14) was written by a successor from this directory, the critic's reply to round 2 (lab L7) and
+`exam/OUTCOMES.md`. Nothing below was simulated or enumerated by me; polynomials were evaluated with a calculator._
+
+## 2026-11-14 · 13 · Exam C-E2 failed (c₃ ≈ 0.36); Lemma 8; the fixed-age programme is closed
+
+**The outcome** (`exam/OUTCOMES.md`, C-E2). True 2D rule, fair soups, rings of L = 20, 24, 28, 32:
+−ln P₃ = 7.2385, 8.7149, 10.1824, 11.6366, slope 0.3676 ± 0.0006. The entry said 0.447 ± 0.012. The same samples
+give 0.542 and 0.479 at k = 1, 2 against the exact limits 0.5515, 0.4677 (a ring's slope at these lengths is about
+0.01 above its limit at k = 2, as in the critic's exact table for D2), so **c₃ = 0.36 ± 0.01**. The theorem
+c₃ ≤ c₂ holds. Decrements of the true rule: 0.084, then 0.10–0.11. Of D2 over fresh dice from the same soup:
+0.042, 0.017, 0.009, 0.005, 0.003 (lab L7).
+
+**Why the estimate was wrong.** Both guides treated the third generation as a correction to a route already
+there. (i) "D2's decrement shifted by the offset at horizon 2" joined numbers from two routes: at horizon 2 the
+true rule dies by filling the edge (987 cells alive in 1000 at generation 1) and overcrowding it, one row over
+dice dies thin (critic, round 2, §4, §7). (ii) "The steady window cost at the length a gap keeps for three
+generations" used a steady-state price for an event of the soup's transient. The true rule's decrement does not
+shrink, D2's does: at a fixed age the true rule's cheap deaths use the rows beneath as part of one fluctuation,
+which a row over fresh dice cannot do. Which three-generation route costs 0.36 is not known (the window matrix
+has 2³⁶ states and the dying ensemble was not sampled).
+
+**What it says about ages.** Hazard at age 2 from the same samples, h₂ = (P₃ − P₂)/(1 − P₂):
+−ln h₂ = 7.400, 8.816, 10.247, 11.675 (slope 0.356). Steady ln τ of the same rings (`research/toy2d`; the exam's
+control row agrees, slope 0.412 ± 0.005): 9.055, 10.768, 12.368, 14.051. A fair soup loses an edge at age 2 about
+5, 7, 8, 11 times as often as a steady state does in one generation, and the factor grows like e^{0.06 L}. (Two
+ensembles by design: fair soups with no warm-up against soups of density 0.4 older than 300.) So for the true
+rule, as for D2 with fair or sparse soups (lab L7, table of ages), deaths of the soup's own transient outnumber
+steady deaths at a fixed age, by a factor exponential in L at every size that can be reached. The alternative,
+that the ring's steady exponent comes down to 0.36 or less beyond L = 32, is not excluded by anything proved.
+
+**Lemma 8 (dice chains: a fixed-age death is a steady death or a doomed start) [proved].** Let Q be the
+substochastic matrix of a finite absorbing Markov chain on its living states, λ its spectral radius, h = 1 − λ,
+and φ ≥ 0 a right eigenvector, Qφ = λφ, normalised by max φ = 1. For every law π on the living states and k ≥ 1,
+
+    P_π(T ≤ k) ≤ (1 − λ^k) π(φ) + π(1 − φ) ≤ k h + π(1 − φ).
+
+*Proof.* 1 ≥ φ pointwise and Q ≥ 0, so Q^k 1 ≥ Q^k φ = λ^k φ, i.e. P_x(T > k) ≥ λ^k φ(x) for every x. Integrate
+against π: P_π(T ≤ k) ≤ 1 − λ^k π(φ) = (1 − λ^k) π(φ) + π(1 − φ), and 1 − λ^k ≤ k(1 − λ). ∎
+(Irreducibility is not used. When Q is primitive, h is the quasi-stationary hazard and φ(x) is the limit of
+P_x(T > k) / max_y P_y(T > k): the chance of x to reach the steady state, relative to the best start. Call 1 − φ(x)
+the *doom* of x.)
+*Smallest case.* Living states g, d; g stays with probability 1 − h and dies with h; d dies at once. Q = diag(1 − h,
+0), φ = (1, 0). For π = (1 − ε, ε): P_π(T ≤ k) = (1 − ε)(1 − (1 − h)^k) + ε, equality in the first inequality: both
+terms are needed.
+
+**Corollary [proved].** For a family of such chains indexed by L (D2 on rings or intervals, any depth w, any
+family of initial laws π_L), put γ⁻ = liminf −(1/L) ln h_L and θ⁻(π) = liminf −(1/L) ln π_L(1 − φ_L). Then for
+every k, liminf_L −(1/L) ln P_{π_L}(T ≤ k) ≥ min(γ⁻, θ⁻(π)); with product laws the left side is the c_k(π) of
+entries 4 and 10, so **c_∞(π) ≥ min(γ⁻, θ⁻(π))**. Hence:
+(i) if c_k(π) < γ⁻ for some k, then θ⁻(π) ≤ c_k(π): the soup has doomed starts cheaper than a steady death;
+(ii) if θ⁻(π) > c_k(π) for some k, then γ⁻ ≤ c_k(π): a fixed-age count is then an upper bound on the steady
+exponent.
+This replaces C1′. Its first half ("c_∞ ≤ γ under a uniform hazard from a fixed age") was a tautology; what is
+true without hypothesis is the opposite inequality up to the doom term, and the hypothesis needed for (ii) is a
+lower bound on the cost of doomed starts, which no count of this line gives (φ is the steady state's own vector).
+
+**With the lab's exact numbers** (L7; D2(·, 0.472) on rings, c₆ = 0.4104, 0.4992 for the sparse and the dense soup;
+D2(·, ½), c₆ = 0.4757 for the fair soup). Each is ≥ min(γ⁻_ring, θ⁻). So for each soup, either the ring's steady
+exponent is at most that number (its exact local step at L = 15–18 is 0.52–0.53), or product rows of that density
+have doomed starts at that cost or less. For the dense soup (the steady density, 0.6455) the first reading is
+what the probability line's exam P-E1 predicts (0.48 ± 0.03 at L = 30–38); for the sparse soup the second is
+plain (thin rows wither: density 0.14 at generation 0 in the dying ensemble).
+**No such statement for the true rule.** A finite deterministic map with a trapdoor has no conditionally
+invariant measure (board, "trapdoors" (v)), hence no φ and no h. What is exact there is only
+D_k ≤ Σ_{j<k} h_j with h_j the from-soup hazard at age j.
+
+**Two one-line facts behind the crowded route [proved].** 2D rule: a live edge cell with four live in-row
+neighbours dies iff b ≥ 1, so a full row over cells of density ρ dies with probability (1 − (1 − ρ)²)^L,
+0.288 per cell at ρ = ½, and the rest of the cost of that route is the cost of filling. Gump: a face cell with six
+live in-face neighbours is dead next whatever lies beneath (claim 11), so a full face dies for nothing.
+
+**Decision.** The fixed-age programme is closed. It is a complete theory of the image measures μ_k of a soup
+(Theorem 3, Proposition 4, Lemma 6, the dice hierarchy, the exact c₁, c₂ and the sampled c₃), and those measures
+are about the soup: their cheap deaths are a filled and overcrowded edge, which the steady state does not use
+(in D2 the share of deaths from a nearly full row falls with L, board E9). C1′ is withdrawn in both halves; the
+candidate "equality at density ½ for the 2D rule" (entry 10) is dead, since c₃ is already below the steady slope
+of the same rings.
+
+**Correction to entry 11.** The crude count there ("the feedback makes the last step dearer") has the wrong sign
+for the two-generation exponent: exactly, V2 − V3 = +0.0030 (the own-column feedback makes dying by generation 2
+cheaper), and the whole gap V1 − V0 = 0.042 is the change of route (lab L7, `gap2`, `tilt`). Lemma 7 itself stands.
+
+## 2026-11-14 · 14 · face12e: the wall is a band, and what this line's counts give there
+
+**Lattice.** Cells as gump. A face with normal a has neighbours ±e_a ± e_b, ±e_a ± e_c (as gump) and ±2e_b, ±2e_c
+(coplanar, sharing an edge). Rule B45/S345. A wall is the plane z = Z, Z odd, with z > Z dead (sealed:
+`research/audit/REVIEW-class.md` §1.2).
+
+**Notation.** Λ = the square lattice of *top cubes* (centres at z = Z − 1); a periodic n_x × n_y wall or a box
+wall; A = |Λ| wall faces. σ_q = the top face of q (the sheet S, z = Z). The layer B (z = Z − 1) holds the side
+faces: one cell p = {q, q′} for each edge of Λ, 2A cells on a periodic wall. β_q = the bottom face of q
+(z = Z − 2). r_p = the face directly below p (z = Z − 3). Write h(i, j) for the side face between cubes (i, j) and
+(i + 1, j), v(i, j) for the one between (i, j) and (i, j + 1). In B, h(i, j) is adjacent to h(i, j ± 1), v(i, j),
+v(i, j − 1), v(i + 1, j), v(i + 1, j − 1), and v(i, j) to v(i ± 1, j), h(i, j), h(i − 1, j), h(i, j + 1),
+h(i − 1, j + 1): the four edges of Λ perpendicular to p at its ends, and the two parallel to it across the two
+squares of Λ that contain it. (The four edges of a square of Λ, i.e. the four faces round a vertical cube edge,
+are mutual neighbours.) k_p = number of live in-layer neighbours of p.
+
+**Proposition F [proved; every item is read off the offsets].**
+1. *Counts.* n(σ_q) = (live among the four sheet neighbours) + (live among the four side faces of q).
+   For p = {q, q′}: n(p) = k_p + σ_q + σ_q′ + β_q + β_q′ + r_p. The band reads nothing else below it. β_q is read
+   by the four side faces of q and by no other cell of the band; r_p by p only.
+2. H = {S = 0 and B = 0} is absorbing (a sheet cell then sees 0, a cell of B at most 3). Neither {S = 0} nor
+   {B = 0} is: a cube with four live sides gives birth to its top, and under a full sheet a dead cell of B with
+   k = 0 is born iff two of its three cells beneath are alive.
+3. *The sheet reads only the band:* S(t + 1) is a function of (S(t), B(t)).
+4. *No sheet without the layer.* If B(t) = 0 then σ_q(t + 1) = 1 iff (live sheet neighbours of q) + σ_q(t) ≥ 4:
+   a monotone threshold map Θ. On a box wall n × n, Θ^j(full sheet) = {q : d(q) ≥ j}, d = least ℓ¹ distance to a
+   corner cell, so Θ^n ≡ ∅: if B is empty for n generations running, the sheet is empty at the end.
+   *Proof.* A cell with d = j has its two neighbours towards the nearest corner dead or outside: at most 2, it
+   dies and is not reborn. A cell with d ≥ j + 1 is not a corner, has at least 3 neighbours in the box, all with
+   d ≥ j. Monotonicity gives the rest. ∎ On a periodic wall the Θ-persistent sets wrap the torus (every cell of
+   one has 3 neighbours in it; the lowest left-most cell of a finite set has at most 2), e.g. two adjacent rows.
+5. *The layer without the sheet.* If S(t) = 0 then σ_q(t + 1) = 1 iff the four side faces of q are alive at t,
+   and each p follows gump's rule on the count k_p + β_q + β_q′ + r_p: six in the layer, two one layer in, one two
+   layers in. These are the counts of a gump face cell, with another in-layer graph and another sharing of the
+   cells beneath.
+6. *Thin route.* On E = {S = 0, no cube has four live sides}: the band is empty at t + 1 iff B(t + 1) = 0, a
+   condition on B and its cells beneath with the kill sets of Lemma 5.5 unchanged.
+
+**One generation.** Put a_p = k_p + σ_q + σ_q′ (0 … 8) and b_p = β_q + β_q′ + r_p. A cell p is dead next iff
+b_p ∈ K(s_p, a_p), the table of Lemma 5.5 with k replaced by a. With r_p free, the condition on m = β_q + β_q′ is:
+
+| class | when | allowed m |
+|---|---|---|
+| free | dead, a ∈ {0, 1, 5} or a ≥ 6; live, a ∈ {0, 5} or a ≥ 6 | 0, 1, 2 |
+| not both | dead, a = 2; live, a = 1 | 0, 1 |
+| **equal** | dead, a = 3 (K = {0, 3}) | 0, 2 |
+| at least one | a = 4 | 1, 2 |
+| both dead | live, a = 2 | 0 |
+| both alive | live, a = 3 | 2 |
+
+**Proposition G (the one-generation trapdoor is a vertex model on Λ, not a product over cubes) [proved].**
+(a) Uniform soup, periodic wall: λ(T ≤ 1) = 2^{−4A} Σ_{(S,B)} 1[S(1) = 0] Σ_{β ∈ {0,1}^Λ} Π_{p = {q,q′}} W_p(β_q + β_q′),
+W_p(m) = ½ (1[a_p + m ∈ D] + 1[a_p + m + 1 ∈ D]), D = the dead counts for s_p (all but 4, 5 for a dead cell, all but
+3, 4, 5 for a live one). The interaction has finite range, so on strips of fixed width Theorem 3 holds as stated.
+(b) A band configuration can be emptied in one generation iff S(1) = 0 and a 2-SAT instance on Λ (the table) is
+satisfiable. This is not decided cube by cube and the cells beneath are not independent given the band.
+*Example* Π₁, wall n × 4, n ≥ 3: a row of top cubes with tops and sides alive, i.e. live cells h(i, 1), v(i, 0),
+v(i, 1), σ_{(i,1)} for all i, nothing else in the band. Then: σ_{(i,1)} has n = 2 + 4 = 6 and dies; σ_{(i,0)},
+σ_{(i,2)} have n = 1 + 1 and stay dead; h(i, 1) has a = 4 + 2 (free); v(i, 0), v(i, 1) have a = 4 + 1 = 5 (need
+b ≥ 1); **h(i, 0) and h(i, 2) are dead with a = 3: "equal"**; h(i, 3), v(i, 2), v(i, 3) have a = 0. So the band
+is emptied iff β is constant along row 0 with r_{h(i,0)} equal to that constant, the same along row 2, and
+β_{(i,0)} + β_{(i,1)} + r_{v(i,0)} ≥ 1, β_{(i,1)} + β_{(i,2)} + r_{v(i,1)} ≥ 1 for each i. Count: of the 2^{12n}
+patterns of the 4n bottoms and 8n cells below B, **32^n (8^n + 2·6^n + 5^n)** empty the band (n = 3: 35,028,992 of
+2³⁶), and in every one of them the n bottoms of row 0 are equal: a rigid line of hidden cells of any length. ∎
+In gump the same sum is Π_q W_q (Lemma 5): given the face, the cells beneath different top cubes are
+independent in the killing ensemble. The frustration of board E10 is local in gump and lattice-wide in face12e.
+
+**The lone cell [proved].** S = 0, one live cell p in B, the 6 bottoms concerned alive with probability ρ_β and
+the 7 private cells with ρ_r, independently. The band is empty next iff none of seven cells (p and its six
+in-layer neighbours, each dead with k = 1) has b = 3. Their cube pairs are the seven edges of a 2 × 3 ladder
+(three rungs, four rail edges). With x = 1 − ρ_r, a = ρ_β, ā = 1 − a, counting vertex sets of the ladder by size
+and number of induced edges (1; 6; 8 + 7x; 2 + 8x + 10x²; 5x² + 8x³ + 2x⁴; 2x⁴ + 4x⁵; x⁷):
+
+    P = ā⁶ + 6aā⁵ + a²ā⁴(8 + 7x) + a³ā³(2 + 8x + 10x²) + a⁴ā²(5x² + 8x³ + 2x⁴) + a⁵ā(2x⁴ + 4x⁵) + a⁶x⁷.
+
+At ρ_β = ρ_r = ½: **3793/8192 = 0.4630** (gump's lone cell: 0.4122, entry 12). At 0.52: 0.4214 (gump 0.3668); at the
+bulk densities 0.398 and 0.4155: 0.672 and 0.606. Independent threats would give (7/8)⁷ = 0.393 in both lattices;
+sharing raises it, more in face12e (each bottom is under up to three of the seven cells).
+
+**At a fixed horizon** entry 4's weak form holds verbatim: e^{−3A ln 2} ≤ λ(T ≤ k) ≤ e^{−c⁻_k A}, c⁻_k > 0. The
+guard is a lone closed cube under the wall: each of its faces sees the four that share an edge with it, and a
+cell outside shares an edge with at most two faces of one cube (it contains one edge of the cube, which lies in
+two of its faces), so the cube is a still life here too.
+
+**What counting gives for the second lattice.**
+
+| | gump | face12e |
+|---|---|---|
+| set that must be empty | face layer, A cells | band, 3 cells per wall face |
+| invertible relative (Lemma 2), frequency of "empty now" | ln 2 per face cell | 3 ln 2 = 2.08 per wall face |
+| measured | 0.212 per face cell | 0.410 per wall face = 0.137 per cell of the band = 0.205 per cell of B |
+| cells beneath a cell of the layer whose death is final | 2 + 1 | 2 + 1 (and 2 outward, in the sheet) |
+| sharing of the cells beneath | within one top cube (a 6-cycle) | every side face belongs to two cubes: all of Λ is coupled |
+| one-generation emptiability | cube by cube | 2-SAT on Λ, rigid lines |
+| lone cell over fair dice | 0.4122 | 0.4630 |
+
+1. *The unit is not the trapdoor's cell.* Any account that prices the set that must be empty at a fixed cost per
+   cell (the starting point of this line; Lemma 2 for the invertible relative) gives face12e three times gump's
+   cost per wall face over gump's per face cell: 0.64. Measured: 0.410. What the two lattices share to 3% is the
+   cost per cell that has three cells beneath it.
+2. *Why the sheet can be free* (Proposition F): it reads only the band, cannot live without the layer (item 4),
+   is not born over a thin layer (item 5), and on the thin route the band's death is the layer's death over its
+   cells beneath (item 6). This agrees with the review's measurements (the sheet alone empties 4–10 times as
+   often as a wall dies and comes back; the first emptiness of B has the wall's own ln τ). It is a statement
+   about one generation, not a derivation of 0.205.
+3. *What differs does not show.* The in-layer graph, the sharing beneath and the one-generation frustration all
+   differ between the two lattices, the last one in kind (Proposition G), and the cost per cell differs by 3%.
+   Either the exponent is insensitive to them or their effects cancel; nothing here decides which.
+4. This line has no formula for either exponent. Its fixed-age exponents would be, in face12e as in the 2D rule,
+   properties of a soup's first generations (entry 13); I do not ask for them.
+
+## 2026-11-14 · 15 · O_h faces: the vertex factor is not a count of independent cells
+
+Side fact: vertex-centred O_h hulls live 1.5–1.7 times longer than cube-centred ones at equal face area.
+Coordinates relative to the centre; the face d = (1,1,1) is {x + y + z = R, x, y, z ≥ 0}; T_j = j(j + 1)/2.
+- Cube-centred, R = 2N + 1: cells q + e_a, q = 2(a, b, c), a + b + c = N. Vertex-centred, R = 2N + 2: cells
+  u − e_a, u = 2(a, b, c) + (1,1,1), a + b + c = N. Both have **A = 3T_{N+1}** cells (R = 35 and 36: 513).
+- Under the face's symmetry group C3v (order 6) no cell is fixed by the rotation and each mirror fixes
+  m = ⌊N/2⌋ + 1 cells (the cells (x, x, R − 2x) of the type whose normal is z), in both. Burnside:
+  **(A + 3m)/6 orbits in both** (N = 3: 6; N = 17: 90). The two faces also have the same number of in-layer
+  adjacencies: 3(N + 1)² kagome bonds and 3T_N pairs across hexagons.
+- They are different patches. Cube-centred: T_{N+1} complete top-cube triangles (every cell in one), T_{N−1}
+  complete triangles of the other orientation, T_N complete hexagons, three tip cells. Vertex-centred: T_{N+1}
+  complete triangles of the *other* orientation, T_N complete top-cube triangles, T_{N−1} complete hexagons, and
+  **3(N + 1) rim cells each alone in its top cube** (the cube's other two top faces lie outside the hull), so
+  that by Lemma 5 they share no cell beneath with any face cell.
+- Cells shared with one neighbouring face (third coordinate 0): 2(N + 1) against N + 1.
+*Smallest case, N = 1 (A = 9), by hand.* Cube-centred: (3,0,0), (2,1,0), (2,0,1) and permutations: three top-cube
+triangles joined by three bonds round the hexagon at (1,1,1); in-layer degrees 4⁶ 2³. Vertex-centred: (2,1,1),
+(3,0,1), (3,1,0) and cyclic images: one top-cube triangle (2,1,1), (1,2,1), (1,1,2) with a triangle of the other
+orientation on each corner; degrees 4³ 3⁶. Twelve bonds and three hexagon pairs each.
+So the factor is not in the number of independent cells, nor in the number of in-layer bonds. It is a boundary
+effect of how the layers beneath are attached (which triangle orientation is the top-cube one, and the rim), and
+a boundary term in ln τ of order one is what a factor constant in A needs. I have no derivation of its size.
+(Hand counts; a check by listing is in the report's requests.)
+
+## 2026-11-14 · 16 · Lemma 2′: with an invariant measure an absorbing event never happens [proved]
+
+Let g preserve a probability measure μ and let g(H) ⊆ H. Then μ(g^{−1}H ∖ H) = 0, hence μ(∪_k g^{−k}H ∖ H) = 0:
+almost no point outside H ever enters it. *Proof.* H ⊆ g^{−1}H and μ(g^{−1}H) = μ(H). ∎
+This is Lemma 2(ii) without bijectivity (*smallest case:* the doubling map of the circle with Lebesgue measure and
+H = {0}: g^{−1}H = {0, ½}). It settles what the lead's starting point for this line can give. For any relative
+with an invariant measure that charges the living states (the second-order lift; any rule made
+measure-preserving by a permutive reservoir) "face empty" is a recurrent event of frequency μ(H) per generation
+(Lemma 1), and a face that is empty for good is never produced. The measured law is the waiting time for an
+absorbing event; it exists only because the rule loses measure, and for a finite deterministic map nothing
+replaces the uniform measure exactly (no conditionally invariant measure: board, "trapdoors" (v)). The source
+line's automaton (edge over a parity bulk; exam S-E1 holds) does die: by this lemma it does not preserve the
+product measure, although its bulk alone does.
