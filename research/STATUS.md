@@ -113,8 +113,13 @@ _Last updated 2026-11-14 by the lead._
   for the GPU patch experiment -> `research/constant/`.
   Queued, not started (the five-hour usage window is the binding one until 01:20 UTC): a Fable line on the symmetric
   collapse (PROGRAM M5: derive 1/6, the −0.196·√A term and the factor 1.5 between centres from the asymmetric law).
-  (5) GPU session, asked 21:22 UTC: empty patches on a face too large to die (12×12×8; the lead's forecast is in the
-  notebook, c = 0.21 ± 0.015); expect a pull request; review as before.
+  (5) GPU session, asked 21:22 UTC: empty patches on a face too large to die (12×12×8). **Pull request 18 arrived
+  21:48 UTC** (head fcb3f39): the two-term fit gives c = 0.264 and fails (χ² 3,369/3), so the lead's forecast as
+  stated is missed; cost per cell 0.42 → 0.32 over 12–60 cells, still falling; no hits above 75 cells. Lead's
+  recomputation done (`research/audit/gpu_pr18_lead_check.py`: table reproduced; post hoc second differences give
+  0.273, 0.252, 0.237, 0.2185 ± 0.008). Opus adversarial review running -> `research/audit/REVIEW-gpu-pr18.md`. Then:
+  fixes by message, CI, merge (full sha), fetch main, notebook, CLAIMS. **The GPU session's Modal budget is nearly
+  spent (about $25.80 of $30 this month): no further GPU request without asking the owner.**
   Owed for each when it reports: the lead's own check of one key number, an adversarial review (Opus) for (2) and (4),
   notebook, CLAIMS, STATUS. Usage timer every 60 minutes while Fable agents run.
   (ii) done: `README.md` (item 4 reworded; new items 8-10) and the web tour and
@@ -123,7 +128,7 @@ _Last updated 2026-11-14 by the lead._
   face) for side 16, which are different quantities. The audit's corrected wordings are in `path/claims.md` (a0508c8; one number
   in P's illustration stays in the journal as written, corrected in the audit). Owed: the same audit for counting and the theory push on the
   constant (Fable, after the owner's reset; Fable was 0.90 at 15:22). (b) the overview page is current to the entry "the shortest way round": refreshed
-  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); pull request 17 (census, audits, draft, prior art, the constant) was merged at 22:18 UTC (merge commit 47af1a6); later work on the branch goes to pull request 18. **After the owner's Fable reset** (about 9am their time,
+  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); pull request 17 (census, audits, draft, prior art, the constant) was merged at 22:18 UTC (merge commit 47af1a6); later work on the branch goes to pull request 19 (18 is the GPU session's, the empty-patch experiment, opened 21:48 UTC). **After the owner's Fable reset** (about 9am their time,
   probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
   counting and path, and a new theory push on the sharpened problem (the 0.2 per cell from six layers over noise).
 - **Swarm: closed 2026-11-14** (`research/theory/swarm/critic/board.md`, closing table at the top; notebook entry
