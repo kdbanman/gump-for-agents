@@ -9,6 +9,9 @@ right end reflecting). tau = 1/(1 - lambda), lambda the Perron eigenvalue of the
 
   python3 prob_r2.py check        the general kernel (right and left multiplication) against dense kernels built cell
                                   by cell, against prob_r1.py, and OP5 against a direct dense construction
+  python3 prob_r2.py claims       Proposition W (a), (d), Lemma 3, the domination behind Theorems A and A', Proposition F's root
+  python3 prob_r2.py game [m]     the local game asserted in entry 7 (claim 13), arcs of 1..m cells (default 7: 2 min; 8: 10 min)
+  python3 prob_r2.py op5scan      extra: OP5(p) for p = 0.30..0.50 on rings of 9..17 cells
   python3 prob_r2.py r5 [max]     R5: OP5(1/2) on rings and dead-ended intervals of 8..max cells (default 19: 4 min)
   python3 prob_r2.py r6           R6: Proposition W in D2(L, 0.472), L = 12, 15, 18 (2 min)
   python3 prob_r2.py r7           R7: how D2 dies: the row j generations before death, ring 14, 18 and interval 14
@@ -203,6 +206,124 @@ def checks():
         check(np.abs(Q - Qg).max() < 1e-14, f"OP5(1/2), {kind} of {M}: the table a[x][k] = p*[x + k >= 1] reproduces the direct construction")
 
 
+def claims():
+    """numerical checks of the statements probability tags as proved in round 2."""
+    a2 = pr.a_table(D2)
+    # Proposition W (a): Q_ring(S, S') = w(S) Q_dead(S, S') for S, S' inside A = ring minus four adjacent cells
+    L = 10; M = L - 4
+    Qr = dense(L, 'ring', a2); Qd = dense(M, 'dead', a2)
+    u = {(0, 0): 1.0, (0, 1): 1 - D2[2], (1, 0): (1 - D2[2]) ** 2, (1, 1): D2[0] * (1 - D2[2])}
+    worst = 0.0; wvals = set()
+    for S in range(1, 1 << M):                           # ring cells 0..3 = G (dead), cells 4..L-1 = A = interval cells 0..M-1
+        bits = [(S >> (M - 1 - i)) & 1 for i in range(M)]
+        w = u[(bits[0], bits[1])] * u[(bits[M - 1], bits[M - 2])]
+        wvals.add(round(w, 12))
+        worst = max(worst, float(np.abs(Qr[S, : 1 << M] - w * Qd[S]).max()))
+    check(worst < 1e-14 and abs(min(wvals) - (D2[0] * (1 - D2[2])) ** 2) < 1e-12,
+          f"Proposition W(a), ring of {L} against the dead-ended interval of {M}: Q_ring(S, S') = w(S) Q_dead(S, S') for all 2^{M} - 1 rows S and all S' "
+          f"(max error {worst:.1e}); smallest w = {min(wvals):.6f} = [pi_0 (1 - pi_2)]^2")
+    # (d): the same for the reflecting interval of M + 4 cells with its two outer cells at each end dead
+    Qf = dense(M + 4, 'refl', a2)
+    worst = 0.0
+    for S in range(1, 1 << M):
+        bits = [(S >> (M - 1 - i)) & 1 for i in range(M)]
+        w = u[(bits[0], bits[1])] * u[(bits[M - 1], bits[M - 2])]
+        Sf = S << 2                                       # cells 0, 1 and M+2, M+3 dead
+        idx = np.arange(1 << M) << 2
+        worst = max(worst, float(np.abs(Qf[Sf, idx] - w * Qd[S]).max()))
+    check(worst < 1e-14, f"Proposition W(d), reflecting interval of {M + 4}: the same identity with the same w (max error {worst:.1e})")
+    # Lemma 3: d + Q g <= a g + eps at every living state implies 1 - lambda <= eps. Tried on D2 (ring of 9) with many g.
+    L = 9
+    Q = dense(L, 'ring', a2)
+    lam = max(np.linalg.eigvals(Q[1:, 1:]).real)
+    d = Q[1:, 0]; Qt = Q[1:, 1:]
+    pop = popcount(L)[1:]
+    rng = np.random.default_rng(0)
+    n_ok = n_app = 0; best = 1.0
+    for trial in range(400):
+        if trial < 100:
+            g = rng.uniform(0.2, 1.0) ** pop * rng.uniform(0.5, 1.0)
+        elif trial < 200:
+            g = rng.random(len(pop))
+        else:
+            g = np.clip(rng.uniform(0.3, 0.9) ** np.minimum(pop, rng.integers(1, L)) + 0.05 * rng.standard_normal(len(pop)), 0, 1)
+        for a in (0.2, 0.5, 0.8, 0.95):
+            eps = float(np.max(d + Qt @ g - a * g))
+            if eps >= 0 and a + eps < 1:
+                n_app += 1; n_ok += (1 - lam <= eps + 1e-12); best = min(best, eps)
+    check(n_app > 0 and n_ok == n_app, f"Lemma 3 on D2(9, 0.472): in all {n_app} cases (random g, four values of a) where a + eps < 1, 1 - lambda = {1 - lam:.5f} <= eps "
+                                       f"(smallest eps met: {best:.5f})")
+    # Theorem A' / Lemma 1(d): the row dominates OP5(p), p = min(pi_0, pi_2): survival from the full row, exactly
+    for pi, name in (((0.5, 0.0, 0.5), 'anchor'), (D2, 'Bin(2, 0.472)')):
+        L = 10; p = min(pi[0], pi[2])
+        r1, _ = make_ops(L, 'ring', pr.a_table(pi)); r2, _ = make_ops(L, 'ring', op5_table(p))
+        f1 = np.zeros(1 << L); f1[0] = 1.0; f2 = f1.copy()
+        okk = True; ex = []
+        for t in range(1, 41):
+            f1 = r1(f1); f2 = r2(f2)                      # P_S(T <= t)
+            okk &= bool(np.all(f1[1:] <= f2[1:] + 1e-12))
+            if t in (5, 20, 40): ex.append((t, 1 - f1[-1], 1 - f2[-1]))
+        check(okk, f"domination by OP5({p:.4f}), ring of {L}, {name}: P_S(T > t) of the edge >= that of the percolation for every start S and t <= 40; from the full row: " +
+              ', '.join(f"t = {t}: {x:.4f} >= {y:.4f}" for t, x, y in ex))
+    b = (0.5 + np.sqrt(0.25 + 1.0)) / 1.0
+    check(abs(np.log(b) - 0.481212) < 1e-6 and abs(0.5 * b * b - 0.5 * b - 0.5) < 1e-12, f"Proposition F: beta*(1/2) = {b:.6f} is the root of q b^2 - p b - p, ln = {np.log(b):.4f}")
+
+
+def forced(n_out):
+    """for every row c on n_out + 4 cells: for its inner n_out cells (two cells dropped at each end), the mask of
+    cells whose next state does not depend on b ((live, k = 2): alive; (dead, k = 0): dead) and their forced values."""
+    n = n_out + 4
+    C = np.arange(1 << n, dtype=np.int64)
+    bit = lambda i: (C >> i) & 1
+    F = np.zeros(1 << n, np.int64); V = np.zeros(1 << n, np.int64)
+    for j in range(n_out):
+        i = j + 2
+        k = bit(i - 2) + bit(i - 1) + bit(i + 1) + bit(i + 2)
+        fa = (bit(i) == 1) & (k == 2); fd = (bit(i) == 0) & (k == 0)
+        F |= (fa | fd).astype(np.int64) << j
+        V |= fa.astype(np.int64) << j
+    return F, V
+
+
+def exists(G, F, V, chunk=2048):
+    """for every row c: is there x with G[x] and (x & F[c]) == V[c]?"""
+    X = np.flatnonzero(G).astype(np.int64)
+    out = np.zeros(len(F), bool)
+    for lo in range(0, len(F), chunk):
+        f = F[lo:lo + chunk, None]; v = V[lo:lo + chunk, None]
+        out[lo:lo + chunk] = ((X[None, :] & f) == v).any(1)
+    return out
+
+
+def game(mmax=7):
+    print("the local three-move game behind claim 13: an arc of m cells inside any row. We choose b on the arc and the cells that can reach it (4, 2, 0 cells on")
+    print("each side at the three steps); the row beyond six cells from the arc is arbitrary and cannot reach the arc in three generations.")
+    for m in range(1, mmax + 1):
+        F2, V2 = forced(m)                               # rows on m + 4 cells: which arc cells are forced
+        G2 = (F2 & V2) == 0                              # no arc cell is live with exactly two live neighbours: the arc can be emptied next
+        F1, V1 = forced(m + 4)                           # rows on m + 8 cells
+        G1 = exists(G2, F1, V1)                          # ... from which the arc can be emptied in two generations
+        F0, V0 = forced(m + 8)                           # rows on m + 12 cells
+        G0 = exists(G1, F0, V0)                          # ... in three
+        bad = int((~G0).sum()); two = int((~G1).sum())
+        ex = ''
+        if two:
+            c = int(np.flatnonzero(~G1)[0])
+            ex = "; e.g. " + format(c, f'0{m + 8}b')[::-1] + " (arc = the middle " + str(m) + " cells)"
+        check(bad == 0, f"m = {m}: every one of the 2^{m + 12} rows on the arc and six cells each side can be steered so that the arc is empty three generations later "
+                        f"(failures: {bad}); two generations do not suffice for {two} of the 2^{m + 8} rows on the arc and four cells each side{ex}", )
+    print("   so an arc of m cells (m as checked) is empty three generations later with probability >= p^(3m+12), p = min(pi_0, pi_2), whatever the row")
+
+
+def op5scan(mx=17):
+    print("extra (not requested): OP5(p) on the ring, steps of ln tau, for a rough location of its critical density (lower bound proved by probability: 1/3)")
+    for p in (0.30, 0.34, 0.38, 0.42, 0.46, 0.50):
+        a = op5_table(p)
+        vals = [lntau(M, 'ring', a) for M in range(9, mx + 1)]
+        print(f"   p = {p:.2f}: ln tau at L = {mx}: {vals[-1]:.4f}; steps L = 10..{mx}: " + ' '.join(f"{y - x:.4f}" for x, y in zip(vals, vals[1:])) +
+              f";  step x L at the last three: " + ' '.join(f"{(vals[i] - vals[i - 1]) * (9 + i):.2f}" for i in (-3, -2, -1)).replace('  ', ' '), flush=True)
+
+
 def r5(mx=19):
     print("R5. OP5(1/2): every cell within distance 2 of a live cell is alive next with probability 1/2; ln tau and steps")
     a = op5_table(0.5)
@@ -332,6 +453,9 @@ if __name__ == '__main__':
     what = sys.argv[1]
     arg = int(sys.argv[2]) if len(sys.argv) > 2 else None
     if what == 'check': checks()
+    elif what == 'claims': claims()
+    elif what == 'game': game(arg or 7)
+    elif what == 'op5scan': op5scan(arg or 17)
     elif what == 'r5': r5(arg or 19)
     elif what == 'r6': r6()
     elif what == 'r7': r7()

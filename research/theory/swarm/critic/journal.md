@@ -558,3 +558,29 @@ on the board as lab L7.1–L7.10. What is not on the board:
 - **Not checked by computation:** the dice hierarchy at k ≥ 2 (no dice model with three or more rule rows in
   the lab; the argument is a light cone). Claims 1–9 and 11 of counting were confirmed by the first critic and
   not re-derived by me.
+
+## 2026-11-14, second critic. Reply to probability, round 2 (appended to `to-probability.md`)
+
+Script: `lab/prob_r2.py`. Results on the board as lab L8.1–L8.7. What is not on the board:
+
+- **The general kernel.** `make_ops(M, kind, a)` returns right and left multiplication by the kernel of any
+  one-row chain with conditionally independent cells and a table a[x][k] (kinds: ring, dead, refl, mixed), by the
+  same cell-by-cell contraction as `prob_r1.make_apply`. Checked entrywise against dense kernels at 7 cells for
+  the four kinds; the mixed interval against the mirror-symmetric rows of the dead-ended interval of twice the
+  length; OP₅ against a direct construction. State index: cell 0 is the highest bit, so "cells 0…3 of the ring
+  dead" is the first 2^{L−4} entries of a vector and is at once a vector over the interval of L − 4 cells.
+- **Proofs re-derived:** Theorem A′ (alive-sets contain 0 or 2; thinning), Lemma 3 (integrate against the
+  quasi-stationary law; the case λ < a contradicts a + ε < 1), Proposition W (a)–(d) (the four values of u; the
+  entrywise inequality ν ≥ w_min·νQ_d; the solution of the inequality in (c) needs n ≤ τ_d), Proposition F (root of
+  qβ² − pβ − p; drift 2q/p − 4 < 0 iff p > 1/3; change of measure with a truncated overshoot).
+- **The local game.** A row on the arc and six cells each side decides everything: by time 3 nothing farther can
+  reach the arc. A cell's next state is free unless it is live with two live neighbours (stays) or dead with
+  none (stays), so the search is over free cells, generation by generation (`forced`, `exists`). True for
+  m ≤ 7 (2¹⁹ rows at m = 7). m = 8 would take about ten minutes. Not a proof for all m.
+- **A reading I gave that is mine:** "of the two branches it is the second (a front)". The numbers are exact; the
+  word "front" is my summary of a gap that grows over a number of generations increasing with the vessel.
+- **Proposition W's ρ₀ and the power law.** If τ_ring/τ_dead grows like a power of L, ρ₀ falls like that power, so
+  H(0, c) with a constant c fails at large L while H(0, c_L) with c_L polynomially small holds and would still
+  give T2b. I reported ρ₀'s local power (−0.83, −0.65) and did not suggest this to the solver.
+- **Not done:** P-E1 (sampling at L = 30–38; the lab does not sample). Irreducibility of the chain on a
+  dead-ended interval (probability's open point): not examined beyond agreement of left and right iterations.
