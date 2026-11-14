@@ -319,9 +319,9 @@ def relay_remote(call_id: str):
 
 
 @app.function(gpu='A10G', timeout=6 * 3600)
-def fwslab_remote(slab: str, minutes: float, seed: int):
+def fwslab_remote(slab: str, minutes: float, seed: int, max_launch: int = 1 << 18):
     """slab faces with the firewall channel measured (fwslab.py)"""
     _setup()
     import fwslab
     N1, N2, m = (int(x) for x in slab.split('x'))
-    return fwslab.run(N1, N2, m, minutes * 60, seed, log=lambda x: print(x, flush=True))
+    return fwslab.run(N1, N2, m, minutes * 60, seed, max_launch=max_launch, log=lambda x: print(x, flush=True))

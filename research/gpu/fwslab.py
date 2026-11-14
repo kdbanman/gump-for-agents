@@ -53,7 +53,10 @@ def firewalled(bits, rs):
     return fw, which
 
 
-def run(N1, N2, m, wall_s, seed, p=0.4, launch_s=1.0, log=print, raw_cap=60000):
+def run(N1, N2, m, wall_s, seed, p=0.4, launch_s=1.0, log=print, raw_cap=150000, max_launch=1 << 18):
+    """max_launch caps the launch length (a firewall life is counted to its detection, at most one launch late: keep it
+    well below the firewall mean). Results carry the UTC start, exact totals, per-life data when there are at most
+    raw_cap lives, and always age histograms by kind (deaths and exposure per age bin) for burn-in checks."""
     import cupy as cp
     import gsim
     from vessels import SlabVessel
@@ -64,7 +67,8 @@ def run(N1, N2, m, wall_s, seed, p=0.4, launch_s=1.0, log=print, raw_cap=60000):
     s.reseed(np.arange(s.R), seed=seed << 32, p=p)
     birth = np.zeros(s.R, np.int64)
     ages, kinds, births, dirs = [], [], [], []
-    G, rnd, K = 0, 1, 1024
+    G, rnd, K = 0, 1, min(1024, max_launch)
+    start_utc = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
     t0 = time.time(); last = t0
     while time.time() - t0 < wall_s:
         t = time.time()
@@ -91,7 +95,7 @@ def run(N1, N2, m, wall_s, seed, p=0.4, launch_s=1.0, log=print, raw_cap=60000):
             e = np.concatenate(ended)
             s.reseed(e, seed=(seed << 32) + rnd, p=p); rnd += 1
             birth[e] = G
-        if dt < launch_s / 2 and K < 1 << 18:
+        if dt < launch_s / 2 and K < max_launch:
             K *= 2
         if time.time() - last > 120:
             k = np.concatenate(kinds) if kinds else np.zeros(0)
@@ -100,7 +104,12 @@ def run(N1, N2, m, wall_s, seed, p=0.4, launch_s=1.0, log=print, raw_cap=60000):
             last = time.time()
     ages.append(G - birth); kinds.append(np.zeros(s.R, np.int64)); births.append(birth.copy()); dirs.append(np.zeros(s.R, np.int64))
     a, k, b, dr = (np.concatenate(x).astype(np.int64) for x in (ages, kinds, births, dirs))
+    E = np.array(facelaw.EDGES, np.int64)
+    hist = dict(edges=facelaw.EDGES,
+                exposure=[int(np.clip(np.minimum(a, hi) - lo, 0, None).sum()) for lo, hi in zip(E[:-1], E[1:])],
+                deaths={str(kd): np.histogram(a[k == kd], E)[0].tolist() for kd in (1, 2, 3, 4)})
     out = dict(slab=[N1, N2, m], A=v.A, cuts={r['d']: r['cut'] for r in rs}, seed=seed, p=p, gens=G, replicas=s.R,
+               start_utc=start_utc, max_launch=max_launch, hist=hist,
                nodes=v.n, wall_s=time.time() - t0, exposure=int(a.sum()), face=int((k == 1).sum()), fw=int((k == 4).sum()),
                settled=int(((k == 2) | (k == 3)).sum()), censored=int((k == 0).sum()),
                fw_by_direction={int(d): int(((k == 4) & (dr == d)).sum()) for d in (1, 2, 3)})
@@ -129,6 +138,18 @@ def summary(paths):
               f'firewall {W} ({W / max(F + W, 1):.1%}; by direction {byd}), settled {S}')
         print(f'   ln tau_face = {lf:.3f} +- {1 / math.sqrt(max(F, 1)):.3f}  (line -0.091 + 0.2088 A = {-0.091 + 0.2088 * A:.3f});  '
               f'ln tau_fw = {lw:.3f} +- {1 / math.sqrt(max(W, 1)):.3f};  first-event statistic ln(2E/(F+W)) = {lfirst:.3f}')
+        hs = [r['hist'] for r in recs if 'hist' in r]
+        if len(hs) == len(recs):                       # burn-in: the rates over ages >= T0 only
+            edges = hs[0]['edges']
+            ex = np.sum([h['exposure'] for h in hs], 0); fd = np.sum([h['deaths']['1'] for h in hs], 0)
+            wd = np.sum([h['deaths']['4'] for h in hs], 0)
+            parts = []
+            for T0 in (1000, 10000):
+                i = edges.index(T0)
+                e, f, w = ex[i:].sum(), fd[i:].sum(), wd[i:].sum()
+                if f and w:
+                    parts.append(f'ages >= {T0}: face {math.log(2 * e / f):.3f} ({f}), fw {math.log(e / w):.3f} ({w})')
+            print('   burn-in check —', '; '.join(parts))
 
 
 if __name__ == '__main__':
