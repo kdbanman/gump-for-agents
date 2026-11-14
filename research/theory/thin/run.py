@@ -64,12 +64,12 @@ def read_dump(path, b, nt):
     return np.array([[rows[(g, l)] for l in range(NLn)] for g in range(G)])
 
 
-def validate_dump(mode, b, mw, gens, seed=5, notch=0, k=1, force_k=False, gs=0, ccoin=None):
+def validate_dump(mode, b, mw, gens, seed=5, notch=0, k=1, force_k=False, gs=0, ccoin=None, mcoin=None):
     """Every lane, every generation: the dumped next state is the reference stepper's image of the dumped state,
     except where a life ended; ends (deaths, ages) are recomputed and compared with ring's own tallies."""
     nt = mw + 2 if mode == 'model' else mw
     dp = os.path.join(OUT, f'dump_{os.getpid()}.txt'); out = os.path.join(OUT, f'vout_{os.getpid()}.txt')
-    cc = ('-c', *map(str, ccoin)) if ccoin else ()
+    cc = ('-c', *map(str, ccoin)) if ccoin else (('-m', *map(str, mcoin)) if mcoin else ())
     ring(mode, b, mw, seed, gens, 0, out, extra=('-d', dp, *cc), notch=notch, k=k, force_k=force_k, gs=gs)
     D = read_dump(dp, b, nt); r = parse(out)
     nb = thin.graph(b, nt, k)
@@ -123,7 +123,20 @@ def validate_dump(mode, b, mw, gens, seed=5, notch=0, k=1, force_k=False, gs=0, 
     msg = (f'validate_dump {mode}{" [ringk]" if (k != 1 or force_k) else ""} (1,{k}),(0,{b}) layers={mw} wall={notch}: {steps} lane-steps, {bad} wrong, deaths {deaths} '
            f'(ring: {int(t["alldeaths"])}), repeating {settled} ({int(t["settled"])}), firewall {interior} ({int(t["interior"])}), '
            f'exposure {expo} ({int(r["expo"].sum())})' + (f', moves by (state, k) recounted: {int(trans.sum())}' if gs and 'trans' in r else ''))
-    if mode == 'model' and ccoin:
+    if mode == 'model' and mcoin:
+        # coins that know the face above them and their own last state: frequencies given both
+        Xn = D[1:gens].reshape(-1, D.shape[2]).astype(int); Xp = D[:gens - 1].reshape(-1, D.shape[2]).astype(int); zmax = 0.0
+        for t, tab in ((1, np.array(mcoin[:6]).reshape(2, 3)), (2, np.array(mcoin[6:]).reshape(2, 2))):
+            cells = np.arange(t * 3 * b, (t + 1) * 3 * b)
+            jj = np.stack([Xn[:, [j for j, (dt, _, _) in zip(nb[i], thin.TAB[(i // b) % 3]) if dt == -t]].sum(1) for i in cells], 1)
+            for pv in (0, 1):
+                for v in range(tab.shape[1]):
+                    sel = (jj == v) & (Xp[:, cells] == pv); n_ = int(sel.sum()); p = tab[pv, v] / 65536
+                    if n_ > 100:
+                        zmax = max(zmax, abs(Xn[:, cells][sel].sum() - n_ * p) / math.sqrt(n_ * p * (1 - p)))
+        msg += f'; coins with memory: largest |z| of a frequency given (last state, face above) {zmax:.2f}'
+        ok = ok and zmax < 4.5
+    elif mode == 'model' and ccoin:
         # coins that know the face above them: frequencies given the face, and no memory
         X = D[:gens].reshape(-1, D.shape[2]).astype(int); zmax = 0.0; res = np.zeros((X.shape[0], 6 * b))
         for i in range(3 * b, 9 * b):
@@ -356,6 +369,7 @@ if __name__ == '__main__':
         ok &= validate_pca(12, 6000, ptab, notch=3)
         for (b, g, nn) in [(12, 3000, 0), (10, 3000, 3)]:      # coins that know the face above them (ccoin.py)
             ok &= validate_dump('model', b, 1, g, notch=nn, ccoin=(17000, 24000, 30000, 24000, 28000))
+            ok &= validate_dump('model', b, 1, g, notch=nn, mcoin=(9000, 20000, 22000, 30000, 38000, 36000, 15000, 14000, 40000, 41000))
         for (b, m, g) in [(16, 8, 3000), (24, 8, 3000), (40, 8, 1500)]:
             ok &= validate_engine(b, m, g)[0]
         # ringk.c: equal to the reference stepper at k = 1 (with and without wall) and on the wider tori; engine

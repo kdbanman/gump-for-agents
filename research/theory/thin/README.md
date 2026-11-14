@@ -206,7 +206,7 @@ product over cells or triples, so `sweep.py` solves them as it solves M(1).
   independent coins beneath, p differs little where the face is thin (birth with k = 1: 0.0628 against 0.0633;
   k = 2: 0.3515 against 0.3498) and much where it is dense (birth with k = 4: 0.571 against 0.650; survival with
   k = 4: 0.578 against 0.650).
-- **Coins that know the face above them.** M(1), except that a coin of the first coin layer is alive with
+- **Coins that know the face above them** (`ccoin.py`). M(1), except that a coin of the first coin layer is alive with
   probability 0.3482, 0.4500, 0.4456 when 0, 1, 2 of the two face cells above it are alive, and a coin of the
   second with 0.3967, 0.3930 when the face cell above it is dead, alive (measured at one time on the ring b = 48,
   errors 0.0003). The cells of a triple still share their coins.
@@ -221,6 +221,7 @@ the face alone, 4.1213(7), 4.5433(5) for the knowing coins):
 | M(3) | | | 7.0918(10) | 9.8784(21) | 0.3483(3) | +14% |
 | the face alone, measured p(s, k) | 3.977059 | 4.441084 | 7.1483(21) | 9.8572(52) | 0.3386(7) | +11% |
 | coins that know the face | 4.121859 | 4.543578 | 7.1267(16) | 9.7090(51) | 0.3228(7) | +5.6% |
+| … and remember their last state | | | 7.1798(21) | 9.7620(55) | 0.3228(7) | +5.6% |
 | M(4) | | | 6.7444(10) | 9.2288(19) | 0.3106(3) | +1.6% |
 | M(5) | | | 6.7235(11) | 9.1729(17) | 0.3062(3) | +0.2% |
 
@@ -230,7 +231,13 @@ the face alone, 4.1213(7), 4.5433(5) for the knowing coins):
   collapses more slowly (looking back from a death: 1.4, 2.8, 4.5, 6.4 cells against 1.7, 4.1, 7.0, 9.2).
 - Letting the cells fail together (shared coins) and letting the support follow the face at one time gets within
   6% with five measured numbers and no layer of the rule beneath the face: better than three layers over blind
-  coins. What is still missing is memory: the layers beneath stay thin for several generations (§4).
+  coins.
+- **Memory of single cells is not what is missing.** Coins that also remember their own last state (`python3
+  ccoin.py runm …`; alive with probability 0.278, 0.373, 0.366 after dead and 0.483, 0.537, 0.553 after alive, for
+  0, 1, 2 live face cells above; second layer 0.332, 0.339 and 0.495, 0.477) give the same slope, 0.3228(7), and
+  ln τ higher by 0.05. What the remaining 6% needs is therefore the joint behaviour of the layers beneath across
+  sites and layers (a thin patch several sites long and three layers deep, §4), which so far only layers of the
+  rule supply: M(4) is at +1.6%, M(5) at +0.2%.
 - None of these reaches its own straight law at the sizes that can be solved exactly, and the deterministic values
   at n ≤ 6 are themselves rough (there the hazard depends on age, 1% of lives end in a repeating state and the two
   faces often die together: `python3 run.py stats 'seg_det_n[5-9]'`).
@@ -332,9 +339,9 @@ What the same method says as the face widens, and what it would take:
   lives e^19 generations.
 - **The form of the corrections.** Powers of the length, logarithms and stretched exponentials fit equally; none
   is derived. The quoted error is the spread between them.
-- **Coins with memory.** §6b stops at coins that follow the face at one time. The next step, coins that also
-  remember their own last state (ten measured numbers), was not tried; it cannot be solved exactly beyond three
-  sites (nine cells per site) but can be simulated.
+- **Coins correlated along the ring.** §6b stops at coins that follow the face above them and remember their own
+  last state. Coins that depend on their neighbours in their own layer (a probabilistic automaton for layer 1,
+  with a measured table) were not tried.
 - **The closures of §6b** were run at n = 13 and 21 only; their slopes at larger n are not known, and their tables
   come from rings, not from segments.
 - **The coin density** was varied only at b = 20, w = 5; whether its effect grows with size is unknown.

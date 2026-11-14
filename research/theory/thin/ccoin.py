@@ -11,6 +11,9 @@ The kernel is still a product over triples (the coins of a triple sit under cell
     python3 ccoin.py measure [b] [generations]   # r_0..2, q_0..1 from a dump of the deterministic ring -> data/ccoin.json
     python3 ccoin.py exact [nmax]                # exact ln tau on segments n = 2..nmax (default 6) and the ring b = 5
     python3 ccoin.py run TAG b SECONDS [T0] [WALL]
+    python3 ccoin.py runm TAG b SECONDS [T0] [WALL]  # the same with coins that also remember their own last state:
+                                                 # alive with probability r[last][j], q[last][s] (ten numbers, also
+                                                 # written by `measure`); not exactly solvable beyond three sites
 """
 import itertools, json, os, sys
 import numpy as np
@@ -29,18 +32,25 @@ def measure(b=48, gens=6000, m=8, seed=78):
     X = D.reshape(-1, D.shape[2]).astype(int)
     nb = thin.graph(b, m)
     cnt = {1: np.zeros((3, 2)), 2: np.zeros((2, 2))}
+    mem = {1: np.zeros((2, 3, 2)), 2: np.zeros((2, 2, 2))}      # [own last state, live face cells above now, state now]
+    Dn = D[1:].reshape(-1, D.shape[2]).astype(int); Dp = D[:-1].reshape(-1, D.shape[2]).astype(int)
     for t in (1, 2):
         for i in range(t * 3 * b, (t + 1) * 3 * b):
             ups = [j for j, (dt, _, _) in zip(nb[i], thin.TAB[(i // b) % 3]) if dt == -t]
             np.add.at(cnt[t], (X[:, ups].sum(1), X[:, i]), 1)
+            np.add.at(mem[t], (Dp[:, i], Dn[:, ups].sum(1), Dn[:, i]), 1)
+    m1 = mem[1][..., 1] / mem[1].sum(-1); m2 = mem[2][..., 1] / mem[2].sum(-1)
     r = cnt[1][:, 1] / cnt[1].sum(1); q = cnt[2][:, 1] / cnt[2].sum(1)
     d = dict(source=f'deterministic ring b = {b}, m = {m}, {D.shape[0]} generations x {D.shape[1]} lanes, face = layer 0',
              r=r.tolist(), q=q.tolist(), r16=[int(round(x * 65536)) for x in r], q16=[int(round(x * 65536)) for x in q],
              r_err=np.sqrt(r * (1 - r) / cnt[1].sum(1)).tolist(), q_err=np.sqrt(q * (1 - q) / cnt[2].sum(1)).tolist(),
-             counts1=cnt[1].tolist(), counts2=cnt[2].tolist())
+             counts1=cnt[1].tolist(), counts2=cnt[2].tolist(), m1=m1.tolist(), m2=m2.tolist(),
+             m16=[int(round(x * 65536)) for x in list(m1.reshape(-1)) + list(m2.reshape(-1))])
     json.dump(d, open(PATH, 'w'), indent=1)
     print('first coin layer, alive given 0, 1, 2 live face cells above:', ' '.join(f'{x:.4f}' for x in r), ' errors', ' '.join(f'{x:.4f}' for x in d['r_err']))
     print('second coin layer, alive given the face cell above dead, alive:', ' '.join(f'{x:.4f}' for x in q), ' errors', ' '.join(f'{x:.4f}' for x in d['q_err']))
+    print('with memory, first layer: last dead:', ' '.join(f'{x:.4f}' for x in m1[0]), ' last alive:', ' '.join(f'{x:.4f}' for x in m1[1]))
+    print('with memory, second layer: last dead:', ' '.join(f'{x:.4f}' for x in m2[0]), ' last alive:', ' '.join(f'{x:.4f}' for x in m2[1]))
 
 
 def P3():
@@ -72,9 +82,10 @@ if __name__ == '__main__':
         measure(*(int(x) for x in sys.argv[2:4]))
     elif cmd == 'exact':
         exact(int(sys.argv[2]) if len(sys.argv) > 2 else 6)
-    elif cmd == 'run':
+    elif cmd in ('run', 'runm'):
         tag, b, seconds = sys.argv[2], int(sys.argv[3]), float(sys.argv[4])
         T0 = int(sys.argv[5]) if len(sys.argv) > 5 else 256
         wall = int(sys.argv[6]) if len(sys.argv) > 6 else 0
         d = json.load(open(PATH))
-        R.run(tag, 'model', b, 1, seconds, T0, 4, notch=wall, extra=('-c', *map(str, d['r16'] + d['q16'])))
+        extra = ('-c', *map(str, d['r16'] + d['q16'])) if cmd == 'run' else ('-m', *map(str, d['m16']))
+        R.run(tag, 'model', b, 1, seconds, T0, 4, notch=wall, extra=extra)

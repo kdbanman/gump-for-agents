@@ -45,6 +45,7 @@ python3 pca.py run det32 pca_det32_n13 16 40 256 3; python3 pca.py run det32 pca
 python3 ccoin.py measure 48 6000; python3 ccoin.py exact 6
 python3 ccoin.py run cc_n5 8 12 64 3;   python3 ccoin.py run cc_n6 9 12 64 3
 python3 ccoin.py run cc_n13 16 40 256 3; python3 ccoin.py run cc_n21 24 60 256 3
+python3 ccoin.py runm ccm_n13 16 40 256 3; python3 ccoin.py runm ccm_n21 24 70 256 3
 python3 under.py 48 5000
 # exact: one layer over coins
 python3 exact1.py 5; python3 sweep.py ring 5; for n in 2 3 4 5 6 7; do python3 sweep.py seg $n; done

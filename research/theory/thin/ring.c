@@ -9,6 +9,8 @@
  *          With -c r0 r1 r2 q0 q1 (w = 1 only) the coins know the face above them: a coin of the first coin layer
  *          is alive with probability r_j/65536, j = number alive among the two face cells above it (the two that
  *          read it); a coin of the second with q_s/65536, s = state of the one face cell above it.
+ *          With -m (ten numbers: r[prev][j] for prev = 0, 1 and j = 0, 1, 2, then q[prev][s]) the coins also
+ *          remember: a coin is alive with a probability that depends on its own last state as well.
  *   pca    the face alone (m_or_w = 1) as a probabilistic automaton: every cell is alive next with a probability
  *          that depends on its state s and its number k of live face neighbours, independently of the others;
  *          the 14 probabilities (x 65536; dead k = 0..6, then alive k = 0..6) are read from the file given by -p
@@ -125,16 +127,26 @@ static void pca_step(void) {
 
 static unsigned rho16, p016;
 static int ccoin; static unsigned CR[3], CQ[2];   /* coins conditioned on the face above (-c) */
+static unsigned CM[2][3], CN[2][2];               /* ... and on their own last state (-m; ccoin = 2) */
 static void noise(void) {
   vec m = {0}; m += MASK;
   if (!ccoin) { for (int t = ndyn; t < nt; t++) for (int o = 0; o < 3; o++) S[t][o] = bern(rho16) & m; return; }
   for (int o = 0; o < 3; o++) {                  /* w = 1: layer 1 and layer 2 are the coins, layer 0 the face */
     vec up[2]; int n = 0;
     for (int k = 0; k < 12; k++) if (NBR[o][k][0] == -1) up[n++] = shift(S[0][NBR[o][k][1]], NBR[o][k][2]);
-    vec b0 = bern(CR[0]), b1 = bern(CR[1]), b2 = bern(CR[2]);
-    S[1][o] = ((~up[0] & ~up[1] & b0) | ((up[0] ^ up[1]) & b1) | (up[0] & up[1] & b2)) & m;
+    vec n0 = ~up[0] & ~up[1], n1 = up[0] ^ up[1], n2 = up[0] & up[1];
     vec top = {0};
     for (int k = 0; k < 12; k++) if (NBR[o][k][0] == -2) top = shift(S[0][NBR[o][k][1]], NBR[o][k][2]);
+    if (ccoin == 2) {
+      vec d0 = bern(CM[0][0]), d1 = bern(CM[0][1]), d2 = bern(CM[0][2]), a0 = bern(CM[1][0]), a1 = bern(CM[1][1]), a2 = bern(CM[1][2]);
+      vec pv = S[1][o];
+      S[1][o] = ((~pv & ((n0 & d0) | (n1 & d1) | (n2 & d2))) | (pv & ((n0 & a0) | (n1 & a1) | (n2 & a2)))) & m;
+      vec e0 = bern(CN[0][0]), e1 = bern(CN[0][1]), f0 = bern(CN[1][0]), f1 = bern(CN[1][1]);
+      vec p2 = S[2][o];
+      S[2][o] = ((~p2 & ((~top & e0) | (top & e1))) | (p2 & ((~top & f0) | (top & f1)))) & m;
+      continue; }
+    vec b0 = bern(CR[0]), b1 = bern(CR[1]), b2 = bern(CR[2]);
+    S[1][o] = ((n0 & b0) | (n1 & b1) | (n2 & b2)) & m;
     vec q0 = bern(CQ[0]), q1 = bern(CQ[1]);
     S[2][o] = ((~top & q0) | (top & q1)) & m;
   }
@@ -167,7 +179,9 @@ int main(int argc, char **argv) {
   const char *initf = 0, *dumpf = 0, *pcaf = 0;
   for (int i = 12; i < argc; i++) { if (!strcmp(argv[i], "-i")) initf = argv[++i]; else if (!strcmp(argv[i], "-d")) dumpf = argv[++i]; else if (!strcmp(argv[i], "-n")) G = atoi(argv[++i]);
     else if (!strcmp(argv[i], "-p")) pcaf = argv[++i];
-    else if (!strcmp(argv[i], "-c") && i + 5 < argc) { ccoin = 1; for (int j = 0; j < 3; j++) CR[j] = atoi(argv[++i]); for (int j = 0; j < 2; j++) CQ[j] = atoi(argv[++i]); } }
+    else if (!strcmp(argv[i], "-c") && i + 5 < argc) { ccoin = 1; for (int j = 0; j < 3; j++) CR[j] = atoi(argv[++i]); for (int j = 0; j < 2; j++) CQ[j] = atoi(argv[++i]); }
+    else if (!strcmp(argv[i], "-m") && i + 10 < argc) { ccoin = 2; for (int p = 0; p < 2; p++) for (int j = 0; j < 3; j++) CM[p][j] = atoi(argv[++i]);
+      for (int p = 0; p < 2; p++) for (int j = 0; j < 2; j++) CN[p][j] = atoi(argv[++i]); } }
   if (ccoin && (!model || pca || mw != 1)) { fprintf(stderr, "-c: model with one layer only\n"); return 1; }
   if (b < 5 || b > 64) { fprintf(stderr, "need 5 <= b <= 64\n"); return 1; }
   if (pca) { if (mw != 1 || !pcaf) { fprintf(stderr, "pca: one layer, and a table (-p)\n"); return 1; }
