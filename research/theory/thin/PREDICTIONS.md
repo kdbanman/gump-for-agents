@@ -211,3 +211,13 @@ do not meet at 0.285 but (if they meet) near 0.30.
 **F13: hit for w = 8 (+0.004(2)), miss for w = 6 (+0.013(2)).** These are the reruns: the first runs of both ended
 with every lane stuck behind three dead layers (README, "Subtle points"); with the 30-mean-lives estimator they
 gave +0.016(2) and +0.008(3).
+
+## Scores, third part (2026-11-14 22:54)
+
+**F6: hit on its numbers, with a caveat on its words.** Deterministic segments (`python3 analyze.py routes`,
+route 2): 6.7262(14), 9.1708(15), 11.5533(29), 13.9246(73) at n = 13, 21, 29, 37; local slopes 0.3056(3),
+0.2978(4), 0.2964(10) per site. They agree within ±0.005 (forecast ±0.012) and lie in 0.28–0.32. The caveat:
+"no drift like the ring's" is half right. The slope does fall between n = 13 and 25 (the first slope above is
+the corrected one; with the wrong n = 13 value known when F6 was written the first slope was 0.295 and the law
+looked straight from the start) and is flat only from n ≈ 25. Whether the ring's slope falls "towards the same
+value" is not settled: it is 0.3103(62) at b = 34 and still falling.
