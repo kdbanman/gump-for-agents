@@ -239,3 +239,22 @@ missed.**
 - Reading: a periodic face's cost per cell depends on its width and rises from width 3 to 5–6; only the narrowest faces
   (width 3, and perhaps 4) get cheaper per cell as they lengthen. [conjecture] Wide faces converge to about the
   octahedral 0.216–0.221, and the slab line's 0.2088 is an average over narrow slabs.
+
+## 2026-11-14T12:02Z — corrections to the width outcome after review (`research/audit/REVIEW-gpu-pr16.md`; nothing above is edited)
+
+- Errors on the differences: A = 72, 3×8 − 4×6 = −0.349 ± 0.004; A = 90, 3×10 − 5×6 = −0.740 ± 0.016; chords b(3), b(4),
+  b(5) = 0.1959 ± 0.0001, 0.2072 ± 0.0001, 0.2082 ± 0.0006. The finding (narrower faces die sooner at equal area) stands;
+  the review confirms it on the CPU (3×8 − 4×6 = −0.344 ± 0.020).
+- **Withdrawn:** "the cost per cell rises with width from 3 to 5–6", "and perhaps 4", and the conjecture "wide faces
+  converge to about 0.216–0.221 and 0.2088 is an average over narrow slabs" (b(5) is 13σ below 0.216; an area-only slope
+  over mixed widths, 0.2085 for s ≥ 4, is inflated by the offsets — the sign was wrong).
+- **Restated:** s = 3 is cheaper per cell and curved (quadratic term 9σ; b(3) is a chord). For s ≥ 4 one slope
+  0.2072 ± 0.0001 with intercepts rising with s fits at χ² 8.4 / 8; b(5) − b(4) = 0.0010 ± 0.0006 (1.6σ) — by my own
+  committed criterion that is reading **O**, not W. a + 0.2117·A − 0.054·(long side) fits as well (χ² 5.6 / 9): the
+  short side is not singled out. The W fit's χ² 85.2 / 7 is 80.3 from s = 3 (3×10×8 at −8σ). The cost per cell of a
+  wide face is between about 0.207 and 0.216; not settled.
+- The burn-in statement is replaced by: the face hazard by decade of age is flat from about 200 generations on in every
+  slab. "Competing risks independent (not tested)" is replaced by the named confound: width and firewall share are one
+  variable by design (cut 36·s); within s = 4 the share runs 0.5–99% without bending the line; in s = 3 curvature and
+  firewall proximity are not separated. Mixed launch caps (3×6×8 pools 2¹⁸ and 2¹¹; 4×7×8, 6×6×8, 6×7×8 are 2¹⁸):
+  detection-time biases ≤ +0.006 (s = 3), ≤ +0.005 (old 4×7×8); no conclusion changes.

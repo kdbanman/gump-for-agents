@@ -264,24 +264,43 @@ at 6: +0.08, +0.19 ± 0.10), and a fit a + b·A + c·(short side) to the CPU row
 6×7×8, as close as the rising-cost reading. The evidence is 1–2σ either way.
 A third point between the two would need a slab whose cheapest cut keeps firewalls rare (5×8×8, cut 180, would not).
 
-**a (width). At fixed area, a narrower periodic face dies sooner; the cost per cell depends on width.** The lead's
-design after PR 14; forecast (reading "area only") committed first and **missed** (`PREDICTIONS.md`). 14
-firewall-resolved slabs, m = 8, p = 0.4 (`fwslab.py`; launch cap 2¹¹ for s = 3, 2¹⁶ for s = 4; UTC start and age
-histograms in each file); `python3 research/gpu/width.py "research/data/gpu_facelaw/fwslab*.json"`:
+**a (width). At fixed area, a narrower periodic face dies sooner.** The lead's design after PR 14; forecast (reading
+"area only") committed first and **missed** (`PREDICTIONS.md`). Restated after review (`research/audit/REVIEW-gpu-pr16.md`;
+an earlier version claimed a cost per cell rising with width and a conjecture about wide faces, both withdrawn below).
+14 firewall-resolved slabs, m = 8, p = 0.4 (`fwslab.py`; UTC start and age histograms in each file);
+`python3 research/gpu/width.py "research/data/gpu_facelaw/fwslab*.json"`:
 
-| short side s | slabs (A) | ln τ_face | local slopes | b(s) (line per family) |
+| short side s | slabs (A) | ln τ_face | local slopes | chord b(s) |
 |---:|---|---|---|---:|
-| 3 | 3×6, 3×8, 3×10 (54, 72, 90) | 11.082, 14.621, 18.046 | 0.1966, 0.1902 | 0.1959 |
-| 4 | 4×5, 4×6, 4×7, 4×8, 4×9 (60–108) | 12.486, 14.970, 17.465, 19.943, 22.373 | 0.2072, 0.2077, 0.2065, 0.2025 ± 0.0038 | 0.2072 |
-| 5 | 5×5, 5×6, 5×7, 5×8 (75–120) | 15.661, 18.786, 21.890, 25.046 | 0.2083, 0.2069, 0.2104 ± 0.0055 | 0.2082 |
-| 6 | 6×6, 6×7 (108, 126) | 22.568, 26.405 | 0.2131 ± 0.0062 | 0.213 |
+| 3 | 3×6, 3×8, 3×10 (54, 72, 90) | 11.082, 14.621 ± 0.003, 18.046 ± 0.011 | 0.1966 ± 0.0002, 0.1902 ± 0.0007 | 0.1959 ± 0.0001 |
+| 4 | 4×5, 4×6, 4×7, 4×8, 4×9 (60–108) | 12.486, 14.970, 17.465, 19.943 ± 0.018, 22.373 ± 0.042 | 0.2072, 0.2077, 0.2065, 0.2025 ± 0.0038 | 0.2072 ± 0.0001 |
+| 5 | 5×5, 5×6, 5×7, 5×8 (75–120) | 15.661, 18.786 ± 0.011, 21.890 ± 0.040, 25.046 ± 0.073 | 0.2083, 0.2069, 0.2104 ± 0.0055 | 0.2082 ± 0.0006 |
+| 6 | 6×6, 6×7 (108, 126) | 22.568 ± 0.041, 26.405 ± 0.104 | 0.2131 ± 0.0062 | 0.213 ± 0.006 |
 
-At A = 108, 4×9×8 − 6×6×8 = **−0.196 ± 0.059**; at 72, 3×8 − 4×6 = −0.35; at 90, 3×10 − 5×6 = −0.74. Fits: area only
-χ² = 30,944 / 13 dof, offset by short side 3,595 / 10, width-dependent slope 85 / 7. The same slab in both orientations
-(4×6×8, 6×4×8) agrees to −0.002 ± 0.003; restricting to ages ≥ 10³ or ≥ 10⁴ moves nothing, even where firewalls end
-87–99.6% of lives. The cheapest firewall cut is 36·s in all of them, so narrow slabs are also the firewall-prone ones;
-the face channel is measured separately, and competing risks are taken as independent (not tested). [conjecture] Wide
-faces cost about the octahedral 0.216–0.221 per cell; the slab line's 0.2088 averages narrow slabs.
+- **The finding (confirmed on the CPU with independent code by the review: 3×8 − 4×6 = −0.344 ± 0.020):** at equal area
+  a narrower face dies sooner — A = 72: 3×8 − 4×6 = **−0.349 ± 0.004**; A = 90: 3×10 − 5×6 = **−0.740 ± 0.016**;
+  A = 108: 4×9 − 6×6 = **−0.196 ± 0.059** (−0.163 ± 0.052 against the pooled 6×6×8). An area-only line is excluded
+  (χ² = 30,944 for 13 dof).
+- **Width 3 is a separate case:** cheaper per cell and curved (local slopes 0.1966 then 0.1902; the quadratic term is
+  9σ), so b(3) is a chord, not a cost per cell. Of the width-dependent fit's χ² = 85.2 for 7 dof, 80.3 is the s = 3
+  family, chiefly 3×10×8 at −8σ; s = 6 contributes nothing.
+- **For s ≥ 4 the data are an offset, not a changing cost per cell:** one slope 0.2072 ± 0.0001 with intercepts rising
+  with s (s = 5 and 6 above s = 4 by 0.068 and 0.150) fits at χ² 8.4 for 8 dof; b(5) − b(4) = 0.0010 ± 0.0006
+  (1.6σ). By the criterion committed with the forecast (slopes differing by more than 3σ favour W) that is reading O.
+  An alternative with one parameter fewer fits as well — a + 0.2117·A − 0.054·M, M the long side (χ² 5.6 for 9) — so
+  the data do not single out the short side as the variable. The s = 4 quadratic term is zero within error.
+- **No conclusion about wide faces:** b(5) = 0.2082 ± 0.0006 is 13σ below the octahedral 0.216; b(6) = 0.213 ± 0.006 is
+  consistent with both 0.207 and 0.216. An area-only slope over mixed widths (s ≥ 4: 0.2085) is *inflated* by the offsets,
+  so the slab line's 0.2088 is not "an average over narrow slabs" (an earlier conjecture here; withdrawn). The cost per
+  cell of a wide face lies between about 0.207 and 0.216; these data do not settle it.
+- **Age:** the face hazard by decade of age is flat from about 200 generations on in every slab (below 200 a small
+  early excess, 1.1–2× on few deaths); the ≥ 10³ / ≥ 10⁴ cuts are vacuous for the wide slabs.
+- **The confound:** with the cheapest cut at 36·s, width and firewall share are one variable by design. Within s = 4 the
+  share runs from 0.5% to 99% without bending the line; in s = 3 the 99.6%-firewall slab is the −8σ point, so curvature
+  and firewall proximity are not separated there.
+- **Launch caps:** 3×6×8 pools a 2¹⁸ and a 2¹¹ run; 4×7×8, 6×6×8 and 6×7×8 are 2¹⁸ runs. The detection-time biases the
+  review measured are at most +0.003 to +0.006 for s = 3 and at most +0.005 for the old 4×7×8; they change no conclusion.
+- The same slab in both orientations (4×6×8, 6×4×8) agrees to −0.002 ± 0.003.
 
 **b. The cube-centred death rate does not fall with age.** One 3-hour run at R = 43 (A = 759), 2,304 replicas
 (`WB = 1`, so each ages twice as fast), settle window 1,024: 5,971 deaths, ages to 2.6 τ, τ = 3.201 × 10⁹
