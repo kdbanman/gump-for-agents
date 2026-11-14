@@ -56,17 +56,20 @@ _Last updated 2026-11-14 by the lead._
   commits need a new pull request.
 
 ## Next (lead's list; pick by judgment)
-- **State at 10:30 UTC, 2026-11-14 (written ahead of a compaction; context was 380k of the 441k threshold).**
-  Running: the last critic pass (Fable); the adversarial review of `research/theory/exponent.md` (Opus; writes
-  `research/audit/REVIEW-exponent.md`); the GPU session's width experiment (expect its pull request 16). Pull
-  request 15 is the lead's open one. Not started, in order of value: (1) notebook entry for the exponent study once
-  its review is in (the lead's own check of the toy half is already in `research/audit/exponent/lead_check.py`),
-  then an editor to apply the review's corrections; (2) essay section on "noise is enough" (six layers over coins;
-  a mirror halves the price; the audited theorem about a relative; edges hold walls up) in `docs/WHAT-I-SEE.md`;
-  (3) refresh the overview page (`docs/overview/README.md` has the steps; publish to the same link, `LEAD.md`);
-  (4) a second small revision of `class.md` (clauses 3, 5, 6; an edge term); (5) after the owner's Fable reset
-  (they said about 9am their time, probably 16:00 UTC): the fresh-reader audit of counting and path, and a new
-  theory push on the sharpened problem: derive the 0.2 per cell from six layers of the rule over noise.
+- **State at 11:30 UTC, 2026-11-14 (after a compaction).** Done since 10:30 and recorded: the exponent study
+  (reviewed, corrected, notebook, CLAIMS X1-X3), the swarm's close, the essay section "Coins will do", the second
+  revision of `class.md`. **Running:** (a) the adversarial review of the GPU session's **pull request 16** (Opus;
+  writes `research/audit/REVIEW-gpu-pr16.md`, scripts in `research/audit/gpu_pr16/`): fourteen firewall-resolved
+  slabs say a narrower periodic face dies sooner at equal area. The lead's own re-derivation from the JSON summary
+  fields is done and agrees with every headline number (`research/audit/gpu_pr16_lead_check.py`, results in its
+  docstring); it also shows where to doubt: the local slope falls exactly where firewalls end over 99% of lives
+  (short side 3: 0.1966 then 0.1902; short side 4: 0.2065 then 0.2025). When the review is in: fixes to the session
+  by message if any, CI, merge with the full head sha, `git fetch origin main` and merge into the branch, notebook
+  entry, CLAIMS (GP8 or a new row), tell the owner. (b) the overview refresh (Opus; edits `docs/overview/` only):
+  when it reports, look at its screenshots and publish `docs/overview/index.html` to the same private link
+  (`LEAD.md`). Pull request 15 is the lead's open one. **After the owner's Fable reset** (about 9am their time,
+  probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
+  counting and path, and a new theory push on the sharpened problem (the 0.2 per cell from six layers over noise).
 - **Swarm: closed 2026-11-14** (`research/theory/swarm/critic/board.md`, closing table at the top; notebook entry
   "the theory swarm is closed"). No proof of the area law and no derivation of the constant. Stands: a deterministic
   relative with an exponential law (audited; CLAIMS SW1); exact reductions and a conditional area law for gump
