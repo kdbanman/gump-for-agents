@@ -119,6 +119,8 @@ for sec in ("face12e", "gpu", "noise", "swarm"):
     for k, v in U[sec].items(): checked(v)
 for k in ("bond10", "bond10_columns", "oos_escapes", "law_cases"): checked(U["family"][k])
 for r in U["family"]["rows"]: checked(r)
+for f in U["forecasts"]: checked(f)
+out["forecasts"] += [{"line": f["line"], "result": f["result"]} for f in U["forecasts"]]
 for a in U["audits"]: assert (repo / a["file"]).exists(), a["file"]
 fe, gp, no, sw = U["face12e"], U["gpu"], U["noise"], U["swarm"]
 out["face12e"] = {"box": list(zip(fe["box_life"]["n"], fe["box_life"]["value"])) + [[7, fe["box7"]["value"][0] * 1e8]],
@@ -126,7 +128,7 @@ out["face12e"] = {"box": list(zip(fe["box_life"]["n"], fe["box_life"]["value"]))
                   "wall": [list(r) for r in zip(fe["wall"]["A"], fe["wall"]["value"], fe["wall"]["se"])], "slope": fe["wall_slope"]["value"],
                   "torus": fe["torus"]["value"], "symfactor": fe["sym_factor"]["value"][0], "layers": fe["layers"]["value"], "gen1": fe["cube_gen1"]["value"]}
 out["family"] = {"rows": [{k: r[k] for k in ("name", "rule", "lattice", "hull", "law", "note", "status")} for r in U["family"]["rows"]],
-                 "bond10": U["family"]["bond10"]["value"], "columns": U["family"]["bond10_columns"]["value"], "oos": U["family"]["oos_escapes"]["value"], "cases": U["family"]["law_cases"]["value"]}
+                 "bond10": U["family"]["bond10"]["value"], "bond10_median_pow10": U["family"]["bond10"]["pow10"][3], "bond10_factor_pow10": U["family"]["bond10"]["pow10"][0], "columns": U["family"]["bond10_columns"]["value"], "oos": U["family"]["oos_escapes"]["value"], "cases": U["family"]["law_cases"]["value"]}
 out["law"]["slab_gpu"] = [[108] + gp["slab_a"]["value"], [126] + gp["slab_b"]["value"][3:5]]     # A, ln tau, se (firewall channel separated; 108 pooled)
 out["law"]["slab_slope"] = gp["slope"]["value"]                                                  # 108, 126, slope, se
 out["law"]["mirror"] = [list(r) for r in zip(gp["mirror"]["A"], gp["mirror"]["value"][:3])]
@@ -155,6 +157,7 @@ for line in git("log", "--format=%cI|%s").splitlines():
         t = datetime.datetime.fromisoformat(iso).astimezone(datetime.timezone.utc)
         tl["pull_requests"].append({"n": int(mm[1]), "title": subj[: mm.start()].strip(), "date": t.strftime("%Y-%m-%dT%H:%MZ")}); have.add(int(mm[1]))
 tl["pull_requests"].sort(key=lambda p: p["date"])
+out["width"] = gp["width_test"]["value"][5:7]
 tl["milestones"] = tl["milestones"] + [{"date": x["date"], "text": x["text"]} for x in U["milestones"]]
 
 (here / "data" / "data.json").write_text(json.dumps(out, separators=(",", ":")))

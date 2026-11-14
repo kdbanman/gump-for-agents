@@ -19,24 +19,34 @@
 
 <section class="plate" id="swarm">
   <div class="plate-h">
-    <div class="row"><p class="eyebrow">The swarm <b>· paused</b></p><span class="st st-unchk">nothing here is established until a fresh reader audits it</span></div>
-    <h2>Four lines of attack on one question: why area, and what sets the rate?</h2>
+    <div class="row"><p class="eyebrow">The swarm <b>· closed</b></p><span class="st st-open">the area law: not proved</span><span class="st st-proved">one result audited by a fresh reader</span></div>
+    <h2>Four lines of mathematics on why area. No proof; a proved relative, exact reductions and a sharper question.</h2>
   </div>
-  <div class="slines" id="f-swarm"></div>
-  <div class="keys"><span class="key"><span class="sw" style="background:var(--ink)"></span>checked by the critic</span><span class="key"><span class="sw" style="background:var(--s-mute)"></span>claimed, not yet reviewed</span><span class="key"><span class="sw" style="background:var(--grid);border:1px solid var(--rule)"></span>open guess</span><span class="key"><span class="sw" style="background:var(--retired)"></span>refuted or withdrawn</span></div>
-  <div class="nums" id="n-swarm"></div>
   <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>A relative of the 2D rule whose exponential law is a theorem</h3>
+      <div id="f-relative"></div>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--ink)"></span>the relative, computed exactly</span><span class="key"><span class="sw dot" style="background:var(--s3)"></span>the 2D rule’s own edge, measured</span></div>
+      <figcaption>The relative runs the 2D rule on its edge row and feeds it fresh coin flips from below on a conveyor. Its wait is <b>proved</b> exponential in the length, <b>if</b> two published facts about percolation hold (not checked here at the source). It is steeper than the real edge, and says nothing about gump: the randomness is fed in, not made.</figcaption>
+    </figure>
+    <figure class="fig c5 panel">
+      <h3>What stands</h3>
+      <div class="fc" id="f-stands"></div>
+    </figure>
+  </div>
+  <div class="figs">
+    <figure class="fig c6 panel">
+      <h3>Predictions filed in advance, then run by an examiner</h3>
+      <div class="seg" id="f-exam"></div>
+      <div class="keys" id="k-exam"></div>
+      <figcaption>Among those that held: six layers over coins are enough for gump; one mirror halves a face’s price; an edge with an end is cheaper.</figcaption>
+    </figure>
     <figure class="fig c6 panel">
       <h3>Explanations that died</h3>
       <ul class="plain dead" id="l-dead"></ul>
     </figure>
-    <figure class="fig c6 panel">
-      <h3>Still standing, all unproved</h3>
-      <ul class="plain" id="l-alive"></ul>
-      <figcaption id="c-swarm"></figcaption>
-    </figure>
   </div>
-  <details class="tbl"><summary>The critic's 15 corrections to the problem as posed</summary><div class="scroll" id="t-errors"></div></details>
+  <details class="tbl"><summary>The critic’s 15 corrections to the problem as first posed</summary><div class="scroll" id="t-errors"></div></details>
 </section>
 
 <section class="plate" id="checked">
@@ -46,7 +56,7 @@
   </div>
   <div class="figs">
     <figure class="fig c6 panel">
-      <h3>82 headline claims, by how far each was verified</h3>
+      <h3><span id="n-claims">82</span> headline claims, by how far each was verified</h3>
       <div class="seg" id="f-grades"></div>
       <div class="keys" id="k-grades" style="flex-direction:column;gap:4px"></div>
     </figure>
@@ -63,7 +73,7 @@
     <div class="fig c4">
       <div class="nums" style="grid-template-columns:1fr">
         <div class="num"><span class="v">20</span><span class="l">exact checks run on every pull request, in 27 seconds</span></div>
-        <div class="num"><span class="v">4</span><span class="l">audits and adversarial reviews by agents that did not do the work</span></div>
+        <div class="num"><span class="v" id="n-audits">4</span><span class="l">audits and adversarial reviews by agents that did not do the work</span></div>
         <div class="num"><span class="v">bit-exact</span><span class="l">the bar for every new stepper, against the engine and your logs</span></div>
       </div>
     </div>
@@ -74,7 +84,7 @@
 <section class="plate" id="built">
   <div class="plate-h">
     <div class="row"><p class="eyebrow">Built, and when</p></div>
-    <h2>Thirty-three hours, 274 commits, ten merged pull requests.</h2>
+    <h2 id="h-built">Thirty-three hours, 274 commits, ten merged pull requests.</h2>
   </div>
   <figure class="fig panel">
     <div id="f-timeline"></div>
@@ -90,29 +100,23 @@
 
 <section class="plate" id="next">
   <div class="plate-h">
-    <div class="row"><p class="eyebrow">Paused <b>· what resumes first</b></p></div>
-    <h2>The swarm picks up where it stopped. Nothing from it is recorded until it has been audited.</h2>
+    <div class="row"><p class="eyebrow">Open now</p></div>
+    <h2>What is not settled, and what is running.</h2>
   </div>
   <div class="figs">
     <ol class="queue c7 fig">
-      <li><b>The critic</b> reviews three interim rounds and runs the exact computations one line is waiting on.</li>
-      <li><b>Each solver</b> continues from its own journal, until a round adds no proved step.</li>
-      <li><b>A fresh reader</b> audits every result tagged proved.</li>
-      <li><b>The ten predictions</b> filed in advance get run.</li>
+      <li><b>The constant.</b> Derive the ≈ 0.21 per cell from five or six layers of the rule over coin flips: a finite-depth problem, computable exactly at small sizes. <span class="st st-open">open</span></li>
+      <li><b>Rising price, or width?</b> A GPU run pits a 4 × 9 slab face against a 6 × 6 one of the same 108 sites: a width effect predicts <span id="n-width">0.23 ± 0.08</span> lower in ln(wait). <span class="st st-once">running</span></li>
+      <li><b>An edge term.</b> Why box walls hold each other up: strongly in bond10, mildly in gump. <span class="st st-open">open</span></li>
+      <li><b>A fresh reader</b> for the swarm’s two unaudited lines (counting and path). <span class="st st-unchk">owed</span></li>
     </ol>
     <div class="fig c5">
-      <h3>Also waiting</h3>
+      <h3>Also open</h3>
       <ul class="plain">
-        <li>A finished theory of which lattices and rules make a gump: unchecked.</li>
-        <li>A study of the exponent: needs writing up; one of its lemmas is false.</li>
-        <li>GPU runs: larger faces, a longer symmetric run.</li>
+        <li>Why area at all: no line of the swarm proved it, for gump or the 2D rule.</li>
+        <li>Is a symmetric face’s slope exactly one sixth?</li>
+        <li>Why symmetry kills the rule you meant so much faster than gump. A guess: its walls each hold very few independent cells under the mirrors. <span class="st st-open">conjecture, untested</span></li>
         <li>Side 17: forecast in writing, not run.</li>
-      </ul>
-      <h3 style="margin-top:14px">Open, and worth knowing</h3>
-      <ul class="plain">
-        <li>Where does the price per site level off?</li>
-        <li>Is a symmetric face's slope exactly one sixth?</li>
-        <li>What does a face remember? Copies of a state share a little of its luck (seen once, weakly).</li>
         <li>Which 2D rule did you find, years ago?</li>
       </ul>
     </div>

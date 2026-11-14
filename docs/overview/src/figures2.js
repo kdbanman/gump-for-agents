@@ -20,10 +20,17 @@ function gens(ln) { // e^ln as a readable number of generations
     L.gpu.forEach(r => dot(f, r[0], r[2] / LN10, 'var(--s1)', () => ['Hull face, ' + r[0] + ' sites (GPU)', gens(r[2]) + ' generations', fmtInt(r[4]) + ' deaths counted'], { hollow: true, se: r[3] / LN10 }));
     const top = L.gpu[L.gpu.length - 1];
     S('text', { x: f.X(top[0]) + 6, y: f.Y(top[2] / LN10) - 12, 'text-anchor': 'end', class: 't-strong' }, f.svg).textContent = top[0] + ' sites: ' + gens(top[2]) + ' generations';
+    // rim-free slab faces with the firewall channel separated (GPU; NB 2026-11-14, pull request 14) and hull faces cut by one mirror (CLAIMS SW3)
+    L.slab_gpu.forEach(r => dot(f, r[0], r[1] / LN10, 'var(--s3)', () => ['Slab face, ' + r[0] + ' sites (GPU)', gens(r[1]) + ' generations', 'firewall deaths counted apart; ± ' + r[2] + ' in ln'], { hollow: true, se: r[2] / LN10, r: 3.8 }));
+    S('path', { class: 'ln', stroke: 'var(--s2)', 'stroke-width': 1.5, d: pathOf(f, L.mirror.map(r => [r[0], r[1] / LN10])) }, f.svg);
+    L.mirror.forEach(r => dot(f, r[0], r[1] / LN10, 'var(--s2)', () => ['Hull face cut by one mirror, ' + r[0] + ' sites', gens(r[1]) + ' generations', 'one run by the swarm’s examiner'], { r: 3.8 }));
+    const mm = L.mirror[L.mirror.length - 1]; S('text', { x: f.X(mm[0]), y: f.Y(mm[1] / LN10) + 18, 'text-anchor': 'end', class: 't-strong halo' }, f.svg).textContent = 'one mirror: half the price';
     const s0 = L.oct[0]; S('text', { x: f.X(s0[0]) + 9, y: f.Y(s0[2] / LN10) + 14 }, f.svg).textContent = s0[0] + ' sites: ' + gens(s0[2]);
   });
   tableView($('#t-law'), ['face', 'sites', 'ln(mean life)', '± s.e.', 'deaths'],
-    L.oct.map(r => ['hull, engine', r[0], r[2].toFixed(3), r[3], fmtInt(r[4])]).concat(L.gpu.map(r => ['hull, GPU', r[0], r[2].toFixed(3), r[3], fmtInt(r[4])])).concat(L.slab.map(r => ['slab', r[0], r[1].toFixed(3), r[2], r[3]])));
+    L.oct.map(r => ['hull, engine', r[0], r[2].toFixed(3), r[3], fmtInt(r[4])]).concat(L.gpu.map(r => ['hull, GPU', r[0], r[2].toFixed(3), r[3], fmtInt(r[4])])).concat(L.slab.map(r => ['slab', r[0], r[1].toFixed(3), r[2], r[3]]))
+      .concat(L.slab_gpu.map(r => ['slab, GPU, firewalls apart', r[0], r[1].toFixed(3), r[2], ''])).concat(L.mirror.map(r => ['hull, one mirror', r[0], r[1].toFixed(3), '', ''])));
+  $('#n-rim').firstChild.textContent = L.rim[0] + ' ';
   const H2 = $('#f-slopes');
   responsive(H2, w => {
     const f = frame(H2, { w, h: 330, label: 'Local slope of the face law between neighbouring sizes',
@@ -37,6 +44,10 @@ function gens(ln) { // e^ln as a readable number of generations
       S('line', { x1: f.X(r[0]), x2: f.X(r[1]), y1: f.Y(r[2]), y2: f.Y(r[2]), stroke: 'var(--s1)', 'stroke-width': 2, 'stroke-linecap': 'round' }, f.svg);
       dot(f, (r[0] + r[1]) / 2, r[2], 'var(--s1)', () => ['From ' + r[0] + ' to ' + r[1] + ' sites', r[2] + ' per site' + (r[3] ? ' ± ' + r[3] : '')], { se: r[3] || 0, r: 4 });
     });
+    const ss = L.slab_slope; S('rect', { x: f.X(ss[0]), y: f.Y(ss[2] + ss[3]), width: f.X(ss[1]) - f.X(ss[0]), height: f.Y(ss[2] - ss[3]) - f.Y(ss[2] + ss[3]), fill: 'var(--s3)', 'fill-opacity': .3 }, f.svg);
+    S('line', { x1: f.X(ss[0]), x2: f.X(ss[1]), y1: f.Y(ss[2]), y2: f.Y(ss[2]), stroke: 'var(--s3)', 'stroke-width': 2.5 }, f.svg);
+    const sh = S('rect', { class: 'hit', x: f.X(ss[0]), y: f.Y(ss[2] + ss[3]) - 4, width: f.X(ss[1]) - f.X(ss[0]), height: f.Y(ss[2] - ss[3]) - f.Y(ss[2] + ss[3]) + 8, tabindex: 0 }, f.svg);
+    tipOn(sh, () => ['Rim-free slab faces, ' + ss[0] + ' to ' + ss[1] + ' sites', ss[2] + ' ± ' + ss[3] + ' per site (GPU, firewalls apart)']);
     const last = L.slopes[L.slopes.length - 1]; S('text', { x: f.X(last[1]), y: f.Y(last[2] + last[3]) - 7, 'text-anchor': 'end', class: 't-strong' }, f.svg).textContent = String(last[2]);
     S('text', { x: f.X(L.slopes[0][0]), y: f.Y(L.slopes[0][2]) + 16, class: 't-strong' }, f.svg).textContent = String(L.slopes[0][2]);
   });
@@ -59,6 +70,7 @@ function gens(ln) { // e^ln as a readable number of generations
 })();
 
 // ---------- symmetry and the cubes ----------
+$('#n-weibull').textContent = 'k = ' + D.weibull[1].toFixed(2); $('#n-weibull-n').textContent = fmtInt(D.weibull[0]);
 (function () {
   const Sy = D.sym, H = $('#f-sym'), best = new Map();
   Sy.cpu.forEach(r => best.set(r[0] + r[1], { A: r[0], c: r[1], deaths: r[2], ln: r[3], se: r[4], how: 'engine' }));
@@ -111,27 +123,9 @@ function gens(ln) { // e^ln as a readable number of generations
   D.project.ours.slice(0, 5).forEach(s => E('li', {}, $('#l-ours'), s.charAt(0).toUpperCase() + s.slice(1)));
 })();
 
-// ---------- the swarm ----------
+// ---------- the swarm: the critic's corrections (the closed plate is drawn in figures3.js) ----------
 (function () {
-  const W = D.swarm, H = $('#f-swarm'), col = { 'confirmed-by-critic': 'var(--ink)', 'claimed': 'var(--s-mute)', 'open': 'var(--grid)' };
-  ['probability', 'counting', 'path', 'source'].forEach(k => {
-    const L = W.lines[k], c = E('div', { class: 'sline' }, H), n = t => L.results.filter(r => r[2] === t).length;
-    E('h3', {}, c, L.label); E('p', { class: 'idea' }, c, L.line);
-    const r = E('div', { class: 'rounds' }, c); for (let i = 0; i < L.written; i++) E('i', { class: i < L.refereed ? 'on' : '' }, r); E('span', {}, r, L.written + ' rounds written, ' + L.refereed + ' refereed');
-    const sg = E('div', { class: 'seg', role: 'img', 'aria-label': n('confirmed-by-critic') + ' results checked by the critic, ' + n('claimed') + ' claimed, ' + n('open') + ' open, ' + L.dropped + ' refuted or withdrawn' }, c);
-    [['a', n('confirmed-by-critic')], ['b', n('claimed')], ['c', n('open')], ['d', L.dropped]].forEach(([cl, v]) => { if (v) E('span', { class: cl, style: 'flex:' + v + ' 1 0' }, sg, String(v)); });
-    const tp = E('p', { class: 'top' }, c); E('b', {}, tp, 'So far'); tp.appendChild(document.createTextNode(L.top));
-    const d = E('details', {}, c); E('summary', {}, d, 'All ' + L.results.length + ' results'); const ul = E('ul', {}, d);
-    L.results.forEach(x => { const li = E('li', {}, ul); E('i', { style: 'background:' + col[x[2]] + (x[2] === 'open' ? ';box-shadow:inset 0 0 0 1px var(--ink-3)' : '') }, li); E('span', {}, li, x[1]); });
-  });
-  const N = $('#n-swarm'), C = W.counts, num = (v, l) => { const d = E('div', { class: 'num' }, N); E('span', { class: 'v' }, d, String(v)); E('span', { class: 'l' }, d, l); };
-  num(C.rounds_written, 'rounds written; ' + C.rounds_refereed_full + ' refereed in full'); num(C.corrections, 'corrections to the problem as the lead posed it');
-  num(C.graveyard, 'dead ideas buried, each with its reason'); num(C.lab_results_solver, 'exact computations run by the critic for the solvers');
-  num(C.library_sources, 'sources on the librarian’s shelf; ' + W.library.not_obtained + ' could not be obtained'); num(C.predictions, 'predictions filed in advance; none run yet');
-  W.dead.forEach(x => { const li = E('li', {}, $('#l-dead')); E('b', {}, li, x[0]); li.appendChild(document.createTextNode('  ' + x[1])); });
-  W.alive.forEach(x => { const li = E('li', {}, $('#l-alive')); E('b', {}, li, x[0] + '. '); li.appendChild(document.createTextNode(x[1])); });
-  $('#c-swarm').textContent = 'No formula for the rate yet. Exponential lifetime is proved only for relatives of gump driven by dice or by provably random sources, and those proofs lean on two cited facts not yet on the shelf.';
-  const t = E('table', {}, $('#t-errors')), hr = E('tr', {}, E('thead', {}, t)); ['', 'the lead had said', 'the critic showed'].forEach(h => E('th', {}, hr, h));
+  const W = D.swarm, t = E('table', {}, $('#t-errors')), hr = E('tr', {}, E('thead', {}, t)); ['', 'the lead had said', 'the critic showed'].forEach(h => E('th', {}, hr, h));
   const tb = E('tbody', {}, t); W.errors.forEach(e => { const tr = E('tr', {}, tb); e.forEach((c, i) => E('td', { style: i ? 'text-align:left;white-space:normal' : '' }, tr, c)); });
 })();
 
@@ -141,6 +135,7 @@ function gens(ln) { // e^ln as a readable number of generations
   sg.setAttribute('role', 'img'); sg.setAttribute('aria-label', 'A ' + G.A + ', B ' + G.B + ', C ' + G.C + ', D ' + G.D);
   ['A', 'B', 'C', 'D'].forEach((k, i) => E('span', { class: 'g' + (i + 1), style: 'flex:' + G[k] + ' 1 0' }, sg, G[k] > 3 ? k + ' ' + G[k] : ''));
   ['A', 'B', 'C', 'D'].forEach((k, i) => { const kk = E('span', { class: 'key' }, $('#k-grades')); const sw = E('span', { class: 'sw' }, kk); sw.style.background = getComputedStyle(sg.children[i]).backgroundColor; kk.appendChild(document.createTextNode(k + (k === 'D' ? ' (' + G.D + ')' : '') + ': ' + mean[k])); });
+  $('#n-claims').textContent = G.total; $('#n-audits').textContent = P.audits.length;
   document.querySelectorAll('.n-corr').forEach(e => { e.textContent = D.corrections.length; });
   const by = new Map(); D.corrections.forEach(c => by.set(c.who, (by.get(c.who) || 0) + 1));
   const rows = [...by.entries()].sort((a, b) => b[1] - a[1]), mx = rows[0][1];
@@ -158,7 +153,7 @@ function gens(ln) { // e^ln as a readable number of generations
   const ms = T.milestones.map(m => ({ t: Date.parse(m.date.replace('Z', ':00Z')), text: m.text })), prs = T.pull_requests.map(p => ({ t: Date.parse(p.date.replace('Z', ':00Z')), n: p.n, title: p.title }));
   const hh = t => new Date(t).toISOString().slice(5, 16).replace('T', ' ');
   responsive(H, w => {
-    const svg = S('svg', { viewBox: `0 0 ${w} 98`, width: w, height: 98, role: 'img', 'aria-label': 'Timeline of milestones and merged pull requests over 33 hours' }, H), ml = 8, mr = 8;
+    const svg = S('svg', { viewBox: `0 0 ${w} 98`, width: w, height: 98, role: 'img', 'aria-label': 'Timeline of milestones and merged pull requests' }, H), ml = 8, mr = 8;
     const X = t => ml + (t - t0) / (t1 - t0) * (w - ml - mr);
     S('line', { class: 'ax', x1: ml, x2: w - mr, y1: 44, y2: 44 }, svg);
     for (let t = Date.parse('2026-11-12T18:00:00Z'); t < t1; t += 6 * 3600e3) { const d = new Date(t), mid = d.getUTCHours() === 0;
@@ -173,4 +168,10 @@ function gens(ln) { // e^ln as a readable number of generations
   });
   ms.forEach(m => { const li = E('li', {}, $('#l-miles')); E('time', {}, li, hh(m.t)); E('span', {}, li, m.text); });
 })();
-$('#stamp').textContent = 'Repository state of ' + D.project.timeline.last_commit.slice(0, 10) + '. Research is paused.';
+$('#stamp').textContent = 'Repository state of ' + D.project.timeline.last_commit.replace('T', ' ').replace('Z', ' UTC') + '.';
+(function () { // headline of 'Built, and when', from git (collect.py)
+  const T = D.project.timeline, h = Math.round((Date.parse(T.last_commit.slice(0, 19) + 'Z') - Date.parse(T.first_commit.slice(0, 19) + 'Z')) / 3600e3), n = T.pull_requests.length;
+  $('#h-built').textContent = h + ' hours, ' + fmtInt(T.totals.commits) + ' commits, ' + n + ' merged pull requests.';
+  $('#m-built').textContent = h + ' hours, ' + fmtInt(T.totals.commits) + ' commits';
+})();
+/*FIGURES3*/

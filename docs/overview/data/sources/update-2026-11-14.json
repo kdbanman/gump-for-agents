@@ -1,116 +1,643 @@
 {
-  "about": "Numbers for the panels added on the refresh of 2026-11-14 (afternoon). Each item carries the text it was copied from ('quote') and where that text is ('src'). collect.py checks that every quote occurs, whitespace aside, in research/NOTEBOOK.md or research/CLAIMS.md, and that every number in 'value' occurs in its quote. NB = research/NOTEBOOK.md; dates are entry dates.",
-
-  "face12e": {
-    "box_life": {"n": [2, 3, 4, 5, 6], "value": [10, 60, 439, 9855, 707038],
-      "quote": "Boxes of n³ cubes: median lifetimes 10, 60, 439, 9,855, 707,038 for n = 2…6",
-      "src": "NB 2026-11-14, the class theory attacked; CLAIMS K3"},
-    "box7": {"value": [1.6], "pow10": [8],
-      "quote": "against 439, 9,855, 707,038 and ≈ 1.6 × 10⁸ for soups without symmetry at 4³ … 7³",
-      "src": "NB 2026-11-14, the revised class statement tested (16 of 128 boxes of 7³ finished by 3 × 10⁷; the 1.6 × 10⁸ is an estimate)"},
-    "box7_count": {"value": [16, 128], "quote": "observed 16 of 128", "src": "NB 2026-11-14, the revised class statement tested"},
-    "sym_life": {"n": [4, 5, 6, 7, 8, 9, 10, 11, 12], "value": [3, 9, 9.5, 19, 19, 33.5, 35.5, 100.5, 103.5],
-      "quote": "median lifetimes 3, 9, 9.5, 19, 19, 33.5, 35.5, 100.5, 103.5 generations for boxes of 4³ … 12³",
-      "src": "NB 2026-11-14, the revised class statement tested; CLAIMS K6 (grade A)"},
-    "sym_factor": {"value": [74000], "quote": "74,000 times shorter at 6³", "src": "NB 2026-11-14, the revised class statement tested"},
-    "wall": {"A": [16, 20, 25, 30, 36], "value": [6.428, 7.999, 10.183, 12.089, 14.542], "se": [0.002, 0.004, 0.007, 0.015, 0.040],
-      "quote": "| ln τ (checker) | 6.428 ± 0.002 | 7.999 ± 0.004 | 10.183 ± 0.007 | 12.089 ± 0.015 | 14.542 ± 0.040 |",
-      "src": "NB 2026-11-14, the class theory attacked (table); CLAIMS K2"},
-    "wall_slope": {"value": [0.410, 0.205, 0.212], "quote": "Slope 0.410 ± 0.001 per wall face. The wall sheet alone empties 4–10 times as often and comes back; the event that kills a wall is the death of the layer beneath it, which has 2A cells. Per cell of that layer the cost is **0.205**, against gump's 0.212 per face cell",
-      "src": "NB 2026-11-14, the class theory attacked"},
-    "torus": {"value": [0.398, 0.416], "quote": "ρ = 0.398 (gump 0.416)", "src": "NB 2026-11-14, the class theory attacked"},
-    "cube_gen1": {"value": [8, 528, 0, 9, 696], "quote": "(side 8: log 528, variant 0; side 9: log 696, variant 0: a closed cube dies at once, every face being overcrowded)",
-      "src": "NB 2026-11-14, the coplanar neighbours are the corner-touching four"},
-    "layers": {"value": [11, 15], "quote": "A 5³ box stands intact for two thirds of its life and then loses 11 of its 15 layers of cubes, each as a whole",
-      "src": "NB 2026-11-14, the class theory attacked"},
-    "escapes": {"value": [0, 64000], "quote": "[measured] 0 escapes from the odd box in 64,000 soup-generations", "src": "NB 2026-11-14, the class theory attacked"}
+ "about": "Numbers for the panels added on the refresh of 2026-11-14 (afternoon). Each item carries the text it was copied from ('quote') and where that text is ('src'). collect.py checks that every quote occurs, whitespace aside, in research/NOTEBOOK.md or research/CLAIMS.md, and that every number in 'value' occurs in its quote. NB = research/NOTEBOOK.md; dates are entry dates.",
+ "face12e": {
+  "box_life": {
+   "n": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "value": [
+    10,
+    60,
+    439,
+    9855,
+    707038
+   ],
+   "quote": "Boxes of n³ cubes: median lifetimes 10, 60, 439, 9,855, 707,038 for n = 2…6",
+   "src": "NB 2026-11-14, the class theory attacked; CLAIMS K3"
   },
-
-  "family": {
-    "rows": [
-      {"name": "gump", "rule": "B45/S345", "lattice": "faces of the cubic honeycomb, corner-touching", "hull": "octahedron", "law": "≈ 0.21 per face cell",
-       "note": "the original", "status": "meas",
-       "quote": "against gump's 0.212 per face cell", "value": [0.212], "src": "NB 2026-11-14, the class theory attacked"},
-      {"name": "face12e", "rule": "B45/S345", "lattice": "the same faces, edge-sharing", "hull": "box", "law": "0.205 per cell of the layer under a wall",
-       "note": "the rule you meant", "status": "meas",
-       "quote": "Per cell of that layer the cost is **0.205**", "value": [0.205], "src": "NB 2026-11-14, the class theory attacked"},
-      {"name": "the flat cousin", "rule": "B34/S234", "lattice": "square grid, range-2 cross", "hull": "square", "law": "0.36–0.42 per edge cell",
-       "note": "2D", "status": "meas",
-       "quote": "about 0.67–0.71 per cell, against 0.36–0.42 measured for the 2D rule's own edge in a strip", "value": [0.36, 0.42], "src": "NB 2026-11-14, a deterministic relative"},
-      {"name": "hex9", "rule": "B456/S3456", "lattice": "hexagonal, nine neighbours", "hull": "hexagonal prism", "law": "0.69 falling to 0.53 per wall cell",
-       "note": "new; its law bends", "status": "meas",
-       "quote": "But the wall law is **concave**: 0.69 falling to 0.53 per wall cell", "value": [0.69, 0.53], "src": "NB 2026-11-14, the revised class statement tested; CLAIMS K8 (grade C)"},
-      {"name": "kagome4", "rule": "B2/S12", "lattice": "kagome, four neighbours", "hull": "hexagon", "law": "0.772 per wall-row cell",
-       "note": "2D; some walls freeze", "status": "meas",
-       "quote": "**kagome4 B2/S12: 0.772 ± 0.003 per wall-row cell**", "value": [0.772], "src": "NB 2026-11-14, the revised class statement tested; CLAIMS K8 (grade C)"},
-      {"name": "bond10", "rule": "B34/S234", "lattice": "ten neighbours", "hull": "box", "law": "0.492 per wall face in a slab",
-       "note": "boxes live far longer", "status": "meas",
-       "quote": "Slab law 0.492 ± 0.001 per wall face (six sizes, memoryless)", "value": [0.492], "src": "NB 2026-11-14, the revised class statement tested; CLAIMS K7 (grade C)"}
+  "box7": {
+   "value": [
+    1.6
+   ],
+   "pow10": [
+    8
+   ],
+   "quote": "against 439, 9,855, 707,038 and ≈ 1.6 × 10⁸ for soups without symmetry at 4³ … 7³",
+   "src": "NB 2026-11-14, the revised class statement tested (16 of 128 boxes of 7³ finished by 3 × 10⁷; the 1.6 × 10⁸ is an estimate)"
+  },
+  "box7_count": {
+   "value": [
+    16,
+    128
+   ],
+   "quote": "observed 16 of 128",
+   "src": "NB 2026-11-14, the revised class statement tested"
+  },
+  "sym_life": {
+   "n": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "value": [
+    3,
+    9,
+    9.5,
+    19,
+    19,
+    33.5,
+    35.5,
+    100.5,
+    103.5
+   ],
+   "quote": "median lifetimes 3, 9, 9.5, 19, 19, 33.5, 35.5, 100.5, 103.5 generations for boxes of 4³ … 12³",
+   "src": "NB 2026-11-14, the revised class statement tested; CLAIMS K6 (grade A)"
+  },
+  "sym_factor": {
+   "value": [
+    74000
+   ],
+   "quote": "74,000 times shorter at 6³",
+   "src": "NB 2026-11-14, the revised class statement tested"
+  },
+  "wall": {
+   "A": [
+    16,
+    20,
+    25,
+    30,
+    36
+   ],
+   "value": [
+    6.428,
+    7.999,
+    10.183,
+    12.089,
+    14.542
+   ],
+   "se": [
+    0.002,
+    0.004,
+    0.007,
+    0.015,
+    0.04
+   ],
+   "quote": "| ln τ (checker) | 6.428 ± 0.002 | 7.999 ± 0.004 | 10.183 ± 0.007 | 12.089 ± 0.015 | 14.542 ± 0.040 |",
+   "src": "NB 2026-11-14, the class theory attacked (table); CLAIMS K2"
+  },
+  "wall_slope": {
+   "value": [
+    0.41,
+    0.205,
+    0.212
+   ],
+   "quote": "Slope 0.410 ± 0.001 per wall face. The wall sheet alone empties 4–10 times as often and comes back; the event that kills a wall is the death of the layer beneath it, which has 2A cells. Per cell of that layer the cost is **0.205**, against gump's 0.212 per face cell",
+   "src": "NB 2026-11-14, the class theory attacked"
+  },
+  "torus": {
+   "value": [
+    0.398,
+    0.416
+   ],
+   "quote": "ρ = 0.398 (gump 0.416)",
+   "src": "NB 2026-11-14, the class theory attacked"
+  },
+  "cube_gen1": {
+   "value": [
+    8,
+    528,
+    0,
+    9,
+    696
+   ],
+   "quote": "(side 8: log 528, variant 0; side 9: log 696, variant 0: a closed cube dies at once, every face being overcrowded)",
+   "src": "NB 2026-11-14, the coplanar neighbours are the corner-touching four"
+  },
+  "layers": {
+   "value": [
+    11,
+    15
+   ],
+   "quote": "A 5³ box stands intact for two thirds of its life and then loses 11 of its 15 layers of cubes, each as a whole",
+   "src": "NB 2026-11-14, the class theory attacked"
+  },
+  "escapes": {
+   "value": [
+    0,
+    64000
+   ],
+   "quote": "[measured] 0 escapes from the odd box in 64,000 soup-generations",
+   "src": "NB 2026-11-14, the class theory attacked"
+  }
+ },
+ "family": {
+  "rows": [
+   {
+    "name": "gump",
+    "rule": "B45/S345",
+    "lattice": "faces of the cubic honeycomb, corner-touching",
+    "hull": "octahedron",
+    "law": "≈ 0.21 per face cell",
+    "note": "the original",
+    "status": "meas",
+    "quote": "against gump's 0.212 per face cell",
+    "value": [
+     0.212
     ],
-    "bond10": {"value": [600, 1500, 4, 64], "pow10": [6, 7, 8, 9],
-      "quote": "The forecast for boxes of 4³ from that law, 600–1,500 generations, **fails by a factor 10⁶**: no box had any permanent death by 10⁷; 4 of 64 died by 10⁸; median ≈ 10⁹.",
-      "src": "NB 2026-11-14, the revised class statement tested; CLAIMS K7 (grade C)"},
-    "bond10_columns": {"value": [24, 196], "quote": "Columns (two pairs of walls) are 24–196× tougher per wall than slabs of the same area.", "src": "NB 2026-11-14, the revised class statement tested"},
-    "oos_escapes": {"value": [0, 1536], "quote": "0 escapes from the predicted hull in 1,536 soups, caps 5–8", "src": "NB 2026-11-14, the revised class statement tested"},
-    "law_cases": {"value": [42, 50], "quote": "[measured: 42 of the class agent's 50 lattice–cap pairs by the rule fixed in advance, plus face12e]", "src": "NB 2026-11-14, the class theory attacked"}
-  },
-
-  "gpu": {
-    "slab_a": {"value": [22.537, 0.031], "quote": "Pooled A = 108 (this run with the earlier unscreened one): 22.537 ± 0.031.", "src": "NB 2026-11-14, slab faces with the firewall channel resolved"},
-    "slab_b": {"value": [126, 92, 29, 26.405, 0.104], "quote": "| 6×7×8 | 126 | 216, one direction | 92 / 29 | 26.405 ± 0.104 |", "src": "NB 2026-11-14, slab faces with the firewall channel resolved"},
-    "slope": {"value": [108, 126, 0.215, 0.006], "quote": "Slope 108 → 126: **0.215 ± 0.006** per cell.", "src": "NB 2026-11-14, slab faces with the firewall channel resolved"},
-    "width_test": {"value": [4, 9, 8, 6, 108, 0.23, 0.08], "quote": "4×9×8 against 6×6×8 at the same A = 108 (reading (ii) predicts 0.23 ± 0.08 lower, reading (i) no difference)", "src": "NB 2026-11-14, slab faces with the firewall channel resolved; running at the GPU session (research/STATUS.md)"},
-    "rim": {"value": [0.91, 0.06], "quote": "An octahedral face of the same area (23.376) is **0.91 ± 0.06 nats tougher**", "src": "NB 2026-11-14, GPU round two"},
-    "weibull": {"value": [5971, 1.020, 1.000, 1.042], "quote": "5,971 face deaths, ages to 2.6 τ: censored Weibull shape k = 1.020 (1.000–1.042)", "src": "NB 2026-11-14, GPU round two; CLAIMS GP5"},
-    "mirror": {"A": [84, 108, 135], "value": [9.017, 11.395, 14.251, 0.1026],
-      "quote": "Gump hull faces cut by one mirror plane: ln τ = 9.017, 11.395, 14.251 at A = 84, 108, 135, slope 0.1026 ± 0.0003 per cell",
-      "src": "CLAIMS SW3 (grade C; one run by the swarm's examiner); NB 2026-11-14, the swarm's predictions examined"}
-  },
-
-  "noise": {
-    "toy": {"L": [12, 16, 20, 24], "model": [5.654, 7.425, 9.136, 10.855], "strip": [5.644, 7.407, 9.142, 10.788], "value": [12, 16, 20, 24, 5.654, 7.425, 9.136, 10.855, 5.644, 7.407, 9.142, 10.788],
-      "quote": "Lead's own code: 5.654, 7.425, 9.136, 10.855 ± 0.010–0.018 at L = 12, 16, 20, 24 against the strips' 5.644, 7.407, 9.142, 10.788",
-      "src": "NB 2026-11-14, where the exponent lives; CLAIMS X2 (grade A)"},
-    "gump": {"A": [36, 48], "model": [7.397, 9.945], "slab": [7.398, 9.936], "value": [7.397, 7.398, 36, 9.945, 9.936, 48],
-      "quote": "(7.397 against 7.398 at A = 36; 9.945 against 9.936 at A = 48)",
-      "src": "NB 2026-11-14, the swarm's predictions examined; CLAIMS SW2 (grade B)"},
-    "w5": {"value": [5, 0.015, 27, 48, 60], "quote": "with w = 5 the model's ln τ equals the deterministic slab's to within 0.015 at A = 27, 48, 60", "src": "NB 2026-11-14, where the exponent lives; CLAIMS X1 (grade A)"},
-    "w4": {"value": [4, 0.06, 0.07], "quote": "With w = 4 it is 0.06–0.07 high.", "src": "NB 2026-11-14, where the exponent lives"},
-    "mirror": {"value": [0.1026, 0.47, 0.22, 99.9, 394192], "quote": "A face cut by one mirror plane costs 0.1026 per cell, 0.47 of an asymmetric face's ≈ 0.22 at these sizes, and the first face to die is a mirror-fixed one in more than 99.9% of 394,192 replicas.",
-      "src": "NB 2026-11-14, the swarm's predictions examined; CLAIMS SW3 (grade C)"},
-    "notch": {"value": [0.412, 0.346], "quote": "Two dead anchor cells lower the 2D edge's exponent from 0.412 to 0.346", "src": "NB 2026-11-14, the swarm's predictions examined; CLAIMS SW4 (grade C)"}
-  },
-
-  "swarm": {
-    "relative": {"L": [8, 12, 16, 18], "ln": [6.5319, 9.4733, 12.2492, 13.5946], "value": [6.5319, 9.4733, 12.2492, 13.5946, 8, 12, 16, 18],
-      "quote": "ln τ_L = 6.5319, 9.4733, 12.2492, 13.5946 at L = 8, 12, 16, 18",
-      "src": "NB 2026-11-14, a deterministic relative; CLAIMS SW1 (grade A; proved conditional on two cited statements)"},
-    "bound": {"value": [3, 8], "quote": "τ_L ≤ 3·8^L", "src": "NB 2026-11-14, a deterministic relative"},
-    "exam": {"value": [5, 4, 2, 3], "labels": ["hold", "fail or missed", "undecided", "not run"],
-      "quote": "Exam: five entries hold, four fail or missed, two undecided, three not run",
-      "words": ["five", "four", "two", "three"],
-      "src": "NB 2026-11-14, the theory swarm is closed"},
-    "share": {"value": [0.13, 0.14, 0.21, 0.16, 0.18], "quote": "It accounts for 0.13–0.14 of the 0.21 per cell (0.16–0.18 with the measured entry term).", "src": "NB 2026-11-14, the theory swarm is closed"},
-    "V": {"value": [0.2191, 84, 0.218, 0.221], "quote": "the quasi-potential V = 0.2191 per cell at A = 84, a functional of a measured table with a stated continuation, to be compared only with hull slopes at A ≥ 84 (0.218, 0.221)", "src": "NB 2026-11-14, the theory swarm is closed"},
-    "lone": {"value": [3793, 8192], "quote": "a lone cell on a face12e sheet dies in one generation with probability 3793/8192", "src": "NB 2026-11-14, the theory swarm is closed"}
-  },
-
-  "audits": [
-    {"label": "Review of the class theory", "line": "A second agent, told to assume it wrong, kept the theorems and broke the first clause.", "file": "research/audit/REVIEW-class.md"},
-    {"label": "Reviews of GPU pull requests 12 and 14", "line": "Every table re-derived from the committed data; one reading withdrawn.", "file": "research/audit/REVIEW-gpu-pr14.md"},
-    {"label": "Review of the exponent study", "line": "Gump half re-derived with its own code; thirteen corrections.", "file": "research/audit/REVIEW-exponent.md"},
-    {"label": "Fresh-reader audit of the swarm's theorem", "line": "A reader who was neither solver nor critic went through the proof line by line.", "file": "research/theory/swarm/audit/AUDIT-theoremA.md"}
+    "src": "NB 2026-11-14, the class theory attacked"
+   },
+   {
+    "name": "face12e",
+    "rule": "B45/S345",
+    "lattice": "the same faces, edge-sharing",
+    "hull": "box",
+    "law": "0.205 per cell of the layer under a wall",
+    "note": "the rule you meant",
+    "status": "meas",
+    "quote": "Per cell of that layer the cost is **0.205**",
+    "value": [
+     0.205
+    ],
+    "src": "NB 2026-11-14, the class theory attacked"
+   },
+   {
+    "name": "the flat cousin",
+    "rule": "B34/S234",
+    "lattice": "square grid, range-2 cross",
+    "hull": "square",
+    "law": "0.36–0.42 per edge cell",
+    "note": "2D",
+    "status": "meas",
+    "quote": "about 0.67–0.71 per cell, against 0.36–0.42 measured for the 2D rule's own edge in a strip",
+    "value": [
+     0.36,
+     0.42
+    ],
+    "src": "NB 2026-11-14, a deterministic relative"
+   },
+   {
+    "name": "hex9",
+    "rule": "B456/S3456",
+    "lattice": "hexagonal, nine neighbours",
+    "hull": "hexagonal prism",
+    "law": "0.69 falling to 0.53 per wall cell",
+    "note": "new; its law bends",
+    "status": "meas",
+    "quote": "But the wall law is **concave**: 0.69 falling to 0.53 per wall cell",
+    "value": [
+     0.69,
+     0.53
+    ],
+    "src": "NB 2026-11-14, the revised class statement tested; CLAIMS K8 (grade C)"
+   },
+   {
+    "name": "kagome4",
+    "rule": "B2/S12",
+    "lattice": "kagome, four neighbours",
+    "hull": "hexagon",
+    "law": "0.772 per wall-row cell",
+    "note": "2D; some walls freeze",
+    "status": "meas",
+    "quote": "**kagome4 B2/S12: 0.772 ± 0.003 per wall-row cell**",
+    "value": [
+     0.772
+    ],
+    "src": "NB 2026-11-14, the revised class statement tested; CLAIMS K8 (grade C)"
+   },
+   {
+    "name": "bond10",
+    "rule": "B34/S234",
+    "lattice": "ten neighbours",
+    "hull": "box",
+    "law": "0.492 per wall face in a slab",
+    "note": "boxes live far longer",
+    "status": "meas",
+    "quote": "Slab law 0.492 ± 0.001 per wall face (six sizes, memoryless)",
+    "value": [
+     0.492
+    ],
+    "src": "NB 2026-11-14, the revised class statement tested; CLAIMS K7 (grade C)"
+   }
   ],
-
-  "milestones": [
-    {"date": "2026-11-14T00:51Z", "text": "Owner asks; checked: the 2012 code watches corner neighbours", "src": "git 0785c0c"},
-    {"date": "2026-11-14T05:51Z", "text": "Pause lifted", "src": "git 2f50b1d"},
-    {"date": "2026-11-14T07:13Z", "text": "The rule you meant (face12e) is a gump in a box", "src": "git cd67b19"},
-    {"date": "2026-11-14T08:40Z", "text": "A relative with a proved exponential law (audited)", "src": "git b7fd0b8"},
-    {"date": "2026-11-14T08:56Z", "text": "Swarm predictions examined; six layers over coins suffice", "src": "git d286532"},
-    {"date": "2026-11-14T09:49Z", "text": "A new gump-type rule (hex9); bond10's walls hold each other up", "src": "git b25d303"},
-    {"date": "2026-11-14T09:50Z", "text": "Slab faces to 126 cells, firewalls separated", "src": "git c5484b6"},
-    {"date": "2026-11-14T10:46Z", "text": "Where the exponent lives: a thin layer over noise", "src": "git 13241dd"},
-    {"date": "2026-11-14T11:17Z", "text": "Theory swarm closed: no proof of the area law", "src": "git 3e803ce"}
-  ]
+  "bond10": {
+   "value": [
+    600,
+    1500,
+    4,
+    64
+   ],
+   "pow10": [
+    6,
+    7,
+    8,
+    9
+   ],
+   "quote": "The forecast for boxes of 4³ from that law, 600–1,500 generations, **fails by a factor 10⁶**: no box had any permanent death by 10⁷; 4 of 64 died by 10⁸; median ≈ 10⁹.",
+   "src": "NB 2026-11-14, the revised class statement tested; CLAIMS K7 (grade C)"
+  },
+  "bond10_columns": {
+   "value": [
+    24,
+    196
+   ],
+   "quote": "Columns (two pairs of walls) are 24–196× tougher per wall than slabs of the same area.",
+   "src": "NB 2026-11-14, the revised class statement tested"
+  },
+  "oos_escapes": {
+   "value": [
+    0,
+    1536
+   ],
+   "quote": "0 escapes from the predicted hull in 1,536 soups, caps 5–8",
+   "src": "NB 2026-11-14, the revised class statement tested"
+  },
+  "law_cases": {
+   "value": [
+    42,
+    50
+   ],
+   "quote": "[measured: 42 of the class agent's 50 lattice–cap pairs by the rule fixed in advance, plus face12e]",
+   "src": "NB 2026-11-14, the class theory attacked"
+  }
+ },
+ "gpu": {
+  "slab_a": {
+   "value": [
+    22.537,
+    0.031
+   ],
+   "quote": "Pooled A = 108 (this run with the earlier unscreened one): 22.537 ± 0.031.",
+   "src": "NB 2026-11-14, slab faces with the firewall channel resolved"
+  },
+  "slab_b": {
+   "value": [
+    126,
+    92,
+    29,
+    26.405,
+    0.104
+   ],
+   "quote": "| 6×7×8 | 126 | 216, one direction | 92 / 29 | 26.405 ± 0.104 |",
+   "src": "NB 2026-11-14, slab faces with the firewall channel resolved"
+  },
+  "slope": {
+   "value": [
+    108,
+    126,
+    0.215,
+    0.006
+   ],
+   "quote": "Slope 108 → 126: **0.215 ± 0.006** per cell.",
+   "src": "NB 2026-11-14, slab faces with the firewall channel resolved"
+  },
+  "width_test": {
+   "value": [
+    4,
+    9,
+    8,
+    6,
+    108,
+    0.23,
+    0.08
+   ],
+   "quote": "4×9×8 against 6×6×8 at the same A = 108 (reading (ii) predicts 0.23 ± 0.08 lower, reading (i) no difference)",
+   "src": "NB 2026-11-14, slab faces with the firewall channel resolved; running at the GPU session (research/STATUS.md)"
+  },
+  "rim": {
+   "value": [
+    0.91,
+    0.06
+   ],
+   "quote": "An octahedral face of the same area (23.376) is **0.91 ± 0.06 nats tougher**",
+   "src": "NB 2026-11-14, GPU round two"
+  },
+  "weibull": {
+   "value": [
+    5971,
+    1.02,
+    1.0,
+    1.042
+   ],
+   "quote": "5,971 face deaths, ages to 2.6 τ: censored Weibull shape k = 1.020 (1.000–1.042)",
+   "src": "NB 2026-11-14, GPU round two; CLAIMS GP5"
+  },
+  "mirror": {
+   "A": [
+    84,
+    108,
+    135
+   ],
+   "value": [
+    9.017,
+    11.395,
+    14.251,
+    0.1026
+   ],
+   "quote": "Gump hull faces cut by one mirror plane: ln τ = 9.017, 11.395, 14.251 at A = 84, 108, 135, slope 0.1026 ± 0.0003 per cell",
+   "src": "CLAIMS SW3 (grade C; one run by the swarm's examiner); NB 2026-11-14, the swarm's predictions examined"
+  }
+ },
+ "noise": {
+  "toy": {
+   "L": [
+    12,
+    16,
+    20,
+    24
+   ],
+   "model": [
+    5.654,
+    7.425,
+    9.136,
+    10.855
+   ],
+   "strip": [
+    5.644,
+    7.407,
+    9.142,
+    10.788
+   ],
+   "value": [
+    12,
+    16,
+    20,
+    24,
+    5.654,
+    7.425,
+    9.136,
+    10.855,
+    5.644,
+    7.407,
+    9.142,
+    10.788
+   ],
+   "quote": "Lead's own code: 5.654, 7.425, 9.136, 10.855 ± 0.010–0.018 at L = 12, 16, 20, 24 against the strips' 5.644, 7.407, 9.142, 10.788",
+   "src": "NB 2026-11-14, where the exponent lives; CLAIMS X2 (grade A)"
+  },
+  "gump": {
+   "A": [
+    36,
+    48
+   ],
+   "model": [
+    7.397,
+    9.945
+   ],
+   "slab": [
+    7.398,
+    9.936
+   ],
+   "value": [
+    7.397,
+    7.398,
+    36,
+    9.945,
+    9.936,
+    48
+   ],
+   "quote": "(7.397 against 7.398 at A = 36; 9.945 against 9.936 at A = 48)",
+   "src": "NB 2026-11-14, the swarm's predictions examined; CLAIMS SW2 (grade B)"
+  },
+  "w5": {
+   "value": [
+    5,
+    0.015,
+    27,
+    48,
+    60
+   ],
+   "quote": "with w = 5 the model's ln τ equals the deterministic slab's to within 0.015 at A = 27, 48, 60",
+   "src": "NB 2026-11-14, where the exponent lives; CLAIMS X1 (grade A)"
+  },
+  "w4": {
+   "value": [
+    4,
+    0.06,
+    0.07
+   ],
+   "quote": "With w = 4 it is 0.06–0.07 high.",
+   "src": "NB 2026-11-14, where the exponent lives"
+  },
+  "mirror": {
+   "value": [
+    0.1026,
+    0.47,
+    0.22,
+    99.9,
+    394192
+   ],
+   "quote": "A face cut by one mirror plane costs 0.1026 per cell, 0.47 of an asymmetric face's ≈ 0.22 at these sizes, and the first face to die is a mirror-fixed one in more than 99.9% of 394,192 replicas.",
+   "src": "NB 2026-11-14, the swarm's predictions examined; CLAIMS SW3 (grade C)"
+  },
+  "notch": {
+   "value": [
+    0.412,
+    0.346
+   ],
+   "quote": "Two dead anchor cells lower the 2D edge's exponent from 0.412 to 0.346",
+   "src": "NB 2026-11-14, the swarm's predictions examined; CLAIMS SW4 (grade C)"
+  }
+ },
+ "swarm": {
+  "relative": {
+   "L": [
+    8,
+    12,
+    16,
+    18
+   ],
+   "ln": [
+    6.5319,
+    9.4733,
+    12.2492,
+    13.5946
+   ],
+   "value": [
+    6.5319,
+    9.4733,
+    12.2492,
+    13.5946,
+    8,
+    12,
+    16,
+    18
+   ],
+   "quote": "ln τ_L = 6.5319, 9.4733, 12.2492, 13.5946 at L = 8, 12, 16, 18",
+   "src": "NB 2026-11-14, a deterministic relative; CLAIMS SW1 (grade A; proved conditional on two cited statements)"
+  },
+  "bound": {
+   "value": [
+    3,
+    8
+   ],
+   "quote": "τ_L ≤ 3·8^L",
+   "src": "NB 2026-11-14, a deterministic relative"
+  },
+  "exam": {
+   "value": [
+    5,
+    4,
+    2,
+    3
+   ],
+   "labels": [
+    "hold",
+    "fail or missed",
+    "undecided",
+    "not run"
+   ],
+   "quote": "Exam: five entries hold, four fail or missed, two undecided, three not run",
+   "words": [
+    "five",
+    "four",
+    "two",
+    "three"
+   ],
+   "src": "NB 2026-11-14, the theory swarm is closed"
+  },
+  "share": {
+   "value": [
+    0.13,
+    0.14,
+    0.21,
+    0.16,
+    0.18
+   ],
+   "quote": "It accounts for 0.13–0.14 of the 0.21 per cell (0.16–0.18 with the measured entry term).",
+   "src": "NB 2026-11-14, the theory swarm is closed"
+  },
+  "V": {
+   "value": [
+    0.2191,
+    84,
+    0.218,
+    0.221
+   ],
+   "quote": "the quasi-potential V = 0.2191 per cell at A = 84, a functional of a measured table with a stated continuation, to be compared only with hull slopes at A ≥ 84 (0.218, 0.221)",
+   "src": "NB 2026-11-14, the theory swarm is closed"
+  },
+  "lone": {
+   "value": [
+    3793,
+    8192
+   ],
+   "quote": "a lone cell on a face12e sheet dies in one generation with probability 3793/8192",
+   "src": "NB 2026-11-14, the theory swarm is closed"
+  }
+ },
+ "audits": [
+  {
+   "label": "Review of the class theory",
+   "line": "A second agent, told to assume it wrong, kept the theorems and broke the first clause.",
+   "file": "research/audit/REVIEW-class.md"
+  },
+  {
+   "label": "Reviews of GPU pull requests 12 and 14",
+   "line": "Every table re-derived from the committed data; one reading withdrawn.",
+   "file": "research/audit/REVIEW-gpu-pr14.md"
+  },
+  {
+   "label": "Review of the exponent study",
+   "line": "Gump half re-derived with its own code; thirteen corrections.",
+   "file": "research/audit/REVIEW-exponent.md"
+  },
+  {
+   "label": "Fresh-reader audit of the swarm's theorem",
+   "line": "A reader who was neither solver nor critic went through the proof line by line.",
+   "file": "research/theory/swarm/audit/AUDIT-theoremA.md"
+  }
+ ],
+ "milestones": [
+  {
+   "date": "2026-11-14T00:51Z",
+   "text": "Owner asks; checked: the 2012 code watches corner neighbours",
+   "src": "git 0785c0c"
+  },
+  {
+   "date": "2026-11-14T05:51Z",
+   "text": "Pause lifted",
+   "src": "git 2f50b1d"
+  },
+  {
+   "date": "2026-11-14T07:13Z",
+   "text": "The rule you meant (face12e) is a gump in a box",
+   "src": "git cd67b19"
+  },
+  {
+   "date": "2026-11-14T08:40Z",
+   "text": "A relative with a proved exponential law (audited)",
+   "src": "git b7fd0b8"
+  },
+  {
+   "date": "2026-11-14T08:56Z",
+   "text": "Swarm predictions examined; six layers over coins suffice",
+   "src": "git d286532"
+  },
+  {
+   "date": "2026-11-14T09:49Z",
+   "text": "A new gump-type rule (hex9); bond10's walls hold each other up",
+   "src": "git b25d303"
+  },
+  {
+   "date": "2026-11-14T09:50Z",
+   "text": "Slab faces to 126 cells, firewalls separated",
+   "src": "git c5484b6"
+  },
+  {
+   "date": "2026-11-14T10:46Z",
+   "text": "Where the exponent lives: a thin layer over noise",
+   "src": "git 13241dd"
+  },
+  {
+   "date": "2026-11-14T11:17Z",
+   "text": "Theory swarm closed: no proof of the area law",
+   "src": "git 3e803ce"
+  }
+ ],
+ "forecasts": [
+  {
+   "line": "Slab face of 126 sites, firewalls apart: face, firewall rate and share all forecast before the GPU run",
+   "result": "hit",
+   "quote": "All three forecasts for 6×7×8 hit",
+   "value": [],
+   "src": "NB 2026-11-14, slab faces with the firewall channel resolved"
+  },
+  {
+   "line": "face12e boxes of 7³: 15 (9–33) of 128 ended by 3 × 10⁷, forecast from the wall law",
+   "result": "hit",
+   "quote": "so 15 (9–33) of 128 boxes finished by 3 × 10⁷; observed 16 of 128",
+   "value": [
+    15,
+    9,
+    33,
+    128,
+    16
+   ],
+   "src": "NB 2026-11-14, the revised class statement tested"
+  },
+  {
+   "line": "bond10 boxes of 4³ from the slab law: 600–1,500 generations",
+   "result": "missed",
+   "quote": "**fails by a factor 10⁶**",
+   "value": [],
+   "src": "NB 2026-11-14, the revised class statement tested"
+  },
+  {
+   "line": "The swarm’s predictions, run by an examiner",
+   "result": "mixed (five hold, four fail)",
+   "quote": "Exam: five entries hold, four fail or missed",
+   "value": [],
+   "src": "NB 2026-11-14, the theory swarm is closed"
+  }
+ ]
 }
