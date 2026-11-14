@@ -337,6 +337,64 @@ plateau's marginal distribution. For OPEN-PROBLEMS 6: seeds of this family that 
 wait Exp(τ) at 40, 38 and 36, which bounds a long-lived subpopulation among them (mean 3 τ: under 1.8%; mean 6 τ:
 under 0.9%, 95%). The cube's own lineage, and lineages entering R = 40 after a long plateau at 42, are not tested.
 
+## Empty patches on a large living face [measured]
+
+The lead's design (2026-11-14): is a face's death "an empty patch the size of the face" (`research/theory/exponent.md`
+§4)? If so, on a face far too large to die, ln P(patch empty) = const − c·cells − σ·perimeter with c the lifetime law's
+cost per cell and no wrap-around in it. Forecasts: `PREDICTIONS.md` (commit 312b0bc, the branch's first commit).
+
+**Set-up.** Slab 12×12×8 (`vessels.SlabVessel`; A = 432 cells per face), soups p = 0.4, kernel B stepped one generation
+per launch, first 2,000 generations discarded, then at **every** generation a second kernel (`patches.py`) tests on
+both faces every translate of every shape for "all face-layer cells dead". Shapes (fixed before the runs): rhombi a×b
+unit cells (3ab cells; a unit cell = the 3 face-layer cells of one cube), strips 1×b (b = 12 wraps), hexagonal balls of
+radius 1–3 in the face layer's in-layer graph (the 6 in-layer neighbours). 144 translates (balls: 432 centres).
+Perimeter = in-layer neighbour pairs with one cell in, one out (rhombi: 8(a + b) − 4). Also counted: empty at t and at
+t + 1. Frozen replicas (face death, settling) are masked from the generation they freeze; a transverse firewall
+(tested every 2¹⁶ generations) drops a replica from its detection. **Ran:** seeds 811–813, 2.2 × 10⁶ generations each
+after burn-in, 4,608 replicas: 3.04 × 10¹⁰ replica-generations (8.76 × 10¹² samples per rhombus shape); 3 × 14 min A10G.
+No face death, no settling, no firewall in any replica.
+
+**Acceptance** (`modal run research/gpu/modal_app.py::check_patches`): kernel B on this slab equal to `gump run --torus 12
+--slab-layers 8 --diag 0` at every generation for 300 generations, 5 lanes, seeds 3 and 4 (cases from
+`check.slab_cases(..., N=12, m=8, T=300, rng=3|4)`); the GPU patch counter equal to a brute-force count from the
+definition (`patches.brute`, numpy) on 24 states × 4,608 replicas × 9,216 patch positions (11.7 million empty patches),
+item by item.
+
+**Tables** (`python3 research/gpu/patches.py table research/data/gpu_patches/patches_s81*_A10G.csv`; raw counts per run
+and per time batch in the CSVs, run metadata in the JSON beside each; errors from 96 time batches, never below the
+Poisson floor):
+
+| rhombus | cells | perimeter | hits | ln P | persistence P(t, t+1)/P(t) |
+|---|---:|---:|---:|---:|---:|
+| 1×1 | 3 | 12 | 1.16 × 10¹² | −2.017 | 0.381 |
+| 2×2 | 12 | 28 | 1.68 × 10¹⁰ | −6.254 | 0.286 |
+| 2×3 | 18 | 36 | 1.33 × 10⁹ | −8.793 | 0.229 |
+| 3×3 | 27 | 44 | 4.73 × 10⁷ | −12.128 | 0.178 |
+| 3×4 | 36 | 52 | 1.80 × 10⁶ | −15.400 ± 0.001 | 0.142 |
+| 4×4 | 48 | 60 | 32,137 | −19.423 ± 0.007 | 0.114 |
+| 4×5 | 60 | 68 | 654 | −23.318 ± 0.047 | 0.101 |
+| 5×5 | 75 | 76 | 4 | −28.4 ± 0.6 | — |
+| 5×6, 6×6 | 90, 108 | 84, 92 | 0 | — | — |
+
+Strips at equal cell count are far rarer (36 cells: 1×12 wrapping −19.881 ± 0.028 against the 3×4 rhombus −15.400;
+1×11, 33 cells: −18.672); balls r = 1, 2, 3 (7, 25, 53 cells): −4.217, −11.571, −22.094 ± 0.015.
+
+- **The area-plus-perimeter form fails.** Fitted to the rhombi 2×2 … 4×5 it gives c = 0.264, σ = 0.119 with χ² = 3,369
+  for 3 dof. The incremental cost per cell along the rhombi falls steadily — 0.423, 0.371, 0.364, 0.335, 0.325 ± 0.004
+  (12 → 60 cells) — and has not levelled off.
+- **What this does and does not say about the static picture.** Over 12–60 cells an empty patch costs 0.32–0.42 per
+  cell, well above every lifetime law's 0.205–0.221, and the cost is still falling. Whether it falls to ≈ 0.21 for
+  patches the size of a dying face (A ≥ 100) is not reached: the 6×6 rhombus extrapolates to ln P ≈ −37, about 10¹³
+  times rarer than the 4×5. The lead's acceptance band (c in 0.17–0.25) is missed, but by a fit that does not describe
+  the data, so this is a failure of the linear form over this range, not a measured asymptote. Shape matters strongly
+  (σ > 0, a long strip is much rarer than a compact patch of the same area), and an empty patch persists less, not more,
+  the larger it is (0.38 → 0.10).
+- **Not checked:** larger patches (out of reach at this rate; a biased or splitting estimator would be needed); whether
+  the empty-patch statistics depend on the slab's thickness (8) or soup density; independence of the two faces and of
+  overlapping translates (they are correlated, which the batch-means errors absorb only as far as batches are
+  independent); whether the face layer of a 12×12 slab is in the same state as the face of a dying (smaller) one;
+  patch emptiness in layers below the face.
+
 ## Using it for a new ensemble experiment
 
 Anything that is "many independent replicas of one vessel, stopped at an event" fits: write a driver like `facelaw.py`

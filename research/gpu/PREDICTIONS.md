@@ -258,3 +258,38 @@ missed.**
   variable by design (cut 36·s); within s = 4 the share runs 0.5–99% without bending the line; in s = 3 curvature and
   firewall proximity are not separated. Mixed launch caps (3×6×8 pools 2¹⁸ and 2¹¹; 4×7×8, 6×6×8, 6×7×8 are 2¹⁸):
   detection-time biases ≤ +0.006 (s = 3), ≤ +0.005 (old 4×7×8); no conclusion changes.
+
+## 2026-11-14T21:25Z — empty patches on a large living face (before any code or run for it)
+
+The lead's design: slab 12×12×8 (A = 432 per face, p = 0.4, the fwslab soups), first 2,000 generations discarded, then
+at every generation, on both faces, for each patch shape and each of its translates, whether all of the patch's
+face-layer cells are dead. Shapes fixed in advance: rhombi a×b unit cells (3ab cells): 1×1, 1×2, 2×2, 2×3, 3×3, 3×4,
+4×4, 4×5, 5×5, 5×6, 6×6; strips 1×b, b = 1 … 12 (b = 12 wraps the torus); hexagonal balls of radius 1, 2, 3 in the
+face layer's in-layer neighbour graph. Perimeter = number of in-layer neighbour pairs with one cell in the patch and
+one out. Fit for the rhombi from 2×2 up: ln P = const − c·cells − σ·perimeter.
+- **The lead's forecast:** c = 0.21 ± 0.015; outside 0.17–0.25 the static picture fails for gump.
+- **Mine:** c = **0.21 ± 0.04** (wider than the lead's: the 2D toy's window cost per cell was still falling at the
+  largest windows, so a fit over 12–108 cells carries curvature). **σ > 0** (compact patches cheaper per cell than
+  elongated ones of equal area: a strip of b unit cells is rarer than a rhombus of the same cell count) — probability
+  0.8. The incremental cost per cell along the rhombus sequence (−Δ ln P / Δ cells) **falls with size** — 0.7.
+  Persistence P(empty at t and t+1) / P(empty at t) **rises with patch size** — 0.7. No face death and no firewall in
+  any replica — 0.99. The 6×6 rhombus gets 50–2,000 hits in ≈ 10¹⁰ replica-generations.
+
+## 2026-11-14T21:47Z — outcome: empty patches on a large living face (forecast: commit 312b0bc)
+
+`python3 research/gpu/patches.py table research/data/gpu_patches/patches_s81*_A10G.csv`. Ran: three seeds (811–813),
+2,000 generations discarded, then 2.2 × 10⁶ generations each, counted at every generation, 4,608 replicas:
+**3.04 × 10¹⁰ replica-generations** (8.76 × 10¹² samples per rhombus shape: replica × face × translate). No face death,
+no settling, no firewall in any replica (checked: kernel events after burn-in 0; firewall test every 2¹⁶ generations, 0).
+- Rhombi, ln P(empty): 2×2 −6.254, 2×3 −8.793, 3×3 −12.128, 3×4 −15.400, 4×4 −19.423 ± 0.007, 4×5 −23.318 ± 0.047
+  (654 hits), 5×5 −28.4 ± 0.6 (4 hits), 5×6 and 6×6 **0 hits**. Incremental cost per cell 0.423, 0.371, 0.364, 0.335,
+  0.325 ± 0.004 (12 → 60 cells).
+- **The lead's forecast (c = 0.21 ± 0.015; outside 0.17–0.25 the static picture fails): missed.** The fit
+  ln P = const − c·cells − σ·perimeter over 2×2 … 4×5 gives c = 0.264, σ = 0.119, but with χ² = 3,369 for 3 dof the
+  form does not describe the data: the cost per cell is still falling at 60 cells (0.325) and has not approached any
+  asymptote. What is shown: over 12–60 cells an empty patch costs 0.32–0.42 per cell, well above the lifetime laws'
+  0.205–0.221, and still decreasing; whether it decreases to ≈ 0.21 at larger patches is not reached.
+- **Mine:** c = 0.21 ± 0.04 — **missed** (same fit). σ > 0 — **hit** (σ = 0.119; at 36 cells the 1×12 strip is
+  e^(−4.5) as likely as the 3×4 rhombus). Incremental cost falls with size — **hit**. Persistence rises with size —
+  **missed** (it falls: 0.381 for 1×1, 0.286 for 2×2, 0.101 for 4×5). No face death or firewall — **hit**. 6×6 gets
+  50–2,000 hits — **missed** (0; ln P extrapolates to ≈ −37, far below what 10¹⁰ replica-generations reach).
