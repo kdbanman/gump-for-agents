@@ -150,7 +150,7 @@ density at b = 20.
 0.476, 0.453, 0.461, 0.437 (the last from simulation), all more than 15% above it. (The very first step, n = 2 → 3,
 is 0.303 and below it; the forecast's wording "the steps at n ≤ 8" should have said "from n = 4".)
 
-## Block 5 (2026-11-14 22:03, before any run of a segment longer than 37 sites, of a 12-layer slab, or of a model deeper than six layers on a segment)
+## Block 5 (2026-11-14 22:00, before any run of a segment longer than 37 sites, of a 12-layer slab, or of a model deeper than six layers on a segment)
 
 Known now: windows on the b = 64 ring (19 chunks so far): k(l) = 0.3901, 0.3506, 0.3371, 0.335(4) at l = 10, 20,
 30, 36, still falling like g + a/(l + l0) with g = 0.303–0.309 (l0 = 0…2). Deterministic segments (after the
