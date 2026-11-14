@@ -7,6 +7,7 @@
     python3 face12e.py slab n gens [c] [depth] [watch]   periodic wall of n x n cubes; watch = two (default) | one
     python3 face12e.py life n cap [c] [p] boxes of n^3 cubes with odd walls, 64 soups: lifetimes and how they end
     python3 face12e.py layers n cap [seed] one box, 64 soups: the sequence of permanent layer deaths
+    python3 face12e.py cuts n T [batches]  periodic slab: wall death or transverse firewall, which comes first
 Same commands with "gump" as an extra last word run the control on gump's own neighbourhood where it makes sense.
 """
 import itertools, json, sys
@@ -73,6 +74,18 @@ def structure():
             S = aud.largest_sealed_subset(V, W, 4)
             print(f"   layers x = {lo}..{lo + w - 1} ({'even' if lo % 2 == 0 else 'odd'} first): "
                   f"{'sealed' if len(S) == len(W) else 'not sealed'} (largest sealed subset {len(S)} of {len(W)})")
+    for w in (1, 2, 3, 4):
+        W = np.nonzero(xs > 21 - w)[0]
+        S = aud.largest_sealed_subset(V, W, 4)
+        print(f"   the top {w} layer(s) under an odd wall (x = {22 - w}..21): "
+              f"{'sealed' if len(S) == len(W) else 'not sealed'} ({len(S)} of {len(W)})")
+    print("== face12e: a filled closed cube (free space) after one generation")
+    for n in (2, 3, 5):
+        Vb = aud.box(L, (-3, -3, -3), (2 * n + 5,) * 3)
+        Pb = np.array(Vb.cells)
+        st = ((Pb >= 1) & (Pb <= 2 * n + 1)).all(1).astype(np.uint8)[None]
+        x = aud.step(Vb, aud.pack(st), B45, S345)
+        print(f"   {n}^3 cubes, {int(st.sum())} cells -> {int(aud.unpack(x, 1).sum())} alive")
     print("== face12e: finite sealed sets?  peel a finite patch inside a slab with odd walls (outside patch = alive)")
     for xlo, xhi, tag in ((1, 1, "one sheet of x-faces"), (1, 3, "one cube thick (odd, even, odd)"),
                           (1, 5, "two cubes thick"), (1, 2, "odd wall + even layer (upper side open)")):
@@ -266,6 +279,48 @@ def layers(n, cap, seed=1, c=6, p=0.45):
     return events, endt, side
 
 
+def cuts(n, T, batches=8, c=6, depth=4, p=0.45):
+    """Competing endings in the periodic slab: for each soup, which permanent event comes first -- a wall death
+    (wall sheet + layer beneath empty) or a transverse firewall (three consecutive y- or z-layers, even-odd-even,
+    empty: sealed, wraps the periodic face).  Checked every 64 generations; both are permanent once present."""
+    L = aud.lattice("face12e")
+    B, S = rule(c)
+    xlo, xhi = 1, 2 * depth + 1
+    V, xs = aud.slab100(L, xlo, xhi, n)
+    P = np.array(V.cells)
+    rng = np.random.default_rng(n)
+    walls = [np.nonzero(xs >= xhi - 1)[0], np.nonzero(xs <= xlo + 1)[0]]
+    bands = []
+    for a in (1, 2):
+        for k in range(n):
+            ys = [(2 * k) % (2 * n), (2 * k + 1) % (2 * n), (2 * k + 2) % (2 * n)]
+            bands.append(np.nonzero(np.isin(P[:, a], ys))[0])
+    first = {"wall": 0, "cut": 0, "both": 0, "none": 0, "settled": 0}
+    tw, tc = [], []
+    for bt in range(batches):
+        st = (rng.random((64, V.N)) < p).astype(np.uint8)
+        x = aud.pack(st)
+        done = np.zeros(64, bool)
+        for t in range(64, T + 1, 64):
+            for _ in range(64):
+                x = aud.step(V, x, B, S)
+            u = aud.unpack(x)
+            for r in np.nonzero(~done)[0]:
+                w = any(not u[r, g].any() for g in walls)
+                k = any(not u[r, g].any() for g in bands)
+                if w or k:
+                    done[r] = True
+                    first["both" if (w and k) else ("wall" if w else "cut")] += 1
+                    (tw if w else tc).append(t)
+            if done.all():
+                break
+        first["none"] += int((~done).sum())
+    tot = sum(first.values())
+    print(f"face12e slab {n}x{n} cubes, {depth} deep, {tot} soups, up to {T} generations: first permanent event: "
+          f"wall death {first['wall']}, transverse firewall {first['cut']}, both within 64 generations {first['both']}, "
+          f"neither {first['none']};  median time wall {np.median(tw) if tw else None}, cut {np.median(tc) if tc else None}")
+
+
 if __name__ == "__main__":
     a = sys.argv[1:]
     name = "face12e"
@@ -286,5 +341,7 @@ if __name__ == "__main__":
              a[5] if len(a) > 5 else "two", name, n2=int(n[1]) if len(n) > 1 else None)
     elif cmd == "life":
         life(int(a[1]), int(a[2]), int(a[3]) if len(a) > 3 else 6, float(a[4]) if len(a) > 4 else 0.45, name)
+    elif cmd == "cuts":
+        cuts(int(a[1]), int(a[2]), int(a[3]) if len(a) > 3 else 8)
     elif cmd == "layers":
         layers(int(a[1]), int(a[2]), int(a[3]) if len(a) > 3 else 1)

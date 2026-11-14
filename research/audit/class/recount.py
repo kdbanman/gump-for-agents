@@ -230,3 +230,16 @@ for lat, c in NOTS:
     if c is None:
         cls = collections.Counter(r["torus"] for r in rows if r["lat"] == lat)
         print(f"   {lat:9s} all caps scanned at b = {F['b']}: torus classes {dict(cls)}")
+
+print("== sigma against the slope: how much does it carry")
+from scipy.stats import spearmanr
+pts = [(sig, sl, lat, c) for sig, lat, c, sl, ok in tab if ok and sl is not None]
+rho_s, pval = spearmanr([p[0] for p in pts], [p[1] for p in pts])
+print(f"   {len(pts)} in-reach chaotic pairs with a law: Spearman rank correlation of sigma with slope {rho_s:.2f} (p = {pval:.3f})")
+hi = [p for p in pts if p[0] >= 0.89]
+rho_h, pv_h = spearmanr([p[0] for p in hi], [p[1] for p in hi])
+print(f"   the {len(hi)} with sigma >= 0.89: {rho_h:.2f} (p = {pv_h:.2f}); slopes there range {min(p[1] for p in hi):.3f} .. {max(p[1] for p in hi):.3f}")
+lo4 = [(sig, lat, c, sl, ok) for sig, lat, c, sl, ok in tab if sig < 0.85]
+print(f"   pairs with sigma < 0.85: {[(round(s, 2), l, c, 'law ' + format(sl, '.3f') if ok else 'no law') for s, l, c, sl, ok in lo4]}")
+nolaw = [(round(sig, 2), lat, c) for sig, lat, c, sl, ok in tab if not ok]
+print(f"   pairs without a law by the fixed rule, with their sigma: {nolaw}")
