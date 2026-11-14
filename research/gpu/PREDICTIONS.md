@@ -191,3 +191,31 @@ which leans toward a mild rise, and the comparison still mixes a square (108) an
   well (post-hoc fit c = 0.114 ± 0.038, b = 0.2057 ± 0.0014, predicting 22.564 and 26.267). With the line's own
   extrapolation error the offsets are +0.08 ± 0.03 ± 0.06–0.10 (A = 108) and +0.19 ± 0.10 ± 0.07–0.12 (A = 126): the
   "1.8σ" of the 6×7×8 block is about 1.2σ.
+
+## 2026-11-14T09:49Z — does the width of a periodic face change its lifetime at fixed area? (before any of the runs)
+
+The lead's design after PR 14. All runs firewall-resolved (`fwslab.py`), m = 8, p = 0.4, per-life data or age
+histograms kept, UTC start in each file; `python3 research/gpu/width.py "research/data/gpu_facelaw/fwslab*.json"` fits
+ln τ_face = ln(2E / face deaths) under three readings: **A** (a + bA), **O** (offset by short side s: a(s) + bA),
+**W** (cost per cell depending on width: a(s) + b(s)A). Note the cheapest firewall cut is 36·s in every one of these
+slabs, so width and firewall exposure go together; the face channel is measured separately from the firewalls.
+Burn-in check: rates over ages ≥ 10³ and ≥ 10⁴ generations, from the age histograms.
+
+What is already known (the four firewall-resolved points, before these runs): 3×6×8, 4×7×8, 6×6×8, 6×7×8 lie on one
+straight line, ln τ_face = −0.40 + 0.2127·A, within their errors (residuals −0.003 ± 0.041 at 108, +0.005 ± 0.104 at
+126), with short sides 3, 4, 6, 6.
+
+Runs: (a) 4×9×8 (A = 108, s = 4, cut 144), 12 min; (b) 3×{6, 8, 10}, 4×{5, 6, 8} (4×7 already in), 5×{5, 6}, and 6×4 as
+the orientation check of 4×6, ≥ 2,000 face deaths each (launch cap 2¹¹ generations for s = 3, where firewall lives
+are ≈ 2 × 10⁵ long, 2¹⁶ for s = 4); (c) 5×7×8 (A = 105), 8 min, and 5×8×8 (A = 120), 60 min, if budget remains.
+
+Which reading each outcome favours:
+- **4×9×8 − 6×6×8 at A = 108:** ≈ 0 (|Δ| < 0.1) favours A; ≈ −2c = −0.23 ± 0.08 (the post-hoc short-side fit) favours O
+  (or W); a positive Δ favours none of them.
+- **Families:** a common slope with equal intercepts favours A; a common slope with intercepts rising with s favours O;
+  slopes b(s) differing by more than 3σ favours W.
+
+**My forecast: reading A.** 4×9×8 − 6×6×8 = **0.00 ± 0.10**; the family slopes b(3), b(4), b(5) agree within
+± 0.004 of 0.213, and the intercepts within ± 0.06 of each other; model A's χ² is acceptable (p > 0.05). The orientation
+check 4×6 vs 6×4 agrees within 2σ. Probabilities: A 0.55, O 0.3, W 0.15. The burn-in check moves no face channel by
+more than its error.
