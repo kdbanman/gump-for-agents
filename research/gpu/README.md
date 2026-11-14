@@ -232,6 +232,24 @@ At A = 108 the octahedral face (23.376) is 0.91 ± 0.06 nats tougher than the sl
 (same estimator, same per-face convention, density and start-up excluded by the review). Thickness 8 was not tested
 against thicker slabs at A ≥ 108. Octahedral A = 165 was not run (≈ 10⁶ GPU-seconds per death).
 
+**a (rerun). The firewall channel measured** (the review's request; `fwslab.py`, forecasts before the runs in
+`PREDICTIONS.md`). Every launch boundary and every face death (state kept, K_KEEP) is tested for a transverse
+3-layer firewall (three cyclically consecutive dead layers in a transverse ring); a firewall ends the life as its own
+channel. Validated first against `research/peeling/slab_fw.csv` and the review's independent CPU run:
+
+| slab | cheapest cut | first events: face / firewall (share) | ln τ_face | ln τ_fw | target (CPU) |
+|---|---|---|---:|---:|---|
+| 3×6×8 | 108, 1 direction | 1,917,760 / 276,769 (12.6%) | 11.084 ± 0.001 | 12.327 ± 0.002 | 11.10, 12.18 |
+| 4×7×8 | 144, 1 direction | 45,878 / 32,840 (41.7%) | 17.465 ± 0.005 | 17.106 ± 0.006 | 17.43–17.51, 17.16 |
+| **6×7×8** | **216, 1 direction** | **92 / 29 (24.0%)** | **26.405 ± 0.104** | **26.866 ± 0.186** | — |
+
+At 4×7×8 the unscreened statistic (16.925) reproduces the review's CPU value (16.934 ± 0.068), 0.54 nats below the
+face channel. At 6×7×8 all 29 firewalls are on the cut-216 diagonal; exposure 1.349 × 10¹³; nothing settled (settled
+lives — any period ≤ 128 — would be censored; longer periods are not detected and none has been seen). The A = 126
+face channel lies **0.19 ± 0.10 above the slab line** (26.218), and the slope 108 → 126 from it and the unscreened
+22.470 is 0.219 ± 0.006 — the octahedral value. That compares a square slab (three cheapest directions) with a
+non-square one; the control 6×6×8 with the firewall channel resolved is below when it is in.
+
 **b. The cube-centred death rate does not fall with age.** One 3-hour run at R = 43 (A = 759), 2,304 replicas
 (`WB = 1`, so each ages twice as fast), settle window 1,024: 5,971 deaths, ages to 2.6 τ, τ = 3.201 × 10⁹
 (ln 21.887 ± 0.013; earlier run 3.253 × 10⁹). `python3 research/gpu/weibull.py research/data/gpu_facelaw/symcR43_s501_A10G.json`:

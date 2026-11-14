@@ -147,3 +147,21 @@ three cheapest directions; face channel **ln τ_face(108) = 22.49 ± 0.07** (on 
 statistic within 0.05 of 22.470. If the face channel at 108 lands on the line while 126 stays at 26.405, the slope
 108 → 126 (≈ 0.219) mixes a square and a non-square slab (the review's caution); I will say so rather than read it as
 the bulk constant rising.
+
+## 2026-11-14T07:51Z — outcome of the firewall-resolved runs (forecast: commit 60846f8)
+
+`python3 research/gpu/fwslab.py summary "research/data/gpu_facelaw/fwslab*.json"` (per-life data — age, kind, birth,
+firewall direction — in each file's `raw`). Exposure from generation 0; settled lives (period 1–2, kind 2; period
+3–128, kind 3) censored at detection; periods > 128 are not detected (none was ever seen); lives open at the end censored.
+- **Validation — both hold, so the production run is interpreted.** 3×6×8 (cut 108): ln τ_face = 11.084 ± 0.001
+  (target 11.10 ± 0.1), ln τ_fw = 12.327 ± 0.002 (12.18 ± 0.2); 12.6% firewall-first (table: 74/512 = 14.5%); 1,127
+  settled. 4×7×8 (cut 144): ln τ_face = 17.465 ± 0.005 (17.43–17.51), ln τ_fw = 17.106 ± 0.006 (17.16 ± 0.2); first-event
+  statistic 16.925 (the review's independent CPU 16.934 ± 0.068); 41.7% firewall-first; 11 settled. Firewalls in the
+  cheapest direction: 276,540 of 276,769 and 32,817 of 32,840.
+- **6×7×8 (A = 126, cut 216 in one direction), two 60-min runs, seeds 611–612 — all three forecasts hit.**
+  Exposure 1.349 × 10¹³; first events: 92 face deaths, **29 transverse firewalls (24.0%; forecast 10–30%)**, all on
+  diagonal 2 (the cut-216 ring); 0 settled; 9,216 open at the end. **ln τ_face = 26.405 ± 0.104** (forecast 26.30 ±
+  0.15; slab line 26.218: +0.19, 1.8σ); **ln τ_fw(216) = 26.866 ± 0.186** (forecast 27.0 ± 0.4; the review's
+  extrapolation 27.05 ± 0.30); first-event statistic 26.131 (the earlier unscreened runs: 26.138). Slope 108 → 126 with
+  the committed (unscreened) 22.470: 0.219 ± 0.006 — at or above the octahedral 0.216, the case I gave 0.4. Interior
+  {111} firewalls are not a channel here (they split the slab; its faces live on and are still counted).
