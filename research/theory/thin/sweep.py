@@ -4,7 +4,7 @@
     python3 sweep.py ring b [rho16]        # ring of b sites (b <= 6: the working tensor has 3b + 10 bits)
     python3 sweep.py seg n [rho16]         # segment of n sites {Z_s, Y_s, X_{s+1}}, s = 0..n-1, cells outside held
                                            # dead (n <= 8: 3n + 5 bits)
-    python3 sweep.py table                 # the filed table: rings 5..6, segments 2..8
+    python3 sweep.py table                 # the filed table: ring 5, segments 2..7 (ring 6 and segment 8 fit but were not run)
     python3 sweep.py seq                   # steps of ln tau between successive exact segments, and their limit
 
 Model and triples: exact1.py. Result: h = quasi-stationary probability that the face is empty one generation
@@ -128,9 +128,8 @@ if __name__ == '__main__':
     if sys.argv[1] == 'seq':
         seq()
     elif sys.argv[1] == 'table':
-        for b in (5, 6):
-            solve('ring', b)
-        for n in range(2, 9):
+        solve('ring', 5)
+        for n in range(2, 8):
             solve('seg', n)
     else:
         solve(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]) if len(sys.argv) > 3 else 26112)

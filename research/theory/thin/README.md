@@ -31,8 +31,8 @@ reasons, each measured or exact:
 
 What can be said instead **[measured]**:
 
-> The cost per cell of the thinnest face, in the limit of a long face, is **0.100 ± 0.003 per cell**
-> (0.300 ± 0.010 per site of three cells). The census values 0.115 (A 48 → 60) and 0.111 (60 → 72) are
+> The cost per cell of the thinnest face, in the limit of a long face, is **0.099 ± 0.004 per cell**
+> (0.298 ± 0.011 per site of three cells). The census values 0.115 (A 48 → 60) and 0.111 (60 → 72) are
 > reproduced (0.1144(3), 0.1104(6)) and are local slopes of a ring law that is still bending at A = 108, where
 > the local slope is 0.103(2). A face with two free ends (a segment) shows 0.099 per cell from A = 75 on.
 
@@ -101,10 +101,10 @@ SEGMORE
   the small sizes show. That would put the flat 0.297 at n = 25–37 at the turn of the curve and γ at 0.303. It is
   not established: the alternative that all four keep falling to about 0.29 is excluded only if the form g + a/x
   of route 4 is right.
-- **Value.** γ = **0.300 ± 0.010 per site, 0.100 ± 0.003 per cell**: the interval runs from the segment fits with
-  a correction term (0.290) to the window extrapolation (0.309), and the two routes with stable fits (segments,
-  straight: 0.297; wall: 0.303) sit inside it. Read from lifetimes alone, as the census reads it, the cost per
-  cell of a face with free ends is 0.0988(2) between A = 75 and 111.
+- **Value.** γ = **0.298 ± 0.011 per site, 0.099 ± 0.004 per cell**: the interval runs from the lowest fit of the
+  segment lifetimes with a correction term (0.288, a ln n term) to the window extrapolation (0.309), and the two
+  routes with stable fits (segments, straight: 0.297; wall: 0.303) sit inside it. Read from lifetimes alone, as
+  the census reads it, the cost per cell of a face with free ends is 0.0988(2) between A = 75 and 111.
 - The static formulation fails as a short cut **[measured]**: ln τ_ring(b) + ln E(b − s) is not constant for any
   shift s (`python3 analyze.py static win_det_b64 'det_b[0-9]*'`): for s = 0 it falls from 0.77 at b = 16 to 0.41
   at b = 36. The ring's lifetime grows more slowly than 1/E(b), by a factor b^0.45 over this range.
@@ -140,7 +140,9 @@ for w = 1 … 5 against 0.337 deterministic; segments 0.372, 0.413, 0.348, 0.311
   0.88 under a dead cell with no live face neighbour and 1.42 under a dead cell with six (binomial at the
   interior density: 1.19). So a gap of the face thins what is beneath it, which makes the gap harder to close;
   over coins the support under a gap is always fresh. It fits a depth of about five: the response reaches three
-  layers, and each layer of the rule reads two more.
+  layers, and each layer of the rule reads two more. (§6b measures what the one-time part of this response is
+  worth: giving the coins the measured dependence on the face above them takes the one-layer model from +22% to
+  +5.6% in slope.)
 - The coin density matters a little even at w = 5: at b = 20, density 0.30 gives −0.069(8), density 0.55 gives
   +0.030(7) (`python3 analyze.py life 'mod_b20_w*'`). The model is therefore closed only with the measured
   interior density as input.
@@ -173,8 +175,8 @@ for w = 1 … 5 against 0.337 deterministic; segments 0.372, 0.413, 0.348, 0.311
 
 ## 6. What is exact
 
-`python3 sweep.py table` (rings 5–6, segments 2–8; n = 8 needs 8.6 GB and over an hour and was not run),
-`python3 sweep.py seq`, `python3 exact1.py 5`.
+`python3 sweep.py table` (ring of 5, segments of 2–7 sites; the ring of 6 and the segment of 8 were not run:
+`python3 sweep.py seg 8` needs 8.6 GB and over an hour), `python3 sweep.py seq`, `python3 exact1.py 5`.
 
 For M(1) the kernel is a product over the triples T_c = {X_{c+1}, Y_{c−1}, Z_c}: the three cells of a triple share
 their two-plus-one cells beneath pairwise through the three coins X_c, Y_c, Z_c of the layer beneath and have one
@@ -267,7 +269,7 @@ What the same method says as the face widens, and what it would take:
   3, 7, 13, 21, 31), validated cell by cell. The census's 0.141 belongs to shortest loop squared 4, which is not
   of this form (two cubes per ring position) and was not stepped here.
 - The census slopes of wider tori are local slopes of ring laws too, and should come down with length as the
-  thin torus's did (0.115 → 0.103 between A = 54 and 102, limit 0.100). How much of the rise 0.10 → 0.19 → 0.21
+  thin torus's did (0.115 → 0.103 between A = 54 and 102, limit 0.099 ± 0.004). How much of the rise 0.10 → 0.19 → 0.21
   with the loop is asymptotic and how much is the ring's bend is not known.
 - Reading **[conjectured]**: the cost per cell is the price of pushing a front line back by one cell, and a longer
   front line is harder to push because its cells hold each other up sideways; on the thinnest torus the line is
@@ -280,9 +282,9 @@ What the same method says as the face widens, and what it would take:
   *computed* without waiting for deaths by sampling the tilted front process (cloning), on the deterministic
   system itself; that would extend the measurements to faces whose lifetime cannot be simulated, but it is a
   measurement, not a derivation. No small parameter was found that would make one possible: the cost per cell is
-  0.1–0.2 nats, the events behind it involve three to five layers and tens of sites, and the two simplest
-  closures (coins beneath: +22% in slope; the face's own one-generation statistics: +11%) fail in the same
-  direction for a reason that is measured (§4, §6b).
+  0.1–0.2 nats, the events behind it involve three to five layers and tens of sites, and the closures tried
+  (coins beneath: +22% in slope; the face's own one-generation statistics: +11%; coins that follow the face,
+  with or without memory: +5.6%) all fail in the same direction (§4, §6b).
 
 ## 8. Subtle points
 
@@ -301,8 +303,11 @@ What the same method says as the face widens, and what it would take:
   the first runs of M(6) and M(8) on the 13-site segment ended with every lane stuck. The firewall rule (next
   point) now applies to the models too, and those two tags were rerun; the model tags with w = 4, 5, 6 run before
   that have no exposure beyond 30 mean lives.
-- **Firewall.** A deterministic life is also cut when three adjacent interior layers are dead (looked for every
-  840 generations): 72 of 376,301 lives at b = 16, 4 at b = 20, none above. The tags `det_b16`, `det_b20` and the
+- **Firewall.** A life is also cut when three adjacent layers beneath the face are dead (deterministic: between
+  the two faces; models: among layers 1 … w − 1; looked for every 840 generations). Nothing crosses three dead
+  layers (a cell there has at most three live neighbours), so what is above them is no longer the system under
+  study. Deterministic: 72 per 376,000 deaths at b = 16, 4 at b = 20, none above; twelve layers: 165 per 331,000
+  at b = 16. Models on the 13-site segment: 45 and 78 per 5–6 × 10⁵ deaths at w = 6 and 8. The tags `det_b16`, `det_b20` and the
   first chunks of `det_b24` were run when the rule was "one empty interior layer"; the difference is below the
   statistical error at b = 16 (the census value, made with other code, is 1.7σ away).
 - **Ring and segment are different laws with the same γ.** A ring must first open a gap; a segment has two from
