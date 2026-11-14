@@ -1587,3 +1587,16 @@ each a few minutes; outputs in `audit/out/`).
   manuscript-style draft was written, `docs/paper/draft.md`), resolved in 629fd03…15b1b4c; the ledger's ids K1–K3
   of the class study are now K9–K11, and its tally was recounted mechanically (108 rows: A 40, B 40, C 27, D 1; the
   earlier "A 43" had misread areas such as "A = 84" as grades).
+
+## 2026-11-14 — a forecast before the run: empty patches on a face too large to die (asked of the GPU session, 21:30 UTC)
+
+- The experiment: a periodic slab 12 × 12 × 8 (A = 432 per face; no face should die), and on its faces the
+  frequency with which a patch (rhombi of 3ab cells from 1×1 to 6×6; strips 1×b) is entirely dead.
+- Why: every measured cost per cell carries a wrap-around term (periodic faces, 0.205–0.2125) or a rim (octahedral
+  faces, 0.215–0.221). If a face dies as "an empty patch the size of the face" (`research/theory/exponent.md`,
+  section 4; compatible with the 2D toy, never tested for gump), then ln P(patch empty) = const − c·cells −
+  σ·perimeter, with c the cost per cell of an unwrapped face.
+- **Forecast (conjecture, the lead's, before any run):** for rhombi from 2×2 up, c = 0.21 ± 0.015. Outside
+  0.17–0.25 the static picture fails for gump. No forecast for σ.
+- Not done: nothing has been run. The request and its acceptance terms are in the message to the GPU session; the
+  result will come as a pull request and be reviewed as before.

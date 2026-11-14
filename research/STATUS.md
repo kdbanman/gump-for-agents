@@ -86,6 +86,8 @@ _Last updated 2026-11-14 by the lead._
   C 27, D 1). An Opus fact-check of the draft against the ledger is running -> `docs/paper/FACTCHECK.md`;
   (4) Opus: the second variable, pairs of tori with equal area and equal shortest loop, candidates fixed and
   forecasts committed first -> `research/shape3/`.
+  (5) GPU session, asked 21:30 UTC: empty patches on a face too large to die (12×12×8; the lead's forecast is in the
+  notebook, c = 0.21 ± 0.015); expect a pull request; review as before.
   Owed for each when it reports: the lead's own check of one key number, an adversarial review (Opus) for (2) and (4),
   notebook, CLAIMS, STATUS. Usage timer every 60 minutes while Fable agents run.
   (ii) done: `README.md` (item 4 reworded; new items 8-10) and the web tour and
