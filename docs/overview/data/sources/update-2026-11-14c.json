@@ -1,0 +1,55 @@
+{
+  "about": "Third refresh of 2026-11-14 (evening): the census of every torus of a given area (CLAIMS SH2-SH5; research/shape2/README.md; research/audit/REVIEW-shape2.md). Each item: value (numbers drawn on the page), quote (copied from research/NOTEBOOK.md or research/CLAIMS.md; collect.py checks that it occurs there and that each value occurs in it), src.",
+  "census": {
+    "cost": {
+      "loop2": [3, 4, 7, 12, 13, 16],
+      "value": [0.115, 0.141, 0.192, 0.207, 0.209, 0.2125],
+      "quote": "d ln τ_face / dA from A = 48 to 60 (in brackets, 60 to 72): loop² 3: 0.115 (0.111); 4: 0.141 (0.135); 7: 0.192 (0.187); 12: 0.207 (0.205); 13: 0.209 (0.206); 16: 0.2125 (0.208).",
+      "src": "NB 2026-11-14, every torus of a given area; CLAIMS SH3"
+    },
+    "cost_review": {
+      "value": [0.1144, 0.1415, 0.1922, 0.2076, 0.2127],
+      "quote": "The review's own runs give 0.1144, 0.1415, 0.1922, 0.2076, 0.2127 for 48 → 60.",
+      "src": "NB 2026-11-14, every torus of a given area; CLAIMS SH3 (grade A)"
+    },
+    "pair": {
+      "value": [0.0142, 0.0019, 4.7, 3],
+      "quote": "four runs, two codes, pooled 0.0142 ± 0.0019 (χ² 4.7/3; first published as 0.019 ± 0.004)",
+      "src": "CLAIMS SH2; NB 2026-11-14, every torus of a given area"
+    },
+    "pair48": {
+      "value": [0.0151, 0.0017],
+      "quote": "A = 48, loop² 12, second loop² 16 against 19: 0.0151 ± 0.0017.",
+      "src": "CLAIMS SH2"
+    },
+    "laws": {
+      "value": [5.4, 22.7, 45.4],
+      "quote": "L3-area at A = 60: χ² 5.4/5 on the census run, 22.7/5 on independent values, 45.4/5 pooled",
+      "src": "CLAIMS SH5"
+    },
+    "nolaw": {
+      "value": [],
+      "quote": "No law in area and shortest loop describes the data at any area.",
+      "src": "NB 2026-11-14, every torus of a given area"
+    },
+    "unknown": {
+      "value": [],
+      "quote": "What the variable is has not been found",
+      "src": "NB 2026-11-14, every torus of a given area; CLAIMS SH2"
+    },
+    "thin": {
+      "value": [],
+      "quote": "a face three cells around is a quasi-one-dimensional system with a cost per cell (0.11)",
+      "src": "NB 2026-11-14, every torus of a given area [reading, conjecture]"
+    }
+  },
+  "audits": [
+    {"label": "Adversarial review of the census of tori", "line": "Its own stepper on 16 of the 24 rows, seeds fixed beforehand; every table and χ² recomputed from the raw files.", "file": "research/audit/REVIEW-shape2.md"}
+  ],
+  "milestones": [
+    {"date": "2026-11-14T18:07Z", "text": "Every torus of a given area: no law in area and shortest loop", "src": "git c9d2596"}
+  ],
+  "forecasts": [
+    {"line": "The census: six candidate laws in area and shortest loop, parameters fixed before the runs", "result": "missed (all refuted, at every area)", "quote": "No law in area and shortest loop describes the data at any area.", "value": [], "src": "NB 2026-11-14, every torus of a given area; CLAIMS SH5"}
+  ]
+}

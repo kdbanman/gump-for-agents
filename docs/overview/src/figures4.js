@@ -42,11 +42,13 @@
     rows.map(r => [r[1].toFixed(2), r[0], r[2].toFixed(3), r[3].toFixed(3), r[4] == null ? '' : r[4].toFixed(3), r[5] == null ? '' : r[5].toFixed(3), r[6]]));
   $('#n-rise').textContent = String(Sh.size[0]);
 
-  const N = $('#n-shape'), p72 = Sh.pairs.find(p => p[1] === 72), c = Sh.control, p60 = Sh.pair60, r60 = Sh.pair60_review, fc = Sh.forecast;
+  const N = $('#n-shape'), p72 = Sh.pairs.find(p => p[1] === 72), c = Sh.control, p60 = Sh.pair60, fc = Sh.forecast;
   const pm = (tile, s) => { E('small', {}, tile.querySelector('.v'), s); return tile; };
   pm(numTile(N, '−' + p72[2].toFixed(3) + ' ', 'in ln(wait): a 3 × 8 face against a 4 × 6 one, both 72 cells. Independent code: −' + Sh.cpu72[0].toFixed(3) + ' ± ' + Sh.cpu72[1].toFixed(3) + '. Equal area, different lifetime.', ['meas', 'measured, two codes']), '± ' + p72[3].toFixed(3));
   pm(numTile(N, c[0].toFixed(3) + ' ', 'the control: a twisted face that is the same torus as 4 × 6 under the rule’s symmetries, against 4 × 6. It should match, and does.', ['meas', 'passed']), 'vs ' + c[1].toFixed(3));
-  pm(numTile(N, p60[4].toFixed(3) + ' ', 'at 60 cells, between two tori with the same shortest loop (4 × 5 and (5,1), (0,4)). Independent code: ' + r60[0].toFixed(3) + ' ± ' + r60[1].toFixed(3) + '. So there is a second variable.', ['meas', 'measured, two codes']), '± ' + p60[5].toFixed(3));
+  // the 0.019 ± 0.004 of the first run is replaced by the four-run pool of the census (D.census.pair; CLAIMS SH2)
+  const q60 = D.census.pair;
+  pm(numTile(N, q60[0].toFixed(3) + ' ', 'at 60 cells, between two tori with the same shortest loop (4 × 5 and (5,1), (0,4)): four runs, two codes (first published as ' + p60[4].toFixed(3) + '). So there is a second variable.', ['meas', 'measured, two codes']), '± ' + q60[1].toFixed(3));
   numTile(N, 'order held', 'in the forecast written before the runs; the sizes missed (+' + fc[0] + ' at the longest loop, where +' + fc[1] + ' was forecast)', ['once', 'mixed']);
 
   // the area-law plate: the price per site of a wide periodic face (NB "equal areas, different lifetimes", [open])
