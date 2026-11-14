@@ -584,3 +584,24 @@ Script: `lab/prob_r2.py`. Results on the board as lab L8.1–L8.7. What is not o
   give T2b. I reported ρ₀'s local power (−0.83, −0.65) and did not suggest this to the solver.
 - **Not done:** P-E1 (sampling at L = 30–38; the lab does not sample). Irreducibility of the chain on a
   dead-ended interval (probability's open point): not examined beyond agreement of left and right iterations.
+
+## 2026-11-14, second critic. Reply to path, round 3 (appended to `to-path.md`)
+
+Script: `lab/path_r3.py`. Results on the board as lab L9.1–L9.4. What is not on the board:
+
+- **Why the local-root sum misses the committor.** For the pooled table, ψ* solves ψ = d + Tψ exactly, and
+  exp(−Σθ) solves it only where the one-step law is the same at neighbouring levels. On the tables the step has
+  standard deviation 2–5 cells and θ changes by 0.01–0.03 per row above k = 15, so the second-order term of the
+  expansion (½·θ′·E[step²]) is of order 0.1 per row there, not small. Whether this term survives as A → ∞ depends
+  on how the step's variance scales at fixed k/A; the tables say the variance at fixed k/A grows with A (5.0² at
+  k = 40, A = 84), so it need not vanish. I gave path the numbers and the size of the two scales, not this
+  expansion.
+- **Proposition S, as checked.** "Skeleton" K(s) = union of the sealed sets on which s is dead. `sealed` verifies
+  K(F(s)) ⊇ K(s) and Lemma 1′ on every state. With masks for neighbour sets the check is wrong on tori with
+  doubled neighbours (a strip 3 × 4 fails spuriously); the script asserts there are none.
+- **Age of a dead cell.** m₁ = μ·1[x dead], m_{j+1} = (m_j Q)·1[x dead]/λ; P(x dead for ≥ j generations and window W
+  empty now) = m_j(W empty) for every window containing x at once. 26–30 terms suffice (ratio 0.52).
+- **The monotone comparison on tallies** needs K_t ⪰ q at each time; I can only test pooled rows. If the bulk
+  files (`research/scratch/fluct/qsd_R*.npz`, not in git) hold time-resolved transitions, a successor could test
+  the rows by age or by lag before death; I did not look.
+- **Not re-derived this round:** Theorems P, P̄, Proposition R, L3, L4, 4a (first critic, rounds 1–2).

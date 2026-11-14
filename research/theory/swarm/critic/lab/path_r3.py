@@ -7,6 +7,7 @@
   python3 path_r3.py age [L] 15.3: D2(L, 0.472) on a ring (default 16; 18 takes 6 min): under the quasi-stationary
                              process, the law of the number of generations the central cell of an empty window of
                              l cells has been dead
+  python3 path_r3.py sealed  Lemma 1' and Proposition S on every state and every sealed set of three 12-cell vessels (hull R = 2v, box 3 x 4, strip 2 x 6)
   python3 path_r3.py mono    source's monotone comparison (board, lemma exchange) applied to the pooled table:
                              is the pooled one-step table stochastically monotone, and do the four sizes dominate
                              one another row by row?
@@ -133,6 +134,43 @@ def mono():
               f"death column: " + ', '.join(f"k = {kk}: {Tb_[kk, 0]:.4f} / {Ta[kk, 0]:.4f}" for kk in (1, 2, 3, 4)))
 
 
+def sealed():
+    """Lemma 1' and Proposition S on every state and every sealed set of two 12-cell vessels."""
+    import exact, toy2d_lab as t2, gump_lab as g3
+    cells, c = g3.hull(2, 'v')
+    for name, nb, B, S, theta in (('gump hull R = 2v', g3.nbrs(cells), g3.B, g3.S, 4), ('2D box 3 x 4', t2.nbrs(3, 4, False), t2.B, t2.S, 3),
+                                  ('2D strip 2 x 6', t2.nbrs(2, 6, True), t2.B, t2.S, 3)):
+        N = len(nb)
+        assert all(len(set(v)) == len(v) for v in nb), "no doubled neighbours (the masks below would lose them)" 
+        F = exact.full_map(nb, B, S)
+        nbm = [sum(1 << j for j in v) for v in nb]
+        full = (1 << N) - 1
+        seal = [W for W in range(1, 1 << N)
+                if all(bin(nbm[i] & ~W & full).count('1') <= theta - 1 for i in range(N) if (W >> i) & 1)]
+        st = np.arange(1 << N, dtype=np.int64); Fs = F.astype(np.int64)
+        K = np.zeros(1 << N, np.int64)
+        bad1 = 0
+        for W in seal:
+            dead = (st & W) == 0
+            K[dead] |= W
+            # Lemma 1': a dead cell of W all of whose neighbours in W are dead is dead next
+            for i in range(N):
+                if (W >> i) & 1:
+                    m = (1 << i) | (nbm[i] & W)
+                    bad1 += int((((st & m) == 0) & (((Fs >> i) & 1) == 1)).sum())
+        bad2 = int(((K & ~K[Fs]) != 0).sum())               # the skeleton never shrinks
+        minimal = [W for W in seal if not any((V & W) == V and V != W for V in seal)]
+        # Proposition S: whenever the skeleton becomes non-empty, it contains a minimal sealed set that was alive just before
+        first = np.flatnonzero((K == 0) & (K[Fs] != 0))
+        bad3 = 0
+        for s in first:
+            k = int(K[Fs[s]])
+            bad3 += not any((M & k) == M and (int(s) & M) != 0 for M in minimal)
+        check(bad1 == 0 and bad2 == 0 and bad3 == 0,
+              f"{name} ({N} cells): {len(seal)} sealed sets, {len(minimal)} minimal (sizes {sorted(set(bin(M).count('1') for M in minimal))}); every state: "
+              f"violations of Lemma 1' {bad1}, of 'the skeleton never shrinks' {bad2}; in the {len(first)} states where it first appears it contains a minimal sealed set alive one generation earlier (failures {bad3})")
+
+
 def age(L=16):
     print(f"15.3. D2({L}, 0.472) on a ring, quasi-stationary process: for an empty window of l cells centred on cell x, the law of the number of generations x has been dead")
     a2 = pr.a_table(p2.D2)
@@ -176,5 +214,6 @@ if __name__ == '__main__':
     what = sys.argv[1]
     if what == 'th': th()
     elif what == 'mono': mono()
+    elif what == 'sealed': sealed()
     elif what == 'age': age(int(sys.argv[2]) if len(sys.argv) > 2 else 16)
     print('ALL OK' if OK else 'SOMETHING FAILED')
