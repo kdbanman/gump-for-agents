@@ -133,9 +133,12 @@ job to keep it honest. What exists (2026-11-13):
   larger of it and what the owner's screen shows). Within about 60,000 tokens of the threshold, do the pass above
   whether or not a milestone has come.
 - `CLAUDE.md` ends with a "Compact Instructions" section, which Claude Code reads when it writes the summary.
-- Not set up, the owner's call: a `SessionStart` hook with matcher `compact` in `.claude/settings.json` could print a
-  short resume note into the context after every compaction. It would run for every session and subagent on this
-  repository, so the lead has not added it unasked.
+- A `SessionStart` hook with matcher `compact` (`.claude/settings.json`; the owner, 2026-11-14: "go ahead and add the
+  hook") prints `.claude/after-compaction.md` into the context after every compaction: a pointer list, kept free of
+  facts that go stale. Pipe-tested when written; whether it fires in a cloud session will be seen at the next
+  compaction (the note should then appear in context). If it does not, the owner may need to open `/hooks` once.
+- Do not invoke the `update-config` skill for small edits: it prints the whole settings schema, tens of thousands
+  of tokens. Edit `.claude/settings.json` by hand and validate it with `jq`.
 
 ## Resuming after a compaction
 
@@ -193,6 +196,15 @@ let CI pass, merge.
   Fable agents from 0.88), and Opus for agents whose work does not need Fable (referee passes, examiners,
   librarians, reviews). The lead's own turns count too: each one re-reads the whole context, so a smaller context
   and fewer idle wake-ups save Fable allowance.
+- **Resets are coming** (the owner, 2026-11-14, about 07:45 UTC): "I have two fable usage limit resets waiting on my
+  account, and i intend to use them on this project :) so feel free to drive that fable usage hard. i'll check
+  around 9am tomorrow and reset, so feel free to "aim" for the utilization limit by then." The lead's reading: until
+  that reset, Fable agents for the subtlest work are wanted, several at once; aim to have the Fable window near
+  (and under) the 95% ceiling by the owner's 9am. The owner's time zone is not known to the lead; if it is North
+  American mountain time, 9am is 16:00 UTC. Thresholds for the Fable window until then: no new Fable agent and
+  wrap-up from 0.88, stop from 0.93 (the lead needs a few turns of its own afterwards). Prefer whole units of work
+  (a solver round, a referee pass, an audit) over starting something that will be cut off. After a reset the same
+  rule starts again from zero; there are two resets, not an open tap.
 - Context: `mcp__claude-code-remote__get_session` with no id shows `external_metadata.context_usage`
   (`used_tokens` of `max_tokens`) and the auto-compaction threshold.
 
