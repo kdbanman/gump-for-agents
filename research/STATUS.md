@@ -71,8 +71,13 @@ _Last updated 2026-11-14 by the lead._
 - **`research/theory/class.md`**: attacked 2026-11-14 (`research/audit/REVIEW-class.md`; notebook entry of that date).
   Its theorems stand; its first clause does not (sealing is a property of a half-space, not a direction), and the
   edge-neighbour rule the owner meant to write in 2012 (there called `face12e`; not gump) turned out to be a gump in a
-  box, which class.md as written called unconfined. class.md carries a note at its head. **To do:** a successor revises
-  class.md by the review's §5.2 (twelve items); run what the repaired clause newly admits and nobody has run
+  box, which class.md as written called unconfined. **Revised 2026-11-14** (commit 569be8d, an Opus successor; all
+  twelve items of the review's §5.2 applied; every change listed in the file's last section; the lead read the new
+  summary, Theorem A′ with its proof and the change list, and ran nothing). The class is now seven tagged clauses:
+  confinement by sealed half-spaces, no finite sealed set, no armoured set, the two-sided drive (all proved; armour
+  conditional), whole-wall death and hull lifetimes (measured), and one conjecture; the old fifth clause is withdrawn.
+  Two tallies the reviser could not reconcile are flagged in its §10 (26/29 against 23/27 for b/K ≤ 3/8).
+  **To do:** run what the repaired clause newly admits and nobody has run
   (kagome8 and hex9 at b = 4; whether bond10's b = 3 boxes ever die; kagome B2/S12 with transverse cuts censored);
   face12e with symmetric seeds and beyond 6³. The owner's quick-look branch `claude/edge-neighbour-tangent` stays
   unmerged; the audited face12e results live in `research/audit/class/` under that name.
