@@ -1,3 +1,17 @@
 === A. c_2 at density 0.472: the critic's matrix and power iteration, more iterations
   critic's spectral(), iters =   400: rho = 0.626819676, c_2 = 0.467096   <- the lab's default; the reply and the board print 0.4671
   critic's spectral(), iters =  1000: rho = 0.626971787, c_2 = 0.466854
+  critic's spectral(), iters =  3000: rho = 0.626976930, c_2 = 0.466846
+  critic's spectral(), iters = 10000: rho = 0.626976930, c_2 = 0.466846
+
+=== B. the audit's matrix at density 0.472: two leading eigenvalues; c_2(p) near 1/2
+  leading eigenvalues 0.626977, 0.620526 (ratio 0.9897); c_2 = 0.466846
+  c_2(0.47) = 0.467116
+  c_2(0.472) = 0.466846
+  c_2(0.475) = 0.466514
+  c_2(0.48) = 0.466183
+  c_2(0.49) = 0.466370
+  c_2(0.5) = 0.467693
+
+=== C. exact slopes of -ln D_k(L) on rings between L = 20 and 32 (entry 13 quotes samples 0.542, 0.479)
+  k = 1 (all 16 eigenvalues): -ln D_1 = [11.0305, 13.2368, 15.443, 17.6491], slope 0.55155; limit 0.551535
