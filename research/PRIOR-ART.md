@@ -573,7 +573,7 @@ on transient turbulence with a measured histogram:
   https://arxiv.org/abs/1612.01470 — **full text, §2**: after relaxation "P_{n>0}(t ≫ t_r) ≃ π_n e^{−t/τ}", and "Once the
   QSD is known ... obtain the MTE from the relation 1/τ = Σ_{r>0} W_r(r) π_r" (eq. 6), with refs [27, 30, 32, 33, 35].
   The general form of our statement, for birth–death populations.
-- I. Nåsell, *Extinction and Quasi-Stationarity in the Stochastic Logistic SIS Model* (Springer LNM 2022, 2011), ch.
+- I. Nåsell, *Extinction and Quasi-Stationarity in the Stochastic Logistic SIS Model* (Springer, 2011, per the search result), ch.
   "Approximation of the time to extinction for the SIS model": per a search result, "the time to extinction from
   quasi-stationarity ... has an exponential distribution with expectation equal to" 1/(μ₁q₁). **Not obtained** (Springer
   login redirect); Nåsell's arXiv:2201.11118 (ar5iv) does not state it.

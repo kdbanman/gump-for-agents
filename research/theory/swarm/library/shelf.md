@@ -155,6 +155,26 @@ PDF converted with `pdftotext` and read in the parts named.
 | T. Tél, Y.-C. Lai 2008 (already in §3) | https://chaos1.la.asu.edu/~ylai1/papers/PRep_2008_TL.pdf (author copy) | **not obtained** (HTTP 503, three tries) | §1 | the author copy exists; a later try may work |
 | T. Tél, "The joy of transient chaos", Chaos 25 (2015; volume from the file name, unverified) | http://theorphys.elte.hu/tel/pdf_pub/Chaos25.pdf (author copy) | **not obtained** (HTTP 503) | §1 | review |
 
+## 11. Adversarial review of the third pass (2026-11-14)
+
+Notes for all rows: `research/PRIOR-ART.md`, "Adversarial review of the third pass (2026-11-14)".
+
+| source | where read | read | notes | why it matters |
+|---|---|---|---|---|
+| D. Vidmar, W.-J. Rappel, "Extinction dynamics of spiral defect chaos" (arXiv title "Extinction dynamics of cardiac fibrillation"), Phys. Rev. E 99 (2019) 012407; arXiv:1808.01991 | https://ar5iv.labs.arxiv.org/html/1808.01991 | abstract + relevant sections (via fetch tool) | §1, §2, tail | 1/τ = W₋₁(1)P_qs(1) + W₋₂(2)P_qs(2) for spiral-tip counts, checked against simulation; death rate ∝ length of non-conducting boundary; τ exponential in area |
+| W.-J. Rappel et al., "Stochastic termination of spiral wave dynamics in cardiac tissue", Front. Netw. Physiol. 2 (2022) 809532 | https://www.frontiersin.org/journals/network-physiology/articles/10.3389/fnetp.2022.809532/full | full text (via fetch tool) | §1, §2 | termination time depends on domain geometry through boundary length |
+| T. Nemoto, A. Alexakis, "Do extreme events trigger turbulence decay?", J. Fluid Mech. 912 (2021) A38; arXiv:2005.03530 | https://arxiv.org/abs/2005.03530 | §§1–3 (pdftotext) | tail | τ_d = δt / P(h_th): puff lifetime = inverse of the measured probability of being below threshold; nearest precedent to our tail statement |
+| N. Goldenfeld, N. Guttenberg, G. Gioia, "Extreme fluctuations and the finite lifetime of the turbulent state", Phys. Rev. E 81 (2010) 035304(R); arXiv:0906.3572 | https://arxiv.org/abs/0906.3572 | abstract | tail | lifetime from extreme-value statistics of fluctuations falling below a threshold |
+| M. Assaf, B. Meerson, "WKB theory of large deviations in stochastic populations", J. Phys. A 50 (2017) 263001; arXiv:1612.01470 | https://arxiv.org/abs/1612.01470 | §2 (pdftotext) | tail | eq. (6): 1/τ = Σ_r W_r(r) π_r, the QSD-flux identity in general form |
+| I. Nåsell, *Extinction and Quasi-Stationarity in the Stochastic Logistic SIS Model* (Springer, 2011) | Springer chapter page (login redirect) | **not obtained** | tail | E τ_Q = 1/(μ₁q₁) (search result only) |
+| F. R. Nardi, A. Zocca, "Tunneling behavior of Ising and Potts models in the low-temperature regime", arXiv:1708.09677 | https://arxiv.org/abs/1708.09677 | §§1–2 (pdftotext) | §2 | proved: on a K × L torus, log Eτ/β → 2 min{K,L} + 2, τ/Eτ → Exp(1): the systole sets the exponent |
+| D. K. Tuckett et al., "Tailoring surface codes for highly biased noise", Phys. Rev. X 9 (2019) 041031; arXiv:1812.08186 | https://export.arxiv.org/abs/1812.08186 | abstract | §2 | logical failure controlled by gcd(j, k) of the lattice dimensions; shape arithmetic at fixed size |
+| H. Bombín, M. A. Martin-Delgado, "Optimal resources for topological 2D stabilizer codes", Phys. Rev. A 76 (2007) 012305; arXiv:quant-ph/0703272 | https://ar5iv.arxiv.org/html/quant-ph/0703272 | partly (via fetch tool) | §2 | n/d² = 1 on the torus vs 2 typical; construction not seen described as a twist |
+| T. Lilienkamp, J. Christoph, U. Parlitz, "Features of chaotic transients in excitable media governed by spiral and scroll waves", Phys. Rev. Lett. 119 (2017) 054101 | https://bmp.ds.mpg.de/publication/item-2471932/ | abstract | §2 | 3D lifetimes grow "only above a critical thickness" |
+| P. Manneville, "Spatiotemporal perspective on the decay of turbulence in wall-bounded flows", Phys. Rev. E 79 (2009) 025301(R); arXiv:1102.5703 | https://ar5iv.arxiv.org/html/1102.5703 | via fetch tool | §2 | lifetimes vs domain size in plane Couette; shape not separated (a miss) |
+| J. C. Miller, "Equivalence of several generalized percolation models on networks", Phys. Rev. E 94 (2016) 032313; arXiv:1505.01396 | https://arxiv.org/abs/1505.01396 | k-core and bootstrap sections (pdftotext) | §3 | k-core and bootstrap percolation are complementary: our largest dead sealed set = 9-core of the dead set |
+| P. Balister, B. Bollobás, M. Przykucki, P. Smith, "Subcritical U-bootstrap percolation models have non-trivial phase transitions", arXiv:1311.5883 | https://arxiv.org/abs/1311.5883 | abstract | §3 | subcritical class; definition not in the abstract |
+
 ## Could not be reached at all (for whoever has a browser)
 
 Project Euclid (bot wall): Bramson–Neuhauser 1994; Liggett–Schonmann–Stacey 1997; Abadi 2004; Liggett 1995
