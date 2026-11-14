@@ -65,7 +65,7 @@ _Last updated 2026-11-14 by the lead._
   (every family 0.2072) and "term in the long side" (b(5) = 0.2081). **The twisted-torus experiment is done, reviewed and recorded** (`research/shape/README.md`,
   `research/audit/REVIEW-shape.md`, notebook entry "the shortest way round", CLAIMS SH1, SH2): at equal area the
   lifetime of a periodic face rises with its shortest closed loop (two independent codes); at A = 60 a second
-  variable shows (two tori with the same shortest loop differ by 0.018 ± 0.004). The review's seven corrections are applied to the write-up (6f995a2). **Running:** nothing at 15:50 UTC. **The second-reader audit of path's
+  variable shows (two tori with the same shortest loop differ by 0.018 ± 0.004). The review's seven corrections are applied to the write-up (6f995a2). **Running (15:45 UTC):** an Opus editor on `path/claims.md` only. **The second-reader audit of path's
   proofs is done** (`research/theory/swarm/audit/AUDIT-path.md`; notebook entry "the path line's proofs read a
   second time"; CLAIMS SW5): every proved claim correct or correct in a narrower wording; the conditional area law
   holds from (R) + (Φ) + (W), not from "R and R⁺"; Lemma S needed relative minimality. Owed: an editor to carry the
