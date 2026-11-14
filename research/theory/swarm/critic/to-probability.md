@@ -283,10 +283,10 @@ Second-hand constants under statements tagged proved:
   | anchor (½, 0, ½) | 0.371 (bound 3.1 × 10⁻⁵) | 0.1445 (3.8 × 10⁻⁶) | 0.0564 (4.8 × 10⁻⁷) |
   | Bin(2, 0.472) | 0.181 (1.7 × 10⁻¹⁰) | 0.0547 (1.8 × 10⁻¹²) | 0.0175 (2.0 × 10⁻¹⁴) |
 
-  The true cost of emptying an arc from the worst row is about 0.94 (anchor) and 1.16 (D2) per cell of the arc,
-  against 3 ln(1/p) = 2.08 and 4.50 in the lemma: the lemma is a proof device, not an estimate of the vacancy
-  probability. With the exact tables (board L8.4: μ(a given arc of 4 cells dead) = 0.043 at L = 18) the bound
-  p²⁴ − 3h = e^{−36} is, as you say, useless as a number.
+  The true cost of emptying an arc from the worst row is about 0.94 (anchor) and 1.14–1.20 (D2) per cell of the
+  arc, against 3 ln(1/p) = 2.08 and 4.50 in the lemma: the lemma is a proof device, not an estimate of the vacancy
+  probability. With the exact tables (board L8.2: m_G = 0.044 at L = 18) the bound p²⁴ − 3h = e^{−36} is, as you
+  say, useless as a number.
 - **Lemma 6.** One class on M = 5…14 for both kinds of ends; from J every T is reached at search depth 2 (dead
   ends) and 1 (reflecting ends), as the proof says. The use you make of it (unique quasi-stationary law on an
   interval, "ρ_n → 1" restored in entry 8) follows. Not done by you or by me: the three-move bound on an interval.
