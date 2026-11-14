@@ -39,7 +39,7 @@ deaths each). "Oldest" = age of the oldest replica alive at the end.
 | P3.1 bond10 boxes from the slab law (4³: 600–1,500) | 4³ ≈ 1 × 10⁹ (4 of 64 died by 10⁸) | **fails** (expected), reason found: edges |
 | P3.2 bond10 c = 6 boxes freeze with the corner armour alive | 128/128 | **holds** |
 | P3.3 H2 (a wall cannot die while its neighbours live) | columns 24–196× tougher than slabs per wall; box edge rows dense (0.7) | **supported**; H1 alone refuted, H3 refuted |
-| P4.1 face12e 7³: 9–33 of 128 finished by 3 × 10⁷ | FILLSCORE | FILLV |
+| P4.1 face12e 7³: 9–33 of 128 finished by 3 × 10⁷ | 16 of 128 (seeds 11, 12, fixed in the run script before the run); with a third seed 19 of 192 | **holds** |
 | P4.2 face12e O_h-symmetric boxes 10–100 generations, ≥ 10³ shorter at 6³ | 3–19 for 4³ … 8³; 74,000× at 6³ | **holds** |
 
 ## 1. kagome8 and hex9 at b = 4
@@ -191,7 +191,7 @@ up along the edges.**
 | 4 | 9 | 3 (2–5) | 4 | 0.028 | 54/64 | 439 | 146× |
 | 5 | 18 | 9 (5–10) | 16 | 0.063 | 34 | 9,855 | 1,100× |
 | 6 | 24 | 9.5 (6–13) | 12 | 0.058 | 25 | 707,038 | 74,000× |
-| 7 | 40 | 19 (12–36) | 26 | 0.046 | 31 | ≈ 10⁸ (part a) | ≈ 5 × 10⁶× |
+| 7 | 40 | 19 (12–36) | 26 | 0.046 | 31 | ≈ 1.6 × 10⁸ (part a, estimate) | ≈ 8 × 10⁶× |
 | 8 | 50 | 19 (12–25) | 20 | 0.043 | 27 | — | |
 | 9 | 75 | 33.5 (24–57) | 44 | 0.031 | 28 | — | |
 | 10 | 90 | 35.5 (26–60) | 44 | 0.038 | 20 | — | |
@@ -207,7 +207,22 @@ tens of generations at sizes where the asymmetric one lives 10⁵–10⁸; symme
 9, 10; 11, 12): an odd box (cube-centred) and the next even one (vertex-centred) live alike. These lifetimes are so
 short that they are dominated by the soup's first transient; I did not fit a law to them.
 
-**(a) The box of 7³ (P4.1).** FILL7
+**(a) The box of 7³ (P4.1): holds.** Forecast median 1.3 × 10⁸ (90 %: 5 × 10⁷ – 3 × 10⁸), not reachable; the test is
+the number of 128 random soups (density 0.45; seeds 11, 12 as in `run_face12e.sh`) finished by 3 × 10⁷:
+forecast 15 (9–33), refuted below 5 or above 45. `three_d.py box face12e 6 7 30000000 SEED 4096`:
+
+| seed | finished by 3 × 10⁷ | their lifetimes (10⁶) | boxes with a dead wall at the end | final density |
+|---|---|---|---|---|
+| 11 | 5 / 64 | 9.8, 16.4, 25.1, 27.6, 29.4 | 7 | 0.012 |
+| 12 | 11 / 64 | 12.5, 14.2, 16.4, 17.8, 19.1, 19.7, 24.3, 25.2, 25.4, 28.0, 28.8 | 18 | 0.007 |
+| 13 (extra, run alongside) | 3 / 64 | 5.8, 9.4, 18.1 | 9 | 0.008 |
+
+**16 of 128** (19 of 192 with seed 13). None finished before 5.8 × 10⁶, so the distribution has a delay, as at 6³.
+Exponential estimate from the 128: exposure 3.7 × 10⁹ box-generations / 16 → mean 2.3 × 10⁸, **median ≈ 1.6 × 10⁸**
+(± 25 % from the count alone; ≈ 2.0 × 10⁸ from all 192), against the forecast 1.3 × 10⁸. The ratio of successive
+box medians is then ≈ 230 from 6³ to 7³ (707,038 → 1.6 × 10⁸; ln ratio / Δn² = 0.42, against 0.39 from 5³ to 6³): the
+box series keeps steepening, as a wait exponential in the wall area requires. Median of 7³ not measured directly:
+reaching it needs ≈ 2 × 10⁸ generations × 64 soups ≈ 2–3 h of one core per 64 at this machine's load.
 
 ## Where the revised class statement is wrong or silent
 
@@ -270,3 +285,21 @@ short that they are dominated by the soup's first transient; I did not fit a law
   the same code. The slab driver's classification (wall / deep / cut / pit / periodic / frozen) has no independent
   implementation; it was checked by printing individual dead sealed sets (`scratch` diagnostic, hex9 n = 10), not
   systematically.
+
+## Reproduce
+
+```sh
+cd research/theory/class/followup
+python3 fu.py validate                      # ALL OK (stepper vs numpy vs aud_step; peeling)        seconds
+python3 structure.py 2d; python3 structure.py bond10       # exact facts of PREDICTIONS.md          seconds
+for L in kagome8 hex9; do for c in 5 6 7 8; do python3 two_d.py bulk $L $c; python3 two_d.py confine $L $c; done; done
+./run_hex9.sh; ./run_hex9b.sh               # hex9 c = 7 strips (rerun n = 18 at depth 41), c = 8, hulls; kagome8 strips
+./run_kagome4b.sh                           # kagome4 strips, frozen walls censored, depth check
+python3 two_d.py slab kagome4 3 A 8 40 300000 5 32        # censor sensitivity (256 frozen generations)
+python3 strip_state.py kagome4 3 A 8 40 300000            # the walls that freeze
+./run_bond10.sh; python3 box_hazard.py 3 1000000 4; python3 box_state.py 4 box; python3 box_state.py 4 column
+python3 three_d.py box bond10 5 4 100000000 3 4096        # 4^3 boxes to 10^8 (about 25 min)
+./run_face12e.sh; python3 three_d.py box face12e 6 7 30000000 13 4096      # symmetric boxes; 7^3 to 3e7 (about 30 min per seed)
+python3 analyse.py slab ../../../scratch/class_followup/FILE.jsonl [nwalls] [sizekey]; python3 analyse.py life FILE
+```
+Time on this machine (shared, load 4–5): everything about 2.5 h of two cores.
