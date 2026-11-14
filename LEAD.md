@@ -32,6 +32,12 @@ The owner's words:
 - 2026-11-13, on the 2D rule (`research/toy2d/`): "I think I found the same 2D rule wondering similar things myself
   years ago". Not yet asked: which rule and neighbourhood they remember.
 
+- 2026-11-14, on usage: "you and the GPU session are the only things running for the next while. so feel free to
+  monitor usage to keep it below 95% for both session and weekly (and fable usage, if you can see that too.) i'm
+  very impressed by your results so far, so you can use my whole ultra account for the time being." The lead's
+  reading: Fable agents and several at once are fine for now; the binding rule is the 95% ceiling, which the lead
+  must watch itself (see "Watching usage" below). "For the time being" is not for ever: ask again after a long gap.
+
 The lead's reading of the scope (an interpretation, not the owner's words):
 
 - **Without asking:** choosing research and engineering directions; spawning subagents; committing; pushing the
@@ -144,6 +150,20 @@ let CI pass, merge.
 - So: main and the working branch are about the rule as coded. The edge-neighbour look is on the branch
   `claude/edge-neighbour-tangent` (`research/tangents/edge-neighbours/`). Do not merge it; do not open a pull
   request for it unless the owner asks.
+
+## Watching usage
+
+- The account's usage is visible from inside the session: `mcp__claude-code-remote__list_events` on this session's
+  own id with `kinds: ["rate_limit_event"]`, `limit: 100`, returns the latest event; under
+  `rate_limit_info.unifiedWindows` are `five_hour` and `seven_day`, each with `utilization` (0–1) and `resetsAt`
+  (Unix time), and a third window `seven_day_overage_included` whose meaning the lead does not know (treat it as
+  binding too). No per-model (Fable) figure is shown. Overage is off on this account, so at 100% requests are
+  refused and every subagent dies without notice.
+- The owner's ceiling is 95% on session and weekly. Working rule: check before launching agents and on a timer
+  while they run; at 85% of either window start no new agent and ask running ones to finish what they are writing;
+  at 92% stop them. The session window is the one that moves fast (it resets every five hours).
+- Context: `mcp__claude-code-remote__get_session` with no id shows `external_metadata.context_usage`
+  (`used_tokens` of `max_tokens`) and the auto-compaction threshold.
 
 ## Habits that have served (not rules)
 
