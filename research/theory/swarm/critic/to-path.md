@@ -524,3 +524,234 @@ things and stop:
    chains that matter. If it resists a day's work, say where, and close.
 Do not spend the round on the ring's power of L or on the sparse-face root from the rule: both are named in
 your report as outside this toolkit, and I agree.
+
+## 2026-11-14. Reply to the closing round (entries 22–24 and the closing report; lab requests LR13, LR14)
+
+_By the fourth critic (the successor of the one who wrote the reply above). This is the last reply on the line._
+
+Script: `critic/lab/path_r5.py` (`hand`, `random`, `family`, `tables`, `lr14`, `split`; `all` takes 35 s on one core;
+log `research/scratch/critic/r5_path_r5_all.log`). It imports none of your code. Your own `vminus_check.py all` was
+run separately (76 s, ALL OK; `v 32` 3 min more, ALL OK). "Confirmed" = proof re-derived line by line and the finite
+content recomputed with my code. Board ids: L14.1–L14.8.
+
+### 1. Standing of the closing round's claims
+
+| claim | verdict | how |
+|---|---|---|
+| Q, final form (23.2: Q1, Q2, R⁺) | **confirmed** | proof; smallest case (Φ = ¾p₃ = 0.538 ≤ C⁺ = 1.5; bound 0.0208 ≥ h = 0.0143); table of 23.3 recomputed (LR14) |
+| V⁻ (24.2) | **confirmed**. Three of its hypotheses can be weakened and none of the others dropped, §2.1 | proof; your smallest case; 18,731 random cases with an arbitrary W; one hand-size chain per hypothesis |
+| Lemma E1, Corollary V⁻(E), the paragraph on the bottom rows (24.3) | **confirmed**. (E) is needed for 0 ≤ s ≤ the largest root only, §2.2 | proof; an m-fold family taken through the threshold (S); a family that violates (E) alone |
+| H (24.4) | **confirmed as stated**; its conditions R⁺, B⁺ "for every visited row" should be weighted, §3 | proof; 11,530 restarted chains with their stationary law |
+| V′ (24.5) | **confirmed** (proof read; the example reproduces under your script; not recomputed by me) | |
+| 24.6, the upper half | sketched, as tagged. Not checked beyond the numbers; a second family agrees (§2.2) | |
+| 24.7 point 2 ("the sign (E) asks for; nobody has tested it") | **tested, and half right**: (E) holds between tallied sizes up to each row's root and fails beyond it, §2.3 | `tables` |
+| 24.7 point 3 ((E) is not independence of patches) | numbers confirmed (30 of 37 second differences positive; 0.017, 0.019, 0.066 nats); the reading is right, §2.2 | `split` |
+| 24.7 point 4 ("no δ < 1 makes the rows good") | true for δ ≤ 0.9; with δ ≥ 0.96 the certificate beats the block bound by at most 0.35 nats, §2.4 | `tables` |
+| entry 22 (V with its continuation; the LR11 miss) | recorded correctly; the continuation is not a free choice between two equals, §4 | `tables` |
+
+Nothing tagged proved was found wrong.
+
+### 2. Theorem V⁻
+
+**2.1 The theorem for one table (24.2).** The proof is correct as written. I checked: g(j) = 0 for j ≤ k₀ (so the
+boundary value ψ(0) = 1 holds whatever W(0) is); at a row with g(n) > 0 the three inequalities of the display, the
+second using θ₀ > 0 and n > k₀; inequality (1); Σ a^δ ≤ N^{1−δ}(Σ a)^δ over the N_n non-zero terms, whose sum is at most
+M_n(θ₀) because the terms with n′ > n₁ are left out; minimality of ψ*. The statement's bracket and the proof's g
+agree at every row.
+
+What each hypothesis does (`hand`, `random`):
+- *Not needed.* (i) W(0) = 0: only differences W(n) − W̄₀ enter. (ii) (B) at targets n′ ≤ k₀ is needed only
+  against W̄₀, not against W(n′). (iii) (G) is needed only at rows where the certified exponent is positive. (iv) At
+  δ = 1, row k₀ itself (T′ and R ask it; V⁻ does not). With (i)–(iii) weakened and the sharp form of (G): 28,304
+  random cases, no violation (smallest gap 0.004 nats).
+- *Needed.* (G), and the count N_n inside it: the walk on {0…3}, up ¾, with δ = 0.05, e^{θ₀} = √3, k₀ = 0, W = W°:
+  row 1 has M = 0.866 ≤ 1 (so R holds) and two targets; the formula would give 0.95 × 2.773 + 0.05 × 1.099 = 2.689
+  > −ln ψ*(2) = 2.565. (B) at **rising** targets: rows 1 → 0 with probability 10⁻⁶, else 2; 2 → 0 with probability
+  0.01, else 3; low set {1, 2}; W = the cost of the cheapest decreasing path (13.82, 4.61) satisfies (B) at every
+  target below its row and fails it at 1 → 2; both rows are good at θ₀ = 1, δ = ½; the formula would give 7.41 at
+  row 1 where −ln ψ*(1) = 4.61. So "decreasing paths suffice" cannot be put back: it fails exactly when a denser
+  face dies more easily than a sparser one (the overcrowding route). On random tables: (B) asked at lower targets
+  only, 17 violations in 1,232 cases; (G) without the count, 764 in 24,214; (G) dropped, 9,353 in 60,094.
+
+**2.2 The family corollary (24.3).** Lemma E1 and Corollary V⁻(E) are correct: admissibility of mV(·/m) with
+slack e_m (Chernoff for a point, then Bellman for V; the rows k₀ = ⌊mx₀⌋ < n ≤ ⌊mx₁⌋ are exactly those with
+x₀ < n/m ≤ x₁), goodness from (R_ε) and (S), W̄₀ ≤ mV̄; (S) holds from its least solution on by convexity; the
+bottom-row paragraph (rows n < m are T₁^{∗n}; V(y) ≤ y·w₁) gives liminf −(1/m) ln ψ*_m(mk) ≥ V(k) when every base
+row has a positive root. Three remarks on what the hypotheses are.
+
+1. *Which s.* Chernoff's bound is used one s at a time, so the corollary holds verbatim with (E) asked for s in
+   any set Σ ∋ 0, θ₀ and V replaced by V_Σ, the quasi-potential of the rates sup_{s ∈ Σ}. On the A = 84 table (c₁,
+   value at the top row | at 0.35A, per cell): all real s 0.2191 | 0.1829; s ≥ 0 the same to 10⁻⁶ (V is
+   non-decreasing, so rising steps are free anyway); s ≤ 0.7 the same; s ≤ 0.6: 0.2185 | 0.1823; s ≤ 0.5:
+   0.2009 | 0.1646; s ≤ 0.4: 0.1721 | 0.1369; s ≤ 0.3: 0.1362 | 0.1062. And with s ≤ the row's own root, in the low
+   set [0, 0.35A]: 11.95 nats against 29·θ₂₉ = 12.10, which is Theorem Q's block bound (a jump of any length then
+   costs θ_x per cell, so the cheapest route is one jump). So: **(E) is needed for 0 ≤ s ≤ the largest root of the
+   table (0.6), at every row of the block, and everything V adds to Q comes from (E) at tilts above the row's own
+   root**: from bounds on one-step drops larger than the tilted-mean drop, far up the block.
+2. *(E) cannot be traded for R with a margin.* Each cell leaves two cells or none (probability ¼): every row has
+   root ln 3, V(x) = x ln 3, the m-fold chain is the branching process itself. Add to every row of the m-fold
+   chain a catastrophe "all cells die" of probability e^{−1.2m}. With θ₀ = 0.3 on the block (1, 3]: R holds with
+   margin 0.115 per patch and (S) holds at δ = ½ at m = 48 and 96; (E) against the base rates fails as s → ∞
+   only (by 2.96m nats at the top row). Exact: −ln ψ*_m(3m)/m = 1.2000 at m = 48, 96 (3.2958 without the
+   catastrophe), below the corollary's (1 − δ)(V − V̄) + δθ₀(x₁ − x₀) = 1.399 and above Q's 0.600. So (E) at tilts
+   beyond θ₀ is a hypothesis about one-step events of probability e^{−cm} (direct deaths included), and it is the
+   hypothesis that carries V.
+3. *(R_ε) and (S) belong to the proof.* For an exactly extensive family (R_ε) on a closed block says no more than
+   "the roots are positive there". Where (S) holds the rows are good and the inequality holds (base rows 1…4,
+   each cell leaving two cells or none with probability 0.10, 0.15, 0.20, 0.25; θ₀ = 0.5, ε₀ = 0.341; of m = 1, 2, 4, 8,
+   16, 32, 48, (S) holds at 16, 32, 48 for δ = ½ and at 48 for δ = 0.3; no violation at any m). The conclusion does not
+   wait for (S): on that family −ln ψ*_m(4m)/m = 4.94, 5.24, 5.35, 5.39, 5.3993, 5.3997, 5.3997 while W_J/m falls from
+   5.545 to 5.403 (the upper half on a second family, numerically), and on your chain of the A = 84 table the increments are within
+   3 × 10⁻⁴ of V at 1,344 cells where the whole table's margin gives m₀ = 49,000.
+
+**2.3 Hypothesis (E) on the tallies: the first test** (`tables`). (E) does not need sizes that are multiples of
+one another: the scale m = A′/A is any real number. Take Λ = the interpolated rows of the smaller table, e = 0,
+rows from 5 cells of the smaller face up to its top row, s = 0.02, …, 1.00; defect = ln M′_n(s) − m·Λ_{n/m}(s)
+(negative means sub-extensive; on the exact 2-fold chain of a table the code gives 2 × 10⁻¹⁵).
+
+| pair | s up to the row's own root: largest defect | beyond the root: share of (row, s) with a positive defect | rows above 0.3A′ at s = 0.6: largest defect (share of ln M′), rows positive | at s = 1.0 |
+|---|---|---|---|---|
+| 30 → 45 | −0.003 | 48% | +0.138 (8%), 6 of 9 | +0.47 |
+| 30 → 63 | −0.006 | 53% | +0.344 (14%), 11 of 13 | +1.16 |
+| 30 → 84 | −0.009 | 58% | +0.652 (18%), 15 of 17 | +2.11 |
+| 45 → 63 | −0.001 | 52% | +0.130 (7%), 11 of 12 | +0.53 |
+| 45 → 84 | −0.003 | 62% | +0.341 (12%), 16 of 16 | +1.24 |
+| 63 → 84 | +0.011 (rows 7–9; 3.5% of cases) | 72% | +0.153 (6%), 16 of 16 | +0.64 |
+
+Row by row (63 → 84) the defect changes sign 0.03 to 0.17 above the row's root on the rows above 0.3A′ (row 40,
+root 0.160: positive from s = 0.32; row 31, root 0.385: from 0.42; row 22, root 0.497: from 0.68) and stays negative
+to s = 1 on most rows below 0.25A′. So **the larger face is at least as concentrated as the m-fold of the smaller for
+tilts up to the root, which is the part of (E) that gives Theorem Q, and less concentrated beyond it on the
+upper two fifths of the block, which is part of what V needs** (remark 1). This is the lab's old observation
+that the roots collapse while the cumulants do not (variance per cell at x = 0.35: 0.195, 0.213, 0.2255, 0.2346),
+read as a statement about (E). "That is the sign (E) asks for" (24.7, point 2) holds for the committor (two
+faces of 45 are easier to empty than one of 90) and not for (E) itself.
+How much it matters, two ways. (a) The rates of the A = 84 table with the transform multiplied by 1.1, 1.2, 1.5
+wherever it is positive (beyond the root) give V = 0.2178, 0.2164, 0.2110 in place of 0.2191. (b) The hypothesis
+that 24.2 uses is weaker than (E): admissibility of W(n) = m·V_small(n/m) for the larger table. It holds with e = 0
+in the three pairs tried (largest W(n) − W(n′) + ln T̄′(n, n′): −1.97, −1.80, −1.81 nats for 45 → 84, 63 → 84, 45 → 63):
+at these sizes a point probability is far below its Chernoff bound. Neither (a) nor (b) is in the regime (S).
+
+**2.4 What the theorem says when only tables up to some A exist, and the one-line summary.**
+- *About each table by itself.* On the tallied tables a δ < 1 certifies at most 0.35 nats more than the block
+  bound, and only with δ ≥ 0.96 (A = 84: 11.90–12.00 against 11.88 with the top at 0.35A; 10.28–10.50 against 10.15 at
+  0.45A; sharp form of (G), θ₀ in steps of 0.01). At the measured sizes V⁻ is Q.
+- *About the family.* An implication whose hypotheses concern tables that do not exist: there is a rate family Λ
+  that dominates the one-step transforms of every large face ((E), for 0 ≤ s ≤ 0.6 or so, at every row of the
+  block), with positive roots; then liminf (1/m)·(−ln ψ*) ≥ V[Λ] − V̄[Λ], from thousands of cells on. The V in the
+  conclusion is that of the dominating family. The tallies do not hand you that family: between tallied sizes the
+  transforms beyond the root grow with A (§2.3), so the rates of the largest table are not shown to dominate
+  the next one, and V[T̄₈₄] is **not** certified as a lower bound for larger faces even granting everything else.
+  A dominating family, if the growth stops, has a V slightly below that of the table it is modelled on (§2.3 a).
+- *About the hazard.* The committor bound becomes a bound on ln τ through the entry term (§3).
+- *The one line.* "The lower half is a theorem for extensive tables" is fair for the m-fold family of a table with
+  positive roots (liminf ≥ V, nothing subtracted) and for nothing nearer to gump. A fair line is: **for a family
+  of one-step tables that is sub-extensive with a margin, the committor's exponent is at least V − V̄ in the
+  limit [proved]; for gump this adds nothing to Theorem Q at any measured size, and its hypothesis is untested
+  where it could be tested only in kind, and there half of it has the wrong sign.**
+- *For whoever tests it* (your "try first", item 2): ask (E) for 0 ≤ s ≤ 0.7 only, not for both signs; test
+  admissibility of the scaled V directly as well; and tally every row.
+
+### 3. Theorem Q repaired; R⁺ and B⁺; LR14 (`lr14`)
+
+(Q1) and (Q2) are correct, and Φ is the right quantity: the old condition bounded the wrong factor. Table of 23.3
+at K = ⌈0.35A⌉, recomputed: θ₀ = 0.4034, 0.4261, 0.4117, 0.4172; χ = 0.0563, 0.0336, 0.0230, 0.0103; C = 2.42, 3.08,
+3.70, 4.45; Φ = 0.1362, 0.1034, 0.0850, 0.0458; C⁺ = 1.043, 1.054, 1.068, 1.068 (attained at row K); direct deaths 1,
+0, 0, 0; θ₀(K − 5) − ln Φ = 4.41, 6.96, 9.88, 13.51. All as you have them.
+
+At K = ⌈0.45A⌉ (new): θ₀ = 0.2458, 0.2283, 0.2367, 0.2510; χ = 0.066, 0.053, 0.053, 0.053; C = 1.90, 2.11, 2.49, 3.00;
+Φ = 0.1250, 0.1109, 0.1323, 0.1596; C⁺ = 1.089, 1.090, 1.093, 1.095; no direct death; θ₀(K − 5) − ln Φ = 4.29, 5.85,
+7.70, 10.12.
+
+Condition B⁺, largest W(n₁) − W(z′) + ln T̄(z, z′) over the tallied rows above the low set (A = 45, 63, 84; my W_J
+uses the exact Legendre transform of each row, yours a grid of s): at 0.35A, W_J −2.439, −2.637, −2.792 and W°
+−0.721, −0.638, −0.606 (yours, to the digit); at 0.45A, W_J −2.355, −2.580, −2.760 and W° −0.373, −0.367, −0.317. B⁺
+holds with e = 0 at both.
+
+**The rows above A/2 are not out of reach for Φ.** "Whether such steps matter the tables cannot say" (23.3) is too
+modest; your entry 8 had the tool. Every measured state at z′ was entered from some row, so
+(entries into z′ from rows above A/2) = H(z′) − Σ_{z ≤ A/2} Tr(z, z′), up to two terms of relative order
+deaths/exposure (landings tallied at the moment another face of the replica died; first measured states of a
+soup). At A = 84 the residual is 0 for every z′ ≤ 9 and 1, 2, 16 at z′ = 10, 11, 12: **in 1.2 × 10¹⁰ face-generations
+above A/2, no face ever landed at nine cells or fewer.** The entry term over all rows:
+
+| | A = 30 | 45 | 63 | 84 |
+|---|---|---|---|---|
+| Φ, all rows, K = ⌈0.35A⌉ (rows above A/2 add) | 0.159 (17%) | 0.122 (18%) | 0.101 (19%) | 0.0514 (12%) |
+| θ₀(K − 5) − ln Φ | 4.26 | 6.79 | 9.70 | 13.40 |
+| Φ, all rows, K = ⌈0.45A⌉ (rows above A/2 add) | 0.247 (97%) | 0.282 (154%) | 0.300 (127%) | 0.291 (83%) |
+
+(A = 30: negative residuals at rows 1–5 weigh −0.011, so its 17% is good to a factor of two; A = 45: −0.0007; A = 63:
+below 10⁻⁴; A = 84: none.) Slopes of the completed bound between sizes: 0.169, 0.162, 0.176 per cell. "0.16–0.17 with the measured
+entry term" stands, now over all rows; the 3%, 14%, 15%, 11% of deaths that the last reply could not account for
+are these entries.
+
+**R⁺ and B⁺ should not be suprema over every visited row.** As stated the theorems are true; as hypotheses for a
+family they are fragile. The tallies visit rows up to 29 of 30, 43 of 45, 58 of 63, 75 of 84 cells, and the rule
+kills every face cell that has its six in-face neighbours alive (n ≥ 6), so a dense face of a large hull loses
+its interior in one step: one such row with p_z > 0 makes C⁺ of order e^{θ₀K} and breaks B⁺, however rare it is.
+What the proofs use is weighted: (Q2) before its last step is Φ ≤ Σ_{z ≥ K} p_z·M_z(θ₀)e^{−θ₀(z − K)} =
+E_living[e^{−θ₀(Z′ − K)}; Z ≥ K], and in H, if R⁺ and B⁺ hold on a set 𝒵 of rows, Φ[ψ] ≤ (the stated bound) +
+P_living(Z ≥ K, Z ∉ 𝒵), because ψ ≤ 1. State them so. (The weight of the dense rows is not negligible against
+the hazard by itself: P(Z ≥ 0.8A) = 10⁻⁶·⁰, 10⁻⁷·², 10⁻⁸·⁵ at A = 84, 108, 135, a slope of 0.11 per cell against the
+hazard's 0.22. What the tallies show is that at A = 84 those rows do not land low.)
+
+### 4. V and its continuation (entry 22)
+
+Entry 22 says what the last reply asked for, and the miss is recorded as a miss. One thing should be put more
+strongly, and one comparison should not be made.
+
+*Is 0.2054 against 0.2191 an ambiguity of the definition or of the data?* Of neither. The quasi-potential of a
+rate family is one number, and a table has one committor (−ln ψ*(top)/A = 0.1919, 0.1996, 0.2033). The ambiguity is
+in the **extension**: one table of a face of A cells, with populations in whole cells, does not determine a rate
+family in the density; somebody has to say what a sparse face of mA cells is. c₀ and c₁ are two such statements
+about tables nobody has, and they are not equally placed. c₀ says a face of 2A cells holding n cells steps like
+two faces of A cells holding n/2 each, so it moves the small roots of rows 1, 2 up to rows 2–4 of the doubled
+face. The tallies contradict that (`tables`): roots of rows 3, 4, 5, 6 of the 2-fold chain of the A = 45 table,
+0.20, 0.33, 0.40, 0.47; of the measured face of 84 cells, 0.53, 0.62, 0.61, 0.60 (2 × 30 against 63: 0.11, 0.28, 0.33, 0.39
+against 0.49, 0.58, 0.59, 0.59). c₁ is not contradicted (its finite form has a dip at rows 6–8, 0.44–0.53 against
+0.58–0.60, from the remainder patch; its limit form has the smaller table's row-5 root, 0.556 against 0.60) and is
+not established: the root of a sparse face of many cells is not in any table (at x = 0.05: 0.14, 0.36, 0.51, 0.61).
+
+*Which number may be set against the measured 0.209–0.221?*
+- **0.2054: against nothing.** It is the exponent of a family that gump's own tallies rule out at rows 3–6. It
+  should be quoted only as the answer to LR11 as that request was written.
+- **0.2191 = V[T̄₈₄; own rates; c₁]: against the hull slopes at A ≥ 84 only (0.218, 0.221), and as a calculated
+  number, not a prediction.** Not against 0.2088 (rim-free slabs: another table, never tallied; E3 says the slab
+  face dies differently) and not against 0.212 at A = 45–84 (the tables of those sizes give 0.2098, 0.2168). Its
+  agreement with 0.218–0.221 to 0.002 is inside four effects that nobody has separated, each as large: the
+  drift of the table (+0.007, +0.002 per size step, not converged); the finite-size deficit of a fixed table
+  (0.003–0.007 below V); the growth of the transforms beyond the root (§2.3: −0.001 to −0.003 if it stops at
+  10–20%); the continuation (c₁ against the sparse rows a larger face really has).
+- What can be compared without any continuation is exact and already on the board: ln τ = −ln(entry flux × ψ*)
+  table by table (Theorem P̄), and slopes of −ln ψ*(top) between sizes, 0.219, 0.214, against 0.212, 0.212 for ln τ.
+
+So claim V for gump stays what your claims file says, a conjecture, and the sentence to carry is: "γ equals the
+quasi-potential of the limiting one-step rates of the pooled table, if those exist; on the largest hull table,
+continued at the sparse end by clusters, that functional is 0.2191".
+
+### 5. Lab requests
+
+- **LR13.** 23.2, 24.2, Corollaries V⁻(E) and H: statements and proofs confirmed (§1–§3). `vminus_check.py all`: ALL OK
+  (every number of 23.3, 24.3, 24.5, 24.8 as printed in the journal); `v 32`: ALL OK. "(G) at every row of the
+  block ⟹ ψ* below the certificate" did not break on tables of my making (18,731 cases as stated, 22,087 in the
+  sharp form, 28,304 with the weakened hypotheses of §2.1; W arbitrary, with its least slack), and Corollary H
+  did not break on 11,530 chains run to stationarity (hazard = entry flux × ψ* to 10⁻¹⁵; hazard ≤ Φ[ψ] ≤ the closed
+  bound with the least C⁺ and e).
+- **LR14.** §3: your Φ, C⁺, C and B⁺ at 0.35A reproduced; 0.45A added; Φ completed over the untallied rows.
+
+### 6. Verdict on the line at its close
+
+Stands as proved, each confirmed by one critic and read by nobody else: L1, L1′, S, F, L3, L4, R5, P, P̄, C, T′, T, X, R
+(rounds 1–4); Q in its final form, V⁻, V⁻(E) with E1, H, V′ (this round). Conditional, and on what: the area law
+with exponent ≥ θ₀κ (0.13–0.14 of 0.21 per cell; 0.16–0.18 with the measured entry term over all rows) on
+hypothesis R, which holds on the four hull tables and is not derived from the rule; the exponent V on (E), which
+is untested in the regime where it acts and in kind is half right (§2.3). Sketched: the upper half of V.
+Conjectured: V for gump; the levelling of the hull's slope; G1(ii); A; F12. Fell: as listed in your closing
+report, to which this round adds nothing but two details (24.7 point 4; "the tables cannot say"). Exam: E1 holds,
+E2 not refuted, E3 fails, LR11 missed, E4 not run and not able to tell V from ∫Θ.
+
+The line's answer to "why area" is a reduction, exact in its bookkeeping (Theorem P̄) and conditional in its
+content: the wait is exponential in the area if sparse faces regrow at a rate bounded below up to a fixed
+fraction of the area. That one-step fact is measured on four hull tables. Nothing here derives it from the rule,
+and by R5 nothing built from the sealed-set structure alone can.
