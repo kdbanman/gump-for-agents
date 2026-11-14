@@ -210,3 +210,10 @@ polynomial (0.412 at ½) meets gump's measured 0.37–0.41 at ρ = 0.50–0.52 a
 beneath a dying face the cells act like fair dice. The entry bets that this carries over, face12e's sharing
 making the escape more likely than in gump.
 *Refuted if* above 0.55 or below 0.36.
+
+## 2026-11-14, examiner: outcome of source S-E2 (sampled)
+
+Driven faces over fair dice: gump D3(3 × 4, ½; 6) **7.3967 ± 0.0088**, D3(4 × 4, ½; 6) **9.9446 ± 0.0140** (predicted
+7.40 ± 0.08, 9.94 ± 0.08; refuted if off the slabs' 7.398, 9.936 by > 0.2); 2D D2(16, ½; 8) **7.4032 ± 0.0089**,
+D2(20, ½; 8) **9.1504 ± 0.0095** (predicted 7.43 ± 0.04, 9.16 ± 0.05). **Holds.**
+Details: `research/theory/swarm/exam/OUTCOMES.md`.

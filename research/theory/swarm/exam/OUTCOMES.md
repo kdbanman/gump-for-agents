@@ -246,3 +246,25 @@ generations where the hull face takes about six, so √n falls by ≈ 1.0 per ge
 within the refutation window but outside its bar, and slab and hull faces share a lifetime slope without sharing the
 remnant curve, which is evidence against relation (M) being what ties them (path journal 11.3). The entry's own
 named risk (journal entry 14: the hull's late curve is a corner or rim curve) is the likelier reading.
+
+### Source S-E2 — driven faces over dice at density ½: **holds**
+
+`python3 exam.py se2; python3 report.py se2` (≈ 30 s). Noise layers ρ = ½ (exact at PB = 16).
+
+| model | deaths | ln τ measured | predicted | difference |
+|---|---|---|---|---|
+| gump D3(3 × 4, ½; w = 6), A = 36 | 12,968 | 7.3967 ± 0.0088 | 7.40 ± 0.08 (slab 7.398) | −0.001 |
+| gump D3(4 × 4, ½; w = 6), A = 48 | 5,075 | 9.9446 ± 0.0140 | 9.94 ± 0.08 (slab 9.936) | +0.009 |
+| 2D D2(16, ½; 8) | 12,759 | 7.4032 ± 0.0089 | 7.43 ± 0.04 | −0.027 |
+| 2D D2(20, ½; 8) | 11,026 | 9.1504 ± 0.0095 | 9.16 ± 0.05 | −0.010 |
+
+Firewall censoring among the dynamic layers: 113, 6, 854, 272 events. All four inside their bars; the gump values
+are within 0.01 nats of the deterministic slabs' (criterion 0.2). **Holds.** In the entry's terms: six layers of the
+true rule over structureless fair dice give the face exactly the lifetime it has over gump's own bulk, so whatever
+randomness the face uses is made within six layers of it. (This was close to known for the 2D rule, exponent study
+F9; for gump it is new.)
+
+### Validation V6 (for C-E1)
+
+`python3 ce1.py v6`: t2dx and t2d give identical output files on the R = 7 hull (30,000 generations); asymmetric
+R = 7 hull, ln τ_face = 6.8067 ± 0.0012 (643,395 first-face deaths) against fluct's 6.804 ± 0.003.
