@@ -93,7 +93,7 @@ _Last updated 2026-11-14 by the lead._
   appended to `research/PRIOR-ART.md`); an adversarial second pass on its "not found" verdicts is owed after it;
   (4) Opus: the second variable, pairs of tori with equal area and equal shortest loop, candidates fixed and
   forecasts committed first -> `research/shape3/`.
-  (6) Fable, started 21:52 UTC: is there one asymptotic constant? Joint analysis of every family of lifetimes
+  (6) Fable, started 21:40 UTC: is there one asymptotic constant? Joint analysis of every family of lifetimes
   (periodic by width, twisted, hull, symmetric), models stated before fitting, out-of-sample scores, a blind forecast
   for the GPU patch experiment -> `research/constant/`.
   Queued, not started (the five-hour usage window is the binding one until 01:20 UTC): a Fable line on the symmetric

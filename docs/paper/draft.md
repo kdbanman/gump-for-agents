@@ -38,7 +38,8 @@ layers of the rule above fresh coin flips reproduce a slab face's lifetime to 0.
 set in a boundary layer driven by noise. **Not proved:** the area law, and its constant. We give what is known
 rigorously (a conditional area law resting on a measured hypothesis; an exponential law for a deterministic
 relative of a two-dimensional analogue, conditional on two published percolation statements), relate the
-phenomenon to supertransient chaos, and say candidly which parts appear to be new.
+phenomenon to supertransient chaos, and say which parts our literature search did not find and which parts have
+not been searched for at all.
 
 ## 1. Introduction
 
@@ -70,7 +71,7 @@ The results fall into three kinds, and we keep them apart throughout.
   of the constant; several extrapolations. Section 10 lists them.
 
 Several measurements were preceded by forecasts committed to the repository before the runs; we report every such
-forecast we found, including those that failed (Section 5.6).
+forecast about gump found in the files named under Table 5, including those that failed (Section 5.6).
 
 ## 2. The automaton and its lattice
 
@@ -121,7 +122,9 @@ wrap-around artefacts (R4; B). A "side-n closed cube" is an n × n × n block of
 **[proved]** it has 3n²(n + 1) cells and its diagonal hull has L1 radius 3n − 2 in doubled units about its centre
 (T6 of the ledger; A). Every other stepper used in this paper (numpy, bit-sliced C on arbitrary cell graphs,
 symmetry-reduced, GPU) was required to agree with the engine or the reference bit for bit before its numbers
-were used (R7; B; Section 12).
+were used: the numpy, bit-sliced and orbit-reduced steppers by direct comparison (R7; B), the GPU kernels only by
+emulating them on a CPU against the engine and the CPU steppers (GP1; B−; GP7; B), which cannot check the GPU's
+own execution (Section 12).
 
 | side n | generations to the final state | final state | source |
 |---:|---:|---|---|
@@ -330,8 +333,12 @@ octahedra, × 2 for slabs. This treats the faces of a vessel as dying independen
 comparison of octahedra with slabs below shows to be only approximately harmless. Replicas that settle into a
 periodic state while a face is still occupied never die and must be censored at every period (Section 12).
 
-**Memoryless.** **[measured]** (F5; A) For slab faces of A ≥ 36 the first-death times have coefficient of
-variation 0.96–1.05 and pass a Kolmogorov–Smirnov test against the exponential (p = 0.5–0.96); an independent
+**Memoryless.** **[measured]** (F5; A) For the slab faces of the face-law fit below (m = 8, near-square) with
+A ≥ 36 that have enough first deaths to test (four batches, 3 × 4, 3 × 5, 4 × 4, 4 × 5, A = 36–60; the batches at
+A ≥ 72 are too censored to test), the first-death times have coefficient of variation 0.964–1.045 and pass a
+Kolmogorov–Smirnov test against the exponential (p = 0.519–0.96) (`research/peeling/slab_area.csv`, columns cv,
+ks_p). Over every batch of that table with A ≥ 36 and a test (14 batches, all thicknesses and shapes) p runs from
+0.042 to 0.974, one batch (4 × 5 × 10) below 0.05, and the CV from 0.962 to 1.06. An independent
 engine-only measurement on octahedra gave CV 1.03 and 0.99 at R = 9 and 11. Faces of A ≤ 27 are
 transient-dominated and are not exponential. **[measured]** (GP5; B−) In the largest sample, 5,971 deaths of
 cube-centred O_h-symmetric soups at R = 43 with replica ages up to 2.6 τ, a censored Weibull fit gives shape
@@ -364,15 +371,17 @@ known. An earlier extrapolated limit, 0.2077 ± 0.0014, was withdrawn when it wa
 
 | R | A | face deaths | ln τ_face | source and independent values |
 |---:|---:|---:|---:|---|
-| 7 | 30 | 117,851 | 6.804 ± 0.003 | symmetry-free bit-sliced CPU ensemble (F9, tabulated value; B); an engine-only run gives −ln h/A = 0.2274 against 0.2268 |
-| 9 | 45 | 137,243 | 9.820 ± 0.003 | same (F9; B); engine-only run of 13,765 deaths: 9.824 (F8; A) |
-| 11 | 63 | 764,941 | 13.635 ± 0.001 | GPU ensemble (calibration row of GP1); CPU: 13.633 ± 0.008 |
+| 7 | 30 | 117,851 | 6.805 ± 0.003 | symmetry-free bit-sliced CPU ensemble (F9, tabulated value; B); an engine-only run gives −ln h/A = 0.2274 against 0.2268 |
+| 9 | 45 | 137,243 | 9.820 ± 0.003 | same (F9; B); engine-only run of 13,765 deaths: ENGINE9 (F8; A) |
+| 11 | 63 | 764,941 | 13.635 ± 0.001 | GPU ensemble (calibration row of GP1); CPU: 13.632 ± 0.008 |
 | 13 | 84 | 34,026 | 18.141 ± 0.005 | GPU; two independent CPU runs: 18.154 ± 0.025 and 18.148 ± 0.028; the earlier CPU value 18.077 ± 0.054 (342 deaths) |
 | 15 | 108 | 1,059 | 23.376 ± 0.031 | GPU only (GP1; B−) |
 | 17 | 135 | 16 | 29.34 ± 0.25 | GPU only (GP1; B−); replica ages reach 1/900 of the mean |
 
 Table 2. Asymmetric soups (density 0.35) in octahedra of L1 radius R; τ_face = 8 × mean wait to the first face
-death. **[measured]** Local slopes between successive rows: 0.2011, 0.2119, 0.2146, 0.2181, 0.2209. Nothing at
+death. The CPU values at R = 7, 9, 11 are ln(8 × first_peel_mean) in `research/fluct/data/qsd_summary.json`
+(6.8054, 9.8202, 13.6317); `research/fluct/README.md` and the notebook print 6.804, 9.819, 13.633, the same numbers
+rounded differently. ENGINE9NOTE **[measured]** Local slopes between successive rows: 0.2010, 0.2119, 0.2146, 0.2181, 0.2209. Nothing at
 A ≥ 108 has been reproduced by a second implementation or a second GPU run; the kernel was checked bit for bit
 against the CPU steppers by emulation, which cannot check the GPU's execution.
 
@@ -455,7 +464,9 @@ and 0.87 ± 0.18 at A = 693 because it pools copies of the side-16 cube's own st
   ln τ = 0.698 + (0.209/6)·A − 0.196·√A, i.e. the periodic-face slope shared among the six images of a face cell
   under the face's stabiliser, less a boundary term (S2; B + A). This is a description of that range, not an
   established law: free fits to the same points prefer slopes between 0.024 and 0.044 depending on the curvature
-  term, and the two GPU points beyond the range lie 0.16 and 0.27 above the fitted curve. The local slope between
+  term, and the two GPU points beyond the range lie 0.166 and 0.275 above the fitted curve (the curve printed by
+  `python3 research/fluct/sym_fit.py`, 0.698134 and −0.195996, gives 21.737 at A = 759 and 23.900 at 828; against
+  the pooled 21.889 the first offset is 0.152). The local slope between
   A = 759 and 828 is 0.0329 ± 0.0011, to be compared with 0.209/6 = 0.0348 (GP2; B−). The asymptotic symmetric
   slope is open.
 - *Centre matters.* Vertex-centred hulls are tougher than cube-centred ones of equal face area by a factor about
@@ -484,7 +495,12 @@ the asymmetric value, and the first face to die is a mirror-fixed one in more th
 **The side-16 cube.** **[measured]** (C2; B: schedule and summary re-derived from the committed event log; the
 run itself, several days on one core, was not repeated) The cube of side 16 sat at hull radius 42 (vertex-centred,
 A = 693) until generation 2,362,434,048, then at 40 until 2,886,100,480, and ended as a 96-cell still life at
-2,919,617,676:
+2,919,617,676. The two face-death generations, here and in Table 5, are *last-alive* generations: the run checked
+its layers every 64 generations, and these are the last checks at which the outer layer was seen live. Section 5.1
+defines a face death as the first generation with the layer empty; by that definition the two deaths lie in
+2,362,434,049–2,362,434,112 and 2,886,100,481–2,886,100,544 (the next checks, at which the layers were empty;
+`research/data/cube16_events.jsonl`, fields gen and last_alive). The difference, under 64 generations, changes
+none of the comparisons below.
 
 | hull radius R (face cells A) | 42 (693) | 40 (630) | 38 (570) | 36 (513) | 34 (459) | 32 (408) | 30 and below |
 |---|---|---|---|---|---|---|---|
@@ -494,7 +510,8 @@ Table 4. Residence schedule of the side-16 cube (`research/data/cube16_events.js
 generations).
 
 **Forecasts.** Several quantities in this section were forecast in files committed before the outcome was known.
-Table 5 lists every one we found, with its score.
+Table 5 lists every forecast about gump found in the sources named in its caption, with its score, failures
+included.
 
 | # | forecast (where committed) | outcome | score |
 |---|---|---|---|
@@ -511,9 +528,21 @@ Table 5 lists every one we found, with its score.
 | 11 | Six candidate laws in area and shortest loop, parameters fixed before the census (`research/shape2/PREDICTIONS.md`, commit 80906fe) | none fits at A = 48, 60 or 72 | **all refuted** (SH5; A) |
 | 12 | Six layers of the rule over coin flips: ln τ = 7.40, 9.94 for slab faces of A = 36, 48 (Section 6) | 7.397 ± 0.009, 9.945 ± 0.014 | held (SW2; B) |
 | 13 | Depth of rule needed over noise for octahedral faces: three layers | three layers miss by 0.3–1.0 in ln τ; four to five are needed | **missed** (recorded in `research/theory/exponent.md`) |
+| 14 | The remnant of a dying face is the same in every vessel: on a rim-free slab face (5 × 4 × 8, A = 60) the mean face population 1, 2, 3, 4 generations before death is the hull's 1.6, 3.4, 6.4, 9.7; refuted if lags 3 or 4 are more than 20% off (swarm path E3, `research/theory/swarm/PREDICTIONS.md`, protocol committed before the run in `research/theory/swarm/exam/OUTCOMES.md`) | 1.66, 4.29, 10.70, 18.40 (3,188 face deaths) | **failed** at lags 3 and 4 (+67%, +90%); lag 1 and the one-cell share (59.4% against 62 ± 5%) held. No ledger row: one run by the examiner, rough errors, not re-derived (NOTEBOOK 2026-11-14, "the swarm's predictions examined") |
 
-Table 5. Forecasts committed before their outcomes. Forecasts about other rules and about results graded C are
-omitted; several of those also failed (Section 9).
+Table 5. Forecasts committed before their outcomes. Sources searched: `research/peeling/cube_lifetime.csv`,
+`research/fluct/PREDICTIONS.md`, `research/gpu/PREDICTIONS.md`, `research/shape/PREDICTIONS.md`,
+`research/shape2/PREDICTIONS.md`, `research/theory/exponent.md`, and the swarm's
+`research/theory/swarm/PREDICTIONS.md` as scored in `research/theory/swarm/exam/OUTCOMES.md`; within these, the
+ledger rows C3–C5, C9, GP2, GP8, GP9, SH1, SH2, SH5, SW2. Not searched for this table: the other tracked forecast
+files (`research/shape3/PREDICTIONS.md`, `research/theory/thin/PREDICTIONS.md`, `research/theory/exponent/PREDICTIONS.md`
+entry by entry, `research/theory/class/PREDICTIONS.md`, `research/theory/class/followup/PREDICTIONS.md`,
+`research/toy2d/PREDICTIONS.md`, `research/audit/class/PREDICTION-*.md`), so the table may be incomplete.
+Omitted: forecasts about other rules. Among the swarm exam's entries these are the ones on the 2D rule and its dice models: counting C-E2 failed
+(slope 0.3676 ± 0.0006 against 0.447 ± 0.012), probability P-E1 is undecided at its refutation line (0.512 ± 0.012
+against a line at 0.51), path E2 was not refuted but its central value missed at L = 36 (7.99 ± 0.38 against
+9.8 ± 1.0); path E1 and source S-E1 held. The exam's one other gump entry, counting C-E1, held (0.1026 ± 0.0003
+against 0.105 ± 0.009; SW3, grade C, Section 5.5). Several forecasts about other rules also failed (Section 9).
 
 **What the failure of forecast 1 showed.** The forecast multiplied a fit made on cube-centred symmetric soups
 with faces of at most 513 cells by a fixed factor for the vertex-centred hull. Both steps were wrong in the same
@@ -528,7 +557,8 @@ exponential wait; C5; B), or 6.1 times the fresh-soup mean 8.63 × 10⁷ (probab
 sixteen largest plateaus of cubes 13–16 finds three longer than four means (C6; B for the arithmetic), but that
 statistic was chosen after the side-16 plateaus suggested it; without side 16 it gives P ≈ 0.18, and it is not
 evidence. Cube-like seeds and soups are memoryless at every size tested up to R = 40 (L1, GP6). So either the
-side-16 cube was lucky at about the 1% level, or its own lineage carries something that ensembles of similar
+side-16 cube was lucky (*preliminary and post hoc*: at about the 1% level by a statistic chosen after its plateaus
+were seen, L3; C), or its own lineage carries something that ensembles of similar
 states do not; the cube's own lineage at R ≥ 42 has not been, and at present cannot be, replicated.
 
 **Extrapolations** **[conjecture]**. A side-17 cube's first plateau has mean about 3.2 × 10¹⁰ generations if the
@@ -659,10 +689,13 @@ A = 72 gives a cost per cell that depends on the shortest loop and saturates:
 | shortest loop² | 3 | 4 | 7 | 12 | 13 | 16 |
 |---|---|---|---|---|---|---|
 | d ln τ_face/dA, A = 48 → 60 | 0.1148 ± 0.0003 | 0.1414 ± 0.0003 | 0.1918 ± 0.0003 | 0.2073 ± 0.0002 | 0.2090 ± 0.0003 | 0.2125 ± 0.0003 |
-| d ln τ_face/dA, A = 60 → 72 | 0.1107 ± 0.0004 | 0.1346 ± 0.0010 | 0.1872 ± 0.0010 | 0.2049 ± 0.0009 | 0.2061 ± 0.0007 | 0.2076 ± 0.0006 |
+| d ln τ_face/dA, A = 60 → 72 | 0.1107 ± 0.0004 | 0.1353 ± 0.0008 | 0.1872 ± 0.0010 | 0.2049 ± 0.0009 | 0.2061 ± 0.0007 | 0.2076 ± 0.0006 |
 
 Table 8. Cost per cell of a periodic face by shortest loop (`research/shape2/README.md`;
-`python3 research/audit/shape2_lead_check.py`). The slopes compare different lattices with equal shortest loop,
+`python3 research/audit/shape2_lead_check.py`; values as in `research/shape2/data/explore_report.txt`, first block,
+which also gives the A = 72 values for loop² ≥ 12 that the lead check does not print. The loop² 4 entry at
+60 → 72 is that file's 0.1353 ± 0.0008, which the lead check reproduces as 0.1353; the README's table has
+0.1346 ± 0.0010). The slopes compare different lattices with equal shortest loop,
 not one torus grown. The loop² 4 lifetimes carry a tie-resolution bias of about −0.018 in ln τ (the slope is not
 affected), and the loop² 4 tori are multigraphs (a cell counts one neighbour twice), so only loop² 3 is strictly
 "the same automaton on a narrow cylinder".
@@ -673,7 +706,11 @@ object.
 
 **[measured]** (SH4; A, two codes, but only four lattices at A = 48) Above loop² 12 the shortest loop no longer
 orders the classes at A = 48: the four classes with loop² 12, 12, 13, 16 span 0.016, and the 4 × 4 torus
-(loop² 16) lies 0.0135 ± 0.0021 *below* a loop² 12 class. At A = 60 the step from loop² 12 to 16 is +0.056 to
+(loop² 16) lies *below* the loop² 12 class with second loop² 19, by 0.0135 ± 0.0021 in the review's runs
+(`research/audit/REVIEW-shape2.md`, claim 3) and by 0.0061 ± 0.0028 in the census
+(`research/shape2/data/A48.csv`: 9.9384 − 9.9324, each ± 1/√F). Pooled by inverse variance, 0.0108 ± 0.0017, which
+is 6.4 standard errors from zero, so the statement stands; the two codes agree only at χ² = 4.4 on 1 (p = 0.036), and
+with the error scaled by √χ² the pooled difference is still 3.0 standard errors. At A = 60 the step from loop² 12 to 16 is +0.056 to
 +0.063, and at A = 72 it is about +0.10 (Table 7). The shape term grows with the area.
 
 **[measured; a refutation]** (SH5; A: χ² recomputed with separate code on separate runs) Six candidate laws
@@ -777,9 +814,9 @@ firewall, the threshold lemma holds with exceptions exactly at overcrowded cells
 *Preliminary* **[measured]** (G3, G4, SW4; C): a mirror perpendicular to the edge multiplies the slope by 0.42
 and full square symmetry by 0.50, but a forecast that symmetries fixing no edge cost nothing failed for four-fold
 rotation; no capped-threshold rule on the Moore neighbourhood sustains confined chaos; an edge with a two-cell
-dead notch has slope 0.346 against 0.412 for the intact edge. That the 2D slope 0.416 is twice the periodic-face
-slope of the 3D rule to three figures has no known reason, and given Section 7 neither number is an asymptotic
-constant.
+dead notch has slope 0.346 against 0.412 for the intact edge. The 2D slope is 0.416; twice the 3D periodic-face
+values 0.2072 to 0.2125 (Section 7) is 0.414 to 0.425. Whether this is more than a coincidence is not established,
+and given Section 7 neither number is an asymptotic constant.
 
 **Other lattices.** **[proved]** (ledger K9, the class study; A) Confinement is a property of half-spaces
 (Section 3). **[measured]** (K4; B) On the face-centred cubic lattice with 12 neighbours, B45/S345 has a
@@ -801,9 +838,15 @@ edge law).
 ### 10.1 Proved without conditions
 
 Theorems 1–6 and Proposition 7 of Section 3; the half-space criterion for confinement; the twist lemma; the
-exhaustive enumerations of Section 8 within their stated sizes; the anatomy of P66.27a. None of these says
-anything about lifetimes beyond the trivial bound that a seed with a hull of N cells is periodic within 2^N
-generations, which is exponential in the hull's *volume*.
+exhaustive enumerations of Section 8 at the sizes that have been re-run (Z1, the smallest still lifes; Z2, the
+still-life counts for n ≤ 13; Z3, the period-2 classes with unions up to 11); the anatomy of P66.27a. None of
+these says anything about lifetimes beyond the trivial bound that a seed with a hull of N cells is periodic within
+2^N generations, which is exponential in the hull's *volume*.
+
+*Preliminary* (exhaustive computer enumerations graded C: each has a command and has not been re-run): the
+still-life counts for n = 14, 15, 16 (Z2); the period-2 classes with unions 12 and 13, and the statement that
+every period-2 oscillator with union ≤ 11 is a hinge flip (Z3); no period-3 oscillator with union ≤ 12, none of
+period 4 with union ≤ 10, and the smallest period-3 union exactly 13 (Z4).
 
 ### 10.2 Proved under a condition
 
@@ -879,16 +922,16 @@ web search with a lossy fetcher; several key sources could not be opened (notabl
 
 | result | nearest known work recorded | judgment |
 |---|---|---|
-| The automaton itself (faces of the cubic honeycomb, this neighbourhood) | No automaton on this vertex set found in two searches. Near misses: 12-neighbour sub-neighbourhoods of the Moore neighbourhood (the fcc lattice) on LifeWiki's cubic-honeycomb page [LW-CH]; Life on kagome and other Archimedean lattices, in 2D [G]; the same lattice studied as an antiferromagnet, not a cellular automaton [arXiv:1510.05924] | Appears new as a cellular automaton "on this lattice" (not "with 12 neighbours"). Not a result in itself |
+| The automaton itself (faces of the cubic honeycomb, this neighbourhood) | No automaton on this vertex set found in two searches. Near misses: 12-neighbour sub-neighbourhoods of the Moore neighbourhood (the fcc lattice) on LifeWiki's cubic-honeycomb page [LW-CH]; Life on kagome and other Archimedean lattices, in 2D [G]; the same lattice studied as an antiferromagnet, not a cellular automaton [arXiv:1510.05924] | **Not found in our search** as a cellular automaton "on this lattice" (not "with 12 neighbours"). Not a result in itself |
 | Confinement to the diagonal hull, no spaceships (Thm 2); firewalls (Thm 3); kagome sub-automata (Thm 4) | Eppstein [E09]: no births on 1–3 neighbours implies confinement to the bounding box for Life-like rules; a bounding-diamond argument of the same shape for some B3 rules. LifeWiki [LW-OT]: rules with lowest birth ≥ 4 never grow beyond their bounding box | **New instances of a known principle.** The method is not new. The {111} half-space on this lattice, the octahedral hull that only shrinks, and the three-layer firewall were not found stated. (The survey's second pass could not re-read [E09]'s body) |
 | Threshold lemma with the exact identity ΔE = D − Q (Thm 5) | Period-two theorem and energy for symmetric threshold networks [GO80, GO81, GFP85], read only through [KMMK11, GMRS23] | **Standard theorem, applied.** The observation that a capped rule is a symmetric threshold network except at overcrowded cells, with an exact drive term there, was not found; it is elementary. [citation needed: whether energy identities with a drive term for capped or bi-threshold rules are in Goles–Martínez or later work] |
-| No finite sealed set in ≥ 3 layers; finite sealed sets in 1 and 2 (Thm 6) | Nothing recorded | Appears new; elementary; a new instance of a "no local absorbing set" statement |
-| Memoryless collapse with mean lifetime exponential in size (Section 5.2) | Supertransients [CK88, WS03, HKTP10, TL08] and stable chaos [PT09]: numerical only. [HKTP10] reports τ(L) = exp(AL + B), Poisson statistics, and collapse only with non-periodic boundaries through boundary layers of fixed thickness. For stochastic monotone systems the analogue is a theorem: the finite contact process [DL88, DS88, M93, M99, MMVY12]; exact exponential law from a quasi-stationary distribution [MV12] | **A new instance of a known phenomenon.** Possibly new within it: (i) confinement and firewall are theorems, so collapse proceeds by irreversible layer events that can be timed one by one; (ii) the exponent is set by the area of one face of a three-dimensional vessel, not the volume; (iii) a deterministic cellular automaton with an absorbing state (none in the sources read) |
-| Death as the end of the quasi-stationary tail, measured to one cell (Section 5.3) | QSD theory [MV12, DS65]; large deviations in cellular automata exist [BGPV19] but not for a density tail used as an extinction-rate predictor | The structure is **standard**; the measurement down to k = 1, with the death rate as the next point, **was not found** |
-| The exponent is made in five or six layers over independent noise (Section 6) | Dice models of deterministic networks with lifetime e^{cn} (monotone) [CD11, MV10]; probabilistic cellular automata [LMS90, MST19]; boundary layers of fixed thickness in [HKTP10] | **Appears new** as a quantitative statement (agreement to 0.015 in ln τ). The idea that boundaries of fixed thickness control the collapse is in [HKTP10]; whether replacing the bulk by noise has been tested for supertransients is not known to us (the review [TL08] is unread) |
-| Symmetric initial conditions die exponentially sooner (Section 5.5) | Nothing found on lifetimes. Life lexicon: symmetric soups produce different objects [LL-soup]; symmetric soup censuses exist | **Not found; appears new as a quantified result.** Conceptually close to standard symmetry reduction, so "new" should be worded "not found" |
-| Lifetime of a periodic face depends on its shape at fixed area (Section 7) | Open systems with holes of equal measure and different escape rates, ordered by recurrence time [BY08]; escape rate = measure of the hole times one minus a return factor [KL08]; [HKTP10] on the role of boundary conditions | **Not found; probably new as a measurement**, and at present a negative result (no law fits). The analogy with [BY08] is ours and is untested |
-| Period = twist × loop; statistics of twisted oscillators (Section 8) | Period and "mod" in Life catalogues, including thirds and sixths on hexagonal and triangular grids [LW-Mod]; trivial versus non-trivial oscillators [LW-NT] | The lemma is a **re-expression of period/mod**. The three-dimensional screw twists and the statistics were not found |
+| No finite sealed set in ≥ 3 layers; finite sealed sets in 1 and 2 (Thm 6) | Nothing recorded | **No prior-art search has been made yet.** Elementary |
+| Memoryless collapse with mean lifetime exponential in size (Section 5.2) | Supertransients [CK88, WS03, HKTP10, TL08] and stable chaos [PT09]: numerical only. [HKTP10] reports τ(L) = exp(AL + B), Poisson statistics, and collapse only with non-periodic boundaries through boundary layers of fixed thickness. For stochastic monotone systems the analogue is a theorem: the finite contact process [DL88, DS88, M93, M99, MMVY12]; exact exponential law from a quasi-stationary distribution [MV12] | **A new instance of a known phenomenon.** Not found in our search, within it: (i) confinement and firewall are theorems, so collapse proceeds by irreversible layer events that can be timed one by one; (ii) the exponent is set by the area of one face of a three-dimensional vessel, not the volume; (iii) a deterministic cellular automaton with an absorbing state (none in the sources read) |
+| Death as the end of the quasi-stationary tail, measured to one cell (Section 5.3) | QSD theory [MV12, DS65]; large deviations in cellular automata are studied [BGPV19]; our search found nothing on a density tail used as an extinction-rate predictor | The structure is **standard**; the measurement down to k = 1, with the death rate as the next point, **was not found in our search** |
+| The exponent is made in five or six layers over independent noise (Section 6) | Dice models of deterministic networks with lifetime e^{cn} (monotone) [CD11, MV10]; probabilistic cellular automata [LMS90, MST19]; boundary layers of fixed thickness in [HKTP10] | **No prior-art search has been made yet** for this statement. The idea that boundaries of fixed thickness control the collapse is in [HKTP10]; whether replacing the bulk by noise has been tested for supertransients is not known to us (the review [TL08] is unread) |
+| Symmetric initial conditions die exponentially sooner (Section 5.5) | Nothing found on lifetimes. Life lexicon: symmetric soups produce different objects [LL-soup]; symmetric soup censuses (apgsearch, Catagolue) were seen in search results only, not opened, and are not citable | **Not found in our search** as a quantified result. Conceptually close to standard symmetry reduction |
+| Lifetime of a periodic face depends on its shape at fixed area (Section 7) | Open systems with holes of equal measure and different escape rates, ordered by recurrence time [BY08]; escape rate = measure of the hole times one minus a return factor [KL08]; [HKTP10] on the role of boundary conditions | **No prior-art search has been made yet**; the works listed are related reading from the library, not the result of a search for this effect. At present a negative result (no law fits). The analogy with [BY08] is ours and is untested |
+| Period = twist × loop; statistics of twisted oscillators (Section 8) | Period and "mod" in Life catalogues, including thirds and sixths on hexagonal and triangular grids [LW-Mod]; trivial versus non-trivial oscillators [LW-NT] | The lemma is a **re-expression of period/mod**. The three-dimensional screw twists and the statistics were not found in our search |
 | Conditional area law; hazard identity (Section 10.2a) | Not surveyed. [citation needed: committor and flux identities in transition-path theory and in QSD theory; the project's library has none] | Unknown. The identity is of a standard kind; its use without a Markov property, and the reduction of the area law to a one-step hypothesis on a pooled table, may or may not be known |
 | Exponential law for the automaton 𝒜(L) (Section 10.2b) | Comparison with oriented percolation [L95, BBS94, HS22]; the one recorded non-monotone cellular-automaton survival theorem is [BN94] (not obtained); no finite-size exponential-lifetime theorem without monotonicity was found | A **constructed example** using standard tools. Honest but artificial: a random tape read once |
 | Minimality of the rule among its neighbours; the class (Section 9) | Survey of 6,144 outer-totalistic rules with metastable states and nucleation [RK14] | Survey-level; a new instance |
@@ -919,8 +962,8 @@ metastability, with what each still lacks before it could carry a paper.
    the Goles primaries to place Theorems 2 and 5 correctly; the proofs have been re-derived by independent
    automated readers and brute-force checked, and have not been read by a mathematician.
 
-The shape dependence of Section 7 is probably new and is the most thoroughly cross-checked measurement in the
-paper, but as it stands it is a refutation (no law in area and shortest loop) without a replacement; it would
+For the shape dependence of Section 7 no prior-art search has been made yet; it is the most thoroughly
+cross-checked measurement in the paper, but as it stands it is a refutation (no law in area and shortest loop) without a replacement; it would
 move up the list if the second variable were found or if the thin-torus costs per cell were computed exactly.
 
 ## 12. Methods and reproducibility
