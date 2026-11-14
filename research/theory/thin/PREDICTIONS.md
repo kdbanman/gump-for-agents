@@ -173,3 +173,12 @@ ring b = 16 and for the segments n = 13 and n = 21 (each within 3σ of its stati
 
 **F13 (deeper models on a segment).** n = 13: the models with w = 6 and w = 8 give ln tau within 0.010 of the
 deterministic 6.7262(14).
+
+## Block 6 (2026-11-14 22:05, before the 45-site segment is run; the 37-site run has not started)
+
+Known now: segment n = 33 (30,292 deaths so far): 12.7423(57), slope from n = 29: 0.2972(16), against 0.2967(9)
+for 25 → 29: the slope has stopped falling, where g + a/n fitted to n ≤ 29 wanted 0.2936. First four chunks of the
+61-site segment: k_wall = 0.3331, 0.3246, 0.3201, 0.3181, 0.3161(8), 0.3149(28) at x = 10, 14, 18, 20, 24, 30.
+
+**F14 (the segment law is straight from n ≈ 25).** ln tau_seg(45) lies in 16.26–16.35, i.e. the mean slope
+between n = 29 and n = 45 is 0.294–0.300 per site. The alternative "slope = 0.282 + 0.36/n" gives 16.22.
