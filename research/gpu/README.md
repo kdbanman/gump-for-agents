@@ -348,7 +348,11 @@ cost per cell and no wrap-around in it. Forecasts: `PREDICTIONS.md` (commit 312b
 **Set-up.** Slab 12×12×8 (`vessels.SlabVessel`; A = 432 cells per face), soups p = 0.4, kernel B stepped one generation
 per launch, first 2,000 generations discarded, then at **every** generation a second kernel (`patches.py`) tests on
 both faces every translate of every shape for "all face-layer cells dead". Shapes (fixed before the runs): rhombi a×b
-unit cells (3ab cells; a unit cell = the 3 face-layer cells of one cube), strips 1×b (b = 12 wraps), hexagonal balls of
+unit cells (3ab cells; a unit cell = the three +faces of one cube (i, j, t − i − j) of face layer t — on face 0 that
+cube lies outside the slab, on face 1 inside, so the two faces carry the two inequivalent orientations of each rhombus
+and strip, related by the inversion that swaps the faces, and the table gives their average; the review's CPU run
+finds the inner-cube orientation more often empty, by 0.20 in ln P at 2×2 and 0.48 at 4×4, about 0.007 per perimeter
+pair, with no effect on the second differences), strips 1×b (b = 12 wraps), hexagonal balls of
 radius 1–3 in the face layer's in-layer graph (the 6 in-layer neighbours). 144 translates (balls: 432 centres).
 Perimeter = in-layer neighbour pairs with one cell in, one out (rhombi: 8(a + b) − 4). Also counted: empty at t and at
 t + 1. Frozen replicas (face death, settling) are masked from the generation they freeze; a transverse firewall
@@ -360,7 +364,10 @@ No face death, no settling, no firewall in any replica.
 --slab-layers 8 --diag 0` at every generation for 300 generations, 5 lanes, seeds 3 and 4 (cases from
 `check.slab_cases(..., N=12, m=8, T=300, rng=3|4)`); the GPU patch counter equal to a brute-force count from the
 definition (`patches.brute`, numpy) on 24 states × 4,608 replicas × 9,216 patch positions (11.7 million empty patches),
-item by item.
+item by item. The check was first run at commit 70482e0; fcb3f39 then changed the kernel's thread-to-(item, word)
+mapping and the matching reshape in `totals`. `check_patches` was re-run on the committed kernel (at 1f1009a,
+2026-11-14T23:27Z): ALL OK, counter identical to the brute force. The review's independent CPU count also agrees with
+the table.
 
 **Tables** (`python3 research/gpu/patches.py table research/data/gpu_patches/patches_s81*_A10G.csv`; raw counts per run
 and per time batch in the CSVs, run metadata in the JSON beside each; errors from 96 time batches, never below the
@@ -384,17 +391,29 @@ Strips at equal cell count are far rarer (36 cells: 1×12 wrapping −19.881 ± 
 - **The area-plus-perimeter form fails.** Fitted to the rhombi 2×2 … 4×5 it gives c = 0.264, σ = 0.119 with χ² = 3,369
   for 3 dof. The incremental cost per cell along the rhombi falls steadily — 0.423, 0.371, 0.364, 0.335, 0.325 ± 0.004
   (12 → 60 cells) — and has not levelled off.
-- **What this does and does not say about the static picture.** Over 12–60 cells an empty patch costs 0.32–0.42 per
-  cell, well above every lifetime law's 0.205–0.221, and the cost is still falling. Whether it falls to ≈ 0.21 for
-  patches the size of a dying face (A ≥ 100) is not reached: the 6×6 rhombus extrapolates to ln P ≈ −37, about 10¹³
-  times rarer than the 4×5. The lead's acceptance band (c in 0.17–0.25) is missed, but by a fit that does not describe
-  the data, so this is a failure of the linear form over this range, not a measured asymptote. Shape matters strongly
+- **What this does and does not say about the static picture.** Over 12–60 cells the incremental cost of enlarging
+  an empty rhombus falls from 0.42 to 0.325 per cell; this includes the added perimeter, which a dying (periodic) face
+  does not pay, so it is not comparable with the lifetime laws' 0.205–0.221. With the perimeter removed (second
+  differences along a×a and a×(a+1), a post hoc reading by the lead) the cost per cell is 0.273, 0.252, 0.237,
+  0.219 ± 0.008 at middle shapes of 12, 18, 27, 36 cells: still falling, and at the largest size already inside the
+  lifetime range. Whether it settles at ≈ 0.21 for patches the size of a dying face (A ≥ 100) is not reached:
+  extrapolating the second differences gives 0.21 (corrections ∝ 1/n) or 0.16 (∝ 1/√n), and both fit; the 6×6 rhombus
+  extrapolates to ln P ≈ −37 to −39, about 10⁶–10⁷ times rarer than the 4×5 (≈ 10⁻³ expected hits in this run). By the
+  forecast's own rule the lead's band (c in 0.17–0.25) is missed (the prescribed fit gives 0.264), but that fit does not
+  describe the data (χ² 3,369 / 3, and its c moves to 0.211 or 0.249 when the smallest shapes are dropped), so the miss
+  is a failure of the linear form, not evidence against the static picture: the perimeter-free cost per cell is
+  compatible with 0.21 and does not establish it (defensible extrapolations give 0.16–0.24). Shape matters strongly
   (σ > 0, a long strip is much rarer than a compact patch of the same area), and an empty patch persists less, not more,
   the larger it is (0.38 → 0.10).
 - **Not checked:** larger patches (out of reach at this rate; a biased or splitting estimator would be needed); whether
-  the empty-patch statistics depend on the slab's thickness (8) or soup density; independence of the two faces and of
-  overlapping translates (they are correlated, which the batch-means errors absorb only as far as batches are
-  independent); whether the face layer of a 12×12 slab is in the same state as the face of a dying (smaller) one;
+  the empty-patch statistics depend on the slab's thickness (8) or soup density; the two faces and overlapping
+  translates are correlated; the batch-means errors absorb this, since consecutive batches are uncorrelated (lag-1
+  autocorrelation −0.03 averaged over the 22 shapes with ≥ 1,000 hits, against −0.031 expected for 32 independent
+  batches per seed; the review: −0.02, errors unchanged when batches are merged by 2, 4 or 8; the three seeds agree),
+  but errors of different shapes are correlated, so the fit's χ² is somewhat overstated; the 4×5 rhombus: the review's
+  independent CPU run has ln P = −23.75 ± 0.16 (43 hits) against −23.318 ± 0.047 here, 1.9–2.6σ apart depending on the
+  error model, unresolved (the lead is lengthening the CPU run) — the last second difference (0.219 ± 0.008) rests on
+  that point; whether the face layer of a 12×12 slab is in the same state as the face of a dying (smaller) one;
   patch emptiness in layers below the face.
 
 ## Using it for a new ensemble experiment

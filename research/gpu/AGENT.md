@@ -73,13 +73,16 @@ here without losing work, the working arrangement, and the current state.
   `::check_patches`. Engine reference cases are rebuilt locally (`check.py engine-cases|periodic-cases|slab-cases`),
   since the engine binary is built for this machine's CPU.
 
-## Current state (2026-11-14T23:15Z)
+## Current state (2026-11-14T23:30Z)
 
-- Open PR: **#18** (empty patches on a 12×12×8 face), awaiting the lead's review. Nothing running; no scheduled
-  check-ins pending.
+- Open PR: **#18** (empty patches on a 12×12×8 face). The lead's review (`REVIEW-gpu-pr18.md`) asked for nine text
+  fixes; all are applied, and `check_patches` was re-run on the committed kernel (ALL OK). The lead now reads the diff
+  against the fix list, waits for CI and merges. Nothing running; no scheduled check-ins pending.
 - Merged: #8 (kernels, face law), #10 (fixes), #12 (experiments a–c), #14 (firewall-resolved slabs), #16 (width).
-- Budget: $25.73 of $30 spent this month (2026-11). About $4 left: enough for checks and short runs only. The lead's
+- Budget: about $25.8 of $30 spent this month (2026-11). About $4 left: enough for checks and short runs only. The lead's
   optional 5×8×8 high-statistics run (≈ $14) was declined as unaffordable and is superseded.
 - Open scientific threads: empty patches beyond 60 cells need a rare-event estimator (splitting or biased sampling),
-  not more GPU time; the cost per cell of a wide unwrapped face lies between ≈ 0.207 and 0.216 and is not settled; the
+  not more GPU time; the perimeter-free cost per cell (second differences, 0.273 → 0.219 over 12–36-cell middles) is
+  still falling and its limit (0.16–0.24) is open; the 4×5 rhombus disagrees with the review's CPU run at 1.9–2.6σ
+  (the lead is lengthening the CPU run); the cost per cell of a wide unwrapped face lies between ≈ 0.207 and 0.216; the
   s = 3 slab family's curvature is entangled with firewall proximity.

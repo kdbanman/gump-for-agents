@@ -293,3 +293,12 @@ no settling, no firewall in any replica (checked: kernel events after burn-in 0;
   e^(−4.5) as likely as the 3×4 rhombus). Incremental cost falls with size — **hit**. Persistence rises with size —
   **missed** (it falls: 0.381 for 1×1, 0.286 for 2×2, 0.101 for 4×5). No face death or firewall — **hit**. 6×6 gets
   50–2,000 hits — **missed** (0; ln P extrapolates to ≈ −37, far below what 10¹⁰ replica-generations reach).
+
+**Correction, 2026-11-14T23:28Z (review `research/audit/REVIEW-gpu-pr18.md`; forecasts and scores above unchanged —
+missed stays missed).** In the entry above, "the cost per cell is still falling at 60 cells (0.325) and has not
+approached any asymptote" should read "the incremental cost per cell, perimeter included, is still falling at 60 cells
+(0.325)". And "What is shown: …" should read: "What is shown: the incremental cost (area and added perimeter together)
+falls from 0.42 to 0.325 per cell over 12–60 cells; its perimeter-free part (second differences along a×a and a×(a+1),
+post hoc) falls from 0.273 to 0.219 ± 0.008 and at the largest sizes lies within the lifetime laws' 0.205–0.221;
+whether it settles there is not reached." The incremental cost includes the added perimeter, which a dying (periodic)
+face does not pay, so it was not comparable with the lifetime laws. Also, the 6×6 extrapolation is ln P ≈ −37 to −39.
