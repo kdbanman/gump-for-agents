@@ -105,9 +105,9 @@ def validate_dump(mode, b, mw, gens, seed=5, notch=0, k=1, force_k=False, gs=0):
                     end = 2; settled += 1; L = snapage[l]
                 if not end and age >= 16 and age & (age - 1) == 0:
                     snap[l] = nxt.copy(); snapage[l] = age
-                if not end and g1 % 840 == 0 and mode == 'det':
-                    alive = nxt.reshape(mw, 3 * b).any(1)
-                    if any(not alive[t:t + 3].any() for t in range(1, mw - 3)):
+                if not end and g1 % 840 == 0:
+                    alive = nxt.reshape(mw, 3 * b).any(1); last = mw - 2 if mode == 'det' else mw - 1
+                    if any(not alive[t:t + 3].any() for t in range(1, last - 1)):
                         end = 3; interior += 1
             if end:
                 expo += L; born[l] = g1; snapage[l] = 0; snap[l] = None
@@ -324,7 +324,8 @@ if __name__ == '__main__':
             ok &= validate_dump(mode, b, mw, g, notch=nn)
         # small systems, where lives end in repeating states and behind firewalls: every such end re-derived
         for (mode, b, mw, g, nn) in [('det', 5, 8, 5040, 0), ('det', 6, 9, 5040, 0), ('det', 7, 3, 2000, 0), ('det', 9, 5, 3000, 3),
-                                     ('model', 8, 4, 4000, 3), ('model', 7, 5, 4000, 0), ('det', 16, 12, 200, 3), ('model', 16, 8, 200, 3)]:
+                                     ('model', 8, 4, 4000, 3), ('model', 7, 5, 4000, 0), ('det', 16, 12, 200, 3), ('model', 16, 8, 200, 3),
+                                     ('model', 6, 6, 5040, 0), ('model', 8, 8, 5040, 3)]:
             ok &= validate_dump(mode, b, mw, g, notch=nn)
         # the moves of face cells by (state, live face neighbours) recounted; the face-only automaton (mode pca)
         for (mode, b, mw, g, nn, gs_) in [('det', 12, 8, 600, 0, 1), ('det', 11, 8, 900, 3, 2), ('model', 9, 1, 1500, 3, 1), ('det', 6, 4, 1500, 0, 1)]:

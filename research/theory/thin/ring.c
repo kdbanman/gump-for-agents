@@ -13,8 +13,10 @@
  * Each lane lives successive lives: a life starts from a soup of density p0 and ends when a face is empty
  * (checked every generation), when its state repeats (any period: every generation the state is compared with
  * the lane's snapshot, taken at ages 16, 32, 64, ...; the life is then cut at the snapshot's age), when three
- * adjacent interior layers of a det slab are found dead (looked for every PER generations), or at the cap. Then
- * the lane is reseeded. Hazards are for ages >= T0 (age = generations since the soup).
+ * adjacent layers beneath the face (det: between the faces; model: among layers 1..w-1) are found dead (looked
+ * for every PER generations; nothing crosses three dead layers: a cell would need four live neighbours and can
+ * have three, so what is above runs alone for ever), or at the cap. Then the lane is reseeded. Hazards are for
+ * ages >= T0 (age = generations since the soup).
  * Repeating states. det: the whole slab is periodic with living faces. model: only looked for with w >= 4 and
  * layers 1..w-1 all dead; then no coin can raise a cell (a cell of layer w-1 sees three coins, B needs four) and
  * the face runs alone for ever. For w <= 3 the coins always reach the rule's layers and nothing is looked for.
@@ -210,7 +212,8 @@ int main(int argc, char **argv) {
         if (!end && age >= 16 && !(age & (age - 1))) {
           for (int t = 0; t < ndyn; t++) for (int o = 0; o < 3; o++) SNAP[t][o][l] = S[t][o][l];
           snapage[l] = age; }
-        if (!end && chk && !model) { for (int t = 1; t + 2 < ndyn - 1; t++) { int d3 = 1; for (int u = t; u < t + 3; u++) if (S[u][0][l] | S[u][1][l] | S[u][2][l]) d3 = 0;
+        if (!end && chk) { int last = model ? ndyn - 1 : ndyn - 2;   /* deepest layer that is not a face */
+          for (int t = 1; t + 2 <= last; t++) { int d3 = 1; for (int u = t; u < t + 3; u++) if (S[u][0][l] | S[u][1][l] | S[u][2][l]) d3 = 0;
             if (d3) end = 3; } if (end == 3) nI++; }   /* three adjacent dead interior layers: a firewall (T3) */
         if (!end && CAP && age >= CAP) { end = 4; nC++; }
         if (!end && smp && age >= T0) for (int k = 0; k < nface; k++) {
