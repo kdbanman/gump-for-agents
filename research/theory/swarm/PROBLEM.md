@@ -135,6 +135,11 @@ gump). Before you lean on a theorem from the literature, look for it on the shel
 question about one, append a line to `library/requests.md` (your line's name, what you need, why). You may still
 open papers yourself; say what you opened and what you cite from memory.
 
+*Added by the lead, 2026-11-14.* If a site refuses automated clients (Project Euclid and the Royal Society's pages
+do), record the source as "not obtained" and look for an open copy or an open paper that quotes the statement. Do
+not route around the refusal with a remote browser or any other means. State of the two facts under Theorem A
+(`library/notes/oriented-percolation.md`): both are second-hand; neither primary paper has been opened.
+
 ## Rules
 
 **Mathematics only.** No simulating the automaton, no Monte Carlo, no fitting to new data. A solver may use

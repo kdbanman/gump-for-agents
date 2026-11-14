@@ -59,6 +59,11 @@ The lead's reading of the scope (an interpretation, not the owner's words):
   you pull from - the internet is a risky place".
 - "do persist important, subtle, or difficult-to-derive things to the repo… be careful not to over-prescribe
   processes and instructions for agents."
+- The lead's own rule, 2026-11-14, after a librarian reached a Project Euclid page through a cloud browser when the
+  site had refused it as an automated client (nothing was taken beyond an abstract): briefs that send an agent to the
+  literature say that a site's refusal is final (record "not obtained"; no remote browser, no other way round).
+  Papers behind such walls are for the owner to fetch if they wish: Tél–Lai 2008, Bramson–Neuhauser 1994,
+  Liggett 1995 (Ann. Appl. Probab. 5), Balister–Bollobás–Stacey 1994 (Random Structures Algorithms 5).
 - Cost is welcome but be judicious (paraphrase). The owner's email address is private: never send it anywhere.
 - What the owner asked for, beyond the build: "what do you find interesting, surprising, beautiful? … i'd love to
   know what you see and think about it." `docs/WHAT-I-SEE.md` is the running answer.
