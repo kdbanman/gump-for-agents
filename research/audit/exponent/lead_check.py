@@ -14,6 +14,19 @@ Shares no code with research/theory/exponent/ (drv.c, xp.py) or research/toy2d/.
 References (exponent.md, section 3, rho = 0.472): w = 8: 5.645, 7.432, 9.165, 10.828 at L = 12, 16, 20, 24;
 deterministic 16 x L strips: 5.644, 7.407, 9.142, 10.788.  w = 1 is the swarm lab's exact chain: 6.4169 (L = 12),
 8.6350 (L = 16).
+
+Results, 2026-11-14 (4096 replicas; about four minutes of one core in all):
+  lead_check.py 1 12 3000 0.472 4096 1     6.4160 +- 0.0095  (11,093 deaths)   exact 6.4169
+  lead_check.py 8 12 2500 0.472 4096 13    5.6541 +- 0.0104  ( 9,217; 6,537 cut)   study 5.645, strips 5.644
+  lead_check.py 8 16 5000 0.472 4096 11    7.4246 +- 0.0103  ( 9,479;   887 cut)   study 7.432, strips 7.407
+  lead_check.py 8 20 14000 0.472 4096 12   9.1362 +- 0.0131  ( 5,847;   132 cut)   study 9.165, strips 9.142
+  lead_check.py 8 24 40000 0.472 4096 14  10.8554 +- 0.0179  ( 3,120;    31 cut)   study 10.828, strips 10.788
+The hazard is flat in age at every size. Reading: the study's eight-row numbers are reproduced by independent code
+(largest difference 0.029, 1.5 combined sigma). Against the deterministic strips the model is within 0.02 at
+L = 12-20 and 0.067 +- 0.027 above at L = 24 (the study's own point there is 0.040 above), so "within 0.05" holds
+at the three smaller sizes and is at its edge at L = 24. Not run here: L = 28, other densities, the deterministic
+strips themselves (two independent sources exist for 16 x 16: research/toy2d 7.426 +- 0.016, the swarm exam's
+copy of the study's driver 7.390 +- 0.016).
 """
 import math, sys
 import numpy as np
