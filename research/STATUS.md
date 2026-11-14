@@ -116,22 +116,12 @@ _Last updated 2026-11-14 by the lead._
   main, score the run against the forecast, data per death in `research/data/gpu_facelaw/`, censor every period,
   then a control at 6×6×8 with the firewall channel resolved. It cannot reply: look at its branch
   `claude/awesome-cray-boq9vz` and the pull request list from time to time.
-  **Pull request 14 is open (seen 09:27 UTC)**: validations hold (3×6×8, 4×7×8 against the CPU table); 6×7×8 face
-  channel 26.405 ± 0.104 and firewall channel 26.866 ± 0.186 with 24% firewall-first (all three forecasts hit);
-  6×6×8 control 22.568 ± 0.041 with 2.1% firewalls; pooled A = 108 22.536 ± 0.031; slope 108 → 126 0.215 ± 0.006,
-  which the session calls not decided. The lead re-derived all of these from the per-life data
-  (`python3 research/audit/gpu_pr14_lead_check.py <dir of the fwslab JSON files>`; hazard flat in age). An Opus
-  reviewer attacked `fwslab.py`'s logic and ran a channel-resolved CPU check at 3×6×8
-  (`research/audit/REVIEW-gpu-pr14.md`, done 09:45 UTC): every number stands; four text fixes required (direction
-  labels; the per-direction firewall rate at 6×6×8, 26.79 ± 0.28; drop "leans toward a mild rise"; a docstring).
-  The review's own finding: in the CPU table the face channel's residual from the A-only line rises with the slab's
-  *short side*, and a post hoc fit a + b·A + c·(short side) (c = 0.114 ± 0.038, b = 0.2057 ± 0.0014) predicts
-  22.564 at 6×6×8 (observed 22.568) and 26.267 at 6×7×8 (observed 26.405 ± 0.104). So width, not area, may be what
-  lifted the two large points. **Sent to the session 09:50 UTC:** the four fixes, and the next experiment (the pair
-  4×9×8 against 6×6×8 at fixed A = 108; width families s = 3…6 at A ≤ 96 with ≥ 2,000 deaths each; forecasts
-  first). **To do when the fixes are pushed:** read the diff (text only, `research/gpu/`), merge pull request 14,
-  write the notebook entry (the lead's draft reading: A = 126 face value measured; slope 108 → 126 0.215 ± 0.006;
-  not decided between a rising cost per cell and a width effect), update CLAIMS GP8, pull main into the branch.
+  **Pull request 14 merged 2026-11-14, 09:50 UTC** (firewall-resolved slabs; review `research/audit/REVIEW-gpu-pr14.md`;
+  notebook entry of that date; CLAIMS GP8): 6×7×8 face 26.405 ± 0.104 (all three forecasts hit), 6×6×8 22.568 ± 0.041,
+  slope 108 → 126 0.215 ± 0.006, not decided between a rising cost per cell and a *width* effect (the review's post hoc
+  fit with a short-side term). **Running at the GPU session (asked 09:40 UTC):** the pair 4×9×8 against 6×6×8 at
+  A = 108 (a width effect predicts 0.23 ± 0.08 lower), and width families s = 3 … 6 at A ≤ 96 with ≥ 2,000 deaths
+  each; forecasts first. Expect pull request 15; review as before.
 - **Exam (swarm): done 2026-11-14** (`swarm/exam/OUTCOMES.md`; notebook entry of that date; CLAIMS SW2–SW4). Hold:
   path E1 (notched edge 0.346), source S-E1 and S-E2 (faces over dice; six layers suffice for gump), counting C-E1
   (one mirror halves the price, 0.1026 per cell). Fail: counting C-E2, path E3. Undecided: P-E1 (0.512 ± 0.012 on its

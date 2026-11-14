@@ -1199,3 +1199,43 @@ N = 4, 5, 6, 8 → medians 3 (2–5), 7.5 (5–11), 8 (5–11), 18 (11–25) wit
 19; same orbit counts); `asym 4 128 2 20000` → 414 (283–596) against the review's 439. Not re-derived by the lead:
 hex9, kagome4, bond10, the 7³ boxes. The follow-up's classification of endings (wall, deep firewall, cut, pit,
 frozen) has no independent implementation.
+
+## 2026-11-14 — slab faces with the firewall channel resolved (GPU session's pull request 14; reviewed; lead's check)
+
+The rerun the review of pull request 12 asked for. Periodic slabs N×M×8, two faces of A = 3·N·M cells; a life ends at
+its first event, a face death or a transverse firewall (three adjacent dead oblique layers wrapping the torus), and
+each channel gets its own rate. Forecasts were committed before the runs (`research/gpu/PREDICTIONS.md`). Review:
+`research/audit/REVIEW-gpu-pr14.md` (every number stands; four text fixes, made). **[measured]**
+
+| slab | A | cheapest cut | face deaths / firewalls | ln τ_face | ln τ_fw per direction |
+|---|---|---|---|---|---|
+| 3×6×8 (validation) | 54 | 108 | 1,917,760 / 276,769 | 11.084 ± 0.001 (CPU table 11.10) | 12.327 ± 0.002 (12.18 ± 0.12) |
+| 4×7×8 (validation) | 84 | 144 | 45,878 / 32,840 | 17.465 ± 0.005 (17.43–17.51) | 17.106 ± 0.006 (17.16) |
+| 6×6×8 | 108 | 216, three directions | 592 / 13 | 22.568 ± 0.041 | 26.79 ± 0.28 |
+| 6×7×8 | 126 | 216, one direction | 92 / 29 | 26.405 ± 0.104 | 26.87 ± 0.19 |
+
+- All three forecasts for 6×7×8 hit: face 26.30 ± 0.15, firewall 27.0 ± 0.4, firewall-first share 10–30% (24%).
+  The review of pull request 12 had put the corrected face value near 26.3 and the firewall rate at 27.05 ± 0.30.
+  At 6×6×8 the share forecast hit (2.1% against 0.5–4%) and the face forecast missed by 0.01 (22.49 ± 0.07).
+- The firewall rate depends on the cut alone: 26.79 ± 0.28 and 26.87 ± 0.19 per direction at cut 216 in a square and
+  a non-square slab.
+- Pooled A = 108 (this run with the earlier unscreened one): 22.537 ± 0.031. Slope 108 → 126: **0.215 ± 0.006** per
+  cell. The line through A = 27–90, −0.091 + 0.2088·A, is 0.08 ± 0.03 and 0.19 ± 0.10 below the two points (before the
+  line's own extrapolation error of 0.06–0.12).
+- **Not decided, and there are two readings.** (i) Rim-free faces get a little dearer per cell past A ≈ 100, as
+  octahedral faces do (0.216–0.221). (ii) The cost per cell is constant and the *width* of the periodic face matters:
+  in the CPU table the residual from the A-only line rises with the slab's short side (3: about −0.05; 4: 0.00;
+  5: +0.11; 6: +0.08, +0.19), and the reviewer's fit a + b·A + c·(short side), c = 0.114 ± 0.038, b = 0.2057 ± 0.0014,
+  predicts 22.564 at 6×6×8 and 26.267 at 6×7×8. The fit is post hoc (the term was chosen after looking). The test
+  has been asked of the GPU session: 4×9×8 against 6×6×8 at the same A = 108 (reading (ii) predicts 0.23 ± 0.08
+  lower, reading (i) no difference), and width families s = 3 … 6 at high precision.
+- The review's independent check: a CPU run of 3×6×8 with the `rep.c` stepper (25,088 lives) gives 11.076 ± 0.007,
+  12.310 ± 0.018, 12.7% firewall-first; with the GPU's detection rules applied to those histories, 11.082, 12.325,
+  12.61% against the GPU's 11.084, 12.327, 12.61%. Counting a firewall life to its detection rather than its
+  formation biases 3×6×8 by +0.006 and +0.015 and nothing measurable at A ≥ 84.
+
+Lead's check (`python3 research/audit/gpu_pr14_lead_check.py research/data/gpu_facelaw`, own decoding of the per-life
+data): 5,213, 4,664 and 4,673 lives; exposure, counts, both rates, the shares, the pooled value 22.537 ± 0.031 and the
+slope 0.2149 ± 0.0060 all reproduce; the face hazard is flat in the age of the life (three bins of equal exposure:
+22.53, 22.59, 22.59 at 6×6×8). Not checked by anyone here: the GPU runs themselves (no second GPU run); cycles longer
+than 128 generations (none can be seen; bounded only at 3×6×8); a channel-resolved CPU run at 4×7×8 or larger.
