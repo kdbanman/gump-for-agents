@@ -45,7 +45,7 @@ phenomenon to supertransient chaos, and say candidly which parts appear to be ne
 Long-lived chaotic transients whose mean lifetime grows exponentially with system size, and which end abruptly
 with exponentially distributed lifetimes, are known numerically in coupled map lattices, reaction–diffusion
 systems and the complex Ginzburg–Landau equation under the name *supertransients* [CK88, WS03, HKTP10, TL08],
-and in cellular-automaton-like coupled maps as *stable chaos* [PT09]. In everything recorded in this project's
+and in cellular-automaton-like coupled maps as *stable chaos* [PT09]. In every source on supertransients and stable chaos recorded in this project's
 literature notes the statements are fits to simulations; nothing is proved (`research/PRIOR-ART.md`, last
 section). This paper describes a cellular automaton in which the *geometry* of such a collapse is a matter of
 theorems, so that the statistics can be measured one irreversible event at a time.
@@ -116,7 +116,7 @@ A tracked image that shows one {111} layer as a kagome lattice is `web/docs/kago
 **[measured]** A short reference implementation (`reference/oracle.py`) reproduces the population logs of the
 2012 runs from closed cubic seeds of side 8 to 12 at every generation (R1, R2; B), and a bit-sliced engine
 reproduces the reference state for state and all six surviving logs, sides 8 to 13, at every generation, in open
-space and on the 2012 code's torus (R3; B). **[measured]** The 2012 lifetimes for sides 8–13 are free of
+space and on the 2012 code's torus for even H (R3; B). **[measured]** The 2012 lifetimes for sides 8–13 are free of
 wrap-around artefacts (R4; B). A "side-n closed cube" is an n × n × n block of cubes with all faces live:
 **[proved]** it has 3n²(n + 1) cells and its diagonal hull has L1 radius 3n − 2 in doubled units about its centre
 (T6 of the ledger; A). Every other stepper used in this paper (numpy, bit-sliced C on arbitrary cell graphs,
@@ -247,7 +247,7 @@ theorem about sealed sets can, the role of thickness 3: *preliminary* **[measure
 study; C) soups in slabs one or two layers thick settle in times growing like the logarithm of the area (means
 4.6–11.9 and 44–101 generations), while in three layers ln τ grows linearly with the slab's width. That thin
 slabs "freeze" is a statement about typical states only: *preliminary* **[measured]** (C) the one-layer automaton
-has oscillators of periods 3 to 12.
+has oscillators of periods 3 to 12 (ledger K3 of the thickness study).
 
 **Proposition 7 (the vertex star) [proved]** (T10; A). The 12 faces incident to one lattice vertex form a closed
 vessel: each sees 5 of the others, and no cell outside sees more than 2 of them. Of its 4,096 states, all settle
@@ -488,7 +488,7 @@ A = 693) until generation 2,362,434,048, then at 40 until 2,886,100,480, and end
 
 | hull radius R (face cells A) | 42 (693) | 40 (630) | 38 (570) | 36 (513) | 34 (459) | 32 (408) | 30 and below |
 |---|---|---|---|---|---|---|---|
-| generations spent | 2.362 × 10⁹ | 5.237 × 10⁸ | 3.08 × 10⁷ | 2.71 × 10⁶ | 7,040 | 27,712 | 1,792 in all |
+| generations spent | 2.362 × 10⁹ | 5.237 × 10⁸ | 3.08 × 10⁷ | 2.71 × 10⁶ | 7,040 | 27,712 | 1,932 in all (1,792 to the last layer death) |
 
 Table 4. Residence schedule of the side-16 cube (`research/data/cube16_events.jsonl`; events sampled every 64
 generations).
@@ -499,7 +499,7 @@ Table 5 lists every one we found, with its score.
 | # | forecast (where committed) | outcome | score |
 |---|---|---|---|
 | 1 | Side-16 lifetime: mean 2.4 × 10⁸, 90% interval 3.9 × 10⁷–6.3 × 10⁸, from a proportional "effective area" fit to symmetric soups (`research/peeling/cube_lifetime.csv`) | 2,919,617,676 | **failed**, low by a factor 12 (C3; B) |
-| 2 | Side-16 first face death: median 2.2 × 10⁹, 90% 1.50–5.2 × 10⁹, from perturbed copies of the running cube's state with restarts; committed about two hours before the event (`research/fluct/PREDICTIONS.md`, commit 2e72d57) | 2,362,434,048 | held, at about the 58th percentile (C4; B for the commit time and the arithmetic; the wall-clock time of the event itself is grade C) |
+| 2 | Side-16 first face death: median 2.2 × 10⁹, 90% 1.50–5.2 × 10⁹, from perturbed copies of the running cube's state with restarts; committed about two hours before the event (`research/fluct/PREDICTIONS.md`, commit 2e72d57) | 2,362,434,048 | held, at about the 57th percentile (quantile 0.566; C4; B for the commit time and the arithmetic; the wall-clock time of the event itself is grade C) |
 | 3 | Second face death, from fits to symmetric soups only: median 2.60 × 10⁹, 90% 2.531–2.89 × 10⁹ | 2,886,100,480 | held, at the 95th percentile (C5; B) |
 | 4 | Second face death, from 64 copies of the cube's state (τ = 8.2 × 10⁷): 90% 2.529–2.78 × 10⁹ | 2,886,100,480 | **missed** (C5; B) |
 | 5 | Cube-centred O_h soups at A = 828 (the first plateau of a side-17 cube): ln τ = 24.0 ± 0.4 | 24.175 ± 0.072 | held (C9, GP2; B, B−) |
@@ -532,7 +532,7 @@ side-16 cube was lucky at about the 1% level, or its own lineage carries somethi
 states do not; the cube's own lineage at R ≥ 42 has not been, and at present cannot be, replicated.
 
 **Extrapolations** **[conjecture]**. A side-17 cube's first plateau has mean about 3.2 × 10¹⁰ generations if the
-soup value at A = 828 applies to it (C9); the cube has not been run. The 2012 run from a side-19 cube, which was
+soup value at A = 828 applies to it (GP2's 24.175; C9's forecast, made before that run, gave 2.6 × 10¹⁰); the cube has not been run. The 2012 run from a side-19 cube, which was
 never finished because its hull wrapped the 2012 torus (R8; A), would last 10¹³–10¹⁴ generations properly
 confined, on fits far outside any data (C10). An asymmetric soup filling the side-13 hull (A = 459) would hold
 each face for about 10⁴¹ generations on the fit of Section 5.2 extrapolated fivefold in area (F13); this cannot
@@ -566,7 +566,7 @@ deterministic strips' 5.644, 7.407, 9.142 at edge lengths L = 12, 16, 20, and ar
 the density of the coins hardly matters.
 
 *Preliminary* (X3; C): the noise-driven models can settle. The six faces of one cube lying on the face are a
-fixed point whatever the coins do once w ≥ 4–5, and a replica in such a state never dies; uncensored, one model
+fixed point whatever the coins do (w ≥ 4 for a cube at a hull vertex, w ≥ 5 for one anywhere on the face), and a replica in such a state never dies; uncensored, one model
 reads 6.94 where the censored value is 6.54.
 
 *What this does and does not establish.* At sizes A ≤ 84 and precisions of 0.01–0.05 in ln τ, the deterministic
@@ -592,7 +592,7 @@ separately:
 | short side s | ln τ_face at face area A (share of lives ended by a firewall) | slope within the family |
 |---:|---|---|
 | 3 | 11.082 (54; 13%), 14.621 ± 0.003 (72; 87%), 18.046 ± 0.011 (90; 99.6%) | 0.1966, then 0.1902: curved |
-| 4 | 12.486 (60), 14.971 ± 0.002 (72), 17.465 ± 0.005 (84), 19.943 ± 0.018 (96), 22.373 ± 0.042 (108; 99.2%) | 0.2072 ± 0.0001 |
+| 4 | 12.486 (60), 14.970 ± 0.002 (72), 17.465 ± 0.005 (84), 19.943 ± 0.018 (96), 22.373 ± 0.042 (108; 99.2%) | 0.2072 ± 0.0001 |
 | 5 | 15.661 ± 0.003 (75), 18.786 ± 0.011 (90), 21.890 ± 0.040 (105), 25.046 ± 0.073 (120; 92%) | 0.2082 ± 0.0006 |
 | 6 | 22.568 ± 0.041 (108; 2%), 26.405 ± 0.104 (126; 24%) | 0.213 ± 0.006 |
 
@@ -709,7 +709,7 @@ of 9 cells; there are 3, 6 and 4 classes with unions of 9, 10 and 11 cells. *Pre
 smallest has union exactly 13 (Z4).
 
 **Why anything has period above 2.** By Theorem 5 every oscillator of period ≥ 3 has cells that are overcrowded
-after having been alive two generations earlier, and over a period the drive at those cells balances the
+one generation after being alive, and over a period the drive at those cells balances the
 dissipation exactly; this was verified on all 329 catalogued objects of period ≥ 3.
 
 **Long periods are short loops closed by a symmetry.** *Preliminary* **[measured]** (Z5; C): soups in small
@@ -763,7 +763,7 @@ slopes 0.2156 ± 0.0005 and 0.2121 ± 0.0004 on the same mixed-width faces). *Pr
 birth at 3 are not confined and invade vacuum across {111} planes, as the hypothesis of Theorem 2 leads one to
 expect.
 
-**A two-dimensional analogue.** **[measured]** (G1; A for the central law: an independent stepper at L = 12–24
+**A two-dimensional analogue.** **[measured]** (G1; A for the slope of the law only, as the ledger scopes it: an independent stepper at L = 12–24
 gives slope 0.42) On the square lattice with the range-2 cross neighbourhood (±1,0), (±2,0), (0,±1), (0,±2), the
 rule B34/S234 ("alive next iff n + x ≥ 3, except that n ≥ 5 dies") is gump's construction one dimension down. It
 has steady chaos at density 0.472, and in strips 16 deep and periodic along the edge a whole edge row dies after
@@ -817,7 +817,8 @@ the pooled table, plus a boundary term at the start of the observation window mi
 property of Z is assumed (and Z is not Markov). *Conditional law:* suppose there are θ₀, κ > 0 and k₀, ε, c
 independent of A such that, with K = ⌈κA⌉, (R) M_k(θ₀) ≤ 1 for every visited row k₀ ≤ k < K; (Φ) the entry term
 is at most e^{εA}; and (W) the window term is controlled (the window starts above the low set, or the pooled law
-is quasi-stationary with censoring at most c times the hazard and a stated bound on the low-set weight). Then the
+is quasi-stationary over the window, censoring is at most c times the hazard, and the low-set weight
+w = Σ_{z<K} p_z ψ(z) ≤ 1/(2(1 + c)) with ψ(k) = e^{−θ₀(k − k₀)⁺}). Then the
 death rate satisfies
 
 $$\bar h_A \le 2e^{\theta_0 k_0}\, e^{-(\theta_0\kappa - \varepsilon)A}, \qquad\text{so}\qquad
@@ -839,7 +840,7 @@ reproduces the exact values). Let 𝒜(L) be the automaton on cells (x, j), x on
 …, in which row 0 follows B34/S234 on the range-2 cross with nothing above it and every other row copies the row
 two below; the initial state is any row 0 above independent fair bits, each written into two consecutive rows.
 The map is deterministic; the only randomness is the initial tape. Then row 0 is exactly a Markov chain, the edge
-dies after an exactly geometric wait from its quasi-stationary law, with mean τ_L ≤ 3·8^L, and τ_L is at least
+dies after an exactly geometric wait from its quasi-stationary law, with mean τ_L ≤ 3·8^L (L ≥ 5), and, with row 0 started full, τ_L is at least
 the lifetime of five-parent oriented site percolation of density ½ on the ring. *If* (F1) the critical density of
 two-parent oriented site percolation is below ¾ [BBS94, p_c ≤ 0.7491, computer-assisted, known here only
 second-hand; a second route through L95 at exactly ¾] *and* (F2) supercritical oriented site percolation on a
@@ -889,7 +890,7 @@ web search with a lossy fetcher; several key sources could not be opened (notabl
 | Lifetime of a periodic face depends on its shape at fixed area (Section 7) | Open systems with holes of equal measure and different escape rates, ordered by recurrence time [BY08]; escape rate = measure of the hole times one minus a return factor [KL08]; [HKTP10] on the role of boundary conditions | **Not found; probably new as a measurement**, and at present a negative result (no law fits). The analogy with [BY08] is ours and is untested |
 | Period = twist × loop; statistics of twisted oscillators (Section 8) | Period and "mod" in Life catalogues, including thirds and sixths on hexagonal and triangular grids [LW-Mod]; trivial versus non-trivial oscillators [LW-NT] | The lemma is a **re-expression of period/mod**. The three-dimensional screw twists and the statistics were not found |
 | Conditional area law; hazard identity (Section 10.2a) | Not surveyed. [citation needed: committor and flux identities in transition-path theory and in QSD theory; the project's library has none] | Unknown. The identity is of a standard kind; its use without a Markov property, and the reduction of the area law to a one-step hypothesis on a pooled table, may or may not be known |
-| Exponential law for the automaton 𝒜(L) (Section 10.2b) | Comparison with oriented percolation [L95, BBS94, HS22]; the one recorded non-monotone survival theorem is [BN94] (not obtained); no finite-size exponential-lifetime theorem without monotonicity was found | A **constructed example** using standard tools. Honest but artificial: a random tape read once |
+| Exponential law for the automaton 𝒜(L) (Section 10.2b) | Comparison with oriented percolation [L95, BBS94, HS22]; the one recorded non-monotone cellular-automaton survival theorem is [BN94] (not obtained); no finite-size exponential-lifetime theorem without monotonicity was found | A **constructed example** using standard tools. Honest but artificial: a random tape read once |
 | Minimality of the rule among its neighbours; the class (Section 9) | Survey of 6,144 outer-totalistic rules with metastable states and nucleation [RK14] | Survey-level; a new instance |
 
 **Ranking.** The four results we judge most likely to interest a reader who knows cellular automata and
@@ -1032,5 +1033,5 @@ far each was read there. No citation has been checked against a library by a per
 Superseded and therefore absent: F7 (an early engine-only slope), S1 (the proportional "effective area" law for
 symmetric faces), the fitted limit of F9 and GP4 (the extrapolated constant 0.2077). Graded C and mentioned only
 as preliminary: P4–P6, F2, F10–F12, S4, Z4, Z5, Z10, the thickness measurements, Q4, G2–G4, X3, SW3, SW4, and
-the other-lattice results. Graded C and not mentioned: R6 (the web stepper's tests), C7, Z11, L2, L3, the
+the other-lattice results. Graded B and not used: R6 (the web stepper's tests). Graded C and not mentioned: C7, Z11, L2, L3, the
 remaining other-lattice rows. Rows about the edge-neighbour variant (not this automaton) are outside the paper.
