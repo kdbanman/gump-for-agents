@@ -45,6 +45,11 @@ def jobs():
             if r < nj:
                 out.append(('T72' if L[0] * L[2] == 24 and L != (2, 2, 12) and L != (1, 10, 24) else 'N72',
                             L, gens_for(72, 600), seed)); seed += 1
+    # extension (committed before any v2 result was looked at): rounds 6-10 of all five A = 72 tori, run while the
+    # session lasts; truncated by wall time only
+    for r in range(5):
+        for L, _ in ROUND72:
+            out.append(('T72' if L in ((1, 6, 24), (2, 4, 12), (1, 5, 24)) else 'N72', L, gens_for(72, 600), seed)); seed += 1
     return [(i % 2,) + j for i, j in enumerate(out)]
 
 

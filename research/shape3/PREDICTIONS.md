@@ -132,3 +132,7 @@ Changes (plan v2, `run3.py`, seeds 31001–31037):
    Planned precision of d: T01, T12 ≈ ±0.004; N72 ≈ ±0.006; the rest as above.
 3. Every life still old at the end of its job is reported (the "open" column). If a torus still shows open lives far
    older than its mean life, the README says so and gives the value with those lives cut at 20 mean lives.
+
+Extension (added before any v2 job had been looked at): after the plan, rounds 6–10 over all five A = 72 tori
+(seeds 31038–31062), run as long as the session lasts. Wall time is the only stopping rule; the analysis uses
+completed rounds and also reports d from the planned rounds alone.
