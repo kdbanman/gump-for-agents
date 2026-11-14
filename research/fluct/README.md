@@ -16,7 +16,7 @@ Tags: **[proved]**, **[measured]** (n, error, command), **[conjecture]**. Comman
    per generation) sits exactly where the distribution continued to n = 0 puts it. The lead's "I(0) ≈ 0.20 by
    extrapolation, the curve is flattening" is close but slightly low and the shape claim is off: near n = 0 the tail
    is *straight* in n (ln p_k linear, constant ratio p_k/p_{k+1} ≈ 0.6–0.66), not flattening. Endpoint
-   I_A(0) = −ln h/A = 0.2268, 0.2182, 0.2164, 0.2152 at A = 30, 45, 63, 84 → **I(0) = 0.2077 ± 0.0014 + 0.55/A**.
+   I_A(0) = −ln h/A = 0.2268, 0.2182, 0.2164, 0.2152 at A = 30, 45, 63, 84 → **I(0) = 0.2077 ± 0.0014 + 0.55/A** [this fit is retired; see the note of 2026-11-13 below. The four values stand].
 2. **R = 9 first-peel mean: 2300 ± 6** (137,243 peels), not 2.60×10³ ± 0.17×10³ [measured; 1.8σ apart — the lead's
    value is high or uses an earlier start, T0 = 60 vs my 200; the hazard is flat in age from 200 to 7×10⁵ at R = 11].
    R = 11: 1.04×10⁵ ± 0.008×10⁵ (16,240 peels; agrees with 9.4×10⁴ ± 0.9×10⁴). R = 13: 8.86×10⁶ ± 0.48×10⁶ (342 peels).
@@ -108,7 +108,7 @@ density 0.35, T0 = 200) and `run_qsd.sh b` (R = 15, 17, 19, `lite`). Tables: `py
 
 Fits I_A(x) = I∞(x) + b(x)/A over all sizes: b = +0.24 (x=0.4), +0.10 (0.3), −0.01 (0.25), −0.14 (0.2), −0.25 (0.15),
 −0.22 (0.1): finite-size corrections are a few % at A = 30 and < 1% at A ≥ 100; no drift of the curve with size.
-Endpoint **I(0) = 0.2077 ± 0.0014 + 0.55/A** (4 sizes) — i.e. ln τ_face = 0.208·A + 0.55 for octahedral faces, the
+Endpoint **I(0) = 0.2077 ± 0.0014 + 0.55/A** (4 sizes) [retired 2026-11-13, see the note near the top] — i.e. ln τ_face = 0.208·A + 0.55 for octahedral faces, the
 face law's 0.209 with the octahedral ×1.5 in the intercept.
 
 **[measured] The death rate is the QSD continued to n = 0.** ln p_k (p_k = P_qs(n = k) per face-generation) is a

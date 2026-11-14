@@ -42,7 +42,7 @@ _Last updated 2026-11-14 by the lead._
 - `research/theory/swarm/` (relaunched about 22:05 UTC at the owner's word): four Fable solvers (`probability`,
   `counting`, `path`, and from about 22:20 `source`), a librarian (`library/`: primary papers read, theorems as stated) and a critic on one problem, the area law, by mathematics alone. Problem and rules in
   `swarm/PROBLEM.md`; results in each `journal.md` and `claims.md`; the critic's map is `swarm/critic/board.md`
-  (its first pass already corrected several numbers the lead had been quoting: read E1–E11). The lead drives the
+  (its first pass already corrected several numbers the lead had been quoting: read E1–E11; the list now runs to E15). The lead drives the
   rounds (`LEAD.md`, "The swarm"). Nothing in it is established until a fresh reader has audited it.
 - GPU session "Modal API" (see `LEAD.md`): pull request 8 reviewed and merged 2026-11-13 (notebook entry; review in
   `research/audit/REVIEW-gpu-pr8.md`; corrected reading at the top of `research/gpu/README.md`). The fixes the review
@@ -139,7 +139,8 @@ _Last updated 2026-11-14 by the lead._
   second peel missed by the clone run (mean 7×10⁷ confirmed three ways, actual stay 5.2×10⁸)
   and caught at the 95th percentile by the fit-only forecast. Side 17 is forecast at a
   first-plateau mean of 2.6×10¹⁰ (not run).
-- **Open question, not a finding:** side 16's largest plateaus ran 2.8, 7.4, 2.6 and 1.2 ensemble means. The
+- **Open question, not a finding:** side 16's largest plateaus ran 2.8, 7.4, 2.6 and 1.2 ensemble means (the 7.4 is against
+  the pooled 7.1×10⁷, which includes the cube's own copies; against fresh soups alone, 8.6×10⁷, it is 6.1). The
   "over-dispersion, P ≈ 0.01" over cubes 13–16 (`research/experiments/cube_vs_ensemble.py`) is post hoc — it
   includes the side-16 plateaus that suggested it; sides 13–15 alone give P ≈ 0.18 (audit, finding 1). The
   proper test is on fresh lineages: `research/lineage/`, and the GPU session's experiment 1. Hull radius 42

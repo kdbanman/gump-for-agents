@@ -1,5 +1,8 @@
 # Forecasts for the exponent study (append-only)
 
+> Note added by the lead, 2026-11-14: the forecasts below quote "0.2077" as the limiting cost per cell. That fit was
+> retired on 2026-11-13 (`research/fluct/README.md`; `research/CLAIMS.md` GP4). The forecasts are left as written.
+
 Each entry is written and committed before the run that tests it. Outcomes are appended below the entry they
 score, never edited in. "Truth" for the toy = `research/toy2d/README.md` §4.1 (ln τ_edge = 0.73 + 0.416·L, strips
 16 × L, L = 12–36); for gump = `research/fluct/README.md` §1 (−ln h/A = 0.2268, 0.2182, 0.2164, 0.2152 at

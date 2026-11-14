@@ -72,7 +72,9 @@ or a sharply stated conjecture with a rate, (iii) what remains is characterised.
 - **M4 [open] Derive 0.208.** Local-structure (correlated mean-field) approximations of the stationary state, then
   the cost of emptying a face; or a one-cluster birth–death model for the last cells (ratio 0.65 per cell).
 - **M5 [open] The symmetric collapse:** six lockstep domains minus a mirror-line term; the even/odd factor 1.5.
-- **M6 [in progress] Are single lineages memoryless?** `research/lineage/`.
+- **M6 [measured, 2026-11-13] Are single lineages memoryless?** Yes at hull radius 31–38: plateaus of cube-like seeds wait
+  like soups and like an exponential (`research/lineage/README.md`; `research/CLAIMS.md` L1). The GPU session's pull
+  request 12 extends this to vertex-centred R = 40 (under review, 2026-11-14).
 - **M7 [open] Firewall formation** (≈0.12 per cell) in the same language as faces.
 
 ### E — end states (what is left)

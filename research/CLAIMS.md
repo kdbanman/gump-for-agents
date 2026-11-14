@@ -56,7 +56,7 @@ Commands run from the repo root; `G=engine/target/release/gump`. `check.sh` = co
 
 | id | claim | tag | where | reproduce | level | checked |
 |---|---|---|---|---|---|---|
-| F1 | The staircase is peeling: side 11 loses one layer from every face at gens 3290, 3477, 3796 after 3285 gens at R = 27; no interior firewall before the final collapse | measured | NB 11-12; tour; WHAT-I-SEE | `$G run --cube 11 --events F` | B (check.sh) | 2026-11-13 |
+| F1 | The staircase is peeling: side 11 loses one layer from every face at gens 3290, 3477, 3796 (the first generation with the layer empty; `check.sh` prints the last generation alive, 3289, 3476, 3795) after 3285 gens at R = 27; no interior firewall before the final collapse | measured | NB 11-12; tour; WHAT-I-SEE | `$G run --cube 11 --events F` | B (check.sh) | 2026-11-13 |
 | F2 | Side-11 plateau heights 0.79, 0.61, 0.48 of the first vs hull-volume ratios 0.79, 0.62, 0.47 | measured | NB 11-12; WHAT-I-SEE | `python3 research/experiments/kymo11.py` | C (ratios (R/27)³ checked) | — |
 | F3 | Side 13 peels at ≈130,200, 145,850, 156,800, 166,650, 168,200; ends 169,049 | measured | NB engine | `$G run --cube 13 --events F` | B (check.sh) | 2026-11-13 |
 | F4 | Flat faces: τ_face = exp[(−0.09 ± 0.06) + (0.209 ± 0.002)·A], A = 27–90, residuals ≤ 0.18 | measured | NB peeling; STATUS 4; README 4; tour; WHAT-I-SEE | runs: `python3 research/peeling/slabs.py N1 N2 8 CAP`; fit: `python3 research/peeling/face_law_fit.py` | B (table: weighted refit of `slab_area.csv` gives −0.091 + 0.2088·A, `research/audit/data_claims.py`) + A (slope: fluct agent's QSD, lead's octahedra) | 2026-11-13 |
@@ -64,7 +64,7 @@ Commands run from the repo root; `G=engine/target/release/gump`. `check.sh` = co
 | F6 | Octahedral faces obey the same law, 1.7–1.9× tougher (A = 45, 63, 84) | measured | NB peeling; STATUS 4 | `python3 research/peeling/octa.py 11 0.3 1000000` … | B (arithmetic on the regenerated `octa_first.csv`: 1.66, 1.66, 1.93) + A (lead: 1.6–1.9×); the old R = 9 row (1,620, CV 1.26) counted runs whose hull had shrunk before t0, fixed in `octa_hazard.py` (now 2,287, CV 1.03; engine 2,459 ± 97) — audit W3 | 2026-11-13 |
 | F7 | Lead's engine-only check: R = 9 mean wait 2.60×10³ ± 0.17×10³ (221 runs), slope 0.199 ± 0.006 between R = 9, 11 | measured, **superseded** for R = 9 (fluct: 2300 ± 6; the lead's 240-run sample was a 1.7σ high draw, not a T0 effect) | NB 11-12 "independent check" (with correction notes); STATUS 4 now cites `face_endgame_check.py` (−ln h/A = 0.2183) | `python3 engine/scripts/face_law.py 9 240` | B (2599.8 ± 174.9, same seeds; 1,024 soups: 2,313 ± 75 at T0 = 60, 2,307 ± 77 at T0 = 200) | 2026-11-13 |
 | F8 | A face dies off the end of its stationary tail: ln P(n = k) straight to k = 1 (ratio ≈ 0.65), h/P(1) ≈ 0.6, 62% of deaths from one cell, 23% from two | measured | NB fluct; fluct README; STATUS 4; README 4; WHAT-I-SEE | `python3 research/experiments/face_endgame_check.py 9 16000` | A (lead, engine-only) + B (3000 soups, 1 job: mean 2314 ± 45, −ln h/A 0.2184, h/p₁ 0.616, 62/23/10%) | 2026-11-13 |
-| F9 | −ln h/A → I(0) = 0.2077 ± 0.0014 + 0.55/A (A = 30–84) | measured | fluct README; STATUS 4 | `python3 research/fluct/analyze_qsd.py` (needs scratch tallies) | B (table: refit of `fluct/data/qsd_summary.json`) | 2026-11-13 |
+| F9 | −ln h/A → I(0) = 0.2077 ± 0.0014 + 0.55/A (A = 30–84) | measured | fluct README; STATUS 4 | `python3 research/fluct/analyze_qsd.py` (needs scratch tallies) | B for the four tabulated values (refit of `fluct/data/qsd_summary.json`); the fitted limit 0.2077 is **superseded**, see GP4 | 2026-11-13 |
 | F10 | Last ember is a kagome triangle: 38% of 3-cell faces | measured | NB fluct; STATUS; WHAT-I-SEE | `python3 research/experiments/near_death_shapes.py 9 300 1000` | C | — |
 | F11 | Interior 3-layer firewall costs ≈0.12 per band cell (ln τ_fw = −1.4 + 0.54Nm + 0.22N); first event switches firewall → peel at m ≈ N | measured | NB peeling; STATUS 4 | `peeling/slab_fw.csv`; `slab_report.py` | C | — |
 | F12 | A dying face is ordinary until ≈16 gens before death, plunges in 10–12; FFS gains nothing (clone fates 55–95% correlated) | measured | NB fluct; fluct README; STATUS 4 | `predeath.py`, `ffs.py`, `clone_corr.py` | C | — |
@@ -133,7 +133,8 @@ Commands run from the repo root; `G=engine/target/release/gump`. `check.sh` = co
 | GP3 | Vertex-centred O_h soup lineages are memoryless at R = 36, 38, 40; τ(40 v) = 8.63×10⁷ | measured | gpu README | as GP1 | B (agrees with engine-only lineages at 36 v and with the soup-only orbit-stepper value at 40 v) | 2026-11-13 |
 | GP4 | "I(0) = 0.2077 ± 0.0014" (F-row of the fluctuation study) | superseded | fluct README notes | — | D (the fit missed its own data; retired) | 2026-11-13 |
 
-## Counts (2026-11-13)
+## Counts (recounted 2026-11-14)
 
-71 claims: **A** 25 (alone or with B) · **B** 25 · **C** 20 · **D** 1. Two are marked superseded (F7, S1) and
+82 claims, by the best grade any part of the claim has: **A** 30 (15 alone, 13 with B, 2 with C) · **B** 30 (23 alone,
+7 with C for part of the claim) · **C** 21 · **D** 1. Four are marked superseded (F7, S1, F9, GP4) and
 one has a method problem (C6). Details and the open items are in `research/AUDIT-2026-11-13.md`.
