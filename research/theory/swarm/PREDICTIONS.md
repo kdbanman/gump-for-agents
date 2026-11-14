@@ -217,3 +217,25 @@ Driven faces over fair dice: gump D3(3 × 4, ½; 6) **7.3967 ± 0.0088**, D3(4 �
 7.40 ± 0.08, 9.94 ± 0.08; refuted if off the slabs' 7.398, 9.936 by > 0.2); 2D D2(16, ½; 8) **7.4032 ± 0.0089**,
 D2(20, ½; 8) **9.1504 ± 0.0095** (predicted 7.43 ± 0.04, 9.16 ± 0.05). **Holds.**
 Details: `research/theory/swarm/exam/OUTCOMES.md`.
+
+## 2026-11-14, path, E4 (filed in round 4, after the outcomes of E1–E3 and the critic's reply to round 3; nothing has been run on either quantity)
+
+**E4. The exponent from a one-step table, on a rim-free face and on a second lattice.** For a watched layer with
+population n_t (death: n = 0) tally the pooled one-step table T(k, k′) of n over living, exposed states (as `Tr` of
+`research/fluct/qsd.py`; k′ = 0 included; rows 5 ≤ k < the living mean). For each row, normalised over its
+uncensored transitions, compute θ_k, the positive root of Σ_{k′} T(k, k′)·e^{−θ(k′ − k)} = 1, and the variance of k′ − k.
+Write {"A", "mean", "k", "theta", "var"} to a JSON file and run
+`python3 research/theory/swarm/path/bellman.py file.json`; V is the line "Bellman value".
+(a) Gump slab 5 × 4 × 8, face population (A = 60, the E3 vessel).
+(b) face12e slab four cubes deep, wall 5 × 5 (`research/audit/REVIEW-class.md` §2.2), n = population of the layer
+of perpendicular faces beneath the wall sheet (50 cells; "A" = 50), death = that layer empty.
+*Predictions:* (a) **V = 0.211 ± 0.012** (the slab's measured slope of ln τ per cell is 0.2088–0.2121);
+(b) **V = 0.205 ± 0.015 per cell of the layer** (measured wall law: 0.410 per wall face, 0.205 per cell of the
+layer). In both, the script's "int Theta" exceeds V by 0.005–0.02.
+*Why (two lines):* the hazard is the entry flux times the committor of this table, an identity (path journal,
+Theorem P̄), and when the one-step law is extensive the committor's exponent per cell is the value of a recursion
+in two functions of the density, the local root and the step variance (journal entry 17.5; proved bounds
+sup κΘ(κ) ≤ V ≤ ∫Θ). On the hull tables at A = 84 the recursion gives 0.218 where the neighbouring slopes are
+0.212 and 0.218. It is a statement about each vessel's own table; it does not say the two vessels share a root
+curve (E3 says they need not).
+*Refuted if* either V differs from the measured slope by more than 0.025.

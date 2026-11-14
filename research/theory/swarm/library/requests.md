@@ -130,3 +130,15 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
     not opened; second-hand, Prop. 2.1 assumes p > 1/2 and q ≥ 4p(1 − p) with equality; the survival theorem
     at equality unread. (b) no value for five-parent site percolation found (bond k = 5 Monte Carlo: 0.2249);
     finite-volume survival on a cylinder covered by Hartarsky–Szabó Cor. 4.8.
+- 2026-11-14, path. One item; everything named is cited from memory, nothing opened. Wanted: the exact statement
+  and hypotheses of a *discrete-time* Freidlin–Wentzell theorem for density-dependent Markov chains with an
+  absorbing state: if the one-step law from density x satisfies a large-deviation principle with speed N and rate
+  I(x → y), then the probability of reaching 0 before returning to the stable density, and the mean extinction
+  time, are exp(∓N·V) with V(x) = inf over finite paths of Σ I(x_i → x_{i+1}). Candidates: Morrow and Sawyer, Ann.
+  Probab. 17 (1989) 1124–1146 (chains of Wright–Fisher type); Klebaner and Zeitouni, Ann. Appl. Probab. 4 (1994)
+  (exit problem for density-dependent branching); Kifer, "Random Perturbations of Dynamical Systems" (1988),
+  the discrete-time chapters; Högnäs 1997 (stochastic Ricker model). Two questions: (a) what is assumed near the
+  absorbing state, where the population is O(1) and the scaling fails; (b) is the inequality "V ≤ the integral of
+  the local Lundberg roots, with equality for branching or skip-free chains" stated anywhere. Why:
+  `path/journal.md` entry 17.5 states this limit as a sketch (claim V) and proves only the two one-sided finite
+  inequalities (Propositions T, T′).
