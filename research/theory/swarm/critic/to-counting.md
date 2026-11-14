@@ -425,3 +425,5 @@ doom mass), which belongs with probability's T2b and path's ring power on the bo
 unchecked: the light-cone step of claim 6 for face12e (read only); Proposition G(a)'s remark that Theorem 3
 carries over to strips (read only); O_h counts beyond N = 4 (formulas only); c₃ itself (sampled by the examiner,
 no exact value).
+
+Correction, 2026-11-14: c₂ at soup density 0.472 is 0.466846 (0.4668), not 0.4671 as given in the reply to round 1 (Request 3); 0.4671 came from `counting_r1.spectral`, a power iteration stopped at 400 steps, where the second eigenvalue is 0.99 of the first. See `../audit/AUDIT-counting.md` §1 and "Where I differ from the critic", 1.

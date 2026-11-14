@@ -788,3 +788,5 @@ live cell is dead at the next generation with probability 0.44 ± 0.05.
 lattice (the method of Lemma 5 and Proposition G), and reading the outcome of C-E1.
 
 Round 3 is written; the counting line is finished.
+
+Correction, 2026-11-14: c_2 at soup density 0.472 is 0.466846 (0.4668), not 0.4671 as given in entry 9 (twice: the constants line and the comparison "0.4677 against 0.4671"); 0.4671 came from a power iteration stopped at 400 steps, where the second eigenvalue is 0.99 of the first. The decrement 0.023 at 0.472 stands (0.0231). See `../audit/AUDIT-counting.md` §1.
