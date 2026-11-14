@@ -64,11 +64,13 @@ _Last updated 2026-11-14 by the lead._
   it's time to characterize the class that behaves like gump does."
 - **`research/theory/exponent/`**: needs a successor to write `exponent.md` from `PREDICTIONS.md`, `theorems.md` and
   the data, then checking. Lemma A, consequence (c) in `theorems.md` is false (swarm board E10).
-- **GPU session:** pull request 12 has arrived (2026-11-14): rim-free slab faces at A = 108, 126 (claim: on the old
-  line, so the octahedral rise in cost per cell is a rim effect), a long cube-centred symmetric run at R = 43 (claim:
-  the death rate does not fall with age), cube-like seeds at vertex-centred R = 40 (claim: memoryless). Under review
-  as for pull request 8: adversarial agent, the lead re-derives one number, then merge and record. If claim a holds,
-  the swarm's target constant and `swarm/PROBLEM.md` need a note (the critic's board corrected these numbers once).
+- **GPU session:** pull request 12 reviewed 2026-11-14 (`research/audit/REVIEW-gpu-pr12.md`; notebook entry of that
+  date). Stands: symmetric soups do not age at R = 43 (Weibull k = 1.02); cube-like seeds at vertex-centred R = 40 wait
+  exponentially; rim-free slab faces are on the old line through A = 108, and an octahedral face there is 0.91 nats
+  tougher. Does not stand: "the rise is a rim effect" and the slope 0.204 from 108 to 126 (the 6×7×8 run counts
+  firewalls as peels; about a fifth of its deaths). The session was sent the five required wording fixes and asked
+  for a rerun that detects firewalls. **Merge pull request 12 once the fixes are pushed** (check the diff; it should
+  touch only `research/gpu/` and `research/data/`).
 - **Prior art:** Tél–Lai 2008 and Bramson–Neuhauser 1994 are unread (publisher pages refuse agents); the owner was
   told they could fetch them. `PRIOR-ART.md`'s older sections still hold "snippet only" items the library now covers.
 - Lineage study: replicate the weak "slow variable" (copies remember their source, ρ ≈ +0.2) on other sources.
