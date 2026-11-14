@@ -101,7 +101,7 @@ _Last updated 2026-11-14 by the lead._
   test on the pairs of (4);
   (4) Opus: the second variable, pairs of tori with equal area and equal shortest loop, candidates fixed and
   forecasts committed first -> `research/shape3/`.
-  (6) Fable, **reported 22:20 UTC** (`research/constant/README.md`; not yet in the notebook: an Opus adversarial review
+  (6) Fable, **reported 22:10 UTC** (`research/constant/README.md`; not yet in the notebook: an Opus adversarial review
   is running -> `research/audit/REVIEW-constant.md`): no single asymptotic constant is defined by the data. Periodic
   faces give 0.2085 ± 0.0035 whatever the form; hull faces 0.2226 or 0.2317 with one correction term; forcing one
   constant costs χ² 110-238 unless the hull's rim has a two-term correction. The lead's image-sum conjecture fails as
@@ -123,7 +123,7 @@ _Last updated 2026-11-14 by the lead._
   face) for side 16, which are different quantities. The audit's corrected wordings are in `path/claims.md` (a0508c8; one number
   in P's illustration stays in the journal as written, corrected in the audit). Owed: the same audit for counting and the theory push on the
   constant (Fable, after the owner's reset; Fable was 0.90 at 15:22). (b) the overview page is current to the entry "the shortest way round": refreshed
-  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); later work on the branch goes to pull request 17. **After the owner's Fable reset** (about 9am their time,
+  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); pull request 17 (census, audits, draft, prior art, the constant) was merged at 22:18 UTC (merge commit 47af1a6); later work on the branch goes to pull request 18. **After the owner's Fable reset** (about 9am their time,
   probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
   counting and path, and a new theory push on the sharpened problem (the 0.2 per cell from six layers over noise).
 - **Swarm: closed 2026-11-14** (`research/theory/swarm/critic/board.md`, closing table at the top; notebook entry
