@@ -925,3 +925,27 @@ adversarial review, `research/audit/REVIEW-gpu-pr8.md`).
   itself, and any size ≥ 108 against a second implementation.
 - Corrections to the pull request's own wording are at the top of `research/gpu/README.md`.
 
+## 2026-11-14 — the coplanar neighbours are the corner-touching four (asked by the owner)
+
+The owner, looking at the neighbourhood figure on the overview page: "of the coplanar neighbors, each cell watches
+its axial neighbors, not its corner neighbors." Checked, because the whole structure hangs on it.
+
+- **Read (the 2012 source).** `dev/gump/environment.pde` lines 221-225: for a face with `x` odd the coplanar reads
+  are `(x, y±2, z±2)`, both shifted together. Those are the four faces that touch it at a corner. The four that
+  share an edge with it in its own plane, `(x, y±2, z)` and `(x, y, z±2)`, are never read. `docs/AUTOMATON.md` §2
+  already says this.
+- **Measured.** With the edge-sharing four swapped in, the oracle disagrees with the 2012 logs from generation 1
+  (side 8: log 528, variant 0; side 9: log 696, variant 0: a closed cube dies at once, every face being
+  overcrowded). With the corner-touching four it matches every generation, as before.
+- **Counted (the lead, two lines, not audited).** Layer histogram along a body diagonal: corner-touching gives
+  1, 2, 6, 2, 1 (T1), so an empty face outside a diagonal plane sees at most 3 and the hull is an octahedron.
+  Edge-sharing gives 4, 4, 4, so diagonal planes leak. But across an axis plane through face centres (`x = c`,
+  `c` odd, everything beyond it empty) an edge-sharing face at `c+1` sees 2 + 1 = 3 and one at `c+2` sees none, so
+  that variant is confined to its bounding **box** instead. Two soups (density 0.4, box of half-width 8) agree:
+  under the variant the largest coordinate goes 8 → 9 and stays there for 80 generations with about 1,000 faces
+  alive, while the L1 radius passes its starting hull (23 → 25); under gump the L1 radius stays 23 and the
+  largest coordinate grows 8 → 20.
+- So the "8-sided die" of 2012 is the signature of the corner-touching choice. Whether that choice was meant is
+  the owner's to say. Not examined: whether the edge-sharing variant's chaos lasts, or dies face by face.
+
+Reproduce: `python3 research/experiments/axial_variant.py` (about a minute).
