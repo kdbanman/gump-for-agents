@@ -372,7 +372,7 @@ known. An earlier extrapolated limit, 0.2077 ± 0.0014, was withdrawn when it wa
 | R | A | face deaths | ln τ_face | source and independent values |
 |---:|---:|---:|---:|---|
 | 7 | 30 | 117,851 | 6.805 ± 0.003 | symmetry-free bit-sliced CPU ensemble (F9, tabulated value; B); an engine-only run gives −ln h/A = 0.2274 against 0.2268 |
-| 9 | 45 | 137,243 | 9.820 ± 0.003 | same (F9; B); engine-only run of 13,765 deaths: ENGINE9 (F8; A) |
+| 9 | 45 | 137,243 | 9.820 ± 0.003 | same (F9; B); engine-only run of 13,765 deaths: 9.825 ± 0.009 (F8; A) |
 | 11 | 63 | 764,941 | 13.635 ± 0.001 | GPU ensemble (calibration row of GP1); CPU: 13.632 ± 0.008 |
 | 13 | 84 | 34,026 | 18.141 ± 0.005 | GPU; two independent CPU runs: 18.154 ± 0.025 and 18.148 ± 0.028; the earlier CPU value 18.077 ± 0.054 (342 deaths) |
 | 15 | 108 | 1,059 | 23.376 ± 0.031 | GPU only (GP1; B−) |
@@ -380,8 +380,11 @@ known. An earlier extrapolated limit, 0.2077 ± 0.0014, was withdrawn when it wa
 
 Table 2. Asymmetric soups (density 0.35) in octahedra of L1 radius R; τ_face = 8 × mean wait to the first face
 death. The CPU values at R = 7, 9, 11 are ln(8 × first_peel_mean) in `research/fluct/data/qsd_summary.json`
-(6.8054, 9.8202, 13.6317); `research/fluct/README.md` and the notebook print 6.804, 9.819, 13.633, the same numbers
-rounded differently. ENGINE9NOTE **[measured]** Local slopes between successive rows: 0.2010, 0.2119, 0.2146, 0.2181, 0.2209. Nothing at
+(6.8054, 9.8202, 13.6317); `research/fluct/README.md` and the notebook print 6.804, 9.819, 13.633, which differ from
+the file in the last digit. The engine-only value at R = 9 is ln(8 × exposure/deaths) from
+`python3 research/experiments/face_endgame_check.py 9 16000` (re-run 2026-11-14: 13,765 first peels, exposure
+31,826,744 soup-generations, mean 2312.1 ± 19.7, the notebook's 2312 ± 20); the 9.824 printed in an earlier draft is not what the script gives.
+**[measured]** Local slopes between successive rows: 0.2010, 0.2119, 0.2146, 0.2181, 0.2209. Nothing at
 A ≥ 108 has been reproduced by a second implementation or a second GPU run; the kernel was checked bit for bit
 against the CPU steppers by emulation, which cannot check the GPU's execution.
 
