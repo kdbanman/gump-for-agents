@@ -3,7 +3,7 @@
 renewal lives, events every K generations), output redirected to research/scratch/shape3/.
 
     python3 research/shape3/drv3.py validate a k b GENS N        # population vs the engine (cubic N-torus), W=8 lanes
-    python3 research/shape3/drv3.py same a k b GENS SEED          # ts3 and ts.c give identical event files (all lanes)
+    python3 research/shape3/drv3.py same a k b GENS SEED          # ts3 (one-lag settled test) and ts.c: identical event files
     python3 research/shape3/drv3.py run a k b W GENS SEED [CAP]   # CAP default 10^15 = no cap
 """
 import os, sys
@@ -18,13 +18,15 @@ os.makedirs(ts.OUT, exist_ok=True)
 NOCAP = 10 ** 15
 SRC3 = os.path.join(HERE, 'ts3.c')
 TSC = os.path.join(ts.OUT, 'ts_review')
+TS3M1 = os.path.join(ts.OUT, 'ts3_m1')   # ts3 with ts.c's settled test (one lag), for the identity check
 
 
 def build():
     """ts3 from research/shape3/ts3.c; ts_review from the review's unmodified research/audit/shape/ts.c."""
-    for src, out in ((SRC3, ts.BIN), (os.path.join(ROOT, 'research', 'audit', 'shape', 'ts.c'), TSC)):
+    for src, out, fl in ((SRC3, ts.BIN, []), (SRC3, TS3M1, ['-DNSNAP=2']),
+                         (os.path.join(ROOT, 'research', 'audit', 'shape', 'ts.c'), TSC, [])):
         if not os.path.exists(out) or os.path.getmtime(out) < os.path.getmtime(src):
-            subprocess.check_call(['gcc', '-O3', '-march=native', '-o', out + '.new', src])
+            subprocess.check_call(['gcc', '-O3', '-march=native', *fl, '-o', out + '.new', src])
             os.replace(out + '.new', out)
 
 
@@ -43,7 +45,7 @@ def _run_w8(cmd, *a, **k):
 def same(L, gens, seed, W=8):
     build(); _, path = ts.vessel(L)
     outs = []
-    for b in (ts.BIN, TSC):
+    for b in (TS3M1, TSC):
         ev = os.path.join(ts.OUT, f'same_{os.path.basename(b)}_{os.getpid()}.txt')
         subprocess.run([b, path, str(W), '0.4', str(seed), str(NOCAP), '8', str(gens), ev], check=True, capture_output=True)
         outs.append(open(ev).read()); os.remove(ev)

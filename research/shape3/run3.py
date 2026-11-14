@@ -5,8 +5,8 @@
     nohup python3 research/shape3/run3.py lane 0 2 > research/scratch/shape3/lane0.log 2>&1 &   # lane 0 on core 2
     nohup python3 research/shape3/run3.py lane 1 3 > research/scratch/shape3/lane1.log 2>&1 &   # lane 1 on core 3
 
-ts3 (research/shape3/ts3.c), W = 8 (512 replicas), renewal lives, no cap (10^15), events every K = 8 generations,
-soup 0.4. Restartable: a job whose summary file exists is skipped (a job killed mid-run leaves no summary and is
+ts3 (research/shape3/ts3.c, with the multi-lag settled test), W = 8 (512 replicas), renewal lives, no cap (10^15),
+events every K = 8 generations, soup 0.4. Restartable: a job whose summary file exists is skipped (a job killed mid-run leaves no summary and is
 rerun from its start with the same seed). Jobs run in list order within a lane; no stopping rule, no top-ups: if the
 session ends early, the analysis uses the completed jobs, and the A = 72 jobs are interleaved round-robin over the
 five tori so that a truncation removes whole rounds, not tori.
@@ -29,18 +29,18 @@ CHEAP = [('Q36', (1, 4, 12), 36, 30, 1), ('Q36', (1, 3, 12), 36, 30, 1),
          ('Q45', (1, 5, 15), 45, 60, 1), ('Q45', (1, 4, 15), 45, 60, 1),
          ('P1', (2, 2, 8), 48, 60, 1), ('P1', (1, 6, 16), 48, 60, 1),
          ('Q54', (3, 0, 6), 54, 200, 1), ('Q54', (1, 5, 18), 54, 200, 1),
-         ('P3', (1, 8, 20), 60, 400, 1), ('P3', (2, 2, 10), 60, 400, 1),
+         ('P3', (1, 8, 20), 60, 300, 1), ('P3', (2, 2, 10), 60, 300, 1),
          ('P2', (1, 5, 20), 60, 425, 2), ('P2', (1, 4, 20), 60, 425, 2),
          ('Q63', (1, 6, 21), 63, 650, 2), ('Q63', (1, 7, 21), 63, 650, 2)]
-ROUND72 = [((1, 6, 24), 6), ((2, 4, 12), 6), ((1, 5, 24), 6), ((2, 2, 12), 3), ((1, 10, 24), 3)]
+ROUND72 = [((1, 6, 24), 5), ((2, 4, 12), 5), ((1, 5, 24), 5), ((2, 2, 12), 2), ((1, 10, 24), 2)]
 
 
 def jobs():
-    out = []; seed = 30001
+    out = []; seed = 31001   # plan v2 (v1, seeds 30001-30042, was stopped after four jobs: see PREDICTIONS.md)
     for tag, L, A, sec, nj in CHEAP:
         for _ in range(nj):
             out.append((tag, L, gens_for(A, sec), seed)); seed += 1
-    for r in range(6):
+    for r in range(5):
         for L, nj in ROUND72:
             if r < nj:
                 out.append(('T72' if L[0] * L[2] == 24 and L != (2, 2, 12) and L != (1, 10, 24) else 'N72',

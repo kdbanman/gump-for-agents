@@ -106,3 +106,29 @@ exposure at A = 72). Events checked every 8 generations; ties (face death and fi
 are counted separately and reported both ways. ln τ_face = ln(2E/F) ± 1/√F. Planned precision of d: Q pairs, P1, P2
 ±0.0015–0.002; P3 ±0.0025; T01, T12 ±0.0037 (short of ±0.003: the budget is two cores for about three hours);
 N72 ±0.005. A = 72 jobs run in rounds over the five tori, so a truncated run loses rounds, not tori.
+
+## Amendment, before the production runs of plan v2 (2026-11-14, about 25 minutes after the commit above)
+
+Plan v1 (seeds 30001–30042) was started and **stopped after its first four jobs** (Q36 and Q45, one job per torus).
+Reason: without a cap, lives that settle into a state whose period does not divide 840 (or into a translating
+pattern) are never caught by ts.c's settled test (equality with the snapshot 840 generations earlier) and keep
+adding exposure until the end of the job. In the first Q36 job, 14 of 512 replicas held such a "zombie" life at the
+end (ages up to 7 × 10⁶, against a mean life of 800), carrying 1.7% of the exposure: a bias of +0.017 in ln τ that
+differs between tori. With the review's cap (5 × 10⁵) the same lives were censored as "C". No forecast and no
+candidate was changed; the forecasts above stand as committed.
+
+What was seen before the amendment (it is disclosed because it was seen): the v1 counts of Q36 give d = −0.027
+(zombie-biased; −0.023 for lives younger than 65,536), and the v1 summary lines of Q45 give d ≈ +0.007 (equal
+exposures, F 1,153,847 against 1,145,644). These v1 numbers are not used in any result.
+
+Changes (plan v2, `run3.py`, seeds 31001–31037):
+
+1. ts3's settled test compares the state with the snapshots taken 840·m generations earlier, m = 1 … 128, within
+   the same life, and censors at age − 840·m for the smallest such m. Exact equality of the whole state is proof of
+   periodicity, so this cannot censor a chaotic life. On the Q36 job it removed every zombie (0 open lives older than
+   20,000 at the end, 106 more lives settled). The step kernel is unchanged; validation is rerun (`validate3.sh`;
+   the identity check against ts.c now uses ts3 built with the one-lag test, `-DNSNAP=2`).
+2. Budget trimmed to fit: A = 72 runs 5 rounds (triple) and 2 rounds (N72) instead of 6 and 3; P3 300 s per torus.
+   Planned precision of d: T01, T12 ≈ ±0.004; N72 ≈ ±0.006; the rest as above.
+3. Every life still old at the end of its job is reported (the "open" column). If a torus still shows open lives far
+   older than its mean life, the README says so and gives the value with those lives cut at 20 mean lives.

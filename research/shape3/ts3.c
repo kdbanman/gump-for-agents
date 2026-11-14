@@ -1,4 +1,6 @@
 /* ts3 (research/shape3): ts.c with a carry-save AVX-512 step kernel; otherwise unchanged.
+ * Second change (after zombie lives were found in the first cap-free jobs): settled = equal to a snapshot taken
+ * 840 m generations earlier in the same life, m = 1..128 (ts.c: m = 1 only), censored at age - 840 m.
  * ts: independent bit-sliced gump stepper for the review of research/shape/ (shares no code with it).
  * 64*W replicas; each replica runs successive lives ("renewal"): a life starts from a fresh p-soup and ends at its
  * first event (face death, transverse firewall), or is censored (settled with period | 840, or age >= cap); the
@@ -19,6 +21,9 @@
 #include <stdint.h>
 #include <string.h>
 typedef uint64_t u64;
+#ifndef NSNAP
+#define NSNAP 129   /* shape3: snapshot ring for the settled test (-DNSNAP=2: ts.c's test, for the identity check) */
+#endif
 static u64 sm;
 static inline u64 rnd(void) { u64 z = (sm += 0x9e3779b97f4a7c15ULL); z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9ULL;
   z = (z ^ (z >> 27)) * 0x94d049bb133111ebULL; return z ^ (z >> 31); }
@@ -64,12 +69,13 @@ int main(int argc, char **argv) {
   int ni = rdi(f); lay *I = malloc(sizeof(lay) * ni); for (int l = 0; l < ni; l++) I[l] = rdl(f);
   fclose(f);
   int R = 64 * W; u64 thr = (u64)(p * 18446744073709551616.0);
-  u64 *a = calloc((size_t)(n + 1) * W, 8), *b = calloc((size_t)(n + 1) * W, 8), *snap = calloc((size_t)n * W, 8);
+  u64 *a = calloc((size_t)(n + 1) * W, 8), *b = calloc((size_t)(n + 1) * W, 8), *snap = calloc((size_t)NSNAP * n * W, 8);
+  int lagS[64];
   long *born = calloc(R, sizeof(long)); u64 *intfw = calloc(W, 8);
   for (int i = 0; i < n; i++) for (int w = 0; w < W; w++) { u64 x = 0; for (int k = 0; k < 64; k++) if (rnd() < thr) x |= 1ULL << k; a[(size_t)i * W + w] = x; }
   if (initf) { for (int i = 0; i < n; i++) a[(size_t)i * W] &= ~1ULL; FILE *g = fopen(initf, "r"); int c;
     while (fscanf(g, "%d", &c) == 1) a[(size_t)c * W] |= 1ULL; fclose(g); cap = gens + 1; }
-  memcpy(snap, a, 8 * (size_t)n * W);
+  memcpy(snap, a, 8 * (size_t)n * W);   /* slot 0 = generation 0 */
   FILE *ev = fopen(evf, "w");
   long nF = 0, nX = 0, nW = 0, nS = 0, nC = 0, near2 = 0, nI = 0; double E = 0;
   u64 *dead = malloc(8 * 64);
@@ -108,9 +114,15 @@ int main(int argc, char **argv) {
           u64 fi = 0; for (int l = 0; l + 2 < ni; l++) fi |= di[l] & di[l + 1] & di[l + 2];
           u64 nw = fi & ~intfw[w]; nI += __builtin_popcountll(nw); intfw[w] |= fi; }
       }
-      if (set) { u64 eq = ~0ULL; for (int i = 0; i < n; i++) eq &= ~(a[(size_t)i * W + w] ^ snap[(size_t)i * W + w]);
-        for (int i = 0; i < n; i++) snap[(size_t)i * W + w] = a[(size_t)i * W + w];
-        endS = eq; }
+      if (set) {   /* shape3: compare with the snapshots 840 m generations back, m = 1..NSNAP-1 (any period p with
+                      p / gcd(p, 840) < NSNAP); a replica settles at the smallest m with age > 840 m */
+        long c = g1 / 840;
+        for (int k = 0; k < 64; k++) lagS[k] = 0;
+        for (int m = 1; m < NSNAP && m <= c; m++) { const u64 *sp = snap + (size_t)((c - m) % NSNAP) * n * W;
+          u64 eq = ~0ULL; for (int i = 0; i < n && eq; i++) eq &= ~(a[(size_t)i * W + w] ^ sp[(size_t)i * W + w]);
+          for (int k = 0; k < 64; k++) if (((eq >> k) & 1) && !lagS[k] && g1 - born[64 * w + k] > 840L * m) { lagS[k] = m; endS |= 1ULL << k; } }
+        u64 *sc = snap + (size_t)(c % NSNAP) * n * W;
+        for (int i = 0; i < n; i++) sc[(size_t)i * W + w] = a[(size_t)i * W + w]; }
       u64 endAny = endF | endW | endS;
       for (int k = 0; k < 64; k++) { int r = 64 * w + k; long age = g1 - born[r];
         u64 bit = 1ULL << k; int cens = 0;
@@ -127,8 +139,7 @@ int main(int argc, char **argv) {
               fprintf(pf, "P %d", fc); for (long g = gd - 24; g < gd; g++) fprintf(pf, " %d", POP(g)); fprintf(pf, "\n");
             } }
           else if (endW & bit) { nW++; fprintf(ev, "W %ld\n", age); E += age; }
-          else { if (age < 840) continue;   /* snapshot predates this life */
-                 nS++; fprintf(ev, "S %ld\n", age - 840); E += age - 840; }
+          else { nS++; fprintf(ev, "S %ld\n", age - 840L * lagS[k]); E += age - 840L * lagS[k]; }
         } else if (age >= cap && !initf) { nC++; fprintf(ev, "C %ld\n", age); E += age; cens = 1; }
         else continue;
         (void)cens;
