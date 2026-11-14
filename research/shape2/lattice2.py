@@ -14,7 +14,7 @@ Per class:
   cut     cells in the cheapest transverse firewall: 3 x layer size over diagonals with >= 3 layers (as
           research/shape/models.py); 'none' if every diagonal has <= 2 layers
 """
-import math, os, sys
+import functools, math, os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, os.path.join(HERE, '..', 'shape'))
 from lattice import row_closure, transverse_periods  # noqa: E402
@@ -63,6 +63,7 @@ def primitive_loops(a, k, b, R=None):
     return out
 
 
+@functools.lru_cache(maxsize=None)
 def invariants(a, k, b):
     L = primitive_loops(a, k, b)
     q1, v1 = L[0]
