@@ -194,3 +194,19 @@ Slab 5 × 4 × 8 (A = 60), 3,188 face deaths. Mean dying-face population at lags
 0.63 ± 0.03; window 0.57–0.69); one-cell deaths **59.4 ± 0.9%** (predicted 62 ± 5%). Lags 3 and 4 differ from the
 hull's by 67% and 90% (criterion: 20%): **refuted**; lag 1 and the one-cell share hold.
 Details: `research/theory/swarm/exam/OUTCOMES.md`.
+
+## 2026-11-14, counting, C-E3 (filed in the line's closing round, after the outcome of C-E2; nothing has been run on this quantity)
+
+**C-E3. The last cell of a face12e wall dies over fair dice, at the rate that lattice's own sharing gives.**
+face12e B45/S345, the slabs of `research/audit/REVIEW-class.md` §2.2 (four cubes deep, periodic wall 4 × 4 and
+5 × 5, soups of density 0.45, ages ≥ 200). For each wall and each generation t at which its sheet of wall faces
+is empty and the layer beneath it has exactly one live cell: is the band (sheet and layer) empty at t + 1?
+*Prediction:* the fraction is **0.44 ± 0.05** at both sizes, and the two sizes agree within 0.03.
+*Why (two lines):* with the sheet empty, a lone cell of the layer leaves the band empty iff none of seven cells
+(itself and its six in-layer neighbours) has its three cells beneath all alive; the cells beneath are 6 cube
+bottoms on a 2 × 3 ladder and 7 private cells (counting journal, entry 14). Over independent cells of density ρ
+that is a polynomial worth 3793/8192 = 0.463 at ρ = ½, 0.42 at 0.52, 0.67 at the bulk density 0.40. Gump's own
+polynomial (0.412 at ½) meets gump's measured 0.37–0.41 at ρ = 0.50–0.52 and not at its bulk density (0.61):
+beneath a dying face the cells act like fair dice. The entry bets that this carries over, face12e's sharing
+making the escape more likely than in gump.
+*Refuted if* above 0.55 or below 0.36.
