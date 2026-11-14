@@ -166,7 +166,13 @@ let CI pass, merge.
   refused and every subagent dies without notice.
 - The owner's ceiling is 95% on session and weekly. Working rule: check before launching agents and on a timer
   while they run; at 85% of either window start no new agent and ask running ones to finish what they are writing;
-  at 92% stop them. The session window is the one that moves fast (it resets every five hours).
+  at 92% stop them.
+- Observed 2026-11-14, 07:28–07:33 UTC, just after three Fable solvers started: the third window went 0.56 → 0.58
+  while `seven_day` stayed at 0.31 and `five_hour` went 0.27 → 0.29. So the third window has a smaller allowance or
+  counts something narrower; the lead's guess (not confirmed) is that it is the weekly figure that Fable counts
+  against. It resets 2026-11-18 11:00 UTC. The lead is itself a Fable session and needs headroom in it until then:
+  stricter thresholds there (no new Fable agent from 0.80; stop from 0.88), and prefer Opus for agents whose work
+  does not need Fable (referee passes, examiners, librarians, reviews) until it is known what the window counts.
 - Context: `mcp__claude-code-remote__get_session` with no id shows `external_metadata.context_usage`
   (`used_tokens` of `max_tokens`) and the auto-compaction threshold.
 
