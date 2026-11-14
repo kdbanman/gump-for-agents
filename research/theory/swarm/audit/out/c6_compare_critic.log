@@ -1,0 +1,3 @@
+=== A. c_2 at density 0.472: the critic's matrix and power iteration, more iterations
+  critic's spectral(), iters =   400: rho = 0.626819676, c_2 = 0.467096   <- the lab's default; the reply and the board print 0.4671
+  critic's spectral(), iters =  1000: rho = 0.626971787, c_2 = 0.466854
