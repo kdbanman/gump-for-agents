@@ -74,9 +74,13 @@ hull's sides are of unequal length (its first side dies within 16–330 generati
 **Armour (P1.4): holds as stated, with a twist.** At c = 8 the hull and the strips of hex9 have an armoured core (the
 outer pair of layers, degrees 6 and 7 ≤ c − 1). In strips (`two_d.py slab hex9 8 B n 2n+7 G`): the outer pair sits at
 density **1.000** in every old replica and **never dies** (0 events at depth 0–1), but the pair beneath it dies, memorylessly:
-ln τ = 6.943 ± 0.003 (n = 10, 162,970 deaths, CV 0.99), 10.606 ± 0.013 (n = 14, 6,269 deaths, CV 1.00, hazard flat),
-FILL(n = 12, 16). So under armour the chaos still recedes, layer band by layer band, at 0.92 per wall cell — it peels
-*off* the immortal skin. Clause 3 is right that the armoured wall is immortal and silent about this. kagome8 at
+ln τ = 6.943 ± 0.003, 9.051 ± 0.003, 10.606 ± 0.013, 12.076 ± 0.013 at n = 10, 12, 14, 16 (162,970; 114,013; 6,269;
+5,819 deaths; CV 0.98–1.00; hazard flat in four or five bins). So under armour the chaos still recedes, band by band,
+memorylessly (local slopes 1.05, 0.78, 0.74 per wall cell, concave like c = 7) — it peels *off* the immortal skin.
+In hulls, however, c = 8 does what class.md says capped rules do from c_arm on (`two_d.py life hex9 8 R 2000000`):
+R = 3 median 71, R = 4 median 524,295 (59 of 64 finished, all in long cycles, final density 0.69), R = 5, 6, 7 none of
+64 finished and **no permanent dead set at all** in 2 × 10⁶ generations — the strip's under-armour law does not show
+in the hull (not examined why; the hull's armoured core reaches into its corners). Clause 3 is right that the armoured wall is immortal and silent about this. kagome8 at
 c = 7, 8 (not chaotic): every strip replica freezes or dies before the burn-in.
 
 ## 2. kagome4 B2/S12 (b = 2), strips 41 rows deep
@@ -99,15 +103,21 @@ wrong).** `./run_kagome4b.sh`:
 | 10 | 2,834 | 11.405 ± 0.019 | 1.01 | 89,500, 89,100, 90,800 | 1,146 | 0 / 0 / 0 | 138,056 |
 | 12 | 1,191 | 12.970 ± 0.029 | 0.98 | 427,000, 422,000, 435,000 | 447 | 0 / 0 / 0 | 1,202,520 |
 | 14 | 582 | 14.380 ± 0.042 | 0.98 | 1.96, 1.61, 1.69 × 10⁶ | 203 | 0 / 0 / 0 | 3,449,536 |
-FILL
+| 16 | 240 | 15.959 ± 0.065 | 1.00 | 8.5, 8.7, 8.1, 9.1 × 10⁶ | 64 | 0 / 0 / 0 | 15,345,288 |
+| 18 | 108 | 17.387 ± 0.096 | 0.81* | 3.5, 3.6 × 10⁷ | 30 | 0 / 0 / 0 | 30,000,000 (run length) |
 
-**Slope FILL per wall-row cell** (weighted fit; local slopes 0.791, 0.769, 0.783, 0.705 ± 0.008–0.025), i.e. FILL per
-cell of the two-row band (3n cells). Forecast 0.70 ± 0.08: inside. The forecast's reason (cuts) was wrong: at 41 rows
+\* at n = 18 every replica started at t = 0 and the run is 3 × 10⁷ ≈ τ long, so the waits are truncated and the CV of
+the uncensored waits is biased low; the hazard in the two age bins is flat.
+
+**Slope 0.772 ± 0.003 per wall-row cell** (weighted fit over n = 6 … 18, χ² = 18 on 5 dof; local slopes 0.791, 0.769,
+0.783, 0.705, 0.790, 0.714, ± 0.008 … 0.058), i.e. 0.257 per cell of the two-row band (3n cells) whose death is the
+permanent event. Forecast 0.70 ± 0.08: inside. The forecast's reason (cuts) was wrong: at 41 rows
 there are no cuts at all; the drift of the review's 17-row series came from walls that froze and from settled strips.
 Freezing is itself a competing ending with nearly the same size dependence (frozen / wall deaths = 0.40, 0.44, 0.40,
-0.38, 0.35 at n = 6 … 14): in a hexagon roughly a quarter to a third of the walls will freeze rather than die.
+0.38, 0.35, 0.27, 0.28 at n = 6 … 18): in a hexagon a fifth to a third of the walls would freeze rather than die.
 Freezing censor checked for sensitivity: 256 instead of 1,024 frozen generations changes ln τ at n = 8 by 0.02
-(9.853 vs 9.872 ± 0.023). Depth: FILL. No pits (P2.2 holds).
+(9.853 vs 9.872 ± 0.023). Depth: at n = 10, 25, 41 and 57 rows give ln τ = 11.438, 11.405, 11.410 (± 0.019; no cuts
+at 41 and 57 rows, 2 at 25). No pits (P2.2 holds).
 
 ## 3. bond10 at its tight b = 3
 
@@ -140,20 +150,79 @@ up along the edges.**
 - *Boxes.* 3³ (`python3 box_hazard.py 3 1000000 4`, 256 boxes, settling censored): first permanent wall death
   ln τ per wall = 7.87 ± 0.07 — equal to the 3 × 3 column, not the slab (4.62); 29 of 256 boxes settle into a
   periodic state before any wall dies; median lifetime 292 (quartiles 142–515, seed 2). 4³ (`three_d.py box bond10
-  5 4 1e7 2 64`): **no permanent dead set of any kind in 64 boxes × 10⁷ generations** (none finished; FILL long run);
-  so τ per wall > ~1 × 10⁹, against 3,100 in the slab and 6 × 10⁵ in the 4 × 4 column. The box of 4³ and larger is out
-  of reach not because it cannot die but because each wall carries four edges.
+  5 4 1e7 2 64`): **no permanent dead set of any kind in 64 boxes × 10⁷ generations**; continued with another seed to
+  10⁸ (`three_d.py box bond10 5 4 100000000 3 4096`): **4 of 64 boxes died**, at 2.3, 3.4, 4.6 and 6.6 × 10⁷
+  generations (final density 0.14; one empty); the other 60 had no permanent dead set at 10⁸. Exponential estimate of
+  the box lifetime: mean ≈ 6.2 × 10⁹ / 4 ≈ 1.5 × 10⁹ (median ≈ 1 × 10⁹, a factor ~2 either way on 4 events), against
+  the forecast 600–1,500 from the slab law: **× 10⁶**. With the edges counted as in the columns (0.52–0.66 nat per edge
+  cube, 16 edge cubes per wall) the forecast would have been 2 × 10⁶ – 2 × 10⁷ for the first wall death, still short
+  by 10–100×: corners (or four edges at once) cost more than two edges do. H3 (never dies) is refuted; H2 holds;
+  H1 alone is refuted (the box walls are ≫ 20× tougher). The box of 4³ is out of reach not because it cannot die but
+  because each of its walls carries four edges.
 - *c = 6 (B345/S2345), P3.2: holds.* Every box has a 24-cell armoured core (three sheet cells at each corner,
   degree 5 = c − 1). `three_d.py bond10c6 n 200000`: 3³ boxes freeze at median 17 generations, 4³ at 2,063, every one
   of 64 + 64 with the core fully alive, no wall sheet dead, final density 0.60 and 0.52.
 
 ## 4. face12e B45/S345 (not gump)
 
-FILL
+**(b) O_h-symmetric soups (P4.2): holds, more extreme than forecast.** `./run_face12e.sh` first part: box of n³ cubes
+(walls at odd coordinates), 64 soups of density 0.45 drawn per O_h orbit (`three_d.py symbox 6 n 2000000 1`);
+`three_d.py symcheck 6` → symmetry preserved at every one of 200 generations in all 64 soups (24 orbits, 756 cells).
+
+| n | orbits | median lifetime (quartiles) | first wall sheet dead (median) | final density | empty endings | asymmetric median (review) | shortening |
+|---|---|---|---|---|---|---|---|
+| 4 | 9 | 3 (2–5) | 4 | 0.028 | 54/64 | 439 | 146× |
+| 5 | 18 | 9 (5–10) | 16 | 0.063 | 34 | 9,855 | 1,100× |
+| 6 | 24 | 9.5 (6–13) | 12 | 0.058 | 25 | 707,038 | 74,000× |
+| 7 | 40 | 19 (12–36) | 26 | 0.046 | 31 | ≈ 10⁸ (part a) | ≈ 5 × 10⁶× |
+| 8 | 50 | 19 (12–25) | 20 | 0.043 | 27 | — | |
+| 9 | 75 | 33.5 (24–57) | 44 | 0.031 | 28 | — | |
+| 10 | 90 | 35.5 (26–60) | 44 | 0.038 | 20 | — | |
+| 11 | 126 | 100.5 (57–162) | 144 | 0.031 | 16 | — | |
+| 12 | 147 | 103.5 (68–154) | 112 | 0.025 | 16 | — | |
+
+Forecast: medians 10–100 for 4³ … 8³ and ≥ 10³ shorter than asymmetric at 6³ (expected ~10⁴): observed 3–19 and
+74,000×. The refutation lines (6³ above 7 × 10⁴; growth ≥ 0.2 per unit of n²) are far away: the symmetric lifetimes
+grow by ln(103.5 / 3) = 3.5 from n² = 16 to 144, 0.028 per unit of n² against 0.39 for the asymmetric box series —
+0.22 per independent wall face (n²/8), about half the asymmetric wall law's 0.41 per face. A symmetric box is gone in
+tens of generations at sizes where the asymmetric one lives 10⁵–10⁸; symmetry is even more fatal here than in gump
+(gump: effective area A/7.7 per {111} face, `research/STATUS.md` item 4). Lifetimes come in equal pairs (n = 7, 8;
+9, 10; 11, 12): an odd box (cube-centred) and the next even one (vertex-centred) live alike. These lifetimes are so
+short that they are dominated by the soup's first transient; I did not fit a law to them.
+
+**(a) The box of 7³ (P4.1).** FILL7
 
 ## Where the revised class statement is wrong or silent
 
-FILL
+1. **Clause 6 ("lifetimes grow as the wall law dictates") is wrong for bond10 at b = 3**: walls in a box are not the
+   slab's walls. The slab law (0.49 per face, clean) under-forecasts the box of 4³ by ~10⁶. The reason is geometric
+   and general for several-type lattices whose wall band (sheet + layer beneath) contains the edge rows of the
+   neighbouring walls' sheets: a wall can die only with its neighbours' edge rows, which stay dense (0.7). face12e has
+   the same layering and its box lifetimes did follow its wall law within a factor ~2 (box/τ = 0.34–0.37 against
+   the 1/6 of independent walls); why bond10's edges cost so much more is not established. The statement needs a
+   box/edge term, or clause 6 must be restricted to vessels whose walls do not share their dying band.
+2. **Clause 3 (armour) is silent on dynamically frozen walls.** kagome4 B2/S12 has an empty Theorem-E core, yet
+   27–44 % as many walls freeze (static, density 2/3) as die (the fraction falls slowly with length); frozen walls do not die on the time
+   scales run. This is what made the review's kagome4 series drift. The strip law is clean only once frozen walls
+   are censored.
+3. **Clause 3 is literally right but incomplete under armour.** hex9 c = 8: the armoured outer band is immortal
+   (density 1.000, 0 deaths), but in strips the band beneath it dies memorylessly (ln τ 6.9 → 12.1 for n = 10 → 16).
+   In hulls nothing died within 2 × 10⁶ generations; so "armour stops the peeling" holds for hulls here, not for
+   strips.
+4. **Clause 5 "exponential in the wall's area"** holds for hex9 c = 7 as "memoryless, ln τ rising by 7.2 nats", but
+   the rate per wall cell falls from 0.69 to 0.53 over n = 8 … 20 — not a straight line (likewise under armour at
+   c = 8). gump's own symmetric law and local slopes also drift (STATUS item 4); the statement should say
+   "ln τ grows roughly linearly", not "linear".
+5. **Clause 1 (confinement) and clause 2 held everywhere**: 0 escapes in 1,536 soups on kagome8 and hex9 at
+   eight caps; no pits on hex9 strips at n ≥ 12 though no C1 certificate exists at their walls (the certificate is
+   sufficient, not necessary; peeling found no finite sealed set either).
+6. **Clause 4 (no chaos prediction)** is honest: kagome8 has no chaotic cap in reach (c = 7 a glass), hex9 has two
+   (c = 7, 8). hex9 c = 7 at b/K = 0.44 is a third exception to class.md §5's "b/K ≤ 3/8" regularity (after vn and
+   kagome4).
+7. **New gump-type rule**: hex9 B456/S3456 (honeycomb with 9 neighbours, b = 4, c = 7) — confined, chaotic torus
+   (ρ = 0.537), memoryless whole-wall death, hull lifetimes growing to sparse debris. kagome4 B2/S12's candidacy
+   (review R§2.4) is now on a clean law at seven lengths. bond10 B34/S234 at b = 3 has every signature in slabs and a
+   box lifetime that grows enormously (5 → 262 → ~10⁹ for 2³, 3³, 4³).
 
 ## Dead ends and corrections made during the work
 
@@ -168,4 +237,19 @@ FILL
 
 ## Not checked
 
-FILL
+- kagome8 strips at a chaotic cap (none exists among 5–8); kagome8 and hex9 tori at one size and four densities
+  only (a narrow chaotic basin could be missed, as class.md §9 warns); hex9 c = 7 only in strips of one orientation
+  (the only one: hex9's six sealed directions are one orbit) and depth 2n + 7 (depth dependence not tested for hex9).
+- hex9 hulls: one seed shape (hexagon), sides of unequal length; not a rate test. Why c = 8 hulls show no permanent
+  death while c = 8 strips do.
+- kagome4: the frozen-wall criterion (1,024 static generations of the two wall rows) is a censoring rule I chose;
+  that frozen walls never thaw was checked only as "5 of 5 survivors static at 10⁵" and by the insensitivity of ln τ
+  to 256 vs 1,024; hexagon lifetimes not re-run.
+- bond10: c = 6 slab law not re-measured; 5³ boxes not run beyond the review; the edge cost was measured in columns of
+  3 × 3, 3 × 4, 4 × 4 only, corners not isolated; the 4³ box lifetime rests on 4 deaths.
+- face12e: symmetric boxes at c = 6 only, one seed; the asymmetric medians compared are the review's; the 7³ test is
+  a count of finishers, not a median.
+- The numpy cross-check of `fu_step` covers 100 generations on small vessels; the long runs rely on `fu_step` being
+  the same code. The slab driver's classification (wall / deep / cut / pit / periodic / frozen) has no independent
+  implementation; it was checked by printing individual dead sealed sets (`scratch` diagnostic, hex9 n = 10), not
+  systematically.

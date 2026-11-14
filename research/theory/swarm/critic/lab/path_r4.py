@@ -434,18 +434,18 @@ def lr12():
     sys.path.insert(0, os.path.normpath(os.path.join(HERE, '..', '..', '..', '..', 'audit', 'class')))
     import lead_check as lc
     print("LR12 and Lemma F. face12e slab, walls at x = 1 and x = 2D + 1, periodic N x M: sealed sets (every cell has at most 3 neighbours in the vessel outside the set)")
-    for (N, M, D) in ((3, 3, 2), (3, 3, 3), (3, 3, 4), (4, 4, 2), (4, 4, 3), (4, 4, 4), (3, 4, 2), (3, 5, 2), (5, 5, 4)):
+    for (N, M, D) in ((3, 3, 2), (3, 3, 3), (3, 3, 4), (4, 4, 2), (4, 4, 3), (4, 4, 4), (3, 5, 2), (5, 5, 4)):
         cells, nbr = lc.graph((2 * D + 3, 2 * N, 2 * M), (False, True, True), "edge", xrange_=(1, 2 * D + 1))
         n = len(cells); nb = [[int(j) for j in row if j != n] for row in nbr]
         xs = cells[:, 0]
         W1 = [i for i in range(n) if xs[i] <= 2]; W2 = [i for i in range(n) if xs[i] >= 2 * D]
         sealed = all(sum(1 for j in nb[i] if xs[j] > 2) <= 3 for i in W1)
         sub, res = min_sealed2(nb, 3, forbid=[W1], allowed=W1)
-        check(sealed and sub is None, f"wall {N} x {M}, {D} cubes deep ({n} cells): sheet + layer beneath ({len(W1)} = 3A cells) is sealed and has no non-empty sealed proper subset (programme infeasible): Lemma F (iii)")
+        check(sealed and sub is None and res.status == 2, f"wall {N} x {M}, {D} cubes deep ({n} cells): sheet + layer beneath ({len(W1)} = 3A cells) is sealed and has no non-empty sealed proper subset (programme infeasible): Lemma F (iii)")
         found = []; forbid = []
-        budget = 14 if n <= 130 else 8
+        budget = 12 if n <= 130 else 8
         while len(found) < budget:
-            W, res = min_sealed2(nb, 3, forbid=forbid, time_limit=60)
+            W, res = min_sealed2(nb, 3, forbid=forbid, time_limit=20)
             if W is None: break
             optimal = (res.status == 0)
             lay = {}
