@@ -84,7 +84,11 @@ def tri(idx, t, o, i, j, kind):
     return [idx[tuple((2 * c[x] - (x == a)) % (2 * N) for x in range(3))] for a in range(3)]
 
 
-def program(o=0):
+def program(o=0, lean=False):
+    """lean=True (the follow-up run): rhombi 1x1 ... 4x5 only; no strip or ball groups and no nodes they alone need"""
+    rhombi = [r for r in RHOMBI if r != (5, 5)] if lean else RHOMBI
+    strips = [] if lean else STRIPS
+    bmax = max(b for _, b in rhombi) if lean else N
     cells, idx, layer, nb, inl = build(o)
     n = len(cells)
     nodes = []                        # list of operand lists; node id = n + 1 + position
@@ -97,13 +101,13 @@ def program(o=0):
             U = {(i, j): node(tri(idx, t, o, i, j, kind)) for i in range(N) for j in range(N)}
             Uc = {(i, j): tri(idx, t, o, i, j, kind) for i in range(N) for j in range(N)}
             S = {1: U}
-            for b in range(2, N + 1):
+            for b in range(2, bmax + 1):
                 S[b] = {(i, j): node([S[b - 1][(i, j)], U[(i, (j + b - 1) % N)]]) for i in range(N) for j in range(N)}
-            for b in STRIPS:
+            for b in strips:
                 groups.append((f'f{f} {kind} strip 1x{b}', [S[b][(i, j)] for i in range(N) for j in range(N)]))
                 sets[f'f{f} {kind} strip 1x{b}'] = [set().union(*[Uc[(0, y)] for y in range(b)])]
             R = {}
-            for a, b in RHOMBI:
+            for a, b in rhombi:
                 prev = S[b]
                 for x in range(1, a):
                     key = (x + 1, b)
@@ -115,12 +119,12 @@ def program(o=0):
         face = [u for u in range(n) if layer[u] == t]
         assert len(face) == 3 * N * N
         prevb = {u: u for u in face}
-        for r in range(1, max(BALLS) + 1):
+        for r in ([] if lean else range(1, max(BALLS) + 1)):
             cur = {u: node([prevb[u]] + [prevb[v] for v in inl[u]]) for u in face}
             groups.append((f'f{f} ball r={r}', [cur[u] for u in face]))
             prevb = cur
         # python ball sets for size/perimeter
-        for r in BALLS:
+        for r in ([] if lean else BALLS):
             c0 = face[0]; seen = {c0}; fr = [c0]
             for _ in range(r):
                 fr = [v for u in fr for v in inl[u] if v not in seen]; seen |= set(fr)
@@ -132,8 +136,8 @@ def perimeter(S, inl):
     return sum(1 for u in S for v in inl[u] if v not in S)
 
 
-def write(path, o=0):
-    cells, layer, nb, inl, nodes, groups, sets = program(o)
+def write(path, o=0, lean=False):
+    cells, layer, nb, inl, nodes, groups, sets = program(o, lean)
     n = len(cells)
     with open(path, 'wb') as f:
         w = lambda *x: f.write(struct.pack(f'<{len(x)}i', *x))
@@ -151,7 +155,7 @@ def write(path, o=0):
 
 if __name__ == '__main__':
     o = int(sys.argv[2]) if len(sys.argv) > 2 else 0
-    cells, groups, sets, inl = write(sys.argv[1], o)
+    cells, groups, sets, inl = write(sys.argv[1], o, len(sys.argv) > 3 and sys.argv[3] == 'lean')
     print(f'{len(cells)} cells, {len(groups)} groups')
     for k, v in sets.items():
         print(f'  {k:16s} cells {len(v[0]):4d}  perimeter {perimeter(v[0], inl)}')
