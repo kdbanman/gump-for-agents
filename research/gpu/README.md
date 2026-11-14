@@ -232,6 +232,38 @@ At A = 108 the octahedral face (23.376) is 0.91 ± 0.06 nats tougher than the sl
 (same estimator, same per-face convention, density and start-up excluded by the review). Thickness 8 was not tested
 against thicker slabs at A ≥ 108. Octahedral A = 165 was not run (≈ 10⁶ GPU-seconds per death).
 
+**a (rerun). The firewall channel measured** (the review's request; `fwslab.py`, forecasts before the runs in
+`PREDICTIONS.md`). Every launch boundary and every face death (state kept, K_KEEP) is tested for a transverse
+3-layer firewall (three cyclically consecutive dead layers in a transverse ring); a firewall ends the life as its own
+channel. Validated first against `research/peeling/slab_fw.csv` and the review's independent CPU run:
+
+| slab | cheapest cut | first events: face / firewall (share) | ln τ_face | ln τ_fw | target (CPU) |
+|---|---|---|---:|---:|---|
+| 3×6×8 | 108, 1 direction | 1,917,760 / 276,769 (12.6%) | 11.084 ± 0.001 | 12.327 ± 0.002 | 11.10, 12.18 |
+| 4×7×8 | 144, 1 direction | 45,878 / 32,840 (41.7%) | 17.465 ± 0.005 | 17.106 ± 0.006 | 17.43–17.51, 17.16 |
+| **6×7×8** | **216, 1 direction** | **92 / 29 (24.0%)** | **26.405 ± 0.104** | **26.866 ± 0.186** | — |
+| 6×6×8 (control) | 216, 3 directions | 592 / 13 (2.1%) | 22.568 ± 0.041 | 25.694 ± 0.277 per slab (three directions); **26.79 ± 0.28 per direction** | — |
+
+At 4×7×8 the unscreened statistic (16.925) reproduces the review's CPU value (16.934 ± 0.068), 0.54 nats below the
+face channel. The per-direction firewall rate at cut 216 is the same in the square and the non-square slab (26.79 ± 0.28
+and 26.87 ± 0.19): the cut sets the rate. **Direction labels** are the lowest-numbered diagonal holding a firewall at
+detection; the 229 (3×6×8) and 23 (4×7×8) labelled diagonal 1 are late detections of firewalls that formed first on
+the cheapest diagonal (an independent CPU run, `research/audit/gpu_pr14/cpu_channels.py`, finds 3,188 of 3,188 formed
+first there at 3×6×8). At 6×7×8 all 29 firewalls are on the cut-216 diagonal; exposure 1.349 × 10¹³; nothing settled (settled
+lives — any period ≤ 128 — would be censored; longer periods are not detected and none has been seen). The A = 126
+face channel lies **0.19 ± 0.10 (stat) ± 0.07–0.12 (the line's extrapolation) above the slab line** (26.218), about
+1.2σ in all. The control 6×6×8 (firewalls resolved, 2.1% of
+first events) gives a face channel of 22.568 ± 0.041; its first-event statistic (22.547) is 1.2σ from the earlier
+unscreened 22.470. Pooling the two A = 108 runs: **22.536 ± 0.031 (stat) ± 0.06–0.10 (line), +0.08 on the line**, and the slope
+108 → 126 is **0.215 ± 0.006** — 1σ above the slab line's 0.2088 and within 1σ of the octahedral 0.216–0.221.
+**Not decided, and two readings fit equally well:** (i) the cost per cell of rim-free faces rises a little past A ≈ 100;
+(ii) the cost per cell is constant and the face's width adds an offset — in the CPU table the face channel's residual
+from the A-only line rises with the slab's short side (short side 3: ≈ −0.05; 4: 0.00; 5: +0.11; and these GPU points
+at 6: +0.08, +0.19 ± 0.10), and a fit a + b·A + c·(short side) to the CPU rows (c = 0.114 ± 0.038, b = 0.2057 ±
+0.0014; post hoc, the extra parameter chosen after looking; review of PR 14) predicts 22.564 at 6×6×8 and 26.267 at
+6×7×8, as close as the rising-cost reading. The evidence is 1–2σ either way.
+A third point between the two would need a slab whose cheapest cut keeps firewalls rare (5×8×8, cut 180, would not).
+
 **b. The cube-centred death rate does not fall with age.** One 3-hour run at R = 43 (A = 759), 2,304 replicas
 (`WB = 1`, so each ages twice as fast), settle window 1,024: 5,971 deaths, ages to 2.6 τ, τ = 3.201 × 10⁹
 (ln 21.887 ± 0.013; earlier run 3.253 × 10⁹). `python3 research/gpu/weibull.py research/data/gpu_facelaw/symcR43_s501_A10G.json`:

@@ -137,3 +137,57 @@ firewall-first (the table: 74).
   0.205–0.222 (the lead's 0.210–0.222); ln τ_fw(216) = 27.0 ± 0.4 (the review's extrapolation 27.05 ± 0.30). I give a
   slope below 0.2088 + 0.006 (the slab line holding) probability 0.35, and one at or above the octahedral 0.216
   probability 0.4.
+
+## 2026-11-14T07:51Z — control: square slab 6×6×8 with the firewall channel resolved (before the run)
+
+`fwslab.py`, 6×6×8 (A = 108; cheapest transverse cut 216 in **three** directions), 15 A10G-minutes, seed 621.
+The committed 22.470 ± 0.047 (first outer-layer extinction, no firewall screening) should be nearly unchanged:
+**forecast** firewall-first share **0.5–4%** of first events (the review expects ≈ 7 of 447, 1.6%), spread over all
+three cheapest directions; face channel **ln τ_face(108) = 22.49 ± 0.07** (on the slab line 22.46 within 0.1); first-event
+statistic within 0.05 of 22.470. If the face channel at 108 lands on the line while 126 stays at 26.405, the slope
+108 → 126 (≈ 0.219) mixes a square and a non-square slab (the review's caution); I will say so rather than read it as
+the bulk constant rising.
+
+## 2026-11-14T07:51Z — outcome of the firewall-resolved runs (forecast: commit 60846f8)
+
+`python3 research/gpu/fwslab.py summary "research/data/gpu_facelaw/fwslab*.json"` (per-life data — age, kind, birth,
+firewall direction — in each file's `raw`). Exposure from generation 0; settled lives (period 1–2, kind 2; period
+3–128, kind 3) censored at detection; periods > 128 are not detected (none was ever seen); lives open at the end censored.
+- **Validation — both hold, so the production run is interpreted.** 3×6×8 (cut 108): ln τ_face = 11.084 ± 0.001
+  (target 11.10 ± 0.1), ln τ_fw = 12.327 ± 0.002 (12.18 ± 0.2); 12.6% firewall-first (table: 74/512 = 14.5%); 1,127
+  settled. 4×7×8 (cut 144): ln τ_face = 17.465 ± 0.005 (17.43–17.51), ln τ_fw = 17.106 ± 0.006 (17.16 ± 0.2); first-event
+  statistic 16.925 (the review's independent CPU 16.934 ± 0.068); 41.7% firewall-first; 11 settled. Firewalls in the
+  cheapest direction: 276,540 of 276,769 and 32,817 of 32,840.
+- **6×7×8 (A = 126, cut 216 in one direction), two 60-min runs, seeds 611–612 — all three forecasts hit.**
+  Exposure 1.349 × 10¹³; first events: 92 face deaths, **29 transverse firewalls (24.0%; forecast 10–30%)**, all on
+  diagonal 2 (the cut-216 ring); 0 settled; 9,216 open at the end. **ln τ_face = 26.405 ± 0.104** (forecast 26.30 ±
+  0.15; slab line 26.218: +0.19, 1.8σ); **ln τ_fw(216) = 26.866 ± 0.186** (forecast 27.0 ± 0.4; the review's
+  extrapolation 27.05 ± 0.30); first-event statistic 26.131 (the earlier unscreened runs: 26.138). Slope 108 → 126 with
+  the committed (unscreened) 22.470: 0.219 ± 0.006 — at or above the octahedral 0.216, the case I gave 0.4. Interior
+  {111} firewalls are not a channel here (they split the slab; its faces live on and are still counted).
+
+## 2026-11-14T08:07Z — outcome of the 6×6×8 control (forecast: commit 2f9b262)
+
+15 A10G-minutes, seed 621: exposure 1.873 × 10¹²; first events 592 face deaths, **13 firewalls (2.1%; forecast 0.5–4%:
+hit)**, spread over the three cheapest directions (3, 4, 6); 0 settled. **ln τ_face(108) = 22.568 ± 0.041** (forecast
+22.49 ± 0.07: **missed by 0.01**); first-event statistic 22.547, 0.077 from the earlier unscreened 22.470 ± 0.047
+(forecast within 0.05: **missed**; the two runs differ by 1.2σ). Pooling both A = 108 runs (the earlier run's face deaths
+taken as its first deaths × (1 − 0.021)): **face channel 22.536 ± 0.031, 0.08 above the slab line**. With it the slope
+108 → 126 is **0.215 ± 0.006**: 1.0σ above the slab line's 0.2088 and within 1σ of the octahedral 0.216–0.221. So the
+firewall-resolved data do not decide whether rim-free faces get dearer per cell between A = 108 and 126; both A = 108
+and A = 126 sit above the line fitted to A = 27–90 (by 0.08 ± 0.03 and 0.19 ± 0.10, before the line's own uncertainty),
+which leans toward a mild rise, and the comparison still mixes a square (108) and a non-square (126) slab.
+
+## 2026-11-14T09:47Z — corrections after the review of PR 14 (nothing above is edited)
+
+- Direction labels in the outcome blocks ("firewalls in the cheapest direction: 276,540 of 276,769 and 32,817 of
+  32,840"; "spread over the three cheapest directions (3, 4, 6)") name the lowest-numbered diagonal holding a firewall
+  at detection. The 229 and 23 labelled diagonal 1 are late detections; an independent CPU run finds 3,188 of 3,188
+  firewalls formed first on the cheapest diagonal at 3×6×8.
+- The 6×6×8 ln τ_fw = 25.694 ± 0.277 is per slab over three cheapest directions; per direction it is 26.79 ± 0.28,
+  matching 6×7×8's 26.87 ± 0.19 at the same cut 216.
+- The reading of the 6×6×8 outcome block ("which leans toward a mild rise") stands only beside its alternative: a
+  constant cost per cell plus an offset growing with the slab's short side fits the CPU table and both GPU points as
+  well (post-hoc fit c = 0.114 ± 0.038, b = 0.2057 ± 0.0014, predicting 22.564 and 26.267). With the line's own
+  extrapolation error the offsets are +0.08 ± 0.03 ± 0.06–0.10 (A = 108) and +0.19 ± 0.10 ± 0.07–0.12 (A = 126): the
+  "1.8σ" of the 6×7×8 block is about 1.2σ.
