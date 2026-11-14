@@ -145,6 +145,14 @@ Commands run from the repo root; `G=engine/target/release/gump`. `check.sh` = co
 | K7 | bond10 B34/S234: slab wall law 0.492 ± 0.001 per wall face, but boxes of 4³ live ≈ 10⁹ generations against 600–1,500 forecast from that law: a wall cannot die while its neighbours' edge rows live; columns are 24–196× tougher per wall than slabs | measured | NB 2026-11-14 (class follow-up); `class/followup/OUTCOMES.md` §3 | `cd research/theory/class/followup && ./run_bond10.sh` (hours) | C (one agent's runs; stepper validated against two others; 4 box deaths at 4³) | 2026-11-14 |
 | K8 | hex9 B456/S3456 is a gump-type rule (confined at the position-aware b = 4, chaotic, whole-wall memoryless death at seven lengths, ln τ 6.12 → 13.29) with a concave wall law (0.69 → 0.53 per cell); kagome4 B2/S12: 0.772 ± 0.003 per wall-row cell once frozen walls are censored | measured | NB 2026-11-14 (class follow-up); `class/followup/OUTCOMES.md` §§1–2 | `cd research/theory/class/followup && cat OUTCOMES.md` (section "Reproduce") | C (one agent's runs) | 2026-11-14 |
 
+## The exponent study (`research/theory/exponent.md`)
+
+| id | claim | tag | where | reproduce | level | checked |
+|---|---|---|---|---|---|---|
+| X1 | A gump slab face with ≥ 5 layers on the rule over fresh coin flips has the deterministic slab's lifetime to within 0.015 in ln τ (A = 27–75); octahedral hull faces within 0.05 (A = 45–84) with deep models 0.03–0.04 low | measured | NB 2026-11-14 (exponent); REVIEW-exponent §1 | `cd research/audit/exponent && python3 run.py …` (see the review's commands) | A (reviewer's own steppers, equal to the oracle, own seeds; the swarm examiner's six-layer runs agree) | 2026-11-14 |
+| X2 | 2D rule: eight rows over coin flips reproduce the strips' edge lifetime: 5.654, 7.425, 9.136 against 5.644, 7.407, 9.142 at L = 12, 16, 20; 0.067 ± 0.027 high at L = 24; coin density immaterial | measured | NB 2026-11-14 (exponent) | `python3 research/audit/exponent/lead_check.py 8 16 5000 0.472 4096 11` | A (the lead's numpy code against the study's driver; validated on the exact one-row chain) | 2026-11-14 |
+| X3 | Noise-driven face models can settle (a cube on the face is a fixed point for w ≥ 4–5 whatever the noise): such runs must censor repeating states | proved by exhibiting the fixed point; measured effect 6.94 against 6.54 | NB 2026-11-14 (exponent); REVIEW-exponent | `python3 research/audit/exponent/trap.py` | C (the reviewer's script; not re-run by the lead) | 2026-11-14 |
+
 ## The swarm (`research/theory/swarm/`)
 
 Nothing from the swarm is a claim of the project until a fresh reader has audited it.
@@ -158,6 +166,6 @@ Nothing from the swarm is a claim of the project until a fresh reader has audite
 
 ## Counts (recounted 2026-11-14)
 
-98 claims, by the best grade any part of the claim has: **A** 34 (18 alone, 14 with B, 2 with C) · **B** 36 (28 alone,
-8 with C for part of the claim) · **C** 27 · **D** 1. Four are marked superseded (F7, S1, F9, GP4) and
+101 claims, by the best grade any part of the claim has: **A** 36 (20 alone, 14 with B, 2 with C) · **B** 36 (28 alone,
+8 with C for part of the claim) · **C** 28 · **D** 1. Four are marked superseded (F7, S1, F9, GP4) and
 one has a method problem (C6). Details and the open items are in `research/AUDIT-2026-11-13.md`.

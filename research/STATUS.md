@@ -112,15 +112,13 @@ _Last updated 2026-11-14 by the lead._
   (kagome8 and hex9 at b = 4; whether bond10's b = 3 boxes ever die; kagome B2/S12 with transverse cuts censored);
   face12e with symmetric seeds and beyond 6³. The owner's quick-look branch `claude/edge-neighbour-tangent` stays
   unmerged; the audited face12e results live in `research/audit/class/` under that name.
-- **`research/theory/exponent.md`**: written 2026-11-14 by a successor (commits b121199, 1d82192), not yet in the
-  notebook. Its verdict, unchecked: the exponent belongs to a thin boundary layer over memoryless noise (eight rows
-  of the 2D rule, or four to five layers of gump, over coin flips reproduce the deterministic lifetimes to 0.05
-  nats); in the toy τ(L) ≈ 12.1/E(L − 6.5) with E the chance of an empty window; nothing derives the constant.
-  Lemma A(c) corrected in `theorems.md`. **In progress (started 08:17 UTC):** an adversarial review (Opus; writes
-  `research/audit/REVIEW-exponent.md`), and the lead's own check of the toy half with independent code
-  (`research/audit/exponent/lead_check.py`; validated on the one-row chain: 6.4160 ± 0.0095 against the exact
-  6.4169; output of the eight-row runs in `research/scratch/audit_exponent/lead_w8.txt`). When both are in: the
-  notebook entry, CLAIMS rows, PROGRAM nodes M1–M4.
+- **`research/theory/exponent.md`**: written, reviewed (`research/audit/REVIEW-exponent.md`, 10:45 UTC) and in the
+  notebook (2026-11-14, "where the exponent lives"; CLAIMS X1–X3). Stands: five or more layers of gump over coin flips
+  reproduce a slab face's lifetime to 0.015 (reviewer's own code), eight rows of the 2D rule likewise (lead's own
+  code). Does not stand as written: the empty-window formula as more than a fit, "coincidence", the per-live-cell
+  cost, the small-vessel inference. **Running:** an Opus editor applying the review's thirteen corrections to
+  `exponent.md` and `theorems.md`. Then update `research/theory/PROGRAM.md` (M1–M4: the problem is now a
+  finite-depth probabilistic automaton) and `research/OPEN-PROBLEMS.md` items 3–4.
 - **Class follow-up: done 2026-11-14** (`research/theory/class/followup/`; notebook entry of that date; CLAIMS K6–K8;
   the lead re-derived the symmetric face12e boxes). Half-space confinement holds out of sample; hex9 B456/S3456 is a
   new gump-type rule with a concave wall law; bond10's box walls hold each other up along the edges (boxes of 4³ live

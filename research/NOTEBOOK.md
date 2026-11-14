@@ -1239,3 +1239,48 @@ data): 5,213, 4,664 and 4,673 lives; exposure, counts, both rates, the shares, t
 slope 0.2149 ± 0.0060 all reproduce; the face hazard is flat in the age of the life (three bins of equal exposure:
 22.53, 22.59, 22.59 at 6×6×8). Not checked by anyone here: the GPU runs themselves (no second GPU run); cycles longer
 than 128 generations (none can be seen; bounded only at 3×6×8); a channel-resolved CPU run at 4×7×8 or larger.
+
+## 2026-11-14 — where the exponent lives: a few layers of the rule over noise (exponent study, written up by a successor; adversarial review; lead's check)
+
+The study of 2026-11-13 was cut off before its report; a successor wrote `research/theory/exponent.md` from its files.
+An adversarial reviewer then re-derived the gump half with code and seeds of its own
+(`research/audit/REVIEW-exponent.md`; steppers equal to the oracle, `research/audit/exponent/`), and the lead the 2D
+half (`research/audit/exponent/lead_check.py`). What stands after both, all **[measured]** unless tagged:
+
+- **The face law's exponent is set in a thin boundary layer driven by noise.** Keep the rule on the top w layers of a
+  face and replace everything beneath by fresh coin flips every generation.
+  - Gump, periodic slab faces: from w = 5 the model's ln τ equals the deterministic slab's to within 0.015 at
+    A = 27–75 (reviewer's own runs; the A = 75 slab is new, 15.660 ± 0.027). With w = 4 it is 0.06–0.07 high.
+  - Gump, octahedral hull faces: within 0.05 at A = 45, 63, 84 (truth 9.823, 13.644, 18.148 ± 0.028), but deep models
+    (w = 6, 8) settle 0.03–0.04 *below* the truth (4–5σ at A = 45), and w = 4's closeness is partly a crossing
+    (w = 3 far above, w ≥ 5 below). That "four to five layers" suffice for hulls was noticed after the runs.
+  - 2D rule (B34/S234 on the range-2 cross): eight rows over coins against deterministic strips 16 × L. Lead's own
+    code: 5.654, 7.425, 9.136, 10.855 ± 0.010–0.018 at L = 12, 16, 20, 24 against the strips' 5.644, 7.407, 9.142,
+    10.788: within 0.02 at the three smaller sizes, 0.067 ± 0.027 above at L = 24. The coin density hardly matters
+    (the study: ρ = 0.30 and 0.60 move ln τ by ≤ 0.02; the lead at ρ = 0.5: 7.424, 9.155).
+  - The swarm's exam found the same independently for gump with six layers (entry above, S-E2).
+- **New trap, found by the reviewer:** the noise-driven models can settle. With w ≥ 4 the six faces of a cube at a
+  hull's vertex are a fixed point whatever the coins do, and with w ≥ 5 so is a cube anywhere on the face
+  (`research/audit/exponent/trap.py`): the face then never dies. Uncensored, the R = 7, w = 4 model reads 6.94
+  instead of 6.54. Model runs must censor repeating boundary states like any other vessel.
+- **In the 2D rule the lifetime tracks the chance of an empty window, but the formula is a fit.**
+  τ_edge(L) = 12.1/E(L − 6.5), with E(ℓ) the probability that ℓ given consecutive cells of a long living edge are
+  empty, was found after the runs; χ² is 17.3 on 5 degrees of freedom at the quoted errors; fitted to L = 12–28 it
+  predicts L = 32 and 36 low by 0.08 and 0.07. "The exponent is the decay rate of E" does not stand: the lifetimes
+  use only windows up to ℓ ≈ 30. The window cost with honest errors (5 × 10¹¹ samples, jackknife): 0.387 ± 0.006
+  per cell at ℓ = 34 → 42.
+- **[proved]** (`exponent/theorems.md`; checked by the reviewer, brute force to L = 14 where possible): upper bounds
+  of the right form only (E T ≤ 3δ^{−3L} for a driven edge; ≤ ε^{−L} with noise) and a lower bound conditional on a
+  ratio-mixing hypothesis that has not been measured in the system it is applied to. Lemma A(c) was false and is
+  corrected (187 of 512 configurations). Nothing derives the constant.
+- **Does not stand as written:** "0.416 ≈ 2 × 0.208 is a coincidence" (the measured ratio range 1.6–2.0 has 2 at its
+  edge: not established either way); "gump faces cost 0.403 per live cell" (the fit has an intercept 0.085 ± 0.025
+  and the area law fits better); the reading of the exact small-vessel census (the enumeration is right, `fg.c`
+  equals brute force on eight vessels, but "debris, not chaos, breaks the random-map heuristic" does not follow:
+  7 of 17 vessels with N ≥ 24 have no long immortal cycles where 22–197 were predicted).
+
+The review lists thirteen corrections to `exponent.md`; an editor is applying them. What this changes for the
+project: the open problem "why about 0.21 per cell" no longer needs gump's bulk. It is a question about five or six
+layers of the rule over independent coins, a probabilistic cellular automaton of finite depth, for which lifetimes
+can be computed exactly at small sizes and sampled at large ones without the deterministic bulk. Not checked by
+anyone: the report's §§2, 6.1, 8–10 tables, the gump two-generation face game, `fg.c` beyond N = 24.
