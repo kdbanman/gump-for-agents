@@ -6,6 +6,9 @@
  *   det    m {111} layers, B45/S345 on all of them, two faces (layers 0 and m-1)
  *   model  w layers of the rule (layer 0 is the face) over two layers of coins: every cell of layers w and
  *          w+1 is redrawn alive with probability rho16/65536 before every generation
+ *   pca    the face alone (m_or_w = 1) as a probabilistic automaton: every cell is alive next with a probability
+ *          that depends on its state s and its number k of live face neighbours, independently of the others;
+ *          the 14 probabilities (x 65536; dead k = 0..6, then alive k = 0..6) are read from the file given by -p
  *
  * Each lane lives successive lives: a life starts from a soup of density p0 and ends when a face is empty
  * (checked every generation), when its state repeats (any period: every generation the state is compared with
@@ -16,13 +19,16 @@
  * layers 1..w-1 all dead; then no coin can raise a cell (a cell of layer w-1 sees three coins, B needs four) and
  * the face runs alone for ever. For w <= 3 the coins always reach the rule's layers and nothing is looked for.
  *
- * usage: ring det|model b m_or_w rho16 p0_16 seed GENS T0 CAP GS OUT [-i init.txt] [-d dump.txt] [-n G]
+ * usage: ring det|model|pca b m_or_w rho16 p0_16 seed GENS T0 CAP GS OUT [-i init.txt] [-d dump.txt] [-n G] [-p table.txt]
  *   -n G  a wall: the face cells of sites 0..G-1 (site s = {Z_s, Y_s, X_{s+1}}) are held dead, so the face is a
  *         segment of b - G sites with free ends (G >= 3: the two ends do not see each other within the face)
  *   GS  sample the face statistics every GS generations (0 = none)
  *   -i  lane 0 starts from the listed cells (index (t*3+o)*b+c)       -d  dump every lane every generation
  * Output OUT (text, key value...): totals, age-binned exposure/deaths, face-population histogram, deaths by
- * the face population one generation before, histogram of maximal empty runs of sites, pre-death populations.
+ * the face population one generation before, histogram of maximal empty runs of sites, pre-death populations,
+ * and `trans`: for the face cells (wall cells left out) of lives of age >= T0, on the sampled generations, the
+ * counts n[s][k][next] of one-generation moves by state s and number k of live face neighbours (s = 0: k = 0..6,
+ * each "dead-next alive-next"; then s = 1).
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,6 +45,8 @@ typedef uint64_t u64;
 typedef u64 vec __attribute__((vector_size(8 * NL)));
 
 static int b, nt, ndyn, model;      /* nt = layers stored (m, or w + 2), ndyn = dynamic layers */
+static int pca;                     /* mode pca: the face alone, a probabilistic automaton */
+static unsigned PQ[2][7];           /* PQ[s][k] / 65536: probability that a cell in state s with k live face neighbours is alive next */
 static u64 MASK;
 static vec S[MAXT][3], Tn[MAXT][3], SNAP[MAXT][3];
 static long snapage[NL];             /* age at which lane l's snapshot was taken (0: none) */
@@ -91,6 +99,25 @@ static void step(void) {
   if (G) for (int k = 0; k < nface_g; k++) for (int o = 0; o < 3; o++) { vec m = {0}; m += ~NOTCH[o]; S[ft_g[k]][o] &= m; }
 }
 
+/* live in-layer neighbours of the cells of layer t, orientation o: c[0] + 2 c[1] + 4 c[2] */
+static void inlayer(int t, int o, vec c[3]) {
+  vec a[6]; int n = 0;
+  for (int k = 0; k < 12; k++) if (NBR[o][k][0] == 0) a[n++] = shift(S[t][NBR[o][k][1]], NBR[o][k][2]);
+  vec s1, c1, s2, c2; FA(a[0], a[1], a[2], s1, c1); FA(a[3], a[4], a[5], s2, c2);
+  vec c3 = s1 & s2; c[0] = s1 ^ s2; c[1] = c1 ^ c2 ^ c3; c[2] = (c1 & c2) | (c3 & (c1 ^ c2));
+}
+static inline vec is_k(vec c[3], int k) {
+  vec m = {0}; m += MASK;
+  return ((k & 1) ? c[0] : ~c[0]) & ((k & 2) ? c[1] : ~c[1]) & ((k & 4) ? c[2] : ~c[2]) & m;
+}
+static void pca_step(void) {
+  vec nx[3];
+  for (int o = 0; o < 3; o++) { vec c[3]; inlayer(0, o, c); vec z = {0}; nx[o] = z;
+    for (int k = 0; k <= 6; k++) { vec mk = is_k(c, k); vec bd = bern(PQ[0][k]), ba = bern(PQ[1][k]);
+      nx[o] |= mk & ((~S[0][o] & bd) | (S[0][o] & ba)); } }
+  for (int o = 0; o < 3; o++) { S[0][o] = nx[o]; if (G) { vec m = {0}; m += ~NOTCH[o]; S[0][o] &= m; } }
+}
+
 static unsigned rho16, p016;
 static void noise(void) {
   vec m = {0}; m += MASK;
@@ -117,14 +144,18 @@ static void add_expo(long L) { for (int k = 0; k < NB; k++) { long lo = (1L << k
   if (L <= lo) break; expo[k] += (double)((L < hi ? L : hi) - lo); } }
 
 int main(int argc, char **argv) {
-  if (argc < 12) { fprintf(stderr, "usage: ring det|model b m_or_w rho16 p0_16 seed GENS T0 CAP GS OUT [-i f] [-d f]\n"); return 1; }
-  model = !strcmp(argv[1], "model"); b = atoi(argv[2]); int mw = atoi(argv[3]);
+  if (argc < 12) { fprintf(stderr, "usage: ring det|model|pca b m_or_w rho16 p0_16 seed GENS T0 CAP GS OUT [-i f] [-d f] [-n G] [-p f]\n"); return 1; }
+  pca = !strcmp(argv[1], "pca"); model = pca || !strcmp(argv[1], "model"); b = atoi(argv[2]); int mw = atoi(argv[3]);
   rho16 = atoi(argv[4]); p016 = atoi(argv[5]); u64 seed = strtoull(argv[6], 0, 10);
   long GENS = atol(argv[7]), T0 = atol(argv[8]), CAP = atol(argv[9]); int GS = atoi(argv[10]); const char *outf = argv[11];
-  const char *initf = 0, *dumpf = 0;
-  for (int i = 12; i < argc; i++) { if (!strcmp(argv[i], "-i")) initf = argv[++i]; else if (!strcmp(argv[i], "-d")) dumpf = argv[++i]; else if (!strcmp(argv[i], "-n")) G = atoi(argv[++i]); }
+  const char *initf = 0, *dumpf = 0, *pcaf = 0;
+  for (int i = 12; i < argc; i++) { if (!strcmp(argv[i], "-i")) initf = argv[++i]; else if (!strcmp(argv[i], "-d")) dumpf = argv[++i]; else if (!strcmp(argv[i], "-n")) G = atoi(argv[++i]);
+    else if (!strcmp(argv[i], "-p")) pcaf = argv[++i]; }
   if (b < 5 || b > 64) { fprintf(stderr, "need 5 <= b <= 64\n"); return 1; }
-  ndyn = mw; nt = model ? mw + 2 : mw; if (nt > MAXT) { fprintf(stderr, "too many layers\n"); return 1; }
+  if (pca) { if (mw != 1 || !pcaf) { fprintf(stderr, "pca: one layer, and a table (-p)\n"); return 1; }
+    FILE *f = fopen(pcaf, "r"); for (int s = 0; s < 2; s++) for (int k = 0; k < 7; k++) if (!f || fscanf(f, "%u", &PQ[s][k]) != 1 || PQ[s][k] > 65535) { fprintf(stderr, "bad table\n"); return 1; }
+    fclose(f); }
+  ndyn = mw; nt = (model && !pca) ? mw + 2 : mw; if (nt > MAXT) { fprintf(stderr, "too many layers\n"); return 1; }
   MASK = b == 64 ? ~0ULL : ((1ULL << b) - 1);
   int nface = model ? 1 : 2, ft[2] = {0, ndyn - 1};
   nface_g = nface; ft_g[0] = 0; ft_g[1] = ndyn - 1;
@@ -143,10 +174,20 @@ int main(int argc, char **argv) {
   static double pre[LAG + 1]; static long npre = 0;
   static unsigned char rb[NL][2][LAG];           /* face populations of the last LAG generations */
   static long dlag[LAG + 1][200];                /* dlag[k][n]: deaths with face population n, k generations before */
+  static long trans[2][7][2];                    /* one-generation moves of face cells by (state, live face neighbours) */
   for (long g = 0; g < GENS; g++) {
-    if (model) noise();
+    if (model && !pca) noise();
     if (df) dump(df, g, 'S');
-    step();
+    int smp1 = GS && ((g + 1) % GS == 0);
+    vec pf[2][3], pc[2][3][3];
+    if (smp1) for (int k = 0; k < nface; k++) for (int o = 0; o < 3; o++) { pf[k][o] = S[ft[k]][o]; inlayer(ft[k], o, pc[k][o]); }
+    if (pca) pca_step(); else step();
+    if (smp1) for (int k = 0; k < nface; k++) for (int o = 0; o < 3; o++) for (int kk = 0; kk <= 6; kk++) {
+      vec mk = is_k(pc[k][o], kk); if (G) { vec m = {0}; m += ~NOTCH[o]; mk &= m; }
+      vec d0 = mk & ~pf[k][o], a1 = mk & pf[k][o], nx = S[ft[k]][o];
+      for (int l = 0; l < NL; l++) if (g - born[l] >= T0) {
+        trans[0][kk][1] += __builtin_popcountll(d0[l] & nx[l]); trans[0][kk][0] += __builtin_popcountll(d0[l] & ~nx[l]);
+        trans[1][kk][1] += __builtin_popcountll(a1[l] & nx[l]); trans[1][kk][0] += __builtin_popcountll(a1[l] & ~nx[l]); } }
     long g1 = g + 1;
     vec f[2]; for (int k = 0; k < nface; k++) f[k] = S[ft[k]][0] | S[ft[k]][1] | S[ft[k]][2];
     int chk = (g1 % PER == 0), smp = GS && (g1 % GS == 0);
@@ -210,6 +251,7 @@ int main(int argc, char **argv) {
   fprintf(o, "hfr"); for (int k = 0; k <= b; k++) fprintf(o, " %ld", hfr[k]); fprintf(o, "\n");
   fprintf(o, "pre"); for (int k = 1; k <= LAG; k++) fprintf(o, " %.0f", pre[k]); fprintf(o, "\n");
   for (int j = 1; j <= 4; j++) { fprintf(o, "dlag%d", j); for (int k = 0; k <= 3 * b; k++) fprintf(o, " %ld", dlag[j][k]); fprintf(o, "\n"); }
+  fprintf(o, "trans"); for (int s = 0; s < 2; s++) for (int k = 0; k < 7; k++) fprintf(o, " %ld %ld", trans[s][k][0], trans[s][k][1]); fprintf(o, "\n");
   fclose(o);
   return 0;
 }

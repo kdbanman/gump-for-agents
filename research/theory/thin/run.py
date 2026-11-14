@@ -64,12 +64,12 @@ def read_dump(path, b, nt):
     return np.array([[rows[(g, l)] for l in range(NLn)] for g in range(G)])
 
 
-def validate_dump(mode, b, mw, gens, seed=5, notch=0, k=1, force_k=False):
+def validate_dump(mode, b, mw, gens, seed=5, notch=0, k=1, force_k=False, gs=0):
     """Every lane, every generation: the dumped next state is the reference stepper's image of the dumped state,
     except where a life ended; ends (deaths, ages) are recomputed and compared with ring's own tallies."""
     nt = mw + 2 if mode == 'model' else mw
     dp = os.path.join(OUT, f'dump_{os.getpid()}.txt'); out = os.path.join(OUT, f'vout_{os.getpid()}.txt')
-    ring(mode, b, mw, seed, gens, 0, out, extra=('-d', dp), notch=notch, k=k, force_k=force_k)
+    ring(mode, b, mw, seed, gens, 0, out, extra=('-d', dp), notch=notch, k=k, force_k=force_k, gs=gs)
     D = read_dump(dp, b, nt); r = parse(out)
     nb = thin.graph(b, nt, k)
     nd = mw * 3 * b
@@ -83,11 +83,18 @@ def validate_dump(mode, b, mw, gens, seed=5, notch=0, k=1, force_k=False):
     NLn = D.shape[1]
     bad = 0; deaths = 0; expo = 0; born = np.zeros(NLn, int); settled = 0; interior = 0; steps = 0
     snap = [None] * NLn; snapage = [0] * NLn
+    # one-generation moves of face cells by (state, live face neighbours), recounted for ring.c's `trans`
+    trans = np.zeros((2, 7, 2), int)
+    inface = [np.array([[j for j, (dt, _, _) in zip(nb[i], thin.TABK[k][(i // b) % 3]) if dt == 0] for i in f]) for f in faces]
     for g in range(gens):
         for l in range(NLn):
             nxt = thin.step_ref(D[g, l], nb)[:nd]
             nxt[wall] = 0
             g1 = g + 1; age = g1 - born[l]; end = 0; L = age
+            if gs and g1 % gs == 0:
+                for f, nf_ in zip(faces, inface):
+                    keep = ~wall[f]
+                    np.add.at(trans, (D[g, l][f][keep], D[g, l][nf_].sum(1)[keep], nxt[f][keep]), 1)
             nde = sum(int(nxt[f].sum() == 0) for f in faces)
             got = D[g + 1, l][:nd]
             steps += 1
@@ -110,9 +117,11 @@ def validate_dump(mode, b, mw, gens, seed=5, notch=0, k=1, force_k=False):
     t = r['tot']
     ok = (bad == 0 and deaths == int(t['alldeaths']) and settled == int(t['settled']) and interior == int(t['interior'])
           and expo == int(r['expo'].sum()))
+    if gs and 'trans' in r:
+        ok = ok and (trans.reshape(-1) == r['trans'].astype(int)).all()
     msg = (f'validate_dump {mode}{" [ringk]" if (k != 1 or force_k) else ""} (1,{k}),(0,{b}) layers={mw} wall={notch}: {steps} lane-steps, {bad} wrong, deaths {deaths} '
            f'(ring: {int(t["alldeaths"])}), repeating {settled} ({int(t["settled"])}), firewall {interior} ({int(t["interior"])}), '
-           f'exposure {expo} ({int(r["expo"].sum())})')
+           f'exposure {expo} ({int(r["expo"].sum())})' + (f', moves by (state, k) recounted: {int(trans.sum())}' if gs and 'trans' in r else ''))
     if mode == 'model':
         nz = D[:gens, :, nd:].astype(float)                  # coins
         dens = nz.mean(); n = nz.size
@@ -126,6 +135,51 @@ def validate_dump(mode, b, mw, gens, seed=5, notch=0, k=1, force_k=False):
     for f in (dp, out):
         os.remove(f)
     print(msg, 'OK' if ok else 'FAIL')
+    return ok
+
+
+def validate_pca(b, gens, p16, seed=9, notch=0):
+    """Mode pca from a dump: wall cells stay dead; the moves by (state, live face neighbours) equal ring.c's own
+    `trans` (steps that end in a death left out of both); their frequencies agree with the table; the residuals of
+    cells that are face neighbours are uncorrelated (the cells are updated independently)."""
+    tf = os.path.join(OUT, f'ptab_{os.getpid()}.txt'); open(tf, 'w').write(' '.join(str(int(x)) for x in np.asarray(p16).reshape(-1)))
+    dp = os.path.join(OUT, f'dump_{os.getpid()}.txt'); out = os.path.join(OUT, f'vout_{os.getpid()}.txt')
+    ring('pca', b, 1, seed, gens, 0, out, extra=('-d', dp, '-p', tf), notch=notch, gs=1)
+    D = read_dump(dp, b, 1); r = parse(out)
+    nb = thin.graph(b, 1)
+    inface = np.array([[j for j, (dt, _, _) in zip(nb[i], thin.TAB[i // b]) if dt == 0] for i in range(3 * b)])
+    wall = np.zeros(3 * b, bool)
+    for s_ in range(notch):
+        wall[2 * b + s_] = wall[b + s_] = wall[(s_ + 1) % b] = True
+    assert not D[:, :, wall].any(), 'a wall cell is alive in the dump'
+    X = D[:-1].reshape(-1, 3 * b); Y = D[1:].reshape(-1, 3 * b)
+    kk = X[:, inface].sum(-1)
+    P = np.asarray(p16, float).reshape(2, 7) / 65536
+    trans = np.zeros((2, 7, 2), int)
+    np.add.at(trans, (X[:, ~wall], kk[:, ~wall], Y[:, ~wall]), 1)
+    mine = r['trans'].astype(int).reshape(2, 7, 2)
+    ndeath = int(r['tot']['alldeaths'])
+    # ring.c counts the true next state, the dump shows the fresh soup after a death: allow for those steps
+    same = np.abs(trans - mine).sum() <= 2 * ndeath * int((~wall).sum())
+    zmax = 0.0
+    for s_ in (0, 1):
+        for q in range(7):
+            n = mine[s_, q].sum(); p = P[s_, q]
+            if n > 0 and 0 < p < 1:
+                zmax = max(zmax, abs(mine[s_, q, 1] - n * p) / math.sqrt(n * p * (1 - p)))
+            elif n > 0:
+                same = same and mine[s_, q, 1] == (n if p >= 1 else 0)
+    res = (Y - P[X, kk]) * (~wall)                                         # residuals; zero mean under the model
+    pairs = [(i, j) for i in range(3 * b) for j in inface[i] if i < j and not wall[i] and not wall[j]]
+    c = np.array([np.mean(res[:, i] * res[:, j]) for i, j in pairs]); n = res.shape[0]
+    var = np.mean(res[:, [i for i, _ in pairs]] ** 2 * res[:, [j for _, j in pairs]] ** 2, axis=0)
+    zc = np.abs(c) / np.sqrt(var / n + 1e-300)
+    for f in (dp, out, tf):
+        os.remove(f)
+    ok = bool(same) and zmax < 4.5 and zc.max() < 4.5
+    print(f'validate_pca b={b} wall={notch}: {X.shape[0]} lane-steps, {ndeath} deaths, moves by (state, k) equal to the dump: {bool(same)}; '
+          f'largest |z| of a frequency against the table {zmax:.2f}; largest |z| of a covariance between neighbours {zc.max():.2f} '
+          f'({len(pairs)} pairs)', 'OK' if ok else 'FAIL')
     return ok
 
 
@@ -173,18 +227,18 @@ def chunk_seed(tag, k):
     return int(hashlib.sha256(f'{tag}:{k}'.encode()).hexdigest()[:12], 16)
 
 
-def run(tag, mode, b, mw, seconds, T0=256, gs=0, rho=RHO, gens=None, notch=0, k=1):
+def run(tag, mode, b, mw, seconds, T0=256, gs=0, rho=RHO, gens=None, notch=0, k=1, extra=()):
     build()
     d = os.path.join(OUT, tag); os.makedirs(d, exist_ok=True)
     t0 = time.time(); nchunk = len(glob.glob(os.path.join(d, 'c*.txt')))
     # chunk length: about 60 s
     if gens is None:
-        tt = time.time(); ring(mode, b, mw, 1, 20000, T0, os.path.join(OUT, f'probe_{os.getpid()}.txt'), gs=gs, rho=rho, notch=notch, k=k)
+        tt = time.time(); ring(mode, b, mw, 1, 20000, T0, os.path.join(OUT, f'probe_{os.getpid()}.txt'), gs=gs, rho=rho, notch=notch, k=k, extra=extra)
         os.remove(os.path.join(OUT, f'probe_{os.getpid()}.txt'))
         gens = max(20000, int(20000 * 60 / max(time.time() - tt, 1e-3)))
     while time.time() - t0 < seconds:
         tmp = os.path.join(d, f'tmp_{os.getpid()}')
-        ring(mode, b, mw, chunk_seed(tag, nchunk), gens, T0, tmp, gs=gs, rho=rho, notch=notch, k=k)
+        ring(mode, b, mw, chunk_seed(tag, nchunk), gens, T0, tmp, gs=gs, rho=rho, notch=notch, k=k, extra=extra)
         os.replace(tmp, os.path.join(d, f'c{nchunk}.txt')); nchunk += 1
     print(f'{tag}: {nchunk} chunks', flush=True)
 
@@ -272,6 +326,12 @@ if __name__ == '__main__':
         for (mode, b, mw, g, nn) in [('det', 5, 8, 5040, 0), ('det', 6, 9, 5040, 0), ('det', 7, 3, 2000, 0), ('det', 9, 5, 3000, 3),
                                      ('model', 8, 4, 4000, 3), ('model', 7, 5, 4000, 0), ('det', 16, 12, 200, 3), ('model', 16, 8, 200, 3)]:
             ok &= validate_dump(mode, b, mw, g, notch=nn)
+        # the moves of face cells by (state, live face neighbours) recounted; the face-only automaton (mode pca)
+        for (mode, b, mw, g, nn, gs_) in [('det', 12, 8, 600, 0, 1), ('det', 11, 8, 900, 3, 2), ('model', 9, 1, 1500, 3, 1), ('det', 6, 4, 1500, 0, 1)]:
+            ok &= validate_dump(mode, b, mw, g, notch=nn, gs=gs_)
+        ptab = [[0, 4100, 23000, 45000, 37000, 11500, 0], [4600, 23500, 51000, 59000, 38000, 12000, 0]]
+        ok &= validate_pca(24, 3000, ptab)
+        ok &= validate_pca(12, 6000, ptab, notch=3)
         for (b, m, g) in [(16, 8, 3000), (24, 8, 3000), (40, 8, 1500)]:
             ok &= validate_engine(b, m, g)[0]
         # ringk.c: equal to the reference stepper at k = 1 (with and without wall) and on the wider tori; engine
