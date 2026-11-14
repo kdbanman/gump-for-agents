@@ -1,0 +1,4 @@
+hull R=3: 36 cells, face (1,1,1) has 9; 20 random states x 6 generations against reference/oracle.py: 0 differing cells
+hull R=5: 114 cells, face (1,1,1) has 18; 20 random states x 6 generations against reference/oracle.py: 0 differing cells
+hull R=7: 264 cells, face (1,1,1) has 30; 20 random states x 6 generations against reference/oracle.py: 0 differing cells
+selftest passed

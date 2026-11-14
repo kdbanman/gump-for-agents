@@ -1,0 +1,6 @@
+T' : 18000 (table, block, theta0) cases, violations 0;  control (theta0 doubled): 2170 of 8892 fail
+T  : 19127 (table, block, row) cases, violations 0
+X(a): 500 skip-free tables: gambler's-ruin formula and r_k = d_k/u_k reproduced; psi*(k)/pi_k within [(1-rbar), 1/(1-rbar)]: min ratio/(1-rbar) = 1.0106, max ratio*(1-rbar) = 0.9401
+X(b): 1266 branching rows: q^k - q^K <= psi* <= q^k and theta_k = -ln q, violations 0
+X(c): theta1=1.386 theta2=0.847 block bound 1.695 < -ln psi*(2) = 1.863 < root sum 2.234
+C  : 3000 (monotone q, dominating table) pairs, violations of psi*_T <= psi_q: 0;  control (q not monotone): 63 of 3000 fail

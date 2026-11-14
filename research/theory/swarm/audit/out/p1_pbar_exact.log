@@ -1,0 +1,19 @@
+C. the worked example of entry 8: walk on {0,1,2}, up 3/4, down 1/4, held at 2, L={1}
+  p1=0.2087 p2=0.7913 lambda=0.9478 h=0.0522  entry flux=0.1978  flux*psi=0.0495  w=psi(1)p1=0.0522  flux*psi/(1-w)=0.0522
+B. hidden Markov chain with censoring, exact rationals
+  trial 0 L=[1, 2, 3]: Deaths=0.21917 Expo=2.44136 direct=0.0505542 entry*psi=0.119177 start=0.0956206 end=0.0461818  identity exact: True; supersolution slack exact: True
+  trial 1 L=[1, 2, 3]: Deaths=0.75689 Expo=4.41589 direct=0.459954 entry*psi=0.199847 start=0.103997 end=0.00690739  identity exact: True; supersolution slack exact: True
+  all hidden-Markov cases exact: True
+A. gump, exhaustive: truncated hull C_d=(1,3,3,5,5,3,3,1), all 2^22 initial states
+  22 cells, face of 11 cells, 434 periodic states
+  S={Z>0}; all states; window [0,14]; L=[1, 2, 3, 4]: Deaths=2.39291e+06 Expo=3.30422e+07 direct=29697 entry*psi=2.52766e+06 start=1.10643e+06 end=1.27088e+06  identity exact: True; supersolution slack exact: True
+  not Markov: entry point z', true P(die before leaving L | entered at z'), psi*(z') of the pooled table
+     z'=1: true 1.00000   psi* 1.00000   (143276 entries)
+     z'=2: true 0.87806   psi* 0.99948   (423144 entries)
+     z'=3: true 0.57429   psi* 0.99598   (835723 entries)
+     z'=4: true 0.33708   psi* 0.93921   (1202179 entries)
+  S={Z>0}; states with 9..13 live cells; window [0,14]; L=[1, 2, 3, 4]: Deaths=1.73427e+06 Expo=2.36159e+07 direct=15752 entry*psi=2.09021e+06 start=661299 end=1.03299e+06  identity exact: True; supersolution slack exact: True
+  S={Z>0, not periodic}; all states; window [0,14]; L=[1, 2, 3, 4]: Deaths=2.39291e+06 Expo=1.21749e+07 direct=29697 entry*psi=1.62952e+06 start=733693 end=0  identity exact: True; supersolution slack exact: True
+  S={Z>0, not periodic}; states with 9..13 live cells; window [0,14]; L=[1, 2, 3, 4]: Deaths=1.73427e+06 Expo=8.51571e+06 direct=15752 entry*psi=1.3106e+06 start=407921 end=0  identity exact: True; supersolution slack exact: True
+  all exhaustive cases exact: True
+ALL OK: True   (35 s)
