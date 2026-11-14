@@ -7,6 +7,7 @@ research/scratch/audit_exponent/results.jsonl; the curated table is in research/
   python3 run.py model R w SECONDS [T0] [SEED]        top w layers of the hull face on two Bernoulli(0.4155) layers
   python3 run.py slab a b SECONDS [T0] [SEED]         deterministic 12-layer slab, periodic a x b face (A = 3ab)
   python3 run.py slabmodel a b w SECONDS [T0] [SEED]  top w layers of a periodic face on two Bernoulli(0.4155) layers
+  QS_SETTLE=1 before model / slabmodel: also censor dynamic states that repeat (noise-immune debris, see graphs.py)
 """
 import json, os, subprocess, sys
 import numpy as np
@@ -68,7 +69,8 @@ if __name__ == '__main__':
     elif a[0] == 'model':
         R, w, sec = int(a[1]), int(a[2]), float(a[3]); T0 = int(a[4]) if len(a) > 4 else 200
         seed = int(a[5]) if len(a) > 5 else 1
-        go('model', graphs.hull_model(R, w), 'model_R%d_w%d' % (R, w), sec, T0, seed, dict(R=R, w=w))
+        st = int(os.environ.get('QS_SETTLE', '0'))
+        go('model', graphs.hull_model(R, w, settle=st), 'model_R%d_w%d%s' % (R, w, '_s' if st else ''), sec, T0, seed, dict(R=R, w=w, settle=st))
     elif a[0] == 'slab':
         x, y, sec = int(a[1]), int(a[2]), float(a[3]); T0 = int(a[4]) if len(a) > 4 else 300
         seed = int(a[5]) if len(a) > 5 else 1
@@ -76,5 +78,6 @@ if __name__ == '__main__':
     elif a[0] == 'slabmodel':
         x, y, w, sec = int(a[1]), int(a[2]), int(a[3]), float(a[4]); T0 = int(a[5]) if len(a) > 5 else 300
         seed = int(a[6]) if len(a) > 6 else 1
-        go('slabmodel', graphs.slab_model(x, y, w), 'slabmodel_%dx%d_w%d' % (x, y, w), sec, T0, seed,
-           dict(a=x, b=y, w=w))
+        st = int(os.environ.get('QS_SETTLE', '0'))
+        go('slabmodel', graphs.slab_model(x, y, w, settle=st), 'slabmodel_%dx%d_w%d%s' % (x, y, w, '_s' if st else ''),
+           sec, T0, seed, dict(a=x, b=y, w=w, settle=st))

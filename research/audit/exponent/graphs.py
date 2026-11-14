@@ -81,10 +81,13 @@ def hull_graph(R):
                 A=len(lines[0]), cells=cells)
 
 
-def hull_model(R, w, rho=0.4155):
+def hull_model(R, w, rho=0.4155, settle=0):
     """Face d = (1,1,1) of the hull: layers s = R, R-2, ..., R-2(w-1) follow the rule (cells of the hull only),
     layers R-2w, R-2w-2 are Bernoulli(rho) redrawn every generation; everything deeper is dead.
-    Death: the face layer empty.  Censored: three consecutive dynamic layers (all below the face) empty."""
+    Death: the face layer empty.  Censored: three consecutive dynamic layers (all below the face) empty; with
+    settle=1 also dynamic states that repeat (period <= 2 or Brent snapshot).  Such states are immune to the noise:
+    e.g. at R = 7, w = 4 the six faces of the cube at (6,0,0), everything else dead, is a fixed point whatever the
+    noise does, and the face never dies."""
     cells = hull(R)
     s = lambda p: p[0] + p[1] + p[2]
     dyn = [p for p in cells if s(p) >= R - 2 * (w - 1)]
@@ -93,7 +96,7 @@ def hull_model(R, w, rho=0.4155):
     lines = [[ix[p] for p in dyn if s(p) == R - 2 * j] for j in range(w)]
     censors = [[j, j + 1, j + 2] for j in range(1, w - 2)]
     return dict(N=len(dyn), M=len(noise), nb=nb, rho=[rho] * len(noise), lines=lines, deaths=[[0]],
-                censors=censors, settle=0, A=len(lines[0]), dyn=dyn, noise=noise)
+                censors=censors, settle=settle, A=len(lines[0]), dyn=dyn, noise=noise)
 
 
 # ------------------------------------------------------------------ slab of {111} layers, periodic in plane
@@ -152,7 +155,7 @@ def slab_graph(a, b, m):
                 A=3 * a * b, cells=cells)
 
 
-def slab_model(a, b, w, rho=0.4155):
+def slab_model(a, b, w, rho=0.4155, settle=0):
     layers = [-(2 * j + 1) for j in range(w + 2)]
     dyn = slab_cells(a, b, layers[:w]); noise = slab_cells(a, b, layers[w:])
     nb, ix = build(dyn, noise, slab_canon(a, b), [])
@@ -160,7 +163,7 @@ def slab_model(a, b, w, rho=0.4155):
     lines = [[ix[p] for p in dyn if s(p) == L] for L in layers[:w]]
     censors = [[j, j + 1, j + 2] for j in range(1, w - 2)]
     return dict(N=len(dyn), M=len(noise), nb=nb, rho=[rho] * len(noise), lines=lines, deaths=[[0]], censors=censors,
-                settle=0, A=3 * a * b)
+                settle=settle, A=3 * a * b)
 
 
 def save(g, name):

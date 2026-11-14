@@ -155,5 +155,11 @@ int main(int argc, char **argv) {
   int first = 1;
   for (int b = 0; b < 40; b++) if (bexp[b] > 0) { printf("%s[%d, %.0f, %.0f]", first ? "" : ", ", b, bexp[b], bdth[b]); first = 0; }
   printf("]}\n");
+  if (getenv("QS_DUMP")) {                    /* live dynamic cells of the oldest replica, to stderr */
+    int ro = 0; for (int r = 1; r < NR; r++) if (age[r] > age[ro]) ro = r;
+    fprintf(stderr, "oldest replica %d age %ld live", ro, age[ro]);
+    for (int i = 0; i < N; i++) if (x[i][ro / 64] >> (ro % 64) & 1) fprintf(stderr, " %d", i);
+    fprintf(stderr, "\n");
+  }
   return 0;
 }
