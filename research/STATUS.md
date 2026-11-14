@@ -70,7 +70,7 @@ _Last updated 2026-11-14 by the lead._
   14:52 UTC with the window at 0.87, to be stopped at 0.92 if the owner's reset has not come) the fresh-reader audit
   of path's proofs, `research/theory/swarm/audit/AUDIT-path.md` (commits as it goes; group 1 first: P̄, Q, V⁻, E1).
   Still for after the reset: the same audit for counting; the theory push on the constant. (b) the overview page is current to the entry "the shortest way round": refreshed
-  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 is the lead's open one. **After the owner's Fable reset** (about 9am their time,
+  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); later work on the branch goes to pull request 17. **After the owner's Fable reset** (about 9am their time,
   probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
   counting and path, and a new theory push on the sharpened problem (the 0.2 per cell from six layers over noise).
 - **Swarm: closed 2026-11-14** (`research/theory/swarm/critic/board.md`, closing table at the top; notebook entry
