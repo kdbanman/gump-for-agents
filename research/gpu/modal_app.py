@@ -316,3 +316,12 @@ def relay_remote(call_id: str):
     sizes = {k: len(json.dumps(v)) for k, v in res.items()}
     z = base64.b64encode(zlib.compress(json.dumps(res).encode(), 9)).decode()
     return dict(sizes=sizes, z=z)
+
+
+@app.function(gpu='A10G', timeout=6 * 3600)
+def fwslab_remote(slab: str, minutes: float, seed: int):
+    """slab faces with the firewall channel measured (fwslab.py)"""
+    _setup()
+    import fwslab
+    N1, N2, m = (int(x) for x in slab.split('x'))
+    return fwslab.run(N1, N2, m, minutes * 60, seed, log=lambda x: print(x, flush=True))

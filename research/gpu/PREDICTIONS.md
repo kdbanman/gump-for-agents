@@ -120,3 +120,20 @@ deaths (18–34; range to ≈ half) to follow a firewall, so 26.138 ± 0.091 is 
 rim-free slab faces stay on the line fitted to A = 27–90, and octahedral faces at A = 108 are 0.91 ± 0.06 nats
 tougher; what makes them tougher (rim, eight faces sharing edges, interior thickness, shape) is not separated.
 Experiment b's outcome line "the hazard is flat" means: flat to ±13% per bin from age 0, Weibull k = 1.02 (1.00–1.04).
+
+## Before the firewall-resolved slab runs (appended 2026-11-14T07:10Z)
+
+`fwslab.py`: kernel B with states kept at face deaths; every launch boundary and every face death tested for a
+transverse 3-layer firewall (three cyclically consecutive dead layers of a transverse ring); a firewall ends the
+life as kind 4; τ_face = 2E/(face deaths), τ_fw = E/(firewalls), exposure E from generation 0 (the convention of
+`research/peeling/slab_fw.csv`). Local check with `fl.c` on 3×6×8: firewalls never disappear once seen; 58 of 512
+firewall-first (the table: 74).
+- **Validation, before the main run (must hold, else the main run is not interpreted):** 3×6×8 (cut 108, one cheapest
+  direction): ln τ_face = 11.10 ± 0.1 and ln τ_fw = 12.18 ± 0.2 (slab_fw.csv: 438 peels, 74 firewalls); 4×7×8 (cut 144,
+  one cheapest direction): ln τ_face = 17.43–17.51 ± 0.12 (slab_fw.csv 17.43; the review's independent CPU run 17.506
+  ± 0.091) and ln τ_fw = 17.16 ± 0.2. Firewalls by direction: all in the cheapest one.
+- **Main run, 6×7×8 (A = 126, cut 216 in one direction), two A10G-hours: forecast** firewall-first share **10–30%**
+  of first events (the lead's 15–35%); face channel **ln τ_face(126) = 26.30 ± 0.15**, i.e. local slope 108 → 126 in
+  0.205–0.222 (the lead's 0.210–0.222); ln τ_fw(216) = 27.0 ± 0.4 (the review's extrapolation 27.05 ± 0.30). I give a
+  slope below 0.2088 + 0.006 (the slab line holding) probability 0.35, and one at or above the octahedral 0.216
+  probability 0.4.
