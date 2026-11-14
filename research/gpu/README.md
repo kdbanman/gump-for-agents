@@ -1,6 +1,8 @@
 # GPU ensembles of gump on Modal
 
 GPU agent, 2026-11-13. Question from Kirby: can small, cheap GPUs (Modal) run this automaton well?
+Agents working here: read `AGENT.md` first (how to run on Modal from this environment, the working arrangement,
+the context-window rule, current state).
 Tags as elsewhere: **[measured]** (with the command), **[conjecture]**.
 
 > **Lead's notes after review (2026-11-13).** An adversarial review (`research/audit/REVIEW-gpu-pr8.md`) re-derived
@@ -341,6 +343,83 @@ correlation to lineages that peel early at 40 (a transient left by the burst). S
 plateau's marginal distribution. For OPEN-PROBLEMS 6: seeds of this family that reach R = 40 within 1,000 generations
 wait Exp(τ) at 40, 38 and 36, which bounds a long-lived subpopulation among them (mean 3 τ: under 1.8%; mean 6 τ:
 under 0.9%, 95%). The cube's own lineage, and lineages entering R = 40 after a long plateau at 42, are not tested.
+
+## Empty patches on a large living face [measured]
+
+The lead's design (2026-11-14): is a face's death "an empty patch the size of the face" (`research/theory/exponent.md`
+§4)? If so, on a face far too large to die, ln P(patch empty) = const − c·cells − σ·perimeter with c the lifetime law's
+cost per cell and no wrap-around in it. Forecasts: `PREDICTIONS.md` (commit 312b0bc, the branch's first commit).
+
+**Set-up.** Slab 12×12×8 (`vessels.SlabVessel`; A = 432 cells per face), soups p = 0.4, kernel B stepped one generation
+per launch, first 2,000 generations discarded, then at **every** generation a second kernel (`patches.py`) tests on
+both faces every translate of every shape for "all face-layer cells dead". Shapes (fixed before the runs): rhombi a×b
+unit cells (3ab cells; a unit cell = the three +faces of one cube (i, j, t − i − j) of face layer t — on face 0 that
+cube lies outside the slab, on face 1 inside, so the two faces carry the two inequivalent orientations of each rhombus
+and strip, related by the inversion that swaps the faces, and the table gives their average; the review's CPU run
+finds the inner-cube orientation more often empty, by 0.20 in ln P at 2×2 and 0.48 at 4×4, about 0.007 per perimeter
+pair, with no effect on the second differences), strips 1×b (b = 12 wraps), hexagonal balls of
+radius 1–3 in the face layer's in-layer graph (the 6 in-layer neighbours). 144 translates (balls: 432 centres).
+Perimeter = in-layer neighbour pairs with one cell in, one out (rhombi: 8(a + b) − 4). Also counted: empty at t and at
+t + 1. Frozen replicas (face death, settling) are masked from the generation they freeze; a transverse firewall
+(tested every 2¹⁶ generations) drops a replica from its detection. **Ran:** seeds 811–813, 2.2 × 10⁶ generations each
+after burn-in, 4,608 replicas: 3.04 × 10¹⁰ replica-generations (8.76 × 10¹² samples per rhombus shape); 3 × 14 min A10G.
+No face death, no settling, no firewall in any replica.
+
+**Acceptance** (`modal run research/gpu/modal_app.py::check_patches`): kernel B on this slab equal to `gump run --torus 12
+--slab-layers 8 --diag 0` at every generation for 300 generations, 5 lanes, seeds 3 and 4 (cases from
+`check.slab_cases(..., N=12, m=8, T=300, rng=3|4)`); the GPU patch counter equal to a brute-force count from the
+definition (`patches.brute`, numpy) on 24 states × 4,608 replicas × 9,216 patch positions (11.7 million empty patches),
+item by item. The check was first run at commit 70482e0; fcb3f39 then changed the kernel's thread-to-(item, word)
+mapping and the matching reshape in `totals`. `check_patches` was re-run on the committed kernel (at 1f1009a,
+2026-11-14T23:27Z): ALL OK, counter identical to the brute force. The review's independent CPU count also agrees with
+the table.
+
+**Tables** (`python3 research/gpu/patches.py table research/data/gpu_patches/patches_s81*_A10G.csv`; raw counts per run
+and per time batch in the CSVs, run metadata in the JSON beside each; errors from 96 time batches, never below the
+Poisson floor):
+
+| rhombus | cells | perimeter | hits | ln P | persistence P(t, t+1)/P(t) |
+|---|---:|---:|---:|---:|---:|
+| 1×1 | 3 | 12 | 1.16 × 10¹² | −2.017 | 0.381 |
+| 2×2 | 12 | 28 | 1.68 × 10¹⁰ | −6.254 | 0.286 |
+| 2×3 | 18 | 36 | 1.33 × 10⁹ | −8.793 | 0.229 |
+| 3×3 | 27 | 44 | 4.73 × 10⁷ | −12.128 | 0.178 |
+| 3×4 | 36 | 52 | 1.80 × 10⁶ | −15.400 ± 0.001 | 0.142 |
+| 4×4 | 48 | 60 | 32,137 | −19.423 ± 0.007 | 0.114 |
+| 4×5 | 60 | 68 | 654 | −23.318 ± 0.047 | 0.101 |
+| 5×5 | 75 | 76 | 4 | −28.4 ± 0.6 | — |
+| 5×6, 6×6 | 90, 108 | 84, 92 | 0 | — | — |
+
+Strips at equal cell count are far rarer (36 cells: 1×12 wrapping −19.881 ± 0.028 against the 3×4 rhombus −15.400;
+1×11, 33 cells: −18.672); balls r = 1, 2, 3 (7, 25, 53 cells): −4.217, −11.571, −22.094 ± 0.015.
+
+- **The area-plus-perimeter form fails.** Fitted to the rhombi 2×2 … 4×5 it gives c = 0.264, σ = 0.119 with χ² = 3,369
+  for 3 dof. The incremental cost per cell along the rhombi falls steadily — 0.423, 0.371, 0.364, 0.335, 0.325 ± 0.004
+  (12 → 60 cells) — and has not levelled off.
+- **What this does and does not say about the static picture.** Over 12–60 cells the incremental cost of enlarging
+  an empty rhombus falls from 0.42 to 0.325 per cell; this includes the added perimeter, which a dying (periodic) face
+  does not pay, so it is not comparable with the lifetime laws' 0.205–0.221. With the perimeter removed (second
+  differences along a×a and a×(a+1), a post hoc reading by the lead) the cost per cell is 0.273, 0.252, 0.237,
+  0.219 ± 0.008 at middle shapes of 12, 18, 27, 36 cells: still falling, and at the largest size already inside the
+  lifetime range. Whether it settles at ≈ 0.21 for patches the size of a dying face (A ≥ 100) is not reached:
+  extrapolating the second differences gives 0.21 (corrections ∝ 1/n) or 0.16 (∝ 1/√n), and both fit; the 6×6 rhombus
+  extrapolates to ln P ≈ −37 to −39, about 10⁶–10⁷ times rarer than the 4×5 (≈ 10⁻³ expected hits in this run). By the
+  forecast's own rule the lead's band (c in 0.17–0.25) is missed (the prescribed fit gives 0.264), but that fit does not
+  describe the data (χ² 3,369 / 3, and its c moves to 0.211 or 0.249 when the smallest shapes are dropped), so the miss
+  is a failure of the linear form, not evidence against the static picture: the perimeter-free cost per cell is
+  compatible with 0.21 and does not establish it (defensible extrapolations give 0.16–0.24). Shape matters strongly
+  (σ > 0, a long strip is much rarer than a compact patch of the same area), and an empty patch persists less, not more,
+  the larger it is (0.38 → 0.10).
+- **Not checked:** larger patches (out of reach at this rate; a biased or splitting estimator would be needed); whether
+  the empty-patch statistics depend on the slab's thickness (8) or soup density; the two faces and overlapping
+  translates are correlated; the batch-means errors absorb this, since consecutive batches are uncorrelated (lag-1
+  autocorrelation −0.03 averaged over the 22 shapes with ≥ 1,000 hits, against −0.031 expected for 32 independent
+  batches per seed; the review: −0.02, errors unchanged when batches are merged by 2, 4 or 8; the three seeds agree),
+  but errors of different shapes are correlated, so the fit's χ² is somewhat overstated; the 4×5 rhombus: the review's
+  independent CPU run has ln P = −23.75 ± 0.16 (43 hits) against −23.318 ± 0.047 here, 1.9–2.6σ apart depending on the
+  error model, unresolved (the lead is lengthening the CPU run) — the last second difference (0.219 ± 0.008) rests on
+  that point; whether the face layer of a 12×12 slab is in the same state as the face of a dying (smaller) one;
+  patch emptiness in layers below the face.
 
 ## Using it for a new ensemble experiment
 
