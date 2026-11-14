@@ -151,6 +151,8 @@ def summary(paths):
     by_R = {}
     for p in paths:
         r = json.load(open(p))
+        if 'agg' not in r:          # other experiments' files in the same directory (cube-like, post-peel)
+            continue
         r['_path'] = p
         geo = 'slab %dx%dx%d' % tuple(r['slab']) if r.get('slab') else ('O_h ' + r.get('centre', 'c') if r.get('sym') else 'asym')
         by_R.setdefault((geo, r['R'] if not r.get('slab') else r['A']), []).append(r)
