@@ -69,9 +69,12 @@ _Last updated 2026-11-14 by the lead._
   60, five more at 72; forecasts first): none of the candidate laws holds at all three areas; the cost per cell
   depends on the shortest loop (0.11, 0.14, 0.19 at loop² 3, 4, 7; 0.205-0.21 from 12 up); at A = 48 the shortest
   loop stops mattering above √12; a second variable at equal shortest loop shows again (0.014 ± 0.003 at both
-  areas). Lead's check of the tables: `research/audit/shape2_lead_check.py`. **Running (Opus, started 17:00 UTC):**
-  its adversarial review, `research/audit/REVIEW-shape2.md` (independent stepper on the thin tori and the pairs).
-  When it reports: notebook entry, CLAIMS (new rows; SH2's number becomes the three-run pooled value), overview.
+  areas). Lead's check of the tables: `research/audit/shape2_lead_check.py`. **Reviewed (18:05 UTC) and recorded**:
+  `research/audit/REVIEW-shape2.md` (independent stepper; claims 1-4 stand with corrections; no law passes at any
+  area; the A = 60 pair is 0.0142 ± 0.0019 over four runs); notebook entry "every torus of a given area"; CLAIMS
+  SH2 (corrected), SH3-SH5. Owed: the review's eight corrections applied to `research/shape2/README.md` and one
+  overview update (one Opus agent, started 18:15 UTC), then publish the overview. Fable was 0.92 at 18:04 UTC, not
+  reset: no Fable agent, lead turns few, until the owner resets.
   (ii) done: `README.md` (item 4 reworded; new items 8-10) and the web tour and
   face-table note now agree with today's entries (f4410be; web suite 79/79, check.sh 20/20; the lead read the diff).
   Left as they are: the "~10⁴¹" extrapolation (labelled as one), "twelve times" (lifetime) and "ten times" (first

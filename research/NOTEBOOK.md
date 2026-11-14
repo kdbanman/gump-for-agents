@@ -1488,3 +1488,51 @@ each a few minutes; outputs in `audit/out/`).
 - What this changes: nothing in the swarm's bottom line (no proof of the area law; the constant not derived). The
   conditional result is now stated with its true hypotheses and has been read by two independent readers. The same
   audit for the counting line is still owed.
+
+## 2026-11-14 — every torus of a given area: the lifetime is not a function of area and shortest loop (census at A = 48, 60 and part of 72; forecasts first; adversarial review with an independent stepper; lead's check)
+
+- What was done (`research/shape2/README.md`): every class of periodic face (period lattice (a,k),(0,b) up to the
+  twelve symmetries) was measured at A = 48 (9 classes) and A = 60 (10 classes), and five more at A = 72. Candidate
+  laws were fitted on the already published values and their forecasts committed before the runs (80906fe). The
+  review (`research/audit/REVIEW-shape2.md`) re-ran 16 of the 24 rows with its own stepper, seeds fixed beforehand
+  (3cf07a5): they agree with the tables (χ² 25 / 16).
+- **Measured: the cost per cell depends on the shortest closed loop of the face, and saturates.** d ln τ_face / dA
+  from A = 48 to 60 (in brackets, 60 to 72): loop² 3: 0.115 (0.111); 4: 0.141 (0.135); 7: 0.192 (0.187);
+  12: 0.207 (0.205); 13: 0.209 (0.206); 16: 0.2125 (0.208). The review's own runs give 0.1144, 0.1415, 0.1922,
+  0.2076, 0.2127 for 48 → 60. So a face only √3 or 2 cells around still lives exponentially long in its area, at
+  about half to two thirds of the wide-face cost, and the wide-face figure is reached near loop² 12. On the thin
+  tori the hazard is flat in age, almost nothing settles, and face death is permanent (review, claim 2): it is the
+  same kind of object, not a different regime.
+- **Measured: above loop² 12 the shortest loop no longer orders the classes at A = 48.** The four classes with
+  loop² 12, 12, 13, 16 span 0.016; the 4×4 face (loop² 16) lies 0.0135 ± 0.0021 below the (12; second loop 19)
+  class (review). At A = 60 the step from loop² 12 to 16 is +0.056 to +0.063, at A = 72 about +0.10: the shape term
+  grows with the area.
+- **Measured: a second variable at equal shortest loop.** A = 48, loop² 12, second loop² 16 against 19:
+  +0.0151 ± 0.0017 (two codes pooled; 0.0156 ± 0.0021 from the review alone). A = 60, loop² 16, second loop² 19
+  against 21: four runs with two codes, 0.0186 ± 0.0041, 0.0177 ± 0.0042, 0.0061 ± 0.0049, 0.0132 ± 0.0028; pooled
+  0.0142 ± 0.0019 (χ² 4.7 / 3; the lead's arithmetic from these four gives the same). This replaces the 0.019 of
+  the entry "the shortest way round". A third pair (A = 60, loop² 12) has the same sign but is 1.8σ. In each pair the
+  face with the shorter second loop dies sooner. What the variable is has not been found: the second-shortest loop
+  fits the sign in three pairs, which is not a test.
+- **Refuted: every candidate law.** L1, L2, L3p, L3-const and L4 fail at each area. L3-area appeared to pass at
+  A = 60 on the census's own run (χ² 5.4 / 5); on the review's independent values it fails (22.7 / 5) and with all
+  runs pooled it fails (45.4 / 5), and five of its six classes were ones it had been fitted on. No law in area and
+  shortest loop describes the data at any area.
+- Corrections the review made to the tables. The loop² 4 rows carry a resolution bias: a face death and a firewall
+  in the same 16-generation check window are all booked as firewalls; resolved per generation the A = 48 value is
+  about 9.47, not 9.489 (six times its stated error; the slope is not affected, 0.1415 against 0.1414). The loop² 1
+  and loop² 4 tori are multigraphs (a cell counts one neighbour twice), so they are not gump on a smaller face in
+  the strict sense. Loop² 3 has a firewall channel after all (one in 2 × 10⁹ life-generations). The loop² 1 rate
+  means nothing and is to be blanked.
+- Lead's check: `python3 research/audit/shape2_lead_check.py` recomputes all 24 rows and the costs per cell from the
+  raw counts. The pooled pair differences were recomputed from the four published differences.
+- Not checked: nothing at A = 72 was rerun (the bracketed costs rest on one code); the loop² 13 class at A = 60;
+  the census's post-hoc fits (`explore.py`); event detection against the engine (stepping was validated, on all 13
+  tori); whether the pair difference grows with the age of the life (a 2σ hint; a cap-free rerun of the pair at
+  ± 0.002, about two core-hours, would settle it).
+- Reading (conjecture). The lifetime of a periodic face is ln τ = c·A + (a term set by how the face closes on
+  itself), and that term is not small, not constant in A, and not a function of one length. Two consequences.
+  The constant c of an unwrapped face cannot be read off any one family of tori to better than about ± 0.004:
+  the families give 0.205 to 0.2125 at these sizes. And the thin tori are a new handle for theory: a face three
+  cells around is a quasi-one-dimensional system with a cost per cell (0.11) that a transfer matrix over the
+  short direction might reach exactly, with 0.14, 0.19, 0.21 as the next rungs.
