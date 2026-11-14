@@ -96,10 +96,13 @@ _Last updated 2026-11-14 by the lead._
   (`research/audit/exponent/lead_check.py`; validated on the one-row chain: 6.4160 ± 0.0095 against the exact
   6.4169; output of the eight-row runs in `research/scratch/audit_exponent/lead_w8.txt`). When both are in: the
   notebook entry, CLAIMS rows, PROGRAM nodes M1–M4.
-- **Class follow-up** (Opus, started about 07:55 UTC; `research/theory/class/followup/`): forecasts first, then runs
-  of what the revised class statement admits and nobody has run (kagome8 and hex9 at b = 4; kagome4 B2/S12 slab law
-  done properly; bond10 b = 3 boxes; face12e 7³ and O_h-symmetric soups). When it reports: the lead re-derives one
-  number with `research/audit/class/lead_check.py` (it takes any cell graph), then the notebook.
+- **Class follow-up: done 2026-11-14** (`research/theory/class/followup/`; notebook entry of that date; CLAIMS K6–K8;
+  the lead re-derived the symmetric face12e boxes). Half-space confinement holds out of sample; hex9 B456/S3456 is a
+  new gump-type rule with a concave wall law; bond10's box walls hold each other up along the edges (boxes of 4³ live
+  ≈ 10⁹ against 10³ forecast from the slab law); face12e with full cubic symmetry settles in tens of generations.
+  **To do:** fold the four places where the class statement is wrong or silent into class.md (clauses 3, 5, 6);
+  an edge term for box walls (bond10 columns give 0.52–0.66 nats per edge cube; gump's octahedral rim 0.91 nats at
+  A = 108) is the open question it raises.
 - **GPU session:** pull request 12 reviewed 2026-11-14 (`research/audit/REVIEW-gpu-pr12.md`; notebook entry of that
   date). Stands: symmetric soups do not age at R = 43 (Weibull k = 1.02); cube-like seeds at vertex-centred R = 40 wait
   exponentially; rim-free slab faces are on the old line through A = 108, and an octahedral face there is 0.91 nats

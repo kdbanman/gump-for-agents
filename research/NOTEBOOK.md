@@ -1150,3 +1150,52 @@ the examiner's 7.403 ± 0.009 and 9.150 ± 0.010 for S-E2's two 2D points (1.5σ
 the conveyor variant instead (previous entry). Not re-derived by the lead: the gump points of S-E2, C-E1, and the
 failures. The examiner's engines were validated against exact values and earlier measurements (its V1–V6), not bit
 for bit against the oracle; its E2 and E3 error bars are rough (batch means over 4–6 chunks).
+
+## 2026-11-14 — the revised class statement tested where nobody had run it (class follow-up; lead's check)
+
+Forecasts committed first (`research/theory/class/followup/PREDICTIONS.md`, commit 59e0683), then the runs
+(`followup/OUTCOMES.md`: every command, the scorecard, what was not checked). The stepper `fu.c` equals an independent
+numpy stepper and the review's `aud_step` cell for cell on nine vessels of five lattices (`python3 fu.py validate`).
+All **[measured]** unless tagged. Names: face12e is the edge-neighbour rule, not gump.
+
+- **Confinement by half-spaces holds out of sample.** kagome8 and hex9 at the position-aware tight b = 4 (class.md
+  before its revision had b = 5 and no confinement): 0 escapes from the predicted hull in 1,536 soups, caps 5–8.
+- **A new gump-type rule: hex9 B456/S3456.** Chaotic torus, whole-wall memoryless death at seven wall lengths
+  (ln τ = 6.12 → 13.29 for n = 8 … 20, CV 0.97–1.02, flat hazard, 3 pits in 215,000 events), hull lifetimes growing to
+  sparse debris. But the wall law is **concave**: 0.69 falling to 0.53 per wall cell. "Linear in the area" is only
+  approximate there. (kagome8 has no chaotic cap within reach.)
+- **kagome4 B2/S12: 0.772 ± 0.003 per wall-row cell**, straight over seven lengths, memoryless (forecast 0.70 ±
+  0.08). The drift the review saw was not transverse cuts, as forecast, but **walls that freeze**: static rows of
+  density 2/3 that spread inward, at 27–44% of the wall-death rate, with no armoured set in the sense of Theorem E.
+- **bond10 B34/S234: box walls are not slab walls.** Slab law 0.492 ± 0.001 per wall face (six sizes, memoryless).
+  The forecast for boxes of 4³ from that law, 600–1,500 generations, **fails by a factor 10⁶**: no box had any
+  permanent death by 10⁷; 4 of 64 died by 10⁸; median ≈ 10⁹. The reason was found: the layer beneath a wall's sheet
+  contains the edge rows of the four neighbouring walls' sheets, and those rows stay dense (0.67–0.71 against 0.50),
+  so a wall cannot die while its neighbours live. Columns (two pairs of walls) are 24–196× tougher per wall than slabs
+  of the same area. Clause 6 of the class statement (hull lifetimes follow the wall law) is wrong for this rule as
+  written; it needs an edge term. Gump has the mild form of the same thing (an octahedral face is 0.91 nats tougher
+  than a rim-free one at A = 108; entry "GPU round two"); why bond10's edges cost so much more is not known.
+- **face12e, larger boxes.** 7³: forecast from the wall law median 1.3 × 10⁸, so 15 (9–33) of 128 boxes finished by
+  3 × 10⁷; observed 16 of 128. The box series keeps steepening (0.42 per unit of n² from 6³ to 7³).
+- **face12e with full cubic symmetry dies at once.** One coin per O_h orbit, density 0.45, 64 soups per size: median
+  lifetimes 3, 9, 9.5, 19, 19, 33.5, 35.5, 100.5, 103.5 generations for boxes of 4³ … 12³, against 439, 9,855,
+  707,038 and ≈ 1.6 × 10⁸ for soups without symmetry at 4³ … 7³: 74,000 times shorter at 6³. About half of the
+  symmetric soups end empty. Symmetry is fatal in gump too (a symmetric face behaves like one of area A/7.7 or so),
+  but there a symmetric cube of side 13 still lives 10⁵ generations and side 16 lived 2.9 × 10⁹. Under the rule the
+  owner meant to write in 2012, a symmetric random start in a box of this size is over in tens of generations.
+  **[conjecture, the lead's]** The difference is geometric: face12e's hull is a box whose walls are mirror planes'
+  neighbours, so a symmetric state has six identical walls of very few independent cells each (n²/8), while gump's
+  octahedral faces are cut by mirrors only along lines. Not tested. Legacy-shaped seeds (the 2012 cube runs) under
+  face12e are on the owner's tangent branch, not here.
+
+Where the class statement is now known to be wrong or silent (for its next revision): clause 6 for bond10 (edges);
+clause 3 on walls that freeze without armour (kagome4) and on chaos peeling away beneath an immortal armoured band
+(hex9 c = 8, strips); clause 5 should say "roughly linear" (hex9). hex9 c = 7 (b/K = 0.44) is a third exception to
+the b/K ≤ 3/8 rule of thumb for chaos.
+
+Lead's check (`research/audit/class/lead_check_box.py`: its own box graph and orbit construction on the stepper of
+`lead_check.py`; lifetime = exact length of the transient): `python3 lead_check_box.py sym N 256 1` for
+N = 4, 5, 6, 8 → medians 3 (2–5), 7.5 (5–11), 8 (5–11), 18 (11–25) with 9, 18, 24, 50 orbits (follow-up: 3, 9, 9.5,
+19; same orbit counts); `asym 4 128 2 20000` → 414 (283–596) against the review's 439. Not re-derived by the lead:
+hex9, kagome4, bond10, the 7³ boxes. The follow-up's classification of endings (wall, deep firewall, cut, pit,
+frozen) has no independent implementation.

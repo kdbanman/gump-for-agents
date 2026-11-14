@@ -141,6 +141,9 @@ Commands run from the repo root; `G=engine/target/release/gump`. `check.sh` = co
 | K3 | face12e boxes of n³ cubes: median lifetimes 10, 60, 439, 9,855, 707,038 for n = 2…6; a box dies a layer of cubes at a time | measured | NB 2026-11-14; REVIEW-class §2.2 | `python3 research/audit/class/face12e.py life n cap` | B (the lead's earlier quick runs on the tangent branch agree at n = 4, 5 within their resolution) | 2026-11-14 |
 | K4 | `class.md`: theorems A–G hold as stated (C4's wording apart); its clause 1 ("iff", hull = polytope of sealed directions) fails for several cell types; "46 of 50" is 42 by the pre-fixed rule; fcc slope 0.181; clause 5 is a fit | reviewed | REVIEW-class; note at the head of class.md | `python3 research/audit/class/recount.py`, `proofs.py`, `run_measured.sh` | B (one adversarial checker with independent code; proofs not read by a third party) | 2026-11-14 |
 | K5 | Kagome B2/S12 is a candidate 2D gump (hexagonal hull, ρ = 0.48, strip law, growing hexagon lifetimes); bond10 is tight at b = 3 with strong slab laws | measured (rough) | REVIEW-class §2.4 | `python3 research/audit/class/others.py kagome …`, `others.py bond10 …` | C (transverse cuts not censored; endings by snapshot) | 2026-11-14 |
+| K6 | face12e (not gump) with full cubic symmetry: boxes of 4³ … 12³ settle after a median 3, 9, 9.5, 19, 19, 33.5, 35.5, 100.5, 103.5 generations (one coin per O_h orbit, density 0.45), 74,000× sooner than soups without symmetry at 6³ | measured | NB 2026-11-14 (class follow-up); `class/followup/OUTCOMES.md` §4 | `cd research/audit/class && python3 lead_check_box.py sym 6 256 1` | A (the lead's own graph, orbits and transient detection: 3, 7.5, 8, 18 at 4³, 5³, 6³, 8³) | 2026-11-14 |
+| K7 | bond10 B34/S234: slab wall law 0.492 ± 0.001 per wall face, but boxes of 4³ live ≈ 10⁹ generations against 600–1,500 forecast from that law: a wall cannot die while its neighbours' edge rows live; columns are 24–196× tougher per wall than slabs | measured | NB 2026-11-14 (class follow-up); `class/followup/OUTCOMES.md` §3 | `cd research/theory/class/followup && ./run_bond10.sh` (hours) | C (one agent's runs; stepper validated against two others; 4 box deaths at 4³) | 2026-11-14 |
+| K8 | hex9 B456/S3456 is a gump-type rule (confined at the position-aware b = 4, chaotic, whole-wall memoryless death at seven lengths, ln τ 6.12 → 13.29) with a concave wall law (0.69 → 0.53 per cell); kagome4 B2/S12: 0.772 ± 0.003 per wall-row cell once frozen walls are censored | measured | NB 2026-11-14 (class follow-up); `class/followup/OUTCOMES.md` §§1–2 | `cd research/theory/class/followup && cat OUTCOMES.md` (section "Reproduce") | C (one agent's runs) | 2026-11-14 |
 
 ## The swarm (`research/theory/swarm/`)
 
@@ -155,6 +158,6 @@ Nothing from the swarm is a claim of the project until a fresh reader has audite
 
 ## Counts (recounted 2026-11-14)
 
-95 claims, by the best grade any part of the claim has: **A** 33 (17 alone, 14 with B, 2 with C) · **B** 36 (28 alone,
-8 with C for part of the claim) · **C** 25 · **D** 1. Four are marked superseded (F7, S1, F9, GP4) and
+98 claims, by the best grade any part of the claim has: **A** 34 (18 alone, 14 with B, 2 with C) · **B** 36 (28 alone,
+8 with C for part of the claim) · **C** 27 · **D** 1. Four are marked superseded (F7, S1, F9, GP4) and
 one has a method problem (C6). Details and the open items are in `research/AUDIT-2026-11-13.md`.
