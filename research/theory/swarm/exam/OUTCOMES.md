@@ -268,3 +268,25 @@ F9; for gump it is new.)
 
 `python3 ce1.py v6`: t2dx and t2d give identical output files on the R = 7 hull (30,000 generations); asymmetric
 R = 7 hull, ln τ_face = 6.8067 ± 0.0012 (643,395 first-face deaths) against fluct's 6.804 ± 0.003.
+
+### Counting C-E1 (revised) — one mirror on gump hulls: **holds**
+
+`python3 ce1.py run 13 240; python3 ce1.py run 15 300; python3 ce1.py run 17 900; python3 ce1.py report`
+(≈ 28 min of one core in all; it was affordable because the mirror needs no orbit reduction and a mirror-symmetric
+face lives only e^9–e^14 generations).
+
+| R | A | first deaths | of which a fixed face | ln τ_fix = ln(4 · exposure / fixed deaths) | settled |
+|---|---|---|---|---|---|
+| 13 | 84 | 351,357 | 351,282 (99.98%) | 9.0169 ± 0.0017 | 0 |
+| 15 | 108 | 38,784 | 38,784 (100%) | 11.3951 ± 0.0051 | 0 |
+| 17 | 135 | 4,051 | 4,051 (100%) | 14.2505 ± 0.0157 | 0 |
+
+Slope of ln τ_fix between A = 84 and 135: **0.1026 ± 0.0003** (local 0.0991 and 0.1058: rising, like the
+asymmetric faces' local slopes). Predicted 0.105 ± 0.009, refuted below 0.094 or above 0.118. First face to die
+is a fixed face in > 99.9% of replicas (predicted > 99%). The swapped faces died (in mirror pairs) 75 times, all at
+R = 13. Not checked: interior firewalls are not censored (as in `fluct/qsd.py`; they cannot remove a face); the
+oldest replica (7.6 × 10⁵ generations at R = 17, ≈ 0.5 τ_fix) gives no sign of an undetected cycle.
+**Holds.** In the entry's terms: a mirror through the face costs (A + cells on the mirror)/2 independent cells at
+the asymmetric price, less a small mirror-line term; the measured slope is 0.47 of the asymmetric faces' ≈ 0.22,
+inside the band "half, and not much more than half". The rising local slope (0.099 → 0.106) is the same
+pre-asymptotic rise the asymmetric faces show.

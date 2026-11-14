@@ -260,3 +260,10 @@ journal, entry 13, Lemma 4); s ≤ 1/3 is forced. The number is a rough estimate
 s(1 − (1 − s)^{5…6}) against a critical density 0.20–0.24 for seven parents in 2 + 1 dimensions (entry 14.4).
 *Refuted if* Δ(1/3) < 1.0 (then no dice law makes this comparison survive and the route to a theorem for a gump
 face over dice through Lemma 4 is closed), or if s_c < 0.22.
+
+## 2026-11-14, examiner: outcome of counting C-E1, revised (sampled)
+
+Cube-centred hulls, soups symmetric under x ↔ y, density 0.35, T0 = 200: ln τ_fix = **9.0169 ± 0.0017, 11.3951 ±
+0.0051, 14.2505 ± 0.0157** at A = 84, 108, 135 (R = 13, 15, 17); slope **0.1026 ± 0.0003** between A = 84 and 135
+(predicted 0.105 ± 0.009; refuted below 0.094 or above 0.118); first death on a fixed face in > 99.9% of replicas.
+**Holds.** Details: `research/theory/swarm/exam/OUTCOMES.md`.
