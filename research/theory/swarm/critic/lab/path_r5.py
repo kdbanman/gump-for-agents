@@ -343,7 +343,7 @@ def family():
     # (ii) (E) violated at large s only. Base: Galton-Watson, each cell leaves 2 cells or none (1/4): V(x) = x ln 3 exactly.
     #      m-fold chain = the same branching process on n cells. Add a one-step catastrophe of probability e^{-c m} from every row.
     print("   (ii) each cell leaves 2 cells or none (probability 1/4): root ln 3 in every row, V(x) = x ln 3, low set {1..3m}; block (1, 3]; V(3) - V-bar = 2 ln 3 = 2.197.")
-    th0, c = 0.3, 1.2
+    th0, c = 0.3, 1.3
     percell = -lnM(binom_row(1, .75), 1, th0)
     out = {}
     for m in (12, 24, 48, 96):
@@ -360,18 +360,20 @@ def family():
             marg = min(-lnM(rows[n], n, th0) for n in range(m + 1, n1 + 1)) / m
             # (E) against the base rates, at the largest s where it matters: direct death from the top row
             edef = np.log(rows[n1][0]) - n1 * np.log(.25)
-            res[cat] = (-np.log(psi[n1]) / m, marg, edef / m)
+            # the tilts at which (E) against the base rates (e_m = ln 2) fails at the top row: ln M_n(s) > n Lam_1(s) + ln 2
+            sfail = next((sv for sv in np.arange(0.0, 3.0, 0.005) if lnM(rows[n1], n1, sv) > n1 * lnM(binom_row(1, .75), 1, sv) + np.log(2)), np.nan)
+            res[cat] = (-np.log(psi[n1]) / m, marg, edef / m, sfail)
         delta = 0.5
         S = delta * m * res[True][1] >= (1 - delta) * np.log(3 * m + 1)
         bound = (1 - delta) * 2 * np.log(3) + delta * th0 * 2
         out[m] = (res, S, bound)
         print(f"      m = {m:2d}: without the catastrophe -ln psi*(3m)/m = {res[False][0]:.4f}; with it {res[True][0]:.4f} (margin of R at theta0 = {th0}: {res[True][1]:.4f} per patch; "
-              f"(E) against the base rates fails as s -> inf by {res[True][2]:.3f} m nats at the top row); "
+              f"(E) against the base rates, e_m = ln 2, holds at the top row for s < {res[True][3]:.3f} and fails beyond, by {res[True][2]:.3f} m nats as s -> inf); "
               f"delta = 1/2: (S) {'holds' if S else 'fails'}; the corollary's bound with the base V would be {bound:.3f}; Theorem Q's is {th0 * 2:.3f}")
     r96 = out[96]
-    check(r96[1] and r96[0][True][0] < r96[2] - 0.15 and r96[0][False][0] >= r96[2] and r96[0][True][0] >= th0 * 2 and r96[0][True][1] > 0.1,
+    check(r96[1] and r96[0][True][0] < r96[2] - 0.09 and r96[0][False][0] >= r96[2] and r96[0][True][0] >= th0 * 2 and r96[0][True][1] > 0.1 and r96[0][True][3] > th0,
           f"   catastrophe of probability e^(-{c} m): R holds with a margin and (S) holds, yet -ln psi*/m <= {c} < {r96[2]:.3f}: the conclusion with the base table's V FAILS; "
-          "(E) at s beyond theta0 is what carries V (it is a bound on one-step events of probability e^(-cm), direct deaths included); Theorem Q's exponent survives")
+          "(E) holds at theta0 and fails only at larger tilts: (E) beyond theta0 is what carries V (a bound on one-step events of probability e^(-cm), direct deaths included); Theorem Q's exponent survives")
 
 
 # ------------------------------------------------------------------------------------------------ tables

@@ -590,12 +590,12 @@ row has a positive root. Three remarks on what the hypotheses are.
    root**: from bounds on one-step drops larger than the tilted-mean drop, far up the block.
 2. *(E) cannot be traded for R with a margin.* Each cell leaves two cells or none (probability ¼): every row has
    root ln 3, V(x) = x ln 3, the m-fold chain is the branching process itself. Add to every row of the m-fold
-   chain a catastrophe "all cells die" of probability e^{−1.2m}. With θ₀ = 0.3 on the block (1, 3]: R holds with
-   margin 0.115 per patch and (S) holds at δ = ½ at m = 48 and 96; (E) against the base rates fails as s → ∞
-   only (by 2.96m nats at the top row). Exact: −ln ψ*_m(3m)/m = 1.2000 at m = 48, 96 (3.2958 without the
-   catastrophe), below the corollary's (1 − δ)(V − V̄) + δθ₀(x₁ − x₀) = 1.399 and above Q's 0.600. So (E) at tilts
-   beyond θ₀ is a hypothesis about one-step events of probability e^{−cm} (direct deaths included), and it is the
-   hypothesis that carries V.
+   chain a catastrophe "all cells die" of probability e^{−1.3m}. With θ₀ = 0.3 on the block (1, 3]: R holds with
+   margin 0.115 per patch and (S) holds at δ = ½ at m = 48 and 96; (E) against the base rates with e_m = ln 2
+   holds at the top row for s < 0.320, so at θ₀, and fails beyond (by 2.86m nats as s → ∞). Exact:
+   −ln ψ*_m(3m)/m = 1.3000 at m = 24, 48, 96 (3.2958 without the catastrophe), below the corollary's
+   (1 − δ)(V − V̄) + δθ₀(x₁ − x₀) = 1.399 and above Q's 0.600. So (E) at tilts beyond θ₀ is a hypothesis about
+   one-step events of probability e^{−cm} (direct deaths included), and it is the hypothesis that carries V.
 3. *(R_ε) and (S) belong to the proof.* For an exactly extensive family (R_ε) on a closed block says no more than
    "the roots are positive there". Where (S) holds the rows are good and the inequality holds (base rows 1…4,
    each cell leaving two cells or none with probability 0.10, 0.15, 0.20, 0.25; θ₀ = 0.5, ε₀ = 0.341; of m = 1, 2, 4, 8,

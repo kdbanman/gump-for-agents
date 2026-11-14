@@ -816,7 +816,7 @@ exchange (Q final, V⁻, V⁻(E), V); lab L14.1–L14.8.
 - **The inflow identity on the tallies.** `fluct/qsd.py` counts in H the measured states with all eight faces alive
   and in Tr the transitions out of such a state to the same soup's next state, also when another face dies at
   that step. So Σ_{all z} Tr(z, z′) = H(z′) − (first measured states at z′) + (landings at z′ at a replica's death), and
-  the two corrections are of relative order deaths/exposure (10⁻³ at A = 30, 10⁻⁸ at A = 84). Check on the data:
+  the two corrections are of relative order deaths/exposure (about 10⁻² at A = 30, 10⁻⁷ at A = 84). Check on the data:
   N(z) = Σ_{z′} Tr(z, z′) equals H(z) exactly for every tallied row at A = 45, 63, 84 (to 34 counts at A = 30).
   With the exact ψ* the "missing deaths" of the third pass (3, 14, 15, 11%) are Σ ψ*(z′)·residual(z′) identically, so
   that is bookkeeping, not a test of Theorem P̄.
