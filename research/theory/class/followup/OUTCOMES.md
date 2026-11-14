@@ -20,7 +20,7 @@ when they end. Every 8 generations the largest dead sealed set D is computed. En
 whole layer parallel to the walls within depth 3 of a wall in 2D, depth 1 in 3D; counted), *deep firewall* (a whole
 layer deeper inside; censored), *cut* (D meets both walls, contains no whole layer; censored), *pit* (any other
 nonempty D; censored), *periodic* (equal to the state two generations back or to a snapshot taken at a power-of-two
-age; censored), and, for kagome4 only (§2), *frozen wall* (both wall rows unchanged between t − 2 and t at 128
+age; censored), and, for kagome4 only (§2), *frozen wall* (the two rows of one wall unchanged between t − 2 and t at 128
 consecutive checks = 1,024 generations; censored). τ per wall = (walls) × exposure / wall deaths, exposure at age > 200;
 error on ln τ = 1/√deaths. Hazard = τ in three or more consecutive age bins (log2 bins merged to ≥ max(20, deaths/5)
 deaths each). "Oldest" = age of the oldest replica alive at the end.
