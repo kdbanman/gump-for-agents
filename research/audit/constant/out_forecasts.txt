@@ -1,0 +1,36 @@
+(A) empty patches, recomputed from the stated form (c = 0.212, sigma = 0.34; range sigma 0.15 .. 0.6)
+  1x1:  1.66 ( 1.09 ..  2.44);  per cell 0.552
+  2x2:  4.92 ( 3.59 ..  6.74);  per cell 0.410
+  3x3:  9.46 ( 7.37 .. 12.32);  per cell 0.351
+  4x4: 15.28 (12.43 .. 19.18);  per cell 0.318
+  5x5: 22.36 (18.75 .. 27.30);  per cell 0.298
+  6x6: 30.72 (26.35 .. 36.70);  per cell 0.284
+  single cell: -ln(1 - 0.52) = 0.734; sigma_b = (0.73 - 0.212)/6 = 0.0863; sigma = 4 sigma_b = 0.345; strip step 3c + 2 sigma = 1.32
+
+(B) capillary wave fitted on W (26 classes): kappa -1.3677
+  P1   A=48 (12,0,16) -> (12,12,19): d = +0.0039
+  P2   A=60 (16,4,19) -> (16,12,21): d = +0.0043
+  P3   A=60 (12,0,25) -> (12,12,28): d = +0.0006
+  T01  A=72 (16,0,27) -> (16,8,28): d = +0.0008
+  T12  A=72 (16,8,28) -> (16,16,31): d = +0.0008
+  N72  A=72 (12,0,36) -> (12,12,39): d = +0.0001
+  Q36  A=36 (9,0,12) -> (9,6,13): d = +0.0029
+  Q45  A=45 (9,3,19) -> (9,9,21): d = +0.0005
+  Q54  A=54 (9,0,27) -> (9,6,28): d = +0.0001
+  Q63  A=63 (9,3,37) -> (9,9,39): d = +0.0000
+
+research/shape3/data/runs.csv at the forecast commit 5dd18b9: 15 rows, tags ['N72', 'P1', 'P3', 'Q36', 'Q45', 'Q54', 'T72']
+  P1  : in the tree at forecast time: d = +0.0144 +- 0.0019; forecast +0.0039; z = +5.6
+  P2  : not in the tree at forecast time
+  P3  : in the tree at forecast time: d = +0.0075 +- 0.0033; forecast +0.0006; z = +2.1
+  T01 : in the tree at forecast time: d = -0.0016 +- 0.0091; forecast +0.0008; z = -0.3
+  T12 : in the tree at forecast time: d = -0.0049 +- 0.0091; forecast +0.0008; z = -0.6
+  N72 : in the tree at forecast time: d = -0.0041 +- 0.0087; forecast +0.0001; z = -0.5
+  Q36 : in the tree at forecast time: d = -0.0223 +- 0.0007; forecast +0.0029; z = -38.6
+  Q45 : in the tree at forecast time: d = +0.0076 +- 0.0013; forecast +0.0005; z = +5.4
+  Q54 : in the tree at forecast time: d = -0.0020 +- 0.0019; forecast +0.0001; z = -1.1
+  Q63 : not in the tree at forecast time
+changes to research/shape3 since 5dd18b9: research/shape3/data/agebins.csv | 45 ++++++++++++++++++++++++++++++++++++++++
+ research/shape3/data/runs.csv    |  5 +++++
+ 2 files changed, 50 insertions(+)
+patch data in the tree now: see ls-files
