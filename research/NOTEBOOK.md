@@ -1588,7 +1588,7 @@ each a few minutes; outputs in `audit/out/`).
   of the class study are now K9–K11, and its tally was recounted mechanically (108 rows: A 40, B 40, C 27, D 1; the
   earlier "A 43" had misread areas such as "A = 84" as grades).
 
-## 2026-11-14 — a forecast before the run: empty patches on a face too large to die (asked of the GPU session, 21:30 UTC)
+## 2026-11-14 — a forecast before the run: empty patches on a face too large to die (asked of the GPU session, 21:22 UTC)
 
 - The experiment: a periodic slab 12 × 12 × 8 (A = 432 per face; no face should die), and on its faces the
   frequency with which a patch (rhombi of 3ab cells from 1×1 to 6×6; strips 1×b) is entirely dead.
