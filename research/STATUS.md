@@ -49,7 +49,7 @@ _Last updated 2026-11-14 by the lead._
   asked for arrived as pull request 10 and are merged (lead spot-checked the diff). Asked next: slab faces at A > 90, octahedral faces at A ≥ 165,
   a longer cube-centred symmetric run (does the death rate really fall with age?).
 
-- 2026-11-14: an overview page for the owner (`docs/overview/`, published as a private artifact; link in `LEAD.md`).
+- 2026-11-14: an overview page for the owner (`docs/overview/`, published as a private artifact; link in `LEAD.md`). Refreshed and republished the same day at 11:50 UTC (current to the swarm's close and the exponent study).
   It predates the two reviews of 2026-11-14 (class theory, GPU round two); refresh it when the swarm's exam is in.
 - Pull request 11 merged 2026-11-14 07:27 UTC (everything up to the two reviews). Pull request 13 merged 09:55 UTC
   (exam, audit, class revision and follow-up, exponent report, reviews of GPU pull requests 12 and 14). Later
@@ -65,9 +65,9 @@ _Last updated 2026-11-14 by the lead._
   docstring); it also shows where to doubt: the local slope falls exactly where firewalls end over 99% of lives
   (short side 3: 0.1966 then 0.1902; short side 4: 0.2065 then 0.2025). When the review is in: fixes to the session
   by message if any, CI, merge with the full head sha, `git fetch origin main` and merge into the branch, notebook
-  entry, CLAIMS (GP8 or a new row), tell the owner. (b) the overview refresh (Opus; edits `docs/overview/` only):
-  when it reports, look at its screenshots and publish `docs/overview/index.html` to the same private link
-  (`LEAD.md`). Pull request 15 is the lead's open one. **After the owner's Fable reset** (about 9am their time,
+  entry, CLAIMS (GP8 or a new row), tell the owner. (b) done 11:50 UTC: the overview page was refreshed (9b5dc03: plates for
+  face12e, the family, where the exponent lives; the swarm closed; "Open now") and republished to the same private
+  link (`LEAD.md`); it does not yet carry pull request 16's width result. Pull request 15 is the lead's open one. **After the owner's Fable reset** (about 9am their time,
   probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
   counting and path, and a new theory push on the sharpened problem (the 0.2 per cell from six layers over noise).
 - **Swarm: closed 2026-11-14** (`research/theory/swarm/critic/board.md`, closing table at the top; notebook entry
