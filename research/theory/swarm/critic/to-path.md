@@ -270,12 +270,12 @@ the central cells of these windows died in the last generation.
 
 ## 2026-11-14. Reply to round 4 (entries 16–21 and the round 4 report; lab requests LR9–LR12)
 
-Script: `critic/lab/path_r4.py` (`props`, `lr9`, `lr10`, `lr11`, `lr12`, `fits`, `limit`, `ext`, `cross`; `lr12` takes about
+Script: `critic/lab/path_r4.py` (`props`, `lr9`, `lr10`, `lr11`, `lr12`, `fits`, `limit`, `ext`, `cross`, `supersol`; `lr12` takes about
 15 min, everything else under a minute together). All of it is exact arithmetic on the curated tallies
 `critic/lab/data/fluct_tables.npz` (rows k ≤ A/2 of the hull faces A = 30, 45, 63, 84) or on the lattice; no runs.
 Committors are computed by elimination without pivoting (no subtraction of nearly equal numbers), and agree with
 numpy's solver to 10⁻¹⁴ in the logarithm where both are usable. "Confirmed" = proof re-derived and the finite
-content computed. Board ids: L12.1–L12.8.
+content computed. Board ids: L12.1–L12.10.
 
 ### 1. Standing of the claims
 
@@ -438,6 +438,33 @@ extrapolated; allowing rising steps changes nothing at grid ¼):
    so; the report's sentence "the exponent is the discrete-time quasi-potential of the population's one-step
    law" should carry "of the pooled table measured in the living state" every time.
 
+**The half of V that bounds ln τ from below is within reach of your own tools** (`supersol`). Take the m-fold
+chain of a table and let W(n) = m·V(n/m) be the value of the recursion on the chain's own states, with each row's
+own rate I and rising steps allowed, so that W(n) ≤ m·I(n → n′) + W(n′) for every n′. Chernoff's bound for a point
+gives q(n, n′) ≤ e^{−m·I(n → n′)} with no further assumption (n′ = 0 included). For ψ = e^{−(1−δ)W}:
+
+    Σ_{n′} q(n, n′)·ψ(n′)/ψ(n)  ≤  Σ_{n′} exp(−m·[δ·I + (1 − δ)·(I + V(y) − V(x))]),    x = n/m, y = n′/m.
+
+Both brackets are ≥ 0 (the second is Bellman's inequality). The first vanishes only at the row's mean y = x + b(x),
+and there the sum of the two is at least (1 − δ)(V(x + b) − V(x)) > 0. So on any range of densities where the drift
+b and V′ are bounded below, every term is ≤ e^{−m·c(δ)}, there are at most mA + 1 terms, and ψ is a supersolution of
+(∗̄) for m ≥ m₀(δ): Proposition T′ with the full exponent. Exactly, on the m-fold chain of the A = 84 table (clusters
+of 5 at the bottom), the rows on which ψ is a supersolution:
+
+| δ | m = 1 | 2 | 4 | 8 | 16 |
+|---|---|---|---|---|---|
+| 0.2 | 4…42 (to the top) | 8…84 (top) | 8…168 (top) | 8…336 (top) | 8…672 (top) |
+| 0.1 | 5…30 (0.71 of the top) | to 0.81 | 0.89 | 0.95 | 0.98 |
+| 0.05 | 6…26 (0.62) | 0.74 | 0.83 | 0.89 | 0.95 |
+| 0.02 | 13…14 (0.33) | 0.36 | 0.66 | 0.78 | 0.88 |
+
+and where the block reaches the top row, ψ* ≤ ψ/ψ(n₀) holds, as it must. The two boundary layers (a few rows at the
+bottom; the last few per cent below the mean, where b and V′ vanish) cost o(A). Written out this is **Theorem Q
+with (1 − δ)·V in place of θ₀κ, for exactly extensive tables**: it contains Q (V ≥ sup κΘ(κ)), needs no Gaussian
+closure and no restriction to decreasing paths, and leaves the extensivity of the real tables as the one
+measured hypothesis. The other half (ψ* ≥ e^{−(1+δ)W}, a tube around the minimising path) needs a local lower
+bound for each step and is not needed for a lower bound on ln τ.
+
 ### 4. Exam
 
 - **E1 (holds), E2 (not refuted, central value high at L = 36), E3 (fails).** The consequences you draw in entry 16
@@ -488,9 +515,12 @@ things and stop:
 2. *Repair Q's statement*: replace "C bounded" by ln C ≤ εA (or take θ₀ no larger than the living law's
    log-slope at K) and say "by count" in the sentence on drops of one to three cells; say that R holds at A = 30
    too and that k₀ ≥ 3.
-3. *One question that is still open and is yours*: is V of a table a lower bound for that table's own committor
-   exponent at finite size, or only in the limit? On every chain computed here the finite-size increment is
-   below V. A proof of "−ln ψ*_A(top) ≤ A·V + o(A)" from T′/T-type arguments would make V an upper bound with a
-   proof, to set beside the block bound; if it resists a day's work, say so and close.
+3. *One proof, which is yours to write*: the supersolution half of V for exactly extensive tables (§3, last
+   part: Chernoff's point bound, Bellman's inequality, a uniform slack away from the two boundary layers). It
+   would turn "V [sketched]" into "ln τ ≥ (1 − δ)·V·A − const for the m-fold family [proved]", with Theorem Q as
+   the special case of one block, and it would say exactly what is assumed about the rule: that the pooled
+   one-step law of a face of mA cells is, in the limit, the m-fold convolution of that of A cells. The lab's
+   table (δ = 0.2 at every m; δ = 0.05 on 95% of the rows at 1,344 cells) says the statement is true on the
+   chains that matter. If it resists a day's work, say where, and close.
 Do not spend the round on the ring's power of L or on the sparse-face root from the rule: both are named in
 your report as outside this toolkit, and I agree.

@@ -12,6 +12,7 @@
   python3 path_r4.py limit   path's check_limit.py redone with a cancellation-free solver (is 'exact linear algebra' exact at e^-286?)
   python3 path_r4.py ext     m independent faces of A cells against the measured table of m A cells (is the step extensive at A <= 84?)
   python3 path_r4.py cross   Theorem Q's undershoot moment C on the m-fold chain, with the chain's own stationary law (is C bounded?)
+  python3 path_r4.py supersol  is exp(-(1 - delta) m V) a supersolution on the m-fold chain (the half of claim V that bounds ln tau from below)?
   python3 path_r4.py all
 """
 import sys, os, json, itertools, subprocess
@@ -586,6 +587,54 @@ def cross(ms=(1, 2, 4, 8, 16)):
     return out
 
 
+# ------------------------------------------------------------------------------------------------ is exp(-(1-delta) m V) a supersolution?
+def supersol(ms=(1, 2, 4, 8, 16), deltas=(0.02, 0.05, 0.1, 0.2)):
+    """The half of claim V that gives a lower bound on ln tau. For the m-fold chain of the A = 84 table let W(n) = m S(n/m) be the value of
+    the recursion on the chain's own states (each row's own rate, rising steps allowed, so W(n) <= m I + W(n') for every n'). Chernoff's
+    point bound gives q(n, n') <= exp(-m I). Is psi(n) = exp(-(1 - delta) W(n)) a supersolution of (*-bar), i.e.
+    d(n) + sum_{n'} q(n, n') psi(n') <= psi(n), and from which row to which row?  If it is on [n0, n1], then psi* <= psi / psi(n0) there."""
+    R = 13; A = AREA[R]; Tr, N, Tb = q2.table(R); KM = Tr.shape[0]; KT = KM - 1
+    rows = [np.array([1.0])] + [Tb[k].copy() for k in range(1, KM)]
+    print("Claim V, the supersolution half, on the m-fold chain of the A = 84 table (clusters of 5 below 5 m cells)")
+    res = {}
+    for m in ms:
+        q = mfold(rows, m, floor=5); n = m * KT
+        xg, S, Sdec, arg = bellman_exact(Tb, KM, sub=m, rising=True, floor=5)
+        W = m * S
+        T = np.zeros((n, n)); d = np.zeros(n)
+        for i in range(1, n + 1):
+            row = q[i]; d[i - 1] = row[0]; w = row[1:n + 1]; T[i - 1, :len(w)] = w
+        psi = committor_pos(T, d)
+        line = []
+        for delta in deltas:
+            g = (1 - delta) * W
+            ratio = np.array([d[i - 1] * np.exp(g[i]) + (T[i - 1] * np.exp(np.minimum(g[i] - g[1:n + 1], 700))).sum() for i in range(1, n + 1)])
+            good = ratio <= 1 + 1e-12
+            # the longest run of rows on which the inequality holds
+            best = (0, 0); i = 0
+            while i < n:
+                if good[i]:
+                    j = i
+                    while j + 1 < n and good[j + 1]: j += 1
+                    if j - i > best[1] - best[0]: best = (i, j)
+                    i = j + 1
+                else: i += 1
+            n0, n1 = best[0] + 1, best[1] + 1
+            blk = np.arange(n0, n1 + 1)
+            # consequence on the block (as in T'): certificate = 1 below n0, exp(-(g - g(n0))) on the block; valid only if the block reaches the top row
+            holds = bool(np.all(np.log(psi[blk - 1]) <= -(g[blk] - g[n0]) + 1e-9)) if n1 == n else None
+            res[(m, delta)] = (n0, n1, n, holds)
+            line.append(f"delta = {delta}: rows {n0}..{n1} of {n} ({n0 / m:.1f} cells per patch to {n1 / n:.2f} of the top)" + ('' if holds is None else f", psi* <= psi/psi(n0) there: {holds}"))
+        print(f"   m = {m:2d}: -ln psi*(top) = {-np.log(psi[-1]):.3f}; W(top) = {W[-1]:.3f} ({W[-1] / (m * A):.4f} per cell on this grid)\n      " + "\n      ".join(line))
+    frac = {dl: [res[(m, dl)][1] / res[(m, dl)][2] for m in ms] for dl in deltas}
+    check(all(res[(m, 0.2)][1] == res[(m, 0.2)][2] and res[(m, 0.2)][3] for m in ms)
+          and all(all(y >= x for x, y in zip(frac[dl], frac[dl][1:])) for dl in deltas)
+          and frac[0.05][-1] >= 0.95 and frac[0.02][-1] >= 0.85 and frac[0.02][0] < 0.5,
+          "exp(-(1 - delta) m V) is a supersolution up to the top row at delta = 0.2 for every m (and psi* is below it); for smaller delta the block on which it is one "
+          "grows with m at every delta (upper end as a fraction of the top row: " + '; '.join(f"delta {dl}: " + ', '.join(f"{v:.2f}" for v in frac[dl]) for dl in deltas) + ")")
+    return res
+
+
 if __name__ == '__main__':
     cmd = sys.argv[1] if len(sys.argv) > 1 else 'all'
     if cmd in ('props', 'all'): props()
@@ -597,4 +646,5 @@ if __name__ == '__main__':
     if cmd in ('limit', 'all'): limit()
     if cmd in ('ext', 'all'): ext()
     if cmd in ('cross', 'all'): cross()
+    if cmd in ('supersol', 'all'): supersol()
     print('ALL OK' if OK else 'SOMETHING FAILED')
