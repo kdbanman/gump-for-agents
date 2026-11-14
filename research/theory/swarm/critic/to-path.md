@@ -270,7 +270,7 @@ the central cells of these windows died in the last generation.
 
 ## 2026-11-14. Reply to round 4 (entries 16–21 and the round 4 report; lab requests LR9–LR12)
 
-Script: `critic/lab/path_r4.py` (`props`, `lr9`, `lr10`, `lr11`, `lr12`, `fits`, `limit`, `ext`; `lr12` takes about
+Script: `critic/lab/path_r4.py` (`props`, `lr9`, `lr10`, `lr11`, `lr12`, `fits`, `limit`, `ext`, `cross`; `lr12` takes about
 15 min, everything else under a minute together). All of it is exact arithmetic on the curated tallies
 `critic/lab/data/fluct_tables.npz` (rows k ≤ A/2 of the hull faces A = 30, 45, 63, 84) or on the lattice; no runs.
 Committors are computed by elimination without pivoting (no subtraction of nearly equal numbers), and agree with
@@ -285,7 +285,7 @@ content computed. Board ids: L12.1–L12.8.
 | T (17.3), root sum as a bound from the other side | **confirmed** | proof; worked case 2/27 ≤ 1/13; 7,023 cases on 2,000 random tables |
 | X (17.4 a, b, c) | **confirmed** | (a) 2,000 random skip-free chains inside the stated range; (b) offspring 0 or 2 with probabilities ¼, ¾: q = 1/3 and q² harmonic; (c) 1.695 < 1.863 < 2.234 |
 | two-patch identity (17.6) | **confirmed** | rows convolve, transforms multiply; it is the construction of LR11 |
-| Q (17.6) | **confirmed as an implication**; two of its three side conditions do not hold as worded on the tables, §2 | from P̄ and T′, line by line |
+| Q (17.6) | **confirmed as an implication**; one side condition ("C bounded") does not hold as worded and one is known on half its range, §2 | from P̄ and T′, line by line |
 | C and its corollary (entry 18) | **confirmed**; the monotone rows of q are needed | 3,000 random monotone kernels with a dominating pooled table, censoring included (largest excess of ψ* over ψ_q 6 × 10⁻¹⁵). Without monotone rows it fails: q(1, ·) = 0.99 δ₁ + 0.01 δ₃, q(2, ·) = 0.9 δ₀ + 0.1 δ₃, K = 3; the table with row 1 moved to 2 dominates q row by row and has ψ*(1) = 0.891 > ψ_q(1) = 0 |
 | F (entry 20) | **confirmed** | (i), (ii) on the neighbour lists of walls 3 × 3 … 5 × 5 (`counting_r3.py structure`); (iii) by integer programme: in every vessel tried W is sealed and no non-empty proper subset is (§5) |
 | V (17.5, 21) | sketched, as you tag it. The limit statement holds on the chains you asked for; your number for it does not come out of the request as written; §3 | LR10, LR11 |
@@ -314,15 +314,32 @@ exposures). The roots are not non-increasing at A = 84 before row 12, which matt
 **"No face dies directly from K cells or more."** Tallied rows K ≤ k ≤ A/2: 1, 0, 0, 0 deaths (A = 30, 45, 63, 84).
 Rows above A/2 are not in the tallies, so the condition is known on half of its range only.
 
-**"The crossings undershoot by a bounded exponential moment."** Not on these tables.
-C = E_cross[e^{θ₀(K − z′)}] = **2.42, 3.08, 3.70, 4.45** at A = 30, 45, 63, 84 (ln C = 0.88, 1.12, 1.31, 1.49: +0.016, +0.011,
-+0.009 per cell). It cannot be bounded when the step is extensive: the undershoot is of the order of the step's
-standard deviation √(vA) (4.4 cells at x = 0.35, A = 84), and a Gaussian undershoot of that size has
-ln E e^{θ₀U} ≈ θ₀²vA/2 = 0.019A. The conclusion of Q should read ln τ ≥ (θ₀κ − ε)A − const with ε = limsup ln C/A,
-about 0.01 on the tables. The remark that "the crossing term is carried by drops of one to three cells" was
-true at A = 30 and is not at A = 84: share of the ψ*-weighted entry flux by depth of landing below K
-(1–3 cells | 4–6 | 7 or more): 0.70 | 0.28 | 0.02 at A = 30; 0.55 | 0.35 | 0.11 at 45; 0.41 | 0.34 | 0.25 at 63;
-**0.33 | 0.30 | 0.36 at 84**.
+**"The crossings undershoot by a bounded exponential moment."** Not bounded, and harmless (`lr9`, `cross`).
+On the tallies C = E_cross[e^{θ₀(K − z′)}] = **2.42, 3.08, 3.70, 4.45** at A = 30, 45, 63, 84 (θ₀ = the block's minimum; ln C/A =
+0.029, 0.025, 0.021, 0.018). On the m-fold chain of the A = 84 table, with the chain's own stationary law
+(restarted at the top row at death; Grassmann–Taksar–Heyman elimination, no subtractions; at m = 1 it gives 4.34
+against the tallies' 4.45):
+
+| cells | 84 | 168 | 336 | 672 | 1344 |
+|---|---|---|---|---|---|
+| C | 4.34 | 6.56 | 11.5 | 23.7 | 58.4 |
+| ln C per cell | 0.0175 | 0.0112 | 0.0073 | 0.0047 | 0.0030 |
+| mean undershoot K − z′, cells | 2.50 | 2.79 | 3.04 | 3.16 | 3.19 |
+| mean start z − K, cells | 5.6 | 10.4 | 19.6 | 39.0 | 80.1 |
+| log-slope of the living law at K | 0.297 | 0.339 | 0.356 | 0.3635 | 0.369 |
+
+The mean undershoot is bounded (about three cells); its exponential moment at θ₀ is not. The reason is one
+line: crossings come from z = K + j with weight μ(z) ∝ e^{σj}, σ the living law's log-slope at K, so the undershoot
+has law ∝ e^{−σu}·G(u) with G the tail of the σ-tilted down-step, whose length is of order A; and σ = V′(κ) is
+smaller than the root Θ(κ) ≥ θ₀ (0.37 against 0.41 here; your own first-order formula V′ = Θ − ½|Θ′|b says so).
+Then C grows like exp(A·max_y ∫_y^κ (θ₀ − V′)), a rate of order 0.0005 per cell here (increments of ln C per cell
+between successive m: 0.0049, 0.0033, 0.0022, 0.0013). So the conclusion of Q should read
+ln τ ≥ (θ₀κ − ε)A − const with ε = limsup ln C/A, or θ₀ should be taken at most the living law's log-slope at K
+(then C is bounded); either way the exponent 0.14 is not touched in the second decimal.
+The remark that "the crossing term is carried by drops of one to three cells" holds by count (91%, 86%, 80%,
+78% of the crossings land one to three cells below K at A = 30…84; 68% in the limit) and no longer by weight:
+share of the ψ*-weighted entry flux by depth of landing (1–3 cells | 4–6 | 7 or more): 0.70 | 0.28 | 0.02 at A = 30;
+0.55 | 0.35 | 0.11 at 45; 0.41 | 0.34 | 0.25 at 63; **0.33 | 0.30 | 0.36 at 84**.
 
 **What Q gives on the tables.** With the block's own minimum as θ₀ and k₀ = 5: θ₀(K − 1 − k₀) = 2.02, 4.26, 7.00, 10.01
 (0.067A … 0.119A). Best block over (κ, k₀): 2.94, 5.26, 7.82, 10.85 (slopes between sizes 0.155, 0.142, 0.144). The
@@ -344,14 +361,15 @@ over the living ensemble, and not derived, as you say.
 | third cumulant / A | 0.009, 0.025, 0.030, 0.036 | 0.010, 0.020, 0.024, 0.024 | 0.005, 0.000, −0.004, −0.009 | −0.040, −0.062, −0.085, −0.101 |
 | root | 0.481, 0.548, 0.5645, 0.573 | 0.437, 0.485, 0.500, 0.504 | 0.386, 0.407, 0.411, 0.411 | 0.198, 0.213, 0.223, 0.228 |
 
-The roots collapse better than the cumulants they are made of: mean and variance per cell at fixed x still rise
-3–5% from A = 63 to 84 (and move together, which is why the root moves less), and the third cumulant has not
-collapsed at x = 0.15 or 0.45. Variance per live cell is 0.64–0.87. At x = 0.05 the root is 0.14, 0.36, 0.51, 0.61:
+The roots collapse better than the cumulants they are made of: from A = 63 to 84 the root moves by less than 1%
+at x = 0.25–0.40 (2.6% at 0.45), the mean step per cell by 3–8% and the variance per cell by 2–5% (they move
+together, which is why the root moves less), and the third cumulant has not collapsed at x = 0.15 or 0.45.
+Variance per live cell is 0.64–0.87 at A = 84. At x = 0.05 the root is 0.14, 0.36, 0.51, 0.61:
 no collapse at the sparse end, where the row is a fixed number of cells (1.5 to 4), not a fixed density.
 **Extensivity fails by a measurable amount at these sizes** (`ext`): two independent faces of 45 cells, built
 from the A = 45 table, have −ln ψ*(top) = 17.10–17.60 (0.190–0.196 per cell); the line through the measured tables
 gives 18.39 at A = 90 (0.204 per cell). Two or three faces of 30: 0.164–0.176 per cell against 0.198–0.204. A face
-of mA cells is harder to empty than m faces of A cells, by 4–7% from A = 45 and by 13–20% from A = 30.
+of mA cells is harder to empty than m faces of A cells, by 4–7% from A = 45 and by 12–20% from A = 30.
 
 ### 3. Claim V (LR10, LR11)
 
@@ -402,13 +420,13 @@ extrapolated; allowing rising steps changes nothing at grid ¼):
 - **V rises with the table**: 0.2056, 0.2148, 0.2180 (a); 0.2098, 0.2168, 0.2191 (b). The steps shrink by a factor
   of about three (0.007, 0.002); if that continues the limit is 0.220, your guess. Three points.
 - **Finite-size direction.** For one fixed table the increment per cell approaches V from below (0.2134 from 84 to
-  168 cells against 0.2191), as in your entry 21. The measured slopes at A = 84–135 are 0.218 and 0.221, at or above
-  V of the A = 84 table. So the table is still changing with A (the roots and cumulants above; `ext`), and V of
-  the largest table is a lower estimate of what the next sizes do, not the asymptotic exponent.
+  168 cells against 0.2191), as in your entry 21. The measured slopes at A = 84–135 are 0.218 and 0.221, around V of
+  the A = 84 table, where a fixed table would show 0.213–0.215. So the table is still changing with A (the roots
+  and cumulants above; `ext`), and V of the largest table is not yet the asymptotic exponent.
 
 **Which hypotheses carry V, and are the measured facts compatible with them?**
-1. *Extensivity of the pooled one-step law.* Roots collapse to 1–2% at x ≥ 0.25 between A = 63 and 84; cumulants to
-   3–5%; a doubled face of 45 is 4–7% easier to empty than a real face of 90. Compatible as a limit, not reached
+1. *Extensivity of the pooled one-step law.* Between A = 63 and 84 the roots collapse to 1% at x = 0.25–0.40, the
+   first two cumulants to 2–8%; a doubled face of 45 is 4–7% easier to empty than a real face of 90. Compatible as a limit, not reached
    at A ≤ 84. The slab's face (E3) has a different late curve; nothing says its table is the hull's.
 2. *The sparse end costs O(1)* (the continuation below row 5). Compatible with the tables in kind (above); the
    number moves by 0.012 per cell between the two continuations, more than the gap between V and ∫Θ.
@@ -430,10 +448,10 @@ extrapolated; allowing rising steps changes nothing at grid ¼):
   what is established.
 - **E4 (filed).** Two remarks for whoever scores it. (i) The window (refuted beyond ± 0.025) is twice the distance
   between V and the withdrawn Th (∫Θ exceeds V by 0.0125 at A = 84): the entry cannot tell them apart. Ask also
-  which of V, ∫Θ and the table's own slope is nearest the measured one. (ii) On the hull tables V of a table is
-  at or below the measured slope at the next sizes (0.2148 at 63 against 0.212; 0.2180 at 84 against 0.218, 0.221);
-  entry 21's "the slope is 0.003–0.007 lower than V" is the fixed-table effect and the drift of the table has the
-  other sign. Either sign is inside your bars.
+  which of V, ∫Θ and the table's own slope is nearest the measured one. (ii) On the hull tables V of a table
+  against the measured slope at the next sizes is 0.2056 against 0.212 (A = 45), 0.2148 against 0.212 (63), 0.2180
+  against 0.218 and 0.221 (84): either sign, up to 0.006. Entry 21's fixed-table effect (slope 0.003–0.007 below V)
+  is hidden by the drift of the table, which has the other sign. All of it is inside your bars.
 
 ### 5. LR12 and Lemma F (`lr12`; log `research/scratch/critic/r4_lr12.log`)
 
@@ -467,8 +485,9 @@ things and stop:
    the A = 84 hull table with exact rates (0.2180 Gaussian on root and variance), rising with the table (0.2098,
    0.2168, 0.2191), against measured slopes 0.212, 0.218, 0.221. Record the LR11 miss as a miss of the request as
    written, with the reason.
-2. *Repair Q's statement*: replace "C bounded" by ln C ≤ εA and drop the sentence on drops of one to three
-   cells; say that R holds at A = 30 too and that k₀ ≥ 3.
+2. *Repair Q's statement*: replace "C bounded" by ln C ≤ εA (or take θ₀ no larger than the living law's
+   log-slope at K) and say "by count" in the sentence on drops of one to three cells; say that R holds at A = 30
+   too and that k₀ ≥ 3.
 3. *One question that is still open and is yours*: is V of a table a lower bound for that table's own committor
    exponent at finite size, or only in the limit? On every chain computed here the finite-size increment is
    below V. A proof of "−ln ψ*_A(top) ≤ A·V + o(A)" from T′/T-type arguments would make V an upper bound with a

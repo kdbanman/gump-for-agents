@@ -11,6 +11,7 @@
   python3 path_r4.py fits    arithmetic of entry 16.1 (ring minus anchored row against ln L and against L)
   python3 path_r4.py limit   path's check_limit.py redone with a cancellation-free solver (is 'exact linear algebra' exact at e^-286?)
   python3 path_r4.py ext     m independent faces of A cells against the measured table of m A cells (is the step extensive at A <= 84?)
+  python3 path_r4.py cross   Theorem Q's undershoot moment C on the m-fold chain, with the chain's own stationary law (is C bounded?)
   python3 path_r4.py all
 """
 import sys, os, json, itertools, subprocess
@@ -534,6 +535,57 @@ def ext():
     return out
 
 
+# ------------------------------------------------------------------------------------------------ the undershoot moment of Theorem Q
+def gth(P):
+    """Stationary law of an irreducible stochastic matrix by Grassmann-Taksar-Heyman elimination (no subtractions)."""
+    P = P.copy(); n = P.shape[0]
+    for k in range(n - 1, 0, -1):
+        s_ = P[k, :k].sum()
+        P[:k, k] /= s_
+        P[:k, :k] += np.outer(P[:k, k], P[k, :k])
+    pi = np.zeros(n); pi[0] = 1.0
+    for k in range(1, n):
+        pi[k] = pi[:k] @ P[:k, k]
+    return pi / pi.sum()
+
+
+def cross(ms=(1, 2, 4, 8, 16)):
+    """Theorem Q's side condition 'the downward crossings of K undershoot by a bounded exponential moment', on chains where the living
+    ensemble is computable: the m-fold chain of a table, restarted at its top row at death (and with its censored mass put there);
+    mu = its stationary law; C = E_cross[exp(theta0 (K - z'))] over crossings z >= K > z' >= 1, K = ceil(0.35 A m), theta0 = the least
+    root on [5 m, K)."""
+    print("Theorem Q, the undershoot moment C on the m-fold chain (stationary law by GTH elimination)")
+    out = {}
+    for R, mm in ((7, (1,)), (9, (1,)), (11, (1,)), (13, ms)):
+        A = AREA[R]; Tr, N, Tb = q2.table(R); KM = Tr.shape[0]; KT = KM - 1
+        rows = [np.array([1.0])] + [Tb[k].copy() for k in range(1, KM)]
+        for m in mm:
+            q = mfold(rows, m, floor=5); n = m * KT
+            P = np.zeros((n, n))
+            for i in range(1, n + 1):
+                w = q[i][1:n + 1]; P[i - 1, :len(w)] = w
+                P[i - 1, n - 1] += 1.0 - P[i - 1].sum()
+            mu = gth(P[::-1, ::-1].copy())[::-1]
+            th = np.array([np.nan] + [theta_of_row(q[i], i) for i in range(1, n + 1)])
+            K = int(np.ceil(0.35 * A * m)); th0 = float(np.nanmin(th[5 * m:K]))
+            z = np.arange(K, n + 1); zp = np.arange(1, K)
+            F = mu[z - 1][:, None] * P[np.ix_(z - 1, zp - 1)]
+            C = float((F * np.exp(th0 * (K - zp))[None, :]).sum() / F.sum())
+            U = float((F * (K - zp)[None, :]).sum() / F.sum()); J = float((F * (z - K)[:, None]).sum() / F.sum())
+            dep = F.sum(0)[::-1] / F.sum()
+            sl = float(np.log(mu[K] / mu[K - 1]))
+            out[(A, m)] = dict(C=C, slope=sl, th0=th0, U=U)
+            print(f"   table A = {A}, m = {m:2d} ({m * A} cells): K = {K}; theta0 = {th0:.4f}; ln mu(K+1)/mu(K) = {sl:.4f}; C = {C:.2f} (ln C = {np.log(C):.3f} = {np.log(C) / (m * A):.4f} per cell); "
+                  f"mean undershoot {U:.2f} cells, mean start above K {J:.1f}; crossings landing 1-3 | 4-6 | 7+ below K: {dep[:3].sum():.2f} | {dep[3:6].sum():.2f} | {dep[6:].sum():.2f}")
+    lc = [np.log(out[(84, m)]['C']) for m in ms]
+    inc = [(b - a) / ((mb - ma) * 84) for a, b, ma, mb in zip(lc, lc[1:], ms, ms[1:])]
+    print("   increments of ln C per cell between successive m: " + ', '.join(f"{v:.4f}" for v in inc))
+    check(all(b > a for a, b in zip(lc, lc[1:])) and all(b < a for a, b in zip(inc, inc[1:])) and all(out[(84, m)]['slope'] < out[(84, m)]['th0'] for m in ms)
+          and out[(84, ms[-1])]['U'] < 4,
+          "C is not bounded (it grows with m at every step) although the mean undershoot is (about 3 cells); ln C per cell falls; the living law's log-slope at K is below theta0 at every m")
+    return out
+
+
 if __name__ == '__main__':
     cmd = sys.argv[1] if len(sys.argv) > 1 else 'all'
     if cmd in ('props', 'all'): props()
@@ -544,4 +596,5 @@ if __name__ == '__main__':
     if cmd in ('fits', 'all'): fits()
     if cmd in ('limit', 'all'): limit()
     if cmd in ('ext', 'all'): ext()
+    if cmd in ('cross', 'all'): cross()
     print('ALL OK' if OK else 'SOMETHING FAILED')
