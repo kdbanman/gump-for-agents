@@ -65,11 +65,14 @@ _Last updated 2026-11-14 by the lead._
   (every family 0.2072) and "term in the long side" (b(5) = 0.2081). **The twisted-torus experiment is done, reviewed and recorded** (`research/shape/README.md`,
   `research/audit/REVIEW-shape.md`, notebook entry "the shortest way round", CLAIMS SH1, SH2): at equal area the
   lifetime of a periodic face rises with its shortest closed loop (two independent codes); at A = 60 a second
-  variable shows (two tori with the same shortest loop differ by 0.018 ± 0.004). The review's seven corrections are applied to the write-up (6f995a2). **Running (started 15:48 UTC, both Opus):** (i) a census of every torus of one area
-  (`research/shape2/`, forecasts first): ln τ_face for all classes of period lattices at A = 60 and A = 48, to find
-  what the lifetime at fixed area is a function of (candidate laws: shortest loop; two successive minima; a sum
-  over loop classes); when it reports: lead's check from the counts, an adversarial review if a law is claimed,
-  notebook, CLAIMS. (ii) done: `README.md` (item 4 reworded; new items 8-10) and the web tour and
+  variable shows (two tori with the same shortest loop differ by 0.018 ± 0.004). The review's seven corrections are applied to the write-up (6f995a2). (i) **the census of tori is done** (`research/shape2/README.md`; every class at A = 48 and
+  60, five more at 72; forecasts first): none of the candidate laws holds at all three areas; the cost per cell
+  depends on the shortest loop (0.11, 0.14, 0.19 at loop² 3, 4, 7; 0.205-0.21 from 12 up); at A = 48 the shortest
+  loop stops mattering above √12; a second variable at equal shortest loop shows again (0.014 ± 0.003 at both
+  areas). Lead's check of the tables: `research/audit/shape2_lead_check.py`. **Running (Opus, started 17:00 UTC):**
+  its adversarial review, `research/audit/REVIEW-shape2.md` (independent stepper on the thin tori and the pairs).
+  When it reports: notebook entry, CLAIMS (new rows; SH2's number becomes the three-run pooled value), overview.
+  (ii) done: `README.md` (item 4 reworded; new items 8-10) and the web tour and
   face-table note now agree with today's entries (f4410be; web suite 79/79, check.sh 20/20; the lead read the diff).
   Left as they are: the "~10⁴¹" extrapolation (labelled as one), "twelve times" (lifetime) and "ten times" (first
   face) for side 16, which are different quantities. The audit's corrected wordings are in `path/claims.md` (a0508c8; one number
