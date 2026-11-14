@@ -61,3 +61,4 @@
     rho = 0.3: enumeration 0.085629, polynomial 0.085629
     rho = 0.7: enumeration 0.000009, polynomial 0.000009
     Monte Carlo, whole slab, fair cells beneath, seed 5: 6867 of 2000000 = 0.003433
+    Monte Carlo, whole slab, fair cells beneath, seed 1: 21289 of 6000000 = 0.003548
