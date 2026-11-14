@@ -82,9 +82,11 @@ _Last updated 2026-11-14 by the lead._
   date). Stands: symmetric soups do not age at R = 43 (Weibull k = 1.02); cube-like seeds at vertex-centred R = 40 wait
   exponentially; rim-free slab faces are on the old line through A = 108, and an octahedral face there is 0.91 nats
   tougher. Does not stand: "the rise is a rim effect" and the slope 0.204 from 108 to 126 (the 6×7×8 run counts
-  firewalls as peels; about a fifth of its deaths). The session was sent the five required wording fixes and asked
-  for a rerun that detects firewalls. **Merge pull request 12 once the fixes are pushed** (check the diff; it should
-  touch only `research/gpu/` and `research/data/`).
+  firewalls as peels; about a fifth of its deaths). The session made the five wording fixes (its commit 3cfab59; the
+  lead read the diff) and **pull request 12 was merged 2026-11-14, 07:50 UTC**. It is now running the same slab with
+  firewalls detected (`research/gpu/fwslab.py`; forecast and two validation targets committed first in
+  `research/gpu/PREDICTIONS.md`: firewall-first share 10–30%, ln τ_face(126) = 26.30 ± 0.15). Expect a pull request;
+  review it as before (does its validation at 3×6×8 and 4×7×8 reproduce `slab_fw.csv`?), re-derive one number, merge.
 - **Prior art:** Tél–Lai 2008 and Bramson–Neuhauser 1994 are unread (publisher pages refuse agents); the owner was
   told they could fetch them. `PRIOR-ART.md`'s older sections still hold "snippet only" items the library now covers.
 - Lineage study: replicate the weak "slow variable" (copies remember their source, ρ ≈ +0.2) on other sources.
