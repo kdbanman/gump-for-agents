@@ -1283,3 +1283,91 @@ have no route from the rule to hypothesis R; the obvious closure fails exactly w
 or withdraw it. Beyond that I see no route on this line to a new proved step about the rule itself. What is
 missing is the sparse-face root from the rule (a branching of clusters over the true layers beneath) and the
 power of L on a ring; neither is a large-deviation question.
+
+---
+
+_Closing round (round 5), 2026-11-14, by the successor on the line. The critic's reply to round 4 asked for three
+items and no new mathematics beyond them: entries 22 (V with its continuation; the LR11 miss), 23 (Theorem Q's
+side condition) and 24 (the supersolution theorem). Lab ids: L12.1–L12.10 are the critic's round-4 computations
+(`critic/lab/path_r4.py`); `lr10` and `lr11` were re-run today and reproduce to the last digit quoted._
+
+## 2026-11-14, entry 22. Claim V stated with its continuation; the LR11 prediction missed
+
+**22.1 What V is a functional of.** Three choices enter the number, and each moves it.
+
+- *(a) The table.* T̄_A, the one-step table of the face population pooled over the living, exposed ensemble of
+  faces of A cells (entry 8), rows k below the living mean (the tallies hold k ≤ A/2). Everything in entries 17,
+  21, 24 is about this object. By Theorem P̄ the hazard is exactly its entry flux times its committor ψ*. So "the
+  exponent is the quasi-potential of the population's one-step law" always means: **of the pooled table measured
+  in the living state**. It is not a transition law of the rule.
+- *(b) The rates.* For a row, Λ_k(s) = ln M_k(s), s real; between rows the linear interpolation
+  Λ_x = (1 − f)Λ_k + fΛ_{k+1} (x = k + f); I(x → y) = sup_s [s(x − y) − Λ_x(s)]. "Own rates" means this I.
+  `bellman.py` uses instead the Gaussian (y − x − b)²/2v with b = θv/2 (fed with each row's root θ and variance v).
+- *(c) The continuation*: what Λ_x is below the lowest row used (row 5), that is, what a *sparse* large face is
+  taken to be.
+  - c₀, "rows as tallied": Λ_x interpolates rows 0, 1, 2, 3, 4 as well (Λ₀ = 0). In the m-fold chain of LR11 this
+    makes a sparse face of mA cells m patches holding 0 to 4 cells each.
+  - c₁, "clusters": Λ_x = (x/5)·Λ₅ for x < 5: a sparse face is x/5 independent clusters of five cells; the local
+    root is that of row 5 down to zero. `bellman.py` has always done this (its docstring: "Theta(x) is constant
+    below the first row given"); the lab's variant chain T₅^{∗a} ∗ T_c is its finite form.
+
+V[T̄_A; rates; continuation] = S(top row)/A, where S(0) = 0 and S(x) = min_y [I(x → y) + S(y)].
+
+**22.2 The numbers** (lab L12.4, per cell; `python3 path_r4.py lr10` in `critic/lab/`):
+
+| | A = 45 | 63 | 84 |
+|---|---|---|---|
+| own rates, c₁ | 0.2098 | 0.2168 | **0.2191** |
+| Gaussian on root and variance, c₁ (`bellman.py`) | 0.2056 | 0.2148 | 0.2180 |
+| Gaussian on mean and variance, c₁ | 0.2061 | 0.2119 | 0.2140 |
+| own rates, c₀ | 0.1867 | 0.1997 | 0.2054 |
+| ∫Θ with c₁ (an upper bound, Proposition T) | 0.2167 | 0.2269 | 0.2305 |
+| block bound (a lower bound, Proposition T′) | 0.1424 | 0.1438 | 0.1440 |
+| the table's own −ln ψ*(top row)/A | 0.1919 | 0.1996 | 0.2033 |
+| measured local slope of ln τ from this size to the next | 0.212 | 0.212 | 0.218 (then 0.221) |
+
+**22.3 Claim V as it stands at the close.**
+*Statement.* If the pooled tables are extensive in the limit, with the sparse rows a boundary layer of fixed
+width in k (hypothesis (E) of entry 24.3, with equality in the limit), then ln τ_A = V·A + o(A), V the
+quasi-potential of the limiting rates.
+*Status.* Lower half: **proved** for sub-extensive families with a margin (Theorem V⁻, entry 24). Upper half:
+**sketched** (24.6); the root sum is a proved upper bound (Proposition T). On the two m-fold chains of the A = 84
+table the exact committor's increment per cell converges to the recursion's value *with the same continuation*:
+0.2063, 0.2063, 0.2059, 0.2057 → 0.2054 (c₀) and 0.2134, 0.2165, 0.2181, 0.2188 → 0.2191 (c₁), 84 … 1,344 cells
+(lab L12.5), while the root sums are 0.2153 and 0.2299.
+*For gump.* "γ ≈ V[T̄₈₄; own rates; c₁] = 0.2191" is a number **calculated** from a measured table. Three things
+qualify it, and a statement of V that omits any of them is wrong:
+1. *It depends on the continuation by 0.0137 per cell* (0.2191 against 0.2054), which is more than V differs
+   from ∫Θ (0.011–0.013) and ten times the error of the Gaussian closure (0.0011). Why c₁ and not c₀: the roots
+   of rows 1…5 are 0.000, 0.331, 0.467, 0.549, 0.556 (A = 45); 0.005, 0.340, 0.493, 0.577, 0.590 (63); 0.049,
+   0.226, 0.527, 0.615, 0.607 (84). The small roots sit at k = 1, 2 at every size although k/A changes by a factor
+   of two: a boundary layer of fixed width in k. Its deficit against the plateau, Σ_{k<5}(θ₅ − θ_k) = 1.0 nat at
+   A = 84, should be paid once per face; c₀ stretches it with the face and pays it once per 84 cells (0.012 per
+   cell). The tables support c₁ in kind only: they do not show that the root of a sparse face *of many cells* is
+   the root of row 5 (at x = 0.05 the root is 0.14, 0.36, 0.51, 0.61 at A = 30 … 84; no collapse there).
+2. *It rises with the table*: 0.2098, 0.2168, 0.2191, the steps shrinking by a factor of about three; if that
+   goes on the limit is 0.220. The tables are not extensive copies of one another: two independent faces of 45
+   cells have −ln ψ*(top) = 17.10–17.60 where the measured tables' line gives 18.39 at A = 90, so they are 4–7%
+   easier to empty than one face of 90 (12–20% from A = 30; lab L12.6). V of the largest table is not the
+   asymptotic exponent.
+3. *A fixed table's slope lies below its V at finite size* (entry 21: 0.2134 from 84 to 168 cells against
+   0.2191), while the measured slopes at A = 84–135 (0.218, 0.221) sit at V of the A = 84 table. The two effects,
+   finite size and the drift of the table, have opposite signs and are not separated by anything measured.
+"The hull's slope levels off at 0.220 ± 0.006" stays a guess, and after E3 (hull faces are mostly rim) a guess
+about hulls only.
+*What carries V and is not known for the faces:* extensivity (not reached at A ≤ 84); the sparse end as a
+boundary layer (in kind only); the rows above A/2 (not tallied: the entry term of Theorem P̄, 23.2). "Decreasing
+paths suffice" is no longer a hypothesis: Theorem V⁻ works inside the low set, where rising steps are allowed
+and the recursion with own rates is unchanged by them (lab: grid ¼).
+
+**22.4 The LR11 prediction missed.** Filed in the round-4 report: on the chain q(2k, ·) = T̄₈₄(k, ·) ∗ T̄₈₄(k, ·),
+q(2k + 1, ·) = T̄₈₄(k, ·) ∗ T̄₈₄(k + 1, ·), "the second doubling adds 168 × (0.218 ± 0.007) = 36.6 ± 1.2 to −ln ψ* at the
+top row". Exact (lab L12.5): **34.65**. A miss by 1.6 bars. (First doubling: 17.33.)
+*Reason.* The request and the number came from different continuations. The request doubles every row, rows 1–4
+included (c₀). The number 0.218 came from `bellman.py`, which continues the root of row 5 to zero (c₁). Four
+rows at 0.607 against 0.049 + 0.226 + 0.527 + 0.615 is 1.0 nat per 84 cells, 0.012 per cell, 2.0 nats on 168 cells:
+the whole miss. On the chain with c₁ the second doubling adds 36.38.
+*How it is recorded.* As a miss. I predicted a number for an object other than the one I specified, and did not
+see that my calculator's convention was a modelling choice worth 6% of the answer. That the limit statement is
+confirmed on both chains (each against the recursion with its own continuation) does not turn the prediction
+into a hit. `bellman.py`'s docstring now says which continuation it computes.
