@@ -50,10 +50,11 @@ _Last updated 2026-11-14 by the lead._
   a longer cube-centred symmetric run (does the death rate really fall with age?).
 
 - 2026-11-14: an overview page for the owner (`docs/overview/`, published as a private artifact; link in `LEAD.md`).
-  Research itself is still paused.
+  It predates the two reviews of 2026-11-14 (class theory, GPU round two); refresh it when the swarm's exam is in.
+- Pull request 11 merged 2026-11-14 07:27 UTC (everything up to the two reviews). Later commits need a new pull request.
 
 ## Next (lead's list; pick by judgment)
-- **Swarm (state 2026-11-14, about 09:00 UTC).** The critic's successor answered every report on file
+- **Swarm (state 2026-11-14, about 07:25 UTC).** The critic's successor answered every report on file
   (`critic/board.md` opens with the state; replies in `critic/to-<line>.md`): nothing tagged proved was found wrong;
   three guesses fell (counting's bridge C1′, path's "ln τ = A·∫θ", every equal-time transfer hypothesis); the source
   line is finished and the critic agrees. **The solvers have not been told to continue**, on purpose: first the
