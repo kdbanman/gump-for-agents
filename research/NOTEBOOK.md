@@ -1700,3 +1700,38 @@ each a few minutes; outputs in `audit/out/`).
   shape term that grows with area, as measured; and it gives a second variable of the measured sign (a shorter
   second loop adds a term, so the face dies sooner). If it holds, ξ should be close to the correlation length of the
   chaotic state measured independently (about 0.7 cube). Blind test: the pairs being measured in `research/shape3/`.
+
+## 2026-11-14 — prior art, third pass: what the adversarial review changed
+
+- The review (`research/PRIOR-ART.md`, "Adversarial review of the third pass"; 13 more works on the shelf, §11)
+  tried to refute each "not found" of the entry above. One sub-claim fell, the rest stand with caveats.
+- **Refuted: "nobody uses the shortest loop of a torus as the length that controls a lifetime."** Nardi and Zocca
+  (arXiv:1708.09677, read in full by the reviewer) prove, for zero-field Ising and Potts dynamics on a K × L torus,
+  a tunnelling exponent Γ = 2·min{K, L} + 2 and an exponential limit law: the shorter side, at leading order.
+  Still not found: a chaotic, turbulent, nucleation or extinction lifetime depending on the shape of a torus at
+  fixed area, or a twist dependence (nearest: Tuckett et al., PRX 9 (2019) 041031, where the failure of a quantum
+  memory on a twisted lattice is controlled by a gcd of its dimensions).
+- **"Death comes in through the boundary" is not ours.** Vidmar and Rappel, PRE 99 (2019) 012407
+  (arXiv:1808.01991): the death rate of spiral-defect chaos is proportional to the length of the non-conducting
+  boundary. The reduction of a lifetime to a thin layer over noise was still not found.
+- **The tail formula is textbook.** 1/τ = Σ (exit rate × quasi-stationary probability) is standard theory of
+  quasi-stationary distributions (Assaf–Meerson 2017, eq. 6); Nemoto and Alexakis (JFM 912 (2021) A38) use it for
+  pipe-flow puffs. Correction to the entry above: Sugimura and Kori measure their distribution, they do not assume
+  it. What remains ours in M1 is the measurement itself: a count followed down to one cell, with the exit rate
+  measured, in a deterministic automaton.
+- **Sealed sets are a 9-core.** A set is sealed when each cell has at least 9 of its 12 neighbours inside it, so
+  the largest dead sealed set is the 9-core of the dead cells, equivalently the complement of the live set's
+  closure under threshold-4 bootstrap percolation. The lead checked this from the definition (T6) and added it to
+  `docs/AUTOMATON.md` as a remark. The reviewer's further reading (T6's "no finite sealed set" as a statement about
+  that bootstrap rule being not subcritical in the sense of Gravner–Griffeath) is the reviewer's own and is not
+  checked.
+- Also on the shelf now: Lilienkamp, Christoph, Parlitz, PRL 119 (2017) 054101 (abstract only): in three
+  dimensions transient lifetimes grow only above a critical thickness, the shape of our "three layers are needed".
+- Not obtained: citation lists of Houghton et al. 2010 and Sugimura–Kori 2015 (the index refused), Tél–Lai 2008.
+  Not searched: in-field Ising nucleation on rectangular tori (Borgs–Chayes–Tetali 2012 is the next lead),
+  pipe-puff lifetime against pipe length, Boolean-network frozen cores.
+- Where this leaves the list of what may be new (conjecture about the literature, as good as three searches): the
+  face-area law in a vessel whose walls are theorems; the lifetime reproduced by five layers over coins; the
+  dependence on the shape and twist of a periodic face for a chaotic transient, with a second variable; the
+  exponential cost of symmetry. Not new: confinement by a high birth threshold, supertransients, the tail formula,
+  boundary-controlled death, blocking sets.
