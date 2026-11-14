@@ -75,6 +75,11 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
 15. B45/S3457 (lifetimes ×100 per radius step) and B45/S3456 (glassy freezing): does the face law, with another
     constant, hold there?
 
+15b. The edge-neighbour rule (what the owner intended in 2012; gump is the rule as coded, with corner-touching coplanar
+    neighbours): quick tests show box confinement, bulk chaos at density about 0.40, steeply size-dependent lifetimes
+    and a staircase. Nothing fitted or audited. Does the area law hold on a box face, and with what cost per site?
+    Off main on purpose: branch `claude/edge-neighbour-tangent`, `research/tangents/edge-neighbours/README.md`.
+
 ## Prior art (`PRIOR-ART.md`)
 
 16. Whether Eppstein's bounding-diamond argument (arXiv 0911.2890) is the same method as T2: one agent says yes,

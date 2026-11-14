@@ -24,7 +24,10 @@ _Last updated 2026-11-13 by the lead._
     stub). Its forecasts and outcomes are in `exponent/PREDICTIONS.md`, its theorems in `exponent/theorems.md`
     (Lemma A, consequence (c) there is false: swarm board E10). Needs a successor to write it up, then checking.
   - `research/audit/gpu_pr8/`: partial scripts from the reviewer of pull request 8; no review written. Restarted.
-- **PAUSED at the owner's request (usage), 2026-11-13 about 23:55 UTC. Start nothing new until the owner says so.**
+- **Pause lifted, 2026-11-14.** The owner, after the overview page: "pass me a prompt for the compactor … so you can pick up
+  where you left off (and/or head wherever you like next)". The lead reads this as leave to resume by judgment, mindful of
+  usage (the pause was for usage). Nothing has been restarted yet; the state below is still the state at the pause.
+- **PAUSED at the owner's request (usage), 2026-11-13 about 23:55 UTC.** (Lifted 2026-11-14, see above.)
   Swarm state at the pause: round 1 fully refereed for all four lines; round 2 refereed for path and source;
   counting round 2 written, the critic's reply to it finished or interim (see `critic/to-counting.md`); probability
   paused in round 2 and path and source in round 3, each with an interim report in its journal, unreviewed. The
@@ -44,13 +47,16 @@ _Last updated 2026-11-13 by the lead._
 - 2026-11-14: an overview page for the owner (`docs/overview/`, published as a private artifact; link in `LEAD.md`).
   Research itself is still paused.
 
-## Next (lead's list; pick by judgment; nothing starts until the owner lifts the pause)
+## Next (lead's list; pick by judgment)
 - **Swarm, when resumed:** the critic (or a successor) first, to review the interim reports (probability round 2,
   path and source round 3) and run counting's round-2 lab requests; then each solver from its own journal. Stop a
   line when a round gives no new proved step. Then a fresh reader (not the critic) audits every claim tagged
   "proved" across the four `claims.md`, and the entries in `swarm/PREDICTIONS.md` get run. Only after that does
   anything from the swarm go into the notebook, `CLAIMS.md` or `docs/AUTOMATON.md`.
 - **`research/theory/class.md`** (finished, 44 KB): not yet checked by the lead or attacked by a second agent.
+  When it is checked, test it on the edge-neighbour rule the owner meant to write in 2012 (branch `claude/edge-neighbour-tangent`, `research/tangents/edge-neighbours/README.md`;
+  not gump, never merge). The owner, 2026-11-14: "i trust you to revisit the rule if/when it becomes relevant. e.g. if/when
+  it's time to characterize the class that behaves like gump does."
 - **`research/theory/exponent/`**: needs a successor to write `exponent.md` from `PREDICTIONS.md`, `theorems.md` and
   the data, then checking. Lemma A, consequence (c) in `theorems.md` is false (swarm board E10).
 - **GPU session:** expect a pull request with three experiments (slab faces at A > 90 and octahedral A = 165;

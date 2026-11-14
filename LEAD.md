@@ -138,6 +138,9 @@ let CI pass, merge.
   On where a look at the intended rule should live: "it's just a tangent, probably belongs on a branch, not in
   main. to avoid potential future confusion. the main branch should probably be left to the rule/class you've
   actually been exploring?"
+- And: "sounds like it's worth writing down. maybe leave a pointer to the branch where you think is relevant? i trust you
+  to revisit the rule if/when it becomes relevant. e.g. if/when it's time to characterize the class that behaves like gump
+  does." Pointers are in `research/STATUS.md` (Next), `research/theory/PROGRAM.md` (G2′) and `research/OPEN-PROBLEMS.md` (15b).
 - So: main and the working branch are about the rule as coded. The edge-neighbour look is on the branch
   `claude/edge-neighbour-tangent` (`research/tangents/edge-neighbours/`). Do not merge it; do not open a pull
   request for it unless the owner asks.

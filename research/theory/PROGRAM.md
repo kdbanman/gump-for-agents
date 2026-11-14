@@ -94,6 +94,10 @@ or a sharply stated conjecture with a rate, (iii) what remains is characterised.
   cases* (M2, M4, E2, S6's percolation step), and the simplest object to put in a paper.
   *Open:* why rotation symmetry that fixes no edge still shortens life; the slope beyond L = 36.
 - **G2 Neighbours of gump** (B45/S3457, B45/S3456; the 960-rule survey): which statements survive?
+- **G2′ The rule the owner meant to write** (same B45/S345, but the four coplanar neighbours are the edge-sharing
+  ones): a quick look says it is a second gump with a box for a hull: confined, chaotic, lifetime climbing steeply
+  with box size, dying a slab at a time. Not gump, kept off main (branch `claude/edge-neighbour-tangent`, `research/tangents/edge-neighbours/README.md`).
+  It is a fair test for G3 and S7: an example nobody chose to suit the theory. Revisit it when the class is characterised.
 - **G3 Capped-threshold rules as a family:** T5 holds for any "threshold with hysteresis plus exceptions" on any
   graph. Two members now show the whole phenomenon (gump; the 2D cross rule), each the only member of its
   neighbourhood's family that does. What singles them out — the fraction of the neighbourhood lying in a
