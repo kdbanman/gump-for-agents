@@ -35,11 +35,19 @@ function gens(ln) { // e^ln as a readable number of generations
   responsive(H2, w => {
     const f = frame(H2, { w, h: 330, label: 'Local slope of the face law between neighbouring sizes',
       x: { d: [24, 141], ticks: [30, 63, 108, 135], title: 'sites in the face' }, y: { d: [0.196, 0.234], ticks: [0.20, 0.21, 0.22, 0.23], fmt: v => v.toFixed(2), title: 'added to ln(life) per site' }, m: { t: 26, r: 10, b: 38, l: 40 } });
-    S('line', { x1: f.m.l, x2: w - f.m.r, y1: f.Y(0.2088), y2: f.Y(0.2088), stroke: 'var(--s3)', 'stroke-width': 1.5 }, f.svg);
-    S('text', { x: w - f.m.r - 2, y: f.Y(0.2088) - 6, 'text-anchor': 'end', class: 'halo' }, f.svg).textContent = 'flat slab faces, 0.2088';
+    // a wide periodic face: 0.2072 (width as an offset) to 0.2117 (long side) per site; the old 0.2088 mixed widths (NB "equal areas, different lifetimes")
+    const wd = L.wide; S('rect', { x: f.m.l, y: f.Y(wd[1]), width: w - f.m.r - f.m.l, height: f.Y(wd[0]) - f.Y(wd[1]), fill: 'var(--s3)', 'fill-opacity': .13 }, f.svg);
+    const wh = S('rect', { class: 'hit', x: f.m.l, y: f.Y(wd[1]), width: w - f.m.r - f.m.l, height: f.Y(wd[0]) - f.Y(wd[1]), tabindex: 0 }, f.svg);
+    tipOn(wh, () => ['A wide flat face: ' + wd[0] + ' to ' + wd[1] + ' per site', 'which, depends on how width enters; not decided']);
+    L.families.filter(r => r[0] < 6).forEach(r => {
+      const span = r[0] === 4 ? [60, 108] : [75, 120], y = f.Y(r[1]);
+      S('line', { x1: f.X(span[0]), x2: f.X(span[1]), y1: f.Y(r[1]), y2: f.Y(r[1]), stroke: 'var(--s3)', 'stroke-width': 2.5, 'stroke-linecap': 'round', 'stroke-opacity': r[0] === 4 ? 1 : .7 }, f.svg);
+      const hh = S('rect', { class: 'hit', x: f.X(span[0]), y: y - 6, width: f.X(span[1]) - f.X(span[0]), height: 12, tabindex: 0 }, f.svg);
+      tipOn(hh, () => ['Slab faces of width ' + r[0] + ', ' + span[0] + ' to ' + span[1] + ' sites', r[1] + ' ± ' + r[2] + ' per site (GPU, firewalls apart)']);
+    });
     S('line', { x1: f.m.l, x2: w - f.m.r, y1: f.Y(0.2077), y2: f.Y(0.2077), stroke: 'var(--retired)', 'stroke-width': 1 }, f.svg);
-    const rt = S('text', { x: f.m.l + 4, y: f.Y(0.2077) + 13, class: 'halo', style: 'text-decoration:line-through' }, f.svg); rt.textContent = '0.2077';
-    S('text', { x: f.m.l + 44, y: f.Y(0.2077) + 13, class: 'halo' }, f.svg).textContent = 'retired';
+    const rt = S('text', { x: f.m.l + 4, y: f.Y(0.2077) + 22, class: 'halo', style: 'text-decoration:line-through' }, f.svg); rt.textContent = '0.2077';
+    S('text', { x: f.m.l + 44, y: f.Y(0.2077) + 22, class: 'halo' }, f.svg).textContent = 'retired';
     L.slopes.forEach(r => {
       S('line', { x1: f.X(r[0]), x2: f.X(r[1]), y1: f.Y(r[2]), y2: f.Y(r[2]), stroke: 'var(--s1)', 'stroke-width': 2, 'stroke-linecap': 'round' }, f.svg);
       dot(f, (r[0] + r[1]) / 2, r[2], 'var(--s1)', () => ['From ' + r[0] + ' to ' + r[1] + ' sites', r[2] + ' per site' + (r[3] ? ' ± ' + r[3] : '')], { se: r[3] || 0, r: 4 });
@@ -47,7 +55,7 @@ function gens(ln) { // e^ln as a readable number of generations
     const ss = L.slab_slope; S('rect', { x: f.X(ss[0]), y: f.Y(ss[2] + ss[3]), width: f.X(ss[1]) - f.X(ss[0]), height: f.Y(ss[2] - ss[3]) - f.Y(ss[2] + ss[3]), fill: 'var(--s3)', 'fill-opacity': .3 }, f.svg);
     S('line', { x1: f.X(ss[0]), x2: f.X(ss[1]), y1: f.Y(ss[2]), y2: f.Y(ss[2]), stroke: 'var(--s3)', 'stroke-width': 2.5 }, f.svg);
     const sh = S('rect', { class: 'hit', x: f.X(ss[0]), y: f.Y(ss[2] + ss[3]) - 4, width: f.X(ss[1]) - f.X(ss[0]), height: f.Y(ss[2] - ss[3]) - f.Y(ss[2] + ss[3]) + 8, tabindex: 0 }, f.svg);
-    tipOn(sh, () => ['Rim-free slab faces, ' + ss[0] + ' to ' + ss[1] + ' sites', ss[2] + ' ± ' + ss[3] + ' per site (GPU, firewalls apart)']);
+    tipOn(sh, () => ['Rim-free slab faces of width 6, ' + ss[0] + ' to ' + ss[1] + ' sites', ss[2] + ' ± ' + ss[3] + ' per site (GPU, firewalls apart)']);
     const last = L.slopes[L.slopes.length - 1]; S('text', { x: f.X(last[1]), y: f.Y(last[2] + last[3]) - 7, 'text-anchor': 'end', class: 't-strong' }, f.svg).textContent = String(last[2]);
     S('text', { x: f.X(L.slopes[0][0]), y: f.Y(L.slopes[0][2]) + 16, class: 't-strong' }, f.svg).textContent = String(L.slopes[0][2]);
   });

@@ -155,5 +155,4 @@ const sci = v => { const e = Math.floor(Math.log10(v)), m = v / Math.pow(10, e);
   // what fell (NB 2026-11-14, "the theory swarm is closed": "What fell, each for a stated reason")
   [['Closures by independent cells', 'withdrawn'], ['Fixed-age exponents as the law', 'they describe the start; failed their exam'], ['ln τ = A·∫θ', ''], ['One remnant in every vessel', 'a slab face falls faster than a hull face'], ['The ring exponent coming down to the interval’s', ''], ['Every equal-time transfer hypothesis', '']]
     .forEach(x => { const li = E('li', {}, $('#l-dead')); E('b', {}, li, x[0]); if (x[1]) li.appendChild(document.createTextNode('  ' + x[1])); });
-  $('#n-width').textContent = D.width[0] + ' ± ' + D.width[1];
 })();

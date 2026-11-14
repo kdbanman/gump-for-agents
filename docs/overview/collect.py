@@ -160,5 +160,29 @@ tl["pull_requests"].sort(key=lambda p: p["date"])
 out["width"] = gp["width_test"]["value"][5:7]
 tl["milestones"] = tl["milestones"] + [{"date": x["date"], "text": x["text"]} for x in U["milestones"]]
 
+# ---- the second refresh of 2026-11-14: update-2026-11-14b.json (width of a periodic face, GP9; twisted faces, SH1, SH2) ----
+V = S("update-2026-11-14b.json")
+for sec in ("width", "shape"):
+    for k, v in V[sec].items():
+        if k != "rows": checked(v)
+for r in V["shape"]["rows"]: checked(r)
+for f in V["forecasts"]: checked(f)
+for a in V["audits"]: assert (repo / a["file"]).exists(), a["file"]
+out["forecasts"] += [{"line": f["line"], "result": f["result"]} for f in V["forecasts"]]
+out["project"]["audits"] += [[a["label"], a["line"]] for a in V["audits"]]
+tl["milestones"] += [{"date": x["date"], "text": x["text"]} for x in V["milestones"]]
+vw, vs = V["width"], V["shape"]
+out["shape"] = {
+    # loop squared, loop length, ln tau (experiment), se, ln tau (review's independent stepper), se, tori
+    "rows": [r["value"][:4] + (r["value"][4:6] if len(r["value"]) > 4 else [None, None]) + [r["tori"]] for r in vs["rows"]],
+    "agree": vs["agree"]["value"], "control": vs["control"]["value"], "pair60": vs["pair60"]["value"], "pair60_review": vs["pair60_review"]["value"],
+    "size": vs["size"]["value"], "forecast": vs["forecast"]["value"],
+    "pairs": [[l, a] + vw["pairs"]["value"][2 * i: 2 * i + 2] for i, (l, a) in enumerate(zip(vw["pairs"]["labels"], vw["pairs"]["A"]))],
+    "cpu72": vw["cpu72"]["value"],
+}
+out["law"]["families"] = [[s] + vw["families"]["value"][2 * i: 2 * i + 2] for i, s in enumerate(vw["families"]["s"])]   # short side, slope, se
+out["law"]["wide"] = vw["wide"]["value"][:2]; out["law"]["mixed"] = vw["mixed"]["value"]
+assert out["law"]["slab_fit"][1] == out["law"]["mixed"][1]
+
 (here / "data" / "data.json").write_text(json.dumps(out, separators=(",", ":")))
 print("data.json", (here / "data" / "data.json").stat().st_size, "bytes;", ", ".join(out))

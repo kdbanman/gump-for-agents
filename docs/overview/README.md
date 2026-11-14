@@ -38,3 +38,18 @@ the no-ageing tile to "Luck or lineage".
   `research/STATUS.md` as of this refresh: the GPU width experiment is running).
 - Not shown: CLAIMS grades per new number (the cards say "one run" or "one agent" where CLAIMS grades it C);
   the per-line round counts of the swarm (stale since the pause, so dropped).
+
+## Refresh of 2026-11-14 (late afternoon)
+
+Added the plate "The shortest way round" (`src/plates-shape.html`, drawn by `src/figures4.js`; placed after the
+area law through the `<!--SHAPE-->` marker in `plates-law.html`) from the notebook entries "equal areas, different
+lifetimes" (GPU pull request 16, CLAIMS GP9) and "the shortest way round" (CLAIMS SH1, SH2). Revised the area-law
+plate (width matters; the old 0.2088 mixed widths; a wide periodic face costs 0.2072–0.2117 per site, undecided; the
+slope chart now shows the width-4 and width-5 family slopes and that range as a band), the map, and "Open now" (the
+wrap-around term; the fresh-reader audit of path running, per `research/STATUS.md`).
+
+- New numbers come from `data/sources/update-2026-11-14b.json`, checked by `collect.py` exactly as the first update
+  file. The six points of the shortest-loop chart are the notebook's table at A = 72, rows copied whole.
+- Typed, not drawn from data: the twisted-face picture (4 × 6 against (4,1),(0,6); both are the same a × b block of
+  rhombi, glued differently), and the placement of the width-4 and width-5 family lines (A = 60–108 and 75–120,
+  from the notebook's table).

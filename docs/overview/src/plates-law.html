@@ -1,7 +1,7 @@
 <section class="plate" id="law">
   <div class="plate-h">
-    <div class="row"><p class="eyebrow">The area law</p><span class="st st-meas">measured, re-checked</span><span class="st st-ret">limit 0.2077 ± 0.0014 retired</span><span class="st st-open">rising price, or the face’s width? being measured</span></div>
-    <h2>Every extra site makes a face last about a quarter longer. Past 100 sites the price per site may still be creeping up.</h2>
+    <div class="row"><p class="eyebrow">The area law</p><span class="st st-meas">measured, re-checked</span><span class="st st-ret">limit 0.2077 ± 0.0014 retired</span><span class="st st-meas">the face’s width matters: measured</span><span class="st st-open">price per site of a wide face: open</span></div>
+    <h2>Every extra site makes a face last about a quarter longer. On a flat face its width matters too, and the price per site need not rise.</h2>
   </div>
   <div class="figs">
     <figure class="fig c8 panel">
@@ -9,21 +9,24 @@
       <div id="f-law"></div>
       <div class="keys"><span class="key"><span class="sw dot" style="background:var(--s1)"></span>faces of an octahedral hull, on the engine</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--s1)"></span>the same on rented GPUs</span><span class="key"><span class="sw dot" style="background:var(--s3)"></span>flat slab faces with no rim</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--s3)"></span>the same on GPUs, firewalls counted apart</span><span class="key"><span class="sw dot" style="background:var(--s2)"></span>hull faces cut by one mirror</span></div>
       <div id="t-law"></div>
-      <figcaption>Ten decades of waiting time. Flat rim-free faces follow one line, 0.2088 per site, out to 90 sites; at 108 and 126 they sit a little above it. Hull faces last longer (why is not separated: rim, shared edges, shape). <b>A mirror through a face halves its price</b> (one run, not re-derived).</figcaption>
+      <figcaption>Ten decades of waiting time. Flat rim-free faces follow one line, 0.2088 per site, out to 90 sites, and sit a little above it at 108 and 126. That line mixes widths: the larger slabs were also the wider ones, and a wider face of the same area lives longer, which steepens it. Hull faces last longer (why is not separated: rim, shared edges, shape). <b>A mirror through a face halves its price</b> (one run, not re-derived).</figcaption>
     </figure>
     <figure class="fig c4 panel">
       <h3>The price of one more site</h3>
       <div id="f-slopes"></div>
-      <figcaption>Blue: hull faces. Green bar: rim-free slab faces from 108 to 126 sites. Either the price per site rises past 100 sites, or a slab’s width matters; a GPU run is testing which. <b>Where the price levels off is not known.</b></figcaption>
+      <figcaption>Blue: hull faces. Green: rim-free slab faces with the width held fixed (lines: widths 4 and 5; bar: width 6, 108 to 126 sites). Each is below the old mixed-width 0.2088 or within its error. Shaded: the price of a wide flat face, <span id="n-wide">0.2072 to 0.2117</span>, depending on how width enters. <b>Where the hull price levels off is not known.</b></figcaption>
     </figure>
   </div>
   <div class="nums">
     <div class="num"><span class="v">0.21 <small>per site</small></span><span class="l">to lose a face: all of it must empty at once</span></div>
     <div class="num"><span class="v">0.12 <small>per cell</small></span><span class="l">to cut the vessel in two with three dead layers; cheaper per cell, but it wins only in thin slabs</span></div>
     <div class="num"><span class="v" id="n-rim">0.91 <small>nats</small></span><span class="l">how much longer-lived (in ln τ) a hull face of 108 sites is than a rim-free one</span></div>
+    <div class="num"><span class="v" id="n-wide2">0.2072–0.2117</span><span class="l">per site for a wide flat face, once widths are not mixed; where in that range is not decided <span class="st st-open" style="margin-left:2px">open</span></span></div>
     <div class="num"><span class="v">10 <small>generations</small></span><span class="l">the final plunge: too fast for path-splitting tricks to help</span></div>
   </div>
 </section>
+
+<!--SHAPE-->
 
 <section class="plate" id="sym">
   <div class="plate-h">
