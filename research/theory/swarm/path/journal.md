@@ -1371,3 +1371,103 @@ the whole miss. On the chain with c₁ the second doubling adds 36.38.
 see that my calculator's convention was a modelling choice worth 6% of the answer. That the limit statement is
 confirmed on both chains (each against the recursion with its own continuation) does not turn the prediction
 into a hit. `bellman.py`'s docstring now says which continuation it computes.
+
+---
+
+## 2026-11-14, entry 23. Theorem Q: the side condition repaired
+
+**23.1 What was wrong.** Entry 17.6 concluded "ln τ ≥ θ₀(κA − k₀) − ln C" under the condition that "the downward
+crossings of K undershoot by a bounded exponential moment, E_cross[e^{θ₀(K − z′)}] ≤ C". The lab computed that
+moment (L12.3): 2.42, 3.08, 3.70, 4.45 on the tallies (A = 30 … 84) and 4.34, 6.56, 11.5, 23.7, 58.4 on the m-fold
+chain of the A = 84 table (84 … 1,344 cells). It is not bounded.
+The proof never needed it. The crossing term of Theorem P̄ is a sum over crossings, that is,
+(crossings per unit of exposure) × E_cross[·]. I bounded the first factor by 1 and put a condition on the second.
+But the first factor χ falls exponentially with the size (reaching K = 0.35A from the mean is itself a large
+deviation: ln χ = −4.25, −7.30, −13.16, −24.86, −48.48 on the same chain), and the moment *conditioned on a
+crossing* grows because the condition is rare: the crossings that occur start just above K with weights growing
+like e^{σj}, σ the living law's log-slope there, smaller than θ₀ (the critic's one-line reason). The product is
+what the proof uses, and it falls.
+
+**23.2 Theorem Q, final form [proved from P̄ and T′].** Setting of entry 8: any process, the pooled table
+T̄ = F/N of a statistic over a window, p_z = N(z)/Expo the pooled living law. Let θ₀ > 0 and 0 ≤ k₀ < K, and suppose
+
+    (R)   M_k(θ₀) ≤ 1   for every row k₀ ≤ k < K, k ≥ 1        (the roots are ≥ θ₀ on the block).
+
+Then
+
+    Deaths/Expo  ≤  e^{−θ₀(K − k₀)}·Φ  +  (boundary term)/Expo,
+    Φ = Σ_{z ≥ K} p_z · Σ_{0 ≤ z′ < K} T̄(z, z′)·e^{θ₀(K − z′)},                                              (Q1)
+
+and
+
+    Φ  ≤  C⁺ := sup { M_z(θ₀)·e^{−θ₀(z − K)} : z ≥ K, p_z > 0 }.                                              (Q2)
+
+So if, besides R,
+
+    (R⁺)  M_z(θ₀) ≤ C⁺·e^{θ₀(z − K)}   for every visited row z ≥ K,
+
+then ln τ ≥ θ₀(K − k₀) − ln C⁺ − (window term), with nothing else assumed. The boundary term is
+E[ψ(Z_{t₀}); Z_{t₀} < K, S_{t₀}] as in entry 8.
+
+*Proof.* Theorem P̄ with 𝓛 = {1, …, K − 1} and ψ(k) = e^{−θ₀(k − k₀)⁺}, a supersolution by Proposition T′:
+Deaths ≤ D(𝓛ᶜ) + Σ_{z ≥ K} Σ_{1 ≤ z′ < K} F(z, z′)ψ(z′) + boundary. For 1 ≤ z′ < K, ψ(z′) ≤ e^{−θ₀(z′ − k₀)} =
+e^{−θ₀(K − k₀)}·e^{θ₀(K − z′)}. A direct death is the term z′ = 0: D(z) = N(z)T̄(z, 0) and 1 ≤ e^{−θ₀(K − k₀)}·e^{θ₀K}
+because k₀ ≥ 0. With F = N·T̄ and division by Expo this is (Q1). For (Q2):
+Σ_{z′ < K} T̄(z, z′)e^{θ₀(K − z′)} ≤ e^{−θ₀(z − K)}·Σ_{z′ ≥ 0} T̄(z, z′)e^{−θ₀(z′ − z)} = e^{−θ₀(z − K)}M_z(θ₀), and Σ_{z ≥ K} p_z ≤ 1. ∎
+
+*In words.* Φ is the exponential moment of the undershoot of K **per unit of exposure**, not per crossing, a
+direct death from K cells or more counted as an undershoot to zero. Both side conditions of 17.6 ("no face dies
+directly from K or more"; the undershoot) are this one quantity: Φ = χ·C + e^{θ₀K}·(direct deaths)/Expo. (Q1) is
+exact bookkeeping and needs no condition; the condition is on Φ, and "Φ ≤ C" or "ln Φ ≤ εA" is what a statement
+of the area law must carry (the second gives the exponent θ₀κ − ε).
+R⁺ is the one-step statement that suffices: from K cells or more the population's next value has
+E[e^{−θ₀(Z′ − K)}] ≤ C⁺, row by row. It is condition (ii) of Corollary P1 (entry 3, "no cheap flash"), which the
+pooled form of entry 17.6 had dropped. In an extensive family (entry 24.3) C⁺ = exp(m·sup_{x ≥ κ}[Λ_x(θ₀) − θ₀(x − κ)]):
+above the block Λ_x(θ₀) becomes positive, as it must since the root falls to zero at the mean, and R⁺ asks that
+it grow no faster than θ₀ per unit of density.
+
+**23.3 Numbers** (`python3 vminus_check.py q`, one second; K = ⌈0.35A⌉, θ₀ = the least root on [5, K), k₀ = 5; my
+own code, the critic's data file; its C reproduces L12.3).
+
+| the tallies (rows K ≤ z ≤ A/2 only) | A = 30 | 45 | 63 | 84 |
+|---|---|---|---|---|
+| θ₀ | 0.4034 | 0.4261 | 0.4117 | 0.4172 |
+| χ, crossings per unit of exposure | 0.056 | 0.034 | 0.023 | 0.010 |
+| C, per crossing (the old condition) | 2.42 | 3.08 | 3.70 | 4.45 |
+| **Φ, per unit of exposure** | 0.136 | 0.103 | 0.085 | 0.046 |
+| **C⁺ over the tallied rows** | 1.043 | 1.054 | 1.068 | 1.068 |
+| direct deaths from rows K … A/2 | 1 | 0 | 0 | 0 |
+| θ₀(K − k₀) − ln Φ | 4.41 | 6.96 | 9.88 | 13.51 |
+| −ln h (board) | 6.80 | 9.82 | 13.63 | 18.08 |
+
+| the m-fold chain of the A = 84 table, c₁ | 84 cells | 168 | 336 | 672 | 1,344 |
+|---|---|---|---|---|---|
+| ln χ | −4.25 | −7.30 | −13.16 | −24.86 | −48.48 |
+| C, per crossing | 4.34 | 6.56 | 11.5 | 23.7 | 58.4 |
+| **Φ** | 6.2 × 10⁻² | 4.4 × 10⁻³ | 2.2 × 10⁻⁵ | 3.8 × 10⁻¹⁰ | 5.1 × 10⁻²⁰ |
+| **C⁺** | 1.068 | 1.068 | 1.067 | 1.067 | 1.067 |
+| θ₀(K − 5m) − ln Φ | 13.22 | 25.87 | 51.21 | 102.29 | 205.20 |
+| −ln h of the chain | 17.90 | 35.66 | 71.90 | 145.04 | 291.96 |
+
+So Φ < 1 and falling wherever it can be computed, and R⁺ holds with C⁺ = 1.07 on every tallied row and at every
+m. (C⁺ is attained at z = K: θ₀ is the block's minimum, attained at row K − 1, and the root of row K is a little
+smaller, so M_K(θ₀) = 1.07; beyond K the quantity M_z(θ₀)e^{−θ₀(z − K)} decreases.) On the chain the stationary law
+is that of the chain restarted at its top row, the critic's construction; it is a caricature of the living law
+above the mean.
+*Not known.* The tallies hold no row above A/2, and 32%, 44%, 49%, 51% of the exposure is there (A = 30 … 84).
+Φ and C⁺ above are over rows K ≤ z ≤ A/2. A crossing from above A/2 to below K is a one-step drop of more than
+0.15A cells (13 cells at A = 84, against a step with standard deviation 5); whether such steps matter, and
+whether a face dies directly from above A/2, the tables cannot say. R⁺ is therefore checked on the lower half
+of its range, as the critic said of the condition it replaces.
+
+**23.4 Corrections of detail to 17.6 and to the round-4 report** (all from the critic's reply, §2; lab L12.2).
+- Hypothesis R(0.35, 0.40, 5) holds on **all four** tables: block minima 0.4034, 0.4261, 0.4117, 0.4172 at
+  A = 30, 45, 63, 84. "Fails at A = 30" was about the root at a fixed density, which is lower there.
+- k₀ can be 3 from A = 45 on. It cannot be 1 or 2 at any size: rows 1 and 2 have roots 0.00–0.05 and 0.23–0.34.
+- "The crossing term is carried by drops of one to three cells" is true **by count** (91%, 86%, 80%, 78% of the
+  crossings land one to three cells below K) and false by weight: the ψ*-weighted share of those landings is
+  0.70, 0.55, 0.41, 0.33, and at A = 84 a third of the weight lands seven or more cells below K.
+- What Q proves on the tables: 0.13–0.14 per cell from the block alone; with the measured Φ credited the slopes
+  of the last-but-one row above are 0.170, 0.162, 0.173 against the hazard's 0.201, 0.212, 0.212. On the chain:
+  0.151–0.153 against 0.211–0.219. The rest of the exponent is in the roots above θ₀ inside the block and in the
+  entry flux, which is what Theorem V⁻ (entry 24) is for.
