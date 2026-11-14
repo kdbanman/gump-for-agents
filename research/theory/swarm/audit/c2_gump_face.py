@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Audit of the counting line, gump faces: claims 6 (gump half), 10, 11, 16.
 
-  python3 c2_gump_face.py            (about 6 minutes, one core)
+  python3 c2_gump_face.py            (about 9 minutes, one core)
 
 Vessels and the stepper are p0_lib's (audit code; its stepper is checked against reference/oracle.py by
 `python3 p0_lib.py`). Nothing of the counting line or of the critic's lab is read.
@@ -224,7 +224,26 @@ def main():
                   f"equal for each of the 2^{len(face)} face configurations: {same}")
             assert same
         else:
-            print("    too many cells for every state: skipped")
+            # too many cells for every state: every state of the cells beneath, for 14 face configurations
+            A_, nr_ = len(face), len(relevant)
+            rs = np.random.default_rng(4)
+            S_try = [0, (1 << A_) - 1] + [1 << j for j in range(3)] + [int(v) for v in rs.integers(0, 1 << A_, 5)]
+            order_ = np.argsort(-np.array([int(v) for v in pred], dtype=np.float64))
+            S_try += [int(order_[i]) for i in (1, 3, 10, 30)]
+            bad_ = 0
+            for Sx in S_try:
+                cnt = 0
+                for lo in range(0, 1 << nr_, 1 << 19):
+                    hi = min(lo + (1 << 19), 1 << nr_)
+                    X = np.zeros((hi - lo, V.N), np.int8)
+                    X[:, relevant] = bits(nr_, lo, hi)
+                    for j, i in enumerate(face):
+                        X[:, i] = (Sx >> j) & 1
+                    cnt += int((next_on(V, X, np.array(face)).sum(axis=1) == 0).sum())
+                bad_ += cnt != int(pred[Sx])
+            print(f"    {len(S_try)} face configurations x all 2^{nr_} states beneath: formula wrong in {bad_}; "
+                  f"formula total {int(sum(pred))} of 2^{A_ + nr_}")
+            assert bad_ == 0
 
     section("claim 10, item 5: the product formula on periodic slabs (3 layers)")
     V, wrap = slab(2, 1)

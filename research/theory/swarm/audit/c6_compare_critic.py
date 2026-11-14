@@ -33,14 +33,15 @@ def part_a():
 
 
 def part_b():
-    print("\n=== B. the audit's matrix at density 0.472: two leading eigenvalues; c_2(p) near 1/2")
+    print("\n=== B. the audit's matrix: the two leading branches of the horizon-2 spectrum as the soup density varies")
     import scipy.sparse.linalg as sla
-    from c0_lib import T2, spectral_radius
-    ev = sla.eigs(T2(0.472), k=2, which='LM', return_eigenvectors=False)
-    ev = sorted(abs(ev), reverse=True)
-    print(f"  leading eigenvalues {ev[0]:.6f}, {ev[1]:.6f} (ratio {ev[1] / ev[0]:.4f}); c_2 = {-math.log(ev[0]):.6f}")
-    for p in (0.47, 0.472, 0.475, 0.48, 0.49, 0.5):
-        print(f"  c_2({p}) = {-math.log(spectral_radius(T2(p))[0]):.6f}")
+    from c0_lib import T2
+    print("       p     c_2(p) = -ln(first)   -ln(second)")
+    for p in (0.40, 0.44, 0.46, 0.465, 0.47, 0.472, 0.475, 0.48, 0.49, 0.5, 0.52, 0.54):
+        ev = sla.eigs(T2(p), k=3, which='LM', return_eigenvectors=False, tol=1e-12)
+        ev = sorted(abs(ev), reverse=True)
+        print(f"    {p:5.3f}      {-math.log(ev[0]):.6f}          {-math.log(ev[1]):.6f}")
+    print("  the leading branch changes near p = 0.467: steep below it (the cost rises with the density), flat above")
 
 
 def part_c():

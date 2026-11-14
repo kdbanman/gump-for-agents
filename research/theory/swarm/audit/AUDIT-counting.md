@@ -43,7 +43,7 @@ with the scripts below, exhaustively where the size allows. A recomputation was 
 | 24 | O_h faces: equal area, orbits, adjacencies; triangle orientation and rim differ (15) | **correct** | read; every count listed for N = 1…9 and R = 35, 36 (`c4`) |
 | C2 | c_∞(½) > 0 | guessed: out of scope | |
 
-Count: of the 22 claims tagged proved, **18 correct**, **1 correct after filling a gap** (19), **2 with one sentence
+Count: of the 22 claims tagged proved, **19 correct**, **1 correct after filling a gap** (19), **2 with one sentence
 narrower than worded** (11, 20), and the computed claim 5 has **one constant wrong in the fourth digit**.
 Nothing tagged proved is wrong; no proof is missing.
 
@@ -80,15 +80,22 @@ boxes 5 × 1 … 5 × 5; the weighted version against a weighted brute sum.
 
 The last one: at density 0.472 the two leading eigenvalues of the weighted matrix are 0.626977 and 0.620526
 (power iteration and `scipy.sparse.linalg.eigs` agree; ring 5 × 4: weighted brute sum 0.2328125151 = tr(T⁴)). The
-ratio 0.99 makes a power iteration slow, which may be where 0.4671 came from; c_2(0.470) = 0.46712 would also
-give it. The value at 0.472 is 0.4668. Nothing rests on the difference: the journal's remark (entry 9) that the
-density matters at horizon 1 and hardly at horizon 2 stands (0.5515 against 0.4900; 0.4677 against 0.4668), and
-"one more generation lowers the cost by 0.023 at density 0.472" stands (0.0231).
+ratio 0.99 makes a power iteration slow, and that is where 0.4671 came from (the lab stops at 400 iterations; see
+"Where I differ from the critic", 1). The value at 0.472 is 0.4668. No claim rests on the difference, and "one
+more generation lowers the cost by 0.023 at density 0.472" (entry 9) stands (0.0231).
 
 Corrected wording for `claims.md` 5: "… 0.489963, **0.4668** at density 0.472."
 
-c_2(p) is not monotone near ½ (0.47: 0.46712; 0.475: 0.46651; 0.48: 0.46618; 0.5: 0.46769): two branches of the
-spectrum cross there, which is the "two kinds of cheap death" of entry 17.3 seen in the constant.
+**A remark of entry 9 that the constants support only locally.** "The soup density matters at horizon 1 and no
+longer at horizon 2" (entry 9 (i); the critic's reply to round 1 says the same; entry 10 builds "c_2 does not
+depend on the density near ½" on it) holds on the stretch 0.467 ≤ p ≤ 0.5, in which both densities compared happen
+to lie, and not outside it. The leading branch of the horizon-2 spectrum changes near p = 0.467 (`c6`, part B):
+above it c_2(p) is flat (0.4671, 0.4668, 0.4662, 0.4664, 0.4677 at p = 0.47, 0.472, 0.48, 0.49, 0.5); below it c_2
+rises steeply with the density (0.3344, 0.4110, 0.4518, 0.4623 at p = 0.40, 0.44, 0.46, 0.465); above 0.5 it rises
+again (0.4737, 0.4844 at 0.52, 0.54) and is lower again in dense soups (0.4013 at 0.6455, 0.1167 at 0.8; `c1`).
+The density 0.472 sits 0.005 above the change of branch, which is why its second eigenvalue is so close. For
+comparison, the soups of the measured 2D law have density 0.4 (`research/toy2d/README.md`), where c_2 = 0.334.
+No claim of the list rests on the remark (the guess C1′ that used it is withdrawn).
 
 c_3 = 0.36 ± 0.01 is the examiner's sample and out of scope. One number that bears on how it is read (entry 13: "the
 same samples give 0.542 and 0.479 at k = 1, 2"): the exact slopes of −ln D_k(L) between L = 20 and 32 are 0.55155
