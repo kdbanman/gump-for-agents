@@ -98,3 +98,13 @@ Known: 4×5×8 = 12.486 (GPU; 12.487 ± 0.001 in the review's age bins). Forecas
 - H0 (hex systole): all four 0.
 - H0′ (rows): (5,1) 0; (4,2) and (4,3) about +0.07; (2,2) well above (+0.3 or more).
 Refutation criteria as at A = 72.
+
+## Outcome (added after the runs; the forecasts above are unchanged)
+
+Details and numbers in `README.md`. Controls C1–C3 pass. A = 72: H1's qualitative claims all hold (control equal;
+systole² 13 presentations agree; 12 and 13 between 14.62 and 14.97; 21 above), and equal-systole shapes agree
+(three at 16, two at 12, two at 9); magnitudes miss (21 is +0.093 ± 0.016, not +0.04; 12 and 13 are at 14.877 and
+14.921, not 14.78 and 14.83). H0 (hex systole) and H0′ (rows) are refuted at both areas (8σ and more). A = 60: the
+ordering holds and the systole² 12 shapes agree, but the two systole² 16 shapes differ by 0.019 ± 0.004 (4.6σ, after a
+top-up run decided on a 2.5σ difference), so H1 in its strict form fails there by its own criterion (a); the
+systole effect is about half its A = 72 size and the forecast magnitudes for A = 60 were three to four times too large.
