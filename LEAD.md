@@ -183,8 +183,7 @@ let CI pass, merge.
 - The account's usage is visible from inside the session: `mcp__claude-code-remote__list_events` on this session's
   own id with `kinds: ["rate_limit_event"]`, `limit: 100`, returns the latest event; under
   `rate_limit_info.unifiedWindows` are `five_hour` and `seven_day`, each with `utilization` (0–1) and `resetsAt`
-  (Unix time), and a third window `seven_day_overage_included` whose meaning the lead does not know (treat it as
-  binding too). No per-model (Fable) figure is shown. Overage is off on this account, so at 100% requests are
+  (Unix time), and a third window `seven_day_overage_included`, which is the weekly Fable allowance (below). Overage is off on this account, so at 100% requests are
   refused and every subagent dies without notice.
 - The owner's ceiling is 95% on session and weekly. Working rule: check before launching agents and on a timer
   while they run; at 85% of either window start no new agent and ask running ones to finish what they are writing;
@@ -201,7 +200,11 @@ let CI pass, merge.
   around 9am tomorrow and reset, so feel free to "aim" for the utilization limit by then." The lead's reading: until
   that reset, Fable agents for the subtlest work are wanted, several at once; aim to have the Fable window near
   (and under) the 95% ceiling by the owner's 9am. The owner's time zone is not known to the lead; if it is North
-  American mountain time, 9am is 16:00 UTC. Thresholds for the Fable window until then: no new Fable agent and
+  American mountain time, 9am is 16:00 UTC. (Evidence for that: the merge commit GitHub made for pull request 12
+  carries the offset −07:00, `git log -1 --format=%cI 07743dd`.) Measured pace, 2026-11-14 07:28–07:46 UTC with
+  four Fable agents and the lead: the Fable window rose 0.56 → 0.61, about 0.17 an hour. So the window fills in
+  under two hours of such work: between then and the reset, Fable is for the solvers' rounds, the audit and one
+  critic pass; everything else goes to Opus, which the Fable window does not count. Thresholds for the Fable window until then: no new Fable agent and
   wrap-up from 0.88, stop from 0.93 (the lead needs a few turns of its own afterwards). Prefer whole units of work
   (a solver round, a referee pass, an audit) over starting something that will be cut off. After a reset the same
   rule starts again from zero; there are two resets, not an open tap.

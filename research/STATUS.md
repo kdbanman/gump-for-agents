@@ -81,8 +81,14 @@ _Last updated 2026-11-14 by the lead._
   (kagome8 and hex9 at b = 4; whether bond10's b = 3 boxes ever die; kagome B2/S12 with transverse cuts censored);
   face12e with symmetric seeds and beyond 6³. The owner's quick-look branch `claude/edge-neighbour-tangent` stays
   unmerged; the audited face12e results live in `research/audit/class/` under that name.
-- **`research/theory/exponent/`**: needs a successor to write `exponent.md` from `PREDICTIONS.md`, `theorems.md` and
-  the data, then checking. Lemma A, consequence (c) in `theorems.md` is false (swarm board E10).
+- **`research/theory/exponent/`**: a successor (Opus) was started 2026-11-14 about 07:55 UTC to write
+  `research/theory/exponent.md` from `PREDICTIONS.md`, `theorems.md` and the data, re-running a headline number per
+  section and correcting Lemma A, consequence (c) (false: swarm board E10). When it reports: an adversarial check by
+  another agent, then the notebook.
+- **Class follow-up** (Opus, started about 07:55 UTC; `research/theory/class/followup/`): forecasts first, then runs
+  of what the revised class statement admits and nobody has run (kagome8 and hex9 at b = 4; kagome4 B2/S12 slab law
+  done properly; bond10 b = 3 boxes; face12e 7³ and O_h-symmetric soups). When it reports: the lead re-derives one
+  number with `research/audit/class/lead_check.py` (it takes any cell graph), then the notebook.
 - **GPU session:** pull request 12 reviewed 2026-11-14 (`research/audit/REVIEW-gpu-pr12.md`; notebook entry of that
   date). Stands: symmetric soups do not age at R = 43 (Weibull k = 1.02); cube-like seeds at vertex-centred R = 40 wait
   exponentially; rim-free slab faces are on the old line through A = 108, and an octahedral face there is 0.91 nats
