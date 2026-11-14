@@ -1027,7 +1027,7 @@ is the rule as coded. The checker committed what class.md predicts for face12e b
   | wall faces A | 16 | 20 | 25 | 30 | 36 |
   |---|---|---|---|---|---|
   | ln τ (checker) | 6.428 ± 0.002 | 7.999 ± 0.004 | 10.183 ± 0.007 | 12.089 ± 0.015 | 14.542 ± 0.040 |
-  | ln τ (lead, own stepper) | 6.427 ± 0.006 | 8.005 ± 0.005 | see below | | |
+  | ln τ (lead, own stepper) | 6.427 ± 0.006 | 8.005 ± 0.005 | 10.186 ± 0.008 | | |
 
   Slope 0.410 ± 0.001 per wall face. The wall sheet alone empties 4–10 times as often and comes back; the event that
   kills a wall is the death of the layer beneath it, which has 2A cells. Per cell of that layer the cost is
@@ -1060,6 +1060,7 @@ is the rule as coded. The checker committed what class.md predicts for face12e b
 
 Lead's check (`research/audit/class/lead_check.py`: numpy on a cell graph, no shared code; `validate` equals the
 oracle with gump's offsets): `python3 lead_check.py slab 4 4 8000 2048 1` → 6.427 ± 0.006, hazard flat in age
-(τ = 613, 620, 635, 620 in four age bins); `slab 4 5 40000 2048 2` → 8.005 ± 0.005. A first version that censored only
+(τ = 613, 620, 635, 620 in four age bins); `slab 4 5 40000 2048 2` → 8.005 ± 0.005; `slab 5 5 100000 2048 3` →
+10.186 ± 0.008 (15,171 deaths, 12 minutes). A first version that censored only
 period-2 states read 6.495 and 8.027: replicas that settle into longer cycles never die and inflate τ at old ages.
 The same trap as the PR 12 reviewer's with `fl.c`; any wall-law estimator must censor every period.
