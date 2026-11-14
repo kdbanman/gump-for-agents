@@ -142,3 +142,91 @@ print("   rows with a boundary density below 0.99 or missing: "
       f"{[x for x in lo if x[0] is None or x[0] < 0.99] or 'none'}")
 print(f"   torus class of the 38: {dict(collections.Counter(x[3] for x in lo))}; "
       f"scan verdict: {dict(collections.Counter(x[4] for x in lo))}")
+
+# ---- hull runs
+hull = collections.defaultdict(list)
+for l in open(os.path.join(D, "hulls.txt")):
+    m = re.match(r"life (\w+)\s+(\S+)\s+R=\s*(\d+) N=\s*(\d+) p=([0-9.]+): median (\d+) .*unfinished (\d+)/64 at T=(\d+), final density ([0-9.]+)", l)
+    if m:
+        hull[(m.group(1), m.group(2))].append(dict(R=int(m.group(3)), med=int(m.group(6)), unf=int(m.group(7)),
+                                                   T=int(m.group(8)), fd=float(m.group(9))))
+
+
+def hull_verdict(lat, rule):
+    """The HULL rule of PREDICTIONS.md, by the letter."""
+    h = sorted(hull.get((lat, rule), []), key=lambda x: x["R"])
+    if not h:
+        return "no hull run", ""
+    desc = ", ".join((f">{x['T']}({x['unf']}/64 unf)" if x["unf"] >= 32 else str(x["med"])) for x in h)
+    if all(x["unf"] >= 32 for x in h):
+        return "unfinished at every size", desc
+    steps = []
+    for a, b in zip(h, h[1:]):
+        if a["unf"] >= 32:
+            steps.append(None)
+        elif b["unf"] >= 32:
+            steps.append(float("inf") if b["T"] / a["med"] >= 2.718 else b["T"] / a["med"])
+        else:
+            steps.append(b["med"] / a["med"])
+    two = any(s1 is not None and s2 is not None and s1 >= 2.718 and s2 >= 2.718 for s1, s2 in zip(steps, steps[1:]))
+    # generous reading of "unfinished at the cap counts as growing": any step into or between unfinished sizes counts
+    gen = [(float("inf") if (b["unf"] >= 32) else s) for s, b in zip(steps, h[1:])]
+    two_gen = any(s1 >= 2.718 and s2 >= 2.718 for s1, s2 in zip(gen, gen[1:]))
+    fin = [x for x in h if x["unf"] < 32]
+    frozen = all(x["fd"] > 0.3 for x in fin)
+    v = "frozen/dense endings" if frozen else ("grows" if two else ("grows only if unfinished sizes count as steps"
+                                               if two_gen else "no two consecutive steps of x e"))
+    return v, desc + "; step ratios " + ", ".join("-" if s is None else ("inf" if s == float("inf") else f"{s:.2f}") for s in steps)
+
+
+CALLS = [("cross3", 6), ("cross3", 7), ("cross4", 7), ("cross4", 8), ("star2", 8), ("tristar2", 8), ("tristar3", 10),
+         ("tristar3", 11), ("tri18", 11), ("fcc", 6), ("fcc", 7), ("bcc8", 5), ("bcc14", 7), ("bcc14", 8), ("sc6", 4),
+         ("sc18", 8), ("sc18", 9), ("sc18", 10), ("sc26", 13), ("sc26", 14), ("sc26", 15), ("cross3d2", 5),
+         ("cross3d2", 6), ("bond10", 6), ("face8", 5), ("face18", 8), ("face18", 9), ("face18", 10)]
+print(f"== the {len(CALLS)} stage-1 'GUMP' calls (PREDICTIONS.md rows 1-36, unmarked GUMP verdicts), by the letter of the scoring rule")
+tally = collections.Counter()
+for lat, c in CALLS:
+    F = fam[lat]
+    rn = rule_name(F["b"], c, F["K"])
+    tor = [r["torus"] for r in rows if r["lat"] == lat and r["c"] == c][0]
+    ok, d = face_law(lat, rn)
+    hv, hd = hull_verdict(lat, rn)
+    if tor != "chaos":
+        cat = "bulk not chaotic"
+    elif not ok:
+        cat = "no slab law by the rule"
+    elif hv == "grows":
+        cat = "ALL THREE"
+    elif hv.startswith("grows only"):
+        cat = "all three if unfinished sizes count as steps"
+    elif hv == "no hull run":
+        cat = "slab law, no hull run"
+    else:
+        cat = "slab law, hull: " + hv
+    tally[cat] += 1
+    print(f"   {lat:9s} c={c:2d} torus {tor:6s} | slab: {'law' if ok else 'no'} [{d[:60]}] | hull: {hv} [{hd}] -> {cat}")
+print("   tally: " + "; ".join(f"{k}: {v}" for k, v in tally.items()))
+print("== hull rule applied to the other rules class.md calls gumps")
+for lat, c in (("vn", 3), ("sc6", 3), ("cross3", 8), ("cross2", 5), ("gump", 6), ("gump", 7)):
+    F = fam[lat]
+    hv, hd = hull_verdict(lat, rule_name(F["b"], c, F["K"]))
+    print(f"   {lat:9s} c={c}: {hv} [{hd}]")
+
+NOTS = [("tri18", 12), ("vn", 4), ("tri6", 5), ("kagome6", 5), ("tri12", 9), ("hex12", 9), ("moore_r2", 15),
+        ("moore_r2", 16), ("hex9", 8), ("hex3", None), ("kagome4", None), ("kagome8", None), ("moore", 7), ("sc6", 5),
+        ("bond10", 7)]
+print(f"== the {len(NOTS)} explicit stage-1 'not a gump' calls (a hit if any of the three tests fails)")
+for lat, c in NOTS:
+    F = fam[lat]
+    for r in rows:
+        if r["lat"] != lat or (c is not None and r["c"] != c):
+            continue
+        rn = rule_name(F["b"], r["c"], F["K"])
+        ok, d = face_law(lat, rn)
+        hv, hd = hull_verdict(lat, rn)
+        if c is None and r["torus"] in ("die", "freeze") and not ok:
+            continue
+        print(f"   {lat:9s} c={r['c']:2d} torus {r['torus']:6s} scan '{r['verdict'][:38]}' slab law: {ok} hull: {hv} [{hd[:70]}]")
+    if c is None:
+        cls = collections.Counter(r["torus"] for r in rows if r["lat"] == lat)
+        print(f"   {lat:9s} all caps scanned at b = {F['b']}: torus classes {dict(cls)}")

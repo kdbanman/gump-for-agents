@@ -5,6 +5,7 @@
     python3 proofs.py c2multi    C2 on gump's three-type lattice: is there a finite sealed set for b = 7 = K/2 + 1?
     python3 proofs.py bond10     bond10, b = 4: axis planes at odd position are sealed; a pit in a {111} half-space?
     python3 proofs.py wallprop   Theorem E on face12e: is a fully live wall sheet immortal exactly from c = 9?
+    python3 proofs.py armour     c_arm for gump and fcc in an octahedron of 6 layers
 """
 import itertools, sys
 import numpy as np
@@ -162,5 +163,30 @@ def wallprop():
               f"sheet broken in {int(ever_broken.sum())}/64")
 
 
+
+
+def armour():
+    """c_arm of class.md section 2 for gump and fcc (octahedron of 6 layers) and the claim 'the 120 hull-edge cells
+    have vessel-degree 7'.  Armoured core = (b-1)-core of the cells of vessel-degree <= c - 1 (Theorem E)."""
+    for name in ("gump", "fcc"):
+        L = aud.lattice(name)
+        if name == "gump":
+            V = aud.region(L, lambda q: all(abs(q[0] + sy * q[1] + sz * q[2]) <= 11 for sy in (1, -1) for sz in (1, -1)), 12)
+        else:
+            V = aud.region(L, lambda q: all(abs(q[0] + sy * q[1] + sz * q[2]) <= 12 for sy in (1, -1) for sz in (1, -1)), 13)
+        deg = V.degrees()
+        print(f"{name} octahedron, 6 layers each way: {V.N} cells, vessel-degree histogram "
+              f"{ {int(d): int((deg == d).sum()) for d in np.unique(deg)} }")
+        for c in (6, 7, 8, 9, 10):
+            W = set(int(i) for i in np.nonzero(deg <= c - 1)[0])
+            ch = True
+            while ch:
+                ch = False
+                for i in list(W):
+                    if sum(1 for q in V.nbr[i] if int(q) in W) < 3:
+                        W.discard(i); ch = True
+            print(f"   cap {c}: armoured core {len(W)} cells")
+
+
 if __name__ == "__main__":
-    {"energy": energy, "c4": c4, "c2multi": c2multi, "bond10": bond10, "wallprop": wallprop}[sys.argv[1]]()
+    {"energy": energy, "c4": c4, "c2multi": c2multi, "bond10": bond10, "wallprop": wallprop, "armour": armour}[sys.argv[1]]()
