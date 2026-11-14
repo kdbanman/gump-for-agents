@@ -1,6 +1,8 @@
 # GPU ensembles of gump on Modal
 
 GPU agent, 2026-11-13. Question from Kirby: can small, cheap GPUs (Modal) run this automaton well?
+Agents working here: read `AGENT.md` first (how to run on Modal from this environment, the working arrangement,
+the context-window rule, current state).
 Tags as elsewhere: **[measured]** (with the command), **[conjecture]**.
 
 > **Lead's notes after review (2026-11-13).** An adversarial review (`research/audit/REVIEW-gpu-pr8.md`) re-derived
