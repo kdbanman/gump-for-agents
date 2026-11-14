@@ -258,3 +258,19 @@ missed.**
   variable by design (cut 36·s); within s = 4 the share runs 0.5–99% without bending the line; in s = 3 curvature and
   firewall proximity are not separated. Mixed launch caps (3×6×8 pools 2¹⁸ and 2¹¹; 4×7×8, 6×6×8, 6×7×8 are 2¹⁸):
   detection-time biases ≤ +0.006 (s = 3), ≤ +0.005 (old 4×7×8); no conclusion changes.
+
+## 2026-11-14T21:25Z — empty patches on a large living face (before any code or run for it)
+
+The lead's design: slab 12×12×8 (A = 432 per face, p = 0.4, the fwslab soups), first 2,000 generations discarded, then
+at every generation, on both faces, for each patch shape and each of its translates, whether all of the patch's
+face-layer cells are dead. Shapes fixed in advance: rhombi a×b unit cells (3ab cells): 1×1, 1×2, 2×2, 2×3, 3×3, 3×4,
+4×4, 4×5, 5×5, 5×6, 6×6; strips 1×b, b = 1 … 12 (b = 12 wraps the torus); hexagonal balls of radius 1, 2, 3 in the
+face layer's in-layer neighbour graph. Perimeter = number of in-layer neighbour pairs with one cell in the patch and
+one out. Fit for the rhombi from 2×2 up: ln P = const − c·cells − σ·perimeter.
+- **The lead's forecast:** c = 0.21 ± 0.015; outside 0.17–0.25 the static picture fails for gump.
+- **Mine:** c = **0.21 ± 0.04** (wider than the lead's: the 2D toy's window cost per cell was still falling at the
+  largest windows, so a fit over 12–108 cells carries curvature). **σ > 0** (compact patches cheaper per cell than
+  elongated ones of equal area: a strip of b unit cells is rarer than a rhombus of the same cell count) — probability
+  0.8. The incremental cost per cell along the rhombus sequence (−Δ ln P / Δ cells) **falls with size** — 0.7.
+  Persistence P(empty at t and t+1) / P(empty at t) **rises with patch size** — 0.7. No face death and no firewall in
+  any replica — 0.99. The 6×6 rhombus gets 50–2,000 hits in ≈ 10¹⁰ replica-generations.
