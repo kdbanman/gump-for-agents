@@ -13,14 +13,16 @@ cannot be had by the route proposed (noise beneath, then an exact one-dimensiona
 reasons, each measured or exact:
 
 1. *Noise is enough, but only five layers deep* **[measured]**. The rule on the top w layers over coins
-   reproduces the deterministic lifetime within 0.003–0.006 from w = 5 (rings and segments, §4); w = 4 is off by
-   0.02–0.12 and w ≤ 3 by 0.4–2.3, growing with size. Five layers are 15 cells per site: a state space of 2^15
-   per site, with a range of two sites.
+   reproduces the deterministic lifetime within 0.006 at w = 5 and within 0.03 at w = 6 and 8 (rings and
+   segments, §4); w = 4 is off by 0.02–0.12 and w ≤ 3 by 0.4–2.3, growing with size. Five layers are 15 cells
+   per site: a state space of 2^15 per site, with a range of two sites.
 2. *The one model that can be solved exactly does not give its own constant at the sizes that can be solved*
    **[exact] + [measured]**. One layer over coins is solved exactly on segments of n ≤ 7 sites and rings of
    b ≤ 5 (§6). Its exact steps of ln τ per added site are 0.476, 0.453, 0.461 at n = 5, 6, 7; its slope at
-   n = 16–24 (simulated) is 0.369 and still falling. And that model is the wrong one: its slope is 20–25% above
-   gump's.
+   n = 16–24 (simulated) is 0.369 and still falling. And that model is the wrong one: its slope is 22% above
+   gump's. Two better closures that are still exactly solvable on short segments (the face alone with its measured
+   one-generation probabilities; coins that follow the face above them) are 11% and 5.6% above (§6b), each with
+   inputs read from the deterministic system.
 3. *The face dies by fronts* **[measured]**. A dying thin face is an island shrinking from both ends over a
    time proportional to its length (§5); the cost per site is a large-deviation rate of a front moving through a
    medium five layers deep. Nothing in it is small, and every finite-size quantity that could stand in for it
@@ -301,19 +303,23 @@ What the same method says as the face widens, and what it would take:
 - **Fixed-age transfer matrices** (the counting line's c_k): they give the probability that the face is empty at
   generation k from the soup. That is an entropy of initial conditions; it depends on the soup's density and its
   decay rate in A is not the steady one (their claims 12, 13, 19). Nothing in it sees a front.
-- **Local structure theory / cluster closures of the quasi-stationary law.** They reproduce the short-window
-  costs (k(2) = 0.55, k(4) = 0.49), which are far from the limit: k(l) is still 0.335 at l = 34. The constant
-  lives at the scale of tens of sites.
-- **A front table.** Pool the one-generation moves of the front, find the root of the tilted moment (Lundberg).
-  With the moves measured in the living state the root reproduces k(l) by construction; it is the same
-  information as E(l), not a derivation.
+- **Local structure theory / cluster closures of the quasi-stationary law** (considered, not run). Such a
+  closure is built from the joint law of a few adjacent sites, that is, from the short-window costs (measured:
+  k(2) = 0.55, k(4) = 0.49). These are far from the limit: k(l) is still 0.335 at l = 34. The constant lives at
+  the scale of tens of sites.
+- **A front table** (considered, not run). Pool the one-generation moves of the front and take the root of the
+  tilted moment (Lundberg). If the moves are measured in the living state and the front were a walk with
+  independent steps, the root is the decay rate of W(x); but route 4 shows W(x) is not a pure exponential
+  (a power x^−0.3 remains), so the steps are not independent, and a table of them is the same information as
+  W(x) at best.
 - **One layer over coins of another density.** No single density can be right: the support beneath a face cell
   depends on what the face is doing there (§4: mean 0.88 to 1.42 live cells of three). The next closure, a
   face-only probabilistic automaton whose birth and survival probabilities p(state, live face neighbours) are
   read from the deterministic system, is in §6b: +11% in slope. Coins whose density follows the face above
   them: +5.6%.
 - **Exact enumeration to the straight part.** The sweep costs 2^(3n+5) numbers for a segment of n sites of M(1)
-  (n ≤ 8), 2^(3b+10) for a ring (b ≤ 6); M(2) reaches n = 3. M(1) needs n > 20 to be within 3% of its own slope.
+  (n ≤ 8), 2^(3b+10) for a ring (b ≤ 6); M(2) would reach n = 3. M(1)'s local slope is still falling at n = 24
+  (0.476 at n = 5, 0.368 at n = 22).
 - **A tilted front chain** (a window of K sites behind the front, the rest replaced by the living state): not
   implemented. K ≤ 6 is feasible for M(1); the end-game data of §5 (corrections still 0.026 at fourteen sites)
   say it would not have converged.
@@ -367,11 +373,15 @@ python3 collect.py                    # data/lifetimes.json, data/windows.json f
 the cubic b-torus and compares every cell of every copy with `reference/oracle.py`; (ii) `validate_dump` takes a
 dump of every lane at every generation and checks that each next state is the reference stepper's image of the
 one before (walls included), and re-derives every end of a life (deaths, repeating states, firewalls) and the
-exposure by the rules stated at the head of `ring.c`, on 30 configurations including small ones where lives end
-in every way; (iii) `validate_engine` compares populations with the Rust engine on the cubic torus; (iv) the
-simulated one-layer model agrees with the exact solution at five sizes (§6).
+exposure by the rules stated at the head of `ring.c`, on some forty configurations including small ones where
+lives end in every way, and recounts the moves of face cells by (state, live face neighbours); for the modes
+with other noise (`pca`, `-c`) it checks the frequencies against the table and that neighbouring cells, and
+successive generations, are uncorrelated given the face; (iii) `validate_engine` compares populations with the
+Rust engine on the cubic torus; (iv) every simulated closure agrees with its exact solution (M(1) at five sizes,
+the two of §6b at two sizes each).
 
 Files: `thin.py` (geometry, reference stepper), `ring.c` (packed stepper for k = 1, walls, statistics),
 `ringk.c` (the same for (1,k), no walls or windows), `nbr.h`, `nbrk.h` (generated by `thin.py header`), `run.py`
-(driver, validation, estimator), `analyze.py`, `exact1.py`, `sweep.py` + `sweep.c` (exact one-layer model),
-`collect.py`, `runs.sh`, `PREDICTIONS.md`, `data/`.
+(driver, validation, estimator), `analyze.py`, `exact1.py`, `sweep.py` + `sweep.c` (exact solution of any kernel
+that is a product over triples), `pca.py`, `ccoin.py` (the closures of §6b), `under.py` (§4), `collect.py`,
+`runs.sh`, `PREDICTIONS.md`, `data/` (`exact.json`, `lifetimes.json`, `windows.json`, `pca_*.json`, `ccoin.json`).
