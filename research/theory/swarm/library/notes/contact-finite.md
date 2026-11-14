@@ -321,6 +321,6 @@ obtained** (Project Euclid; Cambridge).
 - Bramson and Griffeath's contribution, per the same source: a shape theorem with linear growth on Z^d, all d,
   all λ > 1.
 - **Finite volume with vacant boundary in d ≥ 2: not found.** Durrett–Liu Theorems 3–4 (§1 above) are d = 1.
-  On a finite graph the same walk argument gives P(fixation) = (1 − λ^{−1})/(1 − λ^{−N}) for one initial cell
-  ([secondary: search-engine summary of a Moran-process source; not opened]); a *vacant* (permanently healthy)
-  boundary breaks the walk property, since boundary edges add rate down only.
+  *Librarian:* a *vacant* (permanently healthy) boundary breaks the walk property, since edges to the boundary
+  add rate down only; on a finite graph with no boundary the walk argument is unchanged (gambler's ruin on
+  {0, …, N}).
