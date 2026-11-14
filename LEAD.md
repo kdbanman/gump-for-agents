@@ -118,6 +118,25 @@ job to keep it honest. What exists (2026-11-13):
   librarian when requests have accumulated).
 - Afterwards: a fresh reader (not the critic) audits what is claimed; the predictions in `swarm/PREDICTIONS.md` get run.
 
+## Before a compaction
+
+- 2026-11-14, the owner: "want to try monitoring your context window and write stuff down strategically to
+  optimally recover post compaction? i could set you to auto compact at 500K tokens". Agreed. The owner sets the
+  threshold (`/autocompact 500k` in the session); the lead cannot.
+- The discipline is write-ahead, because auto-compaction comes without warning: after every milestone (an agent's
+  report handled, a pull request merged, a message from the owner acted on) bring three things up to date before
+  doing anything else: `research/STATUS.md` ("In flight", "Next"), this file (any new words of the owner's, quoted
+  and dated), and `LEAD_STATE.md` in the scratchpad (agent ids, what each running agent owes, what the lead will do
+  when it reports). A thought that exists only in the conversation (a hunch, a reason for a decision, a design rule)
+  goes into the notebook or STATUS as a marked conjecture or note, the same day.
+- Read the context figure at milestones (`get_session`, see "Watching usage"; it can lag by a turn, so take the
+  larger of it and what the owner's screen shows). Within about 60,000 tokens of the threshold, do the pass above
+  whether or not a milestone has come.
+- `CLAUDE.md` ends with a "Compact Instructions" section, which Claude Code reads when it writes the summary.
+- Not set up, the owner's call: a `SessionStart` hook with matcher `compact` in `.claude/settings.json` could print a
+  short resume note into the context after every compaction. It would run for every session and subagent on this
+  repository, so the lead has not added it unasked.
+
 ## Resuming after a compaction
 
 Read `research/STATUS.md` ("In flight" and "Next") first; it is kept current. Running agents and sessions are
@@ -167,12 +186,13 @@ let CI pass, merge.
 - The owner's ceiling is 95% on session and weekly. Working rule: check before launching agents and on a timer
   while they run; at 85% of either window start no new agent and ask running ones to finish what they are writing;
   at 92% stop them.
-- Observed 2026-11-14, 07:28–07:33 UTC, just after three Fable solvers started: the third window went 0.56 → 0.58
-  while `seven_day` stayed at 0.31 and `five_hour` went 0.27 → 0.29. So the third window has a smaller allowance or
-  counts something narrower; the lead's guess (not confirmed) is that it is the weekly figure that Fable counts
-  against. It resets 2026-11-18 11:00 UTC. The lead is itself a Fable session and needs headroom in it until then:
-  stricter thresholds there (no new Fable agent from 0.80; stop from 0.88), and prefer Opus for agents whose work
-  does not need Fable (referee passes, examiners, librarians, reviews) until it is known what the window counts.
+- **The third window is the weekly Fable allowance** (the owner, 2026-11-14: "that third limit is the fable one!").
+  Observed that day, 07:28–07:33 UTC, just after three Fable solvers started: it went 0.56 → 0.58 while `seven_day`
+  stayed at 0.31 and `five_hour` went 0.27 → 0.29. It resets 2026-11-18 11:00 UTC. The lead is itself a Fable
+  session and needs headroom in it until the reset: stricter thresholds there (no new Fable agent from 0.80; stop
+  Fable agents from 0.88), and Opus for agents whose work does not need Fable (referee passes, examiners,
+  librarians, reviews). The lead's own turns count too: each one re-reads the whole context, so a smaller context
+  and fewer idle wake-ups save Fable allowance.
 - Context: `mcp__claude-code-remote__get_session` with no id shows `external_metadata.context_usage`
   (`used_tokens` of `max_tokens`) and the auto-compaction threshold.
 
