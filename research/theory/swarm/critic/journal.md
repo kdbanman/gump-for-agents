@@ -663,3 +663,124 @@ gained. All four replies are complete and committed. What follows is what is not
 - **Checks made by reading only this pass:** counting's dice hierarchy at k ≥ 2; source's remark (d) of S15;
   the powers quoted in path's profile model for rings and windows (standard random-walk estimates); probability's
   Proposition F beyond its algebra (the change of measure with a truncated overshoot is standard and was read).
+
+## 2026-11-14, third critic's pass: counting round 3, path round 4, probability round 3
+
+The replies are in `to-counting.md`, `to-path.md`, `to-probability.md` (sections "Reply to round 3 / 4" of this
+date); the board opens with the state and the verdicts. This section holds what a successor needs and the board
+does not: the proofs as re-derived, how each lab check is tied to something independent, what was only read.
+
+### Proofs re-derived (the lines' statements; the arguments as I checked them)
+
+- **Lemma 8 (counting).** Q ≥ 0, φ ≤ 1 pointwise ⇒ Q^k 1 ≥ Q^k φ = λ^k φ, i.e. P_x(T > k) ≥ λ^k φ(x). Integrate against π:
+  P_π(T ≤ k) ≤ 1 − λ^k π(φ) = (1 − λ^k)π(φ) + π(1 − φ); 1 − λ^k ≤ k(1 − λ). Nothing else is used (no irreducibility).
+  The normalisation max φ = 1 is what makes the second term large: for π = μ (quasi-stationary) the truth is
+  1 − λ^k and the bound exceeds it by λ^k μ(1 − φ). The sharper constant is e(π) = 1 − π(φ)/μ(φ), because
+  P_π(T > k)/λ^k → π(φ)/μ(φ) when Q is primitive (φ rescaled so that μ(φ) = 1). The lemma cannot be stated with
+  that normalisation, since then φ ≤ 1 fails.
+- **Lemma 2′ (counting).** H ⊆ g⁻¹H (absorbing) and μ(g⁻¹H) = μ(H) (invariance) ⇒ μ(g⁻¹H ∖ H) = 0; the same for
+  g^{−k}H by induction.
+- **Proposition F.4 (counting), box wall.** Induction on j with the monotone threshold map Θ: a cell with d = j has
+  its two neighbours towards the nearest corner outside the set {d ≥ j} (or outside the box), so at most 2 live
+  neighbours and a count ≤ 3: dead next. A cell with d ≥ j + 1 has at least 3 neighbours with d ≥ j, count ≥ 4:
+  alive. On a torus there are no corners; the argument gives nothing, and E19 is what happens.
+- **Π₁ (counting).** With the sheet row and its sides alive: the classes of the cells of B follow from their a
+  (4 + 2 free; 4 + 1 = 5 "b ≥ 1"; dead with a = 3 "equal"; a = 0 free). The count is a product over the cells p of the
+  number of values of r_p allowed, summed over the bottoms β: rows 0 and 2 force constant β with r equal to it
+  (2 choices each, times free r elsewhere), the middle constraints β + β′ + r ≥ 1 give the factors 8, 6, 5 per column
+  according to the two constants (both 1: 8 of 8; one 0: 6 of 8; both 0: 5 of 8). Hence 32ⁿ(8ⁿ + 2·6ⁿ + 5ⁿ).
+- **T′ (path).** φ(k) = e^{−θ₀(k − k₀)⁺} satisfies d̄(k) + Σ T̄(k, k′)φ(k′) ≤ M_k(θ₀)φ(k) ≤ φ(k) for k₀ ≤ k < K (termwise
+  e^{−θ₀(k′ − k₀)⁺} ≤ e^{−θ₀(k′ − k)}·e^{−θ₀(k − k₀)}, with equality for k′ ≥ k₀ and inequality in the right direction below),
+  and φ = 1 ≥ anything for k < k₀. A supersolution dominates the committor (the difference is superharmonic on
+  the low set with non-negative boundary values, or iterate from 1).
+- **T (path).** With non-increasing roots, e^{−S(k)} (S the root sum from k₀) is a subsolution up to the stated
+  constant: the row's transform at its own root is 1 and the roots below are larger, so the terms with k′ < k
+  are over-counted, those above under-counted; the correction e^{−S(K)} takes care of the boundary. I checked the
+  inequality on random tables (7,023 cases) and did not improve the constant.
+- **Lemma C (path).** ψ_q non-increasing by the ordered coupling (needs monotone rows: the counterexample in
+  `props` has a non-monotone q whose committor is 0 at k = 1 while a dominating table has 0.89). Then the mean of a
+  non-increasing function under a dominating law is smaller.
+- **Lemma F (iii) (path).** A cell of Λ in a sealed W′ ⊆ W already has its three permitted outside neighbours in
+  V ∖ W, so its eight neighbours in W are in W′; Λ is connected in-layer and every sheet cell touches Λ. A sealed
+  W′ ⊆ Σ is impossible (four neighbours in Λ).
+- **Lemma 5 (probability).** Move 1 is available because every (x, k) with x + k ≥ 1 has an alive value in {0, 2}
+  and a dead cell with k = 0 is dead by itself. Move 2: in D = S ⊕ [−2, 2] every cell has k ≥ 2 on the filled
+  window, k = 2 exactly at ends of arcs of D facing two cells outside; cells with k ≥ 3 can be killed (b = 2 at
+  k = 3, b ≥ 1 at k = 4), dead cells kept dead. The forced survivors are pairwise more than 2 apart (the case
+  analysis of entry 12 is right; `r10` checks it on every row for m ≤ 8). Move 3: a survivor now has k = 0.
+- **Lemma 6 (probability).** Positive transitions are F(S) ⊆ S′ ⊆ S ∪ N(S); the chain J → {1, M} → {1} → {3} → {1, 4} → … → R,
+  D(R) = J, R loose. `r11` checks each step for M = 5…14.
+- **Lemma 4 (probability).** (O1) no alive-set of the face rule contains both 0 and 3; (O2) for x + k ≥ 1, k ≤ 5 an
+  alive-set contains 0, contains 3, or is {1, 2}. So a mark K with probability s can always be placed on a value
+  that kills (0 or 3, whichever is outside the alive-set), and a mark G on a value that keeps or bears. The
+  process "G now, K-neighbour one generation ago, parent in the process" is monotone and below the face by
+  induction. All of it needs the marks of different cells to be available independently, which is the
+  hypothesis "conditional weight ≥ s given everything else"; E20 says where that fails.
+- **Theorem A, entry 11 form (probability).** (i) S_t ⊇ OP₅(p) on Z_L from the full ring (Lemma 1(d)/A′); (P1) for the
+  parents {−2…2} on the cylinder of circumference L; P(τ > Eτ/2) → e^{−1/2} > ½; the bridge of entry 1. (ii) upper:
+  blocks {2i + t, 2i + t + 1} on Z; a block is "on" if it holds a wet cell; each of the two child blocks has both its
+  cells within distance 2 of every cell of the parent block; density 1 − (1 − p)². Lower: the right edge moves by
+  2 − X. (iii) min(π₀, π₂) ≤ ½.
+- **The supersolution half of claim V (mine; not in path's journal).** In `to-path.md`, round 4, §3. For the
+  m-fold chain, with W the value of the recursion on the chain's own states: q(n, n′) ≤ e^{−m·I} (Chernoff for a
+  point, any sign of the tilt), W(n) ≤ m·I + W(n′) (Bellman, rising steps included), hence
+  Σ q ψ(n′)/ψ(n) ≤ Σ exp(−m[δI + (1 − δ)(I + V(y) − V(x))]) for ψ = e^{−(1−δ)W}; the bracket is bounded below by
+  max(δI, (1 − δ)(V(y) − V(x))), which is positive at every y when the drift is positive and V increasing. The
+  number of terms is at most mA + 1. Two boundary layers are left out: the bottom rows (set ψ = 1 below n₀, as in
+  T′; this needs W non-decreasing) and the rows just below the mean. Not written as a proof with constants.
+
+### How the lab checks of this pass are tied to something independent
+
+- face12e: `research/audit/class/lead_check.py` (the lead's stepper for the audit of the class note) is first
+  compared with `reference/oracle.py` on an 8-torus for 40 generations with gump's offsets; its face12e offsets
+  are compared with offsets derived here from edge midpoints (two faces share an edge iff they contain the same
+  edge midpoint). All counts of `structure`, `lone`, `pi1`, `theta` step that code or read its neighbour lists.
+  `pi1`'s product formula is compared with direct stepping on a sub-cube of 8 × 2¹² states.
+- Lemma 8 numbers: kernel and Perron vectors from `prob_r2.py` (validated in the second pass against dense
+  kernels), fixed-age probabilities from `counting_r2.dk_kernel`; the inequality itself is also checked on 2,000
+  random matrices with numpy's eigensolver.
+- Committors: elimination without pivoting on I − T (all pivots positive, no subtraction of close numbers)
+  against `numpy.linalg.solve` (agreement 10⁻¹⁴ in ln ψ* for m ≤ 4) and against path's own `check_limit.py`.
+  Stationary laws: Grassmann–Taksar–Heyman; at m = 1 the undershoot moment from the stationary law (4.34) is
+  within 3% of the same quantity from the raw tallies (4.45).
+- Recursion with exact rates: the Legendre transform is taken on a grid of 1,001 tilts in [−60, 60]; grids of ½ to
+  1/16 cell in the population, last two extrapolated; the m-fold chain's increments reach the extrapolated value
+  to 3 × 10⁻⁴ at m = 16, which ties the two computations together.
+- Sealed sets: scipy's `milp` (HiGHS); sealedness of every reported set re-verified from the neighbour lists;
+  minimality by an infeasible programme "a sealed non-empty proper subset". Programmes that hit the 20 s limit
+  are reported as such in the log and are not used for a "smallest" claim.
+- Probability's lemmas: the one-row kernel of `prob_r1.py`/`prob_r2.py`; the gump face rule and the 27-cell
+  periodic face from `gump_lab.py`'s neighbour lists restricted to a layer.
+
+### Read only, or not done
+
+- Counting: the light-cone step of claim 6 for face12e; Proposition G(a)'s remark on strips; entry 13's reading
+  of the exam's finite-size allowance for c₃.
+- Path: entry 19's calculator (`mf_deadend.py`: run, table reproduced, code not audited); the literature path
+  cites from memory for the quasi-potential (not obtained; no fetch attempted in this pass); entry 16's
+  statements about the exam tables beyond the two fits.
+- Probability: (P1)–(P4) as the library's note gives them; Proposition W(c) beyond its algebra.
+- The audit (`swarm/audit/AUDIT-theoremA.md`): read for its summary, §2.6, §2.8, part B1 and part C; not redone.
+  Its two corrections to this board are E16.
+- Not done: the independent check of `counting_r2.py ck` at k ≥ 4 on rings longer than 7 (end of the second
+  pass). E15's last paragraph uses c₆(dense) = 0.4992 from that code.
+- Exam entries C-E3, E4, P-E4 were not scored when this was written; nothing here depends on them.
+
+### For whoever takes the queue next
+
+- **If path's closing round is run**, its three items are in `to-path.md`, round 4, §6. The lab has what is
+  needed to check the result: `path_r4.py supersol` (the supersolution, per δ and m), `lr10`, `lr11`, `cross`.
+  If path writes the supersolution proof, check the two boundary layers: the bottom needs W non-decreasing
+  (true on the chains computed), the top needs a positive drift, which fails within a few per cent of the mean.
+- **If E4 is scored**: compare V, ∫Θ and the table's own slope with the measured slope, not V alone
+  (`to-path.md` §4). For the face12e half, `path_r4.py` has no table; the entry's JSON goes through path's
+  `bellman.py`, and `bellman_exact` can be fed the rows directly if the examiner saves them.
+- **The one open exact question this pass leaves** is in E15: is π(1 − φ)/h bounded in L for the product row at
+  the steady density in D2? `counting_r3.py lemma8` gives it to L = 18 (2.2, 2.9, 3.6, 3.4, 3.5). L = 20 needs a
+  million-state Perron vector on both sides: possible with `prob_r1.py`'s matrix-free kernel in tens of minutes,
+  not done here. A proof would need a Lyapunov function in the sense of probability's Lemma 3 evaluated on
+  product measures.
+- Bulk output of this pass: `research/scratch/critic/r3_lemma8.log`, `r4_lr12.log`, and two scratch scripts
+  whose content is now in `path_r4.py` (`cross`, `supersol`). Nothing there is needed.
+- Working conditions as before: one core, `OMP_NUM_THREADS=1`; commit with
+  `git commit -- research/theory/swarm/critic`.

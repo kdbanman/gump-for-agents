@@ -32,6 +32,12 @@ The owner's words:
 - 2026-11-13, on the 2D rule (`research/toy2d/`): "I think I found the same 2D rule wondering similar things myself
   years ago". Not yet asked: which rule and neighbourhood they remember.
 
+- 2026-11-14, on usage: "you and the GPU session are the only things running for the next while. so feel free to
+  monitor usage to keep it below 95% for both session and weekly (and fable usage, if you can see that too.) i'm
+  very impressed by your results so far, so you can use my whole ultra account for the time being." The lead's
+  reading: Fable agents and several at once are fine for now; the binding rule is the 95% ceiling, which the lead
+  must watch itself (see "Watching usage" below). "For the time being" is not for ever: ask again after a long gap.
+
 The lead's reading of the scope (an interpretation, not the owner's words):
 
 - **Without asking:** choosing research and engineering directions; spawning subagents; committing; pushing the
@@ -53,6 +59,11 @@ The lead's reading of the scope (an interpretation, not the owner's words):
   you pull from - the internet is a risky place".
 - "do persist important, subtle, or difficult-to-derive things to the repo… be careful not to over-prescribe
   processes and instructions for agents."
+- The lead's own rule, 2026-11-14, after a librarian reached a Project Euclid page through a cloud browser when the
+  site had refused it as an automated client (nothing was taken beyond an abstract): briefs that send an agent to the
+  literature say that a site's refusal is final (record "not obtained"; no remote browser, no other way round).
+  Papers behind such walls are for the owner to fetch if they wish: Tél–Lai 2008, Bramson–Neuhauser 1994,
+  Liggett 1995 (Ann. Appl. Probab. 5), Balister–Bollobás–Stacey 1994 (Random Structures Algorithms 5).
 - Cost is welcome but be judicious (paraphrase). The owner's email address is private: never send it anywhere.
 - What the owner asked for, beyond the build: "what do you find interesting, surprising, beautiful? … i'd love to
   know what you see and think about it." `docs/WHAT-I-SEE.md` is the running answer.
@@ -107,6 +118,28 @@ job to keep it honest. What exists (2026-11-13):
   librarian when requests have accumulated).
 - Afterwards: a fresh reader (not the critic) audits what is claimed; the predictions in `swarm/PREDICTIONS.md` get run.
 
+## Before a compaction
+
+- 2026-11-14, the owner: "want to try monitoring your context window and write stuff down strategically to
+  optimally recover post compaction? i could set you to auto compact at 500K tokens". Agreed. The owner sets the
+  threshold (`/autocompact 500k` in the session); the lead cannot.
+- The discipline is write-ahead, because auto-compaction comes without warning: after every milestone (an agent's
+  report handled, a pull request merged, a message from the owner acted on) bring three things up to date before
+  doing anything else: `research/STATUS.md` ("In flight", "Next"), this file (any new words of the owner's, quoted
+  and dated), and `LEAD_STATE.md` in the scratchpad (agent ids, what each running agent owes, what the lead will do
+  when it reports). A thought that exists only in the conversation (a hunch, a reason for a decision, a design rule)
+  goes into the notebook or STATUS as a marked conjecture or note, the same day.
+- Read the context figure at milestones (`get_session`, see "Watching usage"; it can lag by a turn, so take the
+  larger of it and what the owner's screen shows). Within about 60,000 tokens of the threshold, do the pass above
+  whether or not a milestone has come.
+- `CLAUDE.md` ends with a "Compact Instructions" section, which Claude Code reads when it writes the summary.
+- A `SessionStart` hook with matcher `compact` (`.claude/settings.json`; the owner, 2026-11-14: "go ahead and add the
+  hook") prints `.claude/after-compaction.md` into the context after every compaction: a pointer list, kept free of
+  facts that go stale. Pipe-tested when written; whether it fires in a cloud session will be seen at the next
+  compaction (the note should then appear in context). If it does not, the owner may need to open `/hooks` once.
+- Do not invoke the `update-config` skill for small edits: it prints the whole settings schema, tens of thousands
+  of tokens. Edit `.claude/settings.json` by hand and validate it with `jq`.
+
 ## Resuming after a compaction
 
 Read `research/STATUS.md` ("In flight" and "Next") first; it is kept current. Running agents and sessions are
@@ -144,6 +177,39 @@ let CI pass, merge.
 - So: main and the working branch are about the rule as coded. The edge-neighbour look is on the branch
   `claude/edge-neighbour-tangent` (`research/tangents/edge-neighbours/`). Do not merge it; do not open a pull
   request for it unless the owner asks.
+
+## Watching usage
+
+- The account's usage is visible from inside the session: `mcp__claude-code-remote__list_events` on this session's
+  own id with `kinds: ["rate_limit_event"]`, `limit: 100`, returns the latest event; under
+  `rate_limit_info.unifiedWindows` are `five_hour` and `seven_day`, each with `utilization` (0–1) and `resetsAt`
+  (Unix time), and a third window `seven_day_overage_included`, which is the weekly Fable allowance (below). Overage is off on this account, so at 100% requests are
+  refused and every subagent dies without notice.
+- The owner's ceiling is 95% on session and weekly. Working rule: check before launching agents and on a timer
+  while they run; at 85% of either window start no new agent and ask running ones to finish what they are writing;
+  at 92% stop them.
+- **The third window is the weekly Fable allowance** (the owner, 2026-11-14: "that third limit is the fable one!").
+  Observed that day, 07:28–07:33 UTC, just after three Fable solvers started: it went 0.56 → 0.58 while `seven_day`
+  stayed at 0.31 and `five_hour` went 0.27 → 0.29. It resets 2026-11-18 11:00 UTC. The lead is itself a Fable
+  session and needs headroom in it until the reset: stricter thresholds there (no new Fable agent from 0.80; stop
+  Fable agents from 0.88), and Opus for agents whose work does not need Fable (referee passes, examiners,
+  librarians, reviews). The lead's own turns count too: each one re-reads the whole context, so a smaller context
+  and fewer idle wake-ups save Fable allowance.
+- **Resets are coming** (the owner, 2026-11-14, about 07:45 UTC): "I have two fable usage limit resets waiting on my
+  account, and i intend to use them on this project :) so feel free to drive that fable usage hard. i'll check
+  around 9am tomorrow and reset, so feel free to "aim" for the utilization limit by then." The lead's reading: until
+  that reset, Fable agents for the subtlest work are wanted, several at once; aim to have the Fable window near
+  (and under) the 95% ceiling by the owner's 9am. The owner's time zone is not known to the lead; if it is North
+  American mountain time, 9am is 16:00 UTC. (Evidence for that: the merge commit GitHub made for pull request 12
+  carries the offset −07:00, `git log -1 --format=%cI 07743dd`.) Measured pace, 2026-11-14 07:28–07:46 UTC with
+  four Fable agents and the lead: the Fable window rose 0.56 → 0.61, about 0.17 an hour. So the window fills in
+  under two hours of such work: between then and the reset, Fable is for the solvers' rounds, the audit and one
+  critic pass; everything else goes to Opus, which the Fable window does not count. Thresholds for the Fable window until then: no new Fable agent and
+  wrap-up from 0.88, stop from 0.93 (the lead needs a few turns of its own afterwards). Prefer whole units of work
+  (a solver round, a referee pass, an audit) over starting something that will be cut off. After a reset the same
+  rule starts again from zero; there are two resets, not an open tap.
+- Context: `mcp__claude-code-remote__get_session` with no id shows `external_metadata.context_usage`
+  (`used_tokens` of `max_tokens`) and the auto-compaction threshold.
 
 ## Habits that have served (not rules)
 

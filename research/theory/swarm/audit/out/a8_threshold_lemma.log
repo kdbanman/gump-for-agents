@@ -1,0 +1,15 @@
+gump, torus 4^3 cubes (192 cells): lambda=1.05  theta'=3.4798 m=0.3298 c'=10.1202  S=149.46 | identity error 1.9e-13 | term bounds: True | inequality for all T<=300: True (largest lhs/rhs 0.093)
+uncapped, torus 4^3 cubes         : lambda=1.05  theta'=3.4798 m=0.3298 c'=10.1202  S=149.46 | identity error 4.3e-13 | term bounds: True | inequality for all T<=300: True (largest lhs/rhs 0.017)
+gump, torus 4^3 cubes (192 cells): lambda=1.10  theta'=3.4682 m=0.1682 c'=10.7318  S=118.29 | identity error 1.8e-13 | term bounds: True | inequality for all T<=300: True (largest lhs/rhs 0.045)
+uncapped, torus 4^3 cubes         : lambda=1.10  theta'=3.4682 m=0.1682 c'=10.7318  S=118.29 | identity error 3.7e-13 | term bounds: True | inequality for all T<=300: True (largest lhs/rhs 0.010)
+gump, torus 4^3 cubes (192 cells): lambda=1.15  theta'=3.4641 m=0.0141 c'=11.3359  S=95.05 | identity error 1.4e-13 | term bounds: True | inequality for all T<=300: True (largest lhs/rhs 0.004)
+uncapped, torus 4^3 cubes         : lambda=1.15  theta'=3.4641 m=0.0141 c'=11.3359  S=95.05 | identity error 2.8e-13 | term bounds: True | inequality for all T<=300: True (largest lhs/rhs 0.001)
+2D rule, torus 12x12             : lambda=1.10  theta'=2.4636 m=0.2636 c'=7.3364  S=76.23 | identity error 9.9e-14 | term bounds: True | inequality for all T<=300: True (largest lhs/rhs 0.097)
+2D uncapped, torus 12x12         : lambda=1.10  theta'=2.4636 m=0.2636 c'=7.3364  S=76.23 | identity error 1.4e-13 | term bounds: True | inequality for all T<=300: True (largest lhs/rhs 0.019)
+2D rule, torus 12x12             : lambda=1.20  theta'=2.4500 m=0.0500 c'=8.1500  S=45.04 | identity error 6.0e-14 | term bounds: True | inequality for all T<=300: True (largest lhs/rhs 0.017)
+2D uncapped, torus 12x12         : lambda=1.20  theta'=2.4500 m=0.0500 c'=8.1500  S=45.04 | identity error 8.7e-14 | term bounds: True | inequality for all T<=300: True (largest lhs/rhs 0.004)
+(d) sphere sizes r = 0..12: [1, 12, 70, 212, 464, 820, 1312, 1900, 2632, 3460, 4432, 5500, 6712] ... second differences from r = 3 on: [96, 104, 110, 136, 144]
+    sizes reproduced for r >= 5 by s(r) = 60 r^2 + -180 r + 232 (r even), 60 r^2 + -180 r + 220 (r odd): True
+    S = sum_r s(r) lambda^(-2r) = 13350.9 at lambda = 1.1;  C_U = (13 lambda + theta') S / m = 1.411e+06 (claimed 1.4e6)
+    the same sum over radii 0..59 only: 13335.92 (C_U = 1.4089e+06); the rest: 15.03
+A8 ALL OK

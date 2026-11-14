@@ -201,3 +201,21 @@ cell-by-cell erosion (the toy has such a second channel, 20% of deaths at L = 12
   0.415) is supported by two of three estimators, not settled. Runs at L = 32–40 on the six- and eight-row models are
   queued; forecast for them: sparse-channel slope between L = 32 and 40 in 0.385–0.410 (i.e. it does not follow
   the window cost down to 0.376 by L = 40; confidence 55%).
+
+## 2026-11-14 — scores that were missing (appended by the successor who wrote exponent.md; entries above unchanged)
+
+The author was stopped before scoring F10, F11 and the L = 32–40 forecast of the 19:56Z amendment. Scores from the
+filed records (`research/scratch/exponent/runs_gump.json`, `runs_slabmodel.json`) and from the reviewed GPU numbers
+(`research/fluct/README.md` note of 2026-11-13; `research/audit/REVIEW-gpu-pr8.md`):
+- **F10: hit.** `xp.gump_model(13, 4)` (`python3 jobs.py gump13 4`): ln τ = 18.179 ± 0.113 (78 deaths) against
+  18.077 ± 0.054, i.e. +0.10 (allowed 0.2); +0.03 against the independent CPU value 18.154 ± 0.025.
+- **F11(a): hit** (not blind; disclosed in the entry). ln τ(108) − ln τ(84) = 5.235 with the GPU's own A = 84 value,
+  5.30 ± 0.06 with the verified one (forecast 5.18 ± 0.10); ln τ(135) − ln τ(108) = 5.96 ± 0.25 (forecast
+  5.89 ± 0.16). Local slopes 0.218–0.221, 0.221: level or rising.
+- **F11(b): not decided.** The octahedral slope is 0.221 at A = 135 and still rising; no asymptote is measured.
+  "Not 0.2077" is consistent with everything since. Its stated basis (rising periodic slopes) failed, see (c).
+- **F11(c): miss.** `xp.gump_slab_model(5, 5, 5)` (`python3 jobs.py slab75`): ln τ(75) = 15.640 ± 0.025 (1,585
+  deaths) against the forecast 15.74 ± 0.05; slope 60 → 75 = 0.208 ± 0.002 (forecast: not below 0.2115). Rim-free
+  slab faces measured elsewhere stay on −0.091 + 0.2088·A through A = 108 (notebook 2026-11-14).
+- **F11(d):** no mechanism was tested.
+- **L = 32–40 sparse-channel slope (19:56Z amendment): unscored.** The runs (`python3 jobs.py model3`) were never made.

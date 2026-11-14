@@ -1,0 +1,13 @@
+threshold form 'n<=4 and n+x>=3' equals B34/S234 on n=0..8: True
+row -1 cannot be born (needs 3, sees <= 2): True
+alive-sets A(x,k):
+  x=1: [[2], [1, 2], [0, 1, 2], [0, 1], [0]]
+  x=0: [[], [2], [1, 2], [0, 1], [0]]
+equal to the sets claimed (prob. entry 6 / theorems.md Lemma A): True
+every alive-set except (dead,0) contains 0 or 2: True
+pi = ['1/2', '0', '1/2']  table = claim 1 of probability/claims.md: True
+pi = ['1/4', '1/2', '1/4']  table = claim 1 of probability/claims.md: True
+pi = ['1/5', '1/2', '3/10']  table = claim 1 of probability/claims.md: True
+anchor table  live: ['1/2', '1/2', '1', '1/2', '1/2']  dead: ['0', '1/2', '1/2', '1/2', '1/2']
+least probability of a non-forced outcome at pi=(1/5,1/2,3/10): 1/5 >= min(pi0,pi2) = 1/5
+A1 ALL OK

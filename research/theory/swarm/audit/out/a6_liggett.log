@@ -1,0 +1,9 @@
+(i) F(k) > 0 for k <= 401: True;  non-increasing: True
+    F(1..6) = ['1', '1/9', '5/81', '29/729', '185/6561', '419/19683']
+    k^(3/2) F(k) at k = 100, 200, 400: 0.30005 0.29963 0.29942   (limit 3 sqrt2/(8 sqrt pi) = 0.29921)
+    sum_k F(k) = 3/2 exactly (generating function); partial sum to 400: 1.47009, plus tail estimate 2*0.29921/sqrt(400) = 1.50001
+    density of Psi: rho = 2/3
+(ii) (*) holds for all 64 sets A in {0..6} containing 0: True;  least margin 0 (= 0.000e+00) at A = [0]
+     equality exactly for A = [[0], [0, 1], [0, 1, 2], [0, 1, 2, 3], [0, 1, 2, 3, 4], [0, 1, 2, 3, 4, 5], [0, 1, 2, 3, 4, 5, 6]]
+(iii) Psi(eta0 meets {0}) = rho = 2/3: lower bound for P(two-parent site percolation at 3/4 from one occupied site is alive at n), all n
+A6 ALL OK

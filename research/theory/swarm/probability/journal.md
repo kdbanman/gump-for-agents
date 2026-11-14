@@ -450,3 +450,334 @@ is the state for whoever resumes.
    fact 2). Nothing has been started on this.
 4. A certificate for Lemma 3 of contour or matrix-product form, first for OP₅ (where survival is known), then
    for E₁ away from the anchor. Not started.
+
+## 2026-11-14, entry 11: the library's answer on F1 and F2; Theorem A restated on what is in print
+
+(Successor to the paused agent, same line. Source for this entry: `library/notes/oriented-percolation.md`, written
+by the librarian on 2026-11-14 in answer to the two requests on Theorem A. I opened none of the papers; the tags
+are the librarian's.)
+
+**What is in print, and how firmly.**
+- (P1) [read in the paper; proof only sketched there] Hartarsky–Szabó 2022 (arXiv:2103.15621), Corollary 4.8:
+  oriented site percolation with *any* finite set of parents, on the cylinder Z_n × Z started full. For every
+  density above the critical one there are c, C with e^{cn} < E τ < e^{Cn} for n large, and τ/E τ tends in law to a
+  standard exponential. Two parents and the five parents y − 2, …, y + 2 are both covered.
+- (P2) [abstract] Liggett 1995: p_c^site ≤ 3/4 (two parents). This bounds p_c; survival *at* density 3/4 was not
+  seen (second-hand: the hypothesis q ≥ 4p(1 − p) of his Proposition 2.1 allows equality).
+- (P3) [second-hand, two later papers; computer-assisted] Balister–Bollobás–Stacey 1994: p_c^site ≤ 0.7491.
+- (P4) [read in the paper] Hartarsky–Szabó, Remark 4.6: no percolation at the critical density.
+- Not found: any value, rigorous or numerical, for the five-parent critical density; any finite-volume statement
+  for an interval with dead ends other than Mountford's (density near 1, 1-dependent).
+
+**Against what Theorem A assumed.**
+1. F2 as used in entry 3 ("on a cylinder of circumference K, started full, alive at time e^{cK} with probability
+   ≥ ½") is a consequence of (P1): P(τ > E τ/2) → e^{−1/2} = 0.607 and E τ > e^{cK}. The attribution in entry 3
+   (Durrett 1984, Durrett–Liu, Durrett–Schonmann, "from memory") was wrong: Durrett 1984 has no finite-volume
+   section, the other two are the nearest-neighbour contact process on an interval. The proof does not change.
+2. (P1) holds for five parents directly. So the block step is not needed for the finite-volume part, the
+   restriction to even L goes, and the threshold of the theorem is the five-parent critical density, as entry 6
+   said it would be "if F2 is granted for OP₅".
+3. F1 enters only through the question whether the theorem's set of π is empty; see (iii) below.
+
+**Theorem A (form of 2026-11-14; replaces the statement of entry 3).** Let p₅ := inf{p : OP₅(p) on Z survives from
+one cell with positive probability}.
+(i) Let the edge row over a field b satisfy the hypothesis of Theorem A′ (entry 6) with some p > p₅; for E₁(π) this
+is min(π₀, π₂) > p₅. Then there are c > 0 and L₀ with P_full(T > e^{cL}) ≥ ½ for every L ≥ L₀, even or odd, and for
+E₁(π): e^{cL} ≤ τ_L ≤ 3p^{−3L}.
+(ii) 1/3 ≤ p₅ ≤ 1 − (1 − p_c^site)^{1/2}.
+(iii) The set of π in (i) is non-empty iff p₅ < ½ (because min(π₀, π₂) ≤ ½), and p₅ < ½ if p_c^site < 3/4.
+
+*Proof.* (i) By Lemma 1(d), or by Theorem A′ for a general field, S_t ⊇ η_t = OP₅(p) on Z_L, both started full. That
+η is the model of (P1) with n = L (parents (y + j, t), |j| ≤ 2; "started full" there means every open site of the
+first row is wet, which is one step of OP₅ from the full ring). So P(η alive at time ½e^{cL}) ≥ ½ for L large, and
+the bridge of entry 1 turns P_full(T > t) ≥ ½ into τ_L ≥ (t + m)/(Lm ln(1/p) + ln 2). Upper bound: entry 1.
+(ii) Lower: Lemma 2(a). Upper: the block step of entry 3 on Z in place of Z_L (blocks {2i + t, 2i + t + 1}, i ∈ Z):
+OP₅(p) dominates two-parent site percolation of density 1 − (1 − p)²; if that density exceeds p_c^site the latter
+survives, hence so does OP₅(p), so p ≥ p₅. (iii) From (ii). ∎
+
+**Standing of each part.** (i) rests on (P1) and nothing else. (ii) is proved in this journal. Only (iii), that the
+theorem is not empty, rests on the third decimal: (P2) alone gives p₅ ≤ ½, which leaves p₅ = ½ and an empty
+set possible. Strictness needs (P3), which the library has second-hand; or survival at density exactly 3/4
+(Liggett's theorem at equality, unread) together with (P4). So claim 5 is now: **(i), (ii) proved modulo (P1);
+non-emptiness modulo (P3).** Exact evidence that is not a proof: the lab's scan (`prob_r2.py op5scan`) reads p₅
+between 0.36 and 0.44 on rings of 15–17 cells.
+
+**Why the anchor sits exactly on Liggett's bound, and cannot be moved off it by choosing other dice.** A one-step
+worst-case bound has p ≤ ½: a live cell with k = 4 needs b = 0 and one with k = 0 needs b = 2 (entry 2, fact 1). A
+child block all of whose cells are within distance 2 of every cell of two adjacent parent blocks has at most two
+cells (four consecutive parent cells a, …, a + 3 leave a + 1, a + 2). So the block density is at most
+1 − (½)² = 3/4. The anchor is the single point where a one-step comparison with two-parent percolation reaches
+the boundary of (P2); to have room one needs a bound on p_c^site below 3/4, or a comparison that is not
+one-step.
+
+**Not covered.** Intervals with dead or reflecting ends: (P1) is for cylinders. The exact tables for the anchor on
+intervals (0.6236 per cell, lab R9) have no theorem behind them.
+
+## 2026-11-14, entry 12: Lemma 5 (the local three-move game, all arc lengths); claim 13 closed; m_G bounded below
+
+Entry 7 asserted, and the critic confirmed by exhaustion for arcs of m ≤ 7 cells only, that an arc can be emptied
+in three generations by the dice near it, whatever the row beyond. Here is the proof for every m.
+
+**Lemma 5.** E₁(π), p := min(π₀, π₂) > 0, I an arc of m cells with m + 12 ≤ L. For every state S of the ring,
+
+    P_S(S₃ ∩ I = ∅) ≥ p^{3m+12}.
+
+More precisely there are values of b_0 on I ⊕ [−4,4], of b_1 on I ⊕ [−2,2] and of b_2 on I, functions of S ∩ (I ⊕ [−6,6])
+alone, each of conditional probability ≥ p or forced, after which S₃ ∩ I = ∅ whatever the dice do elsewhere.
+
+*Proof.* Write D := S ⊕ [−2,2] and I_j := I ⊕ [−j, j]. A cell of I_j has its four in-row neighbours in I_{j+2}.
+*Move 1 (cells of I₄).* Make S₁ ∩ I₄ = D ∩ I₄: a live cell is kept (possible for every k: its alive-set is {2}, {1,2},
+all, {0,1}, {0}), a dead cell with k ≥ 1 is born (alive-sets {2}, {1,2}, {0,1}, {0}), a dead cell with k = 0 stays dead
+by itself. Which case applies is read off S on I₆.
+*Move 2 (cells of I₂).* A cell y ∈ D has some x ∈ S with |x − y| ≤ 2, and [x − 2, x + 2] ⊆ D contains at least two of
+y's neighbours; so in S₁ (which equals D on y ± 2) it has k ≥ 2, with k = 2 exactly when y is an end of an arc of D
+facing at least two cells outside D. Kill every live cell of I₂ with k ≥ 3 (b = 2 for k = 3, b ≥ 1 for k = 4) and let
+no dead cell of I₂ be born (for a dead cell some value of b always does it: the alive-sets above are proper
+subsets). Then S₂ ∩ I₂ = E ∩ I₂, E := the ends of arcs of D that face ≥ 2 cells outside D; these are forced
+survivors (live, k = 2).
+*No two cells of E are within distance 2.* Let e < e′ ≤ e + 2 be in E. If e is a right end, e + 1 and e + 2 are
+outside D, so e′ ∉ D. If e is a left end, e = x − 2 for some x ∈ S, so [e, e + 4] ⊆ D, and e′ ∈ {e + 1, e + 2} has
+e′ − 1, e′ + 1, e′ + 2 in D: k ≥ 3, not in E.
+*Move 3 (cells of I).* In S₂ a cell of E ∩ I therefore has k = 0 and dies for b ≤ 1; a dead cell of I is kept dead.
+Every prescribed value has conditional probability ≥ p given the row (the sets used are {0}, {2}, or contain
+one of them), the cells are independent given the row, and 3m + 12 = (m + 8) + (m + 4) + m cells are prescribed.
+Cells outside I₄, I₂, I at the three moves are never consulted. ∎
+
+*Smallest case.* m = 1, I = {0}, S ∩ [−6, 6] = {0}: move 1 makes cells −2, …, 2 alive (five births or survivals at
+b = 2) and leaves ±3, ±4 dead; move 2 kills −1, 0, 1 (k = 3, 4, 3) and keeps ±3 dead, leaving the forced ends ±2;
+move 3 keeps cell 0 dead (it sees ±2: k = 2, so b = 0). Fifteen prescribed dice, as 3m + 12 says.
+
+**Consequences.**
+1. Claim 13 (no certificate of Lemma 3 of the form r^{additive local health}) no longer rests on an assertion:
+   entry 7 used "three steps later every arc of m cells is empty with probability ≥ p^{3(m+12)}", which Lemma 5
+   gives with the better exponent.
+2. *Vacancies under the quasi-stationary law.* Let μ, λ = 1 − h be the quasi-stationary law and rate on the ring.
+   From μQ³ = λ³μ and P_S(S₃ ∩ I = ∅, S₃ ≠ ∅) ≥ p^{3m+12} − P_S(T ≤ 3), averaged over μ (the last term averages to
+   1 − λ³ ≤ 3h):
+
+       μ(I empty) ≥ p^{3m+12} − 3h   for every arc of m ≤ L − 12 cells.
+
+3. *Proposition W(c) without the proviso on m_G.* m_G = μ_ring(cells 1–4 dead) ≥ p^{24} − 3h_ring for L ≥ 16. So
+   either τ_ring(L) ≤ 6p^{−24}, or m_G ≥ p^{24}/2 and, under H(n, c),
+
+       τ_ring(L) ≤ 4·τ_dead(L − 4) / (c·p^{24}·w_min^{n+1}).
+
+   T2b for E₁(π) is therefore implied by H(n, c) for one fixed pair (n, c) and all large L, with nothing else.
+   (At Bin(2, 0.472): p^{24} = e^{−36.0}; the exact m_G is 0.043. The constant is useless numerically; the point is
+   that it does not depend on L.)
+
+**What Proposition W cannot do (recorded so that nobody tries again).** The lab's answer to R6 shows ρ_n ≥ 1 at
+L = 12, 15, 18 for every n ≤ 10, and the critic's caution is right: at n = 0, H is the conclusion in other words.
+A proof of H(n, c) at fixed n for all L needs the dead-ended interval chain, started from the ring's law on rows
+with a four-cell gap, to be within a factor of its own quasi-stationary death rate after n steps, uniformly in
+L: a statement about relaxation to a quasi-stationary law, which for a non-monotone chain I cannot get from
+anything in this journal. And the wall form of the comparison is the wrong tool for the way these chains die
+(lab R7: a gap that grows for a number of generations increasing with the size): holding four fixed cells dead
+costs a factor u ≈ π₀(1 − π₂) per generation at the side where the row is still alive, for as long as the
+collapse lasts. If that duration grows in proportion to L the loss is itself exponential in L.
+
+## 2026-11-14, entry 13: Lemma 4 (the gump face over dice: every cell can be killed from beneath, hence a monotone comparison over two generations)
+
+Entry 2, fact (2), and graveyard 14 say: no one-step monotone process lies below a gump face over dice, because
+the all-alive face dies whatever the dice show. This entry shows that the obstruction is to *one* step only.
+
+**The model F.** Γ: the cells of a face (a periodic patch of a {111} layer, or a hull face), N(y) ⊆ Γ the in-layer
+neighbours of y (six in the interior, fewer on a rim), N̄(y) := N(y) ∪ {y}. State S_t ⊆ Γ; for a cell, x = its state,
+k = |S_t ∩ N(y)|; b_t(y) ∈ {0, 1, 2, 3} stands for the live cells among the three beneath it. Gump's rule with
+n = k + b: y ∈ S_{t+1} iff n ∈ {4, 5} (x = 0) or n ∈ {3, 4, 5} (x = 1). **F(π)**: the b_t(y) i.i.d. with law π.
+Alive-sets B(x, k) := {b : alive next}:
+
+| k | 0 | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|---|
+| dead | ∅ | {3} | {2,3} | {1,2} | {0,1} | {0} | ∅ |
+| live | {3} | {2,3} | {1,2,3} | {0,1,2} | {0,1} | {0} | ∅ |
+
+(O1) The complement of every B(x, k) contains 0 or contains 3. (This is "gump has no safe face cell",
+`exponent/theorems.md` Lemma A(c). It fails for the 2D rule's edge: a live cell with k = 2 survives every b. The
+reason is arithmetic: both rules have a survival window of three consecutive values of n, and b takes four
+values in gump, three in the 2D rule.)
+(O2) For x + k ≥ 1 and k ≤ 5, B(x, k) contains {0}, or contains {3}, or equals {1,2} (the last only for a dead cell
+with k = 3; source's remark C18).
+
+**Lemma 4.** Let b be any field with, for all t, y (𝒢_{t,y} as in Theorem A′: everything except b_t(y)),
+
+    P(b_t(y) = 0 | 𝒢_{t,y}) ≥ s,   P(b_t(y) = 3 | 𝒢_{t,y}) ≥ s,   P(b_t(y) ∈ {1,2} | 𝒢_{t,y}) ≥ s″,     σ := min(s, s″).
+
+Then, on a larger probability space, there are marks M_t(y) ∈ {K, G, N}, t ≥ 1, y ∈ Γ, i.i.d. with P(K) = s, P(G) = σ,
+those of generation t + 1 independent of everything up to time t, such that
+(a) M_{t+1}(y) = K ⇒ y ∉ S_{t+1}, whatever S_t is;
+(b) M_{t+1}(y) = G, x + k ≥ 1 and k ≤ 5 at time t ⇒ y ∈ S_{t+1};
+(c) with Z_t := {M_t = K} for t ≥ 1, Z_0 any set disjoint from S_0, and
+
+    η_0 := S_0,   η_{t+1} := {y : M_{t+1}(y) = G,  N̄(y) ∩ η_t ≠ ∅,  and  N(y) ∩ Z_t ≠ ∅ or |N(y)| ≤ 5},
+
+one has η_t ⊆ S_t and Z_t ∩ S_t = ∅ for all t; for fixed marks η_{t+1} is non-decreasing in η_t;
+(d) P(S_{t+1} = ∅ | past) ≥ s^{|Γ|}, so E_S T ≤ s^{−A} from every state (A = |Γ|).
+
+*Proof.* For the step t → t + 1 the pair (x, k) of a cell is known at time t. Choose κ(x, k) ∈ {0, 3} outside B(x, k)
+(O1) and a class γ(x, k) ∈ {{0}, {3}, {1,2}} inside B(x, k) when x + k ≥ 1 and k ≤ 5 (O2), γ := {1,2} otherwise;
+κ ∉ γ. Let q_K := P(b_t(y) = κ | 𝒢_{t,y}) ≥ s and q_G := P(b_t(y) ∈ γ | 𝒢_{t,y}) ≥ σ, and with V_t(y) uniform,
+independent of everything, set M_{t+1}(y) := K if b_t(y) = κ and V ≤ s/q_K; := G if b_t(y) ∈ γ and V ≤ σ/q_G; := N
+otherwise. Given 𝒢_{t,y} and the V of the other cells, M_{t+1}(y) has the law (s, σ, 1 − s − σ) exactly; the other
+marks of generation t + 1 and the whole past are measurable with respect to that conditioning. Hence the marks
+are i.i.d. and those of generation t + 1 are independent of the past. (a): b = κ ∉ B. (b): b ∈ γ ⊆ B.
+(c) by induction: y ∈ η_{t+1} has a cell of η_t ⊆ S_t in N̄(y), so x + k ≥ 1, and a cell of Z_t (dead in S_t) in
+N(y), or at most five neighbours, so k ≤ 5; then (b). Z_{t+1} ∩ S_{t+1} = ∅ is (a). (d): all marks K. ∎
+
+*Smallest case.* S_0 = {y₀}, an interior cell, Z_0 = Γ ∖ {y₀}. y₀ is (live, 0) and its six neighbours are (dead, 1):
+all seven have B = {3}, κ = 0. So S_1 = η_1 = the cells of N̄(y₀) with b = 3: a lone cell is one step of seven-parent
+percolation of density π₃, the exact analogue of entry 2's smallest case.
+
+**What it says.**
+- η is oriented site percolation on Γ × N with the seven parents N̄(y), in which the site (y, t + 1) is open iff it
+  carries G and one of its neighbours carried K one generation earlier. The cap is paid for by the second
+  condition, and it is always met somewhere, because (a) makes every cell dead with probability ≥ s whatever
+  the face does. A gump face over such dice therefore does dominate a monotone process; it takes two
+  generations to see it. Graveyard 14 should read "no *one-step* comparison".
+- (d) is the one-generation upper bound τ ≤ s^{−A} that the 2D rule does not have (there three moves are needed,
+  entry 1). It needs the conditional hypothesis: with the cells beneath *shared* inside a cube (the true
+  geometry, cube lemma: b_a = u_b + u_c + v_a) two cells of one cube can demand b = 0 and b = 3 of dice that
+  share a cell, which is the board's E10. For shared cells the hypothesis holds given the other *cubes*, not
+  given the other cells of the same cube, and the marks would have to be built cube by cube; not written.
+- F(π) with π₀π₃ > 0 and i.i.d. b is not "random cells beneath": by the cube lemma (3, 0, ·) never occurs
+  among the three counts of one cube. F(π) draws the numbers, not the cells. That is the exact relation of this
+  dice model to gump.
+
+## 2026-11-14, entry 14: what a percolation anchor for the gump face would need (three proved limits, two gaps)
+
+Lemma 4 gives a monotone process below F. Whether it can carry a theorem like Theorem A:
+
+**1. Its density is at most 0.304.** Three disjoint classes of b are needed, {0}, {3}, {1,2}, so σ ≤ 1/3, with
+equality at π₀ = π₃ = π₁ + π₂ = 1/3; then a site is open with probability σ(1 − (1 − s)⁶) = 665/2187 = 0.3041 and a
+live cell has at most 7 × 0.3041 = 2.13 open children in the mean. (In the 2D rule two classes suffice, {0}
+and {2}, and σ = ½.)
+
+**2. For independent cells beneath it dies at once (the analogue of Lemma 2).** If b is a sum of three
+independent Bernoulli(ρ) cells, s = min(ρ³, (1 − ρ)³) ≤ 1/8, and E|η_{t+1}| ≤ 7σ|η_t| ≤ (7/8)|η_t| (at most seven
+candidates per live cell, each open with probability ≤ σ): η is extinct after O(log A) generations at every ρ.
+As in the 2D rule, a percolation anchor needs coherent dice (weight 1/3 on "all three dead" and on "all three
+alive"), and independent layers give nothing.
+
+**3. The method of Theorem A cannot certify it (dead end, with the reason).** Take any comparison of the kind
+used in entry 3: disjoint blocks, a block is on when it contains a cell of η, each block has two disjoint child
+blocks, and a child's probability is the one guaranteed when the parent holds a single live cell y. Only the
+seven cells of N̄(y) can be alive next, so one of the two children contains at most three of them and is on with
+probability at most 1 − (1 − σ)³ ≤ 19/27 = 0.7037. That is below every rigorous upper bound on p_c^site (0.7491,
+3/4) and below its numerical value 0.7055. With σ = ½ the same count would give 7/8: the geometry of the layer
+is not the obstacle, the third class of dice is (a dead cell with exactly three live neighbours is born only
+for b ∈ {1, 2}).
+
+**4. Gap: is η supercritical at all?** This is a question about a seven-parent oriented percolation in 2 + 1
+dimensions with a one-generation dependence. A rough estimate (critical density of seven-parent site
+percolation in 2 + 1 dimensions about 0.20–0.24, by the product z·p_c ≈ 1.4–1.6 seen in the tabulated lattices;
+effective density s(1 − (1 − s)^{5…6})) puts the critical value of s = σ near 0.27, below 1/3 but not far. I cannot
+prove it and the exact lab cannot decide it. Exam entry P-E4 asks for it by sampling.
+
+**5. Gap: the finite-volume step.** For monotone percolation with i.i.d. sites on Z² × N, "exponential in the
+area" at every supercritical density is in print: (P1) with d = 3 gives e^{c n²} on the n × n torus. η does
+not fit as printed, for two reasons: the layer is a kagome lattice (three cells per period, no single
+neighbourhood on Z²), and the site variables are built from marks K and G that exclude each other at a cell, so
+the events "open" are not increasing functions of independent variables in one common order (Harris's
+inequality, which the renormalisation uses, is not available as it stands).
+
+So: **T3 is not a theorem.** What stands is Lemma 4 and the three limits; what a theorem "the gump face over
+dice (1/3, ·, ·, 1/3) lives e^{cA}" still needs is (4) by a finite, checkable criterion and (5) by an adaptation
+of the Bezuidenhout–Grimmett construction. Both are outside what this line can do by hand.
+
+Remark (why area, in dice models). For a monotone relative the area law is no mystery and no new theorem:
+it is (P1) in one more dimension. The one-dimensional law of Theorem A and the area law of a face are the same
+statement about supercritical oriented percolation on a torus; what is special to gump is only whether a
+supercritical monotone process fits beneath the capped rule, and with what dice.
+
+## 2026-11-14, entry 15: Lemma 6 (the chain on an interval is irreducible); errata to entries 11 and 12
+
+Entry 10 left open whether E₁(π) on an interval with dead ends has one class of living states (the ring's
+argument fails: in the full interval the two end cells have k = 2 and are forced). It has.
+
+**Lemma 6.** E₁(π) with π₀, π₂ > 0 on the interval J = [1, M], M ≥ 5, cells outside dead. The chain on the non-empty
+subsets of J is irreducible and aperiodic. The same holds with reflecting ends.
+
+*Proof.* With π₀, π₂ > 0 the one-step transitions of positive probability are exactly S → S′ with
+F(S) ⊆ S′ ⊆ S ∪ N(S), F(S) the live cells with k = 2 and N(S) the dead cells with k ≥ 1 (for every other pair (x, k) the
+value b = 0 gives one outcome and b = 2 the other; table of entry 1). Call S *loose* if F(S) = ∅; from a loose S
+every subset of D(S) := (S ⊕ [−2,2]) ∩ J is a next state.
+(1) S → D(S) is always allowed, so every S ≠ ∅ reaches J.
+(2) F(J) = {1, M} (cell 1 sees 2, 3; cell 2 sees 1, 3, 4; cells 3, …, M − 2 see four), so J → {1, M}.
+(3) {1, M} is loose (M ≥ 4), so {1, M} → {1}. Then {1} → {3} → {1, 4} (each state loose, each target inside D).
+(4) R_i := {1, 4, …, 1 + 3i}, r := 1 + 3i. R_i and R_i ∪ {r + 2} are loose (in the second, r and r + 2 have k = 1, all
+other cells k = 0), r + 2 ∈ D(R_i) and r + 3 ∈ D(R_i ∪ {r + 2}). So R_i → R_i ∪ {r + 2} → R_{i+1} as long as r + 3 ≤ M.
+(5) The last R = {1, 4, …, r*}, r* ≤ M ≤ r* + 2, is loose and D(R) = J (cells 2 + 3i and 3 + 3i are within distance 2
+of 1 + 3i). So R → T for *every* T ⊆ J, in particular R → R.
+Chaining (1)–(5), every non-empty S reaches every T. Reflecting ends: cell 1 sees itself, cell 2 twice and cell 3
+(k = x₁ + 2x₂ + x₃), so in the full interval every cell has k = 4, J is loose, D(J) = J, and (1) with J → T suffices. ∎
+
+*Smallest case.* M = 5: {1,2,3,4,5} → {1,5} → {1} → {3} → {1,4} = R, and D({1,4}) = [1,5].
+
+Use. On a dead-ended or reflecting interval the quasi-stationary law is unique and charges every living state,
+so the lab's τ_dead, τ_refl are what entry 1 defines, and in entry 8 "ρ_n → 1 as n → ∞" holds as stated (entry 10
+had withdrawn it). Not done: the three-move bound E_S T ≤ 3p^{−3M} on an interval (near a wall the forced cells
+of move 2 are different; I did not redo the game there).
+
+**Errata.**
+- Entry 12, "Smallest case": move 2 prescribes cells of I₂ = [−2, 2] only; it kills −1, 0, 1 and does *not* keep ±3
+  dead (they are outside I₂ and are not needed: move 3 looks at [−2, 2] only). Of the 3m + 12 = 15 cells counted,
+  nine carry a prescribed die (five at move 1, three at move 2, one at move 3) and six are forced.
+- Entry 11, "Why the anchor sits exactly on Liggett's bound": the count is for blocks of m cells whose children
+  are blocks of m cells. Two adjacent parents cover 2m consecutive cells, and the cells within distance 2 of
+  all of them number 6 − 2m; a child needs m of them, so m ≤ 2, and m = 2 gives density 1 − (1 − p)² ≤ 3/4.
+
+## Round 3 report
+
+(2026-11-14, successor on the line; entries 11–15; the current list is `claims.md`. This is also the closing state.)
+
+**Claims, new or changed.**
+1. [proved modulo (P1); non-empty modulo (P3)] Theorem A, form of entry 11: for min(π₀, π₂) above the five-parent
+   critical density p₅, e^{cL} ≤ τ_L ≤ 3p^{−3L} for every large L, odd or even; 1/3 ≤ p₅ ≤ 1 − (1 − p_c^site)^{1/2}. The
+   library's sources say nothing other than what the proof used. The finite-volume fact is Hartarsky–Szabó
+   Cor. 4.8 (cylinders, any finite set of parents; proof sketched there), not Durrett 1984. The theorem is
+   non-empty only because p_c^site < 3/4 strictly, which the library has second-hand (computer-assisted 0.7491);
+   no one-step comparison can leave that boundary (entry 11).
+2. [proved] Lemma 5: an arc of m cells is emptied in three generations by 3m + 12 dice near it, whatever the row
+   beyond. Closes the asserted step under claim 13; μ(arc empty) ≥ p^{3m+12} − 3h; Proposition W(c) needs only H.
+3. [proved] Lemma 6: on an interval with dead or reflecting ends the chain is irreducible (open since entry 10).
+4. [proved] Lemma 4: a gump face over dice with weight ≥ s on "none alive beneath", on "all three alive" and on
+   {1, 2} lies above a monotone percolation built over two generations (a cell is open if its die allows growth
+   and a neighbour was killed from beneath one generation earlier); E T ≤ s^{−A}. Graveyard 14 is about one step.
+5. [proved] Its limits: site density ≤ 0.3041; for independent cells beneath it contracts by 7/8 per generation;
+   no block comparison of Theorem A's kind can certify it (density ≤ 19/27).
+6. [guessed] It is supercritical at s = 1/3, critical near 0.27 (exam P-E4). No lifetime law for a gump face
+   over dice is claimed.
+
+**What fell or weakened.** The attribution of F2. The reading of Proposition F as the exponent of OP₅ (exact
+0.380 against the bound 0.4812; P-E3(ii) missed for that reason). And T2b has lost its support: P-E1 is not
+scored yet, but the examiner's log (`research/scratch/exam/pe1.log`, two of three sizes, my reading) has
+ln τ = 15.843 ± 0.025 at L = 30 and 17.900 ± 0.042 at L = 34, so the ring's mean step is 0.512 ± 0.002 over 19–30 and
+0.514 ± 0.012 over 30–34. The descent to 0.48 ± 0.03 has not happened; 0.460 + b/L fitted at L = 16–19 is 2.5σ low
+over 19–30, while 0.48 + 0.8/L and a constant 0.512 both fit. Nothing tagged proved depends on it; entry 12 says
+why Proposition W cannot settle it.
+
+**Weakest step.** Outside: (P1) is printed with a sketched proof and unread by me; (P3) is second-hand.
+Inside: Lemma 4's hypothesis conditions on everything else, which gump's geometry violates inside a cube
+(shared cells, E10), and independent numbers b are not a field of cells beneath (cube lemma); claim 6 rests on
+a rough estimate.
+
+**Lab requests** (exact, small).
+- R10. Lemma 5, m = 1…8: for every row on I ⊕ [−6, 6], each prescribed outcome of moves 1–3 is available to its
+  cell and I is empty after move 3.
+- R11. Lemma 6, M = 5…14: the graph S → S′ iff F(S) ⊆ S′ ⊆ S ∪ N(S) on non-empty subsets of the dead-ended interval
+  has one strongly connected component.
+- R12. Lemma 4: tables (O1), (O2) by enumeration over (x, k, b), k ≤ 6, and implications (a), (b) for the marks of
+  the proof. By sampling, for the examiner: P-E4.
+
+**State of the line.** I see no further step that can be proved with this toolkit by hand. A different
+approach would need:
+- for Theorem A without second-hand facts: the 1994 paper, or Liggett's theorem at equality, or Hartarsky–
+  Szabó's finite criterion run exactly for OP₅(½) (library request filed);
+- for D2 itself: a certificate of Lemma 3 of renewal (Holley–Liggett) or matrix-product type, or a
+  computer-assisted block event; one-step comparisons (Lemma 2), independent blocks (claim 8) and additive
+  certificates (claim 13) are excluded;
+- for a gump face: P-E4 first. If supercritical, a finite criterion and the Bezuidenhout–Grimmett construction
+  for marks that exclude each other; if not, the percolation route is closed for every dice law;
+- for source (through the critic): Lemma 4 is where a gump-face version of its Theorem L would start.
+
+Round 3 is written; in my judgment the line is finished.

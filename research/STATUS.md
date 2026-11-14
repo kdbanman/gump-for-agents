@@ -50,38 +50,83 @@ _Last updated 2026-11-14 by the lead._
   a longer cube-centred symmetric run (does the death rate really fall with age?).
 
 - 2026-11-14: an overview page for the owner (`docs/overview/`, published as a private artifact; link in `LEAD.md`).
-  Research itself is still paused.
+  It predates the two reviews of 2026-11-14 (class theory, GPU round two); refresh it when the swarm's exam is in.
+- Pull request 11 merged 2026-11-14 07:27 UTC (everything up to the two reviews). Later commits need a new pull request.
 
 ## Next (lead's list; pick by judgment)
-- **Swarm (state 2026-11-14, about 09:00 UTC).** The critic's successor answered every report on file
+- **Swarm (state 2026-11-14, about 07:25 UTC).** The critic's successor answered every report on file
   (`critic/board.md` opens with the state; replies in `critic/to-<line>.md`): nothing tagged proved was found wrong;
   three guesses fell (counting's bridge C1′, path's "ln τ = A·∫θ", every equal-time transfer hypothesis); the source
-  line is finished and the critic agrees. **The solvers have not been told to continue**, on purpose: first the
-  cheap, decisive things. Running now: a librarian (successor) on the two percolation facts that probability's and
+  line is finished and the critic agrees. **Solvers restarted 07:35 UTC** (fresh successors on probability, path and
+  counting, each with the critic's reply; the owner had just opened the whole account up to 95% of the session and
+  weekly limits, `LEAD.md`). When they report, a fresh critic successor reviews the new rounds in one pass. Started
+  07:50 UTC as well: the fresh-reader audit of the one finished theorem chain (source's and probability's Theorem A;
+  writes `swarm/audit/AUDIT-theoremA.md`), and a reviser applying the class review to `research/theory/class.md`.
+  **08:17 UTC:** all three solvers have written their rounds (counting round 3 is a closing report and
+  probability round 3 says its line is finished; path round 4 asks for one closing round). A fresh critic (Fable)
+  is reviewing the three rounds in one pass with the exam outcomes and the library notes; when it reports, decide
+  on path's closing round. **The audit of the Theorem A chain is done** (`swarm/audit/AUDIT-theoremA.md`): the
+  theorem stands, conditional on two cited percolation statements; recorded in the notebook (2026-11-14, "a
+  deterministic relative…") and as CLAIMS row SW1, with the lead's own simulation. The audit's part B also passed
+  every proved claim of the probability and source lines; counting's and path's have had no fresh reader yet. Earlier: a librarian (successor) on the two percolation facts that probability's and
   source's Theorem A rest on (`library/requests.md`, last two blocks), and an examiner running the sampled entries of
-  `swarm/PREDICTIONS.md` (writes `swarm/exam/OUTCOMES.md`). When both report: decide which of probability, path and
-  counting get another round (give each its reply and the exam outcomes; stop a line when a round gives no new
-  proved step; counting said it would stop its finite-horizon programme if c_k fell through the steady exponent,
-  and it does). Then a fresh reader (not the critic) audits every claim tagged "proved" across the four `claims.md`,
+  `swarm/PREDICTIONS.md` (writes `swarm/exam/OUTCOMES.md`). Stop a line when a round gives no new proved step (each
+  solver was told that a closing report is a good outcome). Then a fresh reader (not the critic) audits every claim tagged "proved" across the four `claims.md`,
   first of all the chain "a deterministic automaton with a theorem" (source's Theorem A with probability's Theorem A).
   Only after that does anything from the swarm go into the notebook, `CLAIMS.md` or `docs/AUTOMATON.md`.
 - **`research/theory/class.md`**: attacked 2026-11-14 (`research/audit/REVIEW-class.md`; notebook entry of that date).
   Its theorems stand; its first clause does not (sealing is a property of a half-space, not a direction), and the
   edge-neighbour rule the owner meant to write in 2012 (there called `face12e`; not gump) turned out to be a gump in a
-  box, which class.md as written called unconfined. class.md carries a note at its head. **To do:** a successor revises
-  class.md by the review's §5.2 (twelve items); run what the repaired clause newly admits and nobody has run
+  box, which class.md as written called unconfined. **Revised 2026-11-14** (commit 569be8d, an Opus successor; all
+  twelve items of the review's §5.2 applied; every change listed in the file's last section; the lead read the new
+  summary, Theorem A′ with its proof and the change list, and ran nothing). The class is now seven tagged clauses:
+  confinement by sealed half-spaces, no finite sealed set, no armoured set, the two-sided drive (all proved; armour
+  conditional), whole-wall death and hull lifetimes (measured), and one conjecture; the old fifth clause is withdrawn.
+  Two tallies the reviser could not reconcile are flagged in its §10 (26/29 against 23/27 for b/K ≤ 3/8).
+  **To do:** run what the repaired clause newly admits and nobody has run
   (kagome8 and hex9 at b = 4; whether bond10's b = 3 boxes ever die; kagome B2/S12 with transverse cuts censored);
   face12e with symmetric seeds and beyond 6³. The owner's quick-look branch `claude/edge-neighbour-tangent` stays
   unmerged; the audited face12e results live in `research/audit/class/` under that name.
-- **`research/theory/exponent/`**: needs a successor to write `exponent.md` from `PREDICTIONS.md`, `theorems.md` and
-  the data, then checking. Lemma A, consequence (c) in `theorems.md` is false (swarm board E10).
+- **`research/theory/exponent.md`**: written 2026-11-14 by a successor (commits b121199, 1d82192), not yet in the
+  notebook. Its verdict, unchecked: the exponent belongs to a thin boundary layer over memoryless noise (eight rows
+  of the 2D rule, or four to five layers of gump, over coin flips reproduce the deterministic lifetimes to 0.05
+  nats); in the toy τ(L) ≈ 12.1/E(L − 6.5) with E the chance of an empty window; nothing derives the constant.
+  Lemma A(c) corrected in `theorems.md`. **In progress (started 08:17 UTC):** an adversarial review (Opus; writes
+  `research/audit/REVIEW-exponent.md`), and the lead's own check of the toy half with independent code
+  (`research/audit/exponent/lead_check.py`; validated on the one-row chain: 6.4160 ± 0.0095 against the exact
+  6.4169; output of the eight-row runs in `research/scratch/audit_exponent/lead_w8.txt`). When both are in: the
+  notebook entry, CLAIMS rows, PROGRAM nodes M1–M4.
+- **Class follow-up: done 2026-11-14** (`research/theory/class/followup/`; notebook entry of that date; CLAIMS K6–K8;
+  the lead re-derived the symmetric face12e boxes). Half-space confinement holds out of sample; hex9 B456/S3456 is a
+  new gump-type rule with a concave wall law; bond10's box walls hold each other up along the edges (boxes of 4³ live
+  ≈ 10⁹ against 10³ forecast from the slab law); face12e with full cubic symmetry settles in tens of generations.
+  **To do:** fold the four places where the class statement is wrong or silent into class.md (clauses 3, 5, 6);
+  an edge term for box walls (bond10 columns give 0.52–0.66 nats per edge cube; gump's octahedral rim 0.91 nats at
+  A = 108) is the open question it raises.
 - **GPU session:** pull request 12 reviewed 2026-11-14 (`research/audit/REVIEW-gpu-pr12.md`; notebook entry of that
   date). Stands: symmetric soups do not age at R = 43 (Weibull k = 1.02); cube-like seeds at vertex-centred R = 40 wait
   exponentially; rim-free slab faces are on the old line through A = 108, and an octahedral face there is 0.91 nats
   tougher. Does not stand: "the rise is a rim effect" and the slope 0.204 from 108 to 126 (the 6×7×8 run counts
-  firewalls as peels; about a fifth of its deaths). The session was sent the five required wording fixes and asked
-  for a rerun that detects firewalls. **Merge pull request 12 once the fixes are pushed** (check the diff; it should
-  touch only `research/gpu/` and `research/data/`).
+  firewalls as peels; about a fifth of its deaths). The session made the five wording fixes (its commit 3cfab59; the
+  lead read the diff) and **pull request 12 was merged 2026-11-14 (time of the merge commit: `git log -1 --format=%cI 07743dd`)**. It is now running the same slab with
+  firewalls detected (`research/gpu/fwslab.py`; forecast and two validation targets committed first in
+  `research/gpu/PREDICTIONS.md`: firewall-first share 10–30%, ln τ_face(126) = 26.30 ± 0.15). Expect a pull request;
+  review it as before (does its validation at 3×6×8 and 4×7×8 reproduce `slab_fw.csv`?), re-derive one number, merge.
+  At about 07:50 UTC the session was idle (its runs were due about 07:45); the lead messaged it: restart its branch from
+  main, score the run against the forecast, data per death in `research/data/gpu_facelaw/`, censor every period,
+  then a control at 6×6×8 with the firewall channel resolved. It cannot reply: look at its branch
+  `claude/awesome-cray-boq9vz` and the pull request list from time to time.
+  **Pull request 14 merged 2026-11-14, 09:50 UTC** (firewall-resolved slabs; review `research/audit/REVIEW-gpu-pr14.md`;
+  notebook entry of that date; CLAIMS GP8): 6×7×8 face 26.405 ± 0.104 (all three forecasts hit), 6×6×8 22.568 ± 0.041,
+  slope 108 → 126 0.215 ± 0.006, not decided between a rising cost per cell and a *width* effect (the review's post hoc
+  fit with a short-side term). **Running at the GPU session (asked 09:40 UTC):** the pair 4×9×8 against 6×6×8 at
+  A = 108 (a width effect predicts 0.23 ± 0.08 lower), and width families s = 3 … 6 at A ≤ 96 with ≥ 2,000 deaths
+  each; forecasts first. Expect pull request 15; review as before.
+- **Exam (swarm): done 2026-11-14** (`swarm/exam/OUTCOMES.md`; notebook entry of that date; CLAIMS SW2–SW4). Hold:
+  path E1 (notched edge 0.346), source S-E1 and S-E2 (faces over dice; six layers suffice for gump), counting C-E1
+  (one mirror halves the price, 0.1026 per cell). Fail: counting C-E2, path E3. Undecided: P-E1 (0.512 ± 0.012 on its
+  refutation line 0.51; needs about 3.5 core-hours more at L = 38), path E2. New entries filed by the solvers since
+  and not yet run: C-E3, path E4, P-E4.
 - **Prior art:** Tél–Lai 2008 and Bramson–Neuhauser 1994 are unread (publisher pages refuse agents); the owner was
   told they could fetch them. `PRIOR-ART.md`'s older sections still hold "snippet only" items the library now covers.
 - Lineage study: replicate the weak "slow variable" (copies remember their source, ρ ≈ +0.2) on other sources.

@@ -1,0 +1,17 @@
+(a) L=5, t=3: all 32 row-0 starts x 32768 bit tables; rows 1,2 = xi[.,s+1]: True; max |count/2^(Lt) - chain probability| = 0
+(a) L=6, t=2: all 64 row-0 starts x 4096 bit tables; rows 1,2 = xi[.,s+1]: True; max |count/2^(Lt) - chain probability| = 0
+(a) L=6, t=3: all 64 row-0 starts x 262144 bit tables; rows 1,2 = xi[.,s+1]: True; max |count/2^(Lt) - chain probability| = 0
+(a) L=8, t=2: all 256 row-0 starts x 65536 bit tables; rows 1,2 = xi[.,s+1]: True; max |count/2^(Lt) - chain probability| = 0
+(b) L=5, t=2, top rows (S0,r1,r2)=(5,0,0): (row 3 at times 0..1) uniform over 2^10 values: True (each 32 times); rows 1,2 at s+1 = row 3 at s: True
+(b) L=5, t=2, top rows (S0,r1,r2)=(31,10,17): (row 3 at times 0..1) uniform over 2^10 values: True (each 32 times); rows 1,2 at s+1 = row 3 at s: True
+(b) L=5, t=2, top rows (S0,r1,r2)=(14,31,3): (row 3 at times 0..1) uniform over 2^10 values: True (each 32 times); rows 1,2 at s+1 = row 3 at s: True
+(b) L=5, t=3, top rows (S0,r1,r2)=(5,0,0): (row 3 at times 0..2) uniform over 2^15 values: True (each 1024 times); rows 1,2 at s+1 = row 3 at s: True
+(b) L=5, t=3, top rows (S0,r1,r2)=(27,22,9): (row 3 at times 0..2) uniform over 2^15 values: True (each 1024 times); rows 1,2 at s+1 = row 3 at s: True
+(c) L=5, t=2: for every S0 the map (rows 1..4 at time 0) -> (rows 1,2 at times 0..1) is a bijection of 2^20: True
+(c) L=3, t=4: for every S0 the map (rows 1..8 at time 0) -> (rows 1,2 at times 0..3) is a bijection of 2^24: True
+(c) L=4, t=3: for every S0 the map (rows 1..6 at time 0) -> (rows 1,2 at times 0..2) is a bijection of 2^24: True
+A2 ALL OK
+
+real	1m39.510s
+user	1m23.384s
+sys	0m13.943s

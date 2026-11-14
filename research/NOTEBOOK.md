@@ -1064,3 +1064,178 @@ oracle with gump's offsets): `python3 lead_check.py slab 4 4 8000 2048 1` → 6.
 10.186 ± 0.008 (15,171 deaths, 12 minutes). A first version that censored only
 period-2 states read 6.495 and 8.027: replicas that settle into longer cycles never die and inflate τ at old ages.
 The same trap as the PR 12 reviewer's with `fl.c`; any wall-law estimator must censor every period.
+
+## 2026-11-14 — a deterministic relative of the 2D rule with an exponential law (swarm: source and probability lines; fresh-reader audit; lead's check)
+
+The first result of the theory swarm to pass an audit by a reader who is neither a solver nor the critic
+(`research/theory/swarm/audit/AUDIT-theoremA.md`; its scripts `a1`–`a10` there share nothing with the critic's lab).
+
+**The automaton 𝒜(L).** Cells (x, j), x on a ring of L columns, rows j = 0, 1, 2, … Row 0 follows the 2D rule
+B34/S234 on the range-2 cross with nothing above it. Every other row copies the row two below. Initial state: any
+row 0; beneath it independent fair bits, each written into two consecutive rows. The update is deterministic; the
+only randomness is the initial tape, which the conveyor brings to the edge two rows a generation.
+
+- **[proved; audited]** Row 0 is exactly a Markov chain: a cell within distance 2 of a live cell is alive next with
+  probability ½, except that a live cell with two live in-row neighbours survives surely. From its quasi-stationary
+  law the edge dies after an exactly geometric wait of mean τ_L, and τ_L ≤ 3·8^L. τ_L is at least the lifetime of
+  five-parent oriented site percolation of density ½ on the same ring.
+- **[proved, conditional; audited]** *If* (F1) the critical density of two-parent oriented site percolation is
+  below ¾ (Balister–Bollobás–Stacey 1994, p_c ≤ 0.7491, computer-assisted; nobody here has read the primary paper;
+  the audit adds a second route through Liggett 1995 at exactly ¾) *and* (F2) supercritical oriented site
+  percolation on a cylinder of circumference n lives e^{cn} (Hartarsky–Szabó 2022, Cor. 4.8; read in the paper, its
+  proof there is a sketch), *then* e^{cL} ≤ τ_L ≤ 3·8^L for all large L, odd or even. No unconditional exponential
+  lower bound survives.
+- **[exact]** ln τ_L = 6.5319, 9.4733, 12.2492, 13.5946 at L = 8, 12, 16, 18 (the audit's `a3_chain.py 18`): about
+  0.67–0.71 per cell, against 0.36–0.42 measured for the 2D rule's own edge in a strip.
+
+**What it is not.** The audit's own words are the right ones: a deterministic map reading a random tape once. The
+edge consumes L fresh bits a generation for ever; the bulk neither reads the edge nor transforms what it carries;
+the two cells beneath an edge cell are always equal, which the rule's own bulk does not do. It is not self-made
+randomness, and it says nothing about gump or about the 2D rule in a vessel run by the rule. The method provably
+stops short of both (the audit's §4: for independent rows beneath at the bulk density the best one-step monotone
+minorant dies in O(log L) generations; a gump face cell with six live in-face neighbours dies whatever is beneath).
+Its use to the project is as a fixed point: the simplest system with the 2D rule's own edge in which "memoryless,
+exponential in the length" is a theorem, with a precise list of what a proof for the rule itself may not use.
+
+The audit also went through every other claim tagged "proved" in the probability and source lines (its part B):
+all correct, one worded too widely (probability claim 8). It found no wrong verdict of the critic's. Counting's and
+path's proved claims have not had a fresh reader.
+
+Lead's check (`research/audit/swarm/lead_check_theoremA.py`, plain numpy, no shared code):
+`python3 lead_check_theoremA.py literal 8 4000 512 1` (the map on the whole array, tape of 8,000 rows) →
+ln τ = 6.519 ± 0.019; `lazy 8 20000 4096 2` (rows 1, 2 drawn fresh each generation) → 6.535 ± 0.003;
+`lazy 12 60000 4096 3` → 9.463 ± 0.007. Exact: 6.5319, 9.4733. The swarm's examiner, separately, measured the
+variant with a parity bulk at L = 12, 14, 16 inside 0.7σ of the corresponding exact chain
+(`research/theory/swarm/exam/OUTCOMES.md`, S-E1). Not checked by the lead: the proofs line by line (the auditor
+did), the two literature statements (nobody has, in the primary sources).
+
+## 2026-11-14 — the swarm's predictions examined: four hold, two fail, two undecided (examiner; lead's check)
+
+An examiner who wrote none of the predictions ran the eight sampled entries of `research/theory/swarm/PREDICTIONS.md`
+(filed 2026-11-13). Protocols, validations and every command: `research/theory/swarm/exam/OUTCOMES.md` (protocols
+committed before any production run, commit 530ed79). All numbers below are **[measured]**; ln τ errors are 1/√deaths.
+
+| entry | predicted | measured | verdict |
+|---|---|---|---|
+| path E1: a 2D edge with a two-cell notch | slope 0.345 ± 0.020 per cell | 0.3458 ± 0.0036 (L = 20–32); the intact edge of the same strips 0.412 ± 0.005 | holds |
+| source S-E1: the 2D edge over a parity bulk | ln τ = 6.4282, 7.6056, 8.6764 (the exact dice chain) at L = 12, 14, 16 | 6.433, 7.597, 8.675, all inside 0.63σ; hazard flat in age | holds |
+| source S-E2: faces over fair dice | gump 7.40, 9.94 (A = 36, 48); 2D 7.43, 9.16 | 7.397 ± 0.009, 9.945 ± 0.014; 7.403 ± 0.009, 9.150 ± 0.010 | holds |
+| counting C-E1: gump hull faces with one mirror | slope 0.105 ± 0.009 per cell | 0.1026 ± 0.0003 (A = 84–135; local 0.099, 0.106) | holds |
+| counting C-E2: 2D edge dead by generation 3 | c₃ = 0.447 ± 0.012 | 0.3676 ± 0.0006 | fails |
+| path E3: gump's remnant on a slab face equals the hull's | face population 1.6, 3.4, 6.4, 9.7 at 1–4 generations before death | 1.66, 4.29, 10.70, 18.40 (slab 5×4×8) | fails (lags 3, 4) |
+| path E2: 2D remnant two generations before death | 9.8 ± 1.0 at L = 32 and 36 | 9.09 ± 0.08, 7.99 ± 0.38 | not refuted; low at L = 36 |
+| probability P-E1: one row on dice, ring, L = 30–38 | slope 0.48 ± 0.03, refuted if ≥ 0.51 | 0.512 ± 0.012 | undecided at the line; 0.48 disfavoured at 2.8σ |
+
+What the outcomes say, beyond the scores:
+
+- **Six layers are enough for gump.** A gump slab face with six layers on the rule and fresh fair coins beneath has
+  the lifetime of the face over gump's own deterministic bulk to 0.01 in ln τ (7.397 against 7.398 at A = 36; 9.945
+  against 9.936 at A = 48). Whatever the face needs from the bulk, it needs only as noise, made within six layers.
+  (The exponent study says the same with four to five layers; its review is in progress.)
+- **A mirror halves the price.** A face cut by one mirror plane costs 0.1026 per cell, 0.47 of an asymmetric
+  face's ≈ 0.22 at these sizes, and the first face to die is a mirror-fixed one in more than 99.9% of 394,192 replicas.
+  This is "symmetry is fatal" at its simplest: half the cells are copies.
+- **An edge with an end is cheaper.** Two dead anchor cells lower the 2D edge's exponent from 0.412 to 0.346,
+  as the path line derived. Rings and intervals are different vessels; quote which.
+- **The remnant is not universal.** The last generation is the same object in hull and slab (one cell, 59% of
+  deaths; 62% on hulls), but the slab face falls from 18 cells to none in four generations where a hull face takes
+  about six. Path's "one remnant in every vessel" is withdrawn by its author (round 4).
+- **Fixed-age exponents are not the death rate.** The chance that a fresh soup's edge is dead by generation k
+  falls through the steady exponent already at k = 3 (0.368 against 0.38–0.42): it describes the soup's transient.
+  Counting's bridge C1′ is withdrawn by its author (round 3).
+
+Lead's check (`research/audit/exponent/lead_check.py`, numpy, no shared code; validated on the one-row chain):
+`python3 lead_check.py 8 16 5000 0.5 4096 21` → 7.424 ± 0.010 and `8 20 14000 0.5 4096 22` → 9.155 ± 0.013, against
+the examiner's 7.403 ± 0.009 and 9.150 ± 0.010 for S-E2's two 2D points (1.5σ and 0.3σ). For S-E1 the lead simulated
+the conveyor variant instead (previous entry). Not re-derived by the lead: the gump points of S-E2, C-E1, and the
+failures. The examiner's engines were validated against exact values and earlier measurements (its V1–V6), not bit
+for bit against the oracle; its E2 and E3 error bars are rough (batch means over 4–6 chunks).
+
+## 2026-11-14 — the revised class statement tested where nobody had run it (class follow-up; lead's check)
+
+Forecasts committed first (`research/theory/class/followup/PREDICTIONS.md`, commit 59e0683), then the runs
+(`followup/OUTCOMES.md`: every command, the scorecard, what was not checked). The stepper `fu.c` equals an independent
+numpy stepper and the review's `aud_step` cell for cell on nine vessels of five lattices (`python3 fu.py validate`).
+All **[measured]** unless tagged. Names: face12e is the edge-neighbour rule, not gump.
+
+- **Confinement by half-spaces holds out of sample.** kagome8 and hex9 at the position-aware tight b = 4 (class.md
+  before its revision had b = 5 and no confinement): 0 escapes from the predicted hull in 1,536 soups, caps 5–8.
+- **A new gump-type rule: hex9 B456/S3456.** Chaotic torus, whole-wall memoryless death at seven wall lengths
+  (ln τ = 6.12 → 13.29 for n = 8 … 20, CV 0.97–1.02, flat hazard, 3 pits in 215,000 events), hull lifetimes growing to
+  sparse debris. But the wall law is **concave**: 0.69 falling to 0.53 per wall cell. "Linear in the area" is only
+  approximate there. (kagome8 has no chaotic cap within reach.)
+- **kagome4 B2/S12: 0.772 ± 0.003 per wall-row cell**, straight over seven lengths, memoryless (forecast 0.70 ±
+  0.08). The drift the review saw was not transverse cuts, as forecast, but **walls that freeze**: static rows of
+  density 2/3 that spread inward, at 27–44% of the wall-death rate, with no armoured set in the sense of Theorem E.
+- **bond10 B34/S234: box walls are not slab walls.** Slab law 0.492 ± 0.001 per wall face (six sizes, memoryless).
+  The forecast for boxes of 4³ from that law, 600–1,500 generations, **fails by a factor 10⁶**: no box had any
+  permanent death by 10⁷; 4 of 64 died by 10⁸; median ≈ 10⁹. The reason was found: the layer beneath a wall's sheet
+  contains the edge rows of the four neighbouring walls' sheets, and those rows stay dense (0.67–0.71 against 0.50),
+  so a wall cannot die while its neighbours live. Columns (two pairs of walls) are 24–196× tougher per wall than slabs
+  of the same area. Clause 6 of the class statement (hull lifetimes follow the wall law) is wrong for this rule as
+  written; it needs an edge term. Gump has the mild form of the same thing (an octahedral face is 0.91 nats tougher
+  than a rim-free one at A = 108; entry "GPU round two"); why bond10's edges cost so much more is not known.
+- **face12e, larger boxes.** 7³: forecast from the wall law median 1.3 × 10⁸, so 15 (9–33) of 128 boxes finished by
+  3 × 10⁷; observed 16 of 128. The box series keeps steepening (0.42 per unit of n² from 6³ to 7³).
+- **face12e with full cubic symmetry dies at once.** One coin per O_h orbit, density 0.45, 64 soups per size: median
+  lifetimes 3, 9, 9.5, 19, 19, 33.5, 35.5, 100.5, 103.5 generations for boxes of 4³ … 12³, against 439, 9,855,
+  707,038 and ≈ 1.6 × 10⁸ for soups without symmetry at 4³ … 7³: 74,000 times shorter at 6³. About half of the
+  symmetric soups end empty. Symmetry is fatal in gump too (a symmetric face behaves like one of area A/7.7 or so),
+  but there a symmetric cube of side 13 still lives 10⁵ generations and side 16 lived 2.9 × 10⁹. Under the rule the
+  owner meant to write in 2012, a symmetric random start in a box of this size is over in tens of generations.
+  **[conjecture, the lead's]** The difference is geometric: face12e's hull is a box whose walls are mirror planes'
+  neighbours, so a symmetric state has six identical walls of very few independent cells each (n²/8), while gump's
+  octahedral faces are cut by mirrors only along lines. Not tested. Legacy-shaped seeds (the 2012 cube runs) under
+  face12e are on the owner's tangent branch, not here.
+
+Where the class statement is now known to be wrong or silent (for its next revision): clause 6 for bond10 (edges);
+clause 3 on walls that freeze without armour (kagome4) and on chaos peeling away beneath an immortal armoured band
+(hex9 c = 8, strips); clause 5 should say "roughly linear" (hex9). hex9 c = 7 (b/K = 0.44) is a third exception to
+the b/K ≤ 3/8 rule of thumb for chaos.
+
+Lead's check (`research/audit/class/lead_check_box.py`: its own box graph and orbit construction on the stepper of
+`lead_check.py`; lifetime = exact length of the transient): `python3 lead_check_box.py sym N 256 1` for
+N = 4, 5, 6, 8 → medians 3 (2–5), 7.5 (5–11), 8 (5–11), 18 (11–25) with 9, 18, 24, 50 orbits (follow-up: 3, 9, 9.5,
+19; same orbit counts); `asym 4 128 2 20000` → 414 (283–596) against the review's 439. Not re-derived by the lead:
+hex9, kagome4, bond10, the 7³ boxes. The follow-up's classification of endings (wall, deep firewall, cut, pit,
+frozen) has no independent implementation.
+
+## 2026-11-14 — slab faces with the firewall channel resolved (GPU session's pull request 14; reviewed; lead's check)
+
+The rerun the review of pull request 12 asked for. Periodic slabs N×M×8, two faces of A = 3·N·M cells; a life ends at
+its first event, a face death or a transverse firewall (three adjacent dead oblique layers wrapping the torus), and
+each channel gets its own rate. Forecasts were committed before the runs (`research/gpu/PREDICTIONS.md`). Review:
+`research/audit/REVIEW-gpu-pr14.md` (every number stands; four text fixes, made). **[measured]**
+
+| slab | A | cheapest cut | face deaths / firewalls | ln τ_face | ln τ_fw per direction |
+|---|---|---|---|---|---|
+| 3×6×8 (validation) | 54 | 108 | 1,917,760 / 276,769 | 11.084 ± 0.001 (CPU table 11.10) | 12.327 ± 0.002 (12.18 ± 0.12) |
+| 4×7×8 (validation) | 84 | 144 | 45,878 / 32,840 | 17.465 ± 0.005 (17.43–17.51) | 17.106 ± 0.006 (17.16) |
+| 6×6×8 | 108 | 216, three directions | 592 / 13 | 22.568 ± 0.041 | 26.79 ± 0.28 |
+| 6×7×8 | 126 | 216, one direction | 92 / 29 | 26.405 ± 0.104 | 26.87 ± 0.19 |
+
+- All three forecasts for 6×7×8 hit: face 26.30 ± 0.15, firewall 27.0 ± 0.4, firewall-first share 10–30% (24%).
+  The review of pull request 12 had put the corrected face value near 26.3 and the firewall rate at 27.05 ± 0.30.
+  At 6×6×8 the share forecast hit (2.1% against 0.5–4%) and the face forecast missed by 0.01 (22.49 ± 0.07).
+- The firewall rate depends on the cut alone: 26.79 ± 0.28 and 26.87 ± 0.19 per direction at cut 216 in a square and
+  a non-square slab.
+- Pooled A = 108 (this run with the earlier unscreened one): 22.537 ± 0.031. Slope 108 → 126: **0.215 ± 0.006** per
+  cell. The line through A = 27–90, −0.091 + 0.2088·A, is 0.08 ± 0.03 and 0.19 ± 0.10 below the two points (before the
+  line's own extrapolation error of 0.06–0.12).
+- **Not decided, and there are two readings.** (i) Rim-free faces get a little dearer per cell past A ≈ 100, as
+  octahedral faces do (0.216–0.221). (ii) The cost per cell is constant and the *width* of the periodic face matters:
+  in the CPU table the residual from the A-only line rises with the slab's short side (3: about −0.05; 4: 0.00;
+  5: +0.11; 6: +0.08, +0.19), and the reviewer's fit a + b·A + c·(short side), c = 0.114 ± 0.038, b = 0.2057 ± 0.0014,
+  predicts 22.564 at 6×6×8 and 26.267 at 6×7×8. The fit is post hoc (the term was chosen after looking). The test
+  has been asked of the GPU session: 4×9×8 against 6×6×8 at the same A = 108 (reading (ii) predicts 0.23 ± 0.08
+  lower, reading (i) no difference), and width families s = 3 … 6 at high precision.
+- The review's independent check: a CPU run of 3×6×8 with the `rep.c` stepper (25,088 lives) gives 11.076 ± 0.007,
+  12.310 ± 0.018, 12.7% firewall-first; with the GPU's detection rules applied to those histories, 11.082, 12.325,
+  12.61% against the GPU's 11.084, 12.327, 12.61%. Counting a firewall life to its detection rather than its
+  formation biases 3×6×8 by +0.006 and +0.015 and nothing measurable at A ≥ 84.
+
+Lead's check (`python3 research/audit/gpu_pr14_lead_check.py research/data/gpu_facelaw`, own decoding of the per-life
+data): 5,213, 4,664 and 4,673 lives; exposure, counts, both rates, the shares, the pooled value 22.537 ± 0.031 and the
+slope 0.2149 ± 0.0060 all reproduce; the face hazard is flat in the age of the life (three bins of equal exposure:
+22.53, 22.59, 22.59 at 6×6×8). Not checked by anyone here: the GPU runs themselves (no second GPU run); cycles longer
+than 128 generations (none can be seen; bounded only at 3×6×8); a channel-resolved CPU run at 4×7×8 or larger.

@@ -151,6 +151,36 @@ The period-66 plate is fragile — a single stray cell beside it destroys it alm
 time — and nothing in it carries a signal from one place to another. But about once in a
 thousand pokes it heals and runs on at a different phase. The clock can be set.
 
+## The rule you meant to write
+
+In November 2026 you looked at a picture of the neighbourhood and said it was wrong: in its
+own plane a face should watch the four faces it shares an edge with, not the four it touches
+at a corner. The picture was faithful to `environment.pde`. The code reads the corners. You
+had meant the edges, slipped, and for fourteen years the 8-sided die was the signature of a
+typo.
+
+So I ran the rule you meant. It is not gump, and it lives in this repository only under
+another name (`face12e`, in `research/audit/class/`). But it does everything gump does. The
+same count that seals gump's diagonal planes fails for it (four neighbours behind every
+diagonal, and four is enough for a birth), and a different count takes over: beyond a plane
+through a sheet of face centres, the nearest dead faces see only 2 + 1. Three again, less
+than four again. So it is confined to a box where gump is confined to an octahedron. Inside
+the box it is chaotic at nearly the same density (0.40 against 0.42), and it dies the same
+way: a whole wall goes dark at once, after a wait with no memory, and the wait grows
+exponentially with the wall's area. Boxes of 2, 3, 4, 5, 6 cubes on a side last about 10, 60,
+440, 9,900 and 707,000 generations.
+
+One number I cannot yet account for. In the box rule a wall is two layers thick, and the
+layer whose death is final is the lower one. Its cells have exactly the neighbour counts of a
+gump face cell: six in their own layer, two a layer in, one two layers in. Per cell of that
+layer the wait costs 0.205. Gump's face costs 0.212.
+
+The slip changed the shape of the die, not the phenomenon. It also broke the first clause of
+the theory an agent had written the day before about which rules behave like gump, which
+said a rule is confined when certain *directions* are sealed. In the box rule no direction is
+sealed, only certain planes, at certain heights. An example nobody chose to suit the theory
+was the one that showed where it was wrong.
+
 ## Where I was wrong
 
 Twice I told you the wrong density for the chaotic state, and both corrections came from

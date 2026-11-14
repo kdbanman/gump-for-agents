@@ -1,0 +1,31 @@
+(1) anchor        L=13 m=1: min_S P_S(S_3 misses I) = 3.711e-01 >= p^(3m+12) = 3.052e-05: True
+(1) anchor        L=14 m=1: min_S P_S(S_3 misses I) = 3.711e-01 >= p^(3m+12) = 3.052e-05: True
+(1) anchor        L=14 m=2: min_S P_S(S_3 misses I) = 1.445e-01 >= p^(3m+12) = 3.815e-06: True
+(1) anchor        L=16 m=1: min_S P_S(S_3 misses I) = 3.711e-01 >= p^(3m+12) = 3.052e-05: True
+(1) anchor        L=16 m=2: min_S P_S(S_3 misses I) = 1.445e-01 >= p^(3m+12) = 3.815e-06: True
+(1) anchor        L=16 m=3: min_S P_S(S_3 misses I) = 5.640e-02 >= p^(3m+12) = 4.768e-07: True
+(1) anchor        L=16 m=4: min_S P_S(S_3 misses I) = 2.307e-02 >= p^(3m+12) = 5.960e-08: True
+(1) Bin(2,0.472)  L=13 m=1: min_S P_S(S_3 misses I) = 1.809e-01 >= p^(3m+12) = 1.653e-10: True
+(1) Bin(2,0.472)  L=14 m=1: min_S P_S(S_3 misses I) = 1.809e-01 >= p^(3m+12) = 1.653e-10: True
+(1) Bin(2,0.472)  L=14 m=2: min_S P_S(S_3 misses I) = 5.472e-02 >= p^(3m+12) = 1.828e-12: True
+(1) Bin(2,0.472)  L=16 m=1: min_S P_S(S_3 misses I) = 1.809e-01 >= p^(3m+12) = 1.653e-10: True
+(1) Bin(2,0.472)  L=16 m=2: min_S P_S(S_3 misses I) = 5.472e-02 >= p^(3m+12) = 1.828e-12: True
+(1) Bin(2,0.472)  L=16 m=3: min_S P_S(S_3 misses I) = 1.751e-02 >= p^(3m+12) = 2.021e-14: True
+(1) Bin(2,0.472)  L=16 m=4: min_S P_S(S_3 misses I) = 6.997e-03 >= p^(3m+12) = 2.235e-16: True
+(2) M=5: transition graph = support of the kernel (sampled rows): True; strongly connected on non-empty sets: True; has a loop: True
+(2) M=6: transition graph = support of the kernel (sampled rows): True; strongly connected on non-empty sets: True; has a loop: True
+(2) M=7: transition graph = support of the kernel (sampled rows): True; strongly connected on non-empty sets: True; has a loop: True
+(2) M=8: transition graph = support of the kernel (sampled rows): True; strongly connected on non-empty sets: True; has a loop: True
+(2) M=9: transition graph = support of the kernel (sampled rows): True; strongly connected on non-empty sets: True; has a loop: True
+(2) M=10: transition graph = support of the kernel (sampled rows): True; strongly connected on non-empty sets: True; has a loop: True
+(2) M=11: transition graph = support of the kernel (sampled rows): True; strongly connected on non-empty sets: True; has a loop: True
+(3) alive-sets B(x,k) as in entry 13: True;  (O1): True;  (O2): True
+(4) 3x3 triangular torus, all 512 states x 262144 dice tables: marks have law (1/3,1/3,1/3): True; (a): True; (b): True; eta' <= S' and Z' misses S': True
+(5) ln tau, anchor >= OP5(1/2), L = 5..15: True
+    5: 3.823>=3.466  6: 4.850>=4.062  7: 5.723>=4.626  8: 6.532>=5.159  9: 7.352>=5.666  10: 8.043>=6.151  11: 8.756>=6.621  12: 9.473>=7.079  13: 10.185>=7.528  14: 10.885>=7.969  15: 11.570>=8.404
+(6) sigma(1-(1-s)^6) at s = sigma = 1/3: 665/2187 = 0.3041;  1-(1-sigma)^3 = 19/27 = 0.7037
+A9 ALL OK
+
+real	0m28.944s
+user	0m22.345s
+sys	0m0.255s

@@ -1,0 +1,67 @@
+(1) L=5  max |dense Q f - contraction| = 1.1e-16
+(1) L=6  max |dense Q f - contraction| = 1.1e-16
+(1) L=7  max |dense Q f - contraction| = 1.1e-16
+(1) L=8  max |dense Q f - contraction| = 2.2e-16
+(1) L=9  max |dense Q f - contraction| = 4.4e-16
+(2) L=5  Q(S,.) uniform on [F(S),E(S)] for every S: True
+(2) L=6  Q(S,.) uniform on [F(S),E(S)] for every S: True
+(2) L=7  Q(S,.) uniform on [F(S),E(S)] for every S: True
+(2) L=8  Q(S,.) uniform on [F(S),E(S)] for every S: True
+(2) L=9  Q(S,.) uniform on [F(S),E(S)] for every S: True
+(2) L=10  Q(S,.) uniform on [F(S),E(S)] for every S: True
+(3) L=5  full -> every subset w.p. 2^-L: True;  min_S P_S(S_m = full), m=2: 8.594e-02 >= 2^-(Lm) = 9.766e-04: True
+(3) L=6  full -> every subset w.p. 2^-L: True;  min_S P_S(S_m = full), m=2: 4.248e-02 >= 2^-(Lm) = 2.441e-04: True
+(3) L=7  full -> every subset w.p. 2^-L: True;  min_S P_S(S_m = full), m=2: 1.611e-02 >= 2^-(Lm) = 6.104e-05: True
+(3) L=8  full -> every subset w.p. 2^-L: True;  min_S P_S(S_m = full), m=2: 4.761e-03 >= 2^-(Lm) = 1.526e-05: True
+(3) L=9  full -> every subset w.p. 2^-L: True;  min_S P_S(S_m = full), m=3: 6.449e-03 >= 2^-(Lm) = 7.451e-09: True
+(3) L=10  full -> every subset w.p. 2^-L: True;  min_S P_S(S_m = full), m=3: 2.720e-03 >= 2^-(Lm) = 9.313e-10: True
+(4) L=5  strategy of Theorem B(a) empties every non-empty row in <= 3 moves: True
+(4) L=6  strategy of Theorem B(a) empties every non-empty row in <= 3 moves: True
+(4) L=7  strategy of Theorem B(a) empties every non-empty row in <= 3 moves: True
+(4) L=8  strategy of Theorem B(a) empties every non-empty row in <= 3 moves: True
+(4) L=9  strategy of Theorem B(a) empties every non-empty row in <= 3 moves: True
+(4) L=10  strategy of Theorem B(a) empties every non-empty row in <= 3 moves: True
+(4) L=11  strategy of Theorem B(a) empties every non-empty row in <= 3 moves: True
+(4) L=12  strategy of Theorem B(a) empties every non-empty row in <= 3 moves: True
+(4) L=13  strategy of Theorem B(a) empties every non-empty row in <= 3 moves: True
+(4) L=14  strategy of Theorem B(a) empties every non-empty row in <= 3 moves: True
+(4) L=15  strategy of Theorem B(a) empties every non-empty row in <= 3 moves: True
+(4) L=16  strategy of Theorem B(a) empties every non-empty row in <= 3 moves: True
+(4) L=5  min_S P_S(T<=3) = 4.467773e-02 (at S=00111) >= 8^-L = 3.051758e-05: True; ratio 1464.0
+(4) L=6  min_S P_S(T<=3) = 1.348877e-02 (at S=001111) >= 8^-L = 3.814697e-06: True; ratio 3536.0
+(4) L=7  min_S P_S(T<=3) = 4.716873e-03 (at S=0011011) >= 8^-L = 4.768372e-07: True; ratio 9892.0
+(4) L=8  min_S P_S(T<=3) = 1.252174e-03 (at S=00000111) >= 8^-L = 5.960464e-08: True; ratio 21008.0
+(4) L=9  min_S P_S(T<=3) = 3.809929e-04 (at S=000000111) >= 8^-L = 7.450581e-09: True; ratio 51136.0
+(5)  L   1-lambda (lower, upper)            tau_L          ln tau_L   step    ln(3*8^L)  iterations
+      5  2.1865699487e-02  2.1865699487e-02         45.7337     3.8228     -      11.496   12
+      6  7.8315154281e-03  7.8315154281e-03        127.6892     4.8496  1.0268    13.575   19
+      7  3.2691350170e-03  3.2691350170e-03        305.8913     5.7232  0.8736    15.655   18
+      8  1.4562626199e-03  1.4562626199e-03        686.6893     6.5319  0.8087    17.734   20
+      9  6.4154792692e-04  6.4154792696e-04       1558.7300     7.3516  0.8197    19.814   22
+     10  3.2140082135e-04  3.2140082138e-04       3111.3797     8.0428  0.6912    21.893   24
+     11  1.5758387183e-04  1.5758387190e-04       6345.8271     8.7556  0.7127    23.972   25
+     12  7.6878768894e-05  7.6878768940e-05      13007.4924     9.4733  0.7177    26.052   27
+     13  3.7744440927e-05  3.7744440993e-05      26493.9677    10.1847  0.7114    28.131   28
+     14  1.8739504382e-05  1.8739504461e-05      53363.2041    10.8849  0.7002    30.211   29
+     15  9.4443593399e-06  9.4443594210e-06     105883.3066    11.5701  0.6852    32.290   30
+     16  4.7890993278e-06  4.7890994020e-06     208807.5281    12.2492  0.6791    34.370   31
+     17  2.4386707747e-06  2.4386708365e-06     410059.4462    12.9241  0.6749    36.449   32
+     18  1.2472142404e-06  1.2472142885e-06     801786.8529    13.5946  0.6705    38.529   33
+     L=8: mine 6.5319, quoted in source S14 (iii): 6.5319, difference -1.8e-05
+     L=12: mine 9.4733, quoted in source S14 (iii): 9.4733, difference -1.9e-05
+     L=16: mine 12.2492, quoted in source S14 (iii): 12.2492, difference -3.2e-05
+     L=18: mine 13.5946, quoted in source S14 (iii): 13.5946, difference -1.9e-06
+(5) L=8: from mu_L, P(T>t) - lambda^t for t<=5: max 4.9e-15;  mu Q / lambda = mu: 1.7e-17
+(6) L= 5  t* =     30   bound (t*+m)/(Lm ln2 + ln2) =      4.197   tau_L =       45.734   holds: True
+(6) L= 6  t* =     87   bound (t*+m)/(Lm ln2 + ln2) =      9.877   tau_L =      127.689   holds: True
+(6) L= 7  t* =    209   bound (t*+m)/(Lm ln2 + ln2) =     20.294   tau_L =      305.891   holds: True
+(6) L= 8  t* =    473   bound (t*+m)/(Lm ln2 + ln2) =     40.311   tau_L =      686.689   holds: True
+(6) L= 9  t* =   1076   bound (t*+m)/(Lm ln2 + ln2) =     55.595   tau_L =     1558.730   holds: True
+(6) L=10  t* =   2152   bound (t*+m)/(Lm ln2 + ln2) =    100.291   tau_L =     3111.380   holds: True
+(6) L=11  t* =   4393   bound (t*+m)/(Lm ln2 + ln2) =    186.532   tau_L =     6345.827   holds: True
+(6) L=12  t* =   9010   bound (t*+m)/(Lm ln2 + ln2) =    351.433   tau_L =    13007.492   holds: True
+A3 ALL OK
+
+real	2m22.447s
+user	2m16.919s
+sys	0m2.645s
