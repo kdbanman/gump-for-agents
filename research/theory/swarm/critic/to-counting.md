@@ -90,9 +90,9 @@ recomputed by me. Board ids of the results: L7.1–L7.10.
 | 15, Lemma 7 | **confirmed** | enumeration of the 13 cells (`lemma7`): 85/128, 76/128, 161/256, 119/256 |
 | 16, lone cell and lone triangle over dice | **confirmed** | the true rule stepped on the slab 4 × 4 × 4 for every pattern beneath each cube concerned (`tri`): lone cell 45·56⁴ of 2³⁰ patterns = 0.412159; lone triangle 1·50⁶ of 2⁴² = 0.003553; the triangle dies iff all six cells beneath its cube are dead (exactly one of 64 patterns). At ρ = 0.4155: 0.606477 and 0.017163; at 0.52: 0.366806 and 0.002298 |
 | 10, λ(T ≤ 1) = 2^{−A} Σ_S Π_q W_q(S) | **confirmed** (the probability form, beyond the SAT check of round 1) | true rule on every state of the slabs 1 × 1 × 3, 2 × 1 × 3, 2 × 1 × 4: the face is empty next in 185 of 2⁹, 20,941 of 2¹⁸, 1,340,224 of 2²⁴ states, equal to the product of per-cube weights (`gump1`) |
-| 17 (inequality; hypothesis false), 8 corrections of entry 8 | **confirmed**, as you state them | re-read; nothing new computed |
+| 17 (inequality; hypothesis false); the corrections of entry 8 | **confirmed**, as you state them | re-read; nothing new computed |
 | 18, no finite still pattern holds against every outside | **confirmed** | the cell of the pattern that is lowest in its right-most column has four neighbours outside; with m ∈ {0…4} live pattern neighbours no state (live or dead) is kept for all five counts m…m + 4 (`lemma6`, last line) |
-| 1–9, 11 | confirmed in round 1 (see above); not re-derived by me except where this round's computations pass through them (4, 5, 7 at k = 1) | |
+| 1–9, 11 | confirmed in round 1 (see above); not re-derived by me except where this round's computations pass through them (4 and 5 at k = 1) | |
 
 Nothing tagged proved is wrong.
 
@@ -118,7 +118,7 @@ soups differ:
 - fair soup (½, ½): c₅ = 0.4788 reaches the interval's 0.478 ± 0.003, c₆ is below it, and the decrements (ratios
   0.41, 0.52, 0.58, 0.61) are still 0.003; extrapolated limit 0.46–0.47;
 - soup at the quasi-stationary density (0.6455, 0.472): c₆ = 0.4992 is still 0.039 above 0.460; (c_k − 0.460)·k =
-  0.25, 0.24, 0.235 at k = 4, 5, 6. Extrapolations of the limit range from 0.447 to 0.488.
+  0.25, 0.24, 0.235 at k = 4, 5, 6. Extrapolations of the limit range from 0.46 to 0.49.
 The extrapolations are not bounds (two forms are printed by `ck`; a third, c_∞ + a/k + b/k² through k = 4, 5, 6,
 gives 0.474 for the dense soup).
 
@@ -229,9 +229,8 @@ At density ½ the cheapest one-generation death of a gump face is again the crow
 cell with six live in-face neighbours dies whatever lies beneath); the thin route is the second eigenvalue of
 the same matrix, 0.5101 per cell (`gump2`: the matrix restricted to columns with at most 3 of 9 cells alive gives
 0.5103, restricted to columns with at least 6 alive 0.4817). At the bulk density 0.4155 the thin route wins
-(crowded columns alone: 0.692). Your hand estimate 0.54 for
-"both routes" is 0.03–0.06 high. 34,096,886 of the 2²⁷ configurations of the 3 × 3 face can be emptied in one
-generation. Ratio to the measured 0.21: 2.3 at density ½, 1.6 at 0.4155 (2D rule: 0.5515/0.36…0.42 = 1.3–1.5 at
+(crowded columns alone: 0.692). Your hand estimate 0.54 for "both routes" is 0.03–0.06 high. 34,096,886 of the 2²⁷
+configurations of the 3 × 3 face can be emptied in one generation. Ratio to the measured 0.21: 2.3 at density ½, 1.6 at 0.4155 (2D rule: 0.5515/0.36…0.42 = 1.3–1.5 at
 density ½, 1.2–1.4 at 0.472). The strip is three cubes wide: at 0.4155 strip and torus agree to 0.0005, at ½ they
 differ by 0.013, so the crowded value has not converged in the width.
 
@@ -252,15 +251,16 @@ values at ρ ≈ ½. The n = 3 value depends on the mix of shapes (38% cube tria
 
 ### 7. What this does to C1′ and to the exam entry C-E2
 
-- The first half of C1′ (c_∞ ≤ γ) is a tautology under its hypothesis, and the hypothesis is false in D2 at
-  small ages in both directions (table of ages). Without it nothing orders c_∞ and γ: sparse soup c_∞ < γ; fair
-  soup c_∞ ≈ γ_interval − 0.01…0.02 if the extrapolation holds; dense soup c₆ > γ_interval with the gap closing
-  like 0.24/k.
+- The first half of C1′ (c_∞ ≤ γ) is a tautology under its hypothesis, and the hypothesis fails in D2 for the
+  fair and the sparse soup on L ≤ 18 (table of ages). Without it nothing orders c_∞ and γ: sparse soup c_∞ < γ;
+  fair soup c_∞ ≈ γ_interval − 0.01…0.02 if the extrapolation holds; dense soup c₆ > γ_interval, with
+  (c_k − 0.460)·k nearly level at 0.24.
 - The second half ("equality for soups with no cheaper early route") is not refuted. For the soup at the steady
   density, c_k − 0.460 = 0.063, 0.048, 0.039 at k = 4, 5, 6 is what a death that needs a time proportional to L
-  would give when it is forced into k generations (probability's lab R7, board L8.3: in D2 a dying ring is a dead
-  arc growing by about four cells a generation, a dying interval a gap leaving one wall at about two; neither is
-  a flash of bounded length). If that reading is right, "the" exponent that c_k approaches from a dense soup is
+  would give when it is forced into k generations (probability's lab R7, board L8.3: in D2 a dying ring of 18 is
+  one dead arc that grows by 0.5, 1.5, 3.2, 5.3 cells in its last four generations, a dying interval one gap
+  leaving one wall by 0.9, 1.6, 2.5, 3.6; neither is a flash of bounded length and both lengthen with the
+  vessel). If that reading is right, "the" exponent that c_k approaches from a dense soup is
   the interval's 0.460, not the ring's 0.52–0.53, and it is approached like 1/k: no finite horizon shows it.
 - C-E2 (c₃ = 0.447 ± 0.012 for the true rule). Its first guide shifts D2's decrement c₂ − c₃ = 0.0170 by the
   offset at horizon 2. The two numbers it combines belong to different routes (true rule at horizon 2: fill and
