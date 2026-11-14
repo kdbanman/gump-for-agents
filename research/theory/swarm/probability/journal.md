@@ -688,3 +688,40 @@ Remark (why area, in dice models). For a monotone relative the area law is no my
 it is (P1) in one more dimension. The one-dimensional law of Theorem A and the area law of a face are the same
 statement about supercritical oriented percolation on a torus; what is special to gump is only whether a
 supercritical monotone process fits beneath the capped rule, and with what dice.
+
+## 2026-11-14, entry 15: Lemma 6 (the chain on an interval is irreducible); errata to entries 11 and 12
+
+Entry 10 left open whether E₁(π) on an interval with dead ends has one class of living states (the ring's
+argument fails: in the full interval the two end cells have k = 2 and are forced). It has.
+
+**Lemma 6.** E₁(π) with π₀, π₂ > 0 on the interval J = [1, M], M ≥ 5, cells outside dead. The chain on the non-empty
+subsets of J is irreducible and aperiodic. The same holds with reflecting ends.
+
+*Proof.* With π₀, π₂ > 0 the one-step transitions of positive probability are exactly S → S′ with
+F(S) ⊆ S′ ⊆ S ∪ N(S), F(S) the live cells with k = 2 and N(S) the dead cells with k ≥ 1 (for every other pair (x, k) the
+value b = 0 gives one outcome and b = 2 the other; table of entry 1). Call S *loose* if F(S) = ∅; from a loose S
+every subset of D(S) := (S ⊕ [−2,2]) ∩ J is a next state.
+(1) S → D(S) is always allowed, so every S ≠ ∅ reaches J.
+(2) F(J) = {1, M} (cell 1 sees 2, 3; cell 2 sees 1, 3, 4; cells 3, …, M − 2 see four), so J → {1, M}.
+(3) {1, M} is loose (M ≥ 4), so {1, M} → {1}. Then {1} → {3} → {1, 4} (each state loose, each target inside D).
+(4) R_i := {1, 4, …, 1 + 3i}, r := 1 + 3i. R_i and R_i ∪ {r + 2} are loose (in the second, r and r + 2 have k = 1, all
+other cells k = 0), r + 2 ∈ D(R_i) and r + 3 ∈ D(R_i ∪ {r + 2}). So R_i → R_i ∪ {r + 2} → R_{i+1} as long as r + 3 ≤ M.
+(5) The last R = {1, 4, …, r*}, r* ≤ M ≤ r* + 2, is loose and D(R) = J (cells 2 + 3i and 3 + 3i are within distance 2
+of 1 + 3i). So R → T for *every* T ⊆ J, in particular R → R.
+Chaining (1)–(5), every non-empty S reaches every T. Reflecting ends: cell 1 sees itself, cell 2 twice and cell 3
+(k = x₁ + 2x₂ + x₃), so in the full interval every cell has k = 4, J is loose, D(J) = J, and (1) with J → T suffices. ∎
+
+*Smallest case.* M = 5: {1,2,3,4,5} → {1,5} → {1} → {3} → {1,4} = R, and D({1,4}) = [1,5].
+
+Use. On a dead-ended or reflecting interval the quasi-stationary law is unique and charges every living state,
+so the lab's τ_dead, τ_refl are what entry 1 defines, and in entry 8 "ρ_n → 1 as n → ∞" holds as stated (entry 10
+had withdrawn it). Not done: the three-move bound E_S T ≤ 3p^{−3M} on an interval (near a wall the forced cells
+of move 2 are different; I did not redo the game there).
+
+**Errata.**
+- Entry 12, "Smallest case": move 2 prescribes cells of I₂ = [−2, 2] only; it kills −1, 0, 1 and does *not* keep ±3
+  dead (they are outside I₂ and are not needed: move 3 looks at [−2, 2] only). Of the 3m + 12 = 15 cells counted,
+  nine carry a prescribed die (five at move 1, three at move 2, one at move 3) and six are forced.
+- Entry 11, "Why the anchor sits exactly on Liggett's bound": the count is for blocks of m cells whose children
+  are blocks of m cells. Two adjacent parents cover 2m consecutive cells, and the cells within distance 2 of
+  all of them number 6 − 2m; a child needs m of them, so m ≤ 2, and m = 2 gives density 1 − (1 − p)² ≤ 3/4.
