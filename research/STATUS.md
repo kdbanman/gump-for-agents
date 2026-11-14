@@ -105,8 +105,8 @@ _Last updated 2026-11-14 by the lead._
   `research/audit/REVIEW-constant.md`; notebook entry "is there one asymptotic cost per cell"; CLAIMS CN1): the
   data allow one asymptotic constant anywhere from about 0.207 to 0.219 and do not fix it; the analysis's "two
   families in tension" did not survive review (a single constant passes with a 1/A or saturating hull correction).
-  The lead's image-sum conjecture is refuted as a law. The analyst is applying the review's corrections to its
-  write-up. The lead re-ran `fit.py` and
+  The lead's image-sum conjecture is refuted as a law. The analyst applied the review's corrections (3fbd2a1; notebook addendum: readings
+  with c ≤ 0.214 need a two-term hull correction, readings with c ≥ 0.2155 need a 1/s approach on periodic faces). The lead re-ran `fit.py` and
   checked the inputs (width slopes, hull local slopes). Its three proposed measurements: equilateral tori at constant
   shape (about 3 GPU-hours; to be asked of the GPU session once its forecasts are committed), hull faces of equal
   area and different rim, the width-6 slope. Original brief: is there one asymptotic constant? Joint analysis of every family of lifetimes

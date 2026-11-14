@@ -1777,3 +1777,22 @@ each a few minutes; outputs in `audit/out/`).
 - Not checked by the review: the massive lattice-sum fits and their 0.2063; the symmetric-face fits; the 2D toy.
   Raised and open: whether the GPU kernel's settled-state test can miss settled lives of the kind the pairs
   experiment met in its own stepper (it would inflate large lifetimes in both families).
+
+## 2026-11-14 — the asymptotic constant: what the corrected analysis adds (addendum to the entry above)
+
+- The analyst applied the review's corrections (`research/constant/README.md`, 3fbd2a1) and reproduced every
+  number of the review it checked. Over 84 pairings of a hull form with a periodic form, 36 pass with one constant
+  at p ≥ 0.01 (c = 0.2072 to 0.2190) and 13 at p ≥ 0.05 (up to 0.2179). The write-up now quotes 0.213 ± 0.006 as a
+  range, not a standard error.
+- **Fitted, and the useful part: the passing readings split in two.** Every one with c ≤ 0.214 needs a two-term
+  correction on hull faces. Every one with c ≥ 0.2155 needs the cost per cell of a periodic face to approach c as
+  slowly as 1/s in the width s; with 1/s² or an exponential approach none passes. So either the hull's rim is
+  complicated, or wide periodic faces are still far from their limit. (Conjecture, the lead's: the second is hard to
+  square with the thin tori, where the deficit falls roughly exponentially in the shortest loop; that argues for the
+  lower half of the range. Not tested.)
+- The analyst and the review differ on what would decide (README, "Where the analysis and the review differ"):
+  the analyst holds that hull A = 108 at 10⁴ deaths (about 4 GPU-hours) would eliminate 35 of the 36 single-constant
+  readings if the value stays where it is; the review called that point not decisive. For the equilateral tori the
+  analyst's forecasts under the single-constant readings are local slopes 0.2117 → 0.2136, with the existing 6×6 run
+  already 2.7–3.2σ below them (`research/constant/PREDICTIONS.md`, part C and its addendum; committed before any of
+  those runs exist). Neither measurement has been run; both need the GPU.
