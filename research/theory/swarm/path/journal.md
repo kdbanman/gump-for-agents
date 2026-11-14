@@ -337,3 +337,444 @@ sides that peel during the run.
   x + 1 are still neighbours.
 - **E2.** Intact strips: mean edge population two generations before death **9.8 ± 1.0 cells at L = 32 and 36**.
   Tests the reading 5.1. Refuted if ≥ 11.5 at L = 36.
+
+---
+
+## 2026-11-13, entry 7. Corrections after the critic's reply to round 1
+
+(`critic/to-path.md`; lab ids are the board's.)
+
+1. **L1(c) reworded.** "Each constraint involves a private cell" is false at the three corner cells of a hull
+   face. The exact statement is the board's cube lemma: the face layer is a disjoint union of triples (the three
+   top faces of one cube); beneath a triple lie the three bottom faces u_x, u_y, u_z of the same cube and three
+   private cells v_x, v_y, v_z, and b_a = u_b + u_c + v_a. A one-step death is a condition cube by cube. Every face
+   cell except the three corners of a hull face has a private cell beneath it; on periodic faces all do.
+   Consequence I had not seen: the favoured three-cell remnant (a kagome triangle) is the top of one cube; if the
+   rest of the face is dead near it, each of its cells has k = 2 and dies only if u_b = u_c = v_a = 0.
+2. **Hypothesis H as stated in round 1 is false** (L1.1, L1.4): with φ = r^{min(n,K)} the rows n = 1, 2 do not
+   contract for any useful r, in gump's measured table and in D2. From one cell the face dies with probability
+   0.37–0.41 and does not drift up. With φ free on the first rows the certificate works (L1.2, L1.4). H is
+   restated in entry 8 as H′. Theorem P itself stands.
+3. **G2, gump half, withdrawn.** The existing pre-death histories decide (L1.3): the lag at which a dying face is
+   at half its living mean is 3.2, 4.7, 5.9, 6.8 generations at A = 30, 45, 63, 84, and looking back from death
+   the mean population is one curve at every size (1.6, 3.4, 6.4, 9.7, 13.6, 17.6 at lags 1…6, A = 84). Gump's
+   death is not a flash of fixed length. Entry 11 reads the curve.
+4. **R5 reworded.** The rule "born iff 12 alive, never survive" has smallest birth count 12, so it inherits
+   "a dead sealed set stays dead" but not the converse (a hole that some outside can refill). Rules that share
+   gump's graph *and* θ = 4, hence every sealed-set statement with its converse, are gump's own neighbours with
+   one survival count removed (B45/S34, B45/S35, B45/S45): their median lifetimes in the survey's vessel are a few
+   tens of generations against gump's 3,420 (`research/CLAIMS.md` Q1; I did not check which number belongs to
+   which rule). The measured 2D instance stays Moore B456/S3456. The remark stands: the sealed-set facts do not
+   imply the law.
+5. **G1's error bar.** What is measured is "edges whose orbit space is a segment cost 0.34 ± 0.01 per orbit, in
+   four geometries". The ring's limit is not determined by the committed window statistics (0.35–0.37 depending
+   on the assumed approach, L1.6). In D2 the segment is exact to L = 14 (L1.5): its steps are below the ring's, the
+   same sign as in the real rule, and too short to decide. G1 remains a guess; E1 tests it.
+
+---
+
+## 2026-11-13, entry 8. Theorem P̄: the pooled form. The hazard is the entry flux times a committor
+
+Theorem P needed its inequality at every time, a contraction a < 1 (which costs a factor 1/(1 − a): three of the
+four nats lost in L1.2), and a bound on the censoring rate. None of this is needed if one bounds what is actually
+measured: deaths divided by exposure, from the table pooled over the window.
+
+**Setting.** As in entry 3: any process, events S_t ⊇ S_{t+1} ⊔ D_{t+1}, any statistic Z_t on S_t with countably
+many values. Fix a window t₀ ≤ t ≤ t₁ and pool:
+
+    N(z)     = Σ_t P(Z_t = z, S_t)                          (exposure at z),     Expo = Σ_z N(z),
+    D(z)     = Σ_t P(Z_t = z, D_{t+1})                      (deaths from z),     Deaths = Σ_z D(z),
+    F(z, z′) = Σ_t P(Z_t = z, S_t, Z_{t+1} = z′, S_{t+1})   (transitions that stay observed).
+
+Two exact identities: Σ_{z′} F(z, z′) + D(z) ≤ N(z) (the rest is censored), and, because S_{t+1} ⊆ S_t,
+
+    Σ_z F(z, z′) = N(z′) − P(Z_{t₀} = z′, S_{t₀}) + P(Z_{t₁+1} = z′, S_{t₁+1}).                         (I)
+
+**Theorem P̄ [proved].** Let 𝓛 be a finite set of values ("low") and ψ ≥ 0 a function on 𝓛 with
+
+    D(z) + Σ_{z′ ∈ 𝓛} F(z, z′) ψ(z′)  ≤  N(z) ψ(z)      for every z ∈ 𝓛                                  (∗̄)
+
+(ψ is superharmonic, with killing, for the pooled table restricted to 𝓛). Then
+
+    Deaths  ≤  D(𝓛ᶜ) + Σ_{z ∉ 𝓛, z′ ∈ 𝓛} F(z, z′) ψ(z′) + E[ψ(Z_{t₀}); Z_{t₀} ∈ 𝓛, S_{t₀}] − E[ψ(Z_{t₁+1}); Z_{t₁+1} ∈ 𝓛, S_{t₁+1}],
+
+with equality iff (∗̄) holds with equality at every z ∈ 𝓛.
+
+*Proof.* Sum (∗̄) over z ∈ 𝓛: D(𝓛) + Σ_{z,z′ ∈ 𝓛} F ψ(z′) ≤ Σ_{z′ ∈ 𝓛} N(z′) ψ(z′). Replace N(z′) by (I) and cancel the
+finite sum Σ_{z,z′ ∈ 𝓛} F(z, z′)ψ(z′) on both sides. Add D(𝓛ᶜ). ∎
+
+In words: **deaths ≤ (direct deaths from above) + Σ over entries into the low set of ψ at the entry point**, plus
+a window-boundary term. No Markov property, no uniformity in time, no condition on censoring, no constant a.
+If the window is long and the ensemble quasi-stationary the boundary term is w·(Deaths + Censored), w the mean
+of ψ over observed states (ψ = 0 off 𝓛), so h̄(1 − w) ≤ [D(𝓛ᶜ) + Σ F ψ]/Expo + w·s̄.
+
+*The best ψ and what the theorem cannot lose.* The smallest solution of (∗̄) is ψ* = (I − T̄_𝓛)⁻¹ d̄ with
+T̄ = F/N, d̄ = D/N: the committor "death before leaving 𝓛" of the Markov chain *defined by the pooled table*.
+With ψ* the theorem is an identity. So all of the exponent sits in one object:
+
+    h̄ ≈ (rate of entering 𝓛 at z′) × ψ*(z′), summed over z′.
+
+The true process need not be Markov, and ψ* need not equal the true multi-step committor (the tallied p_B);
+the identity holds for ψ* regardless, because the pooled table reproduces the pooled flow by construction.
+
+*Worked by hand.* The walk of entry 3 on {0, 1, 2} (up ¾, down ¼, held at 2), 𝓛 = {1}. Quasi-stationary weights
+p₁ = 0.2087, p₂ = 0.7913, λ = 0.9478, h = p₁/4 = 0.0522. (∗̄) at z = 1: ψ(1) ≥ d̄(1) = ¼. Entries per unit exposure:
+p₂/4 = 0.1978. Entry flux × ψ = 0.0495; boundary term w = ψ(1)p₁ = 0.0522; 0.0495/(1 − 0.0522) = 0.0522 = h. ∎
+
+**Hypothesis H′ (replaces H).** For Z = the population of a hull face of gump, 𝓛 = {1, …, K − 1}, K = κA: the
+committor ψ*_K of the pooled one-step table satisfies ψ*_K(k) ≤ C e^{−θk} at the rows k where the population
+enters below K, with C, θ, κ independent of A, and no face dies directly from a population ≥ K.
+**Then, by Theorem P̄, ln τ ≥ θ(κA − J) − ln C − (window terms)**, J the largest one-step drop into 𝓛.
+What is assumed is a property of one-step statistics, level by level: below κA the population has an upward
+exponential drift (the content of "holes heal"). What is concluded is the many-step statement.
+
+*Status of H′ against data.* The critic's linear programme (L1.2) is this with a = 0.95: on the measured rows it
+gives the measured slope at all four sizes with a constant loss, K/A = 0.43–0.48, φ ratios 0.55–0.63 beyond
+k = 3. In the pooled form the loss should all but disappear (lab request LR4). Not tested: rows above A/2 (not
+tallied; in the pooled form only their *entries into 𝓛* matter, and those are recoverable from the histogram
+and the tallied rows by (I)); sizes beyond A = 84.
+
+*For the 2D rule* the same theorem holds, but there H′ is not a reduction: a fifth to a hundredth of the deaths
+go straight from ≥ 7 cells to none and the last steps lose most of the remnant at once (board E9, E14), so the
+entry term itself is a statement about exponentially rare one-step events. (The critic's judgement; I agree.)
+
+---
+
+## 2026-11-13, entry 9. Every permanent loss is an extinction on a sealed set
+
+**Lemma 1′ (rim lemma for sealed sets) [proved].** Let W be sealed in V and D ⊆ W dead at time t. Every c ∈ D all
+of whose neighbours *in W* lie in D is dead at t + 1. Hence L_{t+1} ∩ W ⊆ N_W[L_t ∩ W] (closed neighbourhood
+within W): inside a sealed set life spreads only from life in the set, at speed ≤ 1.
+
+*Proof.* The live neighbours of c are in V \ W, at most θ − 1 of them. ∎
+
+Lemma 1 is the case W = a face (with the outside of the hull). For a T3 firewall W = three layers: a dead patch
+of the band is refilled only from its rim *within the band*. Smallest case: a cell of the middle layer of a
+three-layer band has 10 neighbours in the band and 2 outside; if the 10 are dead it stays dead.
+
+**Proposition S [proved].** For a sealed W let T_W be the first time W ∩ L_t = ∅. (i) W is dead for all t ≥ T_W.
+(ii) K(t) = ∪{W sealed : T_W ≤ t}. (iii) The first time anything is lost for ever, min_W T_W, is the extinction
+time of an inclusion-minimal sealed set.
+
+*Proof.* (i) is thickness.md Lemma 1; (ii) is its Lemma 2 (K(t) is the union of the dead sealed sets); (iii): a
+dead sealed set contains a minimal sealed set, which is then dead. ∎
+
+So the vessel carries a family of contact-type subsystems, one for each sealed set W (the restriction of the
+state to W: vacuum absorbing, births only next to life *in W*, Lemma 1′), driven by the rest; **the skeleton
+grows only by their extinctions, and an extinction on W needs all |W| cells dead at one time.**
+
+**What this makes of "why area" [the statement is proved; the hypothesis is not].** The wait for the first
+permanent loss is governed by the minimal sealed sets and by how the cost of an extinction grows with the set:
+
+    hull:        the smallest sealed set is a whole face, A cells (exact for R ≤ 10; aim A in general);
+    wide slab:   a three-layer band across the torus, ≈ 4.5·m·N cells, smaller than a face once N > 1.5·m (board E12).
+
+If an extinction on W costs in proportion to the level κ|W| up to which partial holes of W are refilled
+(hypothesis H′ for W, through Theorem P̄), the wait is exponential in the *area* in a hull and in *N·m* in a wide
+slab, and the switch from one to the other at m ≈ N is the place where the two smallest sealed sets cost the
+same. Both are measured (0.21 per face cell; 0.12 per band cell; switch at m ≈ N). The lead's sentence "no dead
+patch smaller than a whole face is protected, so death cannot nucleate" is right about which sets can die for
+good and wrong about "so": the law needs, in addition, that unprotected holes *are* refilled.
+The same dichotomy is a theorem in one place on the shelf (`library/notes/ld-contact-percolation.md`, read by
+the librarian, not by me): for supercritical percolation low density costs only the perimeter, because a ring of
+vacant sites seals a region for free; for the contact process an empty interval costs its length.
+
+*Not done:* (a) the number of minimal sealed sets of size near A (an entropy that a union bound over them would
+have to beat; in hulls the measured first loss is a face, so I only bound one given face); (b) the two prices.
+Per unit of lateral area a band costs 3 × 0.12 = 0.36 against 0.21 for a face. In this language both are
+extinction exponents of contact-type subsystems; nothing here computes either.
+
+---
+
+## 2026-11-13, entry 10. Proposition R: a caricature in which the area law is exact
+
+**Proposition R [proved].** Biased voter dynamics on a finite connected graph G with N vertices, λ > 1: for every
+pair of neighbours (x occupied, y vacant), y becomes occupied at rate λ and x becomes vacant at rate 1. The
+states ∅ and G are absorbing. Then λ^{−|ξ_t|} is a martingale, and from any ξ
+
+    P_ξ(∅ is reached before G) = (λ^{−|ξ|} − λ^{−N}) / (1 − λ^{−N}).
+
+*Proof.* Each active pair contributes λ(λ^{−(n+1)} − λ^{−n}) + (λ^{−(n−1)} − λ^{−n}) = λ^{−n}[(1 − λ) + (λ − 1)] = 0 to
+the generator applied to λ^{−n}. The chain is absorbed almost surely; optional stopping. ∎
+*Smallest case:* G = one edge, ξ = one vertex: P(∅) = 1/(1 + λ), and (λ⁻¹ − λ⁻²)/(1 − λ⁻²) = 1/(λ + 1).
+
+What it is for. The model has the rim lemma (births only next to life, vacuum absorbing) and nothing else of
+gump (no cap, no drive, monotone). In it the chance that a droplet dies out depends on its *area* alone, not on
+its shape or perimeter, with exponent ln λ per cell: ψ(n) = λ^{−n} satisfies (∗̄) with equality. For λ = 1 the same
+computation gives 1 − n/N: no exponential. So in the caricature "area law" ⟺ "the rim is biased towards life".
+Gump's face replaces λ^{−n} by the committor ψ* of its population table; measured log-slope 0.46–0.55 per cell
+(entry 11), i.e. an effective λ of 1.6–1.7.
+On the shelf (`library/notes/contact-finite.md` §1, Durrett–Liu Theorem 4, read by the librarian): on {1, …, N}
+with vacant sites outside, (1/N) log σ_N → log λ, "because the process is an interval whose two ends are
+independent random walks". log λ is the positive root of the edge walk's cumulant equation
+λ(e^{−θ} − 1) + (e^{θ} − 1) = 0. That is the proved one-dimensional instance of "exponent = Lundberg root of the
+front". That |ξ_t| is a time-changed biased walk in every dimension I state from the two-line proof above, not
+from a source.
+
+---
+
+## 2026-11-13, entry 11. Gump's dying face is a shrinking droplet: three readings and one relation
+
+All numbers are from `research/fluct/data/qsd_summary.json` (committed) or from the board's lab table; nothing
+is new data. Tags as marked.
+
+**11.1 The remnant curve [data].** Looking back from death, the mean population at lags 1…6 is 1.6, 3.4, 6.4,
+9.7, 13.6, 17.6 (A = 84; L1.3), the same at A = 63 until it saturates. Its square root is 1.26, 1.84, 2.53, 3.11,
+3.69, 4.20: steps 0.58, 0.69, 0.59, 0.57, 0.51. **√n falls by ≈ 0.59 per generation**: a two-dimensional remnant
+whose radius shrinks at constant speed (≈ 0.47 cell-widths per generation if a cell has unit area and the
+remnant has density ½). The half-way lag is then (√(n̄/2) − 0.68)/0.586 with n̄ the living mean: 3.3, 4.5, 5.6, 6.7
+at A = 30…84 against the measured 3.2, 4.7, 5.9, 6.8. In the other direction the living face refills more
+slowly: mean step +0.31, +0.53, +1.14, +1.98 from n = 2, 3, 5, 10 (L1.1), i.e. √n grows by about 0.3 per
+generation at n = 10. Death is a *front route*; the remnant is the size-independent object.
+
+**11.2 Two exponents that should be one [data].** The tallied committor p_B(k) (death before the population
+returns to A/2) falls by a factor 0.544, 0.584, 0.571, 0.589, 0.565, 0.601, 0.574 per cell for k = 4…10 at A = 63:
+log-slope θ_u ≈ 0.55. The quasi-stationary tail rises by a factor 1/0.63 per cell on the same range:
+θ_p ≈ 0.46 (0.44, 0.46, 0.48, 0.51 at A = 45, 63, 84, 108 in the middle range). The product p_k·p_B(k) falls by
+6–8% per cell at k ≈ 8, which is what a prefactor k^{−0.6} does there: the rate at which a remnant of k cells
+moves on grows like its rim, √k. I read both as one exponent θ ≈ 0.50 ± 0.03 with power-law prefactors
+**[guessed]**.
+
+**11.3 A relation between the tail slope and γ [sketched].** Suppose (M1) below a level x*A the logarithm of the
+quasi-stationary histogram is a straight line of slope θ in the population (a single remnant, whose chance of
+dying is e^{−θk}); (M2) above it the histogram is Gaussian with mean ρA and variance σ²A; (M3) the two join with a
+common tangent. Then x* = ρ − θσ² and, summing the slopes from the mean down to zero,
+
+    −ln h = A·(θρ − θ²σ²/2) + O(1),      i.e.      γ = θρ − θ²σ²/2.                               (M)
+
+Equivalently γ = −Λ(−θ), Λ the scaled cumulant function of the ordinary face population: the lifetime exponent
+is fixed by the remnant's exponent θ and by two numbers of the *living* face, its density and its variance.
+Check. The face population has mean 0.532·A − 2.3 (exponent study) and variance 0.385·A + 3.2 (my fit to the
+committed var/A at A = 30…165; residuals ≤ 0.2), so (M) predicts a straight law of slope
+0.532θ − 0.1925θ². With the measured tail slope at each size: θ = 0.46, 0.485, 0.51 (A = 63, 84, 108) gives
+0.204, 0.213, 0.221, against the local slopes of ln τ 0.212 (45→63), 0.212 (63→84), 0.221 (84→108, unverified
+GPU value). With θ_u = 0.545 it gives 0.233, too high. With one constant, θ = 0.48, (M) plus an offset 1.80
+reproduces the four verified lifetimes to 0.16, 0.04, 0.00, 0.00 nats; that is two parameters and four points on
+a nearly straight line, so the fit by itself shows little. The content of (M) is the first check: **the lifetime
+slope and its slow rise with A are those of the tail slope**.
+What is missing for "sketched → proved": everything; (M1)–(M3) describe a shape. The weakest is (M3): the
+tangency point is ≈ 2.9 standard deviations below the mean at A = 84, where I have not checked the histogram
+against a parabola (the committed summary stores only the lowest 40 values).
+
+**11.4 What γ is, in this picture [guessed].** γ = −Λ(−θ), and θ is the exponential rate at which the chance of
+extinction of a live remnant on an otherwise empty face falls with its population: the analogue of the constant
+γ₂ of the contact process, which is defined exactly that way and equals the finite-system exponent
+(`library/notes/contact-finite.md` §2, Durrett–Schonmann Theorem 2 (a) = (d), read by the librarian). By
+entry 10's caricature θ is the Lundberg root of the rim. I cannot compute θ from the rule.
+
+---
+
+## 2026-11-13, entry 12. Aim A (isoperimetry of sealed sets): what is proved, where the induction stalls
+
+**Corollary 4a [proved].** Let W be sealed in a hull V, d a diagonal, t the top layer of W along d. Call a cell
+*d-deep* if its three d-upward neighbours are in V; for a cell p with normal axis a this holds iff t ≤ R − 4,
+d′·p ≤ R − 4 for d′ = d with coordinate a flipped, and d′·p ≤ R − 2 for d′ = d with one of the other two
+coordinates flipped (the three upward offsets change those d′·p by (0, 0, 4), (0, 2, 0), (2, 0, 0); no other
+diagonal increases). If c ∈ W is in layer t and d-deep, then W contains every cell of layer t that can be reached
+from c by an in-layer path whose vertices before the last are d-deep, and all downward neighbours in V of the
+d-deep cells so reached.
+*Proof.* Lemma 4 at c, then at each d-deep cell reached. ∎
+So a sealed set that keeps away from the two outer layers of every face contains whole sheets and is far larger
+than a face.
+
+**Where a proof of A for all R stalls.** The natural induction is on R with W′ = W ∩ V_{R−2}, which is sealed in
+V_{R−2} or empty. If W′ = ∅, W lies in the union of the faces and every face cell of W whose three cells beneath
+are in V_{R−2} has all in-face neighbours in W: W contains a whole face. If W′ is a face of V_{R−2}, its cells
+have three neighbours beneath outside W, so both upward neighbours of each are in W, and W contains the
+interior of a face of V, more than the 3k cells needed (A(R) − A(R − 2) = 3k) once k ≥ 5. The case that is not
+handled is |W′| > A(R − 2): it needs a *stability* statement (a sealed set of V_{R−2} with A(R − 2) + δ cells forces
+at least 3k − δ cells of W in the outer shell), and I have no approach to that except case analysis at the rims.
+I stop here on A: the exact result for R ≤ 10 is the critic's, the general statement stays a conjecture, and
+Proposition S does not need it for a given face.
+
+---
+
+## 2026-11-13, entry 13. Errata to entries 7, 11 and 12 (found on re-reading before the round report)
+
+- **Entry 7, item 4.** Now checked in `research/phase/rules.csv` (columns med6, med8, med10 = median lifetime in
+  hulls of three sizes): B45/S34: 10.5, 20, 36; B45/S35: 7, 14.5, 22; B45/S45: 6, 12.5, 20; B4/S345: 8, 50, 104;
+  gump: 28, 254, 3,420. All four neighbours are classed "chaos" on a torus and share gump's graph and θ = 4.
+- **Entry 11.3, relation (M).** The remainder is not O(1): a normalised Gaussian has ln p_peak = −½ ln(2πσ²A), so
+
+      −ln h = A·(θρ − θ²σ²/2) + ½ ln(2πσ²A) + O(1),   local slope of ln τ = θρ − θ²σ²/2 + 1/(2A).
+
+  With the measured tail slopes θ = 0.46, 0.485, 0.51 the predicted local slopes become 0.213, 0.220, 0.226 at
+  A ≈ 54, 74, 96, against 0.212, 0.212, 0.221. With or without the logarithm (M) holds to about ± 0.01 in the
+  slope and no better; the constant-θ fit quoted there (θ = 0.48, offset 1.80) becomes θ ≈ 0.46 with a flat
+  remainder. The O(1) term is not transferable between vessels: with the hull's offset and any plausible mean
+  and variance, (M) would put a periodic slab face of 60 cells about 1.5 nats above its measured ln τ. **(M) is a
+  statement about slopes only.**
+- **Entry 12, "where the induction stalls".** The two sub-cases described as handled (W′ = ∅; W′ a face of
+  V_{R−2}) are sketches: I did not check the cells near the rims and corners of the faces, where some of the
+  cells beneath a face cell lie on another face. Only Corollary 4a is proved there.
+
+---
+
+## Round 2 report
+
+**Corrected or withdrawn** (entry 7): L1(c) "private cell" (false at hull corners; the cube lemma is the
+statement); hypothesis H with φ = r^{min(n,K)} (false, lab L1.1); G2's gump half (the data decide: the collapse
+lengthens with the face); R5's example (now gump's own neighbours B45/S34, B45/S35, B45/S45, B4/S345: same graph,
+θ = 4, chaotic on a torus, median lifetimes 20–104 where gump has 3,420).
+
+**Claims.**
+- **Theorem P̄** (entry 8): for any process and statistic, pooled over a window, Deaths ≤ direct deaths from
+  outside a low set 𝓛 + Σ over entries into 𝓛 of ψ(entry point) + a boundary term, for every ψ ≥ 0 superharmonic
+  for the pooled one-step table on 𝓛; an identity for the table's own committor ψ*. No Markov property, no
+  uniformity in time, no constant a, censoring free. **[proved]**
+- **H′** (entry 8): ψ*_K(k) ≤ C e^{−θk} at the entry rows, K = κA, for the population of a gump hull face. Then
+  ln τ ≥ θ(κA − J) − const. **[hypothesis; consistent with L1.2 on the tallied rows, A ≤ 84]**
+- **Lemma 1′, Proposition S** (entry 9): inside any sealed set life spreads only from life in the set; the
+  skeleton grows only by extinctions of these contact-type subsystems; the first permanent loss is the extinction
+  of a minimal sealed set. **[proved]** With H′ for the set, this is the precise form of "why area": a face in a
+  hull, a band in a wide slab (E12). **[conditional]**
+- **Proposition R** (entry 10): for biased voter dynamics on any finite graph a set of n sites dies out with
+  probability (λ^{−n} − λ^{−N})/(1 − λ^{−N}): the area law for a droplet, exact, by the martingale λ^{−n}. **[proved]**
+  A caricature of the mechanism, not a relative of the rule.
+- **The remnant** (entry 11): looking back from death √n falls by ≈ 0.59 per generation at every size: death is
+  a shrinking droplet **[data]**. Committor slope 0.55 and tail slope 0.46 are one exponent θ ≈ 0.50 with
+  power-law prefactors **[guessed]**. **(M)** γ = θρ − θ²σ²/2 (+ 1/(2A) in the local slope): the lifetime slope
+  from the tail slope and the mean and variance of the living face; holds to ± 0.01 on the slopes at
+  A = 54–96 **[sketched; slopes only, entry 13]**.
+- **Corollary 4a** (entry 12) **[proved]**; aim A stays a conjecture beyond R = 10 and I have stopped working on it.
+- G1 (one exponent for the 2D rule, rings carrying a power of L) and exam entries E1, E2: unchanged, **[guessed]**.
+
+**Weakest steps.** (1) H′ can be checked only where deaths are already frequent. What would make it a law is
+that ψ* is one function of k for all A (the remnant does not know the face); I have the critic's four tables
+and no argument. (2) (M) describes a shape (parabola joined to a line); assumption M3 is unchecked and its
+remainder is vessel-dependent. (3) For the 2D rule this round adds nothing: there Theorem P̄'s entry term is
+itself the rare event. (4) The C4 box (entry 5.3) is still unexplained.
+
+**Lab requests.** LR4–LR7 are arithmetic on the existing tallies; LR8′ is exact.
+- LR4. For A = 30, 45, 63, 84 and K = ⌈0.3A⌉, ⌈0.4A⌉: ψ*_K = (I − T̄_{<K})⁻¹ d̄ from `Tr` (rows 1…K − 1); its values
+  and local log-slopes; whether ψ*_K(k), k ≤ 10, is the same function at the four sizes. Then the identity of
+  Theorem P̄: entries into {< K} from the tallied rows K ≤ k < KMAX, plus entries from rows ≥ KMAX obtained from
+  identity (I) (histogram `H` minus tallied inflow), each times ψ*, over exposure, against h̄; and which entry
+  rows carry the sum.
+- LR5. Per row k < KMAX: mean and variance of the one-step change, and the root r_k ∈ (0, 1) of
+  Σ_{k′} T̄(k, k′) r^{k′−k} = 1. The droplet reading predicts r_k level for k ≥ 6, equal across sizes (0.60–0.63),
+  and a mean step growing like √k.
+- LR6. The pre-death curve predicted by the pooled table alone (time-reversed chain T̃(k′ → k) ∝ N(k) T̄(k, k′),
+  started from the death shares), lags 1…6, against 1.6, 3.4, 6.4, 9.7, 13.6, 17.6. Is n Markov along death paths?
+- LR7. d ln p_k/dk over 8 ≤ k ≤ 20 at A = 108, 135, 165 (`H` of R = 15, 17, 19); and at A = 63, 84 the histogram
+  against the parabola of its own mean and variance down to x* = ρ − θσ² (assumption M3).
+- LR8′. D2(ρ = 0.472), quasi-stationary law μ. (a) Segment, L = 12 and 14: E_c(ℓ) = μ(cells 1…ℓ dead),
+  ℓ = 1…L − 4. (b) Ring, L = 16 or 18: E(ℓ) = μ(a fixed window of ℓ cells dead). The front picture predicts: the
+  corner decrement −ln[E_c(ℓ+1)/E_c(ℓ)] is level from small ℓ at some θ_c; the ring's decrement approaches θ_c
+  from above; both lifetime steps tend to θ_c. A level corner decrement near 0.45 with a ring decrement that
+  stays near 0.52 would refute "one exponent" in D2.
+
+**Next.** If LR4 shows ψ* universal: state the area law for gump as one theorem under H′ with the remnant
+defined on an infinite face, and look for the weakest property of the cells beneath a rim that gives the
+upward drift. Otherwise: the 2D rule, where the open question is the route (E2).
+
+---
+
+## 2026-11-13, entry 14. Exam entry E3 filed
+
+In `research/theory/swarm/PREDICTIONS.md`: on the periodic slab face of 60 cells (5 × 4 × 8), (i) mean population
+of the dying face at lags 1–4: 1.6 ± 0.15, 3.4 ± 0.35, 6.4 ± 0.6, 9.7 ± 1.0; (ii) tail ratio p_k/p_{k+1} over
+6 ≤ k ≤ 12: 0.63 ± 0.03; (iii) 62 ± 5% of deaths from one cell. It tests the claim behind H′ and (M) that the
+remnant is one object in every vessel. What could break it: in a hull the last remnant may sit at a corner or on
+the rim (hull faces outlive slab faces of equal area by a constant factor 1.7–1.9, which I read as an anchoring
+of the last remnant, an O(1) effect); if so the hull's curve at lags 1–2 is a corner curve and the slab's will
+differ.
+
+---
+
+## 2026-11-13, entry 15. After the critic's reply to round 2: corrections, and two pieces of unfinished work
+
+Written when the group was paused; nothing here was sent to the lab. Lab ids are the board's.
+
+**15.1 Corrections (I accept all three).**
+- **H′, "C, θ, κ independent of A", is false on the tables** (lab L5.1): the committor ψ* of the pooled table
+  steepens with the face (log-slope over k = 5…10: 0.51–0.54, 0.53–0.57, 0.55–0.60 at A = 45, 63, 84). What the
+  critic's numbers do show: at fixed k, ψ*_A(k) *falls* as A grows (ln[ψ*(A)/ψ*(63)] = +0.32, +0.47 at A = 30;
+  +0.10, +0.22, +0.33 at A = 45; −0.04, −0.04, −0.15 at A = 84, for k = 4, 7, (10)). A lower bound on τ needs only
+  an inequality ψ*_A(k) ≤ C e^{−θ₀k} up to k = κA with one θ₀ > 0; a committor that is monotone in A would give
+  it from the smallest face. I have not tested monotonicity beyond these twelve numbers. Theorem P̄ is untouched.
+- **Relation (M) is withdrawn as a quantitative statement** (lab L5.4). Its tangency assumption M3 fails: at
+  A = 84 the histogram's slope lies below both branches from n ≈ 28 down to n ≈ 14; the formula is 0.9–1.6 nats
+  too large at A = 63, 84 and its difference quotient is 0.235 against 0.205. My check in 11.3 was wrong in the way
+  the critic says (it differentiated at fixed θ while θ rises with A). What survives is only the identity of
+  Theorem P̄, h = entries × ψ*, which makes the tail slope and the committor slope the same function up to the
+  rate at which a face of k cells moves on.
+- **"One remnant whose population walk does not know the vessel" (11.1, 11.2, the rationale of E3) is not
+  supported.** The pooled one-step table, reversed from the deaths, gives 1.6, 2.9, 4.3, 5.9, 7.7, 9.8 at lags 1…6
+  where the histories have 1.6, 3.4, 6.4, 9.7, 13.6, 17.6 (lab L5.3): a dying face comes down twice as fast as faces
+  of the same population do on average, so something besides n is carried along a death path. The reading
+  "√n falls by 0.59 per generation" stands as a statement about conditioned paths. E3 stays filed; its two
+  lines of reasoning are weaker than I wrote.
+
+**15.2 Unfinished: the exponent as an integral of local roots [guessed; arithmetic not done on the tables].**
+The critic's roots r_k of Σ_{k′} T̄(k, k′) r^{k′−k} = 1 (lab L5.2) are not one number, but θ = −ln r_k looks like a
+function of x = k/A for A ≥ 45: 0.60 (x = 0.08, A = 84), 0.59 (0.095, 84), 0.58 (0.10, 63), 0.54 (0.14, 45),
+0.55 (0.18, 84), 0.51 (0.24, 84), 0.40 (0.36, 84); A = 30 lies below (0.455 at 0.22). For a chain whose one-step
+law varies slowly with the level, the committor is ψ*(K) ≈ exp(−Σ_{k<K} θ_k) (the usual WKB evaluation), so with
+Theorem P̄ the law would read ln τ ≈ A·∫₀^ρ θ(x) dx. A straight line through the seven values, cut off at the mean
+density, integrates to about 0.21. This is eight numbers read off the critic's reply and a ruler; the sum
+Σ_k θ_k over the committed tables (`critic/lab/data/fluct_tables.npz`) is the first thing to compute. Also from
+L5.2: mean step ≈ 0.5–0.8·√k and variance ≈ 0.75·k, and 2·mean/variance reproduces the roots to about 5% at
+k = 10, 15, 20 (0.57, 0.53, 0.48 against 0.58, 0.55, 0.51). If this holds up, γ is the quasi-potential of the
+population's effective one-step dynamics, with drift and variance as its only inputs.
+
+**15.3 Unfinished: the power of L in one dimension (G1) [sketched model; mixed scorecard].**
+*Readings of committed data* (`research/theory/exponent/data/gap.json`, key `gap_H16_L128`, and the seven
+lifetimes of `research/toy2d/data/law_cross2_B34S234.json`; calculator fits, not new data):
+- ln E(ℓ) = c − gℓ − b ln ℓ, free b: (g, b) = (0.351, 0.97), (0.346, 1.09), (0.345, 1.13) on ℓ = 10–38, 15–38, 20–40.
+  With an offset, E ∝ (ℓ + ℓ₀)^{−b} e^{−gℓ} on ℓ = 8–40: b = 1: ℓ₀ = 1, g = 0.351, rms 0.0068; b = 3/2: ℓ₀ = 5,
+  g = 0.340, rms 0.0033; b = 2: ℓ₀ = 9, g = 0.331, rms 0.0020. **The file does not determine the power.** With
+  b = 3/2 the exponent is 0.340, the box-edge slope.
+- The ring's lifetime follows the window probability with *no* factor L: τ(L)·E(L − m)·L^p is constant over
+  L = 12…36 with χ² = 20 (p = 0, m = 6), 45 (p = ½), 248 (p = 1), on 7 points.
+*A mechanism.* For cells that are dead now let T(x) ≥ 0 be the number of generations x has been continuously
+dead (the death-age profile). Model: the weight of a profile is a product over neighbouring pairs of a
+symmetric function w(T(x+1) − T(x)), W = Σ_j w(j). Then, exactly or by standard random-walk facts (the last two
+cited from memory):
+  - a whole segment with free ends dying now (min T = 0): Σ = W^{L−1}, no power (each sequence of steps
+    corresponds to exactly one profile with minimum 0) **[proved, in the model]**;
+  - a whole ring dying now: W^L × P(the step walk returns to 0 after L steps) ~ L^{−1/2};
+  - a window of a long row, both ends next to living cells (ends pinned near 0, T ≥ 0): ~ ℓ^{−3/2};
+  - a window with one end at a dead wall (free there) and one pinned: ~ ℓ^{−1/2}.
+*Scorecard.* Segments: no power (exact in D2 to three decimals; straight laws in the 2D rule): **agrees**.
+Windows: the 2D rule fits (ℓ + 5)^{−3/2} e^{−0.340ℓ}; in D2 the sampled decrement minus 1.5/(ℓ + ½) is 0.432, 0.453,
+0.457, 0.452 at ℓ = 10, 15, 20, 25 against the exact 0.460: **compatible, not decided**. Rings: the model says
+hazard ≈ L × (window probability), which the 2D rule's seven lifetimes reject (χ² 248); and in D2 the ring's steps
+at L = 15–18 are level at 0.522–0.526, i.e. 0.062–0.066 above 0.460, where the return probability of any walk with
+geometric steps gives at most 0.040 (calculator, 0.02 ≤ u ≤ 0.3): **disagrees at every accessible size**. Corner
+windows in D2 (lab L5.5: 0.475 at ℓ = 4 on a segment of 18, still falling with the segment's length) are already
+near 0.46, not near 0.46 + 1/(2ℓ) = 0.57: **disagrees, at a small ℓ**.
+So the ordering "free ends: none; no free end: a power" comes out, and the powers do not. A reading I have not
+tested: at these sizes a ring dies in two or three generations (board E14), a flat profile, and its slope is
+the flash cost; the walk regime needs many steps of the profile. The object T(x) is, I believe, the height of
+the dual contour of the contact-process proofs (planar duality in `library/notes/contact-finite.md` §2), whose
+Ornstein–Zernike corrections are exactly these powers; I have not opened a source for that.
+
+---
+
+## Round 3 report (interim, paused)
+
+**Done.** The three corrections of 15.1 (H′ as stated false on the tables; relation (M) withdrawn; the remnant
+is a property of conditioned paths). `claims.md` is current. Exam entries E1, E2, E3 are in
+`swarm/PREDICTIONS.md` and I leave them as filed (E3 with the weaker rationale noted in 15.1).
+
+**Half-done.**
+- 15.2: γ = ∫₀^ρ θ(x) dx with θ(x) the local root of the population's one-step law. Missing: the sum over the
+  committed tables against −ln h at the four sizes; the collapse of θ in k/A; rows above A/2 (not tallied).
+- 15.3: the power of L. A profile model gives no power for free ends and powers for rings and windows; the
+  window fit is compatible, the ring is not at any accessible size. Missing: an exact test in D2 of whether the
+  death-age profile fluctuates at all (see below); a source for the contour reading.
+- H′ in its inequality form (ψ*_A(k) non-increasing in A): read off twelve numbers, not tested.
+
+**What my line has given, as I would rank it.** Proved and checked: the rim lemma and its sealed-set form
+(L1, L1′), Proposition S (every permanent loss is the extinction of a minimal sealed set), Theorems P and P̄
+(the hazard from a one-step table, no Markov property), Proposition R, R5. Conditional: "why area in a hull, a
+band in a wide slab" (S plus a hypothesis on refilling). Not achieved: a formula for γ; any theorem for gump
+or the 2D rule themselves.
+
+**Next, when resumed** (nothing started). (1) Lab: Σ_k θ_k and 2·mean/variance per row from
+`critic/lab/data/fluct_tables.npz`, summed to the mean, against −ln h; θ against k/A at the four sizes; ψ*_A(k)
+against A at fixed k. (2) Lab, exact in D2 on a ring of 16–18: the mean population 1…6 generations before death
+from the exact reversed chain, and the mean age of the central cell of an empty window of ℓ cells: O(1) (flash),
+growing (profile walk), or ∝ ℓ (fronts). (3) Library: Ornstein–Zernike corrections for the dual contour of the
+one-dimensional contact process in a strip, on a cylinder and in a half-plane.

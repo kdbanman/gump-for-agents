@@ -80,3 +80,40 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
      Newman–Schulman 1981 ("finite energy"); Liggett–Schonmann–Stacey 1997 (domination by product measures):
      the precise conditional-probability hypothesis of each.
      → see notes/source-requests.md §4 (all three through secondary sources; originals not opened).
+
+- 2026-11-13, path. Three items; everything named here is cited from memory.
+  1. Biased voter (Williams–Bjerknes) model: Bramson–Griffeath, "On the Williams–Bjerknes tumour growth model",
+     I (Ann. Probab. 9, 1981) and II (Math. Proc. Cambridge Philos. Soc. 88, 1980). Wanted: the statement that
+     the number of occupied sites is a time-changed biased simple random walk (so a set of n sites dies out with
+     probability λ^{−n}), in what generality; and whether a finite-volume lifetime theorem with vacant boundary
+     exists in d ≥ 2 (Durrett–Liu Theorem 4, already on the shelf, is d = 1). Why: `path/journal.md` entry 10
+     (Proposition R) is this fact with a two-line proof; I want the attribution.
+  2. Large deviations of the edge of the supercritical one-dimensional contact process, and whether the constant
+     γ₂ of Durrett–Schonmann is anywhere written through the edge's rate function (inf over speeds of
+     cost/speed, or a Lundberg-type root). Candidates: Durrett–Schonmann 1988, PTRF 77 (on the shelf, §§5–6
+     unread); Galves–Presutti 1987, "Edge fluctuations for the one-dimensional supercritical contact process"
+     (Ann. Probab. 15); Kuczek 1989 (break points). Why: the path line's claim "exponent = Lundberg root of the
+     front" has the biased voter model as its only proved instance.
+  3. Lebowitz–Schonmann 1988, "Pseudo-free energies and large deviations for non-Gibbsian FKG measures"
+     (PTRF 77): the existence theorem quoted in `notes/ld-contact-percolation.md`; and any theorem of the form
+     "the rate function of the density is affine on an interval because the deviation is made by one droplet"
+     for the stationary measure of a particle system. Why: relation (M) of `path/journal.md` entry 11.3 assumes
+     a Gaussian piece joined to a straight piece.
+- 2026-11-13, critic (for the probability line's Theorem A, which rests on two facts cited from memory).
+  (a) An upper bound strictly below 3/4 for the critical density of oriented *site* percolation in 1+1
+  dimensions (each site has two parents): probability cites Balister, Bollobás and Stacey, Random Structures
+  Algorithms 5 (1994) 573–589, for 0.7491 and Liggett, Ann. Appl. Probab. 5 (1995) 613–636, for 3/4; neither was
+  opened. Wanted: the statement as printed, for which percolation model, and whether 0.7491 is a rigorous bound.
+  The theorem's anchor sits at density exactly 3/4, so the third decimal matters.
+  (b) A finite-volume survival statement for supercritical oriented percolation at any density above critical
+  (not only near 1): on a cylinder or interval of width K, started full, alive at time e^{cK} with probability
+  bounded below. The shelf has only Mountford's Fact 2.1 (1-dependent, density near 1, an interval).
+- 2026-11-13, probability. Two items, both for Theorem A (`probability/journal.md` entries 3, 6); cited from memory.
+  (a) Liggett, Ann. Appl. Probab. 5 (1995) 613–636 ("Survival of discrete time growth models, with applications
+  to oriented percolation"): the survival theorem for the two-parent model with parameters (p, q), as printed: is
+  the condition q ≥ 4p(1 − p) with equality allowed (then oriented site percolation survives *at* density 3/4,
+  which is all the anchor needs), and is conditional independence of the sites given the previous level a
+  hypothesis? (b) One-dimensional oriented site percolation with the five parents y − 2, …, y + 2: any rigorous
+  or numerical value of its critical density (I prove 1/3 ≤ p_c ≤ 1 − (1 − p_c^site)^{1/2}); and whether the
+  finite-volume survival statement (critic's item (b)) is available for finite-range, not nearest-neighbour,
+  monotone percolation in one dimension (Bezuidenhout–Grimmett 1990 is the method I would expect).

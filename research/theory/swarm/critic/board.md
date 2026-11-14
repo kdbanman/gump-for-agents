@@ -1,18 +1,94 @@
 # Board (critic)
 
-_Kept by the critic. Last update: 2026-11-13, after the replies to path and source, round 1 (the round 1 reports
-of counting and probability are written and not yet read). Scripts named here are in `critic/lab/`; run them from that directory. "Checked" means I
-re-derived or recomputed it; "read" means I compared the statement with its source and did nothing more.
+_Kept by the critic. **State, 2026-11-14: every report on file has a complete reply; the queue is empty and the
+solvers have not yet been told to continue.** A successor should read "Where the queue stands" just below, then
+the rest. Scripts named here are in `critic/lab/`; run them from that directory. "Checked" or "confirmed" means a
+critic re-derived or recomputed it; "read" means the statement was compared with its source and nothing more.
 Proofs and commands behind every "checked" are in `critic/journal.md`._
+
+## Where the queue stands (last change 2026-11-14)
+
+| line | last report | critic's reply | what is owed |
+|---|---|---|---|
+| counting | round 2 | rounds 1, 2 answered in `to-counting.md` (round 2: every claim confirmed, all five lab requests run, lab L7.1–L7.10) | nothing. The line said it would stop the finite-horizon programme if c_k fell through the steady exponent; the reply gives it the numbers (it does, for fair and sparse soups) and leaves the decision to it |
+| probability | round 2, interim | rounds 1, 2 answered in `to-probability.md` (round 2: every claim confirmed; lab requests R5–R9 run, lab L8.1–L8.7) | nothing from the critic. Theorem A still waits for F1, F2 from the library |
+| path | round 3, interim | rounds 1, 2, 3 answered in `to-path.md` (round 3: the three tests its interim report names were run, lab L9.1–L9.4; the pointer to source's monotone comparison is given, with the tables' own evidence) | nothing |
+| source | round 3, interim | rounds 1, 2, 3 answered in `to-source.md` (round 3: Theorems A and L and remark C18 confirmed, lab L10.1–L10.4) | nothing. The line judges it has given what it can and the critic agrees (reply, §3). Recall it only if probability produces a multi-generation dice theorem (T1) or one for a gump face (T3) |
+
+**What fell and what stands after this pass** (detail in the replies and below).
+- Nothing tagged *proved* by any line was found wrong in these four reports.
+- Fell or weakened, all of them guesses: counting's C1′ as a usable bridge (its hypothesis fails in D2 for fair
+  and sparse soups; fixed-age exponents have not levelled off at k = 6 and measure two routes that are not the
+  steady one; graveyard 21); path's Th, "ln τ = A·∫θ" (the local-root sum is not the committor's exponent;
+  graveyard 22); the usefulness for gump's own bulk of every equal-time hypothesis tried (finite energy,
+  insertion tolerance: false wherever computable, lab L6.5, L10.4).
+- Gained: exact evidence on "one exponent, the ring carries a power of L" in three dice models and at fixed
+  age (E15); "ends multiply" exactly (P-E2); how a row over dice dies (a gap that grows, not a flash; lemma
+  exchange); exact one-generation numbers for gump faces over dice and from soup (lemma exchange); the same
+  transfer theorem found independently by probability (A′) and source (L).
+
+**Lab work that could not be done.**
+- The true 2D rule's c₃ (2³⁶ window states), which counting's exam entry C-E2 predicts.
+- Gump's one-generation exponent on a strip wider than three cubes (four wide: 2²⁴ states with 2¹² new bits per
+  step; needs a cube-by-cube contraction like `counting_r2.d2_step`).
+- The face game on a periodic face without doubled neighbours (3 × 3, 27 cells): needs a vectorised or compiled
+  version; `source_r2.py l7` (18 cells) already takes five minutes.
+- Anything by sampling (exam entries P-E1, path E1–E3, counting C-E1, C-E2, source S-E1, S-E2): the lab is exact only.
+- A request of the critic's is still unanswered in `library/requests.md` (the library has not been active since
+  the pause of 2026-11-13): the two percolation facts under probability's Theorem A (critical density of oriented
+  site percolation ≤ 0.7491; survival for e^{cK} on a cylinder at any supercritical density). When answered,
+  update "who is using which idea" and tell probability and source (source's Theorem A cites them too).
+- Slow commands, for planning: `counting_r2.py ck 6` 25 min if its cache `lab/data/counting_r2_ck.json` is
+  deleted (seconds otherwise); `counting_r2.py gump1` 4 min; `prob_r2.py r5` 4 min; `counting_r2.py ages` 3 min;
+  `prob_r2.py op5scan` 3 min; `counting_r2.py ckcheck` 2 min; `prob_r2.py game` 2 min; `startpoints.py game 5` 2¼
+  min; `startpoints.py slab` 2 min; `counting_r1.py lemma5` 1¾ min; `prob_r1.py ring 18` 1½ min; `prob_r1.py ends 19`
+  2½ min; `source_r2.py l7` 5 min. Everything else is seconds. The two self-tests (`toy2d_lab.py selftest`,
+  `gump_lab.py selftest`) printed ALL OK on 2026-11-14; nothing they depend on has been edited since. Set
+  `OMP_NUM_THREADS=1`: numpy's dense eigensolver otherwise takes every core.
+
+**Overlaps being watched** (each is also in "Who is using which idea").
+1. *One exponent in every geometry, the ring's excess being a power of L.* Path guessed it for the 2D rule from
+   data (G1; exam E1) and has a death-age model for the power (W: ½ for a ring); counting has the fixed-horizon
+   theorem (Prop. 4) and now exact fixed-age numbers for D2 on rings and intervals; probability has Proposition W
+   and the exam P-E1. Exact state (E15): in OP₅(½) and at the anchor the ring's excess decays like b/L (b = 0.71,
+   0.84); in D2(0.472) it does not decay at L ≤ 19, while a fixed-age argument says it must unless a transient
+   stays deadlier than the steady state. Nobody has a derivation of the power.
+2. *Hypotheses on equal-time one-step kernels.* Path: certificates on the population (Theorems P, P̄; H′ in
+   inequality form untested beyond half the smallest face). Source: the drive kernel κ_t (Lemma 3; Theorems H, U,
+   L; every hypothesis fails strictly in the one enumerable vessel, which has no steady state). Lab L5.3 (the
+   population is not Markov along death paths) says the population alone is too coarse.
+3. *The last cells.* Source (C13, C14), counting (entry 12), path (the remnant curve): the row from one cell is
+   that of dice at density ≈ 0.52; the layer beneath as a whole is poorer than usual; pairs fit dice at ≈ ½;
+   three-cell faces depend on their shape (the two triangle orientations differ fourfold; lab L7.9).
+4. *A deterministic relative with a theorem.* Source's Theorem A (the automaton 𝒜(L)) with probability's Theorem
+   A: written and confirmed, modulo F1, F2.
+5. *Transfer of the dice theorem to any bulk.* Probability's Theorem A′ and source's Theorem L are one statement
+   with two hypotheses (whole past; equal time). Both lines have been told.
+6. *How a row over dice dies.* Probability (R6, R7), path (15.3) and counting (fixed-age matrices) each hold a
+   piece; the exact tables are lab L7.3–L7.5, L8.1–L8.5, L9.3.
+7. *Overcrowding as a route to death.* At a fixed small age the cheapest death from a dense start is a row or a
+   face that fills and is overcrowded (2D rule at horizon 2; D2 from the steady density; gump at density ½: lab
+   L7.3, L7.7, L7.8). Source (C18) and probability (entry 2) hold the remark that a gump face can overcrowd
+   itself and a 2D edge cannot. In the steady state of the 2D rule and of D2 this channel is a few per cent of
+   deaths and falling with L (E9).
+
+**Exam entries on file** (`swarm/PREDICTIONS.md`): path E1 (notched ring), E2 (remnant at lag 2), E3 (remnant on a
+slab face; its rationale weakened by lab L5.3, entry left as filed); counting C-E1 (revised) and C-E2 (c₃ of the
+true rule: cannot be computed by the lab; its reasoning mixes two routes, reply to counting §7); source S-E1
+(its three numbers are the lab's exact D2 values at ρ = ½), S-E2; probability P-E1 (D2 ring's slope 0.48 ± 0.03 at
+L = 30–38, by sampling: not run), **P-E2 (mixed ends = mean of the two: confirmed exactly, lab L8.4)**, **P-E3
+(OP₅(½), exact, lab L8.1: the ring's step and the ring-interval difference are inside the stated ranges; "the
+interval's step equals the ring's within 0.03" missed by 0.008; not refuted by its own criteria)**. The two exact
+outcomes are appended to `PREDICTIONS.md`.
 
 ## Who is here
 
 | who | directory | toolkit | state |
 |---|---|---|---|
-| probability | `swarm/probability/` | dice in place of chaos: particle systems, coupling, percolation, contours | round 1 written; reply pending |
-| counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | round 1 written; reply pending |
-| path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | round 1 answered (`to-path.md`) |
-| source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | round 1 answered (`to-source.md`) |
+| probability | `swarm/probability/` | dice in place of chaos: particle systems, coupling, percolation, contours | rounds 1, 2 answered (`to-probability.md`) |
+| counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | rounds 1, 2 answered |
+| path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | rounds 1, 2, 3 answered (`to-path.md`) |
+| source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | rounds 1, 2, 3 answered (`to-source.md`); finished as an independent line (its own judgement, shared by the critic) |
 | librarian | `swarm/library/` | primary papers: `shelf.md` (one line per source), `notes/`, `requests.md` (append-only, anyone) | first pass finished: 59 sources, ten notes files |
 
 Where lines could meet, which I watch: the probability of an empty edge under a product measure (a transfer
@@ -31,10 +107,12 @@ None of these changes the problem. Each is a number or sentence a proof could le
   With a ln L term the coefficient of L is 0.374 ± 0.009; with a 1/L term, 0.395 ± 0.005; from L ≥ 20 alone,
   0.410 ± 0.003. **The 2D target is 0.36–0.42, not 0.416.** (PROBLEM.md now says so.)
 - **E2. Gump: the slope does not fall.** Verified octahedral data are A = 30, 45, 63, 84 (ln τ = 6.804, 9.819,
-  13.633, 18.077 ± 0.003, 0.003, 0.008, 0.054); local slopes 0.2010, 0.2119, 0.2116. A = 108, 135 are the
-  unverified GPU numbers; the "0.218" quoted for them uses the GPU's own value at A = 84 (18.141); from the
-  verified 18.077 it is 0.221. The old fit 0.2077 + 0.55/A misses the A = 45 point by 28 standard errors.
-  Rim-free (periodic slab) faces: 0.2088 ± 0.0009, A = 27–90.
+  13.633, 18.077 ± 0.003, 0.003, 0.008, 0.054); local slopes 0.2010, 0.2119, 0.2116. A = 108, 135 (23.376 ± 0.031,
+  29.34 ± 0.25; GPU ensembles) are now **reviewed** (`research/audit/REVIEW-gpu-pr8.md`: tables re-derived, kernel
+  emulated exactly on a CPU, an independent CPU run at A = 84 gives 18.154 ± 0.025; no second implementation at
+  those sizes; read, not checked by me). Local slopes there: 0.218 from the GPU's own A = 84 value, 0.221 from the
+  verified one; then 0.221. The cost per cell is still rising at A = 135. The old fit 0.2077 + 0.55/A misses the
+  A = 45 point by 28 standard errors. Rim-free (periodic slab) faces: 0.2088 ± 0.0009, A = 27–90.
 - **E3. Octahedral faces of these sizes are mostly rim** (checked, `checks_round0.py`). A face of the hull of
   radius R = 2k − 1 has A = 3k(k+1)/2 cells: 3 corner cells with 4 neighbours inside the vessel, 6(k−1) rim
   cells with 7, and A − 6k + 3 interior cells with 9. Interior cells: 9 of 30, 18 of 45, 30 of 63, 45 of 84,
@@ -44,8 +122,37 @@ None of these changes the problem. Each is a number or sentence a proof could le
   means the outermost *live* layer and the 773 layer deaths include every later, smaller layer. The 0.035 is an
   average over the last 50 generations; it does not by itself show a 50-generation precursor.
 - **E5. "Symmetric faces: slope ≈ γ/6" was imposed, not measured.** Free fits give 0.024–0.044 (fluct README §3).
+  New, reviewed (GPU; CLAIMS GP2, grade B−, read): ln τ = 21.903 ± 0.031 and 24.175 ± 0.072 at A = 759, 828
+  (cube-centred), 22.409 ± 0.040 at A = 759 (vertex-centred). Local slope 759 → 828: 0.0329 per cell, i.e. 0.197
+  per independent cell (×6), against 0.163 from the A/7.7 law of A = 198–513: symmetric faces are cheaper per
+  independent cell than asymmetric ones and the gap is closing with size. The death rate in those cube-centred
+  runs falls with age.
 - **E6. The 2D symmetry ratios 0.42 and 0.50 have different baselines** (0.1733/0.41 in strips; 0.171/0.343 in
   boxes). The symmetric slopes are equal; the asymmetric baselines differ.
+- **E15. The 2D rule's "anomalous" ratios are reproduced exactly by one row over dice.** In D2(·, 0.472) (lab L4.2,
+  exact to 19 cells): an interval with dead ends and one with reflecting ends (= a mirror-symmetric ring of twice
+  the length) have the same exponent, 0.460 per cell, with a constant ratio of lifetimes; the ring has 0.52–0.53
+  at L = 15–19. Ratios: mirror ring / ring = 0.44 (2D rule: 0.42); dead ends / ring = 0.88 (2D rule: 0.34 against
+  0.38–0.44); dead = reflecting (2D rule: 0.340 against 2 × 0.1733 = 0.347). So "a mirror costs less than half" and
+  "a box edge costs less than a ring" are properties of an edge over dice: they need no deterministic chaos and
+  no geometry of the bulk. Whether the ring's excess is a different exponent or a power of L (≈ L^{1.0–1.2} in τ)
+  is not decided at these sizes, in D2 or in the 2D rule. Supporting the power: the empty-window decrement of D2
+  on a long ring (exponent study, sampled, L = 128; equal to my exact values at ℓ ≤ 4) falls from 0.60 at ℓ = 5 to
+  0.51 at ℓ = 25, and (decrement − 0.46)·(ℓ + ½) is level at 1.2–1.4 for ℓ = 10–25: the ring's window cost tends to
+  the interval's exponent with a power ℓ^{−1.3}, as the 2D rule's does to 0.345 with ℓ^{−1.1} (path's reading).
+  **More support, exact (lab L7.2, L7.4, L7.5).** (i) At a fixed age k the probability that D2 is dead has the same
+  exponent on a ring and on a dead-ended interval (k = 2, 3), and the ring's local slope at L = 10–18 is 0.014–0.03
+  above it: the pattern of the lifetimes exists where the equality of exponents is a theorem. (ii) From a
+  product row at the steady density the hazard at ages 4 and 5 equals the ring's steady hazard to 1% at L = 14–18,
+  and its exact asymptotic exponents are 0.5079 and 0.4992. So either that equality breaks beyond L = 18 or the
+  ring's steady step (0.52–0.53 at L ≤ 19) comes down to 0.499 or less.
+  **Two more dice models, exact to 18–19 cells (lab L8.1, L8.5).** Five-parent oriented percolation OP₅(½):
+  interval's step 0.3815 (converged to 0.001), ring's 0.4191, and (ring's step − interval's)·L = 0.76, 0.74, 0.72,
+  0.71 at L = 12, 15, 18, 19. The anchor (½, 0, ½): dead and reflecting ends both 0.6236, ring 0.671, and the same
+  product is 0.92, 0.88, 0.87, 0.84 at L = 15…18. In both the ring carries a power of L (L^{0.7}, L^{0.85}) on one
+  exponent. In D2(0.472) the product is 0.99, 1.03, 1.19, 1.31 at L = 16…19: the ring's step is level at 0.522–0.528
+  and does not descend at these sizes. In OP₅ and at the anchor the ring outlives the interval; in D2 the
+  interval outlives the ring.
 - **E7. The lineage rows (slow variable; 1% double peels) were measured on O_h-symmetric states only.**
 - **E8. In the 2D strips the edge wait is a competing hazard.** At depth 16 the strip is cut across by three dead
   columns far more often than it loses an edge (cuts + interior firewalls against edge deaths: 4,768 / 898 at
@@ -85,7 +192,13 @@ None of these changes the problem. Each is a number or sentence a proof could le
   3.2, 4.7, 5.9, 6.8 generations at A = 30, 45, 63, 84, and looking back from the death the mean population is one
   curve at every size until it saturates (1.6, 3.5, 6.4, 9.7, 13.6, 17.6 at lags 1…6). The farthest two cells of
   those faces are 5, 6, 7, 8 generations apart (`startpoints.py crossing`). "Ordinary until −16, then 10–12
-  generations" (fluct README) describes the largest of these faces, not a size-independent plunge.
+  generations" (fluct README) describes the largest of these faces, not a size-independent plunge. And the
+  population is not Markov along a death path (lab L5.3): the pooled one-step table, reversed from the deaths,
+  gives 1.6, 2.9, 4.3, 5.9, 7.7, 9.8 at lags 1…6. A dying face falls about twice as fast as faces of the same
+  population do on average: a second variable (the cells beneath) is carried along.
+  One row over dice, exact (lab L8.3): not a flash of fixed length either. A dying ring of 18 has population 2.4,
+  6.7, 9.3, 10.5, 11.4 at 1, 2, 3, 4, 6 generations before death (steady 11.6) and a dying interval 1.4, 3.3, 6.2,
+  8.3, 10.4 (steady 12.0); both collapses lengthen with the vessel.
 
 ## The lead's starting points: what I checked
 
@@ -99,11 +212,16 @@ None of these changes the problem. Each is a number or sentence a proof could le
 - "The face layer over fresh random layers, where an empty face is absorbing by T2": true (a dead face cell sees
   at most 3 cells beneath; 2D: 2). This is the exponent study's one-row model; it is defined below as D2 / D3 and
   is now exact for the 2D rule (lab L0b.4). Not in the graveyard: item 6 is about an *unknown* outside, item 7
-  about this model's constant. No lower bound e^{cL} is proved for it. Two structural facts: in D2 the cells
+  about this model's constant. A lower bound e^{cL} is now proved (probability's Theorem A, modulo two cited
+  percolation facts) only near the law "b = 0 or 2 by a fair coin"; for independent rows (ρ ≥ 0.46) probability
+  proved that no one-step monotone comparison can give it (its Lemma 2). Two structural facts: in D2 the cells
   update independently given the row, with two deterministic transitions ((dead, k = 0) stays dead; (live, k = 2)
   stays alive); in D3 the noise is shared inside each cube triple and independent between triples (cube lemma).
 
 **counting.**
+- "For an invertible relative the law reduces to counting the trapdoor": **void.** In a bijective relative
+  nothing is absorbing: the second-order lift of gump is a bijection confined to the same hulls, "face empty now"
+  has frequency exactly 2⁻ᴬ, and no state ever enters "face empty twice running" (counting's Lemma 2; checked).
 - The bijection lemma is true **if a point that never falls counts as T = ∞** (checked: proof, and every
   permutation of ≤ 7 points). Over the points that do fall the bound is |X′|/(2|H|) − 1/2 with X′ the cycles that
   meet H. The union bound #{T ≤ t} ≤ (t + 1)|H| is stronger, bounds the law and not only the mean, and holds for
@@ -111,10 +229,12 @@ None of these changes the problem. Each is a number or sentence a proof could le
 - "What replaces the uniform measure": in a finite vessel every invariant measure of gump or of the 2D rule
   gives the trapdoor measure zero (face death is irreversible; lemma exchange). An invariant measure is therefore
   not the replacement, in any finite vessel.
-- "Countable exactly for small k": 2D, k = 1: a 16 × 16 transfer matrix (`iid_flash.py`; under the uniform measure
-  a fraction 0.5761ᴸ of the states of edge + two rows has an empty edge next). k = 2 needs 2¹⁶ window states
-  (feasible on request); k = 3 needs 2³⁶ (not by a plain transfer matrix). Gump, k = 1: a condition cube by cube
-  (cube lemma), so a two-dimensional count; exact on hull faces by enumeration, on strips by transfer matrix.
+- "Countable exactly for small k": done for the 2D rule at k = 1, 2 (counting's Theorem 3; lab L3.1, L3.2): the
+  from-soup probability that the edge is empty at generation k decays exactly like e^{−c_k L} with c₁ = 0.551535,
+  c₂ = 0.467693. k = 3 needs 2³⁶ window states (not by a plain transfer matrix). At horizon 2 the true rule's dying ensemble is a row that fills
+  (98.7% alive at generation 1) and is overcrowded: c₂ is the cost of that route, not of a thinning edge (lab
+  L7.7). Gump, k = 1: a condition cube by cube (cube lemma), so a two-dimensional count; on a strip three top
+  cubes wide 0.4807 per cell at density ½ (crowded route) and 0.3404 at 0.4155 (thin route) (lab L7.8).
 - "Too large a constant": see E13.
 
 **path.**
@@ -175,18 +295,25 @@ None of these changes the problem. Each is a number or sentence a proof could le
   periodic face follow gump, the next two layers are dice. These are `toy_model`, `gump_model`,
   `gump_slab_model` of `research/theory/exponent/xp.py`. For a dice model τ = 1/(1 − λ), λ the Perron eigenvalue of
   the kernel on living states, is well defined (Darroch–Seneta).
+  **E₁(π)** (the probability line's model; it contains D2): the same ring, the number b ∈ {0, 1, 2} of live cells
+  beneath each cell drawn i.i.d. with any law π = (π₀, π₁, π₂). D2(L, ρ) is π = Bin(2, ρ). The **anchor**
+  π = (½, 0, ½) means "the two cells beneath are equal, by a fair coin". Given the row, the cells update
+  independently: P(alive | live, k) = π₂, π₁+π₂, 1, π₀+π₁, π₀ and P(alive | dead, k) = 0, π₂, π₁+π₂, π₀+π₁, π₀ for
+  k = 0…4 live in-row neighbours (checked). If π₀, π₂ > 0 no state is immortal and the chain on non-empty rows is
+  irreducible and aperiodic. The same model on an interval with **dead** ends (a box edge) or **reflecting** ends
+  (a mirror-symmetric ring of twice the length with mirrored dice) is used in the lab table.
 
 ## Facts table of PROBLEM.md: what I checked
 
 | row | status |
 |---|---|
 | gump ln τ at A = 30…84 | read against fluct README and `fluct/data/qsd_summary.json`: reproduces. See E2 |
-| GPU numbers at A = 108, 135 | not checked (under review elsewhere). See E2 for the quoted slopes |
+| GPU numbers at A = 108, 135 | reviewed elsewhere (read: `research/audit/REVIEW-gpu-pr8.md`); not recomputed by me. See E2 |
 | straight tail, ratio 0.6–0.7, h ≈ 0.6·P(1), 62% from one cell | recomputed from `qsd_summary.json`: h/p₁ = 0.645, 0.613, 0.601, 0.594; p_k/p_{k+1} = 0.65–0.69 (k = 1), 0.47–0.56 (k = 2), 0.74–0.87 (k = 3), 0.60–0.70 (k = 4…7). The ratio at k ≥ 4 drifts down with size: "size-independent end-game" holds to about 10% |
 | favoured 3-cell state is a kagome triangle | read (notebook 2026-11-13: 38% of three-cell faces, 1,263 face-generations, one vessel R = 9). It is the triple of the cube lemma: the three faces of one cube |
 | 2D law, tail, h/p₁ 0.52 → 0.27 | recomputed from the data file: reproduces; see E1, E8, E9 |
-| symmetric gump faces | read; see E5 |
-| 2D symmetry ratios | read; see E6 |
+| symmetric gump faces | read; see E5 (with the new points at A = 759, 828) |
+| 2D symmetry ratios | read; local slopes recomputed from the committed files (lab L1.6, L3.7); see E6. The C4 slope is measured under heavy settling |
 | overcrowding rates | read; see E4. Not re-measured |
 | sealed sets: 6-ring, 36-cell set, none in ≥ 3 layers; face smallest in a hull | proof of Theorem 3 re-derived; 6-ring minimal by search; 36-cell set not checked; hulls exact to R = 10; see E12 for slabs |
 | slow variable; 1% double peels | read; see E7 |
@@ -197,13 +324,34 @@ None of these changes the problem. Each is a number or sentence a proof could le
 | idea | who | state |
 |---|---|---|
 | the face as a system driven through b(c); rim lemma (holes heal only from the rim; recovery at speed ≤ 1) | path (L1) | proved, checked |
-| a one-step inequality for a statistic of the face bounds the hazard, no Markov property (Theorem P) | path | proved, checked. As first stated (geometric φ) its hypothesis is false; with φ free it holds on the measured rows with a loss of 4.0 nats at every size (lab L1.2) |
+| a one-step inequality for a statistic of the face bounds the hazard, no Markov property (Theorem P); pooled form: deaths = entries into a low set × the committor ψ* of the pooled one-step table (Theorem P̄) | path | both proved, checked. Hypothesis H (geometric φ) false; H′ (ψ* ≤ C e^{−θk} with constants independent of A): on the tallies ψ* steepens with A, θ = 0.52, 0.55, 0.58 at A = 45, 63, 84 (lab L5.1). In its inequality form (path, round 3): ψ*_A(k) is non-increasing in A at every k ≤ 12 on the four tables, one exception within one standard error (lab L9.1); that bounds ψ* only for k below half the smallest face |
 | sealed sets = complements of bootstrap-closed sets; isoperimetry of sealed sets in hulls (aim A) | path (L3, L4) | L3, L4 proved, checked; A exact to R = 10 (lab), open in general; false in wide slabs (E12) |
 | one exponent 0.345 for the 2D rule in every geometry, a ring carrying a power of L (G1) | path | guess from committed data; exam E1 filed. D2 on a segment is exact (lab L1.5): undecided |
-| flash or front; the remnant | path (G2, exam E2) | gump: not a flash of fixed length (E14). 2D: open |
+| flash or front; the remnant | path (G2, exams E2, E3) | gump: a shrinking remnant, √n falling ≈ 0.59 per generation looking back from death (data reading, checked arithmetic); but n is not Markov along death paths (lab L5.3). 2D: open |
+| every permanent loss is the extinction of a minimal sealed set (Proposition S); the wait is then set by the smallest sealed set: a face in a hull, a band in a wide slab | path | S proved, checked (also on every state and sealed set of three 12-cell vessels, lab L9.4); the conclusion is conditional on H′ for that set |
+| γ from the tail: γ = θρ − θ²σ²/2 (relation M) | path | **withdrawn by path** (round 3); its tangency assumption fails on the histograms and the formula is 0.9–1.6 nats too large at A = 63, 84 (lab L5.4) |
+| γ as the integral of the local roots of the population's one-step law, ln τ ≈ A·∫θ(x)dx (claim Th) | path (round 3) | guessed; **not supported as stated** (lab L9.1): Σθ_k = 4.87, 8.72, 13.10, 18.07 against −ln h = 6.81, 9.82, 13.63, 18.08 (a crossing at A = 84; slopes 0.24–0.26 against 0.20–0.21), and the sum overshoots the same table's own committor by 0.03 per cell. What holds: θ collapses in k/A for A ≥ 63; 2·mean/variance gives θ_k to 1–7%; −ln h − (−ln ψ*(K − 1)) = 1.18, 1.06, 1.00 (the entry flux of Theorem P̄, constant) |
+| a death-age profile model for the power of L: none for free ends, L^{−1/2} for a ring, ℓ^{−3/2} for a window (claim W) | path (round 3) | model; the free-ends statement proved in the model (confirmed). Exact numbers to set against it: the power of L in τ_ring/τ_interval is 0.71 (OP₅(½), falling), 0.84 (anchor, falling), 1.0–1.3 (D2, rising) at 18–19 cells (E15); the mean age of the central cell of an empty window in D2 grows from 2.0 to 2.7 generations for ℓ = 1…13 (lab L9.3) |
+| biased voter dynamics as a caricature in which the area law is exact (Proposition R) | path | proved, checked |
+| finite-horizon exponents from soup: λ(T ≤ k) = tr(M_kᴸ)/2^{(2k+1)L}, c_k decreasing in k, c_∞ = lim c_k | counting (Theorem 3) | theorem proved, checked (c₁, c₂ exact). The bridge to the measured law (C1) is **withdrawn** by counting in round 2: the fixed-age exponent depends on the soup (c_k(p) ≤ −ln(1 − p), its Lemma 6; re-derived) and long gaps made early persist. What is left is a guess C1′ (c_∞ ≤ γ, equality for soups with no cheaper early route). Tested on D2 (lab L7.2–L7.5): c_k has not levelled off at k = 6; a sparse soup has c₂ below the steady exponent, a fair soup reaches the interval's steady exponent at k = 5–6, a soup at the steady density is 0.039 above it at k = 6 and closing like 0.24/k. C1′'s hypothesis (a fixed age from which the hazard is steady, uniformly in L) fails for the sparse and fair soups on L ≤ 18 |
+| at a fixed age the true rule is a dice model (D2 with w ≥ 2k − 1 rows gives the true rule's D_k); a live edge cell thins the cells beneath it (Lemma 7); one-generation death probabilities of a lone cell and a lone triangle of a gump face over dice | counting (round 2) | proved; all confirmed (Lemma 7 by enumeration; lone cell and lone triangle by stepping the true rule on a slab for every pattern beneath, lab L7.9; the hierarchy by its light-cone argument and at k = 1 by exact numbers) |
+| boundary conditions and symmetry at a fixed horizon: free ends ≥ ring, mirror ≥ half, C4 and diagonal = no symmetry | counting (Prop. 4) | proved, checked at k = 1 on small boxes; c⁰_k = c_k verified for k = 1, 2 (lab), and for D2 at k = 2, 3 (lab L7.5) |
+| the second-order lift as an invertible relative | counting (Lemma 2) | proved, checked: its faces never die |
+| collision entropy of the top three rows as a countable hypothesis (claim 15) | counting | inequality proved; hypothesis fails from generation 2 in every vessel that can be enumerated (lab L3.5) |
+| the dice model E₁(π) (one row of the 2D rule over i.i.d. b with any law); its sharp one-step monotone minorant; the law as a theorem near π = (½, 0, ½) by comparison with oriented site percolation | probability (Lemma 1, Theorem A) | proved, checked, modulo F1 (critical density of oriented site percolation ≤ 0.7491) and F2 (finite-volume survival), both requested from the library |
+| one-step comparisons cannot reach independent rows; block comparisons over n generations must seed at nearly full speed | probability (Lemma 2, claim 8) | proved, checked |
+| a multi-generation criterion for E₁(π) (T1); boundary conditions do not change the exponent of a dice model, hence "mirror = exactly half" (T2) | probability | guesses. T1: its general form is Lemma 3 (below); no certificate found. T2 split in three: T2a dead = reflecting (exact data: yes, in D2 and at the anchor; one dead and one reflecting end = the mean of the two to 2×10⁻⁴, exam P-E2 confirmed); T2b ring ≤ interval (conditional: Proposition W); T2c nothing |
+| the percolation lower bound under conditional weight ≥ p at b = 0 and at b = 2 given the whole past, any bulk (Theorem A′); a one-step Lyapunov form of a lower bound and the fact that no r^{additive local health} satisfies it (Lemma 3, claim 13); ring against the dead-ended interval four cells shorter: Q_ring = w·Q_dead on rows with a four-cell gap, h_ring ≥ w_min^{n+1}·P_ν(T_d = n+1) (Proposition W); front bound for five-parent oriented percolation, exponent ≤ ln β* (0.4812 at ½) (Proposition F) | probability (round 2) | all proved, confirmed (lab L8.6); claim 13 rests on a local three-move game checked exhaustively for arcs of ≤ 7 cells only. Proposition W's hypothesis H(n, c) holds with c = 1 from n = 0 at L = 12, 15, 18, but its constant ρ₀ is the ring-to-interval ratio in another guise (lab L8.2): T2b is not decided by it |
+| **meeting point of three lines: "one exponent ≈ 0.345 for the 2D rule; the ring's excess is a prefactor"** | path (G1, exam E1: data side and the power of L), counting (Prop. 4, C1: fixed horizons), probability (T2: the dice model) | open; see E15 |
+| **the same transfer statement in two lines:** a lower bound for the edge over any bulk from a conditional bound on the drive | probability (Theorem A′: given the whole past), source (Theorem L: given the row and the other cells' drive at the same time; domination of marginal laws) | both proved, confirmed. Source's hypothesis is implied by probability's; both fail for independent dice at the bulk density (ρ² = 0.22 < 0.4991) |
 | a deterministic relative that is a dice model exactly: true rule in the top w layers over a deep-permutive bulk, feedback allowed (R_w(Q), "gump on parity") | source (Lemma 1) | proved, checked. Needs a half-infinite reservoir |
 | the death law of a face depends on the bulk only through the equal-time conditional law κ_t of the two layers beneath given the w layers above; a class 𝒦 of such kernels on which the dice theorem holds (Aim B) | source (Lemma 3, C9) | Lemma 3 proved, checked; 𝒦 is a goal, nothing proved |
 | entropy accounting: what a finite vessel cannot supply | source (Lemma 2) | proved; excludes conditioning on the whole past only (reply, item 2) |
+| any probabilistic automaton with rational local randomness is the top of a deterministic one; in particular the probability line's anchor; the relative has an exact quasi-stationary law (C1′, C1″) | source | proved, checked. **With probability's Theorem A: a deterministic automaton on a half-plane for which e^{cL} ≤ τ_L is a theorem (modulo the two cited percolation facts).** Written out by source in round 3 as its Theorem A: the automaton 𝒜(L) (2D rule in row 0; every cell beneath copies the cell two rows down; fair bits written in pairs of rows); confirmed by enumeration (lab L10.1). Its exponent: ring step 0.671 at L = 18 and falling, interval 0.6236 (lab L8.5) |
+| insertion tolerance of the equal-time drive, INS(p): each cell within distance 2 of a live cell is alive next with conditional probability ≥ p given the row and the other cells' drive; then the edge dominates five-parent oriented percolation of density p in law at each time (Theorem L) | source (round 3) | proved, confirmed (re-derived; an exact example with a correlated, row-dependent drive, lab L10.2). INS(p) fails for every p > 0 from generation 1 in the strip 4 × 6 (lab L10.4), and at p > 0.4991 for independent dice at the bulk density |
+| equal-time finite energy of the drive given the face, in units (edge cells; cube triples): E[δ^F; killable] ≤ h ≤ E[θ^F]; lifetime ≤ g·δ^{−gU} (Theorems H, U) | source | proved, checked, as conditional statements. The hypotheses fail strictly in the one vessel where they can be tested (lab L6.5); g = 2 on four faces |
+| the last cell: dice of density ρ give P(death) = (1 − 3ρ³ + 3ρ⁵ − ρ⁶)(1 − ρ³)⁴; gump's measured row from one cell is that of ρ ≈ 0.52 | source (C13, C14) | formula proved, checked; the fit holds across the whole row (lab L6.1); but the layer beneath a nearly empty face is poorer than usual, not richer (lab L6.2) |
+| screening: beyond some depth the exponent does not depend on the drive, so gump and "gump on parity" share it (Conjecture S) | source | guess; no exact support at depth 2 (lab L6.3) |
 | threshold lemma with weights decaying in space; a threshold bulk is not a source | source (Lemma 4, Cor. 4a, 4b) | proved, checked; constants poor (C_U ≈ 1.4×10⁶ per cell) |
 
 ## Graveyard: ideas already tried here and dropped, with the reason
@@ -236,8 +384,12 @@ None of these changes the problem. Each is a number or sentence a proof could le
 11. **Cubes outlive their ensembles / lineage memory.** Post hoc; not a fact to explain.
 12. **"The plunge lengthens with L in the 2D rule."** Reported false (two-generation flash; unchecked).
 13. **"A gump face can die in one generation whatever its configuration."** False; see E10.
-14. **A monotone process below the capped rule.** Any monotone map H ≤ G has H∘H = ∅ (checked). A comparison from
-    below must leave the full state space.
+14. **A monotone process below the capped rule.** Deterministic rule: any monotone map H ≤ G has H∘H = ∅
+    (checked). Dice models, one-step comparisons (probability, entries 2, 4; checked): for two or more rows over
+    dice and for a gump face over dice there is none (the all-alive state dies whatever the dice show); for one
+    row over dice the largest one is explicit (rates min(π₀, π₂), min(π₀, 1 − π₀), π₀) and it dies in O(log L)
+    generations for independent rows with ρ ≥ 0.46 (contraction 0.9475 per generation at ρ = 0.472). A comparison
+    with a monotone process must use several generations, or leave independent rows.
 15. **Exact dice from a confined deterministic source for the whole lifetime.** Entropy: N cells give at most N
     bits of dice; lifetimes are e^{cA}. Exact transfer needs a reservoir that deep (source Lemma 2 states it as
     Σ_t H(b_t | whole past) ≤ N). This excludes properties that condition on the whole past, not on a window.
@@ -251,6 +403,33 @@ None of these changes the problem. Each is a number or sentence a proof could le
 19. **An exact quasi-stationary law, or an exactly geometric wait, for the deterministic rule in a finite vessel.**
     None exists (lemma exchange, "trapdoors" (v)). "Memoryless" there is an approximate statement about a window
     of times; exact statements need dice or an infinite system.
+20. **An invertible relative with a lifetime law.** A bijection of a finite set has no absorbing set that is
+    entered from outside; the face of the second-order lift never dies (counting Lemma 2). The uniform measure
+    gives frequencies of "empty now", not lifetimes.
+21. **The measured exponent as the limit of fixed-age exponents from a soup** (counting's C1, withdrawn by
+    counting; its successor C1′ is still that line's guess and is weakened by the same numbers). Three exact
+    reasons. (i) The limit depends on the soup (c_k(p) ≤ −ln(1 − p); in D2 a row started at density 0.472
+    has c₂ = 0.4445 below the steady exponent 0.460). (ii) What a fixed age measures is a route the steady state
+    hardly uses: a thin row that withers (fair or sparse start) or a row that fills and is overcrowded (dense
+    start; the true 2D rule at horizon 2 passes through a row 98.7% alive). (iii) The steady death needs a number
+    of generations that grows with the vessel (lab L8.3), and from a dense start c_k is still above the steady
+    exponent at the largest reachable horizon (0.523, 0.508, 0.499 at k = 4, 5, 6 against 0.460;
+    (c_k − 0.460)·k = 0.25, 0.24, 0.235). (Lab L7.2–L7.7.)
+22. **γ as the sum of the local roots of the population's one-step law** (path's Th: ln τ ≈ A·∫θ(k/A)). On the
+    pooled tables the sum exceeds the same table's own committor exponent by 0.45, 0.98, 1.46, 2.02 nats at
+    A = 30, 45, 63, 84 (0.03 per cell), and equals −ln h at A = 84 only by crossing it (slopes 0.24–0.26 against
+    0.20–0.21). The step of the population has standard deviation 2–5 cells while the root changes by 0.01–0.03
+    per row, so the local evaluation is not accurate. The collapse of θ in k/A is real. (Lab L9.1.)
+23. **A lower-bound certificate of the form r^{sum of local health}** (probability, claim 13): for one row over
+    dice, and for five-parent percolation, a patch of the healthiest texture in vacuum loses health in
+    proportion to its length (any arc is emptied within three generations with probability ≥ p^{3m+12}) and can
+    gain only at its two ends. A certificate has to price a gap by its length and merge gaps: a contour weight.
+    (The local game: exhaustive for arcs of ≤ 7 cells, lab L8.6.)
+24. **Transferring a dice theorem to the rule's own bulk through an equal-time condition on the drive** (finite
+    energy: source's Theorems H, U; insertion tolerance: Theorem L, probability's A′). The implications are
+    proved; the conditions fail with exact zeros in the one vessel where they can be computed (lab L6.5, L10.4),
+    and insertion tolerance at the level the one dice theorem needs (p > 0.4991) fails already for independent
+    dice at the bulk density (0.22). Caveat: that vessel has no steady state.
 
 ## Lemma exchange
 
@@ -274,6 +453,16 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
   window P(death next | Z) + E[φ(Z′); still observed | Z] ≤ a·φ(Z) + ε, with censoring rate ≤ s̄ and a + ε ≤ 1 − s̄,
   a < 1 − s̄, then the hazard is at most ε(1 − s̄)/(1 − s̄ − a) after a burn-in. No Markov property is used. Statement
   and proof: `path/journal.md` entry 3.
+- **Theorem P̄** (path, entry 8; proof checked). Pool over any window: N(z) exposure at Z = z, D(z) deaths from z,
+  F(z, z′) observed transitions. For a finite "low" set 𝓛 and any ψ ≥ 0 on 𝓛 with D(z) + Σ_{z′∈𝓛} F(z, z′)ψ(z′) ≤
+  N(z)ψ(z): Deaths ≤ (deaths from outside 𝓛) + Σ_{entries z → z′ into 𝓛} ψ(z′) + a boundary term; an identity for
+  ψ* = (I − T̄_𝓛)⁻¹ d̄, the committor of the pooled table. No Markov property, no uniformity in time.
+- **Sealed subsystems** (path L1′, Proposition S; checked): inside any sealed set life spreads only from life in
+  the set; the permanently dead region grows only by extinctions of whole sealed sets, and the first permanent
+  loss is the extinction of an inclusion-minimal sealed set.
+- **Biased voter dynamics** (path Proposition R; checked on small graphs): on any finite graph, with spread at
+  rate λ and retreat at rate 1 across every occupied–vacant pair, a set of n sites dies out before filling the
+  graph with probability (λ⁻ⁿ − λ⁻ᴺ)/(1 − λ⁻ᴺ). An exact area law for a droplet; a caricature, not a relative.
 - **Sealed = complement of a bootstrap-closed set** (path L3; checked): the unsealed region V \ K(t) is the
   θ-neighbour bootstrap closure of the live set and never grows. **Top-layer rigidity** (path L4; checked): a cell
   in the top layer of a sealed set whose three upward neighbours are in the vessel has all its other neighbours in
@@ -281,6 +470,34 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 - **Capped against uncapped** (checked). Gᵗ(S) ⊆ Fᵗ(S) for the uncapped monotone rule F, also with shared dice.
   Any monotone H ≤ G satisfies H(S) ⊆ G(all alive) = the six vertex cells of a cube-centred hull, the four
   corners of a box, nothing in slabs, strips, tori, vertex-centred hulls; and H∘H = ∅.
+- **One row over dice** (probability, entries 1–4; checked). E₁(π): cells independent given the row (table under
+  "Definitions"); from every state the empty row is reached within three generations with probability ≥ p^{3L},
+  p = min(π₀, π₂), so E T ≤ 3p^{−3L}. The row dominates five-parent oriented site percolation of density p
+  (every cell within distance 2 of a live cell is alive next with probability ≥ p, whatever the row). **Theorem A:**
+  if 1 − (1 − p)² exceeds the critical density of two-parent oriented site percolation, then τ_L ≥ e^{cL} (even
+  L): blocks of two cells in a frame drifting one cell per generation. Five-parent oriented percolation dies for
+  density < 1/3. Statement and proofs: `probability/journal.md`.
+  **Round 2 (all confirmed).** *Theorem A′:* the same lower bound for the edge over any field b with
+  P(b = 0 | everything else) ≥ p and P(b = 2 | everything else) ≥ p. *Lemma 3:* if 0 ≤ g ≤ 1 and
+  d + Qg ≤ a·g + ε at every living state with a + ε < 1, then τ ≥ 1/ε; no such g is r^Φ with Φ a sum of local
+  non-negative terms. *Local three-move game* (lab L8.6, exhaustive for arcs of m ≤ 7 cells): from any row, an arc
+  can be emptied in three generations by choosing b on the cells that can reach it; two generations fail for
+  the lone triple in a dead stretch. *Proposition W:* with G four adjacent cells of the ring and A the rest,
+  Q_ring(S, S′) = w(S)·Q_dead(S, S′) for S, S′ ⊆ A, w ≥ [π₀(1 − π₂)]²; hence h_ring(L) ≥ w_min^{n+1}·P_ν(T_d = n + 1), ν the
+  ring's quasi-stationary law on rows with G dead; the same for a reflecting interval with its two outer cells
+  at each end. *Proposition F:* OP₅(p), p > 1/3: max_S E_S T ≤ C·L·β*^L, β* the root > 1 of qβ² − pβ − p.
+- **Finite-horizon law for the 2D rule** (counting Theorem 3; proof checked; exact checks on strips). From the
+  uniform soup, in a strip with ≥ 2k + 1 rows, P(edge empty at generation k) = tr(M_kᴸ)/2^{(2k+1)L} ≤ m_k e^{−c_k L},
+  M_k a 0/1 matrix on windows of 4k columns of rows 0…2k; c_k is also the exact decay rate of empty windows of the
+  infinite edge at generation k; 0 < c_{k+1} ≤ c_k < ln 2. **c₁ = 0.551535, c₂ = 0.467693** (density 0.472: 0.489963,
+  0.4671). Box edge (free ends): the same count with closed walks at the all-dead window, and the same exponent
+  for k = 1, 2 (its class is dominant). Statement and proof: `counting/journal.md` entries 4, 5. This is a law at
+  fixed age as L grows; it is not the measured law (the bound is useful only while k ≲ √L).
+- **Lone-cube guard** (counting, entry 4; argument read): the six faces of a cube whose top faces lie in a face
+  layer, alone in a dead box of half-width 2k + 2, keep that face alive for k generations whatever is outside the
+  box. Hence for a slab face P(dead by generation k) ≤ e^{−c⁻_k A} from soup, c⁻_k > 0 for each k.
+- **Symmetry inside a light cone** (counting Prop. 4(e); read): under a G-symmetric soup, a set whose
+  k-generation cone meets each G-orbit at most once has the same law as under the free soup.
 - **Trapdoors** (checked). (i) Bijection, T = ∞ off the cycles meeting H: mean T ≥ |X|/(2|H|) − 1/2.
   (ii) Any map, any invariant μ: P_μ(T ≤ t) ≤ (t + 1)μ(H). (iii) Finite vessel, H_k = {face non-empty now, empty k
   generations later}: μ(H_k) = 0 for every invariant μ. (iv) Uniform start, any map:
@@ -297,6 +514,59 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
   has entropy rate zero at any finite set of cells. Statement and proof: `source/journal.md` S5.
 - **Starvation** (checked, two lines): in a face with at most three live cells no live face cell is overcrowded
   (k ≤ 2, b ≤ 3). So in a death from n ≤ 3 (94% of gump's measured deaths) every cell dies with n ≤ 2.
+- **Monotone comparison for a projected statistic** (source, round 2 report; checked, two lines): if q is a
+  stochastically monotone kernel on {0, …, A} with 0 absorbing and every true one-step row dominates it,
+  K_t(n, ·) ⪰ q(n, ·) for all t and n, then the law of the statistic at time t dominates λ₀qᵗ, so
+  P(T > t) ≥ P_q(T > t); with ⪯ the reverse. No Markov property of the statistic is needed (it uses the
+  Markovian projection). An alternative to a certificate for Theorem P̄. On the pooled tables of gump's face
+  population (lab L9.2): each table is stochastically monotone in every tallied row (violations < 10⁻⁴), and at
+  equal k the larger face's row dominates the smaller's up to +0.007 in the distribution function. The lemma
+  needs the domination for the kernel at each time; a pooled table is a time average.
+- **Insertion tolerance** (source Theorem L; confirmed). For any process whose edge row follows the 2D rule: if at
+  each time of a window, for every row z and every cell x within distance 2 of a live cell,
+  P(x alive next | z, the drive of the other cells) ≥ p, then the law of the edge at each time dominates that of
+  five-parent oriented site percolation of density p started from the edge at the start of the window. Equal
+  time, one-sided, no independence. Probability's Theorem A′ is the same with the whole past in the condition.
+- **Self-overcrowding** (source C18; probability, entry 2; confirmed from the rule table). A gump face cell with
+  six live in-face neighbours dies whatever lies beneath; a dead face cell with three live in-face neighbours is
+  born only for b ∈ {1, 2}. A 2D edge cell has k ≤ 4 and can always be kept alive by b = 0 or b = 2. So no
+  one-step worst-case comparison exists for a gump face, and a drive taking two values per cube is not enough.
+- **Frozen cells** (source Lemma 5; checked): a cell with one unknown neighbour (the deep one) is determined one
+  generation ahead unless k + x = 3 or k = 5 (2D: k + x = 2 or k = 4): the threshold and the cap are the only
+  contexts in which a cell passes on what lies beneath it.
+- **Finite energy of the drive** (source Theorems H, U; checked as conditional statements). Units = edge cells
+  (2D) or cube triples (gump); F = number of units whose fate depends on their drive. If, given the face and the
+  drives of the other units, each unit's drive avoids its death set with probability ≥ 1 − θ, then h ≤ E[θ^F];
+  if every drive value has conditional probability ≥ δ, then h ≥ E[δ^F; no unit locked] ≥ δ⁵·P(n = 1), and the
+  lifetime is ≤ g·δ^{−gU} with g the depth of the face game. For dice these hold with δ = min(ρ, 1 − ρ)² (2D).
+- **A lone triangle under dice** (counting, entry 12; checked: the true rule stepped on the slab 4 × 4 × 4 for every
+  pattern beneath each of the seven cubes concerned, 1·50⁶ of 2⁴² patterns kill; lab L7.9): the
+  three faces of one cube alone in a gump face die together iff all six cells beneath that cube are dead, and
+  their twelve dead in-face neighbours (two to a cube, six cubes, each next to one cell of the triangle) are not
+  born with probability (1 − 2ρ³ + ρ⁵)⁶: P(face empty next) = (1 − ρ)⁶(1 − 2ρ³ + ρ⁵)⁶ = 0.0036 at ρ = ½.
+- **Small faces under dice** (lab L7.9; exact). P(face empty next) at ρ = ½ (0.4155; 0.52): two cells adjacent in one
+  cube 0.0783 (0.194; 0.060), adjacent in two cubes 0.0572 (0.156; 0.043), adjacent across a hexagon 0.0877 (0.214;
+  0.068), near and not adjacent 0.056–0.123; the triangle of one cube 0.0036 (0.0172; 0.0023); the triangle of the
+  other orientation (three cubes) 0.0009 (0.0052; 0.0006); paths of three 0.003–0.010.
+- **One row over dice at a fixed age** (lab L7.2–L7.5; exact). P(row empty at generation k) from a Bernoulli(p) row
+  is tr(M_kᴸ) for a matrix on 2^{4k} window states (counting's Theorem 3 for D2); c_k to k = 6 at three (p, ρ) is in
+  the lab table. The ensemble that dies by generation k is a thin row that withers (fair or sparse start) or a
+  row that fills and is overcrowded (start at the steady density). Ring and dead-ended interval have the same
+  c_k (k = 2, 3), and the ring's local slope at L = 10–18 is 0.014–0.03 above it.
+- **One generation of a gump face from soup** (lab L7.8; exact). P(face empty next) = Σ_S P(S) Π_cubes W_q(S)
+  (checked against the true rule on every state of three small slabs). Strip three top cubes wide: 0.48066 per
+  face cell at density ½ (the crowded route, 87% of the face alive; the thin route costs 0.5101) and 0.34042 at
+  0.4155 (the thin route). Whole 3 × 3 periodic face: 0.4676 and 0.3400.
+- **Gaps persist** (counting Lemma 6 = path's rim lemma for the 2D edge; checked): an empty window of ℓ + 4j edge
+  cells at generation k leaves its middle ℓ cells empty at generation k + j, whatever lies beneath.
+- **The last cell under dice** (source C13; checked by enumeration): a lone interior cell of a gump face over
+  product dice of density ρ dies with probability (1 − 3ρ³ + 3ρ⁵ − ρ⁶)(1 − ρ³)⁴ and has 7ρ³ cells next on average
+  (2D: (1 − ρ²)⁵ and 5ρ²).
+- **How one row over dice dies** (lab L8.3; exact, D2(0.472)). Looking back from the death under the
+  quasi-stationary process: a dead-ended interval dies by one gap leaving one wall (larger wall gap 11.9, 8.2,
+  5.8, 4.2, 2.5, 1.7 cells at 1, 2, 3, 4, 6, 8 generations before death, M = 18; steady 1.04; the other wall's gap
+  near steady until the last two generations); a ring by one dead arc growing from both ends (14.5, 9.2, 6.0,
+  4.5, 3.4 of 18; steady 3.15). Neither is a flash of bounded length; both lengthen with the vessel.
 - **Markovian projection** (source Lemma 3; checked): for any process and any map π to a finite set, the law of
   π(ω_t) evolves by the one-step kernels K_t(s, s′) = P(π(ω_{t+1}) = s′ | π(ω_t) = s); the hitting time of an
   absorbing set has exactly the law of the absorption time of the inhomogeneous chain (K_t). For a face: K_t is
@@ -309,7 +579,9 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
   value consumes the fresh initial cell p + te. **With feedback** (source Lemma 1; proof checked; exact check on
   a 3 × 7 box): if the bulk below depth w is permutive in each cell's deep neighbour (two layers in), the top w
   layers run the true rule and the bulk may read them, then from (any law) ⊗ (uniform) the top w layers are
-  exactly the dice chain D2 / D3 with ρ = ½. Literature (`library/notes/algebraic-ca.md`, read in the note): the
+  exactly the dice chain D2 / D3 with ρ = ½; with any local rule on top, any chain driven by fresh uniform
+  symbols (so any rational law π in E₁(π), by two decoder rows reading one symbol), and started from
+  (quasi-stationary law) ⊗ uniform the wait is exactly geometric (source C1′, C1″; checked). Literature (`library/notes/algebraic-ca.md`, read in the note): the
   one-dimensional bipermutive statement is Shereshevsky–Afraimovich / Sablik / Pivato (r − l adjacent columns);
   no published statement of exact independence in dimension ≥ 2 was found, so both lemmas here stand on their
   own proofs.
@@ -324,7 +596,8 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 - **The 2D edge game** (`exponent/theorems.md` B; proof read and found correct; brute force re-run to L = 11):
   with the rows beneath chosen freely, every edge configuration on a ring of L ≥ 5 can be emptied in three
   generations, and the lone triple (L ≥ 9) not in two. **The gump face game** (checked, exact): every
-  configuration of the hull faces R = 3 and R = 5 can be emptied in two generations; larger faces unknown.
+  configuration of the hull faces R = 3 and R = 5 and of the periodic faces 2 × 2 and 3 × 2 can be emptied in two
+  generations; larger faces unknown.
 - **Upper bounds of the right form** (theorems.md B′, C; correct, trivial): noisy rule E T ≤ ε^{−L}; driven edge
   E T ≤ 3δ^{−3L}. No lower bound of the form e^{cL} is proved anywhere in the repository.
 - **Darroch–Seneta** (theorems.md D; finite-matrix proof given there, read): from a quasi-stationary law of a
@@ -378,21 +651,78 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 | L2.1 | source L1: 2D rule in row 0 over a parity bulk with feedback, box 3 × 7, every state | initial state ↦ (row 0 at t = 0; rows 1–2 at t = 0, 1, 2) is a bijection of {0,1}²¹. Control with a bulk reaching one row per generation: 32,768 of 2,097,152 records | `source_r1.py l1` |
 | L2.2 | source L2: local threshold lemma | identity and inequality on all 2²⁴ pairs of states, hull R = 2v (λ = 1.1) and box 3 × 4 (λ = 1.15); termwise bounds sharp. Gump lattice: shells 1, 12, 70, 212, 464, 820; S(1.1) = 13,336; C_U = 1.4×10⁶ | `source_r1.py l2` |
 | L2.3 | source L3: equal-time kernel of rows 1–2 given row 0, 2D strip 4 × 6, uniform start, every state | no quasi-stationary window: the unsettled population with row 0 alive is 1.65×10⁷ at t = 0, 768 at t = 20, 0 at t = 21; hazard 0.10–0.22 for t = 1…10. P(row 0 empty next \| one cell) = 0.46–0.60 against 0.22–0.26 for dice of the same density; two cells: 0.03–0.54 against 0.002 | `source_r1.py l3` |
+| L3.1 | counting 1, 2: c₁; strips and boxes of 3 rows, every state; classes of the k = 1 graph | c₁ = 0.551535. Row 0 empty next: strips 3 × 5…8: 2,507, 10,846, 47,383, 209,825; boxes 3 × 5…7: 2,977, 13,850, 64,434; all equal to the transfer-matrix counts. The 16-state graph is strongly connected: ρ⁰₁ = ρ₁ | `counting_r1.py c1` |
+| L3.2 | counting 3: c₂ (2¹⁶ window states) | c₂ = 0.467693 (ρ₂ = 20.046271 of 32); checked against every state of strips 5 × 4 (224,471) and 5 × 5 (7,043,564); class of the all-dead window: 54,591 states, dominant, ρ⁰₂ = ρ₂. Density 0.472: c₁ = 0.489963, c₂ = 0.4671 | `counting_r1.py c2` |
+| L3.3 | counting 4: periodic gump faces, one-generation emptiability, SAT against the cube criterion | 2 × 2 (12 cells): 2,662 of 4,096; 3 × 2 (18 cells): 112,744 of 262,144; no disagreement (both tori have doubled neighbours) | `counting_r1.py lemma5` (1¾ min) |
+| L3.4 | C4 box 7 × 7, every symmetric state, k = 1 | top edge empty next in 502 of 8,192 = constrained band 251 of 4,096 = 0.061279; box without symmetry 0.030725 | `counting_r1.py c4` |
+| L3.5 | counting 6: collision probability of the top three rows at generation j from soup, strips 4 × 5, 4 × 6, 5 × 5 | excess (1/L) ln(8ᴸ Σ μ²): 0.44, 0.46, 0.37 at j = 1; 0.99, 1.03, 0.92 at j = 2; 1.73, 1.74, 1.74 at j = 8 (to compare with c₁ = 0.5515) | `counting_r1.py coll` |
+| L3.6 | second-order lift, every pair-state (2D strip 2 × 5; gump hull R = 1c) | bijection; "face empty now" has frequency 2⁻ᴬ; nothing enters "empty twice running" | `counting_r1.py lift` |
+| L3.7 | C4 boxes in the committed toy2d file | settling is 97%, 81%, 66%, 54%, 42%, 32% of all exits at L = 16…36 (box without symmetry: 71 of 4,297 at L = 16, ≤ 3 beyond): the C4 slope 0.28 is a hazard among replicas that have not settled | `counting_r1.py data` |
+| L4.1 | probability R1, R2: tables of E₁(π); ln τ_L on the ring, L = 5…18, three laws | tables confirmed. (½, 0, ½): 6.5319, 9.4733, 12.2492, 13.5946 at L = 8, 12, 16, 18; steps 0.685, 0.679, 0.675, 0.671 at L = 15…18. Bin(2, ½): 9.7375 at L = 18, steps 0.543, 0.528, 0.528, 0.533. Bin(2, 0.472): as L0b.4 (independent code), 10.2118 at L = 19 | `prob_r1.py tables`, `ring 18` (1½ min) |
+| L4.2 | probability R3: D2(·, 0.472) on an interval of M cells, dead ends and reflecting ends, M = 5…19 | dead: ln τ = 6.7641, 7.7402, 8.6551, 9.5731, 10.4946, 10.9538 at M = 10, 12, 14, 16, 18, 19; steps 0.457, 0.461, 0.461, 0.460, 0.459 at M = 15…19. Reflecting: 5.9342, 6.8792, 7.8154, 8.7365, 9.6563, 10.1164; steps 0.461, 0.460, 0.460, 0.460, 0.460. Dead − reflecting = 0.837 ± 0.001 at M = 15…19. Ring − dead = −2.07, −1.38, −1.08, −0.74 at L = 5, 10, 14, 19; on L ≥ 11: −4.30 + 1.21 ln L (rms 0.016) or −2.27 + 0.082 L (rms 0.028) | `prob_r1.py ends 19` (2½ min) |
+| L4.3 | probability, Lemma 2(b): contraction of the sharp minorant | κ (their formula) 0.9552, 0.9475, 0.9322 at ρ = 0.46, 0.472, 0.5; exact sup of E Φ′/Φ over all η on a ring of 14: 0.9262, 0.9187, 0.9322 | `prob_r1.py tables` |
+| L5.1 | path LR4: committor ψ*_K of the pooled one-step table (curated tallies) | ψ*(1…6) = 0.753, 0.463, 0.268, 0.150, 0.087, 0.051 (A = 45); 0.739, 0.448, 0.250, 0.135, 0.075, 0.042 (A = 63); 0.735, 0.474, 0.245, 0.130, 0.072, 0.040 (A = 84); insensitive to K; log-slope over k = 5…10: 0.51–0.54, 0.53–0.57, 0.55–0.60. Entries into {n < K} are small steps across K; the entry sum equals the deaths exactly (algebra) | `path_r2.py lr4` |
+| L5.2 | path LR5: one-step change of the face population by row | mean step at k = 2, 5, 10, 20: +0.21, +1.19, +2.15, +3.62 (A = 84); +0.31, +1.14, +1.98, +2.93 (A = 63); Lundberg root r_k over k = 5…8: 0.62–0.65, 0.57–0.59, 0.55–0.57, 0.55–0.56 at A = 30, 45, 63, 84 | `path_r2.py lr5` |
+| L5.3 | path LR6: pre-death curve from the pooled table reversed | 1.6, 2.9, 4.3, 5.9, 7.7, 9.8 at lags 1…6 (A = 84) against the recorded 1.6, 3.4, 6.4, 9.7, 13.6, 17.6: not Markov | `path_r2.py lr6` |
+| L5.4 | path LR7: tail slopes; the histogram against its own parabola | slope of ln p_k at k = 12: 0.372, 0.444, 0.485, 0.555 ± 0.05 at A = 45, 63, 84, 108; A ≥ 135 not measurable. A = 84: the histogram leaves its parabola near n = 28 and its slope is below both the parabola's and the tail's down to n ≈ 14. ln p(mean) − ln p(1) = 10.55, 14.85 at A = 63, 84; relation (M) gives 11.47, 16.41 | `path_r2.py lr7` |
+| L5.5 | path LR8′: empty-window probabilities under the exact quasi-stationary law of D2(0.472) | segment of 18: corner decrement 0.508, 0.475, 0.486, 0.504, 0.518, 0.529 at ℓ = 3…8 (at ℓ = 4: 0.535, 0.498, 0.482, 0.475 for 12, 14, 16, 18 cells); ring of 18 and centred windows: 0.605–0.610 at ℓ = 3…8 | `path_r2.py lr8` |
+| L5.6 | checks for path round 2 | Theorem P̄ on the worked walk; Proposition R on four graphs, every start; Corollary 4a's inequalities on hulls R = 7, 9, 11 | `path_r2.py pbar`, `deep` |
+| L6.1 | source L4, L5: the row from one cell | measured P(n′ = 0…4 \| n = 1): 0.384, 0.355, 0.175, 0.070, 0.014 (A = 45); 0.377, 0.353, 0.181, 0.069, 0.016 (A = 63); dice at ρ = 0.52: 0.367, 0.378, 0.179, 0.059, 0.015; at ρ = ½: 0.4122 (108,045 of 2¹⁸ drive patterns), 0.3729, 0.1565, 0.0465; at 0.4155: 0.6065, 0.3035, 0.0737, 0.0141 | `source_r2.py l4`, `l5` |
+| L6.2 | source L4: density of the A cells one layer beneath a face of n cells (curated `J`) | n = 1, 3, 6, 12, mode: 0.329, 0.310, 0.327, 0.362, 0.438 (A = 45); 0.363, 0.342, 0.339, 0.350, 0.445 (A = 63); 0.394, 0.360, 0.354, 0.347, 0.446 (A = 84) | `source_r2.py l4` |
+| L6.3 | source L6: D2(L, ρ; w) at ρ = 0.30, 0.472, 0.60 | w = 1: 7.8410, 8.6350, 8.4511 at L = 16 (spread 0.79; 0.21 at L = 8). w = 2: 3.5793, 3.9535, 3.9906 at L = 8 (spread 0.41); 2.2983, 2.3191, 2.1890 at L = 5. At equal L = 5…8 the spread is 0.13, 0.22, 0.31, 0.41 at w = 2 against 0.13, 0.10, 0.13, 0.21 at w = 1 | `source_r2.py l6` |
+| L6.4 | source L7: face game on periodic gump faces | 2 × 2: 2,661 emptied in one generation, 1,434 in two; 3 × 2: 112,743 and 149,400; none in more | `source_r2.py l7` (5 min) |
+| L6.5 | source L8: conditional law of the two cells beneath an edge cell given the edge and the other cells' drives, 2D strip 4 × 6 | t = 0: P(death set) ∈ [0.18, 0.82] in every context; t = 3, 5, 8, 10: exactly 0 or 1 in 39%, 63%, 83%, 90% of contexts (8.7%, 19%, 37%, 56% of the mass) | `source_r2.py l8` |
+| L7.1 | counting round 2, Lemma 7; Lemma 6 on every state of strips 3 × 8, 4 × 6 (`lemma6`) | P((x,1) alive at generation 1 \| s) = 85/128, 76/128; P((x,2) alive \| s) = 161/256, 119/256 for s = 0, 1; joint law of the pair (00, 01, 10, 11): 0.1296, 0.2063, 0.2415, 0.4226 (s = 0); 0.2251, 0.1812, 0.3101, 0.2837 (s = 1) | `counting_r2.py lemma7` |
+| L7.2 | counting 1: fixed-age exponents c_k of D2 (ring, L → ∞), row Bernoulli(p), dice Bin(2, ρ), k = 1…6 | (½, ½): 0.551535, 0.509842, 0.492841, 0.483971, 0.478822, 0.475703. (0.472, 0.472): 0.489963, 0.444542, 0.425964, 0.417229, 0.412782, 0.410385. (0.6455, 0.472): 0.759582, 0.645406, 0.555634, 0.523164, 0.507887, 0.499201. Not levelled off; extrapolated limits (not bounds) 0.46–0.47, 0.40–0.41, 0.46–0.49. Two codes; checked against the kernel on rings of 5…7 and a dense eigensolver (`ckcheck`) | `counting_r2.py ck 6` (cached in `lab/data/counting_r2_ck.json`; k = 6 recomputes in 25 min) |
+| L7.3 | density of the row at generations 0…k − 1 given that it is empty at generation k (Perron measure) | (½, ½): 0.094; 0.118, 0.037; 0.135, 0.069, 0.018; 0.165, 0.130, 0.034, 0.010 (k = 1…4). (0.472, 0.472): 0.098; 0.123, 0.040; 0.134, 0.058, 0.018; 0.141, 0.071, 0.029, 0.009. (0.6455, 0.472): 0.994; 0.606, 0.995; 0.609, 0.975, 0.069; 0.611, 0.961, 0.102, 0.031 | `counting_r2.py profile` |
+| L7.4 | D2 on a ring from a Bernoulli row: hazard at age j over the steady hazard | L = 18, j = 0…6: fair 0.76, 1.18, 1.37, 1.24, 1.12, 1.06, 1.03; sparse 2.21, 3.11, 2.59, 1.92, 1.47, 1.24, 1.12; dense 0.026, 0.25, 0.74, 0.95, 0.99, 1.00, 1.00. At age 2: fair 1.01, 1.18, 1.37 and sparse 1.14, 1.69, 2.59 at L = 10, 14, 18. Within 1.5% of steady by age 9 at every L ≤ 18 | `counting_r2.py ages` (3 min) |
+| L7.5 | fixed age, ring against dead-ended interval (D2, k = 2, 3) | same exponent. Local slope of −ln P(dead by k) at L = 10, 18, 32, 58: fair, k = 2 (c = 0.5098): ring 0.532, 0.524, 0.513, 0.510; interval 0.5104, 0.5098, 0.5098, 0.5098. Dense, k = 3 (c = 0.5556): ring 0.578, 0.585, 0.564, 0.557; interval 0.677, 0.637, 0.584, 0.559 | `counting_r2.py ringint` |
+| L7.6 | counting 2: horizon 2 from the fair soup, the pair beneath at generation 1 replaced by dice | V0 = 0.467693 (true rule); V1 = 0.509842 (fresh fair dice); V2 = 0.516877 (dice with the true law of b₁ = (0.17737, 0.46948, 0.35315)); V3 = 0.513880 (law of b₁ given the cell's own two states) | `counting_r2.py gap2` |
+| L7.7 | counting 3: Perron measures of the horizon-1 and horizon-2 matrices of the true rule, density ½ | k = 1: edge density 0.0942; windows 00000: 0.548, 00100: 0.090. k = 2: density 0.571 at generation 0 and **0.987 at generation 1**; most frequent window 10101 (0.081). Checked on every state of strips 3 × 6…8 and 5 × 5 | `counting_r2.py tilt` |
+| L7.8 | counting 4: gump, P(face empty after one generation) from a soup of density p | strip three top cubes wide: 0.48066 per face cell (p = ½; face 87% alive in the dying ensemble; second eigenvalue 0.5101 = thin route), 0.34042 (p = 0.4155; face 12% alive). Whole 3 × 3 periodic face: P = 3.2878 × 10⁻⁶ and 1.0319 × 10⁻⁴; 34,096,886 of 2²⁷ configurations can be emptied. Small slabs under the true rule, every state: 185 of 2⁹, 20,941 of 2¹⁸, 1,340,224 of 2²⁴ | `counting_r2.py gump1` (4 min), `gump2` (1 min) |
+| L7.9 | counting 5: lone cell and lone triangle over dice, true rule stepped; all placements of ≤ 3 nearby cells | lone cell 45·56⁴ of 2³⁰ = 0.412159; triangle 1·50⁶ of 2⁴² = 0.003553; values for pairs and triples in the lemma exchange ("small faces under dice") | `counting_r2.py tri`, `small` |
+| L7.10 | D2(M, ½) on an interval with dead ends | ln τ = 8.0409, 8.5173, 8.9873, 9.4622, 9.9419, 10.4223, 10.9011, 11.3786 at M = 12…19; steps 0.476, 0.470, 0.475, 0.480, 0.480, 0.479, 0.478 | `counting_r2.py steady` |
+| L8.1 | probability R5: OP₅(½) on rings and dead-ended intervals, 8…19 cells | ring ln τ = 5.1591, 7.0791, 8.8337, 9.6816, 10.1007 at 8, 12, 16, 18, 19; steps 0.4299, 0.4257, 0.4222, 0.4191 at 16…19. Interval 4.5197, 6.1415, 7.6907, 8.4560, 8.8375; steps 0.3843, 0.3831, 0.3822, 0.3815. Ring − interval +0.639, +0.938, +1.143, +1.226, +1.263 | `prob_r2.py r5` (4 min) |
+| L8.2 | probability R6: Proposition W in D2(L, 0.472), L = 12, 15, 18 | m_G = 0.0426, 0.0433, 0.0439; ln[h_ring(L)/h_dead(L − 4)] = −0.570, −0.853, −1.028; ρ_n = P_ν(T_d = n+1)/(h_dead·N_n) at n = 0, 1, 2, 4, 8: 8.76, 5.07, 2.95, 1.40, 1.02 (L = 12); 6.47, 4.37, 2.81, 1.47, 1.04 (L = 18); ≥ 1 for every n. P_ν(T_d = 1)/h_ring = 0.66, 0.74, 0.79. Inequality (b) holds, loose by 3.3–3.5 nats at n = 0 | `prob_r2.py r6` |
+| L8.3 | probability R7 (= path's request): the row of D2(0.472) j generations before death | see lemma exchange, "How one row over dice dies". Mean population at j = 1, 2, 3, 4, 6: ring of 18: 2.37, 6.71, 9.30, 10.50, 11.36 (steady 11.62); interval of 18: 1.37, 3.30, 6.22, 8.27, 10.36 (steady 11.96) | `prob_r2.py r7` |
+| L8.4 | probability R8: D2(·, 0.472), one dead and one reflecting end | ln τ = 8.6954, 9.1545, 9.6149, 10.0754, 10.5353 at M = 15…19; minus the mean of the two pure cases: +0.0009, −0.0003, −0.0005, −0.0001, +0.0002 | `prob_r2.py r8` |
+| L8.5 | probability R9: the anchor (½, 0, ½) on intervals | dead ends ln τ = 6.1156, 8.6316, 11.1284, 12.3757, 12.9993 at M = 8, 12, 16, 18, 19; reflecting 5.9782, 8.5020, 10.9996, 12.2468, 12.8704; both steps 0.6236; dead − reflecting = 0.1289 from M = 14; ring − dead = +0.416, +0.842, +1.121, +1.219 at 8, 12, 16, 18 | `prob_r2.py r9` |
+| L8.6 | probability's round-2 claims; the local three-move game | Proposition W (a), (d) entrywise on a ring of 10 (error 6×10⁻¹⁷); Lemma 3 in 690 trials on D2(9); domination by OP₅(p) for every start and t ≤ 40 on a ring of 10 (anchor and Bin(2, 0.472)). Game: for every row on an arc of m ≤ 7 cells and six cells each side the arc can be emptied in three generations; in two, except the lone triple in a dead stretch (m = 7) | `prob_r2.py claims`, `game` |
+| L8.7 | extra: OP₅(p) on rings of 9…17 cells | (step of ln τ)·L at L = 15…17: 0.24 (p = 0.30), 0.47–0.52 (0.34), 0.83–0.99 (0.38), 1.33–1.66 (0.42), 1.93–2.49 (0.46), 2.61–3.41 (0.50): critical density between about 0.36 and 0.44 on these sizes (not a determination; proved: ≥ 1/3) | `prob_r2.py op5scan` (3 min) |
+| L9.1 | path, round 3, "Next (1)": local roots θ_k of the pooled one-step table against its committor and against −ln h | Σ_{k<K} θ_k = 4.87, 8.72, 13.10, 18.07; −ln ψ*(K − 1) = 5.24, 8.64, 12.57, 17.08; −ln h = 6.81, 9.82, 13.63, 18.08 (A = 30, 45, 63, 84; K − 1 = 15, 22, 31, 42). A = 84: −d ln ψ*/dk against θ_k = 0.583/0.607, 0.553/0.585, 0.463/0.514, 0.284/0.402, 0.139/0.160 at k = 5, 10, 20, 30, 40. θ at k/A = 0.15…0.45: 0.573, 0.540, 0.504, 0.466, 0.411, 0.333, 0.228 (A = 84), 0.565, 0.533, 0.500, 0.463, 0.411, 0.332, 0.223 (A = 63). ψ*_A(k) non-increasing in A for k ≤ 12 except k = 2, 63 → 84 (×1.058, one standard error) | `path_r3.py th` |
+| L9.2 | the pooled table as a kernel: monotonicity; order between sizes | row k + 1 dominates row k at every size (violations < 10⁻⁴). Larger face against smaller at equal k: max excess of the distribution function +0.007 (45 over 30, k = 3), +0.002, +0.04 (84 over 63, k = 2, 2.4 standard errors). P(death) from 1, 2, 3, 4 cells: 0.409, 0.098, 0.0185, 0.0066 (A = 30); 0.384, 0.093, 0.0182, 0.0054 (45); 0.377, 0.092, 0.0190, 0.0046 (63); 0.372, 0.104, 0.0187, 0.0044 (84) | `path_r3.py mono` |
+| L9.3 | path "Next (2)": D2(0.472) on a ring, quasi-stationary process: generations the central cell of an empty window of ℓ cells has been dead | ring of 18, ℓ = 1, 3, …, 13: mean 1.99, 1.95, 2.14, 2.30, 2.45, 2.57, 2.67; P(died in the last generation) 0.52, 0.52, 0.44, 0.38, 0.34, 0.30, 0.26; P(dead ≥ 6 generations) 0.035…0.066. Ring of 16: 1.99, 1.93, 2.11, 2.25, 2.38, 2.49 | `path_r3.py age 18` (20 s) |
+| L9.4 | Lemma 1′ and Proposition S by enumeration | hull R = 2v: 1,824 sealed sets, 86 minimal; box 3 × 4: 445, 36; strip 2 × 6: 324, 59. Every state: no violation of L1′, the union of dead sealed sets never loses a cell, and where it first appears it contains a minimal sealed set alive one generation earlier | `path_r3.py sealed` |
+| L10.1 | source, Theorem A: the automaton 𝒜(5) with six rows beneath, every start (2²⁰), three generations | the two cells beneath each edge cell are equal at every generation; for every S₀ the law of (S₁, S₂, S₃) equals that of E₁(½, 0, ½) on all 2²⁰ paths (difference 0) | `source_r3.py a` |
+| L10.2 | source, Theorem L on a ring of 6 with a drive b = 2c, c from an Ising ring with coupling ±0.2 set by the parity of the row's population | INS(0.3100) holds; at t = 1…8 from three starts a coupling with (percolation of density 0.31) ⊆ (edge) exists (linear programme); P(T > 8) from the full row: edge 0.875, percolation 0.350; against density 0.6 the programme is infeasible at t = 1 | `source_r3.py l` |
+| L10.3 | source C18 | from the rule table: (x, 6 + b) dead for b = 0…3; (dead, 3 + b) born iff b ∈ {1, 2}; 2D: every (x, k) with x + k ≥ 1 alive for b = 0 or b = 2 | `source_r3.py c18` |
+| L10.4 | insertion tolerance of the 2D rule's own drive, strip 4 × 6, uniform start, unsettled states with row 0 alive | a = P(x alive next \| row, cells beneath the others): smallest a = 0 from t = 1; mass with a = 0: 0.2%, 1.9%, 2.6%, 6.6%, 14.8%, 27.5% at t = 1, 2, 3, 5, 8, 10; mass with a < 0.4991: 22.6% (t = 0), 40–48% (t ≥ 1). No steady state in this vessel (extinct by generation 21) | `source_r3.py ins` |
 | L1.6 | refits of the empty-window decrement (committed `gap.json`) | limit 0.348 (c/ℓ), 0.355 (e^{−ℓ/20}), 0.370 (c/ℓ²), 0.373 (e^{−ℓ/10}) on ℓ = 20…38, all acceptable | `path_r1.py data` |
 
 ## The lab: what it can do, how to ask
 
 Validated: `toy2d_lab.py selftest` and `gump_lab.py selftest` (steppers against the lead's and the oracle's;
-both print ALL OK, re-run this round); `dice_w1.py check`; `startpoints.py all` (ALL OK; the slab stepper is
-checked there against the open-lattice stepper).
+both print ALL OK, re-run 2026-11-14); `dice_w1.py check`; `startpoints.py all` (ALL OK; the slab stepper is
+checked there against the open-lattice stepper); `prob_r2.py check` (the general one-row kernel against dense
+kernels); `counting_r2.py ckcheck` (fixed-age matrices against the kernel). Every script of rounds 2–3
+(`counting_r2.py`, `prob_r2.py`, `path_r3.py`, `source_r3.py`) says in its header how each command is validated
+and ends with ALL OK or SOMETHING FAILED.
 
 Available on request, exact only: the fate of every state of a vessel with ≤ 26 cells; smallest sealed sets
 under side conditions (hulls to about 700 cells, slabs to about 250); feasibility questions "is there a
 configuration beneath that does X" (SAT); the face game on a face of ≤ 18 cells; linear programmes over
 certificates (Theorem P) on an exact or tallied one-step table; transfer-matrix eigenvalues for
 any explicitly stated finite-window model (to about 2¹⁶ window states); exact killed-chain eigenvalues and
-quasi-stationary laws for dice models on a ring of L ≤ 18 (cells updating independently given the row) or on
-≤ 2¹⁴ states otherwise; joint laws of permutive automata on small windows.
+quasi-stationary rates for one row over dice (any law π, ring or interval, to about 19 cells; `prob_r1.py`
+applies the kernel without storing it), full quasi-stationary laws on a ring of L ≤ 18 (`dice_w1.py`) or on
+≤ 2¹⁴ states otherwise; joint laws of permutive automata on small windows. Added 2026-11-14: any one-row chain
+with conditionally independent cells and a table a[x][k] on a ring or an interval with dead, reflecting or
+mixed ends, with left and right multiplication, so quasi-stationary laws, laws of the row j generations before
+death and ages of dead cells to 18–19 cells (`prob_r2.py`, `path_r3.py age`); fixed-age death probabilities of
+one row over dice as transfer matrices to k = 6 (`counting_r2.py`); for a gump face over product dice, the
+one-generation death probability of any configuration (per-cube tables, `counting_r2.unit_table`) and its sum
+over a soup on a strip three cubes wide or a whole 3 × 3 face; domination of one law on subsets by another, as a
+linear programme, to 6 cells (`source_r3.strassen`).
 
 A request needs: the vessel (kind and dimensions); the rule; what is random and with what law, if anything;
 the event; and the convention for states that never die. No Monte Carlo, nothing over a few minutes.
@@ -403,7 +733,8 @@ lab reads are saved in **`critic/lab/data/fluct_tables.npz`** (66 kB, committed;
 checks deaths against the committed `qsd_summary.json`): one-step transitions of the face population from
 n < A/2 (`Tr`), the face-population histogram (`H`), the joint histogram of the face and the A cells one layer
 beneath it (`J`), deaths and exposure, and for each lag 0…64 before a death the histogram of the dying face's
-population (`prehist`). `path_r1.py` reads only that file. No new runs.
+population (`prehist`); for A = 108, 135, 165 the histogram only. `path_r1.py` and `path_r2.py` read only that
+file. No new runs.
 
 ## Citations
 

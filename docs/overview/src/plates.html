@@ -1,0 +1,229 @@
+<section class="plate" id="rule">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">The rule</p><span class="st st-proved">read from the 2012 source</span></div>
+    <h2>Each face watches twelve others.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c5 panel">
+      <div class="nbrow"><div id="f-nb"></div><div id="f-nbplan"></div></div>
+      <div class="keys"><span class="key"><span class="sw" style="background:var(--ink)"></span>the face</span><span class="key"><span class="sw" style="background:var(--s1)"></span>8 perpendicular faces that share an edge</span><span class="key"><span class="sw" style="background:var(--s3)"></span>4 in its own plane that touch at a corner</span><span class="key"><span class="sw" style="background:var(--surface);border:1.5px solid var(--ink-3)"></span>4 in its own plane that share an edge: not watched</span></div>
+      <figcaption>In its own plane a face watches the corner-touching four, not the edge-sharing four you meant to write in 2012. The code reads <span class="mono">y±2</span> and <span class="mono">z±2</span> together, and only that reproduces your logs. The slip is what makes the hull an octahedron: with the edge-sharing four it is a box.</figcaption>
+    </figure>
+    <figure class="fig c7 panel">
+      <div class="rule" id="f-rule"></div>
+      <div class="keys"><span class="key"><span class="sw" style="background:var(--ember)"></span>alive next generation</span><span class="key"><span class="sw over-key"></span>overcrowded: six or more live neighbours</span></div>
+      <figcaption>Count the live neighbours. <b>Born at 4 or 5, kept at 3, 4 or 5.</b></figcaption>
+      <div class="nums" style="margin-top:6px">
+        <div class="num"><span class="v">period ≤ 2</span><span class="l">all the rule can do without overcrowding: an energy only falls, and it freezes or blinks <span class="st st-proved" style="margin-left:4px">proved</span></span></div>
+        <div class="num"><span class="v">every clock</span><span class="l">of period 3 or more, and all the chaos, is paid for at overcrowded faces</span></div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<section class="plate" id="walls">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">Walls</p><span class="st st-proved">proved, then checked by brute force</span></div>
+    <h2>Nothing is ever born across a diagonal plane, because 3 is less than 4.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c4 panel">
+      <div id="f-layers"></div>
+      <figcaption>Cut along a body diagonal. An empty face one layer outside sees at most <b>2 + 1 = 3</b> live faces. Birth needs 4.</figcaption>
+    </figure>
+    <figure class="fig c4 panel">
+      <div id="f-hull"></div>
+      <figcaption>So every seed is shut in an <b>octahedron</b> it can compute in advance. No gliders. The hull can shrink and never grow.</figcaption>
+    </figure>
+    <figure class="fig c4 panel">
+      <div class="seal" id="f-seal"></div>
+      <figcaption>Smallest patch that stays dead whatever surrounds it. In three layers or more there is none, so <b>chaos cannot die from the inside</b>.</figcaption>
+      <div class="fw" id="f-fw"></div>
+      <figcaption>Three empty layers right across are a wall for good. Two leak: 1 + 2 + 1 = 4.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="plate" id="phase">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">The chaotic state</p><span class="st st-meas">measured, re-checked</span></div>
+    <h2>The fire has no grain. The grain is all in the boundary.</h2>
+  </div>
+  <div class="nums">
+    <div class="num"><span class="v">0.4155</span><span class="l">of faces alive, on a torus of any size</span></div>
+    <div class="num"><span class="v">0.68 <small>cube</small></span><span class="l">correlation length, same in every direction</span></div>
+    <div class="num"><span class="v">0.85 <small>cube/gen</small></span><span class="l">one flipped face spreads as a sphere</span></div>
+    <div class="num"><span class="v">40%</span><span class="l">of faces overcrowded at any moment</span></div>
+    <div class="num"><span class="v">≈ 600 <small>faces</small></span><span class="l">a torus this big outlasts a million generations</span></div>
+  </div>
+  <div class="figs">
+    <figure class="fig c5 panel nostretch">
+      <h3>Growth into empty space</h3>
+      <div class="bars" id="f-front"></div>
+      <figcaption>Cubes per generation. The zero is the theorem above; the octahedron is the growth shape.</figcaption>
+    </figure>
+    <figure class="fig c7 panel">
+      <h3>How long chaos lasts in a slab of one, two or three layers</h3>
+      <div id="f-slabs"></div>
+      <figcaption>One or two layers go quiet within about a hundred generations. <b>Three is the least that can hold a fire.</b></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="plate" id="stairs">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">The staircase</p><span class="st st-meas">a real run on the engine</span></div>
+    <h2>Chaos waits, loses a whole face, and waits again. Then it all goes at once.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>A random soup in a small octahedron: 416,569 generations</h3>
+      <div id="f-soup"></div>
+      <figcaption>Live faces (range in each 695 generations). The marks are the first four of its eight faces dying. A long-lived seed, picked so the steps show.</figcaption>
+    </figure>
+    <figure class="fig c5 panel">
+      <h3>The same run, counted back from the end</h3>
+      <div id="f-cascade"></div>
+      <figcaption>Each step is one face layer gone for good. A smaller face is exponentially cheaper to kill, so the last 30 layers take the final 1% of the run.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="plate" id="death">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">How a face dies</p><span class="st st-meas">measured, re-checked</span></div>
+    <h2>A face does not erode. It is busy, and ten generations later it is gone.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>Three faces of that run, their last 300 generations</h3>
+      <div id="f-closeup"></div>
+      <figcaption>Live cells in the face layer. Nothing announces the end.</figcaption>
+    </figure>
+    <figure class="fig c5 panel">
+      <h3>One face, mid-life</h3>
+      <div id="f-kagome"></div>
+      <figcaption>A face is a triangle of kagome lattice: here 63 sites, 38 alive. Its <b>area</b> is the number of sites.</figcaption>
+    </figure>
+  </div>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>How often a face of 45 sites holds k live cells</h3>
+      <div id="f-tail"></div>
+      <figcaption>On the low side the odds fall in a straight line down to one cell: each cell fewer is about two-thirds as likely. <b>The death rate is the line's next point.</b> Dying is the far end of ordinary jitter.</figcaption>
+    </figure>
+    <figure class="fig c5 panel nostretch">
+      <div class="nums" style="grid-template-columns:1fr 1fr">
+        <div class="num"><span class="v">63%</span><span class="l">of faces die from one last cell</span></div>
+        <div class="num"><span class="v">23% · 9%</span><span class="l">from two, from three</span></div>
+      </div>
+      <div id="f-ember"></div>
+      <figcaption>The usual three-cell remnant, the last ember: three faces round one corner of a cube.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!--LAW-->
+
+<section class="plate" id="luck">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">Luck or lineage</p><span class="st st-meas">measured, re-checked by the lead</span></div>
+    <h2>A long wait says nothing about the next one.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c8 panel">
+      <h3>How long 1,238 plateaus lasted, against the average for their size</h3>
+      <div id="f-luck"></div>
+      <div class="keys"><span class="key"><span class="sw" style="background:var(--s2)"></span>runs started from cube-like seeds</span><span class="key"><span class="sw line" style="background:var(--ink)"></span>pure chance (memoryless)</span><span class="key"><span class="sw line" style="background:var(--ink);width:2px;height:11px"></span>the 16 plateaus of your cubes, sides 13 to 16</span></div>
+      <div id="t-luck"></div>
+    </figure>
+    <figure class="fig c4">
+      <div class="nums" style="grid-template-columns:1fr">
+        <div class="num"><span class="v">0.998</span><span class="l">mean wait, in units of the soup average</span></div>
+        <div class="num"><span class="v" id="n-rho">−0.01</span><span class="l">correlation between one plateau and the next</span></div>
+        <div class="num"><span class="v">6 to 7×</span><span class="l">the side-16 cube's longest plateau, against the average for its size: lucky, as far as single runs can tell</span></div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<section class="plate" id="fauna">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">Debris and clocks</p><span class="st st-proved">period = twist × loop: proved</span><span class="st st-meas">census: measured</span></div>
+    <h2>What chaos leaves behind is a small fauna. Its long clocks are short loops closed by a symmetry.</h2>
+  </div>
+  <div class="fauna" id="f-fauna"></div>
+  <div class="row"><button class="btn" id="b-clocks" type="button">Run the clocks</button><span class="cap">Each drawing is stepped by the same rule as the run at the top.</span></div>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>Every saved clock of period 20 or more</h3>
+      <div id="f-clocks"></div>
+      <figcaption>All 69 sit on a ray: the period is the loop length times 1, 2, 4 or 6, the order of the symmetry that closes the loop.</figcaption>
+    </figure>
+    <figure class="fig c5 panel">
+      <h3>Still lifes, counted exhaustively</h3>
+      <div id="f-still"></div>
+      <figcaption>Every motionless shape of up to 16 faces. The smallest have six: four shapes, the single cube among them.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="plate" id="rules">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">Rule space</p><span class="st st-meas">measured, re-checked</span></div>
+    <h2>Many rules boil on a torus. Few stay alive in a box. Gump is a minimal one that does.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig panel">
+      <h3>960 rules: median lifetime of a random soup shut in a small octahedron</h3>
+      <div id="f-rules"></div>
+      <div class="keys" id="k-rules"></div>
+    </figure>
+    <figure class="fig c7 panel">
+      <h3>Gump with one count removed, or one added</h3>
+      <div class="bars" id="f-minimal"></div>
+      <figcaption>Median generations in the same vessel (log scale). Take any one number away and chaos collapses.</figcaption>
+    </figure>
+    <figure class="fig c5">
+      <div class="nums" style="grid-template-columns:1fr 1fr">
+        <div class="num"><span class="v">421</span><span class="l">of 960 rules are chaotic on a torus</span></div>
+        <div class="num"><span class="v">146</span><span class="l">stay alive 1,000+ generations in the box</span></div>
+        <div class="num"><span class="v">50</span><span class="l">of those are minimal, gump among them</span></div>
+        <div class="num"><span class="v">×100</span><span class="l">per step of radius for B45/S3457, against ×10 for gump</span></div>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<section class="plate" id="flat">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">A flat cousin</p><span class="st st-meas">measured</span><span class="st st-ret">first slope retired</span></div>
+    <h2>The same recipe on a square grid dies one whole edge at a time.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c4 panel">
+      <div id="f-toysnap"></div>
+      <figcaption>B34/S234 where each cell watches two cells either side along its row and column. A 22 × 22 box at generation 12,741. Its right and bottom edges have already moved in.</figcaption>
+    </figure>
+    <figure class="fig c8 panel">
+      <h3>That box: 25,482 generations</h3>
+      <div id="f-toyrun"></div>
+      <figcaption>Live cells (range in each 64 generations). Each mark is an edge of the live region moving in for good.</figcaption>
+    </figure>
+  </div>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>Wait for an edge to die, by its length</h3>
+      <div id="f-toylaw"></div>
+      <figcaption>Exponential in the length of the edge, but not one straight line: the slope runs from <b>0.36 to 0.42</b> per cell.</figcaption>
+    </figure>
+    <div class="fig c5">
+      <div class="nums" style="grid-template-columns:1fr">
+        <div class="num"><span class="v">B34/S234</span><span class="l">alive next if neighbours plus itself make 3 or more, unless 5 or more neighbours: gump's recipe, one count lower</span></div>
+        <div class="num"><span class="v"><s>0.416</s></span><span class="l">the first fitted slope, and its tidy "twice gump's 0.208": both retired by the swarm's critic</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--REST-->

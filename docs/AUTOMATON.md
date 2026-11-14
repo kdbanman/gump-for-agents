@@ -31,6 +31,9 @@ A face with normal axis `a` (other axes `b, c`) has **12 neighbours**, at double
   (equivalently: every face of the two adjoining cubes except itself and the two opposite ones).
 
 Not neighbours: the 4 coplanar edge-sharing faces, the 2 parallel faces across the adjoining cubes.
+(The owner meant to write the edge-sharing four in 2012 and wrote the corner-touching four by mistake, as they
+said on 2026-11-14. "Gump" in this repository is the rule as coded and run. With the edge-sharing four the
+theorems below change: the hull is a box, not an octahedron. Notebook, 2026-11-14.)
 
 In cube-index form (cyclic in X→Y→Z, i→j→k):
 

@@ -1,6 +1,6 @@
 # Status (overwritten as things change; history is in git and NOTEBOOK.md)
 
-_Last updated 2026-11-13 by the lead._
+_Last updated 2026-11-14 by the lead._
 
 ## Built and verified
 - `reference/` oracle — matches the original's logs, sides 8–12 (13 via the engine on the legacy torus).
@@ -24,27 +24,74 @@ _Last updated 2026-11-13 by the lead._
     stub). Its forecasts and outcomes are in `exponent/PREDICTIONS.md`, its theorems in `exponent/theorems.md`
     (Lemma A, consequence (c) there is false: swarm board E10). Needs a successor to write it up, then checking.
   - `research/audit/gpu_pr8/`: partial scripts from the reviewer of pull request 8; no review written. Restarted.
+- **Pause lifted, 2026-11-14.** The owner, after the overview page: "pass me a prompt for the compactor … so you can pick up
+  where you left off (and/or head wherever you like next)". The lead reads this as leave to resume by judgment, mindful of
+  usage (the pause was for usage). Restarted so far (2026-11-14): one agent, a successor to the swarm's critic, clearing the
+  queue at the top of `swarm/critic/board.md` (counting round 2 and its lab requests; the interim rounds of probability, path
+  and source). The solvers wait for its replies. Also done since (both finished and recorded, see "Next"): an adversarial review of the GPU
+  session's pull request 12 (`research/audit/REVIEW-gpu-pr12.md`), and an adversarial check of
+  `research/theory/class.md` (`research/audit/REVIEW-class.md`; its out-of-sample test was the edge-neighbour
+  rule, there called `face12e`). Everything else below is still the state at the pause.
+- **PAUSED at the owner's request (usage), 2026-11-13 about 23:55 UTC.** (Lifted 2026-11-14, see above.)
+  Swarm state at the pause: round 1 fully refereed for all four lines; round 2 refereed for path and source;
+  counting round 2 written, the critic's reply to it finished or interim (see `critic/to-counting.md`); probability
+  paused in round 2 and path and source in round 3, each with an interim report in its journal, unreviewed. The
+  librarian is idle with no open requests. To resume: for each solver, a fresh or resumed agent told to read its
+  own `journal.md`, `claims.md` and `critic/to-<line>.md`; the critic (or a successor) first, to review the interim
+  reports. Agent ids are in the scratchpad notes and may no longer resume; the journals are written for successors.
 - `research/theory/swarm/` (relaunched about 22:05 UTC at the owner's word): four Fable solvers (`probability`,
   `counting`, `path`, and from about 22:20 `source`), a librarian (`library/`: primary papers read, theorems as stated) and a critic on one problem, the area law, by mathematics alone. Problem and rules in
   `swarm/PROBLEM.md`; results in each `journal.md` and `claims.md`; the critic's map is `swarm/critic/board.md`
-  (its first pass already corrected several numbers the lead had been quoting: read E1–E11). The lead drives the
+  (its first pass already corrected several numbers the lead had been quoting: read E1–E11; the list now runs to E15). The lead drives the
   rounds (`LEAD.md`, "The swarm"). Nothing in it is established until a fresh reader has audited it.
 - GPU session "Modal API" (see `LEAD.md`): pull request 8 reviewed and merged 2026-11-13 (notebook entry; review in
-  `research/audit/REVIEW-gpu-pr8.md`; corrected reading at the top of `research/gpu/README.md`). Fixes asked of
-  that session, not yet done: reword four statements, commit the negative controls, make failed checks exit
-  non-zero, refuse duplicate (vessel, seed) runs. Asked next: slab faces at A > 90, octahedral faces at A ≥ 165,
+  `research/audit/REVIEW-gpu-pr8.md`; corrected reading at the top of `research/gpu/README.md`). The fixes the review
+  asked for arrived as pull request 10 and are merged (lead spot-checked the diff). Asked next: slab faces at A > 90, octahedral faces at A ≥ 165,
   a longer cube-centred symmetric run (does the death rate really fall with age?).
 
+- 2026-11-14: an overview page for the owner (`docs/overview/`, published as a private artifact; link in `LEAD.md`).
+  Research itself is still paused.
+
 ## Next (lead's list; pick by judgment)
-- Lineage study is in (notebook 2026-11-13, `research/lineage/`): cube-like seeds wait like soups at R ≤ 38. Open from it:
-  replicate the weak "slow variable" (copies remember their source, ρ ≈ +0.2) on other sources; side 16's own sizes
-  (vertex-centred R ≥ 40) need the GPU session.
-- Check each report above independently before recording it (see `LEAD.md`, "Resuming").
-- Have a fresh agent try to break the two Fable agents' claims once they land.
+- **Swarm (state 2026-11-14, about 09:00 UTC).** The critic's successor answered every report on file
+  (`critic/board.md` opens with the state; replies in `critic/to-<line>.md`): nothing tagged proved was found wrong;
+  three guesses fell (counting's bridge C1′, path's "ln τ = A·∫θ", every equal-time transfer hypothesis); the source
+  line is finished and the critic agrees. **The solvers have not been told to continue**, on purpose: first the
+  cheap, decisive things. Running now: a librarian (successor) on the two percolation facts that probability's and
+  source's Theorem A rest on (`library/requests.md`, last two blocks), and an examiner running the sampled entries of
+  `swarm/PREDICTIONS.md` (writes `swarm/exam/OUTCOMES.md`). When both report: decide which of probability, path and
+  counting get another round (give each its reply and the exam outcomes; stop a line when a round gives no new
+  proved step; counting said it would stop its finite-horizon programme if c_k fell through the steady exponent,
+  and it does). Then a fresh reader (not the critic) audits every claim tagged "proved" across the four `claims.md`,
+  first of all the chain "a deterministic automaton with a theorem" (source's Theorem A with probability's Theorem A).
+  Only after that does anything from the swarm go into the notebook, `CLAIMS.md` or `docs/AUTOMATON.md`.
+- **`research/theory/class.md`**: attacked 2026-11-14 (`research/audit/REVIEW-class.md`; notebook entry of that date).
+  Its theorems stand; its first clause does not (sealing is a property of a half-space, not a direction), and the
+  edge-neighbour rule the owner meant to write in 2012 (there called `face12e`; not gump) turned out to be a gump in a
+  box, which class.md as written called unconfined. class.md carries a note at its head. **To do:** a successor revises
+  class.md by the review's §5.2 (twelve items); run what the repaired clause newly admits and nobody has run
+  (kagome8 and hex9 at b = 4; whether bond10's b = 3 boxes ever die; kagome B2/S12 with transverse cuts censored);
+  face12e with symmetric seeds and beyond 6³. The owner's quick-look branch `claude/edge-neighbour-tangent` stays
+  unmerged; the audited face12e results live in `research/audit/class/` under that name.
+- **`research/theory/exponent/`**: needs a successor to write `exponent.md` from `PREDICTIONS.md`, `theorems.md` and
+  the data, then checking. Lemma A, consequence (c) in `theorems.md` is false (swarm board E10).
+- **GPU session:** pull request 12 reviewed 2026-11-14 (`research/audit/REVIEW-gpu-pr12.md`; notebook entry of that
+  date). Stands: symmetric soups do not age at R = 43 (Weibull k = 1.02); cube-like seeds at vertex-centred R = 40 wait
+  exponentially; rim-free slab faces are on the old line through A = 108, and an octahedral face there is 0.91 nats
+  tougher. Does not stand: "the rise is a rim effect" and the slope 0.204 from 108 to 126 (the 6×7×8 run counts
+  firewalls as peels; about a fifth of its deaths). The session was sent the five required wording fixes and asked
+  for a rerun that detects firewalls. **Merge pull request 12 once the fixes are pushed** (check the diff; it should
+  touch only `research/gpu/` and `research/data/`).
+- **Prior art:** Tél–Lai 2008 and Bramson–Neuhauser 1994 are unread (publisher pages refuse agents); the owner was
+  told they could fetch them. `PRIOR-ART.md`'s older sections still hold "snippet only" items the library now covers.
+- Lineage study: replicate the weak "slow variable" (copies remember their source, ρ ≈ +0.2) on other sources.
+- The web viewer still quotes the flat-face law exp(−0.09 + 0.209·A) (`web/src/layers.js`, `main.js`, `tour.js`):
+  true for slab faces at the sizes measured; octahedral faces cost up to 0.221 per cell. Decide whether to say so.
 - Full web test suite has not been re-run since the tour text edits of 2026-11-13 (tour tests pass).
 - Put the 2D toy in the web viewer/tour if it becomes the paper's lead example.
 - Papers (PROGRAM, "Writing it up"): not started; the owner decides venue, authorship and disclosure.
 - Pages deployment still needs the owner: Settings → Pages → Source "GitHub Actions".
+- Not yet answered by the owner (asked once, in passing): which 2D rule and neighbourhood they found years ago.
 
 ## The storyline so far
 1. Birth cannot cross a `{111}` plane (T2) ⇒ finite seeds are trapped in octahedral hulls; no
@@ -105,7 +152,8 @@ _Last updated 2026-11-13 by the lead._
   second peel missed by the clone run (mean 7×10⁷ confirmed three ways, actual stay 5.2×10⁸)
   and caught at the 95th percentile by the fit-only forecast. Side 17 is forecast at a
   first-plateau mean of 2.6×10¹⁰ (not run).
-- **Open question, not a finding:** side 16's largest plateaus ran 2.8, 7.4, 2.6 and 1.2 ensemble means. The
+- **Open question, not a finding:** side 16's largest plateaus ran 2.8, 7.4, 2.6 and 1.2 ensemble means (the 7.4 is against
+  the pooled 7.1×10⁷, which includes the cube's own copies; against fresh soups alone, 8.6×10⁷, it is 6.1). The
   "over-dispersion, P ≈ 0.01" over cubes 13–16 (`research/experiments/cube_vs_ensemble.py`) is post hoc — it
   includes the side-16 plateaus that suggested it; sides 13–15 alone give P ≈ 0.18 (audit, finding 1). The
   proper test is on fresh lineages: `research/lineage/`, and the GPU session's experiment 1. Hull radius 42

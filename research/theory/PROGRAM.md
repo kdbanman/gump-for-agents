@@ -44,7 +44,10 @@ or a sharply stated conjecture with a rate, (iii) what remains is characterised.
   "one layer always freezes" is false: one-layer oscillators of periods 3–12 exist.
   *Open:* thin slabs lose chaos because the unsealed region stops percolating (stated precisely in `thickness.md` §4;
   a computer-assisted proof looks possible). And in ≥ 3 layers: bound how fast a face-touching sealed set can grow.
-- **S7 [open] General confinement.** For which lattices, neighbourhoods and rules does "a dead cell sees fewer live
+- **S7 [proved in part, 2026-11-14] General confinement.** A half-space is sealed iff no cell outside it has b
+  neighbours inside (`research/audit/REVIEW-class.md` Theorem A′, correcting `class.md` Theorem A for several cell
+  types); a positively spanning family of sealed half-spaces confines. Open: the converse (does an unconfined
+  capped threshold always have unbounded patterns?). The original question: For which lattices, neighbourhoods and rules does "a dead cell sees fewer live
   cells across a plane than birth needs" hold, and what hull shapes result? Relation to Eppstein's classification
   (`PRIOR-ART.md`; his proof still needs reading). A clean general theorem is paper material on its own.
 - **S8 [open] Periodic patterns in the large.** Densest still lifes; space-filling periodic textures; whether a hull
@@ -72,7 +75,9 @@ or a sharply stated conjecture with a rate, (iii) what remains is characterised.
 - **M4 [open] Derive 0.208.** Local-structure (correlated mean-field) approximations of the stationary state, then
   the cost of emptying a face; or a one-cluster birth–death model for the last cells (ratio 0.65 per cell).
 - **M5 [open] The symmetric collapse:** six lockstep domains minus a mirror-line term; the even/odd factor 1.5.
-- **M6 [in progress] Are single lineages memoryless?** `research/lineage/`.
+- **M6 [measured, 2026-11-13] Are single lineages memoryless?** Yes at hull radius 31–38: plateaus of cube-like seeds wait
+  like soups and like an exponential (`research/lineage/README.md`; `research/CLAIMS.md` L1). The GPU session's pull
+  request 12 extends this to vertex-centred R = 40 (under review, 2026-11-14).
 - **M7 [open] Firewall formation** (≈0.12 per cell) in the same language as faces.
 
 ### E — end states (what is left)
@@ -94,6 +99,13 @@ or a sharply stated conjecture with a rate, (iii) what remains is characterised.
   cases* (M2, M4, E2, S6's percolation step), and the simplest object to put in a paper.
   *Open:* why rotation symmetry that fixes no edge still shortens life; the slope beyond L = 36.
 - **G2 Neighbours of gump** (B45/S3457, B45/S3456; the 960-rule survey): which statements survive?
+- **G2′ The rule the owner meant to write** (same B45/S345, but the four coplanar neighbours are the edge-sharing
+  ones): a quick look says it is a second gump with a box for a hull: confined, chaotic, lifetime climbing steeply
+  with box size, dying a slab at a time. Not gump, kept off main (branch `claude/edge-neighbour-tangent`, `research/tangents/edge-neighbours/README.md`).
+  It is a fair test for G3 and S7: an example nobody chose to suit the theory. Revisit it when the class is characterised.
+  **Done 2026-11-14** (`research/audit/REVIEW-class.md` §2, there called face12e): it is a gump in a box. Walls die whole
+  after memoryless waits, ln τ = 6.43 → 14.54 for 16 → 36 wall faces (0.41 per wall face, 0.205 per cell of the layer
+  that dies; gump 0.212); boxes 2³…6³ last 10, 60, 439, 9,855, 707,038. class.md as written called it unconfined.
 - **G3 Capped-threshold rules as a family:** T5 holds for any "threshold with hysteresis plus exceptions" on any
   graph. Two members now show the whole phenomenon (gump; the 2D cross rule), each the only member of its
   neighbourhood's family that does. What singles them out — the fraction of the neighbourhood lying in a

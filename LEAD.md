@@ -121,6 +121,30 @@ let CI pass, merge.
 `research/OPEN-PROBLEMS.md` · `research/theory/PROGRAM.md` (the theoretical arm) · `research/PRIOR-ART.md` ·
 `docs/WHAT-I-SEE.md` (the essay for the owner).
 
+## The overview page
+
+- 2026-11-14, the owner, while research was paused: "before we start the research back up, can you create a
+  visual, text-minimal explainer artifact of the directions and findings so far? feel free to delegate to opus
+  subagents for subtasks".
+- Made and published privately: https://claude.ai/artifact/EngGcGwZcZ2DG71aNgnvaA ("The Gump Map"). Source and
+  rebuild steps are in `docs/overview/` (see its README). To update it, rebuild and publish
+  `docs/overview/index.html` to that same link. It is a view of the repository, not a record: nothing is
+  established by appearing on it.
+
+## Which rule is gump
+
+- 2026-11-14, the owner, after the lead pointed out that the 2012 code reads the corner-touching coplanar four:
+  "i made a mistake in 2012! i intended to use edge neighbors, not corner neighbors … didn't notice for 14 years".
+  On where a look at the intended rule should live: "it's just a tangent, probably belongs on a branch, not in
+  main. to avoid potential future confusion. the main branch should probably be left to the rule/class you've
+  actually been exploring?"
+- And: "sounds like it's worth writing down. maybe leave a pointer to the branch where you think is relevant? i trust you
+  to revisit the rule if/when it becomes relevant. e.g. if/when it's time to characterize the class that behaves like gump
+  does." Pointers are in `research/STATUS.md` (Next), `research/theory/PROGRAM.md` (G2′) and `research/OPEN-PROBLEMS.md` (15b).
+- So: main and the working branch are about the rule as coded. The edge-neighbour look is on the branch
+  `claude/edge-neighbour-tangent` (`research/tangents/edge-neighbours/`). Do not merge it; do not open a pull
+  request for it unless the owner asks.
+
 ## Habits that have served (not rules)
 
 - Re-derive a subagent's key numbers independently before recording them; several headline claims changed that way.
@@ -129,4 +153,12 @@ let CI pass, merge.
 - Four cores: at most two compute-heavy agents at once. Background jobs are capped at two hours; checkpoint.
 - Agents' in-flight files are swept into "snapshot" commits before a turn ends. After a pull request merges,
   bring the branch up with `git merge --ff-only origin/main` (force pushes are refused by the harness).
-- The owner may offer a GPU machine; ensembles gain from it, single long runs do not.
+- The other session's GPU ensembles exist now (`research/gpu/`, Modal); single long runs still belong on the engine.
+- A usage limit or a worker restart kills every subagent without notice, and the owner may rewind the
+  conversation: the repository can then be ahead of what the lead remembers. Before acting, read `git log` and
+  the working directories, not memory. Briefs tell agents to commit each finished result at once for this reason.
+- Messaging a subagent that has ended its turn resumes it with its context; a message to a running one waits for
+  its next tool call. A long-lived agent's thread grows (the swarm critic passed 800k tokens in two rounds): have
+  it keep its files fit for a successor, and replace it rather than nurse it.
+- Read the referee's replies, not the solvers' journals, to follow a swarm cheaply.
+- When the owner asks to pause: ask running agents to write an interim report and stop; resume nobody.

@@ -7,8 +7,8 @@ Tags as elsewhere: **[measured]** (with the command), **[conjecture]**.
 > every table here from the committed data, emulated kernel B on a CPU against `fl.c` and the engine (exact,
 > including the A = 108 run's shape, and with three deliberately broken kernels caught), and ran an independent
 > CPU measurement at A = 84 (18.154 ± 0.025 against 18.141 here). The lead re-derived the A = 108 and A = 135
-> lifetimes from the raw death lists (23.376 ± 0.031, 29.34 ± 0.25). **The numbers stand. Read these statements
-> below with the following corrections:**
+> lifetimes from the raw death lists (23.376 ± 0.031, 29.34 ± 0.25). **The numbers stand. The first version
+> of this page made the statements quoted below; they were wrong as worded and have since been corrected:**
 > - "A = 108 sits 0.39 nats (13σ) above the line 0.2077·A + 0.55": that line never fitted the verified lifetimes
 >   (it misses A = 45 and 84 by 0.08 nats). The finding is: local slopes rise, 0.201, 0.212, 0.212, 0.218, 0.221;
 >   A = 108 is 0.21 ± 0.04 nats above the straight line through the verified A = 45–84 points; curvature is 2.6σ
@@ -20,8 +20,9 @@ Tags as elsewhere: **[measured]** (with the command), **[conjecture]**.
 > - "Aftershock for the first 0.01τ": the excess is double peels, the next layer dying within about 20 generations.
 > - Cube-centred symmetric runs (R = 43, 45): the death rate falls with age (p = 0.04, 0.01), so those τ are rates
 >   over the ages observed, not necessarily the long-run mean. Bears on the side-17 forecast.
-> - Still to fix here: `check.py` and the Modal check entry points exit 0 on a failed check; the negative controls
->   described below are not in the committed code; two runs with the same (vessel, seed) merge silently.
+> - The review's requested fixes (checks that exit non-zero on failure, committed negative controls, a guard against
+>   pooling duplicate runs, and the rewordings above) were made in pull request 10, merged the same day; the text
+>   below is the corrected one. The lead spot-checked the diff, not the Modal runs.
 > - Not checkable without a GPU: that the GPU executes the kernel as the CPU emulation does.
 
 ## Verdict

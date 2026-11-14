@@ -381,3 +381,285 @@ Script: `lab/source_r1.py`.
   It holds Tr, H, J, deaths, exposure, and per-lag histograms of the pre-death population (the raw `pre` arrays
   are 30 MB). `path_r1.py lr1`, `lr1b`, `lr3` read only that file and reproduce the numbers of the reply to path
   (re-run after the change). The "first lag with n ≥ half the living mean" histogram is stored too (`lasthalf`).
+
+## 2026-11-13, reply to counting, round 1 (`to-counting.md`)
+
+Script: `lab/counting_r1.py`.
+
+- **Checked and found correct:** counting's Lemma 1 (same as mine), Lemma 2 (second-order lift: `lift`, every
+  pair-state of two small vessels), Theorem 3 (finite-horizon transfer matrix; `c1`, `c2`), Proposition 4 (a) at
+  k = 1 on boxes and (c) at k = 1 on the C4 box 7 × 7 (`c4`), Lemma 5 (= the cube lemma; `lemma5`, SAT against the
+  criterion on periodic faces 2 × 2 and 3 × 2), claims 7, 9, 12, 14, 15 (inequality), 16 (arguments read).
+- **Exact constants:** c₁ = 0.551535, c₂ = 0.467693 at soup density ½; 0.489963, 0.4671 at 0.472. The horizon-2
+  matrix lives on 2¹⁶ window states (row 0 over 8 columns, rows 1–2 over 4), rows 3–4 of the centre column summed
+  out; it is validated by `ring_sum` against the full map of the strips 5 × 4 and 5 × 5 (the trace of Mᴸ is
+  computed as a sum over L-periodic sequences of new-column bits, 8ᴸ terms, not by matrix powers).
+- **c⁰_k = c_k for k = 1, 2** (free ends cost the same exponent as a ring at those horizons): the k = 1 graph is
+  strongly connected; for k = 2 the strong component of the all-dead window has 54,591 of 65,536 states and all
+  others are singletons.
+- **A mistake of mine, caught by the exact count:** for the box I first applied the closed-walk formula to the
+  reduced 16-state matrix with L + 4 steps; that gives the padding cells the weight of a dead cell with random
+  cells beneath. In the reduced form the walk has L steps, from a window 00** to a window **00.
+- **Claim 15's hypothesis fails from generation 2** in strips 4 × 5, 4 × 6, 5 × 5 (`coll`); structural reason:
+  Σ μ² ≥ (largest atom)².
+- **The C4 slope is measured under heavy settling** (`data`: 97% of exits at L = 16 down to 32% at L = 36). I told
+  counting it is the weakest of the three slopes to rest a contradiction on.
+- **Counting's exam entry C-E1** (one mirror in gump: slope 0.110 ± 0.010, refuted if < 0.098) bets against the
+  measured trend that symmetric faces are cheaper per independent cell (A/7.7; new GPU points 0.197 per
+  independent cell at A = 759–828). Told them; the entry is theirs.
+- **News from the lead taken to the board:** the GPU numbers at A = 108, 135 are reviewed (E2); new symmetric
+  points at A = 759, 828 (E5). I read the review's summary and CLAIMS GP1/GP2; I recomputed nothing.
+- **Overlap recorded:** counting's Proposition 4 with C1 implies path's guess G1 ("one exponent in every
+  geometry"); path keeps the data reading and the power of L, counting the finite-horizon exponents. Counting's
+  claim 15 and source's class 𝒦 are both hypotheses on an equal-time law of a few rows.
+
+## 2026-11-13, reply to probability, round 1 (`to-probability.md`); addendum to source
+
+Script: `lab/prob_r1.py`.
+
+- **A faster exact tool.** For one row over dice the kernel never has to be stored: (Qf)(S) = Σ_{S′} Π_y P(S′_y | S) f(S′)
+  is contracted one cell at a time (probability's own cost note), by `einsum` on arrays with at most M + 5 binary
+  axes. `prob_r1.py check` agrees with the orbit-reduced dense kernel (`dice_w1.py`), with `path_r1.py seg`, and,
+  for reflecting ends, with the dense kernel of the mirror-symmetric ring with mirrored dice, to 10⁻⁸. Rings to
+  L = 18–19 and intervals to M = 19 take a few minutes; L = 20 would take about five minutes per law.
+- **Checked and found correct:** probability's table a(x, k); its minorant table (enumeration over completions,
+  203 laws); the three-generation bound at π₁ = 0; Theorem A's block step; Lemma 2(a); Lemma 2(b)'s κ (and the
+  exact supremum of the contraction ratio on a ring of 14, which is below κ); claim 8. Theorem A rests on two
+  percolation facts cited from memory (critical density of two-parent oriented site percolation ≤ 0.7491; survival
+  for e^{cK} on a cylinder at any supercritical density). Neither is on the shelf; request appended to
+  `library/requests.md` (the one file outside my directory I have written to).
+- **The result of the round (lab L4.2, board E15).** D2(·, 0.472) on an interval: dead ends and reflecting ends both
+  have steps of ln τ equal to 0.460 from M = 16 on, and ln τ_dead − ln τ_refl = 0.837 ± 0.001 from M = 15. The ring's
+  steps are 0.52–0.53 at L = 15–19. The three ratios of the deterministic 2D rule that looked anomalous (mirror
+  ring / ring = 0.42; box / ring ≈ 0.83–0.89; box = half-mirror) are reproduced by the dice model (0.44; 0.88;
+  equal). ln τ_ring − ln τ_dead over L = 11…19 is fitted by −4.30 + 1.21 ln L (rms 0.016) and by −2.27 + 0.082 L
+  (rms 0.028): a power of L in the ring's lifetime is the better description but the two are not separated.
+  This is what path guessed for the real rule (its G1) and what probability's T2 and counting's C1 need.
+- **Reconciliation.** My "no monotone minorant" (round 0b) is about deterministic maps and about gump faces over
+  dice. For a single row over dice a monotone minorant *in law* exists (probability's Lemma 1: the dice are
+  redrawn as a function of the state in the coupling) and is subcritical for independent rows (Lemma 2).
+  Graveyard 14 reworded.
+- **Pointer given to source** (addendum in `to-source.md`): the probability line's model is E₁(π); what is proved is
+  near the anchor (½, 0, ½), which a binary deep-permutive bulk does not realise (it gives Bin(2, ½)).
+
+## 2026-11-13, reply to path, round 2 (appended to `to-path.md`)
+
+Script: `lab/path_r2.py`; `lab/curate_fluct.py` now also saves the face-population histograms of A = 108, 135, 165.
+
+- **Checked and found correct:** Theorem P̄ (identity (I): Σ_z F(z, z′) = N(z′) − P(start at z′) + P(end at z′), which
+  uses S_{t+1} ⊆ S_t; then the cancellation of the finite double sum); Lemma 1′; Proposition S; Proposition R (proof,
+  and the absorption equations solved for every starting set on four graphs); the "d-deep" inequalities of
+  Corollary 4a (hulls R = 7, 9, 11).
+- **The committor of the pooled table (LR4).** ψ*_K = (I − T̄_{<K})⁻¹ d̄ is insensitive to K and is *not* the same at
+  the four sizes: it steepens with A (log-slope 0.52, 0.55, 0.58 at A = 45, 63, 84 over k = 5…10). Only ψ*(1), ψ*(2),
+  ψ*(3) are nearly common. So path's H′ with size-independent constants is not supported; a limit at large A is
+  not excluded (63 and 84 differ within the noise for k ≤ 7).
+  Caution for a successor: the "identity deaths = Σ entries × ψ*" comes out exact to four digits in `lr4` because the
+  arrivals from untallied rows are *defined* there by identity (I); it is algebra, not a test.
+  The table's deaths are face deaths (120,863 at A = 30) while `qsd_summary.json` counts dying replicas (117,851):
+  2.6% of deaths at A = 30 take more than one face at once (0.2% at A = 45).
+- **The population is not Markov along death paths (LR6).** Reversing the pooled table from the death shares
+  gives a pre-death curve that rises about half as fast as the recorded one. This qualifies path's "remnant" and
+  its exam E3, and it is where source's kernel κ_t (the drive given more than n) has to enter.
+- **Relation (M) (LR7).** The histogram is not a parabola joined tangentially to a line: between n ≈ 14 and 28 at
+  A = 84 its slope is below both branches. With each face's own mean, variance and tail slope the formula is 0.92
+  and 1.56 nats above ln p(mean) − ln p(1) at A = 63, 84. Path's agreement "to ± 0.01 in the slope" came from
+  differentiating at fixed θ.
+- **D2, window probabilities under the exact quasi-stationary law (LR8′)**, with a new left-multiplication routine
+  (`make_apply_left`, same contraction as `prob_r1.make_apply`): corner windows of a segment cost 0.475–0.53 per
+  cell at ℓ = 3…8 (18 cells; decreasing with the length of the segment), interior windows and ring windows 0.605–0.61.
+  Together with the exponent study's sampled windows on a ring of 128 (which equal mine at ℓ ≤ 4 and then fall to
+  0.51 at ℓ = 25), the ring's window cost in D2 extrapolates to the interval's exact exponent 0.46 with a power
+  ℓ^{−1.3}. Recorded on the board under E15 as support for "one exponent, the ring carries a power".
+
+## 2026-11-13, reply to source, round 2 (appended to `to-source.md`)
+
+Script: `lab/source_r2.py`.
+
+- **Checked and found correct:** source's Lemma 1′ and Proposition 1″; Lemma 5 (`frozen`); Theorems H and U as
+  conditional statements; the lone-cell formula of S11 (`l5`: enumeration of the 18 drive cells that matter on a
+  4 × 4 periodic face). Its "smallest case" identity P(death | one cell) = (1 − ρ²)⁵ holds in my D2 eigenvectors to
+  16 digits (share of deaths from one cell × h/p₁), an independent check of `dice_w1.py`.
+- **The measured row from one cell is the dice row at ρ ≈ 0.52 across all of n′ = 0…4** (`l4`), not only in the
+  two numbers source fitted. **But the layer beneath a face of 1–12 cells is poorer than usual** (0.33–0.39 against
+  0.44; curated `J`). So "richer drive beneath a precarious face" can only be local. Recorded as lab L6.1, L6.2.
+- **No screening at depth 2** (`l6`, with a new exact two-row kernel `lntau_w2`, columns as units, validated
+  against enumeration of the dice): the dependence of ln τ on the dice density is as large or larger with two
+  rows than with one, at L = 5…8. The exponent study's sampled value for two rows at L = 8, 3.929 ± 0.010, is 2.4σ
+  below my exact 3.9535; its one-row values agree with mine within 1.1σ.
+- **Face game on periodic faces** (`l7`): two generations suffice on 2 × 2 and 3 × 2 (as on hull faces R = 3, 5).
+  The 18-cell case takes five minutes; a 27-cell face would need a compiled or vectorised version.
+- **Strict finite energy fails in the 4 × 6 strip** from t = 3 (`l8`).
+- **Routing.** Source's monotone-kernel comparison for the population is correct and is on the board (lemma
+  exchange) for path. Source's Lemma 1′ realises probability's anchor: the board now records "a deterministic
+  automaton on a half-plane with the law as a theorem, modulo two cited percolation facts" as the joint result of
+  those two lines.
+
+## 2026-11-13, pause (usage budget). State for a successor
+
+The lead paused the group while I was on counting's round 2. **`board.md` now opens with "Where the queue
+stands"**: what each line is owed, which lab work is half done, the overlaps being watched, the exam entries on
+file. Read that first. What follows is what is not on the board.
+
+- **Counting round 2: what I did and did not do.** Re-derived by hand: its Lemma 6 and consequences (including
+  "the fixed-age exponent depends on the soup" and the dice hierarchy w ≥ 2k − 1), Lemma 7 (also run:
+  `counting_r2.py lemma7`), the lone-triangle formula of its entry 12 (from the offsets: the six neighbouring
+  cubes are q ± (2, −2, 0), q ± (2, 0, −2), q ± (0, 2, −2), each holding two of the twelve dead neighbours, each of
+  those next to exactly one cell of the triangle). Not done: its five lab requests. I started a job that included
+  `tri`; it could not finish (2⁴² patterns) and I killed it at the pause. No number from `ck`, `gap2`, `tilt`,
+  `gump1` exists; the file's docstring says so.
+- **How I would do the owed lab work.** Request 1 (`ck`): transfer matrix on windows of four cells of each of the
+  rows S_0 … S_{k−1} (2^{4k} states, 2^k new bits per step); k = 4 is 65,536 states × 16; use `np.bincount` for the
+  matvec as written. Request 2 (`gap2`): the pair laws come from `pair_laws()` (17 cells enumerated). Request 3
+  (`tilt`): left and right Perron vectors; for k = 2 the generation-1 density needs the weight split by the centre
+  cell's generation-1 state, as drafted. Request 5: rewrite `death_prob` to multiply per-cube factors. Request 4:
+  either `gump1` (whole 3 × 3 torus, 2²⁷ configurations, vectorised) or a strip three cubes wide; cube centres
+  with index (q_x/2 mod a, q_y/2 mod b) have their in-face neighbours in columns q_y/2 and q_y/2 ± 1, so a
+  transfer matrix along y has two columns of cubes as its state (18 bits) and nine new bits per step.
+- **Things I told a solver I would do and have not:** point path to source's monotone-kernel comparison (it is on
+  the board's lemma exchange; it is not in `to-path.md`).
+- **Checks I made only by reading, which a successor may want to redo by computation:** probability's claim 8
+  (geometry of block comparisons); counting's claims 7, 9, 12 (round 1); source's Theorem U (the step that applies
+  the game's strategy along the chain of its Lemma 3); path's Proposition S. All are short arguments.
+- **Sampled numbers from the exponent study that my exact computations have confirmed:** one row over dice at
+  L = 8, 12, 16 (within 1.1σ); its window decrements on a ring of 128 at ℓ ≤ 4. **One that is 2.4σ off:** two rows
+  over dice at L = 8 (theirs 3.929 ± 0.010, exact 3.9535). Everything else from that study is still unchecked.
+- **A habit worth keeping:** every time a solver's prediction for a lab request was written down beforehand, the
+  result was more useful (path's LR5, LR6, LR8′; source's L6). Ask for the prediction when it is missing.
+
+## 2026-11-14, second critic. Reply to counting, round 2 (`to-counting.md`, complete)
+
+Script: `lab/counting_r2.py` (rewritten; its header lists the commands and how each is validated). Results are
+on the board as lab L7.1–L7.10. What is not on the board:
+
+- **Two codes for the fixed-age matrix of D2.** `d2_matrix` builds W[state, new] explicitly on 2^{4k} window
+  states (bit 4t + i = S_t(x − 2 + i); 2^k new bits); `d2_step` applies the same matrix row by row (for each
+  generation t: multiply by P(S_{t+1}(x) | S_t(x − 2 … x + 2)), sum out S_t(x − 2), bring in S_t(x + 2)), with cost
+  k·2^{4k+1} per application instead of 2^{5k}. k = 6 is 2²⁴ states, 1.5 s per application, 190–470 power
+  iterations. k = 7 would need 2 GB per vector and about two hours per parameter pair. Second eigenvalue over
+  first is 0.66, 0.90, 0.95 at k = 1, 2, 3 (fair soup) and 0.95, 0.98, 0.93 (dense soup: two routes cross between
+  k = 2 and 3), so power iteration needs a tolerance on successive eigenvalue estimates of 10⁻¹¹ or tighter.
+- **A mistake of mine, caught by the kernel check.** For the dead-ended interval I first started the walk from
+  the all-dead window and dropped two steps; that gives the two cells next to the wall the weight of dead cells
+  with dice beneath (the same mistake the first critic recorded for the box at k = 1). Correct: start from every
+  window whose two left cells are dead in all rows, take L steps, end in windows whose two right cells are dead.
+  `ringint` checks this against the kernel on intervals of 5, 6, 7 cells.
+- **The interval's step at ρ = ½ has not converged as the one at 0.472 has**: 0.476, 0.470, 0.475, 0.480, 0.480, 0.479,
+  0.478 at M = 13…19, against 0.457, 0.461, 0.461, 0.460, 0.459. So "c_k(½, ½) crosses the interval's steady exponent
+  at k = 5–6" is a statement within ± 0.003.
+- **Gump strip.** State = two columns of three cubes (18 bits), kernel K[c, prev, next] stored whole (2²⁷ doubles,
+  1 GB); the per-cube table is indexed by (state, in-face count) of its three cells, 14³ entries, and the index
+  is additive over the three columns, so the kernel is three table look-ups. The geometry is read off the slab
+  face 3 × 5 (`strip_tables`), not written by hand. Cube (i, j) has its in-face neighbours in the cubes
+  (i ± 1, j), (i, j ± 1), (i + 1, j − 1), (i − 1, j + 1).
+- **Readings I gave counting that are mine and not theorems:** that c_k from a dense soup approaches the
+  interval's exponent like 0.24/k because a death that needs a time proportional to L is being forced into k
+  generations; that the "dice gap at horizon 2" is a change of route.
+- **Not checked by computation:** the dice hierarchy at k ≥ 2 (no dice model with three or more rule rows in
+  the lab; the argument is a light cone). Claims 1–9 and 11 of counting were confirmed by the first critic and
+  not re-derived by me.
+
+## 2026-11-14, second critic. Reply to probability, round 2 (appended to `to-probability.md`)
+
+Script: `lab/prob_r2.py`. Results on the board as lab L8.1–L8.7. What is not on the board:
+
+- **The general kernel.** `make_ops(M, kind, a)` returns right and left multiplication by the kernel of any
+  one-row chain with conditionally independent cells and a table a[x][k] (kinds: ring, dead, refl, mixed), by the
+  same cell-by-cell contraction as `prob_r1.make_apply`. Checked entrywise against dense kernels at 7 cells for
+  the four kinds; the mixed interval against the mirror-symmetric rows of the dead-ended interval of twice the
+  length; OP₅ against a direct construction. State index: cell 0 is the highest bit, so "cells 0…3 of the ring
+  dead" is the first 2^{L−4} entries of a vector and is at once a vector over the interval of L − 4 cells.
+- **Proofs re-derived:** Theorem A′ (alive-sets contain 0 or 2; thinning), Lemma 3 (integrate against the
+  quasi-stationary law; the case λ < a contradicts a + ε < 1), Proposition W (a)–(d) (the four values of u; the
+  entrywise inequality ν ≥ w_min·νQ_d; the solution of the inequality in (c) needs n ≤ τ_d), Proposition F (root of
+  qβ² − pβ − p; drift 2q/p − 4 < 0 iff p > 1/3; change of measure with a truncated overshoot).
+- **The local game.** A row on the arc and six cells each side decides everything: by time 3 nothing farther can
+  reach the arc. A cell's next state is free unless it is live with two live neighbours (stays) or dead with
+  none (stays), so the search is over free cells, generation by generation (`forced`, `exists`). True for
+  m ≤ 7 (2¹⁹ rows at m = 7). m = 8 would take about ten minutes. Not a proof for all m.
+- **A reading I gave that is mine:** "of the two branches it is the second (a front)". The numbers are exact; the
+  word "front" is my summary of a gap that grows over a number of generations increasing with the vessel.
+- **Proposition W's ρ₀ and the power law.** If τ_ring/τ_dead grows like a power of L, ρ₀ falls like that power, so
+  H(0, c) with a constant c fails at large L while H(0, c_L) with c_L polynomially small holds and would still
+  give T2b. I reported ρ₀'s local power (−0.83, −0.65) and did not suggest this to the solver.
+- **Not done:** P-E1 (sampling at L = 30–38; the lab does not sample). Irreducibility of the chain on a
+  dead-ended interval (probability's open point): not examined beyond agreement of left and right iterations.
+
+## 2026-11-14, second critic. Reply to path, round 3 (appended to `to-path.md`)
+
+Script: `lab/path_r3.py`. Results on the board as lab L9.1–L9.4. What is not on the board:
+
+- **Why the local-root sum misses the committor.** For the pooled table, ψ* solves ψ = d + Tψ exactly, and
+  exp(−Σθ) solves it only where the one-step law is the same at neighbouring levels. On the tables the step has
+  standard deviation 2–5 cells and θ changes by 0.01–0.03 per row above k = 15, so the second-order term of the
+  expansion (½·θ′·E[step²]) is of order 0.1 per row there, not small. Whether this term survives as A → ∞ depends
+  on how the step's variance scales at fixed k/A; the tables say the variance at fixed k/A grows with A (5.0² at
+  k = 40, A = 84), so it need not vanish. I gave path the numbers and the size of the two scales, not this
+  expansion.
+- **Proposition S, as checked.** "Skeleton" K(s) = union of the sealed sets on which s is dead. `sealed` verifies
+  K(F(s)) ⊇ K(s) and Lemma 1′ on every state. With masks for neighbour sets the check is wrong on tori with
+  doubled neighbours (a strip 3 × 4 fails spuriously); the script asserts there are none.
+- **Age of a dead cell.** m₁ = μ·1[x dead], m_{j+1} = (m_j Q)·1[x dead]/λ; P(x dead for ≥ j generations and window W
+  empty now) = m_j(W empty) for every window containing x at once. 26–30 terms suffice (ratio 0.52).
+- **The monotone comparison on tallies** needs K_t ⪰ q at each time; I can only test pooled rows. If the bulk
+  files (`research/scratch/fluct/qsd_R*.npz`, not in git) hold time-resolved transitions, a successor could test
+  the rows by age or by lag before death; I did not look.
+- **Not re-derived this round:** Theorems P, P̄, Proposition R, L3, L4, 4a (first critic, rounds 1–2).
+
+## 2026-11-14, second critic. Reply to source, round 3 (appended to `to-source.md`)
+
+Script: `lab/source_r3.py`. Results on the board as lab L10.1–L10.4. What is not on the board:
+
+- **Theorem L, the points of the proof I checked.** (1) INS conditions on (z, the other cells' drive); what the
+  sequential construction needs is the conditional probability of Y_x given z and the *earlier indicators*,
+  which is a coarser condition, so the bound passes by the tower property. (2) ω is a function of the uniforms
+  alone, hence independent of (z, W); this is what makes W′ have the percolation law from W. (3) Only the joint
+  law of (Z_t, W) at one time is propagated; the conclusion is domination of marginals, enough for survival.
+  (4) The edge's marginal at t + 1 is λ_t K_t by the Markovian projection, whatever the bulk.
+- **The Strassen test.** Domination of two laws on subsets of six cells = feasibility of a transport plan
+  supported on nested pairs (729 variables, 128 equalities; `scipy.optimize.linprog`, HiGHS). The control (a
+  percolation denser than the tolerance) is infeasible, so the test discriminates.
+- **Why I agree that the line is finished, in one sentence each:** its positive tool (permutivity) makes dice,
+  and the missing thing is a dice theorem, not dice; its reduction (Lemma 3) names the object (κ_t) but the line
+  has no way to bound it; its hypotheses (finite energy, insertion tolerance) are false wherever computable.
+  Reservation recorded in the reply: the computable vessel has no steady state.
+- **Not checked:** remark (d) of S15 (lag-k form) beyond reading; S14's variant with decoders (first critic
+  checked it as Lemma 1′); F1, F2 (library).
+
+## 2026-11-14, end of the second critic's pass. State for a successor
+
+The queue left at the pause is empty: `board.md` opens with where each line stands, what fell and what was
+gained. All four replies are complete and committed. What follows is what is not on the board.
+
+- **What each line will probably send next, and what to have ready.** Counting said it would stop the
+  finite-horizon programme if c_k fell through the steady exponent (it does for fair and sparse soups) and turn
+  to exact one-step counts for gump faces over dice with ≤ 4 cells: `counting_r2.py small` does ≤ 3 cells and
+  `unit_table` / the `pdeath` closure inside `small` extend to any configuration. Probability said it would write
+  the front version of Proposition W or bound n*: the lab found ρ_n ≥ 1 from n = 0, and a front in both vessels;
+  its T3 (gump face) is not started. Path has two unfinished pieces, one of which (Th) the tables do not support;
+  it asked the library for Ornstein–Zernike corrections of the contact process's dual contour. Source is
+  finished unless recalled.
+- **The one inference of this pass that deserves an independent check.** "From a product row at density 0.6455
+  the hazard of D2 on a ring at age 5 equals the steady hazard to 0.2% at L = 14–18, and its exact asymptotic
+  exponent is c₆ = 0.4992; so the ring's steady step (0.52–0.53 at L ≤ 19) comes down to ≤ 0.499 unless that
+  equality breaks." The two halves come from different codes (`counting_r2.py ages` uses the kernel of
+  `prob_r1.py`; `ck` uses the transfer matrices), and `ckcheck` ties them together on rings of 5–7 cells only.
+  A direct check at larger L: P(dead by generation 6) on a ring of L = 12…18 from the kernel against tr(M₆ᴸ) is
+  not possible for the explicit matrix (2²⁴ states) but is for k = 4 (65,536 states: tr(M₄ᴸ) by L applications
+  of `d2_step` to each basis vector is too slow in Python; a compiled version would do). I did not do it.
+  What the kernel alone shows (`ages`, dense soup): −ln P(dead by generation 5) has local slope 0.550, 0.585,
+  0.551, 0.546 per cell between L = 10, 12, 14, 16, 18, against its exact limit c₅ = 0.5079. So a finite-size
+  excess of 0.04 at L ≈ 17 exists in a quantity whose limit is known, the same size as the excess the ring's
+  steady step would have to shed.
+- **Sampled exam entries that the exact results now bear on:** P-E1 (D2 ring's slope at L = 30–38) is the direct
+  test of that inference. S-E1's three numbers and P-E2 are exact identities already verified.
+- **Bulk output of this pass** is under `research/scratch/critic/` (logs of the long runs; nothing there is
+  needed: every number is reproduced by the commands on the board). The one cached table is
+  `lab/data/counting_r2_ck.json` (eighteen exponents).
+- **Working conditions.** Other agents run on the same machine; keep to one or two processes and set
+  `OMP_NUM_THREADS=1` (numpy's eigensolver otherwise uses every core). `git commit -- research/theory/swarm/critic`
+  takes only this directory even when other paths are dirty.
+- **Things I told a solver I would do and have not:** none.
+- **Checks made by reading only this pass:** counting's dice hierarchy at k ≥ 2; source's remark (d) of S15;
+  the powers quoted in path's profile model for rings and windows (standard random-walk estimates); probability's
+  Proposition F beyond its algebra (the change of measure with a truncated overshoot is standard and was read).

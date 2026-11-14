@@ -925,3 +925,142 @@ adversarial review, `research/audit/REVIEW-gpu-pr8.md`).
   itself, and any size ≥ 108 against a second implementation.
 - Corrections to the pull request's own wording are at the top of `research/gpu/README.md`.
 
+## 2026-11-14 — the coplanar neighbours are the corner-touching four (asked by the owner)
+
+The owner, looking at the neighbourhood figure on the overview page: "of the coplanar neighbors, each cell watches
+its axial neighbors, not its corner neighbors." Checked, because the whole structure hangs on it.
+
+- **Read (the 2012 source).** `dev/gump/environment.pde` lines 221-225: for a face with `x` odd the coplanar reads
+  are `(x, y±2, z±2)`, both shifted together. Those are the four faces that touch it at a corner. The four that
+  share an edge with it in its own plane, `(x, y±2, z)` and `(x, y, z±2)`, are never read. `docs/AUTOMATON.md` §2
+  already says this.
+- **Measured.** With the edge-sharing four swapped in, the oracle disagrees with the 2012 logs from generation 1
+  (side 8: log 528, variant 0; side 9: log 696, variant 0: a closed cube dies at once, every face being
+  overcrowded). With the corner-touching four it matches every generation, as before.
+- **Counted (the lead, two lines, not audited).** Layer histogram along a body diagonal: corner-touching gives
+  1, 2, 6, 2, 1 (T1), so an empty face outside a diagonal plane sees at most 3 and the hull is an octahedron.
+  Edge-sharing gives 4, 4, 4, so diagonal planes leak. But across an axis plane through face centres (`x = c`,
+  `c` odd, everything beyond it empty) an edge-sharing face at `c+1` sees 2 + 1 = 3 and one at `c+2` sees none, so
+  that variant is confined to its bounding **box** instead. Two soups (density 0.4, box of half-width 8) agree:
+  under the variant the largest coordinate goes 8 → 9 and stays there for 80 generations with about 1,000 faces
+  alive, while the L1 radius passes its starting hull (23 → 25); under gump the L1 radius stays 23 and the
+  largest coordinate grows 8 → 20.
+- So the "8-sided die" of 2012 is the signature of the corner-touching choice.
+- **It was a slip.** The owner, the same day: "i made a mistake in 2012! i intended to use edge neighbors, not
+  corner neighbors. that was the whole point haha. so i made a mistake writing the code, and actually used corner
+  neighbors, but didn't notice for 14 years". And: the edge version is "just a tangent, probably belongs on a
+  branch, not in main. to avoid potential future confusion." So **gump, here and everywhere in this repository,
+  is the rule as coded and run**: the corner-touching four. A quick look at the intended rule (chaotic on a torus;
+  shut in its box; lifetime climbing steeply with box size; dies a slab of cubes at a time) is on the branch
+  `claude/edge-neighbour-tangent` under `research/tangents/edge-neighbours/`, and is not to be merged.
+
+Reproduce: `python3 research/experiments/axial_variant.py` (about a minute).
+
+## 2026-11-14 — GPU round two: slabs, age, cube-like seeds (GPU session's pull request 12; reviewed; lead's check)
+
+The three experiments asked for after pull request 8. Data and scripts arrive with pull request 12 (`research/gpu/`,
+`research/data/gpu_facelaw/`); the adversarial review is `research/audit/REVIEW-gpu-pr12.md` (scripts in
+`research/audit/gpu_pr12/`). Forecasts were committed before the runs (`research/gpu/PREDICTIONS.md`, checked from
+commit order). Every table number re-derives from the committed data with the reviewer's own code; the slab kernel
+equals the engine and `fl.c` on a CPU.
+
+- **[measured] Symmetric soups do not age.** Cube-centred O_h soups at R = 43 (A = 759), 2,304 replicas, 5,971 face
+  deaths, ages to 2.6 τ: censored Weibull shape k = 1.020 (1.000–1.042); pooled with the earlier run, 1.011
+  (0.993–1.028), ln τ = 21.889 ± 0.012. The falling death rate the first review saw at R = 43 (k = 0.94) was noise;
+  the one at R = 45 (k = 0.84, 0.72–0.96) has not been re-run. Per-bin hazard is flat to ±13%.
+- **[measured] Cube-like seeds at vertex-centred R = 40 wait like an exponential, plateau by plateau.** 3,857
+  lineages from deterministic O_h seeds (cube 14 plus the surface of side 16 with 1–3 surface orbits removed) that sit
+  at R = 40 at generation 1000, followed through 40, 38, 36: mean T/τ = 0.991, 1.011, 0.983 (± 0.016), CV 0.99–1.00,
+  KS inside the 5% band. Waits beyond 6.1 τ: 8 (8.7 expected). **What it does not show:** these are not the side-16
+  cube (which sits at R = 42 at generation 1000 and reached R = 40 only after 2.5×10⁹ generations), and lineages
+  still at R ≥ 42 at generation 1000 are left out. Successive plateaus are weakly correlated (40 → 38: ρ = +0.049,
+  p = 0.002), carried by lineages that peel early: a transient after the burst.
+- **[measured] Rim-free slab faces stay on the old line through A = 108.** Slab 6×6×8, periodic in plane, p = 0.4:
+  447 first deaths, ln τ_face = ln(2 × exposure/deaths) = 22.470 ± 0.047; the line −0.091 + 0.2088·A (fitted to
+  A = 27–90) gives 22.459. An octahedral face of the same area (23.376) is **0.91 ± 0.06 nats tougher**, like with
+  like (the same estimator; density 0.35 against 0.4 makes no difference: 9.823 against 9.820 at A = 45).
+- **[not settled] Whether the cost per cell rises beyond A = 108 in a rim-free face.** The 6×7×8 run (A = 126, 122
+  first deaths, 26.138 ± 0.091, which reads as a local slope of 0.204 ± 0.006) counts any outer-layer death, and a
+  slab also dies by a transverse three-layer firewall, after which a face dies within a small fraction of the wait
+  (reviewer's CPU run at 4×7×8: 94 of 94; the statistic there reads 0.51 below the line from this alone). The cheapest
+  cut of 6×7×8 is 216 cells in one direction. Extrapolating `research/peeling/slab_fw.csv` (ln τ_fw ≈ 12.1 at cut 108,
+  17.0 at cut 144, 0.137 per cell) gives ln τ_fw(216) ≈ 27.0 ± 0.3, so 25 (18–38) of the 122 deaths are expected to be
+  firewalls; corrected, ln τ_face(126) ≈ 26.36 and the slope 108 → 126 is ≈ 0.216, the octahedral value. The data
+  cannot tell 0.204 from 0.216. The session's reading "the octahedral rise is a rim effect" is withdrawn at the
+  review's request; what makes octahedral faces tougher (rim, eight faces sharing edges, a thick interior, shape) is
+  not separated. Asked of the GPU session: the same run with firewalls detected.
+- **A design rule that falls out.** In an N×N×8 slab the face costs ≈ 0.63·N² and the cheapest firewall ≈ 4.9·N
+  (cut 36·N at 0.137 per cell), so firewalls overtake faces near N = 7–8: eight-layer slabs cannot measure the face
+  law beyond A ≈ 110 without detecting firewalls; thicker slabs can.
+
+Lead's check: the slab table from the JSON (22.470, 26.138, slope 0.2038 ± 0.0057), and the expected firewall count
+from `slab_fw.csv` by hand (24–29 central, 21–39 over ± 0.3 in ln τ_fw). Reproduce the review:
+`python3 research/audit/gpu_pr12/slab_rederive.py <checkout of PR 12>`, `fw_competition.py`, `weibull_own.py`,
+`cubelike_own.py` (see the review for arguments).
+
+## 2026-11-14 — the class theory attacked; the rule the owner meant to write is a gump in a box (class checker; lead's check)
+
+`research/theory/class.md` (the class agent's characterisation of gump-like rules, 2026-11-13) was checked by a
+second agent told to assume it wrong: `research/audit/REVIEW-class.md`, scripts in `research/audit/class/`, its own
+stepper anchored bit-exact to `reference/oracle.py`. Its out-of-sample test was the neighbourhood the owner intended
+in 2012 (the four coplanar neighbours share an edge), there and here called **face12e**. face12e is not gump; gump
+is the rule as coded. The checker committed what class.md predicts for face12e before running anything on it
+(`research/audit/class/PREDICTION-face12e.md`, commit bcb8122).
+
+- **[proved] Sealing belongs to a half-space, not to a direction** (the review's Theorem A′). For H = {u·p ≤ C} let
+  c(H) be the most neighbours inside H that a cell outside H has. The outside of H, once dead, stays dead iff
+  c(H) ≤ b − 1 (b the least birth count). With one cell type this depends on u alone and is class.md's Theorem A.
+  With several types it depends on where the plane sits. class.md's theorems A–G survive as stated (one wording
+  slip in C4); what fails is its first clause, "outside sealed iff b > a⁻ on a spanning set of directions; the hull
+  is the polytope of those rays", and six rows of its table. Gump's own row is exact: every diagonal layer holds all
+  three face types.
+- **[proved, by hand; the lead had the same count on 2026-11-14] face12e is confined to a box.** No direction is
+  sealed at b = 4 (an x-face has 4 neighbours behind any plane x = C just below it), so class.md as written says
+  "not confined, not a gump". But a plane through a sheet of face centres (x = C, C odd) is sealed: beyond it a face
+  at C + 1 has 2 + 1 = 3 neighbours inside, a face at C + 2 none. [measured] 0 escapes from the odd box in 64,000
+  soup-generations.
+- **[measured] face12e B45/S345 has the whole phenomenon.** Torus: chaotic from densities 0.25–0.55, ρ = 0.398
+  (gump 0.416). Slabs four cubes deep between two walls, periodic N × M wall: a wall dies as a whole (the sheet of
+  wall faces and the layer of perpendicular faces beneath it empty together; that band is the smallest sealed one),
+  after a wait with CV 0.98–1.00 and a hazard flat in age:
+
+  | wall faces A | 16 | 20 | 25 | 30 | 36 |
+  |---|---|---|---|---|---|
+  | ln τ (checker) | 6.428 ± 0.002 | 7.999 ± 0.004 | 10.183 ± 0.007 | 12.089 ± 0.015 | 14.542 ± 0.040 |
+  | ln τ (lead, own stepper) | 6.427 ± 0.006 | 8.005 ± 0.005 | 10.186 ± 0.008 | | |
+
+  Slope 0.410 ± 0.001 per wall face. The wall sheet alone empties 4–10 times as often and comes back; the event that
+  kills a wall is the death of the layer beneath it, which has 2A cells. Per cell of that layer the cost is
+  **0.205**, against gump's 0.212 per face cell (same rule; the layer's cells have the neighbour counts of a gump
+  face cell: 6 in the layer, 2 one layer in, 1 two layers in, plus 2 outward in the sheet). Observed, not explained.
+  Boxes of n³ cubes: median lifetimes 10, 60, 439, 9,855, 707,038 for n = 2…6; none of 64 finished at n = 7 in
+  300,000. A 5³ box stands intact for two thirds of its life and then loses 11 of its 15 layers of cubes, each as a
+  whole; 2 cubes of 125 remain (median). The lead's quick look on the tangent branch agrees on every point it made.
+- **So the slip of 2012 changed the shape of the die, not the phenomenon**: octahedron (corner-touching, gump) or
+  box (edge-sharing, face12e). Both are confined, chaotic and die a face at a time by a rare memoryless event whose
+  cost is linear in the face's area.
+- **[measured, rougher] Three more lattices change status under the repaired clause.** bond10 is tight at b = 3,
+  not 4 (box with odd walls; chaotic at every cap 4–8; strong slab laws at two caps; its boxes of 4³ did not die in
+  300,000 generations, unexplained). The plain kagome lattice at b = 2 (class.md dismissed it): B2/S12 is confined to
+  a hexagon, chaotic (ρ = 0.48), with a strip law (ln τ = 7.24 … 12.85 at 4 … 12 wall cells) and growing hexagon
+  lifetimes: a candidate second 2D gump, on rough evidence (transverse cuts not censored). kagome8 and hex9 at b = 4
+  were not run.
+- **What the class statement is now** (the review's §5.1; each clause tagged there): confinement by a positively
+  spanning family of sealed half-spaces [proved]; no finite sealed set when some generic direction gives every cell
+  type ≥ b forward neighbours [proved]; armour, i.e. an immortal wall once the cap exceeds the wall cells' degree
+  [proved, conditional; no exception in 38 + 2 cases]; non-period-2 behaviour needs both overcrowding and
+  undercrowding [proved]; and, given a chaotic bulk and no armour, whole-wall memoryless death exponential in the
+  wall's area [measured: 42 of the class agent's 50 lattice–cap pairs by the rule fixed in advance, plus face12e].
+  **Nothing predicts which caps are chaotic or how strong the law is**; class.md's fifth clause ("face not starved",
+  K_f·ρ/b ≳ 0.85) is a fit to two cases and flips on face12e with the choice of layer. "Gump" has no sharp edge on
+  the weak side.
+- Corrections to class.md's numbers: "identical slab law" for B456/S3456 → equal within 0.2 in ln τ at five sizes,
+  slopes 0.2121 and 0.2156; fcc slope 0.19 → 0.181 ± 0.001; "46 of 50" → 42 by the pre-fixed rule; the scorecard's
+  "8 / 6 / 14" is a judgment. The full list is the review's §5.2; class.md carries a note at its head until revised.
+
+Lead's check (`research/audit/class/lead_check.py`: numpy on a cell graph, no shared code; `validate` equals the
+oracle with gump's offsets): `python3 lead_check.py slab 4 4 8000 2048 1` → 6.427 ± 0.006, hazard flat in age
+(τ = 613, 620, 635, 620 in four age bins); `slab 4 5 40000 2048 2` → 8.005 ± 0.005; `slab 5 5 100000 2048 3` →
+10.186 ± 0.008 (15,171 deaths, 12 minutes). A first version that censored only
+period-2 states read 6.495 and 8.027: replicas that settle into longer cycles never die and inflate τ at old ages.
+The same trap as the PR 12 reviewer's with `fl.c`; any wall-law estimator must censor every period.
