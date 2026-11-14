@@ -208,6 +208,13 @@ let CI pass, merge.
   wrap-up from 0.88, stop from 0.93 (the lead needs a few turns of its own afterwards). Prefer whole units of work
   (a solver round, a referee pass, an audit) over starting something that will be cut off. After a reset the same
   rule starts again from zero; there are two resets, not an open tap.
+- **First reset used** (the owner, 2026-11-14, about 20:28 UTC): "Sorry for the delay, something unexpected came up.
+  You just got the fable reset! You can go hard again :)" Confirmed 20:29 UTC: Fable 0.00, weekly 0.09, session 0.
+  One of the two resets remains. The thresholds start again: no new Fable agent from 0.88, stop from 0.93, ceiling
+  0.95; a usage timer runs while Fable agents do. In the same message: "Any recent surprises? Anything that feels
+  like would/could be a novel contribution? Not necessarily trying to steer you, just curious for an update." The
+  lead's reading: say candidly what looks new and what does not; a manuscript-style draft inside the repository
+  (`docs/paper/`) is a fair way to find out; nothing is sent or posted anywhere without asking first.
 - Context: `mcp__claude-code-remote__get_session` with no id shows `external_metadata.context_usage`
   (`used_tokens` of `max_tokens`) and the auto-compaction threshold.
 

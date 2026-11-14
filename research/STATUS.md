@@ -73,8 +73,17 @@ _Last updated 2026-11-14 by the lead._
   `research/audit/REVIEW-shape2.md` (independent stepper; claims 1-4 stand with corrections; no law passes at any
   area; the A = 60 pair is 0.0142 ± 0.0019 over four runs); notebook entry "every torus of a given area"; CLAIMS
   SH2 (corrected), SH3-SH5. The review's corrections are applied to `research/shape2/README.md` (9ffb393) and the
-  overview carries the census (ab66ba7; published 18:20 UTC, version 6). Nothing is running. Fable was 0.92 at
-  18:04 UTC, not reset: no Fable agent, lead turns few, until the owner resets (usage check re-armed for 19:39 UTC).
+  overview carries the census (ab66ba7; published 18:20 UTC, version 6). **The owner reset the Fable
+  window at about 20:28 UTC** (0.00 at 20:29; words in `LEAD.md`, "Watching usage"). **Started 20:33 UTC:**
+  (1) Fable: second-reader audit of the counting line's proved claims -> `research/theory/swarm/audit/AUDIT-counting.md`;
+  (2) Fable: the thin face from the rule (derive the cost per cell 0.115 of the loop² 3 torus from layers of the rule
+  over coin flips; quasi-one-dimensional, finite-state) -> `research/theory/thin/`;
+  (3) Fable: a manuscript-style draft for an outside reader, results graded A or B only, with "what is new, what is
+  not" and a list of inconsistencies found -> `docs/paper/` (nothing leaves the repository);
+  (4) Opus: the second variable, pairs of tori with equal area and equal shortest loop, candidates fixed and
+  forecasts committed first -> `research/shape3/`.
+  Owed for each when it reports: the lead's own check of one key number, an adversarial review (Opus) for (2) and (4),
+  notebook, CLAIMS, STATUS. Usage timer every 60 minutes while Fable agents run.
   (ii) done: `README.md` (item 4 reworded; new items 8-10) and the web tour and
   face-table note now agree with today's entries (f4410be; web suite 79/79, check.sh 20/20; the lead read the diff).
   Left as they are: the "~10⁴¹" extrapolation (labelled as one), "twelve times" (lifetime) and "ten times" (first
