@@ -137,3 +137,13 @@ firewall-first (the table: 74).
   0.205–0.222 (the lead's 0.210–0.222); ln τ_fw(216) = 27.0 ± 0.4 (the review's extrapolation 27.05 ± 0.30). I give a
   slope below 0.2088 + 0.006 (the slab line holding) probability 0.35, and one at or above the octahedral 0.216
   probability 0.4.
+
+## 2026-11-14T07:51Z — control: square slab 6×6×8 with the firewall channel resolved (before the run)
+
+`fwslab.py`, 6×6×8 (A = 108; cheapest transverse cut 216 in **three** directions), 15 A10G-minutes, seed 621.
+The committed 22.470 ± 0.047 (first outer-layer extinction, no firewall screening) should be nearly unchanged:
+**forecast** firewall-first share **0.5–4%** of first events (the review expects ≈ 7 of 447, 1.6%), spread over all
+three cheapest directions; face channel **ln τ_face(108) = 22.49 ± 0.07** (on the slab line 22.46 within 0.1); first-event
+statistic within 0.05 of 22.470. If the face channel at 108 lands on the line while 126 stays at 26.405, the slope
+108 → 126 (≈ 0.219) mixes a square and a non-square slab (the review's caution); I will say so rather than read it as
+the bulk constant rising.
