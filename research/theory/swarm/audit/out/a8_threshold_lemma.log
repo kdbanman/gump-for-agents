@@ -11,4 +11,5 @@ uncapped, torus 4^3 cubes         : lambda=1.15  theta'=3.4641 m=0.0141 c'=11.33
 (d) sphere sizes r = 0..12: [1, 12, 70, 212, 464, 820, 1312, 1900, 2632, 3460, 4432, 5500, 6712] ... second differences from r = 3 on: [96, 104, 110, 136, 144]
     sizes reproduced for r >= 5 by s(r) = 60 r^2 + -180 r + 232 (r even), 60 r^2 + -180 r + 220 (r odd): True
     S = sum_r s(r) lambda^(-2r) = 13350.9 at lambda = 1.1;  C_U = (13 lambda + theta') S / m = 1.411e+06 (claimed 1.4e6)
+    the same sum over radii 0..59 only: 13335.92 (C_U = 1.4089e+06); the rest: 15.03
 A8 ALL OK

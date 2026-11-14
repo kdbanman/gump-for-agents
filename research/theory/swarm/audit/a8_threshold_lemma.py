@@ -11,6 +11,7 @@ The same for the 2D rule on a torus (thresholds 3 and 2, 8 neighbours).
  (d) Corollary 4a's constant C_U = (13 lambda + theta') S / m at lambda = 1.1 on the infinite lattice:
      sphere sizes by breadth-first search (radius <= 26); from radius 5 on they are a quadratic in the
      radius for each parity of the radius; summed to infinity.  Claimed: 1.4e6.
+     Also the partial sum to radius 59 (the truncation used in the critic's lab), for part C of the audit.
 
 Run:  python3 a8_threshold_lemma.py
 """
@@ -184,5 +185,7 @@ CU = (13 * lam + thp) * S_inf / m
 print("    sizes reproduced for r >= 5 by s(r) = %.0f r^2 + %.0f r + %.0f (r even), %.0f r^2 + %.0f r + %.0f (r odd): %s"
       % (coefs[0][0], coefs[0][1], coefs[0][2], coefs[1][0], coefs[1][1], coefs[1][2], quad_ok))
 print("    S = sum_r s(r) lambda^(-2r) = %.1f at lambda = 1.1;  C_U = (13 lambda + theta') S / m = %.3e (claimed 1.4e6)" % (S_inf, CU))
+S59 = sum((sizes[rr] if rr <= R else round(float(np.polyval(coefs[rr % 2], rr)))) * lam ** (-2.0 * rr) for rr in range(60))
+print("    the same sum over radii 0..59 only: %.2f (C_U = %.4e); the rest: %.2f" % (S59, (13 * lam + thp) * S59 / m, S_inf - S59))
 ok &= quad_ok and 1.3e6 < CU < 1.5e6
 print("A8 ALL OK" if ok else "A8 FAILED")

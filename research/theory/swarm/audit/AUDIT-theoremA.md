@@ -32,7 +32,7 @@ source, or whose printed proof is a sketch).
 **The theorem is correct as a conditional statement**: it holds if F1 and F2 hold, and I found no error in any
 step written in the two journals. What does not depend on the literature is Theorem U below. What the theorem
 says and does not say about gump: §4. Recommended wording for the notebook: §6. Other claims tagged "proved":
-part B.
+part B. Where this audit and the critic differ, and who is right: part C.
 
 ---
 
@@ -522,7 +522,7 @@ numbers reproduced by a second implementation.
 # Part B. The other claims tagged "proved"
 
 One line each; the order within each table is my view of importance. "A7 (3)" means item (3) of
-`a7_other_claims.py`; A8 = `a8_threshold_lemma.py`; A9 = `a9_probability_round3.py`.
+`a7_other_claims.py`; A8 = `a8_threshold_lemma.py`; A9 = `a9_probability_round3.py`; A10 = `a10_claim13.py`.
 
 ## B1. Probability line (`probability/claims.md`, list after round 3)
 
@@ -543,7 +543,7 @@ One line each; the order within each table is my view of importance. "A7 (3)" me
 | 16 | monotone models: τ_dead ≤ τ_ring at equal length | **correct** (first half) | same dice, fewer parents; OP₅(½), M = 5..14 (A7 (4)). The second half is the critic's exact data, not audited |
 | 20 | limits of Lemma 4: σ ≤ 1/3, density ≤ 665/2187; contraction 7/8 for independent cells beneath; block density ≤ 19/27 | arithmetic **correct** (A9 (6)); the last statement is true for the kind of block comparison described in entry 14.3, not for "any comparison" | |
 | 8 | "any block comparison with conditionally independent blocks over n ≥ 2 generations needs seeding over ≥ 2n − 3 cells" | the arithmetic is **correct**; the framing (equal blocks, parents at half spacing, independence from disjoint noise cones) is narrower than "any" | proof read only |
-| 13 | no certificate of Lemma 3 of the form r^{additive local health} | **not verified**: with Lemma 5 the asserted step is gone, but the rest of entry 7's argument (the reduction to mean health per cell, the choice of a maximising periodic pattern, the comparison of an O(1/L) error with a constant deficit) is written as an outline. I would tag it *sketched* | read once |
+| 13 | no certificate of Lemma 3 of the form r^{additive local health} | **correct**; entry 7 is an outline, and it closes (proof in §C3; this row read "not verified" when part B was first committed, see §C2). The proof gives more than is claimed: for fixed health and r the smallest admissible ε stays above a constant for all large L and every a ≤ 1. "L large" matters: one such g has ε falling like e^{−0.43L} on L = 8..16 before its floor | proof written out; A10: on a grid of 72 certificates (two laws, three healths, three r, four a) every one has a positive floor, 1.5×10⁻⁸ to 0.31, from a droplet of 3 to 71 cells |
 
 Not audited (not tagged proved): 9, 10, 21.
 
@@ -566,6 +566,91 @@ Not audited (not tagged proved): C8, C9, C14, C15.
 
 ---
 
+# Part C. Comparison with the critic
+
+Written after parts A and B were committed (commit `91967c5`); `critic/to-probability.md` and
+`critic/to-source.md` were opened only then. The critic's replies cover the probability line's rounds 1 and 2
+(entries 1–10) and the source line's rounds 1–3.
+
+## C1. What the critic has not reviewed
+
+There is no reply to the probability line's round 3 (entries 11–15). So the critic has not seen Theorem A in
+its final form (the five-parent route, which is what covers odd L), nor the use of F1 and F2 as the library
+recorded them, nor claims 17–20 (Lemmas 4, 5, 6 and the limits of Lemma 4). Its replies of rounds 2 and 3 say "F1
+and F2 are still not on the shelf"; the library's note has appeared since. For these items §§2.5–2.8, §3 and
+the rows 5/11, 17, 18, 19, 20 of table B1 are the only independent check there is.
+
+## C2. Where we differ, and who is right
+
+On every step of the chain that both of us examined the verdicts agree: the identification of row 0 with the
+chain, the upper bound, the domination of OP₅(p), the block step, the bridge from one start to τ_L, Theorems A′
+and L. The numbers computed by both, with different code, agree to every printed digit: ln τ_L at the anchor
+for L = 8, 10, 12, 14–18; ln τ of OP₅(½) on rings of 8–19 cells; the suprema 0.9262, 0.9187, 0.9322 of Lemma 2(b)
+(the critic: on a ring of 14; here: over rings of 5 to 14 cells); 108,045 of 2¹⁸ for the lone gump cell; sphere
+sizes 1, 12, 70, 212, 464, 820; and the law of the edge of 𝒜(5) by enumeration.
+
+| item | critic | this audit | who is right |
+|---|---|---|---|
+| probability claim 13 (no certificate r^{additive health}) | "reduction confirmed" (round 2) | part B as first committed: "not verified, I would tag it sketched" | **the critic.** The outline of entry 7 is a complete argument once its three steps are written down (§C3). I was too cautious; table B1 now says "correct" |
+| the same claim, its reach | no remark | the floor under ε exists for every health but can lie far below what small rings show: g = 0.6^{\|S ⊕ [−2,2]\|} with a = 0.9 at the anchor has smallest admissible ε = 9.1×10⁻³, 3.8×10⁻³, 1.6×10⁻³, 7.0×10⁻⁴, 2.9×10⁻⁴ at L = 8, …, 16 (a factor e^{−0.43} per cell), and its floor is 2.5×10⁻⁷, reached by a droplet of 21 cells (A10) | an addition, not a contradiction. The claim is about L → ∞; nobody should read "dead end" as "useless at the sizes one can compute" |
+| the constant S of source Corollary 4a at λ = 1.1 | 13,336 | 13,350.9 | **this audit**, by 0.1%. The critic's script sums spheres to radius 59; with my sphere sizes that partial sum is 13,335.92 and the rest is 15.03 (A8, item (d)). C_U = 1.41×10⁶ either way, but C_U is an upper bound and needs the whole sum |
+| how fragile F1 is | the theorem's region is "non-empty only by the third decimal of F1" (round 1) | true of the route through 0.7491; a second route (Liggett's theorem at density exactly ¾, plus no percolation at the critical point) puts the anchor inside with no decimal at stake (§3.2(b)) | both. The critic's sentence is right about the *width* of the proved region (min(π₀, π₂) > 0.4991) and incomplete about its non-emptiness. Both routes are second-hand |
+| from F2 to "alive at time t with probability ≥ ½" | confirmed the bridge "P_full(T > t) ≥ ½ ⇒ τ_L", which takes the probability as given; F2 itself not yet available to it | F2 as printed gives a mean and a limit in law, and starts paths from any site at height ≤ 0; §2.6 gets the probability from the mean alone and settles the convention | no disagreement; a link only this audit examined. Small gap, filled |
+| probability claim 8 (block comparisons need seeding at near-maximal speed) | "read, correct" | the arithmetic is correct for equal blocks on a brick lattice made independent by disjoint noise cones; the claim list says "any block comparison with conditionally independent blocks" | both on the mathematics. The claim list's wording is wider than the proof; the journal's own text carries the restriction |
+| OP₅(½): steps of ln τ against Proposition F's 0.4812 | "below 0.4812 from L = 10" | "from L = 11 on" | same numbers (step 9 → 10 is 0.4850, step 10 → 11 is 0.4701); by the critic's own table the first step below the bound ends at L = 11 |
+| test of Theorem L | a coupling with W_t ⊆ Z_t found by linear programming at each t ≤ 8, ring of 6, a drive from an Ising ring coupled to the row's parity | P(edge meets C at t) ≥ P(OP₅(p) meets C at t) for every set C and t ≤ 6, ring of 6, a Gibbs drive depending on the row, p = 0.4047 (A4) | consistent; two different tests of the same statement |
+
+I found no verdict of the critic's on these two lines that I think is wrong.
+
+## C3. Probability claim 13, written out
+
+**Statement.** E₁(π) on Z_L with p = min(π₀, π₂) > 0. Let φ ≥ 0 be a function of the row in a window of radius
+R, with φ(all dead) = 0 and φ ≢ 0; Φ(S) = Σ_y φ(S near y); 0 < r < 1; g = r^Φ. Then there are ε₀ > 0 and L₁, depending
+on φ, r and π only, such that for every L ≥ L₁, every a ≤ 1 and every ε < ε₀ the inequality of Lemma 3,
+d(S) + Σ_{S′ ≠ ∅} Q(S, S′)g(S′) ≤ a·g(S) + ε, fails at some living S. In particular it fails with ε = e^{−cL} for L
+large, which is the claim. (If φ ≡ 0 then g ≡ 1 and the inequality reads 1 ≤ a + ε.)
+
+*Proof.* (1) Because Φ(∅) = 0, the left side is E_S g(S₁) =: (Pg)(S), P the kernel with ∅ absorbing. If the
+inequality holds at every living state with a ≤ 1, then Pg ≤ g + ε everywhere (at ∅ both are 1), so
+P³g ≤ Pg + 2ε ≤ a·g + 3ε at every living state. (2) By Jensen E_S g(S₃) ≥ r^{E_S Φ(S₃)}.
+(3) Let m(ℓ) be the largest Φ of a set inside an arc of ℓ cells of Z. Two sets at distance > 2R have additive
+Φ, so ℓ ↦ m(ℓ − 2R) is superadditive; by Fekete's lemma m(ℓ − 2R)/ℓ tends to its supremum φ* > 0. Hence
+m(ℓ) ≤ φ*(ℓ + 2R) for every ℓ, and m(ℓ)/ℓ → φ*.
+(4) Let S lie in an arc J of n cells and L ≥ n + 2R + 13. Then S₃ lies in J ⊕ [−6, 6], which has n + 12 cells; cut
+it into N = ⌊(n + 12)/(2R + 1)⌋ disjoint arcs I_i of 2R + 1 cells and a remainder. If K is the set of i with
+S₃ ∩ I_i = ∅, the rest of S₃ lies in at most |K| + 1 arcs, pairwise at distance > 2R, of total length
+n + 12 − (2R + 1)|K|, so by (3) Φ(S₃) ≤ φ*(n + 12 + 2R − |K|). By Lemma 5 (claim 17) each I_i is empty at time 3
+with probability ≥ q := p^{6R+15}, whatever S is. Taking expectations (no independence is needed):
+E_S Φ(S₃) ≤ φ*(n + 12 + 2R − qN) =: U(n).
+(5) Choose S in J with Φ(S) = m(n). Since m(n)/n → φ* and U(n) ≤ φ*n(1 − q/(2R + 1)) + const, there is n₁ with
+U(n₁) ≤ m(n₁) − 1. For L ≥ L₁ := n₁ + 2R + 13, (1), (2) and (4) give
+3ε ≥ r^{U(n₁)} − a·r^{m(n₁)} ≥ r^{m(n₁)−1}(1 − r) =: 3ε₀. ∎
+
+The same proof with one generation in place of three (an arc of m cells is empty next with probability
+≥ (1 − p)^m) gives the statement for OP₅(p), p < 1, a monotone model whose long life at densities near 1 is
+classical: the obstruction is in the form of g, not in the model.
+
+*Check* (`python3 a10_claim13.py`, 20 s; exact, every state, L = 8, 10, …, 16; anchor and Bin(2, 0.472); healths
+|S|, |S ⊕ [−2,2]| and the number of live cells with one to three live neighbours; r = 0.3, 0.6, 0.9; a = 0.5, 0.9, 0.99,
+1). With ε*(L) the smallest ε for which the inequality holds at every living state: ε* ≥ 1 − λ_L whenever
+a + ε* < 1 (Lemma 3 itself); max_S [E_S g(S₃) − a·g(S)] ≤ 3ε* (step (1)); ε* is constant from L = 12 on in 31 of the
+72 cases and at least 55 times 1 − λ₁₆ in all. For a droplet S (the pattern 1 or 11110 on n ≤ 400 cells, dead
+elsewhere) E_S g(S₁) − a·g(S) is a floor under ε*(L) for every L ≥ n + 9, computed by a transfer matrix (checked
+against the kernel at L = 16). The best such floor is positive in all 72 cases, between 1.5×10⁻⁸ and 0.31, at
+droplets of 3 to 71 cells; one generation already suffices on this grid.
+
+## C4. What each of us has that the other has not
+
+Only in this audit: the unconditional comparison of eigenvalues (Theorem U.4, end of §2.5); the lemma of §2.6; why
+the two-parent route stops at even L (§2.8); the second route to F1 with its exact test (§3.2(b), A6); the
+three-move strategy checked for every state up to L = 16 and the automaton enumerated at L = 6 and 8 (A2, A3);
+§4 on what "deterministic" means here.
+Only with the critic, and not audited here: the anchor and OP₅(½) on intervals (steps 0.6236 and 0.3815), every
+table for independent rows, the tables of how the row dies, the coupling test by linear programming, the
+4 × 6 strip. Nothing in parts A or B depends on them.
+
+---
+
 # Not checked
 
 - **The primary sources.** Balister–Bollobás–Stacey 1994; Liggett 1995 (Project Euclid refuses automated
@@ -580,8 +665,11 @@ Not audited (not tagged proved): C8, C9, C14, C15.
   the Liggett test are exact.
 - **Intervals.** Nothing about 𝒜 with dead or reflecting ends, beyond Lemma 6 and Proposition W(a), (b).
 - **The constant c.** No explicit value was derived.
-- **Theorems H and U's hypotheses; the cube lemma in general; g = 2 on gump faces; claims 8 and 13 of the
-  probability line beyond a reading.** See part B.
+- **Theorems H and U's hypotheses; the cube lemma in general; g = 2 on gump faces; claim 8 of the probability
+  line beyond a reading.** See part B.
+- **The critic's computations that have no counterpart here** (§C4): the anchor and OP₅(½) on intervals, every
+  table for independent rows (D2), the coupling test of Theorem L by linear programming, the 4 × 6 strip.
+  Remark (d) of Theorem L (the lag-k form) has been checked by nobody.
 - **The exam entries** (`swarm/PREDICTIONS.md`, `swarm/exam/`): not read.
 - **The measured facts** quoted in §4 (0.36–0.42 for the 2D rule; statistics of the rule's bulk): taken from
   `PROBLEM.md` and the journals, not re-measured.
