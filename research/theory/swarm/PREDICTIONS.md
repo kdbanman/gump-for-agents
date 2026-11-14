@@ -186,3 +186,11 @@ Intact strips 16 × L, mean dying-edge population two generations before death (
 **9.09 ± 0.08 at L = 32 (719 deaths), 7.99 ± 0.38 at L = 36 (420 deaths)**; predicted 9.8 ± 1.0 at both, refuted if
 ≥ 11.5 at L = 36. Not refuted; inside the bar at L = 32, below it at L = 36 (by ≈ 2σ, rough batch-means error).
 Details: `research/theory/swarm/exam/OUTCOMES.md`.
+
+## 2026-11-14, examiner: outcome of path E3 (sampled)
+
+Slab 5 × 4 × 8 (A = 60), 3,188 face deaths. Mean dying-face population at lags 1–4: **1.66, 4.29, 10.70, 18.40**
+(± 0.01–0.18) against 1.6, 3.4, 6.4, 9.7 predicted; tail ratio over 6 ≤ k ≤ 12: **0.677 ± 0.002** (predicted
+0.63 ± 0.03; window 0.57–0.69); one-cell deaths **59.4 ± 0.9%** (predicted 62 ± 5%). Lags 3 and 4 differ from the
+hull's by 67% and 90% (criterion: 20%): **refuted**; lag 1 and the one-cell share hold.
+Details: `research/theory/swarm/exam/OUTCOMES.md`.

@@ -222,3 +222,27 @@ terms: the edge does not die in a flash from its living density (0.25 and 0.22 o
 against 0.58), and what is left two generations before death is a remnant of 8–9 cells whose size does not grow
 with L; if anything it is still falling, which the "size-independent ten-cell remnant" reading did not say. The
 pre-death curve (lag 4 ≈ 13.7 at both sizes) also shows the collapse starts three to four generations out.
+
+### Path E3 — gump's remnant on a rim-free slab face: **fails** (lags 3, 4); lag 1, one-cell share and the tail window hold
+
+`python3 exam.py e3; python3 report.py e3` (80 s of one core). Slab 5 × 4 × 8, A = 60, 3,188 face deaths
+(ln τ_face = 12.480 ± 0.018, on the lead's slab line −0.091 + 0.2088·60 = 12.44). Censored: 1 interior and 14
+oblique (transverse) firewalls, no settled replica, oldest replica 8.8 × 10⁵ generations (≈ 3.4 τ; chunk-limited).
+
+| quantity | predicted (hull curve) | measured on the slab | within bar? | entry's refutation test |
+|---|---|---|---|---|
+| mean face population, lag 1 | 1.6 ± 0.15 | 1.663 ± 0.013 | yes | — |
+| lag 2 | 3.4 ± 0.35 | 4.285 ± 0.035 | no (+26%) | — |
+| lag 3 | 6.4 ± 0.6 | 10.70 ± 0.12 | no (+67%) | > 20% off: **refuted** |
+| lag 4 | 9.7 ± 1.0 | 18.40 ± 0.18 | no (+90%) | > 20% off: **refuted** |
+| tail ratio p_k/p_{k+1}, mean over k = 6…12 | 0.63 ± 0.03 | 0.677 ± 0.002 (ratios 0.683 … 0.662) | no | window 0.57–0.69: passes |
+| share of deaths from a one-cell face | 62 ± 5% | 59.4 ± 0.9% | yes | — |
+
+Profile errors: batch means over 4 chunks (crude, but the misses are 20–50 errors wide). Living mean face
+population 31.0. **Verdict: refuted by the entry's own criterion** (lag-3 and lag-4 means differ from the hull's by
+67% and 90%). In the entry's terms: the last generation (one cell, 60% of deaths) is the same object in hull and
+slab, but the remnant's shrinking is not vessel-independent: the slab face goes from ≈ 18 cells to 0 in four
+generations where the hull face takes about six, so √n falls by ≈ 1.0 per generation, not 0.59. The tail ratio is
+within the refutation window but outside its bar, and slab and hull faces share a lifetime slope without sharing the
+remnant curve, which is evidence against relation (M) being what ties them (path journal 11.3). The entry's own
+named risk (journal entry 14: the hull's late curve is a corner or rim curve) is the likelier reading.
