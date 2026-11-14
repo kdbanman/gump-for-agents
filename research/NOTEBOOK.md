@@ -1448,3 +1448,43 @@ table; fixed seeds). Lead: `python3 research/audit/shape_lead_check.py` (tables 
 - Not checked: no GPU or second-machine run; seven of the thirteen presentations at 72 and three tori at 60 were
   run by one code only; the event detectors (as opposed to the stepping) were not validated against the engine;
   `research/shape/loopsum.py` (a sum over loop classes that did not explain the pair at 60) was not reviewed.
+
+## 2026-11-14 — the path line's proofs read a second time (independent audit; the lead re-ran one exact check)
+
+When the swarm closed, the path line's results (exact reductions for gump and a conditional area law) had been
+checked by one critic each and by nobody else. A second reader has now gone through every claim tagged proved,
+forming verdicts before opening anything the critic wrote, and recomputing with code written from
+`docs/AUTOMATON.md`: `research/theory/swarm/audit/AUDIT-path.md` (scripts `p0_lib.py` … `p7_tallies.py` beside it,
+each a few minutes; outputs in `audit/out/`).
+
+- **[proved; read twice and recomputed] Correct as stated:** P̄, C, T′, T, X, V⁻, Lemma E1 and V⁻(E), R, P, L1,
+  L1′, L3, L4, F (and R5, read only). P̄ was tested as an exact identity in rational arithmetic on all 2²² states of
+  a 22-cell gump vessel, on hidden Markov chains, and on 6.4 × 10⁶ face-generations of a hull face; the structure
+  lemmas by enumeration of every state of a small face and the cells beneath it (2²⁴). The lead re-ran the first of
+  these (`cd research/theory/swarm/audit && python3 p1_pbar_exact.py`, 31 s): the output equals the audit's log.
+- **[correction] The slogan for P̄ leaves out two terms.** The identity is: deaths = direct deaths from above the
+  low set + entry flux × committor of the pooled one-step table + a term at the start of the window − a term at its
+  end. On the audit's A = 30 sample the window term is 7.8% of the deaths.
+- **[correction] The conditional area law holds from (R) + (Φ) + (W), not from "R and R⁺" as worded.** (i) The
+  window term is not controlled by R and R⁺: the audit gives an example satisfying both whose hazard is 45 times the
+  bound. Its Proposition W fills the gap (the term vanishes if the window starts above the threshold row, or is
+  bounded in a quasi-stationary window when censoring is at most c times the hazard and (1 + c)w < 1; measured at
+  A = 30: censoring 6.8 times the hazard, (1 + c)w = 0.56). (ii) R⁺ and B⁺ taken as suprema over every visited row
+  fail at the top rows (a full rim-free face dies in one step); the corrected statement uses a set of rows and the
+  living weight of the rows left out. With these, the step from the hypothesis to "exponential in the area" is
+  airtight. The hypothesis (R) itself (local roots at least θ₀ on rows k₀ … κA of the pooled table of the living
+  ensemble) is a statement about the rule that is known only from measured tables: the audit reproduced it from the
+  lab's tallies at A = 30 … 84 and on its own sample at A = 30. It is not derived.
+- **[correction] Lemma S is narrower than worded.** "Lost for ever" is not "inside the dead sealed set": the end
+  state of the side-8 cube has 96 cells that are dead for ever and lie in no dead sealed set. The statement that
+  every permanent loss is the extinction of a minimal sealed set needs minimality relative to what is already
+  sealed (the audit's Proposition S′, proved there).
+- Smaller: the row for V′ in `path/claims.md` omits a hypothesis without which it is false (the journal's statement
+  has it); the last sentence of V⁻(E) about gump's bottom rows is a remark, not a proof, and nothing rests on it;
+  one illustrative number in P is 1.62 × 10⁻¹⁵, not 1.8 × 10⁻¹⁵.
+- Not checked by the audit: the claims not tagged proved (V's upper half, V∞, A, G1, W, F12, Dr, the exam
+  entries); hypothesis (E) on real tables; path's own scripts; sizes other than A = 30 for its own sample (one
+  seed); whether a full rim-free face is reachable after the first generation.
+- What this changes: nothing in the swarm's bottom line (no proof of the area law; the constant not derived). The
+  conditional result is now stated with its true hypotheses and has been read by two independent readers. The same
+  audit for the counting line is still owed.

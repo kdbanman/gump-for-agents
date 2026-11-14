@@ -1,0 +1,13 @@
+Q  : 1488 (process, window, K, k0, theta0) cases: violations of (Q1) 0, of (Q2) 0
+     size of the start term against the main term e^(-theta0(K-k0)) Expo Phi in these cases: median 0.26, 90th percentile 1.5, max 62
+H  : 319 cases with good rows: violations of Deaths <= Expo Phi[psi] + boundary 0; of the bound on Phi[psi] under R+ and B+ 0
+P  : 238 hidden chains with (*) verified at every time of a 60-step window (eps taken as the least constant that makes (*) true): violations of the hazard bound 0
+R  : P(empty before full) == (lam^-n - lam^-N)/(1 - lam^-N) exactly, every starting set, 8 graphs x 3 values of lam: True
+W1 : quasi-stationary, no censoring: 5052 cases, violations of h <= C+ e^(-theta0(K-k0)): 0 (largest h / bound 0.180)
+W2 : quasi-stationary with censoring: 6414 cases, violations of h(1-w) <= e^(-theta0(K-k0)) Phi + w sbar: 0
+     example (states 0 dead, 1, 2; row 1 = (0.0001, 0.5, 0.4999); row 2 = (0, 0.005, 0.095), censored 0.9):
+     theta_1 = theta0 = 8.517, K = 2, k0 = 0: R holds; C+ = M_2(theta0) = 25.09: R+ holds
+     quasi-stationary law (0.4513, 0.5487), h = 4.513e-05, censoring rate 0.494
+     C+ e^(-theta0 (K-k0)) = 1.004e-06;  h / that = 44.9
+     the theorem itself: h(1-w) = 4.512e-05 <= e^(-2 theta0) Phi + w sbar = 4.513e-05  (w sbar = 4.458e-05)
+ALL OK: True   (13 s)

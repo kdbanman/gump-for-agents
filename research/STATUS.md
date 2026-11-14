@@ -65,11 +65,12 @@ _Last updated 2026-11-14 by the lead._
   (every family 0.2072) and "term in the long side" (b(5) = 0.2081). **The twisted-torus experiment is done, reviewed and recorded** (`research/shape/README.md`,
   `research/audit/REVIEW-shape.md`, notebook entry "the shortest way round", CLAIMS SH1, SH2): at equal area the
   lifetime of a periodic face rises with its shortest closed loop (two independent codes); at A = 60 a second
-  variable shows (two tori with the same shortest loop differ by 0.018 ± 0.004). The review's seven corrections are applied to the write-up (6f995a2). **Running:**
-  (Fable, started
-  14:52 UTC with the window at 0.87, to be stopped at 0.92 if the owner's reset has not come) the fresh-reader audit
-  of path's proofs, `research/theory/swarm/audit/AUDIT-path.md` (commits as it goes; group 1 first: P̄, Q, V⁻, E1).
-  Still for after the reset: the same audit for counting; the theory push on the constant. (b) the overview page is current to the entry "the shortest way round": refreshed
+  variable shows (two tori with the same shortest loop differ by 0.018 ± 0.004). The review's seven corrections are applied to the write-up (6f995a2). **Running:** nothing at 15:50 UTC. **The second-reader audit of path's
+  proofs is done** (`research/theory/swarm/audit/AUDIT-path.md`; notebook entry "the path line's proofs read a
+  second time"; CLAIMS SW5): every proved claim correct or correct in a narrower wording; the conditional area law
+  holds from (R) + (Φ) + (W), not from "R and R⁺"; Lemma S needed relative minimality. Owed: an editor to carry the
+  audit's corrected wordings into `path/claims.md` (Opus); the same audit for counting and the theory push on the
+  constant (Fable, after the owner's reset; Fable was 0.90 at 15:22). (b) the overview page is current to the entry "the shortest way round": refreshed
   twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); later work on the branch goes to pull request 17. **After the owner's Fable reset** (about 9am their time,
   probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
   counting and path, and a new theory push on the sharpened problem (the 0.2 per cell from six layers over noise).

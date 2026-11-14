@@ -1,0 +1,9 @@
+A=30: K=11; roots of rows 1..5: 0.000 0.276 0.390 0.478 0.483; least root on [5,11) = 0.4034 (row 10); chi = 0.0563; Phi = 0.1362; C+ = 1.043 (row 11); theta0(K-5) - ln Phi = 4.41; -ln h = 6.81; exposure above A/2: 0.32
+A=45: K=16; roots of rows 1..5: 0.000 0.331 0.467 0.549 0.556; least root on [5,16) = 0.4261 (row 15); chi = 0.0336; Phi = 0.1034; C+ = 1.054 (row 16); theta0(K-5) - ln Phi = 6.96; -ln h = 9.82; exposure above A/2: 0.44
+A=63: K=23; roots of rows 1..5: 0.005 0.340 0.493 0.577 0.590; least root on [5,23) = 0.4117 (row 22); chi = 0.0230; Phi = 0.0850; C+ = 1.068 (row 23); theta0(K-5) - ln Phi = 9.88; -ln h = 13.63; exposure above A/2: 0.49
+A=84: K=30; roots of rows 1..5: 0.049 0.226 0.527 0.615 0.607; least root on [5,30) = 0.4172 (row 29); chi = 0.0103; Phi = 0.0458; C+ = 1.068 (row 30); theta0(K-5) - ln Phi = 13.51; -ln h = 18.08; exposure above A/2: 0.51
+      block 5..29: best theta0 = 0.300, margin eps0 = 0.1760; m0(0.5, 0.2, 0.1) = 41, 197, 489
+      block 5..37: best theta0 = 0.186, margin eps0 = 0.1505; m0(0.5, 0.2, 0.1) = 50, 242, 599
+      block 5..42: best theta0 = 0.044, margin eps0 = 0.0259; m0(0.5, 0.2, 0.1) = 374, 1732, 4205
+      block 1..42: best theta0 = 0.024, margin eps0 = 0.0003; m0(0.5, 0.2, 0.1) = 49074, 216324, 512958
+smallest case of Q: Phi = 0.538 (= 3/4 p3), C+ = 1.50, (Phi/27)/(1-w) = 0.0208, exact h = 0.0143
