@@ -19,14 +19,20 @@ AREA = lambda R: 3 * ((R - 1) // 2 + 1) * ((R - 1) // 2 + 2) // 2
 SLAB_LAW = lambda A: math.exp(-0.09 + 0.209 * A)          # tau_face of flat slab faces (research/STATUS.md); only printed as a ratio
 
 
-def run(R, wall_s, seed, p=0.35, launch_s=1.0, log=print, centre='c', sym=False, raw_cap=60000, **cfg):
+def run(R, wall_s, seed, p=0.35, launch_s=1.0, log=print, centre='c', sym=False, raw_cap=60000, slab=None, **cfg):
     """asymmetric (sym=False: soup in |p - c|_1 <= R, 8 faces) or O_h-symmetric (sym=True: orbit soup over the whole
-    vessel, one representative face) octahedral soups in their exact hull."""
+    vessel, one representative face) octahedral soups in their exact hull; or, with slab=(N1, N2, m), a rim-free
+    slab (vessels.SlabVessel: soup over all its cells, 2 faces; R is then only a label)."""
     import cupy as cp
     import gsim
     from gsim import fl
-    v = fl.Vessel(fl.octa_hull(R, centre), centre, sym)
-    s = gsim.Sim(v, backend='gpu', seedable=None if sym else gsim.seed_mask(v, R), **cfg)
+    if slab:
+        from vessels import SlabVessel
+        v = SlabVessel(*slab)
+        s = gsim.Sim(v, backend='gpu', **cfg)
+    else:
+        v = fl.Vessel(fl.octa_hull(R, centre), centre, sym)
+        s = gsim.Sim(v, backend='gpu', seedable=None if sym else gsim.seed_mask(v, R), **cfg)
     s.reseed(np.arange(s.R), seed=seed << 32, p=p)       # soup_bit hashes seed and replica separately
     birth = np.zeros(s.R, np.int64)
     ages, kinds, births = [], [], []
@@ -54,7 +60,7 @@ def run(R, wall_s, seed, p=0.35, launch_s=1.0, log=print, centre='c', sym=False,
     ages.append(G - birth); kinds.append(np.zeros(s.R, np.int64)); births.append(birth.copy())
     ages, kinds, births = np.concatenate(ages), np.concatenate(kinds), np.concatenate(births)
     T0 = 1000 if sym else 200
-    out = dict(R=R, A=v.A, sym=sym, centre=centre, seed=seed, p=p, gens=G, replicas=s.R, nodes=v.n,
+    out = dict(R=R, A=v.A, sym=sym, centre=centre, slab=list(slab) if slab else None, seed=seed, p=p, gens=G, replicas=s.R, nodes=v.n,
                wall_s=time.time() - t_start, config=dict(WB=s.WB, J=s.J, T=s.T, blocks=s.blocks), **compact(ages, kinds))
     out['lineage'] = lineage_stats(ages, kinds, births, G, T0)
     if len(ages) <= raw_cap:       # raw lives (age, kind, birth) for re-analysis; zlib + base64 to stay small
@@ -145,10 +151,14 @@ def summary(paths):
     by_R = {}
     for p in paths:
         r = json.load(open(p))
+        if 'agg' not in r:          # other experiments' files in the same directory (cube-like, post-peel)
+            continue
         r['_path'] = p
-        by_R.setdefault((r.get('sym', False), r.get('centre', 'c'), r['R']), []).append(r)
+        geo = 'slab %dx%dx%d' % tuple(r['slab']) if r.get('slab') else ('O_h ' + r.get('centre', 'c') if r.get('sym') else 'asym')
+        by_R.setdefault((geo, r['R'] if not r.get('slab') else r['A']), []).append(r)
     rows = []
-    for (sym, centre, R), recs in sorted(by_R.items()):
+    for (geo, R), recs in sorted(by_R.items()):
+        sym, centre = recs[0].get('sym', False), recs[0].get('centre', 'c')
         seeds = [r['seed'] for r in recs]
         if len(set(seeds)) < len(seeds):    # the same (vessel, seed) twice is the same soups twice: refuse to pool
             dups = [r['_path'] for r in recs if seeds.count(r['seed']) > 1]
@@ -164,10 +174,10 @@ def summary(paths):
                   f'in large runs; many mean the runs repeat each other):', list(dup.items())[:3])
         agg, deaths, expo, da = merge(recs)
         A = recs[0]['A']
-        nf = 1 if sym else 8                     # symmetric: the eight faces die together, tau is the mean residence
+        nf = 1 if sym else (2 if geo.startswith('slab') else 8)   # faces: symmetric 1 (they die together), slab 2, octahedron 8
         pred = SLAB_LAW(A) / nf
         rg = sum(r['gens'] * r['replicas'] for r in recs)
-        print(f'{"O_h " + centre if sym else "asym"} R={R} A={A} nodes={recs[0]["nodes"]}: {len(recs)} runs, {rg:.3g} replica-generations, '
+        print(f'{geo} R={R} A={A} nodes={recs[0]["nodes"]} faces={nf}: {len(recs)} runs, {rg:.3g} replica-generations, '
               f'{sum(r["wall_s"] for r in recs) / 3600:.2f} GPU-h, oldest replica {max(r["max_age"] for r in recs):.3g}')
         for T0 in T0S:
             a = agg[T0]
@@ -176,8 +186,8 @@ def summary(paths):
             mean = a['exposure'] / a['deaths']
             print(f'  T0={T0:5d}: deaths {a["deaths"]:7d} settled {a["settled"]} (period > 2: {a.get("settled_long", "n/a")}) censored {a["censored"]} excluded {a["excluded"]}: '
                   f'mean first-peel wait {mean:.4g} +- {mean / math.sqrt(a["deaths"]):.2g} (ln {math.log(mean):.3f} +- '
-                  f'{1 / math.sqrt(a["deaths"]):.3f}); slab law / 8 = {pred:.3g}, ratio {mean / pred:.2f}')
-            rows.append(dict(R=R, A=A, sym=sym, centre=centre, T0=T0, deaths=a['deaths'], exposure=a['exposure'], mean=mean))
+                  f'{1 / math.sqrt(a["deaths"]):.3f}); slab law / {nf} = {pred:.3g}, ratio {mean / pred:.2f}')
+            rows.append(dict(R=R, A=A, sym=sym, centre=centre, geo=geo, nf=nf, T0=T0, deaths=a['deaths'], exposure=a['exposure'], mean=mean))
         if da is not None and len(da) > 2:
             w = da[da >= 200] - 200
             print(f'  CV of uncensored waits (T0=200): {w.std() / w.mean():.2f} (biased low by censoring when lives are cut short)')
@@ -195,7 +205,7 @@ def summary(paths):
     # the face law: ln tau_face = ln(8 x first-peel mean), with the cost per cell and the local slope between sizes.
     # (Not compared with 0.2077 A + 0.55: that line is a QSD-endpoint fit that misses verified lifetimes by 0.08 nats at
     # A = 45 and 84; research/audit/REVIEW-gpu-pr8.md, claim 2.)
-    t = [r for r in rows if r['T0'] == 200 and not r['sym']]
+    t = [r for r in rows if r['T0'] == 200 and r['geo'] == 'asym']
     if t:
         print('\n   A   deaths   ln tau_face      per cell   local slope')
         prev = None
@@ -204,6 +214,12 @@ def summary(paths):
             sl = f'{(lt - prev[1]) / (r["A"] - prev[0]):.4f} +- {math.hypot(se, prev[2]) / (r["A"] - prev[0]):.4f}' if prev else ''
             print(f'{r["A"]:4d} {r["deaths"]:8d}   {lt:7.3f} +- {se:.3f}   {lt / r["A"]:.4f}     {sl}')
             prev = (r['A'], lt, se)
+    sl = [r for r in rows if r['T0'] == 60 and r['geo'].startswith('slab')]
+    if sl:
+        print('\n slab (faces 2, from generation 60 ~ 0)   A   deaths   ln tau_face = ln(2 x mean)   per cell')
+        for r in sl:
+            lt = math.log(2 * r['mean'])
+            print(f'  {r["geo"]:14s} {r["A"]:4d} {r["deaths"]:7d}   {lt:.3f} +- {1 / math.sqrt(r["deaths"]):.3f}   {lt / r["A"]:.4f}')
     ts = [r for r in rows if r['T0'] == 1000 and r['sym']]
     if ts:
         print('\n O_h   R    A   deaths   ln tau (T0 = 1000)')

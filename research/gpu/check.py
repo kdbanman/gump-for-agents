@@ -175,6 +175,71 @@ def periodic_cases(out, runs=4000, R=9):
     print(f'{len(longp)} cases with period > 2, 120 others -> {out}')
 
 
+def slab_cases(out, N=11, m=8, T=3000, rng=3):
+    """the engine's torus slab `--torus N --slab-layers m --diag 0` (= SlabVessel(N, N, m)): start state and the hash of
+    every generation's state (mapped to slab nodes, hashed by their cells). Needs the engine."""
+    import subprocess
+    from vessels import SlabVessel
+    v = SlabVessel(N, N, m)
+    f = os.path.join(fl.SCR, f'slabtrace_{os.getpid()}.txt')
+    subprocess.run([fl.GUMP, 'run', '--soup', '0.4', '--torus', str(N), '--slab-layers', str(m), '--diag', '0', '--rng', str(rng),
+                    '--gens', str(T), '--no-halt', '--trace', f], capture_output=True, check=True)
+    lines = open(f).read().splitlines(); os.remove(f)
+    cells = lambda line: np.array([list(map(int, q.split(','))) for q in line.split()[1:]], np.int64).reshape(-1, 3)
+    off = SlabVessel.engine_offset(cells(lines[0]), N, m)
+    nodes0 = v.nodes_from_engine(cells(lines[0]), off)
+    hashes = np.array([cell_hash(v.cells[v.nodes_from_engine(cells(l), off)]) for l in lines[1:T + 1]], np.uint64)
+    np.savez_compressed(out, N=N, m=m, nodes0=nodes0, hashes=hashes)
+    print(f'slab case: torus {N}, {m} layers, {len(nodes0)} live cells at start, {T} generations -> {out}')
+
+
+def check_slab_every(path, backend, WT, **kw):
+    """the GPU slab against the engine's torus slab, every generation, in five lanes"""
+    from vessels import SlabVessel
+    d = np.load(path)
+    v = SlabVessel(int(d['N']), int(d['N']), int(d['m']))
+    s = gsim.Sim(v, WT, backend, **kw)
+    rng = np.random.default_rng(9)
+    bits = rng.random((s.R, v.n)) < 0.4
+    lanes = sorted({0, 31, 32, s.R // 2 + 5, s.R - 1})
+    b0 = np.zeros(v.n, bool); b0[d['nodes0']] = True
+    bits[lanes] = b0
+    s.set_all(bits)
+    want = d['hashes']; bad = 0; first = None
+    for t in range(len(want)):
+        s.step(1, freeze=False)
+        for b in s.get_lanes(lanes):
+            if cell_hash(v.cells[b]) != int(want[t]):
+                bad += 1; first = t + 1 if first is None else first
+    ok = bad == 0
+    print(f'slab every generation [{s.kernel} {kw}]: torus {int(d["N"])} slab {int(d["m"])}, nodes {v.n}: {len(want)} gens x '
+          f'{len(lanes)} lanes {"all equal" if ok else f"{bad} MISMATCHES, first at generation {first}"}', flush=True)
+    return ok
+
+
+def check_fl_slab(backend, WT, N1, N2, m, T=2000, p=0.4, **kw):
+    """stepping and face-death generations on a slab graph against fl.c (sparse soups: faces die quickly)"""
+    from vessels import SlabVessel
+    v = SlabVessel(N1, N2, m)
+    s = gsim.Sim(v, WT, backend, **kw)
+    f = fl.Sim(v, W=s.R // 64)
+    bits = np.random.default_rng(N1 * 100 + N2).random((s.R, v.n)) < p
+    s.set_all(bits); f.set_all(bits)
+    s.step(T, freeze=False); f.run(T, record=False)
+    same = np.array_equal(s.get_all(), f.get_all())
+    s.set_all(bits); f.set_all(bits)
+    sg, sm, _ = f.run_until(T, np.zeros(s.R, np.int32), np.full(s.R, 1 << 30, np.int32))
+    got = np.full(s.R, -1); kind = np.zeros(s.R, int); done = 0
+    while done < T:
+        reps, tt, kk = s.step(100); got[reps] = tt + done; kind[reps] = kk; done += 100
+    born = (sm == 0) & (sg == 0)
+    fd = (sm == 0) & ~born; mine = (kind == 1) & ~born
+    agree = np.array_equal(fd, mine) and np.array_equal(sg[fd], got[mine])
+    print(f'fl.c slab {N1}x{N2}x{m} p={p} [{s.kernel}]: stepping {T} gens {"equal" if same else "DIFFER"}; face deaths '
+          f'{fd.sum()} vs {mine.sum()}, generations {"identical" if agree else "DIFFER"}', flush=True)
+    return same and agree
+
+
 def check_fl(backend, WT, R=11, T=2000, sym=False, p=0.35, **kw):
     hull = fl.octa_hull(R)
     v = fl.Vessel(hull, 'c', sym)
@@ -319,6 +384,8 @@ if __name__ == '__main__':
         engine_cases(sys.argv[2])
     elif sys.argv[1] == 'periodic-cases':
         periodic_cases(sys.argv[2])
+    elif sys.argv[1] == 'slab-cases':
+        slab_cases(sys.argv[2])
     else:
         backend = sys.argv[2] if len(sys.argv) > 2 else 'cpu'
         WT = 4 if backend == 'cpu' else 1024
