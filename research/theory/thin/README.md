@@ -190,31 +190,48 @@ Steps per added site: 0.303, 0.960, 0.476, 0.453, 0.461. Simulated continuation 
 (20 → 24). So **the exact numbers are numbers about M(1) on short segments, not about its constant, and not about
 gump**: M(1)'s slope at n ≈ 20 is 0.37 per site (0.123 per cell) and falling, gump's is 0.30.
 
-### 6b. The face alone, with the right one-generation statistics **[exact] + [measured]**
+### 6b. Two more closures that can be solved exactly on short segments **[exact] + [measured]**
 
-`python3 pca.py table tab_det_b32 det32; python3 pca.py exact det32 6; python3 analyze.py life 'pca_det32_n*'`.
+`python3 pca.py table tab_det_b32 det32; python3 pca.py exact det32 6; python3 ccoin.py measure; python3 ccoin.py
+exact 6; python3 analyze.py life 'pca_det32_n*'; python3 analyze.py life 'cc_n*'`.
 
-The closure one step beyond coins: forget the layers beneath, and let every face cell be alive next with the
-probability p(s, k) that the deterministic system shows for a face cell in state s with k live face neighbours
-(14 numbers, measured to 2 × 10⁻⁵ on the ring b = 32; b = 16 gives the same to 2 × 10⁻⁴), independently of the other
-cells. Against independent coins beneath, p differs little where the face is thin (birth with k = 1: 0.0628 against
-0.0633; with k = 2: 0.3515 against 0.3498) and much where it is dense (birth with k = 4: 0.571 against 0.650;
-survival with k = 4: 0.578 against 0.650). The kernel is a product over cells, so the same exact machinery applies:
+Both take numbers from the deterministic system (so neither is a derivation) and both keep a kernel that is a
+product over cells or triples, so `sweep.py` solves them as it solves M(1).
 
-| segment n | 5 | 6 | 7 | 8 | 13 | 21 | slope 13 → 21 |
-|---|---|---|---|---|---|---|---|
-| deterministic | 3.8671(9) | 4.2795(8) | 4.6767(5) | 5.0515(6) | 6.7262(14) | 9.1708(15) | 0.3056 |
-| face-only automaton, measured p | 3.977059 exact; 3.9774(9) | 4.441084 exact; 4.4420(7) | | | 7.1483(21) | 9.8572(52) | 0.3386 |
-| one layer over coins, M(1) | 4.192750 exact | 4.646105 exact | 5.107427 exact | 5.5453(4) | 7.5311(8) | 10.5080(26) | 0.3721 |
+- **The face alone.** Forget the layers beneath; every face cell is alive next with the probability p(s, k) that
+  the deterministic system shows for a face cell in state s with k live face neighbours (14 numbers, measured to
+  2 × 10⁻⁵ on the ring b = 32; b = 16 gives the same to 2 × 10⁻⁴), independently of the other cells. Against
+  independent coins beneath, p differs little where the face is thin (birth with k = 1: 0.0628 against 0.0633;
+  k = 2: 0.3515 against 0.3498) and much where it is dense (birth with k = 4: 0.571 against 0.650; survival with
+  k = 4: 0.578 against 0.650).
+- **Coins that know the face above them.** M(1), except that a coin of the first coin layer is alive with
+  probability 0.3482, 0.4500, 0.4456 when 0, 1, 2 of the two face cells above it are alive, and a coin of the
+  second with 0.3967, 0.3930 when the face cell above it is dead, alive (measured at one time on the ring b = 48,
+  errors 0.0003). The cells of a triple still share their coins.
 
-The automaton has the face's one-generation statistics right by construction and is still 11% too tough in
-slope (M(1): 22%). Its living face is denser (0.401 of the cells of a 21-site segment against 0.371) and quieter
-(variance of the population 39 against 46), and it collapses more slowly (looking back from a death: 1.4, 2.8,
-4.5, 6.4 cells against 1.7, 4.1, 7.0, 9.2). What is missing is that cells fail together: face cells share the
-cells beneath them, and those stay thin for several generations (§4). **The one-generation statistics of the
-face do not fix its lifetime.** (The deterministic values at n ≤ 6 are themselves rough: there the hazard depends
-on age, 1% of lives end in a repeating state and the two faces often die together; see `python3 run.py stats
-'seg_det_n[5-9]'`.)
+Segments, ln τ (exact where six decimals are given; each exact value was also simulated: 3.9774(9), 4.4420(7) for
+the face alone, 4.1213(7), 4.5433(5) for the knowing coins):
+
+| | n = 5 | n = 6 | n = 13 | n = 21 | slope 13 → 21 per site | against deterministic |
+|---|---|---|---|---|---|---|
+| deterministic | 3.8671(9) | 4.2795(8) | 6.7262(14) | 9.1708(15) | 0.3056(3) | |
+| M(1), coins | 4.192750 | 4.646105 | 7.5311(8) | 10.5080(26) | 0.3721(3) | +22% |
+| M(3) | | | 7.0918(10) | 9.8784(21) | 0.3483(3) | +14% |
+| the face alone, measured p(s, k) | 3.977059 | 4.441084 | 7.1483(21) | 9.8572(52) | 0.3386(7) | +11% |
+| coins that know the face | 4.121859 | 4.543578 | 7.1267(16) | 9.7090(51) | 0.3228(7) | +5.6% |
+| M(4) | | | 6.7444(10) | 9.2288(19) | 0.3106(3) | +1.6% |
+| M(5) | | | 6.7235(11) | 9.1729(17) | 0.3062(3) | +0.2% |
+
+- The face alone has the face's one-generation statistics right by construction and is still 11% too tough in
+  slope: **the one-generation statistics of the face do not fix its lifetime.** Its living face is denser (0.401 of
+  the cells of a 21-site segment against 0.371) and quieter (variance of the population 39 against 46), and it
+  collapses more slowly (looking back from a death: 1.4, 2.8, 4.5, 6.4 cells against 1.7, 4.1, 7.0, 9.2).
+- Letting the cells fail together (shared coins) and letting the support follow the face at one time gets within
+  6% with five measured numbers and no layer of the rule beneath the face: better than three layers over blind
+  coins. What is still missing is memory: the layers beneath stay thin for several generations (§4).
+- None of these reaches its own straight law at the sizes that can be solved exactly, and the deterministic values
+  at n ≤ 6 are themselves rough (there the hazard depends on age, 1% of lives end in a repeating state and the two
+  faces often die together: `python3 run.py stats 'seg_det_n[5-9]'`).
 
 ## 7. Wider faces
 
@@ -293,8 +310,8 @@ What the same method says as the face widens, and what it would take:
 - **One layer over coins of another density.** No single density can be right: the support beneath a face cell
   depends on what the face is doing there (§4: mean 0.88 to 1.42 live cells of three). The next closure, a
   face-only probabilistic automaton whose birth and survival probabilities p(state, live face neighbours) are
-  read from the deterministic system, was not run (see "Not checked"); its fourteen numbers would still be
-  measured, not derived.
+  read from the deterministic system, is in §6b: +11% in slope. Coins whose density follows the face above
+  them: +5.6%.
 - **Exact enumeration to the straight part.** The sweep costs 2^(3n+5) numbers for a segment of n sites of M(1)
   (n ≤ 8), 2^(3b+10) for a ring (b ≤ 6); M(2) reaches n = 3. M(1) needs n > 20 to be within 3% of its own slope.
 - **A tilted front chain** (a window of K sites behind the front, the rest replaced by the living state): not
@@ -309,9 +326,11 @@ What the same method says as the face widens, and what it would take:
   lives e^19 generations.
 - **The form of the corrections.** Powers of the length, logarithms and stretched exponentials fit equally; none
   is derived. The quoted error is the spread between them.
-- **A face-only closure.** §4 measures how the layers beneath answer to the face; whether a probabilistic
-  automaton on the face alone, with the measured one-step probabilities p(state, live face neighbours),
-  reproduces the lifetimes was not tried. Nor were coins with persistence in time.
+- **Coins with memory.** §6b stops at coins that follow the face at one time. The next step, coins that also
+  remember their own last state (ten measured numbers), was not tried; it cannot be solved exactly beyond three
+  sites (nine cells per site) but can be simulated.
+- **The closures of §6b** were run at n = 13 and 21 only; their slopes at larger n are not known, and their tables
+  come from rings, not from segments.
 - **The coin density** was varied only at b = 20, w = 5; whether its effect grows with size is unknown.
 - **Models deeper than six layers on rings**, and deeper than eight anywhere.
 - **Statistical errors** are 1/√deaths. Over all lifetime tags the scatter between chunks has χ² = 186 on 162

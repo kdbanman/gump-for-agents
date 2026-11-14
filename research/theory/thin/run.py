@@ -64,12 +64,13 @@ def read_dump(path, b, nt):
     return np.array([[rows[(g, l)] for l in range(NLn)] for g in range(G)])
 
 
-def validate_dump(mode, b, mw, gens, seed=5, notch=0, k=1, force_k=False, gs=0):
+def validate_dump(mode, b, mw, gens, seed=5, notch=0, k=1, force_k=False, gs=0, ccoin=None):
     """Every lane, every generation: the dumped next state is the reference stepper's image of the dumped state,
     except where a life ended; ends (deaths, ages) are recomputed and compared with ring's own tallies."""
     nt = mw + 2 if mode == 'model' else mw
     dp = os.path.join(OUT, f'dump_{os.getpid()}.txt'); out = os.path.join(OUT, f'vout_{os.getpid()}.txt')
-    ring(mode, b, mw, seed, gens, 0, out, extra=('-d', dp), notch=notch, k=k, force_k=force_k, gs=gs)
+    cc = ('-c', *map(str, ccoin)) if ccoin else ()
+    ring(mode, b, mw, seed, gens, 0, out, extra=('-d', dp, *cc), notch=notch, k=k, force_k=force_k, gs=gs)
     D = read_dump(dp, b, nt); r = parse(out)
     nb = thin.graph(b, nt, k)
     nd = mw * 3 * b
@@ -122,7 +123,27 @@ def validate_dump(mode, b, mw, gens, seed=5, notch=0, k=1, force_k=False, gs=0):
     msg = (f'validate_dump {mode}{" [ringk]" if (k != 1 or force_k) else ""} (1,{k}),(0,{b}) layers={mw} wall={notch}: {steps} lane-steps, {bad} wrong, deaths {deaths} '
            f'(ring: {int(t["alldeaths"])}), repeating {settled} ({int(t["settled"])}), firewall {interior} ({int(t["interior"])}), '
            f'exposure {expo} ({int(r["expo"].sum())})' + (f', moves by (state, k) recounted: {int(trans.sum())}' if gs and 'trans' in r else ''))
-    if mode == 'model':
+    if mode == 'model' and ccoin:
+        # coins that know the face above them: frequencies given the face, and no memory
+        X = D[:gens].reshape(-1, D.shape[2]).astype(int); zmax = 0.0; res = np.zeros((X.shape[0], 6 * b))
+        for i in range(3 * b, 9 * b):
+            t, o = i // (3 * b), (i // b) % 3
+            ups = [j for j, (dt, _, _) in zip(nb[i], thin.TAB[o]) if dt == -t]      # the face cells that read this coin
+            assert len(ups) == 3 - t
+            j_ = X[:, ups].sum(1); p = (np.array(ccoin[:3]) if t == 1 else np.array(ccoin[3:])) / 65536
+            res[:, i - 3 * b] = X[:, i] - p[j_]
+        for t, pr in ((1, ccoin[:3]), (2, ccoin[3:])):
+            cells = np.arange(t * 3 * b, (t + 1) * 3 * b)
+            jj = np.stack([X[:, [j for j, (dt, _, _) in zip(nb[i], thin.TAB[(i // b) % 3]) if dt == -t]].sum(1) for i in cells], 1)
+            for v, p16 in enumerate(pr):
+                sel = jj == v; n_ = int(sel.sum()); p = p16 / 65536
+                if n_ > 100:
+                    zmax = max(zmax, abs(X[:, cells][sel].sum() - n_ * p) / math.sqrt(n_ * p * (1 - p)))
+        R3 = res.reshape(gens, D.shape[1], 6 * b)
+        ac = float(np.mean(R3[1:] * R3[:-1]) / np.mean(R3 ** 2)); nn_ = R3[1:].size
+        msg += f'; conditional coins: largest |z| of a frequency {zmax:.2f}, correlation of residuals in time {ac:+.5f} (1/sqrt(n) = {1 / math.sqrt(nn_):.5f})'
+        ok = ok and zmax < 4.5 and abs(ac) < 5 / math.sqrt(nn_)
+    elif mode == 'model':
         nz = D[:gens, :, nd:].astype(float)                  # coins
         dens = nz.mean(); n = nz.size
         z = (dens - RHO / 65536) / math.sqrt(dens * (1 - dens) / n)
@@ -333,6 +354,8 @@ if __name__ == '__main__':
         ptab = [[0, 4100, 23000, 45000, 37000, 11500, 0], [4600, 23500, 51000, 59000, 38000, 12000, 0]]
         ok &= validate_pca(24, 3000, ptab)
         ok &= validate_pca(12, 6000, ptab, notch=3)
+        for (b, g, nn) in [(12, 3000, 0), (10, 3000, 3)]:      # coins that know the face above them (ccoin.py)
+            ok &= validate_dump('model', b, 1, g, notch=nn, ccoin=(17000, 24000, 30000, 24000, 28000))
         for (b, m, g) in [(16, 8, 3000), (24, 8, 3000), (40, 8, 1500)]:
             ok &= validate_engine(b, m, g)[0]
         # ringk.c: equal to the reference stepper at k = 1 (with and without wall) and on the wider tori; engine
