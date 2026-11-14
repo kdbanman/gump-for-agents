@@ -89,8 +89,13 @@ _Last updated 2026-11-14 by the lead._
   C 27, D 1). The Opus fact-check of the draft is done (`docs/paper/FACTCHECK.md`: 30 discrepancies, 14 fixed there; the lead's
   decisions on the other 16 are applied, e2fd0ed…5123855: the twist lemma's missing step is written out and read by
   the lead, F5 and SH4 reworded, a failed forecast added as SW7; notebook entry "corrections from the fact-check"). It found that three results called "apparently new" (the boundary layer over noise,
-  the shape dependence, sealed sets) never had a prior-art search: an Opus librarian is searching now (third pass,
-  appended to `research/PRIOR-ART.md`); an adversarial second pass on its "not found" verdicts is owed after it;
+  the shape dependence, sealed sets) never had a prior-art search: the librarian's third pass is done
+  (`research/PRIOR-ART.md`, "Third pass"; notebook entry "prior art, third pass": the noise method is known from
+  coupled-map lattices but no lifetime comparison was found; the shape dependence has an equilibrium analogue in
+  Ising interface tunnelling; sealed sets are blocking words; the tail formula exists, Sugimura–Kori 2015). An Opus
+  adversarial pass on those verdicts is running. The lead's conjecture from it (wrap-around = a sum over period
+  vectors, decaying over a correlation length) is in the notebook and was sent to the analyst of (6) with a blind
+  test on the pairs of (4);
   (4) Opus: the second variable, pairs of tori with equal area and equal shortest loop, candidates fixed and
   forecasts committed first -> `research/shape3/`.
   (6) Fable, started 21:40 UTC: is there one asymptotic constant? Joint analysis of every family of lifetimes

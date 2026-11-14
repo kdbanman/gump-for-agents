@@ -1665,3 +1665,38 @@ each a few minutes; outputs in `audit/out/`).
 - Source: `docs/paper/FACTCHECK.md` (30 discrepancies in `docs/paper/draft.md`; all resolved or recorded there). The
   draft's novelty wording now follows `research/PRIOR-ART.md` strictly: three results (sealed sets, the boundary
   layer over noise, the shape dependence) had no recorded search; a third prior-art pass is running.
+
+## 2026-11-14 — prior art, third pass (three results that had never been searched), and a conjecture it suggests
+
+- Why: the fact-check of the manuscript draft found that three results called "apparently new" had no recorded
+  search. A librarian searched (`research/PRIOR-ART.md`, "Third pass, 2026-11-14"; queries listed there). An
+  adversarial pass on its "not found" verdicts is running and may change what follows.
+- **The boundary layer over noise: the method is known; the result was not found.** Carretero-González, Ørstavik,
+  Huke, Broomhead, Stark, PRL 83 (1999) 3633 (arXiv:chao-dyn/9904009, read in full by the librarian) drive a small
+  window of a chaotic coupled-map lattice with white noise at its edges and recover the statistics of the large
+  lattice. Ours is the mirror construction (keep the boundary layer, randomise the interior) and compares
+  lifetimes, which nobody found does.
+- **Shape of a periodic domain: an equilibrium analogue exists.** Caselle, Gliozzi, Vinti, Phys. Lett. B 302 (1993)
+  74 (arXiv:hep-lat/9212013, read in full by the librarian): the tunnelling rate through an Ising interface on a
+  periodic L₁ × L₂ cross-section is Z_cw(τ)·e^{−σL₁L₂}, the shape entering through the modular parameter τ of the
+  torus (a Dedekind eta function), tested at equal area. Nothing found for chaotic transients, nucleation or
+  extinction times, or for the shortest loop as the controlling length.
+- **Sealed sets: an instance of a known notion.** Blocking words (Kůrka; Blanchard–Tisseur, arXiv:math/0312137):
+  a word that disconnects the two sides for ever. Three dead layers are the simplest case in one lattice
+  direction. "The largest sealed set only grows" follows from the definition: a remark, not a result.
+- **Also found: the tail formula exists.** Sugimura and Kori, PRE 92 (2015) 062915 (arXiv:1512.08333): a transient's
+  lifetime as the inverse of the stationary probability of the last state before absorption times an exit rate.
+  Our "the death rate is the next point of the stationary tail" (M1) is an instance; their tail is assumed
+  Gaussian, ours is measured to one cell.
+- Not obtained: Tél–Lai 2008 (an author copy answered 503), dos Santos et al. 2008 (full text), others listed in
+  the file. Not searched: what cites Houghton et al. 2010; lifetimes of topological memories on tori; pipe-flow and
+  Kuramoto–Sivashinsky lifetimes against domain shape (the adversarial pass is asked to).
+- **Conjecture (the lead's, not tested; passed to the analyst of `research/constant/` to state and test).**
+  The wrap-around term of a periodic face is a sum over the face's nonzero period vectors of a function decaying
+  over a correlation length: ln τ = a + A·[c − g·Σ_v f(|v|/ξ)]. Reasons: read off the census, the deficit of the
+  cost per cell from about 0.215 is 0.100, 0.074, 0.023, 0.008, 0.006, 0.0025 at shortest loop² 3, 4, 7, 12, 13, 16,
+  which falls roughly exponentially in the loop length (about e^{−1.6 s}) and not as its inverse square, so the
+  massless (capillary-wave) form of Caselle et al. is less likely than a massive one; a sum over images gives a
+  shape term that grows with area, as measured; and it gives a second variable of the measured sign (a shorter
+  second loop adds a term, so the face dies sooner). If it holds, ξ should be close to the correlation length of the
+  chaotic state measured independently (about 0.7 cube). Blind test: the pairs being measured in `research/shape3/`.
