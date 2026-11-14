@@ -114,10 +114,10 @@ _Last updated 2026-11-14 by the lead._
   unmerged; the audited face12e results live in `research/audit/class/` under that name.
 - **`research/theory/exponent.md`**: written, reviewed (`research/audit/REVIEW-exponent.md`, 10:45 UTC) and in the
   notebook (2026-11-14, "where the exponent lives"; CLAIMS X1–X3). Stands: five or more layers of gump over coin flips
-  reproduce a slab face's lifetime to 0.015 (reviewer's own code), eight rows of the 2D rule likewise (lead's own
+  reproduce a slab face's lifetime to 0.015 at A = 27–60 and 0.02 ± 0.04 at A = 75 (reviewer's own code), eight rows of the 2D rule likewise (lead's own
   code). Does not stand as written: the empty-window formula as more than a fit, "coincidence", the per-live-cell
-  cost, the small-vessel inference. **Running:** an Opus editor applying the review's thirteen corrections to
-  `exponent.md` and `theorems.md`. Then update `research/theory/PROGRAM.md` (M1–M4: the problem is now a
+  cost, the small-vessel inference. The review's thirteen corrections are applied (commit 0e8e5ec, an Opus editor; its §14 lists every change and two
+  inconsistencies in the review itself). To do: update `research/theory/PROGRAM.md` (M1–M4: the problem is now a
   finite-depth probabilistic automaton) and `research/OPEN-PROBLEMS.md` items 3–4.
 - **Class follow-up: done 2026-11-14** (`research/theory/class/followup/`; notebook entry of that date; CLAIMS K6–K8;
   the lead re-derived the symmetric face12e boxes). Half-space confinement holds out of sample; hex9 B456/S3456 is a

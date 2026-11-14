@@ -1249,8 +1249,9 @@ half (`research/audit/exponent/lead_check.py`). What stands after both, all **[m
 
 - **The face law's exponent is set in a thin boundary layer driven by noise.** Keep the rule on the top w layers of a
   face and replace everything beneath by fresh coin flips every generation.
-  - Gump, periodic slab faces: from w = 5 the model's ln τ equals the deterministic slab's to within 0.015 at
-    A = 27–75 (reviewer's own runs; the A = 75 slab is new, 15.660 ± 0.027). With w = 4 it is 0.06–0.07 high.
+  - Gump, periodic slab faces: with w = 5 the model's ln τ equals the deterministic slab's to within 0.015 at
+    A = 27, 48, 60 and is +0.02 ± 0.04 at A = 75 (reviewer's own runs; the A = 75 slab is new, 15.660 ± 0.027;
+    A = 36 was not re-run). With w = 4 it is 0.06–0.07 high.
   - Gump, octahedral hull faces: within 0.05 at A = 45, 63, 84 (truth 9.823, 13.644, 18.148 ± 0.028), but deep models
     (w = 6, 8) settle 0.03–0.04 *below* the truth (4–5σ at A = 45), and w = 4's closeness is partly a crossing
     (w = 3 far above, w ≥ 5 below). That "four to five layers" suffice for hulls was noticed after the runs.
