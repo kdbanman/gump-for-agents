@@ -78,8 +78,11 @@ _Last updated 2026-11-14 by the lead._
   (1) Fable: second-reader audit of the counting line's proved claims -> `research/theory/swarm/audit/AUDIT-counting.md`;
   (2) Fable: the thin face from the rule (derive the cost per cell 0.115 of the loop² 3 torus from layers of the rule
   over coin flips; quasi-one-dimensional, finite-state) -> `research/theory/thin/`;
-  (3) Fable: a manuscript-style draft for an outside reader, results graded A or B only, with "what is new, what is
-  not" and a list of inconsistencies found -> `docs/paper/` (nothing leaves the repository);
+  (3) Fable, **done 20:52 UTC**: a manuscript-style draft for an outside reader, `docs/paper/draft.md` (results graded
+  A or B only; section "What is new here and what is not"), with `INCONSISTENCIES.md` (34 places where the repository
+  disagrees with itself) and `GAPS.md` (38). Nothing leaves the repository. An Opus editor is resolving the
+  inconsistencies (items in STATUS/NOTEBOOK come back as `docs/paper/FOR-LEAD.md` for the lead to apply); then an
+  Opus fact-check of the draft against the ledger is owed;
   (4) Opus: the second variable, pairs of tori with equal area and equal shortest loop, candidates fixed and
   forecasts committed first -> `research/shape3/`.
   Owed for each when it reports: the lead's own check of one key number, an adversarial review (Opus) for (2) and (4),
