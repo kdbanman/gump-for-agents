@@ -191,3 +191,70 @@ which leans toward a mild rise, and the comparison still mixes a square (108) an
   well (post-hoc fit c = 0.114 ± 0.038, b = 0.2057 ± 0.0014, predicting 22.564 and 26.267). With the line's own
   extrapolation error the offsets are +0.08 ± 0.03 ± 0.06–0.10 (A = 108) and +0.19 ± 0.10 ± 0.07–0.12 (A = 126): the
   "1.8σ" of the 6×7×8 block is about 1.2σ.
+
+## 2026-11-14T09:49Z — does the width of a periodic face change its lifetime at fixed area? (before any of the runs)
+
+The lead's design after PR 14. All runs firewall-resolved (`fwslab.py`), m = 8, p = 0.4, per-life data or age
+histograms kept, UTC start in each file; `python3 research/gpu/width.py "research/data/gpu_facelaw/fwslab*.json"` fits
+ln τ_face = ln(2E / face deaths) under three readings: **A** (a + bA), **O** (offset by short side s: a(s) + bA),
+**W** (cost per cell depending on width: a(s) + b(s)A). Note the cheapest firewall cut is 36·s in every one of these
+slabs, so width and firewall exposure go together; the face channel is measured separately from the firewalls.
+Burn-in check: rates over ages ≥ 10³ and ≥ 10⁴ generations, from the age histograms.
+
+What is already known (the four firewall-resolved points, before these runs): 3×6×8, 4×7×8, 6×6×8, 6×7×8 lie on one
+straight line, ln τ_face = −0.40 + 0.2127·A, within their errors (residuals −0.003 ± 0.041 at 108, +0.005 ± 0.104 at
+126), with short sides 3, 4, 6, 6.
+
+Runs: (a) 4×9×8 (A = 108, s = 4, cut 144), 12 min; (b) 3×{6, 8, 10}, 4×{5, 6, 8} (4×7 already in), 5×{5, 6}, and 6×4 as
+the orientation check of 4×6, ≥ 2,000 face deaths each (launch cap 2¹¹ generations for s = 3, where firewall lives
+are ≈ 2 × 10⁵ long, 2¹⁶ for s = 4); (c) 5×7×8 (A = 105), 8 min, and 5×8×8 (A = 120), 60 min, if budget remains.
+
+Which reading each outcome favours:
+- **4×9×8 − 6×6×8 at A = 108:** ≈ 0 (|Δ| < 0.1) favours A; ≈ −2c = −0.23 ± 0.08 (the post-hoc short-side fit) favours O
+  (or W); a positive Δ favours none of them.
+- **Families:** a common slope with equal intercepts favours A; a common slope with intercepts rising with s favours O;
+  slopes b(s) differing by more than 3σ favours W.
+
+**My forecast: reading A.** 4×9×8 − 6×6×8 = **0.00 ± 0.10**; the family slopes b(3), b(4), b(5) agree within
+± 0.004 of 0.213, and the intercepts within ± 0.06 of each other; model A's χ² is acceptable (p > 0.05). The orientation
+check 4×6 vs 6×4 agrees within 2σ. Probabilities: A 0.55, O 0.3, W 0.15. The burn-in check moves no face channel by
+more than its error.
+
+## 2026-11-14T10:56Z — outcome of the width experiment (forecast: commit 5cd9a83, 09:49:44Z)
+
+`python3 research/gpu/width.py "research/data/gpu_facelaw/fwslab*.json"`; `python3 research/gpu/fwslab.py summary ...`.
+14 firewall-resolved slabs (11 new, 3 earlier), UTC starts and age histograms in each file. **My forecast (reading A)
+missed.**
+- **Fixed area A = 108: 4×9×8 − 6×6×8 = −0.196 ± 0.059** (forecast 0.00 ± 0.10: missed; the post-hoc short-side fit's
+  −0.23 ± 0.08 was right). Against the pooled 6×6×8 (22.536 ± 0.031): −0.163 ± 0.052. At A = 72, 3×8 − 4×6 = −0.35;
+  at A = 90, 3×10 − 5×6 = −0.74.
+- **Readings:** A (a + bA) χ² = 30,944 for 13 dof — excluded; O (a(s) + bA) 3,595 for 10 — excluded; W (a(s) + b(s)A)
+  85 for 7 — far better, not complete. **b(s) = 0.1959 (s = 3), 0.2072 (4), 0.2082 (5), 0.213 ± 0.006 (6)**: the
+  cost per cell rises with width (forecast: equal within ± 0.004 — missed). Local slopes within families:
+  s = 3: 0.1966 → 0.1902 (falls, 9σ); s = 4: 0.2072, 0.2077, 0.2065, 0.2025 ± 0.0038; s = 5: 0.2083, 0.2069,
+  0.2104 ± 0.0055 (flat); s = 6: 0.2131 ± 0.0062. 5×8×8 (A = 120): ln τ_face = 25.046 ± 0.073 (189 face deaths,
+  2,212 firewalls, 92.1%).
+- **Orientation check** 4×6×8 − 6×4×8 = −0.002 ± 0.003 (forecast within 2σ: hit). **Burn-in:** rates over ages ≥ 10³
+  and ≥ 10⁴ move no face channel by more than its error (hit), including slabs where firewalls take 87–99.6% of lives.
+- Reading: a periodic face's cost per cell depends on its width and rises from width 3 to 5–6; only the narrowest faces
+  (width 3, and perhaps 4) get cheaper per cell as they lengthen. [conjecture] Wide faces converge to about the
+  octahedral 0.216–0.221, and the slab line's 0.2088 is an average over narrow slabs.
+
+## 2026-11-14T12:02Z — corrections to the width outcome after review (`research/audit/REVIEW-gpu-pr16.md`; nothing above is edited)
+
+- Errors on the differences: A = 72, 3×8 − 4×6 = −0.349 ± 0.004; A = 90, 3×10 − 5×6 = −0.740 ± 0.016; chords b(3), b(4),
+  b(5) = 0.1959 ± 0.0001, 0.2072 ± 0.0001, 0.2082 ± 0.0006. The finding (narrower faces die sooner at equal area) stands;
+  the review confirms it on the CPU (3×8 − 4×6 = −0.344 ± 0.020).
+- **Withdrawn:** "the cost per cell rises with width from 3 to 5–6", "and perhaps 4", and the conjecture "wide faces
+  converge to about 0.216–0.221 and 0.2088 is an average over narrow slabs" (b(5) is 13σ below 0.216; an area-only slope
+  over mixed widths, 0.2085 for s ≥ 4, is inflated by the offsets — the sign was wrong).
+- **Restated:** s = 3 is cheaper per cell and curved (quadratic term 9σ; b(3) is a chord). For s ≥ 4 one slope
+  0.2072 ± 0.0001 with intercepts rising with s fits at χ² 8.4 / 8; b(5) − b(4) = 0.0010 ± 0.0006 (1.6σ) — by my own
+  committed criterion that is reading **O**, not W. a + 0.2117·A − 0.054·(long side) fits as well (χ² 5.6 / 9): the
+  short side is not singled out. The W fit's χ² 85.2 / 7 is 80.3 from s = 3 (3×10×8 at −8σ). The cost per cell of a
+  wide face is between about 0.207 and 0.216; not settled.
+- The burn-in statement is replaced by: the face hazard by decade of age is flat from about 200 generations on in every
+  slab. "Competing risks independent (not tested)" is replaced by the named confound: width and firewall share are one
+  variable by design (cut 36·s); within s = 4 the share runs 0.5–99% without bending the line; in s = 3 curvature and
+  firewall proximity are not separated. Mixed launch caps (3×6×8 pools 2¹⁸ and 2¹¹; 4×7×8, 6×6×8, 6×7×8 are 2¹⁸):
+  detection-time biases ≤ +0.006 (s = 3), ≤ +0.005 (old 4×7×8); no conclusion changes.
