@@ -3,6 +3,7 @@
 
     python3 research/shape3/analyze3.py collect    # scratch event files -> data/runs.csv, data/agebins.csv (raw counts)
     python3 research/shape3/analyze3.py report     # every table of README.md from the two CSVs + predictions.json
+    python3 research/shape3/analyze3.py report --planned   # the same without the extension rounds (seeds > 31037)
 
 ln tau_face = ln(2E/F) +- 1/sqrt(F) (E exposure in life-generations, F face deaths; firewalls W, settled S, ties X
 = face death and firewall at the same 8-generation check, and lives open at the end of a job censor). "ties as
@@ -57,14 +58,21 @@ def collect():
     print(f'{len(rows)} jobs collected')
 
 
+MAXSEED = 31037 if '--planned' in sys.argv else 10 ** 9   # --planned: the plan's jobs only, no extension rounds
+
+
 def load():
     T = defaultdict(lambda: defaultdict(float)); nj = defaultdict(int)
     for r in csv.DictReader(open(os.path.join(DATA, 'runs.csv'))):
+        if int(r['seed']) > MAXSEED:
+            continue
         L = (int(r['a']), int(r['k']), int(r['b'])); nj[L] += 1
         for key in ('exposure', 'F', 'X', 'W', 'S', 'C', 'open'):
             T[L][key] += float(r[key])
     B = defaultdict(lambda: defaultdict(lambda: [0.0, 0]))
     for r in csv.DictReader(open(os.path.join(DATA, 'agebins.csv'))):
+        if int(r['seed']) > MAXSEED:
+            continue
         L = (int(r['a']), int(r['k']), int(r['b'])); k = int(r['age_lo'])
         B[L][k][0] += float(r['exposure']); B[L][k][1] += int(r['F'])
     return T, nj, B
