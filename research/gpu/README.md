@@ -10,7 +10,8 @@ Tags as elsewhere: **[measured]** (with the command), **[conjecture]**.
 > lifetimes from the raw death lists (23.376 ± 0.031, 29.34 ± 0.25). **The numbers stand. The first version
 > of this page made the statements quoted below; they were wrong as worded and have since been corrected:**
 > - "A = 108 sits 0.39 nats (13σ) above the line 0.2077·A + 0.55": that line never fitted the verified lifetimes
->   (it misses A = 45 and 84 by 0.08 nats). The finding is: local slopes rise, 0.201, 0.212, 0.212, 0.218, 0.221;
+>   (it misses A = 45 and 84 by 0.08 nats). The finding is: local slopes rise, 0.201, 0.212, 0.215, 0.218, 0.221 (A = 84 at the GPU's 18.141 throughout; the
+>   list first printed here took 18.077 for the third slope and 18.141 for the fourth);
 >   A = 108 is 0.21 ± 0.04 nats above the straight line through the verified A = 45–84 points; curvature is 2.6σ
 >   from the GPU points alone, about 5σ with the CPU points.
 > - "The `qsd.py` settle concern is real at R = 36 too": `qsd.py` detects every period dividing 840. What was shown
@@ -19,7 +20,8 @@ Tags as elsewhere: **[measured]** (with the command), **[conjecture]**.
 >   The soup-only value on file (8.2×10⁷ ± 15%) agrees with 8.63×10⁷ here.
 > - "Aftershock for the first 0.01τ": the excess is double peels, the next layer dying within about 20 generations.
 > - Cube-centred symmetric runs (R = 43, 45): the death rate falls with age (p = 0.04, 0.01), so those τ are rates
->   over the ages observed, not necessarily the long-run mean. Bears on the side-17 forecast.
+>   over the ages observed, not necessarily the long-run mean. Bears on the side-17 forecast. [2026-11-14: at R = 43
+>   this was noise, a longer run shows no ageing ("Third use", b, below; CLAIMS GP5); R = 45 not re-run.]
 > - The review's requested fixes (checks that exit non-zero on failure, committed negative controls, a guard against
 >   pooling duplicate runs, and the rewordings above) were made in pull request 10, merged the same day; the text
 >   below is the corrected one. The lead spot-checked the diff, not the Modal runs.
@@ -136,8 +138,10 @@ deaths. τ_face = 8 × mean (8 independent faces). The R = 9 row is the fluctuat
 - **Calibration:** R = 11 and 13 reproduce the fluctuation agent's 1.04 × 10⁵ ± 0.008 and 8.86 × 10⁶ ± 0.48 (and
   the hazard is flat in age from 200 to 10⁶ at R = 11, within ±1% per bin; at R = 15 from 3 × 10⁵ to 6 × 10⁸).
 - **The cost per cell keeps rising past A = 84** (restated after review, `research/audit/REVIEW-gpu-pr8.md`,
-  claim 2). Local slopes of measured lifetimes, verified CPU points then GPU: 0.201 (30→45), 0.212 (45→63), 0.212
-  (63→84), 0.218 (84→108), 0.221 ± 0.009 (108→135). A = 108 is **0.21 ± 0.04 nats above the straight line through the
+  claim 2). Local slopes of measured lifetimes, verified CPU points to A = 63, GPU from A = 84: 0.201 (30→45), 0.212 (45→63),
+  0.215 (63→84), 0.218 (84→108), 0.221 ± 0.009 (108→135), as in the table's last column. (An earlier version gave
+  0.212 for 63→84, which uses the CPU's ln τ = 18.077 at A = 84 while 84→108 uses the GPU's 18.141; with 18.077 at
+  both ends the pair reads 0.212, 0.221. The two A = 84 values agree within the CPU's error.) A = 108 is **0.21 ± 0.04 nats above the straight line through the
   verified A = 45–84 lifetimes** and consistent (1.2σ) with curved fits to them; the curvature is 2.6σ from the GPU
   points alone and ≈ 5σ with the CPU points. The slope was already rising from A = 30 to 63, so this is not a new bend
   beyond A = 84. (An earlier version of this README measured A = 108 against 0.2077·A + 0.55 — "0.39 nats, 13σ" —
@@ -178,7 +182,8 @@ to period 128; T0 = 1000; τ = mean residence (the eight faces of a symmetric st
   points). Vertex/cube factor at A = 759: 1.66 ± 0.08. **Caveat (review):** in both cube-centred runs the hazard
   falls with age (Weibull shape 0.94 and 0.84; p = 0.04 and 0.01; ages ≤ 0.23 τ and ≤ 0.04 τ), so these τ are rates
   over the ages observed, not established long-run means; if young cube-centred soups die faster, the side-17 mean is
-  higher than 3.2 × 10¹⁰. A longer R = 43 run is experiment b in `PREDICTIONS.md`.
+  higher than 3.2 × 10¹⁰. A longer R = 43 run is experiment b in `PREDICTIONS.md`. [Done: at R = 43 the fall was noise
+  ("Third use", b); R = 45 not re-run.]
 - **The 7.1 × 10⁷ for vertex R = 40 on file** (the lead's message) pools fresh soups with copies of the side-16 cube's
   own states (`research/experiments/cube_vs_ensemble.py`); the soup-only value on file, 8.2 × 10⁷ ± 15%
   (`research/fluct/data/sym_residence.csv`), agrees with 8.63 × 10⁷ here. (`PREDICTIONS.md`'s "+21%" compared soups
