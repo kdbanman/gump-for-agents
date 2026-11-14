@@ -647,6 +647,10 @@ gained. All four replies are complete and committed. What follows is what is not
   A direct check at larger L: P(dead by generation 6) on a ring of L = 12…18 from the kernel against tr(M₆ᴸ) is
   not possible for the explicit matrix (2²⁴ states) but is for k = 4 (65,536 states: tr(M₄ᴸ) by L applications
   of `d2_step` to each basis vector is too slow in Python; a compiled version would do). I did not do it.
+  What the kernel alone shows (`ages`, dense soup): −ln P(dead by generation 5) has local slope 0.550, 0.585,
+  0.551, 0.546 per cell between L = 10, 12, 14, 16, 18, against its exact limit c₅ = 0.5079. So a finite-size
+  excess of 0.04 at L ≈ 17 exists in a quantity whose limit is known, the same size as the excess the ring's
+  steady step would have to shed.
 - **Sampled exam entries that the exact results now bear on:** P-E1 (D2 ring's slope at L = 30–38) is the direct
   test of that inference. S-E1's three numbers and P-E2 are exact identities already verified.
 - **Bulk output of this pass** is under `research/scratch/critic/` (logs of the long runs; nothing there is
