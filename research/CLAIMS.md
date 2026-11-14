@@ -129,7 +129,7 @@ Commands run from the repo root; `G=engine/target/release/gump`. `check.sh` = co
 
 | id | claim | tag | where | reproduce | level | checked |
 |---|---|---|---|---|---|---|
-| G1 | 2D gump: B34/S234 on the range-2 cross has memoryless edge death with ln τ_edge = 0.73 + 0.416·L (L = 12–36) | measured | NB 2026-11-13; toy2d README | `research/toy2d/` (`law.py`, `analyze.py`) | A (lead's own stepper, L = 12–24: slope 0.42; `python3 research/experiments/toy2d_check.py 12 16 20 24`) | 2026-11-13 |
+| G1 | 2D gump: B34/S234 on the range-2 cross has memoryless edge death with ln τ_edge = 0.73 + 0.416·L (L = 12–36) | measured | NB 2026-11-13; toy2d README | `research/toy2d/` (`law.py`, `analyze.py`) | A (lead's own stepper, L = 12–24: slope 0.42; `python3 research/experiments/toy2d_check.py 12 16 20 24`); the grade rests on the slope: that check's values (5.85 at L = 12) lie 0.1–0.2 above the law's (5.72) and the later 16 × L strips' (5.644, X2) | 2026-11-13 |
 | G2 | 2D toy: box confinement, the threshold lemma (AUTOMATON T5 = ledger T8) and no finite sealed set | proved | toy2d README | `python3 research/toy2d/structure2d.py` | C (lead re-derived confinement and the 3-row firewall by hand only) | 2026-11-13 |
 | G3 | 2D toy: mirror symmetry multiplies the slope by 0.42, full square symmetry by 0.50; four-fold rotation also shortens life (forecast failed) | measured | NB 2026-11-13; toy2d PREDICTIONS | `research/toy2d/` | C | — |
 | G4 | No capped-threshold Moore rule sustains confined chaos; 93 of 711 long-lived Moore rules die edge by edge | measured | toy2d README | `research/toy2d/` | C | — |
