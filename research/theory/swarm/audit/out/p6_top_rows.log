@@ -1,0 +1,15 @@
+(i) periodic slab, 3 layers of 27 cells; top face; 20000 random states beneath for each j
+    from A - 0 = 27 live cells: next population max 0 (bound 7j = 0), mean 0.00
+    from A - 1 = 26 live cells: next population max 6 (bound 7j = 7), mean 1.28
+    from A - 2 = 25 live cells: next population max 12 (bound 7j = 14), mean 2.67
+    from A - 3 = 24 live cells: next population max 16 (bound 7j = 21), mean 4.13
+(ii) hull R=7, face of 30 cells, rest of the hull at random (densities 0.2, 0.4, 0.6); theta0 = 0.41, K = 11
+    from 30 live cells: next population mean 13.20, min 2, max 21; P(next < K) = 0.288; C_z = E e^(-theta0 (Z'-K)) = 1.41   (e^(theta0 K) = 90.9)
+    from 29 live cells: next population mean 14.18, min 2, max 24; P(next < K) = 0.223; C_z = E e^(-theta0 (Z'-K)) = 0.95   (e^(theta0 K) = 90.9)
+    from 28 live cells: next population mean 15.13, min 4, max 26; P(next < K) = 0.155; C_z = E e^(-theta0 (Z'-K)) = 0.64   (e^(theta0 K) = 90.9)
+    from 26 live cells: next population mean 16.53, min 4, max 27; P(next < K) = 0.058; C_z = E e^(-theta0 (Z'-K)) = 0.32   (e^(theta0 K) = 90.9)
+    from 22 live cells: next population mean 17.84, min 3, max 27; P(next < K) = 0.007; C_z = E e^(-theta0 (Z'-K)) = 0.13   (e^(theta0 K) = 90.9)
+(iii) exhaustive vessel (22 cells, face of 11): number of the 2^22 soups whose face is full at time t
+    t = 0..8: [2048, 4930, 1461, 1615, 1994, 1242, 755, 414, 155]
+    from a full face the next population is at most 11, and 0 in 0 of 2048 states
+(8 s)

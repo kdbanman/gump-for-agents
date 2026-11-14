@@ -1448,3 +1448,290 @@ table; fixed seeds). Lead: `python3 research/audit/shape_lead_check.py` (tables 
 - Not checked: no GPU or second-machine run; seven of the thirteen presentations at 72 and three tori at 60 were
   run by one code only; the event detectors (as opposed to the stepping) were not validated against the engine;
   `research/shape/loopsum.py` (a sum over loop classes that did not explain the pair at 60) was not reviewed.
+
+## 2026-11-14 — the path line's proofs read a second time (independent audit; the lead re-ran one exact check)
+
+When the swarm closed, the path line's results (exact reductions for gump and a conditional area law) had been
+checked by one critic each and by nobody else. A second reader has now gone through every claim tagged proved,
+forming verdicts before opening anything the critic wrote, and recomputing with code written from
+`docs/AUTOMATON.md`: `research/theory/swarm/audit/AUDIT-path.md` (scripts `p0_lib.py` … `p7_tallies.py` beside it,
+each a few minutes; outputs in `audit/out/`).
+
+- **[proved; read twice and recomputed] Correct as stated:** P̄, C, T′, T, X, V⁻, Lemma E1 and V⁻(E), R, P, L1,
+  L1′, L3, L4, F (and R5, read only). P̄ was tested as an exact identity in rational arithmetic on all 2²² states of
+  a 22-cell gump vessel, on hidden Markov chains, and on 6.4 × 10⁶ face-generations of a hull face; the structure
+  lemmas by enumeration of every state of a small face and the cells beneath it (2²⁴). The lead re-ran the first of
+  these (`cd research/theory/swarm/audit && python3 p1_pbar_exact.py`, 31 s): the output equals the audit's log.
+- **[correction] The slogan for P̄ leaves out two terms.** The identity is: deaths = direct deaths from above the
+  low set + entry flux × committor of the pooled one-step table + a term at the start of the window − a term at its
+  end. On the audit's A = 30 sample the window term is 7.8% of the deaths.
+- **[correction] The conditional area law holds from (R) + (Φ) + (W), not from "R and R⁺" as worded.** (i) The
+  window term is not controlled by R and R⁺: the audit gives an example satisfying both whose hazard is 45 times the
+  bound. Its Proposition W fills the gap (the term vanishes if the window starts above the threshold row, or is
+  bounded in a quasi-stationary window when censoring is at most c times the hazard and (1 + c)w < 1; measured at
+  A = 30: censoring 6.8 times the hazard, (1 + c)w = 0.56). (ii) R⁺ and B⁺ taken as suprema over every visited row
+  fail at the top rows (a full rim-free face dies in one step); the corrected statement uses a set of rows and the
+  living weight of the rows left out. With these, the step from the hypothesis to "exponential in the area" is
+  airtight. The hypothesis (R) itself (local roots at least θ₀ on rows k₀ … κA of the pooled table of the living
+  ensemble) is a statement about the rule that is known only from measured tables: the audit reproduced it from the
+  lab's tallies at A = 30 … 84 and on its own sample at A = 30. It is not derived.
+- **[correction] Lemma S is narrower than worded.** "Lost for ever" is not "inside the dead sealed set": the end
+  state of the side-8 cube has 96 cells that are dead for ever and lie in no dead sealed set. The statement that
+  every permanent loss is the extinction of a minimal sealed set needs minimality relative to what is already
+  sealed (the audit's Proposition S′, proved there).
+- Smaller: the row for V′ in `path/claims.md` omits a hypothesis without which it is false (the journal's statement
+  has it); the last sentence of V⁻(E) about gump's bottom rows is a remark, not a proof, and nothing rests on it;
+  one illustrative number in P is 1.62 × 10⁻¹⁵, not 1.8 × 10⁻¹⁵.
+- Not checked by the audit: the claims not tagged proved (V's upper half, V∞, A, G1, W, F12, Dr, the exam
+  entries); hypothesis (E) on real tables; path's own scripts; sizes other than A = 30 for its own sample (one
+  seed); whether a full rim-free face is reachable after the first generation.
+- What this changes: nothing in the swarm's bottom line (no proof of the area law; the constant not derived). The
+  conditional result is now stated with its true hypotheses and has been read by two independent readers. The same
+  audit for the counting line is still owed.
+
+## 2026-11-14 — every torus of a given area: the lifetime is not a function of area and shortest loop (census at A = 48, 60 and part of 72; forecasts first; adversarial review with an independent stepper; lead's check)
+
+- What was done (`research/shape2/README.md`): every class of periodic face (period lattice (a,k),(0,b) up to the
+  twelve symmetries) was measured at A = 48 (9 classes) and A = 60 (10 classes), and five more at A = 72. Candidate
+  laws were fitted on the already published values and their forecasts committed before the runs (80906fe). The
+  review (`research/audit/REVIEW-shape2.md`) re-ran 16 of the 24 rows with its own stepper, seeds fixed beforehand
+  (3cf07a5): they agree with the tables (χ² 25 / 16).
+- **Measured: the cost per cell depends on the shortest closed loop of the face, and saturates.** d ln τ_face / dA
+  from A = 48 to 60 (in brackets, 60 to 72): loop² 3: 0.115 (0.111); 4: 0.141 (0.135); 7: 0.192 (0.187);
+  12: 0.207 (0.205); 13: 0.209 (0.206); 16: 0.2125 (0.208). The review's own runs give 0.1144, 0.1415, 0.1922,
+  0.2076, 0.2127 for 48 → 60. So a face only √3 or 2 cells around still lives exponentially long in its area, at
+  about half to two thirds of the wide-face cost, and the wide-face figure is reached near loop² 12. On the thin
+  tori the hazard is flat in age, almost nothing settles, and face death is permanent (review, claim 2): it is the
+  same kind of object, not a different regime.
+- **Measured: above loop² 12 the shortest loop no longer orders the classes at A = 48.** The four classes with
+  loop² 12, 12, 13, 16 span 0.016; the 4×4 face (loop² 16) lies 0.0135 ± 0.0021 below the (12; second loop 19)
+  class (review). At A = 60 the step from loop² 12 to 16 is +0.056 to +0.063, at A = 72 about +0.10: the shape term
+  grows with the area.
+- **Measured: a second variable at equal shortest loop.** A = 48, loop² 12, second loop² 16 against 19:
+  +0.0151 ± 0.0017 (two codes pooled; 0.0156 ± 0.0021 from the review alone). A = 60, loop² 16, second loop² 19
+  against 21: four runs with two codes, 0.0186 ± 0.0041, 0.0177 ± 0.0042, 0.0061 ± 0.0049, 0.0132 ± 0.0028; pooled
+  0.0142 ± 0.0019 (χ² 4.7 / 3; the lead's arithmetic from these four gives the same). This replaces the 0.019 of
+  the entry "the shortest way round". A third pair (A = 60, loop² 12) has the same sign but is 1.8σ. In each pair the
+  face with the shorter second loop dies sooner. What the variable is has not been found: the second-shortest loop
+  fits the sign in three pairs, which is not a test.
+- **Refuted: every candidate law.** L1, L2, L3p, L3-const and L4 fail at each area. L3-area appeared to pass at
+  A = 60 on the census's own run (χ² 5.4 / 5); on the review's independent values it fails (22.7 / 5) and with all
+  runs pooled it fails (45.4 / 5), and five of its six classes were ones it had been fitted on. No law in area and
+  shortest loop describes the data at any area.
+- Corrections the review made to the tables. The loop² 4 rows carry a resolution bias: a face death and a firewall
+  in the same 16-generation check window are all booked as firewalls; resolved per generation the A = 48 value is
+  about 9.47, not 9.489 (six times its stated error; the slope is not affected, 0.1415 against 0.1414). The loop² 1
+  and loop² 4 tori are multigraphs (a cell counts one neighbour twice), so they are not gump on a smaller face in
+  the strict sense. Loop² 3 has a firewall channel after all (one in 2 × 10⁹ life-generations). The loop² 1 rate
+  means nothing and is to be blanked.
+- Lead's check: `python3 research/audit/shape2_lead_check.py` recomputes all 24 rows and the costs per cell from the
+  raw counts. The pooled pair differences were recomputed from the four published differences.
+- Not checked: nothing at A = 72 was rerun (the bracketed costs rest on one code); the loop² 13 class at A = 60;
+  the census's post-hoc fits (`explore.py`); event detection against the engine (stepping was validated, on all 13
+  tori); whether the pair difference grows with the age of the life (a 2σ hint; a cap-free rerun of the pair at
+  ± 0.002, about two core-hours, would settle it).
+- Reading (conjecture). The lifetime of a periodic face is ln τ = c·A + (a term set by how the face closes on
+  itself), and that term is not small, not constant in A, and not a function of one length. Two consequences.
+  The constant c of an unwrapped face cannot be read off any one family of tori to better than about ± 0.004:
+  the families give 0.205 to 0.2125 at these sizes. And the thin tori are a new handle for theory: a face three
+  cells around is a quasi-one-dimensional system with a cost per cell (0.11) that a transfer matrix over the
+  short direction might reach exactly, with 0.14, 0.19, 0.21 as the next rungs.
+
+## 2026-11-14 — consistency corrections (consistency pass; numbers traced to data or scripts)
+
+- **Local slopes of octahedral faces** (entry "GPU ensembles", lines 905–906): "0.201, 0.212, 0.212, 0.218, 0.221"
+  mixes two values of ln τ_face at A = 84: 18.077 (CPU, 342 deaths) for 63 → 84 and 18.141 ± 0.005 (GPU, 34,026
+  deaths) for 84 → 108. With 18.141 throughout: **0.201, 0.212, 0.215, 0.218, 0.221**, the GPU README's table
+  column; with 18.077 throughout, 0.201, 0.212, 0.212, 0.221, 0.221. (Arithmetic on the lifetimes 6.804, 9.819,
+  13.633, ·, 23.376, 29.34 at A = 30, 45, 63, 84, 108, 135.) [INCONSISTENCIES A2]
+- **Vertex/cube factors** (entry "side-16 cube ends", line 710): the six factors "1.51, 1.52, 1.53, 1.60, 1.49,
+  1.31 at A = 360 … 630" have five sources: `sym_residence.csv` has no cube-centred row at A = 360, and no version
+  of the csv ever had one (checked back to d09388a, where the row set was added); `python3 research/fluct/sym_fit.py`
+  prints the five at A = 408 … 630. Where 1.51 came from was not found. The flat ≈1.5 holds over **A = 408–630**;
+  line 739's "A = 360–630" likewise. The 3.1 (ln 1.12 ± 0.29) at A = 693 is right: pooled vertex value (24 copies +
+  5 soups) against the csv's 19.705 for `sym41c`; the fluctuation README's 3.3 used 19.64, a value the csv does not
+  give (now corrected there). [B2, B3]
+- **Density at R = 11** (entry "how chaos dies", line 307): from the regenerated `research/peeling/octa_first.csv`
+  the first-peel means for p = 0.3, 0.4, 0.5, 0.6 are **1.00, 1.08, 1.00, 1.05 × 10⁵** (99,545; 108,090; 100,483;
+  105,280), not 0.91, 1.08, 1.00, 1.04. The conclusion (density does not matter once the hull is filled) stands. [B12]
+- **Thickness at A = 48** (same entry, line 298): `peeling/slab_area.csv` gives 9,878.7, 10,354.1, 10,323.0,
+  10,345.8, 10,346.9, i.e. **9.9, 10.4, 10.3, 10.3, 10.3 × 10³** for m = 7, 8, 9, 10, 12 (the last two were
+  written 10.4). [B13]
+- **Side-16 first-peel forecast** (entry "side 16 loses its first face", line 629): with the committed forecast's
+  inputs (8 deaths in 8.3×10⁹ replica-generations, alive at 1.45×10⁹; `predict.py`'s Lomax law) the outcome
+  2,362,434,048 sits at quantile **0.566, the 57th percentile**, not the 58th. (`fluct/PREDICTIONS.md`'s "≈ 0.55" is
+  the same quantity, rounded down.) [B14]
+- **4 × 6 × 8 slab face** (entry "equal areas, different lifetimes", line 1353): the run's own value is
+  **14.970 ± 0.002** (`python3 research/audit/gpu_pr16/recompute.py research/data/gpu_facelaw`); 14.971 is what one
+  gets by pooling it with the same slab in the other orientation, 6 × 4 × 8 (14.972). The table's row is the width-4
+  family, so 14.970 is the entry. [B6]
+- **Count of claims** (entry "audit corrections", line 802): the ledger had 71 rows on 2026-11-13; it has 108 now.
+  [C2; the same sentence is at `research/AUDIT-2026-11-13.md:4`, which is right for its date]
+- **Index of sources** (entry "supertransients", line 889): `research/theory/swarm/library/shelf.md` now has 73 rows,
+  not 59. [C4]
+- **Exam score** (heading at line 1112 against line 1325): the heading counts the examiner's eight sampled entries
+  (four hold, two fail, two undecided); line 1325 counts every entry of the board's closing table (five hold, four
+  fail or missed, two undecided, three not run). Both are right for their sets. [C5]
+- **Gump's slab slope in comparisons with other rules** (entry "the class theory attacked", line 1034, "gump's 0.212
+  per face cell"): that is the area-only slope of slab faces of mixed widths over A = 27–75 (`theory/class.md`:488–489;
+  0.2121 ± 0.0004 in `audit/REVIEW-class.md`:399). CLAIMS F4 (0.2088, A = 27–90) and GP9 (0.2072 within a width
+  family; 0.2085 area-only over s ≥ 4) are the same kind of slope over other sets of faces. [B11]
+- **Shortest-loop step 12 → 16 at A = 60** (line 1435: 0.051 ± 0.005): `shape/README.md` gives 0.052 ± 0.005 from
+  the same classes (12.481 − 12.429); the census (line 1508, CLAIMS SH4) gives +0.056 to +0.063 with every class.
+  The 0.051/0.052 difference was not traced (rounding of unrounded group means is likely, not checked). [B8]
+- Lead's spot checks of this list: the five slopes by arithmetic; `python3 research/fluct/sym_fit.py` (0.698134,
+  −0.195996; vertex-centred points start at A = 360, cube-centred ones do not); the R = 11 means in
+  `research/peeling/octa_first.csv`; the A = 48 rows of `research/peeling/slab_area.csv`; 14.970 and 14.972 from
+  `research/audit/gpu_pr16/recompute.py`. All as stated. Not re-checked by the lead: the csv's history, the quantile
+  0.566, the shelf's row count. Source of the list: `docs/paper/INCONSISTENCIES.md` (34 places found while a
+  manuscript-style draft was written, `docs/paper/draft.md`), resolved in 629fd03…15b1b4c; the ledger's ids K1–K3
+  of the class study are now K9–K11, and its tally was recounted mechanically (108 rows: A 40, B 40, C 27, D 1; the
+  earlier "A 43" had misread areas such as "A = 84" as grades).
+
+## 2026-11-14 — a forecast before the run: empty patches on a face too large to die (asked of the GPU session, 21:22 UTC)
+
+- The experiment: a periodic slab 12 × 12 × 8 (A = 432 per face; no face should die), and on its faces the
+  frequency with which a patch (rhombi of 3ab cells from 1×1 to 6×6; strips 1×b) is entirely dead.
+- Why: every measured cost per cell carries a wrap-around term (periodic faces, 0.205–0.2125) or a rim (octahedral
+  faces, 0.215–0.221). If a face dies as "an empty patch the size of the face" (`research/theory/exponent.md`,
+  section 4; compatible with the 2D toy, never tested for gump), then ln P(patch empty) = const − c·cells −
+  σ·perimeter, with c the cost per cell of an unwrapped face.
+- **Forecast (conjecture, the lead's, before any run):** for rhombi from 2×2 up, c = 0.21 ± 0.015. Outside
+  0.17–0.25 the static picture fails for gump. No forecast for σ.
+- Not done: nothing has been run. The request and its acceptance terms are in the message to the GPU session; the
+  result will come as a pull request and be reviewed as before.
+
+## 2026-11-14 — the counting line's proofs read a second time (independent audit; the lead re-ran one check)
+
+- What was done: a second reader who had not seen the swarm audited every claim tagged proved in
+  `research/theory/swarm/counting/claims.md` (22 claims, and the computed constants of claim 5), with its own code
+  written from `docs/AUTOMATON.md`. Verdicts were committed before the critic's files were opened
+  (e769776, 7f7dd9c) and reading them changed none. Report: `research/theory/swarm/audit/AUDIT-counting.md`;
+  scripts `c0_lib.py` … `c6_compare_critic.py` in the same directory, logs in `audit/out/`.
+- **Result: nothing tagged proved is wrong and no proof is missing.** 19 claims correct as stated (1–4, 6–8, 10,
+  12–18, 21–24); one correct after filling a gap (19: the lemma takes a law on living states, the corollary applies
+  it to product laws that charge the dead row; setting φ = 0 there closes it); two with one sentence true but
+  narrower than worded:
+  - claim 11, "a full face always dies", holds only on a rim-free face (the full face of the hull R = 3 over empty
+    layers keeps 6 of its 9 cells);
+  - claim 20, "no relative with an invariant measure charging the living states has a face that dies", needs the
+    measure positive on every living state (gump on one cube: the point mass on the full cube is invariant, and 49
+    other living states die).
+- **One computed constant was wrong in the fourth digit** [exact]: the fixed-age exponent c₂ at density 0.472 is
+  0.466846, not 0.4671. The critic's lab stopped its power iteration at 400 steps. The lead re-ran
+  `cd research/theory/swarm/audit && OMP_NUM_THREADS=1 python3 c6_compare_critic.py` (1 min): the critic's own
+  matrix gives 0.467096 at 400 iterations and 0.466846 at 3,000 and 10,000. c₁ = 0.551535, c₂ = 0.467693 (density
+  ½) and 0.489963 are confirmed. The number 0.4671 appears only in the swarm's files (journal entry 9, the critic's
+  reply and board), not in the ledger.
+- Remarks of the audit outside the list (no verdict): "the density no longer matters at horizon 2" holds only for
+  0.467 ≤ p ≤ 0.5 (c₂(0.44) = 0.411, c₂(0.40) = 0.334); "counting gives lifetimes ≥ c√L" needs inf c_k > 0, which
+  is the line's unproved guess C2, and what is proved gives only k ≲ √(log L).
+- Not checked by the audit: claim 9 (sketched), C2 (guessed), c₃ (measured), every number quoted from the exam or
+  the lab's samples; Theorem 3 by computation for k ≥ 3; claim 14 at k = 3; claim 10 on the vertex-centred hull
+  R = 4 beyond 14 of 512 face configurations. The lead re-ran only `c6`.
+- What this changes: nothing in the swarm's bottom line. Both lines of the closed swarm that had proofs (path and
+  counting) have now been read by two independent readers; the errors found were in wordings and in one
+  convergence, none in a proof.
+
+## 2026-11-14 — corrections from the fact-check of the manuscript draft (traced by a subagent; spot-checked by the lead)
+
+- **Memoryless slab faces (entry of 2026-11-12, "how chaos dies"; ledger F5).** "CV 0.96–1.05, KS p 0.5–0.96 for
+  A ≥ 36" is what the four m = 8 batches of the face-law fit (`research/peeling/face_law_fit.py`'s selection) with
+  A ≥ 36 and a test give: 3×4, 3×5, 4×4, 4×5 (A = 36–60), CV 0.964–1.045, KS p 0.519–0.96; the fit's batches at
+  A ≥ 72 have no test (55–475 of 512 runs censored at the cap). Over all 14 batches of `research/peeling/slab_area.csv` with A ≥ 36 and a test,
+  p runs 0.042–0.974 (one below 0.05, 4×5×10) and CV 0.962–1.06. `python3 -c "import csv; [print(r['N1'],r['N2'],r['m'],r['cv'],r['ks_p']) for r in csv.DictReader(open('research/peeling/slab_area.csv')) if r['ks_p']!='nan' and int(r['A'])>=36]"`.
+- **SH4 (entry "every torus of a given area").** The 0.0135 ± 0.0021 by which 4×4 lies below the (12; 19) class at
+  A = 48 is the review's value; the census (`research/shape2/data/A48.csv`, 9.93842 − 9.93237, each ± 1/√F) gives
+  0.0061 ± 0.0028. Pooled by inverse variance: 0.0108 ± 0.0017 (6.4 SE); agreement χ² = 4.4 on 1 (p = 0.036); with
+  the error scaled by √χ², 3.0 SE. "Not ordered by shortest loop" stands.
+- **Table 8 of the shape2 study, loop² 4, 60 → 72:** `research/shape2/data/explore_report.txt` and
+  `python3 research/audit/shape2_lead_check.py` give 0.1353 (± 0.0008); `research/shape2/README.md`:189 prints
+  0.1346 ± 0.0010.
+- **Engine-only R = 9 (entry "a face dies off the end of a straight line").** Re-running
+  `python3 research/experiments/face_endgame_check.py 9 16000` reproduces 13,765 peels, exposure 31,826,744,
+  mean 2312.1 ± 19.7, −ln h/A = 0.2183, so ln τ_face = ln(8 × 2312.1) = 9.825 ± 0.009.
+- **Twist lemma (entry of 2026-11-13).** The step giving m ∈ {1, 2, 3, 4, 6} is now written out in
+  `research/clockwork/README.md`: G (the box's lattice symmetries p ↦ Rp + t, R ∈ O_h) embeds in O_h by linear
+  part (a translation fixing a finite set is trivial), elements of O_h have orders 1, 2, 3, 4, 6 (R^c diagonal for
+  c the order of R's permutation), and m divides the order of any g with k(g) = P/m. The hypothesis that G
+  consists of lattice symmetries was implicit before.
+- **Side-16 face deaths** 2,362,434,048 and 2,886,100,480 are last-alive generations (checks every 64); by the
+  first-empty definition they lie in 2,362,434,049–112 and 2,886,100,481–544 (`research/data/cube16_events.jsonl`).
+- Lead's checks: the counts for F5 from `slab_area.csv` (14 batches, p 0.042–0.974, one below 0.05); the pooled
+  SH4 value by arithmetic (0.0108 ± 0.0017, χ² 4.5 on 1); the twist lemma's new step read line by line (the linear-part
+  map is injective on the symmetries of a finite box; orders in O_h are 1, 2, 3, 4, 6; m divides the order of g): it
+  holds for lattice symmetries, which is now a stated hypothesis. Not checked by the lead: the R = 9 re-run, the
+  side-16 event file, whether the oscillator search (`find_map`) only ever uses lattice symmetries.
+- Source: `docs/paper/FACTCHECK.md` (30 discrepancies in `docs/paper/draft.md`; all resolved or recorded there). The
+  draft's novelty wording now follows `research/PRIOR-ART.md` strictly: three results (sealed sets, the boundary
+  layer over noise, the shape dependence) had no recorded search; a third prior-art pass is running.
+
+## 2026-11-14 — prior art, third pass (three results that had never been searched), and a conjecture it suggests
+
+- Why: the fact-check of the manuscript draft found that three results called "apparently new" had no recorded
+  search. A librarian searched (`research/PRIOR-ART.md`, "Third pass, 2026-11-14"; queries listed there). An
+  adversarial pass on its "not found" verdicts is running and may change what follows.
+- **The boundary layer over noise: the method is known; the result was not found.** Carretero-González, Ørstavik,
+  Huke, Broomhead, Stark, PRL 83 (1999) 3633 (arXiv:chao-dyn/9904009, read in full by the librarian) drive a small
+  window of a chaotic coupled-map lattice with white noise at its edges and recover the statistics of the large
+  lattice. Ours is the mirror construction (keep the boundary layer, randomise the interior) and compares
+  lifetimes, which nobody found does.
+- **Shape of a periodic domain: an equilibrium analogue exists.** Caselle, Gliozzi, Vinti, Phys. Lett. B 302 (1993)
+  74 (arXiv:hep-lat/9212013, read in full by the librarian): the tunnelling rate through an Ising interface on a
+  periodic L₁ × L₂ cross-section is Z_cw(τ)·e^{−σL₁L₂}, the shape entering through the modular parameter τ of the
+  torus (a Dedekind eta function), tested at equal area. Nothing found for chaotic transients, nucleation or
+  extinction times, or for the shortest loop as the controlling length.
+- **Sealed sets: an instance of a known notion.** Blocking words (Kůrka; Blanchard–Tisseur, arXiv:math/0312137):
+  a word that disconnects the two sides for ever. Three dead layers are the simplest case in one lattice
+  direction. "The largest sealed set only grows" follows from the definition: a remark, not a result.
+- **Also found: the tail formula exists.** Sugimura and Kori, PRE 92 (2015) 062915 (arXiv:1512.08333): a transient's
+  lifetime as the inverse of the stationary probability of the last state before absorption times an exit rate.
+  Our "the death rate is the next point of the stationary tail" (M1) is an instance; their tail is assumed
+  Gaussian, ours is measured to one cell.
+- Not obtained: Tél–Lai 2008 (an author copy answered 503), dos Santos et al. 2008 (full text), others listed in
+  the file. Not searched: what cites Houghton et al. 2010; lifetimes of topological memories on tori; pipe-flow and
+  Kuramoto–Sivashinsky lifetimes against domain shape (the adversarial pass is asked to).
+- **Conjecture (the lead's, not tested; passed to the analyst of `research/constant/` to state and test).**
+  The wrap-around term of a periodic face is a sum over the face's nonzero period vectors of a function decaying
+  over a correlation length: ln τ = a + A·[c − g·Σ_v f(|v|/ξ)]. Reasons: read off the census, the deficit of the
+  cost per cell from about 0.215 is 0.100, 0.074, 0.023, 0.008, 0.006, 0.0025 at shortest loop² 3, 4, 7, 12, 13, 16,
+  which falls roughly exponentially in the loop length (about e^{−1.6 s}) and not as its inverse square, so the
+  massless (capillary-wave) form of Caselle et al. is less likely than a massive one; a sum over images gives a
+  shape term that grows with area, as measured; and it gives a second variable of the measured sign (a shorter
+  second loop adds a term, so the face dies sooner). If it holds, ξ should be close to the correlation length of the
+  chaotic state measured independently (about 0.7 cube). Blind test: the pairs being measured in `research/shape3/`.
+
+## 2026-11-14 — prior art, third pass: what the adversarial review changed
+
+- The review (`research/PRIOR-ART.md`, "Adversarial review of the third pass"; 13 more works on the shelf, §11)
+  tried to refute each "not found" of the entry above. One sub-claim fell, the rest stand with caveats.
+- **Refuted: "nobody uses the shortest loop of a torus as the length that controls a lifetime."** Nardi and Zocca
+  (arXiv:1708.09677, read in full by the reviewer) prove, for zero-field Ising and Potts dynamics on a K × L torus,
+  a tunnelling exponent Γ = 2·min{K, L} + 2 and an exponential limit law: the shorter side, at leading order.
+  Still not found: a chaotic, turbulent, nucleation or extinction lifetime depending on the shape of a torus at
+  fixed area, or a twist dependence (nearest: Tuckett et al., PRX 9 (2019) 041031, where the failure of a quantum
+  memory on a twisted lattice is controlled by a gcd of its dimensions).
+- **"Death comes in through the boundary" is not ours.** Vidmar and Rappel, PRE 99 (2019) 012407
+  (arXiv:1808.01991): the death rate of spiral-defect chaos is proportional to the length of the non-conducting
+  boundary. The reduction of a lifetime to a thin layer over noise was still not found.
+- **The tail formula is textbook.** 1/τ = Σ (exit rate × quasi-stationary probability) is standard theory of
+  quasi-stationary distributions (Assaf–Meerson 2017, eq. 6); Nemoto and Alexakis (JFM 912 (2021) A38) use it for
+  pipe-flow puffs. Correction to the entry above: Sugimura and Kori measure their distribution, they do not assume
+  it. What remains ours in M1 is the measurement itself: a count followed down to one cell, with the exit rate
+  measured, in a deterministic automaton.
+- **Sealed sets are a 9-core.** A set is sealed when each cell has at least 9 of its 12 neighbours inside it, so
+  the largest dead sealed set is the 9-core of the dead cells, equivalently the complement of the live set's
+  closure under threshold-4 bootstrap percolation. The lead checked this from the definition (T6) and added it to
+  `docs/AUTOMATON.md` as a remark. The reviewer's further reading (T6's "no finite sealed set" as a statement about
+  that bootstrap rule being not subcritical in the sense of Gravner–Griffeath) is the reviewer's own and is not
+  checked.
+- Also on the shelf now: Lilienkamp, Christoph, Parlitz, PRL 119 (2017) 054101 (abstract only): in three
+  dimensions transient lifetimes grow only above a critical thickness, the shape of our "three layers are needed".
+- Not obtained: citation lists of Houghton et al. 2010 and Sugimura–Kori 2015 (the index refused), Tél–Lai 2008.
+  Not searched: in-field Ising nucleation on rectangular tori (Borgs–Chayes–Tetali 2012 is the next lead),
+  pipe-puff lifetime against pipe length, Boolean-network frozen cores.
+- Where this leaves the list of what may be new (conjecture about the literature, as good as three searches): the
+  face-area law in a vessel whose walls are theorems; the lifetime reproduced by five layers over coins; the
+  dependence on the shape and twist of a periodic face for a chaotic transient, with a second variable; the
+  exponential cost of symmetry. Not new: confinement by a high birth threshold, supertransients, the tail formula,
+  boundary-controlled death, blocking sets.

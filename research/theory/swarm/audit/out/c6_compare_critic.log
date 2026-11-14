@@ -1,0 +1,39 @@
+=== A. c_2 at density 0.472: the critic's matrix and power iteration, more iterations
+  critic's spectral(), iters =   400: rho = 0.626819676, c_2 = 0.467096   <- the lab's default; the reply and the board print 0.4671
+  critic's spectral(), iters =  1000: rho = 0.626971787, c_2 = 0.466854
+  critic's spectral(), iters =  3000: rho = 0.626976930, c_2 = 0.466846
+  critic's spectral(), iters = 10000: rho = 0.626976930, c_2 = 0.466846
+
+=== B. the audit's matrix: the two leading branches of the horizon-2 spectrum as the soup density varies
+       p     c_2(p) = -ln(first)   -ln(second)
+    0.400      0.334371          0.506548
+    0.440      0.410983          0.476916
+    0.460      0.451839          0.469251
+    0.465      0.462301          0.468075
+    0.470      0.467116          0.472936
+    0.472      0.466846          0.477187
+    0.475      0.466514          0.483606
+    0.480      0.466183          0.494392
+    0.490      0.466370          0.516275
+    0.500      0.467693          0.538556
+    0.520      0.473747          0.584199
+    0.540      0.484374          0.630201
+  the leading branch changes near p = 0.467: steep below it (the cost rises with the density), flat above
+
+=== C. exact slopes of -ln D_k(L) on rings between L = 20 and 32 (entry 13 quotes samples 0.542, 0.479)
+  k = 1 (all 16 eigenvalues): -ln D_1 = [11.0305, 13.2368, 15.443, 17.6491], slope 0.55155; limit 0.551535
+  k = 2 (leading 40 eigenvalues; first two 20.0463, 18.6749): -ln D_2 = [9.1354, 11.0568, 12.9666, 14.8676], slope 0.47766; limit 0.467693
+
+=== D. numbers of the critic's replies recomputed with the audit's code
+  gump slab 1 x 1: face configurations that can be emptied in one generation 8 of 8; states that empty the face 185 of 2^9   (critic: 185 of 2^9 states)
+  gump slab 2 x 2: face configurations that can be emptied in one generation 2662 of 4096; states that empty the face 259065805 of 2^36   (critic: 2,662 of 4,096 faces)
+  gump slab 3 x 2: face configurations that can be emptied in one generation 112744 of 262144; states that empty the face 4227908776111 of 2^54   (critic: 112,744 of 262,144 faces)
+  Lemma 8 on the one-row dice chain D2(L, 1/2), ring (critic, reply to round 3, section 2):
+    L = 10: h = 4.504e-03; min phi = 0.60; mu(1 - phi)/h = 3.68; fair product row on living rows: pi(1 - phi)/h = 3.35, e(pi)/h = -0.34
+    L = 12: h = 1.615e-03; min phi = 0.59; mu(1 - phi)/h = 4.71; fair product row on living rows: pi(1 - phi)/h = 4.43, e(pi)/h = -0.29
+    critic: h = 4.50e-3, 1.62e-3; min phi 0.59; 3.7, 4.7; 3.35, 4.43; -0.34, -0.29
+  face12e sheet map Theta on a 4 x 4 torus: checkerboard -> its complement: True (the period-2 orbits of the critic's E19)
+
+real	1m1.716s
+user	0m58.554s
+sys	0m0.808s

@@ -1,0 +1,15 @@
+hull R=7: faces of A=30 cells; 60000 soups, 7191 replicas reached age 200 with eight living faces; 0 settled; exposure 6395360 face-generations, 7363 deaths (54 s)
+hazard = 1.1513e-03, -ln h = 6.767 +- 0.012   (board: ln tau = 6.804 at A = 30); 7191 replicas lost a face (172 deaths are second faces emptying in the same generation; counting one death per replica: -ln h = 6.790)
+1. P-bar, low set 1..10: Deaths = 7363;  direct deaths from above = 2, sum over entries of psi* = 6789.2931, start = 571.7069, end = 0.0000;  identity exact: True
+   crossings into the low set per unit exposure chi = 0.0681; psi*(1..6) = [0.7697, 0.4682, 0.2809, 0.1644, 0.1002, 0.063]; psi*(10) = 7.797e-03
+1. P-bar, low set 1..15: Deaths = 7363;  direct deaths from above = 0, sum over entries of psi* = 6528.8529, start = 834.1471, end = 0.0000;  identity exact: True
+2. local roots theta_k, k = 1..15: 0.107 0.372 0.461 0.524 0.519 0.484 0.465 0.448 0.437 0.414 0.376 0.329 0.256 0.161 0.058
+   visits N(k), k = 1..10: 11049 17300 35716 41684 64051 97261 140861 202101 282513 379021
+   least root on the block [5, 11) = 0.4139   (path, 23.3: 0.4034);  hypothesis R(0.35, 0.40, 5): True
+   rows K..A/2: Phi = 0.1384, C+ = 1.0494 (at row 11), direct deaths 2, share of the exposure 0.481   (path, K..A/2: Phi 0.136, C+ 1.043, 1 direct death)
+   all rows K..A: Phi = 0.1676, C+ = 2.2991 (at row 29), direct deaths 2, share of the exposure 0.801   (path, K..A/2: Phi 0.136, C+ 1.043, 1 direct death)
+3. Theorem Q with theta0 = 0.4139, K = 11, k0 = 5:
+   Deaths/Expo = 1.1513e-03  <=  e^(-theta0(K-k0)) Phi = 1.3988e-02  +  (start - end)/Expo = 6.430e-04   holds: True
+   theta0 (K-k0) - ln Phi = 4.270;  with C+ in place of Phi: 1.651;  -ln h = 6.767
+   pooled mass below K: 0.1988; w = sum p_z psi(z) = 7.1277e-02; censoring per unit exposure sbar = 7.8440e-03 = 6.81 h;  w sbar = 5.591e-04 (the quasi-stationary window term)
+   start term per unit exposure 6.430e-04, end term 0.000e+00

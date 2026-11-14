@@ -1086,3 +1086,5 @@ the librarian's note, not with the paper) or carries its own proof here. Known g
 board: the Goles–Olivos and Goles–Fogelman-Soulié–Pellegrin primaries (T5 does not depend on them: its proof is
 self-contained and checked; the librarian could not verify 26N + 1 against them, I re-derived it from the proof);
 Darroch–Seneta 1965 itself (read through Méléard–Villemonais); Bramson–Neuhauser 1994 (secondary accounts only).
+
+Correction, 2026-11-14: c₂ at soup density 0.472 is 0.466846 (0.4668), not 0.4671 as given in the lemma exchange ("Finite-horizon law for the 2D rule") and in row L3.2 of the lab table; 0.4671 came from a power iteration stopped at 400 steps, where the second eigenvalue is 0.99 of the first. See `../audit/AUDIT-counting.md` §1.

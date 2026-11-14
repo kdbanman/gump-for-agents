@@ -9,7 +9,8 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    (T2 confines it; a deterministic map on a finite set must cycle). This is the only rigorous lifetime bound we
    have, and it is exponential in the hull's *volume* (side-13 cube: N = 27,474).
 2. **[proved] A face layer that empties stays empty** (T2), so the hull only shrinks; "death of a face" is well defined.
-3. **[conjecture] The wait for a face to die is exponential in its *area*:** −ln(death rate)/A → 0.208. Measured
+3. **[conjecture] The wait for a face to die is exponential in its *area*:** −ln(death rate)/A ≈ 0.21, with no
+   known limit (the fitted limit 0.2077 is retired, CLAIMS GP4; see the postscript below). Measured
    (A = 30–84 directly). Not proved, and probably not provable with present methods for the deterministic rule: it
    needs control of the stationary measure of a chaotic deterministic automaton. Routes that look feasible:
    - a *conditional* theorem: if the quasi-stationary state has exponentially decaying correlations, the chance of a
@@ -61,11 +62,15 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
 7. **Even (vertex-centred) cubes are ≈1.5× tougher** than odd ones at equal face area. No explanation.
 8. **Symmetric faces:** is the asymptotic slope exactly 0.209/6 = 0.0348? Measured 2026-11-13 on GPUs: local slope
    0.0329 ± 0.0011 between A = 759 and 828; the A = 828 forecast held (24.175 against 24.0 ± 0.4). In the two
-   cube-centred runs the death rate falls with age (p = 0.04, 0.01): unexplained, and it bears on side 17
-   (τ ≈ 3.2×10¹⁰ if the rate is constant). Side 17 itself is not run.
-9. **Asymmetric faces: where does the cost per cell level off?** Local slopes 0.201, 0.212, 0.212, 0.218, 0.221 up
-   to A = 135 (16 peels at the top). Slabs without a rim: 0.2088. Is the rise the rim, or does the bulk constant
-   itself sit above 0.22? Needs slab faces at A > 90 and octahedral faces at A ≥ 165.
+   cube-centred runs the death rate seemed to fall with age (p = 0.04, 0.01). At R = 43 (A = 759) that was noise: a
+   longer run to 2.6 τ shows no ageing (Weibull k = 1.020, 5,971 deaths; CLAIMS GP5). At R = 45 (A = 828, k = 0.84)
+   it has not been re-run, and it bears on side 17 (τ ≈ 3.2×10¹⁰ if the rate is constant). Side 17 itself is not run.
+9. **Asymmetric faces: where does the cost per cell level off?** Local slopes 0.201, 0.212, 0.215, 0.218, 0.221 up
+   to A = 135 (16 peels at the top; with ln τ_face(84) = 18.141 ± 0.005 from the GPU throughout,
+   `research/gpu/README.md`). Slabs without a rim: 0.2088 over mixed widths, 0.2072 within a width family (CLAIMS
+   GP9). Slab faces at A > 90 have since been run (CLAIMS GP7, GP8: 0.215 ± 0.006 from A = 108 to 126, and part of
+   that is width, GP9), so the question is now whether the cost per cell of a wide face rises at all, and whether
+   the octahedral excess is the rim. Still needed: octahedral faces at A ≥ 165 and wide slabs at fixed width.
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.
 
@@ -85,7 +90,8 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     and a staircase. Nothing fitted or audited. Does the area law hold on a box face, and with what cost per site?
     Off main on purpose: branch `claude/edge-neighbour-tangent`, `research/tangents/edge-neighbours/README.md`.
     **Answered 2026-11-14** (`research/audit/REVIEW-class.md` §2, under the name face12e): yes, with 0.41 per wall face,
-    which is 0.205 per cell of the layer that dies (gump: 0.212). Open now: why those two numbers nearly agree;
+    which is 0.205 per cell of the layer that dies (gump: 0.212, the area-only slope of slab faces of mixed widths
+    over A = 27–75, `research/theory/class.md`; within one width family it is 0.207, CLAIMS GP9). Open now: why those two numbers nearly agree;
     symmetric seeds; boxes beyond 6³.
 
 ## Prior art (`PRIOR-ART.md`)

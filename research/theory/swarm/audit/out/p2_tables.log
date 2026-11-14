@@ -1,0 +1,14 @@
+T' : 18000 (table, block, theta0) cases, violations 0;  control (theta0 doubled): 2170 of 8892 fail
+T  : 19127 (table, block, row) cases, violations 0
+X(a): 500 skip-free tables: gambler's-ruin formula and r_k = d_k/u_k reproduced; psi*(k)/pi_k within [(1-rbar), 1/(1-rbar)]: min ratio/(1-rbar) = 1.0106, max ratio*(1-rbar) = 0.9401
+X(b): 1266 branching rows: q^k - q^K <= psi* <= q^k and theta_k = -ln q, violations 0
+X(c): theta1=1.386 theta2=0.847 block bound 1.695 < -ln psi*(2) = 1.863 < root sum 2.234
+C  : 3000 (monotone q, dominating table) pairs, violations of psi*_T <= psi_q: 0;  control (q not monotone): 63 of 3000 fail
+V- : 36381 cases with every block row good (W = W°, W_J, with slack, scaled), violations 0; in 19372 the certificate at the top row exceeds theta0 (n1-k0)
+     control (some row not good, delta < 1): the formula fails in 67598 of 143043
+     psi* >= exp(-W°): 7016 rows, violations 0;  W_J <= W° and W_J admissible: violations 0
+V' : 3898 cases satisfying the hypothesis with W = W° (admissible, e = 0), violations 0;  control (W = 3 W°, not admissible, the two numerical conditions still met): 1868 of 4855 fail
+E1 : largest |ln M^(m)_n(s) - m Lambda_(n/m)(s)| over all rows, m = 2, 3, 5, four real s: 1.78e-15
+V-(E): 1496 (base table, m, block, theta0, delta) cases satisfying (S): rows not good 0, violations of the bound 0
+       'nothing subtracted' form (k0 = n0(delta)-1): 215 cases, violations 0
+ALL OK: True   (74 s)

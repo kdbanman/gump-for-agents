@@ -843,3 +843,6 @@ The one measurement that bears on the path line's hypothesis is a pooled one-ste
 sizes of the same shape (rim-free slab faces at A and 2A). Compare ln M′_n(s) with 2Λ_{n/2}(s) for 0 ≤ s ≤ 0.7, and
 test admissibility of the scaled quasi-potential directly (`path_r5.py tables`, last block, does both for any
 pair of tables in the format of `data/fluct_tables.npz`).
+
+
+**Correction, 2026-11-14.** The value "0.4671" for c_2 at density 0.472 (line 393 above) is 0.466846: it came from a power iteration stopped at 400 steps. See `../audit/AUDIT-counting.md` (claim 5) and `../audit/c6_compare_critic.py`.

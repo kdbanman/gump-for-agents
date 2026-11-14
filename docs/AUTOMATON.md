@@ -116,6 +116,13 @@ neighbours lie beyond it. In a boundary layer its two neighbours `a, b` one laye
 layers in satisfy `ē = −2(ā + b̄)` in projection, so if neither `a` nor `b` lies beyond it, `e` does — and `e`
 exists only if there is a third layer. ∎ *(Full proof: `research/theory/thickness.md`.)*
 One-layer oscillators of periods 3–12 exist, so "thin slabs freeze" is a statement about typical states only.
+*Remark (2026-11-14; a restatement in classical terms, checked from the definitions by the lead).* Every cell has 12
+neighbours, so "at most 3 neighbours outside" is "at least 9 inside": the largest dead sealed set `K(t)` is the
+**9-core** of the graph induced on the dead cells. Equivalently it is the set never reached when the live cells are
+closed under bootstrap percolation with threshold 4 (a cell joins once 4 of its neighbours have); "only grows"
+is then the comparison of gump with that monotone rule, and a firewall is a blocking word in the sense of the
+cellular-automaton literature. The object is classical; see `research/PRIOR-ART.md` (third pass and its adversarial
+review) for the sources. What is specific to this lattice is the statement about three layers above.
 
 ## 4. Legacy semantics (for reproducing the original's runs)
 

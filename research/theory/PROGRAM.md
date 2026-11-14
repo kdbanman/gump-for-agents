@@ -70,9 +70,9 @@ or a sharply stated conjecture with a rate, (iii) what remains is characterised.
 - **M2 [open] A conditional theorem:** exponential decay of correlations in the quasi-stationary state ⇒ a large-
   deviation principle for the face's population ⇒ exponential-in-area waits. States exactly what is assumed.
 - **M3 [open] Noisy gump.** With independent deaths at rate ε, mean wait ≤ ε^(−A) trivially; a matching lower
-  bound would be a contact-process-style contour argument. Is the deterministic constant 0.208 the ε → 0⁺ limit of
+  bound would be a contact-process-style contour argument. Is the deterministic constant (≈ 0.21) the ε → 0⁺ limit of
   anything? Does a little noise change lifetimes smoothly?
-- **M4 [open] Derive 0.208.** Local-structure (correlated mean-field) approximations of the stationary state, then
+- **M4 [open] Derive the constant (≈ 0.21; first quoted as 0.208).** Local-structure (correlated mean-field) approximations of the stationary state, then
   the cost of emptying a face; or a one-cluster birth–death model for the last cells (ratio 0.65 per cell).
   **Sharpened 2026-11-14** (`research/theory/exponent.md`, reviewed; notebook of that date, "where the exponent
   lives"; the swarm's exam S-E2): the constant is a property of five or six layers of the rule over independent coin
@@ -83,8 +83,10 @@ or a sharply stated conjecture with a rate, (iii) what remains is characterised.
   and fell: mean-field large deviations, a Gaussian, a single driven row (all off by 20–50%), the empty-window
   formula as more than a fit, fixed-age exponents (the swarm's counting line), "ln τ = A·∫θ" (path). What stands
   as theorems: the swarm's conditional results (`swarm/critic/board.md`, closing table) and a deterministic
-  relative with an exponential law (CLAIMS SW1). The number itself is not fixed either: 0.2088 on slabs to A = 90,
-  0.215 ± 0.006 from 108 to 126, 0.216–0.221 on octahedral faces; whether width or area moves it is being measured.
+  relative with an exponential law (CLAIMS SW1). The number itself is not fixed either: 0.2088 on slabs to A = 90
+  (mixed widths; 0.2072 within a width family), 0.215 ± 0.006 from 108 to 126, 0.216–0.221 on octahedral faces.
+  Width moves it (CLAIMS GP9: at equal area a narrower periodic face dies sooner); whether the cost per cell of a
+  wide face also rises with area is not decided (0.2072 against 0.2117, GP9).
 - **M5 [open] The symmetric collapse:** six lockstep domains minus a mirror-line term; the even/odd factor 1.5.
 - **M6 [measured, 2026-11-13] Are single lineages memoryless?** Yes at hull radius 31–38: plateaus of cube-like seeds wait
   like soups and like an exponential (`research/lineage/README.md`; `research/CLAIMS.md` L1). The GPU session's pull

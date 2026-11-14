@@ -16,14 +16,14 @@ Tags: **[proved]**, **[measured]** (n, error, command), **[conjecture]**. Comman
    per generation) sits exactly where the distribution continued to n = 0 puts it. The lead's "I(0) ≈ 0.20 by
    extrapolation, the curve is flattening" is close but slightly low and the shape claim is off: near n = 0 the tail
    is *straight* in n (ln p_k linear, constant ratio p_k/p_{k+1} ≈ 0.6–0.66), not flattening. Endpoint
-   I_A(0) = −ln h/A = 0.2268, 0.2182, 0.2164, 0.2152 at A = 30, 45, 63, 84 → **I(0) = 0.2077 ± 0.0014 + 0.55/A** [this fit is retired; see the note of 2026-11-13 below. The four values stand].
+   I_A(0) = −ln h/A = 0.2268, 0.2182, 0.2164, 0.2152 at A = 30, 45, 63, 84 → I(0) = 0.2077 ± 0.0014 + 0.55/A [this fit is retired; see the note of 2026-11-13 below. The four values stand].
 2. **R = 9 first-peel mean: 2300 ± 6** (137,243 peels), not 2.60×10³ ± 0.17×10³ [measured; 1.8σ apart — the lead's
-   value is high or uses an earlier start, T0 = 60 vs my 200; the hazard is flat in age from 200 to 7×10⁵ at R = 11].
-   R = 11: 1.04×10⁵ ± 0.008×10⁵ (16,240 peels; agrees with 9.4×10⁴ ± 0.9×10⁴). R = 13: 8.86×10⁶ ± 0.48×10⁶ (342 peels).
+   value is high or uses an earlier start, T0 = 60 vs my 200 [the start time is not the cause: see the audit note below]; the hazard is flat in age from 200 to 7×10⁵ at R = 11].
+   R = 11: 1.04×10⁵ ± 0.008×10⁵ (16,240 peels; agrees with 9.4×10⁴ ± 0.9×10⁴). R = 13: 8.86×10⁶ ± 0.48×10⁶ (342 peels; the GPU's 34,026 peels give 9.45×10⁶ ± 0.5%, 1.2σ away, `research/gpu/README.md`).
 3. **Side 16's first plateau was under-predicted because of the vertex factor, not the cube-centred law**
-   [measured]. Cube-centred O_h faces follow the lead's revised fit closely up to A = 693 (measured ln τ = 19.64 ± 0.22
-   at A = 693 vs the fit's 19.47). But the vertex/cube factor at equal area, ≈1.5–1.6 at A = 360, 513, 630
-   (1.53, 1.60 ± 0.06, 1.53 ± 0.3), is **3.3 (ln 1.19 ± 0.28) at A = 693**: side-16 copies and vertex soups give
+   [measured]. Cube-centred O_h faces follow the lead's revised fit closely up to A = 693 (measured ln τ = 19.71 ± 0.22
+   at A = 693 vs the fit's 19.47; first printed here as 19.64, which `data/sym_residence.csv` row `sym41c` does not give). But the vertex/cube factor at equal area, ≈1.5–1.6 at A = 360, 513, 630
+   (1.53, 1.60 ± 0.06, 1.53 ± 0.3), is **3.1 (ln 1.12 ± 0.29) at A = 693** [first printed as 3.3, ln 1.19, computed against the 19.64 above]: side-16 copies and vertex soups give
    τ = 1.1×10⁹, not 4–7×10⁸. Whether the factor really grows or A = 630's clone value is low is not settled (2.6σ).
    The side-16 face is an ordinary member of its class: copies of the cube (24 deaths) and O_h soups at the same hull
    (5 deaths) agree.
@@ -36,7 +36,7 @@ Tags: **[proved]**, **[measured]** (n, error, command), **[conjecture]**. Comman
 > (`research/experiments/face_endgame_check.py`) and stand. The side-16 second plateau ended at 2,886,100,480:
 > inside the fit-only forecast, outside the clone-run one; the cube ended at 2,919,617,676. The symmetric table in
 > `data/sym_residence.csv` now also holds the lead's runs (vertex-centred R = 32, 34, 38, 40; copies of the
-> 2.875×10⁹ state): the vertex/cube factor is a flat ≈1.5 from A = 360 to 630, and 2.0 ± 0.4 at A = 693 once
+> 2.875×10⁹ state): the vertex/cube factor is a flat ≈1.5 from A = 408 to 630 (the five areas with a cube-centred measurement), and 2.0 ± 0.4 at A = 693 once
 > fresh soups are measured properly (45 deaths; the 3.3 of correction 3 below leaned on copies of the cube).
 > `qsd.py`'s symmetric ensembles are not reliable below R = 30 (settled debris is counted as a living face:
 > R = 24 v reads 6.2×10⁴ where the engine gives 630). Details: `research/NOTEBOOK.md`, 2026-11-13.
@@ -44,9 +44,10 @@ Tags: **[proved]**, **[measured]** (n, error, command), **[conjecture]**. Comman
 > time makes no difference; the lead's 2,600 was a 1.7σ high sample of 240 runs. And the "3.3" of correction 3 is
 > 2.0 for fresh soups, 2.4 with the cube's copies pooled (`sym_fit.py` prints both).
 > 2026-11-13, late: **"I(0) = 0.2077 ± 0.0014 + 0.55/A" is retired.** That fit misses its own A = 45 point by 0.08
-> nats (28 standard errors), so the error bar was not one. Measured lifetimes: ln τ = 6.804, 9.819, 13.633, 18.077
+> nats (28 standard errors), so the error bar was not one. Measured lifetimes: ln τ = 6.805, 9.820, 13.632, 18.077
 > (A = 30…84, here) and 23.376 ± 0.031, 29.34 ± 0.25 (A = 108, 135; `research/gpu/`, reviewed). Local slopes 0.201,
-> 0.212, 0.212, 0.218, 0.221: the cost per cell of an octahedral face is still rising at A = 135, and its limit is
+> 0.212, 0.215, 0.218, 0.221 with the GPU's ln τ = 18.141 ± 0.005 at A = 84 (with this page's 18.077, 342 deaths, the
+> last two would read 0.212, 0.221; the list first printed here mixed the two): the cost per cell of an octahedral face is still rising at A = 135, and its limit is
 > not known. Rim-free slab faces: 0.2088 ± 0.0009 (A = 27–90). The forecast for A = 828 (24.0 ± 0.4) held: 24.175 ± 0.072.
 
 ## Verdict
@@ -108,7 +109,7 @@ density 0.35, T0 = 200) and `run_qsd.sh b` (R = 15, 17, 19, `lite`). Tables: `py
 
 Fits I_A(x) = I∞(x) + b(x)/A over all sizes: b = +0.24 (x=0.4), +0.10 (0.3), −0.01 (0.25), −0.14 (0.2), −0.25 (0.15),
 −0.22 (0.1): finite-size corrections are a few % at A = 30 and < 1% at A ≥ 100; no drift of the curve with size.
-Endpoint **I(0) = 0.2077 ± 0.0014 + 0.55/A** (4 sizes) [retired 2026-11-13, see the note near the top] — i.e. ln τ_face = 0.208·A + 0.55 for octahedral faces, the
+Endpoint I(0) = 0.2077 ± 0.0014 + 0.55/A (4 sizes) [retired 2026-11-13, see the note near the top] — i.e. ln τ_face = 0.208·A + 0.55 for octahedral faces, the
 face law's 0.209 with the octahedral ×1.5 in the intercept.
 
 **[measured] The death rate is the QSD continued to n = 0.** ln p_k (p_k = P_qs(n = k) per face-generation) is a
@@ -178,7 +179,7 @@ T0 = 1000 generations, 64 replicas.
 | 570 | c | R=37 | 167 | 7.9×10⁶ | 15.88 ± 0.08 | 0.435 | 2.80 |
 | 630 | c | R=39 | 96 | 5.4×10⁷ | 17.80 ± 0.10 | 0.441 | 2.76 |
 | 630 | v | copies of `cube16_gen2525000000` (R=40) | 31 | 8.2×10⁷ | 18.22 ± 0.18 | 0.451 | 2.87 |
-| 693 | c | R=41 | 20 | 3.4×10⁸ | 19.64 ± 0.22 | 0.446 | 2.73 |
+| 693 | c | R=41 | 20 | 3.6×10⁸ | 19.71 ± 0.22 | 0.446 | 2.73 |
 | 693 | v | copies of `cube16_gen1025000000` | 24 | 1.08×10⁹ | 20.80 ± 0.20 | 0.454 | 2.83 |
 | 693 | v | O_h soups R=42 | 5 | 1.25×10⁹ | 20.94 ± 0.45 | 0.454 | 2.83 |
 | 759 | c | R=43 | 1 | 6×10⁹ (90%: 2×10⁹ … 1.2×10¹¹) | 22.5 ± 1.0 | 0.450 | 2.70 |
@@ -202,7 +203,7 @@ slope is really 0.209/6 is not decided by them (free slopes 0.024–0.044 depend
 
 - **Side 16, first plateau (R = 42, A = 693, vertex):** committed 01:28Z with 8 deaths: τ = 1.04×10⁹, death at median
   2.2×10⁹, 90% 1.50–5.2×10⁹. **Outcome (from the lead): died at last_alive = 2,362,434,048 — inside, at predictive
-  quantile ≈ 0.57.** Final ensemble estimate: τ = 1.11×10⁹ (90% CI 0.84–1.55×10⁹; 29 deaths, copies + soups).
+  quantile ≈ 0.57** (0.566: `predict.py`'s Lomax with 8 deaths in 8.3×10⁹, alive at 1.45×10⁹). Final ensemble estimate: τ = 1.11×10⁹ (90% CI 0.84–1.55×10⁹; 29 deaths, copies + soups).
 - **Side 16, second plateau (R = 40, A = 630, vertex):** committed 04:08Z from fits only (τ ≈ 1.1×10⁸; death median
   2.60×10⁹, 90% 2.531–2.89×10⁹ given alive at 2.525×10⁹), then a 10-minute clone run from the 2.525×10⁹ checkpoint:
   τ = 8.2×10⁷ (31 deaths), death median 2.58×10⁹, 90% 2.529–2.78×10⁹. Outcome not known to me at writing.

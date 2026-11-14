@@ -53,3 +53,16 @@ wrap-around term; the fresh-reader audit of path running, per `research/STATUS.m
 - Typed, not drawn from data: the twisted-face picture (4 × 6 against (4,1),(0,6); both are the same a × b block of
   rhombi, glued differently), and the placement of the width-4 and width-5 family lines (A = 60–108 and 75–120,
   from the notebook's table).
+
+## Refresh of 2026-11-14 (evening)
+
+Added the plate "Every torus of a given area" (`src/plates-census.html`, drawn by `src/figures5.js`; placed right
+after "The shortest way round" through the `<!--CENSUS-->` marker at the end of `plates-shape.html`), a map entry,
+the census forecast (missed), its review in the audit list and a milestone (c9d2596). The shortest-way-round plate's
+60-cell tile now shows the four-run pool, 0.014 ± 0.002 (CLAIMS SH2), in place of the first run's 0.019 ± 0.004.
+
+- New numbers come from `data/sources/update-2026-11-14c.json`, checked by `collect.py` as the earlier update files
+  (notebook entry "every torus of a given area"; CLAIMS SH2, SH3, SH5). The chart's six points are the notebook's
+  48 → 60 costs per cell, copied whole; the rings are the review's own runs (no loop² 13 there).
+- Typed, not drawn from data: "three cells around" for loop² 3 and "½" (0.115 / 0.2125 = 0.54), both from the
+  notebook's reading of that entry.

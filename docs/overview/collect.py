@@ -184,5 +184,20 @@ out["law"]["families"] = [[s] + vw["families"]["value"][2 * i: 2 * i + 2] for i,
 out["law"]["wide"] = vw["wide"]["value"][:2]; out["law"]["mixed"] = vw["mixed"]["value"]
 assert out["law"]["slab_fit"][1] == out["law"]["mixed"][1]
 
+# ---- the third refresh of 2026-11-14: update-2026-11-14c.json (the census of every torus of a given area, SH2-SH5) ----
+C = S("update-2026-11-14c.json")
+for k, v in C["census"].items(): checked(v)
+for f in C["forecasts"]: checked(f)
+for a in C["audits"]: assert (repo / a["file"]).exists(), a["file"]
+out["forecasts"] += [{"line": f["line"], "result": f["result"]} for f in C["forecasts"]]
+out["project"]["audits"] += [[a["label"], a["line"]] for a in C["audits"]]
+tl["milestones"] += [{"date": x["date"], "text": x["text"]} for x in C["milestones"]]
+cc = C["census"]
+out["census"] = {
+    "cost": [list(r) for r in zip(cc["cost"]["loop2"], cc["cost"]["value"])],                      # loop², d ln tau / dA (48 -> 60)
+    "review": [list(r) for r in zip([3, 4, 7, 12, 16], cc["cost_review"]["value"])],              # the review's own stepper (no loop² 13)
+    "pair": cc["pair"]["value"], "pair48": cc["pair48"]["value"], "laws": cc["laws"]["value"],
+}
+
 (here / "data" / "data.json").write_text(json.dumps(out, separators=(",", ":")))
 print("data.json", (here / "data" / "data.json").stat().st_size, "bytes;", ", ".join(out))
