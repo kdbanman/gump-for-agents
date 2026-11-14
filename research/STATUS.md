@@ -95,8 +95,8 @@ _Last updated 2026-11-14 by the lead._
   Ising interface tunnelling; sealed sets are blocking words; the tail formula exists, Sugimura–Kori 2015). The Opus
   adversarial pass is done (notebook entry "what the adversarial review changed": the shortest loop of a torus
   controlling a lifetime is proved for Ising tunnelling, Nardi–Zocca; boundary-controlled death and the tail formula
-  are known; sealed sets are a 9-core, added to `docs/AUTOMATON.md` as a remark). Owed: the draft's novelty section
-  brought in line (Opus editor, running). The lead's conjecture from it (wrap-around = a sum over period
+  are known; sealed sets are a 9-core, added to `docs/AUTOMATON.md` as a remark). The draft's novelty section and `GAPS.md` now follow
+  both passes (aa1ea02; ranking unchanged, claims narrower). The lead's conjecture from it (wrap-around = a sum over period
   vectors, decaying over a correlation length) is in the notebook and was sent to the analyst of (6) with a blind
   test on the pairs of (4);
   (4) Opus: the second variable, pairs of tori with equal area and equal shortest loop, candidates fixed and
