@@ -26,6 +26,44 @@ end of run. Estimator: per-face τ = faces × exposure / deaths over ages ≥ T0
 | 5. exact M(1): ring of 5, segments | **stands** | 3.967199; 2.453108 (n = 2), 4.192750 (n = 5) | 3.967199; 2.453108; 4.192750 |
 | 7. forecasts before runs; scoring | **stands with corrections** | | see below |
 
+## Claim 3: the headline 0.099 ± 0.004 per cell
+
+`python3 research/audit/thin/refit.py` (lifetimes; output in `refit_out.txt`) and `python3 research/audit/thin/refit_win.py`
+(routes 3 and 4 from the line's `data/windows.json`; output in `refit_win_out.txt`). γ is per site; per cell is in brackets.
+
+- **Segments (route 2).** Every form below fits the line's own data acceptably, yet γ ranges from 0.279 to 0.305:
+  - a + γn + c/n: 0.2920(3) [0.0973], χ² 17/15 from n ≥ 13. This is the best-fitting simple form over the widest
+    range. It gives 0.2937 from n ≥ 17 and 0.2949 from n ≥ 21.
+  - a + γn + c ln n: 0.2889(12) [0.0963], χ² 9/11 from n ≥ 17.
+  - a + γn + c√n: 0.2793(23) [0.0931], χ² 10.6/11 from n ≥ 17. This form was not tried by the line on lifetimes. It
+    fits as well as the others.
+  - a + γn + c/n + d/n²: 0.2954 from n ≥ 13 and 0.2974 from n ≥ 17.
+  - a + γn + c ln n + d/n: 0.3019–0.3048.
+  - The straight line from n ≥ 25 (0.2970(4), χ² 1.7/4) holds only because n = 37 and 45 carry errors of 0.007 and
+    0.020. Every curved form also fits n ≥ 25 (χ² 1.5–1.6/3), with γ = 0.298–0.301 and errors of 0.003–0.010.
+- **Rings (route 1).** Contrary to "no stable fit", the line's six rings are fitted well by:
+  - a + γb + c ln b: 0.2817(38) [0.0939], χ² 0.8/3; 0.2809 from b ≥ 20.
+  - a + γb + c/b: 0.3061(20) [0.1020], χ² 2.0/3.
+  - a + γb + c√b: 0.233(7), χ² 0.7/3.
+  - The data cannot tell these apart.
+- **Front from a wall (route 4).** ln W(x) = c − γx − p ln x is the line's form and gives 0.3031–0.3038 on every range.
+  Adding a third term moves γ:
+  - + q/x: 0.3032–0.3060;
+  - + q ln x/x: 0.304–0.309;
+  - with −a√x − p ln x: 0.304–0.316.
+  - −a√x alone fits worse but not badly (rms residual 8e-4 against 5e-4) and gives 0.285–0.293. "The same g on every
+    range" holds only within the one two-term form.
+- **Windows (route 3)** depend wholly on the form, for example 0.270–0.297 with √l and 0.311–0.318 with ln l, and
+  drift with the range. The upper end of the line's interval (0.309) comes from this route. It does not constrain γ.
+
+**Verdict: does not stand as an error bar.** ±0.004 per cell (±0.011 per site) is the spread of the forms the line chose.
+Forms it did not use fit its data equally well and fall outside the interval: √n on segments (0.279), ln b on rings
+(0.282), a third term on the wall (up to 0.31). My range from the routes that constrain anything (segments, rings,
+wall): **γ = 0.28–0.31 per site, 0.093–0.104 per cell, centre about 0.098**. That is ±0.006 per cell, and it is still a
+spread of forms rather than a confidence interval. "0.0993(3) per cell between A = 75 and 135" is fine as a mean local
+slope; its (3) is statistical only. The ordering "the segment slope is the lowest and flat since n ≈ 25" stands. Its
+flatness is within errors that grow from 0.0004 to 0.003 per site over that range.
+
 ## Claim 5: exact one-layer model
 
 `python3 research/audit/thin/exact.py 5 0` (ring b = 5), `… 8 3` (n = 5), `… 5 3` (n = 2). Output is in
