@@ -5,8 +5,10 @@ A slab (vessels.SlabVessel) ends its chaos either by losing an outer {111} layer
 transverse 3-layer firewall (T3; three cyclically consecutive dead layers in the ring of one of the three transverse
 diagonals), after which a face soon dies too. The kernel records only face deaths, so here every replica is also
 tested for a transverse firewall:
-  - at every launch boundary (alive replicas: a firewall ends the life, kind 4, at the boundary — resolution one
-    launch, <= 2.6e5 generations, against means of 1e7 and more);
+  - at every launch boundary (alive replicas: a firewall ends the life, kind 4, at the boundary — so a firewall life
+    is counted to its detection, not its formation, up to one launch (<= 2^18 generations) later. Measured effect
+    (review of PR 14): +0.006 on ln tau_face and +0.015 on ln tau_fw at 3x6x8, where the mean life is only 2.8e4
+    generations; negligible at A >= 84);
   - at each face death, on the state kept at the death (kernel_shared K_KEEP): a firewall present then means the face
     died after a firewall (kind 4 at the death's generation), else it is a face death (kind 1).
 Settled lives (kinds 2, 3) and lives open at the end are censored. Estimators over exposure from generation 0
@@ -47,7 +49,7 @@ def firewalled(bits, rs):
             continue
         dead = (b @ r['inc']) == 0
         run = (dead & np.roll(dead, -1, 1) & np.roll(dead, -2, 1)).any(1)
-        which[run & ~fw] = r['d']; fw |= run
+        which[run & ~fw] = r['d']; fw |= run      # label = lowest-numbered diagonal with a firewall at detection
     return fw, which
 
 
