@@ -784,3 +784,62 @@ does not: the proofs as re-derived, how each lab check is tied to something inde
   whose content is now in `path_r4.py` (`cross`, `supersol`). Nothing there is needed.
 - Working conditions as before: one core, `OMP_NUM_THREADS=1`; commit with
   `git commit -- research/theory/swarm/critic`.
+
+## 2026-11-14, fourth critic's pass: path's closing round (entries 22–24); the board closed
+
+Reply: last section of `to-path.md`. Script: `lab/path_r5.py` (`all`, 35 s, ALL OK; log
+`research/scratch/critic/r5_path_r5_all.log`). Path's own `vminus_check.py all` (76 s) and `v 32` (3 min): ALL OK
+(logs `r5_vminus_all.log`, `r5_vminus_v32.log` in the same directory). Board: closing table at the top; E23; lemma
+exchange (Q final, V⁻, V⁻(E), V); lab L14.1–L14.8.
+
+### Proofs re-derived (as I checked them, with what I changed)
+
+- **Theorem V⁻ (24.2).** ψ = e^{−g}, g = (G − u₀)⁺, G(n) = (1 − δ)W(n) + δθ₀(n − k₀)⁺, u₀ = (1 − δ)·max_{j ≤ k₀} W(j). g = 0 on
+  {0…k₀} whatever W(0) is. At a row with g(n) > 0 (so n > k₀): g(n) − g(n′) ≤ G(n) − u₀ − (G(n′) − u₀)⁺. For n′ > k₀ use
+  G(n′) − u₀ and (B); for n′ ≤ k₀ use 0, and then G(n) − u₀ = (1 − δ)(W(n) − W̄₀) + δθ₀(n − k₀) ≤ (1 − δ)(−ln T̄ + e) + δθ₀(n − n′)
+  needs only W(n) − W̄₀ ≤ −ln T̄(n, n′) + e. Then Σ_{n′} T̄ψ(n′)/ψ(n) ≤ e^{(1−δ)e} Σ [T̄e^{−θ₀(n′−n)}]^δ ≤ (e^e N_n)^{1−δ}M_n(θ₀)^δ. Hence the
+  three weakenings on the board (W(0) free; (B) at n′ ≤ k₀ against W̄₀; (G) only where g > 0). The two hand-size
+  counterexamples (count of targets; rising targets) are in `path_r5.py hand`.
+- **Corollary V⁻(E) with a set Σ of tilts.** T̄(n, n′) ≤ e^{s(n′−n)}M_n(s) for each s separately, so
+  −ln T̄^{(m)}(n, n′) ≥ sup_{s ∈ Σ}[s(n − n′) − mΛ_{n/m}(s)] − e_m = m·I_Σ(x → y) − e_m, and V_Σ (largest function with V_Σ(0) = 0,
+  V_Σ(x) − V_Σ(y) ≤ I_Σ(x → y)) is admissible. Σ must contain θ₀ (for (G)) and 0 (so that I_Σ ≥ 0).
+- **Tilts up to the row's own root give Q.** I_θ(x → y) := sup_{0 ≤ s ≤ θ_x}[s(x − y) − Λ_x(s)] ≥ θ_x(x − y) (the value at
+  s = θ_x, where Λ_x = 0), with equality for y at or below the mean of the row tilted by θ_x. So in a low set whose
+  roots do not rise with x the cheapest route from x is the single jump to 0, cost xθ_x: the block bound. In a
+  larger low set the path first rises for nothing to the row of smallest root (0.043 per cell at the top of the
+  A = 84 table), which is why the low set has to be named with V.
+- **V(x) = x ln 3 for branching rows** (two cells or none, ¼): ≥ by 24.3 (i) with θ₀ = ln 3, x₀ = 0; ≤ along
+  x, x/2, x/4, … (each step costs θ·x/2ᵏ at the tilt θ, where the tilted mean offspring is ½) closed by a jump to 0
+  of cost x2^{−N} ln 4.
+- **Corollary H, weighted.** For rows z ∉ 𝒵 the inner sum Σ_{z′ ≤ n₁} T̄(z, z′)ψ(z′) is at most 1, so
+  Φ[ψ] ≤ Σ_{z ∈ 𝒵} p_z(…) + P(Z ≥ K, Z ∉ 𝒵).
+- **The inflow identity on the tallies.** `fluct/qsd.py` counts in H the measured states with all eight faces alive
+  and in Tr the transitions out of such a state to the same soup's next state, also when another face dies at
+  that step. So Σ_{all z} Tr(z, z′) = H(z′) − (first measured states at z′) + (landings at z′ at a replica's death), and
+  the two corrections are of relative order deaths/exposure (10⁻³ at A = 30, 10⁻⁸ at A = 84). Check on the data:
+  N(z) = Σ_{z′} Tr(z, z′) equals H(z) exactly for every tallied row at A = 45, 63, 84 (to 34 counts at A = 30).
+  With the exact ψ* the "missing deaths" of the third pass (3, 14, 15, 11%) are Σ ψ*(z′)·residual(z′) identically, so
+  that is bookkeeping, not a test of Theorem P̄.
+
+### How the checks are tied to something independent
+
+- `path_r5.py` shares no code with `path/vminus_check.py`: Legendre transforms by bisection on the tilted mean
+  against a grid of s; committors by `path_r4.committor_pos`. Both give B⁺ = −2.439, −2.637, −2.792 (W_J) and −0.721,
+  −0.638, −0.606 (W°), and the same Φ, C⁺, C, χ at 0.35A.
+- The test of (E) gives 2 × 10⁻¹⁵ on the exact 2-fold chain of the A = 45 table against that table.
+- V of the A = 84 table: 0.2056 and 0.2191 on grids ¼, ⅛ against the third pass's 0.2054, 0.2191 on ⅛, 1/16.
+
+### Read only, or not done
+
+- Proposition V′ (24.5): proof read; its example only under path's script. 24.6 (the upper half): not checked.
+- The thresholds m₀ of 24.3: path's script, and m₀ = 41 by hand (41 × 0.176 = 7.22 ≥ ln(29 × 41 + 1) = 7.08; 40 fails).
+- R⁺ and B⁺ row by row above A/2: no data. Whether a full face is ever visited: not known; the tallies reach
+  0.89–0.97 A.
+- The other three lines were not reviewed again; their rows of the closing table restate the board and the audit.
+
+### If the swarm is reopened
+
+The one measurement that bears on the path line's hypothesis is a pooled one-step table with every row, at two
+sizes of the same shape (rim-free slab faces at A and 2A). Compare ln M′_n(s) with 2Λ_{n/2}(s) for 0 ≤ s ≤ 0.7, and
+test admissibility of the scaled quasi-potential directly (`path_r5.py tables`, last block, does both for any
+pair of tables in the format of `data/fluct_tables.npz`).

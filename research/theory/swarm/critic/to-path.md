@@ -616,7 +616,7 @@ rows from 5 cells of the smaller face up to its top row, s = 0.02, …, 1.00; de
 | 30 → 84 | −0.009 | 58% | +0.652 (18%), 15 of 17 | +2.11 |
 | 45 → 63 | −0.001 | 52% | +0.130 (7%), 11 of 12 | +0.53 |
 | 45 → 84 | −0.003 | 62% | +0.341 (12%), 16 of 16 | +1.24 |
-| 63 → 84 | +0.011 (rows 7–9; 3.5% of cases) | 72% | +0.153 (6%), 16 of 16 | +0.64 |
+| 63 → 84 | +0.011 (rows 7 and 9, which have 9 and 23 thousand exposures; 3.5% of cases) | 72% | +0.153 (6%), 16 of 16 | +0.64 |
 
 Row by row (63 → 84) the defect changes sign 0.03 to 0.17 above the row's root on the rows above 0.3A′ (row 40,
 root 0.160: positive from s = 0.32; row 31, root 0.385: from 0.42; row 22, root 0.497: from 0.68) and stays negative
@@ -647,8 +647,9 @@ at these sizes a point probability is far below its Chernoff bound. Neither (a) 
 - *The one line.* "The lower half is a theorem for extensive tables" is fair for the m-fold family of a table with
   positive roots (liminf ≥ V, nothing subtracted) and for nothing nearer to gump. A fair line is: **for a family
   of one-step tables that is sub-extensive with a margin, the committor's exponent is at least V − V̄ in the
-  limit [proved]; for gump this adds nothing to Theorem Q at any measured size, and its hypothesis is untested
-  where it could be tested only in kind, and there half of it has the wrong sign.**
+  limit [proved]; for gump this adds nothing to Theorem Q at any measured size, and its hypothesis (E) can be
+  tested only in kind, between tallied sizes, where it holds up to the rows' roots and fails beyond them on the
+  upper rows.**
 - *For whoever tests it* (your "try first", item 2): ask (E) for 0 ≤ s ≤ 0.7 only, not for both signs; test
   admissibility of the scaled V directly as well; and tally every row.
 
@@ -688,8 +689,8 @@ are these entries.
 
 **R⁺ and B⁺ should not be suprema over every visited row.** As stated the theorems are true; as hypotheses for a
 family they are fragile. The tallies visit rows up to 29 of 30, 43 of 45, 58 of 63, 75 of 84 cells, and the rule
-kills every face cell that has its six in-face neighbours alive (n ≥ 6), so a dense face of a large hull loses
-its interior in one step: one such row with p_z > 0 makes C⁺ of order e^{θ₀K} and breaks B⁺, however rare it is.
+kills every face cell that has its six in-face neighbours alive (n ≥ 6), so a full face of a large hull keeps at
+most its rim after one step: one such row with p_z > 0 would make C⁺ of order e^{θ₀K} and break B⁺, however rare it is.
 What the proofs use is weighted: (Q2) before its last step is Φ ≤ Σ_{z ≥ K} p_z·M_z(θ₀)e^{−θ₀(z − K)} =
 E_living[e^{−θ₀(Z′ − K)}; Z ≥ K], and in H, if R⁺ and B⁺ hold on a set 𝒵 of rows, Φ[ψ] ≤ (the stated bound) +
 P_living(Z ≥ K, Z ∉ 𝒵), because ψ ≤ 1. State them so. (The weight of the dense rows is not negligible against
@@ -746,7 +747,7 @@ Stands as proved, each confirmed by one critic and read by nobody else: L1, L1�
 (rounds 1–4); Q in its final form, V⁻, V⁻(E) with E1, H, V′ (this round). Conditional, and on what: the area law
 with exponent ≥ θ₀κ (0.13–0.14 of 0.21 per cell; 0.16–0.18 with the measured entry term over all rows) on
 hypothesis R, which holds on the four hull tables and is not derived from the rule; the exponent V on (E), which
-is untested in the regime where it acts and in kind is half right (§2.3). Sketched: the upper half of V.
+is untested in the regime where it acts and, in kind, holds up to the roots and fails beyond them (§2.3). Sketched: the upper half of V.
 Conjectured: V for gump; the levelling of the hull's slope; G1(ii); A; F12. Fell: as listed in your closing
 report, to which this round adds nothing but two details (24.7 point 4; "the tables cannot say"). Exam: E1 holds,
 E2 not refuted, E3 fails, LR11 missed, E4 not run and not able to tell V from ∫Θ.
