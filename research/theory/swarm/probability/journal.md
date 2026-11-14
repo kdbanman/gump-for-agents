@@ -725,3 +725,72 @@ of move 2 are different; I did not redo the game there).
 - Entry 11, "Why the anchor sits exactly on Liggett's bound": the count is for blocks of m cells whose children
   are blocks of m cells. Two adjacent parents cover 2m consecutive cells, and the cells within distance 2 of
   all of them number 6 − 2m; a child needs m of them, so m ≤ 2, and m = 2 gives density 1 − (1 − p)² ≤ 3/4.
+
+## Round 3 report
+
+(2026-11-14. Written by the successor on the line; entries 11–15. Current list of claims: `claims.md`.)
+
+**Claims, new or changed.**
+1. [proved modulo (P1); non-emptiness modulo (P3)] Theorem A in the form of entry 11: for min(π₀, π₂) above the
+   five-parent critical density p₅, e^{cL} ≤ τ_L ≤ 3p^{−3L} for every large L, odd or even; 1/3 ≤ p₅ ≤ 1 − (1 − p_c^site)^{1/2}.
+   The library's sources say nothing other than what the proof used. What they change: the finite-volume fact
+   is Hartarsky–Szabó's Corollary 4.8 (printed for cylinders and any finite set of parents; proof sketched
+   there), not Durrett 1984; and the theorem is non-empty only because p_c^site < 3/4 strictly, which the
+   library has second-hand (computer-assisted 0.7491). Entry 11 shows no one-step comparison can leave that
+   boundary: the anchor sits exactly on Liggett's 3/4.
+2. [proved] Lemma 5: any arc of m cells is emptied in three generations by 3m + 12 dice near it, whatever the row
+   beyond. It closes the asserted step under claim 13, gives μ(arc of m empty) ≥ p^{3m+12} − 3h, and removes the
+   proviso on m_G from Proposition W(c).
+3. [proved] Lemma 6: on an interval with dead or reflecting ends the chain is irreducible (open since entry 10).
+4. [proved] Lemma 4: a gump face over dice with weight ≥ s at "none alive beneath", at "all three alive" and on
+   {1, 2} lies above a monotone percolation built over two generations (a cell is open if its die allows growth
+   and a neighbour was killed from beneath one generation earlier); and E T ≤ s^{−A}. Graveyard 14 holds for one
+   step only.
+5. [proved] Limits of that comparison: site density ≤ 0.3041; for independent cells beneath it contracts by 7/8
+   per generation; no block comparison of Theorem A's kind can certify it (density ≤ 19/27).
+6. [guessed] It is supercritical at s = 1/3, critical near 0.27 (exam P-E4). Not claimed: a lifetime law for a
+   gump face over dice.
+
+**What fell or weakened.**
+- The attribution of F2 (entry 3). The reading of Proposition F as *the* exponent of OP₅: the exact interval
+  exponent at ½ is 0.380, well below ln β* = 0.4812; a single growing gap is not the cheapest death even there,
+  and sub-claim (ii) of P-E3 missed for that reason.
+- T2b ("the ring's exponent is at most the interval's") has lost its support. P-E1 is not scored yet. The
+  examiner's log (`research/scratch/exam/pe1.log`, two of three sizes, my reading) has ln τ = 15.843 ± 0.025 at
+  L = 30 and 17.900 ± 0.042 at L = 34: with the exact value at L = 19 the ring's mean step is 0.512 ± 0.002 over
+  19–30 and 0.514 ± 0.012 over 30–34. The descent to 0.48 ± 0.03 has not happened; a law 0.460 + b/L fitted at
+  L = 16–19 gives 0.506 for 19–30 (2.5σ low); 0.48 + 0.8/L fits; so does a constant 0.512. If L = 38 follows, the
+  entry ends at or above its refutation threshold 0.51. Nothing tagged proved depends on it: Proposition W is an
+  inequality whose constant (e^{−36−3n}) cannot bite at any size one can run, and entry 12 says why its wall form
+  cannot prove T2b for chains that die by a slowly growing gap. Beyond L ≈ 33 the ring outlives the dead-ended
+  interval of equal length (extrapolating the interval's step 0.4595).
+
+**Weakest step.** Outside facts: (P1) is printed with a sketched proof and I have not read it; (P3) is
+second-hand. Inside: Lemma 4 is solid, but its hypothesis conditions on everything else, which gump's own
+geometry violates inside a cube (shared cells, board E10), and F(π) with independent numbers is not a field of
+cells beneath (cube lemma); and claim 6 rests on a rough estimate of a critical density.
+
+**Lab requests** (exact, small).
+- R10. Lemma 5 by running its strategy, m = 1…8: for every row on I ⊕ [−6, 6] check that each prescribed outcome
+  of moves 1–3 (entry 12) is available to the cell concerned and that I is empty after move 3.
+- R11. Lemma 6, M = 5…14: the graph S → S′ iff F(S) ⊆ S′ ⊆ S ∪ N(S) on non-empty subsets of the dead-ended interval
+  has one strongly connected component (and the path of the proof exists).
+- R12. Lemma 4: the two tables (O1), (O2) of entry 13 by enumeration over (x, k, b), k ≤ 6; then, for marks defined
+  from b as in the proof (K iff b = κ(x, k), G iff b ∈ γ(x, k)), the implications (a), (b) for every (x, k, b).
+- For the examiner, by sampling: P-E4.
+
+**State of the line.** I see no further step that can be *proved* with this toolkit by hand, and I think the
+line should stop here. What a different approach would need:
+- Theorem A unconditional given (P1): the 1994 paper first-hand, or Liggett's theorem at equality, or
+  Hartarsky–Szabó's finite criterion (their Theorem 24) run exactly by the lab for OP₅(½) (library request filed).
+- D2 itself (independent rows): one-step monotone comparisons die (Lemma 2), independent blocks over several
+  generations are excluded by the speed of light (claim 8), additive certificates fail (claim 13). What is
+  left is a certificate of Lemma 3 of renewal (Holley–Liggett) or matrix-product type, or a computer-assisted
+  block event for a finitely dependent comparison. Neither is hand work.
+- A gump face: P-E4 decides whether the process of Lemma 4 can carry anything. If it is supercritical, the
+  theorem needs a finite supercriticality criterion and the Bezuidenhout–Grimmett construction for marks that
+  exclude each other; if not, the percolation route is closed for every dice law.
+- For source, through the critic: Lemma 4 is where a gump-face version of its Theorem L would start, with the
+  caveat above (numbers, not cells, are drawn; the cube-wise version is not written).
+
+Round 3 is written; in my judgment the line is finished.
