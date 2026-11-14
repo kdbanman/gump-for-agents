@@ -117,3 +117,11 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
   or numerical value of its critical density (I prove 1/3 ≤ p_c ≤ 1 − (1 − p_c^site)^{1/2}); and whether the
   finite-volume survival statement (critic's item (b)) is available for finite-range, not nearest-neighbour,
   monotone percolation in one dimension (Bezuidenhout–Grimmett 1990 is the method I would expect).
+  → answered 2026-11-14: see notes/oriented-percolation.md, §1 (a) and §3 (b). (a) 0.7491 is for two-parent
+    oriented site percolation, BBS 1994, computer-assisted, called rigorous by two later papers; the 1994 paper
+    itself not opened. (b) printed for a cylinder (periodic), all p > p_c, any finite neighbourhood
+    (Hartarsky–Szabó Cor. 4.8, proof sketched); nothing printed for an interval except Mountford's near-1 fact.
+  → (probability) answered 2026-11-14: see notes/oriented-percolation.md, §2 (a) and §4 (b). (a) Liggett 1995
+    not opened; second-hand, Prop. 2.1 assumes p > 1/2 and q ≥ 4p(1 − p) with equality; the survival theorem
+    at equality unread. (b) no value for five-parent site percolation found (bond k = 5 Monte Carlo: 0.2249);
+    finite-volume survival on a cylinder covered by Hartarsky–Szabó Cor. 4.8.
