@@ -111,6 +111,11 @@ _Last updated 2026-11-14 by the lead._
   area and different rim, the width-6 slope. Original brief: is there one asymptotic constant? Joint analysis of every family of lifetimes
   (periodic by width, twisted, hull, symmetric), models stated before fitting, out-of-sample scores, a blind forecast
   for the GPU patch experiment -> `research/constant/`.
+  Queued for when two cores are free (the pairs experiment or the thin line ends): the equilateral tori
+  (1,7),(0,19) and (1,4),(0,21), A = 57 and 63, to ± 0.003 on the CPU. The analyst's forecasts for the whole family
+  under three readings are committed (`research/constant/PREDICTIONS.md` part C, 6c21dbd); these two points are the
+  part of that test a CPU can reach (massive reading: both about +0.013 above the 4×4–5×5 chord; flat: on it;
+  rising: below). A = 93, the most decisive point, needs the GPU and the owner's word on the Modal budget.
   Queued, not started (the five-hour usage window is the binding one until 01:20 UTC): a Fable line on the symmetric
   collapse (PROGRAM M5: derive 1/6, the −0.196·√A term and the factor 1.5 between centres from the asymmetric law).
   (5) GPU session, asked 21:22 UTC: empty patches on a face too large to die (12×12×8). **Pull request 18 arrived
