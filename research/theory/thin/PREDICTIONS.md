@@ -140,8 +140,8 @@ excess grows with b (it is a slope error, not an offset): the layers beneath a t
 coins do.
 
 **F4: hit at density 0.55 (+0.030 ± 0.007), miss at 0.30 (−0.069 ± 0.008).** Five layers do not screen a
-change of the coins by a quarter of their density; the measured dependence is about 0.5 in ln tau per unit of
-density.
+change of the coins by a quarter of their density; the measured dependence is about 0.4 in ln tau per unit of
+density at b = 20.
 
 **F7: miss, as expected by the time F9 was written.** One-layer segments: slope between n = 6 and 8
 0.4496(3) per site; between n = 16 and 24 0.3690(7): 22% apart, not 3%.
@@ -149,3 +149,27 @@ density.
 **F9: hit.** Slope between n = 16 and 24: 0.3690(7), inside 0.355–0.395. Exact steps at n = 4 … 8: 0.960,
 0.476, 0.453, 0.461, 0.437 (the last from simulation), all more than 15% above it. (The very first step, n = 2 → 3,
 is 0.303 and below it; the forecast's wording "the steps at n ≤ 8" should have said "from n = 4".)
+
+## Block 5 (2026-11-14 22:03, before any run of a segment longer than 37 sites, of a 12-layer slab, or of a model deeper than six layers on a segment)
+
+Known now: windows on the b = 64 ring (19 chunks so far): k(l) = 0.3901, 0.3506, 0.3371, 0.335(4) at l = 10, 20,
+30, 36, still falling like g + a/(l + l0) with g = 0.303–0.309 (l0 = 0…2). Deterministic segments (after the
+correction above): local slopes 0.3092, 0.3018, 0.2990, 0.2967 per site at n = 15, 19, 23, 27, which a form
+g + a/n fits with g = 0.280–0.285 and a form g + c/n² with g = 0.291. Rings: 0.3432 … 0.3103 at b = 18 … 34
+(g + a/b with g = 0.28–0.285, a ≈ 1.0–1.15). Distance of the front from the wall in segments of 17–29 sites:
+k_wall(x) = −ln W(x+1)/W(x) at fixed x falls with n (x = 9: 0.477, 0.387, 0.355, 0.343 at n = 17, 21, 25, 29) and
+at n = 29 has its minimum 0.3425 at x = 10.
+
+**F11 (one front, long segment).** Deterministic segment of n = 61 sites (b = 64, wall 3), W(x) = probability
+that the x sites next to the wall are empty:
+(a) k_wall(10) lies in 0.322–0.338 (below the n = 29 value 0.3425, and far below the window cost 0.390 at the
+    same length: a front that starts at a wall has nothing to nucleate);
+(b) k_wall(20) lies in 0.298–0.318 and k_wall(30) in 0.290–0.310;
+(c) a fit k_wall(x) = g + a/x over x = 12…32 gives g in 0.278–0.296 per site (0.093–0.099 per cell) with
+    a in 0.2–0.7. This g is then my estimate of the asymptotic cost, to be compared with the three other routes.
+
+**F12 (eight layers are enough).** With m = 12 layers instead of 8: ln tau changes by less than 0.010 for the
+ring b = 16 and for the segments n = 13 and n = 21 (each within 3σ of its statistical error if that is larger).
+
+**F13 (deeper models on a segment).** n = 13: the models with w = 6 and w = 8 give ln tau within 0.010 of the
+deterministic 6.7262(14).

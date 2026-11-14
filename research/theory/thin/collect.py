@@ -15,9 +15,9 @@ for d in sorted(glob.glob(os.path.join(R.OUT, '*', ''))):
     acc = R.load(tag)
     if acc is None:
         continue
-    lt, er, F = R.lntau(acc); h = acc['head']; t = acc['tot']
+    lt, er, F, excess = R.lntau(acc, full=True); h = acc['head']; t = acc['tot']
     life[tag] = dict(mode=h['mode'], b=int(h['b']), layers=int(h['layers']), wall=int(h.get('notch', 0)), rho16=int(h['rho16']),
-                     T0=int(h['T0']), chunks=acc['n'], deaths=F, exposure=t['expo'], lntau=None if F == 0 else round(lt, 5),
+                     T0=int(h['T0']), twist=int(h.get('twist', 1)), chunks=acc['n'], deaths=F, left_out=excess, lntau=None if F == 0 else round(lt, 5),
                      err=None if F == 0 else round(er, 5), settled=int(t['settled']), firewalls=int(t['interior']),
                      both_faces=int(t['both']), face_samples=t['nsamp'])
     if t['nsamp'] > 0:
