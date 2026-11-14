@@ -89,7 +89,7 @@ Local slopes, per site (per cell in brackets):
 
 SEGMORE
 
-- The segment slope is the lowest and has been flat at 0.296–0.297 since n ≈ 25 (0.3093, 0.3018, 0.2990, 0.2967,
+- The segment slope is the lowest and has been flat at 0.296–0.297 since n ≈ 25 (0.3095, 0.3018, 0.2990, 0.2967,
   0.2977, 0.2951 at n = 15, 19, 23, 27, 31, 35; every n from 5 to 25 was run and the steps fall smoothly, with no
   effect of n modulo anything); the three others are above it and falling towards 0.30–0.31.
 - The front's distance from a wall is the cleanest: one front, nothing to nucleate, no deaths needed, and the
@@ -119,9 +119,9 @@ deterministic value of ln τ **[measured]**:
 | 1 | +1.286(3) | +1.868(13) | +0.805(2) | +1.337(3) |
 | 2 | +1.382(4) | +2.258(20) | +1.132(2) | +1.988(4) |
 | 3 | +0.495(3) | +0.845(13) | +0.366(2) | +0.708(3) |
-| 4 | +0.049(3) | +0.115(12) | +0.018(2) | +0.058(2) |
-| 5 | +0.006(3) | +0.003(12) | −0.003(2) | +0.002(2) |
-| 6 | +0.012(3) | +0.027(10) | +0.013(2) | |
+| 4 | +0.049(3) | +0.115(12) | +0.019(1) | +0.058(2) |
+| 5 | +0.006(3) | +0.003(12) | −0.002(1) | +0.002(2) |
+| 6 | +0.012(3) | +0.027(10) | +0.014(2) | |
 | 8 | | | +0.004(2) | |
 
 Also b = 20, w = 5: +0.007(7). Slopes per site between the two sizes: rings 0.410, 0.447, 0.381, 0.345, 0.337
@@ -146,7 +146,7 @@ for w = 1 … 5 against 0.337 deterministic; segments 0.372, 0.413, 0.348, 0.311
   interior density as input.
 - From five layers on the residue is 0.003–0.03 and not monotone (w = 6 is consistently 0.012–0.027 too tough).
 - Eight layers are enough for the deterministic slab (`python3 analyze.py life det12_b16 det_b16`, …): with
-  twelve, ln τ is 8.6504(17) against 8.6470(16) on the ring b = 16, 6.7277(9) against 6.7262(14) on the segment
+  twelve, ln τ is 8.6504(17) against 8.6470(16) on the ring b = 16, 6.7277(9) against 6.7257(8) on the segment
   n = 13, 9.1768(20) against 9.1708(15) at n = 21: +0.002 to +0.006, a slope change of +0.0006(4) per site.
 
 ## 5. How the thin face dies
@@ -216,7 +216,7 @@ the face alone, 4.1213(7), 4.5433(5) for the knowing coins):
 
 | | n = 5 | n = 6 | n = 13 | n = 21 | slope 13 → 21 per site | against deterministic |
 |---|---|---|---|---|---|---|
-| deterministic | 3.8671(9) | 4.2795(8) | 6.7262(14) | 9.1708(15) | 0.3056(3) | |
+| deterministic | 3.8671(9) | 4.2795(8) | 6.7257(8) | 9.1708(15) | 0.3056(2) | |
 | M(1), coins | 4.192750 | 4.646105 | 7.5311(8) | 10.5080(26) | 0.3721(3) | +22% |
 | M(3) | | | 7.0918(10) | 9.8784(21) | 0.3483(3) | +14% |
 | the face alone, measured p(s, k) | 3.977059 | 4.441084 | 7.1483(21) | 9.8572(52) | 0.3386(7) | +11% |
@@ -246,7 +246,19 @@ the face alone, 4.1213(7), 4.5433(5) for the knowing coins):
 
 **[measured]** for the torus (1,2),(0,b), shortest loop squared 7 (`ringk.c`; `python3 analyze.py life 'det_k2_b*'`):
 
-PENDING_K2
+| b | A | ln τ here | census | local slope per cell | half-collapse lag |
+|---|---|---|---|---|---|
+| 16 | 48 | 9.8131(24) | 9.8122(20) | | 3.24 |
+| 20 | 60 | 12.1242(83) | 12.1133(31) | 0.1926(7) | 3.78 |
+| 24 | 72 | 14.3286(124) | 14.3592(116) | 0.1837(12) | 4.44 |
+| 28 | 84 | K2B28 | | K2S28 | K2L28 |
+
+- The census is reproduced (+0.4σ, +1.2σ, −1.8σ) and the local slope falls here too, faster than on the thinnest
+  torus: the census's 0.19 is not an asymptotic value either. Three slopes do not fix a limit (a form g + c/b
+  through them would give 0.14–0.15 per cell; the same form misjudges the thinnest torus).
+- It dies the same way, faster: looking back from a death the population is 1.7, 4.0, 9, 16, 21, 25 cells at 1 … 6
+  generations (b = 24, mean 36.4), and the lag at which half is gone grows by 0.14 generations per site
+  (thinnest torus: 0.30). The face is denser: 0.5056 of its cells alive, against 0.4437.
 
 What the same method says as the face widens, and what it would take:
 
