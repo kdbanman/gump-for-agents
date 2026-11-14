@@ -1,0 +1,3 @@
+step2d against the naive loop: 2 x 9 vessels x 30 states x 4 generations, 0 differing cells
+w(dead, k) = ['1', '3/4', '1/4', '1/4', '3/4']  w(live, k) = ['3/4', '1/4', '0', '1/4', '3/4']
+selftest passed
