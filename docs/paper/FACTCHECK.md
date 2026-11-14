@@ -50,6 +50,37 @@ Counts (30 rows): wrong 3 (#4, #7, #15), stale 3 (#1–#3), imprecise 20, unsupp
 is counted once, as unsupported, though some of its rows are only imprecise). Fixed 14 (#1–#14); for the lead 16
 (#15–#30).
 
+## Outcomes of the items for the lead (2026-11-14, a second subagent carrying out the lead's decisions)
+
+- **#15** Applied. The notebook entry behind F5 (2026-11-12, "how chaos dies") is about the m = 8 near-square tori
+  of the face-law fit; its numbers are exactly those of the fit's batches with A ≥ 36 and a test: 3×4, 3×5, 4×4,
+  4×5 (CV 0.964–1.045, KS p 0.519–0.96). Draft and F5 now say so, and also give the whole table (14 batches with
+  A ≥ 36 and a test: p 0.042–0.974, one below 0.05, CV 0.962–1.06). Grade not changed.
+- **#16** Applied: Table 2 now 6.805 and CPU 13.632 (R = 9 stays 9.820), and the local slope 0.2011 → 0.2010; the
+  note names `qsd_summary.json`.
+- **#17** Applied: re-ran `face_endgame_check.py 9 16000` (exact reproduction, mean 2312.1 ± 19.7); Table 2 now
+  9.825 ± 0.009, named in the note.
+- **#18** Applied: 0.166 and 0.275 (0.152 against the pooled 21.889), naming `sym_fit.py`'s coefficients.
+- **#19** Applied: 0.1353 ± 0.0008 from `shape2/data/explore_report.txt` (the lead check prints 0.1353); the README's
+  0.1346 noted in the caption and in `FOR-LEAD.md`.
+- **#20** Applied: census 0.0061 ± 0.0028, review 0.0135 ± 0.0021, pooled 0.0108 ± 0.0017 (6.4 SE), χ² 4.4/1
+  (p 0.036); "not ordered" stands (3.0 SE even with the error scaled by √χ²). Draft and SH4.
+- **#21** Applied in the draft (§5.6, covering Table 5 too) and as a note in C2.
+- **#22** Applied: marked preliminary and post hoc in the sentence (L3; C).
+- **#23** Applied: Table 5 row 14 (path E3, failed); caption names the sources searched and the forecast files not
+  searched; the exam's 2D-rule failures and undecided entries and C-E1 are named in the caption.
+- **#24** Applied: plain numbers 0.416 and 0.414–0.425; "whether this is more than a coincidence is not established".
+- **#25** Applied: §10.1 keeps Z1, Z2 (n ≤ 13), Z3 (unions ≤ 11); the grade-C enumerations are a separate
+  preliminary paragraph.
+- **#26** Applied: §2.3 cites R7 for numpy/bit-sliced/orbit-reduced steppers and GP1 (B−), GP7 for the GPU kernels'
+  CPU emulation.
+- **#27** Applied: the step is written in full in the draft and in `research/clockwork/README.md`; the hypothesis it
+  uses (G = lattice symmetries p ↦ Rp + t, R ∈ O_h) is now stated; T7 annotated. The lemma's tag stays [proved].
+- **#28** Applied: "not found in our search" where `PRIOR-ART.md` records a search (rows 882, 886, 887, 889, 891);
+  "no prior-art search has been made yet" for 885, 888, 890 and the sentence at 922; abstract reworded.
+- **#29** Applied: "our search found nothing on …".
+- **#30** Applied: kept, marked as seen in search results only, not opened, not citable.
+
 ## Checked and found right (by section; counts are of distinct numbers or statements)
 
 - **Abstract, §1** (12): density 0.41552 ± 0.00002; e^{0.21}; ln τ range 5.6 (slab fit at A = 27: 2 × 139 = 278) to

@@ -89,3 +89,52 @@ Suggested text, appended as its own entry (or as a bracketed note under each lin
 - Grades not changed but worth a look: GP1, GP2, GP5, GP6 are "B−" (now defined in the ledger's legend) while GP7 and
   GP8, also GPU runs with no second implementation at the claimed sizes, are "B". The pass defined B− from the rows'
   own wording and did not regrade.
+
+## After the fact-check
+
+Written by the subagent that carried out the lead's decisions on `docs/paper/FACTCHECK.md` items 15–30. Nothing
+below has been applied to the files it names.
+
+### `research/NOTEBOOK.md` (append-only): one dated entry, text to append
+
+> ## 2026-11-14 — corrections from the paper's fact-check (subagent; for the lead to check)
+>
+> - **Memoryless slab faces (entry of 2026-11-12, "how chaos dies"; ledger F5).** "CV 0.96–1.05, KS p 0.5–0.96 for
+>   A ≥ 36" is what the four m = 8 batches of the face-law fit (`research/peeling/face_law_fit.py`'s selection) with
+>   A ≥ 36 and a test give: 3×4, 3×5, 4×4, 4×5 (A = 36–60), CV 0.964–1.045, KS p 0.519–0.96; the fit's batches at
+>   A ≥ 72 have no test (censored). Over all 14 batches of `research/peeling/slab_area.csv` with A ≥ 36 and a test,
+>   p runs 0.042–0.974 (one below 0.05, 4×5×10) and CV 0.962–1.06. `python3 -c "import csv; [print(r['N1'],r['N2'],r['m'],r['cv'],r['ks_p']) for r in csv.DictReader(open('research/peeling/slab_area.csv')) if r['ks_p']!='nan' and int(r['A'])>=36]"`.
+> - **SH4 (entry "every torus of a given area").** The 0.0135 ± 0.0021 by which 4×4 lies below the (12; 19) class at
+>   A = 48 is the review's value; the census (`research/shape2/data/A48.csv`, 9.93842 − 9.93237, each ± 1/√F) gives
+>   0.0061 ± 0.0028. Pooled by inverse variance: 0.0108 ± 0.0017 (6.4 SE); agreement χ² = 4.4 on 1 (p = 0.036); with
+>   the error scaled by √χ², 3.0 SE. "Not ordered by shortest loop" stands.
+> - **Table 8 of the shape2 study, loop² 4, 60 → 72:** `research/shape2/data/explore_report.txt` and
+>   `python3 research/audit/shape2_lead_check.py` give 0.1353 (± 0.0008); `research/shape2/README.md`:189 prints
+>   0.1346 ± 0.0010.
+> - **Engine-only R = 9 (entry "a face dies off the end of a straight line").** Re-running
+>   `python3 research/experiments/face_endgame_check.py 9 16000` reproduces 13,765 peels, exposure 31,826,744,
+>   mean 2312.1 ± 19.7, −ln h/A = 0.2183, so ln τ_face = ln(8 × 2312.1) = 9.825 ± 0.009.
+> - **Twist lemma (entry of 2026-11-13).** The step giving m ∈ {1, 2, 3, 4, 6} is now written out in
+>   `research/clockwork/README.md`: G (the box's lattice symmetries p ↦ Rp + t, R ∈ O_h) embeds in O_h by linear
+>   part (a translation fixing a finite set is trivial), elements of O_h have orders 1, 2, 3, 4, 6 (R^c diagonal for
+>   c the order of R's permutation), and m divides the order of any g with k(g) = P/m. The hypothesis that G
+>   consists of lattice symmetries was implicit before.
+> - **Side-16 face deaths** 2,362,434,048 and 2,886,100,480 are last-alive generations (checks every 64); by the
+>   first-empty definition they lie in 2,362,434,049–112 and 2,886,100,481–544 (`research/data/cube16_events.jsonl`).
+
+### `research/STATUS.md`
+
+No change found to be needed: none of the corrected wordings (F5's range, SH4's 0.0135, Table 8's 0.1346, the
+2 × 0.208 remark, "lucky at the 1% level") occurs in it (`grep`).
+
+### Other files outside this pass's list
+
+- `research/shape2/README.md`:189: b(60→72) for loop² 4 should read 0.1353 ± 0.0008 (its own `data/explore_report.txt`).
+- `research/fluct/README.md`:47 prints 6.804, 9.819, 13.633; `research/fluct/data/qsd_summary.json` gives 6.8054,
+  9.8202, 13.6317 (ln(8 × first_peel_mean)).
+- `research/theory/swarm/exam/OUTCOMES.md` path E3 (failed, gump) has no ledger row; the paper now lists it in
+  Table 5 as ungraded. A ledger row (grade C) would make the table and the ledger agree.
+- Tracked forecast files not searched for the paper's Table 5 (named in its caption): `research/shape3/PREDICTIONS.md`,
+  `research/theory/thin/PREDICTIONS.md`, `research/theory/exponent/PREDICTIONS.md` (entry by entry),
+  `research/theory/class/PREDICTIONS.md`, `research/theory/class/followup/PREDICTIONS.md`, `research/toy2d/PREDICTIONS.md`,
+  `research/audit/class/PREDICTION-*.md`.
