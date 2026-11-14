@@ -59,8 +59,10 @@ _Last updated 2026-11-14 by the lead._
   three guesses fell (counting's bridge C1′, path's "ln τ = A·∫θ", every equal-time transfer hypothesis); the source
   line is finished and the critic agrees. **Solvers restarted 07:35 UTC** (fresh successors on probability, path and
   counting, each with the critic's reply; the owner had just opened the whole account up to 95% of the session and
-  weekly limits, `LEAD.md`). When they report, a fresh critic successor reviews the new rounds in one pass. Also
-  running: a librarian (successor) on the two percolation facts that probability's and
+  weekly limits, `LEAD.md`). When they report, a fresh critic successor reviews the new rounds in one pass. Started
+  07:50 UTC as well: the fresh-reader audit of the one finished theorem chain (source's and probability's Theorem A;
+  writes `swarm/audit/AUDIT-theoremA.md`), and a reviser applying the class review to `research/theory/class.md`.
+  Also running: a librarian (successor) on the two percolation facts that probability's and
   source's Theorem A rest on (`library/requests.md`, last two blocks), and an examiner running the sampled entries of
   `swarm/PREDICTIONS.md` (writes `swarm/exam/OUTCOMES.md`). Stop a line when a round gives no new proved step (each
   solver was told that a closing report is a good outcome). Then a fresh reader (not the critic) audits every claim tagged "proved" across the four `claims.md`,
