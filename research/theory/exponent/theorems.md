@@ -1,7 +1,8 @@
 # Rigorous statements for the exponent study
 
 *Part of `research/theory/exponent.md` (section 7 there is a summary of this file). Everything here is **[proved]**:
-complete arguments, plus a brute-force check where one is cheap (`game_check.py`). Notation: the toy is B34/S234 on
+complete arguments, plus a brute-force check where one is cheap (`game_check.py`) — except one sentence of
+Lemma A (c), which was false and is corrected in place (2026-11-14). Notation: the toy is B34/S234 on
 the cross `(±1,0), (±2,0), (0,±1), (0,±2)`; the edge is row 0 of a vessel periodic along x with L columns; for an
 edge cell x, k = number of live cells among its four in-row neighbours x±1, x±2 and b ∈ {0,1,2} = number of live
 cells among the two cells beneath it (rows 1 and 2, same column). Its next state is 1 iff k + b ≤ 4 and
@@ -24,8 +25,29 @@ live in-row neighbours (so, for instance, no run of three or more live cells had
 stay dead: a gap closes only from its two ends, by at most two cells per end per generation.
 (c) **Gump has no safe face cell**: a live face cell with k of its 6 in-layer neighbours alive survives iff
 3 ≤ k + b ≤ 5 with b ∈ {0,1,2,3} the live cells among its three neighbours beneath, and for every k some b kills it
-(k ≤ 2: b = 0; k = 3: b = 3; k = 4: b ≥ 2; k ≥ 5: b ≥ 1). A gump face can always die in one generation given
-suitable layers beneath; the toy's edge cannot (Theorem B).
+(k ≤ 2: b = 0; k = 3: b = 3; k = 4: b ≥ 2; k ≥ 5: b ≥ 1). This is a statement about one cell at a time and it is
+true.
+
+*Correction, 2026-11-14 (successor; the original sentence is kept here struck through so that readers of older
+copies can find it):* ~~"A gump face can always die in one generation given suitable layers beneath; the toy's
+edge cannot (Theorem B)."~~ **This was false.** It does not follow from the per-cell statement, because in gump
+neighbouring face cells *share* cells beneath them (a cell one layer in neighbours several face cells; the three
+faces of one cube form the shared triples, `research/theory/swarm/critic/board.md`, "cube lemma"), whereas in the
+toy each edge cell's two cells beneath are its own (which is what makes the game of Theorem B factorise).
+Counterexample (board item E10), in the face layer x + y + z = 13 of a hull or periodic slab with every other face
+cell dead: live (4,4,5), (4,5,4), (5,4,4), (3,4,6). The cell (4,4,5) has k = 3 and dies only if all three cells
+beneath it are alive, (3,4,4) among them; (4,5,4) has k = 2 and dies only if all three beneath it are dead,
+(3,4,4) among them. Re-checked 2026-11-14 by direct enumeration of the neighbourhood of `docs/AUTOMATON.md` §2, and
+with `python3 face_one_step_interior.py` (`research/theory/swarm/critic/lab/`; deep interior of the R = 13 face,
+so no rim is involved). What is true instead (exact, critic's lab, re-run here for R = 3):
+`python3 face_one_step.py 3` → 187 of the 512 configurations of the R = 3 hull face cannot be emptied in one
+generation whatever the 15 cells beneath are; 180,615 of the 262,144 configurations of the R = 5 face cannot
+(`startpoints.py game 5`, board lab L0b.3, not re-run here); every configuration of those two hull faces and of the
+periodic faces 2 × 2 and 3 × 2 *can* be emptied in **two** generations (board, "lemma exchange"); larger faces are
+unknown. So the contrast with the toy is not "one generation against three" but "two (at least for these small
+faces) against three", and no statement about gump faces in general is proved.
+Nothing else in this file or in the study's measurements uses the false sentence: Theorem B and B′ concern the toy
+only, and the study's gump results are measurements.
 
 ## B. Three generations, never fewer in general
 
@@ -129,5 +151,13 @@ Two remarks make this more than bookkeeping.
   contaminates two cells per side per generation — the same speed at which anything can spread — so no finite block
   can guarantee its neighbours. A proof would need a different idea (e.g. a monotone functional of the pair
   "configuration, set of safe cells").
+  *Note, 2026-11-14 (successor):* the critic's board (`research/theory/swarm/critic/board.md`, graveyard item 6)
+  accepts only the second reason. The comparison theorem with oriented percolation (Durrett, *Ten lectures*,
+  Thms 4.1–4.3) assumes no monotonicity; what blocks it is that the good event must work for every configuration
+  outside the block, and an unknown outside contaminates two cells per side per generation. With dice beneath (the
+  driven-edge models) the adversary is only the rest of the same row. The board also reports a lower bound
+  e^{cL} proved since by another line for a dice law near "b = 0 or 2 by a fair coin" (probability's Theorem A,
+  modulo two cited percolation facts): a claim of that line, not checked here, and not for the w = 1 model
+  with independent rows.
 - Existence of the limit lim L⁻¹ ln τ_L for any of the systems.
 - That the deterministic rule is the ε → 0 limit of the noisy one (measured in exponent.md §8, not proved).
