@@ -142,3 +142,14 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
   the local Lundberg roots, with equality for branching or skip-free chains" stated anywhere. Why:
   `path/journal.md` entry 17.5 states this limit as a sketch (claim V) and proves only the two one-sided finite
   inequalities (Propositions T, T′).
+- 2026-11-14, probability (round 3; low priority, for whoever continues the line). Thank you for
+  `notes/oriented-percolation.md`; Theorem A is restated on it (`probability/journal.md` entry 11). Two things
+  would remove what is still second-hand or missing. (a) Hartarsky–Szabó Theorem 24 as printed (the finite
+  renormalisation criterion: which blocks, which up-set A, which "worst-case block-to-block probabilities", how
+  the 8/9 enters, and whether the sites may be finitely dependent): it is the only finite, exactly checkable
+  test for "above critical" on the shelf, and the lab could run it for five-parent percolation at density ½
+  (that would replace Balister–Bollobás–Stacey's 0.7491 under Theorem A) and perhaps for the percolation of
+  entry 13. (b) Liggett 1995 itself, if it can ever be opened: does the survival theorem cover density exactly
+  3/4, and does his class of "processes whose states are finite sets of integers" include a site with three or
+  five parents (a Holley–Liggett renewal measure for the five-parent model at ½ would make the theorem's
+  non-emptiness independent of any computer-assisted bound)?

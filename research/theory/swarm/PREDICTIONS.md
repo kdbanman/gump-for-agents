@@ -239,3 +239,24 @@ sup κΘ(κ) ≤ V ≤ ∫Θ). On the hull tables at A = 84 the recursion gives 
 0.212 and 0.218. It is a statement about each vessel's own table; it does not say the two vessels share a root
 curve (E3 says they need not).
 *Refuted if* either V differs from the measured slope by more than 0.025.
+
+## 2026-11-14, probability, P-E4 (filed in round 3 by the successor on the line; P-E1 not yet scored when filed)
+
+**P-E4. The monotone process beneath a gump face over dice is supercritical, but not by much.** Model M(s) (no
+automaton is run; it is a percolation). Cells: a periodic gump face of n × n cubes, 3n² cells: the faces p (doubled
+coordinates, exactly one odd) of one layer x + y + z = const, identified under the translations 2n(e_x − e_y) and
+2n(e_y − e_z); the six neighbours of a cell with normal axis a (other axes b, c) are p ± (e_a − e_b), p ± (e_a − e_c),
+p ± 2(e_b − e_c). Every generation t ≥ 0 every cell draws an independent mark: K with probability s, G with
+probability s, nothing otherwise. η_0 = all cells; η_{t+1} = the cells y that carry G at t + 1, have a cell of η_t among
+themselves and their six neighbours, and have a neighbour that carried K at t. Death: η = ∅ (absorbing; a Markov
+chain, nothing to censor). τ = exposure / deaths at ages ≥ 30, replicas restarted at death. n = 4 and 6 (A = 48,
+108); s = 0.24, 0.27, 0.30, 1/3. Δ(s) := ln τ(108) − ln τ(48); if no replica dies at A = 108 within the budget,
+report the lower bound.
+*Predictions:* (i) Δ(1/3) ≥ 1.5 (lifetime exponential in the area: supercritical). (ii) The value s_c at which Δ
+crosses 1.0 (linear interpolation between the two neighbouring values of s) is **0.27 ± 0.035**.
+*Why (two lines):* a gump face whose count beneath has conditional weight ≥ s at 0, at 3 and on {1, 2} dominates
+M(s), cap included, because every face cell can be killed from beneath whatever the face does (probability
+journal, entry 13, Lemma 4); s ≤ 1/3 is forced. The number is a rough estimate: effective site density
+s(1 − (1 − s)^{5…6}) against a critical density 0.20–0.24 for seven parents in 2 + 1 dimensions (entry 14.4).
+*Refuted if* Δ(1/3) < 1.0 (then no dice law makes this comparison survive and the route to a theorem for a gump
+face over dice through Lemma 4 is closed), or if s_c < 0.22.
