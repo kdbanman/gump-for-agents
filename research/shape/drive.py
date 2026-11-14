@@ -3,7 +3,7 @@
 
     nohup python3 research/shape/drive.py TARGET a,k,b a,k,b ... > research/scratch/shape/drive.log 2>&1 &
 
-Each job: `taskset -c CORE tslab.py run a k b 500000 SEED 16` (1,024 lives, cap 5e5). Seeds are 1000*index + n,
+Each job: `taskset -c CORE tslab.py run a k b 500000 SEED 16` (1,024 lives, cap 5e5). Seeds are $SEEDBASE + 1000*index + n,
 unique per torus (tslab.load asserts it). Restartable: existing files count, new seeds skip used ones.
 Stops when every torus has TARGET face deaths (first-event face deaths, tslab.stats) or after --hours.
 """
@@ -13,6 +13,7 @@ sys.path.insert(0, HERE)
 import tslab  # noqa: E402
 
 CAP, W, CORES = 500000, 16, [0, 1, 2]
+BASE = int(os.environ.get('SEEDBASE', '0'))   # A = 72 used 0; A = 60 used 100000
 
 
 def deaths(t):
@@ -46,9 +47,9 @@ def main():
                 continue
             t = min(need)[1]
             n = 0
-            while 1000 * tori.index(t) + n in used[t]:
+            while BASE + 1000 * tori.index(t) + n in used[t]:
                 n += 1
-            seed = 1000 * tori.index(t) + n; used[t].add(seed)
+            seed = BASE + 1000 * tori.index(t) + n; used[t].add(seed)
             p = subprocess.Popen(['taskset', '-c', str(c), 'python3', os.path.join(HERE, 'tslab.py'), 'run',
                                   *map(str, t), str(CAP), str(seed), str(W)], stdout=subprocess.DEVNULL)
             running[c] = (p, t); pending[t] += 1

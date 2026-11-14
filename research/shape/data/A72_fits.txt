@@ -1,0 +1,49 @@
+shape (control)        chi2    0.69 /  3  p = 0.876
+      9 6 49       14.610 ± 0.014  (1 tori)
+      9 0 48       14.616 ± 0.014  (1 tori)
+      12 0 36      14.875 ± 0.014  (1 tori)
+      12 12 39     14.878 ± 0.014  (1 tori)
+      13 12 36     14.921 ± 0.008  (3 tori)
+      16 16 31     14.965 ± 0.014  (1 tori)
+      16 8 28      14.971 ± 0.010  (2 tori)
+      16 0 27      14.984 ± 0.014  (1 tori)
+      19 18 27     15.011 ± 0.014  (1 tori)
+      21 6 21      15.066 ± 0.014  (1 tori)
+Euclidean systole^2    chi2    1.78 /  7  p = 0.971
+      9            14.613 ± 0.010  (2 tori)
+      12           14.877 ± 0.010  (2 tori)
+      13           14.921 ± 0.008  (3 tori)
+      16           14.973 ± 0.007  (4 tori)
+      19           15.011 ± 0.014  (1 tori)
+      21           15.066 ± 0.014  (1 tori)
+hex systole            chi2   76.58 / 10  p = 2.34e-12
+      3            14.613 ± 0.010  (2 tori)
+      4            14.935 ± 0.005  (9 tori)
+      5            15.038 ± 0.010  (2 tori)
+shortest row closure   chi2  109.21 /  8  p = 5.52e-20
+      3            14.613 ± 0.010  (2 tori)
+      12           14.878 ± 0.014  (1 tori)
+      6            14.941 ± 0.006  (5 tori)
+      4            14.973 ± 0.007  (4 tori)
+      8            15.011 ± 0.014  (1 tori)
+area only              chi2 1161.04 / 12  p = 4.24e-241
+line in sigma (sys2 >= 12): ln tau = 14.363 + 0.1521 sigma  (slope ± 0.0120); chi2 5.60 / 6
+      12 0 36      sigma 3.464 hex 4  14.875 ± 0.014  resid -1.04 sd
+      12 12 39     sigma 3.464 hex 4  14.878 ± 0.014  resid -0.82 sd
+      13 12 36     sigma 3.606 hex 4  14.921 ± 0.008  resid +1.23 sd
+      16 8 28      sigma 4.000 hex 4  14.971 ± 0.010  resid -0.03 sd
+      16 0 27      sigma 4.000 hex 4  14.984 ± 0.014  resid +0.89 sd
+      16 16 31     sigma 4.000 hex 4  14.965 ± 0.014  resid -0.46 sd
+      19 18 27     sigma 4.359 hex 5  15.011 ± 0.014  resid -1.08 sd
+      21 6 21      sigma 4.583 hex 5  15.066 ± 0.014  resid +0.41 sd
+line in sigma (all): ln tau = 13.902 + 0.2669 sigma  (slope ± 0.0086); chi2 192.04 / 8
+      9 6 49       sigma 3.000 hex 3  14.610 ± 0.014  resid -6.60 sd
+      9 0 48       sigma 3.000 hex 3  14.616 ± 0.014  resid -6.10 sd
+      12 0 36      sigma 3.464 hex 4  14.875 ± 0.014  resid +3.51 sd
+      12 12 39     sigma 3.464 hex 4  14.878 ± 0.014  resid +3.73 sd
+      13 12 36     sigma 3.606 hex 4  14.921 ± 0.008  resid +7.15 sd
+      16 8 28      sigma 4.000 hex 4  14.971 ± 0.010  resid +0.18 sd
+      16 0 27      sigma 4.000 hex 4  14.984 ± 0.014  resid +1.05 sd
+      16 16 31     sigma 4.000 hex 4  14.965 ± 0.014  resid -0.30 sd
+      19 18 27     sigma 4.359 hex 5  15.011 ± 0.014  resid -3.87 sd
+      21 6 21      sigma 4.583 hex 5  15.066 ± 0.014  resid -4.22 sd
