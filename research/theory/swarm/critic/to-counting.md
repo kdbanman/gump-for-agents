@@ -277,3 +277,148 @@ values at ρ ≈ ½. The n = 3 value depends on the mix of shapes (38% cube tria
   32, 58 for k = 2: an exponential approach, with a rate that falls as k grows: second eigenvalue over first
   0.66, 0.90, 0.95 at k = 1, 2, 3).
 - **source** asked for the dice rows of pairs and of the two triangle orientations; they are in §6.
+
+## 2026-11-14. Reply to round 3 (closing round: entries 13–17, claims 19–24, the closing report)
+
+Script: `critic/lab/counting_r3.py` (`structure`, `lone`, `pi1`, `theta`, `oh`, `lemma8`; `all` runs them, 4½ min,
+of which `lemma8` 3 min and `theta` 40 s). The lattice is taken from `research/audit/class/lead_check.py`
+(its stepper is first compared with `reference/oracle.py`, and its face12e offsets with the twelve faces that
+share an edge, derived here from the edge midpoints). "Confirmed" = proof re-derived line by line and the
+finite content enumerated; "read" = compared with its source only. Board ids: L11.1–L11.6.
+
+### 1. Standing of the claims tagged proved this round
+
+| claim | verdict | how |
+|---|---|---|
+| 19. Lemma 8 and corollary (entry 13) | **confirmed**; one caution on the reading, §2 | proof (three lines: Q^k 1 ≥ Q^k φ = λ^k φ; integrate; 1 − λ^k ≤ kh); 2,000 random substochastic matrices, reducible ones included; D2 rings L = 10…18, three soups, k ≤ 8 (`lemma8`) |
+| 20. Lemma 2′ (entry 16, with correction 17.4) | **confirmed** | proof is two lines (H ⊆ g⁻¹H, equal measure). It is the board's "trapdoors" (ii)–(iii) without bijectivity. The consequence drawn for source's automaton (it does not preserve the product measure on edge and bulk) follows, since it dies with positive probability |
+| 21. Proposition F, items 1–6 (entry 14, with correction 17.1) | **confirmed**; item 4 is a box-wall statement, §3 | every item is a property of the neighbour lists: enumerated on walls 3 × 3 … 5 × 5 (`structure`); items 2, 3, 5 also by stepping 2,048–8,192 states; item 4 by iterating Θ on box walls n = 3…7 and by the true rule on a 5³ box (`theta`) |
+| 22. Proposition G and the example Π₁ | **confirmed** | the table of classes follows from the rule (all (s, a, m, r)); Π₁ on walls 3 × 4 and 4 × 4: 35,028,992 of 2³⁶ and 7,668,236,288 of 2⁴⁸ = 32ⁿ(8ⁿ + 2·6ⁿ + 5ⁿ); in every solution the bottoms of row 0 are equal (`pi1`) |
+| 23. The lone cell, 3793/8192 and the polynomial | **confirmed** | enumeration of the 2¹³ patterns in four different backgrounds; coefficients by number of live bottoms and of private cells that must be dead (`lone`) |
+| claim 6 carried to face12e (2^{−3A} ≤ λ(T ≤ k) ≤ e^{−c⁻_k A}) | lower bound and the guard **confirmed**; the light-cone step read | the band empty is absorbing; a lone closed cube is a still life in the interior and under the wall |
+| 24. O_h faces (entry 15) | **confirmed** for N = 1…4 | by listing the cells of R = 3, 5, 7, 9 and 4, 6, 8, 10 (`oh`) |
+
+Nothing tagged proved in this round was found wrong. Entry 17's four corrections are right (17.1 and 17.2 were
+checked by enumeration).
+
+### 2. Lemma 8 on exact rings: what "doomed start" is worth (`lemma8`)
+
+D2 rings, L = 10, 12, 14, 16, 18; φ the right Perron vector with max φ = 1, μ the quasi-stationary law, π a product
+law restricted to living rows. Soups (p = row density, ρ = dice): fair (½, ½), sparse (0.472, 0.472), dense
+(0.6455, 0.472).
+
+| | L = 10 | 12 | 14 | 16 | 18 |
+|---|---|---|---|---|---|
+| h | 4.50 × 10⁻³ | 1.62 × 10⁻³ | 4.98 × 10⁻⁴ | 1.71 × 10⁻⁴ | 5.90 × 10⁻⁵ (fair dice); 6.23 × 10⁻⁵ (0.472) |
+| **μ(1 − φ)/h, the steady state itself** | 3.7 | 4.7 | 5.4 | 5.2–5.3 | 5.5 |
+| π(1 − φ)/h, fair soup | 3.35 | 4.43 | 5.60 | 5.71 | 6.27 |
+| π(1 − φ)/h, sparse soup | 4.47 | 6.11 | 8.52 | 10.04 | 12.27 |
+| π(1 − φ)/h, dense soup | 2.23 | 2.90 | 3.63 | 3.39 | 3.48 |
+| e(π)/h, fair | −0.34 | −0.29 | +0.21 | +0.50 | +0.79 |
+| e(π)/h, sparse | +0.74 | +1.46 | +3.13 | +4.75 | +6.75 |
+| e(π)/h, dense | −1.54 | −1.78 | −1.78 | −1.91 | −2.04 |
+
+e(π) = 1 − π(φ)/μ(φ) = lim_k [P_π(T ≤ k) − (1 − λ^k)]/λ^k is the soup's excess of early deaths over the steady state.
+
+- **No row is doomed.** min φ over living rows is 0.59 (fair dice) and 0.50 (ρ = 0.472) at every L; φ(full row) =
+  0.85 → 0.97. The doom mass is small because nearly every row has φ near 1, not because a few rows have φ near 0.
+- **The steady state has a doom mass of its own**, about five generations of hazard (the rows already on their
+  way out; a dying ring takes about that long, board L8.3). So with max φ = 1 the term π(1 − φ) of Lemma 8 is
+  never small against h, not even for π = μ, where the truth is P_μ(T ≤ k) = 1 − λ^k. The lemma and its corollary
+  are unaffected (a bounded factor); the phrase "the soup has doomed starts cheaper than a steady death" should
+  be read through e(π), or through the growth of π(1 − φ)/h with L.
+- **Dense soup (the steady density): reading (ii) holds exactly on L ≤ 18, in the strongest form.** A product
+  row of density 0.6455 is a *better* start than the steady state (e < 0, by 1.5–2.0 generations of hazard), and
+  π(1 − φ)/h is level (3.4–3.6 from L = 14). If π_L(1 − φ_L) ≤ C·h_L persists, the corollary gives γ⁻_ring ≤ c_k(dense)
+  for every k: γ⁻_ring ≤ c₆ = 0.4992, and ≤ 0.46 if (c_k − 0.460)·k stays level (board L7). That is "the ring's
+  exponent is the interval's" from above, with one hypothesis, exact data behind it at five sizes, and no proof.
+  The exam's P-E1 (ring step 0.512 ± 0.012 at L = 30–38) then says the descent has not started by L = 38.
+- **Sparse soup: reading (i).** e(π)/h grows from 0.7 to 6.8; local slopes of −ln π(1 − φ) are 0.41, 0.45, 0.42
+  per cell (L = 12–18) against 0.58, 0.53, 0.52 for −ln h; c₆(sparse) = 0.4104 is consistent with them.
+- **Fair soup: undecided at these sizes.** e changes sign between L = 12 and 14 and reaches +0.8 h; slopes of
+  −ln π(1 − φ): 0.47, 0.53, 0.48 against 0.59, 0.535, 0.53.
+- Local slopes of the fixed-age probabilities themselves at L = 16–18 (−ln P(0 < T ≤ 6) per cell): 0.510, 0.442,
+  0.541 for fair, sparse, dense, against the limits c₆ = 0.4757, 0.4104, 0.4992: at k = 6 a ring of 18 is 0.03–0.04
+  above its limit, so nothing at L ≤ 18 is asymptotic in either quantity.
+
+### 3. face12e (entry 14)
+
+- **F.4 is a box-wall theorem, and the closing report's item 2 ("the sheet cannot live without the layer")
+  needs that qualifier.** Box walls n = 3…7: Θ^j(full) = {d ≥ j} for every j; empty after 3, 3, 5, 5, 7 steps and
+  not one step sooner (n even: the centre has d = n − 2), within your bound n. True rule on a 5³ box, wall sheet
+  full, everything else held empty: sheet populations 21, 13, 5, 1, 0. **Periodic walls** (the measured law's
+  vessels are periodic, review §2.2), every sheet enumerated with the layer held empty:
+
+  | wall | sheets | never emptied by Θ | of which contain two adjacent full rows or columns | others | distinct limit sets | every other sheet is empty within |
+  |---|---|---|---|---|---|---|
+  | 3 × 3 | 512 | 52 (10.2%) | 34 | 18 | 25 | 3 steps |
+  | 4 × 4 | 65,536 | 2,567 (3.9%) | 1,761 | 806 | 171 | 4 |
+  | 5 × 5 | 33,554,432 | 469,851 (1.4%) | 307,441 | 162,410 | 1,806 | 8 |
+
+  Your remark covers the fixed sets (every cell has three neighbours in the set; two adjacent rows is one). There
+  are also **orbits of period 2**, which that argument does not describe: on an even wall the checkerboard and its
+  complement alternate (a dead cell has four live neighbours, a live one none); 18, 42, 875 of the limit sets
+  contain no full pair of adjacent lines (3 × 3: `###/#.#/##.`; 4 × 4: `####/..##/####/##..`). What keeps the
+  sheet from living alone in the measured vessels is therefore not item 4 but item 2: under a sheet the layer
+  is born (a dead cell of B under two live tops with k = 0 is born iff b ≥ 2), so "B empty for n generations
+  under a persistent sheet" does not happen over mixed cells beneath. Item 4 as printed is correct.
+- **Π₁.** The count is a product over the cells p of the factors W_p; that r_p is read by p alone is checked on
+  the neighbour lists, and the product formula is compared with direct stepping on a sub-cube of 8 × 2¹² states
+  (128 empty the band). The rigid row is as you say, on both walls.
+- **The lone cell.** 3793 of 8192 whatever the rest of the slab holds; 0.4630, 0.4214, 0.6724, 0.6380 at densities
+  ½, 0.52, 0.398, 0.4155 (gump: 0.4122, 0.3668, –, 0.6065; independent threats (7/8)⁷ = 0.3927).
+- **"The unit" (table and item 4 of the closing report): which facts carry it.** No hypothesis and no theorem;
+  it is one comparison of two measured numbers, and its "3%" is inside the scatter of both. face12e's local
+  slopes from the board's five sizes are 0.393, 0.437, 0.381, 0.409 per wall face (0.19–0.22 per cell of the
+  layer; two of the walls are not square); gump's cost per face cell is 0.2088 on rim-free slabs and 0.212–0.221,
+  rising, on hulls. "Equal to 3%" and "different by 10%" are both compatible with these. What is solid is the
+  negative half: a fixed cost per cell of the set that must be empty (3 × 0.21 = 0.64 per wall face) is excluded
+  by 0.410. Path (its entry 20) reads the same numbers through the layer's own one-step table and concludes that
+  equal exponents at the two living densities (0.41 and 0.52) would need local roots a sixth higher in face12e;
+  the two readings are not in conflict, and neither is a derivation.
+
+### 4. O_h faces (entry 15)
+
+Confirmed by listing, N = 1…4: A = 3T_{N+1}; no cell fixed by the rotation, ⌊N/2⌋ + 1 by each mirror, (A + 3m)/6 =
+2, 4, 6, 9 orbits in both; 3(N + 1)² kagome bonds and 3T_N hexagon pairs in both; cube-centred T_{N+1} top-cube
+triangles, T_{N−1} of the other orientation, T_N hexagons, three cells of degree 2; vertex-centred T_{N+1}, T_N,
+T_{N−1} and 3(N + 1) cells alone in their top cube, none of which shares a cell beneath with another face cell
+(three cells beneath each); cells shared with the neighbouring face 2(N + 1) against N + 1; degrees at N = 1:
+2³4⁶ and 3⁶4³. The conclusion you draw (the factor 1.5–1.7 is not a count of independent cells or of bonds) is
+what the counts say. That it is "a boundary effect of how the layers beneath are attached" is a guess; the two
+patches differ in three listed ways and nothing isolates one.
+
+### 5. Lab requests
+
+1. **3,793 of 2¹³**: yes (`lone`).
+2. **35,028,992 of 2³⁶; "bottoms (0,0) and (1,0) differ" unsatisfiable**: yes, and the same at n = 4 (`pi1`).
+   **F.4 on a box wall 5 × 5: empty after 5 steps of Θ and not after 4**: yes (`theta`).
+3. **Entry 15 by listing**: yes, with R = 9 and 10 added (`oh`).
+
+### 6. Exam
+
+- **C-E2 (failed).** You drew the consequence without reinterpreting the miss: C1′ withdrawn in both halves, the
+  candidate "equality at density ½" dropped, and the reason for the wrong estimate named (two routes joined).
+  Two cautions on entry 13's numbers. "c₃ = 0.36 ± 0.01" is a slope at L = 20–32 with an allowance for the ring's
+  finite-size excess taken from k = 2; at k = 3 the approach is slower (second eigenvalue over first 0.95 in D2
+  against 0.90 at k = 2), so the allowance may be too small; the inequality c₃ ≤ c₂ and the failure of the entry do
+  not depend on it. And "the factor grows like e^{0.06 L}" compares two ensembles (fair soups at age 2 against
+  soups of density 0.4 older than 300), as you say; it is not a statement about one chain.
+- **C-E1 as revised (holds).** ln τ = 9.0169, 11.3951, 14.2505 at A = 84, 108, 135 with one mirror: 0.1026 ± 0.0003
+  per cell, inside 0.105 ± 0.009. The same numbers say the mirror does not halve the cost exactly: half of the
+  unsymmetric slope of the same sizes is 0.1104, and per independent cell ((A + m)/2 = 44, 56, 70) the mirrored
+  face costs 0.198, 0.204 against 0.221. A count of independent cells is right to 7–9% and is 26 standard errors
+  from exact; your claim 9 ("exactly half", sketched, at a fixed age) is not what the steady state does.
+- **C-E3 (filed).** The exact values it rests on are confirmed (0.463 at ½, 0.42 at 0.52, 0.67 at the bulk
+  density). Its window (0.36–0.55) separates "fair dice beneath" from "bulk density beneath"; it does not
+  separate ½ from 0.52. For the examiner.
+
+### 7. Verdict
+
+**The line is finished**, and its closing report states its limits correctly. Its last proved step that bears on
+the law is Lemma 8; with §2 it becomes a conditional upper bound on the ring's exponent in D2 (γ⁻_ring ≤ c_k of
+the dense soup, if product rows at the steady density stay within a bounded factor of the steady state's own
+doom mass), which belongs with probability's T2b and path's ring power on the board (overlap 1). What is
+unchecked: the light-cone step of claim 6 for face12e (read only); Proposition G(a)'s remark that Theorem 3
+carries over to strips (read only); O_h counts beyond N = 4 (formulas only); c₃ itself (sampled by the examiner,
+no exact value).
