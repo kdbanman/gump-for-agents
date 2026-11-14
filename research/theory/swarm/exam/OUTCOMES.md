@@ -290,3 +290,47 @@ oldest replica (7.6 × 10⁵ generations at R = 17, ≈ 0.5 τ_fix) gives no sig
 the asymmetric price, less a small mirror-line term; the measured slope is 0.47 of the asymmetric faces' ≈ 0.22,
 inside the band "half, and not much more than half". The rising local slope (0.099 → 0.106) is the same
 pre-asymptotic rise the asymmetric faces show.
+
+### Probability P-E1 — D2(L, 0.472) on a ring, L = 30–38: **not decidable at the refutation line; the central value is disfavoured**
+
+`python3 exam.py pe1 30; python3 exam.py pe1 34; python3 exam.py pe1 38; python3 report.py pe1` (≈ 85 min of one
+core: 8, 25 and 51 min; L = 34 and 38 stopped at their caps, before their targets of 600 and 250 deaths).
+
+| L | deaths | exposure | ln τ |
+|---|---|---|---|
+| 30 | 1,578 | 1.2 × 10¹⁰ | 15.843 ± 0.025 |
+| 34 | 572 | 3.4 × 10¹⁰ | 17.900 ± 0.042 |
+| 38 | 127 | — | 19.941 ± 0.089 |
+
+Slope between L = 30 and 38: **0.512 ± 0.012** (LSQ over three sizes 0.513 ± 0.009, χ² 0.01/1; local 0.514,
+0.510). Predicted 0.48 ± 0.03; refuted if ≥ 0.51 or ≤ 0.45. The measured slope sits on the upper refutation line
+(+0.2σ two-point, +0.3σ LSQ): by the protocol fixed in advance this is **not decidable** at this sample, but the
+predicted 0.48 lies 2.8σ (two-point) / 3.7σ (LSQ) below the measurement and the interval's exponent 0.460 lies
+4–6σ below it. The exact ring steps at L = 15–19 were 0.522–0.528. In the entry's terms: out to L = 38 the ring has
+not come down to the dead-ended interval's exponent; it has moved at most from ≈ 0.525 to ≈ 0.51, which is what a
+ring that keeps its own exponent (or carries a slowly decaying excess) does, not the "step comes down to 0.48"
+the entry expected. Deciding the threshold itself needs about 4× the L = 38 sample (≈ 3.5 core-hours) or L = 46.
+
+## Not run, and not checked
+
+- Every entry in the brief was run. Shortfalls: P-E1 reached 572 and 127 deaths at L = 34, 38 (targets 600, 250;
+  time caps); S-E1 4,975 and 5,776 deaths at L = 12, 14 (target 6,000; batch counts fixed in advance).
+- E2's and E3's error bars are batch means over 4–6 chunks: rough, though E3's misses are far outside them and
+  E2's L = 36 miss is ≈ 2σ.
+- S-E1: whole-state periodicity was not checked (each replica is censored at age 200). C-E1: interior firewalls not
+  censored (they cannot remove a face).
+- The engines were validated against exact values or earlier measurements (V1–V6), not bit for bit against
+  `reference/oracle.py`; drv and t2d are the exponent study's and toy2d's engines, whose own validations stand.
+
+## Summary
+
+| entry | predicted | measured | verdict |
+|---|---|---|---|
+| P-E1 | slope 0.48 ± 0.03 (refuted ≥ 0.51) | 0.512 ± 0.012 | not decidable at the line; 0.48 disfavoured at 2.8σ |
+| path E1 | slope 0.345 ± 0.020 | 0.3458 ± 0.0036 | holds |
+| path E2 | 9.8 ± 1.0 at L = 32, 36 (refuted ≥ 11.5) | 9.09 ± 0.08, 7.99 ± 0.38 | not refuted; low at L = 36 |
+| path E3 | lags 1–4: 1.6, 3.4, 6.4, 9.7; ratio 0.63; 62% | 1.66, 4.29, 10.70, 18.40; 0.677; 59.4% | refuted (lags 3, 4) |
+| source S-E1 | 6.4282, 7.6056, 8.6764; 0.2373 | 6.433, 7.597, 8.675 (≤ 0.63σ); 0.234–0.241 | holds |
+| source S-E2 | 7.40, 9.94; 7.43, 9.16 | 7.397, 9.945; 7.403, 9.150 | holds |
+| counting C-E2 | c₃ 0.447 ± 0.012 (refuted < 0.430) | 0.3676 ± 0.0006 | fails |
+| counting C-E1 | slope 0.105 ± 0.009 | 0.1026 ± 0.0003 | holds |

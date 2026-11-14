@@ -267,3 +267,10 @@ Cube-centred hulls, soups symmetric under x ↔ y, density 0.35, T0 = 200: ln τ
 0.0051, 14.2505 ± 0.0157** at A = 84, 108, 135 (R = 13, 15, 17); slope **0.1026 ± 0.0003** between A = 84 and 135
 (predicted 0.105 ± 0.009; refuted below 0.094 or above 0.118); first death on a fixed face in > 99.9% of replicas.
 **Holds.** Details: `research/theory/swarm/exam/OUTCOMES.md`.
+
+## 2026-11-14, examiner: outcome of probability P-E1 (sampled)
+
+D2(L, 0.472) on rings, T0 = 50: ln τ = **15.843 ± 0.025, 17.900 ± 0.042, 19.941 ± 0.089** at L = 30, 34, 38 (1,578,
+572, 127 deaths); slope 30 → 38 **0.512 ± 0.012** (LSQ 0.513 ± 0.009). Predicted 0.48 ± 0.03, refuted if ≥ 0.51:
+the measurement sits on the refutation line, so **not decidable** at this sample; the predicted 0.48 is 2.8σ below
+it and the interval's 0.460 is 4σ below. Details: `research/theory/swarm/exam/OUTCOMES.md`.
