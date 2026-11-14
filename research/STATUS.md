@@ -57,13 +57,13 @@ _Last updated 2026-11-14 by the lead._
 - **Swarm (state 2026-11-14, about 07:25 UTC).** The critic's successor answered every report on file
   (`critic/board.md` opens with the state; replies in `critic/to-<line>.md`): nothing tagged proved was found wrong;
   three guesses fell (counting's bridge C1′, path's "ln τ = A·∫θ", every equal-time transfer hypothesis); the source
-  line is finished and the critic agrees. **The solvers have not been told to continue**, on purpose: first the
-  cheap, decisive things. Running now: a librarian (successor) on the two percolation facts that probability's and
+  line is finished and the critic agrees. **Solvers restarted 07:35 UTC** (fresh successors on probability, path and
+  counting, each with the critic's reply; the owner had just opened the whole account up to 95% of the session and
+  weekly limits, `LEAD.md`). When they report, a fresh critic successor reviews the new rounds in one pass. Also
+  running: a librarian (successor) on the two percolation facts that probability's and
   source's Theorem A rest on (`library/requests.md`, last two blocks), and an examiner running the sampled entries of
-  `swarm/PREDICTIONS.md` (writes `swarm/exam/OUTCOMES.md`). When both report: decide which of probability, path and
-  counting get another round (give each its reply and the exam outcomes; stop a line when a round gives no new
-  proved step; counting said it would stop its finite-horizon programme if c_k fell through the steady exponent,
-  and it does). Then a fresh reader (not the critic) audits every claim tagged "proved" across the four `claims.md`,
+  `swarm/PREDICTIONS.md` (writes `swarm/exam/OUTCOMES.md`). Stop a line when a round gives no new proved step (each
+  solver was told that a closing report is a good outcome). Then a fresh reader (not the critic) audits every claim tagged "proved" across the four `claims.md`,
   first of all the chain "a deterministic automaton with a theorem" (source's Theorem A with probability's Theorem A).
   Only after that does anything from the swarm go into the notebook, `CLAIMS.md` or `docs/AUTOMATON.md`.
 - **`research/theory/class.md`**: attacked 2026-11-14 (`research/audit/REVIEW-class.md`; notebook entry of that date).
