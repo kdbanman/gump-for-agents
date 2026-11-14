@@ -338,8 +338,9 @@ cube-centred O_h-symmetric soups at R = 43 with replica ages up to 2.6 τ, a cen
 k = 1.020 (95%: 1.000–1.042): no ageing. (An apparent fall of the death rate with age in a shorter run at this
 size was noise; the same indication at R = 45, k = 0.84 on 192 deaths, has not been re-run.)
 
-**Exponential in the area.** **[measured]** (F4; B from the curated table, with the slope supported at grade A by
-two independent routes) For slab faces with m = 8 on eight near-square period lattices, A = 27 to 90, a weighted
+**Exponential in the area.** **[measured]** (F4; B, refitted from the curated table. The ledger also grades the
+slope A on the strength of two independent measurements on octahedral faces; Table 2 and Section 7 show that
+those are not the same quantity, so we rely on the B only.) For slab faces with m = 8 on eight near-square period lattices, A = 27 to 90, a weighted
 fit gives
 
 $$\ln \tau_{\rm face} = (-0.091 \pm 0.047) + (0.2088 \pm 0.0009)\,A,$$
