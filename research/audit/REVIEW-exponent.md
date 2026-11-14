@@ -67,7 +67,7 @@ Bernoulli(0.4155) every generation; `python3 run.py model R w SECONDS`), ln τ_f
 
 (Truth for Δ: pooled 9.823 ± 0.004 and 13.644 ± 0.006.) Every model value agrees with the report's within 1.3σ.
 **The deeper models (w = 6, 8, new here) do not move towards the truth; they settle 0.03–0.04 nats below it at both
-sizes** (at A = 45: −0.028 ± 0.007 and −0.044 ± 0.008, i.e. 4–5σ). So the hull model is not "the deterministic
+sizes** (at A = 45: −0.028 ± 0.007 and −0.044 ± 0.008, i.e. 4–5σ; at A = 63 the same size with ± 0.026). So the hull model is not "the deterministic
 system": it converges in depth to a value about 0.035 nats below it. "≤ 0.05 nats" is true of every entry with
 w ≥ 4, but it is a statement about a small systematic offset, not statistical agreement; and w = 4's closeness
 (−0.01 to −0.025) is partly a crossing (w = 3 is +0.7 to +0.9 too tough, w ≥ 5 is low), not convergence.
@@ -82,7 +82,7 @@ slabmodel a b w SECONDS`):
 | 27 | 5.501 ± 0.003 | 5.501 ± 0.012 | +0.102 | +0.018 | +0.002 | +0.001 |
 | 48 | 9.929 ± 0.006 | 9.937 ± 0.016 | | +0.057 ± 0.008 | +0.014 ± 0.008 | |
 | 60 | 12.491 ± 0.010 | 12.496 ± 0.019 | +0.242 | +0.068 ± 0.017 | −0.001 ± 0.017 | +0.005 ± 0.018 |
-| 75 | **15.660 ± 0.027** (new; 1,341 deaths) | – | | | **+0.018 ± 0.042** (15.678 ± 0.032) | W6_75 |
+| 75 | **15.660 ± 0.027** (new; 1,341 deaths) | – | | | **+0.018 ± 0.042** (15.678 ± 0.032) | +0.002 ± 0.043 (15.662 ± 0.033) |
 
 (Model errors at A = 27: ± 0.0015.) For periodic faces the claim is **confirmed, and more strongly than stated**:
 from w = 5 on the model equals the slab to ≤ 0.014 at every size, including A = 75, where the report had the model
@@ -98,10 +98,11 @@ which "nothing can settle". False for gump's models. **Counterexample** (`QS_DUM
 log): in `hull_model(7, 4)` the six faces of the cube centred at (6,0,0) — (7,0,0), (6,1,0), (6,0,1) in the face
 layer, (5,0,0), (6,−1,0), (6,0,−1) one layer in — with every other dynamic cell dead is a fixed point *whatever the
 noise does* (every dynamic cell's next state is forced). The face never dies. In my R = 7, w = 4 run without
-settling censored, ~10% of replicas fell into it and ln τ came out 6.944 instead of the 6.54 of the living replicas'
-age bins (the report's chunked runs restart every replica every chunk and got 6.550). The same argument makes a cube
-anywhere on the face noise-immune once w ≥ 5 (its deepest neighbours are then two dead dynamic layers away from the
-noise). Repeating dynamic states were censored in 163–741 cases per 0.45–0.76 million deaths in the A = 27 slab
+settling censored, a third of the exposure ended in trapped replicas (ages up to 3×10⁶ with no deaths) and ln τ came
+out 6.944; censoring repeating states (`QS_SETTLE=1 python3 run.py model 7 4 20 200 514`) gives 6.541 ± 0.001 with
+187 trapped replicas per 533,295 deaths (the report's chunked runs restart every replica every chunk and got
+6.550). `python3 trap.py`: the vertex cube is immune in every hull model with w ≥ 4 (R = 7, 11, 13), and a cube in the
+face interior is immune in every hull or periodic model with w ≥ 5 (not at w ≤ 4). Repeating dynamic states were censored in 163–741 cases per 0.45–0.76 million deaths in the A = 27 slab
 models and in none at A ≥ 48. So the effect on the report's numbers is small at the sizes measured, but: the
 models have absorbing debris other than death, the death law is not "exactly geometric" from an arbitrary start, and
 results from long runs without settle-censoring can be badly biased (6.94 vs 6.54 here).
@@ -151,7 +152,22 @@ once or twice.
   empty runs, `python3 verdict2.py errors`): 0.3763 ± 0.0033 over ℓ = 34 → 42 (33,822 runs of length ≥ 34),
   0.3824 ± 0.0085 over 42 → 50 (1,701 runs), 0.3817 ± 0.0010 at 30 → 31. (b) Including the time correlation, from
   my own 16 × 128 run in 300 batches (`../../scratch/audit_exponent/toygap run 777 600 2000000`, then
-  `python3 verdict2.py errors ../../scratch/audit_exponent/toygap_777.txt`, jackknife over batches): TOYGAP_RESULT
+  `python3 verdict2.py errors ../../scratch/audit_exponent/toygap_777.txt`, jackknife over batches): 
+
+  | window cost | filed (2.7×10¹¹ samples) | spatial error only (filed counts) | mine (5.0×10¹¹ samples), jackknife over 1,033 batches |
+  |---|---|---|---|
+  | ℓ = 10 → 11 | 0.4342 | ± 0.0000 | 0.4342 ± 0.0000 |
+  | 20 → 21 | 0.3992 | ± 0.0001 | 0.3995 ± 0.0002 |
+  | 30 → 31 | 0.3817 | ± 0.0010 | 0.3852 ± 0.0015 |
+  | mean 34 → 42 | 0.3763 | ± 0.0033 | **0.3874 ± 0.0064** |
+  | mean 42 → 50 | 0.3824 | ± 0.0085 | 0.378 ± 0.027 |
+
+  E(1) = 0.4235 in both. The honest error over ℓ = 34 → 42 is ± 0.006 (three times the filed ± 0.002 and about twice
+  the spatial-only estimate), and over 42 → 50 it is ± 0.03: those entries carry no information at the level the
+  report discusses. My independent value at 34 → 42 is 0.387 ± 0.006, against the filed 0.376 (1.7σ apart); at
+  30 → 31, 0.3852 ± 0.0015 against 0.3817 (2.3σ). So the "0.376–0.382" that sets the bottom of the report's range
+  0.36–0.41 for the toy's asymptotic slope is not reproduced; 0.38–0.39 is what two independent runs support at
+  ℓ ≈ 30–42, and nothing beyond ℓ ≈ 42. With my E the formula gives the same residuals (+0.029 … +0.042, χ² 16.2).
 
 ## 3. Verdict 3 — does not stand as worded
 
@@ -252,7 +268,7 @@ Checked line by line; brute force where possible (§0).
    decay rate of E" by "over ℓ ≤ 30 the curvature of −ln E matches that of ln τ; the lifetimes do not reach the
    window lengths (ℓ > 30) where the decay rate would be read".
 6. §4: replace "0.376 ± 0.002 (too precise) … ± 0.01–0.02 at best" by the errors of §2 of this review (spatial part
-   ± 0.003 at ℓ = 34 → 42, ± 0.009 at 42 → 50; with time correlation TOYGAP_SHORT).
+   ± 0.003 at ℓ = 34 → 42, ± 0.009 at 42 → 50; with time correlation ± 0.006 at ℓ = 34 → 42 and ± 0.03 at 42 → 50 by batch jackknife, and an independent value 0.387 ± 0.006 at 34 → 42 against the filed 0.376).
 7. §4, second bullet: "the hypothesis of Theorem E(a) holds as a measured fact … τ ≥ 0.688^{−L} is a theorem" →
    "the hypothesis would follow if the ring's own quasi-stationary law had the window ratios measured in the
    16 × 128 strip for ℓ ≤ 41, at every ℓ < L; that is not measured". Same change in verdict 4 ("θ measured").
@@ -269,6 +285,10 @@ Checked line by line; brute force where possible (§0).
 11. §5, hull truth at A = 30: note that counting a generation in which two faces die as two deaths moves ln τ by
     −0.025 (6.784 against 6.809); the model comparison there is unaffected in conclusion.
 12. theorems.md B′: 4.51 → 4.50; E(a): "h = ν(∩A_j)" → "h ≤ ν(∩A_j)".
+13. §4 third bullet, §10.1 and verdict 3: the window-cost estimate "0.376–0.382 at ℓ = 34–50" of the toy's asymptotic
+    slope is not reproduced by an independent run (0.387 ± 0.006 at ℓ = 34 → 42; ℓ > 42 has ± 0.03). Use
+    "≈ 0.38–0.39 at ℓ = 30–42" and drop the window cost as support for the lower end of 0.36–0.41 (the log-corrected
+    fit, 0.364, then stands alone there).
 
 ## 8. Not checked
 
