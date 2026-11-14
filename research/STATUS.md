@@ -28,9 +28,9 @@ _Last updated 2026-11-14 by the lead._
   where you left off (and/or head wherever you like next)". The lead reads this as leave to resume by judgment, mindful of
   usage (the pause was for usage). Restarted so far (2026-11-14): one agent, a successor to the swarm's critic, clearing the
   queue at the top of `swarm/critic/board.md` (counting round 2 and its lab requests; the interim rounds of probability, path
-  and source). The solvers wait for its replies. Also started (about 06:15 UTC): an adversarial reviewer of the GPU
-  session's pull request 12 (writes `research/audit/REVIEW-gpu-pr12.md`), and an adversarial checker of
-  `research/theory/class.md` (writes `research/audit/REVIEW-class.md`; its out-of-sample test is the edge-neighbour
+  and source). The solvers wait for its replies. Also done since (both finished and recorded, see "Next"): an adversarial review of the GPU
+  session's pull request 12 (`research/audit/REVIEW-gpu-pr12.md`), and an adversarial check of
+  `research/theory/class.md` (`research/audit/REVIEW-class.md`; its out-of-sample test was the edge-neighbour
   rule, there called `face12e`). Everything else below is still the state at the pause.
 - **PAUSED at the owner's request (usage), 2026-11-13 about 23:55 UTC.** (Lifted 2026-11-14, see above.)
   Swarm state at the pause: round 1 fully refereed for all four lines; round 2 refereed for path and source;
@@ -58,10 +58,14 @@ _Last updated 2026-11-14 by the lead._
   line when a round gives no new proved step. Then a fresh reader (not the critic) audits every claim tagged
   "proved" across the four `claims.md`, and the entries in `swarm/PREDICTIONS.md` get run. Only after that does
   anything from the swarm go into the notebook, `CLAIMS.md` or `docs/AUTOMATON.md`.
-- **`research/theory/class.md`** (finished, 44 KB): not yet checked by the lead or attacked by a second agent.
-  When it is checked, test it on the edge-neighbour rule the owner meant to write in 2012 (branch `claude/edge-neighbour-tangent`, `research/tangents/edge-neighbours/README.md`;
-  not gump, never merge). The owner, 2026-11-14: "i trust you to revisit the rule if/when it becomes relevant. e.g. if/when
-  it's time to characterize the class that behaves like gump does."
+- **`research/theory/class.md`**: attacked 2026-11-14 (`research/audit/REVIEW-class.md`; notebook entry of that date).
+  Its theorems stand; its first clause does not (sealing is a property of a half-space, not a direction), and the
+  edge-neighbour rule the owner meant to write in 2012 (there called `face12e`; not gump) turned out to be a gump in a
+  box, which class.md as written called unconfined. class.md carries a note at its head. **To do:** a successor revises
+  class.md by the review's §5.2 (twelve items); run what the repaired clause newly admits and nobody has run
+  (kagome8 and hex9 at b = 4; whether bond10's b = 3 boxes ever die; kagome B2/S12 with transverse cuts censored);
+  face12e with symmetric seeds and beyond 6³. The owner's quick-look branch `claude/edge-neighbour-tangent` stays
+  unmerged; the audited face12e results live in `research/audit/class/` under that name.
 - **`research/theory/exponent/`**: needs a successor to write `exponent.md` from `PREDICTIONS.md`, `theorems.md` and
   the data, then checking. Lemma A, consequence (c) in `theorems.md` is false (swarm board E10).
 - **GPU session:** pull request 12 reviewed 2026-11-14 (`research/audit/REVIEW-gpu-pr12.md`; notebook entry of that

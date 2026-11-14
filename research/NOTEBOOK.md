@@ -997,3 +997,69 @@ Lead's check: the slab table from the JSON (22.470, 26.138, slope 0.2038 ± 0.00
 from `slab_fw.csv` by hand (24–29 central, 21–39 over ± 0.3 in ln τ_fw). Reproduce the review:
 `python3 research/audit/gpu_pr12/slab_rederive.py <checkout of PR 12>`, `fw_competition.py`, `weibull_own.py`,
 `cubelike_own.py` (see the review for arguments).
+
+## 2026-11-14 — the class theory attacked; the rule the owner meant to write is a gump in a box (class checker; lead's check)
+
+`research/theory/class.md` (the class agent's characterisation of gump-like rules, 2026-11-13) was checked by a
+second agent told to assume it wrong: `research/audit/REVIEW-class.md`, scripts in `research/audit/class/`, its own
+stepper anchored bit-exact to `reference/oracle.py`. Its out-of-sample test was the neighbourhood the owner intended
+in 2012 (the four coplanar neighbours share an edge), there and here called **face12e**. face12e is not gump; gump
+is the rule as coded. The checker committed what class.md predicts for face12e before running anything on it
+(`research/audit/class/PREDICTION-face12e.md`, commit bcb8122).
+
+- **[proved] Sealing belongs to a half-space, not to a direction** (the review's Theorem A′). For H = {u·p ≤ C} let
+  c(H) be the most neighbours inside H that a cell outside H has. The outside of H, once dead, stays dead iff
+  c(H) ≤ b − 1 (b the least birth count). With one cell type this depends on u alone and is class.md's Theorem A.
+  With several types it depends on where the plane sits. class.md's theorems A–G survive as stated (one wording
+  slip in C4); what fails is its first clause, "outside sealed iff b > a⁻ on a spanning set of directions; the hull
+  is the polytope of those rays", and six rows of its table. Gump's own row is exact: every diagonal layer holds all
+  three face types.
+- **[proved, by hand; the lead had the same count on 2026-11-14] face12e is confined to a box.** No direction is
+  sealed at b = 4 (an x-face has 4 neighbours behind any plane x = C just below it), so class.md as written says
+  "not confined, not a gump". But a plane through a sheet of face centres (x = C, C odd) is sealed: beyond it a face
+  at C + 1 has 2 + 1 = 3 neighbours inside, a face at C + 2 none. [measured] 0 escapes from the odd box in 64,000
+  soup-generations.
+- **[measured] face12e B45/S345 has the whole phenomenon.** Torus: chaotic from densities 0.25–0.55, ρ = 0.398
+  (gump 0.416). Slabs four cubes deep between two walls, periodic N × M wall: a wall dies as a whole (the sheet of
+  wall faces and the layer of perpendicular faces beneath it empty together; that band is the smallest sealed one),
+  after a wait with CV 0.98–1.00 and a hazard flat in age:
+
+  | wall faces A | 16 | 20 | 25 | 30 | 36 |
+  |---|---|---|---|---|---|
+  | ln τ (checker) | 6.428 ± 0.002 | 7.999 ± 0.004 | 10.183 ± 0.007 | 12.089 ± 0.015 | 14.542 ± 0.040 |
+  | ln τ (lead, own stepper) | 6.427 ± 0.006 | 8.005 ± 0.005 | see below | | |
+
+  Slope 0.410 ± 0.001 per wall face. The wall sheet alone empties 4–10 times as often and comes back; the event that
+  kills a wall is the death of the layer beneath it, which has 2A cells. Per cell of that layer the cost is
+  **0.205**, against gump's 0.212 per face cell (same rule; the layer's cells have the neighbour counts of a gump
+  face cell: 6 in the layer, 2 one layer in, 1 two layers in, plus 2 outward in the sheet). Observed, not explained.
+  Boxes of n³ cubes: median lifetimes 10, 60, 439, 9,855, 707,038 for n = 2…6; none of 64 finished at n = 7 in
+  300,000. A 5³ box stands intact for two thirds of its life and then loses 11 of its 15 layers of cubes, each as a
+  whole; 2 cubes of 125 remain (median). The lead's quick look on the tangent branch agrees on every point it made.
+- **So the slip of 2012 changed the shape of the die, not the phenomenon**: octahedron (corner-touching, gump) or
+  box (edge-sharing, face12e). Both are confined, chaotic and die a face at a time by a rare memoryless event whose
+  cost is linear in the face's area.
+- **[measured, rougher] Three more lattices change status under the repaired clause.** bond10 is tight at b = 3,
+  not 4 (box with odd walls; chaotic at every cap 4–8; strong slab laws at two caps; its boxes of 4³ did not die in
+  300,000 generations, unexplained). The plain kagome lattice at b = 2 (class.md dismissed it): B2/S12 is confined to
+  a hexagon, chaotic (ρ = 0.48), with a strip law (ln τ = 7.24 … 12.85 at 4 … 12 wall cells) and growing hexagon
+  lifetimes: a candidate second 2D gump, on rough evidence (transverse cuts not censored). kagome8 and hex9 at b = 4
+  were not run.
+- **What the class statement is now** (the review's §5.1; each clause tagged there): confinement by a positively
+  spanning family of sealed half-spaces [proved]; no finite sealed set when some generic direction gives every cell
+  type ≥ b forward neighbours [proved]; armour, i.e. an immortal wall once the cap exceeds the wall cells' degree
+  [proved, conditional; no exception in 38 + 2 cases]; non-period-2 behaviour needs both overcrowding and
+  undercrowding [proved]; and, given a chaotic bulk and no armour, whole-wall memoryless death exponential in the
+  wall's area [measured: 42 of the class agent's 50 lattice–cap pairs by the rule fixed in advance, plus face12e].
+  **Nothing predicts which caps are chaotic or how strong the law is**; class.md's fifth clause ("face not starved",
+  K_f·ρ/b ≳ 0.85) is a fit to two cases and flips on face12e with the choice of layer. "Gump" has no sharp edge on
+  the weak side.
+- Corrections to class.md's numbers: "identical slab law" for B456/S3456 → equal within 0.2 in ln τ at five sizes,
+  slopes 0.2121 and 0.2156; fcc slope 0.19 → 0.181 ± 0.001; "46 of 50" → 42 by the pre-fixed rule; the scorecard's
+  "8 / 6 / 14" is a judgment. The full list is the review's §5.2; class.md carries a note at its head until revised.
+
+Lead's check (`research/audit/class/lead_check.py`: numpy on a cell graph, no shared code; `validate` equals the
+oracle with gump's offsets): `python3 lead_check.py slab 4 4 8000 2048 1` → 6.427 ± 0.006, hazard flat in age
+(τ = 613, 620, 635, 620 in four age bins); `slab 4 5 40000 2048 2` → 8.005 ± 0.005. A first version that censored only
+period-2 states read 6.495 and 8.027: replicas that settle into longer cycles never die and inflate τ at old ages.
+The same trap as the PR 12 reviewer's with `fl.c`; any wall-law estimator must censor every period.

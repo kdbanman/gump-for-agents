@@ -79,6 +79,9 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     neighbours): quick tests show box confinement, bulk chaos at density about 0.40, steeply size-dependent lifetimes
     and a staircase. Nothing fitted or audited. Does the area law hold on a box face, and with what cost per site?
     Off main on purpose: branch `claude/edge-neighbour-tangent`, `research/tangents/edge-neighbours/README.md`.
+    **Answered 2026-11-14** (`research/audit/REVIEW-class.md` §2, under the name face12e): yes, with 0.41 per wall face,
+    which is 0.205 per cell of the layer that dies (gump: 0.212). Open now: why those two numbers nearly agree;
+    symmetric seeds; boxes beyond 6³.
 
 ## Prior art (`PRIOR-ART.md`)
 

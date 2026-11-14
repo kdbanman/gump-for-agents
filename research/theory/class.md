@@ -1,5 +1,13 @@
 # G3 / S7 — what is the class of "gumps"?
 
+> **Reviewed 2026-11-14 (`research/audit/REVIEW-class.md`); not yet revised.** Theorems A–G stand (C4 needs "every
+> layer"). The summary's clause 1 does not: with several cell types, being sealed is a property of a half-space
+> (direction and position of the plane), not of a direction; the rows for bond10, face8, kagome4, kagome8 and hex9
+> change, and the edge-sharing neighbourhood on gump's cells (face12e, not in the table) is confined to a box and
+> passes all three tests. Clause 3 is conditional plus measured, not proved; clause 5 is a fit. "46 of 50" is 42 by
+> the rule fixed in advance; the fcc slope is 0.181; "identical" slab laws differ by 1.6% in slope. Read the
+> review's §5 for the statement that survives.
+
 *Class agent, 2026-11-13. Tags: **[proved]** (argument given here), **[computed]** (exact finite computation, command
 given), **[measured]** (n, error, command), **[conjecture]**. Scripts, predictions and data: `research/theory/class/`
 (run commands from there). Bulk output: `research/scratch/class/`. Predictions were committed before testing
