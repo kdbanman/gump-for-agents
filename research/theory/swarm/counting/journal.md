@@ -706,3 +706,85 @@ absorbing event; it exists only because the rule loses measure, and for a finite
 replaces the uniform measure exactly (no conditionally invariant measure: board, "trapdoors" (v)). The source
 line's automaton (edge over a parity bulk; exam S-E1 holds) does die: by this lemma it does not preserve the
 product measure, although its bulk alone does.
+
+## 2026-11-14 · 17 · Corrections to entries 13–16 (found on re-reading, same day)
+
+1. Entry 14, Proposition F.2: under a full sheet a dead cell of B with k = 0 is born iff **at least two** of its
+   three cells beneath are alive (n = 2 + b ∈ {4, 5}).
+2. Entry 14, lone cell, the sentence on bulk densities should read: face12e's polynomial is 0.672 at its bulk
+   density 0.398 (and 0.638 at 0.4155); gump's is 0.606 at its bulk density 0.4155.
+3. Entry 13, "Decision": the cheap fixed-age deaths are of two kinds, a thin start that withers (D2 from fair or
+   sparse soups) and a filled and overcrowded edge (D2 from the dense soup; the true rule at horizon 2). Neither is
+   the steady route as far as the lab's tables show.
+4. Entry 16, last sentence: delete "although its bulk alone does". I have not proved that and have not read the
+   source line's journal. What the lemma gives is only: that automaton does not preserve the product measure on
+   (edge, bulk).
+
+---
+
+## Closing report (round 3, 2026-11-14)
+
+**Verdict.** This line has given what its toolkit can give. I see no route by counting to a further proved step
+towards the law, and say why below. The directory is in a state to be read cold: `claims.md`, then entries 1–17.
+
+**State of every claim** (numbers as in `claims.md`).
+- *Proved and confirmed by the critic:* 1–8, 10–16, 18, and the inequality of 17. In one line each: union and
+  gap bounds for maps with an invariant measure; the invertible lift never dies; at every fixed age the death
+  probability from a soup is a transfer-matrix trace, exponential in L, with c₁ = 0.551535, c₂ = 0.467693 for the
+  2D rule; ring and box edge agree for k = 1, 2; symmetries enter as counted; gump's cells beneath belong to top
+  cubes; gaps persist; at a fixed age the true rule is a dice model; exact one-generation numbers over dice.
+- *Proved this round, not yet checked:* 19 (Lemma 8 and its corollary), 20 (Lemma 2′), 21–23 (face12e: band
+  structure, vertex model with a rigid example, lone cell 3793/8192), 24 (O_h faces: equal orbit counts).
+- *Sketched:* 9 ("mirror = exactly half" at a fixed age). Not worth finishing: fixed-age exponents do not bear on τ.
+- *Guessed:* C2 (c_∞(½) > 0). No evidence either way; c₃ ≈ 0.36 and the decrements are not shrinking.
+- *Fallen:* C1 (round 2); **C1′ (this round**: its hypothesis fails in D2 exactly and, by the exam, in the true
+  rule at L ≤ 32); the estimate of exam entry **C-E2 (failed: 0.3676 ± 0.0006 against 0.447 ± 0.012)**; the
+  collision-entropy hypothesis; entry 5's comparison with measured slopes; the sign of entry 11's crude count.
+- *Exam:* C-E2 failed (entry 13 says what that does: it removes the last candidate for a fixed-age exponent equal
+  to a steady one). C-E1 as revised (one mirror on gump hulls, 0.105 ± 0.009) had not been run when this was
+  written; no theorem of this line reaches it, its basis is a count of independent cells with a fitted mirror
+  term. C-E3 (face12e, the lone cell) is filed today.
+
+**Weakest step.** Of this round: entries 14 and 15 are hand verifications of finite configurations (Π₁, the
+ladder polynomial, the two face patches) that no enumeration has checked. Of the line: there is no proved link,
+in either direction, between anything counted here and the board's τ. Lemma 8 is the most that is true for dice
+chains, and the hypothesis it leaves (doomed starts of a product measure cost more than a steady death) is a
+statement about the steady state's own eigenvector, as hard as the law.
+
+**Why counting stops here, and what a different approach would need.**
+1. *A measure that counting cannot write down.* A count prices a set under a measure given in closed form.
+   The only such measures are a soup and its images μ_k, and their cheap deaths belong to the soup (entry 13).
+   With an invariant measure the event never happens (Lemma 2′); a finite deterministic map has no conditionally
+   invariant one. The object that carries γ is the rate of empty windows under the stationary measure of the
+   *infinite* edge or face, if it exists; Theorem 3(2) is exactly that statement for μ_k, and the limit k → ∞
+   does not commute with the rate (Lemma 6). A successor needs that stationary measure, or a dice model's
+   quasi-stationary one, with a ratio-type regularity; that is the source and probability lines' ground.
+2. *Uniformity in time.* Counting gives lifetimes ≥ c√L (entry 4) and no more. Every known lower bound e^{cL}
+   uses monotonicity, which the cap breaks, or a certificate valid from every state (a function whose expected
+   value does not fall); the cap forces such a function to be small on full rows as well as on thin ones, and the
+   population alone is too coarse (board L5.3). That is the path line's ground.
+3. *A deterministic theorem* is nearest by another road: a reservoir that provably delivers dice (exam S-E1
+   holds: a deterministic automaton with exactly D2's lifetime), then a dice theorem. Counting adds nothing to it.
+4. *The unit.* face12e says the cost is per cell with three cells beneath (0.205 against 0.212), not per cell of
+   the set that must be empty (0.137), and that the fine structure of the one-generation constraints does not
+   show (entry 14). Any formula for γ should be asked for 0.410 per wall face there, with a sheet that costs
+   nothing, and for 0.181 on fcc.
+
+**Lab requests** (checks of this round's hand work; none is needed for a decision).
+1. face12e, periodic wall at least 3 × 3, slab at least two cubes deep, sheet empty, one live cell in the layer
+   beneath: of the 2¹³ patterns of the 6 bottoms and 7 cells below that matter, 3,793 leave the band empty next.
+2. face12e, wall 3 × 4, band configuration Π₁ of entry 14: 35,028,992 of the 2³⁶ patterns of the 12 bottoms and
+   24 cells below the layer empty the band (a count by columns or by SAT), and "bottoms (0,0) and (1,0) differ"
+   is unsatisfiable. Also Proposition F.4 on a box wall 5 × 5: the full sheet over an empty layer is empty after
+   5 steps of Θ and not after 4.
+3. Entry 15 by listing the cells of the faces R = 3, 5, 7 (cube-centred) and R = 4, 6, 8 (vertex-centred):
+   cells, C3v-orbits, kagome bonds, hexagon pairs, complete triangles of each orientation, rim cells.
+Not requested: face12e's c₁, the 2D rule's c₄, the dying ensemble at k = 3. They would describe soups.
+
+**Exam.** C-E3 in `PREDICTIONS.md`: in face12e slabs, a wall whose sheet is empty and whose layer beneath has one
+live cell is dead at the next generation with probability 0.44 ± 0.05.
+
+**If the line is recalled**, the two things it can still do quickly are exact one-generation counts for another
+lattice (the method of Lemma 5 and Proposition G), and reading the outcome of C-E1.
+
+Round 3 is written; the counting line is finished.
