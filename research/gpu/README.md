@@ -183,6 +183,22 @@ to period 128; T0 = 1000; τ = mean residence (the eight faces of a symmetric st
 
 Forecasts committed first (`PREDICTIONS.md`, commit 3b3ceb7, 23:14Z); outcomes appended there.
 
+**a. Rim-free faces do not cost more per cell; the octahedral rise is a rim effect.**
+`modal run research/gpu/modal_app.py::facelaw --slab 6x6x8 --minutes 10 --seed 401` and (through `jobs.py`) two
+60-min runs of `--slab 6x7x8`; `python3 research/gpu/facelaw.py summary "research/data/gpu_facelaw/slab*.json"`.
+Slabs of 8 {111} layers, periodic in plane (`vessels.SlabVessel` = `research/peeling/geom.slab`; checked every
+generation against the engine's torus slab and against `fl.c` on these graphs: `::check_slab`), p = 0.4, the
+statistic of `research/peeling/face_law_fit.py` (ln τ_face = ln(2 × mean first peel), line −0.091 + 0.2088·A for
+A = 27–90):
+
+| slab | A | peels | ln τ_face | line | per cell |
+|---|---:|---:|---:|---:|---:|
+| 6×6×8 | 108 | 447 | 22.470 ± 0.047 | 22.46 | 0.2081 |
+| 6×7×8 | 126 | 122 | 26.138 ± 0.091 | 26.22 | 0.2074 |
+
+Local slope 108 → 126: 0.204 ± 0.006. At A = 108 an octahedral face (23.376) is 0.91 nats tougher than a rim-free one.
+Octahedral A = 165 was not run (≈ 10⁶ GPU-seconds per death).
+
 **c. Cube-like seeds at vertex-centred R = 40 are memoryless.** `python3 research/gpu/cubelike.py prepare
 research/scratch/gpu/cubelike_v40.npz` (fl.c, local, 2 s), `modal run research/gpu/modal_app.py::cubelike` (A10G,
 28 min), `python3 research/gpu/cubelike.py analyse research/data/gpu_facelaw/cubelike_v40.json`. 7,807 deterministic O_h

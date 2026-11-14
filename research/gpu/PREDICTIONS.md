@@ -84,3 +84,14 @@ distinct lineages at exactly R = 40; each is followed through its plateau at 40,
 at all three radii — mean T/τ within 1.00 ± 0.06 at 40 (± 0.08 at 38, 36), CV of uncensored waits within ± 0.05 of an
 exponential's, P(> 4τ) 1.8% ± 0.6%, P(< 0.05τ) 4.9% ± 1%, KS below the 5% critical value.** I.e. cube-like lineages
 do not reproduce the cubes' long plateaus (3 of 16 beyond 4τ) at R = 40 either. Probability 0.75.
+
+## Outcome of experiment a (appended 2026-11-14T01:05Z)
+
+`python3 research/gpu/facelaw.py summary "research/data/gpu_facelaw/slab*.json"` (A10G; slab 6×7 as two 60-min runs,
+seeds 411–412, spawned through `jobs.py` after a worker restart lost the first attempt — nothing from it was kept).
+**Rim-free slabs stay on the line — forecast held.** 6×6 (A = 108): ln τ_face = **22.470 ± 0.047** (447 peels;
+line 22.46, +0.01); 6×7 (A = 126): **26.138 ± 0.091** (122 peels; line 26.22, −0.08). Cost per cell 0.2081, 0.2074;
+local slope 108 → 126: 0.204 ± 0.006. No settling recorded (kinds 2, 3: 0). So the bulk constant does not rise to
+A = 126; the octahedral faces' 0.218–0.221 is a rim effect (at A = 108 an octahedral face is 0.91 nats tougher than a
+rim-free one). Caveat: ages ≤ 1.5 × 10⁹, ≈ 1/75 of the A = 126 mean; the estimate assumes the hazard stays flat beyond,
+as at every size where it could be checked.
