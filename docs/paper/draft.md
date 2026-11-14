@@ -538,3 +538,261 @@ confined, on fits far outside any data (C10). An asymmetric soup filling the sid
 each face for about 10⁴¹ generations on the fit of Section 5.2 extrapolated fivefold in area (F13); this cannot
 be tested, and Sections 5.2 and 7 show that fit is not the right law for octahedral faces.
 
+## 6. The exponent is made in a boundary layer over noise
+
+The face law's exponent could depend on the deterministic chaos beneath the face in some detailed way. It does
+not, at the precision reached. Take a face, keep the rule on its top w layers, and replace every cell beneath
+them, at every generation, by an independent coin flip. Measure the face's lifetime in this model as in
+Section 5.2, censoring repeating states.
+
+**[measured]** (X1; A: an adversarial reviewer's own steppers, bit-identical to the reference implementation, and
+own seeds)
+
+- *Periodic slab faces.* With w = 5 the model's ln τ_face equals the deterministic slab's within 0.015 at A = 27,
+  48 and 60, and is +0.02 ± 0.04 at A = 75 (where the deterministic slab is 15.660 ± 0.027). With w = 4 it is
+  0.06–0.07 too high.
+- *Octahedral faces.* Models with four or five layers agree with the deterministic octahedron within 0.05 at
+  A = 45, 63, 84 (deterministic values 9.823, 13.644, 18.148 ± 0.028), but deeper models (w = 6, 8) settle
+  0.03–0.04 *below* the deterministic value, 4–5 standard errors at A = 45: there is a small systematic offset,
+  and the agreement at w = 4 is partly a crossing. That four to five layers suffice for octahedra was noticed
+  after the runs (forecast 13 of Table 5 had said three).
+
+**[measured]** (SW2; B: run by an examiner who had not made the prediction) With six layers over fair coins, slab
+faces of A = 36 and 48 give 7.397 ± 0.009 and 9.945 ± 0.014 against the deterministic 7.398 and 9.936.
+
+**[measured]** (X2; A: independent numpy code against the study's driver) The same holds in the two-dimensional
+analogue of Section 9: eight rows of the rule over coin flips give ln τ_edge = 5.654, 7.425, 9.136 against the
+deterministic strips' 5.644, 7.407, 9.142 at edge lengths L = 12, 16, 20, and are 0.067 ± 0.027 high at L = 24;
+the density of the coins hardly matters.
+
+*Preliminary* (X3; C): the noise-driven models can settle. The six faces of one cube lying on the face are a
+fixed point whatever the coins do once w ≥ 4–5, and a replica in such a state never dies; uncensored, one model
+reads 6.94 where the censored value is 6.54.
+
+*What this does and does not establish.* At sizes A ≤ 84 and precisions of 0.01–0.05 in ln τ, the deterministic
+bulk enters the face law only as a source of noise produced within five or six layers. The question "why about
+0.21 per cell" is thereby reduced to one about a probabilistic cellular automaton of finite depth, for which
+lifetimes can be sampled without the bulk and computed exactly at small sizes. It is not shown that the
+reduction survives at larger A, where the cost per cell is still drifting (Table 2), and the offset for
+octahedral faces is unexplained. No theorem is claimed. Figures of the study (not re-examined for this draft):
+`research/figures/exponent_gump.png`, `research/figures/exponent_hierarchy.png`.
+
+## 7. The lifetime of a periodic face depends on its shape
+
+Slab faces are tori. If the face law were a law of area, tori of equal area would have equal lifetimes. They do
+not.
+
+### 7.1 Width
+
+**[measured]** (GP9; A for the pair at A = 72, which an independent CPU run with a different stepper reproduces
+as −0.344 ± 0.020; B for the rest, recomputed twice from the per-life data; no second GPU run) Fourteen slabs
+s × M × 8 with rectangular period lattices, every life ended at its first event, the firewall channel counted
+separately:
+
+| short side s | ln τ_face at face area A (share of lives ended by a firewall) | slope within the family |
+|---:|---|---|
+| 3 | 11.082 (54; 13%), 14.621 ± 0.003 (72; 87%), 18.046 ± 0.011 (90; 99.6%) | 0.1966, then 0.1902: curved |
+| 4 | 12.486 (60), 14.971 ± 0.002 (72), 17.465 ± 0.005 (84), 19.943 ± 0.018 (96), 22.373 ± 0.042 (108; 99.2%) | 0.2072 ± 0.0001 |
+| 5 | 15.661 ± 0.003 (75), 18.786 ± 0.011 (90), 21.890 ± 0.040 (105), 25.046 ± 0.073 (120; 92%) | 0.2082 ± 0.0006 |
+| 6 | 22.568 ± 0.041 (108; 2%), 26.405 ± 0.104 (126; 24%) | 0.213 ± 0.006 |
+
+Table 6. Periodic slab faces by width (`research/data/gpu_facelaw/`;
+`python3 research/audit/gpu_pr16_lead_check.py research/data/gpu_facelaw`).
+
+- At equal area the narrower face dies sooner: 3 × 8 against 4 × 6 (A = 72), −0.349 ± 0.004; 3 × 10 against 5 × 6
+  (A = 90), −0.740 ± 0.016; 4 × 9 against 6 × 6 (A = 108), −0.196 ± 0.059. The same slab in both orientations
+  agrees to −0.002 ± 0.003. The face hazard is flat in the age of the life from about 200 generations on in
+  every slab, including those where firewalls end 99% of lives.
+- For s = 4, 5, 6 the data do not require a width-dependent cost per cell: one slope 0.2072 ± 0.0001 with
+  intercepts 0.053, 0.121, 0.203 fits (χ² = 8.4 on 8), and so does ln τ = a + 0.2117·A − 0.054·M with M the long
+  side (χ² = 5.6 on 9). The two cannot be told apart with these data. Either way the correction to an area law is
+  linear in a side length. Whether the cost per cell of a wide periodic face is 0.2072 or 0.2117 is **not
+  decided**.
+- An area-only fit over the slabs with s ≥ 4 gives 0.2085 per cell with χ² = 512 on 10: wider slabs were also the
+  larger ones, so mixing widths inflates the slope. The 0.2088 of Section 5.2 is a slope of that kind. (An
+  independent series at A = 27–75 with widths 3 to 5 gives 0.2121 ± 0.0004 for the same reason;
+  `research/audit/REVIEW-class.md` §3.1.)
+- Width 3 is cheaper per cell and curved; its last point is also the one where 99.6% of lives end in a firewall,
+  so curvature and proximity to the firewall channel are not separated there.
+
+### 7.2 The shortest way round
+
+For rectangular tori "width" and "shortest closed loop" are the same thing. Twisting the period lattice separates
+them: the lattice generated by (a, k) and (0, b) in the in-plane cube coordinates has A = 3ab cells for every k,
+and its closed loops have squared lengths x² + xy + y² in units of the in-plane lattice vector (the two in-plane
+axes are at 60°).
+
+**[measured]** (SH1; A for five tori rerun with an independent bit-sliced stepper and fixed seeds, B for the other
+presentations) At A = 72 the lifetime rises with the shortest loop, and different shapes with the same shortest
+loop agree (χ² = 1.1 on 4 over distinct shapes):
+
+| shortest loop² (length) | tori at A = 72 | ln τ_face | independent rerun |
+|---|---|---|---|
+| 9 (3.00) | 3 × 8; (8,2),(0,3) | 14.613 ± 0.010 | 14.614 ± 0.014 |
+| 12 (3.46) | (4,4),(0,6); (2,5),(0,12) | 14.877 ± 0.010 | 14.866 ± 0.016 |
+| 13 (3.61) | (4,3),(0,6), three presentations | 14.921 ± 0.008 | |
+| 16 (4.00) | 4 × 6 (two presentations); (6,1),(0,4); (6,3),(0,4) | 14.973 ± 0.007 | 14.966 ± 0.008 |
+| 19 (4.36) | (2,3),(0,12) | 15.011 ± 0.014 | 15.020 ± 0.017 |
+| 21 (4.58) | (4,1),(0,6) | 15.066 ± 0.014 | 15.035 ± 0.009 |
+
+Table 7. Twisted periodic faces of 72 cells (`research/shape/README.md`;
+`python3 research/audit/shape_lead_check.py`). The two runs at loop² 21 differ by 1.9 standard errors; pooled,
+15.043 ± 0.007.
+
+Two other candidate variables are refuted by the same data: distance counted in lattice steps (the tori with
+loop² 12 and 13 have step-distance 4, like 4 × 6, and lie 0.096 ± 0.012 and 0.052 ± 0.011 below it), and
+proneness to transverse firewalls (it predicted those tori above 4 × 6). Tori with no observed firewall channel
+lie on the same curve as tori with 5% and 87% firewall endings.
+
+**[measured]** (SH2; A: four runs, two codes) The shortest loop is not the only variable. At A = 60 two tori with
+the same shortest loop (squared 16) and second-shortest loops squared 19 and 21 differ by 0.0142 ± 0.0019 in
+ln τ_face (χ² = 4.7 on 3 over the four runs; the first published value was 0.019 ± 0.004). At A = 48 two tori
+with shortest loop² 12 and second loop² 16 and 19 differ by 0.0151 ± 0.0017. In both pairs the face with the
+shorter second loop dies sooner. Two pairs do not identify the variable, and it has not been found.
+
+### 7.3 Every torus of a given area
+
+**[measured]** (SH3; A for A = 48 → 60, where an independent stepper gives 0.1144, 0.1415, 0.1922, 0.2076,
+0.2127; B for 60 → 72, one code) Measuring every class of period lattice at A = 48 and 60 and five more at
+A = 72 gives a cost per cell that depends on the shortest loop and saturates:
+
+| shortest loop² | 3 | 4 | 7 | 12 | 13 | 16 |
+|---|---|---|---|---|---|---|
+| d ln τ_face/dA, A = 48 → 60 | 0.1148 ± 0.0003 | 0.1414 ± 0.0003 | 0.1918 ± 0.0003 | 0.2073 ± 0.0002 | 0.2090 ± 0.0003 | 0.2125 ± 0.0003 |
+| d ln τ_face/dA, A = 60 → 72 | 0.1107 ± 0.0004 | 0.1346 ± 0.0010 | 0.1872 ± 0.0010 | 0.2049 ± 0.0009 | 0.2061 ± 0.0007 | 0.2076 ± 0.0006 |
+
+Table 8. Cost per cell of a periodic face by shortest loop (`research/shape2/README.md`;
+`python3 research/audit/shape2_lead_check.py`). The slopes compare different lattices with equal shortest loop,
+not one torus grown. The loop² 4 lifetimes carry a tie-resolution bias of about −0.018 in ln τ (the slope is not
+affected), and the loop² 4 tori are multigraphs (a cell counts one neighbour twice), so only loop² 3 is strictly
+"the same automaton on a narrow cylinder".
+
+A face only √3 cells around still lives a time exponential in its area, at about half the wide-face cost per
+cell; on these thin tori the hazard is flat in age and face death is permanent, so they are the same kind of
+object.
+
+**[measured]** (SH4; A, two codes, but only four lattices at A = 48) Above loop² 12 the shortest loop no longer
+orders the classes at A = 48: the four classes with loop² 12, 12, 13, 16 span 0.016, and the 4 × 4 torus
+(loop² 16) lies 0.0135 ± 0.0021 *below* a loop² 12 class. At A = 60 the step from loop² 12 to 16 is +0.056 to
++0.063, and at A = 72 it is about +0.10 (Table 7). The shape term grows with the area.
+
+**[measured; a refutation]** (SH5; A: χ² recomputed with separate code on separate runs) Six candidate laws
+expressing ln τ_face through the area and the shortest loop (or a sum over loops), with parameters fixed before
+the census, all fail at each of A = 48, 60 and 72. The one that appeared to pass at A = 60 on the census's own
+run (χ² = 5.4 on 5) fails on independent values (22.7 on 5) and on all runs pooled (45.4 on 5).
+
+**Reading** **[conjecture]**. ln τ_face = c·A + (a term set by how the face closes on itself); the second term is
+not small, not constant in A, and not a function of one length. Two consequences are firm regardless. First, no
+family of periodic faces measured so far isolates the constant c of an unwrapped flat face to better than about
+±0.004: the families give 0.205 to 0.2125 at these sizes, and octahedral faces give 0.215–0.221 (Table 2), with
+nothing yet connecting the two. Second, the thin tori are quasi-one-dimensional systems with their own costs per
+cell (0.11, 0.14, 0.19), which may be within reach of a transfer-matrix calculation.
+
+Figure 3 (placeholder; does not exist): *ln τ_face at A = 72 against shortest loop length (Table 7), with the
+A = 60 and A = 48 classes offset, and the two equal-shortest-loop pairs marked.* Figure 4 (placeholder): *cost
+per cell against shortest loop² (Table 8).*
+
+## 8. What is left: debris and clockwork
+
+When the last chaos has gone a seed leaves still lifes and oscillators (or nothing: the side-15 cube ends
+extinct).
+
+**Still lifes.** **[proved, by exhaustive search]** (Z1; A + B) The smallest still lifes have 6 cells, and there
+are exactly four up to symmetry; they include the six faces of a single cube (each sees exactly 4 others) and the
+six-cell hexagon of one kagome layer. **[proved, exhaustive]** (Z2; B for these sizes) The numbers of strict
+still lifes with n = 6, …, 13 cells are 4, 2, 7, 9, 27, 45, 228, 851. *Preliminary* (C): 3,388, 12,255, 47,578
+for n = 14, 15, 16.
+
+**Period 2.** **[proved, exhaustive]** (Z3; B for unions up to 11) The smallest period-2 oscillator has a union
+of 9 cells; there are 3, 6 and 4 classes with unions of 9, 10 and 11 cells. *Preliminary* (C): all of these are
+"hinge flips", in which live faces swing 90° about a shared edge; no period-3 oscillator has union ≤ 12 and the
+smallest has union exactly 13 (Z4).
+
+**Why anything has period above 2.** By Theorem 5 every oscillator of period ≥ 3 has cells that are overcrowded
+after having been alive two generations earlier, and over a period the drive at those cells balances the
+dissipation exactly; this was verified on all 329 catalogued objects of period ≥ 3.
+
+**Long periods are short loops closed by a symmetry.** *Preliminary* **[measured]** (Z5; C): soups in small
+octahedra leave oscillators of periods 1–16, 20, 22, 48 and 66. The longest has a simple anatomy.
+
+**Twist lemma [proved]** (ledger T7; A). Let a closed box (a diagonal hull) have symmetry group G; G commutes
+with the box's map F. Let a cycle of period P first return to a symmetric image of itself after L generations,
+F^L(x) = g·x with g ∈ G. Then P = m·L, where m is the order of g acting on the cycle; for subgroups of O_h,
+m ∈ {1, 2, 3, 4, 6}; and every cell fixed by g has period dividing L.
+*Proof.* Let Γ be the subgroup of G preserving the cycle. Sending g ∈ Γ to the phase shift k(g) with
+g·x₀ = F^{k(g)}(x₀) is a homomorphism Γ → Z_P whose kernel is the stabiliser of x₀, so its image is cyclic, of
+order m say, generated by the shift L = P/m. A cell fixed by g has the same state at times t and t + L. ∎
+In the terminology of Life catalogues, L is the oscillator's "mod" [LW-Mod]; there period/mod ∈ {1, 2, 4} on the
+square grid and {1, 2, 3, 6} on hexagonal and triangular grids, and the lemma is that statement for boxes of
+this lattice.
+
+**[proved, by direct computation; two independent steppers]** (Z6; A) The period-66 oscillator P66.27a is a plate
+three kagome layers thick whose diagonal hull has 45 cells, every one of them live in some phase; its phase at
+t + 33 is the mirror image of its phase at t. Forty cells have period 66, the three cells on the mirror plane
+have period 33, two are always live; no cell has period 2, 3, 6, 11 or 22. It is a 33-step loop closed by a
+reflection, not a product of gears.
+
+**[measured]** (Z7; A) Every twist order the lemma allows occurs: C48.24a has period 48 = 6 × 8 (every 8
+generations the plate reappears turned 60° about a body diagonal and inverted: a screw), C36.33a 36 = 4 × 9,
+C12.43a 12 = 6 × 2, C40.24a 40 = 2 × 20, P15.22a 15 = 3 × 5, P48.34a 48 = 2 × 24. **[measured]** (Z8; A + B) In a
+census of 9,700 oscillators of period ≥ 3 found in 402 small closed boxes, 249 are *compound*: no cell has the
+full period, and they are two or three sub-clocks of coprime periods on a shared frame with nothing passing
+between them (for example C44.26a, periods 4 and 11); Life terminology calls such periods trivial [LW-NT].
+**[measured]** (Z9; B + A) Among the remaining objects, twisted loops are a steady 3–8% at every loop length
+(295 of 9,278 with L ≥ 3; 30 of 670 with L ≥ 7; 9 of 120 with L ≥ 12; 5 of 66 with L ≥ 16), so the twist
+multiplies ordinary loops rather than selecting long ones; the longest untwisted loop found is C35.29a (L = 35).
+*Preliminary* (Z10; C): P66.27a is reached from 4.1 × 10⁻⁴ of the random states of its own box, and single-cell
+perturbations destroy it more often than not. No object found carries or gates a signal.
+
+Figure 5 (placeholder; does not exist): *P66.27a at phases 0 and 33, layer by layer.* A text rendering is
+produced by `engine/target/release/gump show --cells research/clockwork/views/P66.27a.cells --orbit`.
+
+## 9. The rule's neighbourhood: other rules, a 2D analogue, other lattices
+
+**Rule space on the same lattice.** **[measured]** (Q1; B, re-derived from the committed table
+`research/phase/rules.csv`; the survey itself was not re-run) Among the 960 rules with birth set B ⊆ {4,…,7}
+non-empty and survival set S ⊆ {2,…,7}, 421 are chaotic on a 24³ torus, but only 146 have a median lifetime of
+at least 10³ generations in an octahedral vessel of radius 10 (16 soups each), 142 of them with 4 ∈ B. Gump's
+median there is 3,420, and B45/S345 is one of 50 minimal elements of the long-lived set: removing any one count
+collapses it (B4/S345: 104; B5/S345: 21; B45/S45: 20; B45/S35: 22; B45/S34: 36 generations). **[measured]** (Q2;
+B) Adding survival at 2 or at 7 extends the median at least 29-fold (those medians sit at the survey's cap of
+10⁵). **[measured]** (Q3; B) For B45/S3457 the medians are 79, 3.5 × 10⁴ and above 10⁶ at radius 6, 8 and 10,
+against 28, 254 and 3,420 for gump. **[measured]** (K4; B, an adversarial review's own code) The capped threshold
+with the cap one higher, B456/S3456, has a slab face law within 0.2 in ln τ of gump's at five sizes (area-only
+slopes 0.2156 ± 0.0005 and 0.2121 ± 0.0004 on the same mixed-width faces). *Preliminary* (Q4; C): rules with
+birth at 3 are not confined and invade vacuum across {111} planes, as the hypothesis of Theorem 2 leads one to
+expect.
+
+**A two-dimensional analogue.** **[measured]** (G1; A for the central law: an independent stepper at L = 12–24
+gives slope 0.42) On the square lattice with the range-2 cross neighbourhood (±1,0), (±2,0), (0,±1), (0,±2), the
+rule B34/S234 ("alive next iff n + x ≥ 3, except that n ≥ 5 dies") is gump's construction one dimension down. It
+has steady chaos at density 0.472, and in strips 16 deep and periodic along the edge a whole edge row dies after
+a memoryless wait with
+
+$$\ln \tau_{\rm edge} = 0.73 + 0.416\,L, \qquad L = 12\text{–}36,$$
+
+τ_edge from 286 to 5.8 × 10⁶ generations. *Preliminary* (G2; C: proved in the study and brute-force checked there,
+re-derived by a second reader by hand in part only): it is confined to its bounding box, three dead rows are a
+firewall, the threshold lemma holds with exceptions exactly at overcrowded cells, and no finite set is sealed.
+*Preliminary* **[measured]** (G3, G4, SW4; C): a mirror perpendicular to the edge multiplies the slope by 0.42
+and full square symmetry by 0.50, but a forecast that symmetries fixing no edge cost nothing failed for four-fold
+rotation; no capped-threshold rule on the Moore neighbourhood sustains confined chaos; an edge with a two-cell
+dead notch has slope 0.346 against 0.412 for the intact edge. That the 2D slope 0.416 is twice the periodic-face
+slope of the 3D rule to three figures has no known reason, and given Section 7 neither number is an asymptotic
+constant.
+
+**Other lattices.** **[proved]** (ledger K1 of the class study; A) Confinement is a property of half-spaces
+(Section 3). **[measured]** (K4; B) On the face-centred cubic lattice with 12 neighbours, B45/S345 has a
+memoryless slab face law with slope 0.181 ± 0.001 per face cell. The variant of the present rule with
+edge-sharing coplanar neighbours is likewise confined (to a box), chaotic, and dies a wall at a time, and is not
+treated here. A study of which capped-threshold rules on which lattices behave this way was reviewed
+adversarially; its theorems stand (K4; B), and its measured regularity is that, given confinement, no finite
+sealed set, no immortal wall and a chaotic bulk, the outer layer dies as a whole after a memoryless wait roughly
+exponential in its area (42 of 50 lattice–cap pairs by a scoring rule fixed in advance). *Preliminary* (C): on a
+honeycomb-based lattice the wall law is concave rather than linear, and on a bond lattice boxes outlive the
+forecast from the slab law by a factor of about 10⁶ because adjacent walls hold each other up along their edges.
+Nothing known predicts which rules are chaotic or how strong the law is.
+
+Figure: `research/figures/phase_rulemap.png` (the 960-rule survey), `research/figures/toy2d_law.png` (the 2D
+edge law).
+
