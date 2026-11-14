@@ -129,4 +129,12 @@ let CI pass, merge.
 - Four cores: at most two compute-heavy agents at once. Background jobs are capped at two hours; checkpoint.
 - Agents' in-flight files are swept into "snapshot" commits before a turn ends. After a pull request merges,
   bring the branch up with `git merge --ff-only origin/main` (force pushes are refused by the harness).
-- The owner may offer a GPU machine; ensembles gain from it, single long runs do not.
+- The other session's GPU ensembles exist now (`research/gpu/`, Modal); single long runs still belong on the engine.
+- A usage limit or a worker restart kills every subagent without notice, and the owner may rewind the
+  conversation: the repository can then be ahead of what the lead remembers. Before acting, read `git log` and
+  the working directories, not memory. Briefs tell agents to commit each finished result at once for this reason.
+- Messaging a subagent that has ended its turn resumes it with its context; a message to a running one waits for
+  its next tool call. A long-lived agent's thread grows (the swarm critic passed 800k tokens in two rounds): have
+  it keep its files fit for a successor, and replace it rather than nurse it.
+- Read the referee's replies, not the solvers' journals, to follow a swarm cheaply.
+- When the owner asks to pause: ask running agents to write an interim report and stop; resume nobody.

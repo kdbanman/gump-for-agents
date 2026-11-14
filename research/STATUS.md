@@ -41,16 +41,28 @@ _Last updated 2026-11-13 by the lead._
   asked for arrived as pull request 10 and are merged (lead spot-checked the diff). Asked next: slab faces at A > 90, octahedral faces at A ≥ 165,
   a longer cube-centred symmetric run (does the death rate really fall with age?).
 
-## Next (lead's list; pick by judgment)
-- Lineage study is in (notebook 2026-11-13, `research/lineage/`): cube-like seeds wait like soups at R ≤ 38. Open from it:
-  replicate the weak "slow variable" (copies remember their source, ρ ≈ +0.2) on other sources; side 16's own sizes
-  (vertex-centred R ≥ 40) need the GPU session.
-- Check each report above independently before recording it (see `LEAD.md`, "Resuming").
-- Have a fresh agent try to break the two Fable agents' claims once they land.
+## Next (lead's list; pick by judgment; nothing starts until the owner lifts the pause)
+- **Swarm, when resumed:** the critic (or a successor) first, to review the interim reports (probability round 2,
+  path and source round 3) and run counting's round-2 lab requests; then each solver from its own journal. Stop a
+  line when a round gives no new proved step. Then a fresh reader (not the critic) audits every claim tagged
+  "proved" across the four `claims.md`, and the entries in `swarm/PREDICTIONS.md` get run. Only after that does
+  anything from the swarm go into the notebook, `CLAIMS.md` or `docs/AUTOMATON.md`.
+- **`research/theory/class.md`** (finished, 44 KB): not yet checked by the lead or attacked by a second agent.
+- **`research/theory/exponent/`**: needs a successor to write `exponent.md` from `PREDICTIONS.md`, `theorems.md` and
+  the data, then checking. Lemma A, consequence (c) in `theorems.md` is false (swarm board E10).
+- **GPU session:** expect a pull request with three experiments (slab faces at A > 90 and octahedral A = 165;
+  a longer cube-centred symmetric run; cube-like seeds at vertex-centred R = 40), forecasts first. Review as for
+  pull request 8: adversarial agent, re-derive one number, then merge and record.
+- **Prior art:** Tél–Lai 2008 and Bramson–Neuhauser 1994 are unread (publisher pages refuse agents); the owner was
+  told they could fetch them. `PRIOR-ART.md`'s older sections still hold "snippet only" items the library now covers.
+- Lineage study: replicate the weak "slow variable" (copies remember their source, ρ ≈ +0.2) on other sources.
+- The web viewer still quotes the flat-face law exp(−0.09 + 0.209·A) (`web/src/layers.js`, `main.js`, `tour.js`):
+  true for slab faces at the sizes measured; octahedral faces cost up to 0.221 per cell. Decide whether to say so.
 - Full web test suite has not been re-run since the tour text edits of 2026-11-13 (tour tests pass).
 - Put the 2D toy in the web viewer/tour if it becomes the paper's lead example.
 - Papers (PROGRAM, "Writing it up"): not started; the owner decides venue, authorship and disclosure.
 - Pages deployment still needs the owner: Settings → Pages → Source "GitHub Actions".
+- Not yet answered by the owner (asked once, in passing): which 2D rule and neighbourhood they found years ago.
 
 ## The storyline so far
 1. Birth cannot cross a `{111}` plane (T2) ⇒ finite seeds are trapped in octahedral hulls; no
