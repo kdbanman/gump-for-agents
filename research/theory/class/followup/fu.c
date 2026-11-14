@@ -117,20 +117,22 @@ static int lg2(long a) { int k = 0; while (a > 1) { a >>= 1; k++; } return k; }
  *   PIT   : D nonempty, otherwise                                                    -> censored, reseed
  * PERIODIC: x(t+1) = x(t-1) or x(t+1) = the snapshot taken at the last power-of-two age -> censored, reseed
  * Exposure = replica-generations at age > T0.  Events at age <= T0 are counted separately and not used.
- * res: [0] exposure [1] wall deaths [2] cuts [3] pits [4] periodic [5..8] same four before T0
+ * res: [0] exposure [1] wall deaths [2] cuts [3] pits [4] periodic [5..8] same four before T0 [20, 21] deep
  *      [9] max age of a replica alive at the end  [10] replicas alive at the end with age > T0
  *      [11..14] summed population of label-l cells over samples of old replicas, [15..18] cell samples of label l
  *      [19] max age ever reached by any replica.
- * binexp/binwall: exposure and wall deaths by floor(log2(age - T0)).  waits: age - T0 of each counted wall death. */
-long fu_slab(int N, int K, const int32_t *nbr, uint32_t Bm, uint32_t Sm, int b, const int32_t *gidx,
-             const int32_t *gstart, const int32_t *lab, double p, int T0, long gens, int P, u64 seed, double *res,
-             double *binexp, double *binwall, int nbins, int32_t *waits, int maxw) {
+ * binexp/binwall: exposure and wall deaths by floor(log2(age - T0)).  waits: age - T0 of each counted wall death,
+ * wdepth: depth of the shallowest whole layer in D at that death. */
+long fu_slab(int N, int K, const int32_t *nbr, uint32_t Bm, uint32_t Sm, int b, int ng, const int32_t *gidx,
+             const int32_t *gstart, const int32_t *gdepth, int dmax, const int32_t *lab, double p, int T0, long gens,
+             int P, u64 seed, double *res, double *binexp, double *binwall, int nbins, int32_t *waits, int32_t *wdepth,
+             int maxw) {
     sd(seed);
     uint32_t p16 = (uint32_t)(p * 65536.0 + 0.5);
     u64 *x = calloc(N + 1, 8), *y = calloc(N + 1, 8), *x1 = calloc(N + 1, 8), *snap = calloc(N + 1, 8),
         *W = calloc(N + 1, 8);
     long age[64], nw = 0;
-    for (int i = 0; i < 20; i++) res[i] = 0;
+    for (int i = 0; i < 22; i++) res[i] = 0;
     for (int r = 0; r < 64; r++) { reseed(N, x, x1, snap, r, p16); age[r] = 0; }
     for (long t = 1; t <= gens; t++) {
         fu_step(N, K, nbr, x, y, Bm, Sm);
@@ -138,22 +140,31 @@ long fu_slab(int N, int K, const int32_t *nbr, uint32_t Bm, uint32_t Sm, int b, 
         for (int i = 0; i < N; i++) { d2 |= y[i] ^ x1[i]; ds |= y[i] ^ snap[i]; }
         u64 *tmp = x1; x1 = x; x = y; y = tmp;          /* x = new state, x1 = previous */
         u64 periodic = ~d2 | ~ds;
-        u64 wall = 0, cut = 0, pit = 0;
+        u64 wall = 0, cut = 0, pit = 0, deep = 0;
+        int mind[64];
+        for (int r = 0; r < 64; r++) mind[r] = 1 << 20;
         if (t % P == 0) {
             for (int i = 0; i < N; i++) W[i] = ~x[i];
             fu_peel(N, K, nbr, W, b);
             u64 any = 0;
             for (int i = 0; i < N; i++) any |= W[i];
             if (any) {
-                u64 full[2], meet[2];
-                for (int g = 0; g < 2; g++) {
+                u64 meet0 = 0, meet1 = 0, par = 0, shallow = 0;
+                for (int g = 0; g < ng; g++) {
                     u64 f = ~0ULL, m = 0;
                     for (int k = gstart[g]; k < gstart[g + 1]; k++) { f &= W[gidx[k]]; m |= W[gidx[k]]; }
-                    full[g] = f; meet[g] = m;
+                    if (g == 0) meet0 = m;
+                    if (g == 1) meet1 = m;
+                    f &= any;
+                    par |= f;
+                    if (gdepth[g] <= dmax) shallow |= f;
+                    for (int r = 0; r < 64; r++)
+                        if ((f >> r & 1) && gdepth[g] < mind[r]) mind[r] = gdepth[g];
                 }
-                wall = any & (full[0] | full[1]);
-                cut = any & ~wall & meet[0] & meet[1];
-                pit = any & ~wall & ~cut;
+                wall = shallow;
+                deep = par & ~shallow;
+                cut = any & ~par & meet0 & meet1;
+                pit = any & ~par & ~cut;
             }
         }
         u64 old = 0;
@@ -162,16 +173,16 @@ long fu_slab(int N, int K, const int32_t *nbr, uint32_t Bm, uint32_t Sm, int b, 
             age[r]++;
             if ((double)age[r] > res[19]) res[19] = (double)age[r];
             long a = age[r] - T0;
-            int ev = (wall & bit) ? 1 : (cut & bit) ? 2 : (pit & bit) ? 3 : (periodic & bit) ? 4 : 0;
+            int ev = (wall & bit) ? 1 : (deep & bit) ? 5 : (cut & bit) ? 2 : (pit & bit) ? 3 : (periodic & bit) ? 4 : 0;
             if (ev) {
                 if (a >= 1) {
-                    res[ev] += 1;
+                    if (ev == 5) res[20] += 1; else res[ev] += 1;
                     if (ev == 1) {
                         res[0] += 1;
                         int k = lg2(a); if (k < nbins) { binwall[k] += 1; binexp[k] += 1; }
-                        if (nw < maxw) waits[nw++] = (int32_t)(a > 2000000000L ? 2000000000L : a);
+                        if (nw < maxw) { waits[nw] = (int32_t)(a > 2000000000L ? 2000000000L : a); wdepth[nw] = mind[r]; nw++; }
                     } else { res[0] += 1; int k = lg2(a); if (k < nbins) binexp[k] += 1; }
-                } else res[4 + ev] += 1;
+                } else if (ev == 5) res[21] += 1; else res[4 + ev] += 1;
                 reseed(N, x, x1, snap, r, p16); age[r] = 0;
             } else {
                 if (a >= 1) { res[0] += 1; int k = lg2(a); if (k < nbins) binexp[k] += 1; old |= bit; }
