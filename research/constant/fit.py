@@ -39,11 +39,51 @@ def indA(s):
     return lambda p: float(p['A']) if p['rect'][0] == s else 0.0
 
 
-HULL = {  # name: (terms, parameter names, what the extra terms mean)
+invA = lambda p: 1.0 / p['A']                         # noqa: E731
+invk2 = lambda p: 1.0 / p['k'] ** 2                   # noqa: E731
+sqrtA = lambda p: math.sqrt(p['A'])                   # noqa: E731
+XI_W = 0.72     # cube steps: the decay length of the loop-deficit fits (shape_models.py slopes), for PDe
+
+
+def AoverS(n):
+    return lambda p: -p['A'] / p['rect'][0] ** n      # the deficit D enters with a minus sign
+
+
+def Aexp(xi):
+    return lambda p: -p['A'] * math.exp(-p['rect'][0] / xi)
+
+
+HULL = {  # name: (terms, parameter names)
     'H0  a + cA': ([one, A], ['a', 'c']),
     'H1  a + cA + r k': ([one, A, kk], ['a', 'c', 'r']),
     'HL  a + cA + p lnA': ([one, A, lnA], ['a', 'c', 'p']),
+    'Hk  a + cA + q/k': ([one, A, invk], ['a', 'c', 'q']),
+    'HA  a + cA + q/A': ([one, A, invA], ['a', 'c', 'q']),
+    'Hr  a + cA + rho sqrt(A)': ([one, A, sqrtA], ['a', 'c', 'rho']),
     'H2  a + cA + r k + q/k': ([one, A, kk, invk], ['a', 'c', 'r', 'q']),
+    'H2b a + cA + r k + q/k^2': ([one, A, kk, invk2], ['a', 'c', 'r', 'q']),
+    'HLk a + cA + p lnA + q/k': ([one, A, lnA, invk], ['a', 'c', 'p', 'q']),
+}
+
+
+def f_sat(t, p):
+    """saturating slope: d ln tau / dA = c - D exp(-A/lam)  (a deficit that dies out over lam cells)."""
+    a, c, D, lam = t
+    return a + c * p['A'] - D * lam * (1 - math.exp(-p['A'] / lam))
+
+
+def f_side(t, p):
+    """a deficit of the cost per cell that decays with the side: a + A (c - D exp(-k/xi))."""
+    a, c, D, xi = t
+    return a + p['A'] * (c - D * math.exp(-p['k'] / xi))
+
+
+HULL_NL = {  # name: (f, starts, names, bounds)
+    'Hsat a + cA - D lam (1 - e^(-A/lam))': (f_sat, [[0.0, 0.215, 0.3, 12.0], [0.0, 0.22, 1.0, 6.0],
+                                                     [0.0, 0.21, 0.1, 30.0]],
+                                             ['a', 'c', 'D', 'lam'], ([-50, 0, 0, 1], [50, 1, 5, 300])),
+    'Hside a + A (c - D e^(-k/xi))': (f_side, [[0.0, 0.2, 0.5, 2.4], [0.0, 0.21, 0.2, 1.5], [0.0, 0.22, 0.1, 4.0]],
+                                      ['a', 'c', 'D', 'xi'], ([-50, 0, 0, 0.2], [50, 1, 50, 20])),
 }
 RECT = {
     'PA  a + cA': ([one, A], ['a', 'c']),
@@ -51,13 +91,31 @@ RECT = {
     'PM  a + cA - beta M': ([one, A, long_], ['a', 'c', 'minus_beta']),
     'PS  a + cA + alpha s': ([one, A, short], ['a', 'c', 'alpha']),
     'PSM a + cA + alpha s + beta M': ([one, A, short, long_], ['a', 'c', 'alpha', 'beta']),
+    'PD  a(s) + A (c - D/s)': ([ind(4), A, ind(5), ind(6), AoverS(1)], ['a4', 'c', 'a5', 'a6', 'D']),
+    'PD2 a(s) + A (c - D/s^2)': ([ind(4), A, ind(5), ind(6), AoverS(2)], ['a4', 'c', 'a5', 'a6', 'D']),
+    'PDe a(s) + A (c - D e^(-s/0.72))': ([ind(4), A, ind(5), ind(6), Aexp(XI_W)], ['a4', 'c', 'a5', 'a6', 'D']),
+    'PD1 a(s) + A (c - D e^(-s/1))': ([ind(4), A, ind(5), ind(6), Aexp(1.0)], ['a4', 'c', 'a5', 'a6', 'D']),
     'Pcw a + cA + kappa F': ([one, A, Fb], ['a', 'c', 'kappa']),
 }
+PER_OFFSETS = ('PO', 'PD ', 'PD2', 'PDe', 'PD1')      # forms with one offset per width
 
 
 def fitlin(name, lib, pts):
     terms, names = lib[name]
     return wls.fit(name, lin(terms), [0.0] * len(names), pts, names)
+
+
+def fitnl(name, pts):
+    f, starts, names, bounds = HULL_NL[name]
+    best = None
+    for t0 in starts:
+        try:
+            r = wls.fit(name, f, t0, pts, names, bounds)
+        except Exception:  # noqa
+            continue
+        if best is None or r.chi2 < best.chi2:
+            best = r
+    return best
 
 
 def lab(p):
@@ -122,8 +180,30 @@ for sel, lab_sel in [(hull, 'all six sizes'), (hull[1:], 'A >= 45')]:
                 print(f'      without the largest {nh}: c = {h[3].theta[1]:.4f}; forecast residuals {h[4]}')
         SCORES.append(('hull, ' + lab_sel, name, len(r.theta), r, hs))
 
+print('-- four-parameter forms that are not linear in their parameters, all six sizes')
+for name in HULL_NL:
+    r = fitnl(name, hull); show(r)
+    hs = []
+    for nh in (1, 2):
+        h = holdout(name, lambda tr, name=name: fitnl(name, tr), hull, hull[-nh:], nh)
+        if h:
+            hs.append((nh, h))
+            print(f'      without the largest {nh}: c = {h[3].theta[1]:.4f}; forecast residuals {h[4]}')
+    SCORES.append(('hull, all six sizes', name, 4, r, hs))
+print('-- local slopes implied by each form that fits (84->108 measured '
+      f'{(hull[4]["y"]-hull[3]["y"])/24:.4f} +- {math.hypot(hull[4]["se"], hull[3]["se"])/24:.4f}):')
+for sel, lab_sel, names in [(hull[1:], 'A >= 45', ['H1  a + cA + r k', 'HL  a + cA + p lnA', 'Hk  a + cA + q/k',
+                                                    'HA  a + cA + q/A']),
+                            (hull, 'six sizes', ['H2  a + cA + r k + q/k', 'H2b a + cA + r k + q/k^2',
+                                                 'HLk a + cA + p lnA + q/k'] + list(HULL_NL))]:
+    for name in names:
+        r = fitnl(name, sel) if name in HULL_NL else fitlin(name, HULL, sel)
+        ys = {k_: r.predict(dict(A=3 * k_ * (k_ + 1) // 2, k=k_))[0] for k_ in (7, 8, 9, 10)}
+        y10, e10 = r.predict(dict(A=165, k=10))
+        print(f'      {name:38s} ({lab_sel}) c = {r.theta[1]:.4f}: 84->108 {(ys[8]-ys[7])/24:.4f}, 108->135 '
+              f'{(ys[9]-ys[8])/27:.4f}, 135->165 {(ys[10]-ys[9])/30:.4f}; ln tau(165) = {y10:.2f} +- {e10:.2f}')
 print('-- the A = 30 face against the forms fitted to A >= 45:')
-for name in ('H1  a + cA + r k', 'HL  a + cA + p lnA'):
+for name in ('H1  a + cA + r k', 'HL  a + cA + p lnA', 'Hk  a + cA + q/k', 'HA  a + cA + q/A'):
     r = fitlin(name, HULL, hull[1:]); yf, ef = r.predict(hull[0])
     print(f'      {name}: forecast {yf:.3f} +- {ef:.3f}, measured {hull[0]["y"]:.3f} +- {hull[0]["se"]:.3f}, '
           f'residual {hull[0]["y"] - yf:+.3f}')
@@ -165,13 +245,19 @@ for name in RECT:
     r = fitlin(name, RECT, rect); show(r)
     hs = []
     for nh, held in ((1, largest1), (2, largest2)):
-        if name.startswith('PO') and nh == 2:
+        if name[:3] in PER_OFFSETS and nh == 2:
             continue                                   # the s = 6 offset cannot be forecast with no s = 6 point
         h = holdout(name, lambda tr, name=name: fitlin(name, RECT, tr), rect, held, nh)
         if h:
             hs.append((nh, h))
             print(f'      without the largest {nh} of each width: c = {h[3].theta[1]:.4f}; residuals {h[4]}')
     SCORES.append(('periodic rect s >= 4', name, len(r.theta), r, hs))
+    if name[:3] in ('PD ', 'PD2', 'PDe', 'PD1'):
+        c_, D_ = r.theta[1], r.theta[4]
+        dfc = {'PD ': lambda s_: D_ / s_, 'PD2': lambda s_: D_ / s_ ** 2, 'PDe': lambda s_: D_ * math.exp(-s_ / XI_W),
+               'PD1': lambda s_: D_ * math.exp(-s_)}[name[:3]]
+        print(f'      D = {D_:.4f} +- {r.err(4):.4f}; cost per cell of a strip: ' + ', '.join(
+            f's = {s_}: {c_ - dfc(s_):.4f}' for s_ in (4, 5, 6, 8, 12)))
 for name in ('mexp', 'mk0'):
     r = sm.do_fit(name, rect); show(r, f'{name}  a + A[c - g S(xi)]')
     print(f'      xi = {r.theta[3]:.3f} +- {r.err(3):.3f} cube steps (bound {sm.XI_MAX})')
@@ -216,70 +302,199 @@ ed = math.hypot(math.hypot(eq[2]['se'], eq[1]['se']) / 33, math.hypot(eq[1]['se'
 print(f'  change of slope: {d:+.4f} +- {ed:.4f} ({d/ed:+.1f} sigma)')
 
 # ------------------------------------------------------------------------------------------------ 4. joint
-section('4. JOINT fits: one c for hull faces (A >= 45) and periodic faces (rectangular, s >= 4)')
-H = hull[1:]
+section('4. JOINT fits: one c for hull faces and periodic faces (rectangular, s >= 4).  For each pair of forms:\n'
+        '   the two families fitted separately (c_hull, c_per), then with one c.  The test of "one c" is the PENALTY\n'
+        '   chi2(joint) - chi2(hull) - chi2(periodic), one degree of freedom; the joint chi2 dilutes it.')
+from scipy.stats import chi2 as _chi2, norm as _norm   # noqa: E402
 
 
-def joint(hterms, hnames, pterms, pnames, title, hpts=H, ppts=rect):
-    """parameters: c, then the hull's, then the periodic family's."""
+def lin_g(terms):
+    return lambda t, p: sum(ti * g(p) for ti, g in zip(t, terms))
+
+
+# corrections to c A: name -> (g(theta, point), starts, parameter names, bounds, points used)
+HC3 = {  # one correction term (3 parameters with a and c): fitted at A >= 45 and at A >= 63
+    'rim (r k)': (lin_g([one, kk]), [[0.0, 0.0]], ['a', 'r'], None),
+    'log (p lnA)': (lin_g([one, lnA]), [[0.0, 0.0]], ['a', 'p'], None),
+    '1/k': (lin_g([one, invk]), [[0.0, 0.0]], ['a', 'q'], None),
+    '1/A': (lin_g([one, invA]), [[0.0, 0.0]], ['a', 'q'], None),
+}
+HC4 = {  # two correction terms or a nonlinear one (4 parameters): fitted to all six sizes
+    'k + 1/k': (lin_g([one, kk, invk]), [[0.0, 0.0, 0.0]], ['a', 'r', 'q'], None),
+    'k + 1/k^2': (lin_g([one, kk, invk2]), [[0.0, 0.0, 0.0]], ['a', 'r', 'q'], None),
+    'lnA + 1/k': (lin_g([one, lnA, invk]), [[0.0, 0.0, 0.0]], ['a', 'p', 'q'], None),
+    'saturating': (lambda t, p: t[0] - t[1] * t[2] * (1 - math.exp(-p['A'] / t[2])),
+                   [[0.0, 0.3, 12.0], [0.0, 1.0, 6.0], [0.0, 0.1, 30.0], [0.0, 3.0, 5.0]], ['a', 'D', 'lam'],
+                   ([-50, 0, 1], [50, 5, 300])),
+    'side A D e^(-k/xi)': (lambda t, p: t[0] - p['A'] * t[1] * math.exp(-p['k'] / t[2]),
+                           [[0.0, 0.5, 2.4], [0.0, 0.2, 1.5], [0.0, 0.1, 4.0]], ['a', 'D', 'xi'],
+                           ([-50, 0, 0.2], [50, 50, 20])),
+}
+PC = {
+    'offsets a(s)': ([ind(4), ind(5), ind(6)], ['a4', 'a5', 'a6']),
+    'long side': ([one, long_], ['a', 'minus_beta']),
+    'both sides': ([one, short, long_], ['a', 'alpha', 'beta']),
+    'a(s), D/s': ([ind(4), ind(5), ind(6), AoverS(1)], ['a4', 'a5', 'a6', 'D']),
+    'a(s), D/s^2': ([ind(4), ind(5), ind(6), AoverS(2)], ['a4', 'a5', 'a6', 'D']),
+    'a(s), D e^(-s/0.72)': ([ind(4), ind(5), ind(6), Aexp(XI_W)], ['a4', 'a5', 'a6', 'D']),
+    'capillary wave': ([one, Fb], ['a', 'kappa']),
+}
+
+
+def fam_fit(g, starts, names, bounds, pts, c0=0.21):
+    """c A + g(theta) on one family; several starts for the nonlinear forms."""
+    best = None
+    for t0 in starts:
+        b = None if bounds is None else ([-np.inf] + list(bounds[0]), [np.inf] + list(bounds[1]))
+        try:
+            r = wls.fit('', lambda t, p: t[0] * p['A'] + g(t[1:], p), [c0] + list(t0), pts, ['c'] + names, b)
+        except Exception:  # noqa
+            continue
+        if best is None or r.chi2 < best.chi2:
+            best = r
+    return best
+
+
+def joint(hname, hc, pname, hpts, ppts=None, floor=0.0, quiet=False):
+    """Returns a dict: separate fits, the joint fit, the penalty for one c (1 dof) and its p-value."""
+    ppts = rect if ppts is None else ppts
+    if floor:
+        hpts = [dict(p, se=math.hypot(p['se'], floor)) for p in hpts]
+        ppts = [dict(p, se=math.hypot(p['se'], floor)) for p in ppts]
+    g, hstarts, hnames, hb = hc
+    pterms, pnames = PC[pname]
+    gp = lin_g(pterms)
+    rh = fam_fit(g, hstarts, hnames, hb, hpts)
+    rp = fam_fit(gp, [[0.0] * len(pnames)], pnames, None, ppts)
+    nh = len(hnames)
+
     def f(t, p):
-        c = t[0]
         if p['fam'] == 'hull':
-            return c * p['A'] + sum(ti * g(p) for ti, g in zip(t[1:1 + len(hterms)], hterms))
-        return c * p['A'] + sum(ti * g(p) for ti, g in zip(t[1 + len(hterms):], pterms))
+            return t[0] * p['A'] + g(t[1:1 + nh], p)
+        return t[0] * p['A'] + gp(t[1 + nh:], p)
     names = ['c'] + ['h:' + n for n in hnames] + ['p:' + n for n in pnames]
-    r = wls.fit(title, f, [0.21] + [0.0] * (len(names) - 1), hpts + ppts, names)
-    ch = sum(z * z for p, d, z in r.resid() if p['fam'] == 'hull')
-    cp = r.chi2 - ch
-    # separate fits with the same forms
-    rh = wls.fit('h', lambda t, p: t[0] * p['A'] + sum(ti * g(p) for ti, g in zip(t[1:], hterms)),
-                 [0.21] + [0.0] * len(hterms), hpts, ['c'] + hnames)
-    rp = wls.fit('p', lambda t, p: t[0] * p['A'] + sum(ti * g(p) for ti, g in zip(t[1:], pterms)),
-                 [0.21] + [0.0] * len(pterms), ppts, ['c'] + pnames)
+    b = None
+    if hb is not None:
+        b = ([-np.inf] + list(hb[0]) + [-np.inf] * len(pnames), [np.inf] + list(hb[1]) + [np.inf] * len(pnames))
+    best = None
+    starts = [[c0] + list(rh.theta[1:]) + list(rp.theta[1:]) for c0 in (rh.theta[0], rp.theta[0])]
+    starts += [[rp.theta[0]] + list(t0) + list(rp.theta[1:]) for t0 in hstarts]
+    for t0 in starts:
+        try:
+            r = wls.fit(f'{hname} x {pname}', f, t0, hpts + ppts, names, b)
+        except Exception:  # noqa
+            continue
+        if best is None or r.chi2 < best.chi2:
+            best = r
+    r = best
+    ch = sum(z * z for p, d_, z in r.resid() if p['fam'] == 'hull')
+    pen = max(r.chi2 - rh.chi2 - rp.chi2, 0.0)
+    ppen = float(_chi2.sf(pen, 1))
     dc = rh.theta[0] - rp.theta[0]; edc = math.hypot(rh.err(0), rp.err(0))
-    print(f'  {title}')
-    print(f'      separately: c_hull = {rh.theta[0]:.4f} +- {rh.err(0):.4f} (chi2 {rh.chi2:.1f}/{rh.dof}), '
-          f'c_per = {rp.theta[0]:.4f} +- {rp.err(0):.4f} (chi2 {rp.chi2:.1f}/{rp.dof}); '
-          f'difference {dc:+.4f} +- {edc:.4f} ({dc/edc:+.1f} sigma)')
-    print(f'      jointly:    c = {r.theta[0]:.4f} +- {r.err(0):.4f}; chi2 {r.chi2:.1f}/{r.dof} (p {r.p:.2g}): '
-          f'hull part {ch:.1f} on {len(hpts)} points, periodic part {cp:.1f} on {len(ppts)}; '
-          f'penalty for one c: {r.chi2 - rh.chi2 - rp.chi2:.1f} (1 dof)')
-    if not Q:
+    out = dict(h=hname, p=pname, rh=rh, rp=rp, r=r, hull_part=ch, pen=pen, ppen=ppen, dc=dc, edc=edc, nh=len(hpts))
+    if not quiet:
+        ok = lambda x: 'fits' if x.dof > 0 and x.p >= 0.01 else ('FAILS' if x.dof > 0 else 'exact')   # noqa: E731
+        print(f'  {hname:20s} x {pname:20s} c_hull {rh.theta[0]:.4f}+-{rh.err(0):.4f} ({rh.chi2:5.1f}/{rh.dof} '
+              f'{ok(rh):5s}) c_per {rp.theta[0]:.4f}+-{rp.err(0):.4f} ({rp.chi2:5.1f}/{rp.dof} {ok(rp):5s}) '
+              f'diff {dc:+.4f}+-{edc:.4f} | one c {r.theta[0]:.4f}+-{r.err(0):.4f} chi2 {r.chi2:6.1f}/{r.dof:<2d} '
+              f'p {r.p:7.2g} hull part {ch:6.1f}/{len(hpts)} | penalty {pen:6.1f} p {ppen:7.2g} '
+              f'({math.sqrt(pen):4.1f} s)')
+    return out
+
+
+def passes(o, level=0.01):
+    return (o['rh'].dof > 0 and o['rh'].p >= level and o['rp'].p >= level and o['r'].p >= level
+            and o['ppen'] >= level)
+
+
+ALLJ = []
+for cut, hp in ((45, hull[1:]), (63, hull[2:])):
+    print(f'-- one-term hull corrections, hull faces with A >= {cut} ({len(hp)} sizes)')
+    for hname, hc in HC3.items():
+        for pname in PC:
+            o = joint(hname, hc, pname, hp); o['cut'] = f'A >= {cut}'; ALLJ.append(o)
+print('-- four-parameter hull forms, all six hull sizes')
+for hname, hc in HC4.items():
+    for pname in PC:
+        o = joint(hname, hc, pname, hull); o['cut'] = 'six sizes'; ALLJ.append(o)
+print('-- two-term hull corrections, hull faces with A >= 45 (5 sizes; the hull form has 1 dof of its own)')
+for hname in ('k + 1/k', 'k + 1/k^2', 'lnA + 1/k'):
+    for pname in PC:
+        o = joint(hname, HC4[hname], pname, hull[1:]); o['cut'] = 'A >= 45 (two terms)'; ALLJ.append(o)
+
+print('\n-- SINGLE-c READINGS THAT PASS: each family\'s form fits its own data (p >= 0.01), the joint fit has\n'
+      '   p >= 0.01, and the penalty for one c has p >= 0.01.  (*: all of these at p >= 0.05.)')
+print(f'   {"hull points":20s} {"hull form":20s} {"periodic form":20s} {"one c":>16s} {"joint chi2/dof":>15s} '
+      f'{"p":>6s} {"penalty":>8s} {"p":>6s}   largest |z|')
+PASS = [o for o in ALLJ if passes(o)]
+for o in sorted(PASS, key=lambda o: o['r'].theta[0]):
+    r = o['r']
+    worst = max(r.resid(), key=lambda t: abs(t[2]))
+    print(f'   {o["cut"]:20s} {o["h"]:20s} {o["p"]:20s} {r.theta[0]:.4f} +- {r.err(0):.4f} {r.chi2:9.1f}/{r.dof:<3d} '
+          f'{r.p:8.2g} {o["pen"]:8.1f} {o["ppen"]:6.2g} {"*" if passes(o, 0.05) else " "} '
+          f'{lab(worst[0]).strip()} {worst[2]:+.1f} s')
+for title, sel in [('hull A >= 45 or six sizes, p >= 0.01', [o for o in PASS if '63' not in o['cut']]),
+                   ('hull A >= 45 or six sizes, p >= 0.05',
+                    [o for o in PASS if '63' not in o['cut'] and passes(o, 0.05)]),
+                   ('every cut, p >= 0.01', PASS)]:
+    cs = [o['r'].theta[0] for o in sel]
+    if cs:
+        print(f'   range of the single c ({title}): {min(cs):.4f} to {max(cs):.4f} ({len(cs)} pairings)')
+print('   pairings in which both forms fit their own family (p >= 0.01), by the significance of the difference:')
+both = [o for o in ALLJ if o['rh'].dof > 0 and o['rh'].p >= 0.01 and o['rp'].p >= 0.01 and '63' not in o['cut']
+        and 'two terms' not in o['cut']]
+for o in sorted(both, key=lambda o: o['pen']):
+    print(f'      {o["cut"]:10s} {o["h"]:20s} x {o["p"]:20s} c_hull - c_per = {o["dc"]:+.4f} +- {o["edc"]:.4f}; '
+          f'penalty {o["pen"]:6.1f} ({math.sqrt(o["pen"]):4.1f} s)')
+
+if not Q:
+    print('\n-- residuals of every point in the single-c readings that pass (hull A >= 45 or six sizes)')
+    for o in sorted(PASS, key=lambda o: o['r'].theta[0]):
+        if '63' in o['cut']:
+            continue
+        r = o['r']
+        print(f'   {o["cut"]}: {o["h"]} x {o["p"]}: c = {r.theta[0]:.4f}; ' + ', '.join(
+            f'{n} = {v:+.4g}' for n, v in zip(r.names[1:], r.theta[1:])))
         for p, d_, z in r.resid():
-            if p['fam'] == 'hull':
-                print(f'        {lab(p):30s} {p["y"]:8.4f} +- {p["se"]:.4f}  resid {d_:+.4f} ({z:+.1f} s)')
-    return r, rh, rp
+            print(f'        {lab(p):30s} {p["y"]:8.4f} +- {p["se"]:.4f}  resid {d_:+.4f} ({z:+.1f} s)')
+    print('\n-- hull residuals in the six pairings of the first write-up (one hull term, A >= 45)')
+    for o in ALLJ:
+        if o['cut'] == 'A >= 45' and o['h'] in ('rim (r k)', 'log (p lnA)') and \
+                o['p'] in ('offsets a(s)', 'long side', 'capillary wave'):
+            print(f'   {o["h"]} x {o["p"]}: c = {o["r"].theta[0]:.4f}')
+            for p, d_, z in o['r'].resid():
+                if p['fam'] == 'hull':
+                    print(f'        {lab(p):30s} {p["y"]:8.4f} +- {p["se"]:.4f}  resid {d_:+.4f} ({z:+.1f} s)')
 
+print('\n-- what each passing single-c reading implies beyond the data (hull A >= 45 or six sizes)')
+for o in sorted(PASS, key=lambda o: o['r'].theta[0]):
+    if '63' in o['cut']:
+        continue
+    r = o['r']; nh_ = len(r.names) - 1 - len(PC[o['p']][1])
+    g = (HC3.get(o['h']) or HC4[o['h']])[0]
+    th = r.theta[1:1 + nh_]; c = r.theta[0]
+    y = {k_: c * 1.5 * k_ * (k_ + 1) + g(th, dict(A=1.5 * k_ * (k_ + 1), k=k_)) for k_ in (7, 8, 9, 10, 11, 12)}
+    txt = (f'hull slopes 84->108 {(y[8]-y[7])/24:.4f}, 108->135 {(y[9]-y[8])/27:.4f}, 198->234 '
+           f'{(y[12]-y[11])/36:.4f}; ln tau(135) {y[9]:.2f}, (165) {y[10]:.2f}')
+    if o['p'].startswith('a(s), D'):
+        D_ = r.theta[-1]
+        dfc = {'a(s), D/s': lambda s_: D_ / s_, 'a(s), D/s^2': lambda s_: D_ / s_ ** 2,
+               'a(s), D e^(-s/0.72)': lambda s_: D_ * math.exp(-s_ / XI_W)}[o['p']]
+        txt += '; strip cost per cell ' + ', '.join(f's={s_}: {c - dfc(s_):.4f}' for s_ in (4, 5, 6, 8, 12))
+        txt += '; offsets a(s) ' + ', '.join(f'{v:+.3f}' for v in r.theta[1 + nh_:1 + nh_ + 3])
+    elif o['p'] == 'long side':
+        beta = -r.theta[-1]
+        txt += '; strip cost per cell ' + ', '.join(f's={s_}: {c - beta / (3 * s_):.4f}' for s_ in (4, 5, 6, 8, 12))
+    print(f'   {o["cut"]:20s} {o["h"]:14s} x {o["p"]:20s} c = {c:.4f}: {txt}')
 
-PO_t, PO_n = [ind(4), ind(5), ind(6)], ['a4', 'a5', 'a6']
-PM_t, PM_n = [one, long_], ['a', 'minus_beta']
-Pcw_t, Pcw_n = [one, Fb], ['a', 'kappa']
-J = []
-J.append(('H1 x PO', joint([one, kk], ['a', 'r'], PO_t, PO_n, 'hull rim (a + r k)  x  periodic offsets a(s)')))
-J.append(('HL x PO', joint([one, lnA], ['a', 'p'], PO_t, PO_n, 'hull log (a + p lnA)  x  periodic offsets a(s)')))
-J.append(('H1 x PM', joint([one, kk], ['a', 'r'], PM_t, PM_n, 'hull rim  x  periodic long side (a - beta M)')))
-J.append(('HL x PM', joint([one, lnA], ['a', 'p'], PM_t, PM_n, 'hull log  x  periodic long side')))
-J.append(('H1 x Pcw', joint([one, kk], ['a', 'r'], Pcw_t, Pcw_n, 'hull rim  x  periodic capillary wave (a + kappa F)')))
-J.append(('HL x Pcw', joint([one, lnA], ['a', 'p'], Pcw_t, Pcw_n, 'hull log  x  periodic capillary wave')))
-J.append(('H2 x PO', joint([one, kk, invk], ['a', 'r', 'q'], PO_t, PO_n,
-                           'hull two-term rim (a + r k + q/k), all six sizes  x  periodic offsets', hpts=hull)))
-J.append(('H2 x PM', joint([one, kk, invk], ['a', 'r', 'q'], PM_t, PM_n,
-                           'hull two-term rim, all six sizes  x  periodic long side', hpts=hull)))
-J.append(('H2 x Pcw', joint([one, kk, invk], ['a', 'r', 'q'], Pcw_t, Pcw_n,
-                            'hull two-term rim, all six sizes  x  periodic capillary wave', hpts=hull)))
-
-print('\n  what the two-term hull fits at the periodic constant imply for larger hull faces (forecasts):')
-for tag, (r, rh, rp) in J[-3:]:
-    c = r.theta[0]; a, rr, q = r.theta[1:4]
-    def y(k): return c * 1.5 * k * (k + 1) + a + rr * k + q / k
-    print(f'      {tag}: c = {c:.4f}, r = {rr:+.3f} per unit side, q = {q:+.2f};  ln tau(A=135) = {y(9):.2f}, '
-          f'(A=165) = {y(10):.2f}; local slopes 108->135 {(y(9)-y(8))/27:.4f}, 135->165 {(y(10)-y(9))/30:.4f}, '
-          f'198->234 {(y(12)-y(11))/36:.4f}')
-for name in ('H1  a + cA + r k', 'HL  a + cA + p lnA'):
-    r = fitlin(name, HULL, H)
-    y9, e9 = r.predict(dict(A=135, k=9)); y10, e10 = r.predict(dict(A=165, k=10)); y8, _ = r.predict(dict(A=108, k=8))
-    print(f'      {name} (hull alone, A >= 45): ln tau(A=135) = {y9:.2f} +- {e9:.2f}, (A=165) = {y10:.2f} +- {e10:.2f}; '
-          f'local slopes 108->135 {(y9-y8)/27:.4f}, 135->165 {(y10-y9)/30:.4f}')
+print('\n-- the same test with an error floor added in quadrature to every point (soup transients are bounded at\n'
+      '   0.005 in ln tau by the sources; 0.01 is twice that)')
+for floor in (0.005, 0.01):
+    for hname, pname in (('rim (r k)', 'long side'), ('log (p lnA)', 'long side'), ('log (p lnA)', 'both sides'),
+                         ('log (p lnA)', 'a(s), D/s'), ('1/A', 'a(s), D/s'), ('1/A', 'a(s), D/s^2'),
+                         ('1/A', 'a(s), D e^(-s/0.72)'), ('1/A', 'offsets a(s)')):
+        print(f'   floor {floor}:', end='')
+        joint(hname, HC3[hname], pname, hull[1:], floor=floor)
 
 # ------------------------------------------------------------------------------------------------ 5. summary
 section('5. SUMMARY: in-sample fit and out-of-sample forecasts (z = residual / sqrt(se^2 + forecast error^2))')
