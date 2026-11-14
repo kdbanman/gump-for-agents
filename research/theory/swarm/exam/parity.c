@@ -72,7 +72,7 @@ int main(int argc, char **argv) {
     return 0;
   }
   long nbatch = atol(argv[4]); u64 seed = strtoull(argv[5], 0, 10); int T0 = atoi(argv[6]);
-  int T = H / 2;
+  int T = H / 2; int noprune = getenv("NOPRUNE") != NULL;
   double expo = 0, deaths = 0, one = 0, onedie = 0, bexp[16] = {0}, bdth[16] = {0};
   for (long b = 0; b < nbatch; b++) {
     seedrng(seed * 1000003ULL + (u64)b);
@@ -87,7 +87,7 @@ int main(int argc, char **argv) {
         u64 c0 = 0, c1 = 0; for (int x = 0; x < L; x++) { u64 a = AT(A, 0, x)[w]; c1 |= c0 & a; c0 |= a; }
         on[w] = c0 & ~c1 & ex[w];
       }
-      int rows = 2 * (T - t) + 1; if (rows > H + 1) rows = H + 1;
+      int rows = 2 * (T - t) + 1; if (rows > H + 1 || noprune) rows = H + 1;
       step(rows);
       int bin = age < 30 ? 0 : (age - 30) / 10 + 1; if (bin > 15) bin = 15;  /* ages 30-39, 40-49, ... */
       for (int w = 0; w < W; w++) {
