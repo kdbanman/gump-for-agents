@@ -12,7 +12,7 @@ are in `critic/journal.md`._
 | line | last report | critic's reply | what is owed |
 |---|---|---|---|
 | path | round 3, **interim** (written at the pause) | rounds 1, 2, 3 answered in `to-path.md` (round 3: the three tests its interim report names were run, lab L9.1–L9.4; the pointer to source's monotone comparison is given, with the tables' own evidence) | nothing |
-| source | round 3, **interim** | rounds 1, 2 answered in `to-source.md` (plus an addendum with the dice-model pointer) | review of the interim round 3 |
+| source | round 3, **interim** | rounds 1, 2, 3 answered in `to-source.md` (round 3: Theorems A and L and remark C18 confirmed, lab L10.1–L10.4; the line judges it has given what it can and the critic agrees, with the reasons and two reservations in §3 of the reply) | nothing. Recall the line only if probability produces a multi-generation dice theorem (T1) or one for a gump face (T3) |
 | counting | round 2 | rounds 1, 2 answered in `to-counting.md` (round 2 complete: every claim confirmed, all five lab requests run, lab L7.1–L7.10) | nothing |
 | probability | round 2, **interim** | rounds 1, 2 answered in `to-probability.md` (round 2: every claim confirmed; lab requests R5–R9 run, lab L8.1–L8.7) | nothing from the critic. Theorem A still waits for F1, F2 from the library |
 
@@ -67,7 +67,7 @@ C-E2 (c₃ of the true rule) cannot be computed by the lab; its reasoning mixes 
 | probability | `swarm/probability/` | dice in place of chaos: particle systems, coupling, percolation, contours | rounds 1, 2 answered (`to-probability.md`) |
 | counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | rounds 1, 2 answered |
 | path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | rounds 1, 2, 3 answered (`to-path.md`) |
-| source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | rounds 1, 2 answered (`to-source.md`); interim round 3 unreviewed |
+| source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | rounds 1, 2, 3 answered (`to-source.md`); finished as an independent line (its own judgement, shared by the critic) |
 | librarian | `swarm/library/` | primary papers: `shelf.md` (one line per source), `notes/`, `requests.md` (append-only, anyone) | first pass finished: 59 sources, ten notes files |
 
 Where lines could meet, which I watch: the probability of an empty edge under a product measure (a transfer
@@ -323,7 +323,8 @@ None of these changes the problem. Each is a number or sentence a proof could le
 | a deterministic relative that is a dice model exactly: true rule in the top w layers over a deep-permutive bulk, feedback allowed (R_w(Q), "gump on parity") | source (Lemma 1) | proved, checked. Needs a half-infinite reservoir |
 | the death law of a face depends on the bulk only through the equal-time conditional law κ_t of the two layers beneath given the w layers above; a class 𝒦 of such kernels on which the dice theorem holds (Aim B) | source (Lemma 3, C9) | Lemma 3 proved, checked; 𝒦 is a goal, nothing proved |
 | entropy accounting: what a finite vessel cannot supply | source (Lemma 2) | proved; excludes conditioning on the whole past only (reply, item 2) |
-| any probabilistic automaton with rational local randomness is the top of a deterministic one; in particular the probability line's anchor; the relative has an exact quasi-stationary law (C1′, C1″) | source | proved, checked. **With probability's Theorem A: a deterministic automaton on a half-plane for which e^{cL} ≤ τ_L is a theorem (modulo the two cited percolation facts)** |
+| any probabilistic automaton with rational local randomness is the top of a deterministic one; in particular the probability line's anchor; the relative has an exact quasi-stationary law (C1′, C1″) | source | proved, checked. **With probability's Theorem A: a deterministic automaton on a half-plane for which e^{cL} ≤ τ_L is a theorem (modulo the two cited percolation facts).** Written out by source in round 3 as its Theorem A: the automaton 𝒜(L) (2D rule in row 0; every cell beneath copies the cell two rows down; fair bits written in pairs of rows); confirmed by enumeration (lab L10.1). Its exponent: ring step 0.671 at L = 18 and falling, interval 0.6236 (lab L8.5) |
+| insertion tolerance of the equal-time drive, INS(p): each cell within distance 2 of a live cell is alive next with conditional probability ≥ p given the row and the other cells' drive; then the edge dominates five-parent oriented percolation of density p in law at each time (Theorem L) | source (round 3) | proved, confirmed (re-derived; an exact example with a correlated, row-dependent drive, lab L10.2). INS(p) fails for every p > 0 from generation 1 in the strip 4 × 6 (lab L10.4), and at p > 0.4991 for independent dice at the bulk density |
 | equal-time finite energy of the drive given the face, in units (edge cells; cube triples): E[δ^F; killable] ≤ h ≤ E[θ^F]; lifetime ≤ g·δ^{−gU} (Theorems H, U) | source | proved, checked, as conditional statements. The hypotheses fail strictly in the one vessel where they can be tested (lab L6.5); g = 2 on four faces |
 | the last cell: dice of density ρ give P(death) = (1 − 3ρ³ + 3ρ⁵ − ρ⁶)(1 − ρ³)⁴; gump's measured row from one cell is that of ρ ≈ 0.52 | source (C13, C14) | formula proved, checked; the fit holds across the whole row (lab L6.1); but the layer beneath a nearly empty face is poorer than usual, not richer (lab L6.2) |
 | screening: beyond some depth the exponent does not depend on the drive, so gump and "gump on parity" share it (Conjecture S) | source | guess; no exact support at depth 2 (lab L6.3) |
@@ -473,6 +474,15 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
   population (lab L9.2): each table is stochastically monotone in every tallied row (violations < 10⁻⁴), and at
   equal k the larger face's row dominates the smaller's up to +0.007 in the distribution function. The lemma
   needs the domination for the kernel at each time; a pooled table is a time average.
+- **Insertion tolerance** (source Theorem L; confirmed). For any process whose edge row follows the 2D rule: if at
+  each time of a window, for every row z and every cell x within distance 2 of a live cell,
+  P(x alive next | z, the drive of the other cells) ≥ p, then the law of the edge at each time dominates that of
+  five-parent oriented site percolation of density p started from the edge at the start of the window. Equal
+  time, one-sided, no independence. Probability's Theorem A′ is the same with the whole past in the condition.
+- **Self-overcrowding** (source C18; probability, entry 2; confirmed from the rule table). A gump face cell with
+  six live in-face neighbours dies whatever lies beneath; a dead face cell with three live in-face neighbours is
+  born only for b ∈ {1, 2}. A 2D edge cell has k ≤ 4 and can always be kept alive by b = 0 or b = 2. So no
+  one-step worst-case comparison exists for a gump face, and a drive taking two values per cube is not enough.
 - **Frozen cells** (source Lemma 5; checked): a cell with one unknown neighbour (the deep one) is determined one
   generation ahead unless k + x = 3 or k = 5 (2D: k + x = 2 or k = 4): the threshold and the cap are the only
   contexts in which a cell passes on what lies beneath it.
@@ -635,6 +645,10 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 | L9.2 | the pooled table as a kernel: monotonicity; order between sizes | row k + 1 dominates row k at every size (violations < 10⁻⁴). Larger face against smaller at equal k: max excess of the distribution function +0.007 (45 over 30, k = 3), +0.002, +0.04 (84 over 63, k = 2, 2.4 standard errors). P(death) from 1, 2, 3, 4 cells: 0.409, 0.098, 0.0185, 0.0066 (A = 30); 0.384, 0.093, 0.0182, 0.0054 (45); 0.377, 0.092, 0.0190, 0.0046 (63); 0.372, 0.104, 0.0187, 0.0044 (84) | `path_r3.py mono` |
 | L9.3 | path "Next (2)": D2(0.472) on a ring, quasi-stationary process: generations the central cell of an empty window of ℓ cells has been dead | ring of 18, ℓ = 1, 3, …, 13: mean 1.99, 1.95, 2.14, 2.30, 2.45, 2.57, 2.67; P(died in the last generation) 0.52, 0.52, 0.44, 0.38, 0.34, 0.30, 0.26; P(dead ≥ 6 generations) 0.035…0.066. Ring of 16: 1.99, 1.93, 2.11, 2.25, 2.38, 2.49 | `path_r3.py age 18` (20 s) |
 | L9.4 | Lemma 1′ and Proposition S by enumeration | hull R = 2v: 1,824 sealed sets, 86 minimal; box 3 × 4: 445, 36; strip 2 × 6: 324, 59. Every state: no violation of L1′, the union of dead sealed sets never loses a cell, and where it first appears it contains a minimal sealed set alive one generation earlier | `path_r3.py sealed` |
+| L10.1 | source, Theorem A: the automaton 𝒜(5) with six rows beneath, every start (2²⁰), three generations | the two cells beneath each edge cell are equal at every generation; for every S₀ the law of (S₁, S₂, S₃) equals that of E₁(½, 0, ½) on all 2²⁰ paths (difference 0) | `source_r3.py a` |
+| L10.2 | source, Theorem L on a ring of 6 with a drive b = 2c, c from an Ising ring with coupling ±0.2 set by the parity of the row's population | INS(0.3100) holds; at t = 1…8 from three starts a coupling with (percolation of density 0.31) ⊆ (edge) exists (linear programme); P(T > 8) from the full row: edge 0.875, percolation 0.350; against density 0.6 the programme is infeasible at t = 1 | `source_r3.py l` |
+| L10.3 | source C18 | from the rule table: (x, 6 + b) dead for b = 0…3; (dead, 3 + b) born iff b ∈ {1, 2}; 2D: every (x, k) with x + k ≥ 1 alive for b = 0 or b = 2 | `source_r3.py c18` |
+| L10.4 | insertion tolerance of the 2D rule's own drive, strip 4 × 6, uniform start, unsettled states with row 0 alive | a = P(x alive next \| row, cells beneath the others): smallest a = 0 from t = 1; mass with a = 0: 0.2%, 1.9%, 2.6%, 6.6%, 14.8%, 27.5% at t = 1, 2, 3, 5, 8, 10; mass with a < 0.4991: 22.6% (t = 0), 40–48% (t ≥ 1). No steady state in this vessel (extinct by generation 21) | `source_r3.py ins` |
 | L1.6 | refits of the empty-window decrement (committed `gap.json`) | limit 0.348 (c/ℓ), 0.355 (e^{−ℓ/20}), 0.370 (c/ℓ²), 0.373 (e^{−ℓ/10}) on ℓ = 20…38, all acceptable | `path_r1.py data` |
 
 ## The lab: what it can do, how to ask

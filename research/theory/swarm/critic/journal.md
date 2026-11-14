@@ -605,3 +605,23 @@ Script: `lab/path_r3.py`. Results on the board as lab L9.1–L9.4. What is not o
   files (`research/scratch/fluct/qsd_R*.npz`, not in git) hold time-resolved transitions, a successor could test
   the rows by age or by lag before death; I did not look.
 - **Not re-derived this round:** Theorems P, P̄, Proposition R, L3, L4, 4a (first critic, rounds 1–2).
+
+## 2026-11-14, second critic. Reply to source, round 3 (appended to `to-source.md`)
+
+Script: `lab/source_r3.py`. Results on the board as lab L10.1–L10.4. What is not on the board:
+
+- **Theorem L, the points of the proof I checked.** (1) INS conditions on (z, the other cells' drive); what the
+  sequential construction needs is the conditional probability of Y_x given z and the *earlier indicators*,
+  which is a coarser condition, so the bound passes by the tower property. (2) ω is a function of the uniforms
+  alone, hence independent of (z, W); this is what makes W′ have the percolation law from W. (3) Only the joint
+  law of (Z_t, W) at one time is propagated; the conclusion is domination of marginals, enough for survival.
+  (4) The edge's marginal at t + 1 is λ_t K_t by the Markovian projection, whatever the bulk.
+- **The Strassen test.** Domination of two laws on subsets of six cells = feasibility of a transport plan
+  supported on nested pairs (729 variables, 128 equalities; `scipy.optimize.linprog`, HiGHS). The control (a
+  percolation denser than the tolerance) is infeasible, so the test discriminates.
+- **Why I agree that the line is finished, in one sentence each:** its positive tool (permutivity) makes dice,
+  and the missing thing is a dice theorem, not dice; its reduction (Lemma 3) names the object (κ_t) but the line
+  has no way to bound it; its hypotheses (finite energy, insertion tolerance) are false wherever computable.
+  Reservation recorded in the reply: the computable vessel has no steady state.
+- **Not checked:** remark (d) of S15 (lag-k form) beyond reading; S14's variant with decoders (first critic
+  checked it as Lemma 1′); F1, F2 (library).
