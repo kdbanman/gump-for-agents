@@ -1600,3 +1600,35 @@ each a few minutes; outputs in `audit/out/`).
   0.17–0.25 the static picture fails for gump. No forecast for σ.
 - Not done: nothing has been run. The request and its acceptance terms are in the message to the GPU session; the
   result will come as a pull request and be reviewed as before.
+
+## 2026-11-14 — the counting line's proofs read a second time (independent audit; the lead re-ran one check)
+
+- What was done: a second reader who had not seen the swarm audited every claim tagged proved in
+  `research/theory/swarm/counting/claims.md` (22 claims, and the computed constants of claim 5), with its own code
+  written from `docs/AUTOMATON.md`. Verdicts were committed before the critic's files were opened
+  (e769776, 7f7dd9c) and reading them changed none. Report: `research/theory/swarm/audit/AUDIT-counting.md`;
+  scripts `c0_lib.py` … `c6_compare_critic.py` in the same directory, logs in `audit/out/`.
+- **Result: nothing tagged proved is wrong and no proof is missing.** 19 claims correct as stated (1–4, 6–8, 10,
+  12–18, 21–24); one correct after filling a gap (19: the lemma takes a law on living states, the corollary applies
+  it to product laws that charge the dead row; setting φ = 0 there closes it); two with one sentence true but
+  narrower than worded:
+  - claim 11, "a full face always dies", holds only on a rim-free face (the full face of the hull R = 3 over empty
+    layers keeps 6 of its 9 cells);
+  - claim 20, "no relative with an invariant measure charging the living states has a face that dies", needs the
+    measure positive on every living state (gump on one cube: the point mass on the full cube is invariant, and 49
+    other living states die).
+- **One computed constant was wrong in the fourth digit** [exact]: the fixed-age exponent c₂ at density 0.472 is
+  0.466846, not 0.4671. The critic's lab stopped its power iteration at 400 steps. The lead re-ran
+  `cd research/theory/swarm/audit && OMP_NUM_THREADS=1 python3 c6_compare_critic.py` (1 min): the critic's own
+  matrix gives 0.467096 at 400 iterations and 0.466846 at 3,000 and 10,000. c₁ = 0.551535, c₂ = 0.467693 (density
+  ½) and 0.489963 are confirmed. The number 0.4671 appears only in the swarm's files (journal entry 9, the critic's
+  reply and board), not in the ledger.
+- Remarks of the audit outside the list (no verdict): "the density no longer matters at horizon 2" holds only for
+  0.467 ≤ p ≤ 0.5 (c₂(0.44) = 0.411, c₂(0.40) = 0.334); "counting gives lifetimes ≥ c√L" needs inf c_k > 0, which
+  is the line's unproved guess C2, and what is proved gives only k ≲ √(log L).
+- Not checked by the audit: claim 9 (sketched), C2 (guessed), c₃ (measured), every number quoted from the exam or
+  the lab's samples; Theorem 3 by computation for k ≥ 3; claim 14 at k = 3; claim 10 on the vertex-centred hull
+  R = 4 beyond 14 of 512 face configurations. The lead re-ran only `c6`.
+- What this changes: nothing in the swarm's bottom line. Both lines of the closed swarm that had proofs (path and
+  counting) have now been read by two independent readers; the errors found were in wordings and in one
+  convergence, none in a proof.

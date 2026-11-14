@@ -74,7 +74,10 @@ _Last updated 2026-11-14 by the lead._
   SH2 (corrected), SH3-SH5. The review's corrections are applied to `research/shape2/README.md` (9ffb393) and the
   overview carries the census (ab66ba7; published 18:20 UTC, version 6). **The owner reset the Fable
   window at about 20:28 UTC** (0.00 at 20:29; words in `LEAD.md`, "Watching usage"). **Started 20:33 UTC:**
-  (1) Fable: second-reader audit of the counting line's proved claims -> `research/theory/swarm/audit/AUDIT-counting.md`;
+  (1) Fable, **done 21:36 UTC**: second-reader audit of the counting line, `research/theory/swarm/audit/AUDIT-counting.md`:
+  nothing tagged proved is wrong (19 correct, one gap filled, two wordings narrowed; one constant corrected,
+  c₂(0.472) = 0.466846); notebook entry and CLAIMS SW6 written; an Opus editor is pasting the corrected wordings into
+  `swarm/counting/claims.md`;
   (2) Fable: the thin face from the rule (derive the cost per cell 0.115 of the loop² 3 torus from layers of the rule
   over coin flips; quasi-one-dimensional, finite-state) -> `research/theory/thin/`;
   (3) Fable, **done 20:52 UTC**: a manuscript-style draft for an outside reader, `docs/paper/draft.md` (results graded
@@ -90,6 +93,11 @@ _Last updated 2026-11-14 by the lead._
   appended to `research/PRIOR-ART.md`); an adversarial second pass on its "not found" verdicts is owed after it;
   (4) Opus: the second variable, pairs of tori with equal area and equal shortest loop, candidates fixed and
   forecasts committed first -> `research/shape3/`.
+  (6) Fable, started 21:52 UTC: is there one asymptotic constant? Joint analysis of every family of lifetimes
+  (periodic by width, twisted, hull, symmetric), models stated before fitting, out-of-sample scores, a blind forecast
+  for the GPU patch experiment -> `research/constant/`.
+  Queued, not started (the five-hour usage window is the binding one until 01:20 UTC): a Fable line on the symmetric
+  collapse (PROGRAM M5: derive 1/6, the −0.196·√A term and the factor 1.5 between centres from the asymmetric law).
   (5) GPU session, asked 21:22 UTC: empty patches on a face too large to die (12×12×8; the lead's forecast is in the
   notebook, c = 0.21 ± 0.015); expect a pull request; review as before.
   Owed for each when it reports: the lead's own check of one key number, an adversarial review (Opus) for (2) and (4),
