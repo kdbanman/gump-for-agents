@@ -1,0 +1,38 @@
+
+=== claim 10, items 1-3: the cells beneath belong to the top cubes (offsets of reference/oracle.py)  [0 s]
+  layer histogram 1,2,6,2,1; one layer in = q - e_b, q - e_c; two layers in = p - 2e_b - 2e_c, read by p only; q - e_a lies beneath q + e_b and q + e_c; cube-mates are in-layer neighbours: True
+
+=== claim 10, item 4: the achievable triples (b_u, b_v, b_w)  [0 s]
+  |B| = 40 of 64; complement = (0 and 3: 18) + perms(0,0,2): 3 + perms(3,3,1): 3: True
+
+=== claim 10, item 5: kill sets K(s, k)  [0 s]
+  live: [[0, 1, 2], [0, 1], [0], [3], [2, 3], [1, 2, 3], [0, 1, 2, 3]]
+  dead: [[0, 1, 2, 3], [0, 1, 2], [0, 1], [0, 3], [2, 3], [1, 2, 3], [0, 1, 2, 3]]
+  K(live,3) x K(live,2) x anything meets B: False (journal: not emptiable)
+
+=== claim 10, item 5: the product formula, every state, on hulls (cells outside count 0)  [0 s]
+  hull R = 3 (cube-centred): 36 cells, face 9, cells beneath in the hull 15, top cubes by number of face cells [3, 3, 3]
+    all 2^24 states: face empty next in 731848; formula 731848; equal for each of the 2^9 face configurations: True
+  hull R = 4 (vertex-centred): 60 cells, face 9, cells beneath in the hull 24, top cubes by number of face cells [1, 1, 1, 1, 1, 1, 3]
+    too many cells for every state: skipped
+
+=== claim 10, item 5: the product formula on periodic slabs (3 layers)  [20 s]
+  slab 2 x 1 top cubes (A = 6, 18 cells; neighbours doubled, counted with multiplicity): all 2^18 states: 20941 empty the face; formula 20941; equal for every S: True
+    lambda(T <= 1) = 20941/262144 = 0.079884
+  slab 2 x 2 (A = 12, 36 cells): cells beneath per top cube [6, 6, 6, 6]; formula total 259065805 of 2^36: lambda(T <= 1) = 0.003770
+    S = 000000000000: brute over 2^24 states beneath  16777216   formula  16777216
+    S = 111111111111: brute over 2^24 states beneath  16777216   formula  16777216
+    S = 000000000001: brute over 2^24 states beneath   4515840   formula   4515840
+    S = 000000000111: brute over 2^24 states beneath     36100   formula     36100
+    S = 000111000111: brute over 2^24 states beneath         0   formula         0
+    S = 001000100100: brute over 2^24 states beneath      9600   formula      9600
+    S = 001000001110: brute over 2^24 states beneath       152   formula       152
+    S = 110011000000: brute over 2^24 states beneath         0   formula         0
+    S = 011111111101: brute over 2^24 states beneath     96000   formula     96000
+    S = 100101110000: brute over 2^24 states beneath         0   formula         0
+    S = 100110011111: brute over 2^24 states beneath      4560   formula      4560
+    S = 101101100101: brute over 2^24 states beneath       300   formula       300
+    S = 000001110101: brute over 2^24 states beneath        16   formula        16
+    S = 011111000100: brute over 2^24 states beneath         6   formula         6
+    S = 111111111111: brute over 2^24 states beneath  16777216   formula  16777216
+    S = 110111111111: brute over 2^24 states beneath   5017600   formula   5017600

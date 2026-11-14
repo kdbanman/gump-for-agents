@@ -1,0 +1,66 @@
+
+=== claim 21, Proposition F.1-F.3: what the band reads (offsets)  [0 s]
+  wall 4 x 5: neighbour lists of every sheet cell, every side face, every bottom and every r as in the journal: True
+  a cell above the wall has at most 3 neighbours with z <= Z (sealed: < 4)
+  F.2: band empty, random below (20000 states): band cells alive next: 0
+  F.2: sheet empty, one cube with four live sides: its top is born: True
+  F.2 (as corrected in entry 17): layer empty, full sheet: (cells beneath alive, born) = [(0, 0), (1, 0), (2, 1), (3, 1)]
+  F.3: same band, different cells below (20000 pairs): same sheet next: True
+
+=== claim 21, F.4: the sheet over an empty layer  [3 s]
+  periodic wall, layer empty: sigma next = [live sheet neighbours + sigma >= 4] fails in 0 cases of 400000
+  box wall 1 x 1 (true rule, layer held empty, random below): Theta^j(full) = {d >= j} for all j: True; empty after 1 steps (max d = 0)
+  box wall 2 x 2 (true rule, layer held empty, random below): Theta^j(full) = {d >= j} for all j: True; empty after 1 steps (max d = 0)
+  box wall 3 x 3 (true rule, layer held empty, random below): Theta^j(full) = {d >= j} for all j: True; empty after 3 steps (max d = 2)
+  box wall 4 x 4 (true rule, layer held empty, random below): Theta^j(full) = {d >= j} for all j: True; empty after 3 steps (max d = 2)
+  box wall 5 x 5 (true rule, layer held empty, random below): Theta^j(full) = {d >= j} for all j: True; empty after 5 steps (max d = 4)
+  box wall 6 x 6 (true rule, layer held empty, random below): Theta^j(full) = {d >= j} for all j: True; empty after 5 steps (max d = 4)
+  box wall 7 x 7 (true rule, layer held empty, random below): Theta^j(full) = {d >= j} for all j: True; empty after 7 steps (max d = 6)
+  Theta^2 of every one of the 2^4 sheets on the box 2 x 2: cells left 0
+  Theta^3 of every one of the 2^9 sheets on the box 3 x 3: cells left 0
+  Theta^4 of every one of the 2^16 sheets on the box 4 x 4: cells left 0
+  periodic wall 4 x 5, two adjacent rows of the sheet over a layer held empty: still there after 5 steps: True
+
+=== claim 21, F.5 and F.6: the layer under an empty sheet  [6 s]
+  F.5: sheet empty (40000 states): 'top born iff four live sides' fails 0 times; 'layer cell follows B45/S345 on k (6 in-layer) + 2 bottoms + 1 below' fails 0 times
+  F.6: on E (sheet empty, no cube with four live sides; 22524 states): band empty next iff layer empty next: True
+
+=== claim 22, the table of allowed m = beta_q + beta_q' (r_p free)  [12 s]
+  dead: {0: 'free', 1: 'free', 2: 'not both', 3: 'equal', 4: 'at least one', 5: 'free', 6: 'free', 7: 'free', 8: 'free'}
+  live: {0: 'free', 1: 'not both', 2: 'both dead', 3: 'both alive', 4: 'at least one', 5: 'free', 6: 'free', 7: 'free', 8: 'free'}
+  agrees with the journal's table for every (state, a), a = 0..8; every class is a 2-SAT constraint
+
+=== claim 22 (a): the vertex-model formula against every state, periodic wall 2 x 2  [12 s]
+  all 2^24 states of (band, bottoms, cells below the layer): band empty next in 319168; formula sum = 319168; equal for each of the 4096 band configurations: True
+  lambda(T <= 1) on the 2 x 2 wall = 319168/2^24 = 0.019024
+
+=== claim 22, the example Pi_1 on walls n x 4  [90 s]
+  n = 3: (state, a) of h(i,j), j = 0..3: [[(0, 3)], [(1, 6)], [(0, 3)], [(0, 0)]]; of v(i,j): [[(1, 5)], [(1, 5)], [(0, 0)], [(0, 0)]]
+    patterns of the 12 bottoms and 24 cells below that empty the band: 35028992; 32^n (8^n + 2*6^n + 5^n) = 35028992; of 2^36
+    in every killing pattern the bottoms of row j are all equal, j = 0..3: [True, False, True, False]
+    300000 random patterns (half drawn from killing bottoms), true rule: band empty in 1289; the journal's conditions predict the same set: True
+  n = 4: (state, a) of h(i,j), j = 0..3: [[(0, 3)], [(1, 6)], [(0, 3)], [(0, 0)]]; of v(i,j): [[(1, 5)], [(1, 5)], [(0, 0)], [(0, 0)]]
+    patterns of the 16 bottoms and 32 cells below that empty the band: 7668236288; 32^n (8^n + 2*6^n + 5^n) = 7668236288; of 2^48
+    in every killing pattern the bottoms of row j are all equal, j = 0..3: [True, False, True, False]
+    300000 random patterns (half drawn from killing bottoms), true rule: band empty in 241; the journal's conditions predict the same set: True
+
+=== claim 23: the lone cell of the layer under an empty sheet (wall 3 x 3)  [102 s]
+  cells that matter: 6 bottoms, 7 below the layer
+  of the 2^13 patterns, 3793 leave the band empty next (journal 3,793): 0.4630
+    rho_beta = 0.5, rho_r = 0.5: enumeration 0.463013, ladder polynomial 0.463013
+    rho_beta = 0.52, rho_r = 0.52: enumeration 0.421444, ladder polynomial 0.421444
+    rho_beta = 0.398, rho_r = 0.398: enumeration 0.672433, ladder polynomial 0.672433
+    rho_beta = 0.4155, rho_r = 0.4155: enumeration 0.637985, ladder polynomial 0.637985
+    rho_beta = 0.3, rho_r = 0.8: enumeration 0.661412, ladder polynomial 0.661412
+    rho_beta = 0.9, rho_r = 0.1: enumeration 0.558412, ladder polynomial 0.558412
+    journal's numbers: 3793/8192 = 0.4630; at 0.52: face12e 0.4214 (0.4214), gump 0.3668 (0.3668); face12e at 0.398: 0.672 (0.672), at 0.4155: 0.638 (0.638); gump at 0.4155: 0.606 (0.606); (7/8)^7 = 0.393
+    control, wall 2 x 2 (cubes coincide): 376 of 2^10 = 0.3672, not 0.4630
+
+=== claim 6 (face12e): a lone closed cube under the wall  [102 s]
+  each face of a cube sees {4} of the others; a cell outside sees at most 2
+  k = 1, box half-width 4 (journal): cube not intact after 1 generations in 0 of 1500 random outsides
+  k = 1, box half-width 0 (control: 2k - 2): cube not intact after 1 generations in 1484 of 1500 random outsides
+  k = 2, box half-width 6 (journal): cube not intact after 2 generations in 0 of 1500 random outsides
+  k = 2, box half-width 2 (control: 2k - 2): cube not intact after 2 generations in 1416 of 1500 random outsides
+
+all assertions passed  [104 s]
