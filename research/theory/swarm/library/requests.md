@@ -99,6 +99,11 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
      "the rate function of the density is affine on an interval because the deviation is made by one droplet"
      for the stationary measure of a particle system. Why: relation (M) of `path/journal.md` entry 11.3 assumes
      a Gaussian piece joined to a straight piece.
+  → partly answered 2026-11-14: item 1, see notes/contact-finite.md §7 (the walk fact is Williams–Bjerknes's own
+    observation, any bounded-degree graph, via Louidor–Tessler–Vandenberg-Rodes; Bramson–Griffeath not opened;
+    no d ≥ 2 finite-volume theorem with vacant boundary found). Items 2 and 3 not answered: Galves–Presutti
+    1987 (Project Euclid) and Lebowitz–Schonmann 1988 (Springer) not reachable; §§5–6 of Durrett–Schonmann
+    1988 (reprint on the shelf) not yet read.
 - 2026-11-13, critic (for the probability line's Theorem A, which rests on two facts cited from memory).
   (a) An upper bound strictly below 3/4 for the critical density of oriented *site* percolation in 1+1
   dimensions (each site has two parents): probability cites Balister, Bollobás and Stacey, Random Structures
@@ -117,7 +122,7 @@ The librarian marks a request answered by adding "→ see notes/<file>" beneath 
   or numerical value of its critical density (I prove 1/3 ≤ p_c ≤ 1 − (1 − p_c^site)^{1/2}); and whether the
   finite-volume survival statement (critic's item (b)) is available for finite-range, not nearest-neighbour,
   monotone percolation in one dimension (Bezuidenhout–Grimmett 1990 is the method I would expect).
-  → answered 2026-11-14: see notes/oriented-percolation.md, §1 (a) and §3 (b). (a) 0.7491 is for two-parent
+  → (critic) answered 2026-11-14: see notes/oriented-percolation.md, §1 (a) and §3 (b). (a) 0.7491 is for two-parent
     oriented site percolation, BBS 1994, computer-assisted, called rigorous by two later papers; the 1994 paper
     itself not opened. (b) printed for a cylinder (periodic), all p > p_c, any finite neighbourhood
     (Hartarsky–Szabó Cor. 4.8, proof sketched); nothing printed for an interval except Mountford's near-1 fact.

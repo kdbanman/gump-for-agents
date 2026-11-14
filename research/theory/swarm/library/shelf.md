@@ -20,6 +20,8 @@ How to read the notes: each statement is tagged [paper], [secondary: X] or [abst
 | M. Cassandro, A. Galves, E. Olivieri, M. E. Vares, "Metastable behavior of stochastic dynamics: a pathwise approach", J. Statist. Phys. 35 (1984) 603–634 | https://link.springer.com/article/10.1007/BF01010826 | abstract (paywalled) | `contact-finite.md`, corrections | origin of the exponential limit law (d = 1, large λ) |
 | R. H. Schonmann, "Metastability for the contact process", J. Statist. Phys. 41 (1985) 445–464 | https://link.springer.com/article/10.1007/BF01009017 | abstract (paywalled) | `contact-finite.md`, corrections | the limit law for all λ > λ_c (d = 1) |
 | R. Durrett, R. H. Schonmann, "Large deviations for the contact process and two dimensional percolation", Probab. Theory Related Fields 77 (1988) 583–603 | https://sites.math.duke.edu/~rtd/reprints/paper43.pdf | statements | `ld-contact-percolation.md` | a proved "area above, perimeter below" dichotomy; empty interval costs e^{−cn} under the contact process's stationary law |
+| O. Louidor, R. J. Tessler, A. Vandenberg-Rodes, "The Williams Bjerknes model on regular trees", arXiv:1211.5694 | https://arxiv.org/abs/1211.5694 | introduction | `contact-finite.md` §7 | the count of occupied sites is a biased walk on any bounded-degree graph; survival 1 − λ^{−n} |
+| M. Bramson, D. Griffeath, "On the Williams–Bjerknes tumour growth model" I, Ann. Probab. 9 (1981); II, Math. Proc. Cambridge Philos. Soc. 88 (1980) | projecteuclid.org; cambridge.org | **not obtained**; via Louidor et al. | `contact-finite.md` §7 | shape theorem, all d |
 
 ## 2. Non-monotone systems with an absorbing state; the block construction
 
