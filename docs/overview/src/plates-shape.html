@@ -1,0 +1,24 @@
+<!-- Added 2026-11-14 (second refresh). Numbers come from data/sources/update-2026-11-14b.json via collect.py, which
+     checks each one against research/NOTEBOOK.md ("equal areas, different lifetimes"; "the shortest way round") or CLAIMS. -->
+<section class="plate" id="shape">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">The shortest way round</p><span class="st st-meas">measured, two independent codes</span><span class="st st-open">a wide face with no wrap-around: open</span></div>
+    <h2>At equal area, a periodic face lives longer the longer its shortest way round.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c5 panel">
+      <h3>The same 72 cells, repeated two ways</h3>
+      <div class="nbrow" id="f-twist"></div>
+      <figcaption>A slab face wraps around like a torus: walk far enough and you are back where you began. Each small rhombus is three cells of the face, and both repeats hold 24. The thick line is the <b>shortest way round</b>: from a point to the same point in the next copy. Shearing the repeat makes it longer without changing the area.</figcaption>
+    </figure>
+    <figure class="fig c7 panel">
+      <h3>Lifetime against the shortest way round, at 72 cells</h3>
+      <div id="f-loop"></div>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--s1)"></span>this experiment (13 tori, pooled by shortest loop)</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--ink)"></span>rerun by the review’s own independent code</span></div>
+      <div id="t-loop"></div>
+      <figcaption>Different shapes with the same shortest loop agree. Tori that almost never form a firewall lie on the same curve as those that often do, so this is not the competing channel. About <span id="n-rise">0.15</span> in ln(wait) per unit of loop length, with no sign of levelling off by 4.6.</figcaption>
+    </figure>
+  </div>
+  <div class="nums" id="n-shape"></div>
+  <p class="cap">So every price per cell measured on a periodic slab, including the 0.21 on the area-law plate, carries a <b>wrap-around term</b>, and the shortest loop is not the whole of it: at 60 cells two tori with the same shortest loop still differ. <b>Not known: how long a wide face with no wrap-around lives.</b> Hull faces have none, but they have edges, and nothing yet connects the two numbers.</p>
+</section>

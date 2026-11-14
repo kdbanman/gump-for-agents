@@ -1,29 +1,64 @@
 # Board (critic)
 
-_Kept by the critic. **State, 2026-11-14, end of the third critic's pass: counting (round 3, closing),
-probability (round 3, closing) and path (round 4) have complete replies; counting and probability are
-finished; path has asked for one closing round and the critic's answer is "a short one, with the three items of
-`to-path.md` §6"; source finished earlier. Nothing is queued.** A successor should read "Where the queue stands"
-just below, then the rest. Scripts named here are in `critic/lab/`; run them from that directory. "Checked" or
+_Kept by the critic. **State, 2026-11-14, after the fourth critic's pass: CLOSED.** All four lines are finished and
+every round report has its reply; path's closing round (journal entries 22–24) is answered in the last section of
+`to-path.md`. Nothing is queued and nothing more will be added. A reader who wants the swarm's result should read
+the closing table just below and may stop there. A successor who wants to reuse something should go on to "Where
+the queue stands" and the rest. Scripts named here are in `critic/lab/`; run them from that directory. "Checked" or
 "confirmed" means a critic re-derived or recomputed it; "read" means the statement was compared with its source
 and nothing more. Proofs and commands behind every "checked" are in `critic/journal.md`._
 
-## Where the queue stands (last change 2026-11-14, third pass)
+## Closing table of the whole swarm (2026-11-14)
+
+**Bottom line.** No line proved the area law for gump or for the 2D rule, and no line derived γ from the rule:
+"why area" and "what is γ" are open. What is proved is (a) a deterministic relative of the 2D rule's edge, with
+its randomness stored in the initial condition, whose lifetime is exponential in the length, conditional on two
+published percolation statements nobody here has verified at the source; and (b) for gump, exact reductions: the
+hazard is the entry flux into a low set times the committor of the pooled one-step table, and the wait is
+exponential in the area *if* sparse faces regrow at a rate bounded below up to a fixed fraction of the area,
+which is measured on four hull tables, not derived, and accounts for 0.13–0.14 (0.16–0.18 with the measured
+entry term) of the 0.21 per cell. No formula for γ from the rule survived (fixed-age counting failed its exam,
+the closures by independent cells were withdrawn); the one number left, 0.2191, is a functional of a measured
+table with a stated continuation, and a conjecture.
+
+| line | stands as proved (and who checked it) | conditional, and on what | sketched or conjectured | fell, withdrawn or shown out of reach | exam |
+|---|---|---|---|---|---|
+| **probability** (dice in place of chaos) | Lemmas 1–6, Propositions W (a, b), F, the limits of Lemma 4. Checked by a critic (rounds 1–3, `to-probability.md`) **and** by the independent audit (`audit/AUDIT-theoremA.md`, parts A, B1: correct; one small gap filled; two statements narrower than worded) | **Theorem A**: for one row of the 2D rule on a ring over independent dice whose law gives b = 0 and b = 2 each a weight above the threshold p₅ of five-parent oriented percolation (the anchor (½, 0, ½); not the law at the density of the rule's own bulk, where the method provably fails), e^{cL} ≤ τ_L ≤ 3·8^L; **A′**: the same lower bound over any bulk that gives those two values that conditional weight given the past. Conditional on (P1) finite-volume survival of supercritical oriented site percolation on a cylinder (Hartarsky–Szabó 2022, Cor. 4.8: statement read, printed proof a sketch) and, to be non-empty, on (P3) p_c^site ≤ 0.7491 (Balister–Bollobás–Stacey 1994: second-hand, computer-assisted) or Liggett's ¾ at equality (unread). Lemma 4 is about a face driven by independent *counts*, not by cells (E20) | T2a–c (boundary conditions do not change a dice model's exponent): guessed. H(n, c) uniformly in L: unproved. Supercriticality of the process η of Lemma 4: guessed | T2b "ring ≤ interval" lost its sampled support (P-E1). The comparison method provably stops short of dice at the bulk density and of a gump face (its own Lemma 2, claim 20) | P-E1 (D2 ring slope 0.48 ± 0.03): 0.512 ± 0.012, **not decidable**, central value disfavoured. P-E2: **holds**. P-E3 (ii): **missed** by 0.008. P-E4: **not run** |
+| **counting** (a map with a trapdoor) | Claims 1–8, 10–16, 18–24: the bijection lemma; fixed-age death probabilities as transfer matrices (Theorem 3, Proposition 4, Lemma 6, the dice hierarchy); Lemma 8 and Lemma 2′; face12e (Propositions F, G; the lone cell 3793/8192); O_h face counts to N = 4. Checked by a critic (rounds 1–3, `to-counting.md`); **no second reader** | With the lab's exact rings, Lemma 8 gives a conditional upper bound on the ring exponent of the dice model D2 (E15, E21). Nothing about the steady law of the rule itself: fixed-age exponents are about the soup's transient | C2 (c_∞(½) > 0 for the 2D rule): guessed, out of reach. "Mirror = exactly half" at a fixed age: sketched, abandoned. The light-cone step of claim 6 for face12e; O_h counts beyond N = 4: unchecked | The bridge from fixed-age exponents to the law, C1 and C1′ (both halves): withdrawn after C-E2; the programme is closed by its author (graveyard 21). The collision-entropy hypothesis (claim 17) fails in every vessel enumerated. "The sheet cannot live without the layer" is a box-wall statement (E19) | C-E2 (c₃ of the true 2D rule 0.447 ± 0.012): 0.3676 ± 0.0006, **fails**. C-E1 revised (one mirror on gump hulls, 0.105 ± 0.009): 0.1026 ± 0.0003, **holds**, with no theorem behind it ("a mirror halves" to 10%, not exactly). C-E3: **not run** |
+| **path** (least unlikely route to empty) | L1, L1′, S, L3, L4, F (structure of confinement; every permanent loss is the extinction, at one instant, of an inclusion-minimal sealed set), R5, P, **P̄** (hazard = entry flux × committor of the pooled one-step table; no Markov property), C, T′, T, X, R; Q in its final form, V⁻, V⁻(E) with Lemma E1, H, V′. Each checked by one critic (rounds 1–2 the first, 3 the second, 4 the third, the closing round the fourth; `to-path.md`); **no second reader**, and the closing round's theorems (Q final, V⁻, V⁻(E), H, V′) were written and checked on the same day | **Theorem Q**: ln τ ≥ θ₀(κA − k₀) − ln Φ if the local roots of the pooled table are ≥ θ₀ on rows k₀ … κA (hypothesis R). R(0.35, 0.40, 5) holds on the four hull tables (A = 30…84); it is not derived from the rule, and by R5 cannot follow from the sealed-set structure. It gives 0.13–0.14 per cell of 0.21, and 0.16–0.18 with the measured Φ over all rows. **Theorem V⁻**: for a family of tables sub-extensive over a rate family with a margin ((E), (R_ε)), the committor's exponent is at least V − V̄ in the limit, V the quasi-potential of the rates. At the measured sizes it adds at most 0.35 nats to Q; its threshold is thousands of cells; (E) is untested in that regime, and between tallied sizes it holds up to the rows' roots and fails beyond them on the upper rows (E23), which is the part that carries V beyond Q | Upper half of claim V (the exponent is not larger than V): sketched; numerically confirmed on three m-fold families. **V for gump** (γ = quasi-potential of the limiting one-step rates; 0.2191 on the A = 84 hull table continued by clusters at the sparse end, rising with the table): conjecture, a functional of a measured table. The hull's slope levels off near 0.220: conjecture. G1(ii) (the ring's excess is a power of L), A (isoperimetry of sealed sets beyond R = 10), F12 (face12e's 0.205): conjectures | H, H′; G2 (gump half); relation (M); Th (ln τ = A∫Θ: the root sum is only an upper bound); "one remnant in every vessel" and Dr as a property of the rule (E3); the ring part of W; the mean-field value; Q's first side condition (E17); "V = 0.218" without its continuation, and 0.2054 as a candidate for γ (the continuation behind it is contradicted by the tallies, E23) | E1 (notched ring 0.345 ± 0.020): 0.3458 ± 0.0036, **holds**. E2 (remnant at lag 2): **not refuted**, low at L = 36. E3 (remnant on a slab face): **fails**. LR11 (a prediction to the lab, 36.6 ± 1.2): 34.65, **missed**. E4: **not run**, and its window cannot tell V from ∫Θ |
+| **source** (self-made randomness) | Theorems L, H, U (as implications), Lemmas 1–4, C1–C1″, C13, C18. Checked by a critic (rounds 1–3, `to-source.md`) **and** by the independent audit (part B2) | **Theorem A** (with probability's): the deterministic automaton 𝒜(L) on a half-plane (row 0 follows the 2D rule, every other row copies the row two below, independent fair bits beneath written twice) has e^{cL} ≤ τ_L ≤ 3·8^L, on the same (P1), (P3). It is a deterministic map with a random initial condition read once, needs an infinite reservoir, and says nothing about gump or about the 2D rule in a vessel run by the rule (audit §4). Theorems H, U: their finite-energy hypotheses fail strictly in the one vessel where they can be tested (lab L6.5) | Conjecture S (screening: beyond some depth the exponent does not depend on the drive): guessed, no exact support at depth 2. The class 𝒦 of drive kernels on which a dice theorem would transfer to gump (C9): a goal, nothing proved. C8: sketched | INS(p) and the hypothesis of Theorem L fail for the rule's own statistics; a threshold bulk is not a source (its own Lemma 4) | S-E1, S-E2 (exact dice-model values): **hold** |
+
+**What nobody here has checked.** The proof of (P1); the primary source of (P3); Liggett's theorem at density
+exactly ¾. Any link from the rule to the pooled table (hypothesis R; (E)). Anything about a face above half
+occupancy except its entries into the low set (rows above A/2 are not tallied). The transfer matrices of
+`counting_r2.py ck` at k ≥ 4 on rings longer than 7. Path's `mf_deadend.py` beyond running it.
+
+**Facts of `PROBLEM.md` left without an account from any line.** The value of γ for either rule; the rise of the
+cost per cell with A; the O_h slopes and the factor 1.5–1.7 between vertex- and cube-centred hulls; the 20% drop
+under four-fold rotation in 2D; face12e's 0.205 and fcc's 0.181; why the ring of the dice model D2 keeps an
+exponent above the interval's out to L = 38 (E15).
+
+**Exam, in one line.** Hold: path E1, counting C-E1 (revised), source S-E1, S-E2, probability P-E2. Fail or
+missed: path E3, counting C-E2, probability P-E3 (ii), path's LR11. Not refuted or not decidable: path E2,
+probability P-E1. Not run: counting C-E3, path E4, probability P-E4.
+
+## Where the queue stands (last change 2026-11-14, fourth pass: nothing is queued)
 
 | line | last report | critic's reply | verdict |
 |---|---|---|---|
 | counting | round 3 (closing; claims 19–24) | rounds 1–3 answered in `to-counting.md` (round 3: every claim tagged proved confirmed; lab requests 1–3 run; lab L11.1–L11.6) | **finished.** Its last step that bears on the law is Lemma 8; with the lab's rings it is a conditional upper bound on the ring exponent of D2 (E15, last paragraph) |
 | probability | round 3 (closing; entries 11–15) | rounds 1–3 answered in `to-probability.md` (round 3: every claim confirmed; R10–R12 run; lab L13.1–L13.4) | **finished.** Theorem A stands conditional on two printed facts (below) |
-| path | round 4 (entries 16–21); asks for one closing round | rounds 1–4 answered in `to-path.md` (round 4: T′, T, X, C, F, Q confirmed; LR9–LR12 run; lab L12.1–L12.10) | **one short closing round is worth running**, on three items: state V with its continuation and exact numbers and record the LR11 miss; repair Theorem Q's side condition; write the proof that e^{−(1−δ)·m·V} is a supersolution on the m-fold family (Chernoff and Bellman; sketch in the reply, numerical confirmation lab L12.10), which would make "ln τ ≥ (1 − δ)·V·A for exactly extensive tables" a theorem containing Q. No new programme |
+| path | closing round (entries 22–24, closing report) | rounds 1–4 and the closing round answered in `to-path.md` (closing round: Q final, V⁻, V⁻(E), H, V′ confirmed; LR13, LR14 run; lab L14.1–L14.8) | **finished.** Its last step that bears on the law is Theorem Q on hypothesis R; Theorem V⁻ adds nothing at the measured sizes and its hypothesis (E) is half supported in kind (E23) |
 | source | round 3, interim | rounds 1–3 answered in `to-source.md` | finished (its own judgement, shared). An independent audit of its Theorem A with probability's is in `swarm/audit/AUDIT-theoremA.md` (not the critic's; its part C compares verdicts: two numbers of this board corrected, E16) |
 
-**What stands as proved after the third pass** (each confirmed by a critic; detail in the replies).
+**What stands as proved after the fourth pass** (each confirmed by a critic; detail in the replies).
 - *Counting:* claims 1–8, 10–16, 18–24: fixed-age theory of soups (Theorem 3, Proposition 4, Lemma 6, dice
   hierarchy), Lemma 8 and corollary, Lemma 2′, face12e (Propositions F, G; lone cell 3793/8192), O_h face counts.
 - *Probability:* Lemmas 1–6, Propositions W (a, b), F, Theorems A (form of entry 11) and A′ **conditional on (P1)**
   (Hartarsky–Szabó, Cor. 4.8: printed, proof a sketch) and non-empty **conditional on (P3)** (p_c^site ≤ 0.7491:
   second-hand, computer-assisted) or on Liggett's 3/4 at equality (unread); the limits of entries 4 and 14.
-- *Path:* L1, L1′, S, P, P̄, L3, L4, R, R5, T′, T, X, C, F, the two-patch identity, Q as an implication.
+- *Path:* L1, L1′, S, P, P̄, L3, L4, R, R5, T′, T, X, C, F, the two-patch identity; Q in its final form (23.2), V⁻ (24.2),
+  Lemma E1 and Corollary V⁻(E) (24.3), Corollary H (24.4), Proposition V′ (24.5) (fourth pass).
 - *Source:* as on the board before (Theorems A, L, H, U, Lemmas 1–4), same two printed facts under Theorem A.
 
 **What fell in the third pass, and why** (one line each).
@@ -37,16 +72,21 @@ and nothing more. Proofs and commands behind every "checked" are in `critic/jour
 - Counting's closing sentence "the sheet cannot live without the layer": a box-wall statement (E19).
 - "Lemma 4 is about a gump face over dice": it is about a face over independent *counts* (E20).
 - Probability's T2b ("ring ≤ interval") lost its sampled support (P-E1 not decidable; E15, last paragraph).
+- *Fourth pass.* 0.2054 as a candidate for γ: its continuation is contradicted by the tallies at rows 3–6. "The larger
+  face is at least as concentrated as the m-fold of the smaller" as a statement about (E): true up to the rows' roots,
+  false beyond them. "No δ < 1 makes the rows good on a tallied table": true for δ ≤ 0.9. "The tables cannot say
+  whether drops from above A/2 matter": they can, for the entry term (all in E23).
 
 **What remains unchecked** (nobody here has checked it).
 - The proof of (P1); the primary source of (P3); Liggett's theorem at density exactly 3/4.
-- Claim V as a theorem (a discrete-time quasi-potential limit for extensive chains; standard in kind; library
-  request unanswered); every link from the rule to the pooled table (hypothesis R, extensivity).
+- The upper half of claim V (the committor's exponent is not larger than V on an extensive family; standard in kind;
+  library request unanswered). Every link from the rule to the pooled table (hypothesis R; hypothesis (E)). (E) in the
+  regime where Theorem V⁻ acts (thousands of cells).
 - Probability's H(n, c) uniformly in L; whether the process η of Lemma 4 is supercritical (exam P-E4).
 - The light-cone step of counting's claim 6 for face12e; O_h counts beyond N = 4; the true rule's c₃ exactly.
 - Path's `mf_deadend.py` beyond running it (its table reproduces).
-- Rows above A/2 of the face tallies do not exist: "no face dies from K cells or more" and "decreasing paths
-  suffice" are known on half their range.
+- Rows above A/2 of the face tallies do not exist: R⁺ and B⁺ (the one-step conditions of Theorems Q and H above the
+  low set) are known row by row on half their range. The entry term Φ itself is known over all rows (E23).
 
 **Lab work that could not be done.**
 - Gump's one-generation exponent on a strip wider than three cubes (2²⁴ states with 2¹² new bits per step).
@@ -101,7 +141,8 @@ and nothing more. Proofs and commands behind every "checked" are in `critic/jour
 | source S-E1, S-E2 | exact D2 values | hold | — |
 | probability P-E1 (D2 ring, L = 30–38) | 0.48 ± 0.03, refuted from 0.51 | 0.512 ± 0.012: not decidable | conceded that the descent has not happened |
 | probability P-E2, P-E3 | exact | P-E2 holds; P-E3 (ii) missed by 0.008 | Prop. F read as a bound only |
-| counting C-E3, path E4, probability P-E4 | filed | not run when this was written | E4's window cannot tell V from ∫Θ (reply to path §4); P-E4 concerns counts, not cells (E20) |
+| counting C-E3, path E4, probability P-E4 | filed | not run when the board was closed | E4's window cannot tell V from ∫Θ (reply to path §4); P-E4 concerns counts, not cells (E20) |
+| path LR11 (a prediction to the lab) | second doubling of the m-fold chain adds 36.6 ± 1.2 | 34.65: missed | recorded as a miss by path (entry 22.4): predicted with one continuation for a chain specified with the other |
 
 ## Who is here
 
@@ -109,7 +150,7 @@ and nothing more. Proofs and commands behind every "checked" are in `critic/jour
 |---|---|---|---|
 | probability | `swarm/probability/` | dice in place of chaos: particle systems, coupling, percolation, contours | rounds 1–3 answered (`to-probability.md`); **finished** (its own judgement, shared) |
 | counting | `swarm/counting/` | the map with a trapdoor: exact counts, transfer matrices, escape rates, entropy | rounds 1–3 answered (`to-counting.md`); **finished** (its own judgement, shared) |
-| path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | rounds 1–4 answered (`to-path.md`); asks for one closing round: worth running, short (reply §6) |
+| path | `swarm/path/` | least unlikely route to empty: large deviations, effective dynamics, structure | rounds 1–4 and the closing round answered (`to-path.md`); **finished** ("the line is closed", its closing report; shared) |
 | source | `swarm/source/` | deterministic systems that are provable random sources; what the bulk would have to satisfy | rounds 1, 2, 3 answered (`to-source.md`); finished as an independent line (its own judgement, shared by the critic) |
 | librarian | `swarm/library/` | primary papers: `shelf.md` (one line per source), `notes/`, `requests.md` (append-only, anyone) | first pass finished (59 sources, ten notes files); since then `notes/oriented-percolation.md` (the two facts under Theorem A) and a shelf of 142 lines. Path's request on discrete-time quasi-potentials is unanswered |
 | examiner | `swarm/exam/` | sampling of the filed predictions (`PREDICTIONS.md`), fixed protocols, `OUTCOMES.md` | E1–E3, C-E1, C-E2, S-E1, S-E2, P-E1 scored; C-E3, E4, P-E4 filed |
@@ -299,6 +340,31 @@ None of these changes the problem. Each is a number or sentence a proof could le
   F), and W is the *smallest* sealed set of an N × M × D slab iff 3·max(N, M) ≤ 5D + 2 (transverse bands of three
   layers have (5D + 2)·min(N, M) cells); true at the measured sizes (D = 4, walls ≤ 6 × 6), false for wide thin
   slabs (3 × 5 × 2: 36 < 45). This is E12 for the second lattice. (Lab L12.8.)
+- **E23. Path's closing round (entries 22–24): four corrections of detail, none to a theorem.** (Lab L14.3–L14.7.)
+  (a) *Hypothesis (E) between tallied sizes.* (E) needs no multiples (m = A′/A real). With the smaller table's
+  interpolated rows as rates and e = 0, in all six pairs of A = 30, 45, 63, 84: for tilts up to each row's own root
+  the defect ln M′ − m·Λ is ≤ 0 (largest +0.011 nats, in one pair, at two sparse rows); beyond the root it is positive on
+  the rows above 0.3A′ (at s = 0.6: +0.13 to +0.65 nats, 6–18% of ln M′, in 6 of 9 to 16 of 16 rows; more the further
+  apart the sizes). The quasi-potential with (E) asked only up to each row's root is Theorem Q's block bound, and
+  V needs (E) for 0 ≤ s ≤ 0.6 at every row (s ≤ 0.5 gives 0.2009 in place of 0.2191). So the part of (E) that the
+  tallies support is the part that gives Q. Multiplying the A = 84 transforms by 1.1, 1.2, 1.5 beyond the root
+  lowers V to 0.2178, 0.2164, 0.2110. The weaker hypothesis Theorem V⁻ really uses (the scaled quasi-potential of
+  the smaller table is admissible for the larger) holds with e = 0 in the three pairs tried.
+  (b) *The continuation.* 0.2054 against 0.2191 is not an ambiguity of the definition or of the data but of the
+  extension of one table to a family. The continuation behind 0.2054 (a face of 2A cells holding n cells steps
+  like two faces of A cells holding n/2) is contradicted by the tallies: roots of rows 3–6 of the 2-fold chain of
+  the A = 45 table 0.20, 0.33, 0.40, 0.47, of the measured face of 84 cells 0.53, 0.62, 0.61, 0.60. 0.2191 may be set
+  against the hull slopes at A ≥ 84 only (0.218, 0.221), as a calculated number inside four unseparated effects of
+  0.002–0.007 each; 0.2054 against nothing.
+  (c) *R⁺ and B⁺ "for every visited row"* are suprema without weights. The tallies visit rows up to 0.89–0.97 A, and
+  a face cell with six live in-face neighbours dies, so a full face of a large hull keeps at most its rim: one
+  such visited row would break both. The weighted forms are what the proofs use: Φ ≤ E_living[e^{−θ₀(Z′ − K)}; Z ≥ K],
+  and Φ[ψ] ≤ (the bound on a set 𝒵 of rows) + P_living(Z ≥ K, Z ∉ 𝒵).
+  (d) *The rows above A/2.* By the inflow identity, entries into z′ from untallied rows = H(z′) − Σ_{z ≤ A/2} Tr(z, z′)
+  (exact up to terms of order deaths/exposure). At A = 84 no face ever landed at 9 cells or fewer from above A/2
+  (1.2 × 10¹⁰ face-generations); Φ over all rows at K = ⌈0.35A⌉ is 0.159, 0.122, 0.101, 0.0514 (the untallied rows
+  add 17%, 18%, 19%, 12%), and Theorem Q's bound with it has slopes 0.169, 0.162, 0.176 per cell. Also: on a
+  tallied table a δ < 1 in Theorem V⁻ adds at most 0.35 nats to the block bound (δ ≥ 0.96), not nothing.
 
 ## The lead's starting points: what I checked
 
@@ -460,8 +526,8 @@ None of these changes the problem. Each is a number or sentence a proof could le
 | the second lattice face12e: the wall is a band; one-generation emptiability is 2-SAT with rigid lines; the lone cell 3793/8192; sheet + layer is an inclusion-minimal sealed set | counting (Props F, G), path (Lemma F) | proved, checked (lab L11.1–L11.4, L12.8). Neither line derives 0.205; cautions E19, E22 |
 | O_h faces: cube-centred and vertex-centred faces have equal counts of cells, orbits and bonds | counting (entry 15) | proved, checked to N = 4; the factor 1.5–1.7 is unexplained |
 | local roots of the pooled one-step table: block bound (T′), root sum as the other bound (T), exact cases (X) | path (round 4) | proved, checked (lab L12.1) |
-| "why area" as one conditional theorem: roots bounded below up to a fixed fraction of the area ⇒ ln τ ≥ θ₀κA (Theorem Q, hypothesis R) | path | proved as an implication, checked; R holds on all four hull tables; gives 0.14 of 0.21; side condition corrected (E17); R is measured, not derived |
-| the exponent as the discrete-time quasi-potential of the pooled one-step law, γ = V[rates] (claim V) | path | sketched. Limit confirmed on m-fold chains (lab L12.5); 0.2191 on the A = 84 table with exact rates, rising with the table; tables not yet extensive (E18). Exam E4 filed |
+| "why area" as one conditional theorem: roots bounded below up to a fixed fraction of the area ⇒ ln τ ≥ θ₀κA − ln Φ (Theorem Q, hypothesis R; Φ the undershoot moment per unit of exposure) | path | proved, checked in its final form (fourth pass; lab L14.7); R holds on all four hull tables; gives 0.13–0.14 of 0.21 (0.16–0.18 with the measured Φ over all rows); R is measured, not derived |
+| the exponent as the discrete-time quasi-potential of the pooled one-step law, γ = V[rates] (claim V); its lower half as a theorem for sub-extensive families with a margin (Theorem V⁻) | path | V⁻ proved, checked (fourth pass; lab L14.1, L14.2); adds nothing at the measured sizes; its hypothesis (E) holds between tallied sizes up to the rows' roots and fails beyond (E23). Upper half sketched. For gump: conjecture; 0.2191 on the A = 84 table with exact rates and clusters at the sparse end, rising with the table. Exam E4 filed, not run |
 | a comparison form of Theorem P̄: a monotone kernel dominated row by row by the pooled table gives a certificate, with no uniformity in time (Lemma C) | path | proved, checked; reaches only k below half the smallest face |
 | the local three-move game for every arc length (Lemma 5); irreducibility on intervals (Lemma 6) | probability (round 3) | proved, checked (lab L13.1, L13.2); closes claim 13 |
 | a monotone two-generation process beneath a gump face driven by counts (Lemma 4) and its limits (density ≤ 0.304; 7/8; 19/27) | probability | proved, checked, for independent counts only (E20); supercriticality guessed (exam P-E4) |
@@ -807,20 +873,30 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 - **Lemma C (path; checked).** If q is a kernel with stochastically non-decreasing rows on {1…K − 1} and every
   pooled row (censored mass at +∞) dominates the same row of q, then q's committor is a supersolution for
   Theorem P̄ and ψ* ≤ ψ_q. No uniformity in time. Monotone rows are needed (counterexample: `path_r4.py props`).
-- **Theorem Q (path; checked as an implication; side condition corrected in E17).** If at every size the pooled
-  table has θ_k ≥ θ₀ for k₀ ≤ k < ⌈κA⌉ (hypothesis R), no face dies directly from ⌈κA⌉ cells or more, and the
-  undershoot moment satisfies ln C ≤ εA, then ln τ ≥ (θ₀κ − ε)A − const. On the hull tables R(0.35, 0.40, 5) holds
-  at A = 30, 45, 63, 84 and the theorem gives 0.14 per cell.
-- **Claim V (path; sketched; the limit confirmed numerically, lab L12.5).** For an extensive one-step law
-  (row mA·x of a face of mA cells = m-fold convolution of the row A·x) the committor's exponent per cell tends
-  to V(ρ), V(x) = min_y [I(x → y) + V(y)], I the Legendre transform of the row's log-transform. On the m-fold
-  chain of the A = 84 table: increments 0.2134, 0.2165, 0.2181, 0.2188 per cell at 168…1344 cells against
-  V = 0.2191. Bounds sup κΘ(κ) ≤ V ≤ ∫Θ. The living law's log-slope is V′, smaller than Θ (0.37 against 0.41 at
-  x = 0.35).
-  **The half that bounds ln τ from below has a short proof for exactly extensive tables** (not written by anyone
-  yet; sketch in `to-path.md`, round 4, §3): with W(n) = m·V(n/m), Chernoff's point bound q(n, n′) ≤ e^{−m·I} and Bellman's
-  inequality W(n) ≤ m·I + W(n′) make e^{−(1−δ)W} a supersolution of Theorem P̄'s inequality once m ≥ m₀(δ), away from
-  two boundary layers; so ln τ ≥ (1 − δ)·V·A − const, which contains Theorem Q. Confirmed numerically (lab L12.10).
+- **Theorem Q, final form (path, 23.2; checked, lab L14.7).** Pooled table T̄ of any statistic, p_z the pooled living
+  law, M_k(s) = Σ T̄(k, k′)e^{−s(k′ − k)}. If M_k(θ₀) ≤ 1 for k₀ < k < K (hypothesis R), then over any window
+  Deaths/Expo ≤ e^{−θ₀(K − k₀)}·Φ + boundary, Φ = Σ_{z ≥ K} p_z Σ_{z′ < K} T̄(z, z′)e^{θ₀(K − z′)} (a direct death is z′ = 0), and
+  Φ ≤ E_living[e^{−θ₀(Z′ − K)}; Z ≥ K] ≤ sup_{z ≥ K} M_z(θ₀)e^{−θ₀(z − K)}. On the hull tables R(0.35, 0.40, 5) holds at
+  A = 30, 45, 63, 84 and Φ over all rows is 0.159, 0.122, 0.101, 0.051.
+- **Theorem V⁻ (path, 24.2; checked, lab L14.1).** One table, low set {1…n₁}, ψ* its committor. Let W be any real
+  function on {0…n₁} with W(n) − W(n′) ≤ −ln T̄(n, n′) + e for k₀ < n ≤ n₁ and all targets n′ ≤ n₁, rising ones included
+  (at n′ ≤ k₀ it is enough to ask it against W̄₀ = max_{j ≤ k₀} W(j)), and let every such row with a positive
+  certified exponent satisfy e^{(1−δ)e}·Σ_{n′ ≤ n₁}[T̄(n, n′)e^{−θ₀(n′ − n)}]^δ ≤ 1 (implied by (e^e N_n)^{1−δ}M_n(θ₀)^δ ≤ 1, N_n the
+  number of targets). Then ψ*(n) ≤ exp(−[(1 − δ)(W(n) − W̄₀) + δθ₀(n − k₀)]⁺). δ = 1 is T′. Always ψ*(n) ≥ e^{−W°(n)}, W°
+  the cost −ln T̄ of the most probable path. Needed, with hand-size counterexamples in `path_r5.py hand`: the
+  count of targets; (B) at rising targets.
+- **Corollary V⁻(E) (path, 24.3; checked, lab L14.2).** Tables T̄^{(m)} with ln M^{(m)}_n(s) ≤ mΛ_{n/m}(s) + e_m on the rows
+  x₀ < n/m ≤ x₁, for the tilts s in a set Σ ∋ 0, θ₀ (path states it for all real s; s ≥ 0 up to the largest root is what
+  V needs), and Λ_x(θ₀) ≤ −ε₀ there. Then for δmε₀ ≥ e_m + (1 − δ)ln(mx₁ + 1):
+  −ln ψ*_m(n) ≥ (1 − δ)m(V(n/m) − V̄) + δθ₀(n − ⌊mx₀⌋), V the quasi-potential of the rates sup_{s ∈ Σ}[s(x − y) − Λ_x(s)] on the
+  low set [0, x₁] (rising steps allowed), V̄ = sup_{y ≤ x₀} V(y). The m-fold family of a table is exactly extensive;
+  if all its rows have positive roots, liminf −(1/m) ln ψ*_m(mk) ≥ V(k). R with a margin cannot replace (E): a
+  one-step catastrophe of probability e^{−cm}, θ₀x₁ < c < V − V̄, keeps R and breaks the conclusion (`path_r5.py family`).
+- **Claim V (path; lower half proved as above; upper half sketched; the limit confirmed numerically on three
+  m-fold families, lab L12.5, L14.2).** For an exactly extensive one-step law the committor's exponent per cell
+  tends to V. On the m-fold chain of the A = 84 table: increments 0.2134, 0.2165, 0.2181, 0.2188 per cell at 168…1344
+  cells against V = 0.2191 (clusters at the sparse end). Bounds sup κΘ(κ) ≤ V ≤ ∫Θ; the lower one is V with (E) asked
+  only up to each row's root. The living law's log-slope is V′, smaller than Θ (0.37 against 0.41 at x = 0.35).
 - **Lemma 5 (probability; checked for arcs of m ≤ 8, every row; lab L13.1).** E₁(π), p = min(π₀, π₂) > 0: from
   every row, an arc I of m ≤ L − 12 cells is empty three generations later with probability ≥ p^{3m+12}, by dice on
   I ⊕ 4, I ⊕ 2, I only (move 1: fill S ⊕ [−2, 2]; move 2: kill every cell with k ≥ 3 and allow no birth, leaving
@@ -931,6 +1007,14 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 | L13.2 | probability R11: Lemma 6, M = 5…14, dead and reflecting ends | one class; every S reaches J in ≤ 7 steps; J reaches every T (depth 2 dead, 1 reflecting); the proof's chain step by step | `prob_r3.py r11` |
 | L13.3 | probability R12: Lemma 4 | tables B(x, k), (O1), (O2), (a), (b) for k ≤ 6; coupling on a 27-cell periodic face, 20,000 faces × 12 generations of drawn dice, no violation (a search for counterexamples); 665/2187, 19/27; cube lemma: 40 of 64 triples, (3, 0, ·) absent; 87 of 1,000 cube pictures cannot be killed together; in D3 P(b_a = 0 \| b_b = 3) = 0 | `prob_r3.py r12` |
 | L13.4 | exam P-E1 against the exact tables of D2(·, 0.472) | ring minus dead-ended interval: exact −2.07, −1.38, −1.08, −0.74 at L = 5, 10, 14, 19; sampled −0.165 ± 0.025, +0.054 ± 0.042, +0.257 ± 0.089 at 30, 34, 38 (interval extrapolated at 0.4595 per cell). Fits on the exact L = 11–19: −4.30 + 1.21 ln L predicts the ring at +0.8, +2.1, +1.7 σ; −2.27 + 0.082 L at −14, −11, −7 σ. Refits through the exact point at 19: power a = 1.315 (χ² 2.40 on 2); linear 0.053 per cell (χ² 0.03 on 2) | `prob_r3.py pe1` |
+| L14.1 | path, closing round (LR13): Theorem V⁻ (24.2), Corollary H (24.4), Theorem Q's final form | worked cases (4/13, 1/13; row 1 good iff δ ≥ 0.828; 1.266 ≤ 2.565 ≤ 2.773; Q: Φ = 0.538 ≤ 1.5, bound 0.0208 ≥ h = 0.0143). Random tables with an arbitrary real W and its least slack: V⁻ in 18,731 cases as stated (7,750 with δ < 1 and a certificate above the block bound), 22,087 in the sharp form, 28,304 with weakened hypotheses (W(0) free; (B) at n′ ≤ k₀ against W̄₀ only; (G) only where the exponent is positive): no violation. Negative controls (violations/cases): (B) at lower targets only 17/1,232; (G) without the count 764/24,214; (G) dropped 9,353/60,094. Hand-size: walk on {0…3} with δ = 0.05 (2.689 > 2.565); rows 1 → 0 w.p. 10⁻⁶ else 2, 2 → 0 w.p. 0.01 else 3 (7.41 > 4.61). H on 11,530 restarted chains: hazard = entry flux × ψ* to 10⁻¹⁵; hazard ≤ Φ[ψ] ≤ closed bound. Path's own `vminus_check.py all` and `v 32`: ALL OK | `path_r5.py hand`, `random` (20 s); `python3 ../../path/vminus_check.py all` (76 s), `v 32` (3 min) |
+| L14.2 | Corollary V⁻(E) on exact m-fold families | (i) base rows 1…4, each cell leaving 2 cells or none w.p. 0.10, 0.15, 0.20, 0.25 (roots 2.20, 1.73, 1.39, 1.10), θ₀ = 0.5, ε₀ = 0.341: wherever (S) holds (m = 16, 32, 48 at δ = ½; 48 at δ = 0.3) all block rows are good and the inequality holds; −ln ψ*_m(4m)/m = 4.94, 5.24, 5.35, 5.39, 5.3993, 5.3997, 5.3997 at m = 1…48, W_J/m 5.545 → 5.403. (ii) branching rows (2 cells or none, ¼; V = x ln 3) with a catastrophe of probability e^{−1.3m} from every row: R holds with margin 0.115 at θ₀ = 0.3, (S) holds at δ = ½ from m = 48, (E) against the base rates (e_m = ln 2) holds at the top row for s < 0.320 and fails beyond; −ln ψ*_m(3m)/m = 1.3000 < 1.399 (the corollary's bound with the base V) and > 0.600 (Q's); without the catastrophe 3.2958 | `path_r5.py family` |
+| L14.3 | Theorem V⁻ on each tallied table by itself | best certificate with δ < 1 against the block bound (sharp form, θ₀ in steps of 0.01; W_J – W°): A = 84: 11.90–12.00 against 11.88 (top 0.35A), 10.28–10.50 against 10.15 (0.45A), 7.89–8.04 against 8.00 (0.5A); A = 63: 9.01–9.10 / 9.00, 8.12–8.18 / 8.10, 6.33–6.39 / 6.30; A = 45: 5.06–5.11 / 5.04 at 0.5A, below the block bound at the other two tops. Gain at most 0.35 nats, only with δ ≥ 0.96 | `path_r5.py tables` |
+| L14.4 | V of the A = 84 table by continuation and by the range of tilts in which (E) is asked (top row \| row 29, per cell) | c₀: 0.2056 \| 0.1694 (0.2054 on finer grids, L12.4). c₁: all real s 0.2191 \| 0.1829; s ≥ 0 the same to 10⁻⁶; s ≤ 0.7 the same; s ≤ 0.6: 0.2185 \| 0.1823; ≤ 0.5: 0.2009 \| 0.1646; ≤ 0.4: 0.1721 \| 0.1369; ≤ 0.3: 0.1362 \| 0.1062. Low set [0, 0.35A], s ≤ the row's own root: 11.95 nats (29·θ₂₉ = 12.10, the block bound; all s: 15.36). Transform × 1.1, 1.2, 1.5 beyond the root: 0.2178, 0.2164, 0.2110 | `path_r5.py tables` |
+| L14.5 | the two continuations against the tallies in kind: roots of rows 1…8 of the 2-fold chain of a table against the measured table nearest in size | 2 × 45: c₀ 0.000, 0.000, 0.199, 0.331, 0.404, 0.467, 0.517, 0.549; c₁ (finite form) 0.000, 0.331, 0.467, 0.549, 0.556, 0.440, 0.487, 0.526; measured A = 84: 0.049, 0.226, 0.527, 0.615, 0.607, 0.603, 0.582, 0.587. 2 × 30: c₀ 0.000, 0.000, 0.114, 0.276, 0.334, 0.390, 0.446, 0.478; c₁ 0.000, 0.276, 0.390, 0.478, 0.483, 0.351, 0.418, 0.453; measured A = 63: 0.005, 0.340, 0.493, 0.577, 0.590, 0.587, 0.584, 0.572 | `path_r5.py tables` |
+| L14.6 | hypothesis (E) between tallied sizes (rates = interpolated rows of the smaller table, e = 0, m = A′/A; defect = ln M′ − mΛ; s = 0.02…1.00) | exact 2-fold chain against its table: 2 × 10⁻¹⁵. Largest defect for s up to the row's root: −0.003, −0.006, −0.009, −0.001, −0.003, +0.011 (30→45, 30→63, 30→84, 45→63, 45→84, 63→84). Beyond the root, share of (row, s) positive: 48, 53, 58, 52, 62, 72%. Rows above 0.3A′ at s = 0.6: +0.138 (8% of ln M′; 6/9 rows), +0.344 (14%; 11/13), +0.652 (18%; 15/17), +0.130 (7%; 11/12), +0.341 (12%; 16/16), +0.153 (6%; 16/16); at s = 1.0: 0.47, 1.16, 2.11, 0.53, 1.24, 0.64. Admissibility of W = m·V_small(n/m) on the larger table (c₁): largest W(n) − W(n′) + ln T̄′ = −1.97 (45→84), −1.80 (63→84), −1.81 (45→63): e = 0 | `path_r5.py tables` |
+| L14.7 | LR14: Theorem Q's entry term and condition B⁺ on the tallies; the rows above A/2 by the inflow identity | K = ⌈0.35A⌉: θ₀ 0.4034, 0.4261, 0.4117, 0.4172; χ 0.0563, 0.0336, 0.0230, 0.0103; C 2.42, 3.08, 3.70, 4.45; Φ 0.1362, 0.1034, 0.0850, 0.0458; C⁺ 1.043, 1.054, 1.068, 1.068; direct deaths 1, 0, 0, 0 (path's 23.3 reproduced). K = ⌈0.45A⌉: θ₀ 0.2458, 0.2283, 0.2367, 0.2510; Φ 0.1250, 0.1109, 0.1323, 0.1596; C⁺ 1.089, 1.090, 1.093, 1.095. B⁺ (largest W(n₁) − W(z′) + ln T̄): 0.35A: W_J −2.439, −2.637, −2.792, W° −0.721, −0.638, −0.606 (A = 45, 63, 84; path's reproduced); 0.45A: −2.355, −2.580, −2.760 and −0.373, −0.367, −0.317. Entries from rows above A/2 = H(z′) − Σ_{z ≤ A/2} Tr(z, z′): at A = 84 zero for z′ ≤ 9, then 1, 2, 16 at 10, 11, 12; they add 0.0229, 0.0186, 0.0159, 0.0056 to Φ at 0.35A (17, 18, 19, 12%; at A = 30 negative residuals weigh −0.011) and 97, 154, 127, 83% at 0.45A. Φ over all rows at 0.35A: 0.159, 0.122, 0.101, 0.0514; θ₀(K − 5) − ln Φ = 4.26, 6.79, 9.70, 13.40 | `path_r5.py lr14` |
+| L14.8 | path's entry 24.7, point 3, on the A = 84 table | ln M_k(0.3): 30 of 37 second differences positive on rows 5…41; ln M_{k−3} + ln M_{k+3} − 2 ln M_k = 0.017, 0.019, 0.066 at k = 10, 20, 30 (margins 0.307, 0.445, 0.310): reproduced. Upper tail of the living histogram: rows visited up to 29/30, 43/45, 58/63, 75/84; P(Z ≥ 0.8A) = 1.6 × 10⁻⁵, 9.8 × 10⁻⁷, 6.2 × 10⁻⁸, 3.5 × 10⁻⁹ at A = 63, 84, 108, 135 | `path_r5.py split`; histogram `H` of `data/fluct_tables.npz` |
 
 ## The lab: what it can do, how to ask
 
@@ -946,6 +1030,10 @@ face12e from `research/audit/class/lead_check.py` after comparing its stepper wi
 the twelve edge-sharing faces; `path_r4.py` computes committors by elimination without pivoting (checked against
 numpy's solver) and stationary laws by Grassmann–Taksar–Heyman elimination, so that numbers like e^{−290} are
 exact to rounding. `path_r4.py lr11` reports path's missed prediction as a result, not as a failure of the lab.
+
+Fourth pass (2026-11-14): `path_r5.py` ends with ALL OK (35 s). It imports no code of path's; its Chernoff costs are
+exact Legendre transforms (bisection on the tilted mean), where path's `vminus_check.py` uses a grid of s, and the
+two agree on condition B⁺ to three decimals; its test of (E) returns 2 × 10⁻¹⁵ on an exactly extensive pair.
 
 Available on request, exact only: the fate of every state of a vessel with ≤ 26 cells; smallest sealed sets
 under side conditions (hulls to about 700 cells, slabs to about 250); feasibility questions "is there a

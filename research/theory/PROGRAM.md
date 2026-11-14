@@ -74,6 +74,17 @@ or a sharply stated conjecture with a rate, (iii) what remains is characterised.
   anything? Does a little noise change lifetimes smoothly?
 - **M4 [open] Derive 0.208.** Local-structure (correlated mean-field) approximations of the stationary state, then
   the cost of emptying a face; or a one-cluster birth–death model for the last cells (ratio 0.65 per cell).
+  **Sharpened 2026-11-14** (`research/theory/exponent.md`, reviewed; notebook of that date, "where the exponent
+  lives"; the swarm's exam S-E2): the constant is a property of five or six layers of the rule over independent coin
+  flips. A face with w ≥ 5 layers on the rule and fresh Bernoulli cells beneath has the deterministic slab's
+  lifetime to 0.015 in ln τ (A = 27–60). So M4 is now a question about a probabilistic cellular automaton of finite
+  depth: exact at small sizes (transfer matrices, as the swarm's lab did for one row), samplable at large ones
+  without the bulk, and open to the tools of M3 (it *has* noise). Not derived: the constant itself. What was tried
+  and fell: mean-field large deviations, a Gaussian, a single driven row (all off by 20–50%), the empty-window
+  formula as more than a fit, fixed-age exponents (the swarm's counting line), "ln τ = A·∫θ" (path). What stands
+  as theorems: the swarm's conditional results (`swarm/critic/board.md`, closing table) and a deterministic
+  relative with an exponential law (CLAIMS SW1). The number itself is not fixed either: 0.2088 on slabs to A = 90,
+  0.215 ± 0.006 from 108 to 126, 0.216–0.221 on octahedral faces; whether width or area moves it is being measured.
 - **M5 [open] The symmetric collapse:** six lockstep domains minus a mirror-line term; the even/odd factor 1.5.
 - **M6 [measured, 2026-11-13] Are single lineages memoryless?** Yes at hull radius 31–38: plateaus of cube-like seeds wait
   like soups and like an exponential (`research/lineage/README.md`; `research/CLAIMS.md` L1). The GPU session's pull

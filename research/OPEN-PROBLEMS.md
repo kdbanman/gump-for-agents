@@ -20,6 +20,11 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
      A matching lower bound would be a contour argument of the kind used for the contact process;
    - deriving 0.208 from a model: near empty the face is one small cluster and P(k cells) falls by a constant
      factor 0.65 per cell, which is what a birth–death walk of a single cluster would give.
+   **2026-11-14:** the deterministic bulk is not needed. Five or six layers of the rule over fresh coin flips give
+   the face the same lifetime (to 0.015 in ln τ at A = 27–60; `research/theory/exponent.md`, reviewed). The problem
+   is therefore one about a finite-depth probabilistic automaton, where the second route above applies as stated.
+   The measured constant is itself not settled beyond A ≈ 90 (0.2088 on slabs; 0.215 ± 0.006 from A = 108 to 126;
+   0.216–0.221 on octahedral faces).
 4. **[open question] "Chaos always ends" is false as a theorem but plausibly true with overwhelming probability.**
    **Stated model [heuristic, untested]:** a uniformly random map on M = 2^N states in which every step is
    independently fatal (a face dies) with probability h = 1/τ, τ ≪ √M. A random map has on average 1/k cycles of

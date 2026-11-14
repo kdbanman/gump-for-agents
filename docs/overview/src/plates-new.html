@@ -1,0 +1,83 @@
+<!-- Added 2026-11-14 (afternoon). Every number drawn here comes from data/sources/update-2026-11-14.json via collect.py,
+     which checks each one against research/NOTEBOOK.md or research/CLAIMS.md. Numbers typed into this file are
+     cited beside them. face12e is never called gump. -->
+<section class="plate" id="meant">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">The rule you meant <b>· face12e, not gump</b></p><span class="st st-proved">box: proved</span><span class="st st-meas">lifetimes: measured</span></div>
+    <h2>The rule you meant to write is a gump in a box.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c5 panel">
+      <div class="nbrow" id="f-hulls"></div>
+      <figcaption>Same twelve-neighbour recipe, B45/S345. Watch the corner-touching four in the face’s plane (what the 2012 code does) and seeds are shut in an <b>octahedron</b>. Watch the edge-sharing four (what you meant) and they are shut in a <b>box</b>: no face beyond a sheet of face centres ever has the four live neighbours birth needs.</figcaption>
+    </figure>
+    <figure class="fig c7 panel">
+      <h3>How long a random start lasts in a box of n × n × n cubes</h3>
+      <div id="f-boxlife"></div>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--ember)"></span>random soup (median)</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--ember)"></span>estimate: 16 of 128 had ended</span><span class="key"><span class="sw dot" style="background:var(--s1)"></span>soup with full cubic symmetry</span></div>
+      <div id="t-boxlife"></div>
+      <figcaption>Each step up in size multiplies the wait, and faster each time. With full cubic symmetry the same boxes are over in tens of generations.</figcaption>
+    </figure>
+  </div>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>A wall dies whole, after a wait exponential in its area</h3>
+      <div id="f-wall"></div>
+      <figcaption>Slabs between two walls. The wait has no memory (the chance of dying does not change with age). Counted per cell of the layer just under the wall, the price is <b>0.205</b>, against gump’s 0.21 per face cell. Close; not explained.</figcaption>
+    </figure>
+    <div class="fig c5">
+      <div class="nums" style="grid-template-columns:1fr" id="n-meant"></div>
+    </div>
+  </div>
+</section>
+
+<section class="plate" id="family">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">The family</p><span class="st st-proved">sealing: proved</span><span class="st st-meas">laws: measured</span><span class="st st-open">which rules boil: open</span></div>
+    <h2>A gump is any rule whose seeds are sealed in by flat walls, burn, and lose a wall at a time.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c5 panel">
+      <h3>What seals a wall</h3>
+      <div id="f-halfspace"></div>
+      <figcaption>The square is an empty cell just outside a cut; the dots are the most live cells it can see inside. Birth needs four. If no cell outside can see as many live cells inside as birth needs, the outside stays dead for good. That is a theorem about <b>the cut and where it sits</b>, not just its direction; the old statement had only directions and called the rule you meant unconfined.</figcaption>
+    </figure>
+    <figure class="fig c7 panel">
+      <h3>Members found so far</h3>
+      <div class="fam" id="f-fam"></div>
+      <figcaption>Each “per cell” is the slope of ln(wait) for its own kind of wall, so the numbers are not exactly like with like. Whole-wall, memoryless death held in <span id="n-cases">42 of 50</span> lattice–rule pairs tested by a rule fixed in advance. Nothing yet predicts which rules boil, or how strong the law is.</figcaption>
+    </figure>
+  </div>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>bond10: walls that hold each other up</h3>
+      <div class="bars" id="f-bond10"></div>
+      <figcaption>Generations for a box of 4 × 4 × 4 cubes to lose a wall (log scale). The layer under a wall holds the edge rows of its four neighbouring walls, and those stay dense, so a wall cannot die while its neighbours live. Gump has a mild form of this (the 0.91 nats above); why bond10’s is so strong is <b>not known</b>.</figcaption>
+    </figure>
+    <div class="fig c5">
+      <div class="nums" style="grid-template-columns:1fr" id="n-family"></div>
+    </div>
+  </div>
+</section>
+
+<section class="plate" id="noise">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">Where the exponent lives</p><span class="st st-meas">measured, re-derived</span><span class="st st-open">the constant: open</span></div>
+    <h2>A face lives as long on five or six layers of the rule over coin flips as on the real thing.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c4 panel">
+      <div id="f-skin"></div>
+      <figcaption>Keep the rule on the top few layers under a face; replace everything deeper with fresh coin flips every generation. Whatever the face needs from the chaos beneath, it needs only as <b>noise</b>.</figcaption>
+    </figure>
+    <figure class="fig c8 panel">
+      <h3>Lifetime of the real thing, and of a thin skin over coins</h3>
+      <div id="f-noise"></div>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--s3)"></span>2D rule: an edge of a real strip</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--s3)"></span>8 rows over coins</span><span class="key"><span class="sw dot" style="background:var(--s1)"></span>gump: a real slab face</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--s1)"></span>6 layers over coins</span></div>
+      <div id="t-noise"></div>
+      <figcaption>The rings sit on the dots. With five layers a gump slab face agrees to 0.015 in ln(wait); four are 0.06–0.07 too long-lived. On hull faces deep models land 0.03–0.04 low.</figcaption>
+    </figure>
+  </div>
+  <div class="nums" id="n-noise"></div>
+  <p class="cap">So the open question is smaller than it was: not “why does chaos die this way”, but <b>what sets about 0.21 per cell in a thin layer of the rule driven by noise</b>, a system small enough to compute exactly at small sizes.</p>
+</section>

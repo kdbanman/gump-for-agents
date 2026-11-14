@@ -3,6 +3,13 @@
 > **Revised 2026-11-14** after the adversarial review `research/audit/REVIEW-class.md` (cited below as R§; its
 > scripts are in `research/audit/class/`, run from there). Every change is listed, with the review section that
 > required it, in the last section, "Changes in the revision of 2026-11-14".
+>
+> **Revised a second time 2026-11-14 after `research/theory/class/followup/OUTCOMES.md`** (cited below as F§; the
+> follow-up's forecasts, committed before its runs, are `followup/PREDICTIONS.md`, commit 59e0683; its commands run
+> from `research/theory/class/followup/`). Its results have one author and are tagged **[measured; one author]**,
+> except the face12e symmetric-box lifetimes, which the lead re-derived with separate code
+> (`research/audit/class/lead_check_box.py`). Every change is listed in the last section, "Changes in the second
+> revision of 2026-11-14".
 
 *Class agent, 2026-11-13; revised 2026-11-14. Tags: **[proved]** (argument given here), **[computed]** (exact finite
 computation, command given), **[measured]** (n, error, command), **[conjecture]**, and **[not independently
@@ -28,6 +35,9 @@ direction u, a⁻ (a⁰) for the most neighbours a cell has strictly behind (in)
    and the pattern is eventually periodic. With one cell type c(H) depends on the direction only and this reads
    b > a⁻ on a positively spanning set of directions; the hull is then the polytope of the sealed rays. This is a
    sufficient condition. *Not proved:* the converse for patterns (that without such a family something escapes).
+   Out of sample [measured; one author, F§1]: kagome8 and hex9 at their position-aware b = 4, caps 5–8, 0 escapes
+   from the predicted hull in 1,536 soups × 300 generations, where the direction-only version of this clause (b = 5)
+   predicted no confinement at b = 4; the same soups leave the position-free polygon (64 … 36,987 soup-generations).
 2. **No local permanent death [proved]** (Theorem C). If some generic v gives every cell type at least b forward
    offsets, no finite set of cells is sealed. With one type this is b ≤ K/2 and is an iff (C2); on gump's lattice it
    is an iff too [computed at b = 7, R§1.4]. Together with 1, for one type: (K − a⁰)/2 < b ≤ K/2. In a wall band or a
@@ -40,20 +50,44 @@ direction u, a⁻ (a⁰) for the most neighbours a cell has strictly behind (in)
    a⁰ ≥ b − 1 it reads c ≤ K_f = K − a⁻ in a slab, which leaves exactly a⁰ − 1 caps, b + 1 ≤ c ≤ K_f, that a face
    can feel (Cor. F, [proved]). The printed form "b + 1 ≤ c ≤ K_f and c < c_arm" goes beyond the data: sc26 c = 18, 19
    (beyond K_f, a⁰ < b − 1) have memoryless slab laws, and bond10 c = 7 = c_arm has growing hull lifetimes (R§1.3).
+   *Observed cases outside the clause* [measured; one author]: (a) **walls that freeze without armour** — kagome4
+   B2/S12 has an empty Theorem-E core (c ≤ 4), yet its wall rows lock into static patterns of density 2/3 that spread
+   inward, at 27–44 % of the wall-death rate over n = 6 … 18; frozen walls did not die on the time scales run
+   (F§2; "Where … wrong or silent" 2). (b) **chaos peeling beneath an immortal armoured band** — hex9 c = 8: the
+   armoured outer pair of layers sits at density 1.000 and never dies, but in strips the pair beneath it dies
+   memorylessly (ln τ = 6.94 → 12.08 for n = 10 → 16); in hulls no permanent dead set appeared in 2 × 10⁶ generations
+   (F§1, item 3). The clause says neither that armour-free walls can freeze nor what happens under an armoured band.
 4. **Two-sided drive [proved]** (Theorem D). In a finite vessel an orbit of period ≥ 3 has overcrowded-after-life
    and undercrowded-after-life events for ever; a capped threshold is a ferromagnetic and an antiferromagnetic
    symmetric threshold network at once, and either pure threshold rule alone reaches period ≤ 2. Whether a given cap
    is chaotic is **not predicted**.
 5. **Whole-wall death [measured].** With 1–3 in force, no armour, and a torus state that is chaotic at that cap,
-   the wall band dies as a whole after a wait that is memoryless and exponential in the wall's area. Re-measured
-   with independent code (R§3.1, §2.2, §2.4): gump caps 6 and 7 (0.212 and 0.216 per cell, five sizes), fcc cap 6
-   (0.181, five sizes), face12e caps 6, 7, 8 (0.41 per wall face; five sizes at cap 6), and more roughly kagome4
-   B2/S12 and bond10 B34/S234, B345/S2345 in slabs. In the original data: 42 of 50 pairs by the rule fixed in
-   advance, 46 by the original count (R§3.3).
-6. **Lifetime in the hull [measured].** Where a hull was run to completion at three or more sizes, lifetimes grow
-   as the wall law dictates and end in sparse debris: gump cap 6 and fcc cap 6 (original runs, re-run at two and
-   three sizes, R§3.1), face12e cap 6 (R§2.2: 10, 60, 439, 9,855, 707,038 for boxes of 2³ … 6³ cubes), vn B2/S12
-   (0.11 per unit of side up to side 81, R§3.3).
+   the wall band dies as a whole after a wait that is memoryless and roughly exponential in the wall's area (ln τ
+   rising roughly linearly; the rate per cell can drift). Re-measured with independent code (R§3.1, §2.2, §2.4): gump
+   caps 6 and 7 (0.212 and 0.216 per cell, five sizes), fcc cap 6 (0.181, five sizes), face12e caps 6, 7, 8 (0.41 per
+   wall face; five sizes at cap 6), and more roughly bond10 B345/S2345 in slabs. Out of sample [measured; one author,
+   F§1–§3]: **hex9 B456/S3456** (memoryless at seven lengths, CV 0.97–1.02, but concave: the rate per wall cell falls
+   from 0.69 to 0.53 over n = 8 … 20, a straight line rejected); **kagome4 B2/S12** 0.772 ± 0.003 per wall-row cell,
+   straight over n = 6 … 18, once frozen walls are censored (clause 3 (a)); **bond10 B34/S234** in slabs 0.492 ± 0.001
+   per wall face, six sizes. In the original data: 42 of 50 pairs by the rule fixed in advance, 46 by the original
+   count (R§3.3).
+6. **Lifetime in the hull [measured].** Hull lifetimes grow and end in sparse debris wherever a hull was run to
+   completion at three or more sizes; *whether they grow as the slab wall law dictates depends on the vessel*. They
+   do, within the precision of the tests, for: gump cap 6 octahedra and fcc cap 6 (original runs, re-run at two and
+   three sizes, R§3.1) — for gump only approximately: an octahedral face is about 0.8–0.9 nats tougher than a
+   rim-free slab face at A = 108 (0.91 ± 0.06, 0.88 after the firewall correction; `research/gpu/README.md`,
+   `research/audit/REVIEW-gpu-pr12.md`); face12e cap 6 boxes to 7³ (R§2.2: 10, 60, 439, 9,855, 707,038 for 2³ … 6³;
+   7³ median ≈ 1.6 × 10⁸, estimated from 16 of 128 finished by 3 × 10⁷, [measured; one author], F§4; box lifetimes
+   0.34–0.37 of τ_wall against 1/6 for six independent walls, so here too the walls are somewhat tougher in a box);
+   vn B2/S12 (0.11 per unit of side up to side 81, R§3.3). They **do not** for bond10 B34/S234 at b = 3
+   [measured; one author, F§3]: boxes of 4³ live about 10⁹ generations (4 of 64 died by 10⁸) against 600–1,500
+   forecast from the slab law; columns (two pairs of walls) are 24–196× tougher per wall than slabs of the same area.
+   There the layer beneath a wall's sheet contains the neighbouring walls' edge rows, which stay dense (0.67–0.71
+   against 0.50 for sheet cells away from edges), so a wall cannot die while its neighbours live. A box is therefore
+   not a set of independent slab walls: an **edge term** is needed, small for gump and face12e, enormous for bond10,
+   and it is not yet understood (counting the column excess per edge still leaves bond10's 4³ box 10–100× short:
+   corners or several edges at once cost more). hex9 B456/S3456 hulls grow (24 → 4,102 for R = 2 … 7, debris
+   0.29 → 0.04) but on unequal sides, not a rate test (F§1).
 7. **[conjecture]** Under 1–3 and a chaotic bulk the wall band is a metastable process whose only absorbing state is
    the empty band, with a wait exponential in its area. Nothing is conjectured, because nothing is known, about which
    caps are chaotic or about how strong the law is. The original fifth clause, "face not starved, K_f·ρ/b ≳ 0.85",
@@ -82,9 +116,13 @@ intended in 2012 (coplanar neighbours sharing an edge); gump, everywhere in this
 (coplanar neighbours touching at a corner); face12e is not gump. Torus ρ = 0.398; walls die two sheets at a time
 after a memoryless wait, ln τ = 6.43 → 14.54 for 16 → 36 wall faces (0.410 ± 0.001 per wall face, 0.205 per cell of
 the layer that dies); box lifetimes 10, 60, 439, 9,855, 707,038 for 2³ … 6³ cubes, ending in sparse debris
-(R§2.2; the wall law confirmed by the lead's own code, NOTEBOOK 2026-11-14). Candidates on rough evidence (R§2.4):
-kagome4 B2/S12 (the plain kagome lattice at b = 2) and bond10 at its tight b = 3 (B34/S234, B345/S2345: slab laws
-only; its boxes of 4³ did not die in 300,000 generations).
+(R§2.2; the wall law confirmed by the lead's own code, NOTEBOOK 2026-11-14); 7³ ≈ 1.6 × 10⁸ (estimated) and, from
+soups with full cubic symmetry, median lifetimes of only 3 … 103.5 generations at 4³ … 12³ (§6). Found by the follow-up
+[measured; one author, F§1]: **hex9 B456/S3456** (honeycomb with 9 neighbours, b = 4, c = 7): confined, chaotic torus
+(ρ = 0.537), memoryless whole-wall death at seven lengths with a concave law, hull lifetimes growing to sparse debris.
+Candidates: kagome4 B2/S12 (the plain kagome lattice at b = 2), now on a clean strip law at seven lengths (F§2) but
+with walls that also freeze; bond10 at its tight b = 3 (B34/S234: clean slab law; its boxes grow enormously,
+262 → ~10⁹ from 3³ to 4³, but not as its slab law dictates, clause 6; B345/S2345: slab law only, R§2.4).
 
 **Two statements in the brief do not survive.** (a) Gump is not the only capped threshold on its lattice:
 B456/S3456 has a slab face law equal to gump's within 0.2 in ln τ at five sizes (slopes 0.2121 ± 0.0004 and
@@ -102,6 +140,13 @@ dies at the named cap, so the stated reason was not tested, R§3.3); two gumps w
 confirmed by the review's box re-run; sc6 c = 3, on one finished hull size). The hull test's wording has changed
 (§3): "× ≥ e per size step" depended on the step and by its letter failed cross2 and vn; it is now a rate per unit
 of side compared with the slab slope. The mean field picks chaotic caps at chance level and should be dropped.
+Out of sample (F, scorecard; [measured; one author]): of 12 follow-up forecasts committed before the runs, 9 held
+(confinement on kagome8 and hex9; hex9 c = 7 whole-wall memoryless death, "linear" only approximately; armour at
+hex9 c = 8; hex9 hulls; kagome4's slope, though its stated cause was wrong; no pits; bond10 c = 6 frozen boxes;
+face12e 7³ count; face12e symmetric boxes), one was supported in part (of three hypotheses for bond10's boxes,
+"a wall cannot die while its neighbours live" held, the other two were refuted), one was a guess (chaotic cap), and
+one failed as its author expected:
+bond10's box lifetimes from its slab law (× 10⁶ short), which is what makes clause 6 wrong as first written.
 
 ## 1. The abstract setting, and what can be proved in it
 
@@ -239,7 +284,11 @@ one type:
 For several types C1 gives "no finite sealed set if some generic v has ≥ b forward offsets for every type"; where
 that fails sealed sets may exist (honeycomb with 9 neighbours, b = 5: a 292-cell sealed set by peeling,
 `python3 indices.py hex9`) [computed]. hex9's half-space tight b is 4, not 5 (R§1.2), and the review's table lists it
-with kagome8 (b = 4) and kagome4 (b = 2) as confined and unsealable at that b; no rule was run on hex9 or kagome8.
+with kagome8 (b = 4) and kagome4 (b = 2) as confined and unsealable at that b. At b = 4 both have full-lattice
+forward count 4 = b (no finite sealed set), no C1 certificate at a wall (best 3), and no finite sealed set found by
+peeling at one wall [computed; one author, `python3 structure.py 2d` in `followup/`]; yet no pits appeared on hex9
+strips at n ≥ 12 (3 in 215,000 events at n = 8, 10), consistent with the certificate being sufficient, not necessary
+(F§1, "Where … wrong or silent" 5).
 
 **C3 (faces cannot die piecewise).** In a half-space vessel {u·p ≥ h₀} of a one-type lattice, with u sealed, let ō
 denote projection to the plane u^⊥. If some in-plane v₀ (generic for the in-plane offsets) has
@@ -378,13 +427,13 @@ gump, fcc and face12e (R, "Not checked").
 | kagome6 (gump's layer graph) | 2 | 6 | 3 | hexagon | 2 | 2 | 4 | 4 | 3 | – | 6 |
 | hex12 (honeycomb, 3 shells) | 2 | 12 | 6 | dodecagon | 2 | 5 | 7 | 7 | 6 | – | 13 |
 | hex3 | 2 | 3 | 2 | finite sealed sets (b > K/2); 6 sealed directions, and more at particular positions, not pursued (R§1.2) | | | | | | | |
-| † kagome4 (plain kagome; 3 types) | 2 | 4 | **2** (directions: 3) | hexagon: 6 half-spaces, plane just outside a sparse row (R§1.2) | — | — | wall row 2 (with the dense row beneath: 4) | Cor. F: none; Theorem-E form: c = 3 | — | – | — |
-| † kagome8 (3 types) | 2 | 8 | **4** (directions: 5) | 12 half-space directions (R§1.2) | — | — | — | — | — | – | — |
-| † hex9 (honeycomb, 9 neighbours; 2 types) | 2 | 9 | **4** (directions: 5) | 6 half-space directions (R§1.2) | — | — | — | — | — | – | — |
+| † kagome4 (plain kagome; 3 types) | 2 | 4 | **2** (directions: 3) | hexagon: 6 half-spaces, plane just outside a sparse row (R§1.2) | — | — | wall row 2 (with the dense row beneath: 4) | Cor. F: none; Theorem-E form: c = 3 | — | – | none for c ≤ 4 (F) |
+| † kagome8 (3 types) | 2 | 8 | **4** (directions: 5) | 12 half-space directions, C even (R§1.2; F) | — | — | wall layers: orbit A 4, 7, 8; orbit B 4, 6, 6, 8 (F) | Theorem-E form: 5–7 (F) | — | – | 8 (F) |
+| † hex9 (honeycomb, 9 neighbours; 2 types) | 2 | 9 | **4** (directions: 5) | 6 half-space directions (one orbit), C ≡ 0, 2 (mod 3) (R§1.2; F) | — | — | wall layers 6, 7, then 9 (F) | Theorem-E form: 5–7 (F) | — | – | 8 (F) |
 | **gump** (faces of the cubic honeycomb; corner-touching coplanar neighbours) | 3 | 12 | 4 | octahedron (8); exact with half-spaces | 6 | 3 | 9 | 5–9 | 3 | 3 | 8 |
 | † **face12e** (same cells; edge-sharing coplanar neighbours — the owner's 2012 intent; *not gump*) | 3 | 12 | **4** (directions: 5) | box: 6 axis half-spaces through a sheet of face centres (odd coordinate); no sealed direction | 4 (sheet) | 4 | 8 (sheet); 11 (layer beneath) | 5–8 (Theorem-E form) | 3 (even, odd, even) | one cube | 8 (boxes 3³, 4³); 7 in the 2³ box |
 | face18 (same cells, 18 neighbours) | 3 | 18 | 6 | box (6) | 8 | 5 | 13 | 7–13 | 4 | 3 | 13 |
-| † bond10 (same cells; bonds sharing an endpoint = edges of the honeycomb sharing a vertex), tight b | 3 | 10 | **3** | box: 6 axis half-spaces at odd positions, c(H) = 2 (R§1.2) | — | — | — | — | 3 (axis: even, odd, even) | — | — |
+| † bond10 (same cells; bonds sharing an endpoint = edges of the honeycomb sharing a vertex), tight b | 3 | 10 | **3** | box: 6 axis half-spaces at odd positions, c(H) = 2 (R§1.2) | — | — | — | — | 3 (axis: even, odd, even) | — | 6 (boxes 2³ … 5³; F) |
 | † bond10 at b = 4 (one above tight; the original row) | 3 | 10 | 4 | octahedron ∩ box | 4 | 3 | 7 | 5–7 | 2 (diagonal) | no certificate; sealed sets at 3, 4 layers only | 7 |
 | † face8 (the 8 perpendicular faces) | 3 | 8 | 3 | octahedron ∩ box (8 diagonals and 6 axis half-spaces, c(H) = 2) | 4 | 2 | 6 | 4–6 | 2 | ≤ 4 (no certificate) | 6 |
 | fcc | 3 | 12 | 4 | octahedron | 6 | 3 | 9 | 5–9 | 2 | 2 | 8 |
@@ -395,8 +444,15 @@ gump, fcc and face12e (R, "Not checked").
 | sc26 (3D Moore) | 3 | 26 | 10 | {100} + {110}, 18 faces | 8 | 9 | 17 | 11–17 | 3 | ≤ 4 (no certificate) | 22 |
 | cross3d2 (3D range-2 cross) | 3 | 12 | 3 | box | 8 | 2 | 10 | 4–10 | 3 | 1 | 9 |
 
-Rows marked † changed in the revision (R§1.2, §5.2 item 1). **Run** at the new b: face12e at b = 4 (in depth, R§2),
-kagome4 at b = 2 and bond10 at b = 3 (roughly, R§2.4). **Not run:** kagome8 and hex9 at b = 4. The axis firewalls of
+Rows marked † changed in the revision (R§1.2, §5.2 item 1). Entries marked (F) are from the follow-up's
+`structure.py` [computed; one author; F's `PREDICTIONS.md`, "Exact facts"]. **Run** at the new b: face12e at b = 4
+(in depth, R§2; boxes to 7³ and O_h-symmetric boxes to 12³, F§4), kagome4 at b = 2 and bond10 at b = 3 (roughly,
+R§2.4; then strips of 41 rows, slabs, columns and boxes, F§2–§3), kagome8 and hex9 at b = 4 (F§1: tori, confinement,
+hex9 strips and hulls at c = 7, 8). Torus results at b = 4 [measured; one author, four soup densities, one size]:
+kagome8 c = 5 dies, 6 dies or freezes, 7 glass (ρ = 0.677, activity 0.013), 8 freezes — no chaotic cap in reach; hex9
+c = 5, 6 die, **c = 7 chaotic** (ρ = 0.537, activity 0.48), **c = 8 chaotic** (ρ = 0.619; armoured walls). bond10 at
+b = 3: every box cell has vessel degree 5 (sheet) or 10, edges lowering none; armoured core 24 cells (sheet corners)
+at c = 6, 7, none at c = 4, 5 (F). The axis firewalls of
 bond10 (b = 3, 4), face8 (b = 3) and face12e (b = 4) were found by peeling (R§1.3). A cube-shaped seed of bond10
 B45/S345 or face8 B34/S234 never leaves its own cube; the octahedron about that cube is three times wider (R§1.2).
 
@@ -506,6 +562,10 @@ The tallies in §5–§6 are stated by the rule fixed in advance unless said oth
   "strong" by the fixed cutoff, and no hull was run, R§1.3). In hulls the same happens from c_arm on (fcc c = 8, 9;
   bcc8 c = 6; sc6 c = 5; gump c = 8: runs unfinished or frozen at density 0.6–0.8) — with one exception in the
   original's own data: bond10 c = 7 = c_arm (at b = 4) has growing hull lifetimes (1,152, 45,120, > 10⁵, R§1.3).
+  Out of sample [measured; one author, F§1, §3]: hex9 c = 8 (armoured outer pair, degrees 6 and 7) and bond10 c = 6
+  at b = 3 (24-cell corner core; 128 of 128 boxes of 3³, 4³ freeze with it fully alive, no wall sheet dead) behave as
+  the clause says; but under hex9's armoured band the next band still dies memorylessly in strips, and kagome4 B2/S12
+  walls freeze with no armoured set at all (summary, clause 3 (a), (b)).
 - **N4 two-sided drive** (Thm D): no period ≥ 3 without both undercrowding-after-life and overcrowding-after-life
   events. Measured in 8 chaotic torus states on 8 lattices: O1 = 0.08–0.12 and U1 = 0.05–0.12 per cell per
   generation (O1 = 0.116–0.122 on gump, cross2, cross3, Moore, vn, fcc — nearly universal, not understood); in
@@ -548,7 +608,11 @@ The tallies in §5–§6 are stated by the rule fixed in advance unless said oth
   dies in linear time at c = 6 (24, 46, 74, 124 at R = 4…7; why was not examined, R "Not checked"), and at c = K_f
   (cross3 c = 9, cross4 c = 12) and from c_arm on the hull *freezes* (final density 0.33–0.8) instead of peeling,
   except bond10 c = 7. **[conjecture]** "Within reach" needs a margin at the hull's edges and corners: the exact
-  condition is that the cap can act on every stratum of the hull boundary.
+  condition is that the cap can act on every stratum of the hull boundary. Out of sample [measured; one author,
+  F§3, §4]: the slab law does **not** carry over to bond10 B34/S234's boxes at b = 3 (4³ ≈ 10⁹ against 600–1,500
+  forecast; columns 24–196× tougher per wall than slabs; summary, clause 6), although its cap reaches every degree
+  there (degrees 5 and 10 only, no armour at c = 5) — the edges act through density, not degree; it does carry over
+  for face12e boxes to 7³ (16 of 128 finished by 3 × 10⁷, forecast 9–33).
 
 **Not predicted by anything I have — the chaos window** [2D scans not independently checked]. Which caps are chaotic
 on the torus: cross2 {5}; cross3 {6…11}; cross4 {7…14}; vn {3, 4}; Moore {7}; star2 {9, 10, 11}; tristar3 {13…17};
@@ -564,14 +628,17 @@ necessary nor sufficient.** One regularity survives: a chaotic cap exists *withi
 families with b/K ≤ 3/8 and in only 3 of the 17 with b/K > 3/8 (vn, bond10, and sc26 barely, at c = K_f) — 26 of 29.
 Since the revision: bond10's entry is its b = 4 family, one above tight (at b = 3, b/K = 0.3, it is on the expected
 side); kagome4 at b = 2 (b/K = ½, chaotic at a cap the Theorem-E form puts in reach) is a second exception like vn;
-face12e (b/K = ⅓) is on the expected side. The 26 of 29 was not recounted with these changes.
+face12e (b/K = ⅓) is on the expected side. The 26 of 29 was not recounted with these changes. Out of sample
+[measured; one author, F§1]: kagome8 at b = 4 (b/K = ½) has no chaotic cap in reach, as the rule expects; **hex9 at
+b = 4 (b/K = 0.44) is chaotic at c = 7**, within reach, an exception (the follow-up counts it the third, after vn and
+kagome4).
 
 **The brief's candidate ingredients, judged:**
 
 | ingredient | verdict |
 |---|---|
 | fraction of the neighbourhood in a confining hyperplane | **Matters, in two exact ways and one empirical** (one type). a⁰ − 1 is the number of caps the faces can feel (Cor. F); a⁰ ≥ b − 1 is what turns an out-of-reach cap into a wall; and with tight b, b/K ≤ 3/8 ⇔ a⁰ ≥ K/4 + 2, which for K = 4, 8, 12 means *half* the neighbourhood (2, 4, 6). It is not the fraction as such: sc18 (0.44), cross3d2 (0.67), bond10 at b = 4 (0.40) also work. With several types a⁰ is not a single number (face12e, kagome4: §1.6, §1.7). |
-| birth threshold near a third | b ≤ K/2 is necessary for no finite sealed set (proved, one type). b/K ≲ 3/8 is the best single predictor of a chaotic in-reach cap existing (26/29), but vn and kagome4 have b/K = ½. |
+| birth threshold near a third | b ≤ K/2 is necessary for no finite sealed set (proved, one type). b/K ≲ 3/8 is the best single predictor of a chaotic in-reach cap existing (26/29), but vn and kagome4 have b/K = ½ and hex9 (c = 7 chaotic) 0.44 [measured; one author, F§1]. |
 | the cap | Necessary (without it: threshold lemma, period ≤ 2). Must leave no armoured set (Theorem E); for one type with a⁰ ≥ b − 1 that is c ≤ K_f. More than one cap usually works (gump 6–7, cross3 7–8, fcc 6–7, face12e 6–8 in slabs, …). |
 | mean-field instability of the fixed points | Irrelevant as a criterion (see above). What is true instead is the two-sided lemma. |
 | critical thickness | A property of each gump (m* = 1, 2 or 3 by the certificate; one cube for face12e), not a condition for being one. bond10 at b = 4 has no certificate at any m and finite sealed sets in slabs of 3 and 4 layers only (R§1.3); its c = 6 octahedra die in linear time (24, 46, 74, 124 at R = 4…7), but octahedra are not its hulls and b = 4 is not its tight b, so it is no longer "the one chaotic in-reach rule that is not a gump" without qualification. |
@@ -600,7 +667,8 @@ families), `data/laws.md` (every face law), `data/hulls.txt` (every hull run).
 | bcc14 B567/S4567 | 4.11, 8.32, 13.73 | 0.17 | 57, 164, 627 | yes |
 | cross3d2 B34/S234 | 3.61, 7.73, 13.04 | 0.17 | 87,889 (24/64 unfinished), > 10⁵ (one finished size) | yes |
 | face8 B34/S234 (face lattice, 8 perpendicular neighbours) | 9.97, 16.99 ± 0.35 at A = 27, 48 (8 deaths at the second size: fails the fixed slab rule, R§3.3) | ≈ 0.33 (two sizes) | octahedra R = 4, 5, 6: 1,516, 15,716, > 10⁵ (octahedra are invariant but face8's hull is octahedron ∩ box, §2) | yes |
-| **face12e B45/S345** (the review's, R§2; the owner's intended 2012 neighbourhood, not gump) | 6.428, 7.999, 10.183, 12.089, 14.542 ± 0.040 at A = 16, 20, 25, 30, 36 wall faces; CV 0.98–1.00; lead's own code 6.427, 8.005, 10.186 (NOTEBOOK 2026-11-14) | 0.410 ± 0.001 per wall face; 0.205 per cell of the layer beneath, whose death is the permanent event | boxes 2³ … 6³: 10, 60, 439, 9,855, 707,038; none of 64 finished at 7³ in 300,000; final density 0.127 → 0.010 | not called (by the direction-only clause 1: "not confined, not a gump"; PREDICTION-face12e.md) |
+| **face12e B45/S345** (the review's, R§2; the owner's intended 2012 neighbourhood, not gump) | 6.428, 7.999, 10.183, 12.089, 14.542 ± 0.040 at A = 16, 20, 25, 30, 36 wall faces; CV 0.98–1.00; lead's own code 6.427, 8.005, 10.186 (NOTEBOOK 2026-11-14) | 0.410 ± 0.001 per wall face; 0.205 per cell of the layer beneath, whose death is the permanent event | boxes 2³ … 6³: 10, 60, 439, 9,855, 707,038; none of 64 finished at 7³ in 300,000; final density 0.127 → 0.010. 7³ [measured; one author, F§4]: 16 of 128 finished by 3 × 10⁷ (forecast 9–33), median ≈ 1.6 × 10⁸ by an exponential estimate, not measured directly; ln ratio per unit of n² 0.42 from 6³ to 7³ against 0.39 from 5³ to 6³ | not called (by the direction-only clause 1: "not confined, not a gump"; PREDICTION-face12e.md) |
+| **hex9 B456/S3456** (honeycomb, 9 neighbours, 2 types, b = 4, c = 7) [measured; one author, F§1] | strips between sealed walls, depth 2n + 7: 6.121, 7.505, 8.822, 10.023, 11.162, 12.239, 13.289 ± 0.004–0.011 at n = 8, 10, …, 20 wall cells; CV 0.97–1.02; hazard flat; 3 pits in 215,000 events | **concave**: local 0.692, 0.658, 0.601, 0.569, 0.538, 0.525 per wall cell (straight line rejected, χ² ≈ 2,900 on 5 dof) | hexagonal-seed hulls R = 2 … 7: 24, 88, 355, 727, 1,195, 4,102 (64 of 64 finished each); final density 0.29 → 0.04; sides unequal, not a rate test | chaos only guessed (p = 0.35); the strip forecast, conditional on chaos, held |
 
 Slab laws without a hull test, or with an inconclusive one (so not claimed as gumps): cross4 c = 8–12; fcc c = 8, 9
 (hull armoured: frozen); bcc8 c = 6 (armoured; 1 death at its second slab size); bcc14 c = 9, 10; sc6 c = 4 (R = 2
@@ -610,6 +678,36 @@ review, rough (R§2.4): kagome4 B2/S12 (hexagon at b = 2; torus ρ = 0.482; stri
 cells, CV drifting to 1.23, transverse cuts not censored; hexagon medians about × 2 per unit of R, upper bounds from
 R = 6); bond10 at b = 3, B34/S234 and B345/S2345 (slab ln τ = 8.04, 12.71 and 7.78, 12.23 at 16, 25 wall faces, about
 0.5 per wall face; boxes of 4³ unfinished in 300,000 at c = 5; at c = 6 endings dense, 0.54–0.65).
+
+Followed up [measured; one author]. **kagome4 B2/S12** in strips of 41 rows (F§2): the review's drift came not from
+transverse cuts (there are none at 41 rows) but from walls that freeze (static, density 2/3, at 0.27–0.44 of the
+wall-death count); with frozen walls censored, ln τ = 8.285, 9.867, 11.405, 12.970, 14.380, 15.959, 17.387 at
+n = 6, 8, …, 18 wall-row cells, CV 0.97–1.02 (0.81 at n = 18, truncated), slope 0.772 ± 0.003 per wall-row cell
+(0.257 per cell of the two-row band); forecast 0.70 ± 0.08; ln τ insensitive to depth (25, 41, 57 rows) and to the
+freezing censor (256 vs 1,024 generations: 0.02). Hexagon lifetimes not re-run. **bond10 B34/S234 at b = 3** (F§3):
+slab law, cuts censored, ln τ = 4.616, 6.156, 8.050, 10.072, 12.620, 15.161 at A = 9, 12, 16, 20, 25, 30 wall faces,
+slope 0.492 ± 0.001; columns 7.795, 10.359, 13.33 at A = 9, 12, 16 (24×, 67×, 196× the slab's τ); boxes 3³ median 292
+(first wall death at ln τ per wall 7.87 ± 0.07, the 3 × 3 column's value, not the slab's), 4³ no permanent dead set in
+64 × 10⁷, 4 of 64 dead by 10⁸, median ≈ 10⁹ (a factor ~2 either way on 4 events). So it has every signature in slabs
+and boxes that grow enormously, but not by its slab law (summary, clause 6). At c = 6 (B345/S2345) every box freezes
+with its corner armour alive (3³ median 17, 4³ 2,063).
+
+**face12e with full cubic symmetry** (one coin per O_h orbit about the box centre, density 0.45, 64 soups, c = 6;
+F§4 [measured; one author]; symmetry preserved at every step, `three_d.py symcheck 6`): median lifetimes
+
+| box | 4³ | 5³ | 6³ | 7³ | 8³ | 9³ | 10³ | 11³ | 12³ |
+|---|---|---|---|---|---|---|---|---|---|
+| median (quartiles) | 3 (2–5) | 9 (5–10) | 9.5 (6–13) | 19 (12–36) | 19 (12–25) | 33.5 (24–57) | 35.5 (26–60) | 100.5 (57–162) | 103.5 (68–154) |
+| without symmetry (R§2.2; 7³ F estimate) | 439 | 9,855 | 707,038 | ≈ 1.6 × 10⁸ | | | | | |
+| lead's independent re-derivation | 3 | 7.5 | 8 | | 18 | | | | |
+
+Full cubic symmetry is fatal within tens of generations: 74,000× shorter than without symmetry at 6³ (88,000× by the
+lead's median), 146× at 4³; 16–54 of 64 soups per size end empty. The lead's check (`python3 lead_check_box.py sym N
+R [SEED]` in `research/audit/class/`, no code shared with the follow-up; it reuses the stepper of
+`lead_check.py`, which equals `reference/oracle.py` on gump's offsets, with face12e's offsets; lifetime = exact transient length, other soups) agrees to within 1–1.5 generations, which is
+within the quartile spread. Medians come in equal pairs (7³, 8³; 9³, 10³; 11³, 12³);
+growth 0.028 per unit of n², no law fitted (the lifetimes are dominated by the first transient). Forecast 10–100 for
+4³ … 8³ and ≥ 10³× shorter at 6³: held, more extreme than forecast.
 
 **Scorecard.** Tallies by the original's count, with the review's recount (R§3.3) where it differs. The hull rule's
 wording changed in the revision (§3); the tallies below use the rule as fixed in advance.
@@ -630,6 +728,12 @@ wording changed in the revision (§3); the tallies below use the rule as fixed i
 | Stage 4 (R₁ inside cross3/cross4, 7 slopes + monotonicity) | 3 (cross3 c = 8; cross4 c = 7 none; monotone in both) | 5, all underestimates | [not independently checked] |
 | Stage 5 (chaos at a low cap iff b/K ≤ 0.38, nine 3D families) | 8 | 1 (bond10 is chaotic at c = 6) | bond10's family is b = 4, one above tight [not independently checked] |
 | The brief's ingredients on the eight discriminating rows | 7 | 1 (bond10 c = 7) | better than my stage 1 there; "one cap per neighbourhood" wrong on gump, cross3, fcc |
+| Follow-up, clause 1 (P1.1): confinement on kagome8, hex9 at b = 4, caps 5–8 | 1 (0 escapes, 1,536 soups) | 0 | [measured; one author, F§1] |
+| Follow-up, clauses 2, 3, 5 on hex9 c = 7 strips (P1.3), hulls (P1.5), armour at c = 8 (P1.4) | 3 | 0 | P1.3 "linear" only approximately (concave); P1.4 holds as stated, the band beneath the armour dies in strips (clause 3 silent); P1.5 not a rate test [F§1] |
+| Follow-up, kagome4 slope 0.70 ± 0.08 and no pits (P2.1, P2.2) | 2 | 0 | 0.772 ± 0.003; the stated cause of the review's drift (cuts) was wrong: frozen walls [F§2] |
+| Follow-up, bond10 at b = 3 (P3.1 boxes from the slab law; P3.2 c = 6 frozen; P3.3 hypotheses) | 2 (P3.2; P3.3's H2) | 1 (P3.1: × 10⁶ short, expected by its author) | H1 alone and H3 refuted; clause 6 wrong as first written [F§3] |
+| Follow-up, face12e (P4.1 7³ count; P4.2 symmetric boxes) | 2 | 0 | 16 of 128 (forecast 9–33); 74,000× at 6³; P4.2 re-derived by the lead [F§4] |
+| Follow-up guess: a chaotic in-reach cap on kagome8 and on hex9, p = 0.35 each | — | — | kagome8 none; hex9 c = 7 (and c = 8, armoured) |
 
 Honest reading: the proved parts of the criterion (sealing, reach, walls, armour) never failed and explain every
 "not a gump" above the reach — but clause 1 as first written (sealed *directions*) would have called face12e, a
@@ -664,9 +768,10 @@ size), and four more with thinner hull evidence. (The original sentence said "th
    0.11 per unit of side to side 81, the strip slope (R§3.3). Its 3D sibling on the six face-neighbours of the cubic
    lattice, also B2/S12, is a gump too (on one finished hull size).
 2. Three dimensions is full of them: FCC, BCC, simple cubic (6 and 18), the 3D cross, the face lattice with 8, 12
-   (face12e, R§2) or 18 neighbours. Two dimensions has the crosses (range 1, 2, 3; range 4 in slabs only) and — on
-   rough evidence, transverse cuts not censored — the plain kagome lattice with B2/S12 at b = 2 (R§2.4), which the
-   original table dismissed.
+   (face12e, R§2) or 18 neighbours. Two dimensions has the crosses (range 1, 2, 3; range 4 in slabs only), the
+   honeycomb with 9 neighbours at B456/S3456 (concave wall law; F§1), and the plain kagome lattice with B2/S12 at
+   b = 2 (R§2.4; a clean strip law once walls that freeze are censored, F§2), both of which the original table
+   dismissed [the last two measured; one author].
 3. The wall cap is exact: in every family the boundary goes from dying to immortal between c = K_f and c = K_f + 1.
    Reproduced for fcc (c = 9 → 10) and, out of sample, on face12e (c = 8 → 9) (R§3.2).
 4. In 3D the face law barely notices the cap (gump: 0.212 and 0.216 for c = 6, 7, ln τ within 0.2 at five sizes,
@@ -712,27 +817,50 @@ size), and four more with thinner hull evidence. (The original sentence said "th
   weak laws, the O1/U1 rates of N4, the gap-healing test (§8.5), stages 2–5 of the scorecard, all hull runs except
   vn's, gump's at R = 4, 5 and fcc's at R = 3–5; the fw, m* and c_arm columns except for gump, fcc and face12e; the
   mean-field numbers and R₁; `thickness.md` and `threshold.md`. The completeness of the half-space scan (`seal.py`,
-  |u_i| ≤ 5 in 3D, ≤ 8 in 2D) is argued, not proved; hex3's extra sealed directions grow with the bound. kagome8 and
-  hex9 at b = 4: not run. bond10 at b = 3: whether its boxes of 4³ and larger ever die. bond10 at b = 4: what makes its
-  octahedra die in linear time. face12e: one cap in depth (c = 6), walls of 16–36 faces, boxes to 6³.
+  |u_i| ≤ 5 in 3D, ≤ 8 in 2D) is argued, not proved; hex3's extra sealed directions grow with the bound. bond10 at
+  b = 4: what makes its octahedra die in linear time. face12e: one cap in depth (c = 6), walls of 16–36 faces.
+- **The follow-up (F) has one author** and its own "Not checked" list; only the face12e symmetric-box medians were
+  re-derived (by the lead). In particular: kagome8 and hex9 tori at one size and four densities; hex9 c = 7 strips of
+  one depth (2n + 7) and hulls of one shape with unequal sides; why hex9 c = 8 hulls show no permanent death while its
+  strips do; kagome4's frozen-wall censor is a chosen rule (that frozen walls never thaw: 5 of 5 survivors static at
+  10⁵) and its hexagons were not re-run; bond10's 4³ box lifetime rests on 4 deaths, its edge cost on columns of
+  3 × 3, 3 × 4, 4 × 4, corners not isolated, 5³ boxes not run, the c = 6 slab law not re-measured; face12e's 7³ is a
+  count of finishers, not a median; symmetric boxes at c = 6 only, one seed. The slab driver's ending classification
+  (wall / deep firewall / cut / pit / periodic / frozen) has no independent implementation; the stepper `fu.c` was
+  checked against numpy and the review's stepper for 100 generations on small vessels (`python3 fu.py validate`).
 
 ## 10. Open
 
 1. **The chaos window** — why cross-r, FCC, BCC, SC are chaotic from c = b + 2 (or b + 1) up to and past K_f while
    star2, the triangular families and the 5×5 Moore are chaotic only above K_f. Theorem D says what must be present;
    nothing says when it is. The b/K ≤ 3/8 rule (23/27 here; §5 says 26 of 29 — the two counts were never reconciled)
-   wants a reason; vn and kagome4 are the instructive exceptions.
+   wants a reason; vn, kagome4 and hex9 (c = 7, b/K = 0.44) are the instructive exceptions.
 2. **The slope.** What fixes I, why it is cap-independent on 3D plateaus (gump caps 6, 7 differ by 1.6 %), and what
    decides whether a wall starves; σ = K_f ρ/b is not that measure (§5 S2). Why face12e's dying layer costs 0.205 per
    cell, close to gump's 0.212.
 3. **Hull strata.** A proof or measurement of "the cap must reach the edges and corners": gump c = 7 and fcc c = 7
    live 30–50× longer than c = 6 in octahedra with the same slab law; cross3 c = 9 and cross4 c = 12 freeze in boxes;
    bond10 at b = 3 has boxes far more robust than its periodic slabs (R§2.4).
+   **The edge term of clause 6** [measured; one author, F§3]: what a box edge costs a dying wall, and why it is about
+   0.9 nats for a gump octahedral face at A = 108, a factor ~2 in face12e's box lifetimes, and 0.52–0.66 nats per edge
+   cube in bond10's columns, with corners (or several edges at once) costing more still in its 4³ box (≈ 10⁹ against
+   2 × 10⁶ – 2 × 10⁷ for the first wall death from the column excess). No formula is proposed; the bond10 mechanism (dense edge rows in the band beneath the
+   sheet) is described, not derived.
 4. Is O1 ≈ 0.12 per cell per generation in every chaotic capped threshold a theorem?
-5. The 2D gumps are now a family (range-r crosses, r = 1, 2, 3; perhaps kagome4 B2/S12): the cleanest place to try
+5. The 2D gumps are now a family (range-r crosses, r = 1, 2, 3; hex9 B456/S3456; perhaps kagome4 B2/S12): the cleanest place to try
    M2–M4 is the range-1 member, B2/S12, with four neighbours.
 6. **The converse of clause 1**: does an unconfined capped threshold have unbounded patterns? No proof, no
    counterexample (R§1.3).
+7. **Walls that freeze without armour** (kagome4 B2/S12, F§2): what forms the static rows of density 2/3, whether they
+   ever thaw, and whether any other rule does this; whether clause 3 can be stated so as to cover it.
+8. **Under armour** (hex9 c = 8, F§1): the band beneath an immortal armoured band dies memorylessly in strips, but
+   hulls showed no permanent death in 2 × 10⁶; why the two vessels differ.
+9. **Concave wall laws** (hex9 c = 7: 0.69 → 0.53 per wall cell; also under armour at c = 8; gump's own local slopes
+   drift, `research/STATUS.md`): whether the rate per cell tends to a limit, and what clause 5 should say beyond
+   "roughly exponential".
+10. **Symmetry** (face12e, F§4): why full cubic symmetry is fatal within tens of generations in face12e boxes when in
+    gump a symmetric cube of side 13 still lives about 10⁵ (NOTEBOOK 2026-11-14, with the lead's untested
+    conjecture: a symmetric box wall has only about n²/8 independent cells).
 
 ## Reproduce
 
@@ -764,6 +892,20 @@ python3 face12e.py structure; python3 face12e.py confine; python3 face12e.py con
 ./run_face12e.sh; ./run_measured.sh gump; ./run_measured.sh fcc; ./run_extra.sh; ./run_last.sh   # tens of minutes
 python3 others.py kagome; python3 vnbox.py; python3 summary.py; python3 recount.py
 python3 lead_check.py slab 4 4 8000 2048 1                                          # the lead's check of face12e's wall law
+python3 lead_check_box.py sym N R [SEED]                                            # the lead's check of face12e's symmetric boxes
+```
+
+The follow-up's numbers (F) are reproduced from `research/theory/class/followup/` by its own Reproduce block, among
+them (about 2.5 h of two cores in all):
+
+```sh
+cd research/theory/class/followup
+python3 fu.py validate; python3 structure.py 2d; python3 structure.py bond10          # seconds
+for L in kagome8 hex9; do for c in 5 6 7 8; do python3 two_d.py bulk $L $c; python3 two_d.py confine $L $c; done; done
+./run_hex9.sh; ./run_hex9b.sh; ./run_kagome4b.sh; ./run_bond10.sh; ./run_face12e.sh
+python3 box_hazard.py 3 1000000 4; python3 box_state.py 4 box; python3 box_state.py 4 column
+python3 three_d.py box bond10 5 4 100000000 3 4096; python3 three_d.py box face12e 6 7 30000000 13 4096   # ~25, ~30 min
+python3 analyse.py slab ../../../scratch/class_followup/FILE.jsonl [nwalls] [sizekey]; python3 analyse.py life FILE
 ```
 
 ## Changes in the revision of 2026-11-14
@@ -818,3 +960,45 @@ Review items not applied: none. Two things neither the review nor the original r
 "26 of 29" in §5 and "23/27" in §10 of the original; and R§5.1 clause 5 names as exceptions only eroding walls and
 glassy bulks, while by its own recount (R§3.3) the fixed rule also fails four pairs on too few deaths and cross3 c = 8
 on its CV.
+
+## Changes in the second revision of 2026-11-14
+
+Each line names the section of `research/theory/class/followup/OUTCOMES.md` (F) that required it; "W" is its section
+"Where the revised class statement is wrong or silent", "NC" its "Not checked".
+
+1. Head line added; F results tagged [measured; one author] except the face12e symmetric-box medians, re-derived by the lead (F§4(b); `research/audit/class/lead_check_box.py`).
+2. Clause 1: out-of-sample confinement on kagome8 and hex9 at b = 4, 0 escapes in 1,536 soups, where the direction-only version predicted none (F scorecard P1.1, §1, W5).
+3. Clause 3: two observed cases outside the clause, tagged measured — kagome4 walls that freeze without a Theorem-E set (27–44 % of the wall-death rate), hex9 c = 8 chaos peeling beneath an immortal armoured band in strips, no death in hulls (F§1, §2, W2, W3).
+4. Clause 5: "exponential in the wall's area" → "roughly exponential"; hex9 B456/S3456 added with its concave rate (0.69 → 0.53); kagome4 0.772 ± 0.003 per wall-row cell (frozen walls censored); bond10 B34/S234 slab slope 0.492 ± 0.001; kagome4 and bond10 B34/S234 removed from the "more roughly" list, B345/S2345 kept there (F§1–§3, W4).
+5. Clause 6 restated: lifetimes grow everywhere run, but follow the slab wall law only in some vessels (gump octahedra approximately, with the 0.8–0.9-nat rim term at A = 108 from `research/gpu/`; fcc; face12e boxes to 7³; vn), not in bond10 B34/S234 boxes (4³ ≈ 10⁹ against 600–1,500; columns 24–196×; dense edge rows beneath the sheet); an edge term is needed and not understood; no formula given (F§3, §4(a), W1).
+6. Summary "new gumps": face12e 7³ and symmetric boxes; hex9 B456/S3456 added; kagome4 and bond10 b = 3 candidates updated (F§1–§4, W7).
+7. Summary scorecard paragraph: the twelve follow-up forecasts and their outcomes (F scorecard).
+8. §1.4: hex9 and kagome8 structure at b = 4 (no certificate, no finite sealed set found) and the absence of pits on hex9 strips; "no rule was run on hex9 or kagome8" removed (F§1, W5; `PREDICTIONS.md` "Exact facts").
+9. §2 table: kagome8 and hex9 rows filled (sealed positions, wall-layer degrees, Theorem-E reach 5–7, c_arm 8); kagome4 c_arm; bond10 tight-b c_arm 6 (boxes); note below the table: "Not run: kagome8 and hex9" replaced by what was run, with their torus results and bond10's box degrees and armour (F§1, §3; `PREDICTIONS.md` "Exact facts").
+10. §5 N3: hex9 c = 8 and bond10 c = 6 armour confirmed out of sample; the two cases outside clause 3 cross-referenced (F§1, §3, scorecard P1.4, P3.2).
+11. §5 S3: the slab law does not carry over to bond10 boxes at b = 3 although its cap reaches every degree there; carries over to face12e 7³ (F§3, §4(a)).
+12. §5 chaos window and ingredients table: kagome8 (no chaotic cap in reach, as the rule expects) and hex9 c = 7 (b/K = 0.44) as a further exception to b/K ≤ 3/8 (F§1, W6).
+13. §6: hex9 B456/S3456 row added to the new-gumps table; face12e row extended with 7³; follow-up paragraph on kagome4 (frozen walls, clean law) and bond10 at b = 3 (slab, columns, boxes, c = 6); table of face12e O_h-symmetric box medians 4³ … 12³ with the lead's independent medians (F§2, §3, §4).
+14. §6 scorecard table: six rows for the follow-up forecasts (F scorecard).
+15. §8.2: hex9 B456/S3456 added to 2D; kagome4's "transverse cuts not censored" replaced by the frozen-wall finding (F§1, §2).
+16. §9: stale "kagome8 and hex9 not run", "whether bond10's 4³ boxes ever die" and "face12e boxes to 6³" removed; F's own not-checked list summarised (F NC).
+17. §10: item 1 adds hex9 as an exception; item 3 adds the edge term; item 5 adds hex9; new items 7–10 (frozen walls, under armour, concave laws, symmetry) (F W1–W4, §4(b)).
+18. Reproduce: the lead's box check and the follow-up's commands added (F "Reproduce").
+
+Items of the brief not applied: none.
+
+Inconsistencies found and not resolved:
+
+- **Count of exceptions to b/K ≤ 3/8.** F (§1, W6) calls hex9 c = 7 the *third* exception, "after vn and kagome4".
+  §5 of this document lists the original exceptions as vn, bond10 (its b = 4 family) and sc26 (barely), and then adds
+  kagome4; by that list hex9 is the fourth or fifth, depending on whether bond10 and sc26 still count. §5 above quotes
+  the follow-up's count without adopting it; neither count is chosen, and the 26/29 vs 23/27 discrepancy noted in the
+  first revision is still open.
+- **Under-armour deaths and "no wall death".** F's method counts as a wall death any whole parallel layer within
+  depth 3 of a 2D wall, and in its §1 the deaths of the pair beneath hex9's armoured band are such events; yet its
+  scorecard scores P1.4 ("c = 8 armour: no wall death") as holding. Whether P1.4 meant the armoured band only is not
+  stated; this document reports the band's immortality and the deaths beneath it separately.
+- **face12e symmetric medians.** The follow-up's 9, 9.5, 19 at 5³, 6³, 8³ and the lead's 7.5, 8, 18 differ by
+  1–1.5 generations (within the quartiles). Whether the two use the same definition of lifetime (the lead's is the
+  exact transient length) was not checked; hence the shortening at 6³ is 74,000× by the follow-up's median and
+  88,000× by the lead's.

@@ -7,7 +7,7 @@
     <figure class="fig c5 panel">
       <div class="nbrow"><div id="f-nb"></div><div id="f-nbplan"></div></div>
       <div class="keys"><span class="key"><span class="sw" style="background:var(--ink)"></span>the face</span><span class="key"><span class="sw" style="background:var(--s1)"></span>8 perpendicular faces that share an edge</span><span class="key"><span class="sw" style="background:var(--s3)"></span>4 in its own plane that touch at a corner</span><span class="key"><span class="sw" style="background:var(--surface);border:1.5px solid var(--ink-3)"></span>4 in its own plane that share an edge: not watched</span></div>
-      <figcaption>In its own plane a face watches the corner-touching four, not the edge-sharing four you meant to write in 2012. The code reads <span class="mono">y±2</span> and <span class="mono">z±2</span> together, and only that reproduces your logs. The slip is what makes the hull an octahedron: with the edge-sharing four it is a box.</figcaption>
+      <figcaption>In its own plane a face watches the corner-touching four, not the edge-sharing four you meant to write in 2012. The code reads <span class="mono">y±2</span> and <span class="mono">z±2</span> together, and only that reproduces your logs. The slip is what makes the hull an octahedron: with the edge-sharing four it is a box (<a href="#meant">the rule you meant, below</a>).</figcaption>
     </figure>
     <figure class="fig c7 panel">
       <div class="rule" id="f-rule"></div>
@@ -141,6 +141,7 @@
       <div class="nums" style="grid-template-columns:1fr">
         <div class="num"><span class="v">0.998</span><span class="l">mean wait, in units of the soup average</span></div>
         <div class="num"><span class="v" id="n-rho">−0.01</span><span class="l">correlation between one plateau and the next</span></div>
+        <div class="num"><span class="v" id="n-weibull">k = 1.02</span><span class="l">faces of symmetric soups do not age: the shape of <span id="n-weibull-n">5,971</span> death times, where 1 means memoryless <span class="st st-meas" style="margin-left:4px">measured, GPU</span></span></div>
         <div class="num"><span class="v">6 to 7×</span><span class="l">the side-16 cube's longest plateau, against the average for its size: lucky, as far as single runs can tell</span></div>
       </div>
     </figure>
@@ -225,5 +226,7 @@
     </div>
   </div>
 </section>
+
+<!--NEW-->
 
 <!--REST-->

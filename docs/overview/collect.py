@@ -98,5 +98,91 @@ out["project"] = {
     "open": [[o["n"], o["label"], o["line"], o["status"]] for o in pj["open_problems"]],
     "class": [[x["label"], x["line"]] for x in pj["theory_unchecked"]["class_md"]],
 }
+
+# ---- the refresh of 2026-11-14 (afternoon): update-2026-11-14.json, every quote checked against the repository ----
+import re, subprocess
+repo = here.parent.parent
+norm = lambda s: re.sub(r"\s+", " ", s)
+corpus = norm((repo / "research" / "NOTEBOOK.md").read_text()) + " " + norm((repo / "research" / "CLAIMS.md").read_text())
+def checked(item):
+    q = norm(item["quote"])
+    assert q in corpus, "quote not found in NOTEBOOK.md or CLAIMS.md: " + q[:80]
+    for w in item.get("words", []): assert w in q, (w, q)
+    for e in item.get("pow10", []): assert "10" + "".join("⁰¹²³⁴⁵⁶⁷⁸⁹"[int(c)] for c in str(e)) in q, (e, q[:80])
+    if "words" not in item:
+        for v in item.get("value", []):
+            forms = {str(v), format(v, ","), ("%g" % v)}
+            assert any(f in q for f in forms), ("number not in its quote", v, q[:80])
+    return item
+U = S("update-2026-11-14.json")
+for sec in ("face12e", "gpu", "noise", "swarm"):
+    for k, v in U[sec].items(): checked(v)
+for k in ("bond10", "bond10_columns", "oos_escapes", "law_cases"): checked(U["family"][k])
+for r in U["family"]["rows"]: checked(r)
+for f in U["forecasts"]: checked(f)
+out["forecasts"] += [{"line": f["line"], "result": f["result"]} for f in U["forecasts"]]
+for a in U["audits"]: assert (repo / a["file"]).exists(), a["file"]
+fe, gp, no, sw = U["face12e"], U["gpu"], U["noise"], U["swarm"]
+out["face12e"] = {"box": list(zip(fe["box_life"]["n"], fe["box_life"]["value"])) + [[7, fe["box7"]["value"][0] * 1e8]],
+                  "box7": fe["box7_count"]["value"], "sym": list(zip(fe["sym_life"]["n"], fe["sym_life"]["value"])),
+                  "wall": [list(r) for r in zip(fe["wall"]["A"], fe["wall"]["value"], fe["wall"]["se"])], "slope": fe["wall_slope"]["value"],
+                  "torus": fe["torus"]["value"], "symfactor": fe["sym_factor"]["value"][0], "layers": fe["layers"]["value"], "gen1": fe["cube_gen1"]["value"]}
+out["family"] = {"rows": [{k: r[k] for k in ("name", "rule", "lattice", "hull", "law", "note", "status")} for r in U["family"]["rows"]],
+                 "bond10": U["family"]["bond10"]["value"], "bond10_median_pow10": U["family"]["bond10"]["pow10"][3], "bond10_factor_pow10": U["family"]["bond10"]["pow10"][0], "columns": U["family"]["bond10_columns"]["value"], "oos": U["family"]["oos_escapes"]["value"], "cases": U["family"]["law_cases"]["value"]}
+out["law"]["slab_gpu"] = [[108] + gp["slab_a"]["value"], [126] + gp["slab_b"]["value"][3:5]]     # A, ln tau, se (firewall channel separated; 108 pooled)
+out["law"]["slab_slope"] = gp["slope"]["value"]                                                  # 108, 126, slope, se
+out["law"]["mirror"] = [list(r) for r in zip(gp["mirror"]["A"], gp["mirror"]["value"][:3])]
+out["law"]["rim"] = gp["rim"]["value"]; out["law"]["width"] = gp["width_test"]["value"]
+out["weibull"] = gp["weibull"]["value"]
+out["noise"] = {"toy": [list(r) for r in zip(no["toy"]["L"], no["toy"]["strip"], no["toy"]["model"])], "gump": [list(r) for r in zip(no["gump"]["A"], no["gump"]["slab"], no["gump"]["model"])],
+                "w5": no["w5"]["value"], "w4": no["w4"]["value"], "mirror": no["mirror"]["value"], "notch": no["notch"]["value"]}
+out["closed"] = {"relative": [list(r) for r in zip(sw["relative"]["L"], sw["relative"]["ln"])], "exam": list(zip(sw["exam"]["labels"], sw["exam"]["value"])),
+                 "share": sw["share"]["value"], "V": sw["V"]["value"], "lone": sw["lone"]["value"]}
+# claims ledger: the counts line of research/CLAIMS.md as it stands
+cl = norm((repo / "research" / "CLAIMS.md").read_text())
+m = re.search(r"(\d+) claims, by the best grade any part of the claim has: \*\*A\*\* (\d+) .*?\*\*B\*\* (\d+) .*?\*\*C\*\* (\d+) · \*\*D\*\* (\d+)", cl)
+out["project"]["grades"] = {"total": int(m[1]), "A": int(m[2]), "B": int(m[3]), "C": int(m[4]), "D": int(m[5])}
+out["project"]["audits"] += [[a["label"], a["line"]] for a in U["audits"]]
+# timeline: totals and merged pull requests from git; milestones of 2026-11-14 from the update file
+git = lambda *a: subprocess.run(["git", "-C", str(repo)] + list(a), capture_output=True, text=True, check=True).stdout.strip()
+tl = out["project"]["timeline"]
+last = git("log", "-1", "--format=%cI|%h")
+tl["last_commit"] = last.split("|")[0][:19] + "Z (" + last.split("|")[1] + ")" if last.split("|")[0].endswith("+00:00") else tl["last_commit"]
+tl["totals"]["commits"] = int(git("rev-list", "--count", "HEAD"))
+have = {p["n"] for p in tl["pull_requests"]}
+for line in git("log", "--format=%cI|%s").splitlines():
+    iso, subj = line.split("|", 1); mm = re.search(r"\(#(\d+)\)$", subj)
+    if mm and int(mm[1]) not in have:
+        import datetime
+        t = datetime.datetime.fromisoformat(iso).astimezone(datetime.timezone.utc)
+        tl["pull_requests"].append({"n": int(mm[1]), "title": subj[: mm.start()].strip(), "date": t.strftime("%Y-%m-%dT%H:%MZ")}); have.add(int(mm[1]))
+tl["pull_requests"].sort(key=lambda p: p["date"])
+out["width"] = gp["width_test"]["value"][5:7]
+tl["milestones"] = tl["milestones"] + [{"date": x["date"], "text": x["text"]} for x in U["milestones"]]
+
+# ---- the second refresh of 2026-11-14: update-2026-11-14b.json (width of a periodic face, GP9; twisted faces, SH1, SH2) ----
+V = S("update-2026-11-14b.json")
+for sec in ("width", "shape"):
+    for k, v in V[sec].items():
+        if k != "rows": checked(v)
+for r in V["shape"]["rows"]: checked(r)
+for f in V["forecasts"]: checked(f)
+for a in V["audits"]: assert (repo / a["file"]).exists(), a["file"]
+out["forecasts"] += [{"line": f["line"], "result": f["result"]} for f in V["forecasts"]]
+out["project"]["audits"] += [[a["label"], a["line"]] for a in V["audits"]]
+tl["milestones"] += [{"date": x["date"], "text": x["text"]} for x in V["milestones"]]
+vw, vs = V["width"], V["shape"]
+out["shape"] = {
+    # loop squared, loop length, ln tau (experiment), se, ln tau (review's independent stepper), se, tori
+    "rows": [r["value"][:4] + (r["value"][4:6] if len(r["value"]) > 4 else [None, None]) + [r["tori"]] for r in vs["rows"]],
+    "agree": vs["agree"]["value"], "control": vs["control"]["value"], "pair60": vs["pair60"]["value"], "pair60_review": vs["pair60_review"]["value"],
+    "size": vs["size"]["value"], "forecast": vs["forecast"]["value"],
+    "pairs": [[l, a] + vw["pairs"]["value"][2 * i: 2 * i + 2] for i, (l, a) in enumerate(zip(vw["pairs"]["labels"], vw["pairs"]["A"]))],
+    "cpu72": vw["cpu72"]["value"],
+}
+out["law"]["families"] = [[s] + vw["families"]["value"][2 * i: 2 * i + 2] for i, s in enumerate(vw["families"]["s"])]   # short side, slope, se
+out["law"]["wide"] = vw["wide"]["value"][:2]; out["law"]["mixed"] = vw["mixed"]["value"]
+assert out["law"]["slab_fit"][1] == out["law"]["mixed"][1]
+
 (here / "data" / "data.json").write_text(json.dumps(out, separators=(",", ":")))
 print("data.json", (here / "data" / "data.json").stat().st_size, "bytes;", ", ".join(out))

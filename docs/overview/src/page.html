@@ -226,11 +226,22 @@ ol.queue li::before{content:counter(q);position:absolute;left:0;top:-2px;font-fa
 ol.queue b{color:var(--ink)}
 .keys .st{font-size:0;gap:0}
 
+/* added 2026-11-14: new tiles on the map, the family cards */
+.map a.new{border-top:2px solid var(--ember)}
+.fam{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+.fam .card{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border:1px solid var(--rule);border-radius:6px;background:var(--bg);min-width:0}
+.fam .card.gump{border-color:var(--ember)}
+.fam .hd{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
+.fam .hd b{font-family:var(--f-display);font-weight:650;font-size:14.5px}
+.fam .hd .mono{font-size:11px;color:var(--ink-2)}
+.fam .lat{font-size:12px;color:var(--ink-2);line-height:1.35}
+.fam .law{font-size:13px;font-weight:600;color:var(--ink);line-height:1.3}
+.queue .st{margin-left:6px;vertical-align:middle}
 /* tooltip and table view */
 .tip{position:fixed;z-index:20;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;line-height:1.35;padding:6px 9px;border-radius:4px;max-width:260px}
 .tip b{font-weight:650}
 details.tbl{font-size:12.5px;color:var(--ink-2)}
-details.tbl summary{cursor:pointer;font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;width:max-content}
+details.tbl summary{cursor:pointer;font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;width:max-content;max-width:100%}
 details.tbl .scroll{overflow-x:auto;margin-top:8px}
 table{border-collapse:collapse;font-variant-numeric:tabular-nums}
 th,td{text-align:right;padding:3px 10px 3px 0;white-space:nowrap}

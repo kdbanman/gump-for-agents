@@ -20,6 +20,13 @@ reply to round 3, section 2; the root at k = 8 (r = 0.556) and the mean populati
 
 Conventions for a table: Theta(x) is constant below the first row given and 0 at x = mean/A; the variance is
 proportional to x below the first row and flat above the last.
+
+Added 2026-11-14 (journal entry 22). The first convention is a CONTINUATION and every number from this script
+carries it: below the first row given (row 5) a sparse face is treated as independent clusters, with the root of
+row 5 down to zero ("clusters", c1). It is not the chain "rows 1-4 as tallied, stretched with the face" (c0), on
+which the same recursion with exact rates gives 0.2054 where c1 gives 0.2191 (A = 84; this script, a Gaussian
+closure, gives 0.2180). A prediction of mine for a chain of the second kind was made with this script and missed
+(34.65 against 36.6 +- 1.2; entry 22.4).
 """
 import json
 import sys

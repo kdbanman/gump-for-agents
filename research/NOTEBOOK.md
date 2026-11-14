@@ -1239,3 +1239,212 @@ data): 5,213, 4,664 and 4,673 lives; exposure, counts, both rates, the shares, t
 slope 0.2149 ± 0.0060 all reproduce; the face hazard is flat in the age of the life (three bins of equal exposure:
 22.53, 22.59, 22.59 at 6×6×8). Not checked by anyone here: the GPU runs themselves (no second GPU run); cycles longer
 than 128 generations (none can be seen; bounded only at 3×6×8); a channel-resolved CPU run at 4×7×8 or larger.
+
+## 2026-11-14 — where the exponent lives: a few layers of the rule over noise (exponent study, written up by a successor; adversarial review; lead's check)
+
+The study of 2026-11-13 was cut off before its report; a successor wrote `research/theory/exponent.md` from its files.
+An adversarial reviewer then re-derived the gump half with code and seeds of its own
+(`research/audit/REVIEW-exponent.md`; steppers equal to the oracle, `research/audit/exponent/`), and the lead the 2D
+half (`research/audit/exponent/lead_check.py`). What stands after both, all **[measured]** unless tagged:
+
+- **The face law's exponent is set in a thin boundary layer driven by noise.** Keep the rule on the top w layers of a
+  face and replace everything beneath by fresh coin flips every generation.
+  - Gump, periodic slab faces: with w = 5 the model's ln τ equals the deterministic slab's to within 0.015 at
+    A = 27, 48, 60 and is +0.02 ± 0.04 at A = 75 (reviewer's own runs; the A = 75 slab is new, 15.660 ± 0.027;
+    A = 36 was not re-run). With w = 4 it is 0.06–0.07 high.
+  - Gump, octahedral hull faces: within 0.05 at A = 45, 63, 84 (truth 9.823, 13.644, 18.148 ± 0.028), but deep models
+    (w = 6, 8) settle 0.03–0.04 *below* the truth (4–5σ at A = 45), and w = 4's closeness is partly a crossing
+    (w = 3 far above, w ≥ 5 below). That "four to five layers" suffice for hulls was noticed after the runs.
+  - 2D rule (B34/S234 on the range-2 cross): eight rows over coins against deterministic strips 16 × L. Lead's own
+    code: 5.654, 7.425, 9.136, 10.855 ± 0.010–0.018 at L = 12, 16, 20, 24 against the strips' 5.644, 7.407, 9.142,
+    10.788: within 0.02 at the three smaller sizes, 0.067 ± 0.027 above at L = 24. The coin density hardly matters
+    (the study: ρ = 0.30 and 0.60 move ln τ by ≤ 0.02; the lead at ρ = 0.5: 7.424, 9.155).
+  - The swarm's exam found the same independently for gump with six layers (entry above, S-E2).
+- **New trap, found by the reviewer:** the noise-driven models can settle. With w ≥ 4 the six faces of a cube at a
+  hull's vertex are a fixed point whatever the coins do, and with w ≥ 5 so is a cube anywhere on the face
+  (`research/audit/exponent/trap.py`): the face then never dies. Uncensored, the R = 7, w = 4 model reads 6.94
+  instead of 6.54. Model runs must censor repeating boundary states like any other vessel.
+- **In the 2D rule the lifetime tracks the chance of an empty window, but the formula is a fit.**
+  τ_edge(L) = 12.1/E(L − 6.5), with E(ℓ) the probability that ℓ given consecutive cells of a long living edge are
+  empty, was found after the runs; χ² is 17.3 on 5 degrees of freedom at the quoted errors; fitted to L = 12–28 it
+  predicts L = 32 and 36 low by 0.08 and 0.07. "The exponent is the decay rate of E" does not stand: the lifetimes
+  use only windows up to ℓ ≈ 30. The window cost with honest errors (5 × 10¹¹ samples, jackknife): 0.387 ± 0.006
+  per cell at ℓ = 34 → 42.
+- **[proved]** (`exponent/theorems.md`; checked by the reviewer, brute force to L = 14 where possible): upper bounds
+  of the right form only (E T ≤ 3δ^{−3L} for a driven edge; ≤ ε^{−L} with noise) and a lower bound conditional on a
+  ratio-mixing hypothesis that has not been measured in the system it is applied to. Lemma A(c) was false and is
+  corrected (187 of 512 configurations). Nothing derives the constant.
+- **Does not stand as written:** "0.416 ≈ 2 × 0.208 is a coincidence" (the measured ratio range 1.6–2.0 has 2 at its
+  edge: not established either way); "gump faces cost 0.403 per live cell" (the fit has an intercept 0.085 ± 0.025
+  and the area law fits better); the reading of the exact small-vessel census (the enumeration is right, `fg.c`
+  equals brute force on eight vessels, but "debris, not chaos, breaks the random-map heuristic" does not follow:
+  7 of 17 vessels with N ≥ 24 have no long immortal cycles where 22–197 were predicted).
+
+The review lists thirteen corrections to `exponent.md`; an editor is applying them. What this changes for the
+project: the open problem "why about 0.21 per cell" no longer needs gump's bulk. It is a question about five or six
+layers of the rule over independent coins, a probabilistic cellular automaton of finite depth, for which lifetimes
+can be computed exactly at small sizes and sampled at large ones without the deterministic bulk. Not checked by
+anyone: the report's §§2, 6.1, 8–10 tables, the gump two-generation face game, `fg.c` beyond N = 24.
+
+## 2026-11-14 — the theory swarm is closed: no proof of the area law; what it did establish
+
+Four solver lines (probability, counting, path, source), a librarian, four critic passes, an examiner and one
+fresh-reader audit, 2026-11-13 to 14, on one problem: why the wait before a face dies is exponential in its area, by
+mathematics alone. The closing table is at the top of `research/theory/swarm/critic/board.md` (the board is closed);
+proofs are in each line's `journal.md`, verdicts in `critic/to-<line>.md`. In the critic's words, which are the right
+strength: **no line proved the area law for gump or for the 2D rule, and no line derived the constant from the
+rule.** "Why area" and "what is the constant" are open.
+
+What stands, and who checked it:
+
+- **A deterministic relative with an exponential law** (probability and source; critic and the independent audit):
+  entry of this date above, CLAIMS SW1. Conditional on two published percolation statements not verified here at
+  the source. Not self-made randomness.
+- **Exact reductions for gump** (path; one critic per round, no second reader): every permanent loss is the
+  extinction, at one instant, of an inclusion-minimal sealed set; the death rate equals the entry flux into a low set
+  times the committor of the pooled one-step population table, with no Markov assumption (P̄); the exponent lies
+  between a block bound and a sum of local roots, with equality for skip-free tables.
+- **A conditional area law** (path's Theorem Q; one critic): ln τ ≥ θ₀(κA − k₀) − ln Φ *if* sparse faces regrow at a
+  rate bounded below on rows k₀ … κA of the table (hypothesis R). R(0.35, 0.40, 5) holds on the four measured hull
+  tables (A = 30–84); it is not derived from the rule. It accounts for 0.13–0.14 of the 0.21 per cell (0.16–0.18
+  with the measured entry term). The sharper Theorem V⁻ stands as mathematics but adds at most 0.35 nats at the
+  measured sizes, and its hypothesis (sub-extensive tables) fails on rows above 0.3·A between the tallied sizes.
+- **Fixed-age theory of soups** (counting; one critic): the chance that a fresh soup's edge is dead by generation k
+  is a transfer-matrix quantity, exactly computable. It describes the transient, not the steady law (its exam
+  entry failed, and the author withdrew the bridge).
+- **Exact facts about face12e and symmetric faces** (counting; one critic): a lone cell on a face12e sheet dies in
+  one generation with probability 3793/8192; cube- and vertex-centred O_h faces have equal orbit counts, so the
+  factor between them is a boundary effect.
+
+One number is left as a conjecture: the quasi-potential V = 0.2191 per cell at A = 84, a functional of a measured
+table with a stated continuation, to be compared only with hull slopes at A ≥ 84 (0.218, 0.221). The alternative
+0.2054 is contradicted by the tallies.
+
+What fell, each for a stated reason (the board's graveyard): closures by independent cells; fixed-age exponents as
+the law; "ln τ = A·∫θ"; "one remnant in every vessel"; the ring exponent coming down to the interval's; every
+equal-time transfer hypothesis. Exam: five entries hold, four fail or missed, two undecided, three not run (C-E3,
+path E4, P-E4).
+
+Facts the swarm leaves without an account: the constant for either rule; the rise of the cost per cell with A; the
+symmetric slopes and the vertex/cube factor; face12e's 0.205 and fcc's 0.181.
+
+Not checked by anyone: the two percolation statements at the source; any link from the rule to the pooled table;
+counting's and path's proofs by a reader other than one critic (the audit covered probability and source only);
+path's closing theorems were written and checked on the same day. The lead read the closing table and the
+audit, re-derived the relative's lifetime (entry above), and proved nothing here.
+
+Where this leaves the problem, with the exponent study's result of the same day: the constant belongs to five or
+six layers of the rule over independent noise, and the reductions above say what has to be computed there (the
+committor of a population table, or better a direct transfer-matrix calculation at finite depth). That is a smaller
+problem than the one the swarm was given.
+
+## 2026-11-14 — equal areas, different lifetimes: the shape of a periodic face matters (GPU session's pull request 16; reviewed; lead's check)
+
+The question left open by the entry "slab faces with the firewall channel resolved": is the cost per cell of a slab
+face rising with area, or does the face's width matter? The GPU session ran fourteen periodic gump slabs s×M×8
+(two faces of A = 3·s·M cells each; soup 0.4; every life ended at its first event, a face death or a transverse
+firewall counted as its own channel; ln τ_face = ln(2 × exposure / face deaths)), in four families by short side s.
+Review: `research/audit/REVIEW-gpu-pr16.md` (independent recomputation, fits, an independent CPU run). The lead's
+re-derivation: `python3 research/audit/gpu_pr16_lead_check.py research/data/gpu_facelaw` (results in its docstring).
+
+| s | ln τ_face at A = … (share of lives ended by a firewall) | slope within the family |
+|---|---|---|
+| 3 | 11.082 (54; 13%), 14.621 ± 0.003 (72; 87%), 18.046 ± 0.011 (90; 99.6%) | 0.1966 then 0.1902: curved |
+| 4 | 12.486 (60), 14.971 ± 0.002 (72), 17.465 ± 0.005 (84), 19.943 ± 0.018 (96), 22.373 ± 0.042 (108; 99.2%) | 0.2072 ± 0.0001 |
+| 5 | 15.661 ± 0.003 (75), 18.786 ± 0.011 (90), 21.890 ± 0.040 (105), 25.046 ± 0.073 (120; 92%) | 0.2082 ± 0.0006 |
+| 6 | 22.568 ± 0.041 (108; 2%), 26.405 ± 0.104 (126; 24%) | 0.213 ± 0.006 |
+
+- **[measured, three pairs; one confirmed by independent code] At equal area the narrower face dies sooner.**
+  4×9 against 6×6 at 108 cells: −0.196 ± 0.059. 3×8 against 4×6 at 72 cells: −0.349 ± 0.004. 3×10 against 5×6 at
+  90 cells: −0.740 ± 0.016. The reviewer's CPU run (a different stepper, checked against the engine on both slabs,
+  channels resolved) gives −0.344 ± 0.020 for the pair at 72 cells. The same slab in both orientations agrees to
+  −0.002 ± 0.003. The session's own forecast, committed before the runs, was "area only"; it missed, and says so.
+- **[measured] The face hazard does not depend on the age of the life** from about 200 generations on, in every slab
+  with age histograms (review, claim 3), so the rates are not rates of young states even where firewalls end 99% of
+  lives. Under the launch caps used, the detection-time bias is at most +0.006 (s = 3) and +0.0015 (s = 4), in the
+  direction that makes the gaps look larger, and far below them.
+- **[measured] Width 3 is a different animal.** Its line is curved (the quadratic term is nine standard errors from
+  zero) and its chord, 0.196 per cell, is well below the others. Its last point is also the one where 99.6% of lives
+  end in a firewall, so "curved" and "biased by the competing channel" are not separated there: with the cheapest cut
+  at 36·s cells, width and firewall share are one variable by design. Within s = 4 the share runs from 0.5% to 99%
+  and the line does not bend.
+- **[measured] For widths 4 to 6 the data do not need a width-dependent cost per cell.** One slope, 0.2072 ± 0.0001,
+  with an intercept rising with the short side (0.053, 0.121, 0.203 for s = 4, 5, 6), fits at χ² = 8.4 on 8 (reviewer
+  and lead, separately). So does a model with one parameter fewer, ln τ = a + 0.2117·A − 0.054·M with M the long
+  side (χ² = 5.6 on 9). The two cannot be told apart here: within a family both are straight lines, and they differ
+  only in predicting b(5) = 0.2072 or 0.2081 and b(6) = 0.2072 or 0.2087, where the measurements are 0.2082 ± 0.0006
+  and 0.213 ± 0.006. Either way **the correction to the area law is linear in a side length**, about +0.07 per unit
+  of short side at fixed area, or −0.05 per unit of long side.
+- **[consequence, measured] The old slab line's slope was inflated by mixing widths.** Fitted with area alone, the
+  slabs with s ≥ 4 give 0.2085 per cell (and a hopeless χ² of 512 on 10), above every family's own slope, because
+  wider slabs were also the larger ones. The 0.2088 of the CPU table (CLAIMS F4, A = 27–90, mixed widths) is a slope
+  of that kind. The session's conjecture that 0.2088 averages narrow slabs *down* from an octahedral 0.216–0.221 has
+  the sign wrong and does not stand (review, claim 4): b(5) is thirteen standard errors below 0.216.
+- **[open] The cost per cell of a wide periodic face** is 0.2072 if the width enters as an offset and 0.2117 if the
+  long side does; b(6) = 0.213 ± 0.006 allows both. Deciding needs b(5) to about ± 0.0003 (some 2,500 face deaths at
+  5×8×8, where there are 189), or a seventh width, each about fifty times the cost of the last. Octahedral faces
+  (0.216–0.221 measured) are not periodic and have edges; nothing here connects the two numbers.
+- **[conjecture, lead]** A term linear in a side is what a line-like object would cost: if the event that kills a
+  face has to close around the short way of the torus (or is helped by a seam along the long way), its price
+  carries a term in that length. A bulk finite-size effect would instead fall off exponentially in the width. Not
+  tested; the place to look is where on the face the last cells die, by width.
+- Not checked: the GPU runs were not repeated on a second GPU; no CPU check at 90 or 108 cells (too slow); whether
+  near-firewall states raise the face hazard at s = 3 (the per-state data were not kept).
+
+## 2026-11-14 — the shortest way round: twisted faces at equal area (shape experiment, forecasts first; adversarial review with an independent stepper; lead's check)
+
+The entry above left a correction to the area law that is linear in "a side" of the periodic face, and a conjecture:
+that the variable is the shortest closed loop of the face torus (its systole). Rectangular s×M slabs cannot test
+this, because side and shortest loop are the same thing. Slabs whose in-plane period lattice is twisted can: the
+lattice generated by (a, k) and (0, b) in the cube coordinates (i, j) of `research/peeling/geom.py` has the same area
+A = 3ab for every k, and loops of squared length x² + xy + y² (the two in-plane axes are at 60°). Experiment:
+`research/shape/README.md` (forecasts in `PREDICTIONS.md`, committed before the runs; every torus stepped by code
+checked against the engine generation by generation). Review: `research/audit/REVIEW-shape.md` (own bit-sliced
+stepper with its own layer indexing, checked against the engine on seven tori; geometry rebuilt from AUTOMATON.md's
+table; fixed seeds). Lead: `python3 research/audit/shape_lead_check.py` (tables from the counts; lattice classes).
+
+| shortest loop² (length) | tori at A = 72 | ln τ_face, experiment | review's independent run |
+|---|---|---|---|
+| 9 (3.00) | 3×8; (8,2),(0,3) | 14.613 ± 0.010 | 14.614 ± 0.014 |
+| 12 (3.46) | (4,4),(0,6); (2,5),(0,12) | 14.877 ± 0.010 | 14.866 ± 0.016 |
+| 13 (3.61) | (4,3),(0,6) in three presentations | 14.921 ± 0.008 | |
+| 16 (4.00) | 4×6 (two presentations); (6,1),(0,4); (6,3),(0,4) | 14.973 ± 0.007 | 14.966 ± 0.008 |
+| 19 (4.36) | (2,3),(0,12) | 15.011 ± 0.014 | 15.020 ± 0.017 |
+| 21 (4.58) | (4,1),(0,6) | 15.066 ± 0.014 | 15.035 ± 0.009 |
+
+- **[measured, two independent codes] At 72 cells the lifetime of a periodic face rises with its shortest loop**, in
+  both sets of runs. Different shapes with the same shortest loop agree: χ² = 1.1 on 4 over distinct shapes (two at
+  9, two at 12, three at 16). The control passed: the twist k = 2 of 4×6 is the same torus as 4×6 under the
+  automaton's symmetries and the flip of the slab, and gives 14.974 against 14.968.
+- **[measured, two independent codes] The shortest loop is not the only variable.** At 60 cells two different tori
+  with the same shortest loop (squared 16) differ: 4×5 gives 12.490 ± 0.003 and (5,1),(0,4) gives 12.471 ± 0.003
+  (0.019 ± 0.004). The experiment topped up that pair because the gap looked interesting; the review reran both with
+  fixed seeds and no stopping rule and found 0.0177 ± 0.0042, and the top-up alone already shows 0.021 ± 0.005. The
+  lead's remark: the two differ in their second-shortest loop (squared 21 and 19), and the one with the shorter
+  second loop dies sooner; at 72 cells the three shapes at 16 have second loops 27, 28, 31 and agree. One pair is
+  not a law, and the review notes the ordering does not repeat (insignificantly) at 72.
+- **[measured] Two other candidates are refuted.** Distance counted in steps on the lattice (the tori with loop² 12
+  and 13 have step-distance 4, like 4×6, and lie 0.096 ± 0.012 and 0.052 ± 0.011 below it), and proneness to
+  transverse firewalls (it predicted those tori above 4×6).
+- **[measured] Not a firewall artefact.** Tori whose shortest row closes after six or more cells have no firewall
+  channel to speak of (the review saw 2 firewalls in 2.25 × 10¹⁰ life-generations on (4,1),(0,6)) and lie on the same
+  curve as tori with 5% and 87% firewall endings. Loop length 3 still always comes with the cheapest cut, so the
+  doubt recorded above about width 3 is not removed.
+- **[measured] Sizes.** At 72 cells the rise is about 0.15 per unit of loop length between 3.46 and 4.58
+  (+0.075 ± 0.010 from 4 to 4.58, both runs pooled); length 3 sits 0.19–0.24 below that line. The effect is larger
+  at 72 cells than at 60 in every comparison (ratio 1.3 to 2.3: from loop² 12 to 16 the gap is 0.051 ± 0.005 at 60
+  and 0.096 ± 0.012 at 72), so for loops shorter than 4 the shortest loop changes the cost per cell, by about 0.004
+  per cell between 3.46 and 4, as width 3 did in the rectangular families.
+- **[measured, one code; statistic not reviewed] How a face ends.** It holds about 37 of its 72 cells until about
+  13 generations before its death and then empties in 6–8 generations, the same on three tori; the last cells show
+  no band along the short loop.
+- **The lead's forecast** (lifetime a function of the shortest loop alone, sizes from the rectangular offsets):
+  the ordering held everywhere; "alone" failed at 60 cells; the sizes missed (+0.075 at loop² 21 where +0.04 was
+  forecast; 14.877 and 14.921 at 12 and 13 where 14.78 and 14.83 were forecast).
+- **[reading, lead]** A periodic face feels its own wrap-around: the shorter the ways round, the cheaper its death,
+  with no sign of saturation by length 4.6 at 72 cells. So every cost per cell measured on a periodic slab so far
+  carries a wrap-around term, and the wide-face constant is not yet isolated from it. The line-like-object picture
+  that suggested the experiment is not shown: the death has no visible geometry, and a second loop matters.
+- Not checked: no GPU or second-machine run; seven of the thirteen presentations at 72 and three tori at 60 were
+  run by one code only; the event detectors (as opposed to the stepping) were not validated against the engine;
+  `research/shape/loopsum.py` (a sum over loop classes that did not explain the pair at 60) was not reviewed.

@@ -219,3 +219,20 @@ filed records (`research/scratch/exponent/runs_gump.json`, `runs_slabmodel.json`
   slab faces measured elsewhere stay on −0.091 + 0.2088·A through A = 108 (notebook 2026-11-14).
 - **F11(d):** no mechanism was tested.
 - **L = 32–40 sparse-channel slope (19:56Z amendment): unscored.** The runs (`python3 jobs.py model3`) were never made.
+
+## 2026-11-14 — notes after the adversarial review (`research/audit/REVIEW-exponent.md`; entries above unchanged)
+
+Scores above that the review (cited R§n) contradicts or qualifies; no score above is edited, none is rescored here.
+- **F1 headline ("fails by orders of magnitude, because of debris").** The failure stands (enumeration bit-identical
+  to an independent brute force, R§0). "Because of debris, not because chaos is unlike a random map" does not
+  follow: with τ = 3–10 generations these vessels have no long-lived chaotic component to compare, and cycles of
+  period ≥ 3 still exceed |G|τ by 1–56× (R§5). The period ≤ 2 share is 67–99%, not 67–97%.
+- **F1(c) ("hit where it can be tested").** The forecast counted states on immortal cycles of period ≥ 8. In 7 of
+  the 17 vessels with N ≥ 24 there are none, against |G|τ = 22–197 (strips 2 × 12, 2 × 13, 3 × 9, 4 × 6, 4 × 7,
+  5 × 5, box 4 × 6; R§5), which is not within a factor 30. The "hit" holds only conditioned on existence (10 of 17).
+- **F3 (hit).** The forecast band is met, also by the review's independent window costs (0.3995 at ℓ = 20 → 21,
+  0.385–0.387 at ℓ = 30–42; R§2). The formula τ = 12.1/E(L − 6.5) reported with this outcome was found after the
+  runs; it has χ² 17.3/5 and, fitted to L = 12–28, under-predicts L = 32, 36 by 0.08 and 0.07 (R§2).
+- **F10 (hit).** Confirmed with a larger sample: the review's `gump_model(13, 4)` gives 18.183 ± 0.037 (719 deaths),
+  within 0.2 of 18.077 as forecast, and +0.035 ± 0.047 against its own deterministic hull, 18.148 ± 0.028 (R§1.4).
+- **F11(c) (miss).** Unchanged; the deterministic A = 75 slab (15.660 ± 0.027, R§1.2) is also below 15.74 ± 0.05.

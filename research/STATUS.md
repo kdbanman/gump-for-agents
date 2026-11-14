@@ -49,31 +49,38 @@ _Last updated 2026-11-14 by the lead._
   asked for arrived as pull request 10 and are merged (lead spot-checked the diff). Asked next: slab faces at A > 90, octahedral faces at A ≥ 165,
   a longer cube-centred symmetric run (does the death rate really fall with age?).
 
-- 2026-11-14: an overview page for the owner (`docs/overview/`, published as a private artifact; link in `LEAD.md`).
+- 2026-11-14: an overview page for the owner (`docs/overview/`, published as a private artifact; link in `LEAD.md`). Refreshed and republished the same day at 11:50 UTC (current to the swarm's close and the exponent study).
   It predates the two reviews of 2026-11-14 (class theory, GPU round two); refresh it when the swarm's exam is in.
-- Pull request 11 merged 2026-11-14 07:27 UTC (everything up to the two reviews). Later commits need a new pull request.
+- Pull request 11 merged 2026-11-14 07:27 UTC (everything up to the two reviews). Pull request 13 merged 09:55 UTC
+  (exam, audit, class revision and follow-up, exponent report, reviews of GPU pull requests 12 and 14). Later
+  commits need a new pull request.
 
 ## Next (lead's list; pick by judgment)
-- **Swarm (state 2026-11-14, about 07:25 UTC).** The critic's successor answered every report on file
-  (`critic/board.md` opens with the state; replies in `critic/to-<line>.md`): nothing tagged proved was found wrong;
-  three guesses fell (counting's bridge C1′, path's "ln τ = A·∫θ", every equal-time transfer hypothesis); the source
-  line is finished and the critic agrees. **Solvers restarted 07:35 UTC** (fresh successors on probability, path and
-  counting, each with the critic's reply; the owner had just opened the whole account up to 95% of the session and
-  weekly limits, `LEAD.md`). When they report, a fresh critic successor reviews the new rounds in one pass. Started
-  07:50 UTC as well: the fresh-reader audit of the one finished theorem chain (source's and probability's Theorem A;
-  writes `swarm/audit/AUDIT-theoremA.md`), and a reviser applying the class review to `research/theory/class.md`.
-  **08:17 UTC:** all three solvers have written their rounds (counting round 3 is a closing report and
-  probability round 3 says its line is finished; path round 4 asks for one closing round). A fresh critic (Fable)
-  is reviewing the three rounds in one pass with the exam outcomes and the library notes; when it reports, decide
-  on path's closing round. **The audit of the Theorem A chain is done** (`swarm/audit/AUDIT-theoremA.md`): the
-  theorem stands, conditional on two cited percolation statements; recorded in the notebook (2026-11-14, "a
-  deterministic relative…") and as CLAIMS row SW1, with the lead's own simulation. The audit's part B also passed
-  every proved claim of the probability and source lines; counting's and path's have had no fresh reader yet. Earlier: a librarian (successor) on the two percolation facts that probability's and
-  source's Theorem A rest on (`library/requests.md`, last two blocks), and an examiner running the sampled entries of
-  `swarm/PREDICTIONS.md` (writes `swarm/exam/OUTCOMES.md`). Stop a line when a round gives no new proved step (each
-  solver was told that a closing report is a good outcome). Then a fresh reader (not the critic) audits every claim tagged "proved" across the four `claims.md`,
-  first of all the chain "a deterministic automaton with a theorem" (source's Theorem A with probability's Theorem A).
-  Only after that does anything from the swarm go into the notebook, `CLAIMS.md` or `docs/AUTOMATON.md`.
+- **State at 11:30 UTC, 2026-11-14 (after a compaction).** Done since 10:30 and recorded: the exponent study
+  (reviewed, corrected, notebook, CLAIMS X1-X3), the swarm's close, the essay section "Coins will do", the second
+  revision of `class.md`. **Pull request 16 (GPU: the shape of a periodic face) is merged** (squash bad62e3, 12:05 UTC) after its
+  review (`research/audit/REVIEW-gpu-pr16.md`), the lead's re-derivation (`research/audit/gpu_pr16_lead_check.py`)
+  and seven text fixes: notebook entry "equal areas, different lifetimes", CLAIMS GP9. Offered to the GPU session as
+  optional and only if cheap: about 2,500 face deaths at 5×8×8, which would decide between "offset in the short side"
+  (every family 0.2072) and "term in the long side" (b(5) = 0.2081). **The twisted-torus experiment is done, reviewed and recorded** (`research/shape/README.md`,
+  `research/audit/REVIEW-shape.md`, notebook entry "the shortest way round", CLAIMS SH1, SH2): at equal area the
+  lifetime of a periodic face rises with its shortest closed loop (two independent codes); at A = 60 a second
+  variable shows (two tori with the same shortest loop differ by 0.018 ± 0.004). The review's seven corrections are applied to the write-up (6f995a2). **Running:**
+  (Fable, started
+  14:52 UTC with the window at 0.87, to be stopped at 0.92 if the owner's reset has not come) the fresh-reader audit
+  of path's proofs, `research/theory/swarm/audit/AUDIT-path.md` (commits as it goes; group 1 first: P̄, Q, V⁻, E1).
+  Still for after the reset: the same audit for counting; the theory push on the constant. (b) the overview page is current to the entry "the shortest way round": refreshed
+  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 is the lead's open one. **After the owner's Fable reset** (about 9am their time,
+  probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
+  counting and path, and a new theory push on the sharpened problem (the 0.2 per cell from six layers over noise).
+- **Swarm: closed 2026-11-14** (`research/theory/swarm/critic/board.md`, closing table at the top; notebook entry
+  "the theory swarm is closed"). No proof of the area law and no derivation of the constant. Stands: a deterministic
+  relative with an exponential law (audited; CLAIMS SW1); exact reductions and a conditional area law for gump
+  (path's P̄ and Theorem Q on a measured hypothesis; one critic, no second reader); the fixed-age theory of soups
+  (counting). Exam: five hold, four fail or missed, two undecided, three not run (C-E3, path E4, P-E4). **Owed, and
+  worth Fable after the owner's reset:** a fresh-reader audit of counting's and path's proved claims; then, as a new
+  effort, the sharpened problem (the constant from five or six layers over noise: transfer matrices at finite depth,
+  the committor of the population table).
 - **`research/theory/class.md`**: attacked 2026-11-14 (`research/audit/REVIEW-class.md`; notebook entry of that date).
   Its theorems stand; its first clause does not (sealing is a property of a half-space, not a direction), and the
   edge-neighbour rule the owner meant to write in 2012 (there called `face12e`; not gump) turned out to be a gump in a
@@ -87,22 +94,22 @@ _Last updated 2026-11-14 by the lead._
   (kagome8 and hex9 at b = 4; whether bond10's b = 3 boxes ever die; kagome B2/S12 with transverse cuts censored);
   face12e with symmetric seeds and beyond 6³. The owner's quick-look branch `claude/edge-neighbour-tangent` stays
   unmerged; the audited face12e results live in `research/audit/class/` under that name.
-- **`research/theory/exponent.md`**: written 2026-11-14 by a successor (commits b121199, 1d82192), not yet in the
-  notebook. Its verdict, unchecked: the exponent belongs to a thin boundary layer over memoryless noise (eight rows
-  of the 2D rule, or four to five layers of gump, over coin flips reproduce the deterministic lifetimes to 0.05
-  nats); in the toy τ(L) ≈ 12.1/E(L − 6.5) with E the chance of an empty window; nothing derives the constant.
-  Lemma A(c) corrected in `theorems.md`. **In progress (started 08:17 UTC):** an adversarial review (Opus; writes
-  `research/audit/REVIEW-exponent.md`), and the lead's own check of the toy half with independent code
-  (`research/audit/exponent/lead_check.py`; validated on the one-row chain: 6.4160 ± 0.0095 against the exact
-  6.4169; output of the eight-row runs in `research/scratch/audit_exponent/lead_w8.txt`). When both are in: the
-  notebook entry, CLAIMS rows, PROGRAM nodes M1–M4.
+- **`research/theory/exponent.md`**: written, reviewed (`research/audit/REVIEW-exponent.md`, 10:45 UTC) and in the
+  notebook (2026-11-14, "where the exponent lives"; CLAIMS X1–X3). Stands: five or more layers of gump over coin flips
+  reproduce a slab face's lifetime to 0.015 at A = 27–60 and 0.02 ± 0.04 at A = 75 (reviewer's own code), eight rows of the 2D rule likewise (lead's own
+  code). Does not stand as written: the empty-window formula as more than a fit, "coincidence", the per-live-cell
+  cost, the small-vessel inference. The review's thirteen corrections are applied (commit 0e8e5ec, an Opus editor; its §14 lists every change and two
+  inconsistencies in the review itself). To do: update `research/theory/PROGRAM.md` (M1–M4: the problem is now a
+  finite-depth probabilistic automaton) and `research/OPEN-PROBLEMS.md` items 3–4.
 - **Class follow-up: done 2026-11-14** (`research/theory/class/followup/`; notebook entry of that date; CLAIMS K6–K8;
   the lead re-derived the symmetric face12e boxes). Half-space confinement holds out of sample; hex9 B456/S3456 is a
   new gump-type rule with a concave wall law; bond10's box walls hold each other up along the edges (boxes of 4³ live
   ≈ 10⁹ against 10³ forecast from the slab law); face12e with full cubic symmetry settles in tens of generations.
-  **To do:** fold the four places where the class statement is wrong or silent into class.md (clauses 3, 5, 6);
-  an edge term for box walls (bond10 columns give 0.52–0.66 nats per edge cube; gump's octahedral rim 0.91 nats at
-  A = 108) is the open question it raises.
+  **Folded into class.md** (second revision of 2026-11-14, commit 7d4cb8a, an Opus editor; the lead read the new
+  clause 6; three small inconsistencies are listed in its last section, among them that the follow-up's and the
+  lead's symmetric-box medians differ by one generation, probably a definition of "lifetime"). **Open question it
+  raises:** an edge term for box walls (bond10 columns give 0.52–0.66 nats per edge cube; gump's octahedral rim is
+  0.84 ± 0.04 nats at A = 108 with the pooled slab value).
 - **GPU session:** pull request 12 reviewed 2026-11-14 (`research/audit/REVIEW-gpu-pr12.md`; notebook entry of that
   date). Stands: symmetric soups do not age at R = 43 (Weibull k = 1.02); cube-like seeds at vertex-centred R = 40 wait
   exponentially; rim-free slab faces are on the old line through A = 108, and an octahedral face there is 0.91 nats
@@ -121,7 +128,7 @@ _Last updated 2026-11-14 by the lead._
   slope 108 → 126 0.215 ± 0.006, not decided between a rising cost per cell and a *width* effect (the review's post hoc
   fit with a short-side term). **Running at the GPU session (asked 09:40 UTC):** the pair 4×9×8 against 6×6×8 at
   A = 108 (a width effect predicts 0.23 ± 0.08 lower), and width families s = 3 … 6 at A ≤ 96 with ≥ 2,000 deaths
-  each; forecasts first. Expect pull request 15; review as before.
+  each; forecasts first. Expect pull request 16 (15 is the lead's own, opened 09:57 UTC); review as before.
 - **Exam (swarm): done 2026-11-14** (`swarm/exam/OUTCOMES.md`; notebook entry of that date; CLAIMS SW2–SW4). Hold:
   path E1 (notched edge 0.346), source S-E1 and S-E2 (faces over dice; six layers suffice for gump), counting C-E1
   (one mirror halves the price, 0.1026 per cell). Fail: counting C-E2, path E3. Undecided: P-E1 (0.512 ± 0.012 on its
