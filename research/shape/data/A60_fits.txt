@@ -1,0 +1,29 @@
+shape (control)        chi2    5.04 /  2  p = 0.0806
+      12 0 25      12.424 ± 0.007  (1 tori)
+      12 12 28     12.435 ± 0.007  (1 tori)
+      13 10 25     12.442 ± 0.007  (1 tori)
+      16 4 19      12.470 ± 0.004  (2 tori)
+      16 12 21     12.485 ± 0.004  (2 tori)
+Euclidean systole^2    chi2   11.84 /  4  p = 0.0186
+      12           12.429 ± 0.005  (2 tori)
+      13           12.442 ± 0.007  (1 tori)
+      16           12.477 ± 0.003  (4 tori)
+hex systole            chi2   85.37 /  6  p = 2.77e-16
+      4            12.461 ± 0.002  (7 tori)
+shortest row closure   chi2   13.96 /  4  p = 0.00744
+      5            12.433 ± 0.005  (2 tori)
+      10           12.435 ± 0.007  (1 tori)
+      4            12.477 ± 0.003  (4 tori)
+area only              chi2   85.37 /  6  p = 2.77e-16
+line in sigma (sys2 >= 12): ln tau = 12.121 + 0.0890 sigma  (slope ± 0.0104); chi2 6.80 / 3
+      16 12 21     sigma 4.000 hex 4  12.485 ± 0.004  resid +1.69 sd
+      16 4 19      sigma 4.000 hex 4  12.470 ± 0.004  resid -1.69 sd
+      13 10 25     sigma 3.606 hex 4  12.442 ± 0.007  resid +0.02 sd
+      12 0 25      sigma 3.464 hex 4  12.424 ± 0.007  resid -0.75 sd
+      12 12 28     sigma 3.464 hex 4  12.435 ± 0.007  resid +0.73 sd
+line in sigma (all): ln tau = 12.121 + 0.0890 sigma  (slope ± 0.0104); chi2 6.80 / 3
+      16 12 21     sigma 4.000 hex 4  12.485 ± 0.004  resid +1.69 sd
+      16 4 19      sigma 4.000 hex 4  12.470 ± 0.004  resid -1.69 sd
+      13 10 25     sigma 3.606 hex 4  12.442 ± 0.007  resid +0.02 sd
+      12 0 25      sigma 3.464 hex 4  12.424 ± 0.007  resid -0.75 sd
+      12 12 28     sigma 3.464 hex 4  12.435 ± 0.007  resid +0.73 sd
