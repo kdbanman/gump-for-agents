@@ -6,13 +6,17 @@
 side from systole, so this measures slabs whose in-plane period lattice is twisted. Forecasts were committed before
 the production runs (`PREDICTIONS.md`, commits 445d7e0 and 41041c5).
 
+Revised 2026-11-14 after the adversarial review `research/audit/REVIEW-shape.md` (its seven corrections applied).
+
 ## Verdict
 
 - **H1 (systole alone): the systole is the main variable, but not the only one [measured].** At A = 72, thirteen
-  tori in ten shapes agree within systole groups (χ² 1.8 on 7 dof), including three different shapes at systole² 16
+  tori in ten shapes agree within systole groups (χ² 1.1 on 4 dof over distinct shapes; the 1.8 on 7 over all tori
+  includes three comparisons of presentations of one torus, equal by symmetry), including three different shapes at systole² 16
   and two each at 12 and 9, and ln τ_face rises monotonically with the systole. At A = 60 the ordering holds and the
   two systole² 12 shapes agree, but **the two systole² 16 shapes differ: 12.490 ± 0.003 against 12.471 ± 0.003,
-  −0.019 ± 0.004 (4.6σ)**, while each shape's two presentations agree (1.4σ and 0.5σ). By the committed criterion
+  −0.019 ± 0.004 (4.6σ)**, while each shape's two presentations agree (1.4σ and 0.5σ). The review's independent
+  rerun (fixed seeds, no stopping rule) confirms it: 12.4883 ± 0.0030 against 12.4707 ± 0.0030, 0.0177 ± 0.0042. By the committed criterion
   (equal-systole shapes differing by more than 3σ) H1 in its strict form is refuted at A = 60. The shape effect at
   fixed systole (0.02) is a third of the systole effect at that area (0.05 from systole² 12 to 16) and at A = 72 it
   would be within the errors (the three systole-16 shapes span 0.019 ± 0.017 there).
@@ -20,9 +24,12 @@ the production runs (`PREDICTIONS.md`, commits 445d7e0 and 41041c5).
   and lie 0.096 ± 0.012 and 0.052 ± 0.011 below the systole-16 tori at A = 72 (8σ and 5σ), 0.052 ± 0.005 and
   0.039 ± 0.007 at A = 60.
 - **H0′ (shortest kagome row, i.e. firewall-proneness) is refuted [measured]:** it predicted the 12/13 tori above
-  4×6; they are below. Tori with no possible firewall (cut ≥ 216) follow the same systole curve as tori with one.
-- **The forecast's magnitudes were off [measured].** Systole² 21 is +0.093 ± 0.016 above 4×6 at A = 72 (forecast
-  +0.04), and the systole² 12 and 13 tori sit nearer 4×6 than the linear interpolation from 3×8 said (14.877 and
+  4×6; they are below. Tori with no observed firewall (cut ≥ 216) follow the same systole curve as tori with one.
+  Twisting alone does not close the firewall channel: the twisted (6,1),(0,4) and (6,3),(0,4) keep cut 144 and about
+  5% firewalls, like 4×6. What closes it (to "rare", not "impossible") is a shortest row closure of 6 or more.
+- **The forecast's magnitudes were off [measured].** Systole² 21 is +0.075 ± 0.010 above 4×6 at A = 72 (15.043 ± 0.007 and
+  4×6 14.968 ± 0.006, both pooled with the review's independent run; this experiment's run alone was 1.9σ higher),
+  about 3.5σ from the forecast +0.04, and the systole² 12 and 13 tori sit nearer 4×6 than the linear interpolation from 3×8 said (14.877 and
   14.921 against 14.78 and 14.83). The curve is steep between systole 3 and 3.5 and then about linear,
   0.152 ± 0.012 per unit of systole (|u1| units, the unit in which a rectangular side is counted) from 3.46 to 4.58
   (χ² 5.6 / 6); systole 3 lies 0.21 below that line's extrapolation. No three-parameter form tried
@@ -74,22 +81,24 @@ A = 72 (`python3 research/shape/summary.py 72`; `data/A72.csv`; groupings `pytho
 |---|---|---:|---|---:|---:|---|
 | (3,0),(0,8) = 3×8 | 9, 6, 49 | 9 | 14.610 ± 0.014 | 5,067 | 86.5% | 12.058 ± 0.006 |
 | (8,2),(0,3) | 9, 0, 48 | 9 | 14.616 ± 0.014 | 5,027 | 86.6% | 12.056 ± 0.006 |
-| (4,4),(0,6) | 12, 0, 36 | 12 | 14.875 ± 0.014 | 5,095 | 0 | none possible |
-| (2,5),(0,12) | 12, 12, 39 | 12 | 14.878 ± 0.014 | 5,074 | 0 | none possible |
-| (4,3),(0,6) | 13, 12, 36 | 13 | 14.927 ± 0.014 | 5,173 | 0 | none possible |
-| (4,5),(0,6) (mirror) | 13, 12, 36 | 13 | 14.913 ± 0.014 | 5,235 | 0 | none possible |
-| (3,1),(0,8) (same torus) | 13, 12, 36 | 13 | 14.924 ± 0.014 | 5,178 | 0 | none possible |
+| (4,4),(0,6) | 12, 0, 36 | 12 | 14.875 ± 0.014 | 5,095 | 0 | none observed |
+| (2,5),(0,12) | 12, 12, 39 | 12 | 14.878 ± 0.014 | 5,074 | 0 | none observed |
+| (4,3),(0,6) | 13, 12, 36 | 13 | 14.927 ± 0.014 | 5,173 | 0 | none observed |
+| (4,5),(0,6) (mirror) | 13, 12, 36 | 13 | 14.913 ± 0.014 | 5,235 | 0 | none observed |
+| (3,1),(0,8) (same torus) | 13, 12, 36 | 13 | 14.924 ± 0.014 | 5,178 | 0 | none observed |
 | (4,0),(0,6) = 4×6 | 16, 8, 28 | 16 | 14.968 ± 0.014 | 5,227 | 4.8% | 17.27 ± 0.06 |
 | (4,2),(0,6) (same torus) | 16, 8, 28 | 16 | 14.974 ± 0.014 | 5,198 | 5.5% | 17.12 ± 0.06 |
 | (6,1),(0,4) | 16, 0, 27 | 16 | 14.984 ± 0.014 | 5,147 | 5.2% | 17.19 ± 0.06 |
 | (6,3),(0,4) | 16, 16, 31 | 16 | 14.965 ± 0.014 | 5,248 | 4.5% | 17.32 ± 0.06 |
-| (2,3),(0,12) | 19, 18, 27 | 19 | 15.011 ± 0.014 | 5,082 | 0 | none possible |
-| (4,1),(0,6) | 21, 6, 21 | 21 | 15.066 ± 0.014 | 5,096 | 0 | none possible |
+| (2,3),(0,12) | 19, 18, 27 | 19 | 15.011 ± 0.014 | 5,082 | 0 | none observed |
+| (4,1),(0,6) | 21, 6, 21 | 21 | 15.066 ± 0.014 | 5,096 | 0 | none observed |
 
-"None possible": every transverse diagonal has cut ≥ 216 cells or only two layers; at most a handful of firewalls
-were seen (zero here). Pooled by systole²: 9: 14.613 ± 0.010; 12: 14.877 ± 0.010; 13: 14.921 ± 0.008;
-16: 14.973 ± 0.007; 19: 15.011 ± 0.014; 21: 15.066 ± 0.014. Grouping χ²: by shape 0.7 / 3 (controls), by
-systole² 1.8 / 7, by hex systole 77 / 10, by shortest row 109 / 8, by area alone 1161 / 12.
+"None observed": every transverse diagonal has cut ≥ 216 cells (shortest row closure ≥ 6) or only two layers;
+firewalls are rare there, not impossible (zero here; the review saw 2 in 2.25 × 10¹⁰ life-generations on
+(4,1),(0,6), ln τ_fw ≈ 24). Pooled by systole²: 9: 14.613 ± 0.010; 12: 14.877 ± 0.010; 13: 14.921 ± 0.008;
+16: 14.973 ± 0.007; 19: 15.011 ± 0.014; 21: 15.066 ± 0.014 (15.043 ± 0.007 pooled with the review's independent run).
+Grouping χ²: by shape 0.7 / 3 (controls), by systole² 1.8 / 7 (1.1 / 4 over distinct shapes, the test of "systole
+alone"), by hex systole 77 / 10, by shortest row 109 / 8, by area alone 1161 / 12.
 
 Controls and checks against known values: C1 (4,2) = (4,0): 14.974 vs 14.968. C2: the three presentations of
 (13,12,36) agree (χ² 0.6 / 2). C3: 4×6×8 = 14.968 ± 0.014 against the GPU's 14.970 ± 0.002, 3×8×8 = 14.610 ± 0.014
@@ -112,9 +121,11 @@ A = 60 (`python3 research/shape/summary.py 60`; `data/A60.csv`, `data/A60_fits.t
   the 4×5 shape pooled, 12.490 ± 0.003, against the GPU's 12.486. Firewall rates: 17.05–17.19 (± 0.06) in all four systole-16 tori.
 - The four systole-16 tori were run in two stages: 10,000–30,000 face deaths (difference of the two shapes 2.5σ),
   then a top-up to 60,000 each, decided because of that 2.5σ (seeds 400000+, `drive60d.log`). The 4.6σ is the
-  pooled result; read it as a measured effect that one more independent run should confirm.
+  pooled result. The top-up alone, by its own seeds and with its size fixed when it started, gives 0.021 ± 0.005; the
+  review's independent rerun (fixed seeds, no stopping rule) gives 12.4883 ± 0.0030 against 12.4707 ± 0.0030,
+  0.0177 ± 0.0042 (4.2σ). The confirmation asked for is done.
 - Systole groups: 12: 12.429 ± 0.005; 13: 12.442 ± 0.007; 16: 12.481 ± 0.002 (with the two shapes as above). The
-  effect of the systole is about half its size at A = 72: 12 → 16 is +0.052 ± 0.005 here and +0.096 ± 0.012 at
+  effect of the systole is smaller than at A = 72 (by a factor 1.3 to 2.3, depending on the comparison): 12 → 16 is +0.052 ± 0.005 here and +0.096 ± 0.012 at
   A = 72. Forecast numbers for A = 60 (H1: −0.14 for 13, −0.19 for 12) were three to four times too large.
 - A post-hoc model, 1/τ = α_A + β_A Σ_loops e^{−κ|v|} over all primitive loops with κ shared by both areas, does not
   fit (χ² 36 / 10; `loopsum.py`), and no better than the same model with the systole alone (37 / 10): the shorter
@@ -127,8 +138,8 @@ A = 60 (`python3 research/shape/summary.py 60`; `data/A60.csv`, `data/A60_fits.t
 the dying face for ~450–520 face deaths each on 4×6, (4,4),(0,6) (systole² 12) and (4,1),(0,6) (systole² 21)
 (`python3 research/shape/faceend.py analyze 4 0 6`, …; `data/faceend.txt`).
 
-- **The death is a sudden collapse.** The face holds 37 of its 72 cells on average until about 10 generations
-  before death, then empties in ~6–8: 35, 33 (−8), 28 (−6), 19 (−4), 11, 4.3, 1.7, 0. The profile is the same on all
+- **The death is a sudden collapse.** The face holds 37 of its 72 cells on average until about 13 generations
+  before death, then empties, most of it in the last ~6–8: 35 (−10), 33 (−8), 28 (−6), 19 (−4), 11, 4.3, 1.7, 0. The profile is the same on all
   three tori to within about 2 cells at every step; the shape changes how often the collapse starts, not what it looks like.
 - **No band around the short loop.** For the live cells I measured the concentration along waves whose stripes run
   along the systole and along the next two lattice vectors, against random cell sets of equal size. The last few
@@ -147,7 +158,7 @@ the dying face for ~450–520 face deaths each on 4×6, (4,4),(0,6) (systole² 1
 - Whether the systole law holds at a third area or with width 3 present at A = 60 (no width-3 lattice of index 20),
   and why systole 3 is so much cheaper (both systole-3 shapes also have the cheap firewall, cut 108, so firewall
   proximity and systole 3 are still one variable there).
-- What sets the size of the systole effect at a given area: it is about twice as large at A = 72 as at A = 60
-  (12 vs 16: 0.096 ± 0.012 against 0.052 ± 0.005, ratio 1.8 ± 0.3), so the correction is not additive in area and
+- What sets the size of the systole effect at a given area: it is larger at A = 72 than at A = 60
+  (12 vs 16: 0.096 ± 0.012 against 0.052 ± 0.005; the ratio is 1.3 to 2.3, depending on the comparison), so the correction is not additive in area and
   systole [measured; the cause is not known]. Nor what the 0.019 between the two systole-16 shapes at A = 60 follows.
 - Face-death geometry beyond one wave statistic (no front test, no figure).
