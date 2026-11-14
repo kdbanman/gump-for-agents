@@ -58,6 +58,12 @@ def mk_massive(kind):
     return f
 
 
+def f_mexp2(t, p):
+    a, c, lng, xi, h = t
+    s_ = S(p['lat'], xi, 'exp')
+    return a + h * s_ + p['A'] * (c - math.exp(lng) * s_)
+
+
 MODELS = {
     'area': (f_area, [0.0, 0.21], ['a', 'c'], None),
     'cw': (f_cw, [0.0, 0.21, -1.0], ['a', 'c', 'kappa'], None),
@@ -65,6 +71,8 @@ MODELS = {
              ([-np.inf, 0, -20, 0.05], [np.inf, 1, 20, XI_MAX])),
     'mk0': (mk_massive('k0'), [0.0, 0.21, 0.0, 0.8], ['a', 'c', 'ln g', 'xi'],
             ([-np.inf, 0, -20, 0.05], [np.inf, 1, 20, XI_MAX])),
+    'mexp2': (f_mexp2, [0.0, 0.21, 0.0, 0.8, 0.0], ['a', 'c', 'ln g', 'xi', 'h'],
+              ([-np.inf, 0, -20, 0.05, -np.inf], [np.inf, 1, 20, XI_MAX, np.inf])),
     'm1': (mk_massive('one'), [0.0, 0.21, 0.0, 0.8], ['a', 'c', 'ln g', 'xi'],
            ([-np.inf, 0, -20, 0.05], [np.inf, 1, 20, XI_MAX])),
 }
@@ -73,8 +81,8 @@ MODELS = {
 def do_fit(name, pts, starts=None):
     f, t0, names, bounds = MODELS[name]
     best = None
-    tries = [t0] if name in ('area', 'cw') else [[0.0, 0.21, lg, xi] for lg in (-3.0, -1.0, 1.0)
-                                                 for xi in (0.4, 0.8, 1.5, 2.5)]
+    tries = [t0] if name in ('area', 'cw') else [[0.0, 0.21, lg, xi] + ([0.0] if name == 'mexp2' else [])
+                                                 for lg in (-3.0, -1.0, 1.0) for xi in (0.4, 0.8, 1.5, 2.5)]
     for t in tries:
         try:
             r = wls.fit(name, f, t, pts, names, bounds)
@@ -191,8 +199,39 @@ def pairs():
             print(f'  {lab:4s} A={A:2d} {str(lat.gram(*X)):>13} -> {str(lat.gram(*Y)):<13}  ' + '  '.join(row))
 
 
+def slopes():
+    """Cost per cell between areas by shortest loop (classes of equal Q1 pooled by inverse variance in each area),
+    and two forms for its deficit: c - D exp(-s/xi) (massive) and c - D/s^2 (massless, long cylinder)."""
+    per = [p for p in load.periodic() if p['Q1'] >= 3 and p['A'] in (48, 60, 72)]
+    def pooled(A, q):
+        ps = [p for p in per if p['A'] == A and p['Q1'] == q]
+        if not ps:
+            return None
+        w = [1 / p['se'] ** 2 for p in ps]
+        return sum(wi * p['y'] for wi, p in zip(w, ps)) / sum(w), 1 / math.sqrt(sum(w))
+    for A1, A2 in ((48, 60), (60, 72)):
+        pts = []
+        for q in (3, 4, 7, 12, 13, 16):
+            u, v = pooled(A1, q), pooled(A2, q)
+            if u and v:
+                pts.append(dict(s=math.sqrt(q), q=q, y=(v[0] - u[0]) / (A2 - A1), se=math.hypot(u[1], v[1]) / (A2 - A1)))
+        print(f'cost per cell between A = {A1} and {A2}: ' + ', '.join(f'loop^2 {p["q"]}: {p["y"]:.4f} +- {p["se"]:.4f}'
+                                                                        for p in pts))
+        for nm, f, t0, names in [
+                ('c - D exp(-s/xi)', lambda t, p: t[0] - math.exp(t[1]) * math.exp(-p['s'] / t[2]), [0.21, 0.0, 0.7],
+                 ['c', 'ln D', 'xi']),
+                ('c - D / s^2', lambda t, p: t[0] - t[1] / p['q'], [0.21, 0.3], ['c', 'D']),
+                ('c - D / s^n', lambda t, p: t[0] - math.exp(t[1]) * p['s'] ** (-t[2]), [0.21, 0.0, 2.0],
+                 ['c', 'ln D', 'n'])]:
+            r = wls.fit(nm, f, t0, pts, names)
+            print('   ' + r.summary())
+            print('      residuals: ' + ', '.join(f'{d:+.4f}' for _, d, _ in r.resid()))
+
+
 if __name__ == '__main__':
     cmd = sys.argv[1] if len(sys.argv) > 1 else 'tests'
+    if cmd == 'slopes':
+        slopes()
     if cmd == 'tests':
         tests(verbose='-q' not in sys.argv, drop4='--drop4' in sys.argv)
     elif cmd == 'pairs':
