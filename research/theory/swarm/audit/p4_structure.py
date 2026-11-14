@@ -264,7 +264,7 @@ def test_dead_not_in_K():
             c += np.roll(live, tuple(-d for d in o), axis=(0, 1, 2))
         cnts[m[a]] = c[m[a]]
     dead_in_cl = (U == 1) & (live == 0)
-    print(f"S  : closed cube of side 8 (oracle, padded box): static after {g} generations with {int(live.sum())} cells; "
+    print(f"S  : closed cube of side 8 (oracle, padded box): static from generation {g - 1} with {int(live.sum())} cells; "
           f"closure of the live set has {int(U.sum())} cells: {extra} cells are dead for ever and lie in no dead sealed set "
           f"({int((dead_in_cl & (cnts >= 6)).sum())} of them overcrowded, {int((dead_in_cl & (cnts <= 3)).sum())} with <= 3 live neighbours)")
     return extra > 0

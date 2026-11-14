@@ -34,7 +34,7 @@ def sample(n_rep, seed):
     rng = np.random.default_rng(seed)
     Nc = np.zeros(A + 1, np.int64); Dc = np.zeros(A + 1, np.int64); Fc = np.zeros((A + 1, A + 1), np.int64)
     start = np.zeros(A + 1, np.int64); end = np.zeros(A + 1, np.int64)
-    born = settled = 0
+    born = settled = events = 0
     for chunk in range(0, n_rep, 10000):
         n = min(10000, n_rep - chunk)
         X = (rng.random((n, N)) < DENS).astype(np.int8)
@@ -60,23 +60,25 @@ def sample(n_rep, seed):
                 np.add.at(Dc, Z[dead], 1)                          # the faces that are empty at t+1
                 st = ~anydead & ~per
                 np.add.at(Fc, (Z[st].ravel(), Zn[st].ravel()), 1)
-                settled += int(per.sum())
+                settled += int(per.sum()); events += int(anydead.sum())
             st = ~anydead & ~per
             Xm1 = X[st]; X = Y[st]; Z = Zn[st]
         np.add.at(end, Z.ravel(), 1)                               # still observed at TMAX + 1
-    return A, Nc, Dc, Fc, start, end, born, settled
+    return A, Nc, Dc, Fc, start, end, born, settled, events
 
 
 def main():
     n_rep = int(sys.argv[1]) if len(sys.argv) > 1 else 40000
     seed = int(sys.argv[2]) if len(sys.argv) > 2 else 1
     t = time.time()
-    A, Nc, Dc, Fc, start, end, born, settled = sample(n_rep, seed)
+    A, Nc, Dc, Fc, start, end, born, settled, events = sample(n_rep, seed)
     Expo, Deaths = int(Nc.sum()), int(Dc.sum())
     print(f"hull R={R}: faces of A={A} cells; {n_rep} soups, {born} replicas reached age {T0} with eight living faces; "
           f"{settled} settled; exposure {Expo} face-generations, {Deaths} deaths ({time.time() - t:.0f} s)")
     h = Deaths / Expo
-    print(f"hazard = {h:.4e}, -ln h = {-math.log(h):.3f} +- {1 / math.sqrt(Deaths):.3f}   (board: ln tau = 6.804 at A = 30)")
+    print(f"hazard = {h:.4e}, -ln h = {-math.log(h):.3f} +- {1 / math.sqrt(Deaths):.3f}   (board: ln tau = 6.804 at A = 30); "
+          f"{events} replicas lost a face ({Deaths - events} deaths are second faces emptying in the same generation; "
+          f"counting one death per replica: -ln h = {-math.log(events / Expo):.3f})")
     # the two exact identities of entry 8
     assert all(Fc[z].sum() + Dc[z] <= Nc[z] for z in range(A + 1))
     assert all(Fc[:, z].sum() == Nc[z] - start[z] + end[z] for z in range(1, A + 1)), "identity (I)"
