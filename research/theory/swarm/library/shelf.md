@@ -130,6 +130,31 @@ How to read the notes: each statement is tagged [paper], [secondary: X] or [abst
 | J. Wang, Q. Liu, Y. Deng, "A high-precision Monte Carlo study of directed percolation in (1+1) and higher dimensions", arXiv:1201.3006 | https://arxiv.org/abs/1201.3006 (v1) | Table IX | `oriented-percolation.md` §1 | numerical site p_c = 0.70548525(9) |
 | D. J. B. Soares, J. S. Andrade, H. J. Herrmann, "Precise calculation of the threshold of various directed percolation models on a square lattice", arXiv:cond-mat/0503408 | https://arxiv.org/abs/cond-mat/0503408 | whole (2 pages) | `oriented-percolation.md` §4 | numerical **bond** thresholds with k parents; k = 5: 0.2249 |
 
+## 10. Third pass (2026-11-14): noise for a chaotic bulk; torus shape at fixed area; blocking sets
+
+Notes for all rows: `research/PRIOR-ART.md`, section "Third pass, 2026-11-14". "full text" = the fetch tool's saved
+PDF converted with `pdftotext` and read in the parts named.
+
+| source | where read | read | notes | why it matters |
+|---|---|---|---|---|
+| R. Carretero-González, S. Ørstavik, J. Huke, D. S. Broomhead, J. Stark, "Thermodynamic limit from small lattices of coupled maps", Phys. Rev. Lett. 83 (1999) 3633–3636; arXiv:chao-dyn/9904009 | https://arxiv.org/abs/chao-dyn/9904009 | whole (4 pages) | PRIOR-ART third pass §1 | a window driven by independent white-noise boundary inputs reproduces the bulk statistics of a chaotic CML, exponentially in window size; statistics only, no lifetimes |
+| A. M. dos Santos, R. L. Viana, S. R. Lopes, S. E. de S. Pinto, A. M. Batista, "Collective behavior in coupled chaotic map lattices with random perturbations", Physica A 387 (2008) 1655–1668 | https://ideas.repec.org/a/eee/phsmap/v387y2008i7p1655-1668.html | abstract (as paraphrased by the fetch tool) | §1 | random boundary inputs as a "thermal bath" replacing chaotic degrees of freedom |
+| S. M. Houghton et al. 2010 (already in §3) | https://eprints.whiterose.ac.uk/10731/ | now whole (incl. boundary-layer fit and references) | §1 | boundary layer width b2 independent of L; interior defect rate as with PBC; lifetime still fitted in L |
+| R. Mikkelsen, M. van Hecke, T. Bohr, "Universal and non-universal properties of transitions to spatio-temporal chaos in coupled map lattices", arXiv:cond-mat/0207208 | https://arxiv.org/abs/cond-mat/0207208 | abstract | §1 | deterministic CML "behave like stochastic models" (DP with infinitely many absorbing states) |
+| K. Sugimura, H. Kori, "Exponential system-size dependence of the lifetime of transient spiral chaos in excitable and oscillatory media", Phys. Rev. E 92 (2015) 062915; arXiv:1512.08333 | https://arxiv.org/abs/1512.08333 | §§I, III, IV | §1 and "hole probability" | T(N) = 1/(Z p(2)): lifetime = inverse probability of the last state before absorption × exit rate; Gaussian defect count gives exp((α²/2β)N) |
+| M. Caselle, F. Gliozzi, S. Vinti, "Finite-size effects in the interface of 3D Ising model", Phys. Lett. B 302 (1993) 74–79; arXiv:hep-lat/9212013 | https://arxiv.org/abs/hep-lat/9212013 | whole | §2 | tunnelling splitting E0 = Zcw(L1/L2) e^{−σL1L2}: at fixed cross-section area the rate depends on the torus modulus (Dedekind eta), tested at equal area |
+| T. Neuhaus, J. S. Hager, "2D crystal shapes, droplet condensation and exponential slowing down in simulations of first-order phase transitions", J. Stat. Phys. 113 (2003) 47–83; arXiv:cond-mat/0201324 | https://arxiv.org/abs/cond-mat/0201324 | abstract | §2 | droplet shape transitions on tori control exponential slowing down |
+| F. Blanchard, P. Tisseur, "Some properties of cellular automata with equicontinuity points", Ann. Inst. H. Poincaré Probab. Statist. 36 (2000) 569–582; arXiv:math/0312137 | https://arxiv.org/abs/math/0312137 | §1, §2.2 | §3 | definition of a blocking word ("completely disconnects coordinates to its right and left"); Kůrka's Prop. 2.1 |
+| M. Sablik, G. Theyssier, "Topological dynamics of cellular automata: dimension matters", Theory Comput. Syst. (2011); arXiv:0811.2731 | https://arxiv.org/abs/0811.2731 | abstract | §3 | in d ≥ 2, non-sensitive CA without equicontinuity points |
+| N. Ait Sadi, R. Chemlal, "Irrational eigenvalues of D-dimensional cellular automata", arXiv:2509.00933 | https://arxiv.org/html/2509.00933v1 | definitions, attributions | §3 | d-dim (fully) blocking patterns; Burkhead/Gamber: fully blocking ⇒ almost equicontinuous (second-hand) |
+| E. Gamber (Burkhead), *A topological classification of D-dimensional cellular automata*, thesis, UNC Chapel Hill | core.ac.uk aggregator only | **not obtained** | §3 | blocking patterns in 2D, "pattern blocking a cross" |
+| J. A. H. Audouard, G. Theyssier, "On Kůrka's dichotomy for cellular automata on groups", arXiv:2602.20623 | https://arxiv.org/abs/2602.20623 | abstract | §3 | dichotomy holds on virtually-Z groups, fails on free groups |
+| B. Bollobás, P. Smith, A. Uzzell, "Monotone cellular automata in a random environment", Combin. Probab. Comput. 24 (2015); arXiv:1204.3980 | https://arxiv.org/abs/1204.3980 | §1 (Defs 1.2–1.3 and discussion) | §3 | stable directions [H_u] = H_u; an empty strip of rule-dependent width orthogonal to ±u stable stays empty |
+| E. Goles, D. Maldonado, P. Montealegre, N. Ollinger, "On the complexity of the stability problem of binary freezing totalistic cellular automata", arXiv:1912.02953 | https://arxiv.org/abs/1912.02953 | abstract | §3 | freezing CA; the STABILITY problem |
+| V. Salo, G. Theyssier, I. Törmä, "Cellular automata and bootstrap percolation", arXiv:2110.00656 | https://arxiv.org/abs/2110.00656 | abstract | §3 | freezing + monotone = bootstrap percolation |
+| T. Tél, Y.-C. Lai 2008 (already in §3) | https://chaos1.la.asu.edu/~ylai1/papers/PRep_2008_TL.pdf (author copy) | **not obtained** (HTTP 503, three tries) | §1 | the author copy exists; a later try may work |
+| T. Tél, "The joy of transient chaos", Chaos 25 (2015; volume from the file name, unverified) | http://theorphys.elte.hu/tel/pdf_pub/Chaos25.pdf (author copy) | **not obtained** (HTTP 503) | §1 | review |
+
 ## Could not be reached at all (for whoever has a browser)
 
 Project Euclid (bot wall): Bramson–Neuhauser 1994; Liggett–Schonmann–Stacey 1997; Abadi 2004; Liggett 1995

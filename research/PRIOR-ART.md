@@ -267,3 +267,186 @@ copy at eprints.whiterose.ac.uk/10731): titles, authors and the quoted claims ma
   Crutchfield–Kaneko 1988, Kaneko 1990, Wackerbauer–Showalter 2003, Bramson–Neuhauser 1994. The shelf ends with
   the full list.
 
+## Third pass, 2026-11-14: boundary layer over noise; shape of a periodic domain; sealed sets
+
+Librarian, one session. Web search plus opening each page; queries generic. Where a fetched PDF came back as binary,
+the fetch tool's own saved copy was converted with the installed `pdftotext` and read; "full text" below means that.
+Quotes are copied from that text. Nothing was run or downloaded otherwise. Shelf rows: `theory/swarm/library/shelf.md` §10.
+
+### 1. A boundary layer over noise
+
+**Works found**
+- R. Carretero-González, S. Ørstavik, J. Huke, D. S. Broomhead, J. Stark, "Thermodynamic limit from small lattices
+  of coupled maps", Phys. Rev. Lett. 83 (1999) 3633–3636; https://arxiv.org/abs/chao-dyn/9904009 — **full text**.
+  Abstract: "We compare the behaviour of a small truncated coupled map lattice with random inputs at the boundaries
+  with that of a large deterministic lattice essentially at the thermodynamic limit. We find exponential convergence
+  for the probability density, predictability, power spectrum, and two-point correlation with increasing truncated
+  lattice size." Construction: "consider the dynamics at the boundaries x_0 and x_{N+1} to be produced by two
+  independent driving inputs. The driving input is chosen to be white noise uniformly distributed in the interval
+  [0, 1]." "Other kinds of inputs did not change our observations in a qualitative way." Coupled logistic maps,
+  one dimension; statistics of a persistent chaotic state. **No transients, lifetimes or absorbing state.**
+- A. M. dos Santos, R. L. Viana, S. R. Lopes, S. E. de S. Pinto, A. M. Batista, "Collective behavior in coupled
+  chaotic map lattices with random perturbations", Physica A 387 (2008) 1655–1668, doi:10.1016/j.physa.2007.09.051;
+  https://ideas.repec.org/a/eee/phsmap/v387y2008i7p1655-1668.html — **abstract only, and only as paraphrased by the
+  fetch tool** (it would not quote). Per that paraphrase: small truncated lattices with uniform random inputs at the
+  boundaries, said to emulate a "thermal bath", replacing chaotic degrees of freedom by random perturbations;
+  used for synchronisation, not lifetimes. Treat as a lead.
+- Houghton–Knobloch–Tobias–Proctor 2010 (on the shelf; re-read, **full text** of the White Rose copy). New detail:
+  the defect production rate across a Neumann domain is fitted by f(x) = b1 tanh(x/b2) tanh((L−x)/b2); "We interpret
+  b2 as the width of each boundary layer and b1 as the production rate in the central part of the domain"; "the
+  boundary layer thickness is independent of the domain length and … the defect production rate away from the
+  boundaries is essentially the same as when PBC are used." The lifetime fit is τ(L) = exp(AL + B) in the whole
+  length L; the paper does not model the lifetime as a property of the boundary layer, and replaces nothing by noise.
+  Its reference list (read) adds nothing on noise or boundary models: Shraiman 1986 (KS), Wackerbauer 2007,
+  Wackerbauer–Showalter 2003, Crutchfield–Kaneko 1988, Tél–Lai 2008, Hof et al. 2006, Borrero-Echeverry et al.
+- R. Mikkelsen, M. van Hecke, T. Bohr, "Universal and non-universal properties of transitions to spatio-temporal
+  chaos in coupled map lattices", arXiv:cond-mat/0207208 — **abstract**: "under the appropriate mapping some
+  deterministic chaotic systems behave like stochastic models"; "the deterministic model behaves like Directed
+  Percolation with infinitely many absorbing states". The general chaos-as-stochastic-model principle, not lifetimes.
+- K. Sugimura, H. Kori, "Exponential system-size dependence of the lifetime of transient spiral chaos in excitable
+  and oscillatory media", Phys. Rev. E 92 (2015) 062915; https://arxiv.org/abs/1512.08333 — **full text**. See
+  "hole probability" below. On boundaries: with Neumann conditions "the steady state can be reached not only from the
+  states with m = 2 by annihilation but also from the states with m = 1 through the absorption of a defect by the
+  boundary". Boundaries enter only as a second exit channel; nothing replaced by noise.
+- Leads seen only as search results (not opened): Wackerbauer and co-author, "Noise can delay and advance the collapse
+  of spatiotemporal chaos" (Phys. Rev. E, 2007; only a ResearchGate copy surfaced, not fetched); Shih–Hsieh–Goldenfeld
+  stochastic predator–prey model reproducing puff lifetimes (APS DFD 2015 abstract); a search summary of Tél–Lai saying
+  "the lifetime increases exponentially with the size for any fixed type of noise" (not verified: PDF not obtained).
+
+**Verdict.** *A new instance of a known principle, as to the method; not found, as to the result.* Replacing the
+chaotic surroundings of a region by independent random inputs and checking that the region's statistics are
+reproduced is published (Carretero-González et al. 1999, for one-point and two-point statistics of a persistent
+state; dos Santos et al. 2008 calls it a thermal bath). The arrangement is the mirror image of ours: they keep a
+window and randomise its outside; we keep the boundary layer and randomise the inside. Not found: any work that
+replaces the chaotic interior (or neighbour) by noise and compares *transient lifetimes or escape rates*, or that
+states the exponent of a supertransient to be a property of a thin stochastic boundary model. Houghton et al. is the
+nearest on the boundary side (fixed-thickness boundary layers, death only with non-periodic walls) but stops at the
+observation. Queries tried: transient spatiotemporal chaos lifetime boundary layer noise replaced bulk escape rate;
+supertransient boundary conditions Neumann periodic boundary-induced collapse; coupled map lattice chaotic transient
+lifetime random boundary conditions stochastic boundary; "random boundary conditions" spatiotemporal chaos transient
+lifetime; coupled map lattice bulk replaced by random numbers stochastic driving boundary chaotic saddle; "truncated
+lattice" "random inputs" transient OR lifetime OR escape; chaos as heat bath Kramers escape spatially extended; CA
+chaotic transient random vs deterministic boundary absorbing state; stochastic models of puff lifetimes; works citing
+Houghton et al. (the search tool returns no citation lists; none found that way).
+
+### 2. The shape of a periodic domain at fixed size
+
+**Works found**
+- M. Caselle, F. Gliozzi, S. Vinti, "Finite-size effects in the interface of 3D Ising model", Phys. Lett. B 302
+  (1993) 74–79; https://arxiv.org/abs/hep-lat/9212013 — **full text**. Abstract: "these finite-size corrections depend
+  rather strongly on the shape of the lattice". Setting: 3D Ising, box L1 × L2 × L3 with L3 long; the measured
+  quantity is the tunnelling energy splitting E0 between the two magnetised vacua (an inverse tunnelling time) with
+  the interface spanning the periodic L1 × L2 cross-section, "a rectangle of lengths L1, L2 with opposite edges
+  identified (hence a torus)". Capillary-wave result, eq. (4): F_cw/k_BT = log(√(−iτ)|η(τ)|²) + c, τ = i L1/L2,
+  η the Dedekind eta function, L1 ≥ L2; eq. (13): "E0(L1, L2) = Zcw(L1, L2) e^{−σ L1 L2}", with
+  Zcw = C̃ √(L2/L1) q^{−1/12}(1 + q + 2q² + …), q = exp(−2π L1/L2). "Eq. (7) is scale invariant, indeed it only depends
+  on the asymmetry parameter L1/L2 … it cannot be observed … if one measures the interface tension on square lattices
+  of different sizes". They test it at **equal area**: R ≡ E0(L1, L2)/E0(L̃, L̃) with L̃ = √(L1 L2), eq. (14),
+  parameter-free, "The agreement between numerical data and theoretical prediction is rather impressive". The form is
+  credited to Lüscher–Symanzik–Weisz (Wilson loops; not obtained) and called "rather well known … in conformal field
+  theories and in lattice gauge theories".
+  *Our reading, not the paper's words:* q^{−1/12} = exp(π L1/(6 L2)), so at fixed area A = L1 L2,
+  log E0 ≈ −σA + (π/6)(L1/L2) − ½ log(L1/L2) + const: the rate rises, and the cost per unit area falls, as the torus
+  thins, by an amount set by the short side L2 (here the systole). The paper treats only rectangular (untwisted)
+  tori; a twist would enter through Re τ, which this paper does not discuss.
+- T. Neuhaus, J. S. Hager, "2D crystal shapes, droplet condensation and exponential slowing down in simulations of
+  first-order phase transitions", J. Stat. Phys. 113 (2003) 47–83; https://arxiv.org/abs/cond-mat/0201324 —
+  **abstract**: the exponential slowing down comes from "discontinuous droplet shape transitions between various
+  classical crystal shapes obeying geometrical constraints" on tori and cube surfaces; finite-size corrections to the
+  toroidal droplet free energy. The abstract does not mention aspect ratio.
+- Leads seen only as search results: plane-Couette lifetime papers (arXiv:2011.08914, 1109.0889) that compare median
+  lifetimes in a few box sizes; Webb–Ansell–Sussman, Soft Matter 2026 (active matter on a torus; band wrapping the
+  minor circumference at high aspect ratio); metastability of Ising on the hexagonal-lattice torus (arXiv:2101.11894:
+  "plus strip" = a cluster wrapping the torus). None opened.
+
+**Verdict.** *A new instance of a known principle* for "at fixed area the rate depends on how the torus closes":
+in equilibrium tunnelling through an interface on a periodic cross-section, the rate is e^{−σA} times a universal
+factor of the modular parameter, tested at equal area (Caselle–Gliozzi–Vinti 1993, after Lüscher–Symanzik–Weisz), and
+on thin tori that factor lowers the cost per unit area through the short side. The differences matter: theirs is an
+equilibrium interface with Gaussian capillary waves, the shape enters only the prefactor (sub-leading, O(L1/L2) in the
+log), and it is not a transient lifetime. **Not found:** any dependence of a *chaotic-transient, turbulent, nucleation
+or extinction lifetime* on the aspect ratio or twist of a periodic domain at fixed size; any use of the systole as the
+controlling length for a lifetime; minimal-flow-unit lifetime versus box shape at fixed area; contact-process
+extinction on tori of different shape. Queries tried: turbulence lifetime vs domain aspect ratio periodic box minimal
+flow unit plane Couette; metastable lifetime nucleation periodic boundary aspect ratio elongated torus Ising strip;
+contact process extinction torus shape aspect ratio thin cylinder; Binder interface free energy rectangular
+L1 × L2 tunnelling shorter side; droplet-to-strip transition torus aspect ratio (Leung–Zia not reached); plane Couette
+lifetime vs domain size spanwise; shortest non-contractible loop torus relaxation/tunnelling/lifetime twisted
+boundary conditions; Ising metastability rectangular torus strip barrier side lengths.
+
+### 3. Sealed sets and firewalls
+
+**Works found**
+- F. Blanchard, P. Tisseur, "Some properties of cellular automata with equicontinuity points", Ann. Inst. H. Poincaré
+  Probab. Statist. 36 (2000) 569–582; https://arxiv.org/abs/math/0312137 — **full text, §2.2**. Definition: "A word
+  B ∈ A^{2k+1} is called a blocking word for (X, F) if there is an infinite sequence of words v_n, |v_n| = 2i + 1 ≥ r
+  such that for any x ∈ A^Z with x(−k, k) = B one has F^n(x)(−i, i) = v_n". "An occurrence of a blocking word in a
+  configuration x completely disconnects coordinates to its right and left for the action of the automaton; hence
+  the name." Prop. 2.1, "essentially due to Kůrka": every equicontinuity point contains a blocking word; points with
+  infinitely many occurrences on both sides are equicontinuity points.
+- M. Sablik, G. Theyssier, "Topological dynamics of cellular automata: dimension matters", Theory Comput. Syst.
+  (2011); https://arxiv.org/abs/0811.2731 — **abstract**: in dimension ≥ 2 there are "non sensitive CA without
+  equicontinuous points"; the 1D picture breaks.
+- N. Ait Sadi, R. Chemlal, "Irrational eigenvalues of D-dimensional cellular automata", arXiv:2509.00933 (HTML v1) —
+  **definitions and the attributions**: d-dimensional (r1, …, rd)-blocking patterns with an offset; "fully blocking"
+  when the offset is 0; Theorem 6 (from E. G. Burkhead, the thesis below): "If there exists a fully blocking pattern of
+  size k^d for F where k ≥ r then F is almost equicontinuous"; "This equivalence do not hold in higher dimension".
+- E. Gamber (Burkhead), *A topological classification of D-dimensional cellular automata*, thesis (UNC Chapel Hill,
+  dir. J. Hawkins) — **not obtained** (the only copy surfaced is on the core.ac.uk aggregator, not fetched); contents
+  known from search results and the paper above ("A Blocking Pattern for a 2D Cellular Automaton", "A Pattern Blocking
+  a Cross").
+- J. A. H. Audouard, G. Theyssier, "On Kůrka's dichotomy for cellular automata on groups", arXiv:2602.20623 —
+  **abstract**: the sensitivity / equicontinuity-point dichotomy "holds on any virtually-Z group but not on free groups
+  with 2 or more generators".
+- B. Bollobás, P. Smith, A. Uzzell, "Monotone cellular automata in a random environment", Combin. Probab. Comput. 24
+  (2015); https://arxiv.org/abs/1204.3980 — **full text, §1**. Definition 1.2: u is a stable direction if
+  [H_u] = H_u, where H_u = {x : ⟨x, u⟩ < 0} and [·] is the bootstrap closure (an infected half-plane does not
+  grow). And: "Suppose that u and
+  −u are stable directions, and that the initial set A ⊂ Z² does not intersect an infinite strip with sides orthogonal
+  to u of at least a certain width depending only on U. Then [A] cannot intersect that strip either." Also reports
+  Gravner–Griffeath's subcritical class as those with "closed cofinite proper subsets of Z²".
+- E. Goles, D. Maldonado, P. Montealegre, N. Ollinger, "On the complexity of the stability problem of binary freezing
+  totalistic cellular automata", arXiv:1912.02953 — **abstract**: freezing automata ("the active cells remain
+  unchanged"); STABILITY = "deciding whether an inactive cell becomes active". V. Salo, G. Theyssier, I. Törmä,
+  "Cellular automata and bootstrap percolation", arXiv:2110.00656 — **abstract**: freezing + monotone = bootstrap
+  percolation. Here the set of fixed cells only grows by definition of the class.
+
+**Verdict.** *A new instance of a known principle.* The firewall (three consecutive dead layers that stay dead and
+decouple the two sides for ever) is a blocking word in the sense of Kůrka / Blanchard–Tisseur, of the simplest kind
+(constant image v_n = dead), read along one lattice direction with whole layers as letters; it is also the
+non-monotone, three-dimensional counterpart of the bootstrap-percolation fact that an empty strip of width depending
+only on the rule, orthogonal to a pair ±u of stable directions, stays empty (Bollobás–Smith–Uzzell 2015). Possibly
+new in its own terms: a blocking set for a *non-monotone* rule whose blocking letter is the quiescent state itself, in
+3D on this lattice, and its use to make collapse layer by layer. "The largest sealed set only grows": **not found**
+stated anywhere; in freezing automata the analogous monotonicity is built into the class, and for blocking words it
+is immediate from the definition (images of a blocking occurrence are determined for all n), so it should be
+presented as an easy consequence, not as a result. Queries tried: Kůrka blocking word almost equicontinuous
+classification; 2D CA equicontinuity blocking patterns Sablik Theyssier; freezing CA stable sets frozen cells threshold
+automata Goles bootstrap percolation; Bollobás–Smith–Uzzell stable directions half-plane; Gamber thesis.
+
+### Also: probability of an (almost) empty state as the predictor of the lifetime
+
+**Exists (numerical, heuristic).** Sugimura–Kori 2015 (full text): the number of spiral defects m in the transient
+state is Gaussian with mean αN and variance βN, rationalised by approximately independent subsystems larger than the
+correlation length; assuming a Markov chain on m, "The expected value of lifetime T is the inverse of the probability λ
+to obtain S. Because S is obtained only when the previous number is 2, λ = Zp(2)", eq. (7) T(N) = 1/(Z p(2)), and with
+the Gaussian tail eq. (9) T(N) ∼ exp((α²/2β) N). Fit "well for parameter sets near the onset of transient chaos". This
+is the same structure as our "death rate = next point of the stationary tail" (rate = probability of the last state
+before absorption × an exit rate), stated for defect counts in a 2D PDE, with a Gaussian tail assumed rather than
+measured. The proved stochastic analogue already on the shelf is Durrett–Schonmann 1988 (empty interval cost under the
+contact process's stationary law). "Emptiness formation" in the integrable-systems sense was not searched.
+
+### Not obtained this pass
+- Tél, Lai, "Chaotic transients in spatially extended systems", Phys. Rep. 460 (2008) 245–275: an author copy exists at
+  https://chaos1.la.asu.edu/~ylai1/papers/PRep_2008_TL.pdf but returned HTTP 503 three times; still not read.
+- Tél, "The joy of transient chaos", Chaos 25 (2015; volume from the file name, unverified), author copy http://theorphys.elte.hu/tel/pdf_pub/Chaos25.pdf:
+  HTTP 503.
+- Gamber (Burkhead) thesis (aggregator copy only); dos Santos et al. 2008 full text (ScienceDirect); Wackerbauer et al.
+  2007 noise paper (ResearchGate only); Lüscher–Symanzik–Weisz 1980; Kůrka 1997 (ETDS) — not attempted, Blanchard–Tisseur
+  used for the definition; Leung–Zia 1990 not reached.
+
+### Not searched
+Citation lists (the search tool gives none, so "what cites Houghton et al." was done only by keyword); quantum-memory
+lifetimes of topological codes on tori (code distance = systole; a plausible analogue for item 2, not opened);
+anisotropic-Ising metastability on rectangular tori; pipe-flow puff lifetime versus pipe length; Kuramoto–Sivashinsky
+lifetime papers beyond Houghton's citation of Shraiman 1986; non-English literature.
