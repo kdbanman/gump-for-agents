@@ -92,15 +92,21 @@ def strip(name, orbit, n, depth):
     return V, layers, gdepth, lab
 
 
-def slab(name, c, orbit, n, depth, gens, seed=1, P=8, dmax=3):
+def slab(name, c, orbit, n, depth, gens, seed=1, P=8, dmax=3, F=0):
     L = fu.lattice(name); b = B_OF[name]
     B, S = fu.capped(b, c, L.K)
     V, layers, gdepth, lab = strip(name, orbit, n, depth)
-    r = fu.slab_run(V, B, S, b, layers, gdepth, dmax, lab, 0.45, gens, P=P, seed=seed)
+    h = V.h
+    fz = \
+        np.where(np.isin(np.arange(V.N), np.concatenate([layers[i] for i, d in enumerate(gdepth) if d <= 1 and
+                                                          V.h[layers[i][0]] > V.h.mean()])), 1,
+                 np.where(np.isin(np.arange(V.N), np.concatenate([layers[i] for i, d in enumerate(gdepth) if d <= 1 and
+                                                                   V.h[layers[i][0]] < V.h.mean()])), 2, 0))
+    r = fu.slab_run(V, B, S, b, layers, gdepth, dmax, lab, 0.45, gens, P=P, seed=seed, fz=fz, F=F)
     ts = fu.tau_line(r)
     wd = r["wdepth"]
     rec = dict(lattice=name, rule=f"B{B}/S{S}", orbit=orbit, n=n, wall_cells=len(layers[0]), depth=depth,
-               layers=len(layers), N=V.N, gens=gens, seed=seed, P=P, dmax=dmax, walls=r["walls"],
+               layers=len(layers), N=V.N, gens=gens, seed=seed, P=P, dmax=dmax, F=F, frozen=r["frozen"], walls=r["walls"],
                walls_by_depth=[int((wd == k).sum()) for k in range(dmax + 1)], deep=r["deep"], cuts=r["cuts"],
                pits=r["pits"], periodic=r["periodic"], early=r["early"], exposure=r["exposure"], max_age=r["max_age"],
                max_age_end=r["max_age_end"], alive_old_end=r["alive_old_end"],
@@ -141,6 +147,7 @@ if __name__ == "__main__":
     elif a[0] == "bulk":
         bulk(a[1], int(a[2]))
     elif a[0] == "slab":
-        slab(a[1], int(a[2]), a[3], int(a[4]), int(a[5]), int(a[6]), int(a[7]) if len(a) > 7 else 1)
+        slab(a[1], int(a[2]), a[3], int(a[4]), int(a[5]), int(a[6]), int(a[7]) if len(a) > 7 else 1,
+             F=int(a[8]) if len(a) > 8 else 0)
     elif a[0] == "life":
         life(a[1], int(a[2]), int(a[3]), int(a[4]), int(a[5]) if len(a) > 5 else 1)

@@ -255,22 +255,23 @@ def _groups(groups):
     return gidx, gstart
 
 
-def slab_run(V, B, S, b, layers, gdepth, dmax, lab, p, gens, T0=200, P=8, seed=1, nbins=40, maxw=400000):
+def slab_run(V, B, S, b, layers, gdepth, dmax, lab, p, gens, T0=200, P=8, seed=1, nbins=40, maxw=400000, fz=None, F=0):
     """layers: index arrays of the layers parallel to the walls, the two boundary layers first; gdepth: depth of each
     from its nearer wall.  A wall death = a whole layer of depth <= dmax inside the dead sealed set."""
     f = lib().fu_slab
     f.restype = ctypes.c_long
     f.argtypes = [ctypes.c_int, ctypes.c_int, _i32p, ctypes.c_uint32, ctypes.c_uint32, ctypes.c_int, ctypes.c_int,
                   _i32p, _i32p, _i32p, ctypes.c_int, _i32p, ctypes.c_double, ctypes.c_int, ctypes.c_long, ctypes.c_int,
-                  ctypes.c_uint64, _f64p, _f64p, _f64p, ctypes.c_int, _i32p, _i32p, ctypes.c_int]
+                  ctypes.c_uint64, _f64p, _f64p, _f64p, ctypes.c_int, _i32p, _i32p, ctypes.c_int, _i32p, ctypes.c_int]
     gidx, gstart = _groups(layers)
-    res = np.zeros(22); be = np.zeros(nbins); bw = np.zeros(nbins)
+    fz = np.zeros(V.N, np.int32) if fz is None else np.ascontiguousarray(fz, dtype=np.int32)
+    res = np.zeros(24); be = np.zeros(nbins); bw = np.zeros(nbins)
     waits = np.zeros(maxw, np.int32); wd = np.zeros(maxw, np.int32)
     nw = f(V.N, V.K, np.ascontiguousarray(V.nbr), mask(B), mask(S), b, len(layers), gidx, gstart,
            np.asarray(gdepth, np.int32), dmax, np.ascontiguousarray(lab, dtype=np.int32), p, T0, gens, P, seed, res,
-           be, bw, nbins, waits, wd, maxw)
+           be, bw, nbins, waits, wd, maxw, fz, F)
     return dict(exposure=res[0], walls=int(res[1]), cuts=int(res[2]), pits=int(res[3]), periodic=int(res[4]),
-                deep=int(res[20]), early=[int(v) for v in res[5:9]] + [int(res[21])], max_age_end=int(res[9]),
+                deep=int(res[20]), frozen=int(res[22]), early=[int(v) for v in res[5:9]] + [int(res[21]), int(res[23])], max_age_end=int(res[9]),
                 alive_old_end=int(res[10]), max_age=int(res[19]),
                 dens=[res[11 + l] / res[15 + l] if res[15 + l] else float("nan") for l in range(4)],
                 binexp=be, binwall=bw, waits=waits[:nw].copy(), wdepth=wd[:nw].copy())

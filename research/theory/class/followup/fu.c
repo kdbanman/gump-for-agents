@@ -120,19 +120,22 @@ static int lg2(long a) { int k = 0; while (a > 1) { a >>= 1; k++; } return k; }
  * res: [0] exposure [1] wall deaths [2] cuts [3] pits [4] periodic [5..8] same four before T0 [20, 21] deep
  *      [9] max age of a replica alive at the end  [10] replicas alive at the end with age > T0
  *      [11..14] summed population of label-l cells over samples of old replicas, [15..18] cell samples of label l
- *      [19] max age ever reached by any replica.
+ *      [19] max age ever reached by any replica.  [22, 23] FROZEN (censored, after / before T0): a wall band
+ *      (cells with fz = 1, or with fz = 2) had x(t) = x(t-2) on every cell at F consecutive checks (F = 0: off).
  * binexp/binwall: exposure and wall deaths by floor(log2(age - T0)).  waits: age - T0 of each counted wall death,
  * wdepth: depth of the shallowest whole layer in D at that death. */
 long fu_slab(int N, int K, const int32_t *nbr, uint32_t Bm, uint32_t Sm, int b, int ng, const int32_t *gidx,
              const int32_t *gstart, const int32_t *gdepth, int dmax, const int32_t *lab, double p, int T0, long gens,
              int P, u64 seed, double *res, double *binexp, double *binwall, int nbins, int32_t *waits, int32_t *wdepth,
-             int maxw) {
+             int maxw, const int32_t *fz, int F) {
     sd(seed);
     uint32_t p16 = (uint32_t)(p * 65536.0 + 0.5);
     u64 *x = calloc(N + 1, 8), *y = calloc(N + 1, 8), *x1 = calloc(N + 1, 8), *snap = calloc(N + 1, 8),
         *W = calloc(N + 1, 8);
     long age[64], nw = 0;
-    for (int i = 0; i < 22; i++) res[i] = 0;
+    int fcount[64];
+    for (int r = 0; r < 64; r++) fcount[r] = 0;
+    for (int i = 0; i < 24; i++) res[i] = 0;
     for (int r = 0; r < 64; r++) { reseed(N, x, x1, snap, r, p16); age[r] = 0; }
     for (long t = 1; t <= gens; t++) {
         fu_step(N, K, nbr, x, y, Bm, Sm);
@@ -140,6 +143,18 @@ long fu_slab(int N, int K, const int32_t *nbr, uint32_t Bm, uint32_t Sm, int b, 
         for (int i = 0; i < N; i++) { d2 |= y[i] ^ x1[i]; ds |= y[i] ^ snap[i]; }
         u64 *tmp = x1; x1 = x; x = y; y = tmp;          /* x = new state, x1 = previous */
         u64 periodic = ~d2 | ~ds;
+        u64 frozen = 0;
+        if (F > 0 && t % P == 0) {          /* a wall band with x(t) = x(t-2) on every cell (y holds t-2 here) */
+            u64 st1 = ~0ULL, st2 = ~0ULL;
+            for (int i = 0; i < N; i++) {
+                if (fz[i] == 1) st1 &= ~(x[i] ^ y[i]);
+                else if (fz[i] == 2) st2 &= ~(x[i] ^ y[i]);
+            }
+            u64 st = st1 | st2;
+            for (int r = 0; r < 64; r++) {
+                if (st >> r & 1) { if (++fcount[r] >= F) frozen |= 1ULL << r; } else fcount[r] = 0;
+            }
+        }
         u64 wall = 0, cut = 0, pit = 0, deep = 0;
         int mind[64];
         for (int r = 0; r < 64; r++) mind[r] = 1 << 20;
@@ -173,17 +188,18 @@ long fu_slab(int N, int K, const int32_t *nbr, uint32_t Bm, uint32_t Sm, int b, 
             age[r]++;
             if ((double)age[r] > res[19]) res[19] = (double)age[r];
             long a = age[r] - T0;
-            int ev = (wall & bit) ? 1 : (deep & bit) ? 5 : (cut & bit) ? 2 : (pit & bit) ? 3 : (periodic & bit) ? 4 : 0;
+            int ev = (wall & bit) ? 1 : (deep & bit) ? 5 : (cut & bit) ? 2 : (pit & bit) ? 3 : (periodic & bit) ? 4 :
+                     (frozen & bit) ? 6 : 0;
             if (ev) {
                 if (a >= 1) {
-                    if (ev == 5) res[20] += 1; else res[ev] += 1;
+                    if (ev == 5) res[20] += 1; else if (ev == 6) res[22] += 1; else res[ev] += 1;
                     if (ev == 1) {
                         res[0] += 1;
                         int k = lg2(a); if (k < nbins) { binwall[k] += 1; binexp[k] += 1; }
                         if (nw < maxw) { waits[nw] = (int32_t)(a > 2000000000L ? 2000000000L : a); wdepth[nw] = mind[r]; nw++; }
                     } else { res[0] += 1; int k = lg2(a); if (k < nbins) binexp[k] += 1; }
-                } else if (ev == 5) res[21] += 1; else res[4 + ev] += 1;
-                reseed(N, x, x1, snap, r, p16); age[r] = 0;
+                } else if (ev == 5) res[21] += 1; else if (ev == 6) res[23] += 1; else res[4 + ev] += 1;
+                reseed(N, x, x1, snap, r, p16); age[r] = 0; fcount[r] = 0;
             } else {
                 if (a >= 1) { res[0] += 1; int k = lg2(a); if (k < nbins) binexp[k] += 1; old |= bit; }
                 if ((age[r] & (age[r] - 1)) == 0 && age[r] >= 4)
