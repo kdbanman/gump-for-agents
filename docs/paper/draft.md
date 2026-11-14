@@ -58,7 +58,7 @@ sustains chaos for a time that is astronomically long in the hull's size, and th
 that the theorems single out: the extinction of an outer {111} layer (after which, by confinement, that layer is
 dead for ever and the hull is one layer smaller), or a three-layer firewall. We measure the waiting-time law of
 those events (Section 5), find where its exponent is made (Section 6), and find that it depends on the shape and
-symmetry of the face in ways not yet reduced to a formula (Sections 5.4 and 7).
+symmetry of the face in ways not yet reduced to a formula (Sections 5.5 and 7).
 
 The results fall into three kinds, and we keep them apart throughout.
 
@@ -215,8 +215,7 @@ false for infinite configurations: under U a half-space of live cells advances f
 identity was checked at every step of 5,683 steps on tori, slabs and an octahedral vessel, and
 Σ_period D = Σ_period Q on all 1,307 catalogued objects, of which all 329 of period ≥ 3 have an O1 event and none
 of the 978 of period ≤ 2 does (`research/theory/threshold.md` §4; covered by `research/check.sh`). So all
-behaviour beyond period 2, chaos and clockwork alike, is driven at overcrowded cells; in the 2D analogue of
-Section 9 the same holds.
+behaviour beyond period 2, chaos and clockwork alike, is driven at overcrowded cells.
 
 **Theorem 6 (sealed sets; why three layers) [proved]** (T9; A for the theorem, read and re-derived by an
 independent reader). Call a set W of cells of a vessel *sealed* if each of its cells has at most 3 neighbours in
@@ -377,7 +376,7 @@ A ≥ 108 has been reproduced by a second implementation or a second GPU run; th
 against the CPU steppers by emulation, which cannot check the GPU's execution.
 
 Figure 2 (placeholder; does not exist): *ln τ_face against A for octahedral faces (Table 2), periodic faces by
-width family (Table 5), and O_h-symmetric faces (Table 3), with the lines 0.2072·A and 0.2088·A for reference.*
+width family (Table 6), and O_h-symmetric faces (Table 3), with the lines 0.2072·A and 0.2088·A for reference.*
 
 ### 5.3 A face dies off the end of its own stationary distribution
 
