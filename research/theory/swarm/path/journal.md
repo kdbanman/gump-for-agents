@@ -778,3 +778,487 @@ against A at fixed k. (2) Lab, exact in D2 on a ring of 16–18: the mean popula
 from the exact reversed chain, and the mean age of the central cell of an empty window of ℓ cells: O(1) (flash),
 growing (profile walk), or ∝ ℓ (fronts). (3) Library: Ornstein–Zernike corrections for the dual contour of the
 one-dimensional contact process in a strip, on a cylinder and in a half-plane.
+
+---
+
+_From here on the journal is kept by the successor on this line (the first agent was paused in round 3). Read
+before writing: the critic's reply to round 3 (`critic/to-path.md`; lab ids L9.1–L9.4), the examiner's outcomes
+(`swarm/exam/OUTCOMES.md`), and the one item of another line the critic pointed to (source's remark on a monotone
+comparison, `source/journal.md`, the paragraph "A remark for the critic to route"). Lab ids below: the reply to
+round 3 names L9.1–L9.4 without assigning them; I use L9.1 for its local-root tables (`path_r3.py th`, §2), L9.2
+for the monotone-comparison tables (`mono`, §3), L9.3 for the age table (`age`, §4), L9.4 for the sealed-set
+enumeration (`sealed`, §1). If the board numbers them otherwise, read these as the script names._
+
+## 2026-11-14, entry 16. The exam: E1 holds, E2 is not refuted, E3 fails. What each does to the claims
+
+**16.1 E1 holds** (`swarm/exam/OUTCOMES.md`, part 2). Strips 16 × L of the 2D rule, row 0 with columns 0 and 1
+removed, row 15 of the same strips intact:
+
+| L | ln τ, notched row | ln τ, intact row | intact − notched |
+|---|---|---|---|
+| 20 | 8.517 ± 0.033 | 9.073 ± 0.044 | 0.556 ± 0.055 |
+| 24 | 9.900 ± 0.029 | 10.757 ± 0.044 | 0.857 ± 0.053 |
+| 28 | 11.320 ± 0.028 | 12.407 ± 0.048 | 1.087 ± 0.056 |
+| 32 | 12.666 ± 0.028 | 14.014 ± 0.055 | 1.348 ± 0.062 |
+
+Slope of the notched row 0.3458 ± 0.0036 (predicted 0.345 ± 0.020; refuted from 0.39 on); intact row 0.412 ± 0.005.
+
+**What it settles [measured].** An edge with an end costs 0.34–0.35 per independent cell in five geometries now:
+box corner, diagonal mirror, mirror across the edge, D4 (entry 5.2), and a fixed dead anchor, the last one made
+for the purpose and measured to 1%. Two dead cells, a change of the vessel of size O(1), take 0.066 per cell off
+the measured slope of the same row at the same lengths. This is the first half of G1.
+
+**What it leaves [arithmetic on the table above].** The second half of G1 ("the ring has the same exponent and
+carries a power of L") is not decided. The last column is fitted equally by 1.66(16)·ln L − 4.41 (χ² 0.25 on 2)
+and by 0.065(6)·L − 0.73 (χ² 0.32 on 2). If it is a power (L − c)^b, then b = 1.7, 1.5, 1.3 for c = 0, 3, 6.
+- The profile model W (15.3) gives ½ for a closed ring, and gives it for *every* choice of step weights: the
+  count of closed profiles is W^L·P(a walk with these steps returns after L steps), and the local limit theorem
+  makes that L^{−1/2} whatever the steps. So the real rule's 1.3–1.7, like D2's 1.0–1.3 (critic, reply to round 3,
+  §5), cannot be met by changing the weights. **The ring part of W is withdrawn.** A model that could give
+  more needs weights that are not a product over neighbouring pairs: for instance different local weights
+  where the death-age has a local maximum (a gap was nucleated inside living cells) and where it has a local
+  minimum (two gaps met). I have no derivation and do not pursue it.
+- The two readings differ in what they predict beyond L = 36: under a power the ring's local slope is
+  0.346 + b/(L − c), that is 0.38 at L = 48 and 0.37 at L = 64; under two exponents it stays at 0.41.
+- Counting's entry C-E2 (same file: a ring from a fair soup is dead by generation 3 with slope 0.3676 at
+  L = 20–32, below the ring's steady local slope there) I do not use: an exponent at a fixed age from a soup
+  bounds the steady exponent in neither direction.
+
+**16.2 E2 is not refuted; its central value is too high at L = 36.** Mean population of the dying edge, intact
+strips (same file):
+
+| L | lag 1 | lag 2 | lag 3 | lag 4 | living mean |
+|---|---|---|---|---|---|
+| 32 | 2.04 ± 0.09 | 9.09 ± 0.08 | 13.14 ± 0.11 | 13.69 ± 0.17 | 18.5 |
+| 36 | 1.83 ± 0.03 | 7.99 ± 0.38 | 11.95 ± 0.24 | 13.65 ± 0.50 | 20.8 |
+
+Predicted at lag 2: 9.8 ± 1.0 at both; refuted from 11.5 at L = 36. What stands of reading 5.1: the edge does
+not die in a flash from its ordinary density (two generations out it holds 0.25 and 0.22 of the row, against
+0.58), the collapse starts three to four generations out, and the remnant does not grow with L. What was
+wrong: "levelling off near 9–10". The lag-2 count is 7.3, 8.8, 9.2, 9.4, 9.1, 8.0 at L = 12, 16, 20, 24, 32, 36: it
+has a maximum near L = 24–32. I have no account of the fall (one size, two rough standard errors).
+
+**16.3 E3 fails.** Rim-free slab face, A = 60, living mean 31.0 (same file):
+
+| | lag 1 | lag 2 | lag 3 | lag 4 | tail ratio, k = 6…12 | deaths from one cell |
+|---|---|---|---|---|---|---|
+| predicted (the hull's curve) | 1.6 | 3.4 | 6.4 | 9.7 | 0.63 ± 0.03 | 62 ± 5% |
+| slab | 1.66 | 4.29 | 10.70 | 18.40 | 0.677 ± 0.002 | 59.4 ± 0.9% |
+
+What it does to the claims.
+- **Dr is a statement about hull faces only.** "√n falls by 0.59 a generation at every size" holds on hulls of
+  A = 30…84. On a rim-free face with the same living mean (31.0; the hull of A = 63 has 31.2) √n falls by about
+  1.0: the last 18 cells go in four generations, where the hull takes six or seven.
+- **"One remnant, the same object in every vessel" is refuted**, except for the last generation (lag 1 and the
+  one-cell share agree). Its rationale was already weakened in 15.1; relation (M), which was to tie the two
+  vessels' slopes through a common tail, is withdrawn there, and the tails differ (0.39 per cell on the slab,
+  0.46 on the hull of A = 63). The risk named in entry 14 is the likelier reading: the hull's late curve is a
+  rim or corner curve.
+- **For entry 17 below.** The hull tables (A ≤ 84, faces that are mostly rim) are not the asymptotic object.
+  The root curve read from them need not be the slab's; with a shallower tail the slab's roots at low density
+  are presumably smaller. Entry 17 is a statement about each vessel's own table, and exam entry E4(a) asks
+  whether it holds on the slab's.
+- **For "flash or front".** The population alone hides most of what happens in a death. The pooled chain of
+  the hull tables comes down half as fast as the hull's recorded histories (L5.3), and its minimising path
+  (17.5) would need about ten generations for what the slab does in four. Theorem P̄ is exact for the hazard
+  all the same; but a one-step hypothesis on the population (R of Theorem Q) describes an average over
+  whatever second variable a death path carries (the layer beneath), not a mechanism.
+
+---
+
+## 2026-11-14, entry 17. The local roots: what they give exactly, and why their sum is not the exponent
+
+Claim Th of 15.2 (ln τ ≈ A·∫Θ, Θ the local root as a function of k/A) is **withdrawn**: on the committed tables
+the local-root sum is not the committor's exponent (lab L9.1: near the top of each table it exceeds the
+committor's own exponent by 0.45, 0.98, 1.46, 2.02 nats at A = 30…84, and its slope between sizes is 0.03–0.05
+per cell above the hazard's). This entry proves which inequality
+holds, proves where equality holds, and says what the exponent is instead. Nothing here uses a property of
+gump: T is the pooled one-step table of any statistic, as in entry 8.
+
+**17.1 Setting.** T(k, k′) for k ≥ 1, k′ ≥ 0, row sums ≤ 1 (the missing mass is censored); k′ = 0 is death,
+d(k) = T(k, 0). Low set 𝓛 = {1, …, K − 1}. ψ* = ψ*_K is the committor of entry 8 (death before leaving 𝓛 in
+any other way): the smallest non-negative solution of ψ(k) = d(k) + Σ_{k′ ∈ 𝓛} T(k, k′)ψ(k′), extended by
+ψ*(0) = 1 and ψ*(k) = 0 for k ≥ K. Row transform and local root:
+
+    M_k(s) = Σ_{k′ ≥ 0} T(k, k′)·e^{−s(k′ − k)}   (s ≥ 0),          θ_k = max{ s ≥ 0 : M_k(s) ≤ 1 }.
+
+M_k is convex with M_k(0) ≤ 1, and tends to infinity if the row can go down; so {s : M_k(s) ≤ 1} = [0, θ_k] and
+M_k(s) ≥ 1 for s ≥ θ_k. With r = e^{−s} this is the lab's r_k (Σ_{k′} T̄(k, k′)·r^{k′−k} = 1, death counted as k′ = 0).
+
+**17.2 Proposition T′ (block bound) [proved].** Let 0 ≤ k₀ < K and θ₀ ≥ 0 with M_k(θ₀) ≤ 1 for every
+k₀ ≤ k < K, k ≥ 1 (that is, θ_k ≥ θ₀ on the block). Then ψ*(k) ≤ e^{−θ₀(k − k₀)⁺} for every k.
+
+*Proof.* ψ(k) = e^{−θ₀(k − k₀)⁺} is a supersolution on 𝓛. For k ≤ k₀ it equals 1, and d + Σ T ψ ≤ 1 because
+ψ ≤ 1. For k₀ ≤ k < K: ψ(k′) ≤ e^{−θ₀(k′ − k₀)} for every k′ ≥ 0 (for k′ < k₀ the right side exceeds 1), so
+d(k) + Σ_{k′ ∈ 𝓛} T(k, k′)ψ(k′) ≤ Σ_{k′ ≥ 0} T(k, k′)e^{−θ₀(k′ − k₀)} = e^{−θ₀(k − k₀)}·M_k(θ₀) ≤ ψ(k). The smallest
+non-negative solution lies below every non-negative supersolution. ∎
+
+With Theorem P̄: Deaths ≤ D(𝓛ᶜ) + Σ_{z ≥ K > z′} F(z, z′)·e^{−θ₀(z′ − k₀)⁺} + (boundary term). This is Corollary P1
+of entry 3 with the first k₀ rows left free, which is what the lab's linear programme found necessary (L1.2).
+*Smallest case.* Walk on {0, 1, 2, 3}, up ¾, down ¼, K = 3: θ₁ = θ₂ = ln 3; with k₀ = 0 the bound is
+ψ*(2) ≤ 1/9, and ψ*(2) = (1/9)/(1 + 1/3 + 1/9) = 1/13.
+
+**17.3 Proposition T (the local-root sum is an upper bound for the exponent) [proved].** Let 1 ≤ k₀ < K and
+let s_{k₀} ≥ s_{k₀+1} ≥ … ≥ s_{K−1} ≥ 0 satisfy M_k(s_k) ≥ 1 (for instance s_k = max_{k ≤ j < K} θ_j, which is θ_k itself
+when the roots are non-increasing on the block). Suppose every state of 𝓑 = {k₀, …, K − 1} leaves 𝓑 with
+probability one. Put S(k) = Σ_{k₀ < j ≤ k} s_j on 𝓑 and S(K) = S(K − 1) + s_{K−1}. Then for k ∈ 𝓑
+
+    ψ*(k)  ≥  c₀·( e^{−S(k)} − e^{−S(K)} ),        c₀ = e^{−s_{k₀}·k₀} · min_{0 ≤ j < k₀} ψ*(j),
+
+    i.e.   −ln ψ*(k)  ≤  Σ_{k₀ < j ≤ k} s_j  +  ln(1/c₀)  −  ln(1 − e^{−(S(K) − S(k))}).
+
+*Proof.* Extend S by S(k) = −s_{k₀}(k₀ − k) for k < k₀ and S(k) = S(K − 1) + s_{K−1}(k − K + 1) for k ≥ K. Its
+increments are non-increasing, so S is concave on the integers, and for k ∈ 𝓑 the number s_k (the increment
+into k) is a slope of S at k: S(k′) − S(k) ≤ s_k·(k′ − k) for all k′ ≥ 0. Hence g = e^{−S} satisfies, on 𝓑,
+Σ_{k′} T(k, k′)g(k′) ≥ g(k)·M_k(s_k) ≥ g(k): g is subharmonic for the chain with kernel T (censored mass sent to a
+state where g = 0). g is bounded on what the chain can reach before and at its exit time σ from 𝓑, so
+g(k) ≤ E_k g(Z_σ) ≤ P_k(Z_σ < k₀)·e^{s_{k₀}k₀} + e^{−S(K)}: below k₀, g ≤ e^{s_{k₀}k₀}; at or above K, g ≤ e^{−S(K)}. So the
+chain leaves 𝓑 downward with probability at least e^{−s_{k₀}k₀}(e^{−S(k)} − e^{−S(K)}), and from where it lands it dies
+before leaving 𝓛 with probability at least min_{j < k₀} ψ*(j) (strong Markov property of the table's chain). ∎
+
+*Smallest case.* The same walk, k₀ = 1, K = 3, k = 2: (1/3)(1/3 − 1/9) = 2/27 = 0.0741 ≤ ψ*(2) = 1/13 = 0.0769.
+
+So, whenever the roots decrease, **Σθ is an upper bound for −ln ψ*, and hence for ln τ** (Theorem P̄ is an
+identity for ψ*, and the entry flux is a constant, 1.0–1.2 nats on the tables, L9.1): **the side that was never
+in doubt.** On the tables the roots decrease from k ≈ 5 on (L5.2, L9.1), and the lab's column has
+−ln[ψ*(k)/ψ*(3)] below Σ_{3 ≤ j < k} θ_j at k = 15, 20, 30, 40 (6.84 / 6.97, 9.35 / 9.66, 13.32 / 14.36, 15.40 / 17.42).
+Together with 17.2, when the roots are non-increasing on the block:
+
+    (K − 1 − k₀)·min_{k₀ ≤ k < K} θ_k   ≤   −ln ψ*(K − 1)   ≤   Σ_{k₀ < j < K} θ_j + ln(1/c₀) − ln(1 − e^{−θ_{K−1}}).         (1)
+
+(The last term is the price of not leaving through the top; it is large when K is put at the mean, where the
+root vanishes, and is the reason to compare slopes in k or differences between sizes, as the lab did.)
+
+**17.4 Where the sum is exact [proved].**
+- *(a) Skip-free rows.* If T(k, ·) charges only k − 1, k, k + 1 (probabilities d_k, ·, u_k; no censoring), then
+  r_k = d_k/u_k and, with π_j = r₁⋯r_j, ψ*(k) = (π_k + … + π_{K−1})/(1 + π₁ + … + π_{K−1}) (gambler's ruin). If every
+  r_k ≤ r̄ < 1 this lies between (1 − r̄)·e^{−Σ_{j ≤ k} θ_j} and e^{−Σ_{j ≤ k} θ_j}/(1 − r̄), **however fast θ_k varies with k**.
+  Check: the walk above, k = 2: π₂ = 1/9, and 1/13 lies between (2/3)/9 and (3/2)/9.
+- *(b) Branching rows.* If T(k, ·) is the law of a sum of k independent copies of one offspring variable with
+  generating function f, then M_k(s) = (f(e^{−s})·e^{s})^k: every row has the same root, θ = −ln q with q = f(q) the
+  extinction probability, q^k is harmonic, and q^k − q^K ≤ ψ*_K(k) ≤ q^k. Check: offspring 0 or 2 with probabilities
+  ¼, ¾: q = 1/3; from two cells 1/16 + (6/16)(1/9) + (9/16)(1/81) = 1/9.
+- *(c) The smallest case with a gap.* Binary branching whose death probability depends on the population:
+  from 1 cell, 0 or 2 cells with probabilities 0.2, 0.8; from 2 cells each cell independently leaves 0 or 2 with
+  probabilities 0.3, 0.7; K = 3. Roots: r₁ = 0.2/0.8, r₂ = 0.3/0.7, so θ₁ = 1.386 > θ₂ = 0.847. Committor:
+  ψ*(2) = 0.09/(1 − 0.42) = 0.155, −ln ψ*(2) = 1.863. Block bound (k₀ = 0): 2 × 0.847 = 1.695. Root sum: 2.234.
+  The committor's exponent lies strictly between the two, and the reason is visible: the row from 2 can reach
+  0 in one step, at a price set by its own root alone, without paying the larger root of the row it jumps over.
+
+**17.5 Why the face is not in 17.4, and what the exponent is.** The face population's row from k has standard
+deviation 2.0, 2.8, 3.8, 4.5, 5.0 cells at k = 5, 10, 20, 30, 40 (A = 84) and its root falls by 0.004–0.024 per
+row: neither skip-free nor root-preserving.
+
+*The second-order statement [sketched; checked by hand on four rows].* Write ψ* = e^{−S} and suppose S varies
+smoothly over the length of one jump. Expanding E_k[e^{−(S(k′) − S(k))}] = 1 to first order in the curvature S″
+gives S′(k) = θ_k + S″(k)·E_θ[Δ²]/(2|E_θ[Δ]|), E_θ the row's law of Δ = k′ − k tilted by e^{−θ_kΔ}. For a Gaussian row
+with mean μ_k and variance σ_k² (then θ_k = 2μ_k/σ_k², and the tilted row has mean −μ_k), with S″ ≈ θ′_k:
+
+    S′(k) ≈ θ_k − |θ′_k|·(σ_k² + μ_k²)/(2μ_k).                                                              (2)
+
+Against the lab's rows at A = 84 (θ_k, −d ln ψ*/dk from L9.1; σ_k from the same reply; μ_k from its mean/√k
+at k ≤ 20 and from θσ²/2 at k = 30; |θ′| from differences of the listed roots):
+
+| k | θ_k | −d ln ψ*/dk | gap | formula (2) |
+|---|---|---|---|---|
+| 5 | 0.607 | 0.583 | 0.024 | 0.0044 × 2.28 = 0.010 |
+| 10 | 0.585 | 0.553 | 0.032 | 0.0071 × 2.90 = 0.021 |
+| 20 | 0.514 | 0.463 | 0.051 | 0.0112 × 3.80 = 0.043 |
+| 30 | 0.402 | 0.284 | 0.118 | 0.0242 × 4.52 = 0.109 |
+
+(At k = 40 the correction exceeds the root and the expansion is void.) The gap is the curvature of the root
+times the reach of a jump.
+
+*Scaling form.* When the one-step law is extensive, μ_k = A·b(x), σ_k² = A·v(x), θ_k = Θ(x) at x = k/A (the collapse
+of L9.1: A = 63 and 84 agree to 0.008), (2) reads
+
+    V′(x) = Θ(x) − ½·|Θ′(x)|·b(x)     per cell,    plus a total of ∫ |Θ′|/Θ dx nats that does not grow with A.
+
+**The correction does not vanish as A grows**, because the jump is extensive: b is a density per generation
+(0.02–0.05). Th was the statement b = 0, the limit of infinitely many infinitesimal steps.
+
+*The exact statement [sketched].* If the laws of (k′ − k)/A under T_A(⌊xA⌋, ·) satisfy a large-deviation
+principle with speed A and rate I(x → y), then −(1/A)·ln ψ*_A(⌊xA⌋) → V(x), the smallest cost of a finite path to 0:
+
+    V(x) = min_y [ I(x → y) + V(y) ],   V(0) = 0;   equivalently V is the largest function with V(0) = 0 and
+    V(x) − V(y) ≤ I(x → y) for all x, y.                                                                     (3)
+
+This is the discrete-time quasi-potential; for density-dependent chains it is in the literature (I cite from
+memory Morrow–Sawyer 1989 for Wright–Fisher-type chains, Klebaner–Zeitouni 1994 for density-dependent branching,
+Kifer's 1988 book; none opened; a request is in `library/requests.md`). What I have proved are the two finite
+statements 17.2 and 17.3, which in this limit read
+
+    sup_κ κ·Θ(κ)  ≤  V(ρ)  ≤  ∫₀^ρ Θ(x) dx      (Θ non-increasing; ρ the mean density),
+
+with equality on the right for branching rows (17.4 b) and in the limit b → 0 (17.4 a).
+
+*Numbers* (`python3 bellman.py` in this directory: a calculator that evaluates (3) with the Gaussian rate
+I = (y − x − b)²/2v, b = Θv/2, on eleven roots and five standard deviations copied from the critic's replies to
+rounds 2 and 3; nothing is fitted):
+
+| | per cell |
+|---|---|
+| block bound, sup κΘ(κ), attained at κ = 0.35 | 0.144 |
+| **V(ρ), recursion (3)** | **0.218** (0.214 … 0.221 when the variance is multiplied by 1.25 … 0.8) |
+| first-order value, ∫Θ − ½∫\|Θ′\|b | 0.220 |
+| local-root integral ∫Θ | 0.2295 |
+| measured: slope of ln τ, 45 → 63 → 84 → 108 → 135 | 0.212, 0.212, 0.218, 0.221 |
+| measured: slope of −ln ψ*(K − 1) between tables, 45 → 63 → 84 (L9.1) | 0.219, 0.214 |
+
+So: **the exponent of the face law is the discrete-time quasi-potential of the population's one-step law, a
+functional of two functions of the density, the local root Θ and the step variance v**; the local-root integral
+overshoots it by 5% and the block bound undershoots by a third. This replaces Th. It is a statement about the
+pooled table, to which Theorem P̄ reduces the hazard exactly; it is not derived from the rule.
+
+Three remarks.
+1. *The minimising path* of (3) (printed by the script, as populations at A = 84): 36.5, 32.0, 27.1, 22.5, 18.3,
+   14.5, 11.3, 8.8, 6.7, 5.1, 3.9, 2.9, 2.2, 1.7: four to five cells a generation down to about 18, then a factor
+   0.77 a generation, the geometric descent of a branching chain conditioned to die (17.4 b). This is the path
+   of the *pooled chain* (the lab's reversed chain has ratios 0.79, 0.77, 0.73 at 9.8 → 4.3, L5.3); the recorded
+   histories fall about twice as fast on hulls and three times as fast on the slab (16.3), and nothing here
+   explains that. For the pooled chain the time from half the mean to death grows like ln A, not √A.
+2. *"The cost per cell is still rising"* (PROBLEM.md, second row of the table). With the roots as they are at
+   A = 84 the slope is 0.218. Between A = 63 and 84 the roots at fixed x rose by 0.008, 0.007, 0.004, 0.003, 0.000,
+   0.001, 0.005 at x = 0.15, …, 0.45 (45 → 63: 0.017 at x = 0.15). If that is the tail of the drift, the hull's
+   local slope levels off at **0.220 ± 0.006** **[guessed]**; the measured 0.218 and 0.221 are at it. After 16.3
+   this is worth less than it looks: faces of A ≤ 84 are mostly rim, and the roots may go on drifting towards
+   the slab's.
+3. *What a formula from the rule would have to supply*: Θ and v. The low-density end, Θ(0+) ≈ 0.60, is the
+   per-cell extinction exponent of a sparse face; 2·(mean step)/(variance) reproduces it from a growth of about
+   22% a generation and a variance of 0.79 per cell at k = 5–10. Entry 19 shows that independent cells do not
+   give it.
+
+**17.6 "Why area", restated as one conditional theorem.**
+*Two-patch identity [proved].* If a face is the union of two patches that step independently given their
+populations k₁, k₂, the row transform of the total is M¹_{k₁}(s)·M²_{k₂}(s). So s is below the root of the union as
+soon as it is below both patch roots; two equal patches at equal populations have the root of one; means and
+variances add. Collapse of the roots in k/A is one-step extensivity.
+
+**Theorem Q [proved from P̄ and T′].** Fix κ, θ₀ > 0 and k₀. Suppose that for every face size A of a family the
+pooled one-step table of the face population has θ_k ≥ θ₀ for all k₀ ≤ k < K := ⌈κA⌉ (hypothesis R(κ, θ₀, k₀)).
+Then over any window
+
+    Deaths ≤ D(n ≥ K) + Σ_{z ≥ K > z′} F(z, z′)·e^{−θ₀(z′ − k₀)⁺} + E[ψ(Z_{t₀})],
+
+so if no face dies directly from K cells or more and the downward crossings of K undershoot by a bounded
+exponential moment (E_cross[e^{θ₀(K − z′)}] ≤ C; on the tables the crossing term is carried by drops of one to
+three cells, L5.1), then ln τ ≥ θ₀·(κA − k₀) − ln C − (window term).
+On the numbers of L9.1 and L5.2, R(0.35, 0.40, 5) holds at A = 45, 63, 84 (roots at x = 0.35: 0.407, 0.411, 0.411;
+roots at k = 5…8: 0.53–0.61; decreasing in between) and fails at A = 30 (roots 0.03–0.09 lower). The exponent it
+proves is 0.14, two thirds of the measured one. I have not seen the rows themselves; the lab should confirm
+min_{5 ≤ k < 0.35A} θ_k and say how small k₀ can be taken (request LR9).
+What is assumed is a one-step property, row by row: sparse faces regrow, with an exponential rate bounded
+below, up to a fixed fraction of the area. What makes the hypothesis scale with A is extensivity. What is
+concluded is the many-step statement. The hypothesis is not derived from the rule, and R5 (entry 4) says it
+cannot follow from the graph and θ alone.
+
+---
+
+## 2026-11-14, entry 18. A comparison form of Theorem P̄, and why the committor falls with the size of the face
+
+The critic's pointer (reply to round 3, §3) is source's remark: if a stochastically monotone kernel q is
+dominated row by row by the true one-step kernel of the population *at every time*, then P(T > t) ≥ P_q(T > t).
+The lab found the pooled tables monotone and ordered in A, and noted that a pooled table is an average over
+time, which that lemma does not cover. In the pooled setting the certificate of Theorem P̄ needs less.
+
+**Lemma C [proved].** Let q be a stochastic kernel on {0, 1, 2, …} with 0 absorbing, whose rows 1, …, K − 1 are
+stochastically non-decreasing in the row index. Let ψ_q be its committor for 𝓛 = {1, …, K − 1} (death before
+reaching K or more; ψ_q(0) = 1, ψ_q(k) = 0 for k ≥ K). Suppose that every row k ∈ 𝓛 of the pooled table, with its
+censored mass placed at +∞, dominates the same row of q:
+
+    d̄(k) + Σ_{k′ ≤ j} T̄(k, k′)  ≤  q(k, [0, j])     for every j ≥ 0.
+
+Then ψ_q is a supersolution of (∗̄) on 𝓛, so Theorem P̄ holds with ψ = ψ_q, and ψ* ≤ ψ_q.
+
+*Proof.* (i) ψ_q is non-increasing in k. Couple two copies of the q-chain from k₁ ≤ k₂ so that they stay
+ordered while both are in 𝓛 (monotone rows). If the upper copy reaches 0 before reaching K, the lower copy,
+which is below it until then, has reached 0 no later and has not reached K. (ii) For a non-increasing function
+vanishing at +∞, the mean under a dominating law is smaller:
+d̄(k) + Σ_{k′ ∈ 𝓛} T̄(k, k′)ψ_q(k′) ≤ Σ_{k′} q(k, k′)ψ_q(k′) = ψ_q(k). ∎
+
+*Smallest case.* 𝓛 = {1}, K = 2: ψ_q(1) = q(1, 0), and the hypothesis at j = 0 is d̄(1) ≤ q(1, 0) = ψ_q(1), which is
+(∗̄) for one row.
+
+No uniformity in time is needed, because Theorem P̄ bounds deaths over exposure in the window, which is the
+measured hazard, and uses the pooled table only through (∗̄).
+
+**Corollary [proved; its hypotheses are the lab's L9.2].** If the table of a face of A cells is monotone on
+its rows below K, and the table of a face of A′ cells dominates it row by row there, then ψ*_{A′}(k) ≤ ψ*_A(k) for
+k < K. The lab found both hypotheses to hold on the four tables up to small violations in rows 2 and 3
+(largest excess of a distribution function 0.007, 0.002, 0.04), and found ψ*_A(k) non-increasing in A for
+k ≤ 12 with one exception of one standard error. So the monotonicity that H′ (inequality form, 15.1) needed is
+the many-step shadow of a one-step ordering: *a larger face regrows from k cells at least as well as a smaller
+one*. As the critic says, this bounds ψ*_A(k) only for k below half the smallest face; reaching k = κA needs a
+comparison chain that grows with A, and the only family I can name is the extensive one of 17.6.
+
+---
+
+## 2026-11-14, entry 19. Dead end: the exponent from independent cells (mean field)
+
+Tried because entry 17 reduces γ to two functions and "a formula from the rule alone" is on the list of what
+would count. Recorded with its numbers so that nobody repeats it.
+
+**The closure.** Treat every cell of a layer as an independent coin: a cell of layer ℓ with density x_ℓ is alive
+next with probability F_ℓ = x_ℓ·P(n ∈ S) + (1 − x_ℓ)·P(n ∈ B), n a sum of independent binomials over the layers
+of its neighbours (gump: 6 in its layer, 2 and 1 in the next two layers on each side; fcc: 6, 3, 3; the 2D
+rule: 4, 1, 1; face12e: entry 20). The layer populations are then binomial, the one-step rate is
+I = Σ_ℓ w_ℓ·KL(y_ℓ ‖ F_ℓ(x)), and (3) gives a number from the rule and the lattice alone. V1: the face fluctuates, the
+layers beneath are pinned at the closure's own profile. V2: the top two layers fluctuate.
+`python3 mf_deadend.py 100` (a calculator; about a minute):
+
+| system | closure's densities: face, next layer, bulk (measured) | V1 | V1, decreasing paths only | V2 | measured |
+|---|---|---|---|---|---|
+| gump B45/S345 | 0.565, 0.466, 0.444 (0.517, —, 0.411) | 0.187 | 0.318 | 0.130 | 0.209–0.212 |
+| gump lattice B456/S3456 | 0.679, 0.547, 0.521 (0.62, —, —) | 0.247 | 0.696 | 0.086 | 0.2156 |
+| fcc B45/S345 | 0.577, 0.410, 0.444 (0.465, —, 0.394) | 0.162 | 0.258 | 0.085 | 0.181 |
+| 2D rule B34/S234 | 0.664, 0.576, 0.520 (0.577, —, 0.472) | 0.447 | 0.684 | 0.348 | 0.346 (ends), 0.41 (ring) |
+| face12e, per wall face | sheet 0.640, layer 0.454, bulk 0.444 (0.52, 0.41, 0.397) | — | — | 0.283 | 0.410 |
+
+(Measured densities: `research/audit/REVIEW-class.md` §2.2, §3.1; toy2d README. V2 still falls by about 0.005 from
+a 61² to a 101² grid.)
+
+**Why it is a dead end.**
+1. *Its cheapest route is one the faces do not take.* The minimising path of V1 does not go down: it
+   oscillates with period two and growing amplitude, reaches density 0.79 (gump), 0.78 (fcc), 0.93 (2D rule),
+   and then loses nearly everything in one generation to overcrowding (gump: 0.79 → 0.17), below the closure's
+   threshold, whence it decays for nothing. V2 does the same with both layers dense (0.73 and 0.65, then 0.22
+   and 0.16). Gump's faces die the other way: overcrowding events become rarer before a death (0.035 per cell
+   against 0.073; PROBLEM.md, the overcrowding row) and the layer beneath sags. Independent cells make a
+   simultaneous overcrowding of a whole face far too cheap. The nearness of V1 to the measured exponents
+   (−11%, +14%, −10%, +29%) is that of a different event. Restricted to paths of decreasing density, the route
+   the faces do take, the closure gives 0.32, 0.70, 0.26, 0.68: 40% to 220% too much.
+2. *It does not converge.* Freeing a second layer lowers the value by 22–65%, to 30–60% below the measured
+   exponents in three dimensions; a third layer can only lower it further.
+3. *Its one-step statistics have the wrong shape.* For gump the closure's face map has F(x) < x below
+   x = 0.07–0.09: a sparse face of independent cells does not regrow (one live cell has 7p³ ≈ 0.6–0.7 expected
+   successors). Its local root is absent below x = 0.07, is 0.18 at x = 0.10, and rises to 1.18 at x = 0.35.
+   The measured root is 0.60 at x = 0.06–0.10 and *falls* to 0.41 at x = 0.35. The measured sparse face regrows
+   because its live cells are clustered (the favoured three-cell state is the top of one cube); the closure
+   has no clusters. And the real exponent is made mostly at low density (∫₀^{0.25} Θ is 62% of ∫Θ), where the
+   closure has nothing.
+4. *A false positive.* For the edge of Moore B456/S3456 (2 in-row neighbours, 3 beneath) one layer over the
+   closure's bulk gives 0.33, by a decreasing path; the measured edges erode (τ_edge falls with L; toy2d
+   README §3).
+5. Gump's four neighbours of R5 come out smaller than gump (one layer over the closure's bulk: B45/S34 0.119,
+   B45/S35 0.053, B45/S45 0.045, B4/S345 0.016, gump 0.181), but in the wrong order for B4/S345, which has the
+   longest measured lifetimes of the four.
+
+**What survives.** Only the form: an extensive one-step law and a discrete-time path. And a warning for (3): the
+recursion has to be allowed rising paths before it is trusted. In entry 17.5 I restricted it to decreasing
+ones, because the tables hold no rows above the mean; what licenses that for gump is a measurement, not the
+recursion: no face died directly from the mean or above at A ≥ 45, and the crossing term of Theorem P̄ is
+carried by drops of one to three cells (L5.1). A formula from the rule needs the growth of sparse *clusters*
+over the true layers beneath, a spatial problem that densities do not see.
+
+---
+
+## 2026-11-14, entry 20. The second lattice (face12e) in the language of Proposition S
+
+Face12e: gump's cells and rule, the four coplanar neighbours at ±2e_b, ±2e_c (edge-sharing) instead of
+±2e_b ± 2e_c. Vessel of the measured wall law (`research/audit/REVIEW-class.md` §2.2): a slab between two walls
+at odd x, periodic in y and z; wall = sheet of x-normal cells at x = C. Write Σ for that sheet (A cells) and Λ
+for the y- and z-normal cells at x = C − 1 (2A cells).
+
+**Lemma F [proved, by the offsets].** In a slab at least two cubes deep, periodic in the wall directions:
+(i) a cell of Σ has 4 neighbours in Σ, 4 in Λ, 4 outside the vessel, none elsewhere;
+(ii) a cell of Λ has 6 neighbours in Λ (4 perpendicular ones at (C − 1, y ± 1, z ± 1), 2 coplanar ones along its
+own line), 2 in Σ, 2 in the next sheet x = C − 2, 1 in the next layer x = C − 3, 1 outside the vessel;
+(iii) W = Σ ∪ Λ is sealed (θ = 4), and it is inclusion-minimal: no non-empty proper subset of W is sealed.
+*Proof.* (i), (ii): an x-normal cell p has neighbours p ± 2e_y, p ± 2e_z (same sheet) and p ± e_x ± e_y, p ± e_x ± e_z
+(layers x ± 1). A y-normal cell p at x = C − 1 has p ± 2e_x (x = C + 1, outside, and x = C − 3), p ± 2e_z (in Λ),
+p ± e_y ± e_x (x-normal, in the sheets x = C and x = C − 2), p ± e_y ± e_z (z-normal, in Λ). (iii) Cells of Σ have no
+neighbour in V \ W, cells of Λ have exactly 3: sealed. Let W′ ⊆ W be sealed and non-empty. If W′ contains a cell
+of Λ, that cell already has its 3 allowed outside neighbours in V \ W, so all its 8 neighbours in W are in W′;
+Λ is connected through in-layer neighbours and every cell of Σ is next to a cell of Λ, so W′ = W. If W′ ⊆ Σ, each
+of its cells has 4 neighbours in Λ, outside W′: not sealed. ∎
+
+So Σ alone is not sealed (the audit's "the wall sheet alone is not sealed" and its measurement that the sheet
+alone empties 4–10 times as often as a wall dies, and comes back), and by Proposition S a permanent loss at a
+wall is the extinction of W: the audit's "a wall dies when the sheet and the layer beneath are empty together".
+In W only the cells of Λ see the rest of the vessel, 3 neighbours each, exactly as a gump face cell sees what
+is beneath it; the cells of Σ see only W. That is the structural reason for counting the law per cell of Λ.
+*Not proved:* that W has the fewest cells among sealed sets of the slab (3A; a transverse band of three layers
+has more at the measured sizes). Lab request LR12.
+
+**What the formula of entry 17 gives there.** No number without that lattice's own one-step table: γ is a
+functional of Θ and v, and these are not inherited from gump. What can be said:
+- The statistic should be the population of Λ (2A cells, mean density 0.41), with "death" its emptiness, which
+  the audit found to have the same waiting time as the permanent death (ln τ 6.39 against 6.43, 10.18 against
+  10.18).
+- The measured 0.205 per cell of Λ is γ/ρ = 0.50 per unit of mean density, against gump's 0.41–0.43
+  (0.212/0.517 on slabs, 0.218/0.505 on the hull tables). The root vanishes at the mean density. If Λ's root
+  curve were gump's, compressed to [0, 0.41] at equal step variance per live cell, the exponent would be
+  (0.41/0.505) × 0.218 = 0.177; to give 0.205 Λ's roots must be about a sixth higher than gump's at the same
+  fraction of the mean density. So, as far as this framework sees, the near-equality of the two exponents per
+  cell (0.205; 0.209–0.212) is **not** explained by "the same neighbour counts": it is a lower density
+  compensated by a steeper root, which the two extra neighbours in the sheet would have to supply. **[guessed]**
+- The test is exam entry E4 (filed today): tally Λ's one-step table at one size, run `bellman.py` on its roots
+  and variances, and compare with 0.205.
+For fcc the same ratio is 0.181/0.465 = 0.39, close to gump's; I have no table for it either.
+
+---
+
+## Round 4 report
+
+**Exam** (entry 16). E1 holds: notched row 0.3458 ± 0.0036 (predicted 0.345 ± 0.020), intact row of the same
+strips 0.412. G1's first half (every edge with an end: 0.34–0.35) is measured in a geometry made to test it; its
+second half (the ring carries a power) is undecided by the same table (ring minus notched grows like
+L^{1.7 ± 0.2} or like 0.065·L). E2 is not refuted but its number is too high at L = 36 (7.99 ± 0.38 against
+9.8 ± 1.0): no flash, a remnant of 8–9 cells that does not grow. E3 fails: on a rim-free face the last 18 cells
+go in four generations (hull: six or seven); the last generation alone is common to both vessels.
+
+**Fell.** "One remnant, the same in every vessel" (E3): refuted; Dr holds on hulls only. Th (ln τ = A·∫Θ):
+withdrawn; the sum is an upper bound (T), exact only without jumps or with root-preserving rows (17.4). The
+ring part of W (power ½): withdrawn; a product of pair weights cannot give more than ½ (16.1). The mean-field
+value (entry 19): a dead end; its cheapest route is an overcrowding of the whole face, which gump's faces do
+not take.
+
+**Claims.**
+- **T′, T** (17.2, 17.3): for any one-step table, (K − k₀)·min θ_k ≤ −ln ψ*(K − 1) ≤ Σ θ̂_k + const, the first from
+  a supersolution, the second from a concave subsolution. **[proved]**
+- **Exactness** (17.4): the sum is the exponent for skip-free rows and for branching rows. **[proved]**
+- **Q** (17.6): under R(κ, θ₀, k₀) (local roots ≥ θ₀ for k₀ ≤ k < κA, at every size), ln τ ≥ θ₀(κA − k₀) − const.
+  **[proved; the hypothesis is one-step, holds on the lab's numbers at A = 45, 63, 84 with (0.35, 0.40, 5), and
+  is not derived from the rule]** It gives 0.14 per cell.
+- **C** (entry 18): pooled rows dominating a monotone kernel make that kernel's committor a certificate for
+  Theorem P̄; no uniformity in time. Corollary: the committor at fixed k falls with the size of the face
+  because larger faces' rows dominate. **[proved; hypotheses are lab L9.2]**
+- **V** (17.5): the exponent is the discrete-time quasi-potential (3) of the population's one-step law;
+  V′ = Θ − ½|Θ′|b to first order. **[sketched]** Evaluated on the critic's numbers for A = 84: 0.218, between the
+  proved bounds 0.144 and 0.2295; measured 0.212–0.221. Reading: the hull's local slope levels off at
+  0.220 ± 0.006. **[guessed]**
+- **F** (entry 20): in face12e the wall's sheet plus the layer beneath is an inclusion-minimal sealed set; only
+  the layer's cells see the rest of the vessel. **[proved]**
+
+**Weakest step.** V. Its two bounds are proved; the value between them is a Gaussian closure fed with eleven
+roots and five standard deviations copied from the critic's replies, run on decreasing paths only (licensed
+for gump by a measurement, no deaths from above the mean, not by an argument), and extensivity of the one-step
+law is seen at two sizes (63, 84) of a vessel whose faces are mostly rim (E3). Second: entry 17 is about the
+pooled table. Theorem P̄ makes that exact for the hazard, but hypothesis R is a property of the chaos, the
+population hides the second variable a death path carries (16.3), and I have no route from the rule to R:
+entry 19 shows the obvious closure failing exactly where the exponent is made (sparse faces).
+
+**Lab requests** (all exact or arithmetic on `critic/lab/data/fluct_tables.npz`).
+- LR9. Per row and size: mean, variance and third cumulant of the one-step change divided by A, against x = k/A
+  (do they collapse as the roots do?); min_{k₀ ≤ k < 0.35A} θ_k at each size for k₀ = 3, 4, 5 (hypothesis R of
+  Theorem Q); the smallest k from which the roots are non-increasing.
+- LR10. Recursion (3) on the rows themselves: (a) Gaussian, `bellman.py table.json` with every row's θ_k and
+  variance, at each size, against the slopes 0.201, 0.212, 0.212; (b) with each row's own rate
+  I_k(j) = sup_s[−s(j − k) − ln M_k(s)] in place of the Gaussian.
+- LR11. The extensive chain, exactly: q(2k, ·) = T̄₈₄(k, ·) ∗ T̄₈₄(k, ·), q(2k + 1, ·) = T̄₈₄(k, ·) ∗ T̄₈₄(k + 1, ·) (rows as laws
+  on {0, 1, …}, T̄(0, ·) the point mass at 0), low set {1, …, 2K − 2}; then the same doubling once more. Predicted:
+  the second doubling adds 168 × (0.218 ± 0.007) = 36.6 ± 1.2 to −ln ψ* at the top row; the first adds half that
+  up to a constant of order one nat (the doubled chain's lowest rows are two independent small faces, which
+  regrow worse than one). Also both sides of (1) for q.
+- LR12. Smallest sealed sets of the face12e slab (periodic wall 3 × 3 or 4 × 4, two to four cubes deep), by the
+  enumeration used for hulls: is the sheet plus the layer beneath (3A cells) the smallest, and which other
+  inclusion-minimal ones are there?
+
+**Exam.** E4 filed: `bellman.py` on the one-step table of (a) the rim-free gump slab face of 60 cells, predicted
+0.211 ± 0.012; (b) the layer beneath a 5 × 5 wall of face12e, predicted 0.205 ± 0.015 per cell.
+
+**Whether to go on.** One closing round is worth having once LR10, LR11 and the outcome of E4 exist: to
+state γ = V[Θ, v] with the lab's exact numbers or to withdraw it. Beyond that I see no route on this line to a
+new proved step about the rule itself: what is missing is a derivation of the sparse-face root from the rule
+(a branching of clusters over the true layers beneath), and the power of L on a ring, and neither is a
+large-deviation question.

@@ -9,7 +9,8 @@ neighbours' layers.  Then the layer populations are binomial and the discrete-ti
 
 with the top d layers free and the deeper ones pinned at the mean-field profile (d = 1, 2).
 
-    python3 mf_deadend.py            # profiles, V1, and the one-step roots of the closure against the measured ones
+    python3 mf_deadend.py            # profiles, V1 (with and without rising paths), gump's neighbours, the Moore
+                                     # edge, and the closure's one-step roots against the measured ones
     python3 mf_deadend.py 100        # also V2 on a 101 x 101 grid (about a minute)
 """
 import sys
@@ -76,6 +77,7 @@ def KL(y, f):
 
 
 def V1(L, prof, G=1000):
+    """Returns (V, V restricted to paths of decreasing density, largest density on the minimising path)."""
     xs = np.linspace(0, 1, G + 1)
     F = np.array([L.F_top(np.array([x]), prof)[0] for x in xs])
     I = L.w[0] * KL(xs[None, :], F[:, None])
@@ -87,7 +89,19 @@ def V1(L, prof, G=1000):
         if np.allclose(Vn, V, atol=1e-13, rtol=0):
             break
         V = Vn
-    return float(np.interp(prof[0], xs, V)), xs, F
+    Vd = np.full(G + 1, np.inf)
+    Vd[0] = 0
+    for i in range(1, G + 1):
+        Vd[i] = (I[i, :i] + Vd[:i]).min()
+    i = i0 = int(round(prof[0] * G))
+    top = xs[i]
+    for _ in range(200):
+        j = int((I[i] + V).argmin())
+        if j == i or i == 0:
+            break
+        i = j
+        top = max(top, xs[i])
+    return float(V[i0]), float(Vd[i0]), float(top)
 
 
 def V2(L, prof, target, G=60, pw=1.5):
@@ -144,6 +158,11 @@ SYSTEMS = {  # name: (neighbours, B, S, K, weights, target, measured exponent)
     "face12e B45/S345": (f12e_nb, {4, 5}, {3, 4, 5}, 12, [1, 2] * 7, lambda a, b: a == 0 and b == 0, "0.410 per wall face"),
 }
 
+def one_layer(nb, B, S, K):
+    L = Layers(nb, B, S, K, [1], D=1)
+    return V1(L, L.profile())
+
+
 if __name__ == "__main__":
     G2 = int(sys.argv[1]) if len(sys.argv) > 1 else 0
     for name, (nb, B, S, K, w, tgt, meas) in SYSTEMS.items():
@@ -151,10 +170,17 @@ if __name__ == "__main__":
         prof = L.profile()
         line = f"{name}: bulk {L.bulk:.3f}, profile from the wall {np.round(prof[:4], 3)}"
         if "face12e" not in name:
-            line += f", V1 = {V1(L, prof)[0]:.4f}"
+            v, vd, top = V1(L, prof)
+            line += f", V1 = {v:.4f} (its path first rises to density {top:.2f}); decreasing paths only: {vd:.4f}"
         if G2:
             line += f", V2 = {V2(L, prof, tgt, G=G2):.4f}"
         print(line + f"   [measured {meas}]")
+    print("one layer over the closure's own bulk density (V1, decreasing paths only, largest density on the path):")
+    for name, B, S in (("gump B45/S345", {4, 5}, {3, 4, 5}), ("B45/S34", {4, 5}, {3, 4}), ("B45/S35", {4, 5}, {3, 5}),
+                       ("B45/S45", {4, 5}, {4, 5}), ("B4/S345", {4}, {3, 4, 5})):
+        print(f"   {name}: " + "%.4f, %.4f, %.2f" % one_layer(gump_nb, B, S, 12))
+    print("   Moore B456/S3456 edge (2 in-row, 3 beneath): "
+          + "%.4f, %.4f, %.2f" % one_layer(lambda l: [(2, l), (3, l + 1)], {4, 5, 6}, {3, 4, 5, 6}, 8))
     # the closure's one-step statistics against the measured ones (gump, A = 84; critic/to-path.md, round 3, section 2)
     L = Layers(gump_nb, {4, 5}, {3, 4, 5}, 12, [1] * 14)
     prof = L.profile()

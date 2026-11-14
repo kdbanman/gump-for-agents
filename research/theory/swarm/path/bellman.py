@@ -11,9 +11,9 @@ functions of x = k/A.  Output:
                      b = Theta v / 2  (Gaussian closure of the one-step law; entry 17.5)
   the minimising path from the mean population down.
 
-Default data: gump hull face A = 84, copied by hand from critic/to-path.md, reply to round 3, section 2
-(roots at k = 5, 8, 10, 40 and at x = 0.15 ... 0.45; standard deviation of the step 2.0, 2.8, 3.8, 4.5, 5.0 at
-k = 5, 10, 20, 30, 40; mean population 42.45).
+Default data: gump hull face A = 84, copied by hand from critic/to-path.md: roots at k = 5, 10, 40 and at
+x = 0.15 ... 0.45, and the standard deviation of the step 2.0, 2.8, 3.8, 4.5, 5.0 at k = 5, 10, 20, 30, 40, from the
+reply to round 3, section 2; the root at k = 8 (r = 0.556) and the mean population 42.45 from the reply to round 2.
 
     python3 bellman.py                 # the default; prints 0.2295, 0.1438, 0.218
     python3 bellman.py table.json      # {"A":…, "mean":…, "k":[…], "theta":[…], "var":[…]}  rows k >= 5 up to the mean
