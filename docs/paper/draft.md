@@ -294,3 +294,247 @@ Figures: `research/figures/phase_bulk.png` (bulk density and its fluctuations),
 `research/figures/phase_spread.png` (damage and fronts; supports only the preliminary statements),
 `research/figures/phase_symmetry.png` (density by symmetry class).
 
+## 5. How confined chaos ends
+
+### 5.1 The staircase is the hull losing one layer at a time
+
+The 2012 population logs of cubic seeds show a long noisy plateau followed by a staircase of lower plateaus.
+**[measured]** (F1; B) For the side-11 cube the hull radius (outermost live layer along every diagonal, in doubled
+units about the centre) falls from 31 to 27 within five generations, stays at 27 for 3,285 generations, and then
+every face loses its outer layer at generations 3,290, 3,477 and 3,796 (the first generation at which that layer
+is empty), before a final collapse ending at 4,218; no interior firewall forms before the final collapse.
+**[measured]** (F3; B) The side-13 cube does the same at about 130,200, 145,850, 156,800, 166,650 and 168,200,
+ending at 169,049. Each stair is the loss of one {111} layer from every face of the octahedron (all eight at once
+because the seed is O_h-symmetric); by Theorem 2 each loss is irreversible. *Preliminary* **[measured]** (F2; C):
+the plateau heights of side 11 are 0.79, 0.61, 0.48 of the first, against hull-volume ratios (R/27)³ = 0.79,
+0.62, 0.47. A tracked picture of a peel as a kymograph of layer populations is `web/docs/peel-kymograph.png`.
+
+So the lifetime of confined chaos is a sum of waiting times for well-defined irreversible events, and the
+question becomes: what is the law of the wait for one face layer to die?
+
+**Vessels and faces.** Two families of vessel are used. (i) *Octahedra*: all cells with |p − c|₁ ≤ R (doubled
+units) in open space, c a cube centre (R odd) or a lattice vertex (R even); by Theorem 2 the outside is dead for
+ever, so the simulation is exact. Its eight faces are the outermost layers; a face has A = 3k(k + 1)/2 cells with
+k = ⌈R/2⌉ (A = 30, 45, 63, 84, 108, 135 for R = 7, …, 17; checked by direct count for every size used,
+`docs/paper/check_face_area.py`). (ii) *Slabs*: m consecutive {111} layers (m = 8 unless said), periodic in the
+plane with a period lattice of index n, so that each of the two faces is a torus of A = 3n cells with no edges.
+Theorem 4 makes the slab a closed system. A *face death* is the first generation at which an outer layer is
+empty. Random initial conditions have density 0.3–0.4; replicas are followed from an age T₀ (200 generations
+unless said) and only while their hull is still the full vessel.
+
+### 5.2 The face-extinction law
+
+**Estimator.** For an ensemble of replicas of one vessel, the mean wait to the first face death is
+(total exposure in replica-generations)/(number of deaths), the maximum-likelihood estimate for an exponential
+wait with censoring. We quote the per-face time τ_face = (number of faces) × (mean first wait): × 8 for
+octahedra, × 2 for slabs. This treats the faces of a vessel as dying independently, an assumption that the
+comparison of octahedra with slabs below shows to be only approximately harmless. Replicas that settle into a
+periodic state while a face is still occupied never die and must be censored at every period (Section 12).
+
+**Memoryless.** **[measured]** (F5; A) For slab faces of A ≥ 36 the first-death times have coefficient of
+variation 0.96–1.05 and pass a Kolmogorov–Smirnov test against the exponential (p = 0.5–0.96); an independent
+engine-only measurement on octahedra gave CV 1.03 and 0.99 at R = 9 and 11. Faces of A ≤ 27 are
+transient-dominated and are not exponential. **[measured]** (GP5; B−) In the largest sample, 5,971 deaths of
+cube-centred O_h-symmetric soups at R = 43 with replica ages up to 2.6 τ, a censored Weibull fit gives shape
+k = 1.020 (95%: 1.000–1.042): no ageing. (An apparent fall of the death rate with age in a shorter run at this
+size was noise; the same indication at R = 45, k = 0.84 on 192 deaths, has not been re-run.)
+
+**Exponential in the area.** **[measured]** (F4; B from the curated table, with the slope supported at grade A by
+two independent routes) For slab faces with m = 8 on eight near-square period lattices, A = 27 to 90, a weighted
+fit gives
+
+$$\ln \tau_{\rm face} = (-0.091 \pm 0.047) + (0.2088 \pm 0.0009)\,A,$$
+
+with residuals up to 0.18 and τ_face from 2.8 × 10² to 1.6 × 10⁸ generations
+(`python3 research/peeling/face_law_fit.py`; figure `research/figures/peel_face_law.png`, which predates the
+measurements below and plots symmetric faces against a rescaled area that this paper does not use). The first
+death time does not depend on the slab's thickness once m ≥ 7: at A = 48 it is 9.9, 10.4, 10.3, 10.3, 10.3 × 10³
+generations for m = 7, 8, 9, 10, 12 (`research/peeling/slab_area.csv`). This fit is a first description only:
+Section 7 shows that it mixes faces of different widths, that a single slope does not describe periodic faces,
+and that its slope is inflated by the mixture.
+
+**Octahedral faces.** **[measured]** Table 2 gives the per-face lifetimes of asymmetric soups in octahedra. The
+law has the same form and octahedral faces are tougher than periodic ones: 1.7–1.9 times the slab line at
+A = 45, 63, 84 (F6; B + A), and at A = 108 an octahedral face has ln τ_face larger by 0.91 ± 0.06 than a 6 × 6
+periodic face measured with the same estimator (GP7; B), or by 0.84 ± 0.04 against the pooled, firewall-resolved
+slab value 22.537 ± 0.031 (GP8; B). What makes them tougher (the rim, eight faces sharing edges, the interior, the
+shape) has not been separated. The cost per cell is not constant: the local slopes of Table 2 are 0.201, 0.212,
+0.215, 0.218 ± 0.001 and 0.221 ± 0.009, still rising at A = 135 (GP1; B−). Its limit, if there is one, is not
+known. An earlier extrapolated limit, 0.2077 ± 0.0014, was withdrawn when it was found to miss its own data.
+
+| R | A | face deaths | ln τ_face | source and independent values |
+|---:|---:|---:|---:|---|
+| 7 | 30 | 117,851 | 6.804 ± 0.003 | symmetry-free bit-sliced CPU ensemble (F9, tabulated value; B); an engine-only run gives −ln h/A = 0.2274 against 0.2268 |
+| 9 | 45 | 137,243 | 9.820 ± 0.003 | same (F9; B); engine-only run of 13,765 deaths: 9.824 (F8; A) |
+| 11 | 63 | 764,941 | 13.635 ± 0.001 | GPU ensemble (calibration row of GP1); CPU: 13.633 ± 0.008 |
+| 13 | 84 | 34,026 | 18.141 ± 0.005 | GPU; two independent CPU runs: 18.154 ± 0.025 and 18.148 ± 0.028; the earlier CPU value 18.077 ± 0.054 (342 deaths) |
+| 15 | 108 | 1,059 | 23.376 ± 0.031 | GPU only (GP1; B−) |
+| 17 | 135 | 16 | 29.34 ± 0.25 | GPU only (GP1; B−); replica ages reach 1/900 of the mean |
+
+Table 2. Asymmetric soups (density 0.35) in octahedra of L1 radius R; τ_face = 8 × mean wait to the first face
+death. **[measured]** Local slopes between successive rows: 0.2011, 0.2119, 0.2146, 0.2181, 0.2209. Nothing at
+A ≥ 108 has been reproduced by a second implementation or a second GPU run; the kernel was checked bit for bit
+against the CPU steppers by emulation, which cannot check the GPU's execution.
+
+Figure 2 (placeholder; does not exist): *ln τ_face against A for octahedral faces (Table 2), periodic faces by
+width family (Table 5), and O_h-symmetric faces (Table 3), with the lines 0.2072·A and 0.2088·A for reference.*
+
+### 5.3 A face dies off the end of its own stationary distribution
+
+**[measured]** (F8; A + B: the study's symmetry-free ensemble, an engine-only rerun, and a third rerun of 3,000
+soups) Let n be the number of live cells of one face of a living asymmetric octahedron, sampled every generation
+from T₀ on, and p_k the quasi-stationary probability that n = k. At R = 7, 9, 11, 13 (A = 30–84):
+
+- ln p_k is linear in k from k ≈ 10 down to k = 1, with ratio p_k/p_{k+1} ≈ 0.65 (the engine-only run at R = 9
+  gives 0.658, 0.499, 0.778, 0.650, 0.630, 0.652, 0.655 for k = 1, 2, …: straight apart from an excess at k = 3);
+- the death rate per face per generation h is the next point on the line: h/p₁ = 0.645, 0.613, 0.601, 0.594 at
+  the four sizes (engine-only at R = 9: 0.616–0.621), against p₁/p₂ ≈ 0.66;
+- the end-game does not depend on size: 62–63% of deaths are from a single surviving cell and 23–25% from two; a
+  face reduced to one cell dies rather than recovers with probability 0.67–0.72.
+
+So, at these sizes, τ_face ≈ 1/(0.6·p₁): the whole factor e^{−0.2A} is the quasi-stationary probability of being
+down to one cell, and no separate mechanism of death is needed. The endpoints are −ln h/A = 0.2268, 0.2182,
+0.2164, 0.2152 at A = 30, 45, 63, 84 (F9; B for these four values; the limit fitted to them is withdrawn). A tail
+extrapolated from densities n/A ≥ 0.1, which is all one can sample on large faces, misses ln h by 0.5–0.8; the
+endpoint has to be measured. Figure: `research/figures/fluct_tail.png`.
+
+*Preliminary* **[measured]** (C): the commonest three-cell remnant is a triangle of the kagome layer, the three
+faces round one cube corner (38% of three-cell faces; F10); a dying face is statistically ordinary until about 16
+generations before its death and empties in 10–12 (F12); forward-flux sampling along n is unbiased but gains
+nothing, because two copies of a state differing in one cell have 55–95% correlated fates over the few
+generations of the plunge (F12). The last point matters for method: the rare event here is a rare
+*configuration* reached quickly, not a slow rare path, and what made large faces measurable was brute force on
+bit-sliced and symmetry-reduced steppers.
+
+### 5.4 The competing channel: transverse firewalls
+
+A slab or an elongated vessel can also die by a three-layer firewall (Theorem 3) across one of the other three
+diagonals, after which a face dies within a small fraction of the wait. Lifetimes that count any outer-layer
+death therefore mix two channels, and the face law must be read from the face channel alone. **[measured]**
+(GP8; B) With every life ended at its first event and the two channels counted separately, the firewall rate at a
+cut of 216 cells is the same in a square and a non-square slab: ln τ_fw = 26.79 ± 0.28 per direction (6 × 6 × 8,
+13 firewalls) and 26.87 ± 0.19 (6 × 7 × 8, 29 firewalls). The method was validated on a slab where both channels
+are common: 3 × 6 × 8 gives ln τ_face = 11.084 ± 0.001 and ln τ_fw = 12.327 ± 0.002 on the GPU and
+11.076 ± 0.007 and 12.310 ± 0.018 in an independent CPU run with a different stepper. *Preliminary*
+**[measured]** (F11; C): over thin slabs the firewall costs about 0.12 per cell of the three-layer band that
+must die, roughly half the cost per cell of a face, and the first event switches from firewall to face death
+when the thickness is about the width. In an octahedron the faces are the smallest {111} sections and no interior
+firewall was seen before the final collapse of the cubes examined (F1). A practical consequence: eight-layer
+slabs cannot measure the face channel beyond A ≈ 110 unless firewalls are detected.
+
+### 5.5 Symmetric initial conditions die exponentially sooner
+
+An O_h-symmetric soup (one coin per orbit of cells) stays symmetric. Its eight faces are images of one another
+and die in the same generation, so the residence time at a given hull radius is measured directly. Table 3 gives
+it for cube-centred (R odd) and vertex-centred (R even) hulls.
+
+| A | cube-centred: R, deaths, ln τ | vertex-centred: R, deaths, ln τ | ln(τ_v/τ_c) |
+|---:|---|---|---:|
+| 360 | | 30; 66,555; 9.988 ± 0.004 | |
+| 408 | 31; 1,087; 10.993 ± 0.030 | 32; 14,641; 11.411 ± 0.008 | 0.42 ± 0.03 |
+| 459 | 33; 5,141; 12.473 ± 0.014 | 34; 4,181; 12.898 ± 0.015 | 0.42 ± 0.02 |
+| 513 | 35; 933; 14.151 ± 0.033 | 36; 2,177; 14.620 ± 0.021 (GPU: 99,763; 14.625 ± 0.003) | 0.47 ± 0.04 |
+| 570 | 37; 167; 15.881 ± 0.077 | 38; 279; 16.278 ± 0.060 (GPU: 112,545; 16.345 ± 0.003) | 0.40 ± 0.10 |
+| 630 | 39; 96; 17.799 ± 0.102 | 40; 46; 18.220 ± 0.147 (GPU: 45,785; 18.273 ± 0.005) | 0.42 ± 0.18 (0.47 ± 0.10 with the GPU value) |
+| 693 | 41; 58; 19.68 ± 0.13 | 42; 45; 20.38 ± 0.15 | 0.70 ± 0.20 |
+| 759 | 43; GPU 1,057; 21.903 ± 0.031 (with a longer run: 21.889 ± 0.012) | 44; GPU 637; 22.409 ± 0.040 | 0.51 ± 0.05 |
+| 828 | 45; GPU 192; 24.175 ± 0.072 | | |
+
+Table 3. O_h-symmetric soups; τ = mean residence at hull radius R, states older than 1,000 generations.
+**[measured]** CPU rows: orbit-reduced stepper, `research/fluct/data/sym_residence.csv`, fresh soups only (S2,
+S3; B, with agreement between two independent implementations at A = 408–630, grade A). GPU rows: GP2, GP3
+(B−, B). The ratio column uses the CPU values; `python3 research/fluct/sym_fit.py` prints 0.27 ± 0.13 at A = 630
+and 0.87 ± 0.18 at A = 693 because it pools copies of the side-16 cube's own states into the vertex values there.
+
+**[measured]** What the table shows.
+
+- *Scale.* A symmetric face family of 759 cells lives about as long (ln τ ≈ 21.9) as an asymmetric octahedral
+  face of roughly 100 cells (Table 2). The 2012 side-13 cube lasted 1.7 × 10⁵ generations in a hull whose faces
+  have 459 cells; symmetric soups at that size have mean residence 2.6 × 10⁵.
+- *No fixed "effective area".* Over A = 408–693 the cube-centred values are fitted (χ² = 4.0 on 4) by
+  ln τ = 0.698 + (0.209/6)·A − 0.196·√A, i.e. the periodic-face slope shared among the six images of a face cell
+  under the face's stabiliser, less a boundary term (S2; B + A). This is a description of that range, not an
+  established law: free fits to the same points prefer slopes between 0.024 and 0.044 depending on the curvature
+  term, and the two GPU points beyond the range lie 0.16 and 0.27 above the fitted curve. The local slope between
+  A = 759 and 828 is 0.0329 ± 0.0011, to be compared with 0.209/6 = 0.0348 (GP2; B−). The asymptotic symmetric
+  slope is open.
+- *Centre matters.* Vertex-centred hulls are tougher than cube-centred ones of equal face area by a factor about
+  1.5 (ln ratio 0.40–0.47 at A = 408–630), 1.66 ± 0.08 at A = 759 on the GPU, and 2.0 ± 0.4 at A = 693 from fresh
+  soups (S3; B). It is not explained. (*Preliminary*, not in the ledger: one line of the theory effort, checked
+  by one critic, shows that the two kinds of face have equal numbers of orbits, which would make the factor a
+  boundary effect.)
+- *Still memoryless.* Vertex-centred O_h soups wait exponentially at R = 36, 38, 40 (GP3; B) and cube-centred
+  ones at R = 43 (GP5, above). Runs from deterministic cube-like O_h seeds (cubes with surface orbits removed,
+  hollow cubes) wait like soups: at hull radius 31–38, 1,248 plateaus have mean T/τ = 0.99 and CV 1.02 against
+  3,261 soup plateaus (two-sample KS p = 0.98), with no correlation between consecutive plateaus (L1; B); at
+  vertex-centred R = 40, 3,857 lineages wait exponentially on the plateaus at 40, 38, 36 (mean T/τ 0.99, 1.01,
+  0.98), with a weak correlation between the first two (Spearman ρ = +0.049) traced to lineages that peel early
+  (GP6; B−).
+
+*Interpretation, and what is only preliminary.* In a symmetric state the cells of an orbit share one state, so a
+face has about A/6 independent cells and its fluctuation to emptiness is correspondingly cheaper; in addition
+cells on mirror planes are depleted (P7, Section 4). *Preliminary* **[measured → conjecture]** (S4; C): across
+symmetry groups and on tori without faces, a symmetric system lives about as long as an asymmetric one of c
+times its fundamental domain's volume, c ≈ 1.5–3.5. *Preliminary* **[measured]** (SW3; C, one run by one
+examiner): octahedral faces cut by a single mirror plane cost 0.1026 ± 0.0003 per cell at A = 84–135, 0.47 of
+the asymmetric value, and the first face to die is a mirror-fixed one in more than 99.9% of replicas.
+
+### 5.6 The cubes, and the forecasts that were made in advance
+
+**The side-16 cube.** **[measured]** (C2; B: schedule and summary re-derived from the committed event log; the
+run itself, several days on one core, was not repeated) The cube of side 16 sat at hull radius 42 (vertex-centred,
+A = 693) until generation 2,362,434,048, then at 40 until 2,886,100,480, and ended as a 96-cell still life at
+2,919,617,676:
+
+| hull radius R (face cells A) | 42 (693) | 40 (630) | 38 (570) | 36 (513) | 34 (459) | 32 (408) | 30 and below |
+|---|---|---|---|---|---|---|---|
+| generations spent | 2.362 × 10⁹ | 5.237 × 10⁸ | 3.08 × 10⁷ | 2.71 × 10⁶ | 7,040 | 27,712 | 1,792 in all |
+
+Table 4. Residence schedule of the side-16 cube (`research/data/cube16_events.jsonl`; events sampled every 64
+generations).
+
+**Forecasts.** Several quantities in this section were forecast in files committed before the outcome was known.
+Table 5 lists every one we found, with its score.
+
+| # | forecast (where committed) | outcome | score |
+|---|---|---|---|
+| 1 | Side-16 lifetime: mean 2.4 × 10⁸, 90% interval 3.9 × 10⁷–6.3 × 10⁸, from a proportional "effective area" fit to symmetric soups (`research/peeling/cube_lifetime.csv`) | 2,919,617,676 | **failed**, low by a factor 12 (C3; B) |
+| 2 | Side-16 first face death: median 2.2 × 10⁹, 90% 1.50–5.2 × 10⁹, from perturbed copies of the running cube's state with restarts; committed about two hours before the event (`research/fluct/PREDICTIONS.md`, commit 2e72d57) | 2,362,434,048 | held, at about the 58th percentile (C4; B for the commit time and the arithmetic; the wall-clock time of the event itself is grade C) |
+| 3 | Second face death, from fits to symmetric soups only: median 2.60 × 10⁹, 90% 2.531–2.89 × 10⁹ | 2,886,100,480 | held, at the 95th percentile (C5; B) |
+| 4 | Second face death, from 64 copies of the cube's state (τ = 8.2 × 10⁷): 90% 2.529–2.78 × 10⁹ | 2,886,100,480 | **missed** (C5; B) |
+| 5 | Cube-centred O_h soups at A = 828 (the first plateau of a side-17 cube): ln τ = 24.0 ± 0.4 | 24.175 ± 0.072 | held (C9, GP2; B, B−) |
+| 6 | O_h soups at A = 759: cube-centred 21.8 ± 0.2, vertex-centred 22.3 ± 0.4 (`research/gpu/PREDICTIONS.md`) | 21.903 ± 0.031, 22.409 ± 0.040 | held (GP2; B−) |
+| 7 | Slab 6 × 7 × 8 with firewalls resolved: ln τ_face = 26.30 ± 0.15, ln τ_fw = 27.0 ± 0.4, firewall-first share 10–30% | 26.405 ± 0.104, 26.87 ± 0.19, 24% | held, all three (GP8; B) |
+| 8 | Slab 6 × 6 × 8: share 0.5–4%; ln τ_face = 22.49 ± 0.07 | 2.1%; 22.568 ± 0.041 | share held; face value missed by 0.01 (GP8; B) |
+| 9 | At equal area the lifetime of a periodic face does not depend on its width ("area only"; 4 × 9 against 6 × 6: 0.00 ± 0.10) | −0.196 ± 0.059 | **missed** (GP9; A + B) |
+| 10 | The lifetime of a periodic face is a function of area and shortest loop alone, with stated sizes (`research/shape/PREDICTIONS.md`) | ordering held; "alone" refuted at A = 60; sizes missed | **partly failed** (SH1, SH2; A) |
+| 11 | Six candidate laws in area and shortest loop, parameters fixed before the census (`research/shape2/PREDICTIONS.md`, commit 80906fe) | none fits at A = 48, 60 or 72 | **all refuted** (SH5; A) |
+| 12 | Six layers of the rule over coin flips: ln τ = 7.40, 9.94 for slab faces of A = 36, 48 (Section 6) | 7.397 ± 0.009, 9.945 ± 0.014 | held (SW2; B) |
+| 13 | Depth of rule needed over noise for octahedral faces: three layers | three layers miss by 0.3–1.0 in ln τ; four to five are needed | **missed** (recorded in `research/theory/exponent.md`) |
+
+Table 5. Forecasts committed before their outcomes. Forecasts about other rules and about results graded C are
+omitted; several of those also failed (Section 9).
+
+**What the failure of forecast 1 showed.** The forecast multiplied a fit made on cube-centred symmetric soups
+with faces of at most 513 cells by a fixed factor for the vertex-centred hull. Both steps were wrong in the same
+direction: the cost per cell of a symmetric face rises with its size (Table 3), and the data on vertex-centred
+hulls then reached only A = 408. **[measured]** Against fresh vertex-centred soups in the same hull
+(τ = 7.1 × 10⁸, 45 deaths) the cube's first plateau is 3.3 means (probability 0.036 for one exponential wait);
+radius 42 is an ordinary size (C8; pooled value re-derived, B).
+
+**An open question, not a finding.** **[measured]** The cube stayed 5.24 × 10⁸ generations at R = 40, which is
+7.4 times the mean of an ensemble that pools fresh soups with copies of the cube (probability 6 × 10⁻⁴ for one
+exponential wait; C5; B), or 6.1 times the fresh-soup mean 8.63 × 10⁷ (probability 0.002). A count over the
+sixteen largest plateaus of cubes 13–16 finds three longer than four means (C6; B for the arithmetic), but that
+statistic was chosen after the side-16 plateaus suggested it; without side 16 it gives P ≈ 0.18, and it is not
+evidence. Cube-like seeds and soups are memoryless at every size tested up to R = 40 (L1, GP6). So either the
+side-16 cube was lucky at about the 1% level, or its own lineage carries something that ensembles of similar
+states do not; the cube's own lineage at R ≥ 42 has not been, and at present cannot be, replicated.
+
+**Extrapolations** **[conjecture]**. A side-17 cube's first plateau has mean about 3.2 × 10¹⁰ generations if the
+soup value at A = 828 applies to it (C9); the cube has not been run. The 2012 run from a side-19 cube, which was
+never finished because its hull wrapped the 2012 torus (R8; A), would last 10¹³–10¹⁴ generations properly
+confined, on fits far outside any data (C10). An asymmetric soup filling the side-13 hull (A = 459) would hold
+each face for about 10⁴¹ generations on the fit of Section 5.2 extrapolated fivefold in area (F13); this cannot
+be tested, and Sections 5.2 and 7 show that fit is not the right law for octahedral faces.
+
