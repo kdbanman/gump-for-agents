@@ -162,11 +162,11 @@ def props():
         if (np.diff(psi_q) > 1e-12).any(): check(False, "psi_q not non-increasing")
     check(worst <= 1e-12 and n > 1000, f"Lemma C on {n:,} random monotone kernels q with a dominating pooled table (censoring included): psi_q is non-increasing, a supersolution, and psi* <= psi_q (largest excess {worst:.1e})")
     # the hypothesis 'monotone' is needed: a two-row example
-    q = np.zeros((3, 4)); q[1] = [0.0, 0.0, 1.0, 0.0]; q[2] = [0.9, 0.0, 0.0, 0.1]          # row 2 is below row 1: not monotone
-    Tp = np.zeros((3, 4)); Tp[1] = [0.0, 0.0, 1.0, 0.0]; Tp[2] = [0.9, 0.0, 0.0, 0.1]; Tp[1] = [0, 0, 1.0, 0]
-    Tp[2] = [0.0, 0.5, 0.0, 0.5]                                     # dominates q's row 2
+    # the hypothesis 'rows of q non-decreasing' is needed: K = 3, q(1, .) = 0.99 d_1 + 0.01 d_3, q(2, .) = 0.9 d_0 + 0.1 d_3
+    q = np.zeros((3, 4)); q[1] = [0.0, 0.99, 0.0, 0.01]; q[2] = [0.9, 0.0, 0.0, 0.1]
+    Tp = np.zeros((3, 4)); Tp[1] = [0.0, 0.0, 0.99, 0.01]; Tp[2] = [0.9, 0.0, 0.0, 0.1]      # row 1 moved up: dominates q's row 1
     pq = committor_pos(q[1:3, 1:3], q[1:3, 0]); pp = committor_pos(Tp[1:3, 1:3], Tp[1:3, 0])
-    print(f"   [without monotone rows the conclusion can fail in the supersolution step but psi* <= psi_q need not: example psi_q = {pq}, psi* = {pp}]")
+    check(pq[0] < 1e-12 and abs(pp[0] - 0.891) < 1e-12, f"Lemma C needs the monotone rows: q(1,.) = 0.99 d_1 + 0.01 d_3, q(2,.) = 0.9 d_0 + 0.1 d_3 (row 2 below row 1); the table with row 1 moved to 2 dominates q row by row and has psi*(1) = {pp[0]:.3f} > psi_q(1) = {pq[0]:.3f}")
 
 
 # ------------------------------------------------------------------------------------------------ LR9
@@ -233,18 +233,22 @@ def lr9():
         K35 = int(np.ceil(0.35 * A)); t35 = np.nanmin(th[5:K35])
         # crossing term of Theorem P-bar for the block certificate psi = exp(-theta0 (k - k0)^+), low set {1..K-1}: entries z >= K -> z' < K from tallied rows
         def crossing(K, t0, k0):
-            ent = 0.0; ent_star = 0.0
+            ent = 0.0; ent_star = 0.0; nent = 0.0; mom = 0.0; drop = np.zeros(200)
             psi_K = np.concatenate([[1.0], committor_pos(Tb[1:K, 1:K], Tb[1:K, 0])])
             for z in range(K, KM):
                 for z2 in range(1, K):
                     ent += Tr[z, z2] * np.exp(-t0 * max(z2 - k0, 0)); ent_star += Tr[z, z2] * psi_K[z2]
-            return ent, ent_star, float(Tr[1:K, 0].sum()), float(Tr[K:KM, 0].sum())
-        e35, e35s, dlow, dhigh = crossing(K35, t35, 5)
+                    nent += Tr[z, z2]; mom += Tr[z, z2] * np.exp(t0 * (K - z2)); drop[K - z2] += Tr[z, z2] * psi_K[z2]
+            return ent, ent_star, float(Tr[1:K, 0].sum()), float(Tr[K:KM, 0].sum()), nent, mom / nent, drop / drop.sum()
+        e35, e35s, dlow, dhigh, nent, C, drop = crossing(K35, t35, 5)
         expo = 8.0 * float(q2.CUR[f'expo_{R}'][0])
         print(f"      A = {A}: -ln h = {lnh:.2f}; -ln psi*(top row {KM - 1}) = {-np.log(psi[-1]):.2f}; best block k0 = {best[1]}, rows < {best[2]}, theta0 = {best[3]:.4f}: bound {best[0]:.2f} = {best[0] / A:.4f} A;"
               f"  R(0.35, theta0, 5): theta0 = {t35:.4f}, theta0 (K - 1 - 5) = {t35 * (K35 - 1 - 5):.2f} = {t35 * (K35 - 1 - 5) / A:.4f} A")
         print(f"             P-bar with low set {{1..{K35 - 1}}}: deaths from the low set {dlow:.0f}, from rows {K35}..{KM - 1}: {dhigh:.0f}; sum over tallied entries of psi*: {e35s:.1f}; of the block certificate: {e35:.1f}"
               f"  -> Q's bound on the hazard through tallied entries: -ln = {-np.log((e35 + dhigh) / expo):.2f} (the identity with psi* gives {-np.log((e35s + dhigh) / expo):.2f}; entries from rows >= {KM} are not tallied)")
+        print(f"             tallied downward crossings of K = {K35}: {nent:.3g} ({nent / expo:.3e} per face-generation); C = E_cross[exp(theta0 (K - z'))] = {C:.2f} (ln C = {np.log(C):.2f});"
+              f" share of the psi*-weighted entry flux by depth of landing K - z' = 1, 2, 3, 4-6, 7+: {drop[1]:.2f}, {drop[2]:.2f}, {drop[3]:.2f}, {drop[4:7].sum():.2f}, {drop[7:].sum():.2f};"
+              f" share of the deaths from the low set not accounted for by tallied entries: {1 - e35s / dlow:.3f}")
     return data
 
 
@@ -260,18 +264,24 @@ def cramer_tables(Tb, KM, sgrid):
     return Lam
 
 
-def bellman_exact(Tb, KM, sub=4, rising=True, top=None):
+def bellman_exact(Tb, KM, sub=4, rising=True, top=None, floor=0, gauss=False):
     """S(x) on the grid x = j/sub, 0 <= x <= top (default KM - 1): S(0) = 0, S(x) = min_y [ I_x(y - x) + S(y) ], I_x the Legendre
     transform of Lam_x(s) = linear interpolation in x of the rows' ln M_k(s) (the limit of the m-fold chain of LR11)."""
     top = KM - 1 if top is None else top
     sgrid = np.concatenate([-np.geomspace(60, 1e-3, 500), [0.0], np.geomspace(1e-3, 60, 500)])
     Lam = cramer_tables(Tb, KM, sgrid)
+    if gauss:                                            # same mean and variance, Gaussian: ln M(s) = -s mu + s^2 var / 2
+        st = stats(Tb, KM)
+        for k in range(1, KM): Lam[k] = -sgrid * st[k, 0] + sgrid ** 2 * st[k, 1] / 2
     G = top * sub
     xg = np.arange(G + 1) / sub
     cost = np.full((G + 1, G + 1), np.inf)
     for i in range(1, G + 1):
         x = xg[i]; k = int(np.floor(x)); f = x - k
-        L = Lam[k] if f == 0 else (1 - f) * Lam[k] + f * Lam[min(k + 1, KM - 1)]
+        if floor and x < floor:
+            L = (x / floor) * Lam[floor]                 # a sparse face as independent clusters of `floor` cells
+        else:
+            L = Lam[k] if f == 0 else (1 - f) * Lam[k] + f * Lam[min(k + 1, KM - 1)]
         # support: the mixture row can reach y in [lowest, highest]; the Legendre transform is +inf outside (large on the s-grid)
         dy = xg - x
         cost[i] = (-np.outer(dy, sgrid) - L[None, :]).max(axis=1)
@@ -304,26 +314,28 @@ def lr10():
         print(f"      A = {A} (mean {mean:.2f}, rows 5..{ks[-1]}): " + ' | '.join(l.strip() for l in out[1:5]))
     print("      default data of bellman.py (eleven roots, five standard deviations typed in): " + ' | '.join(
         l.strip() for l in subprocess.run([sys.executable, os.path.join(PATHDIR, 'bellman.py')], capture_output=True, text=True).stdout.strip().split('\n')[1:5]))
-    print("   (b) each row's own rate (Legendre transform of the row's ln M_k), grid of 1/4 cell, states 0..top tallied row; S = value at the top row")
+    print("   (b) each row's own rate (Legendre transform of the row's ln M_k; between rows, ln M interpolated linearly: the limit of the m-fold chain of LR11);")
+    print("       S = value at the top tallied row, decreasing paths; grid of 1/2, 1/4, 1/8, 1/16 cell and Richardson's value from the last two")
     res = {}
     for R in (7, 9, 11, 13):
         A = AREA[R]; Tr, N, Tb = q2.table(R); KM = Tr.shape[0]
-        xg, S, Sdec, arg = bellman_exact(Tb, KM, sub=4)
-        xg2, S2, Sdec2, _ = bellman_exact(Tb, KM, sub=2)
         th = roots(Tb, KM)
         psi = committor_pos(Tb[1:KM, 1:KM], Tb[1:KM, 0])
-        k45 = int(round(0.45 * A))
-        path = [len(xg) - 1]
-        while path[-1] > 0: path.append(arg[path[-1]])
-        res[A] = dict(S=S[-1], Sdec=Sdec[-1], top=KM - 1, psi=-np.log(psi[-1]), sumth=float(np.nansum(th[1:KM])), S45=float(S[k45 * 4]), psi45=float(-np.log(psi[k45 - 1])))
-        print(f"      A = {A}: top row {KM - 1}: S = {S[-1]:.3f} ({S[-1] / A:.4f} per cell of the face; decreasing paths only {Sdec[-1]:.3f}; grid 1/2 cell: {S2[-1]:.3f});  the table's own -ln psi*(top) = {-np.log(psi[-1]):.3f};  sum of roots = {np.nansum(th[1:KM]):.3f}")
-        print(f"              minimising decreasing path (populations): " + ' '.join(f"{xg[i]:.1f}" for i in path[:16]))
-    As = sorted(res)
-    print("      slopes between successive sizes, per cell:  of S " + ', '.join(f"{(res[b]['S'] - res[a]['S']) / (b - a):.4f}" for a, b in zip(As, As[1:])) +
-          ";  of -ln psi*(top) " + ', '.join(f"{(res[b]['psi'] - res[a]['psi']) / (b - a):.4f}" for a, b in zip(As, As[1:])) +
-          ";  of the sum of roots " + ', '.join(f"{(res[b]['sumth'] - res[a]['sumth']) / (b - a):.4f}" for a, b in zip(As, As[1:])))
-    print("      S(top)/top row (per cell of the low set): " + ', '.join(f"A = {a}: {res[a]['S'] / res[a]['top']:.4f}" for a in As) +
-          ";  -ln psi*(top) - S(top): " + ', '.join(f"{res[a]['psi'] - res[a]['S']:+.2f}" for a in As))
+        row = {}
+        for label, kw in (("rows as tallied", dict()), ("rows below 5 replaced by clusters of 5 (root of row 5 down to 0)", dict(floor=5)),
+                          ("the same, Gaussian rates with each row's mean and variance", dict(floor=5, gauss=True))):
+            if A == 30 and kw: continue
+            vals = []
+            for sub in (2, 4, 8, 16):
+                xg, S, Sdec, arg = bellman_exact(Tb, KM, sub=sub, rising=(sub == 4), **kw)
+                vals.append(Sdec[-1])
+                if sub == 4: rise = S[-1]; path = [len(xg) - 1]; xg4 = xg; arg4 = arg
+            while path[-1] > 0: path.append(arg4[path[-1]])
+            lim = 2 * vals[-1] - vals[-2]
+            row[label] = lim
+            print(f"      A = {A}, {label}: S = " + ', '.join(f"{v:.3f}" for v in vals) + f" -> {lim:.3f} = {lim / A:.4f} A  (rising steps allowed, grid 1/4: {rise:.3f})")
+            if not kw: print(f"              the table's own -ln psi*(top row {KM - 1}) = {-np.log(psi[-1]):.3f}; sum of roots = {np.nansum(th[1:KM]):.3f}; minimising path at grid 1/4: " + ' '.join(f"{xg4[i]:.1f}" for i in path[:14]))
+        res[A] = row
     return res
 
 
@@ -332,7 +344,7 @@ def conv(a, b):
     return np.convolve(a, b)
 
 
-def mfold(rows, m):
+def mfold(rows, m, floor=0):
     """rows[k] = law of the next population from k (k = 0..KT), rows[0] = delta_0. Returns the rows n = 0..m*KT of the chain of m
     independent patches with the population split as evenly as possible: row(m k + r) = rows[k]^{*(m - r)} * rows[k+1]^{*r}."""
     KT = len(rows) - 1
@@ -344,6 +356,10 @@ def mfold(rows, m):
         return pw[(k, e)]
     out = []
     for n in range(m * KT + 1):
+        if floor and n < floor * m:                      # a patches of `floor` cells and one patch with the remainder
+            a, c = divmod(n, floor)
+            out.append(conv(power(floor, a), rows[c]))
+            continue
         k, r = divmod(n, m)
         out.append(conv(power(k, m - r), power(k + 1, r)) if r else power(k, m))
     return out
@@ -353,32 +369,39 @@ def lr11(R=13, ms=(1, 2, 4, 8, 16)):
     A = AREA[R]; Tr, N, Tb = q2.table(R); KM = Tr.shape[0]; KT = KM - 1
     print(f"LR11. The extensive chain built from the table of A = {A}: m independent patches, row(m k + r) = T_k^(*(m-r)) * T_(k+1)^(*r); low set {{1..m*{KT}}}")
     rows = [np.array([1.0])] + [Tb[k].copy() for k in range(1, KM)]
-    vals = {}
-    for m in ms:
-        q = mfold(rows, m); n = m * KT
-        T = np.zeros((n, n)); d = np.zeros(n)
-        for i in range(1, n + 1):
-            row = q[i]; d[i - 1] = row[0]
-            w = row[1:n + 1]; T[i - 1, :len(w)] = w
-        psi = committor_pos(T, d)
-        if m <= 4:
-            ref = np.linalg.solve(np.eye(n) - T, d)
-            agree = float(np.abs(np.log(np.maximum(ref, 1e-300)) - np.log(psi)).max())
-        else: agree = float('nan')
-        # the two sides of (1) for this chain, k0 = 5 m
-        th = np.array([np.nan] + [theta_of_row(q[i], i) for i in range(1, n + 1)])
-        vals[m] = dict(top=-np.log(psi[-1]), at45=-np.log(psi[int(round(0.45 * A * m)) - 1]), sumth=float(np.nansum(th[1:])), agree=agree,
-                       block=max(np.nanmin(th[max(k0, 1):K]) * (K - 1 - k0) for k0 in range(0, 6 * m, max(m // 2, 1)) for K in range(k0 + 2, n + 2, max(m // 2, 1))))
-        print(f"      m = {m:2d} (A = {m * A}): -ln psi*(top row {n}) = {vals[m]['top']:.3f}; at 0.45 A: {vals[m]['at45']:.3f}; sum of roots {vals[m]['sumth']:.3f}; best block bound {vals[m]['block']:.3f}"
-              + (f"; elimination without pivoting against numpy's solve: largest difference of ln psi* {agree:.1e}" if m <= 4 else ''), flush=True)
-    print("      increments per cell of the face between successive m:")
-    for a, b in zip(ms, ms[1:]):
-        dA = (b - a) * A
-        print(f"         m {a} -> {b}: top row {(vals[b]['top'] - vals[a]['top']) / dA:.4f} (total {vals[b]['top'] - vals[a]['top']:.2f}); at 0.45 A {(vals[b]['at45'] - vals[a]['at45']) / dA:.4f}; "
-              f"sum of roots {(vals[b]['sumth'] - vals[a]['sumth']) / dA:.4f}; block bound {(vals[b]['block'] - vals[a]['block']) / dA:.4f}")
-    xg, S, Sdec, arg = bellman_exact(Tb, KM, sub=4)
-    print(f"      limit predicted by the recursion with the rows' own rates (LR10 b): {S[-1] / A:.4f} per cell at the top row, {S[int(round(0.45 * A)) * 4] / A:.4f} at 0.45 A;  path's Gaussian closure on typed-in numbers: 0.218 (to the mean), 0.2135 (to 0.45)")
-    return vals
+    allv = {}
+    for label, floor in (("as requested (rows 1, 2, ... of the table at the bottom)", 0), ("variant: below 5 m cells the face is clusters of 5 cells (rows T_5^(*a) * T_c)", 5)):
+        print(f"   {label}")
+        vals = {}
+        for m in ms:
+            q = mfold(rows, m, floor=floor); n = m * KT
+            T = np.zeros((n, n)); d = np.zeros(n)
+            for i in range(1, n + 1):
+                row = q[i]; d[i - 1] = row[0]
+                w = row[1:n + 1]; T[i - 1, :len(w)] = w
+            psi = committor_pos(T, d)
+            agree = float(np.abs(np.log(np.maximum(np.linalg.solve(np.eye(n) - T, d), 1e-300)) - np.log(psi)).max()) if m <= 4 else float('nan')
+            th = np.array([np.nan] + [theta_of_row(q[i], i) for i in range(1, n + 1)])
+            vals[m] = dict(top=-np.log(psi[-1]), at45=-np.log(psi[int(round(0.45 * A * m)) - 1]), sumth=float(np.nansum(th[1:])),
+                           block=max(np.nanmin(th[max(k0, 1):K]) * (K - 1 - k0) for k0 in range(0, 6 * m, max(m // 2, 1)) for K in range(k0 + 2, n + 2, max(m // 2, 1))))
+            print(f"      m = {m:2d} (A = {m * A}): -ln psi*(top row {n}) = {vals[m]['top']:.3f}; at 0.45 A: {vals[m]['at45']:.3f}; sum of roots {vals[m]['sumth']:.3f}; best block bound {vals[m]['block']:.3f}"
+                  + (f"; elimination without pivoting against numpy's solve: largest difference of ln psi* {agree:.1e}" if m <= 4 else ''), flush=True)
+        print("      increments per cell of the face between successive m:")
+        for a_, b_ in zip(ms, ms[1:]):
+            dA = (b_ - a_) * A
+            print(f"         m {a_} -> {b_}: top row {(vals[b_]['top'] - vals[a_]['top']) / dA:.4f} (total {vals[b_]['top'] - vals[a_]['top']:.2f}); at 0.45 A {(vals[b_]['at45'] - vals[a_]['at45']) / dA:.4f}; "
+                  f"sum of roots {(vals[b_]['sumth'] - vals[a_]['sumth']) / dA:.4f}; block bound {(vals[b_]['block'] - vals[a_]['block']) / dA:.4f}")
+        lims = []
+        for sub in (8, 16):
+            xg, S, Sdec, arg = bellman_exact(Tb, KM, sub=sub, rising=False, floor=floor)
+            lims.append((Sdec[-1], Sdec[int(round(0.45 * A)) * sub]))
+        lt, l45 = 2 * lims[1][0] - lims[0][0], 2 * lims[1][1] - lims[0][1]
+        print(f"      the recursion with the same rows' own rates (LR10 b, grids 1/8 and 1/16 extrapolated): {lt / A:.4f} per cell at the top row, {l45 / A:.4f} at 0.45 A")
+        allv[floor] = vals
+    d2 = allv[0][4]['top'] - allv[0][2]['top']
+    check(abs(d2 - 36.6) <= 1.2, f"path's prediction for the request as written: the second doubling adds 36.6 +- 1.2 to -ln psi* at the top row; exact: {d2:.2f}")
+    print("      path's Gaussian closure on typed-in numbers (bellman.py): 0.218 to the mean density, 0.2135 to 0.45")
+    return allv
 
 
 # ------------------------------------------------------------------------------------------------ LR12
