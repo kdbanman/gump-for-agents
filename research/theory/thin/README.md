@@ -89,10 +89,18 @@ for w = 1 … 5 against 0.337 deterministic; segments 0.372, 0.413, 0.348, 0.311
 
 - Shallow models are **too tough**, not too weak, and the excess is a slope, not an offset: it grows with the
   size. It is not monotone in w (two layers are worse than one).
-- The cells beneath a face cell look like coins at any one time: in the deterministic ring the number alive among
-  the three cells beneath a face cell, given the cell's state and its number of live face neighbours, is within
-  a few per cent of binomial(3, 0.398). What the coins lack is memory: where a real interior has thinned it stays
-  thin for a while. (Not quantified beyond this; see "Not checked".)
+- Their faces are too dense and too quiet (`python3 analyze.py qsd mod_b24_w1` …): the face holds 0.5075, 0.4703,
+  0.4494, 0.4448, 0.4442, 0.4440 of its cells for w = 1 … 6 against 0.4437 in the deterministic ring, and the
+  variance of its population is 38.4, 39.9, 43.7, 46.3, 46.6, 46.5 against 46.6 (b = 24).
+- What coins cannot do (`python3 under.py`, deterministic ring b = 48) **[measured]**: the layers beneath answer
+  to the face. Beneath the middle of a gap of 4 empty face sites, layers 1 and 2 hold 0.26 and 0.36 of their
+  cells (0.413 and 0.394 on average); beneath a gap of 8, 0.32–0.33 and 0.38–0.39; from layer 3 down nothing is seen
+  (within 0.005). Four generations before a gap of 8 is seen, layers 1, 2, 3 at its middle are already thin
+  (0.32, 0.36, 0.38); layer 4 is not. The number m of live cells among the three beneath a face cell has mean
+  0.88 under a dead cell with no live face neighbour and 1.42 under a dead cell with six (binomial at the
+  interior density: 1.19). So a gap of the face thins what is beneath it, which makes the gap harder to close;
+  over coins the support under a gap is always fresh. It fits a depth of about five: the response reaches three
+  layers, and each layer of the rule reads two more.
 - The coin density matters a little even at w = 5: at b = 20, density 0.30 gives −0.069(8), density 0.55 gives
   +0.030(7) (`python3 analyze.py life 'mod_b20_w*'`). The model is therefore closed only with the measured
   interior density as input.
@@ -183,9 +191,11 @@ PENDING_WIDER
 - **A front table.** Pool the one-generation moves of the front, find the root of the tilted moment (Lundberg).
   With the moves measured in the living state the root reproduces k(l) by construction; it is the same
   information as E(l), not a derivation.
-- **One layer with an effective coin density.** The conditional one-time law of the cells beneath a face cell is
-  already binomial at the plain density, so there is nothing to correct at that level; the failure of M(1) is in
-  time correlations, which a product measure cannot hold.
+- **One layer over coins of another density.** No single density can be right: the support beneath a face cell
+  depends on what the face is doing there (§4: mean 0.88 to 1.42 live cells of three). The next closure, a
+  face-only probabilistic automaton whose birth and survival probabilities p(state, live face neighbours) are
+  read from the deterministic system, was not run (see "Not checked"); its fourteen numbers would still be
+  measured, not derived.
 - **Exact enumeration to the straight part.** The sweep costs 2^(3n+5) numbers for a segment of n sites of M(1)
   (n ≤ 8), 2^(3b+10) for a ring (b ≤ 6); M(2) reaches n = 3. M(1) needs n > 20 to be within 3% of its own slope.
 - **A tilted front chain** (a window of K sites behind the front, the rest replaced by the living state): not
@@ -200,8 +210,9 @@ PENDING_WIDER
   lives e^19 generations.
 - **The form of the corrections.** Powers of the length, logarithms and stretched exponentials fit equally; none
   is derived. The quoted error is the spread between them.
-- **Why shallow models are too tough.** "The coins have no memory" is a reading; coins with persistence were not
-  tried.
+- **A face-only closure.** §4 measures how the layers beneath answer to the face; whether a probabilistic
+  automaton on the face alone, with the measured one-step probabilities p(state, live face neighbours),
+  reproduces the lifetimes was not tried. Nor were coins with persistence in time.
 - **The coin density** was varied only at b = 20, w = 5; whether its effect grows with size is unknown.
 - **Models deeper than six layers on rings**, and deeper than eight anywhere.
 - **Statistical errors** are 1/√deaths. Over all lifetime tags the scatter between chunks has χ² = 186 on 162
