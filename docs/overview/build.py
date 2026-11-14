@@ -6,7 +6,7 @@ src = here / "src"
 page = (src / "page.html").read_text()
 data = json.loads((here / "data" / "data.json").read_text())
 app = (src / "app.js").read_text().replace("/*FIGURES*/", (src / "figures.js").read_text()).replace("/*FIGURES2*/", (src / "figures2.js").read_text())
-for key, fn in (("<!--MAP-->", "map.html"), ("<!--PLATES-->", "plates.html"), ("<!--LAW-->", "plates-law.html"), ("<!--REST-->", "plates-rest.html")):
+for key, fn in (("<!--MAP-->", "map.html"), ("<!--PLATES-->", "plates.html"), ("<!--LAW-->", "plates-law.html"), ("<!--NEW-->", "plates-new.html"), ("<!--REST-->", "plates-rest.html")):
     p = src / fn
     page = page.replace(key, p.read_text() if p.exists() else "")
 page = page.replace("/*DATA*/null", json.dumps(data, separators=(",", ":")))
