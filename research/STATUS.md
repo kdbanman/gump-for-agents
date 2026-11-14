@@ -83,7 +83,11 @@ _Last updated 2026-11-14 by the lead._
   inconsistencies (items in STATUS/NOTEBOOK come back as `docs/paper/FOR-LEAD.md` for the lead to apply); done 21:22 UTC
   (24 fixed, the lead applied the STATUS/NOTEBOOK parts from `docs/paper/FOR-LEAD.md`; notebook entry "consistency
   corrections"; the ledger's class rows K1-K3 are now K9-K11 and its tally was recounted: 108 rows, A 40, B 40,
-  C 27, D 1). An Opus fact-check of the draft against the ledger is running -> `docs/paper/FACTCHECK.md`;
+  C 27, D 1). The Opus fact-check of the draft is done (`docs/paper/FACTCHECK.md`: 30 discrepancies, 14 fixed there; an Opus
+  editor is applying the lead's decisions on the other 16, including a missing step in the twist lemma's proof and
+  the ledger rows F5 and SH4). It found that three results called "apparently new" (the boundary layer over noise,
+  the shape dependence, sealed sets) never had a prior-art search: an Opus librarian is searching now (third pass,
+  appended to `research/PRIOR-ART.md`); an adversarial second pass on its "not found" verdicts is owed after it;
   (4) Opus: the second variable, pairs of tori with equal area and equal shortest loop, candidates fixed and
   forecasts committed first -> `research/shape3/`.
   (5) GPU session, asked 21:22 UTC: empty patches on a face too large to die (12×12×8; the lead's forecast is in the
