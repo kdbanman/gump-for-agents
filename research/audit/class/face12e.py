@@ -253,8 +253,13 @@ def layers(n, cap, seed=1, c=6, p=0.45):
     print(f"box n={n} ({V.N} cells), 64 soups, p={p}: finished {int(done.sum())}/64 within {cap}; median end "
           f"{np.median(endt[done]) if done.any() else None}")
     print(f"   permanent two-layer deaths per soup before settling: mean {np.mean(nev):.2f}, min {min(nev)}, max {max(nev)}")
-    print(f"   sealed box at the end (cubes per side, sorted), counts: "
-          f"{sorted({tuple(sorted(s)): int(sum(1 for q in side if tuple(sorted(q)) == tuple(sorted(s)))) for s in side}.items())}")
+    vol = np.array([int(np.prod(s)) for s in side])
+    print(f"   sealed box left at the end, in cubes (n^3 = {n ** 3} at the start): median volume {int(np.median(vol))}, "
+          f"max {int(vol.max())}; largest side still alive: "
+          f"{ {int(k): int((side.max(1) == k).sum()) for k in np.unique(side.max(1))} } (side: soups)")
+    waits = [e[0][0] for e in events if e]
+    last = [e[-1][0] for e in events if e]
+    print(f"   first permanent layer death at generation: median {np.median(waits):.0f}; last one: median {np.median(last):.0f}")
     print(f"   final population: mean {u.sum(1).mean():.1f}, empty {int((u.sum(1) == 0).sum())}/64; "
           f"soup-wall-generations with the wall sheet empty (any, incl. temporary): {int(temp_empty.sum())}")
     # is the live set at the end inside the sealed box, and is the region outside it dead (it must be)
