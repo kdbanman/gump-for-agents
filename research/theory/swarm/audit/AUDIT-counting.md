@@ -22,7 +22,7 @@ with the scripts below, exhaustively where the size allows. A recomputation was 
 | 3 | λ(T ≤ k) = \|f^{−k}H\|/\|X\| (1, 3) | **correct** | read (an identity once f(H) ⊆ H); f(H) ⊆ H on every state of the same vessels and on 200,000 states of the hull R = 3 (`c5`) |
 | 4 | Theorem 3: trace formula, exponential bound, c_k as the rate of empty windows, 0 < c_{k+1} ≤ c_k < ln 2 (4) | **correct** | read; the window matrix M_1 (4,096 states) built from the stepper: tr(M_1^L) = brute count on rings L = 1…8, 1ᵀM_1^ℓ1 = brute count of open words ℓ = 1, 2, 3, the bound m_1e^{−c_1L}; table w(s, k), 2507, both hand bounds (0.2736 ≤ c_1 ≤ 0.5618); control W = 2 fails (`c1`) |
 | 5 | c_1 = 0.551535, c_2 = 0.467693; 0.489963 and 0.4671 at density 0.472 (9); c_3 measured | first three **follow from claim 4 and are right**; the fourth is **0.4668** (0.466846), not 0.4671, §1. c_3: measured, out of scope | recomputed: ρ_1 = 4.608520, ρ_2 = 20.046271 from an independent 2^16-state matrix whose traces equal brute counts on rings 5 × 3, 5 × 4, 5 × 5 (8,663; 224,471; 7,043,564); the weighted matrix at 0.472 checked against a weighted brute sum on the ring 5 × 4 (`c1`) |
-| 6 | fixed k: e^{−A ln 2} ≤ λ(T ≤ k) ≤ e^{−c⁻_k A} on a gump slab face; face12e wall with 3A ln 2 (4, 14) | **correct**, both halves | read (light-cone induction; an outside face sees ≤ 3 of a gump cube and ≤ 2 of a face12e cube); the guard cube against 1,800 (gump) and 1,500 (face12e) random outsides for k = 1, 2, 3 and 1, 2; control with a smaller box fails (`c2`, `c3`) |
+| 6 | fixed k: e^{−A ln 2} ≤ λ(T ≤ k) ≤ e^{−c⁻_k A} on a gump slab face; face12e wall with 3A ln 2 (4, 14) | **correct**, both halves | read (light-cone induction; a cell outside a cube sees at most 1 of its faces in gump and at most 2 in face12e, each cube face 4); the guard cube against 1,800 (gump) and 1,500 (face12e) random outsides for k = 1, 2, 3 and 1, 2; control with a smaller box fails (`c2`, `c3`) |
 | 7 | box edge: [M_k^{L+4k}]_{00}; c⁰_k ≥ c_k; equality for k = 1, 2 (5a, 9) | **correct** | read; [M_1^{L+4}]_{00} = brute count on boxes 3 × L, L = 1…7 (7, 35, 148, 656, 2977, 13850, 64434); k = 2: path sums of the 2^16-state matrix = brute counts on boxes 5 × L, L = 1…5; class of the all-dead state: strongly connected for k = 1; 54,591 of 65,536 for k = 2, every other class one state without a loop, ρ⁰ = ρ to 10⁻⁶ (`c1`) |
 | 8 | mirror ≥ c_k/2; C4 or a diagonal mirror exactly c⁰_k; no symmetry inside a light cone (5b, c, e) | **correct** | read; mirror rings L = 8…22 (brute at L = 8) against the bound; C4 box 7 × 7: 502 of 8,192, 4,096 bands; C4 and diagonal boxes 7, 8: band counts between [M^{L−2}]_{00} and [M^{L+4}]_{00}; (e) on the C4 box 11 × 11 (`c1`) |
 | 9 | "mirror = exactly half" | sketched: out of scope | |
@@ -257,9 +257,9 @@ Nothing the critic confirmed is wrong in substance; the only wrong number in the
 - Claim 10's product formula on the vertex-centred hull R = 4 for every face configuration (33 cells): 14 of the 512
   face configurations were enumerated against all 2^24 states beneath; the cube-centred hull R = 3 and the slab
   2 × 1 were enumerated completely.
-- Proposition G (a)'s remark that Theorem 3 carries over to face12e strips of fixed width, and entry 10's
-  parenthesis that the path line's rim lemma gives Lemma 6 for gump with in-face speed 1: read, nothing computed
-  (the rim lemma is L1 of the path line, audited in `AUDIT-path.md`).
+- Proposition G (a)'s remark that Theorem 3 carries over to face12e strips of fixed width: read, nothing computed.
+  (Entry 10's parenthesis that Lemma 6 holds for gump with in-face speed 1 is immediate: K(dead, 0) is all of
+  {0, 1, 2, 3}, so a dead face cell with no live in-face neighbour stays dead.)
 - The statement quoted in entry 14 that the plane above a face12e wall is sealed was checked from the offsets (a
   cell above sees at most 3 below); `research/audit/REVIEW-class.md` was not read.
 - No library source was opened; the line cites none in a proof (Kari is cited from memory in a remark).
