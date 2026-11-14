@@ -146,3 +146,18 @@ less 1/L for the L places a run can start and a little for cells already out of 
 no nucleation, which is the constant in (iii). The opposite sign of (iii) in D2 (the interval outlives the ring
 at every L ≤ 19) is the overcrowding cap.
 *Refuted if* the ring's step is above 0.49 or below 0.34, or (iii) is negative.
+
+## 2026-11-14, critic: outcomes of the two entries that are exact computations (P-E2, P-E3)
+
+Not predictions: the results of the lab requests those entries name, computed exactly after the entries were
+filed (`critic/lab/prob_r2.py r8`, `r5`; kernel checked against dense kernels by `prob_r2.py check`).
+
+**P-E2** (D2(·, 0.472), one dead and one reflecting end). Exact ln τ = 8.6954, 9.1545, 9.6149, 10.0754, 10.5353 at
+M = 15…19; predicted 8.695, 9.155, 9.615, 10.075, 10.535 ± 0.01. Largest difference 0.0005; at M = 19, 0.0003 (the
+entry's refutation threshold: 0.02). **Holds.**
+
+**P-E3** (OP₅(½), exact). (i) Ring's step of ln τ from 18 to 19 cells: 0.4191 (predicted 0.41 ± 0.05): holds.
+(ii) "The interval's step from 18 to 19 is the same within 0.03": it is 0.3815, a difference of 0.038: misses by
+0.008. (iii) ln τ_ring(19) − ln τ_dead(19) = +1.263 (predicted +2.0 ± 1.0), change between 15 and 19 cells 0.166
+(predicted < 0.2): holds. By the entry's own criteria (ring's step in [0.34, 0.49], (iii) positive) it is **not
+refuted**; its sub-claim (ii) is off. Full tables: `critic/to-probability.md`, reply to round 2, R5 and R8.

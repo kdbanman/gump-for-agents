@@ -1,64 +1,85 @@
 # Board (critic)
 
-_Kept by the critic. **State, 2026-11-14: a second critic is working through the queue left at the pause of
-2026-11-13 (order: counting, probability, path, source).** A successor should read "Where the queue stands" just
-below, then the rest. Scripts named here are
-in `critic/lab/`; run them from that directory. "Checked" means a critic re-derived or recomputed it; "read"
-means the statement was compared with its source and nothing more. Proofs and commands behind every "checked"
-are in `critic/journal.md`._
+_Kept by the critic. **State, 2026-11-14: every report on file has a complete reply; the queue is empty and the
+solvers have not yet been told to continue.** A successor should read "Where the queue stands" just below, then
+the rest. Scripts named here are in `critic/lab/`; run them from that directory. "Checked" or "confirmed" means a
+critic re-derived or recomputed it; "read" means the statement was compared with its source and nothing more.
+Proofs and commands behind every "checked" are in `critic/journal.md`._
 
-## Where the queue stands (kept current; last change 2026-11-14)
+## Where the queue stands (last change 2026-11-14)
 
 | line | last report | critic's reply | what is owed |
 |---|---|---|---|
-| path | round 3, **interim** (written at the pause) | rounds 1, 2, 3 answered in `to-path.md` (round 3: the three tests its interim report names were run, lab L9.1–L9.4; the pointer to source's monotone comparison is given, with the tables' own evidence) | nothing |
-| source | round 3, **interim** | rounds 1, 2, 3 answered in `to-source.md` (round 3: Theorems A and L and remark C18 confirmed, lab L10.1–L10.4; the line judges it has given what it can and the critic agrees, with the reasons and two reservations in §3 of the reply) | nothing. Recall the line only if probability produces a multi-generation dice theorem (T1) or one for a gump face (T3) |
-| counting | round 2 | rounds 1, 2 answered in `to-counting.md` (round 2 complete: every claim confirmed, all five lab requests run, lab L7.1–L7.10) | nothing |
-| probability | round 2, **interim** | rounds 1, 2 answered in `to-probability.md` (round 2: every claim confirmed; lab requests R5–R9 run, lab L8.1–L8.7) | nothing from the critic. Theorem A still waits for F1, F2 from the library |
+| counting | round 2 | rounds 1, 2 answered in `to-counting.md` (round 2: every claim confirmed, all five lab requests run, lab L7.1–L7.10) | nothing. The line said it would stop the finite-horizon programme if c_k fell through the steady exponent; the reply gives it the numbers (it does, for fair and sparse soups) and leaves the decision to it |
+| probability | round 2, interim | rounds 1, 2 answered in `to-probability.md` (round 2: every claim confirmed; lab requests R5–R9 run, lab L8.1–L8.7) | nothing from the critic. Theorem A still waits for F1, F2 from the library |
+| path | round 3, interim | rounds 1, 2, 3 answered in `to-path.md` (round 3: the three tests its interim report names were run, lab L9.1–L9.4; the pointer to source's monotone comparison is given, with the tables' own evidence) | nothing |
+| source | round 3, interim | rounds 1, 2, 3 answered in `to-source.md` (round 3: Theorems A and L and remark C18 confirmed, lab L10.1–L10.4) | nothing. The line judges it has given what it can and the critic agrees (reply, §3). Recall it only if probability produces a multi-generation dice theorem (T1) or one for a gump face (T3) |
 
-**Lab work owed or half done.**
-- Counting, round 2: done. `lab/counting_r2.py` is finished and validated (its header says how). Not done because
-  out of reach: the true rule's c₃ (2³⁶ window states); gump's one-generation exponent on a strip wider than
-  three cubes (four wide: 2²⁴ states with 2¹² new bits per step; needs a cube-by-cube contraction).
-- The face game on a periodic face without doubled neighbours (3 × 3, 27 cells) needs a vectorised or compiled
+**What fell and what stands after this pass** (detail in the replies and below).
+- Nothing tagged *proved* by any line was found wrong in these four reports.
+- Fell or weakened, all of them guesses: counting's C1′ as a usable bridge (its hypothesis fails in D2 for fair
+  and sparse soups; fixed-age exponents have not levelled off at k = 6 and measure two routes that are not the
+  steady one; graveyard 21); path's Th, "ln τ = A·∫θ" (the local-root sum is not the committor's exponent;
+  graveyard 22); the usefulness for gump's own bulk of every equal-time hypothesis tried (finite energy,
+  insertion tolerance: false wherever computable, lab L6.5, L10.4).
+- Gained: exact evidence on "one exponent, the ring carries a power of L" in three dice models and at fixed
+  age (E15); "ends multiply" exactly (P-E2); how a row over dice dies (a gap that grows, not a flash; lemma
+  exchange); exact one-generation numbers for gump faces over dice and from soup (lemma exchange); the same
+  transfer theorem found independently by probability (A′) and source (L).
+
+**Lab work that could not be done.**
+- The true 2D rule's c₃ (2³⁶ window states), which counting's exam entry C-E2 predicts.
+- Gump's one-generation exponent on a strip wider than three cubes (four wide: 2²⁴ states with 2¹² new bits per
+  step; needs a cube-by-cube contraction like `counting_r2.d2_step`).
+- The face game on a periodic face without doubled neighbours (3 × 3, 27 cells): needs a vectorised or compiled
   version; `source_r2.py l7` (18 cells) already takes five minutes.
-- A request of the critic's is still unanswered in `library/requests.md` (as of 2026-11-14 the library has not
-  been active since the pause): the two percolation facts under probability's Theorem A (critical density of
-  oriented site percolation ≤ 0.7491; survival for e^{cK} on a cylinder at any supercritical density). When
-  answered, update "who is using which idea" and tell probability and source (source's Theorem A cites it too).
-- Slow commands, for planning: `counting_r2.py ck 6` 25 min when its cache is deleted (seconds otherwise);
-  `counting_r2.py gump1` 4 min; `ages` 3 min; `ckcheck` 2 min; `startpoints.py game 5` 2¼ min; `startpoints.py slab` 2 min; `counting_r1.py lemma5`
-  1¾ min; `prob_r1.py ring 18` 1½ min; `prob_r1.py ends 19` 2½ min; `source_r2.py l7` 5 min. Everything else is
-  seconds. The two self-tests (`toy2d_lab.py selftest`, `gump_lab.py selftest`) were last run at the start of this
-  critic's session and printed ALL OK; nothing they depend on has been edited since.
+- Anything by sampling (exam entries P-E1, path E1–E3, counting C-E1, C-E2, source S-E1, S-E2): the lab is exact only.
+- A request of the critic's is still unanswered in `library/requests.md` (the library has not been active since
+  the pause of 2026-11-13): the two percolation facts under probability's Theorem A (critical density of oriented
+  site percolation ≤ 0.7491; survival for e^{cK} on a cylinder at any supercritical density). When answered,
+  update "who is using which idea" and tell probability and source (source's Theorem A cites them too).
+- Slow commands, for planning: `counting_r2.py ck 6` 25 min if its cache `lab/data/counting_r2_ck.json` is
+  deleted (seconds otherwise); `counting_r2.py gump1` 4 min; `prob_r2.py r5` 4 min; `counting_r2.py ages` 3 min;
+  `prob_r2.py op5scan` 3 min; `counting_r2.py ckcheck` 2 min; `prob_r2.py game` 2 min; `startpoints.py game 5` 2¼
+  min; `startpoints.py slab` 2 min; `counting_r1.py lemma5` 1¾ min; `prob_r1.py ring 18` 1½ min; `prob_r1.py ends 19`
+  2½ min; `source_r2.py l7` 5 min. Everything else is seconds. The two self-tests (`toy2d_lab.py selftest`,
+  `gump_lab.py selftest`) printed ALL OK on 2026-11-14; nothing they depend on has been edited since. Set
+  `OMP_NUM_THREADS=1`: numpy's dense eigensolver otherwise takes every core.
 
-**Overlaps I was watching** (each is also in "Who is using which idea").
-1. *One exponent for the 2D rule (≈ 0.345) in every geometry, the ring's excess being a power of L.* Path guessed
-   it from data (G1; exam E1), counting has the fixed-horizon theorem (Prop. 4; its bridge C1 is withdrawn),
-   probability has it as a guess for dice models (T2). The exact dice data (E15, lab L4.2, L5.5) support it and do
-   not settle the ring. Nobody has a derivation of the power.
-2. *Hypotheses on equal-time one-step kernels.* Path: certificates on the population (Theorems P, P̄; H′ not
-   size-independent on the tallies). Source: the drive kernel κ_t (Lemma 3; Theorems H, U; finite energy fails
-   strictly in the one enumerable vessel). Counting's collision-entropy version is withdrawn. Lab L5.3 (the
+**Overlaps being watched** (each is also in "Who is using which idea").
+1. *One exponent in every geometry, the ring's excess being a power of L.* Path guessed it for the 2D rule from
+   data (G1; exam E1) and has a death-age model for the power (W: ½ for a ring); counting has the fixed-horizon
+   theorem (Prop. 4) and now exact fixed-age numbers for D2 on rings and intervals; probability has Proposition W
+   and the exam P-E1. Exact state (E15): in OP₅(½) and at the anchor the ring's excess decays like b/L (b = 0.71,
+   0.84); in D2(0.472) it does not decay at L ≤ 19, while a fixed-age argument says it must unless a transient
+   stays deadlier than the steady state. Nobody has a derivation of the power.
+2. *Hypotheses on equal-time one-step kernels.* Path: certificates on the population (Theorems P, P̄; H′ in
+   inequality form untested beyond half the smallest face). Source: the drive kernel κ_t (Lemma 3; Theorems H, U,
+   L; every hypothesis fails strictly in the one enumerable vessel, which has no steady state). Lab L5.3 (the
    population is not Markov along death paths) says the population alone is too coarse.
-3. *The last cells.* Source (C13, C14), counting (entry 12: lone cell, lone triangle), path (the remnant curve):
-   the row from one cell is that of dice at density ≈ 0.52; the layer beneath as a whole is poorer than usual.
-4. *A deterministic relative with a theorem.* Source's C1′ realises probability's anchor; Theorem A then holds
-   for a deterministic automaton on a half-plane, modulo the two cited facts. Source has now written the joint
-   statement (its Theorem A, S14; confirmed).
+3. *The last cells.* Source (C13, C14), counting (entry 12), path (the remnant curve): the row from one cell is
+   that of dice at density ≈ 0.52; the layer beneath as a whole is poorer than usual; pairs fit dice at ≈ ½;
+   three-cell faces depend on their shape (the two triangle orientations differ fourfold; lab L7.9).
+4. *A deterministic relative with a theorem.* Source's Theorem A (the automaton 𝒜(L)) with probability's Theorem
+   A: written and confirmed, modulo F1, F2.
 5. *Transfer of the dice theorem to any bulk.* Probability's Theorem A′ and source's Theorem L are one statement
    with two hypotheses (whole past; equal time). Both lines have been told.
-6. *How a row over dice dies, and the ring's power of L.* Probability (Proposition W, R6, R7), path (15.3, the
-   death-age profile) and counting (fixed-age matrices on rings and intervals) each hold a piece; the exact
-   tables are lab L7.5, L8.1–L8.5, L9.3.
+6. *How a row over dice dies.* Probability (R6, R7), path (15.3) and counting (fixed-age matrices) each hold a
+   piece; the exact tables are lab L7.3–L7.5, L8.1–L8.5, L9.3.
+7. *Overcrowding as a route to death.* At a fixed small age the cheapest death from a dense start is a row or a
+   face that fills and is overcrowded (2D rule at horizon 2; D2 from the steady density; gump at density ½: lab
+   L7.3, L7.7, L7.8). Source (C18) and probability (entry 2) hold the remark that a gump face can overcrowd
+   itself and a 2D edge cannot. In the steady state of the 2D rule and of D2 this channel is a few per cent of
+   deaths and falling with L (E9).
 
-**Exam entries on file** (`swarm/PREDICTIONS.md`; none reviewed by me beyond what the replies say): path E1
-(notched ring), E2 (remnant at lag 2), E3 (remnant on a slab face); counting C-E1 (revised) and C-E2; source S-E1
-(its three numbers are my exact D2 values at ρ = ½), S-E2; probability P-E1 (D2 ring's slope 0.48 ± 0.03 at
+**Exam entries on file** (`swarm/PREDICTIONS.md`): path E1 (notched ring), E2 (remnant at lag 2), E3 (remnant on a
+slab face; its rationale weakened by lab L5.3, entry left as filed); counting C-E1 (revised) and C-E2 (c₃ of the
+true rule: cannot be computed by the lab; its reasoning mixes two routes, reply to counting §7); source S-E1
+(its three numbers are the lab's exact D2 values at ρ = ½), S-E2; probability P-E1 (D2 ring's slope 0.48 ± 0.03 at
 L = 30–38, by sampling: not run), **P-E2 (mixed ends = mean of the two: confirmed exactly, lab L8.4)**, **P-E3
-(OP₅(½), exact: scored in lab L8.1: the ring's step and the ring-interval difference inside the stated ranges;
-"interval's step equal to the ring's within 0.03" missed by 0.008; not refuted by its own criteria)**. Counting's
-C-E2 (c₃ of the true rule) cannot be computed by the lab; its reasoning mixes two routes (reply to counting, §7).
+(OP₅(½), exact, lab L8.1: the ring's step and the ring-interval difference are inside the stated ranges; "the
+interval's step equals the ring's within 0.03" missed by 0.008; not refuted by its own criteria)**. The two exact
+outcomes are appended to `PREDICTIONS.md`.
 
 ## Who is here
 
@@ -175,6 +196,9 @@ None of these changes the problem. Each is a number or sentence a proof could le
   population is not Markov along a death path (lab L5.3): the pooled one-step table, reversed from the deaths,
   gives 1.6, 2.9, 4.3, 5.9, 7.7, 9.8 at lags 1…6. A dying face falls about twice as fast as faces of the same
   population do on average: a second variable (the cells beneath) is carried along.
+  One row over dice, exact (lab L8.3): not a flash of fixed length either. A dying ring of 18 has population 2.4,
+  6.7, 9.3, 10.5, 11.4 at 1, 2, 3, 4, 6 generations before death (steady 11.6) and a dying interval 1.4, 3.3, 6.2,
+  8.3, 10.4 (steady 12.0); both collapses lengthen with the vessel.
 
 ## The lead's starting points: what I checked
 
@@ -382,6 +406,30 @@ None of these changes the problem. Each is a number or sentence a proof could le
 20. **An invertible relative with a lifetime law.** A bijection of a finite set has no absorbing set that is
     entered from outside; the face of the second-order lift never dies (counting Lemma 2). The uniform measure
     gives frequencies of "empty now", not lifetimes.
+21. **The measured exponent as the limit of fixed-age exponents from a soup** (counting's C1, withdrawn by
+    counting; its successor C1′ is still that line's guess and is weakened by the same numbers). Three exact
+    reasons. (i) The limit depends on the soup (c_k(p) ≤ −ln(1 − p); in D2 a row started at density 0.472
+    has c₂ = 0.4445 below the steady exponent 0.460). (ii) What a fixed age measures is a route the steady state
+    hardly uses: a thin row that withers (fair or sparse start) or a row that fills and is overcrowded (dense
+    start; the true 2D rule at horizon 2 passes through a row 98.7% alive). (iii) The steady death needs a number
+    of generations that grows with the vessel (lab L8.3), and from a dense start c_k is still above the steady
+    exponent at the largest reachable horizon (0.523, 0.508, 0.499 at k = 4, 5, 6 against 0.460;
+    (c_k − 0.460)·k = 0.25, 0.24, 0.235). (Lab L7.2–L7.7.)
+22. **γ as the sum of the local roots of the population's one-step law** (path's Th: ln τ ≈ A·∫θ(k/A)). On the
+    pooled tables the sum exceeds the same table's own committor exponent by 0.45, 0.98, 1.46, 2.02 nats at
+    A = 30, 45, 63, 84 (0.03 per cell), and equals −ln h at A = 84 only by crossing it (slopes 0.24–0.26 against
+    0.20–0.21). The step of the population has standard deviation 2–5 cells while the root changes by 0.01–0.03
+    per row, so the local evaluation is not accurate. The collapse of θ in k/A is real. (Lab L9.1.)
+23. **A lower-bound certificate of the form r^{sum of local health}** (probability, claim 13): for one row over
+    dice, and for five-parent percolation, a patch of the healthiest texture in vacuum loses health in
+    proportion to its length (any arc is emptied within three generations with probability ≥ p^{3m+12}) and can
+    gain only at its two ends. A certificate has to price a gap by its length and merge gaps: a contour weight.
+    (The local game: exhaustive for arcs of ≤ 7 cells, lab L8.6.)
+24. **Transferring a dice theorem to the rule's own bulk through an equal-time condition on the drive** (finite
+    energy: source's Theorems H, U; insertion tolerance: Theorem L, probability's A′). The implications are
+    proved; the conditions fail with exact zeros in the one vessel where they can be computed (lab L6.5, L10.4),
+    and insertion tolerance at the level the one dice theorem needs (p > 0.4991) fails already for independent
+    dice at the bulk density (0.22). Caveat: that vessel has no steady state.
 
 ## Lemma exchange
 
@@ -654,8 +702,11 @@ Usable by all. "Checked" = by a critic; the journal has the proof or the command
 ## The lab: what it can do, how to ask
 
 Validated: `toy2d_lab.py selftest` and `gump_lab.py selftest` (steppers against the lead's and the oracle's;
-both print ALL OK, re-run this round); `dice_w1.py check`; `startpoints.py all` (ALL OK; the slab stepper is
-checked there against the open-lattice stepper).
+both print ALL OK, re-run 2026-11-14); `dice_w1.py check`; `startpoints.py all` (ALL OK; the slab stepper is
+checked there against the open-lattice stepper); `prob_r2.py check` (the general one-row kernel against dense
+kernels); `counting_r2.py ckcheck` (fixed-age matrices against the kernel). Every script of rounds 2–3
+(`counting_r2.py`, `prob_r2.py`, `path_r3.py`, `source_r3.py`) says in its header how each command is validated
+and ends with ALL OK or SOMETHING FAILED.
 
 Available on request, exact only: the fate of every state of a vessel with ≤ 26 cells; smallest sealed sets
 under side conditions (hulls to about 700 cells, slabs to about 250); feasibility questions "is there a
@@ -664,7 +715,14 @@ certificates (Theorem P) on an exact or tallied one-step table; transfer-matrix 
 any explicitly stated finite-window model (to about 2¹⁶ window states); exact killed-chain eigenvalues and
 quasi-stationary rates for one row over dice (any law π, ring or interval, to about 19 cells; `prob_r1.py`
 applies the kernel without storing it), full quasi-stationary laws on a ring of L ≤ 18 (`dice_w1.py`) or on
-≤ 2¹⁴ states otherwise; joint laws of permutive automata on small windows.
+≤ 2¹⁴ states otherwise; joint laws of permutive automata on small windows. Added 2026-11-14: any one-row chain
+with conditionally independent cells and a table a[x][k] on a ring or an interval with dead, reflecting or
+mixed ends, with left and right multiplication, so quasi-stationary laws, laws of the row j generations before
+death and ages of dead cells to 18–19 cells (`prob_r2.py`, `path_r3.py age`); fixed-age death probabilities of
+one row over dice as transfer matrices to k = 6 (`counting_r2.py`); for a gump face over product dice, the
+one-generation death probability of any configuration (per-cube tables, `counting_r2.unit_table`) and its sum
+over a soup on a strip three cubes wide or a whole 3 × 3 face; domination of one law on subsets by another, as a
+linear programme, to 6 cells (`source_r3.strassen`).
 
 A request needs: the vessel (kind and dimensions); the rule; what is random and with what law, if anything;
 the event; and the convention for states that never die. No Monte Carlo, nothing over a few minutes.
