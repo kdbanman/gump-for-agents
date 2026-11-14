@@ -1771,3 +1771,127 @@ half on one core, `v 32` three minutes more).
 - `q`, `m0`, `example`: the numbers of 23.3, 24.3, 24.4, 24.5.
 Not checked by anyone but me: the statement and proof of 24.2–24.4 (lab request LR13 below). Not checked at all:
 (E) on any real pair of sizes; anything above A/2.
+
+---
+
+## Closing report (round 5; the line's last)
+
+**This round: the critic's three items.**
+1. *V with its continuation; the LR11 miss* (entry 22). V is a functional of three things: the pooled table of
+   the living state, the rates, and the continuation below row 5. On the A = 84 hull table it is 0.2191 (own
+   rates, sparse faces as clusters) and 0.2054 with rows 1–4 stretched; it rises with the table (0.2098, 0.2168,
+   0.2191). The prediction for LR11 (36.6 ± 1.2) **missed** (34.65): it was computed with one continuation for a
+   chain specified with the other. Recorded as a miss.
+2. *Theorem Q's side condition* (entry 23): **repaired**. "Bounded undershoot moment per crossing" (false: 4.3 → 58)
+   is replaced by Φ, the same moment per unit of exposure, which is what the proof uses; Q's inequality with Φ
+   in it needs no side condition at all. A one-step condition that bounds Φ: R⁺ (from K cells or more,
+   E[e^{−θ₀(Z′ − K)}] ≤ C⁺). C⁺ = 1.07 on every tallied row and on the m-fold chain at every m; Φ = 0.14 … 0.05 on
+   the tallies and falls to 5 × 10⁻²⁰ on the chain. The proof closes in three lines from P̄ and T′.
+3. *The supersolution theorem* (entry 24): **proved**, as Theorem V⁻, with a changed certificate: (1 − δ)V mixed with
+   δ times the block bound. Hypotheses, all one-step: (E), the tables are sub-extensive (a Chernoff upper bound
+   for one step, speed m); (R_ε), hypothesis R with a margin; and for the hazard R⁺, B⁺ above the low set.
+   Conclusion: the committor's exponent per patch is at least V − V̄ in the limit, at least V when every row has a
+   positive root; δ = 1 is Theorem Q. **Where it stops:** the proof's threshold is thousands of cells
+   (41 patches of 84 at δ = ½); for gump it is conditional on (E), which nobody has tested and which the tables
+   at A ≤ 84 do not yet satisfy as an equality; the converse half (the exponent is not larger than V) is sketched.
+
+**What the line established** (tag, then the critic's verdict).
+
+*The structure of confinement.*
+- L1, the rim lemma: life in a face spreads only from life in the face, at in-face speed one; holes heal from
+  their rim. **proved** (confirmed, round 1; part (c) reworded).
+- L1′ and S: every permanent loss is the extinction, at one instant, of an inclusion-minimal sealed set.
+  **proved** (confirmed; enumerated on three vessels). L3, L4/4a: **proved** (confirmed).
+- F: in face12e the wall sheet plus the layer beneath is an inclusion-minimal sealed set. **proved** (confirmed by
+  integer programme; the lab added: the smallest iff 3·max(N, M) ≤ 5D + 2).
+- R5: none of this can imply the law. Four rules with gump's graph and θ share every sealed-set fact and die
+  30 to 170 times sooner. **proved** as a statement of which facts are shared (confirmed).
+
+*From many steps to one.*
+- P, P̄: for any process and any statistic the measured hazard is the entry flux into a low set times the
+  committor of the pooled one-step table; an inequality for any supersolution. No Markov property, no uniformity
+  in time. **proved** (confirmed). C, the comparison form: **proved** (confirmed; monotone rows needed).
+- T′, T, X: for any table, block bound ≤ committor's exponent ≤ root sum; equality for skip-free and branching
+  rows; a three-state chain strictly between. **proved** (confirmed; 31,000 random cases).
+- Q, final form (23.2): R and R⁺ imply ln τ ≥ θ₀(κA − k₀) − ln C⁺. **proved** (the implication confirmed in round 4;
+  the repaired statement is this round's). On the hull tables R(0.35, 0.40, 5) holds at all four sizes and
+  proves 0.13–0.14 of the 0.21 per cell, 0.16–0.17 with the measured entry term.
+- V⁻ and Corollary H (24.2–24.4): **proved**; this round's, checked only by me (random tables, m-fold chains).
+- R, the biased-voter caricature with an exact area law on any graph: **proved** (confirmed).
+
+*What this amounts to.* "Why area, not perimeter" is answered conditionally and in one-step terms: if the
+population's one-step law in the living state is extensive or better, and sparse faces regrow with a margin up
+to a fixed density, then the wait is exponential in the area, with exponent the quasi-potential of the one-step
+rates (0.219 on the largest table, of which the block bound proves 0.14). Both hypotheses are measured, and
+neither is derived from the rule. "What is γ" is answered only as a functional of a measured table.
+
+**What fell, and why.**
+- H (a geometric certificate from the first row): a face of one cell does not drift up (lab L1.1). H′
+  (constants independent of A): the committor steepens with the face (L5.1).
+- G2, gump half ("the data cannot tell a flash from a front"): they can (L1.3).
+- (M), γ = θρ − θ²σ²/2: its tangency fails on the histograms (L5.4).
+- "One remnant, the same in every vessel", and Dr as a property of the rule: exam E3 (on a rim-free face the
+  last 18 cells go in four generations, on a hull in six or seven).
+- Th, ln τ = A∫Θ: the root sum is only an upper bound; the gap is the curvature of the root times the reach of
+  a jump, and does not vanish with A (17.5).
+- The ring part of W: a product of pair weights gives L^{−1/2} whatever the weights; measured 1.3–1.7 (16.1).
+- The exponent from independent cells: its cheapest route is an overcrowding of the whole face, it does not
+  converge with the number of free layers, and its sparse faces do not regrow (entry 19).
+- Q's side condition as worded, and the LR11 prediction: this round (entries 23, 22.4).
+- E2's "levelling off near 9–10": the remnant does not grow, and that is all that is established.
+
+**Conjectured or sketched, and open.**
+- V, the upper half: on an extensive family the committor's exponent converges to V. **sketched** (24.6); on the
+  m-fold chains it is confirmed to 3 × 10⁻⁴ by the lab's exact committors.
+- (E) and (R_ε) for gump's tables as A → ∞: **conjecture**. Measured: R on four tables; extensivity off by 4–7%
+  between 45 and 90 cells; rows above A/2 unknown.
+- The hull's slope levels off near 0.220: **conjecture** (three points).
+- G1(ii), the ring's excess over an edge with ends is a power of L: **conjecture**, undecided against a second
+  exponent. W for segments: **sketched** model.
+- A (a sealed set of a hull has at least a face's worth of cells beyond R = 10): **conjecture**, not pursued.
+- face12e's 0.205 as "a lower living density compensated by roots a sixth higher": **conjecture**.
+
+**What a successor should try first.**
+1. Have entries 23 and 24 checked (LR13). They are hours old.
+2. Test (E) and the margin directly, on rim-free slab faces at sizes A and 2A (for instance slabs 3 × 5 × 8 and
+   6 × 5 × 8, A = 45 and 90, where the larger face still visits its sparse rows): tally the pooled one-step tables
+   with **every** row, those above A/2 included, and compare, row by row and for s of both signs,
+   ln M^{(2A)}_n(s) with ln M^{(A)}_{⌊n/2⌋}(s) + ln M^{(A)}_{⌈n/2⌉}(s). This is one-step data; it tests the hypothesis of
+   Theorem V⁻ as stated, says whether the 4–7% is rim, and supplies the missing half of R⁺ and B⁺. It is
+   sampling, so it is the examiner's, not the lab's.
+3. The rule enters in two places only, and neither is a large-deviation question. (a) The sparse end: why
+   clusters of a few cells over the true layers beneath regrow with a margin (the root 0.6 of rows 4–10). The
+   independent-cell closure fails exactly here (entry 19). (b) (E): a decoupling of distant patches of one face
+   over a common bulk, the split of the population included (24.7, point 3). This is where the hypotheses of the
+   source and probability lines on the bulk would have to be used.
+4. Not worth repeating: a closure by independent cells; any derivation from sealed sets alone (R5); the profile
+   model for a ring; a search for a better statistic before (E) is tested for the population.
+
+**Exam.** E1 holds (0.3458 ± 0.0036 against 0.345 ± 0.020). E2 is not refuted, its central value too high at
+L = 36. E3 fails. **E4 is filed and has not been run.** As the critic says, its window (refuted beyond ± 0.025)
+is twice the distance between V and the withdrawn Th (∫Θ − V = 0.011–0.013), and each systematic effect on a
+measured slope is as large as that distance: the continuation (0.014), finite size (0.003–0.007 below V), the
+drift of the table (of the other sign). No slope within reach tells V from ∫Θ. What does is exact arithmetic
+on the vessel's own table at two sizes:
+- the root sum minus the committor's exponent, Σ_k θ_k − (−ln ψ*(top row)). Th says it stays bounded; V says it
+  grows like (∫Θ − V)·A. On the hull tables it is −0.34, 0.09, 0.52, 1.00 nats at A = 30 … 84 (from row 1;
+  `path_r4.py lr10`), 0.45, 0.98, 1.46, 2.02 in the lab's form L9.1: growing by 0.02–0.035 per cell. That is what
+  withdrew Th;
+- the committor of the m-fold chain of the table against the recursion's value with the same continuation and
+  against the root sum (hull table: 0.2188 → 0.2191, root sum 0.2299; lab L12.5).
+Whoever scores E4 should report the first quantity for the slab's table and for face12e's, and state the
+continuation with every V (`bellman.py` computes the "clusters" one).
+
+**Weakest step.** Theorem V⁻ is unreviewed, and its hypothesis (E) has never been set against a table of a
+real face. Everything in entries 17–24 concerns the pooled table of the population: exact for the hazard by
+Theorem P̄, silent about the mechanism (E3, L5.3).
+
+**Lab requests** (exact).
+- LR13. Check 23.2, 24.2 and Corollaries V⁻(E) and H, statement and proof. Run `python3 vminus_check.py all` in
+  `path/` (a minute and a half; `v 32` three more). Try to break "(G) at every row of the block ⟹ ψ* below the
+  certificate" on tables of your own making; the script's negative control shows what a failure looks like.
+- LR14. Recompute independently, on the committed tallies: Φ and C⁺ of 23.3 at K = ⌈0.35A⌉ and ⌈0.45A⌉, and the
+  largest W(n₁) − W(z′) + ln T̄(z, z′) over the tallied rows above K (condition B⁺, 24.4), for W_J and W°.
+
+**The line is closed.** No route on it leads to a proved step about the rule itself: the two places where the
+rule enters are named above, and both belong to other toolkits.
