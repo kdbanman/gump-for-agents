@@ -65,9 +65,11 @@ _Last updated 2026-11-14 by the lead._
   (every family 0.2072) and "term in the long side" (b(5) = 0.2081). **The twisted-torus experiment is done, reviewed and recorded** (`research/shape/README.md`,
   `research/audit/REVIEW-shape.md`, notebook entry "the shortest way round", CLAIMS SH1, SH2): at equal area the
   lifetime of a periodic face rises with its shortest closed loop (two independent codes); at A = 60 a second
-  variable shows (two tori with the same shortest loop differ by 0.018 ± 0.004). **Running (Opus):** an editor
-  applying the review's seven corrections to `research/shape/README.md`; a refresh of the overview page for this and
-  pull request 16 (then the lead publishes it). (b) done 11:50 UTC: the overview page was refreshed (9b5dc03: plates for
+  variable shows (two tori with the same shortest loop differ by 0.018 ± 0.004). The review's seven corrections are applied to the write-up (6f995a2). **Running:**
+  (Opus) a refresh of the overview page for this and pull request 16 (then the lead publishes it); (Fable, started
+  14:52 UTC with the window at 0.87, to be stopped at 0.92 if the owner's reset has not come) the fresh-reader audit
+  of path's proofs, `research/theory/swarm/audit/AUDIT-path.md` (commits as it goes; group 1 first: P̄, Q, V⁻, E1).
+  Still for after the reset: the same audit for counting; the theory push on the constant. (b) done 11:50 UTC: the overview page was refreshed (9b5dc03: plates for
   face12e, the family, where the exponent lives; the swarm closed; "Open now") and republished to the same private
   link (`LEAD.md`); it does not yet carry pull request 16's width result. Pull request 15 is the lead's open one. **After the owner's Fable reset** (about 9am their time,
   probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
