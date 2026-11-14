@@ -113,12 +113,11 @@ _Last updated 2026-11-14 by the lead._
   main, score the run against the forecast, data per death in `research/data/gpu_facelaw/`, censor every period,
   then a control at 6×6×8 with the firewall channel resolved. It cannot reply: look at its branch
   `claude/awesome-cray-boq9vz` and the pull request list from time to time.
-- **Exam (swarm), state about 07:50 UTC:** `swarm/exam/OUTCOMES.md` has protocols, validations and three outcomes: path E1
-  holds (notched strips, slope 0.3458 ± 0.0036 against 0.345 ± 0.020), source S-E1 holds (the edge over a parity bulk
-  has the dice chain's lifetime, three sizes inside 0.7σ), counting C-E2 fails (−ln P₃ slope 0.368 against 0.447 ±
-  0.012). Still to come: P-E1, path E2, path E3, source S-E2, C-E1. The examiner's waiter script had stalled (it
-  matched its own command line); the lead resumed it then. The hook `.claude/after-compaction.md` fired as designed
-  at the compaction just before (about 07:47 UTC).
+- **Exam (swarm): done 2026-11-14** (`swarm/exam/OUTCOMES.md`; notebook entry of that date; CLAIMS SW2–SW4). Hold:
+  path E1 (notched edge 0.346), source S-E1 and S-E2 (faces over dice; six layers suffice for gump), counting C-E1
+  (one mirror halves the price, 0.1026 per cell). Fail: counting C-E2, path E3. Undecided: P-E1 (0.512 ± 0.012 on its
+  refutation line 0.51; needs about 3.5 core-hours more at L = 38), path E2. New entries filed by the solvers since
+  and not yet run: C-E3, path E4, P-E4.
 - **Prior art:** Tél–Lai 2008 and Bramson–Neuhauser 1994 are unread (publisher pages refuse agents); the owner was
   told they could fetch them. `PRIOR-ART.md`'s older sections still hold "snippet only" items the library now covers.
 - Lineage study: replicate the weak "slow variable" (copies remember their source, ρ ≈ +0.2) on other sources.

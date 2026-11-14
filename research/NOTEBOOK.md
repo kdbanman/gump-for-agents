@@ -1108,3 +1108,45 @@ ln τ = 6.519 ± 0.019; `lazy 8 20000 4096 2` (rows 1, 2 drawn fresh each genera
 variant with a parity bulk at L = 12, 14, 16 inside 0.7σ of the corresponding exact chain
 (`research/theory/swarm/exam/OUTCOMES.md`, S-E1). Not checked by the lead: the proofs line by line (the auditor
 did), the two literature statements (nobody has, in the primary sources).
+
+## 2026-11-14 — the swarm's predictions examined: four hold, two fail, two undecided (examiner; lead's check)
+
+An examiner who wrote none of the predictions ran the eight sampled entries of `research/theory/swarm/PREDICTIONS.md`
+(filed 2026-11-13). Protocols, validations and every command: `research/theory/swarm/exam/OUTCOMES.md` (protocols
+committed before any production run, commit 530ed79). All numbers below are **[measured]**; ln τ errors are 1/√deaths.
+
+| entry | predicted | measured | verdict |
+|---|---|---|---|
+| path E1: a 2D edge with a two-cell notch | slope 0.345 ± 0.020 per cell | 0.3458 ± 0.0036 (L = 20–32); the intact edge of the same strips 0.412 ± 0.005 | holds |
+| source S-E1: the 2D edge over a parity bulk | ln τ = 6.4282, 7.6056, 8.6764 (the exact dice chain) at L = 12, 14, 16 | 6.433, 7.597, 8.675, all inside 0.63σ; hazard flat in age | holds |
+| source S-E2: faces over fair dice | gump 7.40, 9.94 (A = 36, 48); 2D 7.43, 9.16 | 7.397 ± 0.009, 9.945 ± 0.014; 7.403 ± 0.009, 9.150 ± 0.010 | holds |
+| counting C-E1: gump hull faces with one mirror | slope 0.105 ± 0.009 per cell | 0.1026 ± 0.0003 (A = 84–135; local 0.099, 0.106) | holds |
+| counting C-E2: 2D edge dead by generation 3 | c₃ = 0.447 ± 0.012 | 0.3676 ± 0.0006 | fails |
+| path E3: gump's remnant on a slab face equals the hull's | face population 1.6, 3.4, 6.4, 9.7 at 1–4 generations before death | 1.66, 4.29, 10.70, 18.40 (slab 5×4×8) | fails (lags 3, 4) |
+| path E2: 2D remnant two generations before death | 9.8 ± 1.0 at L = 32 and 36 | 9.09 ± 0.08, 7.99 ± 0.38 | not refuted; low at L = 36 |
+| probability P-E1: one row on dice, ring, L = 30–38 | slope 0.48 ± 0.03, refuted if ≥ 0.51 | 0.512 ± 0.012 | undecided at the line; 0.48 disfavoured at 2.8σ |
+
+What the outcomes say, beyond the scores:
+
+- **Six layers are enough for gump.** A gump slab face with six layers on the rule and fresh fair coins beneath has
+  the lifetime of the face over gump's own deterministic bulk to 0.01 in ln τ (7.397 against 7.398 at A = 36; 9.945
+  against 9.936 at A = 48). Whatever the face needs from the bulk, it needs only as noise, made within six layers.
+  (The exponent study says the same with four to five layers; its review is in progress.)
+- **A mirror halves the price.** A face cut by one mirror plane costs 0.1026 per cell, 0.47 of an asymmetric
+  face's ≈ 0.22 at these sizes, and the first face to die is a mirror-fixed one in more than 99.9% of 394,192 replicas.
+  This is "symmetry is fatal" at its simplest: half the cells are copies.
+- **An edge with an end is cheaper.** Two dead anchor cells lower the 2D edge's exponent from 0.412 to 0.346,
+  as the path line derived. Rings and intervals are different vessels; quote which.
+- **The remnant is not universal.** The last generation is the same object in hull and slab (one cell, 59% of
+  deaths; 62% on hulls), but the slab face falls from 18 cells to none in four generations where a hull face takes
+  about six. Path's "one remnant in every vessel" is withdrawn by its author (round 4).
+- **Fixed-age exponents are not the death rate.** The chance that a fresh soup's edge is dead by generation k
+  falls through the steady exponent already at k = 3 (0.368 against 0.38–0.42): it describes the soup's transient.
+  Counting's bridge C1′ is withdrawn by its author (round 3).
+
+Lead's check (`research/audit/exponent/lead_check.py`, numpy, no shared code; validated on the one-row chain):
+`python3 lead_check.py 8 16 5000 0.5 4096 21` → 7.424 ± 0.010 and `8 20 14000 0.5 4096 22` → 9.155 ± 0.013, against
+the examiner's 7.403 ± 0.009 and 9.150 ± 0.010 for S-E2's two 2D points (1.5σ and 0.3σ). For S-E1 the lead simulated
+the conveyor variant instead (previous entry). Not re-derived by the lead: the gump points of S-E2, C-E1, and the
+failures. The examiner's engines were validated against exact values and earlier measurements (its V1–V6), not bit
+for bit against the oracle; its E2 and E3 error bars are rough (batch means over 4–6 chunks).
