@@ -124,3 +124,81 @@ any of these runs). I wrote none of them. Part 1 (protocols) was committed befor
 - Run after everything else, in the time left; sizes in the order 13, 15, 17; cost estimated from R = 13 first.
 - Slope of ln τ_fix between A = 84 and 135 (or the sizes reached), against 0.105 ± 0.009; refuted below 0.094 or
   above 0.118. Also the fraction of first deaths that are fixed faces (predicted > 99%).
+
+## Part 2. Results
+
+Commands are run from this directory (`research/theory/swarm/exam/`); bulk files land in `research/scratch/exam/`.
+Machine: 2 cores used. Every ln τ error is 1/√deaths.
+
+### Validations (all passed)
+
+| check | command | result | reference |
+|---|---|---|---|
+| V1 D2(12, 0.472) ring | `python3 exam.py v1` | 6.4033 ± 0.0113 (7,788 deaths) | exact 6.4169 (−1.2σ) |
+| V1 D2(16, 0.472) ring | same | 8.6502 ± 0.0150 (4,439) | exact 8.6350 (+1.0σ) |
+| V2 2D strip 16 × 16 | `python3 exam.py v2` | 7.3903 ± 0.0155 (4,145) | toy2d 7.426 ± 0.016 (−1.6σ comb.) |
+| V3 gump slab 3 × 4 × 12 | `python3 exam.py v3` | 7.4023 ± 0.0154 (4,244) | exponent study 7.398 ± 0.007 (+0.3σ) |
+| V4 parity.c stepper | `python3 check_parity.py` | identical to an independent numpy stepper, 4 vessels, 20–40 generations; light-cone pruning gives byte-identical output to unpruned (`NOPRUNE=1`) | — |
+| V5 ce2.c | `python3 check_ce2.py`; `ce2 enum 4` vs the lab's `counting_r1.k2_weights/ring_sum` | L = 3, k = 1, 2, 3: counts equal to numpy enumeration (409,600 / 554,432 / 699,086 of 2²¹); L = 4, k = 2: 57,464,576 of 2²⁸, equal to the lab's transfer matrix | — |
+| V5 sampled slopes k = 1, 2 | `python3 ce2_report.py` | 0.5418 ± 0.0073, 0.4791 ± 0.0023 at L = 20–32 | lab c₁ = 0.551535, c₂ = 0.467693 (asymptotic; finite-L slopes approach from above) |
+
+`python3 report.py valid` prints the V1–V3 rows.
+
+### Path E1 — notched strips: **holds**
+
+`python3 exam.py e1 20,24,28,32; python3 report.py e1` (≈ 2 min of one core).
+
+| L | row-0 (notched) deaths | ln τ_notch | row 15 (control) ln τ | toy2d intact row | transverse cuts (censored) |
+|---|---|---|---|---|---|
+| 20 | 908 | 8.517 ± 0.033 | 9.073 ± 0.044 | 9.055 | 125 |
+| 24 | 1,234 | 9.900 ± 0.029 | 10.757 ± 0.044 | 10.768 | 996 |
+| 28 | 1,278 | 11.320 ± 0.028 | 12.407 ± 0.048 | 12.368 | 4,726 |
+| 32 | 1,297 | 12.666 ± 0.028 | 14.014 ± 0.055 | 14.051 | 20,804 |
+
+ln τ_notch(32) − ln τ_notch(20) = **4.149 ± 0.043**, slope **0.3458 ± 0.0036** (LSQ over the four sizes 0.3465 ±
+0.0034, χ² 1.2/2). Predicted 4.14 ± 0.24, slope 0.345 ± 0.020; refutation threshold 0.39. The intact control row in
+the same strips has slope 0.412 ± 0.005 and reproduces toy2d's table within 1σ. Settled replicas: 1 in all four
+runs; the oldest living replica was never older than the chunk it ran in (no undetected cycle). Interior firewalls
+37 / 10 / 3 / 0. **Holds**, to 1/50 of its error bar: a row with a fixed dead anchor has the exponent 0.345 that
+path's G1 assigns to every edge with an end, and the intact ring in the same vessel keeps its higher 0.41.
+
+### Source S-E1 — the edge over a parity bulk: **holds**
+
+`gcc -O3 -march=native -o ../../../scratch/exam/parity parity.c`, then in `research/scratch/exam/`:
+`./parity run 12 400 85 1212 30 > se1_L12.txt; ./parity run 14 400 280 1414 30 > se1_L14.txt;
+./parity run 16 400 810 1616 30 > se1_L16.txt`; `python3 se1_report.py` (≈ 1 min in all). H = 400, censored at 200.
+
+| L | deaths | ln τ measured | predicted | difference / σ | hazard ages 30–99 vs 100–199 | P(row 0 empty next \| one live cell) |
+|---|---|---|---|---|---|---|
+| 12 | 4,975 | 6.4330 ± 0.0142 | 6.4282 | +0.34σ | 1.589 vs 1.623 × 10⁻³ (z −0.7) | 0.2397 ± 0.0036 (13,822 visits) |
+| 14 | 5,776 | 7.5973 ± 0.0132 | 7.6056 | −0.63σ | 4.974 vs 5.050 × 10⁻⁴ (z −0.6) | 0.2410 ± 0.0033 |
+| 16 | 5,907 | 8.6746 ± 0.0130 | 8.6764 | −0.14σ | 1.681 vs 1.728 × 10⁻⁴ (z −1.0) | 0.2340 ± 0.0032 |
+
+(The deaths fell slightly short of the 6,000 target at L = 12, 14: the batch count was fixed in advance from a
+guessed τ.) Every number is inside its three-sigma window (largest deviation 0.63σ), the hazard is flat in age,
+and the one-cell escape probability is (3/4)⁵ = 0.2373 within 1.1σ at each size. Not checked: periodicity of the
+whole state (each replica is censored at age 200, so an undetected cycle could add at most 170 generations of
+exposure; none can inflate τ). **Holds**: the deterministic automaton's edge has the exact lifetime of the dice
+chain D2(L, ½; 1), as Lemma 1 (source journal S2) says; the lemma, the lab's eigenvalues and this stepper agree.
+
+### Counting C-E2 — dead by generation 3: **fails**
+
+In `research/scratch/exam/`: `./ce2 sample 20 390625 141; ./ce2 sample 24 781250 169; ./ce2 sample 28 1171875 197;
+./ce2 sample 32 1953125 225` (appended to `ce2.txt`; 2 × 10⁸, 4 × 10⁸, 6 × 10⁸, 10⁹ soups; ≈ 1 min); then
+`python3 ce2_report.py`.
+
+| L | soups | dead by gen. 1 | by gen. 2 | by gen. 3 | −ln P₃ |
+|---|---|---|---|---|---|
+| 20 | 2 × 10⁸ | 3,186 | 21,486 | 143,678 | 7.2385 ± 0.0026 |
+| 24 | 4 × 10⁸ | 724 | 6,282 | 65,647 | 8.7149 ± 0.0039 |
+| 28 | 6 × 10⁸ | 126 | 1,424 | 22,699 | 10.1824 ± 0.0066 |
+| 32 | 10⁹ | 25 | 335 | 8,837 | 11.6366 ± 0.0106 |
+
+Slope of −ln P₃: **0.3676 ± 0.0006** (LSQ, χ² 3.6/2; local 0.369, 0.367, 0.364). Predicted 0.447 ± 0.012; refuted
+below 0.430. The same samples give 0.542 ± 0.007 and 0.479 ± 0.002 for k = 1, 2, against the lab's exact
+asymptotic c₁ = 0.5515, c₂ = 0.4677 (so the method sees the known exponents; at k = 2 the finite-L slope is about
+0.011 above its limit, a correction of the wrong sign to rescue the entry). **Fails**, by 6.6 of its own error
+bars. The theorem c₃ ≤ c₂ is respected. What the outcome says, in the entry's terms: the third generation buys
+far more than either guide allowed (c₂ − c₃ ≈ 0.10 against the predicted 0.02); c₃ already lies below the steady
+exponent of the ring (0.38–0.42 at these lengths) and near path's 0.345 for edges with ends, so the fixed-age
+hierarchy falls through the steady value by k = 3, as the critic's board reports for D2 at larger k.

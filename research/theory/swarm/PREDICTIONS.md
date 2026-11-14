@@ -161,3 +161,21 @@ entry's refutation threshold: 0.02). **Holds.**
 0.008. (iii) ln τ_ring(19) − ln τ_dead(19) = +1.263 (predicted +2.0 ± 1.0), change between 15 and 19 cells 0.166
 (predicted < 0.2): holds. By the entry's own criteria (ring's step in [0.34, 0.49], (iii) positive) it is **not
 refuted**; its sub-claim (ii) is off. Full tables: `critic/to-probability.md`, reply to round 2, R5 and R8.
+
+## 2026-11-14, examiner: outcomes of path E1, source S-E1, counting C-E2 (sampled)
+
+Protocols committed before the runs; full tables and commands in `research/theory/swarm/exam/OUTCOMES.md`.
+
+**Path E1** (notched strips 16 × L). ln τ_notch = 8.517, 9.900, 11.320, 12.666 (± 0.03) at L = 20, 24, 28, 32;
+ln τ_notch(32) − ln τ_notch(20) = 4.149 ± 0.043, slope 0.3458 ± 0.0036 (predicted 0.345 ± 0.020; refuted if ≥ 0.39).
+The intact row 15 of the same strips: slope 0.412 ± 0.005. **Holds.**
+
+**Source S-E1** (2D rule over a parity bulk, H = 400). ln τ = 6.4330 ± 0.0142, 7.5973 ± 0.0132, 8.6746 ± 0.0130 at
+L = 12, 14, 16 (predicted 6.4282, 7.6056, 8.6764: deviations +0.3σ, −0.6σ, −0.1σ); hazard flat in age (ages 30–99
+against 100–199 within 1σ); P(row 0 empty next | one live cell) = 0.240, 0.241, 0.234 (± 0.0035) against 0.2373.
+**Holds.**
+
+**Counting C-E2** (2D rule dead by generation 3 from fair soups, 2 × 10⁸ … 10⁹ soups). −ln P₃ = 7.2385, 8.7149,
+10.1824, 11.6366 (± 0.003–0.011) at L = 20, 24, 28, 32: slope 0.3676 ± 0.0006 (predicted 0.447 ± 0.012; refuted
+below 0.430). Same samples, k = 1, 2: 0.542 ± 0.007, 0.479 ± 0.002 (lab c₁ 0.5515, c₂ 0.4677). **Fails**; the
+inequality c₃ ≤ c₂ holds.
