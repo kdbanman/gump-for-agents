@@ -68,3 +68,25 @@ for sh in shapes:
         line += (f'{O[0]:9.4f}+-{O[1]:.4f} {I[0]:9.4f}+-{I[1]:.4f} {O[0] - I[0]:+7.3f}+-{math.hypot(O[1], I[1]):.3f} | '
                  f'{dz(s1, s2):5.2f} {dz(s3, s4):5.2f}')
     print(line)
+
+# second differences per class (constant and any term linear in the side removed), and the persistence per class
+print('\nsecond differences c = -d2 lnP / d2 n, per class (O, I) and for the PR-style pooled value:')
+def get(sh, cls):
+    g = {'O': [f'f0 up {sh}', f'f1 down {sh}'], 'I': [f'f0 down {sh}', f'f1 up {sh}'], 'pool': [f'f0 up {sh}', f'f1 up {sh}']}[cls]
+    return comb(g)
+nn = {f'rhombus {a}x{b}': 3 * a * b for a in range(1, 7) for b in range(1, 7)}
+for fam in ([(1, 1), (2, 2), (3, 3)], [(2, 2), (3, 3), (4, 4)], [(1, 2), (2, 3), (3, 4)], [(2, 3), (3, 4), (4, 5)]):
+    names = [f'rhombus {a}x{b}' for a, b in fam]
+    out = []
+    for cls in ('O', 'I', 'pool'):
+        v = [get(x, cls) for x in names]
+        if any(x is None or x[2] < 30 for x in v):
+            out.append(f'{cls}: -'); continue
+        dn = nn[names[2]] - 2 * nn[names[1]] + nn[names[0]]
+        c = -(v[2][0] - 2 * v[1][0] + v[0][0]) / dn; e = math.sqrt(v[0][1] ** 2 + 4 * v[1][1] ** 2 + v[2][1] ** 2) / dn
+        out.append(f'{cls}: {c:.4f} +- {e:.4f}')
+    print('  ' + ' '.join(n[8:] for n in names) + ':  ' + ';  '.join(out))
+print('\npersistence P(t, t+1)/P(t) per class O / I:')
+for sh in ('rhombus 1x1', 'rhombus 2x2', 'rhombus 3x3', 'rhombus 3x4', 'rhombus 4x4', 'strip 1x4', 'strip 1x8'):
+    O, I = get(sh, 'O'), get(sh, 'I')
+    print(f'  {sh:14s} O {O[3]:.3f}  I {I[3]:.3f}')
