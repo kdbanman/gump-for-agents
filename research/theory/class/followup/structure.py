@@ -26,6 +26,7 @@ def sealed_C(name, u, C):
     """is {u.p <= C} sealed, by direct count over the cells just outside."""
     L = fu.lattice(name)
     b = WALLS[name][0]
+    C = C % HULLDIRS[name][1]          # sealing is periodic in C (lattice translations); keeps the plane in the window
     inside = lambda p: p[0] * u[0] + p[1] * u[1] <= C
     cand = [p for p in itertools.product(range(-12, 13), repeat=2)]
     return fu.outside_count(L, inside, cand) <= b - 1
