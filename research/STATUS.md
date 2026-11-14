@@ -69,11 +69,10 @@ _Last updated 2026-11-14 by the lead._
   (`research/shape2/`, forecasts first): ln τ_face for all classes of period lattices at A = 60 and A = 48, to find
   what the lifetime at fixed area is a function of (candidate laws: shortest loop; two successive minima; a sum
   over loop classes); when it reports: lead's check from the counts, an adversarial review if a law is claimed,
-  notebook, CLAIMS. (ii) a consistency pass on `README.md` and `web/src/tour.js` against today's notebook entries
-  (the flat-face law mixes widths; the new results); when it reports: read the diff, run the web suite. **The second-reader audit of path's
-  proofs is done** (`research/theory/swarm/audit/AUDIT-path.md`; notebook entry "the path line's proofs read a
-  second time"; CLAIMS SW5): every proved claim correct or correct in a narrower wording; the conditional area law
-  holds from (R) + (Φ) + (W), not from "R and R⁺"; Lemma S needed relative minimality. The audit's corrected wordings are in `path/claims.md` (a0508c8; one number
+  notebook, CLAIMS. (ii) done: `README.md` (item 4 reworded; new items 8-10) and the web tour and
+  face-table note now agree with today's entries (f4410be; web suite 79/79, check.sh 20/20; the lead read the diff).
+  Left as they are: the "~10⁴¹" extrapolation (labelled as one), "twelve times" (lifetime) and "ten times" (first
+  face) for side 16, which are different quantities. The audit's corrected wordings are in `path/claims.md` (a0508c8; one number
   in P's illustration stays in the journal as written, corrected in the audit). Owed: the same audit for counting and the theory push on the
   constant (Fable, after the owner's reset; Fable was 0.90 at 15:22). (b) the overview page is current to the entry "the shortest way round": refreshed
   twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); later work on the branch goes to pull request 17. **After the owner's Fable reset** (about 9am their time,
