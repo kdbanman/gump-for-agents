@@ -26,7 +26,9 @@ _Last updated 2026-11-13 by the lead._
   - `research/audit/gpu_pr8/`: partial scripts from the reviewer of pull request 8; no review written. Restarted.
 - **Pause lifted, 2026-11-14.** The owner, after the overview page: "pass me a prompt for the compactor … so you can pick up
   where you left off (and/or head wherever you like next)". The lead reads this as leave to resume by judgment, mindful of
-  usage (the pause was for usage). Nothing has been restarted yet; the state below is still the state at the pause.
+  usage (the pause was for usage). Restarted so far (2026-11-14): one agent, a successor to the swarm's critic, clearing the
+  queue at the top of `swarm/critic/board.md` (counting round 2 and its lab requests; the interim rounds of probability, path
+  and source). The solvers wait for its replies. Everything else below is still the state at the pause.
 - **PAUSED at the owner's request (usage), 2026-11-13 about 23:55 UTC.** (Lifted 2026-11-14, see above.)
   Swarm state at the pause: round 1 fully refereed for all four lines; round 2 refereed for path and source;
   counting round 2 written, the critic's reply to it finished or interim (see `critic/to-counting.md`); probability
