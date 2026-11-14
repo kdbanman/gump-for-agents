@@ -1,0 +1,272 @@
+11 rectangular classes s >= 4, A >= 60: 4x5, 4x6, 4x7, 4x8, 4x9, 5x5, 5x6, 5x7, 5x8, 6x6, 6x7
+26 wide classes; 6 hull sizes
+
+=== 1. hull, one family
+local slopes: 30->45 0.2010+-0.0003, 45->63 0.2119+-0.0002, 63->84 0.2146+-0.0003, 84->108 0.2182+-0.0013, 108->135 0.2209+-0.0093
+-- six sizes
+  H0                                             chi2   1492.0/4  p       0  a +0.4746+-0.0047  c +0.2090+-0.0001
+  H1 rim k                                       chi2    106.9/3  p 5.2e-23  a +2.0560+-0.0427  c +0.2480+-0.0011  r -0.6747+-0.0181
+  HL lnA                                         chi2     69.1/3  p 6.8e-15  a +3.2929+-0.0749  c +0.2293+-0.0005  p -0.9920+-0.0263
+  H 1/k                                          chi2     36.1/3  p 7.2e-08  a -1.4135+-0.0497  c +0.2225+-0.0004  q +6.1560+-0.1613
+  H 1/A                                          chi2     21.5/3  p 8.5e-05  a -0.6258+-0.0291  c +0.2201+-0.0003  q +24.7840+-0.6463
+  H sqrtA                                        chi2    106.0/3  p 8.1e-23  a +2.3504+-0.0506  c +0.2477+-0.0010  r -0.5451+-0.0146
+  H2 k + 1/k                                     chi2      7.0/2  p    0.03  a -5.4759+-0.7549  c +0.1917+-0.0057  r +0.8039+-0.1491  q +13.2576+-1.3266
+  H k + lnk                                      chi2      8.5/2  p   0.014  a +3.3162+-0.1341  c +0.1655+-0.0084  r +2.1686+-0.2873  q -7.3215+-0.7382
+  H k + 1/k^2                                    chi2      5.8/2  p   0.055  a -1.8288+-0.3888  c +0.2047+-0.0044  r +0.3458+-0.1031  q +17.7681+-1.7675
+  H lnA + 1/k                                    chi2      6.2/2  p   0.045  a -11.8722+-1.9142  c +0.2069+-0.0029  p +2.2164+-0.4055  q +19.7251+-2.4879
+-- A >= 45
+  H0                                             chi2    100.5/3  p 1.2e-21  a +0.2297+-0.0080  c +0.2128+-0.0001
+  H1 rim k                                       chi2      1.3/2  p    0.52  a +1.1779+-0.0956  c +0.2317+-0.0019  r -0.3570+-0.0358
+  HL lnA                                         chi2      1.9/2  p    0.39  a +1.9816+-0.1766  c +0.2226+-0.0010  p -0.5719+-0.0576
+  H 1/k                                          chi2      2.5/2  p    0.28  a -0.8494+-0.1093  c +0.2193+-0.0007  q +4.0058+-0.4048
+  H 1/A                                          chi2      3.0/2  p    0.23  a -0.3861+-0.0629  c +0.2181+-0.0005  q +17.6299+-1.7855
+  H sqrtA                                        chi2      1.3/2  p    0.52  a +1.3356+-0.1114  c +0.2316+-0.0019  r -0.2889+-0.0290
+  H2 k + 1/k                                     chi2      0.0/1  p    0.94  a +6.3657+-4.5428  c +0.2632+-0.0277  r -1.2669+-0.7974  q -10.2851+-9.0043
+  H k + lnk                                      chi2      0.0/1  p    0.93  a -0.2065+-1.2167  c +0.2760+-0.0389  r -2.0364+-1.4719  q +4.8384+-4.2392
+  H k + 1/k^2                                    chi2      0.0/1  p    0.95  a +3.9565+-2.4330  c +0.2569+-0.0221  r -1.0094+-0.5720  q -16.2819+-14.2458
+  H lnA + 1/k                                    chi2      0.0/1  p    0.95  a +19.2272+-12.6308  c +0.2423+-0.0145  p -4.0511+-2.5486  q -24.4566+-17.9104
+-- A >= 63
+  H0                                             chi2      7.7/2  p   0.021  a +0.0998+-0.0157  c +0.2148+-0.0002
+  H1 rim k                                       chi2      0.0/1  p       1  a +1.9182+-0.6536  c +0.2432+-0.0102  r -0.6007+-0.2158
+  HL lnA                                         chi2      0.0/1  p    0.97  a +3.7655+-1.3174  c +0.2298+-0.0054  p -1.1126+-0.3998
+  H 1/k                                          chi2      0.0/1  p    0.95  a -2.0865+-0.7860  c +0.2251+-0.0037  q +9.2516+-3.3254
+  H 1/A                                          chi2      0.0/1  p    0.93  a -1.1589+-0.4528  c +0.2233+-0.0030  q +45.9077+-16.5048
+  H sqrtA                                        chi2      0.0/1  p       1  a +2.1883+-0.7506  c +0.2431+-0.0101  r -0.4871+-0.1751
+  H2 k + 1/k                                     chi2      0.0/0  p     nan  a +1.7875+-58.2221  c +0.2426+-0.2634  r -0.5811+-8.7321  q +0.3020+-134.5309
+  H k + lnk                                      chi2      0.0/0  p     nan  a +1.9721+-24.0226  c +0.2423+-0.3730  r -0.5641+-16.2794  q -0.1230+-54.8005
+  H k + 1/k^2                                    chi2      0.0/0  p     nan  a +1.8488+-30.9121  c +0.2427+-0.2091  r -0.5867+-6.2057  q +0.5535+-246.5638
+  H lnA + 1/k                                    chi2      0.0/0  p     nan  a +9.1608+-169.0330  c +0.2342+-0.1373  p -2.1382+-32.1337  q -8.5311+-267.2699
+-- hold-outs, hull A >= 45: fit without the largest 1 (2), forecast; z = res/sqrt(se^2 + ferr^2*max(1,chi2/dof))
+   H0         -1: sum z^2   2.1/1, max |res| 0.379; c 0.2128
+   H0         -2: sum z^2   9.7/2, max |res| 0.389; c 0.2127
+   H1 rim k   -1: sum z^2   0.1/1, max |res| 0.095; c 0.2316
+   H1 rim k   -2: sum z^2   1.4/2, max |res| 0.113; c 0.2306
+   HL lnA     -1: sum z^2   0.2/1, max |res| 0.118; c 0.2225
+   HL lnA     -2: sum z^2   1.9/2, max |res| 0.137; c 0.2219
+
+=== 2. periodic rectangular, s = 4, 5, 6, A >= 60
+  s = 4: 60:12.4865, 72:14.9710, 84:17.4645, 96:19.9430, 108:22.3727;  slopes 0.2070+-0.0002, 0.2078+-0.0004, 0.2065+-0.0016, 0.2025+-0.0038
+     a + cA                                         chi2      4.3/3  p    0.23  a +0.0571+-0.0077  c +0.2072+-0.0001
+  s = 5: 75:15.6614, 90:18.7862, 105:21.8897, 120:25.0456;  slopes 0.2083+-0.0008, 0.2069+-0.0028, 0.2104+-0.0055
+     a + cA                                         chi2      0.3/2  p    0.88  a +0.0462+-0.0472  c +0.2082+-0.0006
+  s = 6: 108:22.5684, 126:26.4045;  slopes 0.2131+-0.0062
+  PA                                             chi2    515.5/9  p 2.7e-105  a -0.0246+-0.0067  c +0.2085+-0.0001
+  PO a(s)                                        chi2      8.3/7  p    0.31  a4 +0.0546+-0.0076  a5 +0.1229+-0.0094  a6 +0.2059+-0.0404  c +0.2072+-0.0001
+  PM -beta M                                     chi2      5.3/8  p    0.73  a +0.0569+-0.0076  c +0.2117+-0.0002  b -0.0543+-0.0024
+  PS alpha s                                     chi2      8.4/8  p    0.39  a -0.2193+-0.0109  c +0.2072+-0.0001  al +0.0684+-0.0030
+  PSM                                            chi2      5.3/7  p    0.63  a +0.0823+-0.1704  c +0.2121+-0.0028  al -0.0063+-0.0422  b -0.0592+-0.0334
+  Pcw                                            chi2     38.0/8  p 7.6e-06  a +0.6369+-0.0310  c +0.2105+-0.0001  kap -1.4851+-0.0680
+  a(s) + A(c - D/s)                              chi2      5.1/6  p    0.54  a4 +0.0572+-0.0077  a5 +0.0411+-0.0465  a6 +0.0046+-0.1192  c +0.2127+-0.0031  D +0.0224+-0.0125
+  a(s) + A(c - D/s^2)                            chi2      5.1/6  p    0.53  a4 +0.0572+-0.0077  a5 +0.0413+-0.0466  a6 +0.0203+-0.1114  c +0.2103+-0.0017  D +0.0496+-0.0277
+  a(s) + A(c - D e^-s/0.72)                      chi2      5.2/6  p    0.52  a4 +0.0572+-0.0077  a5 +0.0419+-0.0468  a6 +0.0577+-0.0931  c +0.2086+-0.0008  D +0.3815+-0.2160
+  a(s) + A(c - D e^-s/1.0)                       chi2      5.1/6  p    0.53  a4 +0.0572+-0.0077  a5 +0.0416+-0.0467  a6 +0.0427+-0.1005  c +0.2089+-0.0010  D +0.0959+-0.0541
+  a + A(c - D/s)  (one offset)                   chi2      5.3/8  p    0.73  a +0.0569+-0.0076  c +0.2117+-0.0002  D +0.0181+-0.0008
+  a + A(c - D/s^2) (one offset)                  chi2      5.2/8  p    0.74  a +0.0568+-0.0076  c +0.2097+-0.0001  D +0.0403+-0.0018
+
+=== 3. tension: c_hull - c_per for every pair of one-term forms (separate fits), and the joint one-c fit
+hull   x periodic              c_hull            c_per               diff | joint chi2/dof   p      penalty
+rim    x offsets     0.2317+-0.0019  0.2072+-0.0001  +0.0245+-0.0019 (12.9s) |   175.5/10   2e-32    165.9   (hull chi2 alone 1.3/2, per 8.3/7)
+rim    x long side   0.2317+-0.0019  0.2117+-0.0002  +0.0200+-0.0019 (10.5s) |   116.9/11 7.7e-20    110.3   (hull chi2 alone 1.3/2, per 5.3/8)
+rim    x cap. wave   0.2317+-0.0019  0.2105+-0.0001  +0.0212+-0.0019 (11.1s) |   163.4/11 2.7e-29    124.1   (hull chi2 alone 1.3/2, per 38.0/8)
+rim    x short side  0.2317+-0.0019  0.2072+-0.0001  +0.0245+-0.0019 (12.9s) |   175.6/11 8.4e-32    165.8   (hull chi2 alone 1.3/2, per 8.4/8)
+rim    x both sides  0.2317+-0.0019  0.2121+-0.0028  +0.0196+-0.0034 ( 5.9s) |    40.9/10 1.2e-05     34.3   (hull chi2 alone 1.3/2, per 5.3/7)
+rim    x a(s)+D/s    0.2317+-0.0019  0.2127+-0.0031  +0.0190+-0.0036 ( 5.2s) |    33.7/9   0.0001     27.3   (hull chi2 alone 1.3/2, per 5.1/6)
+rim    x a(s)+D/s^2  0.2317+-0.0019  0.2103+-0.0017  +0.0215+-0.0026 ( 8.4s) |    76.7/9  7.2e-13     70.3   (hull chi2 alone 1.3/2, per 5.1/6)
+log    x offsets     0.2226+-0.0010  0.2072+-0.0001  +0.0154+-0.0010 (15.4s) |   248.5/10 1.1e-47    238.3   (hull chi2 alone 1.9/2, per 8.3/7)
+log    x long side   0.2226+-0.0010  0.2117+-0.0002  +0.0109+-0.0010 (10.8s) |   124.9/11 1.9e-21    117.7   (hull chi2 alone 1.9/2, per 5.3/8)
+log    x cap. wave   0.2226+-0.0010  0.2105+-0.0001  +0.0121+-0.0010 (12.1s) |   186.2/11 5.3e-34    146.4   (hull chi2 alone 1.9/2, per 38.0/8)
+log    x short side  0.2226+-0.0010  0.2072+-0.0001  +0.0154+-0.0010 (15.4s) |   248.5/11 5.7e-47    238.2   (hull chi2 alone 1.9/2, per 8.4/8)
+log    x both sides  0.2226+-0.0010  0.2121+-0.0028  +0.0105+-0.0029 ( 3.6s) |    19.9/10    0.03     12.8   (hull chi2 alone 1.9/2, per 5.3/7)
+log    x a(s)+D/s    0.2226+-0.0010  0.2127+-0.0031  +0.0098+-0.0032 ( 3.0s) |    16.1/9    0.065      9.2   (hull chi2 alone 1.9/2, per 5.1/6)
+log    x a(s)+D/s^2  0.2226+-0.0010  0.2103+-0.0017  +0.0123+-0.0020 ( 6.2s) |    45.7/9  6.8e-07     38.8   (hull chi2 alone 1.9/2, per 5.1/6)
+1/k    x offsets     0.2193+-0.0007  0.2072+-0.0001  +0.0121+-0.0007 (17.9s) |   331.0/10 4.2e-65    320.2   (hull chi2 alone 2.5/2, per 8.3/7)
+1/k    x long side   0.2193+-0.0007  0.2117+-0.0002  +0.0076+-0.0007 (11.1s) |   130.5/11 1.4e-22    122.7   (hull chi2 alone 2.5/2, per 5.3/8)
+1/k    x cap. wave   0.2193+-0.0007  0.2105+-0.0001  +0.0088+-0.0007 (13.0s) |   208.3/11 1.4e-38    167.8   (hull chi2 alone 2.5/2, per 38.0/8)
+1/k    x short side  0.2193+-0.0007  0.2072+-0.0001  +0.0121+-0.0007 (17.9s) |   331.1/11 2.4e-64    320.1   (hull chi2 alone 2.5/2, per 8.4/8)
+1/k    x both sides  0.2193+-0.0007  0.2121+-0.0028  +0.0072+-0.0028 ( 2.5s) |    14.3/10    0.16      6.5   (hull chi2 alone 2.5/2, per 5.3/7)
+1/k    x a(s)+D/s    0.2193+-0.0007  0.2127+-0.0031  +0.0066+-0.0032 ( 2.1s) |    11.9/9     0.22      4.3   (hull chi2 alone 2.5/2, per 5.1/6)
+1/k    x a(s)+D/s^2  0.2193+-0.0007  0.2103+-0.0017  +0.0091+-0.0018 ( 4.9s) |    31.8/9  0.00021     24.2   (hull chi2 alone 2.5/2, per 5.1/6)
+sqrtA  x offsets     0.2316+-0.0019  0.2072+-0.0001  +0.0244+-0.0019 (12.9s) |   175.9/10 1.7e-32    166.3   (hull chi2 alone 1.3/2, per 8.3/7)
+sqrtA  x long side   0.2316+-0.0019  0.2117+-0.0002  +0.0199+-0.0019 (10.5s) |   116.9/11 7.5e-20    110.3   (hull chi2 alone 1.3/2, per 5.3/8)
+sqrtA  x cap. wave   0.2316+-0.0019  0.2105+-0.0001  +0.0211+-0.0019 (11.1s) |   163.5/11 2.5e-29    124.2   (hull chi2 alone 1.3/2, per 38.0/8)
+sqrtA  x short side  0.2316+-0.0019  0.2072+-0.0001  +0.0244+-0.0019 (12.9s) |   176.0/11 6.9e-32    166.2   (hull chi2 alone 1.3/2, per 8.4/8)
+sqrtA  x both sides  0.2316+-0.0019  0.2121+-0.0028  +0.0195+-0.0033 ( 5.8s) |    40.7/10 1.3e-05     34.1   (hull chi2 alone 1.3/2, per 5.3/7)
+sqrtA  x a(s)+D/s    0.2316+-0.0019  0.2127+-0.0031  +0.0189+-0.0036 ( 5.2s) |    33.4/9  0.00011     27.1   (hull chi2 alone 1.3/2, per 5.1/6)
+sqrtA  x a(s)+D/s^2  0.2316+-0.0019  0.2103+-0.0017  +0.0214+-0.0026 ( 8.4s) |    76.5/9  8.2e-13     70.0   (hull chi2 alone 1.3/2, per 5.1/6)
+
+-- the same, with error floors added in quadrature to every point (systematics of 0.003 / 0.005 / 0.01)
+  floor 0.003: rim  x offsets     diff +0.0251+-0.0028 ( 9.1s)  joint   90.7/10 p 4e-15  penalty   83.3
+  floor 0.003: rim  x long side   diff +0.0208+-0.0028 ( 7.5s)  joint   61.9/11 p 4.1e-09  penalty   56.7
+  floor 0.003: rim  x both sides  diff +0.0206+-0.0041 ( 5.1s)  joint   30.9/10 p 0.00061  penalty   25.7
+  floor 0.003: log  x offsets     diff +0.0157+-0.0014 (11.0s)  joint  129.6/10 p 5.5e-23  penalty  121.7
+  floor 0.003: log  x long side   diff +0.0113+-0.0014 ( 7.9s)  joint   68.2/11 p 2.7e-10  penalty   62.5
+  floor 0.003: log  x both sides  diff +0.0112+-0.0033 ( 3.4s)  joint   17.1/10 p 0.073  penalty   11.4
+  floor 0.005: rim  x offsets     diff +0.0260+-0.0036 ( 7.2s)  joint   58.5/10 p 6.8e-09  penalty   52.2
+  floor 0.005: rim  x long side   diff +0.0217+-0.0036 ( 6.0s)  joint   40.7/11 p 2.7e-05  penalty   36.2
+  floor 0.005: rim  x both sides  diff +0.0214+-0.0049 ( 4.4s)  joint   23.6/10 p 0.0087  penalty   19.1
+  floor 0.005: log  x offsets     diff +0.0162+-0.0018 ( 8.7s)  joint   83.1/10 p 1.2e-13  penalty   76.4
+  floor 0.005: log  x long side   diff +0.0119+-0.0019 ( 6.4s)  joint   45.3/11 p 4.2e-06  penalty   40.4
+  floor 0.005: log  x both sides  diff +0.0116+-0.0038 ( 3.0s)  joint   14.2/10 p 0.16  penalty    9.3
+  floor 0.01: rim  x offsets     diff +0.0278+-0.0053 ( 5.3s)  joint   32.6/10 p 0.00032  penalty   27.7
+  floor 0.01: rim  x long side   diff +0.0235+-0.0053 ( 4.4s)  joint   23.1/11 p 0.017  penalty   19.7
+  floor 0.01: rim  x both sides  diff +0.0225+-0.0068 ( 3.3s)  joint   14.2/10 p 0.16  penalty   10.9
+  floor 0.01: log  x offsets     diff +0.0173+-0.0027 ( 6.4s)  joint   45.6/10 p 1.7e-06  penalty   40.5
+  floor 0.01: log  x long side   diff +0.0130+-0.0028 ( 4.7s)  joint   26.1/11 p 0.0062  penalty   22.5
+  floor 0.01: log  x both sides  diff +0.0120+-0.0051 ( 2.4s)  joint    9.2/10 p 0.52  penalty    5.6
+
+-- exact Poisson likelihood (deviance), instead of Gaussian 1/sqrt(F), log x long side and rim x offsets:
+  log x long side: joint deviance 128.0/11, c 0.2120
+  rim x offsets: joint deviance 180.4/10, c 0.2073
+  log x both sides: joint deviance 19.8/10, c 0.2214
+
+-- hull subsets (log x long side; rim x offsets): drop A = 135; drop A = 108 and 135; GPU-only hull points; A >= 63; a free CPU/GPU offset on the hull
+  A>=45 all            log  x long side  c_hull 0.2226+-0.0010 (chi2 1.9/2)  diff +0.0109+-0.0010 (10.8s)  joint 124.9/11 p 1.9e-21
+  A>=45 all            rim  x offsets    c_hull 0.2317+-0.0019 (chi2 1.3/2)  diff +0.0245+-0.0019 (12.9s)  joint 175.5/10 p 2e-32
+  A>=45 all            log  x both sides c_hull 0.2226+-0.0010 (chi2 1.9/2)  diff +0.0105+-0.0029 ( 3.6s)  joint 19.9/10 p 0.03
+  A>=45 no 135         log  x long side  c_hull 0.2225+-0.0010 (chi2 1.6/1)  diff +0.0108+-0.0010 (10.7s)  joint 122.2/10 p 1.8e-21
+  A>=45 no 135         rim  x offsets    c_hull 0.2316+-0.0019 (chi2 1.2/1)  diff +0.0244+-0.0019 (12.7s)  joint 172.0/9 p 2.4e-32
+  A>=45 no 135         log  x both sides c_hull 0.2225+-0.0010 (chi2 1.6/1)  diff +0.0104+-0.0029 ( 3.6s)  joint 19.6/9 p 0.021
+  A 45..84             log  x long side  c_hull 0.2219+-0.0011 (chi2 0.0/0)  diff +0.0102+-0.0011 ( 9.1s)  joint 87.9/9 p 4.3e-15
+  A 45..84             rim  x offsets    c_hull 0.2306+-0.0021 (chi2 0.0/0)  diff +0.0234+-0.0022 (10.9s)  joint 126.5/8 p 1.5e-23
+  A 45..84             log  x both sides c_hull 0.2219+-0.0011 (chi2 0.0/0)  diff +0.0098+-0.0030 ( 3.3s)  joint 16.1/8 p 0.04
+  A>=63                log  x long side  c_hull 0.2298+-0.0054 (chi2 0.0/1)  diff +0.0181+-0.0054 ( 3.4s)  joint 16.6/10 p 0.083
+  A>=63                rim  x offsets    c_hull 0.2432+-0.0102 (chi2 0.0/1)  diff +0.0360+-0.0102 ( 3.5s)  joint 20.8/9 p 0.014
+  A>=63                log  x both sides c_hull 0.2298+-0.0054 (chi2 0.0/1)  diff +0.0177+-0.0061 ( 2.9s)  joint 13.8/9 p 0.13
+  GPU only (63..135)   log  x long side  c_hull 0.2296+-0.0054 (chi2 0.0/1)  diff +0.0179+-0.0054 ( 3.3s)  joint 16.3/10 p 0.091
+  GPU only (63..135)   rim  x offsets    c_hull 0.2427+-0.0102 (chi2 0.0/1)  diff +0.0355+-0.0102 ( 3.5s)  joint 20.4/9 p 0.016
+  GPU only (63..135)   log  x both sides c_hull 0.2296+-0.0054 (chi2 0.0/1)  diff +0.0175+-0.0061 ( 2.9s)  joint 13.6/9 p 0.14
+  CPU only (45..84)    log  x long side  c_hull 0.2115+-0.0100 (chi2 0.0/0)  diff -0.0002+-0.0100 (-0.0s)  joint 5.3/9 p 0.81
+  CPU only (45..84)    rim  x offsets    c_hull 0.2112+-0.0188 (chi2 0.0/0)  diff +0.0040+-0.0188 ( 0.2s)  joint 8.3/8 p 0.4
+  CPU only (45..84)    log  x both sides c_hull 0.2115+-0.0100 (chi2 0.0/0)  diff -0.0006+-0.0104 (-0.1s)  joint 5.3/8 p 0.73
+  free GPU offset on hull points, log x long side: joint 16.6/10 p 0.083, c 0.2117, offset -0.0738+-0.0071
+  free GPU offset on hull points, rim x offsets: joint 20.8/9 p 0.014, c 0.2072, offset -0.0767+-0.0062
+
+-- single-c descriptions with two-term hull corrections (all six hull sizes, and A >= 45)
+  six sizes k + 1/k     x offsets    joint   22.6/10 p   0.012  c 0.2072  hull pars -3.452 +0.402 +9.732  hull chi2 14.3  sep c_hull 0.1917+-0.0057
+  six sizes k + 1/k     x long side  joint   24.4/11 p   0.011  c 0.2117  hull pars -2.868 +0.286 +8.714  hull chi2 19.1  sep c_hull 0.1917+-0.0057
+  six sizes k + 1/k     x cap. wave  joint   55.7/11 p 5.7e-08  c 0.2105  hull pars -3.022 +0.316 +8.983  hull chi2 17.7  sep c_hull 0.1917+-0.0057
+  six sizes k + 1/k     x both sides joint   22.5/10 p   0.013  c 0.2082  hull pars -3.314 +0.374 +9.491  hull chi2 15.3  sep c_hull 0.1917+-0.0057
+  six sizes k + 1/k     x a(s)+D/s   joint   22.5/9  p  0.0074  c 0.2080  hull pars -3.347 +0.381 +9.549  hull chi2 15.1  sep c_hull 0.1917+-0.0057
+  six sizes k + ln k    x offsets    joint   41.5/10 p 9.1e-06  c 0.2072  hull pars +2.715 +0.743 -3.678  hull chi2 33.2  sep c_hull 0.1655+-0.0084
+  six sizes k + ln k    x long side  joint   44.1/11 p 6.9e-06  c 0.2117  hull pars +2.651 +0.590 -3.288  hull chi2 38.8  sep c_hull 0.1655+-0.0084
+  six sizes k + ln k    x cap. wave  joint   75.3/11 p 1.2e-11  c 0.2105  hull pars +2.668 +0.630 -3.391  hull chi2 37.3  sep c_hull 0.1655+-0.0084
+  six sizes k + ln k    x both sides joint   41.7/10 p 8.6e-06  c 0.2075  hull pars +2.710 +0.731 -3.648  hull chi2 33.7  sep c_hull 0.1655+-0.0084
+  six sizes k + ln k    x a(s)+D/s   joint   41.5/9  p   4e-06  c 0.2071  hull pars +2.717 +0.746 -3.688  hull chi2 33.1  sep c_hull 0.1655+-0.0084
+  six sizes k + 1/k^2   x offsets    joint   14.4/10 p    0.16  c 0.2072  hull pars -1.611 +0.288 +16.796  hull chi2 6.1  sep c_hull 0.2047+-0.0044
+  six sizes k + 1/k^2   x long side  joint   13.6/11 p    0.26  c 0.2117  hull pars -1.222 +0.184 +15.063  hull chi2 8.3  sep c_hull 0.2047+-0.0044
+  six sizes k + 1/k^2   x cap. wave  joint   45.5/11 p   4e-06  c 0.2105  hull pars -1.324 +0.211 +15.520  hull chi2 7.5  sep c_hull 0.2047+-0.0044
+  six sizes k + 1/k^2   x both sides joint   13.1/10 p    0.22  c 0.2100  hull pars -1.365 +0.222 +15.701  hull chi2 7.3  sep c_hull 0.2047+-0.0044
+  six sizes k + 1/k^2   x a(s)+D/s   joint   13.1/9  p    0.16  c 0.2101  hull pars -1.358 +0.220 +15.668  hull chi2 7.3  sep c_hull 0.2047+-0.0044
+  six sizes lnA + 1/k   x offsets    joint   14.5/10 p    0.15  c 0.2072  hull pars -11.693 +2.178 +19.494  hull chi2 6.2  sep c_hull 0.2069+-0.0029
+  six sizes lnA + 1/k   x long side  joint   14.2/11 p    0.22  c 0.2117  hull pars -8.759 +1.554 +15.705  hull chi2 8.9  sep c_hull 0.2069+-0.0029
+  six sizes lnA + 1/k   x cap. wave  joint   45.7/11 p 3.6e-06  c 0.2105  hull pars -9.531 +1.719 +16.703  hull chi2 7.7  sep c_hull 0.2069+-0.0029
+  six sizes lnA + 1/k   x both sides joint   13.2/10 p    0.21  c 0.2096  hull pars -10.102 +1.840 +17.440  hull chi2 7.1  sep c_hull 0.2069+-0.0029
+  six sizes lnA + 1/k   x a(s)+D/s   joint   13.2/9  p    0.16  c 0.2096  hull pars -10.096 +1.839 +17.432  hull chi2 7.1  sep c_hull 0.2069+-0.0029
+  six sizes k + lnA     x offsets    joint   44.9/10 p 2.3e-06  c 0.2072  hull pars +4.725 +0.795 -2.152  hull chi2 36.6  sep c_hull 0.1601+-0.0089
+  six sizes k + lnA     x long side  joint   47.4/11 p 1.8e-06  c 0.2117  hull pars +4.446 +0.637 -1.923  hull chi2 42.1  sep c_hull 0.1601+-0.0089
+  six sizes k + lnA     x cap. wave  joint   78.6/11 p 2.8e-12  c 0.2105  hull pars +4.519 +0.678 -1.983  hull chi2 40.6  sep c_hull 0.1601+-0.0089
+  six sizes k + lnA     x both sides joint   45.0/10 p 2.2e-06  c 0.2076  hull pars +4.701 +0.782 -2.133  hull chi2 37.0  sep c_hull 0.1601+-0.0089
+  six sizes k + lnA     x a(s)+D/s   joint   44.9/9  p 9.8e-07  c 0.2071  hull pars +4.730 +0.798 -2.156  hull chi2 36.5  sep c_hull 0.1601+-0.0089
+  six sizes sqrtA + 1/A x offsets    joint   15.8/10 p     0.1  c 0.2072  hull pars -1.974 +0.250 +35.744  hull chi2 7.6  sep c_hull 0.2016+-0.0047
+  six sizes sqrtA + 1/A x long side  joint   16.0/11 p    0.14  c 0.2117  hull pars -1.512 +0.164 +32.016  hull chi2 10.7  sep c_hull 0.2016+-0.0047
+  six sizes sqrtA + 1/A x cap. wave  joint   47.7/11 p 1.6e-06  c 0.2105  hull pars -1.634 +0.187 +32.999  hull chi2 9.7  sep c_hull 0.2016+-0.0047
+  six sizes sqrtA + 1/A x both sides joint   15.1/10 p    0.13  c 0.2094  hull pars -1.742 +0.207 +33.875  hull chi2 8.9  sep c_hull 0.2016+-0.0047
+  six sizes sqrtA + 1/A x a(s)+D/s   joint   15.1/9  p   0.088  c 0.2094  hull pars -1.744 +0.207 +33.891  hull chi2 8.9  sep c_hull 0.2016+-0.0047
+  A >= 45   k + 1/k     x offsets    joint   12.4/9  p    0.19  c 0.2072  hull pars -2.827 +0.348 +7.915  hull chi2 4.1  sep c_hull 0.2632+-0.0277
+  A >= 45   k + 1/k     x long side  joint    8.8/10 p    0.55  c 0.2117  hull pars -2.092 +0.219 +6.458  hull chi2 3.5  sep c_hull 0.2632+-0.0277
+  A >= 45   k + 1/k     x cap. wave  joint   41.6/10 p 8.8e-06  c 0.2105  hull pars -2.286 +0.253 +6.844  hull chi2 3.6  sep c_hull 0.2632+-0.0277
+  A >= 45   k + 1/k     x both sides joint    8.7/9  p    0.47  c 0.2126  hull pars -1.942 +0.193 +6.162  hull chi2 3.4  sep c_hull 0.2632+-0.0277
+  A >= 45   k + 1/k     x a(s)+D/s   joint    8.4/8  p     0.4  c 0.2134  hull pars -1.815 +0.170 +5.910  hull chi2 3.3  sep c_hull 0.2632+-0.0277
+  A >= 45   k + ln k    x offsets    joint   11.4/9  p    0.25  c 0.2072  hull pars +1.931 +0.569 -2.660  hull chi2 3.1  sep c_hull 0.2760+-0.0389
+  A >= 45   k + ln k    x long side  joint    8.0/10 p    0.62  c 0.2117  hull pars +1.792 +0.400 -2.171  hull chi2 2.7  sep c_hull 0.2760+-0.0389
+  A >= 45   k + ln k    x cap. wave  joint   40.8/10 p 1.2e-05  c 0.2105  hull pars +1.828 +0.445 -2.301  hull chi2 2.9  sep c_hull 0.2760+-0.0389
+  A >= 45   k + ln k    x both sides joint    8.0/9  p    0.54  c 0.2124  hull pars +1.769 +0.372 -2.092  hull chi2 2.7  sep c_hull 0.2760+-0.0389
+  A >= 45   k + ln k    x a(s)+D/s   joint    7.7/8  p    0.46  c 0.2131  hull pars +1.746 +0.344 -2.012  hull chi2 2.6  sep c_hull 0.2760+-0.0389
+  A >= 45   k + 1/k^2   x offsets    joint   13.3/9  p    0.15  c 0.2072  hull pars -1.503 +0.275 +15.603  hull chi2 5.1  sep c_hull 0.2569+-0.0221
+  A >= 45   k + 1/k^2   x long side  joint    9.5/10 p    0.49  c 0.2117  hull pars -1.011 +0.159 +12.727  hull chi2 4.2  sep c_hull 0.2569+-0.0221
+  A >= 45   k + 1/k^2   x cap. wave  joint   42.4/10 p 6.4e-06  c 0.2105  hull pars -1.141 +0.190 +13.488  hull chi2 4.4  sep c_hull 0.2569+-0.0221
+  A >= 45   k + 1/k^2   x both sides joint    9.3/9  p    0.41  c 0.2128  hull pars -0.890 +0.131 +12.025  hull chi2 4.0  sep c_hull 0.2569+-0.0221
+  A >= 45   k + 1/k^2   x a(s)+D/s   joint    9.0/8  p    0.35  c 0.2136  hull pars -0.801 +0.110 +11.501  hull chi2 3.8  sep c_hull 0.2569+-0.0221
+  A >= 45   lnA + 1/k   x offsets    joint   14.2/9  p    0.12  c 0.2072  hull pars -11.324 +2.116 +18.828  hull chi2 5.9  sep c_hull 0.2423+-0.0145
+  A >= 45   lnA + 1/k   x long side  joint    9.8/10 p    0.46  c 0.2117  hull pars -7.425 +1.329 +13.304  hull chi2 4.5  sep c_hull 0.2423+-0.0145
+  A >= 45   lnA + 1/k   x cap. wave  joint   42.8/10 p 5.4e-06  c 0.2105  hull pars -8.457 +1.537 +14.766  hull chi2 4.8  sep c_hull 0.2423+-0.0145
+  A >= 45   lnA + 1/k   x both sides joint    9.5/9  p    0.39  c 0.2131  hull pars -6.153 +1.072 +11.502  hull chi2 4.1  sep c_hull 0.2423+-0.0145
+  A >= 45   lnA + 1/k   x a(s)+D/s   joint    9.0/8  p    0.34  c 0.2140  hull pars -5.381 +0.916 +10.409  hull chi2 3.8  sep c_hull 0.2423+-0.0145
+  A >= 45   k + lnA     x offsets    joint   11.3/9  p    0.25  c 0.2072  hull pars +3.335 +0.601 -1.535  hull chi2 3.0  sep c_hull 0.2784+-0.0409
+  A >= 45   k + lnA     x long side  joint    8.0/10 p    0.63  c 0.2117  hull pars +2.938 +0.425 -1.253  hull chi2 2.7  sep c_hull 0.2784+-0.0409
+  A >= 45   k + lnA     x cap. wave  joint   40.7/10 p 1.3e-05  c 0.2105  hull pars +3.043 +0.472 -1.327  hull chi2 2.8  sep c_hull 0.2784+-0.0409
+  A >= 45   k + lnA     x both sides joint    7.9/9  p    0.54  c 0.2124  hull pars +2.875 +0.397 -1.208  hull chi2 2.6  sep c_hull 0.2784+-0.0409
+  A >= 45   k + lnA     x a(s)+D/s   joint    7.6/8  p    0.47  c 0.2131  hull pars +2.810 +0.369 -1.162  hull chi2 2.6  sep c_hull 0.2784+-0.0409
+  A >= 45   sqrtA + 1/A x offsets    joint   13.1/9  p    0.16  c 0.2072  hull pars -1.777 +0.233 +31.880  hull chi2 4.8  sep c_hull 0.2582+-0.0232
+  A >= 45   sqrtA + 1/A x long side  joint    9.3/10 p     0.5  c 0.2117  hull pars -1.203 +0.137 +25.981  hull chi2 4.0  sep c_hull 0.2582+-0.0232
+  A >= 45   sqrtA + 1/A x cap. wave  joint   42.2/10 p   7e-06  c 0.2105  hull pars -1.355 +0.163 +27.542  hull chi2 4.2  sep c_hull 0.2582+-0.0232
+  A >= 45   sqrtA + 1/A x both sides joint    9.2/9  p    0.42  c 0.2127  hull pars -1.069 +0.115 +24.601  hull chi2 3.8  sep c_hull 0.2582+-0.0232
+  A >= 45   sqrtA + 1/A x a(s)+D/s   joint    8.8/8  p    0.36  c 0.2135  hull pars -0.966 +0.097 +23.539  hull chi2 3.7  sep c_hull 0.2582+-0.0232
+
+-- saturating slope on the hull, ln tau = a + cA - D*lam*(1 - exp(-A/lam))  (slope c - D e^{-A/lam}), A >= 30
+  six: chi2 5.43/2, c 0.2156+-0.0004, D +0.327, lambda 11.8
+  A>=45: chi2 0.12/1, c 0.4927+-0.0279, D +0.289, lambda 2000.0
+
+=== 4. the capillary-wave coefficient kappa: ln tau = a + cA + kappa F  (or a_A + kappa F at one area)
+selection                    n |   a+cA+kF: kappa chi2/dof  infl.err | a_A + kF (one offset per area) | floor 0.015: kappa
+census A48,60 Q1>=7         11 | -1.008+-0.008   859.5/8  +-0.082 | -1.008+-0.008   859.5/8  +-0.082 | -1.051+-0.049 (chi2 15.9/8)
+census A48,60 Q1>=12         9 | -1.291+-0.046    98.7/6  +-0.185 | -1.291+-0.046    98.7/6  +-0.185 | -1.243+-0.322 (chi2 1.7/6)
+census A48,60 Q1>=3         17 | -1.282+-0.001 48004.0/14 +-0.072 | -1.282+-0.001 48004.0/14 +-0.072 | -1.300+-0.007 (chi2 1531.8/14)
+census A48,60,72 Q1>=7      22 | -1.159+-0.006  2024.7/19 +-0.067 | -1.137+-0.007  1774.2/18 +-0.066 | -1.277+-0.030 (chi2 65.4/19)
+wide Q1>=12 all areas       26 | -1.368+-0.034   320.1/23 +-0.128 | -1.265+-0.041   126.8/14 +-0.122 | -1.194+-0.111 (chi2 18.6/23)
+wide Q1>=13                 20 | -1.500+-0.052   289.4/17 +-0.213 | -1.187+-0.084    76.1/8  +-0.259 | -1.179+-0.151 (chi2 17.8/17)
+Q1>=7 all areas             33 | -1.223+-0.005  2500.7/30 +-0.048 | -1.153+-0.007  1956.1/20 +-0.064 | -1.373+-0.025 (chi2 122.7/30)
+A=48 alone Q1>=7             5 | -0.718+-0.013    42.3/2  +-0.060 | -0.718+-0.013    42.3/3  +-0.049 | -0.718+-0.100 (chi2 0.7/2)
+A=60 alone Q1>=7             6 | -1.179+-0.010    35.1/3  +-0.034 | -1.179+-0.010    35.1/4  +-0.030 | -1.157+-0.057 (chi2 0.5/3)
+A=72 alone Q1>=7            11 | -1.430+-0.012    56.5/8  +-0.032 | -1.430+-0.012    56.5/9  +-0.030 | -1.413+-0.039 (chi2 14.1/8)
+A=48 alone Q1>=12            4 | -0.240+-0.151    32.2/1  +-0.860 | -0.240+-0.151    32.2/2  +-0.608 | -0.238+-1.140 (chi2 0.6/1)
+A=60 alone Q1>=12            5 | -1.396+-0.048    13.4/2  +-0.124 | -1.396+-0.048    13.4/3  +-0.101 | -1.330+-0.335 (chi2 0.3/2)
+A=72 alone Q1>=12            8 | -1.161+-0.093    26.4/5  +-0.215 | -1.161+-0.093    26.4/6  +-0.196 | -1.356+-0.169 (chi2 7.9/5)
+-- jackknife and leave-one-class-out on "census A48,60 Q1>=7"
+   without A=48 (7, 4, 28): kappa -1.175
+   without A=48 (12, 0, 16): kappa -1.015
+   without A=48 (12, 12, 19): kappa -1.008
+   without A=48 (13, 8, 16): kappa -1.012
+   without A=48 (16, 16, 16): kappa -1.027
+   without A=60 (7, 2, 43): kappa -0.765
+   without A=60 (12, 0, 25): kappa -1.005
+   without A=60 (12, 12, 28): kappa -1.007
+   without A=60 (13, 10, 25): kappa -1.008
+   without A=60 (16, 4, 19): kappa -1.009
+   without A=60 (16, 12, 21): kappa -0.961
+   jackknife error 0.284; range -1.175 .. -0.765
+-- profile of chi2 against fixed kappa, census A48,60 Q1>=7 (a, c free), raw and scaled by chi2_min/dof
+   kappa -0.6: chi2  3487.2; delta  2627.8; scaled delta  24.46
+   kappa -0.8: chi2  1542.3; delta   682.8; scaled delta   6.36
+   kappa -0.9: chi2  1043.5; delta   184.0; scaled delta   1.71
+   kappa -1.0: chi2   860.5; delta     1.0; scaled delta   0.01
+   kappa -1.1: chi2   993.3; delta   133.8; scaled delta   1.25
+   kappa -1.2: chi2  1441.9; delta   582.4; scaled delta   5.42
+   kappa -1.3: chi2  2206.3; delta  1346.8; scaled delta  12.54
+   kappa -1.5: chi2  4682.6; delta  3823.1; scaled delta  35.58
+-- what spans F in that set, and the residuals of the kappa fit
+   A=48    (7, 4, 28) F 0.6950 y 9.8122+-0.0020  res +0.0382 (+19.4s)
+   A=48   (12, 0, 16) F 0.5341 y 9.9243+-0.0020  res -0.0119 (-5.9s)
+   A=48  (12, 12, 19) F 0.5313 y 9.9384+-0.0020  res -0.0006 (-0.3s)
+   A=48   (13, 8, 16) F 0.5253 y 9.9390+-0.0020  res -0.0061 (-3.0s)
+   A=48  (16, 16, 16) F 0.5168 y 9.9324+-0.0020  res -0.0213 (-10.6s)
+   A=60    (7, 2, 43) F 0.8426 y 12.1133+-0.0031  res -0.0470 (-15.2s)
+   A=60   (12, 0, 25) F 0.5725 y 12.4166+-0.0031  res -0.0159 (-5.1s)
+   A=60  (12, 12, 28) F 0.5720 y 12.4247+-0.0031  res -0.0083 (-2.7s)
+   A=60  (13, 10, 25) F 0.5538 y 12.4465+-0.0031  res -0.0049 (-1.6s)
+   A=60   (16, 4, 19) F 0.5287 y 12.4743+-0.0022  res -0.0023 (-1.0s)
+   A=60  (16, 12, 21) F 0.5256 y 12.4865+-0.0009  res +0.0067 (+7.5s)
+
+=== 5. cost per cell between areas, by shortest loop (classes of one Q1 pooled per area), and its deficit
+  48->60: Q1 3 0.1148+-0.0003 (1/1 classes), Q1 4 0.1414+-0.0003 (2/2 classes), Q1 7 0.1918+-0.0003 (1/1 classes), Q1 12 0.2074+-0.0002 (2/2 classes), Q1 13 0.2090+-0.0003 (1/1 classes), Q1 16 0.2127+-0.0002 (1/2 classes)
+     c - D exp(-s/xi)   chi2  352.7/3  0.2171+-0.0003 1.1722+-0.0303 0.7148+-0.0079
+     c - D/s^2          chi2  769.7/4  0.2375+-0.0002 0.3688+-0.0011
+     exp form without Q1 3: chi2 61.8/2 c 0.2140 xi 0.566+-0.009
+     exp form without Q1 4: chi2 38.1/2 c 0.2149 xi 0.637+-0.008
+     exp form on Q1 >= 7 only: chi2 0.2/1 c 0.2206 xi 1.049+-0.099
+  60->72: Q1 3 0.1107+-0.0004 (1/1 classes), Q1 4 0.1353+-0.0008 (2/2 classes), Q1 7 0.1872+-0.0010 (1/1 classes), Q1 12 0.2047+-0.0008 (2/2 classes), Q1 13 0.2062+-0.0007 (1/1 classes), Q1 16 0.2072+-0.0001 (2/3 classes)
+     c - D exp(-s/xi)   chi2   95.3/3  0.2122+-0.0005 1.0556+-0.0634 0.7420+-0.0200
+     c - D/s^2          chi2  175.4/4  0.2300+-0.0002 0.3589+-0.0015
+     exp form without Q1 3: chi2 1.5/2 c 0.2088 xi 0.519+-0.022
+     exp form without Q1 4: chi2 3.7/2 c 0.2095 xi 0.601+-0.022
+     exp form on Q1 >= 7 only: chi2 0.4/1 c 0.2081 xi 0.424+-0.085

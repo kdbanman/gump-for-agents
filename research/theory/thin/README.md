@@ -29,10 +29,10 @@ reasons, each measured or exact:
 
 What can be said instead **[measured]**:
 
-> The cost per cell of the thinnest face, in the limit of a long face, is **PENDING_GAMMA_CELL per cell**
-> (PENDING_GAMMA_SITE per site of three cells). The census values 0.115 (A 48 → 60) and 0.111 (60 → 72) are
+> The cost per cell of the thinnest face, in the limit of a long face, is **0.100 ± 0.003 per cell**
+> (0.300 ± 0.008 per site of three cells). The census values 0.115 (A 48 → 60) and 0.111 (60 → 72) are
 > reproduced (0.1144(3), 0.1104(6)) and are local slopes of a ring law that is still bending at A = 108, where
-> the local slope is 0.103(2).
+> the local slope is 0.103(2). A face with two free ends (a segment) shows 0.099 per cell from A = 75 on.
 
 The error is dominated by the extrapolation, not by statistics: four different finite-size routes are given in
 §3 with what each says.
@@ -67,7 +67,45 @@ with three cells each**, X_c, Y_c, Z_c (the +x, +y, +z faces of the cube at site
 
 All four are local slopes that are still moving at the largest sizes reached. **[measured]** throughout.
 
-PENDING_ROUTES
+`python3 analyze.py routes` prints everything in this section. Four quantities should each tend to γ per site as
+their length grows; none has stopped moving at the largest length reached.
+
+| route | quantity | largest length | value there | extrapolated |
+|---|---|---|---|---|
+| 1. rings | local slope of ln τ_ring(b) | b = 32 → 36 | 0.3103(62) | falls by about 0.007 per four sites; no stable fit |
+| 2. segments | local slope of ln τ_seg(n) | n = 29 → 33 | 0.2971(13) | straight line through n ≥ 21: 0.2978(3); with a 1/n term: 0.293(3); with a ln n term: 0.288(5) |
+| 3. empty windows, ring of 64 | k(l) | l = 34 | 0.3347(25) | g + a/(l + l0), l0 = 0, 1, 2 on l = 16 … 40: 0.309, 0.307, 0.305 (a = 0.8–1.0) |
+| 4. front from a wall, segment of 61 | k_wall(x) | x = 30 | 0.3120(12) | g + a/x: 0.3033(3) on x = 12 … 32, 0.3031(6) on 16 … 36 (a = 0.30); g + a/√x fits worse and its g moves with the range (0.280, 0.285, 0.288) |
+
+Local slopes, per site (per cell in brackets):
+
+| length | rings (A = 3b) | segments (A = 3n) | windows k(l) | wall k_wall(x) |
+|---|---|---|---|---|
+| ≈ 18 | 0.3432(10) [0.1144] | 0.3018(5) [0.1006] at 19 | 0.3554(1) | 0.3199(2) |
+| ≈ 22 | 0.3312(18) [0.1104] | 0.2990(7) [0.0997] at 23 | 0.3469(3) | 0.3170(4) |
+| ≈ 26 | 0.3259(26) [0.1086] | 0.2967(9) [0.0989] at 27 | 0.3411(7) | 0.3156(6) |
+| ≈ 30 | 0.3188(40) [0.1063] | 0.2971(13) [0.0990] at 31 | 0.3372(12) | 0.3120(12) |
+| ≈ 34 | 0.3103(62) [0.1034] | (n = 37, 45: see below) | 0.3347(25) | 0.3151(26) |
+
+SEGMORE
+
+- The segment slope is the lowest and has been flat at 0.297 since n ≈ 25 (0.3093, 0.3018, 0.2990, 0.2967, 0.2971
+  at n = 15, 19, 23, 27, 31); the three others are above it and falling towards 0.30–0.31.
+- The front's distance from a wall is the cleanest: one front, nothing to nucleate, no deaths needed, and the
+  form g + a/x gives the same g on every range of x. It says W(x) ∝ x^(−0.30) e^(−0.303 x).
+- **Reading [conjectured].** One γ, the price per site of pushing a front back. A window needs a gap to be born
+  and two fronts (hence a larger power: E(l) ∝ l^(−0.9) e^(−γ l)); a ring needs the same and dies when the island
+  left is gone; a segment needs only its two wall fronts to meet, which for independent fronts with the law of
+  route 4 gives ln τ_seg ≈ γ n − 0.4 ln n: a slope *below* γ, rising towards it, after the fall from above that
+  the small sizes show. That would put the flat 0.297 at n = 25–33 at the turn of the curve and γ at 0.303. It is
+  not established: the alternative that all four keep falling to about 0.29 is excluded only if the form g + a/x
+  of route 4 is right.
+- **Value.** γ = **0.300 ± 0.008 per site, 0.100 ± 0.003 per cell**: the interval runs from the segment fits with
+  a correction term (0.293) to the window extrapolation (0.309), and the two routes with stable fits (segments,
+  straight: 0.298; wall: 0.303) sit inside it.
+- The static formulation fails as a short cut **[measured]**: ln τ_ring(b) + ln E(b − s) is not constant for any
+  shift s (`python3 analyze.py static win_det_b64 'det_b[0-9]*'`): for s = 0 it falls from 0.77 at b = 16 to 0.41
+  at b = 36. The ring's lifetime grows more slowly than 1/E(b), by a factor b^0.45 over this range.
 
 ## 4. Noise is enough from five layers
 
@@ -81,8 +119,8 @@ deterministic value of ln τ **[measured]**:
 | 3 | +0.495(3) | +0.845(13) | +0.366(2) | +0.708(3) |
 | 4 | +0.049(3) | +0.115(12) | +0.018(2) | +0.058(2) |
 | 5 | +0.006(3) | +0.003(12) | −0.003(2) | +0.002(2) |
-| 6 | +0.012(3) | +0.027(10) | PENDING_M6 | |
-| 8 | | | PENDING_M8 | |
+| 6 | +0.012(3) | +0.027(10) | +0.013(2) | |
+| 8 | | | +0.004(2) | |
 
 Also b = 20, w = 5: +0.007(7). Slopes per site between the two sizes: rings 0.410, 0.447, 0.381, 0.345, 0.337
 for w = 1 … 5 against 0.337 deterministic; segments 0.372, 0.413, 0.348, 0.311, 0.306 against 0.306.
@@ -104,17 +142,22 @@ for w = 1 … 5 against 0.337 deterministic; segments 0.372, 0.413, 0.348, 0.311
 - The coin density matters a little even at w = 5: at b = 20, density 0.30 gives −0.069(8), density 0.55 gives
   +0.030(7) (`python3 analyze.py life 'mod_b20_w*'`). The model is therefore closed only with the measured
   interior density as input.
-- Eight layers are enough for the deterministic slab: PENDING_M12
+- From five layers on the residue is 0.003–0.03 and not monotone (w = 6 is consistently 0.012–0.027 too tough).
+- Eight layers are enough for the deterministic slab (`python3 analyze.py life det12_b16 det_b16`, …): with
+  twelve, ln τ is 8.6504(17) against 8.6470(16) on the ring b = 16, 6.7277(9) against 6.7262(14) on the segment
+  n = 13, 9.1768(20) against 9.1708(15) at n = 21: +0.002 to +0.006, a slope change of +0.0006(4) per site.
 
 ## 5. How the thin face dies
 
 `python3 analyze.py qsd det_b24 det_b32 seg_det_n21` **[measured]**.
 
 - Looking back from a death, the mean face population falls steadily: 1.7, 4.1, 7.3, 10.1, 12.6, 14.8 cells at
-  1 … 6 generations before the end, the same on every ring from b = 24 to 36 (segments: 1.7, 4.1, 7.0, 9.2, 11.0,
-  12.5 at n = 21), about 2.4 cells = 1.8 sites per generation; the lag at which half of the living population
-  (1.33 cells per site) is gone grows with the size: 3.2, 5.6, 7.9, 9.4 generations at b = 16, 24, 32, 36. The
-  face does not vanish in a flash; an island shrinks from its ends at about 0.9 sites per generation per end.
+  1 … 6 generations before the end, the same on every ring from b = 20 to 36 (segments: 1.7, 4.1, 7.0, 9.2, 11.0,
+  12.5 at n = 21), about 2.7 cells = 2 sites per generation; the lag at which half of the living population
+  (1.33 cells per site) is gone grows in proportion to the size: 4.2, 5.4, 6.6, 7.8, 8.9, 10.4 generations at
+  b = 16, 20, …, 36 (0.29 per site), and 3.7, 6.6, 9.8, 11.5 at n = 13, 21, 29, 33 for segments (0.39 per site).
+  The face does not vanish in a flash: an island shrinks from its ends, at 0.85–1 site per generation per end
+  on a ring.
 - The last step is the same at every size: 58.6% of deaths are from one live cell, 24.5% from two, 10% from
   three, 4% from four.
 - In the living state the face holds 0.4437 of its cells (interior layers 0.397); a segment's face 0.371 of the
@@ -147,9 +190,78 @@ Steps per added site: 0.303, 0.960, 0.476, 0.453, 0.461. Simulated continuation 
 (20 → 24). So **the exact numbers are numbers about M(1) on short segments, not about its constant, and not about
 gump**: M(1)'s slope at n ≈ 20 is 0.37 per site (0.123 per cell) and falling, gump's is 0.30.
 
+### 6b. Two more closures that can be solved exactly on short segments **[exact] + [measured]**
+
+`python3 pca.py table tab_det_b32 det32; python3 pca.py exact det32 6; python3 ccoin.py measure; python3 ccoin.py
+exact 6; python3 analyze.py life 'pca_det32_n*'; python3 analyze.py life 'cc_n*'`.
+
+Both take numbers from the deterministic system (so neither is a derivation) and both keep a kernel that is a
+product over cells or triples, so `sweep.py` solves them as it solves M(1).
+
+- **The face alone.** Forget the layers beneath; every face cell is alive next with the probability p(s, k) that
+  the deterministic system shows for a face cell in state s with k live face neighbours (14 numbers, measured to
+  2 × 10⁻⁵ on the ring b = 32; b = 16 gives the same to 2 × 10⁻⁴), independently of the other cells. Against
+  independent coins beneath, p differs little where the face is thin (birth with k = 1: 0.0628 against 0.0633;
+  k = 2: 0.3515 against 0.3498) and much where it is dense (birth with k = 4: 0.571 against 0.650; survival with
+  k = 4: 0.578 against 0.650).
+- **Coins that know the face above them.** M(1), except that a coin of the first coin layer is alive with
+  probability 0.3482, 0.4500, 0.4456 when 0, 1, 2 of the two face cells above it are alive, and a coin of the
+  second with 0.3967, 0.3930 when the face cell above it is dead, alive (measured at one time on the ring b = 48,
+  errors 0.0003). The cells of a triple still share their coins.
+
+Segments, ln τ (exact where six decimals are given; each exact value was also simulated: 3.9774(9), 4.4420(7) for
+the face alone, 4.1213(7), 4.5433(5) for the knowing coins):
+
+| | n = 5 | n = 6 | n = 13 | n = 21 | slope 13 → 21 per site | against deterministic |
+|---|---|---|---|---|---|---|
+| deterministic | 3.8671(9) | 4.2795(8) | 6.7262(14) | 9.1708(15) | 0.3056(3) | |
+| M(1), coins | 4.192750 | 4.646105 | 7.5311(8) | 10.5080(26) | 0.3721(3) | +22% |
+| M(3) | | | 7.0918(10) | 9.8784(21) | 0.3483(3) | +14% |
+| the face alone, measured p(s, k) | 3.977059 | 4.441084 | 7.1483(21) | 9.8572(52) | 0.3386(7) | +11% |
+| coins that know the face | 4.121859 | 4.543578 | 7.1267(16) | 9.7090(51) | 0.3228(7) | +5.6% |
+| M(4) | | | 6.7444(10) | 9.2288(19) | 0.3106(3) | +1.6% |
+| M(5) | | | 6.7235(11) | 9.1729(17) | 0.3062(3) | +0.2% |
+
+- The face alone has the face's one-generation statistics right by construction and is still 11% too tough in
+  slope: **the one-generation statistics of the face do not fix its lifetime.** Its living face is denser (0.401 of
+  the cells of a 21-site segment against 0.371) and quieter (variance of the population 39 against 46), and it
+  collapses more slowly (looking back from a death: 1.4, 2.8, 4.5, 6.4 cells against 1.7, 4.1, 7.0, 9.2).
+- Letting the cells fail together (shared coins) and letting the support follow the face at one time gets within
+  6% with five measured numbers and no layer of the rule beneath the face: better than three layers over blind
+  coins. What is still missing is memory: the layers beneath stay thin for several generations (§4).
+- None of these reaches its own straight law at the sizes that can be solved exactly, and the deterministic values
+  at n ≤ 6 are themselves rough (there the hazard depends on age, 1% of lives end in a repeating state and the two
+  faces often die together: `python3 run.py stats 'seg_det_n[5-9]'`).
+
 ## 7. Wider faces
 
-PENDING_WIDER
+**[measured]** for the torus (1,2),(0,b), shortest loop squared 7 (`ringk.c`; `python3 analyze.py life 'det_k2_b*'`):
+
+PENDING_K2
+
+What the same method says as the face widens, and what it would take:
+
+- The tori (1,k),(0,b) are rings of b sites of three cells for every k (the site index is j − k·i mod b; shifts
+  reach k + 1 sites), so everything of §3 can be asked of them; `ringk.c` steps k = 1 … 5 (shortest loop squared
+  3, 7, 13, 21, 31), validated cell by cell. The census's 0.141 belongs to shortest loop squared 4, which is not
+  of this form (two cubes per ring position) and was not stepped here.
+- The census slopes of wider tori are local slopes of ring laws too, and should come down with length as the
+  thin torus's did (0.115 → 0.103 between A = 54 and 102, limit 0.100). How much of the rise 0.10 → 0.19 → 0.21
+  with the loop is asymptotic and how much is the ring's bend is not known.
+- Reading **[conjectured]**: the cost per cell is the price of pushing a front line back by one cell, and a longer
+  front line is harder to push because its cells hold each other up sideways; on the thinnest torus the line is
+  one site long and "sideways" is the face's own tail. The saturation near 0.21 would then be the price per cell
+  for a straight front line in a wide face, or the point where a wide face stops dying by fronts at all.
+- **To reach the wide face by derivation** one would need (i) a closure, and the cheapest one that works is five
+  layers over coins, with the interior density as an input; (ii) the large-deviation rate of a front line in that
+  model, a two-dimensional problem with 15 cells per site. Exact enumeration is out by many orders: even the
+  one-layer model on the thinnest torus needs more than twenty sites, 2^60 states. A rate of this kind can be
+  *computed* without waiting for deaths by sampling the tilted front process (cloning), on the deterministic
+  system itself; that would extend the measurements to faces whose lifetime cannot be simulated, but it is a
+  measurement, not a derivation. No small parameter was found that would make one possible: the cost per cell is
+  0.1–0.2 nats, the events behind it involve three to five layers and tens of sites, and the two simplest
+  closures (coins beneath: +22% in slope; the face's own one-generation statistics: +11%) fail in the same
+  direction for a reason that is measured (§4, §6b).
 
 ## 8. Subtle points
 
@@ -164,12 +276,16 @@ PENDING_WIDER
   `seg_det_n13/stuck_c1.txt`); (iii) `validate_dump` re-derives every end of a life. In a model with w ≥ 4
   the same happens when layers 1 … w − 1 all die: a cell of layer w − 1 sees only three coins and B needs four,
   so the face runs alone for ever (2–17 such lives per 10⁵ deaths at b = 16; they are cut at the snapshot).
+  With w ≥ 6 the same happens behind any three adjacent dead layers while deeper layers flicker on with the coins:
+  the first runs of M(6) and M(8) on the 13-site segment ended with every lane stuck. The firewall rule (next
+  point) now applies to the models too, and those two tags were rerun; the model tags with w = 4, 5, 6 run before
+  that have no exposure beyond 30 mean lives.
 - **Firewall.** A deterministic life is also cut when three adjacent interior layers are dead (looked for every
   840 generations): 72 of 376,301 lives at b = 16, 4 at b = 20, none above. The tags `det_b16`, `det_b20` and the
   first chunks of `det_b24` were run when the rule was "one empty interior layer"; the difference is below the
   statistical error at b = 16 (the census value, made with other code, is 1.7σ away).
 - **Ring and segment are different laws with the same γ.** A ring must first open a gap; a segment has two from
-  the start. ln τ_ring(b) − ln τ_seg(b − 3) = 1.921, 2.174, 2.370, PENDING_RS36 at b = 16, 24, 32, 36: it grows like
+  the start. ln τ_ring(b) − ln τ_seg(b − 3) = 1.921, 2.174, 2.370, 2.42(2) at b = 16, 24, 32, 36: it grows like
   0.65 ln b. Reading a cost per cell off rings at A ≤ 72 overstates it by 10–15%.
 - **Left and right ends of a segment are mirror images** (the reflection x ↔ y maps site c to −c), and the
   measured k_wall agree on the two sides from x = 2 on; at x = 1 they differ (0.410, 0.462) because the triple
@@ -194,8 +310,8 @@ PENDING_WIDER
 - **One layer over coins of another density.** No single density can be right: the support beneath a face cell
   depends on what the face is doing there (§4: mean 0.88 to 1.42 live cells of three). The next closure, a
   face-only probabilistic automaton whose birth and survival probabilities p(state, live face neighbours) are
-  read from the deterministic system, was not run (see "Not checked"); its fourteen numbers would still be
-  measured, not derived.
+  read from the deterministic system, is in §6b: +11% in slope. Coins whose density follows the face above
+  them: +5.6%.
 - **Exact enumeration to the straight part.** The sweep costs 2^(3n+5) numbers for a segment of n sites of M(1)
   (n ≤ 8), 2^(3b+10) for a ring (b ≤ 6); M(2) reaches n = 3. M(1) needs n > 20 to be within 3% of its own slope.
 - **A tilted front chain** (a window of K sites behind the front, the rest replaced by the living state): not
@@ -210,9 +326,11 @@ PENDING_WIDER
   lives e^19 generations.
 - **The form of the corrections.** Powers of the length, logarithms and stretched exponentials fit equally; none
   is derived. The quoted error is the spread between them.
-- **A face-only closure.** §4 measures how the layers beneath answer to the face; whether a probabilistic
-  automaton on the face alone, with the measured one-step probabilities p(state, live face neighbours),
-  reproduces the lifetimes was not tried. Nor were coins with persistence in time.
+- **Coins with memory.** §6b stops at coins that follow the face at one time. The next step, coins that also
+  remember their own last state (ten measured numbers), was not tried; it cannot be solved exactly beyond three
+  sites (nine cells per site) but can be simulated.
+- **The closures of §6b** were run at n = 13 and 21 only; their slopes at larger n are not known, and their tables
+  come from rings, not from segments.
 - **The coin density** was varied only at b = 20, w = 5; whether its effect grows with size is unknown.
 - **Models deeper than six layers on rings**, and deeper than eight anywhere.
 - **Statistical errors** are 1/√deaths. Over all lifetime tags the scatter between chunks has χ² = 186 on 162

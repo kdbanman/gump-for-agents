@@ -1735,3 +1735,45 @@ each a few minutes; outputs in `audit/out/`).
   dependence on the shape and twist of a periodic face for a chaotic transient, with a second variable; the
   exponential cost of symmetry. Not new: confinement by a high birth threshold, supertransients, the tail formula,
   boundary-controlled death, blocking sets.
+
+## 2026-11-14 — is there one asymptotic cost per cell? The data in hand allow 0.207 to 0.219 (joint analysis of every family; adversarial review; lead's checks)
+
+- What was done: `research/constant/` (README, `fit.py`, `load.py`, `shape_models.py`) fits every family of measured
+  face lifetimes (periodic slabs by width, twisted tori, hull faces, symmetric faces; 64 points, all recomputed from
+  tracked data), models stated before fitting, each scored on held-out largest sizes. No new simulation. Review:
+  `research/audit/REVIEW-constant.md` with its own loader and fits (`research/audit/constant/`). The lead re-ran
+  `python3 research/constant/fit.py` (35 s) and checked the inputs against earlier independent numbers (width-family
+  slopes 0.2072, 0.2082: `research/audit/gpu_pr16_lead_check.py`; hull local slopes 0.2010, 0.2119, 0.2146, 0.2181,
+  0.2209 by arithmetic on 6.8054, 9.8202, 13.6346, 18.1407, 23.3761, 29.3411).
+- **Measured, model-free:** hull faces' local slopes at A = 63–108 (0.2146, 0.2182 ± 0.0013) lie above the slopes of
+  periodic faces within a width family (0.2072 ± 0.0001, 0.2082 ± 0.0006), and the hull's are rising.
+- **Fitted (review's version, which replaces the analysis's):** periodic slab faces give c = 0.207–0.216 depending on
+  the form (statistical error about ± 0.003 once the width law is free: 0.2127 ± 0.0031); hull faces with one
+  correction term give 0.218–0.232 depending on the term (1/A: 0.2181; 1/k: 0.2193; ln A: 0.2226; rim ∝ side:
+  0.2317; all fit and forecast the held-out A = 108 and 135), and 0.2156 with a saturating slope.
+- **The analysis's headline, "two families in tension; one constant only with a two-term hull correction, p ≈ 0.01",
+  does not stand as stated.** The size of the tension runs from 1.7σ to 15σ across defensible pairs of forms, and a
+  single constant passes with ordinary parameters: c = 0.2179 (hull correction 1/A; joint p 0.28; every residual
+  ≤ 1.6σ) or 0.2155 (saturating hull slope). **Verdict: the data allow one asymptotic constant anywhere from about
+  0.207 to 0.219; they do not fix it, and they do not show that there are two.** Preferring the periodic value
+  (0.2085) is a judgement, not a result.
+- **The lead's conjecture of the previous entries (wrap-around = a sum over period vectors decaying over a
+  correlation length) is refuted as a law.** Neither that form nor the capillary-wave form fits at any scope
+  (census A = 48 + 60: χ² 20,925/13 and 48,004/14), neither carries between thin and wide faces (thin tori shift the
+  intercept as well as the slope), and both give the second variable its measured sign at about a quarter of its
+  size (+0.004 against +0.0151, +0.0142). What survives as a description: the deficit of the cost per cell falls
+  roughly exponentially in the shortest loop, but the decay length depends on the classes used (0.71–0.74 with the
+  thin tori, 1.05 ± 0.10 or 0.42 ± 0.09 without), so its agreement with the chaotic state's correlation length is
+  not established. The capillary-wave coefficient "κ = −1.01 ± 0.01 (the Ising value)" of the analysis does not
+  stand: its jackknife error is ± 0.28 and it drifts from −0.72 to −1.43 between A = 48 and 72.
+- Forecasts committed before data (`research/constant/PREDICTIONS.md`): (A) for the GPU patch experiment, blind;
+  (B) for the pairs of `research/shape3/`, blind only on the analyst's word for some pairs (rows were in the tree
+  minutes earlier; the analyst reported having seen four); (C) for a family of equilateral tori under three
+  readings, with the outcomes that refute each (6c21dbd).
+- Measurements proposed, as rated by the review: equilateral tori (useful: the widest periodic lever; they decide
+  whether the periodic slope still rises with width, about 0.208 → 0.211 under one constant); equal-area hull faces
+  with different rims (only if corners are matched: hexagonal faces of different side ratios); the width-6 slope
+  (does not decide; withdrawn).
+- Not checked by the review: the massive lattice-sum fits and their 0.2063; the symmetric-face fits; the 2D toy.
+  Raised and open: whether the GPU kernel's settled-state test can miss settled lives of the kind the pairs
+  experiment met in its own stepper (it would inflate large lifetimes in both families).

@@ -1,4 +1,166 @@
 {
+ "ccoin_ring_5": {
+  "cells": 15,
+  "h": 0.0203951258528,
+  "iterations": 33,
+  "kind": "ring",
+  "lntau": 3.89245934,
+  "model": "ccoin",
+  "n": 5
+ },
+ "ccoin_seg_2": {
+  "cells": 6,
+  "h": 0.0822222178197,
+  "iterations": 30,
+  "kind": "seg",
+  "lntau": 2.49832972,
+  "model": "ccoin",
+  "n": 2
+ },
+ "ccoin_seg_3": {
+  "cells": 9,
+  "h": 0.0577599773329,
+  "iterations": 51,
+  "kind": "seg",
+  "lntau": 2.85145918,
+  "model": "ccoin",
+  "n": 3
+ },
+ "ccoin_seg_4": {
+  "cells": 12,
+  "h": 0.0248193896323,
+  "iterations": 51,
+  "kind": "seg",
+  "lntau": 3.69613009,
+  "model": "ccoin",
+  "n": 4
+ },
+ "ccoin_seg_5": {
+  "cells": 15,
+  "h": 0.0162143436603,
+  "iterations": 62,
+  "kind": "seg",
+  "lntau": 4.12185902,
+  "model": "ccoin",
+  "n": 5
+ },
+ "ccoin_seg_6": {
+  "cells": 18,
+  "h": 0.0106352805894,
+  "iterations": 70,
+  "kind": "seg",
+  "lntau": 4.54357845,
+  "model": "ccoin",
+  "n": 6
+ },
+ "pca_coins_ring_5": {
+  "cells": 15,
+  "h": 0.0156061979911,
+  "iterations": 37,
+  "kind": "ring",
+  "lntau": 4.16008714,
+  "model": "pca_coins",
+  "n": 5
+ },
+ "pca_coins_seg_2": {
+  "cells": 6,
+  "h": 0.086942376459,
+  "iterations": 36,
+  "kind": "seg",
+  "lntau": 2.44250972,
+  "model": "pca_coins",
+  "n": 2
+ },
+ "pca_coins_seg_3": {
+  "cells": 9,
+  "h": 0.0641834793614,
+  "iterations": 51,
+  "kind": "seg",
+  "lntau": 2.74600943,
+  "model": "pca_coins",
+  "n": 3
+ },
+ "pca_coins_seg_4": {
+  "cells": 12,
+  "h": 0.0220206860077,
+  "iterations": 50,
+  "kind": "seg",
+  "lntau": 3.81577299,
+  "model": "pca_coins",
+  "n": 4
+ },
+ "pca_coins_seg_5": {
+  "cells": 15,
+  "h": 0.0127535937087,
+  "iterations": 57,
+  "kind": "seg",
+  "lntau": 4.36194219,
+  "model": "pca_coins",
+  "n": 5
+ },
+ "pca_coins_seg_6": {
+  "cells": 18,
+  "h": 0.00770416837176,
+  "iterations": 64,
+  "kind": "seg",
+  "lntau": 4.86599375,
+  "model": "pca_coins",
+  "n": 6
+ },
+ "pca_det32_ring_5": {
+  "cells": 15,
+  "h": 0.0163675968268,
+  "iterations": 41,
+  "kind": "ring",
+  "lntau": 4.1124517,
+  "model": "pca_det32",
+  "n": 5
+ },
+ "pca_det32_seg_2": {
+  "cells": 6,
+  "h": 0.112607970277,
+  "iterations": 34,
+  "kind": "seg",
+  "lntau": 2.18384278,
+  "model": "pca_det32",
+  "n": 2
+ },
+ "pca_det32_seg_3": {
+  "cells": 9,
+  "h": 0.0784043232455,
+  "iterations": 49,
+  "kind": "seg",
+  "lntau": 2.54587621,
+  "model": "pca_det32",
+  "n": 3
+ },
+ "pca_det32_seg_4": {
+  "cells": 12,
+  "h": 0.0319394680118,
+  "iterations": 47,
+  "kind": "seg",
+  "lntau": 3.44391279,
+  "model": "pca_det32",
+  "n": 4
+ },
+ "pca_det32_seg_5": {
+  "cells": 15,
+  "h": 0.018740672017,
+  "iterations": 58,
+  "kind": "seg",
+  "lntau": 3.97705914,
+  "model": "pca_det32",
+  "n": 5
+ },
+ "pca_det32_seg_6": {
+  "cells": 18,
+  "h": 0.0117831642876,
+  "iterations": 68,
+  "kind": "seg",
+  "lntau": 4.44108352,
+  "model": "pca_det32",
+  "n": 6
+ },
  "ring_5_rho26112": {
   "cells": 15,
   "h": 0.0189263762824,

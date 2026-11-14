@@ -10,7 +10,7 @@ every family, see the sources' READMEs).  `faces` is the number of faces that ca
 
 Families
   per    periodic slab faces, m = 8 layers; lattice (a, k), (0, b); pooled by isometry class at each area
-  hull   asymmetric octahedral hull faces, R = 7 ... 17 (A = 30 ... 135)
+  hull   asymmetric octahedral hull faces, R = 7 ... 17 (A = 30 ... 135); every run is pooled, whatever its deaths
   symc   O_h-symmetric hull faces, cube-centred;  symv: vertex-centred
 """
 import csv, glob, json, math, os, sys
@@ -101,26 +101,28 @@ def hull(pool=True):
     """Asymmetric octahedral hull faces. CPU (research/fluct/qsd.py, T0 = 200) and GPU (facelaw.py, T0 = 200)."""
     raw = []
     q = json.load(open(P('research', 'fluct', 'data', 'qsd_summary.json')))['sizes']
-    for R, v in q.items():
-        if v['deaths'] >= 10:
-            raw.append(dict(A=v['A'], R=int(R), E=v['expo'], F=v['deaths'], src=f'fluct/qsd_summary.json:R{R}',
-                            code='fl.c'))
+    for R, v in q.items():      # every run is kept: dropping exposure because it saw few deaths biases the pool
+        raw.append(dict(A=v['A'], R=int(R), E=v['expo'], F=v['deaths'], src=f'fluct/qsd_summary.json:R{R}',
+                        code='fl.c'))
     for p in sorted(glob.glob(os.path.join(GPU, 'R*_s*_A10G.json'))):
         r = json.load(open(p)); g = r['agg']['200']
         raw.append(dict(A=r['A'], R=r['R'], E=g['exposure'], F=g['deaths'], src='gpu/' + os.path.basename(p),
                         code='gpu'))
-    for r in raw:
-        r['y'], r['se'] = pt(r['E'], r['F'], 8)
+    for r in raw:               # a run with no death has no value of its own; its exposure still enters the pool
+        r['y'], r['se'] = pt(r['E'], r['F'], 8) if r['F'] > 0 else (float('nan'), float('inf'))
     if not pool:
         return raw
     out = []
     for A in sorted({r['A'] for r in raw}):
         rs = [r for r in raw if r['A'] == A]
         E = sum(r['E'] for r in rs); F = sum(r['F'] for r in rs)
+        if F == 0:              # A = 165 (CPU, no death in 1.6e9 node-generations): a bound, not a point
+            continue
         y, se = pt(E, F, 8)
         k = hull_k(A)
         out.append(dict(fam='hull', A=A, R=rs[0]['R'], k=k, rim=6 * k - 3, y=y, se=se, F=F, E=E, nsrc=len(rs),
-                        chi2=sum(((r['y'] - y) / r['se']) ** 2 for r in rs), srcs=[r['src'] for r in rs]))
+                        chi2=sum(((r['y'] - y) / r['se']) ** 2 for r in rs if r['F'] > 0),
+                        srcs=[r['src'] for r in rs]))
     return out
 
 
@@ -161,7 +163,11 @@ def show():
         print(f'{p["A"]:4d} R={p["R"]:2d} k={p["k"]:2d} rim={p["rim"]:3d} ln tau {p["y"]:8.4f} +- {p["se"]:.4f} '
               f'deaths {p["F"]:7d} sources {p["nsrc"]} chi2 {p["chi2"]:.1f}')
     for r in hull(pool=False):
-        print(f'      {r["src"]:40s} A={r["A"]:3d} {r["y"]:8.4f} +- {r["se"]:.4f} ({r["F"]} deaths)')
+        if r['F'] > 0:
+            print(f'      {r["src"]:40s} A={r["A"]:3d} {r["y"]:8.4f} +- {r["se"]:.4f} ({r["F"]} deaths)')
+        else:
+            print(f'      {r["src"]:40s} A={r["A"]:3d} no death in exposure {r["E"]:.3g}: ln tau > '
+                  f'{math.log(8 * r["E"] / 3):.1f} (95%)')
     for c in 'cv':
         print(f'\nSYMMETRIC hull faces, centre {c}')
         for p in sym(c):

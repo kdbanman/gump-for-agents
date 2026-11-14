@@ -6,6 +6,9 @@
  *   det    m {111} layers, B45/S345 on all of them, two faces (layers 0 and m-1)
  *   model  w layers of the rule (layer 0 is the face) over two layers of coins: every cell of layers w and
  *          w+1 is redrawn alive with probability rho16/65536 before every generation
+ *          With -c r0 r1 r2 q0 q1 (w = 1 only) the coins know the face above them: a coin of the first coin layer
+ *          is alive with probability r_j/65536, j = number alive among the two face cells above it (the two that
+ *          read it); a coin of the second with q_s/65536, s = state of the one face cell above it.
  *   pca    the face alone (m_or_w = 1) as a probabilistic automaton: every cell is alive next with a probability
  *          that depends on its state s and its number k of live face neighbours, independently of the others;
  *          the 14 probabilities (x 65536; dead k = 0..6, then alive k = 0..6) are read from the file given by -p
@@ -13,8 +16,10 @@
  * Each lane lives successive lives: a life starts from a soup of density p0 and ends when a face is empty
  * (checked every generation), when its state repeats (any period: every generation the state is compared with
  * the lane's snapshot, taken at ages 16, 32, 64, ...; the life is then cut at the snapshot's age), when three
- * adjacent interior layers of a det slab are found dead (looked for every PER generations), or at the cap. Then
- * the lane is reseeded. Hazards are for ages >= T0 (age = generations since the soup).
+ * adjacent layers beneath the face (det: between the faces; model: among layers 1..w-1) are found dead (looked
+ * for every PER generations; nothing crosses three dead layers: a cell would need four live neighbours and can
+ * have three, so what is above runs alone for ever), or at the cap. Then the lane is reseeded. Hazards are for
+ * ages >= T0 (age = generations since the soup).
  * Repeating states. det: the whole slab is periodic with living faces. model: only looked for with w >= 4 and
  * layers 1..w-1 all dead; then no coin can raise a cell (a cell of layer w-1 sees three coins, B needs four) and
  * the face runs alone for ever. For w <= 3 the coins always reach the rule's layers and nothing is looked for.
@@ -119,9 +124,20 @@ static void pca_step(void) {
 }
 
 static unsigned rho16, p016;
+static int ccoin; static unsigned CR[3], CQ[2];   /* coins conditioned on the face above (-c) */
 static void noise(void) {
   vec m = {0}; m += MASK;
-  for (int t = ndyn; t < nt; t++) for (int o = 0; o < 3; o++) S[t][o] = bern(rho16) & m;
+  if (!ccoin) { for (int t = ndyn; t < nt; t++) for (int o = 0; o < 3; o++) S[t][o] = bern(rho16) & m; return; }
+  for (int o = 0; o < 3; o++) {                  /* w = 1: layer 1 and layer 2 are the coins, layer 0 the face */
+    vec up[2]; int n = 0;
+    for (int k = 0; k < 12; k++) if (NBR[o][k][0] == -1) up[n++] = shift(S[0][NBR[o][k][1]], NBR[o][k][2]);
+    vec b0 = bern(CR[0]), b1 = bern(CR[1]), b2 = bern(CR[2]);
+    S[1][o] = ((~up[0] & ~up[1] & b0) | ((up[0] ^ up[1]) & b1) | (up[0] & up[1] & b2)) & m;
+    vec top = {0};
+    for (int k = 0; k < 12; k++) if (NBR[o][k][0] == -2) top = shift(S[0][NBR[o][k][1]], NBR[o][k][2]);
+    vec q0 = bern(CQ[0]), q1 = bern(CQ[1]);
+    S[2][o] = ((~top & q0) | (top & q1)) & m;
+  }
 }
 static void reseed(int l) {
   for (int t = 0; t < ndyn; t++) for (int o = 0; o < 3; o++) { vec r = bern(p016); S[t][o][l] = r[l] & MASK; }
@@ -150,7 +166,9 @@ int main(int argc, char **argv) {
   long GENS = atol(argv[7]), T0 = atol(argv[8]), CAP = atol(argv[9]); int GS = atoi(argv[10]); const char *outf = argv[11];
   const char *initf = 0, *dumpf = 0, *pcaf = 0;
   for (int i = 12; i < argc; i++) { if (!strcmp(argv[i], "-i")) initf = argv[++i]; else if (!strcmp(argv[i], "-d")) dumpf = argv[++i]; else if (!strcmp(argv[i], "-n")) G = atoi(argv[++i]);
-    else if (!strcmp(argv[i], "-p")) pcaf = argv[++i]; }
+    else if (!strcmp(argv[i], "-p")) pcaf = argv[++i];
+    else if (!strcmp(argv[i], "-c") && i + 5 < argc) { ccoin = 1; for (int j = 0; j < 3; j++) CR[j] = atoi(argv[++i]); for (int j = 0; j < 2; j++) CQ[j] = atoi(argv[++i]); } }
+  if (ccoin && (!model || pca || mw != 1)) { fprintf(stderr, "-c: model with one layer only\n"); return 1; }
   if (b < 5 || b > 64) { fprintf(stderr, "need 5 <= b <= 64\n"); return 1; }
   if (pca) { if (mw != 1 || !pcaf) { fprintf(stderr, "pca: one layer, and a table (-p)\n"); return 1; }
     FILE *f = fopen(pcaf, "r"); for (int s = 0; s < 2; s++) for (int k = 0; k < 7; k++) if (!f || fscanf(f, "%u", &PQ[s][k]) != 1 || PQ[s][k] > 65535) { fprintf(stderr, "bad table\n"); return 1; }
@@ -210,7 +228,8 @@ int main(int argc, char **argv) {
         if (!end && age >= 16 && !(age & (age - 1))) {
           for (int t = 0; t < ndyn; t++) for (int o = 0; o < 3; o++) SNAP[t][o][l] = S[t][o][l];
           snapage[l] = age; }
-        if (!end && chk && !model) { for (int t = 1; t + 2 < ndyn - 1; t++) { int d3 = 1; for (int u = t; u < t + 3; u++) if (S[u][0][l] | S[u][1][l] | S[u][2][l]) d3 = 0;
+        if (!end && chk) { int last = model ? ndyn - 1 : ndyn - 2;   /* deepest layer that is not a face */
+          for (int t = 1; t + 2 <= last; t++) { int d3 = 1; for (int u = t; u < t + 3; u++) if (S[u][0][l] | S[u][1][l] | S[u][2][l]) d3 = 0;
             if (d3) end = 3; } if (end == 3) nI++; }   /* three adjacent dead interior layers: a firewall (T3) */
         if (!end && CAP && age >= CAP) { end = 4; nC++; }
         if (!end && smp && age >= T0) for (int k = 0; k < nface; k++) {
