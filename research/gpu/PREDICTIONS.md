@@ -219,3 +219,23 @@ Which reading each outcome favours:
 ± 0.004 of 0.213, and the intercepts within ± 0.06 of each other; model A's χ² is acceptable (p > 0.05). The orientation
 check 4×6 vs 6×4 agrees within 2σ. Probabilities: A 0.55, O 0.3, W 0.15. The burn-in check moves no face channel by
 more than its error.
+
+## 2026-11-14T10:56Z — outcome of the width experiment (forecast: commit 5cd9a83, 09:49:44Z)
+
+`python3 research/gpu/width.py "research/data/gpu_facelaw/fwslab*.json"`; `python3 research/gpu/fwslab.py summary ...`.
+14 firewall-resolved slabs (11 new, 3 earlier), UTC starts and age histograms in each file. **My forecast (reading A)
+missed.**
+- **Fixed area A = 108: 4×9×8 − 6×6×8 = −0.196 ± 0.059** (forecast 0.00 ± 0.10: missed; the post-hoc short-side fit's
+  −0.23 ± 0.08 was right). Against the pooled 6×6×8 (22.536 ± 0.031): −0.163 ± 0.052. At A = 72, 3×8 − 4×6 = −0.35;
+  at A = 90, 3×10 − 5×6 = −0.74.
+- **Readings:** A (a + bA) χ² = 30,944 for 13 dof — excluded; O (a(s) + bA) 3,595 for 10 — excluded; W (a(s) + b(s)A)
+  85 for 7 — far better, not complete. **b(s) = 0.1959 (s = 3), 0.2072 (4), 0.2082 (5), 0.213 ± 0.006 (6)**: the
+  cost per cell rises with width (forecast: equal within ± 0.004 — missed). Local slopes within families:
+  s = 3: 0.1966 → 0.1902 (falls, 9σ); s = 4: 0.2072, 0.2077, 0.2065, 0.2025 ± 0.0038; s = 5: 0.2083, 0.2069,
+  0.2104 ± 0.0055 (flat); s = 6: 0.2131 ± 0.0062. 5×8×8 (A = 120): ln τ_face = 25.046 ± 0.073 (189 face deaths,
+  2,212 firewalls, 92.1%).
+- **Orientation check** 4×6×8 − 6×4×8 = −0.002 ± 0.003 (forecast within 2σ: hit). **Burn-in:** rates over ages ≥ 10³
+  and ≥ 10⁴ move no face channel by more than its error (hit), including slabs where firewalls take 87–99.6% of lives.
+- Reading: a periodic face's cost per cell depends on its width and rises from width 3 to 5–6; only the narrowest faces
+  (width 3, and perhaps 4) get cheaper per cell as they lengthen. [conjecture] Wide faces converge to about the
+  octahedral 0.216–0.221, and the slab line's 0.2088 is an average over narrow slabs.
