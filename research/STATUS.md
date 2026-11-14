@@ -62,7 +62,10 @@ _Last updated 2026-11-14 by the lead._
   weekly limits, `LEAD.md`). When they report, a fresh critic successor reviews the new rounds in one pass. Started
   07:50 UTC as well: the fresh-reader audit of the one finished theorem chain (source's and probability's Theorem A;
   writes `swarm/audit/AUDIT-theoremA.md`), and a reviser applying the class review to `research/theory/class.md`.
-  Also running: a librarian (successor) on the two percolation facts that probability's and
+  **08:17 UTC:** all three solvers have written their rounds (counting round 3 is a closing report and
+  probability round 3 says its line is finished; path round 4 asks for one closing round). A fresh critic (Fable)
+  is reviewing the three rounds in one pass with the exam outcomes and the library notes; when it reports, decide
+  on path's closing round. The audit of the Theorem A chain is still running. Earlier: a librarian (successor) on the two percolation facts that probability's and
   source's Theorem A rest on (`library/requests.md`, last two blocks), and an examiner running the sampled entries of
   `swarm/PREDICTIONS.md` (writes `swarm/exam/OUTCOMES.md`). Stop a line when a round gives no new proved step (each
   solver was told that a closing report is a good outcome). Then a fresh reader (not the critic) audits every claim tagged "proved" across the four `claims.md`,
@@ -81,10 +84,15 @@ _Last updated 2026-11-14 by the lead._
   (kagome8 and hex9 at b = 4; whether bond10's b = 3 boxes ever die; kagome B2/S12 with transverse cuts censored);
   face12e with symmetric seeds and beyond 6³. The owner's quick-look branch `claude/edge-neighbour-tangent` stays
   unmerged; the audited face12e results live in `research/audit/class/` under that name.
-- **`research/theory/exponent/`**: a successor (Opus) was started 2026-11-14 about 07:55 UTC to write
-  `research/theory/exponent.md` from `PREDICTIONS.md`, `theorems.md` and the data, re-running a headline number per
-  section and correcting Lemma A, consequence (c) (false: swarm board E10). When it reports: an adversarial check by
-  another agent, then the notebook.
+- **`research/theory/exponent.md`**: written 2026-11-14 by a successor (commits b121199, 1d82192), not yet in the
+  notebook. Its verdict, unchecked: the exponent belongs to a thin boundary layer over memoryless noise (eight rows
+  of the 2D rule, or four to five layers of gump, over coin flips reproduce the deterministic lifetimes to 0.05
+  nats); in the toy τ(L) ≈ 12.1/E(L − 6.5) with E the chance of an empty window; nothing derives the constant.
+  Lemma A(c) corrected in `theorems.md`. **In progress (started 08:17 UTC):** an adversarial review (Opus; writes
+  `research/audit/REVIEW-exponent.md`), and the lead's own check of the toy half with independent code
+  (`research/audit/exponent/lead_check.py`; validated on the one-row chain: 6.4160 ± 0.0095 against the exact
+  6.4169; output of the eight-row runs in `research/scratch/audit_exponent/lead_w8.txt`). When both are in: the
+  notebook entry, CLAIMS rows, PROGRAM nodes M1–M4.
 - **Class follow-up** (Opus, started about 07:55 UTC; `research/theory/class/followup/`): forecasts first, then runs
   of what the revised class statement admits and nobody has run (kagome8 and hex9 at b = 4; kagome4 B2/S12 slab law
   done properly; bond10 b = 3 boxes; face12e 7³ and O_h-symmetric soups). When it reports: the lead re-derives one
