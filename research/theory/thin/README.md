@@ -103,10 +103,10 @@ for w = 1 … 5 against 0.337 deterministic; segments 0.372, 0.413, 0.348, 0.311
 `python3 analyze.py qsd det_b24 det_b32 seg_det_n21` **[measured]**.
 
 - Looking back from a death, the mean face population falls steadily: 1.7, 4.1, 7.3, 10.1, 12.6, 14.8 cells at
-  1 … 6 generations before the end, the same at every size (b = 16 … 36, segments too), about 2.4 cells = 1.8
-  sites per generation; the lag at which half of the living population (1.33 cells per site) is gone grows in
-  proportion to the size: 3.2, 5.6, 7.9, 9.4 generations at b = 16, 24, 32, 36. The face does not vanish in a
-  flash; an island shrinks from its ends at about 0.9 sites per generation per end.
+  1 … 6 generations before the end, the same on every ring from b = 24 to 36 (segments: 1.7, 4.1, 7.0, 9.2, 11.0,
+  12.5 at n = 21), about 2.4 cells = 1.8 sites per generation; the lag at which half of the living population
+  (1.33 cells per site) is gone grows with the size: 3.2, 5.6, 7.9, 9.4 generations at b = 16, 24, 32, 36. The
+  face does not vanish in a flash; an island shrinks from its ends at about 0.9 sites per generation per end.
 - The last step is the same at every size: 58.6% of deaths are from one live cell, 24.5% from two, 10% from
   three, 4% from four.
 - In the living state the face holds 0.4437 of its cells (interior layers 0.397); a segment's face 0.371 of the
@@ -155,7 +155,7 @@ PENDING_WIDER
   stats` reports exposure beyond (none in any tag in use; the bad chunk is kept as
   `seg_det_n13/stuck_c1.txt`); (iii) `validate_dump` re-derives every end of a life. In a model with w ≥ 4
   the same happens when layers 1 … w − 1 all die: a cell of layer w − 1 sees only three coins and B needs four,
-  so the face runs alone for ever (14–43 such lives per 10⁵ deaths; they are cut at the snapshot).
+  so the face runs alone for ever (2–17 such lives per 10⁵ deaths at b = 16; they are cut at the snapshot).
 - **Firewall.** A deterministic life is also cut when three adjacent interior layers are dead (looked for every
   840 generations): 72 of 376,301 lives at b = 16, 4 at b = 20, none above. The tags `det_b16`, `det_b20` and the
   first chunks of `det_b24` were run when the rule was "one empty interior layer"; the difference is below the
@@ -166,8 +166,8 @@ PENDING_WIDER
 - **Left and right ends of a segment are mirror images** (the reflection x ↔ y maps site c to −c), and the
   measured k_wall agree on the two sides from x = 2 on; at x = 1 they differ (0.410, 0.462) because the triple
   {Z_s, Y_s, X_{s+1}} is not mirror-symmetric.
-- **T0.** Hazards by age class are flat from age 32 on in every tag (`python3 run.py stats TAG`, columns "by
-  age"); T0 = 256 is safe, and so is 64 for the smallest systems.
+- **T0.** Hazards by age class are flat from age 64 on in every tag looked at (`python3 run.py stats TAG`, columns
+  "by age", for the classes above T0); T0 = 256 is safe, and so is 64 for the smallest systems.
 - **Coins.** One layer of the rule sees two layers of coins (2 + 1 cells), so "over two layers of coins" is the
   whole of what M(w) needs. Bernoulli words are made with a 16-bit density; `validate_dump` checks the density and
   the correlations of the dumped coins in time, between cells and between lanes.
@@ -194,8 +194,55 @@ PENDING_WIDER
 
 ## 10. Not checked
 
-PENDING_NOTCHECKED
+- **Whether the four routes of §3 have one limit.** They are ordered and separate at every size reached; that
+  they meet is the front picture's expectation **[conjectured]**, not a measurement.
+- **Anything beyond 45 sites by lifetime.** Rings of b = 40 and 48 (forecast F2) were not run: a ring of 48 sites
+  lives e^19 generations.
+- **The form of the corrections.** Powers of the length, logarithms and stretched exponentials fit equally; none
+  is derived. The quoted error is the spread between them.
+- **Why shallow models are too tough.** "The coins have no memory" is a reading; coins with persistence were not
+  tried.
+- **The coin density** was varied only at b = 20, w = 5; whether its effect grows with size is unknown.
+- **Models deeper than six layers on rings**, and deeper than eight anywhere.
+- **Statistical errors** are 1/√deaths. Over all lifetime tags the scatter between chunks has χ² = 186 on 162
+  degrees of freedom: the quoted errors may be about 7% too small.
+- **Old firewall rule** in `det_b16`, `det_b20` (§8): not rerun.
+- **Other soups.** Every life starts from density 0.4; hazards are flat in age, so no dependence is expected, and
+  none was looked for.
+- **The engine** was compared with `ring.c` on populations only (five sizes, up to 3,000 generations); lifetimes
+  were compared with the census (other code) at b = 16, 20, 24 and for the torus (1,2).
+- **The random generator** (xoshiro256++, one stream per lane) was checked on the dumped coins, not by repeating
+  a lifetime with another generator.
+- **Exact:** the ring of six sites and the segment of eight were not run. The two exact codes share
+  `exact1.triple_table` (the 8-outcome table of one triple); it is checked only through the agreement with
+  simulation at five sizes.
+- **The torus with shortest loop squared 4** (the census's 0.141) is not of the form (1,k),(0,b) and no code here
+  steps it. The tori k = 3, 4, 5 are validated cell by cell but no lifetime was run.
 
 ## 11. Reproduce
 
-PENDING_REPRODUCE
+```
+python3 thin.py table                 # the neighbour table, derived
+python3 thin.py oracle 16 8 300       # reference stepper = reference/oracle.py, every cell (also: 11 8 300; 12 5 200; k = 2, 3, 4)
+python3 run.py validate               # ring.c, ringk.c against the reference stepper and the engine: ALL OK (2 min)
+python3 run.py stats 'seg_det_n*'     # one line per tag: deaths, ln tau, ends without death, hazard by age class
+python3 analyze.py routes             # §3: the four routes side by side, with the fits
+python3 analyze.py life 'det_b[0-9]*' # one family per call (slopes are between successive tags)
+python3 analyze.py win win_det_b64 46 ; python3 analyze.py wall seg_det_n61 ; python3 analyze.py qsd det_b32
+python3 analyze.py static win_det_b64 'det_b[0-9]*'
+python3 sweep.py seq ; python3 exact1.py 5
+python3 collect.py                    # data/lifetimes.json, data/windows.json from the chunk files
+```
+
+`runs.sh` lists the run behind every tag. Validation, in full: (i) `thin.py oracle` embeds b copies of the slab in
+the cubic b-torus and compares every cell of every copy with `reference/oracle.py`; (ii) `validate_dump` takes a
+dump of every lane at every generation and checks that each next state is the reference stepper's image of the
+one before (walls included), and re-derives every end of a life (deaths, repeating states, firewalls) and the
+exposure by the rules stated at the head of `ring.c`, on 30 configurations including small ones where lives end
+in every way; (iii) `validate_engine` compares populations with the Rust engine on the cubic torus; (iv) the
+simulated one-layer model agrees with the exact solution at five sizes (§6).
+
+Files: `thin.py` (geometry, reference stepper), `ring.c` (packed stepper for k = 1, walls, statistics),
+`ringk.c` (the same for (1,k), no walls or windows), `nbr.h`, `nbrk.h` (generated by `thin.py header`), `run.py`
+(driver, validation, estimator), `analyze.py`, `exact1.py`, `sweep.py` + `sweep.c` (exact one-layer model),
+`collect.py`, `runs.sh`, `PREDICTIONS.md`, `data/`.

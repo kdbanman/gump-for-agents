@@ -7,6 +7,7 @@
     python3 analyze.py static WINTAG LIFETAG...   # ln tau(b) + ln E(b - s) for shifts s (E from WINTAG)
     python3 analyze.py wall TAG              # face with a wall: P(the x sites next to the wall are empty), cost per site
     python3 analyze.py fit TAG lmin lmax     # k(l) = g + a/l and g + a/(l + l0) on the window costs of TAG
+    python3 analyze.py routes                # the four routes to the asymptotic cost per site, side by side (README section 3)
 
 E(l): probability that l given consecutive sites of a living face are empty (site s = {Z_s, Y_s, X_{s+1}}),
 from the histogram of maximal empty runs: E(l) = sum_r N_r (r - l + 1)^+ / (samples x b).
@@ -150,6 +151,59 @@ def fit(tag, lmin, lmax):
     return res
 
 
+def wls(X, y, e):
+    """weighted least squares; returns coefficients, their errors, chi2, degrees of freedom"""
+    X = np.asarray(X, float); w = 1 / np.asarray(e, float)
+    A_ = X * w[:, None]; coef, *_ = np.linalg.lstsq(A_, y * w, rcond=None)
+    cov = np.linalg.inv(A_.T @ A_)
+    return coef, np.sqrt(np.diag(cov)), float((((X @ coef - y) * w) ** 2).sum()), len(y) - X.shape[1]
+
+
+def wallmean(tag):
+    """k_wall(x) averaged over the two ends of a segment (they are mirror images), with its error"""
+    o = wall(tag, quiet=True)
+    kl, el, kr, er = o['hfl'][2], o['hfl'][3], o['hfr'][2], o['hfr'][3]
+    n = min(len(kl), len(kr)); k = np.full(n, np.nan); e = np.full(n, np.nan)
+    for x in range(1, n):
+        if np.isfinite(kl[x]) and np.isfinite(kr[x]) and el[x] > 0 and er[x] > 0:
+            k[x] = (kl[x] + kr[x]) / 2; e[x] = math.hypot(el[x], er[x]) / 2
+    return k, e
+
+
+def routes(wintag='win_det_b64', walltag='seg_det_n61'):
+    print('Route 1: rings (lifetime)')
+    life(['det_b[0-9]*'])
+    print('Route 2: segments (lifetime)')
+    rows = [r for r in life(['seg_det_n[0-9]*']) if r[4] >= 100]
+    n = np.array([r[0] - 3 for r in rows], float); y = np.array([r[2] for r in rows]); e = np.array([r[3] for r in rows])
+    for nmin in (13, 17, 21, 25):
+        m = n >= nmin
+        if m.sum() < 4:
+            continue
+        for name, X in (('g n + c', [n[m], np.ones(m.sum())]), ('g n + c + a ln n', [n[m], np.ones(m.sum()), np.log(n[m])]),
+                        ('g n + c + d/n', [n[m], np.ones(m.sum()), 1 / n[m]])):
+            if m.sum() <= len(X):
+                continue
+            c, ce, chi, dof = wls(np.array(X).T, y[m], e[m])
+            print(f'   n >= {nmin}: ln tau = {name:18s}: g = {c[0]:.4f} +- {ce[0]:.4f}' + (f', third coefficient {c[2]:+.3f} +- {ce[2]:.3f}' if len(c) > 2 else '') + f', chi2 = {chi:.1f} / {dof}')
+    print(f'Route 3: empty windows on the ring {wintag}')
+    le, ee, k, ke = win(wintag, quiet=True)
+    print('   k(l):', ' '.join(f'{l}:{k[l]:.4f}({ke[l] * 1e4:.0f})' for l in (10, 14, 18, 22, 26, 30, 34, 38) if l < len(k)))
+    for lo, hi in ((12, 32), (16, 40)):
+        l = np.arange(lo, hi + 1)
+        for l0 in (0, 1, 2):
+            c, ce, chi, dof = wls(np.array([np.ones(len(l)), 1 / (l + l0)]).T, k[lo:hi + 1], ke[lo:hi + 1])
+            print(f'   l = {lo}..{hi}: k = g + a/(l + {l0}): g = {c[0]:.4f} +- {ce[0]:.4f}, a = {c[1]:.3f}, chi2 = {chi:.1f} / {dof}')
+    print(f'Route 4: distance of the front from a wall, segment {walltag}')
+    k, e = wallmean(walltag)
+    print('   k_wall(x):', ' '.join(f'{x}:{k[x]:.4f}({e[x] * 1e4:.0f})' for x in (6, 10, 14, 18, 22, 26, 30, 34) if x < len(k)))
+    for lo, hi in ((8, 24), (12, 32), (16, 36)):
+        x = np.arange(lo, hi + 1); m = np.isfinite(k[lo:hi + 1])
+        for name, f in (('g + a/x', lambda x: 1 / x), ('g + a/sqrt(x)', lambda x: 1 / np.sqrt(x))):
+            c, ce, chi, dof = wls(np.array([np.ones(m.sum()), f(x[m])]).T, k[lo:hi + 1][m], e[lo:hi + 1][m])
+            print(f'   x = {lo}..{hi}: k_wall = {name:14s}: g = {c[0]:.4f} +- {ce[0]:.4f}, a = {c[1]:.3f}, chi2 = {chi:.1f} / {dof}')
+
+
 if __name__ == '__main__':
     cmd = sys.argv[1]
     if cmd == 'life':
@@ -163,5 +217,7 @@ if __name__ == '__main__':
         static(sys.argv[2], sys.argv[3:])
     elif cmd == 'wall':
         wall(sys.argv[2])
+    elif cmd == 'routes':
+        routes()
     elif cmd == 'fit':
         fit(sys.argv[2], int(sys.argv[3]), int(sys.argv[4]))
