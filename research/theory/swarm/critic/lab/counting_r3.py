@@ -254,27 +254,24 @@ def pi1():
                 st2 = st.copy(); others = np.delete(rcell, t); st2[:, others] = (rng.random((4096, len(others))) < 0.5)
                 good &= (step1(st2, nbr)[:, p] == nx[:, p]).all()
             check(good, "   (the product over cells used for the count: redrawing every private cell but r_p never changes p's next state; 4,096 states)")
-            # a brute-force count without the product, over all 2^36 is too many; over the sub-cube 'bottoms of rows 1..3 dead': 2^3 * 2^24 by direct stepping
-            cnt = 0
+            # a direct count without the product, on a sub-cube that is small enough to step state by state:
+            # bottoms of rows 1..3 alive (so every 'at least one' holds), the 8 patterns of row 0, all 2^12 patterns of the
+            # private cells below the h-cells, the private cells below the v-cells dead
             rpat = ((np.arange(1 << 12)[:, None] >> np.arange(12)) & 1).astype(np.uint8)
             hs = [rh(i, j) for i in range(N) for j in range(M)]; vs = [rv(i, j) for i in range(N) for j in range(M)]
             direct = 0; prod_ = 0
             for b0 in range(8):
-                pat0 = np.zeros(nb_, np.uint8); pat0[:3] = [(b0 >> t) & 1 for t in range(3)]
-                # direct: all 2^24 private patterns factorise over h and v? no: step them in two halves of 2^12 x 2^12 is 2^24 states; do it in chunks
-                for hi in range(0, 1 << 12, 256):
-                    st = np.tile(base, (256 * 4096, 1)).reshape(256, 4096, n)
-                    st[:, :, bots] = pat0
-                    st[:, :, hs] = rpat[hi:hi + 256][:, None, :]
-                    st[:, :, vs] = rpat[None, :, :]
-                    nx = step1(st.reshape(-1, n), nbr)
-                    direct += int((~nx[:, band].any(axis=1)).sum())
+                pat0 = np.ones(nb_, np.uint8); pat0[:3] = [(b0 >> t) & 1 for t in range(3)]
+                st = np.tile(base, (4096, 1)); st[:, bots] = pat0; st[:, hs] = rpat; st[:, vs] = 0
+                direct += int((~step1(st, nbr)[:, band].any(axis=1)).sum())
                 c = np.zeros(len(P), np.int64)
                 for r in (0, 1):
-                    st = base.copy()[None, :].copy(); st[0, bots] = pat0; st[0, rcell] = r
-                    c += (step1(st, nbr)[0, pcell] == 0)
+                    st1 = base.copy()[None, :].copy(); st1[0, bots] = pat0; st1[0, rcell] = r
+                    dead_r = (step1(st1, nbr)[0, pcell] == 0)
+                    for t, (p, rr) in enumerate(P):
+                        if rr in hs or r == 0: c[t] += dead_r[t]
                 prod_ += int(c.prod())
-            check(direct == prod_, f"   direct stepping of all 2^24 private patterns for the 8 bottom patterns with rows 1..3 dead: {direct:,} band-emptying states = the product formula ({prod_:,})")
+            check(direct == prod_ and direct > 0, f"   direct stepping, state by state, of 8 x 2^12 states (row-0 bottoms free, other bottoms alive, private cells below the h-cells free): {direct:,} empty the band = the product formula on the same sub-cube")
 
 
 def theta():
@@ -377,11 +374,16 @@ def oh():
                 six = [tuple(w[k] + s * (unit(i)[k] - unit(j)[k]) for k in range(3)) for i, j in ((0, 1), (0, 2), (1, 2)) for s in (1, -1)]
                 if all(q in fs for q in six): hexes += 1
             shared = sum(1 for p in face if p[2] == 0)
+            # cells beneath (neighbours in the two layers inward) of the cells that are alone in their top cube: shared with another face cell?
+            ben = {p: {rel[j] for j in nb[idx[p]] if sum(rel[j]) < R} for p in face}
+            lonely = [v[0] for q, v in topc.items() if len(v) == 1]
+            sharing = sum(1 for p in lonely if any(ben[p] & ben[p2] for p2 in face if p2 != p))
+            nben = sorted({len(ben[p]) for p in lonely})
             deg = {}
             for p in face:
                 dgr = sum(1 for q, _ in inface(p) if q in fs); deg[dgr] = deg.get(dgr, 0) + 1
             row[centre] = dict(R=R, A=len(face), orbits=orbits, mirror_fixed=fixed_by_mirror, rot_fixed=fixed_by_rot, kagome=kag, hexpairs=hexp, tri_top=tri_top, tri_other=tri_up,
-                               hexagons=hexes, alone=alone, two=two, shared=shared, deg=dict(sorted(deg.items())), ok=good)
+                               hexagons=hexes, alone=alone, two=two, shared=shared, deg=dict(sorted(deg.items())), ok=good, alone_sharing=sharing, alone_beneath=nben)
         c_, v_ = row['c'], row['v']
         m = N // 2 + 1
         print(f"   N = {N}:  cube-centred R = {c_['R']}: {c_}")
@@ -395,6 +397,7 @@ def oh():
               f"      cube-centred: T_(N+1) = {T(N + 1)} complete top-cube triangles (every cell in one), T_(N-1) = {T(N - 1)} of the other orientation, T_N = {T(N)} complete hexagons")
         check(v_['tri_other'] == T(N + 1) and v_['tri_top'] == T(N) and v_['hexagons'] == T(N - 1) and v_['alone'] == 3 * (N + 1) and v_['two'] == 0,
               f"      vertex-centred: T_(N+1) = {T(N + 1)} complete triangles of the other orientation, T_N = {T(N)} top-cube triangles, T_(N-1) = {T(N - 1)} hexagons, 3(N+1) = {3 * (N + 1)} cells alone in their top cube")
+        check(v_['alone_sharing'] == 0, f"      vertex-centred: none of the {v_['alone']} lone rim cells shares a cell beneath with another face cell; cells beneath each: {v_['alone_beneath']}")
         check(c_['shared'] == 2 * (N + 1) and v_['shared'] == N + 1, f"      cells with third coordinate 0 (shared with the face (1,1,-1)): {c_['shared']} cube-centred, {v_['shared']} vertex-centred (claimed 2(N+1) against N+1)")
     print("   [the three 'tip cells' of the cube-centred face: the cells of in-face degree 2 in the lists above]")
 
