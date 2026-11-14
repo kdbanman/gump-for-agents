@@ -151,8 +151,10 @@ the dying face for ~450–520 face deaths each on 4×6, (4,4),(0,6) (systole² 1
 
 ## Not checked
 
-- A second stepper or the GPU on the twisted tori (one stepper, validated against the engine for 3,999 generations
-  per torus, not for whole lives).
+- The GPU on the twisted tori. A second stepper was run by the review (`research/audit/REVIEW-shape.md`) on
+  seven tori only: 4×6, (4,1),(0,6), 3×8, (4,4),(0,6), (2,3),(0,12) at A = 72 and the pair at A = 60; the other
+  presentations rest on one stepper, validated against the engine for 3,999 generations per torus, not for whole
+  lives.
 - Lives' cap is 5 × 10⁵ generations (shorter than the GPU's); the hazard is flat in age, so this should not matter,
   and the untwisted values agree with the GPU's.
 - Whether the systole law holds at a third area or with width 3 present at A = 60 (no width-3 lattice of index 20),
