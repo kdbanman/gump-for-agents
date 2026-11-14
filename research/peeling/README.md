@@ -31,7 +31,7 @@ counts are 9 / 11 / 12 for face / sub-face / interior cells as they must be.
 | `torus.py N p cap` | whole-torus soups: first firewall per diagonal, settle, extinction |
 | `faceocc.py`, `lastcells.py` | time-averaged occupancy of a cube's outer face; where its last cells sit (via gump) |
 | `slab_report.py`, `octa_hazard.py` + `octa_report.py`, `cubes_report.py` | curated tables below |
-| `figures.py` | `research/figures/peel_face_law.png`, `research/figures/peel_slabs.png` |
+| `figures.py` | `research/figures/peel_face_law.png`, `research/figures/peel_cuts.png` |
 
 Job lists used: `research/scratch/peeling/jobs_*.txt`, `thin*.txt`, `vtx.txt` (one script call per line).
 

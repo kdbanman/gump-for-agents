@@ -259,7 +259,7 @@ lives — any period ≤ 128 — would be censored; longer periods are not detec
 face channel lies **0.19 ± 0.10 (stat) ± 0.07–0.12 (the line's extrapolation) above the slab line** (26.218), about
 1.2σ in all. The control 6×6×8 (firewalls resolved, 2.1% of
 first events) gives a face channel of 22.568 ± 0.041; its first-event statistic (22.547) is 1.2σ from the earlier
-unscreened 22.470. Pooling the two A = 108 runs: **22.536 ± 0.031 (stat) ± 0.06–0.10 (line), +0.08 on the line**, and the slope
+unscreened 22.470. Pooling the two A = 108 runs: **22.537 ± 0.031 (stat) ± 0.06–0.10 (line), +0.08 on the line** (`research/audit/gpu_pr14_lead_check.py` prints 22.537; first written 22.536 here), and the slope
 108 → 126 is **0.215 ± 0.006** — 1σ above the slab line's 0.2088 and within 1σ of the octahedral 0.216–0.221.
 **Not decided, and two readings fit equally well:** (i) the cost per cell of rim-free faces rises a little past A ≈ 100;
 (ii) the cost per cell is constant and the face's width adds an offset — in the CPU table the face channel's residual

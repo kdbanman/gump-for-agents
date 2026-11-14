@@ -73,7 +73,8 @@ What surprised me is *how* a face dies. In the runs we examined it does not erod
 live cells, busy as ever, until roughly ten generations before the end, and then it is
 gone. The waiting time is memoryless, and its mean is exponential in the number of cells in
 the face, about `exp(0.209 × area)`, with a prefactor of about one generation. Flat faces
-and triangular faces, six decades of lifetime: one line. (Symmetric seeds follow it with a
+and triangular faces, six decades of lifetime: nearly one line (the triangular ones sit a little above it, and
+bigger faces turned out to cost a little more per cell; see below). (Symmetric seeds follow it with a
 smaller effective area — and there I got the details wrong; see below.)
 
 I wanted to know where 0.209 comes from, and now it has been measured. Watch a face that is
@@ -173,7 +174,7 @@ exponentially with the wall's area. Boxes of 2, 3, 4, 5, 6 cubes on a side last 
 One number I cannot yet account for. In the box rule a wall is two layers thick, and the
 layer whose death is final is the lower one. Its cells have exactly the neighbour counts of a
 gump face cell: six in their own layer, two a layer in, one two layers in. Per cell of that
-layer the wait costs 0.205. Gump's face costs 0.212.
+layer the wait costs 0.205. Gump's flat face, on slabs of 27 to 75 cells, costs 0.212.
 
 The slip changed the shape of the die, not the phenomenon. It also broke the first clause of
 the theory an agent had written the day before about which rules behave like gump, which

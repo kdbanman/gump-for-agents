@@ -15,7 +15,8 @@ Revised 2026-11-14 after the adversarial review `research/audit/REVIEW-shape.md`
   includes three comparisons of presentations of one torus, equal by symmetry), including three different shapes at systole² 16
   and two each at 12 and 9, and ln τ_face rises monotonically with the systole. At A = 60 the ordering holds and the
   two systole² 12 shapes agree, but **the two systole² 16 shapes differ: 12.490 ± 0.003 against 12.471 ± 0.003,
-  −0.019 ± 0.004 (4.6σ)**, while each shape's two presentations agree (1.4σ and 0.5σ). The review's independent
+  −0.019 ± 0.004 (4.6σ)** [superseded by the census of `research/shape2/`: four runs with two codes pool to
+  0.0142 ± 0.0019, CLAIMS SH2], while each shape's two presentations agree (1.4σ and 0.5σ). The review's independent
   rerun (fixed seeds, no stopping rule) confirms it: 12.4883 ± 0.0030 against 12.4707 ± 0.0030, 0.0177 ± 0.0042. By the committed criterion
   (equal-systole shapes differing by more than 3σ) H1 in its strict form is refuted at A = 60. The shape effect at
   fixed systole (0.02) is a third of the systole effect at that area (0.05 from systole² 12 to 16) and at A = 72 it
@@ -125,7 +126,8 @@ A = 60 (`python3 research/shape/summary.py 60`; `data/A60.csv`, `data/A60_fits.t
   review's independent rerun (fixed seeds, no stopping rule) gives 12.4883 ± 0.0030 against 12.4707 ± 0.0030,
   0.0177 ± 0.0042 (4.2σ). The confirmation asked for is done.
 - Systole groups: 12: 12.429 ± 0.005; 13: 12.442 ± 0.007; 16: 12.481 ± 0.002 (with the two shapes as above). The
-  effect of the systole is smaller than at A = 72 (by a factor 1.3 to 2.3, depending on the comparison): 12 → 16 is +0.052 ± 0.005 here and +0.096 ± 0.012 at
+  effect of the systole is smaller than at A = 72 (by a factor 1.3 to 2.3, depending on the comparison): 12 → 16 is +0.052 ± 0.005 here (this experiment's classes; with every class of the census the step is +0.056 to
+  +0.063, CLAIMS SH4) and +0.096 ± 0.012 at
   A = 72. Forecast numbers for A = 60 (H1: −0.14 for 13, −0.19 for 12) were three to four times too large.
 - A post-hoc model, 1/τ = α_A + β_A Σ_loops e^{−κ|v|} over all primitive loops with κ shared by both areas, does not
   fit (χ² 36 / 10; `loopsum.py`), and no better than the same model with the systole alone (37 / 10): the shorter
