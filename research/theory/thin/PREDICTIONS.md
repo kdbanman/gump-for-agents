@@ -103,3 +103,49 @@ than 15%: exact enumeration to 8 sites does not reach the straight part of the l
 
 **F10 (deterministic segments, small n).** The local slope between n = 5 and n = 9 exceeds 0.32 per site (the
 straight part, 0.295–0.30, is reached only above n ≈ 10).
+
+## Correction to "Known" in Block 4 (2026-11-14 21:55, found after F9 and F10 were written)
+
+The value 6.8102(10) for the deterministic segment of 13 sites was wrong: one of sixteen lanes had stopped dying
+(a periodic state of the whole slab whose period does not divide 840, so the snapshot test of that binary did not
+see it) and sat there for 3.6 × 10⁷ generations. Without it: 6.7262(14) (README, "Subtle points"). The slopes
+quoted in Block 4 become 0.3056(2) (13 → 21) and 0.2978(4) (21 → 29): the segment law is *not* straight at
+these sizes, its slope still falls, about half as fast as the ring's. F9 and F10 stand as written.
+
+## Scores, first part (2026-11-14 21:55; F5, F6, F8, F10 are scored further down when their runs are in)
+
+Commands: `python3 analyze.py life 'det_b*'`, `… 'mod_b16_w*'`, `… 'mod_b24_w*'`, `… 'mod_b20_w*'`,
+`… 'seg_m1_n*'`, `python3 sweep.py seq`.
+
+**F1: hit.** 8.6470(16), 10.0199(36), 11.3447(63) against the census 8.6426(20), 10.0201(29), 11.3481(40):
++1.7σ, −0.0σ, −0.5σ.
+
+**F2: hit where tested (b = 28, 32, 36); b = 40 and 48 not run.** 12.6482(83) in 12.62–12.67; 13.9233(139) in
+13.89–13.95; 15.1644(204) in 15.14–15.22. The alternative "slope stays 0.333 per site" is 6σ away at b = 32 and
+9σ at b = 36. The cost per cell between b = 40 and 48 was not measured (a ring of b = 48 lives e^19 generations).
+
+**F3: miss for w = 1, 2, 3; half hit for w = 4; hit for w = 5, 6.** Model minus deterministic ring:
+
+| w | forecast | b = 16 | b = 24 | |
+|---|---|---|---|---|
+| 1 | −1.5 … −0.3 | +1.286(3) | +1.868(13) | **miss, wrong sign**: one layer over coins is tougher, not weaker |
+| 2 | +0.3 … +1.2 | +1.382(4) | +2.258(20) | miss (too small a forecast) |
+| 3 | +0.05 … +0.30 | +0.495(3) | +0.845(13) | miss |
+| 4 | ±0.08 | +0.049(3) | +0.115(12) | hit at b = 16, miss at b = 24 |
+| 5 | ±0.03 | +0.006(3) | +0.003(12) | hit |
+| 6 | ±0.03 | +0.012(3) | +0.027(10) | hit (at the edge at b = 24) |
+
+What I had wrong: the analogy with the wide faces. On the thin torus the shallow models are all too tough and the
+excess grows with b (it is a slope error, not an offset): the layers beneath a thin face do more to kill it than
+coins do.
+
+**F4: hit at density 0.55 (+0.030 ± 0.007), miss at 0.30 (−0.069 ± 0.008).** Five layers do not screen a
+change of the coins by a quarter of their density; the measured dependence is about 0.5 in ln tau per unit of
+density.
+
+**F7: miss, as expected by the time F9 was written.** One-layer segments: slope between n = 6 and 8
+0.4496(3) per site; between n = 16 and 24 0.3690(7): 22% apart, not 3%.
+
+**F9: hit.** Slope between n = 16 and 24: 0.3690(7), inside 0.355–0.395. Exact steps at n = 4 … 8: 0.960,
+0.476, 0.453, 0.461, 0.437 (the last from simulation), all more than 15% above it. (The very first step, n = 2 → 3,
+is 0.303 and below it; the forecast's wording "the steps at n ≤ 8" should have said "from n = 4".)
