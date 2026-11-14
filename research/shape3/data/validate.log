@@ -1,0 +1,39 @@
+validate (1, 6, 24) N=24 x24: compared 4000 generations, matching 4000, first mismatch None; pops [212, 278, 232]..263; distinct 130
+same (1, 6, 24) W=8 gens=60000 seed=7: 529 event lines, identical=True
+validate (2, 4, 12) N=24 x24: compared 4000 generations, matching 4000, first mismatch None; pops [212, 292, 198]..250; distinct 121
+same (2, 4, 12) W=8 gens=60000 seed=7: 523 event lines, identical=True
+validate (1, 5, 24) N=24 x24: compared 4000 generations, matching 4000, first mismatch None; pops [212, 314, 168]..265; distinct 126
+same (1, 5, 24) W=8 gens=60000 seed=7: 530 event lines, identical=True
+validate (2, 2, 12) N=24 x24: compared 4000 generations, matching 4000, first mismatch None; pops [212, 263, 220]..246; distinct 125
+same (2, 2, 12) W=8 gens=60000 seed=7: 539 event lines, identical=True
+validate (1, 10, 24) N=24 x24: compared 4000 generations, matching 4000, first mismatch None; pops [212, 290, 221]..264; distinct 127
+same (1, 10, 24) W=8 gens=60000 seed=7: 534 event lines, identical=True
+validate (1, 5, 20) N=20 x20: compared 4000 generations, matching 4000, first mismatch None; pops [180, 237, 187]..227; distinct 112
+same (1, 5, 20) W=8 gens=60000 seed=7: 730 event lines, identical=True
+validate (1, 4, 20) N=20 x20: compared 4000 generations, matching 4000, first mismatch None; pops [180, 248, 179]..231; distinct 121
+same (1, 4, 20) W=8 gens=60000 seed=7: 748 event lines, identical=True
+validate (1, 8, 20) N=20 x20: compared 4000 generations, matching 4000, first mismatch None; pops [180, 241, 191]..216; distinct 121
+same (1, 8, 20) W=8 gens=60000 seed=7: 758 event lines, identical=True
+validate (2, 2, 10) N=20 x20: compared 4000 generations, matching 4000, first mismatch None; pops [180, 246, 189]..210; distinct 115
+same (2, 2, 10) W=8 gens=60000 seed=7: 759 event lines, identical=True
+validate (2, 2, 8) N=16 x16: compared 4000 generations, matching 4000, first mismatch None; pops [145, 171, 146]..137; distinct 134
+same (2, 2, 8) W=8 gens=60000 seed=7: 3545 event lines, identical=True
+validate (1, 6, 16) N=16 x16: compared 4000 generations, matching 4000, first mismatch None; pops [145, 181, 165]..99; distinct 127
+same (1, 6, 16) W=8 gens=60000 seed=7: 3490 event lines, identical=True
+validate (1, 4, 12) N=12 x12: compared 4000 generations, matching 4000, first mismatch None; pops [115, 145, 116]..0; distinct 158
+same (1, 4, 12) W=8 gens=60000 seed=7: 37765 event lines, identical=True
+validate (1, 3, 12) N=12 x12: compared 4000 generations, matching 4000, first mismatch None; pops [115, 133, 133]..12; distinct 144
+same (1, 3, 12) W=8 gens=60000 seed=7: 38675 event lines, identical=True
+validate (1, 5, 15) N=15 x15: compared 4000 generations, matching 4000, first mismatch None; pops [135, 188, 130]..154; distinct 106
+same (1, 5, 15) W=8 gens=60000 seed=7: 6486 event lines, identical=True
+validate (1, 4, 15) N=15 x15: compared 4000 generations, matching 4000, first mismatch None; pops [135, 171, 157]..170; distinct 100
+same (1, 4, 15) W=8 gens=60000 seed=7: 6427 event lines, identical=True
+validate (3, 0, 6) N=18 x18: compared 4000 generations, matching 4000, first mismatch None; pops [165, 223, 174]..166; distinct 116
+same (3, 0, 6) W=8 gens=60000 seed=7: 1624 event lines, identical=True
+validate (1, 5, 18) N=18 x18: compared 4000 generations, matching 4000, first mismatch None; pops [165, 249, 112]..164; distinct 110
+same (1, 5, 18) W=8 gens=60000 seed=7: 1553 event lines, identical=True
+validate (1, 6, 21) N=21 x21: compared 4000 generations, matching 4000, first mismatch None; pops [187, 246, 218]..228; distinct 116
+same (1, 6, 21) W=8 gens=60000 seed=7: 842 event lines, identical=True
+validate (1, 7, 21) N=21 x21: compared 4000 generations, matching 4000, first mismatch None; pops [187, 242, 218]..183; distinct 120
+same (1, 7, 21) W=8 gens=60000 seed=7: 818 event lines, identical=True
+VALIDATION DONE
