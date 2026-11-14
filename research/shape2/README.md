@@ -7,37 +7,61 @@ is measured, and the five index-24 classes research/shape did not run. Forecasts
 before any production run). Statements are marked [measured] or [conjectured]; "post hoc" means fitted after seeing
 the data.
 
+Revised 2026-11-14 after the adversarial review `research/audit/REVIEW-shape2.md` (its eight corrections applied;
+list at the end, "Corrections after review").
+
 ## Verdict
 
 - **[measured] None of the forecast laws holds at A = 48.** With their forecast parameters (fitted on the published
   A = 72 and A = 60 values only) every one fails there by χ² ≥ 132 on 4 dof, and refitted on A = 48 alone every one
-  still fails (χ² ≥ 21 on 1–2). At A = 60 one of them passes: L3-area, the sum over primitive loops of
-  e^{−K|v|} with amplitude ∝ A, gives χ² 5.4 on 5 (p 0.36) with the forecast parameters, including the new systole²
-  7 class (forecast 12.108, measured 12.113 ± 0.003). No law fits A = 48, 60 and 72 together (best: χ² 65 on 16 and 67 on 17,
+  still fails (χ² ≥ 21 on 1–2). **[measured, corrected after review] None holds at A = 60 either.** On this
+  experiment's fresh run L3-area (the sum over primitive loops of e^{−K|v|} with amplitude ∝ A) gives χ² 5.4 on 5
+  (p 0.36) with the forecast parameters, but that run's systole² 16 pair difference is the low one of four runs; with
+  the review's independent values the same forecast fails (χ² 22.7 on 5, p 4 × 10⁻⁴), and with all runs pooled
+  (45.4 on 5). The test was also mostly in-sample: 5 of the 6 A = 60 classes are the ones the forecast parameters
+  were fitted on (research/shape's values), and the fresh run re-measures those five. The one out-of-sample class,
+  systole² 7, L3-area does predict well (forecast 12.108, measured 12.113 ± 0.003, review 12.118 ± 0.003). **No
+  candidate law survives at any area.** No law fits A = 48, 60 and 72 together either (best: χ² 65 on 16 and 67 on 17,
   p ~ 10⁻⁷). Table below.
 - **[measured] At A = 48 the systole stops mattering above √12.** The four classes with systole² 12, 12, 13, 16
-  lie within 0.015 of each other (9.924–9.939, ± 0.002) and are not ordered by systole: the hexagonal 4×4 torus
+  lie within 0.016 of each other (9.924–9.939, ± 0.002) and are not ordered by systole: the hexagonal 4×4 torus
   (systole 4, three shortest loops) is below two classes with systole² 12 and 13. Between 12 and 16 the systole
   effect is ≈ 0 at A = 48, +0.064 ± 0.004 at A = 60, +0.096 ± 0.012 at A = 72 (published). The shape effect is
   switched on by the area, not set by the loop lengths alone.
 - **[measured] A second variable at fixed systole, with the lead's sign, at a second area.** At A = 48 the two
   systole² 12 classes differ: (12; 16) 9.9243 against (12; 19, 19) 9.9384, 0.0141 ± 0.0028 (5σ); the one with the
-  shorter second loop (and the right angle, 90° against 67°) dies sooner. At A = 60 the fresh run of the published
-  pair gives (16; 19) 12.4788 against (16; 21) 12.4849, 0.0061 ± 0.0049 (same sign, 1.2σ; published 0.0186 ±
-  0.0041, review 0.0177 ± 0.0042; the three agree at χ² 4.6 on 2, mean 0.014 ± 0.0026). The A = 60 systole² 12
-  pair, (12; 25) and (12; 28), differ by 0.0075 ± 0.0049, same sign again. Three pairs, one sign; no single
-  invariant (second loop, angle, loop count) orders all classes at all areas (see "residuals").
+  shorter second loop (and the right angle, 90° against 67°) dies sooner (the review's independent run: 0.0156 ±
+  0.0021, 7σ). At A = 60 the fresh run of the published pair gives (16; 19) 12.4788 against (16; 21) 12.4849,
+  0.0061 ± 0.0049 (same sign, 1.2σ), the low one of four runs: published 0.0186 ± 0.0041, the earlier review's
+  0.0177 ± 0.0042, this experiment's review independently 0.0132 ± 0.0028 (4.7σ by itself). **All four pooled:
+  0.0142 ± 0.0019 (χ² 4.7 on 3)**; the three runs without the latest review average 0.0150 ± 0.0025 (χ² 4.5 on 2;
+  this README first gave 0.014 ± 0.0026). Binned by age over three data sets the difference is consistent with a
+  constant (0.0134 ± 0.0021, χ² 4.2 on 4), with a 2σ hint that it grows with age (0.009 ± 0.003 for lives younger
+  than 65,536 generations, 0.018 ± 0.003 for older ones; if so, a cap at 65,536, as used here, halves the measured
+  effect). The cap alone does not explain the fresh run's low value: research/shape's raw A = 60 data recensored at
+  65,536 still give 0.021 ± 0.006 [measured; the growth with age is not established]. The A = 60 systole² 12 pair,
+  (12; 25) and (12; 28), differ by 0.0075 ± 0.0049, same sign again, but it is not a measured effect (pooled with
+  the review, 0.0063 ± 0.0035, 1.8σ). So: two measured pairs, and a third of the same sign. No single invariant
+  (second loop, angle, loop count) orders all classes at all areas (see "residuals").
 - **[measured] Thin tori are a different regime, with their own cost per cell.** Systole 1 fires a transverse
-  firewall in ~20 generations (thin, not fitted). Systole² 3 tori have no firewall channel (cut ≥ 288) and hold chaos
-  for e^8.6–e^11.3; systole² 4 tori are firewall-dominated (65–99%) but their faces are measurable. Their ln τ_face
-  rises with area at **0.11 per cell (systole² 3), 0.14 (4), 0.19 (7)** against 0.205–0.21 for systole² ≥ 12:
+  firewall in ~20 generations (thin, not fitted; the face "rates" of these rows in the CSVs mean nothing: lives
+  last 17–22 generations, and ties between face death and firewall outnumber face deaths 3 : 1). On systole² 3 tori
+  **no firewall was observed in the census** (cut ≥ 288), and they hold chaos for e^8.6–e^11.3; the channel exists,
+  though: (1,1,16) has a 4-layer diagonal (96 cells a layer, cut 288), and the review saw it fire once, tied with a
+  face death, in 2 × 10⁹ life-generations. Systole² 4 tori are firewall-dominated (65–99%) but their faces are
+  measurable, though their tabled ln τ_face carry a tie-resolution bias (about 0.018 too high at A = 48; see the
+  notes under the A = 48 table). The systole² 1 and 4 tori are **multigraphs**: on systole² 4 one cell in three has
+  two of its 12 neighbour slots on the same cell, counted twice; on systole² 1 every cell does; on systole² 3 none
+  does. That is the rule as coded (engine and both steppers count the slots), but a cell there sees fewer than 12
+  distinct cells, so the "narrow cylinder of the same automaton" comparison is literally true only at systole² 3.
+  Their ln τ_face rises with area at **0.11 per cell (systole² 3), 0.14 (4), 0.19 (7)** against 0.205–0.21 for systole² ≥ 12:
   a face that is a narrow cylinder costs less per cell, as a quasi-one-dimensional system would. Every forecast
   law put systole² 3 much too high or much too low (the tails were never fitted).
 - **Best description [measured, post hoc in its form].** To first order ln τ_face = a(s₁) + b(s₁)·A, a cost per
   cell b set by the shortest loop s₁, steep below s₁ ≈ 3.5 (b = 0.11, 0.14, 0.19 at s₁² = 3, 4, 7) and saturated at
   ≈ 0.205–0.21 above. On top of it, for s₁² ≥ 12, a shape term of order 0.01–0.1 that grows with A (≈ 0 at 48) and
-  is not a function of s₁ alone (pairs at equal s₁ differ by 0.006–0.014), nor of the two successive minima as any
-  of L2's forms, nor of a loop sum with one decay law at all three areas. What it is a function of is **not found**.
+  is not a function of s₁ alone (two pairs at equal s₁ differ by 0.0151 ± 0.0017 at A = 48 and 0.0142 ± 0.0019
+  at A = 60, pooled over runs), nor of the two successive minima as any of L2's forms, nor of a loop sum with one decay law at all three areas. What it is a function of is **not found**.
 
 ## The classes
 
@@ -61,6 +85,19 @@ firewall (3 × layer size, diagonals with ≥ 3 layers). Full tables: `data/clas
 | (1,6),(0,16) | 12 19 19 43 43 64 | 66.6 | 8 16 16 | 288 | 247,051 | 0 | 9.9384 ± 0.0020 |
 | (1,3),(0,16) | 13 16 21 37 52 61 | 73.9 | 16 16 4 | 144 | 246,836 | 0.11% | 9.9390 ± 0.0020 |
 | (4,0),(0,4) | 16 16 16 48 48 48 | 60.0 | 4 4 4 | 144 | 247,338 | 0.28% | 9.9324 ± 0.0020 |
+
+Notes on the thin rows (these apply to all three areas) [measured by the review, `research/audit/REVIEW-shape2.md`, claim 1]:
+
+- **Systole² 1:** the CSVs' `ln_tau_face` for these rows (7.57 at A = 48, and so on) means nothing and is not used
+  anywhere. Lives last 17–22 generations, ties between face death and firewall outnumber face deaths 3 : 1, and the
+  review's code gives 6.97 for the same row. Only "thin" is a result.
+- **Systole² 4 (tie-resolution bias):** a face death and a firewall often fall into the same 16-generation check
+  window (4.8% of face deaths at A = 48, 5.8% at 60, 6.9% at 72), and such ties go to the firewall. Resolved per
+  generation, about 30% of them are face deaths (on 2,048 lives of (2,0,8): face first in 16 of 57 close pairs,
+  firewall first in 37, same generation in 4). With the rounding of each life's end up by 0–15 generations, the
+  per-generation value is about 0.018 below the table at A = 48 (≈ 9.47 for (2,0,8), not 9.4888). The stated errors
+  (± 0.003–0.013) do not cover this; treat the systole² 4 values as carrying a resolution-dependent bias of
+  0.01–0.02. The cost per cell b is nearly immune (the shift is about the same at both areas; ≤ 0.0005).
 
 ### A = 60 (all 10 classes measured; fresh seeds, the five published classes rerun) [measured]
 
@@ -93,6 +130,9 @@ Systole² 7 lies 0.25 below systole² 9 (14.613, research/shape) and 0.52 below 
 
 The other ten classes at A = 72 are research/shape's (data/A72.csv there; 14.61–15.07).
 
+In the A = 60 and A = 72 tables too, the systole² 1 rows are "thin" only (their CSV rates mean nothing), and the
+systole² 4 rows carry the tie-resolution bias described under the A = 48 table.
+
 ## The candidate laws (forecast parameters from PREDICTIONS.md; c(A) free per area)
 
 `python3 research/shape2/analyze2.py laws`. Tested on the chaotic classes, systole² ≥ 7 (5 at A = 48, 6 at A = 60,
@@ -105,20 +145,24 @@ The other ten classes at A = 72 are research/shape's (data/A72.csv there; 14.61�
 | L2-const | 131,548 | 31,867 | 1,017 | 33.3 / 2 | 4.1 / 3 (p 0.25) | 3,560 / 17 |
 | L2-area | 27,950 | 8,063 | 331 | 33.3 / 2 | 4.1 / 3 (p 0.25) | 2,076 / 17 |
 | L3-const | 728 | 175 | 28.5 (p 0.002) | 22.3 / 2 | 3.0 / 3 (p 0.39) | 91.9 / 17 |
-| **L3-area** | 132.5 | **5.4 (p 0.36)** | 28.2 (p 0.002) | 22.3 / 2 | 3.0 / 3 (p 0.39) | 66.6 / 17 |
+| L3-area | 132.5 | 5.4 (p 0.36)* | 28.2 (p 0.002) | 22.3 / 2 | 3.0 / 3 (p 0.39) | 66.6 / 17 |
 | L3p-const | 139,488 | 36,761 | 1,305 | 27.1 / 2 | 14.4 / 3 | 2,758 / 17 |
 | L3p-area | 25,577 | 8,642 | 419 | 27.1 / 2 | 14.4 / 3 | 1,402 / 17 |
 | L4-area | 8,882 | 2,076 | 34.2 | 21.3 / 1 | 0.4 / 2 (p 0.8) | 64.8 / 16 |
 
-χ² with the forecast parameters, c(A) free (`data/laws_report.txt`, with residuals). The huge values of L1, L2 and
+χ² with the forecast parameters, c(A) free (`data/laws_report.txt`, with residuals). *On this experiment's fresh
+A = 60 run only. With the review's independent A = 60 values L3-area gives 22.7 on 5 (p 4 × 10⁻⁴), pooled with
+research/shape's 25.1 on 5, everything pooled 45.4 on 5 (`python3 research/audit/shape2/law60.py`); and 5 of the 6
+classes were in the forecast's fitting set. The huge values of L1, L2 and
 L3p come from systole² 7, which they all put far too low (the steep tails fitted on systole² 9 alone); L3 and L4
 were nearly right there at A = 60 and 72 (L3-area forecast 12.108 and 14.347, measured 12.113 ± 0.003 and
 14.359 ± 0.012) and wrong at A = 48 (forecast 0.150 below the 4×4 torus, measured 0.120 ± 0.003). L4's row
 anisotropy E fits to 0.00 ± small at every area: no row direction is seen.
 
-Refutation criterion fixed in advance: p < 0.01. By it every law is refuted at A = 48 and jointly; at A = 60 only
-L3-area survives with forecast parameters (several survive a refit at A = 60 alone: L1/L2/L3/L4 with p 0.09–0.8,
-so A = 60 by itself does not discriminate); at A = 72 the published values already gave p ≤ 0.04 for all.
+Refutation criterion fixed in advance: p < 0.01. By it every law is refuted at A = 48 and jointly, and at A = 60
+with forecast parameters: L3-area survived only on the fresh run, and fails on the independent and pooled values
+(above). Several survive a refit at A = 60 alone (L1/L2/L3/L4 with p 0.09–0.8), so A = 60 by itself does not
+discriminate; at A = 72 the published values already gave p ≤ 0.04 for all. No candidate law survives at any area.
 
 **Post-hoc loop sums** (`python3 research/shape2/explore.py`): a sum over primitive loops with e^{−K|v|},
 e^{−K|v|}/|v|, |v|^{−K} or e^{−(K|v|)²} fits each of A = 48 (systole² ≥ 12 only: χ² 0.8 on 1) and A = 60
@@ -150,7 +194,8 @@ so b is a systole-indexed slope, not one torus grown. Every slope falls a little
 
 - Stepper and statistics: research/shape's (`tslab.py`, `research/peeling/rep.c`), through `run2.py`, which only
   redirects output to `research/scratch/shape2/`. Soup 0.4, one life per replica, first event (face death or
-  transverse firewall, ties to the firewall), settled lives and the cap censor; ln τ_face = ln(2E/F) ± 1/√F.
+  transverse firewall, ties within one check window to the firewall, a convention that biases the systole² 4 rows;
+  see the notes under the A = 48 table), settled lives and the cap censor; ln τ_face = ln(2E/F) ± 1/√F.
 - **Validation [measured]:** every class at n = 16 and 20, and the five new n = 24 classes, in the canonical
   presentation used for the runs: `tslab check` OK (transverse layer periods), and the population equals the
   engine's (cubic N-torus, N = n) at every generation, for 3,999 generations, or for 1,599–2,499 generations on the
@@ -163,7 +208,11 @@ so b is a systole-indexed slope, not one torus grown. Every slope falls a little
   65,536 instead of 5 × 10⁵ moves ln τ by ≤ 0.005, within the subset's error. No stopping rule, no top-up.
   Precision reached: ± 0.0020 (A = 48), ± 0.0031–0.0035 (A = 60, systole² ≥ 3 except systole² 4: ± 0.0046, short of
   the ± 0.004 asked, because fewer faces die before the firewall than the pilot suggested).
-- Face hazard in three equal-exposure age bins is flat in every chaotic class (`thirds` in the CSVs).
+- Face hazard in three equal-exposure age bins is flat in every chaotic class (`thirds` in the CSVs), apart from the
+  soup transient: on every torus the hazard is raised in the first ~32 generations, by about 13% (per generation on
+  32,768 lives of (1,1,16): ln τ 8.52 at ages 0–32, then 8.60–8.70; `research/audit/shape2/earlycheck.py`).
+  Dropping ages below 256 moves ln τ_face by at most +0.002. On systole² 4 at A = 48 the thirds drift down by 2σ
+  (9.486, 9.480, 9.476 ± 0.003 in the review's run).
 
 Reproduce (about 3 core-hours: one hour on three cores; output git-ignored in `research/scratch/shape2/`):
 
@@ -175,8 +224,10 @@ Reproduce (about 3 core-hours: one hour on three cores; output git-ignored in `r
 
 ## Not checked
 
-- No second stepper: every number here is from rep.c via tslab.py, validated against the engine for ≤ 4,000
-  generations per torus (not for whole lives); the event detectors were not validated against the engine.
+- No second stepper in this experiment: every number in the tables is from rep.c via tslab.py, validated against the
+  engine for ≤ 4,000 generations per torus (not for whole lives); the event detectors were not validated against
+  the engine. The review reran the A = 48 and A = 60 classes with an independent stepper
+  (`research/audit/shape/ts.c`): 16 rows agree at χ² 25 on 16 (p 0.07); the systole² 4 rows sit 0.006–0.008 lower (the tie convention).
 - A = 72 systole² ≥ 9 values are research/shape's, single runs at ± 0.014; not rerun here. The A = 72 test of
   every law therefore rests mostly on them.
 - Whether the A = 48 flatness above systole √12 is a property of A = 48 or of the particular four lattices
@@ -185,3 +236,30 @@ Reproduce (about 3 core-hours: one hour on three cores; output git-ignored in `r
 - The cap is shorter than research/shape's; checked only by truncating their A = 60 data.
 - What the second variable is. Candidates not tried: the full theta series of the lattice weighted by a
   propagator that depends on A, anything that uses the three kagome sublattices separately beyond L4's cos 6θ.
+
+## Corrections after review (2026-11-14)
+
+The adversarial review `research/audit/REVIEW-shape2.md` (independent stepper, recomputation of every table and χ²
+from the raw files) found the tables and the cost per cell sound, and asked for eight corrections. All are applied
+above:
+
+1. **Laws at A = 60.** "L3-area passes at A = 60" held on the fresh run only, whose pair difference is the low one;
+   with the review's independent values it fails (χ² 22.7 on 5), pooled 45.4 on 5, and 5 of the 6 classes were in the
+   forecast's fitting set. No candidate law survives at any area (verdict, laws table, refutation paragraph).
+2. **Pair at A = 60.** The difference (16; 19) → (16; 21) is 0.0142 ± 0.0019 over four runs (χ² 4.7 on 3; the
+   review alone 0.0132 ± 0.0028); the three-run mean is 0.0150 ± 0.0025, not 0.014 ± 0.0026. Added the 2σ hint that
+   it grows with age.
+3. **"Three pairs, one sign"** became two measured pairs and a third of the same sign (A = 60 systole² 12 pair 1.8σ
+   pooled).
+4. **Systole² 4 rows** carry a tie-resolution bias (ties go to the firewall; about 30% are face-first), about 0.018
+   too high at A = 48; not covered by the stated errors; b robust (notes under the A = 48 table, Setup).
+5. **Systole² 3:** "no firewall channel" became "no firewall observed in the census"; the 4-layer diagonal exists and
+   fired once, tied with a face death, in the review's 2 × 10⁹ life-generations of (1,1,16).
+6. **Multigraphs:** the systole² 1 and 4 tori count a neighbour twice (one cell in three on systole² 4, every cell on
+   systole² 1); systole² 3 does not.
+7. **Soup transient:** hazard raised about 13% in the first ~32 generations; effect on ln τ ≤ 0.002 (Setup).
+8. **Minor:** A = 48 spread "within 0.015" → "within 0.016". The systole² 1 rates in the CSVs mean nothing; the
+   README now says so where those rows appear. The CSVs themselves are left unchanged (the review asked for the
+   column to be blanked; the data files stay as reviewed).
+
+Also brought in line: "Best description" (pair sizes), "Not checked" (a second stepper now exists, in the review).
