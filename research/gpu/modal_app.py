@@ -268,8 +268,8 @@ def facelaw_remote(R: int, minutes: float, seed: int, centre: str = 'c', sym: bo
 @app.local_entrypoint()
 def facelaw(r: int = 0, minutes: float = 10, seed: int = 1, gpu: str = 'A10G', copies: int = 1, centre: str = 'c', sym: bool = False,
             slab: str = '', wb: int = 0, pw: int = 128):
-    """slab='6x7x8' runs a rim-free slab (p = 0.4 unless given); wb, pw: columns per block, settle window."""
-    """`copies` containers in parallel (seeds seed..seed+copies-1); compact results to research/data/gpu_facelaw/."""
+    """`copies` containers in parallel (seeds seed..seed+copies-1); compact results to research/data/gpu_facelaw/.
+    slab='6x7x8' runs a rim-free slab (p = 0.4 unless given); wb, pw: columns per block, settle window."""
     import json
     d = f'{ROOT}/research/data/gpu_facelaw'
     os.makedirs(d, exist_ok=True)

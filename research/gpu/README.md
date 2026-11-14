@@ -204,7 +204,9 @@ to period 128; T0 = 1000; τ = mean residence (the eight faces of a symmetric st
 
 Forecasts committed first (`PREDICTIONS.md`, commit 3b3ceb7, 23:14Z); outcomes appended there.
 
-**a. Rim-free faces do not cost more per cell; the octahedral rise is a rim effect.**
+**a. Through A = 108, rim-free slab faces stay on the line fitted to A = 27–90; octahedral faces at A = 108 are
+0.91 ± 0.06 nats tougher. What makes them tougher (rim, eight faces sharing edges, interior thickness, shape) is not
+separated.** (Restated after review, `research/audit/REVIEW-gpu-pr12.md`; an earlier version called it a rim effect.)
 `modal run research/gpu/modal_app.py::facelaw --slab 6x6x8 --minutes 10 --seed 401` and (through `jobs.py`) two
 60-min runs of `--slab 6x7x8`; `python3 research/gpu/facelaw.py summary "research/data/gpu_facelaw/slab*.json"`.
 Slabs of 8 {111} layers, periodic in plane (`vessels.SlabVessel` = `research/peeling/geom.slab`; checked every
@@ -212,26 +214,40 @@ generation against the engine's torus slab and against `fl.c` on these graphs: `
 statistic of `research/peeling/face_law_fit.py` (ln τ_face = ln(2 × mean first peel), line −0.091 + 0.2088·A for
 A = 27–90):
 
-| slab | A | peels | ln τ_face | line | per cell |
-|---|---:|---:|---:|---:|---:|
-| 6×6×8 | 108 | 447 | 22.470 ± 0.047 | 22.46 | 0.2081 |
-| 6×7×8 | 126 | 122 | 26.138 ± 0.091 | 26.22 | 0.2074 |
+| slab | A | cheapest transverse cut | first deaths | ln τ (first outer-layer extinction) | line | per cell |
+|---|---:|---|---:|---:|---:|---:|
+| 6×6×8 (square) | 108 | 216 cells, 3 directions | 447 | 22.470 ± 0.047 | 22.46 | 0.2081 |
+| 6×7×8 (non-square) | 126 | 216 cells, 1 direction | 122 | **≥ 26.14 ± 0.09** (lower bound) | 26.22 | — |
 
-Local slope 108 → 126: 0.204 ± 0.006. At A = 108 an octahedral face (23.376) is 0.91 nats tougher than a rim-free one.
-Octahedral A = 165 was not run (≈ 10⁶ GPU-seconds per death).
+**The kernel records only outer-layer extinction, and a slab also dies by a transverse 3-layer firewall, after which
+a face dies soon** (`research/peeling/`, CLAIMS F11). The CPU line excludes slab sizes where firewalls come first in
+more than 6% of replicas; these GPU points were not screened. From the repository's firewall rates (cuts 108 and 144,
+extrapolated to 216) the review expects ≈ 7 of the 447 first deaths at 6×6×8 to follow a firewall (correction +0.03:
+A = 108 on the line stands) and ≈ 25 (18–34; the range runs to about half) of the 122 at 6×7×8, which would put
+ln τ_face(126) near 26.36 and the slope 108 → 126 near 0.216, the octahedral value. So the A = 126 value is a lower
+bound on the face channel, and the committed data cannot tell a slope of 0.204 from 0.216. (An earlier version of this
+section claimed "local slope 108 → 126: 0.204 ± 0.006" and "the bulk constant does not rise"; both are withdrawn.)
+At A = 108 the octahedral face (23.376) is 0.91 ± 0.06 nats tougher than the slab face, comparing like with like
+(same estimator, same per-face convention, density and start-up excluded by the review). Thickness 8 was not tested
+against thicker slabs at A ≥ 108. Octahedral A = 165 was not run (≈ 10⁶ GPU-seconds per death).
 
 **b. The cube-centred death rate does not fall with age.** One 3-hour run at R = 43 (A = 759), 2,304 replicas
 (`WB = 1`, so each ages twice as fast), settle window 1,024: 5,971 deaths, ages to 2.6 τ, τ = 3.201 × 10⁹
 (ln 21.887 ± 0.013; earlier run 3.253 × 10⁹). `python3 research/gpu/weibull.py research/data/gpu_facelaw/symcR43_s501_A10G.json`:
-censored Weibull shape 1.020 (95% 1.000–1.041), 1.030 (1.002–1.059) beyond 0.05 τ; the hazard is flat from 0.03 τ to
-3 τ within Poisson error. The k = 0.94 / 0.84 of the two shorter runs (ages ≤ 0.23 τ, ≤ 0.04 τ) were noise at R = 43;
+censored Weibull shape 1.020 (95% 1.000–1.041), 1.030 (1.002–1.059) beyond 0.05 τ. Hazard × τ by age (deaths /
+expected), from age 0: [0, 0.01) τ 1.11; [0.01, 0.03) 0.82; [0.03, 0.1) 0.99; [0.1, 0.2) 0.93; [0.2, 0.3) 1.03;
+[0.3, 0.5) 0.99; [0.5, 0.75) 0.99; [0.75, 1) 1.04; [1, 1.5) 1.00; [1.5, 2) 1.13; [2, 3) 1.02 — flat to ±13% per bin
+(two of eleven bins, 0.82 and 1.13, fall just outside their 95% Poisson bands); Weibull k = 1.02 (1.00–1.04). The k = 0.94 / 0.84 of the two shorter runs (ages ≤ 0.23 τ, ≤ 0.04 τ) were noise at R = 43;
 R = 45 was not re-run.
 
 **c. Cube-like seeds at vertex-centred R = 40 are memoryless.** `python3 research/gpu/cubelike.py prepare
 research/scratch/gpu/cubelike_v40.npz` (fl.c, local, 2 s), `modal run research/gpu/modal_app.py::cubelike` (A10G,
 28 min), `python3 research/gpu/cubelike.py analyse research/data/gpu_facelaw/cubelike_v40.json`. 7,807 deterministic O_h
-seeds — closed cube 14 plus the shell of side 16 minus 1, 2 or 3 of its 36 orbits (`seeds.py`'s `sc`, `sc2`, and the
-same with three) — run 1,000 generations; 3,893 are then at exactly R = 40, 3,857 distinct. Each lineage is followed
+seeds — the closed cube 14 plus the bounding *surface* of side 16 (not the side-16 cube: 10,356 cells, a subset of
+`--cube 16`'s 13,056), minus 1, 2 or 3 of that surface's 36 orbits (`seeds.py`'s `sc`, `sc2`, and the same with
+three) — run 1,000 generations; 3,893 are then at exactly R = 40, 3,857 distinct. The design leaves out the 2,152
+seeds already below 40 and the 1,762 still at R = 42–46 at generation 1000 — among them the lineages most like side
+16, whose R = 40 plateau was a second plateau after ≈ 2.5 × 10⁹ generations at 42. Each lineage is followed
 through its plateau at 40 (from generation 1000), then at 38 and 36 (state kept at each peel), cap 12 τ (never reached).
 T/τ with the fresh-soup τ of this directory:
 
@@ -241,10 +257,14 @@ T/τ with the fresh-soup τ of this directory:
 | R = 38, after a peel | 3,845 | 4 | 1.011 ± 0.016 | 0.992 | 69 (70.4) | 186 (188) | 0.015 (0.022) |
 | R = 36, after a peel | 3,832 | 13 | 0.983 ± 0.016 | 0.986 | 62 (70.2) | 218 (187) | 0.013 (0.022) |
 
-The cubes' R = 40 regime (side 16's second plateau lasted 6.1 soup τ) is reached here by 3,849 cube-like lineages,
-and they wait exactly like soups and exactly like Exp(τ): 1.8% beyond 4τ against the cubes' 3 of 16. The excess of
-short waits at 36 (218 vs 187, 2.3σ) is where double peels would put it. OPEN-PROBLEMS 6 is not explained by
-structured seeds either, up to R = 40.
+Each plateau's waits are exponential: 1.8% beyond 4τ against the cubes' 3 of 16; waits ≥ 6.1 τ (side 16's second
+plateau): 8 of 3,857 (8.7 expected). The excess of short waits at 36 (218 vs 187, 2.3σ) is where double peels would
+put it. **Successive plateaus are weakly correlated:** 40 → 38 Spearman ρ = +0.049 (permutation p = 0.0015;
+`research/audit/gpu_pr12/cubelike_own.py`, re-checked here), 38 → 36 ρ = −0.004; the review traces the 40 → 38
+correlation to lineages that peel early at 40 (a transient left by the burst). So "memoryless" holds for each
+plateau's marginal distribution. For OPEN-PROBLEMS 6: seeds of this family that reach R = 40 within 1,000 generations
+wait Exp(τ) at 40, 38 and 36, which bounds a long-lived subpopulation among them (mean 3 τ: under 1.8%; mean 6 τ:
+under 0.9%, 95%). The cube's own lineage, and lineages entering R = 40 after a long plateau at 42, are not tested.
 
 ## Using it for a new ensemble experiment
 

@@ -107,3 +107,16 @@ the earlier run's 3.253 × 10⁹, 0.5σ). Censored Weibull shape: **1.020** (95%
 runs' falling hazards (k = 0.94 at R = 43, 0.84 at R = 45, re-derived here with the same numbers as the review) were
 noise at R = 43; R = 45 was not re-run, so its k = 0.84 is untested, but nothing at R = 43 supports it. The side-17
 mean (3.2 × 10¹⁰ from R = 45) stands as a long-run mean to the extent R = 43 is a guide.
+
+## Correction to the outcome of experiment a (appended 2026-11-14T06:55Z, after `research/audit/REVIEW-gpu-pr12.md`)
+
+Nothing above is edited. The forecast's numbers held (+0.01 at A = 108, −0.08 at A = 126, ±0.15 allowed); **its reading
+does not follow at A = 126.** The GPU statistic counts the first outer-layer extinction, and in an 8-layer slab a
+transverse firewall also ends the chaos and is soon followed by a face death; the CPU line excludes sizes where
+firewall-first exceeds 6%. At 6×7×8 (one cheapest transverse direction, cut 216) the review expects ≈ 25 of the 122
+deaths (18–34; range to ≈ half) to follow a firewall, so 26.138 ± 0.091 is a lower bound on the face channel
+(central corrected value ≈ 26.36; slope 108 → 126 ≈ 0.216, the octahedral value). Withdrawn: "local slope
+108 → 126: 0.204 ± 0.006", "the bulk constant does not rise to A = 126", "a rim effect". What stands: through A = 108
+rim-free slab faces stay on the line fitted to A = 27–90, and octahedral faces at A = 108 are 0.91 ± 0.06 nats
+tougher; what makes them tougher (rim, eight faces sharing edges, interior thickness, shape) is not separated.
+Experiment b's outcome line "the hazard is flat" means: flat to ±13% per bin from age 0, Weibull k = 1.02 (1.00–1.04).
