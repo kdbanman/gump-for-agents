@@ -219,3 +219,24 @@ nearer the upper end.
   match those of the faces of the small dying slabs.
 - Emptiness in layers below the face. Balls by class (balls have no orientation class, so there is none to check).
 
+
+## Follow-up 2026-11-14: the 4×5 point (plan, committed before the run)
+
+The lead asked for this follow-up after the review, because the perimeter-free estimate 0.2185 ± 0.008 (2×3 → 3×4 → 4×5)
+rests on the 4×5 point, where the CPU run above and the GPU table differ by 1.9–2.6σ.
+
+**Plan, fixed before any of these runs.** The code is the same `pc.c` with the same geometry. The program is `geom18.py`'s
+`lean` variant, with rhombi 1×1 … 4×5 only. I checked that it gives counts identical to the full program on a test run.
+`pc.c` now has a hit log (`-e`/`-E`); it does not change the counts.
+- `research/audit/gpu_pr18/runs2.sh`: 16 chunks with fresh seeds 921–936. Each chunk is 512 replicas × 3 × 10⁶
+  generations after 2,000 burn-in generations, with 30 batches, so 2.46 × 10¹⁰ replica-generations in all.
+- Expected 4×5 hits (both classes, PR definition): about 350 at the first CPU run's rate and about 530 at the GPU's.
+  With the first run's 43 that is about 400–570. All 16 chunks are run whatever the counts, so there is no optional
+  stopping.
+- Reported: ln P for 3×4, 4×4 and 4×5 from the CPU alone. This uses the two first runs plus the 16 chunks, 18 runs in
+  all, with (i) batch-means errors and (ii) the run-to-run scatter, sd/√18.
+- Also reported: the second differences along a×a and a×(a+1) from CPU-only values, and z against the GPU table.
+- Clustering, from the hit logs of 3×4, 4×4 and 4×5. An *event* is a connected component of hits, where two hits are
+  linked if they have the same replica and face, generations at most 1 apart, and patches (either orientation) that
+  share a cell. I report hits per event (mean, and the ratio Σsize²/Σsize) and the compound-Poisson error
+  √(Σsize²)/Σsize beside the batch-means error.
