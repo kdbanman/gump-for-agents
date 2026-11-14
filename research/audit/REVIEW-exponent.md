@@ -93,9 +93,9 @@ statement for periodic faces, as the report has it.
 ### 1.3 Definitions: the models can settle
 
 The report (§3, and theorems D/D′ as applied there) says the noise models are finite-range probabilistic automata in
-which "nothing can settle". False for gump's models. **Counterexample** (`QS_DUMP=1 ../../scratch/audit_exponent/qs
-../../scratch/audit_exponent/g_model_R7_w4.bin 200 999 20 1000000000`, then the forced-state check in the review
-log): in `hull_model(7, 4)` the six faces of the cube centred at (6,0,0) — (7,0,0), (6,1,0), (6,0,1) in the face
+which "nothing can settle". False for gump's models. **Counterexample** (found with `QS_DUMP=1 ../../scratch/audit_exponent/qs
+../../scratch/audit_exponent/g_model_R7_w4.bin 200 999 20 1000000000`, which prints the oldest replica; checked by
+`python3 trap.py`): in `hull_model(7, 4)` the six faces of the cube centred at (6,0,0) — (7,0,0), (6,1,0), (6,0,1) in the face
 layer, (5,0,0), (6,−1,0), (6,0,−1) one layer in — with every other dynamic cell dead is a fixed point *whatever the
 noise does* (every dynamic cell's next state is forced). The face never dies. In my R = 7, w = 4 run without
 settling censored, a third of the exposure ended in trapped replicas (ages up to 3×10⁶ with no deaths) and ln τ came
@@ -103,7 +103,7 @@ out 6.944; censoring repeating states (`QS_SETTLE=1 python3 run.py model 7 4 20 
 187 trapped replicas per 533,295 deaths (the report's chunked runs restart every replica every chunk and got
 6.550). `python3 trap.py`: the vertex cube is immune in every hull model with w ≥ 4 (R = 7, 11, 13), and a cube in the
 face interior is immune in every hull or periodic model with w ≥ 5 (not at w ≤ 4). Repeating dynamic states were censored in 163–741 cases per 0.45–0.76 million deaths in the A = 27 slab
-models and in none at A ≥ 48. So the effect on the report's numbers is small at the sizes measured, but: the
+models and 3 times at A = 48 (w = 4) and never at A ≥ 60. So the effect on the report's numbers is small at the sizes measured, but: the
 models have absorbing debris other than death, the death law is not "exactly geometric" from an arbitrary start, and
 results from long runs without settle-censoring can be badly biased (6.94 vs 6.54 here).
 
@@ -112,7 +112,13 @@ results from long runs without settle-censoring can be badly biased (6.94 vs 6.5
 - **Periodic: A = 75** is now the largest size with both: model − truth = +0.02 ± 0.04 (w = 5, mine), −0.02 ± 0.04
   (w = 5, the report's model against my truth).
 - **Hull: A = 84.** Report: model 18.179 ± 0.113 (78 deaths) against 18.077 ± 0.054 (fluct) or 18.154 ± 0.025
-  (independent CPU, REVIEW-gpu-pr8). Mine, model w = 4: A84_RESULT. HULL84_COMMENT
+  (independent CPU, REVIEW-gpu-pr8). Mine: model w = 4 (repeating states
+  censored; none occurred) **18.183 ± 0.037** (719 deaths, five 20-minute pieces with seeds 401–405:
+  `QS_SETTLE=1 python3 run.py model 13 4 1200 200 40s`), deterministic hull **18.148 ± 0.028** (1,250 deaths,
+  `python3 run.py hull 13 2400 200 601`). Model − truth = **+0.035 ± 0.047** (+0.029 ± 0.045 against the CPU value).
+  So at the largest hull size the w = 4 model still agrees within 0.05, now with a 7× larger sample than the report's
+  F10 point; the sign of the w = 4 offset is −0.025, −0.011, +0.035 at A = 45, 63, 84, all within about 2σ of
+  −0.01. My hull value also sides with the CPU review (18.154) against fluct's 18.077 ± 0.054 (1.2σ).
 
 ### 1.5 Censoring and burn-in
 
@@ -148,10 +154,10 @@ once or twice.
   the data, not supported by it**; and the out-of-sample residuals lean the other way (lifetimes rising faster than
   1/E at the largest L).
 - **The right error on the window cost.** Window samples overlap in space (one empty run of length r gives r − ℓ + 1
-  windows) and persist in time. (a) Spatial part only, exact from the filed counts (compound Poisson over maximal
+  windows) and persist in time (batches of consecutive generations below). (a) Spatial part only, exact from the filed counts (compound Poisson over maximal
   empty runs, `python3 verdict2.py errors`): 0.3763 ± 0.0033 over ℓ = 34 → 42 (33,822 runs of length ≥ 34),
   0.3824 ± 0.0085 over 42 → 50 (1,701 runs), 0.3817 ± 0.0010 at 30 → 31. (b) Including the time correlation, from
-  my own 16 × 128 run in 300 batches (`../../scratch/audit_exponent/toygap run 777 600 2000000`, then
+  my own 16 × 128 run in 1,033 batches of 2×10⁶ generations (`../../scratch/audit_exponent/toygap run 777 600 2000000`, then
   `python3 verdict2.py errors ../../scratch/audit_exponent/toygap_777.txt`, jackknife over batches): 
 
   | window cost | filed (2.7×10¹¹ samples) | spatial error only (filed counts) | mine (5.0×10¹¹ samples), jackknife over 1,033 batches |
@@ -206,8 +212,9 @@ Checked line by line; brute force where possible (§0).
   For the mixture ν = (1 − a)ν₀ + aδ_∅ with a = e^{−√L}, the covariance of the indicators "cell x empty", "cell y
   empty" is a(1 − a)(1 − ν₀(x empty))(1 − ν₀(y empty)) + (1 − a)Cov₀ ≈ a/4 at *every* distance. Correlations
   therefore stop decaying at distance ≈ ξ√L: the family does not have exponentially decaying correlations with
-  constants uniform in L, which is what PROGRAM M2 / OPEN-PROBLEMS item 3 mean. (Indeed, with exponential α-mixing
-  uniform in L the block argument gives P(row empty) ≤ e^{−c√L}, so a mixture can never give less than that.) The
+  constants uniform in L, which is what PROGRAM M2 / OPEN-PROBLEMS item 3 mean. (For the single-cell covariances to stay below Ce^{−r/ξ} up to r = L/2, the
+  weight must be a ≲ e^{−L/(2ξ)}, which makes the wait exponential again: no mixture of this kind can be a
+  counterexample.) The
   conclusion ("ratio mixing, not covariance decay, is what multiplies") may well be right, but this example does
   not prove it. The critic's graveyard item 3 ("checked") repeats the same example and has the same gap.
 - **The hypothesis of E(a) is not "a measured fact".** exponent.md §4 says E(ℓ+1)/E(ℓ) ≤ 0.688 for 5 ≤ ℓ ≤ 41
@@ -241,7 +248,8 @@ Checked line by line; brute force where possible (§0).
 - 1/√deaths: right for these replica-restart estimators (deaths are of independent replicas). Not right for window
   counts (§2) or for slopes from fits with χ² 37–63 on 3 degrees of freedom (the report already says so; the
   "excess slope" column of §3 and the slopes 0.2159 / 0.2128 / 0.2060 of §5 inherit the problem).
-- Few deaths: A = 84 model (78 deaths), toy2d L = 36 (495), my A = 75 slab (1,341).
+- Few deaths: the report's A = 84 model (78 deaths; now 719 here), toy2d L = 36 (495), the A = 75 slab and models
+  here (936–1,341).
 - Order (`git log --format='%h %cI %s' -- research/theory/exponent`; file times in `research/scratch/exponent/`):
   F1–F7 at 17:57Z, w* = 3 at 18:19Z before any gump-model record, F8/F9 at 18:40Z with hull runs on screen (stated),
   F10 at 18:56Z before the R = 13 run, F11 at 19:34Z not blind (stated). No forecast was back-dated. But two headline
@@ -261,7 +269,7 @@ Checked line by line; brute force where possible (§0).
    at (6,0,0) is a noise-immune fixed point of `gump_model(7, 4)`; a cube anywhere on the face is immune once
    w ≥ 5) and state that model runs must censor repeating dynamic states, as the deterministic runs censor settled
    ones.
-4. §5, A = 84: replace the 78-death point by the pooled value of this review (A84_SHORT) or mark it ± 0.11 and
+4. §5, A = 84: replace the 78-death point by the pooled value of this review (model 18.183 ± 0.037 against hull 18.148 ± 0.028) or mark it ± 0.11 and
    "not a test".
 5. Verdict 2 and §4: give χ² = 17/5 next to "≤ 0.07 nats"; state that the formula was found after the runs; add the
    out-of-sample test (fit on L = 12–28 predicts L = 32, 36 low by 0.08 and 0.07); replace "The exponent is the
@@ -297,7 +305,6 @@ Checked line by line; brute force where possible (§0).
   rhoscan, slave runs.
 - fg.c on vessels with N > 24 (25–32): only N ≤ 24 brute-forced.
 - The gump face game in two generations (board claim) and the R = 5 count 180,615.
-- Hull faces at A = 84 deterministic (I used the reviewed CPU value 18.154 ± 0.025 and fluct's).
 - Window statistics of the eight-row model; the toy lifetimes themselves (taken from the records and toy2d).
 - Whether drv.c's chunk-restart scheme biases any other filed model number through settled debris; my values agree
   with the report's wherever both exist, which bounds that effect at the quoted errors for those entries.
