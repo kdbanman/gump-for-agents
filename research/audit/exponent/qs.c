@@ -152,7 +152,8 @@ int main(int argc, char **argv) {
          gens, expo, deaths, nd_rep, nlines, censS, censC, early, -log(h), 1 / sqrt(deaths), popsum / (nlines * expo),
          sa / nd_rep, sqrt(sa2 / nd_rep - (sa / nd_rep) * (sa / nd_rep)), T0);
   printf("\"age_bins_T0_units\": [");
-  for (int b = 0; b < 40; b++) if (bexp[b] > 0) printf("%s[%d, %.0f, %.0f]", b ? ", " : "", b, bexp[b], bdth[b]);
+  int first = 1;
+  for (int b = 0; b < 40; b++) if (bexp[b] > 0) { printf("%s[%d, %.0f, %.0f]", first ? "" : ", ", b, bexp[b], bdth[b]); first = 0; }
   printf("]}\n");
   return 0;
 }
