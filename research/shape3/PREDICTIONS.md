@@ -136,3 +136,7 @@ Changes (plan v2, `run3.py`, seeds 31001–31037):
 Extension (added before any v2 job had been looked at): after the plan, rounds 6–10 over all five A = 72 tori
 (seeds 31038–31062), run as long as the session lasts. Wall time is the only stopping rule; the analysis uses
 completed rounds and also reports d from the planned rounds alone.
+
+Order v2b (21:08, before any P2, P3, Q63 or A = 72 result existed): the machine turned out to be shared with other
+load (each job got 20–45% of a core), so the planned A = 72 rounds were moved ahead of Q63 and P2 (`run3.py`,
+`jobs()`). Seeds stay with their jobs; nothing else changed.

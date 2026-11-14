@@ -2,8 +2,8 @@
 """Production plan of research/shape3, fixed before any production run (see PREDICTIONS.md).
 
     python3 research/shape3/run3.py list                 # the job list: lane, torus, gens, seed
-    nohup python3 research/shape3/run3.py lane 0 2 > research/scratch/shape3/lane0.log 2>&1 &   # lane 0 on core 2
-    nohup python3 research/shape3/run3.py lane 1 3 > research/scratch/shape3/lane1.log 2>&1 &   # lane 1 on core 3
+    nohup python3 research/shape3/run3.py lane 0 0-3 > research/scratch/shape3/lane0.log 2>&1 &   # lane 0 on core 2
+    nohup python3 research/shape3/run3.py lane 1 0-3 > research/scratch/shape3/lane1.log 2>&1 &   # lane 1 on core 3
 
 ts3 (research/shape3/ts3.c, with the multi-lag settled test), W = 8 (512 replicas), renewal lives, no cap (10^15),
 events every K = 8 generations, soup 0.4. Restartable: a job whose summary file exists is skipped (a job killed mid-run leaves no summary and is
@@ -50,6 +50,14 @@ def jobs():
     for r in range(5):
         for L, _ in ROUND72:
             out.append(('T72' if L in ((1, 6, 24), (2, 4, 12), (1, 5, 24)) else 'N72', L, gens_for(72, 600), seed)); seed += 1
+    # order v2b (2026-11-14 21:08, before any P2, P3, Q63 or A = 72 result existed; the machine was shared with
+    # other load and gave each job 20-45% of a core): the A = 72 rounds of the plan move ahead of Q63 and P2.
+    # Seeds stay with their jobs.
+    first = [j for j in out if j[0] in ('Q36', 'Q45', 'P1', 'Q54', 'P3')]
+    main72 = [j for j in out if j[0] in ('T72', 'N72') and j[3] < 31038]
+    ext72 = [j for j in out if j[0] in ('T72', 'N72') and j[3] >= 31038]
+    rest = [j for j in out if j[0] in ('Q63',)] + [j for j in out if j[0] == 'P2']
+    out = first + main72 + rest + ext72
     return [(i % 2,) + j for i, j in enumerate(out)]
 
 
