@@ -450,3 +450,161 @@ Citation lists (the search tool gives none, so "what cites Houghton et al." was 
 lifetimes of topological codes on tori (code distance = systole; a plausible analogue for item 2, not opened);
 anisotropic-Ising metastability on rectangular tori; pipe-flow puff lifetime versus pipe length; Kuramoto–Sivashinsky
 lifetime papers beyond Houghton's citation of Shraiman 1986; non-English literature.
+
+### Adversarial review of the third pass (2026-11-14)
+
+Second librarian, one session; goal: refute each "not found" and re-check the citations. Same method as the third pass:
+web search, then opening each page; where a PDF came back as binary, the fetch tool's saved copy was converted with
+`pdftotext` and read ("full text" below). Queries generic. Shelf rows: `theory/swarm/library/shelf.md` §11.
+Semantic Scholar's public API gave one citation list (Carretero-González et al. 1999) and then HTTP 429 four times;
+the citation lists of Houghton et al. 2010 and Sugimura–Kori 2015 are therefore **not obtained**.
+
+#### Citations re-checked
+- Carretero-González et al. 1999 (abstract re-opened): the quoted abstract is exact. Its 12 citing works (Semantic
+  Scholar list, read as titles) are on embedding, Lyapunov spectra, fractional CMLs, synchronisation, one on transient
+  ratchet transport; **none on lifetimes or escape rates**. dos Santos et al. 2008 is among them, as the pass said.
+- Caselle–Gliozzi–Vinti 1993 (abstract re-opened): "these finite-size corrections depend rather strongly on the shape
+  of the lattice" is exact. Body not re-read.
+- Blanchard–Tisseur 2000 (full text, §2.2): the blocking-word definition and "completely disconnects coordinates to its
+  right and left for the action of the automaton; hence the name" are exact.
+- Bollobás–Smith–Uzzell 2015 (full text, §1): the strip sentence and the Gravner–Griffeath quote are exact; the full
+  sentence is "to be subcritical if there exist closed cofinite proper subsets of Z², and to be critical otherwise".
+- Sugimura–Kori 2015 (ar5iv HTML): quotes (7), (9), "λ = Zp(2)", the boundary sentence and "fits well for parameter
+  sets near the onset" are exact. **Mis-description corrected:** the pass says "with a Gaussian tail assumed rather
+  than measured". In fact they *measure* the distribution of m ("we confirm that the probability distribution approaches
+  the following Gaussian distribution as the system size increases"), and in Fig. 9 they plot T against "C1/p(2) with
+  numerically obtained p(2)" and against C2/p(2) with the Gaussian p(2); C1 and C2 are "fitting parameters". So the
+  lifetime is tested against a **measured** probability of the last state, up to a fitted constant. What they extrapolate
+  is the N-dependence of p(2) through the Gaussian, with Z assumed independent of N. Markov assumption: "We assume that
+  the process illustrated in Fig. 6 is Markovian." This narrows our claim (c) of the supertransients section: the
+  measured-tail-gives-the-lifetime check has a precedent in a 2D PDE. What stays ours is the tail measured down to one
+  cell, and the exit rate measured rather than fitted.
+
+#### 1. A boundary layer over noise: STANDS WITH CAVEATS
+Nothing found that replaces a chaotic bulk (or neighbour) by noise and compares transient lifetimes or escape rates.
+Closest, newly found:
+- D. Vidmar, W.-J. Rappel, "Extinction dynamics of cardiac fibrillation" (arXiv title; published as "Extinction
+  dynamics of spiral defect chaos"), Phys. Rev. E 99 (2019) 012407; https://arxiv.org/abs/1808.01991. Read: **abstract
+  + the relevant sections in ar5iv HTML, through the fetch tool**. Square domains, periodic or non-conducting walls.
+  "the W±1 rates scale with the perimeter L", which "implies that the death rate is proportional with the length of
+  the non-conducting boundary". Tips are "removed through collisions with other spiral waves or with non-conducting
+  boundaries". So the boundary is identified as the place where defects are lost, and the rates are rescaled by its
+  length. No noise model of the bulk, and no thin-layer model of the exponent.
+- W.-J. Rappel et al., "Stochastic termination of spiral wave dynamics in cardiac tissue", Front. Netw. Physiol. 2 (2022)
+  809532; https://www.frontiersin.org/journals/network-physiology/articles/10.3389/fnetp.2022.809532/full —
+  **full text, via the fetch tool**: "rescaling the ±1 rates by the total length L of the non-conducting boundary".
+  Same caveat.
+- Strain–Greenside (arXiv:chao-dyn/9710006, transient times exponential in size with no-flux walls) seen only as a
+  search result.
+Caveat for the write-up: the open-boundary death channel scaling with perimeter is published (Vidmar–Rappel), so "death
+enters through the boundary" is not ours. What is still not found is the reduction itself (a thin boundary model
+with a random interior that reproduces the lifetime).
+Queries: works citing Carretero-González 1999 (Semantic Scholar list); "Noise can delay and advance the collapse" (not
+found as such); chaotic transient lifetime stochastic model replacing chaotic dynamics with noise escape rate; "stable
+chaos" CML transient random boundary noise injected; Lilienkamp–Parlitz transients; Vidmar–Rappel extinction.
+
+#### 2. Shape of a periodic domain at fixed size: STANDS WITH CAVEATS (the systole sub-claim REFUTED)
+"No dependence of a chaotic-transient, turbulent, nucleation or extinction lifetime on aspect ratio or twist at fixed
+size" stands: nothing found. But "**any use of the systole as the controlling length for a lifetime**: not found" is
+refuted, by a theorem and by a coding-theory result:
+- F. R. Nardi, A. Zocca, "Tunneling behavior of Ising and Potts models in the low-temperature regime", arXiv:1708.09677
+  (v2 2018; published in Stoch. Proc. Appl. per our memory, **not checked**). **Full text, §1–2.** Theorem 1.1: zero-field
+  q-state Potts (q = 2: Ising) Metropolis dynamics on the K × L grid, β → ∞: lim β⁻¹ log E τ = Γ(Λ) with
+  "Γ(Λ) := 2 min{K, L} + 2 if Λ has periodic boundary conditions, min{K, L} + 1 if Λ has open boundary conditions", and
+  τ/Eτ → Exp(1). "the mixing time ... depends up to a constant factor on the smaller side length of Λ"; for
+  semi-periodic boundaries "the exponent Γ(Λ) would be min{K + 2, 2L + 1}"; they "expect that analogous results hold
+  also for rectangular regions Λ of other lattices (e.g. triangular, hexagonal, Kagome lattices)". On a rectangular
+  torus the shorter side is the systole, so this is a proved, memoryless, exponential lifetime whose exponent is the
+  systole, not the area: at fixed area K·L the lifetime grows as the torus is made squarer. It is the leading-order
+  version of what Caselle–Gliozzi–Vinti see in the prefactor. Differences: reversible, zero temperature limit, the
+  barrier is a straight interface across the short side; no twist; untwisted rectangles only.
+- D. K. Tuckett, A. S. Darmawan, C. T. Chubb, S. Bravyi, S. D. Bartlett, S. T. Flammia, "Tailoring surface codes for highly
+  biased noise", Phys. Rev. X 9 (2019) 041031; https://arxiv.org/abs/1812.08186 — **abstract**: under pure dephasing,
+  for rectangular surface codes with open boundaries "it is controlled by the parameter g = gcd(j, k), where j and k are
+  dimensions of the surface code lattice"; "the same logical failure rate achievable with a square surface code and n
+  physical qubits can be obtained with a co-prime or rotated surface code using only O(√n) physical qubits". So the
+  failure rate of a memory at (about) fixed size depends on the arithmetic of the lattice's shape, which is the nearest
+  published analogue of a *twist* effect. Open boundaries, not a torus; logical failure, not a chaotic lifetime.
+- Bombin–Martin-Delgado, Phys. Rev. A 76 (2007) 012305, arXiv:quant-ph/0703272 (ar5iv HTML, partly read): optimal toric
+  codes with n/d² = 1 against the typical 2; the fetched text does not describe the construction as a twisted torus, so
+  that reading is **not supported** by what was read.
+- T. Lilienkamp, J. Christoph, U. Parlitz, "Features of chaotic transients in excitable media governed by spiral and
+  scroll waves", Phys. Rev. Lett. 119 (2017) 054101; https://bmp.ds.mpg.de/publication/item-2471932/ — **abstract**:
+  "In 3D, simulations exhibit an increase of transient lifetimes and filament lengths only above a critical thickness."
+  A slab-thickness threshold for long transients, the same shape of statement as our conjecture that thin slabs cannot
+  sustain chaos. Not a fixed-area shape test.
+- Vidmar–Rappel 2019 and Rappel et al. 2022 (above): "the mean termination time depends on the geometry of the domain"
+  (Rappel 2022), through the length of non-conducting boundary. Non-periodic; aspect ratio not studied ("The paper uses
+  only square domains", per the fetch of Vidmar–Rappel).
+- P. Manneville, "Spatiotemporal perspective on the decay of turbulence in wall-bounded flows", Phys. Rev. E 79 (2009)
+  025301(R), arXiv:1102.5703 (ar5iv, via the fetch tool): domains "of various aspect ratios"; Lx and Lz are not separated
+  for lifetimes and area is not held fixed. A miss.
+Queries: Nardi–Zocca tunnelling torus; contact process extinction torus aspect ratio / thin torus / cylinder (nothing:
+only random graphs and stars); plane Couette lifetime vs streamwise and spanwise size; transient chaos lifetime aspect
+ratio same area spiral chaos; twisted toric codes / coprime surface codes; Lilienkamp thickness.
+
+#### 3. Sealed sets: STANDS WITH CAVEATS (the object is classical)
+No sentence found that states "the largest sealed set only grows" for a non-monotone rule. But the third pass missed
+that the object is standard. Sealed = each cell has ≤ 3 of its 12 neighbours outside = each cell has ≥ 9 inside, so
+**the largest dead sealed set K(t) is the 9-core of the dead cells**, equivalently the complement of the closure of the
+live set under 4-neighbour bootstrap percolation (our reading, from the definitions). The k-core/bootstrap
+complementarity is published:
+- J. C. Miller, "Equivalence of several generalized percolation models on networks", Phys. Rev. E 94 (2016) 032313;
+  https://arxiv.org/abs/1505.01396 — **full text, k-core and bootstrap sections**: with thresholds r_u = d_u − k + 1,
+  "the set of activated nodes in the WTM is the set of deleted nodes in k-core percolation", "They are complementary
+  processes", "This equivalence is previously known [2]".
+- With it, T6's "no finite set is sealed" is the statement that 4-neighbour bootstrap percolation on this lattice has no
+  closed cofinite proper subset, which is Gravner–Griffeath's defining property of *subcritical* (quoted above via
+  Bollobás–Smith–Uzzell). The one-layer hexagon ring and two-layer 36-cell set make the thin slabs subcritical in that
+  sense; thick slabs and 3D are not. And "K(t) only grows" is the usual comparison with the dominating monotone rule
+  (our T5's uncapped "n + x ≥ 4"): the live set at t + 1 lies inside the bootstrap closure of the live set at t. These
+  identifications are ours, not read anywhere; they are one line each from the definitions.
+Recommendation: present T6 as "the 9-core of the dead set / the complement of the threshold-4 bootstrap closure", cite
+Miller and Gravner–Griffeath (via Bollobás–Smith–Uzzell), and keep only the lattice-specific facts (hexagon ring,
+36-cell set, three-layer threshold) as ours. Gravner–Griffeath's own papers and Balister–Bollobás–Przykucki–Smith
+(arXiv:1311.5883, abstract only: does not define the classes) were not read in full.
+Queries: bootstrap percolation complement k-core duality never-infected set; subcritical bootstrap closed cofinite;
+plus the third pass's blocking-word queries re-run in part.
+
+#### Also: lifetime from a stationary tail probability: STANDS, and much more widely known than said
+"Lifetime = inverse of (exit rate × QSD mass of the last state)" is textbook in population extinction and has been used
+on transient turbulence with a measured histogram:
+- M. Assaf, B. Meerson, "WKB theory of large deviations in stochastic populations", J. Phys. A 50 (2017) 263001;
+  https://arxiv.org/abs/1612.01470 — **full text, §2**: after relaxation "P_{n>0}(t ≫ t_r) ≃ π_n e^{−t/τ}", and "Once the
+  QSD is known ... obtain the MTE from the relation 1/τ = Σ_{r>0} W_r(r) π_r" (eq. 6), with refs [27, 30, 32, 33, 35].
+  The general form of our statement, for birth–death populations.
+- I. Nåsell, *Extinction and Quasi-Stationarity in the Stochastic Logistic SIS Model* (Springer LNM 2022, 2011), ch.
+  "Approximation of the time to extinction for the SIS model": per a search result, "the time to extinction from
+  quasi-stationarity ... has an exponential distribution with expectation equal to" 1/(μ₁q₁). **Not obtained** (Springer
+  login redirect); Nåsell's arXiv:2201.11118 (ar5iv) does not state it.
+- Vidmar–Rappel 2019 (above), eq. (2): "1/τ = Σ_{r<0} W_r(−r) P_qs(−r)", i.e. W₋₁(1)P_qs(1) + W₋₂(2)P_qs(2), for the
+  number of spiral tips of a deterministic reaction–diffusion system, with τ "exponentially" growing "with the area".
+  The same structure as Sugimura–Kori, made a birth–death master equation, and **validated against direct simulation**.
+- T. Nemoto, A. Alexakis, "Do extreme events trigger turbulence decay? A numerical study of turbulence decay time in pipe
+  flows", J. Fluid Mech. 912 (2021) A38; https://arxiv.org/abs/2005.03530 — **full text, §3**: with P(h) the measured
+  probability that the maximum turbulence intensity is ≤ h, "the number of decay events n_d is equal to N P(h_th)",
+  so "the decay time τ_d ≡ (Nδt)/n_d is expressed as (Nemoto & Alexakis 2018) τ_d = δt / P(h_th)" (eq. 3.5). This is the
+  closest precedent to our measured statement: a deterministic chaotic transient whose lifetime is the inverse of the
+  measured probability of the last state below threshold, and they then study the shape of that tail
+  (Gumbel) in a Re-independent "hovering" region. Differences: a continuous intensity, not a count down to one cell;
+  an empirical identity on the sampled distribution rather than a separate check of rate against tail.
+- N. Goldenfeld, N. Guttenberg, G. Gioia, "Extreme fluctuations and the finite lifetime of the turbulent state", Phys. Rev.
+  E 81 (2010) 035304(R); https://arxiv.org/abs/0906.3572 — **abstract**: "the transition to turbulence is controlled by
+  large amplitude events that follow extreme distribution theory"; the lifetime as set by the maximum fluctuation falling
+  below a threshold (as summarised by Nemoto–Alexakis).
+Consequence: our "death rate = the next point of the stationary tail" should be presented as an instance of the
+QSD-flux identity, with Sugimura–Kori, Vidmar–Rappel and Nemoto–Alexakis as precedents in deterministic spatially
+extended systems. What is left as ours is the lattice count measured to one cell with the exit rate measured, in a
+deterministic automaton.
+
+#### Not obtained
+Citation lists of Houghton et al. 2010 and Sugimura–Kori 2015 (Semantic Scholar HTTP 429, four tries); Nåsell's book
+chapter (Springer login); Lilienkamp et al. 2017 full text (no open copy found); Nemoto–Alexakis 2018 (cited, not
+sought); Wackerbauer–Kobayashi 2007 (title not found by search); Tél–Lai 2008 and Tél 2015 (not retried).
+
+#### Not searched
+Pipe-flow puff lifetime against periodic pipe length; Kuramoto–Sivashinsky lifetime papers; Gray–Scott beyond
+Wackerbauer–Showalter; anisotropic-Ising and in-field nucleation on rectangular tori (the Nardi–Zocca reference list
+was not followed: Borgs–Chayes–Tetali 2012 on Swendsen–Wang mixing "for a more general d-dimensional grid" is the next
+lead); quantum-memory lifetime reviews (Brown et al.); Boolean-network frozen cores and trap spaces (a probable further
+home for sealed sets); emptiness formation; non-English literature.
