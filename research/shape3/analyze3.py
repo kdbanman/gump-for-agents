@@ -97,7 +97,7 @@ def report():
     P = json.load(open(os.path.join(DATA, 'predictions.json')))
     meas = {}
     print('\n## Pair differences d = ln tau(Y) - ln tau(X)\n')
-    print('| pair | X -> Y | d | ties as face | young (< 65,536) | old (>= 65,536) |')
+    print('| pair | X -> Y | d | ties as face | young (< 65,536; A = 72: < 1,048,576) | old |')
     print('|---|---|---|---|---|---|')
     for lab, X, Y in PAIRS:
         if X not in T or Y not in T:
@@ -106,7 +106,8 @@ def report():
         d, s = vy - vx, math.hypot(ex, ey); meas[lab] = (d, s)
         dt = math.log((T[Y]['F'] + T[Y]['X']) / T[Y]['F'] * 1) * -1 + math.log((T[X]['F'] + T[X]['X']) / T[X]['F'])
         parts = []
-        for lo, hi in ((0, 65536), (65536, 10 ** 18)):
+        cut = 65536 if 3 * X[0] * X[2] <= 60 else 1048576   # young/old split: 65,536 (A <= 60), 1,048,576 (A > 60)
+        for lo, hi in ((0, cut), (cut, 10 ** 18)):
             def sub(L):
                 E = sum(v[0] for k, v in B[L].items() if lo <= k < hi); F = sum(v[1] for k, v in B[L].items() if lo <= k < hi)
                 return E, F
