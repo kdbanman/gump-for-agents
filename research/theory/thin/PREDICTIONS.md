@@ -88,3 +88,18 @@ b = 16, 20, 24; cost per cell 0.1918 then 0.1872.
     in proportion to b: lag(b = 24) / lag(b = 16) between 1.35 and 1.65.
 (c) The local cost per cell keeps falling: ln tau at b = 28 (A = 84) between 16.50 and 16.61
     (cost per cell from A = 72 between 0.1785 and 0.1875).
+
+## Block 4 (2026-11-14 21:30, before looking at any simulated one-layer segment)
+
+Known now: deterministic segments 6.8102(10), 9.1708(15), 11.5509(33) at n = 13, 21, 29: slopes 0.2951(2) and
+0.2975(5) per site, nearly straight (F6 on track). Exact one-layer segments (`sweep.py seq`): ln tau =
+2.4531, 2.7560, 3.7164, 4.1927, 4.6461, 5.1074 at n = 2…7, steps 0.303, 0.960, 0.476, 0.453, 0.461. The one-layer
+*ring* has slope 0.410 per site between b = 16 and 24, and in the deterministic system the segment's slope is
+0.875 of the ring's at those sizes. So the exact steps near 0.46 cannot be the asymptote.
+
+**F9 (replaces the expectation behind F7, which I now expect to fail).** One-layer model, segments: the slope of
+ln tau_seg(n) between n = 16 and n = 24 lies in 0.355–0.395 per site, and the steps at n ≤ 8 exceed it by more
+than 15%: exact enumeration to 8 sites does not reach the straight part of the law.
+
+**F10 (deterministic segments, small n).** The local slope between n = 5 and n = 9 exceeds 0.32 per site (the
+straight part, 0.295–0.30, is reached only above n ≈ 10).
