@@ -182,3 +182,32 @@ for 25 → 29: the slope has stopped falling, where g + a/n fitted to n ≤ 29 w
 
 **F14 (the segment law is straight from n ≈ 25).** ln tau_seg(45) lies in 16.26–16.35, i.e. the mean slope
 between n = 29 and n = 45 is 0.294–0.300 per site. The alternative "slope = 0.282 + 0.36/n" gives 16.22.
+
+## Scores, second part (2026-11-14 22:30)
+
+Commands: `python3 analyze.py routes`, `python3 analyze.py static win_det_b64 'det_b[0-9]*'`,
+`python3 analyze.py life 'seg_det_n[5-9]'`, `python3 analyze.py life det12_b16 det_b16` (and the two segments),
+`python3 analyze.py life 'seg_m?_n13' seg_det_n13`.
+
+**F5: miss on all three parts.** (a) k(l) does decrease with l up to l = 34, but its weighted mean over
+l = 30…40 is 0.3365(7), while the ring's slope between b = 32 and 36 (b = 48 was not run) is 0.3103(62): 0.026
+apart, not within 0.02. (b) ln tau(b) + ln E(b − s) is constant for no shift: for s = 0 it runs from 0.771
+(b = 16) to 0.409 (b = 36), and more for the other shifts. (c) The minimum of k(l) over l ≤ 40 is 0.3347(25) at
+l = 34, not below 0.33. What I had wrong: the window cost comes down more slowly than the lifetime slopes
+(E(l) carries a power l^−0.9), and the ring's lifetime is not 1/E(b) up to a constant.
+
+**F10: hit.** Slope of the deterministic segments between n = 5 and n = 9: (5.4082 − 3.8671)/4 = 0.3853 per
+site. Local slopes 0.412, 0.397, 0.375, 0.357, 0.343 (9 → 10), 0.325 (10 → 13), 0.309 (13 → 17). (At n = 5 and 6 the
+hazard depends on age and 1% of lives end in a repeating state: those two values are rough.)
+
+**F11: (a) hit, (b) and (c) miss.** k_wall(10) = 0.3331(1), inside 0.322–0.338. k_wall(20) = 0.3182(3), at the
+upper edge of 0.298–0.318; k_wall(30) = 0.3120(12), above 0.290–0.310. Fit g + a/x over x = 12…32:
+g = 0.3033(3), a = 0.30; forecast g in 0.278–0.296. The front cost flattens higher than I expected: the routes
+do not meet at 0.285 but (if they meet) near 0.30.
+
+**F12: hit.** Twelve layers minus eight: +0.0034(23) (ring b = 16), +0.0015(17) (segment n = 13), +0.0060(25)
+(n = 21). All positive, all below 0.010.
+
+**F13: hit for w = 8 (+0.004(2)), miss for w = 6 (+0.013(2)).** These are the reruns: the first runs of both ended
+with every lane stuck behind three dead layers (README, "Subtle points"); with the 30-mean-lives estimator they
+gave +0.016(2) and +0.008(3).
