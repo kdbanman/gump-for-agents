@@ -131,6 +131,17 @@ let CI pass, merge.
   `docs/overview/index.html` to that same link. It is a view of the repository, not a record: nothing is
   established by appearing on it.
 
+## Which rule is gump
+
+- 2026-11-14, the owner, after the lead pointed out that the 2012 code reads the corner-touching coplanar four:
+  "i made a mistake in 2012! i intended to use edge neighbors, not corner neighbors … didn't notice for 14 years".
+  On where a look at the intended rule should live: "it's just a tangent, probably belongs on a branch, not in
+  main. to avoid potential future confusion. the main branch should probably be left to the rule/class you've
+  actually been exploring?"
+- So: main and the working branch are about the rule as coded. The edge-neighbour look is on the branch
+  `claude/edge-neighbour-tangent` (`research/tangents/edge-neighbours/`). Do not merge it; do not open a pull
+  request for it unless the owner asks.
+
 ## Habits that have served (not rules)
 
 - Re-derive a subagent's key numbers independently before recording them; several headline claims changed that way.

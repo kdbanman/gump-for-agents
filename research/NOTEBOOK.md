@@ -945,7 +945,13 @@ its axial neighbors, not its corner neighbors." Checked, because the whole struc
   under the variant the largest coordinate goes 8 → 9 and stays there for 80 generations with about 1,000 faces
   alive, while the L1 radius passes its starting hull (23 → 25); under gump the L1 radius stays 23 and the
   largest coordinate grows 8 → 20.
-- So the "8-sided die" of 2012 is the signature of the corner-touching choice. Whether that choice was meant is
-  the owner's to say. Not examined: whether the edge-sharing variant's chaos lasts, or dies face by face.
+- So the "8-sided die" of 2012 is the signature of the corner-touching choice.
+- **It was a slip.** The owner, the same day: "i made a mistake in 2012! i intended to use edge neighbors, not
+  corner neighbors. that was the whole point haha. so i made a mistake writing the code, and actually used corner
+  neighbors, but didn't notice for 14 years". And: the edge version is "just a tangent, probably belongs on a
+  branch, not in main. to avoid potential future confusion." So **gump, here and everywhere in this repository,
+  is the rule as coded and run**: the corner-touching four. A quick look at the intended rule (chaotic on a torus;
+  shut in its box; lifetime climbing steeply with box size; dies a slab of cubes at a time) is on the branch
+  `claude/edge-neighbour-tangent` under `research/tangents/edge-neighbours/`, and is not to be merged.
 
 Reproduce: `python3 research/experiments/axial_variant.py` (about a minute).
