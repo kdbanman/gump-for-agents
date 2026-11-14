@@ -108,7 +108,7 @@ runs' falling hazards (k = 0.94 at R = 43, 0.84 at R = 45, re-derived here with 
 noise at R = 43; R = 45 was not re-run, so its k = 0.84 is untested, but nothing at R = 43 supports it. The side-17
 mean (3.2 × 10¹⁰ from R = 45) stands as a long-run mean to the extent R = 43 is a guide.
 
-## Correction to the outcome of experiment a (appended 2026-11-14T06:55Z, after `research/audit/REVIEW-gpu-pr12.md`)
+## Correction to the outcome of experiment a (appended 2026-11-14T06:40Z, commit 3cfab59, after `research/audit/REVIEW-gpu-pr12.md`)
 
 Nothing above is edited. The forecast's numbers held (+0.01 at A = 108, −0.08 at A = 126, ±0.15 allowed); **its reading
 does not follow at A = 126.** The GPU statistic counts the first outer-layer extinction, and in an 8-layer slab a
@@ -121,7 +121,7 @@ rim-free slab faces stay on the line fitted to A = 27–90, and octahedral faces
 tougher; what makes them tougher (rim, eight faces sharing edges, interior thickness, shape) is not separated.
 Experiment b's outcome line "the hazard is flat" means: flat to ±13% per bin from age 0, Weibull k = 1.02 (1.00–1.04).
 
-## Before the firewall-resolved slab runs (appended 2026-11-14T07:10Z)
+## Before the firewall-resolved slab runs (appended 2026-11-14T06:42Z, commit 60846f8)
 
 `fwslab.py`: kernel B with states kept at face deaths; every launch boundary and every face death tested for a
 transverse 3-layer firewall (three cyclically consecutive dead layers of a transverse ring); a firewall ends the
