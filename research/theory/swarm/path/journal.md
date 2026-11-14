@@ -1198,6 +1198,37 @@ For fcc the same ratio is 0.181/0.465 = 0.39, close to gump's; I have no table f
 
 ---
 
+## 2026-11-14, entry 21. Claim V checked on a chain written down from a formula; a finite-size remark
+
+The limit statement of 17.5 is sketched, not proved, so I checked it where it can be checked exactly. Model chain
+(not the automaton, not data): the row from k is a discretised Gaussian with mean k + A·b(k/A) and variance
+A·v(k/A), b = Θv/2, with the Θ and v typed into `bellman.py`. Its committor (death before reaching the mean) by a
+linear solve, read at k = 0.45·A (`python3 check_limit.py`, a few seconds):
+
+| A | −ln ψ*(0.45·A) | per cell | increment per cell from the size before |
+|---|---|---|---|
+| 84 | 17.137 | 0.2040 | |
+| 168 | 34.829 | 0.2073 | 0.2106 |
+| 336 | 70.472 | 0.2097 | 0.2122 |
+| 672 | 142.215 | 0.2116 | 0.2135 |
+| 1344 | 285.796 | 0.2126 | 0.2137 |
+
+Recursion (3) gives V(0.45) = 0.2135; the local-root integral up to 0.45 is 0.2220. **For this family the
+committor's exponent converges to the value of (3), and not to the local-root integral [calculated: exact linear
+algebra on a model chain].** That is evidence for the sketch in the Gaussian case, not a proof, and it says
+nothing about whether gump's rows are close enough to Gaussian (lab request LR10 b, LR11).
+
+*Finite-size remark.* With one and the same root curve at every size, the slope between sizes approaches V from
+below: 1.4% low between 84 and 168 cells, 0.7% between 168 and 336. So part of "the cost per cell is still
+rising" needs no drift of the roots. It also corrects the reading 17.5 (2): at A ≈ 100 a fixed curve with
+V = 0.218 would show a slope of about 0.215, and the measured 0.218 and 0.221 are above that; so either the roots
+still rise with A (they did from 45 to 63 to 84) or the Gaussian closure is 2–3% low. "Levels off at
+0.220 ± 0.006" is a lower estimate.
+For exam entry E4: a table's V is the limit, and the measured slope near that size is 0.003–0.007 lower in the
+model; the entry's bars (± 0.012, ± 0.015, refuted beyond 0.025) allow for that.
+
+---
+
 ## Round 4 report
 
 **Exam** (entry 16). E1 holds: notched row 0.3458 ± 0.0036 (predicted 0.345 ± 0.020), intact row of the same
@@ -1224,9 +1255,10 @@ not take.
   Theorem P̄; no uniformity in time. Corollary: the committor at fixed k falls with the size of the face
   because larger faces' rows dominate. **[proved; hypotheses are lab L9.2]**
 - **V** (17.5): the exponent is the discrete-time quasi-potential (3) of the population's one-step law;
-  V′ = Θ − ½|Θ′|b to first order. **[sketched]** Evaluated on the critic's numbers for A = 84: 0.218, between the
+  V′ = Θ − ½|Θ′|b to first order. **[sketched]**; on a model chain with Gaussian rows the exact committor
+  converges to it and not to ∫Θ (entry 21). Evaluated on the critic's numbers for A = 84: 0.218, between the
   proved bounds 0.144 and 0.2295; measured 0.212–0.221. Reading: the hull's local slope levels off at
-  0.220 ± 0.006. **[guessed]**
+  0.220 ± 0.006 or somewhat above. **[guessed]**
 - **F** (entry 20): in face12e the wall's sheet plus the layer beneath is an inclusion-minimal sealed set; only
   the layer's cells see the rest of the vessel. **[proved]**
 
