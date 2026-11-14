@@ -169,5 +169,7 @@ export function liveCells(texels, L) {
 // The measured peeling law (research/NOTEBOOK.md, "how chaos dies"): a face layer of A sites
 // dies after a memoryless wait of mean exp(-0.09 + 0.209 A) generations (a fit mixing slab widths:
 // NOTEBOOK 2026-11-14 "equal areas, different lifetimes", CLAIMS GP9); for O_h-symmetric
-// states use A / 7.7. An estimate from a fit, not a guarantee: waits are exponential.
+// states use A / 7.7 (an early fit, CLAIMS S1, superseded beyond A ≈ 460 by S2: it under-predicts large symmetric
+// faces; triangular hull faces also run 1.7-2.5x longer than this line, CLAIMS F6, GP7). An estimate from a fit,
+// not a guarantee: waits are exponential.
 export const faceLaw = (A, symmetric = false) => Math.exp(-0.09 + 0.209 * (symmetric ? A / 7.7 : A));
