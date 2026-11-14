@@ -101,11 +101,12 @@ _Last updated 2026-11-14 by the lead._
   test on the pairs of (4);
   (4) Opus: the second variable, pairs of tori with equal area and equal shortest loop, candidates fixed and
   forecasts committed first -> `research/shape3/`.
-  (6) Fable, **reported 22:10 UTC** (`research/constant/README.md`; not yet in the notebook: an Opus adversarial review
-  is running -> `research/audit/REVIEW-constant.md`): no single asymptotic constant is defined by the data. Periodic
-  faces give 0.2085 ± 0.0035 whatever the form; hull faces 0.2226 or 0.2317 with one correction term; forcing one
-  constant costs χ² 110-238 unless the hull's rim has a two-term correction. The lead's image-sum conjecture fails as
-  a law (the exponential fall of the deficit holds as a description, ξ = 0.71-0.74). The lead re-ran `fit.py` and
+  (6) Fable, **reported 22:10 UTC, reviewed 22:30 UTC, recorded** (`research/constant/README.md`,
+  `research/audit/REVIEW-constant.md`; notebook entry "is there one asymptotic cost per cell"; CLAIMS CN1): the
+  data allow one asymptotic constant anywhere from about 0.207 to 0.219 and do not fix it; the analysis's "two
+  families in tension" did not survive review (a single constant passes with a 1/A or saturating hull correction).
+  The lead's image-sum conjecture is refuted as a law. The analyst is applying the review's corrections to its
+  write-up. The lead re-ran `fit.py` and
   checked the inputs (width slopes, hull local slopes). Its three proposed measurements: equilateral tori at constant
   shape (about 3 GPU-hours; to be asked of the GPU session once its forecasts are committed), hull faces of equal
   area and different rim, the width-6 slope. Original brief: is there one asymptotic constant? Joint analysis of every family of lifetimes
