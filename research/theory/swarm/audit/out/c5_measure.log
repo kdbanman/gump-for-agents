@@ -1,0 +1,81 @@
+
+=== claim 1 (a): mu(T_H <= k) <= (k + 1) mu(H) for maps preserving mu (exact fractions)  [0 s]
+  42000 tests on 3000 random (g, mu, H): violations 0
+  control, mu not invariant: the bound fails for 835 of 3000 random (g, mu, H)
+
+=== claim 1 (b): bijections  [2 s]
+  5000 random permutations and sets H: failures of (sum R = |X'|, sum T = sum R(R-1)/2, mean >= |X'|/2|H| - 1/2): 0
+  control: when a cycle misses H (2258 cases) the form with |X| fails for the states that do fall in 854 cases
+  rotation of Z_n, H = {0}: mean (n - 1)/2, equality (n = 1, 2, 7, 30)
+
+=== claims 2, 3: the second-order lift on small vessels, every pair-state  [2 s]
+  gump, one cube (hull R = 1): 6 cells, face 3
+    f(H) in H: True;  |f^-k(H)| for k = 0..8: [8, 45, 57, 57, 57, 57, 57, 57, 57] of 64
+    lift: bijection True, inverse as stated True; |H|/|X^2| = 1/8 (2^-A = 1/8); #(Phi^t x in H) for t = 1..12 all equal |H|: True
+    Phi(H2) in H2: True; states outside H2 mapped into H2: 0; 'face empty at some generation <= k' <= (k+1) 2^-A for k = 1..12: True
+  gump, hull C = 3 on (1,1,1), (1,1,-1), 1 elsewhere: 8 cells, face 2
+    f(H) in H: True;  |f^-k(H)| for k = 0..8: [64, 256, 256, 256, 256, 256, 256, 256, 256] of 256
+    lift: bijection True, inverse as stated True; |H|/|X^2| = 1/4 (2^-A = 1/4); #(Phi^t x in H) for t = 1..12 all equal |H|: True
+    Phi(H2) in H2: True; states outside H2 mapped into H2: 0; 'face empty at some generation <= k' <= (k+1) 2^-A for k = 1..12: True
+  gump, hull C = 3 on (1,1,1), (1,1,-1), (1,-1,1): 10 cells, face 4
+    f(H) in H: True;  |f^-k(H)| for k = 0..8: [64, 840, 1000, 1018, 1020, 1020, 1020, 1020, 1020] of 1024
+    lift: bijection True, inverse as stated True; |H|/|X^2| = 1/16 (2^-A = 1/16); #(Phi^t x in H) for t = 1..12 all equal |H|: True
+    Phi(H2) in H2: True; states outside H2 mapped into H2: 0; 'face empty at some generation <= k' <= (k+1) 2^-A for k = 1..12: True
+  2D rule, strip 2 x 4: 8 cells, face 4
+    f(H) in H: True;  |f^-k(H)| for k = 0..8: [16, 49, 83, 111, 119, 119, 119, 119, 119] of 256
+    lift: bijection True, inverse as stated True; |H|/|X^2| = 1/16 (2^-A = 1/16); #(Phi^t x in H) for t = 1..12 all equal |H|: True
+    Phi(H2) in H2: True; states outside H2 mapped into H2: 0; 'face empty at some generation <= k' <= (k+1) 2^-A for k = 1..12: True
+  2D rule, box 3 x 3: 9 cells, face 3
+    f(H) in H: True;  |f^-k(H)| for k = 0..8: [64, 148, 187, 199, 199, 199, 199, 199, 199] of 512
+    lift: bijection True, inverse as stated True; |H|/|X^2| = 1/8 (2^-A = 1/8); #(Phi^t x in H) for t = 1..12 all equal |H|: True
+    Phi(H2) in H2: True; states outside H2 mapped into H2: 0; 'face empty at some generation <= k' <= (k+1) 2^-A for k = 1..12: True
+  confinement: every state of the 8-cell hull, stepped inside the hull R = 5 (114 cells): cells born outside 0; agrees with the hull's own step: True  (so f(v) xor u stays in the hull when u and v do)
+  hull R = 3, 200000 random states with the face (1,1,1) empty: face cells alive next: 0
+
+=== claim 20 (Lemma 2'): invariant measure and absorbing set  [4 s]
+  3000 random (g, mu, absorbing H): mu(points outside H that enter H) != 0 in 0 cases
+  wording: gump on one cube (6 cells): the full cube is a fixed point (f(full) = full: True) with a live face, so the point mass on it is an invariant measure carried by a living state; yet 49 of the 56 living states die
+
+=== claim 15 (Lemma 7): every state of a 5 x 5 patch of the half-plane  [5 s]
+  s = 0: P((x,1) alive at 1) = 85/128 = 85/128 (85/128), P((x,2) alive at 1) = 161/256 (161/256), E b_1 = 331/256 (331/256)
+  s = 1: P((x,1) alive at 1) = 19/32 = 19/32 (76/128), P((x,2) alive at 1) = 119/256 (119/256), E b_1 = 271/256 (271/256)
+  journal: 85/128, 161/256 (s = 0); 76/128, 119/256 (s = 1); 331/256, 271/256
+
+=== claim 17: the Cauchy-Schwarz bound; the collision sum of the top three rows (strips, uniform soup)  [17 s]
+  strip 4 x 5: |Y_1| = 2507
+    j = 1: (1/L) ln(8^L sum mu_j^2) = 0.436 (living rows only: 0.444); must stay below c_1 = 0.552 for the hypothesis; mu_j(Y_1) = 0.2271 <= sqrt(|Y_1| sum mu^2) = 0.8232; heaviest atom 0.0030
+    j = 2: (1/L) ln(8^L sum mu_j^2) = 0.990 (living rows only: 0.710); must stay below c_1 = 0.552 for the hypothesis; mu_j(Y_1) = 0.3842 <= sqrt(|Y_1| sum mu^2) = 3.2884; heaviest atom 0.0577
+    j = 3: (1/L) ln(8^L sum mu_j^2) = 1.401 (living rows only: 1.160); must stay below c_1 = 0.552 for the hypothesis; mu_j(Y_1) = 0.4798 <= sqrt(|Y_1| sum mu^2) = 9.1756; heaviest atom 0.1696
+    j = 4: (1/L) ln(8^L sum mu_j^2) = 1.568 (living rows only: 1.392); must stay below c_1 = 0.552 for the hypothesis; mu_j(Y_1) = 0.5400 <= sqrt(|Y_1| sum mu^2) = 13.9318; heaviest atom 0.2567
+    j = 5: (1/L) ln(8^L sum mu_j^2) = 1.647 (living rows only: 1.549); must stay below c_1 = 0.552 for the hypothesis; mu_j(Y_1) = 0.5727 <= sqrt(|Y_1| sum mu^2) = 16.9816; heaviest atom 0.3069
+    j = 6: (1/L) ln(8^L sum mu_j^2) = 1.693 (living rows only: 1.659); must stay below c_1 = 0.552 for the hypothesis; mu_j(Y_1) = 0.5954 <= sqrt(|Y_1| sum mu^2) = 19.0544; heaviest atom 0.3367
+    j = 7: (1/L) ln(8^L sum mu_j^2) = 1.718 (living rows only: 1.726); must stay below c_1 = 0.552 for the hypothesis; mu_j(Y_1) = 0.6124 <= sqrt(|Y_1| sum mu^2) = 20.2946; heaviest atom 0.3527
+    j = 8: (1/L) ln(8^L sum mu_j^2) = 1.729 (living rows only: 1.760); must stay below c_1 = 0.552 for the hypothesis; mu_j(Y_1) = 0.6217 <= sqrt(|Y_1| sum mu^2) = 20.8304; heaviest atom 0.3573
+  strip 4 x 6: |Y_1| = 10846
+    j = 1: (1/L) ln(8^L sum mu_j^2) = 0.461 (living rows only: 0.465); must stay below c_1 = 0.552 for the hypothesis; mu_j(Y_1) = 0.1475 <= sqrt(|Y_1| sum mu^2) = 0.8100; heaviest atom 0.0025
+    j = 2: (1/L) ln(8^L sum mu_j^2) = 1.031 (living rows only: 0.729); must stay below c_1 = 0.552 for the hypothesis; mu_j(Y_1) = 0.2490 <= sqrt(|Y_1| sum mu^2) = 4.4776; heaviest atom 0.0396
+  strip 5 x 5: |Y_1| = 2507
+    j = 1: (1/L) ln(8^L sum mu_j^2) = 0.366 (living rows only: 0.376); must stay below c_1 = 0.552 for the hypothesis; mu_j(Y_1) = 0.2099 <= sqrt(|Y_1| sum mu^2) = 0.6909; heaviest atom 0.0021
+    j = 2: (1/L) ln(8^L sum mu_j^2) = 0.922 (living rows only: 0.640); must stay below c_1 = 0.552 for the hypothesis; mu_j(Y_1) = 0.3603 <= sqrt(|Y_1| sum mu^2) = 2.7725; heaviest atom 0.0489
+  journal (lab L3.5): excess 0.92-1.03 at generation 2, 1.7 at generation 8; living rows 0.64-0.73 at j = 2
+
+=== claim 18: no finite pattern of the half-plane holds its cells against the outside  [75 s]
+  78728 (set, pattern, depth) cases in a 3 x 3 patch: the cell named in the proof keeps its state in 0 cases
+  control, a one-row vessel (no cells beneath): three dead cells stay dead against all 16 outsides: True
+
+=== claim 19 (Lemma 8): P_pi(T <= k) <= (1 - lam^k) pi(phi) + pi(1 - phi) <= k h + pi(1 - phi)  [78 s]
+  156000 tests (irreducible, triangular, with a state that dies at once; 0 matrices skipped: no clean Perron vector): first inequality fails 0, second 0; control without pi(1 - phi): fails 6971
+  smallest case (g stays with 1 - h, d dies at once): equality in the first inequality
+  D2(L, 1/2) on rings (one row over fair dice), start = fair product row:
+    L =  5: h = 0.087287 (-ln h / L = 0.488), pi(1 - phi) = 0.13714 (-ln / L = 0.397); P(T <= k), k = 1..6: 0.07651, 0.15979, 0.23101, 0.29837, 0.35950, 0.41542
+    L =  6: h = 0.040052 (-ln h / L = 0.536), pi(1 - phi) = 0.13717 (-ln / L = 0.331); P(T <= k), k = 1..6: 0.04137, 0.08401, 0.12503, 0.16246, 0.19742, 0.23036
+    L =  7: h = 0.022476 (-ln h / L = 0.542), pi(1 - phi) = 0.06391 (-ln / L = 0.393); P(T <= k), k = 1..6: 0.02259, 0.04474, 0.06736, 0.08876, 0.10945, 0.12957
+    L =  8: h = 0.012072 (-ln h / L = 0.552), pi(1 - phi) = 0.03701 (-ln / L = 0.412); P(T <= k), k = 1..6: 0.01251, 0.02412, 0.03593, 0.04756, 0.05905, 0.07040
+    L =  9: h = 0.006890 (-ln h / L = 0.553), pi(1 - phi) = 0.02560 (-ln / L = 0.407); P(T <= k), k = 1..6: 0.00707, 0.01401, 0.02101, 0.02785, 0.03460, 0.04129
+    L = 10: h = 0.004504 (-ln h / L = 0.540), pi(1 - phi) = 0.01606 (-ln / L = 0.413); P(T <= k), k = 1..6: 0.00407, 0.00835, 0.01285, 0.01729, 0.02173, 0.02616
+
+all assertions passed  [148 s]
+
+real	2m28.008s
+user	2m2.145s
+sys	0m10.372s

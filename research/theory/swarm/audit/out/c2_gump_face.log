@@ -36,3 +36,46 @@
     S = 011111000100: brute over 2^24 states beneath         6   formula         6
     S = 111111111111: brute over 2^24 states beneath  16777216   formula  16777216
     S = 110111111111: brute over 2^24 states beneath   5017600   formula   5017600
+    S = 111111110110: brute over 2^24 states beneath   1296000   formula   1296000
+    S = 110111111011: brute over 2^24 states beneath     96000   formula     96000
+
+=== claim 11: beneath empty / full; the full face  [377 s]
+  slab 2 x 2, layers beneath empty: dies in 205 of 4096 face configurations; criterion of entry 8 agrees on all: True; entry 6's first form (without 'or k = 6') is wrong on 1
+  slab 2 x 2, layers beneath full: dies in 433; criterion agrees on all: True
+  full slab face: formula count 16777216 of 2^24 states beneath (all: True)
+  hull R = 3, full face (in-face degrees [2, 2, 2, 4, 4, 4, 4, 4, 4]) over empty layers: 6 of 9 face cells alive next -> a full hull face does not always die
+
+=== claim 16: lone cell and lone triangle over independent cells of density rho (slab 3 x 3, no doubled neighbours)  [377 s]
+  slab 3 x 3: A = 27; in-face adjacency entries: max multiplicity 1, degrees {6}, self-neighbours 0
+  lone cell: 7 face cells concerned; groups (face cells, cells beneath, killing patterns): [(1, 3, 7), (1, 3, 7), (1, 3, 7), (1, 3, 7), (3, 6, 45)]
+    P(face empty next) at 1/2 = 108045/262144 = 0.412159  (journal (45/64)(7/8)^4 = 0.412159; of 2^18 patterns: 108045)
+    rho = 0.5: enumeration 0.412159, polynomial 0.412159
+    rho = 0.4155: enumeration 0.606477, polynomial 0.606477
+    rho = 0.3: enumeration 0.829576, polynomial 0.829576
+    rho = 0.7: enumeration 0.066621, polynomial 0.066621
+    all 2^18 patterns of the cells beneath the cell and its six neighbours: 108045 empty the face (journal 108,045 = 0.412159 * 2^18)
+  lone triangle: 15 face cells concerned; groups: [(2, 5, 25), (2, 5, 25), (2, 5, 25), (2, 5, 25), (2, 5, 25), (2, 5, 25), (3, 6, 1)]
+    P(face empty next) at 1/2 = 244140625/68719476736 = 0.003553  (journal (1/64)(25/32)^6 = 0.003553)
+    rho = 0.5: enumeration 0.003553, polynomial 0.003553
+    rho = 0.4155: enumeration 0.017163, polynomial 0.017163
+    rho = 0.3: enumeration 0.085629, polynomial 0.085629
+    rho = 0.7: enumeration 0.000009, polynomial 0.000009
+    Monte Carlo, whole slab, fair cells beneath, seed 5: 6867 of 2000000 = 0.003433
+    Monte Carlo, whole slab, fair cells beneath, seed 1: 21289 of 6000000 = 0.003548
+    Monte Carlo, whole slab, fair cells beneath, seed 2: 21083 of 6000000 = 0.003514
+    Monte Carlo, whole slab, fair cells beneath, seed 3: 21399 of 6000000 = 0.003566
+    pooled: 70638 of 20000000 = 0.003532 +- 0.000013  (-1.56 sigma from 0.003553)
+    control, slab 2 x 2 (doubled neighbours): lone cell 0.269165, not 0.412159
+
+=== claim 6 (gump): a lone top cube in a dead box of half-width 2k + 2 lasts k generations against any outside  [428 s]
+  k = 1, box half-width  4 (journal): cube not intact after 1 generations in 0 of 1800 random outsides
+  k = 1, box half-width  2 (control: 2k): cube not intact after 1 generations in 0 of 1800 random outsides
+  k = 1, box half-width  0 (control: 2k - 2): cube not intact after 1 generations in 1796 of 1800 random outsides
+  k = 2, box half-width  6 (journal): cube not intact after 2 generations in 0 of 1800 random outsides
+  k = 2, box half-width  4 (control: 2k): cube not intact after 2 generations in 0 of 1800 random outsides
+  k = 2, box half-width  2 (control: 2k - 2): cube not intact after 2 generations in 1663 of 1800 random outsides
+  k = 3, box half-width  8 (journal): cube not intact after 3 generations in 0 of 1800 random outsides
+  k = 3, box half-width  6 (control: 2k): cube not intact after 3 generations in 0 of 1800 random outsides
+  k = 3, box half-width  4 (control: 2k - 2): cube not intact after 3 generations in 0 of 1800 random outsides
+
+all assertions passed  [436 s]
