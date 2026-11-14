@@ -1231,66 +1231,55 @@ model; the entry's bars (± 0.012, ± 0.015, refuted beyond 0.025) allow for tha
 
 ## Round 4 report
 
-**Exam** (entry 16). E1 holds: notched row 0.3458 ± 0.0036 (predicted 0.345 ± 0.020), intact row of the same
-strips 0.412. G1's first half (every edge with an end: 0.34–0.35) is measured in a geometry made to test it; its
-second half (the ring carries a power) is undecided by the same table (ring minus notched grows like
-L^{1.7 ± 0.2} or like 0.065·L). E2 is not refuted but its number is too high at L = 36 (7.99 ± 0.38 against
-9.8 ± 1.0): no flash, a remnant of 8–9 cells that does not grow. E3 fails: on a rim-free face the last 18 cells
-go in four generations (hull: six or seven); the last generation alone is common to both vessels.
+**Exam** (entry 16). E1 holds (notched row 0.3458 ± 0.0036; intact row of the same strips 0.412): every edge
+with an end costs 0.34–0.35. Whether the ring's excess is a power of L is not decided by that table. E2 is not
+refuted, its number too high at L = 36 (7.99 ± 0.38): no flash, a remnant of 8–9 cells that does not grow. E3
+fails: on a rim-free face the last 18 cells go in four generations (hull: six or seven).
 
-**Fell.** "One remnant, the same in every vessel" (E3): refuted; Dr holds on hulls only. Th (ln τ = A·∫Θ):
-withdrawn; the sum is an upper bound (T), exact only without jumps or with root-preserving rows (17.4). The
-ring part of W (power ½): withdrawn; a product of pair weights cannot give more than ½ (16.1). The mean-field
-value (entry 19): a dead end; its cheapest route is an overcrowding of the whole face, which gump's faces do
-not take.
+**Fell.** "One remnant, the same in every vessel" (E3); Dr holds on hulls only. Th (ln τ = A·∫Θ). The ring
+part of W (a product of pair weights gives ½ whatever the weights; measured 1.3–1.7). The mean-field value
+(entry 19): a dead end, its cheapest route an overcrowding of the whole face.
 
 **Claims.**
-- **T′, T** (17.2, 17.3): for any one-step table, (K − k₀)·min θ_k ≤ −ln ψ*(K − 1) ≤ Σ θ̂_k + const, the first from
-  a supersolution, the second from a concave subsolution. **[proved]**
-- **Exactness** (17.4): the sum is the exponent for skip-free rows and for branching rows. **[proved]**
-- **Q** (17.6): under R(κ, θ₀, k₀) (local roots ≥ θ₀ for k₀ ≤ k < κA, at every size), ln τ ≥ θ₀(κA − k₀) − const.
-  **[proved; the hypothesis is one-step, holds on the lab's numbers at A = 45, 63, 84 with (0.35, 0.40, 5), and
-  is not derived from the rule]** It gives 0.14 per cell.
-- **C** (entry 18): pooled rows dominating a monotone kernel make that kernel's committor a certificate for
-  Theorem P̄; no uniformity in time. Corollary: the committor at fixed k falls with the size of the face
-  because larger faces' rows dominate. **[proved; hypotheses are lab L9.2]**
-- **V** (17.5): the exponent is the discrete-time quasi-potential (3) of the population's one-step law;
-  V′ = Θ − ½|Θ′|b to first order. **[sketched]**; on a model chain with Gaussian rows the exact committor
-  converges to it and not to ∫Θ (entry 21). Evaluated on the critic's numbers for A = 84: 0.218, between the
-  proved bounds 0.144 and 0.2295; measured 0.212–0.221. Reading: the hull's local slope levels off at
-  0.220 ± 0.006 or somewhat above. **[guessed]**
-- **F** (entry 20): in face12e the wall's sheet plus the layer beneath is an inclusion-minimal sealed set; only
+- **T′, T** (17.2, 17.3): for any one-step table, (K − 1 − k₀)·min θ_k ≤ −ln ψ*(K − 1) ≤ Σ θ_k + const (roots
+  non-increasing). **X** (17.4): the sum is exact for skip-free and for branching rows. **[proved]**
+- **Q** (17.6): if at every size θ_k ≥ θ₀ for k₀ ≤ k < κA, then ln τ ≥ θ₀(κA − k₀) − const. **[proved; the
+  hypothesis is one-step, holds on the lab's numbers at A = 45, 63, 84 with (0.35, 0.40, 5), gives 0.14 per
+  cell, and is not derived from the rule]**
+- **C** (entry 18): pooled rows dominating a monotone kernel make its committor a certificate for Theorem P̄,
+  with no uniformity in time; hence the committor at fixed k falls with the size of the face. **[proved; the
+  hypotheses are lab L9.2]**
+- **F** (entry 20): in face12e the wall sheet plus the layer beneath is an inclusion-minimal sealed set; only
   the layer's cells see the rest of the vessel. **[proved]**
+- **V** (17.5, 21): the exponent is the discrete-time quasi-potential of the population's one-step law, a
+  functional of the local root Θ and the step variance; V′ = Θ − ½|Θ′|b to first order. **[sketched; exact
+  committors of a Gaussian model chain converge to it and not to ∫Θ]** On the critic's numbers for A = 84:
+  0.218, between the proved bounds 0.144 and 0.2295; measured 0.212–0.221. For face12e it gives no number
+  without that lattice's table; it does say that equal exponents per cell at densities 0.41 and 0.52 need
+  roots a sixth higher there (entry 20). **[guessed]**
 
-**Weakest step.** V. Its two bounds are proved; the value between them is a Gaussian closure fed with eleven
-roots and five standard deviations copied from the critic's replies, run on decreasing paths only (licensed
-for gump by a measurement, no deaths from above the mean, not by an argument), and extensivity of the one-step
-law is seen at two sizes (63, 84) of a vessel whose faces are mostly rim (E3). Second: entry 17 is about the
-pooled table. Theorem P̄ makes that exact for the hazard, but hypothesis R is a property of the chaos, the
-population hides the second variable a death path carries (16.3), and I have no route from the rule to R:
-entry 19 shows the obvious closure failing exactly where the exponent is made (sparse faces).
+**Weakest step.** V: a Gaussian closure fed with eleven roots and five standard deviations copied from the
+critic's replies, run on decreasing paths only (licensed by a measurement, not an argument), with extensivity
+seen at two sizes of a vessel whose faces are mostly rim. And all of entry 17 concerns the pooled table: exact
+for the hazard by Theorem P̄, but the population hides the second variable a death path carries (16.3), and I
+have no route from the rule to hypothesis R; the obvious closure fails exactly where the exponent is made.
 
-**Lab requests** (all exact or arithmetic on `critic/lab/data/fluct_tables.npz`).
-- LR9. Per row and size: mean, variance and third cumulant of the one-step change divided by A, against x = k/A
-  (do they collapse as the roots do?); min_{k₀ ≤ k < 0.35A} θ_k at each size for k₀ = 3, 4, 5 (hypothesis R of
-  Theorem Q); the smallest k from which the roots are non-increasing.
-- LR10. Recursion (3) on the rows themselves: (a) Gaussian, `bellman.py table.json` with every row's θ_k and
-  variance, at each size, against the slopes 0.201, 0.212, 0.212; (b) with each row's own rate
-  I_k(j) = sup_s[−s(j − k) − ln M_k(s)] in place of the Gaussian.
-- LR11. The extensive chain, exactly: q(2k, ·) = T̄₈₄(k, ·) ∗ T̄₈₄(k, ·), q(2k + 1, ·) = T̄₈₄(k, ·) ∗ T̄₈₄(k + 1, ·) (rows as laws
-  on {0, 1, …}, T̄(0, ·) the point mass at 0), low set {1, …, 2K − 2}; then the same doubling once more. Predicted:
-  the second doubling adds 168 × (0.218 ± 0.007) = 36.6 ± 1.2 to −ln ψ* at the top row; the first adds half that
-  up to a constant of order one nat (the doubled chain's lowest rows are two independent small faces, which
-  regrow worse than one). Also both sides of (1) for q.
-- LR12. Smallest sealed sets of the face12e slab (periodic wall 3 × 3 or 4 × 4, two to four cubes deep), by the
-  enumeration used for hulls: is the sheet plus the layer beneath (3A cells) the smallest, and which other
-  inclusion-minimal ones are there?
+**Lab requests** (exact, or arithmetic on `critic/lab/data/fluct_tables.npz`).
+- LR9. Per row and size: mean, variance, third cumulant of the one-step change over A, against k/A (do they
+  collapse as the roots do?); min_{k₀ ≤ k < 0.35A} θ_k for k₀ = 3, 4, 5; the smallest k from which the roots decrease.
+- LR10. Recursion (3) on the rows themselves, each size: (a) `bellman.py table.json` with every row's root and
+  variance; (b) with each row's own rate I_k(j) = sup_s[−s(j − k) − ln M_k(s)] in place of the Gaussian.
+- LR11. The extensive chain, exactly: q(2k, ·) = T̄₈₄(k, ·) ∗ T̄₈₄(k, ·), q(2k + 1, ·) = T̄₈₄(k, ·) ∗ T̄₈₄(k + 1, ·) (rows as
+  laws on {0, 1, …}; T̄(0, ·) the point mass at 0), low set {1, …, 2K − 2}; then doubled once more. Predicted: the
+  second doubling adds 168 × (0.218 ± 0.007) = 36.6 ± 1.2 to −ln ψ* at the top row; the first adds half that up
+  to a constant of order one nat. Also both sides of (1) for q.
+- LR12. Smallest sealed sets of the face12e slab (periodic wall 3 × 3 or 4 × 4, two to four cubes deep): is the
+  sheet plus the layer beneath (3A cells) the smallest, and which other inclusion-minimal ones exist?
 
-**Exam.** E4 filed: `bellman.py` on the one-step table of (a) the rim-free gump slab face of 60 cells, predicted
-0.211 ± 0.012; (b) the layer beneath a 5 × 5 wall of face12e, predicted 0.205 ± 0.015 per cell.
+**Exam.** E4 filed: `bellman.py` on the one-step table of (a) the rim-free slab face of 60 cells, 0.211 ± 0.012;
+(b) the layer beneath a 5 × 5 wall of face12e, 0.205 ± 0.015 per cell.
 
-**Whether to go on.** One closing round is worth having once LR10, LR11 and the outcome of E4 exist: to
-state γ = V[Θ, v] with the lab's exact numbers or to withdraw it. Beyond that I see no route on this line to a
-new proved step about the rule itself: what is missing is a derivation of the sparse-face root from the rule
-(a branching of clusters over the true layers beneath), and the power of L on a ring, and neither is a
-large-deviation question.
+**Next.** One closing round once LR10, LR11 and E4 are answered: state γ = V[Θ, v] with the lab's exact numbers,
+or withdraw it. Beyond that I see no route on this line to a new proved step about the rule itself. What is
+missing is the sparse-face root from the rule (a branching of clusters over the true layers beneath) and the
+power of L on a ring; neither is a large-deviation question.
