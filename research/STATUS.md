@@ -78,8 +78,14 @@ _Last updated 2026-11-14 by the lead._
   nothing tagged proved is wrong (19 correct, one gap filled, two wordings narrowed; one constant corrected,
   c₂(0.472) = 0.466846); notebook entry and CLAIMS SW6 written; an Opus editor is pasting the corrected wordings into
   `swarm/counting/claims.md`;
-  (2) Fable: the thin face from the rule (derive the cost per cell 0.115 of the loop² 3 torus from layers of the rule
-  over coin flips; quasi-one-dimensional, finite-state) -> `research/theory/thin/`;
+  (2) Fable, **reported 23:26 UTC** (`research/theory/thin/README.md`; not yet in the notebook: an Opus adversarial
+  review is running -> `research/audit/REVIEW-thin.md`): no number was derived from the rule. Measured instead: the
+  census's 0.115/0.111 are local slopes of a ring law that is still bending (0.1086, 0.1063, 0.1034 at A = 78, 90,
+  102); four routes extrapolate to 0.099 ± 0.004 per cell; noise is enough on the thin torus from five layers
+  (+0.006 ± 0.003); every exactly solvable closure is wrong in slope (one layer over coins +22%); the face dies by
+  an island shrinking from its ends. The lead checked the ring slopes by arithmetic from the line's lifetimes. It
+  also reports two bugs of the "life that stops dying unrecognised" kind in its own stepper (fixed there): the same
+  failure must be ruled out for the census, the pairs and the GPU kernel (settled states of long period);
   (3) Fable, **done 20:52 UTC**: a manuscript-style draft for an outside reader, `docs/paper/draft.md` (results graded
   A or B only; section "What is new here and what is not"), with `INCONSISTENCIES.md` (34 places where the repository
   disagrees with itself) and `GAPS.md` (38). Nothing leaves the repository. An Opus editor is resolving the
@@ -126,6 +132,11 @@ _Last updated 2026-11-14 by the lead._
   0.273, 0.252, 0.237, 0.2185 ± 0.008). Opus adversarial review running -> `research/audit/REVIEW-gpu-pr18.md`. Then:
   fixes by message, CI, merge (full sha), fetch main, notebook, CLAIMS. **The GPU session's Modal budget is nearly
   spent (about $25.80 of $30 this month): no further GPU request without asking the owner.**
+  Reviewed 23:25 UTC (`research/audit/REVIEW-gpu-pr18.md`: merge after eight text fixes; the table is confirmed by an
+  independent CPU stepper up to 4×4; the 4×5 rhombus is 1.9–2.6σ lower on the CPU, and the reviewer is lengthening
+  that run; "well above the lifetime range" compared an incremental cost that includes perimeter). Fixes sent to
+  the GPU session 23:28 UTC; subscribed to the pull request. On its push: read the diff against the list, CI, merge
+  with the full head sha, fetch main, notebook entry, CLAIMS.
   Owed for each when it reports: the lead's own check of one key number, an adversarial review (Opus) for (2) and (4),
   notebook, CLAIMS, STATUS. Usage timer every 60 minutes while Fable agents run.
   (ii) done: `README.md` (item 4 reworded; new items 8-10) and the web tour and
