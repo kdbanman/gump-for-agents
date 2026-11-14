@@ -165,3 +165,15 @@ firewall direction — in each file's `raw`). Exposure from generation 0; settle
   extrapolation 27.05 ± 0.30); first-event statistic 26.131 (the earlier unscreened runs: 26.138). Slope 108 → 126 with
   the committed (unscreened) 22.470: 0.219 ± 0.006 — at or above the octahedral 0.216, the case I gave 0.4. Interior
   {111} firewalls are not a channel here (they split the slab; its faces live on and are still counted).
+
+## 2026-11-14T08:07Z — outcome of the 6×6×8 control (forecast: commit 2f9b262)
+
+15 A10G-minutes, seed 621: exposure 1.873 × 10¹²; first events 592 face deaths, **13 firewalls (2.1%; forecast 0.5–4%:
+hit)**, spread over the three cheapest directions (3, 4, 6); 0 settled. **ln τ_face(108) = 22.568 ± 0.041** (forecast
+22.49 ± 0.07: **missed by 0.01**); first-event statistic 22.547, 0.077 from the earlier unscreened 22.470 ± 0.047
+(forecast within 0.05: **missed**; the two runs differ by 1.2σ). Pooling both A = 108 runs (the earlier run's face deaths
+taken as its first deaths × (1 − 0.021)): **face channel 22.536 ± 0.031, 0.08 above the slab line**. With it the slope
+108 → 126 is **0.215 ± 0.006**: 1.0σ above the slab line's 0.2088 and within 1σ of the octahedral 0.216–0.221. So the
+firewall-resolved data do not decide whether rim-free faces get dearer per cell between A = 108 and 126; both A = 108
+and A = 126 sit above the line fitted to A = 27–90 (by 0.08 ± 0.03 and 0.19 ± 0.10, before the line's own uncertainty),
+which leans toward a mild rise, and the comparison still mixes a square (108) and a non-square (126) slab.
