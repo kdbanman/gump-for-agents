@@ -177,3 +177,17 @@ taken as its first deaths × (1 − 0.021)): **face channel 22.536 ± 0.031, 0.0
 firewall-resolved data do not decide whether rim-free faces get dearer per cell between A = 108 and 126; both A = 108
 and A = 126 sit above the line fitted to A = 27–90 (by 0.08 ± 0.03 and 0.19 ± 0.10, before the line's own uncertainty),
 which leans toward a mild rise, and the comparison still mixes a square (108) and a non-square (126) slab.
+
+## 2026-11-14T09:47Z — corrections after the review of PR 14 (nothing above is edited)
+
+- Direction labels in the outcome blocks ("firewalls in the cheapest direction: 276,540 of 276,769 and 32,817 of
+  32,840"; "spread over the three cheapest directions (3, 4, 6)") name the lowest-numbered diagonal holding a firewall
+  at detection. The 229 and 23 labelled diagonal 1 are late detections; an independent CPU run finds 3,188 of 3,188
+  firewalls formed first on the cheapest diagonal at 3×6×8.
+- The 6×6×8 ln τ_fw = 25.694 ± 0.277 is per slab over three cheapest directions; per direction it is 26.79 ± 0.28,
+  matching 6×7×8's 26.87 ± 0.19 at the same cut 216.
+- The reading of the 6×6×8 outcome block ("which leans toward a mild rise") stands only beside its alternative: a
+  constant cost per cell plus an offset growing with the slab's short side fits the CPU table and both GPU points as
+  well (post-hoc fit c = 0.114 ± 0.038, b = 0.2057 ± 0.0014, predicting 22.564 and 26.267). With the line's own
+  extrapolation error the offsets are +0.08 ± 0.03 ± 0.06–0.10 (A = 108) and +0.19 ± 0.10 ± 0.07–0.12 (A = 126): the
+  "1.8σ" of the 6×7×8 block is about 1.2σ.
