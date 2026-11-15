@@ -2321,7 +2321,8 @@ face deaths).
   with the anchor replaced. CLAIMS GL1.
 - **A caution that follows [measured].** The shape2 pipeline's per-job scatter is mildly larger than Poisson (χ² per
   degree of freedom 1.33 and 1.12 on the two sets), so its quoted errors are 5–15% small. One 3.4σ draw among the
-  roughly sixty torus values of the census is not alarming, but it was the one value used as an anchor. Where a
+  24 torus values of the census is unlucky rather than alarming (about one chance in sixty), but it was a value
+  used as an anchor. Where a
   single torus value carries an argument it should be measured twice.
 - **Also confirmed by the reviewer:** `fwslab.py` undercounts firewalls where lives settle (18% at 4 × 4; first found
   in `REVIEW-gpu-pr14.md`; on the ledger it touches only small-slab ln τ_fw, by at most 0.034 at 4×5×8); the effect
