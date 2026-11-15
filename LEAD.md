@@ -250,6 +250,16 @@ let CI pass, merge.
   rebuild steps are in `docs/overview/` (see its README). To update it, rebuild and publish
   `docs/overview/index.html` to that same link. It is a view of the repository, not a record: nothing is
   established by appearing on it.
+- **2026-11-15 about 15:18 UTC, the owner:** "since artifacts are single giant pages, i'm wondering if it makes
+  sense to move and rearchitect it as a github-pages-compatible structure that can be navigated and edited more
+  piecemeal. how does that sound? we could put it in a folder with other gh pages deployed stuff, like the
+  interactive webapp. does that sound reasonable? if so, feel free to kick off a dedicated session for that task.
+  or subagents, whatever you please." The lead's reading: the overview becomes a multi-page static site in one
+  deploy folder (`site/`) together with the web app; small source files per page, data fetched per page, built by
+  one command, deployed by the existing manual workflow. A subagent does it (this session cannot message or read
+  a session it starts, since the trust change). **Nothing goes public by this:** the site appears on the web only
+  when the owner sets Settings → Pages → Source to "GitHub Actions" and the workflow is run; until then the same
+  built folder is published as the private artifact (a multi-file artifact), by the lead.
 
 ## Which rule is gump
 
@@ -267,6 +277,8 @@ let CI pass, merge.
 
 ## Watching usage
 
+- **Readings given by the owner:** 2026-11-15 about 15:18 UTC: 62% weekly, 73% Fable weekly (the lead's reckoning
+  for that minute was 64% and 73%).
 - The account's usage is visible from inside the session: `mcp__claude-code-remote__list_events` on this session's
   own id with `kinds: ["rate_limit_event"]`, `limit: 100`, returns the latest event; under
   `rate_limit_info.unifiedWindows` are `five_hour` and `seven_day`, each with `utilization` (0–1) and `resetsAt`
