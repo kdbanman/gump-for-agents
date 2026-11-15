@@ -1099,3 +1099,70 @@ k = (T + 2) mod 4 here (KS = 6).
    ran on one side, between the old cap and a wall made by the collision (to wire B′ in the two cases looked
    at), with the oscillator alive next to it (42 cases of 11,880). Those walls have wire on both sides and something periodic beside them: the
    place to look for a turn whose class depends on the oscillator's phase.
+
+# Fifth push (2026-11-15): a listener
+
+The question: a bounded standing object at the end of the stream or beside it that survives a gap (a rake removed)
+and is left in a lasting state different from the one it has when no gap comes, both states stable under the plain
+stream. **None was found.** What is excluded, exactly, is in sections 26 to 28; the strongest statement is the
+constraint search of section 26 (every end of the stream in the 3 × 3 tube up to C = 39, period 4; and period 8 up
+to C = 33), the widest net is the census of section 27 (741 ends, every one fed eight words of gaps, transients up to
+1,500 generations), and the only search beside the stream is a sample (section 28). No new object, so nothing new
+for the oracle; the controls of each search are stated with it. Forecasts and scores: `PREDICTIONS.md`.
+
+## 26. A listener at the end of the stream as one constraint problem: none in the 3 × 3 tube
+
+- **The instance** (`sat_listen.py C [--mult m] [--multB m'] [--word i,j,..] [--S s] [--M M]`). Three coupled copies
+  of the dynamics in one CNF, on the region of `sat_gun.py --dir 1` (units ≥ KS − 2 − M inside the tube and the planes
+  x+y−z, x−y−z ≤ C; KS = 6, M = 4), with the rake train (fb)^∞ running into the end:
+  **A**, a state of period dividing TA = 4m whose units < KS are the plain train at every generation (exactly an
+  absorber of section 21); **B**, the same with period dividing TB = 4m′ and the train's phase advanced by T; **X**,
+  a run of T + 1 generations from X(0) = A(0) in which the train arriving from the left carries the word (rake cell
+  (1,0,4) removed at generation 0 from the i-th, j-th, … rake counted from unit −4 leftwards: the one-cell hole of
+  section 21, which moves with the train, `sat_listen.py` checks it reaches nothing before generation 4), with
+  X(T) = B(0); and **B(0) ≠ A(T mod TA)** on the free cells (units ≥ 6): the state after the word is not the state
+  the end would be in without it. Cells left of unit 0 are the holed train stepped on its own, and units 0, 1 of X
+  are tied to it at every generation; units 2..5 of X are free (the end may disturb the 4 units in front of it during
+  the transient, if it heals them). T = 62 for one hole (it reaches unit 6 at generation 20, so the end has 42
+  generations to settle), 4 more per further rake of the word.
+- **Why UNSAT excludes every such end.** Let E be any end of period dividing TA of the infinite tube inside the planes
+  (by T2 the tube and the planes are closed, so the region is exact), X* its real orbit after the word, and suppose
+  X* is in some orbit B* of period dividing TB of the same train by generation T and B* is not E's own orbit. If X*
+  never changes units 0, 1 (six units in front of the end's first free unit), then X* equals the holed train on all
+  units < 2 for all t ≤ T (induction on t: units ≤ 0 at t + 1 see units ≤ 1 at t), so (E, B*, X*) restricted to the
+  region satisfy every clause. B is A moved, or A at a different phase relative to the train, or a different end:
+  all are allowed, so movers and phase shifts are excluded too. A model would be a listener of the write-once kind
+  at least (A → B, B stable); a reusable one is a special case.
+- **Controls.** `python3 sat_listen.py 31 --same` (the condition B ≠ A dropped): SAT in 6 s, the C = 31 absorber,
+  re-stepped (`sg.step_set`): A and B periodic, the run reaches B, and B is A healed. A control that the "≠" part finds
+  real changes: wire B with pulse B (`python3 sat_listen.py C --pattern 77 --event E.json`, E = the two cells of
+  `pulse-B.json` moved 12 units back, written by hand to `../scratch/signals/p5/pulseB_ev.json`: `[[-11,0,12],
+  [-10,2,13]]`): UNSAT at C = 29 and 31, **SAT at C = 33** (66 s): a period-2 cap A of 21 cells that one pulse turns
+  into a different period-2 cap B, re-stepped: A, B periodic, the run reaches B. B differs from A in unit 6, which
+  turns from a B unit into a B′ unit: it is the B|B′ wall of section 9 moving one unit towards the sender, the known
+  counter. So the encoding finds a mover when one exists.
+- **[proved within the bounds; CaDiCaL 1.5.3, every instance with M = 4, S = 40; no model, so nothing to re-step]**
+  (`bash listen_batch.sh`, and the instances of `listen_queue.sh`; times are single-core seconds; the log is
+  `../scratch/signals/p5/listen_batch.txt`):
+
+  | ends of period (TA, TB) | word (rakes removed) | C (3 × 3 tube) | UNSAT in |
+  |---|---|---|---|
+  | (4, 4) | one hole | 29, 31, 33, 35, 37, 39 | 6, 11, 22, 38, 199, 1212 s |
+  | (4, 4) | two in a row [0,1]; at spacing two [0,2]; three in a row [0,1,2]; three at spacing two [0,2,4] | 31, 33, 35, 37 | 10 to 45 s (C ≤ 35); 295, 136, 328, 143 s (C = 37) |
+  | (8, 8) | one hole | 31, 33 | 211, 994 s |
+
+  TA = 8 contains TA = 4 and TB = 8 contains TB = 4, so the last row also excludes an end of period 4 that a gap
+  turns into one of period 8 (a counter of rakes mod 2), and an end of period 8 that a gap moves by half a period
+  (a toggle). With TA = 8 one hole position covers both arrival times of a hole relative to the end's 8-cycle (the
+  end's phases are free in the instance). Holes at every rake of the train are equivalent to the one tried when the
+  end has period 4 (one rake per period).
+- **Not finished (cut at 25 minutes or more by `watchdog.sh`; pysat's own interrupt does not fire on these):** the
+  5 × 5 tube (`--lo -1 --hi 7`) at C = 29 (33 min) and C = 31 (25 min), TA = 4. Even the plain absorber census of the
+  5 × 5 tube at C = 31 (`sat_gun.py fb 31 --dir 1 --lo -1 --hi 7 --all`) found no solution in 11 minutes. Not run:
+  C = 41 and beyond, TA = 8 at C ≥ 35, words other than the five above, S > 40 (a slower settling), and the
+  asymmetric widened tubes except the one in section 29.
+- **What this does not exclude.** Ends reaching outside the 3 × 3 tube or beyond the planes; ends that disturb the
+  train more than 4 units in front of them during the transient (anything that sends a signal up the stream and gets
+  it back later, or not at all); ends that settle more than 42 generations after the last hole arrives (section 27
+  covers longer transients for the ends it lists); periods 3, 6, 12, …; other gaps than the one-cell hole; streams
+  other than the gun's.
