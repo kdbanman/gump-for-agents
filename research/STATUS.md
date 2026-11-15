@@ -190,6 +190,24 @@ _Last updated 2026-11-14 by the lead._
   `research/gpu-local/USAGE.md` on its branch. **Review started 12:04 UTC (Opus)** ->
   `research/audit/REVIEW-gpu-local-tori2.md`: the hull driver first, the fix lists, the nine faces as science, a
   CPU value at 81 cells if affordable. Merge pull request 23 when it confirms the lists and CI is green.
+  **12:48 UTC: the review is in (interim on one point) and pull request 23 is MERGED (0b294fa; both fix lists
+  closed, CI green on 16271f3); the working branch has main merged in (8606999).** Review recorded: notebook "the
+  nine wrapped faces reviewed"; GL3 extended; a note of 12:50 to the card in `research/GPU-QUEUE.md` (six wording
+  corrections, the age table to commit after the hull run, an optional longer run at 111 cells). Findings: errors
+  honest (seeds' χ² 19.0 on 16); only the broken line fits all nine and that choice rests on 48, 57, 63 cells;
+  price per cell 0.2087–0.2090, no rising slope preferred; the 81-cell face could not have been a sharp test; the
+  hull driver is sound. Owed: the reviewer's CPU value at 81 cells (its two runs were still going at 12:50; it
+  resumes itself and hands back) -> add to GL3 and the notebook entry's last bullet. New commits on the card's
+  branch need a new pull request (opened by the lead).
+  **The third signals push reported about 12:40 UTC** (README §15–19): no emitter, corner, clock-driven counter or
+  period-4N clock; the clock's left cap eats every word and keeps no trace (proved; the lead's own oracle check
+  `research/audit/signals_reader_lead_check.py`); P ≡ k_R + k_L (mod 4) and the 3 × 3 / 5 × 5 turn-class results; a
+  second counter (8|C). Recorded provisionally: notebook "the third signals push"; CLAIMS SG12–SG15 (169 claims);
+  OPEN-PROBLEMS 13 (four sharpened questions a–d); the owner's journal; the lead's note in
+  `research/signals/PREDICTIONS.md`. **Its adversarial review is running** (Opus, since 12:44 UTC) ->
+  `research/audit/REVIEW-signals-3.md`. On its report: regrade SG12–SG15, corrections to the README (by the
+  third investigator or a successor), essay, overview, draft. Not yet updated for the nine faces or the third push:
+  `docs/WHAT-I-SEE.md` (the five-tori paragraph), the overview (version 13), `docs/paper/`.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

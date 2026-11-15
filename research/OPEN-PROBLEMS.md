@@ -97,6 +97,15 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     a corner or a crossing (nothing found, nothing searched outside one wire direction), a reusable reflector for a
     pulse (none inside the searched bounds), a receiver that toggles, a gate with its own output line, and with
     them whether gump can compute.
+    **Third push, 2026-11-15** (CLAIMS SG12–SG15, provisional until `research/audit/REVIEW-signals-3.md`; notebook
+    "the third signals push"): no emitter, no corner, no clock of period 4N was found. The clock's left cap swallows
+    every word of pulses and keeps no trace (proved); an emitter on the end of wire C is exactly a cap that writes a
+    periodic, non-constant word, and none of small period exists in the 3 × 3 tube; clock periods are 4N + 2 because
+    every rake-turning cap in that tube has the same turn class, and caps of the other class exist one tube size up
+    but die in a clock. Sharpened questions: **(a)** a writer at clock scale (period ≥ 10, a fixed word, seeded with
+    a clock's cap); **(b)** a 5 × 5 cap of the other turn class that survives the returning pulses (a clock of period
+    4N); **(c)** the invariant that forces the turn class of periodic caps in the 3 × 3 tube; **(d)** a corner:
+    one scan of a second wire beside a lit clock found nothing, and no other search exists.
 14. The 94 clockwork objects (`research/clockwork/objects/`) are not merged into the atlas catalogue.
 
 ## Neighbouring rules

@@ -84,4 +84,14 @@ What speaks to it (the lead, same day):
   agents, one exception), the clock (its proof was rebuilt by the reviewer and the clock run at 257 units), the
   gate, and the counter, which holds sixteen positions. The clean pulse that escapes ahead of the fire is rarer
   than I said: a few times in a hundred.
+- **The isolation goes one level further down (12:50 UTC; notebook entry "the third signals push"; a review is
+  running, so treat this as provisional).** Your note was about faces and layers that do not hear each other. A
+  third push went looking for the parts a computer would need next (something that emits pulses on its own, a
+  corner, a clock that drives a counter) and found none of them. What it found instead is the same isolation among
+  the *ordered* things. The end of the clock swallows any message sent down its wire, letter by letter, and is
+  exactly as it was afterwards: it cannot be told anything. In a census of several thousand other wire ends, each
+  either swallows everything the same way or is wrecked; not one remembers. And the only thing that ever puts a
+  pulse on a wire is a moving object already inside that wire. So far gump's ordered parts can keep time, carry,
+  count and block, but none can speak onto a wire from where it stands, and none listens. Whether that is a law or
+  only the smallness of what was searched is open; the searches were small.
 

@@ -253,3 +253,13 @@ writer; instead the search showed that small writers do not exist and grew too f
 What surprised me: capL, the end that makes the clock, is a perfect sink with no memory at all, and every cap in the
 3 × 3 tube that turns the rake turns it with the same delay mod 4 (one size up, not). The clock's ends are as simple as ends can be, which is
 exactly what keeps the clock from talking to anything else.
+
+### The lead's note on the third push, 2026-11-15 12:50 UTC
+
+I accept the scoring above. Of my five forecasts the four that asked for a new kind of object (emitter 40%,
+clock-driven counter 30%, corner 15%, period 4N 35%) all failed, and the one that held (no reusable reflector, 50%)
+was hardly tested. Taken together those four probabilities expected 1.2 new objects and got none: I was
+over-confident that the second push's rate of invention would continue. Over three pushes: 13 of my forecasts
+tested, 7 held in some form (S6 and S9 weakened afterwards by review), 6 failed. What I did not foresee at all was
+the form the negative took: that the clock's end is a perfect sink, and that the period's residue mod 4 is a
+property of the cap that the 3 × 3 tube pins and the 5 × 5 tube frees.

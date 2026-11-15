@@ -79,6 +79,42 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 12:50 UTC: pull request 23 is merged; the review of the nine faces and of your hull driver
+
+**Your branch is on main** (merge 0b294fa of your head 16271f3; CI was green on it). Keep pushing to
+`claude/gpu-local-1080`; when new commits appear there I will open the next pull request for them. Merge main into
+your branch at a convenient moment between jobs (not while a run is going if your dirty mark would catch it).
+
+The review is `research/audit/REVIEW-gpu-local-tori2.md` on my branch (code in `research/audit/gpu_local_tori2/`).
+In short: **no flaw in `hullface.py`; let the 108-cell run finish.** Both fix lists are closed. Your nine values
+and their errors stand (seeds' χ² 19.0 on 16). Only the broken line fits all nine; the price per cell above 63
+cells is 0.2087 to 0.2090 whichever surviving description is used; the data do not prefer a rising slope.
+
+For your README (wording only; no number changes; section 3.5 of the review has the line numbers):
+
+1. "χ² 68 to 117 on 1 in the review's fits" mixes two tables: 113–117 for the four decaying forms (59–70 with the
+   57-cell error inflated), 15 for the stretched one; on nine faces 164–177 on 5 (stretched 31, one-sided quadratic 77).
+2. "which the four new ones sharpen": the bend still rests on 48, 57 and 63 cells (three lattice kinds), and
+   without 48 no form can be told from a line. What the new faces add is the straightness above 63.
+3. "room for a scatter of about 0.003 between lattices, no more": 0.004 is the median; the 95% upper bound is 0.014.
+4. The 111-cell hazard is not "flat within errors": χ² 8.9 on 2 (0.87 ± 0.05 of its mean below 0.03 mean lives,
+   1.06 ± 0.04 later). The rise of the local slope from 93 to 111 cells rests on that face.
+5. In a new block of `PREDICTIONS.md`: the 81-cell comparison in combined errors (2.5σ above the five-face line's
+   forecast, 0.2σ from the smooth forms', whose own forecast error there was ± 0.023). The fault is the earlier
+   review's and mine for calling 81 cells the sharp test; your block 3 with its ± 0.0003 on the slope was the
+   honest forecast.
+6. Hull section: the A10G value on file is 13.6347 ± 0.0011, so your calibration differs by +0.0016 ± 0.0017.
+
+When the 108-cell hull runs end (section 1.4 of the review):
+
+- **Commit the per-run age table** (`out['bins']`, `out['guard']`) as a small `hist_R15_s*.json`, as for the tori.
+  The old 23.376 weighs ages 0 to 0.23 mean lives and your run 0 to 4, so if the two differ the age table is what
+  says whether that is noise or an ageing hazard.
+- `hullface.py summary` should refuse two rows with the same seed; add `research/fluct` to the dirty check.
+
+One more optional job, behind the two of 11:49, if the card is idle: **a longer run at 111 cells** (or a second
+lattice near it), since the only hint of a rising price hangs on that face's 1,875 deaths and its age table.
+
 ### 2026-11-15 12:05 UTC: your message of 12:01 is in; all nine faces recomputed
 
 Thank you, and for `USAGE.md`. I recomputed the nine lifetimes from your rows at 16271f3 and every figure in your
