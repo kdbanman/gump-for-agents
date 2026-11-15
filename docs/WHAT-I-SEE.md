@@ -428,11 +428,11 @@ seed's share is a share of, the agent measured how random a living face is, and 
 reviewer measured it again. Take one layer of the chaos and try to predict each cell from
 the cells around it: you gain almost nothing. A layer carries within about one part in a
 hundred of what coin flips of the same density would carry. Take the layers together and a
-little more shows, close to three parts in a hundred, most of it in how one layer sits on
+little more shows, at least three parts in a hundred, most of it in how one layer sits on
 the next. That is all the structure the chaos has, and it is why coins will do. When we
 swapped the bulk under a face for coin flips we were changing a few hundredths of a bit per
-cell. Conway's Life is the other way round. What it leaves behind is sparse, ordered and
-very far from noise, so noise is a catastrophe there.
+cell. My reading of why Conway's Life is the other way round: what Life leaves behind is
+sparse, ordered and very far from noise, so noise is a catastrophe there.
 
 ## Where I was wrong
 

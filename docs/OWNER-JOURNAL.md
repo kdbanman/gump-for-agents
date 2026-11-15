@@ -68,7 +68,7 @@ What speaks to it (the lead, same day):
   The same push built a clock (a wire between two caps, period 4N + 2 for N units of wire, checked by me on the
   reference stepper at six lengths), a gate where two pulses meet and one survives, and a counter that pulses
   push up from one side and down from the other.
-- **The two thoughts meet (10:50 UTC; notebook entry "the state-space study reviewed"; CLAIMS SS3).** To say what
+- **The two thoughts meet (10:48 UTC; notebook entry "the state-space study reviewed"; CLAIMS SS3).** To say what
   a seed's share is a share *of*, the study measured how random a living face is, and a reviewer repeated it with
   a sampler and an estimator of their own. One layer of the chaos, seen alone, is within about 1% of coin flips of
   the same density (at least 0.006–0.013 bits per cell short of them). The layers taken together are at least

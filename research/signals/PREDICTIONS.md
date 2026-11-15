@@ -175,3 +175,18 @@ element with an output line of its own. S8 failed. S9 held. S10 held: every cont
 chaos ended the wire; the qualification that chaos sometimes sends a clean pulse down wire C ahead of the fire
 does not touch the forecast, which was about a pulse passing through. Over both pushes: S1 failed, S2 held, S3
 held with a caveat, S4 and S5 untested, S6 half, S7 held, S8 failed, S9 held, S10 held.
+
+## The lead's forecasts for the third push (2026-11-15 10:49 UTC, before it starts)
+
+The aim of the third push is a machine made of parts: the literal form of open problem 13, one object passing a
+signal to another again and again.
+
+- **S11 (40%).** A periodic emitter is found: a bounded object in empty space on the end of a long wire that sends
+  a pulse down the wire once per period, indefinitely, and returns to its own state each time.
+- **S12 (30%).** With it, a clock drives a counter: a compound object in which a register's wall moves one unit
+  per period of the emitter for at least ten periods, judged by the oracle.
+- **S13 (15%).** A corner is found: a pulse passes from a wire along one face diagonal to a wire along another.
+- **S14 (35%).** A free-standing oscillator of the clock family with period divisible by 4 is found (caps that
+  turn the rake with a different delay).
+- **S15 (50%).** No reusable reflector for a pulse is found in this push either, in any tube up to one size larger
+  than the 3 × 3 tube.
