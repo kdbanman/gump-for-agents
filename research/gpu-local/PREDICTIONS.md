@@ -42,3 +42,34 @@ A = 57 and 63 are there (flat 11.842 and 13.115, massive 11.855 and 13.128, risi
   chord between my 4 × 4 and the 5 × 5 value (chord: 11.837 and 13.112 with 15.661 at A = 75). If both come out on or
   below the chord, the falling slope seen at 75 → 93 does not start below A = 75.
 - Launch caps 2,048, 8,192 and 65,536 generations (3% or less of the mean life in each case).
+
+## 3. A = 81, 84, 108, 111: one slope from A = 63 up (2026-11-15T06:13Z, HEAD dcb61c8)
+
+Written with A = 48, 57, 63, 75, 93 measured on this card (9.9251, 11.8756 ± 0.0006, 13.1622 ± 0.0007,
+15.6630 ± 0.0023, 19.4141 ± 0.0053) and before any row exists for A = 81, 84, 108 or 111 (the first A = 81 run
+started a minute ago; `research/data/gpu_local_eqtorus/` holds no file for these four at this commit).
+
+Outcome of block 2 first: 5 × 5 as forecast (file 15.6614). **A = 57 and 63 came out 0.028 and 0.038 above my
+forecasts** (11.848, 13.124), 3 to 5 of my stated errors, and 0.021 and 0.034 above the highest of the lead's
+readings (massive: 11.855, 13.128). I was wrong by the same mechanism as those readings: all of them hang on the
+4 × 4 anchor.
+
+What the five points show: local slopes 0.2167 (48 → 57), 0.2144 (57 → 63), **0.2084 (63 → 75), 0.2084 (75 → 93)**.
+ln τ − 0.2088·A = −0.097, −0.026, +0.008, +0.003, −0.004. So the small tori are low (4 × 4 by 0.1) and from A = 63
+the family is straight within ± 0.006.
+
+**Forecast (conjecture): ln τ_face = 13.1622 + 0.2084·(A − 63) from A = 63 up**, slope uncertain by ± 0.0003:
+
+| A | lattice | forecast | the lead's flat / massive |
+|---:|---|---:|---|
+| 81 | (3,3),(0,9) | 16.913 ± 0.006 | 16.933 / 16.923 |
+| 84 | (2,4),(0,14) | 17.539 ± 0.007 | 17.570 / 17.552 |
+| 108 | (6,0),(0,6) | 22.540 ± 0.014 | 22.661 / 22.568 (the file's 592 deaths) |
+| 111 | (1,10),(0,37) | 23.165 ± 0.015 | 23.298 / 23.194 |
+
+- Refuted if any of the four misses by more than 3 of its combined errors, or if the slope 93 → 111 differs from
+  0.2084 by more than 0.002.
+- What could break it without the slope being wrong: these tori are equilateral in the metric but their loops run in
+  different lattice directions (4 × 4, 5 × 5, 6 × 6 are aligned with the cube axes; 19, 21, 27, 28, 31, 37 are
+  rotated), and they differ in whether a firewall can form (none at 57, 63, 93, 111). If direction or the firewall
+  channel matters at the 0.01 level, the four will scatter about the line by that much, not follow it.
