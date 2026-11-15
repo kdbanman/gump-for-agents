@@ -19,10 +19,16 @@ AREA = lambda R: 3 * ((R - 1) // 2 + 1) * ((R - 1) // 2 + 2) // 2
 SLAB_LAW = lambda A: math.exp(-0.09 + 0.209 * A)          # tau_face of flat slab faces (research/STATUS.md); only printed as a ratio
 
 
-def run(R, wall_s, seed, p=0.35, launch_s=1.0, log=print, centre='c', sym=False, raw_cap=60000, slab=None, **cfg):
+def run(R, wall_s, seed, p=0.35, launch_s=1.0, log=print, centre='c', sym=False, raw_cap=60000, slab=None, guard=0,
+        max_gens=None, launch_gens=None, keep_reps=False, **cfg):
     """asymmetric (sym=False: soup in |p - c|_1 <= R, 8 faces) or O_h-symmetric (sym=True: orbit soup over the whole
     vessel, one representative face) octahedral soups in their exact hull; or, with slab=(N1, N2, m), a rim-free
-    slab (vessels.SlabVessel: soup over all its cells, 2 faces; R is then only a label)."""
+    slab (vessels.SlabVessel: soup over all its cells, 2 faces; R is then only a label).
+    guard > 0: the cycle guard (guard.py) with snapshot thresholds guard * 2^j; its lives end as kind 5 (censored).
+    guard = 0 (default): off, and the run is exactly as before. max_gens: also stop once G >= max_gens (for
+    reproducible comparisons). launch_gens: a fixed launch length instead of the wall-clock doubling (with max_gens,
+    the run is then a deterministic function of its arguments). keep_reps: also return each life's replica index
+    (out['raw_reps']), for lane-by-lane comparisons. All three default to the previous behaviour."""
     import cupy as cp
     import gsim
     from gsim import fl
@@ -36,35 +42,53 @@ def run(R, wall_s, seed, p=0.35, launch_s=1.0, log=print, centre='c', sym=False,
     s.reseed(np.arange(s.R), seed=seed << 32, p=p)       # soup_bit hashes seed and replica separately
     birth = np.zeros(s.R, np.int64)
     ages, kinds, births = [], [], []
-    G, rnd, K = 0, 1, 1024
+    gd, snaps, repl = None, [], []
+    if guard:
+        import guard as guard_mod
+        gd = guard_mod.CycleGuard(s, first=guard)
+    G, rnd, K = 0, 1, launch_gens or 1024
     t_start = time.time()
     last_log = t_start
-    while time.time() - t_start < wall_s:
+    while time.time() - t_start < wall_s and (max_gens is None or G < max_gens):
         t = time.time()
         reps, tt, kk = s.step(K)
         cp.cuda.Device().synchronize()
         dt = time.time() - t
         if len(reps):
-            ages.append(G + tt - birth[reps]); kinds.append(kk); births.append(birth[reps].copy())
+            ages.append(G + tt - birth[reps]); kinds.append(kk); births.append(birth[reps].copy()); repl.append(reps)
         G += K
+        if gd is not None:
+            g_reps, g_snap = gd.boundary(G, birth)
+            if len(g_reps):
+                ages.append(G - birth[g_reps]); kinds.append(np.full(len(g_reps), guard_mod.KIND, np.int64))
+                births.append(birth[g_reps].copy()); repl.append(g_reps)
+                snaps.append(np.stack([g_reps, G - birth[g_reps], g_snap]))
+                reps = np.union1d(reps, g_reps).astype(np.int64)
+            gd.reset(reps)
         if len(reps):
             s.reseed(reps, seed=(seed << 32) + rnd, p=p); rnd += 1
             birth[reps] = G
-        if dt < launch_s / 2 and K < 1 << 24:
+        if not launch_gens and dt < launch_s / 2 and K < 1 << 24:
             K *= 2
         if time.time() - last_log > 120:
             a = np.concatenate(ages) if ages else np.zeros(0); k = np.concatenate(kinds) if kinds else np.zeros(0)
             log(json.dumps(dict(R=R, gen=G, launch=K, elapsed=round(time.time() - t_start), deaths_after_200=int(((k == 1) & (a >= 200)).sum()),
                                 early=int((a < 200).sum()), settled=int((k == 2).sum()))))
             last_log = time.time()
-    ages.append(G - birth); kinds.append(np.zeros(s.R, np.int64)); births.append(birth.copy())
+    ages.append(G - birth); kinds.append(np.zeros(s.R, np.int64)); births.append(birth.copy()); repl.append(np.arange(s.R))
     ages, kinds, births = np.concatenate(ages), np.concatenate(kinds), np.concatenate(births)
     T0 = 1000 if sym else 200
     out = dict(R=R, A=v.A, sym=sym, centre=centre, slab=list(slab) if slab else None, seed=seed, p=p, gens=G, replicas=s.R, nodes=v.n,
                wall_s=time.time() - t_start, config=dict(WB=s.WB, J=s.J, T=s.T, blocks=s.blocks), **compact(ages, kinds))
     out['lineage'] = lineage_stats(ages, kinds, births, G, T0)
+    if gd is not None:      # stated with every guarded result: thresholds, and per kind-5 life (replica, age, snapshot age)
+        sn = np.concatenate(snaps, axis=1) if snaps else np.zeros((3, 0), np.int64)
+        out['guard'] = dict(kind=guard_mod.KIND, snapshot_thresholds=f'{guard} * 2^j', first=guard,
+                            recognised=int(sn.shape[1]), compares=gd.compares, lives=pack(sn))
     if len(ages) <= raw_cap:       # raw lives (age, kind, birth) for re-analysis; zlib + base64 to stay small
         out['raw'] = pack(np.stack([ages, kinds, births]))
+    if keep_reps:
+        out['raw_reps'] = pack(np.concatenate(repl).astype(np.int64)[None, :])
     return out
 
 

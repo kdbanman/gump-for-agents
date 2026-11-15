@@ -1,0 +1,11 @@
+tslab (4,0),(0,4)x8: 304 runs, 1245184 lives; face 991314, firewall 2708 (0.27%), censored 251162 (settled 557); exposure 1.015e+10
+  ln tau_face = 9.927 +- 0.001;  ln tau_fw(total) = 15.136 +- 0.019;  firewall-first by direction [1097, 852, 759]
+  face hazard in equal-exposure age thirds: 9.925 +- 0.002 (from 0), 9.924 +- 0.002 (from 3160), 9.931 +- 0.002 (from 7766)
+  jobs 190-208: ln(2E/F) = 9.9310 +- 0.0040
+  jobs 209-227: ln(2E/F) = 9.9226 +- 0.0040
+  jobs 228-246: ln(2E/F) = 9.9198 +- 0.0040
+  jobs 247-265: ln(2E/F) = 9.9226 +- 0.0040
+  jobs 266-284: ln(2E/F) = 9.9274 +- 0.0040
+  jobs 285-303: ln(2E/F) = 9.9294 +- 0.0040
+sum F - lam E = -603 (-0.61 sigma); chi2 326.6 on 304; mean r -0.029; jobs with r < 0: 169; lag-1 autocorrelation -0.053
+research/scratch/gpu-local/cpu4x4/out_adj: lives 1245184 E 1.01461e+10 F 991314 W 2708 settled 557 F/E 9.7704e-5 ln(2E/F) = 9.9267 +- 0.0010

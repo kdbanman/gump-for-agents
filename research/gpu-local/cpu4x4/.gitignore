@@ -1,0 +1,5 @@
+out*/
+raw*/
+tmp/
+*.exe
+*.log
