@@ -13,7 +13,9 @@ How each number on each plate was obtained (quoted, computed on the page, typed)
 
     python3 site/build.py              # site/ + web/  ->  site/dist/   (builds the app with node web/tools/build.mjs)
     python3 site/build.py --no-app     # the same, copying web/dist as it is
+    python3 site/build.py --artifact   # the private artifact copy  ->  site/dist-artifact/   (site/dist/ untouched)
     bash site/check.sh                 # build + every check below; --quick skips the signals check, --no-app as above
+    bash site/check.sh --artifact      # the same for site/dist-artifact/ (add --quick to skip the signals check)
     python3 site/collect/collect.py    # collect/sources/*.json + repository files  ->  data/<key>.json
 
 Preview, as GitHub Pages would serve it under `/<repo>/`:
@@ -39,7 +41,8 @@ Pages fetch their data, so opening `dist/index.html` as a file does not work; us
     data/<key>.json     one file per data key, written by collect/collect.py (42 keys, the largest 21 kB)
     collect/            collect.py, record_deaths.py, sources/ (what the helper agents gathered, with src/how), REFRESHES.md
     checks/             check-core.js, check-signals.js, check-parity.py, check-links.py, smoke.js
-    dist/               the build (git-ignored): index.html, <slug>/index.html, assets/, plates/*.js, data/*.json, app/
+    dist/               the Pages build (git-ignored): index.html, <slug>/index.html, assets/, plates/*.js, data/*.json, app/
+    dist-artifact/      the artifact build (git-ignored): the same pages without app/, data as data/<key>.js, FILES.json
 
 The pages and their plates are in `pages.json`; at the time of the split (2026-11-15) they were: the map (landing),
 the rule, how faces die, the area law, debris and clocks, signals, relatives, the record.
@@ -77,18 +80,26 @@ that looks up `'#some-id'` which is not on its page. Only the data files some pa
 - `checks/check-signals.js`: the signal layouts (`assets/signals-core.js`) and the stepper against the rules and
   against `reference/oracle.py`; also that `data/signals.json` holds the object files. About 35 s on one core.
 - `checks/check-parity.py`: nothing of the last single page (`git show 2f0868d:docs/overview/index.html`) is lost:
-  every plate once and byte-identical (links aside), all figures, canvases, buttons and headings counted again, every
+  every plate once and byte-identical (links aside, and the edits listed in its `EDITS`: three sentences that said
+  "below", "above" or "at the top" of plates now on other pages), all figures, canvases, buttons and headings counted again, every
   `#id` its scripts used still used on the plate's page, every data key it read still read and served with the same
   content, every map tile on the landing page. It compares against that fixed version: when a plate is changed on
-  purpose, expect it to report that plate, and move `OLD_REV` (or pass a file) once the change is checked.
+  purpose, expect it to report that plate; add the change to `EDITS`, or move `OLD_REV` (or pass a file) once checked.
+  `--dist site/dist-artifact` runs it on the artifact tree (data read from its `data/<key>.js`).
 - `checks/check-links.py`: every relative href/src, CSS url(), import, import map entry, `new URL(…, import.meta.url)`
   and boot.js data/plate list in `dist/` resolves to a file (anchors on overview pages to an id); no root-absolute
   path; external scripts only from cdnjs / jsDelivr npm / unpkg with an exact version, stylesheets only Google Fonts;
   at most 255 files.
+- `checks/check-contract.py [DIR]`: the artifact page contract, statically, on every overview page of DIR (default
+  `dist-artifact/`; `check.sh` runs it on both trees): doctype, charset and viewport metas, a title of two to four words,
+  a body background from a token, the dark theme under both selectors with the same tokens and `color-scheme: dark`, no
+  token defined only in dark, the side paddings `viewport-fit-sides` promises, external scripts only from the three CDNs
+  with exact versions. It prints each page's title.
 - `checks/smoke.js` (pre-installed Playwright): serves `dist/` under `/gump-for-agents/`, opens every page and the app at
   1280 px and 390 px, fails on console errors, page exceptions, failed or 4xx/5xx requests, a missing plate, an empty
   figure container (`#f-*`, `#c-*`), horizontal page overflow. `--shots DIR` saves full-page screenshots of each in
-  light and dark.
+  light and dark. With `--artifact` it tests `dist-artifact/` instead, over http and again as `file://` URLs with no
+server, and fails on any fetch or XHR and on any request into `app/`.
 
 ## Link form, and the two hosts
 
@@ -100,11 +111,16 @@ URL (`…/law/`) still works on GitHub Pages for a link someone types or shares.
 
 - **GitHub Pages**: `.github/workflows/pages.yml` (manual trigger only) runs `npm ci` in `web/` and
   `python3 site/build.py`, and uploads `site/dist`. `dist/.nojekyll` is written for Pages.
-- **claude.ai artifact**: publish `dist/index.html` as the page and every other file of `dist/` through `files`
-  (paths as in `dist/`; 123 files, about 3.4 MB, at the split). Each page is a complete document with its own
-  `<title>`, theme tokens for light and dark, and the viewport meta; data is fetched with relative URLs, which the
-  artifact host allows for published files. `.nojekyll` is only for Pages and can be left out. Not tested on the
-  artifact host: whether it maps `law/index.html` and the app's ES-module imports and import map as plain static
-  files do, and how its skeleton treats a page that is already a full document.
-- The app (`app/`) is `web/dist` unchanged: it has its own single dark look, a one-word title ("gump") and no link
+- **claude.ai artifact (private)**: `python3 site/build.py --artifact` writes `site/dist-artifact/`, built for it:
+  the eight overview pages, their assets, plate scripts and data, and nothing else (no `app/`, no App link or app
+  card, no dotfiles). Its data are script files, `data/<key>.js`, each putting one value into `self.GUMP_DATA[key]`,
+  loaded by `<script>` tags before `boot.js`, which copies them into `D` and fetches only keys still missing (none);
+  so no page of that tree makes a fetch or XHR, and every page also works opened as a file. `FILES.json` there lists
+  every file of the tree except `index.html` and itself, sorted. To publish: root `site/dist-artifact`, `index.html`
+  as the page, and the paths in `FILES.json` as the supporting files, each published at its own path (83 files,
+  about 0.43 MB in all, at the time of writing). Each page is a complete document with its own `<title>`, theme
+  tokens for light and dark, and the viewport meta. Not tested on the artifact host: whether it serves
+  `law/index.html` from a link as a plain static server does, whether it runs scripts inserted by `boot.js` (the
+  plate scripts), and how its skeleton treats a page that is already a full document.
+- The app (`app/`, Pages tree only) is `web/dist` unchanged: it has its own single dark look, a one-word title ("gump") and no link
   back to the map; the map links to it from the header ("App") and the landing page.
