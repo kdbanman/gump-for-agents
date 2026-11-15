@@ -283,3 +283,35 @@ After three pushes my rate for "a new kind of object appears" was too high, so t
   non-constant word, for all planes.
 - **S21 (60%).** The push ends with no emitter and no corner, and the honest summary is still "nothing standing can
   write onto a wire".
+
+## The fourth investigator, 2026-11-15 13:15 UTC (after reading the README, both finished reviews, the forecasts and the tools; before any code of mine has run)
+
+What shapes these. Three pushes of bounded searches found nothing standing that writes, and the third showed the
+clock's ends to be perfect sinks. The one place where the earlier searches were thin is the *two-sided* object: a
+standing defect with wire on both sides that turns the rake. `turners.py` tried a cut list of 3,000 defects in 4
+units and `wallturn.py` walls with at most 3 free units, both by shooting, neither by constraint search. A clock
+closed at one end by a two-sided turner has a wire beyond it, and anything the turn leaks onto that wire is an
+emitter. So my first experiment is the SAT search of `sat_turn.py` with the cap replaced by a free stretch between
+two wires.
+
+- **F1 (12%).** An emitter passes the oracle (the lead's S16 as worded: a bounded standing object of period > 2
+  that puts at least ten pulses on an otherwise undisturbed wire at a fixed period and returns exactly to its state).
+- **F2 (20%).** A shuttle clock of period divisible by 4 passes the oracle at three lengths or more (S17).
+- **F3 (4%).** A corner (S18).
+- **F4 (10%).** An oscillator of the clockwork catalogue acts periodically on a wire end, cap or counter wall and
+  survives five periods or more (S19). 50% that I do not get to run this scan at all.
+- **F5a (45%).** An all-lengths form of the turn-class negative: no period-2 right cap of ANY length in the 3 × 3
+  tube (no bounding planes; the far end left open by a light-cone argument) turns a lone rake with class k = 2
+  within T ≤ 24 generations, by an UNSAT answer whose soundness argument is written out.
+- **F5b (8%).** A real invariant: a proof, not bounded by turn time, of why periodic caps in the 3 × 3 tube all turn
+  with one class, or a theorem that no cap of small period there writes a non-constant word for all planes.
+- **F6 (30%).** The constraint search finds at least one two-sided standing object of period 2 (wire C on the
+  left, any family wire or wire C on the right, free stretch of at most 6 units, 3 × 3 or 5 × 5 tube) that turns a
+  lone rake back and is itself restored. **F6b (10%)**: one of them, in a clock, leaks periodically (which is F1).
+- **F7 (65%).** None of the 8 caps of class k = 2 at T = 16, C = 47 swallows a lone p> and is restored 16
+  generations later, so the instance the third push left running (`sat_turn.py 16 47 --KS 10 --lo -1 --hi 7 --eat
+  16`) is UNSAT, settled by direct test of the complete list.
+- **F8 (70%).** The push ends with no emitter and no corner (S21).
+- **F9 (40%).** At least one more complete list of class-2 caps in the 5 × 5 tube (a larger T or C than 16, 47) is
+  obtained, or a direct search for the period-4N clock as a periodic orbit returns a definite answer on an
+  instance with 60 or more free cap cells.
