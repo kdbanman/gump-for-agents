@@ -112,7 +112,7 @@ for N in Ns:
     for c4 in cs:
         common &= set(c4)
     report(f'F  at even generations {2 * N}..{2 * N + 14} the units 2..{N - 7} read 5 f 9 f ... moving one unit per 2 generations towards -v (one phase constant fits all); units {N - 2}, {N - 1} read 5 f at every generation divisible by 4',
-           good and len(common) == 1)
+           good and (len(common) == 1 or N < 9))       # N = 8: no unit in the range, only the two next to the gun
     L = World(base); Y = L.run(2 * N + 20)
     report(f'G  control: without the oscillator the state has period exactly 4 from generation {2 * N} (checked to {2 * N + 12})',
            all(Y[t + 4] == Y[t] and Y[t + 2] != Y[t] for t in range(2 * N, 2 * N + 13)))

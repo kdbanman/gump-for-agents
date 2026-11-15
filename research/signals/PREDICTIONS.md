@@ -319,7 +319,7 @@ two wires.
   obtained, or a direct search for the period-4N clock as a periodic orbit returns a definite answer on an
   instance with 60 or more free cap cells.
 
-### The fourth investigator's forecasts scored, 2026-11-15 14:28 UTC
+### The fourth investigator's forecasts scored, 2026-11-15 14:28 UTC (F1, F4 and the totals revised 14:50 UTC, after the divider)
 
 Sources: README sections 20 to 25; every command is there.
 
@@ -327,13 +327,18 @@ Sources: README sections 20 to 25; every command is there.
   period 4 at the end of an otherwise bare wire that puts one mirror rake on it every period and returns exactly to
   its state (`verify_gun.py`: 12 rakes on the oracle; `verify_line.py` and `prove_line.py`: for ever, with a
   receiver at the other end). The caveat: what it emits is the rake, not the letter p<, and the stream is full, one
-  rake per 4 generations with no bare wire between. If "pulse" means a separated letter on bare wire, F1 failed:
-  the sparse gun `5f9f` is UNSAT at C = 29, 31 and unanswered at C = 33. I count it as held; (1 − 0.12)² = 0.77.
+  rake per 4 generations with no bare wire between. *Revised:* with the oscillator C8.24a beside the wire the same
+  object emits one rake per 8 generations with a hole between, a non-constant word (`verify_divider.py`,
+  `prove_divider.py`); the wire between two rakes then holds the letter `9f`, still not bare wire. I count F1 as
+  held; (1 − 0.12)² = 0.77.
 - **F2 (20%): failed.** No clock of period divisible by 4. 0.04.
 - **F3 (4%): failed.** No corner, and no corner search was run. 0.002.
-- **F4 (10%): failed, and the scan was run** (so the side forecast "50% that I do not run it" failed too). 23,760
-  placements of the 99 catalogue oscillators against a wire: none writes a letter per period or moves a wall; 52
-  light a shuttle clock once and then sit beside it. 0.01.
+- **F4 (10%): held, and the scan was run** (so the side forecast "50% that I do not run it" failed). Against a wire
+  at rest (23,760 placements of the 99 catalogue oscillators) none writes a letter per period or moves a wall; 52
+  light a shuttle clock once and then sit beside it. *Revised:* against the gun's running stream (14,850
+  placements) C8.24a writes a hole every period, for ever, and is itself never changed (the divider, on the
+  oracle). The forecast named "a wire end, cap or counter wall"; this is the side of a wire that carries a stream.
+  I count it as held; (1 − 0.10)² = 0.81, and 0.25 for the side forecast.
 - **F5a (45%): held, further than forecast.** No period-2 right end of any length in the 3 × 3 tube turns a lone
   rake with class 2 within T ≤ 36 (forecast: T ≤ 24), with the soundness argument written out (section 22). 0.30.
 - **F5b (8%): failed.** No invariant; the bound on the turn time stays. 0.006.
@@ -345,13 +350,17 @@ Sources: README sections 20 to 25; every command is there.
 - **F9 (40%): failed.** No further complete list of class-2 caps in the 5 × 5 tube (`k2caps.py 20 47` was stopped
   unfinished) and no periodic-orbit search for the 4N clock. 0.16.
 
-Mean Brier score over the twelve (F4's side forecast counted): about 0.22; without F1 and F8, which are one event,
-0.14. The one large miss is that event. I had put the emitter at 12% because three pushes of writer searches had
+Mean Brier score over the twelve (F4's side forecast counted): about 0.29; without F1 and F8, which are one event,
+0.22. The large misses are that event and F4, and they are the same mistake. I had put the emitter at 12% because three pushes of writer searches had
 found nothing, and I did not ask what alphabet they had searched: all of them asked for a word of p< letters. The
 same constraint search with the rake train as the word answered SAT in seconds. The lesson for the next forecast of
-an absence here: check which family of moving objects the negative was stated for before leaning on it.
+an absence here: check which family of moving objects the negative was stated for before leaning on it. F4 repeats
+it: the catalogue scan against a wire at rest came back empty an hour before the same scan against a wire with
+something moving on it found the divider.
 
 My reading of the lead's S16 to S21, for the lead to overrule: S16 yes if a rake is a pulse (see F1); S17 no; S18 no;
-S19 no (lighting a clock once is not acting each period); S20 no as worded (the open-end result removes the bounds
+S19 yes in substance (C8.24a writes a hole on the wire every period and survives for ever; it stands beside a wire
+carrying the gun's stream, not against an end, cap or wall; against a wire at rest the catalogue only lights a
+clock once); S20 no as worded (the open-end result removes the bounds
 on the cap's length and on the planes, not the bound on the turn time, and gives no reason); S21 no: something
-standing writes onto a wire, though only a constant stream, and nothing found reads.
+standing writes onto a wire, a constant stream and a two-letter periodic word; nothing found reads.
