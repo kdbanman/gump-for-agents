@@ -152,6 +152,44 @@ The period-66 plate is fragile — a single stray cell beside it destroys it alm
 time — and nothing in it carries a signal from one place to another. But about once in a
 thousand pokes it heals and runs on at a different phase. The clock can be set.
 
+## A wire, and a clock made to order
+
+I asked whether anything in gump could carry a signal, and expected the answer no. The chaos
+forgets within a cube or two, and every clock we had kept to itself.
+
+There are wires. A row of five cells per cube, repeated along the diagonal of a cube's
+face, stands in empty space and blinks with period 2. Flip two cells in it and the flaw
+neither heals nor spreads. It runs along the wire, one cube every two generations, half the
+fastest anything can travel here, and leaves the wire behind it exactly as it was. That is
+a pulse. An agent found four kinds of wire that carry them, pulses that run either way, a
+single flipped cell that launches one, and a flaw 36 cubes down the line that takes each
+pulse in and shifts one cube, so that it counts them. I rebuilt the pulses on the reference
+stepper with code of my own before I believed it.
+
+On one of these wires two pulses sent at each other never both get through. One survives,
+untouched and on time, and which one depends on whether the distance between them was even
+or odd. A pulse that can stop a pulse is the beginning of logic, though only the beginning:
+the survivor leaves along the line it came in on, and nothing we have turns a corner.
+
+A wire can be capped at both ends, and then it is a quiet object of a few dozen cells. Add
+one cell. It runs to the end, turns, runs back and turns again, for ever, and the object is
+a clock whose period is four times the number of cubes of wire, plus two. Period 6, 10,
+14, as long as you like. I checked six lengths myself. The clocks of the last section were
+found; this one is built, and can be ordered to size. The agent has a proof that it works
+at every length, and another agent is trying to break the proof as I write.
+
+Then the experiment your note asked for: let the chaos touch a wire. In eight hundred
+trials the wire was destroyed eight hundred times, by a fire that runs down it at the speed
+of a pulse. Leave two empty layers between them and nothing crossed in any trial. So the
+two halves of gump do not talk. The chaos carries no message, and order cannot survive its
+touch; what lets a wire exist at all is the same emptiness that seals a hull. About once in
+a dozen trials something does get out: a clean pulse, running down the wire ahead of the
+fire. And wires are not only built. Of a hundred thousand random soups in a narrow tube,
+279 settled into a wire that carries pulses.
+
+The pulses, the gate and the clock I have checked on the reference stepper. The counts in
+the last paragraph are one agent's so far, and two reviewers are at work on all of it.
+
 ## The rule you meant to write
 
 In November 2026 you looked at a picture of the neighbourhood and said it was wrong: in its
@@ -276,6 +314,18 @@ patch's edge costs: the price per empty cell falls from 0.27 for small patches t
 the largest we could count, which is where the lifetime laws are. It would be a good ending
 if the two met. The measurement that would show it needs more time on rented graphics cards
 than this month's budget has left.
+
+The card in your house has since done part of it. It measured five wrapped faces of one
+shape, 48 to 93 cells, each to better than a part in a thousand, and a reviewer repeated
+four of them by other means. From 63 cells up they lie on one straight line, 0.2084 per
+cell, and the two smaller ones fall below it. Nothing smooth joins the two parts. The only
+description that fits is a kink near 61 cells, as if a face stopped noticing its own
+smallness all at once. I had written down three readings of how the price would approach
+its limit, and four forecasts on top of them. The 93-cell face landed below every reading,
+and the faces of 57 and 63 cells above every forecast. So for faces without a rim the price
+is 0.2084 as far as we can see, and the faces with a rim, which still say something nearer
+0.215, are the open half. Four larger wrapped faces and one large face with its rim are
+running on the card now.
 
 ## How a face dies
 
@@ -475,13 +525,15 @@ corrected is part of what this repository is for.
   grows. The data allow it and do not yet demand it.
 - The neighbour B45/S3457, which behaves like gump with lifetimes growing a hundred-fold per
   step of radius instead of ten-fold, and B45/S3456, which slowly freezes like a glass.
-- Longer clocks. A loop of thirty-odd steps in a box with a six-fold symmetry would have a
-  period near 200, and nothing forbids it. And whether any oscillator here can pass a signal
-  to another: so far the only clocks that share a frame ignore each other.
-- Where the price per cell stops. Two measurements would narrow 0.207 to 0.219: faces of
-  one fixed shape at growing size, and a face of 108 cells with its rim, run until ten
-  thousand faces have died. Both are queued on the graphics card in your house, and the
-  first is running.
+- Whether gump can compute. It has wires, pulses, a gate where two pulses meet, a counter
+  and a clock of any length. It has no corner, no crossing, no gate with an output line of
+  its own, and no mirror that sends pulse after pulse back. Everything so far lives along
+  one direction of one tube.
+- A clock whose period divides by four. Every length of the built clock gives a period that
+  leaves 2 when divided by 4, and I do not know why.
+- One price per cell or two. Faces without a rim say 0.2084 from 63 cells up. Faces with a
+  rim say more, and their local slope is moving away from that, not towards it. The card
+  in your house is running the larger faces that would tell.
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):
