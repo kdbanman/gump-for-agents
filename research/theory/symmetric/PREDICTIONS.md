@@ -204,3 +204,63 @@ flattening and is not a √A term with the coefficient −0.21; between, undecid
 measurement is ± 0.07 (about 200 T_d deaths, 2,000 O_h deaths).
 
 **S4d (S1 revisited with this study's O_h).** T_d − O_h at R = 35 = 17.291 − ln τ_face(oct_35_c_oh): 3.16 ± 0.07.
+
+## Scores — appended 2026-11-15 after the last run; everything above is as committed
+
+Header times against commit stamps: block 1 is commit 4f455e7; block 2 (header "01:3x UTC") is 814c3d4, stamped
+01:26 UTC; block 2b is 96e2292; block 3 (header 01:46) is 6061d61, stamped 01:44; block 4 (header 01:49) is
+98a66d8, stamped 01:48; block 5 (header 02:18) is 4020d9e, stamped 02:16. In every case the commit precedes the
+first run of the block, except block 2b, which was committed while its three runs were in progress and before any
+output of theirs had been read (`git log --format='%h %cI %s' -- research/theory/symmetric`; run times are the `.json`
+files' in `research/scratch/symmetric/`). The protocol line at the top says "doubling-snapshot settled test": from
+block 2 on the test is the ladder of snapshots described in README.md.
+
+All values are ln τ_face ± one standard error; they are printed by `python3 research/theory/symmetric/report.py`.
+
+| forecast | said | found | score |
+|---|---|---|---|
+| P1 slope of mirror strips per quotient cell, P = 8 → 12, Q = 2; their steps equal the partners' within 0.10 | 0.205–0.215; fail outside 0.195–0.225 | 0.1863 ± 0.0016; steps lower than the partners' by 0.23, 0.23 | failed |
+| P2 Δ(8,2), mirror strip minus partner | −0.56 ± 0.32 (the notebook's picture: −1.92) | +0.872 ± 0.013 | failed, wrong sign |
+| P3 threefold slab quotients on the asymmetric line ± 0.30 | nine values | +0.46 to +0.65 above it | failed |
+| P3 step n = 49 → 64 | 3.13 ± 0.10 | 3.044 ± 0.017 | held |
+| P4 D2h v − c = 0.119·√A ± 0.15 | 0.80, 0.94, 1.09, 1.24 (A = 45, 63, 84, 108); growth from A = 45 to 108: 0.44 ± 0.10 | 0.429, 0.505, 0.645, 0.830; growth 0.40 | levels failed (low by 0.4); growth held; the stated failure line (below 0.6 at A = 84) was not crossed |
+| P5 asymmetric v − c below a third of D2h's | below 0.14 (A = 45), 0.17 (63) | 0.738 ± 0.013, 0.676 ± 0.032 | failed |
+| P6 c1 − D2h, mean of the centrings | 5.4 ± 0.7 (A = 45), 6.9 ± 0.7 (63) | 4.74, 6.55 | held (A = 45 by 0.04, on D2h lives too short to be reliable) |
+| Q1 D2h from A = 84 to 108 | 3.9 ± 0.35 | 3.752 ± 0.023 (c), 3.937 ± 0.034 (v) | held |
+| Q2 edges add, A = 63 | csz 11.48, c2v 9.32 (± 0.4) | 11.456, 9.291 | held |
+| Q3 inversion; one coordinate mirror | 13.63 ± 0.3; 11.5 ± 0.4 | 13.578 ± 0.014; 11.456 ± 0.011 | held; held |
+| Q3 twofold rotation swapping two adjacent faces | 13.3 ± 0.4 | 11.704 ± 0.005 | failed |
+| Q4 T_d − O_h = 0.34·√(A/6) ± 0.35 | 2.12, 2.29, 2.46, 2.80, 2.97 | 1.783, 2.181, 2.330, 2.794, 3.165 | held |
+| Q4 its growth from A = 234 to 459 | 0.85 ± 0.25 | 1.38 ± 0.03 | failed |
+| Q5 T_d slope per face cell, A = 234 → 408 | 0.031 ± 0.002; 0.0348 ± 0.001 would mean no deficit | 0.0331 ± 0.0001 | at the upper limit (0.0330), between the two readings |
+| Q6 v − c | T_d 0.05 ± 0.15; T 0.15 ± 0.15; O_h 0.40 ± 0.08 | T_d 0.398, 0.240, 0.382; T 0.250, 0.224; O_h 0.333, 0.367, 0.351 | T_d failed; T, O_h held |
+| Q7 T_d from O_h plus 0.5 per rim period | 13.81 ± 0.15, 14.27 ± 0.15, 15.55 ± 0.20 | 13.778 ± 0.015, 14.183 ± 0.019, 15.635 ± 0.032 | held |
+| R1 rim-free C3v triangle, N = 8, 10, 12 | 7.8, 11.55, 16.1 (± 0.7) | 7.314, 10.822, 15.319 | held; failed by 0.03; failed by 0.08 |
+| R1 triangle above the T_d wedge of equal quotient area, N = 10 | 1.4 ± 0.7 | 0.65 | failed by 0.05 |
+| R1 slope N = 8 → 12 | 0.19–0.22 | 0.2001 | held |
+| R2 edges add, A = 84 | csz 15.43 ± 0.12, c2v 12.73 ± 0.12 | 15.506 ± 0.026, 12.857 ± 0.019 | held; failed by 0.007 |
+| R3 D2h at A = 135 | 18.24 ± 0.4 | 18.449 ± 0.071 | held |
+| R4 asymmetric v − c | 0.72 ± 0.12 (A = 30); 0.66 ± 0.10 (A = 84) | 0.747 ± 0.016; 0.646 ± 0.060 | held; held |
+| S1 T_d at A = 513 (O_h plus a linear rim term) | 17.52 ± 0.15 | 17.291 ± 0.040 | failed, low by 0.23 |
+| S2 group O above T_h by 0.35 | 8.81 ± 0.2, 10.66 ± 0.2 | 7.086 ± 0.003, 8.694 ± 0.006 | failed: O is 1.4–1.6 below T_h |
+| S2 c2e above csz at A = 84 | +0.30 ± 0.15 | +0.328 ± 0.040 | held |
+| S4a O_h in this protocol, A = 513, 570 | 14.13 ± 0.05; 15.86 ± 0.10 | 14.118 ± 0.012; 15.870 ± 0.023 | held; held |
+| S4b T_d at A = 570 | 19.42 ± 0.12 | 19.489 ± 0.074 (183 deaths, two seeds) | held |
+| S4c rim term at 9 periods | 3.56 ± 0.12 | 3.619 ± 0.077 | held; the decision rule (linear at 3.62 or above, flattening at 3.50 or below) returns "undecided", 0.001 short of "linear" |
+| S4d rim term at 8.5 periods with this study's O_h | 3.16 ± 0.07 | 3.173 ± 0.041 | held |
+| S3 (GPU) | O_h v − c at A = 828: 0.55 ± 0.04; T_d at A = 759: 26.4 ± 0.3 | not run | open |
+
+Of 38 scored statements 23 held, one fell on its limit (Q5) and 14 failed, five of them by less than 0.1 beyond the
+stated tolerance (R1 three times, R2, S1).
+
+## Amendment S5 — 2026-11-15, after block 5; for a GPU, not testable here. S3 stays as written.
+
+S3's number for T_d at A = 759 (26.4 ± 0.3) assumed a rim term linear in the rim, −1.11 + 0.536 per period. Since
+then: the rim term's increments per period are 0.548, 0.464, 0.379 ± 0.045 (R = 23, 27, 31, 35) and 0.492, 0.492,
+0.453 ± 0.084 (R = 25, 29, 33, 37), and T_d faces keep a slope × 6 of 0.201 ± 0.002 and 0.208 ± 0.004 in those two
+sub-series out to A = 513 and 570. If T_d keeps that slope from 17.291 at A = 513 (R = 43 is in the same
+sub-series as R = 35):
+
+**S5.** ln τ_face(oct_43_c_td) = **25.65 ± 0.25**, i.e. a rim term of 3.76 ± 0.25 at 10.5 periods with the GPU's
+O_h value 21.889, a marginal cost of 0.3 ± 0.12 per period beyond R = 35. At or above 26.1 the rim term has stayed
+linear (S3's reading) and T_d has steepened to 0.215 or more; at or below 25.9 the rim term is flattening.

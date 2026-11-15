@@ -23,7 +23,8 @@ DEFAULT = ['rect_4_2_c1', 'gen_2_2_8_c1', 'hex_4_0_c1', 'rect_8_2_cs', 'rect_6_3
            'hex_7_0_c3', 'hex_7_0_c3_o2', 'hex_7_0_c3_o4', 'hex_5_2_c3', 'hex_4_4_c3', 'hex_8_0_c3v', 'hex_9_0_c3v_o2',
            'hex_10_0_c3v_o4', 'hex_6_6_c3v', 'oct_9_c_c1', 'oct_10_v_c1', 'oct_11_c_d2h', 'oct_12_v_d2h', 'oct_23_c_td',
            'oct_24_v_td', 'oct_23_c_oh', 'oct_24_v_oh', 'oct_15_c_c3v', 'oct_16_v_th',
-           'oct_11_c_csz', 'oct_12_v_c2v', 'oct_11_c_c2e', 'oct_11_c_ci', 'oct_15_c_t', 'oct_16_v_t', 'oct_19_c_th', 'oct_19_c_o', 'oct_20_v_o']
+           'oct_11_c_csz', 'oct_12_v_c2v', 'oct_11_c_c2e', 'oct_11_c_ci', 'oct_15_c_t', 'oct_16_v_t', 'oct_19_c_th', 'oct_19_c_o', 'oct_20_v_o',
+           'oct_35_c_td', 'oct_37_c_td', 'oct_35_c_oh', 'oct_37_c_oh', 'oct_17_c_d2h', 'oct_14_v_c1']      # the largest systems run
 
 
 def build_sy():
