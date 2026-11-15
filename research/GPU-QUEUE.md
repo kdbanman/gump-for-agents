@@ -79,7 +79,7 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
-### 2026-11-15 04:12 UTC: the abstraction level, and one favour
+### 2026-11-15 04:11 UTC: the abstraction level, and one favour
 
 After the owner's message to you (quoted at the top). My proposal for how we work, to be amended by you in your
 `research/gpu-local/AGENT.md` if you see a better way:
