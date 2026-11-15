@@ -966,7 +966,7 @@ no bound either (ZL2).
   intercepts 0.053, 0.121, 0.203 fits (χ² = 8.4 on 8), and so does ln τ = a + 0.2117·A − 0.054·M with M the long
   side (χ² = 5.6 on 9). The two cannot be told apart with these data. Either way the correction to an area law is
   linear in a side length. Whether the cost per cell of a wide periodic face is 0.2072 or 0.2117 is **not
-  decided** (Section 7.5).
+  decided** by these slabs; tori of constant shape give 0.2084 from 63 cells up (Section 7.5).
 - An area-only fit over the slabs with s ≥ 4 gives 0.2085 per cell with χ² = 512 on 10: wider slabs were also the
   larger ones, so mixing widths inflates the slope. The 0.2088 of Section 5.2 is a slope of that kind. (An
   independent series at A = 27–75 with widths 3 to 5 gives 0.2121 ± 0.0004 for the same reason;
@@ -1047,8 +1047,11 @@ that file's 0.1353 ± 0.0008, which the lead check reproduces as 0.1353; the REA
 codes give 9.9251 ± 0.0004, 9.9246 ± 0.0006 and, with the census's own pipeline on fresh seeds, 9.9240 ± 0.0014;
 pooled 9.9249 ± 0.0003); with that value the slope is (12.4818 − 9.9249)/12 = 0.2131 (SH3's note of 2026-11-15).
 The slopes compare different lattices with equal shortest loop, not one torus grown. The loop² 3 entries are local
-slopes of a law that is still bending (Section 7.4). The loop² 4 lifetimes carry a tie-resolution bias of about
-−0.018 in ln τ (the slope is not affected), and the loop² 4 tori are multigraphs (a cell counts one neighbour
+slopes of a law that is still bending (Section 7.4). The census stamps layer deaths every 16 generations, and
+where face deaths tie with firewalls inside one window it reads ln τ high: measured on the same lives (GL3; B), by
+0.0174 at A = 48 and 0.0184 ± 0.0011 at A = 60 for the loop² 4 classes, by 0.00167 ± 0.00006 at 4 × 4 and at most
+0.0008 for long-lived classes at A = 60; the slopes of the table move by at most 0.0003. The loop² 4 tori are
+multigraphs (a cell counts one neighbour
 twice), so only loop² 3 is strictly "the same automaton on a narrow cylinder".
 
 Even the thinnest tori live a time exponential in their area, with a hazard flat in age and permanent face death
@@ -1057,9 +1060,9 @@ Even the thinnest tori live a time exponential in their area, with a hazard flat
 **[measured]** (SH4; A, two codes, but only four lattices at A = 48) Above loop² 12 the shortest loop no longer
 orders the classes at A = 48: the four classes with loop² 12, 12, 13, 16 span 0.016, and the 4 × 4 torus
 (loop² 16) lies *below* the loop² 12 class with second loop² 19, by 0.0135 ± 0.0021 in the review's runs
-(`research/audit/REVIEW-shape2.md`, claim 3) and by 0.0135–0.0138 in the census once its 4 × 4 value is replaced
-(`research/shape2/data/A48.csv` gives 9.9384 for the loop² 12 class; against the pooled 4 × 4 value 9.9249 of GL1
-the gap is 0.0135 ± 0.0020, against the reviewer's own 9.9246 it is 0.0138, the figure in the ledger). The census's
+(`research/audit/REVIEW-shape2.md`, claim 3) and by 0.0135 ± 0.0020 in the census once its 4 × 4 value is replaced
+by the best value 9.9249 of GL1 (`research/shape2/data/A48.csv` gives 9.9384 for the loop² 12 class; against the
+reviewer's own 9.9246 alone the gap would be 0.0138). The census's
 own 4 × 4 value, 9.9324, gave 0.0061 ± 0.0028 and a tension with the review (χ² = 4.4 on 1); that value was a high
 draw (Table 8, ‡), and the tension is gone. At A = 60 the step from loop² 12 to 16 is +0.056 to
 +0.063, and at A = 72 it is about +0.10 (Table 7). The shape term grows with the area.
@@ -1128,12 +1131,66 @@ two.** Every passing reading with c ≤ 0.214 needs a two-term correction on oct
 0.2155 needs periodic faces to approach c as slowly as 1/s in the width s. *Conjecture* (not tested): the thin
 tori, whose deficit falls roughly exponentially in the shortest loop, argue for the lower half. **[refuted]** (CN1)
 Neither a capillary-wave law for the wrap-around term nor a sum over period vectors fits (χ² 20,925 on 13 and
-48,004 on 14 at A = 48 and 60). Two measurements are proposed and not made, and their power is disputed: the
-octahedral face at A = 108 with 10⁴ deaths, and equilateral periodic tori (forecast local slopes 0.2117 → 0.2136
-under one constant). Those forecasts are anchored on the census's 4 × 4 torus, which was a high draw (Section 12);
-with the corrected anchor they move by −0.005 to +0.010 in ln τ and the forecast slope 48 → 57 by +0.0003 to
-+0.0004 (`research/audit/REVIEW-gpu-local-pr23.md`, section 2; the committed forecasts are not edited). The joint
-fits behind the range 0.207–0.219 include the same 4 × 4 value and were not redone.
+48,004 on 14 at A = 48 and 60). These fits include the census's 4 × 4 torus value, a high draw (Section 12), and
+were not redone (CN1's note of 2026-11-15). With the tori below, the notebook reads the range 0.207–0.219 as the
+distance between the two families, not as an uncertainty in one number.
+
+**Wrapped faces of constant shape, on a second card.** Equilateral face tori have period lattices whose three
+shortest loops are equal and at 60°, the shape of 4 × 4, 5 × 5 and 6 × 6 (8 layers, soup 0.4, every life ended at
+its first event). Five were measured with one driver on the second GPU (Section 12), and every one but the largest
+again by a CPU code:
+
+| n | period lattice | A | shortest loop | face deaths | ln τ_face, second card | second code |
+|---:|---|---:|---:|---:|---|---|
+| 16 | (4,0),(0,4) | 48 | 4.00 | 7,478,823 | 9.9251 ± 0.0004 | 9.9246 ± 0.0006 (reviewer's stepper); 9.9240 ± 0.0014 (census pipeline, fresh seeds) (GL1; A) |
+| 19 | (1,7),(0,19) | 57 | 4.36 | 3,283,133 | 11.8756 ± 0.0006 (two seeds, 2.6σ apart) | 11.8744 ± 0.0015 (reviewer, 445,165 deaths) (GL3; A) |
+| 21 | (1,4),(0,21) | 63 | 4.58 | 1,811,510 | 13.1622 ± 0.0007 | 13.176 ± 0.011 (review of the dying-face study, DY12) (GL3; A) |
+| 25 | (5,0),(0,5) | 75 | 5.00 | 183,954 | 15.6630 ± 0.0023 | 15.667 ± 0.010 (reviewer); 15.6614 ± 0.0026 on the first GPU (Table 6) (GL3; A) |
+| 31 | (1,5),(0,31) | 93 | 5.57 | 35,521 | 19.4141 ± 0.0053 (four seeds, χ² 0.70 on 3) | none (GL3; C) |
+
+Table 8a. Equilateral face tori (`research/gpu-local/README.md` and `research/data/gpu_local_eqtorus/` on branch
+`claude/gpu-local-1080`, pull request 23, not merged; every value recomputed by the lead from the rows as
+ln(2 × exposure/deaths) ± 1/√deaths; review `research/audit/REVIEW-gpu-local-tori.md`, with a stepper built from
+`docs/AUTOMATON.md` alone and equal to the reference every generation on both tori it ran). Shortest loops in cube
+steps. The 93-cell run had the guard of Section 12 on, and none of its 45,761 lives settled. Tori 19, 21 and 31 have
+oblique shortest loops and no possible firewall; 16 and 25 have loops along the lattice rows.
+
+**[measured]** (GL3; B for the line and the kink: the reviewer's refit, on one degree of freedom) The tori of 63, 75
+and 93 cells lie on one line, ln τ_face = 0.033 + 0.2084·A (slope 0.20840 ± 0.00014, χ² 0.0002 on 1); those of 48
+and 57 cells lie below it, by 0.111 and 0.036. The local slopes are 0.2167, 0.2144, 0.2084, 0.2084. No smooth
+correction fits the five values: a term decaying in the shortest loop, in 1/A, in 1/A and 1/A², a massive-like sum
+and a stretched exponential give χ² of 15 to 117 on 1 (59–70 with the 57-cell error inflated). The deficit goes
+0.111, 0.036, then below 0.01 between shortest loops of 4.00, 4.36 and 4.58 cube steps: an abrupt change near 61
+cells, **a kink, not a fading correction**. At 2σ the data still allow a residual of 0.01 at 63 cells or a slope
+change of 0.0009 above it. So at constant shape the bend lies wholly below 63 cells, and it is the small tori that
+are short-lived, not the large ones that are cheap; the 6 × 6 slab of Table 6 (22.568 ± 0.041) is 0.7σ above the
+line. *Conjecture* (the lead's): the loop at which the bend ends is about the width of what is left of a dying face
+plus its reach (Section 5.6), so that a wrapped face stops being short-lived once its last patch cannot feel itself
+round the loop. Four more tori (81, 84, 108, 111 cells) have forecasts committed before their rows (the card's: the
+line, 16.913, 17.539, 22.540, 23.165; the reviewer's: the 81-cell torus separates the line from every smooth form by
+0.014 against a planned ± 0.003); they are not reported here.
+
+**Against the hull family.** **[measured]** Free hull faces of the same areas live longer than the line by 0.41,
+0.47, 0.60, 0.84 at 45, 63, 84, 108 cells, and their local slopes, 0.2119, 0.2146, 0.2181 (Table 2), move away from
+0.2084, not toward it. The dips of Section 5.6 give c = 0.215 ± 0.005 for hull faces (DY9; B), which separates
+neither reading. **Whether there is one price per cell or two is open.** One asymptotic constant for both families now needs
+the hull slope to turn round beyond 108 cells and fall by about 0.01; the other reading is that a face held by living
+neighbours along its rim and a face wrapped onto itself have different prices per cell. Nothing on hull faces at
+A ≥ 108 has a second implementation (Table 2), and the octahedral face at A = 108 with 10⁴ deaths, which the
+constant analysis held would eliminate 35 of its 36 single-constant readings (its review disputed the power), has
+not been run.
+
+**The forecasts, scored** (Table 5, rows 24 and 25). Before these runs, part C of `research/constant/PREDICTIONS.md`
+forecast the family under three readings, each anchored on the three tori then measured (4 × 4, 5 × 5, 6 × 6):
+*flat*, a shape term constant in the family (c = 0.21214); *massive*, a shape term falling with size
+(c = 0.2069 ± 0.0023); *rising*, the hull family's constant (c_h = 0.2226 or 0.2317) approached with a √A term. At
+93 cells flat (19.479 ± 0.010, refuted below 19.445) and rising (19.506–19.530, refuted below 19.488) are refuted by
+their own lines, and massive (19.437 ± 0.019) is 0.023 high, within 1.2σ; at 57 and 63 cells every reading is low,
+flat by 0.034 and 0.047 and massive by 0.021 and 0.034. **No reading of part C survives.** All three were anchored on
+the 4 × 4 torus, which lies inside the bend (and whose value on file was a high draw: with the corrected anchor the
+forecasts move by −0.005 to +0.010 in ln τ, `research/audit/REVIEW-gpu-local-pr23.md`, section 2). Of the lead's
+forecasts added once the 63-cell torus was measured, N1 and N4 failed, N2 held on a reason that the 93-cell torus
+ended, and N3 is open.
 
 **Empty patches** (GP10; A for the table up to 4 × 5, by an independent CPU stepper and counter). On a
 periodic slab 12 × 12 × 8 (A = 432 per face) in which no face died in 3.04 × 10¹⁰ replica-generations, rhombic

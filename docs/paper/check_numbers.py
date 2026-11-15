@@ -148,7 +148,7 @@ SPEC = [
     ('7.3 Table 8 footnote', '‡ The file', 'note of 2026-11-15).', ['SH3', 'GL1'], ['card', 'file:research/shape2/data/explore_report.txt'], '67e0371'),
     ('7.3 Table 8 row 48-60', '| d ln τ_face/dA, A = 48 → 60', '\n', ['SH3', 'GL1'], ['card', 'file:research/shape2/data/explore_report.txt'], '67e0371'),
     ('7.3 SH4', '**[measured]** (SH4; A', None, ['SH4', 'GL1'], ['card'], '67e0371'),
-    ('7.5 equilateral note', 'Those forecasts are anchored', 'not redone.', ['GL1'], ['card', 'file:research/audit/REVIEW-gpu-local-pr23.md'], '67e0371'),
+    # (7.5 equilateral note: passage removed in the fifth update; its content is now under 7.5 part C scored)
     ('12 second card', 'A second card (a different', 'repeated on it.', ['GL1'], ['card'], '67e0371'),
     ('12 guard', '**A guard, and its limit.**', None, ['GL2'], ['card'], '67e0371'),
     ('12 census errors', '**Errors of the census pipeline.**', None, ['GL1'], ['card'], '67e0371'),
@@ -177,6 +177,17 @@ SPEC = [
     ('Table 5 row 26', '| 26 | The lead', '\n', ['SG1'], ['sig1', 'sig2', 'sig2r', 'file:research/signals/PREDICTIONS.md'], 'a8e925a'),
     ('Table 5 row 27', '| 27 | The lead', '\n', ['SS1'], ['ss'], 'a8e925a'),
     ('Table 5 caption', 'rounds 3 and 4 of the same file as scored', 'J1–J10', [], [], 'a8e925a'),
+    ('7.1 pointer', 'decided** by these slabs', '(Section 7.5).', ['GL3'], [], 'a8e925a'),
+    ('7.3 Table 8 stamping', 'The census stamps layer deaths', 'at most 0.0003.', ['SH3', 'GL3'], ['tori5r'], 'a8e925a'),
+    ('7.5 CN1 note', 'Neither a capillary-wave law', None, ['CN1'], ['tori5'], 'a8e925a'),
+    ('7.5 tori intro', '**Wrapped faces of constant shape', None, ['GL3'], [], 'a8e925a'),
+    ('7.5 Table 8a', '| n | period lattice | A |', None, ['GL1', 'GL3', 'DY12'],
+     ['card93', 'tori5', 'tori5r', 'file:research/constant/PREDICTIONS.md'], 'a8e925a'),
+    ('7.5 Table 8a caption', 'Table 8a. Equilateral face tori', None, ['GL3'], ['card93', 'tori5r'], 'a8e925a'),
+    ('7.5 line and kink', '**[measured]** (GL3; B for the line', None, ['GL3'], ['tori5', 'tori5r'], 'a8e925a'),
+    ('7.5 against the hull', '**Against the hull family.**', None, ['DY9', 'CN1'], ['tori5', 'const'], 'a8e925a'),
+    ('7.5 part C scored', '**The forecasts, scored**', None, ['GL3'],
+     ['card93', 'tori5', 'file:research/constant/PREDICTIONS.md', 'file:research/audit/REVIEW-gpu-local-pr23.md'], 'a8e925a'),
 ]
 
 SUP = str.maketrans('⁰¹²³⁴⁵⁶⁷⁸⁹⁻', '0123456789-')
