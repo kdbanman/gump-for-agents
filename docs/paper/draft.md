@@ -342,14 +342,15 @@ Figures: `research/figures/phase_bulk.png` (bulk density and its fluctuations),
 The 2012 population logs of cubic seeds show a long noisy plateau followed by a staircase of lower plateaus.
 **[measured]** (F1; B) For the side-11 cube the hull radius (outermost live layer along every diagonal, in doubled
 units about the centre) falls from 31 to 27 within five generations, stays at 27 for 3,285 generations, and then
-every face loses its outer layer at generations 3,290, 3,477 and 3,796 (the first generation at which that layer
-is empty), before a final collapse ending at 4,218; no interior firewall forms before the final collapse.
+every face loses its outer layer at generations 3,290, 3,477 and 3,796 (the first generation at which that layer is
+empty), before a final collapse ending at 4,218; no interior firewall forms before the final collapse.
 **[measured]** (F3; B) The side-13 cube does the same at about 130,200, 145,850, 156,800, 166,650 and 168,200,
 ending at 169,049. Each stair is the loss of one {111} layer from every face of the octahedron (all eight at once
 because the seed is O_h-symmetric); by Theorem 2 each loss is irreversible. **[measured]** (F2; B: re-run by a
 second agent; the heights only to within ±0.03, because they depend on an averaging window that was not recorded)
 the plateau heights of side 11 are 0.79, 0.61, 0.48 of the first (0.770, 0.604, 0.454 averaged over whole
-plateaus), against hull-volume ratios (R/27)³ = 0.79, 0.62, 0.47. A tracked picture of a peel as a kymograph of layer populations is `web/docs/peel-kymograph.png`.
+plateaus), against hull-volume ratios (R/27)³ = 0.79, 0.62, 0.47. A tracked picture of a peel as a kymograph of
+layer populations is `web/docs/peel-kymograph.png`.
 
 So the lifetime of confined chaos is a sum of waiting times for well-defined irreversible events, and the
 question becomes: what is the law of the wait for one face layer to die?
@@ -457,32 +458,32 @@ The endpoints are −ln h/A = 0.2268, 0.2182,
 extrapolated from densities n/A ≥ 0.1, which is all one can sample on large faces, misses ln h by 0.5–0.8; the
 endpoint has to be measured. Figure: `research/figures/fluct_tail.png`.
 
-**[measured]** (F10; B: re-run by a second agent on the producer's own seeds) The commonest three-cell remnant is
-a triangle of the kagome layer, the three faces round one cube corner (38% of three-cell faces). *Preliminary*
+**[measured]** (F10; B: re-run by a second agent on the producer's own seeds) The commonest three-cell remnant is a
+triangle of the kagome layer, the three faces round one cube corner (38% of three-cell faces). *Preliminary*
 **[measured]** (F12; C): a dying face is statistically ordinary until about 16 generations before its death and
-empties in 10–12; forward-flux sampling along n is unbiased but gains
-nothing, because two copies of a state differing in one cell have 55–95% correlated fates over the few
-generations of the plunge (F12). The last point matters for method: the rare event here is a rare
-*configuration* reached quickly, not a slow rare path, and what made large faces measurable was brute force on
-bit-sliced and symmetry-reduced steppers.
+empties in 10–12; forward-flux sampling along n is unbiased but gains nothing, because two copies of a state
+differing in one cell have 55–95% correlated fates over the few generations of the plunge (F12). The last point
+matters for method: the rare event here is a rare *configuration* reached quickly, not a slow rare path, and what
+made large faces measurable was brute force on bit-sliced and symmetry-reduced steppers.
 
 ### 5.4 The competing channel: transverse firewalls
 
 A slab or an elongated vessel can also die by a three-layer firewall (Theorem 3) across one of the other three
-diagonals, after which a face dies within a small fraction of the wait. Lifetimes that count any outer-layer
-death therefore mix two channels, and the face law must be read from the face channel alone. **[measured]**
-(GP8; B) With every life ended at its first event and the two channels counted separately, the firewall rate at a
-cut of 216 cells is the same in a square and a non-square slab: ln τ_fw = 26.79 ± 0.28 per direction (6 × 6 × 8,
-13 firewalls) and 26.87 ± 0.19 (6 × 7 × 8, 29 firewalls). The method was validated on a slab where both channels
-are common: 3 × 6 × 8 gives ln τ_face = 11.084 ± 0.001 and ln τ_fw = 12.327 ± 0.002 on the GPU and
-11.076 ± 0.007 and 12.310 ± 0.018 in an independent CPU run with a different stepper. **[measured]** (F11; B
-(table): rebuilt by a second agent from the producer's raw slab records, which are not in git, without re-running
-the slabs) Over thin slabs the firewall costs about 0.12 per cell of the three-layer band that must die, roughly
-half the cost per cell of a face, and the first event switches from firewall to face death when the thickness is
-about the width. The fit behind the 0.12, ln τ_fw = −1.4 + 0.54·N·m + 0.22·N (N the side of the slab's face, m
-its thickness), is weighted by the numbers of firewall-first lives; unweighted it is −2.00 + 0.533·N·m + 0.356·N. In an octahedron the faces are the smallest {111} sections and no interior
-firewall was seen before the final collapse of the cubes examined (F1). A practical consequence: eight-layer
-slabs cannot measure the face channel beyond A ≈ 110 unless firewalls are detected.
+diagonals, after which a face dies within a small fraction of the wait. Lifetimes that count any outer-layer death
+therefore mix two channels, and the face law must be read from the face channel alone. **[measured]** (GP8; B) With
+every life ended at its first event and the two channels counted separately, the firewall rate at a cut of 216
+cells is the same in a square and a non-square slab: ln τ_fw = 26.79 ± 0.28 per direction (6 × 6 × 8, 13 firewalls)
+and 26.87 ± 0.19 (6 × 7 × 8, 29 firewalls). The method was validated on a slab where both channels are common: 3 ×
+6 × 8 gives ln τ_face = 11.084 ± 0.001 and ln τ_fw = 12.327 ± 0.002 on the GPU and 11.076 ± 0.007 and 12.310 ±
+0.018 in an independent CPU run with a different stepper. **[measured]** (F11; B (table): rebuilt by a second agent
+from the producer's raw slab records, which are not in git, without re-running the slabs) Over thin slabs the
+firewall costs about 0.12 per cell of the three-layer band that must die, roughly half the cost per cell of a face,
+and the first event switches from firewall to face death when the thickness is about the width. The fit behind the
+0.12, ln τ_fw = −1.4 + 0.54·N·m + 0.22·N (N the side of the slab's face, m its thickness), is weighted by the
+numbers of firewall-first lives; unweighted it is −2.00 + 0.533·N·m + 0.356·N. In an octahedron the faces are the
+smallest {111} sections and no interior firewall was seen before the final collapse of the cubes examined (F1). A
+practical consequence: eight-layer slabs cannot measure the face channel beyond A ≈ 110 unless firewalls are
+detected.
 
 ### 5.5 Symmetric initial conditions die exponentially sooner
 
@@ -641,7 +642,7 @@ included.
 | 11 | Six candidate laws in area and shortest loop, parameters fixed before the census (`research/shape2/PREDICTIONS.md`, commit 80906fe) | none fits at A = 48, 60 or 72 | **all refuted** (SH5; A) |
 | 12 | Six layers of the rule over coin flips: ln τ = 7.40, 9.94 for slab faces of A = 36, 48 (Section 6) | 7.397 ± 0.009, 9.945 ± 0.014 | held (SW2; B) |
 | 13 | Depth of rule needed over noise for octahedral faces: three layers | three layers miss by 0.3–1.0 in ln τ; four to five are needed | **missed** (recorded in `research/theory/exponent.md`) |
-| 14 | The remnant of a dying face is the same in every vessel: on a rim-free slab face (5 × 4 × 8, A = 60) the mean face population 1, 2, 3, 4 generations before death is the hull's 1.6, 3.4, 6.4, 9.7; refuted if lags 3 or 4 are more than 20% off (swarm path E3, `research/theory/swarm/PREDICTIONS.md`, protocol committed before the run in `research/theory/swarm/exam/OUTCOMES.md`) | 1.66, 4.29, 10.70, 18.40 (3,188 face deaths) | **failed** at lags 3 and 4 (+67%, +90%); lag 1 and the one-cell share (59.4% against 62 ± 5%) held. No ledger row: one run by the examiner, rough errors, not re-derived (NOTEBOOK 2026-11-14, "the swarm's predictions examined") |
+| 14 | The remnant of a dying face is the same in every vessel: on a rim-free slab face (5 × 4 × 8, A = 60) the mean face population 1, 2, 3, 4 generations before death is the hull's 1.6, 3.4, 6.4, 9.7; refuted if lags 3 or 4 are more than 20% off (swarm path E3, `research/theory/swarm/PREDICTIONS.md`, protocol committed before the run in `research/theory/swarm/exam/OUTCOMES.md`) | 1.66, 4.29, 10.70, 18.40 (3,188 face deaths) | **failed** at lags 3 and 4 (+67%, +90%); lag 1 and the one-cell share (59.4% against 62 ± 5%) held (SW7; B: re-run by a second agent on the shared seed sequence, lags 1.689, 4.348, 10.958, 18.440; the refutation reproduced) |
 | 15 | Five candidate second variables at equal area and shortest loop, fitted on three pairs (`research/shape3/PREDICTIONS.md`, commit 46baf66) | none fits (χ² ≥ 111 on 7) | **all refuted** (SH9; A) |
 | 16 | Empty patches on a 12 × 12 × 8 face: ln P = const − c·cells − σ·perimeter with c = 0.21 ± 0.015 (`research/NOTEBOOK.md`, entry "a forecast before the run") | c = 0.264; the form fails (χ² 3,369 on 3) | **missed** as stated (GP10; A + B−) |
 | 17 | The thin-face study's 14 forecasts, each committed before its run (`research/theory/thin/PREDICTIONS.md`) | rescored by the review | 8 hit, 2 half, 2 mostly missed, 2 missed (TH7; B) |
@@ -672,15 +673,15 @@ hulls then reached only A = 408. **[measured]** Against fresh vertex-centred sou
 (τ = 7.1 × 10⁸, 45 deaths) the cube's first plateau is 3.3 means (probability 0.036 for one exponential wait);
 radius 42 is an ordinary size (C8; pooled value re-derived, B).
 
-**An open question, not a finding.** **[measured]** The cube stayed 5.24 × 10⁸ generations at R = 40, which is
-7.4 times the mean of an ensemble that pools fresh soups with copies of the cube (probability 6 × 10⁻⁴ for one
-exponential wait; C5; B), or 6.1 times the fresh-soup mean 8.63 × 10⁷ (probability 0.002). A count over the
-sixteen largest plateaus of cubes 13–16 finds three longer than four means (C6; B for the arithmetic), but that
-statistic was chosen after the side-16 plateaus suggested it; without side 16 it gives P ≈ 0.18, and it is not
-evidence. Cube-like seeds and soups are memoryless at every size tested up to R = 40 (L1, GP6). So either the
-side-16 cube was lucky (*post hoc*: at about the 1% level by a statistic chosen after its plateaus
-were seen, L3; B (table), the script re-run on the same data), or its own lineage carries something that ensembles of similar
-states do not; the cube's own lineage at R ≥ 42 has not been, and at present cannot be, replicated.
+**An open question, not a finding.** **[measured]** The cube stayed 5.24 × 10⁸ generations at R = 40, which is 7.4
+times the mean of an ensemble that pools fresh soups with copies of the cube (probability 6 × 10⁻⁴ for one
+exponential wait; C5; B), or 6.1 times the fresh-soup mean 8.63 × 10⁷ (probability 0.002). A count over the sixteen
+largest plateaus of cubes 13–16 finds three longer than four means (C6; B for the arithmetic), but that statistic
+was chosen after the side-16 plateaus suggested it; without side 16 it gives P ≈ 0.18, and it is not evidence.
+Cube-like seeds and soups are memoryless at every size tested up to R = 40 (L1, GP6). So either the side-16 cube
+was lucky (*post hoc*: at about the 1% level by a statistic chosen after its plateaus were seen, L3; B (table), the
+script re-run on the same data), or its own lineage carries something that ensembles of similar states do not; the
+cube's own lineage at R ≥ 42 has not been, and at present cannot be, replicated.
 
 **Extrapolations** **[conjecture]**. A side-17 cube's first plateau has mean about 3.2 × 10¹⁰ generations if the
 soup value at A = 828 applies to it (GP2's 24.175; C9's forecast, made before that run, gave 2.6 × 10¹⁰); the cube has not been run. The 2012 run from a side-19 cube, which was
@@ -969,8 +970,9 @@ swing 90° about a shared edge; no period-3 oscillator has union ≤ 12 and the 
 one generation after being alive, and over a period the drive at those cells balances the
 dissipation exactly; this was verified on all 329 catalogued objects of period ≥ 3.
 
-**Long periods are short loops closed by a symmetry.** **[measured]** (Z5; B: all 14 batches re-run by a
-second agent on the producer's own seeds, identical) Soups in small octahedra leave oscillators of periods 1–16, 20, 22, 48 and 66. The longest has a simple anatomy.
+**Long periods are short loops closed by a symmetry.** **[measured]** (Z5; B: all 14 batches re-run by a second
+agent on the producer's own seeds, identical) Soups in small octahedra leave oscillators of periods 1–16, 20, 22,
+48 and 66. The longest has a simple anatomy.
 
 **Twist lemma [proved]** (ledger T7; A). Let B be a closed box (a diagonal hull: a finite non-empty set of
 cells) and F its map on the states x ∈ {0,1}^B. Let G be the group of *lattice symmetries* of B: the maps
@@ -1022,7 +1024,8 @@ a compound of period 52 = 4 × 13 with no cell of period 52 (24 still cells, 4 o
 (295 of 9,278 with L ≥ 3; 30 of 670 with L ≥ 7; 9 of 120 with L ≥ 12; 5 of 66 with L ≥ 16), so the twist
 multiplies ordinary loops rather than selecting long ones; the longest untwisted loop found is C35.29a (L = 35).
 **[measured]** (Z10; B: re-run by a second agent on the producer's seed) P66.27a is reached from 4.1 × 10⁻⁴ of
-the random states of its own box, and single-cell perturbations destroy it more often than not (30% of 6,600 heal). No object found carries or gates a signal.
+the random states of its own box, and single-cell perturbations destroy it more often than not (30% of 6,600
+heal). No object found carries or gates a signal.
 
 Figure 5 (placeholder; does not exist): *P66.27a at phases 0 and 33, layer by layer.* A text rendering is
 produced by `engine/target/release/gump show --cells research/clockwork/views/P66.27a.cells --orbit`.
@@ -1051,28 +1054,28 @@ a memoryless wait with
 
 $$\ln \tau_{\rm edge} = 0.73 + 0.416\,L, \qquad L = 12\text{–}36,$$
 
-τ_edge from 286 to 5.8 × 10⁶ generations. **[proved]** (G2; B for the brute-force checks, re-run by a second
-agent; the proofs, in the study, were re-derived by a second reader by hand in part only) It is confined to its bounding box, three dead rows are a
-firewall, the threshold lemma holds with exceptions exactly at overcrowded cells, and no finite set is sealed.
-*Preliminary* **[measured]** (G3, G4; C): a mirror perpendicular to the edge multiplies the slope by 0.42
-and full square symmetry by 0.50, but a forecast that symmetries fixing no edge cost nothing failed for four-fold
-rotation; no capped-threshold rule on the Moore neighbourhood sustains confined chaos. **[measured]** (SW4; B:
-re-run by a second agent on the same seed sequence) An edge with a two-cell dead notch has slope 0.346 against
-0.412 for the intact edge. The 2D slope is 0.416; twice the 3D periodic-face
-values 0.2072 to 0.2125 (Section 7) is 0.414 to 0.425. Whether this is more than a coincidence is not established,
-and given Section 7 neither number is an asymptotic constant.
+τ_edge from 286 to 5.8 × 10⁶ generations. **[proved]** (G2; B for the brute-force checks, re-run by a second agent;
+the proofs, in the study, were re-derived by a second reader by hand in part only) It is confined to its bounding
+box, three dead rows are a firewall, the threshold lemma holds with exceptions exactly at overcrowded cells, and no
+finite set is sealed. *Preliminary* **[measured]** (G3, G4; C): a mirror perpendicular to the edge multiplies the
+slope by 0.42 and full square symmetry by 0.50, but a forecast that symmetries fixing no edge cost nothing failed
+for four-fold rotation; no capped-threshold rule on the Moore neighbourhood sustains confined chaos. **[measured]**
+(SW4; B: re-run by a second agent on the same seed sequence) An edge with a two-cell dead notch has slope 0.346
+against 0.412 for the intact edge. The 2D slope is 0.416; twice the 3D periodic-face values 0.2072 to 0.2125
+(Section 7) is 0.414 to 0.425. Whether this is more than a coincidence is not established, and given Section 7
+neither number is an asymptotic constant.
 
-**Other lattices.** **[proved]** (ledger K9, the class study; A) Confinement is a property of half-spaces
-(Section 3). **[measured]** (K4; B) On the face-centred cubic lattice with 12 neighbours, B45/S345 has a
-memoryless slab face law with slope 0.181 ± 0.001 per face cell. The variant of the present rule with
-edge-sharing coplanar neighbours is likewise confined (to a box), chaotic, and dies a wall at a time, and is not
-treated here. A study of which capped-threshold rules on which lattices behave this way was reviewed
-adversarially; its theorems stand (K4; B), and its measured regularity is that, given confinement, no finite
-sealed set, no immortal wall and a chaotic bulk, the outer layer dies as a whole after a memoryless wait roughly
-exponential in its area (42 of 50 lattice–cap pairs by a scoring rule fixed in advance). *Preliminary* (C): on a
-honeycomb-based lattice the wall law is concave rather than linear, and on a bond lattice boxes outlive the
-forecast from the slab law by a factor of about 10⁶ because adjacent walls hold each other up along their edges.
-Nothing known predicts which rules are chaotic or how strong the law is.
+**Other lattices.** **[proved]** (ledger K9, the class study; A) Confinement is a property of half-spaces (Section
+3). **[measured]** (K4; B) On the face-centred cubic lattice with 12 neighbours, B45/S345 has a memoryless slab
+face law with slope 0.181 ± 0.001 per face cell. The variant of the present rule with edge-sharing coplanar
+neighbours is likewise confined (to a box), chaotic, and dies a wall at a time, and is not treated here. A study of
+which capped-threshold rules on which lattices behave this way was reviewed adversarially; its theorems stand (K4;
+B), and its measured regularity is that, given confinement, no finite sealed set, no immortal wall and a chaotic
+bulk, the outer layer dies as a whole after a memoryless wait roughly exponential in its area (42 of 50 lattice–cap
+pairs by a scoring rule fixed in advance). *Preliminary* (K7, K8; C): on a honeycomb-based lattice the wall law is
+concave rather than linear, and on a bond lattice boxes outlive the forecast from the slab law by a factor of about
+10⁶ because adjacent walls hold each other up along their edges. Nothing known predicts which rules are chaotic or
+how strong the law is.
 
 Figure: `research/figures/phase_rulemap.png` (the 960-rule survey), `research/figures/toy2d_law.png` (the 2D
 edge law).
@@ -1083,14 +1086,14 @@ edge law).
 
 Theorems 1–6 and Proposition 7 of Section 3; the half-space criterion for confinement; the twist lemma; the
 exhaustive enumerations of Section 8 at the sizes that have been re-run (Z1, the smallest still lifes; Z2, the
-still-life counts for n ≤ 13; Z3, the period-2 classes with unions up to 11); the anatomy of P66.27a; the reduction of a symmetric state to gump on its orbit graph and the
+still-life counts for n ≤ 15; Z3, the period-2 classes with unions up to 13; Z4, no period-4 oscillator with
+union ≤ 10); the anatomy of P66.27a; the reduction of a symmetric state to gump on its orbit graph and the
 list of mirrors inside a face (S5, Section 5.5). None of these says anything about lifetimes beyond the trivial bound that a seed with a hull of N cells is periodic within
 2^N generations, which is exponential in the hull's *volume*.
 
 *Preliminary* (exhaustive computer enumerations graded C: each has a command and has not been re-run): the
-still-life counts for n = 14, 15, 16 (Z2); the period-2 classes with unions 12 and 13, and the statement that
-every period-2 oscillator with union ≤ 11 is a hinge flip (Z3); no period-3 oscillator with union ≤ 12, none of
-period 4 with union ≤ 10, and the smallest period-3 union exactly 13 (Z4).
+still-life count for n = 16 (Z2); the statement that every period-2 oscillator with union ≤ 11 is a hinge flip
+(Z3); no period-3 oscillator with union ≤ 12, and the smallest period-3 union exactly 13 (Z4).
 
 ### 10.2 Proved under a condition
 
@@ -1415,7 +1418,10 @@ far each was read there. No citation has been checked against a library by a per
 ## Appendix: ledger rows not used
 
 Superseded and therefore absent: F7 (an early engine-only slope), S1 (the proportional "effective area" law for
-symmetric faces), the fitted limit of F9 and GP4 (the extrapolated constant 0.2077). Graded C and mentioned only
-as preliminary: P4–P6, F2, F10–F12, S4, Z4, Z5, Z10, the thickness measurements, Q4, G2–G4, X3, SW3, SW4,
-the other-lattice results, and the parts of TH2, TH4, TH5 and ZL2 graded C. Graded B and not used: R6 (the web stepper's tests). Graded C and not mentioned: C7, Z11, L2, L3, the
-remaining other-lattice rows. Rows about the edge-neighbour variant (not this automaton) are outside the paper.
+symmetric faces), the fitted limit of F9 and GP4 (the extrapolated constant 0.2077). Graded C and mentioned only as
+preliminary or with their grade named: F12, S4, Q4, G3, G4, Z13, the other-lattice results (K7, K8), and the parts
+graded C of Z2 (n = 16), Z3 (the hinge flips), Z4 (period 3), Z12 (absence from the census lists), S9, TH2, TH4,
+TH5, X3 (the uncensored value), ZL2 and C4 (the wall-clock time). Graded B and not used: R6 (the web stepper's
+tests), C7, Z11, K2. Graded C and not mentioned: L2, K5 (the remaining other-lattice row), and the parts graded C
+of C2 (the composition of the final state), C8 (the runs; only the pooled value, graded B, is used) and Z10 (the
+phase shifts). Rows about the edge-neighbour variant (not this automaton) are outside the paper.
