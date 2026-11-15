@@ -1,0 +1,54 @@
+{
+ "name": "pulse-B",
+ "kind": "pulse",
+ "v": [
+  1,
+  0,
+  -1
+ ],
+ "bg": [
+  [
+   0,
+   1,
+   2
+  ],
+  [
+   0,
+   1,
+   4
+  ],
+  [
+   1,
+   0,
+   0
+  ],
+  [
+   1,
+   0,
+   2
+  ],
+  [
+   1,
+   0,
+   4
+  ]
+ ],
+ "bg_period": 2,
+ "defect": [
+  [
+   13,
+   0,
+   -12
+  ],
+  [
+   14,
+   2,
+   -11
+  ]
+ ],
+ "p": 2,
+ "s": 1,
+ "cubes": 40,
+ "found": "survey.py 3 3 9 2 1 (background #19)",
+ "note": "2 flipped cells on a period-2 wire of 5 cells per cube (\"wire B\")"
+}

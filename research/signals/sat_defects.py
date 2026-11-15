@@ -24,7 +24,7 @@ def main():
     ap.add_argument('obj'); ap.add_argument('P', type=int); ap.add_argument('S', type=int)
     ap.add_argument('--N', type=int, required=True); ap.add_argument('--lo', type=int, default=-1); ap.add_argument('--hi', type=int, default=7)
     ap.add_argument('--max', type=int, default=200); ap.add_argument('--timeout', type=float, default=600); ap.add_argument('--out')
-    ap.add_argument('--solver', default='cadical153')
+    ap.add_argument('--solver', default='cadical153'); ap.add_argument('--exact', action='store_true', help='S = 0: exact period P (generation d differs from generation 0 for every proper divisor d of P)')
     a = ap.parse_args()
     ob = json.load(open(a.obj)); N, P, S = a.N, a.P, a.S
     K = max(3, abs(S) + 1)
@@ -58,6 +58,14 @@ def main():
         for u in range(K + 1):
             for i in g.grid[u]:
                 f.add(X[t][i] if bgs[t][i] else -X[t][i])
+    if a.exact and S == 0:
+        for d in range(1, P):
+            if P % d == 0:
+                ds = []
+                for i in range(n):
+                    if g.unit[i] > K:
+                        v = f.var(); f.add(-v, X[0][i], X[d][i]); f.add(-v, -X[0][i], -X[d][i]); ds.append(v)
+                f.cl.append(ds)
     first = K + 1 if S >= 0 else N - 1
     f.cl.append([(-X[0][i] if bgs[0][i] else X[0][i]) for i in g.grid[first]])
     base = [g.cells[i] for i in g.grid[0]]
