@@ -114,9 +114,9 @@ _Last updated 2026-11-14 by the lead._
   **Dying faces, round 4: recorded 09:43 UTC** (notebook "a depleted face thins as one thing", CLAIMS DY13 at C,
   153 claims; essay corrected): the lead's two-phase reading failed (F1–F5; no remnant at fixed density; a caught
   face is one loose cluster, 1.15 to 2.4 times the company of a randomly thinned one); the big-face dip job is
-  withdrawn from the card's queue. **Review started 09:50 UTC (Opus)** -> "Round 4" in
+  withdrawn from the card's queue. **Review started 09:46 UTC (Opus)** -> "Round 4" in
   `research/audit/REVIEW-dying.md` and `research/audit/dying4/`; on its report: regrade DY13, corrections to the
-  study's README, the essay if "no remnant" has to be narrowed. Usage reckoned at 09:50 UTC from the 06:15
+  study's README, the essay if "no remnant" has to be narrowed. Usage reckoned at 09:46 UTC from the 06:15
   reading: weekly about 0.50, Fable about 0.64 (no newer reading; the card's branch is still at b843883).
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
