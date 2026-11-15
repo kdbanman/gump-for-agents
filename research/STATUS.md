@@ -104,7 +104,7 @@ _Last updated 2026-11-14 by the lead._
   or entry, 7 from the earlier draft, none unsourced); the six disagreements it traced are applied (notebook entry
   "corrections found while the manuscript draft was brought up to date"; CLAIMS TH7, CN2; ledger 126 rows).
   **The audit of the C-graded ledger rows is done and applied (03:57 UTC, 13f8732):** 28 rows re-run, 26 matched;
-  ledger now A 56, B 66, C 10, D 1; P4 restated (ξ = 0.65 ± 0.03 cube), a sentence of ZL2 corrected; notebook
+  ledger now A 57, B 65, C 10, D 1; P4 restated (ξ = 0.65 ± 0.03 cube; refitted by a second agent, `research/audit/REVIEW-p4.md`), a sentence of ZL2 corrected; notebook
   entry "the audit of the rows nobody had re-run"; the lead's own checks: `research/audit/p4_lead_check.py` and
   Z10's basin count. The overview's counts and "Open now" list are updated and republished (version 10, e126a10).
   **Started 04:02 UTC (Opus), two agents:** (1) an editor bringing `docs/paper/draft.md` in line with the audit's

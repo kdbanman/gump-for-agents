@@ -2117,14 +2117,23 @@ auditor (a second agent, not the producer of any of them) ran what could be run 
   producer's file, exactly the old number, but the form does not fit that far (χ² 53 on 19 with corrected errors;
   59 on 19 on the auditor's snapshots). It fits for k ≤ 2.5 (χ² 8.2 on 15 and 22.8 on 15), where **ξ = 0.638 ±
   0.013 on the producer's 12 snapshots and 0.659 ± 0.014 on the auditor's** (8 of its 12 are new); windows from
-  k ≤ 1.5 to k ≤ 2.5 give 0.61–0.67. Recorded now as **ξ = 0.65 ± 0.03 cube**, S(0) = 3.04–3.18. The error bars of
+  k ≤ 1.5 to k ≤ 2.5 give 0.61–0.69 (the short windows carry errors of 0.035–0.06). Recorded now as **ξ = 0.65 ± 0.03 cube**, S(0) = 3.04–3.18. The error bars of
   `research/phase/sk.py` were too small by √24: it divided the scatter over modes of the snapshot-averaged S by
   modes × snapshots, counting the 12 snapshots twice (the auditor's find), and it counted both members of each
   ±k pair, which are equal for a real field (the lead's addition). With that mended the isotropy statement
   survives, which with the old errors it did not: cones about ⟨100⟩, ⟨110⟩, ⟨111⟩ against the sphere average for
-  k ≤ 1.5 give χ² 6.6, 6.2, 6.7 on 11, 11, 10 bins (producer's snapshots) and 17.8, 5.4, 2.3 (auditor's). `sk.py`
+  k ≤ 1.5 give χ² 5.4, 11.9, 10.9 on 11, 11, 10 bins (producer's snapshots) and 15.5, 12.6, 3.9 (auditor's), every
+  p ≥ 0.16. `sk.py`
   is fixed; files written before the fix are recognised by the check script and rescaled. Not checked: sizes other
   than N = 64; anisotropy at larger k, where the lattice must show.
+- **The restated value was then refitted by a second agent with its own code** (`research/audit/REVIEW-p4.md`,
+  `python3 research/audit/p4_second_fit.py`): every figure above reproduced, with two corrections that are already
+  in the text above. The windows reach 0.69, not 0.67 (first written as 0.61–0.67). The cone comparison first
+  treated cone and sphere as independent (χ² 6.6, 6.2, 6.7 and 17.8, 5.4, 2.3); a cone's modes are a subset of the
+  sphere's, and the figures above use the right variance. Also from that review: the factor √24 is exact for these
+  bins and shows in the data (the difference of the two snapshot sets gives χ² per bin 1.06 with corrected errors,
+  25.4 with the old ones); the second set's fit at k ≤ 2.5 is marginal (p = 0.09); with the old errors the k ≤ 3
+  fit has χ² 1276 on 19, so "0.68 ± 0.01" was never tested against its own fit.
 - **ZL2: a slip of the lead's in the ledger.** "others ≤ 2.1 × 10⁻³" left out slab 4×9×8, whose bound is
   4.2 × 10⁻³ (against a statistical error of 0.042, so no number moves). The README table had it right.
 - **Two commands did not run as written.** `portrait.py OID NS` failed with a NameError (the seed was set only in
@@ -2135,7 +2144,7 @@ auditor (a second agent, not the producer of any of them) ran what could be run 
   more each), K8 (several scripts of unstated length), L2 (re-run only by repeating the lead's own arithmetic), and
   Z13 (the wires, added after the audit began). With a C part: Z2 at n = 16, Z4's period-3 search, TH5's segment
   n = 7 and its percentages, TH2, TH4, C2, C4, C8, Z3's flip property, Z10's phase shifts, Z12, S9, X3's 6.94, ZL2's
-  other runs, and P4's restated centre and error until a second party refits them. (The tally script had read the
+  other runs. (The tally script had read the
   object names C44.26a and C35.29a in the rows Z8 and Z9 as grades; fixed, no best grade changes.)
 - Not checked by the lead beyond P4 and Z10: the other 24 matches are the auditor's alone. No proof was re-read
   in this audit.

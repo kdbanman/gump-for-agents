@@ -83,7 +83,7 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
     and front speeds (P6) are grade B since the audit of 2026-11-15, but only one size (N = 64) was examined:
     P5 and P6 were re-run on the producer's own seeds, which checks code and transcription, not the statistics;
     ξ = 0.65 ± 0.03 rests on the window where the Ornstein–Zernike form fits (k ≤ 2.5 per cube; windows from
-    k ≤ 1.5 to 2.5 give 0.61–0.67), and anisotropy at larger k was not looked at. The {110} front slows (0.165 early, 0.154 over generations 60–110) and nobody has
+    k ≤ 1.5 to 2.5 give 0.61–0.69), and anisotropy at larger k was not looked at. The {110} front slows (0.165 early, 0.154 over generations 60–110) and nobody has
     asked why or where it ends.
 14. **Independence of the faces of one vessel.** τ_face = 8 × (mean first wait) assumes it. The 0.84–0.91 excess
     of octahedral over periodic faces at A = 108 says faces of an octahedron are not simply eight slab faces;
