@@ -321,7 +321,10 @@ the bounds.
   capped objects. Consequences: p< is one unit of B in wire C, and the left-going pulse of wire B is one unit of C in
   wire B; pulses can follow each other at any spacing; a wall B|C is a front that turns wire B into wire C at pulse
   speed (and C|B the reverse); the pair is a shift register of one bit per unit that reads out at one end. By the
-  half-turn the same holds for B and C′ towards +v (not unit-aligned). `python3 tapes.py` (1 s) tests all 120 pairs
+  half-turn the same holds for B and C′ towards +v (not unit-aligned). [measured, `sg.Geom` only] What p> does to
+  the tape is decided unit by unit: meeting a B unit at odd separation it erases that unit and goes on; at even
+  separation it is swallowed and the unit stays (stretches of 1 to 4 units tried). The collision gate is the case
+  of one unit. `python3 tapes.py` (1 s) tests all 120 pairs
   of the 16 unit types in this way: {B, C} is the only pair that moves; four pairs stand still whatever the order
   ({8, b}, {8, e}, {2, e}, {6, a}: binary strings that stay, [measured, `sg.step_set`]).
 - **[proved by the oracle runs] Pulses that reach outside the tube.** Moving one cell of a unit of wire C

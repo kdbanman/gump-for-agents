@@ -122,3 +122,46 @@ directions and passes a pulse from one arm to the other.
   free-standing object holds a circulating pulse).
 - **J10 (60%).** If a reflector is found, the reflected pulse comes back with a delay that depends on the parity of
   the pulse's arrival time or position (as the head-on meeting does), so that only one parity of length oscillates.
+
+### Scored, 2026-11-15 10:35 UTC (second push; evidence in `README.md` sections 8 to 13)
+
+The lead's:
+
+- **S6 (45%): held, with the object not the one named.** A free-standing object whose period is set by its length
+  exists and is on the oracle: the clock, period 4N + 2, proved for every N (`prove_clock.py`). What goes back and
+  forth in it is a rake (one added cell that travels and emits pulses), not a pulse. A plain pulse comes back from
+  an end of wire C only once, the cap being changed by it; no corner was found or searched for.
+- **S7 (25%): held to the letter, not in the sense a circuit needs.** Two pulses of wire C meeting head-on: exactly
+  one goes on, which one by parity, so the pulse leaving on one line is (R and not L). The outputs leave along the
+  input lines; there is no third line, no crossing.
+- **S8 (35%): failed.** No standing defect with two states that a pulse flips: not among 4,192 caps of wire B
+  (complete inside the bounds), nor the family's walls. What exists is a register moved one way by pulses from
+  one side and back by pulses from the other.
+- **S9 (30%): held.** Wires B and C, and a third carrier, are born from soup: 279 of 100,000 soups.
+- **S10 (60%): held.** Where chaos touches a wire the wire is destroyed, in every one of 800 sides and 80 capped
+  ends tried, at pulse speed. One qualification: in wire C a clean pulse does leave the chaos ahead of the fire on
+  about one side in 12. The direction wire-to-chaos was not tested: nothing survives to send or to read.
+
+Mine:
+
+- **J1 (85%): held.** 4,192 caps of wire B inside the planes up to C = 33.
+- **J2 (35%): failed as written.** No cap or wall sends pulse after pulse back; reflections of a pulse are one-shot.
+  The thing that is reflected for ever is the rake.
+- **J3 (30%): held**, and for every length, with a proof.
+- **J4 (12%): not found, not searched.**
+- **J5 (30%): failed.** And the constraint search for the pair of states was not run; the census of caps was.
+- **J6 (15%): held in the sense of S7** (a collision gate; and the rake as a source of pulses, which is not a
+  duplicator of an incoming pulse).
+- **J7 (40%; 50% for wire B itself): held, both.**
+- **J8 (65%; 40% for a clean pulse B leaving the chaos): the first held** (wire B burned on 400 of 400 sides);
+  **the second failed for wire B** (0 of 400) and would have held for wire C (33 of 400).
+- **J9 (15%): failed.** Negatives are exhaustive only inside bounds; nothing general was proved against reflectors.
+  (The exact isolation of section 13 is T3, which was already on file.)
+- **J10 (60%): failed.** Every length oscillates. Parity shows elsewhere: every period is 2 mod 4, and which of two
+  meeting objects survives is a matter of parity.
+
+What I got wrong in kind: I expected the pieces of machinery to be a pulse and a cap that handles it. The pieces
+turned out to be a rake (one cell that travels and keeps emitting) and a tape (wires B and C are two letters, and
+every word in them travels). Both were sitting in data I already had; I saw the rake only when a cap sent one back,
+and the tape only when a control run without chaos cut a wire. And the two pulses that reach outside the tube were
+found by the chaos, not by me: the closed 3 x 3 tube was too tight a place to search.
