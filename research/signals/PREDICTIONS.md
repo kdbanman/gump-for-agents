@@ -450,3 +450,26 @@ of every end for three of the eight words agrees), S26 held. Over five pushes: 2
 form, 13 failed. This time the two that held were the two I thought likeliest, and the size of the forecasts was
 about right; what I did not foresee is how clean the split is. I had expected a few ends that change, move or half
 heal, and there are none among 741: every end either forgets every word or is destroyed by every word.
+
+## Sixth push (the echo): the lead's forecasts, 2026-11-15 19:59 UTC, written before it starts
+
+The review of the fifth push found that the line's receiving cap with a catalogue oscillator beside it answers a
+hole with a three-cell signal sent back up the stream, through the oncoming rakes, the end restored (my own oracle
+check: `research/audit/signals_echo_lead_check.py`). It kills the gun when it arrives. So the stream now carries
+signals both ways. The sixth push asks what the echo is, what happens when it meets a hole, and whether any gun
+survives it.
+
+- **S27 (85%).** The echo rides the plain rake stream for ever: shown for every distance by an argument or an exact
+  periodic computation, not only for the 18 generations seen.
+- **S28.** An echo meeting a hole head-on, over every relative phase that exists: they pass through each other
+  unchanged at every phase (35%); the stream breaks at some phase (30%); they cancel cleanly at some phase and the
+  stream is left plain (15%); some other clean outcome at some phase, both or one changed in kind (20%). (The four
+  are scored on the most interesting outcome that occurs at any phase, in the order: other clean, cancel, break,
+  pass.)
+- **S29 (25%).** A gun that survives the echo is found and passes the oracle (it absorbs the echo or returns
+  something, and goes on firing).
+- **S30 (8%).** A closed loop: one signal goes round between a gun end and the reflector at least three times,
+  both ends restored each time.
+- **S31 (30%).** A reflector simpler than the cap with an 18- or 20-cell oscillator beside it is found.
+- **S32 (12%).** A listener: a standing object that an echo, or the meeting of an echo and a hole, leaves alive in
+  a different lasting state.
