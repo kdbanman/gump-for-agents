@@ -211,3 +211,10 @@ constant), "Open now", corrections, forecasts, audits, milestones. All drawn by 
   (all corrected by the review).
 - Screenshots: `research/scratch/overview/r17-*.png` (script `shoot-r17.js` there: `node shoot-r17.js ids modes`).
 
+- Correction pass after the second signals review (NB "the second signals push reviewed…", SG5–SG10 regraded): new items in
+  `update-2026-11-15d.json` (`clock_proof`, `clock_review`, `tape`, `counter`, `soup2`, `soup_read`, `chaos2`, `speed`, `gap`,
+  `escape2`), two corrections, an audit and a milestone; the old "under review" quote of SG8 is dropped.
+- Signals tiles now say: three empty layers isolate order (T3; two only for the tested capped end); a random unit repeated makes
+  a carrier about once in a few hundred, soup proper never yet; destroyed every time over about 2,300 sides, one exception;
+  escapes 5 of 200 (reviewer) and 15 of 200 (first agent); the counter has sixteen positions. Header chips and "Open now" say
+  both reviews are done; the clock's and the tape's proofs are "checked". Screenshots: `research/scratch/overview/r18-*.png`.
