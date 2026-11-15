@@ -193,8 +193,8 @@ I had also written here that wires are born from random soup, and that two empty
 are enough to keep a wire safe. A reviewer took both apart the same day. Two layers protect
 only the capped end the first agent happened to test; a wire running past chaos two layers
 off is hit at once. And the soups that made wires were nearly all one random unit repeated
-along the tube, which is choosing a wire at random, not growing one. From soup with no
-repeat in it, none came in sixty thousand tries.
+along the tube, which is choosing a wire at random, not growing one. From soups three to
+six units long, none came in sixty thousand tries.
 
 The clock's proof survived the same reviewer, who rebuilt it and ran the clock at 257 units
 on the reference stepper. The gate I checked myself. The counter turns out to hold sixteen

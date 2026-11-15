@@ -92,7 +92,7 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     **Second push, 2026-11-15** (CLAIMS SG5–SG10; notebook "a clock of every length"; review in
     `research/audit/REVIEW-signals-2.md` when done): a bounded track exists (the clock; what shuttles is a rake);
     a collision gate with outputs along the input lines; a register moved by pulses from either side; wires B and
-    C arise from one random unit repeated (not from soup with no repeat); chaos destroys any wire it touches, and
+    C arise from one random unit repeated (not from soups three to six units long, 60,000 tried); chaos destroys any wire it touches, and
     the isolating gap is three empty layers (T3; the review corrected "two"). Reviewed: `research/audit/REVIEW-signals-2.md`. Still open:
     a corner or a crossing (nothing found, nothing searched outside one wire direction), a reusable reflector for a
     pulse (none inside the searched bounds), a receiver that toggles, a gate with its own output line, and with
