@@ -26,6 +26,57 @@ end of run. Estimator: per-face τ = faces × exposure / deaths over ages ≥ T0
 | 5. exact M(1): ring of 5, segments | **stands** | 3.967199; 2.453108 (n = 2), 4.192750 (n = 5) | 3.967199; 2.453108; 4.192750 |
 | 7. forecasts before runs; scoring | **stands with corrections** | | see below |
 
+## Claim 1: ring lifetimes
+
+Tags r16, r24, r26, r28, r30, r32 (`python3 research/audit/thin/tt.py stats 'r*'`). Each is 4–6 chunks of 2,048 lanes. The
+estimator is plain faces × exposure / deaths over ages ≥ 256, with no age cut. The hazard is flat across age classes in
+every tag, and the chunk χ² is normal.
+
+| b (A) | review | line | census |
+|---|---|---|---|
+| 16 (48) | 8.6449(12) | 8.6470(16) | 8.6426(20) |
+| 24 (72) | 11.3494(19) | 11.3448(63) | 11.3481(40) |
+| 26 (78) | 11.9941(20) | — | |
+| 28 (84) | 12.6465(25) | 12.6482(83) | |
+| 30 (90) | 13.2865(28) | — | |
+| 32 (96) | PENDING | 13.9233(139) | |
+
+Local slopes per cell, review against line:
+
+| A | review | line |
+|---|---|---|
+| 72 → 78 | 0.1075(5) | |
+| 78 → 84 | 0.1087(5) | |
+| 84 → 90 | 0.1067(6) | |
+| 72 → 84 | 0.1081(3) | 0.1086(9) |
+| 78 → 90 | 0.1077(3) | |
+
+**Censoring and lives that stop dying.** `python3 research/audit/thin/tailcheck.py` reads the line's raw chunk files.
+For each tag it compares the deaths observed in the old-age tail (> 4 and > 8 mean lane-lives) with those a flat hazard
+predicts. The output is in `tailcheck_out.txt`.
+- No tag in use for the ring or segment lifetimes (det_b*, seg_det_n13 … n45) has excess exposure in the tail.
+- Two model tags do, which is the signature of undetected stuck lives:
+  - mod_b16_w6: ages > 11 lives, 1 death against 29.5 expected; exposure out to 23 lives.
+  - seg_m5_n13: ages > 9.8 lives, 74 against 202; exposure out to 20 lives.
+- Both stay inside the line's cut, because the cut is at the first power of two above 30 τ, so they enter the quoted
+  values. Their size is small: about 2 × 10⁻⁴ and 1.4 × 10⁻⁴ in ln τ, far below the quoted errors.
+- **The 30-mean-lives rule is not the protection the write-up suggests.** Chunks are 5–10 lane-lives long (det_b36:
+  2 × 10⁷ generations, about 5τ), so no age ever reaches 30τ, and the rule could not have caught a stuck life in a
+  large tag. What protects the deterministic tags is the any-period repetition test, which is airtight for a
+  deterministic finite state. The tail test confirms there is no excess.
+- **Bias of the rule itself:** for a flat hazard, truncating at an age the chaotic state does not reach (survival
+  e^-30) changes neither deaths nor exposure, so it cannot bias ln τ.
+- The README's claim (ii) ("none in any tag in use") is true of exposure *beyond the cut*. It is not true of stuck
+  exposure below it, as the two model tags show. The wording should say so.
+- Small segments (n ≤ 9): with the firewall looked for only every 840 generations, most firewalls in lives of about
+  100 generations are never seen. The isolated face then dies, and its death is counted. My stepper looks every 16
+  generations and finds a firewall in 22% of the ends at n = 7 (a 200k-generation test, not kept). The line's
+  "deterministic values at n ≤ 6 are rough" understates this. It does not touch n ≥ 13.
+
+**Old firewall rule (det_b16, det_b20).** The review's r16 uses the three-dead-layer rule, checked every 16 generations.
+It agrees with det_b16 within 1.0σ (−0.0021(20)), so the old rule does not matter at b = 16, where firewalls are
+commonest. b = 20 was not rerun, but its effect can only be smaller there (4 firewalls per 75k deaths).
+
 ## Claim 2: segments
 
 **Construction.** The face cells of sites 0–2 are held dead on both faces, at the same sites. Site s = {Z_s, Y_s,
