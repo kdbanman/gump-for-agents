@@ -108,12 +108,12 @@ the infinite tube: one pulse, the same background on both sides. Every pulse abo
   list was cut at 30, not exhausted). All 30 have period 2, 4 to 6 cells per cube. Each was tested in the wide tube:
   one-cell flips, the pulse alone for a lap, and the pulse against its mirror image where the wire has a reversing
   symmetry. Most wires are fuses for most flips and catch fire when two pulses meet (wire A: 58 of 88 flips start
-  fronts at the pulse's own speed; pulse against pulse, and pulse against any of 120 standing defects, sets it
+  fronts at the pulse's own speed; pulse against pulse, and pulse against each of 60 standing defects at two distances, sets it
   alight). **Wire B is the robust one: of its 84 one-cell flips 74 heal, 2 leave a standing one-cell defect, 2 emit
   a single pulse (one each way) and 6 start fronts.**
 - **[proved, exhaustive SAT]** defects of wire B inside the 3 × 3 tube (`python3 sat_defects.py objects/pulse-B.json
   P S --N n --lo 1 --hi 5`): right-moving (2,1) defects fitting in 5 cubes: exactly 17 (pulse B, other pulses and
-  trains; not sorted). Standing defects of period 2 in 4 cubes: at least 150 (cut off). Standing clocks of exact
+  trains; not sorted). Standing defects of period 2 in 4 cubes: more than 1,000 (the list was cut there). Standing clocks of exact
   period 4 in 4 cubes (`--exact`): exactly 28. Wire A: exactly 6 right-movers in 5 cubes; none with (p, s) = (4,1),
   (4,3), (6,1) in 5 cubes.
 - **[measured] What a train of pulses does to a standing defect of wire B** (`python3 sat_defects.py
