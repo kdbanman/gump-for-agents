@@ -76,4 +76,12 @@ What speaks to it (the lead, same day):
   anything to depend on, which is the quantitative face of "it didn't care whether it was the rule underneath or
   noise". Life's debris is the opposite: sparse, ordered, far from noise. (One-sided: the measurement bounds the
   structure from below; there could be more at ranges the estimator does not reach.)
+- **A correction to the entry of 10:30 above (11:26 UTC; notebook entry "the second signals push reviewed").** Two
+  things in it were too strong. The gap that keeps order safe from chaos is three empty layers, not two (that is
+  the theorem T3 we already had; two layers protect only the capped end the first agent happened to test, and a
+  wire running past chaos two layers off is hit at once). And the fire runs at the speed of a pulse only in dense
+  chaos; in thin chaos it is often half that. What stands: contact destroys the wire (about 2,300 trials by two
+  agents, one exception), the clock (its proof was rebuilt by the reviewer and the clock run at 257 units), the
+  gate, and the counter, which holds sixteen positions. The clean pulse that escapes ahead of the fire is rarer
+  than I said: a few times in a hundred.
 

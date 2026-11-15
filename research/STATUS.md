@@ -160,6 +160,12 @@ _Last updated 2026-11-14 by the lead._
   with the withdrawn sentence shown; the five wrapped faces from the owner's card on "One price per cell?"; map
   and "Open now" rewritten. The lead rebuilt it, ran both checks, loaded it headless (no script errors) and read
   four of the new plates before publishing; two captions corrected.
+  **Second signals review in and recorded 11:26 UTC** (notebook "the second signals push reviewed"; SG5–SG7 to A,
+  SG8–SG10 to B with corrected wording; 164 claims: A 78, B 75, C 10, D 1): the clock's and the tape's proofs are
+  complete (clock on the oracle to N = 257); the register is a 16-position counter; **corrected: the isolating gap
+  is three layers (T3), not two; "born from soup" was nearly all one-unit rings; the fire's speed depends on
+  density.** Essay, owner's journal, OPEN-PROBLEMS corrected; the overview's Signals plate is being corrected by
+  its editor, then republished; six README corrections go to the third investigator.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

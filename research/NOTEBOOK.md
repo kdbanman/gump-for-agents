@@ -2710,6 +2710,10 @@ account; forecasts before any enumeration in `PREDICTIONS.md`; figure `research/
 
 ## 2026-11-15: a clock of every length, a gate, a register, a tape; and what chaos does to a wire (second signals push; the lead's own checks; review started)
 
+**Reviewed the same day (entry "the second signals push reviewed" below): the clock, the rake and the tape stand
+and both proofs are complete; three statements here are corrected there ("two empty layers isolate a wire", wires
+"born from soup", and "at pulse speed").**
+
 `research/signals/README.md` sections 8–14 (the second investigator; forecasts J1–J10 and the lead's S6–S10 scored
 at the end of `research/signals/PREDICTIONS.md`). The lead re-ran every oracle-judged verifier (all pass, 10:27
 UTC) and checked four things from `reference/oracle.py` alone with separate code.
@@ -2853,3 +2857,51 @@ except to probe its SAT encoding; code in `research/audit/signals/`, outputs in 
   at the end of the review; the third investigator applies them.
 - Not checked by the reviewer: fronts of wires other than W00, W05, W18; the 1,000-defect receiver census; wire
   A's flips and collisions; 3 × 3 by the independent method; no UNSAT certificates.
+
+## 2026-11-15: the second signals push reviewed: both proofs are complete; the isolating gap is three layers, not two; "born from soup" was nearly all one-unit rings
+
+`research/audit/REVIEW-signals-2.md` (own stepper `gs.py`, equal to `oracle.step` cell for cell; only the test of
+the study's SAT encoding imports study code; code in `research/audit/signals2/`).
+
+- **The clock stands and its proof is complete [proved; checked by a second agent; oracle at 24 lengths over
+  three codes].** The light cone used is right (a cell reaches its own unit and the next, or one unit either
+  side); the junctions between the base cycle and the inserted units are covered at every phase by the base's
+  checks B3 and B4, the least period by B5. The reviewer redid the enumeration with its own code for up to 150
+  inserted units, recomputed B1–B5 on an oracle base and stepped assembled orbits. On the oracle at 14 lengths
+  from N = 1 to 257 the period is exactly 4N + 2, the unlit object has period 2 and nothing is ever alive outside
+  the hull; with its stepper the same for every N from 1 to 400. Measured, not proved: the transient from the one
+  added cell is exactly max(N − 2, 0) generations; about two cells per unit will light it; other single cells give
+  healing, still lifes and small periods (3–6, 12).
+- **The rake stands [oracle, two codes].** Also the mirror rake against a pulse (the study had it on its own stepper
+  only). Rake against mirror rake: one survives by parity and a two-unit mark travels on with its train.
+- **The tape stands and its proof is complete [proved; 36 more words on the oracle].** A window of five units is
+  enough for one double step, and the ring does contain all 32 windows. Random words on rings of 6–41 units, a
+  single C in B, a single B in C, long runs: all move rigidly.
+- **The register is a bounded counter [oracle, two codes].** Sixteen positions (wall at −2 to 13); it breaks when
+  the wall reaches the write site or the erase site, so the caps are never reached. It tolerates a pulse arriving
+  while the wall is still moving (1–31 generations apart), but two writes 2 generations apart fail.
+- **Correction 1: the isolating gap.** "Two empty layers isolate a wire from chaos for ever" is true only for the
+  capped end of wire C in the geometry the study ran (the reviewer recounted that case and its argument holds).
+  For a wire running past chaos, two empty layers are not enough: the wire is hit at generation 2 in 20 of 20
+  soups. With three empty layers it is never touched (0 of 20), which is T3. **The hard edge between chaos and
+  order is three layers.**
+- **Correction 2: "born from soup".** The counts reproduce on other seeds (12,789 uniform wires, 368 distinct, 10
+  carriers from 305 soups), but 284 of the 305 carrier soups were on rings of one unit, where the "soup" is one
+  unit's 14 random cells repeated, 21 on rings of two units, and none in 60,000 soups on rings of 3, 4 or 6 units.
+  So a random *unit* repeated along the tube is a pulse-carrying wire about once in a few hundred; nothing shows
+  that soup with no repeat makes one.
+- **Correction 3: speed and escapes.** "Destroyed every time" holds over about 1,500 more sides (one exception: one
+  side of a 71-cell block, bare again at the end). "At pulse speed" holds for wire B at every density tried, and
+  for wire C only at density 0.4: at 0.1–0.2, 44 to 77 sides in 100 burn at half that speed. Clean pulses ahead of
+  the fire: 5 of 200 sides of wire C by the reviewer's criterion (the study 15 of 200), and one on wire B.
+- **The negatives stand inside their bounds [SAT and brute force].** Brute force gives the same caps, cell for
+  cell, as the SAT census at the two smallest planes; a second solver reproduces the reflector UNSATs; odd delays,
+  which the study had not searched, are UNSAT too. Not excluded: caps of period above 2, caps outside the 3 × 3
+  tube, a reflector whose cap is still settling when the pulse returns.
+- **Wording.** "Register" is a counter; "gate" is an inhibition element whose outputs leave along its input
+  lines; "answers open problem 12" is fair (unbounded periods, every period 2 mod 4).
+- **The lead's S9 re-scored:** held only in the weak sense above (a repeated random unit), not for soup proper.
+- Ledger: SG5 to A, SG6 and SG7 to A, SG8 and SG9 to B with their wording corrected, SG10 to B. Six corrections
+  for the README go to the third investigator.
+- Not checked by the reviewer: the gate (the lead did); the wide pulses; the scattering tables at the larger
+  planes; `walls.py`, the static pairs, `caps_any.py`; the reflector search at plane 37.

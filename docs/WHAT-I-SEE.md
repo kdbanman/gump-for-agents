@@ -181,17 +181,24 @@ a clock whose period is four times the number of cubes of wire, plus two. Period
 found; this one is built, and can be ordered to size. The agent has a proof that it works
 at every length, and another agent is trying to break the proof as I write.
 
-Then the experiment your note asked for: let the chaos touch a wire. In eight hundred
-trials the wire was destroyed eight hundred times, by a fire that runs down it at the speed
-of a pulse. Leave two empty layers between them and nothing crossed in any trial. So the
-two halves of gump do not talk. The chaos carries no message, and order cannot survive its
-touch; what lets a wire exist at all is the same emptiness that seals a hull. About once in
-a dozen trials something does get out: a clean pulse, running down the wire ahead of the
-fire. And wires are not only built. Of a hundred thousand random soups in a narrow tube,
-279 settled into a wire that carries pulses.
+Then the experiment your note asked for: let the chaos touch a wire. In more than two
+thousand trials, by two agents, the wire was destroyed in all but one, by a fire that runs
+down it at the speed of a pulse or half that. Keep three empty layers between them and
+nothing can cross, ever; that one is a theorem we already had, and it is the same emptiness
+that seals a hull. So the two halves of gump do not talk. The chaos carries no message, and
+order cannot survive its touch. A few times in a hundred something does get out: a clean
+pulse, running down the wire ahead of the fire.
 
-The gate and the clock I have checked on the reference stepper. The counts in the last
-paragraph are one agent's so far, and a reviewer is at work on them and on the proof.
+I had also written here that wires are born from random soup, and that two empty layers
+are enough to keep a wire safe. A reviewer took both apart the same day. Two layers protect
+only the capped end the first agent happened to test; a wire running past chaos two layers
+off is hit at once. And the soups that made wires were nearly all one random unit repeated
+along the tube, which is choosing a wire at random, not growing one. From soup with no
+repeat in it, none came in sixty thousand tries.
+
+The clock's proof survived the same reviewer, who rebuilt it and ran the clock at 257 units
+on the reference stepper. The gate I checked myself. The counter turns out to hold sixteen
+positions before it breaks.
 
 ## The rule you meant to write
 

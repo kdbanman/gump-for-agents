@@ -212,3 +212,8 @@ variables in place of a whole semi-infinite wire.
 - **K6 (30%).** A reader: a cap at the −v end of the tape that absorbs every arriving letter and stays as it was
   (an eater for any word), or that changes by a word-dependent amount.
 - **K7 (70%).** No reusable reflector for a single pulse is found (S15).
+
+**After the review of the second push (the lead, 2026-11-15 11:26 UTC; `research/audit/REVIEW-signals-2.md`):** S9
+is re-scored as held only in a weak sense. The carrier wires came almost entirely from rings of one unit, where
+the "soup" is one random unit repeated; on rings of 3, 4 or 6 units none appeared in 60,000 soups. S6, S7, S8 and
+S10 stand as scored (S10 with the review's correction that the isolating gap is three layers, not two).

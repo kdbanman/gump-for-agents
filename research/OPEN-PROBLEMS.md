@@ -77,7 +77,7 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
 ## Fauna
 
 12. **Periods beyond 66.** A loop of thirty-odd steps in a 4- or 6-fold box would give 120–200. Nothing forbids it.
-    **Answered, 2026-11-15 (proof under review): periods are unbounded.** A wire between two caps with one extra
+    **Answered, 2026-11-15 (proof checked by a second agent): periods are unbounded.** A wire between two caps with one extra
     cell is a free-standing oscillator of period 4N + 2 for N units of wire, so every period 6, 10, 14, … occurs
     (`research/signals/README.md` §11; CLAIMS SG5; checked on the oracle at ten lengths by two codes). Still open:
     any period 0 mod 4 above the ones in the fauna, and any odd period above those.
@@ -92,7 +92,8 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     **Second push, 2026-11-15** (CLAIMS SG5–SG10; notebook "a clock of every length"; review in
     `research/audit/REVIEW-signals-2.md` when done): a bounded track exists (the clock; what shuttles is a rake);
     a collision gate with outputs along the input lines; a register moved by pulses from either side; wires B and
-    C are born from soup; chaos destroys any wire it touches and two empty layers isolate one for ever. Still open:
+    C arise from one random unit repeated (not from soup with no repeat); chaos destroys any wire it touches, and
+    the isolating gap is three empty layers (T3; the review corrected "two"). Reviewed: `research/audit/REVIEW-signals-2.md`. Still open:
     a corner or a crossing (nothing found, nothing searched outside one wire direction), a reusable reflector for a
     pulse (none inside the searched bounds), a receiver that toggles, a gate with its own output line, and with
     them whether gump can compute.
