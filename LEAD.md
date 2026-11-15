@@ -249,6 +249,13 @@ let CI pass, merge.
   agent once the estimate for weekly or Fable passes 0.70, and stop running agents at 0.80. If `get_session` ever
   shows a `rate_limit_info.status` other than "allowed", stop all agents and tell the owner. Ask the owner for the
   three figures whenever they write (their screen shows them).
+- **Timers no longer deliver either.** The check-in set with `send_later` for 02:23 UTC on 2026-11-15 fired and
+  failed with `ACCESS_DENIED` (seen with `list_triggers`, which still works; ask it for one row, its output is
+  long). So since the trust change nothing wakes the lead except a subagent's report, a message from another
+  session, or the owner. Consequences: do not plan on a timed check; at every wake-up write the usage estimate and
+  what is running into the scratchpad; never leave agents running with nothing due to report after them unless the
+  estimate leaves room for them to finish unwatched; and keep one long-running agent's report as the next
+  wake-up when work should continue.
 - Context: `mcp__claude-code-remote__get_session` with no id shows `external_metadata.context_usage`
   (`used_tokens` of `max_tokens`) and the auto-compaction threshold.
 
