@@ -368,7 +368,8 @@ out["signals"] = {
                 "gate": {k: gt[k] for k in ("v", "bg", "right", "left", "T")}},
     "lead_periods": qv("signals", "clock_lead"), "study_N": qv("signals", "clock_study"), "gate_T": qv("signals", "gate_lead")[0],
     "soup": qv("signals", "soup"), "chaos": qv("signals", "chaos"), "isolate": qv("signals", "isolate"), "escape": qv("signals", "escape"),
-    "transmission": qv("signals", "transmission")[0], "capacity": qv("signals", "capacity"), "open600": qv("signals", "open600")[0]}
+    "transmission": qv("signals", "transmission")[0], "capacity": qv("signals", "capacity"), "open600": qv("signals", "open600")[0],
+    "clock_review": qv("signals", "clock_review"), "soup2": qv("signals", "soup2"), "chaos2": qv("signals", "chaos2")[0], "speed": qv("signals", "speed"), "gap": qv("signals", "gap"), "escape2": qv("signals", "escape2")}
 assert out["signals"]["lead_periods"] == [4 * n + 2 for n in (1, 2, 3, 4, 7, 12)]
 # state space: quoted numbers, and the study's own tables (research/statespace/data)
 sd = repo / "research" / "statespace" / "data"

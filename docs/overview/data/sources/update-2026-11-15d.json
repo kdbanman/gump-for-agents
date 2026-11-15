@@ -47,13 +47,6 @@
    "quote": "`verify_clock.py` at N = 1, 5, 16, 17, 30 on the oracle, N = 1..200 with its own stepper",
    "src": "NB 2026-11-15, a clock of every length"
   },
-  "clock_proof": {
-   "words": [
-    "claimed proved for every length, proof under review"
-   ],
-   "quote": "oracle-verified at ten lengths by two codes; claimed proved for every length, proof under review",
-   "src": "NB 2026-11-15, a clock of every length; CLAIMS SG5 (C for every N)"
-  },
   "mod4": {
    "words": [
     "no period 0 mod 4 was found in the family and no reason is known"
@@ -128,13 +121,6 @@
    "quote": "On 33 of 400 sides of wire C (none of wire B) a clean pulse left the chaos ahead of the fire",
    "src": "NB 2026-11-15, a clock of every length; CLAIMS SG9 (C)"
   },
-  "grade_counts": {
-   "words": [
-    "C (producer's stepper; review running)"
-   ],
-   "quote": "`python3 research/signals/soupwires.py 20000` | C (producer's stepper; review running)",
-   "src": "CLAIMS SG8"
-  },
   "missing": {
    "words": [
     "no corner, no crossing, no gate with an output line of its own"
@@ -178,6 +164,91 @@
    ],
    "quote": "**The parity rule stands and is the whole rule [measured, two codes].**",
    "src": "NB 2026-11-15, the first signals push reviewed; CLAIMS SG3 (A)"
+  },
+  "clock_proof": {
+   "words": [
+    "The clock stands and its proof is complete"
+   ],
+   "quote": "**The clock stands and its proof is complete [proved; checked by a second agent; oracle at 24 lengths over three codes].**",
+   "src": "NB 2026-11-15, the second signals push reviewed; CLAIMS SG5 (A)"
+  },
+  "clock_review": {
+   "value": [
+    14,
+    257,
+    400
+   ],
+   "quote": "On the oracle at 14 lengths from N = 1 to 257 the period is exactly 4N + 2, the unlit object has period 2 and nothing is ever alive outside the hull; with its stepper the same for every N from 1 to 400.",
+   "src": "NB 2026-11-15, the second signals push reviewed"
+  },
+  "tape": {
+   "words": [
+    "The tape stands and its proof is complete"
+   ],
+   "quote": "**The tape stands and its proof is complete [proved; 36 more words on the oracle].**",
+   "src": "NB 2026-11-15, the second signals push reviewed; CLAIMS SG7 (A)"
+  },
+  "counter": {
+   "words": [
+    "Sixteen positions",
+    "it breaks when the wall reaches the write site or the erase site"
+   ],
+   "quote": "Sixteen positions (wall at −2 to 13); it breaks when the wall reaches the write site or the erase site",
+   "src": "NB 2026-11-15, the second signals push reviewed; CLAIMS SG7 (A)"
+  },
+  "soup2": {
+   "value": [
+    284,
+    305,
+    14,
+    21,
+    60000
+   ],
+   "quote": "284 of the 305 carrier soups were on rings of one unit, where the \"soup\" is one unit's 14 random cells repeated, 21 on rings of two units, and none in 60,000 soups on rings of 3, 4 or 6 units.",
+   "src": "NB 2026-11-15, the second signals push reviewed (correction 2); CLAIMS SG8 (B)"
+  },
+  "soup_read": {
+   "words": [
+    "about once in a few hundred",
+    "nothing shows that soup with no repeat makes one"
+   ],
+   "quote": "So a random *unit* repeated along the tube is a pulse-carrying wire about once in a few hundred; nothing shows that soup with no repeat makes one.",
+   "src": "NB 2026-11-15, the second signals push reviewed"
+  },
+  "chaos2": {
+   "value": [
+    1500
+   ],
+   "quote": "\"Destroyed every time\" holds over about 1,500 more sides (one exception",
+   "src": "NB 2026-11-15, the second signals push reviewed (correction 3); CLAIMS SG9 (B)"
+  },
+  "speed": {
+   "value": [
+    0.4,
+    44,
+    77,
+    100
+   ],
+   "quote": "\"At pulse speed\" holds for wire B at every density tried, and for wire C only at density 0.4: at 0.1–0.2, 44 to 77 sides in 100 burn at half that speed.",
+   "src": "NB 2026-11-15, the second signals push reviewed"
+  },
+  "gap": {
+   "value": [
+    2,
+    20,
+    0
+   ],
+   "quote": "For a wire running past chaos, two empty layers are not enough: the wire is hit at generation 2 in 20 of 20 soups. With three empty layers it is never touched (0 of 20), which is T3.",
+   "src": "NB 2026-11-15, the second signals push reviewed (correction 1); CLAIMS SG9 (B)"
+  },
+  "escape2": {
+   "value": [
+    5,
+    200,
+    15
+   ],
+   "quote": "5 of 200 sides of wire C by the reviewer's criterion (the study 15 of 200), and one on wire B",
+   "src": "NB 2026-11-15, the second signals push reviewed"
   }
  },
  "statespace": {
@@ -755,6 +826,28 @@
    ],
    "quote": "\"Fronts in 17 of 21 wires\" counted duplicates: 14 of 18 distinct wires.",
    "src": "NB 2026-11-15, the first signals push reviewed"
+  },
+  {
+   "said": "Two empty layers isolate a wire from chaos for ever",
+   "now": "Only for the capped end that was tested; a wire running past chaos with two empty layers is hit at generation 2 in 20 of 20 soups. The isolating gap is three layers (T3)",
+   "by": "a reviewer, with its own stepper (REVIEW-signals-2)",
+   "line": "signals",
+   "words": [
+    "is true only for the capped end of wire C"
+   ],
+   "quote": "\"Two empty layers isolate a wire from chaos for ever\" is true only for the capped end of wire C in the geometry the study ran",
+   "src": "NB 2026-11-15, the second signals push reviewed"
+  },
+  {
+   "said": "Pulse-carrying wires are born from random soup (279 of 100,000 soups)",
+   "now": "Almost all on rings of one unit, a random unit repeated; none in 60,000 soups on rings of 3, 4 or 6 units",
+   "by": "a reviewer, with its own stepper (REVIEW-signals-2)",
+   "line": "signals",
+   "words": [
+    "none in 60,000 soups"
+   ],
+   "quote": "none in 60,000 soups on rings of 3, 4 or 6 units",
+   "src": "NB 2026-11-15, the second signals push reviewed"
   }
  ],
  "audits": [
@@ -777,6 +870,11 @@
    "label": "Adversarial review of the first signals push",
    "line": "Own sparse stepper and an independent search: pulses, the transmission and the parity rule stand on three codes; the line has a capacity of d − 1 pulses.",
    "file": "research/audit/REVIEW-signals.md"
+  },
+  {
+   "label": "Adversarial review of the second signals push",
+   "line": "Own stepper equal to the oracle: both proofs complete; the isolating gap is three layers, not two; the soup-born carriers were one-unit rings.",
+   "file": "research/audit/REVIEW-signals-2.md"
   }
  ],
  "milestones": [
@@ -809,6 +907,11 @@
    "date": "2026-11-15T10:30Z",
    "text": "A clock of every length, a gate, a register",
    "src": "git f4d6570"
+  },
+  {
+   "date": "2026-11-15T11:39Z",
+   "text": "The second signals push reviewed: the clock's and the tape's proofs complete",
+   "src": "git 95deb37"
   }
  ],
  "forecasts": [
