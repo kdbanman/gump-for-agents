@@ -77,6 +77,10 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
 ## Fauna
 
 12. **Periods beyond 66.** A loop of thirty-odd steps in a 4- or 6-fold box would give 120–200. Nothing forbids it.
+    **Answered, 2026-11-15 (proof under review): periods are unbounded.** A wire between two caps with one extra
+    cell is a free-standing oscillator of period 4N + 2 for N units of wire, so every period 6, 10, 14, … occurs
+    (`research/signals/README.md` §11; CLAIMS SG5; checked on the oracle at ten lengths by two codes). Still open:
+    any period 0 mod 4 above the ones in the fauna, and any odd period above those.
 13. **Can any oscillator pass a signal to another?** All compound objects found by sampling are non-communicating.
     **Answered in part, 2026-11-15: yes, signals exist.** Free-standing wires along (1,0,−1) carry pulses at half the
     speed limit; one flipped cell emits a pulse; a standing defect 36 cubes away receives it (and creeps one cube per
@@ -84,6 +88,13 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     signals"; CLAIMS SG1–SG4; review in `research/audit/REVIEW-signals.md` when done). Still open: a bounded or
     closed track (a pulse that turns or comes back), a receiver that stays put, a gate with an output, whether any
     soup-born wire carries a pulse, and whether a pulse can cross living chaos.
+    **Second push, 2026-11-15** (CLAIMS SG5–SG10; notebook "a clock of every length"; review in
+    `research/audit/REVIEW-signals-2.md` when done): a bounded track exists (the clock; what shuttles is a rake);
+    a collision gate with outputs along the input lines; a register moved by pulses from either side; wires B and
+    C are born from soup; chaos destroys any wire it touches and two empty layers isolate one for ever. Still open:
+    a corner or a crossing (nothing found, nothing searched outside one wire direction), a reusable reflector for a
+    pulse (none inside the searched bounds), a receiver that toggles, a gate with its own output line, and with
+    them whether gump can compute.
 14. The 94 clockwork objects (`research/clockwork/objects/`) are not merged into the atlas catalogue.
 
 ## Neighbouring rules

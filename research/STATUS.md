@@ -130,6 +130,15 @@ _Last updated 2026-11-14 by the lead._
   `research/audit/REVIEW-statespace.md` and `research/audit/statespace/`; on its report: regrade SS1–SS3, README
   corrections, the essay's hedge on the entropy sentence. **The lead's own check of the shuttle clock** from the
   second signals push (period 4N + 2 at N = 1, 2, 3, 4, 7, 12): `research/audit/signals_clock_lead_check.py`.
+  **Pull request 24 merged 10:23 UTC (e4295e8); pull request 25 is open.**
+  **Second signals push reported 10:25 UTC and recorded 10:30** (notebook "a clock of every length", CLAIMS
+  SG5–SG10, 164 claims, OPEN-PROBLEMS 12 and 13, the owner's journal): a clock of period 4N + 2 for every N (proof
+  claimed), a rake, a collision gate, a register, a tape of B and C units, soup-born carrier wires, chaos destroys
+  a wire on contact and two empty layers isolate it. The lead re-ran every verifier and wrote own oracle checks
+  of the clock, the gate, the C pulses and the tape ring (`research/audit/signals_*_lead_check.py`). **Review
+  started 10:28 UTC (Opus)** -> `research/audit/REVIEW-signals-2.md`, `research/audit/signals2/` (the two proofs
+  first). A third push (the tape as a shift register; wide pulses; a period 0 mod 4; a corner) waits for a usage
+  reading or for the first review to finish.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

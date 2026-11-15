@@ -59,4 +59,13 @@ What speaks to it (the lead, same day):
   2^(−0.69·A) while the count visited rises as 2^(0.30·A). Symmetric seeds see less (0.15–0.29 bits per cell of
   their effective face). And you were right that the random seeds are the long-lived family: in no vessel of 19 or
   more cells is the longest-lived seed symmetric.
+- **Later still (10:30 UTC): what chaos does to a wire, and a clock** (notebook entry "a clock of every length";
+  CLAIMS SG5–SG10; a review is running). This is the experiment your second thought asked for. Run a wire through
+  a block of living chaos and the wire is destroyed, every time in 800 trials, by a fire that travels at the speed
+  of a pulse. Leave two empty layers between them and nothing ever crosses. So the isolation has a hard edge: the
+  chaos does not carry a message and does not leave one alone either; order survives only where the chaos cannot
+  reach. One thing does get out: on about one side in twelve a clean pulse runs down the wire ahead of the fire.
+  The same push built a clock (a wire between two caps, period 4N + 2 for N units of wire, checked by me on the
+  reference stepper at six lengths), a gate where two pulses meet and one survives, and a counter that pulses
+  push up from one side and down from the other.
 

@@ -165,3 +165,13 @@ turned out to be a rake (one cell that travels and keeps emitting) and a tape (w
 every word in them travels). Both were sitting in data I already had; I saw the rake only when a cap sent one back,
 and the tape only when a control run without chaos cut a wire. And the two pulses that reach outside the tube were
 found by the chaos, not by me: the closed 3 x 3 tube was too tight a place to search.
+
+## The lead's own scores for S6–S10 (2026-11-15 10:30 UTC, after re-running the verifiers and his own oracle checks)
+
+S6 half held: the free-standing object whose period is set by its length exists at every length, but what comes
+back from a cap is a rake, not a pulse (reflections of a pulse are one-shot), and no corner was found or sought.
+S7 held to the letter: in the collision gate the surviving pulse depends on both inputs; it is not a circuit
+element with an output line of its own. S8 failed. S9 held. S10 held: every contact between a wire and living
+chaos ended the wire; the qualification that chaos sometimes sends a clean pulse down wire C ahead of the fire
+does not touch the forecast, which was about a pulse passing through. Over both pushes: S1 failed, S2 held, S3
+held with a caveat, S4 and S5 untested, S6 half, S7 held, S8 failed, S9 held, S10 held.

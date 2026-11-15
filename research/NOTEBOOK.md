@@ -2703,3 +2703,57 @@ account; forecasts before any enumeration in `PREDICTIONS.md`; figure `research/
   no lower bound, and the large slab stands in for small faces conditioned on survival; each cube is one run. An
   adversarial review with its own enumerator and a second entropy estimate is running
   (`research/audit/REVIEW-statespace.md`).
+
+## 2026-11-15: a clock of every length, a gate, a register, a tape; and what chaos does to a wire (second signals push; the lead's own checks; review started)
+
+`research/signals/README.md` sections 8–14 (the second investigator; forecasts J1–J10 and the lead's S6–S10 scored
+at the end of `research/signals/PREDICTIONS.md`). The lead re-ran every oracle-judged verifier (all pass, 10:27
+UTC) and checked four things from `reference/oracle.py` alone with separate code.
+
+- **A clock whose period is set by its length [oracle-verified at ten lengths by two codes; claimed proved for
+  every length, proof under review].** Wire C (five cells per unit along (1,0,−1)) between two caps is a
+  free-standing still object of 32 + 5N cells with period 2. Add one cell and a "rake" (one extra live cell that
+  moves a unit every 2 generations) shuttles between the caps for ever: period exactly 4N + 2. The lead:
+  `python3 research/audit/signals_clock_lead_check.py 1 2 3 4 7 12` (cycle found by comparing whole states, not
+  assumed: periods 6, 10, 14, 18, 30, 50; population 32 + 5N or one more; nothing within 13 units of the array
+  edge). The study: `verify_clock.py` at N = 1, 5, 16, 17, 30 on the oracle, N = 1..200 with its own stepper, and
+  `prove_clock.py 8 4`, a surgery on one oracle-computed cycle that is claimed to give every N ≥ 8. **This answers
+  open problem 12:** gump has free-standing oscillators of every period 6, 10, 14, … (2 mod 4); no period 0 mod 4
+  was found in the family and no reason is known.
+- **A collision gate [oracle, two codes].** Two pulses of wire C meeting head-on: exactly one survives, undelayed
+  and unchanged, and the wire is as it was; the survivor is the left-mover at even separation and the right-mover
+  at odd. The lead: `python3 research/audit/signals_gate_lead_check.py 6 7 8 9 14 15 20 21` (twelve separations,
+  whole-state equality with the single-pulse run after 40 generations). As logic: outputs (L, R and not L) or
+  (L and not R, R), leaving along the two input lines; there is no third line and no crossing.
+- **A rake [oracle, the study's verifier re-run].** One added cell on wire C moves one unit per 2 generations
+  and emits a left-moving pulse every 2 generations; a head-on pulse is swallowed or stops it, by parity.
+- **A register [oracle, the study's verifier re-run].** The wall between wire B and wire B′ moves one unit towards
+  whichever side a pulse arrives from; ten operations in sequence leave it where the count says. No receiver that
+  toggles on pulses from one side was found (complete census of caps of wire B inside small bounds: none
+  reflects, none toggles).
+- **A tape [oracle, two codes for one ring; "every word" by a light-cone argument, under review].** Any sequence
+  of units of wire B and wire C moves rigidly towards −v at one unit per 2 generations. A 40-unit ring whose
+  word contains all 32 runs of five passes the lead's `research/audit/signals_lead_check.py
+  research/signals/objects/tape-BC.json 20`. Read this way a left-moving pulse of wire C is one unit of B in it,
+  and a wall between B and C is a front. Of all 120 pairs of unit types only {B, C} moves.
+- **Wires are born from soup [measured, the study's stepper].** Of 100,000 soups in the tube 12,780 settle into
+  uniform wires of period ≤ 2 (366 distinct); ten of those carry a 2-cell pulse, born in 279 soups: wire B in
+  106, wire C in 99, a third in 74.
+- **Chaos destroys a wire it touches, and two empty layers isolate it for ever [measured, the study's stepper].**
+  A wire run through a block of living soup: a front reached the far probe on 800 of 800 sides, at pulse speed
+  (2 generations per unit) on 798. A capped end beside soup with 0 or 1 empty diagonal layers between: destroyed
+  40 of 40; with 2 empty layers: untouched 40 of 40 for 3,000 generations, and the study says no cell can couple
+  the two sides there (at 3 or more it is T3). On 33 of 400 sides of wire C (none of wire B) a clean pulse left
+  the chaos ahead of the fire: the first pulses here to come out of anything random. Nothing could be sent into
+  chaos and read on the far side, because nothing survives the contact.
+- **Negatives inside stated bounds [SAT, one encoding, one solver].** No restoring reflector for a pulse of wire B
+  or C at the sizes listed in the README; every cap of wire C that reflects a pulse is changed by it and burns at
+  the next. Two more pulses of wire C reach outside the 3 × 3 tube and break the clock's caps (found leaving the
+  chaos): the closed tube was too tight a search space.
+- **The lead's forecasts.** S6 (45%) half held: the object whose period is set by its length exists, but what
+  comes back is a rake, not a pulse, and there is no corner. S7 (25%) held to the letter (a collision gate; not a
+  circuit element with its own output line). S8 (35%) failed. S9 (30%) held. S10 (60%) held.
+- Not checked: the proofs (clock for every N, tape for every word) are the producer's; the soup and chaos counts
+  rest on the study's stepper (checked against the oracle by `check_stepper.py`) with one block size and density;
+  the SAT negatives rest on one encoding. A reviewer with its own code has these as its priorities
+  (`research/audit/REVIEW-signals-2.md`).
