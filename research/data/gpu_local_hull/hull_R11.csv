@@ -1,0 +1,2 @@
+R,A,seed,p,T0,gens,replicas,nodes,wall_s,exposure,deaths,settled12,settled3pw,guard,exposure_guard,exposure_guard_past_snapshot,open,excluded,max_age,guard_first,config,code_commit,started_utc,cmd
+11,63,11001,0.35,200,137624576,1280,876,300,64164239517,614098,0,0,0,0,0,99,5895,1307422,16,"{""WB"": 2; ""J"": 1; ""T"": 896; ""blocks"": 20}",fe6f5ff,2026-11-15T11:43:04Z,python -u research/gpu-local/hullface.py run 11 5 11001

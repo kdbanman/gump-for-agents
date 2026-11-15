@@ -270,8 +270,11 @@ CSV_FIELDS = ['torus', 'A', 'seed', 'start_utc', 'wall_s', 'gens', 'replicas', '
 
 
 def git_head():
+    """short commit, with '+dirty' when tracked files differ from it. Read at the start of a run."""
     try:
-        return subprocess.run(['git', 'rev-parse', '--short', 'HEAD'], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        h = subprocess.run(['git', 'rev-parse', '--short', 'HEAD'], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        d = subprocess.run(['git', 'status', '--porcelain', '--untracked-files=no'], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        return h + ('+dirty' if d else '')
     except OSError:
         return 'unknown'
 
@@ -309,8 +312,9 @@ if __name__ == '__main__':
     elif what == 'run':
         minutes, seed = float(sys.argv[5]), int(sys.argv[6])
         opt = dict(x.split('=') for x in sys.argv[7:])              # max_launch=N raw_cap=N
+        head = git_head()                                           # before the run, not after it
         out = run(a, kk, b, minutes * 60, seed, **{k: int(v) for k, v in opt.items()})
-        out['code_commit'] = git_head(); out['cmd'] = cmd
+        out['code_commit'] = head; out['cmd'] = cmd
         os.makedirs(DATA, exist_ok=True)
         jp = os.path.join(SCR, f'eqtorus_{a}_{kk}_{b}_s{seed}.json')
         json.dump(out, open(jp, 'w'))

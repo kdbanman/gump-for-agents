@@ -24,7 +24,7 @@ CFG = dict(WB=2, J=1, minb=1)     # kernel-B shape of the runs: 2 columns per bl
                                   # ceil(n / 1024)), one block per SM. At R = 15: 3.5e8 replica-gens/s in 1,280 replicas, 2.7e5 gens/s
                                   # each (`tune 15`); 4 columns give 9% more in total at half the speed per replica (ages half as old).
 FIELDS = ['R', 'A', 'seed', 'p', 'T0', 'gens', 'replicas', 'nodes', 'wall_s', 'exposure', 'deaths', 'settled12', 'settled3pw',
-          'guard', 'exposure_guard', 'open', 'excluded', 'max_age', 'guard_first', 'config', 'code_commit', 'started_utc', 'cmd']
+          'guard', 'exposure_guard', 'exposure_guard_past_snapshot', 'open', 'excluded', 'max_age', 'guard_first', 'config', 'code_commit', 'started_utc', 'cmd']
 
 
 def git_head():
@@ -80,14 +80,16 @@ def run(R, minutes, seed, **kw):
 def row(out):
     a = out['agg'][T0] if T0 in out['agg'] else out['agg'][str(T0)]
     g = out.get('guard') or {}
-    e5 = 0
-    if g.get('recognised'):
-        e5 = int(np.clip(facelaw.unpack(g['lives'])[1] - T0, 0, None).sum())
+    e5 = e5s = 0
+    if g.get('recognised'):                 # kind-5 lives: [replica, age at recognition, snapshot age]
+        gl = facelaw.unpack(g['lives'])
+        e5 = int(np.clip(gl[1] - T0, 0, None).sum())
+        e5s = int((gl[1] - np.maximum(gl[2], T0)).clip(0).sum())      # the part after the snapshot: certainly in the cycle
     k3 = a['settled_long']
     return dict(R=out['R'], A=out['A'], seed=out['seed'], p=out['p'], T0=T0, gens=out['gens'], replicas=out['replicas'],
                 nodes=out['nodes'], wall_s=round(out['wall_s']), exposure=a['exposure'], deaths=a['deaths'],
                 settled12=a['settled'] - k3 - g.get('recognised', 0), settled3pw=k3, guard=g.get('recognised', 0),
-                exposure_guard=e5, open=a['censored'], excluded=a['excluded'], max_age=out['max_age'],
+                exposure_guard=e5, exposure_guard_past_snapshot=e5s, open=a['censored'], excluded=a['excluded'], max_age=out['max_age'],
                 guard_first=g.get('first', 0), config=json.dumps(out['config']).replace(',', ';'),
                 code_commit=out['code_commit'], started_utc=out['started_utc'], cmd=out.get('cmd', ''))
 
@@ -99,6 +101,9 @@ def summary(R):
           f'settled {sum(int(r["settled12"]) + int(r["settled3pw"]) for r in rows)}, guard {sum(int(r["guard"]) for r in rows)} '
           f'(exposure {sum(int(r["exposure_guard"]) for r in rows) / E:.2e} of the total)')
     print(f'  ln tau_face = ln(8 E / F) = {math.log(8 * E / F):.4f} +- {1 / math.sqrt(F):.4f}')
+    cut = sum(int(r.get('exposure_guard_past_snapshot') or 0) for r in rows)
+    print(f'  with kind-5 exposure cut at the snapshot age: {math.log(8 * (E - cut) / F):.4f}' if cut else
+          '  no kind-5 exposure past a snapshot: the two exposure conventions coincide')
     chi2 = 0
     for r in rows:
         e, f = int(r['exposure']), int(r['deaths'])

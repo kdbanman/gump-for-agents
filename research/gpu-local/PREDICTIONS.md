@@ -73,3 +73,58 @@ the family is straight within ± 0.006.
   different lattice directions (4 × 4, 5 × 5, 6 × 6 are aligned with the cube axes; 19, 21, 27, 28, 31, 37 are
   rotated), and they differ in whether a firewall can form (none at 57, 63, 93, 111). If direction or the firewall
   channel matters at the 0.01 level, the four will scatter about the line by that much, not follow it.
+
+## 4. Block 3 scored; corrections to block 1; the hull face at A = 108 again (2026-11-15T11:45Z, HEAD fe6f5ff)
+
+Written after the rows for A = 81, 84, 108, 111 (in the data directory with this commit) and before any hull run at
+R = 15 on this card (a 5-minute calibration at R = 11 is running; no R = 15 row or json exists).
+
+**Block 3, scored** (`python research/gpu-local/eq_analyze.py A K B`):
+
+| A | forecast | measured | measured − forecast | in combined errors |
+|---:|---:|---:|---:|---:|
+| 81 | 16.913 ± 0.006 | 16.9222 ± 0.0031 | +0.009 | 1.4 |
+| 84 | 17.539 ± 0.007 | 17.5467 ± 0.0031 | +0.008 | 1.0 |
+| 108 | 22.540 ± 0.014 | 22.5600 ± 0.0222 | +0.020 | 0.8 |
+| 111 | 23.165 ± 0.015 | 23.2032 ± 0.0231 | +0.038 | 1.4 |
+
+- First criterion (no miss beyond 3 combined errors): met. Second (slope 93 → 111 within 0.002 of 0.2084): the
+  slope is 0.2105 ± 0.0013, off by 0.0021. **By its letter the block fails its second criterion**, by 0.0001. The
+  criterion was badly set: its margin is 1.5 times the statistical error that slope was always going to have, so
+  it could fail by chance one time in eight with the line exactly right. I should have stated it in errors.
+- What the four say beyond the letter: all four are above the line, by 0.8 to 1.4 of my errors each. Against the
+  line with the errors of its own fit (the review's ± 0.002 and ± 0.003 at 81 and 84,
+  `research/audit/REVIEW-gpu-local-tori.md` section 3), A = 81 is 2.5 and A = 84 is 1.8 errors high. The slope I
+  forecast with was low by about 0.0003: one line through all seven tori from A = 63 has slope 0.20867 ± 0.00009
+  and χ² 7.8 on 5 (`research/gpu-local/eq_fit.py`).
+- The same review committed forecasts by form (720ee7e, before these rows): the line 16.913, every smooth
+  correction 16.927 at A = 81. Measured 16.9222 ± 0.0031 lies between them, 3.0 statistical errors above the first
+  and 1.5 below the second.
+
+**Corrections to block 1** (from `research/audit/REVIEW-gpu-local-pr23.md` section 6; block 1 stays as written):
+- Its premise "detected settling was 0 in every slab run of A ≥ 90 on file" is false: fwslab 3 × 10 × 8 (A = 90)
+  has 21 settled lives and 4 × 9 × 8 (A = 108) has 3. Outcome of that forecast so far: no kind-5 life in any torus
+  run here (A = 48 to 111, 13.0 million face deaths), and 2 lives settled by the kernel at A = 81 and 1 at A = 84.
+- The hull forecast 23.37 ± 0.03 is centred on the value it re-measures: its slope 0.2181 is computed from the old
+  A = 108 run itself. It is a test of whether the old run repeats, not an out-of-sample forecast.
+
+**Out-of-sample readings for the hull face at A = 108**, from the hull values at A ≤ 84 on file (9.820, 13.635 ±
+0.001, 18.141 ± 0.005 at A = 45, 63, 84; faces of edge k = 5, 6, 7 with A = 3k(k+1)/2, so the next is k = 8) and the
+torus line. They are written as second differences in k, because a term proportional to the rim (to k) drops out
+of those, and the area's second difference is 3 cells:
+
+| reading | second difference 63, 84, 108 | ln τ_face at A = 108 |
+|---|---:|---:|
+| (c) one price per cell, the tori's 0.2087, plus any term linear in the rim | 3 × 0.2087 = 0.626 | **23.273 ± 0.010** |
+| (d) the second difference of 45, 63, 84 repeats (0.691; a price of 0.230 per cell with a rim term) | 0.691 | **23.338 ± 0.012** |
+| (b) the local slope keeps rising by the same step (0.2119, 0.2146, then 0.2173) | 0.709 | 23.356 ± 0.015 |
+| the old run (1,059 deaths) | 0.729 ± 0.033 | 23.376 ± 0.031 |
+
+- (c) already fails on file at the step before (0.691 against 0.626, errors about 0.006) unless the 45-cell face
+  carries a small-size deficit of 0.065, which the tori make plausible (their deficit is 0.11 at 48 cells and gone
+  by 63). So (c) is "one price, rim linear, no deficit left at 63 cells". The old run is 3.1 of its errors above it.
+- Planned error of the new run ± 0.010, so it separates (c) from the rest by 6 or more errors and (d) from the old
+  value by 3. **My forecast: 23.35 ± 0.02** (between (d) and the old value); (c) 3%; above 23.40, 5%.
+- The run: `hullface.py run 15 420 SEED`, seeds 15001 and 15002, 1,280 replicas at 2.7 × 10⁵ generations per second
+  each, so every lane reaches age 6.8 × 10⁹ (3.9 first-death means; the old run stopped at 6 × 10⁸). Guard on.
+  Kind-5 forecast unchanged (none, 85%). If any appear, both exposure conventions are reported.
