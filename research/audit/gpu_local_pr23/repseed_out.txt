@@ -1,0 +1,4 @@
+rep.c soups of seeds 1008000..1008005: 24576 soups, 0 repeated; density per job [0.3995, 0.4, 0.4003, 0.3999, 0.4008, 0.4]
+original: per-job face deaths, chi2 100.0 on 75 dof
+fresh: per-job face deaths, chi2 169.2 on 151 dof
+adjacent seeds: soup bits differ in [0.48, 0.4803, 0.4798] (iid: 0.48); lane-by-lane correlation of face times, adjacent original jobs: mean +0.0001, sd 0.0164 (iid: 0 +- 0.0156)

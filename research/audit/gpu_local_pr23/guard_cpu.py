@@ -11,7 +11,8 @@ Checks (exit non-zero on failure):
   3. the recognition boundary equals an independent prediction (written here from the rule as stated in guard.py's
      docstring, as a search over the life's own boundary ages, not a port of guard_test.predict);
   4. every cycling life is recognised before the horizon, for fixed, prime, mixed and doubling launch schedules;
-  5. the latency b - e (unrecognised time in the cycle) against the stated bound (b - s) + (s - e), and its size.
+  5. the latency b - e (unrecognised time in the cycle) against the stated bound (b - s) + (s - e), and its size;
+  6. negative controls: a guard that snapshots before comparing, and one whose thresholds never double, must fail.
 
     python3 research/audit/gpu_local_pr23/guard_cpu.py WORKTREE/research/gpu
 """
@@ -156,7 +157,8 @@ def run(WT, kernel, sched, first, horizon, rng):
                 bad['unsound'] += 1
             if (pa, ps) != (age, sn):
                 bad['mismatch'] += 1
-            lat.append((age - e, age - sn, sn - e, e, P))
+            if e is not None:
+                lat.append((age - e, age - sn, sn - e, e, P))
         elif pa is not None:                    # frozen or open, but the guard should have recognised it before
             bad['missed'] += 1
         elif cause == 'open' and e is not None and e < boundaries[-1] - b0:
@@ -179,5 +181,27 @@ if __name__ == '__main__':
                   f'latency b-e median {np.median(L[:, 0]) if len(L) else 0:.0f}, max {L[:, 0].max() if len(L) else 0:.0f} '
                   f'(grid part b-s max {L[:, 1].max() if len(L) else 0:.0f}); max (b-e)/e {rel.max() if len(rel) else 0:.2f} '
                   f'for e > 1e4: {(rel[L[:, 3] > 1e4]).max() if (L[:, 3] > 1e4).any() else 0:.2f}', flush=True)
+    # negative controls: two broken guards must fail these checks
+    good_b, good_t = guard.CycleGuard.boundary, guard.CycleGuard._take
+
+    def snap_first(self, G, birth):                     # takes the due snapshots before comparing
+        age = G - np.asarray(birth, np.int64)
+        live = ~self._words_to_bits(self.s._np(self.s.frz))
+        self._take(live & (age >= self.next_age), age)
+        hit = self._compare(live)
+        reps = np.nonzero(hit)[0]
+        return reps, self.snap_age[reps].copy()
+
+    def no_doubling(self, due, age):                    # a fresh snapshot at every boundary: only periods dividing K
+        good_t(self, due, age)
+        self.next_age[:] = self.first
+    for name, attr, fn in (('snapshot before compare', 'boundary', snap_first), ('thresholds never double', '_take', no_doubling)):
+        setattr(guard.CycleGuard, attr, fn)
+        bad, _, _ = run(4, 'shared', 997, 16, 1 << 20, rng)
+        caught = any(v for k, v in bad.items() if k != 'open_in_cycle_not_yet_due')
+        print(f'negative control ({name}): {bad} -> {"caught" if caught else "NOT CAUGHT"}', flush=True)
+        ok &= caught
+        guard.CycleGuard.boundary, guard.CycleGuard._take = good_b, good_t
+    guard.CycleGuard.boundary = good_b
     print('OK' if ok else 'FAIL')
     sys.exit(0 if ok else 1)
