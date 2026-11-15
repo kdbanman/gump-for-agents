@@ -140,3 +140,40 @@ jobs of 320,000,000 generations, seeds 184001–184003 (`python3 research/wrap/r
 etc.; about 30,000 face deaths expected, ± 0.006). The stepper was checked against the oracle on this torus first
 (`python3 research/wrap/validate.py 1 12 28 1500`: MATCH over 1,500 generations). The card's run of the same face
 stays in its queue as the check by independent code.
+
+## The 84-cell face, measured (2026-11-15 16:21 UTC)
+
+Torus (1, 12), (0, 28), one loop of 12, three seeds on the tester's runner (rows A = 84 in `data/runs.csv`):
+**ln τ_face = 17.3248 ± 0.0058** (29,412 face deaths; seeds 17.3163, 17.3231, 17.3349, each ± 0.010; seed χ² 1.7 on
+2; no firewall, no settled life).
+
+| form | forecast | measured − forecast | in units of the measurement's error |
+|---|---:|---:|---:|
+| the lead's first law | 17.3604 | −0.0356 | −6.1 |
+| LINES (straight line per loop length, fitted to all faces) | 17.3361 | −0.0113 | −1.9 |
+| POW (power-law share) | 17.3207 | +0.0041 | +0.7 |
+| HAZ (the tester's exponential share) | 17.2941 | +0.0307 | +5.3 |
+
+- **W7 (40% for LINES within 0.008): failed.** The face is 0.011 below it. POW, to which I gave 30%, is the one of the
+  four inside 0.008. HAZ (15%) is out by 5.3σ of the measurement (4σ with its own forecast error): the "second way
+  to die at 0.173 per cell" does not survive. The first law (5%) is out by 6σ.
+- **What I had not frozen and so do not count:** the straight line through the faces with one loop of 12 alone
+  (54 to 78 cells, no other face, no additivity assumed) gives 17.3278 ± 0.0047 at 84 cells
+  (`python3 research/audit/wrap_haz_lead.py --tube` with the 84-cell rows removed). The frozen LINES was fitted to
+  every face with the discounts of several loops adding, and the faces with several loops pulled its slope.
+- **With the new face** (`--tube`): faces with exactly one loop of 12, eight of them from 54 to 84 cells, lie on one
+  straight line, slope 0.20437 ± 0.00016, χ² 5.6 on 6, curvature (−2.6 ± 3.5) × 10⁻⁵ per cell². One loop of 13
+  (57–75 cells): 0.20602 ± 0.00033. One loop of 16 (60–108 cells): 0.20717 ± 0.00011. No short loop (63–126):
+  0.20864 ± 0.00009. No family shows curvature. POW's curvature at these sizes is −4.7 × 10⁻⁵, HAZ's −18 × 10⁻⁵.
+
+**Forecasts for the card, frozen now, for the two forms that are left** (one loop of 12):
+
+| torus | cells | tube line (one loop of 12 alone) | POW (single-loop faces) | apart |
+|---|---:|---:|---:|---:|
+| (1, 12), (0, 28) again, by the card's code | 84 | measured here 17.3248 ± 0.0058 | | |
+| (1, 17), (0, 32) | 96 | 19.7791 ± 0.0055 | 19.7618 ± 0.0075 | 0.017 |
+| (1, 16), (0, 36) | 108 | 22.2316 ± 0.0074 | 22.1969 ± 0.0115 | 0.035 |
+
+- **W11 (80%).** The card's value for the 84-cell face agrees with 17.3248 ± 0.0058 to within 2.5 combined errors.
+- **W12 (55%).** The 108-cell face lands nearer the tube line than POW. Honest odds: the two are 0.035 apart with
+  forecast errors of 0.007 and 0.012, so unless the card reaches ± 0.012 this will not be decided either.

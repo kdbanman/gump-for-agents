@@ -3339,3 +3339,41 @@ unless a path is given. Its fourteen corrections to the README are being applied
   period; a free-standing loop of writer, wire and receiver; a second ordered object that changes what the first
   one wrote without being changed; and the fact that the same object can be destroyed by the right single cell
   on the wire. It still has no reader of the word, no second stage, no corner.
+
+## 2026-11-15: the 84-cell face with one loop of 12: 17.3248 ± 0.0058; the exponential form is out; each tube girth has its own straight line (0.2044, 0.2060, 0.2072 per cell against 0.2086)
+
+The lead's run of the deciding face of the entry "the wrapping law tested", declared and forecast before it started
+(`research/wrap/PREDICTIONS.md`, commits c89ce9d and the declaration after it). Torus (1, 12), (0, 28), a rectangle
+√12 by 7; the tester's runner (ts3, face deaths booked every generation), checked against the oracle on this torus
+first (`python3 research/wrap/validate.py 1 12 28 1500`: MATCH); three jobs of 320,000,000 generations, seeds
+184001–184003 (`python3 research/wrap/run.py job 1 12 28 320000000 184001`, 82 minutes each).
+
+- **[measured; one code; the card's run is the cross-check]** ln τ_face = 17.3248 ± 0.0058 (29,412 deaths; seed χ²
+  1.7 on 2). Recompute: the rows A = 84 of `research/wrap/data/runs.csv`, ln(2 Σexposure / ΣF).
+- **[scored]** The lead's first law 17.3604 (−6.1σ); LINES 17.3361 (−1.9σ, outside the 0.008 I had allowed: W7
+  failed); POW 17.3207 (+0.7σ); the tester's HAZ 17.2941 (+5.3σ; 4σ with its forecast error). **The exponential
+  share, read as a second way to die at 0.173 per cell, is refuted.**
+- **[fitted, after the fact] Each girth has its own straight line.** `python3 research/audit/wrap_haz_lead.py
+  --tube`: faces with exactly one short loop direction, one loop length at a time, each fitted alone:
+
+  | short loop² | faces | cells | slope per cell | χ² | curvature per cell² |
+  |---|---:|---|---:|---|---:|
+  | 12 | 8 | 54–84 | 0.20437 ± 0.00016 | 5.6 on 6 | (−2.6 ± 3.5) × 10⁻⁵ |
+  | 13 | 7 | 57–75 | 0.20602 ± 0.00033 | 0.7 on 5 | (+4.6 ± 12.9) × 10⁻⁵ |
+  | 16 | 7 | 60–108 | 0.20717 ± 0.00011 | 7.7 on 5 | (+0.6 ± 2.6) × 10⁻⁵ |
+  | 19 | 4 | 66–75 | 0.20898 ± 0.00120 | 1.6 on 2 | not resolved |
+  | none | 14 | 63–126 | 0.20864 ± 0.00009 | 17.4 on 12 | (+0.7 ± 1.8) × 10⁻⁵ |
+
+  A face with one short way round is a tube, and a tube of a given girth pays a fixed price per cell, lower the
+  tighter the girth: 2.0%, 1.3% and 0.7% below the open price for girths √12, √13 and 4. The line through the
+  loop-12 faces of 54–78 cells alone gives 17.3278 ± 0.0047 at 84 cells (computed after the run from data on file
+  before it; not a forecast). A loop of 19 shows as an offset of 0.017 ± 0.005 at 72 cells with no slope
+  difference resolved.
+- **[open]** A gentle bend is not excluded: POW's curvature at these sizes is −4.7 × 10⁻⁵, inside the error. The
+  tube line and POW are 0.017 apart at 96 cells and 0.035 at 108 (forecasts with errors frozen in
+  `research/wrap/PREDICTIONS.md`, W11, W12). How the discounts of two or three short loops combine is not
+  described by either: the all-faces fits (LINES 49.8, POW 41.6 on 39) are acceptable, but the lines fitted with
+  additivity differ from the lines of the single-loop faces (k(12) 0.00378 against 0.00427).
+- Not checked: no second code has measured this face (queued for the card); the event logic of ts3 was not
+  recounted; the curvature bounds assume the faces of one family differ only in length (they are different
+  lattices of the same girth, e.g. the two loop-12 classes at 60 cells differ by 0.004 ± 0.002).

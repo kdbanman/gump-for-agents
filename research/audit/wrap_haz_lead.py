@@ -18,6 +18,9 @@ Forms, per face of A cells with short loop directions v (loop^2 q in 12, 13, 16,
     python3 research/audit/wrap_haz_lead.py --single        # the same on faces with at most one short loop direction
     python3 research/audit/wrap_haz_lead.py --blind         # both fitted without the tester's new rows, then scored on them
     python3 research/audit/wrap_haz_lead.py --predict H K D [H K D ...]   # forecasts from the four frozen forms
+    python3 research/audit/wrap_haz_lead.py --tube          # faces with exactly one short loop direction, one loop
+                                                            # length at a time: its own straight line, and a
+                                                            # quadratic term as a test of curvature
 
 HAZ_FROZEN, LINES_FROZEN and POW_FROZEN below are this script's fits of 2026-11-15 14:50-14:54 UTC to every face of
 A >= 48 on file, written down before the card measured any face of 84 cells or more with a short loop other than
@@ -188,6 +191,25 @@ if __name__ == '__main__':
         print(f'new classes of A >= 57: {n}; sum z^2 (measurement error only): law {zl:.1f}, HAZ {zh:.1f}')
         sys.exit(0)
 
+    if '--tube' in sys.argv:
+        faces = load()
+        for q in [None] + QS:
+            fs = [f for f in faces if f['loops'] == ([] if q is None else [q])]
+            if q is None:
+                fs = [f for f in fs if f['A'] >= 63]
+            A = np.array([f['A'] for f in fs], float); y = np.array([f['y'] for f in fs]); se = np.array([f['se'] for f in fs])
+            out = []
+            for deg in (1, 2):
+                X = np.vander(A - 72, deg + 1, increasing=True); W = 1 / se
+                b, *_ = np.linalg.lstsq(X * W[:, None], y * W, rcond=None)
+                cov = np.linalg.inv((X * W[:, None]).T @ (X * W[:, None])); r = (y - X @ b) / se
+                out.append((b, np.sqrt(np.diag(cov)), float(r @ r)))
+            (b1, e1, c1), (b2, e2, c2) = out
+            name = 'no short loop (A >= 63)' if q is None else f'one loop of {q}'
+            print(f'{name}: {len(fs)} faces, A = {int(A.min())}..{int(A.max())}; line: ln tau(72) = {b1[0]:.4f} ± {e1[0]:.4f}, '
+                  f'slope {b1[1]:.5f} ± {e1[1]:.5f}, chi2 {c1:.1f} on {len(fs) - 2}; with a quadratic term: '
+                  f'curvature {2 * b2[2]:+.6f} ± {2 * e2[2]:.6f} per cell^2, chi2 {c2:.1f} on {len(fs) - 3}')
+        sys.exit(0)
     faces = load()
     if '--single' in sys.argv:
         faces = [f for f in faces if len(f['loops']) <= 1]
