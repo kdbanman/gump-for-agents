@@ -473,3 +473,20 @@ survives it.
 - **S31 (30%).** A reflector simpler than the cap with an 18- or 20-cell oscillator beside it is found.
 - **S32 (12%).** A listener: a standing object that an echo, or the meeting of an echo and a hole, leaves alive in
   a different lasting state.
+
+## Sixth push (the echo): the investigator's forecasts, 2026-11-15 20:02 UTC, written before any code was run
+
+- **Q1 (88%).** The echo rides the plain rake train for every distance, shown by an exact periodic computation.
+- **Q2 (30%).** The echo also rides bare wire C (as some signal of bounded size, moving towards the gun end).
+- **Q3 (45%).** The echo rides the divider's stream `5f9f` past at least one stretch of 8 units unchanged.
+- **Q4 (35%).** An echo and a hole pass through each other unchanged at every distinct relative phase.
+- **Q5 (40%).** At some phase an echo meeting a hole breaks the stream.
+- **Q6 (25%).** At some phase an echo and a hole cancel and leave the plain stream exactly.
+- **Q7 (45%).** An echo meeting K0 breaks the stream at some phase.
+- **Q8 (8%).** Some gun on file (the census lists of the fourth push, `gun-5f`) survives an echo and returns to its cycle.
+- **Q9 (20%).** A constraint search finds an emitter of the rake train that survives one echo (and it passes the oracle).
+- **Q10 (50%).** The reflector (capA + oscillator) returns each of two holes one rake apart as two echoes, restored.
+- **Q11 (20%).** It returns K0 as an echo (of any kind).
+- **Q12 (20%).** A simpler reflector (fewer cells, or capA with a smaller oscillator, or an end alone) is found.
+- **Q13 (4%).** A loop: one signal goes round gun end -> reflector at least three times, oracle.
+- **Q14 (7%).** A listener (anything left alive in a different lasting state by an echo or a meeting), oracle.
