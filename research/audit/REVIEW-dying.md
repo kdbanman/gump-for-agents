@@ -1010,7 +1010,8 @@ faces'):
 
 At every single k the dying faces are looser (e.g. k = 3 at 0.15: 0.136 against 0.157). At equal k their void is
 *smaller* (0.437 against 0.455 at k = 4): the survivors of a dying face are more spread out. About 60–75% of the
-README's gap is count. The direction stands. A = 84 had 82 face deaths here, too few to repeat this.
+README's gap is count. The direction stands. At A = 84 (81 dying faces at p = 0.15, no bootstrap; `ana_r13.txt`) the same: matched 0.183 against 0.212,
+unmatched 0.186 against 0.260.
 
 ## Attack 5: is there a measure on which a fixed-density core appears?
 
@@ -1055,7 +1056,8 @@ README's gap is count. The direction stands. A = 84 had 82 face deaths here, too
 
 - One fresh seed per size. A = 108 was run only 1.5 M generations: no catch at 0.15, 834 at 0.3, no deaths.
   Claims 1 and 3 at A = 108 rest on the README's numbers and the null's fixed-k value. A = 84 had 82 deaths, so
-  claim 4 was checked at A = 63 only.
+  claim 4 there has 81 dying faces and no error bar; claim 3 from this run alone is noisy (ln τ 18.13 ± 0.11,
+  overshoot 1.33 nats).
 - The lever null is one model: a ball-shaped patch, uniformly occupied relative to ρ. Other remnant shapes (elongated,
   attached to the rim) were not tried. Their C at small k would differ, but the edge effect would not go away.
 - The groups-and-voids exploratory numbers, the per-cell distribution (only its median, in the null comparison) and
