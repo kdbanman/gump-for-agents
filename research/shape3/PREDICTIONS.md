@@ -140,3 +140,16 @@ completed rounds and also reports d from the planned rounds alone.
 Order v2b (21:08, before any P2, P3, Q63 or A = 72 result existed): the machine turned out to be shared with other
 load (each job got 20–45% of a core), so the planned A = 72 rounds were moved ahead of Q63 and P2 (`run3.py`,
 `jobs()`). Seeds stay with their jobs; nothing else changed.
+
+## Correction after review, 2026-11-15
+
+Appended after the adversarial review `research/audit/REVIEW-shape3.md` (claim 5); the text above is left as it was
+committed.
+
+- The amendment's heading says it came "about 25 minutes after the commit above". By the commit times it came
+  4.5 minutes after (f645b13 at 20:49 against 46baf66 at 20:44). The forecast files are unchanged since 46baf66
+  and every v2 production event file is later (first 20:50:15), so the forecasts still precede every result used.
+- Change 1 of the amendment says "On the Q36 job it removed every zombie (0 open lives older than 20,000 at the
+  end, 106 more lives settled)". That sentence was committed before the v2 Q36 event file existed; it refers to a
+  test rerun whose output is not in the record, so the numbers 0 and 106 cannot be reproduced from the repository.
+  The v2 Q36 result (README) does not depend on it.
