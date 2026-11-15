@@ -110,3 +110,18 @@ periods and corners (two points, so weakly determined: −0.021 per period, +0.3
 rims gets: T_d (√(A/6) periods, half a corner) 0.05 ± 0.15 at A = 234–315; T (2√(A/6) periods, one corner)
 0.15 ± 0.15 at A = 135–198. O_h at A = 234–315: 0.40 ± 0.08 (continuing the known values). If T_d shows the
 O_h value, the centring effect belongs to the C3v wedge and not to the rim on a mirror.
+
+## Block 2b — committed 2026-11-15 01:44 UTC, while `oct_31_c_td`, `oct_32_v_td`, `oct_33_c_td` were running (no output of theirs seen)
+
+(The header of block 2 says "01:3x UTC"; its commit, 814c3d4, is stamped 01:26 UTC.)
+
+Seen so far in block 2: one edge on a coordinate mirror lowers ln τ_face by 2.18 at A = 63, two by 4.34, three by
+6.47 (cube-centred): rims add. Per rim and per period of rim ((R−1)/2 periods an edge, cube-centred) the three-rim
+deficits at A = 63, 84, 108 are 2.16, 2.71, 3.20: the marginal cost is 0.5 per period. T_d minus O_h, a wedge with
+half an edge, is 1.78, 2.18, 2.33 (cube-centred, A = 234, 273, 315) and 1.85, 2.06, 2.36 (vertex-centred).
+
+**Q7.** The rim term of the wedge keeps the marginal cost that whole D2h faces show, 0.5 per period:
+T_d − O_h = 2.33 + 0.5·((R−1)/4 − 6.5) cube-centred, 2.36 + 0.5·(R/4 − 7) vertex-centred. With this study's O_h
+values 10.984 (R = 31), 11.406 (R = 32) and the earlier 12.473 (R = 33):
+
+    ln τ_face(oct_31_c_td) = 13.81 ± 0.15      ln τ_face(oct_32_v_td) = 14.27 ± 0.15      ln τ_face(oct_33_c_td) = 15.55 ± 0.20
