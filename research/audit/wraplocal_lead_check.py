@@ -10,7 +10,8 @@ Here: the slab graph of each torus (the vessel file research/wrap/validate.py ch
 run `python3 research/wrap/validate.py H K D 1500` for that), and a stepper written here: plain numpy, one byte
 per cell, R replicas from independent 0.4 soups, B45/S345 on the 12 listed neighbours.  Not the study's bit-sliced
 live.py and none of its reduction.  Burn-in 500 generations, then GENS measured; a replica leaves the average from
-the generation one of its face layers is empty.  Error: scatter of 8 blocks of replicas.
+the generation one of its face layers is empty.  Error: scatter of 32 blocks of replicas (a first version used 8
+blocks, whose error estimate was itself too noisy: it put one torus 3.7 sigma from the study on an error of 0.000005).
 
     python3 research/audit/wraplocal_lead_check.py [R] [GENS]        (default 512 4000; about 3 min on one core)
     python3 research/audit/wraplocal_lead_check.py 1024 4000 long    (two tori that differ only in long loops; 5 min)
@@ -23,6 +24,7 @@ import validate as V                                   # only ts.vessel (the gra
 
 R = int(sys.argv[1]) if len(sys.argv) > 1 else 512
 GENS = int(sys.argv[2]) if len(sys.argv) > 2 else 4000
+NB = 32                                                # blocks of replicas for the error (8 gave too noisy an error)
 CLAIM = {(1, 12, 28): (0.515429, 0.000012), (1, 7, 28): (0.516947, 0.000028), (1, 4, 28): (0.517541, 0.000013)}
 LONG = len(sys.argv) > 3 and sys.argv[3] == 'long'     # the claim that the effect goes on past loop^2 19
 if LONG:                                               # (1,4,34): 102 cells, one loop of 21; (6,0,6): 108 cells, three of 36
@@ -49,8 +51,8 @@ def density(L, seed):
         alive &= (a > 0) & (b > 0)
         if g >= 500:
             tot += np.where(alive, (a + b) / (len(f0) + len(f1)), 0.0); cnt += alive
-    blocks = [tot[i::8].sum() / cnt[i::8].sum() for i in range(8)]
-    return float(np.mean(blocks)), float(np.std(blocks, ddof=1) / np.sqrt(8)), int((~alive).sum()), n
+    blocks = [tot[i::NB].sum() / cnt[i::NB].sum() for i in range(NB)]
+    return float(np.mean(blocks)), float(np.std(blocks, ddof=1) / np.sqrt(NB)), int((~alive).sum()), n
 
 
 res = {}

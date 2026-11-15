@@ -74,7 +74,7 @@ def classify(sigs):
     rig = True
     for t in range(80, T - 3):
         ul = min(E.unit_of(c) for c in D[t]); uh = max(E.unit_of(c) for c in D[t])
-        for (ue, v) in ((ul, round(4 * vlo)), (uh, round(4 * vhi))):
+        for (ue, v) in ((ul, round(vlo)), (uh, round(vhi))):
             a = E.units(Ss[t + 4], ue + v - 6, ue + v + 6)
             b = E.units(E.trs(Ss[t], v), ue + v - 6, ue + v + 6)
             rig &= (a == b)
