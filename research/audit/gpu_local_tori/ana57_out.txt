@@ -1,0 +1,9 @@
+research/scratch/audit_gpu_local_tori/p57_s5701.rec: lives 111952 kinds(open, face, cycle, -, fw) [512, 111406, 34, 0, 0] E 7.9872e+09  ln(2E/F) = 11.87332 +- 0.00300
+research/scratch/audit_gpu_local_tori/p57_s5702.rec: lives 111921 kinds(open, face, cycle, -, fw) [512, 111375, 34, 0, 0] E 7.9872e+09  ln(2E/F) = 11.87360 +- 0.00300
+research/scratch/audit_gpu_local_tori/p57_s5703.rec: lives 111869 kinds(open, face, cycle, -, fw) [512, 111332, 25, 0, 0] E 7.9872e+09  ln(2E/F) = 11.87398 +- 0.00300
+research/scratch/audit_gpu_local_tori/p57_s5704.rec: lives 111588 kinds(open, face, cycle, -, fw) [512, 111052, 24, 0, 0] E 7.9872e+09  ln(2E/F) = 11.87650 +- 0.00300
+POOLED: 4 runs, lives 447330, E 3.19488e+10, F 445165, W 0: ln tau_face = ln(2E/F) = 11.87435 +- 0.00150; runs chi2 0.71 on 3
+  cycles: 117 (2.63e-04 per face death); periods {1: 87, 2: 12, 3: 8, 4: 6, 5: 2, 6: 1, 10: 1}; max entry-bound (snapshot age) 524288; exposure after the snapshot 185 (5.8e-09 of E: ln changes by -5.8e-09 if cut there)
+  face hazard by age / pooled hazard: (0,60] 1.686+-0.067; (60,200] 1.004+-0.034; (200,1000] 0.982+-0.014; (1000,3000] 1.016+-0.009; (3000,6124] 1.004+-0.007; (6124,12505] 0.998+-0.005; (12505,25530] 1.005+-0.004; (25530,52125] 0.997+-0.003; (52125,106421] 0.998+-0.003; (106421,217274] 0.998+-0.004; (217274,443599] 0.997+-0.007; (443599,905675] 0.983+-0.033
+  face hazard beyond 2 mean lives (1.44e+05): 0.999 +- 0.004 of the pooled (59753 deaths)
+  face hazard beyond 4 mean lives (2.87e+05): 1.007 +- 0.011 of the pooled (8060 deaths)
