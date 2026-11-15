@@ -1,0 +1,50 @@
+tslab (4,0),(0,4)x8: 1024 runs, 4194304 lives; face 3339999, firewall 9248 (0.28%), censored 845057 (settled 1795); exposure 3.42e+10
+  ln tau_face = 9.927 +- 0.001;  ln tau_fw(total) = 15.123 +- 0.010;  firewall-first by direction [3796, 2877, 2575]
+  face hazard in equal-exposure age thirds: 9.926 +- 0.001 (from 0), 9.926 +- 0.001 (from 3162), 9.929 +- 0.001 (from 7768)
+1024 jobs, seeds 7700000..7701023  (research/scratch/gpu-local/cpu4x4/out, research/scratch/gpu-local/cpu4x4/raw)
+K=16 files against K=1 raw (face, fw x3, settle; derived as tslab.run does): 0 mismatching entries over 4194304 lives
+
+A  repository rule, K=16 files  : lives 4194304  E 3.41959e+10  F 3339999  W 9248  settled 1795  cap/other 843262  F/E 9.7673e-5   ln(2E/F) = 9.9270 +- 0.0005
+B  same logic per generation    : lives 4194304  E 3.41707e+10  F 3342931  W 8643  settled 665  cap/other 842065  F/E 9.7830e-5   ln(2E/F) = 9.9254 +- 0.0005
+C  GPU rule                     : lives 4194304  E 3.41725e+10  F 3342931  W 6966  settled 2258  cap/other 842149  F/E 9.7825e-5   ln(2E/F) = 9.9255 +- 0.0005
+C2 GPU rule, cut at the firewall: lives 4194304  E 3.41707e+10  F 3342931  W 6966  settled 2258  cap/other 842149  F/E 9.7830e-5   ln(2E/F) = 9.9254 +- 0.0005
+   C: settled on a firewalled state 1590; firewall lives W 6966
+steps: A -> B -0.00161 (dE -2.515e+07, dF +2932);  B -> C +0.00005 (dE +1.758e+06, dF +0);  A -> C -0.00156
+ties: face and firewall in the same 16-window (K=16, go to the firewall) 4353; of these per generation: face first 1653, firewall first 1652, same generation 1048
+firewall strictly before the face death, face death later within the run: 5917; mean wait 271 generations
+
+  hazard of face deaths by age, rule A (death at generation T counted in lo < T <= hi; exposure of a life = min(T,hi) - min(T,lo)):
+         0-    60: F    26955  E 2.508e+08  h = 10.7478e-5 +- 0.0655e-5   ln(2E/F) = 9.8314 +- 0.0061
+        60-   200: F    58024  E 5.7921e+08  h = 10.0177e-5 +- 0.0416e-5   ln(2E/F) = 9.9017 +- 0.0042
+       200-  1000: F   308592  E 3.1616e+09  h =  9.7606e-5 +- 0.0176e-5   ln(2E/F) = 9.9277 +- 0.0018
+      1000-  3162: F   720706  E 7.404e+09  h =  9.7340e-5 +- 0.0115e-5   ln(2E/F) = 9.9305 +- 0.0012
+      3162- 10000: F  1496330  E 1.5328e+10  h =  9.7619e-5 +- 0.0080e-5   ln(2E/F) = 9.9276 +- 0.0008
+     10000- 16384: F   729392  E 7.4719e+09  h =  9.7618e-5 +- 0.0114e-5   ln(2E/F) = 9.9276 +- 0.0012
+  hazard of face deaths by age, rule B (death at generation T counted in lo < T <= hi; exposure of a life = min(T,hi) - min(T,lo)):
+         0-    60: F    31489  E 2.5055e+08  h = 12.5678e-5 +- 0.0708e-5   ln(2E/F) = 9.6749 +- 0.0056
+        60-   200: F    56396  E 5.7879e+08  h =  9.7438e-5 +- 0.0410e-5   ln(2E/F) = 9.9294 +- 0.0042
+       200-  1000: F   308533  E 3.1593e+09  h =  9.7659e-5 +- 0.0176e-5   ln(2E/F) = 9.9272 +- 0.0018
+      1000-  3162: F   721247  E 7.3986e+09  h =  9.7484e-5 +- 0.0115e-5   ln(2E/F) = 9.9290 +- 0.0012
+      3162- 10000: F  1496620  E 1.5317e+10  h =  9.7709e-5 +- 0.0080e-5   ln(2E/F) = 9.9267 +- 0.0008
+     10000- 16384: F   728646  E 7.4664e+09  h =  9.7590e-5 +- 0.0114e-5   ln(2E/F) = 9.9279 +- 0.0012
+  hazard of face deaths by age, rule C (GPU rule) (death at generation T counted in lo < T <= hi; exposure of a life = min(T,hi) - min(T,lo)):
+         0-    60: F    31489  E 2.5056e+08  h = 12.5675e-5 +- 0.0708e-5   ln(2E/F) = 9.6750 +- 0.0056
+        60-   200: F    56396  E 5.7881e+08  h =  9.7435e-5 +- 0.0410e-5   ln(2E/F) = 9.9295 +- 0.0042
+       200-  1000: F   308533  E 3.1594e+09  h =  9.7655e-5 +- 0.0176e-5   ln(2E/F) = 9.9272 +- 0.0018
+      1000-  3162: F   721247  E 7.399e+09  h =  9.7479e-5 +- 0.0115e-5   ln(2E/F) = 9.9290 +- 0.0012
+      3162- 10000: F  1496620  E 1.5318e+10  h =  9.7704e-5 +- 0.0080e-5   ln(2E/F) = 9.9267 +- 0.0008
+     10000- 16384: F   728646  E 7.4668e+09  h =  9.7584e-5 +- 0.0114e-5   ln(2E/F) = 9.9279 +- 0.0012
+
+event-free lives not settled by the 840 rule but found in a cycle by the ladder detector: 3; periods [(22, 1), (26, 2)]; exposure counted after the detecting snapshot 34048 (9.96e-07 of E)
+all cycles seen by the ladder (any life, incl. after its event): 352671; periods not dividing 840: [(9, 80), (11, 39), (13, 41), (16, 518), (17, 2), (18, 1), (22, 89), (23, 3), (25, 2), (26, 2), (34, 2), (48, 4), (66, 14)]
+event-free lives in a cycle (faces alive, no firewall): 608; periods [(1, 422), (2, 95), (3, 22), (4, 28), (5, 16), (6, 8), (7, 3), (8, 5), (10, 3), (12, 2), (15, 1), (22, 1), (26, 2)]
+event-free lives at the cap not known to be in any cycle: 842062
+
+per job (rule A): chi2 of F_j against lam E_j = 991.3 on 1023; ln tau per job: sd 0.0172 (Poisson 0.0175), min 9.8682, max 9.9846
+blocks of 76 jobs (the size of the repository row), rule A: 9.9253 9.9266 9.9278 9.9257 9.9242 9.9247 9.9275 9.9249 9.9317 9.9273 9.9286 9.9282 9.9285   sd 0.0021
+rows: kind under A (K=16); columns: kind under B (per generation); count [exposure A - B]
+                              face                firewall                 settled                     cap
+face           3339999 [ +25056076]           0 [        +0]           0 [        +0]           0 [        +0]
+firewall          1521 [    +13533]        7727 [    +55978]           0 [        +0]           0 [        +0]
+settled            219 [     +2038]         911 [     +8563]         665 [     +4015]           0 [        +0]
+cap               1192 [     +8377]           5 [       +22]           0 [        +0]      842065 [        +0]

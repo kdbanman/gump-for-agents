@@ -74,10 +74,35 @@ CPU, cap 16,384): `python -u research/gpu-local/eqtorus.py run 4 0 4 3 48002 max
 | ln τ_fw, fwslab's convention (face death on a firewalled state) | 15.384 ± 0.008 | 15.128 ± 0.038 |
 | ln τ_fw, also counting lives that settle on a firewalled state | 15.189 ± 0.007 | |
 
-- **ln τ_face differs by 0.0073, 3.6σ of the file's error.** The hazard here is flat in age, so the file's cap does
-  not explain it; the stepper is bit-exact against the engine on this torus. Not resolved: a CPU cross-check with the
-  repository's own pipeline is running. Until it is, the 4 × 4 anchor of `research/constant/PREDICTIONS.md` part C
-  should be read with this in mind (0.007 is larger than several of the planned errors there).
+- **ln τ_face differs by 0.0073, 3.6σ of the file's error. Resolved: the file's value is high** (a draw of its 76
+  seeds, plus a rule bias of the CPU pipeline), and the value here stands. `research/gpu-local/cpu4x4/` (scripts,
+  results; a subagent's work, whose result files I read; I did not rerun its 4.2 M lives) reruns research/shape2's
+  own pipeline on this machine (`rep.c` built with gcc, validated against the engine, and reproducing the file's
+  row exactly from its seeds: 311,296 lives, E, F = 247,338, W = 685, settled 139):
+
+  | CPU, `rep.c` | lives | ln(2E/F) |
+  |---|---:|---:|
+  | the file's 76 seeds, the repository's rule | 311,296 | 9.9324 ± 0.0020 |
+  | the same lives, per-generation rule (the GPU's) | | 9.9308 ± 0.0020 |
+  | 1,024 fresh seeds, the repository's rule | 4,194,304 | 9.9270 ± 0.0005 |
+  | **the same lives, per-generation rule** | | **9.9255 ± 0.0005** (this card: 9.9251 ± 0.0004) |
+  | 304 seeds next to the originals, the repository's rule | 1,245,184 | 9.9267 ± 0.0010 |
+
+  - *The draw:* the file sits 2.6σ above fresh seeds under its own rule; no single job is an outlier (47 of 76 low,
+    per-job χ² 100 on 75); blocks of 76 fresh jobs scatter with sd 0.0021 and one reads 9.9317. The shape2 review's
+    independent stepper had 9.9275 ± 0.0015 (`research/audit/REVIEW-shape2.md`).
+  - *The rule bias, +0.0016 at this size* [measured on the same lives, `cpu4x4/xtab.py`]: `rep.c` records a layer's
+    last-alive generation only every 16 generations, so ends are rounded up by 7.5 generations on average
+    (exposure +0.074%), and 0.088% of face deaths are booked as something else: a firewall forming in the same
+    16-generation window (1,521 of 3.34 M: ties go to the firewall), a death in the last 15 generations before the
+    cap (1,192, booked as capped), an extinction in the same window (219, booked as settled). The bias scales
+    like 16 generations over the mean life: 0.0016 at A = 48 (mean life 8,200), negligible from A ≈ 60 up.
+    **It applies to every `rep.c` torus value on file with a short mean life** (the A = 48 census of research/shape2
+    in particular), with the same sign.
+  - The hazard by age on the CPU lives (per-generation rule) is the one measured here: 12.57 ± 0.07 (ages 0-60),
+    then 9.74 to 9.77 × 10⁻⁵ in every bin to the cap.
+  - Consequence for `research/constant/PREDICTIONS.md` part C: its 4 × 4 anchor should be 9.925, not 9.932. I have
+    not recomputed the forecasts with it (they are the lead's, committed, and stay as written).
 - **`fwslab.py` undercounts firewalls where lives can settle.** A firewalled slab often settles (period 1-2) before a
   face dies; the kernel then reports kind 2 and the driver keeps it as "settled". Here 3,420 of 5,023 settled lives
   were on a firewalled state: 18% of all firewalls, and ln τ_fw moves by 0.20. `eqtorus.py` counts them
