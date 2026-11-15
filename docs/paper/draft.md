@@ -955,21 +955,22 @@ extinct).
 
 **Still lifes.** **[proved, by exhaustive search]** (Z1; A + B) The smallest still lifes have 6 cells, and there
 are exactly four up to symmetry; they include the six faces of a single cube (each sees exactly 4 others) and the
-six-cell hexagon of one kagome layer. **[proved, exhaustive]** (Z2; B for these sizes) The numbers of strict
-still lifes with n = 6, …, 13 cells are 4, 2, 7, 9, 27, 45, 228, 851. *Preliminary* (C): 3,388, 12,255, 47,578
-for n = 14, 15, 16.
+six-cell hexagon of one kagome layer. **[proved, exhaustive]** (Z2; B for these sizes, the search re-run by a second
+agent) The numbers of strict still lifes with n = 6, …, 15 cells are 4, 2, 7, 9, 27, 45, 228, 851, 3,388, 12,255.
+*Preliminary* (Z2; C): 47,578 for n = 16.
 
-**Period 2.** **[proved, exhaustive]** (Z3; B for unions up to 11) The smallest period-2 oscillator has a union
-of 9 cells; there are 3, 6 and 4 classes with unions of 9, 10 and 11 cells. *Preliminary* (C): all of these are
-"hinge flips", in which live faces swing 90° about a shared edge; no period-3 oscillator has union ≤ 12 and the
-smallest has union exactly 13 (Z4).
+**Period 2.** **[proved, exhaustive]** (Z3; B for unions up to 13, the search re-run by a
+second agent) The smallest period-2 oscillator has a union of 9 cells; there are 3, 6, 4, 11 and 10 classes with
+unions of 9 to 13 cells. **[proved, exhaustive]** (Z4; B for this statement) No period-4 oscillator has union
+≤ 10. *Preliminary* (Z3, Z4; C): all period-2 oscillators with union ≤ 11 are "hinge flips", in which live faces
+swing 90° about a shared edge; no period-3 oscillator has union ≤ 12 and the smallest has union exactly 13.
 
 **Why anything has period above 2.** By Theorem 5 every oscillator of period ≥ 3 has cells that are overcrowded
 one generation after being alive, and over a period the drive at those cells balances the
 dissipation exactly; this was verified on all 329 catalogued objects of period ≥ 3.
 
-**Long periods are short loops closed by a symmetry.** *Preliminary* **[measured]** (Z5; C): soups in small
-octahedra leave oscillators of periods 1–16, 20, 22, 48 and 66. The longest has a simple anatomy.
+**Long periods are short loops closed by a symmetry.** **[measured]** (Z5; B: all 14 batches re-run by a
+second agent on the producer's own seeds, identical) Soups in small octahedra leave oscillators of periods 1–16, 20, 22, 48 and 66. The longest has a simple anatomy.
 
 **Twist lemma [proved]** (ledger T7; A). Let B be a closed box (a diagonal hull: a finite non-empty set of
 cells) and F its map on the states x ∈ {0,1}^B. Let G be the group of *lattice symmetries* of B: the maps
@@ -1020,8 +1021,8 @@ a compound of period 52 = 4 × 13 with no cell of period 52 (24 still cells, 4 o
 **[measured]** (Z9; B + A) Among the remaining objects, twisted loops are a steady 3–8% at every loop length
 (295 of 9,278 with L ≥ 3; 30 of 670 with L ≥ 7; 9 of 120 with L ≥ 12; 5 of 66 with L ≥ 16), so the twist
 multiplies ordinary loops rather than selecting long ones; the longest untwisted loop found is C35.29a (L = 35).
-*Preliminary* (Z10; C): P66.27a is reached from 4.1 × 10⁻⁴ of the random states of its own box, and single-cell
-perturbations destroy it more often than not. No object found carries or gates a signal.
+**[measured]** (Z10; B: re-run by a second agent on the producer's seed) P66.27a is reached from 4.1 × 10⁻⁴ of
+the random states of its own box, and single-cell perturbations destroy it more often than not (30% of 6,600 heal). No object found carries or gates a signal.
 
 Figure 5 (placeholder; does not exist): *P66.27a at phases 0 and 33, layer by layer.* A text rendering is
 produced by `engine/target/release/gump show --cells research/clockwork/views/P66.27a.cells --orbit`.
@@ -1050,13 +1051,14 @@ a memoryless wait with
 
 $$\ln \tau_{\rm edge} = 0.73 + 0.416\,L, \qquad L = 12\text{–}36,$$
 
-τ_edge from 286 to 5.8 × 10⁶ generations. *Preliminary* (G2; C: proved in the study and brute-force checked there,
-re-derived by a second reader by hand in part only): it is confined to its bounding box, three dead rows are a
+τ_edge from 286 to 5.8 × 10⁶ generations. **[proved]** (G2; B for the brute-force checks, re-run by a second
+agent; the proofs, in the study, were re-derived by a second reader by hand in part only) It is confined to its bounding box, three dead rows are a
 firewall, the threshold lemma holds with exceptions exactly at overcrowded cells, and no finite set is sealed.
-*Preliminary* **[measured]** (G3, G4, SW4; C): a mirror perpendicular to the edge multiplies the slope by 0.42
+*Preliminary* **[measured]** (G3, G4; C): a mirror perpendicular to the edge multiplies the slope by 0.42
 and full square symmetry by 0.50, but a forecast that symmetries fixing no edge cost nothing failed for four-fold
-rotation; no capped-threshold rule on the Moore neighbourhood sustains confined chaos; an edge with a two-cell
-dead notch has slope 0.346 against 0.412 for the intact edge. The 2D slope is 0.416; twice the 3D periodic-face
+rotation; no capped-threshold rule on the Moore neighbourhood sustains confined chaos. **[measured]** (SW4; B:
+re-run by a second agent on the same seed sequence) An edge with a two-cell dead notch has slope 0.346 against
+0.412 for the intact edge. The 2D slope is 0.416; twice the 3D periodic-face
 values 0.2072 to 0.2125 (Section 7) is 0.414 to 0.425. Whether this is more than a coincidence is not established,
 and given Section 7 neither number is an asymptotic constant.
 
