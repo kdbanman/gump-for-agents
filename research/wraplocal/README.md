@@ -20,3 +20,9 @@ been run.
   an exact property of the neighbourhood.
 - **F5 (70%).** A tube of loop² 9 lives on a line of its own whose price per cell is further below the open price
   than loop² 12's (more than 2.0% below).
+- **F6 (written 19:05 UTC, before any loop² 9 lifetime was run here).** The density relation of this study
+  (discount per cell = κ f(q), κ = 1.90 fixed on loop² 12 and 16, f(9) = 0.00737 from the pilot density runs) puts the
+  loop² 9 tube at **0.1947 ± 0.0010 per cell**. To be tested by the slope between the 63-cell tube on file
+  ((1,6,21), research/shape3, 12.8588 ± 0.0014) and new ts3 runs of (1,7,24) (72 cells) and (1,8,27) (81 cells).
+  Seen before writing this: the file's loop² 9 values at 45–63 cells (local slopes 0.200 and 0.198, a fall the
+  relation does not have). Probability that the 63–81 slope lies within 2σ of 0.1947: **35%**.
