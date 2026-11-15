@@ -161,8 +161,11 @@ The review re-measured segments at n = 21, 29 and 37: 9.1719(16), 11.5564(18) an
 - The segment slope is the lowest and has been flat at 0.295–0.300 since n ≈ 25 (0.3095, 0.3018, 0.2990, 0.2967,
   0.2977, 0.2951, 0.2998 at n = 15, 19, 23, 27, 31, 35, 41; every n from 5 to 25 was run and the steps fall
   smoothly, with no effect of n modulo anything); the three others are above it and falling towards 0.30–0.31.
-- The front's distance from a wall is the cleanest: one front, nothing to nucleate, no deaths needed, and the
-  form g + a/x gives the same g on every range of x. It says W(x) ∝ x^(−0.30) e^(−0.303 x). The 45-site segment
+  That flatness holds within errors that grow from 0.0004 to 0.003 per site over that range.
+- The front's distance from a wall is the cleanest: one front, nothing to nucleate, no deaths needed. Within the
+  two-term form g + a/x the same g comes out on every range of x, and it says W(x) ∝ x^(−0.30) e^(−0.303 x). That
+  constancy is a property of the form, not of the data: three-term forms move g to 0.304–0.316, and −a√x alone
+  gives 0.285–0.293 (table above). The 45-site segment
   gives the same k_wall within 0.0003 for x ≤ 16 and +0.001, +0.002 at x = 18, 20 (the island left is then short,
   §5), so the 61-site values are good to about 0.001 up to x ≈ 32.
 - **Reading [conjectured].** One γ, the price per site of pushing a front back. A window needs a gap to be born
@@ -172,10 +175,18 @@ The review re-measured segments at n = 21, 29 and 37: 9.1719(16), 11.5564(18) an
   the small sizes show. That would put the flat 0.297 at n = 25–45 at the turn of the curve and γ at 0.303. It is
   not established: the alternative that all four keep falling to about 0.29 is excluded only if the form g + a/x
   of route 4 is right.
-- **Value.** γ = **0.298 ± 0.011 per site, 0.099 ± 0.004 per cell**: the interval runs from the lowest fit of the
-  segment lifetimes with a correction term (0.289, a ln n term) to the window extrapolation (0.309), and the two
-  routes with stable fits (segments, straight: 0.297; wall: 0.303) sit inside it. Read from lifetimes alone, as
-  the census reads it, the cost per cell of a face with free ends is 0.0993(3) between A = 75 and 135.
+- **Value.** γ is **about 0.099 per cell, between 0.093 and 0.107 depending on the unknown form of the
+  correction**. If the four routes share one limit **[conjectured]**, it is between 0.097 and 0.102. This is a
+  spread of fitted forms, not a confidence interval.
+  - Route by route: segments 0.093–0.102, rings 0.094–0.107, wall 0.095–0.105. Windows give no bound.
+  - The low end is a + γn + c√n on the segments from n ≥ 17 (0.2793(23) per site, χ² 10.6/11).
+  - The high end is a fast exponential correction (ξ = 3) on the review's rings (0.3215(5) per site).
+  - The forms in `analyze.py routes` alone span 0.289–0.309 per site, which is narrower. That narrower spread is not
+    an error bar. Forms outside that set fit equally well and fall outside it: √n on segments, ln b on rings, a
+    third term on the wall.
+  - Read from lifetimes alone, as the census reads it, the cost per cell of a face with two ends is 0.0993(3)
+    between A = 75 and 135. That is a mean local slope, and its error is statistical only. The review reproduced it
+    to n = 37 (A = 111); "to A = 135" rests on this line's n = 45 alone.
 - The static formulation fails as a short cut **[measured]**: ln τ_ring(b) + ln E(b − s) is not constant for any
   shift s (`python3 analyze.py static win_det_b64 'det_b[0-9]*'`): for s = 0 it falls from 0.77 at b = 16 to 0.41
   at b = 36. The ring's lifetime grows more slowly than 1/E(b), by a factor b^0.45 over this range.
@@ -339,7 +350,8 @@ What the same method says as the face widens, and what it would take:
   3, 7, 13, 21, 31), validated cell by cell. The census's 0.141 belongs to shortest loop squared 4, which is not
   of this form (two cubes per ring position) and was not stepped here.
 - The census slopes of wider tori are local slopes of ring laws too, and should come down with length as the
-  thin torus's did (0.115 → 0.103 between A = 54 and 102, limit 0.099 ± 0.004). How much of the rise 0.10 → 0.19 → 0.21
+  thin torus's did (0.115 → 0.103 between A = 54 and 102; limit about 0.099, between 0.093 and 0.107 depending on
+  the correction form, §3). How much of the rise 0.10 → 0.19 → 0.21
   with the loop is asymptotic and how much is the ring's bend is not known.
 - Reading **[conjectured]**: the cost per cell is the price of pushing a front line back by one cell, and a longer
   front line is harder to push because its cells hold each other up sideways; on the thinnest torus the line is
