@@ -115,7 +115,13 @@ _Last updated 2026-11-14 by the lead._
   table from the raw counts (`python3 research/audit/shape3_lead_check.py`). It also met "zombie lives" (a settled
   state whose period does not divide 840 is never recognised; +0.017 in ln τ at A = 36 with no age cap; fixed by a
   multi-lag test): the reviewer is asked for a bound on the bias in the capped census, and the GPU session was asked
-  (00:20 UTC, code reading only, no Modal spend) how its kernels treat such replicas.
+  (00:20 UTC, code reading only, no Modal spend) how its kernels treat such replicas. **Answered and merged as pull
+  request 20 (text only; squash fc1383b, 00:33 UTC):** its kernel detects periods 1–2 and, in most runs, up to 128;
+  no age cap; bounds on undetected exposure from the committed logs by run (`python3 research/gpu/zombies.py`;
+  weakest: R13 ≤ 6.7e-3 against ± 0.005, symc R43 s501, slab 4×8×8; runs shorter than one mean life, R15 and R17
+  among them, rest on a rate argument marked not proven); no published number changes. The lead recomputed the R11
+  and R13 bounds (`python3 research/audit/gpu_pr20_lead_check.py`). A notebook entry on these lives (CPU and GPU
+  together) is owed once the review of (4) is in.
   (6) Fable, **reported 22:10 UTC, reviewed 22:30 UTC, recorded** (`research/constant/README.md`,
   `research/audit/REVIEW-constant.md`; notebook entry "is there one asymptotic cost per cell"; CLAIMS CN1): the
   data allow one asymptotic constant anywhere from about 0.207 to 0.219 and do not fix it; the analysis's "two
