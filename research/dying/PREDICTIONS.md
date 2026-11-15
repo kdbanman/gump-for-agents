@@ -178,3 +178,70 @@ not end settled). P̄ and σ_P over every face orbit of every kept record. ln τ
 - K7 (50%). B1 fails in c1: S at t_h exceeds the thinned stationary by more than 15% (a collapse starts somewhere,
   and information travels one cube per generation).
 - K8 (55%). A3's q part holds and the ν part holds.
+
+# Round 3 (committed 2026-11-15, after round 2, before any round-3 run)
+
+## THE LEAD'S FORECASTS, ROUND 3 (2026-11-15, after round 2, before any round-3 run), verbatim
+
+- T1 (one curve across sizes, c1). nu(p), q(p), Pbar, sigma_P for c1 at cube-centred R = 9, 11, 13 and, for the levels you can reach, R = 15. (a) -ln nu(0.5)/A at A = 84 agrees with A = 63 (0.103) within 5%. Confidence 60%. (b) The straight-line slope of ln nu per live cell lost, fitted over 0.1 <= p <= 0.45 (or as deep as the data go at A = 84, stated), is within 7% of 0.499. Confidence 55%.
+- T2 (coexistence). In c1 stationary faces caught at P <= 0.3 Pbar, the occupancy profile against distance from the survivors' centroid is flat-topped: the inner half of the survivors sit in a region whose occupancy is at least 0.8 of the stationary value, and the profile falls from there to below 0.2 of stationary within 2 rows. Confidence 50%.
+- T3 (where the survivors sit). In csz faces at P <= 0.3 Pbar, after correcting for the stationary profile (your round-1 lesson), the survivors' centroid is nearest the tied edge in fewer than 25% of cases (one third by chance): a thin face holds on at its free edges. Confidence 45%.
+- T4 (how a thin face refills). In c1 recoveries from P <= 0.3 Pbar, at least 70% of the first ten births on the face are within two cells of a face cell that was alive at the bottom of the dip (regrowth from the clump), against the fraction expected if births fell on empty cells at random, which you compute. Confidence 55%.
+- What would count against the reading: the curves at different sizes do not collapse per site (T1a off by more than 15%), and depleted faces show no clump with an edge (T2's profile falls smoothly over the whole face).
+
+## Round-3 definitions (fixed before any round-3 run)
+
+**Stepper.** `ex3.c` = `ex.c` with faces of up to 127 cells and dumps of deep excursions: for every excursion whose
+P reaches ≤ M3, the face orbit's 63 cell states at every generation from the first with P ≤ M3 to the end of the
+excursion (cap 512 generations, flagged if truncated), with its end type and minimum. Checked before use: on a short
+D2h run its lives file, excursion table and P histogram are identical to `ex.c`'s. Every production lives file is
+compared with `sy`'s.
+
+**Runs** (soup 0.4, checks every 4, T0 = 512, 512 replicas):
+- c1, cube-centred, R = 9 (A = 45) seed 51, 400,000 generations; R = 11 (A = 63) seed 52, 1,200,000, M3 = 9
+  (= ⌊0.3·31.29⌋); R = 13 (A = 84) seed 53, 1,200,000; R = 15 (A = 108) seed 54, 1,200,000.
+- csz, R = 11, seed 52, 400,000, M3 = 8 (= ⌊0.3·28.83⌋).
+- P̄ (which sets the excursion threshold) and σ_P: R = 11 c1 31.29 and csz 28.83 (round 1); R = 13 42.49 (round 2);
+  R = 9 and 15 from a null run of `sd.c` (seed 41, 100,000 generations, no dumps, round-1 null rule) made before the
+  `ex3` run, rounded to 0.01.
+- Slab, without a forecast: `hex_4_1_c1` (a face torus of area 63, eight layers, no rim) if
+  `python3 research/theory/symmetric/validate.py 1500 hex_4_1_c1` prints ALL OK; P̄ from `sd.c` null seed 41
+  100,000 generations; `ex3` seed 55, 400,000 generations. A life also ends at a firewall there (censoring).
+
+**T1.** ν(p) as round 2 (levels p = 0.05 … 0.95, min P < p·P̄). (a) −ln ν(0.5)/A at A = 84 against the same at
+A = 63 from the round-3 R = 11 run; holds if within 5% (the round-2 value 0.1034 is reported too). (b) Slope s: least
+squares of ln ν(p) against p·P̄ (live cells) over the levels 0.10 ≤ p ≤ 0.45, weighted by the number of excursions,
+levels with fewer than 20 excursions dropped (the range used is stated); s per live cell lost; holds if |s/0.499 − 1|
+≤ 0.07 at A = 84. The same fit is reported at every size, and the straight part's extrapolation to p = 0 divided by A.
+
+**Caught faces.** The first recorded state of each deep excursion (the first generation with P ≤ M3), all end
+types; faces with fewer than 3 live cells skipped (counted). In-plane coordinates as round 2 (doubled units); ρ_i
+the round-2 c1 / csz null occupancy of canonical cell i (fresh seeds, round 2); row spacing ℓ = √1.5 doubled units.
+
+**T2** (c1, R = 11). For each caught face: survivors' centroid c (unweighted mean of the live cells' positions);
+r_half = median distance of the live cells from c. Relative occupancy of a region = Σ over faces of live cells in it
+/ Σ over faces of Σ ρ_i over its cells. Inner region: d ≤ r_half. Shells j = 0, 1, 2, …: r_half + jℓ < d ≤ r_half +
+(j+1)ℓ. Holds if inner ≥ 0.8 and shell j = 1 < 0.2. Control: the same for a stationary face thinned uniformly to the
+same k (one per caught face).
+
+**T3** (csz, R = 11). Corrected centroid of a caught face: Σ_i (x_i/ρ_i) p_i / Σ_i (x_i/ρ_i), canonical (x, y, z);
+nearest edge = argmin of its coordinates. Holds if the fraction nearest the tied edge z is below 0.25. Control: the
+same for thinned stationary csz faces.
+
+**T4** (c1, R = 11). Recovered deep excursions, not truncated. Bottom = first generation in the record with P equal
+to the excursion's minimum; B = live cells there. Births on the face at t → t+1 (dead at t, alive at t+1) for t =
+bottom, bottom+1, …, until the cumulative count reaches 10 (all births of the last such generation counted). "Within
+two cells" = graph distance ≤ 2 from B in the in-layer neighbour graph of the face (each cell's 6 in-layer gump
+neighbours that lie in the face). Observed fraction pooled over excursions. Random: for each counted generation, the
+fraction of the face's empty cells at t within distance ≤ 2 of B, weighted by that generation's births. Holds if the
+observed fraction ≥ 0.70 (the random figure is reported beside it).
+
+## My round-3 forecasts
+
+- K9 (60%). T1a holds: −ln ν(0.5)/A is size-independent within 5% (Gaussian and tail parts both scale with A if P̄ and
+  σ_P² do).
+- K10 (50%). T1b fails: the slope per cell at A = 84 is more than 7% below 0.499.
+- K11 (60%). T2 fails: no plateau of 0.8 in the inner region (the survivors of a thin face are a loose clump, not a
+  patch of stationary soup).
+- K12 (55%). T4: the observed fraction exceeds the random one by less than 0.10, because distance 2 already covers
+  most of a 63-cell face around ~9 survivors.
