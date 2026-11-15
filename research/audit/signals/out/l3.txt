@@ -93,3 +93,7 @@ follow: two pulses moving the same way, d cubes apart; rigid train after 2N gens
   right: [(1, 'train'), (2, 'train'), (3, 'train'), (4, 'train'), (5, 'train'), (6, 'train'), (7, 'train'), (8, 'train'), (9, 'train'), (10, 'train'), (11, 'train'), (12, 'train')]
   left: [(1, 'train'), (2, 'train'), (3, 'train'), (4, 'train'), (5, 'train'), (6, 'train'), (7, 'train'), (8, 'train'), (9, 'train'), (10, 'train'), (11, 'train'), (12, 'train')]
 mark hit by a later pulse (ring 96): t = 160, 162, 200
+  d=22, third pulse from the left (a right-mover): 5 cells differ from bare, cubes [10, 11, 12]; stationary: True
+  d=22, third pulse from the right (a left-mover): 5 cells differ from bare, cubes [11, 12, 13]; stationary: True
+  d=24, third pulse from the left (a right-mover): 5 cells differ from bare, cubes [11, 12, 13]; stationary: True
+  d=24, third pulse from the right (a left-mover): 5 cells differ from bare, cubes [12, 13, 14]; stationary: True
