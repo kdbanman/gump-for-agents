@@ -264,3 +264,27 @@ sub-series as R = 35):
 **S5.** ln τ_face(oct_43_c_td) = **25.65 ± 0.25**, i.e. a rim term of 3.76 ± 0.25 at 10.5 periods with the GPU's
 O_h value 21.889, a marginal cost of 0.3 ± 0.12 per period beyond R = 35. At or above 26.1 the rim term has stayed
 linear (S3's reading) and T_d has steepened to 0.215 or more; at or below 25.9 the rim term is flattening.
+
+## Correction after review, 2026-11-15
+
+Appended after the adversarial review `research/audit/REVIEW-symmetric.md`; nothing above is changed. The review
+reran part of this study with its own stepper and disputes the scoring of these statements:
+
+- **Tally.** The 38 statements above count Q7 (three sizes) as one and R1 (three sizes) as three. Counting each
+  size, of 40 statements 25 held, one fell on its limit (Q5) and 14 failed. This does not change the picture.
+- **P4.** Scored "levels failed", although its committed failure line (below 0.6 at A = 84) was not crossed
+  (found 0.645); the levels were low by 0.4 against the stated ± 0.15.
+- **S2, second line (c2e above csz at A = 84, held).** The group c2e, (x,y,z) → (y,x,−z), pairs edge-sharing faces
+  in only two of its four face orbits; the other two pair opposite faces. The pooled value (15.834) is a mixture,
+  and the statement held for the mixture only. At A = 63 the review split the deaths by face orbit: the
+  edge-paired orbits cost −2.536 ± 0.015 from c1 cube-centred (csz −2.194 ± 0.014) and −1.960 ± 0.022
+  vertex-centred (csz −2.120 ± 0.018); the opposite-paired orbits −0.10 ± 0.04 and +0.02 ± 0.05. If the
+  opposite-paired orbits again cost about 0.1 at A = 84, the edge-paired c2e faces there are near 15.2, i.e. below
+  csz (15.506) [inferred by the review, not run].
+- **S3 and S5 (open).** S3's linear-rim number, reproduced as 26.43 from the R ≤ 33 line, is 26.20 with the
+  all-size line with alternation. The two forecasts (26.4 ± 0.3 and 25.65 ± 0.25) are 0.75 apart with a combined
+  forecast error of 0.39 (1.9σ): a GPU result between about 25.9 and 26.2 decides nothing, and the two readings
+  are not exhaustive (a T_d that steepens and a rim that bends can give either number).
+
+The commit order was checked by the review: every forecast block precedes the first output of the runs it
+scores (block 2b's case as disclosed above).
