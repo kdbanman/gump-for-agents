@@ -606,10 +606,16 @@ corrected is part of what this repository is for.
   drift toward anything else. Faces with a rim say more, and their local slope is moving
   away from that, not towards it. The card in your house is running the large rimmed face
   that would tell.
-- Why a face stops seeing itself. A wrapped face lives less long for every short way round
-  it, and then, between one loop length and the next, loses nothing at all. I do not know
-  what sets that length, or why a tube's price per cell falls by just two percent, 1.3 and
-  0.7 as its girth tightens, or how the discounts of two short ways round combine.
+- Why a way round costs what it does. I had this down as "why a face stops seeing itself":
+  a wrapped face lives less long for every short way round it, and then, past a certain
+  length, seemed to lose nothing. That was the limit of what lifetimes can resolve. Looked
+  at alive, a face is a little emptier for every way round it, by an amount that falls
+  smoothly as the way round lengthens and never quite ends, and the discount in the price is
+  1.85 times that emptiness. Two percent, 1.3 and 0.7 are that rule at three lengths. I do
+  not know why 1.85, or what carries the emptiness round the loop: a cell and its own image
+  one loop away are not correlated at any moment. And if the rule holds for long loops, the
+  price with no way round at all is nearer 0.2075 than 0.2086; a face is queued on your card
+  to test that.
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):

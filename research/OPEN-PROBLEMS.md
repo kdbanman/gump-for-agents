@@ -82,6 +82,17 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    combine (neither sums of log-discounts nor sums of rates is established); (d) faces below 48 cells and loop²
    9, where no form fits (the 36-cell face with three loops of 12 dies sooner than the loop² 9 faces of its
    area).
+   **Since (the same day, CLAIMS WL4–WL6, `research/wraplocal/`):** (b) had a false premise. In the living state
+   the density of the face layer is lower by one term for every loop round the face, falling smoothly with the
+   loop's length (f(21) is two thirds of f(19) and 45σ from zero), and the tube discounts at 12, 13, 16 are 1.85
+   times that deficit; the "end at 21" was the lifetimes' resolution. Now open: (e) **does the relation hold past
+   16?** If it does, faces with "no short loop" differ by their long loops and the price with no loop at all is
+   about 0.2075, not 0.2086 (W13: the 84-cell face with loops of 21 and 28, forecast 17.534 against 17.547,
+   queued for the card); (f) why 1.85, and why the price follows occupation and not turnover (as an elasticity
+   the price moves 4.6 times the density); (g) what carries the deficit round a loop: it is not an equal-time
+   correlation at the loop vector (below 10⁻⁴); (h) tubes of girth three are cut by transverse firewalls and
+   their price falls with length: is every tube, at great enough length, cut the same way, so that no tube line
+   is straight for ever? (None in 29,412 deaths of the 84-cell loop-12 tube.)
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.
 
