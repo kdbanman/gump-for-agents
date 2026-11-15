@@ -7,9 +7,10 @@ heals, the other kills), in both directions.
 For each chosen end and each event (the hole of the census word [0]; the riding events of kinds K-hole and K-other
 from kinds5.py), two runs on reference/oracle.py on an even box torus (st5.oracle_run): the end at the end of a
 finite train of units -100..5, with and without the event.  'healed': the two WHOLE torus states are equal at some
-generation <= 140.  'dies': never equal, and at generation 140 they differ on some cell of units <= -30 while the
-plain run still holds the plain train on units -40..-20 (the difference has run up the stream from the end; the
-far tail of the finite train has not reached unit -40 by then: it moves half a unit per generation from -100).
+generation <= 140.  'dies': never equal, and at generation 100 they differ on some cell of units <= -20 while the
+plain run still holds the plain train on units -40..-20 (the difference has run 26 units up the stream from the end;
+the far tail of the finite train has not reached unit -40 by then: it moves half a unit per generation from -100);
+printed with the lowest unit of the difference at generation 100.
 """
 import json, os
 from st5 import oracle_run, train, unit, tr, ROOT, HERE
@@ -46,9 +47,9 @@ def run(cells_end, ev):
     for t in range(G + 1):
         if p[g + t][1] == q[t][1]:
             return 'healed', g + t
-    D = p[G + g][1] ^ q[G][1]
-    plain_ok = frozenset(c for c in p[G + g][1] if -40 <= unit(c) < -20) == train(G + g, -40, -20)
-    return ('dies' if plain_ok and any(unit(c) <= -30 for c in D) else 'other'), G + g
+    D = p[100][1] ^ q[100 - g][1]
+    plain_ok = frozenset(c for c in p[100][1] if -40 <= unit(c) < -20) == train(100, -40, -20)
+    return ('dies' if plain_ok and any(unit(c) <= -20 for c in D) else 'other'), min(unit(c) for c in D)
 
 
 out = []

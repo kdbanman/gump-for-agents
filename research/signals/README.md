@@ -1105,9 +1105,14 @@ k = (T + 2) mod 4 here (KS = 6).
 The question: a bounded standing object at the end of the stream or beside it that survives a gap (a rake removed)
 and is left in a lasting state different from the one it has when no gap comes, both states stable under the plain
 stream. **None was found.** What is excluded, exactly, is in sections 26 to 28; the strongest statement is the
-constraint search of section 26 (every end of the stream in the 3 × 3 tube up to C = 39, period 4; and period 8 up
-to C = 33), the widest net is the census of section 27 (741 ends, every one fed eight words of gaps, transients up to
-1,500 generations), and the only search beside the stream is a sample (section 28). No new object, so nothing new
+constraint search of section 26 (every end of the stream of period dividing 4 in the 3 × 3 tube up to C = 39, and of
+period dividing 8 up to C = 33, against the one-cell hole and four short words of holes, for an end that settles within
+42 generations and disturbs at most the 4 units of train in front of it; C = 29 is vacuous, since no end exists there,
+and up to C = 37 the census of section 27 answers the same question), the widest net is the census of section 27 (741
+ends, every one fed eight words of one-cell holes, transients up to 1,500 generations), and the only search beside the
+stream is a sample (section 28). *(Review, REVIEW-signals-5: confirmed with these bounds; and every one-unit change of
+one arriving rake was sent to the 741 ends as well: still nothing but healed or burnt, but the stream carries a second
+one-cell signal, and which ends it kills is not which ends the hole kills: section 27.)* No new object, so nothing new
 for the oracle; the controls of each search are stated with it. Forecasts and scores: `PREDICTIONS.md`.
 
 ## 26. A listener at the end of the stream as one constraint problem: none in the 3 × 3 tube
@@ -1130,8 +1135,11 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   X* is in some orbit B* of period dividing TB of the same train by generation T and B* is not E's own orbit. If X*
   never changes units 0, 1 (six units in front of the end's first free unit), then X* equals the holed train on all
   units < 2 for all t ≤ T (induction on t: units ≤ 0 at t + 1 see units ≤ 1 at t), so (E, B*, X*) restricted to the
-  region satisfy every clause. B is A moved, or A at a different phase relative to the train, or a different end:
-  all are allowed, so movers and phase shifts are excluded too. A model would be a listener of the write-once kind
+  region satisfy every clause. B may be A at a different phase relative to the train or a different end, so phase
+  shifts are excluded. B may also be A moved by k units, but only if both fit the region: B is tied to the train on
+  units < 6 and lies inside the planes, so an end whose lowest changed unit is 6 must fit inside the planes at C − 4k
+  (one unit is 4 in x + y − z). Movers are thus excluded only for ends that fit at C − 4|k| (at C = 39: one-unit movers
+  of the ends of C ≤ 35), not for ends that need the whole region (review, REVIEW-signals-5 §1). A model would be a listener of the write-once kind
   at least (A → B, B stable); a reusable one is a special case.
 - **Controls.** `python3 sat_listen.py 31 --same` (the condition B ≠ A dropped): SAT in 6 s, the C = 31 absorber,
   re-stepped (`sg.step_set`): A and B periodic, the run reaches B, and B is A healed. A control that the "≠" part finds
@@ -1156,6 +1164,14 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   (a toggle). With TA = 8 one hole position covers both arrival times of a hole relative to the end's 8-cycle (the
   end's phases are free in the instance). Holes at every rake of the train are equivalent to the one tried when the
   end has period 4 (one rake per period).
+  *Review (REVIEW-signals-5 §1):* the row C = 29 is vacuous (no absorber exists there, section 21; the instance with
+  `--same` is UNSAT too). Every end of period dividing 4 at C ≤ 37 is in the census lists of section 27, and the
+  period-8 lists at C = 31 and 33 (complete) hold only period-4 ends, so all rows but C = 39 are a second method for a
+  question the census also answers. Reproduced with an independent encoding (`research/audit/signals5/mysat5.py`,
+  own region, constants and counter; glucose4 and kissat404): one hole, (4, 4), C = 29 and 31 UNSAT; the other rows
+  rest on `sat_listen.py` alone. The holed train H of `sat_listen.py` is a finite piece ending at unit 46 whose end
+  burns back half a unit per generation; it reaches units 0, 1 near generation 88, so instances with T ≳ 88 (longer
+  words, or S ≥ 50) would need a longer piece. All instances above have T ≤ 78.
 - **Not finished (cut at 25 minutes or more by `watchdog.sh`; pysat's own interrupt does not fire on these):** the
   5 × 5 tube (`--lo -1 --hi 7`) at C = 29 (33 min) and C = 31 (25 min), TA = 4. Even the plain absorber census of the
   5 × 5 tube at C = 31 (`sat_gun.py fb 31 --dir 1 --lo -1 --hi 7 --all`) found no solution in 11 minutes. Not run:
@@ -1164,8 +1180,8 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
 - **What this does not exclude.** Ends reaching outside the 3 × 3 tube or beyond the planes; ends that disturb the
   train more than 4 units in front of them during the transient (anything that sends a signal up the stream and gets
   it back later, or not at all); ends that settle more than 42 generations after the last hole arrives (section 27
-  covers longer transients for the ends it lists); periods 3, 6, 12, …; other gaps than the one-cell hole; streams
-  other than the gun's.
+  covers longer transients for the ends it lists); movers of ends that need the whole region (above); periods 3, 6,
+  12, …; other gaps than the one-cell hole; streams other than the gun's.
 
 ## 27. A census of 741 ends of the stream, and what eight words of gaps do to them
 
@@ -1192,7 +1208,19 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   train: they burn back up the stream); **no other outcome vector occurs.** No end survives a word in a changed
   state, no end is moved or shifted in phase by one (the class "same key, not healed" is empty), no end tells one
   word from another even by dying. The transition graph has no edge between two live ends. So at the end of the
-  stream, in this tube, a gap is forgotten or fatal, and which of the two is a property of the end alone.
+  stream, in this tube, a hole is forgotten or fatal, and which of the two is a property of the end alone.
+  *Review (REVIEW-signals-5 §2; `research/audit/signals5/scan5.py`, an independent stepper checked against the oracle,
+  every run compared on the whole state of 66 units of train and the end):* the eight words give 599 × 8 healed (all
+  within 39 generations, the whole state equal, so nothing was sent up the stream) and 142 × 8 burnt, as claimed.
+  **The second half does not hold for other gaps.** Every one-unit change of one arriving rake (every subset of the
+  cells of either unit of a train period removed, every dead tube cell of the two made live, the pair replaced by bare
+  wire; at each of the four generations of a period; 418 events per end) still ends healed (whole state) or with the
+  stream burnt; no end is left alive and changed, moved, or with an echo. But the stream carries a second one-cell
+  signal, K0 (the wire cell (1,0,2) missing; made, e.g., by removing the cell (0,1,4) of a rake unit at an even
+  generation), and the ends split four ways: 113 heal the hole and K0, 486 heal the hole and are destroyed by K0, 17
+  are destroyed by the hole and heal K0, 125 are destroyed by both (`kinds5.py`; on the oracle for seven ends,
+  `oracle5.py`). So which of the two a gap meets depends on the end and on the kind of gap: a K0 signal is a gap
+  that 486 of the ends that forgive a hole do not forgive.
 - Not covered: the 5 × 5 tube (its absorber census at C = 31 found no solution in 11 minutes: section 26), C ≥ 39,
   ends of period 8 at C ≥ 33, transients longer than 1,500 generations, words other than the eight, the line's own
   receiving cap (capA, which is a cap at rest that becomes an absorber; it heals every word, section 21).
