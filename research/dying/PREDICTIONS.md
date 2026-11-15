@@ -98,3 +98,83 @@ forced by the ensemble's symmetry and so tests the code, not the dynamics.)
    stationary value; the layers beneath the dying face; a version of L6 that ranks edges by relative deficit, because
    the pre-registered deficit centroid w_i = ρ_i − x_i inherits the stationary profile: a face that empties in
    proportion to ρ has its centroid pulled away from a depleted edge), and the stationary occupancy by row.
+
+# Round 2 (committed 2026-11-15, after round 1, before any round-2 run)
+
+## THE LEAD'S FORECASTS, ROUND 2 (2026-11-15, after round 1, before any round-2 run), verbatim
+
+What I now think and want tested: a death is a fast collapse of the whole face from an ordinary-looking state, ties change how often a collapse starts and not how it runs, and the face population P alone may or may not be the variable that decides. Known going in: sigma_P is 5.24 in c1 and 6.37 in D2h (your README); a Gaussian extrapolation of P to zero gives ln tau about 17.8 for c1 (measured 13.63) and 7.0 for D2h (measured 7.17), so it is not obviously right or wrong.
+
+A. Excursions, from long stationary traces of each face's population P(t), fresh seeds, all four groups at A = 63. For levels p = 0.9, 0.8, ..., 0.1 of the stationary mean: nu(p), the rate per face per generation of excursions that start above the mean and reach p; and q(p), the fraction of those that end in the face's death before P is back above the mean. (Then nu(p) q(p) should equal the death rate at every level: use that as the check.)
+- A1. In c1 the level where q = 1/2 lies between 0.25 and 0.5 of the mean: a face that has lost 40% of its cells usually recovers. Confidence 50%.
+- A2. In c1, ln nu(p) follows the Gaussian const - (Pbar - p)^2 / (2 sigma_P^2) to within 1.0 down to p = 0.6 Pbar. Confidence 50%.
+- A3. The ladder is in nu, not in q: at p = 0.5 Pbar, q differs by less than a factor of 3 between c1 and D2h, while nu differs by more than e^4. Confidence 55%.
+B. Single deaths: is the fade uniform inside each death, or a hole at a random place that spreads (which the mean maps would hide)? Use a statistic of your choosing, fixed in advance, that compares the spatial concentration of the missing cells at the start of the final plunge with faces of the same population drawn from the stationary sample.
+- B1. Uniform: the concentration is within 15% of the stationary comparison in c1 and in D2h. Confidence 55%.
+C. Births or deaths: in the run-up, which fails first?
+- C1. Births: at the generation from which P stays below 0.8 Pbar, births per empty site are down by at least 30% against stationary while survival per live cell is down by at most 15% (c1). Confidence 55%.
+D. Is the ladder a function of the stationary state? Measure Pbar and sigma_P for c1, csz, c2v, D2h at A = 84 (the symmetric study has ln tau there: steps -2.64, -2.65, -2.84), stationary sampling only.
+- D1. At A = 84 the stationary population falls by 2.8 to 3.1 cells per tied edge (the A = 63 figure of 2.5 scaled by the edge length), and ln tau lost per stationary live cell lost is 0.86 +- 0.10, as at A = 63 (0.885, 0.850, 0.844 from your table). Confidence 50%.
+- D2. Neither P^2/(2 sigma^2) nor any other function of (Pbar, sigma_P) alone reproduces all eight ln tau values (two sizes, four groups) to within 0.5. Confidence 60%.
+
+## Round-2 definitions (fixed before any round-2 run)
+
+Common. Round-1 definitions hold unless restated (canonical face, bands, interior, lags, T0 = 512, t_h). P(t) is the
+number of live cells of one face (63 cells); for a symmetric group one face per face orbit ("per face" means per
+face orbit, as nf in `run.py`). P̄ and σ_P at A = 63 are round 1's null values (P̄ = 31.29, 28.83, 26.29, 23.77;
+σ_P = SD of P over the null faces: 5.24, 5.56, 5.96, 6.37), fixed, not re-estimated.
+
+**A (excursions).** New stepper `ex.c` (a copy of `sy.c`, lives file again checked byte-identical to `sy`'s for the same
+arguments) computes every face orbit's P at every generation, for every replica, and follows excursions online.
+Fresh seeds: c1 seed 11, 1,200,000 generations; csz seed 11, 400,000; c2v seed 11, 200,000; d2h seed 12, 400,000
+(512 replicas, soup 0.4, checks every 4). Only generations at life age > T0 count. An excursion starts at the first
+generation t with P(t) < P̄ after a generation with P ≥ P̄ (the previous generation must also be at age > T0). It ends
+recovered at the first later generation with P ≥ P̄, dead when that face's orbit is empty (P = 0), or censored (the
+life ends for another reason first: another face's death, settling, or the end of the job). For each excursion the
+minimum P reached and the end type are recorded. Exposure E_f = face-orbit generations at age > T0. "Reaches level p"
+means min P < p·P̄. ν(p) = (excursions reaching p) / E_f; q(p) = (those ending dead) / (those reaching p and not
+censored). Check: ν(p)·q(p) against the face death rate (face deaths at age > T0 counted from the same run, per E_f);
+they agree up to censored excursions, whose share is reported. Errors: Poisson / binomial.
+- A1: p* = the level where q crosses 1/2, linear interpolation on the grid p = 0.05, 0.10, …, 0.95. Holds if
+  0.25 ≤ p* ≤ 0.5.
+- A2: G(p) = −(P̄ − pP̄)²/(2σ_P²) with c1's σ_P = 5.24; the constant is fixed by matching ln ν at p = 0.9. Holds if
+  |ln ν(p) − const − G(p)| ≤ 1.0 at p = 0.8, 0.7, 0.6.
+- A3: holds if 1/3 < q_c1(0.5)/q_d2h(0.5) < 3 and ν_d2h(0.5)/ν_c1(0.5) > e^4.
+
+**B (concentration).** Fresh histories from `sd.c` (round 1's stepper): c1 seed 21 600,000; d2h seed 22 400,000 (and
+csz seed 21 400,000, c2v seed 21 200,000, reported, not scored), first 3,000 deaths, H = 512, lives files checked
+against `sy`. At t_h of each death (round-1 definition) take the live cells of the dying face, k of them. Statistic
+S = distance (doubled units, in the face plane) from the centroid of the live cells to the centroid of the face
+weighted by ρ (the stationary occupancy of each canonical cell); a fade that is a hole at one place moves the
+live-cell centroid away from the hole and makes S large. Comparison: for each death, 20 stationary faces drawn at
+random from that group's null sample (round-1 definition, regenerated by these runs), each thinned uniformly at random
+to exactly k live cells (if a drawn face has fewer than k live cells, draw again). Concentration ratio = mean S
+(deaths) / mean S (thinned stationary). Deaths with k < 2 are skipped (counted). Error: bootstrap over deaths. B1
+holds if the ratio is within 0.85–1.15 in both c1 and d2h. Secondary statistic, reported, not scored: the fraction of
+live-live pairs among the kagome-adjacent pairs (in-face perpendicular neighbours) touching a live cell, against the
+same thinned comparison.
+
+**C (births or deaths).** Same fresh histories. t_8 = the earliest generation t ≤ t_d from which P < 0.8 P̄ holds at
+every generation up to t_d (censored if over the whole history). At the step t_8 → t_8 + 1, over the dying face's 63
+cells, pooled over deaths: birth rate b = Σ (dead at t_8, alive at t_8+1) / Σ (dead at t_8); survival s = Σ (alive at
+both) / Σ (alive at t_8). Stationary reference: the same pooled over every step at lags 256 → 255, …, 500 → 499 of the
+same histories. C1 holds (c1) if b/b_stat ≤ 0.70 and s/s_stat ≥ 0.85. All four groups reported; also at t_h and at
+lags 16, 8, 4.
+
+**D (A = 84 stationary).** `oct_13_c_{c1,csz,c2v,d2h}`, `sd.c` with no dumps (MAXD 0), seeds 31, 1 replica set,
+200,000 generations each (null sampling at ten times, round-1 rule: kept if the life lasts 64 more generations and does
+not end settled). P̄ and σ_P over every face orbit of every kept record. ln τ at A = 84 are the symmetric study's: c1
+18.141 (GPU), csz 15.506, c2v 12.857, d2h 10.022; at A = 63 13.634, 11.456, 9.291, 7.168.
+- D1: steps ΔP̄ (c1→csz, csz→c2v, c2v→d2h) at A = 84 each in 2.8–3.1, and each Δln τ/ΔP̄ in 0.76–0.96.
+- D2: holds if both of these leave some residual above 0.5 on the eight points: (i) ln τ = a + b·P̄²/(2σ_P²), least
+  squares; (ii) ln τ = a + b·P̄ + c·σ_P, least squares. (A good fit of either fails D2.)
+
+## My round-2 forecasts
+
+- K5 (50%). The c1 level where q = 1/2 is between 0.4 and 0.7 (higher than A1's range): once a face is down to about
+  half it rarely comes back.
+- K6 (60%). A2 fails with ν above the Gaussian at p = 0.6 (the tail is fatter than Gaussian, as the extrapolation's
+  17.8 against 13.6 suggests).
+- K7 (50%). B1 fails in c1: S at t_h exceeds the thinned stationary by more than 15% (a collapse starts somewhere,
+  and information travels one cube per generation).
+- K8 (55%). A3's q part holds and the ν part holds.
