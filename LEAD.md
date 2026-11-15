@@ -120,7 +120,7 @@ job to keep it honest. What exists (2026-11-13):
   its 27 tests; `check_engine` with the three kernel configurations equal in every lane on all five cases; both
   negative controls caught at generation 1; no gcc there yet, so the checks that need `fl.c` or `cpu.c` have not run;
   clone at main 0e3b642; no `gh`, and it had not been told it may push). It writes under `research/gpu-local/`.
-  **The owner's words, 2026-11-15 about 03:42 UTC:** "I'm getting prompted to approve the messages you send to the
+  **The owner's words, 2026-11-15 about 03:40 UTC:** "I'm getting prompted to approve the messages you send to the
   1080 session, but I trust you. I don't need to approve. Can we try adding a setting to allow all the time?
   Something like adding an allow rule for that one tool, mcp__claude-code-remote__send_message, in the repository's
   .claude/settings.json under permissions.allow?" Done the same minute: `.claude/settings.json` now has
