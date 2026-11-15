@@ -102,6 +102,15 @@ _Last updated 2026-11-14 by the lead._
   48, 57, 63, 75 cells, C at 93): the values stand; no smooth correction fits, only a kink near 61 cells; the
   census pipeline's 16-generation rule reads loop² 4 classes high by 0.017–0.018. Six must-fix items for the card
   are the top note of `research/GPU-QUEUE.md` (08:15 UTC); pull request 23 waits on them.
+  **SIGNALS EXIST (first push reported 08:45 UTC):** pulses on free-standing wires (half the speed limit), an
+  emitter, a transmission (receiver creeps one cube per signal), a head-on interaction; the lead re-ran every
+  verifier and wrote `research/audit/signals_lead_check.py` from the oracle alone (pulses pass); recorded as
+  notebook "gump carries signals", CLAIMS SG1 (B), SG2–SG4 (C), OPEN-PROBLEMS 13, the owner's journal. **Running
+  since 08:52 UTC: an Opus adversarial review** (-> `research/audit/REVIEW-signals.md`) **and the second Fable
+  push** (bounded or closed tracks, a receiver that stays put, a gate, soup-born wires, wire meets chaos; the
+  lead's forecasts S6–S10). On the review: regrade SG rows, essay section, overview plate (a pulse running live),
+  draft. On the second push: lead's oracle check of each new object, then review, then record, then a third push
+  if work remains and Fable usage is under 0.85.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

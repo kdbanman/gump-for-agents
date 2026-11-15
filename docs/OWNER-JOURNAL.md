@@ -38,6 +38,11 @@ What speaks to it (the lead, same day):
 - **Signals as a lens on it.** `research/signals/` (started 2026-11-15): whether anything can carry a signal. In
   the chaos the two numbers above say no usable signal survives a cube or two; the open case is the ordered
   remains (wires, sheets, clocks), where nothing forgets.
+- **Later the same day (08:50 UTC): signals exist.** The first push found pulses that travel along free-standing
+  wires at half the speed limit and leave the wire as it was, an emitter, a receiver and a head-on interaction,
+  each judged by the reference stepper (notebook entry "gump carries signals"; CLAIMS SG1–SG4). So the ordered
+  remains do carry what the chaos cannot. Whether a pulse can pass between a wire and a living face is one of the
+  questions given to the second push.
 - **How much of its state space a seed explores.** `research/statespace/` (started 2026-11-15, forecasts first).
   One part is already known from the lifetime law. A trajectory never repeats a state before it settles, so the
   number of states a seed visits is its settling time, and that grows as e^(c·A) with A the cells of a face and c

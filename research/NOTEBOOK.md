@@ -2512,3 +2512,46 @@ reviewed is `claude/gpu-local-1080` at b843883.
 - Not checked: anything on the GPU; the per-run files that exist only on the card's machine (hazard by age); the
   63- and 93-cell values were not re-measured here; the bias at A = 72 and for the classes not run.
 - Six items for the card before its pull request is merged (`research/GPU-QUEUE.md`, note of 08:15 UTC).
+
+## 2026-11-15: gump carries signals: pulses on free-standing wires, a transmission, an interaction (sustained push on open problem 13; the lead's check from the oracle; adversarial review running)
+
+Open problem 13 asked whether any oscillator can pass a signal to another. A finite pattern cannot move through
+empty space (the hull theorem), so a signal needs a medium. The first push of a sustained search
+(`research/signals/README.md`; objects in `research/signals/objects/`; commits ec389ef..bcd5844 and 896f44b) found
+carriers by constraint search, in under a second, in the first tube it tried; none is among the objects that soup
+had given us. The lead re-ran every verifier and wrote a separate check from `reference/oracle.py` alone
+(`python3 research/audit/signals_lead_check.py research/signals/objects/pulse-B.json`, likewise pulse-A, pulse-S,
+pulse-B-left: all pass for 60 periods on a ring of 40 cubes).
+
+- **Travelling pulses [measured; B].** Wire B is a free-standing period-2 wire of 5 cells per cube along (1,0,−1).
+  Flip two of its cells and the flip moves one cube every two generations, half the speed limit, for as long as it
+  was followed; the wire behind is exactly as it was, and the state is the bare wire plus the two moved cells.
+  The mirror pulse runs the other way. Pulse A is 5 cells on another period-2 wire (6 cells per cube); pulse S is
+  32 cells on a still wire. Every pulse found has period 2 and shift 1.
+  `python3 research/signals/verify_pulse.py research/signals/objects/pulse-B.json` (100 periods, ring of 40).
+- **An emitter [measured by the producer; C].** Removing one never-changing cell of wire B at an even generation
+  makes the wire heal and send one pulse. Of its 84 one-cell flips, 74 heal, 2 leave a standing defect, 2 emit a
+  pulse (one each way), 6 start fronts.
+- **A transmission, with a caveat [measured by the producer; the lead re-ran its verifier; C].** Flipping one cell
+  at A sends a pulse along wire B; 36 cubes away a standing defect swallows it and is changed; six shots in a row,
+  and a control run with A untouched never changes. The line between is left exactly as it was and reused, but the
+  receiver moves one cube toward the sender per signal: it is a counter that uses up wire, not yet a memory cell.
+  Of 1,000 standing defects tried as receivers, 636 catch fire, 109 swallow pulses unchanged, 255 are such
+  creeping walls, none toggles. `python3 research/signals/verify_transmission.py research/signals/objects/transmission-B.json`.
+- **An interaction [measured by the producer; the lead re-ran its verifier; C].** Two pulses of wire B meeting
+  head-on pass through each other with no delay, or stop each other and leave a 3-cell standing mark, according
+  to the parity of their separation. `python3 research/signals/verify_interaction.py research/signals/objects/interaction-B.json`.
+- **Fronts on the wires we had [measured by the producer; C].** In 17 of the 21 wires on file a single flipped
+  cell starts a front that runs the whole wire and converts it (the period-19 wire W00 into a still wire, one
+  repeat every 19 generations; speeds 0.21–0.36 of the limit). No single flip of those wires makes a pulse.
+- **Bounds [C; they rest on a SAT encoding and two solvers agreeing].** Closed tubes along (1,0,−1), background
+  repeat of one cube: no pulse of any (period, shift) tried in the 2 × 2 tube; (2,1) pulses in the 2 × 3 and 3 × 3
+  tubes and none at the other pairs decided; three or four pairs undecided (`research/signals/bounds_table.txt`).
+  At least 30 backgrounds carry a (2,1) pulse in the 3 × 3 tube, all of period 2.
+- **Forecasts.** The lead's S1 (the wires on file carry nothing; nothing moves more than six cells) failed: fronts
+  run the whole wire. S2 (a travelling defect exists in some background; speed at most half) held. S3 (a
+  transmission in this push, given one chance in five) held, with the caveat above. S4, S5 untested.
+- Not checked: the "none" rows are not certified by a proof checker; only seven objects went to the oracle; whether
+  wires A, B, S ever arise from soup; two-cell flips; sheets; other directions; tubes wider than 3 × 3.
+- Running: an adversarial review with its own code (`research/audit/REVIEW-signals.md`), and a second push
+  (bounded or closed tracks, a receiver that stays put, a gate with an output; the lead's forecasts S6–S10).
