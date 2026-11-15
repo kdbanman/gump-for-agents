@@ -22,13 +22,16 @@ S = tot / cnt
 k = 2 * np.pi * np.sqrt((Q ** 2).sum(0)) / n
 u = Q / np.maximum(np.sqrt((Q ** 2).sum(0)), 1e-9)
 bins = np.linspace(0, np.pi * np.sqrt(3), 40)
-res = {'n': n, 'snaps': cnt, 'kbins': bins.tolist()}
+res = {'n': n, 'snaps': cnt, 'kbins': bins.tolist(), 'err': 'scatter over modes / (modes / 2)'}
 def binned(mask):
     idx = np.digitize(k[mask], bins)
     s = np.bincount(idx, weights=S[mask], minlength=len(bins) + 1)
     s2 = np.bincount(idx, weights=S[mask] ** 2, minlength=len(bins) + 1)
     c = np.bincount(idx, minlength=len(bins) + 1)
-    m = s / np.maximum(c, 1); e = np.sqrt(np.maximum(s2 / np.maximum(c, 1) - m ** 2, 0) / np.maximum(c * cnt, 1))
+    # error of the bin mean: S here is already the average over snapshots, and S(k) = S(-k) for a real field, so a
+    # bin of c modes holds c/2 independent values. Until 2026-11-15 this divided by c * cnt, which counted the
+    # snapshots twice and both members of each pair (errors too small by sqrt(2 * cnt)); res['err'] marks the fix.
+    m = s / np.maximum(c, 1); e = np.sqrt(np.maximum(s2 / np.maximum(c, 1) - m ** 2, 0) / np.maximum(c / 2, 1))
     return m[1:-1].tolist(), e[1:-1].tolist(), c[1:-1].tolist()
 nz = k > 0
 res['all'] = binned(nz)

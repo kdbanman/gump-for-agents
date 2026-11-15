@@ -6,9 +6,10 @@ from collections import Counter
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from cw import sym_order, spacetime_sym, catalogue, orbit, hull_ranges, hull_cells, cell_vessel, step, canon, components, fmt_key, SCR  # noqa
 arg, ns = sys.argv[1], int(sys.argv[2])
+seed = int(sys.argv[3]) if len(sys.argv) > 3 else 1   # was set only in the S6 branch until 2026-11-15 (NameError for an OID)
 if arg.startswith('S6:'):   # S6 box about d4 centred at the vertex (3,3,3): radius a along d4, b along the others
     a_, b_ = map(int, arg[3:].split(','))
-    arg = '%d,%d,%d,%d,%d,%d,%d,%d' % (9 - b_, 9 + b_, 3 - b_, 3 + b_, 3 - b_, 3 + b_, 3 - a_, 3 + a_); seed = int(sys.argv[3]) if len(sys.argv) > 3 else 1
+    arg = '%d,%d,%d,%d,%d,%d,%d,%d' % (9 - b_, 9 + b_, 3 - b_, 3 + b_, 3 - b_, 3 + b_, 3 - a_, 3 + a_)
 cat = catalogue(); keyid = {fmt_key(tuple(map(tuple, o['cells']))): k for k, o in cat.items()}
 if arg in cat:
     o = cat[arg]; orb = orbit(frozenset(map(tuple, o['cells'])), o['period']); rng = hull_ranges(frozenset().union(*orb))

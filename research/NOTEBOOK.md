@@ -2090,3 +2090,50 @@ each a few minutes; outputs in `audit/out/`).
   group O lying far below T_h, T_d's two sub-series moving apart, and mirror strips two cells wide keeping a slope
   of 0.186 are unexplained. `research/audit/REVIEW-symmetric.md`; eleven corrections are being applied to the
   write-up.
+
+## 2026-11-15: the audit of the rows nobody had re-run
+
+The ledger had 30 claims whose best grade was C ("has a command, not re-run") and a dozen more with a C part. An
+auditor (a second agent, not the producer of any of them) ran what could be run in a few minutes each.
+`research/AUDIT-2026-11-15.md` has the table; its helpers are in `research/audit/c_rows/`.
+
+- **Result [measured].** 41 rows read, 28 re-run in whole or in part, **26 matched, 2 differ** (P4 and a sentence
+  of ZL2), 13 not run. The ledger now reads **133 claims: A 56, B 66, C 10, D 1** (was A 56, B 46, C 30, D 1);
+  `python3 research/audit/claims_tally.py`.
+- **What a match means here.** Eight rows were re-run on the producer's own seeds (F10, K2, P5, Z5, Z10, SW3, SW4,
+  SW7): that checks the code and the transcription, not the statistics. Four were rebuilt from the producers' raw
+  records, which are not in git, without repeating the simulations (F11, S1, C7, L3: "B (table)"). One was repeated
+  on fresh seeds (K1, the thickness of a living slab: every mean within 2 combined standard errors, the largest gap
+  2.0σ at N = 32, m = 2).
+- **Three matches rest on a choice the claim did not record**, now written into the level cells: F2's plateau
+  heights (ratios 0.770, 0.604, 0.454 over whole plateaus against the claimed 0.79, 0.61, 0.48; a trimmed window
+  moves them by about 0.03); P6's {110} front speed (0.165 only if the fit window ends by generation 80; 0.154 over
+  generations 60–110, because **that front slows down**, which nobody had noted); F11's fit (the stated
+  coefficients need weights by the firewall-first counts; unweighted, −2.00 + 0.533·N·m + 0.356·N).
+- **P4, the correlation length of the chaotic phase, was wrong in its error and slightly in its value
+  [measured, corrected].** The notebook's "ξ = 0.68 ± 0.01 cube" could not be reproduced as stated: no fit was
+  recorded. The lead's own fit (`python3 research/audit/p4_lead_check.py [file]`, written without the auditor's
+  script) finds where it came from: the Ornstein–Zernike form fitted to k ≤ 3 per cube gives 0.681 ± 0.009 on the
+  producer's file, exactly the old number, but the form does not fit that far (χ² 53 on 19 with corrected errors;
+  59 on 19 on the auditor's snapshots). It fits for k ≤ 2.5 (χ² 8.2 on 15 and 22.8 on 15), where **ξ = 0.638 ±
+  0.013 on the producer's 12 snapshots and 0.659 ± 0.014 on the auditor's** (8 of its 12 are new); windows from
+  k ≤ 1.5 to k ≤ 2.5 give 0.61–0.67. Recorded now as **ξ = 0.65 ± 0.03 cube**, S(0) = 3.04–3.18. The error bars of
+  `research/phase/sk.py` were too small by √24: it divided the scatter over modes of the snapshot-averaged S by
+  modes × snapshots, counting the 12 snapshots twice (the auditor's find), and it counted both members of each
+  ±k pair, which are equal for a real field (the lead's addition). With that mended the isotropy statement
+  survives, which with the old errors it did not: cones about ⟨100⟩, ⟨110⟩, ⟨111⟩ against the sphere average for
+  k ≤ 1.5 give χ² 6.6, 6.2, 6.7 on 11, 11, 10 bins (producer's snapshots) and 17.8, 5.4, 2.3 (auditor's). `sk.py`
+  is fixed; files written before the fix are recognised by the check script and rescaled. Not checked: sizes other
+  than N = 64; anisotropy at larger k, where the lattice must show.
+- **ZL2: a slip of the lead's in the ledger.** "others ≤ 2.1 × 10⁻³" left out slab 4×9×8, whose bound is
+  4.2 × 10⁻³ (against a statistical error of 0.042, so no number moves). The README table had it right.
+- **Two commands did not run as written.** `portrait.py OID NS` failed with a NameError (the seed was set only in
+  one branch): fixed, and the lead re-ran Z10's basin count with it (`cd research/clockwork && python3 portrait.py
+  P66.27a 1000000`, 76 s: 414 of 10⁶, as claimed, seed 1). SW3's command needs a binary that no script builds; the
+  build line is now in its row.
+- **Still C (ten rows):** F12, S4, K5 (the ledger gives no arguments), Q4 (names no run), G3, G4, K7 (an hour or
+  more each), K8 (several scripts of unstated length), L2 (re-run only by repeating the lead's own arithmetic), and
+  Z13 (the wires, added after the audit began). With a C part: Z2 at n = 16, Z4's period-3 search, TH5's segment
+  n = 7, TH2, TH4, C2, C4, C8, Z3's flip property, Z8, Z9, Z10's phase shifts, Z12, S9, X3's 6.94, ZL2's other runs.
+- Not checked by the lead beyond P4 and Z10: the other 24 matches are the auditor's alone. No proof was re-read
+  in this audit.
