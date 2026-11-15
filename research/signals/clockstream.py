@@ -3,7 +3,7 @@
 line (objects/line-C.json): does one of them knock a rake out of the stream every period and stay as it is?  That
 would be a standing writer of holes: a non-constant periodic word on a wire.
 
-    python3 clockstream.py [--K 120] [--seed 1] [--minutes 20] [--out F.jsonl]
+    python3 clockstream.py [--K 120] [--seed 1] [--minutes 20] [--out F.jsonl] [--anyphase]
 
 Target: the line with N = 12 (capA + 12 units + the gun) in its cycle of period 4 (generation 2N + 8 and the three
 after it).  Placements: phase 0 of the oscillator under a lattice symmetry and an even translation, drawn at random
@@ -18,7 +18,8 @@ A run: 5 periods P of the oscillator.  Classes:
                - the wire downstream (units 0..3, cells outside the oscillator's support): its period in the cycle,
                  and whether rakes pass (5f at some even generation)
                'MODULATED' = gun alive, rakes downstream, downstream period not dividing 4: printed with a kymograph.
-Stepping: sg.step_set only.  Not covered: other phases, placements not drawn, other positions along the wire."""
+--anyphase: each placement also draws one of the oscillator's P phases at random (default: phase 0 only).
+Stepping: sg.step_set only.  Not covered: placements not drawn, other positions along the wire."""
 import argparse, glob, json, os, random, sys, time
 from collections import Counter
 import sg, scat, turnclass as tc
@@ -28,7 +29,7 @@ from lattice import GROUP, apply
 
 ap = argparse.ArgumentParser()
 ap.add_argument('--K', type=int, default=120); ap.add_argument('--seed', type=int, default=1)
-ap.add_argument('--minutes', type=float, default=20); ap.add_argument('--out')
+ap.add_argument('--minutes', type=float, default=20); ap.add_argument('--out'); ap.add_argument('--anyphase', action='store_true')
 a = ap.parse_args()
 tr = scat.tr; unit = scat.unit
 ln = json.load(open(os.path.join(sg.HERE, 'objects', 'line-C.json')))
@@ -85,6 +86,10 @@ for fn in files:
     while len(pick) < a.K and tries < 400 * a.K:
         tries += 1
         o, ob = Og[rng.choice(gis)]
+        if a.anyphase:
+            for _ in range(rng.randrange(P)):
+                o = sg.step_set(o)
+            ob = [(min(c[i] for c in o), max(c[i] for c in o)) for i in range(3)]
         d = [2 * rng.randrange((zb[i][0] - ob[i][1] - 2) // 2, (zb[i][1] - ob[i][0] + 2) // 2 + 1) for i in range(3)]
         S = frozenset((c[0] + d[0], c[1] + d[1], c[2] + d[2]) for c in o)
         if S in seen:

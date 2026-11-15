@@ -6,7 +6,7 @@ argument, an exhaustive search inside stated bounds, or a construction the oracl
 `research/scratch/signals/` (git-ignored). Forecasts and their scores: `PREDICTIONS.md`.
 Sections 1 to 7: the first push (does anything carry a signal). Sections 8 to 14: the second push (machinery made of
 carriers), brought up to date 2026-11-15 10:40 UTC. Sections 15 to 19: the third push (corrected from its review,
-`research/audit/REVIEW-signals-3.md`). Sections 20 to 25: the fourth push (a standing emitter; 2026-11-15 14:40 UTC).
+`research/audit/REVIEW-signals-3.md`). Sections 20 to 25: the fourth push (a standing emitter of rakes, section 20, and of a two-letter word, section 21b; 2026-11-15 15:00 UTC).
 
 ## Answer: yes. L1, L2 and L3 are reached, each with the oracle as judge; and (second push) a carrier has been turned into a clock, a register and a gate
 
@@ -872,8 +872,14 @@ returned a gun in one second at the first plane position where one fits.
   oscillator between unit 3 and the gun, all 8 phases; 47 s): at its four odd phases nothing happens to the stream
   (period 8 from generation 2N: the line with an oscillator beside it); among the four even phases exactly one
   gives the divider, phase ≡ 2(j − N) + 4 mod 8, fixed by the distance to the gun; at the other three the gun does
-  not survive the start (not analysed). Which dead cell between oscillator and wire does the work was not worked
-  out either.
+  not survive the start (not analysed).
+- **[measured, sg.step_set] The stroke is one cell.** `python3 gunlab.py stroke` (1 s; N = 16): compare the object's
+  next state with (its wire part stepped alone) + (the free oscillator stepped alone). They differ in one cell,
+  once every 8 generations: (−5, 4, 10) in the gun's frame (unit N − 3, x + y + z = 9) is born, with three live
+  neighbours in the oscillator and one in the wire, the cell (1, 2, 2) of that unit at an odd generation. Everything
+  that follows is the wire's own dynamics with that one extra cell: one generation later the wire cell is gone and
+  the rake that was passing goes on as a hole. The period of the stroke is twice the period of the stream, hence
+  every second rake.
 - **[measured, sg.step_set] How it was found.** `python3 clockstream.py --K 150` (5 min): the 99 catalogue
   oscillators, phase 0, 150 random placements each (seed 1) beside units 4..7 of the line with N = 12 already in
   its cycle: 14,850 runs of five periods. 10,383 untouched; in 4,208 the oscillator is lost; 259 kept, of which in
@@ -948,8 +954,8 @@ k = (T + 2) mod 4 here (KS = 6).
 ## 23. Looked for and not found, with bounds
 
 - **[proved within the bounds] No gun for a sparser train in the 3 × 3 tube, small planes.** `python3 sat_gun.py 5fbb
-  C` (the train `5f9f`: a mirror rake every 8 generations, period dividing 8): UNSAT at C = 29 (4 s) and C = 31
-  (131 s); C = 33: no answer in 9 minutes.
+  C` (the train `5f9f`: a mirror rake every 8 generations, period dividing 8): UNSAT at C = 29 (4 s), C = 31
+  (131 s) and C = 33 (29 min).
 - **[proved within the bounds] No divider.** `python3 sat_div.py 5fbb 5f W` (a standing object on W units inside the
   stream, wire on both sides, no planes: the gun's train in on the right, the train `5f9f` out on the left, all four
   relative phases, period 8): UNSAT for W = 1, 2, 3 (under 3 s each) and for W = 4 (287, 334, 312, 378 s for the
@@ -1041,9 +1047,9 @@ k = (T + 2) mod 4 here (KS = 6).
 1. **More words.** The divider writes "rake, hole" and nothing else. Next: the other phases and places of the
    catalogue against the stream (`clockstream.py` drew 150 placements at phase 0 only, and the divider needs one
    phase in eight); a second stroke on the sparse train (an oscillator of period 16, or two oscillators) for one
-   rake per 16 generations; the gun for `5f9f` itself in wider planes (`sat_gun.py 5fbb C`: UNSAT at C = 29, 31,
-   no answer at C = 33 in 9 and again in 20 minutes). The two words "hole first" and "rake first" differ by four generations of the oscillator's
-   phase: a bit held by something that the wire cannot change.
+   rake per 16 generations; the gun for `5f9f` itself in wider planes or the 5 × 5 tube (`sat_gun.py 5fbb C`: UNSAT
+   at C = 29, 31, 33 in the 3 × 3 tube). Which rakes survive is set by the oscillator's phase alone (four
+   generations later the same gun faces the complementary word), and the wire cannot change that phase.
 1b. **A switch.** An oscillator at an odd phase does nothing to the stream and at the right even phase halves
    it. Anything that shifts a catalogue oscillator by one generation or one cell would switch the divider on and
    off: that is a gate on a stream. Nothing of the kind was tried.

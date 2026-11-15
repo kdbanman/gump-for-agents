@@ -202,3 +202,16 @@ elif cmd == 'readers':
                 if out != 'healed':
                     print(f'  absorber #{n} ({len(cap)} cells), rakes removed {wd}: {out}')
         print(f'{f.split("/")[-1]}: {len(d["list"])} absorbers x {len(words)} words of holes:', dict(res))
+elif cmd == 'stroke':
+    # the divider (objects/divider-C8.json, N = 16): at which cells does the object's next state differ from
+    # (its wire part stepped alone) + (the free oscillator stepped alone)?  Those cells are the whole interaction.
+    dv = J('divider-C8.json'); N = 16
+    ln_ = frozenset(T(dv, 'capA')) | frozenset(tr(c, k) for c in T(dv, 'unit') for k in range(N)) | frozenset(tr(c, N) for c in T(dv, 'gun'))
+    O = frozenset(tr(c, N) for c in T(dv, 'osc')); x = ln_ | O
+    for t in range(0, 40):
+        xn = sg.step_set(x); On = sg.step_set(O); w = x - O
+        for c in sorted(xn ^ (sg.step_set(w) | On)):
+            print(f'generation {t} -> {t + 1}: {c} (in the gun frame {tr(c, -N)}, unit {unit(c)}, x+y+z = {sum(c)}) is '
+                  f'{"born" if c in xn else "not born"}: live neighbours {len(set(sg.nbrs(c)) & O)} in the oscillator, '
+                  f'{[tr(q, -unit(q)) for q in sg.nbrs(c) if q in w]} in the wire (unit cells)')
+        x, O = xn, On
