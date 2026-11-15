@@ -10,6 +10,8 @@
  *
  * Usage: t4 GRAPH W SEED GENS OUT          run; OUT gets int64 records (age, kind, snap_age, life id), open lives as kind 0
  *        t4 GRAPH W SEED GENS -trace INIT  lane 0 from node list INIT, no events, print "gen node node ..." each gen
+ *        t4 GRAPH W SEED GENS -init STATES OUT   every lane from STATES ((64W) x n bytes, 0/1, lane-major); one life
+ *                                          per lane, no reseed: OUT gets (age, kind, snap_age, lane) of each first event
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -51,7 +53,7 @@ int main(int argc, char **argv) {
   for (int L = 0; L < 2; L++) { rd(&fsz[L], 4, 1, f); fl[L] = malloc(4 * fsz[L]); rd(fl[L], 4, fsz[L], f); }
   for (int d = 0; d < 3; d++) for (int L = 0; L < 8; L++) { rd(&tsz[d][L], 4, 1, f); tl[d][L] = malloc(4 * tsz[d][L]); rd(tl[d][L], 4, tsz[d][L], f); }
   fclose(f);
-  int R = 64 * W, trace = argc > 6 && !strcmp(argv[5], "-trace");
+  int R = 64 * W, trace = argc > 6 && !strcmp(argv[5], "-trace"), init = argc > 7 && !strcmp(argv[5], "-init");
   u64 *a = calloc((size_t)(n + 1) * W, 8), *b = calloc((size_t)(n + 1) * W, 8), *snap = calloc((size_t)n * W, 8);
   long *birth = calloc(R, sizeof(long)), *nexts = malloc(R * sizeof(long)), *sage = malloc(R * sizeof(long));
   u64 *sval = calloc(W, 8), life = 0;
@@ -62,7 +64,14 @@ int main(int argc, char **argv) {
     for (int i = 0; i < n; i++) a[(size_t)i * W] &= ~1ULL;
     FILE *g = fopen(argv[6], "r"); int c; while (fscanf(g, "%d", &c) == 1) a[(size_t)c * W] |= 1ULL; fclose(g);
   }
-  FILE *out = trace ? NULL : fopen(argv[5], "wb");
+  u64 *done = calloc(W, 8);
+  if (init) {
+    unsigned char *buf = malloc((size_t)R * n); FILE *g = fopen(argv[6], "rb"); rd(buf, 1, (size_t)R * n, g); fclose(g);
+    memset(a, 0, 8 * (size_t)(n + 1) * W);
+    for (int r = 0; r < R; r++) for (int i = 0; i < n; i++) if (buf[(size_t)r * n + i]) a[(size_t)i * W + r / 64] |= 1ULL << (r % 64);
+    free(buf);
+  }
+  FILE *out = trace ? NULL : fopen(init ? argv[7] : argv[5], "wb");
   u64 *ev = malloc(8 * W), *F0 = malloc(8 * W), *F1 = malloc(8 * W), *fw = malloc(8 * W), *eq = malloc(8 * W);
   u64 Ld[8 * 64];
   for (long gen = 1; gen <= G; gen++) {
@@ -81,12 +90,14 @@ int main(int argc, char **argv) {
       eq[w] = ~x & sval[w]; }
     for (int w = 0; w < W; w++) {
       u64 face = ~F0[w] | ~F1[w];
-      u64 e = fw[w] | face | eq[w];
+      u64 e = (fw[w] | face | eq[w]) & ~done[w];
       ev[w] = e;
       while (e) {
         int k = __builtin_ctzll(e); e &= e - 1; int r = 64 * w + k; u64 bit = 1ULL << k;
         int64_t rec[4] = { gen - birth[r], (fw[w] & bit) ? 4 : (face & bit) ? 1 : 5, (fw[w] | face) & bit ? -1 : sage[r], (int64_t)lifeid[r] };
+        if (init) rec[3] = r;
         fwrite(rec, 8, 4, out);
+        if (init) { done[w] |= bit; continue; }
         lifeid[r] = life++; birth[r] = gen; nexts[r] = 1; sage[r] = -1; sval[w] &= ~bit;
         for (int i = 0; i < n; i++) { u64 *x = a + (size_t)i * W + w; *x = soup_bit(seed, lifeid[r], i) ? (*x | bit) : (*x & ~bit); }
       }
@@ -94,7 +105,7 @@ int main(int argc, char **argv) {
     /* snapshots due: lanes (still in the same life) whose age reached nexts */
     for (int w = 0; w < W; w++) {
       u64 due = 0;
-      for (int k = 0; k < 64; k++) { int r = 64 * w + k; if (!((ev[w] >> k) & 1) && gen - birth[r] == nexts[r]) due |= 1ULL << k; }
+      for (int k = 0; k < 64; k++) { int r = 64 * w + k; if (!((ev[w] >> k) & 1) && !((done[w] >> k) & 1) && gen - birth[r] == nexts[r]) due |= 1ULL << k; }
       if (!due) continue;
       for (int i = 0; i < n; i++) { u64 *s = snap + (size_t)i * W + w; *s = (*s & ~due) | (a[(size_t)i * W + w] & due); }
       sval[w] |= due;
@@ -102,7 +113,7 @@ int main(int argc, char **argv) {
     }
   }
   if (!trace) {
-    for (int r = 0; r < R; r++) { int64_t rec[4] = { G - birth[r], 0, sage[r], (int64_t)lifeid[r] }; fwrite(rec, 8, 4, out); }
+    for (int r = 0; r < R; r++) if (!((done[r / 64] >> (r % 64)) & 1)) { int64_t rec[4] = { G - birth[r], 0, sage[r], init ? r : (int64_t)lifeid[r] }; fwrite(rec, 8, 4, out); }
     fclose(out);
     fprintf(stderr, "done: %llu lives started, %ld gens x %d lanes\n", (unsigned long long)life, G, R);
   }
