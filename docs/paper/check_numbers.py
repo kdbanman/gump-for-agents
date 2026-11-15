@@ -5,8 +5,9 @@
 # (a size or value the passage refers back to), otherwise as "UNSOURCED". Passages of the second update of
 # 2026-11-15 (the symmetric collapse, the new clocks) compare with the draft as of bb22eda, the commit before it.
 # Passages changed after the audit of 2026-11-15 compare with the draft as of e126a10; those of the fourth update
-# (how a face dies, the 4 x 5 patch rerun, the second card) with the draft as of 67e0371. A source 'file:PATH' is a
-# tracked file cited directly.
+# (how a face dies, the 4 x 5 patch rerun, the second card) with the draft as of 67e0371; those of the fifth (dying
+# rounds 3-4, the wrapped faces on the second card, signals, the state space, bookkeeping) with a8e925a. A source
+# 'file:PATH' is a tracked file cited directly.
 # Run from the repo root: python3 docs/paper/check_numbers.py [--base REV] [--draft PATH]
 # (default base 98a66d8, the commit before the update; under 1 s). Negative control: --draft on a copy with a number
 # altered must report it UNSOURCED (see FACTCHECK.md).
@@ -35,6 +36,19 @@ NB = {  # short name -> substring of the entry heading
     'dying2': 'a death is a dip that keeps going',
     'patch45': 'the 4 × 5 empty patch, rerun on the CPU',
     'card': 'a second card (the GTX 1080',
+    # fifth update (base a8e925a); keys carry the date so that they match the heading, not a mention in another entry
+    'dying3': '2026-11-15: what the dips say about the price of a cell',
+    'dying4': '2026-11-15: a depleted face thins as one thing',
+    'dying4r': '2026-11-15: round 4 reviewed',
+    'card93': '2026-11-15: the 93-cell torus lands below',
+    'tori5': '2026-11-15: five wrapped faces on one driver',
+    'tori5r': '2026-11-15: the five tori, reviewed',
+    'sig1': '2026-11-15: gump carries signals',
+    'sig1r': '2026-11-15: the first signals push reviewed',
+    'sig2': '2026-11-15: a clock of every length',
+    'sig2r': '2026-11-15: the second signals push reviewed',
+    'ss': '2026-11-15: how much of its state space',
+    'ssr': '2026-11-15: the state-space study reviewed',
 }
 
 def nb_entry(key):
@@ -139,6 +153,30 @@ SPEC = [
     ('12 guard', '**A guard, and its limit.**', None, ['GL2'], ['card'], '67e0371'),
     ('12 census errors', '**Errors of the census pipeline.**', None, ['GL1'], ['card'], '67e0371'),
     ('12 verification counts', '(142 claims', 'claims_tally.py`)', [], [], '67e0371'),
+    # fifth update of 2026-11-15 (dying rounds 3-4, DY8-DY15; wrapped faces on the second card, GL3; signals, SG1-SG10;
+    # state space, SS1-SS3; bookkeeping); base a8e925a
+    ('5.6 intro grades', 'Every result of these two', 'own grades.', [], [], 'a8e925a'),
+    ('5.6 DY5 tail', '**[measured]** (DY5; A', None, ['DY5'], ['dying2'], 'a8e925a'),
+    ('5.6 round 3 intro', '**Round 3: the dips across sizes.**', None, ['DY8'], ['dying3'], 'a8e925a'),
+    ('5.6 DY8', '**[measured]** (DY8;', None, ['DY8'], ['dying3'], 'a8e925a'),
+    ('5.6 DY9', '**[measured]** (DY9;', None, ['DY9'], ['dying3'], 'a8e925a'),
+    ('5.6 DY10', '**[measured]** (DY10;', None, ['DY10'], ['dying3'], 'a8e925a'),
+    ('5.6 DY11', '**[measured]** (DY11;', None, ['DY11'], ['dying3'], 'a8e925a'),
+    ('5.6 round 4 intro', '**Round 4: is a depleted face', None, ['DY13'], ['dying4', 'dying4r'], 'a8e925a'),
+    ('5.6 DY13', '**[measured]** (DY13;', None, ['DY13'], ['dying4', 'dying4r'], 'a8e925a'),
+    ('5.6 the null', '*What does not follow.*', None, ['DY13'], ['dying4r'], 'a8e925a'),
+    ('5.6 DY14', '**[measured]** (DY14;', None, ['DY14'], ['dying4r'], 'a8e925a'),
+    ('5.6 DY15', '**[measured]** (DY15;', None, ['DY15'], ['dying4', 'dying4r'], 'a8e925a'),
+    ('5.6 what a caught face is', '*What a caught face is and is not.*', None, ['DY11', 'DY13'], ['dying3', 'dying4', 'dying4r'], 'a8e925a'),
+    ('5.6 forecasts 3-4', '*Forecasts and what was not checked.* Round 3', None, [], ['dying3', 'dying4', 'dying4r'], 'a8e925a'),
+    ('Table 5 row 18 pointer', '| 18 | The constant analysis', '\n', ['CN2'], [], 'a8e925a'),
+    ('Table 5 row 22', '| 22 | How a face dies, third', '\n', ['DY8', 'DY10', 'DY11'], ['dying3'], 'a8e925a'),
+    ('Table 5 row 23', '| 23 | How a face dies, fourth', '\n', ['DY13', 'DY14'], ['dying4', 'dying4r'], 'a8e925a'),
+    ('Table 5 row 24', '| 24 | Equilateral face tori', '\n', ['GL3'], ['card93', 'tori5', 'file:research/constant/PREDICTIONS.md'], 'a8e925a'),
+    ('Table 5 row 25', '| 25 | The lead', '\n', ['GL3'], ['card93', 'tori5', 'file:research/constant/PREDICTIONS.md'], 'a8e925a'),
+    ('Table 5 row 26', '| 26 | The lead', '\n', ['SG1'], ['sig1', 'sig2', 'sig2r', 'file:research/signals/PREDICTIONS.md'], 'a8e925a'),
+    ('Table 5 row 27', '| 27 | The lead', '\n', ['SS1'], ['ss'], 'a8e925a'),
+    ('Table 5 caption', 'rounds 3 and 4 of the same file as scored', 'J1–J10', [], [], 'a8e925a'),
 ]
 
 SUP = str.maketrans('⁰¹²³⁴⁵⁶⁷⁸⁹⁻', '0123456789-')

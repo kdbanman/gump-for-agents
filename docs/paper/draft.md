@@ -619,8 +619,9 @@ edges of each face tied to a face in lockstep (c1, csz, c2v, D2h), it kept the 5
 first face deaths and a stationary control, and in a second round followed the excursions of the face population
 in long stationary runs. Forecasts were committed before each round's runs (`research/dying/PREDICTIONS.md`). An
 adversarial review reran both rounds on fresh seeds with a stepper of its own, matched to the reference
-implementation at every generation on twelve systems (`research/audit/REVIEW-dying.md`). Every result below is
-graded A on that basis; where the review did not confirm a reading, we say so.
+implementation at every generation on twelve systems (`research/audit/REVIEW-dying.md`). Every result of these two
+rounds is graded A on that basis; where the review did not confirm a reading, we say so. Two later rounds, also
+reviewed, follow at the end of this section with their own grades.
 
 **The run-up.** **[measured]** (DY1; A: same plunge medians and mean curves in both codes) The *mean* dying face
 stays at its stationary density until about 20 generations before death and then fades over the whole face, with no
@@ -661,8 +662,8 @@ quantity that involves exposure carries that ambiguity.
 at ln ν = −4.16, −3.80, −3.77, −3.74 per face per generation (review −4.16, −3.80, −3.78, −3.88), and at 0.9 of the
 mean the untied face dips the most often. The groups part below about 0.6 of the mean, where each tied edge raises
 ln q by 1.5–2.7. ln ν is Gaussian with the stationary variance down to about 0.6 of the mean and fatter below. Over
-the last few cells the price per further cell lost changes slowly (the local slope per cell drifts from 0.51 to 0.34
-in c1) and is higher the more free edges a face has; that it is a constant price is a **[conjecture]**. The
+the last 3–12 cells the price per further cell lost is nearly constant (local slope 0.51–0.48 per cell in c1,
+falling to 0.34 by 17–20 cells) and is higher the more free edges a face has; that it is a constant price is a **[conjecture]**. The
 review did not confirm a straight tail, a change of regime at half the mean, or a fixed step per free edge (the
 lead's "5.5 + 3.4 per free edge" ranges from 3.0 to 4.5 with the fit window).
 
@@ -694,8 +695,88 @@ review confirms that every definition was fixed before the data and reproduces e
 21). Not checked: deaths at other sizes or centrings (the review's other vessels are stationary sampling only);
 c2e and O_h; one seed per group in the study's excursion runs; births by neighbour count; whether the position of
 the surviving clump predicts recovery; differences of 1.8σ between the two codes in the csz and D2h populations.
-A third round, on whether the dip curve is one curve across sizes and what a depleted face looks like, is under
-review and is not reported here.
+
+**Round 3: the dips across sizes.** A third round (`research/dying/README.md`, "Round 3"; forecasts T1–T4 committed
+first) measured the rate ν(p) of dips to a fraction p of the usual population on free (c1) hull faces of 45, 63, 84
+and 108 cells and on one rim-free face (the equilateral torus of 63 cells, Section 7.5), and looked at faces caught
+deep in a dip. The review reran it with its own stepper on fresh seeds and added 135 cells (`research/audit/REVIEW-dying.md`,
+"Round 3").
+
+**[measured]** (DY8; A: study and review agree to 3–4 digits) The dip curve per cell is one curve only down to about
+half the population: −ln ν(0.5)/A = 0.120, 0.103, 0.093, 0.089, 0.086 at A = 45, 63, 84, 108, 135, while its
+shallow part, [ln ν(0.9) − ln ν(0.5)]/A, is 0.065–0.067 at every size. Below p ≈ 0.55 the curves of different sizes
+differ by a fixed number of nats K(p), not by a number per cell; K grows smoothly to 2.1 at p = 0, half of it below
+p = 0.15. ln ν(0.9) itself falls by about 0.002 per cell.
+
+**[measured]** (DY9; A for the line, B for the estimate of c, which is the review's alone) For free hull faces of
+45–108 cells, ln τ_face + ln ν(0.9) = 0.2125·A − 2.07 within 0.01 nats. The slope depends on which dip rate is taken
+as the attempt (0.218 for every crossing of the mean, 0.204 for ν(0.8)), and the dips at p ≥ 0.2 alone, extrapolated
+in size and then to p = 0, give c = 0.215 ± 0.005, which does not separate 0.207 from 0.219 and adds nothing to the
+lifetimes' own local slopes (Section 7.5). Withdrawn after the review: a levelling off of the end points near
+0.19–0.20 (they follow c − K/A and still rise at 135 cells); a constant K ≈ 2.4 (it runs 2.37 → 2.78); a formula for
+c from the density and the Fano factor.
+
+**[measured]** (DY10; A: study, review and the lead) Over 0.1–0.45 of the usual population the tail of the dip curve
+costs 0.50–0.52 per live cell at A ≥ 63 (0.44–0.47 at 45), rising slowly with size; locally it runs from 0.53 deep
+down to 0.40 near half.
+
+**[measured]** (DY11; B: the study's numbers reproduce; the alignment-free figures and the rule-aware baseline are
+the review's alone) A free face of 63 cells caught at 0.3 of its usual population (8.3 live cells on average) is at
+about half its stationary density near a survivor (0.46–0.54), the excess reaching about 3.5 doubled units, and at
+0.15–0.20 of stationary elsewhere: thinner far away, not emptied. Thinner faces have a looser patch. A thin csz face
+is depleted at its tied edge beyond the stationary deficit (its centroid nearest the tied edge in 22.4% of faces,
+against 29.8% for stationary faces thinned to the same count). That a face "refills from its patch" is forced by the
+rule (0.994 against a rule-aware baseline of 0.991) and says nothing.
+
+**Round 4: is a depleted face two phases?** Before round 4 the lead read the rule's cooperativity as implying that a
+deeply depleted face is a void beside a remnant held at a fixed density, the remnant shrinking as the population
+falls (a lever rule), and that the dip curve is a parabola joined to its tangent (`research/dying/PREDICTIONS.md`,
+"Round 4", F1–F6, committed before any run). Round 4 caught free hull faces of 63, 84 and 108 cells at six depths,
+0.9 to 0.15 of their usual population, beside a control of stationary faces thinned at random to the same count. The
+review reran it with its own stepper and geometry on seeds the study did not use (`research/audit/REVIEW-dying.md`,
+"Round 4").
+
+**[measured]** (DY13; B: two steppers and two analyses agree at 63 and 84 cells; 108 cells at p = 0.15 and the null
+below are one code each) The *company* C, the occupancy within two steps of a live cell over its stationary value,
+falls steadily with depth: at 108 cells 0.833, 0.738, 0.646, 0.542, 0.439, 0.288 from p = 0.9 to 0.15, and
+C(0.15)/C(0.45) = 0.38, 0.49, 0.53 at 63, 84, 108 cells. A caught face is far from a random thinning: it has 1.15 to
+2.4 times the control's company and 2.3 to 3.2 times its void at p = 0.3.
+
+*What does not follow.* The study read the falling company as "a depleted face thins as one thing; there is no
+remnant". The review built the alternative and put it through the same code: a compact patch held at any fixed
+density from 0.45 to 0.8, with nothing outside it, reads C(0.15)/C(0.45) = 0.45–0.48, 0.58–0.61, 0.65–0.69 at 63, 84,
+108 cells, because at four to eight live cells such a patch is about the size of the two-step neighbourhood over
+which the company is counted. So a finite face with a remnant at fixed density reads the same way, the registered
+tests could not have told the two readings apart, and **"no remnant at fixed density" is withdrawn**. What does
+separate a caught face from such a patch is a ratio 0.07–0.14 below the null's and a more peaked profile against
+distance from a survivor (0.45, 0.16, 0.04, 0.03 against 0.33, 0.22, 0.08, 0.005 at four live cells of 63): a
+tighter knot with a thin scatter beyond it, not an even patch with an edge.
+
+**[measured]** (DY14; B: redone by the reviewer from the study's table and, at 63 cells, from its own run) What
+ends the two-phase reading is its number, not its picture: the parabola-plus-tangent construction overshoots the
+true end point of the dip curve, [ln τ + ln ν(0.9)]/A, by 1.07, 1.21, 1.34 nats at 63, 84, 108 cells, and the
+straight tail alone by 0.53, 0.51, 0.46 nats.
+
+**[measured]** (DY15; B: matched, the reviewer's code; unmatched, both codes) At equal live count, faces that go on
+to die are looser at the catch than faces that recover: C = 0.145 against 0.166 at p = 0.15 (difference 0.021 ±
+0.001) and 0.303 against 0.320 at p = 0.3 (0.017 ± 0.003), at 63 cells. Unmatched, most of the gap (0.151 against
+0.204) is the count.
+
+*What a caught face is and is not.* It is not a random thinning of a stationary face (more company, a larger void)
+and not an even patch at a fixed density (its profile is more peaked); near a survivor it is at about half the
+stationary density, and far away thinner, not empty, at 0.3 of the usual population (DY11). No plateau is seen; the
+company cannot test a lever rule on faces of 108 cells or fewer; whether a remnant in some looser sense exists is
+open and is not reachable at sizes where faces can be caught this deep. There is no model for the shape of the dip
+curve below half the population.
+
+*Forecasts and what was not checked.* Round 3: T1a (the raw curve collapses), T1b and T2 failed, T3 and T4 held (T4
+nearly forced by the rule; T1b failed as registered, a count-weighted fit that integer thresholds break, and the
+unweighted fit would have held). Round 4: F1–F5 failed as registered, and the review shows that F1, F2 and F6 could
+not test the reading they were written for. Over the four rounds three of the lead's twenty-three forecasts held
+(Table 5, rows 22 and 23). Not checked: one fresh seed per hull size in both reviews (two for the torus); the
+lifetimes at 108 and 135 cells are the GPU's; the patch in csz and D2h and its change with depth; at 108 cells the
+review ran 1.5 million generations, with no catch at p = 0.15 and no deaths; the null is one patch shape (a ball);
+at 84 cells there were 82 deaths, so the dying-against-recovering comparison is tested properly only at 63 cells.
 
 ### 5.7 The cubes, and the forecasts that were made in advance
 
@@ -739,10 +820,16 @@ included.
 | 15 | Five candidate second variables at equal area and shortest loop, fitted on three pairs (`research/shape3/PREDICTIONS.md`, commit 46baf66) | none fits (χ² ≥ 111 on 7) | **all refuted** (SH9; A) |
 | 16 | Empty patches on a 12 × 12 × 8 face: ln P = const − c·cells − σ·perimeter with c = 0.21 ± 0.015 (`research/NOTEBOOK.md`, entry "a forecast before the run") | c = 0.264; the form fails (χ² 3,369 on 3) | **missed** as stated (GP10; A + B−) |
 | 17 | The thin-face study's 14 forecasts, each committed before its run (`research/theory/thin/PREDICTIONS.md`) | rescored by the review | 8 hit, 2 half, 2 mostly missed, 2 missed (TH7; B) |
-| 18 | The constant analysis's forecasts (`research/constant/PREDICTIONS.md`): −ln P = 5.0, 9.5, 15.3 for empty 2×2, 3×3, 4×4 patches; about zero for the equal-loop pairs at A = 63 and 72 | 6.25, 12.13, 19.42; Σz² 3.7 on 4, wrong in sign at A = 36 | patches **missed** (low by 1.3, 2.6, 4.1); pairs not refuted there; equilateral tori not run (CN2; B: scores recomputed by a second agent) |
+| 18 | The constant analysis's forecasts (`research/constant/PREDICTIONS.md`): −ln P = 5.0, 9.5, 15.3 for empty 2×2, 3×3, 4×4 patches; about zero for the equal-loop pairs at A = 63 and 72 | 6.25, 12.13, 19.42; Σz² 3.7 on 4, wrong in sign at A = 36 | patches **missed** (low by 1.3, 2.6, 4.1); pairs not refuted there; the equilateral tori of its part C are row 24 (CN2; B: scores recomputed by a second agent) |
 | 19 | The symmetric-collapse line's forecasts (`research/theory/symmetric/PREDICTIONS.md`), among them that a mirror or threefold axis on a rim-free periodic face would shorten its life | 40 statements counted per size: 25 held, 1 on its limit, 14 failed; the symmetry lengthens such a face's life (+0.4 to +1.65) | **14 failed**, the mirror forecast among them (S7; B for the slab values). The tally has no ledger row (NOTEBOOK 2026-11-15, "the symmetric collapse") |
 | 20 | How a face dies, first round (`research/dying/PREDICTIONS.md`, commit 75e5212): L1 death an event of the whole face; L2–L7, among them that the rim outlives the interior (band/interior ratio ≥ 1.5 at lag 4), that emptying begins at the tied edge, that the neighbour stays within 10%, that the plunge shortens with more ties | L1 consistent; ratio 1.06–1.22; emptying not at the tied edge; neighbour 0.893; plunge medians 6, 6, 7, 7 | **L2–L7 failed** (L4 undecided with another choice of band); scores reproduced by the review (DY1–DY3; A). The tally has no ledger row (NOTEBOOK 2026-11-15, "how a face dies") |
 | 21 | How a face dies, second round (same file, commit 6d40e72): seven forecasts, among them a point of no return at 0.25–0.5 of the mean, the ladder in ν rather than q at half population, 2.8–3.1 cells lost per tied edge at 84 cells, no function of the stationary mean and width fitting all eight lifetimes | p* = 0.08; the ladder mostly in q; 2.68, 2.95, 3.38; one fit within 0.31 | **one of seven held** (A2, ln ν Gaussian to 0.6 of the mean); scores reproduced by the review (DY4–DY7; A). The tally has no ledger row (NOTEBOOK 2026-11-15, "a death is a dip that keeps going") |
+| 22 | How a face dies, third round (same file, "Round 3", T1–T4): among them that the dip curve per cell collapses across sizes (T1a), a straight tail (T1b), a patch at 0.8 of stationary round a survivor (T2) | no collapse; T1b failed as registered (count-weighted); no such patch | **T1a, T1b, T2 failed**; T3, T4 held, T4 nearly forced by the rule (DY8, DY10, DY11; A, A, B). The tally has no ledger row (NOTEBOOK 2026-11-15, "what the dips say about the price of a cell") |
+| 23 | How a face dies, fourth round (same file, "Round 4", F1–F6): a depleted face is a void beside a remnant at fixed density (a lever rule), the dip curve a parabola joined to its tangent | company falls steadily with depth; the construction overshoots the end point by 1.07–1.34 nats | **F1–F5 failed** as registered; F1, F2, F6 could not test the reading (the review's null); the reading ends on its number (DY13, DY14; B). Over the four rounds 3 of the lead's 23 held. No ledger row for the tally (NOTEBOOK 2026-11-15, "round 4 reviewed") |
+| 24 | Equilateral face tori under three readings, flat, massive and rising (`research/constant/PREDICTIONS.md` part C; e.g. A = 93: 19.479 ± 0.010, 19.437 ± 0.019, 19.506–19.530) | A = 93: 19.4141 ± 0.0053; A = 57 and 63 above every reading (flat by 0.034 and 0.047, massive by 0.021 and 0.034) | **no reading survives**: flat and rising refuted at A = 93 by their own lines, massive missed at 57 and 63 (GL3; A at 57, 63, 75, C at 93). Scores in the file's dated blocks |
+| 25 | The lead's N1–N4 for the same tori (same file, second note of 2026-11-15): N1 A = 93 above flat by at least 0.03; N2 A = 57 likewise; N3 A = 81, 84 between massive and flat; N4 the excess per cell falls with size | 0.070 below flat; 0.034–0.039 above; not yet run | **N1, N4 failed**; N2 held, on a reason that A = 93 ended; N3 open (GL3). No ledger row for the tally |
+| 26 | The lead's signals forecasts S1–S10 (`research/signals/PREDICTIONS.md`): among them S1 that the wires on file carry nothing, S3 a transmission (one chance in five), S8 a receiver that toggles, S9 that carriers arise from soup | fronts run the whole wire; a transmission to a counter; no toggle; carriers from one random unit repeated | S1, S8 **failed**; S2, S7, S10 held; S3 held with a caveat; S6 half; S9 held only in a weak sense (re-scored after the review); S4, S5 untested (SG1–SG10). No ledger row for the tally (NOTEBOOK 2026-11-15, the signals entries) |
+| 27 | The lead's state-space forecasts E1–E7 (`research/statespace/PREDICTIONS.md`, before any enumeration) | see Section 6.1 | three and a half of seven held: E1, E4 failed, E6 failed as a general rule, E2 half (SS1). No ledger row for the tally (NOTEBOOK 2026-11-15, "how much of its state space a seed explores") |
 
 Table 5. Forecasts committed before their outcomes. Sources searched: `research/peeling/cube_lifetime.csv`,
 `research/fluct/PREDICTIONS.md`, `research/gpu/PREDICTIONS.md`, `research/shape/PREDICTIONS.md`,
@@ -751,10 +838,16 @@ Table 5. Forecasts committed before their outcomes. Sources searched: `research/
 entry named in row 16, `research/theory/exponent.md`, and the swarm's `research/theory/swarm/PREDICTIONS.md` as
 scored in `research/theory/swarm/exam/OUTCOMES.md`, and `research/theory/symmetric/PREDICTIONS.md` as scored in the
 notebook entry "the symmetric collapse", and rounds 1 and 2 of `research/dying/PREDICTIONS.md` as scored in the
-notebook entries "how a face dies" and "a death is a dip that keeps going" (round 3, under review, not included);
+notebook entries "how a face dies" and "a death is a dip that keeps going", rounds 3 and 4 of the same file as scored
+in the entries "what the dips say about the price of a cell" and "round 4 reviewed", part C of
+`research/constant/PREDICTIONS.md` with the lead's N1–N4 as scored in that file's dated blocks, the lead's S1–S10 in
+`research/signals/PREDICTIONS.md` and E1–E7 in `research/statespace/PREDICTIONS.md` as scored in the notebook;
 within these, the ledger rows C3–C5, C9, GP2, GP8, GP9, GP10,
-SH1, SH2, SH5, SH9, SW2, TH7, CN2, S7, DY1–DY7. Not searched for this table: the other tracked forecast files
-(`research/theory/exponent/PREDICTIONS.md` entry by entry, `research/theory/class/PREDICTIONS.md`,
+SH1, SH2, SH5, SH9, SW2, TH7, CN2, S7, DY1–DY15, GL3, SG1–SG10, SS1. Not searched for this table: the other tracked
+forecast files and blocks (the signals investigators' own I1–I9 and J1–J10, scored in their file; the second card's
+forecasts in its own `PREDICTIONS.md` on its branch, and the reviewer's table of predictions by correction form,
+both for runs not yet reported;
+`research/theory/exponent/PREDICTIONS.md` entry by entry, `research/theory/class/PREDICTIONS.md`,
 `research/theory/class/followup/PREDICTIONS.md`, `research/toy2d/PREDICTIONS.md`,
 `research/audit/class/PREDICTION-*.md`), so the table may be incomplete. Omitted: forecasts about other rules.
 Among the swarm exam's entries these are the ones on the 2D rule and its dice models: counting C-E2 failed (slope
