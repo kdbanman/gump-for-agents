@@ -1,4 +1,4 @@
-// node docs/overview/check-signals.js   (from the repo root; about a minute, one core)
+// node site/checks/check-signals.js   (from anywhere; about a minute, one core)
 // Checks the page's stepper (gump-core.js) and its layouts (signals-core.js) on the signal objects drawn live on the
 // plate "Signals", against what the oracle-judged verifiers and the lead's own oracle checks say
 // (research/audit/signals_lead_check.py, signals_clock_lead_check.py, signals_gate_lead_check.py):
@@ -12,9 +12,10 @@
 //      file's ring and on the page's;
 //   4. bit-exactness: the same initial states stepped by reference/oracle.py (python3 + numpy) and by gump-core.js agree
 //      cell for cell at every generation (a pulse of wire C, the clock at N = 3 and N = 4, the gate at separations 10, 11).
-// The objects are read from research/signals/objects/*.json; data/data.json, if it holds them, must hold the same.
+// The objects are read from research/signals/objects/*.json; site/data/signals.json (what the Signals page
+// fetches) must hold the same.
 const fs = require('fs'), path = require('path'), crypto = require('crypto'), { execFileSync } = require('child_process');
-const { makeGump } = require('./gump-core.js'), { sigCore } = require('./signals-core.js');
+const { makeGump } = require('../assets/gump-core.js'), { sigCore } = require('../assets/signals-core.js');
 const repo = path.join(__dirname, '..', '..'), obj = n => JSON.parse(fs.readFileSync(path.join(repo, 'research', 'signals', 'objects', n + '.json'), 'utf8'));
 const PAGE_RINGS = [12, 20], PAGE_RING = 20, GATE_RING = 24, CLOCK_N = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];   // what the page uses (figures9.js)
 let bad = 0;
@@ -23,12 +24,13 @@ const live = g => { const o = []; for (let i = 0; i < g.M; i++) if (g.state[g.ce
 const ix = (H, p) => (p[0] * H + p[1]) * H + p[2];
 
 // the copies on the page must be the files
-const DJ = path.join(__dirname, 'data', 'data.json');
-if (fs.existsSync(DJ)) {
-  const Sg = (JSON.parse(fs.readFileSync(DJ, 'utf8')).signals || {}).objects;
-  if (Sg) for (const [k, n] of [['pulseC', 'pulse-C'], ['clock', 'clock-C'], ['gate', 'gate-C']]) {
+const DJ = path.join(__dirname, '..', 'data', 'signals.json');
+{
+  const Sg = JSON.parse(fs.readFileSync(DJ, 'utf8')).objects;
+  if (!Sg) fail('data/signals.json has no objects');
+  else for (const [k, n] of [['pulseC', 'pulse-C'], ['clock', 'clock-C'], ['gate', 'gate-C']]) {
     const f = obj(n), p = Sg[k];
-    for (const fld of Object.keys(p)) if (JSON.stringify(p[fld]) !== JSON.stringify(f[fld])) fail(`data.json signals.${k}.${fld} differs from ${n}.json`);
+    for (const fld of Object.keys(p)) if (JSON.stringify(p[fld]) !== JSON.stringify(f[fld])) fail(`data/signals.json objects.${k}.${fld} differs from ${n}.json`);
   }
 }
 

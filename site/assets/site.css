@@ -311,8 +311,9 @@ img{max-width:100%}
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .brand{font-family:var(--f-display);font-weight:700;font-size:17px;text-decoration:none;letter-spacing:-0.01em;white-space:nowrap}
 .brand::before{content:"";display:inline-block;width:10px;height:10px;margin-right:8px;background:var(--ember);transform:rotate(45deg) translateY(-1px)}
-.site-nav{display:flex;gap:2px;overflow-x:auto;min-width:0;flex:1 1 auto;scrollbar-width:thin;margin-inline:-6px}
+.site-nav{display:flex;flex-wrap:wrap;gap:0 2px;min-width:0;flex:1 1 auto;margin-inline:-8px}
 .site-nav a{flex:none;text-decoration:none;font-size:13.5px;color:var(--ink-2);padding:6px 8px;border-radius:4px;white-space:nowrap}
+@media (max-width:520px){.site-nav a{font-size:13px;padding:5px 8px}.site-nav .nav-app{margin-left:0}}
 .site-nav a:hover{color:var(--ink);background:var(--grid)}
 .site-nav a[aria-current="page"]{color:var(--ink);font-weight:600;box-shadow:inset 0 -2px 0 var(--ember);border-radius:0}
 .site-nav .nav-app{margin-left:auto;font-family:var(--f-mono);font-size:12px;letter-spacing:.04em}

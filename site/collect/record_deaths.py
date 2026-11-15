@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Record a few real face deaths for the overview's plate "How a face dies, watched".   python3 docs/overview/record_deaths.py
+"""Record a few real face deaths for the overview's plate "How a face dies, watched".   python3 site/collect/record_deaths.py
 
 What it does (about a minute, one core):
   1. writes the orbit graphs of the dying-face study's vessels oct_11_c_c1 (no symmetry: the free face) and
@@ -15,7 +15,7 @@ What it does (about a minute, one core):
      orbit state expanded) is put in a padded box at the oldest recorded generation and stepped by the oracle, and
      at every generation the oracle's state must equal the recorded one, cell for cell, and nothing may live outside
      the vessel;
-  5. writes docs/overview/data/sources/deaths.json: the canonical cells, the tied edges, and per life the packed frames
+  5. writes site/collect/sources/deaths.json: the canonical cells, the tied edges, and per life the packed frames
      (base64, T x 63 bits, cell i of frame t in bit (t*63+i) of a little-endian bit string) with where it came from.
 """
 import base64, json, os, subprocess, sys
@@ -88,13 +88,13 @@ def check_oracle(q, h, jd):
 def main():
     os.makedirs(SCR, exist_ok=True)
     subprocess.run(['gcc', '-O3', '-march=native', '-o', os.path.join(SCR, 'sd'), os.path.join(ROOT, 'research', 'dying', 'sd.c')], check=True)
-    out = {'how': 'python3 docs/overview/record_deaths.py (research/dying/sd.c, fresh seeds; every frame checked against reference/oracle.py)',
+    out = {'how': 'python3 site/collect/record_deaths.py (research/dying/sd.c, fresh seeds; every frame checked against reference/oracle.py)',
            'T': T, 'groups': {}}
     for group, (seed, gens) in RUNS.items():
         q, canon, lives = run(group, seed, gens)
         out['canon'] = canon.tolist()                                    # the same 63 cells, same order, for both groups
         out['groups'][group] = {'tied': list(load.TIED[group]), 'graph': f'oct_11_c_{group}', 'orbit_nodes': int(q.n), 'lives': lives}
-    p = os.path.join(HERE, 'data', 'sources', 'deaths.json')
+    p = os.path.join(HERE, 'sources', 'deaths.json')
     with open(p, 'w') as fh:
         json.dump(out, fh, separators=(',', ':'))
     print('wrote', p, os.path.getsize(p), 'bytes')

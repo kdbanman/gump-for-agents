@@ -1,4 +1,4 @@
-const { makeGump } = require('/home/user/gump-for-agents/docs/overview/gump-core.js');
+const { makeGump } = require('../../../assets/gump-core.js');
 const fs = require('fs');
 const ref = fs.readFileSync('/home/user/gump-for-agents/reference/golden/legacy_cube_side11_H60.txt','utf8').trim().split('\n').map(l=>+l.split(/\s+/)[1]);
 const H = 68, c = 34, g = makeGump(H); g.seedBox(23, 45);

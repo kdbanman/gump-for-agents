@@ -2,7 +2,7 @@
 // ---------- refresh of 2026-11-15 (late morning): signals (SG1-SG10), the state space a seed sees (SS1-SS3) ----------
 // Quoted numbers come from D.signals and D.statespace (collect.py checks each against research/NOTEBOOK.md, CLAIMS.md or the
 // owner's journal). The live objects are research/signals/objects (pulse-C, clock-C, gate-C), laid out by signals-core.js
-// exactly as the lead's oracle checks lay them out, and stepped by gump-core.js; docs/overview/check-signals.js checks the
+// exactly as the lead's oracle checks lay them out, and stepped by gump-core.js; site/checks/check-signals.js checks the
 // layouts and the stepper against the oracle for every ring and every N used here.
 // Computed on this page, not quoted: the clock's period (found by comparing whole states), the gate's survivor (read from
 // the direction its cells move), "about 1 in 12" (400 / 33), the bits of the listed vessels (log2 of the study's counts).

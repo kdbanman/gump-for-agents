@@ -1,5 +1,5 @@
 'use strict';
-// ---------- the swarm: the critic's corrections (the closed plate is drawn in figures3.js) ----------
+// ---------- the swarm: the critic's corrections (the closed plate is drawn further down this file) ----------
 (function () {
   const W = D.swarm, t = E('table', {}, $('#t-errors')), hr = E('tr', {}, E('thead', {}, t)); ['', 'the lead had said', 'the critic showed'].forEach(h => E('th', {}, hr, h));
   const tb = E('tbody', {}, t); W.errors.forEach(e => { const tr = E('tr', {}, tb); e.forEach((c, i) => E('td', { style: i ? 'text-align:left;white-space:normal' : '' }, tr, c)); });

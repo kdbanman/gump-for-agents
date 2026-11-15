@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""Pick what the figures need out of data/sources/*.json into data/data.json.   python3 docs/overview/collect.py
+"""Pick what the figures need out of sources/*.json into ../data/<key>.json, one file per key.   python3 site/collect/collect.py
 The source files were gathered from the repository by helper agents on 2026-11-14 and carry their own
 "src" and "how" fields; this script only selects and reshapes, it does not compute results."""
 import json, pathlib
 here = pathlib.Path(__file__).parent
-S = lambda n: json.loads((here / "data" / "sources" / n).read_text())
+S = lambda n: json.loads((here / "sources" / n).read_text())
 out = {}
 
 s11 = S("side11.json")
@@ -420,5 +420,9 @@ t = Q["tori"]; v = t["t57_75"]["value"]
 out["tori"] = {"rows": [[48] + t["t48"]["value"], [57, v[1], v[2]], [63, v[4], v[5]], [75, v[7], v[8]], [93] + t["t93"]["value"][:2]],
                "line": t["line"]["value"][:2], "deficit": [[48, t["line"]["value"][2]], [57, t["line"]["value"][4]]], "slope": t["slope"]["value"], "kink": t["kink"]["value"][0],
                "chi": t["nosmooth"]["value"], "f63": t["f63"]["value"], "f93": t["f93"]["value"], "next": t["next"]["value"], "hull": t["hull"]["value"], "two": t["two"]["value"]}
-(here / "data" / "data.json").write_text(json.dumps(out, separators=(",", ":")))
-print("data.json", (here / "data" / "data.json").stat().st_size, "bytes;", ", ".join(out))
+# one file per key: a page of the site fetches only the keys its plates read (site/build.py finds them). A key that
+# is no longer produced leaves its old file behind on purpose: delete it by hand once no plate reads it.
+dd_out = here.parent / "data"
+for k, v in out.items():
+    (dd_out / (k + ".json")).write_text(json.dumps(v, separators=(",", ":")) + "\n")
+print(f"{len(out)} files in site/data/, {sum((dd_out / (k + '.json')).stat().st_size for k in out)} bytes;", ", ".join(out))

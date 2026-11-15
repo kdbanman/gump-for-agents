@@ -1,7 +1,7 @@
-// node docs/overview/check-core.js   (from the repo root)
-// Runs the page's stepper on the legacy closed cubes and compares every generation with reference/golden.
+// node site/checks/check-core.js   (from anywhere)
+// Runs the site's stepper (site/assets/gump-core.js, the file every page loads) on the legacy closed cubes and compares every generation with reference/golden.
 const fs = require('fs'), path = require('path');
-const { makeGump } = require('./gump-core.js');
+const { makeGump } = require('../assets/gump-core.js');
 const root = path.join(__dirname, '..', '..', 'reference', 'golden');
 let bad = 0;
 for (const [side, H, lo, hi] of [[8, 40, 13, 29], [9, 50, 17, 35], [11, 60, 19, 41]]) {
@@ -14,10 +14,14 @@ for (const [side, H, lo, hi] of [[8, 40, 13, 29], [9, 50, 17, 35], [11, 60, 19, 
   console.log(`side ${side}: ${ref.length - 1} generations, mismatches ${mism}, final population ${g.pop}, static after log end: ${still}, ${Date.now() - t0} ms`);
   bad += mism;
 }
-// the settled state of period 16 drawn on the page (data/sources/zombie.json; CLAIMS ZL1): the page's stepper must bring the
-// slab back to its first state after exactly 16 generations, and not before
+// the settled state of period 16 drawn on the page (site/data/zombie.json's sim, as the page reads it, which must equal
+// collect/sources/zombie.json; CLAIMS ZL1): the stepper must bring the slab back to its first state after exactly 16
+// generations, and not before
 {
-  const Z = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'sources', 'zombie.json'), 'utf8'));
+  const src = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'collect', 'sources', 'zombie.json'), 'utf8'));
+  const Z = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'zombie.json'), 'utf8')).sim;
+  for (const k of ['H', 'cells', 'lifted']) if (JSON.stringify(Z[k]) !== JSON.stringify(src[k])) { console.log(`zombie: data/zombie.json sim.${k} differs from collect/sources/zombie.json`); bad++; }
+  Z.live_slab = src.live_slab;
   const g = makeGump(Z.H); g.setCells(Z.lifted);
   const key = () => Z.cells.map(c => g.state[c[3]]).join(''), k0 = key(), back = [];
   for (let t = 1; t <= 64; t++) { g.step(); if (key() === k0) back.push(t); }
@@ -31,6 +35,8 @@ for (const [side, H, lo, hi] of [[8, 40, 13, 29], [9, 50, 17, 35], [11, 60, 19, 
 {
   const txt = fs.readFileSync(path.join(__dirname, '..', '..', 'research', 'clockwork', 'objects', 'C52.33a.cells'), 'utf8');
   const cells = txt.split('\n').filter(l => l.trim() && !l.startsWith('#')).map(l => l.trim().split(/\s+/).map(Number));
+  const served = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'c52.json'), 'utf8')).cells;   // what the page steps
+  if (JSON.stringify(served) !== JSON.stringify(cells)) { console.log('C52.33a: data/c52.json cells differ from the catalogue file'); bad++; }
   const H = 24, OFF = 12, g = makeGump(H); g.setCells(cells.map(c => [c[0] + OFF, c[1] + OFF, c[2] + OFF]));
   const key = () => g.state.join(''), k0 = key(), back = [], hist = [];
   for (let t = 1; t <= 208; t++) { hist.push(g.state.slice()); g.step(); if (key() === k0) back.push(t); }

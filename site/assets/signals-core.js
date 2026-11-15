@@ -2,7 +2,7 @@
 // Each mirrors the lead's oracle checks: research/audit/signals_lead_check.py (a pulse on a ring of `cubes` units along v
 // in a cubic array torus of side 2 * cubes), signals_clock_lead_check.py (capL + N units + capR in empty space, an even
 // shift into a torus with a margin, the rake lit at unit N // 2) and signals_gate_lead_check.py (two pulses on a ring,
-// the left-mover `sep` units along v). Checked against the oracle by docs/overview/check-signals.js.
+// the left-mover `sep` units along v). Checked against the oracle by site/checks/check-signals.js.
 const sigCore = (() => {
   const md = (a, H) => ((a % H) + H) % H;
   const key = c => c.join(',');

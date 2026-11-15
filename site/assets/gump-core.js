@@ -1,5 +1,5 @@
-// Minimal gump stepper for the overview page (legacy array-index torus, even H only).
-// Checked against reference/golden by docs/overview/check-core.js.
+// Minimal gump stepper for the Gump Map site (legacy array-index torus, even H only).
+// Checked against reference/golden by site/checks/check-core.js.
 function makeGump(H) {
   const N = H * H * H, idx = (x, y, z) => (x * H + y) * H + z;
   const cells = [], axisOf = [];
