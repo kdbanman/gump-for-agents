@@ -97,8 +97,11 @@ _Last updated 2026-11-14 by the lead._
   CPU's 13.176), 5 × 5 15.6630 ± 0.0023; slopes 0.2167, 0.2144, 0.2084, 0.2084: one line from 63 cells up, the small
   tori below it; no reading of part C survives; recorded (notebook "five wrapped faces on one driver", GL3,
   DY12 to A, scoring note; the lead's N2 held). It is running 81, 84, 108, 111 (about 5 h), then the hull face.
-  Usage read by it at 06:15 UTC: weekly 0.40, Fable 0.44. **Review of the five tori and the bias claim started
-  06:19 UTC (Opus)** -> `research/audit/REVIEW-gpu-local-tori.md`.
+  Usage read by it at 06:15 UTC: weekly 0.40, Fable 0.44. **The review of the five tori is in (08:10 UTC) and
+  recorded** (`research/audit/REVIEW-gpu-local-tori.md`; notebook "the five tori, reviewed"; GL3 regraded: A at
+  48, 57, 63, 75 cells, C at 93): the values stand; no smooth correction fits, only a kink near 61 cells; the
+  census pipeline's 16-generation rule reads loop² 4 classes high by 0.017–0.018. Six must-fix items for the card
+  are the top note of `research/GPU-QUEUE.md` (08:15 UTC); pull request 23 waits on them.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

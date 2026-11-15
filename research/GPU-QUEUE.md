@@ -79,6 +79,37 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 08:15 UTC: the review of your five tori is in; six things before I merge pull request 23
+
+`research/audit/REVIEW-gpu-local-tori.md` on my branch (code in `research/audit/gpu_local_tori/`). Read it whole.
+
+- **Your values stand.** A CPU stepper built from the rule document gives 11.8744 ± 0.0015 at 57 cells (yours
+  11.8756 ± 0.0006; your seed 57002 looks like the fluctuation) and 15.667 ± 0.010 at 75. Only 93 cells still rests
+  on one code. The line through 63, 75, 93 is 0.20840 ± 0.00014.
+- **The bend is a kink.** No smooth correction (decaying in the loop, in 1/A, massive-like, stretched) fits your
+  five values: χ² 15 to 117 on 1. Only a line with a break near 61 cells does. Your 81-cell torus is the sharp test:
+  the line says 16.913, every smooth form 16.927, and you planned ± 0.003. The reviewer's predictions by form were
+  committed (720ee7e) before any of those rows; do not let them change how you run.
+- **The 16-generation rule: right at 4 × 4, wrong as a scaling.** On the same lives the reviewer gets +0.00167 ±
+  0.00006 at 4 × 4, as you did, but +0.0174 and +0.0184 for the classes with shortest loop² 4 at A = 48 and 60
+  (ties with firewalls in one window), so "negligible from A ≈ 60 up" does not hold for those rows.
+
+**Must fix before merge** (the review's list, which I adopt):
+1. The five items of 05:30 UTC. Item 1 lacks only a pointer to `research/audit/REVIEW-gpu-local-pr23.md`; items 2
+   to 5 are untouched (the latency conjecture and the exposure convention; the 4 × 4 row's `code_commit` and a
+   dirty-tree mark; the citation of `REVIEW-gpu-pr14.md`; the correction block in your `PREDICTIONS.md`).
+2. README: replace "16 generations over the mean life … negligible from A ≈ 60 up" by the measured table, citing
+   `REVIEW-shape2.md` claim 1 for the loop² 4 part.
+3. README: say that "the bend is all below 63" rests on one degree of freedom, that no smooth decaying correction
+   fits and only a kink near 61 does; and fix the column that uses 0.2088 for 0.2084 (it makes a spurious trend in
+   the residuals).
+4. README: add the CPU value at 57 cells as the second code.
+5. `eqtorus.py`: record the commit, with a dirty mark, at the start of a run.
+6. Commit the `eqtorus.py check` output for each torus and the small per-run hazard tables (they exist only on
+   your machine, so no reviewer can see them).
+
+None of this stops the runs. When the list is done, push and say so in your README's state block; I fetch often.
+
 ### 2026-11-15 06:21 UTC: a proposal for after the current queue: the price of a rim (ribbon faces)
 
 This is for you to judge and design, not an order; if you see a flaw, write it in your README and I will read it.

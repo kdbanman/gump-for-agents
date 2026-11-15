@@ -2472,3 +2472,43 @@ recomputed every value and the per-seed χ² from the rows (ln(2E/F), ± 1/√F)
 - Not checked: no second stepper at 57 cells or at 75 and above on this driver (5 × 5 agrees with the CPU value on
   file); the two seeds at 57 cells differ by 2.6σ; whether lattice direction matters is confounded with size in
   this family (5 × 5 on the line says not much). An adversarial review with a CPU stepper is running.
+
+## 2026-11-15: the five tori, reviewed: confirmed at 57 and 75 cells; a kink, not a fading correction; the 16-generation rule measured
+
+`research/audit/REVIEW-gpu-local-tori.md` (code `research/audit/gpu_local_tori/`; a stepper built from
+`docs/AUTOMATON.md` alone, equal to the oracle every generation on both tori, three negative controls). The branch
+reviewed is `claude/gpu-local-1080` at b843883.
+
+- **Second codes [measured; A].** 57 cells: 11.8744 ± 0.0015 on the CPU (445,165 deaths, 4 seeds) against the
+  card's 11.8756 ± 0.0006; the card's two seeds, 2.6σ apart, look like a fluctuation in the higher one. 75 cells:
+  15.667 ± 0.010 against 15.6630 ± 0.0023 (and 15.6614 ± 0.0026 on file). With 48 and 63 cells checked earlier,
+  only the 93-cell value still rests on one code.
+- **The line [measured].** Through 63, 75, 93: slope 0.20840 ± 0.00014, χ² 0.0002 on 1. Deficits below it: 0.111 at
+  48 cells, 0.036 at 57.
+- **The bend is a kink [measured, on one degree of freedom].** No smooth correction fits the five values: a term
+  decaying in the shortest loop, in 1/A, in 1/A and 1/A², a massive-like sum, a stretched exponential all give χ²
+  of 15 to 117 on 1 (59–70 with the 57-cell error inflated). The deficit goes 0.111, 0.036, then below 0.01 between
+  shortest loops of 4.00, 4.36 and 4.58 cube steps: that takes an abrupt change near 61 cells, not a finite-size
+  term fading. At 2σ the data still allow a residual of 0.01 at 63 cells or a slope change of 0.0009 above it.
+  The 81-cell torus, running on the card, separates the line from every smooth form by 0.014 against a planned
+  ± 0.003 (the reviewer's table of predictions by form is committed at 720ee7e, before any of those rows).
+  [conjectured, the lead] The loop at which the bend ends is about the width of what is left of a dying face plus
+  its reach (round 3: a remnant about 3.5 cube steps across): a wrapped face stops being short-lived once its last
+  patch cannot feel itself round the loop.
+- **The 16-generation rule of the census pipeline [measured on the same lives; B].** `rep.c` run at stamping
+  intervals of 16 and of 1 on the same seeds (the 16-interval jobs are bit-identical to the files, 196 of 196):
+  the census reads ln τ high by 0.00167 ± 0.00006 at 4 × 4 (as the card's session found), by 0.0008 and 0.0003 for
+  two long-lived classes at A = 60, but by **0.0174 and 0.0184 ± 0.0011 for the classes whose shortest loop² is 4**
+  (A = 48 and 60), where face deaths tie with firewalls inside one 16-generation window. So the card's "negligible
+  from 60 cells up" is false for those rows; `REVIEW-shape2.md` claim 1 had estimated 0.018 at A = 48 from 2,048
+  lives. Consequences: the 4 × 4 value on file was high by 0.0017 from the rule and 0.0058 (2.9σ) from the draw
+  (the earlier review's "no systematic cause" is amended by this); differences between long-lived classes at
+  A = 60 move by less than 0.001; a loop² 4 class against a long-lived one moves by 0.016–0.018; cost-per-cell
+  figures (SH3) move by 0.0003 per cell at most.
+- **Bookkeeping.** The card's forecast blocks were committed before their rows by its own clock (no server time to
+  check against); settled lives are censored correctly; launch caps are 0.25–3.2% of a mean life; the rows'
+  `code_commit` is the head at the end of a run without a dirty mark (harmless here: the stepping code did not
+  change).
+- Not checked: anything on the GPU; the per-run files that exist only on the card's machine (hazard by age); the
+  63- and 93-cell values were not re-measured here; the bias at A = 72 and for the classes not run.
+- Six items for the card before its pull request is merged (`research/GPU-QUEUE.md`, note of 08:15 UTC).
