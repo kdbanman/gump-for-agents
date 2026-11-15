@@ -252,7 +252,7 @@ _Last updated 2026-11-14 by the lead._
   `research/audit/REVIEW-signals-4.md`) and the lead's CPU run of the 84-cell face with one loop of 12 (since
   14:58, about 80 minutes). **Owed on the review:** CLAIMS rows SG16 on, OPEN-PROBLEMS 13, the owner's journal
   (the note that nothing ordered speaks onto a wire no longer holds), the essay; then overview 14 and the draft.
-  **15:24 UTC: the overview is being rebuilt as a multi-page site** (the owner's request, quoted in `LEAD.md`,
+  **15:21 UTC: the overview is being rebuilt as a multi-page site** (the owner's request, quoted in `LEAD.md`,
   "The overview page"): an Opus agent is writing `site/` (sources per page, data fetched per page, the web app
   mounted under `app/`, one build to `site/dist`, deployable to GitHub Pages by the manual workflow and
   publishable as a private multi-file artifact). Phase 1 keeps the content of version 13 exactly; the new
