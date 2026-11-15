@@ -1,0 +1,10 @@
+card R = 11: 1 row(s), E = 64164239517, F = 614098, kind 5 0, settled 0: ln tau_face = 13.6362 +- 0.0013
+A10G R11_s1_A10G.json: deaths 764941, settled 0, max age 1.53e+06: ln tau_face = 13.6347 +- 0.0011; card - A10G = +0.0016 +- 0.0017
+A10G R15_s1_A10G.json: deaths 1059, settled 0, max age 4.08e+08: ln tau_face = 23.3761 +- 0.0307
+research/dying round 4 (soup 0.4, T0 512): 13.633 +- 0.005; card - it = +0.0032 +- 0.0052 (+0.6 sigma)
+REVIEW-dying round 4: 13.626 +- 0.012; card - it = +0.0102 +- 0.0121 (+0.8 sigma)
+
+R = 15 run as launched (1,280 replicas, 3.5e8 replica-gens/s, 2 x 420 min):
+  if ln tau_face = 23.273: first-death mean 1.6e+09, deaths 11022, error 0.0095, oldest age / mean 4.25
+  if ln tau_face = 23.376: first-death mean 1.77e+09, deaths 9943, error 0.0100, oldest age / mean 3.84
+  smallest grid delay of the guard for an odd period > 128 at K = 2^18: 3.38e+07 = 0.021 first-death means
