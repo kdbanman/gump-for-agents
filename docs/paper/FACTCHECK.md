@@ -176,7 +176,7 @@ By a subagent bringing the draft up to date with the results recorded after it w
 missed …", "a forecast before the run: empty patches …", "the second variable at equal shortest loop: not found",
 "lives that settle and are not recognised", "the thinnest face".
 
-**What changed in the draft** (words by `wc -w`; the draft grew from 18,662 to 20,497, +1,835, of which about
+**What changed in the draft** (words by `wc -w`; the draft grew from 18,662 to 20,527, +1,865, of which about
 +1,350 are words containing letters and the rest numbers and symbols).
 
 - *Abstract*: the equal-loop differences (SH6–SH9), the range 0.207–0.219 (CN1), the thin face's 0.099 (TH3); one
