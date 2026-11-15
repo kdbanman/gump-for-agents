@@ -12,8 +12,12 @@ was made).  Each left cap is then classified exactly, by the automaton of prove_
   memory    the closed set of cap states is larger: the cap is changed by what it eats, but it never disturbs the
             tape and the set is finite (a reader with a finite memory; how many states, and whether all return
             to the bare cap under letters C, is printed)
-  emits     for some word the cap disturbs the tape beyond unit U (it sends something back, or burns)
+  emits     for some word the cap disturbs the tape beyond unit U (it sends something back, grows or moves
+            towards the tape, or burns)
   big       more than --limit states
+--nobb restricts the words to those with no two adjacent B (trains of single pulses p<); the closure then runs
+over every triple of letters without BB inside it (a superset of those words, so 'sink' and 'memory' still hold
+for them).
 Stepping: sg.step_set on finite patterns, light-cone exact as argued in prove_reader.py.
 """
 import argparse, itertools, json
@@ -44,13 +48,15 @@ def left_cap_from_right(R, K=10):
     return frozenset(tr(c, -b) for c in z if unit(c) < b)
 
 
-def classify(cap, U=3, limit=3000):
+def classify(cap, U=3, limit=3000, nobb=False):
+    ok = lambda w: not (nobb and 'BB' in w)
     S = {}; todo = []
     def add(s):
         if s not in S:
             S[s] = {}; todo.append(s)
     for w in itertools.product('BC', repeat=U + 1):
-        add(cap | W.tape_cells(''.join(w), 0, 0, U + 1))
+        if ok(''.join(w)):
+            add(cap | W.tape_cells(''.join(w), 0, 0, U + 1))
     init = set(S)
     # the cap alone must be stationary
     bare = cap | W.tape_cells('C' * (U + 6), 0, 0, U + 6)
@@ -59,6 +65,8 @@ def classify(cap, U=3, limit=3000):
     while todo:
         s = todo.pop()
         for w in itertools.product('BC', repeat=3):
+            if not ok(''.join(w)):
+                continue
             word = ''.join(w) + 'CC'
             x = s | frozenset(tr(c, U + 1) for c in W.tape_cells(word, 0, 0, 5))
             y = sg.step_set(sg.step_set(x))
@@ -68,7 +76,8 @@ def classify(cap, U=3, limit=3000):
             S[s][''.join(w)] = s2; add(s2)
             if len(S) > limit:
                 return 'big', len(S)
-    if set(S) == init:
+    pure = {cap | W.tape_cells(''.join(w), 0, 0, U + 1) for w in itertools.product('BC', repeat=U + 1)}
+    if set(S) <= pure:
         return 'sink', len(S)
     b0 = frozenset(c for c in bare if unit(c) <= U)
     back = 0
@@ -85,6 +94,7 @@ def classify(cap, U=3, limit=3000):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('table'); ap.add_argument('--U', type=int, default=3); ap.add_argument('--max', type=int, default=10 ** 9)
+    ap.add_argument('--nobb', action='store_true', help='only words with no two adjacent B (trains of single pulses p<)')
     ap.add_argument('--clocks', help='clocks.py output: classify only these right caps (those that turn the rake)')
     a = ap.parse_args()
     D = json.load(open(a.table))
@@ -101,7 +111,7 @@ def main():
         L = left_cap_from_right(frozenset(tr(c, 10 - u0) for c in R))
         if L is None:
             tally['no image'] += 1; continue
-        v, n = classify(L, a.U)
+        v, n = classify(L, a.U, nobb=a.nobb)
         k = v.split(' (')[0]
         tally[k] += 1
         if k == 'memory':
