@@ -118,6 +118,18 @@ _Last updated 2026-11-14 by the lead._
   `research/audit/REVIEW-dying.md` and `research/audit/dying4/`; on its report: regrade DY13, corrections to the
   study's README, the essay if "no remnant" has to be narrowed. Usage reckoned at 09:46 UTC from the 06:15
   reading: weekly about 0.50, Fable about 0.64 (no newer reading; the card's branch is still at b843883).
+  **Round 4 reviewed and re-recorded 10:15 UTC**: the numbers stand; "no remnant" is withdrawn (an exact
+  fixed-density patch reads the same on faces this small, so the lead's tests could not tell); what fails is the
+  construction's end point, by 1.07–1.34 nats (notebook "round 4 reviewed"; CLAIMS DY13–DY15; the study's README
+  corrected by its author at 7b15db2; essay corrected).
+  **State space (the owner's journal question): reported 10:13 UTC and recorded 10:20** (notebook "how much of its
+  state space a seed explores", CLAIMS SS1–SS3, 158 claims, a line in `docs/OWNER-JOURNAL.md`, a new essay section):
+  states visited = settling time + period; 301 vessels of up to 30 cells listed exactly (the lead re-enumerated one
+  16-cell hull from the oracle alone: equal); side-16 cube 2,919,617,676 states of 2^51,888; 0.30 bits per face
+  cell; a living face carries about 0.95–0.99 bits per cell. **Review started 10:17 UTC (Opus)** ->
+  `research/audit/REVIEW-statespace.md` and `research/audit/statespace/`; on its report: regrade SS1–SS3, README
+  corrections, the essay's hedge on the entropy sentence. **The lead's own check of the shuttle clock** from the
+  second signals push (period 4N + 2 at N = 1, 2, 3, 4, 7, 12): `research/audit/signals_clock_lead_check.py`.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
