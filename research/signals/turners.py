@@ -67,7 +67,12 @@ def classify(lab, defect, hit, T):
         return 'eat', sy
     back = right if hit in ('P', 'R') else left
     fwd = left if hit in ('P', 'R') else right
-    rake_back = ('f' in back) and hit in ('R', 'S')
+    # a rake going back: f not preceded by 9 or 5 (towards +v, after an R hit), or 5f (towards -v, after S)
+    side = sy[6 - a:] if hit in ('P', 'R') else sy[:-2 - a]
+    if hit == 'R':
+        rake_back = any(side[i] == 'f' and side[i - 1] not in '95' for i in range(1, len(side)))
+    else:
+        rake_back = hit == 'S' and '5f' in side
     if rake_back:
         return ('turn' if not fwd else 'turn+' + ('L' if hit == 'R' else 'R')), sy
     if fwd and not back:
