@@ -305,3 +305,56 @@ cells): relative occupancy around a live cell 0.54 within 2.5 doubled units, 0.3
 0.54 at 7–9 cells and 0.38 at 3–6 cells. So at A = 63 the far field is not a void and the patch loosens as it
 shrinks: taken at face value that is against F1 at that size. Whether it is the smallness of an eight-cell patch
 or the absence of two phases is what the larger faces are for.
+
+## Round 4 definitions (the experimenter's readings, 2026-11-15, committed with `ex4.c` and `round4.sh` before any production run)
+
+Pilots: none beyond `validate4.py` (short runs used only to check the code; no C or V was computed from them). Where
+the block above is ambiguous, this is the reading taken; the forecasts are scored on it.
+
+- **Vessels, runs, thresholds.** c1 hull faces `v11c`, `v13c`, `v15c` (A = 63, 84, 108; the review's `geo.py`).
+  Stepper `ex4.c` (the review's `r3_ex.c` with catches; `validate4.py`). Runs and keep probabilities: `round4.sh`,
+  seeds 4411, 4413, 4415 + 4416 (two runs at R = 15, pooled). P̄ = 31.29, 42.49, 55.14 (the study's; the review's
+  31.25, 42.45, 55.19 give the same integers). Level p means P ≤ ⌊pP̄⌋: 28, 23, 18, 14, 9, 4 (A = 63); 38, 31, 25,
+  19, 12, 6 (84); 49, 41, 33, 24, 16, 8 (108). The excursion's first generation (P < P̄) can be a catch. Shallow
+  levels are subsampled by a keep draw made at the excursion's start (independent of the dynamics, nested in depth).
+  A level counts as *reached* at a size if it has at least 200 caught faces with k ≥ 1.
+- **Catches with P = 0** (a face that jumps over the level straight to empty) are counted and left out of C (they
+  have no live cell, so they add nothing to either sum) and out of V.
+- **Graph.** In-face neighbour graph: cell i linked to j if j is one of i's twelve gump neighbours and lies in the
+  same face (in-layer). gd(i, j) = graph distance. *Rim* = face cells with fewer than six in-face neighbours.
+- **ρ_i**: stationary occupancy of canonical cell i, from the same run's samples (`SAMP`, age > 512), the eight
+  faces mapped onto one canonical face (q = d ⊙ p), per size.
+- **Company.** For a face with state x (x_j = 1 if alive): N = Σ_{i live} Σ_{j ≠ i, gd(i,j) ≤ 2} x_j and
+  D = Σ_{i live} Σ_{j ≠ i, gd(i,j) ≤ 2} ρ_j (ρ replaces the state of the companion j, not of the live cell i, so that
+  N/D is the occupancy around a live cell relative to stationary). C_raw(p) = Σ_faces N / Σ_faces D; the stationary
+  value S = the same ratio over all stationary samples; **C(p) = C_raw(p)/S**. All forecasts are scored on C. F3's
+  "within 0.08 of p times the stationary ratio" is read on this normalised C as |C(p) − p| ≤ 0.08 (the raw form
+  |C_raw − pS| ≤ 0.08 is reported beside it). By shell: C_s the same with gd(i, j) = s for s = 1, 2, 3 and gd ≥ 4,
+  each normalised by its own stationary value. Interior: the sums over live cells i restricted to gd(i, rim) ≥ 2,
+  normalised by the same restriction on stationary faces.
+- **Void fraction.** V of a face = (number of face cells j with gd(i, j) > 2 for every live i) / A; V(p) = mean over
+  caught faces with k ≥ 1.
+- **Control.** For each caught face with k ≥ 1 live cells: one stationary sample drawn at random among those with
+  P ≥ k, and k of its live cells kept at random; C and V computed the same way (normalised by the same S).
+- **Errors.** Bootstrap over caught faces (200 resamples); the stationary S is treated as exact (its error is
+  given).
+- **Scoring.** F1: at A = 84, max_i |C_i − m|/m ≤ 0.15 over C(0.15), C(0.3), C(0.45) with m their mean; at
+  A = 108, |C(0.3) − C(0.45)| ≤ 0.15 × their mean; F1 holds if both hold (and its A = 108 three-level form is
+  reported if 0.15 is reached there). "Against": C(0.15)/C(0.45) < 0.6. F2: the mean of C over the reached levels
+  p ≤ 0.3 at A = 108 lies in [0.47, 0.63]. F3 (A = 108): |C(0.9) − 0.9| ≤ 0.08, |C(0.75) − 0.75| ≤ 0.08 and
+  C(0.3) − 0.3 ≥ 0.2; whether C(p) − p grows monotonically from 0.6 down is reported, not scored. F4 (A = 108):
+  V(0.9), V(0.75) < 0.05; |[V(p₁) − V(0.3)]/[V(0.3) − V(0.45)] − 1| ≤ 0.3 with p₁ = 0.15 if reached (if not, this
+  clause is scored at A = 84 and said so); and V_control(0.45) < V(0.45)/2. F5: the F2 mean at A = 63 minus the
+  F2 mean at A = 108, over the same levels, in [0.03, 0.12]. F6 is reported at each size where 0.15 is reached:
+  "against" clause of F1 met and V(0.3) ≤ 1.5 V_control(0.3).
+- **Tangent construction** (from ex4's own excursion table, all life end types). ν(≤ y) = excursions with min ≤ y
+  per face-generation of exposure; ln ν interpolated linearly between integers y, read at y = pP̄ − ½ (the review's
+  threshold-free reading), p = 0.05 … 0.95. I(p) = [ln ν(0.9) − ln ν(p)]/A. g: least squares of I = g[(1 − p)² −
+  0.01] over p = 0.60 … 0.85 (`dying_tangent.py`'s window). s: minus the unweighted slope of I against p over
+  0.10 ≤ p ≤ 0.45, levels with ≥ 20 excursions (window stated). p_t = 1 − s/(2g); end point g(1 − p_t²) − 0.01g.
+  Errors: Poisson resampling of the excursion counts.
+- **Exploratory (not scored).** Groups of live cells (linked if gd ≤ 2): their number and the largest group's share
+  of k; the largest connected void region (void cells linked by gd = 1) as a share of A; C and V at the bottom
+  (first generation at the minimum) of the excursions caught at p; C at fixed p for excursions that die against those
+  that recover; the distribution over live cells of the per-cell ratio N_i/D_i (a mixture keeps its position as p
+  falls and only loses weight; a thinning moves it), and C against k at fixed size.

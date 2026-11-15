@@ -7,7 +7,7 @@
    v11c (600 generations), v13c (600), v15c (400), c1 soups. (The trace code is r3_ex's, unchanged.)
 2. Run mode, 20,000 generations x 256 lanes: ex4's lives file, excursion table (EXOUT) and stationary samples (SAMP)
    byte-identical to r3_ex's for the same arguments.
-3. Catches: the same run of r3_ex dumps every generation of every excursion that reaches L(0.9) (M3 = L_0); for each
+3. Catches (a run of 2,500 generations x 256 lanes, seed 6): r3_ex dumps every generation of every excursion that reaches L(0.9) (M3 = L_0); for each
    of ex4's records (all keep probabilities 1) the record of r3_ex with the same lane, orbit and start must exist, and
    ex4's state at every kept catch must equal r3_ex's state at the first dumped generation with popcount <= L_j, its
    catch offset and P likewise, its bottom state the first dumped state with popcount = minP; end type, minP and
@@ -83,6 +83,11 @@ for name, G in [('v11c', 600), ('v13c', 600), ('v15c', 400)]:
     same = all(filecmp.cmp(a + e, b + e, shallow=False) for e in ('.lives', '.x', '.smp'))
     say(f'{name}: lives, excursion table, samples vs r3_ex (20000 gens x 256 lanes): ' + ('identical' if same else 'DIFFERENT'))
     ok &= same
+    # catch check on a shorter run (r3_ex's every-generation dumps at M3 = L(0.9) are large)
+    subprocess.run([R3, gf, 'run', '6', '0.4', '2500', a + '.lives', '/dev/null', '/dev/null', '100000', '/dev/null', '0', '1', '512', str(pb), a + '.x', str(L[0]), a + '.dx'],
+                   check=True, capture_output=True)
+    subprocess.run([EX4, gf, 'run', '6', '0.4', '2500', b + '.lives', '/dev/null', '/dev/null', '100000', '/dev/null', '0', '1', '512', str(pb), b + '.x', b + '.cat',
+                    ','.join(map(str, L)), '1,1,1,1,1,1', '12345'], check=True, capture_output=True)
     r3 = read_r3(a + '.dx'); hd, st = read_ex4(b + '.cat')
     key = {}
     for h3, s3 in r3:
@@ -111,6 +116,22 @@ for name, G in [('v11c', 600), ('v13c', 600), ('v15c', 400)]:
             t = int(np.argmax(pc == minp))
             if t != bo - cg[0] or not np.array_equal(s3[t], st[r, 6]): nbad += 1
         nchk += 1
+    # 4. subsampling: probabilities < 1 with the same KSEED give exactly the full records restricted to the kept levels
+    c = b + '_sub'; PRs = [0.05, 0.1, 0.2, 0.4, 0.7, 1.0]
+    subprocess.run([EX4, gf, 'run', '6', '0.4', '2500', c + '.lives', '/dev/null', '/dev/null', '100000', '/dev/null', '0', '1', '512', str(pb), c + '.x', c + '.cat',
+                    ','.join(map(str, L)), ','.join(map(str, PRs)), '12345'], check=True, capture_output=True)
+    hs, ss = read_ex4(c + '.cat'); fk = {(int(x[0]), int(x[1]), int(x[9])): r for r, x in enumerate(hd)}; sb = 0
+    for r in range(len(hs)):
+        q = fk.get((int(hs[r, 0]), int(hs[r, 1]), int(hs[r, 9])))
+        if q is None or not np.array_equal(hs[r, [0, 1, 2, 3, 4, 6, 7, 8, 9]], hd[q, [0, 1, 2, 3, 4, 6, 7, 8, 9]]) or not np.array_equal(hs[r, 10:22], hd[q, 10:22]): sb += 1; continue
+        for j in range(6):
+            if (hs[r, 5] >> j) & 1 and not np.array_equal(ss[r, j], st[q, j]): sb += 1
+            if not (hs[r, 5] >> j) & 1 and ss[r, j].any(): sb += 1
+        if not np.array_equal(ss[r, 6], st[q, 6]): sb += 1
+    kept = [int(((hs[:, 5] >> j) & 1).sum()) for j in range(6)]
+    say(f'{name}: subsample run (probabilities {PRs}): {len(hs)} records, kept per level {kept} of {nlev} '
+        f'(ratios {[round(k / max(n, 1), 3) for k, n in zip(kept, nlev)]}), failures {sb}')
+    ok &= sb == 0
     say(f'{name}: {len(hd)} ex4 records ({len(r3)} r3_ex dumps), {nchk} matched, catches per level {nlev}, failures {nbad}')
     ok &= nbad == 0 and nchk == len(hd) and len(r3) == len(hd)
 say('ALL OK' if ok else 'FAIL')
