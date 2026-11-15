@@ -1167,6 +1167,35 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   covers longer transients for the ends it lists); periods 3, 6, 12, …; other gaps than the one-cell hole; streams
   other than the gun's.
 
+## 27. A census of 741 ends of the stream, and what eight words of gaps do to them
+
+- **[proved within the bounds; CaDiCaL, every model re-stepped] The ends.** `python3 sat_gun.py fb 35 --dir 1 --all
+  --out ../scratch/signals/p5/abs_fb_35.json` (43 s, 90 solutions) and `... fb 37 ... --out .../abs_fb_37.json`
+  (351 s, 753 solutions): every absorber of the rake train of period dividing 4 inside the 3 × 3 tube and the planes,
+  each re-stepped OK by `sat_gun.check_gun`. With the lists of the fourth push (`p4/abs8_fb_31.json`, period
+  dividing 8 at C = 31; `p4/abs4_fb_33.json`): 856 list entries.
+- **Deduplicated up to translation and time shift** (`census_ends.py`): the key of an end is the set, over one
+  period, of the cells in which its orbit differs from the plain train, each moved so that its lowest unit is 0 (a
+  translation by k units with a time shift of 2k leaves it unchanged; odd time shifts are not symmetries of the
+  train). **741 distinct ends.** The count checks itself: every entry at C ≤ 35 is an entry of the C = 37 list in the
+  same place (103), and each of the twelve C = 33 ends appears in the C = 37 list a second time one unit on (12):
+  856 − 115 = 741. The one absorber of C = 31 is one of the twelve of C = 33 (the fourth review's open item: 13
+  entries, 12 ends).
+- **[measured, sg.step_set with a window: the train is refilled exactly 100 units before the end, which is exact while
+  the disturbance has not reached it, and a run is called `dead` when it has] The transition graph.**
+  `python3 census_ends.py ../scratch/signals/p4/abs8_fb_31.json ../scratch/signals/p4/abs4_fb_33.json
+  ../scratch/signals/p5/abs_fb_35.json ../scratch/signals/p5/abs_fb_37.json --part i/2 --out ...` (i = 0, 1; 10 min
+  each): each end at the end of the infinite train, sent each of eight words (one rake removed, the first, second,
+  third or fourth from the end; two in a row; three in a row; two at spacing two; five at spacing two), compared
+  with the undisturbed run near the end for 300 generations and, if not equal, followed to 1,500. **599 ends heal
+  every word exactly; 142 ends die on every word** (the train 100 units in front of them is no longer the plain
+  train: they burn back up the stream); **no other outcome vector occurs.** No end survives a word in a changed
+  state, no end is moved or shifted in phase by one (the class "same key, not healed" is empty), no end tells one
+  word from another even by dying. The transition graph has no edge between two live ends. So at the end of the
+  stream, in this tube, a gap is forgotten or fatal, and which of the two is a property of the end alone.
+- Not covered: the 5 × 5 tube (its absorber census at C = 31 found no solution in 11 minutes: section 26), C ≥ 39,
+  ends of period 8 at C ≥ 33, transients longer than 1,500 generations, words other than the eight, the line's own
+  receiving cap (capA, which is a cap at rest that becomes an absorber; it heals every word, section 21).
 ## 28. Beside the stream: catalogue oscillators and the divider's own oscillator, each sent a gap
 
 - **[measured, sg.step_set; a SAMPLE] The catalogue beside the running line.** `python3 gapstream.py --K 150 --seed 3
@@ -1208,3 +1237,32 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
 - Not covered: the placements not drawn (the full lists are some 10⁴ per oscillator and zone), other N and other
   places along the wire, gaps other than the one-cell hole, words of gaps beside the stream, oscillators above
   period 52 or outside the catalogue, two oscillators, and the divider at N other than 16.
+
+## 29. Fifth push: not checked, and where to go next
+
+- **Not checked.** The UNSATs of section 26 rest on the encoding (`sat_listen.py` on `scat.Problem` and
+  `sat_gun.build`'s region, used unchanged) and on CaDiCaL alone: no second solver, no certificate. Its controls are
+  the `--same` instance and the wire-B pulse instance (section 26); a positive control that is itself a listener of
+  the rake train does not exist, since none is known. The census and all of sections 27 and 28 are `sg.step_set`
+  (checked against the oracle by `check_stepper.py`), not the oracle; since nothing positive was found, nothing was
+  put to the oracle. The catalogue scans are samples (seeds 3 and 4); the divider scan is complete over places and
+  phases for N = 16 only. The asymmetric tube [1,9] × [1,5] (`sat_listen.py 29 --S 16 --lo 1 --hi 9`, the side where
+  the divider's oscillator stands) was cut at 25 minutes. `listen_batch.sh` was stopped half way (a kill meant for one
+  instance stopped `xargs`); the remaining instances were run by `listen_queue.sh` from a queue file and are all in
+  the log. The 28 + 18 runs in which a gap kills the gun while the oscillator beside the stream survives were not
+  looked at: something goes up the stream from the oscillator to the gun, which is a signal against the stream.
+- **What the five pushes now say about reading.** Every end of the stream inside the 3 × 3 tube that can be found
+  is a perfect sink for gaps or is destroyed by any gap at all; the same dichotomy held for the 13 ends of the fourth
+  push and for the clock's left cap against every word of the B/C tape (section 15). Beside the stream the sample
+  gives the same two outcomes. The reason is not known. A guess worth testing: a stationary end locked to the stream
+  is a driven system with one attractor per drive, so a missing drive pulse is followed by re-entrainment; a
+  listener needs a driven object with two attractors under the same drive.
+- **Where I would go next.** (1) *The gap that kills the gun from downstream* (sections 28): the 46 runs are a
+  signal travelling up the stream; if one of them sends back something smaller than a fire, the gun end is the
+  listener. (2) *Two-attractor drives.* Look for bistability directly: `sat_listen.py` with A and B both free and
+  no gap, B ≠ every phase and translate of A, A and B in the same place (two different absorbers of one region
+  that share their first units); then ask what event moves one into the other. (3) The 5 × 5 tube is out of reach of
+  this encoding at C ≥ 29 within 25 minutes; a symmetry-broken or incremental encoding (fix A to each of the 741
+  ends in turn and solve for B and X only) would make each instance far smaller and covers the census exactly.
+  (4) The 142 ends that every gap destroys are fuses: one gap and the wire burns back at a fixed speed; a fuse
+  feeding a counter wall would record a gap once.
