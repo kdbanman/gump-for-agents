@@ -1837,3 +1837,101 @@ each a few minutes; outputs in `audit/out/`).
   σ > 0 at about 0.086 per cut pair, −ln P = 5.0, 9.5, 15.3, 22.4, 30.8 for 2×2 … 6×6) is to be scored against the
   table: measured −ln P at 2×2, 3×3, 4×4 is 6.25, 12.13, 19.42 against its 5.0, 9.5, 15.3 (the lead's arithmetic:
   low by 1.3, 2.6, 4.1); σ's sign is right, its size 0.119 against 0.086 under the failing two-term fit.
+
+## 2026-11-15 — the second variable at equal shortest loop: not found. The effect is gone by A = 72 and changes sign on short loops (pairs experiment, forecasts first; adversarial review with its own stepper; lead's recomputation)
+
+- What was asked: two periodic slab faces with the same area and the same shortest closed loop can differ in
+  lifetime (entries "the shortest way round" and "every torus of a given area": +0.015 at A = 48, +0.014 at
+  A = 60, the one with the shorter second loop dying sooner). Which variable is that? `research/shape3/`: five
+  candidate formulas, each fitted on the three known pairs only, forecasts committed (46baf66) before any run;
+  eight-layer slabs, renewal lives from 0.4 soups, no age cap.
+- **Proved** (an identity, and an enumeration repeated by the review, `python3 research/audit/shape3/enum_check.py`):
+  the reduced Gram matrix (Q1, 2B, Q2) of a face torus of index n = A/3 has Q1·Q2 − B² = 0.75 n². So within a
+  group of equal area and equal shortest loop² Q1, one number fixes the lattice; second loop, third loop, angle and
+  Re τ are the same information. At every n ≤ 28 no two classes share a Gram matrix, so lattice-scale quantities
+  (rows, transverse layers, firewall cuts) are functions of it too. Hence candidates can differ only in the *form*
+  of the dependence, never in sign within a group. Groups with Q1 ≥ 12 exist at A ≤ 84 only for A = 48, 60, 72
+  and 84 (at 72: one pair and one triple).
+- **Measured** (d = ln τ_face of the member with the longer second loop minus the other; from the raw per-job
+  counts, `python3 research/audit/shape3_lead_check.py`):
+
+  | pair | A | loop² | d | independent stepper (review) |
+  |---|---:|---:|---|---|
+  | P1 | 48 | 12 | +0.0144 ± 0.0019 (pooled with earlier runs +0.0148 ± 0.0013) | |
+  | P3 | 60 | 12 | +0.0075 ± 0.0033 (pooled +0.0069 ± 0.0024) | |
+  | T01, T12 | 72 | 16 | −0.0062 ± 0.0041, +0.0005 ± 0.0041 (correlated −0.5: they share a torus) | one job on the shared torus, 0.8σ from theirs |
+  | N72 | 72 | 12 | +0.0018 ± 0.0061 | |
+  | Q36 | 36 | 9 | **−0.0223 ± 0.0007** | **−0.0220 ± 0.0009** |
+  | Q45 | 45 | 9 | +0.0076 ± 0.0013 | +0.0085 ± 0.0014 |
+  | Q54 | 54 | 9 | −0.0020 ± 0.0019 | |
+  | Q63 | 63 | 9 | +0.0017 ± 0.0020 | |
+
+  At A = 72 "no difference" fits (χ² 2.9 on 3 with the covariance, `python3 research/audit/shape3/score_check.py`).
+  On the short loop the difference is large at A = 36 and of the *opposite* sign, positive again at 45, and zero
+  within error at 54 and 63. P1 shows no growth of the difference with the age of a life (the 2σ hint on the
+  A = 60 loop² 16 pair was not retested: that pair was not rerun).
+- **Candidates** (`research/shape3/PREDICTIONS.md`; the review's wording, which replaces the write-up's "survives
+  out of sample"): under the committed rule all five are refuted (χ² ≥ 111 on 7). On the three loop² ≥ 12
+  differences alone, a split chosen after the data, the two forms that decay with the second direction (a sum
+  over closed loops Σ e^(−1.41|v|) with amplitude ∝ A; a modular form e^(−2πh) cos 2π Re τ) are not rejected (χ² 6.6
+  and 8.6 on 3, p 0.09 and 0.04), but zero fits better; the three size-free forms (linear in the second loop, linear
+  in the angle, cos 2π Re τ) are excluded there too (p ≤ 8 × 10⁻⁶ with the covariance). No candidate can give a
+  negative difference, so none describes loop² 9.
+- Scored as owed: the analyst's two wrap-around models (`research/constant/PREDICTIONS.md`, part B: massless and
+  massive, fitted to lifetimes of wide faces) forecast +0.0008, +0.0008, +0.0001, 0.0000 for T01, T12, N72, Q63:
+  Σz² = 3.7 on 4 (the lead's arithmetic), not refuted there, and indistinguishable from zero. They were already
+  refuted as a theory of the effect by P1, Q36 and Q45. "The shorter second loop dies sooner" (CLAIMS SH2) holds at
+  A = 48 and 60, fails at A = 36, and is empty at A = 72.
+- **Reading [conjectured, the lead's].** There is no second geometric variable in the sense looked for. The
+  equal-loop differences are at most 0.02, irregular in sign on small faces and gone at A = 72, while the
+  dependence on the shortest loop itself grows with area (entry "every torus of a given area"). That is what a
+  commensurability effect looks like (how the chaotic state's short-range structure fits round a small torus), not
+  a term of a large-face law. If so it does not enter the question of the asymptotic constant; the test is that
+  equal-loop differences stay below 0.005 at every A ≥ 72 (A = 84 has two pairs with loop² ≥ 12).
+- Checked by the review (`research/audit/REVIEW-shape3.md`; own stepper `st.c`, bit-exact against the engine on
+  seven tori, events every generation, a settled test that catches any period): the sign change (table), the
+  labels (which member has the longer second loop), the counts (all 35 job rows recount from the raw event files),
+  the forecasts' commit order. Not checked: Q54, Q63, P3, N72 and two of the three triple tori were not rerun; the
+  review's event detectors agree with the experiment's but are not themselves validated against the engine; the
+  per-job counts of unrecognised settled lives on (1,3,12) are overdispersed (11, 0, 3, 1) and unexplained.
+  Absolute values from the experiment's stepper carry the 8-generation event window (+0.003 to +0.004 in ln τ at
+  A = 36, where a life lasts 800 generations; nothing in the differences).
+
+## 2026-11-15 — lives that settle and are not recognised ("zombie lives"): found in three steppers, measured, and bounded in every earlier run (CPU: two lines and a review; GPU: bounds from the committed logs, pull request 20)
+
+- **The failure.** Every lifetime measurement here restarts or censors a replica that has settled into a periodic
+  state without losing a face. The CPU steppers recognised "settled" by comparing with the state 840 generations
+  earlier, which catches only periods dividing 840. A replica in a cycle of any other period is never recognised,
+  never has a face death, and adds exposure until the run ends or an age cap cuts it. Found independently on
+  2026-11-14 by the thin-face line (`research/theory/thin/README.md`: a whole-slab cycle kept both faces alive for
+  3.6 × 10⁷ generations) and by the pairs experiment (`research/shape3/README.md`: 14 of 512 replicas at the end
+  of a cap-free A = 36 job, 1.7% of the exposure, +0.017 in ln τ).
+- **Measured** (`research/audit/REVIEW-shape3.md`, claim 3): such a state exists (42 cells on the torus (1,4,12),
+  period 16; `python3 research/audit/shape3/zombie_check.py`, the engine confirms the period; the lead re-ran it);
+  periods seen 9, 11, 13, 16, 19, 22, 48, 52. Rate: 35 of 1.01 × 10⁷ lives at A = 36 (3.5 × 10⁻⁶), about 4 × 10⁻⁶
+  at A = 48. Detected settling of every period falls steeply with area (hundreds per 5 × 10⁵ lives at A = 48, none
+  or one per job at A = 72).
+- **Bound on earlier CPU results** (same review, `capcount.py`): with the age caps those runs had, the shift in
+  ln τ is at most 0.0004 at A = 48 (counted from event files), 0.0007 at A = 60 (assuming every settled life
+  carried a full cap), 10⁻⁵ at A = 72 and in the census's own runs. No published difference in `research/shape`,
+  `research/shape2` or their reviews can move by more than its error. Fixed going forward: the pairs stepper
+  compares with snapshots 840·m generations back for m ≤ 128 (misses only periods with p/gcd(p, 840) > 128; the
+  largest period among 13,000 settled lives was 52); the review's stepper and the thin line's use doubling
+  snapshots, which catch any period.
+- **GPU kernels** (the GPU session read its code and logs; no runs; `research/gpu/README.md`, "Zombie lives";
+  `python3 research/gpu/zombies.py`): periods 1–2 are detected exactly, periods up to 128 in most runs (not in the
+  hull runs R11–R17 of pull request 8, nor in the patch runs, which step one generation per launch); **no age
+  cap**. Bound, from deaths at old ages against hazard × exposure (one-sided 95%; "all ages" assumes such replicas
+  appear at a constant rate): R11 (A = 63) ≤ 1.3 × 10⁻⁴; R13 (A = 84) ≤ 2.0 × 10⁻³ beyond 3.3 mean lives and
+  ≤ 6.7 × 10⁻³ at all ages, against a statistical error of 0.005; symmetric R43 s501 ≤ 1.2 × 10⁻² against 0.013;
+  slab 4×8×8 ≤ 1.0 × 10⁻² against 0.018; the rest ≤ 2 × 10⁻³. The lead recomputed R11 and R13 with separate code
+  and an exact Poisson bound (`python3 research/audit/gpu_pr20_lead_check.py`: same figures). These are upper
+  bounds on a possible upward bias, not measured biases; no bound excludes zero.
+- **Not bounded:** runs shorter than about one mean life give no age test (hull R15 at A = 108 and R17 at
+  A = 135, symmetric R43 s201, R44, R45, slabs 6×6×8 and 6×7×8, five of the wider firewall-resolved slabs). There
+  the argument is a rate: moving R15 by its error would need 2–3% of lives to be of this kind, against
+  < 10⁻⁴ wherever it can be measured and a detected settling rate that falls with size. **That the rate does not
+  rise with vessel size is assumed, not shown [conjectured].** Patch counts (pull request 18) show no signature
+  (4×5 hits per seed 216, 213, 225, even over halves of each run).
+- Owed: a guard in the GPU drivers before any further lifetime run (doubling snapshots, or an age cap at 30 mean
+  lives; described in `research/gpu/AGENT.md`, not written, since it cannot be tested without the GPU).
