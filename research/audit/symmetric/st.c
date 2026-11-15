@@ -7,6 +7,8 @@
 // consecutive dead layers of one family, slabs), settled (Brent: snapshot at ages 1,2,4,8,..., equality test each
 // generation). Records (16 bytes): age (u32; for S the snapshot age), type (1 F, 2 W, 3 F+W same gen, 4 S, 5 open),
 // mask of faces dead at the event (u16), detection age for S (u32).
+// With LADDER=K in the environment: snapshots at ages 1, then age + max(1, age/K); for S the 4th field is then the
+// previous snapshot age (a lower bound on the settling age when the period is below the rung gap).
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -45,7 +47,9 @@ int main(int argc, char **argv) {
     // state arrays: [cell][W], plus a zero cell at index N
     u64 *x = calloc((size_t)(N + 1) * W, 8), *y = calloc((size_t)(N + 1) * W, 8), *snap = calloc((size_t)N * W, 8), *ob = malloc(sizeof(u64) * NO);
     u64 snapok[W] = {0};
-    uint32_t age[W * 64], snapage[W * 64];
+    uint32_t age[W * 64], snapage[W * 64], prevsnap[W * 64], nextsnap[W * 64];
+    int LAD = getenv("LADDER") ? atoi(getenv("LADDER")) : 0;   // 0: Brent (powers of two); K: next snapshot at age + max(1, age/K)
+    for (int l = 0; l < W * 64; l++) { prevsnap[l] = 0; nextsnap[l] = 1; }
     FILE *out = trace ? 0 : fopen(argv[6], "wb");
     // initial soups for all lanes
     for (int w = 0; w < W; w++) { for (int o = 0; o < NO; o++) ob[o] = bern(); for (int i = 0; i < N; i++) x[i * W + w] = ob[orb[i]]; }
@@ -86,14 +90,16 @@ int main(int argc, char **argv) {
                     uint32_t rec[4]; int ty; uint32_t fm = 0;
                     for (int f = 0; f < NF; f++) if (fdead[f] & m) fm |= 1u << f;
                     if ((anyf & m) && (fw & m)) ty = 3; else if (anyf & m) ty = 1; else if (fw & m) ty = 2; else ty = 4;
-                    rec[0] = ty == 4 ? snapage[l] : age[l]; rec[1] = ty; rec[2] = fm; rec[3] = age[l];
+                    rec[0] = ty == 4 ? snapage[l] : age[l]; rec[1] = ty; rec[2] = fm; rec[3] = (LAD && ty == 4) ? prevsnap[l] : age[l];
                     fwrite(rec, 4, 4, out); nrec++;
-                    restart |= m; age[l] = 0; snapage[l] = 0;
+                    restart |= m; age[l] = 0; snapage[l] = 0; prevsnap[l] = 0; nextsnap[l] = 1;
                 }
             }
             // snapshots: lanes whose age is a power of two (and not restarting)
             u64 take = 0;
-            for (int b = 0; b < 64; b++) { int l = w * 64 + b; if (!((restart >> b) & 1) && age[l] && !(age[l] & (age[l] - 1))) { take |= 1ULL << b; snapage[l] = age[l]; } }
+            for (int b = 0; b < 64; b++) { int l = w * 64 + b; if ((restart >> b) & 1) continue;
+                int due = LAD ? (age[l] == nextsnap[l]) : (age[l] && !(age[l] & (age[l] - 1)));
+                if (due) { take |= 1ULL << b; prevsnap[l] = snapage[l]; snapage[l] = age[l]; nextsnap[l] = age[l] + (age[l] / LAD > 1 ? age[l] / LAD : 1); } }
             if (take) for (int i = 0; i < N; i++) snap[i * W + w] = (snap[i * W + w] & ~take) | (x[i * W + w] & take);
             snapok[w] = (snapok[w] | take) & ~restart;
             if (restart) { for (int o = 0; o < NO; o++) ob[o] = bern(); for (int i = 0; i < N; i++) x[i * W + w] = (x[i * W + w] & ~restart) | (ob[orb[i]] & restart); }
