@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Link checker over the built tree.   python3 site/checks/check-links.py
+"""Link checker over the built tree.   python3 site/checks/check-links.py [--artifact]
 
 For every file of site/dist (the app under app/ included) checks that each relative reference resolves to a file
 of the tree: HTML href/src (and #anchors on overview pages: the id must exist on the target page), CSS url(),
@@ -7,13 +7,16 @@ the import map, JS `import ... from './…'` and `new URL('…', import.meta.url
 (data-data -> data/<key>.json, data-plates -> plates/<id>.js). Fails too on any root-absolute path ("/…"), which
 would break under the GitHub Pages subpath, and on external scripts or stylesheets from hosts the claude.ai
 artifact host does not allow, or without an exact version. Prints the file count and total size.
+With --artifact it checks site/dist-artifact/ instead, and fails too on any reference to app/, on any dotfile, and
+unless FILES.json lists exactly the tree's files other than index.html and FILES.json, sorted.
 """
 import json, pathlib, re, sys
 from urllib.parse import urlsplit
 
-DIST = pathlib.Path(__file__).resolve().parent.parent / "dist"
+ARTIFACT = "--artifact" in sys.argv
+DIST = pathlib.Path(__file__).resolve().parent.parent / ("dist-artifact" if ARTIFACT else "dist")
 if not (DIST / "index.html").exists():
-    sys.exit("site/dist is not built: python3 site/build.py")
+    sys.exit(f"site/{DIST.name} is not built: python3 site/build.py" + (" --artifact" if ARTIFACT else ""))
 bad, n_refs = [], 0
 SCRIPT_HOSTS = ("https://cdnjs.cloudflare.com/", "https://cdn.jsdelivr.net/npm/", "https://unpkg.com/")
 STYLE_HOSTS = ("https://fonts.googleapis.com/",)
@@ -40,6 +43,8 @@ def check(src, ref, kind):
             bad.append(f"{src.relative_to(DIST)}: external script without an exact version: {ref}")
         return
     n_refs += 1
+    if ARTIFACT and re.match(r"(\.\./)*app(/|$)", ref):
+        bad.append(f"{src.relative_to(DIST)}: refers to the app ({ref}), which the artifact copy does not carry"); return
     if ref.startswith("/"):
         bad.append(f"{src.relative_to(DIST)}: root-absolute path {ref} (breaks under a subpath)"); return
     u = urlsplit(ref)
@@ -96,6 +101,15 @@ for f in files:
         for ref in re.findall(r"""fetch\(\s*['"]([^'"]+)['"]""", s):
             check(f, ref, "fetch")
 
+if ARTIFACT:
+    for f in DIST.rglob(".*"):
+        bad.append(f"dotfile {f.relative_to(DIST)}")
+    want = sorted(f.relative_to(DIST).as_posix() for f in files if f.relative_to(DIST).as_posix() not in ("index.html", "FILES.json"))
+    if not (DIST / "FILES.json").exists() or json.loads((DIST / "FILES.json").read_text()) != want:
+        bad.append("FILES.json does not list exactly the tree's files (index.html and FILES.json aside), sorted")
+    for f in files:
+        if f.suffix in (".html", ".css", ".js") and re.search(r"""['"(](\.\./)*app/""", f.read_text()):
+            bad.append(f"{f.relative_to(DIST)}: mentions a path into app/")
 total = sum(f.stat().st_size for f in files)
 big = max(files, key=lambda f: f.stat().st_size)
 print(f"links: {n_refs} relative references in {len(files)} files ({total / 1024:.0f} KiB; largest {big.relative_to(DIST)}, "

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build the Gump Map site and the web app into one deployable tree.   python3 site/build.py [--no-app]
+"""Build the Gump Map site and the web app into one deployable tree.   python3 site/build.py [--no-app | --artifact]
 
   pages.json          the pages in order: slug, title, blurb, and per page its plates (id + its tile on the map)
   layout.html         the shell every page shares (head, header, footer, scripts)
@@ -10,7 +10,10 @@
   ../web/dist         the interactive app, built by `node web/tools/build.mjs` (skipped with --no-app,
                       which then copies whatever web/dist holds) and copied to dist/app/
 
-Writes site/dist/ (git-ignored): index.html, <slug>/index.html, assets/, plates/*.js, data/*.json, app/.
+Writes site/dist/ (git-ignored): index.html, <slug>/index.html, assets/, plates/*.js, data/*.json, app/, .nojekyll.
+With --artifact it writes site/dist-artifact/ instead (git-ignored; site/dist/ is left alone), the tree for the private
+claude.ai artifact: the same overview pages, assets and data, but no app/ (and no App link or app card), no dotfiles,
+and FILES.json: every file of the tree except index.html and FILES.json, sorted, for the publish call's file list.
 Links between pages are written as relative paths ending in index.html (see README.md, "Link form").
 Standard library only. Fails loudly on a missing plate, data key or element id.
 """
@@ -18,7 +21,8 @@ import html, json, pathlib, re, shutil, subprocess, sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 REPO = HERE.parent
-DIST = HERE / "dist"
+ARTIFACT = "--artifact" in sys.argv
+DIST = HERE / ("dist-artifact" if ARTIFACT else "dist")
 WEB = REPO / "web"
 
 
@@ -81,7 +85,8 @@ def landing_map(frm):
     {tiles}
   </nav>
 </div>''')
-    out.append('''<div class="map-group app-card">
+    if not ARTIFACT:
+        out.append('''<div class="map-group app-card">
   <div class="mg-h"><h2><a href="app/index.html">The interactive app</a></h2><p class="cap">The automaton computed on your GPU with WebGL2 and drawn in 3D: a guided tour of nine live scenes, then free exploration and a gallery of objects from the atlas and the clockwork study.</p></div>
 </div>''')
     out.append("</section>")
@@ -116,7 +121,8 @@ def nav(frm):
     for p in content_pages:
         cur = ' aria-current="page"' if p["slug"] == frm else ""
         items.append(f'      <a href="{href(frm, p["slug"])}"{cur}>{esc(p["label"])}</a>')
-    items.append(f'      <a class="nav-app" href="{"../" if frm else ""}app/index.html">App</a>')
+    if not ARTIFACT:                          # the artifact copy carries no app
+        items.append(f'      <a class="nav-app" href="{"../" if frm else ""}app/index.html">App</a>')
     return "\n".join(items)
 
 
@@ -161,16 +167,24 @@ for k in sorted(used_keys):
 unused = sorted(f.stem for f in (HERE / "data").glob("*.json") if f.stem not in used_keys)
 if unused:
     print("note: data files no page reads:", ", ".join(unused))
-(DIST / ".nojekyll").write_text("")          # GitHub Pages: serve files as they are
+if not ARTIFACT:
+    (DIST / ".nojekyll").write_text("")      # GitHub Pages: serve files as they are
 
-# ---------------------------------------------------------------- the web app, under app/
-if "--no-app" not in sys.argv:
+# ---------------------------------------------------------------- the web app, under app/ (Pages tree only)
+if not ARTIFACT and "--no-app" not in sys.argv:
     r = subprocess.run(["node", "tools/build.mjs"], cwd=WEB)
     if r.returncode:
         die("node web/tools/build.mjs failed (run `npm ci` in web/ first, or pass --no-app to copy web/dist as it is)")
-if not (WEB / "dist" / "index.html").exists():
-    die("web/dist/index.html is missing: build the app (node web/tools/build.mjs)")
-shutil.copytree(WEB / "dist", DIST / "app", ignore=shutil.ignore_patterns(".nojekyll"))
+if not ARTIFACT:
+    if not (WEB / "dist" / "index.html").exists():
+        die("web/dist/index.html is missing: build the app (node web/tools/build.mjs)")
+    shutil.copytree(WEB / "dist", DIST / "app", ignore=shutil.ignore_patterns(".nojekyll"))
+else:
+    dots = [f for f in DIST.rglob(".*")]
+    if dots:
+        die("dotfiles in the artifact tree: " + ", ".join(str(f.relative_to(DIST)) for f in dots))
+    listed = sorted(f.relative_to(DIST).as_posix() for f in DIST.rglob("*") if f.is_file() and f.relative_to(DIST).as_posix() != "index.html")
+    (DIST / "FILES.json").write_text(json.dumps(listed, indent=0) + "\n")
 
 files = [f for f in DIST.rglob("*") if f.is_file()]
 print(f"wrote {DIST.relative_to(REPO)}/: {len(pages)} pages, {len(plate_js)} plate scripts, {len(used_keys)} data files, "

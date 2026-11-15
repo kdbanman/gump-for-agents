@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Nothing lost: the built site against the last single-page overview.   python3 site/checks/check-parity.py [OLD.html]
+"""Nothing lost: the built site against the last single-page overview.
+    python3 site/checks/check-parity.py [--dist site/dist-artifact] [OLD.html]
 
 OLD is the single page as it was before the split (default: `git show 2f0868d:docs/overview/index.html`, the
 version of 2026-11-15 12:04 that the split started from). Checks, against site/dist (run build.py first):
@@ -17,12 +18,22 @@ import json, pathlib, re, subprocess, sys
 
 HERE = pathlib.Path(__file__).resolve().parent
 SITE = HERE.parent
+args = sys.argv[1:]
 DIST = SITE / "dist"
+if "--dist" in args:
+    i = args.index("--dist"); DIST = pathlib.Path(args[i + 1]).resolve(); del args[i:i + 2]
 OLD_REV = "2f0868d"
+# Edits made on purpose since OLD_REV, the only differences allowed: (plate, old text, new text), each occurring
+# exactly once. Three sentences that pointed "below" / "above" / "at the top" to plates now on other pages.
+EDITS = [
+    ("rule", "the rule you meant, below</a>", "the rule you meant, on the Relatives page</a>"),
+    ("fauna", "the same rule as the run at the top.", "the same rule as the run on the map page."),
+    ("family", "(the 0.91 nats above)", "(the 0.91 nats on the area-law page)"),
+]
 bad = []
 
-if len(sys.argv) > 1:
-    old = pathlib.Path(sys.argv[1]).read_text()
+if args:
+    old = pathlib.Path(args[0]).read_text()
 else:
     old = subprocess.check_output(["git", "show", f"{OLD_REV}:docs/overview/index.html"], cwd=SITE, text=True)
 
@@ -66,6 +77,11 @@ for k, v in old_secs.items():
     if k not in new_secs:
         bad.append(f"plate {k} is missing"); continue
     back = re.sub(r'href="(?:\.\./)?(?:[\w-]+/)?index\.html#([\w-]+)"', r'href="#\1"', new_secs[k])
+    for pid, a, b in EDITS:
+        if pid == k:
+            if back.count(b) != 1:
+                bad.append(f"plate {k}: the allowed edit {b!r} is not there exactly once"); continue
+            back = back.replace(b, a)
     if back != v:
         bad.append(f"plate {k}: HTML differs from the old page")
 extra = set(new_secs) - set(old_secs)
@@ -122,7 +138,7 @@ for i in old_map:
         bad.append(f"map tile for #{i} missing or not linking to {want}")
 
 print(f"plates: {len(old_secs)} on the old page, {sum(1 for k in old_secs if k in new_secs)} found once in the new site "
-      f"({sum(1 for k in old_secs if k in new_secs and not any(b.startswith('plate ' + k + ':') for b in bad))} byte-identical)")
+      f"({sum(1 for k in old_secs if k in new_secs and not any(b.startswith('plate ' + k + ':') for b in bad))} byte-identical apart from the {len(EDITS)} listed edits)")
 print("; ".join(f"{n}: {a} old, {b} new" for n, (a, b) in counts.items()))
 print(f"element ids looked up by scripts: {n_ids}; data keys read by the old page: {len(old_keys)}, read now: {len(served & old_keys)}"
       f" (old D held {len(D_old)} keys; never read: {', '.join(sorted(set(D_old) - old_keys)) or 'none'})")

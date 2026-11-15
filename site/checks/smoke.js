@@ -1,4 +1,6 @@
-// Smoke test of the built site: node site/checks/smoke.js [--shots DIR]   (from anywhere; needs site/dist built)
+// Smoke test of the built site: node site/checks/smoke.js [--artifact] [--shots DIR]   (from anywhere; needs the tree built)
+// --artifact: test site/dist-artifact/ (the private artifact copy) instead of site/dist/, without the app, and fail on any
+// request into app/.
 // Serves site/dist with `python3 -m http.server` under the prefix /gump-for-agents/ (as GitHub Pages serves a project
 // site under /<repo>/), opens every page of pages.json and the app at desktop (1280 px) and phone (390 px) width, and
 // fails on: a console error or uncaught exception, a failed or 4xx/5xx request, a plate of pages.json missing from
@@ -8,9 +10,10 @@ const { chromium } = require('playwright');
 const { spawn } = require('child_process');
 const fs = require('fs'), path = require('path'), os = require('os'), net = require('net');
 
-const SITE = path.resolve(__dirname, '..'), DIST = path.join(SITE, 'dist'), PREFIX = 'gump-for-agents';
+const ARTIFACT = process.argv.includes('--artifact');
+const SITE = path.resolve(__dirname, '..'), DIST = path.join(SITE, ARTIFACT ? 'dist-artifact' : 'dist'), PREFIX = 'gump-for-agents';
 const shotsAt = process.argv.indexOf('--shots'), SHOTS = shotsAt > 0 ? path.resolve(process.argv[shotsAt + 1]) : null;
-if (!fs.existsSync(path.join(DIST, 'index.html'))) { console.error('site/dist is not built: python3 site/build.py'); process.exit(2); }
+if (!fs.existsSync(path.join(DIST, 'index.html'))) { console.error(`site/${path.basename(DIST)} is not built: python3 site/build.py${ARTIFACT ? ' --artifact' : ''}`); process.exit(2); }
 const pages = JSON.parse(fs.readFileSync(path.join(SITE, 'pages.json'), 'utf8'));
 // figure containers that are meant to stay empty (none so far); add 'page:id' here with a reason if one appears
 const EMPTY_OK = new Set([]);
@@ -26,7 +29,7 @@ const freePort = () => new Promise(ok => { const s = net.createServer(); s.liste
   for (let i = 0; i < 50; i++) { try { await fetch(base + 'index.html'); break; } catch { await new Promise(r => setTimeout(r, 100)); } }
   const browser = await chromium.launch();
   const targets = pages.map(p => ({ name: p.slug || 'index', url: (p.slug ? p.slug + '/' : '') + 'index.html', plates: p.plates.map(x => x.id) }))
-    .concat([{ name: 'app', url: 'app/index.html', plates: [], app: true }]);
+    .concat(ARTIFACT ? [] : [{ name: 'app', url: 'app/index.html', plates: [], app: true }]);
   const widths = [['desktop', 1280, 900], ['phone', 390, 844]];
   const schemes = SHOTS ? ['light', 'dark'] : ['light'];
   if (SHOTS) fs.mkdirSync(SHOTS, { recursive: true });
@@ -39,6 +42,7 @@ const freePort = () => new Promise(ok => { const s = net.createServer(); s.liste
     pg.on('pageerror', e => errs.push('exception: ' + e.message));
     pg.on('requestfailed', r => errs.push('request failed: ' + r.url() + ' ' + (r.failure() || {}).errorText));
     pg.on('response', r => { if (r.status() >= 400) errs.push('HTTP ' + r.status() + ': ' + r.url()); });
+    if (ARTIFACT) pg.on('request', r => { if (r.url().startsWith(base + 'app/')) errs.push('request into app/: ' + r.url()); });
     await pg.goto(base + t.url, { waitUntil: 'networkidle' });
     await pg.waitForTimeout(t.app ? 2500 : 800);
     const res = await pg.evaluate(plates => {
@@ -57,6 +61,6 @@ const freePort = () => new Promise(ok => { const s = net.createServer(); s.liste
     await ctx.close();
   }
   await browser.close(); srv.kill(); fs.rmSync(tmp, { recursive: true, force: true });
-  console.log(bad ? `smoke: ${bad} failure(s)` : 'smoke: all pages clean');
+  console.log(bad ? `smoke: ${bad} failure(s)` : `smoke: all pages clean (site/${path.basename(DIST)})`);
   process.exit(bad ? 1 : 0);
 })().catch(e => { console.error(e); process.exit(1); });
