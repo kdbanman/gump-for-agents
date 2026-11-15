@@ -8,11 +8,13 @@ disclosed is the owner's decision and is not addressed here.*
 **How to read the tags.** Every sentence that states a result carries one of **[proved]**, **[measured]**,
 **[conjecture]**; a forecast is a conjecture until scored. After the tag comes the row of the project's claims
 ledger (`research/CLAIMS.md`) and its verification grade: **A** = re-derived independently by different code or a
-different reader; **B** = re-run or recomputed from the committed data and matched; **B−** = as B, but the runs
-were made on a GPU that no second implementation has repeated. Only A and B claims appear as results. A claim
-graded **C** (has a command, not re-run) appears only where marked *preliminary*. "ln τ ± x" always means the
-statistical error 1/√(number of deaths) unless said otherwise; it does not include systematic errors, which are
-discussed where known. Section 12 defines the estimators.
+different reader; **B** = re-run or recomputed by someone other than the producer and matched (where it matters the
+text says what was repeated: the runs on the producer's own seeds, which checks code and transcription but not the
+statistics; the analysis from the producer's records; or the runs on fresh seeds); **B−** = as B, but the runs were
+made on a GPU that no second implementation has repeated. Only A and B claims appear as results. A claim graded
+**C** (has a command, not re-run) appears only where marked *preliminary*. "ln τ ± x" always means the statistical
+error 1/√(number of deaths) unless said otherwise; it does not include systematic errors, which are discussed where
+known. Section 12 defines the estimators.
 
 ## Abstract
 
