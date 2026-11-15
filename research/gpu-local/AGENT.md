@@ -75,6 +75,15 @@ billed by the hour, no limit."
 
 ## Current state (2026-11-15)
 
-- Branch `claude/gpu-local-1080` created from `origin/main` 0e3b642. Job 0 (acceptance) and job 1 (cycle guard) in
-  progress; see the queue for the order after that (equilateral tori of `research/constant/PREDICTIONS.md` part C,
-  then the hull face at A = 108).
+- Branch `claude/gpu-local-1080` from `origin/main` 0e3b642, pushed. Job 0 (acceptance, throughput) and job 1 (cycle
+  guard) done and reported to the lead; not yet reviewed.
+- Job 2 (equilateral tori, `research/constant/PREDICTIONS.md` part C): runner `eqtorus.py`; per torus first
+  `eqtorus.py check A K B`, then `run`. Order: A = 93 (1,5,31) to 3 × 10⁴ deaths, then 111 (1,10,37) and 108 (6,0,6)
+  to ≥ 2,000, then 81 (3,3,9) and 84 (2,4,14) to 10⁵. Seeds: 1000·A + run number. Rows land in
+  `research/data/gpu_local_eqtorus/eqtorus_A_K_B.csv`; per-run json (raw lives, age histograms) in
+  `research/scratch/gpu-local/`.
+- **Open: the 4 × 4 calibration disagrees with the CPU value on file by 3.6σ** (README "The torus driver"). A CPU
+  cross-check with research/shape2's own pipeline was started (output under `research/scratch/gpu-local/cpu4x4/`);
+  its verdict belongs in the README and in a message to the lead.
+- Job 3 (hull face A = 108, 10⁴ deaths, guard on): forecast committed in `PREDICTIONS.md`; needs about 14 h at
+  3.6 × 10⁸ replica-generations/s. Use `facelaw.run(15, ..., guard=16)` from a local runner.

@@ -29,6 +29,64 @@ Commands: `python -u research/gpu-local/acceptance.py every periodic patches` (a
 name). Not checked here: the Modal entry points themselves (unchanged; they need Modal), and `check_engine_every` for
 kernel A on the CPU beyond what `cpu` runs.
 
+## Throughput and shared-memory fit [measured]
+
+`python -u research/gpu-local/bench_local.py` → `research/data/gpu_local_bench/bench_shared_GTX1080.jsonl` (every row;
+same 12 kernel-B shapes per vessel as `modal_app.SHARED_CONFIGS`, and kernel A at three widths). Node-updates/s:
+
+| vessel (nodes) | kernel B, gsim defaults | kernel B, best shape | kernel A | A10G kernel B (on file) |
+|---|---:|---:|---:|---:|
+| asym R = 15 (2,064) | 7.2 × 10¹¹ | 7.5 × 10¹¹ (WB 2, J 3) | 7.4 × 10¹⁰ | 2.4 × 10¹² |
+| asym R = 19 (4,020) | 7.8 × 10¹¹ | 8.6 × 10¹¹ (WB 1, J 4) | 7.3 × 10¹⁰ | 2.5 × 10¹² |
+| O_h vertex hull 45 (1,366) | 7.5 × 10¹¹ | 9.1 × 10¹¹ (WB 2, J 2, 2 blocks/SM) | 7.7 × 10¹⁰ | 2.7 × 10¹² |
+| slab 6 × 6 × 8 (864) | 6.4 × 10¹¹ | 1.0 × 10¹² (WB 4, J 2, 2 blocks/SM) | 7.4 × 10¹⁰ | |
+| torus (1,5),(0,31) × 8 (744) | 6.3 × 10¹¹ | 9.7 × 10¹¹ (WB 2 or 4, J 2, 2 blocks/SM) | 7.5 × 10¹⁰ | |
+
+- Kernel B here is about a T4 (8.7-9.4 × 10¹¹ on file) and 30-40% of an A10G. Kernel A is a third of a T4's.
+- **Two blocks per SM (`minb=2, blocks=40`) help on this card for vessels under about 1,400 nodes** (+50% on the
+  slabs), where on the A10G they did not; for 2,064 nodes and more they spill registers and lose up to 4×.
+  The torus runs use WB 2, J 2, 2 blocks/SM (`eqtorus.sim_cfg`; with K_KEEP: 1.29 × 10⁹ replica-generations/s at
+  A = 93, 2,560 replicas, no spills; `python -u research/gpu-local/eqtorus.py tune 1 5 31`).
+- **Fit in 48 KB per block:** kernel B needs 4·WB·(n + 31) bytes, so WB = 1 holds n ≤ 12,257 nodes, WB = 2 n ≤ 6,113,
+  WB = 4 n ≤ 3,041 (R = 19 with WB = 4 is refused: 64,816 bytes). gsim's default WB already adapts to the card's
+  limit. Two blocks per SM need 2 × that within 96 KB per SM, the same bound.
+- `bench.bench_gpu` (used by `modal_app.bench`) no longer measures kernel A: `gsim.Sim`'s default kernel on the GPU is
+  B, which ignores `WT`. `bench_local.bench_global` passes `kernel='global'`.
+
+## The torus driver, calibrated on 4 × 4 [measured] — and a disagreement with the value on file
+
+`research/gpu-local/eqtorus.py`: `fwslab.py`'s driver for any lattice (a, k), (0, b) of `research/shape/tslab.py`,
+with the guard. `eqtorus.py check A K B` = `tslab.check`, then the GPU against the engine every generation (the torus
+tiled into the engine's cubic torus; engine cells reduced to torus nodes, the engine state required to be
+lattice-periodic), in the shape the runs use, gsim's default shape and kernel A, with the two negative controls.
+Passed for (1,5),(0,31) and (4,0),(0,4): 2,000 generations × 5 lanes × 3 kernels all equal, controls fail from
+generation 1.
+
+Calibration on the 4 × 4 torus (A = 48; on file 9.9324 ± 0.0020, 247,338 face deaths, `research/shape2/data/A48.csv`,
+CPU, cap 16,384): `python -u research/gpu-local/eqtorus.py run 4 0 4 3 48002 max_launch=2048 raw_cap=20000000`
+
+| | this card | on file (CPU) |
+|---|---:|---:|
+| face deaths | 7,478,823 | 247,338 |
+| ln τ_face = ln(2E/F) | **9.9251 ± 0.0004** | 9.9324 ± 0.0020 |
+| the same, lives censored at age 10,000 / 17,783 / 31,623 | 9.9237 / 9.9247 / 9.9249 | (cap 16,384) |
+| hazard of a face death by age, ×10⁵ per generation | 12.47 (0-60), then 9.76 to 9.79 in every bin from 60 to 100,000 | |
+| ln τ_fw, fwslab's convention (face death on a firewalled state) | 15.384 ± 0.008 | 15.128 ± 0.038 |
+| ln τ_fw, also counting lives that settle on a firewalled state | 15.189 ± 0.007 | |
+
+- **ln τ_face differs by 0.0073, 3.6σ of the file's error.** The hazard here is flat in age, so the file's cap does
+  not explain it; the stepper is bit-exact against the engine on this torus. Not resolved: a CPU cross-check with the
+  repository's own pipeline is running. Until it is, the 4 × 4 anchor of `research/constant/PREDICTIONS.md` part C
+  should be read with this in mind (0.007 is larger than several of the planned errors there).
+- **`fwslab.py` undercounts firewalls where lives can settle.** A firewalled slab often settles (period 1-2) before a
+  face dies; the kernel then reports kind 2 and the driver keeps it as "settled". Here 3,420 of 5,023 settled lives
+  were on a firewalled state: 18% of all firewalls, and ln τ_fw moves by 0.20. `eqtorus.py` counts them
+  (`fw_settled`); ln τ_face is unaffected (both kinds are censored for it).
+- **Launch length matters when lives are short.** The first calibration run (launches up to 2¹⁸ = 26 mean lives) had
+  39 lives that sat to a launch boundary (firewalled without a face death, or in a cycle of period 3-128, which
+  kernel B only recognises at the next launch start): 0.16% of the exposure, +0.0016 on ln τ. The cap `max_launch`
+  must stay well below the mean life (the queued tori have mean lives ≥ 10⁷, so 2¹⁸ is safe there).
+
 ## The cycle guard [measured]
 
 `research/gpu/guard.py`, hooked into `facelaw.run(..., guard=FIRST)`; off by default (`guard=0`), and with the guard
