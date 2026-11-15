@@ -75,7 +75,11 @@ CPU, cap 16,384): `python -u research/gpu-local/eqtorus.py run 4 0 4 3 48002 max
 | ln τ_fw, also counting lives that settle on a firewalled state | 15.189 ± 0.007 | |
 
 - **ln τ_face differs by 0.0073, 3.6σ of the file's error. Resolved: the file's value is high** (a draw of its 76
-  seeds, plus a rule bias of the CPU pipeline), and the value here stands. `research/gpu-local/cpu4x4/` (scripts,
+  seeds, plus a rule bias of the CPU pipeline), and the value here stands. Confirmed by
+  `research/audit/REVIEW-gpu-local-pr23.md` section 2 (a third stepper: 9.9246 ± 0.0006; research/shape2's pipeline
+  on 152 fresh seeds: 9.9240 ± 0.0014; **best pooled value 9.9249 ± 0.0003**) and by
+  `research/audit/REVIEW-gpu-local-tori.md` section 2 (of the file's excess, +0.0017 is the rule and +0.0058 the
+  draw, 2.9σ). `research/gpu-local/cpu4x4/` (scripts,
   results; a subagent's work, whose result files I read; I did not rerun its 4.2 M lives) reruns research/shape2's
   own pipeline on this machine (`rep.c` built with gcc, validated against the engine, and reproducing the file's
   row exactly from its seeds: 311,296 lives, E, F = 247,338, W = 685, settled 139):
@@ -95,10 +99,23 @@ CPU, cap 16,384): `python -u research/gpu-local/eqtorus.py run 4 0 4 3 48002 max
     last-alive generation only every 16 generations, so ends are rounded up by 7.5 generations on average
     (exposure +0.074%), and 0.088% of face deaths are booked as something else: a firewall forming in the same
     16-generation window (1,521 of 3.34 M: ties go to the firewall), a death in the last 15 generations before the
-    cap (1,192, booked as capped), an extinction in the same window (219, booked as settled). The bias scales
-    like 16 generations over the mean life: 0.0016 at A = 48 (mean life 8,200), negligible from A ≈ 60 up.
-    **It applies to every `rep.c` torus value on file with a short mean life** (the A = 48 census of research/shape2
-    in particular), with the same sign.
+    cap (1,192, booked as capped), an extinction in the same window (219, booked as settled). **It does not scale
+    with the mean life alone** (an earlier version here said "16 generations over the mean life, negligible from
+    A ≈ 60 up"; `research/audit/REVIEW-gpu-local-tori.md` section 2 measured it on the same lives at both
+    resolutions and refuted that). The exposure part is 7.5 generations over the mean life; the count part depends
+    on ties with firewalls, the cap and settling. The review's table (bias of ln τ_face, K = 16 against K = 1):
+
+    | A | class (shortest loop²) | mean life | bias |
+    |---:|---|---:|---:|
+    | 48 | (4,0,4) (16) | 10,265 | +0.00167 ± 0.00006 |
+    | 48 | (2,0,8) (4) | 2,280 | +0.0174 ± 0.0005 |
+    | 60 | (1,1,20) (3) | 11,250 | +0.00076 ± 0.00003 |
+    | 60 | (1,9,20) (4) | 2,584 | +0.0184 ± 0.0011 |
+    | 60 | (1,4,20) (16) | 131,347 | +0.0003 ± 0.0001 |
+
+    So +0.017 to +0.018 for the loop² 4 classes at 48 and 60 (ties with firewalls; first estimated in
+    `research/audit/REVIEW-shape2.md` claim 1), +0.0008 to +0.0017 for classes with mean lives near 10⁴, and
+    ≤ 0.0003 for the long-lived classes at 60.
   - The hazard by age on the CPU lives (per-generation rule) is the one measured here: 12.57 ± 0.07 (ages 0-60),
     then 9.74 to 9.77 × 10⁻⁵ in every bin to the cap.
   - Consequence for `research/constant/PREDICTIONS.md` part C: its 4 × 4 anchor should be 9.925, not 9.932. I have
@@ -106,74 +123,147 @@ CPU, cap 16,384): `python -u research/gpu-local/eqtorus.py run 4 0 4 3 48002 max
 - **`fwslab.py` undercounts firewalls where lives can settle.** A firewalled slab often settles (period 1-2) before a
   face dies; the kernel then reports kind 2 and the driver keeps it as "settled". Here 3,420 of 5,023 settled lives
   were on a firewalled state: 18% of all firewalls, and ln τ_fw moves by 0.20. `eqtorus.py` counts them
-  (`fw_settled`); ln τ_face is unaffected (both kinds are censored for it).
+  (`fw_settled`); ln τ_face is unaffected (both kinds are censored for it). Found first at 3 × 6 × 8 (0.9% of
+  firewalls) in `research/audit/REVIEW-gpu-pr14.md`, "Firewalls labelled settled". On the values on file it touches
+  only small-slab ln τ_fw, by at most 0.034 (4 × 5 × 8; `REVIEW-gpu-local-pr23.md` section 3).
 - **Launch length matters when lives are short.** The first calibration run (launches up to 2¹⁸ = 26 mean lives) had
   39 lives that sat to a launch boundary (firewalled without a face death, or in a cycle of period 3-128, which
   kernel B only recognises at the next launch start): 0.16% of the exposure, +0.0016 on ln τ. The cap `max_launch`
   must stay well below the mean life (the queued tori have mean lives ≥ 10⁷, so 2¹⁸ is safe there).
 
-## Equilateral face tori (research/constant/PREDICTIONS.md part C) [measured; provisional until reviewed]
+## Equilateral face tori (research/constant/PREDICTIONS.md part C) [measured]
 
 8-layer slabs, soup 0.4, lives from generation 0, guard on (thresholds 16 · 2^j), ln τ_face = ln(2E/F) ± 1/√F.
-Per-run rows (seed, exposure, ends by kind, command, commit): `research/data/gpu_local_eqtorus/eqtorus_A_K_B.csv`.
-Each torus passed `eqtorus.py check A K B` first. Analysis: `python research/gpu-local/eq_analyze.py A K B`
-(the hazard by age needs the per-run json, which is in `research/scratch/gpu-local/` on this machine only).
+In `research/data/gpu_local_eqtorus/`:
+- `eqtorus_A_K_B.csv`: one row per run (seed, exposure, ends by kind, command, commit);
+- `checks/check_A_K_B.txt`: the output of `eqtorus.py check A K B` for that torus (`tslab.check`, the GPU against the
+  engine every generation in three kernel shapes, the two negative controls). For 57 to 111 it is the check that ran
+  just before the runs; for 4 × 4 and 93 it is a rerun of 2026-11-15 after them (the originals were not saved);
+- `hist_A_K_B.json`: per run, exposure and ends by kind in age bins, and the guard's lives. `eq_analyze.py` falls
+  back to it where the per-run json (raw lives, `research/scratch/gpu-local/` on this machine only) is absent.
 
-| A | lattice | runs | face deaths | firewalls | settled | kind 5 | ln τ_face | seeds χ² |
-|---:|---|---:|---:|---:|---:|---:|---:|---|
-| 48 | (4,0),(0,4) | 1 | 7,478,823 | 15,925 + 3,420 | 5,023 | 0 | 9.9251 ± 0.0004 | |
-| 57 | (1,7),(0,19) | 2 | 3,283,133 | none possible | 840 | 0 | **11.8756 ± 0.0006** | 6.9 on 1 |
-| 63 | (1,4),(0,21) | 2 | 1,811,510 | none possible | 236 | 0 | **13.1622 ± 0.0007** | 0.07 on 1 |
-| 75 | (5,0),(0,5) | 2 | 183,954 | 468 + 2 | 2 | 0 | 15.6630 ± 0.0023 (file: 15.6614 ± 0.0026) | 0.39 on 1 |
-| 93 | (1,5),(0,31) | 4 | 35,521 | none possible | 0 | 0 | **19.4141 ± 0.0053** | 0.70 on 3 |
+Analysis: `python research/gpu-local/eq_analyze.py A K B` (one torus), `python research/gpu-local/eq_fit.py` (the
+family). Reviewed at five tori in `research/audit/REVIEW-gpu-local-tori.md` (b843883); the rows for 81 to 111 and
+everything said about them here are later than that review.
 
-(Firewalls: face deaths on a firewalled state + lives that settled on one. Launch caps 2,048 / 8,192 / 65,536 /
-2¹⁸ generations for A = 48-57 / 63 / 75 / 93. A = 57, 63, 75 were added by this session; forecasts for them in
-`PREDICTIONS.md` block 2, committed before the runs.)
+| A | lattice | transverse layers | runs | face deaths | firewalls | settled | kind 5 | ln τ_face | seeds χ² | a second code |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---|---|
+| 48 | (4,0),(0,4) | 8 | 1 | 7,478,823 | 15,925 + 3,420 | 5,023 | 0 | 9.9251 ± 0.0004 | | 9.9246 ± 0.0006 (pr23 review) |
+| 57 | (1,7),(0,19) | 2 | 4 | 6,579,101 | none possible | 1,640 | 0 | 11.8751 ± 0.0004 | 9.25 on 3 | 11.8744 ± 0.0015 (tori review) |
+| 63 | (1,4),(0,21) | 2 | 2 | 1,811,510 | none possible | 236 | 0 | 13.1622 ± 0.0007 | 0.07 on 1 | 13.176 ± 0.011 (`REVIEW-dying.md`, round 3) |
+| 75 | (5,0),(0,5) | 10 | 2 | 183,954 | 468 + 2 | 2 | 0 | 15.6630 ± 0.0023 | 0.39 on 1 | 15.667 ± 0.010 (tori review); file 15.6614 ± 0.0026 |
+| 81 | (3,3),(0,9) | 6 | 2 | 103,883 | 0 + 1 | 2 | 0 | **16.9222 ± 0.0031** | 0.53 on 1 | none |
+| 84 | (2,4),(0,14) | 4 | 2 | 106,629 | 0 | 1 | 0 | **17.5467 ± 0.0031** | 3.05 on 1 | none |
+| 93 | (1,5),(0,31) | 2 | 4 | 35,521 | none possible | 0 | 0 | 19.4141 ± 0.0053 | 0.70 on 3 | none |
+| 108 | (6,0),(0,6) | 12 | 4 | 2,032 | 44 | 0 | 0 | **22.5600 ± 0.0222** | 1.43 on 3 | file 22.568 ± 0.041 (592 deaths, A10G, `fwslab.py`) |
+| 111 | (1,10),(0,37) | 2 | 4 | 1,875 | none possible | 0 | 0 | **23.2032 ± 0.0231** | 3.60 on 3 | none |
 
-**The family as measured here** (all five from one driver and one counting rule):
+- Firewalls: face deaths on a firewalled state + lives that settled on one. A firewall needs three dead transverse
+  layers in a row, so none can form with 2.
+- **No kind-5 life in any row**, so the two exposure conventions for a guard-recognised life (its whole age, or its
+  age cut at the snapshot) give the same value everywhere in this table.
+- Launch caps 2,048 (A = 48, 57), 8,192 (63), 65,536 (75), 2¹⁸ (81 and up): 20%, 2.9%, 3.2%, 2.1%, then 2.3% (81),
+  1.3% (84) and under 0.3% of the mean life.
+- `code_commit` in the rows up to here is the head when the run ended, with no dirty mark (the review's finding);
+  the stepping and counting code did not change from 95fc5bf to the rows of 111. `eqtorus.py` now reads the head,
+  with a dirty mark, before a run. The 4 × 4 row was made on an uncommitted tree that became 95fc5bf; its field says so.
+- A = 57, 63, 75 were added by this session. Forecasts: `PREDICTIONS.md` block 2 (57, 63, 75) and block 3 (81, 84,
+  108, 111), each committed before its runs; scored in blocks 3 and 4.
 
-| A → A | local slope | | A | ln τ − 0.2088·A |
+**The family** (`eq_fit.py`):
+
+| A → A | local slope | | A | ln τ − [13.1621 + 0.20867 (A − 63)] |
 |---|---:|---|---:|---:|
-| 48 → 57 | 0.2167 ± 0.0001 | | 48 | −0.097 |
-| 57 → 63 | 0.2144 ± 0.0002 | | 57 | −0.026 |
-| 63 → 75 | 0.2084 ± 0.0002 | | 63 | +0.008 |
-| 75 → 93 | 0.2084 ± 0.0003 | | 75 | +0.003 |
-| | | | 93 | −0.004 |
+| 48 → 57 | 0.2167 ± 0.0001 | | 48 | −0.107 |
+| 57 → 63 | 0.2145 ± 0.0001 | | 57 | −0.035 |
+| 63 → 75 | 0.2084 ± 0.0002 | | 63 | +0.0001 (0.1σ) |
+| 75 → 81 | 0.2099 ± 0.0007 | | 75 | −0.0032 (1.4σ) |
+| 81 → 84 | 0.2082 ± 0.0015 | | 81 | +0.0039 (1.3σ) |
+| 84 → 93 | 0.2075 ± 0.0007 | | 84 | +0.0024 (0.8σ) |
+| 93 → 108 | 0.2097 ± 0.0015 | | 93 | −0.0082 (1.5σ) |
+| 108 → 111 | 0.214 ± 0.011 | | 108 | +0.008 (0.3σ) |
+| | | | 111 | +0.025 (1.1σ) |
 
-- **A = 57 and 63 lie 0.039 and 0.050 above the chord from 4 × 4 to 5 × 5**, and 0.021 and 0.034 above the highest
-  forecast on file (massive: 11.855, 13.128; its chord excess was +0.013 ± 0.006). My own forecasts (11.848, 13.124)
-  missed by the same amounts. 5 × 5 agrees with the file.
-- **From A = 63 to 93 the slope is 0.2084 twice over**; the bend is all below A = 63, and most of it is the 4 × 4
-  torus being low (0.1 below the line the larger ones follow). [conjecture] The family is straight from A = 63 with
-  slope 0.2084 ± 0.0003 and the smallest tori carry a finite-size deficit that is gone by a shortest loop of about
-  4.6; forecast for A = 81, 84, 108, 111 on that basis in `PREDICTIONS.md` block 3 (committed and pushed 06:13Z,
-  before any of their rows existed).
-- Hazard by age (`eq_analyze.py`): flat from age 60 on in every torus (A = 57: within 0.3% in 11 bins from 200 to
-  5.6 × 10⁵; A = 63: within 1.1% from 1,000 to 3 × 10⁶; A = 75: within 1.5% from 0 to 1.8 × 10⁷). Ages 0-60 carry
-  1.6 to 2.0 times the hazard (soups that lose a face at once): 0.14% of deaths at A = 57, 0.05% at A = 63.
-  Lives older than 8 mean lives: 1,101 / 593 / 59 against 1,103 / 610 / 64 expected for memoryless lives, so no
-  excess of old lives (the signature of unrecognised cycles) at A = 57, 63, 75.
-- **Not settled: the two A = 57 seeds differ by 0.0029 ± 0.0011 (2.6σ).** One of 5 seed comparisons so far at that
-  level; more seeds at A = 57 are owed before its fourth decimal is trusted.
-- Tori of this family differ in more than size: 4 × 4, 5 × 5, 6 × 6 have their loops along the cube axes and a
-  firewall channel; 19, 21, 31, 37 are rotated lattices where every transverse diagonal has only 2 layers (no
-  firewall can form). Nothing here separates those effects from size.
+- **One straight line fits the seven tori from 63 to 111 cells: ln τ_face = 13.1621 (± 0.0007) + 0.20867
+  (± 0.00009)·(A − 63), χ² 7.8 on 5.** The price per cell of a wrapped face is 0.2087 ± 0.0001 over that range.
+  The fit through 75 to 111 alone has slope 0.2088 ± 0.0003 and puts the line at 13.159 ± 0.005 at A = 63, where
+  the torus measures 13.1622: **any deficit at 63 cells is below 0.007** (2σ), against 0.035 at 57 and 0.107 at 48.
+- **The forecast of block 3 (slope 0.2084 from A = 63) was low at all four new tori**, by 0.009, 0.008, 0.020 and
+  0.038 (0.8 to 1.4 of its stated errors each; 2.5 and 1.8 errors at 81 and 84 with the fit's own smaller errors).
+  Its first criterion holds, its second (the slope 93 → 111) fails by its letter; `PREDICTIONS.md` block 4. The
+  agreement of the two local slopes 63 → 75 → 93 to 10⁻⁵ was luck: 93 lies 1.5σ low and 75 lies 1.4σ low.
+- **The bend is a break, not a fading correction** (the review's finding at five tori, section 3, which the four
+  new ones sharpen): the deficit falls by a factor of 3 over the 9 cells from 48 to 57 and then by more than 5
+  over the next 6. No correction decaying smoothly in the loop or in 1/A does that (χ² 68 to 117 on 1 in the
+  review's fits); a line with a kink near A ≈ 61 does. Either something changes between shortest loops √19 and
+  √21, or the 57 or 63 torus is off by 0.01 to 0.03 for a reason of its own lattice; a second code agrees at both
+  (to 0.0007 ± 0.0016 at 57, 0.014 ± 0.011 at 63). [conjecture, untested] A wrapped face shorter than some length
+  near 4.5 can die by a route that a longer one cannot (a void that closes on itself around the loop).
+- **Lattice direction and the firewall channel matter by less than about 0.01 from 63 cells up.** Residuals from
+  the line by kind of lattice: along the cube axes with a firewall channel (75, 108) −0.003 ± 0.002 and +0.008 ±
+  0.022; in between (81, 84: 6 and 4 transverse layers) +0.004 and +0.002 ± 0.003; rotated with 2 layers (63, 93,
+  111) 0.000, −0.008 ± 0.005, +0.025 ± 0.023. χ² 7.8 on 5 leaves room for a scatter of about 0.003 between
+  lattices, no more.
+- Against the lead's readings in part C (theirs to score): the flat one is 0.011 (3.5σ), 0.023, 0.101 and 0.095
+  too high at 81, 84, 108, 111. The massive one is within 1.7σ at those four (16.923, 17.552, 22.568, 23.194) but
+  0.023 (4.3σ) high at 93 and 0.021 and 0.034 low at 57 and 63.
+- **Hazard by age** (`eq_analyze.py`):
+  - A = 57, 63, 75: flat from age 60 on (57: within 0.3% in 11 bins from 200 to 5.6 × 10⁵; 63: within 1.1% from
+    1,000 to 3 × 10⁶; 75: within 1.5% to 1.8 × 10⁷). Ages 0 to 60 carry 1.6 to 2.0 times the hazard (soups that
+    lose a face at once): 0.14% of deaths at 57, 0.05% at 63.
+  - A = 81, 84: flat within 1.6% and 2.4% in every bin of 2,000 deaths or more (each within 1.5σ of 1), from age
+    3 × 10⁵ to five mean lives (5.6 × 10⁷ and 10⁸); the runs are 20 mean lives long.
+  - Lives older than 8 mean lives, against the count for memoryless lives allowing for the end of the run: 2,148
+    / 593 / 59 / 28 / 18 against 2,184 / 596 / 50 / 22 / 23 at A = 57 / 63 / 75 / 81 / 84. No excess of old lives
+    (the signature of unrecognised cycles).
+  - A = 93, 108, 111: the runs are 3.5, 0.2 and 0.2 mean lives long, so the age test has no power there and the
+    guard is what excludes cycles. Within that reach the hazard is flat within errors (108: four bins, 0.92 to
+    1.05, errors 0.04 to 0.08; 111: 0.91 ± 0.04 below age 3 × 10⁸, then 1.01 to 1.06).
+- **Firewalls at 6 × 6:** 44, ln τ_fw = 25.70 ± 0.15 per slab (file: 25.694 ± 0.277). At 81 and 84 cells (6 and 4
+  transverse layers) no face died on a firewalled state in 210,512 deaths; one life at 81 settled on one.
+- **A = 57, one seed in four is high.** The first two seeds differed by 0.0029 ± 0.0011 (2.6σ), so two more were
+  run (57003, 57004, after the review). Seeds 57001, 57003, 57004 give 11.8742, 11.8748, 11.8742 (± 0.0008 each);
+  57002 gives 11.8771, 3.0σ above their mean, and the four have χ² 9.25 on 3. The review's own stepper gives
+  11.8744 ± 0.0015, the value of the three. Nothing marks 57002 as faulty (same code, same check, hazard flat), so
+  it stays in the pooled 11.8751 ± 0.0004; with the error scaled by the seeds' scatter that is ± 0.0007. One 3σ
+  seed among the 25 run on these tori is a one-in-fifteen event, not evidence of a fault by itself; a defect of
+  the soup hash for particular seeds is the alternative, and it was not tested.
+- **Not checked:** a second code at 81, 84, 93, 108, 111 (each kernel is engine-exact on its torus for 2,000
+  generations in 5 lanes; the driver's counting is checked by second codes only at 48, 57, 75); whether the
+  soup hash is sound for every seed (the A = 57 item above); the raw lives
+  behind the old-life counts, which are on this machine only; whether tori of the same area and another
+  equilateral lattice agree (there is none at these areas).
 
 **A = 93** (`eqtorus.py run 1 5 31 16 SEED`, seeds 93001-93004, launch cap 2¹⁸):
 - Hazard of a face death by age: flat within errors in 11 bins from 0 to 5.6 × 10⁸ generations (ratios to the mean
   0.94 to 1.04, each within 1.5σ of 1); no burn-in is visible (first bin, ages below 1.8 × 10⁶: 0.985 ± 0.041).
-- No life settled in any way (kinds 2, 3, 5 all zero in 45,761 lives). Each run is 3.5 mean lives long, so the
-  age test for unrecognised cycles has no power here; the guard is what excludes them.
+- No life settled in any way (kinds 2, 3, 5 all zero in 45,761 lives).
 - Against the forecasts committed before the run (`research/constant/PREDICTIONS.md` C): flat 19.479 ± 0.010
-  (measured is 0.065 below; its stated refutation line was "below 19.445"), massive 19.437 ± 0.019 (0.023 below,
-  1.2σ of the forecast's error), rising 19.506 to 19.530 (refutation line "below 19.488"), single-c readings 19.488
-  to 19.497. Those forecasts are anchored on the 4 × 4 value 9.9324, which is 0.007 too high (above); with the
-  anchor lowered the flat and rising forecasts move down by less than that. Reading them is the lead's to do.
-- Local slope from the 5 × 5 value on file (15.6614 ± 0.0026) to A = 93: 0.2085 ± 0.0003; from 4 × 4 (this card) to
-  5 × 5: 0.2124 ± 0.0001. The slope falls with size in this family.
-- Not checked: any second stepper at A = 93 (the kernel is engine-exact on this torus for 2,000 generations in 5
-  lanes; the driver's counting was checked only through the 4 × 4 comparison with `rep.c`, above).
+  (measured is 0.065 below; its stated refutation line was "below 19.445"), massive 19.437 ± 0.019 (0.023 below),
+  rising 19.506 to 19.530 (refutation line "below 19.488"), single-c readings 19.488 to 19.497. Those forecasts
+  are anchored on the 4 × 4 value 9.9324, which is 0.0075 too high (above).
+
+## The asymmetric hull face (queue item 3) [calibrated; the A = 108 run is in progress]
+
+`research/gpu-local/hullface.py`: a local runner around `facelaw.run` (soup 0.35 in |p|₁ ≤ R, exact hull, 8 faces,
+T0 = 200, τ_face = 8 × exposure / deaths), guard on (thresholds 16 · 2^j). Rows:
+`research/data/gpu_local_hull/hull_R{R}.csv`; `python research/gpu-local/hullface.py summary R`.
+
+- **Kernel shape** (`hullface.py tune 15`; R = 15 has 2,064 nodes): 2 columns per block, one block per SM, the fewest
+  thread groups: 3.5 × 10⁸ replica-generations/s in 1,280 replicas, 2.7 × 10⁵ generations/s each. Four columns give
+  3.8 × 10⁸ in 2,560 replicas at half the speed each; the slower shape was not taken because the point of the run
+  is old ages. Two blocks per SM lose (1.8 to 3.5 × 10⁸): the vessel is past the size where they pay.
+- **Engine comparison in that shape** (`hullface.py check`): the five reference vessels of the acceptance bar,
+  every generation, 2,000 to 3,000 generations × 5 lanes, all equal; both negative controls fail at generation 1.
+- **Calibration at R = 11 (A = 63)**, as `REVIEW-gpu-local-pr23.md` asked before this driver is used here:
+  `hullface.py run 11 5 11001` gives **13.6362 ± 0.0013** (614,098 deaths), against 13.635 ± 0.001 on file (A10G,
+  `research/gpu/README.md` "First use"): +0.001 ± 0.002. Hazard by age flat within 2.2% in 13 bins from 200 to 10⁶
+  (the largest departure 0.978 ± 0.011). No life settled, no kind-5 life.
+- **Hull against torus at 63 cells:** 13.6362 − 13.1622 = 0.474 ± 0.002 (the free face lives 1.6 times longer).
+- **A = 108 (R = 15):** `hullface.py run 15 420 SEED`, seeds 15001 and 15002, started 2026-11-15 about 12:00Z, 14 hours
+  in all, about 10⁴ deaths; every lane reaches age 6.8 × 10⁹, 3.9 first-death means (the run on file stopped at
+  6 × 10⁸). Forecasts and three out-of-sample readings: `PREDICTIONS.md` block 4, pushed (ecd01e9, 11:48Z) before
+  the run. Not yet in.
 
 ## The cycle guard [measured]
 
@@ -226,7 +316,19 @@ So the guard turns zombie exposure from "until the run ends" into "at most about
 per recognised life. Both terms are bounded per life by what is recorded: zombie time ≤ b − birth, and the
 snapshot age shows how much of it can be grid delay. Not removed: lives still open at the end of a run.
 
-**[conjecture]** For the measurements queued (τ ≈ 10^8-10^10 generations, launches of 10^5-10^6 generations on this
-card), both delays are small against a mean life except the snapshot delay of lives that settle very old. If kind-5
-lives turn up in numbers, exact entry ages can be recovered offline: every life is a deterministic function of
-(seed, reseed round, replica), so it can be re-run from its birth.
+**How large the latency can be, and the exposure convention** (corrected after
+`research/audit/REVIEW-gpu-local-pr23.md` section 1; an earlier version here conjectured that both delays are small
+against a mean life, which is false). The guard matters only for periods above the kernel's 128. For an odd period P
+the grid delay is P·K: at least 3.4 × 10⁷ generations at the launch cap K = 2¹⁸ of the torus and hull runs here, and
+at least 2.2 × 10⁹ at `facelaw.py`'s own cap of 2²⁴. That is a mean life or more for the tori up to 93 cells (2% of a
+first-death mean for the hull at R = 15). So one kind-5 life can carry more than a mean life of exposure spent inside
+its cycle.
+- **Convention.** Every guarded result states its kind-5 count. Where it is not zero, ln τ is given both ways: with
+  kind-5 lives counted to the age at recognition (the rows' `exposure`), and with their exposure cut at the snapshot
+  age. The snapshot state is on the cycle (it is the state that recurred), so the cut removes only time spent in the
+  cycle; what remains is the time from entering the cycle to the snapshot, at most about one doubling. The cut value
+  is the one to quote. `eq_analyze.py` and `hullface.py summary` print both; the hull rows carry
+  `exposure_guard_past_snapshot`, the torus tables `hist_A_K_B.json` carry each kind-5 life's two ages.
+- In every result so far the kind-5 count is zero and the two values coincide.
+- Exact entry ages can be recovered offline if kind-5 lives turn up in numbers: every life is a deterministic
+  function of (seed, reseed round, replica), so it can be re-run from its birth.
