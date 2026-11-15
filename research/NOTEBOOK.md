@@ -3243,3 +3243,47 @@ its first run at 13:11). The lead's own refit with a third loader:
 - The lead's forecasts: of W1–W6, four held and two failed, and the thing forecast was wrong anyway. A margin of
   0.010 on faces measured to 0.003 was too loose to test the form; W7–W10 are written with margins the size of
   the measurement.
+
+## 2026-11-15: the fourth signals push: a standing object writes onto a wire (a gun of period 4), a gun, a wire and a receiver make a free-standing oscillator, and a catalogue oscillator beside the stream halves it (the lead's own oracle checks; review running)
+
+`research/signals/README.md` sections 20–25 and 21b (a Fable investigator, 12:55–15:15 UTC; commits 4a10c4e …
+f6ec867). Everything below is provisional until `research/audit/REVIEW-signals-4.md` is in; the two objects marked
+"lead" were checked by the lead on `reference/oracle.py` from the stored cell lists alone.
+
+- **The gun [measured on the oracle; lead].** `objects/gun-5f.json`: 15 cells, period exactly 4, on the +v end of
+  bare wire C. Every 4 generations it puts one mirror rake on the wire and is exactly as it was.
+  `python3 research/signals/verify_gun.py research/signals/objects/gun-5f.json` (run from `research/signals/`);
+  lead: `python3 research/audit/signals_gun_lead_check.py` (3 s): the gun's own units repeat every 4 generations
+  and not every 2; after each period the wire differs from the start by one more copy of the same 4 cells, every
+  earlier copy two units further on and unchanged, 9 periods; the same wire without the gun does not do this.
+  Found by constraint search; census inside planes C: none at 29, one at 31 and 33, six at 35 [SAT, not reviewed].
+- **What it is not.** It fires at the highest rate there is: no unit between two rakes is bare, and the stream can
+  be read as a second wire (repeat 2 units, period 4) whose boundary with wire C runs away from the gun at pulse
+  speed. It is a writer of the word 5, f, 5, f, …, not a source of separated pulses.
+- **The line and the beam [measured on the oracle; "for every N" by a gluing argument, not yet reviewed].** A cap at
+  rest + N units of bare wire + the gun: the rakes cross and are swallowed for ever, period exactly 4 from
+  generation 2N (lead: period 4 from generation 48 at N = 24, never period 2). Mirror gun + N units of rake train +
+  an absorber: a free-standing oscillator of period 4 with 33 + 5N cells. `verify_line.py`, `verify_beam.py`,
+  `prove_line.py`, `prove_beam.py`: all pass here.
+- **A hole [measured].** One rake removed is a one-cell difference that travels with the stream and is swallowed;
+  the object heals exactly. "Every word of holes heals" rests on 200 random words.
+- **The divider [measured on the oracle; lead].** `objects/divider-C8.json`: the line with oscillator C8.24a of the
+  clockwork catalogue (24 cells, period 8) standing beside the wire, two diagonal layers outside its tube. Every
+  second rake that passes becomes a hole; the wire beyond reads 5f9f5f9f…; the whole object has period exactly 8.
+  Lead: `python3 research/audit/signals_divider_lead_check.py` (20 s, N = 24): the free oscillator has period
+  exactly 8; in the object every one of its cells is alive at every generation; the only other cell ever alive in
+  its layers is one cell beside it, alive at generations 8, 16, 24, … and dead the next (the whole coupling: the
+  push measured the same, `gunlab.py stroke`); the line has period 4 from generation 48, the divider period 8
+  from generation 45 and never period 4; read unit by unit the line is 5f5f…, the divider 5f9f5f9f…. This is the
+  first object in the study in which one ordered part acts on a signal produced by another and is not changed.
+- **Still absent [bounded searches, not reviewed].** No reader of the word; no clock of period 4N; no corner (not
+  searched); no sparse gun or divider inside the tube (UNSAT at the stated planes); no end of period 8; two guns
+  facing destroy each other; no catalogue oscillator acts on a wire at rest (23,760 sampled placements), and
+  against the stream only "rake, hole" is ever written (54,450 placements: C8.24a three times, C8.24b once).
+- **Turn class [computer-assisted, not reviewed].** No period-2 right end of wire C in the 3 × 3 tube, of any
+  length or shape, turns a lone rake with class 2 within T ≤ 36 generations (`sat_two.py T --open`); the eight
+  class-2 caps on file are each destroyed by one lone pulse (`eat_direct.py`).
+- The lead's forecasts S16–S21: two held (the emitter, with a caveat on "pulses"; the catalogue oscillator, beside
+  a stream and not where I worded it), four failed, among them the 60% that nothing standing would write.
+- Not checked by the lead: the three gluing proofs, every SAT answer, every scan, the start phases, the
+  place-and-phase table of the divider.

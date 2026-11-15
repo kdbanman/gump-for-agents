@@ -242,6 +242,16 @@ _Last updated 2026-11-14 by the lead._
   UTC) with a 96-cell face and three faces that cross-check the tester's stepper. No second agent has reviewed the
   tester's new faces; the card's three are that check. **Still running:** the fourth signals push (Fable, since
   12:55). **Not yet done:** overview version 14 and the draft (nine tori, the wrapping result, signals pushes 3–4).
+  **15:20 UTC: the fourth signals push reported** (README sections 20–25, 21b; notebook "the fourth signals
+  push", provisional). A gun (15 cells, period 4, writes a rake onto bare wire every period), a line and a beam
+  (gun + wire + receiver, free-standing, period 4), a divider (catalogue oscillator C8.24a beside the stream turns
+  every second rake into a hole, period 8, the oscillator never changed). All its verifiers and proof scripts pass
+  here; the lead's own oracle checks of the gun and the divider pass
+  (`research/audit/signals_gun_lead_check.py`, `signals_divider_lead_check.py`). Forecasts S16–S21 scored in
+  `research/signals/PREDICTIONS.md`. **Running:** the adversarial review of it (Opus, since 15:16; →
+  `research/audit/REVIEW-signals-4.md`) and the lead's CPU run of the 84-cell face with one loop of 12 (since
+  14:58, about 80 minutes). **Owed on the review:** CLAIMS rows SG16 on, OPEN-PROBLEMS 13, the owner's journal
+  (the note that nothing ordered speaks onto a wire no longer holds), the essay; then overview 14 and the draft.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

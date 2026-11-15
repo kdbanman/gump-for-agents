@@ -364,3 +364,26 @@ carrying the gun's stream, not against an end, cap or wall; against a wire at re
 clock once); S20 no as worded (the open-end result removes the bounds
 on the cap's length and on the planes, not the bound on the turn time, and gives no reason); S21 no: something
 standing writes onto a wire, a constant stream and a two-letter periodic word; nothing found reads.
+
+## The lead's note on the fourth push (2026-11-15 15:20 UTC, before its review)
+
+- **S16 (20%): held, with a caveat about one word.** `gun-5f` is a bounded standing object of period 4 at the end
+  of bare wire that puts a moving object on the wire every period and returns exactly to its state (the lead's own
+  oracle check, `python3 research/audit/signals_gun_lead_check.py`: nine periods, each adding the same four-cell
+  change, every earlier one moved on two units unchanged). What I wrote was "pulses"; what it emits is mirror rakes
+  at the highest rate there is, so the wire behind is a full stream with no bare unit in it. The thing I gave one
+  chance in five exists; the thing I pictured (separated pulses on quiet wire) does not yet.
+- **S17 (30%): failed.** No clock of period divisible by 4; the eight caps of the other turn class are each
+  destroyed by one lone pulse.
+- **S18 (7%): failed**, and not searched.
+- **S19 (15%): held in a form I did not word.** Against a wire end, a cap or a wall at rest, as I wrote it: nothing
+  in 23,760 sampled placements. Beside a running stream: C8.24a turns every second rake into a hole and is never
+  changed (the lead's own oracle check, `python3 research/audit/signals_divider_lead_check.py`).
+- **S20 (20%): failed as worded.** No invariant and no theorem over all periods. What there is: the turn-class
+  negative for ends of every length and shape, bounded in turn time (T ≤ 36), computer-assisted.
+- **S21 (60%): failed.** Something standing writes onto a wire.
+
+Over four pushes: 19 forecasts tested, 9 held in some form, 10 failed. The two that held this time were the two I
+had marked down hardest after three empty pushes, and my most confident one (S21) was wrong. The investigator's own
+note says the same of itself: the earlier negatives were all stated for one kind of word and one kind of placement,
+and I, like it, took them for more.
