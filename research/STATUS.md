@@ -116,7 +116,7 @@ _Last updated 2026-11-14 by the lead._
   state whose period does not divide 840 is never recognised; +0.017 in ln τ at A = 36 with no age cap; fixed by a
   multi-lag test): the reviewer is asked for a bound on the bias in the capped census, and the GPU session was asked
   (00:20 UTC, code reading only, no Modal spend) how its kernels treat such replicas. **Answered and merged as pull
-  request 20 (text only; squash fc1383b, 00:33 UTC):** its kernel detects periods 1–2 and, in most runs, up to 128;
+  request 20 (text only; squash fc1383b, 00:31 UTC):** its kernel detects periods 1–2 and, in most runs, up to 128;
   no age cap; bounds on undetected exposure from the committed logs by run (`python3 research/gpu/zombies.py`;
   weakest: R13 ≤ 6.7e-3 against ± 0.005, symc R43 s501, slab 4×8×8; runs shorter than one mean life, R15 and R17
   among them, rest on a rate argument marked not proven); no published number changes. The lead recomputed the R11
