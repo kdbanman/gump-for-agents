@@ -3478,3 +3478,59 @@ A study of the living state on wrapped faces, with no lifetimes needed (`researc
   relation at any loop past 16 against a lifetime (W13 is the test); the study's stepper against the oracle on more
   than one torus (my stepper is the cross-check on five); the firewall counts by a second code; burn-in (500
   generations) was not varied; why κ is 1.85.
+
+## 2026-11-15: the fifth signals push reviewed: still no listener; a second kind of gap sorts the ends four ways; and one end answers a gap with an echo sent back up the stream
+
+Review with independent code: `research/audit/REVIEW-signals-5.md`, code `research/audit/signals5/` (commits
+f4009e7 … 577e0d9). It applied its corrections to README sections 26–29 itself, each marked *Review*.
+
+- **[SAT, a second encoding, two more solvers] No listener at the end of the stream, within bounds.** The
+  reviewer's own encoding (`mysat5.py`: its own region and holed train; glucose4 and kissat404) is UNSAT for one
+  hole, periods (4, 4), at C = 29 … 39; for (8, 8) at C = 31; for the words [0,1] and [0,2,4] at C = 33. The other
+  rows rest on the push's code alone ((8, 8) at C = 33 was cut at 1,500 s). Narrowed: C = 29 holds no absorber at
+  all, so that row says nothing; every row at C ≤ 37 is also answered by the census, so C = 39 is the only one
+  that reaches further; "movers are excluded" holds only for ends that still fit inside the planes when moved.
+  A hazard for later use: `sat_listen.py`'s holed train is finite and burns back from its far end, which would
+  make an instance with T above about 88 unsound (all instances run have T ≤ 78).
+- **[three codes] The census under holes stands.** 741 ends recounted with the reviewer's own key. All eight words,
+  compared on the whole state with its own stepper: 599 × 8 heal within 39 generations, 142 × 8 burn, no echo. (My
+  oracle run covers three of the words on every end.) The receiving cap's own absorbing cycle is one of the 741.
+- **[one code, its stepper checked against the oracle; exhaustive over the events listed] Every one-unit change
+  of an arriving rake.** Each end was sent every subset of the rake's cells removed, every dead tube cell made
+  live, the rake replaced by bare wire, at generations 0 to 3: 426 events per end, 315,666 runs. Every run either
+  becomes equal to the undisturbed run or sends a difference up the stream; the 12,022 of the second kind that
+  come from events which ride the train were followed 256 units up and every one is a burn. **No end is left
+  alive and changed.**
+- **[the reviewer's scan; the lead's oracle run of every end] A second kind of gap, and four classes of end.**
+  Besides the hole, one other one-cell signal rides the stream down (K0: it travels as the wire cell (1,0,2)
+  missing). The ends sort four ways: **113 heal both; 486 heal a hole and are destroyed by K0; 17 are destroyed
+  by a hole and heal K0; 125 are destroyed by both.** So 503 of 741 ends tell the two kinds apart, by dying of
+  one. "Forgotten or fatal is a property of the end alone" holds for holes only. The beam's receiver is one of the
+  486. Mine: `EVENT=k0 python3 research/audit/signals_ends_lead_check.py all i/3` (i = 0, 1, 2; 40 minutes each;
+  `reference/oracle.py` only): 113, 486, 17 and 124, and one end that burns too slowly for that run and is dead
+  on a longer train (`ONLY=0:152 EVENT=k0 LGH=70,100,192 python3 research/audit/signals_ends_lead_check.py all`).
+- **[oracle, two codes] An echo.** Among the sampled placements beside the receiving cap, four runs (the
+  oscillators C18.23a and C20.33c, two arrival times each) do something new: the hole reaches the cap, and a
+  rigid three-cell signal comes back up the stream, through the oncoming rakes, one unit every two generations;
+  the cap, the oscillator and every rake are exactly as in the undisturbed run. When it reaches the gun, the gun
+  dies. The reviewer: `python3 research/audit/signals5/orc46.py`. Mine, from the initial cells alone:
+  `python3 research/audit/signals_echo_lead_check.py` (20 s): the whole state differs from the undisturbed run in
+  exactly three cells for 18 generations (23 to 42 after the hole is made), each state the last one moved a unit
+  towards the gun; then the difference grows (61 to 65 cells at generation 80). The end is restored, so this is
+  not a listener: it is a reflector, and the stream now carries signals both ways.
+- **[one code] The other gun deaths.** Of the 46 sampled runs in which a gap kills the gun and the oscillator
+  survives: 25 are fires (the wire burns), 8 are walls (a front moves up the wire and leaves a different uniform
+  wire behind it: the stream is converted, not burnt), 4 are the echo, 9 are none of these. The four runs the
+  push's script flagged as possible listeners are debris in both runs, as the push said.
+- **Not applied by the review** (outside the sections it could edit): `gapstream.py --summary` mislabels one
+  record (C9.28a dies in the plain run too); the finite holed train in `sat_listen.py`; section 21's "every set
+  of holes heals" is true of holes, and K0 destroys the beam's receiver. The sixth push has been told of the
+  second.
+- **What it says.** Five pushes asked whether anything listens, and nothing does. But an end can now answer: a gap
+  goes down, a different signal comes back, and the end is ready for the next. What an echo does when it meets a
+  gap coming the other way is the question a gate would hang on, and the sixth push (started 20:00 UTC, the
+  lead's forecasts S27–S32 in `research/signals/PREDICTIONS.md`) asks it.
+- Not checked (20:26 UTC): certificates for any UNSAT; the 5 × 5 tube; events larger than one unit or outside the
+  tube; the 315,666-run table by a second code (I re-ran the hole and K0 on the oracle, not the other events);
+  the samples beside the stream were not drawn again; the nine "other" gun deaths and the wall's wire are not
+  characterised; what the echo does on bare wire or against anything but the gun.

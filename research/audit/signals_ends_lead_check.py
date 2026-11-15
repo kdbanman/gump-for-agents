@@ -42,7 +42,8 @@ WORDS = [[0], [0, 1, 2], [0, 2, 4, 6, 8]]
 K0 = os.environ.get('EVENT') == 'k0'      # the review's second signal: wire cell (0,1,4) of unit -10 removed at generation 0
 if K0:
     WORDS = ['K0']
-L, GMAX, H = 44, 64, 128
+L, GMAX, H = (int(v) for v in os.environ.get('LGH', '44,64,128').split(','))   # train length, generations, torus
+ONLY = os.environ.get('ONLY')            # 'part:index' of one end, with EVENT/LGH, for a longer look at it
 m = oracle.masks(H); valid = m[0] | m[1] | m[2]
 
 ends = []
@@ -58,6 +59,8 @@ print(f'{len(ends)} ends on file: {len(heal)} healed on every word, {len(dead)} 
       f'{len(ends) - len(heal) - len(dead)} other')
 rng = random.Random(SEED)
 sample = (heal + dead)[PI::PN] if ALL else rng.sample(heal, PER) + rng.sample(dead, PER)
+if ONLY:
+    sample = [x for x in ends if f'{x[0]}:{x[1]}' == ONLY]
 
 
 def arr(cs, off):

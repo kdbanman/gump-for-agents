@@ -146,6 +146,20 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     any word other than rake, hole (oscillators of period 24 and 32 beside the stream, enumerated and not
     sampled); **(j)** a corner as an exact constraint problem, with the stream as a standing probe; **(k)** why
     the turn class is forced (no invariant is known; the negative is bounded by turn time T ≤ 36).
+    **Fifth push, reviewed 2026-11-15** (notebook "the fifth signals push" and "… reviewed"; CLAIMS SG23–SG27):
+    (g) was asked directly and the answer within bounds is no: among 741 ends of the stream in the 3 × 3 tube,
+    599 heal every word of holes and 142 are destroyed by every word; over every one-unit change of an arriving
+    rake no end is left alive and changed; beside the stream (samples) a gap heals or destroys. Two things are
+    new. A second one-cell signal (K0) rides the stream, and 503 of the ends tell it from a hole by dying of one
+    and not the other. And the receiving cap with a catalogue oscillator beside it answers a hole with an
+    **echo**: a three-cell signal sent back up the stream through the oncoming rakes, the end restored; it kills
+    the gun when it arrives. New questions: **(l)** what an echo and a hole do when they meet, at every phase
+    (the gate question); **(m)** a gun that survives an echo, by absorbing it or by returning a hole, and then a
+    signal that goes round between two ends; **(n)** what about the cap and its neighbour makes the echo, and a
+    simpler reflector (no bare end of the 741 echoes anything); **(o)** the "wall" outcomes, in which a gap at
+    the end converts the stream into a different uniform wire behind a moving front: what wire, and is the front
+    a signal; **(p)** a listener is still not known: the bounds are the 3 × 3 tube, periods 4 and 8, one-unit
+    events, and samples beside the stream. A sixth push on (l)–(n) is running.
 14. The 94 clockwork objects (`research/clockwork/objects/`) are not merged into the atlas catalogue.
 
 ## Neighbouring rules

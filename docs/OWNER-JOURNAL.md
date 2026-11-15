@@ -109,4 +109,12 @@ What speaks to it (the lead, same day):
   stands: nothing yet listens. Nothing found is left in a different state by a gap than by an object. The reviewer
   did find that the right single cell on the wire, at the right moment, destroys the clock standing beside it, so
   the clock is reachable from the wire; reaching it without destroying it is the open question.
+  *And since (20:26 UTC; notebook "the fifth signals push" and "… reviewed"):* a fifth push asked only whether
+  anything listens, and within its bounds nothing does: of 741 ends a stream can run into, 599 forget every gap
+  exactly and 142 are destroyed by any gap, and I checked every one of them on the reference stepper. But the
+  reviewer found the first thing that answers. The receiving end, with one of the catalogue's clocks standing
+  beside it, takes a gap and sends back a different signal, three cells, that swims up the stream against the
+  objects coming down, and the end is left exactly as it was, ready for the next. So a wire in gump now carries
+  messages both ways at once. The one thing at the far end, the gun, is destroyed when the answer arrives; a
+  sixth push is asking what an answer and a gap do when they meet, and whether a gun can survive being answered.
 

@@ -217,6 +217,22 @@ message. A second clock further down the wire does nothing more to it. And the r
 showed the clock is not safe from the wire: one cell missing at the right place and moment
 and it is destroyed.
 
+The fifth round asked one thing: does anything listen? I mean a standing object that a gap
+leaves in a different state than no gap does. Within what could be searched, nothing does.
+There turn out to be 741 different ends a stream can run into, in the narrow tube the wire
+lives in, and every one of them either forgets a gap completely within a few dozen
+generations or is destroyed by it. I ran all 741 on the reference stepper myself. There are
+two kinds of one-cell gap that travel, and five hundred of the ends forget one kind and die
+of the other, which is a way of telling them apart, though a fatal one.
+The reviewer then found the first thing in gump that answers. Stand a certain clock beside
+the receiving end and send a gap down: the gap arrives, and three cells come back up the
+wire, against the stream, passing through every object on its way down without disturbing
+one of them, and the end and the clock are exactly what they were. I checked it on the
+reference stepper: for eighteen generations the whole world differs from the undisturbed one
+in three cells and no others. When the answer reaches the gun, the gun dies. So a wire now
+carries things both ways, and the next question is what an answer and a gap do when they
+meet.
+
 ## The rule you meant to write
 
 In November 2026 you looked at a picture of the neighbourhood and said it was wrong: in its
@@ -594,9 +610,10 @@ corrected is part of what this repository is for.
   step of radius instead of ten-fold, and B45/S3456, which slowly freezes like a glass.
 - Whether gump can compute. It has wires, pulses, a gate where two pulses meet, a counter,
   a clock of any length, and now a standing thing that writes onto a wire and a second thing
-  that edits what was written. It has nothing that reads: no object left in one state by a
-  gap and another by its absence. It has no corner, no crossing, and no second stage after
-  the first. Everything so far lives along one direction of one tube.
+  that edits what was written, and an end that answers a gap with a signal sent back. It has
+  nothing that reads: no object left in one state by a gap and another by its absence, among
+  741 ends searched and thousands of placements sampled. It has no corner, no crossing, and
+  no second stage after the first. Everything so far lives along one direction of one tube.
 - A clock whose period divides by four. Every length of the built clock gives a period that
   leaves 2 when divided by 4. A third push found half of the reason: the remainder is a
   property of the two ends, and every end that fits inside the narrow tube of the wire has
