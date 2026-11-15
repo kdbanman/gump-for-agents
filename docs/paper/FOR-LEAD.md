@@ -276,3 +276,68 @@ From bringing the draft in line with CLAIMS DY1–DY7, GP10, GL1, GL2 and the SH
    The corrected README now states them as the lead's readings, withdrawn, so that a reader of the README alone is
    not misled by the notebook. If the lead prefers the README not to mention them, delete those two sentences
    (round-1 "Reviewed" item 4; round-2 tail paragraph under "Numbers").
+
+## For the lead, 2026-11-15 (fifth update: dying rounds 3–4, the wrapped faces on the second card, signals, the state space)
+
+From bringing the draft in line with CLAIMS DY8–DY15, GL1–GL3, SG1–SG10, SS1–SS3 and the notes on SH3, SH4, CN1
+(`docs/paper/FACTCHECK.md`, "Update of 2026-11-15 (fifth)"). Nothing outside `docs/paper/` was edited. Where the
+notebook and the ledger disagree the draft follows the ledger.
+
+1. **CN1 has not been brought up to the tori.** The notebook entry "five wrapped faces on one driver" reads CN1's
+   range as "the two families, not an uncertainty in one number"; CN1 still says the data "allow one asymptotic cost
+   per cell anywhere from about 0.207 to 0.219 … and do not show that there are two". The draft dates CN1's statement
+   ("the data of 2026-11-14") and gives the notebook's reading as the notebook's. Proposed dated note at the end of
+   CN1's claim cell:
+   > (2026-11-15: the equilateral tori, GL3, give 0.2084 per cell for wrapped faces from 63 cells up, while the hull
+   > local slopes 0.2119, 0.2146, 0.2181 move away from it; the range is now read as the distance between the two
+   > families, not an uncertainty in one number; one price or two is open)
+2. **GL1's claim cell still says "not a pipeline error".** Its own note of 2026-11-15 splits the 0.0075 into 0.0017 of
+   the census's 16-generation stamping and 0.0058 (2.9σ) of draw, and `REVIEW-gpu-local-tori.md` amends the earlier
+   review's "no systematic cause". Proposed: replace "was a high draw of its 76 seeds (3.4σ …), not a pipeline error"
+   by
+   > was high by 0.0075: 0.0058 (2.9σ with the between-job scatter) a draw of its 76 seeds, 0.0017 the pipeline's
+   > 16-generation stamping (REVIEW-gpu-local-tori)
+   The notebook entry "the 93-cell torus" gives a third figure, "2.6σ high under its own rule"; the draft uses the
+   ledger's 2.9σ.
+3. **SH3, the loop² 4 bias: sign.** The claim text says those values "carry a tie-resolution bias of about −0.018 in
+   ln τ"; the note of 2026-11-15 in the same cell says the census values of those classes "are high by 0.0174 at
+   A = 48 and 0.0184 ± 0.0011 at A = 60". Read as "a correction of −0.018" the two agree, read as "a bias" they have
+   opposite signs. Proposed: "read ln τ high by about 0.018 (ties with firewalls inside one 16-generation window)".
+   The draft (Table 8 caption) now says "reads ln τ high".
+4. **The notebook says the card's 5 × 5 "agrees with the CPU value on file".** Entry "five wrapped faces on one
+   driver", last bullet. The value on file, 15.6614 ± 0.0026, is the first GPU's (GP9, Table 6 of the draft;
+   `research/data/gpu_facelaw/`). So the card's 15.6630 ± 0.0023 is the first repeat of a GP9 value on a second
+   GPU, with the reviewer's CPU 15.667 ± 0.010 beside it. The draft's §12 says so. A dated correction note in the
+   notebook would fix it; GP9's level cell could record the repeat.
+5. **The width of the remnant in the lead's conjecture about the kink.** Entry "the five tori, reviewed": "(round 3:
+   a remnant about 3.5 cube steps across)". DY11 and the round-3 entry say the excess round a survivor reaches about
+   3.5 *doubled units* ("under two cubes"). Whether the conjecture (the bend ends where a loop exceeds the remnant's
+   width plus its reach, at 4.58 cube steps) still reads naturally with a remnant under two cube steps is the
+   lead's call. The draft states the conjecture without the number. Proposed: "(round 3: the excess round a survivor
+   reaches about 3.5 doubled units, under two cube steps)".
+6. **DY15, the unmatched gap.** The study entry ("a depleted face thins as one thing") has C 0.152 against 0.204; DY15
+   and the review have 0.151 against 0.204. The draft uses 0.151.
+7. **Section numbers in the SG rows.** The rows cite `research/signals/README.md` sections that do not hold the
+   result: SG6 "§9–10" (gate and rake are §10), SG7 "§12" (the counter is §9, the tape §10), SG8 "§13" (soup is
+   §12), SG9 "§14" (chaos is §13). SG5 (§11) and SG10 (§8) are right. Proposed: SG6 §10; SG7 §9 (counter), §10
+   (tape); SG8 §12; SG9 §13.
+8. **Two proved remarks on wires have no ledger row.** README §4: a wire cannot grow at its end (the argument
+   repaired after `REVIEW-signals.md` §6), and a pulse on a wire of period ≤ 2 carries its own drive (valid, one
+   wording error corrected). The draft states them in §8.1 marked "no ledger row". Proposed row (SG11):
+   > A wire bounded across its axis and empty beyond its end never passes a plane perpendicular to its axis (T2 on
+   > the cone of diagonals d with d·v < 0); a pulse on a wire of period ≤ 2 with no overcrowded event of its own has
+   > one in every generation at the pulse (T8 on a ring with the shift symmetry): pulse B 1, A 2, S 2 or 9 | proved |
+   > NB 2026-11-15 (the first signals push reviewed); README §4; REVIEW-signals §6 | — | A (re-derived by the
+   > reviewer; O1 counts by its own code)
+9. **`research/OPEN-PROBLEMS.md`, problem 12** says the clock was "checked on the oracle at ten lengths by two codes";
+   SG5 now has three codes at 24 lengths from 1 to 257 (and the reviewer's stepper to N = 400). Problem 13 still calls
+   the counter a "register" in its second-push paragraph; `REVIEW-signals-2.md` ("Wording") calls it a counter.
+   Proposed in 12: "checked on the oracle at 24 lengths from 1 to 257 by three codes"; in 13: "a counter moved by
+   pulses from either side".
+10. **No ledger rows for the new forecast tallies** (draft Table 5, rows 22–27: dying rounds 3 and 4, part C of
+   `research/constant/PREDICTIONS.md`, N1–N4, S1–S10, E1–E7). As with rows 19–21, the table cites notebook entries
+   and the forecast files.
+11. **Round-3 tally.** The entry "what the dips say" says "three of the lead's eighteen held" over rounds 1–3; with
+   rounds 1 and 2 as scored (L2–L7 failed, A2 held of seven) and round 3's T1a, T1b, T2, T3, T4, eighteen means L1
+   (the deduction) is not counted. The round-4 entry's "three of twenty-three" follows. Consistent, but the rule
+   (L1 not counted) is written nowhere; the draft quotes "three of twenty-three" without restating it.
