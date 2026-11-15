@@ -74,7 +74,7 @@ for k in range(1, shots + 1):
     d = cells_of(sig ^ ctl)
     record = prev - recv                           # what earlier shots wrote at the receiver (stationary)
     pulse_only = d - record
-    goodD = record <= d and 1 <= len(pulse_only) <= ob['pulse_cells_max'] and all(0 < (xcube(c) - ax) % C < dist - k for c in pulse_only)
+    goodD = record <= d and 1 <= len(pulse_only) <= ob['pulse_cells_max'] and all(0 < (xcube(c) - ax) % C < dist - (k - 1) for c in pulse_only)  # the wall has advanced k - 1 cubes so far
     advance(gap - gap // 2 - 2)
     a = sig.copy(); advance(2)
     stat = (sig == a).all()
