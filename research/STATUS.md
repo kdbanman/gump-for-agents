@@ -130,6 +130,52 @@ _Last updated 2026-11-14 by the lead._
   `research/audit/REVIEW-statespace.md` and `research/audit/statespace/`; on its report: regrade SS1–SS3, README
   corrections, the essay's hedge on the entropy sentence. **The lead's own check of the shuttle clock** from the
   second signals push (period 4N + 2 at N = 1, 2, 3, 4, 7, 12): `research/audit/signals_clock_lead_check.py`.
+  **Pull request 24 merged 10:23 UTC (e4295e8); pull request 25 is open.**
+  **Second signals push reported 10:25 UTC and recorded 10:30** (notebook "a clock of every length", CLAIMS
+  SG5–SG10, 164 claims, OPEN-PROBLEMS 12 and 13, the owner's journal): a clock of period 4N + 2 for every N (proof
+  claimed), a rake, a collision gate, a register, a tape of B and C units, soup-born carrier wires, chaos destroys
+  a wire on contact and two empty layers isolate it. The lead re-ran every verifier and wrote own oracle checks
+  of the clock, the gate, the C pulses and the tape ring (`research/audit/signals_*_lead_check.py`). **Review
+  started 10:28 UTC (Opus)** -> `research/audit/REVIEW-signals-2.md`, `research/audit/signals2/` (the two proofs
+  first). A third push (the tape as a shift register; wide pulses; a period 0 mod 4; a corner) waits for a usage
+  reading or for the first review to finish.
+  **State-space review in and recorded 10:48 UTC** (notebook "the state-space study reviewed"; SS1–SS3 regraded:
+  A on seventeen vessels, B for the cubes 8–15 and the entropy): counts stand; the ranges, "linear not
+  exponential", the share and the random-map yardstick corrected; **one layer of the chaos is within about 1% of
+  coin flips, the slab at least 2.7% short** (the number behind "coins will do"; written under the owner's
+  journal note and into the essay). The study's author is applying the review's seven README corrections.
+  **Overview editor started 10:31 UTC (Opus)**: plates for signals (live pulse, clock, gate, with a node check of
+  the page's stepper), the state-space answer, dying rounds 3–4, the five tori; the lead publishes after reading
+  it. **Third signals push started 10:50 UTC (Opus, since no usage reading has come since 06:15)**: a machine made
+  of parts (a periodic emitter, a clock driving a counter, a corner); the lead's forecasts S11–S15 are in
+  `research/signals/PREDICTIONS.md`. Essay updated (signals section, the five tori, the state-space answer).
+  **First signals review in and recorded 10:53 UTC** (notebook "the first signals push reviewed"; SG1–SG3 to A,
+  SG4 A/B; 164 claims: A 78, B 72, C 13, D 1): everything stands on a third code; the transmission has a capacity
+  (35 shots over 36 cubes, the 36th burns the wire); nine README corrections handed to the third investigator.
+  The state-space author applied its review's seven corrections (281cf02). Still running: the review of the second
+  signals push, the overview editor, the third signals push.
+  **Overview published 10:59 UTC (version 12)**: new plates "Signals" (a live pulse, the gate, the clock with a
+  slider for N; `docs/overview/check-signals.js` checks the page's stepper against the oracle) and "How much of
+  the room a seed sees" (the owner's question, with the coin-flip tile); "How a face dies" brought to rounds 3–4
+  with the withdrawn sentence shown; the five wrapped faces from the owner's card on "One price per cell?"; map
+  and "Open now" rewritten. The lead rebuilt it, ran both checks, loaded it headless (no script errors) and read
+  four of the new plates before publishing; two captions corrected.
+  **Second signals review in and recorded 11:26 UTC** (notebook "the second signals push reviewed"; SG5–SG7 to A,
+  SG8–SG10 to B with corrected wording; 164 claims: A 78, B 75, C 10, D 1): the clock's and the tape's proofs are
+  complete (clock on the oracle to N = 257); the register is a 16-position counter; **corrected: the isolating gap
+  is three layers (T3), not two; "born from soup" was nearly all one-unit rings; the fire's speed depends on
+  density.** Essay, owner's journal, OPEN-PROBLEMS corrected; the overview's Signals plate is being corrected by
+  its editor, then republished; six README corrections go to the third investigator.
+  **Overview version 13 published 11:30 UTC** with the Signals plate corrected (three empty layers; a repeated
+  random unit, not soup; "every time" with the speeds; a few in a hundred; the 16-position counter; both proofs
+  marked checked). The third investigator has applied both reviews' README corrections (6c32bfc and before).
+  Running: the third signals push (since 10:50 UTC), the manuscript editor (fifth update of `docs/paper/`).
+  **Manuscript draft brought up to date 11:44 UTC** (fifth update, commits 5daa37f … b1c807b: rounds 3–4 in §5.6,
+  a new §6.1 on the state space, §7.5 rewritten round the 0.2084 line and the kink, a new §8.1 on signals with
+  the clock and tape as Theorems 8 and 9; both number scripts pass). Its eleven items for the lead are applied
+  (notebook entry "corrections found by the fifth pass"; SG11 added, 165 claims): **the lead's conjecture about
+  the kink is withdrawn** (it used cube steps where round 3 had doubled units). Prior art for the signal objects
+  has not been searched (`docs/paper/GAPS.md` item 50).
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

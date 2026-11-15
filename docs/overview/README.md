@@ -6,6 +6,7 @@ paused. Published as a private artifact (the link is in `LEAD.md`); `index.html`
     python3 docs/overview/collect.py     # data/sources/*.json  ->  data/data.json
     python3 docs/overview/build.py       # src/ + data/data.json + gump-core.js  ->  index.html
     node docs/overview/check-core.js     # the page's stepper against reference/golden (sides 8, 9, 11)
+    node docs/overview/check-signals.js  # the live signal objects against the oracle (about a minute; needs python3 + numpy)
 
 - `gump-core.js` is the small JavaScript stepper behind the live run at the top and the ticking clocks. It is
   bit-exact against the three even-sized golden logs; `check-core.js` is the check.
@@ -162,3 +163,58 @@ is shown (no `r3_*` table, not `dying_ratefunction.png`); "Open now" only says i
   corrections owed before the merge of pull request 23, round 3 under review); the GTX 1080 tile; "1 of 13" and "the
   other twelve failed" (from the essay's sentence).
 - Screenshots: `research/scratch/overview/r16-*.png` (script `shoot-r16.js` there).
+
+## Refresh of 2026-11-15 (late morning)
+
+Added the plates "Signals" (`#signals`) and "How much of the room a seed sees" (`#statespace`), both in
+`src/plates-signals.html` through the `<!--SIGNALS-->` marker after the fauna plate in `plates.html`; brought "How a face
+dies" up to rounds 3 and 4 (a block at the end of `src/plates-dying.html`); added the five wrapped faces measured on the
+owner's GTX 1080 to "One price per cell?" (a figure row at the end of `#constant` in `src/plates-r15.html`, new headline;
+a pointer in the area-law plate's wide-face tile); map ("new" marks on signals, state space, the dying plate and the
+constant), "Open now", corrections, forecasts, audits, milestones. All drawn by `src/figures9.js`.
+
+- Quoted numbers: `data/sources/update-2026-11-15d.json`, checked by `collect.py` as before. Sources: NB "gump carries
+  signals", "the first signals push reviewed", "a clock of every length…" (SG1–SG10); "how much of its state space a
+  seed explores" and "the state-space study reviewed" (SS1–SS3; the reviewed wording replaces the first entry's
+  ranges, share and random-map yardstick, which are not shown); "what the dips say…", "a depleted face thins…", "round 4
+  reviewed" (DY8–DY15); "five wrapped faces on one driver", "the five tori, reviewed", "the 93-cell torus…" (GL1, GL3).
+  A `file` quote may now come from a block-quoted file: `checked()` drops `> ` at line starts (the owner's journal).
+- Read straight from the repository by `collect.py`, with asserts against the quotes: `research/signals/objects/`
+  (pulse-C, clock-C, gate-C; copied into `data.json`), `research/statespace/data/` (`vessels.jsonl`: per vessel the
+  most patient seed's states, the mean seed's and the states with a predecessor, as log2; `large_facelaw.csv` measured
+  rows; `large_cubes.csv`; `entropy.json`), `research/dying/data/r4_company.csv` (caught and randomly thinned faces,
+  rows with at least 200 faces) and the review's finite-face null `research/audit/dying4/null_r1{1,3,5}.txt` (parsed as
+  `research/dying/round4_figure.py` parses it; the bars span p_t 0.45–0.8).
+- Live on the page: a pulse of wire C (ring of 20 units, 12 below 520 px), the clock (slider N = 1–12; the page finds
+  the period by comparing whole states and prints whether it is 4N + 2), the gate (separations 10 and 11, ring of 24,
+  a window of units 2–18 below 520 px; the survivor's direction is read from how its cells move). The layouts are in
+  `signals-core.js` (inlined after `gump-core.js`), written to mirror `research/audit/signals_lead_check.py`,
+  `signals_clock_lead_check.py` and `signals_gate_lead_check.py`. Only even generations are drawn (the wire's phase);
+  cells off the bare wire are orange.
+- `check-signals.js` checks exactly what the page uses: pulses B, B-left, C, C-left on rings of 40, 20 and 12 (bare
+  wire period 2; the start moved j units after 2j generations, j = 1..60; exactly the defect's cells off the wire); the
+  clock for N = 1..12, 16, 17 (unlit period 2; lit cycle of exactly 4N + 2 by whole-state comparison; entry generations
+  0, 0, 1, 2, …; compared by hand once with the lead's script at N = 1, 3, 4, 7: equal); the gate on rings of 48 and 24 at separations 6–21 (the
+  survivor's run equals the single-pulse run, left at even, right at odd); and, through `python3` and
+  `reference/oracle.py`, per-generation hashes of the whole state equal to the page's stepper for a pulse, the clock at
+  N = 3 and 4, and the gate at 10 and 11. It also checks that `data.json`'s copies equal the object files.
+- Computed on the page, not quoted: the clock's period; the gate's reading; "about 1 in 12" (400 / 33); the state-space
+  points (log2 of the study's counts); each wrapped face's and each old forecast's distance from the line
+  0.033 + 0.2084·A (the quoted deficits 0.111 and 0.036 are checked against it on the page).
+- Typed, not drawn from data: "Open now" (from `research/STATUS.md` as of about 10:50 UTC: the second signals review
+  running, a third push started, the card running 81, 84, 108, 111 cells then the 108-cell rimmed face); the map
+  labels; "deaths three or four times too rare" and "one nat is a factor e" on the dying plate (the essay); "the GTX
+  1080 in your house".
+- Not shown: the transmission as a drawing (a tile only); the register, tape, rake and wide pulses as drawings; the
+  round-3 dip curves (`r3_*.csv`) and the round-4 void and profile panels; the state-space study's image-after-t panel;
+  the first state-space entry's "8–14 / 40–94", "linear, not exponential", "less than chance" and share against a face
+  (all corrected by the review).
+- Screenshots: `research/scratch/overview/r17-*.png` (script `shoot-r17.js` there: `node shoot-r17.js ids modes`).
+
+- Correction pass after the second signals review (NB "the second signals push reviewed…", SG5–SG10 regraded): new items in
+  `update-2026-11-15d.json` (`clock_proof`, `clock_review`, `tape`, `counter`, `soup2`, `soup_read`, `chaos2`, `speed`, `gap`,
+  `escape2`), two corrections, an audit and a milestone; the old "under review" quote of SG8 is dropped.
+- Signals tiles now say: three empty layers isolate order (T3; two only for the tested capped end); a random unit repeated makes
+  a carrier about once in a few hundred, soup proper never yet; destroyed every time over about 2,300 sides, one exception;
+  escapes 5 of 200 (reviewer) and 15 of 200 (first agent); the counter has sixteen positions. Header chips and "Open now" say
+  both reviews are done; the clock's and the tape's proofs are "checked". Screenshots: `research/scratch/overview/r18-*.png`.

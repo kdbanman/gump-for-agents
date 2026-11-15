@@ -165,7 +165,7 @@ def oracle_check(v, nstates=20, gens=30, seed=0):
     rng = np.random.default_rng(seed)
     bad = 0
     for trial in range(nstates):
-        s = int(rng.integers(0, 1 << v.n)) if trial else (1 << v.n) - 1
+        s = int("".join(map(str, rng.integers(0, 2, v.n))), 2) if trial else (1 << v.n) - 1
         h = np.zeros((H, H, H), np.int8)
         for i, pl in enumerate(place):
             if (s >> i) & 1:

@@ -336,3 +336,71 @@ their sources (0.9992 → "99.92% of the time"; neighbour 0.89 → 0.893).
 Not checked: any run other than `followup.py`; the reviews' own code; the 0.414–0.426 range has no passage in the
 script (arithmetic above); that each number is attached to the right quantity beyond one reading of each passage
 against its row and entry; the overview (`docs/overview/`), which another editor is changing.
+
+## Update of 2026-11-15 (fifth): dying rounds 3 and 4, the wrapped faces on the second card, signals, the state space
+
+By a subagent, base a8e925a. Sources: `research/CLAIMS.md` rows DY5 (revised), DY8–DY15, GL1–GL3, SG1–SG10, SS1–SS3
+and the dated notes in SH3, SH4, CN1 (164 claims: A 78, B 75, C 10, D 1, `python3 research/audit/claims_tally.py`,
+run for this pass); notebook entries of 2026-11-15 "what the dips say about the price of a cell", "a depleted face
+thins as one thing", "round 4 reviewed", "the 93-cell torus lands below every reading", "five wrapped faces on one
+driver", "the five tori, reviewed", "gump carries signals", "the first signals push reviewed", "a clock of every
+length …", "the second signals push reviewed", "how much of its state space a seed explores", "the state-space study
+reviewed"; `research/signals/README.md` (§§4, 8–14), `research/audit/REVIEW-signals.md` and `REVIEW-signals-2.md`
+(verdict tables, §1), `research/constant/PREDICTIONS.md` part C with its dated blocks, `research/signals/PREDICTIONS.md`
+(scores), `research/OPEN-PROBLEMS.md` 12–13. Draft 24,974 → 32,313 words (`wc -w`).
+
+**Changed.** Header. Abstract: the "0.207 to 0.219" sentence replaced by the wrapped-face line (0.2084 from 63 cells,
+a kink near 61, hull slopes 0.2119–0.2181 moving away, one price or two open); one sentence on signals (pulses,
+transmission to a counter, inhibition element measured; the clock and the tape proved). §1: one sentence each; the
+proved and measured lists. §5.5 (S8): "c is only known to 0.207–0.219" replaced. §5.6: intro grades; DY5 tail
+(0.51–0.48 over 3–12 cells, 0.34 by 17–20); **round 3** (DY8–DY11) and **round 4** (DY13–DY15) added, with "no remnant
+at fixed density" withdrawn after the review's null, the construction's overshoot 1.07, 1.21, 1.34 nats, what a
+caught face is and is not, forecasts and not-checked. Table 5: row 18 points to row 24; rows 22–27 (dying rounds 3
+and 4; part C; N1–N4; S1–S10; E1–E7); caption's sources and not-searched list. **§6.1 new** (SS1–SS3; the deficit
+against coin flips and its bearing on §6). §7.1: pointer to 0.2084. §7.3: Table 8 caption, the 16-generation stamping
+(GL3) in place of "a tie-resolution bias of about −0.018"; SH4 gap 0.0135 ± 0.0020. **§7.5 rewritten** after the CN1
+paragraphs: CN1 dated; Table 8a (five tori, second codes, grades; 93 cells *preliminary*, C); the line and the kink
+(GL3, B); against the hull family; part C scored; the old "two measurements proposed" paragraph removed (the tori
+are made; the A = 108 hull run is still not). §8: Z10's "no object carries a signal" scoped to the censuses. **§8.1
+new**, Signals (SG1–SG10; Theorems 8 and 9 with outlines and where the full proofs are; the two README §4 remarks
+marked "no ledger row"; the reviews' corrections: the receiver's capacity d − 1, three layers not two, one random unit
+repeated not soup, fire speed depends on density; absent inside bounds; open). §10.1: Theorems 8, 9, the remarks,
+SS1's seventeen vessels; the ignition as not proved. §10.3: item 2 rewritten (one price or two), item 7 (open
+problem 12 answered; the new open items), items 9 and 10 new. §11: two table rows (signals, state space: **not
+searched**); ranking item 1; a paragraph saying why signals and state space are not ranked. §12: the second card
+(five tori; the 5 × 5 repeat of a GP9 value), the oracle-judged verifiers and the enumerator, the census's stamping
+bias (GL3), the guard used once (93 cells), the counts 164 / 78 / 75 / 10 / 1, the reviews named, "not repeated".
+Appendix: GL3 (93 cells) and SS2 (side 16) as C parts; the new rows all used. `GAPS.md`: 42, 46, 48 annotated; 50–55
+added. `FOR-LEAD.md`: fifth section, 11 items.
+
+**Checked against files, not only notebook prose.**
+- Part C of `research/constant/PREDICTIONS.md`: the three readings' constants (flat 0.21214, massive 0.2069 ± 0.0023,
+  rising c_h 0.2226, 0.2317), the A = 93 forecasts and refutation lines (19.479 ± 0.010 below 19.445; 19.506–19.530
+  below 19.488; 19.437 ± 0.019), the shortest loops of Table 8a (4.00, 4.36, 4.58, 5.00, 5.57) and which tori have
+  no cut; the dated scoring blocks ("no reading of part C survives"; N1, N4 failed, N2 held, N3 open).
+- Side 16's state count against `research/data/cube16_summary.json`: cycle_start 2,919,617,675, period 1,
+  detected 2,919,617,676, so 2,919,617,676 states; consistent with SS2 and Table 1.
+- `research/signals/README.md` §11 for the proof outline (B1–B5, m = 4, base 8, bases 12 and 20, j ≤ 40 enumerated,
+  j ≤ 6 stepped), §10 for the tape argument and the gate's logic table, §4 for the two remarks;
+  `REVIEW-signals-2.md` §1 for the light cone and what the review re-derived; `REVIEW-signals.md` verdict table for
+  the remarks (corollary 1 incomplete as first written; corollary 2 valid; pulse S's O1 count 2 or 9).
+- The ledger's SG row "where" cells against the README's headings (FOR-LEAD item 7).
+- The 15.6614 "on file" against GP9 and the notebook's 2026-11-14 shape entry: a GPU value (FOR-LEAD item 4).
+- Counts: `claims_tally.py` output as above.
+
+**Number check.** `docs/paper/check_numbers.py` covers 70 more passages (base a8e925a) under twelve new notebook keys
+(each keyed by date and heading, so that a mention of a heading inside another entry is not matched); three
+passages removed with their text (the old §7.5 equilateral note, the old "second card" and "142 claims" sentences);
+three earlier passages given the new sources their text now needs (the abstract's shape sentence, §5.5 S8, §12
+census errors). Result: 1,538 numbers, 1,469 in the cited sources, 69 only in an earlier draft, 0 unsourced.
+Negative control on a copy (Table 8a 13.1622 → 13.1623; SS3 0.9585 → 0.9586; SG8 12,780 → 12,781; DY14 1.21 → 1.22):
+the first three UNSOURCED; the fourth passes as "in the earlier draft only", because 1.22 occurs in the earlier
+draft (Table 5 row 20, "1.06–1.22"). That fallback is a known weakness of the script: a changed number that happens
+to occur anywhere in the earlier draft is not caught. `check_face_area.py` run: every A as before.
+
+Not confirmed against the record: the round-3 tally "three of eighteen" (it requires L1 not to be counted; FOR-LEAD
+item 11); the lead's conjecture about the kink with the remnant's width (FOR-LEAD item 5; stated without the number);
+that the five tori used soup 0.4 and 8 layers is taken from part C's protocol and GL1/GL3, not from the card's rows
+(not fetched: the branch is not merged and was not read); nothing was run but the two scripts, the tally and a JSON
+read; the reviews' and the study's code were not run; the overview (`docs/overview/`), which another agent is
+changing, was not looked at. The third signals push, running, is not described anywhere in the draft.

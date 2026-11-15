@@ -1,7 +1,7 @@
-<!-- Added 2026-11-15 (third refresh). NB "how a face dies (the first look, reviewed)" and "a death is a dip that keeps going"
+<!-- Added 2026-11-15 (third refresh); rounds 3 and 4 added in the late-morning refresh (see the block at the end). NB "how a face dies (the first look, reviewed)" and "a death is a dip that keeps going"
      (CLAIMS DY1-DY7); numbers from data/sources/update-2026-11-15c.json, tables from research/dying/data/ (read by collect.py),
      the eight deaths from data/sources/deaths.json (record_deaths.py: the study's stepper, fresh seeds, checked against the
-     oracle). Drawn by src/figures8.js. Round 3 of the study is under review and is not shown. -->
+     oracle). Drawn by src/figures8.js. -->
 <section class="plate" id="dying">
   <div class="plate-h">
     <div class="row"><p class="eyebrow">How a face dies, watched <b>· new</b></p><span class="st st-meas">measured, two independent codes</span><span class="st st-meas">eight real deaths, replayed</span><span class="st st-ret">the lead’s forecasts: <span id="n-dy-fc"></span></span></div>
@@ -49,4 +49,30 @@
     </figure>
   </div>
   <div class="nums" id="n-dy-b"></div>
+  <!-- rounds 3 and 4 (added 2026-11-15, late morning): NB "what the dips say about the price of a cell", "a depleted face thins as
+       one thing" and "round 4 reviewed" (CLAIMS DY8-DY15); the company table is research/dying/data/r4_company.csv, the finite-face
+       null research/audit/dying4/null_r1{1,3,5}.txt (read by collect.py). Drawn by src/figures9.js. -->
+  <div class="row" style="margin-top:22px"><p class="eyebrow">Rounds 3 and 4: across sizes, and a face caught nearly empty <b>· new</b></p><span class="st st-meas">numbers: two codes</span><span class="st st-ret">“no remnant”: withdrawn</span><span class="st st-ret">the lead’s two-phase idea: fails on its number</span></div>
+  <div class="nums" id="n-dy-r3"></div>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>Company around a survivor, as a face thins</h3>
+      <div id="f-dy-comp"></div>
+      <div class="keys"><span class="key"><span class="sw line" style="background:var(--ember)"></span>faces caught on their way down</span><span class="key"><span class="sw line" style="background:var(--ink-3)"></span>healthy faces thinned at random to the same count</span><span class="key"><span class="sw" style="background:var(--s-mute);opacity:.6"></span>a compact patch at fixed density, nothing outside (the reviewer’s test)</span></div>
+      <figcaption>“Company”: how full the cells within two steps of a live cell are, against a healthy face. Caught faces keep far more company than random thinning, so they huddle. The lead read the steady fall as “no dense core”. The reviewer built a dense core with nothing round it and it falls the same way (grey bars): with four to eight cells left, a patch is no bigger than the neighbourhood being counted. On faces this small the test cannot tell.</figcaption>
+    </figure>
+    <figure class="fig c5 panel">
+      <h3>The two-phase idea, by its number</h3>
+      <div id="f-dy-over"></div>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--ember)"></span>a dense remnant beside a void, built from the dips</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--ink-3)"></span>a straight tail alone</span></div>
+      <figcaption>How far each construction puts the cost of a whole death above what the lifetimes say, in nats (one nat is a factor e ≈ 2.7 in the wait). The picture of a remnant and a void gives deaths three or four times too rare at every size.</figcaption>
+    </figure>
+  </div>
+  <div class="figs">
+    <div class="fig c7">
+      <div class="was"><span class="lab">What the lead wrote after round 4</span><p>A depleted face thins as one thing; there is no remnant.</p></div>
+      <div class="was now"><span class="lab">What stands after the review</span><p id="p-dy-stands"></p></div>
+    </div>
+    <div class="fig c5"><div class="nums" id="n-dy-r4" style="grid-template-columns:1fr"></div></div>
+  </div>
 </section>

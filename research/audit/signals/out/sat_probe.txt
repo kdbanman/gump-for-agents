@@ -1,9 +1,9 @@
-G  tube 2x2 N=7: 42 cells (6 per cube); same cells True; same neighbours True; ring positions agree up to a shift: False
-G  tube 2x2 N=13: 78 cells (6 per cube); same cells True; same neighbours True; ring positions agree up to a shift: False
-G  tube 2x3 N=7: 63 cells (9 per cube); same cells True; same neighbours True; ring positions agree up to a shift: False
-G  tube 2x3 N=13: 117 cells (9 per cube); same cells True; same neighbours True; ring positions agree up to a shift: False
-G  tube 3x3 N=7: 98 cells (14 per cube); same cells True; same neighbours True; ring positions agree up to a shift: False
-G  tube 3x3 N=13: 182 cells (14 per cube); same cells True; same neighbours True; ring positions agree up to a shift: False
+G  tube 2x2 N=7: 42 cells (6 per cube); same cells True; same neighbours True; encoding units: 6 cells each True, neighbour range 1 unit(s)
+G  tube 2x2 N=13: 78 cells (6 per cube); same cells True; same neighbours True; encoding units: 6 cells each True, neighbour range 1 unit(s)
+G  tube 2x3 N=7: 63 cells (9 per cube); same cells True; same neighbours True; encoding units: 9 cells each True, neighbour range 1 unit(s)
+G  tube 2x3 N=13: 117 cells (9 per cube); same cells True; same neighbours True; encoding units: 9 cells each True, neighbour range 1 unit(s)
+G  tube 3x3 N=7: 98 cells (14 per cube); same cells True; same neighbours True; encoding units: 14 cells each True, neighbour range 1 unit(s)
+G  tube 3x3 N=13: 182 cells (14 per cube); same cells True; same neighbours True; encoding units: 14 cells each True, neighbour range 1 unit(s)
 R  one cell with 12 in-tube neighbours: 8192 assignments, wrong successor admitted or right one refused: 0
 R  one cell with 9 in-tube neighbours: 1024 assignments, wrong successor admitted or right one refused: 0
 R  one cell with 5 in-tube neighbours: 64 assignments, wrong successor admitted or right one refused: 0

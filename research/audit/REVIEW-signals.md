@@ -8,7 +8,7 @@ imports nothing from `research/signals/` except where it probes the encoding the
 The judge is `reference/oracle.py` (`oracle.step`, which works on any even box; masks built with the same definition
 as `oracle.masks` and checked equal to it). Where I used my own sparse stepper (`lat.sstep`, `lat.sstep_ring`) it is
 checked against the oracle (`lat.selftest`, and cell for cell on a W00 front for 300 generations). Commands run from
-`research/audit/signals/`; bulk output goes to `research/scratch/audit_signals/`. One core, `nice -n 10`.
+`research/audit/signals/`; small outputs are copied in `research/audit/signals/out/`; bulk output goes to `research/scratch/audit_signals/`. One core, `nice -n 10`.
 
 ## Verdict
 
@@ -20,8 +20,8 @@ checked against the oracle (`lat.selftest`, and cell for cell on a W00 front for
 | L2 "the line is used again and again" | **overstated** | the line carries exactly d − 1 shots for a receiver d cubes away, then the sender destroys it |
 | L3 pass / stop by parity of separation | **stands; parity is the whole rule** for head-on pairs | every separation 2–44 on rings of 64 and 65: odd pass exactly, even stop with the 3-cell mark, no exception. On an odd ring a passing pair stops at its second meeting. Same-direction pairs at every spacing 1–12 run as rigid trains. Mark + a third pulse → 5-cell standing defect (oracle) |
 | Emitter; census of wire B's 84 flips | **stands exactly** | own census: 74 heal, 2 standing (1 and 2 cells), 1 pulse right ((0,1,2) at even gen), 1 pulse left ((0,1,4) at even gen), 6 fronts |
-| Bounds table, 2×2 "none" rows | **6 of 12 rows confirmed by an independent method, for every width** | transfer-graph search (no SAT): (1,1), (2,1), (3,1), (3,2), (4,1), (4,3): no pulse of any width on any uniform background; see §4 for the rest |
-| Bounds table, 2×3 and 3×3 "none" rows | **rest on the encoding** | the encoding passes every test I gave it (geometry, rule clauses, known instances); see §4 |
+| Bounds table, 2×2 and 2×3 "none" rows | **stand, and hold for every width** | an independent transfer-graph search (no SAT, no shared code) agrees on all 12 rows of 2×2 and all 9 "none" rows of 2×3, with no width bound; 2×3 (6,1) stays undecided by both |
+| Bounds table, 3×3 "none" rows | **rest on the encoding** | the encoding passes every test I gave it (geometry, rule clauses, known instances); my method did not finish on 3×3 |
 | "Fronts in 17 of 21 wires" | **true but counts duplicates** | the 21 wires are 18 up to symmetry and phase (W17 = W20 = W26, W18 = W30): fronts in 14 of 18. Spot-checks of W00, W05, W18 agree with the README's speeds, (p, s) and ash periods |
 | Corollary 1 (a wire cannot grow at its end) | **true; the argument as written is incomplete** | one half-space does not stop growth along −v; the fix (−v is a positive combination of the diagonals d with d·v < 0) is in §6 |
 | Corollary 2 (a pulse carries its drive) | **valid** (T5 on the ring + shift symmetry + locality); one wording error | O1 events: bare wires 0; pulse B 1, A 2, S 2 or 9 per generation. Pulse B's O1 cell is **dead** at t, not "a live cell" |
@@ -76,7 +76,7 @@ generation 4; signalled, control and bare runs side by side.
   received; g = 3 also works; g = 2: only one reception; odd g ≥ 5: only one (a flip at an odd generation heals);
   g = 1: the wire burns. So A can send a pulse every 4 generations.
 
-**L3.** `nice -n 10 python3 l3_interaction.py` (tens of minutes; `l3.txt`; the "mark" lines of that file come from an earlier placement, the d = 22, 24 runs below are the current script). Pulses from `pulse-B.json` and
+**L3.** `nice -n 10 python3 l3_interaction.py` (tens of minutes; `out/l3.txt`). Pulses from `pulse-B.json` and
 `pulse-B-left.json`; d = (first cube of the left pulse) − (first cube of the right pulse) at generation 0.
 
 - Head-on, d = 2 … 44 on rings of 64 and 65: **odd d: pass** (state exactly bare XOR both pulses where they would be
@@ -135,12 +135,25 @@ the background node can be reached (or reachable from it) decides the question *
 is finite. Positive controls: 2×3 (2,1) finds pulses on 8 background columns (all re-stepped by the oracle); 3×3
 (2,1) restricted to wire B's background finds a pulse (re-stepped).
 
-RESULTS_PLACEHOLDER
+Results (`TUBES="22 23" ./run_transfer.sh`, then `grep RESULT research/scratch/audit_signals/transfer_2?.txt`;
+copies in `research/audit/signals/out/transfer_2?.txt`; limits 300,000 windows and 200,000 successors per window):
 
-**Which "none" rows I stand behind.** 2×2: (1,1), (2,1), (3,1), (3,2), (4,1), (4,3) — no pulse of any width on any
-uniform background (two methods that share nothing). STAND_MORE_PLACEHOLDER
-All 2×3 and 3×3 "none" rows rest on the encoding alone (two solvers agree, the encoding passes every test above, but
-no second method). The two narrow rows (5,4), (6,5) say little at any rate.
+| tube | (p, s) decided "no pulse on any uniform background, any width" | pulse found (re-stepped) | not decided |
+|---|---|---|---|
+| 2×2 (6 or 28 backgrounds) | **all 12 rows**: (1,1), (2,1), (3,1), (3,2), (4,1), (4,3), (5,1), (5,2), (5,3), (5,4), (6,1), (6,5) (each ≤ 1 s) | — | — |
+| 2×3 (15 to 115 backgrounds) | (1,1), (3,1), (3,2), (4,1) (725 s), (4,3), (5,1), (5,2), (5,3), (5,4), (6,5) | (2,1): 8 background columns, all re-stepped | (6,1): no answer in 900 s (the SAT run also timed out) |
+| 3×3 (693 backgrounds for p = 2) | — (not run in full) | (2,1) on wire B's background (157 s, re-stepped) | the full (2,1) run did not finish in 20 min; pulse S's background alone did not finish in 30 min |
+
+Every row where both methods answered agrees with `bounds_table.txt`, and for 2×2 and 2×3 the independent answer is
+stronger than the table's (no width bound).
+
+**Which "none" rows I stand behind.** All twelve 2×2 rows, and the 2×3 rows (1,1), (3,1),
+(3,2), (4,1), (4,3), (5,1), (5,2), (5,3), (5,4): two methods that share nothing agree, and mine has no width bound,
+so these hold for pulses of any width on any uniform background (repeat one cube) — subject to my own code being
+right, which is checked by its agreement with the oracle on random tube states and by finding the known pulses. I add
+2×3 (6,5) (not in the table; mine says none). The 3×3 "none" rows rest on the encoding alone (two solvers agree, the
+encoding passes every test above; no second method finished). In the table's own terms the rows (5,4) and (6,5)
+(widths 3 and 1) say little; in mine they are as strong as the others.
 
 ## 5. The wires on file
 
@@ -214,9 +227,9 @@ pulse's neighbourhood (A and B run on rings of 3 cubes, S on 9).
 7. L3: add that parity is the whole rule for head-on pairs (d = 2..44 checked), that on an odd ring a passing pair
    stops at its second meeting, and that same-direction trains of any spacing are rigid.
 8. The mark's later behaviour (5-cell standing defect) now holds under the oracle; upgrade from "sg.Geom only".
-9. §6 table: "[proved within the bounds, two solvers]" → "rests on the encoding; two solvers agree"; mark the 2×2 rows
-   confirmed for every width by the independent transfer-graph search; say that (5,4) and (6,5) bound the defect to
-   3 and 1 cubes; state the width once, in one convention.
+9. §6 table: the 2×2 rows and the 2×3 "none" rows can be upgraded to "no pulse of any width" (independent
+   transfer-graph search, `research/audit/signals/transfer.py`); the 3×3 rows should say "rests on the encoding; two
+   solvers agree"; state the width once, in one convention ((5,4), (6,5) bound the defect to 3 and 1 cubes).
 10. The emitter's rate: A can be fired every 4 generations (§2); flips at odd generations heal.
 
 ### Not checked
@@ -227,7 +240,9 @@ pulse's neighbourhood (A and B run on rings of 3 cubes, S on 9).
   `survey.py`, wire A's collisions and its 88 flips.
 - `bounds_table.txt` rows other than those named in §4; UNSAT answers are not certified by a proof checker in either
   method (my transfer-graph closures are exhaustive enumerations, not certificates).
-- The 3×3 transfer search over all 693 backgrounds of period dividing 2 did not finish in 20 minutes (only wire B's
-  background was run to the end).
+- The 3×3 transfer search over all 693 backgrounds of period dividing 2 did not finish in 20 minutes, nor pulse S's
+  background alone in 30 (only wire B's background was run to the end); 2×3 (6,1) undecided; the 3×3 still-wire claim
+  ("no pulse with defect-plus-sweep ≤ 6 on a still background") rests on the encoding (my SAT probe reproduces
+  UNSAT at N = 11 with the encoding itself, which is not independent).
 - Whether a pulse exists on a background of repeat ≥ 2 cubes, in other directions, or in wider tubes (as in the
   README's own list).

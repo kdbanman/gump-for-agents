@@ -52,11 +52,36 @@ What speaks to it (the lead, same day):
 - **Later the same day (10:20 UTC): the count is in** (`research/statespace/README.md`; notebook entry "how much of
   its state space a seed explores"; CLAIMS SS1–SS3; a review is running). Your side-16 cube visited exactly
   2,919,617,676 states, about 2^31.4, of the 2^51,888 its hull allows. Where every state can be listed (301 vessels
-  of up to 30 cells, about a billion states each at the top) a typical seed visits 8 to 14 states and the most
-  patient seed of all 40 to 94; most states (57–98%) cannot be reached from any other. The pattern that carries
-  upward is the lifetime law read in bits: a random seed visits about 2^(0.30·A) states for a face of A cells,
-  while a living face is nearly random and could be in close to 2^A. So the share visited falls as about
-  2^(−0.69·A) while the count visited rises as 2^(0.30·A). Symmetric seeds see less (0.15–0.29 bits per cell of
-  their effective face). And you were right that the random seeds are the long-lived family: in no vessel of 19 or
+  of up to 30 cells, about a billion states each at the top) a typical seed visits 4 to 14 states and the most
+  patient seed of all 15 to 94 (the ranges over the 34 vessels of 27–30 cells, as corrected by the review); most
+  states (57–98%) cannot be reached from any other. The pattern that carries upward is the lifetime law read in
+  bits: a random seed visits about 2^(0.30·A) states for a face of A cells, a count that rises exponentially,
+  while its share of the hull's states, or even of one layer's, falls exponentially. Symmetric seeds see less
+  (0.15–0.29 bits per cell of their effective face). And you were right that the random seeds are the long-lived family: in no vessel of 19 or
   more cells is the longest-lived seed symmetric.
+- **Later still (10:30 UTC): what chaos does to a wire, and a clock** (notebook entry "a clock of every length";
+  CLAIMS SG5–SG10; a review is running). This is the experiment your second thought asked for. Run a wire through
+  a block of living chaos and the wire is destroyed, every time in 800 trials, by a fire that travels at the speed
+  of a pulse. Leave two empty layers between them and nothing ever crosses. So the isolation has a hard edge: the
+  chaos does not carry a message and does not leave one alone either; order survives only where the chaos cannot
+  reach. One thing does get out: on about one side in twelve a clean pulse runs down the wire ahead of the fire.
+  The same push built a clock (a wire between two caps, period 4N + 2 for N units of wire, checked by me on the
+  reference stepper at six lengths), a gate where two pulses meet and one survives, and a counter that pulses
+  push up from one side and down from the other.
+- **The two thoughts meet (10:48 UTC; notebook entry "the state-space study reviewed"; CLAIMS SS3).** To say what
+  a seed's share is a share *of*, the study measured how random a living face is, and a reviewer repeated it with
+  a sampler and an estimator of their own. One layer of the chaos, seen alone, is within about 1% of coin flips of
+  the same density (at least 0.006–0.013 bits per cell short of them). The layers taken together are at least
+  2.7% short, and most of that is in how one layer sits on the next. So the chaos has very little structure for
+  anything to depend on, which is the quantitative face of "it didn't care whether it was the rule underneath or
+  noise". Life's debris is the opposite: sparse, ordered, far from noise. (One-sided: the measurement bounds the
+  structure from below; there could be more at ranges the estimator does not reach.)
+- **A correction to the entry of 10:30 above (11:26 UTC; notebook entry "the second signals push reviewed").** Two
+  things in it were too strong. The gap that keeps order safe from chaos is three empty layers, not two (that is
+  the theorem T3 we already had; two layers protect only the capped end the first agent happened to test, and a
+  wire running past chaos two layers off is hit at once). And the fire runs at the speed of a pulse only in dense
+  chaos; in thin chaos it is often half that. What stands: contact destroys the wire (about 2,300 trials by two
+  agents, one exception), the clock (its proof was rebuilt by the reviewer and the clock run at 257 units), the
+  gate, and the counter, which holds sixteen positions. The clean pulse that escapes ahead of the fire is rarer
+  than I said: a few times in a hundred.
 

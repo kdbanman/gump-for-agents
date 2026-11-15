@@ -122,3 +122,98 @@ directions and passes a pulse from one arm to the other.
   free-standing object holds a circulating pulse).
 - **J10 (60%).** If a reflector is found, the reflected pulse comes back with a delay that depends on the parity of
   the pulse's arrival time or position (as the head-on meeting does), so that only one parity of length oscillates.
+
+### Scored, 2026-11-15 10:35 UTC (second push; evidence in `README.md` sections 8 to 13)
+
+The lead's:
+
+- **S6 (45%): held, with the object not the one named.** A free-standing object whose period is set by its length
+  exists and is on the oracle: the clock, period 4N + 2, proved for every N (`prove_clock.py`). What goes back and
+  forth in it is a rake (one added cell that travels and emits pulses), not a pulse. A plain pulse comes back from
+  an end of wire C only once, the cap being changed by it; no corner was found or searched for.
+- **S7 (25%): held to the letter, not in the sense a circuit needs.** Two pulses of wire C meeting head-on: exactly
+  one goes on, which one by parity, so the pulse leaving on one line is (R and not L). The outputs leave along the
+  input lines; there is no third line, no crossing.
+- **S8 (35%): failed.** No standing defect with two states that a pulse flips: not among 4,192 caps of wire B
+  (complete inside the bounds), nor the family's walls. What exists is a register moved one way by pulses from
+  one side and back by pulses from the other.
+- **S9 (30%): held.** Wires B and C, and a third carrier, are born from soup: 279 of 100,000 soups.
+- **S10 (60%): held.** Where chaos touches a wire the wire is destroyed, in every one of 800 sides and 80 capped
+  ends tried, at pulse speed. One qualification: in wire C a clean pulse does leave the chaos ahead of the fire on
+  about one side in 12. The direction wire-to-chaos was not tested: nothing survives to send or to read.
+
+Mine:
+
+- **J1 (85%): held.** 4,192 caps of wire B inside the planes up to C = 33.
+- **J2 (35%): failed as written.** No cap or wall sends pulse after pulse back; reflections of a pulse are one-shot.
+  The thing that is reflected for ever is the rake.
+- **J3 (30%): held**, and for every length, with a proof.
+- **J4 (12%): not found, not searched.**
+- **J5 (30%): failed.** And the constraint search for the pair of states was not run; the census of caps was.
+- **J6 (15%): held in the sense of S7** (a collision gate; and the rake as a source of pulses, which is not a
+  duplicator of an incoming pulse).
+- **J7 (40%; 50% for wire B itself): held, both.**
+- **J8 (65%; 40% for a clean pulse B leaving the chaos): the first held** (wire B burned on 400 of 400 sides);
+  **the second failed for wire B** (0 of 400) and would have held for wire C (33 of 400).
+- **J9 (15%): failed.** Negatives are exhaustive only inside bounds; nothing general was proved against reflectors.
+  (The exact isolation of section 13 is T3, which was already on file.)
+- **J10 (60%): failed.** Every length oscillates. Parity shows elsewhere: every period is 2 mod 4, and which of two
+  meeting objects survives is a matter of parity.
+
+What I got wrong in kind: I expected the pieces of machinery to be a pulse and a cap that handles it. The pieces
+turned out to be a rake (one cell that travels and keeps emitting) and a tape (wires B and C are two letters, and
+every word in them travels). Both were sitting in data I already had; I saw the rake only when a cap sent one back,
+and the tape only when a control run without chaos cut a wire. And the two pulses that reach outside the tube were
+found by the chaos, not by me: the closed 3 x 3 tube was too tight a place to search.
+
+## The lead's own scores for S6–S10 (2026-11-15 10:30 UTC, after re-running the verifiers and his own oracle checks)
+
+S6 half held: the free-standing object whose period is set by its length exists at every length, but what comes
+back from a cap is a rake, not a pulse (reflections of a pulse are one-shot), and no corner was found or sought.
+S7 held to the letter: in the collision gate the surviving pulse depends on both inputs; it is not a circuit
+element with an output line of its own. S8 failed. S9 held. S10 held: every contact between a wire and living
+chaos ended the wire; the qualification that chaos sometimes sends a clean pulse down wire C ahead of the fire
+does not touch the forecast, which was about a pulse passing through. Over both pushes: S1 failed, S2 held, S3
+held with a caveat, S4 and S5 untested, S6 half, S7 held, S8 failed, S9 held, S10 held.
+
+## The lead's forecasts for the third push (2026-11-15 10:49 UTC, before it starts)
+
+The aim of the third push is a machine made of parts: the literal form of open problem 13, one object passing a
+signal to another again and again.
+
+- **S11 (40%).** A periodic emitter is found: a bounded object in empty space on the end of a long wire that sends
+  a pulse down the wire once per period, indefinitely, and returns to its own state each time.
+- **S12 (30%).** With it, a clock drives a counter: a compound object in which a register's wall moves one unit
+  per period of the emitter for at least ten periods, judged by the oracle.
+- **S13 (15%).** A corner is found: a pulse passes from a wire along one face diagonal to a wire along another.
+- **S14 (35%).** A free-standing oscillator of the clock family with period divisible by 4 is found (caps that
+  turn the rake with a different delay).
+- **S15 (50%).** No reusable reflector for a pulse is found in this push either, in any tube up to one size larger
+  than the 3 × 3 tube.
+
+## The third investigator, 2026-11-15 (after reading the README, the forecasts, the objects and the tools; before any code of mine has run)
+
+A thought that shapes these: by the tape theorem, wire C with left-going pulses on it is a word over {B, C} moving
+rigidly towards −v. So at the +v end of such a tape, the cap is a *writer*: everything to its left is the word it
+has output, one letter per 2 generations. A uniform cap writes CCCC…; a gun is exactly a cap of period T whose
+output word has period T/2 and is not constant. That turns the gun into a bounded constraint search with T/2 letter
+variables in place of a whole semi-infinite wire.
+
+- **K1 (45%).** A periodic emitter (S11) is found and passes the oracle: a bounded object at the end of a wire that
+  writes a non-constant periodic word, returning to itself each period. 60% of that chance on its being found by a
+  writer-cap search rather than built from the clock.
+- **K2 (35%).** Emitter, wire and a moving wall (a register or a counter wall such as 8|C) in one free-standing
+  object, the wall moving one unit per period for at least ten periods, oracle as judge (S12).
+- **K3 (8%).** A corner (S13).
+- **K4 (25%).** A clock-family oscillator with period ≡ 0 mod 4 (S14). If not, 30% that a reason for 4N + 2 is
+  proved (for example a parity invariant of the rake's turn).
+- **K5 (55%).** At least one exhaustive negative with stated bounds about writers/emitters (no writer of period
+  ≤ T inside given planes and tube), whether or not a gun is also found.
+- **K6 (30%).** A reader: a cap at the −v end of the tape that absorbs every arriving letter and stays as it was
+  (an eater for any word), or that changes by a word-dependent amount.
+- **K7 (70%).** No reusable reflector for a single pulse is found (S15).
+
+**After the review of the second push (the lead, 2026-11-15 11:26 UTC; `research/audit/REVIEW-signals-2.md`):** S9
+is re-scored as held only in a weak sense. The carrier wires came almost entirely from rings of one unit, where
+the "soup" is one random unit repeated; on rings of 3, 4 or 6 units none appeared in 60,000 soups. S6, S7, S8 and
+S10 stand as scored (S10 with the review's correction that the isolating gap is three layers, not two).

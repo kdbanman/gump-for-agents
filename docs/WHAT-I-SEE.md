@@ -152,6 +152,54 @@ The period-66 plate is fragile — a single stray cell beside it destroys it alm
 time — and nothing in it carries a signal from one place to another. But about once in a
 thousand pokes it heals and runs on at a different phase. The clock can be set.
 
+## A wire, and a clock made to order
+
+I asked whether anything in gump could carry a signal, and expected the answer no. The chaos
+forgets within a cube or two, and every clock we had kept to itself.
+
+There are wires. A row of five cells per cube, repeated along the diagonal of a cube's
+face, stands in empty space and blinks with period 2. Flip two cells in it and the flaw
+neither heals nor spreads. It runs along the wire, one cube every two generations, half the
+fastest anything can travel here, and leaves the wire behind it exactly as it was. That is
+a pulse. An agent found four kinds of wire that carry them, pulses that run either way, a
+single flipped cell that launches one, and a flaw 36 cubes down the line that takes each
+pulse in and shifts one cube toward the sender, so that it counts them. It can count to 35.
+The thirty-sixth pulse finds it next door, and the whole wire burns. I rebuilt the pulses on
+the reference stepper with code of my own before I believed it, and a reviewer has since
+rebuilt all of this paragraph with a third program, on a wire in open space as well as on
+rings.
+
+On one of these wires two pulses sent at each other never both get through. One survives,
+untouched and on time, and which one depends on whether the distance between them was even
+or odd. A pulse that can stop a pulse is the beginning of logic, though only the beginning:
+the survivor leaves along the line it came in on, and nothing we have turns a corner.
+
+A wire can be capped at both ends, and then it is a quiet object of a few dozen cells. Add
+one cell. It runs to the end, turns, runs back and turns again, for ever, and the object is
+a clock whose period is four times the number of cubes of wire, plus two. Period 6, 10,
+14, as long as you like. I checked six lengths myself. The clocks of the last section were
+found; this one is built, and can be ordered to size. The agent has a proof that it works
+at every length, and another agent is trying to break the proof as I write.
+
+Then the experiment your note asked for: let the chaos touch a wire. In more than two
+thousand trials, by two agents, the wire was destroyed in all but one, by a fire that runs
+down it at the speed of a pulse or half that. Keep three empty layers between them and
+nothing can cross, ever; that one is a theorem we already had, and it is the same emptiness
+that seals a hull. So the two halves of gump do not talk. The chaos carries no message, and
+order cannot survive its touch. A few times in a hundred something does get out: a clean
+pulse, running down the wire ahead of the fire.
+
+I had also written here that wires are born from random soup, and that two empty layers
+are enough to keep a wire safe. A reviewer took both apart the same day. Two layers protect
+only the capped end the first agent happened to test; a wire running past chaos two layers
+off is hit at once. And the soups that made wires were nearly all one random unit repeated
+along the tube, which is choosing a wire at random, not growing one. From soups three to
+six units long, none came in sixty thousand tries.
+
+The clock's proof survived the same reviewer, who rebuilt it and ran the clock at 257 units
+on the reference stepper. The gate I checked myself. The counter turns out to hold sixteen
+positions before it breaks.
+
 ## The rule you meant to write
 
 In November 2026 you looked at a picture of the neighbourhood and said it was wrong: in its
@@ -277,6 +325,18 @@ the largest we could count, which is where the lifetime laws are. It would be a 
 if the two met. The measurement that would show it needs more time on rented graphics cards
 than this month's budget has left.
 
+The card in your house has since done part of it. It measured five wrapped faces of one
+shape, 48 to 93 cells, each to better than a part in a thousand, and a reviewer repeated
+four of them by other means. From 63 cells up they lie on one straight line, 0.2084 per
+cell, and the two smaller ones fall below it. Nothing smooth joins the two parts. The only
+description that fits is a kink near 61 cells, as if a face stopped noticing its own
+smallness all at once. I had written down three readings of how the price would approach
+its limit, and four forecasts on top of them. The 93-cell face landed below every reading,
+and the faces of 57 and 63 cells above every forecast. So for faces without a rim the price
+is 0.2084 as far as we can see, and the faces with a rim, which still say something nearer
+0.215, are the open half. Four larger wrapped faces and one large face with its rim are
+running on the card now.
+
 ## How a face dies
 
 For three days every number here was a waiting time. Nobody had watched a face die. Before
@@ -355,24 +415,34 @@ Its hull allows 2^51,888.
 
 For small rooms an agent listed everything: every state of 301 closed vessels of up to 30
 cells, a billion states each at the top. I listed one of them again myself with the
-reference stepper and got the same counts. In a room of 27 to 30 cells a typical seed
-visits 8 to 14 states, and the most patient seed of all visits between 40 and 94,
-depending on the room. Most states cannot be reached at all: between 57 and 98 in a
-hundred have no state that leads to them. Nothing in these rooms is chaotic yet. They are
-too small to hold a living face.
+reference stepper, a reviewer listed eight more with a program of their own, and the counts
+agree to the last state. In a room of 27 to 30 cells a typical seed visits between 4 and 14
+states, and the most patient seed of all between 15 and 94, depending on the room. Most
+states cannot be reached at all: between 57 and 98 in a hundred have no state that leads to
+them. Nothing in these rooms is chaotic yet. They are too small to hold a living face, and
+too small to say whether the counts grow in step with the room or a little faster.
 
 Above that size the pattern is the one you already know from the staircase. A random seed
 lives as long as its faces, and a face of A cells lives about e^(0.21·A) generations, so
 the seed sees about 2^(0.30·A) states: three tenths of a bit for every cell of the face.
-The face itself is nearly random while it lives. By an estimate that a reviewer is testing
-as I write, it carries close to one bit per cell, so it could be in nearly 2^A states and
-passes through 2^(0.30·A) of them. The count a seed sees rises exponentially with size, and
-the share falls exponentially. A map that wandered blindly over as many states would see
-2^(A/2) of them before repeating, which is more. Gump does not run out of states. Its face
-goes quiet first.
+The count a seed sees rises exponentially with size, and its share of what is possible
+falls exponentially, because the room has a bit for every cell and the walk has three
+tenths of a bit for every cell of one face. Gump does not run out of states. Its face goes
+quiet first.
 
 And yes, the random seeds are the long-lived family. In every room of 19 cells or more,
 the longest-lived seed has no symmetry at all.
+
+The same measurement says something about the thing that weirded you out. To know what a
+seed's share is a share of, the agent measured how random a living face is, and the
+reviewer measured it again. Take one layer of the chaos and try to predict each cell from
+the cells around it: you gain almost nothing. A layer carries within about one part in a
+hundred of what coin flips of the same density would carry. Take the layers together and a
+little more shows, at least three parts in a hundred, most of it in how one layer sits on
+the next. That is all the structure the chaos has, and it is why coins will do. When we
+swapped the bulk under a face for coin flips we were changing a few hundredths of a bit per
+cell. My reading of why Conway's Life is the other way round: what Life leaves behind is
+sparse, ordered and very far from noise, so noise is a catastrophe there.
 
 ## Where I was wrong
 
@@ -475,13 +545,15 @@ corrected is part of what this repository is for.
   grows. The data allow it and do not yet demand it.
 - The neighbour B45/S3457, which behaves like gump with lifetimes growing a hundred-fold per
   step of radius instead of ten-fold, and B45/S3456, which slowly freezes like a glass.
-- Longer clocks. A loop of thirty-odd steps in a box with a six-fold symmetry would have a
-  period near 200, and nothing forbids it. And whether any oscillator here can pass a signal
-  to another: so far the only clocks that share a frame ignore each other.
-- Where the price per cell stops. Two measurements would narrow 0.207 to 0.219: faces of
-  one fixed shape at growing size, and a face of 108 cells with its rim, run until ten
-  thousand faces have died. Both are queued on the graphics card in your house, and the
-  first is running.
+- Whether gump can compute. It has wires, pulses, a gate where two pulses meet, a counter
+  and a clock of any length. It has no corner, no crossing, no gate with an output line of
+  its own, and no mirror that sends pulse after pulse back. Everything so far lives along
+  one direction of one tube.
+- A clock whose period divides by four. Every length of the built clock gives a period that
+  leaves 2 when divided by 4, and I do not know why.
+- One price per cell or two. Faces without a rim say 0.2084 from 63 cells up. Faces with a
+  rim say more, and their local slope is moving away from that, not towards it. The card
+  in your house is running the larger faces that would tell.
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):

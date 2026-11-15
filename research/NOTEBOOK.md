@@ -2656,6 +2656,10 @@ written from `docs/AUTOMATON.md`, equal to the oracle every generation; seeds th
 
 ## 2026-11-15: how much of its state space a seed explores (the owner's question; exact for small vessels; review started)
 
+**Reviewed the same morning (entry "the state-space study reviewed" below): the exact counts and the entropy
+numbers stand; three readings in this entry are corrected there (the ranges for visited states, "linear, not
+exponential", and the share and random-map comparisons).**
+
 The owner's journal (`docs/OWNER-JOURNAL.md`): within a hull there are finitely many states; for the longest-lived
 seeds, how many are hit, and is there a pattern as size goes up? Study: `research/statespace/` (README is the
 account; forecasts before any enumeration in `PREDICTIONS.md`; figure `research/figures/statespace.png`).
@@ -2703,3 +2707,224 @@ account; forecasts before any enumeration in `PREDICTIONS.md`; figure `research/
   no lower bound, and the large slab stands in for small faces conditioned on survival; each cube is one run. An
   adversarial review with its own enumerator and a second entropy estimate is running
   (`research/audit/REVIEW-statespace.md`).
+
+## 2026-11-15: a clock of every length, a gate, a register, a tape; and what chaos does to a wire (second signals push; the lead's own checks; review started)
+
+**Reviewed the same day (entry "the second signals push reviewed" below): the clock, the rake and the tape stand
+and both proofs are complete; three statements here are corrected there ("two empty layers isolate a wire", wires
+"born from soup", and "at pulse speed").**
+
+`research/signals/README.md` sections 8–14 (the second investigator; forecasts J1–J10 and the lead's S6–S10 scored
+at the end of `research/signals/PREDICTIONS.md`). The lead re-ran every oracle-judged verifier (all pass, 10:27
+UTC) and checked four things from `reference/oracle.py` alone with separate code.
+
+- **A clock whose period is set by its length [oracle-verified at ten lengths by two codes; claimed proved for
+  every length, proof under review].** Wire C (five cells per unit along (1,0,−1)) between two caps is a
+  free-standing still object of 32 + 5N cells with period 2. Add one cell and a "rake" (one extra live cell that
+  moves a unit every 2 generations) shuttles between the caps for ever: period exactly 4N + 2. The lead:
+  `python3 research/audit/signals_clock_lead_check.py 1 2 3 4 7 12` (cycle found by comparing whole states, not
+  assumed: periods 6, 10, 14, 18, 30, 50; population 32 + 5N or one more; nothing within 13 units of the array
+  edge). The study: `verify_clock.py` at N = 1, 5, 16, 17, 30 on the oracle, N = 1..200 with its own stepper, and
+  `prove_clock.py 8 4`, a surgery on one oracle-computed cycle that is claimed to give every N ≥ 8. **This answers
+  open problem 12:** gump has free-standing oscillators of every period 6, 10, 14, … (2 mod 4); no period 0 mod 4
+  was found in the family and no reason is known.
+- **A collision gate [oracle, two codes].** Two pulses of wire C meeting head-on: exactly one survives, undelayed
+  and unchanged, and the wire is as it was; the survivor is the left-mover at even separation and the right-mover
+  at odd. The lead: `python3 research/audit/signals_gate_lead_check.py 6 7 8 9 14 15 20 21` (twelve separations,
+  whole-state equality with the single-pulse run after 40 generations). As logic: outputs (L, R and not L) or
+  (L and not R, R), leaving along the two input lines; there is no third line and no crossing.
+- **A rake [oracle, the study's verifier re-run].** One added cell on wire C moves one unit per 2 generations
+  and emits a left-moving pulse every 2 generations; a head-on pulse is swallowed or stops it, by parity.
+- **A register [oracle, the study's verifier re-run].** The wall between wire B and wire B′ moves one unit towards
+  whichever side a pulse arrives from; ten operations in sequence leave it where the count says. No receiver that
+  toggles on pulses from one side was found (complete census of caps of wire B inside small bounds: none
+  reflects, none toggles).
+- **A tape [oracle, two codes for one ring; "every word" by a light-cone argument, under review].** Any sequence
+  of units of wire B and wire C moves rigidly towards −v at one unit per 2 generations. A 40-unit ring whose
+  word contains all 32 runs of five passes the lead's `research/audit/signals_lead_check.py
+  research/signals/objects/tape-BC.json 20`. Read this way a left-moving pulse of wire C is one unit of B in it,
+  and a wall between B and C is a front. Of all 120 pairs of unit types only {B, C} moves.
+- **Wires are born from soup [measured, the study's stepper].** Of 100,000 soups in the tube 12,780 settle into
+  uniform wires of period ≤ 2 (366 distinct); ten of those carry a 2-cell pulse, born in 279 soups: wire B in
+  106, wire C in 99, a third in 74.
+- **Chaos destroys a wire it touches, and two empty layers isolate it for ever [measured, the study's stepper].**
+  A wire run through a block of living soup: a front reached the far probe on 800 of 800 sides, at pulse speed
+  (2 generations per unit) on 798. A capped end beside soup with 0 or 1 empty diagonal layers between: destroyed
+  40 of 40; with 2 empty layers: untouched 40 of 40 for 3,000 generations, and the study says no cell can couple
+  the two sides there (at 3 or more it is T3). On 33 of 400 sides of wire C (none of wire B) a clean pulse left
+  the chaos ahead of the fire: the first pulses here to come out of anything random. Nothing could be sent into
+  chaos and read on the far side, because nothing survives the contact.
+- **Negatives inside stated bounds [SAT, one encoding, one solver].** No restoring reflector for a pulse of wire B
+  or C at the sizes listed in the README; every cap of wire C that reflects a pulse is changed by it and burns at
+  the next. Two more pulses of wire C reach outside the 3 × 3 tube and break the clock's caps (found leaving the
+  chaos): the closed tube was too tight a search space.
+- **The lead's forecasts.** S6 (45%) half held: the object whose period is set by its length exists, but what
+  comes back is a rake, not a pulse, and there is no corner. S7 (25%) held to the letter (a collision gate; not a
+  circuit element with its own output line). S8 (35%) failed. S9 (30%) held. S10 (60%) held.
+- Not checked: the proofs (clock for every N, tape for every word) are the producer's; the soup and chaos counts
+  rest on the study's stepper (checked against the oracle by `check_stepper.py`) with one block size and density;
+  the SAT negatives rest on one encoding. A reviewer with its own code has these as its priorities
+  (`research/audit/REVIEW-signals-2.md`).
+
+## 2026-11-15: the state-space study reviewed: the counts stand, three readings are corrected, and a layer of the chaos is within about 1% of coin flips
+
+`research/audit/REVIEW-statespace.md` (own vessel builder from the neighbour table of `docs/AUTOMATON.md`, matched
+to the oracle, with two deliberately broken tables caught; own bit-sliced enumerator `aenum.c`; own hull search;
+own sampler and context order for the entropy; outputs in `research/audit/statespace/out/`).
+
+- **The exact counts stand [proved by enumeration, now two or three codes on seventeen vessels].** Eight more
+  vessels agree with the study on all eighteen statistics, champion states included: the 3-layer slabs
+  `slab_3_1_1_3` and `slab_1_0_3_3` (27 cells), the 3D tori `torus_9_2_1_4_0_1` (27) and `torus_5_2_1_1_0_2` (30),
+  the record hulls of 28, 29 and 30 cells, and the 28-cell hull whose largest basin is a still life's. With the
+  lead's 16-cell hull and the eight tori of `exhaust.c`, seventeen of the 301 have an independent enumeration.
+- **Correction 1, the ranges.** "A typical seed visits 8–14 states, the most patient 40–94" was the largest vessel
+  of each family. Over all 34 listed vessels of 27–30 cells the mean seed visits 4.5–14.4 states and the record is
+  15–94. Also: of the 36 champions of `slab_1_0_3_3`, 24 die out and 12 end on a period-2 cycle (the study's field
+  reports the first champion only).
+- **Correction 2, the census.** It is complete for hulls at most 6 layers wide (the reviewer's own search finds
+  the same 277 of 1–30 cells), but hulls wider than that are not rare: at least 588 hulls of 1–29 cells exist up to
+  width 10, against the census's 263, and the count is still rising. The four most born-capable wide hulls of 29
+  cells have longest transients 18–29, against the census record of 52: no sign of a record outside, not excluded.
+- **Correction 3, the scaling.** "Linear, not exponential" does not survive: a line and an exponential with rate
+  0.02–0.09 per cell fit the mean visited count equally well in every family, and for the hulls' record an
+  exponential fits better (rms 3.2 against 6.4). Leaving out the small sizes moves the exponent for states with a
+  predecessor to 0.88–1.01 and for states on cycles to 0.16–0.58. What stands: at 27–30 cells the counts are
+  small and growing slowly, and these sizes cannot say how.
+- **No champion is symmetric [proved for eight vessels, more strongly than the study].** Every champion, tested
+  against the full automorphism group of the neighbour graph (which equals the lattice group in each, orders
+  2–54): none has a symmetry.
+- **The cubes stand for sides 8–15 [re-run].** Sides 8, 9, 10 on the oracle alone enter their final cycles at 23,
+  71, 65; the engine gives 4,218, 24,286, 169,049, 4,460,296 (period 2, detected at 4,460,298) and 37,367,092 for
+  sides 11–15. Side 16 was not re-run (2.9 × 10⁹ generations).
+- **0.30 bits per face cell stands [arithmetic from the ledger].** 0.296 at 27 cells, 0.300 at 108; 0.299–0.305
+  across the slopes on file; 0.3007 with the wrapped-face slope 0.2084.
+- **The entropy numbers stand; what they are is made precise [measured, two samplers, two context orders].** The
+  top layer of a living face *seen alone* carries 0.9860 bits per cell (study 0.9860); the whole 8-layer face slab
+  at most 0.9585 (study 0.9595), an upper bound that is still falling slowly with the context; a layer given the
+  layers above it carries 0.945–0.962. Compression gives nothing (1.000).
+- **The deficit against coin flips of the same density [measured; the lead asked for it; the lead redid the
+  arithmetic].** An upper bound on the entropy is a lower bound on the deficit, so a finite context can hide
+  redundancy and cannot invent it. Top layer alone: at least 0.013 bits per cell short of coins (flat from 10
+  context cells, so pinned). The layer under it alone: 0.008. A bulk layer alone, against coins at 0.4155: 0.006.
+  The whole slab jointly: at least 0.027 (coins layer by layer at the measured densities 0.518, 0.435, 0.406,
+  0.416 average 0.9852; 0.9852 − 0.9585 = 0.027), still growing by about 0.002 per two context cells. **So any one
+  layer of the chaos is within about 1% of coin flips, and most of what distinguishes the chaos from noise lies
+  between layers.** This is the number behind "coins will do" (the owner's first journal note): replace the bulk
+  under a face by coins and one changes a few hundredths of a bit per cell.
+- **Correction 4, the share.** "The share falls as 2^(−0.69·A)" compared one layer's configurations with a whole
+  seed's orbit. It stands only as an upper bound on the share of one layer's configurations; against the states
+  of a chaotic region D layers deep (at least 2^(0.95·D·A)) or of the hull (2^N) the share is far smaller.
+- **Correction 5, the yardstick.** "Less than chance by 2^(0.2·A)" and "thousands of times sooner than a random
+  map" are withdrawn. A uniform random map is the wrong comparison when most states have no predecessor: a random
+  map with gump's own in-degrees would visit 18–1,650 states where gump visits 7–10, so gump settles 3 to 160 times
+  sooner than that, not thousands (a birthday estimate, not a simulation). The constant for states on cycles of a
+  uniform random map is ½ ln M + 0.635, not + 0.29.
+- Seven corrections for the study's README are at the end of the review.
+- Not checked by the reviewer: side 16; the time-t Shannon entropies; the eight unlisted 30-cell hulls; small faces
+  conditioned on survival, other densities and lattices; any lower bound on the entropy.
+- Found while the overview was built (the editor, same day): "57–98% of states have no predecessor" holds for
+  vessels of 15 cells or more; over all listed vessels from 6 cells up the minimum is 53%.
+
+## 2026-11-15: the first signals push reviewed: pulses, transmission and the parity rule stand; the line has a capacity
+
+`research/audit/REVIEW-signals.md` (own sparse stepper matched to the oracle; nothing imported from the study
+except to probe its SAT encoding; code in `research/audit/signals/`, outputs in `out/`).
+
+- **Pulses stand [measured, three codes].** B, its mirror, A and S translate exactly for 100–192 periods on rings
+  of 9–64 cubes, on box tori and on the oracle's cubic torus, and on a 600-cube finite wire in the infinite
+  lattice with no torus at all; the state is always the bare wire with the moved defect, and no live cell leaves
+  the 3 × 3 tube. A and B run on rings as short as 3 cubes; S needs at least 9. The W00 front is exact both ways.
+- **The transmission stands, with a capacity [measured, two codes].** The receiver is a wall between wire B and a
+  second period-2 wire B′, and each pulse moves it one cube toward the sender: a unary counter. Over 36 cubes it
+  takes 35 clean shots (the study ran six), the line exactly bare after each and the control unchanged; **shot 36,
+  with the receiver beside the sender, sets the whole wire on fire.** The README's "used again and again" becomes
+  "used d − 1 times". The sender can fire every 4 generations.
+- **The parity rule stands and is the whole rule [measured, two codes].** Head-on pairs at every separation 2–44:
+  odd passes exactly, even stops with the 3-cell mark. It has to be complete, since a pulse exists only at the
+  wire's even phase and the separation is then a pair's only parameter. On an odd ring a passing pair stops at
+  its second meeting. Pulses going the same way are rigid trains at any spacing 1–12. A third pulse turns the mark
+  into a 5-cell standing defect.
+- **The emitter census stands exactly**: of wire B's 84 one-cell flips 74 heal, 2 leave standing defects (one of
+  1 cell, one of 2), 2 emit a pulse (one each way), 6 start fronts.
+- **The bounds [two methods for the small tubes].** A transfer-graph search over space-time columns, sharing no
+  code with the SAT search, agrees on every 2 × 2 and 2 × 3 row both answered, and extends them to pulses of any
+  width; the 3 × 3 rows rest on the SAT encoding, which passed every test the reviewer gave it. "Fronts in 17 of
+  21 wires" counted duplicates: 14 of 18 distinct wires.
+- **Two arguments repaired.** Corollary 1 (no growth at a wire's end) needs a cone of diagonals, not one
+  half-space; corollary 2 (a pulse carries its drive) stands, with pulse B's driven cell dead at the time, not
+  live.
+- Ledger SG1–SG3 to A, SG4 to A for the small tubes and B for the 3 × 3 rows. Nine corrections for the README are
+  at the end of the review; the third investigator applies them.
+- Not checked by the reviewer: fronts of wires other than W00, W05, W18; the 1,000-defect receiver census; wire
+  A's flips and collisions; 3 × 3 by the independent method; no UNSAT certificates.
+
+## 2026-11-15: the second signals push reviewed: both proofs are complete; the isolating gap is three layers, not two; "born from soup" was nearly all one-unit rings
+
+`research/audit/REVIEW-signals-2.md` (own stepper `gs.py`, equal to `oracle.step` cell for cell; only the test of
+the study's SAT encoding imports study code; code in `research/audit/signals2/`).
+
+- **The clock stands and its proof is complete [proved; checked by a second agent; oracle at 24 lengths over
+  three codes].** The light cone used is right (a cell reaches its own unit and the next, or one unit either
+  side); the junctions between the base cycle and the inserted units are covered at every phase by the base's
+  checks B3 and B4, the least period by B5. The reviewer redid the enumeration with its own code for up to 150
+  inserted units, recomputed B1–B5 on an oracle base and stepped assembled orbits. On the oracle at 14 lengths
+  from N = 1 to 257 the period is exactly 4N + 2, the unlit object has period 2 and nothing is ever alive outside
+  the hull; with its stepper the same for every N from 1 to 400. Measured, not proved: the transient from the one
+  added cell is exactly max(N − 2, 0) generations; about two cells per unit will light it; other single cells give
+  healing, still lifes and small periods (3–6, 12).
+- **The rake stands [oracle, two codes].** Also the mirror rake against a pulse (the study had it on its own stepper
+  only). Rake against mirror rake: one survives by parity and a two-unit mark travels on with its train.
+- **The tape stands and its proof is complete [proved; 36 more words on the oracle].** A window of five units is
+  enough for one double step, and the ring does contain all 32 windows. Random words on rings of 6–41 units, a
+  single C in B, a single B in C, long runs: all move rigidly.
+- **The register is a bounded counter [oracle, two codes].** Sixteen positions (wall at −2 to 13); it breaks when
+  the wall reaches the write site or the erase site, so the caps are never reached. It tolerates a pulse arriving
+  while the wall is still moving (1–31 generations apart), but two writes 2 generations apart fail.
+- **Correction 1: the isolating gap.** "Two empty layers isolate a wire from chaos for ever" is true only for the
+  capped end of wire C in the geometry the study ran (the reviewer recounted that case and its argument holds).
+  For a wire running past chaos, two empty layers are not enough: the wire is hit at generation 2 in 20 of 20
+  soups. With three empty layers it is never touched (0 of 20), which is T3. **The hard edge between chaos and
+  order is three layers.**
+- **Correction 2: "born from soup".** The counts reproduce on other seeds (12,789 uniform wires, 368 distinct, 10
+  carriers from 305 soups), but 284 of the 305 carrier soups were on rings of one unit, where the "soup" is one
+  unit's 14 random cells repeated, 21 on rings of two units, and none in 60,000 soups on rings of 3, 4 or 6 units.
+  So a random *unit* repeated along the tube is a pulse-carrying wire about once in a few hundred; nothing shows
+  that soup with no repeat makes one.
+- **Correction 3: speed and escapes.** "Destroyed every time" holds over about 1,500 more sides (one exception: one
+  side of a 71-cell block, bare again at the end). "At pulse speed" holds for wire B at every density tried, and
+  for wire C only at density 0.4: at 0.1–0.2, 44 to 77 sides in 100 burn at half that speed. Clean pulses ahead of
+  the fire: 5 of 200 sides of wire C by the reviewer's criterion (the study 15 of 200), and one on wire B.
+- **The negatives stand inside their bounds [SAT and brute force].** Brute force gives the same caps, cell for
+  cell, as the SAT census at the two smallest planes; a second solver reproduces the reflector UNSATs; odd delays,
+  which the study had not searched, are UNSAT too. Not excluded: caps of period above 2, caps outside the 3 × 3
+  tube, a reflector whose cap is still settling when the pulse returns.
+- **Wording.** "Register" is a counter; "gate" is an inhibition element whose outputs leave along its input
+  lines; "answers open problem 12" is fair (unbounded periods, every period 2 mod 4).
+- **The lead's S9 re-scored:** held only in the weak sense above (a repeated random unit), not for soup proper.
+- Ledger: SG5 to A, SG6 and SG7 to A, SG8 and SG9 to B with their wording corrected, SG10 to B. Six corrections
+  for the README go to the third investigator.
+- Not checked by the reviewer: the gate (the lead did); the wide pulses; the scattering tables at the larger
+  planes; `walls.py`, the static pairs, `caps_any.py`; the reflector search at plane 37.
+
+## 2026-11-15: corrections found by the fifth pass over the manuscript draft (`docs/paper/FOR-LEAD.md`, fifth section)
+
+- **The kink conjecture used the wrong unit.** In "the five tori, reviewed" the lead wrote "(round 3: a remnant
+  about 3.5 cube steps across)". Round 3 (DY11) has the excess round a survivor reaching about 3.5 *doubled units*,
+  under two cube steps. With that, "the bend ends where the loop exceeds the remnant's width plus its reach" no
+  longer lands near the 4.4 cube steps where the bend ends, and round 4's review has since withdrawn the remnant as
+  an established object. **The conjecture is withdrawn; the kink near 61 cells has no explanation on file.**
+- **The 5 × 5 value "on file" is the first GPU's, not a CPU value** ("five wrapped faces on one driver", last
+  bullet): 15.6614 ± 0.0026 is row GP9, from the cloud GPU. So the card's 15.6630 ± 0.0023 is the first repeat of a
+  GP9 value on a second GPU, with the reviewer's CPU value 15.667 ± 0.010 beside it.
+- **The 4 × 4 anchor, one figure.** The ledger's GL1 now reads: high by 0.0075, of which 0.0058 (2.9σ with the
+  between-job scatter) was the draw and 0.0017 the census's 16-generation stamping. The "2.6σ" and "3.4σ" in earlier
+  entries were computed under other error rules; use 2.9σ.
+- **SH3's bias, the sign.** The loop² 4 census values read ln τ *high* by about 0.018; the earlier "bias of −0.018"
+  was the correction to apply.
+- **DY15's unmatched gap**: the study has C = 0.152 against 0.204, the reviewer 0.151 against 0.204 (different seeds).
+- **The forecast tally rule on the dying-face study.** "Three of eighteen" (rounds 1–3) and "three of twenty-three"
+  (with round 4) count the lead's forecasts L2–L7, A1–A7 (as scored in rounds 1 and 2), T1a, T1b, T2, T3, T4 and
+  F1–F5; L1 is not counted because it was a deduction from the rule, not a forecast, and F6 is not counted
+  because it was a stopping clause.
+- Added to the ledger: SG11 (the two proved remarks on wires); section numbers in SG6–SG9; a dated note on CN1.
+  Not done: ledger rows for forecast tallies (they are scores, not claims; the forecast files hold them).

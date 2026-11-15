@@ -5,7 +5,7 @@
 
 Random map on M states (the comparison of part D): distinct states visited from a random start ~ sqrt(pi M / 2)
 (mean rho length; 1.2533 sqrt M); states on cycles ~ sqrt(pi M / 2); share without a predecessor e^-1; number of
-cycles ~ (ln M)/2 + 0.29 (gamma/2 + ln(2)/2); mean tail sqrt(pi M / 8).
+cycles ~ (ln M)/2 + 0.635 (sum_k (M)_k/(k M^k); review 2026-11-15); mean tail sqrt(pi M / 8).
 """
 import json, math, os, sys
 import numpy as np
@@ -38,7 +38,7 @@ def derived(r):
     d['b_champ'] = lg(r['max_transient'] + r['champion_cycle_period']) / N
     d['b_mean_vis'] = lg(r['mean_visited']) / N
     d['rm_rho'] = math.sqrt(math.pi * M / 2)
-    d['rm_cycles'] = 0.5 * math.log(M) + 0.29
+    d['rm_cycles'] = 0.5 * math.log(M) + 0.635
     d['big_share'] = r['largest_basin'] / M
     d['empty_share'] = r['empty_basin'] / M
     per = {p: (c, s, b) for p, c, s, b in r['by_period']}

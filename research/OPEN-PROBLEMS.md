@@ -77,13 +77,26 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
 ## Fauna
 
 12. **Periods beyond 66.** A loop of thirty-odd steps in a 4- or 6-fold box would give 120–200. Nothing forbids it.
+    **Answered, 2026-11-15 (proof checked by a second agent): periods are unbounded.** A wire between two caps with one extra
+    cell is a free-standing oscillator of period 4N + 2 for N units of wire, so every period 6, 10, 14, … occurs
+    (`research/signals/README.md` §11; CLAIMS SG5; checked on the oracle at 24 lengths from 1 to 257 by three codes). Still open:
+    any period 0 mod 4 above the ones in the fauna, and any odd period above those.
 13. **Can any oscillator pass a signal to another?** All compound objects found by sampling are non-communicating.
     **Answered in part, 2026-11-15: yes, signals exist.** Free-standing wires along (1,0,−1) carry pulses at half the
     speed limit; one flipped cell emits a pulse; a standing defect 36 cubes away receives it (and creeps one cube per
     signal); two pulses pass or stop each other by parity (`research/signals/README.md`; notebook entry "gump carries
-    signals"; CLAIMS SG1–SG4; review in `research/audit/REVIEW-signals.md` when done). Still open: a bounded or
+    signals"; CLAIMS SG1–SG4, confirmed by the review in `research/audit/REVIEW-signals.md`: the receiver is a
+    counter that takes d − 1 pulses over d cubes, after which the wire burns). Still open: a bounded or
     closed track (a pulse that turns or comes back), a receiver that stays put, a gate with an output, whether any
     soup-born wire carries a pulse, and whether a pulse can cross living chaos.
+    **Second push, 2026-11-15** (CLAIMS SG5–SG10; notebook "a clock of every length"; review in
+    `research/audit/REVIEW-signals-2.md` when done): a bounded track exists (the clock; what shuttles is a rake);
+    a collision gate with outputs along the input lines; a counter moved by pulses from either side (sixteen positions); wires B and
+    C arise from one random unit repeated (not from soups three to six units long, 60,000 tried); chaos destroys any wire it touches, and
+    the isolating gap is three empty layers (T3; the review corrected "two"). Reviewed: `research/audit/REVIEW-signals-2.md`. Still open:
+    a corner or a crossing (nothing found, nothing searched outside one wire direction), a reusable reflector for a
+    pulse (none inside the searched bounds), a receiver that toggles, a gate with its own output line, and with
+    them whether gump can compute.
 14. The 94 clockwork objects (`research/clockwork/objects/`) are not merged into the atlas catalogue.
 
 ## Neighbouring rules
