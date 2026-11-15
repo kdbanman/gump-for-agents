@@ -1,1 +1,2 @@
 v11c: oracle 600 gens OK (final pop 458, cells 876)
+v11c: lives, excursion table, samples vs r3_ex (20000 gens x 256 lanes): identical
