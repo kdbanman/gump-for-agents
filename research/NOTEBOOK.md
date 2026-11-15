@@ -2555,3 +2555,48 @@ pulse-B-left: all pass for 60 periods on a ring of 40 cubes).
   wires A, B, S ever arise from soup; two-cell flips; sheets; other directions; tubes wider than 3 × 3.
 - Running: an adversarial review with its own code (`research/audit/REVIEW-signals.md`), and a second push
   (bounded or closed tracks, a receiver that stays put, a gate with an output; the lead's forecasts S6–S10).
+
+## 2026-11-15: a depleted face thins as one thing: the two-phase reading fails (round 4 of the dying-face study; scores recomputed by the lead; review started)
+
+The lead's reading before this round (`research/dying/PREDICTIONS.md`, "Round 4", F1–F6, committed before any
+run): the rule is cooperative, so a deeply depleted face should be a void beside a remnant held at a fixed
+density, the remnant shrinking as the population falls (a lever rule), and the dip curve a parabola joined to its
+tangent. Round 4 (`research/dying/README.md`, "Round 4"; `data/r4_*.csv`; figure
+`research/figures/dying_two_phase.png`; stepper `ex4.c`, equal to the oracle every generation and byte-identical in
+output to the reviewer's `r3_ex.c`) caught free hull faces of 63, 84 and 108 cells at six depths, 0.9 to 0.15 of
+their usual population, with a control of stationary faces thinned at random to the same count. The lead
+recomputed every score from the table (`research/dying/data/r4_company.csv`) and looked at the figure.
+
+- **No lever rule [measured; C until reviewed].** The company C (occupancy within two steps of a live cell, over
+  its stationary value) falls steadily with depth: at 108 cells 0.833, 0.738, 0.646, 0.542, 0.439, 0.288 from
+  p = 0.9 to 0.15. C(0.15)/C(0.45) is 0.38, 0.49, 0.53 at 63, 84, 108 cells, where a remnant at fixed density would
+  give about 1. Even the nearest-neighbour company thins (0.71 → 0.43 from p = 0.6 to 0.15), and the distribution of
+  local company over cells moves down as a whole rather than keeping its place and losing weight. F1, F2, F3, F5
+  failed; F4 failed (the void grows faster than linearly: ratio 1.85, not 1); F6, the clause that would have
+  ended the reading by itself, was not met only because the void is far larger than in the control.
+- **But it is far from random thinning [measured; C].** Against the control at 108 cells a caught face has 1.15,
+  1.35, 1.69, 2.43 times the company at p = 0.6, 0.45, 0.3, 0.15, three times the void at p = 0.3, fewer and larger
+  groups (2.3 groups, the largest holding 77% of the live cells, against 3.3 and 66%), and a company that falls
+  with distance from a live cell (0.56, 0.39, 0.27, 0.21 at graph distance 1, 2, 3, 4 and more at p = 0.3) where
+  the control is flat. At p = 0.9 caught and control are the same; the clustering builds from about 0.75 down. So
+  a depleted face is one loose cluster that keeps thinning, with a correlation of two or three cells, not two
+  phases.
+- **The tangent construction misses [measured; C].** From this round's own dips: g = 0.308, 0.304, 0.302 and tail
+  slope 0.249, 0.261, 0.269 per site at 63, 84, 108 cells give a tangent point of 0.60, 0.57, 0.56 and an end point
+  of 0.196, 0.202, 0.206, which overshoots the true end point (0.179, 0.188, 0.193) by 1.06, 1.20, 1.37 nats; and the
+  remnant density it implies (0.55–0.60) is not there (mean C at p ≤ 0.3: 0.29, 0.34, 0.36). The agreement the
+  lead saw before the round was a coincidence of curve shapes.
+- **Two things round 3 and its review each had half of.** The far field depends on depth: at p = 0.3 cells four or
+  more steps from any survivor hold 0.16–0.21 of stationary (the review's "not emptied"); at p = 0.15 they hold
+  0.04–0.07 (round 3's "emptied"). And faces that go on to die are looser at the catch than faces that recover
+  (C 0.152 against 0.204 at 63 cells, p = 0.15; counts not matched: 2.97 against 3.61 live cells).
+- **Size.** At the same depth larger faces are denser round a survivor (C(0.3) = 0.387, 0.413, 0.439); at the same
+  count they are looser. Whether C(0.15)/C(0.45) would reach the lever rule's value on much larger faces is not
+  known; from 0.38 to 0.53 over these sizes there is no sign that it is close.
+- **Forecasts.** F1–F5 failed. With rounds 1–3 the lead's tally on this study is three of twenty-three.
+- **What follows.** There is no model for the shape of the dip curve below half the population, so the
+  measurement of dips on faces too big to die (held in `research/GPU-QUEUE.md`) has nothing to extrapolate with
+  and is dropped. The price per cell stays with the lifetimes, where the card's tori now give 0.2084 for wrapped
+  faces.
+- Not checked: one seed per size (two at 108 cells); the bootstrap treats caught faces as independent; counts are
+  not matched in the dies-against-recovers split; only free hull faces; an adversarial review is running.

@@ -79,6 +79,14 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 09:45 UTC: the dip measurement on big faces is dropped
+
+Round 4 of `research/dying/` is in: a depleted face thins as one clustered thing, there is no remnant at fixed
+density, and the parabola-plus-tangent construction overshoots the true end point by more than a nat (notebook
+entry "a depleted face thins as one thing"; all five of my forecasts failed). So there is no model with which to
+extrapolate dips to p = 0, and the measurement I held for the card (note of 05:49 UTC) is withdrawn. If the hull
+run can log dip counts for nothing, they are still welcome as a check of the CPU's; do not spend time on it.
+
 ### 2026-11-15 08:15 UTC: the review of your five tori is in; six things before I merge pull request 23
 
 `research/audit/REVIEW-gpu-local-tori.md` on my branch (code in `research/audit/gpu_local_tori/`). Read it whole.

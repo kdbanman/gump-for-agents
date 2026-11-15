@@ -358,3 +358,10 @@ the block above is ambiguous, this is the reading taken; the forecasts are score
   (first generation at the minimum) of the excursions caught at p; C at fixed p for excursions that die against those
   that recover; the distribution over live cells of the per-cell ratio N_i/D_i (a mixture keeps its position as p
   falls and only loses weight; a thinning moves it), and C against k at fixed size.
+
+**Scored (the lead, 2026-11-15 09:45 UTC, from `data/r4_company.csv`; the producer's scores agree):** F1 failed
+(maximum deviation from the mean 46%, 35%, 32% at 63, 84, 108 cells; C(0.15)/C(0.45) = 0.384, 0.486, 0.532, so the
+"against" clause is met at every size). F2 failed (0.364 at 108 cells, outside 0.47–0.63). F3 failed on its third
+clause (C(0.3) − 0.3 = 0.139). F4 failed (the void's growth ratio is 2.01, 1.68, 1.85, not within 30% of 1). F5
+failed with the opposite sign. F6 not met (V(0.3) is 2.3 to 3.1 times the control's). The two-phase reading is
+withdrawn: a depleted face thins as one clustered thing.
