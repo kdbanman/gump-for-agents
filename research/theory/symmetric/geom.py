@@ -27,7 +27,7 @@ SPEC (underscore separated):
      tN_... prefix not needed: translations are tori.
      c1, d2h, td, oh, th, t, c3v, c3, d3d, cs (x<->y), csz (z -> -z), c2v (x -> -x, y -> -y), ci (inversion),
      c2e ((x,y,z) -> (y,x,-z), the twofold rotation about the [110] axis through an edge midpoint) for vessels,
-     all about the centre.
+     o (the 24 rotations: threefold faces, adjacent faces related by twofold rotations), all about the centre.
 """
 import itertools, math, sys
 import numpy as np
@@ -38,6 +38,7 @@ CYC = np.array([[0, 0, 1], [1, 0, 0], [0, 1, 0]])        # (x,y,z) -> (z,x,y)
 SWAP = np.array([[0, 1, 0], [1, 0, 0], [0, 0, 1]])       # x <-> y
 MX, MY, MZ = np.diag([-1, 1, 1]), np.diag([1, -1, 1]), np.diag([1, 1, -1])
 C2Z = np.diag([-1, -1, 1]); INV = -np.eye(3, dtype=int)
+C4Z = np.array([[0, -1, 0], [1, 0, 0], [0, 0, 1]])   # (x,y,z) -> (-y,x,z)
 M_SLAB = 8
 
 
@@ -200,7 +201,7 @@ def vessel_gens(name, c):
         return (M, c - M @ c)
     table = {'c1': [], 'd2h': [MX, MY, MZ], 'td': [CYC, SWAP, C2Z], 'oh': [CYC, SWAP, MX], 'c3v': [CYC, SWAP],
              'th': [CYC, MX], 'cs': [SWAP], 'ci': [INV], 'c3': [CYC], 'd3d': [CYC, SWAP, INV], 'c2v': [MX, MY],
-             'csz': [MZ], 't': [CYC, C2Z], 'c2e': [SWAP @ MZ]}
+             'csz': [MZ], 't': [CYC, C2Z], 'c2e': [SWAP @ MZ], 'o': [CYC, C4Z]}
     return [about(M) for M in table[name]]
 
 

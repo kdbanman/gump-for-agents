@@ -146,3 +146,28 @@ ln τ_face(oct_13_c_csz) = 15.43 ± 0.12, ln τ_face(oct_13_c_c2v) = 12.73 ± 0.
 0.72 ± 0.12 at A = 30 (R = 8, 7) and 0.66 ± 0.10 at A = 84 (R = 14 against the GPU's 18.141 at R = 13), i.e.
 ln τ_face(oct_14_v_c1) = 18.80 ± 0.10. A line term of the size seen in D2h and O_h faces (0.119·√A for a whole
 face) would give 1.09 at A = 84.
+
+## Block 4 — committed 2026-11-15 01:49 UTC, before `batch4.sh` (and before the results of `oct_32_v_td`, `oct_33_c_td` and block 3 were seen, except `hex_8_0_c3v` = 7.314 and `hex_9_0_c3v` = 8.956)
+
+(Block 3's header says 01:46 UTC; its commit, 6061d61, is stamped 01:44 UTC.)
+
+Seen since block 3 was written: T faces (threefold axis, free rims) lie on (0.209/3)·A within 0.04 at A = 108–198;
+T − T_h = 3.05, 3.53 at 9 and 10 rim periods; T_d − O_h rises by 0.49–0.54 per rim period of the wedge
+(`report.py`, section G); `oct_31_c_td` = 13.778 (Q7 said 13.81 ± 0.15); `oct_11_c_c2e` = 11.704, close to
+`csz` (11.456) and far from c1 (13.634): Q3 failed, the deficit belongs to two faces that share an edge dying
+together, with or without a mirror through the edge.
+
+**S1 (the rim term, one size further).** ln τ_face(oct_35_c_td) = 14.151 (the earlier O_h value at A = 513) +
+rim term 3.37 = **17.52 ± 0.15** (rim term: 2.794 at R = 31 plus 0.5 per period for one more period, or the fit
+−1.11 + 0.536·8.5 = 3.45; the mean of the two).
+
+**S2 (rotation against mirror, in a threefold sector).** The group O (24 rotations) has threefold faces whose
+neighbours across every edge are their images under a twofold rotation; T_h has the same faces with mirrors
+through the edges. At A = 63 the rotation costs 1.93 for one edge and the mirror 2.18. Forecast:
+ln τ_face(oct_19_c_o) = 8.81 ± 0.2 and ln τ_face(oct_21_c_o) = 10.66 ± 0.2 (T_h + 0.35), both far below T (11.51,
+13.82). And ln τ_face(oct_13_c_c2e) = ln τ_face(oct_13_c_csz) + 0.30 ± 0.15.
+
+**S3 (for a GPU; not testable here).** O_h, vertex minus cube at A = 828 (R = 46 v against 45 c): 0.55 ± 0.04,
+from d0 + k√A with d0 = 0.104 ± 0.039, k = 0.0155 ± 0.0022 (`report.py`, section H); a constant factor 1.5 gives
+0.41, a pure line term 0.61. With the GPU's 24.175 ± 0.072 at R = 45: ln τ(46 v) = 24.72 ± 0.09.
+T_d at A = 759 (R = 43 c): the GPU's O_h value 21.889 plus the rim term −1.11 + 0.536·10.5 = 4.52: 26.4 ± 0.3.
