@@ -2,7 +2,9 @@
 // Each mirrors the lead's oracle checks: research/audit/signals_lead_check.py (a pulse on a ring of `cubes` units along v
 // in a cubic array torus of side 2 * cubes), signals_clock_lead_check.py (capL + N units + capR in empty space, an even
 // shift into a torus with a margin, the rake lit at unit N // 2) and signals_gate_lead_check.py (two pulses on a ring,
-// the left-mover `sep` units along v). Checked against the oracle by site/checks/check-signals.js.
+// the left-mover `sep` units along v), and for the fourth push signals_gun_lead_check.py / signals_divider_lead_check.py (a cap,
+// N units of bare wire C, the gun moved N units, and for the divider the oscillator moved N units, in empty space; placed here
+// in a torus with a margin by an even shift). Checked against the oracle by site/checks/check-signals.js.
 const sigCore = (() => {
   const md = (a, H) => ((a % H) + H) % H;
   const key = c => c.join(',');
@@ -42,11 +44,30 @@ const sigCore = (() => {
     if (which !== 'right') fl.push([d.left, sep]);
     return ring(d.bg, d.v, cubes, fl);
   }
+  // the line (line-C.json) or the divider (divider-C8.json, d.osc present): capA + N units + gun (+ osc) moved N units, in
+  // a torus with a margin of `pad` cells on every side; kind(p) says which part a torus cell is in, for drawing: 'osc' (the
+  // layers x + y + z >= 7 relative to the object, outside the wire's tube), 'gun' (x >= 2N), 'wire' (the cap and the wire)
+  function line(d, N, pad) {
+    const tr = (c, k) => [c[0] + 2 * k, c[1], c[2] - 2 * k];
+    const set = new Map(), put = c => { const q = key(c); if (set.has(q)) throw new Error('pieces overlap at ' + q); set.set(q, c); };
+    d.capA.forEach(put);
+    for (let k = 0; k < N; k++) d.unit.forEach(c => put(tr(c, k)));
+    d.gun.forEach(c => put(tr(c, N)));
+    if (d.osc) d.osc.forEach(c => put(tr(c, N)));
+    const cells = [...set.values()];
+    const lo = [0, 1, 2].map(i => Math.min(...cells.map(c => c[i]))), hi = [0, 1, 2].map(i => Math.max(...cells.map(c => c[i])));
+    let H = Math.max(...[0, 1, 2].map(i => hi[i] - lo[i])) + 2 * (pad || 16); H += H % 2;
+    const off = [0, 1, 2].map(i => Math.floor((Math.floor((H - (hi[i] - lo[i])) / 2) - lo[i]) / 2) * 2);
+    const sh = c => [c[0] + off[0], c[1] + off[1], c[2] + off[2]];
+    // the quiet reference for drawing: the same cap and wire with the right cap of clock-C (d.capR, if given) instead of the gun
+    const kind = p => { const x = p[0] - off[0], s = x + p[1] - off[1] + p[2] - off[2]; return d.osc && s >= 7 ? 'osc' : x >= 2 * N ? 'gun' : 'wire'; };
+    return { H, off, cells: cells.map(sh), kind };
+  }
   // a cell's position along v and across, for drawing a ring unrolled: x kept in [0, H), (x + z) and y folded to near 0
   function unroll(p, H) {
     const s = md(p[0] + p[2] + H / 2, H) - H / 2, y = md(p[1] + H / 2, H) - H / 2;
     return [p[0], y, s - p[0]];
   }
-  return { ring, clock, gate, unroll };
+  return { ring, clock, gate, unroll, line };
 })();
 if (typeof module !== 'undefined') module.exports = { sigCore };

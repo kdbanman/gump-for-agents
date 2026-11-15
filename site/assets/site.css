@@ -337,3 +337,6 @@ img{max-width:100%}
 .mg-h h2 a::after{content:" →";color:var(--ember)}
 .mg-h h2 a:hover{text-decoration:underline;text-underline-offset:3px}
 .boot-err{color:var(--retired)}
+/* 2026-11-15 (afternoon): the gun, the line and the divider */
+.iso .f-gun{fill:var(--ink);fill-opacity:.7}
+.iso .f-osc{fill:var(--s1);fill-opacity:.85}

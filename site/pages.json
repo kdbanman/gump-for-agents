@@ -27,8 +27,10 @@
   {"id": "fauna", "k": "Debris and clocks", "v": "Period = twist × loop; a 4 × 13 compound; wires", "stc": "st-proved", "st": "proved"},
   {"id": "zombie", "k": "Unrecognised lives", "v": "4 in a million settle unseen; bounded; most are wires", "stc": "st-meas", "st": "measured"}
 ]},
-{"slug": "signals", "label": "Signals", "title": "Gump Signals", "blurb": "Pulses that travel along wires, a gate, and a clock of any length, run live on this page; and how much of its state space a seed ever visits.", "connects": "Gump is one rule among many; its relatives are the next page.", "plates": [
+{"slug": "signals", "label": "Signals", "title": "Gump Signals", "blurb": "Pulses that travel along wires, a gate, a clock of any length, a gun and a clock that edits what the gun writes, run live on this page; and how much of its state space a seed ever visits.", "connects": "Gump is one rule among many; its relatives are the next page.", "plates": [
   {"id": "signals", "k": "Signals", "v": "Pulses on wires; a gate; a clock of any length", "stc": "st-meas", "st": "new · checked on the oracle", "new": true},
+  {"id": "gun", "k": "A gun", "v": "Fifteen cells write a rake onto a wire every 4 generations", "stc": "st-meas", "st": "new · three codes; proved at every length", "new": true},
+  {"id": "divider", "k": "A clock that edits the message", "v": "Every second rake becomes a gap; nothing reads it", "stc": "st-meas", "st": "new · three codes", "new": true},
   {"id": "statespace", "k": "How much a seed sees", "v": "States seen = lifetime: 2^0.30·A of nearly 2^A", "stc": "st-proved", "st": "new · proved + measured", "new": true}
 ]},
 {"slug": "relatives", "label": "Relatives", "title": "Gump and Its Relatives", "blurb": "Gump among 960 rules, a flat cousin on a square grid, the rule the 2012 code meant to run, the family of sealed half-spaces, and where the exponent lives.", "connects": "How all of this is checked, and what is open, is the last page.", "plates": [

@@ -164,3 +164,46 @@ function band6(f, y0, y1, x0, x1) {
   return S('rect', { x: xa, y: f.Y(y1), width: xb - xa, height: f.Y(y0) - f.Y(y1), fill: 'var(--s-mute)', 'fill-opacity': .28 }, f.svg);
 }
 const lab6 = (f, x, y, t, anc, cls) => { const e = S('text', { x, y, 'text-anchor': anc || 'start', class: (cls || 't-strong') + ' halo' }, f.svg); e.textContent = t; return e; };
+
+// ---------- a live object of the fourth signals push (the gun's line, the divider), drawn every second generation ----------
+// d: an object of D.signals4.objects; N: units of wire. Grey: the cap and wire as they stand at an even generation; orange: a
+// cell the quiet wire does not have (a rake); orange outline: a cell of the quiet wire that is missing (a gap); dark: the gun;
+// blue: the oscillator. The period is found by comparing whole states, and compared with the ledger's (period, onset).
+function sigLine(host, read, btn, d, N, want, label) {
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const L = sigCore.line(d, N), H = L.H, o = L.off, xyz = c => [Math.floor(c / (H * H)), Math.floor(c / H) % H, c % H];
+  const pos = p => [p[0] - o[0], p[1] - o[1], p[2] - o[2]], quiet = new Set();
+  L.cells.forEach(p => { if (L.kind(p) === 'wire') quiet.add((p[0] * H + p[1]) * H + p[2]); });
+  let g, seen, found, w = 0;
+  const reset = () => { g = makeGump(H); g.setCells(L.cells); seen = new Map(); found = null; note(); };
+  const note = () => { const k = []; for (let i = 0; i < g.M; i++) if (g.state[g.cell[i]]) k.push(g.cell[i]); const s = k.join(); if (!found) { if (seen.has(s)) found = [seen.get(s), g.gen - seen.get(s)]; else seen.set(s, g.gen); } };
+  // the drawing's fixed extent: every cell alive in the first 16 generations
+  const ext = (() => { const t = makeGump(H), pts = []; t.setCells(L.cells); for (let s = 0; s < 16; s++) { for (let i = 0; i < t.M; i++) if (t.state[t.cell[i]]) pts.push(pos(xyz(t.cell[i]))); t.step(); } return pts; })();
+  const ghost = [{ cls: 'gl', segs: ext.map(p => [[p[0] - 1, p[1] - 1, p[2] - 1], [p[0] + 1, p[1] + 1, p[2] + 1]]) }];
+  const draw = () => {
+    if (!w) return;
+    const fs = [], live = new Set();
+    for (let i = 0; i < g.M; i++) {
+      const c = g.cell[i]; if (!g.state[c]) continue; live.add(c);
+      const p = xyz(c), k = L.kind(p);
+      fs.push({ p: pos(p), cls: k === 'osc' ? 'f-osc' : k === 'gun' ? 'f-gun' : quiet.has(c) ? 'f-w' : 'f-sg' });
+    }
+    quiet.forEach(c => { if (!live.has(c)) fs.push({ p: pos(xyz(c)), cls: 'f-gp' }); });
+    host.textContent = '';
+    iso(host, fs, { yaw: -0.62, pitch: 0.42, wires: ghost, fit: { w, h: 190, max: 22 }, pad: 0.4, label: label + ', generation ' + g.gen });
+    read.textContent = '';
+    E('span', {}, read, 'generation ' + g.gen + ' · ');
+    if (found) { E('span', {}, read, 'back to its state of generation ' + found[0] + ' after '); E('b', {}, read, found[1] + ' generations'); E('span', {}, read, ' ' + (found[1] === want[0] && found[0] === want[1] ? '✓ period ' + want[0] + ' from generation ' + want[1] + ', as the ledger says' : '✗ the ledger says period ' + want[0] + ' from generation ' + want[1] + ': trust it, not this drawing')); }
+    else E('span', {}, read, 'looking for the first repeated state…');
+  };
+  const tick = () => { g.step(); note(); g.step(); note(); draw(); };
+  reset();
+  responsive(host, ww => { w = ww; draw(); });
+  let timer = null;
+  const play = () => { if (!timer) timer = setInterval(() => { if (found && g.gen > found[0] + 6 * found[1]) reset(); tick(); }, 300); btn.textContent = 'Pause'; };
+  const stop = () => { clearInterval(timer); timer = null; btn.textContent = 'Play'; };
+  btn.addEventListener('click', () => { timer ? stop() : play(); });
+  if (reduce) { for (let i = 0; i < want[1] + want[0]; i++) tick(); stop(); }
+  else if ('IntersectionObserver' in window) new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { if (!timer && btn.textContent !== 'Play') play(); } else if (timer) { clearInterval(timer); timer = null; } }), { threshold: .15 }).observe(host.closest('figure'));
+  else play();
+}

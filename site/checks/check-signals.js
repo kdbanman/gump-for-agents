@@ -95,6 +95,50 @@ for (const cubes of [dg.cubes, GATE_RING]) {
   console.log(`gate, ring of ${cubes} units, ${dg.T} generations: survivors ${out.join(' ')} (L: the left-mover, at even separations; R: the right-mover, at odd)`);
 }
 
+// 5. the fourth push (CLAIMS SG16-SG19): the line (cap, N units, gun) and the divider (the same with C8.24a) as the Signals page
+// lays them out (sigCore.line): the first repeated state is generation 2N with period exactly 4 for the line, 2N - 3 with period
+// exactly 8 for the divider; in the divider every cell of the oscillator standing alone (stepped in the same torus) is alive at
+// every generation, and the only other cell ever alive in its layers is one cell, alive at generations 8, 16, 24, ... only
+// (the oscillator test from N = 8, the length from which the proof is written; at N = 3 the cap reaches the oscillator's layers).
+// data/signals4.json's copies must equal the object files.
+const PAGE_LINES = [12], PAGE_DIVIDERS = [12];
+const S4 = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'signals4.json'), 'utf8')).objects;
+for (const [k, n, flds] of [['line', 'line-C', ['v', 'capA', 'unit', 'gun']], ['divider', 'divider-C8', ['v', 'capA', 'unit', 'gun', 'osc']]]) {
+  const f = obj(n);
+  for (const fld of flds) if (JSON.stringify(S4[k][fld]) !== JSON.stringify(f[fld])) fail(`data/signals4.json objects.${k}.${fld} differs from ${n}.json`);
+}
+const firstRepeat = (cells, H, T) => {
+  const g = makeGump(H); g.setCells(cells); const seen = new Map([[live(g).join(), 0]]);
+  for (let t = 1; t <= T; t++) { g.step(); const k = live(g).join(); if (seen.has(k)) return [seen.get(k), t - seen.get(k)]; seen.set(k, t); }
+  return null;
+};
+for (const N of [2, 3, 8].concat(PAGE_LINES, [16])) {
+  const L = sigCore.line(S4.line, N), r = firstRepeat(L.cells, L.H, 2 * N + 40);
+  const ok = r && r[0] === 2 * N && r[1] === 4;
+  console.log(`line, N = ${N}: first repeated state at generation ${r && r[0]}, period ${r && r[1]} (ledger: 2N = ${2 * N}, 4)  ${ok ? 'ok' : 'WRONG'}`);
+  if (!ok) bad++;
+}
+for (const N of [3, 8].concat(PAGE_DIVIDERS, [16])) {
+  const L = sigCore.line(S4.divider, N), r = firstRepeat(L.cells, L.H, 2 * N + 60);
+  const ok = r && r[0] === 2 * N - 3 && r[1] === 8;
+  const tr = c => [c[0] + 2 * N + L.off[0], c[1] + L.off[1], c[2] - 2 * N + L.off[2]];
+  const g = makeGump(L.H), o = makeGump(L.H); g.setCells(L.cells); o.setCells(S4.divider.osc.map(tr));
+  let lost = 0; const extra = new Map();
+  for (let t = 0; t <= 2 * N + 64; t++) {
+    for (let i = 0; i < g.M; i++) {
+      const c = g.cell[i], p = [Math.floor(c / (L.H * L.H)), Math.floor(c / L.H) % L.H, c % L.H];
+      if (L.kind(p) !== 'osc') continue;
+      if (o.state[c] && !g.state[c]) lost++;
+      if (g.state[c] && !o.state[c]) { if (!extra.has(c)) extra.set(c, []); extra.get(c).push(t); }
+    }
+    g.step(); o.step();
+  }
+  const ex = [...extra.values()], okOsc = N < 8 || lost === 0 && ex.length === 1 && ex[0].every(t => t > 0 && t % 8 === 0) && ex[0].length === Math.floor((2 * N + 64) / 8);
+  console.log(`divider, N = ${N}: first repeated state at generation ${r && r[0]}, period ${r && r[1]} (ledger: 2N - 3 = ${2 * N - 3}, 8)  ${ok ? 'ok' : 'WRONG'}; ` +
+    (N < 8 ? 'oscillator test from N = 8 only; ' : '') + `the oscillator's own cells never missing: ${lost === 0}; other cells in its layers: ${ex.length}, at generations ${ex[0] ? ex[0].slice(0, 3).join(', ') + ', …' : '-'}  ${okOsc ? 'ok' : 'WRONG'}`);
+  if (!ok || !okOsc) bad++;
+}
+
 // 4. bit-exact against reference/oracle.py: per-generation hashes of the sorted live cell indices
 const py = `
 import sys, json, hashlib
@@ -117,7 +161,8 @@ const jobs = [
   ['clock N = 4, lit', (L => ({ H: L.H, cells: L.lit }))(sigCore.clock(dc, 4)), 40],
   ['gate, separation 10', sigCore.gate(dg, GATE_RING, 10), dg.T],
   ['gate, separation 11', sigCore.gate(dg, GATE_RING, 11), dg.T],
-];
+].concat(PAGE_LINES.map(N => ['the line, N = ' + N, sigCore.line(S4.line, N), 2 * N + 12]),
+         PAGE_DIVIDERS.map(N => ['the divider, N = ' + N, sigCore.line(S4.divider, N), 2 * N + 20]));
 let ref = null;
 try {
   ref = execFileSync('python3', ['-c', py], { cwd: repo, input: JSON.stringify(jobs.map(([, L, T]) => ({ H: L.H, cells: L.cells, T }))), encoding: 'utf8', maxBuffer: 1 << 24 })
