@@ -521,3 +521,11 @@ My reading of the lead's S27-S32, for the lead to overrule: **S27 (85%) held.** 
 outcome is that the stream breaks (turns into wire B): the 30% branch. **S29 (25%) failed** for the echo (no gun on
 file and none in the SAT bounds survives E; guns that survive the other up-signal U exist, which the forecast did not
 name). **S30 (8%) failed.** **S31 (30%) failed** (no simpler reflector; the echo needs none). **S32 (12%) failed.**
+
+### The sixth push: the lead's scoring (21:50 UTC, before any review)
+
+S27 held. S28: the stream breaks (my 30% branch): an echo meeting a hole turns the stream between them into wire B
+and the change spreads both ways for ever; my likeliest branch, passing through unchanged (35%), did not happen at
+the one phase that exists. S29, S30, S31, S32 failed. Over six pushes: 30 forecasts tested, 12 held in some form,
+18 failed. What I did not foresee: that there are four signals and not two, that one pair cancels exactly, and
+that the echo needs no reflector at all (one flipped cell makes one).

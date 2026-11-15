@@ -335,6 +335,20 @@ _Last updated 2026-11-14 by the lead._
   both check suites pass for the lead, who looked at the three plates; 93 supporting files on the private
   artifact). To fill in later: `dens.w13measured` in `site/collect/sources/update-2026-11-15f.json` when the card
   has measured the face. **Running:** the sixth signals push only.
+  **21:50 UTC: the sixth push has reported; nothing is running; no agent may be started.** Its account is README
+  sections 30–35 (four signals on the stream, two each way; U meets K0 cancels exactly; E or U meeting a hole
+  turns the stream into wire B, spreading; no gun survives an echo within bounds; no loop, no listener). Its
+  verifier and the lead's own oracle check (`research/audit/signals_meet_lead_check.py`) pass; the notebook has a
+  provisional entry and the lead's scoring of S27–S32. **`get_session` showed `rate_limit_info.status`
+  "allowed_warning", type `seven_day_overage_included` (the Fable window), at 21:50 UTC**: by the rule in
+  `LEAD.md` no agent is started until the owner gives a reading or uses the second Fable reset. **Owed, in
+  order, once usage allows:** (1) an Opus adversarial review of the sixth push (`research/audit/REVIEW-signals-6.md`,
+  code `research/audit/signals6/`; brief as for the fifth: own encoding of the gun and reflector SAT negatives,
+  the meeting table by its own stepper, the 68 guns, the "for ever" argument for the fronts, wording); (2)
+  CLAIMS rows SG28 on, open problem 13, the owner's journal, the essay, the site's signals page, a republish;
+  (3) the card's results (fetch `origin/claude/gpu-local-1080`: the hull face of 108 cells about 02:00 UTC on the
+  16th, then the 84-cell tube, W13's face, the 108- and 96-cell tubes) with a new pull request for its branch;
+  (4) `research/check.sh`, CI, merge pull request 27.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

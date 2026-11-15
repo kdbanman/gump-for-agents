@@ -287,6 +287,11 @@ let CI pass, merge.
 
 - **Readings given by the owner:** 2026-11-15 about 15:18 UTC: 62% weekly, 73% Fable weekly (the lead's reckoning
   for that minute was 64% and 73%).
+- **A warning, 2026-11-15 21:50 UTC:** `get_session` showed `rate_limit_info.status` "allowed_warning" with
+  `rateLimitType` "seven_day_overage_included" (the Fable window); it had read "allowed" at 18:22 UTC. The lead's
+  reckoning for that minute was about 76% weekly and 84% Fable. What the lead did: started no agent (none was
+  running), wrote the state down, told the owner, and kept its own turns few. Where the warning sits (80%? 90%?)
+  is not known; a reading from the owner at such a moment would calibrate it.
 - The account's usage is visible from inside the session: `mcp__claude-code-remote__list_events` on this session's
   own id with `kinds: ["rate_limit_event"]`, `limit: 100`, returns the latest event; under
   `rate_limit_info.unifiedWindows` are `five_hour` and `seven_day`, each with `utilization` (0–1) and `resetsAt`

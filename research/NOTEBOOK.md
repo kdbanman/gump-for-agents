@@ -3534,3 +3534,54 @@ f4009e7 … 577e0d9). It applied its corrections to README sections 26–29 itse
   tube; the 315,666-run table by a second code (I re-ran the hole and K0 on the oracle, not the other events);
   the samples beside the stream were not drawn again; the nine "other" gun deaths and the wall's wire are not
   characterised; what the echo does on bare wire or against anything but the gun.
+
+## 2026-11-15: the sixth signals push: the stream carries four signals, two each way; an up-signal meeting a hole turns the stream into another wire, one pair cancels exactly, and no gun survives an echo (the lead's own oracle check; not yet reviewed)
+
+Account: `research/signals/README.md` sections 30–35 (commits b73f24a … dbd710a); oracle verifier
+`cd research/signals && python3 verify_echo.py` (20 s, ALL PASS when the lead ran it). **No adversarial review
+has been run yet** (see the last bullet); everything below is one investigator's work plus the lead's check of
+the signals and meetings.
+
+- **[exact computation, and the oracle on a ring; the lead's own oracle check] Four signals.** Flipping each tube
+  cell of two units of the plain rake train at each phase (112 events): 24 vanish, 66 break the stream, 22 become
+  exactly one of four rigid signals, each moving one unit per two generations: **E**, the echo, three cells, up the
+  stream; **U**, one cell, up; **H**, the hole, one cell, down; **K0**, one cell, down. So one flipped cell makes
+  an echo; no reflector is needed. Each rides the train for ever (`prove_echo.py`: a two-generation computation on
+  the infinite lattice and an induction).
+- **[oracle; the push and the lead] Meetings.** Each kind sits on units of one parity, so each pair of
+  opposite-moving kinds has exactly one meeting. **U meets K0: both vanish exactly** (the plain train from
+  generation 20 on). **E meets H, and U meets H: the stream between two edges becomes wire B**, the first push's
+  wire; one edge moves down with the stream, the other up, turning each arriving rake into wire B; it never stops.
+  **E meets K0:** K0 vanishes and E becomes an edge moving up that removes the hole cell of every rake it passes.
+  An echo never passes a hole.
+- **[the lead's check: `reference/oracle.py` only, from the cell tables of `objects/echo-train.json`]**
+  `python3 research/audit/signals_meet_lead_check.py` (10 s, PASS): one oracle step of the table's train is its
+  next phase; each of the four signals is rigid for 80 generations on a 48-unit ring, with the stated cell count
+  and direction; U and K0 leave the whole torus plain from generation 20; E or U against H: the difference never
+  empties, its span grows ten units per ten generations, and inside it every unit holds the same five cells, not
+  the train's; E against K0: inside the span exactly one cell differs in every second unit, the same cell each
+  time. (As first written two of my tests failed, both my own faults: I located the span wrongly on the ring when
+  the difference has gaps.)
+- **[measured, complete over one list; SAT within bounds; one code] The gun end.** All 68 guns of the C = 37 list
+  die of E; 11 of them absorb U exactly (one on the oracle). As a constraint problem: no gun of period dividing 4
+  in the 3 × 3 tube, planes C = 31 … 39, absorbs E or answers it with one H or one K0 and is a gun again within 52
+  generations (UNSAT; the same search with U is SAT). Period 8 and C = 41 were cut and exclude nothing.
+- **[measured; SAT within bounds; one code] The reflector.** The clock C18.23a never touches the line until a hole
+  arrives, then couples through one cell at three generations. It works once: the first echo meets the second
+  hole on its way up. No end inside the 3 × 3 tube turns a hole or K0 into a returned E or U (UNSAT, C = 31 … 37).
+- **[oracle, on the infinite train] A count that does not last.** An echo against a word of holes leaves a
+  standing stretch of the wall-wire B′ inside the wire B it makes, one unit longer for each further hole (3, 4, 5
+  units for 2, 3, 4 holes). In the finite line the dying gun's fire erases it. Not a listener.
+- **A correction to the review of the fifth push:** its test of whether an event "rides" the train looked only
+  down the stream, so some of the 338 events it counted as breaking the bare train become E or U. Its table of
+  outcomes at the ends is not affected by this as far as the push could tell; the scan was not re-run.
+- **[scored by the lead]** S27 (the echo rides for ever, 85%) held. S28: of my four branches the one that happened
+  is "the stream breaks" (30%); the one I thought likeliest, passing through unchanged (35%), did not. S29 (a gun
+  survives the echo, 25%), S30 (a loop, 8%), S31 (a simpler reflector, 30%), S32 (a listener, 12%) failed. Over
+  six pushes: 30 forecasts tested, 12 held in some form, 18 failed.
+- **Not checked, and owed (21:50 UTC):** an adversarial review with independent code (the SAT negatives rest on one
+  encoding and one solver; the gun and reflector scans on one code; the gluing step of the "for ever" argument
+  for the fronts was done by hand; the oscillator samples beside the gun have a stated flaw in their stream
+  test). It was not started: at 21:50 UTC the session's rate-limit status read "allowed_warning" on the Fable
+  window, and the lead's rule is to start no agent on anything but "allowed". CLAIMS rows, the open problems, the
+  owner's journal, the essay and the site wait for that review.
