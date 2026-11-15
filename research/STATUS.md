@@ -56,6 +56,12 @@ _Last updated 2026-11-14 by the lead._
   commits need a new pull request.
 
 ## Next (lead's list; pick by judgment)
+- **Read this first (02:25 UTC, 2026-11-15): the lead cannot read usage any more, and cannot message the cloud GPU
+  session.** The owner approved a trust card so that this session could answer a ping from a local GPU session on
+  their machine (a GTX 1080); since then `list_events` and `send_message` to cloud sessions are refused. The rule for
+  working without readings (reckon from the last one, 01:21 UTC: weekly 0.27, Fable 0.27; no new agent past an
+  estimated 0.70) is in `LEAD.md`, "Watching usage"; the sessions and what may be done with them, "Other sessions".
+  The owner has been told and asked for the figures from their screen.
 - **State at 11:30 UTC, 2026-11-14 (after a compaction).** Done since 10:30 and recorded: the exponent study
   (reviewed, corrected, notebook, CLAIMS X1-X3), the swarm's close, the essay section "Coins will do", the second
   revision of `class.md`. **Pull request 16 (GPU: the shape of a periodic face) is merged** (squash bad62e3, 12:05 UTC) after its
@@ -161,7 +167,7 @@ _Last updated 2026-11-14 by the lead._
   −0.196·√A term and the factor 1.5 between centres from the asymmetric law; forecasts first; CPU only) ->
   `research/theory/symmetric/`. Owed on its report: the lead's check of one number, an Opus adversarial review,
   notebook, CLAIMS. The 37 settled states of period 9–52 kept in
-  `research/audit/shape3/zombie_states.txt` are identified (02:40 UTC; `research/clockwork/README.md`, "Found by
+  `research/audit/shape3/zombie_states.txt` are identified (02:22 UTC; `research/clockwork/README.md`, "Found by
   accident"; notebook entry "what the unrecognised settled states are"; CLAIMS Z12, Z13; lead's check
   `python3 research/audit/clockwork_zombies_lead_check.py`): five new finite clocks, one a 4 × 13 compound of
   period 52; 21 wires and 2 sheets that exist only because a small torus lets a line close on itself.

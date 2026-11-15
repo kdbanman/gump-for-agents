@@ -98,7 +98,10 @@ job to keep it honest. What exists (2026-11-13):
   schedule tasks on its owner's computers … once it has asked for a computer it no longer reaches the owner's other
   sessions." The lead's reading (not the owner's words): the approval covers exchanging messages with that session
   (`mcp__claude-code-remote__send_message` with its id; `SendMessage` does not reach it). The owner has not yet said
-  what the local GPU is for. Until they do: do not start sessions or schedule tasks on their computers, and **do not
+  what the local GPU is for. **Side effect found at 02:24 UTC:** since the approval this session can no longer
+  message the cloud GPU session or read any session's events, its own included (see "Watching usage"); the cloud
+  GPU session's pull requests are still reachable through GitHub, and its messages to this session may still
+  arrive. Until the owner says more: do not start sessions or schedule tasks on their computers, and **do not
   call `request_computer_folder`** (it would also cut this session off from the owner's other sessions). If the
   owner offers the GTX 1080 for runs, the queue is in `research/STATUS.md` (the measurements that would narrow the
   asymptotic constant; the guard against unrecognised settled replicas comes first).
@@ -230,6 +233,22 @@ let CI pass, merge.
   like would/could be a novel contribution? Not necessarily trying to steer you, just curious for an update." The
   lead's reading: say candidly what looks new and what does not; a manuscript-style draft inside the repository
   (`docs/paper/`) is a fair way to find out; nothing is sent or posted anywhere without asking first.
+- **Usage can no longer be read from inside the session (since about 02:20 UTC, 2026-11-15).** After the owner
+  approved the trust card for messaging their local GPU session (see "Other sessions"), this session "is now limited
+  to its owner's trusted devices", and three calls that worked before are refused with
+  `elevated_session_untrusted_device`: `list_events` on this session's own id (the usage readings above),
+  `list_events` on the cloud GPU session, and `send_message` to the cloud GPU session. The refusals say not to retry
+  and to tell the owner, who can do these from the Claude app on a trusted device. Do not route round them through
+  another session. What still works: `get_session` with no id (context figure; `rate_limit_info.status`, which
+  read "allowed" at 02:24 UTC and carries no utilization), `send_message` to the local GPU session, `send_later`,
+  GitHub, subagents. **Last real reading: 01:21 UTC 2026-11-15, session 0.00 (window resets 06:20 UTC), weekly 0.27,
+  Fable 0.27; weekly and Fable reset 2026-11-18 11:00 UTC.** Until the owner gives a figure, reckon forward from
+  that reading at the paces measured on 2026-11-14 (weekly and Fable: about 0.04 an hour with two or more agents
+  running, 0.02 with one, 0.01 for the lead alone; session window: about 0.15 an hour under heavy use), write the
+  estimate into the scratchpad at each check, and hold a wider margin because it is an estimate: start no new
+  agent once the estimate for weekly or Fable passes 0.70, and stop running agents at 0.80. If `get_session` ever
+  shows a `rate_limit_info.status` other than "allowed", stop all agents and tell the owner. Ask the owner for the
+  three figures whenever they write (their screen shows them).
 - Context: `mcp__claude-code-remote__get_session` with no id shows `external_metadata.context_usage`
   (`used_tokens` of `max_tokens`) and the auto-compaction threshold.
 
