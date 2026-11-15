@@ -16,8 +16,8 @@ carriers), brought up to date 2026-11-15 10:40 UTC.
 | L1 | **pulse A**: 5 cells on another period-2 wire (6 cells per cube), same speed | `python3 verify_pulse.py objects/pulse-A.json` | 3 s |
 | L1 | **pulse S**: 32 cells on a **still** wire (5 cells per cube), same speed | `python3 verify_pulse.py objects/pulse-S.json` | 3 s |
 | L1, weak sense | **front**: the period-19 wire W00 is converted, one repeat every 19 generations, into a still wire | `python3 verify_front.py objects/F-W00-plus.json` | 20 s |
-| L2 | **transmission**: flipping ONE cell at A sends a pulse down wire B; 36 cubes away a standing defect swallows it and is changed; six shots in a row; a control run with A untouched never changes | `python3 verify_transmission.py objects/transmission-B.json` | 30 s |
-| L3 | **interaction**: two pulses of wire B meeting head-on pass through each other unchanged, or stop each other and leave a 3-cell standing mark, according to the parity of their separation | `python3 verify_interaction.py objects/interaction-B.json` | 30 s |
+| L2 | **transmission**: flipping ONE cell at A sends a pulse down wire B; 36 cubes away a standing defect (a B|B′ wall, a unary counter) swallows it and moves one cube towards A; six shots in a row; a control run with A untouched never changes. Capacity d − 1 shots over d cubes (*review*) | `python3 verify_transmission.py objects/transmission-B.json` | 30 s |
+| L3 | **interaction**: two pulses of wire B meeting head-on pass through each other unchanged, or stop each other and leave a 3-cell standing mark, according to the parity of their separation (the whole rule for head-on pairs, *review*) | `python3 verify_interaction.py objects/interaction-B.json` | 30 s |
 
 | second push | **clock**: wire C between two caps, ONE cell added: a rake shuttles between the caps for ever. A finite object in empty space, 32 + 5N cells, **period 4N + 2** for N units of wire (N = 1, 5, 16, 17, 30 here; every N: `python3 prove_clock.py 8 4`, section 11) | `python3 verify_clock.py objects/clock-C.json` | 4 s |
 | second push | **rake**: one extra cell on wire C moves one unit per 2 generations and emits a pulse every 2 generations; a pulse met head-on is swallowed or stops it, by parity | `python3 verify_rake.py objects/rake-C.json` | 3 s |
@@ -42,18 +42,25 @@ one. "(p, s)": after p generations the state is itself moved by s repeats. All p
   (1,0,2), (1,0,4); generation 1: (0,0,1), (0,0,5), (0,1,2), (0,1,4), (1,2,2). So (0,1,2), (0,1,4) never change.
   It lies in the 3 × 3 diamond tube 1 ≤ x+y+z ≤ 5, 1 ≤ x−y+z ≤ 5, which is closed by T2, so it is a wire of empty space.
   The half-turn (x,y,z) ↦ (−x−2, y, 8−z) maps it to itself reversed.
-- **Pulse B**: flip (13,0,−12) and (14,2,−11) at an even generation. One live cell with 6 or more live neighbours
-  that was alive the generation before occurs at the pulse in every generation, none in the bare wire [measured;
-  this is the drive the threshold lemma T5 demands, see section 4].
+- **Pulse B**: flip (13,0,−12) and (14,2,−11) at an even generation. One cell with 6 or more live neighbours
+  that was live the generation before (it dies) occurs at the pulse in every generation, none in the bare wire
+  [measured; this is the drive the threshold lemma T5 demands, see section 4].
 - **Emitter** [proved by the L2 run]: remove the never-changing cell (0,1,2) + k(2,0,−2) at an even generation: the
-  wire heals and a pulse B leaves towards +(1,0,−1). Removing (0,1,4) + k(2,0,−2) sends one the other way [measured].
-- **Receiver** (`transmission-B.json`): 8 flipped cells over 4 cubes, the end of a stretch of a variant wire (2
-  cells per cube different). It swallows every pulse and its wall moves exactly one cube towards the sender. So
-  the line between A and the receiver is left exactly as it was and is used again and again, and what is written at
-  B is permanent; but **each pulse costs one cube of wire at the receiving end**. That is the sense in which L2 holds.
+  wire heals and a pulse B leaves towards +(1,0,−1). Removing (0,1,4) + k(2,0,−2) sends one the other way [measured;
+  on the oracle in the review]. The sender can fire every 4 generations; flips at odd generations heal (review §2).
+- **Receiver** (`transmission-B.json`): 8 flipped cells over 4 cubes, the end of a stretch of the period-2 wire B′
+  (= B with (1,0,2) off and (0,2,3) on): a wall between B and B′, i.e. a unary counter. It swallows every pulse and
+  the wall moves exactly one cube towards the sender. So the line between A and the receiver is left exactly as it
+  was after each shot and what is written at B is permanent; but **each pulse costs one cube of wire at the
+  receiving end**, so a receiver d cubes away takes d − 1 shots: the review ran 35 clean shots over 36 cubes, and
+  the 36th, with the wall beside A, sets the whole wire on fire. That is the sense in which L2 holds.
 - **Eaters** [measured]: 10 of 150 standing defects of wire B swallow every pulse and stay exactly as they were.
 - **The mark** left when two pulses stop each other: (28,2,−25), (29,0,−26), (30,2,−27) up to translation. A later
-  pulse from either side is swallowed by it and it becomes a 5-cell standing defect [measured].
+  pulse from either side is swallowed by it and it becomes a 5-cell standing defect [measured; on the oracle in the
+  review].
+- **Parity is the whole rule** for a head-on pair (review §2, separations 2 to 44 on rings of 64 and 65): odd
+  separations pass, even ones stop. On an odd ring a passing pair stops at its second meeting (the separation has
+  changed parity). Pulses going the same way run as rigid trains at every spacing 1 to 12.
 
 ## Tools, and how each was checked
 
@@ -79,6 +86,12 @@ step agrees with the ring on an interval longer than b), and gluing it to both s
 the infinite tube: one pulse, the same background on both sides. Every pulse above was then put alone on a ring of
 40 or more cubes and stepped by the oracle.
 
+*Corrections of 2026-11-15 (third push), taken from the review `research/audit/REVIEW-signals.md` after checking
+each against its evidence: the receiver is a B|B′ counter with capacity d − 1 (table row L2, "Receiver"); pulse B's
+overcrowded cell dies (pulse B); the emitter's rate; parity is the whole head-on rule, trains are rigid, the mark's
+later behaviour is on the oracle ("The mark"); the duplicate wires (section 1); wire B's flip census (section 3);
+corollary 1's argument (section 4); the bounds table (section 6).*
+
 ## 1. The wires on file: cuts, flips, kinks
 
 - **[measured] Cutting one repeat out** (`python3 cut_wires.py`, 2 min; ring of 48, every phase, gaps of 1, 2, 3
@@ -102,7 +115,8 @@ the infinite tube: one pulse, the same background on both sides. Every pulse abo
   (3 min) says what each ash is. Only F-W00-plus has been put to the oracle.
 - **[measured] Every one-cell flip** (`python3 flips.py`, 12 min; ring of 32; every cell live in some phase and
   every neighbour of one, in every phase: 57,150 trials): heals 28,337; settles within 3 repeats 17,188; **starts
-  a front 11,544 (in 17 of the 21 wires; none in W09, W11, W12, W24)**; undecided at 1,500 generations 81; **pulses
+  a front 11,544 (in 17 of the 21 wires; none in W09, W11, W12, W24; the 21 are 18 up to symmetry, W17 = W20 = W26
+  and W18 = W30, so 14 of 18 distinct wires, review §5)**; undecided at 1,500 generations 81; **pulses
   0** (no trial in which the difference ever lay wholly 3 or more repeats from where it was made).
 - **[measured] Phase kinks** (`python3 kinks.py`, 30 s; repeats 10–29 of 40 at phase d, the rest at phase 0, every
   d): no boundary between two phases of a wire travels. It stays as a wall a few repeats wide (every d in W11, W24,
@@ -124,8 +138,8 @@ the infinite tube: one pulse, the same background on both sides. Every pulse abo
   one-cell flips, the pulse alone for a lap, and the pulse against its mirror image where the wire has a reversing
   symmetry. Most wires are fuses for most flips and catch fire when two pulses meet (wire A: 58 of 88 flips start
   fronts at the pulse's own speed; pulse against pulse, and pulse against each of 60 standing defects at two distances, sets it
-  alight). **Wire B is the robust one: of its 84 one-cell flips 74 heal, 2 leave a standing one-cell defect, 2 emit
-  a single pulse (one each way) and 6 start fronts.**
+  alight). **Wire B is the robust one: of its 84 one-cell flips 74 heal, 2 leave a standing defect (one of 1 cell, one of
+  2 cells), 2 emit a single pulse (one each way) and 6 start fronts** (the review's own census agrees exactly).
 - **[proved, exhaustive SAT]** defects of wire B inside the 3 × 3 tube (`python3 sat_defects.py objects/pulse-B.json
   P S --N n --lo 1 --hi 5`): right-moving (2,1) defects fitting in 5 cubes: exactly 17 (pulse B, other pulses and
   trains; not sorted). Standing defects of period 2 in 4 cubes: more than 1,000 (the list was cut there). Standing clocks of exact
@@ -144,9 +158,13 @@ the infinite tube: one pulse, the same background on both sides. Every pulse abo
 
 ## 4. What is proved about carriers in general
 
-- **[proved] A wire cannot grow at its end.** A wire that ends (empty beyond some point along −v) lies in a
-  half-space d·p ≤ C for some body diagonal d with d·v < 0 (the four diagonals span space, so some ±d has d·v < 0),
-  and T2 keeps it there. No front runs from a wire into empty space: fuses burn, nothing lays track.
+- **[proved] A wire cannot grow at its end.** *(Argument corrected 2026-11-15 after the review, §6; one half-space
+  is not enough.)* Let D be the set of signed body diagonals d with d·v < 0. A wire bounded across its axis and
+  empty beyond its end (along −v) has d·p bounded above on its support for every d in D, so by T2 it stays in the
+  intersection of the half-spaces d·p ≤ C_d for ever; and −v is a non-negative combination of the elements of D
+  (if −v lies in the cone x ≥ |y|, |z|, then −v = a(1,σ,τ) + b(1,σ,−τ) + c(1,−σ,τ) with a = (|y|+|z|)/2,
+  b = (x−|z|)/2, c = (x−|y|)/2). Hence (−v)·p stays below a fixed bound: the support never passes a plane
+  perpendicular to v. No front runs from a wire into empty space: fuses burn, nothing lays track.
 - **[proved, corollary of T5] A pulse on a wire of period ≤ 2 that has no drive of its own must carry its drive
   with it**: on a ring it is an orbit of period N·p/s > 2 in a finite vessel, so in every lap, hence (by the shift
   symmetry) in every period, some cell has 6 or more live neighbours having been alive the generation before; if the
@@ -185,6 +203,13 @@ for s = 3, 4, 5):
 | 2 × 2 (6 cells per cube) | none | (1,1), (2,1), (3,1), (3,2), (4,1), (4,3), (5,1), (5,2), (5,3), (5,4), (6,1), (6,5) | — |
 | 2 × 3 (9 per cube) | (2,1) | (1,1), (3,1), (3,2), (4,1), (4,3), (5,1), (5,2), (5,3), (5,4) | (6,1) (300 s) |
 | 3 × 3 (14 per cube) | (2,1) | (1,1), (3,1), (3,2), (4,3), (5,2), (5,3), (5,4), (6,5) | (4,1), (5,1), (6,1) (100 s) |
+
+*(2026-11-15, after the review, §4.)* The width bound in one convention: the defect, together with the s cubes it
+sweeps, fits in N − K − 1 = 9 − s cubes (for (5,4) and (6,5): 3 and 1 cubes, so those two rows say little). The
+3 × 3 rows rest on the encoding, with two solvers agreeing. An independent transfer-graph search that shares nothing
+with the encoding and has **no width bound** (`research/audit/signals/transfer.py`) confirms all twelve 2 × 2 rows
+and the 2 × 3 rows (1,1), (3,1), (3,2), (4,1), (4,3), (5,1), (5,2), (5,3), (5,4), and adds 2 × 3 (6,5): for these
+there is no pulse of any width on any uniform background. It did not finish the 3 × 3 tube.
 
 So within these bounds the only pulse speed is one cube per two generations; in particular there is no pulse at
 the speed limit ((1,1)) in any of the three tubes, although fronts at the speed limit exist (section 2). Not
