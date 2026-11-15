@@ -64,6 +64,9 @@ that looks up `'#some-id'` which is not on its page. Only the data files some pa
   "st": "measured"}` to its page's `plates` in `pages.json`, where it should appear; `"new": true` marks the tile. A
   plate that needs a new data key needs `data/<key>.json` (see next). New styles go at the end of `site.css`.
   Link to another plate with `href="#<id>"`; the build points it at the right page.
+- **A value still to come** (as the card's 84-cell face on "What a short way round costs"): give it a named field that is
+  `null` until measured (`wrap.measured84` in `collect/sources/update-2026-11-15e.json`), have the plate draw it only when
+  it is not null, and say in `collect/REFRESHES.md` who fills it in.
 - **A data file**: add the key to `out` in `collect/collect.py` (with the checks of its quotes, as the other keys
   have), run it; or, for a hand-made file, put `data/<key>.json` in place and say in `collect/REFRESHES.md` where
   it came from. A plate script that reads `D.<key>` gets it on its page automatically.
@@ -85,7 +88,9 @@ that looks up `'#some-id'` which is not on its page. Only the data files some pa
   `#id` its scripts used still used on the plate's page, every data key it read still read and served with the same
   content, every map tile on the landing page. It compares against that fixed version: when a plate is changed on
   purpose, expect it to report that plate; add the change to `EDITS`, or move `OLD_REV` (or pass a file) once checked.
-  `--dist site/dist-artifact` runs it on the artifact tree (data read from its `data/<key>.js`).
+  `--dist site/dist-artifact` runs it on the artifact tree (data read from its `data/<key>.js`). Plates added since that
+  version are listed in its `NEW`, old plates rewritten on purpose in `CHANGED`, data keys allowed to differ in
+  `CHANGED_DATA`, each with its source; anything else that differs still fails. Add to these when you add or rewrite a plate.
 - `checks/check-links.py`: every relative href/src, CSS url(), import, import map entry, `new URL(…, import.meta.url)`
   and boot.js data/plate list in `dist/` resolves to a file (anchors on overview pages to an id); no root-absolute
   path; external scripts only from cdnjs / jsDelivr npm / unpkg with an exact version, stylesheets only Google Fonts;

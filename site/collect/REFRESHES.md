@@ -224,3 +224,35 @@ constant), "Open now", corrections, forecasts, audits, milestones. All drawn by 
   a carrier about once in a few hundred, soup proper never yet; destroyed every time over about 2,300 sides, one exception;
   escapes 5 of 200 (reviewer) and 15 of 200 (first agent); the counter has sixteen positions. Header chips and "Open now" say
   both reviews are done; the clock's and the tape's proofs are "checked". Screenshots: `research/scratch/overview/r18-*.png`.
+
+## Refresh of 2026-11-15 (afternoon; the site's phase 2)
+
+Added the plates "What a short way round costs" (`#wrap`, law page, between the thinnest face and "One price per cell?"),
+"A gun" (`#gun`) and "A clock that edits the message" (`#divider`, signals page, after "Signals"); rewrote the wrapped-face
+figure and tiles of "One price per cell?" for nine faces and "Open now"; two tiles for the third signals push and a reworded
+"no corner" tile on "Signals"; four corrections; map tiles for the three new plates. Paths from here on are the site's.
+
+- Quoted numbers: `sources/update-2026-11-15e.json`, checked by `collect.py` as before. Sources: NB "the nine wrapped faces
+  reviewed", CLAIMS GL3; NB "the wrapping law tested", CLAIMS WL1-WL3; NB "the third signals push reviewed", "the fourth
+  signals push", "the fourth signals push reviewed", CLAIMS SG12, SG14, SG16-SG19, SG22; the essay's "What I would look at
+  next" (one sentence, `file` quote).
+- The nine wrapped faces are recomputed by `collect.py` from `research/data/gpu_local_eqtorus/eqtorus_*.csv` (ln τ_face =
+  ln(2·Σexposure/Σface), error 1/√Σface, all rows of a torus pooled) and asserted equal to the ledger's values to 1.5e-4.
+- The wrap plate's faces and frozen forms: `sources/wrap.json`, written by `python3 site/collect/sources/scripts/wrap.py`
+  (needs numpy and scipy) from the lead's refit `research/audit/wrap_haz_lead.py` (its loader, the faces of `--single`, its
+  LINES/POW/HAZ_FROZEN). The zero line is the weighted line through the 14 faces with no short loop, computed there
+  (0.20864 ± 0.00009, asserted within 0.0002 of WL2's 0.2086). `collect.py` checks that the frozen parameters give the
+  quoted 84-cell forecasts. **The card's 84-cell face** goes in `sources/update-2026-11-15e.json`, `wrap.measured84`:
+  value, se, src and a quote holding both numbers; then `collect.py` and `build.py`. The plate draws it only when present.
+- The gun's line and the divider: `research/signals/objects/line-C.json` and `divider-C8.json`, copied into
+  `data/signals4.json`; laid out by `assets/signals-core.js` (`line`) as the lead's oracle checks lay them out, stepped by
+  `gump-core.js` and drawn by `assets/kit.js` (`sigLine`), live (the oscillator is in the same torus; nothing precomputed).
+  `checks/check-signals.js` checks the layouts' onset and period at N = 2, 3, 8, 12, 16 (line) and 3, 8, 12, 16 (divider),
+  the oscillator against its free orbit from N = 8, and the page's stepper against `reference/oracle.py` at N = 12.
+- Computed on the page, not quoted: each face's distance from the line (both figures), the three curves for a loop of 12 from
+  the frozen parameters, the period and onset of the line and the divider (by comparing whole states).
+- `project.gathered` (the footer's "up to" date) is the newest date among `sources/update-*.json`; the claim counts (179; A 86,
+  B 81, C 11, D 1) and the timeline are read from the repository as before.
+- Typed, not drawn from data: "Open now" (from the essay's "What I would look at next" and OPEN-PROBLEMS 9 and 13 as of
+  about 16:30 UTC; "running" for the 84-cell face and the rimmed face, per the essay); the plates' prose.
+- Not shown: the beam (SG17's second half), the clock with a tail (SG20), the turn-class negatives (SG21, SG13), C8.24b.
