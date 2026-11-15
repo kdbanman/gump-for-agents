@@ -1,0 +1,1 @@
+v11c: oracle 600 gens OK (final pop 458, cells 876)
