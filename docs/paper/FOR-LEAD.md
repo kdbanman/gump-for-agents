@@ -184,3 +184,28 @@ named. Nothing outside `docs/paper/` was edited.
 4. Applied: GP10's GPU-only part is B−; §7.5 and Table 5 row 16 say B−.
 5. Applied: CN1 carries the addendum (36 of 84 pairings, c = 0.2072–0.2190).
 6. Applied: TH7 and CN2 are new rows; Table 5 has them as rows 17 and 18 (CN2 flagged as grade C).
+
+## For the lead, 2026-11-15 (second update: the symmetric collapse and the new clocks)
+
+From bringing the draft up to date with the notebook entries "the symmetric collapse" and "what the unrecognised
+settled states are" (CLAIMS S2, S3, S5–S9, Z12, Z13). Nothing outside `docs/paper/` and `docs/overview/` was edited.
+
+1. **S7, "2.6σ apart".** CLAIMS S7's level column reads "one slab pair rerun by the reviewer: +0.926 ± 0.014 against
+   +0.872 ± 0.013, 2.6σ apart". In `research/audit/REVIEW-symmetric.md` (section 1a) the 2.6σ is a different
+   comparison: the mirror case alone, 10.846 ± 0.010 against the line's 10.807 ± 0.011 (+0.039 ± 0.015). The two
+   differences quoted are 0.054 apart, √(0.014² + 0.013²) = 0.019, about 2.8σ. The notebook gives the two values
+   and no σ. The draft quotes the two values and "the sign stands", no σ. Proposed replacement in S7:
+   > +0.926 ± 0.014 against +0.872 ± 0.013 (the mirror case alone 2.6σ from the line's)
+2. **S2's 2026-11-15 note is stronger than the notebook.** S2 says "the term is mainly a rim cost, not a
+   mirror-line cost: S6–S8". The notebook (and S7, in the review's wording) say that in a fully symmetric face
+   rim and mirror cannot be separated, and that a diagonal-mirror share of up to about a third of the −0.196 is
+   not excluded; the "mainly" is said of the cost of symmetry as a whole (edge-sharing faces dying together), not
+   of the √A term. The draft follows the notebook. Proposed replacement in S2's note:
+   > the term is not shown to be a mirror-line cost; in fully symmetric faces rim and mirror cannot be separated
+   > and a mirror share of up to about a third is not excluded (S6–S8)
+3. **Not a disagreement, for information.** S6's inversion "−0.056 ± 0.023" is in the ledger only; the notebook
+   gives the two values (13.578 ± 0.014, 13.634 ± 0.018), from which it follows. The draft cites S6 for it.
+4. **`research/STATUS.md` (state block under "Next", the first report of 02:50 UTC)** still says "38 forecasts
+   scored, 23 held" and "rim cost 0.4–0.55 per period" where the notebook says 40 statements, 25 held, 1 on its
+   limit, 14 failed, and 0.45–0.55. It is marked as the line's first report, so this may be intended; the draft
+   and the overview follow the notebook.

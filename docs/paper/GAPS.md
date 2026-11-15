@@ -109,6 +109,9 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
     counts of unrecognised settled lives on (1,3,12) are overdispersed and unexplained.
 23. **Asymmetric faces with one mirror, the "lockstep" rule for general groups, the thickness transition, the
     firewall cost per cell**: all grade C. The symmetry story in the draft rests on O_h only.
+    *Update 2026-11-15 (second):* the edge ladder in one octahedral vessel at A = 63 (S6, two codes) and the slab
+    faces with a mirror or threefold axis (S7, one pair rerun) now cover subgroups of O_h; everything beyond A = 63
+    there rests on one code, one job and one seed per size (gap 44).
 
 ## 4. Statistics and method
 
@@ -156,7 +159,9 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
     after seeing the data.
 37. The symmetric fit with slope 0.209/6 uses a periodic-face slope that §7 says is inflated by mixed widths;
     the fit is offered as a description, but its motivation ("six images") would need the right asymmetric
-    slope, which is not known.
+    slope, which is not known. *Update 2026-11-15 (second):* the review of the symmetric-collapse line shows how much this
+    matters: the fitted √A coefficient moves by −8.1 per unit of the assumed slope (−0.127 with 0.2035), so it is
+    not evidence for any account of the √A term (draft §5.5).
 38. The ranking in §11 is a judgment by the draft's writer, not a result.
 
 ## 7. Opened by the results of 2026-11-14 and 2026-11-15 (draft 2)
@@ -186,3 +191,19 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
     rests on the 4×5 point, which the independent CPU run puts 1.9–2.6σ lower; a ten-times-longer CPU run is in
     progress. Not checked at all: dependence on slab thickness, density and face size, and whether a 12×12 face is
     in the same state as a small dying one.
+44. **The symmetric collapse beyond A = 63** (S6–S9, draft §5.5, second update of 2026-11-15). The edge ladder
+    (about 2.15 in ln τ per tied edge) is measured in one vessel at one size by two codes; nothing beyond A = 63
+    was rerun by the review, and each T, T_d and O_h number is one job with one seed. Open: whether slope × order
+    is exactly c (0.2091 for T, 0.2035 for T_d, "within 5%"); whether the rim term bends, so whether −0.196·√A is
+    asymptotic at all (the fall in marginal cost rests on the two smallest sizes); a T_d ensemble at A = 759 would
+    speak to it (forecasts 26.2–26.4 if linear, 25.65 ± 0.25 otherwise, only 1.9σ apart) and needs a GPU and the
+    guard of gap 41. Unexplained in the line's data: group O far below T_h, T_d's two sub-series moving apart,
+    mirror strips two cells wide keeping a slope of 0.186.
+45. **The mechanism of the edge cost, and the mirror share.** That faces tied across an edge cannot hold each other
+    up is a conjecture: no occupancy maps of dying tied faces exist. In a fully symmetric face rim and mirror cannot
+    be separated, and a diagonal-mirror share of up to about a third of the √A term is not excluded. Wanted: the
+    maps, and a construction that separates a tied rim from a diagonal mirror.
+46. **Wires and sheets** (Z13, grade C, draft §12). Of 37 unrecognised settled states, 21 were classified as wires
+    and 2 as sheets by one agent; whether a wire's moving part could be held by a finite stator, whether wires of
+    one period and direction are the same wire, and sheets on covers beyond 3 × 3 were not checked. The five new
+    finite clocks (Z12) have no stability or basin measurements.

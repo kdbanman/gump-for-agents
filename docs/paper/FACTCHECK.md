@@ -231,3 +231,24 @@ fwslab 4×7×8 note in Table 6 and §12 now cites ZL2 rather than `zombies.py` (
 is resolved); CN1's 0.2181 already matched. The draft does not state the ledger's size, so nothing changed for it.
 `python3 docs/paper/check_numbers.py` (now 24 passages): 270 numbers, 263 in the cited sources, 7 only in the
 earlier draft, 0 unsourced.
+
+## Update of 2026-11-15 (second): the symmetric collapse and the new clocks
+
+By a subagent, base bb22eda. Sources: CLAIMS S2, S3, S5–S9, Z12, Z13 and the notebook entries "the symmetric
+collapse: pairing faces across an edge is what costs" and "what the unrecognised settled states are". Changed:
+the header; the abstract (the edge cost, the mirror-line account corrected); §5.5 (the S2 qualification on the
+√A coefficient; "Centre matters, but not by a constant factor" with S9, its D2h and O_h parts flagged C; a new
+part "Why symmetric faces die sooner" with S5, Table 3a (the edge ladder, both codes), S7, S8, "What this
+corrects" and "What remains preliminary"); Table 5 row 19 (the line's forecasts; no ledger row for the tally)
+and its caption; §8 (Z12, one sentence); §10.1 (S5); §10.3 item 4; §11's table row and ranking item 3; §12's
+threat to validity (Z13, flagged preliminary). `GAPS.md`: items 23 and 37 annotated, items 44–46 added. Draft
+20,639 → 22,058 words (`wc -w`). Hedges kept as the notebook states them: "corrected, not reversed", "up to about a
+third … is not excluded", "a coincidence of ranges, not a test", "exactly c/6 is not shown", the mechanism a
+conjecture. **Number check:** `python3 docs/paper/check_numbers.py` now covers 41 passages (17 new, compared with
+the draft at bb22eda): 437 numbers, 419 in the cited sources, 18 only in the earlier draft, 0 unsourced. Negative
+control on a copy (9.291 → 9.219 in Table 3a, 0.2035 → 0.2053 in S8, a period 13 → 137 in Z12): all three
+UNSOURCED; a changed number that happens to occur elsewhere in the cited entry (13 → 31) or in the earlier draft
+(13 → 61) is not caught, the known limit of a token match. Removed while checking: S7's "2.6σ apart" for the rerun
+slab pair, which the review attaches to a different comparison (FOR-LEAD, second update, item 1). Not checked:
+any run; the review itself; that each number is attached to the right quantity beyond one reading of each passage
+against its row and entry.

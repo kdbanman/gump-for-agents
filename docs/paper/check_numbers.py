@@ -2,7 +2,8 @@
 # For every passage changed in that update, lists each number and reports whether it occurs as a token in the
 # ledger rows (research/CLAIMS.md) and notebook entries (research/NOTEBOOK.md) the passage cites.
 # A number not found there is reported as "draft" if it already occurs in the draft as committed before the update
-# (a size or value the passage refers back to), otherwise as "UNSOURCED".
+# (a size or value the passage refers back to), otherwise as "UNSOURCED". Passages of the second update of
+# 2026-11-15 (the symmetric collapse, the new clocks) compare with the draft as of bb22eda, the commit before it.
 # Run from the repo root: python3 docs/paper/check_numbers.py [--base REV] [--draft PATH]
 # (default base 98a66d8, the commit before the update; under 1 s). Negative control: --draft on a copy with a number
 # altered must report it UNSOURCED (see FACTCHECK.md).
@@ -24,6 +25,8 @@ NB = {  # short name -> substring of the entry heading
     'addendum': 'the asymptotic constant: what the corrected analysis adds',
     'patches': 'empty patches on a face too large to die: the forecast missed',
     'forecast': 'a forecast before the run: empty patches',
+    'symmetric': 'the symmetric collapse: pairing faces across an edge',
+    'clocks': 'what the unrecognised settled states are',
 }
 
 def nb_entry(key):
@@ -66,7 +69,24 @@ SPEC = [
     ('10.3 items 2-3', '2. **The constant.**', '4. **Symmetric faces', ['CN1', 'TH3', 'SH6'], ['const', 'thin', 'second']),
     ('11 ranking item 1', 'isolated only to about', 'novelty', ['CN1', 'ZL2'], ['const', 'zombie']),
     ('11 shape paragraph', 'It would have moved up the list', None, [], []),
-    ('12 threat to validity', '**Threat to validity: lives that settle', None, ['ZL1', 'ZL2'], ['zombie']),
+    ('12 threat to validity', '**Threat to validity: lives that settle', 'falling steeply with area.', ['ZL1', 'ZL2', 'Z13'], ['zombie', 'clocks']),
+    # second update of 2026-11-15 (the symmetric collapse, S5-S9; the new clocks, Z12, Z13); base bb22eda
+    ('Abstract: symmetric collapse', 'Symmetric initial conditions die exponentially sooner,', 'deficit. This', ['S6', 'S7'], ['symmetric'], 'bb22eda'),
+    ('5.5 S2 qualification', 'slope is open. Two qualifications', '(below).', ['S2', 'S8'], ['symmetric'], 'bb22eda'),
+    ('5.5 centring (S3, S9)', '- *Centre matters, but not', 'changing difference.', ['S3', 'S9'], ['symmetric'], 'bb22eda'),
+    ('5.5 why: intro', '**Why symmetric faces die sooner', None, [], ['symmetric'], 'bb22eda'),
+    ('5.5 S5', '**[proved]** (S5; A)', None, ['S5'], ['symmetric'], 'bb22eda'),
+    ('5.5 Table 3a', '| symmetry imposed (octahedral vessel', None, ['S6'], ['symmetric'], 'bb22eda'),
+    ('5.5 Table 3a caption', 'Table 3a. The edge ladder.', None, ['S6'], ['symmetric'], 'bb22eda'),
+    ('5.5 S7', '**[measured]** (S7; B', None, ['S7'], ['symmetric'], 'bb22eda'),
+    ('5.5 S8', '**[measured]** (S8; B', None, ['S8'], ['symmetric'], 'bb22eda'),
+    ('5.5 what this corrects', '*What this corrects.*', None, ['P7'], ['symmetric'], 'bb22eda'),
+    ('5.5 what remains preliminary', '*What remains preliminary.*', None, ['S5', 'S4', 'SW3'], [], 'bb22eda'),
+    ('Table 5 row 19', '| 19 | The symmetric-collapse', '\n', ['S7'], ['symmetric'], 'bb22eda'),
+    ('8 Z12', '**[proved, by stepping]** (Z12;', '14 of period 13).', ['Z12'], ['clocks'], 'bb22eda'),
+    ('10.3 item 4', '4. **Symmetric faces:**', '5. **Infinite volume.**', ['S2', 'S7', 'S8', 'S9'], ['symmetric'], 'bb22eda'),
+    ('11 table row, symmetry', 'Conceptually close to standard symmetry reduction', '\n', ['S5', 'S6'], ['symmetric'], 'bb22eda'),
+    ('11 ranking item 3', '3. **Symmetry shortens lifetimes', '4. **The structure theorems', ['S6', 'S8', 'S4'], ['symmetric'], 'bb22eda'),
 ]
 
 SUP = str.maketrans('⁰¹²³⁴⁵⁶⁷⁸⁹⁻', '0123456789-')
@@ -102,8 +122,15 @@ def passage(label, start, end):
     return draft[i:j]
 
 old_tok = tokens(old)
+olds = {}
 total = bad = internal = 0
-for label, start, end, ids, nbs in SPEC:
+for label, start, end, ids, nbs, *base in SPEC:
+    if base:
+        if base[0] not in olds:
+            olds[base[0]] = tokens(subprocess.run(['git', 'show', base[0] + ':docs/paper/draft.md'], capture_output=True, text=True).stdout)
+        ot = olds[base[0]]
+    else:
+        ot = old_tok
     text = passage(label, start, end)
     src = ' '.join(row(c) for c in ids) + ' ' + ' '.join(nb_entry(k) for k in nbs)
     st = tokens(src)
@@ -113,7 +140,7 @@ for label, start, end, ids, nbs in SPEC:
         total += 1
         if x in st:
             continue
-        if x in old_tok:
+        if x in ot:
             draft_only.append(x); internal += 1
         else:
             miss.append(x); bad += 1

@@ -2,7 +2,7 @@
 
 (authors to be decided by the owner)
 
-*Draft 2, 2026-11-15 (draft 1: 2026-11-14). Internal draft; it stays in the repository. How the work was produced and how that is
+*Draft 2, 2026-11-15, revised the same day for the symmetric collapse (draft 1: 2026-11-14). Internal draft; it stays in the repository. How the work was produced and how that is
 disclosed is the owner's decision and is not addressed here.*
 
 **How to read the tags.** Every sentence that states a result carries one of **[proved]**, **[measured]**,
@@ -34,8 +34,11 @@ the lifetime of a periodic face depends on how its torus closes on itself, and e
 shortest loop that was fixed before the runs was refuted, as were five candidate second variables; the
 differences at equal shortest loop are gone by A = 72. Together the families allow one asymptotic cost per cell
 anywhere from about 0.207 to 0.219. The thinnest periodic face costs about 0.099 per cell in the limit (0.093 to
-0.107 by the correction form), half a wide face's. Symmetric initial conditions die exponentially sooner;
-this accounts for the 2012 series of cubic seeds, extended here to a cube of side 16 that ran 2,919,617,676
+0.107 by the correction form), half a wide face's. Symmetric initial conditions die exponentially sooner,
+mainly because symmetry forces faces that share an edge to die together: at A = 63 each such edge costs about
+2.15 in ln τ, additively, while pairing faces that share no edge costs at most about 0.1; a cost along mirror
+lines, which we first proposed, is not the mechanism of most of the deficit. This
+accounts for the 2012 series of cubic seeds, extended here to a cube of side 16 that ran 2,919,617,676
 generations, although the one forecast of that lifetime made before the run was low by a factor 12. Five or six
 layers of the rule above fresh coin flips reproduce a slab face's lifetime to 0.015 in ln τ, so the exponent is
 set in a boundary layer driven by noise. Settled replicas missed by the detectors are bounded in every CPU run but
@@ -509,12 +512,18 @@ side-16 cube's own states into the vertex values there.
   `python3 research/fluct/sym_fit.py`, 0.698134 and −0.195996, gives 21.737 at A = 759 and 23.900 at 828; against
   the pooled 21.889 the first offset is 0.152). The local slope between
   A = 759 and 828 is 0.0329 ± 0.0011, to be compared with 0.209/6 = 0.0348 (GP2; B−). The asymptotic symmetric
-  slope is open.
-- *Centre matters.* Vertex-centred hulls are tougher than cube-centred ones of equal face area by a factor about
-  1.5 (ln ratio 0.40–0.47 at A = 408–630), 1.66 ± 0.08 at A = 759 on the GPU, and 2.0 ± 0.4 at A = 693 from fresh
-  soups (S3; B). It is not explained. (*Preliminary*, not in the ledger: one line of the theory effort, checked
-  by one critic, shows that the two kinds of face have equal numbers of orbits, which would make the factor a
-  boundary effect.)
+  slope is open. Two qualifications (S2's note of 2026-11-15, S8; B): the √A coefficient depends on the
+  asymmetric slope assumed in the fit (it moves by −8.1 per unit of that slope; with the slope pinned at 0.2035,
+  the value measured on faces with diagonal mirrors below, the fit gives −0.127), and whether −0.196·√A is an
+  asymptotic form at all is open (below).
+- *Centre matters, but not by a constant factor.* Vertex-centred hulls are tougher than cube-centred ones of equal
+  face area by a factor about 1.5 (ln ratio 0.40–0.47 at A = 408–630), 1.66 ± 0.08 at A = 759 on the GPU, and
+  2.0 ± 0.4 at A = 693 from fresh soups (S3; B). The factor is not one object. **[measured]** (S9; A, two codes)
+  With no symmetry at all, vertex-centred faces already outlive cube-centred ones of equal area, by +0.754 ± 0.013,
+  +0.725 ± 0.009 and +0.655 ± 0.017 in ln τ at A = 30, 45, 63, a difference that falls with size. *Preliminary*
+  (S9; C, not rerun or refitted): with three edges in lockstep (D2h) a part grows (0.505, 0.645, 0.830 at A = 63,
+  84, 108), and for O_h a constant factor is excluded by the theory line's fit (χ² 60.8 on 10). So "about 1.5" is a
+  snapshot of a slowly changing difference.
 - *Still memoryless.* Vertex-centred O_h soups wait exponentially at R = 36, 38, 40 (GP3; B) and cube-centred
   ones at R = 43 (GP5, above). Runs from deterministic cube-like O_h seeds (cubes with surface orbits removed,
   hollow cubes) wait like soups: at hull radius 31–38, 1,248 plateaus have mean T/τ = 0.99 and CV 1.02 against
@@ -523,13 +532,65 @@ side-16 cube's own states into the vertex values there.
   0.98), with a weak correlation between the first two (Spearman ρ = +0.049) traced to lineages that peel early
   (GP6; B−).
 
-*Interpretation, and what is only preliminary.* In a symmetric state the cells of an orbit share one state, so a
-face has about A/6 independent cells and its fluctuation to emptiness is correspondingly cheaper; in addition
-cells on mirror planes are depleted (P7, Section 4). *Preliminary* **[measured → conjecture]** (S4; C): across
-symmetry groups and on tori without faces, a symmetric system lives about as long as an asymmetric one of c
-times its fundamental domain's volume, c ≈ 1.5–3.5. *Preliminary* **[measured]** (SW3; C, one run by one
-examiner): octahedral faces cut by a single mirror plane cost 0.1026 ± 0.0003 per cell at A = 84–135, 0.47 of
-the asymmetric value, and the first face to die is a mirror-fixed one in more than 99.9% of replicas.
+**Why symmetric faces die sooner: shared edges, not mirror lines.** A theory line set out to derive the three
+fitted ingredients above (the 1/6, the √A term and the factor between centrings) from the asymmetric law and
+geometry, with its forecasts committed before its runs (`research/theory/symmetric/`); an adversarial review ran
+the unreduced system with a stepper of its own (`research/audit/REVIEW-symmetric.md`). No derivation came out.
+What did:
+
+**[proved]** (S5; A) A G-symmetric state evolves exactly as gump on the orbit graph, and for free actions the factor
+one over the order of G is exact. Inside a {111} face the only mirrors are the three diagonal ones and their
+translates; a coordinate mirror never preserves a face: it exchanges two hull faces and fixes the rim row they
+share. (One auxiliary lemma of the line is false as stated; no measurement uses it.)
+
+| symmetry imposed (octahedral vessel, A = 63, R = 11, cube-centred) | ln τ_face, theory line (orbit stepper) | ln τ_face, review (full system) |
+|---|---:|---:|
+| none | 13.634 ± 0.018 | 13.638 ± 0.010 |
+| one coordinate mirror: one edge of every face in lockstep | 11.456 ± 0.011 | 11.444 ± 0.010 |
+| two: two edges | 9.291 ± 0.008 | 9.312 ± 0.009 |
+| three (D2h): three edges | 7.168 ± 0.003 | 7.171 ± 0.009 (bracket 7.02–7.29) |
+| inversion: pairs faces that share no edge | 13.578 ± 0.014 | 13.574 ± 0.014 |
+
+Table 3a. The edge ladder. **[measured]** (S6; A: the review's own stepper on the unreduced system; the line's
+orbit stepper is bit-exact against the engine on 41 systems). The bracket on the review's three-mirror value comes
+from lives that settled (35% of its exposure). Each edge shared with a face that is forced to die at the same moment
+costs about 2.15 in ln τ, additively; inversion costs −0.056 ± 0.023, at most about 0.1. A twofold rotation about an
+edge costs 2.54 ± 0.02 (cube-centred; 1.96 ± 0.02 vertex-centred) on the edge-sharing faces it pairs and about 0.1
+on the opposite ones (the split by face orbit is the reviewer's, at A = 63 only): no mirror is needed.
+
+**[measured]** (S7; B: one pair rerun by the reviewer, the other slab families not rerun) A mirror, a threefold axis
+or both, imposed on a rim-free periodic slab face, *lengthen* its life against the asymmetric torus of equal area,
+by +0.4 to +1.65 in ln τ at 36–72 quotient cells and by an amount that shrinks with size (the rerun pair: +0.926 ±
+0.014 against the line's +0.872 ± 0.013; the sign stands). The line had forecast a loss. In a fully symmetric face the
+lockstep rim lies on a coordinate mirror, so "rim" and "mirror" cannot be separated there; and faces with diagonal
+mirrors and free rims (T_d) fall below the mirror-free ones (T) by an amount growing like √A, so a diagonal-mirror
+share of up to about a third of the −0.196 is not excluded. **[conjecture]** (S7) The mechanism: edge-sharing faces
+that die together cannot hold each other up. Nobody has looked at the dying faces.
+
+**[measured]** (S8; B: the reviewer's refits of the line's data; no T, T_d or O_h run repeated by a second code; one
+job and one seed per size) The slope times the order of the face's stabiliser is 0.2091 ± 0.0016 for T faces
+(threefold axis, free rims, A = 108–198) and 0.2035 ± 0.0024 for T_d faces (A = 315–459), 3–5% lower. "c/6 within
+5%" is supported; "exactly c/6" is not shown, and c itself is only known to 0.207–0.219 (Section 7.5). The rim's
+marginal cost is 0.45–0.55 per rim period over 5.5–9 periods, which corresponds to a √A coefficient of −0.19 to
+−0.22, close to the fitted −0.196; the review shows that this agreement is a coincidence of ranges, not a test.
+Whether the rim term bends, and so whether −0.196·√A is an asymptotic form at all, is open: the fall in marginal
+cost rests on the two smallest sizes. A T_d ensemble at A = 759 would speak to it (forecasts 26.2–26.4 if linear,
+25.65 ± 0.25 if T_d keeps its slope; only 1.9σ apart); it needs a GPU and has not been run.
+
+*What this corrects.* From 2026-11-12 the project described Table 3 as six lockstep domains less a penalty along
+the mirror lines, and earlier versions of this draft offered, as interpretation, that cells on mirror planes
+are depleted (P7, Section 4). The depletion stands as a measurement, but the picture is corrected, not reversed:
+the cost is mainly that edge-sharing faces die together, and "the chaos runs thin along mirror lines" is not the
+mechanism of most of it. The line's forecasts fared accordingly: of 40 statements, counted per size, 25 held, 1 sat
+on its limit and 14 failed (Table 5, row 19).
+
+*What remains preliminary.* In a symmetric state the cells of an orbit share one state (exactly, S5), so a face has
+about A/6 independent cells and its fluctuation to emptiness is correspondingly cheaper. *Preliminary*
+**[measured → conjecture]** (S4; C): across symmetry groups and on tori without faces, a symmetric system lives
+about as long as an asymmetric one of c times its fundamental domain's volume, c ≈ 1.5–3.5. *Preliminary*
+**[measured]** (SW3; C, one run by one examiner): octahedral faces cut by a single mirror plane cost 0.1026 ±
+0.0003 per cell at A = 84–135, 0.47 of the asymmetric value, and the first face to die is a mirror-fixed one in
+more than 99.9% of replicas.
 
 ### 5.6 The cubes, and the forecasts that were made in advance
 
@@ -574,14 +635,16 @@ included.
 | 16 | Empty patches on a 12 × 12 × 8 face: ln P = const − c·cells − σ·perimeter with c = 0.21 ± 0.015 (`research/NOTEBOOK.md`, entry "a forecast before the run") | c = 0.264; the form fails (χ² 3,369 on 3) | **missed** as stated (GP10; A + B−) |
 | 17 | The thin-face study's 14 forecasts, each committed before its run (`research/theory/thin/PREDICTIONS.md`) | rescored by the review | 8 hit, 2 half, 2 mostly missed, 2 missed (TH7; B) |
 | 18 | *Unverified (CN2; C).* The constant analysis's forecasts (`research/constant/PREDICTIONS.md`): −ln P = 5.0, 9.5, 15.3 for empty 2×2, 3×3, 4×4 patches; about zero for the equal-loop pairs at A = 63 and 72 | 6.25, 12.13, 19.42; Σz² 3.7 on 4, wrong in sign at A = 36 | patches **missed** (low by 1.3, 2.6, 4.1); pairs not refuted there; equilateral tori not run |
+| 19 | The symmetric-collapse line's forecasts (`research/theory/symmetric/PREDICTIONS.md`), among them that a mirror or threefold axis on a rim-free periodic face would shorten its life | 40 statements counted per size: 25 held, 1 on its limit, 14 failed; the symmetry lengthens such a face's life (+0.4 to +1.65) | **14 failed**, the mirror forecast among them (S7; B for the slab values). The tally has no ledger row (NOTEBOOK 2026-11-15, "the symmetric collapse") |
 
 Table 5. Forecasts committed before their outcomes. Sources searched: `research/peeling/cube_lifetime.csv`,
 `research/fluct/PREDICTIONS.md`, `research/gpu/PREDICTIONS.md`, `research/shape/PREDICTIONS.md`,
 `research/shape2/PREDICTIONS.md`, `research/shape3/PREDICTIONS.md` (its five candidates only),
 `research/theory/thin/PREDICTIONS.md` and `research/constant/PREDICTIONS.md` as scored in TH7 and CN2, the notebook
 entry named in row 16, `research/theory/exponent.md`, and the swarm's `research/theory/swarm/PREDICTIONS.md` as
-scored in `research/theory/swarm/exam/OUTCOMES.md`; within these, the ledger rows C3–C5, C9, GP2, GP8, GP9, GP10,
-SH1, SH2, SH5, SH9, SW2, TH7, CN2. Not searched for this table: the other tracked forecast files
+scored in `research/theory/swarm/exam/OUTCOMES.md`, and `research/theory/symmetric/PREDICTIONS.md` as scored in the
+notebook entry "the symmetric collapse"; within these, the ledger rows C3–C5, C9, GP2, GP8, GP9, GP10,
+SH1, SH2, SH5, SH9, SW2, TH7, CN2, S7. Not searched for this table: the other tracked forecast files
 (`research/theory/exponent/PREDICTIONS.md` entry by entry, `research/theory/class/PREDICTIONS.md`,
 `research/theory/class/followup/PREDICTIONS.md`, `research/toy2d/PREDICTIONS.md`,
 `research/audit/class/PREDICTION-*.md`), so the table may be incomplete. Omitted: forecasts about other rules.
@@ -938,6 +1001,10 @@ C12.43a 12 = 6 × 2, C40.24a 40 = 2 × 20, P15.22a 15 = 3 × 5, P48.34a 48 = 2 �
 census of 9,700 oscillators of period ≥ 3 found in 402 small closed boxes, 249 are *compound*: no cell has the
 full period, and they are two or three sub-clocks of coprime periods on a shared frame with nothing passing
 between them (for example C44.26a, periods 4 and 11); Life terminology calls such periods trivial [LW-NT].
+**[proved, by stepping]** (Z12; A for the periods and cell periods, re-derived by a stepper written from the rule
+alone; C for their absence from the box-census lists) Five oscillators new to the catalogue were found among the
+settled states of lifetime runs (Section 12): C9.24a, C9.28a (period 9), C11.29a (11), C13.24a (13) and C52.33a,
+a compound of period 52 = 4 × 13 with no cell of period 52 (24 still cells, 4 of period 4, 14 of period 13).
 **[measured]** (Z9; B + A) Among the remaining objects, twisted loops are a steady 3–8% at every loop length
 (295 of 9,278 with L ≥ 3; 30 of 670 with L ≥ 7; 9 of 120 with L ≥ 12; 5 of 66 with L ≥ 16), so the twist
 multiplies ordinary loops rather than selecting long ones; the longest untwisted loop found is C35.29a (L = 35).
@@ -1002,8 +1069,8 @@ edge law).
 
 Theorems 1–6 and Proposition 7 of Section 3; the half-space criterion for confinement; the twist lemma; the
 exhaustive enumerations of Section 8 at the sizes that have been re-run (Z1, the smallest still lifes; Z2, the
-still-life counts for n ≤ 13; Z3, the period-2 classes with unions up to 11); the anatomy of P66.27a. None of
-these says anything about lifetimes beyond the trivial bound that a seed with a hull of N cells is periodic within
+still-life counts for n ≤ 13; Z3, the period-2 classes with unions up to 11); the anatomy of P66.27a; the reduction of a symmetric state to gump on its orbit graph and the
+list of mirrors inside a face (S5, Section 5.5). None of these says anything about lifetimes beyond the trivial bound that a seed with a hull of N cells is periodic within
 2^N generations, which is exponential in the hull's *volume*.
 
 *Preliminary* (exhaustive computer enumerations graded C: each has a command and has not been re-run): the
@@ -1069,8 +1136,12 @@ face.
    the wide face's (Section 7.4).
 3. **Shape.** Whether the equal-loop differences of periodic faces are a commensurability effect that vanishes on
    large faces (Section 7.2; the test is A = 84), and why octahedral faces are tougher than periodic ones.
-4. **Symmetric faces:** the asymptotic slope (is it the asymmetric slope divided by 6?), the factor ≈ 1.5 between
-   vertex- and cube-centred hulls, and the excess length of the side-16 cube's plateaus.
+4. **Symmetric faces:** whether the slope is exactly the asymmetric one divided by 6 (within 5% is supported);
+   how much of the √A term a diagonal mirror carries (up to about a third is not excluded); whether the rim term
+   bends, and so whether −0.196·√A is asymptotic (a T_d ensemble at A = 759, on a GPU, would speak to it); why
+   faces tied across an edge die sooner (conjectured: they cannot hold each other up; the dying faces have not
+   been looked at); the difference between vertex- and cube-centred hulls, which is not a constant factor; and the
+   excess length of the side-16 cube's plateaus (Section 5.5).
 5. **Infinite volume.** Whether the chaotic state is stable or only metastable on the infinite lattice; whether
    one- and two-layer slabs cannot sustain chaos (reduced in `research/theory/thickness.md` §4 to a percolation
    statement, unproved).
@@ -1098,7 +1169,7 @@ References.
 | Memoryless collapse with mean lifetime exponential in size (Section 5.2) | Supertransients [CK88, WS03, HKTP10, TL08] and stable chaos [PT09]: numerical only. [HKTP10] reports τ(L) = exp(AL + B), Poisson statistics, and collapse only with non-periodic boundaries through boundary layers of fixed thickness. For stochastic monotone systems the analogue is a theorem: the finite contact process [DL88, DS88, M93, M99, MMVY12]; exact exponential law from a quasi-stationary distribution [MV12]. Death through the boundary: for spiral-defect chaos the death rate is proportional to the length of the non-conducting boundary and τ is exponential in the area [VR19, abstract and relevant sections; R22, full text] | **A new instance of a known phenomenon**, and boundary-controlled death is an instance of a known result [VR19, HKTP10]. Not found in our search, within it: (i) confinement and firewall are theorems, so collapse proceeds by irreversible layer events that can be timed one by one; (ii) the exponent is set by the area of one face of a three-dimensional vessel whose walls are theorems, not the volume; (iii) a deterministic cellular automaton with an absorbing state (none in the sources read) |
 | Death as the end of the quasi-stationary tail, measured to one cell (Section 5.3) | The flux identity 1/τ = Σ_r W_r π_r [AM17, §2 read, eq. 6]; QSD theory [MV12, DS65]; the same relation in deterministic spatially extended transients, each with a measured distribution: spiral-defect counts T(N) = 1/(Z p(2)) [SK15, §§I, III, IV read], 1/τ = W₋₁(1)P_qs(1) + W₋₂(2)P_qs(2) checked against simulation [VR19], pipe-flow puffs τ_d = δt/P(h_th) [NA21, §§1–3 read], extreme-value view [GGG10, abstract only]; the SIS form 1/(μ₁q₁) [N11, not obtained]; large deviations in cellular automata [BGPV19] | **An instance of a known result** (the quasi-stationary flux identity), with precedents in deterministic systems. Possibly ours, narrowly: the count followed down to a single cell (ln p_k linear to k = 1) with the exit rate measured rather than fitted, in a deterministic automaton. That narrower form was not found in our searches |
 | The exponent is made in five or six layers over independent noise (Section 6) | Window of a chaotic coupled map lattice driven by white-noise boundary inputs reproduces the bulk's statistics [CG99, read in full; its 12 citing works, read as titles, have none on lifetimes]; "thermal bath" inputs [dS08, abstract as paraphrased]; deterministic CML "behave like stochastic models" [MvHB02, abstract]; boundary layers of fixed thickness, lifetime still fitted in the whole length [HKTP10, now read in full]; boundary-controlled death [VR19, R22]; dice models of deterministic networks with lifetime e^{cn} (monotone) [CD11, MV10]; probabilistic cellular automata [LMS90, MST19] | **The method is an instance of a known one** ([CG99], in mirror image: they randomise the outside of a window, we the inside of a boundary layer), and that death enters through the boundary is known [VR19]. **Not found in our searches:** a reduction of a transient lifetime to a thin layer over noise, or any comparison of lifetimes or escape rates with the chaotic interior replaced by noise. The review [TL08] and a 2007 paper on noise and the collapse of spatiotemporal chaos (seen as a search result only) were not read |
-| Symmetric initial conditions die exponentially sooner (Section 5.5) | Nothing found on lifetimes. Life lexicon: symmetric soups produce different objects [LL-soup]; symmetric soup censuses (apgsearch, Catagolue) were seen in search results only, not opened, and are not citable | **Not found in our search** as a quantified result. Conceptually close to standard symmetry reduction |
+| Symmetric initial conditions die exponentially sooner (Section 5.5) | Nothing found on lifetimes. Life lexicon: symmetric soups produce different objects [LL-soup]; symmetric soup censuses (apgsearch, Catagolue) were seen in search results only, not opened, and are not citable | **Not found in our search** as a quantified result. Conceptually close to standard symmetry reduction, which is what S5 proves here (a symmetric state is gump on its orbit graph); the edge ladder (each edge tied to a neighbour that dies at the same moment costs about the same) was not searched for |
 | Lifetime of a periodic face depends on its shape at fixed area (Section 7) | Proved for equilibrium tunnelling: zero-field Ising/Potts on a K × L torus, exponent 2·min{K, L} + 2 with an exponential limit law [NZ17, §§1–2 read]; tunnelling splitting through a 3D Ising interface on a periodic L1 × L2 cross-section depends on L1/L2 at equal area [CGV93, read in full]; droplet shape transitions on tori [NH03, abstract]; surface-code failure controlled by gcd of the lattice dimensions [T19, abstract only]; critical thickness for 3D transients [LCP17, abstract only]; plane-Couette lifetimes against box size with shape not separated [Man09, a miss]; holes of equal measure with different escape rates [BY08], escape-rate formulae [KL08] | **The shortest loop of a torus controlling an exponential time is an instance of a known result** (equilibrium tunnelling, [NZ17] at leading order, [CGV93] in the prefactor). **Not found in our searches:** a dependence of a chaotic-transient, turbulent, nucleation or extinction lifetime on aspect ratio or twist at fixed size; a second shape variable (none was found in our data either: Section 7.2). Possibly ours, narrowly: the twisted-torus census for a chaotic transient, with the refutation of every law in area and shortest loop and of five candidate second variables. The analogy with [BY08] is ours and is untested |
 | Period = twist × loop; statistics of twisted oscillators (Section 8) | Period and "mod" in Life catalogues, including thirds and sixths on hexagonal and triangular grids [LW-Mod]; trivial versus non-trivial oscillators [LW-NT] | The lemma is a **re-expression of period/mod**. The three-dimensional screw twists and the statistics were not found in our search |
 | Conditional area law; hazard identity (Section 10.2a) | The quasi-stationary flux identity in its Markov form [AM17, eq. 6]. Not surveyed otherwise. [citation needed: committor and flux identities in transition-path theory; the project's library has none] | Unknown. The identity is of a standard kind; its use without a Markov property, and the reduction of the area law to a one-step hypothesis on a pooled table, may or may not be known |
@@ -1130,10 +1201,13 @@ standing, and the shape dependence did not meet either condition for joining (be
    any theorem for the noise-driven model; [TL08] unread.
 3. **Symmetry shortens lifetimes exponentially** (Section 5.5). *Why:* it is simple to state, large (a symmetric
    face of 759 cells lives like an asymmetric one of about 100), explains a visible feature of the 2012 runs, and
-   was not found in the literature searched. *Why it stays third:* the 2026-11-14 searches did not address it, so
-   its standing is as before. *Missing:* the asymptotic slope is not determined (free fits 0.024–0.044 per cell);
-   the factor 1.5 between centres is unexplained; the general "volume over group order" statement is grade C; in
-   the 2D analogue a forecast for rotations failed and is not understood.
+   was not found in the literature searched. *Why it stays third:* the 2026-11-14 searches did not address it, and
+   the result of 2026-11-15 corrects its explanation rather than its size: the cost is mainly that faces sharing an
+   edge die together (about 2.15 in ln τ per edge, additively, two codes), not a cost along mirror lines; that is
+   cleaner to state but rests on one vessel at A = 63 for the ladder. *Missing:* the asymptotic slope is not
+   determined (free fits 0.024–0.044 per cell; "c/6 within 5%" only); whether the √A term is asymptotic; the
+   mechanism, which nobody has looked at; the general "volume over group order" statement is grade C; in the 2D
+   analogue a forecast for rotations failed and is not understood.
 4. **The structure theorems as a package** (Section 3): confinement and firewalls, the exact energy identity, and
    the sealed-set dichotomy at thickness three. *Why:* complete proofs, short, and they are what makes the rest
    measurable; this is the only part that could be written up as it stands. *Why it stays fourth, and narrower:*
@@ -1187,7 +1261,11 @@ against a statistical error of 0.005, and elsewhere (C) at most 1.2 × 10⁻², 
 shorter than about one mean life admit no bound** (marked † where quoted): Table 2 at A = 108 and 135, three GPU
 rows of Table 3, the slabs 6 × 6 × 8 and 6 × 7 × 8, five wider slabs of Table 6 and the 4 × 7 × 8 slab (no age bins in its log). Moving the A = 108 value by
 its error would need 2–3% of lives to be of this kind, against < 10⁻⁴ wherever the rate can be measured; that the
-rate does not rise with size is assumed **[conjecture]**. No number changes.
+rate does not rise with size is assumed **[conjecture]**. No number changes. *Preliminary* **[measured]** (Z13; C,
+one agent): of the 37 settled states of period 9–52 logged from small twisted-torus slabs, none needs the walls, 14
+are finite free-space objects (five of them new, Section 8), 21 are wires (periodic along one short vector of the
+torus: infinite oscillating lines) and 2 are sheets that close only on their own torus. So most exist only because
+a small torus lets a line close on itself, which fits a rate falling steeply with area.
 
 **Verification.** Each claim is recorded in a ledger with the command that reproduces it and a grade; an
 independent audit re-derived the theorems and the exact numbers and re-ran the cheaper statistics; later results
