@@ -261,6 +261,12 @@ _Last updated 2026-11-14 by the lead._
   `docs/overview` in `LEAD.md`, `CLAUDE.md`, STATUS and `research/check.sh`, publishes the folder to the private
   artifact, and tells the owner what to click to put it on Pages. Usage reading from the owner at about 15:18
   UTC: 62% weekly, 73% Fable.
+  **15:58 UTC: done.** `site/` is merged into this branch (commits 3dbc359 … dbc88e9; 29 plates byte-identical to
+  version 13 apart from three sentences that named a place on the old page; `bash site/check.sh` and
+  `bash site/check.sh --artifact` pass for the lead), and the private artifact is now the multi-page site
+  (version 14, 84 files; how to republish: `LEAD.md`, "The overview page"). Not yet seen rendered on the host by
+  anyone. **Next for the site:** the new findings, page by page (nine tori, the wrapping result, signals pushes 3
+  and 4), after the fourth push's review is recorded; the owner's two clicks for the public site.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

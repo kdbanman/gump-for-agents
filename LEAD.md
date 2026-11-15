@@ -260,6 +260,14 @@ let CI pass, merge.
   a session it starts, since the trust change). **Nothing goes public by this:** the site appears on the web only
   when the owner sets Settings → Pages → Source to "GitHub Actions" and the workflow is run; until then the same
   built folder is published as the private artifact (a multi-file artifact), by the lead.
+- **Done 2026-11-15 15:56 UTC: version 14 of the private artifact is the multi-page site** (same link; eight pages,
+  84 files; content as version 13). To republish after a change: `python3 site/build.py --artifact &&
+  bash site/check.sh --artifact && python3 site/artifact_page.py`, then the Artifact tool with `file_path`
+  `research/scratch/site/artifact-page/index.html`, `url` the link above, `root` `site/dist-artifact`, and `files`
+  the paths of `site/dist-artifact/FILES.json` (as `{"path": …}` entries). The site's checks need the pre-installed
+  browser, so they are not part of `research/check.sh` or of CI; run `bash site/check.sh` before a publish. The
+  public site (overview and web app together) needs the owner: Settings → Pages → Source "GitHub Actions", then
+  Actions → pages → Run workflow.
 
 ## Which rule is gump
 

@@ -119,8 +119,13 @@ URL (`…/law/`) still works on GitHub Pages for a link someone types or shares.
   every file of the tree except `index.html` and itself, sorted. To publish: root `site/dist-artifact`, `index.html`
   as the page, and the paths in `FILES.json` as the supporting files, each published at its own path (83 files,
   about 0.43 MB in all, at the time of writing). Each page is a complete document with its own `<title>`, theme
-  tokens for light and dark, and the viewport meta. Not tested on the artifact host: whether it serves
-  `law/index.html` from a link as a plain static server does, whether it runs scripts inserted by `boot.js` (the
-  plate scripts), and how its skeleton treats a page that is already a full document.
+  tokens for light and dark, and the viewport meta. **The page itself is published without its wrapper**: the
+  host wraps the published page in its own doctype, head and body, so `python3 site/artifact_page.py` writes
+  `research/scratch/site/artifact-page/index.html` (the landing page with its doctype, html, head and body tags
+  and charset and viewport metas removed, nothing else changed) and that file is what the lead publishes as the
+  page; the seven other pages go up as supporting files and keep theirs. Published this way on 2026-11-15 as
+  version 14 of the private artifact (84 files on the host, each at its own path). Not tested on the host by
+  anyone who can see it render: whether a link to `law/index.html` opens that page, and whether the plate scripts
+  inserted by `boot.js` run.
 - The app (`app/`, Pages tree only) is `web/dist` unchanged: it has its own single dark look, a one-word title ("gump") and no link
   back to the map; the map links to it from the header ("App") and the landing page.
