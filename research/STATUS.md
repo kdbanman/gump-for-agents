@@ -62,6 +62,17 @@ _Last updated 2026-11-14 by the lead._
   working without readings (reckon from the last one, 01:21 UTC: weekly 0.27, Fable 0.27; no new agent past an
   estimated 0.70) is in `LEAD.md`, "Watching usage"; the sessions and what may be done with them, "Other sessions".
   The owner has been told and asked for the figures from their screen.
+- **GPU work moves to the owner's GTX 1080 (their words of about 03:30 UTC, 2026-11-15, in `LEAD.md`, "Other
+  sessions"): no budget, no limit; its session is still setting up CUDA, so nothing is dispatched yet.** Queue for
+  it, in this order, each with forecasts already committed where noted: (0) the acceptance bar of
+  `research/gpu/README.md` (bit-exact against the engine every generation) on that card; (1) the guard against
+  unrecognised settled replicas (`research/gpu/AGENT.md`, "To do"), tested on a planted long-period cycle, before
+  any lifetime run; (2) equilateral tori at constant shape, A = 93 first (`research/constant/PREDICTIONS.md` part C);
+  (3) the hull face at A = 108 to 10⁴ deaths; (4) T_d faces at A = 759 (`research/theory/symmetric/PREDICTIONS.md`,
+  S3 and S5); (5) the 4×5 and 5×5 empty patches on different hardware; (6) the equal-loop pairs at A = 84 (the
+  lead's conjecture in the notebook entry "the second variable"); (7) the runs that have no bound on unrecognised
+  settled replicas, repeated with the guard (R15, R17 first). Each result needs the same checks as a Modal one: the
+  lead's recomputation, an adversarial review, then the record.
 - **State at 11:30 UTC, 2026-11-14 (after a compaction).** Done since 10:30 and recorded: the exponent study
   (reviewed, corrected, notebook, CLAIMS X1-X3), the swarm's close, the essay section "Coins will do", the second
   revision of `class.md`. **Pull request 16 (GPU: the shape of a periodic face) is merged** (squash bad62e3, 12:05 UTC) after its

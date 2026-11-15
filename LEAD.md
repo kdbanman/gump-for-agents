@@ -103,6 +103,16 @@ job to keep it honest. What exists (2026-11-13):
   GPU session's pull requests are still reachable through GitHub, and its messages to this session may still
   arrive. Until the owner says more: do not start sessions or schedule tasks on their computers, and **do not
   call `request_computer_folder`** (it would also cut this session off from the owner's other sessions). If the
+  **The owner's words, 2026-11-15 about 03:30 UTC:** "oh wow, i wish i hadn't done that card approval now. sounds
+  like it'll make things more complicated. can the remote controlled 1080 GPU endpoint serve as a message relay
+  between you and the other agent? the 1080 machine can run GPU experiments to your heart's content - it's in my
+  house, not billed by the hour, no limit. so hopefully it'll be worth this bit of hassle. the 1080 session is
+  still working on getting CUDA and everything set up, so we can't dispatch work yet." and "i also see that timers
+  are behaving strangely now? am I seeing that correctly?" The lead's reading: GPU experiments on the 1080 are
+  granted without a budget (this replaces the Modal budget question; spend no more on Modal); work is dispatched to
+  it by message once its session says CUDA works; a relay through it to the cloud GPU session was asked about as a
+  question, not ordered: the lead answered that it is probably not needed (the cloud session's hand-over is
+  `research/gpu/AGENT.md`) and that it would use one only on the owner's explicit word. If the
   owner offers the GTX 1080 for runs, the queue is in `research/STATUS.md` (the measurements that would narrow the
   asymptotic constant; the guard against unrecognised settled replicas comes first).
 
