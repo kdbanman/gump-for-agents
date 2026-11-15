@@ -18,6 +18,8 @@ and without the hole:
 
     python3 research/audit/signals_ends_lead_check.py [PER_CLASS] [SEED]     (default 6 + 6 ends, seed 1; ~100 s)
     python3 research/audit/signals_ends_lead_check.py all [i/n]              (every end; part i of n; ~100 core-min)
+    EVENT=k0 python3 research/audit/signals_ends_lead_check.py all [i/n]     (the review's second signal, K0, in place
+                                          of the holes: prints the table of the push's hole outcome against K0's)
 """
 import json, sys, random, os
 import numpy as np
@@ -37,6 +39,9 @@ unit = lambda c: c[0] >> 1
 tr = lambda c, k: (c[0] + 2 * k, c[1], c[2] - 2 * k)
 pat, _ = G.train([0xf, 0xb], True, 1)
 WORDS = [[0], [0, 1, 2], [0, 2, 4, 6, 8]]
+K0 = os.environ.get('EVENT') == 'k0'      # the review's second signal: wire cell (0,1,4) of unit -10 removed at generation 0
+if K0:
+    WORDS = ['K0']
 L, GMAX, H = 44, 64, 128
 m = oracle.masks(H); valid = m[0] | m[1] | m[2]
 
@@ -64,7 +69,7 @@ def arr(cs, off):
     return h
 
 
-ok = True
+ok = True; table = {}
 for part, idx, e, outs in sample:
     KS, T = e['KS'], e['T']
     cap = frozenset(tuple(c) for c in e['cap'])
@@ -81,7 +86,7 @@ for part, idx, e, outs in sample:
     stands = lambda g: np.array_equal(plain[max(g, T)][endzone], plain[max(g, T) - T][endzone])   # at max(g, T): equality at g lasts
     want = 'healed' if set(outs) == {'healed'} else 'dead'
     for wd in WORDS:
-        holes = {tr((1, 0, 4), rakes[i]) for i in wd}
+        holes = {tr((0, 1, 4), KS - 16)} if K0 else {tr((1, 0, 4), rakes[i]) for i in wd}
         assert holes <= train
         x = arr((cap | train) - holes, off)
         got, when = None, None
@@ -94,8 +99,12 @@ for part, idx, e, outs in sample:
             reach = bool((x ^ plain[GMAX])[far].any())
             got = 'dead' if (reach and stands(GMAX)) else f'differs at {GMAX} (far zone differs: {reach}, end stands: {stands(GMAX)})'
         good = got == want
+        if K0:
+            good = got in ('healed', 'dead'); table[(want, got)] = table.get((want, got), 0) + 1
         ok &= good
         print(f'  end {part}:{idx} ({e["src"]}, {e["cells"]} cells, period {T}) word {wd}: push {want}; oracle {got}'
               + (f' at generation {when}' if when else '') + ('' if good else '   <-- DISAGREES'), flush=True)
 print(f'{len(sample)} ends x {len(WORDS)} words checked')
+if K0:
+    print('(push: every hole, oracle: K0) ->', sorted(table.items()), ' (PASS here means only: no third outcome)')
 print('PASS' if ok else 'FAIL')
