@@ -342,3 +342,9 @@ img{max-width:100%}
 .iso .f-osc{fill:var(--s1);fill-opacity:.85}
 /* evening refresh of 2026-11-15: the echo plate's rakes (the cap and the quiet wire stay .f-w) */
 .iso .f-rk{fill:var(--ink-2);fill-opacity:.55}
+/* night refresh of 2026-11-15: when signals meet (the table of the nine signals) */
+.sg-tab{font-size:12.5px;color:var(--ink-2);overflow-x:auto;margin-top:6px}
+.sg-tab td:last-child{white-space:normal;text-align:left}
+.sg-tab th:last-child{text-align:left}
+.sg-tab tr.sg-more td{color:var(--ink-3)}
+#b-meet-x{margin-top:8px}

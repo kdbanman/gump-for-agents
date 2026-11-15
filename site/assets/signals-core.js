@@ -81,11 +81,28 @@ const sigCore = (() => {
     const kind = p => { const x = p[0] - off[0], s = x + p[1] - off[1] + p[2] - off[2]; return s <= smax ? 'osc' : x >= 2 * d.N ? 'gun' : 'wire'; };
     return { H, off, cells: all.map(sh), hole: sh(d.hole), kind, osc: oscKeys };
   }
+  // the plain rake train (research/signals/objects/echo-train.json, as research/audit/signals_meet_lead_check.py lays it out) on a
+  // ring of L units (L even) in a torus of side H = 2L, moved (0, L, 0): unit u holds base[t % 4][u % 2] moved u units of (2, 0, -2).
+  // put: [[signal name, its lowest unit u], ...], each signal's cells (at train phase 1, of parity u % 2) xor-ed onto phase 1.
+  // phase(t): the plain train's cells at phase t; unitOf(cell index): the ring unit a torus cell lies in (x >> 1).
+  function train(d, L, put) {
+    if (L % 2) throw new Error('the ring needs an even number of units');
+    const H = 2 * L, off = [0, L, 0];
+    const at = (c, u) => [md(c[0] + 2 * u + off[0], H), md(c[1] + off[1], H), md(c[2] - 2 * u + off[2], H)];
+    const phase = t => { const o = []; for (let u = 0; u < L; u++) for (const c of d.base[md(t, 4)][u % 2]) o.push(at(c, u)); return o; };
+    const on = new Map(); for (const p of phase(1)) on.set(key(p), p);
+    for (const [k, u] of put || []) {
+      const s = d.sig[k];
+      if (md(u, 2) !== s.parity) throw new Error(k + ' sits on units of parity ' + s.parity);
+      for (const c of s.cells) { const p = at(c, u), q = key(p); if (on.has(q)) on.delete(q); else on.set(q, p); }
+    }
+    return { H, L, off, cells: [...on.values()], phase, at, unitOf: c => Math.floor(c / (H * H)) >> 1 };
+  }
   // a cell's position along v and across, for drawing a ring unrolled: x kept in [0, H), (x + z) and y folded to near 0
   function unroll(p, H) {
     const s = md(p[0] + p[2] + H / 2, H) - H / 2, y = md(p[1] + H / 2, H) - H / 2;
     return [p[0], y, s - p[0]];
   }
-  return { ring, clock, gate, unroll, line, echo };
+  return { ring, clock, gate, unroll, line, echo, train };
 })();
 if (typeof module !== 'undefined') module.exports = { sigCore };

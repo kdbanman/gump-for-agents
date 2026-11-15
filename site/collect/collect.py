@@ -527,6 +527,42 @@ lce = so("line-C"); assert len(lce["gun"]) == 15
 out["echo"] = {"osc": ee["osc"], "line": ee["line"], "oscillator": ee["oscillator"], "tg": ee["tg"], "hole": ee["hole"], "N": 12,
                "found": fv("echo", "found"), "deaths": fv("echo", "deaths")}
 
+# ---- the refresh of 2026-11-15 (night): update-2026-11-15g.json. The sixth signals push and its review (SG28-SG32: nine
+#      signals, the meetings, no gun survives an echo, the reflector works once, the events review 5 had not followed) ----
+G = S("update-2026-11-15g.json")
+for sec in ("meet", "echo6", "ends6"):
+    for k, v in G[sec].items():
+        if k not in ("train", "signals"): checked(v)
+for c in G["corrections"]: checked(c)
+for a in G["audits"]: assert (repo / a["file"]).exists(), a["file"]
+out["corrections"] += [{"said": c["said"], "now": c["now"], "by": c["by"], "who": who(c["by"]), "line": c["line"]} for c in G["corrections"]]
+out["project"]["audits"] += [[a["label"], a["line"]] for a in G["audits"]]
+tl["milestones"] += [{"date": x["date"], "text": x["text"]} for x in G["milestones"]]
+gv = lambda sec, k: G[sec][k].get("value")
+# the plain rake train and the four signals of the push (research/signals/objects/echo-train.json), and the nine signals of
+# the review (research/audit/signals6/sig6.py, the literal SIGS, read with ast; the four must be the train file's)
+import ast
+et = so("echo-train")
+sg6 = next(ast.literal_eval(n.value) for n in ast.parse((repo / "research" / "audit" / "signals6" / "sig6.py").read_text()).body
+           if isinstance(n, ast.Assign) and getattr(n.targets[0], "id", "") == "SIGS")
+assert list(sg6) == ["E", "U", "H", "K0", "K3", "N1", "N2", "N3", "N4"]
+for k in ("E", "U", "H", "K0"):
+    assert sg6[k][0] == et["sig"][k]["parity"] and sorted(map(list, sg6[k][1])) == sorted(et["sig"][k]["cells"]) and sg6[k][2] == et["sig"][k]["dir"], k
+assert sum(1 for v in sg6.values() if v[2] > 0) == 3 and sum(1 for v in sg6.values() if v[2] < 0) == 6   # "six down and three up"
+fl6 = gv("meet", "flips"); assert fl6[0] == fl6[1] + fl6[2] + fl6[3]
+made = {"E": "one cell flipped", "U": "one cell flipped", "H": "one cell flipped", "K0": "one cell flipped", "K3": "two cells flipped",
+        "N1": "two cells flipped", "N2": "two cells flipped", "N3": "two cells flipped", "N4": "one cell flipped just outside the tube"}   # REVIEW-signals-6 section 2, "made by"
+out["meet"] = {"v": et["v"], "unit": et["unit"], "base": et["base"], "wireB": et["wireB"],
+               "sig": {k: {"parity": v[0], "cells": [list(c) for c in v[1]], "dir": v[2], "made": made[k], "push": k in et["sig"]} for k, v in sg6.items()},
+               "flips": fl6, "offsets": gv("meet", "offsets"), "lead": gv("meet", "lead"), "steppers": gv("meet", "steppers")[0]}
+# the echo plate's result (SG30, SG31) and the ends plate's additions (SG32; the forecasts after six pushes)
+out["echo"]["sixth"] = {"guns": gv("echo6", "guns"), "sat": gv("echo6", "sat"), "once": gv("echo6", "once")}
+fw = gv("ends6", "followed"); assert fw[0] == fw[2] + fw[3]
+rw = gv("ends6", "rows"); assert rw[0] == out["ends"]["census"][0] and rw[1] == fw[2] * rw[0] and rw[2] == fw[3] * rw[0]   # 14 × 741, 2 × 741
+assert gv("ends6", "all")[0] == out["ends"]["events"][0]
+pz = gv("ends6", "pushes"); assert pz[0] == pz[1] + pz[2]
+out["ends"].update({"followed": fw, "rows": rw, "count": gv("ends6", "count"), "pushes": pz})
+
 # the footer's date: the newest date among the files the data were gathered into (update-<date>*.json); the stamp under it
 # gives the repository state the timeline was read from
 out["project"]["gathered"] = max(re.match(r"update-(\d{4}-\d\d-\d\d)", f.name).group(1) for f in (here / "sources").glob("update-*.json"))

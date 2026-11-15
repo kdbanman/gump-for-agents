@@ -305,3 +305,42 @@ the message". One sentence on "One price per cell?" (`#constant`); the divider's
   plates' prose (√21, √31: the loop lengths of the quotes).
 - Not shown: the statistics table of `research/wraplocal/README.md` (only its conclusion, "occupation, not turnover"); the loop-9
   discount (0.0142, curved) as a point; the wall and fire kinds of gun death as drawings; the second echo clock C20.33c.
+
+## Refresh of 2026-11-15 (night): the sixth signals push and its review; when signals meet
+
+Added "When signals meet" (`#meetings`, live) to the signals page after "An echo". "An echo" (`#echo`): its open chip and
+"running" tile became the result (no gun survives an echo; the reflector works once) and one clause of its heading. "Nothing
+listens" (`#ends`): the events the fifth review had not followed, a paragraph on the count an echo writes, six pushes' forecasts.
+"Open now" (`#next`) first item, the map tiles for `echo`, `meetings` and `next`, the signals blurb. Three corrections, one audit,
+two milestones.
+
+- Quoted numbers: `sources/update-2026-11-15g.json` (sections `meet`, `echo6`, `ends6`; every item with `src` and `how`), checked by
+  `collect.py` as before against NB "the sixth signals push", "the sixth signals push reviewed", CLAIMS SG28-SG32 and (`file`
+  quote) `research/OPEN-PROBLEMS.md` item 13 (q). `collect.py` also asserts 112 = 24 + 66 + 22, 16 = 14 + 2, 10,374 = 14 × 741,
+  1,482 = 2 × 741, 30 = 12 + 18, and that the 426 events are the fifth push's.
+- New key `data/meet.json`: the plain rake train's unit cells at four phases, wire B's two units, `v` and `unit`, copied from
+  `research/signals/objects/echo-train.json`; the nine signals (parity, cells at train phase 1, direction) read by `collect.py`
+  with `ast` from the literal `SIGS` of `research/audit/signals6/sig6.py`, asserted equal to the train file's for E, U, H, K0 and
+  to "six down and three up"; "made by" for each is typed from the table of `research/audit/REVIEW-signals-6.md` section 2.
+  Also `flips`, `offsets`, `lead` (80 generations, 48 units), `steppers` (1,050) from the quotes.
+- Changed keys: `echo` gains `sixth` (`guns` 67, 11; `sat` 4, 3, 52; `once` 1, 20); `ends` gains `followed`, `rows`, `count` and
+  its `pushes` is now 30, 12, 18 (was 24, 11, 13 from `update-2026-11-15f.json`, still in that file).
+- The demo: `assets/signals-core.js` (`train`) lays the train on a ring of L units in a torus of side 2L, moved (0, L, 0), as
+  `research/audit/signals_meet_lead_check.py` does. Page choices, typed in `plates/meetings.js`: L = 48 (the lead's ring), the
+  run to generation 56 (the train file's sample meetings are read at 56; the change does not reach round the ring by then), and
+  the placements: the train file's sample meetings moved 10 units (the echo alone at unit 8).
+- `checks/check-signals.js` section 7 reads L, the run length and the four placements from `plates/meetings.js` and checks, on
+  `sigCore.train` and `gump-core.js`: `data/meet.json` equals the train file; one step of each phase is the next; E, U, H, K0 alone
+  rigid with the stated cell count and direction for 80 generations; the page's four runs (the echo alone rigid; U against K0 the
+  plain train from generation 20; E against H never back to the train, every unit more than 7 inside the span wire B's cells at
+  generation 56 (the units that are not: three at each end); E against K0 one differing cell in every second unit inside); and
+  E against H and U against K0 against `reference/oracle.py`, every generation to 56.
+- Computed on the page, not quoted: the cells differing from the plain train and their units, the history strip, the readings
+  (three cells; the generation from which nothing differs; whether the inner units all hold one cell set, and its size; the
+  alternation of one differing cell). The count of signals moving up (3) and of the nine is counted from `meet.sig`.
+- Claim counts: 192 (A 91, B 87, C 13, D 1), read from `research/CLAIMS.md` by `collect.py` as before.
+- Typed, not drawn from data: "Open now"'s first item, from `research/OPEN-PROBLEMS.md` item 13 (q)-(t) and NB "the sixth signals
+  push reviewed" ("nine", "three", "six", "eleven" are SG28's and SG30's; the wrapped-face items unchanged); the map labels; the
+  plates' prose.
+- Not shown: the meetings with K3 and N1-N4 as runs (K3's two outcomes are named in words); the B′ stretch as a drawing; the
+  constraint problems' planes (C = 31 … 37) beyond "within bounds"; U absorbed by a gun (echo-train.json `gun_absorbs_U`).

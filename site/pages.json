@@ -27,11 +27,12 @@
   {"id": "fauna", "k": "Debris and clocks", "v": "Period = twist × loop; a 4 × 13 compound; wires", "stc": "st-proved", "st": "proved"},
   {"id": "zombie", "k": "Unrecognised lives", "v": "4 in a million settle unseen; bounded; most are wires", "stc": "st-meas", "st": "measured"}
 ]},
-{"slug": "signals", "label": "Signals", "title": "Gump Signals", "blurb": "Pulses that travel along wires, a gate, a clock of any length, a gun, a clock that edits what the gun writes, and an end that sends a gap back up the stream as an echo, run live on this page; why nothing yet listens; and how much of its state space a seed ever visits.", "connects": "Gump is one rule among many; its relatives are the next page.", "plates": [
+{"slug": "signals", "label": "Signals", "title": "Gump Signals", "blurb": "Pulses that travel along wires, a gate, a clock of any length, a gun, a clock that edits what the gun writes, an end that sends a gap back up the stream as an echo, and what happens when signals going opposite ways meet, run live on this page; why nothing yet listens; and how much of its state space a seed ever visits.", "connects": "Gump is one rule among many; its relatives are the next page.", "plates": [
   {"id": "signals", "k": "Signals", "v": "Pulses on wires; a gate; a clock of any length", "stc": "st-meas", "st": "new · checked on the oracle", "new": true},
   {"id": "gun", "k": "A gun", "v": "Fifteen cells write a rake onto a wire every 4 generations", "stc": "st-meas", "st": "new · three codes; proved at every length", "new": true},
   {"id": "divider", "k": "A clock that edits the message", "v": "Every second rake becomes a gap; still nothing reads it", "stc": "st-meas", "st": "new · three codes", "new": true},
-  {"id": "echo", "k": "An echo", "v": "A gap goes down the wire; three cells come back up it", "stc": "st-meas", "st": "new · two codes on the oracle", "new": true},
+  {"id": "echo", "k": "An echo", "v": "A gap goes down the wire, three cells come back up; no gun survives the answer", "stc": "st-meas", "st": "new · two codes; SAT within bounds", "new": true},
+  {"id": "meetings", "k": "When signals meet", "v": "Nine signals ride the stream; opposite ones never pass", "stc": "st-proved", "st": "new · proved for ever + oracle", "new": true},
   {"id": "ends", "k": "Nothing listens", "v": "741 ends: each forgets a gap or dies of it; two kinds of gap sort them four ways", "stc": "st-meas", "st": "new · two or three codes", "new": true},
   {"id": "statespace", "k": "How much a seed sees", "v": "States seen = lifetime: 2^0.30·A of nearly 2^A", "stc": "st-proved", "st": "new · proved + measured", "new": true}
 ]},
@@ -47,6 +48,6 @@
   {"id": "swarm", "k": "The swarm", "v": "Closed: no proof of the area law", "stc": "st-open", "st": "open"},
   {"id": "checked", "k": "How it is checked", "v": "Graded claims, kept corrections"},
   {"id": "built", "k": "Built, and when", "v": "Commits and pull requests", "vid": "m-built"},
-  {"id": "next", "k": "Open now", "v": "What an echo and a gap do when they meet; whether a loop of √21 costs anything (queued for your card)", "stc": "st-open", "st": "open"}
+  {"id": "next", "k": "Open now", "v": "The full meeting table of nine signals; a count that lasts; whether a loop of √21 costs anything (queued for your card)", "stc": "st-open", "st": "open"}
 ]}
 ]

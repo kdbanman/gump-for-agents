@@ -170,6 +170,72 @@ const echoRun = (() => {
   return { H, cells: L.cells, tg, hole: L.hole, T: tg + T80 };
 })();
 
+// 7. when signals meet (CLAIMS SG28, SG29; NB "the sixth signals push", "... reviewed"; the lead's
+// research/audit/signals_meet_lead_check.py): data/meet.json must hold research/signals/objects/echo-train.json's train and four
+// signals and sig6.py's nine (collect.py reads them); the ring and the experiments are read from plates/meetings.js itself, laid out
+// by sigCore.train and stepped by the page's stepper. With D(t) = state XOR the plain train at the same generation, on the whole torus:
+//   a. one step of the train at phase t is the train at phase t + 1, for a whole period;
+//   b. E, U, H, K0 each alone: D has the signal's cell count at every second generation and D(t + 2) is D(t) moved dir units, to 80;
+//   c. the page's runs to its last generation: the echo alone as b; E against H: D never empty after the start, its span grows,
+//      and every unit more than 7 units inside the span holds wire B's cells (echo-train.json wireB) at that phase;
+//      U against K0: D empty from some generation on; E against K0: D never empty, and inside the span one cell differs in every
+//      second unit, none in the others. Also stepped by reference/oracle.py below (E against H, U against K0).
+const MJ = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'meet.json'), 'utf8')), ET = obj('echo-train');
+for (const f of ['v', 'unit', 'base', 'wireB']) if (JSON.stringify(MJ[f]) !== JSON.stringify(ET[f])) fail(`data/meet.json ${f} differs from echo-train.json`);
+for (const k of Object.keys(ET.sig)) for (const f of ['parity', 'dir']) if (MJ.sig[k][f] !== ET.sig[k][f]) fail(`data/meet.json sig.${k}.${f} differs from echo-train.json`);
+for (const k of Object.keys(ET.sig)) if (JSON.stringify(MJ.sig[k].cells.map(String).sort()) !== JSON.stringify(ET.sig[k].cells.map(String).sort())) fail(`data/meet.json sig.${k}.cells differ from echo-train.json`);
+const meetRuns = (() => {
+  const src = fs.readFileSync(path.join(__dirname, '..', 'plates', 'meetings.js'), 'utf8');
+  const mL = src.match(/\bL = (\d+), T = (\d+)/), L = +mL[1], TT = +mL[2];
+  const X = [...src.matchAll(/\{ b: '([^']+)', put: (\[\[.*?\]\]) \}/g)].map(m => ({ b: m[1], put: JSON.parse(m[2].replace(/'/g, '"')) }));
+  if (X.length !== 4) fail('plates/meetings.js: expected four experiments, found ' + X.length);
+  const T0 = sigCore.train(MJ, L, []), H = T0.H, HH = H * H, md = (a, h) => ((a % h) + h) % h;
+  const P = [0, 1, 2, 3].map(t => { const a = new Uint8Array(H * HH); for (const p of T0.phase(t)) a[ix(H, p)] = 1; return a; });
+  let ok = [0, 1, 2, 3].every(t => { const g = makeGump(H); g.setCells(T0.phase(t)); g.step(); const Q = P[(t + 1) % 4]; for (let i = 0; i < g.M; i++) if (g.state[g.cell[i]] !== Q[g.cell[i]]) return false; return true; });
+  console.log(`meetings: ring of ${L} units (torus ${H}): one step of the plain train at each phase is its next phase  ${ok ? 'ok' : 'WRONG'}`);
+  if (!ok) bad++;
+  const g = makeGump(H);
+  const Dof = () => { const Q = P[(1 + g.gen) % 4], d = []; for (let i = 0; i < g.M; i++) { const c = g.cell[i]; if (g.state[c] !== Q[c]) d.push(c); } return d; };
+  const mv = (c, k) => { const x = Math.floor(c / HH), y = Math.floor(c / H) % H, z = c % H; return ix(H, [md(x + 2 * k, H), y, md(z - 2 * k, H)]); };
+  const unitsOf = d => [...new Set(d.map(c => Math.floor(c / HH) >> 1))].sort((a, b) => a - b);
+  const rigid = (put, n, dir, G) => {
+    g.setCells(sigCore.train(MJ, L, put).cells); let prev = Dof(), good = prev.length === n;
+    for (let t = 2; t <= G; t += 2) { g.step(); g.step(); const d = Dof(); if (d.length !== n || JSON.stringify(prev.map(c => mv(c, dir)).sort((a, b) => a - b)) !== JSON.stringify(d.slice().sort((a, b) => a - b))) good = false; prev = d; }
+    return good;
+  };
+  for (const k of ['E', 'U', 'H', 'K0']) {
+    const s = MJ.sig[k], good = rigid([[k, 10 + s.parity]], s.cells.length, s.dir, 80);
+    console.log(`meetings: ${k} alone: ${s.cells.length} cell(s), moving ${s.dir > 0 ? '+' : ''}${s.dir} unit per two generations, rigid for 80 generations  ${good ? 'ok' : 'WRONG'}`);
+    if (!good) bad++;
+  }
+  const unitCells = u => { const o = []; for (let i = 0; i < g.M; i++) { const c = g.cell[i]; if (!g.state[c] || (Math.floor(c / HH) >> 1) !== u) continue; const x = Math.floor(c / HH), y = Math.floor(c / H) % H, z = c % H; o.push([x - 2 * u, y - L, md(z + 2 * u, H)].join()); } return o.sort().join(' '); };
+  const runs = [];
+  for (const e of X) {
+    const names = e.put.map(p => p[0]).join(' ');
+    if (names === 'E') { const good = rigid(e.put, 3, 1, TT); console.log(`meetings, the page's "${e.b}": rigid, 3 cells moving up, to generation ${TT}  ${good ? 'ok' : 'WRONG'}`); if (!good) bad++; continue; }
+    g.setCells(sigCore.train(MJ, L, e.put).cells); const n = [Dof().length], sp = [];
+    while (g.gen < TT) { g.step(); const d = Dof(); n.push(d.length); const us = unitsOf(d); sp.push(us.length ? us[us.length - 1] - us[0] + 1 : 0); }
+    const us = unitsOf(Dof()), a = us[0], z = us[us.length - 1];
+    let good, what;
+    if (names === 'U K0') { const first = n.findIndex((v, t) => n.slice(t).every(w => w === 0)); good = first > 0; what = `the plain train, whole torus, from generation ${first} to ${TT}`; }
+    else if (names === 'E H') {
+      const wb = MJ.wireB[(1 + g.gen) % 4 === 1 ? 1 : 0].map(String).sort().join(' ');
+      const inner = []; for (let u = a + 8; u <= z - 8; u++) inner.push(unitCells(u));
+      const odd = inner.filter(s => s !== wb).length, oddAll = []; for (let u = a; u <= z; u++) if (unitCells(u) !== wb) oddAll.push(u);
+      good = n.slice(1).every(v => v > 0) && sp[TT - 1] > sp[TT - 21] && inner.length >= 15 && odd === 0 && (1 + g.gen) % 4 === 1;
+      what = `never back to the train (fewest differing cells after the start: ${Math.min(...n.slice(1))}); span ${sp[TT - 21]} -> ${sp[TT - 1]} units over the last 20 generations; units ${a + 8} to ${z - 8}, well inside the span ${a} to ${z}: ${inner.length - odd} of ${inner.length} hold wire B's cells (units of the span that do not: ${oddAll.join(', ')})`;
+    } else {
+      const inner = []; for (let u = a + 3; u <= z - 3; u++) inner.push(Dof().filter(c => (Math.floor(c / HH) >> 1) === u).length);
+      good = n.slice(1).every(v => v > 0) && inner.length >= 20 && inner.every((v, k) => v === (k % 2 ? 1 - inner[0] : inner[0])) && (inner[0] === 1 || inner[1] === 1);
+      what = `never back to the train; inside the span (${inner.length} units) the differing cells per unit alternate ${inner.slice(0, 4).join(', ')}, …`;
+    }
+    console.log(`meetings, the page's "${e.b}" (${e.put.map(p => p.join(' at ')).join(', ')}): ${what}  ${good ? 'ok' : 'WRONG'}`);
+    if (!good) bad++;
+    runs.push({ name: e.b, put: e.put });
+  }
+  return { L, T: TT, H, jobs: runs.filter(r => r.put.length === 2 && r.put[1][0] !== 'K0' || r.put[0][0] === 'U').map(r => ['the meetings, "' + r.name + '"', { H, cells: sigCore.train(MJ, L, r.put).cells }, TT]) };
+})();
+
 // 4. bit-exact against reference/oracle.py: per-generation hashes of the sorted live cell indices
 const py = `
 import sys, json, hashlib
@@ -195,7 +261,7 @@ const jobs = [
   ['gate, separation 11', sigCore.gate(dg, GATE_RING, 11), dg.T],
 ].concat(PAGE_LINES.map(N => ['the line, N = ' + N, sigCore.line(S4.line, N), 2 * N + 12]),
          PAGE_DIVIDERS.map(N => ['the divider, N = ' + N, sigCore.line(S4.divider, N), 2 * N + 20]),
-         [['the echo, undisturbed', { H: echoRun.H, cells: echoRun.cells }, echoRun.T], ['the echo, the hole made at generation ' + echoRun.tg, echoRun, echoRun.T]]);
+         [['the echo, undisturbed', { H: echoRun.H, cells: echoRun.cells }, echoRun.T], ['the echo, the hole made at generation ' + echoRun.tg, echoRun, echoRun.T]], meetRuns.jobs);
 let ref = null;
 try {
   ref = execFileSync('python3', ['-c', py], { cwd: repo, input: JSON.stringify(jobs.map(([, L, T]) => ({ H: L.H, cells: L.cells, T, tg: L.tg, hole: L.hole }))), encoding: 'utf8', maxBuffer: 1 << 24 })

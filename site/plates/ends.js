@@ -1,9 +1,11 @@
 'use strict';
 // ---- nothing listens (NB 2026-11-15 "the fifth signals push", "... reviewed"; CLAIMS SG23-SG25, SG27). All numbers quoted
 //      (collect/sources/update-2026-11-15f.json, checked by collect.py; collect.py also checks that the four kinds add up to the
-//      census and to the hole outcomes). Computed here: the row and column totals of the four kinds. ----
+//      census and to the hole outcomes). Computed here: the row and column totals of the four kinds. The night refresh adds the
+//      events the fifth review had not followed, the count an echo writes, and six pushes' forecasts (CLAIMS SG29, SG32;
+//      collect/sources/update-2026-11-15g.json, ends6). ----
 (function () {
-  const X = D.ends, n = X.census[0], fo = X.four, ho = X.holes, ev = X.events, bs = X.beside, dv = X.divbeside, sat = X.sat, lim = X.limits;
+  const X = D.ends, n = X.census[0], fo = X.four, ho = X.holes, ev = X.events, bs = X.beside, dv = X.divbeside, sat = X.sat, lim = X.limits, fw = X.followed, rw = X.rows, ct = X.count;
   $('#n-ends-n').textContent = fmtInt(n);
   $('#x-ends-def').textContent = 'The gun of the plates above fills its wire with a stream of moving objects, rakes, one every four generations. An end is whatever stands where the stream stops and swallows it: the line’s receiving cap is one, and a search found ' + fmtInt(n) + ' different ones (different up to moving or delaying them) that can stand in the narrow tube of the wire. A gap is a flaw that rides down the stream: a hole, one cell of a rake missing, or the second kind, K0, one cell of the wire itself missing. A listener would be an end left in a different lasting state by a gap than by none: the first step of any memory, and of any computer built from these parts. None is known.';
   const H = $('#f-ends');
@@ -37,12 +39,13 @@
   const U = $('#l-ends'), li = (b, t) => { const e = E('li', {}, U); E('b', {}, e, b + ' '); e.appendChild(document.createTextNode(t)); };
   li('The narrow tube.', 'Every end searched fits in the wire’s own tube, ' + sat[0] + ' × ' + sat[0] + ' cells across; a search in a wider tube was started and cut.');
   li('Periods ' + sat[1] + ' and ' + sat[4] + '.', 'The census holds every end whose period divides ' + sat[1] + '; a search as one constraint problem, by two encodings and three solvers (no certificate), finds no listener of period dividing ' + sat[1] + ', or ' + sat[4] + ' on a shorter stretch, that settles within ' + lim[1] + ' generations and disturbs at most ' + lim[0] + ' units of stream in front of it.');
-  li('One-unit events.', 'Every change of one arriving rake by one unit: each subset of its cells removed, each dead cell of the tube made live, the rake replaced by bare wire, at every phase of its period: ' + fmtInt(ev[0]) + ' events per end, ' + fmtInt(ev[1]) + ' runs. Each ends healed or burns up the stream. One code, its stepper checked against the reference stepper.');
+  li('One-unit events.', 'Every change of one arriving rake by one unit: each subset of its cells removed, each dead cell of the tube made live, the rake replaced by bare wire, at every phase of its period: ' + fmtInt(ev[0]) + ' events per end, ' + fmtInt(ev[1]) + ' runs. Each ends healed or burns up the stream. One code, its stepper checked against the reference stepper. ' + fw[0] + ' of these events were at first counted as breaking the stream; they start a single signal moving up it instead (' + fw[2] + ' an echo, ' + fw[3] + ' the one-cell U of the plate above). The sixth review sent them to every end (' + fmtInt(rw[1]) + ' + ' + fmtInt(rw[2]) + ' runs): every end is left as it was, the signal leaving up the stream.');
   li('Beside the stream, sampled.', fmtInt(bs[0]) + ' catalogue clocks in random places beside the running line, each sent a hole: ' + fmtInt(bs[1]) + ' runs beside the wire, ' + fmtInt(bs[2]) + ' beside the receiving end. Each heals, or something is destroyed, or the echo on the plate above kills the gun. The divider’s own clock at every place and phase for N = ' + dv[0] + ': ' + fmtInt(dv[1]) + ' runs, ' + fmtInt(dv[2]) + ' heal, ' + fmtInt(dv[3]) + ' destroy it.');
   li('Not looked at:', 'gaps larger than one unit, anything outside the tube, and certificates for the solvers’ “no”.');
+  $('#x-ends-mem').textContent = 'The nearest thing to a memory so far. An echo that runs into several holes in a row leaves behind it a standing stretch of yet another wire, wire B′, one unit longer for each further hole: a count. But it is written inside a stream that the meeting is turning into wire B on both sides of it, and in a finite line it is erased when the gun dies and the gun’s fire runs down the wire. It is proved to stand for spacings of ' + ct[0] + ' to ' + ct[1] + ' between the holes, on the infinite train only (the reviewer’s code). So after six pushes no listener and no loop is known: nothing found is left alive in a different lasting state by a signal.';
   const N = $('#n-ends'), pu = X.pushes;
   numTile(N, fmtInt(ho[0]) + ' · ' + fmtInt(ho[2]), 'ends that heal every pattern of holes, and that die of every one. No end is moved, delayed or changed by a hole.', ['meas', 'three codes']);
   numTile(N, '4 kinds', 'once the second gap is tried: ' + fo.map(fmtInt).join(', ') + '. Which gaps an end forgets is not a property of the end alone.', ['meas', 'two codes']);
-  numTile(N, '0', 'ends left alive and changed, over ' + fmtInt(ev[1]) + ' runs of every one-unit change of a rake.', ['unchk', 'one code']);
-  numTile(N, pu[1] + ' of ' + pu[0], 'of the lead’s forecasts over five pushes on signals held in some form; ' + pu[2] + ' failed.', ['meas', 'scored']);
+  numTile(N, '0', 'ends left alive and changed, over all ' + ev[0] + ' one-unit changes of a rake at every one of the ' + fmtInt(n) + ' ends (' + fmtInt(ev[1]) + ' runs), now that the ' + fw[0] + ' that start an up-signal are followed too.', ['unchk', 'one code each, two reviews']);
+  numTile(N, pu[1] + ' of ' + pu[0], 'of the lead’s forecasts over six pushes on signals held in some form; ' + pu[2] + ' failed.', ['meas', 'scored']);
 })();
