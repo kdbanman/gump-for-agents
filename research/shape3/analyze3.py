@@ -128,6 +128,17 @@ def report():
         hits = sum(abs(z) < 2 for z in zs)
         print(f'| {name} | ' + ' | '.join(cells) + f' | {X2:.1f} / {len(zs)} | {p:.2g} | {hits}/{len(zs)} | '
               f'{"refuted" if p < 0.01 else "survives"} |')
+    print('\n## The same score split by set (the split is not in PREDICTIONS.md; the committed rule is the row above)\n')
+    print('| candidate | loop^2 >= 12 (T01, T12, N72): chi2 / dof, p | loop^2 = 9 (Q36, Q45, Q54, Q63): chi2 / dof, p |')
+    print('|---|---|---|')
+    for name, c in P['cands'].items():
+        cells = []
+        for sub in (['T01', 'T12', 'N72'], ['Q36', 'Q45', 'Q54', 'Q63']):
+            sub = [l for l in sub if l in meas]
+            zs = [(meas[l][0] - c['forecast'][l][0]) / math.hypot(meas[l][1], c['forecast'][l][1]) for l in sub]
+            X2 = sum(z * z for z in zs)
+            cells.append(f'{X2:.1f} / {len(zs)}, p {chi2.sf(X2, len(zs)):.2g}' if zs else '—')
+        print(f'| {name} | ' + ' | '.join(cells) + ' |')
     print('\n## Sign of each new difference (beyond 2 sigma from 0?)\n')
     for l in labs:
         d, s = meas[l]

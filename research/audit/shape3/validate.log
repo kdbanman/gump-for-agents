@@ -1,0 +1,8 @@
+validate (1, 4, 12) N=12: generations compared 2001 (of 2001), identical states 2001, first mismatch None; lane-0 population 110 -> 120, distinct populations 90
+validate (1, 3, 12) N=12: generations compared 2001 (of 2001), identical states 2001, first mismatch None; lane-0 population 110 -> 120, distinct populations 91
+validate (1, 5, 15) N=15: generations compared 2001 (of 2001), identical states 2001, first mismatch None; lane-0 population 136 -> 161, distinct populations 101
+validate (1, 4, 15) N=15: generations compared 2001 (of 2001), identical states 2001, first mismatch None; lane-0 population 136 -> 177, distinct populations 93
+validate (2, 2, 8) N=16: generations compared 2001 (of 2001), identical states 2001, first mismatch None; lane-0 population 146 -> 168, distinct populations 97
+validate (1, 6, 16) N=16: generations compared 2001 (of 2001), identical states 2001, first mismatch None; lane-0 population 146 -> 190, distinct populations 94
+validate (2, 4, 12) N=24: generations compared 601 (of 601), identical states 601, first mismatch None; lane-0 population 240 -> 290, distinct populations 102
+validate (1, 3, 12) N=12: generations compared 2001 (of 2001), identical states 2001, first mismatch None; lane-0 population 124 -> 81, distinct populations 103

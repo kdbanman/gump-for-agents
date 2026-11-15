@@ -1,0 +1,99 @@
+=== A. the one-c test as a 1-dof penalty (the joint p dilutes it), one-term hull forms, A >= 45 and A >= 63
+  A>=45    rim    x offsets     c_hull 0.2317+-0.0019 c_per 0.2072+-0.0001 | joint c 0.2073, chi2  175.5/10 p 2e-32 | penalty  165.9 on 1: p 5.9e-38 (12.9 sigma)
+  A>=45    rim    x long side   c_hull 0.2317+-0.0019 c_per 0.2117+-0.0002 | joint c 0.2118, chi2  116.9/11 p 7.7e-20 | penalty  110.3 on 1: p 8.5e-26 (10.5 sigma)
+  A>=45    rim    x both sides  c_hull 0.2317+-0.0019 c_per 0.2121+-0.0028 | joint c 0.2254, chi2   40.9/10 p 1.2e-05 | penalty   34.3 on 1: p 4.7e-09 (5.9 sigma)
+  A>=45    rim    x a(s)+D/s    c_hull 0.2317+-0.0019 c_per 0.2127+-0.0031 | joint c 0.2265, chi2   33.7/9 p 0.0001 | penalty   27.3 on 1: p 1.7e-07 (5.2 sigma)
+  A>=45    log    x offsets     c_hull 0.2226+-0.0010 c_per 0.2072+-0.0001 | joint c 0.2074, chi2  248.5/10 p 1.1e-47 | penalty  238.3 on 1: p 9.2e-54 (15.4 sigma)
+  A>=45    log    x long side   c_hull 0.2226+-0.0010 c_per 0.2117+-0.0002 | joint c 0.2120, chi2  124.9/11 p 1.9e-21 | penalty  117.7 on 1: p 2e-27 (10.8 sigma)
+  A>=45    log    x both sides  c_hull 0.2226+-0.0010 c_per 0.2121+-0.0028 | joint c 0.2214, chi2   19.9/10 p 0.03 | penalty   12.8 on 1: p 0.00035 (3.6 sigma)
+  A>=45    log    x a(s)+D/s    c_hull 0.2226+-0.0010 c_per 0.2127+-0.0031 | joint c 0.2217, chi2   16.1/9 p 0.065 | penalty    9.2 on 1: p 0.0025 (3.0 sigma)
+  A>=45    1/k    x offsets     c_hull 0.2193+-0.0007 c_per 0.2072+-0.0001 | joint c 0.2076, chi2  331.0/10 p 4.2e-65 | penalty  320.2 on 1: p 1.3e-71 (17.9 sigma)
+  A>=45    1/k    x long side   c_hull 0.2193+-0.0007 c_per 0.2117+-0.0002 | joint c 0.2122, chi2  130.5/11 p 1.4e-22 | penalty  122.7 on 1: p 1.7e-28 (11.1 sigma)
+  A>=45    1/k    x both sides  c_hull 0.2193+-0.0007 c_per 0.2121+-0.0028 | joint c 0.2189, chi2   14.3/10 p 0.16 | penalty    6.5 on 1: p 0.011 (2.5 sigma)
+  A>=45    1/k    x a(s)+D/s    c_hull 0.2193+-0.0007 c_per 0.2127+-0.0031 | joint c 0.2190, chi2   11.9/9 p 0.22 | penalty    4.3 on 1: p 0.038 (2.1 sigma)
+  A>=45    1/A    x offsets     c_hull 0.2181+-0.0005 c_per 0.2072+-0.0001 | joint c 0.2077, chi2  388.4/10 p 2.7e-77 | penalty  377.2 on 1: p 5.1e-84 (19.4 sigma)
+  A>=45    1/A    x long side   c_hull 0.2181+-0.0005 c_per 0.2117+-0.0002 | joint c 0.2123, chi2  132.8/11 p 4.8e-23 | penalty  124.5 on 1: p 6.6e-29 (11.2 sigma)
+  A>=45    1/A    x both sides  c_hull 0.2181+-0.0005 c_per 0.2121+-0.0028 | joint c 0.2179, chi2   12.8/10 p 0.23 | penalty    4.6 on 1: p 0.033 (2.1 sigma)
+  A>=45    1/A    x a(s)+D/s    c_hull 0.2181+-0.0005 c_per 0.2127+-0.0031 | joint c 0.2179, chi2   10.9/9 p 0.28 | penalty    2.9 on 1: p 0.088 (1.7 sigma)
+  A>=63    rim    x offsets     c_hull 0.2432+-0.0102 c_per 0.2072+-0.0001 | joint c 0.2072, chi2   20.8/9 p 0.014 | penalty   12.5 on 1: p 0.00041 (3.5 sigma)
+  A>=63    rim    x long side   c_hull 0.2432+-0.0102 c_per 0.2117+-0.0002 | joint c 0.2117, chi2   14.9/10 p 0.14 | penalty    9.6 on 1: p 0.002 (3.1 sigma)
+  A>=63    rim    x both sides  c_hull 0.2432+-0.0102 c_per 0.2121+-0.0028 | joint c 0.2142, chi2   14.0/9 p 0.12 | penalty    8.7 on 1: p 0.0032 (2.9 sigma)
+  A>=63    rim    x a(s)+D/s    c_hull 0.2432+-0.0102 c_per 0.2127+-0.0031 | joint c 0.2153, chi2   13.2/8 p 0.1 | penalty    8.2 on 1: p 0.0043 (2.9 sigma)
+  A>=63    log    x offsets     c_hull 0.2298+-0.0054 c_per 0.2072+-0.0001 | joint c 0.2072, chi2   25.9/9 p 0.0021 | penalty   17.6 on 1: p 2.7e-05 (4.2 sigma)
+  A>=63    log    x long side   c_hull 0.2298+-0.0054 c_per 0.2117+-0.0002 | joint c 0.2117, chi2   16.6/10 p 0.083 | penalty   11.3 on 1: p 0.00077 (3.4 sigma)
+  A>=63    log    x both sides  c_hull 0.2298+-0.0054 c_per 0.2121+-0.0028 | joint c 0.2158, chi2   13.8/9 p 0.13 | penalty    8.6 on 1: p 0.0034 (2.9 sigma)
+  A>=63    log    x a(s)+D/s    c_hull 0.2298+-0.0054 c_per 0.2127+-0.0031 | joint c 0.2170, chi2   12.6/8 p 0.13 | penalty    7.5 on 1: p 0.006 (2.7 sigma)
+  A>=63    1/k    x offsets     c_hull 0.2251+-0.0037 c_per 0.2072+-0.0001 | joint c 0.2072, chi2   31.8/9 p 0.00022 | penalty   23.5 on 1: p 1.3e-06 (4.8 sigma)
+  A>=63    1/k    x long side   c_hull 0.2251+-0.0037 c_per 0.2117+-0.0002 | joint c 0.2117, chi2   18.5/10 p 0.048 | penalty   13.2 on 1: p 0.00028 (3.6 sigma)
+  A>=63    1/k    x both sides  c_hull 0.2251+-0.0037 c_per 0.2121+-0.0028 | joint c 0.2168, chi2   13.2/9 p 0.15 | penalty    7.9 on 1: p 0.0048 (2.8 sigma)
+  A>=63    1/k    x a(s)+D/s    c_hull 0.2251+-0.0037 c_per 0.2127+-0.0031 | joint c 0.2178, chi2   11.6/8 p 0.17 | penalty    6.6 on 1: p 0.01 (2.6 sigma)
+  A>=63    1/A    x offsets     c_hull 0.2233+-0.0030 c_per 0.2072+-0.0001 | joint c 0.2072, chi2   36.2/9 p 3.6e-05 | penalty   27.9 on 1: p 1.3e-07 (5.3 sigma)
+  A>=63    1/A    x long side   c_hull 0.2233+-0.0030 c_per 0.2117+-0.0002 | joint c 0.2117, chi2   19.8/10 p 0.031 | penalty   14.5 on 1: p 0.00014 (3.8 sigma)
+  A>=63    1/A    x both sides  c_hull 0.2233+-0.0030 c_per 0.2121+-0.0028 | joint c 0.2171, chi2   12.7/9 p 0.18 | penalty    7.4 on 1: p 0.0065 (2.7 sigma)
+  A>=63    1/A    x a(s)+D/s    c_hull 0.2233+-0.0030 c_per 0.2127+-0.0031 | joint c 0.2181, chi2   10.9/8 p 0.21 | penalty    5.9 on 1: p 0.015 (2.4 sigma)
+
+=== B. saturating slope on the hull: ln tau = a + cA - D lam (1 - e^{-A/lam}), jointly with one c
+  six hull sizes x offsets    : joint chi2 1193.1/10 p 4.4e-250, c 0.2097, D +5.000 lam 5.3; hull part 730.4; penalty 1179.4 (p 1.8e-258); hull alone chi2 5.43/2 c 0.2156+-0.0004
+  six hull sizes x long side  : joint chi2 125.6/11 p 1.3e-21, c 0.2128, D +5.000 lam 5.9; hull part 80.7; penalty 114.9 (p 8.2e-27); hull alone chi2 5.43/2 c 0.2156+-0.0004
+  six hull sizes x both sides : joint chi2 12.3/10 p 0.27, c 0.2155, D +0.340 lam 11.6; hull part 5.5; penalty 1.6 (p 0.21); hull alone chi2 5.43/2 c 0.2156+-0.0004
+  six hull sizes x a(s)+D/s   : joint chi2 11.3/9 p 0.26, c 0.2155, D +0.336 lam 11.7; hull part 5.4; penalty 0.8 (p 0.37); hull alone chi2 5.43/2 c 0.2156+-0.0004
+  hull alone, saturating, local slopes it implies: 30->45 0.2010, 45->63 0.2119, 63->84 0.2148, 84->108 0.2155, 108->135 0.2156, 135->165 0.2156
+
+=== C. hull hold-outs for the forms not tried (fit without the largest 1 / 2 of A >= 45, forecast)
+  H1 rim k  -1: sum z^2 0.1/1, residuals +0.095; -2: sum z^2 1.4/2, residuals +0.038, +0.113;  all A>=45 -> ln tau(165) = 35.84 +- 0.05
+  HL lnA    -1: sum z^2 0.2/1, residuals +0.118; -2: sum z^2 1.9/2, residuals +0.044, +0.137;  all A>=45 -> ln tau(165) = 35.79 +- 0.05
+  H 1/k     -1: sum z^2 0.3/1, residuals +0.141; -2: sum z^2 2.6/2, residuals +0.051, +0.160;  all A>=45 -> ln tau(165) = 35.74 +- 0.04
+  H 1/A     -1: sum z^2 0.4/1, residuals +0.154; -2: sum z^2 3.1/2, residuals +0.055, +0.173;  all A>=45 -> ln tau(165) = 35.71 +- 0.04
+
+=== D. out-of-sample table (claim 6), periodic rectangular s >= 4
+  PA   -1: 6.2/3, 0.16    -2: 6.5/6, 0.15
+  PO   -1: 3.5/3, 0.11    -2: -
+  PM   -1: 2.2/3, 0.06    -2: 2.7/6, 0.06
+  PS   -1: 3.6/3, 0.11    -2: 3.7/6, 0.11
+  PSM  -1: 2.3/3, 0.06    -2: 2.4/6, 0.06
+  Pcw  -1: 0.3/3, 0.02    -2: 4.4/6, 0.05
+  s=4 PA -1: 1.8/1, 0.06    -2: 1.8/2, 0.06
+  s=5 PA -1: 0.1/1, 0.02    -2: 0.2/2, 0.02
+  wide PA: held-out A >= 105 (5): 15.1/5, max |res| 0.19
+  wide Pcw: held-out A >= 105 (5): 8.4/5, max |res| 0.09
+  hull A>=45: see fits.py section 1 (H0 -1 2.1/1 0.38, -2 9.7/2 0.39; H1 0.1/1 0.10, 1.4/2 0.11; HL 0.2/1 0.12, 1.9/2 0.14)
+
+=== E. would the proposed measurements discriminate?
+  1. equilateral tori: shortest loop^2 = n = A/3; massive deficit of the slope D e^{-s/xi} with the two loop-fits:
+     D 1.0556, xi 0.742, c 0.2122: A=48: 0.2074, A=57: 0.2092, A=63: 0.2100, A=75: 0.2109, A=81: 0.2112, A=84: 0.2114, A=93: 0.2116, A=108: 0.2119, A=111: 0.2119
+     D 1.1722, xi 0.7148, c 0.2171: A=48: 0.2127, A=57: 0.2145, A=63: 0.2152, A=75: 0.2160, A=81: 0.2163, A=84: 0.2164, A=93: 0.2166, A=108: 0.2168, A=111: 0.2169
+     -> the deficit is < 0.0012 for n >= 19: from A = 57 on, the massive and massless readings differ by less than the +-0.001 the plan buys. What the plan does decide: whether the constant-shape slope is ~0.209-0.212 or ~0.218+.
+  2. equal-area hulls: 10^4 deaths -> +-0.010 in ln tau; six rim cells x (0.06 + 0.06) = 0.7 between readings: 70 sigma, if a constant per corner and the corner angle are not changed at the same time (they are, for a truncated face: 3 -> up to 6 corners).
+  3. width 6: 6x6 592 deaths, 6x7 92: slope error 0.0062; 0.208 vs 0.215 separated by 1.1 sigma; vs 0.2127 (c of a(s)+A(c-D/s)): 0.7 sigma
+  3. width 6: 6x6 2000 deaths, 6x7 400: slope error 0.0030; 0.208 vs 0.215 separated by 2.3 sigma; vs 0.2127 (c of a(s)+A(c-D/s)): 1.5 sigma
+  3. width 6: 6x6 2000 deaths, 6x7 800: slope error 0.0023; 0.208 vs 0.215 separated by 3.0 sigma; vs 0.2127 (c of a(s)+A(c-D/s)): 1.9 sigma
+     now: a(s) + A(c - D/s) gives c = 0.2127 +- 0.0031; its 6-wide slope c - D/6 = 0.2090
+     with 6x6 at 2000 and 6x7 at 400 deaths: c(a(s)+A(c-D/s)) error 0.0030 (now 0.0031)
+     with 6x6 at 2000 and 6x7 at 800 deaths: c(a(s)+A(c-D/s)) error 0.0029 (now 0.0031)
+     with 6x6 at 2000 and 6x7 at 3000 deaths: c(a(s)+A(c-D/s)) error 0.0026 (now 0.0031)
+     alternative: the s=5 family to 5x9 / 5x10 (A = 135, 150) is cheaper per unit of lever on D than s=6.
+     adding ['5x9 (300 deaths)']: error on c 0.0026, on D 0.0106
+     adding ['5x9 (300 deaths)', '6x7 (400 deaths)']: error on c 0.0026, on D 0.0105
+
+=== F. a better discriminator: the hull local slope 84 -> 108 (and 108 -> 135) under each description that
+    passes, single c or not; A = 108 runs at ~2,100 hull-face deaths per GPU-hour (R15_s1), A = 84 at ~5e5
+  hull alone, log (A>=45)                    c 0.2226: slope 84->108 0.2166, 108->135 0.2179, 135->165 0.2188
+  hull alone, 1/k (A>=45)                    c 0.2193: slope 84->108 0.2163, 108->135 0.2172, 135->165 0.2178
+  hull alone, 1/A (A>=45)                    c 0.2181: slope 84->108 0.2162, 108->135 0.2169, 135->165 0.2173
+  hull alone, rim (A>=45)                    c 0.2317: slope 84->108 0.2168, 108->135 0.2185, 135->165 0.2198
+  k + 1/k (six), one c with long side        c 0.2117: slope 84->108 0.2171, 108->135 0.2178, 135->165 0.2180
+  k + 1/k^2 (six), one c with long side      c 0.2117: slope 84->108 0.2163, 108->135 0.2166, 135->165 0.2166
+  1/A (A>=45), one c with a(s)+D/s           c 0.2179: slope 84->108 0.2161, 108->135 0.2168, 135->165 0.2172
+  1/k (A>=45), one c with a(s)+D/s           c 0.2190: slope 84->108 0.2162, 108->135 0.2170, 135->165 0.2176
+  saturating, one c with a(s)+D/s: c 0.2155, slopes 84->108 0.2155, 108->135 0.2156 (section B)
+  A=108 at 1060 deaths, A=84 at 34368: slope 84->108 error 0.0013; GPU-hours for A=108 0.0, A=84 0.0
+  A=108 at 10000 deaths, A=84 at 34368: slope 84->108 error 0.0005; GPU-hours for A=108 4.2, A=84 0.0
+  A=108 at 10000 deaths, A=84 at 300000: slope 84->108 error 0.0004; GPU-hours for A=108 4.2, A=84 0.5
+  A=108 at 20000 deaths, A=84 at 300000: slope 84->108 error 0.0003; GPU-hours for A=108 8.9, A=84 0.5
+
+=== G. a massive-type hull correction in the side: ln tau = a + A (c - D e^{-k/xi}), alone and with one c
+  hull alone, six sizes: chi2 10.73/2 p 0.0047; c 0.1996+-0.0020, D 0.520, xi 2.420 (units of the side k)
+  one c with offsets   : joint chi2 33.4/10 p 0.00023; c 0.2072; xi 2.71; penalty 14.4 (p 0.00015)
+  one c with long side : joint chi2 50.7/11 p 4.7e-07; c 0.2116; xi 3.01; penalty 34.6 (p 4e-09)
+  one c with both sides: joint chi2 29.5/10 p 0.001; c 0.2039; xi 2.55; penalty 13.5 (p 0.00024)
+  one c with a(s)+D/s  : joint chi2 28.6/9 p 0.00076; c 0.2034; xi 2.54; penalty 12.8 (p 0.00035)

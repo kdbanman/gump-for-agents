@@ -27,7 +27,7 @@ for n in 16 20 24; do $R seg_m1_n$n model $((n+3)) 1 120 256 4 26112 3; done
 # depth ladders on segments
 for w in 1 2 3 4 5; do $R seg_m${w}_n13 model 16 $w 60 256 4 26112 3; done
 for w in 1 2 3 4 5; do $R seg_m${w}_n21 model 24 $w 150 256 4 26112 3; done
-$R seg_m6_n13 model 16 6 60 256 4 26112 3; $R seg_m8_n13 model 16 8 60 256 4 26112 3
+$R seg_m6_n13 model 16 6 50 256 4 26112 3; $R seg_m8_n13 model 16 8 50 256 4 26112 3
 # twelve layers instead of eight
 $R det12_b16 det 16 12 60 256 4; $R seg_det12_n13 det 16 12 60 256 4 26112 3; $R seg_det12_n21 det 24 12 150 256 4 26112 3
 # windows on a long ring; the front's distance from a wall in a long segment (face sampled every 2 generations)
@@ -36,5 +36,16 @@ $R seg_det_n61 det 64 8 1500 256 2 26112 3
 # the next torus, (1,2),(0,b), shortest loop squared 7
 $R det_k2_b16 det 16 8 60 256 4 26112 0 2;  $R det_k2_b20 det 20 8 120 256 4 26112 0 2
 $R det_k2_b24 det 24 8 400 256 4 26112 0 2; $R det_k2_b28 det 28 8 2400 256 4 26112 0 2
+# the two closures of README section 6b: tables from the deterministic system, exact on short segments, simulated
+$R tab_det_b32 det 32 8 50 256 4; $R tab_det_b16 det 16 8 20 256 4
+python3 pca.py table tab_det_b32 det32; python3 pca.py table tab_det_b16 det16; python3 pca.py coins
+python3 pca.py exact det32 6; python3 pca.py exact coins 6
+python3 pca.py run det32 pca_det32_n5 8 15 64 3;  python3 pca.py run det32 pca_det32_n6 9 15 64 3
+python3 pca.py run det32 pca_det32_n13 16 40 256 3; python3 pca.py run det32 pca_det32_n21 24 60 256 3
+python3 ccoin.py measure 48 6000; python3 ccoin.py exact 6
+python3 ccoin.py run cc_n5 8 12 64 3;   python3 ccoin.py run cc_n6 9 12 64 3
+python3 ccoin.py run cc_n13 16 40 256 3; python3 ccoin.py run cc_n21 24 60 256 3
+python3 ccoin.py runm ccm_n13 16 40 256 3; python3 ccoin.py runm ccm_n21 24 70 256 3
+python3 under.py 48 5000
 # exact: one layer over coins
 python3 exact1.py 5; python3 sweep.py ring 5; for n in 2 3 4 5 6 7; do python3 sweep.py seg $n; done

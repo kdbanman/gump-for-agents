@@ -78,8 +78,14 @@ _Last updated 2026-11-14 by the lead._
   nothing tagged proved is wrong (19 correct, one gap filled, two wordings narrowed; one constant corrected,
   c₂(0.472) = 0.466846); notebook entry and CLAIMS SW6 written; an Opus editor is pasting the corrected wordings into
   `swarm/counting/claims.md`;
-  (2) Fable: the thin face from the rule (derive the cost per cell 0.115 of the loop² 3 torus from layers of the rule
-  over coin flips; quasi-one-dimensional, finite-state) -> `research/theory/thin/`;
+  (2) Fable, **reported 23:26 UTC** (`research/theory/thin/README.md`; not yet in the notebook: an Opus adversarial
+  review is running -> `research/audit/REVIEW-thin.md`): no number was derived from the rule. Measured instead: the
+  census's 0.115/0.111 are local slopes of a ring law that is still bending (0.1086, 0.1063, 0.1034 at A = 78, 90,
+  102); four routes extrapolate to 0.099 ± 0.004 per cell; noise is enough on the thin torus from five layers
+  (+0.006 ± 0.003); every exactly solvable closure is wrong in slope (one layer over coins +22%); the face dies by
+  an island shrinking from its ends. The lead checked the ring slopes by arithmetic from the line's lifetimes. It
+  also reports two bugs of the "life that stops dying unrecognised" kind in its own stepper (fixed there): the same
+  failure must be ruled out for the census, the pairs and the GPU kernel (settled states of long period);
   (3) Fable, **done 20:52 UTC**: a manuscript-style draft for an outside reader, `docs/paper/draft.md` (results graded
   A or B only; section "What is new here and what is not"), with `INCONSISTENCIES.md` (34 places where the repository
   disagrees with itself) and `GAPS.md` (38). Nothing leaves the repository. An Opus editor is resolving the
@@ -99,22 +105,57 @@ _Last updated 2026-11-14 by the lead._
   both passes (aa1ea02; ranking unchanged, claims narrower). The lead's conjecture from it (wrap-around = a sum over period
   vectors, decaying over a correlation length) is in the notebook and was sent to the analyst of (6) with a blind
   test on the pairs of (4);
-  (4) Opus: the second variable, pairs of tori with equal area and equal shortest loop, candidates fixed and
-  forecasts committed first -> `research/shape3/`.
-  (6) Fable, **reported 22:20 UTC** (`research/constant/README.md`; not yet in the notebook: an Opus adversarial review
-  is running -> `research/audit/REVIEW-constant.md`): no single asymptotic constant is defined by the data. Periodic
-  faces give 0.2085 ± 0.0035 whatever the form; hull faces 0.2226 or 0.2317 with one correction term; forcing one
-  constant costs χ² 110-238 unless the hull's rim has a two-term correction. The lead's image-sum conjecture fails as
-  a law (the exponential fall of the deficit holds as a description, ξ = 0.71-0.74). The lead re-ran `fit.py` and
+  (4) Opus, **reported 00:15 UTC 2026-11-15, reviewed 00:53 UTC and recorded** (`research/shape3/README.md`;
+  `research/audit/REVIEW-shape3.md`: own stepper, the sign change confirmed, "survives out of sample" struck, seven
+  corrections being applied to the write-up by an Opus editor; notebook entries of 2026-11-15 "the second variable"
+  and "lives that settle and are not recognised"; CLAIMS SH6–SH9, ZL1, ZL2; ledger now 118 rows,
+  `python3 research/audit/claims_tally.py`): the second variable was not found. At A = 72
+  the differences at equal shortest loop are zero within 1.5σ (−0.006, +0.001, +0.002, each ± 0.004–0.006) where
+  A = 48 and 60 gave +0.015 and +0.007; below saturation (shortest loop² 9) the sign changes (A = 36: −0.0223 ±
+  0.0007; A = 45: +0.0076 ± 0.0013). The three size-free candidates are refuted; the two that decay with the second
+  direction forecast "nearly zero" at 72 and cannot be told from zero. Proved along the way: at equal area and equal
+  shortest loop one number fixes the lattice, so candidates can differ in size only. The lead recomputed the pair
+  table from the raw counts (`python3 research/audit/shape3_lead_check.py`). It also met "zombie lives" (a settled
+  state whose period does not divide 840 is never recognised; +0.017 in ln τ at A = 36 with no age cap; fixed by a
+  multi-lag test): the reviewer bounded the bias in the capped census and pairs runs (≤ 0.0007 in ln τ, below every error), and the GPU session was asked
+  (00:20 UTC, code reading only, no Modal spend) how its kernels treat such replicas. **Answered and merged as pull
+  request 20 (text only; squash fc1383b, 00:31 UTC):** its kernel detects periods 1–2 and, in most runs, up to 128;
+  no age cap; bounds on undetected exposure from the committed logs by run (`python3 research/gpu/zombies.py`;
+  weakest: R13 ≤ 6.7e-3 against ± 0.005, symc R43 s501, slab 4×8×8; runs shorter than one mean life, R15 and R17
+  among them, rest on a rate argument marked not proven); no published number changes. The lead recomputed the R11
+  and R13 bounds (`python3 research/audit/gpu_pr20_lead_check.py`). Recorded in the notebook (2026-11-15) and as CLAIMS ZL2. Owed before any
+  further GPU lifetime run: the guard described in `research/gpu/AGENT.md` (needs the GPU to test).
+  (6) Fable, **reported 22:10 UTC, reviewed 22:30 UTC, recorded** (`research/constant/README.md`,
+  `research/audit/REVIEW-constant.md`; notebook entry "is there one asymptotic cost per cell"; CLAIMS CN1): the
+  data allow one asymptotic constant anywhere from about 0.207 to 0.219 and do not fix it; the analysis's "two
+  families in tension" did not survive review (a single constant passes with a 1/A or saturating hull correction).
+  The lead's image-sum conjecture is refuted as a law. The analyst applied the review's corrections (3fbd2a1; notebook addendum: readings
+  with c ≤ 0.214 need a two-term hull correction, readings with c ≥ 0.2155 need a 1/s approach on periodic faces). The lead re-ran `fit.py` and
   checked the inputs (width slopes, hull local slopes). Its three proposed measurements: equilateral tori at constant
   shape (about 3 GPU-hours; to be asked of the GPU session once its forecasts are committed), hull faces of equal
   area and different rim, the width-6 slope. Original brief: is there one asymptotic constant? Joint analysis of every family of lifetimes
   (periodic by width, twisted, hull, symmetric), models stated before fitting, out-of-sample scores, a blind forecast
   for the GPU patch experiment -> `research/constant/`.
+  Queued for when two cores are free (the pairs experiment or the thin line ends): the equilateral tori
+  (1,7),(0,19) and (1,4),(0,21), A = 57 and 63, to ± 0.003 on the CPU. The analyst's forecasts for the whole family
+  under three readings are committed (`research/constant/PREDICTIONS.md` part C, 6c21dbd); these two points are the
+  part of that test a CPU can reach (massive reading: both about +0.013 above the 4×4–5×5 chord; flat: on it;
+  rising: below). A = 93, the most decisive point, needs the GPU and the owner's word on the Modal budget.
   Queued, not started (the five-hour usage window is the binding one until 01:20 UTC): a Fable line on the symmetric
   collapse (PROGRAM M5: derive 1/6, the −0.196·√A term and the factor 1.5 between centres from the asymmetric law).
-  (5) GPU session, asked 21:22 UTC: empty patches on a face too large to die (12×12×8; the lead's forecast is in the
-  notebook, c = 0.21 ± 0.015); expect a pull request; review as before.
+  (5) GPU session, asked 21:22 UTC: empty patches on a face too large to die (12×12×8). **Pull request 18 arrived
+  21:48 UTC** (head fcb3f39): the two-term fit gives c = 0.264 and fails (χ² 3,369/3), so the lead's forecast as
+  stated is missed; cost per cell 0.42 → 0.32 over 12–60 cells, still falling; no hits above 75 cells. Lead's
+  recomputation done (`research/audit/gpu_pr18_lead_check.py`: table reproduced; post hoc second differences give
+  0.273, 0.252, 0.237, 0.2185 ± 0.008). Opus adversarial review running -> `research/audit/REVIEW-gpu-pr18.md`. Then:
+  fixes by message, CI, merge (full sha), fetch main, notebook, CLAIMS. **The GPU session's Modal budget is nearly
+  spent (about $25.80 of $30 this month): no further GPU request without asking the owner.**
+  Reviewed 23:25 UTC (`research/audit/REVIEW-gpu-pr18.md`: merge after eight text fixes; the table is confirmed by an
+  independent CPU stepper up to 4×4; the 4×5 rhombus is 1.9–2.6σ lower on the CPU, and the reviewer is lengthening
+  that run; "well above the lifetime range" compared an incremental cost that includes perimeter). Fixes applied by the
+  GPU session (de00831), read against the list by the lead, CI green, **merged 23:31 UTC (squash 5d62eae)**; main
+  merged into the branch; notebook entry "empty patches on a face too large to die"; CLAIMS GP10. Open: the 4×5
+  point (the reviewer's longer CPU run).
   Owed for each when it reports: the lead's own check of one key number, an adversarial review (Opus) for (2) and (4),
   notebook, CLAIMS, STATUS. Usage timer every 60 minutes while Fable agents run.
   (ii) done: `README.md` (item 4 reworded; new items 8-10) and the web tour and
@@ -123,7 +164,7 @@ _Last updated 2026-11-14 by the lead._
   face) for side 16, which are different quantities. The audit's corrected wordings are in `path/claims.md` (a0508c8; one number
   in P's illustration stays in the journal as written, corrected in the audit). Owed: the same audit for counting and the theory push on the
   constant (Fable, after the owner's reset; Fable was 0.90 at 15:22). (b) the overview page is current to the entry "the shortest way round": refreshed
-  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); later work on the branch goes to pull request 17. **After the owner's Fable reset** (about 9am their time,
+  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); pull request 17 (census, audits, draft, prior art, the constant) was merged at 22:18 UTC (merge commit 47af1a6); later work on the branch goes to pull request 19 (18 is the GPU session's, the empty-patch experiment, opened 21:48 UTC). **After the owner's Fable reset** (about 9am their time,
   probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
   counting and path, and a new theory push on the sharpened problem (the 0.2 per cell from six layers over noise).
 - **Swarm: closed 2026-11-14** (`research/theory/swarm/critic/board.md`, closing table at the top; notebook entry

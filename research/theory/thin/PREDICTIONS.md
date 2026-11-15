@@ -182,3 +182,61 @@ for 25 → 29: the slope has stopped falling, where g + a/n fitted to n ≤ 29 w
 
 **F14 (the segment law is straight from n ≈ 25).** ln tau_seg(45) lies in 16.26–16.35, i.e. the mean slope
 between n = 29 and n = 45 is 0.294–0.300 per site. The alternative "slope = 0.282 + 0.36/n" gives 16.22.
+
+## Scores, second part (2026-11-14 22:30)
+
+Commands: `python3 analyze.py routes`, `python3 analyze.py static win_det_b64 'det_b[0-9]*'`,
+`python3 analyze.py life 'seg_det_n[5-9]'`, `python3 analyze.py life det12_b16 det_b16` (and the two segments),
+`python3 analyze.py life 'seg_m?_n13' seg_det_n13`.
+
+**F5: miss on all three parts.** (a) k(l) does decrease with l up to l = 34, but its weighted mean over
+l = 30…40 is 0.3365(7), while the ring's slope between b = 32 and 36 (b = 48 was not run) is 0.3103(62): 0.026
+apart, not within 0.02. (b) ln tau(b) + ln E(b − s) is constant for no shift: for s = 0 it runs from 0.771
+(b = 16) to 0.409 (b = 36), and more for the other shifts. (c) The minimum of k(l) over l ≤ 40 is 0.3347(25) at
+l = 34, not below 0.33. What I had wrong: the window cost comes down more slowly than the lifetime slopes
+(E(l) carries a power l^−0.9), and the ring's lifetime is not 1/E(b) up to a constant.
+
+**F10: hit.** Slope of the deterministic segments between n = 5 and n = 9: (5.4082 − 3.8671)/4 = 0.3853 per
+site. Local slopes 0.412, 0.397, 0.375, 0.357, 0.343 (9 → 10), 0.325 (10 → 13), 0.309 (13 → 17). (At n = 5 and 6 the
+hazard depends on age and 1% of lives end in a repeating state: those two values are rough.)
+
+**F11: (a) hit, (b) and (c) miss.** k_wall(10) = 0.3331(1), inside 0.322–0.338. k_wall(20) = 0.3182(3), at the
+upper edge of 0.298–0.318; k_wall(30) = 0.3120(12), above 0.290–0.310. Fit g + a/x over x = 12…32:
+g = 0.3033(3), a = 0.30; forecast g in 0.278–0.296. The front cost flattens higher than I expected: the routes
+do not meet at 0.285 but (if they meet) near 0.30.
+
+**F12: hit.** Twelve layers minus eight: +0.0034(23) (ring b = 16), +0.0015(17) (segment n = 13), +0.0060(25)
+(n = 21). All positive, all below 0.010.
+
+**F13: hit for w = 8 (+0.004(2)), miss for w = 6 (+0.013(2)).** These are the reruns: the first runs of both ended
+with every lane stuck behind three dead layers (README, "Subtle points"); with the 30-mean-lives estimator they
+gave +0.016(2) and +0.008(3).
+
+## Scores, third part (2026-11-14 22:54)
+
+**F6: hit on its numbers, with a caveat on its words.** Deterministic segments (`python3 analyze.py routes`,
+route 2): 6.7262(14), 9.1708(15), 11.5533(29), 13.9246(73) at n = 13, 21, 29, 37; local slopes 0.3056(3),
+0.2978(4), 0.2964(10) per site. They agree within ±0.005 (forecast ±0.012) and lie in 0.28–0.32. The caveat:
+"no drift like the ring's" is half right. The slope does fall between n = 13 and 25 (the first slope above is
+the corrected one; with the wrong n = 13 value known when F6 was written the first slope was 0.295 and the law
+looked straight from the start) and is flat only from n ≈ 25. Whether the ring's slope falls "towards the same
+value" is not settled: it is 0.3103(62) at b = 34 and still falling.
+
+## Scores, fourth part (2026-11-14 23:25)
+
+**F8: hit on all three parts, two of them at the edge.** `python3 analyze.py life 'det_k2_b*'`.
+(a) 9.8131(24), 12.1242(83), 14.3286(124) against the census 9.8122(20), 12.1133(31), 14.3592(116): +0.4σ,
++1.2σ, −1.8σ. (b) Half-collapse lags 3.24, 3.78, 4.44, 4.99 at b = 16, 20, 24, 28: lag(24)/lag(16) = 1.37, at the
+lower edge of 1.35–1.65; the lag grows linearly with b but not in proportion (it has an offset of about one
+generation). (c) ln tau at b = 28: 16.5100(171), at the lower edge of 16.50–16.61; cost per cell from A = 72:
+0.1818(18), inside 0.1785–0.1875. The run was stopped after 3,439 deaths.
+
+**F14: hit.** ln tau_seg(45) = 16.3227(201), inside 16.26–16.35; mean slope between n = 29 and 45: 0.2981(13)
+per site. The alternative "slope = 0.282 + 0.36/n" (16.22) is 5σ away. The segment law is straight within
+±0.003 per site from n = 25 to 45.
+
+## Tally
+
+Hit: F1, F2 (where tested), F6, F8, F9, F10, F12, F14. Half: F3 (w ≥ 5 hit, w = 4 half, w ≤ 3 miss, w = 1 with
+the wrong sign), F4, F11 (a hit; b, c miss), F13. Miss: F5 (all parts), F7. The misses have one thing in
+common: I expected every finite-size quantity to settle sooner and lower than it did.

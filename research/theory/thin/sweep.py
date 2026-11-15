@@ -4,7 +4,7 @@
     python3 sweep.py ring b [rho16]        # ring of b sites (b <= 6: the working tensor has 3b + 10 bits)
     python3 sweep.py seg n [rho16]         # segment of n sites {Z_s, Y_s, X_{s+1}}, s = 0..n-1, cells outside held
                                            # dead (n <= 8: 3n + 5 bits)
-    python3 sweep.py table                 # the filed table: rings 5..6, segments 2..8
+    python3 sweep.py table                 # the filed table: ring 5, segments 2..7 (ring 6 and segment 8 fit but were not run)
     python3 sweep.py seq                   # steps of ln tau between successive exact segments, and their limit
 
 Model and triples: exact1.py. Result: h = quasi-stationary probability that the face is empty one generation
@@ -29,7 +29,7 @@ def build():
         os.replace(BIN + '.new', BIN)
 
 
-def plan(kind, n, rho, path):
+def plan(kind, n, rho, path, P3=None):
     if kind == 'ring':
         mod = n; cells = {(o, c) for o in range(3) for c in range(n)}; trip = list(range(n))
         exact1.triples(n)                                    # asserts the coin-sharing structure
@@ -42,7 +42,8 @@ def plan(kind, n, rho, path):
     nbrs = {cell: [(o2, wrap(cell[1] + dc)) for (dt, o2, dc) in thin.TAB[cell[0]] if dt == 0 and (o2, wrap(cell[1] + dc)) in cells]
             for cell in cells}
     assert all(len(set(v)) == len(v) and cell not in v for cell, v in nbrs.items())
-    P3 = exact1.triple_table(rho)
+    if P3 is None:
+        P3 = exact1.triple_table(rho)
     var = [('old', x) for mm in members for x in mm if x]
     n0 = len(var); first = [v[1] for v in var]
     lines = []; nmax = n0
@@ -80,10 +81,11 @@ def plan(kind, n, rho, path):
     return n0, nmax
 
 
-def solve(kind, n, rho16=26112, tol=1e-11, quiet=False):
+def solve(kind, n, rho16=26112, tol=1e-11, quiet=False, P3=None, key=None):
+    """P3, key: another kernel that is a product over the triples (pca.py), filed under `key`"""
     build()
     path = os.path.join(OUT, f'plan_{kind}_{n}_{os.getpid()}.txt')
-    n0, nmax = plan(kind, n, rho16 / 65536, path)
+    n0, nmax = plan(kind, n, rho16 / 65536, path, P3)
     t0 = time.time()
     out = subprocess.run([BIN, path, str(tol), '3000'], capture_output=True, text=True, check=True).stdout.splitlines()
     os.remove(path)
@@ -93,7 +95,10 @@ def solve(kind, n, rho16=26112, tol=1e-11, quiet=False):
         print(f'{kind} {n}: {n0} cells, working tensor 2^{nmax}, h = {h:.10g}, ln tau = {lt:.6f}  ({its} iterations, {time.time() - t0:.0f} s)', flush=True)
     os.makedirs(os.path.dirname(DATA), exist_ok=True)
     d = json.load(open(DATA)) if os.path.exists(DATA) else {}
-    d[f'{kind}_{n}_rho{rho16}'] = dict(kind=kind, n=n, rho16=rho16, h=h, lntau=lt, iterations=its, cells=n0)
+    if key is None:
+        d[f'{kind}_{n}_rho{rho16}'] = dict(kind=kind, n=n, rho16=rho16, h=h, lntau=lt, iterations=its, cells=n0)
+    else:
+        d[f'{key}_{kind}_{n}'] = dict(kind=kind, n=n, model=key, h=h, lntau=lt, iterations=its, cells=n0)
     json.dump(d, open(DATA, 'w'), indent=1, sort_keys=True)
     return h, lt
 
@@ -102,7 +107,7 @@ def seq(rho16=26112):
     """Steps s_n = ln tau_seg(n) - ln tau_seg(n-1); limit by Aitken's formula on the last three steps (exact if the
     steps approach their limit geometrically); the spread between the last step and that limit is the error offered."""
     d = json.load(open(DATA))
-    a = {v['n']: v['lntau'] for v in d.values() if v['kind'] == 'seg' and v['rho16'] == rho16}
+    a = {v['n']: v['lntau'] for v in d.values() if v['kind'] == 'seg' and v.get('rho16') == rho16}
     ns = sorted(a)
     print('  n   ln tau_seg (exact)   step      Aitken limit of the steps')
     steps = {}
@@ -123,9 +128,8 @@ if __name__ == '__main__':
     if sys.argv[1] == 'seq':
         seq()
     elif sys.argv[1] == 'table':
-        for b in (5, 6):
-            solve('ring', b)
-        for n in range(2, 9):
+        solve('ring', 5)
+        for n in range(2, 8):
             solve('seg', n)
     else:
         solve(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]) if len(sys.argv) > 3 else 26112)

@@ -2,79 +2,193 @@
 ==============================================================================================================
 1. HULL faces (asymmetric octahedra), A = 30 ... 135.  k = side of the face, rim cells = 6k - 3
 ==============================================================================================================
-local slopes: 30->45: 0.2010 +- 0.0003, 45->63: 0.2119 +- 0.0002, 63->84: 0.2146 +- 0.0003, 84->108: 0.2181 +- 0.0013, 108->135: 0.2209 +- 0.0093
+local slopes: 30->45: 0.2010 +- 0.0003, 45->63: 0.2119 +- 0.0002, 63->84: 0.2146 +- 0.0003, 84->108: 0.2182 +- 0.0013, 108->135: 0.2209 +- 0.0093
 -- all six sizes
-  H0  a + cA                         chi2    1491.7 / 4  p        0  FAILS  c = 0.2090 +- 0.0001 (x sqrt(chi2/dof): 0.0015)  a = +0.475
+  H0  a + cA                         chi2    1492.0 / 4  p        0  FAILS  c = 0.2090 +- 0.0001 (x sqrt(chi2/dof): 0.0015)  a = +0.475
         hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0620 (+21.3 s)
         hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0577 (-21.4 s)
         hull  A= 63 k= 6                13.6346 +- 0.0011  resid -0.0047 (-4.1 s)
         hull  A= 84 k= 7                18.1407 +- 0.0054  resid +0.1132 (+21.0 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.3335 (+10.9 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid +0.6565 (+2.6 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.3338 (+10.9 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.6567 (+2.6 s)
       without the largest 1: c = 0.2090; forecast residuals hull  A=135 k= 9: +0.657 (+2.3 s)
       without the largest 2: c = 0.2088; forecast residuals hull  A=108 k= 8: +0.340 (+3.0 s); hull  A=135 k= 9: +0.666 (+2.2 s)
-  H1  a + cA + r k                   chi2     106.9 / 3  p  5.1e-23  FAILS  c = 0.2480 +- 0.0011 (x sqrt(chi2/dof): 0.0063)  a = +2.056 r = -0.675
+  H1  a + cA + r k                   chi2     106.9 / 3  p  5.2e-23  FAILS  c = 0.2480 +- 0.0011 (x sqrt(chi2/dof): 0.0063)  a = +2.056 r = -0.675
         hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0086 (+3.0 s)
         hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0217 (-8.0 s)
         hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0036 (+3.2 s)
         hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0233 (-4.3 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid -0.0649 (-2.1 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid -0.1208 (-0.5 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid -0.0646 (-2.1 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid -0.1207 (-0.5 s)
       without the largest 1: c = 0.2480; forecast residuals hull  A=135 k= 9: -0.122 (-0.4 s)
       without the largest 2: c = 0.2490; forecast residuals hull  A=108 k= 8: -0.076 (-0.6 s); hull  A=135 k= 9: -0.142 (-0.4 s)
-  HL  a + cA + p lnA                 chi2      69.1 / 3  p  6.7e-15  FAILS  c = 0.2293 +- 0.0005 (x sqrt(chi2/dof): 0.0026)  a = +3.293 p = -0.992
+  HL  a + cA + p lnA                 chi2      69.1 / 3  p  6.8e-15  FAILS  c = 0.2293 +- 0.0005 (x sqrt(chi2/dof): 0.0026)  a = +3.293 p = -0.992
         hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0062 (+2.1 s)
         hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0169 (-6.3 s)
         hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0030 (+2.7 s)
-        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0216 (-4.0 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid -0.0412 (-1.3 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid -0.0471 (-0.2 s)
-      without the largest 1: c = 0.2293; forecast residuals hull  A=135 k= 9: -0.047 (-0.2 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0217 (-4.0 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid -0.0409 (-1.3 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid -0.0470 (-0.2 s)
+      without the largest 1: c = 0.2294; forecast residuals hull  A=135 k= 9: -0.047 (-0.2 s)
       without the largest 2: c = 0.2296; forecast residuals hull  A=108 k= 8: -0.047 (-0.5 s); hull  A=135 k= 9: -0.058 (-0.2 s)
-  H2  a + cA + r k + q/k             chi2       6.9 / 2  p    0.031  fits   c = 0.1917 +- 0.0057 (x sqrt(chi2/dof): 0.0107)  a = -5.480 r = +0.805 q = +13.265
+  Hk  a + cA + q/k                   chi2      36.1 / 3  p  7.2e-08  FAILS  c = 0.2225 +- 0.0004 (x sqrt(chi2/dof): 0.0013)  a = -1.414 q = +6.156
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0038 (+1.3 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0116 (-4.3 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0023 (+2.0 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0183 (-3.4 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid -0.0136 (-0.4 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.0283 (+0.1 s)
+      without the largest 1: c = 0.2225; forecast residuals hull  A=135 k= 9: +0.028 (+0.1 s)
+      without the largest 2: c = 0.2226; forecast residuals hull  A=108 k= 8: -0.015 (-0.2 s); hull  A=135 k= 9: +0.026 (+0.1 s)
+  HA  a + cA + q/A                   chi2      21.5 / 3  p  8.5e-05  FAILS  c = 0.2201 +- 0.0003 (x sqrt(chi2/dof): 0.0008)  a = -0.626 q = +24.784
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0026 (+0.9 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0085 (-3.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0018 (+1.6 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0155 (-2.9 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0038 (+0.1 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.0723 (+0.3 s)
+      without the largest 1: c = 0.2201; forecast residuals hull  A=135 k= 9: +0.073 (+0.3 s)
+      without the largest 2: c = 0.2201; forecast residuals hull  A=108 k= 8: +0.004 (+0.1 s); hull  A=135 k= 9: +0.073 (+0.3 s)
+  Hr  a + cA + rho sqrt(A)           chi2     106.0 / 3  p  8.1e-23  FAILS  c = 0.2477 +- 0.0010 (x sqrt(chi2/dof): 0.0062)  a = +2.350 rho = -0.545
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0086 (+2.9 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0216 (-8.0 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0036 (+3.2 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0233 (-4.3 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid -0.0641 (-2.1 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid -0.1193 (-0.5 s)
+      without the largest 1: c = 0.2478; forecast residuals hull  A=135 k= 9: -0.120 (-0.4 s)
+      without the largest 2: c = 0.2487; forecast residuals hull  A=108 k= 8: -0.075 (-0.6 s); hull  A=135 k= 9: -0.140 (-0.4 s)
+  H2  a + cA + r k + q/k             chi2       7.0 / 2  p     0.03  fits   c = 0.1917 +- 0.0057 (x sqrt(chi2/dof): 0.0107)  a = -5.476 r = +0.804 q = +13.257
         hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0003 (+0.1 s)
         hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0014 (-0.5 s)
         hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0004 (+0.4 s)
-        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0073 (-1.4 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.0602 (+2.0 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid +0.2298 (+0.9 s)
-      without the largest 1: c = 0.1908; forecast residuals hull  A=135 k= 9: +0.236 (+0.9 s)
-      without the largest 2: c = 0.1827; forecast residuals hull  A=108 k= 8: +0.091 (+2.5 s); hull  A=135 k= 9: +0.305 (+1.2 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0074 (-1.4 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0604 (+2.0 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.2296 (+0.9 s)
+      without the largest 1: c = 0.1909; forecast residuals hull  A=135 k= 9: +0.236 (+0.9 s)
+      without the largest 2: c = 0.1827; forecast residuals hull  A=108 k= 8: +0.092 (+2.5 s); hull  A=135 k= 9: +0.305 (+1.2 s)
+  H2b a + cA + r k + q/k^2           chi2       5.8 / 2  p    0.055  fits   c = 0.2047 +- 0.0044 (x sqrt(chi2/dof): 0.0076)  a = -1.829 r = +0.346 q = +17.768
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0003 (+0.1 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0012 (-0.4 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0004 (+0.3 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0066 (-1.2 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0560 (+1.8 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.2069 (+0.8 s)
+      without the largest 1: c = 0.2041; forecast residuals hull  A=135 k= 9: +0.212 (+0.8 s)
+      without the largest 2: c = 0.1984; forecast residuals hull  A=108 k= 8: +0.083 (+2.3 s); hull  A=135 k= 9: +0.270 (+1.1 s)
+  HLk a + cA + p lnA + q/k           chi2       6.2 / 2  p    0.045  fits   c = 0.2069 +- 0.0029 (x sqrt(chi2/dof): 0.0051)  a = -11.872 p = +2.216 q = +19.725
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0003 (+0.1 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0012 (-0.4 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0004 (+0.3 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0068 (-1.3 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0580 (+1.9 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.2154 (+0.9 s)
+      without the largest 1: c = 0.2066; forecast residuals hull  A=135 k= 9: +0.221 (+0.8 s)
+      without the largest 2: c = 0.2027; forecast residuals hull  A=108 k= 8: +0.085 (+2.3 s); hull  A=135 k= 9: +0.278 (+1.1 s)
 -- A >= 45
-  H0  a + cA                         chi2     100.3 / 3  p  1.3e-21  FAILS  c = 0.2128 +- 0.0001 (x sqrt(chi2/dof): 0.0008)  a = +0.230
+  H0  a + cA                         chi2     100.5 / 3  p  1.2e-21  FAILS  c = 0.2128 +- 0.0001 (x sqrt(chi2/dof): 0.0008)  a = +0.230
         hull  A= 45 k= 5                 9.8202 +- 0.0027  resid +0.0128 (+4.7 s)
         hull  A= 63 k= 6                13.6346 +- 0.0011  resid -0.0039 (-3.5 s)
         hull  A= 84 k= 7                18.1407 +- 0.0054  resid +0.0326 (+6.0 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.1599 (+5.2 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid +0.3783 (+1.5 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.1602 (+5.2 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.3784 (+1.5 s)
       without the largest 1: c = 0.2128; forecast residuals hull  A=135 k= 9: +0.379 (+1.5 s)
-      without the largest 2: c = 0.2127; forecast residuals hull  A=108 k= 8: +0.167 (+2.7 s); hull  A=135 k= 9: +0.389 (+1.5 s)
-  H1  a + cA + r k                   chi2       1.3 / 2  p     0.52  fits   c = 0.2317 +- 0.0019 (x sqrt(chi2/dof): 0.0019)  a = +1.177 r = -0.357
+      without the largest 2: c = 0.2127; forecast residuals hull  A=108 k= 8: +0.167 (+2.7 s); hull  A=135 k= 9: +0.390 (+1.5 s)
+  H1  a + cA + r k                   chi2       1.3 / 2  p     0.52  fits   c = 0.2317 +- 0.0019 (x sqrt(chi2/dof): 0.0019)  a = +1.178 r = -0.357
         hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
         hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0001 (+0.1 s)
         hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0029 (-0.5 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.0282 (+0.9 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid +0.0938 (+0.4 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0285 (+0.9 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.0938 (+0.4 s)
       without the largest 1: c = 0.2316; forecast residuals hull  A=135 k= 9: +0.095 (+0.4 s)
-      without the largest 2: c = 0.2306; forecast residuals hull  A=108 k= 8: +0.037 (+1.1 s); hull  A=135 k= 9: +0.113 (+0.4 s)
-  HL  a + cA + p lnA                 chi2       1.8 / 2  p      0.4  fits   c = 0.2226 +- 0.0010 (x sqrt(chi2/dof): 0.0010)  a = +1.981 p = -0.572
+      without the largest 2: c = 0.2306; forecast residuals hull  A=108 k= 8: +0.038 (+1.1 s); hull  A=135 k= 9: +0.113 (+0.4 s)
+  HL  a + cA + p lnA                 chi2       1.9 / 2  p     0.39  fits   c = 0.2226 +- 0.0010 (x sqrt(chi2/dof): 0.0010)  a = +1.982 p = -0.572
         hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
         hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0001 (+0.1 s)
         hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0033 (-0.6 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.0339 (+1.1 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid +0.1170 (+0.5 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0342 (+1.1 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1170 (+0.5 s)
       without the largest 1: c = 0.2225; forecast residuals hull  A=135 k= 9: +0.119 (+0.5 s)
       without the largest 2: c = 0.2219; forecast residuals hull  A=108 k= 8: +0.044 (+1.3 s); hull  A=135 k= 9: +0.137 (+0.5 s)
-  H2  a + cA + r k + q/k             chi2       0.0 / 1  p     0.94  fits   c = 0.2630 +- 0.0277 (x sqrt(chi2/dof): 0.0277)  a = +6.324 r = -1.260 q = -10.203
+  Hk  a + cA + q/k                   chi2       2.5 / 2  p     0.28  fits   c = 0.2193 +- 0.0007 (x sqrt(chi2/dof): 0.0007)  a = -0.849 q = +4.006
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0038 (-0.7 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0401 (+1.3 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1394 (+0.6 s)
+      without the largest 1: c = 0.2193; forecast residuals hull  A=135 k= 9: +0.141 (+0.6 s)
+      without the largest 2: c = 0.2188; forecast residuals hull  A=108 k= 8: +0.051 (+1.5 s); hull  A=135 k= 9: +0.160 (+0.6 s)
+  HA  a + cA + q/A                   chi2       3.0 / 2  p     0.23  fits   c = 0.2181 +- 0.0005 (x sqrt(chi2/dof): 0.0007)  a = -0.386 q = +17.630
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0002 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0040 (-0.7 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0438 (+1.4 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1524 (+0.6 s)
+      without the largest 1: c = 0.2181; forecast residuals hull  A=135 k= 9: +0.154 (+0.6 s)
+      without the largest 2: c = 0.2177; forecast residuals hull  A=108 k= 8: +0.055 (+1.6 s); hull  A=135 k= 9: +0.173 (+0.7 s)
+  Hr  a + cA + rho sqrt(A)           chi2       1.3 / 2  p     0.52  fits   c = 0.2316 +- 0.0019 (x sqrt(chi2/dof): 0.0019)  a = +1.336 rho = -0.289
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0001 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0029 (-0.5 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0286 (+0.9 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.0942 (+0.4 s)
+      without the largest 1: c = 0.2315; forecast residuals hull  A=135 k= 9: +0.096 (+0.4 s)
+      without the largest 2: c = 0.2305; forecast residuals hull  A=108 k= 8: +0.038 (+1.1 s); hull  A=135 k= 9: +0.113 (+0.4 s)
+  H2  a + cA + r k + q/k             chi2       0.0 / 1  p     0.94  fits   c = 0.2633 +- 0.0277 (x sqrt(chi2/dof): 0.0277)  a = +6.367 r = -1.267 q = -10.288
         hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0000 (-0.0 s)
         hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0000 (+0.0 s)
         hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0000 (-0.0 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.0009 (+0.0 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid -0.0169 (-0.1 s)
-      without the largest 1: c = 0.2639; forecast residuals hull  A=135 k= 9: -0.020 (-0.1 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0010 (+0.0 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid -0.0178 (-0.1 s)
+      without the largest 1: c = 0.2642; forecast residuals hull  A=135 k= 9: -0.021 (-0.1 s)
+  H2b a + cA + r k + q/k^2           chi2       0.0 / 1  p     0.95  fits   c = 0.2569 +- 0.0221 (x sqrt(chi2/dof): 0.0221)  a = +3.957 r = -1.010 q = -16.286
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0000 (-0.0 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0000 (+0.0 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0000 (-0.0 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0008 (+0.0 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid -0.0155 (-0.1 s)
+      without the largest 1: c = 0.2576; forecast residuals hull  A=135 k= 9: -0.018 (-0.1 s)
+  HLk a + cA + p lnA + q/k           chi2       0.0 / 1  p     0.95  fits   c = 0.2424 +- 0.0145 (x sqrt(chi2/dof): 0.0145)  a = +19.231 p = -4.052 q = -24.461
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0000 (-0.0 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0000 (+0.0 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0000 (-0.0 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0007 (+0.0 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid -0.0135 (-0.1 s)
+      without the largest 1: c = 0.2427; forecast residuals hull  A=135 k= 9: -0.016 (-0.1 s)
+-- four-parameter forms that are not linear in their parameters, all six sizes
+  Hsat a + cA - D lam (1 - e^(-A/lam)) chi2       5.4 / 2  p    0.066  fits   c = 0.2156 +- 0.0004 (x sqrt(chi2/dof): 0.0007)  a = +3.896 D = +0.327 lam = +11.793
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0001 (+0.0 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0004 (-0.2 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.2 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0053 (-1.0 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0594 (+1.9 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.2041 (+0.8 s)
+      without the largest 1: c = 0.2155; forecast residuals hull  A=135 k= 9: +0.206 (+0.8 s)
+      without the largest 2: c = 0.2151; forecast residuals hull  A=108 k= 8: +0.074 (+2.2 s); hull  A=135 k= 9: +0.230 (+0.9 s)
+  Hside a + A (c - D e^(-k/xi))      chi2      10.7 / 2  p   0.0047  FAILS  c = 0.1996 +- 0.0020 (x sqrt(chi2/dof): 0.0045)  a = +3.803 D = +0.520 xi = +2.420
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0005 (+0.2 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0019 (-0.7 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0005 (+0.5 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0090 (-1.7 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0740 (+2.4 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.2927 (+1.2 s)
+      without the largest 1: c = 0.1993; forecast residuals hull  A=135 k= 9: +0.301 (+1.1 s)
+      without the largest 2: c = 0.1958; forecast residuals hull  A=108 k= 8: +0.114 (+3.1 s); hull  A=135 k= 9: +0.387 (+1.5 s)
+-- local slopes implied by each form that fits (84->108 measured 0.2182 +- 0.0013):
+      H1  a + cA + r k                       (A >= 45) c = 0.2317: 84->108 0.2168, 108->135 0.2185, 135->165 0.2198; ln tau(165) = 35.84 +- 0.05
+      HL  a + cA + p lnA                     (A >= 45) c = 0.2226: 84->108 0.2166, 108->135 0.2179, 135->165 0.2188; ln tau(165) = 35.79 +- 0.05
+      Hk  a + cA + q/k                       (A >= 45) c = 0.2193: 84->108 0.2163, 108->135 0.2172, 135->165 0.2178; ln tau(165) = 35.74 +- 0.05
+      HA  a + cA + q/A                       (A >= 45) c = 0.2181: 84->108 0.2162, 108->135 0.2169, 135->165 0.2173; ln tau(165) = 35.71 +- 0.05
+      H2  a + cA + r k + q/k                 (six sizes) c = 0.1917: 84->108 0.2153, 108->135 0.2147, 135->165 0.2136; ln tau(165) = 35.52 +- 0.15
+      H2b a + cA + r k + q/k^2               (six sizes) c = 0.2047: 84->108 0.2155, 108->135 0.2153, 135->165 0.2148; ln tau(165) = 35.58 +- 0.13
+      HLk a + cA + p lnA + q/k               (six sizes) c = 0.2069: 84->108 0.2155, 108->135 0.2151, 135->165 0.2144; ln tau(165) = 35.56 +- 0.13
+      Hsat a + cA - D lam (1 - e^(-A/lam))   (six sizes) c = 0.2156: 84->108 0.2155, 108->135 0.2156, 135->165 0.2156; ln tau(165) = 35.60 +- 0.06
+      Hside a + A (c - D e^(-k/xi))          (six sizes) c = 0.1996: 84->108 0.2147, 108->135 0.2128, 135->165 0.2105; ln tau(165) = 35.36 +- 0.18
 -- the A = 30 face against the forms fitted to A >= 45:
       H1  a + cA + r k: forecast 6.702 +- 0.010, measured 6.805 +- 0.003, residual +0.104
       HL  a + cA + p lnA: forecast 6.714 +- 0.011, measured 6.805 +- 0.003, residual +0.092
+      Hk  a + cA + q/k: forecast 6.731 +- 0.014, measured 6.805 +- 0.003, residual +0.074
+      HA  a + cA + q/A: forecast 6.745 +- 0.017, measured 6.805 +- 0.003, residual +0.061
    rim cells as a share of the face: A=30: 70%, A=45: 60%, A=63: 52%, A=84: 46%, A=108: 42%, A=135: 38%
 
 ==============================================================================================================
@@ -246,6 +360,62 @@ s = 6: local slopes 108->126: 0.2131 +- 0.0062
         A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0514 (+0.5 s)
       without the largest 1 of each width: c = 0.2112; residuals A=108   (16, 4, 61) 4x9: -0.058 (-1.4 s); A=120  (25, 10, 49) 5x8: +0.025 (+0.3 s); A=126  (36, 30, 43) 6x7: +0.061 (+0.6 s)
       without the largest 2 of each width: c = 0.2129; residuals A= 96   (16, 0, 48) 4x8: -0.002 (-0.1 s); A=108   (16, 4, 61) 4x9: -0.058 (-1.3 s); A=105  (25, 15, 39) 5x7: -0.021 (-0.4 s); A=120  (25, 10, 49) 5x8: +0.010 (+0.1 s); A=108  (36, 36, 36) 6x6: -0.031 (-0.6 s); A=126  (36, 30, 43) 6x7: +0.041 (+0.3 s)
+  PD  a(s) + A (c - D/s)             chi2       5.1 / 6  p     0.54  fits   c = 0.2127 +- 0.0031 (x sqrt(chi2/dof): 0.0031)  a4 = +0.057 a5 = +0.041 a6 = +0.005 D = +0.022
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0000 (+0.0 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0066 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0007 (+0.1 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0008 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0198 (-0.5 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0569 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0099 (-0.2 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0121 (+0.2 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0639 (+0.6 s)
+      without the largest 1 of each width: c = 0.2120; residuals A=108   (16, 4, 61) 4x9: -0.058 (-1.4 s); A=120  (25, 10, 49) 5x8: +0.018 (+0.2 s); A=126  (36, 30, 43) 6x7: +0.078 (+0.7 s)
+      D = 0.0224 +- 0.0125; cost per cell of a strip: s = 4: 0.2072, s = 5: 0.2083, s = 6: 0.2090, s = 8: 0.2099, s = 12: 0.2109
+  PD2 a(s) + A (c - D/s^2)           chi2       5.1 / 6  p     0.53  fits   c = 0.2103 +- 0.0017 (x sqrt(chi2/dof): 0.0017)  a4 = +0.057 a5 = +0.041 a6 = +0.020 D = +0.050
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0000 (+0.0 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0066 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0008 (+0.1 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0008 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0197 (-0.5 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0570 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0103 (-0.2 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0122 (+0.2 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0661 (+0.6 s)
+      without the largest 1 of each width: c = 0.2099; residuals A=108   (16, 4, 61) 4x9: -0.058 (-1.4 s); A=120  (25, 10, 49) 5x8: +0.018 (+0.2 s); A=126  (36, 30, 43) 6x7: +0.080 (+0.7 s)
+      D = 0.0496 +- 0.0277; cost per cell of a strip: s = 4: 0.2072, s = 5: 0.2083, s = 6: 0.2089, s = 8: 0.2095, s = 12: 0.2099
+  PDe a(s) + A (c - D e^(-s/0.72))   chi2       5.2 / 6  p     0.52  fits   c = 0.2086 +- 0.0008 (x sqrt(chi2/dof): 0.0008)  a4 = +0.057 a5 = +0.042 a6 = +0.058 D = +0.382
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0000 (+0.0 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0066 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0009 (+0.1 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0008 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0195 (-0.5 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0570 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0111 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0126 (+0.2 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0714 (+0.7 s)
+      without the largest 1 of each width: c = 0.2085; residuals A=108   (16, 4, 61) 4x9: -0.058 (-1.4 s); A=120  (25, 10, 49) 5x8: +0.018 (+0.2 s); A=126  (36, 30, 43) 6x7: +0.085 (+0.8 s)
+      D = 0.3815 +- 0.2160; cost per cell of a strip: s = 4: 0.2072, s = 5: 0.2083, s = 6: 0.2085, s = 8: 0.2086, s = 12: 0.2086
+  PD1 a(s) + A (c - D e^(-s/1))      chi2       5.1 / 6  p     0.53  fits   c = 0.2089 +- 0.0010 (x sqrt(chi2/dof): 0.0010)  a4 = +0.057 a5 = +0.042 a6 = +0.043 D = +0.096
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0000 (+0.0 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0066 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0008 (+0.1 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0008 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0196 (-0.5 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0570 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0108 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0124 (+0.2 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0692 (+0.7 s)
+      without the largest 1 of each width: c = 0.2087; residuals A=108   (16, 4, 61) 4x9: -0.058 (-1.4 s); A=120  (25, 10, 49) 5x8: +0.018 (+0.2 s); A=126  (36, 30, 43) 6x7: +0.083 (+0.7 s)
+      D = 0.0959 +- 0.0541; cost per cell of a strip: s = 4: 0.2072, s = 5: 0.2083, s = 6: 0.2087, s = 8: 0.2089, s = 12: 0.2089
   Pcw a + cA + kappa F               chi2      38.0 / 8  p  7.6e-06  FAILS  c = 0.2105 +- 0.0001 (x sqrt(chi2/dof): 0.0003)  a = +0.637 kappa = -1.485
         A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0006 (+0.7 s)
         A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0054 (-3.5 s)
@@ -423,103 +593,968 @@ s = 6: local slopes 108->126: 0.2131 +- 0.0062
   change of slope: -0.0029 +- 0.0013 (-2.3 sigma)
 
 ==============================================================================================================
-4. JOINT fits: one c for hull faces (A >= 45) and periodic faces (rectangular, s >= 4)
+4. JOINT fits: one c for hull faces and periodic faces (rectangular, s >= 4).  For each pair of forms:
+   the two families fitted separately (c_hull, c_per), then with one c.  The test of "one c" is the PENALTY
+   chi2(joint) - chi2(hull) - chi2(periodic), one degree of freedom; the joint chi2 dilutes it.
 ==============================================================================================================
-  hull rim (a + r k)  x  periodic offsets a(s)
-      separately: c_hull = 0.2317 +- 0.0019 (chi2 1.3/2), c_per = 0.2072 +- 0.0001 (chi2 8.3/7); difference +0.0245 +- 0.0019 (+12.9 sigma)
-      jointly:    c = 0.2073 +- 0.0001; chi2 175.3/10 (p 2.2e-32): hull part 166.4 on 5 points, periodic part 8.9 on 11; penalty for one c: 165.7 (1 dof)
+-- one-term hull corrections, hull faces with A >= 45 (5 sizes)
+  rim (r k)            x offsets a(s)         c_hull 0.2317+-0.0019 (  1.3/2 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff +0.0245+-0.0019 | one c 0.2073+-0.0001 chi2  175.5/10 p   2e-32 hull part  166.5/5 | penalty  165.9 p 5.9e-38 (12.9 s)
+  rim (r k)            x long side            c_hull 0.2317+-0.0019 (  1.3/2 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff +0.0200+-0.0019 | one c 0.2118+-0.0002 chi2  116.9/11 p 7.7e-20 hull part  110.7/5 | penalty  110.3 p 8.5e-26 (10.5 s)
+  rim (r k)            x both sides           c_hull 0.2317+-0.0019 (  1.3/2 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff +0.0196+-0.0034 | one c 0.2254+-0.0016 chi2   40.9/10 p 1.2e-05 hull part   12.3/5 | penalty   34.3 p 4.7e-09 ( 5.9 s)
+  rim (r k)            x a(s), D/s            c_hull 0.2317+-0.0019 (  1.3/2 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff +0.0190+-0.0036 | one c 0.2265+-0.0016 chi2   33.7/9  p  0.0001 hull part    8.8/5 | penalty   27.3 p 1.7e-07 ( 5.2 s)
+  rim (r k)            x a(s), D/s^2          c_hull 0.2317+-0.0019 (  1.3/2 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff +0.0215+-0.0026 | one c 0.2199+-0.0013 chi2   76.7/9  p 7.2e-13 hull part   40.1/5 | penalty   70.3 p   5e-17 ( 8.4 s)
+  rim (r k)            x a(s), D e^(-s/0.72)  c_hull 0.2317+-0.0019 (  1.3/2 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff +0.0231+-0.0021 | one c 0.2123+-0.0008 chi2  130.9/9  p 7.7e-24 hull part  106.2/5 | penalty  124.4 p 6.8e-29 (11.2 s)
+  rim (r k)            x capillary wave       c_hull 0.2317+-0.0019 (  1.3/2 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff +0.0212+-0.0019 | one c 0.2106+-0.0001 chi2  163.4/11 p 2.7e-29 hull part  124.8/5 | penalty  124.1 p   8e-29 (11.1 s)
+  log (p lnA)          x offsets a(s)         c_hull 0.2226+-0.0010 (  1.9/2 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff +0.0154+-0.0010 | one c 0.2074+-0.0001 chi2  248.5/10 p 1.1e-47 hull part  236.8/5 | penalty  238.3 p 9.2e-54 (15.4 s)
+  log (p lnA)          x long side            c_hull 0.2226+-0.0010 (  1.9/2 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff +0.0109+-0.0010 | one c 0.2120+-0.0002 chi2  124.9/11 p 1.9e-21 hull part  116.0/5 | penalty  117.7 p   2e-27 (10.8 s)
+  log (p lnA)          x both sides           c_hull 0.2226+-0.0010 (  1.9/2 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff +0.0105+-0.0029 | one c 0.2214+-0.0009 chi2   19.9/10 p    0.03 hull part    3.3/5 | penalty   12.8 p 0.00035 ( 3.6 s)
+  log (p lnA)          x a(s), D/s            c_hull 0.2226+-0.0010 (  1.9/2 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff +0.0098+-0.0032 | one c 0.2217+-0.0009 chi2   16.1/9  p   0.065 hull part    2.7/5 | penalty    9.2 p  0.0025 ( 3.0 s)
+  log (p lnA)          x a(s), D/s^2          c_hull 0.2226+-0.0010 (  1.9/2 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff +0.0123+-0.0020 | one c 0.2195+-0.0009 chi2   45.7/9  p 6.8e-07 hull part   11.5/5 | penalty   38.8 p 4.8e-10 ( 6.2 s)
+  log (p lnA)          x a(s), D e^(-s/0.72)  c_hull 0.2226+-0.0010 (  1.9/2 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff +0.0140+-0.0013 | one c 0.2143+-0.0006 chi2  124.8/9  p 1.4e-22 hull part   71.7/5 | penalty  117.8 p 1.9e-27 (10.9 s)
+  log (p lnA)          x capillary wave       c_hull 0.2226+-0.0010 (  1.9/2 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff +0.0121+-0.0010 | one c 0.2107+-0.0001 chi2  186.2/11 p 5.3e-34 hull part  145.5/5 | penalty  146.4 p 1.1e-33 (12.1 s)
+  1/k                  x offsets a(s)         c_hull 0.2193+-0.0007 (  2.5/2 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff +0.0121+-0.0007 | one c 0.2076+-0.0001 chi2  331.0/10 p 4.2e-65 hull part  312.9/5 | penalty  320.2 p 1.3e-71 (17.9 s)
+  1/k                  x long side            c_hull 0.2193+-0.0007 (  2.5/2 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff +0.0076+-0.0007 | one c 0.2122+-0.0002 chi2  130.5/11 p 1.4e-22 hull part  117.3/5 | penalty  122.7 p 1.7e-28 (11.1 s)
+  1/k                  x both sides           c_hull 0.2193+-0.0007 (  2.5/2 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff +0.0072+-0.0028 | one c 0.2189+-0.0006 chi2   14.3/10 p    0.16 hull part    2.9/5 | penalty    6.5 p   0.011 ( 2.5 s)
+  1/k                  x a(s), D/s            c_hull 0.2193+-0.0007 (  2.5/2 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff +0.0066+-0.0032 | one c 0.2190+-0.0007 chi2   11.9/9  p    0.22 hull part    2.7/5 | penalty    4.3 p   0.038 ( 2.1 s)
+  1/k                  x a(s), D/s^2          c_hull 0.2193+-0.0007 (  2.5/2 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff +0.0091+-0.0018 | one c 0.2181+-0.0006 chi2   31.8/9  p 0.00021 hull part    5.7/5 | penalty   24.2 p 8.6e-07 ( 4.9 s)
+  1/k                  x a(s), D e^(-s/0.72)  c_hull 0.2193+-0.0007 (  2.5/2 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff +0.0107+-0.0011 | one c 0.2151+-0.0005 chi2  109.7/9  p 1.7e-19 hull part   43.1/5 | penalty  102.1 p 5.4e-24 (10.1 s)
+  1/k                  x capillary wave       c_hull 0.2193+-0.0007 (  2.5/2 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff +0.0088+-0.0007 | one c 0.2109+-0.0001 chi2  208.3/11 p 1.4e-38 hull part  163.5/5 | penalty  167.8 p 2.2e-38 (13.0 s)
+  1/A                  x offsets a(s)         c_hull 0.2181+-0.0005 (  3.0/2 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff +0.0109+-0.0006 | one c 0.2077+-0.0001 chi2  388.5/10 p 2.7e-77 hull part  363.4/5 | penalty  377.2 p 5.1e-84 (19.4 s)
+  1/A                  x long side            c_hull 0.2181+-0.0005 (  3.0/2 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff +0.0064+-0.0006 | one c 0.2123+-0.0002 chi2  132.8/11 p 4.8e-23 hull part  116.1/5 | penalty  124.5 p 6.6e-29 (11.2 s)
+  1/A                  x both sides           c_hull 0.2181+-0.0005 (  3.0/2 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff +0.0060+-0.0028 | one c 0.2179+-0.0005 chi2   12.8/10 p    0.23 hull part    3.2/5 | penalty    4.6 p   0.033 ( 2.1 s)
+  1/A                  x a(s), D/s            c_hull 0.2181+-0.0005 (  3.0/2 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff +0.0054+-0.0031 | one c 0.2179+-0.0005 chi2   10.9/9  p    0.28 hull part    3.1/5 | penalty    2.9 p   0.088 ( 1.7 s)
+  1/A                  x a(s), D/s^2          c_hull 0.2181+-0.0005 (  3.0/2 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff +0.0079+-0.0018 | one c 0.2174+-0.0005 chi2   27.1/9  p  0.0014 hull part    4.7/5 | penalty   19.0 p 1.3e-05 ( 4.4 s)
+  1/A                  x a(s), D e^(-s/0.72)  c_hull 0.2181+-0.0005 (  3.0/2 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff +0.0095+-0.0010 | one c 0.2152+-0.0005 chi2  100.3/9  p 1.4e-17 hull part   31.5/5 | penalty   92.2 p   8e-22 ( 9.6 s)
+  1/A                  x capillary wave       c_hull 0.2181+-0.0005 (  3.0/2 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff +0.0076+-0.0006 | one c 0.2109+-0.0001 chi2  221.8/11 p 2.1e-41 hull part  173.2/5 | penalty  180.9 p 3.1e-41 (13.4 s)
+-- one-term hull corrections, hull faces with A >= 63 (4 sizes)
+  rim (r k)            x offsets a(s)         c_hull 0.2432+-0.0102 (  0.0/1 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff +0.0360+-0.0102 | one c 0.2072+-0.0001 chi2   20.8/9  p   0.014 hull part   12.5/4 | penalty   12.5 p 0.00041 ( 3.5 s)
+  rim (r k)            x long side            c_hull 0.2432+-0.0102 (  0.0/1 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff +0.0315+-0.0102 | one c 0.2117+-0.0002 chi2   14.9/10 p    0.14 hull part    9.6/4 | penalty    9.6 p   0.002 ( 3.1 s)
+  rim (r k)            x both sides           c_hull 0.2432+-0.0102 (  0.0/1 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff +0.0311+-0.0106 | one c 0.2142+-0.0027 chi2   14.0/9  p    0.12 hull part    8.1/4 | penalty    8.7 p  0.0032 ( 2.9 s)
+  rim (r k)            x a(s), D/s            c_hull 0.2432+-0.0102 (  0.0/1 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff +0.0304+-0.0106 | one c 0.2153+-0.0030 chi2   13.2/8  p     0.1 hull part    7.5/4 | penalty    8.2 p  0.0043 ( 2.9 s)
+  rim (r k)            x a(s), D/s^2          c_hull 0.2432+-0.0102 (  0.0/1 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff +0.0329+-0.0103 | one c 0.2112+-0.0017 chi2   15.2/8  p   0.055 hull part    9.9/4 | penalty   10.2 p  0.0014 ( 3.2 s)
+  rim (r k)            x a(s), D e^(-s/0.72)  c_hull 0.2432+-0.0102 (  0.0/1 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff +0.0346+-0.0102 | one c 0.2089+-0.0008 chi2   16.6/8  p   0.035 hull part   11.4/4 | penalty   11.4 p 0.00072 ( 3.4 s)
+  rim (r k)            x capillary wave       c_hull 0.2432+-0.0102 (  0.0/1 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff +0.0327+-0.0102 | one c 0.2105+-0.0001 chi2   48.3/10 p 5.6e-07 hull part   10.3/4 | penalty   10.3 p  0.0013 ( 3.2 s)
+  log (p lnA)          x offsets a(s)         c_hull 0.2298+-0.0054 (  0.0/1 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff +0.0226+-0.0054 | one c 0.2072+-0.0001 chi2   25.9/9  p  0.0021 hull part   17.6/4 | penalty   17.6 p 2.7e-05 ( 4.2 s)
+  log (p lnA)          x long side            c_hull 0.2298+-0.0054 (  0.0/1 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff +0.0181+-0.0054 | one c 0.2117+-0.0002 chi2   16.6/10 p   0.083 hull part   11.3/4 | penalty   11.3 p 0.00077 ( 3.4 s)
+  log (p lnA)          x both sides           c_hull 0.2298+-0.0054 (  0.0/1 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff +0.0177+-0.0061 | one c 0.2158+-0.0025 chi2   13.9/9  p    0.13 hull part    6.8/4 | penalty    8.6 p  0.0034 ( 2.9 s)
+  log (p lnA)          x a(s), D/s            c_hull 0.2298+-0.0054 (  0.0/1 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff +0.0171+-0.0062 | one c 0.2170+-0.0027 chi2   12.6/8  p    0.13 hull part    5.7/4 | penalty    7.5 p   0.006 ( 2.7 s)
+  log (p lnA)          x a(s), D/s^2          c_hull 0.2298+-0.0054 (  0.0/1 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff +0.0196+-0.0057 | one c 0.2121+-0.0016 chi2   17.1/8  p    0.03 hull part   10.9/4 | penalty   12.0 p 0.00054 ( 3.5 s)
+  log (p lnA)          x a(s), D e^(-s/0.72)  c_hull 0.2298+-0.0054 (  0.0/1 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff +0.0212+-0.0055 | one c 0.2091+-0.0008 chi2   20.3/8  p  0.0094 hull part   14.8/4 | penalty   15.1 p  0.0001 ( 3.9 s)
+  log (p lnA)          x capillary wave       c_hull 0.2298+-0.0054 (  0.0/1 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff +0.0193+-0.0054 | one c 0.2105+-0.0001 chi2   50.8/10 p 1.9e-07 hull part   12.8/4 | penalty   12.9 p 0.00034 ( 3.6 s)
+  1/k                  x offsets a(s)         c_hull 0.2251+-0.0037 (  0.0/1 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff +0.0179+-0.0037 | one c 0.2072+-0.0001 chi2   31.8/9  p 0.00022 hull part   23.5/4 | penalty   23.5 p 1.3e-06 ( 4.8 s)
+  1/k                  x long side            c_hull 0.2251+-0.0037 (  0.0/1 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff +0.0134+-0.0037 | one c 0.2117+-0.0002 chi2   18.5/10 p   0.047 hull part   13.1/4 | penalty   13.2 p 0.00028 ( 3.6 s)
+  1/k                  x both sides           c_hull 0.2251+-0.0037 (  0.0/1 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff +0.0130+-0.0046 | one c 0.2168+-0.0022 chi2   13.2/9  p    0.15 hull part    5.1/4 | penalty    7.9 p  0.0048 ( 2.8 s)
+  1/k                  x a(s), D/s            c_hull 0.2251+-0.0037 (  0.0/1 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff +0.0123+-0.0048 | one c 0.2178+-0.0024 chi2   11.6/8  p    0.17 hull part    3.8/4 | penalty    6.6 p    0.01 ( 2.6 s)
+  1/k                  x a(s), D/s^2          c_hull 0.2251+-0.0037 (  0.0/1 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff +0.0148+-0.0041 | one c 0.2129+-0.0016 chi2   18.4/8  p   0.019 hull part   10.9/4 | penalty   13.3 p 0.00027 ( 3.6 s)
+  1/k                  x a(s), D e^(-s/0.72)  c_hull 0.2251+-0.0037 (  0.0/1 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff +0.0164+-0.0038 | one c 0.2094+-0.0008 chi2   24.1/8  p  0.0022 hull part   18.1/4 | penalty   19.0 p 1.3e-05 ( 4.4 s)
+  1/k                  x capillary wave       c_hull 0.2251+-0.0037 (  0.0/1 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff +0.0146+-0.0037 | one c 0.2105+-0.0001 chi2   53.6/10 p 5.8e-08 hull part   15.6/4 | penalty   15.6 p 7.7e-05 ( 4.0 s)
+  1/A                  x offsets a(s)         c_hull 0.2233+-0.0030 (  0.0/1 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff +0.0161+-0.0030 | one c 0.2072+-0.0001 chi2   36.2/9  p 3.6e-05 hull part   27.9/4 | penalty   27.9 p 1.2e-07 ( 5.3 s)
+  1/A                  x long side            c_hull 0.2233+-0.0030 (  0.0/1 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff +0.0116+-0.0030 | one c 0.2117+-0.0002 chi2   19.8/10 p   0.031 hull part   14.5/4 | penalty   14.5 p 0.00014 ( 3.8 s)
+  1/A                  x both sides           c_hull 0.2233+-0.0030 (  0.0/1 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff +0.0112+-0.0041 | one c 0.2171+-0.0020 chi2   12.7/9  p    0.18 hull part    4.1/4 | penalty    7.4 p  0.0065 ( 2.7 s)
+  1/A                  x a(s), D/s            c_hull 0.2233+-0.0030 (  0.0/1 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff +0.0105+-0.0043 | one c 0.2181+-0.0022 chi2   10.9/8  p    0.21 hull part    2.9/4 | penalty    5.9 p   0.015 ( 2.4 s)
+  1/A                  x a(s), D/s^2          c_hull 0.2233+-0.0030 (  0.0/1 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff +0.0130+-0.0035 | one c 0.2134+-0.0015 chi2   19.0/8  p   0.015 hull part   10.5/4 | penalty   13.9 p 0.00019 ( 3.7 s)
+  1/A                  x a(s), D e^(-s/0.72)  c_hull 0.2233+-0.0030 (  0.0/1 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff +0.0146+-0.0031 | one c 0.2096+-0.0008 chi2   26.8/8  p 0.00077 hull part   20.2/4 | penalty   21.6 p 3.3e-06 ( 4.7 s)
+  1/A                  x capillary wave       c_hull 0.2233+-0.0030 (  0.0/1 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff +0.0128+-0.0030 | one c 0.2105+-0.0001 chi2   55.6/10 p 2.4e-08 hull part   17.6/4 | penalty   17.6 p 2.7e-05 ( 4.2 s)
+-- four-parameter hull forms, all six hull sizes
+  k + 1/k              x offsets a(s)         c_hull 0.1917+-0.0057 (  7.0/2 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff -0.0155+-0.0057 | one c 0.2072+-0.0001 chi2   22.6/10 p   0.012 hull part   14.3/6 | penalty    7.3 p  0.0069 ( 2.7 s)
+  k + 1/k              x long side            c_hull 0.1917+-0.0057 (  7.0/2 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff -0.0200+-0.0057 | one c 0.2117+-0.0002 chi2   24.4/11 p   0.011 hull part   19.1/6 | penalty   12.1 p 0.00049 ( 3.5 s)
+  k + 1/k              x both sides           c_hull 0.1917+-0.0057 (  7.0/2 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff -0.0204+-0.0064 | one c 0.2082+-0.0025 chi2   22.6/10 p   0.013 hull part   15.3/6 | penalty   10.3 p  0.0013 ( 3.2 s)
+  k + 1/k              x a(s), D/s            c_hull 0.1917+-0.0057 (  7.0/2 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff -0.0210+-0.0065 | one c 0.2080+-0.0027 chi2   22.5/9  p  0.0074 hull part   15.1/6 | penalty   10.4 p  0.0012 ( 3.2 s)
+  k + 1/k              x a(s), D/s^2          c_hull 0.1917+-0.0057 (  7.0/2 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff -0.0186+-0.0060 | one c 0.2087+-0.0016 chi2   21.7/9  p  0.0099 hull part   15.8/6 | penalty    9.6 p  0.0019 ( 3.1 s)
+  k + 1/k              x a(s), D e^(-s/0.72)  c_hull 0.1917+-0.0057 (  7.0/2 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff -0.0169+-0.0058 | one c 0.2083+-0.0008 chi2   20.7/9  p   0.014 hull part   15.4/6 | penalty    8.6 p  0.0034 ( 2.9 s)
+  k + 1/k              x capillary wave       c_hull 0.1917+-0.0057 (  7.0/2 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff -0.0188+-0.0057 | one c 0.2105+-0.0001 chi2   55.7/11 p 5.7e-08 hull part   17.7/6 | penalty   10.8 p   0.001 ( 3.3 s)
+  k + 1/k^2            x offsets a(s)         c_hull 0.2047+-0.0044 (  5.8/2 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff -0.0025+-0.0044 | one c 0.2072+-0.0001 chi2   14.4/10 p    0.16 hull part    6.1/6 | penalty    0.3 p    0.57 ( 0.6 s)
+  k + 1/k^2            x long side            c_hull 0.2047+-0.0044 (  5.8/2 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff -0.0070+-0.0044 | one c 0.2117+-0.0002 chi2   13.6/11 p    0.26 hull part    8.3/6 | penalty    2.5 p    0.11 ( 1.6 s)
+  k + 1/k^2            x both sides           c_hull 0.2047+-0.0044 (  5.8/2 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff -0.0074+-0.0052 | one c 0.2100+-0.0023 chi2   13.1/10 p    0.22 hull part    7.3/6 | penalty    2.0 p    0.16 ( 1.4 s)
+  k + 1/k^2            x a(s), D/s            c_hull 0.2047+-0.0044 (  5.8/2 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff -0.0081+-0.0054 | one c 0.2101+-0.0025 chi2   13.1/9  p    0.16 hull part    7.3/6 | penalty    2.2 p    0.14 ( 1.5 s)
+  k + 1/k^2            x a(s), D/s^2          c_hull 0.2047+-0.0044 (  5.8/2 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff -0.0056+-0.0048 | one c 0.2095+-0.0016 chi2   12.3/9  p     0.2 hull part    7.0/6 | penalty    1.4 p    0.24 ( 1.2 s)
+  k + 1/k^2            x a(s), D e^(-s/0.72)  c_hull 0.2047+-0.0044 (  5.8/2 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff -0.0039+-0.0045 | one c 0.2085+-0.0008 chi2   11.7/9  p    0.23 hull part    6.5/6 | penalty    0.8 p    0.38 ( 0.9 s)
+  k + 1/k^2            x capillary wave       c_hull 0.2047+-0.0044 (  5.8/2 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff -0.0058+-0.0044 | one c 0.2105+-0.0001 chi2   45.5/11 p   4e-06 hull part    7.5/6 | penalty    1.7 p    0.19 ( 1.3 s)
+  lnA + 1/k            x offsets a(s)         c_hull 0.2069+-0.0029 (  6.2/2 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff -0.0003+-0.0029 | one c 0.2072+-0.0001 chi2   14.5/10 p    0.15 hull part    6.2/6 | penalty    0.0 p    0.92 ( 0.1 s)
+  lnA + 1/k            x long side            c_hull 0.2069+-0.0029 (  6.2/2 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff -0.0048+-0.0029 | one c 0.2117+-0.0002 chi2   14.2/11 p    0.22 hull part    8.9/6 | penalty    2.7 p   0.099 ( 1.6 s)
+  lnA + 1/k            x both sides           c_hull 0.2069+-0.0029 (  6.2/2 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff -0.0052+-0.0040 | one c 0.2096+-0.0020 chi2   13.2/10 p    0.21 hull part    7.1/6 | penalty    1.7 p     0.2 ( 1.3 s)
+  lnA + 1/k            x a(s), D/s            c_hull 0.2069+-0.0029 (  6.2/2 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff -0.0058+-0.0042 | one c 0.2096+-0.0021 chi2   13.2/9  p    0.16 hull part    7.1/6 | penalty    1.9 p    0.17 ( 1.4 s)
+  lnA + 1/k            x a(s), D/s^2          c_hull 0.2069+-0.0029 (  6.2/2 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff -0.0033+-0.0034 | one c 0.2094+-0.0015 chi2   12.3/9  p     0.2 hull part    6.9/6 | penalty    1.0 p    0.32 ( 1.0 s)
+  lnA + 1/k            x a(s), D e^(-s/0.72)  c_hull 0.2069+-0.0029 (  6.2/2 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff -0.0017+-0.0030 | one c 0.2085+-0.0008 chi2   11.7/9  p    0.23 hull part    6.5/6 | penalty    0.3 p    0.57 ( 0.6 s)
+  lnA + 1/k            x capillary wave       c_hull 0.2069+-0.0029 (  6.2/2 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff -0.0036+-0.0029 | one c 0.2105+-0.0001 chi2   45.7/11 p 3.6e-06 hull part    7.7/6 | penalty    1.5 p    0.22 ( 1.2 s)
+  saturating           x offsets a(s)         c_hull 0.2156+-0.0004 (  5.4/2 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff +0.0084+-0.0004 | one c 0.2097+-0.0001 chi2 1193.1/10 p 4.4e-250 hull part  730.4/6 | penalty 1179.4 p 1.8e-258 (34.3 s)
+  saturating           x long side            c_hull 0.2156+-0.0004 (  5.4/2 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff +0.0039+-0.0004 | one c 0.2128+-0.0001 chi2  125.7/11 p 1.3e-21 hull part   80.7/6 | penalty  114.9 p 8.2e-27 (10.7 s)
+  saturating           x both sides           c_hull 0.2156+-0.0004 (  5.4/2 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff +0.0035+-0.0028 | one c 0.2155+-0.0004 chi2   12.3/10 p    0.27 hull part    5.5/6 | penalty    1.6 p    0.21 ( 1.2 s)
+  saturating           x a(s), D/s            c_hull 0.2156+-0.0004 (  5.4/2 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff +0.0028+-0.0031 | one c 0.2155+-0.0004 chi2   11.3/9  p    0.26 hull part    5.4/6 | penalty    0.8 p    0.37 ( 0.9 s)
+  saturating           x a(s), D/s^2          c_hull 0.2156+-0.0004 (  5.4/2 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff +0.0053+-0.0018 | one c 0.2153+-0.0004 chi2   19.6/9  p    0.02 hull part    5.9/6 | penalty    9.1 p  0.0025 ( 3.0 s)
+  saturating           x a(s), D e^(-s/0.72)  c_hull 0.2156+-0.0004 (  5.4/2 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff +0.0069+-0.0009 | one c 0.2145+-0.0003 chi2   70.1/9  p 1.4e-11 hull part   14.1/6 | penalty   59.5 p 1.2e-14 ( 7.7 s)
+  saturating           x capillary wave       c_hull 0.2156+-0.0004 (  5.4/2 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff +0.0051+-0.0004 | one c 0.2119+-0.0001 chi2  321.1/11 p 3.1e-62 hull part  176.7/6 | penalty  277.7 p 2.3e-62 (16.7 s)
+  side A D e^(-k/xi)   x offsets a(s)         c_hull 0.1996+-0.0020 ( 10.7/2 FAILS) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff -0.0076+-0.0020 | one c 0.2072+-0.0001 chi2   33.4/10 p 0.00023 hull part   25.1/6 | penalty   14.4 p 0.00015 ( 3.8 s)
+  side A D e^(-k/xi)   x long side            c_hull 0.1996+-0.0020 ( 10.7/2 FAILS) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff -0.0121+-0.0020 | one c 0.2116+-0.0002 chi2   50.7/11 p 4.7e-07 hull part   45.2/6 | penalty   34.6 p   4e-09 ( 5.9 s)
+  side A D e^(-k/xi)   x both sides           c_hull 0.1996+-0.0020 ( 10.7/2 FAILS) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff -0.0125+-0.0034 | one c 0.2039+-0.0016 chi2   29.5/10 p   0.001 hull part   15.4/6 | penalty   13.5 p 0.00024 ( 3.7 s)
+  side A D e^(-k/xi)   x a(s), D/s            c_hull 0.1996+-0.0020 ( 10.7/2 FAILS) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff -0.0131+-0.0037 | one c 0.2034+-0.0017 chi2   28.6/9  p 0.00076 hull part   14.5/6 | penalty   12.8 p 0.00035 ( 3.6 s)
+  side A D e^(-k/xi)   x a(s), D/s^2          c_hull 0.1996+-0.0020 ( 10.7/2 FAILS) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff -0.0106+-0.0026 | one c 0.2057+-0.0013 chi2   32.3/9  p 0.00018 hull part   20.3/6 | penalty   16.5 p   5e-05 ( 4.1 s)
+  side A D e^(-k/xi)   x a(s), D e^(-s/0.72)  c_hull 0.1996+-0.0020 ( 10.7/2 FAILS) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff -0.0090+-0.0021 | one c 0.2074+-0.0008 chi2   33.4/9  p 0.00012 hull part   25.8/6 | penalty   17.5 p 2.9e-05 ( 4.2 s)
+  side A D e^(-k/xi)   x capillary wave       c_hull 0.1996+-0.0020 ( 10.7/2 FAILS) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff -0.0109+-0.0020 | one c 0.2104+-0.0001 chi2   77.4/11 p 4.7e-12 hull part   39.3/6 | penalty   28.7 p 8.5e-08 ( 5.4 s)
+-- two-term hull corrections, hull faces with A >= 45 (5 sizes; the hull form has 1 dof of its own)
+  k + 1/k              x offsets a(s)         c_hull 0.2633+-0.0277 (  0.0/1 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff +0.0561+-0.0277 | one c 0.2072+-0.0001 chi2   12.4/9  p    0.19 hull part    4.1/5 | penalty    4.1 p   0.043 ( 2.0 s)
+  k + 1/k              x long side            c_hull 0.2633+-0.0277 (  0.0/1 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff +0.0516+-0.0277 | one c 0.2117+-0.0002 chi2    8.8/10 p    0.55 hull part    3.5/5 | penalty    3.5 p   0.062 ( 1.9 s)
+  k + 1/k              x both sides           c_hull 0.2633+-0.0277 (  0.0/1 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff +0.0512+-0.0278 | one c 0.2126+-0.0027 chi2    8.7/9  p    0.47 hull part    3.4/5 | penalty    3.4 p   0.066 ( 1.8 s)
+  k + 1/k              x a(s), D/s            c_hull 0.2633+-0.0277 (  0.0/1 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff +0.0505+-0.0278 | one c 0.2134+-0.0031 chi2    8.4/8  p     0.4 hull part    3.3/5 | penalty    3.3 p    0.07 ( 1.8 s)
+  k + 1/k              x a(s), D/s^2          c_hull 0.2633+-0.0277 (  0.0/1 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff +0.0530+-0.0277 | one c 0.2105+-0.0017 chi2    8.7/8  p    0.36 hull part    3.6/5 | penalty    3.7 p   0.056 ( 1.9 s)
+  k + 1/k              x a(s), D e^(-s/0.72)  c_hull 0.2633+-0.0277 (  0.0/1 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff +0.0546+-0.0277 | one c 0.2087+-0.0008 chi2    9.1/8  p    0.34 hull part    3.9/5 | penalty    3.9 p   0.048 ( 2.0 s)
+  k + 1/k              x capillary wave       c_hull 0.2633+-0.0277 (  0.0/1 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff +0.0528+-0.0277 | one c 0.2105+-0.0001 chi2   41.6/10 p 8.8e-06 hull part    3.6/5 | penalty    3.6 p   0.057 ( 1.9 s)
+  k + 1/k^2            x offsets a(s)         c_hull 0.2569+-0.0221 (  0.0/1 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff +0.0497+-0.0221 | one c 0.2072+-0.0001 chi2   13.3/9  p    0.15 hull part    5.1/5 | penalty    5.0 p   0.025 ( 2.2 s)
+  k + 1/k^2            x long side            c_hull 0.2569+-0.0221 (  0.0/1 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff +0.0453+-0.0221 | one c 0.2117+-0.0002 chi2    9.5/10 p    0.49 hull part    4.2/5 | penalty    4.2 p   0.041 ( 2.0 s)
+  k + 1/k^2            x both sides           c_hull 0.2569+-0.0221 (  0.0/1 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff +0.0448+-0.0223 | one c 0.2128+-0.0027 chi2    9.3/9  p    0.41 hull part    4.0/5 | penalty    4.0 p   0.044 ( 2.0 s)
+  k + 1/k^2            x a(s), D/s            c_hull 0.2569+-0.0221 (  0.0/1 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff +0.0442+-0.0224 | one c 0.2136+-0.0031 chi2    9.0/8  p    0.34 hull part    3.8/5 | penalty    3.9 p   0.048 ( 2.0 s)
+  k + 1/k^2            x a(s), D/s^2          c_hull 0.2569+-0.0221 (  0.0/1 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff +0.0467+-0.0222 | one c 0.2105+-0.0017 chi2    9.5/8  p     0.3 hull part    4.4/5 | penalty    4.4 p   0.036 ( 2.1 s)
+  k + 1/k^2            x a(s), D e^(-s/0.72)  c_hull 0.2569+-0.0221 (  0.0/1 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff +0.0483+-0.0222 | one c 0.2087+-0.0008 chi2    9.9/8  p    0.27 hull part    4.8/5 | penalty    4.8 p   0.029 ( 2.2 s)
+  k + 1/k^2            x capillary wave       c_hull 0.2569+-0.0221 (  0.0/1 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff +0.0464+-0.0221 | one c 0.2105+-0.0001 chi2   42.4/10 p 6.4e-06 hull part    4.4/5 | penalty    4.4 p   0.036 ( 2.1 s)
+  lnA + 1/k            x offsets a(s)         c_hull 0.2424+-0.0145 (  0.0/1 fits ) c_per 0.2072+-0.0001 (  8.3/7 fits ) diff +0.0352+-0.0145 | one c 0.2072+-0.0001 chi2   14.2/9  p    0.12 hull part    5.9/5 | penalty    5.9 p   0.015 ( 2.4 s)
+  lnA + 1/k            x long side            c_hull 0.2424+-0.0145 (  0.0/1 fits ) c_per 0.2117+-0.0002 (  5.3/8 fits ) diff +0.0307+-0.0145 | one c 0.2117+-0.0002 chi2    9.8/10 p    0.46 hull part    4.5/5 | penalty    4.5 p   0.035 ( 2.1 s)
+  lnA + 1/k            x both sides           c_hull 0.2424+-0.0145 (  0.0/1 fits ) c_per 0.2121+-0.0028 (  5.3/7 fits ) diff +0.0303+-0.0148 | one c 0.2131+-0.0027 chi2    9.5/9  p    0.39 hull part    4.1/5 | penalty    4.2 p    0.04 ( 2.0 s)
+  lnA + 1/k            x a(s), D/s            c_hull 0.2424+-0.0145 (  0.0/1 fits ) c_per 0.2127+-0.0031 (  5.1/6 fits ) diff +0.0296+-0.0148 | one c 0.2140+-0.0030 chi2    9.0/8  p    0.34 hull part    3.8/5 | penalty    4.0 p   0.046 ( 2.0 s)
+  lnA + 1/k            x a(s), D/s^2          c_hull 0.2424+-0.0145 (  0.0/1 fits ) c_per 0.2103+-0.0017 (  5.1/6 fits ) diff +0.0321+-0.0146 | one c 0.2107+-0.0017 chi2    9.9/8  p    0.27 hull part    4.8/5 | penalty    4.8 p   0.028 ( 2.2 s)
+  lnA + 1/k            x a(s), D e^(-s/0.72)  c_hull 0.2424+-0.0145 (  0.0/1 fits ) c_per 0.2086+-0.0008 (  5.2/6 fits ) diff +0.0337+-0.0145 | one c 0.2087+-0.0008 chi2   10.5/8  p    0.23 hull part    5.4/5 | penalty    5.4 p    0.02 ( 2.3 s)
+  lnA + 1/k            x capillary wave       c_hull 0.2424+-0.0145 (  0.0/1 fits ) c_per 0.2105+-0.0001 ( 38.0/8 FAILS) diff +0.0319+-0.0145 | one c 0.2105+-0.0001 chi2   42.8/10 p 5.4e-06 hull part    4.8/5 | penalty    4.8 p   0.028 ( 2.2 s)
+
+-- SINGLE-c READINGS THAT PASS: each family's form fits its own data (p >= 0.01), the joint fit has
+   p >= 0.01, and the penalty for one c has p >= 0.01.  (*: all of these at p >= 0.05.)
+   hull points          hull form            periodic form                   one c  joint chi2/dof      p  penalty      p   largest |z|
+   six sizes            k + 1/k^2            offsets a(s)         0.2072 +- 0.0001      14.4/10      0.16      0.3   0.57 * hull  A=108 k= 8 +1.6 s
+   six sizes            lnA + 1/k            offsets a(s)         0.2072 +- 0.0001      14.5/10      0.15      0.0   0.92   hull  A=108 k= 8 +1.8 s
+   A >= 45 (two terms)  k + 1/k              offsets a(s)         0.2072 +- 0.0001      12.4/9       0.19      4.1  0.043   hull  A=108 k= 8 +1.7 s
+   A >= 45 (two terms)  k + 1/k^2            offsets a(s)         0.2072 +- 0.0001      13.3/9       0.15      5.0  0.025   hull  A=108 k= 8 +1.9 s
+   A >= 45 (two terms)  lnA + 1/k            offsets a(s)         0.2072 +- 0.0001      14.2/9       0.12      5.9  0.015   hull  A=108 k= 8 +2.0 s
+   six sizes            k + 1/k^2            a(s), D e^(-s/0.72)  0.2085 +- 0.0008      11.7/9       0.23      0.8   0.38 * hull  A= 84 k= 7 -1.6 s
+   six sizes            lnA + 1/k            a(s), D e^(-s/0.72)  0.2085 +- 0.0008      11.7/9       0.23      0.3   0.57   hull  A=108 k= 8 +1.6 s
+   A >= 45 (two terms)  k + 1/k              a(s), D e^(-s/0.72)  0.2087 +- 0.0008       9.1/8       0.34      3.9  0.048   hull  A=108 k= 8 +1.6 s
+   A >= 45 (two terms)  k + 1/k^2            a(s), D e^(-s/0.72)  0.2087 +- 0.0008       9.9/8       0.27      4.8  0.029   hull  A=108 k= 8 +1.8 s
+   A >= 45 (two terms)  lnA + 1/k            a(s), D e^(-s/0.72)  0.2087 +- 0.0008      10.5/8       0.23      5.4   0.02   hull  A=108 k= 8 +1.9 s
+   six sizes            lnA + 1/k            a(s), D/s^2          0.2094 +- 0.0015      12.3/9        0.2      1.0   0.32   hull  A= 84 k= 7 -1.7 s
+   six sizes            k + 1/k^2            a(s), D/s^2          0.2095 +- 0.0016      12.3/9        0.2      1.4   0.24 * hull  A= 84 k= 7 -1.7 s
+   six sizes            lnA + 1/k            both sides           0.2096 +- 0.0020      13.2/10      0.21      1.7    0.2   hull  A= 84 k= 7 -1.7 s
+   six sizes            lnA + 1/k            a(s), D/s            0.2096 +- 0.0021      13.2/9       0.16      1.9   0.17   hull  A= 84 k= 7 -1.7 s
+   six sizes            k + 1/k^2            both sides           0.2100 +- 0.0023      13.1/10      0.22      2.0   0.16 * hull  A= 84 k= 7 -1.8 s
+   six sizes            k + 1/k^2            a(s), D/s            0.2101 +- 0.0025      13.1/9       0.16      2.2   0.14 * hull  A= 84 k= 7 -1.8 s
+   A >= 45 (two terms)  k + 1/k              a(s), D/s^2          0.2105 +- 0.0017       8.7/8       0.36      3.7  0.056 * hull  A=108 k= 8 +1.6 s
+   A >= 45 (two terms)  k + 1/k^2            a(s), D/s^2          0.2105 +- 0.0017       9.5/8        0.3      4.4  0.036   hull  A=108 k= 8 +1.8 s
+   A >= 45 (two terms)  lnA + 1/k            a(s), D/s^2          0.2107 +- 0.0017       9.9/8       0.27      4.8  0.028   hull  A=108 k= 8 +1.8 s
+   six sizes            lnA + 1/k            long side            0.2117 +- 0.0002      14.2/11      0.22      2.7  0.099   hull  A= 84 k= 7 -2.0 s
+   six sizes            k + 1/k^2            long side            0.2117 +- 0.0002      13.6/11      0.26      2.5   0.11 * hull  A= 84 k= 7 -2.0 s
+   A >= 45 (two terms)  k + 1/k              long side            0.2117 +- 0.0002       8.8/10      0.55      3.5  0.062 * hull  A=108 k= 8 +1.5 s
+   A >= 45 (two terms)  k + 1/k^2            long side            0.2117 +- 0.0002       9.5/10      0.49      4.2  0.041   hull  A=108 k= 8 +1.7 s
+   A >= 45 (two terms)  lnA + 1/k            long side            0.2117 +- 0.0002       9.8/10      0.46      4.5  0.035   hull  A=108 k= 8 +1.8 s
+   A >= 45 (two terms)  k + 1/k              both sides           0.2126 +- 0.0027       8.7/9       0.47      3.4  0.066 * hull  A=108 k= 8 +1.5 s
+   A >= 45 (two terms)  k + 1/k^2            both sides           0.2128 +- 0.0027       9.3/9       0.41      4.0  0.044   hull  A=108 k= 8 +1.7 s
+   A >= 45 (two terms)  lnA + 1/k            both sides           0.2131 +- 0.0027       9.5/9       0.39      4.2   0.04   hull  A=108 k= 8 +1.7 s
+   A >= 45 (two terms)  k + 1/k              a(s), D/s            0.2134 +- 0.0031       8.4/8        0.4      3.3   0.07 * hull  A=108 k= 8 +1.5 s
+   A >= 45 (two terms)  k + 1/k^2            a(s), D/s            0.2136 +- 0.0031       9.0/8       0.34      3.9  0.048   hull  A=108 k= 8 +1.6 s
+   A >= 45 (two terms)  lnA + 1/k            a(s), D/s            0.2140 +- 0.0030       9.0/8       0.34      4.0  0.046   hull  A=108 k= 8 +1.6 s
+   six sizes            saturating           both sides           0.2155 +- 0.0004      12.3/10      0.27      1.6   0.21 * hull  A=108 k= 8 +2.0 s
+   six sizes            saturating           a(s), D/s            0.2155 +- 0.0004      11.3/9       0.26      0.8   0.37 * hull  A=108 k= 8 +2.0 s
+   A >= 63              1/k                  a(s), D/s            0.2178 +- 0.0024      11.6/8       0.17      6.6   0.01   hull  A=108 k= 8 +1.7 s
+   A >= 45              1/A                  both sides           0.2179 +- 0.0005      12.8/10      0.23      4.6  0.033   hull  A=108 k= 8 +1.6 s
+   A >= 45              1/A                  a(s), D/s            0.2179 +- 0.0005      10.9/9       0.28      2.9  0.088 * hull  A=108 k= 8 +1.6 s
+   A >= 63              1/A                  a(s), D/s            0.2181 +- 0.0022      10.9/8       0.21      5.9  0.015   A= 84   (16, 4, 37) 4x7 +1.5 s
+   A >= 45              1/k                  both sides           0.2189 +- 0.0006      14.3/10      0.16      6.5  0.011   A= 84   (16, 4, 37) 4x7 +1.6 s
+   A >= 45              1/k                  a(s), D/s            0.2190 +- 0.0007      11.9/9       0.22      4.3  0.038   A= 84   (16, 4, 37) 4x7 +1.6 s
+   range of the single c (hull A >= 45 or six sizes, p >= 0.01): 0.2072 to 0.2190 (36 pairings)
+   range of the single c (hull A >= 45 or six sizes, p >= 0.05): 0.2072 to 0.2179 (13 pairings)
+   range of the single c (every cut, p >= 0.01): 0.2072 to 0.2190 (38 pairings)
+   pairings in which both forms fit their own family (p >= 0.01), by the significance of the difference:
+      six sizes  lnA + 1/k            x offsets a(s)         c_hull - c_per = -0.0003 +- 0.0029; penalty    0.0 ( 0.1 s)
+      six sizes  k + 1/k^2            x offsets a(s)         c_hull - c_per = -0.0025 +- 0.0044; penalty    0.3 ( 0.6 s)
+      six sizes  lnA + 1/k            x a(s), D e^(-s/0.72)  c_hull - c_per = -0.0017 +- 0.0030; penalty    0.3 ( 0.6 s)
+      six sizes  k + 1/k^2            x a(s), D e^(-s/0.72)  c_hull - c_per = -0.0039 +- 0.0045; penalty    0.8 ( 0.9 s)
+      six sizes  saturating           x a(s), D/s            c_hull - c_per = +0.0028 +- 0.0031; penalty    0.8 ( 0.9 s)
+      six sizes  lnA + 1/k            x a(s), D/s^2          c_hull - c_per = -0.0033 +- 0.0034; penalty    1.0 ( 1.0 s)
+      six sizes  k + 1/k^2            x a(s), D/s^2          c_hull - c_per = -0.0056 +- 0.0048; penalty    1.4 ( 1.2 s)
+      six sizes  saturating           x both sides           c_hull - c_per = +0.0035 +- 0.0028; penalty    1.6 ( 1.2 s)
+      six sizes  lnA + 1/k            x both sides           c_hull - c_per = -0.0052 +- 0.0040; penalty    1.7 ( 1.3 s)
+      six sizes  lnA + 1/k            x a(s), D/s            c_hull - c_per = -0.0058 +- 0.0042; penalty    1.9 ( 1.4 s)
+      six sizes  k + 1/k^2            x both sides           c_hull - c_per = -0.0074 +- 0.0052; penalty    2.0 ( 1.4 s)
+      six sizes  k + 1/k^2            x a(s), D/s            c_hull - c_per = -0.0081 +- 0.0054; penalty    2.2 ( 1.5 s)
+      six sizes  k + 1/k^2            x long side            c_hull - c_per = -0.0070 +- 0.0044; penalty    2.5 ( 1.6 s)
+      six sizes  lnA + 1/k            x long side            c_hull - c_per = -0.0048 +- 0.0029; penalty    2.7 ( 1.6 s)
+      A >= 45    1/A                  x a(s), D/s            c_hull - c_per = +0.0054 +- 0.0031; penalty    2.9 ( 1.7 s)
+      A >= 45    1/k                  x a(s), D/s            c_hull - c_per = +0.0066 +- 0.0032; penalty    4.3 ( 2.1 s)
+      A >= 45    1/A                  x both sides           c_hull - c_per = +0.0060 +- 0.0028; penalty    4.6 ( 2.1 s)
+      A >= 45    1/k                  x both sides           c_hull - c_per = +0.0072 +- 0.0028; penalty    6.5 ( 2.5 s)
+      six sizes  k + 1/k              x offsets a(s)         c_hull - c_per = -0.0155 +- 0.0057; penalty    7.3 ( 2.7 s)
+      six sizes  k + 1/k              x a(s), D e^(-s/0.72)  c_hull - c_per = -0.0169 +- 0.0058; penalty    8.6 ( 2.9 s)
+      six sizes  saturating           x a(s), D/s^2          c_hull - c_per = +0.0053 +- 0.0018; penalty    9.1 ( 3.0 s)
+      A >= 45    log (p lnA)          x a(s), D/s            c_hull - c_per = +0.0098 +- 0.0032; penalty    9.2 ( 3.0 s)
+      six sizes  k + 1/k              x a(s), D/s^2          c_hull - c_per = -0.0186 +- 0.0060; penalty    9.6 ( 3.1 s)
+      six sizes  k + 1/k              x both sides           c_hull - c_per = -0.0204 +- 0.0064; penalty   10.3 ( 3.2 s)
+      six sizes  k + 1/k              x a(s), D/s            c_hull - c_per = -0.0210 +- 0.0065; penalty   10.4 ( 3.2 s)
+      six sizes  k + 1/k              x long side            c_hull - c_per = -0.0200 +- 0.0057; penalty   12.1 ( 3.5 s)
+      A >= 45    log (p lnA)          x both sides           c_hull - c_per = +0.0105 +- 0.0029; penalty   12.8 ( 3.6 s)
+      A >= 45    1/A                  x a(s), D/s^2          c_hull - c_per = +0.0079 +- 0.0018; penalty   19.0 ( 4.4 s)
+      A >= 45    1/k                  x a(s), D/s^2          c_hull - c_per = +0.0091 +- 0.0018; penalty   24.2 ( 4.9 s)
+      A >= 45    rim (r k)            x a(s), D/s            c_hull - c_per = +0.0190 +- 0.0036; penalty   27.3 ( 5.2 s)
+      A >= 45    rim (r k)            x both sides           c_hull - c_per = +0.0196 +- 0.0034; penalty   34.3 ( 5.9 s)
+      A >= 45    log (p lnA)          x a(s), D/s^2          c_hull - c_per = +0.0123 +- 0.0020; penalty   38.8 ( 6.2 s)
+      six sizes  saturating           x a(s), D e^(-s/0.72)  c_hull - c_per = +0.0069 +- 0.0009; penalty   59.5 ( 7.7 s)
+      A >= 45    rim (r k)            x a(s), D/s^2          c_hull - c_per = +0.0215 +- 0.0026; penalty   70.3 ( 8.4 s)
+      A >= 45    1/A                  x a(s), D e^(-s/0.72)  c_hull - c_per = +0.0095 +- 0.0010; penalty   92.2 ( 9.6 s)
+      A >= 45    1/k                  x a(s), D e^(-s/0.72)  c_hull - c_per = +0.0107 +- 0.0011; penalty  102.1 (10.1 s)
+      A >= 45    rim (r k)            x long side            c_hull - c_per = +0.0200 +- 0.0019; penalty  110.3 (10.5 s)
+      six sizes  saturating           x long side            c_hull - c_per = +0.0039 +- 0.0004; penalty  114.9 (10.7 s)
+      A >= 45    log (p lnA)          x long side            c_hull - c_per = +0.0109 +- 0.0010; penalty  117.7 (10.8 s)
+      A >= 45    log (p lnA)          x a(s), D e^(-s/0.72)  c_hull - c_per = +0.0140 +- 0.0013; penalty  117.8 (10.9 s)
+      A >= 45    1/k                  x long side            c_hull - c_per = +0.0076 +- 0.0007; penalty  122.7 (11.1 s)
+      A >= 45    rim (r k)            x a(s), D e^(-s/0.72)  c_hull - c_per = +0.0231 +- 0.0021; penalty  124.4 (11.2 s)
+      A >= 45    1/A                  x long side            c_hull - c_per = +0.0064 +- 0.0006; penalty  124.5 (11.2 s)
+      A >= 45    rim (r k)            x offsets a(s)         c_hull - c_per = +0.0245 +- 0.0019; penalty  165.9 (12.9 s)
+      A >= 45    log (p lnA)          x offsets a(s)         c_hull - c_per = +0.0154 +- 0.0010; penalty  238.3 (15.4 s)
+      A >= 45    1/k                  x offsets a(s)         c_hull - c_per = +0.0121 +- 0.0007; penalty  320.2 (17.9 s)
+      A >= 45    1/A                  x offsets a(s)         c_hull - c_per = +0.0109 +- 0.0006; penalty  377.2 (19.4 s)
+      six sizes  saturating           x offsets a(s)         c_hull - c_per = +0.0084 +- 0.0004; penalty 1179.4 (34.3 s)
+
+-- residuals of every point in the single-c readings that pass (hull A >= 45 or six sizes)
+   six sizes: k + 1/k^2 x offsets a(s): c = 0.2072; h:a = -1.611, h:r = +0.2875, h:q = +16.8, p:a4 = +0.05468, p:a5 = +0.123, p:a6 = +0.2061
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0005 (+0.2 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0021 (-0.8 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0006 (+0.5 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0080 (-1.5 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0479 (+1.6 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1861 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0003 (+0.3 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0015 (-0.9 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0010 (-0.4 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0057 (+1.2 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0159 (+1.4 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0021 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid +0.0116 (+0.3 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0587 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0143 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0596 (+0.8 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0923 (+0.9 s)
+   six sizes: lnA + 1/k x offsets a(s): c = 0.2072; h:a = -11.69, h:p = +2.178, h:q = +19.49, p:a4 = +0.05459, p:a5 = +0.1229, p:a6 = +0.2059
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0003 (+0.1 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0013 (-0.5 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0004 (+0.4 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0070 (-1.3 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0567 (+1.8 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.2120 (+0.8 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0003 (+0.3 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0015 (-0.9 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0010 (-0.4 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0057 (+1.2 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0159 (+1.4 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0021 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid +0.0115 (+0.3 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0588 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0143 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0595 (+0.8 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0923 (+0.9 s)
+   A >= 45 (two terms): k + 1/k x offsets a(s): c = 0.2072; h:a = -2.827, h:r = +0.3482, h:q = +7.915, p:a4 = +0.0545, p:a5 = +0.1228, p:a6 = +0.2058
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.2 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0046 (-0.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0516 (+1.7 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1838 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0003 (+0.3 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0015 (-1.0 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0010 (-0.4 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0057 (+1.2 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0158 (+1.4 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0022 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid +0.0115 (+0.3 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0588 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0143 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0595 (+0.8 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0923 (+0.9 s)
+   A >= 45 (two terms): k + 1/k^2 x offsets a(s): c = 0.2072; h:a = -1.503, h:r = +0.2751, h:q = +15.6, p:a4 = +0.05447, p:a5 = +0.1228, p:a6 = +0.2057
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.2 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0049 (-0.9 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0576 (+1.9 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.2042 (+0.8 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0003 (+0.3 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0015 (-1.0 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0010 (-0.4 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0057 (+1.2 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0158 (+1.4 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0022 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid +0.0115 (+0.3 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0589 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0143 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0595 (+0.8 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0922 (+0.9 s)
+   A >= 45 (two terms): lnA + 1/k x offsets a(s): c = 0.2072; h:a = -11.32, h:p = +2.116, h:q = +18.83, p:a4 = +0.05441, p:a5 = +0.1227, p:a6 = +0.2056
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.2 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0052 (-1.0 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0622 (+2.0 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.2221 (+0.9 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0003 (+0.3 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0015 (-1.0 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0010 (-0.4 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0057 (+1.2 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0158 (+1.4 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0022 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid +0.0114 (+0.3 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0589 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0143 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0594 (+0.8 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0922 (+0.9 s)
+   six sizes: k + 1/k^2 x a(s), D e^(-s/0.72): c = 0.2085; h:a = -1.497, h:r = +0.2572, h:q = +16.29, p:a4 = +0.05711, p:a5 = +0.04933, p:a6 = +0.07121, p:D = +0.3475
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0007 (+0.2 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0026 (-1.0 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0007 (+0.6 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0088 (-1.6 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0437 (+1.4 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1753 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0001 (-0.0 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0065 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0023 (+0.2 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0009 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0166 (-0.4 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0570 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0114 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0169 (+0.2 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0733 (+0.7 s)
+   six sizes: lnA + 1/k x a(s), D e^(-s/0.72): c = 0.2085; h:a = -10.83, h:p = +1.996, h:q = +18.39, p:a4 = +0.05711, p:a5 = +0.04919, p:a6 = +0.07095, p:D = +0.3481
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0005 (+0.2 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0021 (-0.8 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0006 (+0.5 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0082 (-1.5 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0502 (+1.6 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1956 (+0.8 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0001 (-0.0 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0065 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0022 (+0.2 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0009 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0167 (-0.4 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0570 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0114 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0168 (+0.2 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0732 (+0.7 s)
+   A >= 45 (two terms): k + 1/k x a(s), D e^(-s/0.72): c = 0.2087; h:a = -2.584, h:r = +0.3056, h:q = +7.434, p:a4 = +0.05719, p:a5 = +0.03917, p:a6 = +0.05272, p:D = +0.394
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.2 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0045 (-0.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0502 (+1.6 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1785 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0001 (+0.0 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0066 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0004 (+0.0 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0008 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0205 (-0.5 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0570 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0110 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0110 (+0.2 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0707 (+0.7 s)
+   A >= 45 (two terms): k + 1/k^2 x a(s), D e^(-s/0.72): c = 0.2087; h:a = -1.338, h:r = +0.2364, h:q = +14.64, p:a4 = +0.0572, p:a5 = +0.03813, p:a6 = +0.05083, p:D = +0.3988
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.2 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0048 (-0.9 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0559 (+1.8 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1976 (+0.8 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0001 (+0.0 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0066 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0002 (+0.0 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0008 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0209 (-0.5 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0570 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0109 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0104 (+0.1 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0704 (+0.7 s)
+   A >= 45 (two terms): lnA + 1/k x a(s), D e^(-s/0.72): c = 0.2087; h:a = -9.986, h:p = +1.846, h:q = +16.93, p:a4 = +0.05722, p:a5 = +0.03579, p:a6 = +0.04656, p:D = +0.4095
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.2 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0050 (-0.9 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0595 (+1.9 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.2118 (+0.8 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0001 (+0.0 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0066 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid -0.0002 (-0.0 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0008 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0218 (-0.5 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0569 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0108 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0090 (+0.1 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0698 (+0.7 s)
+   six sizes: lnA + 1/k x a(s), D/s^2: c = 0.2094; h:a = -10.26, h:p = +1.873, h:q = +17.64, p:a4 = +0.05672, p:a5 = +0.06476, p:a6 = +0.07346, p:D = +0.03552
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0007 (+0.2 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0026 (-1.0 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0007 (+0.6 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0090 (-1.7 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0459 (+1.5 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1845 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0012 (-0.8 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0003 (-0.1 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0064 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0051 (+0.5 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0011 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0107 (-0.3 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0573 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0114 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0258 (+0.4 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0736 (+0.7 s)
+   six sizes: k + 1/k^2 x a(s), D/s^2: c = 0.2095; h:a = -1.408, h:r = +0.2333, h:q = +15.89, p:a4 = +0.0568, p:a5 = +0.0608, p:a6 = +0.0645, p:D = +0.03789
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0008 (+0.3 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0031 (-1.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0008 (+0.7 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0094 (-1.7 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0404 (+1.3 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1668 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0012 (-0.8 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0002 (-0.1 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0064 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0044 (+0.4 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0010 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0122 (-0.3 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0572 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0112 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0235 (+0.3 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0723 (+0.7 s)
+   six sizes: lnA + 1/k x both sides: c = 0.2096; h:a = -10.1, h:p = +1.84, h:q = +17.44, p:a = -0.06989, p:alpha = +0.03148, p:beta = -0.02933
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0007 (+0.3 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0028 (-1.0 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0007 (+0.6 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0092 (-1.7 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0447 (+1.5 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1816 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0013 (-0.8 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0006 (-0.2 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0062 (+1.3 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0093 (+0.8 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0014 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0020 (-0.1 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0578 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0129 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0390 (+0.5 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0794 (+0.8 s)
+   six sizes: lnA + 1/k x a(s), D/s: c = 0.2096; h:a = -10.1, h:p = +1.839, h:q = +17.43, p:a4 = +0.05601, p:a5 = +0.08735, p:a6 = +0.1181, p:D = +0.009815
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0008 (+0.3 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0028 (-1.0 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0007 (+0.6 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0092 (-1.7 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0447 (+1.5 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1815 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0013 (-0.8 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0006 (-0.2 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0062 (+1.3 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0093 (+0.8 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0014 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0021 (-0.1 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0578 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0124 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0389 (+0.5 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0799 (+0.8 s)
+   six sizes: k + 1/k^2 x both sides: c = 0.2100; h:a = -1.365, h:r = +0.2219, h:q = +15.7, p:a = -0.04493, p:alpha = +0.02528, p:beta = -0.03423
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0009 (+0.3 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0032 (-1.2 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0008 (+0.7 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0096 (-1.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0388 (+1.3 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1627 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0013 (-0.8 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0005 (-0.2 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0062 (+1.3 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0082 (+0.7 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0013 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0043 (-0.1 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0577 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0151 (-0.4 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0356 (+0.5 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0748 (+0.7 s)
+   six sizes: k + 1/k^2 x a(s), D/s: c = 0.2101; h:a = -1.357, h:r = +0.2199, h:q = +15.67, p:a4 = +0.0562, p:a5 = +0.08023, p:a6 = +0.1006, p:D = +0.01175
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0009 (+0.3 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0033 (-1.2 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0008 (+0.7 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0097 (-1.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0385 (+1.3 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1620 (+0.6 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0013 (-0.8 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0005 (-0.2 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0062 (+1.3 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0080 (+0.7 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0013 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0048 (-0.1 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0577 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0120 (-0.3 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0348 (+0.5 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0774 (+0.7 s)
+   A >= 45 (two terms): k + 1/k x a(s), D/s^2: c = 0.2105; h:a = -2.293, h:r = +0.2543, h:q = +6.856, p:a4 = +0.05731, p:a5 = +0.03582, p:a6 = +0.007983, p:D = +0.05286
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0043 (-0.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0486 (+1.6 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1721 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0001 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0001 (+0.0 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0066 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid -0.0002 (-0.0 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0008 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0218 (-0.5 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0569 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0100 (-0.2 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0090 (+0.1 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0643 (+0.6 s)
+   A >= 45 (two terms): k + 1/k^2 x a(s), D/s^2: c = 0.2105; h:a = -1.137, h:r = +0.189, h:q = +13.46, p:a4 = +0.05735, p:a5 = +0.03378, p:a6 = +0.003378, p:D = +0.05408
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0046 (-0.9 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0538 (+1.8 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1895 (+0.8 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0001 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0001 (+0.0 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0066 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid -0.0006 (-0.1 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0007 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0226 (-0.6 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0568 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0099 (-0.2 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0079 (+0.1 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0637 (+0.6 s)
+   A >= 45 (two terms): lnA + 1/k x a(s), D/s^2: c = 0.2107; h:a = -8.284, h:p = +1.502, h:q = +14.52, p:a4 = +0.05744, p:a5 = +0.02937, p:a6 = -0.006599, p:D = +0.05673
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.2 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0047 (-0.9 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0561 (+1.8 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1986 (+0.8 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0001 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0002 (+0.1 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0066 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid -0.0014 (-0.1 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0007 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0242 (-0.6 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0568 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0097 (-0.2 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0053 (+0.1 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0623 (+0.6 s)
+   six sizes: lnA + 1/k x long side: c = 0.2117; h:a = -8.759, h:p = +1.554, h:q = +15.71, p:a = +0.05703, p:minus_beta = -0.05406
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0011 (+0.4 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0040 (-1.5 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0010 (+0.9 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0110 (-2.0 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0346 (+1.1 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1559 (+0.6 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0001 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0012 (-0.8 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0002 (+0.1 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0065 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0041 (+0.4 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0009 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0132 (-0.3 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0571 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0235 (-0.6 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0219 (+0.3 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0568 (+0.5 s)
+   six sizes: k + 1/k^2 x long side: c = 0.2117; h:a = -1.222, h:r = +0.1837, h:q = +15.06, p:a = +0.05699, p:minus_beta = -0.05413
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0011 (+0.4 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0039 (-1.4 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0009 (+0.8 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0106 (-2.0 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0335 (+1.1 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1491 (+0.6 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0012 (-0.8 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0001 (+0.0 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0065 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0040 (+0.4 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0009 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0133 (-0.3 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0571 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0237 (-0.6 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0217 (+0.3 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0565 (+0.5 s)
+   A >= 45 (two terms): k + 1/k x long side: c = 0.2117; h:a = -2.092, h:r = +0.219, h:q = +6.458, p:a = +0.05691, p:minus_beta = -0.05428
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0042 (-0.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0475 (+1.5 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1677 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0012 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0001 (-0.0 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0065 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0037 (+0.3 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0010 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0136 (-0.3 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0572 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0242 (-0.6 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0214 (+0.3 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0559 (+0.5 s)
+   A >= 45 (two terms): k + 1/k^2 x long side: c = 0.2117; h:a = -1.011, h:r = +0.1593, h:q = +12.73, p:a = +0.05691, p:minus_beta = -0.05428
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0002 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0045 (-0.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0525 (+1.7 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1844 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0012 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0001 (-0.0 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0065 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0037 (+0.3 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0010 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0136 (-0.3 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0572 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0242 (-0.6 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0214 (+0.3 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0559 (+0.5 s)
+   A >= 45 (two terms): lnA + 1/k x long side: c = 0.2117; h:a = -7.425, h:p = +1.329, h:q = +13.3, p:a = +0.0569, p:minus_beta = -0.0543
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0046 (-0.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0543 (+1.8 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1920 (+0.8 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0002 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0012 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid -0.0001 (-0.1 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0065 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0037 (+0.3 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0010 (-0.1 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0137 (-0.3 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0572 (-1.4 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0243 (-0.6 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0213 (+0.3 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0558 (+0.5 s)
+   A >= 45 (two terms): k + 1/k x both sides: c = 0.2126; h:a = -1.942, h:r = +0.1927, h:q = +6.162, p:a = +0.1134, p:alpha = -0.01401, p:beta = -0.06532
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0041 (-0.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0467 (+1.5 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1644 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0001 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0002 (+0.1 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0066 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0014 (+0.1 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0008 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0187 (-0.5 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0569 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0290 (-0.7 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0137 (+0.2 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0457 (+0.4 s)
+   A >= 45 (two terms): k + 1/k^2 x both sides: c = 0.2128; h:a = -0.8904, h:r = +0.131, h:q = +12.03, p:a = +0.1246, p:alpha = -0.01679, p:beta = -0.06752
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0002 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0044 (-0.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0512 (+1.7 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1796 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0001 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0002 (+0.1 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0066 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid +0.0009 (+0.1 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0007 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0197 (-0.5 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0568 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0300 (-0.7 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0121 (+0.2 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0437 (+0.4 s)
+   A >= 45 (two terms): lnA + 1/k x both sides: c = 0.2131; h:a = -6.153, h:p = +1.072, h:q = +11.5, p:a = +0.1474, p:alpha = -0.02245, p:beta = -0.072
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0002 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0044 (-0.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0518 (+1.7 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1822 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0001 (+0.1 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0003 (+0.1 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0067 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid -0.0001 (-0.0 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0006 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0218 (-0.5 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0567 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0320 (-0.8 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0090 (+0.1 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0395 (+0.4 s)
+   A >= 45 (two terms): k + 1/k x a(s), D/s: c = 0.2134; h:a = -1.815, h:r = +0.1703, h:q = +5.91, p:a4 = +0.05745, p:a5 = +0.03181, p:a6 = -0.0181, p:D = +0.02489
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0041 (-0.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0460 (+1.5 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1616 (+0.6 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0001 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0001 (+0.1 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0066 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid -0.0010 (-0.1 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0007 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0233 (-0.6 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0568 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0094 (-0.2 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0067 (+0.1 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0607 (+0.6 s)
+   A >= 45 (two terms): k + 1/k^2 x a(s), D/s: c = 0.2136; h:a = -0.8007, h:r = +0.1099, h:q = +11.5, p:a4 = +0.05753, p:a5 = +0.02851, p:a6 = -0.0262, p:D = +0.02578
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0002 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0043 (-0.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0503 (+1.6 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1760 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0001 (+0.2 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0002 (+0.1 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0067 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid -0.0016 (-0.1 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0006 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0246 (-0.6 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0567 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0093 (-0.2 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0048 (+0.1 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0595 (+0.6 s)
+   A >= 45 (two terms): lnA + 1/k x a(s), D/s: c = 0.2140; h:a = -5.381, h:p = +0.9164, h:q = +10.41, p:a4 = +0.0577, p:a5 = +0.02197, p:a6 = -0.04224, p:D = +0.02756
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0002 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0042 (-0.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0502 (+1.6 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1762 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0001 (+0.1 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0011 (-0.7 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0003 (+0.1 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0067 (+1.4 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid -0.0028 (-0.2 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0006 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0271 (-0.7 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0566 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0089 (-0.2 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid +0.0010 (+0.0 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0573 (+0.5 s)
+   six sizes: saturating x both sides: c = 0.2155; h:a = +3.996, h:D = +0.3401, h:lam = +11.63, p:a = +0.2922, p:alpha = -0.05839, p:beta = -0.1004
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0000 (+0.0 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0045 (-0.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0617 (+2.0 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.2084 (+0.8 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0001 (+0.1 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0010 (-0.6 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0009 (+0.3 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0070 (+1.5 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid -0.0064 (-0.6 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0001 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0349 (-0.9 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0560 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0447 (-1.1 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid -0.0111 (-0.2 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0128 (+0.1 s)
+   six sizes: saturating x a(s), D/s: c = 0.2155; h:a = +3.961, h:D = +0.3356, h:lam = +11.69, p:a4 = +0.05827, p:a5 = -0.0001389, p:a6 = -0.09646, p:D = +0.03356
+        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0000 (+0.0 s)
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0003 (-0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0002 (+0.2 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0048 (-0.9 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0609 (+2.0 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.2069 (+0.8 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0001 (+0.1 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0010 (-0.6 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0006 (+0.2 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0069 (+1.5 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid -0.0069 (-0.6 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid -0.0003 (-0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0355 (-0.9 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0562 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0077 (-0.2 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid -0.0118 (-0.2 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0496 (+0.5 s)
+   A >= 45: 1/A x both sides: c = 0.2179; h:a = -0.36, h:q = +16.91, p:a = +0.4385, p:alpha = -0.0947, p:beta = -0.1292
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid +0.0001 (+0.0 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0000 (+0.0 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0022 (-0.4 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0492 (+1.6 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1626 (+0.7 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid -0.0000 (-0.0 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0008 (-0.5 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0015 (+0.6 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0073 (+1.6 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid -0.0128 (-1.1 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid +0.0004 (+0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0482 (-1.2 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0552 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0576 (-1.4 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid -0.0313 (-0.4 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid -0.0141 (-0.1 s)
+   A >= 45: 1/A x a(s), D/s: c = 0.2179; h:a = -0.3675, h:q = +17.11, p:a4 = +0.0592, p:a5 = -0.03599, p:a6 = -0.1844, p:D = +0.04329
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0000 (-0.0 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0001 (+0.0 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0027 (-0.5 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0476 (+1.6 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1597 (+0.6 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0000 (+0.0 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0009 (-0.6 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0010 (+0.4 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0072 (+1.5 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid -0.0135 (-1.2 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid +0.0002 (+0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0492 (-1.2 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0556 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0058 (-0.1 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid -0.0326 (-0.4 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0372 (+0.4 s)
+   A >= 45: 1/k x both sides: c = 0.2189; h:a = -0.7847, h:q = +3.769, p:a = +0.5019, p:alpha = -0.1104, p:beta = -0.1416
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid +0.0003 (+0.1 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid -0.0001 (-0.1 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0013 (-0.2 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0479 (+1.6 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1546 (+0.6 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid -0.0000 (-0.0 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0008 (-0.5 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0017 (+0.6 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0075 (+1.6 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid -0.0155 (-1.4 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid +0.0007 (+0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0540 (-1.3 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0549 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0631 (-1.5 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid -0.0400 (-0.6 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid -0.0258 (-0.2 s)
+   A >= 45: 1/k x a(s), D/s: c = 0.2190; h:a = -0.8021, h:q = +3.833, p:a4 = +0.05961, p:a5 = -0.05189, p:a6 = -0.2234, p:D = +0.0476
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid +0.0001 (+0.0 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid -0.0000 (-0.0 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0019 (-0.4 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.0459 (+1.5 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.1505 (+0.6 s)
+        A= 60  (16, 12, 21) 4x5         12.4865 +- 0.0009  resid +0.0000 (+0.0 s)
+        A= 72   (16, 8, 28) 4x6         14.9710 +- 0.0016  resid -0.0008 (-0.5 s)
+        A= 75  (25, 25, 25) 5x5         15.6614 +- 0.0026  resid +0.0012 (+0.5 s)
+        A= 84   (16, 4, 37) 4x7         17.4645 +- 0.0047  resid +0.0073 (+1.6 s)
+        A= 90  (25, 20, 31) 5x6         18.7862 +- 0.0112  resid -0.0164 (-1.5 s)
+        A= 96   (16, 0, 48) 4x8         19.9430 +- 0.0184  resid +0.0004 (+0.0 s)
+        A=105  (25, 15, 39) 5x7         21.8897 +- 0.0402  resid -0.0553 (-1.4 s)
+        A=108   (16, 4, 61) 4x9         22.3727 +- 0.0423  resid -0.0553 (-1.3 s)
+        A=108  (36, 36, 36) 6x6         22.5684 +- 0.0411  resid -0.0049 (-0.1 s)
+        A=120  (25, 10, 49) 5x8         25.0456 +- 0.0727  resid -0.0418 (-0.6 s)
+        A=126  (36, 30, 43) 6x7         26.4045 +- 0.1043  resid +0.0317 (+0.3 s)
+
+-- hull residuals in the six pairings of the first write-up (one hull term, A >= 45)
+   rim (r k) x offsets a(s): c = 0.2073
         hull  A= 45 k= 5                 9.8202 +- 0.0027  resid +0.0147 (+5.4 s)
         hull  A= 63 k= 6                13.6346 +- 0.0011  resid -0.0049 (-4.3 s)
         hull  A= 84 k= 7                18.1407 +- 0.0054  resid +0.0455 (+8.4 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.2031 (+6.6 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid +0.4686 (+1.9 s)
-  hull log (a + p lnA)  x  periodic offsets a(s)
-      separately: c_hull = 0.2226 +- 0.0010 (chi2 1.8/2), c_per = 0.2072 +- 0.0001 (chi2 8.3/7); difference +0.0154 +- 0.0010 (+15.4 sigma)
-      jointly:    c = 0.2074 +- 0.0001; chi2 248.2/10 (p 1.3e-47): hull part 236.6 on 5 points, periodic part 11.7 on 11; penalty for one c: 238.1 (1 dof)
-        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid +0.0154 (+5.7 s)
-        hull  A= 63 k= 6                13.6346 +- 0.0011  resid -0.0056 (-4.9 s)
-        hull  A= 84 k= 7                18.1407 +- 0.0054  resid +0.0577 (+10.7 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.2390 (+7.8 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid +0.5362 (+2.1 s)
-  hull rim  x  periodic long side (a - beta M)
-      separately: c_hull = 0.2317 +- 0.0019 (chi2 1.3/2), c_per = 0.2117 +- 0.0002 (chi2 5.3/8); difference +0.0200 +- 0.0019 (+10.5 sigma)
-      jointly:    c = 0.2118 +- 0.0002; chi2 116.7/11 (p 8.2e-20): hull part 110.5 on 5 points, periodic part 6.2 on 11; penalty for one c: 110.1 (1 dof)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.2035 (+6.6 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.4688 (+1.9 s)
+   rim (r k) x long side: c = 0.2118
         hull  A= 45 k= 5                 9.8202 +- 0.0027  resid +0.0119 (+4.4 s)
         hull  A= 63 k= 6                13.6346 +- 0.0011  resid -0.0039 (-3.5 s)
-        hull  A= 84 k= 7                18.1407 +- 0.0054  resid +0.0365 (+6.8 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.1705 (+5.5 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid +0.3987 (+1.6 s)
-  hull log  x  periodic long side
-      separately: c_hull = 0.2226 +- 0.0010 (chi2 1.8/2), c_per = 0.2117 +- 0.0002 (chi2 5.3/8); difference +0.0109 +- 0.0010 (+10.8 sigma)
-      jointly:    c = 0.2120 +- 0.0002; chi2 124.7/11 (p 2e-21): hull part 115.9 on 5 points, periodic part 8.8 on 11; penalty for one c: 117.6 (1 dof)
-        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid +0.0107 (+4.0 s)
-        hull  A= 63 k= 6                13.6346 +- 0.0011  resid -0.0039 (-3.4 s)
-        hull  A= 84 k= 7                18.1407 +- 0.0054  resid +0.0392 (+7.3 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.1768 (+5.8 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid +0.4092 (+1.6 s)
-  hull rim  x  periodic capillary wave (a + kappa F)
-      separately: c_hull = 0.2317 +- 0.0019 (chi2 1.3/2), c_per = 0.2105 +- 0.0001 (chi2 38.0/8); difference +0.0212 +- 0.0019 (+11.1 sigma)
-      jointly:    c = 0.2106 +- 0.0001; chi2 163.2/11 (p 2.9e-29): hull part 124.6 on 5 points, periodic part 38.6 on 11; penalty for one c: 124.0 (1 dof)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid +0.0364 (+6.8 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.1709 (+5.6 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.3989 (+1.6 s)
+   rim (r k) x capillary wave: c = 0.2106
         hull  A= 45 k= 5                 9.8202 +- 0.0027  resid +0.0127 (+4.7 s)
         hull  A= 63 k= 6                13.6346 +- 0.0011  resid -0.0042 (-3.7 s)
         hull  A= 84 k= 7                18.1407 +- 0.0054  resid +0.0389 (+7.2 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.1794 (+5.8 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid +0.4178 (+1.7 s)
-  hull log  x  periodic capillary wave
-      separately: c_hull = 0.2226 +- 0.0010 (chi2 1.8/2), c_per = 0.2105 +- 0.0001 (chi2 38.0/8); difference +0.0121 +- 0.0010 (+12.1 sigma)
-      jointly:    c = 0.2107 +- 0.0001; chi2 186.0/11 (p 5.8e-34): hull part 145.3 on 5 points, periodic part 40.7 on 11; penalty for one c: 146.2 (1 dof)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.1798 (+5.9 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.4179 (+1.7 s)
+   log (p lnA) x offsets a(s): c = 0.2074
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid +0.0155 (+5.7 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid -0.0056 (-4.9 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid +0.0577 (+10.7 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.2393 (+7.8 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.5364 (+2.1 s)
+   log (p lnA) x long side: c = 0.2120
+        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid +0.0107 (+4.0 s)
+        hull  A= 63 k= 6                13.6346 +- 0.0011  resid -0.0039 (-3.4 s)
+        hull  A= 84 k= 7                18.1407 +- 0.0054  resid +0.0392 (+7.3 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.1772 (+5.8 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.4094 (+1.6 s)
+   log (p lnA) x capillary wave: c = 0.2107
         hull  A= 45 k= 5                 9.8202 +- 0.0027  resid +0.0120 (+4.5 s)
         hull  A= 63 k= 6                13.6346 +- 0.0011  resid -0.0043 (-3.8 s)
         hull  A= 84 k= 7                18.1407 +- 0.0054  resid +0.0444 (+8.2 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.1942 (+6.3 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid +0.4447 (+1.8 s)
-  hull two-term rim (a + r k + q/k), all six sizes  x  periodic offsets
-      separately: c_hull = 0.1917 +- 0.0057 (chi2 6.9/2), c_per = 0.2072 +- 0.0001 (chi2 8.3/7); difference -0.0155 +- 0.0057 (-2.7 sigma)
-      jointly:    c = 0.2072 +- 0.0001; chi2 22.6/10 (p 0.012): hull part 14.3 on 6 points, periodic part 8.3 on 11; penalty for one c: 7.3 (1 dof)
-        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0019 (+0.7 s)
-        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0063 (-2.3 s)
-        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0014 (+1.2 s)
-        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0135 (-2.5 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.0214 (+0.7 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid +0.1258 (+0.5 s)
-  hull two-term rim, all six sizes  x  periodic long side
-      separately: c_hull = 0.1917 +- 0.0057 (chi2 6.9/2), c_per = 0.2117 +- 0.0002 (chi2 5.3/8); difference -0.0200 +- 0.0057 (-3.5 sigma)
-      jointly:    c = 0.2117 +- 0.0002; chi2 24.4/11 (p 0.011): hull part 19.1 on 6 points, periodic part 5.3 on 11; penalty for one c: 12.2 (1 dof)
-        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0024 (+0.8 s)
-        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0077 (-2.8 s)
-        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0016 (+1.5 s)
-        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0152 (-2.8 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.0103 (+0.3 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid +0.0959 (+0.4 s)
-  hull two-term rim, all six sizes  x  periodic capillary wave
-      separately: c_hull = 0.1917 +- 0.0057 (chi2 6.9/2), c_per = 0.2105 +- 0.0001 (chi2 38.0/8); difference -0.0188 +- 0.0057 (-3.3 sigma)
-      jointly:    c = 0.2105 +- 0.0001; chi2 55.7/11 (p 5.8e-08): hull part 17.7 on 6 points, periodic part 38.0 on 11; penalty for one c: 10.8 (1 dof)
-        hull  A= 30 k= 4                 6.8054 +- 0.0029  resid +0.0022 (+0.8 s)
-        hull  A= 45 k= 5                 9.8202 +- 0.0027  resid -0.0073 (-2.7 s)
-        hull  A= 63 k= 6                13.6346 +- 0.0011  resid +0.0016 (+1.4 s)
-        hull  A= 84 k= 7                18.1407 +- 0.0054  resid -0.0148 (-2.7 s)
-        hull  A=108 k= 8                23.3761 +- 0.0307  resid +0.0132 (+0.4 s)
-        hull  A=135 k= 9                29.3411 +- 0.2500  resid +0.1038 (+0.4 s)
+        hull  A=108 k= 8                23.3764 +- 0.0307  resid +0.1946 (+6.3 s)
+        hull  A=135 k= 9                29.3413 +- 0.2500  resid +0.4449 (+1.8 s)
 
-  what the two-term hull fits at the periodic constant imply for larger hull faces (forecasts):
-      H2 x PO: c = 0.2072, r = +0.402 per unit side, q = +9.73;  ln tau(A=135) = 29.22, (A=165) = 35.72; local slopes 108->135 0.2171, 135->165 0.2170, 198->234 0.2163
-      H2 x PM: c = 0.2117, r = +0.286 per unit side, q = +8.71;  ln tau(A=135) = 29.25, (A=165) = 35.78; local slopes 108->135 0.2178, 135->165 0.2180, 198->234 0.2178
-      H2 x Pcw: c = 0.2105, r = +0.316 per unit side, q = +8.98;  ln tau(A=135) = 29.24, (A=165) = 35.77; local slopes 108->135 0.2176, 135->165 0.2177, 198->234 0.2174
-      H1  a + cA + r k (hull alone, A >= 45): ln tau(A=135) = 29.25 +- 0.03, (A=165) = 35.84 +- 0.05; local slopes 108->135 0.2185, 135->165 0.2198
-      HL  a + cA + p lnA (hull alone, A >= 45): ln tau(A=135) = 29.22 +- 0.03, (A=165) = 35.79 +- 0.05; local slopes 108->135 0.2178, 135->165 0.2187
+-- what each passing single-c reading implies beyond the data (hull A >= 45 or six sizes)
+   six sizes            k + 1/k^2      x offsets a(s)         c = 0.2072: hull slopes 84->108 0.2158, 108->135 0.2158, 198->234 0.2146; ln tau(135) 29.16, (165) 35.62
+   six sizes            lnA + 1/k      x offsets a(s)         c = 0.2072: hull slopes 84->108 0.2155, 108->135 0.2152, 198->234 0.2132; ln tau(135) 29.13, (165) 35.57
+   A >= 45 (two terms)  k + 1/k        x offsets a(s)         c = 0.2072: hull slopes 84->108 0.2158, 108->135 0.2160, 198->234 0.2152; ln tau(135) 29.16, (165) 35.63
+   A >= 45 (two terms)  k + 1/k^2      x offsets a(s)         c = 0.2072: hull slopes 84->108 0.2155, 108->135 0.2155, 198->234 0.2143; ln tau(135) 29.14, (165) 35.59
+   A >= 45 (two terms)  lnA + 1/k      x offsets a(s)         c = 0.2072: hull slopes 84->108 0.2153, 108->135 0.2150, 198->234 0.2131; ln tau(135) 29.12, (165) 35.55
+   six sizes            k + 1/k^2      x a(s), D e^(-s/0.72)  c = 0.2085: hull slopes 84->108 0.2160, 108->135 0.2160, 198->234 0.2150; ln tau(135) 29.17, (165) 35.64; strip cost per cell s=4: 0.2072, s=5: 0.2082, s=6: 0.2084, s=8: 0.2085, s=12: 0.2085; offsets a(s) +0.057, +0.049, +0.071
+   six sizes            lnA + 1/k      x a(s), D e^(-s/0.72)  c = 0.2085: hull slopes 84->108 0.2157, 108->135 0.2155, 198->234 0.2139; ln tau(135) 29.15, (165) 35.60; strip cost per cell s=4: 0.2072, s=5: 0.2082, s=6: 0.2084, s=8: 0.2085, s=12: 0.2085; offsets a(s) +0.057, +0.049, +0.071
+   A >= 45 (two terms)  k + 1/k        x a(s), D e^(-s/0.72)  c = 0.2087: hull slopes 84->108 0.2159, 108->135 0.2162, 198->234 0.2156; ln tau(135) 29.16, (165) 35.65; strip cost per cell s=4: 0.2072, s=5: 0.2083, s=6: 0.2086, s=8: 0.2087, s=12: 0.2087; offsets a(s) +0.057, +0.039, +0.053
+   A >= 45 (two terms)  k + 1/k^2      x a(s), D e^(-s/0.72)  c = 0.2087: hull slopes 84->108 0.2156, 108->135 0.2157, 198->234 0.2147; ln tau(135) 29.14, (165) 35.61; strip cost per cell s=4: 0.2072, s=5: 0.2083, s=6: 0.2086, s=8: 0.2087, s=12: 0.2087; offsets a(s) +0.057, +0.038, +0.051
+   A >= 45 (two terms)  lnA + 1/k      x a(s), D e^(-s/0.72)  c = 0.2087: hull slopes 84->108 0.2155, 108->135 0.2153, 198->234 0.2137; ln tau(135) 29.13, (165) 35.57; strip cost per cell s=4: 0.2072, s=5: 0.2083, s=6: 0.2086, s=8: 0.2087, s=12: 0.2087; offsets a(s) +0.057, +0.036, +0.047
+   six sizes            lnA + 1/k      x a(s), D/s^2          c = 0.2094: hull slopes 84->108 0.2159, 108->135 0.2158, 198->234 0.2144; ln tau(135) 29.16, (165) 35.62; strip cost per cell s=4: 0.2072, s=5: 0.2080, s=6: 0.2084, s=8: 0.2088, s=12: 0.2091; offsets a(s) +0.057, +0.065, +0.073
+   six sizes            k + 1/k^2      x a(s), D/s^2          c = 0.2095: hull slopes 84->108 0.2161, 108->135 0.2162, 198->234 0.2154; ln tau(135) 29.17, (165) 35.66; strip cost per cell s=4: 0.2072, s=5: 0.2080, s=6: 0.2085, s=8: 0.2089, s=12: 0.2093; offsets a(s) +0.057, +0.061, +0.065
+   six sizes            lnA + 1/k      x both sides           c = 0.2096: hull slopes 84->108 0.2159, 108->135 0.2159, 198->234 0.2145; ln tau(135) 29.16, (165) 35.62
+   six sizes            lnA + 1/k      x a(s), D/s            c = 0.2096: hull slopes 84->108 0.2159, 108->135 0.2159, 198->234 0.2145; ln tau(135) 29.16, (165) 35.62; strip cost per cell s=4: 0.2072, s=5: 0.2077, s=6: 0.2080, s=8: 0.2084, s=12: 0.2088; offsets a(s) +0.056, +0.087, +0.118
+   six sizes            k + 1/k^2      x both sides           c = 0.2100: hull slopes 84->108 0.2161, 108->135 0.2163, 198->234 0.2156; ln tau(135) 29.18, (165) 35.66
+   six sizes            k + 1/k^2      x a(s), D/s            c = 0.2101: hull slopes 84->108 0.2161, 108->135 0.2163, 198->234 0.2156; ln tau(135) 29.18, (165) 35.67; strip cost per cell s=4: 0.2072, s=5: 0.2078, s=6: 0.2081, s=8: 0.2086, s=12: 0.2091; offsets a(s) +0.056, +0.080, +0.101
+   A >= 45 (two terms)  k + 1/k        x a(s), D/s^2          c = 0.2105: hull slopes 84->108 0.2159, 108->135 0.2163, 198->234 0.2161; ln tau(135) 29.17, (165) 35.66; strip cost per cell s=4: 0.2072, s=5: 0.2083, s=6: 0.2090, s=8: 0.2096, s=12: 0.2101; offsets a(s) +0.057, +0.036, +0.008
+   A >= 45 (two terms)  k + 1/k^2      x a(s), D/s^2          c = 0.2105: hull slopes 84->108 0.2157, 108->135 0.2159, 198->234 0.2153; ln tau(135) 29.15, (165) 35.63; strip cost per cell s=4: 0.2071, s=5: 0.2084, s=6: 0.2090, s=8: 0.2097, s=12: 0.2102; offsets a(s) +0.057, +0.034, +0.003
+   A >= 45 (two terms)  lnA + 1/k      x a(s), D/s^2          c = 0.2107: hull slopes 84->108 0.2156, 108->135 0.2156, 198->234 0.2146; ln tau(135) 29.14, (165) 35.60; strip cost per cell s=4: 0.2071, s=5: 0.2084, s=6: 0.2091, s=8: 0.2098, s=12: 0.2103; offsets a(s) +0.057, +0.029, -0.007
+   six sizes            lnA + 1/k      x long side            c = 0.2117: hull slopes 84->108 0.2163, 108->135 0.2164, 198->234 0.2156; ln tau(135) 29.19, (165) 35.67; strip cost per cell s=4: 0.2072, s=5: 0.2081, s=6: 0.2087, s=8: 0.2094, s=12: 0.2102
+   six sizes            k + 1/k^2      x long side            c = 0.2117: hull slopes 84->108 0.2163, 108->135 0.2166, 198->234 0.2162; ln tau(135) 29.19, (165) 35.69; strip cost per cell s=4: 0.2072, s=5: 0.2081, s=6: 0.2087, s=8: 0.2094, s=12: 0.2102
+   A >= 45 (two terms)  k + 1/k        x long side            c = 0.2117: hull slopes 84->108 0.2160, 108->135 0.2165, 198->234 0.2164; ln tau(135) 29.17, (165) 35.67; strip cost per cell s=4: 0.2072, s=5: 0.2081, s=6: 0.2087, s=8: 0.2094, s=12: 0.2102
+   A >= 45 (two terms)  k + 1/k^2      x long side            c = 0.2117: hull slopes 84->108 0.2158, 108->135 0.2160, 198->234 0.2156; ln tau(135) 29.16, (165) 35.64; strip cost per cell s=4: 0.2072, s=5: 0.2081, s=6: 0.2087, s=8: 0.2094, s=12: 0.2102
+   A >= 45 (two terms)  lnA + 1/k      x long side            c = 0.2117: hull slopes 84->108 0.2157, 108->135 0.2158, 198->234 0.2150; ln tau(135) 29.15, (165) 35.62; strip cost per cell s=4: 0.2072, s=5: 0.2081, s=6: 0.2087, s=8: 0.2094, s=12: 0.2102
+   A >= 45 (two terms)  k + 1/k        x both sides           c = 0.2126: hull slopes 84->108 0.2160, 108->135 0.2166, 198->234 0.2166; ln tau(135) 29.18, (165) 35.68
+   A >= 45 (two terms)  k + 1/k^2      x both sides           c = 0.2128: hull slopes 84->108 0.2158, 108->135 0.2162, 198->234 0.2160; ln tau(135) 29.16, (165) 35.65
+   A >= 45 (two terms)  lnA + 1/k      x both sides           c = 0.2131: hull slopes 84->108 0.2158, 108->135 0.2161, 198->234 0.2157; ln tau(135) 29.16, (165) 35.64
+   A >= 45 (two terms)  k + 1/k        x a(s), D/s            c = 0.2134: hull slopes 84->108 0.2161, 108->135 0.2166, 198->234 0.2169; ln tau(135) 29.18, (165) 35.69; strip cost per cell s=4: 0.2071, s=5: 0.2084, s=6: 0.2092, s=8: 0.2103, s=12: 0.2113; offsets a(s) +0.057, +0.032, -0.018
+   A >= 45 (two terms)  k + 1/k^2      x a(s), D/s            c = 0.2136: hull slopes 84->108 0.2159, 108->135 0.2163, 198->234 0.2162; ln tau(135) 29.17, (165) 35.66; strip cost per cell s=4: 0.2071, s=5: 0.2084, s=6: 0.2093, s=8: 0.2104, s=12: 0.2114; offsets a(s) +0.058, +0.029, -0.026
+   A >= 45 (two terms)  lnA + 1/k      x a(s), D/s            c = 0.2140: hull slopes 84->108 0.2159, 108->135 0.2163, 198->234 0.2161; ln tau(135) 29.17, (165) 35.65; strip cost per cell s=4: 0.2071, s=5: 0.2085, s=6: 0.2094, s=8: 0.2106, s=12: 0.2117; offsets a(s) +0.058, +0.022, -0.042
+   six sizes            saturating     x both sides           c = 0.2155: hull slopes 84->108 0.2154, 108->135 0.2155, 198->234 0.2155; ln tau(135) 29.13, (165) 35.60
+   six sizes            saturating     x a(s), D/s            c = 0.2155: hull slopes 84->108 0.2154, 108->135 0.2155, 198->234 0.2155; ln tau(135) 29.13, (165) 35.60; strip cost per cell s=4: 0.2071, s=5: 0.2088, s=6: 0.2099, s=8: 0.2113, s=12: 0.2127; offsets a(s) +0.058, -0.000, -0.096
+   A >= 45              1/A            x both sides           c = 0.2179: hull slopes 84->108 0.2160, 108->135 0.2167, 198->234 0.2175; ln tau(135) 29.18, (165) 35.69
+   A >= 45              1/A            x a(s), D/s            c = 0.2179: hull slopes 84->108 0.2161, 108->135 0.2168, 198->234 0.2176; ln tau(135) 29.18, (165) 35.70; strip cost per cell s=4: 0.2071, s=5: 0.2093, s=6: 0.2107, s=8: 0.2125, s=12: 0.2143; offsets a(s) +0.059, -0.036, -0.184
+   A >= 45              1/k            x both sides           c = 0.2189: hull slopes 84->108 0.2161, 108->135 0.2170, 198->234 0.2181; ln tau(135) 29.19, (165) 35.71
+   A >= 45              1/k            x a(s), D/s            c = 0.2190: hull slopes 84->108 0.2162, 108->135 0.2170, 198->234 0.2182; ln tau(135) 29.19, (165) 35.72; strip cost per cell s=4: 0.2071, s=5: 0.2095, s=6: 0.2111, s=8: 0.2131, s=12: 0.2150; offsets a(s) +0.060, -0.052, -0.223
+
+-- the same test with an error floor added in quadrature to every point (soup transients are bounded at
+   0.005 in ln tau by the sources; 0.01 is twice that)
+   floor 0.005:  rim (r k)            x long side            c_hull 0.2334+-0.0036 (  0.9/2 fits ) c_per 0.2117+-0.0004 (  3.6/8 fits ) diff +0.0217+-0.0036 | one c 0.2119+-0.0004 chi2   40.7/11 p 2.7e-05 hull part   36.7/5 | penalty   36.2 p 1.8e-09 ( 6.0 s)
+   floor 0.005:  log (p lnA)          x long side            c_hull 0.2235+-0.0018 (  1.4/2 fits ) c_per 0.2117+-0.0004 (  3.6/8 fits ) diff +0.0119+-0.0019 | one c 0.2121+-0.0004 chi2   45.3/11 p 4.2e-06 hull part   40.1/5 | penalty   40.4 p 2.1e-10 ( 6.4 s)
+   floor 0.005:  log (p lnA)          x both sides           c_hull 0.2235+-0.0018 (  1.4/2 fits ) c_per 0.2119+-0.0033 (  3.6/7 fits ) diff +0.0116+-0.0038 | one c 0.2208+-0.0016 chi2   14.2/10 p    0.16 hull part    3.5/5 | penalty    9.3 p  0.0023 ( 3.0 s)
+   floor 0.005:  log (p lnA)          x a(s), D/s            c_hull 0.2235+-0.0018 (  1.4/2 fits ) c_per 0.2126+-0.0037 (  3.4/6 fits ) diff +0.0109+-0.0041 | one c 0.2213+-0.0016 chi2   11.9/9  p    0.22 hull part    2.8/5 | penalty    7.1 p  0.0075 ( 2.7 s)
+   floor 0.005:  1/A                  x a(s), D/s            c_hull 0.2187+-0.0010 (  2.3/2 fits ) c_per 0.2126+-0.0037 (  3.4/6 fits ) diff +0.0061+-0.0038 | one c 0.2183+-0.0009 chi2    8.3/9  p    0.51 hull part    2.4/5 | penalty    2.6 p    0.11 ( 1.6 s)
+   floor 0.005:  1/A                  x a(s), D/s^2          c_hull 0.2187+-0.0010 (  2.3/2 fits ) c_per 0.2102+-0.0020 (  3.4/6 fits ) diff +0.0085+-0.0022 | one c 0.2171+-0.0009 chi2   20.4/9  p   0.016 hull part    5.1/5 | penalty   14.7 p 0.00013 ( 3.8 s)
+   floor 0.005:  1/A                  x a(s), D e^(-s/0.72)  c_hull 0.2187+-0.0010 (  2.3/2 fits ) c_per 0.2086+-0.0009 (  3.5/6 fits ) diff +0.0101+-0.0013 | one c 0.2134+-0.0007 chi2   61.6/9  p 6.6e-10 hull part   31.4/5 | penalty   55.8 p 7.9e-14 ( 7.5 s)
+   floor 0.005:  1/A                  x offsets a(s)         c_hull 0.2187+-0.0010 (  2.3/2 fits ) c_per 0.2074+-0.0003 (  5.4/7 fits ) diff +0.0113+-0.0010 | one c 0.2082+-0.0003 chi2  132.7/10 p 1.3e-23 hull part  117.8/5 | penalty  125.0 p   5e-29 (11.2 s)
+   floor 0.01:  rim (r k)            x long side            c_hull 0.2352+-0.0053 (  0.5/2 fits ) c_per 0.2116+-0.0006 (  2.9/8 fits ) diff +0.0235+-0.0053 | one c 0.2119+-0.0006 chi2   23.1/11 p   0.017 hull part   20.0/5 | penalty   19.7 p   9e-06 ( 4.4 s)
+   floor 0.01:  log (p lnA)          x long side            c_hull 0.2247+-0.0027 (  0.7/2 fits ) c_per 0.2116+-0.0006 (  2.9/8 fits ) diff +0.0131+-0.0028 | one c 0.2122+-0.0006 chi2   26.1/11 p  0.0062 hull part   22.3/5 | penalty   22.5 p 2.1e-06 ( 4.7 s)
+   floor 0.01:  log (p lnA)          x both sides           c_hull 0.2247+-0.0027 (  0.7/2 fits ) c_per 0.2126+-0.0043 (  2.9/7 fits ) diff +0.0120+-0.0051 | one c 0.2213+-0.0023 chi2    9.2/10 p    0.52 hull part    2.3/5 | penalty    5.6 p   0.018 ( 2.4 s)
+   floor 0.01:  log (p lnA)          x a(s), D/s            c_hull 0.2247+-0.0027 (  0.7/2 fits ) c_per 0.2133+-0.0046 (  2.7/6 fits ) diff +0.0114+-0.0054 | one c 0.2218+-0.0023 chi2    7.9/9  p    0.54 hull part    1.9/5 | penalty    4.5 p   0.034 ( 2.1 s)
+   floor 0.01:  1/A                  x a(s), D/s            c_hull 0.2195+-0.0014 (  1.3/2 fits ) c_per 0.2133+-0.0046 (  2.7/6 fits ) diff +0.0062+-0.0048 | one c 0.2189+-0.0014 chi2    5.7/9  p    0.77 hull part    1.5/5 | penalty    1.6 p     0.2 ( 1.3 s)
+   floor 0.01:  1/A                  x a(s), D/s^2          c_hull 0.2195+-0.0014 (  1.3/2 fits ) c_per 0.2105+-0.0025 (  2.7/6 fits ) diff +0.0090+-0.0029 | one c 0.2172+-0.0012 chi2   13.7/9  p    0.13 hull part    3.7/5 | penalty    9.6 p  0.0019 ( 3.1 s)
+   floor 0.01:  1/A                  x a(s), D e^(-s/0.72)  c_hull 0.2195+-0.0014 (  1.3/2 fits ) c_per 0.2087+-0.0012 (  2.8/6 fits ) diff +0.0108+-0.0018 | one c 0.2129+-0.0009 chi2   38.4/9  p 1.5e-05 hull part   22.2/5 | penalty   34.3 p 4.8e-09 ( 5.9 s)
+   floor 0.01:  1/A                  x offsets a(s)         c_hull 0.2195+-0.0014 (  1.3/2 fits ) c_per 0.2073+-0.0004 (  4.4/7 fits ) diff +0.0122+-0.0015 | one c 0.2082+-0.0004 chi2   71.6/10 p 2.2e-11 hull part   62.2/5 | penalty   65.9 p 4.8e-16 ( 8.1 s)
 
 ==============================================================================================================
 5. SUMMARY: in-sample fit and out-of-sample forecasts (z = residual / sqrt(se^2 + forecast error^2))
 ==============================================================================================================
 family                   model                          par     chi2/dof        p        c     -1: sum z2/n, max|res|     -2: sum z2/n, max|res|
-hull, all six sizes      H0  a + cA                       2   1491.7/4          0   0.2090              5.3/1   0.657             14.2/2   0.666
-hull, all six sizes      H1  a + cA + r k                 3    106.9/3    5.1e-23   0.2480              0.2/1   0.122              0.5/2   0.142
-hull, all six sizes      HL  a + cA + p lnA               3     69.1/3    6.7e-15   0.2293              0.0/1   0.047              0.3/2   0.058
-hull, all six sizes      H2  a + cA + r k + q/k           4      6.9/2      0.031   0.1917              0.8/1   0.236              7.5/2   0.305
-hull, A >= 45            H0  a + cA                       2    100.3/3    1.3e-21   0.2128              2.1/1   0.379              9.7/2   0.389
-hull, A >= 45            H1  a + cA + r k                 3      1.3/2       0.52   0.2317              0.1/1   0.095              1.3/2   0.113
-hull, A >= 45            HL  a + cA + p lnA               3      1.8/2        0.4   0.2226              0.2/1   0.119              1.9/2   0.137
-hull, A >= 45            H2  a + cA + r k + q/k           4      0.0/1       0.94   0.2630              0.0/1   0.020                  -        
+hull, all six sizes      H0  a + cA                       2   1492.0/4          0   0.2090              5.3/1   0.657             14.3/2   0.666
+hull, all six sizes      H1  a + cA + r k                 3    106.9/3    5.2e-23   0.2480              0.2/1   0.122              0.5/2   0.142
+hull, all six sizes      HL  a + cA + p lnA               3     69.1/3    6.8e-15   0.2293              0.0/1   0.047              0.3/2   0.058
+hull, all six sizes      Hk  a + cA + q/k                 3     36.1/3    7.2e-08   0.2225              0.0/1   0.028              0.1/2   0.026
+hull, all six sizes      HA  a + cA + q/A                 3     21.5/3    8.5e-05   0.2201              0.1/1   0.073              0.1/2   0.073
+hull, all six sizes      Hr  a + cA + rho sqrt(A)         3    106.0/3    8.1e-23   0.2477              0.2/1   0.120              0.5/2   0.140
+hull, all six sizes      H2  a + cA + r k + q/k           4      7.0/2       0.03   0.1917              0.8/1   0.236              7.6/2   0.305
+hull, all six sizes      H2b a + cA + r k + q/k^2         4      5.8/2      0.055   0.2047              0.6/1   0.212              6.2/2   0.270
+hull, all six sizes      HLk a + cA + p lnA + q/k         4      6.2/2      0.045   0.2069              0.7/1   0.221              6.6/2   0.278
+hull, A >= 45            H0  a + cA                       2    100.5/3    1.2e-21   0.2128              2.1/1   0.379              9.7/2   0.390
+hull, A >= 45            H1  a + cA + r k                 3      1.3/2       0.52   0.2317              0.1/1   0.095              1.4/2   0.113
+hull, A >= 45            HL  a + cA + p lnA               3      1.9/2       0.39   0.2226              0.2/1   0.119              1.9/2   0.137
+hull, A >= 45            Hk  a + cA + q/k                 3      2.5/2       0.28   0.2193              0.3/1   0.141              2.6/2   0.160
+hull, A >= 45            HA  a + cA + q/A                 3      3.0/2       0.23   0.2181              0.4/1   0.154              3.1/2   0.173
+hull, A >= 45            Hr  a + cA + rho sqrt(A)         3      1.3/2       0.52   0.2316              0.1/1   0.096              1.4/2   0.113
+hull, A >= 45            H2  a + cA + r k + q/k           4      0.0/1       0.94   0.2633              0.0/1   0.021                  -        
+hull, A >= 45            H2b a + cA + r k + q/k^2         4      0.0/1       0.95   0.2569              0.0/1   0.018                  -        
+hull, A >= 45            HLk a + cA + p lnA + q/k         4      0.0/1       0.95   0.2424              0.0/1   0.016                  -        
+hull, all six sizes      Hsat a + cA - D lam (1 - e^(-A/lam))   4      5.4/2      0.066   0.2156              0.7/1   0.206              5.6/2   0.230
+hull, all six sizes      Hside a + A (c - D e^(-k/xi))    4     10.7/2     0.0047   0.1996              1.1/1   0.301             11.6/2   0.387
 sym cube-centred         H0  a + cA                       2     19.0/6     0.0042   0.1880              2.9/1   0.130             15.0/2   0.435
 sym cube-centred         H1  a + cA + r k                 3      2.9/5       0.72   0.2491              0.2/1   0.034              0.0/2   0.016
 sym cube-centred         HL  a + cA + p lnA               3      2.8/5       0.73   0.2176              0.3/1   0.042              0.0/2   0.028
@@ -533,6 +1568,10 @@ periodic rect s >= 4     PO  a(s) + cA                    4      8.3/7       0.3
 periodic rect s >= 4     PM  a + cA - beta M              3      5.3/8       0.73   0.2117              2.2/3   0.058              2.7/6   0.058
 periodic rect s >= 4     PS  a + cA + alpha s             3      8.4/8       0.39   0.2072              3.6/3   0.107              3.7/6   0.107
 periodic rect s >= 4     PSM a + cA + alpha s + beta M    4      5.3/7       0.63   0.2121              2.3/3   0.061              2.4/6   0.058
+periodic rect s >= 4     PD  a(s) + A (c - D/s)           5      5.1/6       0.54   0.2127              2.4/3   0.078                  -        
+periodic rect s >= 4     PD2 a(s) + A (c - D/s^2)         5      5.1/6       0.53   0.2103              2.4/3   0.080                  -        
+periodic rect s >= 4     PDe a(s) + A (c - D e^(-s/0.72))   5      5.2/6       0.52   0.2086              2.5/3   0.085                  -        
+periodic rect s >= 4     PD1 a(s) + A (c - D e^(-s/1))    5      5.1/6       0.53   0.2089              2.4/3   0.083                  -        
 periodic rect s >= 4     Pcw a + cA + kappa F             3     38.0/8    7.6e-06   0.2105              0.3/3   0.023              4.4/6   0.051
 periodic rect s >= 4     mexp a + A[c - g S]              4      7.8/7       0.35   0.2080              3.3/3   0.133              3.9/6   0.134
 periodic rect s >= 4     mk0 a + A[c - g S]               4      8.0/7       0.34   0.2080              3.3/3   0.134              3.9/6   0.134
@@ -541,3 +1580,52 @@ periodic wide            Pcw a + cA + kappa F             3    320.1/23   3.9e-5
 periodic wide            mexp a + A[c - g S]              4    205.5/22   9.4e-32   0.2050              7.7/5   0.185                  -        
 periodic wide            mk0  a + A[c - g S]              4    209.0/22     2e-32   0.2048              7.7/5   0.185                  -        
 (c for the symmetric families is 6 c6.)
+
+==============================================================================================================
+6. DESIGN CHECK (no new data): what 10^4 deaths at hull A = 108 would decide.  The A = 108 point is
+   replaced by a value with error 0.01, (a) at its present centre, (b) at the level of the single-c readings
+   (0.05 lower), and the whole matrix of section 4 is fitted again.
+==============================================================================================================
+-- (a) centre as now: hull A = 108 at 23.376 +- 0.010; slope 84 -> 108 = 0.2182 +- 0.0005
+   hull alone: H1 chi2 3.8/2 (p 0.15) c 0.2340; HL chi2 5.6/2 (p 0.06) c 0.2240; Hk chi2 8.0/2 (p 0.019) c 0.2205; HA chi2 9.6/2 (p 0.0082) c 0.2192; H2 chi2 16.1/2 (p 0.00031) c 0.2041; H2b chi2 13.9/2 (p 0.00096) c 0.2138; HLk chi2 15.0/2 (p 0.00055) c 0.2131; Hsat chi2 17.1/2 (p 0.0002) c 0.2168; Hside chi2 24.1/2 (p 5.8e-06) c 0.2048
+   single-c pairings that pass (p >= 0.01): 1 of 84 (now 36); c from 0.2203 to 0.2203
+      A >= 45              1/k            x a(s), D/s            c = 0.2203  joint p 0.024  penalty p 0.013
+-- (b) 0.05 lower: hull A = 108 at 23.326 +- 0.010; slope 84 -> 108 = 0.2161 +- 0.0005
+   hull alone: H1 chi2 0.7/2 (p 0.72) c 0.2295; HL chi2 0.4/2 (p 0.81) c 0.2217; Hk chi2 0.4/2 (p 0.82) c 0.2188; HA chi2 0.5/2 (p 0.77) c 0.2178; H2 chi2 4.1/2 (p 0.13) c 0.1926; H2b chi2 2.8/2 (p 0.24) c 0.2047; HLk chi2 3.3/2 (p 0.2) c 0.2071; Hsat chi2 2.5/2 (p 0.29) c 0.2156; Hside chi2 8.6/2 (p 0.014) c 0.2009
+   single-c pairings that pass (p >= 0.01): 36 of 84 (now 36); c from 0.2072 to 0.2187
+      six sizes            k + 1/k^2      x offsets a(s)         c = 0.2072  joint p 0.3  penalty p 0.41
+      six sizes            lnA + 1/k      x offsets a(s)         c = 0.2072  joint p 0.32  penalty p 0.98
+      A >= 45 (two terms)  k + 1/k        x offsets a(s)         c = 0.2072  joint p 0.39  penalty p 0.36
+      A >= 45 (two terms)  k + 1/k^2      x offsets a(s)         c = 0.2072  joint p 0.32  penalty p 0.19
+      A >= 45 (two terms)  lnA + 1/k      x offsets a(s)         c = 0.2072  joint p 0.25  penalty p 0.1
+      six sizes            k + 1/k^2      x a(s), D e^(-s/0.72)  c = 0.2084  joint p 0.39  penalty p 0.21
+      six sizes            lnA + 1/k      x a(s), D e^(-s/0.72)  c = 0.2084  joint p 0.45  penalty p 0.49
+      A >= 45 (two terms)  k + 1/k        x a(s), D e^(-s/0.72)  c = 0.2087  joint p 0.62  penalty p 0.41
+      six sizes            k + 1/k^2      x a(s), D/s            c = 0.2087  joint p 0.25  penalty p 0.064
+      A >= 45 (two terms)  k + 1/k^2      x a(s), D e^(-s/0.72)  c = 0.2087  joint p 0.54  penalty p 0.23
+      A >= 45 (two terms)  lnA + 1/k      x a(s), D e^(-s/0.72)  c = 0.2088  joint p 0.47  penalty p 0.15
+      six sizes            k + 1/k^2      x both sides           c = 0.2088  joint p 0.33  penalty p 0.072
+      six sizes            lnA + 1/k      x a(s), D/s            c = 0.2088  joint p 0.3  penalty p 0.13
+      six sizes            lnA + 1/k      x both sides           c = 0.2088  joint p 0.39  penalty p 0.15
+      six sizes            lnA + 1/k      x a(s), D/s^2          c = 0.2089  joint p 0.37  penalty p 0.24
+      six sizes            k + 1/k^2      x a(s), D/s^2          c = 0.2089  joint p 0.32  penalty p 0.11
+      A >= 45 (two terms)  k + 1/k        x a(s), D/s^2          c = 0.2104  joint p 0.65  penalty p 0.48
+      A >= 45 (two terms)  k + 1/k^2      x a(s), D/s^2          c = 0.2105  joint p 0.58  penalty p 0.29
+      A >= 45 (two terms)  lnA + 1/k      x a(s), D/s^2          c = 0.2107  joint p 0.54  penalty p 0.22
+      six sizes            lnA + 1/k      x long side            c = 0.2116  joint p 0.25  penalty p 0.022
+      six sizes            k + 1/k^2      x long side            c = 0.2117  joint p 0.27  penalty p 0.022
+      A >= 45 (two terms)  k + 1/k        x long side            c = 0.2117  joint p 0.81  penalty p 0.53
+      A >= 45 (two terms)  k + 1/k^2      x long side            c = 0.2117  joint p 0.77  penalty p 0.35
+      A >= 45 (two terms)  lnA + 1/k      x long side            c = 0.2117  joint p 0.74  penalty p 0.29
+      A >= 45 (two terms)  k + 1/k        x both sides           c = 0.2124  joint p 0.74  penalty p 0.56
+      A >= 45 (two terms)  k + 1/k^2      x both sides           c = 0.2126  joint p 0.7  penalty p 0.38
+      A >= 45 (two terms)  lnA + 1/k      x both sides           c = 0.2130  joint p 0.68  penalty p 0.34
+      A >= 45 (two terms)  k + 1/k        x a(s), D/s            c = 0.2131  joint p 0.68  penalty p 0.59
+      A >= 45 (two terms)  k + 1/k^2      x a(s), D/s            c = 0.2134  joint p 0.63  penalty p 0.41
+      A >= 45 (two terms)  lnA + 1/k      x a(s), D/s            c = 0.2137  joint p 0.63  penalty p 0.39
+      six sizes            saturating     x both sides           c = 0.2156  joint p 0.49  penalty p 0.2
+      six sizes            saturating     x a(s), D/s            c = 0.2156  joint p 0.49  penalty p 0.35
+      A >= 45              1/A            x both sides           c = 0.2177  joint p 0.44  penalty p 0.04
+      A >= 45              1/A            x a(s), D/s            c = 0.2177  joint p 0.51  penalty p 0.1
+      A >= 45              1/k            x both sides           c = 0.2187  joint p 0.32  penalty p 0.016
+      A >= 45              1/k            x a(s), D/s            c = 0.2187  joint p 0.41  penalty p 0.051

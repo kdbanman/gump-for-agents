@@ -11,6 +11,8 @@ Models (stated in README.md, section "Wrap-around models"):
 
     python3 research/constant/shape_models.py tests      # the in-sample and out-of-sample tests
     python3 research/constant/shape_models.py pairs      # forecasts for the equal-area, equal-loop pairs of shape3
+    python3 research/constant/shape_models.py slopes     # cost per cell against the shortest loop; xi by selection
+    python3 research/constant/shape_models.py kappa      # how well the capillary-wave coefficient is determined
 """
 import math, os, sys
 import numpy as np
@@ -230,10 +232,89 @@ def slopes():
             print('      residuals: ' + ', '.join(f'{d:+.4f}' for _, d, _ in r.resid()))
 
 
+def slopes_by_selection():
+    """How the decay length of the loop-deficit fit depends on which loop classes are fitted (added after the
+    review, research/audit/REVIEW-constant.md section 5)."""
+    per = [p for p in load.periodic() if p['Q1'] >= 3 and p['A'] in (48, 60, 72)]
+
+    def pooled(A, q):
+        ps = [p for p in per if p['A'] == A and p['Q1'] == q]
+        w = [1 / p['se'] ** 2 for p in ps]
+        return sum(wi * p['y'] for wi, p in zip(w, ps)) / sum(w), 1 / math.sqrt(sum(w))
+    print('\ndecay length xi of c - D exp(-s/xi) by the loop classes fitted (cube steps):')
+    for A1, A2 in ((48, 60), (60, 72)):
+        for qs, title in (((3, 4, 7, 12, 13, 16), 'all six classes'), ((4, 7, 12, 13, 16), 'without loop^2 3'),
+                          ((3, 7, 12, 13, 16), 'without loop^2 4 (tie bias)'), ((7, 12, 13, 16), 'loop^2 >= 7')):
+            pts = []
+            for q in qs:
+                u, v = pooled(A1, q), pooled(A2, q)
+                pts.append(dict(s=math.sqrt(q), q=q, y=(v[0] - u[0]) / (A2 - A1),
+                                se=math.hypot(u[1], v[1]) / (A2 - A1)))
+            best = None
+            for xi0 in (0.4, 0.7, 1.0, 1.5):
+                r = wls.fit('', lambda t, p: t[0] - math.exp(t[1]) * math.exp(-p['s'] / t[2]), [0.21, 0.0, xi0], pts,
+                            ['c', 'ln D', 'xi'], ([0, -20, 0.05], [1, 20, 20]))
+                if best is None or r.chi2 < best.chi2:
+                    best = r
+            r = best
+            print(f'   A = {A1} -> {A2}, {title:28s}: xi = {r.theta[2]:.3f} +- {r.err(2):.3f}, asymptote c = '
+                  f'{r.theta[0]:.4f} +- {r.err(0):.4f}, chi2 {r.chi2:.1f}/{r.dof}')
+
+
+def kappa():
+    """How well the coefficient of the capillary-wave term is determined (added after the review, which found that
+    kappa = -1.01 +- 0.01 does not stand).  ln tau = a + c A + kappa F."""
+    per = [p for p in load.periodic() if p['Q1'] >= 3]
+
+    def cw(pts, floor=0.0):
+        if floor:
+            pts = [dict(p, se=math.hypot(p['se'], floor)) for p in pts]
+        return do_fit('cw', pts)
+
+    def area_fit(pts, floor=0.0):          # one area: a + kappa F
+        if floor:
+            pts = [dict(p, se=math.hypot(p['se'], floor)) for p in pts]
+        return wls.fit('', lambda t, p: t[0] + t[1] * p['Fb'], [0.0, -1.0], pts, ['a', 'kappa'])
+    sel = [p for p in per if p['A'] in (48, 60) and p['Q1'] >= 7]
+    r = cw(sel)
+    k0 = r.theta[2]
+    print(f'census A = 48, 60, loop^2 >= 7 ({len(sel)} classes): kappa = {k0:.3f} +- {r.err(2):.3f} (statistical), '
+          f'+- {r.err(2, True):.3f} (x sqrt(chi2/dof)); chi2 {r.chi2:.1f}/{r.dof}')
+    for p_, d, z in r.resid():
+        print(f'      {label(p_):24s} F = {p_["Fb"]:.3f}  resid {d:+.4f} ({z:+.1f} s)')
+    jk = []
+    for i in range(len(sel)):
+        ri = cw(sel[:i] + sel[i + 1:])
+        jk.append(ri.theta[2])
+        print(f'      without {label(sel[i]):24s} kappa = {ri.theta[2]:.3f}')
+    n = len(jk); m = sum(jk) / n
+    print(f'   jackknife over the {n} classes: +- {math.sqrt((n - 1) / n * sum((x - m) ** 2 for x in jk)):.2f}; '
+          f'range {min(jk):.2f} to {max(jk):.2f}')
+    print('one area at a time (a + kappa F, loop^2 >= 7): the form says kappa is the same at every area')
+    for A in (48, 60, 72):
+        pts = [p for p in per if p['A'] == A and p['Q1'] >= 7]
+        r = area_fit(pts); rf = area_fit(pts, 0.015)
+        print(f'   A = {A} ({len(pts)} classes): kappa = {r.theta[1]:.2f} +- {r.err(1, True):.2f} (inflated; chi2 '
+              f'{r.chi2:.0f}/{r.dof}); with the 0.015 floor {rf.theta[1]:.2f} +- {rf.err(1):.2f} (chi2 {rf.chi2:.1f}/'
+              f'{rf.dof})')
+    print('other selections (a + c A + kappa F):')
+    for title, pts in (('census A = 48, 60, loop^2 >= 12', [p for p in per if p['A'] in (48, 60) and p['Q1'] >= 12]),
+                       ('wide (loop^2 >= 12), every area', [p for p in per if p['Q1'] >= 12]),
+                       ('loop^2 >= 13, every area', [p for p in per if p['Q1'] >= 13]),
+                       ('loop^2 >= 7, every area', [p for p in per if p['Q1'] >= 7])):
+        r = cw(pts); rf = cw(pts, 0.015)
+        print(f'   {title:34s} ({len(pts):2d}): kappa = {r.theta[2]:.2f} +- {r.err(2, True):.2f} (inflated; chi2 '
+              f'{r.chi2:.0f}/{r.dof}); with the 0.015 floor {rf.theta[2]:.2f} +- {rf.err(2):.2f} '
+              f'(chi2 {rf.chi2:.1f}/{rf.dof})')
+
+
 if __name__ == '__main__':
     cmd = sys.argv[1] if len(sys.argv) > 1 else 'tests'
     if cmd == 'slopes':
         slopes()
+        slopes_by_selection()
+    if cmd == 'kappa':
+        kappa()
     if cmd == 'tests':
         tests(verbose='-q' not in sys.argv, drop4='--drop4' in sys.argv)
     elif cmd == 'pairs':
