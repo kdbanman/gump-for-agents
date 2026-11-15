@@ -23,7 +23,7 @@ import sg, scat, family as F
 from scat import unit, tr
 
 
-def train(masks, check=True):
+def train(masks, check=True, dr=-1):
     """Settle the ring; return (pat, settled string): pat[par][j] = base cells of ring unit j at ring generation par."""
     L = len(masks)
     g = F.ring(L)
@@ -31,7 +31,7 @@ def train(masks, check=True):
     x = g.run(x, 8 * L + 40)
     y = g.run(x, 2)
     a, b = F.decode(g, x), F.decode(g, y)
-    rigid = '?' not in a and b == a[1:] + a[:1]
+    rigid = '?' not in a and b == (a[1:] + a[:1] if dr < 0 else a[-1:] + a[:-1])
     if check and not rigid:
         return None, a
     pat = []
@@ -45,7 +45,7 @@ def train(masks, check=True):
     st2 = g.run(x, 2); d2 = [set() for _ in range(L)]
     for i in np.nonzero(st2[:g.n])[0]:
         d2[int(g.unit[i])].add(tr(g.cells[i], -int(g.unit[i])))
-    assert all(frozenset(d2[j]) == pat[0][(j + 1) % L] for j in range(L)), 'not rigid cell for cell'
+    assert all(frozenset(d2[j]) == pat[0][(j - dr) % L] for j in range(L)), 'not rigid cell for cell'
     return pat, a
 
 
@@ -53,19 +53,19 @@ def in3(q):
     return 1 <= q[0] + q[1] + q[2] <= 5 and 1 <= q[0] - q[1] + q[2] <= 5
 
 
-def train_cells(pat, t, ua, ub):
+def train_cells(pat, t, ua, ub, d=-1):
     L = len(pat[0])
-    return frozenset(tr(c, u) for u in range(ua, ub) for c in pat[t % 2][(u + t // 2) % L])
+    return frozenset(tr(c, u) for u in range(ua, ub) for c in pat[t % 2][(u - d * (t // 2)) % L])
 
 
-def build(pat, T, C, lo, hi, KS):
+def build(pat, T, C, lo, hi, KS, d=-1):
     L = len(pat[0]); assert T % (2 * L) == 0
     wire = scat.Wire(json.load(open(sg.os.path.join(sg.HERE, 'objects', 'pulse-C.json'))))
     R = scat.Region(wire, KS - 2, (C + hi) // 4 + 3, lo, hi, C, C)
     pb = scat.Problem()
     def lit(q, t):
         u = unit(q)
-        return in3(q) and tr(q, -u) in pat[t % 2][(u + t // 2) % L]
+        return in3(q) and tr(q, -u) in pat[t % 2][(u - d * (t // 2)) % L]
     X = pb.traj(R, T, 0, wrap=True, left=lambda q, t: lit(q, t % T))
     for i in range(R.n):
         if R.units[i] < KS:
@@ -74,9 +74,9 @@ def build(pat, T, C, lo, hi, KS):
     return R, pb, X
 
 
-def check_gun(pat, cap, KS, T, far=-200, periods=None):
+def check_gun(pat, cap, KS, T, far=-200, periods=None, d=-1):
     periods = periods or max(4, 60 // T)
-    x0 = x = train_cells(pat, 0, far, KS) | frozenset(cap)
+    x0 = x = train_cells(pat, 0, far, KS, d) | frozenset(cap)
     near = lambda s, a: frozenset(c for c in s if unit(c) >= a)
     for t in range(1, T * periods + 1):
         x = sg.step_set(x)
@@ -91,6 +91,8 @@ def main():
     ap.add_argument('--mult', type=int, default=1); ap.add_argument('--lo', type=int, default=1); ap.add_argument('--hi', type=int, default=5)
     ap.add_argument('--KS', type=int, default=6); ap.add_argument('--timeout', type=float, default=600)
     ap.add_argument('--solver', default='cadical153'); ap.add_argument('--trains', action='store_true'); ap.add_argument('--out')
+    ap.add_argument('--dir', type=int, default=-1, help='-1: the train moves towards -v, away from the cap (a gun); +1: towards +v, into the cap (an absorber)')
+    ap.add_argument('--all', action='store_true', help='enumerate every solution (generation-0 states of the free cells)'); ap.add_argument('--minutes', type=float, default=10)
     a = ap.parse_args()
     if a.trains:
         for L in range(2, 13):
@@ -100,23 +102,44 @@ def main():
                 print(L, head + 'b' * (L - len(head)), '->', s, 'rigid towards -v' if pat else 'not a rigid left-moving train')
         return
     masks = [int(ch, 16) for ch in a.pattern]
-    pat, s = train(masks)
+    pat, s = train(masks, True, a.dir)
     if pat is None:
-        print(f'pattern {a.pattern} settles into {s}: not a rigid left-moving train'); sys.exit(1)
+        print(f'pattern {a.pattern} settles into {s}: not a rigid train in direction {a.dir}'); sys.exit(1)
     L = len(masks); T = 2 * L * a.mult; t0 = time.time()
     # sanity: the unrolled train is an orbit (sg.step_set on a finite piece, inner part compared)
-    x = train_cells(pat, 0, -40, 40)
+    x = train_cells(pat, 0, -40, 40, a.dir)
     for t in range(1, 7):
         x = sg.step_set(x)
-        assert frozenset(c for c in x if -30 <= unit(c) < 30) == train_cells(pat, t, -30, 30), 'train formula'
-    R, pb, X = build(pat, T, a.C, a.lo, a.hi, a.KS)
+        assert frozenset(c for c in x if -30 <= unit(c) < 30) == train_cells(pat, t, -30, 30, a.dir), 'train formula'
+    R, pb, X = build(pat, T, a.C, a.lo, a.hi, a.KS, a.dir)
     free = len(R.of_units(a.KS, 10 ** 6))
-    tag = f'gun for train {s} (from {a.pattern}), period T={T}, planes C={a.C} tube [{a.lo},{a.hi}] KS={a.KS}: {free} free cells'
+    tag = f'{"gun" if a.dir < 0 else "absorber"} for train {s} (from {a.pattern}), period T={T}, planes C={a.C} tube [{a.lo},{a.hi}] KS={a.KS}: {free} free cells'
+    if a.all:
+        from pysat.solvers import Solver
+        free_i = R.of_units(a.KS, 10 ** 6); out = []
+        with Solver(name=a.solver, bootstrap_with=pb.f.cl) as sv:
+            while True:
+                if time.time() - t0 > 60 * a.minutes:
+                    print(f'stopped: time ({len(out)} found) {tag}', flush=True); break
+                if not sv.solve():
+                    print(f'UNSAT: list complete at {len(out)}; {tag} {time.time() - t0:.0f}s', flush=True); break
+                m = set(l for l in sv.get_model() if l > 0)
+                cap = sorted(R.cells[i] for i in free_i if X[0][i] in m)
+                sv.add_clause([(-X[0][i] if X[0][i] in m else X[0][i]) for i in free_i])
+                ok, info = check_gun(pat, cap, a.KS, T, d=a.dir)
+                pops = []
+                for t in range(T):
+                    pops.append(len([i for i in free_i if X[t][i] in m]))
+                print(f'#{len(out)} {len(cap)} cells (by phase {pops}); re-stepped {"OK" if ok else "FAIL"}', flush=True)
+                out.append(dict(cap=[list(c) for c in cap], restep=ok, pops=pops))
+                if a.out:
+                    json.dump(dict(pattern=a.pattern, settled=s, T=T, C=a.C, lo=a.lo, hi=a.hi, KS=a.KS, dir=a.dir, list=out), open(a.out, 'w'))
+        return
     st, m = pb.solve(a.solver, a.timeout)
     if st != 'SAT':
         print(f'{st:7s} {tag} {time.time() - t0:.0f}s [{a.solver}]', flush=True); return
     cap = sorted(c for c in scat.cells_of(R, X[0], m) if unit(c) >= a.KS)
-    ok, info = check_gun(pat, cap, a.KS, T)
+    ok, info = check_gun(pat, cap, a.KS, T, d=a.dir)
     print(f'SAT     {tag} {time.time() - t0:.0f}s; cap of {len(cap)} cells at generation 0; re-stepped (sg.step_set): {"OK" if ok else "FAIL"} ({info})', flush=True)
     print('   cap:', cap)
     if a.out:
