@@ -133,8 +133,9 @@ _Last updated 2026-11-14 by the lead._
   edge per unit p); births fail before survival; depleted faces are lopsided whether or not they die; adjacent
   faces share their rim row, so round 1's "neighbour dragged down" is mostly the same cells; ln τ = 3.43 +
   0.582·P̄²/(2σ_P²) fits the eight lifetimes at A = 63 and 84 within 0.31. Of the lead's round-2 forecasts one of
-  seven held. **Next:** the round-1 reviewer is resumed for round 2 when it reports; then the record. A third round
-  is taking shape (not started): the same ν(p) curves at other sizes, to see whether −ln ν / A is one curve (then
+  seven held. **Next:** the round-1 reviewer is resumed for round 2 when it reports; then the record. **A third round
+  was started at 04:41 UTC** (same experimenter; the lead's forecasts T1-T4 in its `PREDICTIONS.md`; figure
+  `research/figures/dying_ratefunction.png`): the same ν(p) curves at other sizes, to see whether −ln ν / A is one curve (then
   the constant is its value at zero and can be read on faces too big to die), and maps of deeply depleted faces
   (a live clump and a hole?). Earlier, **started 02:04 UTC (Opus):** that audit ->
   `research/AUDIT-2026-11-15.md`; a naturalist identifying the 37 long-period
