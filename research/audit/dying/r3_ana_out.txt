@@ -134,3 +134,44 @@ Extrapolation of the dip curves at p >= 0.2 alone (study levels; interpolated in
     p=0.20:  -11.132 0.1290    -10.890 0.0648
     p=0.10:  -12.353 0.4375    -12.428 0.3016
     p=0.05:  -13.026 0.8574    -13.366 0.7702
+
+=== Claim 4, continued: which reference level. M_ref = ln tau_GPU + ln nu(ref); line in A over 45-108 (and with 135)
+ln nu(all excursions, i.e. every downward crossing of PBAR) by A: 45: -1.895, 63: -1.795, 84: -1.748, 108: -1.702, 135: -1.679
+  ref all: increments 0.2175, 0.2168, 0.2200, 0.2217; line 45-108: c = 0.2181, K = 1.90, max residual 0.028; weighted 45-135: c = 0.2173
+  ref 0.95: increments 0.2123, 0.2165, 0.2171, 0.2216; line 45-108: c = 0.2157, K = 2.00, max residual 0.033; weighted 45-135: c = 0.2139
+  ref 0.9: increments 0.2095, 0.2137, 0.2146, 0.2190; line 45-108: c = 0.2130, K = 2.13, max residual 0.032; weighted 45-135: c = 0.2111
+  ref 0.85: increments 0.2060, 0.2096, 0.2109, 0.2151; line 45-108: c = 0.2092, K = 2.24, max residual 0.029; weighted 45-135: c = 0.2074
+  ref 0.8: increments 0.2013, 0.2045, 0.2058, 0.2097; line 45-108: c = 0.2042, K = 2.32, max residual 0.026; weighted 45-135: c = 0.2025
+  ref 0.7: increments 0.1883, 0.1901, 0.1910, 0.1940; line 45-108: c = 0.1900, K = 2.35, max residual 0.015; weighted 45-135: c = 0.1890
+  Gaussian cost of the first part of a dip, (1-ref)^2 PBAR^2/(2 sigma^2), per cell of face: 45: ref 0.9 0.0025, 63: ref 0.9 0.0028, 84: ref 0.9 0.0030, 108: ref 0.9 0.0031, 135: ref 0.9 0.0032
+
+K(p): G_A(p) = ln nu(0.9) - ln nu(p) (interpolated) fitted as A f_inf(p) - K(p) over the sizes with >= 20 excursions at p (>= 3 sizes)
+  p=0.00: sizes [45, 63, 84, 108]: f_inf 0.2130, K 2.13, max residual 0.03;  f_A(p) = 0.1663 0.1786 0.1874 0.1934;  K in cells of tail price 0.5: 4.3
+  p=0.05: sizes [45, 63, 84]: f_inf 0.2019, K 1.76, max residual 0.01;  f_A(p) = 0.1630 0.1739 0.1811;  K in cells of tail price 0.5: 3.5
+  p=0.10: sizes [45, 63, 84]: f_inf 0.1837, K 1.33, max residual 0.01;  f_A(p) = 0.1544 0.1625 0.1680;  K in cells of tail price 0.5: 2.7
+  p=0.15: sizes [45, 63, 84, 108]: f_inf 0.1664, K 1.04, max residual 0.05;  f_A(p) = 0.1431 0.1499 0.1546 0.1565;  K in cells of tail price 0.5: 2.1
+  p=0.20: sizes [45, 63, 84, 108]: f_inf 0.1528, K 0.97, max residual 0.02;  f_A(p) = 0.1315 0.1370 0.1414 0.1438;  K in cells of tail price 0.5: 1.9
+  p=0.25: sizes [45, 63, 84, 108]: f_inf 0.1381, K 0.84, max residual 0.03;  f_A(p) = 0.1198 0.1243 0.1281 0.1304;  K in cells of tail price 0.5: 1.7
+  p=0.30: sizes [45, 63, 84, 108, 135]: f_inf 0.1222, K 0.63, max residual 0.03;  f_A(p) = 0.1082 0.1117 0.1148 0.1166 0.1174;  K in cells of tail price 0.5: 1.3
+  p=0.35: sizes [45, 63, 84, 108, 135]: f_inf 0.1081, K 0.52, max residual 0.03;  f_A(p) = 0.0969 0.0994 0.1019 0.1033 0.1042;  K in cells of tail price 0.5: 1.0
+  p=0.40: sizes [45, 63, 84, 108, 135]: f_inf 0.0942, K 0.40, max residual 0.03;  f_A(p) = 0.0859 0.0874 0.0893 0.0904 0.0913;  K in cells of tail price 0.5: 0.8
+  p=0.50: sizes [45, 63, 84, 108, 135]: f_inf 0.0677, K 0.17, max residual 0.04;  f_A(p) = 0.0648 0.0646 0.0654 0.0660 0.0666;  K in cells of tail price 0.5: 0.3
+  p=0.60: sizes [45, 63, 84, 108, 135]: f_inf 0.0437, K -0.04, max residual 0.04;  f_A(p) = 0.0455 0.0439 0.0438 0.0439 0.0442;  K in cells of tail price 0.5: -0.1
+  p=0.70: sizes [45, 63, 84, 108, 135]: f_inf 0.0236, K -0.18, max residual 0.03;  f_A(p) = 0.0282 0.0262 0.0256 0.0252 0.0251;  K in cells of tail price 0.5: -0.4
+  p=0.80: sizes [45, 63, 84, 108, 135]: f_inf 0.0090, K -0.18, max residual 0.01;  f_A(p) = 0.0131 0.0117 0.0111 0.0106 0.0103;  K in cells of tail price 0.5: -0.4
+
+Dips alone (p >= 0.2), reference = every downward crossing of PBAR (a true attempt rate): f_inf(p) = slope in A of
+ln nu(all) - ln nu(p) (interpolated), sizes with >= 20 excursions (>= 3 of 45-135), extrapolated to p = 0
+  p (0.2, 0.45): f_inf 0.1579 0.1433 0.1267 0.1125 0.0987 0.0852  -> linear 0.2157, quadratic 0.2274
+  p (0.2, 0.35): f_inf 0.1579 0.1433 0.1267 0.1125  -> linear 0.2191, quadratic 0.2227
+  p (0.25, 0.5): f_inf 0.1433 0.1267 0.1125 0.0987 0.0852 0.0721  -> linear 0.2123, quadratic 0.2315
+  p (0.2, 0.5): f_inf 0.1579 0.1433 0.1267 0.1125 0.0987 0.0852 0.0721  -> linear 0.2141, quadratic 0.2269
+  p (0.3, 0.5): f_inf 0.1267 0.1125 0.0987 0.0852 0.0721  -> linear 0.2082, quadratic 0.2192
+  the same method checked where the bottom is measured (ref all, sizes 45-84, p 0.1-0.45 known): f_inf(0) measured = slope of ln tau + ln nu(all) over 45-84
+    from p 0.2-0.45 linear: 0.2167, quadratic 0.2241; measured 0.2171
+
+=== Claim 8, continued (plan part 3): slab lifetimes, two seeds pooled, and the 4x4 protocol check
+  slab21: exposure 2043782208, deaths 3859, ln tau_face 13.1799 ± 0.0161
+  slab21_s9418: exposure 2043755780, deaths 3887, ln tau_face 13.1727 ± 0.0160
+  pooled: ln tau_face 13.1763 ± 0.0114; forecasts (constant/PREDICTIONS C): flat 13.115 ± 0.004, massive 13.128 ± 0.006, rising 13.107, 13.100; study 13.13 ± 0.04
+  4x4 torus (A = 48): ln tau_face 9.9268 ± 0.0065 (settled exposure 219152 left out); measured on the GPU 9.9324 ± 0.0020

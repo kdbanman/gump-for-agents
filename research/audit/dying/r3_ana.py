@@ -255,6 +255,15 @@ def extra():
     M = [np.log(s.cum[127] / s.E) + GPU[s.A][0] for s in hull if s.A <= 84]
     print(f'    from p 0.2-0.45 linear: {np.polyval(np.polyfit(pp, fi, 1), 0):.4f}, quadratic {np.polyval(np.polyfit(pp, fi, 2), 0):.4f}; measured {fit([45, 63, 84], M)[1]:.4f}')
 
+    print('\n=== Claim 8, continued (plan part 3): slab lifetimes, two seeds pooled, and the 4x4 protocol check')
+    Et = Dt = 0
+    for nm in ('slab21', 'slab21_s9418'):
+        E, D, X, H, n4 = read(nm); Et += E; Dt += D
+        print(f'  {nm}: exposure {E}, deaths {D}, ln tau_face {np.log(E / D):.4f} ± {1 / np.sqrt(D):.4f}')
+    print(f'  pooled: ln tau_face {np.log(Et / Dt):.4f} ± {1 / np.sqrt(Dt):.4f}; forecasts (constant/PREDICTIONS C): flat 13.115 ± 0.004, massive 13.128 ± 0.006, rising 13.107, 13.100; study 13.13 ± 0.04')
+    E, D, X, H, n4 = read('slab44_s9419')
+    print(f'  4x4 torus (A = 48): ln tau_face {np.log(E / D):.4f} ± {1 / np.sqrt(D):.4f} (settled exposure {n4} left out); measured on the GPU 9.9324 ± 0.0020')
+
 
 if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'extra':
     extra()
