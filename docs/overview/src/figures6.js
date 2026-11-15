@@ -136,7 +136,7 @@ const lab6 = (f, x, y, t, anc, cls) => { const e = S('text', { x, y, 'text-ancho
   const N = $('#n-constant'), fit = Q.fit, g = C.gpu;
   numTile(N, 'missed', 'the lead’s forecast for the patches, as stated: the fit with a perimeter term fails (c = ' + fit[0] + ', χ² ' + fmtInt(fit[2]) + ' on ' + fit[3] + ').', ['ret', 'missed']);
   pmTile(numTile(N, 'one point ', 'is being cross-checked: the CPU puts the 4 × 5 patch lower (ln P ' + sgn(Q.cpu45[1], 2) + ' against ' + sgn(Q.lnp[5][2], 3) + '), which would make the last price about ' + Q.cpu45_cost + '.', ['open', 'rerun on the CPU']), 'open');
-  pmTile(numTile(N, '~' + g[1] + ' GPU-hours ', 'for hull faces of ' + g[0] + ' cells at 10⁴ deaths, which the analyst says would rule out ' + g[2] + ' of the ' + g[3] + ' passing readings (the review disagrees). Not run: it waits on budget.', ['open', 'waiting']), '');
+  pmTile(numTile(N, '~' + g[1] + ' GPU-hours ', 'for hull faces of ' + g[0] + ' cells at 10⁴ deaths, which the analyst says would rule out ' + g[2] + ' of the ' + g[3] + ' passing readings (the review disagrees). Not run yet: queued for the GTX 1080.', ['once', 'queued']), '');
 })();
 
 // ---- lives that settle unrecognised (NB 2026-11-15; CLAIMS ZL1, ZL2) ----
