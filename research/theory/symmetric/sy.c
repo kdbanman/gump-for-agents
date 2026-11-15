@@ -9,8 +9,10 @@
  * Life ends (type): 1 F  a face group is empty (the face is dead for ever, T2)
  *                   2 W  a transverse firewall (three consecutive transverse layers empty, T3)
  *                   3 X  both at the same check
- *                   4 S  settled: the state equals a snapshot of the same life taken at an age 2^k checks
- *                        (doubling snapshots: any period is caught once 2^k checks exceed transient and period)
+ *                   4 S  settled: the state equals a snapshot of the same life. Snapshots are taken on a ladder of
+ *                        ages (in checks) 1, 2, .., each rung max(1, age/8) after the last, so any period is caught
+ *                        once a rung's gap exceeds it. For an S life the record holds the age of the matching
+ *                        SNAPSHOT (the life was already periodic then), not the age at detection.
  *                   5 O  open at the end of the job
  * The kernel is the carry-save adder tree of research/fluct/fl.c. Node index n is a cell that is dead for ever.
  *
@@ -109,8 +111,8 @@ int main(int argc, char **argv) {
   u64 seed = strtoull(argv[3], 0, 10); double p = atof(argv[4]); long gens = atol(argv[5]); int chk = atoi(argv[6]);
   FILE *out = fopen(argv[7], "wb"); if (!out) die("cannot open out");
   seed_rng(seed); u64 thr = (u64)(p * 18446744073709551616.0);
-  static uint32_t age[R];
-  for (int r = 0; r < R; r++) { reseed(r, thr); age[r] = 0; }
+  static uint32_t age[R], snapage[R], nextsnap[R];
+  for (int r = 0; r < R; r++) { reseed(r, thr); age[r] = 0; snapage[r] = 0; nextsnap[r] = 1; }
   memcpy(snap, cur, (size_t)(n + 1) * W * 8);
   u64 *z = malloc(8 * (size_t)W * (NG + 1));
   long nlives = 0, cnt[6] = {0, 0, 0, 0, 0, 0};
@@ -130,9 +132,9 @@ int main(int argc, char **argv) {
       age[r]++;
       int f = (fd[w] & bit) != 0, x = (fw[w] & bit) != 0, s = (eq[w] & bit) == 0;
       int type = (f && x) ? 3 : f ? 1 : x ? 2 : s ? 4 : 0;
-      if (type) { uint32_t rec = (age[r] << 3) | (uint32_t)type; fwrite(&rec, 4, 1, out); cnt[type]++; nlives++;
-        reseed(r, thr); age[r] = 0; take[w] |= bit; }
-      else if ((age[r] & (age[r] - 1)) == 0) take[w] |= bit;
+      if (type) { uint32_t rec = ((type == 4 ? snapage[r] : age[r]) << 3) | (uint32_t)type; fwrite(&rec, 4, 1, out); cnt[type]++; nlives++;
+        reseed(r, thr); age[r] = 0; snapage[r] = 0; nextsnap[r] = 1; take[w] |= bit; }
+      else if (age[r] == nextsnap[r]) { take[w] |= bit; snapage[r] = age[r]; nextsnap[r] = age[r] + (age[r] / 8 > 1 ? age[r] / 8 : 1); }
       if (age[r] >= (1u << 28)) die("age overflow");
     }
     for (int i = 0; i < n; i++) { const u64 *x = cur + (size_t)i * W; u64 *s = snap + (size_t)i * W;
