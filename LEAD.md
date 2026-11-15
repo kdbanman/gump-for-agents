@@ -302,6 +302,14 @@ let CI pass, merge.
   agent once the estimate for weekly or Fable passes 0.70, and stop running agents at 0.80. If `get_session` ever
   shows a `rate_limit_info.status` other than "allowed", stop all agents and tell the owner. Ask the owner for the
   three figures whenever they write (their screen shows them).
+- **Readings now come from the GTX 1080 session** (asked for in `research/GPU-QUEUE.md`; it appends them to each
+  message). **First one, read by it at 04:41 UTC 2026-11-15: 5-hour window 0.33 (resets 06:20 UTC), weekly all
+  models 0.36, weekly Fable 0.39 (both reset 2026-11-18 11:00 UTC).** The lead's dead-reckoned figure for the same
+  moment was 0.44, so the reckoning ran about 0.05 high over three hours and twenty minutes; measured pace over that
+  stretch: weekly 0.027 an hour, Fable 0.036 an hour, with two to three Opus agents running most of the time and
+  the 1080 session on Fable for the last part. Re-base on each new reading. The ceilings are the owner's 0.95 on
+  each window; with readings arriving, the reckoning rule above (0.70 / 0.80 on an estimate) applies only to the
+  stretch since the last reading: start no new agent if last reading + reckoned use since would pass 0.85.
 - **Timers no longer deliver either.** The check-in set with `send_later` for 02:23 UTC on 2026-11-15 fired and
   failed with `ACCESS_DENIED` (seen with `list_triggers`, which still works; ask it for one row, its output is
   long). So since the trust change nothing wakes the lead except a subagent's report, a message from another
