@@ -301,8 +301,8 @@ space; draft §§5.6, 6.1, 7.5, 8.1): gaps 42, 46 and 48 annotated, 50–55 adde
     hulls of 1–29 cells are wider and unlisted, and none above 30 cells exactly. The sizes listed cannot tell linear
     from slowly exponential growth of the visited counts; where the small-vessel regime joins the face law is not
     known. The entropy figures are upper bounds with no lower bound, from one large slab standing in for small faces
-    conditioned on survival. Side 16's count (SS2) is not re-run, and equals the detection generation of Table 1
-    rather than the entry generation (as side 14's did before it was corrected; `FOR-LEAD.md`). A referee would also
+    conditioned on survival. Side 16's count (SS2) is not re-run (it rests on `research/data/cube16_summary.json`:
+    cycle start 2,919,617,675, period 1, so 2,919,617,676 states, which is consistent). A referee would also
     ask for the comparison with random maps to be simulated rather than estimated.
 55. **The dying face, rounds 3 and 4** (DY8–DY15, draft §5.6). One fresh seed per hull size in both reviews (two
     for the torus); the lifetimes at 108 and 135 cells are the GPU's; the review's null is one patch shape (a
