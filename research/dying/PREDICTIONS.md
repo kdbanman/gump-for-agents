@@ -245,3 +245,53 @@ observed fraction ≥ 0.70 (the random figure is reported beside it).
   patch of stationary soup).
 - K12 (55%). T4: the observed fraction exceeds the random one by less than 0.10, because distance 2 already covers
   most of a 63-cell face around ~9 survivors.
+
+# Round 4 (the lead's forecasts, written 2026-11-15 05:45 UTC, before any round-4 run and before the review of round 3 is in)
+
+**The reading under test: two phases.** A healthy face fluctuates like a homogeneous medium: the cost per site of
+a dip to relative population p is g·(1 − p)², with g set by the ordinary variance. Gump's rule is cooperative (a
+cell needs three to five live neighbours of twelve to stay alive, four or five to be born), so a face cannot be
+thinned uniformly below some density and stay alive. Below that point a depleted face should be a *mixture*: an
+emptied region beside a remnant held at a fixed relative density p_t, the remnant's area shrinking in proportion
+to the population (a lever rule), and the cost running along the tangent to the parabola at p_t. Then three numbers
+that are measured separately are tied together: the tail slope per site and per unit p is s = 2g(1 − p_t), and the
+price of emptying a whole face is c = g(1 − p_t²) = s − s²/(4g). On the round-3 data
+(`python3 research/audit/dying_tangent.py`, the lead's, unreviewed): g ≈ 0.30–0.32; s = 0.211, 0.248, 0.256, 0.270
+at A = 45, 63, 84, 108; so p_t = 0.64, 0.62, 0.59, 0.55, and the end point is 0.170, 0.197, 0.201, 0.206 per site
+against 0.180 and 0.188 from the lifetimes at A = 63 and 84. Round 3 measured the remnant at 0.58–0.61 of
+stationary density around its centroid at A = 63 (0.51 by the pre-registered measure), which is what suggested
+the reading; so that number is not a test of it. The tests are below.
+
+**Definitions.** c1 hull faces, R = 15 (A = 108) and R = 11 (A = 63), fresh seeds. A face is *caught at level p*
+at the first generation of an excursion (round-2 definition: from above P̄) at which P ≤ p·P̄, for p = 0.9, 0.75,
+0.6, 0.45, 0.3, 0.15; each excursion contributes at most one catch per level. For a caught face:
+- *Company* C(p): the number of live cells among the in-face cells within graph distance 2 of a live cell
+  (in-layer neighbour graph of the face, as in T4), summed over the face's live cells and over caught faces,
+  divided by the same sum with each cell's stationary occupancy ρ_i in place of its state (so C = 1 for the
+  stationary ensemble apart from correlations; the stationary value of this ratio, measured on uncaught faces, is
+  reported and divided out). Rim cells are handled by the ρ_i weighting; also report C restricted to live cells
+  at least two cells from the rim.
+- *Void fraction* V(p): the fraction of the face's cells farther than graph distance 2 from every live cell.
+- Control at every level: stationary faces thinned at random to the same count.
+
+**Forecasts** (R = 15 unless said):
+- **F1 (the lever rule; 65%).** C(0.15), C(0.3) and C(0.45) agree within 15% of their mean. Against: C falls
+  roughly in proportion to p (C(0.15)/C(0.45) < 0.6), which is uniform thinning with a local bias.
+- **F2 (the remnant's density is the tangent point; 50%).** The mean of C over p ≤ 0.3 lies in 0.47–0.63 at
+  A = 108 (the tangent construction gives 0.55; the interval allows for the difference between "company" and
+  density).
+- **F3 (a kink; 55%).** C(0.9) and C(0.75) track p (within 0.08 of p times the stationary ratio), and
+  C(p) − p grows from p = 0.6 down: C(0.3) − 0.3 ≥ 0.2 and C(0.9) − 0.9 ≤ 0.08.
+- **F4 (the void grows linearly; 55%).** V(p) is below 0.05 for p ≥ 0.75 and, for p ≤ 0.45, rises linearly as
+  p falls: V(0.15) − V(0.3) within 30% of V(0.3) − V(0.45). The random-thinning control has a much smaller void
+  at p = 0.45 (less than half the caught value).
+- **F5 (size; 50%).** The mean C over p ≤ 0.3 at A = 63 exceeds that at A = 108 by 0.03–0.12 (the tangent point
+  moves from 0.62 to 0.55).
+- **F6 (what would end the reading).** If F1 fails by the "against" clause and V at p = 0.3 is no more than
+  1.5 times its control, a depleted face is not a mixture and the tangent construction is a coincidence of
+  curve shapes.
+
+A measurement for the graphics card follows from this reading if F1 holds: the tail slope s on faces of A = 135
+to 234, which cannot be watched to their deaths. The construction says s rises to 2g(1 − √(1 − c/g)), about 0.278
+per site if c = 0.2155 and 0.263 if c = 0.207, with g ≈ 0.31; so s read to ±0.004 separates the two ends of the
+open range of c.
