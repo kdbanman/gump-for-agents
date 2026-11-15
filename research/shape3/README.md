@@ -16,17 +16,18 @@ run; amendments f645b13, 43a5e0e, ffcaf36, also before the results they concern)
   the term at *equal* shortest loop does not.
 - **[measured] Below saturation (shortest loop² 9) the differences are large and change sign.** Q36 (A = 36):
   **−0.0223 ± 0.0007**, the face with the *longer* second loop dying sooner, 30σ; Q45 (A = 45): +0.0076 ± 0.0013;
-  Q54 (A = 54): −0.0020 ± 0.0019. No candidate forecast a negative difference anywhere.
+  Q54 (A = 54): −0.0020 ± 0.0019; Q63 (A = 63): +0.0017 ± 0.0020. No candidate forecast a negative difference
+  anywhere.
 - **Candidates** (forecast parameters fitted on the three known pairs only, `PREDICTIONS.md`; scored on six new
-  differences; Q63 was not run):
+  differences):
 
-  | candidate | committed score (6 differences) | loop² ≥ 12 alone (3) | loop² 9 alone (3) | verdict |
+  | candidate | committed score (7 differences) | loop² ≥ 12 alone (3) | loop² 9 alone (4) | verdict |
   |---|---|---|---|---|
-  | K1 second loop, linear | χ² 1232, p 10⁻²⁶² | 23.7, p 3 × 10⁻⁵ | 1208 | **refuted**, in both sets |
-  | K1a angle, linear | 829, p 10⁻¹⁷⁵ | 15.7, p 0.0013 | 813 | **refuted**, in both sets |
-  | K3b cos 2π Re τ, size-free | 856, p 10⁻¹⁸¹ | 18.3, p 4 × 10⁻⁴ | 838 | **refuted**, in both sets |
-  | K2 loop sum Σ e^{−1.41 \|v\|}, amplitude ∝ A | 110, p 2 × 10⁻²¹ | **4.3, p 0.23** | 106 | refuted by the committed rule (Q36 −9σ, Q45 +4σ); **survives out of sample at loop² ≥ 12** |
-  | K3 modular e^{−2πh} cos 2π Re τ | 895, p 10⁻¹⁸⁹ | **5.2, p 0.16** | 890 | refuted by the committed rule (Q36 −30σ, Q45 +4σ); **survives out of sample at loop² ≥ 12** |
+  | K1 second loop, linear | χ² 1246, p 10⁻²⁶⁴ | 23.7, p 3 × 10⁻⁵ | 1223 | **refuted**, in both sets |
+  | K1a angle, linear | 834, p 10⁻¹⁷⁵ | 15.7, p 0.0013 | 818 | **refuted**, in both sets |
+  | K3b cos 2π Re τ, size-free | 874, p 10⁻¹⁸⁴ | 18.3, p 4 × 10⁻⁴ | 856 | **refuted**, in both sets |
+  | K2 loop sum Σ e^{−1.41 \|v\|}, amplitude ∝ A | 111, p 5 × 10⁻²¹ | **4.3, p 0.23** | 107 | refuted by the committed rule (Q36 −9σ, Q45 +4σ); **survives out of sample at loop² ≥ 12** |
+  | K3 modular e^{−2πh} cos 2π Re τ | 896, p 10⁻¹⁸⁹ | **5.2, p 0.16** | 891 | refuted by the committed rule (Q36 −30σ, Q45 +4σ); **survives out of sample at loop² ≥ 12** |
   | firewall cut, short rows, layer count, number of shortest loops, "shorter third loop dies sooner" | — | — | — | refuted in-sample, before the runs |
 
   What survives at loop² ≥ 12 is the statement both K2 and K3 make: **the equal-loop effect decays as the torus gets
@@ -85,8 +86,10 @@ at 72. Below saturation, Q1 = 9 groups exist at A = 36, 45, 54, 63, 72.
 ## What was run
 
 All of plan v2's jobs before the A = 72 rounds (one job per torus at A = 36, 45, 48, 54 and for P3), and A = 72
-all five planned rounds of the triple and both rounds of N72 (19 jobs). Not run: Q63 and the cap-free rerun of P2 (both queued after the A = 72 rounds; the machine was
-shared, the lanes got 20–75% of a core). Each A = 72 job is 7.5 × 10⁷ generations × 512 replicas. Per-job counts: `data/runs.csv`.
+all five planned rounds of the triple and both rounds of N72 (19 jobs), then Q63 (two jobs per torus). Not run: the cap-free rerun of P2 (queued last; the machine was shared,
+the lanes got 20–75% of a core); one P2 job of (1,5,20) finished before the lanes were stopped and gives
+12.4729 ± 0.0020 (the review's 12.4735 ± 0.0020); its partner was not run, so P2 has no new difference. The
+extension rounds were not reached. Each A = 72 job is 7.5 × 10⁷ generations × 512 replicas. Per-job counts: `data/runs.csv`.
 
 ## Per torus [measured]
 
@@ -102,8 +105,11 @@ shared, the lanes got 20–75% of a core). Each A = 72 job is 7.5 × 10⁷ gener
 | (2,2,8) | 48 | 1 | 5.760e+09 | 563,155 | 412 | 286 | 512 | 9.9260 ± 0.0013 | 9.9255 | 10,202 |
 | (1,5,18) | 54 | 1 | 1.706e+10 | 527,019 | 75,416 | 1820 | 512 | 11.0784 ± 0.0014 | 11.0750 | 28,217 |
 | (3,0,6) | 54 | 1 | 1.706e+10 | 525,977 | 74,905 | 1815 | 512 | 11.0804 ± 0.0014 | 11.0770 | 28,290 |
+| (1,5,20) | 60 | 1 | 3.264e+10 | 249,958 | 1,103 | 89 | 512 | 12.4729 ± 0.0020 | 12.4725 | 129,690 |
 | (1,8,20) | 60 | 1 | 2.304e+10 | 186,263 | 19 | 13 | 512 | 12.4187 ± 0.0023 | 12.4187 | 123,322 |
 | (2,2,10) | 60 | 1 | 2.304e+10 | 184,871 | 0 | 0 | 512 | 12.4262 ± 0.0023 | 12.4262 | 124,263 |
+| (1,6,21) | 63 | 2 | 9.509e+10 | 495,056 | 484,881 | 1825 | 1024 | 12.8588 ± 0.0014 | 12.8551 | 96,754 |
+| (1,7,21) | 63 | 2 | 9.509e+10 | 494,230 | 485,346 | 1830 | 1024 | 12.8605 ± 0.0014 | 12.8568 | 96,789 |
 | (1,5,24) | 72 | 5 | 1.920e+11 | 120,906 | 6,471 | 49 | 2560 | 14.9711 ± 0.0029 | 14.9707 | 1,477,082 |
 | (1,6,24) | 72 | 5 | 1.920e+11 | 120,229 | 6,361 | 44 | 2560 | 14.9768 ± 0.0029 | 14.9764 | 1,486,103 |
 | (1,10,24) | 72 | 2 | 7.680e+10 | 53,171 | 0 | 0 | 1024 | 14.8763 ± 0.0043 | 14.8763 | 1,417,053 |
@@ -138,6 +144,7 @@ d = ln τ_face(Y) − ln τ_face(X), Y the class with the longer second loop; er
 | Q36 | (1, 4, 12) → (1, 3, 12) | **-0.0223 ± 0.0007** | -0.0225 | -0.0223 ± 0.0007 | — |
 | Q45 | (1, 5, 15) → (1, 4, 15) | **+0.0076 ± 0.0013** | +0.0078 | +0.0076 ± 0.0013 | — |
 | Q54 | (3, 0, 6) → (1, 5, 18) | **-0.0020 ± 0.0019** | -0.0020 | -0.0015 ± 0.0021 | -0.0067 ± 0.0062 |
+| Q63 | (1, 6, 21) → (1, 7, 21) | **+0.0017 ± 0.0020** | +0.0017 | +0.0017 ± 0.0020 | — |
 
 P1 and P3 are the known pairs, re-measured cap-free (in-sample for every candidate). Pooled with the earlier values
 (research/audit/REVIEW-shape2.md): **P1 +0.0148 ± 0.0013, P3 +0.0069 ± 0.0024** (2.9σ; it was 1.8σ). The age
@@ -150,27 +157,27 @@ dependence the review hinted at (difference growing with age, 2σ, on P2) is not
 Committed rule: z = (measured − forecast)/√(σ_m² + σ_f²), hit if |z| < 2; refuted if Σz² over the new differences
 has p < 0.01.
 
-| candidate | T01 | T12 | N72 | Q36 | Q45 | Q54 | chi2 / dof | p | hits | verdict |
-|---|---|---|---|---|---|---|---|---|---|---|
-| K1_l2 | +0.0051 (-2.7σ) | +0.0152 (-3.4σ) | +0.0152 (-2.1σ) | +0.0051 (-34.5σ) | +0.0101 (-1.6σ) | +0.0051 (-3.5σ) | 1231.6 / 6 | 7e-263 | 1/6 | refuted |
-| K1a_angle | +0.0075 (-3.3σ) | +0.0070 (-1.6σ) | +0.0111 (-1.5σ) | +0.0111 (-28.1σ) | +0.0086 (-0.7σ) | +0.0075 (-4.6σ) | 828.9 / 6 | 8.6e-176 | 3/6 | refuted |
-| K2_loopsum | +0.0021 (-2.0σ) | +0.0021 (-0.4σ) | +0.0003 (+0.3σ) | +0.0121 (-9.3σ) | +0.0019 (+4.2σ) | +0.0003 (-1.2σ) | 110.5 / 6 | 1.6e-21 | 3/6 | refuted |
-| K3_modular | +0.0028 (-2.2σ) | +0.0028 (-0.6σ) | +0.0004 (+0.2σ) | +0.0105 (-29.5σ) | +0.0017 (+4.4σ) | +0.0003 (-1.2σ) | 895.3 / 6 | 3.8e-190 | 3/6 | refuted |
-| K3b_cosx | +0.0075 (-3.3σ) | +0.0075 (-1.7σ) | +0.0150 (-2.1σ) | +0.0113 (-28.2σ) | +0.0113 (-2.3σ) | +0.0113 (-6.1σ) | 855.9 / 6 | 1.3e-181 | 1/6 | refuted |
+| candidate | T01 | T12 | N72 | Q36 | Q45 | Q54 | Q63 | chi2 / dof | p | hits | verdict |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| K1_l2 | +0.0051 (-2.7σ) | +0.0152 (-3.4σ) | +0.0152 (-2.1σ) | +0.0051 (-34.5σ) | +0.0101 (-1.6σ) | +0.0051 (-3.5σ) | +0.0101 (-3.8σ) | 1246.3 / 7 | 6.8e-265 | 1/7 | refuted |
+| K1a_angle | +0.0075 (-3.3σ) | +0.0070 (-1.6σ) | +0.0111 (-1.5σ) | +0.0111 (-28.1σ) | +0.0086 (-0.7σ) | +0.0075 (-4.6σ) | +0.0063 (-2.2σ) | 833.9 / 7 | 8.9e-176 | 3/7 | refuted |
+| K2_loopsum | +0.0021 (-2.0σ) | +0.0021 (-0.4σ) | +0.0003 (+0.3σ) | +0.0121 (-9.3σ) | +0.0019 (+4.2σ) | +0.0003 (-1.2σ) | +0.0000 (+0.8σ) | 111.1 / 7 | 5.4e-21 | 4/7 | refuted |
+| K3_modular | +0.0028 (-2.2σ) | +0.0028 (-0.6σ) | +0.0004 (+0.2σ) | +0.0105 (-29.5σ) | +0.0017 (+4.4σ) | +0.0003 (-1.2σ) | +0.0000 (+0.8σ) | 896.0 / 7 | 3.5e-189 | 4/7 | refuted |
+| K3b_cosx | +0.0075 (-3.3σ) | +0.0075 (-1.7σ) | +0.0150 (-2.1σ) | +0.0113 (-28.2σ) | +0.0113 (-2.3σ) | +0.0113 (-6.1σ) | +0.0113 (-4.3σ) | 874.3 / 7 | 1.7e-184 | 1/7 | refuted |
 
 The same, split by set (the split is not in PREDICTIONS.md):
 
 | candidate | loop^2 >= 12 (T01, T12, N72): chi2 / dof, p | loop^2 = 9 (Q36, Q45, Q54, Q63): chi2 / dof, p |
 |---|---|---|
-| K1_l2 | 23.7 / 3, p 2.9e-05 | 1207.9 / 3, p 1.4e-261 |
-| K1a_angle | 15.7 / 3, p 0.0013 | 813.3 / 3, p 5.8e-176 |
-| K2_loopsum | 4.3 / 3, p 0.23 | 106.2 / 3, p 7.2e-23 |
-| K3_modular | 5.2 / 3, p 0.16 | 890.1 / 3, p 1.2e-192 |
-| K3b_cosx | 18.3 / 3, p 0.00038 | 837.6 / 3, p 3e-181 |
+| K1_l2 | 23.7 / 3, p 2.9e-05 | 1222.6 / 4, p 2e-263 |
+| K1a_angle | 15.7 / 3, p 0.0013 | 818.2 / 4, p 8.6e-176 |
+| K2_loopsum | 4.3 / 3, p 0.23 | 106.9 / 4, p 3.4e-22 |
+| K3_modular | 5.2 / 3, p 0.16 | 890.8 / 4, p 1.7e-191 |
+| K3b_cosx | 18.3 / 3, p 0.00038 | 856.0 / 4, p 5.7e-184 |
 
 ## Post hoc (after the data)
 
-- **Refits.** Refitted on all nine pairs (P1–P3 pooled, the six new ones), every candidate fails (χ² ≥ 300 on 7–8);
+- **Refits.** Refitted on all ten pairs (P1–P3 pooled, the seven new ones), every candidate fails (χ² ≥ 300 on 8–9);
   refitted on the six pairs with loop² ≥ 12 only, K2 (χ² 8.4 on 4, p 0.08, K = 1.43) and K3 (9.9 on 5, p 0.08,
   κ = 10.0) are acceptable, K1, K1a, K3b are not (p ≤ 2 × 10⁻⁵). Their fitted parameters barely move from the forecast ones.
   `python3 research/shape3/explore3.py` (→ `data/explore.txt`).
@@ -201,7 +208,7 @@ The same, split by set (the split is not in PREDICTIONS.md):
 
 ## Not checked
 
-- **Q63 and the cap-free P2 rerun were not run** (budget: the machine was shared). So the review's question whether
+- **The cap-free P2 rerun was not run** (budget: the machine was shared). So the review's question whether
   the P2 difference grows with the age of a life is still open; P1 shows no such growth.
 - **No second stepper for these numbers.** ts3 is the review's ts.c with a faster kernel (validated bit-for-bit
   against the engine for 4,000 generations on every torus, and against ts.c's own event files) and a new settled
@@ -214,7 +221,8 @@ The same, split by set (the split is not in PREDICTIONS.md):
 - The A = 72 precision (± 0.0041 to ± 0.0061) is short of the ± 0.003 asked: it excludes the size-free candidates
   (forecasts 0.007–0.015) but cannot tell K2 or K3 (≤ 0.003) from zero, nor K2 from K3 anywhere.
 - Whether the loop² 9 sign change is a small-area effect (A = 36 is a 36-cell face) or a property of loop² 9: only
-  three pairs, one per area.
+  four pairs, one per area. On Q54 and Q63 firewalls are 14% and 98% of face deaths (cut 108), so those faces live
+  next to a strong competing channel.
 - The candidate list is not exhaustive: anything that depends on the slab thickness (8 layers) or on the soup
   density was not considered; the soup is 0.4 everywhere.
 
