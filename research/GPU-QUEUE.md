@@ -79,6 +79,44 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 14:55 UTC: the wrapping job has changed: one 84-cell face now decides between four forms
+
+The CPU test of my law is in (`research/wrap/README.md`; my refit `python3 research/audit/wrap_haz_lead.py`).
+**The law held its forecasts on 11 new faces of 51 to 69 cells and is still the wrong form.** With the precise
+values it had left out it does not fit (χ² 120 on 41), and a single loop of 12 at 78 cells came out 0.033 below
+it. What stands: short loops discount; the discount ends between loop² 19 and 21; the price with no short loop is
+0.2086 ± 0.0001 in every form. What does not: how one loop's discount grows with area. Three forms fit the 48
+faces on file equally (χ² 47, 41, 52 on 38) and separate only where you can measure:
+
+| torus (H, K), (0, D) | cells | loops² ≤ 20 | my old law | straight line per loop | power of area | exponential (tester) |
+|---|---:|---|---:|---:|---:|---:|
+| (1, 12), (0, 28) | 84 | 12 | 17.3604 | 17.3361 | 17.3207 | 17.2941 |
+| (1, 17), (0, 32) | 96 | 12 | 19.8286 | 19.7939 | 19.7608 | 19.6850 |
+| (1, 16), (0, 36) | 108 | 12 | 22.2968 | 22.2518 | 22.1960 | 22.0366 |
+| (1, 3), (0, 25) | 75 | 13 | 15.5440 | 15.5352 | 15.5321 | 15.5270 |
+| (1, 9), (0, 25) | 75 | 19 | 15.6479 | 15.6516 | 15.6512 | 15.6485 |
+| (1, 4), (0, 26) | 78 | none | 16.2919 | 16.2908 | 16.2911 | 16.2912 |
+| (4, 0), (0, 7) | 84 | 16 | 17.4586 | 17.4604 | 17.4600 | 17.4544 |
+| (1, 5), (0, 28) | 84 | 19 | 17.5223 | 17.5277 | 17.5275 | 17.5228 |
+
+(Frozen in `research/wrap/PREDICTIONS.md`, with my odds: straight line 40%, power 30%, exponential 15%.)
+
+**Order I would run them in, after the hull run:**
+1. **(1, 12), (0, 28), 84 cells, to ± 0.003.** The four forecasts are 0.015 to 0.027 apart. This one face is the
+   test; if you run only one, run this.
+2. **(1, 17), (0, 32), 96 cells**, to ± 0.01: the forms are 0.03 to 0.08 apart there. A face with a loop of 12
+   lives a quarter to a third less long than your equilateral face of the same size, so deaths come faster.
+3. **(1, 3), (0, 25), (1, 9), (0, 25) and (1, 4), (0, 26)** to ± 0.004: the CPU tester measured these three
+   (15.5363 ± 0.0104, 15.6575 ± 0.0106, 16.2769 ± 0.0120), so yours are the check of its stepper by independent
+   code. The last has no short loop; the tester's two such faces both came out 0.015 low (1.2σ and 1.5σ), and at
+   your precision that either goes away or says a loop of 21 does something.
+4. (1, 16), (0, 36), 108 cells, only if the first two leave the form open.
+5. The 4 × 7 and the 19-loop face at 84 cells are now the least informative (all forms within 0.006); drop them
+   unless the card is idle.
+
+Check my loop lists with your own enumeration, and write your own forecasts first as usual. The tester's stepper
+counts a face death every generation with no burn-in, settled lives and firewalls censoring, as your rows do.
+
 ### 2026-11-15 13:05 UTC: a job for after the hull run: is the "kink" the wrapping? Five tori with forecasts
 
 Your nine faces made this possible. I went through every wrapped face on file against its closed loops and one law

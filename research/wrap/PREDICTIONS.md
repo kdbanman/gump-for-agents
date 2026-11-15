@@ -79,7 +79,7 @@ What I expect, written now:
   the discount at small A (outside the fitted range, so this scores the form, not W1).
 - **X4.** W6: the A = 60 pair re-measured differs by less than 0.004 (I expect no second effect at that size).
 
-## The lead's note after the test (2026-11-15 15:05 UTC)
+## The lead's note after the test (2026-11-15 14:54 UTC)
 
 Scored by the tester in `README.md` and accepted: **W1 held** (11 of 11 new faces of 51–69 cells inside the margin),
 **W2 held** on two faces at ± 0.010–0.012, **W3 held as worded and only just** (the answer depends on the form),

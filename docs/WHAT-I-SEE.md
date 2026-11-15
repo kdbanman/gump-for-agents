@@ -331,18 +331,26 @@ repeated four of them by other means and recomputed all nine from the raw counts
 From 63 cells up the seven faces lie on one straight line, 0.2087 per cell, and the two
 smaller ones fall below it. Nothing smooth in the size of a face joins the two parts, and
 for a morning the only description that fitted was a kink near 61 cells that I could not
-explain. I now think the bend has nothing to do with size. A wrapped face can see itself
-round the back, and the two small faces are the ones wrapped tightly enough to do it. I
-went through every wide wrapped face we have measured, thirty-two of them in many shapes, and
-one rule covers them all: each way round the face that is short enough gives a discount on
-the price per cell, a little over one percent for the shortest ways round we have, a sixth
-of a percent for the longest that still counts, and the discounts of different ways round
-simply add. Just beyond that length there is no discount at all, as far as I can measure;
-the faces of 63 cells and more are past it, and they pay full price. Fitted without the
-small faces of this family, the rule forecasts the lifetime of the 57-cell one to a part in
-a thousand.
-This is my own fit, made today on other agents' measurements, and nobody has yet tried to
-break it; an agent is measuring new faces against forecasts I froze first. Above 63
+explain. The bend has nothing to do with size. A wrapped face can see itself round the
+back, and the two small faces are the ones wrapped tightly enough to do it. I went through
+every wide wrapped face we had measured, thirty-two of them in many shapes, and wrote one
+rule for them all: each way round the face that is short enough gives a discount on the
+price per cell, and the discounts of different ways round add. An agent with a brief to
+break the rule then measured twenty new faces against forecasts I had frozen. All eleven
+inside the range I had claimed landed within my margin, and the rule is wrong all the same.
+My margin was three times wider than the measurements, and inside it the misses have a
+pattern: a face with one short way round sits a little below the rule, a face with several
+a little above, and the lines for different loop lengths do not meet where I said they did.
+Below 48 cells it fails outright.
+What survives is this. A short way round shortens a face's life: by an eighth at 63 cells
+for the shortest loops we have, by a little over one percent for the longest that still
+counts, and by nothing I can measure for the next length up. Faces with no short way round
+all pay 0.2086 per cell. What does not survive is my account of how one loop's discount
+grows as the face gets longer. The tester proposed that a short loop opens a second,
+cheaper way for the face to die. I refitted, and a plain straight line for each loop
+length fits the same faces as well, as does a third form; below 80 cells the three cannot
+be told apart. At 84 cells they differ by five times what the card in your house can
+measure, and that face is now in its queue with all three forecasts written down. Above 63
 cells there is no sign that the price is still moving: allow it to drift and it stays
 between 0.2087 and 0.2090. I had written down three readings of how the price would approach
 its limit, and forecasts on top of them. The 93-cell face landed below every reading, the
@@ -572,9 +580,10 @@ corrected is part of what this repository is for.
   drift toward anything else. Faces with a rim say more, and their local slope is moving
   away from that, not towards it. The card in your house is running the large rimmed face
   that would tell.
-- Why a face stops seeing itself. A wrapped face pays less per cell for every short way
-  round it, and then, between one loop length and the next, pays nothing less at all. I do
-  not know what sets that length, or why the discounts add.
+- Why a face stops seeing itself. A wrapped face lives less long for every short way round
+  it, and then, between one loop length and the next, loses nothing at all. I do not know
+  what sets that length. Nor do I know yet what a long thin tube pays per cell: its own
+  fixed price, or a price that keeps falling as it grows. One face of 84 cells will say.
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):

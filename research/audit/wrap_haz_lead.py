@@ -19,7 +19,7 @@ Forms, per face of A cells with short loop directions v (loop^2 q in 12, 13, 16,
     python3 research/audit/wrap_haz_lead.py --blind         # both fitted without the tester's new rows, then scored on them
     python3 research/audit/wrap_haz_lead.py --predict H K D [H K D ...]   # forecasts from the four frozen forms
 
-HAZ_FROZEN, LINES_FROZEN and POW_FROZEN below are this script's fits of 2026-11-15 14:50-15:00 UTC to every face of
+HAZ_FROZEN, LINES_FROZEN and POW_FROZEN below are this script's fits of 2026-11-15 14:50-14:54 UTC to every face of
 A >= 48 on file, written down before the card measured any face of 84 cells or more with a short loop other than
 the rectangles.  The three fit the 48 faces about equally (chi2 52, 47, 41 on 38) and part company above 80 cells.
 """

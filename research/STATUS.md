@@ -230,6 +230,18 @@ _Last updated 2026-11-14 by the lead._
   only word periods 2 to 4 near the end of the 3 × 3 tube. Corrections to the README were applied by the fourth
   push (e082fe1). OPEN-PROBLEMS 13 now lists questions (a) to (f). **Still running:** the fourth signals push
   (Fable, since 12:55) and the wrapping-law tester (Opus, since 13:03).
+  **14:57 UTC: the wrapping-law test is in and recorded** (`research/wrap/README.md`; notebook "the wrapping law
+  tested"; the lead's refit `python3 research/audit/wrap_haz_lead.py`; CLAIMS WL1 rewritten to B/B−, WL2 B, WL3 C;
+  172 claims, A 81, B 79, C 11, D 1). The law held W1, W2, W3, W4 and failed W5, W6, and is the wrong form (χ² 120
+  on 41 with the precise values it left out; 4–16σ off below 48 cells). Stands: short loops discount, the effect
+  ends between loop² 19 and 21, 0.2086 ± 0.0001 per cell with no short loop. Open: how one loop's discount grows
+  with area; the tester's "second way to die" form, a straight line per loop length and a power form fit equally
+  below 80 cells (the lead's refit; this narrows the tester's reading). **Owed:** the card's 84-cell face with one
+  loop of 12, torus (1, 12), (0, 28): forecasts 17.3604 / 17.3361 / 17.3207 / 17.2941 (old law / lines / power /
+  exponential), frozen in `research/wrap/PREDICTIONS.md` (W7–W10) and queued in `research/GPU-QUEUE.md` (14:55
+  UTC) with a 96-cell face and three faces that cross-check the tester's stepper. No second agent has reviewed the
+  tester's new faces; the card's three are that check. **Still running:** the fourth signals push (Fable, since
+  12:55). **Not yet done:** overview version 14 and the draft (nine tori, the wrapping result, signals pushes 3–4).
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

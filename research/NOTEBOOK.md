@@ -3184,3 +3184,62 @@ applied by the fourth push (e082fe1).
 - Not checked (the reviewer's list): the three scans; a second SAT solver; the census closure at plane 33;
   whether the 186 lone turners of the 3 × 3 tube survive outside clocks; `sat_turn --eat`; whether the double-pulse
   reflection can be built into a shuttle.
+
+## 2026-11-15: the wrapping law tested: it forecast 11 new faces inside its margin and is still the wrong form; short loops discount, the discount ends at loop² 21, and how it grows with area is open (three forms fit equally; the card decides at 84 cells)
+
+`research/wrap/README.md` (an Opus tester with a brief to break the law of the entry "the kink is the wrapping";
+own lattice code, own loader from the primary files, own fit; forecasts committed in 93540eb at 13:09 UTC before
+its first run at 13:11). The lead's own refit with a third loader:
+`python3 research/audit/wrap_haz_lead.py` (4 s; `--single`, `--blind`, `--predict H K D`; output
+`research/audit/wrap_haz_lead_out.txt`).
+
+- **Rebuilt [checked].** The tester reproduced the lead's table and parameters to every printed digit, and the
+  loop counts on 1,099 lattices of 36–126 cells (`python3 research/wrap/loopcheck.py`: 0 differ).
+- **New faces [measured; one code, dynamics checked against the oracle].** 20 new classes of 36–78 cells plus the
+  4 × 4 and the 60-cell pair again, on research/shape3's `ts3` with face deaths booked every generation.
+  Validation on all 22 tori: the oracle's state on the cubic torus equals a numpy stepper on ts3's neighbour graph
+  cell for cell at each of 1,500 generations, and ts3's production path gives the same population every
+  generation; one swapped neighbour fails at generation 4 (`bash research/wrap/validate_all.sh`). Calibration:
+  4 × 4 at 9.9229 ± 0.0014 against the card's 9.9251 ± 0.0004 (−1.5σ). Table in the README;
+  `python3 research/wrap/run.py table; python3 research/wrap/score.py`.
+- **The forecasts [scored].** W1 held: all 11 new faces of 51–69 cells within max(0.010, 3σ) of the frozen law,
+  largest miss −2.5σ (66 cells, one loop of 12), Σz² 19.4 on 11. W2 held on two faces at ± 0.010–0.012 (both about
+  0.015 low). W3 held as worded, by a hair, and depends on the form. W4 held as worded, with a sign pattern (one
+  short direction: 0.004 below the law; two or more: 0.004 above). W5 failed (loop² 9 and 7: χ²/dof 63, 70).
+  W6 failed (the 60-cell loop² 12 pair re-measured differs by +0.0021 ± 0.0035; on file −0.0077 ± 0.0026).
+- **The law is the wrong form [fitted; the lead's refit agrees].** With research/shape3's precise values, which the
+  lead's fit had left out, and the new faces: 48 faces of 48 cells and up, χ² 111.6 on 41 (tester, stamping bias
+  removed) or 119.6 on 41 (lead, no correction); the frozen parameters with nothing refitted, 141 on 48. Three
+  failures: the lines for different loop lengths do not meet at one area (own zeros 28.6 ± 0.9, 26.3 ± 1.9,
+  18.7 ± 1.4 cells for loop² 12, 13, 16); a single loop of 12 falls further below the law as the face grows
+  (0.016 ± 0.003 at 72 cells, 0.033 ± 0.009 at 78); and below 48 cells it is far off (36 cells, three loops of
+  12: 7.3643 ± 0.0023 against 7.4016, 16σ; 39 cells: 9σ; 42 cells: 4σ; 45 cells passes).
+- **What replaces it is not settled [the lead's refit; this narrows the tester's reading].** The tester's form,
+  HAZ, ln τ = a + c(A − 63) − ln(1 + Σ_v r_q e^(g_q (A − 63))), fits (χ² 49.6 on 38 there, 51.8 here), and fitted
+  blind to the new rows it forecasts the 13 new classes of 57 cells and up at Σz² 12.0 against 25.5 for the law
+  refitted the same way (`--blind`). The tester read it as "a short loop opens a second way to die at 0.173–0.190
+  per cell". That reading does not follow: with the same ten parameters a straight line per loop length (LINES,
+  discount k_q (A − z_q), log-discounts adding) has χ² 46.7 and a power-law share (POW, ln(1 + r_q (A/63)^m_q),
+  m = 2.1, 1.9, 1.4, 0.6) has 41.3; on the 39 faces with at most one short direction the three give 32.8, 33.0,
+  36.8 on 29. Nor is "rates add, log-discounts do not" settled: LINES adds log-discounts and beats HAZ.
+- **What is established [measured, in every form tried].** (i) The price per cell of a face with no loop shorter
+  than √21 is 0.2086 ± 0.0001 (0.20854–0.20864 across forms). (ii) One short loop direction lowers ln τ_face at 63
+  cells by about 0.125 (loop² 12), 0.096 (13), 0.054 (16), 0.013 (19), and by less than 0.001 at 21. (iii) The
+  equilateral "kink near 61 cells" is that family passing loop² 16, 19, 21 at 48, 57, 63 cells. (iv) A single
+  loop of 12 costs 0.2046 ± 0.0003 per cell between 54 and 72 cells, against 0.2086 with no short loop
+  (12.4219 at 60, 14.8755 at 72; 11.1935 at 54).
+- **Where the forms part [forecasts frozen in `research/wrap/PREDICTIONS.md`, c89ce9d, before any run].** One
+  loop of 12 at 84 cells, torus (1, 12), (0, 28): old law 17.3604, LINES 17.3361, POW 17.3207, HAZ 17.2941; at 96
+  cells 19.829, 19.794, 19.761, 19.685; at 108 cells 22.297, 22.252, 22.196, 22.037. The card measures 84-cell
+  faces to ± 0.003. Queued for it in `research/GPU-QUEUE.md` (14:55 UTC), with three faces the tester also measured
+  as the cross-check of its stepper by independent code.
+- **Unexplained.** The 36-cell face with three loops of 12 dies sooner than the two loop² 9 faces of the same area
+  (7.3643 against 7.4099, 7.3874) and no form gets it; loop² 9 (SH7) is untouched; why the discount ends between
+  loops of √19 and √21; one torus, (1, 4), (0, 25), has seeds 2.8σ apart.
+- Not checked: the tester's event logic was not recounted from snapshots (it is the code reviewed in
+  research/shape3); the census and slab values on file were not rerun; the firewall-detection convention of the
+  slab driver inflates the 4 × n rectangles slightly and is not corrected; the lead's refit applies no stamping
+  correction; no second agent has reviewed the tester's new faces (the card's three will).
+- The lead's forecasts: of W1–W6, four held and two failed, and the thing forecast was wrong anyway. A margin of
+  0.010 on faces measured to 0.003 was too loose to test the form; W7–W10 are written with margins the size of
+  the measurement.
