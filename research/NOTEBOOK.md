@@ -1994,3 +1994,37 @@ each a few minutes; outputs in `audit/out/`).
 - New ledger rows for forecasts that had none: TH7 (the thin line's 14 forecasts as rescored by the review: 8 hit,
   2 half, 2 mostly missed, 2 missed) and CN2 (the analyst's forecasts for the patches and the pairs, scored by the
   lead; graded C). Ledger: 126 rows (`python3 research/audit/claims_tally.py`).
+
+## 2026-11-15 — what the unrecognised settled states are: five new clocks, a 4 × 13 compound, and wires (naturalist's identification of 37 states; lead's check with a stepper written from the rule document)
+
+- The 37 settled states of period 9 to 52 that the review of the pairs experiment logged (entry "lives that
+  settle and are not recognised"; `research/audit/shape3/zombie_states.txt`, from 8-layer slabs on the tori
+  (1,3,12), (1,4,12), (1,4,15), (1,5,15), (2,2,8)) were identified against the catalogue
+  (`research/clockwork/README.md`, section "Found by accident in lifetime runs, 2026-11-15";
+  `cd research/clockwork && python3 zombies.py --write`, about 80 s).
+- **None needs the walls** [proved, by stepping]: each repeats its cycle cell for cell on the same torus with
+  the slab widened to 24 layers.
+- **14 are finite objects of free space** [proved, by a lift whose orbit maps one-to-one onto the slab's]. Four
+  are in the catalogue (P9.20a, P13.22a, the twisted P16.15a, P3.13a). **Five are new**: C9.24a, C9.28a, C11.29a,
+  C13.24a and **C52.33a**. The lead re-derived all five with a stepper written from `docs/AUTOMATON.md` §2 alone
+  (`python3 research/audit/clockwork_zombies_lead_check.py`): periods 9, 9, 11, 13, 52; populations 24–25, 28–33,
+  29–34, 24–28, 33–38; unions 27, 35, 36, 30, 42.
+- **Period 52 is a compound, not a loop** [proved for the cell periods; the dependence by subset tests]: no cell
+  has period 52. Of its 42 cells 24 are still, 4 turn with period 4 and 14 with period 13 (the lead's stepper
+  gives the same split). The period-13 part cannot run without a still chunk that in turn needs the period-4 part,
+  and no moving cell's next state depends on the other clock: a 4-clock and a 13-clock on a shared frame, like
+  C44.26a (4 with 11). One of the two period-48 states is P16.15a beside P3.13a, touching and exchanging nothing.
+- **21 are wires** [measured]: the moving part has no finite lift to free space, but lives on a strip that is
+  periodic along one short vector of the torus, so in the infinite lattice it is an infinite oscillating line.
+  Periods 9, 11, 13, 16, 19, 22, along (3,0,−3), (1,3,−4) or (2,−4,2). Every state of period 19 here is a wire.
+  **2 are sheets** [measured]: they fail on every strip and on covers up to 3 × 3 and close only on their own
+  torus; one, of period 48, is a mirror-twisted cycle of the torus (1,4,12): phase t + 24 is the mirror image of
+  phase t under a mirror that is a symmetry of that torus [proved], the construction of P66.27a with the box
+  replaced by a torus.
+- So the lifetime runs' "zombies" are mostly not clocks one could put in a box: more than half are objects that
+  exist only because a small torus lets a line close on itself. That fits their rate falling steeply with area.
+  Wires and sheets are a kind of object the catalogue (finite objects only) does not hold.
+- Not checked: whether a wire's moving part could be held by a finite stator ("needs the torus" is measured on
+  lifts of the given states, not proved); whether wires of one period and direction are the same wire; sheets on
+  covers beyond 3 × 3; stability and basins of the new objects. The census lists the new objects were matched
+  against are git-ignored scratch files of the clockwork line.

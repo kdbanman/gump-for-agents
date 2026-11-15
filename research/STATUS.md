@@ -160,9 +160,11 @@ _Last updated 2026-11-14 by the lead._
   **Started 01:05 UTC 2026-11-15 (Fable):** a line on the symmetric collapse (PROGRAM M5: derive 1/6, the
   −0.196·√A term and the factor 1.5 between centres from the asymmetric law; forecasts first; CPU only) ->
   `research/theory/symmetric/`. Owed on its report: the lead's check of one number, an Opus adversarial review,
-  notebook, CLAIMS. Small open item: the 37 settled states of period 9–52 kept in
-  `research/audit/shape3/zombie_states.txt` have not been identified against the catalogue in `research/clockwork/`
-  (periods 19 and 52 are not among the soup-ash periods of CLAIMS Z5).
+  notebook, CLAIMS. The 37 settled states of period 9–52 kept in
+  `research/audit/shape3/zombie_states.txt` are identified (02:40 UTC; `research/clockwork/README.md`, "Found by
+  accident"; notebook entry "what the unrecognised settled states are"; CLAIMS Z12, Z13; lead's check
+  `python3 research/audit/clockwork_zombies_lead_check.py`): five new finite clocks, one a 4 × 13 compound of
+  period 52; 21 wires and 2 sheets that exist only because a small torus lets a line close on itself.
   (5) GPU session, asked 21:22 UTC: empty patches on a face too large to die (12×12×8). **Pull request 18 arrived
   21:48 UTC** (head fcb3f39): the two-term fit gives c = 0.264 and fails (χ² 3,369/3), so the lead's forecast as
   stated is missed; cost per cell 0.42 → 0.32 over 12–60 cells, still falling; no hits above 75 cells. Lead's

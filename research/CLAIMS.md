@@ -112,6 +112,8 @@ Commands run from the repo root; `G=engine/target/release/gump`. `check.sh` = co
 | Z9 | Twisted loops are a steady 3–8% at every quotient length; the longest plain loop is C35.29a (L = 35, 37 of 47 cells full period) | measured | NB; STATUS 5; WHAT-I-SEE | same | B (295/9278, 30/670, 9/120, 5/66) + A (C35.29a: auditor) | 2026-11-13 |
 | Z10 | P66.27a: basin 4.1×10⁻⁴ in its own box; 6,600 flips → 30% heal, 43% broken by a lone outside cell, 5 of 2,001 heals phase-shifted | measured | clockwork README; NB; WHAT-I-SEE | `python3 research/clockwork/portrait.py P66.27a 1000000`; `perturb.py P66.27a` | C | — |
 | Z11 | Legacy ash: side 9 = central cube + 8 kagome hexagons (54 cells); side 11 = 6 cubes at the octahedron vertices (36) | measured | NB atlas; tour | `python3 research/atlas/legacy_ash.py` | C (final populations B via golden logs) | — |
+| Z12 | Five oscillators new to the catalogue, found among settled states of lifetime runs: C9.24a, C9.28a (period 9), C11.29a (11), C13.24a (13) and C52.33a, a compound of period 52 = 4 × 13 with no cell of period 52 (24 still cells, 4 of period 4, 14 of period 13) | proved (periods and cell periods, by stepping); measured ("new": matched against the catalogue and the box-census lists) | NB 2026-11-15 (what the unrecognised settled states are); clockwork README, "Found by accident" | `cd research/clockwork && python3 zombies.py --write`; `python3 research/audit/clockwork_zombies_lead_check.py` | A (lead: a stepper written from AUTOMATON §2 alone gives the same periods, populations, unions and cell periods; the oracle and the engine agree per the naturalist); C (that they are absent from the box-census lists, which are scratch files) | 2026-11-15 |
+| Z13 | Of 37 settled states of period 9–52 from small twisted-torus slabs, none needs the walls, 14 are finite free-space objects, 21 are wires (periodic along one short vector of the torus: infinite oscillating lines, periods 9, 11, 13, 16, 19, 22) and 2 are sheets that close only on their own torus; one sheet of period 48 is a mirror-twisted cycle of the torus (1,4,12) | proved (walls; the 14 finite lifts; the twist); measured (wires and sheets: no finite lift found) | NB 2026-11-15 (what the unrecognised settled states are); clockwork README, "Found by accident" | `cd research/clockwork && python3 zombies.py --write` | C (one agent, not re-run by a second) | 2026-11-15 |
 
 ## Thickness, kagome, rule space
 
@@ -199,8 +201,8 @@ Nothing from the swarm is a claim of the project until a fresh reader has audite
 
 ## Counts (recounted 2026-11-15)
 
-126 claims, by the best grade any part of the claim has: **A** 52 (30 alone, 17 with B, 5 with C) · **B** 44 (37 alone,
-7 with C for part of the claim; B− counts as B) · **C** 29 · **D** 1 (`python3 research/audit/claims_tally.py`). Counted mechanically: the best of the letters
+128 claims, by the best grade any part of the claim has: **A** 53 (30 alone, 17 with B, 6 with C) · **B** 44 (37 alone,
+7 with C for part of the claim; B− counts as B) · **C** 30 · **D** 1 (`python3 research/audit/claims_tally.py`). Counted mechanically: the best of the letters
 A–D that stand alone in a row's level column, a letter followed by "=" being an area, not a grade (so "C (…: B)"
 counts as B with C). An earlier recount on 2026-11-14 (A 43, B 36, C 28) read the areas in GP1, C9 and S3
 ("A = 84", "A = 828", "A = 693") as grades A; R6 has since moved from C to B. Four are marked superseded (F7, S1,
