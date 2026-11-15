@@ -12,3 +12,7 @@ elif [ "$1" = 2 ]; then
   job v13c c1 60000 9211 128; job v13c csz 60000 9212 128; job v13c c2v 60000 9213 128; job v13c d2h 100000 9214 64
   job v12v c1 60000 9221 128; job v12v csz 60000 9222 128; job v12v c2v 60000 9223 128; job v12v d2h 100000 9224 64
 fi
+# part 3 (added after parts 1-2, before its run): a second csz job, to test the 3.3 sigma difference in L6 (0.255 here, 0.211 in the study)
+if [ "$1" = 3 ]; then
+  b=r_v11c_csz_s2; $DY g_v11c_csz.txt run 9205 0.4 400000 $b.lives $b.ext $b.smp 128 $b.dmp 3000 512 512 > $b.json
+fi
