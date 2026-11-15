@@ -190,3 +190,25 @@ signal to another again and again.
   turn the rake with a different delay).
 - **S15 (50%).** No reusable reflector for a pulse is found in this push either, in any tube up to one size larger
   than the 3 × 3 tube.
+
+## The third investigator, 2026-11-15 (after reading the README, the forecasts, the objects and the tools; before any code of mine has run)
+
+A thought that shapes these: by the tape theorem, wire C with left-going pulses on it is a word over {B, C} moving
+rigidly towards −v. So at the +v end of such a tape, the cap is a *writer*: everything to its left is the word it
+has output, one letter per 2 generations. A uniform cap writes CCCC…; a gun is exactly a cap of period T whose
+output word has period T/2 and is not constant. That turns the gun into a bounded constraint search with T/2 letter
+variables in place of a whole semi-infinite wire.
+
+- **K1 (45%).** A periodic emitter (S11) is found and passes the oracle: a bounded object at the end of a wire that
+  writes a non-constant periodic word, returning to itself each period. 60% of that chance on its being found by a
+  writer-cap search rather than built from the clock.
+- **K2 (35%).** Emitter, wire and a moving wall (a register or a counter wall such as 8|C) in one free-standing
+  object, the wall moving one unit per period for at least ten periods, oracle as judge (S12).
+- **K3 (8%).** A corner (S13).
+- **K4 (25%).** A clock-family oscillator with period ≡ 0 mod 4 (S14). If not, 30% that a reason for 4N + 2 is
+  proved (for example a parity invariant of the rake's turn).
+- **K5 (55%).** At least one exhaustive negative with stated bounds about writers/emitters (no writer of period
+  ≤ T inside given planes and tube), whether or not a gun is also found.
+- **K6 (30%).** A reader: a cap at the −v end of the tape that absorbs every arriving letter and stays as it was
+  (an eater for any word), or that changes by a word-dependent amount.
+- **K7 (70%).** No reusable reflector for a single pulse is found (S15).
