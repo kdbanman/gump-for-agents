@@ -1,0 +1,34 @@
+Reviewer's predictions for the equilateral face tori A = 81, 84, 108, 111 (8 layers, soup 0.4, ln tau_face = ln(2E/F)),
+written 2026-11-15 ~06:28Z, before looking at any row for these tori. The card's branch claude/gpu-local-1080 was
+fetched once, at the start of this review, at b843883 (its data directory then held no file for 81, 84, 108, 111), and
+not again before this file was committed.
+
+Input: the card's five values recomputed from its rows at b843883: 48: 9.9251 +- 0.0004, 57: 11.8756 +- 0.0006,
+63: 13.1622 +- 0.0007, 75: 15.6630 +- 0.0023, 93: 19.4141 +- 0.0053. Fits and errors: `python3 line.py` -> line_out.txt
+(errors: fit covariance, scaled by sqrt(chi2/dof) when above 1; statistical only, no lattice-to-lattice scatter).
+
+| form | chi2 on the five (dof) | 81 (3,3),(0,9) | 84 (2,4),(0,14) | 108 (6,0),(0,6) | 111 (1,10),(0,37) |
+|---|---|---:|---:|---:|---:|
+| L: line through 63, 75, 93 (c = 0.20840 +- 0.00014) | 0.0002 (1), on those three | 16.913 +- 0.002 | 17.539 +- 0.003 | 22.540 +- 0.006 | 23.165 +- 0.006 |
+| B: broken line, kink fitted at A0 = 61.35 (slope 0.2167 below, 0.2084 above) | 0.000 (1) | 16.913 +- 0.002 | 17.539 +- 0.003 | 22.540 +- 0.006 | 23.165 +- 0.006 |
+| C: L plus a free curvature kappa (A-63)(A-93) (kappa = 0 +- 1.5e-5) | 0 dof | 16.913 +- 0.003 | 17.539 +- 0.003 | 22.540 +- 0.016 | 23.165 +- 0.019 |
+| S: a + cA - g exp(-(A/A0)^6), A0 = 54.2 | 15.3 (1): fails, p ~ 1e-4 | 16.914 +- 0.009 | 17.537 +- 0.011 | 22.515 +- 0.029 | 23.137 +- 0.032 |
+| E: a + cA - g exp(-(l-4)/lam), l = sqrt(A/3) | 116 (1): fails | 16.927 +- 0.023 | 17.547 +- 0.028 | 22.461 +- 0.154 | 23.070 +- 0.181 |
+| P: a + cA - g (48/A)^q | 117 (1): fails | 16.927 +- 0.023 | 17.548 +- 0.028 | 22.458 +- 0.152 | 23.066 +- 0.179 |
+| M: a + A[c - g exp(-l/xi)] (per-cell, massive-like) | 113 (1): fails | 16.927 +- 0.023 | 17.547 +- 0.027 | 22.461 +- 0.144 | 23.071 +- 0.168 |
+| Q: a + cA + g1/A + g2/A^2 | 114 (1): fails | 16.927 +- 0.023 | 17.547 +- 0.028 | 22.452 +- 0.132 | 23.060 +- 0.152 |
+| (card, block 3, for comparison) | | 16.913 +- 0.006 | 17.539 +- 0.007 | 22.540 +- 0.014 | 23.165 +- 0.015 |
+
+With A = 57's error scaled by sqrt(6.9) (its two seeds' chi2) the smooth forms still fail (chi2 59-70 on 1) and move by
+<= 0.006 at 81, 84 and by up to +0.07 at 108, 111 (line_out.txt, second block).
+
+Reading. No smooth correction decaying in the shortest loop or in 1/A fits the five: the deficit falls from 0.111 (48)
+to 0.036 (57) and is < ~0.01 at 63 and ~0 at 75, 93, which needs a decay much steeper than exponential (S, with a
+sixth power, still fails). Only "straight from about 61 up" (L, B, C) fits. The smooth forms are listed because they
+are what a smooth reading implies: they put 81 and 84 about 0.014 and 0.008 above the line and 108, 111 about
+0.08-0.10 below it.
+
+Test: at A = 81 (planned +- 0.0032 or better) the line and the smooth forms differ by 0.014. The line (L/B/C) is
+refuted if 81 or 84 misses it by more than 3 combined sigma, or if 108 and 111 both lie more than 0.03 off it on the
+same side. Caveat (not in the errors): tori of equal area and different lattice have differed by ~0.015 elsewhere
+(research/constant/PREDICTIONS.md part C), and 81, 84, 108 have firewall cuts while 57, 63, 93, 111 have none.
