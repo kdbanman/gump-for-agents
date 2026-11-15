@@ -56,6 +56,10 @@ def read_cells(fn):
     return frozenset(out)
 
 
+def tubeonly(s):
+    return frozenset(c for c in s if E.tube(E.tr(c, -E.unit_of(c))))
+
+
 def in_orbit(s, orb, sup):
     z = (s & sup) - allT
     for k, o in enumerate(orb):
@@ -113,7 +117,7 @@ for fn in files:
         if in_orbit(hist[tw - 1], orb, sup) is None or gunc(hist[-1]) != gunc(hist[-5]) or gunc(hist[-1]) == gunc(hist[-3]):
             res['does not stand'] += 1; continue
         p = hist[-1]; tt = tw + 8; c = 0
-        while E.phase_at(p, 2, 8) != 1 and c < 8:
+        while E.phase_at(tubeonly(p), 2, 8) != 1 and c < 8:
             p = sg.step_set(p); tt += 1; c += 1
         if c >= 8:
             res['stream disturbed'] += 1; continue
@@ -137,14 +141,14 @@ for fn in files:
                 v = 'osc destroyed'
             elif not pg:
                 v = 'plain gun dead'
-            elif not qg or E.phase_at(q, 2, 12) is None:
+            elif not qg or E.phase_at(tubeonly(q), 2, 12) is None:
                 v = 'gun dead'
             else:
                 D = p ^ q
-                f = E.phase_at(p, 2, 8)
-                r = E.read_at(E.units(D, -1, 13), f) if f in (1, 3) else None
+                f = E.phase_at(tubeonly(p), 2, 8)
+                r = E.read_at(E.units(tubeonly(D), -1, 13), f) if f in (1, 3) and not (D - tubeonly(D)) else None
                 v = 'returned ' + str(r) if r else 'other (%d cells differ, units %s..%s; line units 2..12 plain in the signal run: %s)' % (
-                    len(D), min(E.unit_of(c) for c in D), max(E.unit_of(c) for c in D), E.phase_at(q, 2, 12) is not None)
+                    len(D), min(E.unit_of(c) for c in D), max(E.unit_of(c) for c in D), E.phase_at(tubeonly(q), 2, 12) is not None)
         res['returned' if v.startswith('returned') else ('other' if v.startswith('other') else v)] += 1
         if out and v not in ('osc destroyed', 'gun dead', 'plain lost', 'plain gun dead'):
             out.write(json.dumps(dict(osc=name, P=P, cells=sorted(S), verdict=v, tsig=tt)) + '\n'); out.flush()

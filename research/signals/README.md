@@ -1399,7 +1399,7 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
 
   | meeting | outcome | what is left |
   |---|---|---|
-  | **E meets H** | **the stream turns into wire B** | Between two edges the wire is **wire B** of the first push (5 cells per unit, period 2; at the generations where the train elsewhere is at phase 1 or 3 it is wire B's generation-1 cells of section 1: (0,0,1), (0,0,5), (0,1,2), (0,1,4), (1,2,2)). The lower edge runs down with the stream (it is the last rake of the train below); the upper edge runs up at one unit per 2 generations and turns every rake that reaches it into wire B. Both edges are rigid with period 4 (S(t + 4) = S(t) moved two units, down or up, on a window of 12 units round each edge, t = 60..116: `python3 ../scratch/signals/p6/rig.py`) |
+  | **E meets H** | **the stream turns into wire B** | Between two edges the wire is **wire B** of the first push (5 cells per unit, period 2; at the generations where the train elsewhere is at phase 1 or 3 it is wire B's generation-1 cells of section 1: (0,0,1), (0,0,5), (0,1,2), (0,1,4), (1,2,2)). The lower edge runs down with the stream (it is the last rake of the train below); the upper edge runs up at one unit per 2 generations and turns every rake that reaches it into wire B. Both edges are rigid with period 4 (S(t + 4) = S(t) moved two units, down or up, on a window of 12 units round each edge, t = 60..116: `python3 echo_rig.py`) |
   | **U meets H** | the same: wire B between the same two edges | |
   | **E meets K0** | **E becomes a puncher** | K0 is gone; an edge runs up at one unit per 2 generations behind which every rake has lost its hole cell: the train with every rake holed (equal, on the units between the edges, to the train xor H at every odd unit). Rigid, period 4 |
   | **U meets K0** | **both vanish** | the plain train, exactly, 20 generations after the start at offset 19 (the whole state; on the oracle, whole torus, from generation 20 to 56) |
@@ -1409,7 +1409,7 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   edge; between them both moves agree, because the medium (wire B, or the holed train) is unchanged by a move of two
   units at the same generation mod 4. Each unit sees only its two neighbours, so the glued state is the orbit, for
   every later time. The edge identities were checked for t = 60..116, every generation, periods 4, 8, 12, 16
-  (`python3 ../scratch/signals/p6/rig.py`, not committed: a 15-line loop over `meet6.run`); the gluing step itself
+  (`python3 echo_rig.py`, 1 min); the gluing step itself
   was not written as a proof script, so this row is [proved] only in the sense of section 21's argument applied by
   hand. On the oracle (`verify_echo.py` check D): each of the four on the ring at generation 56, whole torus.
   The edge of E-meets-H is wider than that of U-meets-H (at generation 56 one unit 6 units below its upper edge is
@@ -1423,9 +1423,9 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   the phase-1 train, i.e. 3, 3 and 4 rakes apart): the
   first hole always gives wire B as above. If the second hole is 1 or 2 rakes behind the first, the wire B is clean;
   if it is s ≥ 3 rakes behind, it leaves, standing in the wire B, a stretch of **wire B′** (B with (1,0,2) off and
-  (0,2,3) on: the register of section 9) on units s + 8 .. s + 10 (fixed for ever: the same units at generations
-  100, 120, 140, 160; `python3 ../scratch/signals/p6/wordlook.py`), and every further hole lengthens the stretch by
-  one unit (2, 3, 4 holes: 3, 4, 5 units at generation 56 and 160). So an echo meeting a word writes a unary count of
+  (0,2,3) on: the register of section 9) on units s + 8 .. s + 10 (standing: the same units at generations 100, 120,
+  140, 160, s = 3, 4, 5, 8; `python3 echo_words.py`, 1 min; measured to generation 160 only), and every further hole
+  lengthens the stretch by one unit (2, 3, 4 holes: 3, 4, 5 units at generation 56, on the oracle). So an echo meeting a word writes a unary count of
   the later holes, at a place set by the spacing of the first two, into the wire B it has made: the B|B′ counter of
   the second push, written by holes. It is not a lasting record of the line: in the finite line (section 34) the
   dead gun's fire comes down the wire B and erases it.
@@ -1441,7 +1441,8 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
 - **[measured, sg.step_set; exact on the units compared] What the echo does to the line.** E put on the stream of
   the line N = 16 in its cycle (at unit 4, phase 1) reaches the gun about 24 generations later; the gun dies and the
   wire burns down to capA: at generation 100 the 33 + 5N = 113-cell line has become 37 cells of debris on 9 units,
-  unchanged to generation 300 (the snippet in section 35's command list).
+  unchanged to generation 300 (an interactive run, not kept as a script; `python3 record6.py 40`, the case with no
+  holes, shows the same at N = 40: the wire is gone and 44 cells of debris of period 4 are left).
 - **[measured, sg.step_set] Every gun on file against E and U** (`python3 gun_echo.py
   ../scratch/signals/p6/guns_5f_37.json`, about 2 min; the list is `python3 sat_gun.py 5f 37 --all --out
   ../scratch/signals/p6/guns_5f_37.json`, 36 s, **68 guns, list complete (UNSAT after the last)**, every one
@@ -1466,7 +1467,25 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   **39: UNSAT 407 s** (beyond the census). Controls: with U instead of E (`sat_gun_echo.py 37 --kind U`) the same
   instance is SAT (a 26-cell gun that absorbs U, re-stepped: periodic, reaches B; `--noreturn --same`: SAT in 37 s, a
   23-cell gun, re-stepped). **U answered by a returned H or K0** (`--kind U --mustreturn`): UNSAT at C = 31, 33, 35,
-  37 (31, 40, 49, ... s), C = 39 below.
+  37, 39 (single core: 31, 40, 49, 108, 328 s). No instance was cut. E at C = 41 was cut at 25 minutes.
+- **[measured, sg.step_set; a SAMPLE] Oscillators beside the gun** (`python3 oscecho.py --K 40 --seed 6 --zone 13,16
+  --out ../scratch/signals/p6/oscecho_gun.jsonl`, 23 min): the 99 catalogue oscillators, 40 random placements each
+  (as `gapstream.py`: halo meeting the halo of units 13..16 of the line N = 16, i.e. the gun and the three units in
+  front of it, and nothing else), 3,960 placements: 1,099 do not stand (oscillator or gun lost in 2P + 8
+  generations), 40 disturb the stream; the other 2,821 were sent E from unit 2: **in 2,090 the gun dies with the
+  oscillator kept, in 731 the oscillator is destroyed; none absorbs E, none returns a signal, none other** (verdicts
+  in the script's docstring; "gun dead" includes a stream that is no longer the plain train on units 2..11). Caveat:
+  this run's stream test read all cells of units 2..11, the oscillator's included, so a placement with oscillator
+  cells on those units and a returned signal would have been counted as "gun dead"; "absorbed" (the two runs equal)
+  is not affected. The script was corrected (tube cells only) before the run beside the wire; the gun-zone run was
+  not repeated.
+  Beside the wire (`--K 25 --seed 7 --zone 6,9`): MIDRESULT
+  Not covered: placements not drawn, other N, oscillators outside the catalogue, two oscillators, U.
+- **So, for question 3:** (a) every gun on file dies on the echo; (b) no gun of period dividing 4 in the 3 × 3 tube
+  inside C ≤ 39 absorbs it or answers it with one H or K0 within 52 generations; (c) no sampled oscillator beside
+  the gun saves it. A signal coming up the stream *can* be survived, though: 11 of the 68 guns absorb U exactly. And
+  no gun in those bounds answers U with a returned H or K0, so no loop can be built from these parts (question 5:
+  not reached).
 
 ## 33. The reflector: what makes the echo, and why it works once
 
@@ -1493,7 +1512,7 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   x+y−z, x−y−z ≤ C, the arriving H or K0, and the units in front of the end following one of 8 or 9 histories in
   which one E or one U rides out at some time between the signal's arrival and T − 8, T = 56; then an absorber B
   of period dividing 4 (any)): H: UNSAT at C = 31, 33, 35, 37 (single core: under 60 s each for C ≤ 35, 494 s at
-  37); K0: UNSAT at C = 31, 33, 35, 37 (506 s at 37). H at C = 39: see below. Control: `python3 sat_reflect6.py 31
+  37); K0: UNSAT at C = 31, 33, 35, 37 (506 s at 37). H at C = 39: cut at 25 minutes (external timeout). Control: `python3 sat_reflect6.py 31
   --any --same` (the history "nothing comes back" allowed, B = A) is SAT in 45 s, the 16-cell absorber of section
   21, re-stepped: restored, train intact. There is no positive control for the "returns E or U" histories (no
   reflector inside the tube is known); for C ≤ 37 the census of section 27 (the review's whole-state scan: every
