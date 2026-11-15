@@ -1337,7 +1337,7 @@ end; unit u = cells moved by u(2,0,−2)). Helpers: `echo6.py`; the train at gen
 unit u holding `BASE[t % 4][u % 2]` (generation 0: rake5 on even units, rakef on odd units, as `verify_line.py`
 lays the rakes); it is an orbit and moves one unit towards −v every 2 generations (`echo6.check_train`). The
 oracle checks of this section and the next: `python3 verify_echo.py` (objects/echo-train.json, written by
-`python3 make_echo_json.py`), about 40 s, all PASS.
+`python3 make_echo_json.py`), 20 s, ALL PASS.
 
 - **[proved] Four signals, one cell each to make, two of them running UP the stream.** Every one-cell change of the
   plain train (each tube cell of units 0, 1 flipped at each of the four phases: 112 events; `python3 echo_kinds.py`,
@@ -1450,8 +1450,8 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   every gun of period dividing 4 of the train `(5f)^∞` in the 3 × 3 tube inside the planes C ≤ 37, `gun-5f` among
   them, possibly with translates and time shifts counted more than once): each gun at the end of the train (units
   −400..5), the signal 30 units in front, compared with the undisturbed run for 160 generations.
-  **E: all 68 die** (the difference near the gun keeps growing; none heals, none is back in its cycle with a
-  signal sent down). **U: 11 heal exactly** (the whole state equal to the undisturbed run within 80 generations:
+  **E: all 68 die** (at generation 160, 58 to 150 cells differ on the units near the gun; none heals, none is back
+  in its cycle with a signal sent down). **U: 11 heal exactly** (the whole state equal to the undisturbed run within 80 generations:
   #0, 1, 2, 4, 8, 9, 10, 11, 12, 13, 14 of the list, 21 to 33 cells), **57 die**. On the oracle: `verify_echo.py`
   check E (gun #4, 23 cells: the whole torus equal to the undisturbed run from 28 generations after U is set 5
   units in front of it; the gun still in its cycle). So a gun can survive a signal coming up the stream: U, not E.
@@ -1479,7 +1479,10 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   cells on those units and a returned signal would have been counted as "gun dead"; "absorbed" (the two runs equal)
   is not affected. The script was corrected (tube cells only) before the run beside the wire; the gun-zone run was
   not repeated.
-  Beside the wire (`--K 25 --seed 7 --zone 6,9`): MIDRESULT
+  Beside the wire (`python3 oscecho.py --K 25 --seed 7 --zone 6,9 --minutes 20`, 9 min; halo meeting units 6..9):
+  2,475 placements, 696 do not stand, 1 disturbs the stream; of the 1,778 sent E, in 1,615 the gun dies with the
+  oscillator kept (the echo passes or the stream is changed), in 163 the oscillator is destroyed; **none absorbs E,
+  none returns a signal**.
   Not covered: placements not drawn, other N, oscillators outside the catalogue, two oscillators, U.
 - **So, for question 3:** (a) every gun on file dies on the echo; (b) no gun of period dividing 4 in the 3 × 3 tube
   inside C ≤ 39 absorbs it or answers it with one H or K0 within 52 generations; (c) no sampled oscillator beside
