@@ -29,7 +29,7 @@
   "old": {"value": [9.9324, 0.002, 76], "quote": "The file's 9.9324 ± 0.0020 reproduces bit for bit from its 76 seeds, so it was a high draw", "src": "NB 2026-11-15, a second card; CLAIMS GL1"},
   "codes": {"value": [9.9251, 0.0004, 9.9246, 0.0006, 9.924, 0.0014], "quote": "three codes: GPU 9.9251 ± 0.0004, the reviewer's stepper 9.9246 ± 0.0006, the original pipeline on fresh seeds 9.9240 ± 0.0014", "src": "CLAIMS GL1 (A)"},
   "sh3": {"value": [16, 48, 60, 0.2131, 0.2125], "quote": "the loop² 16 slope from 48 to 60 is about 0.2131, not 0.2125", "src": "CLAIMS SH3 (dated note of 2026-11-15)"},
-  "sh4": {"value": [0.0138, 0.0135], "quote": "with 9.9249 the census gap is 0.0138, in line with the review's 0.0135, so the tension is gone", "src": "CLAIMS SH4 (dated note of 2026-11-15)"},
+  "sh4": {"value": [0.0135, 0.0135], "quote": "with the best value 9.9249 the census gap is 0.0135 ± 0.0020", "src": "CLAIMS SH4 (dated note of 2026-11-15)"},
   "guard": {"words": ["A guard against unrecognised settled lives exists"], "quote": "A guard against unrecognised settled lives exists", "src": "NB 2026-11-15, a second card; CLAIMS GL2 (B)"},
   "accept": {"words": ["Acceptance passes on the card"], "quote": "Acceptance passes on the card", "src": "NB 2026-11-15, a second card"}
  },

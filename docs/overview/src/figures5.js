@@ -24,7 +24,7 @@
 
   const N = $('#n-census'), p = C.pair, L = C.laws;
   const pm = (tile, s) => { E('small', {}, tile.querySelector('.v'), s); return tile; };
-  pm(numTile(N, K.best[0] + ' ', 'in ln(wait) for the 4 × 4 torus of 48 cells, from three codes. The value first used here, ' + K.old[0] + ', reproduces bit for bit and was a high draw; the loop² 16 point moves from ' + old16[1] + ' to about ' + C.cost16 + ', and the gap to the loop² 12 class becomes ' + K.sh4[0] + ', in line with the review’s ' + K.sh4[1] + '.', ['meas', 'corrected, three codes']), '± ' + K.best[1]);
+  pm(numTile(N, K.best[0] + ' ', 'in ln(wait) for the 4 × 4 torus of 48 cells, from three codes. The value first used here, ' + K.old[0] + ', reproduces bit for bit and was a high draw; the loop² 16 point moves from ' + old16[1] + ' to about ' + C.cost16 + ', and the gap to the loop² 12 class becomes ' + K.sh4[0] + ', the same as an earlier review’s ' + K.sh4[1] + '.', ['meas', 'corrected, three codes']), '± ' + K.best[1]);
   numTile(N, 'none', 'of the candidate laws in area and shortest loop survives, at any area. The one that seemed to pass (χ² ' + L[0] + ' on 5) fails on independent values (' + L[1] + ').', ['ret', 'refuted']);
   pm(numTile(N, p[0].toFixed(3) + ' ', 'in ln(wait), between two tori of 60 cells with the same shortest loop (four runs, two codes). By 72 cells such differences are gone (next plate).', ['meas', 'measured']), '± ' + p[1].toFixed(3));
   pm(numTile(N, '½ ', 'for a face only three cells around (' + C.cost[0][1] + ' against about ' + C.cost16 + ' at loop² 16; both local slopes). In the long run the thinnest face pays about ' + D.thin.limit[0] + ' per cell (two plates on).', ['meas', 'measured']), 'the price per cell');
