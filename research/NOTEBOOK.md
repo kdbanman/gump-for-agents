@@ -2279,7 +2279,7 @@ replica-generations (0.9 of the GPU's exposure). `research/audit/REVIEW-gpu-pr18
   **0.226 ± 0.006**. The earlier "0.219 ± 0.008, already inside the range of the lifetime laws (0.205–0.221)" is
   withdrawn: it is about 1σ above that range. The sequence is still falling; extrapolations are unchanged (0.208 if
   the correction goes as 1/n, 0.156 as 1/√n), and the asymptote stays open at 0.16–0.24.
-- **The errors were right [measured].** Hits come in clusters (1.13–1.28 hits per event at 4 × 5 to 3 × 4), so the
+- **The errors were right [measured].** Hits come in clusters (1.19–1.40 hits per event; corrected 2026-11-15, the first figures given here were the error factors), so the
   true error is 1.13–1.28 times the Poisson one; batch means capture that, and the scatter over 18 runs equals the
   batch-means error. The reviewer withdraws its earlier remark that its errors were 1.4 times too small.
 - The two orientation classes of rhombus differ in ln P (−0.52 ± 0.07 at 4 × 5) and agree in the cost per cell
@@ -2315,7 +2315,7 @@ face deaths).
   controls): 9.9246 ± 0.0006 over 2.9 million deaths. The original `research/shape2` pipeline on 152 fresh seeds:
   9.9240 ± 0.0014. The file's 9.9324 ± 0.0020 reproduces bit for bit from its 76 seeds, so it was a high draw
   (3.4σ once the between-job scatter, χ² 100 on 75, is allowed for), not an error in the pipeline. **Best value
-  9.9249 ± 0.0003.** Consequences: the census gap at loop² 16 against 12 becomes 0.0138 (SH4; the tension with that
+  9.9249 ± 0.0003.** Consequences: the census gap at loop² 16 against 12 becomes 0.0135 ± 0.0020 (SH4; 0.0138 against the reviewer's own stepper value; the tension with that
   review's 0.0135 is gone); the loop² 16 slope from A = 48 to 60 becomes about 0.2131 (SH3); the forecasts of
   `research/constant/PREDICTIONS.md` part C keep their committed text, with a dated note giving what they become
   with the anchor replaced. CLAIMS GL1.

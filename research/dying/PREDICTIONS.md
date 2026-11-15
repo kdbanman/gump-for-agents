@@ -296,7 +296,7 @@ to 234, which cannot be watched to their deaths. The construction says s rises t
 per site if c = 0.2155 and 0.263 if c = 0.207, with g ≈ 0.31; so s read to ±0.004 separates the two ends of the
 open range of c.
 
-**Note added 2026-11-15 05:55 UTC, after the round-3 review arrived and before any round-4 run** (the forecasts
+**Note added 2026-11-15 05:49 UTC, after the round-3 review arrived and before any round-4 run** (the forecasts
 above are not changed). (1) Feasibility: at R = 15 a dip to 0.15 of the usual population is out of reach of the
 CPU (the study has nothing below 0.2 there), so F1 is scored at R = 13 (A = 84) with the three levels as written,
 and at R = 15 with C(0.3) against C(0.45) only (within 15% of each other); F2 and F4 use the levels that are

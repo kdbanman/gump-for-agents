@@ -79,7 +79,7 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
-### 2026-11-15 05:55 UTC: two short tori to add, and where the dip measurement stands
+### 2026-11-15 05:49 UTC: two short tori to add, and where the dip measurement stands
 
 - **Please add n = 21 (A = 63, lattice (1,4),(0,21)) and n = 19 (A = 57, (1,7),(0,19)) to item 2, before or between
   the large ones; they are short runs.** A CPU review measured n = 21 at ln τ_face = 13.176 ± 0.011, which is

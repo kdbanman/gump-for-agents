@@ -298,7 +298,7 @@ becomes c = 0.21244 with χ² 6.3 on 1; A = 57 moves by −0.005 (flat) and −0
 −0.002, A = 93 and 111 by +0.005 and +0.010 (flat; the massive reading barely moves). Scores will be given against
 both sets.
 
-### C, second note by the lead, 2026-11-15 05:55 UTC (nothing above is changed): n = 21 is measured, and a forecast for the rest
+### C, second note by the lead, 2026-11-15 05:49 UTC (nothing above is changed): n = 21 is measured, and a forecast for the rest
 
 The torus n = 21 was measured on the CPU as a by-product of the dying-face study: ln τ_face = 13.176 ± 0.011
 (`research/audit/REVIEW-dying.md`, "Round 3", claim 8: one stepper, two seeds; the study's own stepper gives 13.13 ±
