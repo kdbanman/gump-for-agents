@@ -197,3 +197,17 @@ the price. Written before it starts; I have not looked at any such statistic.
   check on a loop² the data have not got (9, or 25, 27, 28).
 - **L5 (35%).** Nothing local tracks it: every statistic tried is either equal within error on all tubes or not
   ordered as the prices are.
+
+## W13: does the discount go on past loop² 19? A forecast for the card (20:10 UTC, 2026-11-15, before any such run)
+
+The study of the living state (`research/wraplocal/`) finds that the density of a living face falls with every
+loop, smoothly in the loop's length, with no end at 19 or 21, and that the discount in the price per cell is 1.85
+times the density's deficit for loops of 12, 13 and 16. If that goes on, faces I have called "no short loop" are
+not all alike: at equal area, one with a loop of 21 should live less long than one whose loops are all 28.
+
+- The face (1,4),(0,28), 84 cells, loops² 21 and 28, against the equilateral face of 84 cells, loops² 28 three
+  times, measured by the card at 17.5467 ± 0.0031.
+- **If the relation holds:** lower by 1.854 × (84 − 30) × (f(21) + f(28) − 3 f(28)) = 0.0125 (0.010 to 0.015 as the
+  meeting point A0 runs from 40 to 20 cells): **17.534 ± 0.004**.
+- **If the effect ends before 21:** equal to the equilateral face: **17.547 ± 0.003**.
+- **W13 (65%).** The card's value for (1,4),(0,28), measured to ± 0.003, is below 17.5405 (the midpoint).
