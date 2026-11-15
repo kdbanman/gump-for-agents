@@ -637,11 +637,12 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
   3 × 3 tube (`objects/turn-k2-cap-5x5.json`), turns a lone rake with **k = 2** (re-stepped by `turnclass.right_turn`:
   k = 2). Put opposite capL of the clock it is not enough: for N = 3..12 the lit object settles (period 1 or 2), the
   cap does not survive the trains or the turn. `python3 k2caps.py T C` enumerates such caps and tries each in a
-  clock: at T = 16, C = 47 the first four such caps (42 to 44 cells, about 3 min) all turn a lone rake with k = 2 and
-  all die in a clock (N = 5, 6: the lit object settles to period 1). `sat_turn.py ... --eat Te` adds the condition
+  clock: at T = 16, C = 47 (5 × 5 tube) **the list is complete at 8 caps** (23 to 44 cells; `python3 k2caps.py 16
+  47`, 15 min, ends UNSAT): all 8 turn a lone rake with k = 2 when re-stepped and all 8 die in a clock with capL
+  (N = 5, 6: the lit object settles to period 1). `sat_turn.py ... --eat Te` adds the condition
   that the cap also swallows a lone p> and is exactly restored Te generations later (positive control in the 3 × 3
   tube: `sat_turn.py 14 47 --KS 10 --eat 16`, SAT in 1 s, k = 0); the k = 2 instance with it in the 5 × 5 tube
-  (`sat_turn.py 16 47 --KS 10 --lo -1 --hi 7 --eat 16`) had not answered after 10 minutes when this push ended. So the 3 × 3 tube was the obstruction to a period-4N clock, not the rake.
+  (`sat_turn.py 16 47 --KS 10 --lo -1 --hi 7 --eat 16`) had not answered after 11 minutes when this push ended. So the 3 × 3 tube was the obstruction to a period-4N clock, not the rake.
   What the 3 × 3 negative does not cover: caps of period 8 or more or of odd multiples beyond 6, turns in
   which the rake's tape in front of the mirror rake is altered by more than the last two positions (the guard),
   turns slower than T = 28 to 32, clocks whose shuttling object is not this rake. No reason for the forced class is
