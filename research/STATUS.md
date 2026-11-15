@@ -113,7 +113,18 @@ _Last updated 2026-11-14 by the lead._
   and its neighbours in the generations before it dies, c1, csz, c2v, D2h at A = 63; the lead's forecasts L1-L7
   are in its `PREDICTIONS.md`, committed before the runs; figure `research/figures/dying_face.png`). On (2)'s
   report: the lead recomputes one number from its data, an adversarial review with independent code, then the
-  notebook, the ledger and the overview. Earlier, **started 02:04 UTC (Opus):** that audit ->
+  notebook, the ledger and the overview. **(1) is done** (f96774d, 23258d7; its items applied; P4 then refitted by
+  a second agent, `research/audit/REVIEW-p4.md`: ledger A 57, B 65, C 10, D 1). **(2) reported at 04:18 UTC
+  (75e5212, 616212f), not yet recorded:** a face does not erode from an edge; it fades everywhere at once in the
+  last 20 generations; a tied edge is thinner at all times (rim-row occupancy 0.51 free, 0.30-0.35 tied; the
+  stationary population falls 2.5 cells per tied edge, as ln τ falls 2.17); the lead's forecasts L2-L7 failed.
+  The lead's recomputation: `python3 research/audit/dying_lead_check.py` (same populations; 0.86 in ln τ per
+  stationary live cell lost, twice the untied face's 0.436). **Started 04:23 UTC (Opus):** the adversarial review
+  of round 1 -> `research/audit/REVIEW-dying.md`, `research/audit/dying/`; and round 2 by the same experimenter
+  (what starts a collapse: excursion rates and committor by level, single deaths uniform or holes, births or
+  deaths first, the same at A = 84; the lead's forecasts A1-D2 in its `PREDICTIONS.md`; figure
+  `research/figures/dying_excursions.png`). Owed after both: notebook entry, ledger rows, the essay's "Where I was
+  wrong", an overview plate with the figure. Earlier, **started 02:04 UTC (Opus):** that audit ->
   `research/AUDIT-2026-11-15.md`; a naturalist identifying the 37 long-period
   settled states of `research/audit/shape3/zombie_states.txt` against the catalogue -> `research/clockwork/`. **The owner reset the Fable
   window at about 20:28 UTC** (0.00 at 20:29; words in `LEAD.md`, "Watching usage"). **Started 20:33 UTC:**
