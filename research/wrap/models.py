@@ -2,7 +2,8 @@
 """Post-hoc rivals to the wrapping law (research/wrap), fitted by nonlinear least squares, with leave-one-out and
 leave-one-area-out forecasts.  These forms were tried AFTER the new faces were measured: post hoc, not forecasts.
 
-    python3 research/wrap/models.py [--onfile]      # --onfile: only the faces on file before this study
+    python3 research/wrap/models.py [--onfile] [--min48]   # --onfile: only the faces on file before this study;
+                                                           # --min48: only A >= 48 (the law's stated range)
 
 y = ln tau_face, x = A - 63, n_q = number of loop directions (one per +-v) with |v|^2 = q, q in 12, 13, 16, 19.
   LAW    a + c x - (A - A0) sum_q k_q n_q                                 7 parameters (the lead's)
@@ -84,6 +85,8 @@ if __name__ == '__main__':
     pts = Fm.select('all', True)
     if '--onfile' in sys.argv:
         pts = [p for p in pts if 'wrap' not in p['srcs']]
+    if '--min48' in sys.argv:
+        pts = [p for p in pts if p['A'] >= 48]
     print(f'{len(pts)} faces (loop^2 >= 12), stamping bias corrected; areas {sorted({p["A"] for p in pts})}')
     for model in ('LAW', 'EXPA', 'EXPA1', 'HAZ', 'HAZ1'):
         th, cov, chi, r = fitm(model, pts)
