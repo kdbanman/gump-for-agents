@@ -212,7 +212,14 @@
    ],
    "quote": "lie on one straight line, slope 0.20437 ± 0.00016, χ² 5.6 on 6, curvature (−2.6 ± 3.5) × 10⁻⁵ per cell². One loop of 13 (57–75 cells): 0.20602 ± 0.00033. One loop of 16 (60–108 cells): 0.20717 ± 0.00011. No short loop (63–126): 0.20864 ± 0.00009. No family shows curvature.",
    "file": "research/wrap/PREDICTIONS.md",
-   "src": "research/wrap/PREDICTIONS.md, The 84-cell face, measured (python3 research/audit/wrap_haz_lead.py --tube)"
+   "src": "research/wrap/PREDICTIONS.md, The 84-cell face, measured (python3 research/audit/wrap_haz_lead.py --tube)",
+   "words": [
+    "0.20437 ± 0.00016",
+    "0.20602 ± 0.00033",
+    "0.20717 ± 0.00011",
+    "0.20864 ± 0.00009",
+    "No family shows curvature"
+   ]
   },
   "percent": {
    "value": [
