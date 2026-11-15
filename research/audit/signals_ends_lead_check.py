@@ -78,7 +78,7 @@ for part, idx, e, outs in sample:
     plain = [arr(cap | train, off)]
     for _ in range(GMAX):
         plain.append(oracle.step(plain[-1], m))
-    stands = lambda g: g >= T and np.array_equal(plain[g][endzone], plain[g - T][endzone])
+    stands = lambda g: np.array_equal(plain[max(g, T)][endzone], plain[max(g, T) - T][endzone])   # at max(g, T): equality at g lasts
     want = 'healed' if set(outs) == {'healed'} else 'dead'
     for wd in WORDS:
         holes = {tr((1, 0, 4), rakes[i]) for i in wd}
