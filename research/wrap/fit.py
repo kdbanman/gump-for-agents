@@ -20,8 +20,11 @@ import faces  # noqa: E402
 QS = [12, 13, 16, 19]
 
 
-def select(mode, corr):
-    recs = faces.raw(corr, wrap=(mode != 'lead'))
+def select(mode, corr, wrap=None):
+    """wrap: include this study's runs (default: not in 'lead' mode, and not with --onfile on the command line)"""
+    if wrap is None:
+        wrap = mode != 'lead' and '--onfile' not in sys.argv
+    recs = faces.raw(corr, wrap=wrap)
     if mode == 'lead':
         keep = []
         for r in recs:
@@ -139,8 +142,7 @@ def frozen(p):
 
 def forecast():
     import lattices as L
-    pts = select('all', True)
-    pts = [p for p in pts if p.get('srcs') != ['wrap']]
+    pts = select('all', True, wrap=False)
     assert not any('wrap' in p['srcs'] for p in pts), 'forecasts must be made before this study\'s runs'
     new = []
     for h, k, d in NEW:

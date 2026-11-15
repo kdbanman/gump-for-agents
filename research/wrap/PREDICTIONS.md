@@ -34,7 +34,7 @@ puts all four 48-cell faces 0.003 to 0.013 too high, so the discount is probably
 
 ## The adversarial test (research/wrap), forecasts written before any new face is run
 
-2026-11-15 13:40 UTC. Code: `research/wrap/lattices.py` (own lattice classes and loop lists), `faces.py` (own loader
+2026-11-15 13:09 UTC (commit 93540eb). Code: `research/wrap/lattices.py` (own lattice classes and loop lists), `faces.py` (own loader
 from the primary data files), `fit.py`. Table: `python3 research/wrap/fit.py forecast` → `data/forecast_out.txt`
 (committed with this section). Columns: the lead's frozen law (`wrap_law_lead.py --predict`, identical numbers);
 the same law refitted on every face on file (research/shape3's cap-free runs added, the 16- and 8-generation
