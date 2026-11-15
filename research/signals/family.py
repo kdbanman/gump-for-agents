@@ -47,18 +47,6 @@ def pulses(g, sub, maxcells=2):
     return out
 
 
-if __name__ == '__main__':
-    g = ring()
-    print('subsets of the four sites that are wires (period <= 2) in the closed tube:')
-    wires = []
-    for r in range(0, 5):
-        for sub in itertools.combinations(range(4), r):
-            z = wire_state(g, sub)
-            p1 = bool((g.run(z, 1) == z).all()); p2 = bool((g.run(z, 2) == z).all())
-            if p2:
-                wires.append(sub)
-                ps = pulses(g, sub)
-                print('  sites', sub, NAMES.get(sub, ''), 'period', 1 if p1 else 2, '; 2-cell pulses:', [(s, sorted(c)) for s, c in ps])
 
 
 def decode(g, st):
@@ -123,3 +111,37 @@ class Piece:
         for c in cells:
             st[self.g.index[tr(c, k)]] ^= 1
         return st
+
+
+if __name__ == '__main__':
+    g = ring()
+    WIRES = []
+    print('subsets of the four sites that are wires (period <= 2) in the closed tube:')
+    for r in range(0, 5):
+        for sub in itertools.combinations(range(4), r):
+            z = wire_state(g, sub)
+            if (g.run(z, 2) == z).all():
+                WIRES.append(sub)
+                print('  mask %x' % sum(1 << i for i in sub), 'sites', sub, NAMES.get(sub, ''), '; 2-cell pulses:', [(s_, sorted(c)) for s_, c in pulses(g, sub)])
+    mask = lambda sub: sum(1 << i for i in sub)
+    name = lambda sub: NAMES.get(sub, '%x' % mask(sub))
+    P = {sub: dict(pulses(g, sub)) for sub in WIRES if len(sub) == 3}
+    pc = Piece(90)
+    print('clean walls U|V (U on units < 0, V on units >= 0) that are stationary, and what the pulses of U and V do to them')
+    print('(units -24..23 after 60 generations, where they differ from the pulse-free run):')
+    for U in WIRES:
+        for V in WIRES:
+            if U == V:
+                continue
+            z = pc.config(lambda u: mask(U) if u < 0 else mask(V))
+            if pc.decode(z, -12, 12) != pc.decode(pc.g.run(z, 2, sparse=True), -12, 12):
+                continue
+            line = '  %-3s|%-3s' % (name(U), name(V))
+            zs = pc.decode(pc.g.run(z, 60, sparse=True), -24, 24)
+            if U in P:
+                xs = pc.decode(pc.g.run(pc.flip(z, P[U][1], -10), 60, sparse=True), -24, 24)
+                line += '  %s-> : %s' % (name(U), ''.join(a if a != b else '.' for a, b in zip(xs, zs)))
+            if V in P:
+                xs = pc.decode(pc.g.run(pc.flip(z, P[V][-1], 10), 60, sparse=True), -24, 24)
+                line += '  <-%s : %s' % (name(V), ''.join(a if a != b else '.' for a, b in zip(xs, zs)))
+            print(line)
