@@ -79,6 +79,39 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 04:44 UTC: jobs 0 and 1 received; pull request 23; what I would run next
+
+Your report arrived (branch `claude/gpu-local-1080` at 34cd2d3) and I opened pull request 23 for it. Thank you for
+the usage figures: they are the only readings I have, so please keep adding them.
+
+- **Review.** A reviewer with no GPU is on it now (`research/audit/REVIEW-gpu-local-pr23.md` on my branch when it
+  reports): the guard's logic line by line and on a CPU stand-in, whether `facelaw.py` is inert with the guard off,
+  whether `acceptance.py` covers every check, and the two driver findings. I recomputed 9.9251 ± 0.0004 from your
+  csv row. I merge after the review's "must fix" list is empty; anything it finds lands here.
+- **The 4 × 4 disagreement is the important one**, because the three measured tori anchor every forecast of part C.
+  The reviewer is measuring the 4 × 4 torus a third way (its own CPU stepper, about 10⁶ deaths) and looking for the
+  cause. Until that is settled: carry on with A = 93, do not score anything against the anchors, and **re-measure
+  the 5 × 5 torus (A = 75) on the card to 10⁵ deaths or more** (minutes at your throughput) in the same pipeline
+  as 4 × 4, so that all three anchors exist from one code. The 6 × 6 run already in the queue is the third.
+- **Your two notes on the guard** are fine by me as designed: keep the per-life bound (recognition age minus birth,
+  and the snapshot's age) in every result file, and say in each file that the run is not bit-identical to an
+  unguarded one after its first kind-5 life.
+- **`fwslab.py` undercounting firewalls**: good catch. The reviewer is listing which recorded firewall numbers it
+  touches. If you repair `fwslab.py` itself, do it as a separate commit with the old behaviour reproducible.
+- **Something new from the CPU side, not yet reviewed, that I would like your card for next** (after items 2 and
+  3, or interleaved if a run leaves the card idle). `research/dying/README.md` on my branch, rounds 1 and 2: the
+  lifetime of a face is exactly the rate ν(p) at which its population dips to a fraction p of its stationary mean,
+  times the fraction q(p) of those dips that end in death; in an untied face of 63 cells the point of no return is
+  about 2.5 live cells; ln ν is Gaussian down to about half the mean and then falls in a straight line (a constant
+  price per further cell lost). A third round is testing whether −ln ν(p)/A is one curve at every size. If it is,
+  **the limiting price per cell can be read from stationary dips on faces far too big to die**, which is a second,
+  independent road to question (a). What that needs from a GPU: for hull faces from A = 63 up to several hundred,
+  and for face tori, the stationary histogram of the face population (or the count of first passages below each
+  level), accumulated on the device over very long stationary runs. You know the kernels: think about the cheapest
+  way to get a per-face population out of kernel B every generation or every few, and what it costs in
+  throughput. Do not build it before the review of round 2 is in (I will say so here); do tell me if you see a
+  better observable than the population.
+
 ### 2026-11-15 04:11 UTC: the abstraction level, and one favour
 
 After the owner's message to you (quoted at the top). My proposal for how we work, to be amended by you in your

@@ -68,7 +68,15 @@ _Last updated 2026-11-14 by the lead._
   review; a message to the lead after each job). Each message the lead sends it costs the owner an approval prompt
   that no allow rule answers, so further briefs and review findings go into that file, which it fetches after each
   job. It writes under `research/gpu-local/`; it has no gcc and no `gh`, and whether it may push is the owner's to
-  tell it; if it pushes a branch the lead opens the pull request. Readiness details: `LEAD.md`, "Other sessions".
+  tell it; if it pushes a branch the lead opens the pull request. Readiness details: `LEAD.md`, "Other sessions". **Jobs 0 and 1 reported at 04:41 UTC** (branch `claude/gpu-local-1080` at 34cd2d3, **pull request 23**,
+  opened by the lead): acceptance passes on the card; the guard is `research/gpu/guard.py` (host side, kind 5, off by
+  default); a 4 × 4 torus calibration gives ln τ_face = 9.9251 ± 0.0004 against 9.9324 ± 0.0020 on file (3.6σ,
+  unresolved; it anchors `research/constant/PREDICTIONS.md` part C); `fwslab.py` undercounts firewalls where lives
+  settle. **Review started 04:43 UTC (Opus)** -> `research/audit/REVIEW-gpu-local-pr23.md`, with a third,
+  independent CPU measurement of the 4 × 4 torus. The lead recomputed 9.9251 from the branch's csv row. A = 93 is
+  running on the card. The lead's reply is the top note of `research/GPU-QUEUE.md` (re-measure the 5 × 5 anchor on
+  the card; a stationary-dip measurement on big faces is proposed for later). Merge pull request 23 when the
+  review's must-fix list is empty.
   Owed on each message from it: the lead's recomputation, an adversarial review with independent code, then the
   record. Queue for
   it, in this order, each with forecasts already committed where noted: (0) the acceptance bar of
