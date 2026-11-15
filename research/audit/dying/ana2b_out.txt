@@ -1,0 +1,55 @@
+=== 1. ln nu(p) straight-line fits, lead's method (unweighted, grid 0.1..0.45 step 0.05) and variants
+-- [all]
+   0.05 grid 0.10-0.45: per unit p 15.55, 12.57, 9.19, 5.51; per live cell 0.497, 0.436, 0.350, 0.232; steps 2.98, 3.38, 3.68; line 5.68 + 3.35 per free edge, max residual 0.19
+   0.01 grid 0.10-0.45: per unit p 15.55, 12.45, 9.19, 5.46; per live cell 0.497, 0.432, 0.349, 0.230; steps 3.11, 3.26, 3.72; line 5.63 + 3.35 per free edge, max residual 0.20
+   0.05 grid 0.05-0.30: per unit p 15.50, 12.54, 8.36, 4.96; per live cell 0.495, 0.435, 0.318, 0.209; steps 2.96, 4.18, 3.40; line 4.97 + 3.58 per free edge, max residual 0.41
+   0.05 grid 0.20-0.50: per unit p 15.31, 12.19, 9.10, 5.59; per live cell 0.489, 0.423, 0.346, 0.235; steps 3.12, 3.09, 3.52; line 5.71 + 3.23 per free edge, max residual 0.17
+-- [noS]
+   0.05 grid 0.10-0.45: per unit p 15.55, 12.57, 9.18, 4.99; per live cell 0.497, 0.436, 0.349, 0.210; steps 2.98, 3.39, 4.19; line 5.31 + 3.51 per free edge, max residual 0.36
+   0.01 grid 0.10-0.45: per unit p 15.55, 12.45, 9.18, 5.00; per live cell 0.497, 0.432, 0.349, 0.210; steps 3.11, 3.26, 4.19; line 5.31 + 3.49 per free edge, max residual 0.39
+   0.05 grid 0.05-0.30: per unit p 15.50, 12.54, 8.31, 3.79; per live cell 0.495, 0.435, 0.316, 0.159; steps 2.96, 4.22, 4.53; line 4.13 + 3.94 per free edge, max residual 0.54
+   0.05 grid 0.20-0.50: per unit p 15.31, 12.19, 9.11, 5.43; per live cell 0.489, 0.423, 0.346, 0.228; steps 3.12, 3.08, 3.68; line 5.60 + 3.27 per free edge, max residual 0.24
+   c1 fine grid: straight-line residuals at p = 0.10, 0.20, 0.30, 0.45: +0.130, +0.099, +0.069, +0.139 (max 0.257); quadratic coefficient -0.09 per unit p^2 (ln nu errors at these levels 0.001-0.009)
+
+=== 2. Births and survival on the dying face against what its own population predicts
+    stationary b(P), s(P): pooled over steps lag l+1 -> l, l = 256..499, binned by the face population P at lag l+1;
+    "predicted" = the stationary rate at each death's own P at that lag, averaged with the same pooling (weights = empty / live cells)
+-- c1  (stationary P bins with >= 30 steps: 4..52)
+   lag 24: b obs 1.001 vs predicted from P 1.004 (on deaths with a stationary P bin: obs 1.003, 1.00 of deaths); s obs 0.999 vs 1.000 (0.999)
+   lag 16: b obs 0.911 vs predicted from P 0.968 (on deaths with a stationary P bin: obs 0.927, 0.99 of deaths); s obs 0.988 vs 1.001 (0.988)
+   lag 12: b obs 0.777 vs predicted from P 0.916 (on deaths with a stationary P bin: obs 0.831, 0.95 of deaths); s obs 0.960 vs 0.999 (0.961)
+   lag 8: b obs 0.481 vs predicted from P 0.772 (on deaths with a stationary P bin: obs 0.612, 0.82 of deaths); s obs 0.882 vs 1.000 (0.887)
+   lag 4: b obs 0.139 vs predicted from P 0.550 (on deaths with a stationary P bin: obs 0.257, 0.41 of deaths); s obs 0.623 vs 0.992 (0.617)
+   stationary b(P)/b0, s(P)/s0 at P = 18: 0.60, 1.00, 25: 0.86, 1.02, 31: 1.04, 1.02, 37: 1.15, 0.98
+-- csz  (stationary P bins with >= 30 steps: 3..51)
+   lag 24: b obs 0.957 vs predicted from P 0.984 (on deaths with a stationary P bin: obs 0.969, 0.99 of deaths); s obs 1.001 vs 1.001 (1.001)
+   lag 16: b obs 0.851 vs predicted from P 0.922 (on deaths with a stationary P bin: obs 0.873, 0.98 of deaths); s obs 0.987 vs 1.003 (0.987)
+   lag 12: b obs 0.703 vs predicted from P 0.827 (on deaths with a stationary P bin: obs 0.742, 0.96 of deaths); s obs 0.944 vs 1.003 (0.944)
+   lag 8: b obs 0.441 vs predicted from P 0.655 (on deaths with a stationary P bin: obs 0.513, 0.88 of deaths); s obs 0.888 vs 1.003 (0.888)
+   lag 4: b obs 0.144 vs predicted from P 0.409 (on deaths with a stationary P bin: obs 0.213, 0.58 of deaths); s obs 0.638 vs 1.006 (0.636)
+   stationary b(P)/b0, s(P)/s0 at P = 17: 0.60, 1.01, 23: 0.85, 1.02, 28: 1.03, 1.02, 34: 1.18, 0.99
+-- c2v  (stationary P bins with >= 30 steps: 1..51)
+   lag 24: b obs 0.874 vs predicted from P 0.911 (on deaths with a stationary P bin: obs 0.874, 1.00 of deaths); s obs 0.997 vs 1.002 (0.997)
+   lag 16: b obs 0.735 vs predicted from P 0.787 (on deaths with a stationary P bin: obs 0.735, 1.00 of deaths); s obs 0.980 vs 1.005 (0.980)
+   lag 12: b obs 0.585 vs predicted from P 0.679 (on deaths with a stationary P bin: obs 0.584, 1.00 of deaths); s obs 0.946 vs 1.006 (0.948)
+   lag 8: b obs 0.394 vs predicted from P 0.503 (on deaths with a stationary P bin: obs 0.397, 0.99 of deaths); s obs 0.900 vs 1.012 (0.900)
+   lag 4: b obs 0.160 vs predicted from P 0.280 (on deaths with a stationary P bin: obs 0.166, 0.95 of deaths); s obs 0.666 vs 1.015 (0.666)
+   stationary b(P)/b0, s(P)/s0 at P = 15: 0.57, 1.02, 21: 0.84, 1.02, 26: 1.05, 1.02, 31: 1.23, 0.99
+-- d2h  (stationary P bins with >= 30 steps: 1..48)
+   lag 24: b obs 0.803 vs predicted from P 0.837 (on deaths with a stationary P bin: obs 0.803, 1.00 of deaths); s obs 0.991 vs 1.006 (0.991)
+   lag 16: b obs 0.631 vs predicted from P 0.698 (on deaths with a stationary P bin: obs 0.632, 1.00 of deaths); s obs 0.988 vs 1.012 (0.988)
+   lag 12: b obs 0.510 vs predicted from P 0.598 (on deaths with a stationary P bin: obs 0.511, 1.00 of deaths); s obs 0.965 vs 1.017 (0.965)
+   lag 8: b obs 0.364 vs predicted from P 0.461 (on deaths with a stationary P bin: obs 0.365, 1.00 of deaths); s obs 0.934 vs 1.029 (0.934)
+   lag 4: b obs 0.175 vs predicted from P 0.280 (on deaths with a stationary P bin: obs 0.179, 0.96 of deaths); s obs 0.715 vs 1.051 (0.716)
+   stationary b(P)/b0, s(P)/s0 at P = 14: 0.58, 1.03, 19: 0.83, 1.02, 23: 1.03, 1.02, 28: 1.27, 1.00
+
+=== 3. Lopsidedness S at matched live count k: dying faces at t_h against stationary (null) faces with the same k, not thinned
+-- c1: k 5-9: deaths S 2.47 ± 0.08 (n 212); null faces at the same k 3.09 (n 620); k 10-12: deaths S 2.21 ± 0.05 (n 343); null faces at the same k 2.43 (n 2044); k 13-15: deaths S 1.93 ± 0.04 (n 440); null faces at the same k 2.02 (n 7574)
+-- csz: k 5-9: deaths S 2.41 ± 0.05 (n 404); null faces at the same k 2.97 (n 1524); k 10-12: deaths S 2.15 ± 0.04 (n 629); null faces at the same k 2.36 (n 4094); k 13-15: deaths S 2.06 ± 0.04 (n 459); null faces at the same k 2.04 (n 12575)
+-- c2v: k 5-9: deaths S 2.65 ± 0.05 (n 468); null faces at the same k 2.82 (n 3395); k 10-12: deaths S 2.34 ± 0.03 (n 781); null faces at the same k 2.31 (n 6996); k 13-15: deaths S 2.14 ± 0.06 (n 245); null faces at the same k 2.05 (n 17534)
+-- d2h: k 5-9: deaths S 2.94 ± 0.04 (n 842); null faces at the same k 2.70 (n 2434); k 10-12: deaths S 2.61 ± 0.04 (n 623); null faces at the same k 2.29 (n 4121); k 13-15: deaths 0, null 8512
+
+=== 4. ln tau = a + b Pbar^2/(2 sigma^2) with the D2h A = 63 lifetime taken three ways (this review's Pbar, sigma)
+  D2h63 = study 7.168: a 3.42, b 0.584, residuals -0.14 -0.03 +0.08 -0.31 -0.09 +0.03 +0.19 +0.27; max 0.31
+  D2h63 = ex2 with settled lives 7.318: a 3.51, b 0.579, residuals -0.15 -0.06 +0.03 -0.21 -0.06 +0.04 +0.18 +0.23; max 0.23
+  D2h63 = ex2 without settled lives 6.855: a 3.23, b 0.594, residuals -0.13 +0.02 +0.17 -0.50 -0.15 +0.01 +0.23 +0.35; max 0.50

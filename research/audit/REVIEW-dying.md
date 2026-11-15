@@ -240,3 +240,287 @@ should note that the first "against the reading" criterion is met only because o
 - The 1.7–1.8σ differences in csz and D2h P̄ and the 2.7σ difference in L6 between this review and the study were
   not resolved. The protocols differ (events every generation here against every 4; Brent against ladder
   snapshots; samples every 64–256 generations here against 10 per job).
+
+---
+
+# Round 2: excursions, births, lopsidedness, A = 84
+
+Object: `research/dying/README.md` from the round-2 "Short answer" (line 171) on, the "Round 2" block of
+`PREDICTIONS.md` (6d40e72), commits 3bf2f21 and 4b41de0, `data/r2_*.csv`, `research/figures/dying_excursions.png`,
+and the lead's round-2 lines in `research/audit/dying_lead_check.py`. Round 3 is not reviewed. `ex.c` and
+`round2*.py` were read, never run or imported.
+
+**Own code and runs.** `ex2.c` is round 1's `dy.c` plus an online excursion table:
+- every face orbit's population P (one face per orbit), every generation;
+- excursions as the study defines them (start below P̄ after a generation at or above it, both at age > 512; end
+  recovered, dead or censored);
+- the tally is kept per life and added, at the life's end, to the table of that life's end type, so settled lives
+  can be put in or left out afterwards.
+
+Thresholds are the study's P̄ (31.29, 28.83, 26.29, 23.77), which give the same integer thresholds as this review's
+own P̄. The lives file is byte-identical to `st.c`'s (checked on v11c d2h, 20,000 generations); the dynamics code is
+`dy.c`'s, validated against the oracle in round 1.
+
+Runs, all with fresh seeds, 256 lanes, events every generation and the Brent settled test:
+- seeds 9301–9304 at R = 11 c: c1 1.6 M generations, csz 0.8 M, c2v and D2h 0.4 M each;
+- seeds 9311–9314 at R = 13 c: stationary samples, 300,000 generations.
+
+Births, survival and lopsidedness use round 1's death histories (seeds 9201–9204) and samples. The plan was
+committed before the runs (b615744).
+
+    bash research/audit/dying/plan.sh 4; bash research/audit/dying/plan.sh 5     # two cores, ~4 min each
+    python3 research/audit/dying/ana2.py     # -> ana2_out.txt: A tables, tail windows, D fits, B ratios, C rates
+    python3 research/audit/dying/ana2b.py    # -> ana2b_out.txt: lead's tail fit on these tables, births against own P,
+                                             #    lopsidedness at matched k, the fit with three D2h lifetimes
+
+## Summary (round 2)
+
+| claim | verdict |
+|---|---|
+| 1. ln τ = −ln(ν q) at every level; reproduces the four lifetimes | **Confirmed, but it is bookkeeping, not a test.** Every death ends an excursion, so ν·q is the death rate up to censoring. c1, csz, c2v: 13.614, 11.473, 9.275 at every level within 0.02 (study 13.632, 11.454, 9.274). D2h depends on how settled lives are counted: 7.32 with them (Brent detection; censoring up to 13% at p = 0.2, so −ln(νq) wanders over 7.20–7.34), **6.86 without them** (exact at every level), and the study's 7.168 with its ladder detection. |
+| 2. Dips to 0.7 P̄ about equally frequent; groups part below 0.6 | **Confirmed, with a crossover the README omits.** ln ν(0.7) = −4.164, −3.802, −3.779, −3.883 (D2h without settled lives −3.714); study −4.16, −3.80, −3.77, −3.74. At 0.9 the order is reversed: c1 is the most frequent (−2.31), D2h the least (−2.79). |
+| 3. p* = 0.08 P̄ in c1; 0.12, 0.15, 0.25; q(0.5) = 0.0008 | **Confirmed.** p* = 0.079 (2.48 cells), 0.114, 0.152, 0.245 (0.265 without settled lives). q(0.5) = 0.000824 ± 0.000013. |
+| 4. Tail Gaussian, then straight; 15.6, 12.6, 9.2, 5.5 = 5.5 + 3.4 per free edge | **Slopes reproduce exactly. "Straight" is an approximation. "Per free edge" is fragile.** Lead's fit on fresh seeds: 15.55, 12.57, 9.19, 5.51, line 5.68 + 3.35. There is no break at P̄/2: the slope per cell drifts smoothly. Steps per free edge range over 3.0–4.5 with window and settled lives. |
+| 5. Births fail before survival | **Confirmed; much of it is the face's own population.** Lag 16: births 0.911 ± 0.012, survival 0.988 ± 0.005. Lag 8: 0.481, 0.882 (study 0.903/0.983 and 0.454/0.877). Stationary births depend strongly on P and survival does not. Beyond what its own P predicts, births still fall first, but by less (c1 lag 8: 0.61 against 0.77 predicted). |
+| 6. Chance-low faces as lopsided as dying ones (1.59 vs 1.61) | **c1: confirmed and stronger. D2h: not confirmed.** Thinned ratios at P ≤ 0.6 P̄: c1 1.53 ± 0.03, D2h 1.51 ± 0.03. Deaths at t_h: 1.60 ± 0.02, 1.73 ± 0.02. At matched count, c1 dying faces are *less* lopsided than chance-low ones; D2h dying faces are *more*. |
+| 7. A = 84 state; ln τ = 3.43 + 0.582·P̄²/(2σ²) within 0.31 | **Numbers confirmed; the fit is real but weakly tested.** Own fit: 3.42 + 0.584, max residual 0.31, leave-one-out max 0.50; it predicts the GPU's c1 at A = 84 as 18.33 (18.141). P̄/σ fits to 0.42 and P̄ alone to 2.60. a + b·A + c·P̄ (no σ) fits to 0.27. The D2h estimator moves the fit between 0.23 and 0.50. |
+| 8. Scoring of A1–A3, B1, C1, D1, D2 | **Definitions were fixed before the data; every score reproduces.** |
+| 9. Constant price per cell below half; clump and hole; free edges raise the price | **Partly.** For: a near-constant price over 3–12 cells, thin faces lopsided, price higher with free edges. Against: no change of regime at P̄/2, no additivity in free edges, and in c1 the faces that die are less clumped than those that recover. |
+
+## Claims 1 and 2: the excursion table, independently
+
+`ana2.py`, block A. Errors in ln ν are 1/√n, under 0.015 everywhere; q errors are binomial.
+
+| p | c1 ln ν, q | csz | c2v | D2h (all lives) | D2h (no settled lives) |
+|---|---|---|---|---|---|
+| 0.9 | −2.311, 1.23e−5 | −2.527, 1.3e−4 | −2.620, 1.28e−3 | −2.785, 0.0105 | −2.615, 0.0141 |
+| 0.7 | −4.164, 7.9e−5 | −3.802, 4.7e−4 | −3.779, 4.1e−3 | −3.883, 0.032 | −3.714, 0.042 |
+| 0.5 | −6.513, 8.2e−4 | −5.819, 3.5e−3 | −5.185, 0.0168 | −5.059, 0.106 | −4.890, 0.137 |
+| 0.3 | −9.365, 0.0143 | −8.312, 0.0425 | −7.213, 0.129 | −6.032, 0.296 | −5.859, 0.361 |
+| 0.1 | −12.415, 0.302 | −10.955, 0.597 | −8.952, 0.728 | −7.198, 0.892 | −6.791, 0.916 |
+| ln(E/D) | 13.615 ± 0.016 | 11.474 ± 0.011 | 9.275 ± 0.008 | 7.318 ± 0.005 | 6.855 ± 0.005 |
+
+The study's table agrees with this one within 0.02 in ln ν for c1, csz and c2v at every level shown. Its D2h values
+lie between the two D2h columns.
+
+**What the D2h column means.** With settled lives counted:
+- the exposure includes generations in which the face sits frozen or periodic at low P (time-averaged P over the
+  D2h exposure is 20.31 with them, 23.25 without);
+- excursions that run into a settling state are censored, up to 12.8% of excursions at p = 0.2, so there ν·q is not
+  the death rate (−ln(νq) = 7.20 against ln(E/D) = 7.32).
+
+Without them the identity is exact and ln τ_face = 6.86. The study's 7.168 lies between because its ladder detects
+settling sooner than this review's Brent test.
+
+Every D2h number of round 2 that involves exposure carries this 0.2–0.45 ambiguity: ln ν, ln τ, the last ladder
+step, and the D2h point of every fit. Within one estimator the identity is exact, so the identity cannot decide
+which estimator is right.
+
+## Claim 3
+
+p* is where q crosses 1/2, by linear interpolation on the 0.05 grid. It is 0.079, 0.114, 0.152 and 0.245 (0.265
+without settled lives); in cells, 2.48, 3.29, 4.01 and 5.82.
+
+On the integer grid the crossing lies between 2 and 3 live cells in c1 and csz (c1: q(min ≤ 2) = 0.505,
+q(min ≤ 3) = 0.302). It lies between 3 and 4 in c2v, and between 4 and 5 in D2h (5 and 6 without settled lives).
+
+## Claim 4: the tail of ln ν
+
+**The lead's numbers reproduce on fresh seeds.** With the lead's method (an unweighted line through ln ν(p) for
+p = 0.10, 0.15, …, 0.45) the slopes are 15.55, 12.57, 9.19 and 5.51 per unit p. Per live cell that is 0.497,
+0.436, 0.350 and 0.232. The line across groups is 5.68 + 3.35 per free edge, maximum residual 0.19
+(`ana2b.py` part 1).
+
+**Not a straight line, though close to one.** On the integer grid, a straight line through c1 over 0.10–0.45
+leaves residuals of +0.13 at both ends and −0.25 in the middle; the ln ν errors there are 0.001–0.009.
+
+The local slope per live cell in c1, from the density of excursion minima (independent counts), by window of k:
+
+| k | 1–4 | 3–6 | 5–8 | 7–10 | 9–12 | 11–14 | 13–16 | 15–18 | 17–20 |
+|---|---|---|---|---|---|---|---|---|---|
+| slope per cell | 0.62 | 0.51 | 0.51 | 0.49 | 0.48 | 0.45 | 0.42 | 0.39 | 0.34 |
+
+The other groups behave the same way (`ana2.py`, "tail shape"). There is no corner at half the mean: the slope
+changes smoothly from the Gaussian-like top down to about 3 cells, then steepens again. "Straight below half" is a
+fair description of 0.1–0.4 P̄ to within ±0.25 in ln ν, but it is not a second regime.
+
+**"5.5 + 3.4 per free edge" depends on the window and on the estimator.** Steps per free edge (c1→csz, csz→c2v,
+c2v→D2h):
+
+| window | steps | D2h slope per unit p |
+|---|---|---|
+| 0.10–0.45 | 2.98, 3.38, 3.68 | 5.51 |
+| 0.05–0.30 | 2.96, 4.18, 3.40 | |
+| 0.20–0.50 | 3.12, 3.09, 3.52 | |
+| 0.10–0.45, no settled D2h lives | 2.98, 3.39, 4.19 | 4.99 |
+| 0.05–0.30, no settled D2h lives | 2.96, 4.22, 4.53 | 3.79 |
+
+The increments mostly grow along the ladder and spread over 3.0–4.5. As with round 1's population steps, "equal
+steps" describes one window and one estimator. What is robust is the ordering: the price per cell is highest in c1
+and falls with each tied edge.
+
+## Claim 5: births and survival
+
+Births per empty cell and survival per live cell on the dying face, each over its stationary rate (from lags
+256–500 of the same histories; 1,000–1,500 deaths per group; `ana2.py` block C):
+
+| | lag 40 | 16 | 8 | 4 | t_8 |
+|---|---|---|---|---|---|
+| c1 births / survival | 1.007 / 1.001 | 0.911 ± 0.012 / 0.988 ± 0.005 | 0.481 / 0.882 | 0.139 / 0.623 | 0.373 / 0.634 |
+| D2h | 0.919 / 0.994 | 0.631 / 0.988 | 0.364 / 0.934 | 0.175 / 0.715 | 0.503 / 0.712 |
+
+The study's values (c1 0.903/0.983 at lag 16, 0.454/0.877 at lag 8, 0.377/0.639 at t_8; D2h births 0.93 at lag 40)
+all reproduce.
+
+**What it means** (`ana2b.py` part 2). In stationary faces, births per empty cell depend strongly on the face's own
+population: 0.60 of the mean at 0.6 P̄, 0.86 at 0.8 P̄, 1.15 at 1.2 P̄. Survival does not: 0.98–1.02 over the same
+range. So a face that has simply lost cells already shows "births failing first".
+
+Measured against the rates its own P predicts, the dying face is still low in both, and births are hit harder
+(deaths whose P has a stationary bin):
+
+| | births observed / predicted | survival observed / predicted |
+|---|---|---|
+| c1, lag 16 | 0.927 / 0.968 | 0.988 / 1.001 |
+| c1, lag 8 | 0.61 / 0.77 | 0.89 / 1.00 |
+| D2h, lag 16 | 0.632 / 0.698 | 0.988 / 1.012 |
+
+The surroundings (the layer beneath) thin first, and births feel it first. The README should say that most of the
+birth deficit at a given lag comes from the face's own lower population, and give the excess beyond it.
+
+## Claim 6: lopsidedness
+
+S is the distance from the live-cell centroid to the ρ-weighted centroid: the study's statistic, and round 1's
+"dipole". The ratio below is S over the same S for stationary faces thinned at random to the same count, 20 per
+state (`ana2.py` block B):
+
+| | c1 | csz | c2v | D2h |
+|---|---|---|---|---|
+| chance-low stationary faces, P ≤ 0.6 P̄ (mean k) | 1.53 ± 0.03 (16.2) | 1.66 ± 0.03 (14.7) | 1.58 ± 0.03 (12.5) | 1.51 ± 0.03 (11.2) |
+| stationary faces, P in 0.6–0.8 P̄ / 0.8–1.2 P̄ | 1.25 / 1.06 | 1.23 / 1.13 | 1.32 / 1.11 | 1.32 / 1.12 |
+| living states within 64 generations of death, P ≤ 0.6 P̄ | 1.76 ± 0.10 (11.9) | 1.73 (11.4) | 1.91 (9.2) | 1.91 (8.3) |
+| deaths at t_h (mean k) | 1.60 ± 0.02 (11.7) | 1.59 (10.9) | 1.64 (10.4) | 1.73 ± 0.02 (8.8) |
+
+Lopsidedness grows steadily as a face thins. The study therefore compares faces at different counts: about 16
+cells for chance-low faces, against about 12 (c1) and 9 (D2h) for deaths at t_h.
+
+At matched count (null reweighted to the deaths' k, no thinning; `ana2b.py` part 3), S for dying faces against
+chance-low stationary faces:
+
+| k | c1 | csz | c2v | D2h |
+|---|---|---|---|---|
+| 5–9 | 2.47 ± 0.08 vs 3.09 | 2.41 vs 2.97 | 2.65 vs 2.82 | 2.94 ± 0.04 vs 2.70 |
+| 10–12 | 2.21 vs 2.43 | 2.15 vs 2.36 | 2.34 vs 2.31 | 2.61 vs 2.29 |
+
+The chance-low faces are, by the null's definition, states whose life lasted at least 64 more generations. So at
+equal count, in c1 and csz the faces about to die are *less* lopsided than those that recover; in D2h they are
+*more*.
+
+- **"Not a mark of dying" holds for c1.** The opposite is closer to true there: a thin face that keeps a clump tends
+  to come back.
+- **It does not hold for D2h.** The study's own D2h pair (1.51 against 1.76) already differs by 0.25.
+- **Round 1 agrees.** This review's round-1 finding (single deaths lopsided against uniform thinning) and the
+  study's measure the same thing: depletion, not dying.
+
+## Claim 7: A = 84 and the (P̄, σ_P) fit
+
+| | c1 | csz | c2v | D2h |
+|---|---|---|---|---|
+| A = 84 P̄, this review | 42.45 ± 0.004 | 39.80 ± 0.01 | 36.86 ± 0.01 | 33.58 ± 0.03 |
+| A = 84 P̄, study | 42.49 ± 0.09 | 39.81 ± 0.09 | 36.86 ± 0.10 | 33.48 ± 0.12 |
+| A = 84 σ_P, this review / study | 5.961 / 5.96 | 6.194 / 6.18 | 6.552 / 6.50 | 7.21 ± 0.05 / 7.05 |
+| A = 63 σ_P, this review / study | 5.248 / 5.24 | 5.499 / 5.56 | 5.900 / 5.96 | 6.31 ± 0.02 / 6.37 |
+
+Fits over the eight points (`ana2.py` block D). Columns: maximum residual; maximum leave-one-out residual; c1 at
+A = 84 predicted from the other seven (the GPU measured 18.141).
+
+| form | own numbers | study's numbers |
+|---|---|---|
+| a + b·P̄²/(2σ²) | 0.31, 0.50, 18.33 (a 3.42, b 0.584) | 0.31, 0.51, 18.28 |
+| a + b·[P̄²/(2σ²) + ln σ] | 0.30, 0.50, 18.37 | 0.32, 0.52 |
+| a + b·P̄/σ | 0.42, 0.79, 17.35 | 0.44, 0.83 |
+| a + b·(P̄ − 2σ) | 1.48, 1.70 | 1.57 |
+| a + b·P̄ | 2.60, 2.98 | 2.54 |
+| a + b·P̄ + c·σ (three constants) | 0.47, 0.87, 17.27 | 0.52, 0.96 |
+| a + b·A + c·P̄ (three constants, no σ) | 0.27, 0.50, 17.65 | 0.19, 0.37 |
+
+The D2h lifetime at A = 63 matters (`ana2b.py` part 4). Taken as 7.318 (with settled lives, Brent), the
+Gaussian-exponent fit's maximum residual is 0.23; taken as 6.855 (without them), 0.50.
+
+**How much it means.**
+- For the fit: the Gaussian-exponent form is the best two-constant form tried, and it predicts the one GPU-measured
+  point from the other seven within 0.2. Its b = 0.58 says ln τ is a fixed fraction of the Gaussian exponent.
+- Against reading much into it: the eight points form two clusters of four nearly collinear rungs, so any form that
+  orders them and has a size term does almost as well. Area plus P̄ fits as well without σ.
+- The worst point is always D2h at A = 63, the one whose lifetime depends on the settled-life estimator.
+
+The README should say "a two-constant fit, leave-one-out 0.5; a form without σ fits as well".
+
+## Claim 8: the forecasts
+
+The round-2 block of PREDICTIONS.md was committed at 04:24:12 (6d40e72). The graph files were written at
+04:24:55–04:25:05 and the binaries (`ex`, `sd`) built at 04:25:19. All outputs are later: `research/scratch/dying/r2/`,
+with logs at 04:26–04:32. The README's definitions match the registered ones, and the low-P control for B is marked
+as added afterwards.
+
+| forecast | this review | study | score |
+|---|---|---|---|
+| A1: c1 p* in 0.25–0.5 | 0.079 | 0.079 | failed |
+| A2: c1 Gaussian within 1.0 at 0.8, 0.7, 0.6 | −0.15, −0.43, −0.27 | same | held |
+| A3: q ratio within ×3, ν ratio > e⁴, at 0.5 | q c1/D2h 0.0078; ln ν D2h − c1 1.45 (no settled 1.62) | 0.008; 1.59 | failed both parts |
+| B1: S ratio within 15% (c1, D2h) | 1.60, 1.73 | 1.61, 1.76 | failed |
+| C1: at t_8 births ≤ 0.70, survival ≥ 0.85 | 0.373, 0.634 | 0.377, 0.639 | failed (survival) |
+| D1: A = 84 steps 2.8–3.1; Δln τ/ΔP̄ 0.76–0.96 | steps 2.65, 2.94, 3.28; ratios 0.994, 0.901, 0.864 | 2.68, 2.95, 3.38; 0.983, 0.898, 0.838 | failed |
+| D2: no (P̄, σ) fit within 0.5 | 0.31 (Gaussian exponent); 0.47 (P̄ + σ) | 0.31; 0.52 | failed |
+
+No score changes with the D2h settled-life choice; it only moves A3's ν gap within 1.45–1.62.
+
+## Claim 9: the lead's conjecture
+
+What speaks for it:
+- In c1, ln ν loses an almost constant 0.49–0.51 per live cell between 3 and 10 cells.
+- Thin faces are lopsided (ratio 1.5 at P ≤ 0.6 P̄, rising as P falls), so a live clump and an empty region do
+  coexist.
+- The price per cell falls with every tied edge: 0.50, 0.44, 0.35, 0.23.
+
+What speaks against it:
+- The price is not constant. It drifts from 0.51 to 0.45 per cell across 0.1–0.45 P̄, then on to 0.34, and nothing
+  changes at P̄/2.
+- A free edge does not add a fixed amount to the price (claim 4).
+- In c1 and csz, the faces that go on to die from a given count are less clumped than the ones that recover. If
+  clump-and-hole states were the route to death, the dying faces should be at least as clumped; that holds only
+  in D2h.
+- A birth–death chain whose down/up ratio does not depend on P also gives a straight log-tail. A straight tail is
+  therefore no evidence for any particular spatial picture.
+
+What would test it: how the excursion minimum depends on where the clump sits (rim or centre, tied edge or free
+edge), and the committor q conditioned on S at fixed count.
+
+## What the round-2 README should change, most important first
+
+1. **D2h depends on the settled-life estimator.** Every D2h quantity that involves exposure (ln τ 6.86 / 7.17 /
+   7.32, ln ν, p*, the last step, the per-edge increments, the A = 63 fit point) should say so.
+2. **Split claim 6 by group.** In c1, dying faces are no more lopsided than chance-low ones, and at equal count less.
+   In D2h they are more. "The same ratio" compares faces of different counts, and 1.51 against 1.76 is not the
+   same ratio.
+3. **The tail.** Say "close to straight between 0.1 and 0.45 P̄ (residuals up to 0.25 in ln ν; slope per cell
+   drifting from 0.51 to 0.45), no break at half the mean". Drop "5.5 + 3.4 per free edge", or give it with its
+   window and the 3.0–4.5 spread of the increments.
+4. **Births first.** Add that stationary births depend on P and survival does not, so most of the deficit is the
+   face's own lower population. Give the excess beyond it (c1 lag 8: 0.61 against 0.77).
+5. **The (P̄, σ_P) fit.** Give the leave-one-out residual of 0.50, the competing forms, and the D2h sensitivity
+   (0.23–0.50).
+6. **Claim 2.** Mention the crossover: c1 dips to 0.9 P̄ most often and to 0.7 P̄ least often.
+
+## Not checked (round 2)
+
+- Excursions only at R = 11 c, with one seed per group (c1: 3,985 deaths). A = 84 was sampled stationary only, and
+  there is no excursion table at A = 84 or for a vertex-centred vessel.
+- The study's own excursion runs, `round2.py`, `round2_lowp.py` and the r2 histories were not rerun or reread.
+- Births and survival were not split by neighbour count. The layer beneath was not measured; its role is only
+  inferred from the excess over the own-P prediction.
+- Whether the clump's position predicts recovery, the test claim 9 needs, was not measured. The matched-count
+  comparison's null faces recover by construction (at least 64 more generations), and their errors (about ±0.05)
+  were not computed.
+- The figure was looked at, and its panels match the tables. Panel C is the thinned comparison, which the
+  matched-count result above qualifies.
