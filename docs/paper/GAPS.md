@@ -2,6 +2,7 @@
 
 2026-11-14, written with `draft.md`. Ordered by how much each gap limits what the paper can claim. "Supply" means:
 present in the repository as a checked result, a tracked data file or a runnable command.
+Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (section 7).
 
 ## 1. Theory
 
@@ -12,6 +13,9 @@ present in the repository as a checked result, a tracked data file or a runnable
 2. **A derivation, or even a definition, of the constant.** A referee will ask "0.21 of what?". The repository
    has: 0.2072–0.2125 on periodic faces depending on the family, 0.2146–0.221 and rising on octahedral faces,
    no measurement of a flat face without wrap-around or rim, and no demonstration that a limit exists.
+   *Update 2026-11-15:* a joint analysis (CN1, draft §7.5) shows the families allow one asymptotic constant
+   anywhere from about 0.207 to 0.219 and do not fix it; the measurement is now gap 42. The derivation is still
+   missing.
 3. **The two percolation statements under §10.2(b) at the source.** Balister–Bollobás–Stacey 1994 is known
    second-hand; Liggett 1995 by its abstract and a secondary quotation; the proof of Hartarsky–Szabó Cor. 4.8 is
    a sketch in the paper as read.
@@ -96,8 +100,13 @@ present in the repository as a checked result, a tracked data file or a runnable
     its schedule re-derived from it, which is not a replication. Side 17 is forecast, not run.
 21. **Stability in infinite volume.** Whole-torus lifetimes exist for N ≤ 5 only (none of 512 ended at N = 6–8
     within 10⁶); no scaling statement can be made.
-22. **The second shape variable** (draft §7.2): two pairs; nothing at A = 72 was rerun for the census; the hint
-    that the pair difference grows with age (2σ) is unresolved.
+22. ~~**The second shape variable**~~ *Closed as a search, 2026-11-15* (SH6–SH9, draft §7.2): the equal-loop
+    difference is zero within error at A = 72, of the opposite sign at A = 36, five committed candidates are
+    refuted, and one number fixes the lattice at equal area and shortest loop (proved). What remains: the
+    commensurability reading is a conjecture, tested only by equal-loop pairs at A = 84 (two exist with
+    loop² ≥ 12), which have not been run; Q54, Q63, P3, N72 and two of the triple tori were not rerun by a second
+    code; the 2σ age hint on the A = 60 loop² 16 pair was not retested (that pair was not rerun); the per-job
+    counts of unrecognised settled lives on (1,3,12) are overdispersed and unexplained.
 23. **Asymmetric faces with one mirror, the "lockstep" rule for general groups, the thickness transition, the
     firewall cost per cell**: all grade C. The symmetry story in the draft rests on O_h only.
 
@@ -106,9 +115,9 @@ present in the repository as a checked result, a tracked data file or a runnable
 24. **Systematic errors are not budgeted.** Quoted errors are 1/√deaths. Known systematics (tie conventions,
     detection-time bias, the soup transient, censoring of settled replicas, cycles longer than the detection
     windows) are bounded case by case in reviews, not propagated into the tables.
-25. **Undetected long cycles.** GPU runs detect periods ≤ 128, CPU runs periods dividing 840. A replica in a
-    longer cycle with its face occupied would be counted as alive for ever. None has been seen; that is not a
-    bound.
+25. ~~**Undetected long cycles.**~~ *Found and partly bounded, 2026-11-15* (ZL1, ZL2; draft §12): such cycles
+    exist (period 16 on a CPU-missed state, periods 9–52 seen), every capped CPU run is bounded below its errors,
+    and the long GPU runs are bounded by deaths at old ages. What remains is gap 41.
 26. **Post hoc statistics.** The "cubes outlive their ensembles" count (C6) was chosen after the data; several
     fits in §7 are post hoc and are marked so in their sources. A referee would ask for the pre-registered
     analysis plan for each table; it exists for some (Table 5) and not for others (the width families' two
@@ -149,3 +158,31 @@ present in the repository as a checked result, a tracked data file or a runnable
     the fit is offered as a description, but its motivation ("six images") would need the right asymmetric
     slope, which is not known.
 38. The ranking in §11 is a judgment by the draft's writer, not a result.
+
+## 7. Opened by the results of 2026-11-14 and 2026-11-15 (draft 2)
+
+39. **The limit of the thin face's cost per cell** (TH1–TH3, draft §7.4). About 0.099, but 0.093–0.107 is a
+    spread of correction forms, not a confidence interval, and a √b form that would allow 0.08 is excluded only by
+    the review's rings. Wanted: rings well beyond b = 36 (A = 108) with an independent stepper, and the segments of
+    45 and 61 sites and the rings at b = 20 and 36 rerun (grade C or not rerun now); a stated rule for which
+    correction forms are admissible.
+40. **What sets the ratio of thin to wide** (about 0.099 against about 0.21 per cell). No derivation: the exactly
+    solvable one-layer closure is 22% off (grade C, as are the two better closures at 11% and 5.6%), noise is
+    enough only from five layers, and the face dies by fronts. A referee would want either a computed front
+    large-deviation rate or a statement that the ratio is not expected to be simple.
+41. **The GPU runs with no bound on unrecognised settled replicas** (ZL2, draft §12, marked † in Tables 2, 3, 6):
+    octahedral A = 108 and 135, symmetric R43 s201, R44, R45, slabs 6×6×8 and 6×7×8, fwslab 5×6, 5×7, 5×8, 6×6,
+    6×7 (×8), and fwslab 4×7×8 (A = 84), whose log has no age bins and which ZL2 does not list. Their correctness
+    rests on the rate not rising with size (conjecture). Wanted: the guard described in `research/gpu/AGENT.md`
+    (doubling snapshots, or an age cap) and a rerun of at least A = 108, or a second implementation at those sizes
+    (gap 11). The bounds other than R11 and R13 are grade C (the GPU session's script, re-run, not re-derived).
+42. **The asymptotic constant, and the measurements that would decide it** (CN1, draft §7.5). Proposed and not
+    made: the octahedral face at A = 108 with 10⁴ deaths (about 4 GPU-hours), which the analysis says would
+    eliminate 35 of 36 single-constant readings if its value holds and the review calls not decisive; equilateral
+    periodic tori (single-constant forecast: local slopes 0.2117 → 0.2136, with the existing 6×6 run already
+    2.7–3.2σ below); octahedral faces of equal area with different rims, only with matched corners. Both GPU
+    measurements need the guard of gap 41 first. A flat face with neither wrap-around nor rim is still unmeasured.
+43. **The empty-patch cross-check** (GP10, draft §7.5). The last perimeter-free cost per cell (0.2185 ± 0.008)
+    rests on the 4×5 point, which the independent CPU run puts 1.9–2.6σ lower; a ten-times-longer CPU run is in
+    progress. Not checked at all: dependence on slab thickness, density and face size, and whether a 12×12 face is
+    in the same state as a small dying one.

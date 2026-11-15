@@ -2,7 +2,7 @@
 
 (authors to be decided by the owner)
 
-*Draft 1, 2026-11-14. Internal draft; it stays in the repository. How the work was produced and how that is
+*Draft 2, 2026-11-15 (draft 1: 2026-11-14). Internal draft; it stays in the repository. How the work was produced and how that is
 disclosed is the owner's decision and is not addressed here.*
 
 **How to read the tags.** Every sentence that states a result carries one of **[proved]**, **[measured]**,
@@ -31,11 +31,15 @@ cell, over ln τ from 5.6 to 29.3. The death of a face is the end of its own qua
 log-probability of finding k live cells is linear in k down to k = 1 and the death rate is the next point on the
 line. The law is not a function of area alone: octahedral faces are tougher than periodic faces of equal area,
 the lifetime of a periodic face depends on how its torus closes on itself, and every candidate law in area and
-shortest loop that was fixed before the runs was refuted. Symmetric initial conditions die exponentially sooner;
+shortest loop that was fixed before the runs was refuted, as were five candidate second variables; the
+differences at equal shortest loop are gone by A = 72. Together the families allow one asymptotic cost per cell
+anywhere from about 0.207 to 0.219. The thinnest periodic face costs about 0.099 per cell in the limit (0.093 to
+0.107 by the correction form), half a wide face's. Symmetric initial conditions die exponentially sooner;
 this accounts for the 2012 series of cubic seeds, extended here to a cube of side 16 that ran 2,919,617,676
 generations, although the one forecast of that lifetime made before the run was low by a factor 12. Five or six
 layers of the rule above fresh coin flips reproduce a slab face's lifetime to 0.015 in ln τ, so the exponent is
-set in a boundary layer driven by noise. **Not proved:** the area law, and its constant. We give what is known
+set in a boundary layer driven by noise. Settled replicas missed by the detectors are bounded in every CPU run but
+not in the largest GPU runs (Section 12). **Not proved:** the area law, and its constant. We give what is known
 rigorously (a conditional area law resting on a measured hypothesis; an exponential law for a deterministic
 relative of a two-dimensional analogue, conditional on two published percolation statements), relate the
 phenomenon to supertransient chaos, and say which parts our literature search did not find and which parts have
@@ -64,7 +68,8 @@ sustains chaos for a time that is astronomically long in the hull's size, and th
 that the theorems single out: the extinction of an outer {111} layer (after which, by confinement, that layer is
 dead for ever and the hull is one layer smaller), or a three-layer firewall. We measure the waiting-time law of
 those events (Section 5), find where its exponent is made (Section 6), and find that it depends on the shape and
-symmetry of the face in ways not yet reduced to a formula (Sections 5.5 and 7). Section 11 places each result
+symmetry of the face in ways not yet reduced to a formula (Sections 5.5 and 7), and ask whether all faces share
+one asymptotic cost per cell (Section 7.5). Section 11 places each result
 against the nearest work our searches found; several are instances of known results (the quasi-stationary flux
 identity for the death rate, boundary-controlled death, the shorter side of a torus setting an equilibrium
 tunnelling time, blocking sets and k-cores for the sets that die for ever), and what may be ours is stated there
@@ -384,14 +389,15 @@ generations for m = 7, 8, 9, 10, 12 (`research/peeling/slab_area.csv`). This fit
 Section 7 shows that it mixes faces of different widths, that a single slope does not describe periodic faces,
 and that its slope is inflated by the mixture.
 
-**Octahedral faces.** **[measured]** Table 2 gives the per-face lifetimes of asymmetric soups in octahedra. The
-law has the same form and octahedral faces are tougher than periodic ones: 1.7–1.9 times the slab line at
-A = 45, 63, 84 (F6; B + A), and at A = 108 an octahedral face has ln τ_face larger by 0.91 ± 0.06 than a 6 × 6
-periodic face measured with the same estimator (GP7; B), or by 0.84 ± 0.04 against the pooled, firewall-resolved
-slab value 22.537 ± 0.031 (GP8; B). What makes them tougher (the rim, eight faces sharing edges, the interior, the
-shape) has not been separated. The cost per cell is not constant: the local slopes of Table 2 are 0.201, 0.212,
-0.215, 0.218 ± 0.001 and 0.221 ± 0.009, still rising at A = 135 (GP1; B−). Its limit, if there is one, is not
-known. An earlier extrapolated limit, 0.2077 ± 0.0014, was withdrawn when it was found to miss its own data.
+**Octahedral faces.** **[measured]** Table 2 gives the per-face lifetimes of asymmetric soups in octahedra. The law
+has the same form and octahedral faces are tougher than periodic ones: 1.7–1.9 times the slab line at A = 45, 63,
+84 (F6; B + A), and at A = 108 an octahedral face has ln τ_face larger by 0.91 ± 0.06 than a 6 × 6 periodic face
+measured with the same estimator (GP7; B), or by 0.84 ± 0.04 against the pooled, firewall-resolved slab value
+22.537 ± 0.031 (GP8; B; every value compared is †, Section 12). What makes them tougher (the rim, eight faces
+sharing edges, the interior, the shape) has not been separated. The cost per cell is not constant: the local slopes
+of Table 2 are 0.201, 0.212, 0.215, 0.218 ± 0.001 and 0.221 ± 0.009, still rising at A = 135 (GP1; B−). Its limit,
+if there is one, is not known (Section 7.5). An earlier extrapolated limit, 0.2077 ± 0.0014, was withdrawn when it
+was found to miss its own data.
 
 | R | A | face deaths | ln τ_face | source and independent values |
 |---:|---:|---:|---:|---|
@@ -399,18 +405,19 @@ known. An earlier extrapolated limit, 0.2077 ± 0.0014, was withdrawn when it wa
 | 9 | 45 | 137,243 | 9.820 ± 0.003 | same (F9; B); engine-only run of 13,765 deaths: 9.825 ± 0.009 (F8; A) |
 | 11 | 63 | 764,941 | 13.635 ± 0.001 | GPU ensemble (calibration row of GP1); CPU: 13.632 ± 0.008 |
 | 13 | 84 | 34,026 | 18.141 ± 0.005 | GPU; two independent CPU runs: 18.154 ± 0.025 and 18.148 ± 0.028; the earlier CPU value 18.077 ± 0.054 (342 deaths) |
-| 15 | 108 | 1,059 | 23.376 ± 0.031 | GPU only (GP1; B−) |
-| 17 | 135 | 16 | 29.34 ± 0.25 | GPU only (GP1; B−); replica ages reach 1/900 of the mean |
+| 15 | 108 | 1,059 | 23.376 ± 0.031 † | GPU only (GP1; B−) |
+| 17 | 135 | 16 | 29.34 ± 0.25 † | GPU only (GP1; B−); replica ages reach 1/900 of the mean |
 
 Table 2. Asymmetric soups (density 0.35) in octahedra of L1 radius R; τ_face = 8 × mean wait to the first face
 death. The CPU values at R = 7, 9, 11 are ln(8 × first_peel_mean) in `research/fluct/data/qsd_summary.json`
-(6.8054, 9.8202, 13.6317); `research/fluct/README.md` and the notebook print 6.804, 9.819, 13.633, which differ from
-the file in the last digit. The engine-only value at R = 9 is ln(8 × exposure/deaths) from
-`python3 research/experiments/face_endgame_check.py 9 16000` (re-run 2026-11-14: 13,765 first peels, exposure
-31,826,744 soup-generations, mean 2312.1 ± 19.7, the notebook's 2312 ± 20); the 9.824 printed in an earlier draft is not what the script gives.
-**[measured]** Local slopes between successive rows: 0.2010, 0.2119, 0.2146, 0.2181, 0.2209. Nothing at
-A ≥ 108 has been reproduced by a second implementation or a second GPU run; the kernel was checked bit for bit
-against the CPU steppers by emulation, which cannot check the GPU's execution.
+(6.8054, 9.8202, 13.6317); `research/fluct/README.md` and the notebook print 6.804, 9.819, 13.633, which differ
+from the file in the last digit. The engine-only value at R = 9 is ln(8 × exposure/deaths) from `python3
+research/experiments/face_endgame_check.py 9 16000` (re-run 2026-11-14: 13,765 first peels, exposure 31,826,744
+soup-generations, mean 2312.1 ± 19.7, the notebook's 2312 ± 20); the 9.824 printed in an earlier draft is not what
+the script gives. **[measured]** Local slopes between successive rows: 0.2010, 0.2119, 0.2146, 0.2181, 0.2209.
+Nothing at A ≥ 108 has been reproduced by a second implementation or a second GPU run; the kernel was checked bit
+for bit against the CPU steppers by emulation, which cannot check the GPU's execution. † These runs admit no bound
+on settled replicas the GPU missed; at A = 63 and 84 the bounds are 1.3 × 10⁻⁴ and 6.7 × 10⁻³ (ZL2; B; Section 12).
 
 Figure 2 (placeholder; does not exist): *ln τ_face against A for octahedral faces (Table 2), periodic faces by
 width family (Table 6), and O_h-symmetric faces (Table 3), with the lines 0.2072·A and 0.2088·A for reference.*
@@ -478,14 +485,16 @@ it for cube-centred (R odd) and vertex-centred (R even) hulls.
 | 570 | 37; 167; 15.881 ± 0.077 | 38; 279; 16.278 ± 0.060 (GPU: 112,545; 16.345 ± 0.003) | 0.40 ± 0.10 |
 | 630 | 39; 96; 17.799 ± 0.102 | 40; 46; 18.220 ± 0.147 (GPU: 45,785; 18.273 ± 0.005) | 0.42 ± 0.18 (0.47 ± 0.10 with the GPU value) |
 | 693 | 41; 58; 19.68 ± 0.13 | 42; 45; 20.38 ± 0.15 | 0.70 ± 0.20 |
-| 759 | 43; GPU 1,057; 21.903 ± 0.031 (with a longer run: 21.889 ± 0.012) | 44; GPU 637; 22.409 ± 0.040 | 0.51 ± 0.05 |
-| 828 | 45; GPU 192; 24.175 ± 0.072 | | |
+| 759 | 43; GPU 1,057; 21.903 ± 0.031 † (with a longer run: 21.889 ± 0.012) | 44; GPU 637; 22.409 ± 0.040 † | 0.51 ± 0.05 |
+| 828 | 45; GPU 192; 24.175 ± 0.072 † | | |
 
 Table 3. O_h-symmetric soups; τ = mean residence at hull radius R, states older than 1,000 generations.
-**[measured]** CPU rows: orbit-reduced stepper, `research/fluct/data/sym_residence.csv`, fresh soups only (S2,
-S3; B, with agreement between two independent implementations at A = 408–630, grade A). GPU rows: GP2, GP3
-(B−, B). The ratio column uses the CPU values; `python3 research/fluct/sym_fit.py` prints 0.27 ± 0.13 at A = 630
-and 0.87 ± 0.18 at A = 693 because it pools copies of the side-16 cube's own states into the vertex values there.
+**[measured]** CPU rows: orbit-reduced stepper, `research/fluct/data/sym_residence.csv`, fresh soups only (S2, S3;
+B, with agreement between two independent implementations at A = 408–630, grade A). GPU rows: GP2, GP3 (B−, B). †:
+no bound on settled replicas the GPU missed (ZL2, Section 12); the longer R = 43 run is bounded by 1.2 × 10⁻²
+against its error 0.013 (*preliminary*, C). The ratio column uses the CPU values; `python3
+research/fluct/sym_fit.py` prints 0.27 ± 0.13 at A = 630 and 0.87 ± 0.18 at A = 693 because it pools copies of the
+side-16 cube's own states into the vertex values there.
 
 **[measured]** What the table shows.
 
@@ -561,20 +570,24 @@ included.
 | 12 | Six layers of the rule over coin flips: ln τ = 7.40, 9.94 for slab faces of A = 36, 48 (Section 6) | 7.397 ± 0.009, 9.945 ± 0.014 | held (SW2; B) |
 | 13 | Depth of rule needed over noise for octahedral faces: three layers | three layers miss by 0.3–1.0 in ln τ; four to five are needed | **missed** (recorded in `research/theory/exponent.md`) |
 | 14 | The remnant of a dying face is the same in every vessel: on a rim-free slab face (5 × 4 × 8, A = 60) the mean face population 1, 2, 3, 4 generations before death is the hull's 1.6, 3.4, 6.4, 9.7; refuted if lags 3 or 4 are more than 20% off (swarm path E3, `research/theory/swarm/PREDICTIONS.md`, protocol committed before the run in `research/theory/swarm/exam/OUTCOMES.md`) | 1.66, 4.29, 10.70, 18.40 (3,188 face deaths) | **failed** at lags 3 and 4 (+67%, +90%); lag 1 and the one-cell share (59.4% against 62 ± 5%) held. No ledger row: one run by the examiner, rough errors, not re-derived (NOTEBOOK 2026-11-14, "the swarm's predictions examined") |
+| 15 | Five candidate second variables at equal area and shortest loop, fitted on three pairs (`research/shape3/PREDICTIONS.md`, commit 46baf66) | none fits (χ² ≥ 111 on 7) | **all refuted** (SH9; A) |
+| 16 | Empty patches on a 12 × 12 × 8 face: ln P = const − c·cells − σ·perimeter with c = 0.21 ± 0.015 (`research/NOTEBOOK.md`, entry "a forecast before the run") | c = 0.264; the form fails (χ² 3,369 on 3) | **missed** as stated (GP10; A + B) |
 
 Table 5. Forecasts committed before their outcomes. Sources searched: `research/peeling/cube_lifetime.csv`,
 `research/fluct/PREDICTIONS.md`, `research/gpu/PREDICTIONS.md`, `research/shape/PREDICTIONS.md`,
-`research/shape2/PREDICTIONS.md`, `research/theory/exponent.md`, and the swarm's
-`research/theory/swarm/PREDICTIONS.md` as scored in `research/theory/swarm/exam/OUTCOMES.md`; within these, the
-ledger rows C3–C5, C9, GP2, GP8, GP9, SH1, SH2, SH5, SW2. Not searched for this table: the other tracked forecast
-files (`research/shape3/PREDICTIONS.md`, `research/theory/thin/PREDICTIONS.md`, `research/theory/exponent/PREDICTIONS.md`
-entry by entry, `research/theory/class/PREDICTIONS.md`, `research/theory/class/followup/PREDICTIONS.md`,
-`research/toy2d/PREDICTIONS.md`, `research/audit/class/PREDICTION-*.md`), so the table may be incomplete.
-Omitted: forecasts about other rules. Among the swarm exam's entries these are the ones on the 2D rule and its dice models: counting C-E2 failed
-(slope 0.3676 ± 0.0006 against 0.447 ± 0.012), probability P-E1 is undecided at its refutation line (0.512 ± 0.012
-against a line at 0.51), path E2 was not refuted but its central value missed at L = 36 (7.99 ± 0.38 against
-9.8 ± 1.0); path E1 and source S-E1 held. The exam's one other gump entry, counting C-E1, held (0.1026 ± 0.0003
-against 0.105 ± 0.009; SW3, grade C, Section 5.5). Several forecasts about other rules also failed (Section 9).
+`research/shape2/PREDICTIONS.md`, `research/shape3/PREDICTIONS.md` (its five candidates only), the notebook entry
+named in row 16, `research/theory/exponent.md`, and the swarm's `research/theory/swarm/PREDICTIONS.md` as scored in
+`research/theory/swarm/exam/OUTCOMES.md`; within these, the ledger rows C3–C5, C9, GP2, GP8, GP9, GP10, SH1, SH2,
+SH5, SH9, SW2. Not searched for this table: the other tracked forecast files (`research/constant/PREDICTIONS.md`,
+`research/theory/thin/PREDICTIONS.md`, `research/theory/exponent/PREDICTIONS.md` entry by entry,
+`research/theory/class/PREDICTIONS.md`, `research/theory/class/followup/PREDICTIONS.md`,
+`research/toy2d/PREDICTIONS.md`, `research/audit/class/PREDICTION-*.md`), so the table may be incomplete. Omitted:
+forecasts about other rules. Among the swarm exam's entries these are the ones on the 2D rule and its dice models:
+counting C-E2 failed (slope 0.3676 ± 0.0006 against 0.447 ± 0.012), probability P-E1 is undecided at its refutation
+line (0.512 ± 0.012 against a line at 0.51), path E2 was not refuted but its central value missed at L = 36 (7.99 ±
+0.38 against 9.8 ± 1.0); path E1 and source S-E1 held. The exam's one other gump entry, counting C-E1, held (0.1026
+± 0.0003 against 0.105 ± 0.009; SW3, grade C, Section 5.5). Several forecasts about other rules also failed
+(Section 9).
 
 **What the failure of forecast 1 showed.** The forecast multiplied a fit made on cube-centred symmetric soups
 with faces of at most 513 cells by a fixed factor for the vertex-centred hull. Both steps were wrong in the same
@@ -618,6 +631,8 @@ own seeds)
   0.03–0.04 *below* the deterministic value, 4–5 standard errors at A = 45: there is a small systematic offset,
   and the agreement at w = 4 is partly a crossing. That four to five layers suffice for octahedra was noticed
   after the runs (forecast 13 of Table 5 had said three).
+- *The thinnest periodic face* (TH4; A for w = 5 and 4 at A = 48). The same depth: +0.006 ± 0.003 at w = 5,
+  +0.049 ± 0.003 at w = 4, and 0.4–2.3 at w ≤ 3, not rerun (Section 7.4).
 
 **[measured]** (SW2; B: run by an examiner who had not made the prediction) With six layers over fair coins, slab
 faces of A = 36 and 48 give 7.397 ± 0.009 and 9.945 ± 0.014 against the deterministic 7.398 and 9.936.
@@ -666,12 +681,14 @@ separately:
 | short side s | ln τ_face at face area A (share of lives ended by a firewall) | slope within the family |
 |---:|---|---|
 | 3 | 11.082 (54; 13%), 14.621 ± 0.003 (72; 87%), 18.046 ± 0.011 (90; 99.6%) | 0.1966, then 0.1902: curved |
-| 4 | 12.486 (60), 14.970 ± 0.002 (72), 17.465 ± 0.005 (84), 19.943 ± 0.018 (96), 22.373 ± 0.042 (108; 99.2%) | 0.2072 ± 0.0001 |
-| 5 | 15.661 ± 0.003 (75), 18.786 ± 0.011 (90), 21.890 ± 0.040 (105), 25.046 ± 0.073 (120; 92%) | 0.2082 ± 0.0006 |
-| 6 | 22.568 ± 0.041 (108; 2%), 26.405 ± 0.104 (126; 24%) | 0.213 ± 0.006 |
+| 4 | 12.486 (60), 14.970 ± 0.002 (72), 17.465 ± 0.005 (84) †, 19.943 ± 0.018 (96), 22.373 ± 0.042 (108; 99.2%) | 0.2072 ± 0.0001 |
+| 5 | 15.661 ± 0.003 (75), 18.786 ± 0.011 (90) †, 21.890 ± 0.040 (105) †, 25.046 ± 0.073 (120; 92%) † | 0.2082 ± 0.0006 |
+| 6 | 22.568 ± 0.041 (108; 2%) †, 26.405 ± 0.104 (126; 24%) † | 0.213 ± 0.006 |
 
-Table 6. Periodic slab faces by width (`research/data/gpu_facelaw/`;
-`python3 research/audit/gpu_pr16_lead_check.py research/data/gpu_facelaw`).
+Table 6. Periodic slab faces by width (`research/data/gpu_facelaw/`; `python3 research/audit/gpu_pr16_lead_check.py
+research/data/gpu_facelaw`). †: no bound on settled replicas the GPU missed (ZL2, Section 12); the run at A = 96 is
+bounded by 1.0 × 10⁻² against its error 0.018 (*preliminary*, C). The A = 84 run is not in ZL2; its log has no age
+bins (`python3 research/gpu/zombies.py`), so it has no bound either.
 
 - At equal area the narrower face dies sooner: 3 × 8 against 4 × 6 (A = 72), −0.349 ± 0.004; 3 × 10 against 5 × 6
   (A = 90), −0.740 ± 0.016; 4 × 9 against 6 × 6 (A = 108), −0.196 ± 0.059. The same slab in both orientations
@@ -681,7 +698,7 @@ Table 6. Periodic slab faces by width (`research/data/gpu_facelaw/`;
   intercepts 0.053, 0.121, 0.203 fits (χ² = 8.4 on 8), and so does ln τ = a + 0.2117·A − 0.054·M with M the long
   side (χ² = 5.6 on 9). The two cannot be told apart with these data. Either way the correction to an area law is
   linear in a side length. Whether the cost per cell of a wide periodic face is 0.2072 or 0.2117 is **not
-  decided**.
+  decided** (Section 7.5).
 - An area-only fit over the slabs with s ≥ 4 gives 0.2085 per cell with χ² = 512 on 10: wider slabs were also the
   larger ones, so mixing widths inflates the slope. The 0.2088 of Section 5.2 is a slope of that kind. (An
   independent series at A = 27–75 with widths 3 to 5 gives 0.2121 ± 0.0004 for the same reason;
@@ -718,11 +735,30 @@ loop² 12 and 13 have step-distance 4, like 4 × 6, and lie 0.096 ± 0.012 and 0
 proneness to transverse firewalls (it predicted those tori above 4 × 6). Tori with no observed firewall channel
 lie on the same curve as tori with 5% and 87% firewall endings.
 
-**[measured]** (SH2; A: four runs, two codes) The shortest loop is not the only variable. At A = 60 two tori with
-the same shortest loop (squared 16) and second-shortest loops squared 19 and 21 differ by 0.0142 ± 0.0019 in
-ln τ_face (χ² = 4.7 on 3 over the four runs; the first published value was 0.019 ± 0.004). At A = 48 two tori
-with shortest loop² 12 and second loop² 16 and 19 differ by 0.0151 ± 0.0017. In both pairs the face with the
-shorter second loop dies sooner. Two pairs do not identify the variable, and it has not been found.
+**[measured]** (SH2; A: two codes) On small faces the shortest loop is not the only variable: at A = 60 two tori
+with shortest loop² 16 and second loop² 19 and 21 differ by 0.0142 ± 0.0019 in ln τ_face, and at A = 48 two with
+loop² 12 and second loop² 16 and 19 by 0.0151 ± 0.0017, the shorter second loop dying sooner.
+
+**The difference does not persist and has no fixed sign.** Let d be ln τ_face of the member with the longer second
+loop minus the other's. **[measured]** (SH6; B) At A = 72 the three equal-loop differences, −0.0062 ± 0.0041 and
++0.0005 ± 0.0041 (loop² 16) and +0.0018 ± 0.0061 (loop² 12), are zero within error (χ² = 2.9 on 3). **[measured]**
+(SH7; A at A = 36 and 45, an independent stepper giving −0.0220 ± 0.0009 and +0.0085 ± 0.0014; B at 54 and 63) At
+shortest loop² 9, d is −0.0223 ± 0.0007 at A = 36, +0.0076 ± 0.0013 at 45, −0.0020 ± 0.0019 at 54 and +0.0017 ±
+0.0020 at 63: at A = 36 the face with the *longer* second loop dies sooner.
+
+**[proved]** (SH8; A) The reduced Gram matrix (Q1, 2B, Q2) of a face torus of index n = A/3 has
+Q1·Q2 − B² = 0.75 n², so at equal area and equal shortest loop² Q1 one number fixes the lattice: second loop, third
+loop, angle and Re τ (τ the torus's modular parameter) carry the same information, and candidates can differ only
+in the form of their dependence, not in its sign within a group. **[measured; a refutation]** (SH9; A) Five
+candidates fitted on the three earlier pairs, with forecasts committed before the runs (linear in the second loop;
+linear in the angle; cos 2π Re τ; a sum over closed loops of e^(−1.41 × length); a modular form
+e^(−2πh) cos 2π Re τ), are all refuted under the committed rule (χ² ≥ 111 on 7), and none can give a negative d.
+
+**Reading** **[conjecture; not tested]**. There is no second geometric variable in the sense looked for:
+differences of at most 0.02, irregular in sign on small faces and gone at A = 72, while the dependence on the
+shortest loop itself grows with area (Section 7.3), look like a commensurability effect, the chaotic state's
+short-range structure fitting round a small torus, which would not enter the asymptotic constant. The test is that
+equal-loop differences stay below 0.005 at every A ≥ 72 (A = 84 has two pairs with loop² ≥ 12).
 
 ### 7.3 Every torus of a given area
 
@@ -735,18 +771,17 @@ A = 72 gives a cost per cell that depends on the shortest loop and saturates:
 | d ln τ_face/dA, A = 48 → 60 | 0.1148 ± 0.0003 | 0.1414 ± 0.0003 | 0.1918 ± 0.0003 | 0.2073 ± 0.0002 | 0.2090 ± 0.0003 | 0.2125 ± 0.0003 |
 | d ln τ_face/dA, A = 60 → 72 | 0.1107 ± 0.0004 | 0.1353 ± 0.0008 | 0.1872 ± 0.0010 | 0.2049 ± 0.0009 | 0.2061 ± 0.0007 | 0.2076 ± 0.0006 |
 
-Table 8. Cost per cell of a periodic face by shortest loop (`research/shape2/README.md`;
-`python3 research/audit/shape2_lead_check.py`; values as in `research/shape2/data/explore_report.txt`, first block,
-which also gives the A = 72 values for loop² ≥ 12 that the lead check does not print. The loop² 4 entry at
-60 → 72 is that file's 0.1353 ± 0.0008, which the lead check reproduces as 0.1353; the README's table has
-0.1346 ± 0.0010). The slopes compare different lattices with equal shortest loop,
-not one torus grown. The loop² 4 lifetimes carry a tie-resolution bias of about −0.018 in ln τ (the slope is not
-affected), and the loop² 4 tori are multigraphs (a cell counts one neighbour twice), so only loop² 3 is strictly
-"the same automaton on a narrow cylinder".
+Table 8. Cost per cell of a periodic face by shortest loop (`research/shape2/README.md`; `python3
+research/audit/shape2_lead_check.py`; values as in `research/shape2/data/explore_report.txt`, first block, which
+also gives the A = 72 values for loop² ≥ 12 that the lead check does not print. The loop² 4 entry at 60 → 72 is
+that file's 0.1353 ± 0.0008, which the lead check reproduces as 0.1353; the README's table has 0.1346 ± 0.0010).
+The slopes compare different lattices with equal shortest loop, not one torus grown. The loop² 3 entries are local
+slopes of a law that is still bending (Section 7.4). The loop² 4 lifetimes carry a tie-resolution bias of about
+−0.018 in ln τ (the slope is not affected), and the loop² 4 tori are multigraphs (a cell counts one neighbour
+twice), so only loop² 3 is strictly "the same automaton on a narrow cylinder".
 
-A face only √3 cells around still lives a time exponential in its area, at about half the wide-face cost per
-cell; on these thin tori the hazard is flat in age and face death is permanent, so they are the same kind of
-object.
+Even the thinnest tori live a time exponential in their area, with a hazard flat in age and permanent face death
+(SH3): they are the same kind of object as wide faces (Section 7.4).
 
 **[measured]** (SH4; A, two codes, but only four lattices at A = 48) Above loop² 12 the shortest loop no longer
 orders the classes at A = 48: the four classes with loop² 12, 12, 13, 16 span 0.016, and the 4 × 4 torus
@@ -763,11 +798,8 @@ the census, all fail at each of A = 48, 60 and 72. The one that appeared to pass
 run (χ² = 5.4 on 5) fails on independent values (22.7 on 5) and on all runs pooled (45.4 on 5).
 
 **Reading** **[conjecture]**. ln τ_face = c·A + (a term set by how the face closes on itself); the second term is
-not small, not constant in A, and not a function of one length. Two consequences are firm regardless. First, no
-family of periodic faces measured so far isolates the constant c of an unwrapped flat face to better than about
-±0.004: the families give 0.205 to 0.2125 at these sizes, and octahedral faces give 0.215–0.221 (Table 2), with
-nothing yet connecting the two. Second, the thin tori are quasi-one-dimensional systems with their own costs per
-cell (0.11, 0.14, 0.19), which may be within reach of a transfer-matrix calculation.
+not small, not constant in A, and not a function of one length. What the families together say about c is in
+Section 7.5; the thinnest torus, a quasi-one-dimensional system with its own cost per cell, is Section 7.4.
 
 *Relation to known work.* That the shape of a torus at fixed area changes an exponential time is known in
 equilibrium. For zero-field Ising and Potts Metropolis dynamics on a K × L grid at low temperature, Nardi and
@@ -787,6 +819,57 @@ periodic domain at fixed size, or a second shape variable beyond the shortest lo
 Figure 3 (placeholder; does not exist): *ln τ_face at A = 72 against shortest loop length (Table 7), with the
 A = 60 and A = 48 classes offset, and the two equal-shortest-loop pairs marked.* Figure 4 (placeholder): *cost
 per cell against shortest loop² (Table 8).*
+
+### 7.4 The thinnest face
+
+The torus with periods (1,1) and (0,b) has shortest loop² 3, one cube step: its face is a ring of b sites of three
+cells, A = 3b. **[measured]** (TH1; A: an independent stepper at b = 16, 24, 26, 28, 30, 32, within 1.3σ) Its
+lifetimes (b = 16 … 36) bend: the local cost per cell is 0.1144 and 0.1104 over A = 48–72 (Table 8's loop² 3
+column), 0.1081 ± 0.0003 over 72–84, 0.1067 ± 0.0004 over 84–96 and about 0.103 at 108. **[measured]** (TH2; A for
+21, 29, 37 sites, C for 45 and 61) The same face with two free ends (a wall of dead face sites cut into the ring)
+costs a straight 0.0993 ± 0.0003 per cell from A = 75 to 135.
+
+**[measured: the fits]** (TH3; B) The long-face limit is about 0.099 per cell, between 0.093 and 0.107 depending on
+the unknown form of the finite-size correction: a spread of fitted forms, not a confidence interval. An error bar
+of ± 0.004 first given for it did not survive review; it was the spread of the forms first chosen, and others fit
+as well and land outside it. **[conjecture]** If rings, segments, empty windows and the wall front share one limit,
+it lies in 0.097–0.102. The thinnest face costs about half of what a wide one does per cell.
+
+**Why it is not derived.** Noise beneath is enough only from five layers (TH4, Section 6). **[exact]** (TH5; A for
+the values) One layer of the rule over coins is solvable (ln τ = 3.967199 on a ring of 5 sites). *Preliminary*
+(TH5; C): its cost per site is 22% above gump's and two better closures are 11% and 5.6% above, so no exactly
+solvable closure found gives the number. **[measured]** (TH6; A) The face dies as an island shrinking from both
+ends: looking back from the death its population is 1.7, 4.1, 7.3, 10.1, 12.6, 14.8 at successive steps, over a
+time proportional to its length. What sets the ratio of the thin face's cost to the wide face's is open.
+
+### 7.5 Is there one asymptotic cost per cell?
+
+**[measured, model-free]** (CN1; A) The local slopes of octahedral faces at A = 63–108 (0.2146, 0.2181 ± 0.0013;
+Table 2) lie above those of periodic faces within a width family (0.2072, 0.2082; Table 6), and are rising.
+**[fitted]** (CN1; A: 64 points, models stated before fitting and scored on held-out sizes; a review with its own
+fits) That does not separate the limits. Periodic faces give an asymptotic c = 0.207–0.216 depending on the form,
+octahedral faces 0.218–0.232 with one correction term and 0.2156 with a saturating slope; a single constant passes
+jointly with ordinary parameters (c = 0.2179 with a 1/A octahedral correction, joint p 0.28); of 84 pairings of an
+octahedral with a periodic form, 36 pass with one constant at p ≥ 0.01, with c = 0.2072 to 0.2190. **The data allow
+one asymptotic constant anywhere from about 0.207 to 0.219; they do not fix it, and they do not show that there are
+two.** Every passing reading with c ≤ 0.214 needs a two-term correction on octahedral faces; every one with c ≥
+0.2155 needs periodic faces to approach c as slowly as 1/s in the width s. *Conjecture* (not tested): the thin
+tori, whose deficit falls roughly exponentially in the shortest loop, argue for the lower half. **[refuted]** (CN1)
+Neither a capillary-wave law for the wrap-around term nor a sum over period vectors fits (χ² 20,925 on 13 and
+48,004 on 14 at A = 48 and 60). Two measurements are proposed and not made, and their power is disputed: the
+octahedral face at A = 108 with 10⁴ deaths, and equilateral periodic tori (forecast local slopes 0.2117 → 0.2136
+under one constant).
+
+**Empty patches** (GP10; A for the table up to 4 × 4, by an independent CPU stepper; B and GPU-only at 4 × 5). On a
+periodic slab 12 × 12 × 8 (A = 432 per face) in which no face died in 3.04 × 10¹⁰ replica-generations, rhombic
+patches have **[measured]** ln P(empty) from −6.254 (2 × 2) to −19.423 ± 0.007 (4 × 4) and −23.318 ± 0.047
+(4 × 5). **[failed forecast]** A forecast committed before the run, c = 0.21 ± 0.015 from the fit
+ln P = const − c·cells − σ·perimeter, missed as stated: the fit gives c = 0.264 and does not describe the data
+(χ² 3,369 on 3), a failure of the presumed form. **[fitted, post hoc]** Second differences along similar shapes,
+which remove every term linear in the side, give a perimeter-free cost per cell of 0.273, 0.252, 0.237 and
+0.2185 ± 0.008 at 12, 18, 27 and 36 cells: falling into the range of the lifetime laws, asymptote not established
+(0.16–0.24). The last value rests on the 4 × 5 point, which an independent CPU run puts 1.9–2.6σ lower (with it,
+about 0.29); that cross-check is still being repeated.
 
 ## 8. What is left: debris and clockwork
 
@@ -974,14 +1057,16 @@ face.
 
 ### 10.3 Open
 
-1. **Why area.** No proof that the wait is exponential in the face's area exists for gump, for the 2D analogue in
-   a vessel run by the rule, or for the finite-depth noise-driven models of Section 6. A dedicated theory effort
-   by several independent lines ended without one.
-2. **The constant.** It is not derived from the rule. It is also not yet *measured* as an asymptotic constant:
-   octahedral slopes are still rising at A = 135; periodic faces carry a wrap-around term (Section 7); no flat
-   face without periodic identification or rim has been measured. One conjectured value exists, a quasi-potential
-   of a measured one-step table with a stated continuation, 0.2191 per cell at A = 84 **[conjecture]**.
-3. **The second shape variable** of a periodic face, and why octahedral faces are tougher than periodic ones.
+1. **Why area.** No proof that the wait is exponential in the face's area exists for gump, for the 2D analogue in a
+   vessel run by the rule, or for the finite-depth noise-driven models of Section 6. A dedicated theory effort by
+   several independent lines ended without one.
+2. **The constant.** It is not derived from the rule. It is also not yet *measured* as an asymptotic constant: the
+   families allow one value from about 0.207 to 0.219 (Section 7.5); no flat face without periodic identification
+   or rim has been measured. One conjectured value exists, a quasi-potential of a measured one-step table with a
+   stated continuation, 0.2191 per cell at A = 84 **[conjecture]**. So are the thin face's limit and its ratio to
+   the wide face's (Section 7.4).
+3. **Shape.** Whether the equal-loop differences of periodic faces are a commensurability effect that vanishes on
+   large faces (Section 7.2; the test is A = 84), and why octahedral faces are tougher than periodic ones.
 4. **Symmetric faces:** the asymptotic slope (is it the asymmetric slope divided by 6?), the factor ≈ 1.5 between
    vertex- and cube-centred hulls, and the excess length of the side-16 cube's plateaus.
 5. **Infinite volume.** Whether the chaotic state is stable or only metastable on the infinite lattice; whether
@@ -1012,7 +1097,7 @@ References.
 | Death as the end of the quasi-stationary tail, measured to one cell (Section 5.3) | The flux identity 1/τ = Σ_r W_r π_r [AM17, §2 read, eq. 6]; QSD theory [MV12, DS65]; the same relation in deterministic spatially extended transients, each with a measured distribution: spiral-defect counts T(N) = 1/(Z p(2)) [SK15, §§I, III, IV read], 1/τ = W₋₁(1)P_qs(1) + W₋₂(2)P_qs(2) checked against simulation [VR19], pipe-flow puffs τ_d = δt/P(h_th) [NA21, §§1–3 read], extreme-value view [GGG10, abstract only]; the SIS form 1/(μ₁q₁) [N11, not obtained]; large deviations in cellular automata [BGPV19] | **An instance of a known result** (the quasi-stationary flux identity), with precedents in deterministic systems. Possibly ours, narrowly: the count followed down to a single cell (ln p_k linear to k = 1) with the exit rate measured rather than fitted, in a deterministic automaton. That narrower form was not found in our searches |
 | The exponent is made in five or six layers over independent noise (Section 6) | Window of a chaotic coupled map lattice driven by white-noise boundary inputs reproduces the bulk's statistics [CG99, read in full; its 12 citing works, read as titles, have none on lifetimes]; "thermal bath" inputs [dS08, abstract as paraphrased]; deterministic CML "behave like stochastic models" [MvHB02, abstract]; boundary layers of fixed thickness, lifetime still fitted in the whole length [HKTP10, now read in full]; boundary-controlled death [VR19, R22]; dice models of deterministic networks with lifetime e^{cn} (monotone) [CD11, MV10]; probabilistic cellular automata [LMS90, MST19] | **The method is an instance of a known one** ([CG99], in mirror image: they randomise the outside of a window, we the inside of a boundary layer), and that death enters through the boundary is known [VR19]. **Not found in our searches:** a reduction of a transient lifetime to a thin layer over noise, or any comparison of lifetimes or escape rates with the chaotic interior replaced by noise. The review [TL08] and a 2007 paper on noise and the collapse of spatiotemporal chaos (seen as a search result only) were not read |
 | Symmetric initial conditions die exponentially sooner (Section 5.5) | Nothing found on lifetimes. Life lexicon: symmetric soups produce different objects [LL-soup]; symmetric soup censuses (apgsearch, Catagolue) were seen in search results only, not opened, and are not citable | **Not found in our search** as a quantified result. Conceptually close to standard symmetry reduction |
-| Lifetime of a periodic face depends on its shape at fixed area (Section 7) | Proved for equilibrium tunnelling: zero-field Ising/Potts on a K × L torus, exponent 2·min{K, L} + 2 with an exponential limit law [NZ17, §§1–2 read]; tunnelling splitting through a 3D Ising interface on a periodic L1 × L2 cross-section depends on L1/L2 at equal area [CGV93, read in full]; droplet shape transitions on tori [NH03, abstract]; surface-code failure controlled by gcd of the lattice dimensions [T19, abstract only]; critical thickness for 3D transients [LCP17, abstract only]; plane-Couette lifetimes against box size with shape not separated [Man09, a miss]; holes of equal measure with different escape rates [BY08], escape-rate formulae [KL08] | **The shortest loop of a torus controlling an exponential time is an instance of a known result** (equilibrium tunnelling, [NZ17] at leading order, [CGV93] in the prefactor). **Not found in our searches:** a dependence of a chaotic-transient, turbulent, nucleation or extinction lifetime on aspect ratio or twist at fixed size; a second shape variable. Possibly ours, narrowly: the twisted-torus census for a chaotic transient, with the refutation of every law in area and shortest loop. The analogy with [BY08] is ours and is untested |
+| Lifetime of a periodic face depends on its shape at fixed area (Section 7) | Proved for equilibrium tunnelling: zero-field Ising/Potts on a K × L torus, exponent 2·min{K, L} + 2 with an exponential limit law [NZ17, §§1–2 read]; tunnelling splitting through a 3D Ising interface on a periodic L1 × L2 cross-section depends on L1/L2 at equal area [CGV93, read in full]; droplet shape transitions on tori [NH03, abstract]; surface-code failure controlled by gcd of the lattice dimensions [T19, abstract only]; critical thickness for 3D transients [LCP17, abstract only]; plane-Couette lifetimes against box size with shape not separated [Man09, a miss]; holes of equal measure with different escape rates [BY08], escape-rate formulae [KL08] | **The shortest loop of a torus controlling an exponential time is an instance of a known result** (equilibrium tunnelling, [NZ17] at leading order, [CGV93] in the prefactor). **Not found in our searches:** a dependence of a chaotic-transient, turbulent, nucleation or extinction lifetime on aspect ratio or twist at fixed size; a second shape variable (none was found in our data either: Section 7.2). Possibly ours, narrowly: the twisted-torus census for a chaotic transient, with the refutation of every law in area and shortest loop and of five candidate second variables. The analogy with [BY08] is ours and is untested |
 | Period = twist × loop; statistics of twisted oscillators (Section 8) | Period and "mod" in Life catalogues, including thirds and sixths on hexagonal and triangular grids [LW-Mod]; trivial versus non-trivial oscillators [LW-NT] | The lemma is a **re-expression of period/mod**. The three-dimensional screw twists and the statistics were not found in our search |
 | Conditional area law; hazard identity (Section 10.2a) | The quasi-stationary flux identity in its Markov form [AM17, eq. 6]. Not surveyed otherwise. [citation needed: committor and flux identities in transition-path theory; the project's library has none] | Unknown. The identity is of a standard kind; its use without a Markov property, and the reduction of the area law to a one-step hypothesis on a pooled table, may or may not be known |
 | Exponential law for the automaton 𝒜(L) (Section 10.2b) | Comparison with oriented percolation [L95, BBS94, HS22]; the one recorded non-monotone cellular-automaton survival theorem is [BN94] (not obtained); no finite-size exponential-lifetime theorem without monotonicity was found | A **constructed example** using standard tools. Honest but artificial: a random tape read once |
@@ -1021,23 +1106,25 @@ References.
 **Ranking.** The four results we judge most likely to interest a reader who knows cellular automata and
 metastability, with what each still lacks before it could carry a paper. Revised 2026-11-14 after the third
 search pass and its review; the order is unchanged, the claims attached to each are narrower, and each item says
-why it stays.
+why it stays. Revised again 2026-11-15: unchanged, because the new results change what items 1 and 2 lack, not their
+standing, and the shape dependence did not meet either condition for joining (below).
 
 1. **The face-extinction law in an automaton with proved confinement** (Sections 3, 5.2, 5.3). *Why:* it is a
    supertransient whose collapse is decomposed by theorems into irreversible events, measured over more than
    twenty units of ln τ; it is simple enough to be a model system for proofs. *Why it stays first:* the new prior
    art takes from it the tail relation (an instance of the quasi-stationary flux identity, with precedents in
    [SK15, VR19, NA21]) and boundary-controlled death [VR19], but nothing found has a face-area law in a vessel
-   whose walls are theorems. *Missing:* the law is measured, not proved; the constant is neither derived nor
-   even isolated (rising octahedral slope, wrap-around terms); nothing at A ≥ 108 has a second implementation;
-   the top point has 16 deaths; the review [TL08] and the primary supertransient papers must be read by a person
-   before any claim of novelty for "area, not volume".
+   whose walls are theorems. *Missing:* the law is measured, not proved; the constant is not derived and is
+   isolated only to about 0.207–0.219 (Section 7.5); nothing at A ≥ 108 has a second implementation or a bound on
+   missed settled replicas (Section 12); the top point has 16 deaths; the review [TL08] and the primary
+   supertransient papers must be read by a person before any claim of novelty for "area, not volume".
 2. **The exponent is made in a boundary layer over noise** (Section 6). *Why:* it turns a question about
    deterministic chaos into one about a finite-depth probabilistic automaton, where the tools that prove
    exponential lifetimes for stochastic systems might apply; it was confirmed by independent code and by a
    forecast. *Why it stays second:* the method has a mirror-image precedent [CG99] and death through the boundary
    is known [VR19], but the reduction of a lifetime to a thin layer over noise was not found in two searches, one
-   of them adversarial. *Missing:* sizes beyond A = 84; an account of the 0.03–0.04 offset for octahedral faces;
+   of them adversarial; the thinnest face needs the same five layers (Section 7.4).
+   *Missing:* sizes beyond A = 84; an account of the 0.03–0.04 offset for octahedral faces;
    any theorem for the noise-driven model; [TL08] unread.
 3. **Symmetry shortens lifetimes exponentially** (Section 5.5). *Why:* it is simple to state, large (a symmetric
    face of 759 cells lives like an asymmetric one of about 100), explains a visible feature of the 2012 runs, and
@@ -1057,8 +1144,9 @@ why it stays.
 The shape dependence of Section 7 stays outside the list: it is the most thoroughly cross-checked measurement in
 the paper, but as it stands it is a refutation (no law in area and shortest loop) without a replacement, and the
 searches now show that the shortest loop as the controlling length is a theorem in equilibrium [NZ17], so what
-could be ours is narrower (fixed-area shape and twist for a chaotic transient, and the second variable). It would
-move up the list if the second variable were found or if the thin-torus costs per cell were computed exactly.
+could be ours is narrower (fixed-area shape and twist for a chaotic transient). It would have moved up the list
+if the second variable had been found or the thin-torus cost computed exactly; neither happened (Sections 7.2,
+7.4).
 
 ## 12. Methods and reproducibility
 
@@ -1076,12 +1164,28 @@ variation, a Kolmogorov–Smirnov test, the hazard in age bins, and in one case 
 
 **Three traps, each met more than once.** (i) *Settled debris.* A replica that settles into a still life or
 oscillator with cells in the outer layer never dies; counted as living it inflates τ without limit (one tool read
-6.2 × 10⁴ where single runs gave 630). Every estimator must censor every period, not only periods 1 and 2;
-periods beyond the detectors' windows (128 generations on the GPU, divisors of 840 on the CPU) would not be
-seen, and none has been. (ii) *Competing channels.* Lifetimes that count any outer-layer death mix face deaths
-with transverse firewalls (Section 5.4). (iii) *Ties.* When events are checked every 16 generations, a face death
-and a firewall in one window must be attributed by convention, which biases the firewall-dominated tori of
-Section 7.3 by about 0.02.
+6.2 × 10⁴ where single runs gave 630). Every estimator must censor every period, not only periods 1 and 2; what the
+detectors miss is the threat to validity described next. (ii) *Competing channels.* Lifetimes that count any
+outer-layer death mix face deaths with transverse firewalls (Section 5.4). (iii) *Ties.* When events are checked
+every 16 generations, a face death and a firewall in one window must be attributed by convention, which biases the
+firewall-dominated tori of Section 7.3 by about 0.02.
+
+**Threat to validity: lives that settle and are not recognised.** **[measured]** (ZL1; A for the state and the
+rate, B for the bounds) The CPU steppers recognised a settled replica by comparing it with its state 840
+generations earlier, which misses every period not dividing 840; such a replica never dies and adds exposure until
+the run ends or an age cap cuts it. These cycles exist (a 42-cell state of period 16, confirmed by the engine;
+periods 9–52 seen) at a rate of 3.5 × 10⁻⁶ of lives at A = 36 and about 4 × 10⁻⁶ at A = 48; without an age cap they
+put +0.017 into ln τ in one A = 36 run. In the earlier capped CPU runs (Sections 7.2–7.3) the shift is at most
+0.0004 at A = 48, 0.0007 at A = 60 and 10⁻⁵ at A = 72, below every quoted error; the later steppers (Sections 7.2,
+7.4) catch every period seen. **[bound]** (ZL2; B at A = 63 and 84, recomputed with separate code; C elsewhere) The
+GPU runs have no age cap and catch periods up to 128, or only 1–2 in the octahedral runs of Table 2 and the patch
+runs. Where a run is long compared with a mean life, the deficit of old deaths bounds the share of exposure such
+replicas could carry (95% upper bounds, not measured biases): ≤ 1.3 × 10⁻⁴ at A = 63, ≤ 6.7 × 10⁻³ at A = 84
+against a statistical error of 0.005, and elsewhere (C) at most 1.2 × 10⁻², comparable to the errors. **Runs
+shorter than about one mean life admit no bound** (marked † where quoted): Table 2 at A = 108 and 135, three GPU
+rows of Table 3, the slabs 6 × 6 × 8 and 6 × 7 × 8, and five wider slabs of Table 6. Moving the A = 108 value by
+its error would need 2–3% of lives to be of this kind, against < 10⁻⁴ wherever the rate can be measured; that the
+rate does not rise with size is assumed **[conjecture]**. No number changes.
 
 **Verification.** Each claim is recorded in a ledger with the command that reproduces it and a grade; an
 independent audit re-derived the theorems and the exact numbers and re-ran the cheaper statistics; later results
@@ -1218,6 +1322,6 @@ far each was read there. No citation has been checked against a library by a per
 
 Superseded and therefore absent: F7 (an early engine-only slope), S1 (the proportional "effective area" law for
 symmetric faces), the fitted limit of F9 and GP4 (the extrapolated constant 0.2077). Graded C and mentioned only
-as preliminary: P4–P6, F2, F10–F12, S4, Z4, Z5, Z10, the thickness measurements, Q4, G2–G4, X3, SW3, SW4, and
-the other-lattice results. Graded B and not used: R6 (the web stepper's tests). Graded C and not mentioned: C7, Z11, L2, L3, the
+as preliminary: P4–P6, F2, F10–F12, S4, Z4, Z5, Z10, the thickness measurements, Q4, G2–G4, X3, SW3, SW4,
+the other-lattice results, and the parts of TH2, TH4, TH5 and ZL2 graded C. Graded B and not used: R6 (the web stepper's tests). Graded C and not mentioned: C7, Z11, L2, L3, the
 remaining other-lattice rows. Rows about the edge-neighbour variant (not this automaton) are outside the paper.

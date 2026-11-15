@@ -138,3 +138,41 @@ No change found to be needed: none of the corrected wordings (F5's range, SH4's 
   `research/theory/thin/PREDICTIONS.md`, `research/theory/exponent/PREDICTIONS.md` (entry by entry),
   `research/theory/class/PREDICTIONS.md`, `research/theory/class/followup/PREDICTIONS.md`, `research/toy2d/PREDICTIONS.md`,
   `research/audit/class/PREDICTION-*.md`.
+
+## For the lead, 2026-11-15
+
+From the update of the draft to draft 2 (`docs/paper/FACTCHECK.md`, "Update of 2026-11-15"). Each item is a place
+where the ledger, the notebook and the files they cite do not say the same thing; the draft follows the version
+named. Nothing outside `docs/paper/` was edited.
+
+1. **CN1, the octahedral local slope 84 → 108.** `research/CLAIMS.md` CN1 and the notebook entry "is there one
+   asymptotic cost per cell?" (its "Measured, model-free" bullet) print 0.2182 ± 0.0013; the same entry's own
+   check line and draft Table 2 give 0.2181, and (23.3761 − 18.1407)/24 = 0.21814 (error
+   √(0.031² + 0.005²)/24 = 0.0013). The draft uses 0.2181. Proposed replacement in CN1:
+   > hull local slopes at A = 63–108 (0.2146, 0.2181 ± 0.0013)
+
+   and in the notebook, as a dated correction note (append-only): "2026-11-14, 'is there one asymptotic cost per
+   cell?': the hull local slope 84 → 108 is 0.2181 ± 0.0013, not 0.2182 (arithmetic on 18.1407 and 23.3761)."
+2. **ZL2, "others ≤ 2 × 10⁻³".** CLAIMS ZL2 and the notebook entry "lives that settle and are not recognised" say
+   the remaining bounded GPU runs are ≤ 2 × 10⁻³; `research/gpu/README.md` ("Zombie lives") gives symv R38 at
+   ≤ 2.1 × 10⁻³ (all ages). Proposed replacement in ZL2 and in a notebook correction note:
+   > others ≤ 2.1 × 10⁻³ (symv R38; the rest ≤ 2 × 10⁻³)
+3. **ZL2 omits fwslab 4×7×8** (A = 84, Table 6's s = 4 row). It is neither in the bounded list nor in the
+   "no bound" list of ZL2, the notebook or the GPU README; `python3 research/gpu/zombies.py` prints "no age bins in
+   this file" for `fwslab4x7x8_s602_A10G.json`. The draft marks it † (no bound). Proposed addition to ZL2's
+   unbounded list:
+   > …, five wider slabs, and fwslab 4×7×8 (A = 84; its log has no age bins)
+4. **GP10's grade for the 4 × 5 point.** CLAIMS GP10 grades "4×5 and beyond" B with "GPU only"; by the legend at
+   the top of `research/CLAIMS.md` a value recomputed only from one GPU implementation's committed output is B−.
+   Proposed: "B− (4×5 and beyond: GPU only; the CPU's 4×5 is 1.9–2.6σ lower, unresolved)". The draft says
+   "B and GPU-only", which the brief's convention (B− counts as B, said to be GPU-only) covers either way.
+5. **CN1 does not carry its addendum.** The notebook's addendum (36 of 84 pairings pass at p ≥ 0.01 with
+   c = 0.2072 to 0.2190; readings with c ≤ 0.214 need a two-term hull correction, those with c ≥ 0.2155 a 1/s
+   approach on periodic faces) is not in the row. Not a disagreement; the draft cites those numbers to the
+   notebook entry. Proposed addition to CN1's claim: "Over 84 pairings 36 pass at p ≥ 0.01 (c = 0.2072–0.2190);
+   c ≤ 0.214 needs a two-term hull correction, c ≥ 0.2155 a 1/s approach of periodic faces (addendum)".
+6. **Table 5 and the forecast files.** The draft now lists SH9 (`research/shape3/PREDICTIONS.md`, its five
+   candidates only) and the lead's patch forecast (GP10). Still not searched for the table:
+   `research/constant/PREDICTIONS.md` (part A, for the patches, scored in the notebook as low by 1.3, 2.6, 4.1 in
+   −ln P; part B not refuted; part C not run) and `research/theory/thin/PREDICTIONS.md` (14 forecasts, whose tally
+   the review calls generous). Whether either should get ledger rows, and so table rows, is yours to decide.
