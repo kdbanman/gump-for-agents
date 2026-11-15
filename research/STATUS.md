@@ -185,9 +185,9 @@ _Last updated 2026-11-14 by the lead._
   orbit graph; inside a {111} face only diagonal mirrors exist; a coordinate mirror swaps two hull faces and fixes
   their shared rim row. Measured: the deficit is **not** a mirror-line term (a mirror or threefold axis on a rim-free
   slab face lengthens life); it sits on the rim, where edge-sharing faces die together (one, two, three edges in
-  lockstep at A = 63: −2.18, −4.34, −6.47; inversion −0.056); rim cost 0.4–0.55 per period, which gives a √A
+  lockstep at A = 63: −2.18, −4.34, −6.47; inversion −0.056); rim cost 0.45–0.55 per period, which gives a √A
   coefficient of −0.19 to −0.22 without the fit; the rim term may bend, so −0.196·√A may not be asymptotic; the
-  factor between centrings has a fixed part present with no symmetry and a growing part. 38 forecasts scored, 23
+  factor between centrings has a fixed part present with no symmetry and a growing part. 40 forecast statements scored, 25
   held. The lead re-ran `validate.py` (ALL OK) and `report.py` (table D reproduces; the asymmetric A = 63 value
   13.634 agrees with the known 13.632). **If this stands, the essay's and the notebook's "penalty along its mirror
   lines" is wrong and must be corrected** (essay section "Where I was wrong"; notebook entries of 2026-11-12).
