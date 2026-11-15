@@ -1,0 +1,60 @@
+# r15: R 15, A 108, levels {0.6: 33, 0.45: 24, 0.3: 16, 0.15: 8}
+gens 1500000 expo 3070951424 fdeath 0 lives_dead 0 lives_settled 0
+stationary samples 1500000; P mean 55.189 sd 6.700; catch records 50491; at-level records 1053
+S = 1.03409  by shell [np.float64(1.0648), np.float64(1.022), np.float64(1.0014), np.float64(1.0001)]  unshared-only 1.02211; C_pair stationary = 1.00000
+rho: shared cells mean 0.5072, unshared 0.5137; shared share of P: 0.4135
+stationary check: C 1.0000, C_pair 1.0000, V 0.0051
+stationary unshared-only void 0.0003
+
+## Claim 1, 2: C, V, control, profile (C normalised by S; C_pair by pair-conditional stationary)
+set p n kbar C se C_pair se | V | ctrl C C_pair V | profile d1 d2 d3 d4+ | ctrl profile
+catch    0.60   26128 31.60 0.6454 0.0005 0.6465 0.0004 | 0.048 | 0.5620 0.5620 0.014 | 0.705 0.621 0.572 0.531 | 0.564 0.561 0.559 0.557
+atlevel  0.60     624 33.00 0.6825 0.0035 0.6840 0.0033 | 0.050 | 0.5889 0.5890 0.014 | 0.749 0.655 0.599 0.550 | 0.590 0.588 0.586 0.579
+catch    0.45   24423 22.88 0.5416 0.0006 0.5426 0.0005 | 0.116 | 0.4011 0.4011 0.029 | 0.634 0.504 0.417 0.357 | 0.403 0.400 0.400 0.399
+bottom   0.45   23956 22.43 0.5392 0.0005 0.5403 0.0006 | 0.125 | 0.3950 0.3950 0.031 | 0.637 0.499 0.411 0.348 | 0.397 0.394 0.393 0.392
+atlevel  0.45     281 24.00 0.5802 0.0052 0.5815 0.0058 | 0.119 | 0.4239 0.4241 0.024 | 0.674 0.542 0.450 0.366 | 0.415 0.427 0.422 0.416
+catch    0.30     834 15.08 0.4398 0.0036 0.4403 0.0040 | 0.239 | 0.2586 0.2587 0.074 | 0.566 0.388 0.274 0.205 | 0.260 0.258 0.254 0.258
+bottom   0.30     407 14.57 0.4375 0.0052 0.4380 0.0052 | 0.255 | 0.2498 0.2498 0.084 | 0.578 0.380 0.261 0.198 | 0.256 0.247 0.251 0.251
+atlevel  0.30     142 16.00 0.4908 0.0113 0.4915 0.0093 | 0.252 | 0.2739 0.2740 0.075 | 0.633 0.432 0.298 0.208 | 0.279 0.272 0.276 0.272
+
+## Where the survivors sit: relative occupancy (x/rho over the face mean) in shared and unshared cells
+catch 0.60: shared 0.929 unshared 1.028   (control 0.997 1.001); live share in shared cells 0.397 (stationary 0.414)
+catch 0.45: shared 0.918 unshared 1.036   (control 0.995 1.002); live share in shared cells 0.392 (stationary 0.414)
+catch 0.30: shared 0.938 unshared 1.027   (control 1.010 0.997); live share in shared cells 0.398 (stationary 0.414)
+
+## Unshared cells only (live cell and companions both unshared; normalised by the same restriction on stationary faces)
+catch 0.60: C_unshared 0.6392 +- 0.0008 (faces with an unshared survivor 1.000); V over unshared cells 0.012
+ctrl 0.60: C_unshared 0.5625 +- 0.0006 (faces with an unshared survivor 1.000); V over unshared cells 0.001
+catch 0.45: C_unshared 0.5276 +- 0.0008 (faces with an unshared survivor 1.000); V over unshared cells 0.052
+ctrl 0.45: C_unshared 0.4027 +- 0.0006 (faces with an unshared survivor 1.000); V over unshared cells 0.005
+catch 0.30: C_unshared 0.4123 +- 0.0049 (faces with an unshared survivor 1.000); V over unshared cells 0.156
+ctrl 0.30: C_unshared 0.2617 +- 0.0033 (faces with an unshared survivor 1.000); V over unshared cells 0.026
+
+## Lever-rule null: remnant at relative density p_t in a compact ball, same counts as caught
+caught p 0.6: C 0.646 V 0.048 profile 0.704 0.621 0.572 0.531 core share 0.999 cell median 0.650
+caught p 0.45: C 0.542 V 0.116 profile 0.634 0.504 0.417 0.357 core share 0.988 cell median 0.539
+caught p 0.3: C 0.440 V 0.239 profile 0.566 0.388 0.274 0.205 core share 0.897 cell median 0.416
+  null p_t 0.45 p 0.6: C 0.561 V 0.014 profile 0.564 0.560 0.559 0.557 core share 0.989 cell median 0.550
+  null p_t 0.45 p 0.45: C 0.415 V 0.040 profile 0.415 0.415 0.412 0.392 core share 0.834 cell median 0.390
+  null p_t 0.45 p 0.3: C 0.350 V 0.180 profile 0.362 0.345 0.316 0.215 core share 0.602 cell median 0.347
+  null p_t 0.55 p 0.6: C 0.564 V 0.015 profile 0.565 0.563 0.560 0.556 core share 0.992 cell median 0.550
+  null p_t 0.55 p 0.45: C 0.467 V 0.077 profile 0.473 0.465 0.443 0.369 core share 0.929 cell median 0.463
+  null p_t 0.55 p 0.3: C 0.410 V 0.245 profile 0.429 0.403 0.344 0.189 core share 0.782 cell median 0.414
+  null p_t 0.65 p 0.6: C 0.595 V 0.029 profile 0.596 0.594 0.584 0.541 core share 0.998 cell median 0.582
+  null p_t 0.65 p 0.45: C 0.521 V 0.113 profile 0.536 0.516 0.475 0.344 core share 0.975 cell median 0.520
+  null p_t 0.65 p 0.3: C 0.469 V 0.296 profile 0.495 0.459 0.374 0.163 core share 0.875 cell median 0.465
+
+## Core and group densities (cores: live cells with >= 3 live in-face neighbours)
+stationary: share with core 1.000, core-shell occupancy/rho 0.667; largest group closed-nbhd density 1.042 (size 46.2)
+0.60: core share 0.999 density 1.124 (ctrl 0.989 1.236) | group density 0.713 size 16.47 (ctrl 0.639 size 12.02)   [relative to stationary]
+0.45: core share 0.988 density 1.160 (ctrl 0.781 1.327) | group density 0.659 size 11.21 (ctrl 0.546 size 6.63)   [relative to stationary]
+0.30: core share 0.897 density 1.203 (ctrl 0.295 1.429) | group density 0.609 size 7.57 (ctrl 0.476 size 3.85)   [relative to stationary]
+
+## Dies against recovers, count-matched (catch at p; C pooled within each k, reweighted to the dying faces' k distribution)
+
+## C at fixed k (catch vs control vs at-level)
+0.60: k=26:0.552 k=27:0.570 k=28:0.590 k=29:0.606
+0.45: k=18:0.451 k=19:0.463 k=20:0.490 k=21:0.509 k=22:0.526 k=23:0.545 k=24:0.558
+0.30: k=15:0.443 k=16:0.457
+
+## Exposure table

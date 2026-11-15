@@ -864,3 +864,201 @@ The slab's local tail slope *rises* toward the mean (0.42 → 0.45), while the h
   only within 45–135 (residuals ≤ 0.05 nats).
 - The slab lifetime's tension with part C was not chased: other tori of that family, other soups or T0, and
   the engine. The 4 × 4 check agrees to 0.006.
+
+# Round 4: a mixture or a thinning? The lever rule tested
+
+Object: `research/dying/README.md` from "# Round 4" to the end, `PREDICTIONS.md` ("Round 4", "Round 4 definitions",
+the scoring note), `data/r4_*.csv`, `research/figures/dying_two_phase.png` (looked at), `ex4.c`, `round4.py`,
+`round4_score.py`, `validate4.py`, `round4.sh` (read, not run or imported), ledger row DY13, the last notebook entry.
+
+**Own code and runs** (`research/audit/dying4/`; `bash research/audit/dying4/run.sh` redoes everything, one core,
+about 20 minutes). `geom.py` builds the octahedral vessel |p|₁ ≤ R and its eight faces from `docs/AUTOMATON.md`
+alone, each face in the canonical order q = d ⊙ p. `st4.c` is a new bit-sliced stepper (256 lanes, soup 0.4 per
+cell, T0 = 512, a life ends at the first empty face or a repeat of a power-of-two-age snapshot) that records, per
+excursion, the face at first passage through 0.6, 0.45, 0.3, 0.15 and at the bottom, and separately the face at
+*random moments* when P equals the level exactly (time-weighted), and stationary samples. `validate.py` →
+`validate_out.txt`: lane 0 equals `reference/oracle.py` at every generation (R = 11, 600 generations; R = 13, 400),
+ALL OK. Runs: seeds 5101 (A = 63, 3 M generations), 5103 (A = 84, 3 M), 5105 (A = 108, 1.5 M); the study used
+4411–4416. Integer levels are the study's (P ≤ ⌊pP̄⌋). `ana.py` → `ana_r{11,13,15}.txt`, `company_r*.csv`;
+`null.py` → `null_r*.txt`; `dies.py` → `dies_out.txt`.
+
+**Protocol reproduced.** P̄ = 31.251, 42.451, 55.189; S = 1.0434, 1.0377, 1.0341 (study 1.0436, 1.0377, 1.0340);
+ln τ_face (A = 63) = 13.626 ± 0.012 (study 13.633 ± 0.005); threshold-free ln ν(0.9) = −2.382 (study −2.382).
+
+## Summary (round 4)
+
+| claim | verdict |
+|---|---|
+| 1. C falls with depth; C(0.15)/C(0.45) = 0.38, 0.49, 0.53; "so no remnant held at a fixed density" | **Numbers reproduce; the inference fails.** Own C(0.15)/C(0.45) = 0.383 (63), 0.481 (84). But a face that *is* an exact lever-rule remnant (fixed relative density p_t in a compact patch, empty elsewhere) gives 0.45–0.48 (63), 0.58–0.61 (84), 0.65–0.69 (108) for any p_t in 0.45–0.8. The registered F1 "against" clause (< 0.6) is met by the lever rule itself at 63 and 84 cells. Not shared rows, not rim position. |
+| 2. Far from random thinning (1.15–2.4× the company, ~3× the void at 0.3, falling profile) | **Stands.** Own A = 108: 1.15, 1.35, 1.70 at p = 0.6, 0.45, 0.3; V(0.3)/control 2.3, 2.7, 3.2 at 63, 84, 108. "A profile that falls where the control is flat" separates the face from random thinning only: a lever-rule remnant's profile falls too. |
+| 3. Tangent construction overshoots the end point by 1.06, 1.20, 1.37 nats | **Stands (arithmetic).** Recomputed from `data/r4_tangent.csv`; own run at A = 63 gives g 0.3081, s 0.2487, p_t 0.596, end point 0.1954 against 0.1785: 1.07 nats. The end point compared against is the right one. |
+| 4. Dying faces looser than recovering at the catch | **Stands with a correction.** Count-matched (A = 63), most of the gap is count: p = 0.15, 0.145 against 0.166, difference 0.021 ± 0.001 (unmatched 0.151 against 0.204); p = 0.3, 0.303 against 0.320, 0.017 ± 0.003 (unmatched 0.324 against 0.387). |
+| 5. Far field (gd ≥ 4) 0.16–0.21 at p = 0.3, 0.04–0.07 at 0.15 | **Stands.** Own 0.163, 0.181, 0.205 at p = 0.3 (63, 84, 108); 0.039, 0.060 at 0.15 (63, 84). |
+
+## Claims 1, 2 and 5: the numbers, independently
+
+`ana_r11.txt`, `ana_r13.txt`, `ana_r15.txt`, first table. Caught at first passage (C ± bootstrap s.e.; V; random-
+thinning control C and V; company at gd = 1, 2, 3, ≥ 4):
+
+| A | p | faces | k̄ | C | V | control C | control V | profile |
+|---|---|---|---|---|---|---|---|---|
+| 63 | 0.6 | 159,293 | 16.93 | 0.5969 ± 0.0002 | 0.056 | 0.522 | 0.022 | 0.660 0.569 0.513 0.467 |
+| 63 | 0.45 | 115,617 | 13.08 | 0.5115 ± 0.0003 | 0.109 | 0.398 | 0.040 | 0.602 0.472 0.380 0.325 |
+| 63 | 0.3 | 156,885 | 8.26 | 0.3865 ± 0.0003 | 0.235 | 0.240 | 0.101 | 0.511 0.331 0.207 0.163 |
+| 63 | 0.15 | 40,578 | 3.50 | 0.1959 ± 0.0005 | 0.488 | 0.087 | 0.342 | 0.336 0.133 0.049 0.039 |
+| 84 | 0.6 | 28,222 | 23.75 | 0.6254 ± 0.0005 | 0.052 | 0.545 | 0.017 | 0.686 0.600 0.548 0.505 |
+| 84 | 0.45 | 4,977 | 17.95 | 0.5323 ± 0.0012 | 0.109 | 0.406 | 0.032 | 0.623 0.494 0.408 0.352 |
+| 84 | 0.3 | 3,215 | 11.21 | 0.4136 ± 0.0022 | 0.244 | 0.245 | 0.090 | 0.536 0.361 0.239 0.181 |
+| 84 | 0.15 | 1,295 | 5.40 | 0.2562 ± 0.0038 | 0.470 | 0.107 | 0.282 | 0.404 0.192 0.086 0.060 |
+| 108 | 0.6 | 26,128 | 31.60 | 0.6454 ± 0.0005 | 0.048 | 0.562 | 0.014 | 0.705 0.621 0.572 0.531 |
+| 108 | 0.45 | 24,423 | 22.88 | 0.5416 ± 0.0006 | 0.116 | 0.401 | 0.029 | 0.634 0.504 0.417 0.357 |
+| 108 | 0.3 | 834 | 15.08 | 0.4398 ± 0.0036 | 0.239 | 0.259 | 0.074 | 0.566 0.388 0.274 0.205 |
+
+Every entry agrees with the README's table to within its errors (A = 108 at 0.15 not reached here). C_pair, which
+replaces ρ_j by the stationary conditional occupancy P(x_j = 1 | x_i = 1) of each pair (so it is exactly 1 in the
+stationary ensemble and needs no S), agrees with C to 0.002 everywhere: the normalisation is not doing anything.
+
+## Attack 1: what a lever rule would read on these faces (claim 1 fails as an inference)
+
+`null.py`, `null_r*.txt`; `ana_r*.txt`, "Lever-rule null". The null builds the object the lever rule describes: a
+compact patch (graph ball about a random cell, grown until its stationary mass Σρ reaches k/p_t), filled with the
+live cells of a random stationary face inside it, thinned to exactly k; nothing outside. Same C, V and profile code.
+
+C(L(0.15))/C(L(0.45)) at fixed k = L(p):
+
+| A | k at 0.45, 0.15 | null p_t = 0.45 | 0.55 | 0.65 | 0.8 | caught, random moment at P = L | caught, first passage (k̄) |
+|---|---|---|---|---|---|---|---|
+| 63 | 14, 4 | 0.482 | 0.483 | 0.466 | 0.449 | 0.439 | 0.383 |
+| 84 | 19, 6 | 0.592 | 0.613 | 0.608 | 0.577 | 0.553 | 0.481 |
+| 108 | 24, 8 | 0.654 | 0.682 | 0.686 | 0.663 | – | (study 0.532) |
+
+With the caught faces' own k distribution (first passage) the null gives 0.45 (63) and 0.58 (84).
+
+- **The test could not pass.** At 3.5–8 live cells, a patch at any fixed density is about the size of the radius-2
+  ball the company is counted in. Its live cells sit mostly at the patch's edge and see the emptied face. So C falls
+  with depth for a remnant held at fixed density too. The registered "against" clause (< 0.6) is met by an exact
+  lever rule at 63 and 84 cells and nearly at 108. The README's "a lever rule needs C(0.15)/C(0.45) ≈ 1" holds only
+  on faces much larger than these. The size trend 0.38 → 0.48 → 0.53 follows the null's own 0.45 → 0.58 → 0.67.
+  The figure's guides (panel A: C = max(p, p_t); panel B: V = 1 − p/p_t) are that infinite-face idealisation; the
+  null's V at p = 0.15 is 0.44–0.54, not 0.73–0.81.
+- **What does separate the caught faces from the null.** (a) The first-passage ratio sits 0.07–0.10 below the null at
+  63 and 84 cells (roughly 0.14 at 108 against the study's number). (b) The profile shape. At k = 4 (A = 63) the null
+  with p_t = 0.8 matches the caught C and V (0.254 and 0.490 against 0.253 and 0.488, random-moment faces). But the
+  profiles differ: 0.330, 0.220, 0.078, 0.005 for the null against 0.449, 0.163, 0.043, 0.032 caught. A caught face
+  is more peaked than a flat patch, with a tail that reaches the far face. The same holds at every level and size
+  in `null_r*.txt`.
+  So "no plateau at fixed density inside the patch" is supported by the profile, not by C. On C and V alone, the
+  random-moment faces are fitted by a constant effective p_t ≈ 0.7–0.8 at all three depths on both sizes.
+- **Narrowed claim.** On these faces C cannot tell a lever rule from a thinning; a depleted face is a peaked clump
+  with a tail (claim 2 stands), and its C falls a little faster with depth than a fixed-density remnant's would.
+  The registered F2 (mean C at p ≤ 0.3 in 0.47–0.63) also compared C with a density that C does not measure: a
+  p_t = 0.55 remnant reads C = 0.41 (k = 16) and about 0.33 (k = 8) at A = 108. F1 and F2 fail as registered;
+  their failure is not evidence against the two-phase reading.
+
+## Attack 2: rim, shared rows, position
+
+33 of the 63 cells (39 of 84, 45 of 108) lie on the octahedron's edges and belong to two faces. They are exactly
+the rim (in-face degree < 6). `ana_r*.txt`, "Where the survivors sit", "Unshared cells only":
+
+- **Survivors do not sit in the shared rows.** The survivors' relative occupancy (x/ρ over the face mean) in shared
+  cells is 0.92–0.95 at p = 0.6–0.3 at every size, against 0.99–1.01 for the control. At 0.15 it is 1.03 (63) and
+  1.04 (84). The healthy neighbour does not hold up a remnant on the shared rows.
+- **C on the unshared cells alone** (live cell and companions both unshared, normalised by the same restriction on
+  stationary faces) falls faster, not slower. A = 63: 0.586, 0.492, 0.348, 0.149; control 0.523, 0.399, 0.242,
+  0.086. Ratio 0.15/0.45 = 0.30 (63), 0.40 (84).
+- The pair-normalised C_pair (position-exact) equals C. Claim 1's numbers are not a rim artefact.
+
+## Attack 3: when the face is caught
+
+`ana_r*.txt`, rows `bottom` and `atlevel`.
+
+- **At the bottom** C is within 0.008 of the catch (A = 63: 0.5035, 0.3805, 0.1953 against 0.5115, 0.3865, 0.1959),
+  as the README says.
+- **At a random moment with P = L(p)** (time-weighted), faces are clearly more clustered than first-passage faces of
+  the same count. A = 63, k = 14, 9, 4: 0.576, 0.457, 0.253 against 0.538, 0.413, 0.219 at first passage with the
+  same k. A first passage catches faces mid-fall; time at a level favours faces that linger. The qualitative
+  picture is unchanged: C still falls, and the control contrast is a little larger (2.6× at k = 4). The C ratio moves
+  toward the lever null: 0.44 (63) and 0.55 (84) against the null's 0.45–0.48 and 0.58–0.61.
+
+## Attack 4: the control
+
+Read in `round4.py` (`thin_control`) and redone in `ana.py`. For each caught face with k live cells, it takes a
+uniformly drawn stationary sample of any face (mapped to the canonical face) with P ≥ k and keeps k random live
+cells. Counts match face by face. The samples are from the same size and run. The draw over-weights samples with
+P ≫ k only through the P ≥ k condition, which is the registered rule. The control reproduces (0.522, 0.398, 0.240,
+0.087 at A = 63 against the README's 0.522, 0.398, 0.241, 0.087). No fault found.
+
+## Claim 3: the tangent arithmetic
+
+From `data/r4_tangent.csv`: p_t = 1 − s/2g = 0.5961, 0.5709, 0.5550; end point g(1 − p_t²) − 0.01g = 0.1955, 0.2020,
+0.2061. True end point [ln τ + ln ν(0.9)]/A: (13.633 − 2.3822)/63 = 0.1786; (18.166 − 2.4009)/84 = 0.1877;
+(23.4 − 2.4845)/108 = 0.1937. Overshoot × A: 1.07, 1.21, 1.34 nats (1.37 with the GPU's 23.376). I(p) = [ln ν(0.9) −
+ln ν(p)]/A at p = 0 is ln ν(0.9) + ln τ_face over A, because ν(min ≤ 0) is the face-death rate, so the comparison
+quantity is right. The 0.01g offset is applied on both sides. Own run (A = 63): 1.07 nats. A side remark: the
+straight tail line alone (`straight_tail_at_0`) also overshoots, by 0.53, 0.63, 0.72 nats. Half the miss is in the
+last cells, before any tangency is imposed.
+
+## Claim 4: dying against recovering, count-matched
+
+`dies_out.txt` (A = 63; k = 1 is left out because a lone cell has C = 0 by definition; the k weights are the dying
+faces'):
+
+| p | dying / recovering faces | unmatched C | matched C (dying, recovering) | difference |
+|---|---|---|---|---|
+| 0.15 | 7,385 / 33,310 | 0.151 / 0.204 | 0.145 ± 0.001 / 0.166 ± 0.001 | 0.021 ± 0.001 |
+| 0.3 | 2,240 / 154,502 | 0.324 / 0.387 | 0.303 ± 0.004 / 0.320 ± 0.002 | 0.017 ± 0.003 |
+
+At every single k the dying faces are looser (e.g. k = 3 at 0.15: 0.136 against 0.157). At equal k their void is
+*smaller* (0.437 against 0.455 at k = 4): the survivors of a dying face are more spread out. About 60–75% of the
+README's gap is count. The direction stands. A = 84 had 82 face deaths here, too few to repeat this.
+
+## Attack 5: is there a measure on which a fixed-density core appears?
+
+`ana_r*.txt`, "Core and group densities".
+
+- **Cores** (live cells with ≥ 3 live in-face neighbours): the occupancy over ρ in their distance-1 shells is roughly
+  flat or rising with depth: 1.13, 1.15, 1.24, 1.56 at A = 63, p = 0.6 … 0.15, relative to stationary. But the
+  random-thinning control does the same (1.21, 1.27, 1.35, 1.40), because the condition selects dense spots. It
+  is not a remnant. The share of caught faces that have any core collapses: 0.96, 0.87, 0.59, 0.08 (63); 0.99, 0.99,
+  0.90 (108, to 0.3). At 0.15 most depleted 63-cell faces have no cell with three live neighbours.
+- **The largest connected group** (gd = 1 links): the density over its closed neighbourhood falls with depth (0.68,
+  0.63, 0.57, 0.45 at 63, against control 0.61, 0.54, 0.45, 0.36).
+- **On C and V together** the random-moment faces match a lever-rule remnant at p_t ≈ 0.7–0.8 at every depth and
+  both sizes (Attack 1). This is the one place where something like a fixed density appears. It does not survive
+  the profile, which is peaked rather than flat.
+- **Verdict.** I found no measure on which a core at fixed density shows and the control does not. But nothing used
+  here can exclude one at these sizes. "No remnant" should be stated as "no plateau seen; C cannot test for one on
+  faces of ≤ 108 cells".
+
+## What the round-4 README should change, most important first
+
+1. **The short answer's first bullet and DY13.** "A lever rule needs C flat below the tangent point
+   (C(0.15)/C(0.45) ≈ 1)" is false on these faces. An exact lever-rule remnant gives 0.45–0.48, 0.58–0.61, 0.65–0.69
+   at A = 63, 84, 108. State the observed ratios beside the null's. Say that the falling C, and F1's "against"
+   clause, do not discriminate. What does: the ratio lies 0.07–0.14 below the null, and the profile is peaked
+   rather than plateaued. Narrow "a depleted face is not a mixture" to "no plateau at fixed density is seen; on
+   faces this small C cannot test the lever rule".
+2. **The figure** (panels A and B): replace or label the guides C = max(p, p_t) and V = 1 − p/p_t as infinite-face
+   idealisations, or draw the finite-face null instead.
+3. **F2 and F6 scoring notes.** F2 compared mean C with p_t, but a p_t remnant does not read C = p_t at these k. Its
+   failure says nothing about the remnant's density. F6's "ends the reading" rested on F1's clause, which a lever
+   rule also meets.
+4. **Dies/recovers:** give the count-matched gap (0.021 ± 0.001 at p = 0.15, 0.017 ± 0.003 at 0.3, A = 63) beside
+   the unmatched one; most of the unmatched gap is count.
+5. **"The excess grows with size, the reverse of F5"** and the closing "no sign it is close [to ≈ 1]": the reference
+   should be the null, which itself rises with A. Against it the caught ratio trails by a roughly constant
+   0.07–0.14.
+6. Add the random-moment ensemble as a caveat. First-passage faces are looser than time-weighted faces of the same
+   count (by 0.03–0.04 in C at A = 63), so "the" depleted face depends on how it is caught.
+
+## Not checked (round 4)
+
+- One fresh seed per size. A = 108 was run only 1.5 M generations: no catch at 0.15, 834 at 0.3, no deaths.
+  Claims 1 and 3 at A = 108 rest on the README's numbers and the null's fixed-k value. A = 84 had 82 deaths, so
+  claim 4 was checked at A = 63 only.
+- The lever null is one model: a ball-shaped patch, uniformly occupied relative to ρ. Other remnant shapes (elongated,
+  attached to the rim) were not tried. Their C at small k would differ, but the edge effect would not go away.
+- The groups-and-voids exploratory numbers, the per-cell distribution (only its median, in the null comparison) and
+  the "interior C" (3 cells at A = 63) were not recomputed. The bootstrap treats faces as independent.
+- The study's runs and scripts were not rerun. `round4.py`, `round4_score.py` and `ex4.c` were read: no fault was
+  found in the definitions as coded.
