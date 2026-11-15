@@ -2199,3 +2199,64 @@ The lead's forecasts were committed before the runs (`research/dying/PREDICTIONS
   layers beneath the face and the last-alive maps (the study's `explore.py`); differences of 1.8σ between the two
   codes in the csz and D2h populations and 2.7σ in the L6 fraction are unresolved. Rounds 2 and 3 of the same
   study (what starts a collapse; the same across sizes) are not in this entry.
+
+## 2026-11-15: a death is a dip that keeps going (round 2 of the dying-face study, reviewed)
+
+`research/dying/README.md`, "Round 2" (forecasts 6d40e72 before the runs; results 3bf2f21, 4b41de0); review with an
+independent stepper and fresh seeds, `research/audit/REVIEW-dying.md`, "Round 2" (e5153ea); the lead's
+recomputation from the study's tables, `python3 research/audit/dying_lead_check.py`. Figure:
+`research/figures/dying_excursions.png`. Same vessel as round 1 (R = 11 cube-centred, 63 cells; c1, csz, c2v, D2h),
+plus stationary sampling at R = 13 (84 cells).
+
+For a face with stationary mean population P̄, let ν(p) be the rate per face per generation of excursions that
+start above the mean and reach p·P̄, and q(p) the fraction of those that end in the face's death before the
+population is back above the mean. Then 1/τ_face = ν(p)·q(p) at every level, by bookkeeping.
+
+- **The bookkeeping closes on the lifetimes measured before [measured, two codes].** −ln(νq) = 13.632, 11.454,
+  9.274 for c1, csz, c2v in the study and 13.614, 11.473, 9.275 in the review, against 13.634, 11.456, 9.291 from
+  the symmetric study. D2h depends on what is done with lives that settle: 7.32 with them, 6.86 without, 7.168 in
+  the study.
+- **Nothing special starts a collapse [measured, two codes].** A face dips all the time. Dips to 0.7 P̄ come about
+  once per 60 generations per face and equally often whatever the ties (ln ν = −4.16, −3.80, −3.77, −3.74 in the
+  study; −4.16, −3.80, −3.78, −3.88 in the review). At 0.9 P̄ the untied face even dips more often. The four groups
+  part only below about 0.6 P̄.
+- **The point of no return is a handful of cells [measured, two codes].** q = 1/2 at p = 0.079, 0.114, 0.152,
+  0.245 of the mean for c1, csz, c2v, D2h: about 2.5 live cells of 31 in the untied face. An untied face that has
+  lost half its cells recovers 99.92% of the time (q(0.5) = 0.0008). So the face population is a fair coordinate
+  for the death, and the plunge of round 1 (the last 20 generations) is the end of a dip, not a separate event.
+- **Where the ladder lives depends on the level asked [measured].** From c1 to D2h ln τ falls by 6.46: at p = 0.5
+  that is 1.59 in ν and 4.88 in q; at p = 0.1, 5.38 and 1.09. What does not depend on the level: ties do not make
+  dips start more often, they make each further step down from about 0.6 P̄ more likely (ln q higher by 1.5–2.7 per
+  tied edge between 0.9 and 0.4 P̄).
+- **The shape of ln ν [measured; the lead's reading corrected by the review].** Gaussian with the stationary
+  variance down to about 0.6 P̄ (residuals −0.15, −0.43, −0.27 at 0.8, 0.7, 0.6 in c1; the lead's forecast A2, the
+  only one of seven that held), and fatter than Gaussian below (+4.1 at p = 0.1). The lead fitted a straight line
+  over 0.1 ≤ p ≤ 0.45 (0.499 per live cell lost in c1; 0.436, 0.350, 0.231 with one, two, three tied edges; per
+  unit p 15.6, 12.6, 9.2, 5.5) and read it as "a constant price per further cell lost, 5.5 + 3.4 per free edge".
+  The review reproduces the slopes (15.55, 12.57, 9.19, 5.51) and does not confirm the reading: the tail is close
+  to straight but not straight (the local slope per cell drifts 0.51 → 0.45 → 0.34 in c1), there is no change of
+  regime at half the mean, and the step per free edge ranges from 3.0 to 4.5 with the fit window and with the
+  treatment of settled lives. **What stands: over the last 3–12 cells the price per further cell lost is nearly
+  constant, and it is higher the more free edges a face has. [conjectured, weakened]** The lead's picture of a live
+  clump and a hole coexisting on a depleted face is not supported by the clumping: at equal count, dying untied
+  faces are less lopsided than stationary faces that are low by chance (2.47 against 3.09), dying D2h faces more
+  (2.94 against 2.70).
+- **Births fail before survival [measured, two codes], mostly for a plain reason.** On a dying untied face births
+  per empty cell are 0.90–0.91 of stationary at lag 16 while survival is 0.98–0.99; at lag 8, 0.45 and 0.88. Much
+  of the birth deficit is what the face's own lower population predicts (review: births 0.61 at lag 8 where the
+  face's own population predicts 0.77).
+- **Depleted faces are lopsided whether or not they die [measured for c1].** The survivors' centroid sits 1.6 times
+  further from the centre than in a face thinned at random, in dying faces and in stationary faces that are low by
+  chance alike. The single-death lopsidedness of round 1 is this.
+- **A two-constant fit to the stationary state is not a law [measured].** ln τ = 3.43 + 0.582·P̄²/(2σ_P²) fits the
+  eight lifetimes at 63 and 84 cells within 0.31 (review: 3.42, 0.584, leave-one-out 0.50); a + b·A + c·P̄ with no
+  variance in it fits as well (0.27). Stationary values at 84 cells: P̄ = 42.49, 39.81, 36.86, 33.48; σ_P = 5.96,
+  6.18, 6.50, 7.05.
+- **The lead's round-2 forecasts: one of seven held** (A2). Failed: the point of no return at 0.25–0.5 of the mean
+  (it is 0.08); the ladder in ν rather than q at half population (the reverse); uniform fades inside single deaths;
+  survival holding while births fail (survival clause); 2.8–3.1 cells lost per tied edge at 84 cells (2.68, 2.95,
+  3.38) with 0.86 per cell (0.98, 0.90, 0.84); and that no function of the stationary mean and width would fit
+  (one does, though see above). Definitions were committed before the runs; the review reproduces every score.
+- Not checked: excursions at other sizes or centrings (round 3 is on sizes); one seed per group in the study (the
+  review adds a second); every D2h exposure quantity depends on the settled lives; births by neighbour count;
+  whether the position of the surviving clump predicts recovery.

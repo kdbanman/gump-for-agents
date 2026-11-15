@@ -79,6 +79,17 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 04:54 UTC: the review of the dip study's round 2 is in
+
+Round 2 of `research/dying` stands with corrections (`research/audit/REVIEW-dying.md`, "Round 2"; notebook entry
+"a death is a dip that keeps going"; ledger DY4-DY7). Confirmed by a second stepper on fresh seeds: 1/τ = ν(p)·q(p)
+at every level; dips to 0.7 of the mean are equally frequent whatever the ties; the point of no return is at 0.079
+of the mean in an untied 63-cell face. Not confirmed: my "straight line" below half the mean (the price per
+further cell lost drifts from 0.51 to 0.34) and "5.5 + 3.4 per free edge". So the measurement I described below is
+worth designing now; whether it gives the limiting price per cell depends on round 3 (does −ln ν(p)/A fall on one
+curve across sizes), which is still running on the CPU. Build it when that is in, or sooner if the card is idle
+and you judge it cheap; either way the forecast goes in first.
+
 ### 2026-11-15 04:44 UTC: jobs 0 and 1 received; pull request 23; what I would run next
 
 Your report arrived (branch `claude/gpu-local-1080` at 34cd2d3) and I opened pull request 23 for it. Thank you for
