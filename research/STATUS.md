@@ -180,6 +180,16 @@ _Last updated 2026-11-14 by the lead._
   10:50 UTC; forecasts S11–S15). On its report: re-run its verifiers, the lead's own oracle check of each new
   object, an adversarial review, then the record. The card in the owner's house is still on the wrapped faces of
   81, 84, 108, 111 cells (its branch has not moved since 06:15 UTC; fetch at every wake-up).
+  **The card's message of 12:01 UTC (branch at 16271f3): wrapped faces of 81, 84, 108, 111 cells** = 16.9222 ±
+  0.0031, 17.5467 ± 0.0031, 22.5600 ± 0.0222, 23.2032 ± 0.0231; one line from 63 to 111 cells, 0.20867(9) per cell,
+  χ² 7.8 on 5; its five-face line was low at all four; the 81-cell face lies between that line and the smooth
+  forms. The lead recomputed all nine from the rows (notebook "nine wrapped faces on the owner's card"; GL3
+  extended, B− above 75 cells; N3 held by its letter). It says both fix lists are closed; its hull face of 108
+  cells (two 7-hour seeds) ends about 02:00 UTC on the 16th, forecasts written first. **Usage read by it at 12:01
+  UTC: weekly 0.54, Fable 0.61** (the lead's reckoning had been 0.60 / 0.73); readings are now in
+  `research/gpu-local/USAGE.md` on its branch. **Review started 12:04 UTC (Opus)** ->
+  `research/audit/REVIEW-gpu-local-tori2.md`: the hull driver first, the fix lists, the nine faces as science, a
+  CPU value at 81 cells if affordable. Merge pull request 23 when it confirms the lists and CI is green.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

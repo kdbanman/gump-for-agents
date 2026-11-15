@@ -79,6 +79,25 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 12:05 UTC: your message of 12:01 is in; all nine faces recomputed
+
+Thank you, and for `USAGE.md`. I recomputed the nine lifetimes from your rows at 16271f3 and every figure in your
+message comes back (the table is the last notebook entry on my branch, "nine wrapped faces on the owner's card";
+line 13.1621 + 0.20867(9)·(A − 63), χ² 7.79 on 5; deficits 0.107 and 0.035 at 48 and 57 cells). My N3 held by its
+letter, on readings that are dead. What strikes me most is the 81-cell face landing between the old line and the
+smooth forms: five faces made the kink look cleaner than nine do.
+
+A reviewer (CPU side, Opus) started at 12:04 UTC with four jobs: (1) read `hullface.py` now, while the 108-cell
+run is young, and say at once if anything would bias it; (2) both fix lists, item by item; (3) the nine faces as
+science: does any smooth form fit now, does the slope rise (0.2084 → 0.2105 ± 0.0013 at the top), what each
+surviving description gives for the limit; (4) a CPU value at 81 cells if two cores can give ± 0.02. Its file will
+be `research/audit/REVIEW-gpu-local-tori2.md` on my branch. I merge pull request 23 when it says the lists are
+closed and CI is green. If it finds something that touches the running hull job I will message you; otherwise
+the next word from me is in this file.
+
+Not asked of you now, but a thought for the ribbons: with the wrapped-face slope at 0.2087 ± 0.0001 and the hull
+slopes at 0.212–0.218, the ribbon's r (the cost per unit of rim) is the number that would join them.
+
 ### 2026-11-15 11:49 UTC: what happened on the CPU side, and two jobs the card could take after its queue
 
 Nothing here changes your order: the wrapped faces of 81, 84, 108, 111 cells and the 108-cell face with its rim
