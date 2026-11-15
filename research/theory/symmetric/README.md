@@ -8,7 +8,49 @@ committed before the runs that test them (`PREDICTIONS.md`; commits 4f455e7, 814
 4020d9e) and are scored below; more than a third failed, and the failures are what changed the picture.
 
 All numbers are ln τ_face (per independent face, generations), ± one standard error from the death count.
-Every table is printed by `python3 research/theory/symmetric/report.py` from `data/runs.csv`.
+Every table is printed by `python3 research/theory/symmetric/report.py` from `data/runs.csv`, except values marked
+"review", which are printed by `research/audit/symmetric/ladder.py` or `fits.py` (outputs `ladder_out.txt`,
+`fits_out.txt` there).
+
+## Reviewed
+
+An adversarial review, `research/audit/REVIEW-symmetric.md` (2026-11-15), reran part of this study with its own
+stepper (`research/audit/symmetric/st.c`, own geometry `geo.py`). It runs the **full, unreduced system** on a
+symmetric soup (so it tests the orbit-graph reduction rather than using it), records events every generation and
+uses a Brent settled test; it was validated against `reference/oracle.py` on the legacy array torus for 1,500
+generations per vessel system and 300 per slab system. Its corrections are applied below.
+
+**Confirmed independently [measured]:** the A = 63 ladder (below), the vertex-centred c1 and csz at R = 12
+(14.293 ± 0.014, 12.173 ± 0.011; here 14.310 ± 0.026, 12.182), the slab pair `rect_8_2_cs` − `rect_4_2_c1`
+(+0.926 ± 0.014; here +0.872 ± 0.013: the sign stands), the asymmetric centring pairs at A = 30, 45, 63
+(+0.754 ± 0.013, +0.725 ± 0.009, +0.655 ± 0.017; here 0.747, 0.738, 0.676), the section-1 geometry (hull areas, rim
+counts, rim removal giving the vertex-centred face of radius R−3) for R = 7–37 cube- and 8–24 vertex-centred, every
+refit of `data/runs.csv` in sections 3–5, and that every forecast block was committed before the output of the runs
+it scores.
+
+| A = 63, R = 11 cube-centred | review (full system) | this study (orbit graph) |
+|---|---|---|
+| c1 | 13.638 ± 0.010 | 13.634 ± 0.018 |
+| csz (one mirrored edge) | 11.444 ± 0.010 | 11.456 ± 0.011 |
+| c2v (two) | 9.312 ± 0.009 | 9.291 ± 0.008 |
+| D2h (three) | 7.171 ± 0.009 (finer snapshot ladder; previous rung 7.146) | 7.168 ± 0.003 (S-low 7.122) |
+| ci (inversion) | 13.574 ± 0.014 | 13.578 ± 0.014 |
+| c2e, all four face orbits pooled | 11.712 ± 0.010 | 11.704 ± 0.005 |
+| c2e, the two orbits whose faces share an edge | 11.102 ± 0.010 | not measured |
+| c2e, the two orbits pairing opposite faces | 13.537 ± 0.035 | not measured |
+
+Every rung agrees within 2σ (largest difference c2v, +0.021 ± 0.012). D2h is the one rung where the estimator
+matters (35% of its exposure belongs to lives that end settled; with Brent snapshots the bracket is 7.02–7.29).
+
+**What the review changed:** c2e was mislabelled (section 3); "rim, not mirror" holds only in a weaker form
+(verdict 2); "the rim term bends" and the rim cost's agreement with the fitted √A coefficient are not findings
+(verdict 2, section 4); slope × stabiliser order is c/6 within 5%, not exactly (verdict 1); the free-rim centring
+difference falls with size (verdict 3, section 5); one lemma of section 1 was false.
+
+**Not rerun by the review:** nothing in the vessels beyond A = 63 (no T, T_d, O_h, T_h, O, nor D2h by size; the
+rim-term numbers are refits of this study's data), only one slab pair (no threefold, C3v-triangle or Q = 3 slabs),
+`sy.c` itself (the reviewer's runs agree with its values but do not validate it), the O_h centring fits and
+`oh_data.py`'s mirror and centre-kind counts. Nobody has looked at the faces.
 
 ## Verdict
 
@@ -17,11 +59,13 @@ Every table is printed by `python3 research/theory/symmetric/report.py` from `da
    orbit graph is a smaller torus and "1/|G|" is exact with no correction. For the stabiliser C3v of a face the
    orbit graph is a 30-60-90 wedge of A/6 cells that is gump's own graph except within one step of its two mirror
    edges and its corners. [conjectured] The slope is asymptotically c/6 because the face law is local; that is
-   as unproved as the area law itself. [measured] It holds at reachable sizes wherever the wedge's rim borders
-   *living* faces: faces with a threefold axis only (group T, free rims) lie on **(0.209/3)·A + 0.00 ± 0.04** at
-   A = 108–198 (slopes × 3: 0.204, 0.215, 0.210); faces with the full C3v and free rims (group T_d) have slope × 6
-   = **0.2035 ± 0.002** at A = 315–459 (0.201 and 0.208 in the two sub-series of sizes, out to A = 570) and sit at
-   (0.209/6)·A − 0.3…−0.6 there; a C3v triangle with no hull rim at all (slab torus) reaches 0.207 at 60–72
+   as unproved as the area law itself. [measured] It holds **within 5%** at reachable sizes wherever the wedge's
+   rim borders *living* faces: faces with a threefold axis only (group T, free rims) lie on
+   **(0.209/3)·A + 0.00 ± 0.04** at A = 108–198 (slope × 3 = 0.2091 ± 0.0016, error scaled by χ²; local 0.204,
+   0.215, 0.210); faces with the full C3v and free rims (group T_d) have slope × 6 = **0.2035 ± 0.0024** at
+   A = 315–459 (local increments 0.201 and 0.208 at the largest sizes; weighted lines through each of the two
+   sub-series of sizes out to A = 570: 0.198 and 0.202) and sit at (0.209/6)·A − 0.3…−0.6 there. T_d is 3–5% below
+   T's c at every fit choice, so "exactly c/6" is not supported for T_d at these sizes; "c/6 within 5%" is. A C3v triangle with no hull rim at all (slab torus) reaches 0.207 at 60–72
    quotient cells. Below about 50 quotient cells every mirror-bounded quotient has a lower slope (0.17–0.20),
    rising with size. The wedge is not a torus of A/6 cells: a mirror-bounded quotient of n cells outlives the
    n-cell torus by an offset that shrinks with size (triangle: +0.72 at 32 cells, +0.38 at 72), which is the form
