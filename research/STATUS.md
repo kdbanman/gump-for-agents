@@ -329,6 +329,12 @@ _Last updated 2026-11-14 by the lead._
   site check suites, a look at the screenshots, and a republish (version 16); on the push's report, its
   verifiers, the lead's own oracle check, an adversarial review, the records; then `research/check.sh`, CI and a
   merge of pull request 27. Usage is reckoned near 74% weekly and 82% Fable (no reading since 15:18 UTC).
+  **21:00 UTC: the overview is version 16** (the site agent's commits 343555c, 29e5482: the plate "What a short
+  way round costs" rewritten around the density law with a new figure and the W13 tile as queued; a live plate
+  "An echo"; a plate "Nothing listens" with the four kinds of end; tiles, the record's counts and "Open now";
+  both check suites pass for the lead, who looked at the three plates; 93 supporting files on the private
+  artifact). To fill in later: `dens.w13measured` in `site/collect/sources/update-2026-11-15f.json` when the card
+  has measured the face. **Running:** the sixth signals push only.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
