@@ -5,6 +5,8 @@
 
 MODE = emit   : the object is restored at Tr = T + dT and the right wire is not bare then (sat_two.build(emit=Tr))
 MODE = restore: the object is restored at Tr = T + dT (no condition on the right wire)
+MODE = steady : units KS-2..KS+w the same at T+dT+4 as at T+dT (swallowing the p> train in steady state)
+MODE = steadyleak: the same and the right wire not bare at T+dT+4
 MODE = turn   : the turn only (dT ignored)
 Every model is re-stepped (sat_two.lone_test, sg.step_set) and written to the jsonl file with its test."""
 import argparse, json, time
@@ -21,7 +23,8 @@ for w in a.w:
         for V in a.V:
             for dT in (a.dT if a.mode != 'turn' else [0]):
                 t0 = time.time(); Tr = T + dT if a.mode != 'turn' else 0
-                R, pb, Z, X, U = S.build(T, a.KS, a.lo, a.hi, w, int(V, 16), 2, None, Tr, a.mode == 'emit')
+                st_ = a.mode.startswith('steady')
+                R, pb, Z, X, U = S.build(T, a.KS, a.lo, a.hi, w, int(V, 16), 2, None, 0 if st_ else Tr, a.mode in ('emit', 'steadyleak'), dT if st_ else 0)
                 st, m = pb.solve('cadical153', a.timeout)
                 line = f'{st:7s} {a.mode} T={T} (k={S.turn_class(T, a.KS)}) Tr={Tr} w={w} V={V} tube [{a.lo},{a.hi}] {time.time() - t0:.0f}s'
                 if st == 'SAT':

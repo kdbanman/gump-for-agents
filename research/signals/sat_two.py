@@ -90,10 +90,15 @@ def tape_fn(u0):
     return tape
 
 
-def build(T, KS, lo, hi, w=None, V=0xb, zp=2, U=None, emit=0, leakreq=True):
+def build(T, KS, lo, hi, w=None, V=0xb, zp=2, U=None, emit=0, leakreq=True, steady=0):
     """emit = Tr > T (two-sided only): the trajectory runs to Tr; at Tr the object's units and the first unit of the right wire
     are exactly Z again, and the right wire differs from the bare wire V somewhere beyond unit KS + w + 1."""
+    # steady = d (two-sided only): the trajectory runs to T + d + 4 and the units KS-2 .. KS+w are the same at
+    # T + d + 4 as at T + d (the object has settled into swallowing the mirror rake's p> train, one per 4 generations).
+    # With leakreq the right wire must also differ from bare V beyond unit KS + w + 1 at the last generation.
     g = UA; u0 = KS - 1
+    if steady:
+        emit = T + steady + 4
     ua = g if not emit else g - (emit - T) // 2 - 3
     opn = w is None
     if U is None:
@@ -141,9 +146,12 @@ def build(T, KS, lo, hi, w=None, V=0xb, zp=2, U=None, emit=0, leakreq=True):
         if u in (g + 2, g + 3):
             pb.fix(X[T][i], p in end)
         if emit:
-            if KS <= u <= KS + w:
+            if steady:
+                if KS - 2 <= u <= KS + w:
+                    pb.eq(X[emit][i], X[emit - 4][i])
+            elif KS <= u <= KS + w:
                 pb.eq(X[emit][i], Z[emit % zp][i])
-            elif KS + w + 1 < u < U:
+            if KS + w + 1 < u < U:
                 d = pb.f.var(); a_, b_ = X[emit][i], Z[emit % zp][i]
                 pb.f.add(-d, a_, b_); pb.f.add(-d, -a_, -b_)          # d -> (a xor b)
                 leak.append(d)
@@ -205,16 +213,18 @@ def main():
     ap.add_argument('--timeout', type=float, default=600); ap.add_argument('--solver', default='cadical153')
     ap.add_argument('--all', action='store_true'); ap.add_argument('--minutes', type=float, default=20)
     ap.add_argument('--max', type=int, default=10 ** 6); ap.add_argument('--out')
+    ap.add_argument('--steady', type=int, default=0, help='d: units KS-2..KS+w equal at T+d and T+d+4 (add --leak to ask for a non-bare right wire)')
+    ap.add_argument('--leak', action='store_true')
     ap.add_argument('--restore', type=int, default=0, help='Tr: object restored at Tr (no condition on the right wire)')
     ap.add_argument('--emit', type=int, default=0, help='Tr: object restored at Tr and the right wire not bare (two-sided only)')
     a = ap.parse_args()
     V = int(a.V, 16); t0 = time.time()
     w = None if a.open else a.w
-    R, pb, Z, X, U = build(a.T, a.KS, a.lo, a.hi, w, V, a.zp, a.U, a.emit or a.restore, bool(a.emit))
+    R, pb, Z, X, U = build(a.T, a.KS, a.lo, a.hi, w, V, a.zp, a.U, a.emit or a.restore, bool(a.emit) or a.leak, a.steady)
     k = turn_class(a.T, a.KS)
     nfree = len([i for i in range(R.n) if a.KS <= R.units[i] <= (U if a.open else a.KS + w - 1)])
     tag = f'T={a.T} (class k={k}) KS={a.KS} tube [{a.lo},{a.hi}] ' + \
-        (f'OPEN far end, units {a.KS}..{U}, period {a.zp}' if a.open else f'two-sided w={w} V={a.V}' + (f' emit Tr={a.emit}' if a.emit else '') + (f' restore Tr={a.restore}' if a.restore else '')) + f': {nfree} free cells'
+        (f'OPEN far end, units {a.KS}..{U}, period {a.zp}' if a.open else f'two-sided w={w} V={a.V}' + (f' emit Tr={a.emit}' if a.emit else '') + (f' restore Tr={a.restore}' if a.restore else '') + (f' steady d={a.steady} leak={a.leak}' if a.steady else '')) + f': {nfree} free cells'
     if not a.all:
         st, m = pb.solve(a.solver, a.timeout)
         print(f'{st:7s} {tag} {time.time() - t0:.0f}s [{a.solver}]', flush=True)

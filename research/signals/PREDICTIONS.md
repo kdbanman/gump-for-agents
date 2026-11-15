@@ -243,7 +243,7 @@ Mine:
 - **K3 (8%): failed** (no corner).
 - **K4 (25%): failed**; the 30% on a proved reason: **half**: the reduction to a cap constant is proved, the
   constancy of that constant holds only inside the 3 × 3 tube, and fails one size up.
-  *(Note of 2026-11-15 14:20 UTC, fourth investigator, from `research/audit/REVIEW-signals-3.md` item 7: "fails one
+  *(Note of 2026-11-15 13:15 UTC, fourth investigator, from `research/audit/REVIEW-signals-3.md` item 7: "fails one
   size up" overstates it. The class-2 caps of the 5 × 5 tube are destroyed by the turn itself; nothing about clocks
   fails one size up.)*
 - **K5 (55%): held** (writers of period dividing 4, 6, 8 excluded in stated planes).
@@ -287,7 +287,7 @@ After three pushes my rate for "a new kind of object appears" was too high, so t
 - **S21 (60%).** The push ends with no emitter and no corner, and the honest summary is still "nothing standing can
   write onto a wire".
 
-## The fourth investigator, 2026-11-15 13:15 UTC (after reading the README, both finished reviews, the forecasts and the tools; before any code of mine has run)
+## The fourth investigator, 2026-11-15 12:59 UTC (after reading the README, both finished reviews, the forecasts and the tools; before any code of mine has run)
 
 What shapes these. Three pushes of bounded searches found nothing standing that writes, and the third showed the
 clock's ends to be perfect sinks. The one place where the earlier searches were thin is the *two-sided* object: a
