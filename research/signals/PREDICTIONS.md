@@ -404,3 +404,22 @@ narrow negatives for broad ones, so these are not marked down as far as habit su
   completed, deduplicated up to translation and time shift, and its transition graph under single gaps has no
   edge between two different live ends.
 - **S26 (55%).** The push ends with no listener within its stated bounds.
+
+## Fifth push: the investigator's forecasts (2026-11-15, written before any code was run)
+
+Plan: (1) one SAT instance holding three copies of the dynamics (absorber A of the rake train, absorber B of the same
+train, and the run from A with a hole in the train that must end in B, B different from every phase of A), at period
+4 and 8, in the 3 × 3 tube for several plane positions and in the 5 × 5 tube; (2) a deduplicated census of absorbers
+with every one fed holes by stepping; (3) the catalogue oscillators that survive beside the running line, each sent a
+hole, compared with the hole-free run long after.
+
+- **P1 (12%).** The three-copy SAT instance finds a two-state end (A ≠ B, both period 4, the 3 × 3 tube, some C ≤ 39)
+  that re-steps correctly.
+- **P2 (20%).** It finds one anywhere in the bounds I manage to run (period 8 or the 5 × 5 tube included).
+- **P3 (35%).** If found, the B is A moved by one unit (a "mover"), not a different object. (Conditional.)
+- **P4 (15%).** The scan of catalogue oscillators beside the stream (attack 3) finds a placement where one hole leaves
+  the oscillator alive and in a different lasting phase, place or kind, gun and stream intact.
+- **P5 (55%).** A deduplicated census of absorbers of period 4 at least five times the 13 on file is completed.
+- **P6 (18%).** A listener of some kind passes the oracle by the end of this push.
+- **P7 (4%).** A reusable one (toggle A → B → A, or a counter of gaps over at least four gaps) passes the oracle.
+- **P8 (65%).** At least one of the SAT negatives I report will be cut by the 25-minute limit rather than finish.
