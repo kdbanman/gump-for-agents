@@ -995,8 +995,8 @@ From `data/r4_tangent.csv`: p_t = 1 − s/2g = 0.5961, 0.5709, 0.5550; end point
 (23.4 − 2.4845)/108 = 0.1937. Overshoot × A: 1.07, 1.21, 1.34 nats (1.37 with the GPU's 23.376). I(p) = [ln ν(0.9) −
 ln ν(p)]/A at p = 0 is ln ν(0.9) + ln τ_face over A, because ν(min ≤ 0) is the face-death rate, so the comparison
 quantity is right. The 0.01g offset is applied on both sides. Own run (A = 63): 1.07 nats. A side remark: the
-straight tail line alone (`straight_tail_at_0`) also overshoots, by 0.53, 0.63, 0.72 nats. Half the miss is in the
-last cells, before any tangency is imposed.
+straight tail line alone (`straight_tail_at_0`) also overshoots, by 0.53, 0.51, 0.46 nats. A third to a half of
+the miss is in the last cells, before any tangency is imposed.
 
 ## Claim 4: dying against recovering, count-matched
 
