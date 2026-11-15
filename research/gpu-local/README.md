@@ -112,6 +112,33 @@ CPU, cap 16,384): `python -u research/gpu-local/eqtorus.py run 4 0 4 3 48002 max
   kernel B only recognises at the next launch start): 0.16% of the exposure, +0.0016 on ln τ. The cap `max_launch`
   must stay well below the mean life (the queued tori have mean lives ≥ 10⁷, so 2¹⁸ is safe there).
 
+## Equilateral face tori (research/constant/PREDICTIONS.md part C) [measured; provisional until reviewed]
+
+8-layer slabs, soup 0.4, lives from generation 0, guard on (thresholds 16 · 2^j), ln τ_face = ln(2E/F) ± 1/√F.
+Per-run rows (seed, exposure, ends by kind, command, commit): `research/data/gpu_local_eqtorus/eqtorus_A_K_B.csv`.
+Each torus passed `eqtorus.py check A K B` first. Analysis: `python research/gpu-local/eq_analyze.py A K B`
+(the hazard by age needs the per-run json, which is in `research/scratch/gpu-local/` on this machine only).
+
+| A | lattice | runs | face deaths | firewalls | settled | kind 5 | ln τ_face | seeds χ² |
+|---:|---|---:|---:|---:|---:|---:|---:|---|
+| 48 | (4,0),(0,4) | 1 | 7,478,823 | 15,925 + 3,420 | 5,023 | 0 | 9.9251 ± 0.0004 | |
+| 93 | (1,5),(0,31) | 4 | 35,521 | none possible | 0 | 0 | **19.4141 ± 0.0053** | 0.70 on 3 |
+
+**A = 93** (`eqtorus.py run 1 5 31 16 SEED`, seeds 93001-93004, launch cap 2¹⁸):
+- Hazard of a face death by age: flat within errors in 11 bins from 0 to 5.6 × 10⁸ generations (ratios to the mean
+  0.94 to 1.04, each within 1.5σ of 1); no burn-in is visible (first bin, ages below 1.8 × 10⁶: 0.985 ± 0.041).
+- No life settled in any way (kinds 2, 3, 5 all zero in 45,761 lives). Each run is 3.5 mean lives long, so the
+  age test for unrecognised cycles has no power here; the guard is what excludes them.
+- Against the forecasts committed before the run (`research/constant/PREDICTIONS.md` C): flat 19.479 ± 0.010
+  (measured is 0.065 below; its stated refutation line was "below 19.445"), massive 19.437 ± 0.019 (0.023 below,
+  1.2σ of the forecast's error), rising 19.506 to 19.530 (refutation line "below 19.488"), single-c readings 19.488
+  to 19.497. Those forecasts are anchored on the 4 × 4 value 9.9324, which is 0.007 too high (above); with the
+  anchor lowered the flat and rising forecasts move down by less than that. Reading them is the lead's to do.
+- Local slope from the 5 × 5 value on file (15.6614 ± 0.0026) to A = 93: 0.2085 ± 0.0003; from 4 × 4 (this card) to
+  5 × 5: 0.2124 ± 0.0001. The slope falls with size in this family.
+- Not checked: any second stepper at A = 93 (the kernel is engine-exact on this torus for 2,000 generations in 5
+  lanes; the driver's counting was checked only through the 4 × 4 comparison with `rep.c`, above).
+
 ## The cycle guard [measured]
 
 `research/gpu/guard.py`, hooked into `facelaw.run(..., guard=FIRST)`; off by default (`guard=0`), and with the guard

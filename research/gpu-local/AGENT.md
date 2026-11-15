@@ -82,8 +82,13 @@ billed by the hour, no limit."
   to ≥ 2,000, then 81 (3,3,9) and 84 (2,4,14) to 10⁵. Seeds: 1000·A + run number. Rows land in
   `research/data/gpu_local_eqtorus/eqtorus_A_K_B.csv`; per-run json (raw lives, age histograms) in
   `research/scratch/gpu-local/`.
-- **Open: the 4 × 4 calibration disagrees with the CPU value on file by 3.6σ** (README "The torus driver"). A CPU
-  cross-check with research/shape2's own pipeline was started (output under `research/scratch/gpu-local/cpu4x4/`);
-  its verdict belongs in the README and in a message to the lead.
+- The 4 × 4 calibration disagreed with the CPU value on file by 3.6σ; resolved in favour of the value here
+  (README "The torus driver"; `cpu4x4/`). A = 93 is done (19.4141 ± 0.0053).
+- **Running since 05:50Z, 2026-11-15:** `research/scratch/gpu-local/chain_tori.ps1` (check, runs, summary for
+  A = 57, 63, 75, then 81, 84, 108, 111; about 5.5 h; log `chain_tori.log` beside it). If the session was
+  interrupted, see which csv rows exist in `research/data/gpu_local_eqtorus/` and rerun the missing seeds (never
+  reuse a seed). Owed when it ends: `eq_analyze.py` on each torus, README table rows, commit, push, one message to
+  the lead with the usage figures (`get_usage`) at the end.
+- Use subagents for anything that reads widely (the context is compacted at 500k tokens by the owner's setting).
 - Job 3 (hull face A = 108, 10⁴ deaths, guard on): forecast committed in `PREDICTIONS.md`; needs about 14 h at
   3.6 × 10⁸ replica-generations/s. Use `facelaw.run(15, ..., guard=16)` from a local runner.
