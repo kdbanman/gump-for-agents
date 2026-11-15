@@ -2,8 +2,9 @@
 
 (authors to be decided by the owner)
 
-*Draft 2, 2026-11-15, revised the same day for the symmetric collapse and again for how a face dies, the
-empty-patch rerun and the corrected 4 × 4 anchor (draft 1: 2026-11-14). Internal draft; it stays in the repository. How the work was produced and how that is
+*Draft 2, 2026-11-15, revised the same day for the symmetric collapse; again for how a face dies, the
+empty-patch rerun and the corrected 4 × 4 anchor; and again for the last two rounds on how a face dies, the wrapped
+faces measured on a second GPU, signals and the state space a seed explores (draft 1: 2026-11-14). Internal draft; it stays in the repository. How the work was produced and how that is
 disclosed is the owner's decision and is not addressed here.*
 
 **How to read the tags.** Every sentence that states a result carries one of **[proved]**, **[measured]**,
@@ -35,8 +36,10 @@ log-probability of finding k live cells is linear in k down to k = 1 and the dea
 line. The law is not a function of area alone: octahedral faces are tougher than periodic faces of equal area,
 the lifetime of a periodic face depends on how its torus closes on itself, and every candidate law in area and
 shortest loop that was fixed before the runs was refuted, as were five candidate second variables; the
-differences at equal shortest loop are gone by A = 72. Together the families allow one asymptotic cost per cell
-anywhere from about 0.207 to 0.219. The thinnest periodic face costs about 0.099 per cell in the limit (0.093 to
+differences at equal shortest loop are gone by A = 72. Wrapped faces of one shape, measured on a second GPU, cost
+0.2084 per cell from 63 cells up, after a kink near 61 cells that no smooth correction fits, while the local slopes
+of octahedral faces (0.2119, 0.2146, 0.2181) move away from that value; whether the two families share one
+asymptotic price is open. The thinnest periodic face costs about 0.099 per cell in the limit (0.093 to
 0.107 by the correction form), half a wide face's. Symmetric initial conditions die exponentially sooner,
 mainly because symmetry forces faces that share an edge to die together: at A = 63 each such edge costs about
 2.15 in ln τ, additively, while pairing faces that share no edge costs at most about 0.1; a cost along mirror
@@ -48,7 +51,11 @@ thinner rim) and how likely each further step down a dip of its population is, n
 the end runs. Five or six
 layers of the rule above fresh coin flips reproduce a slab face's lifetime to 0.015 in ln τ, so the exponent is
 set in a boundary layer driven by noise. Settled replicas missed by the detectors are bounded in every CPU run but
-not in the largest GPU runs (Section 12). **Not proved:** the area law, and its constant. We give what is known
+not in the largest GPU runs (Section 12). Although no finite pattern can move through empty space, gump carries
+signals along free-standing wires: pulses that move one cube every two generations and leave the wire as it was, a
+transmission to a counter, and an inhibition element (measured, with the reference implementation as judge); and,
+**proved**, a clock of period exactly 4N + 2 for every N, so that free-standing oscillators have unbounded periods,
+and a tape on which every sequence of two kinds of wire unit moves rigidly. **Not proved:** the area law, and its constant. We give what is known
 rigorously (a conditional area law resting on a measured hypothesis; an exponential law for a deterministic
 relative of a two-dimensional analogue, conditional on two published percolation statements), relate the
 phenomenon to supertransient chaos, and say which parts our literature search did not find and which parts have
@@ -78,7 +85,10 @@ that the theorems single out: the extinction of an outer {111} layer (after whic
 dead for ever and the hull is one layer smaller), or a three-layer firewall. We measure the waiting-time law of
 those events (Section 5), find where its exponent is made (Section 6), and find that it depends on the shape and
 symmetry of the face in ways not yet reduced to a formula (Sections 5.5 and 7), and ask whether all faces share
-one asymptotic cost per cell (Section 7.5). Section 11 places each result
+one asymptotic cost per cell (Section 7.5): wrapped faces of one shape cost 0.2084 per cell above a kink near 61
+cells, octahedral faces more and with rising slopes, and one price or two is open. When the chaos has gone, ordered
+matter remains, and some of it carries signals: pulses run along free-standing wires, and from them a clock of every
+period 4N + 2 and a rigidly moving tape are built and proved (Section 8.1). Section 11 places each result
 against the nearest work our searches found; several are instances of known results (the quasi-stationary flux
 identity for the death rate, boundary-controlled death, the shorter side of a torus setting an equilibrium
 tunnelling time, blocking sets and k-cores for the sets that die for ever), and what may be ours is stated there
@@ -86,10 +96,12 @@ narrowly.
 
 The results fall into three kinds, and we keep them apart throughout.
 
-- *Proved*: the structure theorems of Section 3, the twist lemma for oscillators (Section 8), the half-space
-  criterion for confinement (Section 9), and two conditional theorems about lifetimes (Section 10).
+- *Proved*: the structure theorems of Section 3, the twist lemma for oscillators (Section 8), the clock and the
+  tape (Section 8.1), the half-space criterion for confinement (Section 9), and two conditional theorems about
+  lifetimes (Section 10).
 - *Measured*: the chaotic phase (Section 4), the face-extinction law and its dependence on geometry and symmetry
-  (Sections 5–7), the debris (Section 8), the neighbourhood in rule space (Section 9).
+  (Sections 5–7), how much of its state space a seed explores (Section 6.1), the debris and the signals (Section 8),
+  the neighbourhood in rule space (Section 9).
 - *Conjectured or open*: that the wait is exponential in the area for a reason derivable from the rule; the value
   of the constant; several extrapolations. Section 10 lists them.
 
@@ -589,7 +601,8 @@ dynamical form (a live neighbour feeding a free rim), only a static one (a tied 
 **[measured]** (S8; B: the reviewer's refits of the line's data; no T, T_d or O_h run repeated by a second code; one
 job and one seed per size) The slope times the order of the face's stabiliser is 0.2091 ± 0.0016 for T faces
 (threefold axis, free rims, A = 108–198) and 0.2035 ± 0.0024 for T_d faces (A = 315–459), 3–5% lower. "c/6 within
-5%" is supported; "exactly c/6" is not shown, and c itself is only known to 0.207–0.219 (Section 7.5). The rim's
+5%" is supported; "exactly c/6" is not shown, and c itself is not known (wrapped faces of one shape give 0.2084, hull faces' slopes are higher and
+rising; Section 7.5). The rim's
 marginal cost is 0.45–0.55 per rim period over 5.5–9 periods, which corresponds to a √A coefficient of −0.19 to
 −0.22, close to the fitted −0.196; the review shows that this agreement is a coincidence of ranges, not a test.
 Whether the rim term bends, and so whether −0.196·√A is an asymptotic form at all, is open: the fall in marginal
@@ -1172,10 +1185,10 @@ time proportional to its length. What sets the ratio of the thin face's cost to 
 **[measured, model-free]** (CN1; A) The local slopes of octahedral faces at A = 63–108 (0.2146, 0.2181 ± 0.0013;
 Table 2) lie above those of periodic faces within a width family (0.2072, 0.2082; Table 6), and are rising.
 **[fitted]** (CN1; A: 64 points, models stated before fitting and scored on held-out sizes; a review with its own
-fits) That does not separate the limits. Periodic faces give an asymptotic c = 0.207–0.216 depending on the form,
+fits; the data of 2026-11-14) That does not separate the limits. Periodic faces give an asymptotic c = 0.207–0.216 depending on the form,
 octahedral faces 0.218–0.232 with one correction term and 0.2156 with a saturating slope; a single constant passes
 jointly with ordinary parameters (c = 0.2179 with a 1/A octahedral correction, joint p 0.28); of 84 pairings of an
-octahedral with a periodic form, 36 pass with one constant at p ≥ 0.01, with c = 0.2072 to 0.2190. **The data allow
+octahedral with a periodic form, 36 pass with one constant at p ≥ 0.01, with c = 0.2072 to 0.2190. **Those data allow
 one asymptotic constant anywhere from about 0.207 to 0.219; they do not fix it, and they do not show that there are
 two.** Every passing reading with c ≤ 0.214 needs a two-term correction on octahedral faces; every one with c ≥
 0.2155 needs periodic faces to approach c as slowly as 1/s in the width s. *Conjecture* (not tested): the thin
@@ -1196,7 +1209,7 @@ again by a CPU code:
 | 19 | (1,7),(0,19) | 57 | 4.36 | 3,283,133 | 11.8756 ± 0.0006 (two seeds, 2.6σ apart) | 11.8744 ± 0.0015 (reviewer, 445,165 deaths) (GL3; A) |
 | 21 | (1,4),(0,21) | 63 | 4.58 | 1,811,510 | 13.1622 ± 0.0007 | 13.176 ± 0.011 (review of the dying-face study, DY12) (GL3; A) |
 | 25 | (5,0),(0,5) | 75 | 5.00 | 183,954 | 15.6630 ± 0.0023 | 15.667 ± 0.010 (reviewer); 15.6614 ± 0.0026 on the first GPU (Table 6) (GL3; A) |
-| 31 | (1,5),(0,31) | 93 | 5.57 | 35,521 | 19.4141 ± 0.0053 (four seeds, χ² 0.70 on 3) | none (GL3; C) |
+| 31 | (1,5),(0,31) | 93 | 5.57 | 35,521 | 19.4141 ± 0.0053 (four seeds, χ² 0.70 on 3) | none: *preliminary* (GL3; C; the line and the kink below rest on it) |
 
 Table 8a. Equilateral face tori (`research/gpu-local/README.md` and `research/data/gpu_local_eqtorus/` on branch
 `claude/gpu-local-1080`, pull request 23, not merged; every value recomputed by the lead from the rows as
@@ -1478,7 +1491,7 @@ leaving chaos and are in the study (README §10; no ledger row).
 
 **Open.** A corner between two wire directions; a closed polygon; a crossing; a reusable reflector; a gate with its
 own output line; a stationary source of pulses; a receiver that toggles on pulses from one side; a clock whose period
-is divisible by 4; whether the clock's one-cell ignition leads into its cycle for every N; whether soup without an
+is set by its length and divisible by 4; whether the clock's one-cell ignition leads into its cycle for every N; whether soup without an
 imposed repeat makes a carrier. The prior art for these objects has not been searched (Section 11). Further work on
 signals is in progress and is not reported here.
 
@@ -1540,8 +1553,14 @@ Theorems 1–6 and Proposition 7 of Section 3; the half-space criterion for conf
 exhaustive enumerations of Section 8 at the sizes that have been re-run (Z1, the smallest still lifes; Z2, the
 still-life counts for n ≤ 15; Z3, the period-2 classes with unions up to 13; Z4, no period-4 oscillator with
 union ≤ 10); the anatomy of P66.27a; the reduction of a symmetric state to gump on its orbit graph and the
-list of mirrors inside a face (S5, Section 5.5). None of these says anything about lifetimes beyond the trivial bound that a seed with a hull of N cells is periodic within
-2^N generations, which is exponential in the hull's *volume*.
+list of mirrors inside a face (S5, Section 5.5); Theorem 8, a free-standing clock of period exactly 4N + 2 for
+every N ≥ 1, so that periods are unbounded (SG5; computer-assisted, the proof checked and its enumeration redone by
+a second agent), and Theorem 9, the tape on which every sequence of units of wires B and C moves rigidly (SG7; the
+same), Section 8.1; the two remarks on wires there (no growth at a wire's end, a pulse carries its drive), which
+have no ledger row; and the exact state counts of Section 6.1 for the seventeen vessels enumerated independently
+(SS1). None of these says anything about lifetimes beyond the trivial bound that a seed with a hull of N cells is
+periodic within 2^N generations, which is exponential in the hull's *volume*. Not proved, though measured to
+N = 400: that one added cell leads the clock into its cycle.
 
 *Preliminary* (exhaustive computer enumerations graded C: each has a command and has not been re-run): the
 still-life count for n = 16 (Z2); the statement that every period-2 oscillator with union ≤ 11 is a hinge flip
@@ -1598,9 +1617,12 @@ face.
 1. **Why area.** No proof that the wait is exponential in the face's area exists for gump, for the 2D analogue in a
    vessel run by the rule, or for the finite-depth noise-driven models of Section 6. A dedicated theory effort by
    several independent lines ended without one.
-2. **The constant.** It is not derived from the rule. It is also not yet *measured* as an asymptotic constant: the
-   families allow one value from about 0.207 to 0.219 (Section 7.5); no flat face without periodic identification
-   or rim has been measured. One conjectured value exists, a quasi-potential of a measured one-step table with a
+2. **The constant, or two.** It is not derived from the rule. It is also not yet *measured* as an asymptotic
+   constant: wrapped faces of one shape cost 0.2084 per cell from 63 cells up, after a kink near 61 cells that no
+   smooth correction fits, and the local slopes of octahedral faces rise away from that value (Section 7.5), so
+   whether the two families have one price per cell or two is open; why the kink, and whether the line holds beyond
+   93 cells (the 93-cell value has one code), are open too. No flat face without periodic identification or rim has
+   been measured. One conjectured value exists, a quasi-potential of a measured one-step table with a
    stated continuation, 0.2191 per cell at A = 84 **[conjecture]**. So are the thin face's limit and its ratio to
    the wide face's (Section 7.4).
 3. **Shape.** Whether the equal-loop differences of periodic faces are a commensurability effect that vanishes on
@@ -1615,8 +1637,18 @@ face.
    one- and two-layer slabs cannot sustain chaos (reduced in `research/theory/thickness.md` §4 to a percolation
    statement, unproved).
 6. **Hypothesis (R)** of Section 10.2(a) from the rule.
-7. **Fauna:** periods beyond 66; whether any oscillator can pass a signal.
+7. **Fauna and signals.** Periods beyond 66 (open problem 12 of `research/OPEN-PROBLEMS.md`) are answered by
+   Theorem 8, and signals exist (Section 8.1). Open: a clock whose period is set by its length and divisible by 4
+   (every one found is 2 mod 4; small oscillators with such periods exist, Section 8); a
+   corner between wire directions, a closed polygon, a crossing; a reusable reflector; a gate with its own output
+   line; a stationary source of pulses; a receiver that toggles; whether the clock's one-cell ignition works for
+   every N; whether soup with no imposed repeat makes a carrier wire.
 8. **Rule space:** what makes a capped threshold chaotic at a given cap; how strong the wall law is.
+9. **The dying face below half its population.** Whether a depleted face holds a remnant in some looser sense than
+   a patch at fixed density (not reachable on faces of 108 cells or fewer), and what shape the dip curve has below
+   half the population: there is no model for it (Section 5.6).
+10. **State space beyond 30 cells.** Whether the visited counts grow linearly or slowly exponentially at small
+   sizes, where they join the face law, and whether hulls wider than 6 layers hold longer transients (Section 6.1).
 
 ## 11. What is new here and what is not
 
@@ -1644,6 +1676,8 @@ References.
 | Conditional area law; hazard identity (Section 10.2a) | The quasi-stationary flux identity in its Markov form [AM17, eq. 6]. Not surveyed otherwise. [citation needed: committor and flux identities in transition-path theory; the project's library has none] | Unknown. The identity is of a standard kind; its use without a Markov property, and the reduction of the area law to a one-step hypothesis on a pooled table, may or may not be known |
 | Exponential law for the automaton 𝒜(L) (Section 10.2b) | Comparison with oriented percolation [L95, BBS94, HS22]; the one recorded non-monotone cellular-automaton survival theorem is [BN94] (not obtained); no finite-size exponential-lifetime theorem without monotonicity was found | A **constructed example** using standard tools. Honest but artificial: a random tape read once |
 | Minimality of the rule among its neighbours; the class (Section 9) | Survey of 6,144 outer-totalistic rules with metastable states and nucleation [RK14] | Survey-level; a new instance |
+| Signals on free-standing wires: pulses, transmission to a counter, the inhibition element, the clock of period 4N + 2, the tape (Section 8.1) | **Not searched.** No pass of the survey addressed signals, wires, collision logic, or constructions of oscillators of every period, in this or any other automaton | **Unknown.** Nothing here is claimed as new; the objects may be instances of known constructions, and a search is owed before any judgment |
+| How much of its state space a seed explores (Section 6.1) | **Not searched** (transient lengths and in-degree statistics of finite automata and random maps were not surveyed) | **Unknown.** The exact counts are small-vessel enumerations; the 0.30 bits per face cell is the face law restated |
 
 **Ranking.** The four results we judge most likely to interest a reader who knows cellular automata and
 metastability, with what each still lacks before it could carry a paper. Revised 2026-11-14 after the third
@@ -1656,9 +1690,11 @@ standing, and the shape dependence did not meet either condition for joining (be
    twenty units of ln τ; it is simple enough to be a model system for proofs. *Why it stays first:* the new prior
    art takes from it the tail relation (an instance of the quasi-stationary flux identity, with precedents in
    [SK15, VR19, NA21]) and boundary-controlled death [VR19], but nothing found has a face-area law in a vessel
-   whose walls are theorems. *Missing:* the law is measured, not proved; the constant is not derived and is
-   isolated only to about 0.207–0.219 (Section 7.5); nothing at A ≥ 108 has a second implementation or a bound on
-   missed settled replicas (Section 12; a guard now exists, with a stated limit, but no run has used it); the top point has 16 deaths; the review [TL08] and the primary
+   whose walls are theorems. *Missing:* the law is measured, not proved; the constant is not derived and not
+   isolated: wrapped faces of one shape give 0.2084 above a kink, hull faces' slopes rise away from it, and one
+   price or two is open (Section 7.5); nothing at A ≥ 108 has a second implementation or a
+   bound on missed settled replicas (Section 12; a guard now exists, with a stated limit, and no run at those sizes
+   has used it); the top point has 16 deaths; the review [TL08] and the primary
    supertransient papers must be read by a person before any claim of novelty for "area, not volume".
 2. **The exponent is made in a boundary layer over noise** (Section 6). *Why:* it turns a question about
    deterministic chaos into one about a finite-depth probabilistic automaton, where the tools that prove
@@ -1692,7 +1728,12 @@ the paper, but as it stands it is a refutation (no law in area and shortest loop
 searches now show that the shortest loop as the controlling length is a theorem in equilibrium [NZ17], so what
 could be ours is narrower (fixed-area shape and twist for a chaotic transient). It would have moved up the list
 if the second variable had been found or the thin-torus cost computed exactly; neither happened (Sections 7.2,
-7.4).
+7.4). The kink in the wrapped-face line (Section 7.5) does not change this: it is one measurement on one family,
+with its largest point on one code.
+
+The signals of Section 8.1 and the state-space counts of Section 6.1 are not ranked, because their prior art has
+not been searched at all (`docs/paper/GAPS.md`, gap 50). The clock and the tape are complete proofs, and would be
+candidates for the list only after such a search.
 
 ## 12. Methods and reproducibility
 
@@ -1702,10 +1743,18 @@ stepper for O_h-symmetric states; two GPU kernels. Acceptance rule: a stepper's 
 agrees bit for bit with the engine or the reference over thousands of generations on several vessels
 (`research/check.sh`, 20 exact checks). The GPU kernels were checked by emulating them on a CPU against two CPU
 steppers, with deliberately broken kernels as negative controls; that the GPU executes the kernel as the
-emulation does cannot be checked without a second GPU run. A second card (a different GPU model, run by a
-separate session; its code is not yet merged) has since passed the same acceptance checks on its producer's report,
-with the port checked line by line by a reviewer but not its execution, and its 4 × 4 torus value, 9.9251 ±
-0.0004, agrees with two CPU codes (GL1; A). None of the GPU results quoted in this paper has yet been repeated on it.
+emulation does cannot be checked without a second GPU run. A second card (the owner's GTX 1080, a different GPU
+model, run by a separate session; its code, on branch `claude/gpu-local-1080`, pull request 23, is not yet merged)
+has since passed the same acceptance checks on its producer's report, with the port checked line by line by a
+reviewer but not its execution. It measured the five equilateral tori of Table 8a; four of them agree with a CPU code
+(GL1, GL3; A), and one, the 5 × 5 slab, repeats a value of the first GPU (Table 6: 15.661 ± 0.003; the card
+15.6630 ± 0.0023; a CPU stepper 15.667 ± 0.010). No other GPU result quoted in this paper has been repeated on it.
+*Verifiers judged by the reference.* Every object of Section 8.1 is checked by a script that steps only
+`reference/oracle.py` and compares whole states cell for cell (`research/signals/verify_*.py`); the lead re-ran
+every one and wrote separate checks from the reference alone (`research/audit/signals_lead_check.py`,
+`signals_clock_lead_check.py`, `signals_gate_lead_check.py`). The state-space enumerator was matched to the
+reference on every vessel, and the lead enumerated one 16-cell hull with the reference itself
+(`python3 research/audit/statespace_lead_check.py hull_-1_1_-5_-1_-5_3_-3_5`, 40 s).
 
 **Estimators.** Mean wait = exposure/deaths over replicas older than T₀ whose vessel is intact; statistical error
 of ln τ = 1/√deaths; τ_face multiplies by the number of faces. Memorylessness was tested by the coefficient of
@@ -1747,22 +1796,31 @@ equal to its snapshot is in a cycle of some period and its life ends as censored
 when off, cannot miss a cycle for ever, and recognises no life that is not in one. Its limit: the time between
 settling and recognition is up to about the settling age plus period × launch length, which for an odd period
 above 128 exceeds a mean life at A ≤ 93. Guarded results must therefore cut the censored lives' exposure at the
-snapshot age, or report both figures. No result in this paper was produced with the guard; the † runs above are
-still unbounded.
+snapshot age, or report both figures. Of the results in this paper only the 93-cell torus of Table 8a was run with
+the guard on (none of its lives settled); the † runs above are still unbounded.
 
 **Errors of the census pipeline.** **[measured]** (GL1; A) The per-job scatter of the twisted-torus census
 (Section 7.3) is mildly larger than Poisson (χ² 100 on 75 and 169 on 151 for two sets of jobs on the 4 × 4 torus),
 so the census's quoted errors are 5–15% small. Its 4 × 4 value on file, 9.9324 ± 0.0020, reproduces bit for bit from
 its own jobs and lies 3.4σ (with that scatter allowed for) above the value pooled from the second card, a reviewer's own stepper and the census's
-pipeline rerun on fresh seeds, 9.9249 ± 0.0003: a high draw, not a pipeline error, and the reason Table 8 and Section 7.3 now use the corrected value.
-Where a single torus value carries an argument it should be measured twice.
+pipeline rerun on fresh seeds, 9.9249 ± 0.0003, and the reason Table 8 and Section 7.3 now use the corrected value.
+**[measured]** (GL3; B: the card's session and the reviewer, on the same lives) Of its excess of 0.0075, 0.0017 is a
+bias of the pipeline and 0.0058 (2.9σ) the draw (GL1's note of 2026-11-15): the census stamps layer deaths every 16
+generations, which reads ln τ high by 0.00167 ± 0.00006 at 4 × 4, by at most 0.0008 for long-lived classes at A = 60,
+and by 0.0174–0.0184 for the classes with shortest loop² 4, whose face deaths tie with firewalls inside one window
+(Table 8). Differences between long-lived classes at one area move by less than 0.001. Where a single torus value
+carries an argument it should be measured twice.
 
-**Verification.** Each claim is recorded in a ledger with the command that reproduces it and a grade (142 claims
-when this was written: 65 graded A, 66 B, 10 C, 1 D; `python3 research/audit/claims_tally.py`); an
-independent audit re-derived the theorems and the exact numbers and re-ran the cheaper statistics; later results
-were each given to an adversarial reviewer with code of its own before being recorded. Forecasts were committed
-before runs (Table 5). Not repeated by anyone: the side-16 run; the 960-rule survey; any of the GPU runs quoted here
-(the second card's 4 × 4 value is a new run, checked against CPU codes, not a repeat).
+**Verification.** Each claim is recorded in a ledger with the command that reproduces it and a grade (164 claims
+when this was written: 78 graded A, 75 B, 10 C, 1 D, each by the best grade any part of it has; `python3
+research/audit/claims_tally.py`); an independent audit re-derived the theorems and the exact numbers and re-ran the
+cheaper statistics; later results were each given to an adversarial reviewer with code of its own before being
+recorded. The reviews behind the results added in this revision are `research/audit/REVIEW-dying.md` (rounds 3 and
+4), `research/audit/REVIEW-gpu-local-tori.md`, `research/audit/REVIEW-signals.md`,
+`research/audit/REVIEW-signals-2.md` and `research/audit/REVIEW-statespace.md`; each corrected something, and the
+corrections are stated where the results are. Forecasts were committed
+before runs (Table 5). Not repeated by anyone: the side-16 run; the 960-rule survey; the GPU runs quoted here except the 5 × 5 slab
+(the second card's other tori are new runs, four of them checked against CPU codes); the 93-cell torus.
 
 **Availability.** Code, curated tables and per-life data for the GPU experiments are in the repository; bulk
 output is not tracked, and some analysis scripts need it (listed in `docs/paper/GAPS.md`).
@@ -1896,7 +1954,8 @@ Superseded and therefore absent: F7 (an early engine-only slope), S1 (the propor
 symmetric faces), the fitted limit of F9 and GP4 (the extrapolated constant 0.2077). Graded C and mentioned only as
 preliminary or with their grade named: F12, S4, Q4, G3, G4, Z13, the other-lattice results (K7, K8), and the parts
 graded C of Z2 (n = 16), Z3 (the hinge flips), Z4 (period 3), Z12 (absence from the census lists), S9, TH2, TH4,
-TH5, X3 (the uncensored value), ZL2 and C4 (the wall-clock time). Graded B and not used: R6 (the web stepper's
+TH5, X3 (the uncensored value), ZL2, C4 (the wall-clock time), GL3 (the 93-cell torus) and SS2 (side 16). Graded B and not used: R6 (the web stepper's
 tests), C7, Z11, K2. Graded C and not mentioned: L2, K5 (the remaining other-lattice row), and the parts graded C
 of C2 (the composition of the final state), C8 (the runs; only the pooled value, graded B, is used) and Z10 (the
-phase shifts). Rows about the edge-neighbour variant (not this automaton) are outside the paper.
+phase shifts). Every row added on 2026-11-15 for the dying face (DY8–DY15), the second card (GL3), signals (SG1–SG10) and the
+state space (SS1–SS3) is used. Rows about the edge-neighbour variant (not this automaton) are outside the paper.

@@ -69,7 +69,7 @@ def row(cid):
 # (label, start marker, end marker or None for "to the next blank line", ledger ids, notebook entries)
 SPEC = [
     ('Abstract: shape, constant, thin face', 'refuted, as were five candidate', "half a wide face's.",
-     ['SH9', 'SH6', 'CN1', 'TH3'], ['second', 'const', 'thin']),
+     ['SH9', 'SH6', 'CN1', 'TH3', 'GL3'], ['second', 'const', 'thin', 'tori5']),  # GL3, tori5 added with the fifth update
     ('Abstract: settled replicas', 'Settled replicas missed by the detectors', '(Section 12).', ['ZL1', 'ZL2'], ['zombie']),
     ('5.2 Table 2 note', '† These runs admit no bound', None, ['ZL2'], ['zombie']),
     ('5.5 Table 3 caption', 'no bound on settled replicas the GPU missed (ZL2, Section 12); the longer', '(*preliminary*, C).',
@@ -90,8 +90,7 @@ SPEC = [
     ('7.4 TH4-TH6', '**Why it is not derived.**', None, ['TH4', 'TH5', 'TH6'], ['thin']),
     ('7.5 CN1', '**[measured, model-free]** (CN1; A)', None, ['CN1'], ['const', 'addendum']),
     ('7.5 GP10', '**Empty patches** (GP10;', None, ['GP10'], ['patches', 'forecast', 'patch45']),  # patch45 added with the fourth update
-    ('10.3 items 2-3', '2. **The constant.**', '4. **Symmetric faces', ['CN1', 'TH3', 'SH6'], ['const', 'thin', 'second']),
-    ('11 ranking item 1', 'isolated only to about', 'novelty', ['CN1', 'ZL2'], ['const', 'zombie']),
+    ('11 ranking item 1', 'the constant is not derived and not', 'novelty', ['CN1', 'ZL2', 'GL3', 'GL2'], ['const', 'zombie', 'tori5'], 'a8e925a'),
     ('11 shape paragraph', 'It would have moved up the list', None, [], []),
     ('12 threat to validity', '**Threat to validity: lives that settle', 'falling steeply with area.', ['ZL1', 'ZL2', 'Z13'], ['zombie', 'clocks']),
     # second update of 2026-11-15 (the symmetric collapse, S5-S9; the new clocks, Z12, Z13); base bb22eda
@@ -103,7 +102,7 @@ SPEC = [
     ('5.5 Table 3a', '| symmetry imposed (octahedral vessel', None, ['S6'], ['symmetric'], 'bb22eda'),
     ('5.5 Table 3a caption', 'Table 3a. The edge ladder.', None, ['S6'], ['symmetric'], 'bb22eda'),
     ('5.5 S7', '**[measured]** (S7; B', None, ['S7'], ['symmetric'], 'bb22eda'),
-    ('5.5 S8', '**[measured]** (S8; B', None, ['S8'], ['symmetric'], 'bb22eda'),
+    ('5.5 S8', '**[measured]** (S8; B', None, ['S8', 'GL3'], ['symmetric', 'tori5'], 'bb22eda'),  # GL3, tori5: fifth update
     ('5.5 what this corrects', '*What this corrects.*', None, ['P7'], ['symmetric'], 'bb22eda'),
     ('5.5 what remains preliminary', '*What remains preliminary.*', None, ['S5', 'S4', 'SW3'], [], 'bb22eda'),
     ('Table 5 row 19', '| 19 | The symmetric-collapse', '\n', ['S7'], ['symmetric'], 'bb22eda'),
@@ -149,10 +148,8 @@ SPEC = [
     ('7.3 Table 8 row 48-60', '| d ln τ_face/dA, A = 48 → 60', '\n', ['SH3', 'GL1'], ['card', 'file:research/shape2/data/explore_report.txt'], '67e0371'),
     ('7.3 SH4', '**[measured]** (SH4; A', None, ['SH4', 'GL1'], ['card'], '67e0371'),
     # (7.5 equilateral note: passage removed in the fifth update; its content is now under 7.5 part C scored)
-    ('12 second card', 'A second card (a different', 'repeated on it.', ['GL1'], ['card'], '67e0371'),
     ('12 guard', '**A guard, and its limit.**', None, ['GL2'], ['card'], '67e0371'),
-    ('12 census errors', '**Errors of the census pipeline.**', None, ['GL1'], ['card'], '67e0371'),
-    ('12 verification counts', '(142 claims', 'claims_tally.py`)', [], [], '67e0371'),
+    ('12 census errors', '**Errors of the census pipeline.**', None, ['GL1', 'GL3'], ['card', 'tori5r'], '67e0371'),  # GL3, tori5r: fifth update
     # fifth update of 2026-11-15 (dying rounds 3-4, DY8-DY15; wrapped faces on the second card, GL3; signals, SG1-SG10;
     # state space, SS1-SS3; bookkeeping); base a8e925a
     ('5.6 intro grades', 'Every result of these two', 'own grades.', [], [], 'a8e925a'),
@@ -210,6 +207,23 @@ SPEC = [
     ('8.1 SG9', '**A wire against chaos.**', None, ['SG9', 'T3'], ['sig2', 'sig2r'], 'a8e925a'),
     ('8.1 SG10', '**Absent inside stated bounds.**', None, ['SG10'], ['sig2', 'sig2r'], 'a8e925a'),
     ('8.1 open', '**Open.** A corner between', None, [], ['sig2', 'sig2r'], 'a8e925a'),
+    ('Header', '*Draft 2, 2026-11-15', 'draft 1: 2026-11-14).', [], [], 'a8e925a'),
+    ('Abstract: wrapped faces', 'Wrapped faces of one shape, measured', 'asymptotic price is open.', ['GL3'], ['tori5', 'tori5r'], 'a8e925a'),
+    ('Abstract: signals', 'Although no finite pattern can move', 'moves rigidly.', ['SG1', 'SG2', 'SG5', 'SG6', 'SG7'], ['sig1', 'sig2'], 'a8e925a'),
+    ('1 intro: constant and signals', 'one asymptotic cost per cell (Section 7.5): wrapped', 'Section 8.1).', ['GL3', 'SG5', 'SG7'], ['tori5', 'tori5r'], 'a8e925a'),
+    ('5.5 S8 c', 'and c itself is not known', 'Section 7.5).', ['GL3'], ['tori5'], 'a8e925a'),
+    ('7.5 CN1 dated', '**[fitted]** (CN1; A: 64 points', None, ['CN1'], [], 'a8e925a'),
+    ('10.1 clock and tape', 'list of mirrors inside a face (S5, Section 5.5); Theorem 8', 'into its cycle.', ['SG5', 'SG7', 'SS1'], ['sig2r'], 'a8e925a'),
+    ('10.3 item 2', '2. **The constant, or two.**', '3. **Shape.**', ['GL3'], ['tori5', 'tori5r'], 'a8e925a'),
+    ('10.3 items 7-10', '7. **Fauna and signals.**', '## 11.', ['SG5'], ['sig2', 'sig2r', 'dying4r', 'ssr'], 'a8e925a'),
+    ('11 rows signals, state space', '| Signals on free-standing wires', 'face law restated |', ['SG5', 'SS3'], [], 'a8e925a'),
+    ('11 not ranked', 'The kink in the wrapped-face line', 'after such a search.', ['GL3'], [], 'a8e925a'),
+    ('12 second card', 'A second card (the owner', 'with the reference itself', ['GL1', 'GL3'], ['card', 'tori5r', 'ss'], 'a8e925a'),
+    ('12 census bias', '**[measured]** (GL3; B: the card', None, ['GL1', 'GL3'], ['tori5r'], 'a8e925a'),
+    ('12 guard used', 'Of the results in this paper only the 93-cell', 'still unbounded.', ['GL3'], ['card93'], 'a8e925a'),
+    ('12 verification counts (fifth)', '(164 claims', 'claims_tally.py`)', [], ['file:research/CLAIMS.md'], 'a8e925a'),  # the ledger's own tally line; also run claims_tally.py
+    ('12 not repeated', 'Not repeated by anyone:', None, ['GL3'], [], 'a8e925a'),
+    ('Appendix (fifth)', 'Every row added on 2026-11-15', None, [], [], 'a8e925a'),
 ]
 
 SUP = str.maketrans('⁰¹²³⁴⁵⁶⁷⁸⁹⁻', '0123456789-')
