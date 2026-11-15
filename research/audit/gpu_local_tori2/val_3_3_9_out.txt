@@ -1,0 +1,9 @@
+(3,3),(0,9) N = 18: tor vs oracle, 2 lanes x 3001 generations: 0 mismatching generations
+  control shift (tor g vs oracle g+1, 300 gens): 300 mismatching
+  control mutant rule: 300 mismatching of 301
+  control wrong edge (cell 243: 408 -> 323): 295 mismatching of 301
+ALL OK
+
+real	3m16.795s
+user	3m15.018s
+sys	0m0.228s

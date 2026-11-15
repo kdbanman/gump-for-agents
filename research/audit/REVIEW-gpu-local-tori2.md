@@ -92,3 +92,27 @@ faces and the face set are right at this size.
 One reading note for whoever scores block 4: the old 23.376 and the new value differ in which ages they weigh
 (0–0.23 means against 0–4 means). If they differ, the age table (item 1) says whether that is noise or an ageing
 hazard; the driver itself does not distinguish them.
+
+## 2. The two fix lists
+
+Checked against the branch at 16271f3 (README = `research/gpu-local/README.md`, line numbers at that commit). The
+branch's own account is `AGENT.md` "Current state" and the messages of ecd01e9 and 16271f3.
+
+| note, item | what was asked | state | where |
+|---|---|---|---|
+| 05:30-1 | 4 × 4: "not resolved" replaced by the resolution, pointer to `REVIEW-gpu-local-pr23.md` | **closed** | README 77–80 (9.9249 ± 0.0003 best value, both reviews cited) |
+| 05:30-2 | latency conjecture corrected; kind-5 exposure cut at the snapshot age as default, or both reported | **closed** | README 319–333 ("The cut value is the one to quote"; both printed by `eq_analyze.py` 49–54 and `hullface.py summary` 104–106; hull rows carry `exposure_guard_past_snapshot`). No kind-5 life exists in any row, so the two coincide everywhere (README 163) |
+| 05:30-3 | 4 × 4 row's `code_commit`; `git_head()` marks a dirty tree | **closed** | `eqtorus_4_0_4.csv` field "ea43aaf+dirty (the uncommitted code that became 95fc5bf)"; `eqtorus.py` 272–279 and 315 (head read before the run); `hullface.py` 30–37, 74. The mark looks at `research/gpu`, `research/shape`, `research/gpu-local/*.py` only, not `research/fluct` (section 1.4, item 3). Verified: no stepping or counting code changed from 95fc5bf to 16271f3 (`git diff --stat 95fc5bf 16271f3 -- research/gpu research/shape research/fluct research/gpu-local/eqtorus.py` shows only `git_head`) |
+| 05:30-4 | cite `REVIEW-gpu-pr14.md` for the settled-firewall undercount; at most 0.034, small-slab ln τ_fw only | **closed** | README 126–128 |
+| 05:30-5 | `PREDICTIONS.md` new block: the hull forecast is centred on the old value; "0 settled at A ≥ 90" is false | **closed** | `PREDICTIONS.md` 104–109 (block 4, committed ecd01e9 11:48Z, before any R = 15 run) |
+| 08:15-2 | the "16 generations over the mean life" sentence replaced by the measured table, `REVIEW-shape2.md` claim 1 cited | **closed** | README 102–118 |
+| 08:15-3 | the bend: on how many degrees of freedom it rests; no smooth decaying correction fits, only a kink near 61; the 0.2088 column | **closed, with two inaccuracies** | README 175–200: the column now uses the fitted 13.1621 + 0.20867(A − 63). But "χ² 68 to 117 on 1 in the review's fits" mixes two tables (it is 113–117 for the four decaying forms, 59–70 with the 57 error inflated, 15 for the stretched one), and "which the four new ones sharpen" overstates what they add (section 3.3) |
+| 08:15-4 | the CPU value at 57 cells as the second code | **closed** | README 152 |
+| 08:15-5 | `eqtorus.py` records the commit with a dirty mark at the start | **closed** | `eqtorus.py` 315 (rows from 57003 on carry it: 2ed297d, clean) |
+| 08:15-6 | commit the `eqtorus.py check` outputs and the per-run age tables | **closed** | `research/data/gpu_local_eqtorus/checks/` (nine files; 4 × 4 and 93 are reruns made after the runs, as README 139–141 says) and `hist_*.json` (nine). Checked: for every run the table's exposure and face deaths sum exactly to its csv row (`nine.py`, column "hist == rows") |
+
+"Can follow" items of 05:30: the R = 11 facelaw calibration is done (section 1.3); a guard test with K_KEEP and the
+post-firewall exposure of the s = 3 slabs are not (neither was a merge condition).
+
+**As far as these two lists go, pull request 23 can be merged.** The two README inaccuracies of 08:15-3 and the
+others of section 3.5 are corrections of wording, not of any number on the branch.
