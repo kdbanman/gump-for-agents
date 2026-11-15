@@ -22,7 +22,7 @@ def regular(d):
     d = list(d[:-2])[-16:]
     for k in range(1, 7):
         if len(d) >= 2 * k and all(d[i] == d[i - k] for i in range(k, len(d))):
-            return k, sum(d[-k:])
+            return int(k), int(sum(d[-k:]))
     return None
 
 
