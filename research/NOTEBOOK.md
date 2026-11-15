@@ -1980,3 +1980,17 @@ each a few minutes; outputs in `audit/out/`).
 - Not checked by the review: b = 20 and 36, segments of 45 and 61 sites, its own window and wall runs (those two
   routes were refitted from the line's histograms), the coin-density forecast, 12 layers, the two better closures,
   the wider torus. `research/audit/REVIEW-thin.md`; seven corrections are being applied to the write-up.
+
+## 2026-11-15 — corrections found while the manuscript draft was brought up to date (traced by a subagent, `docs/paper/FOR-LEAD.md`; applied by the lead)
+
+- Entry of 2026-11-14 "is there one asymptotic cost per cell?": the hull local slope from A = 84 to 108 is
+  **0.2181 ± 0.0013**, not 0.2182 ((23.3761 − 18.1407)/24 = 0.21814). CLAIMS CN1 corrected; CN1 now also carries
+  the addendum's statement (36 of 84 pairings pass, c = 0.2072–0.2190).
+- Entry of 2026-11-15 "lives that settle and are not recognised": "the rest ≤ 2 × 10⁻³" should read ≤ 2.1 × 10⁻³
+  (symmetric R38 is 2.1 × 10⁻³ in `research/gpu/README.md`). And one run is missing from the list with no bound:
+  the slab 4×7×8 (A = 84), whose log has no age bins (`python3 research/gpu/zombies.py` prints so). CLAIMS ZL2
+  corrected; the GPU session's README omits it too and has been told.
+- CLAIMS GP10: the part that rests on the GPU alone (4×5 and beyond) is graded B−, as the legend requires, not B.
+- New ledger rows for forecasts that had none: TH7 (the thin line's 14 forecasts as rescored by the review: 8 hit,
+  2 half, 2 mostly missed, 2 missed) and CN2 (the analyst's forecasts for the patches and the pairs, scored by the
+  lead; graded C). Ledger: 126 rows (`python3 research/audit/claims_tally.py`).
