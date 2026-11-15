@@ -1,0 +1,52 @@
+<!-- Added 2026-11-15 (third refresh). NB "how a face dies (the first look, reviewed)" and "a death is a dip that keeps going"
+     (CLAIMS DY1-DY7); numbers from data/sources/update-2026-11-15c.json, tables from research/dying/data/ (read by collect.py),
+     the eight deaths from data/sources/deaths.json (record_deaths.py: the study's stepper, fresh seeds, checked against the
+     oracle). Drawn by src/figures8.js. Round 3 of the study is under review and is not shown. -->
+<section class="plate" id="dying">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">How a face dies, watched <b>· new</b></p><span class="st st-meas">measured, two independent codes</span><span class="st st-meas">eight real deaths, replayed</span><span class="st st-ret">the lead’s forecasts: <span id="n-dy-fc"></span></span></div>
+    <h2>A death is an ordinary dip that keeps going. The face thins all over, and past a few live cells it does not come back.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig panel">
+      <div class="dy-head">
+        <h3>Real deaths, the last <span class="n-dy-T"></span> generations of the face</h3>
+        <div class="dy-ctl"><button class="btn" type="button" id="b-dy">Pause</button><input type="range" id="r-dy" min="0" max="79" value="0" aria-label="Generations before death"><span class="mono" id="l-dy"></span></div>
+      </div>
+      <div class="dy-films">
+        <div class="dy-grp"><p class="dy-gl"><b>A free face</b> · no edge tied to another face</p><div class="dy-grid" id="f-dy-c1"></div></div>
+        <div class="dy-grp"><p class="dy-gl"><b>The most symmetric face</b> · all three edges tied (D2h)</p><div class="dy-grid" id="f-dy-d2h"></div></div>
+      </div>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--ember)"></span>live cell</span><span class="key"><span class="sw" style="background:var(--ink-2);height:3px;width:16px"></span>edge tied to its mirror image</span><span class="key"><span class="sw" style="background:var(--ink-3);height:1px;width:16px"></span>usual population</span><span class="key"><span class="sw" style="background:var(--ember);height:2px;width:16px;opacity:.7"></span>point of no return: from here, half of all dips end in death</span></div>
+      <figcaption>Each triangle is one face of 63 cells in a small octahedron, replayed cell for cell up to the generation it first stands empty; the trace under it is its population. These are the first four deaths of each run, not chosen. Each one empties lopsidedly; only the average is even.</figcaption>
+    </figure>
+  </div>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>The average face, generations before death</h3>
+      <div id="f-dy-maps"></div>
+      <figcaption>Each cell’s chance of being alive, averaged over thousands of deaths. The average face does not erode from an edge: it holds its usual density until about <b id="n-dy-fade"></b> generations before the end, then fades everywhere at once. A tied edge is paler <b>all the time</b>, not only at the end.</figcaption>
+    </figure>
+    <figure class="fig c5 panel">
+      <h3>Population, as a share of its usual level</h3>
+      <div id="f-dy-lag"></div>
+      <div class="keys" id="k-dy-lag"></div>
+      <figcaption>The last plunge takes the same few generations whatever the ties, though their lifetimes differ by a factor of about <span id="n-dy-e"></span>.</figcaption>
+    </figure>
+  </div>
+  <div class="nums" id="n-dy-a"></div>
+  <div class="figs">
+    <figure class="fig c6 panel">
+      <h3>How often a face dips this deep</h3>
+      <div id="f-dy-nu"></div>
+      <figcaption>Dips that start above the usual level and reach a given depth, per face per generation. To <span class="n-dy-07"></span> of usual they are <b>equally common</b>, about one in <span id="n-dy-60"></span> generations, with or without ties; the four kinds part only below about <span id="n-dy-part"></span>.</figcaption>
+    </figure>
+    <figure class="fig c6 panel">
+      <h3>Of the dips that get this deep, the share that end in death</h3>
+      <div id="f-dy-q"></div>
+      <div class="keys" id="k-dy-q"></div>
+      <figcaption>What a tie changes is how often a deep dip goes on to the end. A free face that falls to half its usual population still recovers almost every time.</figcaption>
+    </figure>
+  </div>
+  <div class="nums" id="n-dy-b"></div>
+</section>

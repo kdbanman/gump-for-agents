@@ -127,3 +127,38 @@ a correction, two forecasts, two audits and two milestones.
   a different vessel, grade C). The clock chart ("every saved clock of period 20 or more") does not include C52.33a, a
   compound with no loop.
 - Screenshots of the changed plates: `research/scratch/overview/r15b-*.png` (script `shoot-r15b.js` there).
+
+## Refresh of 2026-11-15 (third)
+
+Added the plate "How a face dies, watched" (`#dying`, `src/plates-dying.html` through `<!--DYING-->` after `#death` in
+`plates.html`; drawn by `src/figures8.js`) from the notebook entries "how a face dies (the first look, reviewed)" and "a
+death is a dip that keeps going" (CLAIMS DY1-DY7; ledger wording where the study README differs). Corrected the
+empty-patch chart and tiles on "One price per cell?" for the CPU rerun of the 4 × 5 patch (GP10), the census plate for
+the corrected 4 × 4 anchor (GL1; SH3 and SH4 notes), "Open now", the map, a "GTX 1080" tile under "Built", four
+milestones, two audits, one forecast, five corrections. Round 3 of the dying-face study is under review: nothing of it
+is shown (no `r3_*` table, not `dying_ratefunction.png`); "Open now" only says it exists.
+
+- Quoted numbers are in `data/sources/update-2026-11-15c.json`, checked by `collect.py` as before. An item may now
+  carry `file` (a repository path) and is then checked against that file: used once, for the essay's "One of the
+  thirteen held" (`docs/WHAT-I-SEE.md`).
+- The curves are the study's tables, read by `collect.py` straight from `research/dying/data/`: `r2_excursions.csv`
+  (ν and q against depth; checked against the ledger's ln ν at 0.7 and q(0.5)), `occupancy_by_lag.csv` (population
+  over its null, lags 0–40), `occupancy_by_cell.csv` (the mean maps, c1 and D2h, null and lags 16, 8, 4, 2, 1, put in the
+  films' cell order); `r2_runup.csv` only as a check of the quoted 0.45 and 0.88 at lag 8.
+- The eight real deaths: `python3 docs/overview/record_deaths.py` (about two seconds) compiles the study's stepper
+  `research/dying/sd.c` unchanged into `research/scratch/overview/deaths/`, runs `oct_11_c_c1` (seed 20261115, 8,000
+  generations) and `oct_11_c_d2h` (seed 20261116, 4,000) with soup 0.4, checks every 4, the first four deaths at age
+  > 512 of each (not chosen), finds the dying face and the death generation as `research/dying/load.py` does, keeps
+  the last 80 generations of its 63 cells (canonical frame of `load.geometry`), and checks every recorded life
+  against `reference/oracle.py`: the whole vessel, expanded from the orbit graph, is stepped by the oracle in a padded
+  box for 79 generations and must equal the recording at every generation (a flipped cell 39 generations before death
+  is caught). Output: `data/sources/deaths.json` (8 KB; frames as base64 bits). `collect.py` checks that each life
+  ends on its first empty frame.
+- Computed on the page, not quoted: each face's population (from its frames), the point-of-no-return line in cells
+  (p* × the ledger's P̄: 0.079 × 31.25, 0.245 × 23.50), "1,249 in 1,250" (1/q(0.5) with q = 0.0008), e^6.5 ≈ 665,
+  the largest gap between −ln(νq) and the lifetimes (0.02), the mean populations under the maps (sums of the map).
+- Typed, not drawn from data: "Open now" (from `research/STATUS.md` and the notebook as of about 05:40 UTC: A = 93
+  running on the GTX 1080, the 5 × 5 anchor to be re-measured there, the guard built and checked on the CPU, five
+  corrections owed before the merge of pull request 23, round 3 under review); the GTX 1080 tile; "1 of 13" and "the
+  other twelve failed" (from the essay's sentence).
+- Screenshots: `research/scratch/overview/r16-*.png` (script `shoot-r16.js` there).
