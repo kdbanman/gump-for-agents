@@ -57,6 +57,11 @@ billed by the hour, no limit."
   `ctypes.c_long` (consistent, so correct), but its global clock `gclock` overflows after 2^31 generations in one
   process. Never port 64-bit arithmetic that relies on `long`.
 - **PowerShell strips double quotes from `python -c` arguments.** Put scripts in files.
+- **PATH in this session's shells is the one the app started with:** tools installed later (gcc, gh) are missing.
+  Append, never replace: `$env:Path += ";" + [Environment]::GetEnvironmentVariable("Path","User")` (git lives only in
+  the inherited PATH; replacing it with User + Machine drops git). gcc: `...\WinGet\Packages\BrechtSanders.WinLibs.*\mingw64\bin`.
+- **Pushing** works through the owner's `gh` login (`gh auth setup-git` done 2026-11-15; `gh` at
+  `C:\Program Files\GitHub CLI\gh.exe`).
 - Run Python unbuffered (`-u`) when logging to a file; background runs otherwise show nothing until they end.
 - `git switch` does not exist (git 2.16 here): use `git checkout -b`.
 
