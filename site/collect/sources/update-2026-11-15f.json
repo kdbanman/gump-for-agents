@@ -1,0 +1,313 @@
+{
+ "about": "Refresh of 2026-11-15 (evening): why a tube is cheaper (CLAIMS WL4-WL6, the forecast W13), and the fifth signals push and its review (CLAIMS SG23-SG27: no listener, four classes of end, the echo). Every quote is checked by collect.py against research/NOTEBOOK.md, research/CLAIMS.md or the named file; the per-loop deficits and their errors are read by collect.py from research/wraplocal/data/dens_rho_face.txt and checked against the quotes here.",
+ "dens": {
+  "rhoinf": {
+   "value": [0.517742, 0.000006],
+   "quote": "with ρ∞ = 0.517742 ± 0.000006 and one f per loop length",
+   "src": "NB 2026-11-15, why a tube is cheaper; CLAIMS WL4",
+   "how": "quoted; the study's fit over 27 tori (python3 research/wraplocal/dens.py rho_face --price)"
+  },
+  "f": {
+   "value": [9, 0.006267, 12, 0.002317, 13, 0.001605, 16, 0.000768, 19, 0.000275, 21, 0.000181, 25, 0.000079, 27, 28, 0.000029],
+   "quote": "f(9) = 0.006267, f(12) = 0.002317, f(13) = 0.001605, f(16) = 0.000768, f(19) = 0.000275, f(21) = 0.000181, f(25) = 0.000079, f(27) ≈ f(28) ≈ 0.000029 (errors 4 to 19 × 10⁻⁶)",
+   "src": "NB 2026-11-15, why a tube is cheaper; CLAIMS WL4",
+   "how": "quoted; collect.py reads the same deficits with their errors from research/wraplocal/data/dens_rho_face.txt (the output of dens.py rho_face --price) and asserts they agree with this quote to 2 × 10⁻⁶"
+  },
+  "fit": {
+   "value": [27, 63, 147, 13.8, 14],
+   "quote": "27 tori of 63 to 147 cells, χ² 13.8 on 14",
+   "src": "NB 2026-11-15, why a tube is cheaper",
+   "how": "quoted"
+  },
+  "percell": {
+   "value": [66, 72, 84],
+   "quote": "The deficit is per cell (tubes of one girth at 66, 72, 84 cells agree) and the deficits of several loops add.",
+   "src": "NB 2026-11-15, why a tube is cheaper",
+   "how": "quoted"
+  },
+  "f21": {
+   "value": [45],
+   "quote": "In the living state f(21) is 45σ from zero and two thirds of f(19).",
+   "src": "NB 2026-11-15, why a tube is cheaper",
+   "how": "quoted"
+  },
+  "resolution": {
+   "words": ["its cost is below their resolution", "faces that themselves carry loops of 21 to 31"],
+   "quote": "What the lifetimes showed is that its cost is below their resolution, against a baseline of faces that themselves carry loops of 21 to 31.",
+   "src": "NB 2026-11-15, why a tube is cheaper",
+   "how": "quoted"
+  },
+  "kappa": {
+   "value": [1.85, 0.07, 12, 16],
+   "quote": "κ = 1.85 ± 0.07 fixed on loops of 12 and 16",
+   "src": "CLAIMS WL5",
+   "how": "quoted; the study's price fit (python3 research/wraplocal/pricefit.py; dens.py rho_face --price prints 1.854 ± 0.073)"
+  },
+  "f13": {
+   "value": [13, 0.00298, 0.00012, 0.00262, 0.00034, 1.0],
+   "quote": "It gives 13 as 0.00298 ± 0.00012 against the measured 0.00262 ± 0.00034 (−1.0σ)",
+   "src": "NB 2026-11-15, why a tube is cheaper",
+   "how": "quoted"
+  },
+  "d12": {
+   "value": [12, 0.00427, 0.00018],
+   "file": "research/wraplocal/data/dens_rho_face.txt",
+   "quote": "loop^2 12: discount measured 0.00427 ± 0.00018",
+   "src": "research/wraplocal/data/dens_rho_face.txt (the study's price relation; the same in research/wraplocal/README.md's table)",
+   "how": "quoted from the file: the tube's price per cell below the open price, from the lead's per-girth lines (CLAIMS WL3)"
+  },
+  "d13": {
+   "value": [13, 0.00262, 0.00034],
+   "file": "research/wraplocal/data/dens_rho_face.txt",
+   "quote": "loop^2 13: discount measured 0.00262 ± 0.00034",
+   "src": "research/wraplocal/data/dens_rho_face.txt",
+   "how": "quoted from the file"
+  },
+  "d16": {
+   "value": [16, 0.00147, 0.00014],
+   "file": "research/wraplocal/data/dens_rho_face.txt",
+   "quote": "loop^2 16: discount measured 0.00147 ± 0.00014",
+   "src": "research/wraplocal/data/dens_rho_face.txt",
+   "how": "quoted from the file"
+  },
+  "d19": {
+   "value": [19, -0.00034, 0.0012],
+   "file": "research/wraplocal/data/dens_rho_face.txt",
+   "quote": "loop^2 19: discount measured -0.00034 ± 0.00120",
+   "src": "research/wraplocal/data/dens_rho_face.txt",
+   "how": "quoted from the file; four faces of 66-75 cells, too few to resolve a slope (CLAIMS WL3's table)"
+  },
+  "occupation": {
+   "words": ["The price follows occupation, not turnover."],
+   "quote": "The price follows occupation, not turnover.",
+   "src": "NB 2026-11-15, why a tube is cheaper",
+   "how": "quoted"
+  },
+  "unknown": {
+   "words": ["is not a static correlation, and is not identified"],
+   "quote": "what carries the deficit round the loop is not a static correlation, and is not identified",
+   "src": "NB 2026-11-15, why a tube is cheaper",
+   "how": "quoted"
+  },
+  "lead": {
+   "value": [0.515424, 0.000038, 0.515429, 0.517001, 0.00004, 0.516947, 0.517521, 0.000032, 0.517541, 0.517594, 0.000022, 0.517563, 0.517752, 0.000019, 0.517717, 1.7],
+   "tori": ["(1,12,28)", "(1,7,28)", "(1,4,28)", "(1,4,34)", "(6,0,6)"],
+   "quote": "(1,12,28) 0.515424 ± 0.000038 (study 0.515429); (1,7,28) 0.517001 ± 0.000040 (0.516947); (1,4,28) 0.517521 ± 0.000032 (0.517541); (1,4,34) 0.517594 ± 0.000022 (0.517563); (6,0,6) 0.517752 ± 0.000019 (0.517717): all within 1.7σ",
+   "src": "NB 2026-11-15, why a tube is cheaper (the lead's check)",
+   "how": "quoted; python3 research/audit/wraplocal_lead_check.py (3 min) and … 1024 4000 long (5 min)"
+  },
+  "leadcode": {
+   "words": ["plain numpy on the oracle-validated slab graph", "none of the study's code"],
+   "quote": "a stepper written for it, plain numpy on the oracle-validated slab graph, none of the study's code",
+   "src": "NB 2026-11-15, why a tube is cheaper",
+   "how": "quoted"
+  },
+  "leaddef": {
+   "value": [0.002097, 0.00005, 0.002112, 0.00052, 0.000051, 0.000594],
+   "quote": "Deficit of the loop-12 tube against the long-loop torus of the same area 0.002097 ± 0.000050 (study 0.002112); of the loop-16 tube 0.000520 ± 0.000051 (0.000594)",
+   "src": "NB 2026-11-15, why a tube is cheaper (the lead's check)",
+   "how": "quoted"
+  },
+  "lead21": {
+   "value": [21, 36, 0.000159, 0.000029, 5.5, 0.000154],
+   "quote": "of a torus with one loop of 21 against one with loops of 36 only 0.000159 ± 0.000029, 5.5σ from zero (0.000154)",
+   "src": "NB 2026-11-15, why a tube is cheaper (the lead's check)",
+   "how": "quoted"
+  },
+  "noloop": {
+   "value": [0.2075, 0.2086],
+   "quote": "The price of a face with no loop at all is about 0.2075 per cell, not 0.2086",
+   "src": "NB 2026-11-15, why a tube is cheaper ([consequence, if the relation holds for long loops; not tested])",
+   "how": "quoted; a consequence of the relation, not a measurement"
+  },
+  "w13": {
+   "value": [84, 21, 28, 17.534, 0.004, 17.547, 0.003],
+   "quote": "the 84-cell face with loops of 21 and 28 at 17.534 ± 0.004 if it holds, 17.547 ± 0.003 if the effect ends before 21",
+   "src": "NB 2026-11-15, why a tube is cheaper; research/wrap/PREDICTIONS.md, W13",
+   "how": "quoted; frozen before any run"
+  },
+  "w13eq": {
+   "value": [84, 17.5467, 0.0031],
+   "file": "research/wrap/PREDICTIONS.md",
+   "quote": "against the equilateral face of 84 cells, loops² 28 three times, measured by the card at 17.5467 ± 0.0031",
+   "src": "research/wrap/PREDICTIONS.md, W13",
+   "how": "quoted from the file"
+  },
+  "w13p": {
+   "value": [65, 17.5405],
+   "file": "research/wrap/PREDICTIONS.md",
+   "quote": "**W13 (65%).** The card's value for (1,4),(0,28), measured to ± 0.003, is below 17.5405 (the midpoint).",
+   "src": "research/wrap/PREDICTIONS.md, W13",
+   "how": "quoted from the file: the lead's frozen forecast and its stated odds"
+  },
+  "w13measured": {
+   "value": null,
+   "se": null,
+   "src": null,
+   "quote": null,
+   "note": "null until the card has run the face (1,4),(0,28) of 84 cells; collect/REFRESHES.md says who fills it in and how"
+  },
+  "firewalls": {
+   "value": [1.0, 63, 6.5, 72, 41, 81, 3.7],
+   "quote": "1.0 firewalls per face death at 63 cells, 6.5 at 72, 41 at 81; their price per cell falls with length (local slopes 0.200, 0.198, 0.1955, 0.1927 from 45 to 81 cells; (1,7,24) 14.6191 ± 0.0100, (1,8,27) 16.3538 ± 0.0111) and the density relation of WL5 misses the 63–81 slope by 3.7σ",
+   "src": "CLAIMS WL6",
+   "how": "quoted"
+  }
+ },
+ "ends": {
+  "sat": {
+   "value": [3, 4, 31, 39, 8],
+   "quote": "no end of period dividing 4 inside the 3 × 3 tube and planes C = 31 … 39 is carried by one hole to a different standing state (itself moved or out of phase included, for ends that still fit when moved); the same for four more words of holes at C = 31 … 37 and for periods dividing 8 at C = 31, 33",
+   "src": "CLAIMS SG23",
+   "how": "quoted; one constraint problem, two encodings and three solvers, no certificate"
+  },
+  "limits": {
+   "value": [4, 42],
+   "quote": "Limits: the end disturbs at most 4 units of train in front of it and settles within 42 generations",
+   "src": "CLAIMS SG23",
+   "how": "quoted"
+  },
+  "census": {
+   "value": [741],
+   "quote": "is one of 741 distinct ends up to translation and time shift",
+   "src": "CLAIMS SG24",
+   "how": "quoted"
+  },
+  "holes": {
+   "value": [599, 39, 142],
+   "quote": "599 heal exactly (the whole state equals the undisturbed run within 39 generations) and 142 are destroyed, the same for every word",
+   "src": "CLAIMS SG24 (A: the push's stepper, the reviewer's, the oracle on every end for three words)",
+   "how": "quoted"
+  },
+  "oracle": {
+   "value": [741, 128, 2223],
+   "quote": "each of the 741 ends at the end of a finite train of 44 units on a 128³ torus, for three of the eight words (the nearest rake; three in a row; five at spacing two), with and without the holes. **All 2,223 runs agree with the push:**",
+   "src": "NB 2026-11-15, the fifth signals push (the lead's check)",
+   "how": "quoted; python3 research/audit/signals_ends_lead_check.py all i/3"
+  },
+  "k0": {
+   "words": ["the wire cell (1,0,2) missing"],
+   "quote": "A second one-cell signal rides the stream (K0: the wire cell (1,0,2) missing)",
+   "src": "CLAIMS SG25",
+   "how": "quoted"
+  },
+  "four": {
+   "value": [113, 486, 17, 125],
+   "quote": "113 heal a hole and K0, 486 heal a hole and are destroyed by K0, 17 are destroyed by a hole and heal K0, 125 are destroyed by both",
+   "src": "CLAIMS SG25 (A: the reviewer's stepper and the lead's oracle run of every end)",
+   "how": "quoted"
+  },
+  "lead124": {
+   "value": [113, 486, 17, 124],
+   "quote": "113, 486, 17 and 124, and one end that burns too slowly for that run and is dead on a longer train",
+   "src": "NB 2026-11-15, the fifth signals push reviewed (the lead's oracle run)",
+   "how": "quoted; EVENT=k0 python3 research/audit/signals_ends_lead_check.py all i/3"
+  },
+  "events": {
+   "value": [426, 315666],
+   "quote": "Over every one-unit change of one arriving rake (426 events per end, 315,666 runs) every run ends healed or as a burn up the stream; none leaves an end alive and changed",
+   "src": "CLAIMS SG25 (C: one code, its stepper checked against the oracle)",
+   "how": "quoted"
+  },
+  "beside": {
+   "value": [99, 21320, 9824],
+   "quote": "99 catalogue oscillators in sampled placements beside the running line, each sent a hole (21,320 gap runs mid-wire, 9,824 beside the receiving end)",
+   "src": "CLAIMS SG27 (C: one code)",
+   "how": "quoted"
+  },
+  "divbeside": {
+   "value": [16, 1034, 1021, 13],
+   "quote": "divider's oscillator at every place and phase for N = 16: 1,034 gap runs, 1,021 heal, 13 destroy it",
+   "src": "CLAIMS SG27",
+   "how": "quoted"
+  },
+  "alone": {
+   "words": ["holds for holes only"],
+   "quote": "\"Forgotten or fatal is a property of the end alone\" holds for holes only.",
+   "src": "NB 2026-11-15, the fifth signals push reviewed",
+   "how": "quoted"
+  },
+  "pushes": {
+   "value": [24, 11, 13],
+   "quote": "Over five pushes: 24 forecasts tested, 11 held in some form, 13 failed.",
+   "src": "NB 2026-11-15, the fifth signals push",
+   "how": "quoted"
+  },
+  "notchecked": {
+   "words": ["events larger than one unit or outside the tube"],
+   "quote": "certificates for any UNSAT; the 5 × 5 tube; events larger than one unit or outside the tube",
+   "src": "NB 2026-11-15, the fifth signals push reviewed (Not checked)",
+   "how": "quoted"
+  }
+ },
+ "echo": {
+  "found": {
+   "value": [18, 23, 42, 61, 65, 80],
+   "quote": "the whole state differs from the undisturbed run in exactly three cells for 18 generations (23 to 42 after the hole is made), each state the last one moved a unit towards the gun; then the difference grows (61 to 65 cells at generation 80)",
+   "src": "NB 2026-11-15, the fifth signals push reviewed (the lead's check, reference/oracle.py)",
+   "how": "quoted; python3 research/audit/signals_echo_lead_check.py (20 s); the reviewer's python3 research/audit/signals5/orc46.py. The page's own stepper reproduces it on the shipped cells (site/checks/check-signals.js)"
+  },
+  "runs": {
+   "words": ["C18.23a and C20.33c, two arrival times each"],
+   "quote": "four runs (the oscillators C18.23a and C20.33c, two arrival times each) do something new",
+   "src": "NB 2026-11-15, the fifth signals push reviewed",
+   "how": "quoted"
+  },
+  "rigid": {
+   "words": ["one unit per two generations", "the cap, the oscillator and every rake left as in the undisturbed run", "the gun dies when it arrives"],
+   "quote": "answers a hole with a rigid three-cell signal that travels back up the stream through the oncoming rakes, one unit per two generations, the cap, the oscillator and every rake left as in the undisturbed run; the gun dies when it arrives",
+   "src": "CLAIMS SG26 (A: two codes on the oracle, whole state)",
+   "how": "quoted"
+  },
+  "reflector": {
+   "words": ["it is a reflector, and the stream now carries signals both ways"],
+   "quote": "The end is restored, so this is not a listener: it is a reflector, and the stream now carries signals both ways.",
+   "src": "NB 2026-11-15, the fifth signals push reviewed",
+   "how": "quoted"
+  },
+  "deaths": {
+   "value": [46, 25, 8, 4, 9],
+   "quote": "Of 46 sampled runs in which a gap kills the gun and the oscillator survives: 25 fires, 8 walls (the stream converted to another uniform wire behind a front), 4 echoes, 9 other",
+   "src": "CLAIMS SG26 (C: the sorting of the 46, one code)",
+   "how": "quoted"
+  },
+  "next": {
+   "words": ["What an echo does when it meets a gap coming the other way"],
+   "quote": "What an echo does when it meets a gap coming the other way is the question a gate would hang on",
+   "src": "NB 2026-11-15, the fifth signals push reviewed",
+   "how": "quoted"
+  },
+  "cells": {
+   "file": "research/audit/signals5/end_echo.json",
+   "src": "research/audit/signals5/end_echo.json, first record (C18.23a, the first arrival time): line = line-C N = 12 at generation 2N + 8, the oscillator beside the receiving cap, tg = 45, the hole cell",
+   "how": "copied by collect.py into data/echo.json; laid out by assets/signals-core.js (echo) with an even shift into a torus of side 64 (the page's stepper gives the same difference counts as the lead's torus of side 96 for 110 generations after the hole)"
+  }
+ },
+ "corrections": [
+  {
+   "said": "The effect of a short way round ends between loop² 19 and 21: a loop of 21 costs nothing",
+   "now": "In the living state a face is less dense for every loop round it, by a term that falls smoothly with the loop's length and does not end (f(21) is 45σ from zero); what ends at 21 is what the lifetimes can resolve, against faces that themselves carry loops of 21 to 31",
+   "by": "the study of the living state (research/wraplocal) and the lead's own re-measurement with separate code",
+   "line": "wrapped faces",
+   "words": ["the effect does not end at 21"],
+   "quote": "Since (WL4, WL5): the effect does not end at 21; in the living state the deficit falls smoothly, and what ends there is the lifetimes' resolution, against a baseline of faces that themselves carry loops of 21–31.",
+   "src": "CLAIMS WL2, WL4"
+  },
+  {
+   "said": "Whether a gap is forgotten or fatal is a property of the end alone",
+   "now": "True of holes only: a second one-cell gap (K0) sorts the 741 ends four ways, and 503 of them tell the two kinds apart by dying of one",
+   "by": "a reviewer with independent code (research/audit/REVIEW-signals-5.md), and the lead's oracle run of every end",
+   "line": "signals",
+   "words": ["holds for holes only"],
+   "quote": "\"Forgotten or fatal is a property of the end alone\" holds for holes only.",
+   "src": "NB 2026-11-15, the fifth signals push reviewed"
+  }
+ ],
+ "audits": [
+  {"label": "Review of the fifth signals push", "line": "Own SAT encoding and two more solvers: still no listener within bounds; the census of 741 ends recounted; every one-unit change of a rake; a second kind of gap; the echo.", "file": "research/audit/REVIEW-signals-5.md"}
+ ],
+ "milestones": [
+  {"date": "2026-11-15T20:16Z", "text": "Why a tube is cheaper: a living face is less dense for every loop round it, and the price follows", "src": "git 6ba0b96"},
+  {"date": "2026-11-15T20:26Z", "text": "The fifth signals push reviewed: no listener; four kinds of end; an echo up the stream", "src": "git 5a6f1a9"}
+ ]
+}

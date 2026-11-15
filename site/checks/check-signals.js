@@ -139,6 +139,37 @@ for (const N of [3, 8].concat(PAGE_DIVIDERS, [16])) {
   if (!ok || !okOsc) bad++;
 }
 
+// 6. the echo (CLAIMS SG26; NB "the fifth signals push reviewed"): data/echo.json must hold the first record of
+// research/audit/signals5/end_echo.json; laid out as the page lays it out (sigCore.echo) and stepped by the page's stepper,
+// with the hole cell (alive at generation tg) removed at tg in one of two runs: the generations after the hole at which the two
+// whole states differ in exactly three cells are the ledger's (data/echo.json found: 18 of them, 23 to 42), at each of those t
+// with t + 2 also such a generation the difference at t + 2 is the one at t moved one unit (2, 0, -2) towards the gun, and at
+// generation 80 after the hole the difference has grown to the quoted 61 to 65 cells (the gun broken). Also stepped by
+// reference/oracle.py below (both runs, every generation).
+const EJ = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'echo.json'), 'utf8'));
+const echoRun = (() => {
+  const rec = JSON.parse(fs.readFileSync(path.join(repo, 'research', 'audit', 'signals5', 'end_echo.json'), 'utf8'))[0];
+  for (const fld of ['osc', 'line', 'oscillator', 'tg', 'hole']) if (JSON.stringify(EJ[fld]) !== JSON.stringify(rec[fld])) fail(`data/echo.json ${fld} differs from research/audit/signals5/end_echo.json, first record`);
+  const L = sigCore.echo(EJ), H = L.H, tg = EJ.tg, hi = ix(H, L.hole), [n3, a3, z3, g0, g1, T80] = EJ.found;
+  const p = makeGump(H), g = makeGump(H); p.setCells(L.cells); g.setCells(L.cells);
+  for (let t = 0; t < tg; t++) { p.step(); g.step(); }
+  const alive = !!g.state[hi]; g.state[hi] = 0;
+  const D = [], cnt = [];
+  for (let t = 1; t <= T80; t++) {
+    p.step(); g.step();
+    const d = []; for (let i = 0; i < g.M; i++) { const c = g.cell[i]; if (g.state[c] !== p.state[c]) d.push(c); }
+    D.push(d); cnt.push(d.length);
+  }
+  const three = cnt.map((n, i) => n === 3 ? i + 1 : 0).filter(Boolean);
+  const mv = c => { const x = Math.floor(c / (H * H)), y = Math.floor(c / H) % H, z = c % H; return ix(H, [(x + 2) % H, y, (z - 2 + H) % H]); };
+  const run = three.filter(t => three.includes(t + 2));
+  const rigid = run.length > 0 && run.every(t => JSON.stringify(D[t - 1].map(mv).sort((a, b) => a - b)) === JSON.stringify(D[t + 1].slice().sort((a, b) => a - b)));
+  const ok = alive && three.length === n3 && three[0] === a3 && three[three.length - 1] === z3 && rigid && cnt[T80 - 1] >= g0 && cnt[T80 - 1] <= g1;
+  console.log(`echo (${EJ.osc}, N = ${EJ.N}, torus ${H}): hole cell alive at generation ${tg} ${alive}; exactly three cells differ at ${three.length} generations, ${three[0]} to ${three[three.length - 1]} after the hole (ledger ${n3}, ${a3} to ${z3}); rigid, one unit towards the gun per two generations ${rigid}; ${cnt[T80 - 1]} cells differ at ${T80} (ledger ${g0} to ${g1})  ${ok ? 'ok' : 'WRONG'}`);
+  if (!ok) bad++;
+  return { H, cells: L.cells, tg, hole: L.hole, T: tg + T80 };
+})();
+
 // 4. bit-exact against reference/oracle.py: per-generation hashes of the sorted live cell indices
 const py = `
 import sys, json, hashlib
@@ -150,6 +181,7 @@ for job in json.load(sys.stdin):
     for c in job['cells']: h[tuple(c)] = 1
     out = []
     for t in range(job['T'] + 1):
+        if t == job.get('tg'): h[tuple(job['hole'])] = 0     # the echo's gapped run: the hole cell removed at generation tg
         idx = np.flatnonzero(h.ravel())
         out.append(hashlib.md5(','.join(map(str, idx.tolist())).encode()).hexdigest())
         h = oracle.step(h, m)
@@ -162,15 +194,16 @@ const jobs = [
   ['gate, separation 10', sigCore.gate(dg, GATE_RING, 10), dg.T],
   ['gate, separation 11', sigCore.gate(dg, GATE_RING, 11), dg.T],
 ].concat(PAGE_LINES.map(N => ['the line, N = ' + N, sigCore.line(S4.line, N), 2 * N + 12]),
-         PAGE_DIVIDERS.map(N => ['the divider, N = ' + N, sigCore.line(S4.divider, N), 2 * N + 20]));
+         PAGE_DIVIDERS.map(N => ['the divider, N = ' + N, sigCore.line(S4.divider, N), 2 * N + 20]),
+         [['the echo, undisturbed', { H: echoRun.H, cells: echoRun.cells }, echoRun.T], ['the echo, the hole made at generation ' + echoRun.tg, echoRun, echoRun.T]]);
 let ref = null;
 try {
-  ref = execFileSync('python3', ['-c', py], { cwd: repo, input: JSON.stringify(jobs.map(([, L, T]) => ({ H: L.H, cells: L.cells, T }))), encoding: 'utf8', maxBuffer: 1 << 24 })
+  ref = execFileSync('python3', ['-c', py], { cwd: repo, input: JSON.stringify(jobs.map(([, L, T]) => ({ H: L.H, cells: L.cells, T, tg: L.tg, hole: L.hole }))), encoding: 'utf8', maxBuffer: 1 << 24 })
     .trim().split('\n').map(l => JSON.parse(l));
 } catch (e) { fail('could not run reference/oracle.py: ' + e.message.split('\n')[0]); }
 if (ref) jobs.forEach(([name, L, T], k) => {
   const g = makeGump(L.H); g.setCells(L.cells); let mism = 0;
-  for (let t = 0; t <= T; t++) { if (crypto.createHash('md5').update(live(g).join(',')).digest('hex') !== ref[k][t]) mism++; g.step(); }
+  for (let t = 0; t <= T; t++) { if (t === L.tg) g.state[ix(L.H, L.hole)] = 0; if (crypto.createHash('md5').update(live(g).join(',')).digest('hex') !== ref[k][t]) mism++; g.step(); }
   console.log(`oracle against the page's stepper, ${name}: ${T + 1} generations, ${mism} mismatches  ${mism ? 'WRONG' : 'ok'}`);
   if (mism) bad++;
 });

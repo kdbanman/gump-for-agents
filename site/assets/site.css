@@ -340,3 +340,5 @@ img{max-width:100%}
 /* 2026-11-15 (afternoon): the gun, the line and the divider */
 .iso .f-gun{fill:var(--ink);fill-opacity:.7}
 .iso .f-osc{fill:var(--s1);fill-opacity:.85}
+/* evening refresh of 2026-11-15: the echo plate's rakes (the cap and the quiet wire stay .f-w) */
+.iso .f-rk{fill:var(--ink-2);fill-opacity:.55}

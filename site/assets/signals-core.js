@@ -63,11 +63,29 @@ const sigCore = (() => {
     const kind = p => { const x = p[0] - off[0], s = x + p[1] - off[1] + p[2] - off[2]; return d.osc && s >= 7 ? 'osc' : x >= 2 * N ? 'gun' : 'wire'; };
     return { H, off, cells: cells.map(sh), kind };
   }
+  // the echo (research/audit/signals5/end_echo.json, as research/audit/signals_echo_lead_check.py runs it): the line's cells
+  // at its generation 2N + 8 and the oscillator beside the receiving cap, both as given (doubled coordinates, empty space),
+  // placed by an even shift in a torus with a margin of `pad` cells (default 14: side 64; the page's stepper gives the same
+  // difference counts there as the lead's side 96, checked by site/checks/check-signals.js). kind(p): 'osc' for a cell of the
+  // layers x + y + z <= -3 below the cap's end (outside the wire's tube, where the oscillator stands), 'gun' (x >= 2N), 'wire'.
+  function echo(d, pad) {
+    const all = d.line.concat(d.oscillator), set = new Map();
+    for (const c of all) { const q = key(c); if (set.has(q)) throw new Error('pieces overlap at ' + q); set.set(q, c); }
+    const lo = [0, 1, 2].map(i => Math.min(...all.map(c => c[i]))), hi = [0, 1, 2].map(i => Math.max(...all.map(c => c[i])));
+    let H = Math.max(...[0, 1, 2].map(i => hi[i] - lo[i])) + 2 * (pad || 14); H += H % 2;
+    const off = [0, 1, 2].map(i => Math.floor((Math.floor((H - (hi[i] - lo[i])) / 2) - lo[i]) / 2) * 2);
+    const sh = c => [c[0] + off[0], c[1] + off[1], c[2] + off[2]];
+    const oscKeys = new Set(d.oscillator.map(key)), sums = d.oscillator.map(c => c[0] + c[1] + c[2]), smax = Math.max(...sums);
+    const lineSums = d.line.map(c => c[0] + c[1] + c[2]);
+    if (lineSums.some(s => s <= smax)) throw new Error('the oscillator\'s layers meet the line');
+    const kind = p => { const x = p[0] - off[0], s = x + p[1] - off[1] + p[2] - off[2]; return s <= smax ? 'osc' : x >= 2 * d.N ? 'gun' : 'wire'; };
+    return { H, off, cells: all.map(sh), hole: sh(d.hole), kind, osc: oscKeys };
+  }
   // a cell's position along v and across, for drawing a ring unrolled: x kept in [0, H), (x + z) and y folded to near 0
   function unroll(p, H) {
     const s = md(p[0] + p[2] + H / 2, H) - H / 2, y = md(p[1] + H / 2, H) - H / 2;
     return [p[0], y, s - p[0]];
   }
-  return { ring, clock, gate, unroll, line };
+  return { ring, clock, gate, unroll, line, echo };
 })();
 if (typeof module !== 'undefined') module.exports = { sigCore };

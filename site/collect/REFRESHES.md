@@ -262,3 +262,46 @@ figure and tiles of "One price per cell?" for nine faces and "Open now"; two til
 - Typed, not drawn from data: "Open now" (from the essay's "What I would look at next" and OPEN-PROBLEMS 9 and 13 as of
   about 16:30 UTC; "running" for the 84-cell face and the rimmed face, per the essay); the plates' prose.
 - Not shown: the beam (SG17's second half), the clock with a tail (SG20), the turn-class negatives (SG21, SG13), C8.24b.
+
+## Refresh of 2026-11-15 (evening): why a tube is cheaper; nothing listens; an echo
+
+Rewrote "What a short way round costs" (`#wrap`, law page) around the density law: a living face is emptier by one term f per
+loop, falling smoothly with the loop's length and not ending at 21, and a tube's price discount per cell is κ = 1.85 times it.
+Added "An echo" (`#echo`, live) and "Nothing listens" (`#ends`, the census of ends) to the signals page after "A clock that edits
+the message". One sentence on "One price per cell?" (`#constant`); the divider's "no reader" tile, the "no corner" tile of
+"Signals", "Open now", the map tiles and the signals blurb updated. Two corrections, one audit, two milestones.
+
+- Quoted numbers: `sources/update-2026-11-15f.json` (every item with `src` and `how`), checked by `collect.py` as before against
+  NB "why a tube is cheaper", "the fifth signals push", "the fifth signals push reviewed", CLAIMS WL2, WL4-WL6, SG23-SG27, and
+  (`file` quotes) `research/wraplocal/data/dens_rho_face.txt` and `research/wrap/PREDICTIONS.md` (W13). `checked()` now also
+  accepts a float under 10⁻³ written in fixed notation (0.000029 for 2.9e-05); nothing else about it changed.
+- `data/dens.json`: the deficits f(9) … f(28) with their errors are read by `collect.py` from
+  `research/wraplocal/data/dens_rho_face.txt` (the study's `dens.py rho_face --price` output, committed) and asserted equal to the
+  notebook's quote to 2 × 10⁻⁶, and ρ∞ and κ to that file's. Loops² 31 to 37 are left out (not resolved; 37 comes out negative).
+  The tubes' measured discounts (12, 13, 16, 19) are quoted from the same file; the plate divides them by κ. 19's discount is
+  negative (−0.00034 ± 0.00120): drawn as the upper end of its bar only, with a marker "measured below zero".
+- The lead's re-measurement (five densities, three deficits; `research/audit/wraplocal_lead_check.py`) is quoted from the notebook
+  and shown under "How it was checked".
+- **A value still to come: `dens.w13measured`** (`sources/update-2026-11-15f.json`, `dens.w13measured`, now `null`): ln τ of the
+  84-cell face (1,4),(0,28) with loops of 21 and 28, forecast W13 at 17.534 ± 0.004 if the relation holds and 17.547 ± 0.003 if
+  not. **Who fills it in:** whoever records the card's run of that face (the lead, from the card's rows; the notebook entry that
+  scores W13). Set `value`, `se`, `src` and a `quote` from that notebook entry (or a `file` quote); `collect.py` then checks the
+  quote, and the plate's tile switches from "queued" to the value and its distance in σ from both forecasts. Change the plate's
+  chip "loops of 21 and longer: a test queued" by hand then.
+- The echo: `data/echo.json` is the first record of `research/audit/signals5/end_echo.json` (C18.23a, tg = 45, the hole),
+  copied by `collect.py`; `assets/signals-core.js` (`echo`) places it by an even shift in a torus of side 64 (the lead's check
+  uses 96; the page's stepper gives the same difference counts for 110 generations after the hole on both).
+  `checks/check-signals.js` (section 6) checks the copy against the record, then on the page's layout and stepper: the hole
+  cell alive at tg, exactly three cells differing at 18 generations, 23 to 42 after the hole, the difference two generations
+  later the same three moved (2, 0, −2), 61 to 65 cells differing at 80; and both runs (with and without the hole) against
+  `reference/oracle.py`, every generation to tg + 80. The quiet wire used to tell rakes from wire is line-C's cap and units.
+- Computed on the pages, not quoted: discount ÷ κ; the cells in which the two echo runs differ, and the generations with exactly
+  three (shown with ✓ against the ledger's); the row and column totals of the four kinds of end.
+- `update-2026-11-15e.json`'s essay quote `signals4.nothing` was re-copied: the essay's sentence now adds "among 741 ends
+  searched and thousands of placements sampled" (the words checked are unchanged).
+- Claim counts: 187 (A 89, B 84, C 13, D 1), read from `research/CLAIMS.md` by `collect.py` as before.
+- Typed, not drawn from data: "Open now" (from `research/STATUS.md` at 20:27 UTC and the essay's "What I would look at next":
+  the sixth push running, W13 and the 96- and 108-cell tubes queued; its "1.85" and "0.2075" are WL5's); the map labels; the
+  plates' prose (√21, √31: the loop lengths of the quotes).
+- Not shown: the statistics table of `research/wraplocal/README.md` (only its conclusion, "occupation, not turnover"); the loop-9
+  discount (0.0142, curved) as a point; the wall and fire kinds of gun death as drawings; the second echo clock C20.33c.

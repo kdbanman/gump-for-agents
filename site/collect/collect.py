@@ -116,6 +116,7 @@ def checked(item):
     if "words" not in item:
         for v in item.get("value", []):
             forms = {str(v), format(v, ","), ("%g" % v)}
+            if isinstance(v, float) and 0 < abs(v) < 1e-3: forms.add(("%.6f" % v).rstrip("0"))   # 2.9e-05 written 0.000029 (evening refresh)
             assert any(f in q for f in forms), ("number not in its quote", v, q[:80])
     return item
 U = S("update-2026-11-14.json")
@@ -481,6 +482,51 @@ assert lc["capA"] == dv["capA"] and lc["unit"] == dv["unit"] and lc["gun"] == dv
 assert len(dv["osc"]) == 24
 out["signals4"] = {"objects": {"line": {k: lc[k] for k in ("v", "capA", "unit", "gun")}, "divider": {k: dv[k] for k in ("v", "capA", "unit", "gun", "osc")}},
                    "gun": vv("signals4", "gun"), "line": vv("signals4", "line"), "divider": [24, 8, 3], "stroke": vv("signals4", "stroke"), "heal": vv("signals4", "heal")}
+
+# ---- the refresh of 2026-11-15 (evening): update-2026-11-15f.json. Why a tube is cheaper (WL4-WL6, the forecast W13); the
+#      fifth signals push and its review (SG23-SG27: no listener, four kinds of end, the echo) ----
+F = S("update-2026-11-15f.json")
+for sec in ("dens", "ends", "echo"):
+    for k, v in F[sec].items():
+        if k not in ("w13measured", "cells"): checked(v)
+for c in F["corrections"]: checked(c)
+for a in F["audits"]: assert (repo / a["file"]).exists(), a["file"]
+out["corrections"] += [{"said": c["said"], "now": c["now"], "by": c["by"], "who": who(c["by"]), "line": c["line"]} for c in F["corrections"]]
+out["project"]["audits"] += [[a["label"], a["line"]] for a in F["audits"]]
+tl["milestones"] += [{"date": x["date"], "text": x["text"]} for x in F["milestones"]]
+fv = lambda sec, k: F[sec][k].get("value")
+# the density deficit per loop length with its error, read from the study's output (dens.py rho_face --price) and checked
+# against the notebook's quote; loops² 9 to 28 (31 and up are not resolved, 37 comes out negative)
+dtxt = (repo / "research" / "wraplocal" / "data" / "dens_rho_face.txt").read_text()
+fq = {int(m[1]): [float(m[2]), float(m[3])] for m in re.finditer(r"f\(\s*(\d+)\) = \+?(-?[\d.]+) ± ([\d.]+)", dtxt)}
+qf = fv("dens", "f"); quotedf = {9: qf[1], 12: qf[3], 13: qf[5], 16: qf[7], 19: qf[9], 21: qf[11], 25: qf[13], 27: qf[16], 28: qf[16]}
+assert all(abs(fq[q][0] - x) <= 2e-6 for q, x in quotedf.items()), fq
+assert all(4e-6 <= fq[q][1] <= 19e-6 for q in quotedf), "errors 4 to 19 × 10⁻⁶"
+mm = re.search(r"s_inf = ([\d.]+) ± ([\d.]+)", dtxt); assert [float(mm[1]), float(mm[2])] == fv("dens", "rhoinf")
+mm = re.search(r"kappa = ([\d.]+) ± ([\d.]+)", dtxt); assert abs(float(mm[1]) - fv("dens", "kappa")[0]) < 0.005 and abs(float(mm[2]) - fv("dens", "kappa")[1]) < 0.005
+w13m = F["dens"]["w13measured"]
+if w13m.get("value") is not None:
+    checked({"value": [w13m["value"], w13m["se"]], "quote": w13m["quote"], **({"file": w13m["file"]} if "file" in w13m else {})})
+out["dens"] = {"rhoinf": fv("dens", "rhoinf"), "f": [[q, round(math.sqrt(q), 4)] + fq[q] for q in sorted(quotedf)], "fit": fv("dens", "fit"), "percell": fv("dens", "percell"), "f21": fv("dens", "f21")[0],
+               "kappa": fv("dens", "kappa")[:2], "f13": fv("dens", "f13"), "disc": [fv("dens", k) for k in ("d12", "d13", "d16", "d19")],
+               "lead": {"tori": F["dens"]["lead"]["tori"], "rows": [fv("dens", "lead")[3 * i: 3 * i + 3] for i in range(5)], "within": fv("dens", "lead")[15]},
+               "leaddef": fv("dens", "leaddef"), "lead21": fv("dens", "lead21"), "noloop": fv("dens", "noloop"),
+               "w13": fv("dens", "w13"), "w13eq": fv("dens", "w13eq"), "w13p": fv("dens", "w13p"),
+               "w13measured": {"value": w13m.get("value"), "se": w13m.get("se"), "src": w13m.get("src")}, "firewalls": fv("dens", "firewalls")}
+assert [d[0] for d in out["dens"]["disc"]] == [12, 13, 16, 19] and out["dens"]["f13"][3:5] == out["dens"]["disc"][1][1:3]
+# the ends of the stream (SG23-SG25, SG27)
+out["ends"] = {k: fv("ends", k) for k in ("sat", "limits", "census", "holes", "oracle", "four", "lead124", "events", "beside", "divbeside", "pushes")}
+assert sum(out["ends"]["four"]) == out["ends"]["census"][0] == out["ends"]["holes"][0] + out["ends"]["holes"][2]
+fo = out["ends"]["four"]; assert fo[0] + fo[1] == out["ends"]["holes"][0] and fo[2] + fo[3] == out["ends"]["holes"][2]   # healed by a hole: 113 + 486
+assert out["ends"]["events"][1] == out["ends"]["events"][0] * out["ends"]["census"][0]
+# the echo (SG26): the initial cells of research/audit/signals5/end_echo.json, first record, drawn live on the page and
+# checked by site/checks/check-signals.js; the quoted counts
+ee = json.loads((repo / "research" / "audit" / "signals5" / "end_echo.json").read_text())[0]
+assert ee["osc"] == "C18.23a" and ee["gap_k"] == 0 and ee["tg"] == 45 and len(ee["oscillator"]) == 24
+lce = so("line-C"); assert len(lce["gun"]) == 15
+out["echo"] = {"osc": ee["osc"], "line": ee["line"], "oscillator": ee["oscillator"], "tg": ee["tg"], "hole": ee["hole"], "N": 12,
+               "found": fv("echo", "found"), "deaths": fv("echo", "deaths")}
+
 # the footer's date: the newest date among the files the data were gathered into (update-<date>*.json); the stamp under it
 # gives the repository state the timeline was read from
 out["project"]["gathered"] = max(re.match(r"update-(\d{4}-\d\d-\d\d)", f.name).group(1) for f in (here / "sources").glob("update-*.json"))

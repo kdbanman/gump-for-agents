@@ -66,6 +66,8 @@
 (function () {
   const T = D.tori, L = T.line63, line = A => L[0] + L[1] * (A - 63), res = (A, v) => v - line(A), H = $('#f-tori');
   $('#n-kink').textContent = Math.round(T.kink);
+  // what the density law of the plate before implies for this line, if it holds for long loops (WL5; not tested: W13)
+  $('#x-cn-loop').textContent = 'And these faces are not free of loops either: each has loops of √21 to √31, which the lifetimes cannot resolve. If the rule of the plate before holds for loops that long (not tested; a face is queued on your card), they cost a little, and a face with no loop at all would pay about ' + D.dens.noloop[0] + ' per cell, not ' + D.dens.noloop[1] + '.';
   $('#n-law-tori') && ($('#n-law-tori').textContent = T.price[0].toFixed(4));
   T.deficit.forEach(([A, d]) => { const r = T.rows.find(x => x[0] === A); if (Math.abs(res(A, r[1]) + d) > 0.002) E('p', { class: 'cap', style: 'color:var(--ember)' }, H.parentNode, 'The drawn deficit at ' + A + ' cells differs from the ledger’s ' + d + ': trust the ledger.'); });
   const five = A => T.five[0] + T.five[1] * A;   // the line through the first five faces (0.033 + 0.2084·A) and its forecasts
