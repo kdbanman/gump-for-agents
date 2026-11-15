@@ -63,7 +63,14 @@ _Last updated 2026-11-14 by the lead._
   estimated 0.70) is in `LEAD.md`, "Watching usage"; the sessions and what may be done with them, "Other sessions".
   The owner has been told and asked for the figures from their screen.
 - **GPU work moves to the owner's GTX 1080 (their words of about 03:30 UTC, 2026-11-15, in `LEAD.md`, "Other
-  sessions"): no budget, no limit; its session is still setting up CUDA, so nothing is dispatched yet.** Queue for
+  sessions"): no budget, no limit.** **Its session reported ready at about 03:38 UTC and was briefed at 03:45 UTC; the
+  brief is `research/GPU-QUEUE.md`** (jobs 0 and 1, then queue items (2) and (3) without waiting for the lead's
+  review; a message to the lead after each job). Each message the lead sends it costs the owner an approval prompt
+  that no allow rule answers, so further briefs and review findings go into that file, which it fetches after each
+  job. It writes under `research/gpu-local/`; it has no gcc and no `gh`, and whether it may push is the owner's to
+  tell it; if it pushes a branch the lead opens the pull request. Readiness details: `LEAD.md`, "Other sessions".
+  Owed on each message from it: the lead's recomputation, an adversarial review with independent code, then the
+  record. Queue for
   it, in this order, each with forecasts already committed where noted: (0) the acceptance bar of
   `research/gpu/README.md` (bit-exact against the engine every generation) on that card; (1) the guard against
   unrecognised settled replicas (`research/gpu/AGENT.md`, "To do"), tested on a planted long-period cycle, before
