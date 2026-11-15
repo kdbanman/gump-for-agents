@@ -214,7 +214,8 @@ rows_c = []; rows_sh = []; rows_t = []; rows_st = []; rows_cell = []; rows_k = [
 for vname, A, pbar, runs in SIZES:
     g = Geo(vname); assert g.n == A
     say(f'=== {vname} A={A} PBAR={pbar} runs {runs}: rim cells {int(g.rim.sum())}, inner (>= 2 from rim) {int(g.inner.sum())}, '
-        f'degree counts {dict(collections.Counter(g.deg.tolist()))}')
+        f'degree counts {dict(collections.Counter(g.deg.tolist()))}; diameter {int(g.gd.max())}; '
+        f'mean cells at distance 1, 2, 3, >=4: {[round(float(M.sum(1).mean()), 2) for M in g.shell]}')
     stat = load_samples(g, runs); rho = stat.mean(0)
     Pst = stat.sum(1)
     sst = Stats(g, stat, rho, expl=False)
