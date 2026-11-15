@@ -1964,8 +1964,9 @@ each a few minutes; outputs in `audit/out/`).
   review as an error bar: it was the spread of the correction forms the line had chosen. Forms it had not tried
   fit its data as well and land outside (segments with a √n term 0.093; rings with a ln b term 0.094; the wall
   front with a third term up to 0.105; the review's own rings allow 0.107). The lead re-ran
-  `python3 research/audit/thin/refit.py`: same table; it also shows that a √b correction on the rings alone would
-  allow 0.08 (χ² 0.7 on 3), which the review's range leaves out; no reason for such a term is known. If the four
+  `python3 research/audit/thin/refit.py`: same table; it also shows that a √b correction would allow 0.08 on the
+  line's six rings (χ² 0.7 on 3); the review's more precise rings reject that form (χ² 11.7 on 3), which is why
+  its range leaves it out. If the four
   routes (rings, segments, empty windows, the front's distance from a wall) share one limit, the overlap is
   0.097–0.102 [conjectured].
 - So the thinnest face costs about half of what a wide one does per cell (0.21), with the same five-layer depth
