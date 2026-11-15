@@ -316,6 +316,19 @@ _Last updated 2026-11-14 by the lead._
   and 21 (open problem 9 (a), (b)). The lead's forecasts L1–L5 are at the end of `research/wrap/PREDICTIONS.md`.
   **Owed on its report:** the lead's own check of its key number, a review if it claims an explanation, notebook,
   CLAIMS, score L1–L5, OPEN-PROBLEMS 9, the essay, the site's "What a short way round costs" plate.
+  **20:27 UTC: the fifth push, its review and the tube study are recorded** (notebook: "the fifth signals push",
+  "why a tube is cheaper", "the fifth signals push reviewed"; CLAIMS WL4–WL6 and SG23–SG27, 187 claims: A 89,
+  B 84, C 13, D 1; open problems 9 and 13; the owner's journal; the essay). In short: no listener among 741 ends
+  (the lead ran every end on the oracle, for holes and for the second kind of gap); the review found an **echo**
+  (the receiving cap with an oscillator beside it sends a hole back up the stream as a three-cell signal; the
+  lead's own oracle check passes); a living face is less dense for every loop round it, smoothly in the loop's
+  length, and the tube discount is 1.85 times the deficit (the lead re-measured five densities). **W13 is frozen
+  and queued for the card** (the 84-cell face with loops of 21 and 28). **Running:** the sixth signals push (the
+  echo: meetings with holes at every phase, a gun that survives it; the lead's forecasts S27–S32), and a site
+  agent (the density-law plate, a live echo plate, tiles and counts). **Owed:** on the site agent's report, both
+  site check suites, a look at the screenshots, and a republish (version 16); on the push's report, its
+  verifiers, the lead's own oracle check, an adversarial review, the records; then `research/check.sh`, CI and a
+  merge of pull request 27. Usage is reckoned near 74% weekly and 82% Fable (no reading since 15:18 UTC).
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
