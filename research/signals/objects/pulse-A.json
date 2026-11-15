@@ -1,0 +1,74 @@
+{
+ "name": "pulse-A",
+ "kind": "pulse",
+ "v": [
+  1,
+  0,
+  -1
+ ],
+ "bg": [
+  [
+   0,
+   -2,
+   3
+  ],
+  [
+   0,
+   -1,
+   2
+  ],
+  [
+   0,
+   -1,
+   4
+  ],
+  [
+   0,
+   0,
+   1
+  ],
+  [
+   0,
+   0,
+   3
+  ],
+  [
+   0,
+   0,
+   5
+  ]
+ ],
+ "bg_period": 2,
+ "defect": [
+  [
+   9,
+   -2,
+   -6
+  ],
+  [
+   10,
+   -2,
+   -7
+  ],
+  [
+   10,
+   -1,
+   -8
+  ],
+  [
+   11,
+   -2,
+   -8
+  ],
+  [
+   12,
+   0,
+   -11
+  ]
+ ],
+ "p": 2,
+ "s": 1,
+ "cubes": 40,
+ "found": "sat_pulse.py 3 3 7 2 1 (tube 3x3, ring of 7 cubes)",
+ "note": "5 flipped cells on a period-2 wire of 6 cells per cube; moves one cube towards +(1,0,-1) every 2 generations (half the speed limit)"
+}
