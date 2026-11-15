@@ -2818,6 +2818,8 @@ own sampler and context order for the entropy; outputs in `research/audit/states
 - Seven corrections for the study's README are at the end of the review.
 - Not checked by the reviewer: side 16; the time-t Shannon entropies; the eight unlisted 30-cell hulls; small faces
   conditioned on survival, other densities and lattices; any lower bound on the entropy.
+- Found while the overview was built (the editor, same day): "57–98% of states have no predecessor" holds for
+  vessels of 15 cells or more; over all listed vessels from 6 cells up the minimum is 53%.
 
 ## 2026-11-15: the first signals push reviewed: pulses, transmission and the parity rule stand; the line has a capacity
 

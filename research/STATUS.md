@@ -154,6 +154,12 @@ _Last updated 2026-11-14 by the lead._
   (35 shots over 36 cubes, the 36th burns the wire); nine README corrections handed to the third investigator.
   The state-space author applied its review's seven corrections (281cf02). Still running: the review of the second
   signals push, the overview editor, the third signals push.
+  **Overview published 10:59 UTC (version 12)**: new plates "Signals" (a live pulse, the gate, the clock with a
+  slider for N; `docs/overview/check-signals.js` checks the page's stepper against the oracle) and "How much of
+  the room a seed sees" (the owner's question, with the coin-flip tile); "How a face dies" brought to rounds 3–4
+  with the withdrawn sentence shown; the five wrapped faces from the owner's card on "One price per cell?"; map
+  and "Open now" rewritten. The lead rebuilt it, ran both checks, loaded it headless (no script errors) and read
+  four of the new plates before publishing; two captions corrected.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
