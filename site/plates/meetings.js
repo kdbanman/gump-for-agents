@@ -20,10 +20,6 @@
   const T0 = sigCore.train(M, L, []), H = T0.H, HH = H * H, ix = p => (p[0] * H + p[1]) * H + p[2];
   const P = [0, 1, 2, 3].map(t => { const a = new Uint8Array(H * HH); for (const p of T0.phase(t)) a[ix(p)] = 1; return a; });
   const xyz = c => [Math.floor(c / HH), Math.floor(c / H) % H, c % H], un = c => sigCore.unroll(xyz(c), H);
-  // the drawing's fixed extent: every cell of the train at any phase, a little widened
-  const all = []; for (let t = 0; t < 4; t++) for (const p of T0.phase(t)) all.push(sigCore.unroll(p, H));
-  const lo = [0, 1, 2].map(i => Math.min(...all.map(p => p[i])) - 2), hi = [0, 1, 2].map(i => Math.max(...all.map(p => p[i])) + 2);
-  const ghost = [{ cls: 'gl', segs: [[lo, hi]] }];
   const g = makeGump(H);
   let x = 1, hist, w = 0, hold = 0, n0 = 0, met = null, whole = null;
   const diffUnits = () => { const d = new Uint16Array(L), Q = P[(1 + g.gen) % 4]; let n = 0; for (let i = 0; i < g.M; i++) { const c = g.cell[i]; if (g.state[c] !== Q[c]) { d[Math.floor(c / HH) >> 1]++; n++; } } return [n, d]; };
@@ -52,7 +48,7 @@
       if (a && !b) { fs.push({ p, cls: 'f-sg' }); nd++; } else if (!a && b) { fs.push({ p, cls: 'f-gp' }); nd++; } else fs.push({ p, cls: 'f-rk' });
     }
     host.textContent = '';
-    iso(host, fs, { yaw: -0.62, pitch: 0.42, wires: ghost, fit: { w, h: w < 600 ? 120 : 170, max: 30 }, pad: 0.4, label: 'A ring of ' + L + ' units of the plain rake train, cut open and laid flat: ' + X[x].b.toLowerCase() + ', generation ' + g.gen + ', ' + nd + ' cells differing from the plain train' });
+    iso(host, fs, { yaw: -Math.PI / 4, pitch: 0.5, fit: { w, h: w < 600 ? 90 : 130, max: 30 }, pad: 0.4, label: 'A ring of ' + L + ' units of the plain rake train, cut open and laid flat: ' + X[x].b.toLowerCase() + ', generation ' + g.gen + ', ' + nd + ' cells differing from the plain train' });
     // the history: a row per two generations, a column per unit
     strip.textContent = '';
     const lw = 34, rows = T / 2 + 1, rh = w < 600 ? 4 : 5, cw = (w - lw - 6) / L, hh = rows * rh + 34;
