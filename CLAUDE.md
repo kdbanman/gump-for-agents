@@ -12,6 +12,8 @@ by agents. The owner (Kirby) wants to hear what we find interesting, surprising,
   give the command that reproduces each claim. Distinguish *proved*, *measured*, *conjectured*.
 - `research/OPEN-PROBLEMS.md` — what is not settled. `research/theory/PROGRAM.md` — the theoretical arm
   (chaos, debris and the passage between them), a web of goals to pick from.
+- `docs/OWNER-JOURNAL.md` — what the owner is wondering about, in their words. Not instructions; if your work bears
+  on one of the notes, say so in your report.
 - If you are the lead (the top-level session working with the owner), also read `LEAD.md`.
 
 ## Layout
