@@ -4,6 +4,8 @@ along it, and does a pulse sent in change anything on the far side.
 
     python3 chaoswire.py show SEED [--wire C] [--a 8 --W 12 --L 120 --T 400] [--soup all|outside|gap]
     python3 chaoswire.py out NSEEDS [--wire C|B] [--a 8 --W 12 --L 260 --T 400] [--soup ...] [--rho 0.4] [--age 0]
+    python3 chaoswire.py cap NSEEDS --gap G [--T 3000 --L 200]       the wire's capped end beside the block (see cap_mode)
+    python3 chaoswire.py life NSEEDS [--T 20000]                     how long the block of soup lives on its own
 
 The object: a finite wire in empty space, units -L .. L-1, a cap at each end (wire C: the unlit clock of
 objects/clock-C.json; wire B: eater caps, seglab.py).  Vessel (exact for empty space by T2): the tube
@@ -116,6 +118,15 @@ def cap_mode(a):
     L = a.L or 400; T = a.T; age = a.age or 200
     V = Vessel('C', a.a, a.W, L, gap=a.gap); g = V.g; n = g.n
     print(f'wire C with capL, block of {int(V.block.sum())} cells ending {a.gap} empty layers from the cap (planes x+y-z <= {V.h[0]}, x-y-z <= {V.h[1]}); soup aged {age}; T = {T}', flush=True)
+    # can the block and the capped wire act on each other at all?  Cells outside the block with a neighbour in the
+    # block AND a live neighbour in the capped wire (either phase): dead ones that could reach 4 live neighbours,
+    # and live ones.  If there are none of either, each side evolves as if alone, for ever.
+    blk = np.append(V.block, False); tot = [0, 0, 0]
+    for w in (V.base, g.run(V.base, 1)):
+        nb_b = blk[g.nb].sum(1); nb_w = w[g.nb].sum(1); wl = w[:n].astype(bool)
+        both = ~V.block & (nb_b > 0) & ((nb_w > 0) | wl)
+        tot[0] += int(both.sum()); tot[1] += int((both & ~wl & (np.minimum(nb_b, 3) + nb_w >= 4)).sum()); tot[2] += int((both & wl).sum())
+    print(f'   cells with a neighbour in the block and a live neighbour in (or a cell of) the capped wire, both phases: {tot[0]}; dead ones that could be born: {tot[1]}; live ones: {tot[2]}', flush=True)
     res = Counter(); times = []
     for seed in range(a.seed0, a.seed0 + a.n):
         rng = np.random.default_rng(seed)
@@ -151,7 +162,7 @@ def cap_mode(a):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('mode', choices=['show', 'out', 'cap']); ap.add_argument('n', type=int)
+    ap.add_argument('mode', choices=['show', 'out', 'cap', 'life']); ap.add_argument('n', type=int)
     ap.add_argument('--gap', type=int, default=0)
     ap.add_argument('--wire', default='C'); ap.add_argument('--soup', default='all', choices=['all', 'outside', 'gap'])
     ap.add_argument('--a', type=int, default=8); ap.add_argument('--W', type=int, default=12); ap.add_argument('--L', type=int, default=None)
@@ -160,6 +171,16 @@ def main():
     a = ap.parse_args()
     if a.mode == 'cap':
         return cap_mode(a)
+    if a.mode == 'life':
+        # the block of soup alone: generation at which a cycle is detected (0 cycles found = still changing at T)
+        V = Vessel(a.wire, a.a, a.W, 30); g = V.g; n = g.n; out = []
+        for seed in range(a.seed0, a.seed0 + a.n):
+            r = (np.random.default_rng(seed).random(n) < a.rho).astype(np.uint8)
+            y = np.zeros(n + 1, np.uint8); y[:n][V.block] = r[V.block]
+            per, gen, st = g.cycle(y, a.T)
+            out.append((gen, per))
+        print(f'block of {int(V.block.sum())} cells of soup alone, {a.n} seeds, up to {a.T} generations: still not periodic in {sum(p == 0 for _, p in out)}; (generation, period) of the others: {[o for o in out if o[1]]}')
+        return
     L = a.L or (120 if a.mode == 'show' else 260)
     V = Vessel(a.wire, a.a, a.W, L); g = V.g; T = a.T; bare = V.bare
     print(f'wire {a.wire}, units {-L}..{L - 1}, capped; vessel of {g.n} cells; block of {int(V.block.sum())} cells (units {-a.W}..0), soup: {a.soup}, rho {a.rho}, aged {a.age}', flush=True)

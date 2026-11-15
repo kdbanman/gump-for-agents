@@ -22,6 +22,8 @@ argument, an exhaustive search inside stated bounds, or a construction the oracl
 | second push | **collision gate**: two pulses of wire C meeting head-on: exactly one survives, undelayed, the wire as it was; which one is set by the parity of their separation | `python3 verify_gate.py objects/gate-C.json` | 9 s |
 | second push | **register**: the boundary between wire B and wire B' moves one unit towards whichever pulse hits it: written by a one-cell flip on one side, erased by a one-cell flip on the other, exactly | `python3 verify_register.py objects/register-BBp.json` | 5 s |
 | second push | pulses of wire C, both ways | `python3 verify_pulse.py objects/pulse-C.json`, `... objects/pulse-C-left.json` | 3 s |
+| second push | **tape**: wire B and wire C are two letters of one medium: EVERY sequence of B units and C units moves rigidly towards −v, one unit per 2 generations (a ring holding all 32 windows of 5 units; with the light cone, a proof for all sequences) | `python3 verify_pulse.py objects/tape-BC.json`; `python3 verify_wall.py` | 3 s; 12 s |
+| second push | two more pulses of wire C that reach outside its 3 × 3 tube, first seen coming out of chaos | `python3 verify_pulse.py objects/pulse-C-wide.json`, `... objects/pulse-C-wide-left.json` | 3 s |
 
 Each verifier steps only with `oracle.masks` and `oracle.step` on a cubic array torus (H = 80 to 128) and compares
 whole states cell for cell. `verify_pulse.py`: 100 periods = 2.5 laps of a ring of 40 cubes; the state at generation
@@ -208,8 +210,9 @@ The lead's six items, where each stands: (1) a bounded track: **reached**, secti
 every N, proved); no corner, no closed polygon. (2) a receiver that stays put: a **register** written from one side
 and erased from the other (section 9); no same-side toggle (section 8). (3) a gate: a **collision gate** whose two
 outputs leave along the two input lines (section 10); no gate with a separate output line, no crossing. (4) where
-wires come from: **pulse-carrying wires are born from soup** (section 12). (5) wire against chaos: section 13.
-(6) loose ends: untouched except the caps (section 14).
+wires come from: **pulse-carrying wires are born from soup**, and wire B is turned into wire C by a moving wall
+(sections 12, 10). (5) wire against chaos: **contact destroys the wire every time; two empty layers isolate it for
+ever** (section 13). (6) loose ends: untouched except the caps (section 14).
 
 Vocabulary of this part. **Unit** u: the cells with x in {2u, 2u+1}; moving by (2,0,−2) adds 1 to u. "Towards +v"
 is towards larger u. A **cap** is a way for a wire to end in empty space and stay as it is (period 2). All states are
@@ -305,6 +308,26 @@ the bounds.
   left-going pulses remain. [measured, `collisions_C.py`, `sg.Geom` only] Mirror statement for `5f` against p>;
   and rake against rake: one of the two survives, by parity.
 
+- **[proved: oracle run + light cone] The tape.** Every boundary between wire B and wire C, in either order,
+  moves towards −v at one unit per 2 generations, and so does every pattern made of B units and C units:
+  `python3 verify_pulse.py objects/tape-BC.json` (3 s) runs a ring of 40 units, each B or C, in an order that
+  contains all 32 possible runs of five; after 2j generations the whole state is itself moved j units, cell for cell
+  (j = 1..100). Two generations reach two units, so what a unit becomes depends on a run of five, and all runs
+  of five are in the ring: hence **every infinite sequence over {B, C} is an exact solution moving at one unit per
+  2 generations**. `python3 verify_wall.py` (12 s) shows single walls and stretches of 1, 2, 3, 7 units on finite
+  capped objects. Consequences: p< is one unit of B in wire C, and the left-going pulse of wire B is one unit of C in
+  wire B; pulses can follow each other at any spacing; a wall B|C is a front that turns wire B into wire C at pulse
+  speed (and C|B the reverse); the pair is a shift register of one bit per unit that reads out at one end. By the
+  half-turn the same holds for B and C′ towards +v (not unit-aligned). `python3 tapes.py` (1 s) tests all 120 pairs
+  of the 16 unit types in this way: {B, C} is the only pair that moves; four pairs stand still whatever the order
+  ({8, b}, {8, e}, {2, e}, {6, a}: binary strings that stay, [measured, `sg.step_set`]).
+- **[proved by the oracle runs] Pulses that reach outside the tube.** Moving one cell of a unit of wire C
+  outwards, (0,2,3) → (0,2,5), gives a second left-going 2-cell pulse, and its mirror image a second right-going
+  one (`verify_pulse.py objects/pulse-C-wide-left.json`, `... pulse-C-wide.json`). (0,2,5) lies outside the wire's
+  3 × 3 tube, which is why the searches of section 3 (closed tube) did not have them. They were first seen leaving
+  chaos (section 13). [measured] They break both caps of the clock (the wire then burns away); nothing else about
+  them is known.
+
 ## 11. The clock: a free-standing oscillator of period 4N + 2 for every N
 
 - **The object** (`objects/clock-C.json`). capL (16 cells), N units of wire C, capR (16 cells): 32 + 5N cells in
@@ -362,5 +385,67 @@ the bounds.
   one soup-born uniform wire in 46, is a pulse carrier. This corrects the first push's guess that carriers are not
   attractors. Not seen: a pulse itself arising from soup (the settled rings here are uniform by selection; the 875
   wires of section 2 gave none).
-- **Grown or placed?** Placed, or born whole on a ring. A wire cannot grow at its end (section 4), and no front that
-  lays wire C or B was looked for.
+- **Grown or placed?** A wire cannot grow into empty space (section 4). But wire C can be made out of wire B: a
+  wall B|C runs along wire B at pulse speed and leaves wire C behind it (section 10, the tape), and a plain cut in
+  wire B starts such walls on both sides: `python3 chaoswire.py show 1 --wire B --soup gap --T 160` [measured].
+
+## 13. A wire against living chaos (the owner's note of 2026-11-15)
+
+`chaoswire.py`. The chaos is a block of random soup (density 0.4; 1,854 cells: a piece 12 units long of a tube of
+9 × 9 cubes' width round the wire). Alone, such a block is still not periodic after 20,000 generations in 12 of
+12 runs (`python3 chaoswire.py life 12`, 2 min), and it never leaves its planes (T2).
+
+- **[measured] A wire that runs through the chaos is destroyed, every time, at pulse speed.**
+  `python3 chaoswire.py out 100 --wire W --soup S --quiet` (1 min each; a capped wire of 520 units through the
+  block; probes 40 and 80 units from the block on both sides; 400 generations):
+
+  | wire | soup | sides on which a front reached the far probe and the wire was not bare afterwards | speed | something clean passed the far probe before the front |
+  |---|---|---|---|---|
+  | C | everywhere in the block (the wire inside it is soup too) | 200 of 200 | 2 generations per unit in 199, 4 in 1 | 15: on the −v side the pulse p< 7 times, one other; on the +v side 7 compound objects |
+  | C | round an unbroken wire | 200 of 200 | 2 in 199, 4 in 1 | 18: on the −v side trains of the wide pulse of section 10, 10 times; on the +v side 8 compound objects |
+  | B | everywhere | 200 of 200 | 2 in 200 | 0 |
+  | B | round an unbroken wire | 200 of 200 | 2 in 200 | 0 |
+
+  The front runs at exactly the speed of a pulse, so nothing sent later can overtake it, and behind it is ash,
+  different from run to run, mostly reaching outside the wire's own tube. In wire B the leading edge is usually the
+  wall of section 10 turning B into C (or C′), with the ash following. Controls without soup (`--soup gap`: the
+  wire merely cut, 12 units missing): wire C burns away to nothing at 4 generations per unit; wire B is converted by
+  walls at 2 generations per unit and the converted wire then burns away at 4.
+- **[measured] Chaos does make pulses**, about once in 13 sides for wire C: a clean p<, or a train of wide
+  pulses, leaves the chaos and the wire behind it is bare for a while. But the front follows at the same speed, a
+  fixed distance behind. These are the first pulses in this study that arose from anything random.
+- **[measured] A capped end beside the chaos** (`python3 chaoswire.py cap 40 --gap G --quiet`, 1 min each; wire C
+  ending in capL of the clock; the soup, 200 generations old, ends G empty diagonal layers short of the planes that
+  bound the cap; 3,000 generations): G = 0 and G = 1: the cap is destroyed in 40 of 40 runs, the wire first changes
+  22 to 60 generations after the start, and then burns away to nothing at 4 generations per unit. G = 2: nothing,
+  40 of 40.
+- **[proved] The isolation is exact.** G = 3 or more: T3 of `docs/AUTOMATON.md` (three dead layers are a firewall).
+  G = 2 in this geometry: the script counts the cells outside the block that have both a neighbour in the block and
+  a live neighbour in (or are a cell of) the capped wire, at both phases: 2 cells, none of them live, and none can
+  reach 4 live neighbours; so every cell outside the block sees what it would see with the wire alone, and each
+  side runs as if the other were not there, for ever. With G = 1 there are 28 such cells and 2 can be born.
+- **What this says about the owner's isolation.** Between chaos and a wire there is no weak coupling to use: either
+  the two are apart by two or three empty layers and nothing passes, ever; or they touch and the wire is consumed
+  at pulse speed. The chaos does not forget the wire's signal so much as eat the line. And the ordered remains
+  carry *damage* out of the chaos' own hull as far as the wire goes, which nothing in the chaos itself can do (T2).
+- **Not done**: a pulse sent into the chaos with the far side compared (there is no surviving far side to
+  compare in any geometry tried); other wires, other densities and block shapes, blocks much larger or older; what
+  the ashes are; whether some cap or some wider wire withstands contact.
+
+## 14. Second push: not done, not checked, and where to go next
+
+- **Not checked.** UNSAT answers of section 8 rest on my encoding and on CaDiCaL alone (models always re-step).
+  Caps were only looked for with period 2 and inside the wire's own 3 × 3 tube. That the one-cell ignition of the
+  clock leads into its cycle is measured for N ≤ 200, not proved. Rake against rake, the mirror rake against p>,
+  the static pairs of `tapes.py`, the cut-wire controls and everything in section 13 were stepped with `sg` only,
+  not with the oracle. The scattering table at C = 33 covers the first 4,000 caps, not all.
+- **Not found.** A corner between two wire directions; a closed polygon; a crossing; a gate with a third line; a
+  stationary source of pulses; a same-side toggle; a clock of period ≡ 0 mod 4; a reflector for a single pulse.
+- **Not touched** (the lead's item 6): the undecided rows of section 6, backgrounds of repeat 2, wider tubes,
+  other directions, two-cell flips of the wires on file, the two sheets.
+- **Where I would go next.** (1) The tape: what the right-going pulses and the rake do to a general B/C sequence
+  (the collision gate is the one-unit case); with caps that read or write units this is a shift register with
+  logic on it. (2) The wide pulses: their collisions with p>, p< and the rake, and caps for them, in a tube one
+  size up; they show the 3 × 3 tube was too tight a search space. (3) A cap that turns the rake with one more or one
+  less generation of delay (for period ≡ 0 mod 4): enumerate caps of period 2 at C = 35, or caps of period 4.
+  (4) A corner: needs a search in a region where two tubes of different direction meet; nothing here bears on it.
