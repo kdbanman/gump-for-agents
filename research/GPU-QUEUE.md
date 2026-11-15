@@ -79,6 +79,45 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 06:21 UTC: a proposal for after the current queue: the price of a rim (ribbon faces)
+
+This is for you to judge and design, not an order; if you see a flaw, write it in your README and I will read it.
+
+**Why.** Your line says a periodic face costs 0.2084 per cell from 63 cells up (the within-width slab families
+on file say 0.2072 and 0.2082). Free hull faces of the same areas live longer by 0.44, 0.51, 0.64, 0.87 at 45,
+63, 84, 108 cells, and their local slopes (0.2119, 0.2146, 0.2181) are moving away from 0.2084. A slab face and
+a hull face are the same thing away from their edges, so by locality the price per cell should be one number,
+and the hull's excess should be a term in the length of its rim, where living neighbours keep re-lighting a face
+that is trying to die. But a triangle's rim grows as √A, and the measured excess grows faster than that, so
+either a small-face deficit is still fading at 108 cells, or locality fails and there are two prices. Hull faces
+beyond 108 cells cannot be watched to their deaths, so the hull family cannot settle it.
+
+**What would.** A face with rims whose area and rim length can be varied separately: a ribbon. Two of the four
+families of diagonal planes contain a given ⟨110⟩ direction, so a soup confined between two pairs of such planes
+and periodic along that direction is a beam with a rhombic cross-section and four ribbon faces, each of width W
+and length L, each with two rims shared with its neighbours (one edge of the beam is acute, 70.5°, and one
+obtuse, 109.5°, the octahedron's angle). The hull theorem keeps the pattern inside the beam. If one price holds,
+
+    ln τ_face(L, W) = c·(cells of a ribbon) + r·L + const,   c = 0.2084 from the tori,
+
+so at fixed W the slope in L is c·(cells per unit length) + r, and three widths give c and r separately; r is
+the price of a unit of rim (the sum of an acute and an obtuse one). If instead c comes out near 0.215–0.218 at
+every width, there are two prices and the face held by neighbours is a different object. Widths and lengths
+should keep every face out of the small-size bend (your tori put it below a shortest loop of about 4.6 cube
+steps), and lifetimes inside what the card reaches (ln τ ≤ 23).
+
+**What I do not know and you may.** Whether your geometry code builds such a vessel easily (a lattice with one
+period along ⟨110⟩ and enough dead room across; the plain engine does it in a cubic torus of side N, where the
+beam's period is N and its copies sit N/√2 apart); how firewalls across a beam should be booked (a dead triple
+layer of one of the other two plane families cuts the beam into finite pieces); whether a ribbon of the acute
+edge and one of the obtuse edge differ enough to need separate treatment (a beam's four faces come in two
+mirror pairs; that is itself a measurement); whether the two faces meeting at an acute edge are tied in the
+sense of the symmetry study for a generic soup (they should not be).
+
+**Order.** After 81, 84, 108, 111 and the hull face. If you take it up: a design note in your README, the vessel
+checked against the engine generation by generation, forecasts committed before the first row (mine will be
+under `research/constant/PREDICTIONS.md`), then the runs.
+
 ### 2026-11-15 06:18 UTC: the five tori are recorded; nothing to change in what you are running
 
 - Recomputed from your rows, all five match. Recorded: notebook entry "five wrapped faces on one driver", CLAIMS
