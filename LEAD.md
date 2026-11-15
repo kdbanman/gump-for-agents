@@ -87,6 +87,21 @@ job to keep it honest. What exists (2026-11-13):
 - "Modal API" (GPU, cloud): briefed 2026-11-13 by message with the acceptance bar and three experiments (lineage
   memorylessness at R = 36–40; symmetric τ at A = 759, 828; asymmetric faces at A = 108, 135). It cannot message
   back; read its pull requests and its directory (expected `research/gpu/`). Find it with the session list.
+  (Since 2026-11-14 it does message back: its replies arrive as notifications. Its session id is in the scratchpad.)
+- **A local GPU session on the owner's own machine** ("GPU endpoint agent communication", a GTX 1080;
+  `session_019L788Jx7xW3gsoejtZ4qdv`). It sent a test ping at about 02:06 UTC on 2026-11-15 ("checking that
+  cross-session messaging works. No action needed … just say 'pong'"). The reply was refused until the owner
+  allowed this session to reach their other sessions; the lead raised the permission card
+  (`confirm_repository_trust`) and **the owner allowed it, in person on a trusted device, at about 02:20 UTC**. The
+  tool's words for what that did: "This session is now limited to its owner's trusted devices, and that cannot be
+  undone. It may now ask to use a folder on one of its owner's computers, or start sessions, send messages and
+  schedule tasks on its owner's computers … once it has asked for a computer it no longer reaches the owner's other
+  sessions." The lead's reading (not the owner's words): the approval covers exchanging messages with that session
+  (`mcp__claude-code-remote__send_message` with its id; `SendMessage` does not reach it). The owner has not yet said
+  what the local GPU is for. Until they do: do not start sessions or schedule tasks on their computers, and **do not
+  call `request_computer_folder`** (it would also cut this session off from the owner's other sessions). If the
+  owner offers the GTX 1080 for runs, the queue is in `research/STATUS.md` (the measurements that would narrow the
+  asymptotic constant; the guard against unrecognised settled replicas comes first).
 
 ## The swarm
 
