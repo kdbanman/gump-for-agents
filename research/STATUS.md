@@ -105,8 +105,11 @@ _Last updated 2026-11-14 by the lead._
   both passes (aa1ea02; ranking unchanged, claims narrower). The lead's conjecture from it (wrap-around = a sum over period
   vectors, decaying over a correlation length) is in the notebook and was sent to the analyst of (6) with a blind
   test on the pairs of (4);
-  (4) Opus, **reported 00:15 UTC 2026-11-15** (`research/shape3/README.md`; not yet in the notebook: an Opus
-  adversarial review is running -> `research/audit/REVIEW-shape3.md`): the second variable was not found. At A = 72
+  (4) Opus, **reported 00:15 UTC 2026-11-15, reviewed 00:53 UTC and recorded** (`research/shape3/README.md`;
+  `research/audit/REVIEW-shape3.md`: own stepper, the sign change confirmed, "survives out of sample" struck, seven
+  corrections being applied to the write-up by an Opus editor; notebook entries of 2026-11-15 "the second variable"
+  and "lives that settle and are not recognised"; CLAIMS SH6–SH9, ZL1, ZL2; ledger now 118 rows,
+  `python3 research/audit/claims_tally.py`): the second variable was not found. At A = 72
   the differences at equal shortest loop are zero within 1.5σ (−0.006, +0.001, +0.002, each ± 0.004–0.006) where
   A = 48 and 60 gave +0.015 and +0.007; below saturation (shortest loop² 9) the sign changes (A = 36: −0.0223 ±
   0.0007; A = 45: +0.0076 ± 0.0013). The three size-free candidates are refuted; the two that decay with the second
@@ -114,14 +117,14 @@ _Last updated 2026-11-14 by the lead._
   shortest loop one number fixes the lattice, so candidates can differ in size only. The lead recomputed the pair
   table from the raw counts (`python3 research/audit/shape3_lead_check.py`). It also met "zombie lives" (a settled
   state whose period does not divide 840 is never recognised; +0.017 in ln τ at A = 36 with no age cap; fixed by a
-  multi-lag test): the reviewer is asked for a bound on the bias in the capped census, and the GPU session was asked
+  multi-lag test): the reviewer bounded the bias in the capped census and pairs runs (≤ 0.0007 in ln τ, below every error), and the GPU session was asked
   (00:20 UTC, code reading only, no Modal spend) how its kernels treat such replicas. **Answered and merged as pull
   request 20 (text only; squash fc1383b, 00:31 UTC):** its kernel detects periods 1–2 and, in most runs, up to 128;
   no age cap; bounds on undetected exposure from the committed logs by run (`python3 research/gpu/zombies.py`;
   weakest: R13 ≤ 6.7e-3 against ± 0.005, symc R43 s501, slab 4×8×8; runs shorter than one mean life, R15 and R17
   among them, rest on a rate argument marked not proven); no published number changes. The lead recomputed the R11
-  and R13 bounds (`python3 research/audit/gpu_pr20_lead_check.py`). A notebook entry on these lives (CPU and GPU
-  together) is owed once the review of (4) is in.
+  and R13 bounds (`python3 research/audit/gpu_pr20_lead_check.py`). Recorded in the notebook (2026-11-15) and as CLAIMS ZL2. Owed before any
+  further GPU lifetime run: the guard described in `research/gpu/AGENT.md` (needs the GPU to test).
   (6) Fable, **reported 22:10 UTC, reviewed 22:30 UTC, recorded** (`research/constant/README.md`,
   `research/audit/REVIEW-constant.md`; notebook entry "is there one asymptotic cost per cell"; CLAIMS CN1): the
   data allow one asymptotic constant anywhere from about 0.207 to 0.219 and do not fix it; the analysis's "two
