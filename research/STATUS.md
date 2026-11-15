@@ -349,6 +349,10 @@ _Last updated 2026-11-14 by the lead._
   (3) the card's results (fetch `origin/claude/gpu-local-1080`: the hull face of 108 cells about 02:00 UTC on the
   16th, then the 84-cell tube, W13's face, the 108- and 96-cell tubes) with a new pull request for its branch;
   (4) `research/check.sh`, CI, merge pull request 27.
+  **22:13 UTC: the owner's reading is 72% weekly, 84% Fable; the adversarial review of the sixth push is
+  running** (Opus, about two hours; `research/audit/REVIEW-signals-6.md`, `research/audit/signals6/`; its first
+  item re-examines the events the fifth review classed as breaking the train that in fact make an up-signal).
+  Items (2) to (4) above follow its report. The lead keeps its own turns to that work and stops near 90% Fable.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
