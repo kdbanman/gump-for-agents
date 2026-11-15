@@ -246,7 +246,7 @@ observed fraction ≥ 0.70 (the random figure is reported beside it).
 - K12 (55%). T4: the observed fraction exceeds the random one by less than 0.10, because distance 2 already covers
   most of a 63-cell face around ~9 survivors.
 
-# Round 4 (the lead's forecasts, written 2026-11-15 05:45 UTC, before any round-4 run and before the review of round 3 is in)
+# Round 4 (the lead's forecasts, written 2026-11-15 05:41 UTC, before any round-4 run and before the review of round 3 is in)
 
 **The reading under test: two phases.** A healthy face fluctuates like a homogeneous medium: the cost per site of
 a dip to relative population p is g·(1 − p)², with g set by the ordinary variance. Gump's rule is cooperative (a
