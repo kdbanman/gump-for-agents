@@ -311,6 +311,11 @@ _Last updated 2026-11-14 by the lead._
   (`research/audit/REVIEW-signals-5.md`, code `research/audit/signals5/`), which also sends the ends every other
   one-unit change of a rake. **Owed when both are in:** notebook entries, CLAIMS rows SG23 on, the lead's scoring
   of S22–S26, OPEN-PROBLEMS 13, the owner's journal, the essay, the site's signals page and a republish.
+  **18:28 UTC: a study of the living state on tubes is running** (Opus, about two hours, `research/wraplocal/`):
+  which local property of a living tube tracks its lower price per cell, and why the effect ends between loop² 19
+  and 21 (open problem 9 (a), (b)). The lead's forecasts L1–L5 are at the end of `research/wrap/PREDICTIONS.md`.
+  **Owed on its report:** the lead's own check of its key number, a review if it claims an explanation, notebook,
+  CLAIMS, score L1–L5, OPEN-PROBLEMS 9, the essay, the site's "What a short way round costs" plate.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
