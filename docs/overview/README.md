@@ -99,3 +99,31 @@ Added four plates: "Equal area, equal shortest loop", "The thinnest face" and "O
   (15.1644 − 13.9233)/12 = 0.1034); the centring of the island bars (a picture of "shrinks from both ends").
 - Not shown: the grades per number (cards say "two codes", "one point being cross-checked", "assumed" where the
   ledger grades B or C or the notebook marks a conjecture); the draft in `docs/paper/` appears only as a milestone.
+
+## Refresh of 2026-11-15 (second)
+
+Revised the symmetry plate (`#sym` in `src/plates-law.html`) for the notebook entry "the symmetric collapse" (CLAIMS
+S5–S9, notes on S2 and S3): new headline, the edge-ladder chart (`#f-ladder`, four rungs at A = 63 with both codes, the
+inversion point beside the unsymmetric one, the review's values and the rotation, slab, slope × order and centring
+numbers in its "Numbers" table), a "what was said / what stands" panel, six tiles, and the fit's key and caption
+(the √A coefficient depends on the assumed price; the factor between centrings changes with size). Added to the fauna
+plate (`src/plates-fauna2.html` through `<!--FAUNA2-->` in `plates.html`) C52.33a ticking, each cell coloured by its own
+period, with a dial for each clock, and tiles for the wires and the five new clocks (entry "what the unrecognised
+settled states are"; Z12, Z13). Both drawn by `src/figures7.js`. Map ("new" marks moved to these two), "Open now",
+a correction, two forecasts, two audits and two milestones.
+
+- Every number is in `data/sources/update-2026-11-15b.json`, checked by `collect.py` as before. The inversion's
+  −0.056 ± 0.023 is the ledger's (S6); the notebook gives the two values only.
+- C52.33a's cells are read by `collect.py` from `research/clockwork/objects/C52.33a.cells` (its header must say
+  period 52, union 42 and the split {1: 24, 4: 4, 13: 14}). The page finds each cell's period with its own stepper and
+  says so on the page if the split ever differs; `check-core.js` checks that the stepper brings the clock back after
+  52 generations and not before (to 208) and gives the recorded split.
+- Computed on the page, not quoted: the differences between rungs (−2.18, −2.16, −2.12, tooltips and labels) from the
+  plotted values; the per-cell periods of C52.33a.
+- Typed, not drawn from data: the text of "Open now" (from `research/STATUS.md`, state block under "Next", as of about
+  03:20 UTC: the C-row audit running, the 4 × 5 rerun open, the GPU guard owed, the constant waiting); the wording
+  "what was said / what stands" (from the entry's own sentences and CLAIMS S7).
+- Not changed: the area-law plate's "a mirror through a face halves its price" and the swarm plate's list (CLAIMS SW3,
+  a different vessel, grade C). The clock chart ("every saved clock of period 20 or more") does not include C52.33a, a
+  compound with no loop.
+- Screenshots of the changed plates: `research/scratch/overview/r15b-*.png` (script `shoot-r15b.js` there).

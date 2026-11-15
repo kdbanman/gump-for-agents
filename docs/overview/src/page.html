@@ -251,6 +251,25 @@ td:first-child,th:first-child{text-align:left}
 hr.step{border:0;border-top:1px solid var(--rule);margin:0}
 footer{font-size:12.5px;color:var(--ink-3);display:flex;flex-direction:column;gap:6px}
 @media (prefers-reduced-motion: reduce){ *{scroll-behavior:auto} }
+/* 2026-11-15 (second refresh): the corrected symmetry story; C52.33a coloured by each cell's own period */
+.was{border-left:3px solid var(--rule);padding:2px 0 2px 12px;margin:0 0 12px}
+.was.now{border-left-color:var(--s1)}
+.was .lab{display:block;font-size:11.5px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);margin-bottom:2px}
+.was p{margin:0;font-size:14px;color:var(--ink-2)}
+.was.now p{color:var(--ink)}
+.iso .f-q1{fill:var(--ink-3);fill-opacity:.55}
+.iso .f-q4{fill:var(--s1);fill-opacity:.9}
+.iso .f-q13{fill:var(--ember);fill-opacity:.9}
+.iso .f-q4o{fill:var(--s1);fill-opacity:.12;stroke:var(--s1);stroke-opacity:.45}
+.iso .f-q13o{fill:var(--ember);fill-opacity:.12;stroke:var(--ember);stroke-opacity:.45}
+.dials{display:flex;flex-direction:column;gap:6px;margin:8px 0 2px}
+.dials .d{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-2)}
+.dials .d .n{width:7.5em;flex:none}
+.dials .d i{display:inline-block;width:14px;height:14px;border-radius:3px;border:1.5px solid var(--rule);background:var(--surface)}
+.dials .d.p4 i.on{background:var(--s1);border-color:var(--s1)}
+.dials .d.p13 i.on{background:var(--ember);border-color:var(--ember)}
+.dials .d.p52 i.on{background:var(--ink);border-color:var(--ink)}
+@media (max-width:520px){.dials .d i{width:11px;height:11px}.dials .d .n{width:6em}}
 </style>
 
 <div class="wrap">

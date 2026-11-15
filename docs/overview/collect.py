@@ -240,5 +240,35 @@ out["zombie"]["sim"] = {"H": zj["H"], "cells": zj["cells"], "lifted": zj["lifted
 out["prior3"] = {"ours": pl["ours"], "known": pl["known"], "refs": [[r["year"], r["who"], r["line"], r["read"]] for r in R["prior"]["refs"]]}
 out["swarm2"] = {"counting": R["swarm"]["counting"]["value"][0]}
 
+
+# ---- the second refresh of 2026-11-15: update-2026-11-15b.json (the symmetric collapse, S5-S9; the new clocks and wires, Z12, Z13) ----
+B = S("update-2026-11-15b.json")
+for k, v in B["sym"].items():
+    if k != "ladder": checked(v)
+for r in B["sym"]["ladder"]: checked(r)
+for k, v in B["clocks"].items(): checked(v)
+for c in B["corrections"]: checked(c)
+for f in B["forecasts"]: checked(f)
+for a in B["audits"]: assert (repo / a["file"]).exists(), a["file"]
+out["forecasts"] += [{"line": f["line"], "result": f["result"]} for f in B["forecasts"]]
+out["project"]["audits"] += [[a["label"], a["line"]] for a in B["audits"]]
+out["corrections"] += [{"said": c["said"], "now": c["now"], "by": c["by"], "who": who(c["by"]), "line": c["line"]} for c in B["corrections"]]
+tl["milestones"] += [{"date": x["date"], "text": x["text"]} for x in B["milestones"]]
+bs, bc = B["sym"], B["clocks"]
+v = lambda k: bs[k]["value"]
+out["ladder"] = {   # id, edges tied, label, line ln tau, se, review ln tau, se (, review bracket lo, hi)
+    "rows": [[r["id"], r["edges"], r["label"]] + r["value"][:4] + (r["value"][5:7] if len(r["value"]) > 4 else []) for r in bs["ladder"]],
+    "per_edge": v("per_edge"), "inversion": [v("inversion")[0], bs["inversion"]["sign"] * v("inversion")[1], v("inversion")[2]], "rotation": v("rotation"),
+    "slab": v("slab"), "sixth": v("sixth"), "c": v("sixth_verdict"), "rim": v("rim")[:4] + [-v("rim")[4], -v("rim")[5], -v("rim")[6]],
+    "pinned": [-v("pinned")[0], v("pinned")[1], -v("pinned")[2]], "bend": v("bend"), "centring": v("centring"), "centring_rim": v("centring_rim"), "vessel": v("vessel")}
+assert bs["ladder"][3]["value"][4] == 35 and bs["inversion"]["sign"] == -1 and bs["rim"]["sign"] == -1 and bs["pinned"]["sign"] == -1
+# the compound clock C52.33a, read from the catalogue's own cell file (phase 0, doubled coordinates)
+cf = (repo / "research" / "clockwork" / "objects" / "C52.33a.cells").read_text()
+assert "period 52" in cf and "union 42" in cf and "cell periods {1: 24, 4: 4, 13: 14}" in cf
+out["c52"] = {"cells": [list(map(int, l.split())) for l in cf.splitlines() if l.strip() and not l.startswith("#")], "period": 52, "union": bc["split"]["value"][0],
+              "split": {"1": bc["split"]["value"][1], "4": bc["split"]["value"][2], "13": bc["split"]["value"][3]},
+              "kinds": bc["kinds"]["value"], "new": bc["new"]["words"], "periods": [9, 9, 11, 13, 52]}
+assert all(str(p) in bc["periods"]["quote"] for p in out["c52"]["periods"]) and "periods 9, 9, 11, 13, 52" in bc["periods"]["quote"]
+
 (here / "data" / "data.json").write_text(json.dumps(out, separators=(",", ":")))
 print("data.json", (here / "data" / "data.json").stat().st_size, "bytes;", ", ".join(out))
