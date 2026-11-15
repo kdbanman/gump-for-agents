@@ -707,11 +707,12 @@ caps that turn them swallow everything else; nothing that stands still writes on
 stand now. (1) An emitter: **a standing object that emits rakes exists** (the gun, section 20) and with a cap at the
 far end it is an emitter and a receiver exchanging objects for ever, at any distance (the line, section 21, proved for
 every length). What it emits is a rake every 4 generations, the densest possible stream. **A standing emitter of a
-non-constant word exists as well** (the divider, section 21b, found in the last hour): the line with a period-8
+non-constant word exists as well** (the divider, section 21b): the line with a period-8
 oscillator of the clockwork catalogue standing beside the wire, which turns every second rake into a hole and is
 itself never changed; the wire beyond it carries one rake per 8 generations. The constraint searches for such an
 object *inside* the tube were all negative (section 23). (2) A corner: not searched. (3) A period-4N shuttle clock: not found; the negative of section 18 now holds
-for caps of every length and shape (section 22). The beam and the line are free-standing oscillators of period 4 of
+for every period-2 right end of wire C in the 3 × 3 tube, of any length and shape, for turns with T ≤ 36
+(section 18's T′ ≤ 28, not its T′ = 32), the guard included (section 22). The beam and the line are free-standing oscillators of period 4 of
 every length, but they are not shuttle clocks. (4) A reason: none; the turn-class statement was strengthened, not
 explained. (5) The clockwork catalogue against a wire: run as samples (sections 21b, 23): against a wire at rest
 the oscillators that survive write nothing (some light a shuttle clock once); against the running stream one of
@@ -747,7 +748,9 @@ returned a gun in one second at the first plane position where one fits.
   and returns exactly to its state: the first such thing in this study.
 - **[proved within the bounds, CaDiCaL; every model re-stepped] Census** (`python3 sat_gun.py 5f C --all`, 1 to 7 s):
   guns of period dividing 4 for the train `(5f)^∞` inside the planes: C = 29: none; C = 31: exactly 1; C = 33: exactly
-  1 (the same); C = 35: exactly 6 (15 to 22 cells).
+  1 (the same); C = 35: 6 solutions (15 to 22 cells), of which one is the C = 31
+  gun and one is the C = 31 gun moved one unit towards +v and two generations on: at most four further guns
+  (`python3 research/audit/signals4/census_translate.py`, REVIEW-signals-4 §2).
 - **[measured, sg.step_set] Starting and stopping** (`python3 gunlab.py start`, 2 s): set against bare wire C, the
   gun in phase 0, 1 or 3 emits at once; in phase 2 it does not (it sheds a mark `77` and the end decays).
   `python3 gunlab.py capL` (1 s): with capL of the clock at the far end the rakes are not swallowed: capL turns them,
@@ -826,10 +829,12 @@ returned a gun in one second at the first plane position where one fits.
   undisturbed one in exactly ONE cell (the cell (0,2,3) of the unit where a rake should be: that unit is a B unit),
   moving with the rakes; the absorber swallows it and the object is then identical to the undisturbed one, cell
   for cell (`verify_beam.py` check D: N = 24, 41; `verify_line.py` check F on the line, where the pulse is one cell
-  at odd generations: N = 12, 13, 30). **Every set of holes heals** as long as the rake next to the gun is left
-  alone (`python3 gunlab.py words`, 45 s: 200 random sets of removed rakes on the beam with 20 rakes: all 106 that
-  keep the first rake heal exactly; all 94 that remove it kill the gun; with every rake but the first removed it
-  heals too). So the stream is a carrier on which a hole is a bit: written by one flipped cell anywhere along it,
+  at odd generations: N = 12, 13, 30). **Every set of holes heals** on the beam as long as the rake next to the gun
+  (unit 0, part of the gun's own state) is left alone, and on the line without condition (`python3 gunlab.py words`,
+  45 s: 200 random sets; exhaustively, `python3 research/audit/signals4/holes.py beam 25`: all 4,096 words on the
+  beam N = 25 that keep the first rake heal exactly, all 4,096 that remove it change the gun;
+  `python3 research/audit/signals4/holes2.py line 16`: all 764 words on the line N = 16 heal, the rake next to the
+  gun included). So the stream is a carrier on which a hole is a bit: written by one flipped cell anywhere along it,
   carried to the receiving end at one unit per 2 generations, swallowed there, the whole object restored. Compare
   the transmission of the first push (row L2): there each shot cost one cube of wire at the receiver.
 - **What this is not.** The gun writes only the constant stream; what writes holes is in section 21b. The receiving
@@ -853,7 +858,7 @@ returned a gun in one second at the first plane position where one fits.
   generations: every second rake that passes the oscillator has become a hole. (G) Without the oscillator the
   object is the line, period 4. (H) Nothing leaves the hull.
 - **[proved; base facts on the oracle: `python3 prove_divider.py`, 5 s] Period exactly 8 from generation 2N − 3
-  for every N ≥ 8.** N = 8..13 directly (`python3 verify_divider.py objects/divider-C8.json 8 9 10 11 12 13`); for
+  for every N ≥ 8** (and from N = 3 by direct runs, `python3 research/audit/signals4/scan_N.py divider 1 60`). N = 8..13 directly (`python3 verify_divider.py objects/divider-C8.json 8 9 10 11 12 13`); for
   N ≥ 14 by the induction of the line (section 21) with 8 for 4: the oscillator and the gun are carried in the right
   chart τX_N(t), the left chart is X_N(t − 2), and the window lies in the stretch of wire between capA and the
   oscillator, where the train moves rigidly. The script checks S(14, 3) (P1: period exactly 8 from 2N − 3; P2 for
@@ -861,22 +866,27 @@ returned a gun in one second at the first plane position where one fits.
   the oracle's own for N = 15..20. The period is not 4 because the oscillator's cells have period exactly 8.
 - **What it is.** A bounded standing object that puts a periodic non-constant word on a wire, one mirror rake per
   8 generations with a hole between (the train `5f9f` of section 20), and is exactly as it was after each period;
-  the far cap swallows the word and is restored. The action is one-way: the oscillator changes the wire and
-  nothing on the wire changes the oscillator (check C). It is the positive answer to the two searches of section
+  the far cap swallows the word and is restored. The action is one-way in the undisturbed orbit: the oscillator changes the
+  wire and nothing on the wire changes the oscillator (check C); holes arriving in the stream pass and the object is
+  restored, but one cell removed from the rake at the stroke site one generation before the stroke destroys
+  oscillator and gun (`python3 research/audit/signals4/hole_oracle.py`, oracle). It is the positive answer to the two searches of section
   23 that came back empty, the gun for `5f9f` and the divider inside the tube: the object that does it stands
   outside the 5 × 5 tube, where neither search looked. For the lead's S16 ("pulses on an otherwise undisturbed
   wire"): between two rakes the wire holds the letter `9f`, which is what a mirror rake always leaves behind it
   (`sat_gun.py --trains`), not bare wire.
 - **[measured, sg.step_set] Place and phase.** The oscillator can stand anywhere along the wire. With the wire bare
   at the start and the oscillator moved j units from the stored place (N = 12, 13, 16, 17, every j with the
-  oscillator between unit 3 and the gun, all 8 phases; 47 s): at its four odd phases nothing happens to the stream
+  oscillator between unit 3 and the gun, all 8 phases; 47 s; no command recorded; a re-run:
+  `python3 research/audit/signals4/c824b_bare.py 16`): at its four odd phases nothing happens to the stream
   (period 8 from generation 2N: the line with an oscillator beside it); among the four even phases exactly one
-  gives the divider, phase ≡ 2(j − N) + 4 mod 8, fixed by the distance to the gun; at the other three the gun does
+  gives the divider, phase ≡ 2j mod 8 with j the shift from the stored place (the formula 2(j − N) + 4 holds if j
+  is the oscillator's highest unit), fixed by the distance to the gun (at shift +2, where the oscillator reaches the
+  gun's unit, two phases work); at the other three the gun does
   not survive the start (not analysed).
 - **[measured, sg.step_set] The stroke is one cell.** `python3 gunlab.py stroke` (1 s; N = 16): compare the object's
   next state with (its wire part stepped alone) + (the free oscillator stepped alone). They differ in one cell,
   once every 8 generations: (−5, 4, 10) in the gun's frame (unit N − 3, x + y + z = 9) is born, with three live
-  neighbours in the oscillator and one in the wire, the cell (1, 2, 2) of that unit at an odd generation. Everything
+  neighbours in the oscillator and one in the wire, the cell (1, 2, 2) of that unit, born in the step from generation 8k + 7 to 8k + 8. Everything
   that follows is the wire's own dynamics with that one extra cell: one generation later the wire cell is gone and
   the rake that was passing goes on as a hole. The period of the stroke is twice the period of the stream, hence
   every second rake.
@@ -885,7 +895,9 @@ returned a gun in one second at the first plane position where one fits.
   its cycle: 14,850 runs of five periods. 10,383 untouched; in 4,208 the oscillator is lost; 259 kept, of which in
   223 the gun is dead in the final cycle, in 34 the stream is the plain one downstream, and in **2** it is
   modulated: C8.24a (this object) and C8.24b (also period 8, 24 cells; the same train `5f9f`; in the scan over
-  places and phases it gives the divider only when it stands next to the gun; not put to the oracle). With a
+  places and phases from bare wire it gives the divider only when it stands next to the gun; put beside the running
+  line it is a divider at units N − 6, N − 5 for N = 10..30, on a stepper checked against the oracle and on the
+  oracle cell for cell at N = 12, 13: `python3 research/audit/signals4/c824b.py --oracle`). With a
   random phase as well (`python3 clockstream.py --K 400 --seed 2 --anyphase --minutes 22`, 22 min, which reached
   88 of the 99, and `... --first 88` for the other eleven, 3 min): 39,600 runs, 27,775 untouched, 11,172 lost, 653
   kept (gun dead 542, stream plain 107, stream stopped at the oscillator with the gun alive 2), and the stream
@@ -902,7 +914,7 @@ k = (T + 2) mod 4 here (KS = 6).
 
 - **[proved, computer-assisted: UNSAT by CaDiCaL 1.5.3, and by Glucose 4 for T ≤ 20] No right end of wire C of period
   2 in the 3 × 3 tube, of any length and shape, turns a lone rake with class 2 within T = 36 generations.** `python3
-  sat_two.py T --open` for T = 8, 12, 16, 20, 24, 28, 32, 36: UNSAT in 0, 1, 6, 19, 43, 71, 221, 755 s (`--solver glucose4`:
+  sat_two.py T --open` for T = 4 (0 s), 8, 12, 16, 20, 24, 28, 32, 36: UNSAT in 0, 1, 6, 19, 43, 71, 221, 755 s (`--solver glucose4`:
   T = 8..20 in 0 to 4 s). "Within T": the rake is at unit u at generation 0, every unit up to u is bare wire in the
   end's own state, and the mirror rake `5f` is at units u − 1, u at generation T. Also for ends of period 4 (`--zp 4`: T = 8..20; 0, 3, 9, 47 s) and period 6 (`--zp 6`: T = 8, 12, 16;
   1, 16, 52 s). *What the instance is.* The end Z is free on units 6..U, U = T/2 + 6, and nothing is assumed beyond
@@ -911,7 +923,7 @@ k = (T + 2) mod 4 here (KS = 6).
   has not arrived. *Why UNSAT covers every end.* Let Z* be any state of period 2 of the infinite tube that is bare
   wire C on units < 6, and X* its orbit with the rake. Restricted to units ≤ U they satisfy every clause: the rule
   at units ≤ U − 1 reads only units ≤ U; X* = Z* outside the light cone; the remaining clauses are the turn itself.
-  So if a turn of class 2 at T existed the instance would be SAT. *Why the far end cannot fake a turn.* Whatever
+  So if a turn of class 2 at T existed the instance would be SAT. (Every U gives a valid relaxation, so the following is not needed for the UNSAT direction.) *Why the far end cannot fake a turn.* Whatever
   unit U does after generation U − 5 needs U − 5 more generations to reach unit 5 and so arrives after T. *What a
   model would not prove.* The far end of a model need not continue; SAT here is not a construction (class 0 is SAT
   at T = 6, 10). Controls: with clock-C's capR fixed as the end, SAT at T = 6 exactly and UNSAT at T = 8..14; with
@@ -928,7 +940,7 @@ k = (T + 2) mod 4 here (KS = 6).
   T = 16 (light cone to unit 14) the instance is UNSAT with the far end cut at unit 11, 12 or 13 and SAT with it at
   unit 10; at T = 8 (unit 10) UNSAT at 8, 9 and SAT at 7; at T = 12 (unit 12) UNSAT at 9 and SAT at 8.
 - **[found by SAT; proved by the oracle run] Turners with wire on both sides exist** (`python3 sat_two.py 6 --w 3
-  --all`, 30 s: an object free on 3 units, wire C on both sides, the turn only). The list is complete at 20 objects
+  --all`, 30 s: an object free on 3 units, wire C on both sides in the same phase, the turn only). The list is complete at 20 objects
   (re-stepped, `sg.step_set`): 5 turn the rake, swallow the p> train that follows and are restored; 4 are stretches
   of wire 8, where the rake becomes the head of a moving wall (section 16); 1 turns wire C into wire C′ behind the
   mirror rake; 8 burn (the wire is eaten on both sides); 2 are the splitter below. With 4 free units more than 188 (the list was
@@ -938,7 +950,7 @@ k = (T + 2) mod 4 here (KS = 6).
   The third push's shooting test (3,000 defects in 4 units, a cut list) had found no two-sided turner.
 - **[proved within the bounds; CaDiCaL] None of them leaks.** `python3 two_batch.py emit --T 6 10 14 --w 2 3 4 --dT
   2 4 6 8 12 --V b 7 d e 8` (about 12 min): an object free on w units between wire C and wire V (C, B, B′, C′, 8),
-  a lone rake turned at T, the object and the first unit of the far wire exactly restored at T + dT, and the far
+  the far wire V in the one phase relative to wire C that `wire_phases` gives, a lone rake turned at T, the object and the first unit of the far wire exactly restored at T + dT, and the far
   wire not bare anywhere beyond at that moment: UNSAT in all 225 instances (also w = 5, V = C, T = 6, dT = 2..8).
   In the complete list above every object that disturbs the far wire is itself destroyed. What this does not cover:
   an object that is restored only at other moments or never exactly (it swallows a p> every 4 generations), wider
@@ -958,14 +970,17 @@ k = (T + 2) mod 4 here (KS = 6).
 
 ## 23. Looked for and not found, with bounds
 
-- **[proved within the bounds] No gun for a sparser train in the 3 × 3 tube, small planes.** `python3 sat_gun.py 5fbb
+- **[proved within the bounds] No gun for the train 5f9f in the 3 × 3 tube, small planes.** `python3 sat_gun.py 5fbb
   C` (the train `5f9f`: a mirror rake every 8 generations, period dividing 8): UNSAT at C = 29 (4 s), C = 31
-  (131 s) and C = 33 (29 min).
+  (131 s) and C = 33 (29 min). Positive control: `python3 sat_gun.py 5f5f 31` (the dense train with a repeat of
+  4 units, T = 8) is SAT and returns the gun.
 - **[proved within the bounds] No divider.** `python3 sat_div.py 5fbb 5f W` (a standing object on W units inside the
   stream, wire on both sides, no planes: the gun's train in on the right, the train `5f9f` out on the left, all four
-  relative phases, period 8): UNSAT for W = 1, 2, 3 (under 3 s each) and for W = 4 (287, 334, 312, 378 s for the
+  relative positions, the wire in the same phase on both sides, period 8): UNSAT for W = 1, 2, 3 (under 3 s each) and for W = 4 (287, 334, 312, 378 s for the
   four phases); the control `sat_div.py 5f 5f W` returns the train itself. In the 5 × 5 tube (`--lo -1 --hi 7`):
-  UNSAT for W = 1 (under 1 s each) and W = 2 (184, 99, 117, 88 s). W = 5 and 5 × 5 with W = 3: not run. These are
+  UNSAT for W = 1 (under 1 s each) and W = 2 (184, 99, 117, 88 s). W = 5 and 5 × 5 with W = 3: not run. With the
+  wire one generation out of step on the two sides (`python3 research/audit/signals4/sat_div_parity.py 5fbb 5f W`):
+  UNSAT at all four shifts for W = 1..4 in the 3 × 3 tube (W = 4: 309, 324, 277, 283 s) and W = 1 in the 5 × 5 tube. These are
   negatives for objects *inside* the tube on W units; the divider of section 21b stands beside the wire, outside
   the 5 × 5 tube, on three units.
 - **[not finished] A pulse gun in the 5 × 5 tube.** `python3 sat_gun.py 7b 29 --lo -1 --hi 7` (a writer of the word
@@ -1054,7 +1069,8 @@ k = (T + 2) mod 4 here (KS = 6).
    (none in the catalogue), 24 and 32 near the place where C8.24a works; a second stroke on the sparse train (an oscillator of period 16, or two oscillators) for one
    rake per 16 generations; the gun for `5f9f` itself in wider planes or the 5 × 5 tube (`sat_gun.py 5fbb C`: UNSAT
    at C = 29, 31, 33 in the 3 × 3 tube). Which rakes survive is set by the oscillator's phase alone (four
-   generations later the same gun faces the complementary word), and the wire cannot change that phase.
+   generations later the same gun faces the complementary word), and in the undisturbed orbit the wire cannot change that phase (a cell removed at the stroke site destroys the
+   oscillator: section 21b).
 1b. **A switch.** An oscillator at an odd phase does nothing to the stream and at the right even phase halves
    it. Anything that shifts a catalogue oscillator by one generation or one cell would switch the divider on and
    off: that is a gate on a stream. Nothing of the kind was tried.
