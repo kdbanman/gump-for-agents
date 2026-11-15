@@ -159,6 +159,14 @@ job to keep it honest. What exists (2026-11-13):
   happen until they are back (no message to the 1080 session, since each one raises a prompt for them; the queue
   file is the channel).
 
+- **The owner, about 07:10 UTC 2026-11-15, back at their machine:** "did you and the 1080 agent work out a
+  communication/collaboration model?" and "also, do you think there's any goal worth having a relentless fable
+  subagent push on for a while?" The lead's answer: yes to both. The model with the 1080 session is the one in the
+  paragraphs above (the queue file one way, its branch and milestone messages the other, a review before every
+  record). The goal chosen for a sustained Fable agent is open problem 13, whether anything in gump can carry a
+  signal (`research/signals/`; forecasts S1–S5 committed first); started 07:16 UTC, to be restarted with a successor
+  each time it hands back, while usage allows.
+
 ## The swarm
 
 - 2026-11-13, the owner, on a swarm of Fable solvers with a critic (the lead proposed the area law as its problem):

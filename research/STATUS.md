@@ -99,6 +99,10 @@ _Last updated 2026-11-14 by the lead._
   DY12 to A, scoring note; the lead's N2 held). It is running 81, 84, 108, 111 (about 5 h), then the hull face.
   Usage read by it at 06:15 UTC: weekly 0.40, Fable 0.44. **Review of the five tori and the bias claim started
   06:19 UTC (Opus)** -> `research/audit/REVIEW-gpu-local-tori.md`.
+  **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
+  owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
+  PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
+  record, and start a successor from its README if work remains and usage allows.
   **Round 4 of the dying-face study is running** (experimenter started 05:50 UTC; also applies the seven round-3
   README corrections). **Overview published 05:52 UTC (version 11)** with the plate "How a face dies, watched".
   Owed on each message from it: the lead's recomputation, an adversarial review with independent code, then the
