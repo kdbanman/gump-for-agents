@@ -103,8 +103,12 @@ _Last updated 2026-11-14 by the lead._
   draft 2 with the same results (4008b80, e88f889, bb22eda; its number check: 263 of 270 numbers in the cited row
   or entry, 7 from the earlier draft, none unsourced); the six disagreements it traced are applied (notebook entry
   "corrections found while the manuscript draft was brought up to date"; CLAIMS TH7, CN2; ledger 126 rows).
-  **Started 02:04 UTC (Opus):** an audit that re-runs the cheap C-graded ledger rows ->
-  `research/AUDIT-2026-11-15.md` (the lead applies grade changes); a naturalist identifying the 37 long-period
+  **The audit of the C-graded ledger rows is done and applied (03:57 UTC, 13f8732):** 28 rows re-run, 26 matched;
+  ledger now A 56, B 66, C 10, D 1; P4 restated (ξ = 0.65 ± 0.03 cube), a sentence of ZL2 corrected; notebook
+  entry "the audit of the rows nobody had re-run"; the lead's own checks: `research/audit/p4_lead_check.py` and
+  Z10's basin count. Owed: the manuscript draft still marks as preliminary some rows that are now B (an editor is
+  on it), and the overview's counts. Earlier, **started 02:04 UTC (Opus):** that audit ->
+  `research/AUDIT-2026-11-15.md`; a naturalist identifying the 37 long-period
   settled states of `research/audit/shape3/zombie_states.txt` against the catalogue -> `research/clockwork/`. **The owner reset the Fable
   window at about 20:28 UTC** (0.00 at 20:29; words in `LEAD.md`, "Watching usage"). **Started 20:33 UTC:**
   (1) Fable, **done 21:36 UTC**: second-reader audit of the counting line, `research/theory/swarm/audit/AUDIT-counting.md`:
@@ -224,7 +228,7 @@ _Last updated 2026-11-14 by the lead._
   face) for side 16, which are different quantities. The audit's corrected wordings are in `path/claims.md` (a0508c8; one number
   in P's illustration stays in the journal as written, corrected in the audit). Owed: the same audit for counting and the theory push on the
   constant (Fable, after the owner's reset; Fable was 0.90 at 15:22). (b) the overview page is current to the entry "the shortest way round": refreshed
-  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); pull request 17 (census, audits, draft, prior art, the constant) was merged at 22:18 UTC (merge commit 47af1a6); pull request 19 (the constant, the second variable, lives that settle unrecognised) was merged at 00:59 UTC 2026-11-15 (merge commit 0e3b642); pull requests 18 and 20 were the GPU session's (empty patches; bounds on unrecognised settled replicas), both merged. Later work on the branch goes to pull request 21 (opened 01:00 UTC). **After the owner's Fable reset** (about 9am their time,
+  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); pull request 17 (census, audits, draft, prior art, the constant) was merged at 22:18 UTC (merge commit 47af1a6); pull request 19 (the constant, the second variable, lives that settle unrecognised) was merged at 00:59 UTC 2026-11-15 (merge commit 0e3b642); pull requests 18 and 20 were the GPU session's (empty patches; bounds on unrecognised settled replicas), both merged. Pull request 21 (the symmetric collapse corrected, the new clocks, the audit of unchecked rows, the GTX 1080 queue) was merged at 04:00 UTC 2026-11-15 (merge commit 0d47928); later work on the branch goes to a new pull request. **After the owner's Fable reset** (about 9am their time,
   probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
   counting and path, and a new theory push on the sharpened problem (the 0.2 per cell from six layers over noise).
 - **Swarm: closed 2026-11-14** (`research/theory/swarm/critic/board.md`, closing table at the top; notebook entry
