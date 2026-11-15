@@ -17,9 +17,12 @@ PS = [0.9, 0.75, 0.6, 0.45, 0.3, 0.15]
 SIZES = [('v11c', 63, 31.29, ['r4_v11c_s4411']), ('v13c', 84, 42.49, ['r4_v13c_s4413']), ('v15c', 108, 55.14, ['r4_v15c_s4415', 'r4_v15c_s4416'])]
 if os.environ.get('R4TEST'):          # code test on validate4's short runs
     SIZES = [(v, A, pb, [f'vl_ex4_{v}']) for v, A, pb, _ in SIZES]
+if os.environ.get('R4ONLY'):           # e.g. R4ONLY=v13c: one size only (the csv files are then written with a suffix)
+    SIZES = [x for x in SIZES if x[0] in os.environ['R4ONLY'].split(',')]
 NB = 200
 rng = np.random.default_rng(4400)
-OUT = open(os.path.join(SCR, 'round4_out.txt'), 'w')
+SUF = ('_' + os.environ['R4ONLY'].replace(',', '_')) if os.environ.get('R4ONLY') else ''
+OUT = open(os.path.join(SCR, f'round4_out{SUF}.txt'), 'w')
 
 
 def say(s=''):
@@ -303,5 +306,7 @@ def wcsv(name, rows):
 
 
 if not os.environ.get('R4TEST'):
-    wcsv('r4_company.csv', rows_c); wcsv('r4_tangent.csv', rows_t); wcsv('r4_stationary.csv', rows_st)
-    wcsv('r4_percell.csv', rows_cell); wcsv('r4_by_k.csv', rows_k)
+    if SUF:
+        D0 = DATA; DATA = SCR
+    wcsv(f'r4_company{SUF}.csv', rows_c); wcsv(f'r4_tangent{SUF}.csv', rows_t); wcsv(f'r4_stationary{SUF}.csv', rows_st)
+    wcsv(f'r4_percell{SUF}.csv', rows_cell); wcsv(f'r4_by_k{SUF}.csv', rows_k)
