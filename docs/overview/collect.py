@@ -107,7 +107,8 @@ corpus = norm((repo / "research" / "NOTEBOOK.md").read_text()) + " " + norm((rep
 def checked(item):
     q = norm(item["quote"])
     if "file" in item:   # a quote from another file of the repository (added 2026-11-15, third refresh: the essay)
-        assert q in norm((repo / item["file"]).read_text()), "quote not found in " + item["file"] + ": " + q[:80]
+        # (late morning refresh: block-quote markers at line starts are dropped, for the owner's journal)
+        assert q in norm(re.sub(r"\n> ?", "\n", (repo / item["file"]).read_text())), "quote not found in " + item["file"] + ": " + q[:80]
     else:
         assert q in corpus, "quote not found in NOTEBOOK.md or CLAIMS.md: " + q[:80]
     for w in item.get("words", []): assert w in q, (w, q)
@@ -342,5 +343,81 @@ for g, G in dj["groups"].items():
         assert not any(bits[(T - 1) * 63:]) and any(bits[(T - 2) * 63:(T - 1) * 63]), "a recorded life must end on its first empty frame"
 out["dying"]["films"] = {"T": T, "canon": dj["canon"], "groups": {g: {"tied": G["tied"], "lives": [{"f": L["frames"], "age": L["age"]} for L in G["lives"]]} for g, G in dj["groups"].items()}}
 
+
+# ---- the refresh of 2026-11-15 (late morning): update-2026-11-15d.json (signals SG1-SG10; state space SS1-SS3;
+#      dying faces rounds 3 and 4, DY8-DY15; the five wrapped faces on the owner's card, GL1, GL3) ----
+import math
+Q = S("update-2026-11-15d.json")
+for sec in ("signals", "statespace", "dying", "tori"):
+    for k, v in Q[sec].items(): checked(v)
+for c in Q["corrections"]: checked(c)
+for f in Q["forecasts"]: checked(f)
+for a in Q["audits"]: assert (repo / a["file"]).exists(), a["file"]
+out["forecasts"] += [{"line": f["line"], "result": f["result"]} for f in Q["forecasts"]]
+out["project"]["audits"] += [[a["label"], a["line"]] for a in Q["audits"]]
+out["corrections"] += [{"said": c["said"], "now": c["now"], "by": c["by"], "who": who(c["by"]), "line": c["line"]} for c in Q["corrections"]]
+tl["milestones"] += [{"date": x["date"], "text": x["text"]} for x in Q["milestones"]]
+qv = lambda sec, k: Q[sec][k].get("value")
+# signals: the three objects drawn live, copied from research/signals/objects (check-signals.js checks them on the page's stepper)
+so = lambda n: json.loads((repo / "research" / "signals" / "objects" / (n + ".json")).read_text())
+pc, ck, gt = so("pulse-C"), so("clock-C"), so("gate-C")
+assert pc["bg"] == ck["unit"] == gt["bg"] and pc["p"] == 2 and pc["s"] == 1 and ck["period"] == "4N + 2"
+assert [c["expect"] for c in gt["cases"]] == ["left", "left", "right", "right"] and [c["sep"] % 2 for c in gt["cases"]] == [0, 0, 1, 1]
+out["signals"] = {
+    "objects": {"pulseC": {k: pc[k] for k in ("v", "bg", "defect")}, "clock": {k: ck[k] for k in ("capL", "unit", "capR", "ignite")},
+                "gate": {k: gt[k] for k in ("v", "bg", "right", "left", "T")}},
+    "lead_periods": qv("signals", "clock_lead"), "study_N": qv("signals", "clock_study"), "gate_T": qv("signals", "gate_lead")[0],
+    "soup": qv("signals", "soup"), "chaos": qv("signals", "chaos"), "isolate": qv("signals", "isolate"), "escape": qv("signals", "escape"),
+    "transmission": qv("signals", "transmission")[0]}
+assert out["signals"]["lead_periods"] == [4 * n + 2 for n in (1, 2, 3, 4, 7, 12)]
+# state space: quoted numbers, and the study's own tables (research/statespace/data)
+sd = repo / "research" / "statespace" / "data"
+ves = [json.loads(l) for l in (sd / "vessels.jsonl").read_text().splitlines() if l.strip()]
+assert len(ves) == qv("statespace", "listed")[0] and max(r["N"] for r in ves) == qv("statespace", "listed")[1]
+v27 = [r for r in ves if r["N"] >= 27]; sm = qv("statespace", "small")
+assert len(v27) == sm[0] and [min(r["max_visited"] for r in v27), max(r["max_visited"] for r in v27)] == sm[5:7] and [round(min(r["mean_visited"] for r in v27), 1), round(max(r["mean_visited"] for r in v27), 1)] == sm[3:5]
+fl_ = [r for r in csv.DictReader(open(sd / "large_facelaw.csv")) if r["measured"] == "True"]
+lc_ = list(csv.DictReader(open(sd / "large_cubes.csv")))
+ent = json.loads((sd / "entropy.json").read_text())
+s16 = [r for r in lc_ if r["side"] == "16"][0]
+assert int(s16["visited"]) == qv("statespace", "side16")[0] and int(s16["hull_cells"]) == qv("statespace", "side16")[2] and round(float(s16["log2_visited"]), 2) == qv("statespace", "side16")[1]
+assert all(qv("statespace", "law_range")[0] <= round(float(r["bits_per_face_cell"]), 3) <= qv("statespace", "law_range")[1] for r in fl_)   # measured rows 0.296-0.300; the 0.301 is an extrapolated row
+assert ent["top_layer"] == qv("statespace", "entropy")[0] and abs(ent["slab_hi"] - qv("statespace", "entropy")[1]) < 0.002   # the study 0.958, the review 0.9585
+out["statespace"] = {k: Q["statespace"][k].get("value") for k in Q["statespace"] if "value" in Q["statespace"][k]}
+out["statespace"]["vessels"] = [[r["N"], r["family"], round(math.log2(r["max_visited"]), 3), round(math.log2(r["mean_visited"]), 3), round(math.log2(r["image_t"][1]), 3)] for r in ves]
+out["statespace"]["facelaw"] = [[int(r["A"]), float(r["log2_visited"])] for r in fl_]
+out["statespace"]["cube_rows"] = [[int(r["side"]), int(r["face_cells_A"]), float(r["bits_per_A_over_7p7"]), int(r["visited"])] for r in lc_]
+out["statespace"]["slab_lo"] = ent["slab_lo"]
+# dying faces, rounds 3 and 4: quoted numbers, and the company table (research/dying/data/r4_company.csv, the study's) with the
+# review's finite-face null (research/audit/dying4/null_r1{1,3,5}.txt, read as research/dying/round4_figure.py reads it)
+out["dying"]["r34"] = {k: Q["dying"][k].get("value") for k in Q["dying"] if "value" in Q["dying"][k]}
+r4 = [r for r in csv.DictReader(open(dd / "r4_company.csv")) if int(r["n_faces"]) >= 200 and r["kind"] in ("caught", "control")]
+comp = {}
+for r in r4: comp.setdefault(r["A"] + r["kind"], []).append([float(r["p"]), float(r["C"]), float(r["C_se"])])
+for v in comp.values(): v.sort()
+assert all(abs(a[1] - b) < 6e-4 for a, b in zip(sorted(comp["108caught"], reverse=True), qv("dying", "company108")))
+ratio = lambda A: [x[1] for x in comp[A + "caught"] if x[0] == 0.15][0] / [x[1] for x in comp[A + "caught"] if x[0] == 0.45][0]
+assert [round(ratio(A), 2) for A in ("63", "84", "108")] == qv("dying", "ratio")
+NULL = {}
+for A, fn in ((63, "null_r11.txt"), (84, "null_r13.txt"), (108, "null_r15.txt")):
+    cur = levels = None
+    for line in open(repo / "research" / "audit" / "dying4" / fn):
+        if line.startswith("#"): levels = [float(x) for x in re.findall(r"(0\.\d+):", line)]
+        mm = re.match(r"at level\s+p ([\d.]+)", line)
+        if mm: cur = float(mm.group(1)); continue
+        mm = re.match(r"\s+null p_t ([\d.]+): C ([\d.]+) V ([\d.]+)", line)
+        if mm:
+            if cur is None or (A, cur) in NULL and len(NULL[(A, cur)]) == 4: cur = [q for q in levels if (A, q) not in NULL][0]
+            NULL.setdefault((A, cur), []).append(float(mm.group(2)))
+assert all(len(v) == 4 for v in NULL.values())
+out["dying"]["company"] = {A: {"caught": comp[A + "caught"], "control": comp[A + "control"],
+                               "null": sorted([p, min(v), max(v)] for (AA, p), v in NULL.items() if str(AA) == A)} for A in ("63", "84", "108")}
+nr = lambda A: [min(NULL[(A, 0.15)][i] / NULL[(A, 0.45)][i] for i in range(4)), max(NULL[(A, 0.15)][i] / NULL[(A, 0.45)][i] for i in range(4))]
+assert [round(x, 2) for A in (63, 84, 108) for x in nr(A)] == qv("dying", "null")[:6]   # the review's 0.45-0.48, 0.58-0.61, 0.65-0.69
+# the five wrapped faces (GL1, GL3): A, ln tau, se
+t = Q["tori"]; v = t["t57_75"]["value"]
+out["tori"] = {"rows": [[48] + t["t48"]["value"], [57, v[1], v[2]], [63, v[4], v[5]], [75, v[7], v[8]], [93] + t["t93"]["value"][:2]],
+               "line": t["line"]["value"][:2], "deficit": [[48, t["line"]["value"][2]], [57, t["line"]["value"][4]]], "slope": t["slope"]["value"], "kink": t["kink"]["value"][0],
+               "chi": t["nosmooth"]["value"], "f63": t["f63"]["value"], "f93": t["f93"]["value"], "next": t["next"]["value"], "hull": t["hull"]["value"], "two": t["two"]["value"]}
 (here / "data" / "data.json").write_text(json.dumps(out, separators=(",", ":")))
 print("data.json", (here / "data" / "data.json").stat().st_size, "bytes;", ", ".join(out))

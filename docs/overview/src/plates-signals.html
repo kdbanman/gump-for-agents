@@ -1,0 +1,68 @@
+<!-- Added 2026-11-15 (late morning). NB "gump carries signals" and "a clock of every length, a gate, a register, a tape" (CLAIMS
+     SG1-SG10); NB "how much of its state space a seed explores" (SS1-SS3). Numbers from data/sources/update-2026-11-15d.json;
+     the live objects from research/signals/objects (pulse-C, clock-C, gate-C), laid out by signals-core.js and stepped by
+     gump-core.js (docs/overview/check-signals.js checks both against the oracle); the state-space tables from
+     research/statespace/data. Drawn by src/figures9.js. -->
+<section class="plate" id="signals">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">Signals <b>· new</b></p><span class="st st-meas">pulse, clock, gate: checked by the lead on the reference stepper</span><span class="st st-open">a clock of every length: proof under review</span><span class="st st-unchk">soup and chaos counts: one agent, under review</span></div>
+    <h2>Order can carry a message. A two-cell flaw runs along a thin wire at half the speed limit and leaves the wire as it was. Cap the wire and add one cell: a clock of any length you like.</h2>
+  </div>
+  <figure class="fig panel">
+    <div class="dy-head">
+      <h3>A pulse on wire C</h3>
+      <div class="dy-ctl"><button class="btn" type="button" id="b-sg-p">Pause</button><span class="mono" id="l-sg-p"></span></div>
+    </div>
+    <div id="f-sg-pulse" class="sg-strip"></div>
+    <div class="keys"><span class="key"><span class="sw" style="background:var(--ink-3);opacity:.6"></span>the wire: five cells per unit, blinking with period 2</span><span class="key"><span class="sw" style="background:var(--ember)"></span>a cell the bare wire does not have</span><span class="key"><span class="sw" style="background:transparent;border:1.5px solid var(--ember)"></span>a cell the bare wire has, missing here</span></div>
+    <figcaption>A ring of <span class="n-sg-ring"></span> units, stepped live by this page. Two flipped cells (orange) move one unit every two generations and the wire behind them is exactly as it was. Shown every second generation, when the wire is back in the same phase. No pulse was in anything soup had given us; a constraint search found them in under a second.</figcaption>
+  </figure>
+  <figure class="fig panel">
+    <div class="dy-head">
+      <h3>A gate: two pulses meet</h3>
+      <div class="dy-ctl" role="group" aria-label="Separation"><button class="btn" type="button" id="b-sg-even" aria-pressed="true">10 apart</button><button class="btn" type="button" id="b-sg-odd" aria-pressed="false">11 apart</button></div>
+    </div>
+    <div id="f-sg-gate" class="sg-strip"></div>
+    <div class="sg-read mono" id="l-sg-gate" aria-live="polite"></div>
+    <figcaption>Exactly one survives, on time and unchanged, and the wire is as it was. An even distance apart, the left-mover survives; odd, the right-mover. So one line can block the other. The survivor leaves on the line it came in on: there is no third line, no corner, no crossing.</figcaption>
+  </figure>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <div class="dy-head">
+        <h3>A clock made to order</h3>
+        <div class="dy-ctl"><label for="r-sg-n">units of wire</label><input type="range" id="r-sg-n" min="1" max="12" value="5"><span class="mono" id="l-sg-n"></span></div>
+      </div>
+      <div id="f-sg-clock"></div>
+      <div class="sg-read mono" id="l-sg-clock" aria-live="polite"></div>
+      <figcaption>Wire C between two caps is a quiet object of 32 + 5N cells. Add one cell (orange, a “rake”): it runs to one cap laying pulses behind it, turns, runs back, turns again, for ever. This page finds the period by comparing whole states: always <b>4N + 2</b>. Periods 6, 10, 14, … : every period that leaves 2 when divided by 4. None that divides by 4 was found, and nobody knows why.</figcaption>
+    </figure>
+    <div class="fig c5 panel">
+      <h3>What was checked, and how</h3>
+      <ul class="plain" id="l-sg-checked"></ul>
+    </div>
+  </div>
+  <div class="nums" id="n-sg"></div>
+</section>
+
+<section class="plate" id="statespace">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">How much of the room a seed sees <b>· new</b></p><span class="st st-proved">states seen = lifetime: proved</span><span class="st st-proved">small rooms: every state listed</span><span class="st st-meas">a living face’s bits per cell: reviewed</span><span class="st st-once">your side-16 cube: one run</span></div>
+    <h2>A seed sees as many states as it lives generations: about 2<sup>0.30·A</sup> for a face of A cells, against one bit per cell of the room. The count grows exponentially, and the share it sees shrinks exponentially.</h2>
+  </div>
+  <blockquote class="ask"><p>“…how much of the possible state space a Gump seed explores. … For the longest lived family of seed states (which I think are the random seeds), how many of the possible states are hit? And is there any consistency or pattern that extrapolates as size goes up?”</p><cite>your journal, 15 November</cite></blockquote>
+  <div class="figs">
+    <figure class="fig c6 panel">
+      <h3>Small rooms: every one of the 2<sup>N</sup> states listed</h3>
+      <div id="f-ss-small"></div>
+      <div class="keys" id="k-ss-small"></div>
+      <figcaption>Each dot is one closed vessel of N cells (301 of them); every state was stepped. Most states cannot be reached from any other. A seed sees a handful: nothing in rooms this small is chaotic yet.</figcaption>
+    </figure>
+    <figure class="fig c6 panel">
+      <h3>Large faces: bits of state per cell</h3>
+      <div id="f-ss-big"></div>
+      <div class="keys" id="k-ss-big"></div>
+      <figcaption>Read a line as “2 to the power (this × A) states”. A seed’s count rises by 0.30 bits per face cell, against one bit per cell available. The green band is how close a living face is to coin flips: one layer seen alone at the top, the whole slab at the bottom. Your 2012 cubes, which are symmetric, sit below the line and rise towards it.</figcaption>
+    </figure>
+  </div>
+  <div class="nums" id="n-ss"></div>
+</section>
