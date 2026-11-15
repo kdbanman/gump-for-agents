@@ -117,4 +117,12 @@ What speaks to it (the lead, same day):
   objects coming down, and the end is left exactly as it was, ready for the next. So a wire in gump now carries
   messages both ways at once. The one thing at the far end, the gun, is destroyed when the answer arrives; a
   sixth push is asking what an answer and a gap do when they meet, and whether a gun can survive being answered.
+  *And since (23:08 UTC; notebook "the sixth signals push" and "… reviewed"):* they do not pass. The stream turns
+  out to carry nine kinds of travelling flaw, three going up and six going down, and one flipped cell is enough
+  to start an answer. When an answer meets a gap head-on, the stretch of wire between them turns into a different
+  kind of wire, and that change spreads both ways and never stops. One pair of flaws cancels exactly and leaves
+  the stream whole. No gun, of every one we can list or search for, survives being answered. So a wire in gump
+  carries messages both ways, and for now two-way traffic is a head-on collision. The nearest thing to a memory
+  yet: an answer running into several gaps leaves a standing mark one unit longer for each gap, a count, but it
+  is written in a wire that is being destroyed around it.
 

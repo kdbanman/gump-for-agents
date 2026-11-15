@@ -159,7 +159,19 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     simpler reflector (no bare end of the 741 echoes anything); **(o)** the "wall" outcomes, in which a gap at
     the end converts the stream into a different uniform wire behind a moving front: what wire, and is the front
     a signal; **(p)** a listener is still not known: the bounds are the 3 × 3 tube, periods 4 and 8, one-unit
-    events, and samples beside the stream. A sixth push on (l)–(n) is running.
+    events, and samples beside the stream.
+    **Sixth push, reviewed 2026-11-15** (notebook "the sixth signals push" and "… reviewed"; CLAIMS SG28–SG32):
+    (l) is answered: the stream carries at least nine rigid signals (three up, six down); opposite-moving ones
+    never pass: U and K0 cancel exactly, E or U against a hole turns the stream into wire B for ever, E against
+    K0 punches every rake. (m): no gun survives an echo within bounds, whatever it may send back; eleven guns
+    absorb U. (n): the reflector couples through one cell and works once; no bare end in the tube answers. New
+    questions: **(q)** the full meeting table of the nine signals (N1 to N4 are untested), and whether the list
+    of signals is complete; **(r)** a count that lasts: an echo against a word of holes writes one unit of wire
+    B′ per hole, but only inside a stream that is being converted; is there an end for the spreading edges of
+    wire B (something that stops the conversion and stands), which would make that count a record; **(s)** a
+    safe up-channel: U is absorbed by eleven guns and cancels K0 exactly, so an end that answers with U instead
+    of E would give a wire that survives being answered (none inside the tube for a hole at C ≤ 35; beside the
+    tube untried); **(t)** period 8 and the 5 × 5 tube at both ends, where every negative here stops.
 14. The 94 clockwork objects (`research/clockwork/objects/`) are not merged into the atlas catalogue.
 
 ## Neighbouring rules

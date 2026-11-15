@@ -3585,3 +3585,45 @@ the signals and meetings.
   test). It was not started: at 21:50 UTC the session's rate-limit status read "allowed_warning" on the Fable
   window, and the lead's rule is to start no agent on anything but "allowed". CLAIMS rows, the open problems, the
   owner's journal, the essay and the site wait for that review.
+
+## 2026-11-15: the sixth signals push reviewed: nine signals, not four; the meetings and the endless fronts are proved; no gun survives an echo even if it may answer with anything; and the hole in the fifth review is closed with nothing in it
+
+Review with independent code: `research/audit/REVIEW-signals-6.md`, code `research/audit/signals6/` (commits
+5ebbb60 … e6fec90); its steppers agree with the oracle on the whole state over 1,050 generations
+(`check6.py`). It applied its corrections to README sections 30–35 itself, each marked *Review*.
+
+- **[closed] The events the fifth review did not follow.** 16 of the 338 events that review classed as breaking
+  the bare train become a single up-signal (14 make E, 2 make U); the other 322 do break it. Sent to all 741
+  ends: 10,374 + 1,482 rows, **every one equal to the undisturbed end, none dead, none alive and different.** So
+  "no end is left alive and changed" now stands for all 426 one-unit events. (At generation 42 the only
+  difference is the departing signal, six or more units from the end and moving away; three ends × two events
+  also on the oracle.)
+- **[proved, two codes, oracle] Nine rigid signals, not four.** The push's count over every one-cell flip inside
+  the tube reproduces exactly (24 vanish, 66 break, 22 become E, U, H or K0), and its "for ever" argument is
+  sound. Wider events give five more, each proved rigid by the same two-generation identity and run on the
+  oracle: K3 (two cells, down), N1 (three cells, **up**: a third up-mover), N2 and N3 (four cells, down), N4
+  (down, one cell outside the tube). Re-run by the lead: `cd research/audit/signals6 && python3 sig6.py` (30 s):
+  all nine pass both tests. The list is not known to be complete.
+- **[proved for ever, by script] Meetings.** Every offset from 1 to 41 gives the one orbit and the claimed
+  outcome: U and K0 cancel; E or U against H makes wire B between two edges; E against K0 makes the puncher. The
+  gluing step the push did by hand is now `glue6.py`, so the fronts spread for ever. New: E against K3 also
+  makes the puncher; U against K3 leaves one H. **Refuted:** "two holes two rakes apart leave clean wire B":
+  a pulse of one to three cells rides down inside it beside the lower edge (the push's script looked at 8 units
+  round the middle). The standing stretch of B′ is proved standing for ever for spacings 3 to 14, one unit
+  longer per further hole (to six holes, and mixed spacings).
+- **[SAT, two encodings; measured, two codes] The gun end.** The 68 guns are 67 distinct. E kills all, the new
+  up-signal N1 kills all, U is absorbed by the same 11. The reviewer's encoding lets the gun answer with anything
+  at all sent down the stream, which the push's did not: UNSAT for E at C = 31 … 37, for N1 at C = 31 … 37, for
+  U with any answer at C = 35, 37 (E at C = 39 was cut; that row is the push's alone).
+- **[oracle; SAT, two encodings] The reflector.** The one-cell coupling holds on the oracle. With two holes at
+  any spacing from 1 to 20 a single E never comes back. With any answer up the stream allowed: no end inside the
+  tube answers H at C = 31, 33, 35 or K0 at C = 31.
+- **Where six pushes leave it.** A wire in gump can be written on (the gun), edited (the divider), and carries
+  nine kinds of signal, six down and three up. Signals going opposite ways do not pass: one pair cancels, the
+  others turn the stream into another wire or punch it, and the change does not stop. The one thing that keeps a
+  count (the stretch of B′, one unit per hole) exists only where the stream is being destroyed. Nothing found is
+  left in a different lasting state by a signal and survives: no listener, no loop, within the 3 × 3 tube,
+  periods dividing 4, the stated planes and times.
+- Not checked (23:08 UTC): period 8 and the 5 × 5 tube at either end; settling slower than the stated T;
+  three-cell events; the meetings of N1 to N4; the divider's stream; the oscillator samples beside the gun; no
+  UNSAT has a certificate.

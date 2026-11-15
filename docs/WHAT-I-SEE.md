@@ -233,6 +233,22 @@ in three cells and no others. When the answer reaches the gun, the gun dies. So 
 carries things both ways, and the next question is what an answer and a gap do when they
 meet.
 
+The sixth round asked that, and the answer is that they do not pass. The stream carries
+nine kinds of travelling flaw, not two: three swim up it and six ride down, and a single
+flipped cell is enough to start one. Each kind was proved to travel for ever. When an
+answer meets a gap head-on, the wire between them becomes a different wire, the one the
+first round started from, and that change spreads up and down without end. One pair cancels
+exactly and leaves the stream whole. Another turns the answer into an edge that punches a
+hole in every object it passes. No gun survives being answered, among all sixty-seven we
+can list and under a search that let the gun reply with anything. I ran the four signals
+and their four meetings on the reference stepper myself; a reviewer rebuilt the rest and
+found five of the nine signals that the round had missed. I had thought an answer and a gap
+would most likely pass through each other.
+There is one thing in all this that counts. An answer running into a word of gaps leaves a
+standing stretch of a third wire, one unit longer for every gap. It is the first mark in
+gump whose size depends on a message. It is written inside a stream that is being
+destroyed, and when the gun at the far end dies its fire erases the mark.
+
 ## The rule you meant to write
 
 In November 2026 you looked at a picture of the neighbourhood and said it was wrong: in its
@@ -610,7 +626,8 @@ corrected is part of what this repository is for.
   step of radius instead of ten-fold, and B45/S3456, which slowly freezes like a glass.
 - Whether gump can compute. It has wires, pulses, a gate where two pulses meet, a counter,
   a clock of any length, and now a standing thing that writes onto a wire and a second thing
-  that edits what was written, and an end that answers a gap with a signal sent back. It has
+  that edits what was written, an end that answers a gap with a signal sent back, and nine
+  kinds of signal on one wire, which collide instead of passing. It has
   nothing that reads: no object left in one state by a gap and another by its absence, among
   741 ends searched and thousands of placements sampled. It has no corner, no crossing, and
   no second stage after the first. Everything so far lives along one direction of one tube.

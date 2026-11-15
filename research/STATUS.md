@@ -353,6 +353,11 @@ _Last updated 2026-11-14 by the lead._
   running** (Opus, about two hours; `research/audit/REVIEW-signals-6.md`, `research/audit/signals6/`; its first
   item re-examines the events the fifth review classed as breaking the train that in fact make an up-signal).
   Items (2) to (4) above follow its report. The lead keeps its own turns to that work and stops near 90% Fable.
+  **23:08 UTC: the sixth push is reviewed and recorded** (notebook "the sixth signals push reviewed"; CLAIMS
+  SG28–SG32; open problem 13 (q)–(t); the owner's journal; the essay). Nine rigid signals; the meetings and the
+  endless fronts proved; no gun survives an echo; the fifth review's unfollowed events leave every end equal;
+  no listener, no loop. `research/check.sh` 20 of 20 at 23:08. **Still owed:** the site's signals page (the nine
+  signals, the meeting table) and a republish; merge of pull request 27; the card's results.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
