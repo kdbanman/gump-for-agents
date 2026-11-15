@@ -152,6 +152,12 @@ Segments: ln τ = 6.7257(8), 7.9635(11), 9.1708(15), 10.3666(22), 11.5533(29), 1
 deaths: 21.02(27), slope from n = 45: 0.294(17). Rings: 8.6470(16), 10.0199(36), 11.3448(63), 12.6482(83),
 13.9233(139), 15.1644(204) at b = 16, 20, …, 36 (census: 8.6426(20), 10.0201(29), 11.3481(40)).
 
+The review's rings are 8.6449(12), 11.3494(19), 11.9941(20), 12.6465(25), 13.2865(28) and 13.9268(43) at
+b = 16, 24, 26, 28, 30 and 32 (`python3 research/audit/thin/tt.py stats 'r*'`). Their local slopes per cell are
+0.1075(5), 0.1087(5), 0.1067(6) and 0.1067(9) for A = 72 → 78 → 84 → 90 → 96.
+
+The review re-measured segments at n = 21, 29 and 37: 9.1719(16), 11.5564(18) and 13.9390(48).
+
 - The segment slope is the lowest and has been flat at 0.295–0.300 since n ≈ 25 (0.3095, 0.3018, 0.2990, 0.2967,
   0.2977, 0.2951, 0.2998 at n = 15, 19, 23, 27, 31, 35, 41; every n from 5 to 25 was run and the steps fall
   smoothly, with no effect of n modulo anything); the three others are above it and falling towards 0.30–0.31.
