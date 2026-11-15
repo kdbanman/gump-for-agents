@@ -144,7 +144,6 @@ def selftest():
     X = np.stack([D.state(from_arr(((rng.random(shape) < 0.4) & valid).astype(np.int8))) for _ in range(5)])
     Y = D.run(X, 10)
     ok &= all((Y[i] == D.run(X[i], 10)).all() for i in range(5))
-    # 4. a wrong rule would be noticed: B45/S34 differs from the oracle on random soup
     print('selftest', 'OK' if ok else 'FAILED')
     return ok
 
