@@ -2653,3 +2653,53 @@ written from `docs/AUTOMATON.md`, equal to the oracle every generation; seeds th
 - Not checked by the reviewer: one seed per size; 108 cells ran 1.5 M generations (no catch at 0.15, no deaths);
   the null is one patch shape (a ball); 84 cells had 82 deaths, so the dying-against-recovering comparison is tested
   properly only at 63.
+
+## 2026-11-15: how much of its state space a seed explores (the owner's question; exact for small vessels; review started)
+
+The owner's journal (`docs/OWNER-JOURNAL.md`): within a hull there are finitely many states; for the longest-lived
+seeds, how many are hit, and is there a pattern as size goes up? Study: `research/statespace/` (README is the
+account; forecasts before any enumeration in `PREDICTIONS.md`; figure `research/figures/statespace.png`).
+
+- **The states a seed visits are its settling time plus its final period [proved].** An orbit of a deterministic
+  map cannot repeat a state before it reaches its cycle. So the question is the lifetime question in other units.
+- **Every state listed, for 301 vessels of up to 30 cells [proved by enumeration; one row re-derived by the lead].**
+  Diagonal hulls (every one of 2–29 cells at most 6 layers wide, 262 of them, and six of 30 cells), slab tori of 1,
+  2 and 3 layers, 3D tori. `enum.c` builds the whole map on 2^N states; it is matched to the oracle on every vessel,
+  and agrees with another agent's older enumerator (`research/theory/exhaust.c`) on eight tori. **The lead's own
+  check:** all 65,536 states of the 16-cell hull `hull_-1_1_-5_-1_-5_3_-3_5`, each stepped once by
+  `reference/oracle.py` in empty space, give the same eight statistics as the study's row (60,751 states with no
+  predecessor, 39 cycles on 46 states, longest transient 9 from 8 seeds, mean transient 2.3142242431640625, 46,716
+  seeds draining to the empty state): `python3 research/audit/statespace_lead_check.py hull_-1_1_-5_-1_-5_3_-3_5`
+  (40 s).
+- **What the small vessels say [proved within N ≤ 30].** A typical seed visits 8–14 states at 27–30 cells and the
+  most patient seed of all 40–94 (a random map on 2^30 states would wander through about 41,000 before repeating).
+  Between 57% and 98% of all states have no predecessor, and the states that have one number 2^(0.95–0.98·N): a
+  constant fraction goes at the first step, not a rate per cell. The states on cycles number 2^(0.2–0.6·N), nine
+  tenths of them still or of period 2 (there is one period-70 pair in a 30-cell 2-layer slab). The longest
+  transient grows about linearly in N (61 in a 30-cell hull, 88 in the 2-layer slab). In no vessel of 19 or more
+  cells is a champion fixed by a symmetry of the vessel (first 64 champions each, lattice symmetries only). **At
+  these sizes nothing is chaotic yet:** the faces have 9–30 cells, under the 36 or so where lifetimes turn
+  exponential.
+- **The owner's cubes, counted [proved from the runs on file].** Side 16: 2,919,617,676 states (2^31.44) of the
+  2^51,888 of its hull. Sides 8–16 all come to 0.0005–0.0008 bits per hull cell. Side 14 enters its period-2 cycle
+  at generation 4,460,296 (the notebook's 4,460,298 was the generation of detection).
+- **The pattern that extrapolates is the face law [measured; follows from the ledger's F4].** A seed lives as
+  long as its faces, a face of A cells lives e^(0.209·A) generations, so an asymmetric seed visits about 2^(0.30·A)
+  states: 0.30 bits per face cell. The symmetric cubes reach 0.15–0.29 bits per cell of their effective face
+  (A/7.7), rising with size.
+- **A share of what [measured; C until reviewed].** A living face is close to random: by a conditional-entropy
+  estimate on an 8-layer face slab (16 × 16 torus, 256,000 snapshots; the estimator recovers two fields of known
+  entropy to four figures) its top layer alone carries 0.986 bits per cell and the slab at most 0.958, still
+  falling slowly with the size of the context. So a face could be in about 2^(0.95–0.99·A) states per layer and a
+  seed sees 2^(0.30·A) of them before the face dies: the share falls as about 2^(−0.69·A), and it is also less than
+  a random map's 2^(A/2). The states exist; what ends the exploration is the face going quiet.
+- **The lead's forecasts E1–E7** (written 07:54 UTC, before any enumeration): E1 failed (57–98% without a
+  predecessor is "most", but the exponent 0.95–0.98 is above the forecast band), E2 half held (the exponent is in
+  band for three families of five; the periods are as said), E3 held in four families of five, E4 failed (no
+  exponential rise yet at these sizes), E5 held, E6 failed as a general rule (true of hulls and kagome tori, not
+  of slabs), E7 held with one exception at 27 cells. Three and a half of seven.
+- Not checked: hulls wider than 6 layers; eight of the fourteen 30-cell hulls; anything above 30 cells exactly; the
+  junction between the linear regime and the exponential one (conjectured near 30–40 face cells); the entropy has
+  no lower bound, and the large slab stands in for small faces conditioned on survival; each cube is one run. An
+  adversarial review with its own enumerator and a second entropy estimate is running
+  (`research/audit/REVIEW-statespace.md`).

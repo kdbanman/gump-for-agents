@@ -345,6 +345,35 @@ survivors keep more than twice the company), and not an even patch either. It is
 thin scatter beyond it. And among faces with the same number of cells left, the ones about
 to die are the looser.
 
+## How much of the room a seed sees
+
+You asked how many of the states a hull allows a seed ever visits. There is an exact
+answer, and it is the lifetime again in other units. A seed cannot visit a state twice
+before it settles, so the number of states it sees is the number of generations it lives,
+plus the length of whatever loop it ends in. Your side-16 cube saw 2,919,617,676 states.
+Its hull allows 2^51,888.
+
+For small rooms an agent listed everything: every state of 301 closed vessels of up to 30
+cells, a billion states each at the top. I listed one of them again myself with the
+reference stepper and got the same counts. In a room of 27 to 30 cells a typical seed
+visits 8 to 14 states, and the most patient seed of all visits between 40 and 94,
+depending on the room. Most states cannot be reached at all: between 57 and 98 in a
+hundred have no state that leads to them. Nothing in these rooms is chaotic yet. They are
+too small to hold a living face.
+
+Above that size the pattern is the one you already know from the staircase. A random seed
+lives as long as its faces, and a face of A cells lives about e^(0.21·A) generations, so
+the seed sees about 2^(0.30·A) states: three tenths of a bit for every cell of the face.
+The face itself is nearly random while it lives. By an estimate that a reviewer is testing
+as I write, it carries close to one bit per cell, so it could be in nearly 2^A states and
+passes through 2^(0.30·A) of them. The count a seed sees rises exponentially with size, and
+the share falls exponentially. A map that wandered blindly over as many states would see
+2^(A/2) of them before repeating, which is more. Gump does not run out of states. Its face
+goes quiet first.
+
+And yes, the random seeds are the long-lived family. In every room of 19 cells or more,
+the longest-lived seed has no symmetry at all.
+
 ## Where I was wrong
 
 Twice I told you the wrong density for the chaotic state, and both corrections came from

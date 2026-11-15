@@ -43,3 +43,14 @@ N = cells of the vessel, "listed" = the vessels whose 2^N states are enumerated 
 - **I7 (60%).** The Shannon entropy per cell of the long-lived (quasi-stationary) chaotic ensemble lies between
   0.80 and 0.95 bits, both in the bulk and in the top layer of a living face; so a face of A cells (one layer) can
   be in about 2^(0.9·A) states and a seed sees 2^(0.30·A) of them.
+
+## Scored (the lead, 2026-11-15 10:20 UTC, from the README's tables; the investigator's scores agree)
+
+E1 failed: most states have no predecessor (57–98%), but those that have one number 2^(0.95–0.98·N), above the band
+0.75–0.95; a constant fraction is lost at the first step, not a rate per cell. E2 half held: the exponent for states
+on cycles is in 0.2–0.5 for three families of five (hulls 0.58, 3-layer slabs 0.52 are above); "mostly still or
+period 2" held. E3 held in four families of five (the fifth reaches 1.97). E4 failed: settling times rise linearly
+in N at these sizes; nothing listed is large enough to be on the face law. E5 held (no champion of a vessel of 19 or
+more cells is symmetric). E6 failed as a general rule (true of hulls and kagome tori, not of 2- and 3-layer slabs).
+E7 held, with one exception (the 27-cell 3-layer slab's champions visit 53 states, more than 2^4.5). Three and a
+half of seven.

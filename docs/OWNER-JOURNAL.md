@@ -49,3 +49,14 @@ What speaks to it (the lead, same day):
   about 0.21: about 0.30 bits per face cell, against one bit per cell available. So the share of the state space
   that is ever visited falls exponentially with size even as the lifetime rises exponentially. The study is to
   make that exact where the whole state space can be listed, and to say what the living states are a share *of*.
+- **Later the same day (10:20 UTC): the count is in** (`research/statespace/README.md`; notebook entry "how much of
+  its state space a seed explores"; CLAIMS SS1–SS3; a review is running). Your side-16 cube visited exactly
+  2,919,617,676 states, about 2^31.4, of the 2^51,888 its hull allows. Where every state can be listed (301 vessels
+  of up to 30 cells, about a billion states each at the top) a typical seed visits 8 to 14 states and the most
+  patient seed of all 40 to 94; most states (57–98%) cannot be reached from any other. The pattern that carries
+  upward is the lifetime law read in bits: a random seed visits about 2^(0.30·A) states for a face of A cells,
+  while a living face is nearly random and could be in close to 2^A. So the share visited falls as about
+  2^(−0.69·A) while the count visited rises as 2^(0.30·A). Symmetric seeds see less (0.15–0.29 bits per cell of
+  their effective face). And you were right that the random seeds are the long-lived family: in no vessel of 19 or
+  more cells is the longest-lived seed symmetric.
+
