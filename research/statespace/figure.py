@@ -59,7 +59,7 @@ def main():
     h2 = [Line2D([], [], color=INK, lw=0, marker=MARK[f], ms=6, label=FNAME[f]) for f in MARK]
     l1 = axA.legend(handles=axA.get_legend_handles_labels()[0][:3] + h1, fontsize=7.2, loc='upper left', frameon=False)
     axA.add_artist(l1)
-    axA.legend(handles=h2, fontsize=7.2, loc='lower right', frameon=False)
+    axA.legend(handles=h2, fontsize=7.2, loc='upper left', bbox_to_anchor=(0.0, 0.56), frameon=False)
     axA.set_xlabel('N, cells of the vessel', color=INK); axA.set_ylabel('log2 (number of states)', color=INK)
     axA.set_title('A. Listed vessels: every one of the 2^N states', color=INK, fontsize=10, loc='left')
     axA.set_ylim(0, 31)
@@ -71,7 +71,7 @@ def main():
         r = max(rs, key=lambda r: (r['N'], r['max_transient']))
         im = np.array(r['image_t'], float)
         t = np.arange(len(im))
-        axB.plot(t, np.log2(im) / r['N'], color=C[i], lw=2, marker=MARK[fam], ms=4, markevery=5,
+        axB.plot(t, np.log2(im) / r['N'], color=C[i], lw=2, marker=MARK[fam], ms=4, markevery=10,
                  label=f"{r['name']} (N = {r['N']})")
         if 'entropy_t' in r:
             e = np.array(r['entropy_t'])
@@ -80,7 +80,7 @@ def main():
     axB.plot([], [], color=MUTED, lw=1, ls=':', label='dotted: Shannon entropy of the seeds not yet settled')
     axB.set_xlabel('t, generations', color=INK); axB.set_ylabel('log2 |f^t(S)| / N, bits per cell', color=INK)
     axB.set_title('B. States still possible after t generations', color=INK, fontsize=10, loc='left')
-    axB.legend(fontsize=7, frameon=False, loc='upper right'); axB.set_ylim(0, 1.02); axB.set_xscale('symlog', linthresh=10)
+    axB.legend(fontsize=7, frameon=False, loc='upper right'); axB.set_ylim(0, 1.02); axB.set_xlim(0, 92)
     # ---- C: large vessels, bits per face cell
     ent = json.load(open(os.path.join(HERE, 'data', 'entropy.json')))
     A = np.linspace(20, 900, 200)
@@ -88,7 +88,7 @@ def main():
     axC.axhline(ent['top_layer'], color=C[0], lw=2)
     axC.text(900, ent['top_layer'] - 0.012, f"living face, top layer alone: {ent['top_layer']:.3f}", ha='right', va='top', fontsize=7.5, color=INK)
     axC.axhspan(ent['slab_lo'], ent['slab_hi'], color=C[2], alpha=0.25, lw=0)
-    axC.text(900, ent['slab_lo'] - 0.012, f"8-layer face slab, per cell: {ent['slab_lo']:.2f}-{ent['slab_hi']:.2f}", ha='right', va='top', fontsize=7.5, color=INK)
+    axC.text(900, ent['slab_lo'] - 0.012, f"8-layer face slab, per cell: {ent['slab_lo']:.2f}-{ent['slab_hi']:.3f}", ha='right', va='top', fontsize=7.5, color=INK)
     axC.axhline(0.5, color=MUTED, lw=1, ls='--'); axC.text(900, 0.51, 'random map on 2^A states: ½', ha='right', va='bottom', fontsize=7.5, color=MUTED)
     law = lambda a: (-0.091 + 0.2088 * a) / math.log(2) / a
     am = np.linspace(27, 135, 50); ae = np.linspace(135, 900, 50)

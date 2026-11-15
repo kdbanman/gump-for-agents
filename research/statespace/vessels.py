@@ -16,7 +16,8 @@ forever). Three kinds:
 
   vessels.py info KIND ARGS...      cells, degree profile, multi-edges, symmetry group order
   vessels.py write KIND ARGS... F   neighbour file (int32 n, n*12 int32) for enum.c
-  vessels.py hulls NMAX             all diagonal hulls with at most NMAX cells, up to translation and O_h
+  vessels.py hulls NMAX [W]         every diagonal hull with at most NMAX cells and at most W layers wide along every
+                                    diagonal (default 6), up to translation and O_h
 
 Oracle embedding (`embed`): every vessel is lifted to a state of reference/oracle.py's array torus of side H
 (even), so that one oracle step of the lift is the lift of one vessel step: hulls are placed in a box with a margin
@@ -159,23 +160,28 @@ def canonical_cellset(cells):
     return best
 
 
-def all_hulls(nmax):
-    """Diagonal hulls (intersections of the 4 diagonal slabs) up to symmetry with 1..nmax cells. A hull is
-    determined up to translation by its four layer ranges; one lower bound can be fixed by translation."""
+def all_hulls(nmax, W=6):
+    """Every tight diagonal hull at most W layers wide along each diagonal, with 1..nmax cells, up to translation and
+    O_h. Completeness: translations by 2v shift the lower bounds (s0, s1, s2, s3) by 2(d.v); with a + b + c = 1 or 0
+    one fixes lo0 = -1, and the translations with a + b + c = 0 shift (lo1, lo2, lo3) by (4a, 4b, -4a - 4b), so lo1
+    and lo2 can be taken in {-1, 1} (the two odd residues mod 4). Every cell has s0 + s1 + s2 + s3 = 0 (the four
+    axes sum to zero), so a nonempty hull has sum(lo) <= 0 <= sum(hi), which bounds lo3."""
     seen = {}
-    W = 6
     for w in itertools.product(range(1, W + 1), repeat=4):
-        for l1 in range(-5, 6, 2):
-            for l2 in range(-5, 6, 2):
-                for l3 in range(-5, 6, 2):
+        for l1 in (-1, 1):
+            for l2 in (-1, 1):
+                for l3 in range(1 - l1 - l2 - 2 * sum(x - 1 for x in w), 2 - l1 - l2, 2):
                     lo = [-1, l1, l2, l3]
+                    if l3 % 2 == 0:
+                        continue
                     b = []
                     for d in range(4):
                         b += [lo[d], lo[d] + 2 * (w[d] - 1)]
+                    if sum(b[0::2]) > 0 or sum(b[1::2]) < 0:
+                        continue
                     v = hull(b)
                     if v.n == 0 or v.n > nmax:
                         continue
-                    # tight: every bound attained (otherwise it is the same hull as a smaller range)
                     tight = all(min(dot(AXES[d], p) for p in v.cells) == b[2 * d] and
                                 max(dot(AXES[d], p) for p in v.cells) == b[2 * d + 1] for d in range(4))
                     if not tight:
@@ -377,7 +383,8 @@ if __name__ == '__main__':
     cmd = sys.argv[1]
     if cmd == 'hulls':
         nmax = int(sys.argv[2])
-        hs = all_hulls(nmax)
+        W = int(sys.argv[3]) if len(sys.argv) > 3 else 6     # widths (layers per diagonal) searched
+        hs = all_hulls(nmax, W)
         rows = []
         for key, b in hs.items():
             v = hull(b); deg = v.degree_profile()
