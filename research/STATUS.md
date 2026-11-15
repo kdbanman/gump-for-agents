@@ -256,8 +256,12 @@ _Last updated 2026-11-14 by the lead._
   independent CPU stepper up to 4×4; the 4×5 rhombus is 1.9–2.6σ lower on the CPU, and the reviewer is lengthening
   that run; "well above the lifetime range" compared an incremental cost that includes perimeter). Fixes applied by the
   GPU session (de00831), read against the list by the lead, CI green, **merged 23:31 UTC (squash 5d62eae)**; main
-  merged into the branch; notebook entry "empty patches on a face too large to die"; CLAIMS GP10. Open: the 4×5
-  point (the reviewer's longer CPU run).
+  merged into the branch; notebook entry "empty patches on a face too large to die"; CLAIMS GP10. **The 4×5
+  point is settled (05:15 UTC 2026-11-15):** the reviewer's CPU rerun at 0.9 of the GPU's exposure gives −23.412 ±
+  0.049 against −23.318 ± 0.047 (1.4σ); the last cost per cell becomes 0.226 ± 0.006 with both combined, about 1σ
+  above the lifetime range ("already inside it" withdrawn); notebook addendum of 2026-11-15, CLAIMS GP10 (now A to
+  4×5), two sentences of `research/gpu/README.md` corrected by the lead. Owed: the overview's patch plate and
+  "Open now" item, and the draft (§7.5), still carry the old figures.
   Owed for each when it reports: the lead's own check of one key number, an adversarial review (Opus) for (2) and (4),
   notebook, CLAIMS, STATUS. Usage timer every 60 minutes while Fable agents run.
   (ii) done: `README.md` (item 4 reworded; new items 8-10) and the web tour and
