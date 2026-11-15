@@ -67,6 +67,43 @@ repository is shown to be biased by settling (the bound at R = 36 is ≲ 1%; `re
 claim 5). The asymmetric runs below predate kind 3; they recorded no period-1/2 settling and their hazards are flat
 to ~10 τ, which bounds a stuck fraction far below anything that would move their lifetimes.
 
+**Zombie lives** [bound; 2026-11-15, after the lead found them in two CPU steppers]. A replica that settles into a
+cycle the test does not catch — period > pw (pw = 128, or 1,024 for symc R43 s501), or > 2 for the asymmetric
+R11–R17 runs, which predate kind 3, and for the patch runs — is never frozen and never dies. There is **no age cap**, so
+it holds its lane to the end of the run and enters as a censored life whose whole age is exposure: ln τ is biased
+upward by about the fraction of exposure it carries. Kind-3 detection is exact equality of the whole replica with its
+launch-start state, so no chaotic life is ever cut. Settled lives that are caught are censored, and the time from
+settling to detection (at most one launch) stays in the exposure: ≤ 2 × 10⁻³ of it at symv R36, ≤ 10⁻⁴ elsewhere.
+`python3 research/gpu/zombies.py` recomputes every bound below from the committed logs (`research/data/gpu_facelaw`).
+The age test: beyond a few mean lives, zombie exposure adds no deaths, so a deficit of deaths against
+hazard × exposure bounds it (one-sided 95%); the "all ages" column extrapolates to zombies younger than the threshold,
+assuming they are born at a constant rate.
+
+| run | length (mean lives) | zombie exposure / total, 95% upper bound | statistical error of ln τ |
+|---|---:|---|---:|
+| R11 (A = 63) | 457 | ≤ 1.3 × 10⁻⁴ beyond 3.0 mean lives; all ages ≤ 1.3 × 10⁻⁴ | 0.001 |
+| **R13 (A = 84)** | 7.5 | ≤ 2.0 × 10⁻³ beyond 3.3; **all ages ≤ 6.7 × 10⁻³** | **0.005** |
+| symv R36 / R38 / R40 | 24 / 22 / 10 | all ages ≤ 1.0 × 10⁻³ / 2.1 × 10⁻³ / 0 (≤ 2 × 10⁻⁴ beyond 3.7) | 0.003 / 0.003 / 0.005 |
+| **symc R43 s501** | 2.6 | ≤ 1.2 × 10⁻³ beyond 1.8; **all ages ≤ 1.2 × 10⁻²** | **0.013** |
+| fwslab 3×6, 3×8, 3×10, 4×5, 4×6, 6×4, 5×5 | 33–955 | all ages ≤ 5 × 10⁻⁴ | |
+| fwslab 4×9 | 15 | ≤ 4.7 × 10⁻⁴ beyond 4.8; all ages ≤ 4.2 × 10⁻³ | 0.042 |
+| **fwslab 4×8** | 6.9 | ≤ 3.9 × 10⁻³ beyond 2.6; **all ages ≤ 1.0 × 10⁻²** | **0.018** |
+
+In every run long enough for the test, the oldest life is where memoryless lives put it (about ln(lives) mean
+lives), and no bound excludes zero zombies. **The weakest bounds are comparable to the statistical errors:** R13
+(≤ 6.7 × 10⁻³ against ± 0.005), symc R43 s501 (≤ 1.2 × 10⁻² against ± 0.013) and fwslab 4×8×8 (≤ 1.0 × 10⁻² against
+± 0.018); symv R38 (≤ 2.1 × 10⁻³ against ± 0.003) is next. These are upper bounds, not measured biases, and most of each comes from the extrapolation to young
+zombies.
+
+**Runs shorter than about one mean life** — R15, R17, symc R43 s201, symv R44, symc R45, slabs 6×6×8 and 6×7×8, and
+fwslab 5×6, 5×7, 5×8, 6×6, 6×7 (×8) — **give no age bound**: a zombie looks like any old replica. Each zombie adds
+about 1/R ≈ 2 × 10⁻⁴ of the exposure, so moving R15 (A = 108, ± 0.031) by its error takes ≈ 140 zombies among
+≈ 5,700 lives, 6×7×8 (± 0.104) ≈ 480, and R17 (± 0.25) over 1,000: a rate of 2–3% per life. Where the rate can be
+measured it is < 7 × 10⁻⁷ (3×6×8, 4.3 million lives), < 3 × 10⁻⁶ (4×5×8) and < 5 × 10⁻⁵ (5×5×8) per life. Detected
+settling (periods ≤ pw) is rare and falls with size: 1,456 settled lives per 4.26 million deaths at 3×6×8 (13 of
+them period 3–128), 286 per 99,794 at symv R36, 33 per 45,787 at R40, 1 at R43 s501, and 0 in every run listed in this
+paragraph. **The argument rests on the zombie rate not rising with vessel size. That is not proven** [conjecture].
+
 ## Correctness [measured]
 
 **The acceptance bar (bit-exact against the engine every generation):** `modal run research/gpu/modal_app.py::check_every`
@@ -257,7 +294,7 @@ and 26.87 ± 0.19): the cut sets the rate. **Direction labels** are the lowest-n
 detection; the 229 (3×6×8) and 23 (4×7×8) labelled diagonal 1 are late detections of firewalls that formed first on
 the cheapest diagonal (an independent CPU run, `research/audit/gpu_pr14/cpu_channels.py`, finds 3,188 of 3,188 formed
 first there at 3×6×8). At 6×7×8 all 29 firewalls are on the cut-216 diagonal; exposure 1.349 × 10¹³; nothing settled (settled
-lives — any period ≤ 128 — would be censored; longer periods are not detected and none has been seen). The A = 126
+lives — any period ≤ 128 — would be censored; longer periods are not detected; bounds in "Zombie lives"). The A = 126
 face channel lies **0.19 ± 0.10 (stat) ± 0.07–0.12 (the line's extrapolation) above the slab line** (26.218), about
 1.2σ in all. The control 6×6×8 (firewalls resolved, 2.1% of
 first events) gives a face channel of 22.568 ± 0.041; its first-event statistic (22.547) is 1.2σ from the earlier
@@ -360,8 +397,15 @@ finds the inner-cube orientation more often empty, by 0.20 in ln P at 2×2 and 0
 pair, with no effect on the second differences), strips 1×b (b = 12 wraps), hexagonal balls of
 radius 1–3 in the face layer's in-layer graph (the 6 in-layer neighbours). 144 translates (balls: 432 centres).
 Perimeter = in-layer neighbour pairs with one cell in, one out (rhombi: 8(a + b) − 4). Also counted: empty at t and at
-t + 1. Frozen replicas (face death, settling) are masked from the generation they freeze; a transverse firewall
-(tested every 2¹⁶ generations) drops a replica from its detection. **Ran:** seeds 811–813, 2.2 × 10⁶ generations each
+t + 1. A replica that kernel B freezes (face death, or settling into period 1 or 2) is masked from the generation it
+freezes; after burn-in the slab is stepped one generation per launch, so the launch-snapshot test (kind 3) cannot fire
+and **only periods 1–2 are detected** (during the 2,000-generation burn-in, periods up to 128 are). A transverse
+firewall (tested every 2¹⁶ generations) drops a replica from its detection. A replica in an undetected cycle (a
+"zombie", see "Zombie lives" above) would stay in the counts: one whose face never shows a given patch lowers every
+ln P by the same amount, which cancels in all differences; one whose cycle contains an empty patch adds hits at a fixed
+rate from its birth on, in one seed. **No such signature** [measured, `python3 research/gpu/zombies.py`]: 4×5 hits per
+seed 216, 213, 225, by half-run (118, 98), (106, 107), (98, 127); 4×4 10,840, 10,656, 10,641, halves within 1%;
+persistence 0.11 (4×4) and 0.09–0.11 (4×5) in every seed. **Ran:** seeds 811–813, 2.2 × 10⁶ generations each
 after burn-in, 4,608 replicas: 3.04 × 10¹⁰ replica-generations (8.76 × 10¹² samples per rhombus shape); 3 × 14 min A10G.
 No face death, no settling, no firewall in any replica.
 
