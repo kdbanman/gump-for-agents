@@ -737,10 +737,10 @@ nearly empty (0.04–0.07), while at p = 0.3 it still holds 0.16–0.21 of stati
 neighbours). There are only 3 such cells at A = 63, 9 at A = 84 and 18 at A = 108; the A = 63 value rests on three
 cells and is not given weight. At A = 108: 0.821, 0.730, 0.635, 0.518, 0.396, 0.242 for p = 0.9 … 0.15 (control
 0.829 … 0.125); at A = 84: 0.810, 0.705, 0.611, 0.506, 0.360, 0.194. It falls as the whole-face C does, a little
-lower (live interior cells have no rim-cell companions, whose stationary occupancy is lowest).
+lower ([conjectured] why: an interior live cell's companions include none of the rim cells, whose stationary occupancy is lowest).
 
 **At the bottom** of the same excursions the numbers barely move: C at the bottom is within 0.01 of C at the catch
-at every level and size (e.g. A = 108, p = 0.3: 0.439 at the catch, 0.439 at the bottom with 14.6 live cells against
+for p ≤ 0.6 at every size, and 0.01–0.03 lower at p = 0.9 and 0.75 (where the bottom is several cells further down; e.g. A = 108, p = 0.3: 0.439 at the catch, 0.439 at the bottom with 14.6 live cells against
 15.1), V rises by 0.01–0.04. Between the catch and the bottom the face loses a few more cells the same way.
 
 **C at fixed count** (`data/r4_by_k.csv`; caught faces binned by k): 7–9 live cells give C = 0.393 (A = 63, p = 0.3),
