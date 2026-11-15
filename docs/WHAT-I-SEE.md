@@ -163,8 +163,11 @@ neither heals nor spreads. It runs along the wire, one cube every two generation
 fastest anything can travel here, and leaves the wire behind it exactly as it was. That is
 a pulse. An agent found four kinds of wire that carry them, pulses that run either way, a
 single flipped cell that launches one, and a flaw 36 cubes down the line that takes each
-pulse in and shifts one cube, so that it counts them. I rebuilt the pulses on the reference
-stepper with code of my own before I believed it.
+pulse in and shifts one cube toward the sender, so that it counts them. It can count to 35.
+The thirty-sixth pulse finds it next door, and the whole wire burns. I rebuilt the pulses on
+the reference stepper with code of my own before I believed it, and a reviewer has since
+rebuilt all of this paragraph with a third program, on a wire in open space as well as on
+rings.
 
 On one of these wires two pulses sent at each other never both get through. One survives,
 untouched and on time, and which one depends on whether the distance between them was even
@@ -187,8 +190,8 @@ a dozen trials something does get out: a clean pulse, running down the wire ahea
 fire. And wires are not only built. Of a hundred thousand random soups in a narrow tube,
 279 settled into a wire that carries pulses.
 
-The pulses, the gate and the clock I have checked on the reference stepper. The counts in
-the last paragraph are one agent's so far, and two reviewers are at work on all of it.
+The gate and the clock I have checked on the reference stepper. The counts in the last
+paragraph are one agent's so far, and a reviewer is at work on them and on the proof.
 
 ## The rule you meant to write
 

@@ -85,7 +85,8 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     **Answered in part, 2026-11-15: yes, signals exist.** Free-standing wires along (1,0,−1) carry pulses at half the
     speed limit; one flipped cell emits a pulse; a standing defect 36 cubes away receives it (and creeps one cube per
     signal); two pulses pass or stop each other by parity (`research/signals/README.md`; notebook entry "gump carries
-    signals"; CLAIMS SG1–SG4; review in `research/audit/REVIEW-signals.md` when done). Still open: a bounded or
+    signals"; CLAIMS SG1–SG4, confirmed by the review in `research/audit/REVIEW-signals.md`: the receiver is a
+    counter that takes d − 1 pulses over d cubes, after which the wire burns). Still open: a bounded or
     closed track (a pulse that turns or comes back), a receiver that stays put, a gate with an output, whether any
     soup-born wire carries a pulse, and whether a pulse can cross living chaos.
     **Second push, 2026-11-15** (CLAIMS SG5–SG10; notebook "a clock of every length"; review in

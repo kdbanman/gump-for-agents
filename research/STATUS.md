@@ -149,6 +149,11 @@ _Last updated 2026-11-14 by the lead._
   it. **Third signals push started 10:50 UTC (Opus, since no usage reading has come since 06:15)**: a machine made
   of parts (a periodic emitter, a clock driving a counter, a corner); the lead's forecasts S11–S15 are in
   `research/signals/PREDICTIONS.md`. Essay updated (signals section, the five tori, the state-space answer).
+  **First signals review in and recorded 10:53 UTC** (notebook "the first signals push reviewed"; SG1–SG3 to A,
+  SG4 A/B; 164 claims: A 78, B 72, C 13, D 1): everything stands on a third code; the transmission has a capacity
+  (35 shots over 36 cubes, the 36th burns the wire); nine README corrections handed to the third investigator.
+  The state-space author applied its review's seven corrections (281cf02). Still running: the review of the second
+  signals push, the overview editor, the third signals push.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
