@@ -2818,3 +2818,36 @@ own sampler and context order for the entropy; outputs in `research/audit/states
 - Seven corrections for the study's README are at the end of the review.
 - Not checked by the reviewer: side 16; the time-t Shannon entropies; the eight unlisted 30-cell hulls; small faces
   conditioned on survival, other densities and lattices; any lower bound on the entropy.
+
+## 2026-11-15: the first signals push reviewed: pulses, transmission and the parity rule stand; the line has a capacity
+
+`research/audit/REVIEW-signals.md` (own sparse stepper matched to the oracle; nothing imported from the study
+except to probe its SAT encoding; code in `research/audit/signals/`, outputs in `out/`).
+
+- **Pulses stand [measured, three codes].** B, its mirror, A and S translate exactly for 100–192 periods on rings
+  of 9–64 cubes, on box tori and on the oracle's cubic torus, and on a 600-cube finite wire in the infinite
+  lattice with no torus at all; the state is always the bare wire with the moved defect, and no live cell leaves
+  the 3 × 3 tube. A and B run on rings as short as 3 cubes; S needs at least 9. The W00 front is exact both ways.
+- **The transmission stands, with a capacity [measured, two codes].** The receiver is a wall between wire B and a
+  second period-2 wire B′, and each pulse moves it one cube toward the sender: a unary counter. Over 36 cubes it
+  takes 35 clean shots (the study ran six), the line exactly bare after each and the control unchanged; **shot 36,
+  with the receiver beside the sender, sets the whole wire on fire.** The README's "used again and again" becomes
+  "used d − 1 times". The sender can fire every 4 generations.
+- **The parity rule stands and is the whole rule [measured, two codes].** Head-on pairs at every separation 2–44:
+  odd passes exactly, even stops with the 3-cell mark. It has to be complete, since a pulse exists only at the
+  wire's even phase and the separation is then a pair's only parameter. On an odd ring a passing pair stops at
+  its second meeting. Pulses going the same way are rigid trains at any spacing 1–12. A third pulse turns the mark
+  into a 5-cell standing defect.
+- **The emitter census stands exactly**: of wire B's 84 one-cell flips 74 heal, 2 leave standing defects (one of
+  1 cell, one of 2), 2 emit a pulse (one each way), 6 start fronts.
+- **The bounds [two methods for the small tubes].** A transfer-graph search over space-time columns, sharing no
+  code with the SAT search, agrees on every 2 × 2 and 2 × 3 row both answered, and extends them to pulses of any
+  width; the 3 × 3 rows rest on the SAT encoding, which passed every test the reviewer gave it. "Fronts in 17 of
+  21 wires" counted duplicates: 14 of 18 distinct wires.
+- **Two arguments repaired.** Corollary 1 (no growth at a wire's end) needs a cone of diagonals, not one
+  half-space; corollary 2 (a pulse carries its drive) stands, with pulse B's driven cell dead at the time, not
+  live.
+- Ledger SG1–SG3 to A, SG4 to A for the small tubes and B for the 3 × 3 rows. Nine corrections for the README are
+  at the end of the review; the third investigator applies them.
+- Not checked by the reviewer: fronts of wires other than W00, W05, W18; the 1,000-defect receiver census; wire
+  A's flips and collisions; 3 × 3 by the independent method; no UNSAT certificates.
