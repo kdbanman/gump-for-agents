@@ -26,6 +26,7 @@ carriers), brought up to date 2026-11-15 10:40 UTC.
 | second push | pulses of wire C, both ways | `python3 verify_pulse.py objects/pulse-C.json`, `... objects/pulse-C-left.json` | 3 s |
 | second push | **tape**: wire B and wire C are two letters of one medium: EVERY sequence of B units and C units moves rigidly towards −v, one unit per 2 generations (a ring holding all 32 windows of 5 units; with the light cone, a proof for all sequences) | `python3 verify_pulse.py objects/tape-BC.json`; `python3 verify_wall.py` | 3 s; 12 s |
 | second push | two more pulses of wire C that reach outside its 3 × 3 tube, first seen coming out of chaos | `python3 verify_pulse.py objects/pulse-C-wide.json`, `... objects/pulse-C-wide-left.json` | 3 s |
+| third push | **reader**: capL of the clock eats EVERY word of the B/C tape and remembers nothing: at every even generation the state is capL and the tape moved on (proof for all words by a closed automaton: `python3 prove_reader.py`, 0.3 s) | `python3 verify_reader.py` | 30 s |
 
 Each verifier steps only with `oracle.masks` and `oracle.step` on a cubic array torus (H = 80 to 128) and compares
 whole states cell for cell. `verify_pulse.py`: 100 periods = 2.5 laps of a ring of 40 cubes; the state at generation
@@ -580,7 +581,7 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
   (`sat_defects.py objects/pulse-C.json 2 0 --N 8 --lo 1 --hi 5 --max 3000`, 35 s; the list was cut, not
   exhausted), each hit by p<, p>, the rake and the mirror rake: none turns a rake and stays as it was (196 eat p<,
   725 eat p>; the rest change or burn). Walls V | (up to 3 arbitrary units) | C for the 11 family wires V: 344
-  stationary, none turns the mirror rake and stays as it was (`../scratch/signals/wallturn.py`, 90 s). Rake against
+  stationary, none turns the mirror rake and stays as it was (`python3 wallturn.py`, 90 s). Rake against
   the wall C|8 or 8|C: the rake does not turn; it becomes the head of a moving wall that turns wire C into wire 8 at
   pulse speed [measured]. A clock between a cap and a two-sided turner that passed its pulses on would be a gun; the
   turning objects known are all one-sided caps.
