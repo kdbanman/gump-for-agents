@@ -10,3 +10,8 @@ else
   job v11c ci 4000000 9104; job v11c c2e 1200000 9105; job v11c c2v 300000 9106
   job s4x2 c1 400000 9107; job s8x2 cs 1000000 9108
 fi
+# part 3 (added before its runs, after parts 1-2 had started): asymmetric centring pairs, own protocol
+if [ "$1" = 3 ]; then
+  job v7c c1 300000 9111; job v8v c1 300000 9112; job v9c c1 400000 9113; job v10v c1 400000 9114
+  job v12v c1 4000000 9115
+fi
