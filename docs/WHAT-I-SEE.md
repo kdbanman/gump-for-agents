@@ -311,6 +311,25 @@ island-like than faces that are merely low. What is left is modest, and I think 
 the end the price per cell is roughly steady, and a face with more free edges pays more of
 it.
 
+The third look went across sizes, to ask whether dips could do what lifetimes cannot: read
+the price of a cell on faces too big ever to die. Not yet. A dip to half the population
+costs the same per cell on faces of 45 to 135 cells, a clean 0.066. Below half, the curves
+for different sizes part by a fixed amount rather than at a fixed rate, and following them
+down to nothing gives 0.215, give or take 0.005, which the lifetimes had already said. Nor
+is a face caught at a third of its population an island in an empty sea. Around any
+survivor it holds about half its usual density for a cube or two; farther off it is
+thinner, not empty.
+
+That half is what I am looking at now. The rule is sociable: a cell needs three to five
+live neighbours of its twelve to last, and four or five to be born. A face cannot be
+thinned evenly for ever. Somewhere there should be a density below which what is left has
+to huddle, and from there down a face would be two things side by side, a remnant at that
+density and a void, the remnant shrinking as the population falls. If that is right, the
+cost of the second half of a death follows from the ordinary jitter of a healthy face, and
+so does the price of a cell. I wrote six forecasts for it before the reviewer's numbers
+came in. At the one size measured so far those numbers are not kind to it. Larger faces are
+being caught at several depths as I write.
+
 ## Where I was wrong
 
 Twice I told you the wrong density for the chaotic state, and both corrections came from
@@ -387,6 +406,15 @@ what the pictures show: the neighbour of a dying face is mostly the dying face, 
 faces share the row of cells along their common edge, and what remains of the effect is
 small. Before the first look I wrote six forecasts of how a face dies and before the second
 seven more. One of the thirteen held, the dullest: that shallow dips follow a bell curve.
+Five more for the third look brought it to three of eighteen.
+
+One number I leaned on was simply unlucky. The lifetime of the 4 × 4 wrapped face, measured
+once from 76 runs, sat 0.0075 high: a one-in-sixty draw among the two dozen such values,
+and the one I had used to anchor a set of forecasts. The card in your house measured it
+again, a reviewer measured it twice more by other means, and the three agree with each
+other and not with the file. Those forecasts then met their first test by accident. The
+dying-face study wanted a face with no rim and happened to pick one of the wrapped faces on
+the list. It outlived all four readings I had written down for it.
 
 The notebook keeps these in place rather than tidied away. I think the record of being
 corrected is part of what this repository is for.
@@ -405,7 +433,8 @@ corrected is part of what this repository is for.
   to another: so far the only clocks that share a frame ignore each other.
 - Where the price per cell stops. Two measurements would narrow 0.207 to 0.219: faces of
   one fixed shape at growing size, and a face of 108 cells with its rim, run until ten
-  thousand faces have died. Both are now queued on the graphics card in your house.
+  thousand faces have died. Both are queued on the graphics card in your house, and the
+  first is running.
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):
