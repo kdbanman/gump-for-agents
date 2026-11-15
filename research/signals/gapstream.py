@@ -17,8 +17,11 @@ not healed, both are followed for 1200 generations more and compared over 2 lcm(
    healed                the two runs became equal (deterministic: equal for ever)
    plain lost            the oscillator dies in the plain run anyway (the placement does not stand)
    gap destroys          plain run: oscillator alive (support = free orbit at some phase); gapped: not
-   LISTENER?             both alive (oscillator support a free-orbit phase) and the two states differ: printed
-                         with the phase offset of the oscillator, the gun's state and the population of each.
+   gap kills the gun, oscillator kept   (the oscillator is still a free-orbit phase in both; the gun dies)
+   LISTENER?             both alive, gun and oscillator (oscillator support a free-orbit phase, gun period 4) in
+                         both runs, and the two states differ: printed with the oscillator's phase offset.
+(The run of 2026-11-15 used an earlier labelling in which 'LISTENER?' also covered the gun dying; the jsonl records
+plain_gun and gap_gun, and `python3 gapstream.py --summary F.jsonl` relabels.)
 sg.step_set only; a positive must then be put to the oracle (verify_listener.py)."""
 import argparse, glob, json, os, random, sys, time, math
 from collections import Counter
@@ -29,8 +32,23 @@ from lattice import GROUP, apply
 ap = argparse.ArgumentParser()
 ap.add_argument('--K', type=int, default=150); ap.add_argument('--seed', type=int, default=3)
 ap.add_argument('--part', default='0/1'); ap.add_argument('--out'); ap.add_argument('--minutes', type=float, default=60)
-ap.add_argument('--only'); ap.add_argument('--gaps', type=int, default=2)
+ap.add_argument('--only'); ap.add_argument('--gaps', type=int, default=2); ap.add_argument('--summary')
 a = ap.parse_args()
+if a.summary:
+    c = Counter(); look = []
+    for l in open(a.summary):
+        r = json.loads(l); v = r['verdict']
+        if v == 'LISTENER?' and not r['gap_gun']:
+            v = 'gap kills the gun, oscillator kept'
+        if v == 'LISTENER?' and not r['plain_gun']:
+            v = 'plain: gun dead later'
+        c[v] += 1
+        if v == 'LISTENER?':
+            look.append(r)
+    print('not-healed records:', dict(c))
+    for r in look:
+        print('  LISTENER?', {k: r[k] for k in r if k != 'cells'})
+    sys.exit(0)
 pi, pn = map(int, a.part.split('/'))
 tr = scat.tr; unit = scat.unit
 ln = json.load(open(os.path.join(sg.HERE, 'objects', 'line-C.json')))
@@ -124,13 +142,16 @@ for fn in files:
             t = tw + 1 if tw % 2 == 0 else tw
             yy = hist[-1] if t == tw else sg.step_set(hist[-1])
             plain = yy; tt = t; cnt = 0
-            while True:
+            us = []
+            while tt < tw + 60:
                 us = [u for u in (10, 11) if tr(hs0, u) in plain]
                 if us:
                     if cnt == k:
                         break
                     cnt += 1
                 plain = sg.step_set(sg.step_set(plain)); tt += 2
+            if tt >= tw + 60:
+                res['plain: no rake upstream (gun disturbed)'] += 1; continue
             q = tr(hs0, us[0])
             gap = plain - {q}
             p_, g_ = plain, gap; healed = None
@@ -157,6 +178,10 @@ for fn in files:
                 v = 'plain lost'
             elif not glive:
                 v = 'gap destroys'
+            elif not pgun:
+                v = 'plain: gun dead later'
+            elif not ggun:
+                v = 'gap kills the gun, oscillator kept'
             else:
                 v = 'LISTENER?'
             res[v] += 1
