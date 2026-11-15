@@ -13,7 +13,10 @@ cells where they differ, outside the support of the oscillator's free orbit.  Re
            gapped run fewer than half the live cells they hold in the plain run (burnt), and how many are equal to
            the plain run (healed behind the front); a signal would leave units equal behind it, a fire leaves them
            burnt;
-  osc      the oscillator equal to its free orbit (in the gapped run) at t_gun + 10.
+  osc      the oscillator equal to its free orbit (in the gapped run) at t_gun + 10;
+  kind     'compact signal up the wire' if for 12 generations or more the difference on the wire is at most 3 units
+           wide and 6 cells, above the oscillator, and moving towards the gun (everything behind it equal in the
+           two runs), else 'spreading (fire)'.
 """
 import json, os
 import numpy as np
@@ -59,12 +62,13 @@ for r in recs:
             assert s == z, ('oracle mismatch', t); z = step(z)
     ohi = max(unit(c) for c in S if in_line_tube(c)) if any(in_line_tube(c) for c in S) else max(unit(c) for c in S)
     ohi = min(ohi, 11)
-    p_, g_ = y, g; t_gun = None; fronts = []; hist = []
+    p_, g_ = y, g; t_gun = None; fronts = []; hist = []; spans = []
     for t in range(1, 301):
         p_, g_ = step(p_), step(g_)
         D = [c for c in (p_ ^ g_) if c not in sup]
         wd = [unit(c) for c in D if in_line_tube(c)]
         fronts.append(max(wd) if wd else None)
+        spans.append((min(wd), max(wd), len(wd), frozenset(tr(c, -min(wd)) for c in D if in_line_tube(c))) if wd else None)
         hist.append((p_, g_))
         if t_gun is None and any(unit(c) >= N and in_line_tube(c) for c in D):
             t_gun = t
@@ -80,14 +84,48 @@ for r in recs:
         burnt += len(gu) < len(pu) / 2
         eqn += pu == gu
     ph = next((i for i in range(r['P']) if (g10 & sup) == orb[i]), None)
-    rows.append((r['file'], r['osc'], r['gap_k'], t_gun, [fronts[i] for i in range(0, t_gun + 10, 4)], len(units), burnt, eqn, ph is not None))
+    # a compact difference (at most 3 units wide, at most 6 cells) moving towards the gun for 12 generations or more,
+    # with every wire unit below it equal in the two runs
+    up = 0; best = 0; sig = None
+    for t in range(2, len(spans)):
+        a_, b_ = spans[t - 2], spans[t]
+        ok = a_ and b_ and b_[1] - b_[0] <= 2 and b_[2] <= 6 and b_[0] > a_[0] - 1 and b_[1] >= a_[1] and b_[0] >= ohi + 1
+        up = up + 2 if ok and b_[1] > a_[1] - 1 else 0
+        if up > best:
+            best = up; sig = b_
+    # a wall: at t_gun - 2 the gapped run's wire units from the oscillator's top + 2 to the front - 2 all hold the
+    # same cells (a uniform wire of repeat one unit) and differ from the plain run there
+    pg, gg = hist[t_gun - 3]
+    fr_ = spans[t_gun - 3][1] if spans[t_gun - 3] else None
+    base = [frozenset(tr(c, -u) for c in gg if unit(c) == u and in_line_tube(c) and c not in sup) for u in range(ohi + 2, (fr_ or 0) - 1)]
+    pbase = [frozenset(tr(c, -u) for c in pg if unit(c) == u and in_line_tube(c) and c not in sup) for u in range(ohi + 2, (fr_ or 0) - 1)]
+    wall = len(base) >= 3 and len(set(base)) == 1 and base != pbase
+    if best >= 12:
+        kind = f'compact signal up the wire for {best} gens'
+    elif b_all := (burnt == len(units) and len(units) > 0):
+        kind = 'fire (every wire unit between oscillator and gun burnt)'
+    elif wall:
+        kind = 'wall: a uniform wire of repeat 1 spreads up the wire'
+    else:
+        kind = 'other spreading'
+    rows.append((r['file'], r['osc'], r['gap_k'], t_gun, [fronts[i] for i in range(0, t_gun + 10, 4)], len(units), burnt, eqn, ph is not None, kind, sig[3] if sig else None))
+sigs = {}
 print(f'{"file":22s} {"osc":10s} k  t_gun  units(osc..11) burnt equal  osc_ok  front (every 4 gens)')
 for rw in rows:
     if rw[3] is None:
         print(rw[0], rw[1], rw[2], 'gun never reached in 300 generations'); continue
-    f, o, k, tg, fr, nu, b, e, ok = rw
-    print(f'{f:22s} {o:10s} {k}  {tg:4d}   {nu:3d}          {b:3d}   {e:3d}    {ok}    {fr}')
+    f, o, k, tg, fr, nu, b, e, ok, kind, sg_ = rw
+    print(f'{f:22s} {o:10s} {k}  {tg:4d}   {nu:3d}          {b:3d}   {e:3d}    {ok}    {fr}  {kind}')
+    sigs[sg_] = sigs.get(sg_, 0) + (sg_ is not None)
 n_fire = sum(1 for rw in rows if rw[3] is not None and rw[6] == rw[5])
 print(f'{len(rows)} runs; in {n_fire} every wire unit between the oscillator and the gun is burnt 10 generations after '
       f'the difference reaches the gun; runs with any wire unit equal to the plain run behind the front: '
       f'{sum(1 for rw in rows if rw[3] is not None and rw[7] > 0)}')
+from collections import Counter
+print('kinds:')
+for k_, v in sorted(Counter((rw[0], rw[9].split(' for')[0].split(' (')[0].split(':')[0]) for rw in rows if rw[3] is not None).items()):
+    print('  ', k_, v)
+print('distinct compact signals (cells relative to their lowest unit), with counts:')
+for k_, v in sigs.items():
+    if k_ is not None:
+        print('  ', v, sorted(k_))
