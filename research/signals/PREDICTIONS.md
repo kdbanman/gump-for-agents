@@ -230,8 +230,9 @@ The lead's:
   of spacing ≥ 2 [sg only].
 - **S13 (15%): failed.** No corner; the side-kick scan is the only search of two directions, and it found nothing.
 - **S14 (35%): failed, and the reason found in part.** P ≡ k_R + k_L (mod 4) with a turn class k of each cap
-  [proved]; every cap that turns the rake has k = 0 (201 of 201 measured; k = 2 UNSAT by SAT up to planes 28
-  doubled units beyond the clock's own and T ≤ 28 to 32), so within these bounds 4N + 2 is forced.
+  [proved]; inside the 3 × 3 tube every cap that turns the rake has k = 0 (201 of 201 measured; k = 2 UNSAT by SAT
+  for caps of period 2, 4, 6 within the bounds), so there 4N + 2 is forced; in the 5 × 5 tube a period-2 cap with
+  k = 2 exists (re-stepped) but does not survive in a clock.
 - **S15 (50%): held**, cheaply: no reusable reflector was found, but this push did not search for one beyond what
   the readers census says (a left cap either eats everything or disturbs the tape).
 
@@ -241,7 +242,7 @@ Mine:
 - **K2 (35%): failed.**
 - **K3 (8%): failed** (no corner).
 - **K4 (25%): failed**; the 30% on a proved reason: **half**: the reduction to a cap constant is proved, the
-  constancy of that constant only within SAT bounds.
+  constancy of that constant holds only inside the 3 × 3 tube, and fails one size up.
 - **K5 (55%): held** (writers of period dividing 4, 6, 8 excluded in stated planes).
 - **K6 (30%): held.** capL eats every word and is exactly as it was at every even generation, proved for all words
   by a closed automaton and checked on the oracle; the census adds that no left cap in the tables has a memory.
@@ -249,6 +250,6 @@ Mine:
 
 What I got wrong in kind: I expected the gun to be found by a constraint search once the problem was put as a
 writer; instead the search showed that small writers do not exist and grew too fast to reach clock-sized ones.
-What surprised me: capL, the end that makes the clock, is a perfect sink with no memory at all, and every cap that
-turns the rake turns it with the same delay mod 4. The clock's ends are as simple as ends can be, which is
+What surprised me: capL, the end that makes the clock, is a perfect sink with no memory at all, and every cap in the
+3 × 3 tube that turns the rake turns it with the same delay mod 4 (one size up, not). The clock's ends are as simple as ends can be, which is
 exactly what keeps the clock from talking to anything else.

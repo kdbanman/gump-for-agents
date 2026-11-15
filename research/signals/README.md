@@ -518,8 +518,10 @@ The lead's six items, where each stands: (1) a periodic emitter: **not found**; 
 *writer* at the end of the tape, section 15) and excluded in several bounded classes (section 16). (2) clock drives
 counter: **not reached** (no emitter); the counting part exists: the 8|C wall counts pulses p< arriving in a train
 (section 17). (3) a corner: **not found**; a side-kick scan in all six directions found nothing (section 16).
-(4) period ≡ 0 mod 4: **not found, and explained**: the period of a shuttle clock is fixed mod 4 by a turn class of
-each cap, and every cap that turns the rake has the same class (exhaustive SAT within bounds, section 18).
+(4) period ≡ 0 mod 4: **not found, but located**: the period of a shuttle clock is fixed mod 4 by a turn class of
+each cap [proved]; inside the 3 × 3 tube every periodic cap that turns the rake has the same class (exhaustive SAT
+within bounds), and in the 5 × 5 tube a cap of the other class exists, though not yet one that survives in a clock
+(section 18).
 (5) the tape as memory: **capL of the clock eats every word, exactly, and remembers nothing (proved)**; every left
 cap in the census either does the same or disturbs the tape (section 17). (6) a wider search space: touched only
 (writers and turns in the 5 × 5 tube, section 16, 18).
