@@ -143,12 +143,12 @@ is set 10 units in front; both leave about 30 generations after arrival).
 | `31 --kind E` | — | **UNSAT** (also `--solver mcb`, maplechrono: UNSAT 29 s) | 16 s |
 | `31 --kind E --T 48` | — | **UNSAT** | 73 s |
 | `33 --kind E` / `35` / `37` | — | **UNSAT** / UNSAT / UNSAT | 61 / 20 / 85 s |
-| `39 --kind E` | — | SAT39 | — |
+| `39 --kind E` | — | CUT (external timeout 1,500 s) | — |
 | `31 / 33 / 35 --kind N1` | — | UNSAT / UNSAT / UNSAT | 9 / 26 / 38 s |
-| `37 --kind N1` | — | N137 | — |
+| `37 --kind N1` | — | UNSAT | 68 s |
 | `31 / 33 --kind U` | — | UNSAT / UNSAT (no U-absorber fits below C = 37) | 31 / 14 s |
 | `35 --kind U --diffwin 28` (restored AND something sent down) | — | UNSAT | 47 s |
-| `37 --kind U --diffwin 28` | — | U37D | — |
+| `37 --kind U --diffwin 28` | — | **UNSAT** | 883 s |
 
 So: no gun of period dividing 4 in the 3 × 3 tube at C ≤ 37 survives E by T = 36 whatever it answers; in particular
 none answers with K3, N2, N3, two signals or a front, which the push's instance did not exclude.
@@ -186,7 +186,8 @@ restored and has sent something, anything, up the stream):
 | `31 --frame5 --kind H --diffwin 28 --plusE 12` (an E also on the stream) | SAT | SAT, re-stepped (the E is the difference) | 12 s |
 | `31 --frame5 --kind H --diffwin 28` | — | **UNSAT** | 14 s |
 | `33 --frame5 --kind H --diffwin 28` | — | **UNSAT** | 21 s |
-| `35 --frame5 --kind H --diffwin 28` | — | R35 | — |
+| `35 --frame5 --kind H --diffwin 28` | — | **UNSAT** | 79 s |
+| `37 --frame5 --kind H --diffwin 28` | — | CUT (external timeout 1,200 s) | — |
 | `31 --frame5 --kind K0 --diffwin 28` | — | **UNSAT** | 20 s |
 
 This is wider than the push's (any answer up the stream, not one E or U).
@@ -214,8 +215,8 @@ medium on 8 units round the middle, which is how it missed the s = 2 pulse.
   divider's stream (§30 "Other media") was not run.
 - Meetings: offsets beyond 41 (covered by the orbit argument, not by runs); words other than those listed; mixed
   words with K0 (`meet6.py`'s five) were not re-run.
-- Guns: SAT negatives at period 8, in the 5 × 5 tube, with a settling time longer than T = 36 (48 at C = 31); no UNSAT
+- Guns: E at C = 39 in my encoding (cut at 1,500 s); SAT negatives at period 8, in the 5 × 5 tube, with a settling time longer than T = 36 (48 at C = 31); no UNSAT
   certificate (pysat verdicts only); the push's E instance and its C = 39 row were not re-run by me with its code.
   The oscillator samples beside the gun (`oscecho.py`) were not re-run.
-- Reflector: SAT negatives at C ≥ 37 (35: see table), and for U-returning answers beyond the window of 28 units;
+- Reflector: SAT negatives at C ≥ 37 (C = 37 cut at 1,200 s), K0 at C ≥ 33, and for U-returning answers beyond the window of 28 units;
   catalogue placements other than the two known.

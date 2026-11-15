@@ -1511,7 +1511,7 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   An independent encoding (`research/audit/signals6/mysat6.py`: light cone instead of histories, so the gun may send
   anything at all down the stream; it must be a gun of period dividing 4 again, on its units and the 4 in front, at
   T = 36 after E is set 4 units in front of it; glucose4) is UNSAT for E at C = 31 (also maplechrono, and T = 48),
-  33, 35, 37, for N1 at C = 31, 33, 35, and for U with something sent down at C = 35; SAT for U at C = 37 (re-stepped);
+  33, 35, 37 (C = 39 cut at 25 minutes), for N1 at C = 31, 33, 35, 37, and for U with something sent down at C = 35, 37; SAT for U at C = 37 (re-stepped);
   planted controls behave. The push's U instance at C = 37 re-run: SAT, its gun re-stepped by the review absorbs U.*
 - **[measured, sg.step_set; a SAMPLE] Oscillators beside the gun** (`python3 oscecho.py --K 40 --seed 6 --zone 13,16
   --out ../scratch/signals/p6/oscecho_gun.jsonl`, 23 min): the 99 catalogue oscillators, 40 random placements each
@@ -1535,7 +1535,7 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   no gun in those bounds answers U with a returned H or K0, so no loop can be built from these parts (question 5:
   not reached). *Review: "these parts" means period-4 guns and ends in the 3 × 3 tube at the stated C and T; the
   signal set is larger than E, U, H, K0 (section 30's Review note), and the review's wider encoding (any answer)
-  excludes those answers too for C ≤ 35 (U) and C ≤ 37 (E).*
+  excludes those answers too for C ≤ 37 (U and E).*
 
 ## 33. The reflector: what makes the echo, and why it works once
 
@@ -1573,7 +1573,7 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   end heals each word within 39 generations or burns) says the same for H.
   *Review (REVIEW-signals-6 §5): an independent encoding that allows any answer up the stream (the end restored at
   T = 36, on its units and 4 in front, and at least one cell of the 28 units above differing from the train) is
-  UNSAT for H at C = 31, 33, 35 and for K0 at C = 31 (glucose4); its controls (no answer required; an extra E on
+  UNSAT for H at C = 31, 33, 35 (37 cut at 20 minutes) and for K0 at C = 31 (glucose4); its controls (no answer required; an extra E on
   the stream) are SAT and re-step.*
 - So the only reflector known is the review's: capA with C18.23a or C20.33c beside it. Not tried: other
   oscillators beside capA (the samples of section 28 found these two among 9,900 placements), the 5 × 5 tube.
