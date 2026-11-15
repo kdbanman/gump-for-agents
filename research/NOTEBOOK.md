@@ -3019,9 +3019,13 @@ lists are closed, pull request 23 was merged (0b294fa, CI green on its head), so
   note for scoring the 108-cell run: the old value weighs ages 0 to 0.23 mean lives and the new run 0 to 4, so a
   difference between them is noise or ageing, and only the age table (which the card has been asked to commit) can
   say which.
-- Not checked: a second code at 81 cells (the reviewer's CPU stepper, bit-exact against the oracle on this lattice
-  with three controls, was still running when this was written; its value will be added to GL3); the faces of 93
-  to 111 cells still rest on one GPU code; nobody has run the hull driver but the card.
+- **A second code at 81 cells (added 13:18 UTC):** the reviewer's CPU stepper (bit-exact against the oracle on
+  this lattice for 3,001 generations, three negative controls failing as they should; 2 seeds, 6,536 face deaths,
+  63 minutes on two cores) gives 16.9386 ± 0.0124 against the card's 16.9222 ± 0.0031: +0.016 ± 0.013, 1.3σ. No
+  gross error in the GPU path at this size; the CPU value is four times less precise, so it does not test the
+  card's third decimal.
+- Not checked: the faces of 84 to 111 cells still rest on one GPU code; nobody has run the hull driver but the
+  card; the soup hash for the high seed at 57 cells.
 
 ## 2026-11-15: the third signals push: no emitter, no corner, no clock of period 4N; the clock's end swallows every message and keeps no trace; why 4N + 2 (the lead's own check of the reader; review running)
 
@@ -3080,6 +3084,13 @@ was found.** What came back instead:
   have not been put to the oracle; `sat_turn.py … --eat 16` in the 5 × 5 tube had not answered after 11 minutes.
   An adversarial review is running (`research/audit/REVIEW-signals-3.md`); grades below are provisional.
 
+> **Corrected by the review (13:18 UTC; next signals entry below).** Three statements above are too strong or wrong.
+> (i) The eight k = 2 caps of the 5 × 5 tube do not "die in a clock": each destroys itself in turning a lone rake, so
+> "the 3 × 3 tube, not the rake, is what has kept every clock at 4N + 2" does not follow; no cap of the other class
+> that survives one turn is known in any tube. (ii) Two adjacent pulses at the 8|C wall are not lost: the wall counts
+> the pair once and sends one pulse back. (iii) The side-wire scan lit 205 placements, not 5,625 (the rest were not
+> stationary unlit). Also: wire 8 burns from a cut end, so the second counter exists only on a ring.
+
 ## 2026-11-15: the kink is the wrapping: each short way round a face is a discount on the price per cell, the discounts add, and they stop between loop² 19 and 21 (the lead's fit on data on file; not reviewed; a tester is running)
 
 Prompted by the reviewer's remark that the bend in the nine equilateral faces rests on three faces "of three
@@ -3128,3 +3139,48 @@ their rows) against its closed loops, counted one per ±v in the hexagonal basis
   Frozen parameters and forecasts W1–W6 are in `research/wrap/PREDICTIONS.md` (committed 2de9026 before any new
   run); an independent tester is rebuilding the fit and measuring new classes at 51 to 69 cells
   (`research/wrap/README.md` when done).
+
+## 2026-11-15: the third signals push reviewed: the reader proof is complete; the counter wall reflects double pulses; the caps of the other turn class destroy themselves; what the emitter negatives do and do not exclude
+
+`research/audit/REVIEW-signals-3.md` (an Opus reviewer; own code in `research/audit/signals3/`; dynamics on
+`reference/oracle.py` or on the second review's oracle-checked stepper). The README corrections it lists were
+applied by the fourth push (e082fe1).
+
+- **The reader stands [proved; re-derived by the reviewer; SG12 to A].** The 16-state automaton is closed for a
+  simple reason: units ≤ 1 after two generations depend only on the cap and the next four letters (16 cases), and
+  units ≥ 2 follow from the tape theorem. `python3 research/audit/signals3/reader_check.py local`: all 64
+  six-letter words on the oracle. The census of left caps (17 / 126 / 702 sinks) is reproduced exactly with the
+  reviewer's own construction; "none has a memory" reproduced at planes 29 and 31 (the closure at 33 was not
+  finished).
+- **New: the 8|C wall reflects a double pulse [oracle; reviewer's code and the lead's own].** Isolated pulses are
+  counted exactly (spacings 2, 3, 4, 7, an irregular train, up to 27 pulses). Two adjacent pulses move the wall
+  exactly one unit and **exactly one right-going pulse comes back**, the rest of the ring cell for cell as it was.
+  The lead's check from the oracle alone: `python3 research/audit/signals_reflect_lead_check.py` (4 s; the
+  difference from "wall one unit on" is two cells, identical to a lone right-going pulse, moving one unit per two
+  generations). Longer runs also count once and return the remainder as a right-going composite (kymographs only).
+  So gump has an object that answers: two pulses in, one pulse back, one count kept. It moves one unit each time,
+  so it is not a reflector that can be used twice in place.
+- **Wire 8 is not free-standing [reviewer's stepper].** A cut end burns at one unit per generation and sets an
+  attached wire C burning. The second counter therefore exists on a ring only, until someone finds a cap for
+  wire 8.
+- **Turn classes [SG13 reworded].** P = (b − a) + (a′ − b) exactly, so P ≡ k_R + k_L is bookkeeping; that k is a
+  constant of the cap is proved for a *lone* rake. In a clock the rake arrives one unit behind a train the cap is
+  still eating, so "all lone turners have k = 0, hence every clock has period 4N + 2" is not proved; it is measured
+  (lone and in-clock constants agree for clock-C and all 33 clock caps at plane 31). Convention: right caps have
+  k_R = 0, the clock's left cap k_L = 2. The census (201 of 201 lone turners with k = 0) and the eight k = 2 caps
+  (same eight, then UNSAT, on re-running the enumeration) are reproduced. **All eight k = 2 caps are destroyed by
+  the lone turn itself** (oracle, `python3 research/audit/signals3/k2_oracle.py`, 7 s); in a clock two of them
+  complete one round of 4N + 4 generations before dying. A clock of period 4N needs a cap of the other class that
+  survives a turn, and none is known.
+- **What the emitter negatives exclude [SG15 reworded].** "Emitter = writer" is exact only for an emitter whose
+  output is a train of left-going pulses inside the 3 × 3 tube. The SAT results exclude stationary periodic
+  writers in that tube, within about five units of the end of the tape, with word period 2, 3 or 4. Still
+  possible: word periods ≥ 5; emitters reaching outside the tube (wide pulses); emitters of moving objects (rakes,
+  the composites the wall returns); emitters beside a wire or two-sided; other wires; larger writers. The SAT
+  encodings pass fixed-cap controls (the clock's own cap is found, at the right turn time). The side-wire,
+  back-to-back and turner scans were not re-run and have no positive control.
+- Grades: SG12 A (census B); SG13 B; SG14 A for isolated pulses and the double-pulse reflection, B for longer
+  runs; SG15 B− for the SAT negatives, C for the scans.
+- Not checked (the reviewer's list): the three scans; a second SAT solver; the census closure at plane 33;
+  whether the 186 lone turners of the 3 × 3 tube survive outside clocks; `sat_turn --eat`; whether the double-pulse
+  reflection can be built into a shuttle.

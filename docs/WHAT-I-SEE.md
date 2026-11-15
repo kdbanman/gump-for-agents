@@ -565,8 +565,9 @@ corrected is part of what this repository is for.
   one direction of one tube.
 - A clock whose period divides by four. Every length of the built clock gives a period that
   leaves 2 when divided by 4. A third push found half of the reason: the remainder is a
-  property of the two ends, every end that fits inside the narrow tube of the wire has the
-  same one, and ends of the other kind exist one size up but do not survive in a clock.
+  property of the two ends, and every end that fits inside the narrow tube of the wire has
+  the same one. Ends of the other kind exist one size up, but each destroys itself in the
+  act of turning the shuttle round.
 - One price per cell or two. Faces without a rim say 0.2087 from 63 cells up, and show no
   drift toward anything else. Faces with a rim say more, and their local slope is moving
   away from that, not towards it. The card in your house is running the large rimmed face

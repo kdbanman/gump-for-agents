@@ -220,6 +220,16 @@ _Last updated 2026-11-14 by the lead._
   overview, draft (§7.5), and redo CN1's joint fits. A note of 13:05 in `research/GPU-QUEUE.md` gives the card five
   tori at 75 and 84 cells with frozen forecasts, for after its hull run. The essay's wrapped-face paragraph already
   describes the law as unreviewed. Ledger: 170 claims (`python3 research/audit/claims_tally.py`).
+  **13:20 UTC: both reviews are in and recorded.** (a) Nine faces: the reviewer's CPU value at 81 cells is 16.9386 ±
+  0.0124 (card 16.9222; 1.3σ); GL3 is B at 81 cells, B− above. Nothing more is owed on that review. (b) **Third
+  signals push reviewed** (`research/audit/REVIEW-signals-3.md`; notebook "the third signals push reviewed"; SG12
+  A, SG13 B, SG14 A/B, SG15 B−/C; 170 claims, A 81, B 77, C 11, D 1): the reader proof is complete; the 8|C wall
+  reflects a double pulse (two in, one count, one back; the lead's own oracle check
+  `research/audit/signals_reflect_lead_check.py`); wire 8 is not free-standing (ring only); the eight k = 2 caps
+  destroy themselves in a lone turn; "every clock is 4N + 2" is measured, not proved; the emitter negatives exclude
+  only word periods 2 to 4 near the end of the 3 × 3 tube. Corrections to the README were applied by the fourth
+  push (e082fe1). OPEN-PROBLEMS 13 now lists questions (a) to (f). **Still running:** the fourth signals push
+  (Fable, since 12:55) and the wrapping-law tester (Opus, since 13:03).
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

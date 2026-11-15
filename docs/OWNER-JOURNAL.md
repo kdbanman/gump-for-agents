@@ -90,8 +90,13 @@ What speaks to it (the lead, same day):
   corner, a clock that drives a counter) and found none of them. What it found instead is the same isolation among
   the *ordered* things. The end of the clock swallows any message sent down its wire, letter by letter, and is
   exactly as it was afterwards: it cannot be told anything. In a census of several thousand other wire ends, each
-  either swallows everything the same way or is wrecked; not one remembers. And the only thing that ever puts a
+  either swallows everything the same way or disturbs the wire (sends something back, moves, grows or burns); not
+  one stays put and remembers. And the only thing that ever puts a
   pulse on a wire is a moving object already inside that wire. So far gump's ordered parts can keep time, carry,
   count and block, but none can speak onto a wire from where it stands, and none listens. Whether that is a law or
   only the smallness of what was searched is open; the searches were small.
+  *Reviewed since (13:18 UTC; notebook "the third signals push reviewed"):* the proof about the clock's end holds.
+  And the reviewer found the first thing that answers back: a wall between two kinds of wire that, hit by two
+  pulses in a row, moves one step and returns exactly one pulse the way they came (I checked it myself on the
+  reference stepper). It only exists on a closed ring so far, and it moves each time it is used.
 

@@ -97,15 +97,20 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     a corner or a crossing (nothing found, nothing searched outside one wire direction), a reusable reflector for a
     pulse (none inside the searched bounds), a receiver that toggles, a gate with its own output line, and with
     them whether gump can compute.
-    **Third push, 2026-11-15** (CLAIMS SG12–SG15, provisional until `research/audit/REVIEW-signals-3.md`; notebook
-    "the third signals push"): no emitter, no corner, no clock of period 4N was found. The clock's left cap swallows
-    every word of pulses and keeps no trace (proved); an emitter on the end of wire C is exactly a cap that writes a
-    periodic, non-constant word, and none of small period exists in the 3 × 3 tube; clock periods are 4N + 2 because
-    every rake-turning cap in that tube has the same turn class, and caps of the other class exist one tube size up
-    but die in a clock. Sharpened questions: **(a)** a writer at clock scale (period ≥ 10, a fixed word, seeded with
-    a clock's cap); **(b)** a 5 × 5 cap of the other turn class that survives the returning pulses (a clock of period
-    4N); **(c)** the invariant that forces the turn class of periodic caps in the 3 × 3 tube; **(d)** a corner:
-    one scan of a second wire beside a lit clock found nothing, and no other search exists.
+    **Third push, 2026-11-15** (CLAIMS SG12–SG15; notebook "the third signals push" and "the third signals push
+    reviewed"; `research/audit/REVIEW-signals-3.md`): no emitter, no corner, no clock of period 4N was found. The
+    clock's left cap swallows every word of pulses and keeps no trace (proved, reviewed). The counter wall 8|C counts
+    isolated pulses and **reflects a double pulse** (two in, one count, one pulse back; oracle, three codes), on a ring
+    only: wire 8 burns from a cut end. An emitter of left-going pulses on the end of wire C is a cap that writes a
+    periodic, non-constant word, and none of word period 2 to 4 exists near the end of the 3 × 3 tube. Clock periods
+    are 4N + 2 because every lone-rake-turning cap in that tube has the same turn constant (measured, and measured
+    to carry over into clocks); the eight caps of the other class one tube size up destroy themselves in the turn.
+    Sharpened questions: **(a)** an emitter outside what was excluded: word period ≥ 5, wide pulses, emitters of
+    moving objects, emitters beside a wire, other wires; **(b)** a cap of the other turn class that survives a turn
+    (a clock of period 4N); **(c)** a proof that the in-clock turn constant equals the lone one, and the invariant
+    that fixes it; **(d)** a corner: one scan of 205 placements of a second wire beside a lit clock found nothing,
+    and no other search exists; **(e)** a cap for wire 8 (a free-standing second counter); **(f)** whether the
+    double-pulse reflection can be made into a shuttle or a reusable reflector.
 14. The 94 clockwork objects (`research/clockwork/objects/`) are not merged into the atlas catalogue.
 
 ## Neighbouring rules
