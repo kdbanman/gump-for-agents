@@ -2333,3 +2333,69 @@ face deaths).
   the value it re-measures, and its premise "no settled lives at A ≥ 90" is false (both to be corrected in a new
   block there).
 - Five corrections are asked of the producer before the merge (`research/GPU-QUEUE.md`, note of 05:30 UTC).
+
+## 2026-11-15: what the dips say about the price of a cell (round 3 of the dying-face study, reviewed)
+
+Round 3 (`research/dying/README.md`, "Round 3"; forecasts T1–T4 committed first; figure
+`research/figures/dying_ratefunction.png`) measured the rate ν(p) of dips to a fraction p of the usual population
+on free (c1) hull faces of 45, 63, 84 and 108 cells and on one rim-free face (the equilateral torus n = 21, 63
+cells), and looked at what a depleted face looks like. Reviewed with its own stepper on fresh seeds, with 135 cells
+added: `research/audit/REVIEW-dying.md`, "Round 3" (code `research/audit/dying/r3_*`). The lead recomputed the tail
+slopes and the shallow part from the study's table (`python3 research/audit/dying_tangent.py`) and the end-effect
+line by hand from the GPU's lifetimes and the study's ln ν(0.9) (7.481, 11.324, 15.789, 20.871 at the four sizes:
+slope 0.2125, offset 2.08).
+
+- **The dip curve per cell is one curve only down to about half the population [measured; A].** −ln ν(0.5)/A =
+  0.120, 0.103, 0.093, 0.089, 0.086 at A = 45 … 135: the raw curve does not collapse (forecast T1a failed). Measured
+  from the rate of shallow dips, [ln ν(0.9) − ln ν(0.5)]/A = 0.065–0.067 at every size. Below p ≈ 0.55 the curves
+  of different sizes differ by a fixed number of nats K(p), not by a number per cell: K grows smoothly from 0 at
+  p ≈ 0.55 to 2.1 at p = 0, half of it below p = 0.15. ln ν(0.9) itself is not size-independent: it falls by about
+  0.002 per cell. DY8.
+- **The end effect, and what the dips do not settle [measured; A for the line, B for the estimate].**
+  ln τ_face + ln ν(0.9) = 0.2125·A − 2.07 to within 0.01 nats over A = 45–108. The slope depends on which dip rate
+  is called the attempt (0.218 for every crossing of the mean, 0.213 for ν(0.9), 0.204 for ν(0.8)), because the
+  shallow rates carry a part proportional to A. The dips at p ≥ 0.2 alone, extrapolated in size and then to p = 0,
+  give **c = 0.215 ± 0.005**: they cannot separate 0.207 from 0.219 and add nothing to what the lifetimes' own
+  local slopes say (0.212–0.221). Withdrawn: the study's "levelling off near 0.19–0.20, below c" (the end points
+  follow c − K/A and are still rising at 135 cells); the lead's K ≈ 2.4 paired with c = 0.21–0.22 (not constant:
+  2.37 → 2.78); the lead's formula for c from the density and the Fano factor (arithmetic whose two terms each miss
+  what is measured). DY9.
+- **The tail [measured; A].** Over 0.1–0.45 of the usual population the price is 0.50–0.52 per live cell at A ≥ 63,
+  rising slowly with size (0.44–0.47 at 45 cells); locally it runs from 0.53 deep down to 0.40 near half. Forecast
+  T1b failed as registered (a count-weighted fit, which integer thresholds break); the unweighted fit would have
+  held. DY10.
+- **What a depleted face looks like [measured; B].** c1 faces of 63 cells caught at 0.3 of their usual population
+  (8.3 live cells on average): near a survivor the face is at about half its stationary density (0.46–0.54 by
+  measures that do not align on the face's own centroid; the study's 0.6 was a quarter alignment), the excess
+  reaches about 3.5 doubled units (under two cubes), and the rest of the face sits at 0.15–0.20 of stationary:
+  thinner far away, not emptied. Thinner faces have a looser patch (0.54 at 7–9 cells, 0.38 at 3–6). A thin csz
+  face is depleted at its tied edge beyond the stationary deficit (centroid nearest the tied edge in 22.4% of
+  faces against 29.8% for thinned stationary faces; the tied third holds 0.82 of the face's mean relative
+  occupancy against 0.99). T2 failed (no patch at 0.8 of stationary), T3 held. "Refills from its patch" (T4,
+  held) has no content: a rule-aware baseline gives 0.991 against the observed 0.994. DY11.
+- **The rim-free face lives longer than every forecast for it [measured by one code at this precision; B].** The
+  equilateral torus n = 21 (63 cells; the study's vessel is its mirror image) has ln τ_face = 13.176 ± 0.011
+  (reviewer, two seeds, 7,746 deaths; the study has 13.13 ± 0.04). The forecasts of
+  `research/constant/PREDICTIONS.md` part C for this torus were 13.115 ± 0.004 (flat), 13.128 ± 0.006 (massive),
+  13.107 and 13.100 (rising); with the corrected 4 × 4 anchor they are lower still. So it lies 0.05–0.07 above all
+  of them, 5σ above the flat reading. The three anchors of part C are tori whose shortest loops run along the
+  lattice rows and whose slabs have many layers between possible firewalls (4 × 4, 5 × 5, 6 × 6); this is the
+  first measured of the other kind: its shortest loops are oblique (4 rows and 1 across), and its transverse layer
+  period is 4, so there are only two classes of layer and no dead layer anywhere. Which of the two differences
+  carries the 0.05 is not known; in the massive reading the excess would need an effective loop of 4.39 against
+  the Euclidean 4.58. [conjectured, the lead; forecast in a dated block under part C] The tori of this second
+  kind (n = 19, 21, 31, 37) sit above the readings anchored on the first kind, and those of the first kind
+  (n = 27, 28) do not. Queued on the graphics card: this torus and n = 19, beside the A = 93 run (n = 31) already
+  going there. No firewall can form on this torus. Its dips differ from the hull face of the
+  same area: shallow dips 1.4 times as frequent and dearer per cell (0.077 against 0.067), tail cheaper (0.43
+  against 0.50 per live cell). DY12.
+- **Forecasts.** T1a, T1b, T2 failed; T3, T4 held (T4 nearly forced by the rule). Over the three rounds three of
+  the lead's eighteen held.
+- **Next [conjectured, the lead; forecasts committed before the review arrived].** Gump's rule is cooperative, so
+  a face cannot be thinned uniformly below some density and live; a deeply depleted face would then be a mixture
+  of a void and a remnant at fixed density, and the dip curve a parabola joined to its tangent
+  (`research/dying/PREDICTIONS.md`, "Round 4", F1–F6: a lever rule). The review's alignment-free figures cut both
+  ways: half density near survivors is where the tangent construction puts the remnant (0.55–0.62), but the far
+  field is not empty and the patch loosens as it shrinks. Round 4 measures it on larger faces at several depths.
+- Not checked: one fresh seed per hull size (two for the torus); the lifetimes at 108 and 135 cells are the GPU's;
+  the study's own runs were not rerun; the patch in csz and D2h and its change with depth were not measured.

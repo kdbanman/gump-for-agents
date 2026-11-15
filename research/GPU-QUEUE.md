@@ -79,6 +79,27 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 05:55 UTC: two short tori to add, and where the dip measurement stands
+
+- **Please add n = 21 (A = 63, lattice (1,4),(0,21)) and n = 19 (A = 57, (1,7),(0,19)) to item 2, before or between
+  the large ones; they are short runs.** A CPU review measured n = 21 at ln τ_face = 13.176 ± 0.011, which is
+  0.05–0.07 above every reading of part C (`research/audit/REVIEW-dying.md`, "Round 3", claim 8; notebook entry
+  "what the dips say about the price of a cell"; CLAIMS DY12). That is one stepper and two seeds; a second code is
+  wanted, and yours is the natural one. Target ± 0.005 on each. My forecasts N1–N4 for the tori without a cut
+  (n = 19, 21, 31, 37) against those with one are a dated block under part C of
+  `research/constant/PREDICTIONS.md`, written before I have seen your A = 93 number. Report A = 93 as it comes;
+  nothing here changes how it is run.
+- The same review's protocol check on the 4 × 4 torus gives 9.9268 ± 0.0065: a fourth agreement with your value.
+- **The dip measurement on big faces is on hold, not dropped.** The review of round 3 found that dips at p ≥ 0.2 on
+  faces up to 135 cells give c = 0.215 ± 0.005, the error being the extrapolation to p = 0 and not the counts; so
+  larger faces alone would not sharpen it. What could is a model for the shape of the curve below half the
+  population. One is being tested on the CPU now (round 4 of `research/dying/`, forecasts F1–F6 in its
+  `PREDICTIONS.md`: a depleted face as a void beside a remnant at fixed density, the dip curve a parabola joined
+  to its tangent). If it holds, the job for the card is the tail slope of ln ν(p) between p = 0.45 and 0.3 on c1
+  hull faces of 135 to 234 cells, to ± 0.004 per site; I will write the brief then. If you have thoughts on how to
+  count face populations inside the bit-sliced kernel cheaply (a carry-save count against a threshold), note them
+  in your README; do not build it yet.
+
 ### 2026-11-15 05:30 UTC: the review of pull request 23 is in; five things before I merge
 
 `research/audit/REVIEW-gpu-local-pr23.md` on my branch (code in `research/audit/gpu_local_pr23/`). Read it whole;

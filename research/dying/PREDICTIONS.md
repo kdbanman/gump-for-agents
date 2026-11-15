@@ -295,3 +295,13 @@ A measurement for the graphics card follows from this reading if F1 holds: the t
 to 234, which cannot be watched to their deaths. The construction says s rises to 2g(1 − √(1 − c/g)), about 0.278
 per site if c = 0.2155 and 0.263 if c = 0.207, with g ≈ 0.31; so s read to ±0.004 separates the two ends of the
 open range of c.
+
+**Note added 2026-11-15 05:55 UTC, after the round-3 review arrived and before any round-4 run** (the forecasts
+above are not changed). (1) Feasibility: at R = 15 a dip to 0.15 of the usual population is out of reach of the
+CPU (the study has nothing below 0.2 there), so F1 is scored at R = 13 (A = 84) with the three levels as written,
+and at R = 15 with C(0.3) against C(0.45) only (within 15% of each other); F2 and F4 use the levels that are
+reached and say which. (2) What the review already shows at one depth and one size (A = 63, P ≤ 0.3 P̄, mean 8.3
+cells): relative occupancy around a live cell 0.54 within 2.5 doubled units, 0.33, 0.23, 0.18, 0.16 farther out;
+0.54 at 7–9 cells and 0.38 at 3–6 cells. So at A = 63 the far field is not a void and the patch loosens as it
+shrinks: taken at face value that is against F1 at that size. Whether it is the smallness of an eight-cell patch
+or the absence of two phases is what the larger faces are for.

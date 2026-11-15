@@ -80,6 +80,13 @@ _Last updated 2026-11-14 by the lead._
   GPU's 4 × 4 value stands (best 9.9249 ± 0.0003 from three codes; the file's 9.9324 was a high draw); the guard is
   sound, with one false latency claim. Five must-fix items are the top note of `research/GPU-QUEUE.md` (05:30 UTC).
   Merge pull request 23 when the 1080 session has pushed them (CI, full head sha).
+  **Dying faces, round 3: reviewed and recorded 05:50 UTC** (notebook entry "what the dips say about the price of a
+  cell", CLAIMS DY8–DY12, 147 claims): the dips give c = 0.215 ± 0.005 and cannot separate 0.207 from 0.219; the
+  end effect is 0.2125·A − 2.07; a depleted face is at half density near its survivors and not emptied elsewhere;
+  **the equilateral torus n = 21 is 13.176 ± 0.011, above every part-C forecast** (queued on the card with n = 19;
+  the lead's forecasts N1–N4 under part C). **Round 4** (the lead's two-phase reading, forecasts F1–F6 in
+  `research/dying/PREDICTIONS.md`) is the next CPU experiment. Owed: the README's seven round-3 corrections, the
+  essay, the overview and the draft for round 3.
   Owed on each message from it: the lead's recomputation, an adversarial review with independent code, then the
   record. Queue for
   it, in this order, each with forecasts already committed where noted: (0) the acceptance bar of
