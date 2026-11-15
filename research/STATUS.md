@@ -106,8 +106,14 @@ _Last updated 2026-11-14 by the lead._
   **The audit of the C-graded ledger rows is done and applied (03:57 UTC, 13f8732):** 28 rows re-run, 26 matched;
   ledger now A 56, B 66, C 10, D 1; P4 restated (ξ = 0.65 ± 0.03 cube), a sentence of ZL2 corrected; notebook
   entry "the audit of the rows nobody had re-run"; the lead's own checks: `research/audit/p4_lead_check.py` and
-  Z10's basin count. Owed: the manuscript draft still marks as preliminary some rows that are now B (an editor is
-  on it), and the overview's counts. Earlier, **started 02:04 UTC (Opus):** that audit ->
+  Z10's basin count. The overview's counts and "Open now" list are updated and republished (version 10, e126a10).
+  **Started 04:02 UTC (Opus), two agents:** (1) an editor bringing `docs/paper/draft.md` in line with the audit's
+  grades (releases "preliminary" markers on rows now B; P4, P6, F2, F11 wordings; items for the lead in
+  `docs/paper/FOR-LEAD.md`); (2) an experimenter looking at dying faces, `research/dying/` (occupancy of a face
+  and its neighbours in the generations before it dies, c1, csz, c2v, D2h at A = 63; the lead's forecasts L1-L7
+  are in its `PREDICTIONS.md`, committed before the runs; figure `research/figures/dying_face.png`). On (2)'s
+  report: the lead recomputes one number from its data, an adversarial review with independent code, then the
+  notebook, the ledger and the overview. Earlier, **started 02:04 UTC (Opus):** that audit ->
   `research/AUDIT-2026-11-15.md`; a naturalist identifying the 37 long-period
   settled states of `research/audit/shape3/zombie_states.txt` against the catalogue -> `research/clockwork/`. **The owner reset the Fable
   window at about 20:28 UTC** (0.00 at 20:29; words in `LEAD.md`, "Watching usage"). **Started 20:33 UTC:**
