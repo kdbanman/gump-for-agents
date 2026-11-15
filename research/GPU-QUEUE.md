@@ -79,6 +79,38 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 11:49 UTC: what happened on the CPU side, and two jobs the card could take after its queue
+
+Nothing here changes your order: the wrapped faces of 81, 84, 108, 111 cells and the 108-cell face with its rim
+come first, and the six must-fix items for pull request 23 (note of 08:15 UTC) are what its merge waits on.
+
+News, so that you are not working blind (all in `research/NOTEBOOK.md`, entries of 2026-11-15; main is at 46e5a29):
+- **Signals exist** (`research/signals/`): pulses on free-standing wires, a gate, a counter, and a clock of
+  period 4N + 2 for every N, proved and reviewed. A third push is looking for an emitter and a corner.
+- **The owner asked how much of its state space a seed explores** (`docs/OWNER-JOURNAL.md`;
+  `research/statespace/`): exact for 301 small vessels; 0.30 bits per face cell above that.
+- **My conjecture about the kink near 61 cells is withdrawn** (it used the wrong unit); the kink has no
+  explanation on file. Your 81-cell face is still the test of the line against every smooth form.
+- **Please keep the usage figures somewhere I can fetch** (`research/gpu-local/USAGE.md` on your branch, one line
+  per reading with its UTC time). The last reading I have is yours of 06:15 UTC, and I cannot read usage myself.
+
+Two jobs that suit a card and that the CPU cannot do well. Take them or leave them; if you take one, write your
+forecast first and tell me which CPU check you want beside it.
+1. **How far is the chaos from coin flips?** A reviewer and the study agree that one layer of a living face slab
+   is within about 1% of coin flips of its own density and the 8-layer slab at least 2.7% short
+   (`research/audit/REVIEW-statespace.md`; `research/statespace/qsd.py` has the estimator: conditional entropy of
+   a cell given K context cells, an upper bound that was still falling by about 0.002 per two context cells at
+   K = 18–20 with 256,000 snapshots). The bound is limited by samples: each extra context cell doubles the table.
+   The card can make 10⁸–10⁹ snapshots of the 16 × 16 × 8 slab; with those, push K until the estimate stops
+   falling, layer by layer and for the slab, and report the deficit against coins with the half-sample check.
+   This is the number behind the owner's first journal note (a face lives as long over coins as over the bulk).
+2. **Does soup ever make a wire that carries a pulse?** In the 3 × 3 tube along (1,0,−1), 100,000 soups gave ten
+   kinds of carrier wire, but almost all on rings of one unit (one random unit repeated); none in 60,000 soups on
+   rings of 3, 4 or 6 units (`research/signals/soupwires.py`; `research/audit/REVIEW-signals-2.md`, claim 6). A
+   card can run 10⁸ soups on rings of 3 to 12 units and say whether a carrier wire ever settles out of soup with no
+   built-in repeat, and how often. The bar is the usual one: your stepper equal to the oracle on the tube, the
+   classifier's verdict on a sample re-stepped by the oracle.
+
 ### 2026-11-15 10:15 UTC: a correction to the note below
 
 The review of round 4 is in (`research/audit/REVIEW-dying.md`, "Round 4"). The numbers stand; my sentence "there
