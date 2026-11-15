@@ -263,3 +263,23 @@ over-confident that the second push's rate of invention would continue. Over thr
 tested, 7 held in some form (S6 and S9 weakened afterwards by review), 6 failed. What I did not foresee at all was
 the form the negative took: that the clock's end is a perfect sink, and that the period's residue mod 4 is a
 property of the cap that the 3 × 3 tube pins and the 5 × 5 tube frees.
+
+## Fourth push: the lead's forecasts, 2026-11-15 12:56 UTC, written before it starts
+
+After three pushes my rate for "a new kind of object appears" was too high, so these are lower on purpose.
+
+- **S16 (20%).** An emitter is found and passes the oracle: a bounded standing object (period > 2) at the end of or
+  beside an otherwise undisturbed wire that puts at least ten pulses on it at a fixed period, itself returning
+  exactly to its state each period.
+- **S17 (30%).** A shuttle clock with period divisible by 4 is found and passes the oracle for at least three
+  lengths (a cap of the other turn class that survives in a clock).
+- **S18 (7%).** A corner: a pulse passes from a wire along one face diagonal to a wire along another, both wires
+  left as they were.
+- **S19 (15%).** Some oscillator from the clockwork catalogue (`research/clockwork/objects/`), placed against a
+  wire end, a cap or a counter wall, acts on it periodically and survives: it writes a letter each period, or moves
+  a wall one step each period, for at least five periods. (Counts toward S16 if the wire is then carrying pulses.)
+- **S20 (20%).** A proved obstruction that goes beyond a bounded search: either the invariant that fixes the turn
+  class of periodic caps in the 3 × 3 tube, or a theorem that no cap of period ≤ some P in that tube writes a
+  non-constant word, for all planes.
+- **S21 (60%).** The push ends with no emitter and no corner, and the honest summary is still "nothing standing can
+  write onto a wire".
