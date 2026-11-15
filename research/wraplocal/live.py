@@ -27,6 +27,7 @@ import validate  # noqa: E402
 SCR = os.path.join(ROOT, 'research', 'scratch', 'wraplocal')
 os.makedirs(SCR, exist_ok=True)
 BLK = 8          # words per block
+FW = '--fw' in sys.argv   # drop replicas at a transverse firewall (three consecutive empty transverse layers)
 LAGS = 32
 SNAP = 8
 
@@ -37,7 +38,22 @@ def vessel(h, k, d):
     NB = np.array(nb)
     NB[NB < 0] = n
     t = np.array([c[3] for c in cells])
+    VESSEL_DIAGS[(h, k, d)] = [[np.array(l) for l in dg] for dg in diags]
     return cells, NB, np.array(f0), np.array(f1), t
+
+
+VESSEL_DIAGS = {}
+
+
+def firewall_words(X, diags):
+    """(W,) uint64: bit set where some transverse diagonal has three cyclically consecutive empty layers"""
+    out = np.zeros(X.shape[1], np.uint64)
+    for dg in diags:
+        if len(dg) < 3:
+            continue
+        E = ~np.stack([np.bitwise_or.reduce(X[l], axis=0) for l in dg])
+        out |= np.bitwise_or.reduce(E & np.roll(E, 1, 0) & np.roll(E, 2, 0), axis=0)
+    return out
 
 
 def count_bits(X, NB):
@@ -128,6 +144,8 @@ def run(h, k, d, W, burn, gens, seed):
     nb_blocks = W // BLK
     assert W % BLK == 0
     rng = np.random.default_rng(seed)
+    diags = VESSEL_DIAGS[(h, k, d)] if FW else []
+    nfw = 0
     X = np.zeros((n + 1, W), np.uint64)
     X[:n] = soup(rng, n, W)
     alive = np.ones(W * 64, bool)
@@ -136,6 +154,8 @@ def run(h, k, d, W, burn, gens, seed):
         X, _ = step(X, NB)
         p0 = unpack(X[f0]).sum(0); p1 = unpack(X[f1]).sum(0)
         alive &= (p0 > 0) & (p1 > 0)
+        if diags:
+            alive &= unpack(firewall_words(X, diags)[None, :])[0] == 0
     # accumulators per block
     nb_ = nb_blocks
     lay_live = np.zeros((nb_, 8)); lay_birth = np.zeros((nb_, 8)); lay_death = np.zeros((nb_, 8)); lay_exp = np.zeros((nb_, 8))
@@ -221,12 +241,19 @@ def run(h, k, d, W, burn, gens, seed):
         X = Xn
         p0 = unpack(X[f0]).sum(0); p1 = unpack(X[f1]).sum(0)
         alive &= (p0 > 0) & (p1 > 0)
-    out = os.path.join(SCR, f'st_{h}_{k}_{d}_s{seed}.npz')
+        if diags:
+            fwb = unpack(firewall_words(X, diags)[None, :])[0] == 1
+            nfw += int((alive & fwb).sum())
+            alive &= ~fwb
+    od = os.path.join(SCR, 'fw') if FW else SCR
+    os.makedirs(od, exist_ok=True)
+    out = os.path.join(od, f'st_{h}_{k}_{d}_s{seed}.npz')
     np.savez_compressed(out, h=h, k=k, d=d, A=A, W=W, burn=burn, gens=gens, seed=seed, wall=time.time() - t0,
                         lay_live=lay_live, lay_birth=lay_birth, lay_death=lay_death, lay_exp=lay_exp,
                         sN=sN, sN2=sN2, sRG=sRG, hist_in=hist_in, hist_tot=hist_tot, S1=S1, S2=S2, SC=SC,
-                        acx=acx, acN=acN, acC=acC, acM=acM, acX=acX, dropped=int((~alive).sum()), t=t, f0=f0, f1=f1)
-    print(f'{(h, k, d)} A={A} R={W * 64} burn={burn} gens={gens} seed={seed}: dropped {int((~alive).sum())}, '
+                        acx=acx, acN=acN, acC=acC, acM=acM, acX=acX, dropped=int((~alive).sum()), firewalls=nfw, t=t, f0=f0, f1=f1)
+    print(f'{(h, k, d)} A={A} R={W * 64} burn={burn} gens={gens} seed={seed}: dropped {int((~alive).sum())} '
+          f'(firewalls in the measured window {nfw}{"" if FW else ", not detected"}), '
           f'{time.time() - t0:.0f} s -> {out}', flush=True)
 
 
@@ -234,7 +261,7 @@ if __name__ == '__main__':
     sys.path.insert(0, os.path.join(ROOT, 'reference'))
     sys.path.insert(0, os.path.join(ROOT, 'research', 'audit', 'shape'))
     c = sys.argv[1]
-    a = list(map(int, sys.argv[2:]))
+    a = [int(v) for v in sys.argv[2:] if not v.startswith('-')]
     if c == 'check':
         sys.exit(0 if check(*a) else 1)
     elif c == 'run':
