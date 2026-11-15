@@ -26,6 +26,29 @@ end of run. Estimator: per-face τ = faces × exposure / deaths over ages ≥ T0
 | 5. exact M(1): ring of 5, segments | **stands** | 3.967199; 2.453108 (n = 2), 4.192750 (n = 5) | 3.967199; 2.453108; 4.192750 |
 | 7. forecasts before runs; scoring | **stands with corrections** | | see below |
 
+## Claim 2: segments
+
+**Construction.** The face cells of sites 0–2 are held dead on both faces, at the same sites. Site s = {Z_s, Y_s,
+X_{s+1}}, as in ring.c's NOTCH. Layers 1–6 stay a full ring.
+- `tt.py geom 16`: within the face layer, two dead sites already separate the two ends. A face cell reaches at most
+  two sites along the ring. The README's "three sites is the least that keeps the two ends from seeing each other
+  inside the face" is therefore wrong in its wording: three is a choice, not a minimum.
+- The ends still see each other through the substrate, which has no ends. `beneath.py` (6 lanes, b = 32, both faces
+  alive, output in `beneath_out.txt`) shows the substrate is not neutral beneath the wall. Layer 1 is denser beneath
+  the wall than in the middle (0.456 against 0.413), and so is layer 2 (0.412 against 0.395). Layer 3 is unchanged
+  (0.393 against 0.399). The face next to the wall holds 0.384 against 0.441.
+- So the "free end" is a dead boundary over a periodic, locally denser support. That is a legitimate and well-defined
+  boundary condition, and its effect is an O(1) end term in ln τ, so it does not enter γ. But it is not shown to be the
+  free end of a physical strip, and nothing about end costs should be read from it.
+
+**Re-measured** (tags s21, s29; s37 pending):
+
+| n | review | line |
+|---|---|---|
+| 21 | 9.1719(16) (403k deaths; the two chunks differ by 2.7σ) | 9.1708(15) |
+| 29 | 11.5564(18) (312k) | 11.5533(29) |
+| slope 21 → 29 per site | 0.29806(30) [0.09935 per cell] | 0.2978(4) |
+
 ## Claim 4: noise is enough from five layers
 
 `tt.py` model mode: rule on layers 0..w−1, layers w and w+1 redrawn every generation with density 102/256, one face,
