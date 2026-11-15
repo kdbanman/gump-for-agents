@@ -1,0 +1,22 @@
+# champion of vessel slab 1 0 3 3 (27 cells): the seed with the longest
+# transient, 51 generations, then a cycle of period 1;
+# 36 seeds share this transient. State (bit i = vessel cell i): 79f0b6
+# population along the trajectory: 14 13 16 11 13 10 12 9 13 10 15 11 12 17 10 9 11 12 14 14 16 10 13 12 10 12 16 11 11 16 13 11 14 10 14 7 8 7 9 8 9 8 10 10 7 7 9 6 5 3 1 0 0
+# verify on reference/oracle.py: python3 research/statespace/champion.py research/statespace/data/champions/slab_1_0_3_3.txt
+vessel slab 1 0 3 3
+transient 51
+period 1
+0 1 0
+0 0 1
+0 3 -2
+0 2 -1
+0 5 -4
+1 2 0
+0 3 0
+0 2 1
+1 4 -2
+0 5 -2
+0 1 4
+0 0 5
+1 2 2
+0 3 2
