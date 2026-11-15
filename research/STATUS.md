@@ -72,7 +72,11 @@ _Last updated 2026-11-14 by the lead._
   `research/audit/REVIEW-shape2.md` (independent stepper; claims 1-4 stand with corrections; no law passes at any
   area; the A = 60 pair is 0.0142 ± 0.0019 over four runs); notebook entry "every torus of a given area"; CLAIMS
   SH2 (corrected), SH3-SH5. The review's corrections are applied to `research/shape2/README.md` (9ffb393) and the
-  overview carries the census (ab66ba7; published 18:20 UTC, version 6). **The owner reset the Fable
+  overview carries the census (ab66ba7; published 18:20 UTC, version 6). **Overview refreshed and published again 01:55 UTC
+  2026-11-15 (version 7, 705f59d):** new plates for the second variable, the thinnest face, the one-constant
+  question with the empty patches, and lives that settle unrecognised (the period-16 state ticks on the page);
+  prior art, swarm, checks, milestones and "Open now" brought up to date. An Opus editor is bringing
+  `docs/paper/draft.md` up to date with the same results. **The owner reset the Fable
   window at about 20:28 UTC** (0.00 at 20:29; words in `LEAD.md`, "Watching usage"). **Started 20:33 UTC:**
   (1) Fable, **done 21:36 UTC**: second-reader audit of the counting line, `research/theory/swarm/audit/AUDIT-counting.md`:
   nothing tagged proved is wrong (19 correct, one gap filled, two wordings narrowed; one constant corrected,
