@@ -828,8 +828,8 @@ tape behind it, the guard at unit 2, the mirror rake `5f` exactly at units 4, 5 
 k = (T + 2) mod 4 here (KS = 6).
 
 - **[proved, computer-assisted: UNSAT by CaDiCaL 1.5.3, and by Glucose 4 for T ≤ 20] No right end of wire C of period
-  2 in the 3 × 3 tube, of any length and shape, turns a lone rake with class 2 within T = 32 generations.** `python3
-  sat_two.py T --open` for T = 8, 12, 16, 20, 24, 28, 32: UNSAT in 0, 1, 6, 19, 43, 71, 221 s (`--solver glucose4`:
+  2 in the 3 × 3 tube, of any length and shape, turns a lone rake with class 2 within T = 36 generations.** `python3
+  sat_two.py T --open` for T = 8, 12, 16, 20, 24, 28, 32, 36: UNSAT in 0, 1, 6, 19, 43, 71, 221, 755 s (`--solver glucose4`:
   T = 8..20 in 0 to 4 s). "Within T": the rake is at unit u at generation 0, every unit up to u is bare wire in the
   end's own state, and the mirror rake `5f` is at units u − 1, u at generation T. Also for ends of period 4 (`--zp 4`: T = 8..20; 0, 3, 9, 47 s) and period 6 (`--zp 6`: T = 8, 12, 16;
   1, 16, 52 s). *What the instance is.* The end Z is free on units 6..U, U = T/2 + 6, and nothing is assumed beyond
@@ -847,8 +847,8 @@ k = (T + 2) mod 4 here (KS = 6).
   *What this covers that section 18 did not:* every plane position at once, caps longer than any plane tried, walls
   to other wires and anything else periodic on the far side. An end may begin with bare units, so the instance
   `sat_turn.py T' C --KS 10` of section 18 (rake at unit 9, mirror rake at units 4, 5 at T') is the case of four
-  bare units and T = T' + 8 here: T ≤ 32 contains section 18's T' ≤ 24 for every C, and not its T' = 28, 32 (those
-  stay negatives within their planes). What it does not cover: turns slower than that, the 5 × 5 tube, the guard (a
+  bare units and T = T' + 8 here: T ≤ 36 contains section 18's T' ≤ 28 for every C, and not its T' = 32 (that one
+  stays a negative within its planes). What it does not cover: turns slower than that, the 5 × 5 tube, the guard (a
   turn that alters the tape two units ahead of the mirror rake), a rake arriving behind a p> train as in a clock
   (third review), periods other than 2, 4, 6.
   No reason is known, and the refutation is not local to the wire's end, nor does it need the whole light cone: at
@@ -890,20 +890,64 @@ k = (T + 2) mod 4 here (KS = 6).
   (131 s); C = 33: no answer in 9 minutes.
 - **[proved within the bounds] No divider.** `python3 sat_div.py 5fbb 5f W` (a standing object on W units inside the
   stream, wire on both sides, no planes: the gun's train in on the right, the train `5f9f` out on the left, all four
-  relative phases, period 8): UNSAT for W = 1, 2, 3 (under 3 s each) and for W = 4 at the first phase (287 s); the
-  control `sat_div.py 5f 5f W` returns the train itself.
+  relative phases, period 8): UNSAT for W = 1, 2, 3 (under 3 s each) and for W = 4 (287, 334, 312, 378 s for the
+  four phases); the control `sat_div.py 5f 5f W` returns the train itself. W = 5 and the 5 × 5 tube: not run.
 - **[not finished] A pulse gun in the 5 × 5 tube.** `python3 sat_gun.py 7b 29 --lo -1 --hi 7` (a writer of the word
   BC, a p< every 4 generations, in the 5 × 5 tube): no answer in 16 minutes. (The solver's own timeout does not
   fire inside pysat here; the runs were ended from outside.)
+  (The train `5f9f` is the gun's stream with every second rake a hole: on the mirror-rake stream a hole reads `9f`
+  where a rake reads `5f`. So the last two items are the searches for a standing writer of the word "rake, hole",
+  at the end of the wire and inside the stream.)
 - **[measured] No far end on file modulates the stream** (`beamcaps.py`, section 21): 1,627 cap states, none gives
   a stream of period above 4.
+- **[measured, sg.step_set] No two-sided object on file survives in a stream.** `python3 gunlab.py obstacle
+  ../scratch/signals/p4/two_6_3_b.json ../scratch/signals/p4/two_6_4_b.json` (75 s; the lists are written by
+  `sat_two.py 6 --w 3 --all --out ...` and `--w 4 --all --minutes 4 --out ...`): each of the 208 two-sided objects
+  of section 22 set (a) between the receiving cap and the gun, 1 to 8 units from the gun, and (b) between the
+  mirror-image gun and a cap at rest, the same gaps; 3,328 runs to their final cycle. In none is a stream still
+  running at the end. Final periods: 1 (1,563 runs), 2 (1,585), 4 (125), 6 (31), 3 and 5 (11), 8, 10, 12, 20, 24 (13):
+  "running" means two rakes in a row on the wire at some even generation of the final cycle. The five long cycles
+  looked at by hand are small rotors left where the gun stood, with the wire gone or turned into a different
+  stationary wire (in one, object 161 at gap 4, a rotor of period 8 on three units); they are not clocks on a wire.
+- **[measured, sg.step_set] Two guns facing each other destroy each other.** `python3 gunlab.py duel` (10 s): the gun
+  and its mirror image across N = 0..40 units of bare wire, the four phase pairs of one wire parity (the other
+  parity is the mirror image); control: the mirror-image gun alone emits rakes. All 164 settle to period 1 or 2.
+- **[measured, sg.step_set] No absorber on file reads a hole.** `python3 gunlab.py readers
+  ../scratch/signals/p4/abs8_fb_31.json ../scratch/signals/p4/abs4_fb_33.json` (2 min; the lists are written by
+  `sat_gun.py fb 31 --dir 1 --mult 2 --all --out ...` and `sat_gun.py fb 33 --dir 1 --all --out ...`, 57 s and 7 s):
+  the 13 absorbers of C = 31 and C = 33, each at the end of a long rake train, with ten words of holes (one rake
+  removed, the first to the sixth from the absorber; two in a row; every second one of ten). Eleven absorbers heal
+  exactly after every word. Two (numbers 5 and 8 of the C = 33 list, 21 and 22 cells) are destroyed by every word,
+  a single hole included, and the wire burns after them. None is left alive in a different state: a hole is
+  either forgotten or fatal.
+- **[proved within the bounds] No end of period 8 at C = 31, receiving or emitting, and no receiving one at C = 33.** `python3 sat_gun.py fb 31
+  --dir 1 --mult 2 --all` (57 s): the absorbers of period dividing 8 at C = 31 are the one of period 4 and no
+  other; `python3 sat_gun.py 5f 31 --mult 2 --all` (35 s): the same for guns of the full stream. At C = 33
+  (`sat_gun.py fb 33 --dir 1 --mult 2 --all`, 14 min) the absorbers of period dividing 8 are the twelve of period 4
+  and no other. An absorber of period 8 would count the rakes it swallows mod 2.
 - **[measured, sg.step_set] The emitting end has a stationary state too, and no single cell lights it.** `python3
   gunlab.py off` (12 s): the left end of the beam set against bare wire in the stored phase settles within 4
   generations into a stationary cap of 12 cells. Of 327 one-cell flips of it and of the first 8 units of its wire,
   159 heal and 168 do something else; none starts the stream. (The gun of `gun-5f.json` needs nothing: in three
   of its four phases it starts against bare wire.)
-- Not run at all: the clockwork catalogue against a wire, any corner search, the writer search at T ≥ 10, the
-  period-4N clock as a periodic orbit.
+- **[measured, sg.step_set; a sample] The clockwork catalogue against a wire: an oscillator that survives does not
+  write.** `python3 clockscan.py --K 120 --zone end --out E.jsonl` (3 min) and `--zone side --out S.jsonl` (4 min),
+  then `python3 clockscan.py --cycles E.jsonl` (20 s) and `... S.jsonl` (30 s). The 99 oscillators of
+  `research/clockwork/objects/C*.cells` (periods 8 to 52), phase 0, each in 120 random placements (a lattice
+  symmetry and an even translation; seed 1) that touch a 12-unit wire C between two caps at rest, either at its
+  right cap and last two units ("end") or at units 4..7 from the side ("side"), and nothing else: 23,760 runs of
+  five periods. End: 5,977 leave no trace at multiples of the period, in 5,738 the oscillator is lost, in 165 it is
+  still there after five periods beside a changed target. Side: 7,704, 3,980 and 196. All 361 were followed to
+  their final cycle, and in all of them the oscillator is still there. In 306 the wire is static or gone. In 52 a
+  **shuttle clock** is running: the placement lit a rake once, as one flipped cell does, and the clock then runs
+  beside the oscillator, between the cap and, in the side zone, a wall that the collision left across the wire
+  (the far part of the wire has become wire B′). Everything outside the oscillator's support then has the clock's
+  own period (46 or 50 at the end; 18, 22, 26, 30 at the side: 4N + 2 every time) and the whole has the least
+  common multiple (e.g. 550 = lcm(22, 50)). The other three: two wire units beside C18.28c breathe with its
+  period 18 and nothing leaves them; two are period-6 debris on a burnt wire. **No letter per period, no wall moved
+  per period.** Not covered: the other phases of each oscillator, the placements not drawn (120 of some 10⁴ per
+  oscillator and zone), a counter wall as the target, the gun's stream as the target, oscillators above period 52.
+- Not run at all: any corner search, the writer search at T ≥ 10, the period-4N clock as a periodic orbit.
 
 ## 24. Fourth push: not checked
 
@@ -926,12 +970,15 @@ k = (T + 2) mod 4 here (KS = 6).
    `sat_div.py 5fbb 5f W` for W ≥ 4 and in the 5 × 5 tube; a far cap of period 8 that sends a p> back at odd
    separation every second rake (a p> at odd separation stops a mirror rake: that is a hole written from the far
    end). Any of them would be a standing object writing a non-constant word, and the line already carries it.
-2. **A reader.** A far end that is changed by a hole and not by a rake: enumerate absorbers (`--dir 1 --all`, 12 at
-   C = 33) and feed each one hole; a wall that moves one unit per hole would be a counter driven through the stream.
-3. **Two streams.** A rake stream from the left and a mirror-rake stream from the right meet somewhere: rake
-   against rake leaves one survivor and a mark (section 10). The standing wave where two guns face each other was
-   not looked at with the phases right (`gunlab.py` has the pieces).
-4. **Why class 0.** `sat_two.py T --open` answers within minutes up to T = 32, and a proof for all T might come
+2. **A reader.** A far end that is changed by a hole and not by a rake (the 13 absorbers of C = 31, 33 are not:
+   section 23). Next: the absorbers of C = 35 and of the 5 × 5 tube (`sat_gun.py fb C --dir 1 --all`), absorbers
+   of period 8 at C ≥ 33 (`--mult 2`), each fed one hole (`gunlab.py readers`); a wall that moves one unit per hole
+   would be a counter driven through the stream. The two absorbers that a hole destroys are fuses: one hole and the
+   wire burns back.
+3. **Two streams.** Two guns facing each other on one wire destroy each other at every distance and phase tried
+   (section 23). Streams on two parallel wires in a wider tube, or a stream past a clock, were not tried.
+4. **Why class 0.** `sat_two.py T --open` answers within minutes up to T = 32 (13 minutes at T = 36, about three
+   times longer for each step of 4), and a proof for all T might come
    from the shape of the refutation: at T = 16 it needs the end's periodicity five units in (unit 11), not at the
    wire's end and not to the full light cone (section 22). A proof certificate (DRAT) of the T = 8 instance, read
    for which cells it uses, is the cheapest next look.
