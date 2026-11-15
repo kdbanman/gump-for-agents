@@ -242,15 +242,21 @@ figure and tiles of "One price per cell?" for nine faces and "Open now"; two til
   (needs numpy and scipy) from the lead's refit `research/audit/wrap_haz_lead.py` (its loader, the faces of `--single`, its
   LINES/POW/HAZ_FROZEN). The zero line is the weighted line through the 14 faces with no short loop, computed there
   (0.20864 ± 0.00009, asserted within 0.0002 of WL2's 0.2086). `collect.py` checks that the frozen parameters give the
-  quoted 84-cell forecasts. **The card's 84-cell face** goes in `sources/update-2026-11-15e.json`, `wrap.measured84`:
-  value, se, src and a quote holding both numbers; then `collect.py` and `build.py`. The plate draws it only when present.
+  quoted 84-cell forecasts. **The 84-cell face** (17.3248 ± 0.0058, the lead's run on the tester's runner, rows A = 84 of
+  `research/wrap/data/runs.csv`; NB "the 84-cell face with one loop of 12") is in `sources/update-2026-11-15e.json`,
+  `wrap.measured84`, and `collect.py` checks it against the recomputed face. With it the plate became "a tube pays less per
+  cell the tighter it is wrapped": each girth's own straight line (`wrap.py` computes them as `wrap_haz_lead.py --tube`
+  does; `collect.py` checks the slopes against the quote from `research/wrap/PREDICTIONS.md`), the four 84-cell forecasts
+  as ticks (two crossed out, NB's scoring), and the tube line's and power form's forecasts for 96 and 108 cells (W11, W12).
+  The card's own run of the 84-cell face, when it comes, would be a second code: add it as a second point or replace the
+  value, and say which.
 - The gun's line and the divider: `research/signals/objects/line-C.json` and `divider-C8.json`, copied into
   `data/signals4.json`; laid out by `assets/signals-core.js` (`line`) as the lead's oracle checks lay them out, stepped by
   `gump-core.js` and drawn by `assets/kit.js` (`sigLine`), live (the oscillator is in the same torus; nothing precomputed).
   `checks/check-signals.js` checks the layouts' onset and period at N = 2, 3, 8, 12, 16 (line) and 3, 8, 12, 16 (divider),
   the oscillator against its free orbit from N = 8, and the page's stepper against `reference/oracle.py` at N = 12.
-- Computed on the page, not quoted: each face's distance from the line (both figures), the three curves for a loop of 12 from
-  the frozen parameters, the period and onset of the line and the divider (by comparing whole states).
+- Computed on the page, not quoted: each face's and each girth line's distance from the line of faces with no short loop,
+  the nine wrapped faces' distances from the ledger's line, the period and onset of the line and the divider (by comparing whole states).
 - `project.gathered` (the footer's "up to" date) is the newest date among `sources/update-*.json`; the claim counts (179; A 86,
   B 81, C 11, D 1) and the timeline are read from the repository as before.
 - Typed, not drawn from data: "Open now" (from the essay's "What I would look at next" and OPEN-PROBLEMS 9 and 13 as of

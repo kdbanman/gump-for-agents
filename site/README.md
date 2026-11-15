@@ -65,8 +65,8 @@ that looks up `'#some-id'` which is not on its page. Only the data files some pa
   plate that needs a new data key needs `data/<key>.json` (see next). New styles go at the end of `site.css`.
   Link to another plate with `href="#<id>"`; the build points it at the right page.
 - **A value still to come** (as the card's 84-cell face on "What a short way round costs"): give it a named field that is
-  `null` until measured (`wrap.measured84` in `collect/sources/update-2026-11-15e.json`), have the plate draw it only when
-  it is not null, and say in `collect/REFRESHES.md` who fills it in.
+  `null` until measured (as `wrap.measured84` in `collect/sources/update-2026-11-15e.json` was, until the 84-cell face
+  came in), have the plate draw it only when it is not null, and say in `collect/REFRESHES.md` who fills it in.
 - **A data file**: add the key to `out` in `collect/collect.py` (with the checks of its quotes, as the other keys
   have), run it; or, for a hand-made file, put `data/<key>.json` in place and say in `collect/REFRESHES.md` where
   it came from. A plate script that reads `D.<key>` gets it on its page automatically.
