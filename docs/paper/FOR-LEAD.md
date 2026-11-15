@@ -230,3 +230,49 @@ settled states are" (CLAIMS S2, S3, S5–S9, Z12, Z13). Nothing outside `docs/pa
    scored, 23 held" and "rim cost 0.4–0.55 per period" where the notebook says 40 statements, 25 held, 1 on its
    limit, 14 failed, and 0.45–0.55. It is marked as the line's first report, so this may be intended; the draft
    and the overview follow the notebook.
+
+## For the lead, 2026-11-15 (fourth update: how a face dies, the 4 × 5 patch rerun, the second card)
+
+From bringing the draft in line with CLAIMS DY1–DY7, GP10, GL1, GL2 and the SH3/SH4 notes (`docs/paper/FACTCHECK.md`,
+"Update of 2026-11-15 (fourth)"). Nothing outside `docs/paper/` and `research/dying/README.md` was edited.
+
+1. **SH4 and GL1, the census gap "0.0138".** The ledger's SH4 note, the notebook entry "a second card" and
+   `research/audit/REVIEW-gpu-local-pr23.md` (section 2, "CLAIMS SH4") all give 0.0138. That is 9.9384 − 9.9246, the
+   reviewer's own stepper value. Against the best value the same entry and GL1 give, 9.9249 ± 0.0003, the gap is
+   9.93842 − 9.9249 = 0.0135 ± 0.0020 (`research/shape2/data/A48.csv`, class 1 6 16: ln(2·2.55834e9/247051) =
+   9.93842). Either way the tension with the shape2 review's 0.0135 ± 0.0021 is gone. The draft gives "0.0135–0.0138"
+   and names both subtrahends. Proposed replacement in SH4's note:
+   > with 9.9249 the census gap is 0.0135 ± 0.0020 (0.0138 against the reviewer's own 9.9246)
+2. **DY5, "over the last 3–12 cells … nearly constant (local slope 0.51 → 0.34 per cell in c1)".** In the review's
+   table (`research/audit/dying/ana2_out.txt`, "tail shape", c1) the local slope is 0.51, 0.51, 0.49, 0.48 over
+   windows from 3–6 to 9–12 cells, and 0.34 only at 17–20 cells. The row puts the drift to 0.34 inside "the last
+   3–12 cells". The draft says "drifts from 0.51 to 0.34" without the 3–12 qualifier; the README gives the table.
+   Proposed:
+   > over the last 3–12 cells the price per further cell lost is nearly constant (0.51–0.48 per cell in c1),
+   > drifting to 0.34 at 17–20 cells
+3. **GP10, "at equal exposure".** The row says the CPU's 4 × 5 was "at equal exposure"; its own level cell, the
+   notebook entry "the 4 × 5 empty patch, rerun" and `followup.py` (2.76 × 10¹⁰ against the GPU's 3.04 × 10¹⁰) say
+   0.9 of the GPU's exposure. The draft says 0.9. Proposed: "4×5 on the CPU at 0.9 of the GPU's exposure".
+4. **Notebook entry "the 4 × 5 empty patch, rerun": "1.13–1.28 hits per event".** `followup.py` prints 1.19–1.40
+   hits per event (all groups, 4×5 to 3×4) and √(Σs²/Σs) = 1.13–1.28 for the pull request's groups; the 1.13–1.28
+   is the factor on the Poisson error, as the same sentence goes on to use it. The draft says "the true error is
+   1.13–1.28 times the Poisson one" and no hits-per-event figure. A dated correction note in the notebook would fix it.
+5. **`research/constant/PREDICTIONS.md` has no dated note on part C yet.** The notebook entry "a second card" says
+   the part C forecasts "keep their committed text, with a dated note giving what they become with the anchor
+   replaced"; no such note is in the file (no "9.9249", "anchor … high draw" in it). The draft cites the review's
+   section 2 for the shifts (−0.005 to +0.010 in ln τ, +0.0003 to +0.0004 on the slope 48 → 57).
+6. **CN1 includes the high draw.** `research/constant`'s pooled periodic table (`load.periodic`) uses the census's
+   4 × 4 row (review section 2, last bullet); CN1's range 0.207–0.219 was not refitted. The draft says so in §7.5 and
+   in gap 42. Whether to refit is yours.
+7. **SW2's "deterministic 9.936" at A = 48** (§6 of the draft) is a 4 × 4 slab value from the exponent study's
+   protocol (soup 0.35, T₀ = 300; `research/theory/swarm/exam/OUTCOMES.md`, S-E2), not the census anchor. It is
+   0.011 above GL1's 9.9249 (soup 0.4). Left unchanged; whether the difference is the protocol or another draw was
+   not checked.
+8. **No ledger rows for the dying-face forecast tallies.** Table 5 rows 20 and 21 (round 1: L2–L7 failed, L4
+   undecided with the other band; round 2: one of seven held) cite the notebook entries, as row 19 does. A row
+   would let the table cite the ledger.
+9. **The dying README: two readings that were never in it.** The review asks the README to drop "twice the 0.436"
+   and "5.5 + 3.4 per free edge"; neither was in `research/dying/README.md` (both are the lead's, in the notebook).
+   The corrected README now states them as the lead's readings, withdrawn, so that a reader of the README alone is
+   not misled by the notebook. If the lead prefers the README not to mention them, delete those two sentences
+   (round-1 "Reviewed" item 4; round-2 tail paragraph under "Numbers").

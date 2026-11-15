@@ -4,7 +4,9 @@
 # A number not found there is reported as "draft" if it already occurs in the draft as committed before the update
 # (a size or value the passage refers back to), otherwise as "UNSOURCED". Passages of the second update of
 # 2026-11-15 (the symmetric collapse, the new clocks) compare with the draft as of bb22eda, the commit before it.
-# Passages changed after the audit of 2026-11-15 compare with the draft as of e126a10.
+# Passages changed after the audit of 2026-11-15 compare with the draft as of e126a10; those of the fourth update
+# (how a face dies, the 4 x 5 patch rerun, the second card) with the draft as of 67e0371. A source 'file:PATH' is a
+# tracked file cited directly.
 # Run from the repo root: python3 docs/paper/check_numbers.py [--base REV] [--draft PATH]
 # (default base 98a66d8, the commit before the update; under 1 s). Negative control: --draft on a copy with a number
 # altered must report it UNSOURCED (see FACTCHECK.md).
@@ -29,9 +31,15 @@ NB = {  # short name -> substring of the entry heading
     'symmetric': 'the symmetric collapse: pairing faces across an edge',
     'clocks': 'what the unrecognised settled states are',
     'audit': 'the audit of the rows nobody had re-run',
+    'dying1': 'how a face dies (the first look',
+    'dying2': 'a death is a dip that keeps going',
+    'patch45': 'the 4 × 5 empty patch, rerun on the CPU',
+    'card': 'a second card (the GTX 1080',
 }
 
 def nb_entry(key):
+    if key.startswith('file:'):  # a tracked file cited directly (a review, a README, a data report)
+        return open(key[5:]).read()
     h = NB[key]
     i = nb.index(h)
     i = nb.rindex('\n## ', 0, i)
@@ -67,7 +75,7 @@ SPEC = [
     ('7.4 TH3', '**[measured: the fits]** (TH3; B)', None, ['TH3'], ['thin']),
     ('7.4 TH4-TH6', '**Why it is not derived.**', None, ['TH4', 'TH5', 'TH6'], ['thin']),
     ('7.5 CN1', '**[measured, model-free]** (CN1; A)', None, ['CN1'], ['const', 'addendum']),
-    ('7.5 GP10', '**Empty patches** (GP10;', None, ['GP10'], ['patches', 'forecast']),
+    ('7.5 GP10', '**Empty patches** (GP10;', None, ['GP10'], ['patches', 'forecast', 'patch45']),  # patch45 added with the fourth update
     ('10.3 items 2-3', '2. **The constant.**', '4. **Symmetric faces', ['CN1', 'TH3', 'SH6'], ['const', 'thin', 'second']),
     ('11 ranking item 1', 'isolated only to about', 'novelty', ['CN1', 'ZL2'], ['const', 'zombie']),
     ('11 shape paragraph', 'It would have moved up the list', None, [], []),
@@ -108,6 +116,29 @@ SPEC = [
     ('10.1 enumerations', 'exhaustive enumerations of Section 8 at the sizes', 'union ≤ 10)', ['Z1', 'Z2', 'Z3', 'Z4'], ['audit'], 'e126a10'),
     ('10.1 preliminary enumerations', '*Preliminary* (exhaustive computer enumerations', None, ['Z2', 'Z3', 'Z4'], ['audit'], 'e126a10'),
     ('Appendix', 'Superseded and therefore absent', None, ['F7', 'S1', 'F9', 'GP4'], ['audit'], 'e126a10'),
+    # fourth update of 2026-11-15 (how a face dies, DY1-DY7; the 4 x 5 patch rerun, GP10; the second card, GL1, GL2); base 67e0371
+    ('Abstract: how a face dies', 'Looked at in', 'the end runs.', ['DY1', 'DY2', 'DY5'], ['dying1', 'dying2'], '67e0371'),
+    ('5.5 S7 pointer', 'Section 5.6 looks at the dying faces', 'at all times).', ['S7', 'DY2'], ['dying1'], '67e0371'),
+    ('5.6 intro', 'The edge ladder of Table 3a was explained', None, ['DY1'], ['dying1', 'dying2'], '67e0371'),
+    ('5.6 DY1', '**The run-up.**', None, ['DY1', 'F12'], ['dying1'], '67e0371'),
+    ('5.6 DY2', '**What a tie changes.**', None, ['DY2', 'S6'], ['dying1'], '67e0371'),
+    ('5.6 DY3', '**The neighbour.**', None, ['DY3'], ['dying1'], '67e0371'),
+    ('5.6 DY4', '**A death is a dip that keeps going.**', None, ['DY4', 'S6'], ['dying2'], '67e0371'),
+    ('5.6 DY5', '**[measured]** (DY5; A', None, ['DY5'], ['dying2'], '67e0371'),
+    ('5.6 DY6', '**[measured]** (DY6; A', None, ['DY6'], ['dying2'], '67e0371'),
+    ('5.6 DY7', '**[measured]** (DY7; A)', None, ['DY7'], ['dying2'], '67e0371'),
+    ('5.6 withdrawn', '*Readings withdrawn after the review.*', None, ['DY2', 'S6'], ['dying1', 'dying2'], '67e0371'),
+    ('5.6 forecasts', '*Forecasts.* The lead', None, ['DY1'], ['dying1', 'dying2'], '67e0371'),
+    ('Table 5 row 20', '| 20 | How a face dies, first', '\n', ['DY1'], ['dying1', 'file:research/dying/README.md'], '67e0371'),
+    ('Table 5 row 21', '| 21 | How a face dies, second', '\n', ['DY4', 'DY7'], ['dying2'], '67e0371'),
+    ('7.3 Table 8 footnote', '‡ The file', 'note of 2026-11-15).', ['SH3', 'GL1'], ['card', 'file:research/shape2/data/explore_report.txt'], '67e0371'),
+    ('7.3 Table 8 row 48-60', '| d ln τ_face/dA, A = 48 → 60', '\n', ['SH3', 'GL1'], ['card', 'file:research/shape2/data/explore_report.txt'], '67e0371'),
+    ('7.3 SH4', '**[measured]** (SH4; A', None, ['SH4', 'GL1'], ['card'], '67e0371'),
+    ('7.5 equilateral note', 'Those forecasts are anchored', 'not redone.', ['GL1'], ['card', 'file:research/audit/REVIEW-gpu-local-pr23.md'], '67e0371'),
+    ('12 second card', 'A second card (a different', 'repeated on it.', ['GL1'], ['card'], '67e0371'),
+    ('12 guard', '**A guard, and its limit.**', None, ['GL2'], ['card'], '67e0371'),
+    ('12 census errors', '**Errors of the census pipeline.**', None, ['GL1'], ['card'], '67e0371'),
+    ('12 verification counts', '(142 claims', 'claims_tally.py`)', [], [], '67e0371'),
 ]
 
 SUP = str.maketrans('⁰¹²³⁴⁵⁶⁷⁸⁹⁻', '0123456789-')

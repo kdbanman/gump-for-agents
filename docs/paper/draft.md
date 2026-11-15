@@ -2,7 +2,8 @@
 
 (authors to be decided by the owner)
 
-*Draft 2, 2026-11-15, revised the same day for the symmetric collapse (draft 1: 2026-11-14). Internal draft; it stays in the repository. How the work was produced and how that is
+*Draft 2, 2026-11-15, revised the same day for the symmetric collapse and again for how a face dies, the
+empty-patch rerun and the corrected 4 × 4 anchor (draft 1: 2026-11-14). Internal draft; it stays in the repository. How the work was produced and how that is
 disclosed is the owner's decision and is not addressed here.*
 
 **How to read the tags.** Every sentence that states a result carries one of **[proved]**, **[measured]**,
@@ -41,7 +42,10 @@ mainly because symmetry forces faces that share an edge to die together: at A = 
 2.15 in ln τ, additively, while pairing faces that share no edge costs at most about 0.1; a cost along mirror
 lines, which we first proposed, is not the mechanism of most of the deficit. This
 accounts for the 2012 series of cubic seeds, extended here to a cube of side 16 that ran 2,919,617,676
-generations, although the one forecast of that lifetime made before the run was low by a factor 12. Five or six
+generations, although the one forecast of that lifetime made before the run was low by a factor 12. Looked at in
+the generations before it dies, a tied face dies as an untied one does: a tie changes the stationary face (a
+thinner rim) and how likely each further step down a dip of its population is, not how often dips start or how
+the end runs. Five or six
 layers of the rule above fresh coin flips reproduce a slab face's lifetime to 0.015 in ln τ, so the exponent is
 set in a boundary layer driven by noise. Settled replicas missed by the detectors are bounded in every CPU run but
 not in the largest GPU runs (Section 12). **Not proved:** the area law, and its constant. We give what is known
@@ -90,7 +94,7 @@ The results fall into three kinds, and we keep them apart throughout.
   of the constant; several extrapolations. Section 10 lists them.
 
 Several measurements were preceded by forecasts committed to the repository before the runs; we report every such
-forecast about gump found in the files named under Table 5, including those that failed (Section 5.6).
+forecast about gump found in the files named under Table 5, including those that failed (Section 5.7).
 
 ## 2. The automaton and its lattice
 
@@ -579,7 +583,8 @@ by +0.4 to +1.65 in ln τ at 36–72 quotient cells and by an amount that shrink
 lockstep rim lies on a coordinate mirror, so "rim" and "mirror" cannot be separated there; and faces with diagonal
 mirrors and free rims (T_d) fall below the mirror-free ones (T) by an amount growing like √A, so a diagonal-mirror
 share of up to about a third of the −0.196 is not excluded. **[conjecture]** (S7) The mechanism: edge-sharing faces
-that die together cannot hold each other up. Nobody has looked at the dying faces.
+that die together cannot hold each other up. Section 5.6 looks at the dying faces: they do not show this in its
+dynamical form (a live neighbour feeding a free rim), only a static one (a tied rim is thinner at all times).
 
 **[measured]** (S8; B: the reviewer's refits of the line's data; no T, T_d or O_h run repeated by a second code; one
 job and one seed per size) The slope times the order of the face's stabiliser is 0.2091 ± 0.0016 for T faces
@@ -606,7 +611,93 @@ B: run by one examiner and re-run by a second agent on the examiner's seed seque
 octahedral faces cut by a single mirror plane cost 0.1026 ± 0.0003 per cell at A = 84–135, 0.47 of the asymmetric
 value, and the first face to die is a mirror-fixed one in more than 99.9% of replicas.
 
-### 5.6 The cubes, and the forecasts that were made in advance
+### 5.6 How a face dies
+
+The edge ladder of Table 3a was explained before anyone had looked at a face. A study then did
+(`research/dying/`): in the vessel of Table 3a (R = 11 cube-centred, faces of 63 cells) with no, one, two or three
+edges of each face tied to a face in lockstep (c1, csz, c2v, D2h), it kept the 512 generations before each of 11,930
+first face deaths and a stationary control, and in a second round followed the excursions of the face population
+in long stationary runs. Forecasts were committed before each round's runs (`research/dying/PREDICTIONS.md`). An
+adversarial review reran both rounds on fresh seeds with a stepper of its own, matched to the reference
+implementation at every generation on twelve systems (`research/audit/REVIEW-dying.md`). Every result below is
+graded A on that basis; where the review did not confirm a reading, we say so.
+
+**The run-up.** **[measured]** (DY1; A: same plunge medians and mean curves in both codes) The *mean* dying face
+stays at its stationary density until about 20 generations before death and then fades over the whole face, with no
+erosion from an edge: relative to its own stationary value, a band along a tied edge empties no earlier than one
+along a free edge. The final plunge (from half the stationary population to empty) has median 6, 6, 7, 7
+generations in the four groups, although their lifetimes differ by e^6.5. Single deaths are not uniform fades (the
+review's statement): at half population 32–39% of them are more lopsided than 95% of stationary faces thinned at
+random to the same count, against 9–11% in a control 64 generations earlier. The depleted side is not the tied edge
+and does not persist beyond what thinning implies. (The *preliminary* description of the plunge in Section 5.3, F12,
+concerns asymmetric octahedra and uses other definitions; the two were not compared.)
+
+**What a tie changes.** **[measured]** (DY2; A: study and review agree to three digits on the rim rows) An edge
+tied to a face in lockstep is thinner at all times. Stationary occupancy of the rim row is 0.512 along a free edge
+and 0.349, 0.323, 0.298 along a tied one (csz, c2v, D2h); the stationary face population is 31.25, 28.90, 26.28,
+23.50. Cube-centred, the loss sits in the rim row itself, and the loss per tied rim cell is the same in a larger
+vessel (R = 13: 0.149–0.186 against 0.148–0.185). ln τ is not a function of the mean population: a cell lost at a
+tied edge costs 0.64–1.00 in ln τ, one gained by growing the untied face buys 0.40, one gained by re-centring 0.23.
+In D2h, 36.5% of old living states are in lives that have settled; the stationary control leaves them out and the
+ln τ rung of Table 3a counts their exposure, so the two D2h figures are not taken over the same lives.
+
+**The neighbour.** **[measured]** (DY3; A) When an untied face dies, its neighbour's own second row along the shared
+edge falls to 0.56–0.61 of its stationary occupancy and the rest of the neighbour stays at 0.95. The larger drop
+first reported (the neighbour's band at 0.21) is the shared rim row, whose cells are the dying face's own: adjacent
+faces share that row.
+
+**A death is a dip that keeps going.** For a face with stationary mean population P̄, let ν(p) be the rate per face
+per generation of excursions that start above the mean and reach p·P̄, and q(p) the fraction of them that end in
+the face's death before the population is back above the mean; then 1/τ_face = ν(p)·q(p) at every level, by
+bookkeeping (every death ends an excursion). **[measured]** (DY4; A: the reviewer's stepper on fresh seeds gives
+the same p* to three digits) −ln(νq) = 13.632, 11.454, 9.274 (c1, csz, c2v; review 13.614, 11.473, 9.275) against
+13.634, 11.456, 9.291 from the lifetimes of Table 3a; the agreement checks the counting, not a mechanism. The point
+of no return (q = 1/2) is at 0.079, 0.114, 0.152, 0.245 of the mean, about 2.5 live cells of 31 in the untied face,
+and an untied face that has lost half its cells recovers 99.92% of the time (q(0.5) = 0.0008). In D2h the
+figure depends on what is done with lives that settle: 7.32 with them, 6.86 without, 7.168 in the study; every D2h
+quantity that involves exposure carries that ambiguity.
+
+**[measured]** (DY5; A for the rates and slopes) Ties do not make dips start more often: dips to 0.7 of the mean come
+at ln ν = −4.16, −3.80, −3.77, −3.74 per face per generation (review −4.16, −3.80, −3.78, −3.88), and at 0.9 of the
+mean the untied face dips the most often. The groups part below about 0.6 of the mean, where each tied edge raises
+ln q by 1.5–2.7. ln ν is Gaussian with the stationary variance down to about 0.6 of the mean and fatter below. Over
+the last few cells the price per further cell lost changes slowly (the local slope per cell drifts from 0.51 to 0.34
+in c1) and is higher the more free edges a face has; that it is a constant price is a **[conjecture]**. The
+review did not confirm a straight tail, a change of regime at half the mean, or a fixed step per free edge (the
+lead's "5.5 + 3.4 per free edge" ranges from 3.0 to 4.5 with the fit window).
+
+**[measured]** (DY6; A: both codes) On a dying untied face births fail before survival: births per empty cell are
+0.90–0.91 of stationary at lag 16 while survival is 0.98–0.99, and 0.45 and 0.88 at lag 8. This is mostly what the
+face's own lower population predicts, since stationary births depend strongly on the face's population and survival
+does not (review: births 0.61 at lag 8 where the population predicts 0.77). Depleted faces are lopsided whether or
+not they go on to die: in c1 the survivors' centroid is 1.6 times further out than in a face thinned at random, in
+dying faces and in faces that are low by chance alike. At equal count, dying untied faces are *less* lopsided than
+chance-low ones (2.47 against 3.09) and dying D2h faces *more* (2.94 against 2.70).
+
+**[measured]** (DY7; A) ln τ = 3.43 + 0.582·P̄²/(2σ_P²) fits the eight lifetimes of the four groups at 63 and 84
+cells within 0.31, but a + b·A + c·P̄, with no width in it, fits as well (0.27), and leaving one point out gives
+0.50: a description, not a law.
+
+*Readings withdrawn after the review.* That the stationary population falls in steps as equal as those of ln τ
+(they are −2.35, −2.62, −2.77 against −2.18, −2.17, −2.12); that a cell lost at a tied edge costs 0.86 in ln τ,
+"twice the 0.436 per live cell" of the untied face (0.436 is an average, not a marginal; the marginals are those of
+DY2); that the neighbour face is dragged down as a whole (it is one row); that chance-low faces are as lopsided as
+dying ones in every group (in D2h they are not); and the picture of a constant price per cell with a live clump and
+a hole coexisting on a depleted face, which the clumping does not support. **[conjecture]** What survives of the
+"hold each other up" account (S7) is static: a tied face has a thinner rim at all times, sits closer to empty and
+needs a smaller fluctuation to die; nothing here shows that this causes the −2.15 per edge.
+
+*Forecasts.* The lead's forecasts for the first round failed from L2 to L7 (the rim is not the late survivor; the
+tied edge is not where emptying begins; the neighbour does not stay within 10%; the plunge is not faster with more
+ties); L1, a deduction, is consistent with everything seen. Of the seven for the second round one held (A2). The
+review confirms that every definition was fixed before the data and reproduces every score (Table 5, rows 20 and
+21). Not checked: deaths at other sizes or centrings (the review's other vessels are stationary sampling only);
+c2e and O_h; one seed per group in the study's excursion runs; births by neighbour count; whether the position of
+the surviving clump predicts recovery; differences of 1.8σ between the two codes in the csz and D2h populations.
+A third round, on whether the dip curve is one curve across sizes and what a depleted face looks like, is under
+review and is not reported here.
+
+### 5.7 The cubes, and the forecasts that were made in advance
 
 **The side-16 cube.** **[measured]** (C2; B: schedule and summary re-derived from the committed event log; the
 run itself, several days on one core, was not repeated) The cube of side 16 sat at hull radius 42 (vertex-centred,
@@ -650,6 +741,8 @@ included.
 | 17 | The thin-face study's 14 forecasts, each committed before its run (`research/theory/thin/PREDICTIONS.md`) | rescored by the review | 8 hit, 2 half, 2 mostly missed, 2 missed (TH7; B) |
 | 18 | The constant analysis's forecasts (`research/constant/PREDICTIONS.md`): −ln P = 5.0, 9.5, 15.3 for empty 2×2, 3×3, 4×4 patches; about zero for the equal-loop pairs at A = 63 and 72 | 6.25, 12.13, 19.42; Σz² 3.7 on 4, wrong in sign at A = 36 | patches **missed** (low by 1.3, 2.6, 4.1); pairs not refuted there; equilateral tori not run (CN2; B: scores recomputed by a second agent) |
 | 19 | The symmetric-collapse line's forecasts (`research/theory/symmetric/PREDICTIONS.md`), among them that a mirror or threefold axis on a rim-free periodic face would shorten its life | 40 statements counted per size: 25 held, 1 on its limit, 14 failed; the symmetry lengthens such a face's life (+0.4 to +1.65) | **14 failed**, the mirror forecast among them (S7; B for the slab values). The tally has no ledger row (NOTEBOOK 2026-11-15, "the symmetric collapse") |
+| 20 | How a face dies, first round (`research/dying/PREDICTIONS.md`, commit 75e5212): L1 death an event of the whole face; L2–L7, among them that the rim outlives the interior (band/interior ratio ≥ 1.5 at lag 4), that emptying begins at the tied edge, that the neighbour stays within 10%, that the plunge shortens with more ties | L1 consistent; ratio 1.06–1.22; emptying not at the tied edge; neighbour 0.893; plunge medians 6, 6, 7, 7 | **L2–L7 failed** (L4 undecided with another choice of band); scores reproduced by the review (DY1–DY3; A). The tally has no ledger row (NOTEBOOK 2026-11-15, "how a face dies") |
+| 21 | How a face dies, second round (same file, commit 6d40e72): seven forecasts, among them a point of no return at 0.25–0.5 of the mean, the ladder in ν rather than q at half population, 2.8–3.1 cells lost per tied edge at 84 cells, no function of the stationary mean and width fitting all eight lifetimes | p* = 0.08; the ladder mostly in q; 2.68, 2.95, 3.38; one fit within 0.31 | **one of seven held** (A2, ln ν Gaussian to 0.6 of the mean); scores reproduced by the review (DY4–DY7; A). The tally has no ledger row (NOTEBOOK 2026-11-15, "a death is a dip that keeps going") |
 
 Table 5. Forecasts committed before their outcomes. Sources searched: `research/peeling/cube_lifetime.csv`,
 `research/fluct/PREDICTIONS.md`, `research/gpu/PREDICTIONS.md`, `research/shape/PREDICTIONS.md`,
@@ -657,8 +750,10 @@ Table 5. Forecasts committed before their outcomes. Sources searched: `research/
 `research/theory/thin/PREDICTIONS.md` and `research/constant/PREDICTIONS.md` as scored in TH7 and CN2, the notebook
 entry named in row 16, `research/theory/exponent.md`, and the swarm's `research/theory/swarm/PREDICTIONS.md` as
 scored in `research/theory/swarm/exam/OUTCOMES.md`, and `research/theory/symmetric/PREDICTIONS.md` as scored in the
-notebook entry "the symmetric collapse"; within these, the ledger rows C3–C5, C9, GP2, GP8, GP9, GP10,
-SH1, SH2, SH5, SH9, SW2, TH7, CN2, S7. Not searched for this table: the other tracked forecast files
+notebook entry "the symmetric collapse", and rounds 1 and 2 of `research/dying/PREDICTIONS.md` as scored in the
+notebook entries "how a face dies" and "a death is a dip that keeps going" (round 3, under review, not included);
+within these, the ledger rows C3–C5, C9, GP2, GP8, GP9, GP10,
+SH1, SH2, SH5, SH9, SW2, TH7, CN2, S7, DY1–DY7. Not searched for this table: the other tracked forecast files
 (`research/theory/exponent/PREDICTIONS.md` entry by entry, `research/theory/class/PREDICTIONS.md`,
 `research/theory/class/followup/PREDICTIONS.md`, `research/toy2d/PREDICTIONS.md`,
 `research/audit/class/PREDICTION-*.md`), so the table may be incomplete. Omitted: forecasts about other rules.
@@ -848,13 +943,16 @@ A = 72 gives a cost per cell that depends on the shortest loop and saturates:
 
 | shortest loop² | 3 | 4 | 7 | 12 | 13 | 16 |
 |---|---|---|---|---|---|---|
-| d ln τ_face/dA, A = 48 → 60 | 0.1148 ± 0.0003 | 0.1414 ± 0.0003 | 0.1918 ± 0.0003 | 0.2073 ± 0.0002 | 0.2090 ± 0.0003 | 0.2125 ± 0.0003 |
+| d ln τ_face/dA, A = 48 → 60 | 0.1148 ± 0.0003 | 0.1414 ± 0.0003 | 0.1918 ± 0.0003 | 0.2073 ± 0.0002 | 0.2090 ± 0.0003 | 0.2131 ± 0.0002 ‡ |
 | d ln τ_face/dA, A = 60 → 72 | 0.1107 ± 0.0004 | 0.1353 ± 0.0008 | 0.1872 ± 0.0010 | 0.2049 ± 0.0009 | 0.2061 ± 0.0007 | 0.2076 ± 0.0006 |
 
 Table 8. Cost per cell of a periodic face by shortest loop (`research/shape2/README.md`; `python3
 research/audit/shape2_lead_check.py`; values as in `research/shape2/data/explore_report.txt`, first block, which
 also gives the A = 72 values for loop² ≥ 12 that the lead check does not print. The loop² 4 entry at 60 → 72 is
 that file's 0.1353 ± 0.0008, which the lead check reproduces as 0.1353; the README's table has 0.1346 ± 0.0010).
+‡ The file's 0.2125 ± 0.0003 uses the census's 4 × 4 torus, 9.9324 ± 0.0020, which was a high draw (GL1; A: three
+codes give 9.9251 ± 0.0004, 9.9246 ± 0.0006 and, with the census's own pipeline on fresh seeds, 9.9240 ± 0.0014;
+pooled 9.9249 ± 0.0003); with that value the slope is (12.4818 − 9.9249)/12 = 0.2131 (SH3's note of 2026-11-15).
 The slopes compare different lattices with equal shortest loop, not one torus grown. The loop² 3 entries are local
 slopes of a law that is still bending (Section 7.4). The loop² 4 lifetimes carry a tie-resolution bias of about
 −0.018 in ln τ (the slope is not affected), and the loop² 4 tori are multigraphs (a cell counts one neighbour
@@ -866,10 +964,11 @@ Even the thinnest tori live a time exponential in their area, with a hazard flat
 **[measured]** (SH4; A, two codes, but only four lattices at A = 48) Above loop² 12 the shortest loop no longer
 orders the classes at A = 48: the four classes with loop² 12, 12, 13, 16 span 0.016, and the 4 × 4 torus
 (loop² 16) lies *below* the loop² 12 class with second loop² 19, by 0.0135 ± 0.0021 in the review's runs
-(`research/audit/REVIEW-shape2.md`, claim 3) and by 0.0061 ± 0.0028 in the census
-(`research/shape2/data/A48.csv`: 9.9384 − 9.9324, each ± 1/√F). Pooled by inverse variance, 0.0108 ± 0.0017, which
-is 6.4 standard errors from zero, so the statement stands; the two codes agree only at χ² = 4.4 on 1 (p = 0.036), and
-with the error scaled by √χ² the pooled difference is still 3.0 standard errors. At A = 60 the step from loop² 12 to 16 is +0.056 to
+(`research/audit/REVIEW-shape2.md`, claim 3) and by 0.0135–0.0138 in the census once its 4 × 4 value is replaced
+(`research/shape2/data/A48.csv` gives 9.9384 for the loop² 12 class; against the pooled 4 × 4 value 9.9249 of GL1
+the gap is 0.0135 ± 0.0020, against the reviewer's own 9.9246 it is 0.0138, the figure in the ledger). The census's
+own 4 × 4 value, 9.9324, gave 0.0061 ± 0.0028 and a tension with the review (χ² = 4.4 on 1); that value was a high
+draw (Table 8, ‡), and the tension is gone. At A = 60 the step from loop² 12 to 16 is +0.056 to
 +0.063, and at A = 72 it is about +0.10 (Table 7). The shape term grows with the area.
 
 **[measured; a refutation]** (SH5; A: χ² recomputed with separate code on separate runs) Six candidate laws
@@ -938,18 +1037,24 @@ tori, whose deficit falls roughly exponentially in the shortest loop, argue for 
 Neither a capillary-wave law for the wrap-around term nor a sum over period vectors fits (χ² 20,925 on 13 and
 48,004 on 14 at A = 48 and 60). Two measurements are proposed and not made, and their power is disputed: the
 octahedral face at A = 108 with 10⁴ deaths, and equilateral periodic tori (forecast local slopes 0.2117 → 0.2136
-under one constant).
+under one constant). Those forecasts are anchored on the census's 4 × 4 torus, which was a high draw (Section 12);
+with the corrected anchor they move by −0.005 to +0.010 in ln τ and the forecast slope 48 → 57 by +0.0003 to
++0.0004 (`research/audit/REVIEW-gpu-local-pr23.md`, section 2; the committed forecasts are not edited). The joint
+fits behind the range 0.207–0.219 include the same 4 × 4 value and were not redone.
 
-**Empty patches** (GP10; A for the table up to 4 × 4, by an independent CPU stepper; B−, GPU-only, at 4 × 5). On a
+**Empty patches** (GP10; A for the table up to 4 × 5, by an independent CPU stepper and counter). On a
 periodic slab 12 × 12 × 8 (A = 432 per face) in which no face died in 3.04 × 10¹⁰ replica-generations, rhombic
 patches have **[measured]** ln P(empty) from −6.254 (2 × 2) to −19.423 ± 0.007 (4 × 4) and −23.318 ± 0.047
-(4 × 5). **[failed forecast]** A forecast committed before the run, c = 0.21 ± 0.015 from the fit
+(4 × 5) on the GPU. Eighteen CPU runs (2.76 × 10¹⁰ replica-generations, 0.9 of the GPU's exposure) give −23.412 ±
+0.049 at 4 × 5 from 541 hits, 1.4σ from the GPU; combined, −23.364 ± 0.034. (A first CPU value, −23.75 ± 0.16 on 43
+hits, was a low fluctuation.) **[failed forecast]** A forecast committed before the run, c = 0.21 ± 0.015 from the fit
 ln P = const − c·cells − σ·perimeter, missed as stated: the fit gives c = 0.264 and does not describe the data
 (χ² 3,369 on 3), a failure of the presumed form. **[fitted, post hoc]** Second differences along similar shapes,
-which remove every term linear in the side, give a perimeter-free cost per cell of 0.273, 0.252, 0.237 and
-0.2185 ± 0.008 at 12, 18, 27 and 36 cells: falling into the range of the lifetime laws, asymptote not established
-(0.16–0.24). The last value rests on the 4 × 5 point, which an independent CPU run puts 1.9–2.6σ lower (with it,
-about 0.29); that cross-check is still being repeated.
+which remove every term linear in the side, give a perimeter-free cost per cell of 0.273, 0.252 and 0.237 at 12, 18 and 27
+cells and 0.226 ± 0.006 at 36 (GPU 0.2185 ± 0.0079 and CPU 0.2349 ± 0.0082 combined). The last value is about 1σ
+above the range of the lifetime laws (0.205–0.221), not inside it as an earlier version of this draft said; the
+sequence is still falling, and the asymptote is not established (0.16–0.24). Hits come in clusters, so the true
+error is 1.13–1.28 times the Poisson one; the batch-means errors quoted here include that.
 
 ## 8. What is left: debris and clockwork
 
@@ -1063,8 +1168,8 @@ finite set is sealed. *Preliminary* **[measured]** (G3, G4; C): a mirror perpend
 slope by 0.42 and full square symmetry by 0.50, but a forecast that symmetries fixing no edge cost nothing failed
 for four-fold rotation; no capped-threshold rule on the Moore neighbourhood sustains confined chaos. **[measured]**
 (SW4; B: re-run by a second agent on the same seed sequence) An edge with a two-cell dead notch has slope 0.346
-against 0.412 for the intact edge. The 2D slope is 0.416; twice the 3D periodic-face values 0.2072 to 0.2125
-(Section 7) is 0.414 to 0.425. Whether this is more than a coincidence is not established, and given Section 7
+against 0.412 for the intact edge. The 2D slope is 0.416; twice the 3D periodic-face values 0.2072 to 0.2131
+(Section 7; the top value was 0.2125 before the 4 × 4 anchor was corrected, Table 8) is 0.414 to 0.426. Whether this is more than a coincidence is not established, and given Section 7
 neither number is an asymptotic constant.
 
 **Other lattices.** **[proved]** (ledger K9, the class study; A) Confinement is a property of half-spaces (Section
@@ -1158,9 +1263,9 @@ face.
 4. **Symmetric faces:** whether the slope is exactly the asymmetric one divided by 6 (within 5% is supported);
    how much of the √A term a diagonal mirror carries (up to about a third is not excluded); whether the rim term
    bends, and so whether −0.196·√A is asymptotic (a T_d ensemble at A = 759, on a GPU, would speak to it); why
-   faces tied across an edge die sooner (conjectured: they cannot hold each other up; the dying faces have not
-   been looked at); the difference between vertex- and cube-centred hulls, which is not a constant factor; and the
-   excess length of the side-16 cube's plateaus (Section 5.5).
+   faces tied across an edge die sooner (the dying faces, looked at in Section 5.6, show a tied rim thinner at all
+   times and no dynamical holding-up; whether the thinner rim causes the cost is not shown); the difference between vertex- and cube-centred hulls, which is not a constant factor; and the
+   excess length of the side-16 cube's plateaus (Section 5.7).
 5. **Infinite volume.** Whether the chaotic state is stable or only metastable on the infinite lattice; whether
    one- and two-layer slabs cannot sustain chaos (reduced in `research/theory/thickness.md` §4 to a percolation
    statement, unproved).
@@ -1208,7 +1313,7 @@ standing, and the shape dependence did not meet either condition for joining (be
    [SK15, VR19, NA21]) and boundary-controlled death [VR19], but nothing found has a face-area law in a vessel
    whose walls are theorems. *Missing:* the law is measured, not proved; the constant is not derived and is
    isolated only to about 0.207–0.219 (Section 7.5); nothing at A ≥ 108 has a second implementation or a bound on
-   missed settled replicas (Section 12); the top point has 16 deaths; the review [TL08] and the primary
+   missed settled replicas (Section 12; a guard now exists, with a stated limit, but no run has used it); the top point has 16 deaths; the review [TL08] and the primary
    supertransient papers must be read by a person before any claim of novelty for "area, not volume".
 2. **The exponent is made in a boundary layer over noise** (Section 6). *Why:* it turns a question about
    deterministic chaos into one about a finite-depth probabilistic automaton, where the tools that prove
@@ -1225,7 +1330,8 @@ standing, and the shape dependence did not meet either condition for joining (be
    edge die together (about 2.15 in ln τ per edge, additively, two codes), not a cost along mirror lines; that is
    cleaner to state but rests on one vessel at A = 63 for the ladder. *Missing:* the asymptotic slope is not
    determined (free fits 0.024–0.044 per cell; "c/6 within 5%" only); whether the √A term is asymptotic; the
-   mechanism, which nobody has looked at; the general "volume over group order" statement is grade C; in the 2D
+   mechanism (the dying faces have now been looked at, in one vessel at A = 63, Section 5.6: a tie thins the rim at
+   all times and makes each step down a dip likelier, and nothing shows that this is the cause); the general "volume over group order" statement is grade C; in the 2D
    analogue a forecast for rotations failed and is not understood.
 4. **The structure theorems as a package** (Section 3): confinement and firewalls, the exact energy identity, and
    the sealed-set dichotomy at thickness three. *Why:* complete proofs, short, and they are what makes the rest
@@ -1251,7 +1357,10 @@ stepper for O_h-symmetric states; two GPU kernels. Acceptance rule: a stepper's 
 agrees bit for bit with the engine or the reference over thousands of generations on several vessels
 (`research/check.sh`, 20 exact checks). The GPU kernels were checked by emulating them on a CPU against two CPU
 steppers, with deliberately broken kernels as negative controls; that the GPU executes the kernel as the
-emulation does cannot be checked without a second GPU run, and none was made.
+emulation does cannot be checked without a second GPU run. A second card (a different GPU model, run by a
+separate session; its code is not yet merged) has since passed the same acceptance checks on its producer's report,
+with the port checked line by line by a reviewer but not its execution, and its 4 × 4 torus value, 9.9251 ±
+0.0004, agrees with two CPU codes (GL1; A). None of the GPU results quoted in this paper has yet been repeated on it.
 
 **Estimators.** Mean wait = exposure/deaths over replicas older than T₀ whose vessel is intact; statistical error
 of ln τ = 1/√deaths; τ_face multiplies by the number of faces. Memorylessness was tested by the coefficient of
@@ -1286,10 +1395,29 @@ are finite free-space objects (five of them new, Section 8), 21 are wires (perio
 torus: infinite oscillating lines) and 2 are sheets that close only on their own torus. So most exist only because
 a small torus lets a line close on itself, which fits a rate falling steeply with area.
 
-**Verification.** Each claim is recorded in a ledger with the command that reproduces it and a grade; an
+**A guard, and its limit.** **[measured]** (GL2; B: the logic exercised on a CPU stand-in by a reviewer, against
+its own prediction and two deliberately broken guards; the GPU-side tests are the producer's) A guard for GPU
+lifetime runs now exists: one snapshot per replica at doubling ages, compared at every launch boundary; a replica
+equal to its snapshot is in a cycle of some period and its life ends as censored. It is off by default and inert
+when off, cannot miss a cycle for ever, and recognises no life that is not in one. Its limit: the time between
+settling and recognition is up to about the settling age plus period × launch length, which for an odd period
+above 128 exceeds a mean life at A ≤ 93. Guarded results must therefore cut the censored lives' exposure at the
+snapshot age, or report both figures. No result in this paper was produced with the guard; the † runs above are
+still unbounded.
+
+**Errors of the census pipeline.** **[measured]** (GL1; A) The per-job scatter of the twisted-torus census
+(Section 7.3) is mildly larger than Poisson (χ² 100 on 75 and 169 on 151 for two sets of jobs on the 4 × 4 torus),
+so the census's quoted errors are 5–15% small. Its 4 × 4 value on file, 9.9324 ± 0.0020, reproduces bit for bit from
+its own jobs and lies 3.4σ (with that scatter allowed for) above the value pooled from the second card, a reviewer's own stepper and the census's
+pipeline rerun on fresh seeds, 9.9249 ± 0.0003: a high draw, not a pipeline error, and the reason Table 8 and Section 7.3 now use the corrected value.
+Where a single torus value carries an argument it should be measured twice.
+
+**Verification.** Each claim is recorded in a ledger with the command that reproduces it and a grade (142 claims
+when this was written: 65 graded A, 66 B, 10 C, 1 D; `python3 research/audit/claims_tally.py`); an
 independent audit re-derived the theorems and the exact numbers and re-ran the cheaper statistics; later results
 were each given to an adversarial reviewer with code of its own before being recorded. Forecasts were committed
-before runs (Table 5). Not repeated by anyone: the side-16 run; the 960-rule survey; any GPU run.
+before runs (Table 5). Not repeated by anyone: the side-16 run; the 960-rule survey; any of the GPU runs quoted here
+(the second card's 4 × 4 value is a new run, checked against CPU codes, not a repeat).
 
 **Availability.** Code, curated tables and per-life data for the GPU experiments are in the repository; bulk
 output is not tracked, and some analysis scripts need it (listed in `docs/paper/GAPS.md`).

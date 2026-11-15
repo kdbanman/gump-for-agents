@@ -284,3 +284,55 @@ row's level cell as it now stands.
 
 Not checked: any run or fit (this is a text pass against the ledger); the audit's own numbers beyond reading them
 against the ledger; `research/figures/phase_spread.png`, which may show the {110} front's old single speed.
+
+## Update of 2026-11-15 (fourth): how a face dies, the 4 × 5 patch rerun, the second card
+
+By a subagent, base 67e0371. Sources: `research/CLAIMS.md` rows DY1–DY7, GP10, GL1, GL2 and the dated notes in SH3
+and SH4 (142 claims: A 65, B 66, C 10, D 1, `python3 research/audit/claims_tally.py`, run for this pass); notebook
+entries "how a face dies (the first look, reviewed)", "a death is a dip that keeps going", "the 4 × 5 empty patch,
+rerun on the CPU", "a second card"; `research/audit/REVIEW-dying.md` (rounds 1 and 2) and
+`research/audit/REVIEW-gpu-local-pr23.md`. Draft 22,526 → 24,974 words (`wc -w`).
+
+**Changed.** Header; abstract (one sentence on how a tied face dies, DY1/DY2/DY5); §1 (the cubes' section is now
+5.7); §5.5 (S7's "Nobody has looked at the dying faces" replaced by a pointer); **§5.6 new**, "How a face dies"
+(DY1–DY7 with grades and what the review did not confirm, the withdrawn readings, the forecasts, not checked; round
+3 named as under review, no numbers); the old §5.6 renumbered 5.7; Table 5 rows 20 and 21 and its caption; §7.3
+Table 8 (loop² 16, 48 → 60: 0.2125 → 0.2131 ± 0.0002, footnote ‡) and SH4 (census gap 0.0135–0.0138, the
+χ² 4.4 tension and the pooled 0.0108 ± 0.0017 removed as resting on the high draw); §7.5 (equilateral forecasts and
+CN1 rest on the old anchor; GP10 rewritten: CPU −23.412 ± 0.049 on 541 hits, combined −23.364 ± 0.034, cost
+0.226 ± 0.006 combined, "falling into the range" withdrawn, grade A to 4 × 5); §9 (twice 0.2072–0.2131 is
+0.414–0.426: arithmetic, 2 × 0.2131 = 0.4262); §10.3 item 4 (also its pointer for the side-16 plateaus, which said Section 5.5 and now says 5.7); §11
+ranking items 1 and 3; §12 (the second card in
+"Implementations"; new paragraphs "A guard, and its limit" (GL2) and "Errors of the census pipeline" (GL1);
+"Verification" gives the ledger counts). `GAPS.md`: header; items 2, 11, 14, 24, 41, 42, 43 (closed as a
+cross-check), 45 annotated; 48 and 49 added.
+
+**Checked against files, not notebook prose.**
+- GP10: `python3 research/audit/gpu_pr18/followup.py research/scratch/pr18 research/data/gpu_patches/patches_s81*_A10G.csv`
+  run for this pass (scratch runs present): 18 runs, 2.76 × 10¹⁰ replica-generations, 4×5 pool −23.4124 ± 0.0485
+  (541 hits) against GPU −23.3180 ± 0.0473, z −1.39; second differences 2x3 3x4 4x5 CPU 0.2349 ± 0.0082, GPU
+  0.2185 ± 0.0079. Combined by inverse variance (my arithmetic): −23.363 ± 0.034 and 0.2264 ± 0.0057.
+- GL1: ln(2 × 76,418,398,524 / 7,478,823) = 9.92505, error 1/√F = 0.00037; pooling 9.9246 ± 0.0006, 9.9251 ± 0.0004,
+  9.9240 ± 0.0014 gives 9.92490 ± 0.00032. Census values from `research/shape2/data/A48.csv` (ln(2E/F) recomputed for
+  every class: 4 0 4 → 9.93237, 1 6 16 → 9.93842) and `research/shape2/data/explore_report.txt` (loop² 16, A = 60:
+  12.4818 ± 0.0025). Slope (12.4818 − 9.9249)/12 = 0.21308, error √(0.0025² + 0.0003²)/12 = 0.0002; the file's
+  0.2125 is (12.4818 − 9.9324)/12. Census gap 0.0135 against 9.9249, 0.0138 against 9.9246 (FOR-LEAD item 1). The
+  A = 48 span of the loop² 12–16 classes (0.016 in the draft, 0.0147 from the file) does not involve the 4 × 4
+  value either way and was left as written.
+- DY1–DY7: every number in §5.6 against its ledger row and the two notebook entries; the review numbers the rows
+  quote against `research/audit/dying/ana_out.txt` and `ana2_out.txt` (lag-4 ratios, neighbour rows, tail slopes);
+  the round-1 forecast outcomes against `research/dying/README.md` (L5a 0.893).
+- Counts: `claims_tally.py` output as above.
+
+**Number check.** `docs/paper/check_numbers.py` now covers 22 more passages (base 67e0371, the commit before this
+pass; the existing GP10 passage also cites the rerun entry) and may cite a tracked file directly (`file:PATH`; used for `explore_report.txt`, the dying README and the
+pr23 review). Result: 851 numbers, 809 in the cited sources, 42 only in the earlier draft, 0 unsourced. Among the
+"earlier draft only": the §7.5 shifts (0.005, 0.010, 0.0003, 0.0004), which are in the pr23 review but also occur
+elsewhere in the old draft, and the ledger counts (142, 65, 66, 10, 1), which have no source file and were checked by
+running the tally. Negative control on a copy (0.298 → 0.289 in DY2, 0.226 → 0.227 in GP10, Table 8's 0.2131 →
+0.2137): all three UNSOURCED (the Table 8 row needed its own passage, added). Two numbers were reworded to match
+their sources (0.9992 → "99.92% of the time"; neighbour 0.89 → 0.893).
+
+Not checked: any run other than `followup.py`; the reviews' own code; the 0.414–0.426 range has no passage in the
+script (arithmetic above); that each number is attached to the right quantity beyond one reading of each passage
+against its row and entry; the overview (`docs/overview/`), which another editor is changing.

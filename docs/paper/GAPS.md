@@ -2,7 +2,8 @@
 
 2026-11-14, written with `draft.md`. Ordered by how much each gap limits what the paper can claim. "Supply" means:
 present in the repository as a checked result, a tracked data file or a runnable command.
-Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (section 7).
+Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (section 7). Updated again 2026-11-15
+(how a face dies, the 4 × 5 patch rerun, the second card): gaps 11, 14, 24, 41–43 and 45 annotated, 48 and 49 added.
 
 ## 1. Theory
 
@@ -11,7 +12,7 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
    (a) rests on hypothesis (R), known only from sampled tables at A = 30–84, with a margin of 0.003 at A = 30;
    (b) is about a constructed automaton fed by a random tape.
 2. **A derivation, or even a definition, of the constant.** A referee will ask "0.21 of what?". The repository
-   has: 0.2072–0.2125 on periodic faces depending on the family, 0.2146–0.221 and rising on octahedral faces,
+   has: 0.2072–0.2131 on periodic faces depending on the family (0.2125 before the 4 × 4 anchor was corrected, GL1), 0.2146–0.221 and rising on octahedral faces,
    no measurement of a flat face without wrap-around or rim, and no demonstration that a limit exists.
    *Update 2026-11-15:* a joint analysis (CN1, draft §7.5) shows the families allow one asymptotic constant
    anywhere from about 0.207 to 0.219 and do not fix it; the measurement is now gap 42. The derivation is still
@@ -76,7 +77,9 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
 
 11. **A second implementation at A ≥ 108.** Table 2's last two rows, the firewall-resolved slabs at A ≥ 90
     (except one pair at A = 72) and the symmetric rows at A ≥ 759 come from one GPU code path on one provider,
-    checked by CPU emulation only. No second GPU run, no CPU run at those sizes.
+    checked by CPU emulation only. No second GPU run, no CPU run at those sizes. *Update 2026-11-15:* a second
+    card exists (GTX 1080, pull request 23, not merged); its 4 × 4 torus agrees with two CPU codes (GL1), but none
+    of these runs has been repeated on it.
 12. **More than 16 deaths at A = 135**, with replica ages reaching only 1/900 of the mean lifetime; the
     exponential-wait assumption is doing the work there.
 13. **A chaos diagnostic.** No Lyapunov exponent or entropy rate. Damage spreading (P5), correlation length (P4)
@@ -88,7 +91,9 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
 14. **Independence of the faces of one vessel.** τ_face = 8 × (mean first wait) assumes it. The 0.84–0.91 excess
     of octahedral over periodic faces at A = 108 says faces of an octahedron are not simply eight slab faces;
     no joint statistics (which face dies, correlations between adjacent faces' populations) are recorded. On
-    another lattice (grade C) adjacent walls hold each other up by a factor 10⁶.
+    another lattice (grade C) adjacent walls hold each other up by a factor 10⁶. *Update 2026-11-15:* in one
+    symmetric vessel at A = 63 the neighbour of a dying untied face loses only its own row along the shared edge
+    (DY3, draft §5.6); nothing comparable exists for asymmetric octahedra.
 15. **What makes an octahedral face tougher**: rim, shared edges, interior thickness and shape are not separated.
     No vessel with a flat face and open (non-periodic, non-octahedral) boundary has been run.
 16. **Thickness dependence at large area.** Independence of m is measured at A = 48 only (m = 7–12); all slabs at
@@ -125,7 +130,9 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
 
 24. **Systematic errors are not budgeted.** Quoted errors are 1/√deaths. Known systematics (tie conventions,
     detection-time bias, the soup transient, censoring of settled replicas, cycles longer than the detection
-    windows) are bounded case by case in reviews, not propagated into the tables.
+    windows) are bounded case by case in reviews, not propagated into the tables. *Update 2026-11-15:* the census
+    pipeline's per-job scatter is mildly above Poisson (χ² 100/75 and 169/151), so its quoted errors are 5–15%
+    small (GL1); no other pipeline's per-job scatter has been tested this way.
 25. ~~**Undetected long cycles.**~~ *Found and partly bounded, 2026-11-15* (ZL1, ZL2; draft §12): such cycles
     exist (period 16 on a CPU-missed state, periods 9–52 seen), every capped CPU run is bounded below its errors,
     and the long GPU runs are bounded by deaths at old ages. What remains is gap 41.
@@ -188,7 +195,9 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
     6×7 (×8), and fwslab 4×7×8 (A = 84), whose log has no age bins and which ZL2 does not list. Their correctness
     rests on the rate not rising with size (conjecture). Wanted: the guard described in `research/gpu/AGENT.md`
     (doubling snapshots, or an age cap) and a rerun of at least A = 108, or a second implementation at those sizes
-    (gap 11). The bounds other than R11 and R13 are grade C (the GPU session's script, re-run, not re-derived);
+    (gap 11). *Update 2026-11-15:* the guard exists (GL2, grade B; draft §12), off by default, and no run has used
+    it. Its limit: for an odd period above 128 the delay between settling and recognition can exceed a mean life at
+    A ≤ 93, so guarded runs must cut censored exposure at the snapshot age or report both figures. The bounds other than R11 and R13 are grade C (the GPU session's script, re-run, not re-derived);
     the audit of 2026-11-15 found fwslab 4×9×8 bounded by 4.2 × 10⁻³, which the ledger had left out of its
     summary.
 42. **The asymptotic constant, and the measurements that would decide it** (CN1, draft §7.5). Proposed and not
@@ -196,11 +205,15 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
     eliminate 35 of 36 single-constant readings if its value holds and the review calls not decisive; equilateral
     periodic tori (single-constant forecast: local slopes 0.2117 → 0.2136, with the existing 6×6 run already
     2.7–3.2σ below); octahedral faces of equal area with different rims, only with matched corners. Both GPU
-    measurements need the guard of gap 41 first. A flat face with neither wrap-around nor rim is still unmeasured.
-43. **The empty-patch cross-check** (GP10, draft §7.5). The last perimeter-free cost per cell (0.2185 ± 0.008)
-    rests on the 4×5 point, which the independent CPU run puts 1.9–2.6σ lower; a ten-times-longer CPU run is in
-    progress. Not checked at all: dependence on slab thickness, density and face size, and whether a 12×12 face is
-    in the same state as a small dying one.
+    measurements need the guard of gap 41 first (it now exists, unused). The equilateral forecasts are anchored on
+    the census's 4 × 4 value, a high draw (GL1); the CN1 fits include it and were not redone. A flat face with neither wrap-around nor rim is still unmeasured.
+43. ~~**The empty-patch cross-check**~~ *Done, 2026-11-15* (GP10, draft §7.5): 18 CPU runs at 0.9 of the GPU's
+    exposure give the 4×5 point at −23.412 ± 0.049 (541 hits) against the GPU's −23.318 ± 0.047, combined −23.364 ±
+    0.034; the last perimeter-free cost per cell is 0.226 ± 0.006 at 36 cells (CPU 0.2349 ± 0.0082, GPU 0.2185 ±
+    0.0079), about 1σ above the lifetime range 0.205–0.221 rather than inside it, and still falling. What remains:
+    5×5 and larger patches are GPU only; the asymptote (0.16–0.24) is not established; run-to-run scatter per
+    orientation class was not examined; the CPU runs have no firewall test. Not checked at all: dependence on slab
+    thickness, density and face size, and whether a 12×12 face is in the same state as a small dying one.
 44. **The symmetric collapse beyond A = 63** (S6–S9, draft §5.5, second update of 2026-11-15). The edge ladder
     (about 2.15 in ln τ per tied edge) is measured in one vessel at one size by two codes; nothing beyond A = 63
     was rerun by the review, and each T, T_d and O_h number is one job with one seed. Open: whether slope × order
@@ -212,7 +225,10 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
 45. **The mechanism of the edge cost, and the mirror share.** That faces tied across an edge cannot hold each other
     up is a conjecture: no occupancy maps of dying tied faces exist. In a fully symmetric face rim and mirror cannot
     be separated, and a diagonal-mirror share of up to about a third of the √A term is not excluded. Wanted: the
-    maps, and a construction that separates a tied rim from a diagonal mirror.
+    maps, and a construction that separates a tied rim from a diagonal mirror. *Update 2026-11-15:* the maps exist
+    for one vessel (A = 63, c1–D2h; DY1–DY7, draft §5.6): they show no dynamical holding-up, only a tied rim that is
+    thinner at all times, and nothing that shows the thinner rim causes the cost (gap 48). The separating
+    construction is still wanted.
 46. **Wires and sheets** (Z13, grade C, draft §12). Of 37 unrecognised settled states, 21 were classified as wires
     and 2 as sheets by one agent; whether a wire's moving part could be held by a finite stator, whether wires of
     one period and direction are the same wire, and sheets on covers beyond 3 × 3 were not checked. The five new
@@ -223,3 +239,14 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
     A referee would want each analysis committed as a script with its window. Still with no re-run at all: F12
     (the plunge before death; its inputs are not in the repository), S4, Q4, G3, G4, K5, K7, K8, Z13, Z2 at
     n = 16 and Z4's period-3 search; L2 has only been recomputed from its committed tables.
+48. **How a face dies, beyond one vessel** (DY1–DY7, draft §5.6). Deaths were followed only at R = 11
+    cube-centred (A = 63); at A = 84 and vertex-centred there is stationary sampling only, and no excursion table.
+    Every D2h quantity involving exposure moves by 0.2–0.45 with the treatment of settled lives (ln τ 7.32, 6.86 or
+    7.168), and no estimator is shown to be the right one. Unresolved: 1.7–1.8σ differences between the two codes in
+    the csz and D2h stationary populations and 2.7σ in one forecast's fraction (L6). Not measured: births by
+    neighbour count; the layer beneath directly; whether the surviving clump's position (rim or centre, tied or free
+    edge) predicts recovery, the test the clump-and-hole picture needs; c2e and O_h. A third round (sizes, the shape
+    of a depleted face) is under review.
+49. **Single values used as anchors.** The census's 4 × 4 torus value was a 3.4σ high draw used as an anchor (GL1).
+    A referee would want every value that anchors a forecast or a fit measured twice, by independent seeds at
+    least; no list of such anchors exists.
