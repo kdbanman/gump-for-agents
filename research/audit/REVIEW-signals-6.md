@@ -172,8 +172,8 @@ generations (so "only when a hole arrives" is shown for 60 generations).
 
 `python3 refl6.py words` (18 s; line N = 70, st6): one hole returns one E (both oscillators); K0 is not returned as a
 signal (C18.23a: 12 cells, not signals; C20.33c: the end destroyed); **two holes at every spacing s = 1..20 rakes:
-never one E**: from s = 2 on a growing stretch of wire B (2s − 1 units at +2·(21 + 2s) + 40), s = 1 a 13-cell
-remnant. Consistent with the meeting result, which is proved at every offset.
+never one E**: from s = 2 on, wire B on the stream (4 units at s = 2, 2s − 1 units at s = 3..20, read at generation
+2(21 + 2s) + 40 after the word), and at s = 1 a 13-cell difference that is not a set of signals. Consistent with the meeting result, which is proved at every offset.
 
 **Own encoding of the reflector negative** (`mysat6.py --frame5`: review 5's frame, the train moving into an end at
 units ≥ 6, the signal mapped by `frame6`; the same light cone; at T = 36: X(T) = B(0) on the end and the 4 units in

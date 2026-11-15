@@ -1506,6 +1506,13 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   instance is SAT (a 26-cell gun that absorbs U, re-stepped: periodic, reaches B; `--noreturn --same`: SAT in 37 s, a
   23-cell gun, re-stepped). **U answered by a returned H or K0** (`--kind U --mustreturn`): UNSAT at C = 31, 33, 35,
   37, 39 (single core: 31, 40, 49, 108, 328 s). No instance was cut. E at C = 41 was cut at 25 minutes.
+  *Review (REVIEW-signals-6 §4): what this instance does not exclude: a return of K3, N2 or N3 (signals that exist,
+  section 30's Review note), two signals, a front, a return later than T − 8, period 8, anything outside the tube.
+  An independent encoding (`research/audit/signals6/mysat6.py`: light cone instead of histories, so the gun may send
+  anything at all down the stream; it must be a gun of period dividing 4 again, on its units and the 4 in front, at
+  T = 36 after E is set 4 units in front of it; glucose4) is UNSAT for E at C = 31 (also maplechrono, and T = 48),
+  33, 35, 37, for N1 at C = 31, 33, 35, and for U with something sent down at C = 35; SAT for U at C = 37 (re-stepped);
+  planted controls behave. The push's U instance at C = 37 re-run: SAT, its gun re-stepped by the review absorbs U.*
 - **[measured, sg.step_set; a SAMPLE] Oscillators beside the gun** (`python3 oscecho.py --K 40 --seed 6 --zone 13,16
   --out ../scratch/signals/p6/oscecho_gun.jsonl`, 23 min): the 99 catalogue oscillators, 40 random placements each
   (as `gapstream.py`: halo meeting the halo of units 13..16 of the line N = 16, i.e. the gun and the three units in
@@ -1526,7 +1533,9 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   inside C ≤ 39 absorbs it or answers it with one H or K0 within 52 generations; (c) no sampled oscillator beside
   the gun saves it. A signal coming up the stream *can* be survived, though: 11 of the 68 guns absorb U exactly. And
   no gun in those bounds answers U with a returned H or K0, so no loop can be built from these parts (question 5:
-  not reached).
+  not reached). *Review: "these parts" means period-4 guns and ends in the 3 × 3 tube at the stated C and T; the
+  signal set is larger than E, U, H, K0 (section 30's Review note), and the review's wider encoding (any answer)
+  excludes those answers too for C ≤ 35 (U) and C ≤ 37 (E).*
 
 ## 33. The reflector: what makes the echo, and why it works once
 
@@ -1548,6 +1557,10 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   cells differ on units 3..33 and 3 at the end 76 generations on, not a set of signals; C20.33c: the end is
   destroyed). H followed by K0 three units behind (at units 21, 24): one E comes back and the K0 is absorbed by both
   ends.
+  *Review (REVIEW-signals-6 §5): the coupling re-checked with every step on the oracle: C18.23a plain, no coupled
+  generation in 60; holed, exactly tg + 16, 18, 20 through (2,0,−1); C20.33c coupled at every generation through
+  (1,0,−2). Two holes at every spacing s = 1..20 rakes (line N = 70, both oscillators): never one returned E; from
+  s = 2 on, wire B on the stream. One hole: one E; K0: no signal returned.*
 - **[SAT, bounds; CaDiCaL 1.5.3; no model] No simpler reflector in the 3 × 3 tube** (`python3 sat_reflect6.py C
   --kind H|K0`; instance in its docstring: the absorber A of period dividing 4 inside the tube and the planes
   x+y−z, x−y−z ≤ C, the arriving H or K0, and the units in front of the end following one of 8 or 9 histories in
@@ -1558,6 +1571,10 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   21, re-stepped: restored, train intact. There is no positive control for the "returns E or U" histories (no
   reflector inside the tube is known); for C ≤ 37 the census of section 27 (the review's whole-state scan: every
   end heals each word within 39 generations or burns) says the same for H.
+  *Review (REVIEW-signals-6 §5): an independent encoding that allows any answer up the stream (the end restored at
+  T = 36, on its units and 4 in front, and at least one cell of the 28 units above differing from the train) is
+  UNSAT for H at C = 31, 33, 35 and for K0 at C = 31 (glucose4); its controls (no answer required; an extra E on
+  the stream) are SAT and re-step.*
 - So the only reflector known is the review's: capA with C18.23a or C20.33c beside it. Not tried: other
   oscillators beside capA (the samples of section 28 found these two among 9,900 placements), the 5 × 5 tube.
 
@@ -1588,6 +1605,12 @@ differ, as debris does (section 28's review), not as a record.
   of guns at C = 37 may count a gun more than once (translates, time shifts); I did not deduplicate it. The
   catalogue scan of section 32 is a sample. The look at the echo inside the review's records was not kept as a
   script. The correction to the review's 'breaks' class is from reading its code; I did not re-run its scan.
+  *Review (REVIEW-signals-6): now checked by a second agent with its own stepper and encodings: the signal census
+  (and five further signals), the fronts (a gluing script: proved for ever), the meetings at offsets 1..41, the B′
+  stretch (standing for ever; s = 2 corrected), the follow-up of review 5's scan (nothing alive and changed), the
+  gun list (67 distinct), the gun and reflector negatives in a wider form (any answer) at C ≤ 37 / 35, the coupling
+  on the oracle. Still unchecked: period 8, the 5 × 5 tube, settling later than T, the oscillator samples, no UNSAT
+  certificate.*
 - **Where I would go next.** (1) *A reflector that returns U.* Eleven guns absorb U and are restored: a receiving
   end that answered a hole with U would make the line a two-way channel with both ends restored (the hole goes
   down, U comes back and is swallowed by the gun). In the 3 × 3 tube at C ≤ 37 there is none (section 33); beside
