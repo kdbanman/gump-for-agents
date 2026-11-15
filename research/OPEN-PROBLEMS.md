@@ -121,6 +121,19 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     that fixes it; **(d)** a corner: one scan of 205 placements of a second wire beside a lit clock found nothing,
     and no other search exists; **(e)** a cap for wire 8 (a free-standing second counter); **(f)** whether the
     double-pulse reflection can be made into a shuttle or a reusable reflector.
+    **Fourth push, reviewed 2026-11-15** (notebook "the fourth signals push reviewed"; CLAIMS SG16–SG22;
+    `research/audit/REVIEW-signals-4.md`): question (a) is answered for moving objects. A 15-cell standing gun of
+    period 4 writes a rake onto bare wire every period; gun, wire and receiver make a free-standing oscillator at
+    every length (proved); the catalogue oscillator C8.24a beside the stream turns every second rake into a hole
+    and is not changed (the divider, period 8); every word of holes heals. Still absent: anything that reads the
+    word; a second stage (a second divider on the halved stream never divides again); a clock of period 4N; a
+    corner (never searched). New questions: **(g)** a reader: a standing object left in a different lasting state
+    by a hole than by a rake (a wall that moves per hole, an absorber with two states); **(h)** a switch: the
+    divider works at one of the oscillator's eight phases and one cell on the wire at the right moment destroys
+    it, so is there an input that shifts its phase or place without destroying it; **(i)** a divide-by-four, or
+    any word other than rake, hole (oscillators of period 24 and 32 beside the stream, enumerated and not
+    sampled); **(j)** a corner as an exact constraint problem, with the stream as a standing probe; **(k)** why
+    the turn class is forced (no invariant is known; the negative is bounded by turn time T ≤ 36).
 14. The 94 clockwork objects (`research/clockwork/objects/`) are not merged into the atlas catalogue.
 
 ## Neighbouring rules

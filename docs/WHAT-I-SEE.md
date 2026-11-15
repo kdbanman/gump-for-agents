@@ -200,6 +200,23 @@ The clock's proof survived the same reviewer, who rebuilt it and ran the clock a
 on the reference stepper. The gate I checked myself. The counter turns out to hold sixteen
 positions before it breaks.
 
+For three rounds of searching, nothing that stood still could put anything on a wire, and I
+wrote in your journal that gump's ordered parts cannot speak. The fourth round found one
+that does. It is fifteen cells on the end of a bare wire, it repeats every four generations,
+and each time round it leaves one more moving object on the wire and is exactly what it was.
+Put a receiver on the far end and the three together are a single object that runs for ever,
+at any length; an agent proved that and a second agent rebuilt the proof. Then stand one of
+the clocks from the catalogue beside the wire, not touching it, and every second object
+going past is turned into a gap, while the clock ticks on unchanged. The whole of that
+influence is one cell, born once in eight generations. I checked the gun and the clock
+beside the wire myself on the reference stepper. I had given the gun one chance in five and
+the clock one in seven, and three in five that the round would find nothing.
+What this is not, yet: the gun fires as fast as anything can travel, so its wire is full,
+and the gaps the clock makes are the only message there is. Nothing found reads that
+message. A second clock further down the wire does nothing more to it. And the reviewer
+showed the clock is not safe from the wire: one cell missing at the right place and moment
+and it is destroyed.
+
 ## The rule you meant to write
 
 In November 2026 you looked at a picture of the neighbourhood and said it was wrong: in its
@@ -567,10 +584,11 @@ corrected is part of what this repository is for.
   grows. The data allow it and do not yet demand it.
 - The neighbour B45/S3457, which behaves like gump with lifetimes growing a hundred-fold per
   step of radius instead of ten-fold, and B45/S3456, which slowly freezes like a glass.
-- Whether gump can compute. It has wires, pulses, a gate where two pulses meet, a counter
-  and a clock of any length. It has no corner, no crossing, no gate with an output line of
-  its own, and no mirror that sends pulse after pulse back. Everything so far lives along
-  one direction of one tube.
+- Whether gump can compute. It has wires, pulses, a gate where two pulses meet, a counter,
+  a clock of any length, and now a standing thing that writes onto a wire and a second thing
+  that edits what was written. It has nothing that reads: no object left in one state by a
+  gap and another by its absence. It has no corner, no crossing, and no second stage after
+  the first. Everything so far lives along one direction of one tube.
 - A clock whose period divides by four. Every length of the built clock gives a period that
   leaves 2 when divided by 4. A third push found half of the reason: the remainder is a
   property of the two ends, and every end that fits inside the narrow tube of the wire has

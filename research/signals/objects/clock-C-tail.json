@@ -415,5 +415,5 @@
  ],
  "period": "4N + 2",
  "found": "two-sided object: python3 sat_two.py 6 --w 3 --restore 10 (1 s); here followed by 6 units of wire C and capR of clock-C",
- "note": "A shuttle clock whose right end is not a cap but a 11-cell object in three units of the wire, with wire C going on behind it (6 units here, closed by capR of clock-C). Period 4N + 2 as for clock-C. The wire behind the turner is never touched."
+ "note": "A shuttle clock whose right end is not a cap but an 11-cell object in three units of the wire, with wire C going on behind it (6 units here, closed by capR of clock-C). Period 4N + 2 as for clock-C. The wire behind the turner is never touched."
 }

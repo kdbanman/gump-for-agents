@@ -3247,7 +3247,8 @@ its first run at 13:11). The lead's own refit with a third loader:
 ## 2026-11-15: the fourth signals push: a standing object writes onto a wire (a gun of period 4), a gun, a wire and a receiver make a free-standing oscillator, and a catalogue oscillator beside the stream halves it (the lead's own oracle checks; review running)
 
 `research/signals/README.md` sections 20–25 and 21b (a Fable investigator, 12:55–15:15 UTC; commits 4a10c4e …
-f6ec867). Everything below is provisional until `research/audit/REVIEW-signals-4.md` is in; the two objects marked
+f6ec867). Written before the review; **the review is the next entry ("the fourth signals push reviewed")
+and corrects three things here** (the census at C = 35, "never changed", the scope of the turn-class negative). The two objects marked
 "lead" were checked by the lead on `reference/oracle.py` from the stored cell lists alone.
 
 - **The gun [measured on the oracle; lead].** `objects/gun-5f.json`: 15 cells, period exactly 4, on the +v end of
@@ -3287,3 +3288,54 @@ f6ec867). Everything below is provisional until `research/audit/REVIEW-signals-4
   a stream and not where I worded it), four failed, among them the 60% that nothing standing would write.
 - Not checked by the lead: the three gluing proofs, every SAT answer, every scan, the start phases, the
   place-and-phase table of the divider.
+
+## 2026-11-15: the fourth signals push reviewed: the line and the beam are proved for every length, every word of holes heals, the divider is real and its oscillator can be destroyed from the wire, the gun census double-counted
+
+`research/audit/REVIEW-signals-4.md` (an Opus reviewer; own stepper `research/audit/signals4/st.py`, written from
+`docs/AUTOMATON.md` §2 on the infinite lattice and checked cell for cell against the oracle on seven objects:
+`python3 research/audit/signals4/oracle_check.py`, ALL PASS). Commands below run from `research/audit/signals4/`
+unless a path is given. Its fourteen corrections to the README are being applied by the reviewer.
+
+- **The gun stands [measured, two codes and the lead's oracle check; SG16 B].** Reproduced for N = 10..40
+  (`python3 gun_check.py`). The census of guns inside planes C reproduces, but at C = 35 two of the six solutions
+  are the C = 31 gun and its translate, so there are at most four new ones (`python3 census_translate.py` after
+  the two `sat_gun.py … --all --out` runs it names).
+- **The line and the beam are proved for every length [proved; the gluing arguments re-derived step by step by
+  the reviewer; direct runs N = 2..60 and 1..60; SG17 A].** Line: onset exactly 2N, period exactly 4. Beam: period
+  4, 33 + 5N cells, both parities in the base.
+- **Every word of holes heals [measured exhaustively, not sampled; SG18 A].** Beam N = 25: all 4,096 words that
+  keep the first rake heal, and all 4,096 that remove it change the gun. Line N = 16: all 764 words heal,
+  including the rake next to the gun (the condition "not the first rake" is the beam's alone). Divider N = 16,
+  17, 28: all 432 words heal. `python3 holes2.py line 16` and the commands in the review's section on holes.
+- **The divider stands, from N = 3 [measured, two codes and the lead's oracle check; proof for N ≥ 8 holds as
+  written; SG19 B].** Period 8 from generation 2N − 3, word 5f9f, the oscillator equal to its free orbit at every
+  generation, the coupling one cell born in the step from 8k + 7 to 8k + 8. C8.24b is a divider too, on the
+  oracle (`python3 c824b.py --oracle`, N = 12, 13; N = 10..30 on the reviewer's stepper).
+- **"Nothing on the wire changes the oscillator" is false as a statement about the coupling [measured on the
+  oracle; the lead re-ran it].** `python3 research/audit/signals4/hole_oracle.py` (17 s): at N = 16, one cell
+  removed at unit 13 at generation 39, one generation before the stroke, changes the oscillator at generation 43
+  and the object ends with 32 live cells instead of 147. Holes arriving in the stream do not do this (they heal).
+  So the oscillator is untouched in the undisturbed orbit and under every word of holes, and it is not protected:
+  the wire can reach it. Of 1,222 single-cell flips of the divider, 273 heal and none leaves both gun and
+  oscillator alive in a changed state (`python3 holes.py divflip 12 21 28`).
+- **A second divider downstream never divides again [measured; new].** `python3 twodiv.py 24`: of 104 placements
+  of a second C8.24a on the halved stream, 84 keep both oscillators with the word still 5f9f and 20 destroy
+  something. No divide-by-four.
+- **The clock with a tail stands [SG20 A].** N = 2..40: stationary unlit, period exactly 4N + 2 lit.
+- **Turn class without planes [computer-assisted; SG21 B].** The open-end encoding is a sound relaxation for every
+  length, so the UNSAT answers do not need the light-cone argument (which is also correct). T = 4 was missing and
+  is UNSAT. The scope is period-2 ends in the 3 × 3 tube with T ≤ 36; the README's opening sentence said more.
+  `eat_direct.py` (the eight class-2 caps destroyed by a lone pulse) was not checked [C].
+- **The negatives are narrower than written [SG22 B for the SAT answers with controls, C for the scans].** The
+  period-8 encoding has a positive control now (`sat_gun.py 5f5f 31` returns the gun). "No gun for a sparser
+  train" covers the one train 5f9f. `sat_div.py` put both sides at the same phase of wire C; the reviewer closed
+  the out-of-step case for the divider (`python3 sat_div_parity.py 5fbb 5f W`: UNSAT, W = 1..4 in the 3 × 3 tube,
+  W = 1 in the 5 × 5 tube). The same one-phase restriction is in `sat_two.py --w` (the 225 leaky-turner
+  instances and the two-sided census) and is not closed. None of the step_set scans was re-run.
+- Not checked (the reviewer's list): `eat_direct.py`; the `gunlab.py` subcommands; `beamcaps.py`; `clockscan.py`
+  and the `clockstream.py` counts; the absorber census and the period-8 end negatives; the sparse-gun UNSATs; a
+  second SAT solver; two-oscillator placements other than two copies of C8.24a at N = 24.
+- What it adds up to. Gump now has, on the oracle: a standing object that writes a moving one onto bare wire every
+  period; a free-standing loop of writer, wire and receiver; a second ordered object that changes what the first
+  one wrote without being changed; and the fact that the same object can be destroyed by the right single cell
+  on the wire. It still has no reader of the word, no second stage, no corner.

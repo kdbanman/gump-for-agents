@@ -99,4 +99,14 @@ What speaks to it (the lead, same day):
   And the reviewer found the first thing that answers back: a wall between two kinds of wire that, hit by two
   pulses in a row, moves one step and returns exactly one pulse the way they came (I checked it myself on the
   reference stepper). It only exists on a closed ring so far, and it moves each time it is used.
+  *And since (16:03 UTC; notebook "the fourth signals push reviewed"):* half of that sentence no longer holds. An
+  ordered thing can speak onto a wire from where it stands. A fourth push found a 15-cell object on the end of a
+  bare wire that puts a moving object on it every four generations and is exactly restored each time (checked on
+  the reference stepper by three separate codes, one of them mine). With a receiver at the other end it is a
+  closed loop that runs for ever at any length, and that is proved. And a second ordered object, one of the
+  catalogue's period-8 clocks standing beside the wire, turns every second passing object into a gap without
+  being changed itself: the first time one ordered part of gump acts on what another has sent. The other half
+  stands: nothing yet listens. Nothing found is left in a different state by a gap than by an object. The reviewer
+  did find that the right single cell on the wire, at the right moment, destroys the clock standing beside it, so
+  the clock is reachable from the wire; reaching it without destroying it is the open question.
 

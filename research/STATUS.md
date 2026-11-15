@@ -267,6 +267,16 @@ _Last updated 2026-11-14 by the lead._
   (version 14, 84 files; how to republish: `LEAD.md`, "The overview page"). Not yet seen rendered on the host by
   anyone. **Next for the site:** the new findings, page by page (nine tori, the wrapping result, signals pushes 3
   and 4), after the fourth push's review is recorded; the owner's two clicks for the public site.
+  **16:03 UTC: the fourth signals push is reviewed and recorded** (`research/audit/REVIEW-signals-4.md`; notebook
+  "the fourth signals push reviewed"; CLAIMS SG16–SG22; 179 claims, A 86, B 81, C 11, D 1; OPEN-PROBLEMS 13
+  questions (g)–(k); the owner's journal and the essay updated; the review's 14 README corrections applied by the
+  reviewer, 96123e0). Stands: the gun (A), the line and the beam for every length (A, proofs re-derived), every
+  word of holes heals (A, exhaustive), the divider (A; proof and place-and-phase B), the clock with a tail (A).
+  Narrowed: the gun census at C = 35 double-counted; the divider's oscillator can be destroyed from the wire by
+  one cell (the lead re-ran `research/audit/signals4/hole_oracle.py`); a second divider never divides again; the
+  turn-class negative is for period-2 ends, T ≤ 36; the SAT negatives hold one wire phase unless stated.
+  **Running:** only the lead's CPU run of the 84-cell face. **Next:** site content (nine tori, the wrapping
+  result, signals pushes 3–4) and the draft, one Opus agent each; merge of pull request 26 at that checkpoint.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
