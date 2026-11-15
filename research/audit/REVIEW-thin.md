@@ -26,6 +26,22 @@ end of run. Estimator: per-face τ = faces × exposure / deaths over ages ≥ T0
 | 5. exact M(1): ring of 5, segments | **stands** | 3.967199; 2.453108 (n = 2), 4.192750 (n = 5) | 3.967199; 2.453108; 4.192750 |
 | 7. forecasts before runs; scoring | **stands with corrections** | | see below |
 
+## Claim 4: noise is enough from five layers
+
+`tt.py` model mode: rule on layers 0..w−1, layers w and w+1 redrawn every generation with density 102/256, one face,
+life cut at three adjacent dead layers among 1..w−1. Ring b = 16; tags r16, m16w5, m16w4 (`python3 research/audit/thin/tt.py stats 'm16*' r16`).
+
+| | review | line |
+|---|---|---|
+| deterministic ring b = 16 | 8.6449(12) (658k deaths) | 8.6470(16); census 8.6426(20) |
+| M(5) | 8.6466(13) (550k) | 8.6534(26) |
+| M(5) − det | **+0.0017(18)** | +0.006(3) |
+| M(4) − det | **+0.0497(23)** | +0.049(3) |
+
+**Stands.** The two M(5) values differ by 0.007(3), 2.3σ. The differences agree within 1.3σ. At b = 16, M(5) is equal to
+the deterministic ring within 0.004. b = 24 and segments were not rerun. M(4) reproduces exactly. The hazard is flat in
+age in all three tags (by-age columns of `stats`).
+
 ## Claim 3: the headline 0.099 ± 0.004 per cell
 
 `python3 research/audit/thin/refit.py` (lifetimes; output in `refit_out.txt`) and `python3 research/audit/thin/refit_win.py`
