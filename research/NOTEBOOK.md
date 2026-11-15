@@ -3423,3 +3423,58 @@ was found. A review with independent code is running; its entry follows this one
   oracle; gaps other than the one-cell hole (the whole rake missing, other cells); the completeness of the SAT
   enumeration; the samples beside the stream; 45 of the 46 runs in which a gap kills the gun and the oscillator
   survives. All are in the reviewer's brief.
+
+## 2026-11-15: why a tube is cheaper: a living face is less dense for every loop round it, the deficit falls smoothly with the loop's length, and the price discount is 1.85 times it; the effect does not end at 21
+
+A study of the living state on wrapped faces, with no lifetimes needed (`research/wraplocal/README.md`, commits
+3cdbf30 … 22d6101). It answers open problem 9 (a) in part and overturns the premise of 9 (b).
+
+- **[measured; the study's bit-sliced stepper, checked bit for bit against the oracle on one torus] The density
+  law.** On a face torus with period lattice Λ the stationary density of the two face layers is
+  ρ = ρ∞ − Σ f(|v|²), one term per loop vector ±v of Λ, with ρ∞ = 0.517742 ± 0.000006 and one f per loop length:
+  f(9) = 0.006267, f(12) = 0.002317, f(13) = 0.001605, f(16) = 0.000768, f(19) = 0.000275, f(21) = 0.000181,
+  f(25) = 0.000079, f(27) ≈ f(28) ≈ 0.000029 (errors 4 to 19 × 10⁻⁶). 27 tori of 63 to 147 cells, χ² 13.8 on 14.
+  The deficit is per cell (tubes of one girth at 66, 72, 84 cells agree) and the deficits of several loops add.
+  `python3 research/wraplocal/dens.py rho_face --price`.
+- **[the lead's check: a stepper written for it, plain numpy on the oracle-validated slab graph, none of the
+  study's code]** `python3 research/audit/wraplocal_lead_check.py` (3 min) and `… 1024 4000 long` (5 min):
+  (1,12,28) 0.515424 ± 0.000038 (study 0.515429); (1,7,28) 0.517001 ± 0.000040 (0.516947); (1,4,28) 0.517521 ±
+  0.000032 (0.517541); (1,4,34) 0.517594 ± 0.000022 (0.517563); (6,0,6) 0.517752 ± 0.000019 (0.517717): all within
+  1.7σ. Deficit of the loop-12 tube against the long-loop torus of the same area 0.002097 ± 0.000050 (study
+  0.002112); of the loop-16 tube 0.000520 ± 0.000051 (0.000594); **of a torus with one loop of 21 against one with
+  loops of 36 only 0.000159 ± 0.000029, 5.5σ from zero (0.000154)**. (My first version took the error from 8
+  blocks of replicas, which was too noisy an error: it put one torus 3.7σ off on an error of 0.000005; with 32
+  blocks, as above.)
+- **[fitted on two girths; one forecast] The price.** A tube's discount per cell is κ f(loop²) with κ = 1.85 ±
+  0.07 fixed on loops of 12 and 16. It gives 13 as 0.00298 ± 0.00012 against the measured 0.00262 ± 0.00034
+  (−1.0σ); the price at 19 is too poorly known to test it. Only differences follow: κρ∞ = 0.96, not 0.2086.
+  Statistics with the density's profile across loop lengths: a dead face cell's mean count of live neighbours,
+  the share of live face cells with 3 to 5 live neighbours. With the wrong profile: births per cell (6σ off),
+  interior activity (5σ), the variance of the face population (2.6σ, and three times too large). The price follows
+  occupation, not turnover. The equal-time correlation of a cell with the cell one loop vector away, on a torus
+  without that loop, is below 10⁻⁴ for every loop length: what carries the deficit round the loop is not a
+  static correlation, and is not identified.
+- **[proved by enumeration, one code] The neighbourhood.** Six of a face cell's twelve neighbours are in its own
+  layer. A cell is its own neighbour only at loop² 1, shares a neighbour with itself at 1 and 4, meets itself in
+  three steps at 3 and 9. No count of this kind separates loops of 12 to 19 from 21 and up, and graph distance is
+  not monotone in loop length. `python3 research/wraplocal/nbhd.py`.
+- **The effect does not end between 19 and 21.** I recorded (WL2, WL3, the essay) that a loop of 21 costs
+  nothing. What the lifetimes showed is that its cost is below their resolution, against a baseline of faces that
+  themselves carry loops of 21 to 31. In the living state f(21) is 45σ from zero and two thirds of f(19).
+- **[consequence, if the relation holds for long loops; not tested]** The price of a face with no loop at all is
+  about 0.2075 per cell, not 0.2086, and the line of "no short loop" faces bends. Forecast frozen before any run
+  (W13, `research/wrap/PREDICTIONS.md`) and queued for the card: the 84-cell face with loops of 21 and 28 at
+  17.534 ± 0.004 if it holds, 17.547 ± 0.003 if the effect ends before 21.
+- **[measured, one code] A girth of three is different.** Tubes of loop² 9 are cut by transverse firewalls (a ring
+  of the tube dead at once, which by the wall theorem is for ever): 1.0 firewalls per face death at 63 cells, 6.5
+  at 72, 41 at 81 (new runs: (1,7,24) 14.6191 ± 0.0100; (1,8,27) 16.3538 ± 0.0111). Their price per cell falls
+  with length (0.200, 0.198, 0.1955, 0.1927 from 45 to 81 cells) and the density relation misses it by 3.7σ over
+  63–81. The loop-12 tube of 84 cells had no firewall in 29,412 deaths (`research/wrap/data/runs.csv`, column W).
+- **[scored]** L1 (some local statistic differs by more than 5 standard errors, 70%) held. L2 (ordered as the
+  prices and zero at 21, 55%) failed on its second half. L3 (one statistic gives the prices, 30%) held. L4 (an
+  exact neighbourhood rule explains the end, 30%) failed: there is no end. L5 (nothing local tracks it, 35%)
+  failed.
+- Not checked (20:16 UTC): the additive fit and κ by a second code (I re-measured five densities, not the fit); the
+  relation at any loop past 16 against a lifetime (W13 is the test); the study's stepper against the oracle on more
+  than one torus (my stepper is the cross-check on five); the firewall counts by a second code; burn-in (500
+  generations) was not varied; why κ is 1.85.

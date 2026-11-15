@@ -211,3 +211,13 @@ not all alike: at equal area, one with a loop of 21 should live less long than o
   meeting point A0 runs from 40 to 20 cells): **17.534 ± 0.004**.
 - **If the effect ends before 21:** equal to the equilateral face: **17.547 ± 0.003**.
 - **W13 (65%).** The card's value for (1,4),(0,28), measured to ± 0.003, is below 17.5405 (the midpoint).
+
+### L1–L5 scored by the lead (20:16 UTC)
+
+L1 held (the face density on a loop-12 tube is about 100 standard errors below the long-loop torus). L2 failed on
+its second half: the order is as the prices, but the deficit at 21 is 45σ from zero, not zero. L3 held (the density,
+fixed on 12 and 16, gives 13 within one standard error; one forecast, and the density was picked among 17
+statistics, though it was the one named beforehand). L4 failed: no exact feature of the neighbourhood sits at 19 to
+21, and there is no end to explain. L5 failed. My own measurement of five of the densities with separate code
+agrees (`research/audit/wraplocal_lead_check.py`). The thing I had wrong was the premise: I asked why the effect
+ends, and it does not.
