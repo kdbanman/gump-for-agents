@@ -490,3 +490,34 @@ survives it.
 - **Q12 (20%).** A simpler reflector (fewer cells, or capA with a smaller oscillator, or an end alone) is found.
 - **Q13 (4%).** A loop: one signal goes round gun end -> reflector at least three times, oracle.
 - **Q14 (7%).** A listener (anything left alive in a different lasting state by an echo or a meeting), oracle.
+
+### The sixth push scored (investigator, 2026-11-15 21:05 UTC)
+
+- **Q1 (88%): held.** E rides the plain train for ever (`prove_echo.py`: a two-generation computation and an
+  induction; oracle ring, 120 generations). 0.01.
+- **Q2 (30%): failed.** The echo is a defect of rake cells; bare wire C has no E (its own pulses run both ways). 0.09.
+- **Q3 (45%): failed.** The divider's stream has a hole in every second rake; an echo meets one within 4
+  generations and the stream becomes wire B. 0.20.
+- **Q4 (35%): failed.** There is one meeting of E and H, and they do not pass. 0.12.
+- **Q5 (40%): held.** E meets H: the stream between two separating edges becomes wire B. 0.36.
+- **Q6 (25%): failed** for E and H. (U and K0 do cancel exactly; that was not the forecast.) 0.06.
+- **Q7 (45%): failed.** E meets K0: K0 vanishes and E becomes a puncher that holes every rake it passes; the train
+  survives, holed. 0.20.
+- **Q8 (8%): failed.** All 68 guns of the C = 37 census die on E (11 absorb U). 0.01.
+- **Q9 (20%): failed.** UNSAT at C = 31..39 (absorb, or return one H or K0; period 4). 0.04.
+- **Q10 (50%): failed.** The first echo meets the second hole on its way up. 0.25.
+- **Q11 (20%): failed.** 0.04.
+- **Q12 (20%): failed** as worded (no simpler reflector; but one flipped cell anywhere on the stream makes an echo
+  with no reflector at all). 0.04.
+- **Q13 (4%): failed.** 0.00.
+- **Q14 (7%): failed.** The meeting of an echo with a word of holes writes a unary count (a B′ stretch in the wire B it
+  makes), but the finite line burns it away. 0.00.
+
+Mean Brier score over the fourteen: 0.10. What I did not foresee: that the echo is not a property of the reflector
+at all (one cell of the stream makes it), that a second up-moving signal U exists which eleven guns absorb, and that
+the meeting of an echo and a hole makes wire B, the first push's wire.
+
+My reading of the lead's S27-S32, for the lead to overrule: **S27 (85%) held.** **S28**: one meeting exists, and its
+outcome is that the stream breaks (turns into wire B): the 30% branch. **S29 (25%) failed** for the echo (no gun on
+file and none in the SAT bounds survives E; guns that survive the other up-signal U exist, which the forecast did not
+name). **S30 (8%) failed.** **S31 (30%) failed** (no simpler reflector; the echo needs none). **S32 (12%) failed.**

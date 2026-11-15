@@ -50,7 +50,9 @@ for n in range(0, 5):
     for u in holes[:n]:
         S = S ^ E.sig('H', u)
     G = 6 * N + 200
-    S = E.run(S, G)
+    S = E.run(S, 80)
+    print(f'E and {n} holes: generation 80: {letters(S)}', flush=True)
+    S = E.run(S, G - 80)
     hist = [S]
     for _ in range(40):
         hist.append(sg.step_set(hist[-1]))
