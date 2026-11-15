@@ -1207,8 +1207,10 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   at an odd generation: the one-cell pulse of `verify_line.py` check F; two consecutive rakes, so two arrival times
   4 generations apart), 21,320 gap runs compared in lockstep with the plain run: **20,813 healed** (cell for cell
   equal to the plain run within 200 generations); in 412 the gun was already disturbed in the plain run (no rake to
-  remove); 58 gaps destroy the oscillator; in 28 the oscillator survives unchanged and the gun dies (a disturbance
-  runs up the stream: a fuse acting backwards, not looked at further); 9 lose the oscillator in the plain run later.
+  remove); 58 gaps destroy the oscillator; in 28 the oscillator survives unchanged and the gun dies (one case looked
+  at, C17.31a, with `python3 ../scratch/signals/p5/look2.py ../scratch/signals/p5/gapstream.jsonl 1`: when the gap
+  reaches the oscillator the wire catches fire there and burns in both directions, up to the gun in about 15
+  generations, leaving the oscillator standing: a fuse, not a signal); 9 lose the oscillator in the plain run later.
   **No run left the oscillator alive and the gun alive in a state different from the plain run's.**
   `python3 gapstream.py --summary ../scratch/signals/p5/gapstream.jsonl` relabels the records (the run itself
   printed the 28 gun deaths as `LISTENER?`; its labels were corrected afterwards and the jsonl holds both flags).
@@ -1249,20 +1251,20 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   phases for N = 16 only. The asymmetric tube [1,9] × [1,5] (`sat_listen.py 29 --S 16 --lo 1 --hi 9`, the side where
   the divider's oscillator stands) was cut at 25 minutes. `listen_batch.sh` was stopped half way (a kill meant for one
   instance stopped `xargs`); the remaining instances were run by `listen_queue.sh` from a queue file and are all in
-  the log. The 28 + 18 runs in which a gap kills the gun while the oscillator beside the stream survives were not
-  looked at: something goes up the stream from the oscillator to the gun, which is a signal against the stream.
+  the log. Of the 28 + 18 runs in which a gap kills the gun while the oscillator beside the stream survives, one was
+  looked at (a fire, section 28); the others may differ.
 - **What the five pushes now say about reading.** Every end of the stream inside the 3 × 3 tube that can be found
   is a perfect sink for gaps or is destroyed by any gap at all; the same dichotomy held for the 13 ends of the fourth
   push and for the clock's left cap against every word of the B/C tape (section 15). Beside the stream the sample
   gives the same two outcomes. The reason is not known. A guess worth testing: a stationary end locked to the stream
   is a driven system with one attractor per drive, so a missing drive pulse is followed by re-entrainment; a
   listener needs a driven object with two attractors under the same drive.
-- **Where I would go next.** (1) *The gap that kills the gun from downstream* (sections 28): the 46 runs are a
-  signal travelling up the stream; if one of them sends back something smaller than a fire, the gun end is the
-  listener. (2) *Two-attractor drives.* Look for bistability directly: `sat_listen.py` with A and B both free and
+- **Where I would go next.** (1) *The gap that kills the gun from downstream* (section 28): the one of 46 looked at is a fire; if
+  another sends back something smaller than a fire (a rake turned against the stream), the gun end could listen. (2) *Two-attractor drives.* Look for bistability directly: `sat_listen.py` with A and B both free and
   no gap, B ≠ every phase and translate of A, A and B in the same place (two different absorbers of one region
   that share their first units); then ask what event moves one into the other. (3) The 5 × 5 tube is out of reach of
-  this encoding at C ≥ 29 within 25 minutes; a symmetry-broken or incremental encoding (fix A to each of the 741
-  ends in turn and solve for B and X only) would make each instance far smaller and covers the census exactly.
+  this encoding at C ≥ 29 within 25 minutes, and so is its plain absorber census; since the run from a known end is
+  determined, the census route (enumerate the ends, then step them) needs only the enumeration, which might be made
+  feasible by growing 5 × 5 ends from the 741 of the 3 × 3 tube (fix their cells, free the outer layer).
   (4) The 142 ends that every gap destroys are fuses: one gap and the wire burns back at a fixed speed; a fuse
   feeding a counter wall would record a gap once.
