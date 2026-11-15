@@ -148,6 +148,11 @@ job to keep it honest. What exists (2026-11-13):
   records. The owner raised usage readings through that session themselves, so the lead asked it (in the queue
   file) to pass on whatever usage figures it can see; that is the owner's own account data and the owner's own
   suggestion, not a way round the refusal for anything else.
+  **The owner's words, 2026-11-15 about 04:16 UTC:** "oh! i'll just change it to a fable agent. that way it can
+  see fable usage. and you'll have an even more capable peer." What follows for the lead: the 1080 session's own
+  turns then draw on the Fable window as well, and the lead cannot see how much, so the dead-reckoned estimate in
+  "Watching usage" undercounts from here on; treat any figure that session reports as the reading and re-base the
+  estimate on it.
 
 ## The swarm
 
