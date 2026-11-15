@@ -571,23 +571,25 @@ included.
 | 13 | Depth of rule needed over noise for octahedral faces: three layers | three layers miss by 0.3–1.0 in ln τ; four to five are needed | **missed** (recorded in `research/theory/exponent.md`) |
 | 14 | The remnant of a dying face is the same in every vessel: on a rim-free slab face (5 × 4 × 8, A = 60) the mean face population 1, 2, 3, 4 generations before death is the hull's 1.6, 3.4, 6.4, 9.7; refuted if lags 3 or 4 are more than 20% off (swarm path E3, `research/theory/swarm/PREDICTIONS.md`, protocol committed before the run in `research/theory/swarm/exam/OUTCOMES.md`) | 1.66, 4.29, 10.70, 18.40 (3,188 face deaths) | **failed** at lags 3 and 4 (+67%, +90%); lag 1 and the one-cell share (59.4% against 62 ± 5%) held. No ledger row: one run by the examiner, rough errors, not re-derived (NOTEBOOK 2026-11-14, "the swarm's predictions examined") |
 | 15 | Five candidate second variables at equal area and shortest loop, fitted on three pairs (`research/shape3/PREDICTIONS.md`, commit 46baf66) | none fits (χ² ≥ 111 on 7) | **all refuted** (SH9; A) |
-| 16 | Empty patches on a 12 × 12 × 8 face: ln P = const − c·cells − σ·perimeter with c = 0.21 ± 0.015 (`research/NOTEBOOK.md`, entry "a forecast before the run") | c = 0.264; the form fails (χ² 3,369 on 3) | **missed** as stated (GP10; A + B) |
+| 16 | Empty patches on a 12 × 12 × 8 face: ln P = const − c·cells − σ·perimeter with c = 0.21 ± 0.015 (`research/NOTEBOOK.md`, entry "a forecast before the run") | c = 0.264; the form fails (χ² 3,369 on 3) | **missed** as stated (GP10; A + B−) |
+| 17 | The thin-face study's 14 forecasts, each committed before its run (`research/theory/thin/PREDICTIONS.md`) | rescored by the review | 8 hit, 2 half, 2 mostly missed, 2 missed (TH7; B) |
+| 18 | *Unverified (CN2; C).* The constant analysis's forecasts (`research/constant/PREDICTIONS.md`): −ln P = 5.0, 9.5, 15.3 for empty 2×2, 3×3, 4×4 patches; about zero for the equal-loop pairs at A = 63 and 72 | 6.25, 12.13, 19.42; Σz² 3.7 on 4, wrong in sign at A = 36 | patches **missed** (low by 1.3, 2.6, 4.1); pairs not refuted there; equilateral tori not run |
 
 Table 5. Forecasts committed before their outcomes. Sources searched: `research/peeling/cube_lifetime.csv`,
 `research/fluct/PREDICTIONS.md`, `research/gpu/PREDICTIONS.md`, `research/shape/PREDICTIONS.md`,
-`research/shape2/PREDICTIONS.md`, `research/shape3/PREDICTIONS.md` (its five candidates only), the notebook entry
-named in row 16, `research/theory/exponent.md`, and the swarm's `research/theory/swarm/PREDICTIONS.md` as scored in
-`research/theory/swarm/exam/OUTCOMES.md`; within these, the ledger rows C3–C5, C9, GP2, GP8, GP9, GP10, SH1, SH2,
-SH5, SH9, SW2. Not searched for this table: the other tracked forecast files (`research/constant/PREDICTIONS.md`,
-`research/theory/thin/PREDICTIONS.md`, `research/theory/exponent/PREDICTIONS.md` entry by entry,
-`research/theory/class/PREDICTIONS.md`, `research/theory/class/followup/PREDICTIONS.md`,
-`research/toy2d/PREDICTIONS.md`, `research/audit/class/PREDICTION-*.md`), so the table may be incomplete. Omitted:
-forecasts about other rules. Among the swarm exam's entries these are the ones on the 2D rule and its dice models:
-counting C-E2 failed (slope 0.3676 ± 0.0006 against 0.447 ± 0.012), probability P-E1 is undecided at its refutation
-line (0.512 ± 0.012 against a line at 0.51), path E2 was not refuted but its central value missed at L = 36 (7.99 ±
-0.38 against 9.8 ± 1.0); path E1 and source S-E1 held. The exam's one other gump entry, counting C-E1, held (0.1026
-± 0.0003 against 0.105 ± 0.009; SW3, grade C, Section 5.5). Several forecasts about other rules also failed
-(Section 9).
+`research/shape2/PREDICTIONS.md`, `research/shape3/PREDICTIONS.md` (its five candidates only),
+`research/theory/thin/PREDICTIONS.md` and `research/constant/PREDICTIONS.md` as scored in TH7 and CN2, the notebook
+entry named in row 16, `research/theory/exponent.md`, and the swarm's `research/theory/swarm/PREDICTIONS.md` as
+scored in `research/theory/swarm/exam/OUTCOMES.md`; within these, the ledger rows C3–C5, C9, GP2, GP8, GP9, GP10,
+SH1, SH2, SH5, SH9, SW2, TH7, CN2. Not searched for this table: the other tracked forecast files
+(`research/theory/exponent/PREDICTIONS.md` entry by entry, `research/theory/class/PREDICTIONS.md`,
+`research/theory/class/followup/PREDICTIONS.md`, `research/toy2d/PREDICTIONS.md`,
+`research/audit/class/PREDICTION-*.md`), so the table may be incomplete. Omitted: forecasts about other rules.
+Among the swarm exam's entries these are the ones on the 2D rule and its dice models: counting C-E2 failed (slope
+0.3676 ± 0.0006 against 0.447 ± 0.012), probability P-E1 is undecided at its refutation line (0.512 ± 0.012 against
+a line at 0.51), path E2 was not refuted but its central value missed at L = 36 (7.99 ± 0.38 against 9.8 ± 1.0);
+path E1 and source S-E1 held. The exam's one other gump entry, counting C-E1, held (0.1026 ± 0.0003 against 0.105 ±
+0.009; SW3, grade C, Section 5.5). Several forecasts about other rules also failed (Section 9).
 
 **What the failure of forecast 1 showed.** The forecast multiplied a fit made on cube-centred symmetric soups
 with faces of at most 513 cells by a fixed factor for the vertex-centred hull. Both steps were wrong in the same
@@ -687,8 +689,8 @@ separately:
 
 Table 6. Periodic slab faces by width (`research/data/gpu_facelaw/`; `python3 research/audit/gpu_pr16_lead_check.py
 research/data/gpu_facelaw`). †: no bound on settled replicas the GPU missed (ZL2, Section 12); the run at A = 96 is
-bounded by 1.0 × 10⁻² against its error 0.018 (*preliminary*, C). The A = 84 run is not in ZL2; its log has no age
-bins (`python3 research/gpu/zombies.py`), so it has no bound either.
+bounded by 1.0 × 10⁻² against its error 0.018 (*preliminary*, C). The A = 84 run's log has no age bins, so it has
+no bound either (ZL2).
 
 - At equal area the narrower face dies sooner: 3 × 8 against 4 × 6 (A = 72), −0.349 ± 0.004; 3 × 10 against 5 × 6
   (A = 90), −0.740 ± 0.016; 4 × 9 against 6 × 6 (A = 108), −0.196 ± 0.059. The same slab in both orientations
@@ -860,7 +862,7 @@ Neither a capillary-wave law for the wrap-around term nor a sum over period vect
 octahedral face at A = 108 with 10⁴ deaths, and equilateral periodic tori (forecast local slopes 0.2117 → 0.2136
 under one constant).
 
-**Empty patches** (GP10; A for the table up to 4 × 4, by an independent CPU stepper; B and GPU-only at 4 × 5). On a
+**Empty patches** (GP10; A for the table up to 4 × 4, by an independent CPU stepper; B−, GPU-only, at 4 × 5). On a
 periodic slab 12 × 12 × 8 (A = 432 per face) in which no face died in 3.04 × 10¹⁰ replica-generations, rhombic
 patches have **[measured]** ln P(empty) from −6.254 (2 × 2) to −19.423 ± 0.007 (4 × 4) and −23.318 ± 0.047
 (4 × 5). **[failed forecast]** A forecast committed before the run, c = 0.21 ± 0.015 from the fit
@@ -1183,7 +1185,7 @@ runs. Where a run is long compared with a mean life, the deficit of old deaths b
 replicas could carry (95% upper bounds, not measured biases): ≤ 1.3 × 10⁻⁴ at A = 63, ≤ 6.7 × 10⁻³ at A = 84
 against a statistical error of 0.005, and elsewhere (C) at most 1.2 × 10⁻², comparable to the errors. **Runs
 shorter than about one mean life admit no bound** (marked † where quoted): Table 2 at A = 108 and 135, three GPU
-rows of Table 3, the slabs 6 × 6 × 8 and 6 × 7 × 8, and five wider slabs of Table 6. Moving the A = 108 value by
+rows of Table 3, the slabs 6 × 6 × 8 and 6 × 7 × 8, five wider slabs of Table 6 and the 4 × 7 × 8 slab (no age bins in its log). Moving the A = 108 value by
 its error would need 2–3% of lives to be of this kind, against < 10⁻⁴ wherever the rate can be measured; that the
 rate does not rise with size is assumed **[conjecture]**. No number changes.
 
