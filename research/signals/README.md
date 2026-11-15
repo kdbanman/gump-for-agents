@@ -65,7 +65,8 @@ one. "(p, s)": after p generations the state is itself moved by s repeats. All p
 
 | second push: `scat.py`, `sat_reflect.py`, `caps.py`, `caps_any.py` | SAT for a wire's end: caps, reflectors (section 8) | every cap and every model is re-stepped (`sg.Geom`, `sg.step_set`); UNSAT rests on the encoding and on CaDiCaL alone |
 | `scatter_table.py`, `clocks.py`, `walls.py`, `family.py`, `seglab.py`, `collisions_C.py`, `soupwires.py`, `clock_family.py`, `capclocks.py` | measurements with `sg.Geom` / `sg.step_set` in closed vessels (the 3 × 3 tube, cut by planes): exact for empty space by T2 | use the checked steppers only; what they found that matters was then put to the oracle |
-| `verify_register.py`, `verify_clock.py`, `verify_gate.py`, `verify_rake.py`, `prove_clock.py` | the judge again: `oracle.step` on a cubic torus (in `prove_clock.py` the base cycle) | — |
+| `chaoswire.py`, `tapes.py` | a wire against a block of soup in an 11 × 11 tube; pairs of unit types that move rigidly | `sg.Geom`, `sg.step_set` only |
+| `verify_register.py`, `verify_clock.py`, `verify_gate.py`, `verify_rake.py`, `verify_wall.py`, `prove_clock.py` | the judge again: `oracle.step` on a cubic torus (in `prove_clock.py` the base cycle) | — |
 
 **Soundness of the SAT search** (`sat_pulse.py`). Ring of N cubes of a closed tube; unknown states at generations
 0..p−1; generation p is generation 0 moved s cubes; the cubes 0..K+b−1 are b-periodic along the ring at every
@@ -201,7 +202,9 @@ nothing random ever settled into it; and the constraint search found it in under
 end with a comb of `7`s streaming away behind it, turning into `5f` and running back behind a comb of `9f`s, for
 ever, 50 generations a round; make the row one unit longer and the round takes 4 generations more. And
 `python3 collisions_C.py`: two marks run at each other and one of them is simply gone, which one depending on
-whether they started an even or an odd number of units apart. What is strange here: one added cell is enough to
+whether they started an even or an odd number of units apart. And `python3 chaoswire.py show 1 --T 240`: a
+block of noise in the middle of a wire, and from both sides of it a line of fire running out along the wire at
+exactly the speed of a signal, leaving a different debris every time. What is strange here: one added cell is enough to
 make a stretch of ribbon keep time, and ribbons of this kind come out of random soup about once in 360 tries.
 
 # Second push (2026-11-15): from a carrier to machinery
@@ -391,9 +394,9 @@ the bounds.
 
 ## 13. A wire against living chaos (the owner's note of 2026-11-15)
 
-`chaoswire.py`. The chaos is a block of random soup (density 0.4; 1,854 cells: a piece 12 units long of a tube of
-9 × 9 cubes' width round the wire). Alone, such a block is still not periodic after 20,000 generations in 12 of
-12 runs (`python3 chaoswire.py life 12`, 2 min), and it never leaves its planes (T2).
+`chaoswire.py`. The chaos is a block of random soup (density 0.4; 1,854 cells: a piece 12 units long of an 11 × 11 tube round the wire, whose own tube is 3 × 3).
+Alone, such a block is still not periodic after 20,000 generations in 12 of 12 runs
+(`python3 chaoswire.py life 12 --T 20000`, 1 min), and it never leaves its planes (T2).
 
 - **[measured] A wire that runs through the chaos is destroyed, every time, at pulse speed.**
   `python3 chaoswire.py out 100 --wire W --soup S --quiet` (1 min each; a capped wire of 520 units through the
@@ -401,8 +404,8 @@ the bounds.
 
   | wire | soup | sides on which a front reached the far probe and the wire was not bare afterwards | speed | something clean passed the far probe before the front |
   |---|---|---|---|---|
-  | C | everywhere in the block (the wire inside it is soup too) | 200 of 200 | 2 generations per unit in 199, 4 in 1 | 15: on the −v side the pulse p< 7 times, one other; on the +v side 7 compound objects |
-  | C | round an unbroken wire | 200 of 200 | 2 in 199, 4 in 1 | 18: on the −v side trains of the wide pulse of section 10, 10 times; on the +v side 8 compound objects |
+  | C | everywhere in the block (the wire inside it is soup too) | 200 of 200 | 2 generations per unit in 199, 4 in 1 | 15: on the −v side the pulse p< 7 times, one other; on the +v side the wide pulse 4 times, p> once, 2 others |
+  | C | round an unbroken wire | 200 of 200 | 2 in 199, 4 in 1 | 18: on the −v side the wide pulse, singly or in trains, 10 times; on the +v side the wide pulse 6 times, p> once, one other |
   | B | everywhere | 200 of 200 | 2 in 200 | 0 |
   | B | round an unbroken wire | 200 of 200 | 2 in 200 | 0 |
 
@@ -411,10 +414,12 @@ the bounds.
   wall of section 10 turning B into C (or C′), with the ash following. Controls without soup (`--soup gap`: the
   wire merely cut, 12 units missing): wire C burns away to nothing at 4 generations per unit; wire B is converted by
   walls at 2 generations per unit and the converted wire then burns away at 4.
-- **[measured] Chaos does make pulses**, about once in 13 sides for wire C: a clean p<, or a train of wide
-  pulses, leaves the chaos and the wire behind it is bare for a while. But the front follows at the same speed, a
-  fixed distance behind. These are the first pulses in this study that arose from anything random.
-- **[measured] A capped end beside the chaos** (`python3 chaoswire.py cap 40 --gap G --quiet`, 1 min each; wire C
+- **[measured] Chaos does make pulses**, about once in 12 sides for wire C (33 of 400): a clean p<, p> or wide
+  pulse leaves the chaos and the wire behind it is bare for at least 6 generations. But the front follows at the
+  same speed, a fixed distance behind. (Identified by the masks they show at the probe; two runs, seeds 17 and 45
+  of the second row, were cut out and gave the wide pulse of section 10.) These are the first pulses in this study
+  that arose from anything random.
+- **[measured] A capped end beside the chaos** (`python3 chaoswire.py cap 40 --gap G --T 3000 --L 200 --quiet`, 1 min each; wire C
   ending in capL of the clock; the soup, 200 generations old, ends G empty diagonal layers short of the planes that
   bound the cap; 3,000 generations): G = 0 and G = 1: the cap is destroyed in 40 of 40 runs, the wire first changes
   22 to 60 generations after the start, and then burns away to nothing at 4 generations per unit. G = 2: nothing,
