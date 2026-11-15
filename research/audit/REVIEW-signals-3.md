@@ -118,8 +118,8 @@ in the 5 × 5 tube: SAT at T = 16, UNSAT at T = 14. So the encoding accepts the 
 
 **The k = 2 caps of the 5 × 5 tube** (`python3 k2_oracle.py`, 7 s, oracle; also `python3 turn_check.py k2`, gs;
 the eight caps are those `k2caps.py` wrote to `scratch/signals/k2caps_16_47.json`, the stored object is #0;
-`cd research/signals && python3 ../audit/signals3/k2_regen.py` re-ran the enumeration and returned the same caps in
-the same order as far as it got, see `scratch/signals3/k2_regen.txt`):
+`cd research/signals && python3 ../audit/signals3/k2_regen.py` re-ran the enumeration: the same 8 caps in the same
+order, then UNSAT, 21 min on CaDiCaL — so "complete at 8" reproduces on the study's encoding):
 - all 8 are stationary (period 2) on the oracle, and each turns a lone rake into a mirror rake with **k = 2**
   (oracle = gs cell for cell for 60 generations; mirror rake at t = 20, one generation-pair later than capR's);
 - **all 8 are destroyed by that lone turn**: within ~10 generations the cap and the wire between it and the mirror
@@ -195,7 +195,6 @@ only 33 of 186 at C = 31 make clocks.)
 
 The back-to-back and side-kick scans (not re-run; no positive control); `turners.py`, `wallturn.py`, `sat_defects.py`;
 the SAT negatives themselves beyond the fixed-cap controls (no re-solve of the UNSAT instances, no second solver);
-completeness of the 8 k = 2 caps (the re-run reproduces the first caps in order; see `k2_regen.txt` for how far it
-got); the reader census with U = 6 and `--nobb`, and its closure at C = 33; survival of the 186 lone 3 × 3 turners
+the completeness of the 8 k = 2 caps beyond re-running the same encoding and solver; the reader census with U = 6 and `--nobb`, and its closure at C = 33 (not finished in 10 min); survival of the 186 lone 3 × 3 turners
 outside clocks; the lone left-turn constant of capL measured directly (only in clocks); `sat_turn --eat`; whether
 the BB reflection at 8|C can be made into a shuttle. Time: about 90 minutes, two cores.
