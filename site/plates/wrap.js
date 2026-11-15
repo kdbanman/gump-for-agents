@@ -16,15 +16,16 @@
     const nar = w < 470, lo = -5.4, hi = -1.9;
     const f = frame(H, { w, h: nar ? 300 : 320, label: 'Density deficit f against the loop’s length, logarithmic: from ' + f9[2] + ' at loop² 9 to ' + Dn.f[8][2] + ' at 28, falling smoothly; the tubes’ price discounts divided by ' + K.toFixed(2) + ' at loops² 12, 13 and 16 fall on it',
       x: { d: [2.75, 5.55], ticks: [3, 3.5, 4, 4.5, 5, 5.5], fmt: v => String(v), title: 'the loop’s length, √loop² (lattice steps)' },
-      y: { d: [lo, hi], ticks: [-5, -4, -3, -2], fmt: e => sup10(e), title: 'f: less alive, per cell (log scale)' }, m: { t: 40, r: 14, b: 38, l: 46 } });
+      y: { d: [lo, hi], ticks: [-5, -4, -3, -2], fmt: e => sup10(e), title: 'f: less alive, per cell (log scale)' }, m: { t: nar ? 54 : 40, r: 14, b: 38, l: 46 } });
     const Y = v => f.Y(Math.max(lo, Math.min(hi, lg(v)))), bot = f.h - f.m.b;
     // where the lifetimes stop resolving
     const x21 = f.X(Dn.f[5][1]);
     S('line', { x1: x21, x2: x21, y1: f.m.t, y2: bot, stroke: 'var(--ink-3)', 'stroke-width': 1, 'stroke-dasharray': '3 4' }, f.svg);
-    lab6(f, x21 + 5, f.m.t + 12, nar ? 'lifetimes stop resolving' : 'from √21 on, lifetimes do not resolve a loop', 'start', 't-mono');
+    lab6(f, x21 + 5, f.m.t + 13, nar ? 'lifetimes' : 'from √21 on, lifetimes', 'start', 't-mono');
+    lab6(f, x21 + 5, f.m.t + 26, nar ? 'stop resolving' : 'do not resolve a loop', 'start', 't-mono');
     // loop² labels along the top
-    Dn.f.forEach(([q, r], i) => { if (q === 27) return; const t = S('text', { x: f.X(q === 28 ? (Dn.f[7][1] + r) / 2 : r), y: f.m.t - 8, 'text-anchor': 'middle', class: 't-mono' }, f.svg); t.textContent = q === 28 ? '27·28' : String(q); });
-    S('text', { x: f.m.l, y: f.m.t - 22, 'text-anchor': 'start', class: 't-mono' }, f.svg).textContent = 'loop²';
+    Dn.f.forEach(([q, r], i) => { if (q === 27) return; const t = S('text', { x: f.X(q === 28 ? (Dn.f[7][1] + r) / 2 : r), y: f.m.t - (nar && [13, 21, 28].includes(q) ? 22 : 8), 'text-anchor': 'middle', class: 't-mono' }, f.svg); t.textContent = q === 28 ? '27·28' : String(q); });
+    S('text', { x: 4, y: f.m.t - 8, 'text-anchor': 'start', class: 't-mono' }, f.svg).textContent = 'loop²';
     // the deficits
     Dn.f.forEach(([q, r, v, se]) => {
       const g = S('g', {}, f.svg), x = f.X(r);

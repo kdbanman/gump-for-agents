@@ -14,8 +14,9 @@
     const x0 = lw, y0 = th, big = Math.sqrt(Math.max(...fo));
     tx(x0 + cs, 12, nar ? 'K0, a wire cell missing:' : 'the second kind, K0 (a wire cell missing):', 'middle', 't-strong');
     tx(x0 + cs / 2, 32, 'healed', 'middle'); tx(x0 + 1.5 * cs, 32, 'destroyed', 'middle');
-    const rows = [[nar ? 'a hole:' : 'a hole (a rake cell missing):', 'healed'], ['', 'destroyed']];
-    rows.forEach(([a, b], r) => { const yc = y0 + (r + 0.5) * cs; if (a) tx(lw - 8, y0 + 14, a, 'end', 't-strong'); tx(lw - 8, yc + 4, b, 'end'); });
+    tx(lw - 8, y0 + 14, 'a hole:', 'end', 't-strong');
+    if (!nar) tx(lw - 8, y0 + 28, '(a rake cell missing)', 'end', 't-mono');
+    ['healed', 'destroyed'].forEach((b, r) => tx(lw - 8, y0 + (r + 0.5) * cs + 4 + (r ? 0 : 12), b, 'end'));
     const col = k => k === 0 ? 'var(--s3)' : k === 3 ? 'var(--s-mute)' : 'var(--s1)';
     const what = ['heal both kinds', 'heal a hole, are destroyed by K0', 'are destroyed by a hole, heal K0', 'are destroyed by both'];
     fo.forEach((v, k) => {

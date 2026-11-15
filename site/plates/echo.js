@@ -17,7 +17,7 @@
   // the drawing's fixed extent: the initial cells, a little widened; cells outside it (debris after the gun breaks) are not drawn
   const P0 = L.cells.map(pos), lo = [0, 1, 2].map(i => Math.min(...P0.map(p => p[i])) - 3), hi = [0, 1, 2].map(i => Math.max(...P0.map(p => p[i])) + 3);
   const inside = p => p.every((v, i) => v >= lo[i] && v <= hi[i]);
-  const ghost = [{ cls: 'gl', segs: [[lo, hi], [[lo[0], hi[1], lo[2]], [hi[0], lo[1], hi[2]]], [[lo[0], lo[1], hi[2]], [hi[0], hi[1], lo[2]]], [[hi[0], lo[1], lo[2]], [lo[0], hi[1], hi[2]]]] }];
+  const ghost = [{ cls: 'gl', segs: P0.map(p => [[p[0] - 2, p[1] - 2, p[2] - 2], [p[0] + 2, p[1] + 2, p[2] + 2]]) }];
   const START = tg - 11, END = tg + 76;
   let p, g, snap, three, w = 0, plain = false, hold = 0;
   const one = () => {
@@ -44,7 +44,7 @@
       else fs.push({ p: q, cls: k === 'osc' ? 'f-osc' : k === 'gun' ? 'f-gun' : quiet.has(c) ? 'f-w' : 'f-rk' });
     }
     host.textContent = '';
-    iso(host, fs, { yaw: -0.62, pitch: 0.42, wires: ghost, fit: { w, h: 210, max: 22 }, pad: 0.4, label: 'The line of ' + N + ' units with the clock ' + Ec.osc + ' beside its receiving end, ' + (plain ? 'without the gap' : 'with the hole made at generation ' + tg) + ', generation ' + g.gen });
+    iso(host, fs, { yaw: -0.62, pitch: 0.42, wires: ghost, fit: { w, h: 230, max: 30 }, pad: 0.4, label: 'The line of ' + N + ' units with the clock ' + Ec.osc + ' beside its receiving end, ' + (plain ? 'without the gap' : 'with the hole made at generation ' + tg) + ', generation ' + g.gen });
     read.textContent = '';
     E('span', {}, read, 'generation ' + g.gen + ' · ');
     if (plain) { E('span', {}, read, 'the run without the gap: the gun fires, the cap swallows, nothing changes'); return; }
@@ -52,7 +52,7 @@
     E('span', {}, read, t + ' after the hole · cells differing: '); E('b', {}, read, String(nd));
     const a = three.length ? three[0] : null, z = three.length ? three[three.length - 1] : null;
     if (t >= fd[1] && t <= fd[2] && nd === 3) E('span', {}, read, ' · the echo, moving up towards the gun');
-    else if (t < fd[1]) E('span', {}, read, ' · the hole, riding down to the end');
+    else if (t < fd[1]) E('span', {}, read, t < fd[1] - 8 ? ' · the hole, riding down to the end' : ' · at the receiving end');
     else if (t > fd[2]) E('span', {}, read, ' · exactly three differed for ' + three.length + ' generations, ' + a + ' to ' + z + ' after the hole ' + (three.length === fd[0] && a === fd[1] && z === fd[2] ? '✓ as the ledger says' : '✗ the ledger says ' + fd[0] + ', ' + fd[1] + ' to ' + fd[2] + ': trust it, not this drawing'));
   };
   const tick = () => {
