@@ -27,7 +27,7 @@ from scat import unit, tr
 import family as F
 
 
-def build(T, C, lo, hi, KS, zp=2):
+def build(T, C, lo, hi, KS, zp=2, eat=0):
     wire = scat.Wire(json.load(open(sg.os.path.join(sg.HERE, 'objects', 'pulse-C.json'))))
     ua = 2; u0 = KS - 1
     ub = (C + hi) // 4 + 3
@@ -61,6 +61,19 @@ def build(T, C, lo, hi, KS, zp=2):
                 pb.fix(X[t][i], tape(p, t))
         if u in (ua + 2, ua + 3):
             pb.fix(X[T][i], p in end)
+    if eat:
+        # the cap must also swallow a lone pulse p> (cells at units 6, 7 at generation 0) and be exactly as it was
+        # `eat` generations later (the eater condition of sat_reflect.py --absorb)
+        wl = scat.Wire(json.load(open(sg.os.path.join(sg.HERE, 'objects', 'pulse-C.json'))), json.load(open(sg.os.path.join(sg.HERE, 'objects', 'pulse-C-left.json'))))
+        pin = wl.pulse_cells('R', 0, 0)
+        Y = pb.traj(R, eat, 0)
+        for i in range(R.n):
+            p = R.cells[i]
+            (pb.neq if p in pin else pb.eq)(Y[0][i], Z[0][i])
+            pb.eq(Y[eat][i], Z[eat % zp][i])
+            if R.units[i] == ua:
+                for t in range(eat + 1):
+                    pb.fix(Y[t][i], wire.live(p, t))
     return R, pb, Z, X, ua, u0
 
 
@@ -69,12 +82,13 @@ def main():
     ap.add_argument('T', type=int); ap.add_argument('C', type=int)
     ap.add_argument('--lo', type=int, default=1); ap.add_argument('--hi', type=int, default=5)
     ap.add_argument('--KS', type=int, default=6); ap.add_argument('--timeout', type=float, default=600)
+    ap.add_argument('--eat', type=int, default=0, help='also require the cap to swallow a lone p> and be restored this many generations later')
     ap.add_argument('--zp', type=int, default=2, help='period of the cap (2, or 4: a cap of period 4 can tell the two classes of arrival apart)')
     a = ap.parse_args()
     t0 = time.time()
-    R, pb, Z, X, ua, u0 = build(a.T, a.C, a.lo, a.hi, a.KS, a.zp)
+    R, pb, Z, X, ua, u0 = build(a.T, a.C, a.lo, a.hi, a.KS, a.zp, a.eat)
     k = (a.T + 2 * ua + 4 + 2 * u0) % 4
-    tag = f'turn T={a.T} (class k={k}) cap period {a.zp} planes C={a.C} tube [{a.lo},{a.hi}] KS={a.KS}: {len(R.of_units(a.KS, 99))} free cells'
+    tag = f'turn T={a.T} (class k={k}) cap period {a.zp} eat {a.eat} planes C={a.C} tube [{a.lo},{a.hi}] KS={a.KS}: {len(R.of_units(a.KS, 99))} free cells'
     st, m = pb.solve('cadical153', a.timeout)
     if st != 'SAT':
         print(f'{st:7s} {tag} {time.time() - t0:.0f}s', flush=True); return
