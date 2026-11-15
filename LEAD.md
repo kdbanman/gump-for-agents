@@ -159,6 +159,22 @@ job to keep it honest. What exists (2026-11-13):
   happen until they are back (no message to the 1080 session, since each one raises a prompt for them; the queue
   file is the channel).
 
+- **The owner, about 07:10 UTC 2026-11-15, back at their machine:** "did you and the 1080 agent work out a
+  communication/collaboration model?" and "also, do you think there's any goal worth having a relentless fable
+  subagent push on for a while?" The lead's answer: yes to both. The model with the 1080 session is the one in the
+  paragraphs above (the queue file one way, its branch and milestone messages the other, a review before every
+  record). The goal chosen for a sustained Fable agent is open problem 13, whether anything in gump can carry a
+  signal (`research/signals/`; forecasts S1–S5 committed first); started 07:16 UTC, to be restarted with a successor
+  each time it hands back, while usage allows.
+
+- **The owner, about 07:50 UTC 2026-11-15:** "oh that's a *fascinating* question. great choice." (the signal
+  problem), and then a dictated note "for the human section of the repo, if you have one", ending "Do with these
+  questions what you will. Just writing them down as a journal here, because you got me thinking." The note is
+  kept verbatim in `docs/OWNER-JOURNAL.md` (made for it; `CLAUDE.md` points there): the isolation of faces from
+  what lies under them, signals as a lens on it, and how much of its state space a seed explores. The lead's
+  reading: no instruction in it; the third thought has an exact answer for small hulls and is being worked
+  (`research/statespace/`, forecasts E1–E7 first, Opus, started 07:56 UTC).
+
 ## The swarm
 
 - 2026-11-13, the owner, on a swarm of Fable solvers with a critic (the lead proposed the area law as its problem):
@@ -310,6 +326,10 @@ let CI pass, merge.
   the 1080 session on Fable for the last part. Re-base on each new reading. The ceilings are the owner's 0.95 on
   each window; with readings arriving, the reckoning rule above (0.70 / 0.80 on an estimate) applies only to the
   stretch since the last reading: start no new agent if last reading + reckoned use since would pass 0.85.
+  **Second reading, 06:15 UTC 2026-11-15: weekly all models 0.40, weekly Fable 0.44** (the 5-hour window was not
+  listed). Pace 04:41 → 06:15 with two to four Opus agents and the 1080 session on Fable: weekly 0.026 an hour,
+  Fable 0.032 an hour. The 1080 session has been asked to keep readings in `research/gpu-local/USAGE.md` on its
+  branch, so that a fetch gives them without a message.
 - **Timers no longer deliver either.** The check-in set with `send_later` for 02:23 UTC on 2026-11-15 fired and
   failed with `ACCESS_DENIED` (seen with `list_triggers`, which still works; ask it for one row, its output is
   long). So since the trust change nothing wakes the lead except a subagent's report, a message from another

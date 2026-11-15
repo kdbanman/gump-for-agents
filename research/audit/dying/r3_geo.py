@@ -58,8 +58,8 @@ def inlat(v, g1, g2):
     return bool(np.allclose(c, np.round(c)) and np.allclose(np.round(c)[0] * g1 + np.round(c)[1] * g2, v))
 
 
-def build():
-    S = slab_lat(G1, G2); nb = geo.nbtable(S); N = len(S.cells)
+def build(g1=G1, g2=G2):
+    S = slab_lat(np.array(g1), np.array(g2)); nb = geo.nbtable(S); N = len(S.cells)
     orb = np.arange(N)
     return S, nb, orb
 
@@ -87,6 +87,9 @@ def info():
 if __name__ == '__main__':
     if sys.argv[1] == 'info':
         print(info())
+    elif sys.argv[1] == 'write44':                  # calibration torus (4,0),(0,4): A = 48, GPU-measured 9.9324 +- 0.0020
+        S, nb, orb = build((8, 0, -8), (0, 8, -8)); geo.write(S, nb, orb, sys.argv[2], [[0], [1]])
+        print(f'4x4 torus: cells {len(S.cells)}, face area {len(S.faces[0])}, transverse layer periods {S.periods}, firewall families {len(S.tl)}')
     else:
         S, nb, orb = build()
         geo.write(S, nb, orb, sys.argv[2], [[0], [1]])

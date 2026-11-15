@@ -1,0 +1,91 @@
+{
+ "name": "transmission-B",
+ "kind": "transmission",
+ "v": [
+  1,
+  0,
+  -1
+ ],
+ "bg": [
+  [
+   0,
+   1,
+   2
+  ],
+  [
+   0,
+   1,
+   4
+  ],
+  [
+   1,
+   0,
+   0
+  ],
+  [
+   1,
+   0,
+   2
+  ],
+  [
+   1,
+   0,
+   4
+  ]
+ ],
+ "cubes": 48,
+ "receiver": [
+  [
+   80,
+   2,
+   -77
+  ],
+  [
+   81,
+   0,
+   -78
+  ],
+  [
+   82,
+   2,
+   -79
+  ],
+  [
+   84,
+   1,
+   -80
+  ],
+  [
+   85,
+   0,
+   -80
+  ],
+  [
+   86,
+   1,
+   -82
+  ],
+  [
+   86,
+   2,
+   -83
+  ],
+  [
+   87,
+   0,
+   -82
+  ]
+ ],
+ "flip": [
+  8,
+  1,
+  -6
+ ],
+ "t_first": 4,
+ "gap": 120,
+ "shots": 6,
+ "min_distance": 10,
+ "step_cells": 2,
+ "pulse_cells_max": 12,
+ "note": "wire B; removing (re-flipping) one stator cell at A at an even generation emits a pulse towards +v; the receiver is a domain wall that swallows each pulse and advances one cube towards A"
+}

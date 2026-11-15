@@ -106,7 +106,10 @@ norm = lambda s: re.sub(r"\s+", " ", s)
 corpus = norm((repo / "research" / "NOTEBOOK.md").read_text()) + " " + norm((repo / "research" / "CLAIMS.md").read_text())
 def checked(item):
     q = norm(item["quote"])
-    assert q in corpus, "quote not found in NOTEBOOK.md or CLAIMS.md: " + q[:80]
+    if "file" in item:   # a quote from another file of the repository (added 2026-11-15, third refresh: the essay)
+        assert q in norm((repo / item["file"]).read_text()), "quote not found in " + item["file"] + ": " + q[:80]
+    else:
+        assert q in corpus, "quote not found in NOTEBOOK.md or CLAIMS.md: " + q[:80]
     for w in item.get("words", []): assert w in q, (w, q)
     for e in item.get("pow10", []): assert "10" + "".join("⁰¹²³⁴⁵⁶⁷⁸⁹"[int(c)] for c in str(e)) in q, (e, q[:80])
     if "words" not in item:
@@ -269,6 +272,75 @@ out["c52"] = {"cells": [list(map(int, l.split())) for l in cf.splitlines() if l.
               "split": {"1": bc["split"]["value"][1], "4": bc["split"]["value"][2], "13": bc["split"]["value"][3]},
               "kinds": bc["kinds"]["value"], "new": bc["new"]["words"], "periods": [9, 9, 11, 13, 52]}
 assert all(str(p) in bc["periods"]["quote"] for p in out["c52"]["periods"]) and "periods 9, 9, 11, 13, 52" in bc["periods"]["quote"]
+
+
+# ---- the third refresh of 2026-11-15: update-2026-11-15c.json (dying faces DY1-DY7; the 4 x 5 patch rerun, GP10; the second card, GL1, GL2) ----
+import base64, csv
+Y = S("update-2026-11-15c.json")
+for sec in ("dying", "patches", "card"):
+    for k, v in Y[sec].items(): checked(v)
+for c in Y["corrections"]: checked(c)
+for f in Y["forecasts"]: checked(f)
+for a in Y["audits"]: assert (repo / a["file"]).exists(), a["file"]
+out["forecasts"] += [{"line": f["line"], "result": f["result"]} for f in Y["forecasts"]]
+out["project"]["audits"] += [[a["label"], a["line"]] for a in Y["audits"]]
+out["corrections"] += [{"said": c["said"], "now": c["now"], "by": c["by"], "who": who(c["by"]), "line": c["line"]} for c in Y["corrections"]]
+tl["milestones"] += [{"date": x["date"], "text": x["text"]} for x in Y["milestones"]]
+yd, yp, yc = Y["dying"], Y["patches"], Y["card"]
+# the 4 x 5 patch: the CPU rerun replaces the first CPU value; second differences from both codes and combined
+v = yp["cpu45"]["value"]
+out["patches"]["cpu45"] = [60, -v[0], v[1], v[2]]; out["patches"]["comb45"] = [-v[6], v[7]]; out["patches"]["sigma45"] = v[5]
+assert out["patches"]["lnp"][5][2] == -v[3] and out["patches"]["se"]["60"] == v[4]
+v = yp["small"]["value"]
+out["patches"]["cpu_small"] = {"36": [-v[0], v[1]], "48": [-v[4], v[5]]}
+assert abs(out["patches"]["lnp"][3][2] + v[2]) < 6e-4 and abs(out["patches"]["lnp"][4][2] + v[6]) < 6e-4   # GPU 3x4, 4x4 as in the first update (rounded there)
+v = yp["cost"]["value"]
+out["patches"]["cost_cpu"] = [[12, v[0], None], [18, v[1], v[2]], [27, v[3], v[4]], [36, v[5], v[6]]]
+out["patches"]["cost_gpu"] = [[12, v[7], None], [18, v[8], None], [27, v[9], None], [36, v[10], v[11]]]
+out["patches"]["cost_comb"] = [36, v[12], v[13]]
+assert v[10] == out["patches"]["cost"][3][1]
+out["patches"]["laws_range"] = yp["withdrawn"]["value"][2:4]; out["patches"]["was"] = yp["withdrawn"]["value"][:2]
+out["patches"]["range"] = yp["open"]["value"][2:4]; out["patches"]["extrap"] = yp["open"]["value"][:2]
+del out["patches"]["cpu45_cost"]
+# the 4 x 4 torus anchor (GL1) and what it moves on the census plate (SH3, SH4)
+out["card"] = {"best": yc["best"]["value"], "old": yc["old"]["value"], "codes": yc["codes"]["value"], "sh4": yc["sh4"]["value"]}
+assert yc["sh3"]["value"][4] == out["census"]["cost"][5][1] and out["census"]["cost"][5][0] == 16
+out["census"]["cost16"] = yc["sh3"]["value"][3]
+# dying faces: quoted numbers
+out["dying"] = {k: [x * yd[k].get("sign", 1) for x in yd[k]["value"]] for k in yd if "value" in yd[k]}
+# ... the study's tables (research/dying/data), drawn as they are; round 3 (r3_*) is not read
+dd = repo / "research" / "dying" / "data"
+rows = lambda n: list(csv.DictReader(open(dd / n)))
+GR = ["c1", "csz", "c2v", "d2h"]
+ex = rows("r2_excursions.csv")
+out["dying"]["ex"] = {g: [[float(r["p"]), round(float(r["ln_nu"]), 3), float(r["q"])] for r in ex if r["group"] == g] for g in GR}
+for g, want in zip(GR, out["dying"]["nu07"][:4]):
+    assert round([r[1] for r in out["dying"]["ex"][g] if r[0] == 0.7][0], 2) == want, g
+assert round([r[2] for r in out["dying"]["ex"]["c1"] if r[0] == 0.5][0], 4) == out["dying"]["q05"][1]
+lag = rows("occupancy_by_lag.csv")
+null = {r["group"]: float(r["face_pop"]) for r in lag if r["lag"] == "null"}
+out["dying"]["lag"] = {g: [round(float(r["face_pop"]) / null[g], 4) for r in lag if r["group"] == g and r["lag"] != "null" and int(r["lag"]) <= 40] for g in GR}
+assert all(len(v) == 41 and v[0] == 0 for v in out["dying"]["lag"].values())
+ru = rows("r2_runup.csv")
+runup = [[int(r["lag"]), round(float(r["birth_over_stat"]), 3), round(float(r["survival_over_stat"]), 3)] for r in ru if r["group"] == "c1" and int(r["lag"]) <= 40]
+assert [[round(x[1], 2), round(x[2], 2)] for x in runup if x[0] == 8][0] == out["dying"]["births"][5:7]   # the table behind the quoted 0.45, 0.88 at lag 8
+# ... real deaths recorded for the page (record_deaths.py: research/dying/sd.c, fresh seeds, every frame checked against the oracle)
+dj = S("deaths.json")
+canon = [tuple(c) for c in dj["canon"]]
+oc = rows("occupancy_by_cell.csv")
+LAGS = ["null", "lag16", "lag8", "lag4", "lag2", "lag1"]
+maps = {}
+for g in ("c1", "d2h"):
+    byc = {(int(r["x"]), int(r["y"]), int(r["z"])): r for r in oc if r["group"] == g}
+    assert set(byc) == set(canon)
+    maps[g] = [[round(float(byc[c][k]), 3) for c in canon] for k in LAGS]
+out["dying"]["maps"] = {"lags": [None, 16, 8, 4, 2, 1], "c1": maps["c1"], "d2h": maps["d2h"]}
+T = dj["T"]
+for g, G in dj["groups"].items():
+    for L in G["lives"]:
+        b = base64.b64decode(L["frames"]); bits = [(b[i >> 3] >> (i & 7)) & 1 for i in range(T * 63)]
+        assert not any(bits[(T - 1) * 63:]) and any(bits[(T - 2) * 63:(T - 1) * 63]), "a recorded life must end on its first empty frame"
+out["dying"]["films"] = {"T": T, "canon": dj["canon"], "groups": {g: {"tied": G["tied"], "lives": [{"f": L["frames"], "age": L["age"]} for L in G["lives"]]} for g, G in dj["groups"].items()}}
 
 (here / "data" / "data.json").write_text(json.dumps(out, separators=(",", ":")))
 print("data.json", (here / "data" / "data.json").stat().st_size, "bytes;", ", ".join(out))

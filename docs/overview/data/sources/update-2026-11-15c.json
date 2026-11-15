@@ -1,0 +1,56 @@
+{
+ "about": "Third refresh of 2026-11-15: the dying-face study, rounds 1 and 2 (NB 'how a face dies (the first look, reviewed)', 'a death is a dip that keeps going'; CLAIMS DY1-DY7), the 4 x 5 empty patch rerun on the CPU (NB addendum; CLAIMS GP10), the second card (NB 'a second card'; CLAIMS GL1, GL2, notes on SH3, SH4). Each item: value (numbers drawn on the page), quote (copied from research/NOTEBOOK.md or research/CLAIMS.md, or from the file named in 'file'; collect.py checks that it occurs there and that each value occurs in it), src. Round 3 of the dying-face study is under review and is not used.",
+ "dying": {
+  "fade": {"value": [20], "quote": "It stays at its stationary density until about 20 generations before death and then fades over the whole face", "src": "NB 2026-11-15, how a face dies; CLAIMS DY1 (A)"},
+  "plunge": {"value": [6, 7, 6.5], "quote": "the final plunge has median 6, 6, 7, 7 generations in the four groups although lifetimes differ by e^6.5", "src": "CLAIMS DY1 (A)"},
+  "lopsided": {"value": [32, 39, 95, 9, 11, 64], "quote": "at half population 32–39% are more lopsided than 95% of randomly thinned stationary faces (9–11% in a control 64 generations earlier)", "src": "CLAIMS DY1 (A; the review's statement)"},
+  "rim": {"value": [0.512, 0.349, 0.323, 0.298], "quote": "stationary rim-row occupancy 0.512 free against 0.349, 0.323, 0.298 tied (csz, c2v, D2h)", "src": "CLAIMS DY2 (A)"},
+  "pbar": {"value": [31.25, 28.9, 26.28, 23.5], "quote": "stationary face population 31.25, 28.90, 26.28, 23.50", "src": "CLAIMS DY2 (A; the review's values)"},
+  "nu07": {"sign": -1, "value": [4.16, 3.8, 3.77, 3.74, 4.16, 3.8, 3.78, 3.88], "quote": "dips to 0.7 of the mean come at ln ν = −4.16, −3.80, −3.77, −3.74 per face per generation in c1, csz, c2v, D2h (review −4.16, −3.80, −3.78, −3.88)", "src": "CLAIMS DY5 (A)"},
+  "often": {"value": [0.7, 60], "quote": "Dips to 0.7 P̄ come about once per 60 generations per face and equally often whatever the ties", "src": "NB 2026-11-15, a death is a dip that keeps going"},
+  "part": {"value": [0.6], "quote": "the groups part below about 0.6 of the mean", "src": "CLAIMS DY5 (A)"},
+  "pstar": {"value": [0.079, 0.114, 0.152, 0.245, 2.5, 31], "quote": "The point of no return (q = 1/2) is at 0.079, 0.114, 0.152, 0.245 of the mean (about 2.5 live cells of 31 in the untied face)", "src": "CLAIMS DY4 (A)"},
+  "q05": {"value": [0.5, 0.0008], "quote": "q(0.5) = 0.0008 there", "src": "CLAIMS DY4 (A)"},
+  "bookkeeping": {"value": [13.632, 11.454, 9.274, 13.614, 11.473, 9.275, 13.634, 11.456, 9.291], "quote": "−ln(νq) = 13.632, 11.454, 9.274 (c1, csz, c2v; review 13.614, 11.473, 9.275) against 13.634, 11.456, 9.291 from lifetimes", "src": "CLAIMS DY4 (A)"},
+  "births": {"value": [0.9, 0.91, 16, 0.98, 0.99, 0.45, 0.88, 8], "quote": "births per empty cell 0.90–0.91 of stationary at lag 16, survival 0.98–0.99; 0.45 and 0.88 at lag 8", "src": "CLAIMS DY6 (A)"},
+  "forecasts": {"words": ["six forecasts", "seven more", "One of the thirteen held"], "quote": "Before the first look I wrote six forecasts of how a face dies and before the second seven more. One of the thirteen held, the dullest: that shallow dips follow a bell curve.", "file": "docs/WHAT-I-SEE.md", "src": "the essay, 'How a face dies' and 'Where I was wrong'; NB 2026-11-15 (L2-L7 failed; round 2: one of seven held)"},
+  "forecasts_r1": {"words": ["L2–L7 failed"], "quote": "The lead's forecasts L2–L7 failed", "src": "NB 2026-11-15, how a face dies"},
+  "forecasts_r2": {"words": ["one of seven held"], "quote": "The lead's round-2 forecasts: one of seven held", "src": "NB 2026-11-15, a death is a dip that keeps going"}
+ },
+ "patches": {
+  "cpu45": {"sign": -1, "value": [23.412, 0.049, 541, 23.318, 0.047, 1.4, 23.364, 0.034], "quote": "4 × 5: CPU −23.412 ± 0.049 (541 hits) against GPU −23.318 ± 0.047, 1.4σ; combined −23.364 ± 0.034.", "src": "NB 2026-11-15, the 4 × 5 empty patch, rerun on the CPU; CLAIMS GP10 (A to 4 × 5)"},
+  "small": {"sign": -1, "value": [15.3979, 0.0011, 15.3999, 0.0011, 19.4183, 0.0072, 19.4233, 0.0071], "quote": "3 × 4: −15.3979 ± 0.0011 against −15.3999 ± 0.0011. 4 × 4: −19.4183 ± 0.0072 against −19.4233 ± 0.0071.", "src": "NB 2026-11-15, the 4 × 5 empty patch, rerun on the CPU"},
+  "cost": {"value": [0.2729, 0.2513, 0.0002, 0.2359, 0.0012, 0.2349, 0.0082, 0.2729, 0.2517, 0.2368, 0.2185, 0.0079, 0.226, 0.006], "quote": "CPU 0.2729, 0.2513 ± 0.0002, 0.2359 ± 0.0012, 0.2349 ± 0.0082; GPU 0.2729, 0.2517, 0.2368, 0.2185 ± 0.0079. At 36 cells the two combined give **0.226 ± 0.006**.", "src": "NB 2026-11-15, the 4 × 5 empty patch, rerun on the CPU; CLAIMS GP10"},
+  "withdrawn": {"value": [0.219, 0.008, 0.205, 0.221, 1], "quote": "The earlier \"0.219 ± 0.008, already inside the range of the lifetime laws (0.205–0.221)\" is withdrawn: it is about 1σ above that range.", "src": "NB 2026-11-15, the 4 × 5 empty patch, rerun on the CPU; CLAIMS GP10"},
+  "open": {"value": [0.208, 0.156, 0.16, 0.24], "quote": "The sequence is still falling; extrapolations are unchanged (0.208 if the correction goes as 1/n, 0.156 as 1/√n), and the asymptote stays open at 0.16–0.24.", "src": "NB 2026-11-15, the 4 × 5 empty patch, rerun on the CPU"}
+ },
+ "card": {
+  "best": {"value": [9.9249, 0.0003], "quote": "**Best value 9.9249 ± 0.0003.**", "src": "NB 2026-11-15, a second card; CLAIMS GL1 (A)"},
+  "old": {"value": [9.9324, 0.002, 76], "quote": "The file's 9.9324 ± 0.0020 reproduces bit for bit from its 76 seeds, so it was a high draw", "src": "NB 2026-11-15, a second card; CLAIMS GL1"},
+  "codes": {"value": [9.9251, 0.0004, 9.9246, 0.0006, 9.924, 0.0014], "quote": "three codes: GPU 9.9251 ± 0.0004, the reviewer's stepper 9.9246 ± 0.0006, the original pipeline on fresh seeds 9.9240 ± 0.0014", "src": "CLAIMS GL1 (A)"},
+  "sh3": {"value": [16, 48, 60, 0.2131, 0.2125], "quote": "the loop² 16 slope from 48 to 60 is about 0.2131, not 0.2125", "src": "CLAIMS SH3 (dated note of 2026-11-15)"},
+  "sh4": {"value": [0.0135, 0.0135], "quote": "with the best value 9.9249 the census gap is 0.0135 ± 0.0020", "src": "CLAIMS SH4 (dated note of 2026-11-15)"},
+  "guard": {"words": ["A guard against unrecognised settled lives exists"], "quote": "A guard against unrecognised settled lives exists", "src": "NB 2026-11-15, a second card; CLAIMS GL2 (B)"},
+  "accept": {"words": ["Acceptance passes on the card"], "quote": "Acceptance passes on the card", "src": "NB 2026-11-15, a second card"}
+ },
+ "corrections": [
+  {"said": "The 4 × 4 torus lives ln τ_face = 9.9324 ± 0.0020 (the census, and the anchor of the constant's forecasts)", "now": "9.9249 ± 0.0003 from three codes; the file's value reproduces bit for bit and was a high draw", "by": "a reviewer, with its own stepper and a third code (REVIEW-gpu-local-pr23)", "line": "census of tori", "words": ["so it was a high draw"], "quote": "The file's 9.9324 ± 0.0020 reproduces bit for bit from its 76 seeds, so it was a high draw", "src": "NB 2026-11-15, a second card; CLAIMS GL1"},
+  {"said": "The empty patch's price per cell at 36 cells, 0.219 ± 0.008, is already inside the range of the lifetime laws", "now": "0.226 ± 0.006 with the CPU rerun of the 4 × 5 patch: about 1σ above that range; still falling", "by": "a reviewer's CPU rerun at equal exposure (REVIEW-gpu-pr18, follow-up)", "line": "empty patches", "words": ["is withdrawn"], "quote": "The earlier \"0.219 ± 0.008, already inside the range of the lifetime laws (0.205–0.221)\" is withdrawn: it is about 1σ above that range.", "src": "NB 2026-11-15, the 4 × 5 empty patch, rerun on the CPU"},
+  {"said": "A face's population falls in steps as equal as those of ln τ, one per tied edge", "now": "The steps are −2.35, −2.62, −2.77 while ln τ's are −2.18, −2.17, −2.12", "by": "a reviewer, with its own stepper (REVIEW-dying)", "line": "dying faces", "words": ["the steps are −2.35, −2.62, −2.77 while ln τ's are −2.18, −2.17, −2.12"], "quote": "The study wrote that the population falls in steps as equal as those of ln τ; the steps are −2.35, −2.62, −2.77 while ln τ's are −2.18, −2.17, −2.12.", "src": "NB 2026-11-15, how a face dies"},
+  {"said": "A live cell lost at a tied edge costs 0.86 in ln τ, twice the 0.436 per live cell of the untied face", "now": "0.93, 0.83, 0.77 along the ladder (0.64–1.00 over three vessels); 0.436 was an average, not a marginal", "by": "a reviewer, with its own stepper (REVIEW-dying)", "line": "dying faces", "words": ["0.436 was an average, not a marginal"], "quote": "and 0.436 was an average, not a marginal", "src": "NB 2026-11-15, how a face dies"},
+  {"said": "Below half its population a face pays a constant price per further cell lost, 5.5 + 3.4 per free edge", "now": "The tail is close to straight but not straight; the step per free edge ranges from 3.0 to 4.5 with the fit window", "by": "a reviewer, with its own stepper (REVIEW-dying, round 2)", "line": "dying faces", "words": ["does not confirm the reading"], "quote": "The review reproduces the slopes (15.55, 12.57, 9.19, 5.51) and does not confirm the reading", "src": "NB 2026-11-15, a death is a dip that keeps going; CLAIMS DY5"}
+ ],
+ "audits": [
+  {"label": "Adversarial review of the dying-face study (rounds 1 and 2)", "line": "Own stepper matched to the oracle on twelve systems, fresh seeds; the fade and the point of no return confirmed, four readings withdrawn.", "file": "research/audit/REVIEW-dying.md"},
+  {"label": "Review of the GTX 1080's first report", "line": "No GPU: the guard exercised on the CPU, a third code for the 4 × 4 torus; the anchor on file was a high draw.", "file": "research/audit/REVIEW-gpu-local-pr23.md"}
+ ],
+ "milestones": [
+  {"date": "2026-11-15T04:41Z", "text": "A face watched as it dies: no erosion from an edge", "src": "git 84f5972"},
+  {"date": "2026-11-15T04:53Z", "text": "A death is a dip that keeps going", "src": "git fd127f0"},
+  {"date": "2026-11-15T05:17Z", "text": "The 4 × 5 empty patch rerun on the CPU: the disagreement is gone", "src": "git 45b81b5"},
+  {"date": "2026-11-15T05:31Z", "text": "A second card: the GTX 1080 passes acceptance, a guard for settled lives, the 4 × 4 anchor corrected", "src": "git 0d764dd"}
+ ],
+ "forecasts": [
+  {"line": "The lead, before anyone watched a face die: two rounds of forecasts", "result": "missed (one of thirteen held)", "words": ["One of the thirteen held"], "quote": "Before the first look I wrote six forecasts of how a face dies and before the second seven more. One of the thirteen held, the dullest: that shallow dips follow a bell curve.", "file": "docs/WHAT-I-SEE.md", "src": "the essay; NB 2026-11-15 (both dying entries)"}
+ ]
+}

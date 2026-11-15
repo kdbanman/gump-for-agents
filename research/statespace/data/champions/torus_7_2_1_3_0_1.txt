@@ -1,0 +1,19 @@
+# champion of vessel torus 7 2 1 3 0 1 (21 cells): the seed with the longest
+# transient, 17 generations, then a cycle of period 1;
+# 84 seeds share this transient. State (bit i = vessel cell i): 6bf9
+# population along the trajectory: 11 6 10 10 10 10 9 10 8 10 11 7 10 8 11 7 14 0 0
+# verify on reference/oracle.py: python3 research/statespace/champion.py research/statespace/data/champions/torus_7_2_1_3_0_1.txt
+vessel torus 7 2 1 3 0 1
+transient 17
+period 1
+1 0 0
+3 0 0
+2 1 0
+2 0 1
+5 0 0
+4 1 0
+4 0 1
+7 0 0
+6 0 1
+8 1 0
+8 0 1

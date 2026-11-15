@@ -245,3 +245,133 @@ observed fraction ≥ 0.70 (the random figure is reported beside it).
   patch of stationary soup).
 - K12 (55%). T4: the observed fraction exceeds the random one by less than 0.10, because distance 2 already covers
   most of a 63-cell face around ~9 survivors.
+
+# Round 4 (the lead's forecasts, written 2026-11-15 05:41 UTC, before any round-4 run and before the review of round 3 is in)
+
+**The reading under test: two phases.** A healthy face fluctuates like a homogeneous medium: the cost per site of
+a dip to relative population p is g·(1 − p)², with g set by the ordinary variance. Gump's rule is cooperative (a
+cell needs three to five live neighbours of twelve to stay alive, four or five to be born), so a face cannot be
+thinned uniformly below some density and stay alive. Below that point a depleted face should be a *mixture*: an
+emptied region beside a remnant held at a fixed relative density p_t, the remnant's area shrinking in proportion
+to the population (a lever rule), and the cost running along the tangent to the parabola at p_t. Then three numbers
+that are measured separately are tied together: the tail slope per site and per unit p is s = 2g(1 − p_t), and the
+price of emptying a whole face is c = g(1 − p_t²) = s − s²/(4g). On the round-3 data
+(`python3 research/audit/dying_tangent.py`, the lead's, unreviewed): g ≈ 0.30–0.32; s = 0.211, 0.248, 0.256, 0.270
+at A = 45, 63, 84, 108; so p_t = 0.64, 0.62, 0.59, 0.55, and the end point is 0.170, 0.197, 0.201, 0.206 per site
+against 0.180 and 0.188 from the lifetimes at A = 63 and 84. Round 3 measured the remnant at 0.58–0.61 of
+stationary density around its centroid at A = 63 (0.51 by the pre-registered measure), which is what suggested
+the reading; so that number is not a test of it. The tests are below.
+
+**Definitions.** c1 hull faces, R = 15 (A = 108) and R = 11 (A = 63), fresh seeds. A face is *caught at level p*
+at the first generation of an excursion (round-2 definition: from above P̄) at which P ≤ p·P̄, for p = 0.9, 0.75,
+0.6, 0.45, 0.3, 0.15; each excursion contributes at most one catch per level. For a caught face:
+- *Company* C(p): the number of live cells among the in-face cells within graph distance 2 of a live cell
+  (in-layer neighbour graph of the face, as in T4), summed over the face's live cells and over caught faces,
+  divided by the same sum with each cell's stationary occupancy ρ_i in place of its state (so C = 1 for the
+  stationary ensemble apart from correlations; the stationary value of this ratio, measured on uncaught faces, is
+  reported and divided out). Rim cells are handled by the ρ_i weighting; also report C restricted to live cells
+  at least two cells from the rim.
+- *Void fraction* V(p): the fraction of the face's cells farther than graph distance 2 from every live cell.
+- Control at every level: stationary faces thinned at random to the same count.
+
+**Forecasts** (R = 15 unless said):
+- **F1 (the lever rule; 65%).** C(0.15), C(0.3) and C(0.45) agree within 15% of their mean. Against: C falls
+  roughly in proportion to p (C(0.15)/C(0.45) < 0.6), which is uniform thinning with a local bias.
+- **F2 (the remnant's density is the tangent point; 50%).** The mean of C over p ≤ 0.3 lies in 0.47–0.63 at
+  A = 108 (the tangent construction gives 0.55; the interval allows for the difference between "company" and
+  density).
+- **F3 (a kink; 55%).** C(0.9) and C(0.75) track p (within 0.08 of p times the stationary ratio), and
+  C(p) − p grows from p = 0.6 down: C(0.3) − 0.3 ≥ 0.2 and C(0.9) − 0.9 ≤ 0.08.
+- **F4 (the void grows linearly; 55%).** V(p) is below 0.05 for p ≥ 0.75 and, for p ≤ 0.45, rises linearly as
+  p falls: V(0.15) − V(0.3) within 30% of V(0.3) − V(0.45). The random-thinning control has a much smaller void
+  at p = 0.45 (less than half the caught value).
+- **F5 (size; 50%).** The mean C over p ≤ 0.3 at A = 63 exceeds that at A = 108 by 0.03–0.12 (the tangent point
+  moves from 0.62 to 0.55).
+- **F6 (what would end the reading).** If F1 fails by the "against" clause and V at p = 0.3 is no more than
+  1.5 times its control, a depleted face is not a mixture and the tangent construction is a coincidence of
+  curve shapes.
+
+A measurement for the graphics card follows from this reading if F1 holds: the tail slope s on faces of A = 135
+to 234, which cannot be watched to their deaths. The construction says s rises to 2g(1 − √(1 − c/g)), about 0.278
+per site if c = 0.2155 and 0.263 if c = 0.207, with g ≈ 0.31; so s read to ±0.004 separates the two ends of the
+open range of c.
+
+**Note added 2026-11-15 05:49 UTC, after the round-3 review arrived and before any round-4 run** (the forecasts
+above are not changed). (1) Feasibility: at R = 15 a dip to 0.15 of the usual population is out of reach of the
+CPU (the study has nothing below 0.2 there), so F1 is scored at R = 13 (A = 84) with the three levels as written,
+and at R = 15 with C(0.3) against C(0.45) only (within 15% of each other); F2 and F4 use the levels that are
+reached and say which. (2) What the review already shows at one depth and one size (A = 63, P ≤ 0.3 P̄, mean 8.3
+cells): relative occupancy around a live cell 0.54 within 2.5 doubled units, 0.33, 0.23, 0.18, 0.16 farther out;
+0.54 at 7–9 cells and 0.38 at 3–6 cells. So at A = 63 the far field is not a void and the patch loosens as it
+shrinks: taken at face value that is against F1 at that size. Whether it is the smallness of an eight-cell patch
+or the absence of two phases is what the larger faces are for.
+
+## Round 4 definitions (the experimenter's readings, 2026-11-15, committed with `ex4.c` and `round4.sh` before any production run)
+
+Pilots: none beyond `validate4.py` (short runs used only to check the code; no C or V was computed from them). Where
+the block above is ambiguous, this is the reading taken; the forecasts are scored on it.
+
+- **Vessels, runs, thresholds.** c1 hull faces `v11c`, `v13c`, `v15c` (A = 63, 84, 108; the review's `geo.py`).
+  Stepper `ex4.c` (the review's `r3_ex.c` with catches; `validate4.py`). Runs and keep probabilities: `round4.sh`,
+  seeds 4411, 4413, 4415 + 4416 (two runs at R = 15, pooled). P̄ = 31.29, 42.49, 55.14 (the study's; the review's
+  31.25, 42.45, 55.19 give the same integers). Level p means P ≤ ⌊pP̄⌋: 28, 23, 18, 14, 9, 4 (A = 63); 38, 31, 25,
+  19, 12, 6 (84); 49, 41, 33, 24, 16, 8 (108). The excursion's first generation (P < P̄) can be a catch. Shallow
+  levels are subsampled by a keep draw made at the excursion's start (independent of the dynamics, nested in depth).
+  A level counts as *reached* at a size if it has at least 200 caught faces with k ≥ 1.
+- **Catches with P = 0** (a face that jumps over the level straight to empty) are counted and left out of C (they
+  have no live cell, so they add nothing to either sum) and out of V.
+- **Graph.** In-face neighbour graph: cell i linked to j if j is one of i's twelve gump neighbours and lies in the
+  same face (in-layer). gd(i, j) = graph distance. *Rim* = face cells with fewer than six in-face neighbours.
+- **ρ_i**: stationary occupancy of canonical cell i, from the same run's samples (`SAMP`, age > 512), the eight
+  faces mapped onto one canonical face (q = d ⊙ p), per size.
+- **Company.** For a face with state x (x_j = 1 if alive): N = Σ_{i live} Σ_{j ≠ i, gd(i,j) ≤ 2} x_j and
+  D = Σ_{i live} Σ_{j ≠ i, gd(i,j) ≤ 2} ρ_j (ρ replaces the state of the companion j, not of the live cell i, so that
+  N/D is the occupancy around a live cell relative to stationary). C_raw(p) = Σ_faces N / Σ_faces D; the stationary
+  value S = the same ratio over all stationary samples; **C(p) = C_raw(p)/S**. All forecasts are scored on C. F3's
+  "within 0.08 of p times the stationary ratio" is read on this normalised C as |C(p) − p| ≤ 0.08 (the raw form
+  |C_raw − pS| ≤ 0.08 is reported beside it). By shell: C_s the same with gd(i, j) = s for s = 1, 2, 3 and gd ≥ 4,
+  each normalised by its own stationary value. Interior: the sums over live cells i restricted to gd(i, rim) ≥ 2,
+  normalised by the same restriction on stationary faces.
+- **Void fraction.** V of a face = (number of face cells j with gd(i, j) > 2 for every live i) / A; V(p) = mean over
+  caught faces with k ≥ 1.
+- **Control.** For each caught face with k ≥ 1 live cells: one stationary sample drawn at random among those with
+  P ≥ k, and k of its live cells kept at random; C and V computed the same way (normalised by the same S).
+- **Errors.** Bootstrap over caught faces (200 resamples); the stationary S is treated as exact (its error is
+  given).
+- **Scoring.** F1: at A = 84, max_i |C_i − m|/m ≤ 0.15 over C(0.15), C(0.3), C(0.45) with m their mean; at
+  A = 108, |C(0.3) − C(0.45)| ≤ 0.15 × their mean; F1 holds if both hold (and its A = 108 three-level form is
+  reported if 0.15 is reached there). "Against": C(0.15)/C(0.45) < 0.6. F2: the mean of C over the reached levels
+  p ≤ 0.3 at A = 108 lies in [0.47, 0.63]. F3 (A = 108): |C(0.9) − 0.9| ≤ 0.08, |C(0.75) − 0.75| ≤ 0.08 and
+  C(0.3) − 0.3 ≥ 0.2; whether C(p) − p grows monotonically from 0.6 down is reported, not scored. F4 (A = 108):
+  V(0.9), V(0.75) < 0.05; |[V(p₁) − V(0.3)]/[V(0.3) − V(0.45)] − 1| ≤ 0.3 with p₁ = 0.15 if reached (if not, this
+  clause is scored at A = 84 and said so); and V_control(0.45) < V(0.45)/2. F5: the F2 mean at A = 63 minus the
+  F2 mean at A = 108, over the same levels, in [0.03, 0.12]. F6 is reported at each size where 0.15 is reached:
+  "against" clause of F1 met and V(0.3) ≤ 1.5 V_control(0.3).
+- **Tangent construction** (from ex4's own excursion table, all life end types). ν(≤ y) = excursions with min ≤ y
+  per face-generation of exposure; ln ν interpolated linearly between integers y, read at y = pP̄ − ½ (the review's
+  threshold-free reading), p = 0.05 … 0.95. I(p) = [ln ν(0.9) − ln ν(p)]/A. g: least squares of I = g[(1 − p)² −
+  0.01] over p = 0.60 … 0.85 (`dying_tangent.py`'s window). s: minus the unweighted slope of I against p over
+  0.10 ≤ p ≤ 0.45, levels with ≥ 20 excursions (window stated). p_t = 1 − s/(2g); end point g(1 − p_t²) − 0.01g.
+  Errors: Poisson resampling of the excursion counts.
+- **Exploratory (not scored).** Groups of live cells (linked if gd ≤ 2): their number and the largest group's share
+  of k; the largest connected void region (void cells linked by gd = 1) as a share of A; C and V at the bottom
+  (first generation at the minimum) of the excursions caught at p; C at fixed p for excursions that die against those
+  that recover; the distribution over live cells of the per-cell ratio N_i/D_i (a mixture keeps its position as p
+  falls and only loses weight; a thinning moves it), and C against k at fixed size.
+
+**Scored (the lead, 2026-11-15 09:45 UTC, from `data/r4_company.csv`; the producer's scores agree):** F1 failed
+(maximum deviation from the mean 46%, 35%, 32% at 63, 84, 108 cells; C(0.15)/C(0.45) = 0.384, 0.486, 0.532, so the
+"against" clause is met at every size). F2 failed (0.364 at 108 cells, outside 0.47–0.63). F3 failed on its third
+clause (C(0.3) − 0.3 = 0.139). F4 failed (the void's growth ratio is 2.01, 1.68, 1.85, not within 30% of 1). F5
+failed with the opposite sign. F6 not met (V(0.3) is 2.3 to 3.1 times the control's). The two-phase reading is
+withdrawn: a depleted face thins as one clustered thing.
+
+**After the review (the lead, 2026-11-15 10:15 UTC; `research/audit/REVIEW-dying.md`, "Round 4"):** the scores above
+stand as registered, but three of them say less than they seem to. An exact lever rule (a compact patch at any
+fixed density from 0.45 to 0.8, built by the reviewer and put through the same measures) gives C(0.15)/C(0.45) =
+0.45–0.48, 0.58–0.61, 0.65–0.69 at 63, 84, 108 cells, so F1's "against" clause is met by the very thing it was
+written to exclude, F2's window (C = p_t) is not what a remnant at p_t reads at these counts, and F6 rested on
+F1. The tests were badly made: the patch is the size of the neighbourhood they count in. What counts against the
+reading is the end point of its construction (too high by 1.07–1.34 nats) and the shape of the profile round a
+survivor (more peaked than an even patch). "There is no remnant at fixed density" is withdrawn; "no plateau is
+seen, and these measures cannot test for one on faces this small" replaces it.

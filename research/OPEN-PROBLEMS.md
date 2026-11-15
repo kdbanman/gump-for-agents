@@ -77,7 +77,13 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
 ## Fauna
 
 12. **Periods beyond 66.** A loop of thirty-odd steps in a 4- or 6-fold box would give 120–200. Nothing forbids it.
-13. **Can any oscillator pass a signal to another?** All compound objects found are non-communicating.
+13. **Can any oscillator pass a signal to another?** All compound objects found by sampling are non-communicating.
+    **Answered in part, 2026-11-15: yes, signals exist.** Free-standing wires along (1,0,−1) carry pulses at half the
+    speed limit; one flipped cell emits a pulse; a standing defect 36 cubes away receives it (and creeps one cube per
+    signal); two pulses pass or stop each other by parity (`research/signals/README.md`; notebook entry "gump carries
+    signals"; CLAIMS SG1–SG4; review in `research/audit/REVIEW-signals.md` when done). Still open: a bounded or
+    closed track (a pulse that turns or comes back), a receiver that stays put, a gate with an output, whether any
+    soup-born wire carries a pulse, and whether a pulse can cross living chaos.
 14. The 94 clockwork objects (`research/clockwork/objects/`) are not merged into the atlas catalogue.
 
 ## Neighbouring rules

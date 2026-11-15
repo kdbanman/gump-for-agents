@@ -118,24 +118,31 @@ const lab6 = (f, x, y, t, anc, cls) => { const e = S('text', { x, y, 'text-ancho
   });
   tableView($('#t-ranges'), ['', 'range over forms', 'measured or passing values'], rows.map(r => [r.lab, r.r[0] + '–' + r.r[1], r.pts.map(p => p[0] + (p[1] ? ' ± ' + p[1] : '')).join(', ')]));
 
-  const HP = $('#f-patch'), cost = Q.cost;
+  // the patch's price per cell: GPU and CPU second differences, and at 36 cells the two combined (NB 2026-11-15, the 4 x 5 rerun;
+  // CLAIMS GP10). The first CPU value of the 4 x 5 patch (43 hits) and the sentence "inside the lifetimes' range" are withdrawn.
+  const HP = $('#f-patch'), cg = Q.cost_gpu, cc = Q.cost_cpu, cb = Q.cost_comb, LR = Q.laws_range;
   responsive(HP, w => {
-    const f = frame(HP, { w, h: 250, label: 'Perimeter-free price per cell of an empty patch against its size: 0.273, 0.252, 0.237, 0.2185 at 12, 18, 27 and 36 cells, falling into the range 0.207 to 0.219',
-      x: { d: [8, 40], ticks: [12, 18, 27, 36], title: 'cells in the middle patch' }, y: { d: [0.195, 0.3], ticks: [0.2, 0.22, 0.24, 0.26, 0.28, 0.3], fmt: v => v.toFixed(2), title: 'price per cell of an empty patch' }, m: { t: 26, r: 14, b: 38, l: 44 } });
-    band6(f, C.verdict[0], C.verdict[1]);
-    lab6(f, f.m.l + 6, f.Y(C.verdict[0]) - 5, 'one constant: ' + C.verdict[0] + '–' + C.verdict[1], 'start', 't-mono');
-    S('path', { class: 'ln', stroke: 'var(--s1)', 'stroke-width': 1.4, 'stroke-opacity': .6, d: pathOf(f, cost) }, f.svg);
-    dot(f, 36 + 0.9, Q.cpu45_cost, 'var(--ink-3)', () => ['With the CPU’s value for the 4 × 5 patch', 'about ' + Q.cpu45_cost + ' (the 4 × 5 point is being rerun)'], { r: 3.6, hollow: true });
-    cost.forEach((r, i) => dot(f, r[0], r[1], 'var(--s1)', () => ['Middle patch of ' + r[0] + ' cells', r[1] + (i === 3 ? ' ± ' + Q.cost_se : '') + ' per cell'], { r: 4.4, se: i === 3 ? Q.cost_se : null }));
-    lab6(f, f.X(12) + 9, f.Y(cost[0][1]) + 4, String(cost[0][1]));
-    lab6(f, f.X(36) - 9, f.Y(cost[3][1]) + 18, String(cost[3][1]), 'end');
+    const f = frame(HP, { w, h: 250, label: 'Perimeter-free price per cell of an empty patch against its size, two codes: about 0.273, 0.252, 0.237 at 12, 18 and 27 cells, and at 36 cells ' + cb[1] + ' ± ' + cb[2] + ' combined, about one standard error above the lifetimes’ range ' + LR[0] + ' to ' + LR[1],
+      x: { d: [8, 40], ticks: [12, 18, 27, 36], title: 'cells in the middle patch' }, y: { d: [0.195, 0.29], ticks: [0.2, 0.22, 0.24, 0.26, 0.28], fmt: v => v.toFixed(2), title: 'price per cell of an empty patch' }, m: { t: 26, r: 14, b: 38, l: 44 } });
+    band6(f, LR[0], LR[1]);
+    lab6(f, f.m.l + 6, f.Y(LR[0]) - 5, 'lifetimes’ range: ' + LR[0] + '–' + LR[1], 'start', 't-mono');
+    S('path', { class: 'ln', stroke: 'var(--s1)', 'stroke-width': 1.4, 'stroke-opacity': .6, d: pathOf(f, cg) }, f.svg);
+    S('path', { class: 'ln', stroke: 'var(--ink-3)', 'stroke-width': 1.2, 'stroke-opacity': .7, 'stroke-dasharray': '3 3', d: pathOf(f, cc.map(r => [r[0] + 0.7, r[1]])) }, f.svg);
+    cc.forEach(r => dot(f, r[0] + 0.7, r[1], 'var(--ink-3)', () => ['CPU, middle patch of ' + r[0] + ' cells', r[1] + (r[2] ? ' ± ' + r[2] : '') + ' per cell'], { r: 3.4, hollow: true, se: r[2] && r[2] > 0.003 ? r[2] : null }));
+    cg.forEach(r => dot(f, r[0] - 0.7, r[1], 'var(--s1)', () => ['GPU, middle patch of ' + r[0] + ' cells', r[1] + (r[2] ? ' ± ' + r[2] : '') + ' per cell'], { r: 3.8, se: r[2] }));
+    dot(f, cb[0] + 2.4, cb[1], 'var(--ink)', () => ['Both codes combined, 36 cells', cb[1] + ' ± ' + cb[2] + ' per cell: about 1σ above the lifetimes’ range (first written as inside it, with ' + Q.was[0] + ' ± ' + Q.was[1] + '; withdrawn)'], { r: 4.6, se: cb[2] });
+    lab6(f, f.X(12 - 0.7) - 8, f.Y(cg[0][1]) + 4, String(cg[0][1]), 'end');
+    lab6(f, f.X(cb[0] + 2.4), f.Y(cb[1] - cb[2]) + 14, String(cb[1]), 'middle');
   });
   tableView($('#t-patch'), ['empty rhombus', 'cells', 'ln P (GPU)', 'ln P (CPU)'],
-    Q.lnp.map(r => [r[1], r[0], r[2].toFixed(3) + (Q.se[r[0]] ? ' ± ' + Q.se[r[0]] : ''), r[0] === 60 ? Q.cpu45[1].toFixed(2) + ' ± ' + Q.cpu45[2] : '']));
+    Q.lnp.map(r => [r[1], r[0], r[2].toFixed(3) + (Q.se[r[0]] ? ' ± ' + Q.se[r[0]] : ''), r[0] === 60 ? Q.cpu45[1].toFixed(3) + ' ± ' + Q.cpu45[2] + ' (' + Q.cpu45[3] + ' hits)' : Q.cpu_small[r[0]] ? Q.cpu_small[r[0]][0].toFixed(4) + ' ± ' + Q.cpu_small[r[0]][1] : '']));
+  tableView($('#t-patch'), ['middle patch, cells', 'price per cell (GPU)', 'price per cell (CPU)'],
+    cg.map((r, i) => [r[0], r[1] + (r[2] ? ' ± ' + r[2] : ''), cc[i][1] + (cc[i][2] ? ' ± ' + cc[i][2] : '')]).concat([['36, combined', cb[1] + ' ± ' + cb[2], '']])).querySelector('summary').textContent = 'Prices per cell';
 
   const N = $('#n-constant'), fit = Q.fit, g = C.gpu;
   numTile(N, 'missed', 'the lead’s forecast for the patches, as stated: the fit with a perimeter term fails (c = ' + fit[0] + ', χ² ' + fmtInt(fit[2]) + ' on ' + fit[3] + ').', ['ret', 'missed']);
-  pmTile(numTile(N, 'one point ', 'is being cross-checked: the CPU puts the 4 × 5 patch lower (ln P ' + sgn(Q.cpu45[1], 2) + ' against ' + sgn(Q.lnp[5][2], 3) + '), which would make the last price about ' + Q.cpu45_cost + '.', ['open', 'rerun on the CPU']), 'open');
+  pmTile(numTile(N, Q.sigma45 + 'σ ', 'between CPU and GPU for the 4 × 5 patch after the CPU rerun (ln P ' + sgn(Q.cpu45[1], 3) + ' ± ' + Q.cpu45[2] + ' on ' + Q.cpu45[3] + ' hits against ' + sgn(Q.lnp[5][2], 3) + ' ± ' + Q.se['60'] + '; combined ' + sgn(Q.comb45[0], 3) + ' ± ' + Q.comb45[1] + '). The first CPU value was a low fluctuation.', ['meas', 'two codes']), 'apart');
+  pmTile(numTile(N, String(Q.cost_comb[1]), 'per cell for the largest patch, both codes combined: about 1σ above the lifetimes’ range, not inside it as first written. Still falling; its limit is open (' + Q.range[0] + '–' + Q.range[1] + ').', ['ret', 'one sentence withdrawn']), ' ± ' + Q.cost_comb[2]);
   pmTile(numTile(N, '~' + g[1] + ' GPU-hours ', 'for hull faces of ' + g[0] + ' cells at 10⁴ deaths, which the analyst says would rule out ' + g[2] + ' of the ' + g[3] + ' passing readings (the review disagrees). Not run yet: queued for the GTX 1080.', ['once', 'queued']), '');
 })();
 

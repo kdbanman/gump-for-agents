@@ -1,0 +1,54 @@
+{
+ "name": "pulse-B-left",
+ "kind": "pulse",
+ "v": [
+  1,
+  0,
+  -1
+ ],
+ "bg": [
+  [
+   0,
+   1,
+   2
+  ],
+  [
+   0,
+   1,
+   4
+  ],
+  [
+   1,
+   0,
+   0
+  ],
+  [
+   1,
+   0,
+   2
+  ],
+  [
+   1,
+   0,
+   4
+  ]
+ ],
+ "bg_period": 2,
+ "defect": [
+  [
+   13,
+   0,
+   -8
+  ],
+  [
+   12,
+   2,
+   -9
+  ]
+ ],
+ "p": 2,
+ "s": -1,
+ "cubes": 40,
+ "found": "image of pulse-B under the half-turn (x,y,z) -> (-x-2, y, 8-z), which maps wire B to itself reversed",
+ "note": "the left-moving pulse of wire B"
+}

@@ -198,5 +198,72 @@ def main():
             print(f'    p={p:.2f}: {s.lnnu(p)[0]:8.3f} {s.q(p):.4f}   {h.lnnu(p)[0]:8.3f} {h.q(p):.4f}')
 
 
-if __name__ == '__main__':
+if __name__ == '__main__' and len(sys.argv) == 1:
     main()
+
+
+def extra():
+    """Added after the first output (same data): the reference level of the end-effect reading, and K(p)."""
+    t = {n: T(n, A, pb) for n, A, pb in SYS if n.endswith('c1') and n.startswith('v')}
+    hull = list(t.values())
+    print('\n=== Claim 4, continued: which reference level. M_ref = ln tau_GPU + ln nu(ref); line in A over 45-108 (and with 135)')
+    print('ln nu(all excursions, i.e. every downward crossing of PBAR) by A: ' + ', '.join(f'{s.A}: {np.log(s.cum[127] / s.E):.3f}' for s in hull))
+    for ref in ('all', 0.95, 0.9, 0.85, 0.8, 0.7):
+        M = []; As = []
+        for s in hull:
+            l = np.log(s.cum[127] / s.E) if ref == 'all' else s.lnnu_interp(ref)
+            M.append(GPU[s.A][0] + l); As.append(s.A)
+        As = np.array(As, float); M = np.array(M); m = As <= 108
+        a, b, r = fit(As[m], M[m]); w = 1 / np.array([GPU[a_][1] for a_ in As]) ** 2
+        a2, b2, r2 = fit(As, M, w)
+        inc = ', '.join(f'{(M[i + 1] - M[i]) / (As[i + 1] - As[i]):.4f}' for i in range(len(As) - 1))
+        print(f'  ref {ref}: increments {inc}; line 45-108: c = {b:.4f}, K = {-a:.2f}, max residual {r:.3f}; weighted 45-135: c = {b2:.4f}')
+    print('  Gaussian cost of the first part of a dip, (1-ref)^2 PBAR^2/(2 sigma^2), per cell of face: ' +
+          ', '.join(f'{s.A}: ref 0.9 {0.01 * s.Pt ** 2 / (2 * s.sig ** 2) / s.A:.4f}' for s in hull))
+    print('\nK(p): G_A(p) = ln nu(0.9) - ln nu(p) (interpolated) fitted as A f_inf(p) - K(p) over the sizes with >= 20 excursions at p (>= 3 sizes)')
+    for p in (0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 0.6, 0.7, 0.8):
+        As = []; G = []
+        for s in hull:
+            if p == 0.0:
+                if s.A > 108: continue
+                G.append(s.lnnu_interp(0.9) + GPU[s.A][0]); As.append(s.A); continue
+            k = int(np.floor(p * s.pb - 0.5)) + 1
+            if s.cum[max(k, 0)] < 20: continue
+            G.append(s.lnnu_interp(0.9) - s.lnnu_interp(p)); As.append(s.A)
+        if len(As) < 3: continue
+        As = np.array(As, float); a, b, r = fit(As, G)
+        print(f'  p={p:.2f}: sizes {[int(x) for x in As]}: f_inf {b:.4f}, K {-a:.2f}, max residual {r:.2f};  f_A(p) = ' + ' '.join(f'{g / A_:.4f}' for g, A_ in zip(G, As)) +
+              f';  K in cells of tail price 0.5: {-a / 0.5:.1f}')
+
+    print('\nDips alone (p >= 0.2), reference = every downward crossing of PBAR (a true attempt rate): f_inf(p) = slope in A of')
+    print('ln nu(all) - ln nu(p) (interpolated), sizes with >= 20 excursions (>= 3 of 45-135), extrapolated to p = 0')
+    for pw in ((0.2, 0.45), (0.2, 0.35), (0.25, 0.5), (0.2, 0.5), (0.3, 0.5)):
+        pp = [p for p in PS if pw[0] - 1e-9 <= p <= pw[1] + 1e-9]; fi = []
+        for p in pp:
+            As = []; G = []
+            for s in hull:
+                k = int(np.floor(p * s.pb - 0.5)) + 1
+                if s.cum[max(k, 0)] < 20: continue
+                G.append(np.log(s.cum[127] / s.E) - s.lnnu_interp(p)); As.append(s.A)
+            fi.append(fit(As, G)[1])
+        l1 = np.polyval(np.polyfit(pp, fi, 1), 0); l2 = np.polyval(np.polyfit(pp, fi, 2), 0)
+        print(f'  p {pw}: f_inf ' + ' '.join(f'{v:.4f}' for v in fi) + f'  -> linear {l1:.4f}, quadratic {l2:.4f}')
+    print('  the same method checked where the bottom is measured (ref all, sizes 45-84, p 0.1-0.45 known): f_inf(0) measured = slope of ln tau + ln nu(all) over 45-84')
+    pp = [p for p in PS if 0.199 < p < 0.451]; fi = []
+    for p in pp:
+        G = [np.log(s.cum[127] / s.E) - s.lnnu_interp(p) for s in hull if s.A <= 84]; fi.append(fit([45, 63, 84], G)[1])
+    M = [np.log(s.cum[127] / s.E) + GPU[s.A][0] for s in hull if s.A <= 84]
+    print(f'    from p 0.2-0.45 linear: {np.polyval(np.polyfit(pp, fi, 1), 0):.4f}, quadratic {np.polyval(np.polyfit(pp, fi, 2), 0):.4f}; measured {fit([45, 63, 84], M)[1]:.4f}')
+
+    print('\n=== Claim 8, continued (plan part 3): slab lifetimes, two seeds pooled, and the 4x4 protocol check')
+    Et = Dt = 0
+    for nm in ('slab21', 'slab21_s9418'):
+        E, D, X, H, n4 = read(nm); Et += E; Dt += D
+        print(f'  {nm}: exposure {E}, deaths {D}, ln tau_face {np.log(E / D):.4f} ± {1 / np.sqrt(D):.4f}')
+    print(f'  pooled: ln tau_face {np.log(Et / Dt):.4f} ± {1 / np.sqrt(Dt):.4f}; forecasts (constant/PREDICTIONS C): flat 13.115 ± 0.004, massive 13.128 ± 0.006, rising 13.107, 13.100; study 13.13 ± 0.04')
+    E, D, X, H, n4 = read('slab44_s9419')
+    print(f'  4x4 torus (A = 48): ln tau_face {np.log(E / D):.4f} ± {1 / np.sqrt(D):.4f} (settled exposure {n4} left out); measured on the GPU 9.9324 ± 0.0020')
+
+
+if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'extra':
+    extra()

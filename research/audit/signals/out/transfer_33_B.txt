@@ -1,0 +1,7 @@
+tube 3x3: 14 cells per cube, 16384 cube states; (P,S)=(2,1); windows of 2 columns
+local rule == oracle.step on 5 random tube rings
+restricted to the background of pulse-B: 1 column(s)
+1 non-empty uniform background columns (period dividing 2, every phase counted)
+  background #0 (5 cells/cube at gen 0): PULSE (backward search, 383 windows)
+RESULT tube 3x3 (P,S)=(2,1): 1 backgrounds, pulses on 1, undecided 0, none on 0; 157s
+  oracle re-step, background #0: ring of 28 cubes, x(P) == x(0) moved 1 cubes: True; not the bare background: True

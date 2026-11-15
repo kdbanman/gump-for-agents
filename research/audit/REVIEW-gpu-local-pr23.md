@@ -318,3 +318,10 @@ The forecast numbers may still stand, but their stated basis does not.
 - `eqtorus.py check` on (1,5),(0,31).
 - The R = 9 guard-on/guard-off identity runs.
 - The fwslab bounds for runs without raw lives. Those are crude upper bounds, not measurements.
+
+## Note by the lead, 2026-11-15 08:15 UTC (the review above is unchanged)
+
+Section 2's "no systematic cause exists" for the 4 × 4 value on file is amended by a later review,
+`research/audit/REVIEW-gpu-local-tori.md` section 2: on the same lives the census pipeline's 16-generation stamping
+reads ln τ high by 0.00167 ± 0.00006 at 4 × 4 (this review's emulation, +0.0008, captured only the exposure part).
+So the file's 9.9324 was 0.0017 high from the rule and 0.0058 (2.9σ) from the draw.

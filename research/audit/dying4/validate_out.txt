@@ -1,0 +1,3 @@
+R 11 seed 7: 600 generations, first mismatch None; populations 334 -> 403  OK
+R 13 seed 8: 400 generations, first mismatch None; populations 534 -> 612  OK
+ALL OK

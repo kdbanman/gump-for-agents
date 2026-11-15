@@ -311,6 +311,69 @@ island-like than faces that are merely low. What is left is modest, and I think 
 the end the price per cell is roughly steady, and a face with more free edges pays more of
 it.
 
+The third look went across sizes, to ask whether dips could do what lifetimes cannot: read
+the price of a cell on faces too big ever to die. Not yet. A dip to half the population
+costs the same per cell on faces of 45 to 135 cells, a clean 0.066. Below half, the curves
+for different sizes part by a fixed amount rather than at a fixed rate, and following them
+down to nothing gives 0.215, give or take 0.005, which the lifetimes had already said. Nor
+is a face caught at a third of its population an island in an empty sea. Around any
+survivor it holds about half its usual density for a cube or two; farther off it is
+thinner, not empty.
+
+That half gave me an idea, and the idea was wrong. The rule is sociable: a cell needs three
+to five live neighbours of its twelve to last, and four or five to be born. So I thought a
+face could not be thinned evenly for ever: below some density what is left would have to
+huddle, and from there down a face would be two things side by side, a remnant at that
+density and a void, the remnant shrinking as the population falls. The cost of the second
+half of a death would then follow from the ordinary jitter of a healthy face, and so would
+the price of a cell. I wrote six forecasts and had faces of 63, 84 and 108 cells caught at
+six depths.
+
+The number failed. Built from that picture, the cost of a whole death comes out more than a
+nat too high at every size, deaths three or four times too rare, and a reviewer who redid
+the sum with code of their own got the same. The price of a cell stays with the lifetimes.
+
+The picture I can neither keep nor throw away. The company a survivor keeps goes on
+thinning all the way down, under a third of the usual at a sixth of the usual population,
+and I wrote that down as "there is no remnant". The reviewer then built the thing I had
+said was absent: a patch held at a fixed density with nothing round it. Put through my own
+test, it thins the same way. With four to eight cells left, a patch is no bigger than the
+neighbourhood I was counting in, so its cells look out on empty face whatever the patch is
+made of. Faces big enough to settle it do not get this low in any run I can afford. What
+is left is a description. A dying face is not healthy cells deleted at random (at the deepest its
+survivors keep more than twice the company), and not an even patch either. It is a tight knot with a
+thin scatter beyond it. And among faces with the same number of cells left, the ones about
+to die are the looser.
+
+## How much of the room a seed sees
+
+You asked how many of the states a hull allows a seed ever visits. There is an exact
+answer, and it is the lifetime again in other units. A seed cannot visit a state twice
+before it settles, so the number of states it sees is the number of generations it lives,
+plus the length of whatever loop it ends in. Your side-16 cube saw 2,919,617,676 states.
+Its hull allows 2^51,888.
+
+For small rooms an agent listed everything: every state of 301 closed vessels of up to 30
+cells, a billion states each at the top. I listed one of them again myself with the
+reference stepper and got the same counts. In a room of 27 to 30 cells a typical seed
+visits 8 to 14 states, and the most patient seed of all visits between 40 and 94,
+depending on the room. Most states cannot be reached at all: between 57 and 98 in a
+hundred have no state that leads to them. Nothing in these rooms is chaotic yet. They are
+too small to hold a living face.
+
+Above that size the pattern is the one you already know from the staircase. A random seed
+lives as long as its faces, and a face of A cells lives about e^(0.21·A) generations, so
+the seed sees about 2^(0.30·A) states: three tenths of a bit for every cell of the face.
+The face itself is nearly random while it lives. By an estimate that a reviewer is testing
+as I write, it carries close to one bit per cell, so it could be in nearly 2^A states and
+passes through 2^(0.30·A) of them. The count a seed sees rises exponentially with size, and
+the share falls exponentially. A map that wandered blindly over as many states would see
+2^(A/2) of them before repeating, which is more. Gump does not run out of states. Its face
+goes quiet first.
+
+And yes, the random seeds are the long-lived family. In every room of 19 cells or more,
+the longest-lived seed has no symmetry at all.
+
 ## Where I was wrong
 
 Twice I told you the wrong density for the chaotic state, and both corrections came from
@@ -387,6 +450,18 @@ what the pictures show: the neighbour of a dying face is mostly the dying face, 
 faces share the row of cells along their common edge, and what remains of the effect is
 small. Before the first look I wrote six forecasts of how a face dies and before the second
 seven more. One of the thirteen held, the dullest: that shallow dips follow a bell curve.
+Five more for the third look brought it to three of eighteen, and the five that could be
+scored on the fourth all failed: three of twenty-three. Two of those five failed for a
+reason worse than being wrong: the tests I had written would have failed the picture they
+were meant to confirm.
+
+One number I leaned on was simply unlucky. The lifetime of the 4 × 4 wrapped face, measured
+once from 76 runs, sat 0.0075 high: a one-in-sixty draw among the two dozen such values,
+and the one I had used to anchor a set of forecasts. The card in your house measured it
+again, a reviewer measured it twice more by other means, and the three agree with each
+other and not with the file. Those forecasts then met their first test by accident. The
+dying-face study wanted a face with no rim and happened to pick one of the wrapped faces on
+the list. It outlived all four readings I had written down for it.
 
 The notebook keeps these in place rather than tidied away. I think the record of being
 corrected is part of what this repository is for.
@@ -405,7 +480,8 @@ corrected is part of what this repository is for.
   to another: so far the only clocks that share a frame ignore each other.
 - Where the price per cell stops. Two measurements would narrow 0.207 to 0.219: faces of
   one fixed shape at growing size, and a face of 108 cells with its rim, run until ten
-  thousand faces have died. Both are now queued on the graphics card in your house.
+  thousand faces have died. Both are queued on the graphics card in your house, and the
+  first is running.
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):

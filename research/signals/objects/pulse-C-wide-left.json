@@ -1,0 +1,54 @@
+{
+ "name": "pulse-C-wide-left",
+ "kind": "pulse",
+ "v": [
+  1,
+  0,
+  -1
+ ],
+ "bg": [
+  [
+   0,
+   1,
+   2
+  ],
+  [
+   0,
+   1,
+   4
+  ],
+  [
+   0,
+   2,
+   3
+  ],
+  [
+   1,
+   0,
+   0
+  ],
+  [
+   1,
+   0,
+   2
+  ]
+ ],
+ "bg_period": 2,
+ "defect": [
+  [
+   12,
+   2,
+   -9
+  ],
+  [
+   12,
+   2,
+   -7
+  ]
+ ],
+ "p": 2,
+ "s": -1,
+ "cubes": 40,
+ "found": "seen leaving living chaos along wire C ahead of the front that destroys the wire (chaoswire.py out, --soup outside, seeds 17 and 45), then isolated",
+ "note": "one cell of a unit of wire C moved outwards, (0,2,3) -> (0,2,5): the pulse lies partly OUTSIDE the 3 x 3 tube of the wire"
+}

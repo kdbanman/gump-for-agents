@@ -1,0 +1,54 @@
+{
+ "name": "pulse-C-wide",
+ "kind": "pulse",
+ "v": [
+  1,
+  0,
+  -1
+ ],
+ "bg": [
+  [
+   0,
+   1,
+   2
+  ],
+  [
+   0,
+   1,
+   4
+  ],
+  [
+   0,
+   2,
+   3
+  ],
+  [
+   1,
+   0,
+   0
+  ],
+  [
+   1,
+   0,
+   2
+  ]
+ ],
+ "bg_period": 2,
+ "defect": [
+  [
+   13,
+   0,
+   -10
+  ],
+  [
+   14,
+   2,
+   -9
+  ]
+ ],
+ "p": 2,
+ "s": 1,
+ "cubes": 40,
+ "found": "seen leaving living chaos along wire C ahead of the front that destroys the wire (chaoswire.py out, --soup outside, seeds 17 and 45), then isolated",
+ "note": "the mirror image of pulse-C-wide-left under (x,y,z) -> (z-4, y, x+4), one generation on"
+}

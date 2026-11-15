@@ -1,0 +1,13 @@
+../scratch/ss/qsd_P16_M8.npz: 64000 snapshots, P=16, M=8, layers [7]; per K: mean over the 3 cell types of H(x | K nearest past cells), bits per cell [plug-in, Miller-Madow, MM on first half]
+K= 0  0.9991 0.9991 0.9991   by layer (MM): t7:0.9991
+K= 2  0.9938 0.9938 0.9939   by layer (MM): t7:0.9938
+K= 4  0.9916 0.9916 0.9916   by layer (MM): t7:0.9916
+K= 6  0.9887 0.9887 0.9887   by layer (MM): t7:0.9887
+K= 8  0.9873 0.9873 0.9872   by layer (MM): t7:0.9873
+K=10  0.9867 0.9868 0.9867   by layer (MM): t7:0.9868
+K=12  0.9864 0.9866 0.9866   by layer (MM): t7:0.9866
+K=14  0.9857 0.9864 0.9864   by layer (MM): t7:0.9864
+K=16  0.9834 0.9862 0.9862   by layer (MM): t7:0.9862
+K=18  0.9745 0.9860 0.9856   by layer (MM): t7:0.9860
+K=20  0.9373 0.9829 0.9645   by layer (MM): t7:0.9829
+K=22  0.7683 0.8887 0.7267   by layer (MM): t7:0.8887

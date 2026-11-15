@@ -95,6 +95,7 @@
   <div class="nums">
     <div class="num"><span class="v">4×10¹⁰</span><span class="l">cell updates a second per core: the Rust engine, exact against your logs</span></div>
     <div class="num"><span class="v">2.6×10¹²</span><span class="l">a second on one rented GPU, for thousands of small vessels at once</span></div>
+    <div class="num"><span class="v">GTX 1080</span><span class="l">your card now runs the GPU work; its session reports it bit-exact against the engine every generation, and it has a guard for lives that settle unseen</span></div>
     <div class="num"><span class="v">1,307</span><span class="l">objects in the atlas, plus 94 new clocks</span></div>
     <div class="num"><span class="v">3D viewer</span><span class="l">in the browser, with a guided tour, a layer slicer and an editor</span></div>
   </div>
@@ -107,12 +108,13 @@
   </div>
   <div class="figs">
     <ol class="queue c7 fig">
-      <li><b>The constant.</b> One price per cell for every wide face is allowed anywhere from 0.207 to 0.219. The runs that could narrow it (hull faces of 108 cells with 10⁴ deaths; equilateral tori, 93 cells the decisive one) need a GPU. They are queued for the GTX 1080 in your house, whose session reproduced the engine bit for bit on 15 November and has its brief. <span class="st st-once">queued</span></li>
-      <li><b>Symmetric collapse, what is left.</b> The edge ladder is measured; three things are not: how much of the √A term is a mirror’s (up to about a third is not excluded), whether the rim term bends (faces with diagonal mirrors at 759 sites would tell, on the GPU), and whether the factor is exactly one sixth. Nobody has yet looked at a dying tied face. <span class="st st-open">open</span></li>
-      <li><b>The 4 × 5 empty patch.</b> The CPU and GPU disagree by about 2σ; the CPU is rerunning it ten times longer. The last price per cell of the patch plate rests on it. <span class="st st-once">running</span></li>
+      <li><b>The constant.</b> One price per cell for every wide face is allowed anywhere from 0.207 to 0.219. The GTX 1080 in your house now runs the GPU work: equilateral tori at 93 cells, the decisive one, are running on it; hull faces of 108 cells with 10⁴ deaths come next. Its first calibration found that the 4 × 4 torus value on file was a high draw (9.9324; now 9.9249 from three codes). <span class="st st-once">running</span></li>
+      <li><b>The 5 × 5 anchor and the 5 × 5 patch.</b> The 5 × 5 torus value that anchors the constant’s forecasts has one measurement; it is to be re-measured on the GTX 1080. The 4 × 5 empty patch is settled (CPU and GPU 1.4σ apart); from 5 × 5 on the patches are GPU only. <span class="st st-once">queued</span></li>
+      <li><b>Symmetric collapse, what is left.</b> The edge ladder is measured; three things are not: how much of the √A term is a mirror’s (up to about a third is not excluded), whether the rim term bends (faces with diagonal mirrors at 759 sites would tell, on the GPU), and whether the factor is exactly one sixth. Dying tied faces have now been watched (“A face dying, watched”). <span class="st st-open">open</span></li>
+      <li><b>Dying faces at other sizes.</b> A third round of the dying-face study (the same dips at other sizes) has reported and is under review; nothing from it is shown here yet. <span class="st st-once">under review</span></li>
       <li><b>Why 0.21, and why 0.099.</b> Both prices live in five layers of the rule over coin flips; neither is derived, nor their ratio of one half. <span class="st st-open">open</span></li>
+      <li><b>A guard for the GPU.</b> Written, and checked on the CPU against about 7,600 planted lives with cycles of period 1 to 12,345: it recognised no chaotic life and missed no cycle. One claim did not hold (for long odd periods it can be slow to notice), so guarded runs must report the time it spends noticing. Five corrections are asked of the GTX 1080 session before its first results are merged. <span class="st st-meas">built, checked on the CPU</span></li>
       <li><b>The rows nobody had re-run.</b> An auditor re-ran 28 ledger rows that only their producer had ever run: 26 matched, and twenty moved up a grade; ten remain. One number changed: the correlation length of the chaos is 0.65 ± 0.03 of a cube, not 0.68 ± 0.01 (the fit reached too far and its error bars were too small). <span class="st st-meas">done 15 November</span></li>
-      <li><b>A guard for the GPU.</b> Before any further GPU lifetime run, its drivers must catch settled cycles of any period. Written down and briefed to the session on the GTX 1080, which builds and tests it before its first lifetime run. <span class="st st-once">queued</span></li>
     </ol>
     <div class="fig c5">
       <h3>Also open</h3>

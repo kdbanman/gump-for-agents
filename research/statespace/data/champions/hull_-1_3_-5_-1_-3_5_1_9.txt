@@ -1,0 +1,22 @@
+# champion of vessel hull -1 3 -5 -1 -3 5 1 9 (21 cells): the seed with the longest
+# transient, 13 generations, then a cycle of period 1;
+# 196 seeds share this transient. State (bit i = vessel cell i): f7c8f
+# population along the trajectory: 14 16 13 14 12 11 12 12 11 11 9 9 7 6 6
+# verify on reference/oracle.py: python3 research/statespace/champion.py research/statespace/data/champions/hull_-1_3_-5_-1_-3_5_1_9.txt
+vessel hull -1 3 -5 -1 -3 5 1 9
+transient 13
+period 1
+-3 -2 4
+-3 0 2
+-3 2 0
+-2 -2 3
+-2 0 3
+-2 2 1
+-1 -2 2
+-1 0 0
+-1 0 2
+-1 0 4
+0 -1 2
+0 0 1
+0 0 3
+0 1 2

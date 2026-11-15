@@ -1,0 +1,83 @@
+{
+ "name": "interaction-B",
+ "kind": "interaction",
+ "v": [
+  1,
+  0,
+  -1
+ ],
+ "bg": [
+  [
+   0,
+   1,
+   2
+  ],
+  [
+   0,
+   1,
+   4
+  ],
+  [
+   1,
+   0,
+   0
+  ],
+  [
+   1,
+   0,
+   2
+  ],
+  [
+   1,
+   0,
+   4
+  ]
+ ],
+ "cubes": 64,
+ "right": [
+  [
+   -5,
+   0,
+   6
+  ],
+  [
+   -4,
+   2,
+   7
+  ]
+ ],
+ "left": [
+  [
+   21,
+   0,
+   -16
+  ],
+  [
+   20,
+   2,
+   -17
+  ]
+ ],
+ "T": 60,
+ "cases": [
+  {
+   "sep": 20,
+   "expect": "pass"
+  },
+  {
+   "sep": 22,
+   "expect": "pass"
+  },
+  {
+   "sep": 21,
+   "expect": "stop",
+   "mark": 3
+  },
+  {
+   "sep": 23,
+   "expect": "stop",
+   "mark": 3
+  }
+ ],
+ "note": "wire B: two pulses meeting head-on pass through each other unchanged when started an even number of cubes apart (in this placement), and stop each other, leaving a 3-cell standing mark, when the number is odd"
+}

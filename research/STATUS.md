@@ -80,6 +80,67 @@ _Last updated 2026-11-14 by the lead._
   GPU's 4 × 4 value stands (best 9.9249 ± 0.0003 from three codes; the file's 9.9324 was a high draw); the guard is
   sound, with one false latency claim. Five must-fix items are the top note of `research/GPU-QUEUE.md` (05:30 UTC).
   Merge pull request 23 when the 1080 session has pushed them (CI, full head sha).
+  **Dying faces, round 3: reviewed and recorded 05:49 UTC** (notebook entry "what the dips say about the price of a
+  cell", CLAIMS DY8–DY12, 147 claims): the dips give c = 0.215 ± 0.005 and cannot separate 0.207 from 0.219; the
+  end effect is 0.2125·A − 2.07; a depleted face is at half density near its survivors and not emptied elsewhere;
+  **the equilateral torus n = 21 is 13.176 ± 0.011, above every part-C forecast** (queued on the card with n = 19;
+  the lead's forecasts N1–N4 under part C). **Round 4** (the lead's two-phase reading, forecasts F1–F6 in
+  `research/dying/PREDICTIONS.md`) is the next CPU experiment. Owed: the README's seven round-3 corrections, the
+  essay, the overview and the draft for round 3.
+  **The card's A = 93 result (seen 05:54 UTC on its branch at dcb61c8, no message): 19.4141 ± 0.0053**, below the
+  flat and rising readings of part C (both refuted) and on the low side of the massive one; notebook entry "the
+  93-cell torus lands below every reading", CLAIMS GL3 (C until reviewed), scoring note under part C; the lead's
+  N1 failed. It also found a +0.0016 bias in `rep.c` at A = 48. It is now running n = 19, 21 and 5 × 5; n = 21 is
+  the open comparison (CPU 13.176 ± 0.011 against its forecast 13.124). **Fetch its branch at every wake-up**
+  (`git fetch origin claude/gpu-local-1080`; usage figures are asked for in `research/gpu-local/USAGE.md` there).
+  **Its message of 06:15 UTC (branch at b843883):** n = 19 11.8756 ± 0.0006, n = 21 13.1622 ± 0.0007 (confirms the
+  CPU's 13.176), 5 × 5 15.6630 ± 0.0023; slopes 0.2167, 0.2144, 0.2084, 0.2084: one line from 63 cells up, the small
+  tori below it; no reading of part C survives; recorded (notebook "five wrapped faces on one driver", GL3,
+  DY12 to A, scoring note; the lead's N2 held). It is running 81, 84, 108, 111 (about 5 h), then the hull face.
+  Usage read by it at 06:15 UTC: weekly 0.40, Fable 0.44. **The review of the five tori is in (08:10 UTC) and
+  recorded** (`research/audit/REVIEW-gpu-local-tori.md`; notebook "the five tori, reviewed"; GL3 regraded: A at
+  48, 57, 63, 75 cells, C at 93): the values stand; no smooth correction fits, only a kink near 61 cells; the
+  census pipeline's 16-generation rule reads loop² 4 classes high by 0.017–0.018. Six must-fix items for the card
+  are the top note of `research/GPU-QUEUE.md` (08:15 UTC); pull request 23 waits on them.
+  **SIGNALS EXIST (first push reported 08:45 UTC):** pulses on free-standing wires (half the speed limit), an
+  emitter, a transmission (receiver creeps one cube per signal), a head-on interaction; the lead re-ran every
+  verifier and wrote `research/audit/signals_lead_check.py` from the oracle alone (pulses pass); recorded as
+  notebook "gump carries signals", CLAIMS SG1 (B), SG2–SG4 (C), OPEN-PROBLEMS 13, the owner's journal. **Running
+  since 08:52 UTC: an Opus adversarial review** (-> `research/audit/REVIEW-signals.md`) **and the second Fable
+  push** (bounded or closed tracks, a receiver that stays put, a gate, soup-born wires, wire meets chaos; the
+  lead's forecasts S6–S10). On the review: regrade SG rows, essay section, overview plate (a pulse running live),
+  draft. On the second push: lead's oracle check of each new object, then review, then record, then a third push
+  if work remains and Fable usage is under 0.85.
+  **Dying faces, round 4: recorded 09:43 UTC** (notebook "a depleted face thins as one thing", CLAIMS DY13 at C,
+  153 claims; essay corrected): the lead's two-phase reading failed (F1–F5; no remnant at fixed density; a caught
+  face is one loose cluster, 1.15 to 2.4 times the company of a randomly thinned one); the big-face dip job is
+  withdrawn from the card's queue. **Review started 09:46 UTC (Opus)** -> "Round 4" in
+  `research/audit/REVIEW-dying.md` and `research/audit/dying4/`; on its report: regrade DY13, corrections to the
+  study's README, the essay if "no remnant" has to be narrowed. Usage reckoned at 09:46 UTC from the 06:15
+  reading: weekly about 0.50, Fable about 0.64 (no newer reading; the card's branch is still at b843883).
+  **Round 4 reviewed and re-recorded 10:15 UTC**: the numbers stand; "no remnant" is withdrawn (an exact
+  fixed-density patch reads the same on faces this small, so the lead's tests could not tell); what fails is the
+  construction's end point, by 1.07–1.34 nats (notebook "round 4 reviewed"; CLAIMS DY13–DY15; the study's README
+  corrected by its author at 7b15db2; essay corrected).
+  **State space (the owner's journal question): reported 10:13 UTC and recorded 10:20** (notebook "how much of its
+  state space a seed explores", CLAIMS SS1–SS3, 158 claims, a line in `docs/OWNER-JOURNAL.md`, a new essay section):
+  states visited = settling time + period; 301 vessels of up to 30 cells listed exactly (the lead re-enumerated one
+  16-cell hull from the oracle alone: equal); side-16 cube 2,919,617,676 states of 2^51,888; 0.30 bits per face
+  cell; a living face carries about 0.95–0.99 bits per cell. **Review started 10:17 UTC (Opus)** ->
+  `research/audit/REVIEW-statespace.md` and `research/audit/statespace/`; on its report: regrade SS1–SS3, README
+  corrections, the essay's hedge on the entropy sentence. **The lead's own check of the shuttle clock** from the
+  second signals push (period 4N + 2 at N = 1, 2, 3, 4, 7, 12): `research/audit/signals_clock_lead_check.py`.
+  **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
+  owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
+  PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
+  record, and start a successor from its README if work remains and usage allows.
+  **The owner's journal** (`docs/OWNER-JOURNAL.md`, first note 07:54 UTC) asks how much of its state space a seed
+  explores: **a state-space study was started 07:56 UTC (Opus)** -> `research/statespace/README.md` (exact maps
+  for listable vessels, the 2012 cubes, entropy per cell of a living face, against a random map; the lead's
+  forecasts E1–E7). On its report: lead's check of one exact count, an adversarial re-enumeration, then the
+  record, an essay paragraph and a line under the journal note.
+  **Round 4 of the dying-face study is running** (experimenter started 05:50 UTC; also applies the seven round-3
+  README corrections). **Overview published 05:52 UTC (version 11)** with the plate "How a face dies, watched".
   Owed on each message from it: the lead's recomputation, an adversarial review with independent code, then the
   record. Queue for
   it, in this order, each with forecasts already committed where noted: (0) the acceptance bar of
