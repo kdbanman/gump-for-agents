@@ -274,7 +274,7 @@ Nothing special starts it. The face makes dips of all depths all the time. Those
 frequent whatever the symmetry, about once per 60 generations per face. A death is a dip that keeps going, and in c1
 it is decided only when two or three live cells are left. Ties make the descent easier at every level below about
 0.6 P̄: the q curves of the four groups are roughly parallel on a log scale from 0.9 to 0.4 P̄ (panel B), offset by
-about 1.5–2 in ln q per tied edge. A tied face is easier to push down at every step of the way. It is not a face
+about 1.5–2.7 in ln q per tied edge. A tied face is easier to push down at every step of the way. It is not a face
 that starts collapses more often, and not one with a different collapse once started. The survivors of a deep dip
 are clumped, as in any depleted face; whether the clump's position matters was not examined.
 **[conjectured]** The births-first run-up and the equal shallow-dip rates fit a picture in which the rim deficit of a
