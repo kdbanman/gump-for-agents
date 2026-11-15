@@ -16,3 +16,17 @@ fi
 if [ "$1" = 3 ]; then
   b=r_v11c_csz_s2; $DY g_v11c_csz.txt run 9205 0.4 400000 $b.lives $b.ext $b.smp 128 $b.dmp 3000 512 512 > $b.json
 fi
+# Round 2 of the review (added before its runs): excursion tables (ex2.c) at R = 11 c with fresh seeds, and longer
+# stationary sampling at R = 13 c. PBAR thresholds are the study's (31.29, 28.83, 26.29, 23.77; the same integer
+# thresholds as this review's own 31.25, 28.90, 26.28, 23.50).
+if [ "$1" = 4 ]; then
+  gcc -O3 -march=native -o $D/ex2 $A/ex2.c
+  x() { b=x_v11c_$1; $D/ex2 g_v11c_$1.txt run $3 0.4 $2 $b.lives $b.ext $b.smp 100000000 $b.dmp 0 1 512 $4 $b.x > $b.json; }
+  x c1 1600000 9301 31.29; x d2h 400000 9304 23.77
+elif [ "$1" = 5 ]; then
+  gcc -O3 -march=native -o $D/ex2b $A/ex2.c
+  x() { b=x_v11c_$1; $D/ex2b g_v11c_$1.txt run $3 0.4 $2 $b.lives $b.ext $b.smp 100000000 $b.dmp 0 1 512 $4 $b.x > $b.json; }
+  x csz 800000 9302 28.83; x c2v 400000 9303 26.29
+  for g in c1:9311 csz:9312 c2v:9313 d2h:9314; do G=${g%:*}; S=${g#*:}; b=s_v13c_$G
+    $DY g_v13c_$G.txt run $S 0.4 300000 $b.lives $b.ext $b.smp 256 $b.dmp 0 1 512 > $b.json; done
+fi
