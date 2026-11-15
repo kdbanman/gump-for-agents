@@ -165,8 +165,18 @@ _Last updated 2026-11-14 by the lead._
   rising: below). A = 93, the most decisive point, needs the GPU and the owner's word on the Modal budget.
   **Started 01:05 UTC 2026-11-15 (Fable):** a line on the symmetric collapse (PROGRAM M5: derive 1/6, the
   −0.196·√A term and the factor 1.5 between centres from the asymmetric law; forecasts first; CPU only) ->
-  `research/theory/symmetric/`. Owed on its report: the lead's check of one number, an Opus adversarial review,
-  notebook, CLAIMS. The 37 settled states of period 9–52 kept in
+  `research/theory/symmetric/`. **Reported 02:50 UTC (not yet in the notebook; an Opus adversarial review is running
+  -> `research/audit/REVIEW-symmetric.md`):** no derivation of the O_h law. Proved: a symmetric state is gump on the
+  orbit graph; inside a {111} face only diagonal mirrors exist; a coordinate mirror swaps two hull faces and fixes
+  their shared rim row. Measured: the deficit is **not** a mirror-line term (a mirror or threefold axis on a rim-free
+  slab face lengthens life); it sits on the rim, where edge-sharing faces die together (one, two, three edges in
+  lockstep at A = 63: −2.18, −4.34, −6.47; inversion −0.056); rim cost 0.4–0.55 per period, which gives a √A
+  coefficient of −0.19 to −0.22 without the fit; the rim term may bend, so −0.196·√A may not be asymptotic; the
+  factor between centrings has a fixed part present with no symmetry and a growing part. 38 forecasts scored, 23
+  held. The lead re-ran `validate.py` (ALL OK) and `report.py` (table D reproduces; the asymmetric A = 63 value
+  13.634 agrees with the known 13.632). **If this stands, the essay's and the notebook's "penalty along its mirror
+  lines" is wrong and must be corrected** (essay section "Where I was wrong"; notebook entries of 2026-11-12).
+  Owed after the review: notebook, CLAIMS (S rows qualified), essay correction, overview, draft. The 37 settled states of period 9–52 kept in
   `research/audit/shape3/zombie_states.txt` are identified (02:22 UTC; `research/clockwork/README.md`, "Found by
   accident"; notebook entry "what the unrecognised settled states are"; CLAIMS Z12, Z13; lead's check
   `python3 research/audit/clockwork_zombies_lead_check.py`): five new finite clocks, one a 4 × 13 compound of
