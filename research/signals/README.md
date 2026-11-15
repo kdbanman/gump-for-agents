@@ -6,7 +6,7 @@ argument, an exhaustive search inside stated bounds, or a construction the oracl
 `research/scratch/signals/` (git-ignored). Forecasts and their scores: `PREDICTIONS.md`.
 Sections 1 to 7: the first push (does anything carry a signal). Sections 8 to 14: the second push (machinery made of
 carriers), brought up to date 2026-11-15 10:40 UTC. Sections 15 to 19: the third push (corrected from its review,
-`research/audit/REVIEW-signals-3.md`). Sections 20 to 25: the fourth push (a standing emitter of rakes, section 20, and of a two-letter word, section 21b; 2026-11-15 15:00 UTC).
+`research/audit/REVIEW-signals-3.md`). Sections 20 to 25: the fourth push (a standing emitter of rakes, section 20, and of a two-letter word, section 21b; 2026-11-15 15:00 UTC). Sections 26 to 29: the fifth push (a listener: none found; 2026-11-15 18:20 UTC).
 
 ## Answer: yes. L1, L2 and L3 are reached, each with the oracle as judge; and (second push) a carrier has been turned into a clock, a register and a gate
 

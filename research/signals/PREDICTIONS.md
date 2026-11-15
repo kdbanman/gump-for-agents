@@ -423,3 +423,22 @@ hole, compared with the hole-free run long after.
 - **P6 (18%).** A listener of some kind passes the oracle by the end of this push.
 - **P7 (4%).** A reusable one (toggle A → B → A, or a counter of gaps over at least four gaps) passes the oracle.
 - **P8 (65%).** At least one of the SAT negatives I report will be cut by the 25-minute limit rather than finish.
+
+### The fifth push scored (investigator, 2026-11-15 18:20 UTC)
+
+- **P1 (12%): failed.** Every instance of the three-copy search in the 3 × 3 tube is UNSAT (C = 29..39 period 4;
+  C = 31, 33 period 8; five words). 0.01.
+- **P2 (20%): failed.** The 5 × 5 tube and the asymmetric tube were cut, nothing found anywhere. 0.04.
+- **P3 (35%, conditional): not tested** (nothing found).
+- **P4 (15%): failed.** 31,144 gap runs beside the stream (two samples) and 1,034 at the divider: no lasting change
+  without destruction. 0.02.
+- **P5 (55%): held.** 741 distinct ends up to translation and time shift, 57 times the 13 on file. 0.20.
+- **P6 (18%): failed.** 0.03.
+- **P7 (4%): failed.** 0.00.
+- **P8 (65%): held.** Three instances were cut (5 × 5 at C = 29, 31; [1,9] × [1,5] at C = 29). 0.12.
+
+Mean Brier score over the seven scored: 0.06. The forecasts were low on everything positive and that was right;
+the one I could not have guessed is how sharp the census is: 599 ends heal every word and 142 die on every word,
+with nothing between. My reading of the lead's S22–S26, for the lead to overrule: S22 failed, S23 failed, S24 failed
+(no end and no wall moves by a gap; the only mover the search found is the known B|B′ wall under a pulse of wire B,
+its control), S25 held (741 ends, deduplicated, eight words, no edge between two live ends), S26 held.
