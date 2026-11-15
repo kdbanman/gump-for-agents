@@ -38,7 +38,8 @@ def main(tag, b, wall):
         for line in open(fn):
             p = line.split()
             gens = p[2:]
-            assert len(gens) == 32 and set(gens[-1]) == {'0'}
+            if len(gens) != 32 or set(gens[-1]) != {'0'}:
+                continue                     # a line still being written
             nd += 1
             occs = []
             for k in range(1, K + 1):
