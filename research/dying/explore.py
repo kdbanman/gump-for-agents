@@ -55,7 +55,10 @@ def main():
                   + f'   | {relB[0][l]:.3f} {relB[1][l]:.3f} {relB[2][l]:.3f} {relI[l]:.3f}')
         # 3. largest relative band deficit at t_h
         lh = np.cumprod(P < Pbar / 2, axis=1).sum(1) - 1
-        dB = np.stack([1 - X[np.arange(len(X)), lh][:, b].mean(1) / nbb[a] for a, b in enumerate(band)], 1)
+        # stationary band occupancy pooled over edges of the same kind (tied or free), so that equal counts tie exactly
+        kind = [a in TIED[g] for a in range(3)]
+        nbk = [np.mean([nbb[c] for c in range(3) if kind[c] == kind[a]]) for a in range(3)]
+        dB = np.stack([1 - X[np.arange(len(X)), lh][:, b].mean(1) / nbk[a] for a, b in enumerate(band)], 1)
         top = np.argmax(dB + 1e-9 * rng.random(dB.shape), 1)               # ties broken at random
         fr = [float((W * (top == a)).sum() / W.sum()) for a in range(3)]
         se = [np.sqrt(p * (1 - p) / len(X)) for p in fr]
