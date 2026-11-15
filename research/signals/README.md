@@ -6,7 +6,7 @@ argument, an exhaustive search inside stated bounds, or a construction the oracl
 `research/scratch/signals/` (git-ignored). Forecasts and their scores: `PREDICTIONS.md`.
 Sections 1 to 7: the first push (does anything carry a signal). Sections 8 to 14: the second push (machinery made of
 carriers), brought up to date 2026-11-15 10:40 UTC. Sections 15 to 19: the third push (corrected from its review,
-`research/audit/REVIEW-signals-3.md`). Sections 20 to 25: the fourth push (a standing emitter; 2026-11-15 14:00 UTC).
+`research/audit/REVIEW-signals-3.md`). Sections 20 to 25: the fourth push (a standing emitter; 2026-11-15 14:40 UTC).
 
 ## Answer: yes. L1, L2 and L3 are reached, each with the oracle as judge; and (second push) a carrier has been turned into a clock, a register and a gate
 
@@ -30,7 +30,7 @@ carriers), brought up to date 2026-11-15 10:40 UTC. Sections 15 to 19: the third
 | third push | **reader**: capL of the clock eats EVERY word of the B/C tape and remembers nothing: at every even generation the state is capL and the tape moved on (proof for all words by a closed automaton: `python3 prove_reader.py`, 0.3 s) | `python3 verify_reader.py` | 30 s |
 | fourth push | **gun**: a 15-cell object of period 4 on the +v end of bare wire C puts a mirror rake on the wire every 4 generations and is exactly as it was each time; nothing is added to start it (section 20) | `python3 verify_gun.py objects/gun-5f.json` | 3 s |
 | fourth push | **line**: a cap at rest, N units of bare wire C, the gun. Rakes leave one end, cross the wire and are swallowed at the other, for ever: the object has period exactly 4 from generation 2N on (every N ≥ 2: `python3 prove_line.py`, section 21). Removing ONE cell of one rake makes a one-cell pulse on that stream; the far cap swallows it and the object is then exactly as if nothing had happened | `python3 verify_line.py objects/line-C.json` | 8 s |
-| fourth push | **beam**: the mirror-image gun, N units of rake train and a period-4 absorber found by constraint search: an oscillator of period 4 with 33 + 5N cells (N = 1, 2, 9, 24, 41 here); the same one-cell pulse | `python3 verify_beam.py objects/beam-5f.json` | 12 s |
+| fourth push | **beam**: the mirror-image gun, N units of rake train and a period-4 absorber found by constraint search: an oscillator of period exactly 4 with 33 + 5N cells for every N ≥ 1 (`python3 prove_beam.py`, section 21; N = 1, 2, 9, 24, 41 directly); the same one-cell pulse | `python3 verify_beam.py objects/beam-5f.json` | 12 s |
 | fourth push | **clock with a tail**: the clock's right cap replaced by an 11-cell object inside the wire, with wire C going on behind it; period 4N + 2 as before (N = 3, 5, 8, 16): a rake can be turned by something that has wire on both sides (section 22) | `python3 verify_clock.py objects/clock-C-tail.json` | 5 s |
 | third push | **counter**: the wall between wire 8 and wire C moves one unit towards each pulse p< of a train (spacing ≥ 2) and the wire is otherwise exactly as it was. On a ring only: wire 8 has no known cap and burns from a cut end at one unit per generation (*third review*) | `python3 verify_counter.py` | 2 s |
 
@@ -804,8 +804,18 @@ returned a gun in one second at the first plane position where one fits.
   12 s). The mirror-image gun on the left (14 cells), N units of rake train, the SAT absorber of C = 31 on the right
   (19 or 18 cells by the parity of N): 33 + 5N cells, period exactly 4 for N = 1, 2, 9, 24, 41, hull never left; one
   generation after the stored phase its N units are wire C with the rake cell in every second one and nothing else,
-  and the pattern moves one unit per 2 generations from the gun to the absorber. [measured, sg.step_set] period 4
-  for every N = 1..24. Not proved for every N (the argument of the line would do it; not written).
+  and the pattern moves one unit per 2 generations from the gun to the absorber.
+- **[proved; base facts on the oracle: `python3 prove_beam.py`, 1 s] The beam has period exactly 4 for every
+  N ≥ 1.** N = 1..9: `python3 verify_beam.py objects/beam-5f.json 1 2 3 4 5 6 7 8 9` (oracle, 2 s). For N ≥ 10 by
+  induction from N to N + 2, with τ² the move by two units towards +v. Statement S(N, m): (Q1) X_N(4) = X_N(0) and
+  X_N(2) ≠ X_N(0); (Q2) for u = m, m + 1 and t = 0..3, X_N(t) on unit u − 2 moved by τ² equals X_N(t) on unit u (the
+  middle is the rake train, which repeats every two units); (Q3) `left` lies in units < m − 2 and the right end in
+  units > m + 1. Step: Y(t) = X_N(t) on units ≤ m + 1 and τ²X_N(t) on units ≥ m. The charts agree on units m, m + 1
+  by Q2; each unit sees only its two neighbours, so Y obeys the rule in both charts; Y(0) is Object(N + 2) by Q3
+  (the train units alternate, so the move by two keeps them in place, and the right end keeps its parity). So
+  Y = X_{N+2}, with period 4 and not 2, and S(N + 2, m) holds (Q2 in the left chart is Q2 of X_N). The script
+  checks S(8, 4) and S(9, 4) on the oracle and, as a test the proof does not need, that Y is the oracle's own orbit
+  of Object(N) for N = 10..15.
 - **[proved by the oracle runs for one pulse; measured for words] The stream carries one-cell pulses.** Remove the
   rake cell (1,0,4) of one rake of the beam: at every second generation from then on the state differs from the
   undisturbed one in exactly ONE cell (the cell (0,2,3) of the unit where a rake should be: that unit is a B unit),
@@ -940,8 +950,8 @@ k = (T + 2) mod 4 here (KS = 6).
   still there after five periods beside a changed target. Side: 7,704, 3,980 and 196. All 361 were followed to
   their final cycle, and in all of them the oscillator is still there. In 306 the wire is static or gone. In 52 a
   **shuttle clock** is running: the placement lit a rake once, as one flipped cell does, and the clock then runs
-  beside the oscillator, between the cap and, in the side zone, a wall that the collision left across the wire
-  (the far part of the wire has become wire B′). Everything outside the oscillator's support then has the clock's
+  beside the oscillator, between a cap and, in the side zone, a wall that the collision left across the wire
+  (on either side of it; in the two cases looked at by hand the far part of the wire had become wire B′). Everything outside the oscillator's support then has the clock's
   own period (46 or 50 at the end; 18, 22, 26, 30 at the side: 4N + 2 every time) and the whole has the least
   common multiple (e.g. 550 = lcm(22, 50)). The other three: two wire units beside C18.28c breathe with its
   period 18 and nothing leaves them; two are period-6 debris on a burnt wire. **No letter per period, no wall moved
@@ -954,9 +964,12 @@ k = (T + 2) mod 4 here (KS = 6).
 - The UNSAT answers rest on the encodings (`scat.Problem`, used unchanged; the new regions and trains are in
   `sat_two.py`, `sat_gun.py`, `sat_div.py`) and on CaDiCaL, with Glucose agreeing where stated. Every model
   reported was re-stepped; the objects in `objects/` have oracle verifiers. No proof certificates.
-- `prove_line.py` proves the cycle for every N ≥ 2 given the induction of section 21; the beam's "every N" is
-  measured to N = 24 only. That every word of holes heals is measured (200 words), not proved; a closed automaton
-  as in `prove_reader.py` would do it.
+- `prove_line.py` and `prove_beam.py` prove the cycles for every N given the inductions of section 21 (a second
+  reader should check the two gluing arguments; the base facts are oracle runs). That every word of holes heals
+  is measured (200 words), not proved; a closed automaton as in `prove_reader.py` would do it.
+- Everything `gunlab.py`, `beamcaps.py`, `clockscan.py`, `clockstream.py` and `eat_direct.py` report is
+  `sg.step_set`, not the oracle; the clocks that catalogue oscillators light were not put to the oracle. The two
+  catalogue scans are samples (seed 1), not enumerations.
 - The census numbers for two-sided objects classify by a 80-generation run with `sg.step_set`; "restored" there
   means equal to the unlit object at some even generation of the last 16.
 - The rule "a rake swallows a p< met at even separation" was used to explain the trains; the trains themselves are
@@ -972,7 +985,7 @@ k = (T + 2) mod 4 here (KS = 6).
    end). Any of them would be a standing object writing a non-constant word, and the line already carries it.
 2. **A reader.** A far end that is changed by a hole and not by a rake (the 13 absorbers of C = 31, 33 are not:
    section 23). Next: the absorbers of C = 35 and of the 5 × 5 tube (`sat_gun.py fb C --dir 1 --all`), absorbers
-   of period 8 at C ≥ 33 (`--mult 2`), each fed one hole (`gunlab.py readers`); a wall that moves one unit per hole
+   of period 8 at C ≥ 35 (`--mult 2`), each fed one hole (`gunlab.py readers`); a wall that moves one unit per hole
    would be a counter driven through the stream. The two absorbers that a hole destroys are fuses: one hole and the
    wire burns back.
 3. **Two streams.** Two guns facing each other on one wire destroy each other at every distance and phase tried
@@ -984,3 +997,14 @@ k = (T + 2) mod 4 here (KS = 6).
    for which cells it uses, is the cheapest next look.
 5. **The splitter and the off state** suggest a latch: an end with a stationary state and an emitting state. No
    one-cell flip lights it; a pulse or a rake arriving might.
+6. **Corners: nothing was run.** As a constraint problem a corner needs a region closed under the rule, and the
+   union of two tubes is not one. The smallest closed region holding wire C up to a pair of planes and a wire
+   along (1,0,1) leaving from there is the wedge x+y+z, x−y+z ≥ 1 and x+y−z, x−y−z ≤ C (T2 for each of the four
+   half-spaces). A window of that wedge with a shell of cells held dead, the rake in on one wire at generation 0
+   and a rake required on the other at T, is an exact instance of about the size of the 5 × 5 turn instances. The
+   other face diagonals give the other angles. With the gun there is now a second way to look: a stream is a
+   standing probe, so any junction can be tested for ever instead of with one rake.
+7. **The catalogue as a source of walls.** In the side scan a catalogue oscillator beside the wire cut it: a clock
+   ran on one side, between the old cap and a wall made by the collision (to wire B′ in the two cases looked
+   at), with the oscillator alive next to it (42 cases of 11,880). Those walls have wire on both sides and something periodic beside them: the
+   place to look for a turn whose class depends on the oscillator's phase.

@@ -319,7 +319,7 @@ two wires.
   obtained, or a direct search for the period-4N clock as a periodic orbit returns a definite answer on an
   instance with 60 or more free cap cells.
 
-### The fourth investigator's forecasts scored, 2026-11-15 14:35 UTC
+### The fourth investigator's forecasts scored, 2026-11-15 14:28 UTC
 
 Sources: README sections 20 to 25; every command is there.
 
