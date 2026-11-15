@@ -92,3 +92,4 @@ head-on: d -> (after first meeting, after second meeting)
 follow: two pulses moving the same way, d cubes apart; rigid train after 2N gens?
   right: [(1, 'train'), (2, 'train'), (3, 'train'), (4, 'train'), (5, 'train'), (6, 'train'), (7, 'train'), (8, 'train'), (9, 'train'), (10, 'train'), (11, 'train'), (12, 'train')]
   left: [(1, 'train'), (2, 'train'), (3, 'train'), (4, 'train'), (5, 'train'), (6, 'train'), (7, 'train'), (8, 'train'), (9, 'train'), (10, 'train'), (11, 'train'), (12, 'train')]
+mark hit by a later pulse (ring 96): t = 160, 162, 200

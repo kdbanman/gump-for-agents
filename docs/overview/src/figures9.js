@@ -203,7 +203,7 @@
 (function () {
   const Y = D.dying, R = Y.r34, CP = Y.company, SIZES = ['63', '84', '108'];
   const N3 = $('#n-dy-r3');
-  pmTile(numTile(N3, R.shallow[0] + '–' + R.shallow[1], 'per cell, the price of a dip to half the usual population: the same on faces of 45 to 135 cells.', ['meas', 'two codes']), '');
+  numTile(N3, R.shallow[0] + '–' + R.shallow[1], 'per cell, the price of a dip to half the usual population: the same on faces of 45 to 135 cells.', ['meas', 'two codes']);
   pmTile(numTile(N3, R.c[0] + ' ', 'the price of a cell read from the dips alone. It cannot tell ' + R.c[2] + ' from ' + R.c[3] + ' and adds nothing to the lifetimes.', ['once', 'one review']), '± ' + R.c[1]);
   numTile(N3, R.tail[0].toFixed(2) + '–' + R.tail[1], 'per live cell: the price of each further cell lost below half, on faces of ' + R.tail[2] + ' cells or more.', ['meas', 'two codes']);
   numTile(N3, 'half full', 'near a survivor when a face is caught at a third of its population (' + R.half[0] + '–' + R.half[1] + ' of usual); farther off ' + R.far[0] + '–' + R.far[1].toFixed(2) + ': thinner, not empty.', ['meas', 'two codes']);
@@ -245,7 +245,7 @@
   $('#p-dy-stands').textContent = 'No dense core is seen, and on faces of ' + R.stands[0] + ' cells or fewer this test could not see one. A caught face is neither healthy cells deleted at random nor an even patch: a tight knot with a thin scatter beyond it. The remnant-and-void construction misses by more than a nat. Whether a remnant in some looser sense exists is open.';
   const N4 = $('#n-dy-r4'), k = R.knot, l = R.looser;
   numTile(N4, R.control[0] + '–' + R.control[1] + '×', 'the company of a caught face against a healthy face thinned at random to the same count: dying faces huddle.', ['meas', 'two codes']);
-  numTile(N4, 'a knot', 'four live cells of a 63-cell face: company ' + k.slice(0, 4).join(', ') + ' at 1, 2, 3, 4+ steps; an even patch of the same mass would read ' + k.slice(4).join(', ') + '.', ['meas', 'the review']);
+  numTile(N4, 'a knot', 'four live cells left on a 63-cell face: how full the face is 1, 2, 3, 4+ steps from a live cell, ' + k.slice(0, 4).join(', ') + '; an even patch with the same overall company reads ' + k.slice(4).join(', ') + '.', ['meas', 'the review']);
   numTile(N4, l[0] + ' · ' + l[1], 'company at the same count of live cells, faces about to die against faces that recover: the dying are the looser (± ' + l[4] + ').', ['meas', 'the review']);
-  numTile(N4, '3 of 23', 'forecasts the lead wrote down before the four looks held. Two of the five scored on the fourth failed because the tests could not have told.', ['ret', 'missed']);
+  numTile(N4, '3 of 23', 'forecasts the lead wrote down before the four looks held. On the fourth, some tests could not have told either way.', ['ret', 'missed']);
 })();
