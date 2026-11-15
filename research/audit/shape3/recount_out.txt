@@ -1,0 +1,53 @@
+Q36 1 4 12 31001 identical
+Q36 1 3 12 31002 identical
+Q45 1 5 15 31003 identical
+Q45 1 4 15 31004 identical
+P1 2 2 8 31005 identical
+P1 1 6 16 31006 identical
+Q54 3 0 6 31007 identical
+Q54 1 5 18 31008 identical
+P3 1 8 20 31009 identical
+P3 2 2 10 31010 identical
+T72 1 6 24 31019 identical
+T72 2 4 12 31020 identical
+T72 1 5 24 31021 identical
+N72 2 2 12 31022 identical
+N72 1 10 24 31023 identical
+T72 1 6 24 31024 identical
+T72 2 4 12 31025 identical
+T72 1 5 24 31026 identical
+N72 2 2 12 31027 identical
+N72 1 10 24 31028 identical
+T72 1 6 24 31029 identical
+T72 2 4 12 31030 identical
+T72 1 5 24 31031 identical
+T72 1 6 24 31032 identical
+T72 2 4 12 31033 identical
+T72 1 5 24 31034 identical
+T72 1 6 24 31035 identical
+T72 2 4 12 31036 identical
+T72 1 5 24 31037 identical
+Q63 1 6 21 31015 identical
+Q63 1 6 21 31016 identical
+Q63 1 7 21 31017 identical
+Q63 1 7 21 31018 identical
+P2 1 5 20 31011 identical
+rows differing: 0
+oldest open life ('1', '4', '12') 4712
+oldest open life ('1', '3', '12') 5768
+oldest open life ('1', '5', '15') 48552
+oldest open life ('1', '4', '15') 36840
+oldest open life ('2', '2', '8') 72896
+oldest open life ('1', '6', '16') 61216
+oldest open life ('3', '0', '6') 181328
+oldest open life ('1', '5', '18') 380624
+oldest open life ('1', '8', '20') 814168
+oldest open life ('2', '2', '10') 912208
+oldest open life ('1', '6', '24') 12632512
+oldest open life ('2', '4', '12') 10779144
+oldest open life ('1', '5', '24') 13256096
+oldest open life ('2', '2', '12') 11313928
+oldest open life ('1', '10', '24') 11402264
+oldest open life ('1', '6', '21') 778600
+oldest open life ('1', '7', '21') 664936
+oldest open life ('1', '5', '20') 820832

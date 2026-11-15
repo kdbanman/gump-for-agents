@@ -1,0 +1,7 @@
+measured T01 -0.0062 +- 0.0041, T12 +0.0005 +- 0.0041, N72 +0.0018 +- 0.0061 ; corr(T01, T12) = -0.50
+K1_l2       independent chi2  23.7 / 3 (p 2.9e-05);  with covariance  40.5 / 3 (p 8.4e-09)
+K1a_angle   independent chi2  15.7 / 3 (p 0.0013);  with covariance  26.5 / 3 (p 7.5e-06)
+K2_loopsum  independent chi2   4.3 / 3 (p 0.23);  with covariance   6.6 / 3 (p 0.086)
+K3_modular  independent chi2   5.2 / 3 (p 0.16);  with covariance   8.6 / 3 (p 0.036)
+K3b_cosx    independent chi2  18.3 / 3 (p 0.00038);  with covariance  29.7 / 3 (p 1.6e-06)
+zero        independent chi2   2.4 / 3 (p 0.5);  with covariance   2.9 / 3 (p 0.41)
