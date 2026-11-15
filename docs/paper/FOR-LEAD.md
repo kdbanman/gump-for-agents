@@ -1,5 +1,26 @@
 # For the lead: replacements in files the consistency pass may not edit
 
+## For the lead, 2026-11-15 04:08 UTC (draft pass after the audit of the C rows)
+
+Found while bringing the draft in line with `research/CLAIMS.md` after 13f8732. Nothing here has been applied
+outside `docs/paper/`.
+
+1. **P4's snapshot density.** The ledger's reproduce cell says the snapshots are "12 at N = 64, soup 0.4", but the
+   audit's command and `research/phase/README.md` (line 10) make them with `--soup 0.3`. One of the two is wrong;
+   the draft states no density.
+2. **Notebook and ledger disagree on which rows keep a C part.** The notebook entry "the audit of the rows nobody had
+   re-run" lists Z8 and Z9 among the rows with a C part; their level cells are "A … + B" and "B … + A", with no C.
+   The same list names only "TH5's segment n = 7", while TH5's cell keeps the 22%, 11% and 5.6% at C as well (the
+   draft keeps those three marked preliminary).
+3. **P4's restated ξ is the lead's own fit.** The draft now gives ξ = 0.65 ± 0.03 as grade B, as the ledger does;
+   the fit window (k ≤ 2.5 per cube) and the value come from `research/audit/p4_lead_check.py`, which no third
+   agent has re-run. If the lead does not count as the second party for its own fit, the value belongs under C.
+4. **Snapshot commits of this pass's files.** c96f57a and c3049c0 ("snapshot: in-flight files", not made by this
+   pass) committed `docs/paper/draft.md` half-edited, with a model name in their attribution line; this pass's
+   own commits complete the edit.
+
+## Consistency pass, 2026-11-14
+
 2026-11-14, consistency pass over `docs/paper/INCONSISTENCIES.md`. Line numbers are those of the working tree at
 commit 7e3e931 (`research/STATUS.md` at 6d4cd33, `research/NOTEBOOK.md` unchanged since c61c101). Each entry says
 which item it settles and how the number was traced. Nothing here has been applied.

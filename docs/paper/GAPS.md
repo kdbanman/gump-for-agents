@@ -80,7 +80,11 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
 12. **More than 16 deaths at A = 135**, with replica ages reaching only 1/900 of the mean lifetime; the
     exponential-wait assumption is doing the work there.
 13. **A chaos diagnostic.** No Lyapunov exponent or entropy rate. Damage spreading (P5), correlation length (P4)
-    and front speeds (P6) are grade C and were never re-run.
+    and front speeds (P6) are grade B since the audit of 2026-11-15, but only one size (N = 64) was examined:
+    P5 and P6 were re-run on the producer's own seeds, which checks code and transcription, not the statistics;
+    ξ = 0.65 ± 0.03 rests on the window where the Ornstein–Zernike form fits (k ≤ 2.5 per cube; windows from
+    k ≤ 1.5 to 2.5 give 0.61–0.69), and anisotropy at larger k was not looked at. The {110} front slows (0.165 early, 0.154 over generations 60–110) and nobody has
+    asked why or where it ends.
 14. **Independence of the faces of one vessel.** τ_face = 8 × (mean first wait) assumes it. The 0.84–0.91 excess
     of octahedral over periodic faces at A = 108 says faces of an octahedron are not simply eight slab faces;
     no joint statistics (which face dies, correlations between adjacent faces' populations) are recorded. On
@@ -108,7 +112,11 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
     code; the 2σ age hint on the A = 60 loop² 16 pair was not retested (that pair was not rerun); the per-job
     counts of unrecognised settled lives on (1,3,12) are overdispersed and unexplained.
 23. **Asymmetric faces with one mirror, the "lockstep" rule for general groups, the thickness transition, the
-    firewall cost per cell**: all grade C. The symmetry story in the draft rests on O_h only.
+    firewall cost per cell**: all grade C when this was written. *Update after the audit of 2026-11-15:* the
+    thickness transition (K1) is now B on fresh seeds; the one-mirror faces (SW3) are B on the examiner's own seed
+    sequence, with no second code; the firewall cost (F11) is B (table), rebuilt from raw slab records that are not
+    in git, with a weighting the claim did not state. The lockstep rule for general groups (S4) is still C. The
+    symmetry story in the draft rests on O_h only.
     *Update 2026-11-15 (second):* the edge ladder in one octahedral vessel at A = 63 (S6, two codes) and the slab
     faces with a mirror or threefold axis (S7, one pair rerun) now cover subgroups of O_h; everything beyond A = 63
     there rests on one code, one job and one seed per size (gap 44).
@@ -180,7 +188,9 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
     6×7 (×8), and fwslab 4×7×8 (A = 84), whose log has no age bins and which ZL2 does not list. Their correctness
     rests on the rate not rising with size (conjecture). Wanted: the guard described in `research/gpu/AGENT.md`
     (doubling snapshots, or an age cap) and a rerun of at least A = 108, or a second implementation at those sizes
-    (gap 11). The bounds other than R11 and R13 are grade C (the GPU session's script, re-run, not re-derived).
+    (gap 11). The bounds other than R11 and R13 are grade C (the GPU session's script, re-run, not re-derived);
+    the audit of 2026-11-15 found fwslab 4×9×8 bounded by 4.2 × 10⁻³, which the ledger had left out of its
+    summary.
 42. **The asymptotic constant, and the measurements that would decide it** (CN1, draft §7.5). Proposed and not
     made: the octahedral face at A = 108 with 10⁴ deaths (about 4 GPU-hours), which the analysis says would
     eliminate 35 of 36 single-constant readings if its value holds and the review calls not decisive; equilateral
@@ -207,3 +217,9 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
     and 2 as sheets by one agent; whether a wire's moving part could be held by a finite stator, whether wires of
     one period and direction are the same wire, and sheets on covers beyond 3 × 3 were not checked. The five new
     finite clocks (Z12) have no stability or basin measurements.
+47. **Window choices the claims did not record** (audit of 2026-11-15). F2's plateau heights move by about 0.03
+    with the averaging window (0.770, 0.604, 0.454 over whole plateaus against the quoted 0.79, 0.61, 0.48); P6's
+    {110} speed depends on where the fit window ends; F11's coefficients need a weighting by firewall-first counts.
+    A referee would want each analysis committed as a script with its window. Still with no re-run at all: F12
+    (the plunge before death; its inputs are not in the repository), S4, Q4, G3, G4, K5, K7, K8, Z13, Z2 at
+    n = 16 and Z4's period-3 search; L2 has only been recomputed from its committed tables.

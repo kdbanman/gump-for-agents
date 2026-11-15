@@ -285,3 +285,15 @@ readings are ρ = −0.052, −0.090, −0.107 (2.0, 3.5, 4.1σ from flat); a fa
 - **It is supported** if ρ comes out at −0.05 to −0.11 with c = 0.2155 to 0.2190 ± 0.0016; flat (ρ = 0) is then
   refuted at 2 to 4σ.
 - Raising n = 31 to 10⁵ deaths and 6 × 6 and n = 37 to 10⁴ each brings the errors to ± 0.0011 and ± 0.019.
+
+### C, note added by the lead on 2026-11-15 (nothing above is changed): the 4 × 4 anchor was a high draw
+
+The 4 × 4 torus, one of the three anchors of part C, is on file at 9.9324 ± 0.0020 (`research/shape2/data/A48.csv`).
+Three later measurements put it at **9.9249 ± 0.0003** (GPU on the owner's GTX 1080, 9.9251 ± 0.0004; a reviewer's
+own stepper, 9.9246 ± 0.0006; the original pipeline on 152 fresh seeds, 9.9240 ± 0.0014); the original 76 jobs
+reproduce bit for bit, so the file's value was a 3.4σ draw (`research/audit/REVIEW-gpu-local-pr23.md`, section 2).
+The forecasts above stand as committed. With the anchor replaced
+(`python3 research/audit/gpu_local_pr23/eq_forecast_patched.py` → `eq_forecast_patched_out.txt`) the flat line
+becomes c = 0.21244 with χ² 6.3 on 1; A = 57 moves by −0.005 (flat) and −0.004 (massive), A = 63 by −0.004 and
+−0.002, A = 93 and 111 by +0.005 and +0.010 (flat; the massive reading barely moves). Scores will be given against
+both sets.

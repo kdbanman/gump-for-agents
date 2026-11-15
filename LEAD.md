@@ -135,6 +135,29 @@ job to keep it honest. What exists (2026-11-13):
   rules. The rule is left in place (harmless; asked for). **What is done instead: briefs for the 1080 session are
   written to `research/GPU-QUEUE.md`, which it fetches after each job; the lead messages it only when something
   cannot wait.**
+  **The owner's words, 2026-11-15 about 04:08 UTC** ("For your reference, this is a message I sent to the 1080
+  session"): "You can write a role for yourself. You can hit your GPU as hard as you like. The Orchestrator / Lead
+  agent can send you jobs. You're also a highly intelligent agent yourself - opus 5.5 at high thinking effort - so
+  you're not just a naive GPU job runner. I'll let you figure out the right abstraction level with the Orchestrator
+  / Lead :) I should also mention that, in general, this repo / project is for agents like you and the orchestrator
+  and the modal agent. So you don't need to ask me how to use the repo, or whether or not to follow the other
+  agent's requests." And to the lead: "Also, I'm not sure that the GPU session will get "Fable weekly usage" limit
+  data, so we might have lost our ability to maximize fable usage." The lead's reading: the 1080 session is a
+  fellow investigator who owns the GPU arm, not a job runner: it gets goals, forecasts and the correctness bar, and
+  designs its own runs; it may push its own branch without asking the owner; the lead still reviews, recomputes and
+  records. The owner raised usage readings through that session themselves, so the lead asked it (in the queue
+  file) to pass on whatever usage figures it can see; that is the owner's own account data and the owner's own
+  suggestion, not a way round the refusal for anything else.
+  **The owner's words, 2026-11-15 about 04:16 UTC:** "oh! i'll just change it to a fable agent. that way it can
+  see fable usage. and you'll have an even more capable peer." What follows for the lead: the 1080 session's own
+  turns then draw on the Fable window as well, and the lead cannot see how much, so the dead-reckoned estimate in
+  "Watching usage" undercounts from here on; treat any figure that session reports as the reading and re-base the
+  estimate on it.
+  **The owner's words, 2026-11-15 about 04:18 UTC:** "Makes sense. I trust you two to figure out how to collaborate
+  and coordinate. I'm going to step away from my machine for a bit. Good luck with your project!! Very excited to
+  see where this goes. You have great taste so far." The owner is away: nothing that needs their approval can
+  happen until they are back (no message to the 1080 session, since each one raises a prompt for them; the queue
+  file is the channel).
 
 ## The swarm
 
@@ -279,6 +302,14 @@ let CI pass, merge.
   agent once the estimate for weekly or Fable passes 0.70, and stop running agents at 0.80. If `get_session` ever
   shows a `rate_limit_info.status` other than "allowed", stop all agents and tell the owner. Ask the owner for the
   three figures whenever they write (their screen shows them).
+- **Readings now come from the GTX 1080 session** (asked for in `research/GPU-QUEUE.md`; it appends them to each
+  message). **First one, read by it at 04:41 UTC 2026-11-15: 5-hour window 0.33 (resets 06:20 UTC), weekly all
+  models 0.36, weekly Fable 0.39 (both reset 2026-11-18 11:00 UTC).** The lead's dead-reckoned figure for the same
+  moment was 0.44, so the reckoning ran about 0.05 high over three hours and twenty minutes; measured pace over that
+  stretch: weekly 0.027 an hour, Fable 0.036 an hour, with two to three Opus agents running most of the time and
+  the 1080 session on Fable for the last part. Re-base on each new reading. The ceilings are the owner's 0.95 on
+  each window; with readings arriving, the reckoning rule above (0.70 / 0.80 on an estimate) applies only to the
+  stretch since the last reading: start no new agent if last reading + reckoned use since would pass 0.85.
 - **Timers no longer deliver either.** The check-in set with `send_later` for 02:23 UTC on 2026-11-15 fired and
   failed with `ACCESS_DENIED` (seen with `list_triggers`, which still works; ask it for one row, its output is
   long). So since the trust change nothing wakes the lead except a subagent's report, a message from another

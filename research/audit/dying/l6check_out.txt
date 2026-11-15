@@ -1,0 +1,3 @@
+job 1 (seed 9202): deaths 1500, nearest z (tied) 0.255 ± 0.011; median age 14210
+job 2 (seed 9205): deaths 3000, nearest z (tied) 0.226 ± 0.008; median age 15440
+pooled: 4500 deaths, nearest z 0.236 ± 0.006 (study 0.211 ± 0.007 over 3001)

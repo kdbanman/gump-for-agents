@@ -68,7 +68,18 @@ _Last updated 2026-11-14 by the lead._
   review; a message to the lead after each job). Each message the lead sends it costs the owner an approval prompt
   that no allow rule answers, so further briefs and review findings go into that file, which it fetches after each
   job. It writes under `research/gpu-local/`; it has no gcc and no `gh`, and whether it may push is the owner's to
-  tell it; if it pushes a branch the lead opens the pull request. Readiness details: `LEAD.md`, "Other sessions".
+  tell it; if it pushes a branch the lead opens the pull request. Readiness details: `LEAD.md`, "Other sessions". **Jobs 0 and 1 reported at 04:41 UTC** (branch `claude/gpu-local-1080` at 34cd2d3, **pull request 23**,
+  opened by the lead): acceptance passes on the card; the guard is `research/gpu/guard.py` (host side, kind 5, off by
+  default); a 4 × 4 torus calibration gives ln τ_face = 9.9251 ± 0.0004 against 9.9324 ± 0.0020 on file (3.6σ,
+  unresolved; it anchors `research/constant/PREDICTIONS.md` part C); `fwslab.py` undercounts firewalls where lives
+  settle. **Review started 04:43 UTC (Opus)** -> `research/audit/REVIEW-gpu-local-pr23.md`, with a third,
+  independent CPU measurement of the 4 × 4 torus. The lead recomputed 9.9251 from the branch's csv row. A = 93 is
+  running on the card. The lead's reply is the top note of `research/GPU-QUEUE.md` (re-measure the 5 × 5 anchor on
+  the card; a stationary-dip measurement on big faces is proposed for later). **The review is in (05:25 UTC) and
+  recorded** (notebook entry "a second card", CLAIMS GL1, GL2, notes on SH3, SH4, a dated note under part C): the
+  GPU's 4 × 4 value stands (best 9.9249 ± 0.0003 from three codes; the file's 9.9324 was a high draw); the guard is
+  sound, with one false latency claim. Five must-fix items are the top note of `research/GPU-QUEUE.md` (05:30 UTC).
+  Merge pull request 23 when the 1080 session has pushed them (CI, full head sha).
   Owed on each message from it: the lead's recomputation, an adversarial review with independent code, then the
   record. Queue for
   it, in this order, each with forecasts already committed where noted: (0) the acceptance bar of
@@ -103,8 +114,42 @@ _Last updated 2026-11-14 by the lead._
   draft 2 with the same results (4008b80, e88f889, bb22eda; its number check: 263 of 270 numbers in the cited row
   or entry, 7 from the earlier draft, none unsourced); the six disagreements it traced are applied (notebook entry
   "corrections found while the manuscript draft was brought up to date"; CLAIMS TH7, CN2; ledger 126 rows).
-  **Started 02:04 UTC (Opus):** an audit that re-runs the cheap C-graded ledger rows ->
-  `research/AUDIT-2026-11-15.md` (the lead applies grade changes); a naturalist identifying the 37 long-period
+  **The audit of the C-graded ledger rows is done and applied (03:57 UTC, 13f8732):** 28 rows re-run, 26 matched;
+  ledger now A 57, B 65, C 10, D 1; P4 restated (ξ = 0.65 ± 0.03 cube; refitted by a second agent, `research/audit/REVIEW-p4.md`), a sentence of ZL2 corrected; notebook
+  entry "the audit of the rows nobody had re-run"; the lead's own checks: `research/audit/p4_lead_check.py` and
+  Z10's basin count. The overview's counts and "Open now" list are updated and republished (version 10, e126a10).
+  **Started 04:02 UTC (Opus), two agents:** (1) an editor bringing `docs/paper/draft.md` in line with the audit's
+  grades (releases "preliminary" markers on rows now B; P4, P6, F2, F11 wordings; items for the lead in
+  `docs/paper/FOR-LEAD.md`); (2) an experimenter looking at dying faces, `research/dying/` (occupancy of a face
+  and its neighbours in the generations before it dies, c1, csz, c2v, D2h at A = 63; the lead's forecasts L1-L7
+  are in its `PREDICTIONS.md`, committed before the runs; figure `research/figures/dying_face.png`). On (2)'s
+  report: the lead recomputes one number from its data, an adversarial review with independent code, then the
+  notebook, the ledger and the overview. **(1) is done** (f96774d, 23258d7; its items applied; P4 then refitted by
+  a second agent, `research/audit/REVIEW-p4.md`: ledger A 57, B 65, C 10, D 1). **(2) reported at 04:18 UTC
+  (75e5212, 616212f), not yet recorded:** a face does not erode from an edge; it fades everywhere at once in the
+  last 20 generations; a tied edge is thinner at all times (rim-row occupancy 0.51 free, 0.30-0.35 tied; the
+  stationary population falls 2.5 cells per tied edge, as ln τ falls 2.17); the lead's forecasts L2-L7 failed.
+  The lead's recomputation: `python3 research/audit/dying_lead_check.py` (same populations; 0.86 in ln τ per
+  stationary live cell lost, twice the untied face's 0.436). **Started 04:23 UTC (Opus):** the adversarial review
+  of round 1 -> `research/audit/REVIEW-dying.md`, `research/audit/dying/`; and round 2 by the same experimenter
+  (what starts a collapse: excursion rates and committor by level, single deaths uniform or holes, births or
+  deaths first, the same at A = 84; the lead's forecasts A1-D2 in its `PREDICTIONS.md`; figure
+  `research/figures/dying_excursions.png`). Owed after both: notebook entry, ledger rows, the essay's "Where I was
+  wrong", an overview plate with the figure. **Round 2 reported at 04:35 UTC (6d40e72, 3bf2f21, 4b41de0), not yet
+  reviewed or recorded:** ln τ = −ln(ν q) at every level, where ν(p) is the rate of dips of a face's population to
+  the fraction p of its mean and q(p) the fraction of those that end in death; dips to 0.7 are equally frequent in
+  all four groups; the point of no return is at about 2.5 live cells in c1; ln ν is Gaussian down to about half
+  the mean and then falls in a straight line (the lead's recomputation, `python3 research/audit/dying_lead_check.py`:
+  0.499 per live cell lost in c1, 0.436, 0.350, 0.231 with one, two, three tied edges, that is 5.5 + 3.4 per free
+  edge per unit p); births fail before survival; depleted faces are lopsided whether or not they die; adjacent
+  faces share their rim row, so round 1's "neighbour dragged down" is mostly the same cells; ln τ = 3.43 +
+  0.582·P̄²/(2σ_P²) fits the eight lifetimes at A = 63 and 84 within 0.31. Of the lead's round-2 forecasts one of
+  seven held. **The round-1 review is in and recorded (04:41 UTC):** `research/audit/REVIEW-dying.md`, confirmed with corrections (the population steps are not equal; "0.86 per live cell" is not a constant; single deaths are lopsided; the neighbour finding is mostly shared cells; 36.5% of old living D2h states are settled); notebook entry "how a face dies (the first look, reviewed)", ledger DY1-DY3 (136 claims: A 60, B 65, C 10, D 1). The same reviewer was resumed for round 2 at 04:39 UTC. **The round-2 review is in and recorded (04:53 UTC):** "Round 2" of `research/audit/REVIEW-dying.md` (e5153ea): the dip bookkeeping, the equal shallow-dip rates and the point of no return (0.079 of the mean in c1) confirmed by a second stepper; the lead's straight-line tail and "5.5 + 3.4 per free edge" not confirmed; the stationary-state fit is a description, not a law; notebook entry "a death is a dip that keeps going", ledger DY4-DY7 (140 claims: A 64, B 65, C 10, D 1). **Round 3 reported at 04:57 UTC (27890b4, aef6d86), not yet reviewed or recorded:** the dip curve per cell of face is one curve across A = 63, 84, 108 for p ≥ 0.4 once a size-independent rate of shallow dips (about one per ten generations per face) is taken out ([ln ν(0.9) − ln ν(0.5)]/A = 0.068, 0.067, 0.065, 0.066 at A = 45-108); the tail's price per live cell lost is 0.50-0.51 at A = 63-108; extrapolated to p = 0 the dips give 0.19-0.20 per site, below c, with end points still rising with size (the lead's reading, unreviewed: an end effect of about 2.4 in ln τ at every size); a depleted face is one loose patch; a thin csz face holds on away from its tied edge; a rim-free face torus of 63 cells lives 13.13 ± 0.04 against 13.64. Lead's forecasts: T3, T4 held; T1a, T1b, T2 failed. Figure `research/figures/dying_ratefunction.png`. **Its review started 05:00 UTC (Opus, a fresh reviewer reusing the earlier review's steppers)** -> "Round 3" of `research/audit/REVIEW-dying.md`. **Owed:** an editor applies the reviews' README corrections (twelve so far) once round 3's are in; the round-3 record; the essay, the overview plate and the draft. **A third round
+  was started at 04:38 UTC** (same experimenter; the lead's forecasts T1-T4 in its `PREDICTIONS.md`; figure
+  `research/figures/dying_ratefunction.png`): the same ν(p) curves at other sizes, to see whether −ln ν / A is one curve (then
+  the constant is its value at zero and can be read on faces too big to die), and maps of deeply depleted faces
+  (a live clump and a hole?). Earlier, **started 02:04 UTC (Opus):** that audit ->
+  `research/AUDIT-2026-11-15.md`; a naturalist identifying the 37 long-period
   settled states of `research/audit/shape3/zombie_states.txt` against the catalogue -> `research/clockwork/`. **The owner reset the Fable
   window at about 20:28 UTC** (0.00 at 20:29; words in `LEAD.md`, "Watching usage"). **Started 20:33 UTC:**
   (1) Fable, **done 21:36 UTC**: second-reader audit of the counting line, `research/theory/swarm/audit/AUDIT-counting.md`:
@@ -214,8 +259,12 @@ _Last updated 2026-11-14 by the lead._
   independent CPU stepper up to 4×4; the 4×5 rhombus is 1.9–2.6σ lower on the CPU, and the reviewer is lengthening
   that run; "well above the lifetime range" compared an incremental cost that includes perimeter). Fixes applied by the
   GPU session (de00831), read against the list by the lead, CI green, **merged 23:31 UTC (squash 5d62eae)**; main
-  merged into the branch; notebook entry "empty patches on a face too large to die"; CLAIMS GP10. Open: the 4×5
-  point (the reviewer's longer CPU run).
+  merged into the branch; notebook entry "empty patches on a face too large to die"; CLAIMS GP10. **The 4×5
+  point is settled (05:15 UTC 2026-11-15):** the reviewer's CPU rerun at 0.9 of the GPU's exposure gives −23.412 ±
+  0.049 against −23.318 ± 0.047 (1.4σ); the last cost per cell becomes 0.226 ± 0.006 with both combined, about 1σ
+  above the lifetime range ("already inside it" withdrawn); notebook addendum of 2026-11-15, CLAIMS GP10 (now A to
+  4×5), two sentences of `research/gpu/README.md` corrected by the lead. Owed: the overview's patch plate and
+  "Open now" item, and the draft (§7.5), still carry the old figures.
   Owed for each when it reports: the lead's own check of one key number, an adversarial review (Opus) for (2) and (4),
   notebook, CLAIMS, STATUS. Usage timer every 60 minutes while Fable agents run.
   (ii) done: `README.md` (item 4 reworded; new items 8-10) and the web tour and
@@ -224,7 +273,7 @@ _Last updated 2026-11-14 by the lead._
   face) for side 16, which are different quantities. The audit's corrected wordings are in `path/claims.md` (a0508c8; one number
   in P's illustration stays in the journal as written, corrected in the audit). Owed: the same audit for counting and the theory push on the
   constant (Fable, after the owner's reset; Fable was 0.90 at 15:22). (b) the overview page is current to the entry "the shortest way round": refreshed
-  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); pull request 17 (census, audits, draft, prior art, the constant) was merged at 22:18 UTC (merge commit 47af1a6); pull request 19 (the constant, the second variable, lives that settle unrecognised) was merged at 00:59 UTC 2026-11-15 (merge commit 0e3b642); pull requests 18 and 20 were the GPU session's (empty patches; bounds on unrecognised settled replicas), both merged. Later work on the branch goes to pull request 21 (opened 01:00 UTC). **After the owner's Fable reset** (about 9am their time,
+  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); pull request 17 (census, audits, draft, prior art, the constant) was merged at 22:18 UTC (merge commit 47af1a6); pull request 19 (the constant, the second variable, lives that settle unrecognised) was merged at 00:59 UTC 2026-11-15 (merge commit 0e3b642); pull requests 18 and 20 were the GPU session's (empty patches; bounds on unrecognised settled replicas), both merged. Pull request 21 (the symmetric collapse corrected, the new clocks, the audit of unchecked rows, the GTX 1080 queue) was merged at 04:00 UTC 2026-11-15 (merge commit 0d47928); later work on the branch goes to a new pull request. **After the owner's Fable reset** (about 9am their time,
   probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
   counting and path, and a new theory push on the sharpened problem (the 0.2 per cell from six layers over noise).
 - **Swarm: closed 2026-11-14** (`research/theory/swarm/critic/board.md`, closing table at the top; notebook entry

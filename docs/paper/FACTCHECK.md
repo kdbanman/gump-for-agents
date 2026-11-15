@@ -149,7 +149,7 @@ is counted once, as unsupported, though some of its rows are only imprecise). Fi
   not-repeated list.
 - **References** (35 entries): every one is recorded in PRIOR-ART or the shelf with the same authors, title, venue,
   volume, year and pages where given, and the "how far read" note is no stronger than the record.
-- **Appendix**: superseded rows F7, S1, F9's limit, GP4 match the ledger's four; C-graded list matches the ledger.
+- **Appendix**: superseded rows F7, S1, F9's limit, GP4 match the ledger's four; C-graded list matches the ledger. (As of 2026-11-14; rebuilt after the audit of 2026-11-15, see the third update below.)
 
 ## Not checked
 
@@ -252,3 +252,35 @@ UNSOURCED; a changed number that happens to occur elsewhere in the cited entry (
 slab pair, which the review attaches to a different comparison (FOR-LEAD, second update, item 1). Not checked:
 any run; the review itself; that each number is attached to the right quantity beyond one reading of each passage
 against its row and entry.
+
+## Update of 2026-11-15 (third): after the audit of the rows nobody had re-run
+
+Base e126a10. Sources: `research/CLAIMS.md` as changed by 13f8732 (133 claims: A 56, B 66, C 10, D 1,
+`python3 research/audit/claims_tally.py`), `research/AUDIT-2026-11-15.md` and the notebook entry "the audit of
+the rows nobody had re-run". Every *preliminary* marker and every place the draft names grade C was matched to its
+row's level cell as it now stands.
+
+- **Released** (row now B; the sentence says what was repeated): T9's minimality (still within the patch, still
+  not claimed beyond it), K1 (fresh seeds), K3, P4 (restated: ξ = 0.65 ± 0.03 cube, Ornstein–Zernike form for
+  k ≤ 2.5 per cube, the old 0.68 ± 0.01 explained), P5 (producer's seeds), P6 (the {110} front slows: 0.165 in
+  windows ending by generation 80, 0.154 over 60–110), F2 (heights to ±0.03; whole-plateau ratios 0.770, 0.604,
+  0.454 given), F10 (producer's seeds), F11 (B (table), with the weighted and unweighted fits), SW3 (§5.5 and the
+  Table 5 caption), SW4, G2 (brute-force checks), Z5, Z10, L3 (the post hoc caveat kept), CN2 (Table 5 row 18, the
+  "unverified" flag removed), SW7 (Table 5 row 14 now cites its row, which it said did not exist).
+- **Narrowed** (part still C): F10/F12 (F12 kept), Z2 (n = 14, 15 released; 16 kept), Z3 (unions 12–13 released;
+  the hinge-flip property kept), Z4 (period 4 released; period 3 kept), X3 (fixed point and the censored 6.542 ±
+  0.001 released; the uncensored 6.94 kept), G2–G4/SW4 split; §10.1 and its preliminary paragraph follow Z2–Z4.
+- **Kept** (row or part still C): F12, S4, Q4, G3, G4, K7/K8 (now named in §9), Z13, S9's D2h and O_h parts, Z12's
+  absence from the census lists, TH2 (45, 61 sites), TH5's percentages, ZL2 beyond R11/R13 (§5.5, Table 6, §12),
+  C4's wall-clock time, and "volume over group order" (S4) in §11.
+- **Legend** (line 11): B now reads as the ledger's ("by someone other than the producer"); the old "from the
+  committed data" did not cover F11, S1, C7, L3, rebuilt from raw records that are not in git.
+- **Appendix**: its lists were rebuilt from the ledger's level cells; L3 had been listed as "not mentioned" though
+  §5.6 cites it. The draft still does not state the ledger's totals.
+- **Number check**: 18 passages added to `check_numbers.py` (base e126a10, the audit's notebook entry as source),
+  and the Table 5 row 18 marker updated; markers now match across line breaks. Result: 602 numbers, 575 in the
+  cited sources, 27 only in the earlier draft, 0 unsourced. Negative control on a copy (0.154 → 0.155 in §4):
+  UNSOURCED.
+
+Not checked: any run or fit (this is a text pass against the ledger); the audit's own numbers beyond reading them
+against the ledger; `research/figures/phase_spread.png`, which may show the {110} front's old single speed.

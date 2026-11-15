@@ -40,8 +40,13 @@ chi = float((((S - f(k, 0.40, 2.77, 0.68)) / E) ** 2).sum())
 print(f'notebook form (0.40, 2.77, 0.68) on all bins: chi2 {chi:.0f}/{len(k)}; largest |residual| {np.abs(S - f(k, 0.40, 2.77, 0.68)).max():.3f}')
 for cone in ('100', '110', '111'):
     Sc, Ec = np.array(d[cone][0], float)[ok], np.array(d[cone][1], float)[ok]
+    nc, na = np.array(d[cone][2], float)[ok], cnt[ok]
     m = (k <= 1.5) & (Sc > 0) & (Ec > 0)
     z2 = ((Sc[m] - S[m]) ** 2 / (Ec[m] ** 2 + E[m] ** 2)).sum()
+    # A cone's modes are a subset of the sphere's (REVIEW-p4.md, point 4): the variance of the difference is the
+    # per-mode scatter times (1/n_cone - 1/n_all), not the sum of the two squared errors.
+    nested = ((Sc[m] - S[m]) ** 2 / ((E[m] * FIX) ** 2 * (na[m] / nc[m] - 1))).sum()
+    print(f'cone <{cone}> against the sphere average, k <= 1.5, nested variance: chi2 {nested:.1f} on {m.sum()} bins')
     print(f'cone <{cone}> against the sphere average, k <= 1.5: chi2 {z2:.1f} on {m.sum()} bins (file errors as written); {z2 / FIX ** 2:.1f} with corrected errors')
 print(f'with corrected errors (file errors x {FIX:.2f}), weighted fits:')
 for kmax in (1.0, 1.5, 2.0, 2.5, 3.0):

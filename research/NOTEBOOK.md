@@ -2117,14 +2117,23 @@ auditor (a second agent, not the producer of any of them) ran what could be run 
   producer's file, exactly the old number, but the form does not fit that far (χ² 53 on 19 with corrected errors;
   59 on 19 on the auditor's snapshots). It fits for k ≤ 2.5 (χ² 8.2 on 15 and 22.8 on 15), where **ξ = 0.638 ±
   0.013 on the producer's 12 snapshots and 0.659 ± 0.014 on the auditor's** (8 of its 12 are new); windows from
-  k ≤ 1.5 to k ≤ 2.5 give 0.61–0.67. Recorded now as **ξ = 0.65 ± 0.03 cube**, S(0) = 3.04–3.18. The error bars of
+  k ≤ 1.5 to k ≤ 2.5 give 0.61–0.69 (the short windows carry errors of 0.035–0.06). Recorded now as **ξ = 0.65 ± 0.03 cube**, S(0) = 3.04–3.18. The error bars of
   `research/phase/sk.py` were too small by √24: it divided the scatter over modes of the snapshot-averaged S by
   modes × snapshots, counting the 12 snapshots twice (the auditor's find), and it counted both members of each
   ±k pair, which are equal for a real field (the lead's addition). With that mended the isotropy statement
   survives, which with the old errors it did not: cones about ⟨100⟩, ⟨110⟩, ⟨111⟩ against the sphere average for
-  k ≤ 1.5 give χ² 6.6, 6.2, 6.7 on 11, 11, 10 bins (producer's snapshots) and 17.8, 5.4, 2.3 (auditor's). `sk.py`
+  k ≤ 1.5 give χ² 5.4, 11.9, 10.9 on 11, 11, 10 bins (producer's snapshots) and 15.5, 12.6, 3.9 (auditor's), every
+  p ≥ 0.16. `sk.py`
   is fixed; files written before the fix are recognised by the check script and rescaled. Not checked: sizes other
   than N = 64; anisotropy at larger k, where the lattice must show.
+- **The restated value was then refitted by a second agent with its own code** (`research/audit/REVIEW-p4.md`,
+  `python3 research/audit/p4_second_fit.py`): every figure above reproduced, with two corrections that are already
+  in the text above. The windows reach 0.69, not 0.67 (first written as 0.61–0.67). The cone comparison first
+  treated cone and sphere as independent (χ² 6.6, 6.2, 6.7 and 17.8, 5.4, 2.3); a cone's modes are a subset of the
+  sphere's, and the figures above use the right variance. Also from that review: the factor √24 is exact for these
+  bins and shows in the data (the difference of the two snapshot sets gives χ² per bin 1.06 with corrected errors,
+  25.4 with the old ones); the second set's fit at k ≤ 2.5 is marginal (p = 0.09); with the old errors the k ≤ 3
+  fit has χ² 1276 on 19, so "0.68 ± 0.01" was never tested against its own fit.
 - **ZL2: a slip of the lead's in the ledger.** "others ≤ 2.1 × 10⁻³" left out slab 4×9×8, whose bound is
   4.2 × 10⁻³ (against a statistical error of 0.042, so no number moves). The README table had it right.
 - **Two commands did not run as written.** `portrait.py OID NS` failed with a NameError (the seed was set only in
@@ -2134,6 +2143,193 @@ auditor (a second agent, not the producer of any of them) ran what could be run 
 - **Still C (ten rows):** F12, S4, K5 (the ledger gives no arguments), Q4 (names no run), G3, G4, K7 (an hour or
   more each), K8 (several scripts of unstated length), L2 (re-run only by repeating the lead's own arithmetic), and
   Z13 (the wires, added after the audit began). With a C part: Z2 at n = 16, Z4's period-3 search, TH5's segment
-  n = 7, TH2, TH4, C2, C4, C8, Z3's flip property, Z8, Z9, Z10's phase shifts, Z12, S9, X3's 6.94, ZL2's other runs.
+  n = 7 and its percentages, TH2, TH4, C2, C4, C8, Z3's flip property, Z10's phase shifts, Z12, S9, X3's 6.94, ZL2's
+  other runs. (The tally script had read the
+  object names C44.26a and C35.29a in the rows Z8 and Z9 as grades; fixed, no best grade changes.)
 - Not checked by the lead beyond P4 and Z10: the other 24 matches are the auditor's alone. No proof was re-read
   in this audit.
+
+## 2026-11-15: how a face dies (the first look, reviewed)
+
+The symmetric study had explained the short lives of symmetric soups by ties across edges without anyone looking
+at a face. `research/dying/` looks: 11,930 first face deaths at R = 11 cube-centred (faces of 63 cells) in c1, csz,
+c2v, D2h (no, one, two, three edges shared with a face in lockstep), each with the 512 generations before it, and a
+stationary control. Review with an independent stepper and fresh seeds: `research/audit/REVIEW-dying.md` (stepper
+`research/audit/dying/dy.c`, matched to the oracle at every generation on twelve systems). The lead's recomputation
+from the study's table: `python3 research/audit/dying_lead_check.py`. Figure: `research/figures/dying_face.png`.
+The lead's forecasts were committed before the runs (`research/dying/PREDICTIONS.md`, 75e5212).
+
+- **The mean face does not erode from an edge [measured; study and review agree].** It stays at its stationary
+  density until about 20 generations before death and then fades over the whole face; relative to its own
+  stationary value a band along a tied edge empties no earlier than one along a free edge. The final plunge takes
+  the same time in all four groups (median 6, 6, 7, 7 generations in both codes) while the lifetimes differ by
+  e^6.5: whatever a tie does, it does not change how the end runs.
+- **A single death is not a uniform fade [measured, the review's correction].** At half population a third of
+  single deaths (32–39%) are more lopsided than 95% of stationary faces thinned at random to the same count (9–11%
+  in a control 64 generations earlier). The lopsided side is not the tied edge and does not persist beyond what
+  thinning implies. The mean map hides this.
+- **A tied edge is thinner at all times [measured; reproduced to three digits].** Stationary occupancy of the rim
+  row: 0.512 along a free edge; 0.349, 0.323, 0.298 along a tied one (csz, c2v, D2h). The stationary face population
+  is 31.25, 28.90, 26.28, 23.50 (review, ± 0.004–0.02; study 31.29, 28.83, 26.29, 23.77), and cube-centred the loss
+  sits in the rim row itself (−1.77 of csz's −2.35). The loss per tied rim cell is the same at R = 13 (0.149–0.186
+  against 0.148–0.185), so the loss per tied edge grows with the rim; vertex-centred faces spread it over rows 1
+  and 2.
+- **Two readings of that, withdrawn after the review.** The study wrote that the population falls in steps as equal
+  as those of ln τ; the steps are −2.35, −2.62, −2.77 while ln τ's are −2.18, −2.17, −2.12. The lead wrote that a
+  live cell lost at a tied edge costs 0.86 in ln τ, "twice the 0.436 per live cell of the untied face": it is 0.93,
+  0.83, 0.77 along the ladder (0.64–1.00 over the three vessels the review measured), and 0.436 was an average, not
+  a marginal. What survives [measured, one comparison at two sizes]: growing the untied face from 63 to 84 cells
+  buys 0.40 in ln τ per stationary live cell gained, re-centring at equal area 0.23, and a cell lost at a tied edge
+  costs about twice the first. **ln τ is not a function of the mean population**: the vertex-centred csz face has
+  more live cells (31.60) than the cube-centred untied one (31.25) and lives 1.45 shorter in ln τ.
+- **The neighbour [measured, mostly a tautology].** The study found the neighbour's band along the shared edge at
+  0.21 of stationary when an untied face dies. Adjacent faces share their rim row (the same 12 cells), so most of
+  that is the dying face's own cells. What survives: the neighbour's own second row falls to 0.56–0.61 of
+  stationary and the rest of it stays at 0.95.
+- **The lead's forecasts L2–L7 failed** (the rim is not the late survivor: ratio 1.06–1.22 against a forecast of
+  1.5; the tied edge is not where emptying begins; the neighbour does not stay within 10%; the plunge is not
+  faster with more ties). The review confirms the definitions were fixed before the data and the scores stand; L4
+  becomes undecided with another choice of band. L1, the deduction that a tied edge cannot be a separate local
+  route to death because the ladder's steps multiply rather than add, is consistent with everything seen.
+- **A caveat on D2h [measured by the review].** 36.5% of old living D2h states are in lives that have settled
+  (none in c1 and csz, 1.2% in c2v); their faces hold 15.45 cells. The stationary control leaves them out, the
+  ln τ rung counts their exposure (its estimator spread 7.02–7.29 is that), so the D2h point of the population
+  ladder and the D2h rung of the lifetime ladder are not taken over the same lives.
+- Not checked: other sizes for deaths (the review's other vessels are stationary sampling only); c2e and O_h; the
+  layers beneath the face and the last-alive maps (the study's `explore.py`); differences of 1.8σ between the two
+  codes in the csz and D2h populations and 2.7σ in the L6 fraction are unresolved. Rounds 2 and 3 of the same
+  study (what starts a collapse; the same across sizes) are not in this entry.
+
+## 2026-11-15: a death is a dip that keeps going (round 2 of the dying-face study, reviewed)
+
+`research/dying/README.md`, "Round 2" (forecasts 6d40e72 before the runs; results 3bf2f21, 4b41de0); review with an
+independent stepper and fresh seeds, `research/audit/REVIEW-dying.md`, "Round 2" (e5153ea); the lead's
+recomputation from the study's tables, `python3 research/audit/dying_lead_check.py`. Figure:
+`research/figures/dying_excursions.png`. Same vessel as round 1 (R = 11 cube-centred, 63 cells; c1, csz, c2v, D2h),
+plus stationary sampling at R = 13 (84 cells).
+
+For a face with stationary mean population P̄, let ν(p) be the rate per face per generation of excursions that
+start above the mean and reach p·P̄, and q(p) the fraction of those that end in the face's death before the
+population is back above the mean. Then 1/τ_face = ν(p)·q(p) at every level, by bookkeeping.
+
+- **The bookkeeping closes on the lifetimes measured before [measured, two codes].** −ln(νq) = 13.632, 11.454,
+  9.274 for c1, csz, c2v in the study and 13.614, 11.473, 9.275 in the review, against 13.634, 11.456, 9.291 from
+  the symmetric study. D2h depends on what is done with lives that settle: 7.32 with them, 6.86 without, 7.168 in
+  the study.
+- **Nothing special starts a collapse [measured, two codes].** A face dips all the time. Dips to 0.7 P̄ come about
+  once per 60 generations per face and equally often whatever the ties (ln ν = −4.16, −3.80, −3.77, −3.74 in the
+  study; −4.16, −3.80, −3.78, −3.88 in the review). At 0.9 P̄ the untied face even dips more often. The four groups
+  part only below about 0.6 P̄.
+- **The point of no return is a handful of cells [measured, two codes].** q = 1/2 at p = 0.079, 0.114, 0.152,
+  0.245 of the mean for c1, csz, c2v, D2h: about 2.5 live cells of 31 in the untied face. An untied face that has
+  lost half its cells recovers 99.92% of the time (q(0.5) = 0.0008). So the face population is a fair coordinate
+  for the death, and the plunge of round 1 (the last 20 generations) is the end of a dip, not a separate event.
+- **Where the ladder lives depends on the level asked [measured].** From c1 to D2h ln τ falls by 6.46: at p = 0.5
+  that is 1.59 in ν and 4.88 in q; at p = 0.1, 5.38 and 1.09. What does not depend on the level: ties do not make
+  dips start more often, they make each further step down from about 0.6 P̄ more likely (ln q higher by 1.5–2.7 per
+  tied edge between 0.9 and 0.4 P̄).
+- **The shape of ln ν [measured; the lead's reading corrected by the review].** Gaussian with the stationary
+  variance down to about 0.6 P̄ (residuals −0.15, −0.43, −0.27 at 0.8, 0.7, 0.6 in c1; the lead's forecast A2, the
+  only one of seven that held), and fatter than Gaussian below (+4.1 at p = 0.1). The lead fitted a straight line
+  over 0.1 ≤ p ≤ 0.45 (0.499 per live cell lost in c1; 0.436, 0.350, 0.231 with one, two, three tied edges; per
+  unit p 15.6, 12.6, 9.2, 5.5) and read it as "a constant price per further cell lost, 5.5 + 3.4 per free edge".
+  The review reproduces the slopes (15.55, 12.57, 9.19, 5.51) and does not confirm the reading: the tail is close
+  to straight but not straight (the local slope per cell drifts 0.51 → 0.45 → 0.34 in c1), there is no change of
+  regime at half the mean, and the step per free edge ranges from 3.0 to 4.5 with the fit window and with the
+  treatment of settled lives. **What stands: over the last 3–12 cells the price per further cell lost is nearly
+  constant, and it is higher the more free edges a face has. [conjectured, weakened]** The lead's picture of a live
+  clump and a hole coexisting on a depleted face is not supported by the clumping: at equal count, dying untied
+  faces are less lopsided than stationary faces that are low by chance (2.47 against 3.09), dying D2h faces more
+  (2.94 against 2.70).
+- **Births fail before survival [measured, two codes], mostly for a plain reason.** On a dying untied face births
+  per empty cell are 0.90–0.91 of stationary at lag 16 while survival is 0.98–0.99; at lag 8, 0.45 and 0.88. Much
+  of the birth deficit is what the face's own lower population predicts (review: births 0.61 at lag 8 where the
+  face's own population predicts 0.77).
+- **Depleted faces are lopsided whether or not they die [measured for c1].** The survivors' centroid sits 1.6 times
+  further from the centre than in a face thinned at random, in dying faces and in stationary faces that are low by
+  chance alike. The single-death lopsidedness of round 1 is this.
+- **A two-constant fit to the stationary state is not a law [measured].** ln τ = 3.43 + 0.582·P̄²/(2σ_P²) fits the
+  eight lifetimes at 63 and 84 cells within 0.31 (review: 3.42, 0.584, leave-one-out 0.50); a + b·A + c·P̄ with no
+  variance in it fits as well (0.27). Stationary values at 84 cells: P̄ = 42.49, 39.81, 36.86, 33.48; σ_P = 5.96,
+  6.18, 6.50, 7.05.
+- **The lead's round-2 forecasts: one of seven held** (A2). Failed: the point of no return at 0.25–0.5 of the mean
+  (it is 0.08); the ladder in ν rather than q at half population (the reverse); uniform fades inside single deaths;
+  survival holding while births fail (survival clause); 2.8–3.1 cells lost per tied edge at 84 cells (2.68, 2.95,
+  3.38) with 0.86 per cell (0.98, 0.90, 0.84); and that no function of the stationary mean and width would fit
+  (one does, though see above). Definitions were committed before the runs; the review reproduces every score.
+- Not checked: excursions at other sizes or centrings (round 3 is on sizes); one seed per group in the study (the
+  review adds a second); every D2h exposure quantity depends on the settled lives; births by neighbour count;
+  whether the position of the surviving clump predicts recovery.
+
+## 2026-11-15: the 4 × 5 empty patch, rerun on the CPU (addendum to "empty patches on a face too large to die")
+
+The review of GPU pull request 18 had the 4 × 5 rhombus at ln P = −23.75 ± 0.16 on 43 CPU hits against the GPU's
+−23.318 ± 0.047, and the last perimeter-free cost per cell rested on that point. The reviewer reran it: plan
+committed before the first run (dac1634), 16 new chunks with fresh seeds, 18 CPU runs in all, 2.76 × 10¹⁰
+replica-generations (0.9 of the GPU's exposure). `research/audit/REVIEW-gpu-pr18.md`, dated follow-up;
+`python3 research/audit/gpu_pr18/followup.py research/scratch/pr18 research/data/gpu_patches/patches_s81*_A10G.csv`
+(the lead reran it: same figures; the raw CPU runs are in scratch, not in git).
+
+- **The disagreement is gone [measured].** 4 × 5: CPU −23.412 ± 0.049 (541 hits) against GPU −23.318 ± 0.047, 1.4σ;
+  combined −23.364 ± 0.034. 3 × 4: −15.3979 ± 0.0011 against −15.3999 ± 0.0011. 4 × 4: −19.4183 ± 0.0072 against
+  −19.4233 ± 0.0071. The first CPU value was a low fluctuation on 43 hits. Nothing points at the GPU's counter.
+- **The last cost per cell moves up, and one sentence is withdrawn [measured].** Perimeter-free cost per cell
+  (second differences along similar shapes) at middle shapes of 12, 18, 27, 36 cells: CPU 0.2729, 0.2513 ± 0.0002,
+  0.2359 ± 0.0012, 0.2349 ± 0.0082; GPU 0.2729, 0.2517, 0.2368, 0.2185 ± 0.0079. At 36 cells the two combined give
+  **0.226 ± 0.006**. The earlier "0.219 ± 0.008, already inside the range of the lifetime laws (0.205–0.221)" is
+  withdrawn: it is about 1σ above that range. The sequence is still falling; extrapolations are unchanged (0.208 if
+  the correction goes as 1/n, 0.156 as 1/√n), and the asymptote stays open at 0.16–0.24.
+- **The errors were right [measured].** Hits come in clusters (1.13–1.28 hits per event at 4 × 5 to 3 × 4), so the
+  true error is 1.13–1.28 times the Poisson one; batch means capture that, and the scatter over 18 runs equals the
+  batch-means error. The reviewer withdraws its earlier remark that its errors were 1.4 times too small.
+- The two orientation classes of rhombus differ in ln P (−0.52 ± 0.07 at 4 × 5) and agree in the cost per cell
+  within 0.008.
+- Not checked: run-to-run scatter per class; no firewall test in the CPU runs; 5 × 5 and beyond remain GPU only
+  (queued for a second card, `research/GPU-QUEUE.md` item 5).
+
+## 2026-11-15: a second card (the GTX 1080: acceptance, a guard against settled lives, and an anchor that was a high draw)
+
+The owner's GTX 1080 now carries the GPU arm (its session works from `research/GPU-QUEUE.md`; its files are under
+`research/gpu-local/` on branch `claude/gpu-local-1080`, pull request 23, not yet merged). Its first report covered
+the acceptance bar, the guard that every earlier GPU run lacked, and one calibration. Reviewed with independent code
+and no GPU: `research/audit/REVIEW-gpu-local-pr23.md` (code in `research/audit/gpu_local_pr23/`). The lead
+recomputed the calibration figure from the branch's csv row (exposure 76,418,398,524 replica-generations, 7,478,823
+face deaths).
+
+- **Acceptance passes on the card [measured by the producer; the port checked by the reviewer].** Both kernels are
+  bit-exact against the engine every generation on the cases of `research/gpu/README.md`; the reviewer confirmed
+  that every check of the Modal acceptance is called with the same functions and arguments, and noted one omission
+  (the face-law driver's own calibration). Throughput 7–10 × 10¹¹ node-updates per second on the faster kernel;
+  not checkable here.
+- **A guard against unrecognised settled lives exists [measured on a CPU stand-in; B].** `research/gpu/guard.py`:
+  one snapshot per replica at doubling ages, compared at every launch boundary; a replica equal to its snapshot is
+  in a cycle and its life ends as censored (kind 5). Off by default, and the reviewer checked line by line that
+  nothing changes when it is off. On the CPU, against about 7,600 planted lives with cycles of period 1 to 12,345
+  and both kernels' layouts, it recognised no chaotic life and missed no cycle, and two deliberately broken guards
+  were caught. One claim of the producer's README does not hold: for an odd period above 128 the delay between
+  settling and recognition is period × launch length, at least 3.4 × 10⁷ generations at the longest launch, which
+  is a mean life or more at A ≤ 93. Guarded results therefore have to cut the kind-5 exposure at the snapshot age,
+  or give both figures. CLAIMS GL2.
+- **The 4 × 4 torus anchor on file was 0.0075 too high [measured, three codes; A].** GPU: ln τ_face = 9.9251 ±
+  0.0004. The reviewer's own bit-sliced stepper (checked against the engine every generation, with two negative
+  controls): 9.9246 ± 0.0006 over 2.9 million deaths. The original `research/shape2` pipeline on 152 fresh seeds:
+  9.9240 ± 0.0014. The file's 9.9324 ± 0.0020 reproduces bit for bit from its 76 seeds, so it was a high draw
+  (3.4σ once the between-job scatter, χ² 100 on 75, is allowed for), not an error in the pipeline. **Best value
+  9.9249 ± 0.0003.** Consequences: the census gap at loop² 16 against 12 becomes 0.0138 (SH4; the tension with that
+  review's 0.0135 is gone); the loop² 16 slope from A = 48 to 60 becomes about 0.2131 (SH3); the forecasts of
+  `research/constant/PREDICTIONS.md` part C keep their committed text, with a dated note giving what they become
+  with the anchor replaced. CLAIMS GL1.
+- **A caution that follows [measured].** The shape2 pipeline's per-job scatter is mildly larger than Poisson (χ² per
+  degree of freedom 1.33 and 1.12 on the two sets), so its quoted errors are 5–15% small. One 3.4σ draw among the
+  24 torus values of the census is unlucky rather than alarming (about one chance in sixty), but it was a value
+  used as an anchor. Where a
+  single torus value carries an argument it should be measured twice.
+- **Also confirmed by the reviewer:** `fwslab.py` undercounts firewalls where lives settle (18% at 4 × 4; first found
+  in `REVIEW-gpu-pr14.md`; on the ledger it touches only small-slab ln τ_fw, by at most 0.034 at 4×5×8); the effect
+  of launch length on earlier GPU runs is at most 0.003 wherever per-life data exist, and unbounded but probably
+  0.003–0.005 for the s = 3 slabs.
+- Not checked: nothing was run on a GPU; the GPU-side guard tests and the throughput are the producer's word; the
+  5 × 5 anchor has one measurement (queued on the card); the hull-face forecast in the producer's file centres on
+  the value it re-measures, and its premise "no settled lives at A ≥ 90" is false (both to be corrected in a new
+  block there).
+- Five corrections are asked of the producer before the merge (`research/GPU-QUEUE.md`, note of 05:30 UTC).

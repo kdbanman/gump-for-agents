@@ -1,0 +1,6 @@
+nodes 384, dead slots 384, duplicate neighbours 0, asymmetric pairs 0, T1 violations 0
+240 ended lives replayed (kinds {1: 239, 4: 1, 5: 0}); differences in (age, kind, snapshot age): 0
+control (ages + 1): 240 of 240 differ
+nodes 384, dead slots 384, duplicate neighbours 0, asymmetric pairs 0, T1 violations 0
+342 ended lives replayed (kinds {1: 300, 4: 41, 5: 1}); differences in (age, kind, snapshot age): 0
+control (ages + 1): 342 of 342 differ

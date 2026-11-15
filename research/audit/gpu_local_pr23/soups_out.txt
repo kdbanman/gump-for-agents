@@ -1,0 +1,2 @@
+gpu soups: 614400 lives, face deaths by age 60: 4688, hazard 12.77 +- 0.19 x1e-5, deaths per life 0.00763
+rep.c soups and stepper (K = 1): 614400 lives, face deaths by age 60: 4664, hazard 12.71 +- 0.19 x1e-5, deaths per life 0.00759

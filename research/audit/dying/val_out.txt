@@ -1,0 +1,13 @@
+v11c c1: oracle 600 gens OK (final pop 458); lives file vs st.c 20000 gens x 256 lanes, 286 records: identical
+v11c csz: oracle 600 gens OK (final pop 405); lives file vs st.c 20000 gens x 256 lanes, 497 records: identical
+v11c c2v: oracle 600 gens OK (final pop 404); lives file vs st.c 20000 gens x 256 lanes, 1163 records: identical
+v11c d2h: oracle 600 gens OK (final pop 436); lives file vs st.c 20000 gens x 256 lanes, 4932 records: identical
+v13c c1: oracle 600 gens OK (final pop 571); lives file vs st.c 20000 gens x 256 lanes, 256 records: identical
+v13c csz: oracle 600 gens OK (final pop 599); lives file vs st.c 20000 gens x 256 lanes, 258 records: identical
+v13c c2v: oracle 600 gens OK (final pop 586); lives file vs st.c 20000 gens x 256 lanes, 285 records: identical
+v13c d2h: oracle 600 gens OK (final pop 634); lives file vs st.c 20000 gens x 256 lanes, 527 records: identical
+v12v c1: oracle 600 gens OK (final pop 522); lives file vs st.c 20000 gens x 256 lanes, 277 records: identical
+v12v csz: oracle 600 gens OK (final pop 525); lives file vs st.c 20000 gens x 256 lanes, 371 records: identical
+v12v c2v: oracle 600 gens OK (final pop 452); lives file vs st.c 20000 gens x 256 lanes, 720 records: identical
+v12v d2h: oracle 600 gens OK (final pop 280); lives file vs st.c 20000 gens x 256 lanes, 3813 records: identical
+ALL OK
