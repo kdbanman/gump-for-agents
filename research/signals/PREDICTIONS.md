@@ -85,3 +85,15 @@ Mine:
 What I got wrong in kind: I expected the answer to turn on the wires already on file and on sampling. Both gave only
 fuses. The pulses were sitting in the smallest tube the constraint search was pointed at, and the search took under a
 second.
+
+## The lead, 2026-11-15 08:51 UTC: forecasts for the second push (written after the first push reported pulses, a transmission and an interaction, and before any of the work below)
+
+- **S6 (45%).** A reflector or a corner for a pulse-carrying wire is found in this push: a pulse that comes back,
+  or turns into another wire direction, with the oracle as judge; and with it a free-standing object whose period
+  is set by its length.
+- **S7 (25%).** A gate with an output is found: two incoming pulses produce an outgoing pulse that depends on both.
+- **S8 (35%).** A receiver that toggles is found: a standing defect with two states that each pulse flips and
+  leaves in place.
+- **S9 (30%).** Some wire that arises from random soup carries a pulse.
+- **S10 (60%).** A pulse cannot pass between a wire and living chaos as a pulse: where a wire meets a chaotic
+  face, the wire burns or the pulse is absorbed with no repeatable effect on the other side.
