@@ -405,24 +405,34 @@ Its hull allows 2^51,888.
 
 For small rooms an agent listed everything: every state of 301 closed vessels of up to 30
 cells, a billion states each at the top. I listed one of them again myself with the
-reference stepper and got the same counts. In a room of 27 to 30 cells a typical seed
-visits 8 to 14 states, and the most patient seed of all visits between 40 and 94,
-depending on the room. Most states cannot be reached at all: between 57 and 98 in a
-hundred have no state that leads to them. Nothing in these rooms is chaotic yet. They are
-too small to hold a living face.
+reference stepper, a reviewer listed eight more with a program of their own, and the counts
+agree to the last state. In a room of 27 to 30 cells a typical seed visits between 4 and 14
+states, and the most patient seed of all between 15 and 94, depending on the room. Most
+states cannot be reached at all: between 57 and 98 in a hundred have no state that leads to
+them. Nothing in these rooms is chaotic yet. They are too small to hold a living face, and
+too small to say whether the counts grow in step with the room or a little faster.
 
 Above that size the pattern is the one you already know from the staircase. A random seed
 lives as long as its faces, and a face of A cells lives about e^(0.21·A) generations, so
 the seed sees about 2^(0.30·A) states: three tenths of a bit for every cell of the face.
-The face itself is nearly random while it lives. By an estimate that a reviewer is testing
-as I write, it carries close to one bit per cell, so it could be in nearly 2^A states and
-passes through 2^(0.30·A) of them. The count a seed sees rises exponentially with size, and
-the share falls exponentially. A map that wandered blindly over as many states would see
-2^(A/2) of them before repeating, which is more. Gump does not run out of states. Its face
-goes quiet first.
+The count a seed sees rises exponentially with size, and its share of what is possible
+falls exponentially, because the room has a bit for every cell and the walk has three
+tenths of a bit for every cell of one face. Gump does not run out of states. Its face goes
+quiet first.
 
 And yes, the random seeds are the long-lived family. In every room of 19 cells or more,
 the longest-lived seed has no symmetry at all.
+
+The same measurement says something about the thing that weirded you out. To know what a
+seed's share is a share of, the agent measured how random a living face is, and the
+reviewer measured it again. Take one layer of the chaos and try to predict each cell from
+the cells around it: you gain almost nothing. A layer carries within about one part in a
+hundred of what coin flips of the same density would carry. Take the layers together and a
+little more shows, close to three parts in a hundred, most of it in how one layer sits on
+the next. That is all the structure the chaos has, and it is why coins will do. When we
+swapped the bulk under a face for coin flips we were changing a few hundredths of a bit per
+cell. Conway's Life is the other way round. What it leaves behind is sparse, ordered and
+very far from noise, so noise is a catastrophe there.
 
 ## Where I was wrong
 

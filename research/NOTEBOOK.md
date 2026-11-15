@@ -2656,6 +2656,10 @@ written from `docs/AUTOMATON.md`, equal to the oracle every generation; seeds th
 
 ## 2026-11-15: how much of its state space a seed explores (the owner's question; exact for small vessels; review started)
 
+**Reviewed the same morning (entry "the state-space study reviewed" below): the exact counts and the entropy
+numbers stand; three readings in this entry are corrected there (the ranges for visited states, "linear, not
+exponential", and the share and random-map comparisons).**
+
 The owner's journal (`docs/OWNER-JOURNAL.md`): within a hull there are finitely many states; for the longest-lived
 seeds, how many are hit, and is there a pattern as size goes up? Study: `research/statespace/` (README is the
 account; forecasts before any enumeration in `PREDICTIONS.md`; figure `research/figures/statespace.png`).
@@ -2757,3 +2761,60 @@ UTC) and checked four things from `reference/oracle.py` alone with separate code
   rest on the study's stepper (checked against the oracle by `check_stepper.py`) with one block size and density;
   the SAT negatives rest on one encoding. A reviewer with its own code has these as its priorities
   (`research/audit/REVIEW-signals-2.md`).
+
+## 2026-11-15: the state-space study reviewed: the counts stand, three readings are corrected, and a layer of the chaos is within about 1% of coin flips
+
+`research/audit/REVIEW-statespace.md` (own vessel builder from the neighbour table of `docs/AUTOMATON.md`, matched
+to the oracle, with two deliberately broken tables caught; own bit-sliced enumerator `aenum.c`; own hull search;
+own sampler and context order for the entropy; outputs in `research/audit/statespace/out/`).
+
+- **The exact counts stand [proved by enumeration, now two or three codes on seventeen vessels].** Eight more
+  vessels agree with the study on all eighteen statistics, champion states included: the 3-layer slabs
+  `slab_3_1_1_3` and `slab_1_0_3_3` (27 cells), the 3D tori `torus_9_2_1_4_0_1` (27) and `torus_5_2_1_1_0_2` (30),
+  the record hulls of 28, 29 and 30 cells, and the 28-cell hull whose largest basin is a still life's. With the
+  lead's 16-cell hull and the eight tori of `exhaust.c`, seventeen of the 301 have an independent enumeration.
+- **Correction 1, the ranges.** "A typical seed visits 8–14 states, the most patient 40–94" was the largest vessel
+  of each family. Over all 34 listed vessels of 27–30 cells the mean seed visits 4.5–14.4 states and the record is
+  15–94. Also: of the 36 champions of `slab_1_0_3_3`, 24 die out and 12 end on a period-2 cycle (the study's field
+  reports the first champion only).
+- **Correction 2, the census.** It is complete for hulls at most 6 layers wide (the reviewer's own search finds
+  the same 277 of 1–30 cells), but hulls wider than that are not rare: at least 588 hulls of 1–29 cells exist up to
+  width 10, against the census's 263, and the count is still rising. The four most born-capable wide hulls of 29
+  cells have longest transients 18–29, against the census record of 52: no sign of a record outside, not excluded.
+- **Correction 3, the scaling.** "Linear, not exponential" does not survive: a line and an exponential with rate
+  0.02–0.09 per cell fit the mean visited count equally well in every family, and for the hulls' record an
+  exponential fits better (rms 3.2 against 6.4). Leaving out the small sizes moves the exponent for states with a
+  predecessor to 0.88–1.01 and for states on cycles to 0.16–0.58. What stands: at 27–30 cells the counts are
+  small and growing slowly, and these sizes cannot say how.
+- **No champion is symmetric [proved for eight vessels, more strongly than the study].** Every champion, tested
+  against the full automorphism group of the neighbour graph (which equals the lattice group in each, orders
+  2–54): none has a symmetry.
+- **The cubes stand for sides 8–15 [re-run].** Sides 8, 9, 10 on the oracle alone enter their final cycles at 23,
+  71, 65; the engine gives 4,218, 24,286, 169,049, 4,460,296 (period 2, detected at 4,460,298) and 37,367,092 for
+  sides 11–15. Side 16 was not re-run (2.9 × 10⁹ generations).
+- **0.30 bits per face cell stands [arithmetic from the ledger].** 0.296 at 27 cells, 0.300 at 108; 0.299–0.305
+  across the slopes on file; 0.3007 with the wrapped-face slope 0.2084.
+- **The entropy numbers stand; what they are is made precise [measured, two samplers, two context orders].** The
+  top layer of a living face *seen alone* carries 0.9860 bits per cell (study 0.9860); the whole 8-layer face slab
+  at most 0.9585 (study 0.9595), an upper bound that is still falling slowly with the context; a layer given the
+  layers above it carries 0.945–0.962. Compression gives nothing (1.000).
+- **The deficit against coin flips of the same density [measured; the lead asked for it; the lead redid the
+  arithmetic].** An upper bound on the entropy is a lower bound on the deficit, so a finite context can hide
+  redundancy and cannot invent it. Top layer alone: at least 0.013 bits per cell short of coins (flat from 10
+  context cells, so pinned). The layer under it alone: 0.008. A bulk layer alone, against coins at 0.4155: 0.006.
+  The whole slab jointly: at least 0.027 (coins layer by layer at the measured densities 0.518, 0.435, 0.406,
+  0.416 average 0.9852; 0.9852 − 0.9585 = 0.027), still growing by about 0.002 per two context cells. **So any one
+  layer of the chaos is within about 1% of coin flips, and most of what distinguishes the chaos from noise lies
+  between layers.** This is the number behind "coins will do" (the owner's first journal note): replace the bulk
+  under a face by coins and one changes a few hundredths of a bit per cell.
+- **Correction 4, the share.** "The share falls as 2^(−0.69·A)" compared one layer's configurations with a whole
+  seed's orbit. It stands only as an upper bound on the share of one layer's configurations; against the states
+  of a chaotic region D layers deep (at least 2^(0.95·D·A)) or of the hull (2^N) the share is far smaller.
+- **Correction 5, the yardstick.** "Less than chance by 2^(0.2·A)" and "thousands of times sooner than a random
+  map" are withdrawn. A uniform random map is the wrong comparison when most states have no predecessor: a random
+  map with gump's own in-degrees would visit 18–1,650 states where gump visits 7–10, so gump settles 3 to 160 times
+  sooner than that, not thousands (a birthday estimate, not a simulation). The constant for states on cycles of a
+  uniform random map is ½ ln M + 0.635, not + 0.29.
+- Seven corrections for the study's README are at the end of the review.
+- Not checked by the reviewer: side 16; the time-t Shannon entropies; the eight unlisted 30-cell hulls; small faces
+  conditioned on survival, other densities and lattices; any lower bound on the entropy.
