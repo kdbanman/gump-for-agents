@@ -300,3 +300,105 @@ bash research/dying/round2.sh 1 & bash research/dying/round2.sh 2 & wait   # bui
 python3 research/dying/round2.py        # A-D tables, data/r2_*.csv, research/figures/dying_excursions.png (~2 min)
 python3 research/dying/round2_lowp.py   # the low-P stationary control for B (added after the forecasts)
 ```
+
+# Round 3: one curve across sizes? What a depleted face looks like (2026-11-15)
+
+Forecasts and definitions: `PREDICTIONS.md`, "Round 3" (committed 27890b4 with `ex3.c`, before any round-3 run).
+Figure: `research/figures/dying_ratefunction.png`. Tables: `data/r3_excursions.csv` (ν, q by level for every
+size and the slab), `data/r3_clump_profile.csv`.
+
+## Short answer
+
+- **[measured] Once the rate of shallow dips is taken out, the dip curve is one curve per cell of face for
+  p ≥ 0.4; the raw curve is not.** −ln ν(0.5)/A is 0.120, 0.103, 0.093, 0.089 at A = 45, 63, 84, 108, so T1a fails.
+  The cause is a size-independent rate of shallow dips: ln ν(0.9) = −2.34, −2.31, −2.35, −2.51, about one dip every
+  ten generations per face whatever its size. Measured from there, [ln ν(0.9) − ln ν(0.5)]/A = 0.068, 0.067, 0.065,
+  0.066, equal within 3%. Deeper the curves fan slightly: at p = 0.3 they read 0.108, 0.112, 0.117, 0.116; at p = 0.1
+  they read 0.151, 0.161, 0.167 (figure panel B). `round3_persite.py` was added after the forecasts.
+- **[measured] The tail has a price per live cell, and that price does not depend on size.** An unweighted line
+  (the lead's fit) over 0.1 ≤ p ≤ 0.45 has slope 0.437, 0.499, 0.506, 0.508 per live cell at A = 45, 63, 84, 108
+  (max residual 0.03–0.22). The pre-registered fit is weighted by counts, so the curved shallow end dominates it. It
+  gives 0.431, 0.537, 0.566, 0.432 (A = 108 over 0.2–0.45 only), and on it T1b fails (0.566/0.499 = 1.13).
+- **[conjectured] What it points to at p = 0.** Per site, without the shallow-dip constant, the straight tail
+  extrapolated to p = 0 reaches 0.172, 0.188, 0.193, 0.194 at A = 45 → 108, levelling off near 0.19–0.20. The true
+  end point, [ln ν(0.9) + ln τ_face]/A, is 0.166, 0.180, 0.189 at A = 45, 63, 84 (no deaths to speak of at 108). The
+  increments of ln τ between sizes give the known c of 0.21–0.22. So the stationary dips point to a per-site price
+  near 0.19–0.20, below c, and still drifting up with size. They do not yet pin c; they would at sizes where the last
+  ten per cent (p < 0.1) is measured, which needs faces that die.
+- **[measured] A depleted face is a single loose patch, not a uniform haze, and not a full-density clump.** Take c1
+  faces caught at P ≤ 0.3 P̄ (mean 8.3 live cells; 419,556 faces).
+  - Around the survivors' centroid, occupancy is 0.58–0.61 of stationary out to about 2.5 doubled units (just over
+    a cube).
+  - It falls to 0.20 by 5 units, 0.09 by 7, and is nearly empty beyond 9.
+  - A stationary face thinned at random to the same count gives 0.34 flat, then a slow fall from geometry alone.
+  - So: one patch about two cubes across at 60% of the usual density, in an otherwise emptied face (panels C, D).
+    The patch sits on the rim side of its centroid more often than on the centre side (panel C). I have not
+    quantified that.
+- **[measured] A thin face refills from its patch, and a thin csz face holds on away from its tied edge.**
+  - 99.4% of the first ten births after the bottom of a dip are within two cells of a survivor, against 68.4% if
+    births fell at random on empty cells.
+  - In csz, the stationary-corrected centroid of a caught face is nearest the tied edge in 22.3% of faces. Random
+    thinning of stationary csz faces gives 29.9% under the same correction; the correction leaves a bias, so
+    compare 22.3 with 29.9 rather than with 33.3.
+
+## Forecasts, scored
+
+| | said | found [measured] | |
+|---|---|---|---|
+| T1a | −ln ν(0.5)/A at 84 within 5% of 63 | 0.0926 vs 0.1034 (ratio 0.896) | **failed** (by 10%; not the 15% the lead set as "against") |
+| T1b | tail slope at A = 84 within 7% of 0.499 | pre-registered weighted fit 0.566 ± 0.024 (×1.13) | **failed**; the unweighted fit gives 0.506 (×1.01) |
+| T2 | inner occupancy ≥ 0.8 of stationary and below 0.2 within 2 rows | inner 0.513; shells 0.421, **0.184**, 0.080 | **failed** (plateau at about 0.6, not 0.8; the edge clause holds) |
+| T3 | csz nearest the tied edge < 25% | 0.223 ± 0.001 (control 0.299) | **held** |
+| T4 | ≥ 70% of first ten births within 2 cells of the bottom's survivors | 0.994 (random 0.684) | **held** |
+| "against the reading" | T1a off by > 15%; T2 falls smoothly | 10%; T2 has a plateau and an edge | neither met |
+| K9 (mine) | T1a holds | 0.896 | **failed** |
+| K10 (mine) | slope at 84 more than 7% below 0.499 | 0.566 (weighted), 0.506 (unweighted) | **failed** |
+| K11 (mine) | T2 no plateau of 0.8 | 0.513 | held |
+| K12 (mine) | T4 excess over random < 0.10 | 0.31 | **failed** |
+
+## The slab (no forecast)
+
+`hex_4_1_c1` is a face torus of area 63 (8 layers, two faces, no rim). It was validated bit-exact against the
+engine for 1,500 generations (`validate.py 1500 hex_4_1_c1` → ALL OK), with seed 55 and 400,000 generations.
+- Stationary: P̄ = 32.57, σ_P = 4.94.
+- ln τ_face = 13.13 ± 0.04 (814 deaths), against 13.64 for the hull face of the same area.
+- Its shallow dips are slightly costlier per cell than the hull face's ([ln ν(0.9) − ln ν(0.5)]/A = 0.077 against
+  0.067), but its tail is cheaper: 0.427 per live cell against 0.499. At A = 63 the rim-free face dies sooner
+  overall.
+- This system has no transverse-firewall test (the torus gives no triples), so a life could in principle continue
+  past a firewall; firewall lives were not counted.
+
+## What each number rests on
+
+- `ex3.c` reproduces `ex.c`'s lives file, excursion table and P histogram exactly on a test run. All six production
+  lives files are byte-identical to `sy`'s (`round3.sh` checks each).
+- Every one of the 419,694 c1 deep-excursion records passes the popcount checks: first state ≤ 9 cells; minimum
+  equal to the recorded one; recovered records end ≥ P̄, dead records end at 0. These checks test the face-state
+  extraction against the independent bit-sliced count.
+- P̄ at R = 9 and 15 come from `sd.c` null runs (21.67 and 55.14, σ_P 4.52 and 6.73). The time-mean P over the
+  exposure agrees (21.60, 55.19).
+- ln τ_face from these runs: 9.811 (A = 45), 13.644 ± 0.013 (63), 18.20 ± 0.13 (84, 61 deaths; the GPU's 18.141).
+  A = 108 had one death.
+
+## Not checked (round 3)
+
+- One seed per size. A = 108 reaches only p ≥ 0.2 with 20 or more excursions. The deep tail (p < 0.1), where the
+  per-site curves still differ, is measured only where faces die (A ≤ 84).
+- Which fit of the tail is "the" slope. The weighted and unweighted fits differ by 7–13% at A ≥ 63; the line is not
+  straight to better than 0.2 in ln ν.
+- T2's patch: whether it sits at the rim or in the interior was seen in the aligned map, not measured. Nor was its
+  shape in csz or D2h, or how its density changes with depth.
+- T3's correction (1/ρ weights) leaves a bias of its own (control 0.299, not 0.333).
+- T4's "within two cells" is nearly forced by the rule: a birth needs four live neighbours. The 0.6% of births
+  further away are fed from the layer beneath or by cells born since the bottom; they were not separated.
+- The slab is one torus shape at one size. The shape dependence of periodic faces (CLAIMS SH1–SH9) is known to be
+  large.
+
+## Reproduce (round 3)
+
+```sh
+bash research/dying/round3.sh 1 & bash research/dying/round3.sh 2 & wait   # null runs for P̄, ex3 runs, lives checks (~20 min, 2 cores)
+python3 research/dying/round3.py          # T1-T4, data/r3_*.csv, research/figures/dying_ratefunction.png (~3 min)
+python3 research/dying/round3_persite.py  # unweighted slopes and the per-site curve without the shallow-dip constant (added afterwards)
+python3 research/theory/symmetric/validate.py 1500 hex_4_1_c1             # the slab against the engine
+```
