@@ -3,7 +3,7 @@
 research/shape/tslab.py, for research/constant/PREDICTIONS.md part C.
 
   python -u research/gpu-local/eqtorus.py check A KK B [GENS]        # tslab check + GPU vs engine every generation
-  python -u research/gpu-local/eqtorus.py run A KK B MINUTES SEED     # one run (guard on); json + a csv row
+  python -u research/gpu-local/eqtorus.py run A KK B MINUTES SEED [max_launch=N] [raw_cap=N]   # one run (guard on); json + a csv row
   python -u research/gpu-local/eqtorus.py summary A KK B              # pooled ln tau_face, ln tau_fw over the csv rows
 
 Vessel: TwistedSlab = tslab.tslab's cells and neighbour graph, in the shape gsim.Sim expects (as vessels.SlabVessel,
@@ -190,7 +190,7 @@ def tune(a, kk, b, m=M):
                 del s
 
 
-def run(a, kk, b, wall_s, seed, p=0.4, m=M, guard=16, launch_s=1.0, max_launch=1 << 18, log=print):
+def run(a, kk, b, wall_s, seed, p=0.4, m=M, guard=16, launch_s=1.0, max_launch=1 << 18, log=print, raw_cap=150000):
     import cupy as cp
     v = TwistedSlab(a, kk, b, m)
     rs = rings(v)
@@ -200,6 +200,7 @@ def run(a, kk, b, wall_s, seed, p=0.4, m=M, guard=16, launch_s=1.0, max_launch=1
     s.reseed(np.arange(s.R), seed=seed << 32, p=p)
     birth = np.zeros(s.R, np.int64)
     ages, kinds, births, dirs, snaps = [], [], [], [], []
+    fw_settled = 0
     G, rnd, K = 0, 1, min(1024, max_launch)
     start_utc = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
     t0 = time.time(); last = t0
@@ -214,7 +215,8 @@ def run(a, kk, b, wall_s, seed, p=0.4, m=M, guard=16, launch_s=1.0, max_launch=1
             fw, which = np.zeros(s.R, bool), np.zeros(s.R, np.int64)
         ended = []
         if len(reps):
-            k2 = np.where((kk_ == 1) & fw[reps], 4, kk_)
+            fw_settled += int(((kk_ >= 2) & fw[reps]).sum())    # settled on a firewalled state: stays kind 2/3 (fwslab's
+            k2 = np.where((kk_ == 1) & fw[reps], 4, kk_)        # convention), but counted, since a firewall came first
             ages.append(G + tt - birth[reps]); kinds.append(k2); births.append(birth[reps].copy())
             dirs.append(np.where(k2 == 4, which[reps], 0)); ended.append(reps)
         frozen = np.zeros(s.R, bool); frozen[reps] = True
@@ -249,7 +251,7 @@ def run(a, kk, b, wall_s, seed, p=0.4, m=M, guard=16, launch_s=1.0, max_launch=1
     out = dict(torus=[a, kk, b], m=m, A=v.A, cuts={r['d']: r['cut'] for r in rs}, seed=seed, p=p, gens=G, replicas=s.R,
                start_utc=start_utc, wall_s=round(time.time() - t0, 1), max_launch=max_launch, nodes=v.n,
                config=dict(WB=s.WB, J=s.J, T=s.T, blocks=s.blocks), exposure=int(A_.sum()),
-               face=cnt[1], fw=cnt[4], settled12=cnt[2], settled3pw=cnt[3], guard=cnt[5], open=cnt[0],
+               face=cnt[1], fw=cnt[4], settled12=cnt[2], settled3pw=cnt[3], guard=cnt[5], open=cnt[0], fw_settled=fw_settled,
                exposure_guard=int(A_[K_ == 5].sum()), guard_first=guard, guard_thresholds=f'{guard} * 2^j' if guard else None,
                fw_by_direction={int(d): int(((K_ == 4) & (D_ == d)).sum()) for d in (1, 2, 3)})
     E = np.array(facelaw.EDGES, np.int64)           # ages by kind, for burn-in and hazard-by-age checks
@@ -257,13 +259,14 @@ def run(a, kk, b, wall_s, seed, p=0.4, m=M, guard=16, launch_s=1.0, max_launch=1
                        exposure=[int(np.clip(np.minimum(A_, hi) - lo, 0, None).sum()) for lo, hi in zip(E[:-1], E[1:])],
                        ends={str(kd): np.histogram(A_[K_ == kd], E)[0].tolist() for kd in (1, 2, 3, 4, 5)})
     out['guard_lives'] = facelaw.pack(np.concatenate(snaps, axis=1) if snaps else np.zeros((3, 0), np.int64))
-    if len(A_) <= 150000:
+    if len(A_) <= raw_cap:
         out['raw'] = facelaw.pack(np.stack([A_, K_, B_, D_]))
     return out
 
 
 CSV_FIELDS = ['torus', 'A', 'seed', 'start_utc', 'wall_s', 'gens', 'replicas', 'exposure', 'face', 'fw', 'settled12',
-              'settled3pw', 'guard', 'open', 'exposure_guard', 'guard_thresholds', 'max_launch', 'code_commit', 'cmd']
+              'settled3pw', 'guard', 'open', 'fw_settled', 'exposure_guard', 'guard_thresholds', 'max_launch',
+              'code_commit', 'cmd']
 
 
 def git_head():
@@ -305,7 +308,8 @@ if __name__ == '__main__':
         sys.exit(0 if ok else 1)
     elif what == 'run':
         minutes, seed = float(sys.argv[5]), int(sys.argv[6])
-        out = run(a, kk, b, minutes * 60, seed)
+        opt = dict(x.split('=') for x in sys.argv[7:])              # max_launch=N raw_cap=N
+        out = run(a, kk, b, minutes * 60, seed, **{k: int(v) for k, v in opt.items()})
         out['code_commit'] = git_head(); out['cmd'] = cmd
         os.makedirs(DATA, exist_ok=True)
         jp = os.path.join(SCR, f'eqtorus_{a}_{kk}_{b}_s{seed}.json')
