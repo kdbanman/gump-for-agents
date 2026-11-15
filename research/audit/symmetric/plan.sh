@@ -21,3 +21,7 @@ fi
 if [ "$1" = 4 ]; then
   LADDER=16 job v11c d2h 100000 9116
 fi
+# part 5 (added before its runs): rotation against mirror in the vertex-centred vessel of the same area
+if [ "$1" = 5 ]; then
+  job v12v c2e 1500000 9117; job v12v csz 1500000 9118
+fi
