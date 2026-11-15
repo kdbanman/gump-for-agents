@@ -1,0 +1,96 @@
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(1,1): 6 backgrounds, pulses on 0, undecided 0, none on 6; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(2,1): 28 backgrounds, pulses on 0, undecided 0, none on 28; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(3,1): 6 backgrounds, pulses on 0, undecided 0, none on 6; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(3,2): 6 backgrounds, pulses on 0, undecided 0, none on 6; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(4,1): 28 backgrounds, pulses on 0, undecided 0, none on 28; 7s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(4,3): 28 backgrounds, pulses on 0, undecided 0, none on 28; 40s
+local rule == oracle.step on 5 random tube rings
+  background #0: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #1: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #2: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #3: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #4: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #5: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+RESULT tube 2x2 (P,S)=(5,1): 6 backgrounds, pulses on 0, undecided 6, none on 0; 0s
+local rule == oracle.step on 5 random tube rings
+  background #0: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #1: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #2: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #3: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #4: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #5: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+RESULT tube 2x2 (P,S)=(5,2): 6 backgrounds, pulses on 0, undecided 6, none on 0; 0s
+local rule == oracle.step on 5 random tube rings
+  background #0: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #1: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #2: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #3: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #4: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #5: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+RESULT tube 2x2 (P,S)=(5,3): 6 backgrounds, pulses on 0, undecided 6, none on 0; 0s
+local rule == oracle.step on 5 random tube rings
+  background #0: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #1: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #2: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #3: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #4: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #5: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+RESULT tube 2x2 (P,S)=(5,4): 6 backgrounds, pulses on 0, undecided 6, none on 0; 0s
+local rule == oracle.step on 5 random tube rings
+  background #0: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #1: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #2: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #4: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #6: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #8: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #9: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #10: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #11: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #12: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #13: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #14: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #15: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #16: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #17: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #18: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #20: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #21: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #22: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #23: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #24: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #25: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #26: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #27: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+RESULT tube 2x2 (P,S)=(6,1): 28 backgrounds, pulses on 0, undecided 24, none on 4; 0s
+local rule == oracle.step on 5 random tube rings
+  background #0: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #1: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #2: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #4: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #6: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #8: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #9: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #10: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #11: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #12: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #13: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #14: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #15: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #16: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #17: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #18: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #20: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #21: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #22: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #23: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #24: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #25: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #26: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+  background #27: UNDECIDED (backward limit at -1 windows, forward limit at -1; limits 300000 windows, 200000 successors of one window)
+RESULT tube 2x2 (P,S)=(6,5): 28 backgrounds, pulses on 0, undecided 24, none on 4; 3s
