@@ -217,3 +217,38 @@ variables in place of a whole semi-infinite wire.
 is re-scored as held only in a weak sense. The carrier wires came almost entirely from rings of one unit, where
 the "soup" is one random unit repeated; on rings of 3, 4 or 6 units none appeared in 60,000 soups. S6, S7, S8 and
 S10 stand as scored (S10 with the review's correction that the isolating gap is three layers, not two).
+
+### Scored, 2026-11-15 12:05 UTC (third push; evidence in `README.md` sections 15 to 19)
+
+The lead's:
+
+- **S11 (40%): failed.** No periodic emitter. The question was made exact (a gun at the end of the tape is a
+  *writer* with a periodic non-constant word) and small writers were excluded: none of period dividing 4, 6 or 8 at
+  C = 29, 4 or 6 at C = 31, 33, 4 at C = 35 (SAT, 3 × 3 tube). Back-to-back caps (8,184 arrangements), a second wire
+  beside the clock (5,625 placements in all six directions) and two-sided turners gave nothing.
+- **S12 (30%): failed** (no emitter). The counting part exists: the 8|C wall moves one unit per pulse of a train
+  of spacing ≥ 2 [sg only].
+- **S13 (15%): failed.** No corner; the side-kick scan is the only search of two directions, and it found nothing.
+- **S14 (35%): failed, and the reason found in part.** P ≡ k_R + k_L (mod 4) with a turn class k of each cap
+  [proved]; every cap that turns the rake has k = 0 (201 of 201 measured; k = 2 UNSAT by SAT up to planes 28
+  doubled units beyond the clock's own and T ≤ 28 to 32), so within these bounds 4N + 2 is forced.
+- **S15 (50%): held**, cheaply: no reusable reflector was found, but this push did not search for one beyond what
+  the readers census says (a left cap either eats everything or disturbs the tape).
+
+Mine:
+
+- **K1 (45%): failed.** (The sub-forecast was right in kind: the writer search is where the question became exact.)
+- **K2 (35%): failed.**
+- **K3 (8%): failed** (no corner).
+- **K4 (25%): failed**; the 30% on a proved reason: **half**: the reduction to a cap constant is proved, the
+  constancy of that constant only within SAT bounds.
+- **K5 (55%): held** (writers of period dividing 4, 6, 8 excluded in stated planes).
+- **K6 (30%): held.** capL eats every word and is exactly as it was at every even generation, proved for all words
+  by a closed automaton and checked on the oracle; the census adds that no left cap in the tables has a memory.
+- **K7 (70%): held** (none found; little searched).
+
+What I got wrong in kind: I expected the gun to be found by a constraint search once the problem was put as a
+writer; instead the search showed that small writers do not exist and grew too fast to reach clock-sized ones.
+What surprised me: capL, the end that makes the clock, is a perfect sink with no memory at all, and every cap that
+turns the rake turns it with the same delay mod 4. The clock's ends are as simple as ends can be, which is
+exactly what keeps the clock from talking to anything else.
