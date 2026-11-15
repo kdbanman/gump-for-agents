@@ -444,8 +444,9 @@ Strips at equal cell count are far rarer (36 cells: 1×12 wrapping −19.881 ± 
   an empty rhombus falls from 0.42 to 0.325 per cell; this includes the added perimeter, which a dying (periodic) face
   does not pay, so it is not comparable with the lifetime laws' 0.205–0.221. With the perimeter removed (second
   differences along a×a and a×(a+1), a post hoc reading by the lead) the cost per cell is 0.273, 0.252, 0.237,
-  0.219 ± 0.008 at middle shapes of 12, 18, 27, 36 cells: still falling, and at the largest size already inside the
-  lifetime range. Whether it settles at ≈ 0.21 for patches the size of a dying face (A ≥ 100) is not reached:
+  0.219 ± 0.008 at middle shapes of 12, 18, 27, 36 cells: still falling. (Corrected by the lead, 2026-11-15, after
+  the review's CPU rerun: the CPU alone gives 0.235 ± 0.008 at 36 cells and the two combined 0.226 ± 0.006, within
+  about 1σ of the lifetime range and not inside it.) Whether it settles at ≈ 0.21 for patches the size of a dying face (A ≥ 100) is not reached:
   extrapolating the second differences gives 0.21 (corrections ∝ 1/n) or 0.16 (∝ 1/√n), and both fit; the 6×6 rhombus
   extrapolates to ln P ≈ −37 to −39, about 10⁶–10⁷ times rarer than the 4×5 (≈ 10⁻³ expected hits in this run). By the
   forecast's own rule the lead's band (c in 0.17–0.25) is missed (the prescribed fit gives 0.264), but that fit does not
@@ -460,9 +461,9 @@ Strips at equal cell count are far rarer (36 cells: 1×12 wrapping −19.881 ± 
   autocorrelation −0.03 averaged over the 22 shapes with ≥ 1,000 hits, against −0.031 expected for 32 independent
   batches per seed; the review: −0.02, errors unchanged when batches are merged by 2, 4 or 8; the three seeds agree),
   but errors of different shapes are correlated, so the fit's χ² is somewhat overstated; the 4×5 rhombus: the review's
-  independent CPU run has ln P = −23.75 ± 0.16 (43 hits) against −23.318 ± 0.047 here, 1.9–2.6σ apart depending on the
-  error model, unresolved (the lead is lengthening the CPU run) — the last second difference (0.219 ± 0.008) rests on
-  that point; whether the face layer of a 12×12 slab is in the same state as the face of a dying (smaller) one;
+  independent CPU run had ln P = −23.75 ± 0.16 (43 hits) against −23.318 ± 0.047 here; rerun to 2.8 × 10¹⁰
+  replica-generations (541 hits) it gives −23.412 ± 0.049, 1.4σ from the table, with 3×4 and 4×4 within 1.3σ
+  (`research/audit/REVIEW-gpu-pr18.md`, the dated follow-up; resolved 2026-11-15, sentence replaced by the lead); whether the face layer of a 12×12 slab is in the same state as the face of a dying (smaller) one;
   patch emptiness in layers below the face.
 
 ## Using it for a new ensemble experiment

@@ -2260,3 +2260,29 @@ population is back above the mean. Then 1/τ_face = ν(p)·q(p) at every level, 
 - Not checked: excursions at other sizes or centrings (round 3 is on sizes); one seed per group in the study (the
   review adds a second); every D2h exposure quantity depends on the settled lives; births by neighbour count;
   whether the position of the surviving clump predicts recovery.
+
+## 2026-11-15: the 4 × 5 empty patch, rerun on the CPU (addendum to "empty patches on a face too large to die")
+
+The review of GPU pull request 18 had the 4 × 5 rhombus at ln P = −23.75 ± 0.16 on 43 CPU hits against the GPU's
+−23.318 ± 0.047, and the last perimeter-free cost per cell rested on that point. The reviewer reran it: plan
+committed before the first run (dac1634), 16 new chunks with fresh seeds, 18 CPU runs in all, 2.76 × 10¹⁰
+replica-generations (0.9 of the GPU's exposure). `research/audit/REVIEW-gpu-pr18.md`, dated follow-up;
+`python3 research/audit/gpu_pr18/followup.py research/scratch/pr18 research/data/gpu_patches/patches_s81*_A10G.csv`
+(the lead reran it: same figures; the raw CPU runs are in scratch, not in git).
+
+- **The disagreement is gone [measured].** 4 × 5: CPU −23.412 ± 0.049 (541 hits) against GPU −23.318 ± 0.047, 1.4σ;
+  combined −23.364 ± 0.034. 3 × 4: −15.3979 ± 0.0011 against −15.3999 ± 0.0011. 4 × 4: −19.4183 ± 0.0072 against
+  −19.4233 ± 0.0071. The first CPU value was a low fluctuation on 43 hits. Nothing points at the GPU's counter.
+- **The last cost per cell moves up, and one sentence is withdrawn [measured].** Perimeter-free cost per cell
+  (second differences along similar shapes) at middle shapes of 12, 18, 27, 36 cells: CPU 0.2729, 0.2513 ± 0.0002,
+  0.2359 ± 0.0012, 0.2349 ± 0.0082; GPU 0.2729, 0.2517, 0.2368, 0.2185 ± 0.0079. At 36 cells the two combined give
+  **0.226 ± 0.006**. The earlier "0.219 ± 0.008, already inside the range of the lifetime laws (0.205–0.221)" is
+  withdrawn: it is about 1σ above that range. The sequence is still falling; extrapolations are unchanged (0.208 if
+  the correction goes as 1/n, 0.156 as 1/√n), and the asymptote stays open at 0.16–0.24.
+- **The errors were right [measured].** Hits come in clusters (1.13–1.28 hits per event at 4 × 5 to 3 × 4), so the
+  true error is 1.13–1.28 times the Poisson one; batch means capture that, and the scatter over 18 runs equals the
+  batch-means error. The reviewer withdraws its earlier remark that its errors were 1.4 times too small.
+- The two orientation classes of rhombus differ in ln P (−0.52 ± 0.07 at 4 × 5) and agree in the cost per cell
+  within 0.008.
+- Not checked: run-to-run scatter per class; no firewall test in the CPU runs; 5 × 5 and beyond remain GPU only
+  (queued for a second card, `research/GPU-QUEUE.md` item 5).
