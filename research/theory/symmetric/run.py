@@ -30,7 +30,7 @@ def build_sy():
     os.makedirs(SCR, exist_ok=True)
     src = os.path.join(HERE, 'sy.c')
     if not os.path.exists(SY) or os.path.getmtime(SY) < os.path.getmtime(src):
-        subprocess.check_call(['gcc', '-O3', '-march=native', '-o', SY, src])
+        subprocess.check_call(['gcc', '-O3', '-march=native', '-o', SY + f'.{os.getpid()}', src]); os.replace(SY + f'.{os.getpid()}', SY)
 
 
 def run(spec, gens, seed=1, p=0.4, chk=4):
@@ -51,17 +51,26 @@ def run(spec, gens, seed=1, p=0.4, chk=4):
 
 
 def load(spec):
-    ages, types, meta = [], [], None
+    ages, types, lows, meta = [], [], [], None
     for f in sorted(glob.glob(os.path.join(SCR, f'lives_{spec}_s*.bin'))):
         m = json.load(open(f[:-4] + '.json'))
         r = np.fromfile(f, dtype=np.uint32)
-        ages.append((r >> 3).astype(np.int64) * m['chk']); types.append((r & 7).astype(np.int8))
+        a = (r >> 3).astype(np.int64); ty = (r & 7).astype(np.int8)
+        if m.get('snap') != 'ladder':            # first version of sy.c: doubling snapshots, S recorded at detection;
+            sel = ty == 4                        # the matching snapshot was at the largest power of two below it
+            a[sel] = 2 ** np.floor(np.log2(np.maximum(a[sel] - 1, 1))).astype(np.int64)
+            lows.append(np.where(sel, a // 2, a) * m['chk'])
+        else:
+            lo = a.copy(); sel = np.nonzero(ty == 4)[0]
+            lo[sel] = [_LP[int(x)] for x in a[sel]]
+            lows.append(lo * m['chk'])
+        ages.append(a * m['chk']); types.append(ty)
         if meta is None:
             meta = dict(m); meta['jobs'] = 0; meta['total_gens'] = 0
         meta['jobs'] += 1; meta['total_gens'] += m['gens'] * 512
     if meta is None:
         return None
-    return np.concatenate(ages), np.concatenate(types), meta
+    return np.concatenate(ages), np.concatenate(types), meta, np.concatenate(lows)
 
 
 def ladder_prev(chk):
@@ -75,10 +84,7 @@ def ladder_prev(chk):
 _LP = ladder_prev(4)
 
 
-def estimate(ages, types, nf, t0, chk=4, s_low=False):
-    if s_low:                                   # settled lives counted only up to the rung before the matching snapshot
-        ages = ages.copy(); sel = np.nonzero(types == 4)[0]
-        ages[sel] = np.array([_LP[int(a) // chk] * chk for a in ages[sel]], dtype=np.int64)
+def estimate(ages, types, nf, t0):
     E = np.clip(ages - t0, 0, None).sum()
     late = ages > t0
     D = int(((types == 1) | (types == 3)) & late).sum() if False else int((((types == 1) | (types == 3)) & late).sum())
@@ -94,9 +100,9 @@ def row(spec):
     L = load(spec)
     if L is None:
         return None
-    ages, types, m = L
+    ages, types, m, lows = L
     e = estimate(ages, types, m['nf'], T0); e1 = estimate(ages, types, m['nf'], 128); e2 = estimate(ages, types, m['nf'], 2048)
-    elow = estimate(ages, types, m['nf'], T0, m['chk'], s_low=True)
+    elow = estimate(lows, types, m['nf'], T0)   # settled lives counted to the rung before the matching snapshot
     op = ages[types == 5]
     return dict(spec=spec, order=m['order'], area=m['area'], face_nodes=m['face_nodes'], nf=m['nf'], jobs=m['jobs'], lives=len(ages),
                 E=e['E'], D=e['D'], W=e['W'], X=e['X'], S=e['S'], lntau=e['lntau'], se=e['se'], lntau_Slow=elow['lntau'], lntau_T128=e1['lntau'],

@@ -25,7 +25,9 @@ SPEC (underscore separated):
   G: c1 (none), cs (mirror x<->y), c3 (threefold about [111]), c3v, for slabs; the axis passes through (0,0,K),
      K = 0 (default), 2, 4: the three kinds of axis position relative to the slab's faces.
      tN_... prefix not needed: translations are tori.
-     c1, d2h, td, oh, c3v, th, cs (x<->y), ci for vessels (about the centre).
+     c1, d2h, td, oh, th, t, c3v, c3, d3d, cs (x<->y), csz (z -> -z), c2v (x -> -x, y -> -y), ci (inversion),
+     c2e ((x,y,z) -> (y,x,-z), the twofold rotation about the [110] axis through an edge midpoint) for vessels,
+     all about the centre.
 """
 import itertools, math, sys
 import numpy as np
@@ -198,7 +200,7 @@ def vessel_gens(name, c):
         return (M, c - M @ c)
     table = {'c1': [], 'd2h': [MX, MY, MZ], 'td': [CYC, SWAP, C2Z], 'oh': [CYC, SWAP, MX], 'c3v': [CYC, SWAP],
              'th': [CYC, MX], 'cs': [SWAP], 'ci': [INV], 'c3': [CYC], 'd3d': [CYC, SWAP, INV], 'c2v': [MX, MY],
-             'csz': [MZ], 't': [CYC, C2Z], 'o': [CYC, SWAP @ INV, C2Z @ MX @ MY @ MZ @ INV]}
+             'csz': [MZ], 't': [CYC, C2Z], 'c2e': [SWAP @ MZ]}
     return [about(M) for M in table[name]]
 
 

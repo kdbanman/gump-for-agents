@@ -68,3 +68,45 @@ differences of P4. (No number for the sign.)
 5.4 ± 0.7 at A = 45 and 6.9 ± 0.7 at A = 63 (mean of the two centrings). This restates the phase study's medians
 (133 against 3.8×10³ at R = 10; 567 against 1.1×10⁵ at R = 12) as face lifetimes; it is a consistency forecast,
 not an independent one.
+
+## Block 2 — committed 2026-11-15 01:3x UTC, after block 1's short runs, before `oct_15_c_d2h`, `oct_16_v_d2h` and every run of `batch2.sh`
+
+What block 1 had shown when this was written (numbers in README): the diagonal mirror does not shorten a slab
+face's life (mirror-symmetric soups outlive their partners of equal quotient area, P2 fails in sign); threefold
+centres do not either; asymmetric vertex-centred faces outlive cube-centred ones of equal area by 0.74 (A = 45)
+and 0.68 (A = 63), so P5 fails; D2h faces are 6 to 8 nats below asymmetric faces of the same hull (A = 63, 84),
+with a cost per cell of only 0.134–0.140 between those two sizes. So the deficit of symmetric vessels sits where
+a face meets a coordinate mirror, and the forecasts below test that reading. D2h values of block 1 carry an
+uncertainty from settled lives (one third of the exposure); the stepper now records settled lives at the matching
+snapshot on a finer ladder, and the D2h runs are repeated with it.
+
+**Q1 (the rim deficit turns from area-like to line-like).** ln τ_face(D2h, A = 108) − ln τ_face(D2h, A = 84) =
+3.9 ± 0.35 in each centring (0.163 ± 0.015 per cell, against 0.134–0.140 from 63 to 84).
+
+**Q2 (rims add).** With one coordinate mirror (`csz`: every face has one edge on it) and two (`c2v`: two edges),
+at R = 11 c and R = 12 v (A = 63): ln τ_face(csz) = c1 − Δ/3 and ln τ_face(c2v) = c1 − 2Δ/3, Δ = c1 − d2h of the
+same hull, each within ± 0.4. With the block-1 values: csz 11.5, c2v 9.4 (cube-centred).
+
+**Q3 (a mirror plane, not lockstep as such).** Two other groups of order two at R = 11 c: inversion (`ci`,
+opposite faces in lockstep, no fixed plane) and the twofold rotation about an edge-midpoint axis (`c2e`, the two
+faces that share that edge in lockstep, their rim not fixed). Forecast: ci = c1 within ± 0.3 (13.63 ± 0.3);
+c2e = 13.3 ± 0.4; csz = 11.5 ± 0.4. "Lockstep of adjacent faces" would instead put c2e at csz; "lockstep of the
+volume" would put all three at csz.
+
+**Q4 (T_d against O_h: the rim term of a wedge).** T_d has the same face stabiliser C3v as O_h but no coordinate
+mirror: its faces have free rims. With ρ = 0.34 ± 0.05 per rim period (from D2h − c1 at A = 63, 84 over
+6·√(A/6) periods), cube-centred:
+
+    ln τ_face(td) − ln τ_face(oh) = ρ·√(A/6) = 2.12 (A = 234), 2.29 (273), 2.46 (315), 2.80 (408), 2.97 (459), each ± 0.35
+
+and it grows: (A = 459) − (A = 234) = 0.85 ± 0.25.
+
+**Q5 (the C3v wedge is below c/6 even with free rims).** Slope of ln τ_face(td) from A = 234 to 408:
+0.031 ± 0.002 per face cell (0.186 ± 0.012 per quotient cell, the value the mirror strips of block 1 gave), not
+0.0348. If it is 0.0348 ± 0.001 the whole deficit of O_h is its rim.
+
+**Q6 (the centring, by group).** v − c at equal area. From the asymmetric values, split additively into rim
+periods and corners (two points, so weakly determined: −0.021 per period, +0.36 per corner), a quotient with free
+rims gets: T_d (√(A/6) periods, half a corner) 0.05 ± 0.15 at A = 234–315; T (2√(A/6) periods, one corner)
+0.15 ± 0.15 at A = 135–198. O_h at A = 234–315: 0.40 ± 0.08 (continuing the known values). If T_d shows the
+O_h value, the centring effect belongs to the C3v wedge and not to the rim on a mirror.

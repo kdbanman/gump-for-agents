@@ -22,14 +22,15 @@ import geom
 DEFAULT = ['rect_4_2_c1', 'gen_2_2_8_c1', 'hex_4_0_c1', 'rect_8_2_cs', 'rect_6_3_cs', 'cent_6_6_cs', 'cent_4_8_cs',
            'hex_7_0_c3', 'hex_7_0_c3_o2', 'hex_7_0_c3_o4', 'hex_5_2_c3', 'hex_4_4_c3', 'hex_8_0_c3v', 'hex_9_0_c3v_o2',
            'hex_10_0_c3v_o4', 'hex_6_6_c3v', 'oct_9_c_c1', 'oct_10_v_c1', 'oct_11_c_d2h', 'oct_12_v_d2h', 'oct_23_c_td',
-           'oct_24_v_td', 'oct_23_c_oh', 'oct_24_v_oh', 'oct_15_c_c3v', 'oct_16_v_th']
+           'oct_24_v_td', 'oct_23_c_oh', 'oct_24_v_oh', 'oct_15_c_c3v', 'oct_16_v_th',
+           'oct_11_c_csz', 'oct_12_v_c2v', 'oct_11_c_c2e', 'oct_11_c_ci', 'oct_15_c_t', 'oct_16_v_t', 'oct_19_c_th']
 
 
 def build_sy():
     os.makedirs(SCR, exist_ok=True)
     src = os.path.join(HERE, 'sy.c')
     if not os.path.exists(SY) or os.path.getmtime(SY) < os.path.getmtime(src):
-        subprocess.check_call(['gcc', '-O3', '-march=native', '-o', SY, src])
+        subprocess.check_call(['gcc', '-O3', '-march=native', '-o', SY + f'.{os.getpid()}', src]); os.replace(SY + f'.{os.getpid()}', SY)
 
 
 def torus_N(f):

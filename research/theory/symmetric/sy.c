@@ -143,7 +143,7 @@ int main(int argc, char **argv) {
   }
   for (int r = 0; r < R; r++) { uint32_t rec = (age[r] << 3) | 5u; fwrite(&rec, 4, 1, out); cnt[5]++; }
   fclose(out);
-  printf("{\"n\": %d, \"gens\": %ld, \"chk\": %d, \"p\": %g, \"seed\": %llu, \"F\": %ld, \"W\": %ld, \"X\": %ld, \"S\": %ld, \"open\": %ld}\n",
+  printf("{\"snap\": \"ladder\", \"n\": %d, \"gens\": %ld, \"chk\": %d, \"p\": %g, \"seed\": %llu, \"F\": %ld, \"W\": %ld, \"X\": %ld, \"S\": %ld, \"open\": %ld}\n",
          n, gens, chk, p, (unsigned long long)seed, cnt[1], cnt[2], cnt[3], cnt[4], cnt[5]);
   return 0;
 }
