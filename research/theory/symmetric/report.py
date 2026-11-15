@@ -243,3 +243,23 @@ if x35:
     for c in (0.209, 0.2117):
         a0 = float(((y - c / 6 * A_) / s ** 2).sum() / (1 / s ** 2).sum())
         print(f'   T_d at A = 513 (R = 35): measured {fmt(x35)}; T_d line with c = {c}: {a0 + c / 6 * 513:.3f}; measured minus the earlier O_h value 14.151: {x35[0] - 14.151:.3f}; rim law at n = 8.5: {br[0] + br[1] * 8.5:.3f}')
+
+print('   all seven sizes R = 23..35 (T_d - O_h; O_h at R = 35 is the earlier 14.151), with the alternation in R mod 4 (alt = +1 for R = 1 mod 4):')
+pa = [q for q in pts['c']]
+n7, y7, s7 = (np.array(x, float) for x in zip(*pa)); R7 = np.rint(4 * n7 + 1).astype(int); alt = np.where(R7 % 4 == 1, 1.0, -1.0)
+for name, X in (('a + rho n', np.stack([np.ones_like(n7), n7], 1)), ('a + rho n + d alt', np.stack([np.ones_like(n7), n7, alt], 1)),
+                ('a + rho (n-7) + d alt + q (n-7)^2', np.stack([np.ones_like(n7), n7 - 7, alt, (n7 - 7) ** 2], 1))):
+    bw, ew, cw = wls(X, y7, s7); bu = np.linalg.lstsq(X, y7, rcond=None)[0]; ru = y7 - X @ bu
+    print(f'      {name:34s} weighted: ' + ', '.join(f'{x:.3f}' for x in bw) + f'  chi2 {cw:.1f}/{len(n7) - X.shape[1]};   unweighted: ' + ', '.join(f'{x:.3f}' for x in bu)
+          + f'  rms {math.sqrt((ru ** 2).sum() / (len(n7) - X.shape[1])):.3f}')
+print('      increments per period within a sub-series: R = 23, 27, 31, 35: ' + ', '.join(f'{b_ - a_:.3f}' for a_, b_ in zip(y7[0::2], y7[2::2])) + ';  R = 25, 29, 33: ' + ', '.join(f'{b_ - a_:.3f}' for a_, b_ in zip(y7[1::2], y7[3::2])))
+tdall = [(R, area(R, 'c'), v(f'oct_{R}_c_td')[0]) for R in (23, 25, 27, 29, 31, 33, 35) if v(f'oct_{R}_c_td')]
+Rt, At, yt = (np.array(x, float) for x in zip(*tdall)); altt = np.where(Rt % 4 == 1, 1.0, -1.0)
+X = np.stack([np.ones_like(At), At, altt], 1); bt = np.linalg.lstsq(X, yt, rcond=None)[0]; rt = yt - X @ bt
+print(f'   T_d, A = 234..513, unweighted with the alternation: ln tau = {bt[0]:.3f} + {bt[1]:.5f} A + {bt[2]:.3f} alt   (slope x 6 = {6 * bt[1]:.4f}, rms {math.sqrt((rt ** 2).sum() / (len(At) - 3)):.3f})')
+print('      slopes x 6 within a sub-series: R = 23, 27, 31, 35: ' + ', '.join(f'{6 * (yt[i + 2] - yt[i]) / (At[i + 2] - At[i]):.4f}' for i in (0, 2, 4)) + ';  R = 25, 29, 33: '
+      + ', '.join(f'{6 * (yt[i + 2] - yt[i]) / (At[i + 2] - At[i]):.4f}' for i in (1, 3)))
+print('   if T_d keeps a slope c_T/6 beyond A = 513 (from 17.291 at R = 35, 15.635 at R = 33), the rim term the earlier O_h points need, and its marginal cost per period from R = 35 / 33:')
+for cT in (0.2022, 0.209, 0.2155):
+    r43 = 17.291 + cT / 6 * (759 - 513) - 21.889; r45 = 15.635 + cT / 6 * (828 - 459) - 24.175
+    print(f'      c_T = {cT}: A = 759 (n = 10.5): {r43:.2f}, marginal {(r43 - 3.140) / 2:.2f};   A = 828 (n = 11): {r45:.2f}, marginal {(r45 - 3.165) / 3:.2f}')

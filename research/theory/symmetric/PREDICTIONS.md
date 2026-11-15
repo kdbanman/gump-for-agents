@@ -171,3 +171,36 @@ ln τ_face(oct_19_c_o) = 8.81 ± 0.2 and ln τ_face(oct_21_c_o) = 10.66 ± 0.2 (
 from d0 + k√A with d0 = 0.104 ± 0.039, k = 0.0155 ± 0.0022 (`report.py`, section H); a constant factor 1.5 gives
 0.41, a pure line term 0.61. With the GPU's 24.175 ± 0.072 at R = 45: ln τ(46 v) = 24.72 ± 0.09.
 T_d at A = 759 (R = 43 c): the GPU's O_h value 21.889 plus the rim term −1.11 + 0.536·10.5 = 4.52: 26.4 ± 0.3.
+
+## Block 5 — committed 2026-11-15 02:18 UTC, before every run of `batch5.sh`
+
+(Block 4's header says 01:49 UTC; its commit, 98a66d8, is stamped 01:48 UTC.)
+
+Seen since block 4 was written, all of blocks 3 and 4. S1 failed: `oct_35_c_td` = 17.291 ± 0.040 against
+17.52 ± 0.15, so T_d − O_h at 8.5 rim periods is 3.140 ± 0.052 (with the earlier O_h value 14.151 ± 0.033) where
+the line fitted at R ≤ 33 gives 3.46. T_d alternates with R mod 4 (R ≡ 1 high, R ≡ 3 low, by about ± 0.03–0.05).
+Within the sub-series R = 23, 27, 31, 35 the T_d slopes × 6 are 0.196, 0.201, 0.201 and the rim term's increments
+per period 0.55, 0.46, 0.35; within R = 25, 29, 33 the slopes are 0.200, 0.208 and the increments 0.49, 0.49.
+The GPU's O_h points at A = 759, 828 need either a T_d slope × 6 that rises to 0.2155 with the rim's marginal
+cost staying 0.5, or a T_d slope that stays 0.20–0.21 with the marginal cost falling to 0.3–0.4
+(`report.py`, section J). This block tests the next size of the second sub-series, R = 37 (A = 570, 9 rim
+periods), and reruns O_h at A = 513 and 570 in this study's protocol so that the rim term does not rest on values
+measured with another soup density and T0.
+
+**S4a (O_h in this protocol).** ln τ_face(oct_35_c_oh) = 14.13 ± 0.05 and ln τ_face(oct_37_c_oh) = 15.86 ± 0.10
+(the earlier values 14.151 ± 0.033 and 15.881 ± 0.077, lowered by the 0.02 by which this protocol sat below them
+at R = 30–33).
+
+**S4b (T_d at A = 570).** ln τ_face(oct_37_c_td) = **19.42 ± 0.12**. The two readings bracket it: "the rim's
+marginal cost stays 0.49 in this sub-series" gives 15.86 + 3.165 + 0.49 = 19.52 (and needs the T_d slope × 6
+from R = 33 to rise to 0.210); "T_d keeps the slope 0.201" gives 15.635 + (0.201/6)·111 = 19.35 (and makes the
+rim's last increment 0.33). My forecast is between them because I expect both to move: the T_d slope still
+climbing slowly towards c/6 as the rim-free triangle's did, the rim's marginal cost settling a little below 0.5.
+
+**S4c (the rim term at 9 periods, the number this block is for).** T_d − O_h at R = 37, both from these runs:
+**3.56 ± 0.12**. Decision rule fixed now: at or above 3.62 the marginal cost has stayed at or above 0.46 per period
+and S1's shortfall is the alternation plus noise; at or below 3.50 (0.34 per period or less) the rim term is
+flattening and is not a √A term with the coefficient −0.21; between, undecided. The expected error of the
+measurement is ± 0.07 (about 200 T_d deaths, 2,000 O_h deaths).
+
+**S4d (S1 revisited with this study's O_h).** T_d − O_h at R = 35 = 17.291 − ln τ_face(oct_35_c_oh): 3.16 ± 0.07.
