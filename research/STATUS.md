@@ -302,6 +302,15 @@ _Last updated 2026-11-14 by the lead._
   object, an adversarial review, notebook, CLAIMS rows, score S22–S26, OPEN-PROBLEMS 13, journal, essay, site.
   Usage: the owner's reading at 15:18 UTC was 62% weekly, 73% Fable; reckoned now about 67% and 78%. The Fable
   window moves only with the lead's own turns (every agent since 15:15 is Opus).
+  **18:26 UTC: the fifth push has reported: no listener.** (README sections 26–29, commits d9ee117 … e340fa0.) A
+  three-copy SAT search is UNSAT in the 3 × 3 tube (planes C = 29 … 39); a census of 741 ends of the stream:
+  599 heal every word of holes, 142 die on every word, nothing else; beside the stream (samples, and the divider
+  at every place and phase for N = 16) a gap heals or destroys. **Running:** the lead's own check
+  (`research/audit/signals_ends_lead_check.py all i/3`: every end, three words, `reference/oracle.py` only,
+  whole-state equality; output `research/scratch/audit/ends/part*.txt`), and an Opus adversarial review
+  (`research/audit/REVIEW-signals-5.md`, code `research/audit/signals5/`), which also sends the ends every other
+  one-unit change of a rake. **Owed when both are in:** notebook entries, CLAIMS rows SG23 on, the lead's scoring
+  of S22–S26, OPEN-PROBLEMS 13, the owner's journal, the essay, the site's signals page and a republish.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
