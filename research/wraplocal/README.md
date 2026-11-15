@@ -16,7 +16,7 @@ tracks its price per cell (loop² 12: 0.20437 ± 0.00016, 13: 0.20602 ± 0.00033
   14). f(9) = 0.006267, f(12) = 0.002317, f(13) = 0.001605, f(16) = 0.000768, f(19) = 0.000275, f(21) = 0.000181,
   f(25) = 0.000079, f(27) = 0.000029, f(28) = 0.000028 (errors 0.000004–0.000019; table below). The deficits of
   several loops add. The deficit is per cell: tubes of one girth at 66, 72 and 84 cells (loop² 12), 72 and 84 (13,
-  16), 63, 72 and 90 (9) agree to ± 0.00002. The tube's discount per cell is **κ f(q) with κ = 1.85 ± 0.07** fixed
+  16), 63, 72 and 90 (9) agree with the one f per loop length within 1.4σ (errors ± 0.00001–0.00002). The tube's discount per cell is **κ f(q) with κ = 1.85 ± 0.07** fixed
   on loop² 12 and 16; it then gives loop² 13 as 0.00298 ± 0.00012 against the measured 0.00262 ± 0.00034 (−1.0σ)
   and 19 as 0.00051 ± 0.00003 against −0.00034 ± 0.00120 (−0.7σ). Two girths fix κ, two are forecast, and the 19
   forecast is weak because the price at 19 is poorly known.
@@ -155,7 +155,7 @@ and the open line bends down: forecasts in `data/pricefit_out.txt`, e.g. (6,0,6)
   layers, `live.py run … --fw`), the face density of the loop² 9 tubes is 0.511504 ± 0.000016 (63 cells),
   0.511466 ± 0.000009 (72), 0.511462 ± 0.000008 (90): per cell, f(9) = 0.006267 ± 0.000008, f(9)/f(12) = 2.70.
   Without firewall detection (the first production runs, kept in `research/scratch/wraplocal/nofw/`) the same tubes
-  read 0.0002–0.0023 lower, drifting with area and with ten times the block scatter: 2–3% of the replicas pass a
+  read 0.0013–0.0023 lower, drifting with area and with ten times the block scatter: 2–3% of the replicas pass a
   firewall in a 4,500-generation window. The (1,12,28) tube rerun with detection is unchanged (0 firewalls).
 - **Lifetimes [measured; one code, ts3, validated on both tori here].** `python3 research/wrap/validate.py 1 7 24 1500`
   and `1 8 27 1500`: MATCH. `python3 research/wraplocal/tsjob.py job 1 7 24 22000000 309001` (7 min) and
