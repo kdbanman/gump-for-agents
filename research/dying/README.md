@@ -465,24 +465,74 @@ Forecasts and definitions: `PREDICTIONS.md`, "Round 3" (committed 27890b4 with `
 Figure: `research/figures/dying_ratefunction.png`. Tables: `data/r3_excursions.csv` (ν, q by level for every
 size and the slab), `data/r3_clump_profile.csv`.
 
+## Reviewed (2026-11-15)
+
+The round-3 part of `research/audit/REVIEW-dying.md` reran every size with its own stepper (`r3_ex.c`: round 2's
+`ex2.c` with 7-bit face counts and a dump of every deep excursion, matched to `reference/oracle.py` at every
+generation on each vessel) on fresh seeds 9411–9419, added A = 135, and measured the depleted face without aligning
+on its own centroid. Commands: `bash research/audit/dying/r3_plan.sh 1`, `2`, `3`, then
+`research/audit/dying/r3_ana.py` (→ `r3_ana_out.txt`) and `r3_dump.py` (→ `r3_dump_out.txt`). "Threshold-free"
+there means ln ν(min ≤ y) interpolated linearly between integers y and read at y = pP̄ − ½. Ledger: CLAIMS
+DY8–DY12. Every forecast score reproduces; the definitions were fixed before the data.
+
+**What the review changed, applied below** (marked "corrected 2026-11-15" where they fall):
+1. **The end point at p = 0.** The end points follow ln τ + ln ν(0.9) = 0.2125·A − 2.07 to 0.01 nats over
+   A = 45–108: the shortfall below the slope is a fixed 2.1 nats, spread below p ≈ 0.55 (half of it below 0.15), not
+   in the last cells. The slope depends on which dip rate is the attempt (0.218 for every crossing of P̄, 0.213 for
+   ν(0.9)). The dips at p ≥ 0.2 alone give c = 0.215 ± 0.005, which cannot separate 0.207 from 0.219. "Levelling off
+   near 0.19–0.20, below c" is withdrawn: the end points follow c − K/A and still rise at A = 135 (0.1985).
+2. **The slab lives longer:** ln τ_face = 13.176 ± 0.011 (review, two seeds), above every part-C forecast for this
+   torus (the flat reading by 5σ). No transverse firewall can form on it.
+3. **The depleted face** is at about half its stationary density near the survivors (0.46–0.54 by alignment-free
+   measures; aligning on a face's own centroid lifts even random points by a quarter), and the rest of the face is at
+   0.15–0.2 of stationary, not emptied.
+4. **Refill** is the rule: a rule-aware baseline gives 0.991 against the observed 0.994.
+5. **The tail price** is 0.50–0.52 per cell at A ≥ 63 over 0.1–0.45 P̄, rising slowly with A (0.44–0.47 at A = 45;
+   locally 0.53 deep, falling to 0.40 by P̄/2). The weighted fit's spread and most residuals of both fits are
+   integer thresholds.
+6. **The shallow-dip rate is not size-independent:** threshold-free ln ν(0.9) falls by about 0.002 per cell; the
+   rate of all crossings of P̄ rises slowly.
+7. **The collapse for p ≥ 0.4** is the 1/A convergence seen at every p, with an offset K(p) that vanishes above
+   p ≈ 0.55, not a regime. (The review's other point under this item, that the lead's formula for c from ρ and the
+   Fano factor is not evidence about c, concerns a formula this README did not give.)
+
 ## Short answer
 
 - **[measured] Once the rate of shallow dips is taken out, the dip curve is one curve per cell of face for
   p ≥ 0.4; the raw curve is not.** −ln ν(0.5)/A is 0.120, 0.103, 0.093, 0.089 at A = 45, 63, 84, 108, so T1a fails.
-  The cause is a size-independent rate of shallow dips: ln ν(0.9) = −2.34, −2.31, −2.35, −2.51, about one dip every
-  ten generations per face whatever its size. Measured from there, [ln ν(0.9) − ln ν(0.5)]/A = 0.068, 0.067, 0.065,
-  0.066, equal within 3%. Deeper the curves fan slightly: at p = 0.3 they read 0.108, 0.112, 0.117, 0.116; at p = 0.1
-  they read 0.151, 0.161, 0.167 (figure panel B). `round3_persite.py` was added after the forecasts.
+  The cause is a nearly size-independent rate of shallow dips: ln ν(0.9) = −2.34, −2.31, −2.35, −2.51, about one dip
+  every ten generations per face whatever its size. Measured from there, [ln ν(0.9) − ln ν(0.5)]/A = 0.068, 0.067,
+  0.065, 0.066, equal within 3%. Deeper the curves fan slightly: at p = 0.3 they read 0.108, 0.112, 0.117, 0.116; at
+  p = 0.1 they read 0.151, 0.161, 0.167 (figure panel B). `round3_persite.py` was added after the forecasts.
+  *Corrected 2026-11-15 (review): the rate of shallow dips is not size-independent. The jumps in the study's values
+  are integer thresholds (0.9P̄ means P ≤ 19, 28, 38, 49); threshold-free ln ν(0.9) is −2.34, −2.38, −2.40, −2.48
+  (−2.53 at A = 135), a steady fall of about 0.002 per cell, mostly a part of ν(0.9) proportional to A. The rate of
+  every downward crossing of P̄ instead rises slowly (ln ν = −1.90 → −1.70). The 3% equality at 0.9 was partly luck
+  of the thresholds (threshold-free 0.0648, 0.0646, 0.0654, 0.0660, 0.0666 at A = 45 … 135). "One curve for
+  p ≥ 0.4, a fan below" is one effect: at every p the curves converge as 1/A to a limit f∞(p), with an offset K(p)
+  that is zero above p ≈ 0.55 and grows below it; "p ≥ 0.4" marks where K(p)/A drops below the noise, not a regime.*
 - **[measured] The tail has a price per live cell, and that price does not depend on size.** An unweighted line
   (the lead's fit) over 0.1 ≤ p ≤ 0.45 has slope 0.437, 0.499, 0.506, 0.508 per live cell at A = 45, 63, 84, 108
   (max residual 0.03–0.22). The pre-registered fit is weighted by counts, so the curved shallow end dominates it. It
   gives 0.431, 0.537, 0.566, 0.432 (A = 108 over 0.2–0.45 only), and on it T1b fails (0.566/0.499 = 1.13).
+  *Corrected 2026-11-15 (review): "does not depend on size" is too strong. Supported: 0.50–0.52 per live cell at
+  A ≥ 63 over 0.1–0.45 P̄, rising slowly with A (integer-grid fits 0.498, 0.513, 0.519 at A = 63, 84, 108), and
+  0.44–0.47 at A = 45. Locally the price is about 0.53 per cell in the deep part, falling to about 0.40 by P̄/2 (the
+  last three cells 0.39–0.42). The weighted fit's spread (and most of the residuals of both level fits) is integer
+  thresholds: the 0.45 level carries most of the weight and falls a different fraction of an integer below 0.45P̄ at
+  each size. On the integer grid the tail is straight to 0.02–0.08 nats.*
 - **[conjectured] What it points to at p = 0.** Per site, without the shallow-dip constant, the straight tail
-  extrapolated to p = 0 reaches 0.172, 0.188, 0.193, 0.194 at A = 45 → 108, levelling off near 0.19–0.20. The true
-  end point, [ln ν(0.9) + ln τ_face]/A, is 0.166, 0.180, 0.189 at A = 45, 63, 84 (no deaths to speak of at 108). The
-  increments of ln τ between sizes give the known c of 0.21–0.22. So the stationary dips point to a per-site price
-  near 0.19–0.20, below c, and still drifting up with size. They do not yet pin c; they would at sizes where the last
-  ten per cent (p < 0.1) is measured, which needs faces that die.
+  extrapolated to p = 0 reaches 0.172, 0.188, 0.193, 0.194 at A = 45 → 108. The true end point,
+  [ln ν(0.9) + ln τ_face]/A, is 0.166, 0.180, 0.189 at A = 45, 63, 84 (no deaths to speak of at 108).
+  *Corrected 2026-11-15 (review). Withdrawn: "levelling off near 0.19–0.20 … So the stationary dips point to a
+  per-site price near 0.19–0.20, below c". The end points follow ln τ + ln ν(0.9) = 0.2125·A − 2.07 to within 0.01
+  nats over A = 45–108 (with the GPU's lifetimes), i.e. c − K/A with K = 2.1 nats, and are still rising at A = 135
+  (0.1985). The shortfall K is a fixed number of nats spread over p below about 0.55 (half of it below p = 0.15), not
+  a price paid in the last few cells. The slope c of this form depends on which dip rate is called the attempt:
+  0.218 with every crossing of P̄, 0.213 with ν(0.9), 0.204 with ν(0.8), because each shallow rate has a part
+  proportional to A; "c is the p = 0 limit of the collapsed curve" holds only with the crossing rate. The dips at
+  p ≥ 0.2 alone, extrapolated in size and then to p = 0, give c = 0.215 ± 0.005 (error from the fit windows): they
+  cannot separate 0.207 from 0.219.*
 - **[measured] A depleted face is a single loose patch, not a uniform haze, and not a full-density clump.** Take c1
   faces caught at P ≤ 0.3 P̄ (mean 8.3 live cells; 419,556 faces).
   - Around the survivors' centroid, occupancy is 0.58–0.61 of stationary out to about 2.5 doubled units (just over
@@ -492,9 +542,19 @@ size and the slab), `data/r3_clump_profile.csv`.
   - So: one patch about two cubes across at 60% of the usual density, in an otherwise emptied face (panels C, D).
     The patch sits on the rim side of its centroid more often than on the centre side (panel C). I have not
     quantified that.
+  - *Corrected 2026-11-15 (review): the levels above are inflated by aligning each face on its own centroid, which
+    lifts even ρ-weighted random points from their true 0.264 to 0.33 at the centre. Without alignment the face is at
+    about half its stationary density near the survivors (0.46–0.48 split-half, 0.54 around a live cell within 2.5
+    doubled units), the excess reaches about 3.5 units (under two cubes), and the rest of the face sits at 0.15–0.20
+    of stationary, about 0.7 of a uniformly thinned face: thinner far away, not emptied. Thinner faces have a
+    looser patch (0.54 at 7–9 live cells, 0.38 at 3–6). The caught/control contrast (1.75 aligned, 2.0 around a live
+    cell) stands; the absolute 0.6 and "otherwise emptied" do not.*
 - **[measured] A thin face refills from its patch, and a thin csz face holds on away from its tied edge.**
   - 99.4% of the first ten births after the bottom of a dip are within two cells of a survivor, against 68.4% if
-    births fell at random on empty cells.
+    births fell at random on empty cells. *Corrected 2026-11-15 (review): this is the rule, not a finding. A face
+    cell has only 3 neighbours off the face, so a birth (4 or 5 live neighbours) needs a live in-face neighbour;
+    every birth has one (1.00000). Random over empty cells with at least one live in-face neighbour gives 0.991
+    against the observed 0.994.*
   - In csz, the stationary-corrected centroid of a caught face is nearest the tied edge in 22.3% of faces. Random
     thinning of stationary csz faces gives 29.9% under the same correction; the correction leaves a bias, so
     compare 22.3 with 29.9 rather than with 33.3.
@@ -504,10 +564,10 @@ size and the slab), `data/r3_clump_profile.csv`.
 | | said | found [measured] | |
 |---|---|---|---|
 | T1a | −ln ν(0.5)/A at 84 within 5% of 63 | 0.0926 vs 0.1034 (ratio 0.896) | **failed** (by 10%; not the 15% the lead set as "against") |
-| T1b | tail slope at A = 84 within 7% of 0.499 | pre-registered weighted fit 0.566 ± 0.024 (×1.13) | **failed**; the unweighted fit gives 0.506 (×1.01) |
+| T1b | tail slope at A = 84 within 7% of 0.499 | pre-registered weighted fit 0.566 ± 0.024 (×1.13) | **failed**; the unweighted fit gives 0.506 (×1.01). Review, 2026-11-15: the weighted fit tests where 0.45P̄ falls between integers |
 | T2 | inner occupancy ≥ 0.8 of stationary and below 0.2 within 2 rows | inner 0.513; shells 0.421, **0.184**, 0.080 | **failed** (plateau at about 0.6, not 0.8; the edge clause holds) |
 | T3 | csz nearest the tied edge < 25% | 0.223 ± 0.001 (control 0.299) | **held** |
-| T4 | ≥ 70% of first ten births within 2 cells of the bottom's survivors | 0.994 (random 0.684) | **held** |
+| T4 | ≥ 70% of first ten births within 2 cells of the bottom's survivors | 0.994 (random 0.684) | **held** (review, 2026-11-15: forced by the rule; rule-aware baseline 0.991) |
 | "against the reading" | T1a off by > 15%; T2 falls smoothly | 10%; T2 has a plateau and an edge | neither met |
 | K9 (mine) | T1a holds | 0.896 | **failed** |
 | K10 (mine) | slope at 84 more than 7% below 0.499 | 0.566 (weighted), 0.506 (unweighted) | **failed** |
@@ -519,12 +579,18 @@ size and the slab), `data/r3_clump_profile.csv`.
 `hex_4_1_c1` is a face torus of area 63 (8 layers, two faces, no rim). It was validated bit-exact against the
 engine for 1,500 generations (`validate.py 1500 hex_4_1_c1` → ALL OK), with seed 55 and 400,000 generations.
 - Stationary: P̄ = 32.57, σ_P = 4.94.
-- ln τ_face = 13.13 ± 0.04 (814 deaths), against 13.64 for the hull face of the same area.
+- ln τ_face = 13.13 ± 0.04 (814 deaths), against 13.64 for the hull face of the same area. *Corrected 2026-11-15
+  (review): 13.176 ± 0.011 (two seeds, 9416 and 9418, 7,746 deaths; 1.1σ from this study's value). That lies above
+  every forecast of `research/constant/PREDICTIONS.md` part C for this torus: the flat reading's 13.115 ± 0.004 by
+  5σ, the massive reading's 13.128 ± 0.006 by 3.8σ. The vessel is part C's n = 21 torus (the lattice here is its
+  mirror image under x ↔ y), equilateral, shortest loops √21 = 4.58 cube steps.*
 - Its shallow dips are slightly costlier per cell than the hull face's ([ln ν(0.9) − ln ν(0.5)]/A = 0.077 against
   0.067), but its tail is cheaper: 0.427 per live cell against 0.499. At A = 63 the rim-free face dies sooner
   overall.
-- This system has no transverse-firewall test (the torus gives no triples), so a life could in principle continue
-  past a firewall; firewall lives were not counted.
+- *Corrected 2026-11-15 (review). Withdrawn: "This system has no transverse-firewall test …, so a life could in
+  principle continue past a firewall; firewall lives were not counted." The transverse layer period of this torus is
+  4 in all three directions, so each direction has only two layer classes; three consecutive dead layers would mean
+  every cell dead. No firewall can form, and there was nothing to count.*
 
 ## What each number rests on
 
@@ -548,9 +614,11 @@ engine for 1,500 generations (`validate.py 1500 hex_4_1_c1` → ALL OK), with se
   shape in csz or D2h, or how its density changes with depth.
 - T3's correction (1/ρ weights) leaves a bias of its own (control 0.299, not 0.333).
 - T4's "within two cells" is nearly forced by the rule: a birth needs four live neighbours. The 0.6% of births
-  further away are fed from the layer beneath or by cells born since the bottom; they were not separated.
+  further away are fed from the layer beneath or by cells born since the bottom; they were not separated. *Review,
+  2026-11-15: every birth has a live in-face neighbour; the rule-aware baseline is 0.991.*
 - The slab is one torus shape at one size. The shape dependence of periodic faces (CLAIMS SH1–SH9) is known to be
-  large.
+  large. *Review, 2026-11-15: its lifetime is 13.176 ± 0.011 on two seeds of one stepper; the tension with part C
+  was not chased (other tori of the family, other soups, the engine).*
 
 ## Reproduce (round 3)
 
