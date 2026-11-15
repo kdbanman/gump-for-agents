@@ -295,6 +295,13 @@ _Last updated 2026-11-14 by the lead._
   cross-check and the 108-cell tube); the owner's two clicks if the site is to be public.
   **16:37 UTC: pull request 26 is merged** (main at 1a7ac0a; `research/check.sh` 20 of 20 and CI green at the
   merged head). The next pull request from this branch starts with this line.
+  **16:39 UTC: pull request 27 is open (the lead's), and a fifth signals push is running** (Opus, about two and a
+  half hours; the one question is a listener: a standing object left in a different lasting state by a gap in
+  the stream than by none; the lead's forecasts S22–S26 are in `research/signals/PREDICTIONS.md`; it writes
+  README sections 26 on). **Owed on its report:** re-run its verifiers, the lead's own oracle check of any new
+  object, an adversarial review, notebook, CLAIMS rows, score S22–S26, OPEN-PROBLEMS 13, journal, essay, site.
+  Usage: the owner's reading at 15:18 UTC was 62% weekly, 73% Fable; reckoned now about 67% and 78%. The Fable
+  window moves only with the lead's own turns (every agent since 15:15 is Opus).
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
