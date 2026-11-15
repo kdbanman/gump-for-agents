@@ -2148,3 +2148,54 @@ auditor (a second agent, not the producer of any of them) ran what could be run 
   object names C44.26a and C35.29a in the rows Z8 and Z9 as grades; fixed, no best grade changes.)
 - Not checked by the lead beyond P4 and Z10: the other 24 matches are the auditor's alone. No proof was re-read
   in this audit.
+
+## 2026-11-15: how a face dies (the first look, reviewed)
+
+The symmetric study had explained the short lives of symmetric soups by ties across edges without anyone looking
+at a face. `research/dying/` looks: 11,930 first face deaths at R = 11 cube-centred (faces of 63 cells) in c1, csz,
+c2v, D2h (no, one, two, three edges shared with a face in lockstep), each with the 512 generations before it, and a
+stationary control. Review with an independent stepper and fresh seeds: `research/audit/REVIEW-dying.md` (stepper
+`research/audit/dying/dy.c`, matched to the oracle at every generation on twelve systems). The lead's recomputation
+from the study's table: `python3 research/audit/dying_lead_check.py`. Figure: `research/figures/dying_face.png`.
+The lead's forecasts were committed before the runs (`research/dying/PREDICTIONS.md`, 75e5212).
+
+- **The mean face does not erode from an edge [measured; study and review agree].** It stays at its stationary
+  density until about 20 generations before death and then fades over the whole face; relative to its own
+  stationary value a band along a tied edge empties no earlier than one along a free edge. The final plunge takes
+  the same time in all four groups (median 6, 6, 7, 7 generations in both codes) while the lifetimes differ by
+  e^6.5: whatever a tie does, it does not change how the end runs.
+- **A single death is not a uniform fade [measured, the review's correction].** At half population a third of
+  single deaths (32–39%) are more lopsided than 95% of stationary faces thinned at random to the same count (9–11%
+  in a control 64 generations earlier). The lopsided side is not the tied edge and does not persist beyond what
+  thinning implies. The mean map hides this.
+- **A tied edge is thinner at all times [measured; reproduced to three digits].** Stationary occupancy of the rim
+  row: 0.512 along a free edge; 0.349, 0.323, 0.298 along a tied one (csz, c2v, D2h). The stationary face population
+  is 31.25, 28.90, 26.28, 23.50 (review, ± 0.004–0.02; study 31.29, 28.83, 26.29, 23.77), and cube-centred the loss
+  sits in the rim row itself (−1.77 of csz's −2.35). The loss per tied rim cell is the same at R = 13 (0.149–0.186
+  against 0.148–0.185), so the loss per tied edge grows with the rim; vertex-centred faces spread it over rows 1
+  and 2.
+- **Two readings of that, withdrawn after the review.** The study wrote that the population falls in steps as equal
+  as those of ln τ; the steps are −2.35, −2.62, −2.77 while ln τ's are −2.18, −2.17, −2.12. The lead wrote that a
+  live cell lost at a tied edge costs 0.86 in ln τ, "twice the 0.436 per live cell of the untied face": it is 0.93,
+  0.83, 0.77 along the ladder (0.64–1.00 over the three vessels the review measured), and 0.436 was an average, not
+  a marginal. What survives [measured, one comparison at two sizes]: growing the untied face from 63 to 84 cells
+  buys 0.40 in ln τ per stationary live cell gained, re-centring at equal area 0.23, and a cell lost at a tied edge
+  costs about twice the first. **ln τ is not a function of the mean population**: the vertex-centred csz face has
+  more live cells (31.60) than the cube-centred untied one (31.25) and lives 1.45 shorter in ln τ.
+- **The neighbour [measured, mostly a tautology].** The study found the neighbour's band along the shared edge at
+  0.21 of stationary when an untied face dies. Adjacent faces share their rim row (the same 12 cells), so most of
+  that is the dying face's own cells. What survives: the neighbour's own second row falls to 0.56–0.61 of
+  stationary and the rest of it stays at 0.95.
+- **The lead's forecasts L2–L7 failed** (the rim is not the late survivor: ratio 1.06–1.22 against a forecast of
+  1.5; the tied edge is not where emptying begins; the neighbour does not stay within 10%; the plunge is not
+  faster with more ties). The review confirms the definitions were fixed before the data and the scores stand; L4
+  becomes undecided with another choice of band. L1, the deduction that a tied edge cannot be a separate local
+  route to death because the ladder's steps multiply rather than add, is consistent with everything seen.
+- **A caveat on D2h [measured by the review].** 36.5% of old living D2h states are in lives that have settled
+  (none in c1 and csz, 1.2% in c2v); their faces hold 15.45 cells. The stationary control leaves them out, the
+  ln τ rung counts their exposure (its estimator spread 7.02–7.29 is that), so the D2h point of the population
+  ladder and the D2h rung of the lifetime ladder are not taken over the same lives.
+- Not checked: other sizes for deaths (the review's other vessels are stationary sampling only); c2e and O_h; the
+  layers beneath the face and the last-alive maps (the study's `explore.py`); differences of 1.8σ between the two
+  codes in the csz and D2h populations and 2.7σ in the L6 fraction are unresolved. Rounds 2 and 3 of the same
+  study (what starts a collapse; the same across sizes) are not in this entry.

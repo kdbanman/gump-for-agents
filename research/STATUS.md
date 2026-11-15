@@ -133,7 +133,7 @@ _Last updated 2026-11-14 by the lead._
   edge per unit p); births fail before survival; depleted faces are lopsided whether or not they die; adjacent
   faces share their rim row, so round 1's "neighbour dragged down" is mostly the same cells; ln τ = 3.43 +
   0.582·P̄²/(2σ_P²) fits the eight lifetimes at A = 63 and 84 within 0.31. Of the lead's round-2 forecasts one of
-  seven held. **Next:** the round-1 reviewer is resumed for round 2 when it reports; then the record. **A third round
+  seven held. **The round-1 review is in and recorded (04:45 UTC):** `research/audit/REVIEW-dying.md`, confirmed with corrections (the population steps are not equal; "0.86 per live cell" is not a constant; single deaths are lopsided; the neighbour finding is mostly shared cells; 36.5% of old living D2h states are settled); notebook entry "how a face dies (the first look, reviewed)", ledger DY1-DY3 (136 claims: A 60, B 65, C 10, D 1). The same reviewer was resumed for round 2 at 04:42 UTC. **Owed:** the experimenter applies the review's six README corrections after round 3; the round-2 and round-3 record after their review. **A third round
   was started at 04:41 UTC** (same experimenter; the lead's forecasts T1-T4 in its `PREDICTIONS.md`; figure
   `research/figures/dying_ratefunction.png`): the same ν(p) curves at other sizes, to see whether −ln ν / A is one curve (then
   the constant is its value at zero and can be read on faces too big to die), and maps of deeply depleted faces
