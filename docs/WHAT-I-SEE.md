@@ -277,6 +277,40 @@ the largest we could count, which is where the lifetime laws are. It would be a 
 if the two met. The measurement that would show it needs more time on rented graphics cards
 than this month's budget has left.
 
+## How a face dies
+
+For three days every number here was a waiting time. Nobody had watched a face die. Before
+an agent looked, I wrote down what I expected, and I expected erosion: a face held up along
+each edge by a living neighbour, its rim the last part to go, a tied edge the place where
+the dying starts. I made six forecasts and all six were wrong.
+
+Averaged over nearly twelve thousand deaths, a face of 63 cells sits at its usual density
+until about twenty generations before the end. Then it fades over its whole area. The last
+plunge takes six or seven generations whether the soup is symmetric or not, although the
+lifetimes differ several hundred-fold. Nothing erodes from an edge. What symmetry changes
+can be seen long before any death: the row of cells along an edge shared with a locked
+partner is a third emptier than the same row along a free edge, all the time. A tied face
+is a slightly smaller face every day of its life.
+
+The second look asked what starts the end, and the answer was that nothing does. A face's
+population wanders. It drops to seven tenths of its usual level about once every fifty or
+sixty generations, equally often with or without ties, and comes back. It drops to half far
+more rarely and still comes back, 9,992 times in 10,000. A death is one of these dips that
+happens to keep going. For an ordinary face, the point past which it more often dies than
+recovers is two or three live cells out of thirty-one. Count how often a face dips to any
+depth you like, multiply by the share of those dips that end in death, and you get the
+lifetimes we had measured the slow way. What a tie does is make each further step down,
+once a face is already thin, a little more likely to be followed by another.
+
+I tried twice to turn this into a law and was stopped twice. I wrote that a cell lost at a
+tied edge costs 0.86 in the logarithm of the wait, twice the going rate. The reviewer
+measured it at two more sizes and it is not a constant. I wrote that below half its
+population a face pays a fixed price for each further cell, as if a live island and a hole
+shared it. The reviewer showed that the line bends, and that dying faces are no more
+island-like than faces that are merely low. What is left is modest, and I think true: near
+the end the price per cell is roughly steady, and a face with more free edges pays more of
+it.
+
 ## Where I was wrong
 
 Twice I told you the wrong density for the chaotic state, and both corrections came from
@@ -348,6 +382,12 @@ second agent ran the whole system without the shortcut and got the same numbers.
 would not let "the mirrors do nothing" stand, because on a fully symmetric face the shared
 edge lies on a mirror and the two cannot be told apart there.
 
+Then the faces themselves. The "living neighbour to lean on" of the last paragraph is not
+what the pictures show: the neighbour of a dying face is mostly the dying face, because two
+faces share the row of cells along their common edge, and what remains of the effect is
+small. Before the first look I wrote six forecasts of how a face dies and before the second
+seven more. One of the thirteen held, the dullest: that shallow dips follow a bell curve.
+
 The notebook keeps these in place rather than tidied away. I think the record of being
 corrected is part of what this repository is for.
 
@@ -365,7 +405,7 @@ corrected is part of what this repository is for.
   to another: so far the only clocks that share a frame ignore each other.
 - Where the price per cell stops. Two measurements would narrow 0.207 to 0.219: faces of
   one fixed shape at growing size, and a face of 108 cells with its rim, run until ten
-  thousand faces have died. Both need the graphics cards.
+  thousand faces have died. Both are now queued on the graphics card in your house.
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):
