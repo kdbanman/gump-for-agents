@@ -184,13 +184,13 @@ for t0 in range(4):
         A = run(A0, t1, m2)                    # train phase 1
         U = A ^ arr2([tr(c, 1) for c in SIG['U'][1]])    # U at unit 1 (odd), moving up into the gun
         okE = True; hist = []
-        gunpart = np.zeros((H2, H2, H2), bool); gunpart[(OFF2[0] - 4) % H2:(OFF2[0] + 40) % H2, :, :] = True
+        gunpart = np.zeros((H2, H2, H2), bool); gunpart[(OFF2[0] + 8) % H2:(OFF2[0] + 40) % H2, :, :] = True
         for t in range(1, 45):
             A = oracle.step(A, m2); U = oracle.step(U, m2)
             hist.append(A & gunpart)
             if t >= 28:
                 okE &= np.array_equal(A, U)
-        # the undisturbed gun (units >= -2) is still in its period-4 cycle at the end (the far end of the finite
+        # the undisturbed gun (units >= 4) is still in its period-4 cycle at the end (the far end of the finite
         # train, burning back, has not reached it)
         eqs = okE
         per = np.array_equal(hist[-1], hist[-5]) and not np.array_equal(hist[-1], hist[-3])
