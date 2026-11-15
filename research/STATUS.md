@@ -103,6 +103,11 @@ _Last updated 2026-11-14 by the lead._
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
   record, and start a successor from its README if work remains and usage allows.
+  **The owner's journal** (`docs/OWNER-JOURNAL.md`, first note 07:54 UTC) asks how much of its state space a seed
+  explores: **a state-space study was started 07:56 UTC (Opus)** -> `research/statespace/README.md` (exact maps
+  for listable vessels, the 2012 cubes, entropy per cell of a living face, against a random map; the lead's
+  forecasts E1–E7). On its report: lead's check of one exact count, an adversarial re-enumeration, then the
+  record, an essay paragraph and a line under the journal note.
   **Round 4 of the dying-face study is running** (experimenter started 05:50 UTC; also applies the seven round-3
   README corrections). **Overview published 05:52 UTC (version 11)** with the plate "How a face dies, watched".
   Owed on each message from it: the lead's recomputation, an adversarial review with independent code, then the

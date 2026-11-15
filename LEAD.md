@@ -167,6 +167,14 @@ job to keep it honest. What exists (2026-11-13):
   signal (`research/signals/`; forecasts S1–S5 committed first); started 07:16 UTC, to be restarted with a successor
   each time it hands back, while usage allows.
 
+- **The owner, about 07:50 UTC 2026-11-15:** "oh that's a *fascinating* question. great choice." (the signal
+  problem), and then a dictated note "for the human section of the repo, if you have one", ending "Do with these
+  questions what you will. Just writing them down as a journal here, because you got me thinking." The note is
+  kept verbatim in `docs/OWNER-JOURNAL.md` (made for it; `CLAUDE.md` points there): the isolation of faces from
+  what lies under them, signals as a lens on it, and how much of its state space a seed explores. The lead's
+  reading: no instruction in it; the third thought has an exact answer for small hulls and is being worked
+  (`research/statespace/`, forecasts E1–E7 first, Opus, started 07:56 UTC).
+
 ## The swarm
 
 - 2026-11-13, the owner, on a swarm of Fable solvers with a critic (the lead proposed the area law as its problem):
