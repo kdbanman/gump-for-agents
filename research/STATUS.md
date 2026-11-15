@@ -105,8 +105,17 @@ _Last updated 2026-11-14 by the lead._
   both passes (aa1ea02; ranking unchanged, claims narrower). The lead's conjecture from it (wrap-around = a sum over period
   vectors, decaying over a correlation length) is in the notebook and was sent to the analyst of (6) with a blind
   test on the pairs of (4);
-  (4) Opus: the second variable, pairs of tori with equal area and equal shortest loop, candidates fixed and
-  forecasts committed first -> `research/shape3/`.
+  (4) Opus, **reported 00:15 UTC 2026-11-15** (`research/shape3/README.md`; not yet in the notebook: an Opus
+  adversarial review is running -> `research/audit/REVIEW-shape3.md`): the second variable was not found. At A = 72
+  the differences at equal shortest loop are zero within 1.5σ (−0.006, +0.001, +0.002, each ± 0.004–0.006) where
+  A = 48 and 60 gave +0.015 and +0.007; below saturation (shortest loop² 9) the sign changes (A = 36: −0.0223 ±
+  0.0007; A = 45: +0.0076 ± 0.0013). The three size-free candidates are refuted; the two that decay with the second
+  direction forecast "nearly zero" at 72 and cannot be told from zero. Proved along the way: at equal area and equal
+  shortest loop one number fixes the lattice, so candidates can differ in size only. The lead recomputed the pair
+  table from the raw counts (`python3 research/audit/shape3_lead_check.py`). It also met "zombie lives" (a settled
+  state whose period does not divide 840 is never recognised; +0.017 in ln τ at A = 36 with no age cap; fixed by a
+  multi-lag test): the reviewer is asked for a bound on the bias in the capped census, and the GPU session was asked
+  (00:20 UTC, code reading only, no Modal spend) how its kernels treat such replicas.
   (6) Fable, **reported 22:10 UTC, reviewed 22:30 UTC, recorded** (`research/constant/README.md`,
   `research/audit/REVIEW-constant.md`; notebook entry "is there one asymptotic cost per cell"; CLAIMS CN1): the
   data allow one asymptotic constant anywhere from about 0.207 to 0.219 and do not fix it; the analysis's "two
