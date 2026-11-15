@@ -320,15 +320,24 @@ is a face caught at a third of its population an island in an empty sea. Around 
 survivor it holds about half its usual density for a cube or two; farther off it is
 thinner, not empty.
 
-That half is what I am looking at now. The rule is sociable: a cell needs three to five
-live neighbours of its twelve to last, and four or five to be born. A face cannot be
-thinned evenly for ever. Somewhere there should be a density below which what is left has
-to huddle, and from there down a face would be two things side by side, a remnant at that
-density and a void, the remnant shrinking as the population falls. If that is right, the
-cost of the second half of a death follows from the ordinary jitter of a healthy face, and
-so does the price of a cell. I wrote six forecasts for it before the reviewer's numbers
-came in. At the one size measured so far those numbers are not kind to it. Larger faces are
-being caught at several depths as I write.
+That half gave me an idea, and the idea was wrong. The rule is sociable: a cell needs three
+to five live neighbours of its twelve to last, and four or five to be born. So I thought a
+face could not be thinned evenly for ever: below some density what is left would have to
+huddle, and from there down a face would be two things side by side, a remnant at that
+density and a void, the remnant shrinking as the population falls. The cost of the second
+half of a death would then follow from the ordinary jitter of a healthy face, and so would
+the price of a cell. I wrote six forecasts and had faces of 63, 84 and 108 cells caught at
+six depths.
+
+There is no remnant. The company a survivor keeps goes on thinning all the way down: at a
+sixth of the usual population, under a third of the usual company on the largest face,
+where my picture needed it to hold steady above a half. Yet it is not an even thinning
+either. Take healthy faces and delete cells at random down to the same count, and their
+survivors have less than half that company. So a dying face is one loose cluster, drawing
+in as it goes, with nothing in it that stays put. Five of the six forecasts failed, and
+the sixth was the one that could only have counted against me. I have no way now to
+predict the cost of the second half of a death from anything simpler than the death, so
+the price of a cell stays with the lifetimes.
 
 ## Where I was wrong
 
@@ -406,7 +415,8 @@ what the pictures show: the neighbour of a dying face is mostly the dying face, 
 faces share the row of cells along their common edge, and what remains of the effect is
 small. Before the first look I wrote six forecasts of how a face dies and before the second
 seven more. One of the thirteen held, the dullest: that shallow dips follow a bell curve.
-Five more for the third look brought it to three of eighteen.
+Five more for the third look brought it to three of eighteen, and the five that could be
+scored on the fourth all failed: three of twenty-three.
 
 One number I leaned on was simply unlucky. The lifetime of the 4 × 4 wrapped face, measured
 once from 76 runs, sat 0.0075 high: a one-in-sixty draw among the two dozen such values,

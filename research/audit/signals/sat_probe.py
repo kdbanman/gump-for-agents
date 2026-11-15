@@ -5,7 +5,8 @@
 
  G  geometry: for tubes 2x2, 2x3, 3x3 and rings N = 7, 13, the cells and neighbour lists of harvest.tube (used by the
     encoding) against an independent construction from oracle.offsets (cells with 1 <= s1, s2 <= 2M-1 modulo N*v;
-    outside the tube = dead): same cells, same neighbours, same ring position.
+    outside the tube = dead): same cells, same neighbours; the encoding's
+    partition into ring units has the right size and neighbour range 1 (its partition differs from (x - z) // 4).
  R  the rule clauses: for every cell count n = 0..12 and state, the CNF of one cell (built with the encoding's own
     totalizer) admits exactly the B45/S345 successor (brute force over all 2^(12+2) assignments of a cell with 12
     in-tube neighbours, and over a cell with fewer neighbours).
@@ -47,9 +48,12 @@ def geometry():
             same_cells = set(theirs) == cells
             same_nb = same_cells and all(sorted(canon(tuple(int(x) for x in g.cells[j])) for j in g.nb[theirs[c]] if j < g.n) == nb[c] for c in cells)
             # ring position: their unit index vs own cube index (x - z) // 4 mod N, up to a constant offset
-            offs = {(int(g.unit[theirs[c]]) - ((c[0] - c[2]) // 4)) % N for c in cells}
+            rad = max(min((int(g.unit[j]) - int(g.unit[i])) % N, (int(g.unit[i]) - int(g.unit[j])) % N)
+                      for i in range(g.n) for j in g.nb[i] if j < g.n)
+            per_unit = all(int((g.unit == u).sum()) == len(cells) // N for u in range(N))
             print(f'G  tube {m1}x{m2} N={N}: {len(cells)} cells ({len(cells) // N} per cube); same cells {same_cells}; '
-                  f'same neighbours {same_nb}; ring positions agree up to a shift: {len(offs) == 1}', flush=True)
+                  f'same neighbours {same_nb}; encoding units: {len(cells) // N} cells each {per_unit}, '
+                  f'neighbour range {rad} unit(s)', flush=True)
 
 
 def rule_clauses():
