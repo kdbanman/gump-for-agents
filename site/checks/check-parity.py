@@ -120,10 +120,18 @@ for slug, info in page_info.items():
     for k in need - set(info["keys"]):
         bad.append(f"page {slug or 'index'} reads D.{k} but does not fetch it")
     for k in info["keys"]:
-        f = DIST / "data" / (k + ".json")
-        if not f.exists():
-            bad.append(f"page {slug or 'index'} fetches data/{k}.json, which is not in dist"); continue
-        if k in D_old and json.loads(f.read_text()) != D_old[k]:
+        f, fj = DIST / "data" / (k + ".json"), DIST / "data" / (k + ".js")    # .js: the artifact copy's script form
+        if f.exists():
+            val = json.loads(f.read_text())
+        elif fj.exists() and f'data/{k}.js"></script>' in info["html"]:
+            pre = f"(self.GUMP_DATA = self.GUMP_DATA || {{}})[{json.dumps(k)}] = "
+            t = fj.read_text().rstrip()
+            if not (t.startswith(pre) and t.endswith(";")):
+                bad.append(f"data/{k}.js is not in the expected form"); continue
+            val = json.loads(t[len(pre):-1])
+        else:
+            bad.append(f"page {slug or 'index'} needs data {k}, which is not served to it"); continue
+        if k in D_old and val != D_old[k]:
             bad.append(f"data/{k}.json differs from the old page's D.{k}")
     served |= need
 for k in sorted(old_keys - served):

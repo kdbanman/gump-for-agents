@@ -76,7 +76,7 @@ for f in files:
             if "data-data" in attrs:
                 root = attrs.get("data-root", "")
                 for k in attrs["data-data"].split():
-                    check(f, f"{root}data/{k}.json", "fetch")
+                    check(f, f"{root}data/{k}.{'js' if ARTIFACT else 'json'}", "script" if ARTIFACT else "fetch")
                 for p in attrs.get("data-plates", "").split():
                     check(f, f"{root}plates/{p}.js", "script")
         m = re.search(r'<script type="importmap">(.*?)</script>', s, re.S)

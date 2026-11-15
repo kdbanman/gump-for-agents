@@ -13,7 +13,7 @@
 Writes site/dist/ (git-ignored): index.html, <slug>/index.html, assets/, plates/*.js, data/*.json, app/, .nojekyll.
 With --artifact it writes site/dist-artifact/ instead (git-ignored; site/dist/ is left alone), the tree for the private
 claude.ai artifact: the same overview pages, assets and data, but no app/ (and no App link or app card), no dotfiles,
-and FILES.json: every file of the tree except index.html and FILES.json, sorted, for the publish call's file list.
+data as script files (data/<key>.js, loaded by script tags, so no page fetches anything), and FILES.json: every file of the tree except index.html and FILES.json, sorted, for the publish call's file list.
 Links between pages are written as relative paths ending in index.html (see README.md, "Link form").
 Standard library only. Fails loudly on a missing plate, data key or element id.
 """
@@ -151,7 +151,8 @@ for p in pages:
     out = (layout.replace("{{title}}", esc(p["title"])).replace("{{description}}", esc(p["blurb"]))
            .replace("{{slug}}", slug or "index").replace("{{root}}", root).replace("{{nav}}", nav(slug))
            .replace("{{content}}", content).replace("{{pager}}", pager(p) if slug else "")
-           .replace("{{data}}", " ".join(keys)).replace("{{scripts}}", " ".join(scripts)))
+           .replace("{{data}}", " ".join(keys)).replace("{{scripts}}", " ".join(scripts))
+           .replace("{{datatags}}", "".join(f'<script src="{root}data/{k}.js"></script>\n' for k in keys) if ARTIFACT else ""))
     dst = DIST / slug / "index.html" if slug else DIST / "index.html"
     dst.parent.mkdir(parents=True, exist_ok=True)
     dst.write_text(out)
@@ -163,7 +164,12 @@ for s in plate_js:
     shutil.copy2(HERE / "plates" / (s + ".js"), DIST / "plates" / (s + ".js"))
 (DIST / "data").mkdir()
 for k in sorted(used_keys):
-    shutil.copy2(HERE / "data" / (k + ".json"), DIST / "data" / (k + ".json"))
+    if ARTIFACT:                              # data as scripts: the artifact copy makes no fetch at all
+        v = json.loads((HERE / "data" / (k + ".json")).read_text())
+        (DIST / "data" / (k + ".js")).write_text(f"(self.GUMP_DATA = self.GUMP_DATA || {{}})[{json.dumps(k)}] = "
+                                                 + json.dumps(v, separators=(",", ":"), ensure_ascii=True) + ";\n")
+    else:
+        shutil.copy2(HERE / "data" / (k + ".json"), DIST / "data" / (k + ".json"))
 unused = sorted(f.stem for f in (HERE / "data").glob("*.json") if f.stem not in used_keys)
 if unused:
     print("note: data files no page reads:", ", ".join(unused))

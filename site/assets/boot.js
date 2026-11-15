@@ -3,7 +3,9 @@
 //   <script src="../assets/boot.js" data-root="../" data-data="law tail project" data-plates="law shape">
 // data-data names files data/<key>.json; each becomes D.<key>, as on the old single page. data-plates names
 // plates/<id>.js. build.py writes both lists from pages.json and the plate scripts' own uses of D.
-const D = {};
+// In the artifact copy (build.py --artifact) the data comes as script files instead, data/<key>.js, loaded by script
+// tags before this one; each puts its value in self.GUMP_DATA[key], and a key already there is not fetched.
+const D = Object.assign({}, self.GUMP_DATA || {});
 (function () {
   const me = document.currentScript, root = me.dataset.root || '';
   const list = s => (s || '').split(/\s+/).filter(Boolean);
@@ -22,7 +24,7 @@ const D = {};
     s.onload = ok; s.onerror = () => no(new Error(src + ' did not load'));
     document.body.appendChild(s);
   });
-  Promise.all(list(me.dataset.data).map(get))
+  Promise.all(list(me.dataset.data).filter(k => !(k in D)).map(get))
     .then(() => Promise.all(list(me.dataset.plates).map(id => run(root + 'plates/' + id + '.js')).concat(run(root + 'assets/stamp.js'))))
     .catch(e => fail('Part of this page could not be drawn: ' + e.message + '. Reload, or open the page from a web server rather than from a file.'));
 })();
