@@ -286,7 +286,12 @@ let CI pass, merge.
 ## Watching usage
 
 - **Readings given by the owner:** 2026-11-15 about 15:18 UTC: 62% weekly, 73% Fable weekly (the lead's reckoning
-  for that minute was 64% and 73%).
+  for that minute was 64% and 73%). **2026-11-15 about 22:12 UTC: 72% weekly, 84% Fable** (the owner: "currently
+  72% overall, 84% fable!"; the lead's reckoning was 76% and 84%). So the status "allowed_warning" was showing with
+  the Fable window at 84%. Pace since 15:18, every agent on Opus: weekly 10 points and Fable 11 points in six and
+  a half hours, the Fable all from the lead's own turns. The lead's plan from here: Opus agents only, one at a
+  time; the lead's own turns kept to the owed work; stop of its own accord near 90% Fable unless the owner uses
+  the second reset; both windows reset 2026-11-18 11:00 UTC.
 - **A warning, 2026-11-15 21:50 UTC:** `get_session` showed `rate_limit_info.status` "allowed_warning" with
   `rateLimitType` "seven_day_overage_included" (the Fable window); it had read "allowed" at 18:22 UTC. The lead's
   reckoning for that minute was about 76% weekly and 84% Fable. What the lead did: started no agent (none was
