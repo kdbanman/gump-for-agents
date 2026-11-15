@@ -320,3 +320,15 @@ owner's card when this was written; its result had not been reported):
   [ln τ − massive]/A is smaller at n = 31 than at n = 21 (0.050/63 = 0.0008).
 - Against the two-kinds reading: n = 31 within 0.02 of the flat or the massive reading while n = 21 is confirmed
   on the card above 13.15.
+
+### C, scored at n = 31 (the lead, 2026-11-15 05:55 UTC)
+
+The owner's card measured n = 31 (A = 93): ln τ_face = 19.4141 ± 0.0053 (`research/gpu-local/README.md` on branch
+`claude/gpu-local-1080`; the lead recomputed it from the four rows). Flat (19.479 ± 0.010; refuted below 19.445):
+**refuted**. Rising (19.506, 19.530; refuted below 19.488): **refuted**. Massive (19.437 ± 0.019): 0.023 below,
+inside 1.2σ of its error: **stands**, on its low side. The lead's N1 of the block above: **failed** (0.070 below
+the flat reading, not 0.03 above). A note on its timing: N1 was committed at 05:49 UTC; the result had been pushed
+to the card's branch at about 05:47 UTC; the lead had not fetched that branch and learned the result at 05:54 UTC.
+Since N1 failed, nothing rests on that. N4 cannot hold either (the excess over the massive reading at n = 31 is
+negative). N2 (n = 19) and N3 (n = 27, 28) are open; N2 was written on the two-kinds idea, which n = 31 has
+already ended, so it stands as written and is expected to fail.

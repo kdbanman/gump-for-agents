@@ -87,6 +87,15 @@ _Last updated 2026-11-14 by the lead._
   the lead's forecasts N1–N4 under part C). **Round 4** (the lead's two-phase reading, forecasts F1–F6 in
   `research/dying/PREDICTIONS.md`) is the next CPU experiment. Owed: the README's seven round-3 corrections, the
   essay, the overview and the draft for round 3.
+  **The card's A = 93 result (seen 05:54 UTC on its branch at dcb61c8, no message): 19.4141 ± 0.0053**, below the
+  flat and rising readings of part C (both refuted) and on the low side of the massive one; notebook entry "the
+  93-cell torus lands below every reading", CLAIMS GL3 (C until reviewed), scoring note under part C; the lead's
+  N1 failed. It also found a +0.0016 bias in `rep.c` at A = 48. It is now running n = 19, 21 and 5 × 5; n = 21 is
+  the open comparison (CPU 13.176 ± 0.011 against its forecast 13.124). **Fetch its branch at every wake-up**
+  (`git fetch origin claude/gpu-local-1080`; usage figures are asked for in `research/gpu-local/USAGE.md` there).
+  Owed when n = 19, 21, 25 are in: one adversarial review of those with A = 93 and the bias claim.
+  **Round 4 of the dying-face study is running** (experimenter started 05:50 UTC; also applies the seven round-3
+  README corrections). **Overview published 05:52 UTC (version 11)** with the plate "How a face dies, watched".
   Owed on each message from it: the lead's recomputation, an adversarial review with independent code, then the
   record. Queue for
   it, in this order, each with forecasts already committed where noted: (0) the acceptance bar of

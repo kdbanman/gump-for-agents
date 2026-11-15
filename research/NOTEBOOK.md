@@ -2399,3 +2399,39 @@ slope 0.2125, offset 2.08).
   field is not empty and the patch loosens as it shrinks. Round 4 measures it on larger faces at several depths.
 - Not checked: one fresh seed per hull size (two for the torus); the lifetimes at 108 and 135 cells are the GPU's;
   the study's own runs were not rerun; the patch in csz and D2h and its change with depth were not measured.
+
+## 2026-11-15: the 93-cell torus lands below every reading (GTX 1080; recomputed by the lead; not yet reviewed)
+
+Branch `claude/gpu-local-1080` at dcb61c8 (pull request 23): `research/gpu-local/README.md`, "Equilateral face
+tori"; rows `research/data/gpu_local_eqtorus/eqtorus_1_5_31.csv`. The lead recomputed the figure from the four
+rows (exposure 4.796 × 10¹² replica-generations, 35,521 face deaths, per-seed values 19.408, 19.418, 19.412,
+19.419, χ² 0.70 on 3): `git show origin/claude/gpu-local-1080:research/data/gpu_local_eqtorus/eqtorus_1_5_31.csv`
+and ln(2E/F).
+
+- **n = 31 (A = 93): ln τ_face = 19.4141 ± 0.0053 [measured by the producer; C until reviewed].** Guard on; no life
+  settled in any way (45,761 lives); the hazard is flat by age within errors and shows no burn-in.
+- **Against part C of `research/constant/PREDICTIONS.md`.** Flat 19.479 ± 0.010 (19.484 with the corrected anchor):
+  the measurement is 0.065–0.070 below, about 6σ, and below the forecast's own refutation line (19.445).
+  Rising 19.506–19.530: refuted (line 19.488). Massive 19.437 ± 0.019: 0.023 below, 1.2σ of the forecast's error.
+  So of the three readings only the one in which the price per cell falls with size survives, and the torus sits
+  on its low side. The lead's N1 (written at 05:49 UTC without having fetched the branch, on which the result had
+  been pushed two minutes earlier: "above the flat reading by at least 0.03") failed outright, and with it the
+  idea that tori without a cut sit above the others.
+- **Local slopes in the family [measured].** 4 × 4 → 5 × 5: 0.2124 ± 0.0001. 5 × 5 → n = 31: 0.2085 ± 0.0003.
+  n = 31 → 6 × 6: 0.2103 ± 0.0028. At constant shape the price per cell is lower on the larger faces. The hull
+  family's local slopes at the same areas are 0.2146–0.2181 and its dips give 0.215 ± 0.005, so the two families
+  are now further apart at 75–108 cells than at 48–75; one constant for both needs one of them to turn.
+- **n = 21 does not fit this picture.** The CPU value 13.176 ± 0.011 (DY12) is 0.064 above the chord from 4 × 4 to
+  5 × 5 (13.112); with it the slopes would run 0.2167, 0.2071, 0.2085, 0.2103. Either the family is not smooth in
+  n, or that value is wrong. The card will measure n = 19, n = 21 and 5 × 5 with the driver that measured 4 × 4
+  and n = 31; its own forecast for n = 21 is 13.124 ± 0.008 (its `PREDICTIONS.md`, section 2).
+- **A bias in the CPU census pipeline, found on the way [measured by the producer's subagent on the same lives; not
+  reviewed].** `rep.c` looks at a layer's last-alive generation every 16 generations, so ends are rounded up and
+  0.09% of face deaths are booked as something else: +0.0016 on ln τ at A = 48 (mean life 8,200 generations),
+  negligible from about 60 cells up. With 1,024 fresh seeds the 4 × 4 torus is 9.9270 ± 0.0005 under that rule and
+  9.9255 ± 0.0005 counted every generation (the card: 9.9251 ± 0.0004). So GL1's best value is the per-generation
+  one, the value on file was 2.6σ high under its own rule, and every A = 48 census value carries about +0.0016 in
+  common (differences between classes at one area are not touched; slopes from 48 to 60 are low by 0.0001).
+- Not checked: no second stepper at A = 93 (the kernel is engine-exact on this torus for 2,000 generations; the
+  driver's counting is checked through the 4 × 4 comparison only); the bias figures are the producer's; an
+  adversarial review will take this together with the three tori now running.
