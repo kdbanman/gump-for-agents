@@ -78,7 +78,7 @@ def main():
     nsoup = int(sys.argv[1]); seed = int(sys.argv[2]) if len(sys.argv) > 2 else 99
     assert check_ring()
     rng = np.random.default_rng(seed)
-    wires = Counter(); per_L = {}
+    wires = Counter(); per_L = {}; byL = Counter()
     for L in (1, 2, 3, 4, 6):
         R = ring(L)
         S = (rng.random((nsoup, R.n + 1)) < 0.4).astype(np.uint8); S[:, -1] = 0
@@ -97,7 +97,7 @@ def main():
             if not uniform:
                 continue
             nk += 1
-            wires[min(keys, key=lambda f: sorted(f))] += 1
+            wk = min(keys, key=lambda f: sorted(f)); wires[wk] += 1; byL[(wk, L)] += 1
         per_L[L] = (int(keep.sum()), nk)
         print(f'L={L}: {nsoup} soups, period <= 2 and non-empty {int(keep.sum())}, of which uniform wires {nk}', flush=True)
     tot = sum(wires.values())
@@ -107,10 +107,10 @@ def main():
         # phase-0 representative: step the ring of 24 from w; pulses() tests both phases anyway
         f = pulses(sorted(w))
         if f:
-            carriers.append((cnt, len(w), sorted(f)))
+            carriers.append((cnt, len(w), sorted(f), {L: byL[(w, L)] for L in (1, 2, 3, 4, 6) if byL[(w, L)]}))
     print(f'carriers of a 2-cell pulse: {len(carriers)} distinct, born in {sum(c[0] for c in carriers)} soups')
     for c in carriers:
-        print('   born', c[0], 'times;', c[1], 'cells per unit; directions', c[2])
+        print('   born', c[0], 'times;', c[1], 'cells per unit; directions', c[2], '; by ring length', c[3])
 
 
 if __name__ == '__main__':
