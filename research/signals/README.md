@@ -27,7 +27,7 @@ carriers), brought up to date 2026-11-15 10:40 UTC.
 | second push | **tape**: wire B and wire C are two letters of one medium: EVERY sequence of B units and C units moves rigidly towards −v, one unit per 2 generations (a ring holding all 32 windows of 5 units; with the light cone, a proof for all sequences) | `python3 verify_pulse.py objects/tape-BC.json`; `python3 verify_wall.py` | 3 s; 12 s |
 | second push | two more pulses of wire C that reach outside its 3 × 3 tube, first seen coming out of chaos | `python3 verify_pulse.py objects/pulse-C-wide.json`, `... objects/pulse-C-wide-left.json` | 3 s |
 | third push | **reader**: capL of the clock eats EVERY word of the B/C tape and remembers nothing: at every even generation the state is capL and the tape moved on (proof for all words by a closed automaton: `python3 prove_reader.py`, 0.3 s) | `python3 verify_reader.py` | 30 s |
-| third push | **counter**: the wall between wire 8 and wire C moves one unit towards each pulse p< of a train (spacing ≥ 2) and the wire is otherwise exactly as it was | `python3 verify_counter.py` | 2 s |
+| third push | **counter**: the wall between wire 8 and wire C moves one unit towards each pulse p< of a train (spacing ≥ 2) and the wire is otherwise exactly as it was. On a ring only: wire 8 has no known cap and burns from a cut end at one unit per generation (*third review*) | `python3 verify_counter.py` | 2 s |
 
 Each verifier steps only with `oracle.masks` and `oracle.step` on a cubic array torus (H = 80 to 128) and compares
 whole states cell for cell. `verify_pulse.py`: 100 periods = 2.5 laps of a ring of 40 cubes; the state at generation
@@ -520,8 +520,8 @@ counter: **not reached** (no emitter); the counting part exists: the 8|C wall co
 (section 17). (3) a corner: **not found**; a side-kick scan in all six directions found nothing (section 16).
 (4) period ≡ 0 mod 4: **not found, but located**: the period of a shuttle clock is fixed mod 4 by a turn class of
 each cap [proved]; inside the 3 × 3 tube every periodic cap that turns the rake has the same class (exhaustive SAT
-within bounds), and in the 5 × 5 tube a cap of the other class exists, though not yet one that survives in a clock
-(section 18).
+within bounds), and in the 5 × 5 tube a stationary cap that turns the rake once with the other class, and is destroyed
+doing it, exists (section 18; corrected after the third review).
 (5) the tape as memory: **capL of the clock eats every word, exactly, and remembers nothing (proved)**; every left
 cap in the census either does the same or disturbs the tape (section 17). (6) a wider search space: touched only
 (writers and turns in the 5 × 5 tube, section 16, 18).
@@ -536,8 +536,13 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
 −v end of a tape is a *reader*: it receives one letter every 2 generations, whatever it does with it.
 
 - A right cap of wire C (capR of the clock, the 17-cell and 14-cell caps found by `sat_writer.py 2 31 --word C`,
-  `... --word B`) writes CCCC… or BBBB…. **A periodic emitter (gun) at the +v end is exactly a writer whose word is
-  periodic and not constant**: a state of period T needs a word of period T/2. `sat_writer.py T C` searches for one
+  `... --word B`) writes CCCC… or BBBB…. **A periodic emitter (gun) at the +v end whose output is a train of p< inside
+  the 3 × 3 tube is exactly a writer whose word is periodic and not constant**: a state of period T needs a word of
+  period T/2. *(Qualified 2026-11-15 after the third review: the equivalence, and so the negatives of section 16, do
+  not cover emitters of the wide pulses of section 10 or of anything reaching outside the 3 × 3 tube; emitters whose
+  output is a moving object that is not a letter (a mirror rake sent from a +v end, a rake from a −v end, the
+  composites `9fb7bf`, `9d…df` of section 17); word periods of 5 or more; emitters beside a wire or in its middle
+  (two-sided: section 21); and emitters whose junction disturbs the two units in front of the search region.)* `sat_writer.py T C` searches for one
   directly: T/2 letter variables, the tape units as literals of them, the writer free inside the tube and the planes
   (exact on the infinite lattice by T2 and the tape theorem; models are re-stepped). The other end and the other
   direction are the same problem up to the half-turn and the mirror of section 9.
@@ -564,7 +569,8 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
 - **[proved within the bounds; CaDiCaL 1.5.3, models re-stepped] No writer of small period.** `python3 sat_writer.py
   T C` (3 × 3 tube, writer free on units ≥ 6 inside the planes): UNSAT for T = 4, 6, 8 at C = 29 (33 free cells;
   0 s, 5 s, 47 s), T = 4, 6 at C = 31 (40 cells; 1 s, 51 s), T = 4, 6 at C = 33 (47 cells; 1 s, 210 s), T = 4 at
-  C = 35 (54 cells; 1 s). "T" means every period dividing T, every non-constant word. Not finished: T = 8 at C = 31
+  C = 35 (54 cells; 1 s). "T" means every period dividing T, every non-constant word, so word periods 2, 3, 4 only
+  (third review; its fixed-cap controls of the encoding pass: `research/audit/signals3/sat_controls.py`). Not finished: T = 8 at C = 31
   (more than 30 min), T = 4 in the 5 × 5 tube (`--lo -1 --hi 7`) at C = 29 (more than 10 min). The clock is 32 + 5N
   cells with period 4N + 2, so a gun made from a clock would have T ≥ 10 and far more cells: these bounds exclude
   small guns, not clock-sized ones.
@@ -577,7 +583,8 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
 - **[measured, sg.step_set] No side kick.** `python3 sidekick.py --wire B` and `--wire C` (about 25 min each): a
   second wire (B or C) in every one of its 48 orientations (all six face diagonals) and every even translation that
   brings it within a neighbour step of the lit clock (N = 3) without sharing a cell: 2,751 and 2,874 placements,
-  150 and 55 of them stationary unlit; **in none does anything travel out along the second wire** within 3 periods.
+  150 and 55 of them stationary unlit, and only those 205 were then lit (third review); **in none of the 205 does
+  anything travel out along the second wire** within 3 periods.
   This is also the first search for a corner of any kind: none.
 - **[measured, sg.Geom] No two-sided turner of the rake in wire C, in small sizes.** `python3 turners.py
   ../scratch/signals/defC.json` (90 s): the first 3,000 standing defects of wire C in 4 units of the closed tube
@@ -596,11 +603,16 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
 - **[proved by the oracle runs] `python3 verify_counter.py`** (2 s): on a ring of 48 units (box torus, `oracle.step`)
   with wire 8 on units 0..11 and wire C on the rest, trains of 1, 2, 5, 7 and 8 pulses p< at spacings 2 to 6:
   after 100 generations the state is exactly the ring with the wall moved one unit per pulse. (A control: two
-  pulses one unit apart, i.e. the word BB, does not give the wall moved 2 units.)
+  pulses one unit apart, i.e. the word BB, does not give the wall moved 2 units.) The third review's own oracle runs
+  (`research/audit/signals3/counter_check.py`) confirm trains of up to 27 pulses and irregular spacings.
 - **[measured, sg.Geom]** The stationary wall 8|C (wire 8 = the stators and (0,2,3) only, on the left; wire C
   on the right) hit by a train of p< at spacing s (`family.Piece`, 60 generations): for s = 2, 3, 4 the wall moves
-  one unit towards the train per pulse and the wire is otherwise exactly as it was; s = 1 (a stretch of wire B, i.e.
-  the word BBB…) does not count (the wall becomes a mixed region). So a gun of word period ≥ 2 feeding wire C into
+  one unit towards the train per pulse and the wire is otherwise exactly as it was. *(Corrected after the third review,
+  oracle:)* a run of n ≥ 2 adjacent pulses moves the wall one unit and is **reflected**: BB returns exactly one p>
+  (exact, cell for cell); B^n returns a right-going object (`9fb7bf` for n = 3, `9d…df` with n − 2 units of B′ for
+  n ≥ 4; kymographs only). So the 8|C wall is a stationary-in-kind reflector of double pulses (it moves one unit each
+  time), not of single ones. Wire 8 is not free-standing: a cut end burns at one unit per generation, so the counter
+  is shown on a ring only. So a gun of word period ≥ 2 feeding wire C into
   an 8|C wall would be a clock driving a counter, until the wall reaches the gun (the review of the first push saw
   the same end for the B|B′ counter: capacity d − 1). No cap for the free end of wire 8 was looked for. The rake against the wall: section 16.
 
@@ -613,7 +625,12 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
   translating it one unit changes b − a by 4. Likewise a left cap has k_L = a − b. Round a clock a advances by its
   period P, so **P ≡ k_R + k_L (mod 4)**, and for clock-C the pair gives 2. Because the mirror (section 9) is a
   bijection between right and left caps, if every right cap that turns the rake has the same k, every clock has the
-  same P mod 4.
+  same P mod 4. *(Convention and a gap, third review:)* every right cap measured has k_R = 0 and capL has k_L = 2 (the
+  mirror shifts time by one generation, so the mirror image of a k = 0 right cap is a k = 2 left cap); a period-4N
+  clock with capL needs a right cap with k_R = 2. And k is proved to be a constant of the cap for a **lone** rake; in a
+  clock the rake arrives directly behind a p> train, where the same argument gives a constant that need not be the
+  lone one. The two agree for clock-C and all 33 clock caps at C = 31 (measured, `research/audit/signals3/turn_check.py`).
+  So the SAT negatives below bound lone turns, not clock turns.
 - **[measured, sg.step_set] Every right cap measured turns the rake with k = 0.** `python3 turnclass.py
   ../scratch/signals/table_28_31.json ../scratch/signals/table_28_29.json` (8 min): a lone rake sent at each of the
   1,627 cap states of the two tables: 201 turn it, **all with k = 0**.
@@ -639,15 +656,22 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
   cap does not survive the trains or the turn. `python3 k2caps.py T C` enumerates such caps and tries each in a
   clock: at T = 16, C = 47 (5 × 5 tube) **the list is complete at 8 caps** (23 to 44 cells; `python3 k2caps.py 16
   47`, 15 min, ends UNSAT): all 8 turn a lone rake with k = 2 when re-stepped and all 8 die in a clock with capL
-  (N = 5, 6: the lit object settles to period 1). `sat_turn.py ... --eat Te` adds the condition
+  (N = 5, 6: the lit object settles to period 1). *(Third review, oracle, `research/audit/signals3/k2_oracle.py`:)*
+  **all 8 are destroyed by the lone turn itself**: the cap and the wire behind the mirror rake burn, with no train
+  and no clock involved; two of them (#2, #3) complete one round of 4N + 4 in a clock before dying. So no cap of class
+  2 that survives a single turn is known in any tube. (`turnclass.py`'s "restored" flag, printed by `k2caps.py` as
+  `(2, False, 64)`, is False for clock-C's own capR too: it compares the cap while p> pulses are still arriving and
+  means nothing.) `sat_turn.py ... --eat Te` adds the condition
   that the cap also swallows a lone p> and is exactly restored Te generations later (positive control in the 3 × 3
   tube: `sat_turn.py 14 47 --KS 10 --eat 16`, SAT in 1 s, k = 0); the k = 2 instance with it in the 5 × 5 tube
-  (`sat_turn.py 16 47 --KS 10 --lo -1 --hi 7 --eat 16`) had not answered after 11 minutes when this push ended. So the 3 × 3 tube was the obstruction to a period-4N clock, not the rake.
+  (`sat_turn.py 16 47 --KS 10 --lo -1 --hi 7 --eat 16`) had not answered after 11 minutes when this push ended.
+  *(Deleted after the third review: "so the 3 × 3 tube was the obstruction to a period-4N clock, not the rake".
+  Nothing shows that: the class-2 caps one size up self-destruct.)*
   What the 3 × 3 negative does not cover: caps of period 8 or more or of odd multiples beyond 6, turns in
   which the rake's tape in front of the mirror rake is altered by more than the last two positions (the guard),
   turns slower than T = 28 to 32, clocks whose shuttling object is not this rake. No reason for the forced class is
-  known: it is a regularity of periodic caps inside the 3 × 3 tube (period 2, 4, 6 tested), not a theorem, and it
-  fails one size up (above).
+  known: it is a regularity of periodic caps inside the 3 × 3 tube (period 2, 4, 6 tested), not a theorem; one size up
+  class-2 turns exist only as self-destroying ones (above). Section 20 removes the planes from this negative.
 
 ## 19. Third push: not done, not checked, and where to go next
 

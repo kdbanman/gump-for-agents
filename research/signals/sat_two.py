@@ -90,13 +90,18 @@ def tape_fn(u0):
     return tape
 
 
-def build(T, KS, lo, hi, w=None, V=0xb, zp=2, U=None):
-    ua = UA; u0 = KS - 1
+def build(T, KS, lo, hi, w=None, V=0xb, zp=2, U=None, emit=0, leakreq=True):
+    """emit = Tr > T (two-sided only): the trajectory runs to Tr; at Tr the object's units and the first unit of the right wire
+    are exactly Z again, and the right wire differs from the bare wire V somewhere beyond unit KS + w + 1."""
+    g = UA; u0 = KS - 1
+    ua = g if not emit else g - (emit - T) // 2 - 3
     opn = w is None
     if U is None:
-        U = (T + KS + ua + 2) // 2 + 1
+        U = (T + KS + g + 2) // 2 + 1
         if not opn:
             U = max(U, KS + w + 2)
+        if emit:
+            U = KS + emit + 1
     R = Tube(ua, U + 1, lo, hi)
     pb = scat.Problem()
     tape = tape_fn(u0)
@@ -110,10 +115,11 @@ def build(T, KS, lo, hi, w=None, V=0xb, zp=2, U=None):
     xout = lambda q, t: tape(q, t) if unit(q) < ua else False
     act = lambda i, t: units[i] < U
     Z = traj(pb, R, zp, zout, act, wrap=True)
-    X = traj(pb, R, T, xout, act)
+    X = traj(pb, R, max(T, emit), xout, act)
     f_cells = {tr(c, u0) for c in F.STATOR} | {tr(F.SITES[i], u0) for i in range(4)}
-    end = {tr(c, ua + 2) for c in F.STATOR} | {tr(F.SITES[i], ua + 2) for i in (0, 2)} | \
-          {tr(c, ua + 3) for c in F.STATOR} | {tr(F.SITES[i], ua + 3) for i in range(4)}
+    end = {tr(c, g + 2) for c in F.STATOR} | {tr(F.SITES[i], g + 2) for i in (0, 2)} | \
+          {tr(c, g + 3) for c in F.STATOR} | {tr(F.SITES[i], g + 3) for i in range(4)}
+    leak = []
     for i in range(R.n):
         p = R.cells[i]; u = int(units[i])
         if u < KS:
@@ -126,14 +132,23 @@ def build(T, KS, lo, hi, w=None, V=0xb, zp=2, U=None):
                     pb.fix(Z[ph][i], vw(p, ph))
             pb.eq(X[0][i], Z[0][i])
         # light cone: the rake's influence is at units <= KS - 1 + t at generation t
-        for t in range(1, T + 1):
+        for t in range(1, max(T, emit) + 1):
             if u > KS - 1 + t:
                 pb.eq(X[t][i], Z[t % zp][i])
-        if u == ua:
+        if u <= g:
             for t in range(T + 1):
                 pb.fix(X[t][i], tape(p, t))
-        if u in (ua + 2, ua + 3):
+        if u in (g + 2, g + 3):
             pb.fix(X[T][i], p in end)
+        if emit:
+            if KS <= u <= KS + w:
+                pb.eq(X[emit][i], Z[emit % zp][i])
+            elif KS + w + 1 < u < U:
+                d = pb.f.var(); a_, b_ = X[emit][i], Z[emit % zp][i]
+                pb.f.add(-d, a_, b_); pb.f.add(-d, -a_, -b_)          # d -> (a xor b)
+                leak.append(d)
+    if emit and leakreq:
+        pb.f.add(*leak)
     return R, pb, Z, X, U
 
 
@@ -171,6 +186,10 @@ def lone_test(obj, KS, w, V, gens=80, far=120, right=100):
         dr = sorted(c for c in (x ^ z) if KS + w + 1 <= unit(c) < hi_safe)
         leak.append(len(dr)); rest.append(int(win(x, KS, KS + w) == win(z, KS, KS + w)))
     res['turn'] = turn
+    dd = turnclass.dec(x, u0 - 44, KS)
+    j = dd.find('5f')
+    res['clean_train'] = j >= 0 and dd[j:j + 8] == '5f9f9f9f'
+    res['left_end'] = dd[max(j, 0):][-12:] if j >= 0 else dd[-12:]
     res['obj_as_unlit_last8'] = rest[-8:]
     res['right_diff'] = leak[-6:]
     return res
@@ -186,14 +205,16 @@ def main():
     ap.add_argument('--timeout', type=float, default=600); ap.add_argument('--solver', default='cadical153')
     ap.add_argument('--all', action='store_true'); ap.add_argument('--minutes', type=float, default=20)
     ap.add_argument('--max', type=int, default=10 ** 6); ap.add_argument('--out')
+    ap.add_argument('--restore', type=int, default=0, help='Tr: object restored at Tr (no condition on the right wire)')
+    ap.add_argument('--emit', type=int, default=0, help='Tr: object restored at Tr and the right wire not bare (two-sided only)')
     a = ap.parse_args()
     V = int(a.V, 16); t0 = time.time()
     w = None if a.open else a.w
-    R, pb, Z, X, U = build(a.T, a.KS, a.lo, a.hi, w, V, a.zp, a.U)
+    R, pb, Z, X, U = build(a.T, a.KS, a.lo, a.hi, w, V, a.zp, a.U, a.emit or a.restore, bool(a.emit))
     k = turn_class(a.T, a.KS)
     nfree = len([i for i in range(R.n) if a.KS <= R.units[i] <= (U if a.open else a.KS + w - 1)])
     tag = f'T={a.T} (class k={k}) KS={a.KS} tube [{a.lo},{a.hi}] ' + \
-        (f'OPEN far end, units {a.KS}..{U}, period {a.zp}' if a.open else f'two-sided w={w} V={a.V}') + f': {nfree} free cells'
+        (f'OPEN far end, units {a.KS}..{U}, period {a.zp}' if a.open else f'two-sided w={w} V={a.V}' + (f' emit Tr={a.emit}' if a.emit else '') + (f' restore Tr={a.restore}' if a.restore else '')) + f': {nfree} free cells'
     if not a.all:
         st, m = pb.solve(a.solver, a.timeout)
         print(f'{st:7s} {tag} {time.time() - t0:.0f}s [{a.solver}]', flush=True)
