@@ -102,7 +102,7 @@ Suggested text, appended as its own entry (or as a bracketed note under each lin
 
 - `docs/paper/draft.md:182` and `:784` say "ledger K1 of the class study": that row is now **K9** (the class rows K1–K3
   were renamed K9–K11 because the ids were used twice; `draft.md:246` "K1 of the thickness" is unchanged).
-- `docs/overview/data/sources/update-2026-11-14.json:20` ("CLAIMS K3") and `:96` ("CLAIMS K2") cite the class rows:
+- `site/collect/sources/update-2026-11-14.json:20` (then `docs/overview/data/sources/`) ("CLAIMS K3") and `:96` ("CLAIMS K2") cite the class rows:
   now **K11** and **K10**. Its `structure.json` cites the thickness K1, K3 and is unchanged. (Not edited: data files.)
 - `research/fluct/PREDICTIONS.md:14` "predictive quantile ≈ 0.55": 0.566 by the file's own method (see §1); an
   append-only file, so a dated note if anything.

@@ -247,9 +247,9 @@ let CI pass, merge.
   visual, text-minimal explainer artifact of the directions and findings so far? feel free to delegate to opus
   subagents for subtasks".
 - Made and published privately: https://claude.ai/artifact/EngGcGwZcZ2DG71aNgnvaA ("The Gump Map"). Source and
-  rebuild steps are in `docs/overview/` (see its README). To update it, rebuild and publish
-  `docs/overview/index.html` to that same link. It is a view of the repository, not a record: nothing is
-  established by appearing on it.
+  rebuild steps were in `docs/overview/` until 2026-11-15 and are now in `site/` (see `site/README.md`: one small
+  file per plate, data per page, `python3 site/build.py`, `bash site/check.sh`). It is a view of the repository,
+  not a record: nothing is established by appearing on it.
 - **2026-11-15 about 15:18 UTC, the owner:** "since artifacts are single giant pages, i'm wondering if it makes
   sense to move and rearchitect it as a github-pages-compatible structure that can be navigated and edited more
   piecemeal. how does that sound? we could put it in a folder with other gh pages deployed stuff, like the

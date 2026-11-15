@@ -49,7 +49,7 @@ _Last updated 2026-11-14 by the lead._
   asked for arrived as pull request 10 and are merged (lead spot-checked the diff). Asked next: slab faces at A > 90, octahedral faces at A ≥ 165,
   a longer cube-centred symmetric run (does the death rate really fall with age?).
 
-- 2026-11-14: an overview page for the owner (`docs/overview/`, published as a private artifact; link in `LEAD.md`). Refreshed and republished the same day at 11:50 UTC (current to the swarm's close and the exponent study).
+- 2026-11-14: an overview page for the owner (`docs/overview/`, since 2026-11-15 the multi-page `site/`; published as a private artifact; link in `LEAD.md`). Refreshed and republished the same day at 11:50 UTC (current to the swarm's close and the exponent study).
   It predates the two reviews of 2026-11-14 (class theory, GPU round two); refresh it when the swarm's exam is in.
 - Pull request 11 merged 2026-11-14 07:27 UTC (everything up to the two reviews). Pull request 13 merged 09:55 UTC
   (exam, audit, class revision and follow-up, exponent report, reviews of GPU pull requests 12 and 14). Later
@@ -155,7 +155,7 @@ _Last updated 2026-11-14 by the lead._
   The state-space author applied its review's seven corrections (281cf02). Still running: the review of the second
   signals push, the overview editor, the third signals push.
   **Overview published 10:59 UTC (version 12)**: new plates "Signals" (a live pulse, the gate, the clock with a
-  slider for N; `docs/overview/check-signals.js` checks the page's stepper against the oracle) and "How much of
+  slider for N; `site/checks/check-signals.js` checks the page's stepper against the oracle) and "How much of
   the room a seed sees" (the owner's question, with the coin-flip tile); "How a face dies" brought to rounds 3–4
   with the withdrawn sentence shown; the five wrapped faces from the owner's card on "One price per cell?"; map
   and "Open now" rewritten. The lead rebuilt it, ran both checks, loaded it headless (no script errors) and read
