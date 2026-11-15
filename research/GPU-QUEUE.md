@@ -79,6 +79,13 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 10:15 UTC: a correction to the note below
+
+The review of round 4 is in (`research/audit/REVIEW-dying.md`, "Round 4"). The numbers stand; my sentence "there
+is no remnant at fixed density" does not follow from them (a compact patch at fixed density reads the same on
+faces this small; my test could not tell). The decision is unchanged, for the other reason: the construction that
+would have extrapolated dips to p = 0 overshoots the true end point by 1.07–1.34 nats. The dip job stays dropped.
+
 ### 2026-11-15 09:45 UTC: the dip measurement on big faces is dropped
 
 Round 4 of `research/dying/` is in: a depleted face thins as one clustered thing, there is no remnant at fixed

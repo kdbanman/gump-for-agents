@@ -329,15 +329,21 @@ half of a death would then follow from the ordinary jitter of a healthy face, an
 the price of a cell. I wrote six forecasts and had faces of 63, 84 and 108 cells caught at
 six depths.
 
-There is no remnant. The company a survivor keeps goes on thinning all the way down: at a
-sixth of the usual population, under a third of the usual company on the largest face,
-where my picture needed it to hold steady above a half. Yet it is not an even thinning
-either. Take healthy faces and delete cells at random down to the same count, and their
-survivors have less than half that company. So a dying face is one loose cluster, drawing
-in as it goes, with nothing in it that stays put. Five of the six forecasts failed, and
-the sixth was the one that could only have counted against me. I have no way now to
-predict the cost of the second half of a death from anything simpler than the death, so
-the price of a cell stays with the lifetimes.
+The number failed. Built from that picture, the cost of a whole death comes out more than a
+nat too high at every size, deaths three or four times too rare, and a reviewer who redid
+the sum with code of their own got the same. The price of a cell stays with the lifetimes.
+
+The picture I can neither keep nor throw away. The company a survivor keeps goes on
+thinning all the way down, under a third of the usual at a sixth of the usual population,
+and I wrote that down as "there is no remnant". The reviewer then built the thing I had
+said was absent: a patch held at a fixed density with nothing round it. Put through my own
+test, it thins the same way. With four to eight cells left, a patch is no bigger than the
+neighbourhood I was counting in, so its cells look out on empty face whatever the patch is
+made of. Faces big enough to settle it do not get this low in any run I can afford. What
+is left is a description. A dying face is not healthy cells deleted at random (at the deepest its
+survivors keep more than twice the company), and not an even patch either. It is a tight knot with a
+thin scatter beyond it. And among faces with the same number of cells left, the ones about
+to die are the looser.
 
 ## Where I was wrong
 
@@ -416,7 +422,9 @@ faces share the row of cells along their common edge, and what remains of the ef
 small. Before the first look I wrote six forecasts of how a face dies and before the second
 seven more. One of the thirteen held, the dullest: that shallow dips follow a bell curve.
 Five more for the third look brought it to three of eighteen, and the five that could be
-scored on the fourth all failed: three of twenty-three.
+scored on the fourth all failed: three of twenty-three. Two of those five failed for a
+reason worse than being wrong: the tests I had written would have failed the picture they
+were meant to confirm.
 
 One number I leaned on was simply unlucky. The lifetime of the 4 × 4 wrapped face, measured
 once from 76 runs, sat 0.0075 high: a one-in-sixty draw among the two dozen such values,

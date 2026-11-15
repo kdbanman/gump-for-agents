@@ -365,3 +365,13 @@ the block above is ambiguous, this is the reading taken; the forecasts are score
 clause (C(0.3) − 0.3 = 0.139). F4 failed (the void's growth ratio is 2.01, 1.68, 1.85, not within 30% of 1). F5
 failed with the opposite sign. F6 not met (V(0.3) is 2.3 to 3.1 times the control's). The two-phase reading is
 withdrawn: a depleted face thins as one clustered thing.
+
+**After the review (the lead, 2026-11-15 10:15 UTC; `research/audit/REVIEW-dying.md`, "Round 4"):** the scores above
+stand as registered, but three of them say less than they seem to. An exact lever rule (a compact patch at any
+fixed density from 0.45 to 0.8, built by the reviewer and put through the same measures) gives C(0.15)/C(0.45) =
+0.45–0.48, 0.58–0.61, 0.65–0.69 at 63, 84, 108 cells, so F1's "against" clause is met by the very thing it was
+written to exclude, F2's window (C = p_t) is not what a remnant at p_t reads at these counts, and F6 rested on
+F1. The tests were badly made: the patch is the size of the neighbourhood they count in. What counts against the
+reading is the end point of its construction (too high by 1.07–1.34 nats) and the shape of the profile round a
+survivor (more peaked than an even patch). "There is no remnant at fixed density" is withdrawn; "no plateau is
+seen, and these measures cannot test for one on faces this small" replaces it.

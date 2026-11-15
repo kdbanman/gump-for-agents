@@ -2558,6 +2558,9 @@ pulse-B-left: all pass for 60 periods on a ring of 40 cubes).
 
 ## 2026-11-15: a depleted face thins as one thing: the two-phase reading fails (round 4 of the dying-face study; scores recomputed by the lead; review started)
 
+**Narrowed by the review the same morning (next entry): the numbers below stand, but "no remnant" does not
+follow from them; on faces this small a remnant at fixed density would read the same way.**
+
 The lead's reading before this round (`research/dying/PREDICTIONS.md`, "Round 4", F1–F6, committed before any
 run): the rule is cooperative, so a deeply depleted face should be a void beside a remnant held at a fixed
 density, the remnant shrinking as the population falls (a lever rule), and the dip curve a parabola joined to its
@@ -2600,3 +2603,53 @@ recomputed every score from the table (`research/dying/data/r4_company.csv`) and
   faces.
 - Not checked: one seed per size (two at 108 cells); the bootstrap treats caught faces as independent; counts are
   not matched in the dies-against-recovers split; only free hull faces; an adversarial review is running.
+
+## 2026-11-15: round 4 reviewed: the numbers stand, "no remnant" does not follow; the lead's test could not have told the two apart
+
+`research/audit/REVIEW-dying.md`, "Round 4" (own stepper `research/audit/dying4/st4.c` and geometry `geom.py`
+written from `docs/AUTOMATON.md`, equal to the oracle every generation; seeds the study did not use;
+`bash research/audit/dying4/run.sh` redoes it in about 20 minutes on one core).
+
+- **The measurements reproduce [measured, two codes].** C(0.15)/C(0.45) = 0.383 and 0.481 at 63 and 84 cells (study
+  0.384, 0.486); company against the random-thinning control at 108 cells 1.15, 1.35, 1.70 at p = 0.6, 0.45, 0.3;
+  void at p = 0.3 against the control 2.3, 2.7, 3.2 times at 63, 84, 108 cells; far field 0.163, 0.181, 0.205 at
+  p = 0.3 and 0.039, 0.060 at 0.15; ln τ_face = 13.626 ± 0.012 at 63 cells (study 13.633 ± 0.005). Not a rim
+  effect: the 33 of 63 cells shared with a neighbouring face are the rim, survivors are slightly rarer there, and
+  the company over unshared cells falls faster.
+- **The inference from them was wrong [the reviewer's null; the lead checked it by hand].** The reviewer built the
+  thing the lead's reading describes, a compact patch held at a fixed relative density p_t and filled from
+  stationary faces, with nothing outside, and put it through the same code. It gives C(0.15)/C(0.45) = 0.45–0.48
+  at 63 cells, 0.58–0.61 at 84 and 0.65–0.69 at 108, for any p_t from 0.45 to 0.8: at four to eight live cells
+  the patch is about the size of the two-step neighbourhood the company is counted in, so its cells look out
+  on the emptied face. The registered "against" clause of F1 (ratio below 0.6) is met by an exact lever rule at 63
+  and 84 cells; "a lever rule needs the ratio near 1" holds only on faces far larger than any that can be caught
+  this deep. (By hand at 63 cells, p_t = 0.55: four cells in a patch of stationary mass 7.3 leave the other three
+  at 0.44 of stationary inside it, and about half of a two-step neighbourhood lies inside, so C ≈ 0.22; at fourteen
+  cells the patch is four fifths of the face and C ≈ 0.46; ratio 0.48, the null's value.) So F1, F2 and F6 failing as
+  registered is not evidence against the two-phase reading. They were the lead's tests and they could not test it.
+- **What does separate a caught face from such a patch [measured, the reviewer].** The ratio at first passage sits
+  0.07–0.14 below the null's. And the shape differs: at four live cells on the 63-cell face the null with
+  p_t = 0.8 matches C and V (0.254 and 0.490 against 0.253 and 0.488), but its profile against distance is 0.33,
+  0.22, 0.08, 0.005 where the caught face has 0.45, 0.16, 0.04, 0.03: a tighter knot and a thin scatter beyond it, not
+  an even patch with an edge. Faces sampled at a random moment at a given population are tighter than faces at
+  first passage with the same count (C 0.576, 0.457, 0.253 against 0.538, 0.413, 0.219 at 14, 9, 4 cells), and
+  their C and V fit one effective p_t of 0.7–0.8 at every depth and both sizes, with the wrong profile for a
+  plateau. No measure tried shows a core at fixed density that the random-thinning control does not also show.
+- **What ends the two-phase reading is its number, not its picture [measured, two codes].** The
+  parabola-plus-tangent construction overshoots the true end point by 1.07, 1.21, 1.34 nats (the reviewer's
+  redoing from `data/r4_tangent.csv`; 1.37 at 108 cells with the card's lifetime; 1.07 from the reviewer's own run
+  at 63 cells), and the straight tail alone already overshoots by 0.53, 0.51, 0.46 nats. The tangent point (0.56–0.60)
+  is also not the effective density the structure fits (0.7–0.8).
+- **Dying against recovering, with counts matched [measured, the reviewer, 63 cells].** Most of the gap was the live
+  count. What is left: C = 0.145 against 0.166 at p = 0.15 (difference 0.021 ± 0.001) and 0.303 against 0.320 at
+  p = 0.3 (0.017 ± 0.003); dying faces are looser at every single count.
+- **Standing of the claim.** "A depleted face thins as one thing; there is no remnant" is withdrawn as stated. What
+  stands: no plateau is seen; C cannot test a lever rule on faces of 108 cells or fewer; a caught face is neither a
+  random thinning nor an even patch; the quantitative construction fails by more than a nat. Whether a remnant in
+  some looser sense exists is open and is not reachable at sizes where faces can be caught this deep.
+- Six corrections for the study's README are listed at the end of the review (the null's values beside the
+  observed ratios; the figure's guides are infinite-face idealisations; the count-matched gap; first passage
+  against random moment).
+- Not checked by the reviewer: one seed per size; 108 cells ran 1.5 M generations (no catch at 0.15, no deaths);
+  the null is one patch shape (a ball); 84 cells had 82 deaths, so the dying-against-recovering comparison is tested
+  properly only at 63.
