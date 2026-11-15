@@ -116,3 +116,122 @@ post-firewall exposure of the s = 3 slabs are not (neither was a merge condition
 
 **As far as these two lists go, pull request 23 can be merged.** The two README inaccuracies of 08:15-3 and the
 others of section 3.5 are corrections of wording, not of any number on the branch.
+
+## 3. The nine tori as science
+
+`python3 research/audit/gpu_local_tori2/nine.py $WT` → `nine_out.txt` (every number in this section). Values are
+recomputed from the csv rows (ln(2E/F) ± 1/√F); they match the README to the last digit.
+
+### 3.1 Are the errors honest?
+
+- **Seeds.** χ² of face deaths against exposure between the seeds of each torus, summed over the eight tori with
+  more than one run: **19.0 on 16 (p = 0.27).** The Poisson errors hold. The 57-cell torus alone gives 9.25 on 3
+  (p = 0.026), from seed 57002 (11.8771 against 11.8742, 11.8748, 11.8742); one such torus in eight is unremarkable,
+  and 57 sits below the bend, so its error does not enter the line (scaling it by √(9.25/3) changes no conclusion
+  below: second block of `nine_out.txt`).
+- **Age tables** (committed `hist_*.json`; they sum exactly to the rows). Hazard of a face death by age relative to
+  the torus's mean, bins of ≥ 300 deaths: flat for 75, 81, 84, 93 (χ² 10.7/14, 5.6/13, 15.6/13, 12.2/10), and for
+  48, 57, 63 after the known excess at ages 0–60 (1.27, 1.67, 2.0 times; 0.6%, 0.08%, 0.02% of a mean life). In
+  absolute ages, 93 is flat within 1–2% from 0 to 3 × 10⁸ generations. **108 and 111 are runs of 0.20 and 0.18 mean
+  lives**, so their values are the hazard at ages below 1.1 × 10⁹ only; 108 is flat (χ² 2.2/2), **111 is not quite**
+  (χ² 8.9 on 2: 0.87 ± 0.05 of its mean below 0.03 mean lives, 1.06 ± 0.04 at ages 3 × 10⁸ to 1.1 × 10⁹). The
+  README calls 111 "flat within errors". If its late hazard were the true one, 111 would be 0.05 lower and the
+  slope 93 → 111 would be 0.207, not 0.2105; at 2.5σ in one of nine tables this is a caveat, not a finding.
+- **Between lattices.** The line from 63 has χ² 7.8 on 5. Adding an extra scatter t in quadrature: the median
+  estimate of t is 0.004, its 95% upper bound **0.014** (χ²(t) = 1.15, the 5% point on 5). The README's "room for
+  a scatter of about 0.003 between lattices, no more" is the median, not a bound; the data allow lattice-to-lattice
+  differences up to ~0.014 at 95%.
+
+### 3.2 What fits the nine
+
+Fits to all nine, 5 degrees of freedom for the four-parameter forms (`nine_out.txt`, first block):
+
+| form | χ² (dof) | c_∞ = lim d ln τ/dA | slope 93 → 111 in the model |
+|---|---:|---:|---:|
+| **B: broken line, kink fitted (A₀ = 61.39)** | **7.8 (5), p = 0.17** | **0.20867 ± 0.00011** | 0.20867 |
+| E: a + cA − g e^{−(l−4)/λ} (decaying in the loop) | 174 (5) | — | 0.2053 |
+| P: a + cA − g (48/A)^q | 177 (5) | — | 0.2051 |
+| M: a + A[c − g e^{−l/ξ}] (per-cell, massive-like) | 164 (5) | — | 0.2061 |
+| Q: a + cA + g₁/A + g₂/A² | 176 (5) | — | 0.2049 |
+| S: a + cA − g e^{−(A/A₀)⁶} | 31 (5) | — | 0.2078 |
+| H: a + cA − g (A₀ − A)₊² | 77 (5) | — | 0.2079 |
+| R: a + cA + g/A | 178 (6) | — | 0.2053 |
+| Kq: a + c(A−63) + κ(A−63)² | 344 (6) | — | 0.1995 |
+
+With the error at 57 scaled by √(9.25/3): E, P, M, Q, R, X 133–154 on 5, S 30, H 61; B unchanged. **No smooth
+finite-size form fits the nine; only the broken line does.** The 81-cell value does not rescue them: their residual
+pattern (48 +0.7σ, 57 −4σ, 63 +9σ, 75 −7σ, then +3σ and +4σ at 108, 111) is the five-point failure plus the absent
+downturn above 93.
+
+But note what carries this. **On the eight tori from 57 up every decaying form fits as well as the line (χ² 7.8 on
+4)**, with its scale parameter run to a step (λ → 0.02, q → 178, ξ → 0.025; S with A₀ = 32 and g ≈ 8 × 10¹¹: the whole deficit put
+on 57 alone). So "smooth or kinked" is decided by three points, 48, 57 and 63, of three different lattice kinds (48 is
+axis-aligned with 8 transverse layers and a firewall channel; 57 and 63 are oblique with 2). The four new tori add
+nothing to that question. What they add is the part above 63: a straight line through seven tori, which no form with
+a correction large enough to make the 48 → 57 → 63 bend can follow.
+
+**Above 63 cells** (seven tori, `nine_out.txt` third block):
+
+| description | χ² (dof) | price per cell at large A |
+|---|---:|---:|
+| line | 7.8 (5) | **0.20867 ± 0.00009** (± 0.00019 with the median lattice scatter, ± 0.0005 at its 95% bound) |
+| line + κ(A − 63)² | 7.6 (4); κ = (0.4 ± 1.0) × 10⁻⁵, Δχ² 0.2 | slope at 150 cells 0.2093 ± 0.0021 (no limit) |
+| a + cA + g/A (slope approaches c from below if g > 0) | 7.6 (4), g = +2.0 | 0.2090 ± 0.0013 |
+| line + offset for 2-layer tori | 7.7 (4), d = −0.0008 | 0.2086 ± 0.0002 |
+| line from 75 only | 7.3 (4) | 0.2088 ± 0.0003 |
+
+**The data do not prefer a slope that rises with size.** The curvature term buys Δχ² = 0.2; the difference of the
+data's local slopes, (93 → 111) − (63 → 93) = +0.0021 ± 0.0014, is 1.5σ and rests on 111, the torus with the
+weakest age test (3.1). Every surviving description gives a price per cell of **0.2087–0.2090 with errors 0.0001
+(line) to 0.0013–0.0021 (if a drift is allowed)**; once a drift is allowed, neither 0.2084 nor 0.2105 is excluded at 2σ. The hull
+faces' local slopes (0.212–0.218) lie 1.3–4σ above the quadratic's slope at 150 cells and 2.3–7σ above the g/A
+form's limit: a wrapped face reaching the hull's price would need a curvature these tori do not show.
+
+### 3.3 Is "one line from 63 cells, the break near 61 stands, sharper" fair?
+
+- "One line from 63 cells": **fair** (p = 0.17, no curvature, no lattice offset needed).
+- "The break near 61 stands": **fair, with its basis stated**: it is the only form of those tried that fits all
+  nine, and it rests on 48, 57, 63 alone; drop 48 and no form can be told from the line.
+- "Sharper": **not fair as written.** The kink's position and shape are fixed by the same three tori as at five
+  (A₀ 61.39 now, 61.35 before). What is sharper is the exclusion of smooth forms through their predicted bending
+  above 63.
+
+### 3.4 Scoring the forecasts committed before the rows
+
+From `research/audit/gpu_local_tori/predictions.txt` (720ee7e) and the card's block 3 (6b2dc2b; block 3 has had no line
+changed since, `git diff 6b2dc2b 16271f3 -- research/gpu-local/PREDICTIONS.md` deletes nothing), measured −
+forecast in combined errors at 81, 84, 108, 111:
+
+| forecast | 81 | 84 | 108 | 111 | χ² on 4 |
+|---|---:|---:|---:|---:|---:|
+| line from 63, five-point fit (± 0.002–0.006) | +2.5 | +1.8 | +0.9 | +1.6 | 12.8 |
+| card block 3 (same line, slope ± 0.0003) | +1.4 | +1.0 | +0.8 | +1.4 | 5.4 |
+| smooth forms E, M (± 0.023–0.18) | −0.2 | 0.0 | +0.6 | +0.7 | 1.0 |
+| stretched S | +0.9 | +0.8 | +1.2 | +1.7 | 5.8 |
+
+Two things follow, and the second concerns the earlier review as much as the branch.
+- As forecasts, the smooth forms scored best and the five-point line worst: all four tori fell above the line, so
+  its slope 0.20840 ± 0.00014 was too precise (the nine-point slope 0.20867 is 1.9σ from it). The card's block 3,
+  with its slope error ± 0.0003, was honest; the review's line was not.
+- **The 81-cell torus could not have been "the sharp test".** The review put line and smooth forms 0.014 apart at
+  81, but the smooth forms' own forecast error there was ± 0.023, so no value at 81 could have refuted them. Block 4's
+  "3.0 statistical errors above the first and 1.5 below the second" counts only the measurement error. In combined
+  errors 81 is 2.5σ above the line's forecast and 0.2σ from the smooth ones. The smooth forms fail on the refit, not
+  on 81.
+- Block 4's arithmetic is right: 1.4, 1.0, 0.8, 1.4 combined errors; slope 93 → 111 = 0.2105 ± 0.0013, 0.0021 from
+  0.2084 against a criterion of 0.002, a fail by the letter; its "one time in eight" is right (P(|z| > 1.52) = 0.13).
+  The earlier review's own criterion for the line (81 or 84 more than 3 combined σ off, or 108 and 111 both more than
+  0.03 off on one side) is not met: the line survives by its letter (81 at 2.5σ; 108 only +0.020).
+
+### 3.5 Corrections the README needs (wording; no number on the branch changes)
+
+1. Line 197: "χ² 68 to 117 on 1 in the review's fits" → 113–117 for the four decaying forms (59–70 with 57's error
+   inflated), 15 for the stretched one; on nine tori 164–177 on 5 (S 31, H 77).
+2. Line 195: "which the four new ones sharpen" → the four new tori exclude smooth forms more strongly through the
+   straightness above 63; the bend itself still rests on 48, 57, 63, and without 48 no form can be told from a line.
+3. Line 205: "room for a scatter of about 0.003 between lattices, no more" → median 0.004, 95% upper bound 0.014.
+4. The 111 hazard: "flat within errors" → χ² 8.9 on 2, a 2.5σ hint of a rising hazard in a run of 0.18 mean lives;
+   and the slope 93 → 111 that would make the price rise rests on that torus.
+5. Block 4 (in a new block, as the file's rule requires): the 81-cell comparison in combined errors (2.5σ from the
+   line's forecast, 0.2σ from the smooth forms'), as above.
+6. Hull section: the A10G value is 13.6347 ± 0.0011, so the difference is +0.0016 ± 0.0017 (the README rounds both).
