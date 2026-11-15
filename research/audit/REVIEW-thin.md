@@ -2,7 +2,8 @@
 
 Adversarial review, 2026-11-14 (started 23:30), of `research/theory/thin/` at commit 15e14a7. Scripts in
 `research/audit/thin/`; they share no code with the thin line. Bulk output in `research/scratch/audit_thin/` (ignored).
-IN PROGRESS: verdicts are filled in as runs finish.
+The plan was amended once, on wall-clock alone (`plan2.sh`, f6a7530): fewer chunks, and s45 and r36 dropped.
+Production used about 1.7 h on two cores.
 
 **Independent stepper.** `tt.c` (bit-sliced, 2,048 lanes, splitmix64, its own life logic) driven by `tt.py`, which builds
 the graph of the torus (1,1),(0,b) from `research/audit/shape/geom_check.my_slab` (AUTOMATON.md's cube-index table, not
@@ -23,8 +24,13 @@ end of run. Estimator: per-face τ = faces × exposure / deaths over ages ≥ T0
 
 | claim | verdict | line | review |
 |---|---|---|---|
+| 1. ring slopes still bending (0.1086, 0.1063 per cell at A ≈ 78, 90) | **stands**; a smaller bend, and the censoring text needs correcting | 0.1086(9) (72→84), 0.1063(13) (84→96) | 0.1081(3), 0.1067(4); ln τ at b = 16 … 32 agrees within 1.3σ |
+| 2. segments 0.0993(3) per cell, straight A = 75–135 | **stands with corrections** (wording on the wall; tested to n = 37 only) | 0.2978(4), 0.2964(10) per site (21→29→37) | 0.2981(3), 0.2978(6) per site; 0.0993 per cell |
+| 3. long-face limit 0.099 ± 0.004 per cell | **does not stand as an error**; the central value is plausible | 0.099 ± 0.004 | 0.093–0.107 per cell from the routes separately; 0.097–0.102 if they share a limit |
+| 4. M(5) − det = +0.006(3) at b = 16 | **stands** | +0.006(3); M(4) +0.049(3) | +0.0017(18); M(4) +0.0497(23) |
 | 5. exact M(1): ring of 5, segments | **stands** | 3.967199; 2.453108 (n = 2), 4.192750 (n = 5) | 3.967199; 2.453108; 4.192750 |
-| 7. forecasts before runs; scoring | **stands with corrections** | | see below |
+| 6. dies by an island shrinking from its ends | **stands**; the half-lag numbers are convention-dependent | profile 1.7, 4.1, 7.3, 10.1, 12.6, 14.8 (b ≥ 20) | 1.70, 4.05, 7.36, 10.14, 12.58, 15.16 (b = 32) |
+| 7. forecasts before runs; scoring | **stands with corrections** (tally generous) | | see below |
 
 ## Claim 1: ring lifetimes
 
@@ -39,7 +45,7 @@ every tag, and the chunk χ² is normal.
 | 26 (78) | 11.9941(20) | — | |
 | 28 (84) | 12.6465(25) | 12.6482(83) | |
 | 30 (90) | 13.2865(28) | — | |
-| 32 (96) | PENDING | 13.9233(139) | |
+| 32 (96) | 13.9268(43) | 13.9233(139) | |
 
 Local slopes per cell, review against line:
 
@@ -48,8 +54,15 @@ Local slopes per cell, review against line:
 | 72 → 78 | 0.1075(5) | |
 | 78 → 84 | 0.1087(5) | |
 | 84 → 90 | 0.1067(6) | |
-| 72 → 84 | 0.1081(3) | 0.1086(9) |
-| 78 → 90 | 0.1077(3) | |
+| 90 → 96 | 0.1067(9) | |
+| 72 → 84 | **0.1081(3)** | 0.1086(9) |
+| 84 → 96 | **0.1067(4)** | 0.1063(13) |
+
+**The bend is real.** It is 0.0014(5) per cell between the two 12-cell slopes, 2.9σ, against the line's 0.0023(16).
+Every one of my ln τ agrees with the line's and the census's within 1.3σ. My rings alone, b = 24–32, are close to
+straight: γ = 0.1076 per cell, χ² 6.8/3. From b = 16 they reject every three-parameter form in `refit.py`
+(c/b, ln b, √b; χ² 7.6–11.7/3) except a fast exponential (ξ = 3, limit 0.107 per cell). That bears on claim 3: the
+ring route alone does not point to 0.099.
 
 **Censoring and lives that stop dying.** `python3 research/audit/thin/tailcheck.py` reads the line's raw chunk files.
 For each tag it compares the deaths observed in the old-age tail (> 4 and > 8 mean lane-lives) with those a flat hazard
@@ -92,13 +105,19 @@ X_{s+1}}, as in ring.c's NOTCH. Layers 1–6 stay a full ring.
   boundary condition, and its effect is an O(1) end term in ln τ, so it does not enter γ. But it is not shown to be the
   free end of a physical strip, and nothing about end costs should be read from it.
 
-**Re-measured** (tags s21, s29; s37 pending):
+**Re-measured** (tags s21, s29, s37):
 
 | n | review | line |
 |---|---|---|
 | 21 | 9.1719(16) (403k deaths; the two chunks differ by 2.7σ) | 9.1708(15) |
 | 29 | 11.5564(18) (312k) | 11.5533(29) |
-| slope 21 → 29 per site | 0.29806(30) [0.09935 per cell] | 0.2978(4) |
+| 37 | 13.9390(48) (43k) | 13.9246(73) |
+| slope 21 → 29 per site | 0.2981(3) [0.0994 per cell] | 0.2978(4) |
+| slope 29 → 37 per site | 0.2978(6) [0.0993 per cell] | 0.2964(10) |
+
+**Stands with corrections.** The segment law is straight within 0.0003(7) per site between n = 21–29 and n = 29–37,
+and the cost per cell 0.0993 reproduces. n = 45 was not rerun, so "to A = 135" rests on the line's 16.32(2) alone.
+Corrections: the wording on the wall (above), and a statement that the wall perturbs the substrate.
 
 ## Claim 4: noise is enough from five layers
 
@@ -146,11 +165,20 @@ age in all three tags (by-age columns of `stats`).
 - **Windows (route 3)** depend wholly on the form, for example 0.270–0.297 with √l and 0.311–0.318 with ln l, and
   drift with the range. The upper end of the line's interval (0.309) comes from this route. It does not constrain γ.
 
+The review's own rings (claim 1) add a fact: from b = 24 to 32 they fit a straight line at 0.1076 per cell, and
+a fast-decaying correction extrapolates to 0.104–0.107. So the ring route allows limits up to about 0.107.
+
 **Verdict: does not stand as an error bar.** ±0.004 per cell (±0.011 per site) is the spread of the forms the line chose.
 Forms it did not use fit its data equally well and fall outside the interval: √n on segments (0.279), ln b on rings
-(0.282), a third term on the wall (up to 0.31). My range from the routes that constrain anything (segments, rings,
-wall): **γ = 0.28–0.31 per site, 0.093–0.104 per cell, centre about 0.098**. That is ±0.006 per cell, and it is still a
-spread of forms rather than a confidence interval. "0.0993(3) per cell between A = 75 and 135" is fine as a mean local
+(0.282), a third term on the wall (up to 0.31). My range, route by route:
+- segments: 0.093–0.102 per cell;
+- rings: 0.094–0.107;
+- wall: 0.095–0.105;
+- all routes together, without assuming a common limit: **0.093–0.107**;
+- if the routes share a limit (the line's conjecture), the overlap is **0.097–0.102**.
+
+So "0.099 ± 0.004" should become "≈ 0.099, between 0.093 and 0.107 depending on the unknown correction form (0.097–0.102
+if the four routes share one limit)". This is still a spread of forms rather than a confidence interval. "0.0993(3) per cell between A = 75 and 135" is fine as a mean local
 slope; its (3) is statistical only. The ordering "the segment slope is the lowest and flat since n ≈ 25" stands. Its
 flatness is within errors that grow from 0.0004 to 0.003 per site over that range.
 
@@ -177,10 +205,16 @@ Segment n = 29, lags 1, 2, 3, 4, 6, 10, 20, 31:
   from 23 sites to 3 over about 30 generations. In the last 5 generations it loses about 1.3 sites per end per
   generation; at k = 10–30 it loses about 0.4. Two islands are common at k > 10, one at the end.
 - That is the line's picture, an island shrinking from its ends, and it **stands**.
+- Ring b = 32 (4,497 deaths): the population looking back is 1.70, 4.05, 7.36, 10.14, 12.58, 15.16 against the line's
+  1.7, 4.1, 7.3, 10.1, 12.6, 14.8. The live region's span falls from 27 sites to 2.7, and it shrinks from both sides of
+  the last site at similar rates (extents left/right 1.0/0.8 at k = 2, 3.1/2.8 at k = 6). There are often two islands
+  (2.4 on average at k = 31, 1.24 at k = 1). The half-lag against 1.33 × 32 = 42.6 cells is 8.9 generations. The
+  line's 7.8 matches it if the line counts the lag from the last non-empty generation.
 - The half-collapse lag depends on the reference population. Against the segment's own living population (32.4 at
-  k = 31, which equals 0.371 × 87) the lag is 8.2 generations at n = 29. The line gives 9.8. The line's segment lags
-  appear to take the ring density 1.33 per site as the reference, which lengthens them. I inferred this from the
-  numbers and did not read it in the code.
+  k = 31, which equals 0.371 × 87) the lag is 8.2 generations at n = 29. The line gives 9.8. Its segment lags seem to
+  take the ring density 1.33 per site as the reference: against 38.6 my lag is 10.5, or 9.5 with the same off-by-one.
+  The "0.39 per site" for segments is therefore a convention, not a second rate. I inferred this from the numbers and
+  did not read it in the code.
 - Beneath gaps (`gap.py`, ring b = 48, 3 lanes, output in `gap_out.txt`), at the middle of a maximal empty run:
 
   | run | layer 1 | layer 2 | layers 3–4 |
@@ -220,3 +254,38 @@ Scoring:
 - F6 is scored "hit" although its stated mechanism ("no drift like the ring's") failed once the n = 13 value was
   corrected, and "the ring falls towards the same value" was untested. It should read "hit on numbers, the clause
   untested/failed".
+
+## Corrections the write-up needs
+
+1. §1, §3, the headline: replace 0.099 ± 0.004 by the range in claim 3, and say it is a spread over correction forms.
+   It is 0.093–0.107 route by route, and 0.097–0.102 only under the common-limit conjecture. Route 3 (windows) gives no
+   bound. The c√n form fits the segment lifetimes as well as the others (χ² 10.6/11 from n ≥ 17) and gives 0.093.
+2. §3, route 1, "no stable fit": c ln b fits the six rings (χ² 0.8/3, 0.094). The review's sharper rings b = 24–32 are
+   near-straight at 0.1076. Say that the ring route allows limits from 0.094 to 0.107.
+3. §8 (ii): the 30-mean-lives cut cannot act in any large tag, because chunks are shorter than 30τ. The protection is
+   the any-period repetition test. Two model tags (mod_b16_w6, seg_m5_n13) do hold undetected stuck exposure below the
+   cut, worth ≤ 2 × 10⁻⁴ in ln τ. "none in any tag in use" should be qualified.
+4. §2 / ring.c comment: "three sites is the least that keeps the two ends from seeing each other inside the face".
+   Two suffice; three is a choice. Add that the substrate beneath the wall is denser in layers 1–2 (0.456 and 0.412,
+   against 0.413 and 0.395), so a segment end is a specific boundary condition.
+5. §5: say which reference population and which origin the half-collapse lags use. The segment value 0.39 per site
+   against the ring's 0.29 seems to come from using the ring density for the segment. Two islands are common in the
+   last 30 generations of a ring, so it is not a single island throughout.
+6. §8: at n ≤ 9, firewalls checked every 840 generations are mostly missed, and the isolated face's death is counted.
+   About 22% of life ends at n = 7 are firewalls when checked every 16 generations.
+7. PREDICTIONS tally: F3 and F11 are mostly misses, not halves. F6's "no drift" clause failed. F11(b)'s 0.3182 is
+   outside 0.298–0.318, not "at the edge".
+
+## Not checked
+
+- The review did not rerun rings of b = 20 or 36, segments of n = 45 or 61, the windows on b = 64 (route 3 was refit
+  from the line's curated histogram only), the wall statistics (route 4 likewise), M(w) at b = 24 or on segments, the
+  density dependence (F4), the 12-layer slab, the closures of §6b (pca, knowing coins), or the wider torus (1,2),(0,b).
+- The exact M(1) at n = 3, 4, 6, 7 (only n = 2, 5 and the ring of 5) was not recomputed.
+- The under.py statement about layers 1–3 thinning *before* a gap opens was not checked; only gaps already open were
+  (`gap.py`).
+- The line's `analyze.py` and `run.py lntau` were read, not executed. Their numbers were taken from `data/*.json` and
+  the raw chunk files.
+- My stepper's life logic (settled, firewall, exposure) was checked by agreement with the line on 12 tags and by
+  flat hazards. There is no separate test of it like the line's `validate_dump`.
+- The RNG is splitmix64 with one stream per process. It was not cross-checked with a second generator.
