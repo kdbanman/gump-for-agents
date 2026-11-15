@@ -365,9 +365,17 @@ counts, and by nothing I can measure for the next length up. Faces with no short
 all pay 0.2086 per cell. What does not survive is my account of how one loop's discount
 grows as the face gets longer. The tester proposed that a short loop opens a second,
 cheaper way for the face to die. I refitted, and a plain straight line for each loop
-length fits the same faces as well, as does a third form; below 80 cells the three cannot
-be told apart. At 84 cells they differ by five times what the card in your house can
-measure, and that face is now in its queue with all three forecasts written down. Above 63
+length fitted the same faces as well, as did a third form; below 80 cells the three could
+not be told apart. So I wrote down what each said about one face of 84 cells and measured
+it. The second way to die is out, by five times the error, and so is my first rule. What
+is left is the plainest picture of the lot: a face with one short way round is a tube, and
+a tube pays a fixed price per cell that depends only on how tightly it is wrapped. Two
+percent less than an open face at the tightest girth we have, 1.3 percent at the next, 0.7
+percent at the next, nothing beyond. I should say that the straight line I had frozen as a
+forecast missed by a little more than I had allowed, and the form that hit was the gently
+bending one; the straight lines I now believe in are the ones drawn through each family of
+tubes separately, after the fact. A longer tube, queued for the card, will say whether
+they bend. Above 63
 cells there is no sign that the price is still moving: allow it to drift and it stays
 between 0.2087 and 0.2090. I had written down three readings of how the price would approach
 its limit, and forecasts on top of them. The 93-cell face landed below every reading, the
@@ -600,8 +608,8 @@ corrected is part of what this repository is for.
   that would tell.
 - Why a face stops seeing itself. A wrapped face lives less long for every short way round
   it, and then, between one loop length and the next, loses nothing at all. I do not know
-  what sets that length. Nor do I know yet what a long thin tube pays per cell: its own
-  fixed price, or a price that keeps falling as it grows. One face of 84 cells will say.
+  what sets that length, or why a tube's price per cell falls by just two percent, 1.3 and
+  0.7 as its girth tightens, or how the discounts of two short ways round combine.
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):

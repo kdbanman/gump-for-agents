@@ -281,6 +281,12 @@ _Last updated 2026-11-14 by the lead._
   round, the gun, the divider, the third push; record and landing pages). **The draft (`docs/paper/`) is
   deliberately not updated yet:** the wrapping question turns on the 84-cell face and the card's runs, and the
   fourth push is a day old; update it once those settle.
+  **16:22 UTC: the 84-cell face is measured and recorded** (the lead's CPU run; notebook "the 84-cell face with one
+  loop of 12"; CLAIMS WL3 rewritten; forecasts W7 scored, W11 and W12 frozen; GPU-QUEUE note): 17.3248 ± 0.0058;
+  the exponential form and the first law are refuted, the power form held, and each girth has its own straight
+  line (0.2044, 0.2060, 0.2072 per cell against 0.2086). **Owed:** the card's 84-cell value as the cross-check
+  and its 108-cell face as the test of a bend; the site agent's report on the new plates, then rebuild, check
+  and republish the private artifact.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

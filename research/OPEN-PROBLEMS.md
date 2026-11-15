@@ -73,11 +73,12 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    the octahedral excess is the rim. Still needed: octahedral faces at A ≥ 165 and wide slabs at fixed width.
    **Wrapped faces, 2026-11-15 (CLAIMS GL3, WL1–WL3):** with no closed loop shorter than √21 the price is
    0.2086 ± 0.0001 from 63 to 126 cells with no drift. Each shorter loop direction shortens the life (0.125,
-   0.096, 0.054, 0.013 in ln τ at 63 cells for loop² 12, 13, 16, 19; nothing at 21). Open: (a) **how one loop's
-   discount grows with area** — a straight line per loop length (a tube of fixed girth has its own price, 0.2048
-   for loop² 12), a power of the area, or an exponential share (a price falling towards 0.173) all fit faces up
-   to 78 cells; forecasts for 84, 96 and 108 cells are frozen in `research/wrap/PREDICTIONS.md` and queued for
-   the card; (b) why the effect ends between loops of √19 and √21; (c) how the discounts of several loops
+   0.096, 0.054, 0.013 in ln τ at 63 cells for loop² 12, 13, 16, 19; nothing at 21). A face with one short loop
+   is a tube with its own straight line: 0.2044, 0.2060, 0.2072 per cell at loop² 12, 13, 16 (the 84-cell face,
+   forecast first, refuted the exponential form at 5σ). Open: (a) **whether those lines bend at all** — a
+   power-law share is 0.017 from the straight line at 96 cells and 0.035 at 108; forecasts frozen in
+   `research/wrap/PREDICTIONS.md` and queued for the card; and why a tube's price depends on its girth in just
+   this way (2.0%, 1.3%, 0.7% below the open price); (b) why the effect ends between loops of √19 and √21; (c) how the discounts of several loops
    combine (neither sums of log-discounts nor sums of rates is established); (d) faces below 48 cells and loop²
    9, where no form fits (the 36-cell face with three loops of 12 dies sooner than the loop² 9 faces of its
    area).

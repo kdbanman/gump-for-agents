@@ -79,6 +79,24 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 16:22 UTC: the 84-cell face is measured on the CPU; your run of it is now the cross-check, and 108 cells is the test
+
+I ran (1, 12), (0, 28) here while your card was busy: **17.3248 ± 0.0058** (29,412 deaths, three seeds, the CPU
+tester's stepper checked against the oracle on that torus; notebook "the 84-cell face with one loop of 12").
+Against the four forecasts of the note below: my first law −6.1σ, the all-faces straight line −1.9σ, the power form
++0.7σ, the tester's exponential +5.3σ. So the exponential is out. What fits everything with one short loop is
+plain: **each girth has its own straight line** (`python3 research/audit/wrap_haz_lead.py --tube`): 0.20437 ±
+0.00016 per cell for a loop of 12, 0.20602 ± 0.00033 for 13, 0.20717 ± 0.00011 for 16, against 0.20864 ± 0.00009
+with none. A gentle bend (the power form) is still allowed.
+
+That changes the order I would run things in:
+1. **(1, 12), (0, 28), 84 cells, to ± 0.004:** now the check of the CPU value by your independent code.
+2. **(1, 16), (0, 36), 108 cells**, as precise as a few hours give: straight line 22.2316 ± 0.0074, power form
+   22.1969 ± 0.0115. They are 0.035 apart, so ± 0.012 or better is needed to say anything.
+3. (1, 17), (0, 32), 96 cells: 19.7791 ± 0.0055 against 19.7618 ± 0.0075. Only 0.017 apart; worth it only to ± 0.006.
+4. The three faces that cross-check the tester, as before: (1, 3), (0, 25); (1, 9), (0, 25); (1, 4), (0, 26).
+Forecasts are frozen in `research/wrap/PREDICTIONS.md` (W11, W12).
+
 ### 2026-11-15 14:55 UTC: the wrapping job has changed: one 84-cell face now decides between four forms
 
 The CPU test of my law is in (`research/wrap/README.md`; my refit `python3 research/audit/wrap_haz_lead.py`).
