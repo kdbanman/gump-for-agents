@@ -21,7 +21,7 @@ add oracle comparisons or oracle runs for the objects they use. The SAT checks b
 | 5 | divider, period exactly 8 from 2N − 3, every N ≥ 8; stroke one cell | **B** | period, oscillator, word and stroke reproduced for N = 3..60; but "nothing on the wire changes the oscillator" holds for the orbit only (one removed cell at the stroke site kills both), and the place-and-phase claim gives no command and leaves its j undefined |
 | 6 | clock with a tail, period 4N + 2 | **A** | N = 2..40, unlit stationary, lit period exactly 4N + 2 (`st`, oracle-checked on N = 5) |
 | 7 | turn class 2 without planes, T ≤ 36; eat_direct | **B** | the encoding is a sound relaxation for every U (so the light-cone argument is right and not needed); T = 4 (missing from the list) is UNSAT too; but the push's intro says it holds "for caps of every length and shape" without the T bound. eat_direct: **C**, not checked |
-| 8 | negatives with bounds | **B** | positive control added (the gun comes out of the period-8 encoding); "a sparser train" is one train; the divider and two-sided searches fix the wire's phase on both sides (closed here for the divider at W ≤ 3, see §5); the step_set scans: **C**, not checked |
+| 8 | negatives with bounds | **B** | positive control added (the gun comes out of the period-8 encoding); "a sparser train" is one train; the divider and two-sided searches fix the wire's phase on both sides (closed here for the divider, W ≤ 4 in the 3 × 3 tube, W = 1 in the 5 × 5; not for the two-sided searches); the step_set scans: **C**, not checked |
 
 ## 1. The three "for every N" proofs
 
@@ -151,7 +151,7 @@ until it arrives; tape phases agree).
 *positions* of the out-train with the wire **in the same phase on both sides**. An object joining wire C to wire C one
 generation out of step is not covered. Closed here for small W: `python3 sat_div_parity.py 5fbb 5f W` (the left
 pattern advanced by one generation, everything else `sat_div.build` unchanged): UNSAT at all four shifts for W = 1, 2,
-3 (under 3 s each) and, in the 5 × 5 tube (`--lo -1 --hi 7`), W = 1. W = 4: see the end of this section. Control of
+3 (under 3 s each), W = 4 (below) and, in the 5 × 5 tube (`--lo -1 --hi 7`), W = 1. Control of
 the advance: advancing both sides gives SAT at shift 0 for `5f`/`5f` (the train itself) and UNSAT for `5fbb`, as in
 step; `5f`/`5f` with only the left advanced: UNSAT for W = 1, 2 (no phase-slip object of that width).
 The same fixing applies to `sat_two.py --w W --V m` (the far wire V is at the one phase `wire_phases` gives): the 225
@@ -160,7 +160,9 @@ leaky-turner instances and the two-sided census exclude only objects with the fa
 **Wording.** `sat_gun.py 5fbb C` is one sparser train (5f9f, one rake per 8 generations), not "a sparser train" in
 general. The three UNSATs (C = 29, 31, 33) were not rerun (the last took 29 min).
 
-W = 4 out of step: RESULT_W4
+W = 4 out of step (`python3 sat_div_parity.py 5fbb 5f 4`, 20 min): UNSAT at all four shifts (309, 324, 277, 283 s).
+So the divider negative now covers both wire phases for W = 1..4 in the 3 × 3 tube and W = 1 in the 5 × 5 tube; the
+5 × 5 tube at W = 2 out of step was not run.
 
 ## 6. Clock with a tail
 
@@ -193,7 +195,7 @@ capR with 4 + 3 + 4 = 11 cells at generation 0 (README: 11; the JSON note says "
 3. §23 first item: "No gun for a sparser train" → "No gun for the train 5f9f"; cite the positive control
    `sat_gun.py 5f5f 31` (SAT, the gun).
 4. §23 divider: "all four relative phases" → "all four relative positions, the wire in the same phase on both sides";
-   add the out-of-step case (§5 here).
+   add the out-of-step case, UNSAT for W = 1..4 (3 × 3) and W = 1 (5 × 5) (§5 here).
 5. §22 two-sided objects and the 225 leaky instances: say that the far wire is in one fixed phase relative to wire C.
 6. §22: add T = 4 (UNSAT, 0 s) to the class-2 list; note that the "cannot fake" paragraph is not needed for the UNSAT
    direction (every U is a relaxation).
