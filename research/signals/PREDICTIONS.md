@@ -387,3 +387,20 @@ Over four pushes: 19 forecasts tested, 9 held in some form, 10 failed. The two t
 had marked down hardest after three empty pushes, and my most confident one (S21) was wrong. The investigator's own
 note says the same of itself: the earlier negatives were all stated for one kind of word and one kind of placement,
 and I, like it, took them for more.
+
+## Fifth push (a listener): the lead's forecasts, 2026-11-15 16:39 UTC, written before it starts
+
+The question is one thing: does any standing object end up in a different lasting state after a gap has passed
+than after none? Four pushes found a writer and an editor and no reader. My last round's lesson was that I took
+narrow negatives for broad ones, so these are not marked down as far as habit suggests.
+
+- **S22 (15%).** A listener passes the oracle: a bounded standing object at the end of, or beside, the stream that
+  survives one gap (or one stated word of gaps) and is left in a lasting state different from the one it has when
+  no gap comes, both states stable under the plain stream.
+- **S23 (5%).** A reusable one: successive gaps take it A → B → A (a bit that toggles), or A → B → C … by a step
+  each time (a counter of gaps), for at least four gaps.
+- **S24 (25%).** Something moves: a gap shifts a standing object or a wall by a unit and leaves it otherwise intact.
+- **S25 (40%).** A census of stream ends at least five times the size of the one on file (13 absorbers) is
+  completed, deduplicated up to translation and time shift, and its transition graph under single gaps has no
+  edge between two different live ends.
+- **S26 (55%).** The push ends with no listener within its stated bounds.
