@@ -104,7 +104,7 @@ reaches the boundary, or reaches the boundary with the end restored; neither occ
 **(iv) Every one-unit change of one arriving rake.** The same scan sends each end, at each generation g = 0..3 (the
 two parities and the two arrival phases mod 4 of a period-4 end), the rake pair at units −10, −9 (followed): every
 non-empty subset of the live cells of either unit removed (94 subsets at even g, 78 at odd g), every dead tube cell of
-the two units made live (17 at even g, 15 at odd g), and the pair replaced by bare wire (the rake missing); with the
+the two units made live (17 at even g, 18 at odd g), and the pair replaced by bare wire (the rake missing); with the
 eight words, 426 events per end, 315,666 runs. Each event was first run on the bare train (`bare_classes`: 'vanishes',
 'rides' as a bounded difference moving with the train, or 'breaks' the wire). Outcome table (summed over g):
 
@@ -112,8 +112,8 @@ eight words, 426 events per end, 315,666 runs. Each event was first run on the b
 |---|---|---|---|
 | subsets removed, 344 | vanish 16 | 11,856 | 0 |
 | | ride 42 | 22,310 | 8,812 |
-| | break 286 | 0 | 211,926 |
-| one cell added, 64 | vanish 14 | 10,374 | 0 |
+| | break 286 | 0 | 211,926 (8,892 with the end untouched at that moment) |
+| one cell added, 70 | vanish 14 | 10,374 | 0 |
 | | ride 4 | 1,458 | 1,506 |
 | | break 52 | 0 | 38,532 (of them 2,964 with the end untouched at that moment: the break runs up the stream first) |
 | bare wire, 4 | ride 4 | 2,396 | 568 |
@@ -142,16 +142,89 @@ and a two-cell one, K3 (2 events). The ends fall into four classes:
 So 503 of the 741 ends tell the hole from K0, and 17 of them die on the hole and survive K0. The gap is still forgotten
 or fatal (no listener), but which of the two depends on the end and on the kind of gap. These ends are detectors of the
 fatal kind: a K0 signal arriving at one of the 486 destroys it and burns back up the stream, a hole does not.
-ORACLE
+Among them is the C = 31 absorber, the receiver of the beam (§21): it heals every hole but is destroyed by K0 and K3.
+The line's capA is among the 113 that heal everything.
+
+**On the oracle** (`python3 oracle5.py`, 3 min; initial cells and events in `research/audit/signals5/two_kinds.json`):
+seven ends, each at the end of a finite train of units −100..5 on an even torus, stepped by `reference/oracle.py`,
+with the hole of word [0] and two K0 events (the cell (0,1,4) of unit −10 removed at generation 0; the cell (0,−1,2)
+of unit −10 added at generation 1). Ends #0 (the C = 31 absorber), #1, #2: the hole heals (whole torus equal to the
+plain run from generation 5), both K0 events kill (at generation 100 the difference has run up to unit −28 while the
+plain run's train at units −40..−20 is intact). Ends #9, #26, #28: the hole kills (difference up to unit −40 or −41),
+both K0 events heal (whole torus equal from generation 34). End #10 (capA's end): all three heal. All seven as the
+scan predicted.
 
 ## 3. Beside the stream (section 28)
 
-C_PART
+**(i) `divgap.py 16`.** DIVGAP
+
+**(ii) The four `LISTENER?` runs** (`python3 lis4.py`, oracle only). LIS4
+
+**(iii) All 46 runs in which a gap kills the gun and the oscillator is kept** (`python3 c46.py`, 2 min; `st5.step`,
+checked against the oracle on the first record of each file for 150 generations inside the script). Classification
+of the difference between the gapped and the plain run on the wire (outside the oscillator's orbit): *fire*, every
+wire unit between the oscillator and the gun holds less than half its plain cells 10 generations after the difference
+reaches the gun; *compact signal*, for 12 generations or more the difference is at most 3 units wide and 6 cells and
+moves towards the gun; *wall*, 2 generations before the gun is reached the wire between the oscillator and the front
+is a uniform wire of repeat one unit different from the plain run's; *other*, none of these.
+
+| zone | runs | fire | wall | compact signal | other |
+|---|---|---|---|---|---|
+| beside units 4..7 (`gapstream.jsonl`) | 28 | 23 (one of them C9.28a, whose gun also dies in the plain run) | 0 | 0 | 5: C18.25b ×2 (the oscillator beside the gun, no wire between), C18.30a ×2, one C20.29a |
+| beside capA (`gapstream_end.jsonl`) | 18 | 2 (C9.28a) | 8: C13.24a, C22.23b, C26.37a, C32.33b, both gaps each | 4: C18.23a, C20.33c, both gaps each | 4: C17.31a, C30.32a |
+
+So the push's "a fuse, not a signal" holds for the mid-wire sample (23 of 28 plainly; the other 5 spread without a
+compact carrier), and **not for the receiving end**:
+
+- *Wall* (C13.24a, on the oracle: `python3 orc46.py`): the hole reaches the end, and from the end a front moves up the
+  wire at one unit per 2 generations; behind it the wire is uniform, of repeat one unit and period 2, with base cells
+  {(0,0,1),(0,0,3),(0,0,5),(0,1,2),(0,1,4)} and {(0,1,2),(0,1,4),(0,2,3),(1,0,0),(1,0,4)} at the two parities (not
+  wire C: (1,0,4) in place of (1,0,2)). The stream is converted, not burnt.
+- *Echo* (C18.23a gap 0, on the oracle: `python3 orc46.py`, 3 s; initial state in `end_echo.json`): the hole reaches
+  capA with the oscillator beside it at generation 18; from generation 24 to 38 the **whole-state** difference between
+  the gapped and the plain run is exactly three cells, (1,2,2) of unit u and (0,0,3), (0,0,5) of unit u + 1, moving
+  rigidly one unit towards the gun every two generations, through the oncoming rakes; capA, the oscillator and every
+  rake are as in the plain run. It reaches the gun at generation 40 and the gun dies. The end is restored, so this is
+  not a listener; it is a reflector that turns a gap into a counter-propagating signal, the "rake turned against the
+  stream" that section 29 asked for.
 
 ## 4. Corrections
 
-CORR
+Applied to `research/signals/README.md` (sections 26–29 and the fifth-push introduction), each marked *Review*:
+
+1. Introduction: the SAT negative stated with its bounds (period dividing 4 / 8, holes and four words, settling 42
+   generations, disturbance of at most 4 units in front), C = 29 vacuous, C ≤ 37 also answered by the census; the
+   census words are words of one-cell holes.
+2. §26 "movers are excluded too": only for ends that fit at C − 4|k| (B must be the train on units < 6 and inside the
+   planes). Added to "what this does not exclude".
+3. §26 after the table: C = 29 vacuous; C ≤ 37 rows are a second method for the census's question; which rows were
+   reproduced independently (C = 29, 31 one hole; QUEUE_SHORT); the finite holed train H limits T to about 88.
+4. §27 "which of the two is a property of the end alone": true for holes, false for gaps in general (the second
+   one-cell signal K0; four classes of ends; oracle-checked on seven ends).
+5. §27 "Not covered": period 8 not covered from C = 35 (not 33); capA is in the census (it was listed as not covered).
+6. §28: one of the 28 mid-wire gun deaths (C9.28a) is a plain-run gun death; all 46 were looked at; beside the
+   receiving end 16 of 18 are not fires (8 walls, 4 echoes, 4 other).
+7. §29: "Not checked" updated with what this review checked; "perfect sink for gaps" narrowed to holes; the "where to
+   go next (1)" question answered (echoes exist; nothing upstream survives them yet).
+
+Not applied (outside sections 26–29 or not mine to change): `gapstream.py --summary` tests `gap_gun` before
+`plain_gun`, which mislabels a run in which both guns die (C9.28a); `sat_listen.py` builds H on units −400..KS + 40,
+which is too short for T ≳ 88; `PREDICTIONS.md` scoring: the scores and the Brier mean (0.06) recompute correctly
+from the stated probabilities; P1 "failed" is right but its C = 29 part is vacuous.
 
 ## 5. Not checked
 
-NOTCH
+- The push's SAT rows other than C = 29, 31 one hole (4, 4) were not re-encoded (QUEUE_NOT); no proof certificate
+  was produced for any UNSAT (pysat's glucose4 / kissat404 verdicts only). The wire-B pulse control was not re-run.
+  The 5 × 5 tube was not attempted.
+- The census's 1,500-generation transients: the review's scan stops at 400 generations, which no row reached (every
+  row healed within 39 generations or reached the boundary).
+- The upstream rows of the 142 ends that die on holes were not followed beyond the boundary at unit −60 (they are
+  fuses on holes; whether their K0 deaths are also plain burns was not looked at). Of the upstream rows on healing
+  ends all 3,888 were followed and all are burns.
+- Events larger than one unit of the train (other than the eight words), events at other distances from the end, and
+  additions of cells outside the 3 × 3 tube were not tried.
+- §28's catalogue samples were not re-run (only their not-healed records were re-examined); the 5 "other" mid-wire
+  and 4 "other" end runs were not characterised further; the wall's wire was not matched to the family of section 9.
+- Which of the 46 behaviours depend on the placement only through the hole's arrival phase was not studied; the echo
+  was put to the oracle for one run (C18.23a, gap 0) and the wall for one (C13.24a, gap 0).

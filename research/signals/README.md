@@ -1112,7 +1112,9 @@ and up to C = 37 the census of section 27 answers the same question), the widest
 ends, every one fed eight words of one-cell holes, transients up to 1,500 generations), and the only search beside the
 stream is a sample (section 28). *(Review, REVIEW-signals-5: confirmed with these bounds; and every one-unit change of
 one arriving rake was sent to the 741 ends as well: still nothing but healed or burnt, but the stream carries a second
-one-cell signal, and which ends it kills is not which ends the hole kills: section 27.)* No new object, so nothing new
+one-cell signal, and which ends it kills is not which ends the hole kills: section 27; and beside the receiving end
+two catalogue oscillators turn a hole into a signal that runs back up the stream through the rakes: section 28. Both
+on the oracle.)* No new object, so nothing new
 for the oracle; the controls of each search are stated with it. Forecasts and scores: `PREDICTIONS.md`.
 
 ## 26. A listener at the end of the stream as one constraint problem: none in the 3 × 3 tube
