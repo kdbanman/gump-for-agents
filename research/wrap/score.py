@@ -137,3 +137,19 @@ for model in ('LAW', 'EXPA', 'HAZ'):
     e = np.sqrt(np.diag(cov))
     print(f'A >= 48 {model:5s} chi2 {chi:.1f} on {len(in48) - len(th)}: ' +
           '  '.join(f'{n}={x:.5g}±{ee:.2g}' for n, x, ee in zip(Mm.NAMES[model].split(), th, e)))
+
+# markdown table for the README
+vH, eH = Mm.forecast('HAZ', onfile, new, Mm.START['HAZ'])
+print('\n| A | HNF | loops² ≤ 20 | measured | frozen law | (m − f)/σ | W1 margin | verdict | mine (OFF2) | z | HAZ, fit on file | z |')
+print('|---:|---|---|---|---:|---:|---:|---|---:|---:|---:|---:|')
+for p, h_, he in zip(new, vH, eH):
+    r = p['members'][0]; hkd = (r['h'], r['k'], r['d'])
+    fr = Fm.frozen(p); m = max(0.010, 3 * p['se']); d = p['y'] - fr
+    v = 'pass' if abs(d) <= m else ('refutes' if abs(d) > 2 * m else 'miss')
+    if not (51 <= p['A'] <= 69 and p['A'] != 60):
+        v = f'({v})'
+    mf, me = MINE.get(hkd, (float('nan'), float('nan')))
+    note = ' calibration' if hkd == (4, 0, 4) else ''
+    print(f"| {p['A']} | {hkd}{note} | {', '.join(str(q) for q in p['loops'] if q <= 20) or '—'} | {p['y']:.4f} ± {p['se']:.4f} | "
+          f"{fr:.4f} | {d / p['se']:+.1f} | {m:.4f} | {v} | {mf:.4f} | {(p['y'] - mf) / math.hypot(p['se'], me):+.1f} | "
+          f"{h_:.4f} | {(p['y'] - h_) / math.hypot(p['se'], he):+.1f} |")
