@@ -4,6 +4,8 @@
 present in the repository as a checked result, a tracked data file or a runnable command.
 Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (section 7). Updated again 2026-11-15
 (how a face dies, the 4 × 5 patch rerun, the second card): gaps 11, 14, 24, 41–43 and 45 annotated, 48 and 49 added.
+Updated a third time 2026-11-15 (dying rounds 3 and 4, the wrapped faces on the second card, signals, the state
+space; draft §§5.6, 6.1, 7.5, 8.1): gaps 42, 46 and 48 annotated, 50–55 added (section 8).
 
 ## 1. Theory
 
@@ -207,6 +209,10 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
     2.7–3.2σ below); octahedral faces of equal area with different rims, only with matched corners. Both GPU
     measurements need the guard of gap 41 first (it now exists, unused). The equilateral forecasts are anchored on
     the census's 4 × 4 value, a high draw (GL1); the CN1 fits include it and were not redone. A flat face with neither wrap-around nor rim is still unmeasured.
+    *Update 2026-11-15 (fifth draft update):* the equilateral tori are measured at 48, 57, 63, 75 and 93 cells on the
+    second card (GL3; draft §7.5, Table 8a); every reading of part C failed, and the family is a line of slope
+    0.2084 above a kink near 61 cells. The hull face at A = 108 with 10⁴ deaths is still not run, and is now the
+    measurement that bears on one price or two (gap 52).
 43. ~~**The empty-patch cross-check**~~ *Done, 2026-11-15* (GP10, draft §7.5): 18 CPU runs at 0.9 of the GPU's
     exposure give the 4×5 point at −23.412 ± 0.049 (541 hits) against the GPU's −23.318 ± 0.047, combined −23.364 ±
     0.034; the last perimeter-free cost per cell is 0.226 ± 0.006 at 36 cells (CPU 0.2349 ± 0.0082, GPU 0.2185 ±
@@ -232,7 +238,9 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
 46. **Wires and sheets** (Z13, grade C, draft §12). Of 37 unrecognised settled states, 21 were classified as wires
     and 2 as sheets by one agent; whether a wire's moving part could be held by a finite stator, whether wires of
     one period and direction are the same wire, and sheets on covers beyond 3 × 3 were not checked. The five new
-    finite clocks (Z12) have no stability or basin measurements.
+    finite clocks (Z12) have no stability or basin measurements. *Update 2026-11-15:* the signal wires of draft §8.1
+    (B, C, A, S) are a different set, found by constraint search; whether any of Z13's wires is among them, or
+    carries a pulse, was not checked.
 47. **Window choices the claims did not record** (audit of 2026-11-15). F2's plateau heights move by about 0.03
     with the averaging window (0.770, 0.604, 0.454 over whole plateaus against the quoted 0.79, 0.61, 0.48); P6's
     {110} speed depends on where the fit window ends; F11's coefficients need a weighting by firewall-first counts.
@@ -245,8 +253,60 @@ Updated 2026-11-15 with draft 2: gaps 2, 22 and 25 revised, 39–43 added (secti
     7.168), and no estimator is shown to be the right one. Unresolved: 1.7–1.8σ differences between the two codes in
     the csz and D2h stationary populations and 2.7σ in one forecast's fraction (L6). Not measured: births by
     neighbour count; the layer beneath directly; whether the surviving clump's position (rim or centre, tied or free
-    edge) predicts recovery, the test the clump-and-hole picture needs; c2e and O_h. A third round (sizes, the shape
-    of a depleted face) is under review.
+    edge) predicts recovery, the test the clump-and-hole picture needs; c2e and O_h. *Update 2026-11-15:* rounds 3
+    and 4 (sizes, the shape of a depleted face) are reviewed and in the draft; their own gaps are gap 55.
 49. **Single values used as anchors.** The census's 4 × 4 torus value was a 3.4σ high draw used as an anchor (GL1).
     A referee would want every value that anchors a forecast or a fit measured twice, by independent seeds at
     least; no list of such anchors exists.
+
+## 8. Opened by the fifth update of 2026-11-15 (dying rounds 3–4, wrapped faces, signals, state space)
+
+50. **Prior art for the signal objects and for the state-space counts has not been searched at all** (draft §8.1,
+    §6.1, §11). No pass of `research/PRIOR-ART.md` addressed signals on wires, collision logic, constructions of
+    oscillators of every period, or transient lengths and in-degree statistics of finite automata and random maps.
+    A referee would ask first whether the pulses, the clock of period 4N + 2, the tape and the inhibition element
+    are instances of known constructions in other automata. Until a search is made, the draft claims nothing new
+    for them and does not rank them.
+51. **Signals: what a referee would ask for** (SG1–SG10, draft §8.1).
+    - The proofs are computer-assisted: Theorem 8 rests on `prove_clock.py`'s five checks on one oracle-computed
+      cycle and its enumeration of chart pairs (redone by the reviewer to 150 inserted units), Theorem 9 on one
+      oracle run of a 40-unit ring. No proof assistant, no second derivation by a person. The two remarks of §8.1
+      (no growth at a wire's end; a pulse carries its drive) have no ledger row.
+    - The one-cell ignition of the clock is measured (N ≤ 400), not proved.
+    - The negatives (no reflector, no toggling cap, the 3 × 3 tube rows) rest on SAT encodings with no UNSAT
+      certificates; they hold only for period-2 caps inside the 3 × 3 tube, and wider pulses of wire C exist outside
+      it. Caps of period above 2, wider tubes, backgrounds of repeat 2, other wire directions and the undecided rows
+      of the bounds table were not searched.
+    - Not found: a corner, a closed polygon, a crossing, a reusable reflector, a gate with its own output line, a
+      stationary source, a same-side toggle, a clock of this kind with period divisible by 4. A referee would ask
+      whether any of these is excluded in principle; nothing bears on it.
+    - The soup and chaos counts (SG8, SG9) rest on two steppers but one block shape and a few densities; whether
+      unrepeated soup ever makes a carrier is untested beyond 60,000 soups on rings of 3, 4 and 6 units.
+    - The reviews did not re-run the gate (the lead did), the wide pulses, the scattering tables at the larger
+      planes, or the reflector search at plane 37.
+52. **The kink in the wrapped-face line, and one price or two** (GL3, draft §7.5). The line (0.2084 per cell
+    through 63, 75, 93 cells) and the kink near 61 cells are fitted on one degree of freedom; the 93-cell value has
+    one code (grade C); the two seeds at 57 cells differ by 2.6σ; lattice direction is confounded with size in this
+    family. A referee would want: a second code at 93 cells; the four running tori (81, 84, 108, 111) scored against
+    the committed forecasts; a torus family of another shape through the same range, to see whether the kink sits
+    at a shortest loop or an area; hull faces at A ≥ 108 with a second implementation and the guard (gap 41), since
+    one constant for both families now needs the hull slope to fall by about 0.01 beyond 108 cells. The lead's
+    account of the kink (the remnant's width plus its reach) is a conjecture with no test designed. The CN1 joint
+    fits have not been redone with the corrected 4 × 4 anchor or the new tori.
+53. **The census pipeline's 16-generation stamping** (GL3, draft §12). Measured on the same lives at 4 × 4 and for
+    a few classes at A = 48 and 60 only; the bias at A = 72 and for the classes not run is not measured. Every value
+    taken from the `research/shape2` census (SH3–SH5) inherits it; the draft states it at Table 8 and in §12 and
+    corrects no other value.
+54. **State-space counts** (SS1–SS3, draft §6.1). The census covers hulls at most 6 layers wide; at least 325 more
+    hulls of 1–29 cells are wider and unlisted, and none above 30 cells exactly. The sizes listed cannot tell linear
+    from slowly exponential growth of the visited counts; where the small-vessel regime joins the face law is not
+    known. The entropy figures are upper bounds with no lower bound, from one large slab standing in for small faces
+    conditioned on survival. Side 16's count (SS2) is not re-run, and equals the detection generation of Table 1
+    rather than the entry generation (as side 14's did before it was corrected; `FOR-LEAD.md`). A referee would also
+    ask for the comparison with random maps to be simulated rather than estimated.
+55. **The dying face, rounds 3 and 4** (DY8–DY15, draft §5.6). One fresh seed per hull size in both reviews (two
+    for the torus); the lifetimes at 108 and 135 cells are the GPU's; the review's null is one patch shape (a
+    ball); at 84 cells 82 deaths, so the dying-against-recovering comparison is tested only at 63 cells; the patch
+    in tied faces (csz, D2h) and its change with depth are not measured. No model exists for the dip curve below
+    half the population, and whether a remnant in a looser sense exists cannot be reached at sizes where faces can
+    be caught that deep; a referee would ask what measurement on larger faces could decide it.
