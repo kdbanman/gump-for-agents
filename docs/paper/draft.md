@@ -1406,8 +1406,8 @@ redone by a second agent with its own code; three codes on the reference at 24 l
 cells per unit) of N units between two caps is a free-standing object K_N of 32 + 5N cells, stationary with period 2.
 For every N ≥ 1 there is a finite pattern in empty space, K_N with a rake running between the caps (a rake is one
 added cell, below), whose period is exactly 4N + 2. (At every length stepped on the reference no cell is ever alive
-outside the diagonal hull of K_N.) Hence gump has free-standing oscillators of every period 6, 10, 14, …, every period ≡ 2 (mod 4) from 6 up: periods
-are unbounded, which answers open problem 12 of `research/OPEN-PROBLEMS.md` (periods beyond 66, Section 8).
+outside the diagonal hull of K_N.) Hence gump has free-standing oscillators of every period 6, 10, 14, …, every
+period ≡ 2 (mod 4) from 6 up: periods are unbounded, which answers open problem 12 of `research/OPEN-PROBLEMS.md` (periods beyond 66, Section 8).
 *How it runs* (README §11, measured). The rake runs to one cap laying a train of left-moving pulses behind it; the
 cap turns it into the mirror rake, which runs back laying a train of right-moving pulses; the other cap turns it
 again; each cap swallows the train aimed at it and is as it was after each pulse. Travel takes 2N generations each
@@ -1419,8 +1419,8 @@ is assembled from the computed cycle X(s) of the base clock of length 8 (period 
 m = 4 and inserting j units: at unit m + i the new state shows the base's unit m at a base time c_i(t) that runs as
 t − 2i, repeats a four-generation loop j − i times when the rakes have passed at one time t_a and i times at a
 second time t_b, and runs on, so that the period is p + 4j = 4N + 2. Five finite checks on the base make this an
-orbit: two (B1, B2) that the strip [m − 1, m] moved one unit on agrees with the strip [m, m + 1] two generations
-earlier, or later, over stated ranges of s; two (B3, B4) that the base states at t_a + 1 and t_a − 3 agree on the
+orbit: two (B1, B2) that the strip [m − 1, m] two generations earlier (B1) or later (B2), moved one unit on, equals
+the strip [m, m + 1], over stated ranges of s; two (B3, B4) that the base states at t_a + 1 and t_a − 3 agree on the
 units at or below m + 1, and at t_b + 1 and t_b − 3 on the units at or above m − 1, which is what the loops need;
 and one (B5) that the strip [m − 1, m + 1] repeats only once per period, which gives the least period. With B1 and
 B2 neighbouring charts agree where they overlap (the cases are listed in order of t in the README), with B3 and B4
