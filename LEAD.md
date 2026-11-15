@@ -102,7 +102,7 @@ job to keep it honest. What exists (2026-11-13):
   message the cloud GPU session or read any session's events, its own included (see "Watching usage"); the cloud
   GPU session's pull requests are still reachable through GitHub, and its messages to this session may still
   arrive. Until the owner says more: do not start sessions or schedule tasks on their computers, and **do not
-  call `request_computer_folder`** (it would also cut this session off from the owner's other sessions). If the
+  call `request_computer_folder`** (it would also cut this session off from the owner's other sessions).
   **The owner's words, 2026-11-15 about 03:30 UTC:** "oh wow, i wish i hadn't done that card approval now. sounds
   like it'll make things more complicated. can the remote controlled 1080 GPU endpoint serve as a message relay
   between you and the other agent? the 1080 machine can run GPU experiments to your heart's content - it's in my
@@ -112,9 +112,21 @@ job to keep it honest. What exists (2026-11-13):
   granted without a budget (this replaces the Modal budget question; spend no more on Modal); work is dispatched to
   it by message once its session says CUDA works; a relay through it to the cloud GPU session was asked about as a
   question, not ordered: the lead answered that it is probably not needed (the cloud session's hand-over is
-  `research/gpu/AGENT.md`) and that it would use one only on the owner's explicit word. If the
-  owner offers the GTX 1080 for runs, the queue is in `research/STATUS.md` (the measurements that would narrow the
-  asymptotic constant; the guard against unrecognised settled replicas comes first).
+  `research/gpu/AGENT.md`) and that it would use one only on the owner's explicit word. The queue for the
+  GTX 1080 is in `research/STATUS.md` (the acceptance bar and the guard against unrecognised settled replicas come
+  first, then the measurements that would narrow the asymptotic constant).
+  **It reported ready at about 03:38 UTC** (GTX 1080, 8 GB, compute capability 6.1, 48 KB shared memory per block;
+  driver 576.02, CUDA 12.9, cupy-cuda12x 13.4.1, numpy 2.2.6, Python 3.12, Windows 10; the engine built there passes
+  its 27 tests; `check_engine` with the three kernel configurations equal in every lane on all five cases; both
+  negative controls caught at generation 1; no gcc there yet, so the checks that need `fl.c` or `cpu.c` have not run;
+  clone at main 0e3b642; no `gh`, and it had not been told it may push). It writes under `research/gpu-local/`.
+  **The owner's words, 2026-11-15 about 03:42 UTC:** "I'm getting prompted to approve the messages you send to the
+  1080 session, but I trust you. I don't need to approve. Can we try adding a setting to allow all the time?
+  Something like adding an allow rule for that one tool, mcp__claude-code-remote__send_message, in the repository's
+  .claude/settings.json under permissions.allow?" Done the same minute: `.claude/settings.json` now has
+  `permissions.allow: ["mcp__claude-code-remote__send_message"]` beside the compaction hook. The file is read by
+  every single-repository session on this repository, so the rule also covers the other sessions once they have
+  it. It allows the one tool and nothing else; what the trust change refuses stays refused.
 
 ## The swarm
 
