@@ -1,0 +1,15 @@
+G  tube 2x2 N=7: 42 cells (6 per cube); same cells True; same neighbours True; ring positions agree up to a shift: False
+G  tube 2x2 N=13: 78 cells (6 per cube); same cells True; same neighbours True; ring positions agree up to a shift: False
+G  tube 2x3 N=7: 63 cells (9 per cube); same cells True; same neighbours True; ring positions agree up to a shift: False
+G  tube 2x3 N=13: 117 cells (9 per cube); same cells True; same neighbours True; ring positions agree up to a shift: False
+G  tube 3x3 N=7: 98 cells (14 per cube); same cells True; same neighbours True; ring positions agree up to a shift: False
+G  tube 3x3 N=13: 182 cells (14 per cube); same cells True; same neighbours True; ring positions agree up to a shift: False
+R  one cell with 12 in-tube neighbours: 8192 assignments, wrong successor admitted or right one refused: 0
+R  one cell with 9 in-tube neighbours: 1024 assignments, wrong successor admitted or right one refused: 0
+R  one cell with 5 in-tube neighbours: 64 assignments, wrong successor admitted or right one refused: 0
+R  one cell with 3 in-tube neighbours: 16 assignments, wrong successor admitted or right one refused: 0
+R  one cell with 2 in-tube neighbours: 8 assignments, wrong successor admitted or right one refused: 0
+K  tube 3x3 N=9 (p,s)=(2,1): SAT, 45 live cells; oracle: x(P) == x(0) moved 1: True
+K  tube 3x3 N=11 (p,s)=(2,1) still --live: UNSAT
+K  tube 3x3 N=12 (p,s)=(2,1) still --live: SAT, 64 live cells; oracle: x(P) == x(0) moved 1: True
+K  tube 2x3 N=13 (p,s)=(2,1): SAT, 59 live cells; oracle: x(P) == x(0) moved 1: True

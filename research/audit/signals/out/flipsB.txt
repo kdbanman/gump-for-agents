@@ -1,0 +1,12 @@
+wire B: 8 cells live in some phase per cube; 42 candidate cells per cube; 84 trials
+  flip (0, 0, 3) at phase 0 (live: False): standing (1 cells)
+  flip (0, 1, 2) at phase 0 (live: True): pulse+ (at 29 cubes)
+  flip (0, 1, 4) at phase 0 (live: True): pulse- (at -30 cubes)
+  flip (1, 0, 0) at phase 0 (live: True): front
+  flip (1, 0, 2) at phase 0 (live: True): front
+  flip (1, 0, 4) at phase 0 (live: True): front
+  flip (0, 0, 1) at phase 1 (live: True): front
+  flip (0, 0, 5) at phase 1 (live: True): front
+  flip (0, 2, 3) at phase 1 (live: False): standing (2 cells)
+  flip (1, 2, 2) at phase 1 (live: True): front
+census: {'heal': 74, 'standing': 2, 'pulse+': 1, 'pulse-': 1, 'front': 6}

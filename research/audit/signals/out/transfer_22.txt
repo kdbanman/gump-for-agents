@@ -1,0 +1,24 @@
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(1,1): 6 backgrounds, pulses on 0, undecided 0, none on 6; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(2,1): 28 backgrounds, pulses on 0, undecided 0, none on 28; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(3,1): 6 backgrounds, pulses on 0, undecided 0, none on 6; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(3,2): 6 backgrounds, pulses on 0, undecided 0, none on 6; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(4,1): 28 backgrounds, pulses on 0, undecided 0, none on 28; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(4,3): 28 backgrounds, pulses on 0, undecided 0, none on 28; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(5,1): 6 backgrounds, pulses on 0, undecided 0, none on 6; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(5,2): 6 backgrounds, pulses on 0, undecided 0, none on 6; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(5,3): 6 backgrounds, pulses on 0, undecided 0, none on 6; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(5,4): 6 backgrounds, pulses on 0, undecided 0, none on 6; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(6,1): 28 backgrounds, pulses on 0, undecided 0, none on 28; 1s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x2 (P,S)=(6,5): 28 backgrounds, pulses on 0, undecided 0, none on 28; 0s
