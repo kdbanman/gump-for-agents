@@ -4,6 +4,8 @@ Open problem 13 of `research/OPEN-PROBLEMS.md`. Standing account: results, not a
 argument, an exhaustive search inside stated bounds, or a construction the oracle has stepped), **[measured]**
 (counts, with the command), **[conjectured]**. Commands run from `research/signals/`; bulk output goes to
 `research/scratch/signals/` (git-ignored). Forecasts and their scores: `PREDICTIONS.md`.
+Sections 1 to 7: the first push (does anything carry a signal). Sections 8 to 14: the second push (machinery made of
+carriers), brought up to date 2026-11-15 10:40 UTC.
 
 ## Answer: yes. L1, L2 and L3 are reached, each with the oracle as judge; and (second push) a carrier has been turned into a clock, a register and a gate
 
