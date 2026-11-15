@@ -628,3 +628,192 @@ python3 research/dying/round3.py          # T1-T4, data/r3_*.csv, research/figur
 python3 research/dying/round3_persite.py  # unweighted slopes and the per-site curve without the shallow-dip constant (added afterwards)
 python3 research/theory/symmetric/validate.py 1500 hex_4_1_c1             # the slab against the engine
 ```
+
+# Round 4: a mixture or a thinning? The lever rule tested (2026-11-15)
+
+Forecasts F1–F6 (the lead's) and the reading under test: `PREDICTIONS.md`, "Round 4" (8e1410e) and its dated note;
+the experimenter's readings of the definitions, the run plan and the scoring rules: "Round 4 definitions" (69bd037,
+committed with `ex4.c`, `validate4.py` and `round4.sh` before any production run). Figure:
+`research/figures/dying_two_phase.png`. Tables: `data/r4_company.csv` (every level, size and set: caught, control,
+bottom, dies, recovers), `data/r4_tangent.csv`, `data/r4_stationary.csv`, `data/r4_percell.csv`, `data/r4_by_k.csv`.
+
+## Short answer
+
+- **[measured] A deeply depleted face is one thing that thins, with strong short-range clustering; it is not a void
+  beside a remnant held at fixed density.** The company C (occupancy within graph distance 2 of a live cell, over
+  stationary) falls steadily with depth at every size: at A = 108, C = 0.833, 0.738, 0.646, 0.542, 0.439, 0.288 at
+  p = 0.9 … 0.15; at A = 84, 0.534, 0.413, 0.260 at p = 0.45, 0.3, 0.15. A lever rule needs C flat below the tangent
+  point (C(0.15)/C(0.45) ≈ 1); it is 0.38, 0.49, 0.53 at A = 63, 84, 108. Even the nearest-neighbour shell, the
+  densest part of the "remnant", thins: C at distance 1 is 0.71, 0.63, 0.56, 0.43 at p = 0.6, 0.45, 0.3, 0.15
+  (A = 108). The per-cell distribution of local company moves down as a whole (median 0.65, 0.54, 0.42, 0.27 at
+  p = 0.6 … 0.15, A = 108) instead of keeping its place and losing weight.
+- **[measured] But it is far from random thinning.** Against stationary faces thinned at random to the same count,
+  the caught face has 1.15× (p = 0.6), 1.35× (0.45), 1.69× (0.3) and 2.43× (0.15) the company (A = 108), three times
+  the void at p = 0.3 (V = 0.238 against 0.077), fewer and larger groups (2.3 groups with 77% of the cells in the
+  largest, against 3.3 and 66%), and a company profile that falls with distance (at p = 0.3: 0.56, 0.39, 0.27, 0.21
+  at graph distance 1, 2, 3, ≥ 4) where the control is flat (0.26). At p = 0.9 caught and control are the same
+  (0.833 and 0.828): the clustering builds up from about 0.75 down.
+- **[measured] The excess grows with size at fixed p, the reverse of F5.** C(0.3) = 0.387, 0.413, 0.439 and
+  C(0.15) = 0.196, 0.260, 0.288 at A = 63, 84, 108. At a fixed number of live cells instead, C is *lower* on the
+  larger face (7–9 live cells caught at p = 0.3: 0.393, 0.321, 0.261), so C follows the face's relative population,
+  not the patch's cell count.
+- **[conjectured]** The data fit a correlated thinning: a face loses cells everywhere but faster far from where its
+  survivors are, so the live cells keep about two graph steps of mutual company while the face as a whole empties.
+  Whether C(0.15)/C(0.45), rising 0.38 → 0.49 → 0.53 with size, would reach the lever rule's ≈ 1 on much larger
+  faces is open; on these sizes it is far from it, and the tangent point is not the remnant's density (F2).
+- **[measured] The tangent construction, from this round's own dip table, threshold-free:** g = 0.3081, 0.3043,
+  0.3022; s = 0.2489, 0.2611, 0.2689 per site (0.501, 0.516, 0.527 per live cell); p_t = 0.596, 0.571, 0.555; end
+  point g(1 − p_t²) = 0.1955, 0.2020, 0.2061 per site at A = 63, 84, 108, against the true end point
+  [ln τ + ln ν(0.9)]/A = 0.1786, 0.1877, 0.1934 from this round's own lifetimes. The construction overshoots the
+  true end point by 0.017, 0.014, 0.013 per site (1.06, 1.20, 1.37 nats): it is the review's K ≈ 2 again, and the
+  remnant density it implies (0.55–0.60) is not seen (the company over p ≤ 0.3 is 0.29, 0.34, 0.36).
+- **[measured] Dying faces are looser than recovering ones at the same level.** At A = 63, p = 0.15: C = 0.152 ±
+  0.001 for the 28,552 caught faces that go on to die against 0.204 for the 132,174 that recover (A = 84: 0.203 ±
+  0.004 against 0.263; p = 0.3, A = 63: 0.321 against 0.387). Part of this is count (the dying faces have fewer live
+  cells at the catch: 2.97 against 3.61), which this comparison does not remove.
+
+## Forecasts, scored
+
+Scored as registered, on the normalised C (definitions note). Errors are bootstrap s.e. over caught faces.
+"Reached" levels: all six at every size (A = 108 at p = 0.15 with 667 caught faces).
+
+| | said | found [measured] | |
+|---|---|---|---|
+| F1 (65%) | C(0.15), C(0.3), C(0.45) within 15% of their mean (A = 84); C(0.3), C(0.45) within 15% (A = 108) | A = 84: 0.2598 ± 0.0008, 0.4127 ± 0.0003, 0.5341 ± 0.0002, max deviation 35%. A = 108: 0.4393 ± 0.0004, 0.5416 ± 0.0002, apart by 21% (with 0.15: 0.288 ± 0.005, 32%). Against clause C(0.15)/C(0.45) < 0.6 met: 0.486 ± 0.002 (84), 0.532 ± 0.009 (108), 0.384 (63) | **failed**, by the "against" clause |
+| F2 (50%) | mean C over p ≤ 0.3 at A = 108 in 0.47–0.63 | levels 0.3, 0.15: 0.364 ± 0.003 | **failed** |
+| F3 (55%) | at A = 108: |C(0.9) − 0.9| ≤ 0.08, |C(0.75) − 0.75| ≤ 0.08, C(0.3) − 0.3 ≥ 0.2 | −0.067, −0.012, +0.139 (± < 0.001); raw form −0.069, −0.013 | **failed** (third clause); C(p) − p grows from 0.6 down: +0.046, +0.092, +0.139, +0.138 |
+| F4 (55%) | V(0.9), V(0.75) < 0.05; [V(0.15) − V(0.3)] within 30% of [V(0.3) − V(0.45)]; control V(0.45) < half the caught | V = 0.0066, 0.0190 (held); ratio 1.85 ± 0.04 (failed; A = 84: 1.68, A = 63: 2.01); control/caught at 0.45 = 0.25 (held) | **failed** (the void grows faster than linearly in p) |
+| F5 (50%) | mean C over p ≤ 0.3 at A = 63 exceeds A = 108's by 0.03–0.12 | 0.291 against 0.364: −0.073 ± 0.003 | **failed** (the other sign) |
+| F6 | ends the reading if F1 fails by "against" and V(0.3) ≤ 1.5 × control | F1's "against" met at every size; V(0.3)/control = 2.31, 2.68, 3.08 at A = 63, 84, 108 | **not met**: the face is not a mixture, and not a uniform thinning either |
+
+F3's first clause is close because the catch is at P ≤ ⌊0.9P̄⌋, which puts the mean count at 0.84 P̄, and C tracks the
+count: the control at the same counts gives 0.828. So C(0.9) − 0.9 = −0.067 is a property of the level, not of the
+face; caught and control agree there.
+
+## Numbers [measured]
+
+C (over stationary), V and, beside each, the random-thinning control at the same counts. k̄ = mean live cells at the
+catch. Bootstrap s.e. 0.0001–0.0003 except at A = 108, p = 0.15 (C ± 0.005, V ± 0.005) and A = 84, p = 0.15 (± 0.001).
+
+| A | p | caught faces | k̄ | C | C control | V | V control | groups (control) | largest group share |
+|---|---|---|---|---|---|---|---|---|---|
+| 63 | 0.9 | 161,450 | 26.0 | 0.804 | 0.808 | 0.008 | 0.007 | 1.06 (1.05) | 0.994 |
+| 63 | 0.6 | 148,881 | 16.9 | 0.597 | 0.522 | 0.057 | 0.022 | 1.31 (1.32) | 0.949 |
+| 63 | 0.45 | 154,012 | 13.1 | 0.511 | 0.398 | 0.109 | 0.040 | 1.52 (1.69) | 0.899 |
+| 63 | 0.3 | 523,000 | 8.3 | 0.387 | 0.241 | 0.235 | 0.102 | 1.71 (2.37) | 0.833 |
+| 63 | 0.15 | 160,901 | 3.5 | 0.196 | 0.087 | 0.489 | 0.343 | 1.48 (2.28) | 0.846 |
+| 84 | 0.9 | 155,689 | 35.7 | 0.824 | 0.823 | 0.007 | 0.006 | 1.07 (1.05) | 0.995 |
+| 84 | 0.75 | 149,465 | 29.4 | 0.716 | 0.679 | 0.022 | 0.010 | 1.17 (1.13) | 0.982 |
+| 84 | 0.6 | 149,930 | 23.8 | 0.626 | 0.545 | 0.052 | 0.017 | 1.36 (1.34) | 0.950 |
+| 84 | 0.45 | 150,703 | 18.0 | 0.534 | 0.407 | 0.110 | 0.033 | 1.68 (1.84) | 0.883 |
+| 84 | 0.3 | 148,737 | 11.2 | 0.413 | 0.245 | 0.244 | 0.091 | 1.99 (2.88) | 0.794 |
+| 84 | 0.15 | 17,903 | 5.4 | 0.260 | 0.108 | 0.471 | 0.285 | 1.81 (3.07) | 0.782 |
+| 108 | 0.9 | 301,294 | 46.4 | 0.833 | 0.828 | 0.007 | 0.005 | 1.07 (1.05) | 0.996 |
+| 108 | 0.75 | 297,119 | 39.2 | 0.738 | 0.699 | 0.019 | 0.008 | 1.18 (1.13) | 0.985 |
+| 108 | 0.6 | 318,453 | 31.6 | 0.646 | 0.561 | 0.048 | 0.014 | 1.42 (1.35) | 0.950 |
+| 108 | 0.45 | 291,929 | 22.9 | 0.542 | 0.402 | 0.116 | 0.029 | 1.89 (2.07) | 0.860 |
+| 108 | 0.3 | 51,326 | 15.1 | 0.439 | 0.259 | 0.238 | 0.077 | 2.28 (3.32) | 0.766 |
+| 108 | 0.15 | 667 | 7.3 | 0.288 | 0.119 | 0.462 | 0.265 | 2.15 (3.81) | 0.736 |
+
+(A = 63 at p = 0.75: C 0.699, control 0.672, V 0.022; all rows in `data/r4_company.csv`.)
+
+**Shell profile** (company at graph distance d from a live cell, each over its own stationary value; the control is
+flat at its C within 0.01 at every level):
+
+| A, p | d = 1 | 2 | 3 | ≥ 4 |
+|---|---|---|---|---|
+| 108, 0.6 | 0.705 | 0.621 | 0.571 | 0.531 |
+| 108, 0.45 | 0.635 | 0.504 | 0.417 | 0.356 |
+| 108, 0.3 | 0.563 | 0.388 | 0.270 | 0.206 |
+| 108, 0.15 | 0.430 | 0.229 | 0.108 | 0.074 |
+| 84, 0.15 | 0.408 | 0.196 | 0.084 | 0.060 |
+| 63, 0.15 | 0.336 | 0.133 | 0.049 | 0.039 |
+
+The face graph is small: its diameter is 7, 8, 9 at A = 63, 84, 108, and a cell has on average 5 cells at distance 1,
+11–13 at distance 2 and 13–16 at distance 3. "Distance ≥ 4" is 52–68% of the face. So at p = 0.15 the far face is
+nearly empty (0.04–0.07), while at p = 0.3 it still holds 0.16–0.21 of stationary (as the review found at A = 63).
+
+**Interior C** (live cells at graph distance ≥ 2 from the rim, the rim being cells with fewer than six in-face
+neighbours). There are only 3 such cells at A = 63, 9 at A = 84 and 18 at A = 108; the A = 63 value rests on three
+cells and is not given weight. At A = 108: 0.821, 0.730, 0.635, 0.518, 0.396, 0.242 for p = 0.9 … 0.15 (control
+0.829 … 0.125); at A = 84: 0.810, 0.705, 0.611, 0.506, 0.360, 0.194. It falls as the whole-face C does, a little
+lower (live interior cells have no rim-cell companions, whose stationary occupancy is lowest).
+
+**At the bottom** of the same excursions the numbers barely move: C at the bottom is within 0.01 of C at the catch
+at every level and size (e.g. A = 108, p = 0.3: 0.439 at the catch, 0.439 at the bottom with 14.6 live cells against
+15.1), V rises by 0.01–0.04. Between the catch and the bottom the face loses a few more cells the same way.
+
+**C at fixed count** (`data/r4_by_k.csv`; caught faces binned by k): 7–9 live cells give C = 0.393 (A = 63, p = 0.3),
+0.321 (84, 0.3), 0.261 (108, 0.3) and 0.300 (108, 0.15); 14–18 cells give 0.600 (63, 0.6), 0.514 (84, 0.45), 0.446
+(108, 0.3). At fixed k, C falls with A; at fixed p it rises slightly with A.
+
+**Stationary values** (`data/r4_stationary.csv`): P̄ = 31.25, 42.45, 55.20, σ_P = 5.24, 5.96, 6.69; the company
+ratio S (raw, divided out above) = 1.0436, 1.0377, 1.0340 (by shell 1.085/1.073/1.065 at d = 1, 1.002–1.003 at
+d = 3). Exposure 4.08e10, 8.19e10, 1.84e11 face-generations; face deaths 48,939, 1,057, 13, so ln τ_face = 13.633 ±
+0.005, 18.166 ± 0.031, 23.4 ± 0.3 (the GPU's 13.635, 18.141, 23.376; the review's 13.627 ± 0.010, 18.153 ± 0.068).
+Threshold-free ln ν(0.9) = −2.382, −2.401, −2.485 (review −2.382, −2.401, −2.484).
+
+## Exploratory, and what would tell a mixture from a thinning better
+
+- The per-cell local company (`data/r4_percell.csv`) is the observable I would put first for this question: a mixture
+  keeps the distribution of local density around live cells in place and only empties it of weight; a thinning moves
+  it. It moves (A = 108, median 0.83, 0.75, 0.65, 0.54, 0.42, 0.27 at p = 0.9 … 0.15; quartiles move with it). Not
+  registered; reported only.
+- Groups (live cells linked when within graph distance 2): from about one group at p ≥ 0.75 to 1.5–2.3 at p ≤ 0.3,
+  always fewer than the control's 2.3–3.8, with the largest holding 74–85% of the cells. A depleted face is mostly one
+  loose cluster with stragglers, not one compact remnant.
+- The largest connected void (void cells linked at distance 1) is 0.39–0.42 of the face at p = 0.15 (control
+  0.18–0.26), i.e. nearly all of V: the emptied part is one region.
+- Dies against recovers (counts unmatched): see the short answer; at A = 108 there are only 13 dying faces.
+
+## What each number rests on
+
+- `ex4.c` is the review's `r3_ex.c` (validated against `reference/oracle.py` in round 3) with its deep dumps replaced
+  by catches. `validate4.py` → `validate4_out.txt`, ALL OK: lane 0 equals the oracle at every generation (v11c, v13c
+  600; v15c 400); lives file, excursion table and stationary samples byte-identical to `r3_ex`'s (20,000 generations
+  × 256 lanes); every catch state, catch offset, catch P and bottom state equals what `r3_ex`'s every-generation dump
+  of the same run holds (401,624, 387,057, 332,475 excursions, 2,500 generations); a subsampled run equals the full
+  one restricted to its kept levels. `round4.py` asserts that every stored catch state's popcount equals the recorded
+  P.
+- Production runs (`round4.sh`): seeds 4411 (R = 11, 20M generations), 4413 (R = 13, 40M), 4415 and 4416 (R = 15,
+  45M each), 256 lanes, soup 0.4, events every generation, T0 = 512. Shallow levels are subsampled by a keep draw at
+  the excursion's start (probabilities in `round4.sh`), drawn from a separate stream and nested in depth.
+- ρ_i and S come from each run's own stationary samples (1.2M, 1.2M, 2.4M face samples, age > 512); controls are
+  drawn from the same samples (per size, fixed seed 4400).
+- The tangent numbers use `round4.py`'s `tangent()` on ex4's excursion table, the review's threshold-free reading,
+  `dying_tangent.py`'s windows (g over 0.60–0.85, s over 0.10–0.45 unweighted); errors by Poisson resampling of the
+  counts (they omit the window choice, which moves s by more).
+
+## Not checked (round 4)
+
+- One seed per size (two at A = 108, pooled). The bootstrap treats caught faces as independent; consecutive
+  excursions of one face are not, which matters little at subsampled levels and was not measured at full ones.
+- C and V depend on the count distribution within a level (the catch can land well below the threshold); levels were
+  compared as registered, and count-matched only in `r4_by_k.csv` and not for the dies/recovers split.
+- Only c1 hull faces; nothing for csz/D2h, the slab or vertex-centred faces. Nothing above A = 108, so whether the
+  ratio C(0.15)/C(0.45) keeps rising toward a lever rule at large A is not known.
+- The graph-distance definitions do not use the in-plane geometry; the review's centroid-free radial measures were not
+  recomputed here, though the d = 1 company at A = 63, p = 0.3 (0.51) is close to its 0.54 within 2.5 doubled units.
+- The registered "interior" restriction leaves 3 cells at A = 63; there it is not meaningful.
+
+## Against earlier rounds and the review
+
+- Round 3's "a single loose patch … in an otherwise emptied face" and the review's "far field at 0.15–0.20, thinner
+  far away, not emptied" are both depth-dependent: at p = 0.3 the far face (d ≥ 4) is at 0.16–0.21 of stationary, as
+  the review found; at p = 0.15 it is at 0.04–0.07, nearly empty. The review's "the patch loosens as it shrinks" holds
+  at every size here.
+- Round 2's "a thin face that keeps a clump tends to come back" (c1) agrees with dying faces having lower C than
+  recovering ones at the same level (count not matched).
+- Nothing here contradicts the round-3 dip numbers: ln ν(0.9), the lifetimes and the tail slopes reproduce the
+  review's to the third decimal.
+
+## Reproduce (round 4)
+
+```sh
+python3 research/dying/validate4.py          # builds ex4, r3_ex, graphs; ALL OK (~2 min)
+bash research/dying/round4.sh 1 & bash research/dying/round4.sh 2 & bash research/dying/round4.sh 3 & wait   # ~3 h on 3 cores
+python3 research/dying/round4.py             # all sizes -> data/r4_*.csv (~40 min, one core); or per size:
+#   R4ONLY=v11c python3 research/dying/round4.py   (likewise v13c, v15c), then python3 research/dying/round4_merge.py
+python3 research/dying/round4_score.py       # F1-F6
+python3 research/dying/round4_figure.py      # research/figures/dying_two_phase.png
+```

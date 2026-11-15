@@ -215,6 +215,7 @@ def tangent(E, X, A, pbar, rngp=None):
 
 rows_c = []; rows_sh = []; rows_t = []; rows_st = []; rows_cell = []; rows_k = []
 for vname, A, pbar, runs in SIZES:
+    rng = np.random.default_rng(4400); _W.clear()     # per size, so that a one-size run (R4ONLY) gives the same numbers
     g = Geo(vname); assert g.n == A
     say(f'=== {vname} A={A} PBAR={pbar} runs {runs}: rim cells {int(g.rim.sum())}, inner (>= 2 from rim) {int(g.inner.sum())}, '
         f'degree counts {dict(collections.Counter(g.deg.tolist()))}; diameter {int(g.gd.max())}; '
@@ -307,6 +308,6 @@ def wcsv(name, rows):
 
 if not os.environ.get('R4TEST'):
     if SUF:
-        D0 = DATA; DATA = SCR
+        DATA = SCR       # one-size outputs go to scratch; merge them with round4_merge.py
     wcsv(f'r4_company{SUF}.csv', rows_c); wcsv(f'r4_tangent{SUF}.csv', rows_t); wcsv(f'r4_stationary{SUF}.csv', rows_st)
     wcsv(f'r4_percell{SUF}.csv', rows_cell); wcsv(f'r4_by_k{SUF}.csv', rows_k)

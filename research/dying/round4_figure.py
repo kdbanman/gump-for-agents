@@ -41,7 +41,7 @@ ax[1].set_xlabel('level p'); ax[1].set_ylabel('void fraction V(p)')
 ax[1].set_title('B. Cells farther than 2 from every live cell', loc='left')
 ax[1].plot([], [], color='#52514e', lw=1, ls=':', label='lever-rule guide 1 − p/p_t'); ax[1].legend(fontsize=7, frameon=False)
 sh = ['C_d1', 'C_d2', 'C_d3', 'C_d4p']
-for p, c in ((0.6, '#2a78d6'), (0.3, '#eb6834'), (0.15, '#1baf7a')):
+for p, c in ((0.6, '#eda100'), (0.3, '#e87ba4'), (0.15, '#6250d6')):
     for kind, ls, mf in (('caught', '-', c), ('control', '--', 'white')):
         r = [x for x in sel[(84, kind)] if abs(float(x['p']) - p) < 1e-9]
         if not r: continue
