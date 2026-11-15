@@ -885,9 +885,14 @@ returned a gun in one second at the first plane position where one fits.
   its cycle: 14,850 runs of five periods. 10,383 untouched; in 4,208 the oscillator is lost; 259 kept, of which in
   223 the gun is dead in the final cycle, in 34 the stream is the plain one downstream, and in **2** it is
   modulated: C8.24a (this object) and C8.24b (also period 8, 24 cells; the same train `5f9f`; in the scan over
-  places and phases it gives the divider only when it stands next to the gun; not put to the oracle). Not covered:
-  the other 7 phases of each oscillator (the divider itself works at one phase in eight for a given place, so the
-  sample is thin exactly where it matters), other places, oscillators above period 52.
+  places and phases it gives the divider only when it stands next to the gun; not put to the oracle). With a
+  random phase as well (`python3 clockstream.py --K 400 --seed 2 --anyphase --minutes 22`, 22 min, which reached
+  88 of the 99, and `... --first 88` for the other eleven, 3 min): 39,600 runs, 27,775 untouched, 11,172 lost, 653
+  kept (gun dead 542, stream plain 107, stream stopped at the oscillator with the gun alive 2), and the stream
+  modulated in **2**, both C8.24a again in other placements, both with period 8. So among 54,450 sampled
+  placements of 99 oscillators the only word written is "rake, hole", and only the two 24-cell oscillators of
+  period 8 write it. Not covered: the placements not drawn, places other than units 4..7 of N = 12, oscillators
+  above period 52.
 
 ## 22. Rake turns without bounding planes, and turners with wire on both sides
 
@@ -1044,9 +1049,9 @@ k = (T + 2) mod 4 here (KS = 6).
 
 ## 25. Where I would go next
 
-1. **More words.** The divider writes "rake, hole" and nothing else. Next: the other phases and places of the
-   catalogue against the stream (`clockstream.py` drew 150 placements at phase 0 only, and the divider needs one
-   phase in eight); a second stroke on the sparse train (an oscillator of period 16, or two oscillators) for one
+1. **More words.** The divider writes "rake, hole" and nothing else, and 54,450 sampled placements of the
+   catalogue gave no other word. Next: an enumeration instead of a sample for the oscillators of period 12, 16
+   (none in the catalogue), 24 and 32 near the place where C8.24a works; a second stroke on the sparse train (an oscillator of period 16, or two oscillators) for one
    rake per 16 generations; the gun for `5f9f` itself in wider planes or the 5 × 5 tube (`sat_gun.py 5fbb C`: UNSAT
    at C = 29, 31, 33 in the 3 × 3 tube). Which rakes survive is set by the oscillator's phase alone (four
    generations later the same gun faces the complementary word), and the wire cannot change that phase.

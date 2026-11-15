@@ -3,7 +3,7 @@
 line (objects/line-C.json): does one of them knock a rake out of the stream every period and stay as it is?  That
 would be a standing writer of holes: a non-constant periodic word on a wire.
 
-    python3 clockstream.py [--K 120] [--seed 1] [--minutes 20] [--out F.jsonl] [--anyphase]
+    python3 clockstream.py [--K 120] [--seed 1] [--minutes 20] [--out F.jsonl] [--anyphase] [--first i]
 
 Target: the line with N = 12 (capA + 12 units + the gun) in its cycle of period 4 (generation 2N + 8 and the three
 after it).  Placements: phase 0 of the oscillator under a lattice symmetry and an even translation, drawn at random
@@ -29,7 +29,7 @@ from lattice import GROUP, apply
 
 ap = argparse.ArgumentParser()
 ap.add_argument('--K', type=int, default=120); ap.add_argument('--seed', type=int, default=1)
-ap.add_argument('--minutes', type=float, default=20); ap.add_argument('--out'); ap.add_argument('--anyphase', action='store_true')
+ap.add_argument('--minutes', type=float, default=20); ap.add_argument('--out'); ap.add_argument('--anyphase', action='store_true'); ap.add_argument('--first', type=int, default=0, help='skip the first i files (sorted names)')
 a = ap.parse_args()
 tr = scat.tr; unit = scat.unit
 ln = json.load(open(os.path.join(sg.HERE, 'objects', 'line-C.json')))
@@ -66,7 +66,7 @@ def minper(seq):
 files = sorted(glob.glob(os.path.join(sg.ROOT, 'research', 'clockwork', 'objects', 'C*.cells')))
 rng = random.Random(a.seed); t0 = time.time(); tot = Counter(); done = 0
 out = open(a.out, 'w') if a.out else None
-for fn in files:
+for fn in files[a.first:]:
     if time.time() - t0 > 60 * a.minutes:
         break
     O = read_cells(fn); name = os.path.basename(fn)[:-6]
