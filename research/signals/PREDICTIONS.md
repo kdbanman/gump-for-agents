@@ -442,3 +442,11 @@ the one I could not have guessed is how sharp the census is: 599 ends heal every
 with nothing between. My reading of the lead's S22–S26, for the lead to overrule: S22 failed, S23 failed, S24 failed
 (no end and no wall moves by a gap; the only mover the search found is the known B|B′ wall under a pulse of wire B,
 its control), S25 held (741 ends, deduplicated, eight words, no edge between two live ends), S26 held.
+
+### The fifth push: the lead's scoring (18:54 UTC, before the review)
+
+S22 failed, S23 failed, S24 failed, S25 held (741 ends against 13, no edge between two live ends; my own oracle run
+of every end for three of the eight words agrees), S26 held. Over five pushes: 24 forecasts tested, 11 held in some
+form, 13 failed. This time the two that held were the two I thought likeliest, and the size of the forecasts was
+about right; what I did not foresee is how clean the split is. I had expected a few ends that change, move or half
+heal, and there are none among 741: every end either forgets every word or is destroyed by every word.

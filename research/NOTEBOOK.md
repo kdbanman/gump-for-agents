@@ -3377,3 +3377,49 @@ first (`python3 research/wrap/validate.py 1 12 28 1500`: MATCH); three jobs of 3
 - Not checked: no second code has measured this face (queued for the card); the event logic of ts3 was not
   recounted; the curvature bounds assume the faces of one family differ only in length (they are different
   lattices of the same girth, e.g. the two loop-12 classes at 60 cells differ by 0.004 ± 0.002).
+
+## 2026-11-15: the fifth signals push: nothing listens at the end of the stream; of 741 ends, 599 forget every gap and 142 die of any gap (the lead's oracle check of every end; review running)
+
+The question was one thing: is any standing object left in a different lasting state by a gap in the gun's stream
+than by none? Account: `research/signals/README.md` sections 26–29 (commits d9ee117 … e340fa0). Nothing positive
+was found. A review with independent code is running; its entry follows this one.
+
+- **[SAT, within bounds; one code, one solver, no certificate]** One instance holds three coupled copies of the
+  dynamics: an end A of the rake train, an end B of the same train, and a run from A, with a hole in the arriving
+  train, that must land on B with B not the state A would be in. B may be A moved or A out of phase, so movers and
+  toggles are covered. UNSAT in the 3 × 3 tube: periods (4, 4), one hole, planes C = 29 … 39; four more words of
+  holes at C = 31 … 37; periods (8, 8), one hole, C = 31, 33. Limits of the instance: the end may disturb at most
+  4 units of train in front of it while settling, and must settle within 42 generations of the hole's arrival.
+  Controls: without the "not equal" clause it returns the C = 31 absorber; on wire B with pulse B it is SAT at
+  C = 33 and returns the known B|B′ wall moving one unit. Cut: the 5 × 5 tube (C = 29, 31) and one asymmetric tube.
+  `cd research/signals && python3 sat_listen.py C [--mult 2 --multB 2] [--word 0,1]`.
+- **[SAT enumeration, re-stepped; then measured] A census of ends.** Every absorber of the train of period
+  dividing 4 inside the tube and planes C = 35, 37, with the fourth push's lists: 856 entries, **741 distinct ends**
+  up to translation and time shift. Each sent eight words of holes (`census_ends.py`, the push's stepper, the
+  train refilled 100 units back): **599 heal every word exactly, 142 are destroyed by every word, and no other
+  outcome occurs.** No end is moved, shifted in phase or changed; no end tells one word from another.
+- **[the lead's check, `reference/oracle.py` only, every end]** `python3 research/audit/signals_ends_lead_check.py
+  all i/3` (i = 0, 1, 2; 30 minutes each on one core; initial cells from the push's lists, nothing else of its
+  code in the stepping): each of the 741 ends at the end of a finite train of 44 units on a 128³ torus, for three
+  of the eight words (the nearest rake; three in a row; five at spacing two), with and without the holes. **All
+  2,223 runs agree with the push:** 1,797 healed, meaning the *whole* states of the two runs are equal (5 to 7
+  generations after the start for one hole, 13 to 15 for three in a row, 37 to 39 for five), which also shows that a
+  healing end sends nothing back up the stream; 426 dead, meaning the runs differ at every generation to 64 and the
+  train 12 or more units in front of the end is no longer the plain train while the undisturbed end still stands.
+  (A first run reported one mismatch, a fault of my own test for the one end listed with period 8; fixed, re-run,
+  agrees.) The other five words rest on the push's stepper alone.
+- **[measured, samples] Beside the stream.** 99 catalogue oscillators in random placements beside the running
+  line, each sent a gap: 21,320 gap runs mid-wire and 9,824 beside the receiving end: the oscillator and gun are
+  left exactly as without the gap, or something is destroyed; none is left alive and changed. The divider's own
+  oscillator at every place and phase for N = 16: 1,034 gap runs, 1,021 heal, 13 destroy it.
+- **[scored]** The lead's S22 (a listener, 15%), S23 (a reusable one, 5%) and S24 (something moves, 25%) failed;
+  S25 (a census at least five times larger with no edge between live ends, 40%) and S26 (no listener, 55%) held.
+  Over five pushes: 24 forecasts tested, 11 held in some form, 13 failed.
+- **What it says.** At the end of the stream, in this tube, a gap is forgotten or fatal, and which of the two is a
+  property of the end alone. The push's guess at a reason (an end locked to the stream has one attractor per drive)
+  does not survive its own census: 741 different ends stand under the same drive; what is missing is any event
+  that carries one to another.
+- Not checked (18:54 UTC): the SAT negatives by a second encoding or solver; five of the eight words on the
+  oracle; gaps other than the one-cell hole (the whole rake missing, other cells); the completeness of the SAT
+  enumeration; the samples beside the stream; 45 of the 46 runs in which a gap kills the gun and the oscillator
+  survives. All are in the reviewer's brief.
