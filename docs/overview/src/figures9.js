@@ -256,6 +256,7 @@
 (function () {
   const T = D.tori, L = T.line, res = (A, v) => v - (L[0] + L[1] * A), H = $('#f-tori');
   $('#n-kink').textContent = T.kink;
+  $('#n-law-tori').textContent = T.slope[0].toFixed(4);
   // the quoted deficits must be what the page draws (to the line's rounding)
   T.deficit.forEach(([A, d]) => { const r = T.rows.find(x => x[0] === A); if (Math.abs(res(A, r[1]) + d) > 0.002) E('p', { class: 'cap', style: 'color:var(--ember)' }, H.parentNode, 'The drawn deficit at ' + A + ' cells differs from the notebook’s ' + d + ': trust the notebook.'); });
   const f63 = T.f63, f93 = T.f93;
