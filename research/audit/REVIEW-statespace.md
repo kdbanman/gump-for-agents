@@ -11,7 +11,7 @@ the study's `vessels.py` is used only to translate cell indices when comparing c
 | 1 exact statistics of the small vessels | **stands**, two wording corrections | 8 vessels × 18 statistics identical (below); "typical 8–14, record 40–94 at 27–30 cells" is true of the table's family records only: over all 34 vessels of 27–30 cells the mean seed visits 4.5–14.4 states and the record 15–94 |
 | 2 hull census complete | **stands as stated (≤ 6 layers wide)**; its scope is narrower than the README suggests | same 277 hulls of 1–30 cells, 262 of 2–29; but with widths up to 10 there are 588 hulls of 1–29 cells, more than twice as many, and the count is still rising at width 10 |
 | 3 scaling inside N ≤ 30 | **stands with corrections** | slopes of log2 \|f(S)\| 0.88–1.01 and of log2(on cycles) 0.16–0.58 once small sizes are dropped; "linear, not exponential" **fails** as a reading: an exponential fits as well or better; the symmetry claim **stands** (all champions, full automorphism group) |
-| 4 the owner's cubes | **stands** for sides 8–14 (recomputed); 15 running at the time of writing, 16 not recomputed | 23/71/65 (oracle, exact state repeat), 4,218, 24,286, 169,049, 4,460,296 (engine); side 14 enters at 4,460,296, detected at 4,460,298 |
+| 4 the owner's cubes | **stands** for sides 8–15 (recomputed); 16 not recomputed | 23/71/65 (oracle, exact state repeat), 4,218, 24,286, 169,049, 4,460,296, 37,367,092 (engine); side 14 enters at 4,460,296, detected at 4,460,298 |
 | 5 0.30 bits per face cell | **stands** (arithmetic) | 0.296 at A = 27, 0.300 at 108 from F4; slope alone 0.299–0.305 bits per cell across the slopes on file (0.2072–0.2117 per cell); the newest 0.2084 gives 0.3007 |
 | 6 living face nearly random; share 2^(−0.69 A) | **numbers stand; the inference needs rewording** | top layer alone 0.9860 (study 0.9860), whole 8-layer slab ≤ 0.9585 at K = 18 (study 0.9595 at K = 18, 0.958 at K = 20); a second ordering and sampler of my own; deficits against coins below |
 | random-map yardstick | **constant corrected; yardstick misleading** | cycles ½ ln M + 0.635, not + 0.29 (11.0 at 2^30, not 10.7); a random map with gump's own in-degrees visits 18–1,650 states, not 14,500–41,000 |
@@ -111,8 +111,8 @@ record's 52 and 6.23 (`out/hull_-3_*.out`). No sign of a record outside the cens
   (`engine/src/instruments.rs`, HaltDetector). The table's "enters at" column is the right one to add the period to.
 - Hull and face sizes recomputed independently (`python3 research/audit/statespace/cubehull.py 8 9 10 13 14 16`):
   6,072 / 198, 8,814 / 273, 12,180 / 315, 27,474 / 570, 34,440 / 630, 51,888 / 828, as in the table.
-- Not recomputed: side 15 (37 M generations; started, see the final message) and side 16 (2.9 × 10⁹ generations;
-  rests on `research/data/cube16_summary.json`).
+- Side 15 (engine, 6.7 min on one core): extinct, cycle_start = detected_gen = 37,367,092, as in the table.
+- Not recomputed: side 16 (2.9 × 10⁹ generations; rests on `research/data/cube16_summary.json`).
 
 ## 5. 0.30 bits per face cell (claim 5)
 
@@ -219,7 +219,7 @@ and the factor "2^(0.2·A)" is an artefact of the one-layer choice.
 
 ## What was not checked
 
-- Side 15 and 16 cube runs (16 not affordable; 15 started, see final message). The A/7.7 symmetric-face law.
+- The side-16 cube run (not affordable). The A/7.7 symmetric-face law.
 - Shannon entropies `entropy_t` of the time-t ensemble (my enumerator does not compute them).
 - Kagome and 2-layer slabs (already cross-checked by `research/theory/exhaust.c`); the 8 unenumerated 30-cell hulls.
 - The face law itself (F4/GL3 taken as on file); small faces conditioned on survival (the study's own gap).

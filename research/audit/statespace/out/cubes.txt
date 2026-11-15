@@ -5,3 +5,4 @@ side 11 still 1 4218 4219
 side 12 still 1 24286 24287
 side 13 still 1 169049 169050
 side 14 periodic 2 4460296 4460298
+side 15 extinct 1 37367092 37367092
