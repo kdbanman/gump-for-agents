@@ -1,6 +1,7 @@
 // Smoke test of the built site: node site/checks/smoke.js [--artifact] [--shots DIR]   (from anywhere; needs the tree built)
-// --artifact: test site/dist-artifact/ (the private artifact copy) instead of site/dist/, without the app, and fail on any
-// request into app/.
+// --artifact: test site/dist-artifact/ (the private artifact copy) instead of site/dist/, without the app; fail on any
+// fetch or XHR at all and on any request into app/; and run every page twice, served over http and opened as file://
+// URLs with no server (the nearest stand-in for a static host whose rules are unknown).
 // Serves site/dist with `python3 -m http.server` under the prefix /gump-for-agents/ (as GitHub Pages serves a project
 // site under /<repo>/), opens every page of pages.json and the app at desktop (1280 px) and phone (390 px) width, and
 // fails on: a console error or uncaught exception, a failed or 4xx/5xx request, a plate of pages.json missing from
@@ -25,8 +26,9 @@ const freePort = () => new Promise(ok => { const s = net.createServer(); s.liste
   fs.symlinkSync(DIST, path.join(tmp, PREFIX));
   const port = await freePort();
   const srv = spawn('python3', ['-m', 'http.server', String(port), '--bind', '127.0.0.1', '--directory', tmp], { stdio: 'ignore' });
-  const base = `http://127.0.0.1:${port}/${PREFIX}/`;
-  for (let i = 0; i < 50; i++) { try { await fetch(base + 'index.html'); break; } catch { await new Promise(r => setTimeout(r, 100)); } }
+  const http = `http://127.0.0.1:${port}/${PREFIX}/`;
+  for (let i = 0; i < 50; i++) { try { await fetch(http + 'index.html'); break; } catch { await new Promise(r => setTimeout(r, 100)); } }
+  const bases = [['http', http]].concat(ARTIFACT ? [['file', 'file://' + DIST + '/']] : []);
   const browser = await chromium.launch();
   const targets = pages.map(p => ({ name: p.slug || 'index', url: (p.slug ? p.slug + '/' : '') + 'index.html', plates: p.plates.map(x => x.id) }))
     .concat(ARTIFACT ? [] : [{ name: 'app', url: 'app/index.html', plates: [], app: true }]);
@@ -35,14 +37,18 @@ const freePort = () => new Promise(ok => { const s = net.createServer(); s.liste
   if (SHOTS) fs.mkdirSync(SHOTS, { recursive: true });
   let bad = 0;
   const report = (t, w, msg) => { bad++; console.log(`FAIL ${t.name} @${w}: ${msg}`); };
-  for (const t of targets) for (const [wn, W, H] of widths) for (const scheme of schemes) {
+  for (const [bn, base] of bases) for (const t of targets) for (const [wn0, W, H] of widths) for (const scheme of (bn === 'http' ? schemes : ['light'])) {
+    const wn = bases.length > 1 ? `${wn0} ${bn}` : wn0;
     const ctx = await browser.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 1, colorScheme: scheme });
     const pg = await ctx.newPage(), errs = [];
     pg.on('console', m => { if (m.type() === 'error') errs.push('console: ' + m.text()); });
     pg.on('pageerror', e => errs.push('exception: ' + e.message));
     pg.on('requestfailed', r => errs.push('request failed: ' + r.url() + ' ' + (r.failure() || {}).errorText));
     pg.on('response', r => { if (r.status() >= 400) errs.push('HTTP ' + r.status() + ': ' + r.url()); });
-    if (ARTIFACT) pg.on('request', r => { if (r.url().startsWith(base + 'app/')) errs.push('request into app/: ' + r.url()); });
+    if (ARTIFACT) pg.on('request', r => {
+      if (['fetch', 'xhr'].includes(r.resourceType())) errs.push(r.resourceType() + ' request (the artifact copy makes none): ' + r.url());
+      if (r.url().startsWith(base + 'app/')) errs.push('request into app/: ' + r.url());
+    });
     await pg.goto(base + t.url, { waitUntil: 'networkidle' });
     await pg.waitForTimeout(t.app ? 2500 : 800);
     const res = await pg.evaluate(plates => {
@@ -56,7 +62,7 @@ const freePort = () => new Promise(ok => { const s = net.createServer(); s.liste
     const empty = t.app ? [] : res.empty.filter(id => !EMPTY_OK.has(t.name + ':' + id));   // the app's f-* are its form fields
     if (empty.length) report(t, wn, 'empty figures: ' + empty.join(' '));
     if (res.over > 1) report(t, wn, `horizontal overflow of ${res.over} px`);
-    if (SHOTS) await pg.screenshot({ path: path.join(SHOTS, `${t.name}-${wn}-${scheme}.png`), fullPage: true });
+    if (SHOTS && bn === 'http') await pg.screenshot({ path: path.join(SHOTS, `${t.name}-${wn0}-${scheme}.png`), fullPage: true });
     if (scheme === 'light') console.log(`${errs.length || res.missing.length || empty.length || res.over > 1 ? 'bad ' : 'ok  '} ${t.name} @${wn} "${res.title}" (${t.plates.length} plates)`);
     await ctx.close();
   }
