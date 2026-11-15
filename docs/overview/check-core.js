@@ -14,4 +14,15 @@ for (const [side, H, lo, hi] of [[8, 40, 13, 29], [9, 50, 17, 35], [11, 60, 19, 
   console.log(`side ${side}: ${ref.length - 1} generations, mismatches ${mism}, final population ${g.pop}, static after log end: ${still}, ${Date.now() - t0} ms`);
   bad += mism;
 }
+// the settled state of period 16 drawn on the page (data/sources/zombie.json; CLAIMS ZL1): the page's stepper must bring the
+// slab back to its first state after exactly 16 generations, and not before
+{
+  const Z = JSON.parse(fs.readFileSync(path.join(__dirname, 'data', 'sources', 'zombie.json'), 'utf8'));
+  const g = makeGump(Z.H); g.setCells(Z.lifted);
+  const key = () => Z.cells.map(c => g.state[c[3]]).join(''), k0 = key(), back = [];
+  for (let t = 1; t <= 64; t++) { g.step(); if (key() === k0) back.push(t); }
+  const ok = back.join(',') === '16,32,48,64';
+  console.log(`zombie (1,4,12): ${Z.live_slab} live slab cells, ${Z.lifted.length} lifted; back to the start at ${back.join(', ')}: ${ok ? 'period 16' : 'WRONG'}`);
+  if (!ok) bad++;
+}
 process.exit(bad ? 1 : 0);

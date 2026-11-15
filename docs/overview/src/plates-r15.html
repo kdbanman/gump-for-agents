@@ -1,0 +1,66 @@
+<!-- Added 2026-11-15. Numbers come from data/sources/update-2026-11-15.json via collect.py, which checks each one against
+     research/NOTEBOOK.md (entries of 2026-11-14 late and 2026-11-15) or CLAIMS SH6-SH9, TH1-TH6, CN1, GP10. Drawn by src/figures6.js. -->
+<section class="plate" id="pairs">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">Equal area, equal shortest loop <b>· new</b></p><span class="st st-meas">measured; 36 and 45 cells by two codes</span><span class="st st-ret">five candidates refuted</span><span class="st st-open">a second variable: not found</span></div>
+    <h2>Two faces of the same area and the same shortest loop: the difference is gone by 72 cells, and on the narrowest faces it flips sign.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c8 panel">
+      <h3>Difference in ln(wait) within a pair, by area</h3>
+      <div id="f-pairs"></div>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--s2)"></span>shortest loop² 9 (narrow faces)</span><span class="key"><span class="sw dot" style="background:var(--s1)"></span>shortest loop² 12 or 16</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--ink)"></span>rerun by the review’s own code</span></div>
+      <div id="t-pairs"></div>
+      <figcaption>Each point: the face whose second loop is longer, minus the other. Above zero, the longer second loop lives longer, which is what 48 and 60 cells showed. Bars: one standard error. The two points at 72 cells with loop² 16 share a torus, so they are correlated.</figcaption>
+    </figure>
+    <div class="fig c4">
+      <div class="nums" id="n-pairs" style="grid-template-columns:1fr"></div>
+    </div>
+  </div>
+</section>
+
+<section class="plate" id="thin">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">The thinnest face <b>· new</b></p><span class="st st-meas">measured, independent code</span><span class="st st-once">the limit: a spread of fitted forms</span><span class="st st-open">derived from the rule: no</span></div>
+    <h2>A face one step around pays about 0.099 per cell in the long run: half a wide face’s price.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>Price of one more cell, on a face one step around</h3>
+      <div id="f-thin"></div>
+      <div class="keys"><span class="key"><span class="sw" style="background:var(--s1);height:3px;width:14px"></span>ring faces, over each step of 12 cells</span><span class="key"><span class="sw" style="background:var(--s3);height:3px;width:14px"></span>a face with two free ends</span><span class="key"><span class="sw" style="background:var(--s-mute);opacity:.6"></span>long-face limit</span></div>
+      <div id="t-thin"></div>
+      <figcaption>The census’s 0.115 and 0.111 were the first two steps of a law that is still bending. A face cut open by a wall of dead sites pays a straight price. The shaded range is where the fitted forms land; it is <b>not</b> an error bar.</figcaption>
+    </figure>
+    <figure class="fig c5 panel">
+      <h3>How it dies: an island shrinking from both ends</h3>
+      <div id="f-island"></div>
+      <figcaption>Mean live cells on a thin ring face, looking back from its death (the line’s numbers; the review’s own code agrees, see Numbers). Centring the bars is a picture of what was measured: the live part shrinks from both ends, over a time proportional to its length.</figcaption>
+    </figure>
+  </div>
+  <div class="nums" id="n-thin"></div>
+</section>
+
+<section class="plate" id="constant">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">One price per cell? <b>· new</b></p><span class="st st-meas">fitted, by two independent analyses</span><span class="st st-once">empty patches: read after the data; one point being cross-checked</span><span class="st st-open">fixing it needs the GPU</span></div>
+    <h2>One price per cell for every wide face is allowed, anywhere from <span id="n-cn">0.207 to 0.219</span>. The data in hand do not fix it.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c6 panel">
+      <h3>What each family of faces allows</h3>
+      <div id="f-ranges"></div>
+      <div class="keys"><span class="key"><span class="sw" style="background:var(--ink-3);height:6px;width:16px;border-radius:3px"></span>range over fitted forms</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--ink)"></span>measured slopes, no model</span><span class="key"><span class="sw dot" style="background:var(--ink)"></span>a single constant that passes for both</span></div>
+      <div id="t-ranges"></div>
+      <figcaption>Flat periodic faces and hull faces approach from different sides. One constant fits both if either the hull’s rim is complicated (low end) or wide flat faces are still far from their limit (high end).</figcaption>
+    </figure>
+    <figure class="fig c6 panel">
+      <h3>Empty patches on a face that never dies: their price per cell</h3>
+      <div id="f-patch"></div>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--s1)"></span>the GPU run</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--ink-3)"></span>with the CPU’s value for the 4 × 5 patch</span><span class="key"><span class="sw" style="background:var(--s-mute);opacity:.6"></span>the range one constant may take</span></div>
+      <div id="t-patch"></div>
+      <figcaption>The price per cell of an empty patch, with perimeter and corner terms removed (second differences along similar shapes, chosen after seeing the data). Still falling at 36 cells, where it enters the lifetimes’ range. <b>Compatible</b> with “a face dies as an empty patch of its own size”; <b>not established</b>.</figcaption>
+    </figure>
+  </div>
+  <div class="nums" id="n-constant"></div>
+</section>

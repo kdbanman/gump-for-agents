@@ -199,5 +199,46 @@ out["census"] = {
     "pair": cc["pair"]["value"], "pair48": cc["pair48"]["value"], "laws": cc["laws"]["value"],
 }
 
+
+# ---- the refresh of 2026-11-15: update-2026-11-15.json (CN1, GP10, SH6-SH9, TH1-TH6, ZL1-ZL2, prior art, second readings) ----
+R = S("update-2026-11-15.json")
+for sec in ("pairs", "thin", "constant", "patches", "zombie", "swarm"):
+    for k, v in R[sec].items():
+        if k != "rows": checked(v)
+for r in R["pairs"]["rows"]: checked(r)
+checked(R["prior"]["list"])
+for r in R["prior"]["refs"]: checked(r)
+for f in R["forecasts"]: checked(f)
+for a in R["audits"]: assert (repo / a["file"]).exists(), a["file"]
+pl = R["prior"]["list"]
+assert all(w in pl["words"] for w in pl["ours"] + pl["known"])
+out["forecasts"] += [{"line": f["line"], "result": f["result"]} for f in R["forecasts"]]
+out["project"]["audits"] += [[a["label"], a["line"]] for a in R["audits"]]
+tl["milestones"] += [{"date": x["date"], "text": x["text"]} for x in R["milestones"]]
+rp, rt, rc, rz, rq = R["pairs"], R["thin"], R["constant"], R["zombie"], R["patches"]
+out["pairs"] = {   # id, A, loop², d (signed), se, review d (signed) or None, review se
+    "rows": [[r["id"], r["value"][0], r["value"][1], r["sign"] * r["value"][2], r["value"][3]] + ([r["sign"] * r["value"][4], r["value"][5]] if len(r["value"]) > 4 else [None, None]) for r in rp["rows"]],
+    "nodiff": rp["nodiff"]["value"], "candidates": rp["candidates"]["value"], "gram": rp["gram"]["value"][0]}
+v = rt["slopes"]["value"]
+out["thin"] = {"slopes": [[48, 60, v[0], None], [60, 72, v[1], None], [72, 84, v[2], v[3]], [84, 96, v[4], v[5]], [96, 108, v[6], None]],   # from A, to A, cost per cell, se ("about 0.103 at 108": the 96 -> 108 step)
+               "wall": rt["wall"]["value"], "limit": rt["limit"]["value"], "overlap": rt["overlap"]["value"], "layers": rt["layers"]["value"],
+               "exact": rt["exact"]["value"][0], "profile_review": rt["profile"]["value"][0:6], "profile": rt["profile"]["value"][7:13], "b": rt["profile"]["value"][6], "wide": rt["half"]["value"][0]}
+out["constant"] = {"verdict": rc["verdict"]["value"], "periodic": rc["periodic"]["value"], "hull": rc["hull"]["value"], "slopes": rc["slopes"]["value"],
+                   "single": rc["single"]["value"], "split": rc["split"]["value"], "gpu": rc["gpu"]["value"]}
+L5 = rq["lnp"]
+out["patches"] = {"lnp": [[c, lab, L5["sign"] * x] for c, lab, x in zip(L5["cells"], L5["labels"], L5["value"])], "se": {"48": L5["se"][0], "60": L5["se"][1], "75": L5["se"][2]},
+                  "cpu45": [60, -rq["cpu45"]["value"][0], rq["cpu45"]["value"][1], rq["cpu45"]["value"][2]], "cpu45_cost": rq["cpu45_cost"]["value"][0],
+                  "cost": [list(r) for r in zip(rq["cost"]["cells"], rq["cost"]["value"][:4])], "cost_se": rq["cost"]["value"][4], "range": rq["range"]["value"], "fit": rq["fit"]["value"]}
+assert L5["cells"][5] == 60 and L5["labels"][5] == "4×5"
+g = rz["gpu"]["value"]
+out["zombie"] = {"rate": rz["rate"]["value"], "stuck": rz["stuck"]["value"], "cpu": rz["cpu"]["value"], "periods": rz["periods"]["value"], "state": rz["state"]["value"],
+                 "gpu": [[rz["gpu"]["runs"][0], g[0] * 1e-3, g[1]], [rz["gpu"]["runs"][1], g[2] * 1e-2, g[3]], [rz["gpu"]["runs"][2], g[4] * 1e-2, g[5]]], "r11": g[6] * 1e-4}
+assert "6.7 × 10⁻³" in rz["gpu"]["quote"] and "1.2 × 10⁻²" in rz["gpu"]["quote"] and "1.0 × 10⁻²" in rz["gpu"]["quote"] and "1.3 × 10⁻⁴" in rz["gpu"]["quote"]
+zj = S("zombie.json")    # the state itself (scripts/zombie.py, from research/audit/shape3/zombie_1_4_12_p16.txt)
+assert zj["live_slab"] == out["zombie"]["state"][0]
+out["zombie"]["sim"] = {"H": zj["H"], "cells": zj["cells"], "lifted": zj["lifted"]}
+out["prior3"] = {"ours": pl["ours"], "known": pl["known"], "refs": [[r["year"], r["who"], r["line"], r["read"]] for r in R["prior"]["refs"]]}
+out["swarm2"] = {"counting": R["swarm"]["counting"]["value"][0]}
+
 (here / "data" / "data.json").write_text(json.dumps(out, separators=(",", ":")))
 print("data.json", (here / "data" / "data.json").stat().st_size, "bytes;", ", ".join(out))

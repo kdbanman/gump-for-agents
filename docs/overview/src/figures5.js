@@ -20,6 +20,6 @@
   const N = $('#n-census'), p = C.pair, L = C.laws;
   const pm = (tile, s) => { E('small', {}, tile.querySelector('.v'), s); return tile; };
   numTile(N, 'none', 'of the candidate laws in area and shortest loop survives, at any area. The one that seemed to pass (χ² ' + L[0] + ' on 5) fails on independent values (' + L[1] + ').', ['ret', 'refuted']);
-  pm(numTile(N, p[0].toFixed(3) + ' ', 'in ln(wait), between two tori of 60 cells with the same shortest loop (four runs, two codes). A second variable, not yet identified.', ['meas', 'measured']), '± ' + p[1].toFixed(3));
-  pm(numTile(N, '½ ', 'for a face only three cells around (' + C.cost[0][1] + ' against ' + C.cost[5][1] + ' at loop² 16). It still lives exponentially long in its area.', ['meas', 'measured']), 'the price per cell');
+  pm(numTile(N, p[0].toFixed(3) + ' ', 'in ln(wait), between two tori of 60 cells with the same shortest loop (four runs, two codes). By 72 cells such differences are gone (next plate).', ['meas', 'measured']), '± ' + p[1].toFixed(3));
+  pm(numTile(N, '½ ', 'for a face only three cells around (' + C.cost[0][1] + ' against ' + C.cost[5][1] + ' at loop² 16; both local slopes). In the long run the thinnest face pays about ' + D.thin.limit[0] + ' per cell (two plates on).', ['meas', 'measured']), 'the price per cell');
 })();
