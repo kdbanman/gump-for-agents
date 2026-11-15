@@ -27,6 +27,7 @@ carriers), brought up to date 2026-11-15 10:40 UTC.
 | second push | **tape**: wire B and wire C are two letters of one medium: EVERY sequence of B units and C units moves rigidly towards −v, one unit per 2 generations (a ring holding all 32 windows of 5 units; with the light cone, a proof for all sequences) | `python3 verify_pulse.py objects/tape-BC.json`; `python3 verify_wall.py` | 3 s; 12 s |
 | second push | two more pulses of wire C that reach outside its 3 × 3 tube, first seen coming out of chaos | `python3 verify_pulse.py objects/pulse-C-wide.json`, `... objects/pulse-C-wide-left.json` | 3 s |
 | third push | **reader**: capL of the clock eats EVERY word of the B/C tape and remembers nothing: at every even generation the state is capL and the tape moved on (proof for all words by a closed automaton: `python3 prove_reader.py`, 0.3 s) | `python3 verify_reader.py` | 30 s |
+| third push | **counter**: the wall between wire 8 and wire C moves one unit towards each pulse p< of a train (spacing ≥ 2) and the wire is otherwise exactly as it was | `python3 verify_counter.py` | 2 s |
 
 Each verifier steps only with `oracle.masks` and `oracle.step` on a cubic array torus (H = 80 to 128) and compares
 whole states cell for cell. `verify_pulse.py`: 100 periods = 2.5 laps of a ring of 40 cubes; the state at generation
@@ -590,13 +591,16 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
 
 ## 17. Counting: the 8|C wall counts a train of pulses
 
-- **[measured, sg.Geom only]** The stationary wall 8|C (wire 8 = the stators and (0,2,3) only, on the left; wire C
+- **[proved by the oracle runs] `python3 verify_counter.py`** (2 s): on a ring of 48 units (box torus, `oracle.step`)
+  with wire 8 on units 0..11 and wire C on the rest, trains of 1, 2, 5, 7 and 8 pulses p< at spacings 2 to 6:
+  after 100 generations the state is exactly the ring with the wall moved one unit per pulse. (A control: two
+  pulses one unit apart, i.e. the word BB, does not give the wall moved 2 units.)
+- **[measured, sg.Geom]** The stationary wall 8|C (wire 8 = the stators and (0,2,3) only, on the left; wire C
   on the right) hit by a train of p< at spacing s (`family.Piece`, 60 generations): for s = 2, 3, 4 the wall moves
   one unit towards the train per pulse and the wire is otherwise exactly as it was; s = 1 (a stretch of wire B, i.e.
   the word BBB…) does not count (the wall becomes a mixed region). So a gun of word period ≥ 2 feeding wire C into
   an 8|C wall would be a clock driving a counter, until the wall reaches the gun (the review of the first push saw
-  the same end for the B|B′ counter: capacity d − 1). Not on the oracle; no cap for the free end of wire 8 was looked
-  for. The rake against the wall: section 16.
+  the same end for the B|B′ counter: capacity d − 1). No cap for the free end of wire 8 was looked for. The rake against the wall: section 16.
 
 ## 18. Why every shuttle clock has period 4N + 2
 
@@ -628,8 +632,8 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
 ## 19. Third push: not done, not checked, and where to go next
 
 - **Not checked.** Everything in sections 16 to 18 except the reader rests on `sg` steppers or on SAT (the encoding
-  of `scat.py`, CaDiCaL only); only the reader (section 15) has an oracle verifier. The SAT negatives are exhaustive
-  inside their bounds only. The 8|C counting is `sg.Geom` only. The side-kick and back-to-back scans looked 3 and 12
+  of `scat.py`, CaDiCaL only); only the reader (section 15) and the counter (section 17) have oracle verifiers. The SAT negatives are exhaustive
+  inside their bounds only. The side-kick and back-to-back scans looked 3 and 12
   clock periods ahead and only at N = 3 and 5. `readers.py`'s "disturbs" lumps together caps that reflect, move,
   grow or burn.
 - **Not found.** A periodic emitter; a clock that drives a counter; a corner; a period ≡ 0 mod 4; a left cap with a
