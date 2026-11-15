@@ -170,6 +170,12 @@ _Last updated 2026-11-14 by the lead._
   random unit, not soup; "every time" with the speeds; a few in a hundred; the 16-position counter; both proofs
   marked checked). The third investigator has applied both reviews' README corrections (6c32bfc and before).
   Running: the third signals push (since 10:50 UTC), the manuscript editor (fifth update of `docs/paper/`).
+  **Manuscript draft brought up to date 11:44 UTC** (fifth update, commits 5daa37f … b1c807b: rounds 3–4 in §5.6,
+  a new §6.1 on the state space, §7.5 rewritten round the 0.2084 line and the kink, a new §8.1 on signals with
+  the clock and tape as Theorems 8 and 9; both number scripts pass). Its eleven items for the lead are applied
+  (notebook entry "corrections found by the fifth pass"; SG11 added, 165 claims): **the lead's conjecture about
+  the kink is withdrawn** (it used cube steps where round 3 had doubled units). Prior art for the signal objects
+  has not been searched (`docs/paper/GAPS.md` item 50).
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

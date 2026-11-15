@@ -2905,3 +2905,26 @@ the study's SAT encoding imports study code; code in `research/audit/signals2/`)
   for the README go to the third investigator.
 - Not checked by the reviewer: the gate (the lead did); the wide pulses; the scattering tables at the larger
   planes; `walls.py`, the static pairs, `caps_any.py`; the reflector search at plane 37.
+
+## 2026-11-15: corrections found by the fifth pass over the manuscript draft (`docs/paper/FOR-LEAD.md`, fifth section)
+
+- **The kink conjecture used the wrong unit.** In "the five tori, reviewed" the lead wrote "(round 3: a remnant
+  about 3.5 cube steps across)". Round 3 (DY11) has the excess round a survivor reaching about 3.5 *doubled units*,
+  under two cube steps. With that, "the bend ends where the loop exceeds the remnant's width plus its reach" no
+  longer lands near the 4.4 cube steps where the bend ends, and round 4's review has since withdrawn the remnant as
+  an established object. **The conjecture is withdrawn; the kink near 61 cells has no explanation on file.**
+- **The 5 × 5 value "on file" is the first GPU's, not a CPU value** ("five wrapped faces on one driver", last
+  bullet): 15.6614 ± 0.0026 is row GP9, from the cloud GPU. So the card's 15.6630 ± 0.0023 is the first repeat of a
+  GP9 value on a second GPU, with the reviewer's CPU value 15.667 ± 0.010 beside it.
+- **The 4 × 4 anchor, one figure.** The ledger's GL1 now reads: high by 0.0075, of which 0.0058 (2.9σ with the
+  between-job scatter) was the draw and 0.0017 the census's 16-generation stamping. The "2.6σ" and "3.4σ" in earlier
+  entries were computed under other error rules; use 2.9σ.
+- **SH3's bias, the sign.** The loop² 4 census values read ln τ *high* by about 0.018; the earlier "bias of −0.018"
+  was the correction to apply.
+- **DY15's unmatched gap**: the study has C = 0.152 against 0.204, the reviewer 0.151 against 0.204 (different seeds).
+- **The forecast tally rule on the dying-face study.** "Three of eighteen" (rounds 1–3) and "three of twenty-three"
+  (with round 4) count the lead's forecasts L2–L7, A1–A7 (as scored in rounds 1 and 2), T1a, T1b, T2, T3, T4 and
+  F1–F5; L1 is not counted because it was a deduction from the rule, not a forecast, and F6 is not counted
+  because it was a stopping clause.
+- Added to the ledger: SG11 (the two proved remarks on wires); section numbers in SG6–SG9; a dated note on CN1.
+  Not done: ledger rows for forecast tallies (they are scores, not claims; the forecast files hold them).

@@ -79,7 +79,7 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
 12. **Periods beyond 66.** A loop of thirty-odd steps in a 4- or 6-fold box would give 120–200. Nothing forbids it.
     **Answered, 2026-11-15 (proof checked by a second agent): periods are unbounded.** A wire between two caps with one extra
     cell is a free-standing oscillator of period 4N + 2 for N units of wire, so every period 6, 10, 14, … occurs
-    (`research/signals/README.md` §11; CLAIMS SG5; checked on the oracle at ten lengths by two codes). Still open:
+    (`research/signals/README.md` §11; CLAIMS SG5; checked on the oracle at 24 lengths from 1 to 257 by three codes). Still open:
     any period 0 mod 4 above the ones in the fauna, and any odd period above those.
 13. **Can any oscillator pass a signal to another?** All compound objects found by sampling are non-communicating.
     **Answered in part, 2026-11-15: yes, signals exist.** Free-standing wires along (1,0,−1) carry pulses at half the
@@ -91,7 +91,7 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     soup-born wire carries a pulse, and whether a pulse can cross living chaos.
     **Second push, 2026-11-15** (CLAIMS SG5–SG10; notebook "a clock of every length"; review in
     `research/audit/REVIEW-signals-2.md` when done): a bounded track exists (the clock; what shuttles is a rake);
-    a collision gate with outputs along the input lines; a register moved by pulses from either side; wires B and
+    a collision gate with outputs along the input lines; a counter moved by pulses from either side (sixteen positions); wires B and
     C arise from one random unit repeated (not from soups three to six units long, 60,000 tried); chaos destroys any wire it touches, and
     the isolating gap is three empty layers (T3; the review corrected "two"). Reviewed: `research/audit/REVIEW-signals-2.md`. Still open:
     a corner or a crossing (nothing found, nothing searched outside one wire direction), a reusable reflector for a
