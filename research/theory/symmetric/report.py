@@ -107,6 +107,9 @@ for g in ('ci', 'c2e'):
     x = v(f'oct_11_c_{g}')
     if x:
         print(f'  R = 11 c  {g:4s} {fmt(x)}   from c1 {fmt(diff(x, v("oct_11_c_c1")))}')
+x = v('oct_13_c_c2e')
+if x:
+    print(f'  R = 13 c  c2e  {fmt(x)}   from c1 (GPU) {fmt(diff(x, GPU_C1[84]))}   c2e - csz {fmt(diff(x, v("oct_13_c_csz")))}   (R = 11: {fmt(diff(v("oct_11_c_c2e"), v("oct_11_c_csz")))})')
 print('  A = 84, R = 13 c: c1 (GPU) 18.141 +- 0.005')
 prev = GPU_C1[84]
 for g in ('csz', 'c2v', 'd2h'):
@@ -133,12 +136,12 @@ print('  asymmetric v - c: ' + '; '.join(f'A = {area(R, "c")}: {fmt(diff(v(f"oct
 print('=' * 100)
 print('F. faces with a threefold axis: T (free rims), T_h (rims in lockstep), T_d (C3v, free rims), O_h (C3v, rims in lockstep)')
 print('   group   R   A    ln tau_face (c)     (c/k)A, c = 0.209   |  R   ln tau_face (v)      v - c')
-for g, k, Rs in (('t', 3, (15, 17, 19, 21)), ('th', 3, (19, 21, 23)), ('td', 6, (19, 21, 23, 25, 27, 29, 31, 33)), ('oh', 6, (23, 25, 27, 29, 31, 33))):
+for g, k, Rs in (('t', 3, (15, 17, 19, 21)), ('th', 3, (19, 21, 23)), ('o', 3, (19, 21)), ('td', 6, (19, 21, 23, 25, 27, 29, 31, 33, 35)), ('oh', 6, (23, 25, 27, 29, 31, 33))):
     for R in Rs:
         a = v(f'oct_{R}_c_{g}'); b_ = v(f'oct_{R + 1}_v_{g}'); A = area(R, 'c')
         print(f'   {g:3s}  {R:3d} {A:4d}   {fmt(a):18s}  {0.209 / k * A:7.3f} ({(a[0] - 0.209 / k * A) if a else float("nan"):+.2f})    | {R + 1:3d}  {fmt(b_):18s}  {fmt(diff(b_, a))}')
 print('   local slopes x |stabiliser| (per quotient cell), cube-centred:')
-for g, k, Rs in (('t', 3, (15, 17, 19, 21)), ('td', 6, (19, 21, 23, 25, 27, 29, 31, 33)), ('oh', 6, (23, 25, 27, 29, 31, 33))):
+for g, k, Rs in (('t', 3, (15, 17, 19, 21)), ('td', 6, (19, 21, 23, 25, 27, 29, 31, 33, 35)), ('oh', 6, (23, 25, 27, 29, 31, 33))):
     out = []
     for r0, r1 in zip(Rs, Rs[1:]):
         d = diff(v(f'oct_{r1}_c_{g}'), v(f'oct_{r0}_c_{g}'))
@@ -149,15 +152,18 @@ for g, k, Rs in (('t', 3, (15, 17, 19, 21)), ('td', 6, (19, 21, 23, 25, 27, 29, 
 print('=' * 100)
 print('G. the rim term of a wedge: T_d minus O_h at equal hull; T_h minus T')
 pts = {'c': [], 'v': []}
-for R in (23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33):
-    cen = 'c' if R % 2 else 'v'; d = diff(v(f'oct_{R}_{cen}_td'), v(f'oct_{R}_{cen}_oh'))
+_pool = oh_data.load()
+OLD = {(A, c): (math.log(e / d), 1 / math.sqrt(d)) for (A, c), (d, e) in _pool.items() if d >= 10}
+for R in (23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35):
+    cen = 'c' if R % 2 else 'v'; oh = v(f'oct_{R}_{cen}_oh') or OLD.get((area(R, cen), cen))
+    d = diff(v(f'oct_{R}_{cen}_td'), oh)
     if d:
         per = (R - 1) / 4 if cen == 'c' else R / 4
         print(f'   R = {R} {cen}  A = {area(R, cen)}  rim periods in the wedge {per:5.2f}   T_d - O_h = {fmt(d)}   per period {d[0] / per:.3f}')
         pts[cen].append((per, d[0], d[1]))
 for cen in 'cv':
     if len(pts[cen]) >= 3:
-        p, y, s = (np.array(x, float) for x in zip(*pts[cen]))
+        p, y, s = (np.array(x, float) for x in zip(*[q for q in pts[cen] if q[0] <= 8.0]))   # R <= 33 (c), 32 (v)
         b, eb, chi2 = wls(np.stack([np.ones_like(p), p], 1), y, s)
         print(f'   {cen}: T_d - O_h = {b[0]:.2f} + ({b[1]:.3f} +- {eb[1]:.3f}) per period, chi2 {chi2:.1f}/{len(p) - 2} (errors statistical; scatter is larger, see the centre kinds)')
         b1, eb1, chi21 = wls(p[:, None], y, s)
@@ -171,7 +177,7 @@ for R in (19, 20, 21):
 print('=' * 100)
 print('H. the centring (v - c at equal area), every group')
 allp = []
-for g, Rs in (('c1', (7, 9, 11, 13)), ('csz', (11,)), ('c2v', (11,)), ('d2h', (11, 13, 15)), ('t', (15, 17, 19)), ('th', (19, 21, 23)), ('td', (19, 21, 23, 25, 27, 29, 31)),
+for g, Rs in (('c1', (7, 9, 11, 13)), ('csz', (11,)), ('c2v', (11,)), ('d2h', (11, 13, 15)), ('t', (15, 17, 19)), ('th', (19, 21, 23)), ('td', (19, 21, 23, 25, 27, 29, 31)), ('o', (19,)),
               ('oh', (23, 25, 27, 29, 31, 33))):
     out = []
     for R in Rs:
@@ -202,3 +208,38 @@ for R, cen in ((29, 'c'), (30, 'v'), (31, 'c'), (32, 'v'), (33, 'c'), (34, 'v'))
     A = area(R, cen); o = (C if cen == 'c' else V).get(A); m = v(f'oct_{R}_{cen}_oh')
     if m and o:
         print(f'   R = {R} {cen} A = {A}: here {fmt(m)}   earlier {o[0]:.3f} +- {o[1]:.3f}   difference {m[0] - o[0]:+.3f} +- {math.hypot(m[1], o[1]):.3f}')
+
+print('=' * 100)
+print('J. the O_h law rebuilt from its parts (cube-centred): T_d wedge law minus the rim term')
+td = [(area(R, 'c'), ) + v(f'oct_{R}_c_td')[:2] for R in (27, 29, 31, 33) if v(f'oct_{R}_c_td')]   # R = 35 is kept out: it tests forecast S1
+A_, y, s = (np.array(x, float) for x in zip(*td))
+b, eb, chi2 = wls(np.stack([np.ones_like(A_), A_], 1), y, s)
+print(f'   T_d, A = {int(A_[0])}..{int(A_[-1])}: ln tau = {b[0]:.3f} + ({b[1]:.5f} +- {eb[1]:.5f}) A   (slope x 6 = {6 * b[1]:.4f} +- {6 * eb[1]:.4f})  chi2 {chi2:.1f}/{len(y) - 2}')
+for c in (0.2072, 0.209, 0.2117, 0.2179):
+    a0 = float(((y - c / 6 * A_) / s ** 2).sum() / (1 / s ** 2).sum()); chi = float((((y - c / 6 * A_ - a0) / s) ** 2).sum())
+    print(f'      slope pinned at c/6, c = {c}: intercept {a0:+.3f}, chi2 {chi:.1f}/{len(y) - 1}')
+p, yr, sr = (np.array(x, float) for x in zip(*[q for q in pts['c'] if q[0] <= 8.0]))   # R <= 33
+br, ebr, chir = wls(np.stack([np.ones_like(p), p], 1), yr, sr)
+scat = math.sqrt(chir / max(len(p) - 2, 1))
+print(f'   rim term, R = 23..{int(4 * p[-1] + 1)}: T_d - O_h = {br[0]:.3f} + ({br[1]:.3f} +- {ebr[1] * scat:.3f}) n, n = (R-1)/4 rim periods in the wedge (error scaled by the scatter)')
+print(f'   n = (sqrt(1 + 8A/3) - 3)/4 = 0.408 sqrt(A) - 0.75 + O(1/sqrt(A)): coefficient of sqrt(A) from the rim = {-0.4082 * br[1]:.3f} +- {0.4082 * ebr[1] * scat:.3f}')
+print('   coefficient fitted to the earlier O_h data with the slope pinned at c/6 (oh_data.py): -0.157 (c = 0.2072), -0.171 (0.209), -0.193 (0.2117), -0.244 (0.2179); first quoted -0.196')
+print('   O_h rebuilt = a_Td + (c/6) A - rim(A), against the measured O_h (this study to A = 459, earlier CPU and GPU beyond):')
+meas = {A: OLD[(A, 'c')] for (A, cc) in OLD if cc == 'c'}
+for R in (23, 25, 27, 29, 31, 33):
+    m = v(f'oct_{R}_c_oh')
+    if m:
+        meas[area(R, 'c')] = m[:2]
+print('      A      measured          ' + '   '.join(f'c = {c}' for c in (0.209, 0.2117, 0.2155, 0.2179)))
+for A in sorted(meas):
+    R = int(round(-2 + math.sqrt(1 + 8 * A / 3))); n = (R - 1) / 4; row = []
+    for c in (0.209, 0.2117, 0.2155, 0.2179):
+        a0 = float(((y - c / 6 * A_) / s ** 2).sum() / (1 / s ** 2).sum())
+        row.append(a0 + c / 6 * A - (br[0] + br[1] * n) - meas[A][0])
+    print(f'    {A:5d}   {meas[A][0]:7.3f} +- {meas[A][1]:.3f}    ' + '      '.join(f'{x:+.2f}' for x in row))
+
+x35 = v('oct_35_c_td')
+if x35:
+    for c in (0.209, 0.2117):
+        a0 = float(((y - c / 6 * A_) / s ** 2).sum() / (1 / s ** 2).sum())
+        print(f'   T_d at A = 513 (R = 35): measured {fmt(x35)}; T_d line with c = {c}: {a0 + c / 6 * 513:.3f}; measured minus the earlier O_h value 14.151: {x35[0] - 14.151:.3f}; rim law at n = 8.5: {br[0] + br[1] * 8.5:.3f}')
