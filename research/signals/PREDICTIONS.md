@@ -97,3 +97,28 @@ second.
 - **S9 (30%).** Some wire that arises from random soup carries a pulse.
 - **S10 (60%).** A pulse cannot pass between a wire and living chaos as a pulse: where a wire meets a chaotic
   face, the wire burns or the pulse is absorbed with no repeatable effect on the other side.
+
+## The second investigator, 2026-11-15 09:05 UTC (after reading the README, the tools and the objects; before any code of mine has run)
+
+Vocabulary: a **cap** is a way for a wire to end in empty space and stay (period ≤ 2 unless said); a **reflector** is
+a cap, or a standing defect, that turns an arriving pulse into a pulse going back; a **corner** joins two wire
+directions and passes a pulse from one arm to the other.
+
+- **J1 (85%).** Wire B has a cap: a semi-infinite wire B that ends in empty space and is stationary (period ≤ 2).
+- **J2 (35%).** A reflector is found for some pulse-carrying wire (the same event as the first half of the lead's S6,
+  without the corner): pulse in, pulse out the way it came, reflector as it was or cycling through finitely many
+  states, oracle as judge.
+- **J3 (30%).** A free-standing finite object in empty space is built whose period is set by its length (a family,
+  at least three lengths verified by the oracle, the period linear in the length). This is the second half of S6.
+- **J4 (12%).** A corner between two of the six wire directions is found.
+- **J5 (30%).** A receiver that stays put and toggles (S8) is found; the search that finds it is a constraint search
+  for the pair of states, not a sample of standing defects.
+- **J6 (15%).** A gate with an output pulse, a splitter or a duplicator (S7).
+- **J7 (40%).** Some wire born from soup carries a pulse (S9); in particular 50% that wire B itself, up to symmetry,
+  is among the soup-born wires of the 3 × 3 tube.
+- **J8 (65%).** Where wire B meets living chaos the wire burns: a front runs down it and does not stop (so S10 holds
+  for the trivial reason). 40% that in at least one trial a clean pulse B is seen leaving the chaos along the wire.
+- **J9 (15%).** A proved obstruction of some generality (for example: no cap of a given class reflects; no finite
+  free-standing object holds a circulating pulse).
+- **J10 (60%).** If a reflector is found, the reflected pulse comes back with a delay that depends on the parity of
+  the pulse's arrival time or position (as the head-on meeting does), so that only one parity of length oscillates.
