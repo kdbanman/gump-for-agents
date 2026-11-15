@@ -1208,7 +1208,7 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   4 generations apart), 21,320 gap runs compared in lockstep with the plain run: **20,813 healed** (cell for cell
   equal to the plain run within 200 generations); in 412 the gun was already disturbed in the plain run (no rake to
   remove); 58 gaps destroy the oscillator; in 28 the oscillator survives unchanged and the gun dies (one case looked
-  at, C17.31a, with `python3 ../scratch/signals/p5/look2.py ../scratch/signals/p5/gapstream.jsonl 1`: when the gap
+  at, C17.31a, with `python3 gaplook.py fire ../scratch/signals/p5/gapstream.jsonl 1`: when the gap
   reaches the oscillator the wire catches fire there and burns in both directions, up to the gun in about 15
   generations, leaving the oscillator standing: a fuse, not a signal); 9 lose the oscillator in the plain run later.
   **No run left the oscillator alive and the gun alive in a state different from the plain run's.**
@@ -1221,8 +1221,7 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   and 4 are labelled `LISTENER?` (C20.29a and C20.33a, two placements, two gaps each). **They are not listeners:** in
   the plain run the oscillator has already burnt the line (units 2..11 empty from generation 84 on; what is left at
   the gun's place is debris of period 4, which the gun test of the script accepts); the gap only changes which
-  debris is left (`python3 ../scratch/signals/p5/look.py ../scratch/signals/p5/gapstream_end.jsonl` prints both
-  final states; the script is in the git-ignored scratch area, eleven lines of `sg.step_set`). The gun test should
+  debris is left (`python3 gaplook.py final ../scratch/signals/p5/gapstream_end.jsonl` prints both final states). The gun test should
   have required rakes on the wire; for "healed" this does not matter (a placement that burns the line identically
   with and without the gap is not a standing placement, and it was not counted as a listener).
 - **[measured, sg.step_set; exhaustive over places and phases for one N] The divider's oscillator.**
