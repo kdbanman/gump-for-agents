@@ -1367,6 +1367,15 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   of the form "train(1) xor the signal" up to a translation, and by induction the signal rides the infinite train for
   ever, rigidly. On the oracle (`verify_echo.py` check B): each of the four on a ring of 48 units (torus H = 96),
   whole torus, 120 generations, as predicted; check C: one event per kind becomes that signal.
+  *Review (REVIEW-signals-6 §2): the 112-event census reproduced with an independent stepper (24 / 66 / 22; 6 E, 2 U,
+  8 H, 6 K0, the same events; the 66 breaks still breaks at generation 101), and the two-generation argument checked:
+  it compares the whole infinite state, so it covers every distance. By the train's symmetry (two units, four
+  phases) the 112 events are every one-cell flip inside the tube at any place and time, so the list is complete for
+  what it claims. It is not the list of the train's signals: five more ride it rigidly for ever (two-generation
+  identity, and the oracle on a ring, 120 generations: `research/audit/signals6/sig6.py`): K3 (review-5's two-cell
+  signal, down), N1 (three cells, UP: (0,0,1), (1,2,2) of an even unit u and (0,0,3) of u + 1 at phase 1), N2, N3
+  (four cells, down), all made by two-cell flips inside the tube, and N4 (three cells, down, one of them outside the
+  3 × 3 tube), made by one-cell flips just outside it.*
 - **So an echo needs no reflector.** One cell removed from the stream anywhere sends an echo up it (6 of the 112
   events), and another sends U. What the reflector of the review does is to turn an arriving H into an E (section 33).
 - **Correction to REVIEW-signals-5 §2 (iv)** (dated 2026-11-15, sixth push; the audit file is not edited): its
@@ -1376,6 +1385,12 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   the events that become E or U; their rows were not followed. Among single cells (the review's one-cell additions
   and one-cell removals) the up-moving fraction is 8 of 112 in the census above; how many of the review's 338 are
   up-movers was not counted. The 'ride' classes and everything said of K0 stand.
+  *Review (REVIEW-signals-6 §1): counted and followed. Of the 338 'break' events per end exactly 16 become one
+  up-moving signal alone (14 E, 2 U; none with a second signal); the other 322 still break the bare train at
+  generation 202. All 16 × 741 = 11,856 rows: at generation 42 the whole-state difference from the undisturbed run is
+  exactly the departing signal, at least 6 units below any cell of the end, so every end is equal to the undisturbed
+  end for ever (locality and the two-generation argument; three ends × two events also on the oracle). No end is
+  left alive and changed by any of the 426 events.*
 - **Other media.** The echo is a defect of the rake train, not of wire C: on bare wire C there is no E (the cells it
   changes are rake cells); wire C has its own pulses in both directions (section 10). On the divider's stream
   `5f9f` the echo cannot ride: that stream is the plain train with a hole in every second rake, and an echo meets a
@@ -1393,6 +1408,10 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   meeting**, four in all (E or U against H or K0). `meet6.py` checks, for each pair, that two offsets give the same
   orbit (the run with the down-signal two units further is the other run two generations later, moved one unit:
   every generation 0..60, `ALL ORBIT CHECKS PASS`).
+  *Review (REVIEW-signals-6 §3): the argument checked; tested with an independent stepper at every offset of the
+  allowed parity from 1 to 41 units, for every pair of consecutive offsets, every generation 0..198: one orbit, no
+  exception, and the outcome is the claimed one at every offset (generation 200). With K3: E meets K3 gives the
+  puncher (as E meets K0); U meets K3 leaves one H (oracle).*
 - **[proved for the infinite train: exact runs, with the chart argument for the fronts; on the oracle by
   `verify_echo.py` check D] The table** (`python3 meet6.py`, 3 min; sg.step_set on a finite piece, exact on the
   units the difference occupies, which the script asserts):
@@ -1414,10 +1433,19 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   hand. On the oracle (`verify_echo.py` check D): each of the four on the ring at generation 56, whole torus.
   The edge of E-meets-H is wider than that of U-meets-H (at generation 56 one unit 6 units below its upper edge is
   not yet wire B; at U-meets-H none).
+  *Review (REVIEW-signals-6 §3): the gluing step is now a script (`research/audit/signals6/glue6.py`: a lemma with
+  its proof in the docstring; it needs the medium between pieces to be at least 8 units, the medium to satisfy
+  Φ(M) = M over four generations, and each piece to move rigidly over one four-generation step on its units widened
+  by 4). It passes at generation 196 → 200 for E–H, U–H (wire B), E–K0 and E–K3 (the holed train) at every offset
+  1..41, so these fronts are proved for ever on the infinite train; U–K0 leaves the plain train exactly (proved).*
 - **Same direction** (`meet6.py`, every spacing of 1 to 8 units that the parities allow): two up-signals, or two
   down-signals, travel together unchanged (each where it would be alone at generation 120) at every spacing, except
   two configurations at distance one unit: U one unit above E (ahead of it), and H with K0 one unit apart (either
   order); these are not two signals and the difference grows (a front). E one unit above U travels unchanged.
+  *Review (REVIEW-signals-6 §3): confirmed to spacing 12, and every travelling pair is proved to travel for ever (its
+  two-generation identity holds). "U one unit above E" is not a pair at all: the two share the cell (0,0,3) of unit
+  u + 1, so their xor is a different two-cell change. With K3: K3 fails at distance 1 or 3 below H, 2 below K0 or K3,
+  1 above H.*
 - **[proved for the listed words, exact runs; on the oracle for three] An echo against a word of holes**
   (`meet6.py`, E against two holes 1..10 rakes apart; `verify_echo.py` for 2, 3, 4 holes at units 21, 27, 33, 41 of
   the phase-1 train, i.e. 3, 3 and 4 rakes apart): the
@@ -1425,7 +1453,14 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   if it is s ≥ 3 rakes behind, it leaves, standing in the wire B, a stretch of **wire B′** (B with (1,0,2) off and
   (0,2,3) on: the register of section 9) on units s + 8 .. s + 10 (standing: the same units at generations 100, 120,
   140, 160, s = 3, 4, 5, 8; `python3 echo_words.py`, 1 min; measured to generation 160 only), and every further hole
-  lengthens the stretch by one unit (2, 3, 4 holes: 3, 4, 5 units at generation 56, on the oracle). So an echo meeting a word writes a unary count of
+  lengthens the stretch by one unit (2, 3, 4 holes: 3, 4, 5 units at generation 56, on the oracle).
+  *Review (REVIEW-signals-6 §3): wrong for s = 2: the wire B is not clean; a pulse of 1 to 3 cells rides down in it
+  at the speed of the lower edge, a few units above it, for ever (it is part of the lower piece in the gluing proof;
+  the push's medium test read only 8 units round the middle). s = 1 is clean. For s = 3..14 the B′ stretch is on units
+  s + 8 .. s + 10 and is proved standing for ever (gluing script, generation 236 → 240), and for 3 to 6 holes at
+  spacings 3 and 4 and three mixed words (21, 27, 33, 41; 21, 27, 35; 21, 29, 33) each further hole adds one unit,
+  also when it is 2 rakes behind the previous one (21, 29, 33: 4 units); s = 2, s = 3 and four holes 3 apart on the
+  oracle (ring of 128 units, generations 20 to 80, equal to the run these statements are read from).* So an echo meeting a word writes a unary count of
   the later holes, at a place set by the spacing of the first two, into the wire B it has made: the B|B′ counter of
   the second push, written by holes. It is not a lasting record of the line: in the finite line (section 34) the
   dead gun's fire comes down the wire B and erases it.
@@ -1455,6 +1490,9 @@ oracle checks of this section and the next: `python3 verify_echo.py` (objects/ec
   #0, 1, 2, 4, 8, 9, 10, 11, 12, 13, 14 of the list, 21 to 33 cells), **57 die**. On the oracle: `verify_echo.py`
   check E (gun #4, 23 cells: the whole torus equal to the undisturbed run from 28 generations after U is set 5
   units in front of it; the gun still in its cycle). So a gun can survive a signal coming up the stream: U, not E.
+  *Review (REVIEW-signals-6 §4): the 68 entries are 67 guns up to translation and time shift (entries 15 and 40 are
+  one gun). Re-run with an independent stepper: E kills all 68, U is absorbed exactly by the same eleven (#0, 1, 2, 4,
+  8–14), and the new up-moving signal N1 kills all 68.*
 - **[SAT, bounds; CaDiCaL 1.5.3, no model, nothing to re-step] No gun survives E** (`python3 sat_gun_echo.py C
   --kind E`; instance in the script's docstring). Unknown: a gun A of period dividing 4 (units < 6 tied to the
   train), a gun B of period dividing 4 at the train phase T later (any gun: B = A, A shifted, or a different gun),

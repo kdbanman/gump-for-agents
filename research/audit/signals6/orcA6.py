@@ -1,6 +1,6 @@
 """A of REVIEW-signals-6 on the oracle: three ends of the census (#0 the C = 31 absorber, #10 capA's end, #300), each
 with two of the scan's up-making events (#16 'rm g0 unit0 2/6' -> E, #221 'rm g2 unit0 1/6' -> U), stepped with
-reference/oracle.py on a box torus (finite train of units -100..5, the end, whole torus), 60 generations: the
+reference/oracle.py on a box torus (finite train of units -80..5, the end, whole torus), 60 generations: the
 difference between the evented and the undisturbed run must be, at generation 42, exactly the bare-train difference
 (the signal, computed here with st6 on a bare train) and lie at least 6 units below the end.
 
@@ -31,10 +31,10 @@ for j in (16, 221):
     dbare = units(P ^ Q, -100, 100)
     for i in (0, 10, 300):
         cap = frozenset(tuple(c) for c in ends[i]['cap'])
-        x0 = T.train5(0, -100, 6) | cap
-        xs = list(st6.oracle_torus(x0, 42, (480, 40, 480), (-260, -20, -240)))
+        x0 = T.train5(0, -80, 6) | cap
+        xs = list(st6.oracle_torus(x0, 42, (212, 40, 212), (-172, -20, -40)))
         y = xs[g][1] ^ fl
-        ys = list(st6.oracle_torus(y, 42 - g, (480, 40, 480), (-260, -20, -240)))
+        ys = list(st6.oracle_torus(y, 42 - g, (212, 40, 212), (-172, -20, -40)))
         d = xs[42][1] ^ ys[-1][1]
         far = min(unit_of(c) for c in xs[42][1] ^ T.train5(42, -100, 30) if unit_of(c) > -50)
         good = d == dbare and max(unit_of(c) for c in d) <= far - 6

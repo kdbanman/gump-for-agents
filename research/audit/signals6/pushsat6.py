@@ -3,8 +3,7 @@ imported and run with sys.argv; CaDiCaL 1.5.3 as the push), models re-stepped wi
 
     python3 pushsat6.py U37      the push's U instance at C = 37 (SAT expected); the model's A re-stepped with st6:
                                  a period-4 gun that absorbs U (whole state equal to the undisturbed run)
-    python3 pushsat6.py blank37  the push's E instance at C = 37 with the signal blanked (echo6.sig patched to the
-                                 empty set for E): must be SAT (any gun, nothing comes back)
+(A 'blank signal' plant was tried and cannot be built: sat_gun_echo.histories needs a non-empty signal.)
 """
 import json, os, sys, time
 import numpy as np
@@ -16,10 +15,6 @@ sys.path.insert(0, SIG)
 os.chdir(SIG)
 import echo6
 import sat_gun_echo
-if mode.startswith('blank'):
-    orig = echo6.sig
-    echo6.sig = lambda kind, u: frozenset() if kind == 'E' else orig(kind, u)
-    sat_gun_echo.E.sig = echo6.sig
 fn = os.path.join(OUT, f'pushsat_{mode}.json')
 C = mode[-2:]
 kind = 'U' if mode.startswith('U') else 'E'
