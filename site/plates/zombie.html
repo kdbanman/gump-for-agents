@@ -1,0 +1,22 @@
+<section class="plate" id="zombie">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">Lives that settle unrecognised</p><span class="st st-meas">found in three steppers, measured</span><span class="st st-meas">bounded: no published number moves</span><span class="st st-open">longest GPU runs: assumed, not shown</span></div>
+    <h2>About four lives in a million fall into a cycle the steppers did not recognise. Such a life never dies, and its time adds to the measured wait.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c5 panel">
+      <h3>One of them, ticking</h3>
+      <div id="f-zombie" class="zombie"></div>
+      <div class="keys" id="k-zombie"></div>
+      <figcaption>A slab whose faces repeat (twisted, 36 cells each), eight layers deep, run by this page’s own stepper. It returns to the same state every <b>16</b> generations. The test then in use compared with the state 840 generations back, so it saw only periods that divide 840.</figcaption>
+    </figure>
+    <figure class="fig c7 panel">
+      <h3>GPU runs: the most such lives could add, against the run’s own error</h3>
+      <div id="f-zbound"></div>
+      <div class="keys"><span class="key"><span class="sw" style="background:var(--ember);height:6px;width:16px;border-radius:3px"></span>upper bound (95%), from deaths at old ages</span><span class="key"><span class="sw" style="background:var(--ink);width:2px;height:13px"></span>the run’s statistical error</span></div>
+      <div id="t-zbound"></div>
+      <figcaption>The three weakest of the bounded runs. These are bounds on a possible bias, not measured biases. Runs shorter than one mean life (the largest hull faces among them) have no such bound; there the argument is that the rate does not rise with size, which is <b>assumed</b>. Hull runs R11 and R13 re-derived by the lead; the others rest on the GPU session’s script.</figcaption>
+    </figure>
+  </div>
+  <div class="nums" id="n-zombie"></div>
+</section>

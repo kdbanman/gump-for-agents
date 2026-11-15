@@ -49,7 +49,7 @@ _Last updated 2026-11-14 by the lead._
   asked for arrived as pull request 10 and are merged (lead spot-checked the diff). Asked next: slab faces at A > 90, octahedral faces at A ≥ 165,
   a longer cube-centred symmetric run (does the death rate really fall with age?).
 
-- 2026-11-14: an overview page for the owner (`docs/overview/`, published as a private artifact; link in `LEAD.md`). Refreshed and republished the same day at 11:50 UTC (current to the swarm's close and the exponent study).
+- 2026-11-14: an overview page for the owner (`docs/overview/`, since 2026-11-15 the multi-page `site/`; published as a private artifact; link in `LEAD.md`). Refreshed and republished the same day at 11:50 UTC (current to the swarm's close and the exponent study).
   It predates the two reviews of 2026-11-14 (class theory, GPU round two); refresh it when the swarm's exam is in.
 - Pull request 11 merged 2026-11-14 07:27 UTC (everything up to the two reviews). Pull request 13 merged 09:55 UTC
   (exam, audit, class revision and follow-up, exponent report, reviews of GPU pull requests 12 and 14). Later
@@ -155,7 +155,7 @@ _Last updated 2026-11-14 by the lead._
   The state-space author applied its review's seven corrections (281cf02). Still running: the review of the second
   signals push, the overview editor, the third signals push.
   **Overview published 10:59 UTC (version 12)**: new plates "Signals" (a live pulse, the gate, the clock with a
-  slider for N; `docs/overview/check-signals.js` checks the page's stepper against the oracle) and "How much of
+  slider for N; `site/checks/check-signals.js` checks the page's stepper against the oracle) and "How much of
   the room a seed sees" (the owner's question, with the coin-flip tile); "How a face dies" brought to rounds 3–4
   with the withdrawn sentence shown; the five wrapped faces from the owner's card on "One price per cell?"; map
   and "Open now" rewritten. The lead rebuilt it, ran both checks, loaded it headless (no script errors) and read
@@ -176,6 +176,123 @@ _Last updated 2026-11-14 by the lead._
   (notebook entry "corrections found by the fifth pass"; SG11 added, 165 claims): **the lead's conjecture about
   the kink is withdrawn** (it used cube steps where round 3 had doubled units). Prior art for the signal objects
   has not been searched (`docs/paper/GAPS.md` item 50).
+  **Pull request 25 merged 11:48 UTC (46e5a29; check.sh 20/20, CI green).** Running: the third signals push (since
+  10:50 UTC; forecasts S11–S15). On its report: re-run its verifiers, the lead's own oracle check of each new
+  object, an adversarial review, then the record. The card in the owner's house is still on the wrapped faces of
+  81, 84, 108, 111 cells (its branch has not moved since 06:15 UTC; fetch at every wake-up).
+  **The card's message of 12:01 UTC (branch at 16271f3): wrapped faces of 81, 84, 108, 111 cells** = 16.9222 ±
+  0.0031, 17.5467 ± 0.0031, 22.5600 ± 0.0222, 23.2032 ± 0.0231; one line from 63 to 111 cells, 0.20867(9) per cell,
+  χ² 7.8 on 5; its five-face line was low at all four; the 81-cell face lies between that line and the smooth
+  forms. The lead recomputed all nine from the rows (notebook "nine wrapped faces on the owner's card"; GL3
+  extended, B− above 75 cells; N3 held by its letter). It says both fix lists are closed; its hull face of 108
+  cells (two 7-hour seeds) ends about 02:00 UTC on the 16th, forecasts written first. **Usage read by it at 12:01
+  UTC: weekly 0.54, Fable 0.61** (the lead's reckoning had been 0.60 / 0.73); readings are now in
+  `research/gpu-local/USAGE.md` on its branch. **Review started 12:04 UTC (Opus)** ->
+  `research/audit/REVIEW-gpu-local-tori2.md`: the hull driver first, the fix lists, the nine faces as science, a
+  CPU value at 81 cells if affordable. Merge pull request 23 when it confirms the lists and CI is green.
+  **12:48 UTC: the review is in (interim on one point) and pull request 23 is MERGED (0b294fa; both fix lists
+  closed, CI green on 16271f3); the working branch has main merged in (8606999).** Review recorded: notebook "the
+  nine wrapped faces reviewed"; GL3 extended; a note of 12:50 to the card in `research/GPU-QUEUE.md` (six wording
+  corrections, the age table to commit after the hull run, an optional longer run at 111 cells). Findings: errors
+  honest (seeds' χ² 19.0 on 16); only the broken line fits all nine and that choice rests on 48, 57, 63 cells;
+  price per cell 0.2087–0.2090, no rising slope preferred; the 81-cell face could not have been a sharp test; the
+  hull driver is sound. Owed: the reviewer's CPU value at 81 cells (its two runs were still going at 12:50; it
+  resumes itself and hands back) -> add to GL3 and the notebook entry's last bullet. New commits on the card's
+  branch need a new pull request (opened by the lead).
+  **The third signals push reported about 12:40 UTC** (README §15–19): no emitter, corner, clock-driven counter or
+  period-4N clock; the clock's left cap eats every word and keeps no trace (proved; the lead's own oracle check
+  `research/audit/signals_reader_lead_check.py`); P ≡ k_R + k_L (mod 4) and the 3 × 3 / 5 × 5 turn-class results; a
+  second counter (8|C). Recorded provisionally: notebook "the third signals push"; CLAIMS SG12–SG15 (169 claims);
+  OPEN-PROBLEMS 13 (four sharpened questions a–d); the owner's journal; the lead's note in
+  `research/signals/PREDICTIONS.md`. **Its adversarial review is running** (Opus, since 12:44 UTC) ->
+  `research/audit/REVIEW-signals-3.md`. On its report: regrade SG12–SG15, corrections to the README (by the
+  third investigator or a successor), essay, overview, draft. Not yet updated for the nine faces or the third push:
+  `docs/WHAT-I-SEE.md` (the five-tori paragraph), the overview (version 13), `docs/paper/`.
+  **13:05 UTC: two new lines of work started.** (1) **A fourth signals push** (Fable, since 12:55 UTC; forecasts
+  S16–S21 in `research/signals/PREDICTIONS.md`): emitter, corner, period-4N clock, or a proved obstruction; it will
+  also apply the third review's README corrections. On its report: the lead's own oracle check of any new object,
+  an adversarial review, record. (2) **The wrapping law** (the lead's fit, 13:00 UTC; notebook "the kink is the
+  wrapping"; CLAIMS WL1 at C; `research/audit/wrap_law_lead.py`; frozen parameters and forecasts W1–W6 in
+  `research/wrap/PREDICTIONS.md`): every wide wrapped face on file (32) fits one line less a discount per cell for
+  each closed loop of squared length 12, 13, 16, 19, none from 21; it forecasts the equilateral "kink" from other
+  faces. **An Opus tester is trying to break it** (since 13:03 UTC; new classes at 51 to 69 cells, forecast first)
+  -> `research/wrap/README.md`. On its report: regrade WL1, rewrite GL3/GP9/SH rows that the law subsumes, essay,
+  overview, draft (§7.5), and redo CN1's joint fits. A note of 13:05 in `research/GPU-QUEUE.md` gives the card five
+  tori at 75 and 84 cells with frozen forecasts, for after its hull run. The essay's wrapped-face paragraph already
+  describes the law as unreviewed. Ledger: 170 claims (`python3 research/audit/claims_tally.py`).
+  **13:19 UTC: both reviews are in and recorded.** (a) Nine faces: the reviewer's CPU value at 81 cells is 16.9386 ±
+  0.0124 (card 16.9222; 1.3σ); GL3 is B at 81 cells, B− above. Nothing more is owed on that review. (b) **Third
+  signals push reviewed** (`research/audit/REVIEW-signals-3.md`; notebook "the third signals push reviewed"; SG12
+  A, SG13 B, SG14 A/B, SG15 B−/C; 170 claims, A 81, B 77, C 11, D 1): the reader proof is complete; the 8|C wall
+  reflects a double pulse (two in, one count, one back; the lead's own oracle check
+  `research/audit/signals_reflect_lead_check.py`); wire 8 is not free-standing (ring only); the eight k = 2 caps
+  destroy themselves in a lone turn; "every clock is 4N + 2" is measured, not proved; the emitter negatives exclude
+  only word periods 2 to 4 near the end of the 3 × 3 tube. Corrections to the README were applied by the fourth
+  push (e082fe1). OPEN-PROBLEMS 13 now lists questions (a) to (f). **Still running:** the fourth signals push
+  (Fable, since 12:55) and the wrapping-law tester (Opus, since 13:03).
+  **14:57 UTC: the wrapping-law test is in and recorded** (`research/wrap/README.md`; notebook "the wrapping law
+  tested"; the lead's refit `python3 research/audit/wrap_haz_lead.py`; CLAIMS WL1 rewritten to B/B−, WL2 B, WL3 C;
+  172 claims, A 81, B 79, C 11, D 1). The law held W1, W2, W3, W4 and failed W5, W6, and is the wrong form (χ² 120
+  on 41 with the precise values it left out; 4–16σ off below 48 cells). Stands: short loops discount, the effect
+  ends between loop² 19 and 21, 0.2086 ± 0.0001 per cell with no short loop. Open: how one loop's discount grows
+  with area; the tester's "second way to die" form, a straight line per loop length and a power form fit equally
+  below 80 cells (the lead's refit; this narrows the tester's reading). **Owed:** the card's 84-cell face with one
+  loop of 12, torus (1, 12), (0, 28): forecasts 17.3604 / 17.3361 / 17.3207 / 17.2941 (old law / lines / power /
+  exponential), frozen in `research/wrap/PREDICTIONS.md` (W7–W10) and queued in `research/GPU-QUEUE.md` (14:55
+  UTC) with a 96-cell face and three faces that cross-check the tester's stepper. No second agent has reviewed the
+  tester's new faces; the card's three are that check. **Still running:** the fourth signals push (Fable, since
+  12:55). **Not yet done:** overview version 14 and the draft (nine tori, the wrapping result, signals pushes 3–4).
+  **15:16 UTC: the fourth signals push reported** (README sections 20–25, 21b; notebook "the fourth signals
+  push", provisional). A gun (15 cells, period 4, writes a rake onto bare wire every period), a line and a beam
+  (gun + wire + receiver, free-standing, period 4), a divider (catalogue oscillator C8.24a beside the stream turns
+  every second rake into a hole, period 8, the oscillator never changed). All its verifiers and proof scripts pass
+  here; the lead's own oracle checks of the gun and the divider pass
+  (`research/audit/signals_gun_lead_check.py`, `signals_divider_lead_check.py`). Forecasts S16–S21 scored in
+  `research/signals/PREDICTIONS.md`. **Running:** the adversarial review of it (Opus, since 15:16; →
+  `research/audit/REVIEW-signals-4.md`) and the lead's CPU run of the 84-cell face with one loop of 12 (since
+  14:58, about 80 minutes). **Owed on the review:** CLAIMS rows SG16 on, OPEN-PROBLEMS 13, the owner's journal
+  (the note that nothing ordered speaks onto a wire no longer holds), the essay; then overview 14 and the draft.
+  **15:21 UTC: the overview is being rebuilt as a multi-page site** (the owner's request, quoted in `LEAD.md`,
+  "The overview page"): an Opus agent is writing `site/` (sources per page, data fetched per page, the web app
+  mounted under `app/`, one build to `site/dist`, deployable to GitHub Pages by the manual workflow and
+  publishable as a private multi-file artifact). Phase 1 keeps the content of version 13 exactly; the new
+  findings (nine tori, the wrapping result, signals pushes 3–4) go in afterwards, page by page. **Owed on its
+  report:** the lead looks at the built pages, runs `bash site/check.sh`, fixes the references to
+  `docs/overview` in `LEAD.md`, `CLAUDE.md`, STATUS and `research/check.sh`, publishes the folder to the private
+  artifact, and tells the owner what to click to put it on Pages. Usage reading from the owner at about 15:18
+  UTC: 62% weekly, 73% Fable.
+  **15:58 UTC: done.** `site/` is merged into this branch (commits 3dbc359 … dbc88e9; 29 plates byte-identical to
+  version 13 apart from three sentences that named a place on the old page; `bash site/check.sh` and
+  `bash site/check.sh --artifact` pass for the lead), and the private artifact is now the multi-page site
+  (version 14, 84 files; how to republish: `LEAD.md`, "The overview page"). Not yet seen rendered on the host by
+  anyone. **Next for the site:** the new findings, page by page (nine tori, the wrapping result, signals pushes 3
+  and 4), after the fourth push's review is recorded; the owner's two clicks for the public site.
+  **16:03 UTC: the fourth signals push is reviewed and recorded** (`research/audit/REVIEW-signals-4.md`; notebook
+  "the fourth signals push reviewed"; CLAIMS SG16–SG22; 179 claims, A 86, B 81, C 11, D 1; OPEN-PROBLEMS 13
+  questions (g)–(k); the owner's journal and the essay updated; the review's 14 README corrections applied by the
+  reviewer, 96123e0). Stands: the gun (A), the line and the beam for every length (A, proofs re-derived), every
+  word of holes heals (A, exhaustive), the divider (A; proof and place-and-phase B), the clock with a tail (A).
+  Narrowed: the gun census at C = 35 double-counted; the divider's oscillator can be destroyed from the wire by
+  one cell (the lead re-ran `research/audit/signals4/hole_oracle.py`); a second divider never divides again; the
+  turn-class negative is for period-2 ends, T ≤ 36; the SAT negatives hold one wire phase unless stated.
+  **Running:** only the lead's CPU run of the 84-cell face. **Next:** site content (nine tori, the wrapping
+  result, signals pushes 3–4) and the draft, one Opus agent each; merge of pull request 26 at that checkpoint.
+  **16:04 UTC:** the site agent is adding that content now (plates for the nine tori, the cost of a short way
+  round, the gun, the divider, the third push; record and landing pages). **The draft (`docs/paper/`) is
+  deliberately not updated yet:** the wrapping question turns on the 84-cell face and the card's runs, and the
+  fourth push is a day old; update it once those settle.
+  **16:22 UTC: the 84-cell face is measured and recorded** (the lead's CPU run; notebook "the 84-cell face with one
+  loop of 12"; CLAIMS WL3 rewritten; forecasts W7 scored, W11 and W12 frozen; GPU-QUEUE note): 17.3248 ± 0.0058;
+  the exponential form and the first law are refuted, the power form held, and each girth has its own straight
+  line (0.2044, 0.2060, 0.2072 per cell against 0.2086). **Owed:** the card's 84-cell value as the cross-check
+  and its 108-cell face as the test of a bend; the site agent's report on the new plates, then rebuild, check
+  and republish the private artifact.
+  **16:34 UTC: the overview is version 15** (nine tori, the new plate "What a short way round costs", live plates
+  for the gun and the divider, third-push tiles, record and landing pages; the site agent's commits f2f7b66 …
+  10f7a40; both check suites pass for the lead; 89 files on the private artifact). The ledger's count paragraph
+  is corrected to the tally: 179 claims, A 86, B 82, C 10, D 1 (WL3's best grade is now B). **Nothing is running.**
+  **Waiting on:** the card (hull face of 108 cells, about 02:00 UTC on the 16th; then the 84-cell tube as the
+  cross-check and the 108-cell tube); the owner's two clicks if the site is to be public.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

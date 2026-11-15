@@ -1,0 +1,50 @@
+[
+{"slug": "", "label": "The map", "title": "The Gump Map", "blurb": "Chaos in a box it can never leave, dying one layer at a time: a visual summary of what the gump project has found, one page per topic.", "scripts": ["map"], "plates": [
+  {"id": "run"}
+]},
+{"slug": "rule", "label": "The rule", "title": "The Gump Rule", "blurb": "What the automaton is: the twelve faces each face watches, the planes nothing is ever born across, and the chaotic state a box fills with.", "connects": "The walls are why every closed box ends; how it ends is the next page.", "plates": [
+  {"id": "rule", "k": "The rule", "v": "12 neighbours; born at 4–5, kept at 3–5", "stc": "st-proved", "st": "source"},
+  {"id": "walls", "k": "Walls", "v": "Nothing crosses a diagonal plane", "stc": "st-proved", "st": "proved"},
+  {"id": "phase", "k": "The chaotic state", "v": "Density 0.4155, no grain", "stc": "st-meas", "st": "measured"}
+]},
+{"slug": "dying", "label": "How faces die", "title": "How Gump Faces Die", "blurb": "A box of chaos ends one whole face at a time. The staircase of deaths, one face dying up close, and whether a death is luck or lineage.", "connects": "How long a face lasts, as a function of its size and shape, is the area law.", "plates": [
+  {"id": "stairs", "k": "The staircase", "v": "Whole faces die, one at a time", "stc": "st-meas", "st": "measured"},
+  {"id": "death", "k": "How a face dies", "v": "Busy, then gone in ten generations", "stc": "st-meas", "st": "measured"},
+  {"id": "dying", "k": "A face dying, watched", "v": "A dip that keeps going; at the end a loose knot, not a dense core", "stc": "st-meas", "st": "updated · rounds 3–4", "new": true},
+  {"id": "luck", "k": "Luck or lineage", "v": "Waits are memoryless; faces do not age", "stc": "st-meas", "st": "measured"}
+]},
+{"slug": "law", "label": "The area law", "title": "The Gump Area Law", "blurb": "A face's lifetime grows exponentially with its area. The price per cell, and what else counts: width, the shortest way round a wrapped face, symmetry.", "connects": "What is left when the last face dies is debris, the next page.", "plates": [
+  {"id": "law", "k": "The area law", "v": "0.21 per site; a flat face’s width matters too", "stc": "st-meas", "st": "measured"},
+  {"id": "shape", "k": "The shortest way round", "v": "Twisted faces: equal area, different lifetimes", "stc": "st-meas", "st": "measured"},
+  {"id": "census", "k": "Every torus of a given area", "v": "Narrow faces pay less per cell; no law in area and loop", "stc": "st-meas", "st": "measured · corrected"},
+  {"id": "pairs", "k": "Equal area, equal loop", "v": "The second variable: gone by 72 cells", "stc": "st-meas", "st": "measured"},
+  {"id": "thin", "k": "The thinnest face", "v": "About 0.099 per cell: half a wide face’s", "stc": "st-meas", "st": "measured"},
+  {"id": "wrap", "k": "What a short way round costs", "v": "A tube pays less per cell the tighter it is wrapped", "stc": "st-meas", "st": "new · measured", "new": true},
+  {"id": "constant", "k": "One price per cell?", "v": "Nine wrapped faces: 0.2087 from 63 cells up; rimmed faces more", "stc": "st-open", "st": "updated · open", "new": true},
+  {"id": "sym", "k": "Symmetry", "v": "Faces tied across an edge die together: about −2.15 per edge", "stc": "st-meas", "st": "measured · corrected"}
+]},
+{"slug": "fauna", "label": "Debris and clocks", "title": "Gump Debris and Clocks", "blurb": "What a dead box leaves behind: still lifes, clocks whose period is twist times loop, a compound clock, wires, and the lives that settle unrecognised.", "connects": "Wires carry pulses: signals are the next page.", "plates": [
+  {"id": "fauna", "k": "Debris and clocks", "v": "Period = twist × loop; a 4 × 13 compound; wires", "stc": "st-proved", "st": "proved"},
+  {"id": "zombie", "k": "Unrecognised lives", "v": "4 in a million settle unseen; bounded; most are wires", "stc": "st-meas", "st": "measured"}
+]},
+{"slug": "signals", "label": "Signals", "title": "Gump Signals", "blurb": "Pulses that travel along wires, a gate, a clock of any length, a gun and a clock that edits what the gun writes, run live on this page; and how much of its state space a seed ever visits.", "connects": "Gump is one rule among many; its relatives are the next page.", "plates": [
+  {"id": "signals", "k": "Signals", "v": "Pulses on wires; a gate; a clock of any length", "stc": "st-meas", "st": "new · checked on the oracle", "new": true},
+  {"id": "gun", "k": "A gun", "v": "Fifteen cells write a rake onto a wire every 4 generations", "stc": "st-meas", "st": "new · three codes; proved at every length", "new": true},
+  {"id": "divider", "k": "A clock that edits the message", "v": "Every second rake becomes a gap; nothing reads it", "stc": "st-meas", "st": "new · three codes", "new": true},
+  {"id": "statespace", "k": "How much a seed sees", "v": "States seen = lifetime: 2^0.30·A of nearly 2^A", "stc": "st-proved", "st": "new · proved + measured", "new": true}
+]},
+{"slug": "relatives", "label": "Relatives", "title": "Gump and Its Relatives", "blurb": "Gump among 960 rules, a flat cousin on a square grid, the rule the 2012 code meant to run, the family of sealed half-spaces, and where the exponent lives.", "connects": "How all of this is checked, and what is open, is the last page.", "plates": [
+  {"id": "rules", "k": "Rule space", "v": "Gump is minimal among 960", "stc": "st-meas", "st": "measured"},
+  {"id": "flat", "k": "A flat cousin", "v": "Same behaviour on a square grid", "stc": "st-meas", "st": "measured"},
+  {"id": "meant", "k": "The rule you meant", "v": "Edge neighbours: a gump in a box", "stc": "st-meas", "st": "measured"},
+  {"id": "family", "k": "The family", "v": "Sealed half-spaces; a hexagonal gump", "stc": "st-proved", "st": "proved + measured"},
+  {"id": "noise", "k": "Where the exponent lives", "v": "A thin layer of rule over coin flips", "stc": "st-meas", "st": "measured"}
+]},
+{"slug": "record", "label": "The record", "title": "The Gump Record", "blurb": "Prior art, the theory swarm, how claims are graded and corrected, what was built and when, and what is open now.", "plates": [
+  {"id": "name", "k": "Prior art", "v": "Three passes: what is known, what was not found", "stc": "st-once", "st": "searched"},
+  {"id": "swarm", "k": "The swarm", "v": "Closed: no proof of the area law", "stc": "st-open", "st": "open"},
+  {"id": "checked", "k": "How it is checked", "v": "Graded claims, kept corrections"},
+  {"id": "built", "k": "Built, and when", "v": "Commits and pull requests", "vid": "m-built"},
+  {"id": "next", "k": "Open now", "v": "A reader for the gun’s message; 96- and 108-cell tubes queued for your card", "stc": "st-open", "st": "open"}
+]}
+]

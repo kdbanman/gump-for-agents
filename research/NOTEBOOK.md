@@ -2928,3 +2928,452 @@ the study's SAT encoding imports study code; code in `research/audit/signals2/`)
   because it was a stopping clause.
 - Added to the ledger: SG11 (the two proved remarks on wires); section numbers in SG6–SG9; a dated note on CN1.
   Not done: ledger rows for forecast tallies (they are scores, not claims; the forecast files hold them).
+
+## 2026-11-15: nine wrapped faces on the owner's card: one line from 63 to 111 cells, 0.2087 per cell; the 81-cell face lands between the line and the smooth forms (recomputed by the lead; review started)
+
+The card's message of 12:01 UTC (branch `claude/gpu-local-1080` at 16271f3; rows in
+`research/data/gpu_local_eqtorus/` there; its write-up `research/gpu-local/README.md`; its forecasts
+`research/gpu-local/PREDICTIONS.md`, blocks 3 and 4). Four more equilateral wrapped faces, guard on, no guard hits.
+**The lead recomputed all nine from the raw rows** (ln τ = ln(2 · exposure / face deaths), Poisson error, seeds
+pooled; a few lines of python over `git show origin/claude/gpu-local-1080:research/data/gpu_local_eqtorus/eqtorus_*.csv`)
+and every figure in the message is reproduced.
+
+| cells | seeds | face deaths | ln τ_face | seeds' χ² |
+|---|---|---|---|---|
+| 48 | 1 | 7,478,823 | 9.9251 ± 0.0004 | – |
+| 57 | 4 | 6,579,101 | 11.8751 ± 0.0004 | 9.25 on 3 |
+| 63 | 2 | 1,811,510 | 13.1622 ± 0.0007 | 0.07 on 1 |
+| 75 | 2 | 183,954 | 15.6630 ± 0.0023 | 0.39 on 1 |
+| 81 | 2 | 103,883 | 16.9222 ± 0.0031 | 0.53 on 1 |
+| 84 | 2 | 106,629 | 17.5467 ± 0.0031 | 3.05 on 1 |
+| 93 | 4 | 35,521 | 19.4141 ± 0.0053 | 0.70 on 3 |
+| 108 | 4 | 2,032 | 22.5600 ± 0.0222 | 1.43 on 3 |
+| 111 | 4 | 1,875 | 23.2032 ± 0.0231 | 3.60 on 3 |
+
+- **One line fits the seven faces from 63 to 111 cells [measured; one GPU code above 75 cells].** Weighted least
+  squares: ln τ = 13.1621 + 0.20867·(A − 63), slope ± 0.00009, χ² = 7.79 on 5. Residuals in units of the errors:
+  +0.1, −1.4, +1.3, +0.8, −1.5, +0.3, +1.1 at 63, 75, 81, 84, 93, 108, 111: no trend with size, no pattern by
+  lattice that the lead can see. The two small faces fall below it by 0.107 (48 cells) and 0.035 (57 cells).
+- **The forecasts.** The card's line from five faces (0.2084 from 63 cells: 16.913, 17.539, 22.540, 23.165) was
+  low at all four: by 0.0092, 0.0077, 0.020, 0.038 (3.0, 2.5, 0.9, 1.7 of the Poisson errors). The slope moved
+  from 0.20840 ± 0.00014 to 0.20867 ± 0.00009. The 81-cell face, which was to separate the line (16.913) from
+  every smooth form (16.927), **landed between them at 16.922**: 3.0σ above the old line, 1.5σ below the smooth
+  forms. So the kink is not as clean as five faces made it look; whether any smooth form now fits all nine is the
+  first question for the review. Local slopes: 0.2084 ± 0.0002 from 63 to 93 cells, 0.2105 ± 0.0013 from 93 to
+  111, 0.2095 ± 0.0009 from 84 to 111: a rise of 1.2 to 1.6σ toward the top, not established.
+- **The lead's N3** (`research/constant/PREDICTIONS.md`: the faces of 81 and 84 cells within 0.02 of
+  16.923–16.935 and 17.553–17.572) held by its letter (16.9222 and 17.5467), on readings that are all dead.
+- **57 cells:** four seeds now, χ² 9.25 on 3; three agree at 11.8744 (the CPU reviewer's value) and one is 3σ
+  high. Pooled value unchanged at 11.8751 ± 0.0004; the card has not tested the high seed's soup.
+- **The hull face of 108 cells is running** (two seeds of 7 hours, to end about 02:00 UTC on the 16th), with the
+  card's out-of-sample readings written first: one price 0.2087 plus a rim term linear in the rim gives
+  23.273 ± 0.010; a repeating second difference gives 23.338; the old run was 23.376 ± 0.031; its own forecast
+  23.35 ± 0.02. Its hull driver reproduces the 63-cell hull face: 13.6362 ± 0.0013 against 13.635 on file.
+- Not checked: no second code at 81 cells or above; the hull driver has not been read by anyone else; the card's
+  claim that both review lists are closed. A reviewer has all three (`research/audit/REVIEW-gpu-local-tori2.md`).
+
+## 2026-11-15: the nine wrapped faces reviewed: the errors are honest, only the broken line fits all nine, the price is 0.2087 to 0.2090 per cell, and the bend rests on three faces of three lattice kinds
+
+`research/audit/REVIEW-gpu-local-tori2.md` (an Opus reviewer with its own code, `research/audit/gpu_local_tori2/`;
+the card's branch read at 16271f3). Reproduce: `python3 research/audit/gpu_local_tori2/nine.py .` (every fit below;
+output `nine_out.txt`) and `python3 research/audit/gpu_local_tori2/hull_check.py .`. On its finding that both fix
+lists are closed, pull request 23 was merged (0b294fa, CI green on its head), so the card's files are now on main.
+
+- **The values and their errors stand [measured; reviewer and lead both recomputed from the rows].** Between seeds,
+  χ² 19.0 on 16 over the eight faces with more than one run: the Poisson errors hold. The committed age tables sum
+  exactly to the rows. The hazard is flat with age for 75, 81, 84, 93 and 108 cells, and for 48, 57, 63 after the
+  known excess in the first 60 generations. **The 111-cell face is not quite flat** (χ² 8.9 on 2: 0.87 ± 0.05 of
+  its mean below 0.03 mean lives, 1.06 ± 0.04 later; the run is 0.18 of a mean life long). If its late hazard were
+  the true one the face would be 0.05 lower. A caveat at 2.5σ in one table of nine.
+- **Between lattices.** An extra scatter added in quadrature to the line from 63 cells: median 0.004, 95% upper
+  bound 0.014. The card's "about 0.003, no more" is the median, not a bound.
+- **What fits all nine: only the broken line** (kink fitted at 61.39 cells; χ² 7.8 on 5, p = 0.17). Seven smooth
+  forms (decaying in the loop, powers of 1/A, per-cell massive, stretched, one-sided quadratic) give χ² 31 to 178
+  on 5. **But the choice between smooth and kinked rests on three faces, 48, 57 and 63 cells, of three lattice
+  kinds** (48 is axis-aligned with 8 transverse layers and a firewall channel; 57 and 63 are oblique with 2): on the
+  eight faces from 57 cells up every decaying form fits as well as the line, by turning its correction into a step
+  at 57. What the four new faces add is the part above 63: a straight line through seven faces, which no form with
+  a correction large enough to make the bend below 63 can follow. "The break near 61 stands, sharper" (the card's
+  wording, and the sense of the lead's entry above) should read: the break is no better located than it was; the
+  smooth forms are more firmly excluded.
+- **The price per cell [measured].** Line through the seven faces from 63: 0.20867 ± 0.00009 (± 0.00019 with the
+  median lattice scatter, ± 0.0005 at its 95% bound). Allowing a drift: curvature κ = (0.4 ± 1.0) × 10⁻⁵ (Δχ² 0.2),
+  or a + cA + g/A with limit 0.2090 ± 0.0013; a line from 75 only gives 0.2088 ± 0.0003; an offset for the 2-layer
+  lattices is −0.0008 and not needed. **The data do not prefer a slope that rises with size**: the difference of
+  local slopes, (93 → 111) − (63 → 93) = +0.0021 ± 0.0014, is 1.5σ and rests on the 111-cell face, the one with
+  the weakest age test. Every description that survives gives 0.2087 to 0.2090. The hull faces' local slopes
+  (0.212 to 0.218) lie 1.3 to 4σ above the quadratic's slope at 150 cells and 2.3 to 7σ above the g/A form's
+  limit: a wrapped face reaching the hull's price would need a curvature these faces do not show. So "one price or
+  two" now leans to two, or to a rim term that is not linear in the rim; the hull face of 108 cells is the next
+  datum.
+- **A correction to the entry above and to the earlier review.** The 81-cell face was called the test that would
+  separate the line (16.913) from the smooth forms (16.927). It could not have been: the smooth forms' own
+  forecast error at 81 cells was ± 0.023. In combined errors the face is 2.5σ above the five-face line's forecast
+  and 0.2σ from the smooth forms'. As forecasts of the four new faces the smooth forms scored best (χ² 1.0 on 4,
+  with wide errors) and the five-face line worst (12.8 on 4: its slope 0.20840 ± 0.00014 was too precise; the
+  card's own block 3, with ± 0.0003, scores 5.4). The smooth forms fail on the refit to nine, not on any one face.
+- **The hull-face driver is sound for the run now on the card [reviewer's reading of the code and its own
+  recomputation].** Same statistic as GP1's 23.376 (same function, burn-in and face set); accounting checked line
+  by line; bias at most about 0.001 in ln τ_face. Calibration at 63 cells: card 13.6362 ± 0.0013, the A10G run on
+  file 13.6347 ± 0.0011, two CPU codes with another soup and burn-in 13.633 ± 0.005 and 13.626 ± 0.012. One reading
+  note for scoring the 108-cell run: the old value weighs ages 0 to 0.23 mean lives and the new run 0 to 4, so a
+  difference between them is noise or ageing, and only the age table (which the card has been asked to commit) can
+  say which.
+- **A second code at 81 cells (added 13:18 UTC):** the reviewer's CPU stepper (bit-exact against the oracle on
+  this lattice for 3,001 generations, three negative controls failing as they should; 2 seeds, 6,536 face deaths,
+  63 minutes on two cores) gives 16.9386 ± 0.0124 against the card's 16.9222 ± 0.0031: +0.016 ± 0.013, 1.3σ. No
+  gross error in the GPU path at this size; the CPU value is four times less precise, so it does not test the
+  card's third decimal.
+- Not checked: the faces of 84 to 111 cells still rest on one GPU code; nobody has run the hull driver but the
+  card; the soup hash for the high seed at 57 cells.
+
+## 2026-11-15: the third signals push: no emitter, no corner, no clock of period 4N; the clock's end swallows every message and keeps no trace; why 4N + 2 (the lead's own check of the reader; review running)
+
+`research/signals/README.md` sections 15 to 19 (an Opus investigator, 10:50 to 12:40 UTC; forecasts written first,
+`research/signals/PREDICTIONS.md`, S11–S15 and its own K1–K7). The aim was the next step toward "can gump
+compute": a periodic emitter, a clock driving a counter, a corner, a clock whose period divides by four. **None
+was found.** What came back instead:
+
+- **The left cap of the clock eats every word and remembers nothing [proved by the author; the lead's oracle
+  check on ten words].** By the tape theorem a stretch of wire C with left-going pulses is a word of B and C units
+  moving one unit per 2 generations. `python3 research/signals/prove_reader.py` (0.3 s) closes the automaton whose
+  state is the cells of units ≤ 3 at even generations: the closed set is exactly the 16 states "capL + a word on
+  units 0..3", so for every word, at every even generation, the state is the cap unchanged and the word moved on.
+  Oracle: `python3 research/signals/verify_reader.py` (12 words of 40 units). **The lead's own check**, from
+  `reference/oracle.py` and the object file alone: `python3 research/audit/signals_reader_lead_check.py 14 6 7`
+  (ten random words of 14 units between capL and capR: PASS at every even generation until the bare clock is
+  left). A census of the other left caps in the tables (mirror images of right caps; 134, 1,493 and 7,646 states
+  at planes 29, 31, 33): 17, 126 and 702 eat every word; the rest disturb the tape for some word; **none has a
+  memory** (none is changed by what it eats while the tape stays clean) [author's code only].
+- **An emitter at the +v end of wire C is a writer [the author's reduction; under review].** Everything to the
+  left of the object at the end is fixed by the word it writes, so a periodic emitter there is a cap whose word is
+  periodic and not constant: one constraint problem (`sat_writer.py`). No writer of period dividing 4, 6 or 8 at
+  plane 29, 4 or 6 at planes 31 and 33, 4 at plane 35, in the 3 × 3 tube [SAT, exhaustive inside those bounds
+  only]. The clock has 32 + 5N cells and period 4N + 2, so these bounds exclude small guns, not clock-sized ones.
+- **Why every clock has period 4N + 2 [reduction proved by the author; the rest measured or SAT].** A rake at
+  unit u at even generation t keeps a = t − 2u; its mirror keeps b = t + 2u. A cap that is the same at every even
+  generation has a turn constant k = b − a (mod 4) of its own, and the clock's period satisfies
+  P ≡ k_R + k_L (mod 4). All 201 caps in the tables that turn a lone rake have the same class
+  (`turnclass.py`); in the 3 × 3 tube no cap of period 2, 4 or 6 turns it with the other class (SAT, bounds in
+  the README §18), though with no periodicity condition on the cap such turns exist. **One tube size up the other
+  class exists**: eight period-2 caps in the 5 × 5 tube (complete at T = 16, plane 47; one stored,
+  `objects/turn-k2-cap-5x5.json`) turn a lone rake with k = 2. All eight die when put in a clock. So the 3 × 3
+  tube, not the rake, is what has kept every clock at 4N + 2, and a clock of period 4N needs a k = 2 cap that also
+  survives the returning pulses: not found.
+- **A second counter [oracle verifier by the author].** The wall between "wire 8" (the stators and one cell per
+  unit) and wire C moves one unit toward the train per incoming pulse, for trains of spacing 2 or more
+  (`python3 research/signals/verify_counter.py`: 1, 2, 5, 7, 8 pulses, 2 s); two adjacent pulses do not count.
+- **Negatives inside stated bounds [one agent; the study's own steppers].** 8,184 arrangements of a cap back to
+  back with the lit clock's left cap: none writes a letter in 12 periods. A second wire (B or C) beside the lit
+  clock in all 48 orientations: 5,625 placements, 205 stationary unlit, nothing travels out along the second wire
+  in 3 periods (the first search for a corner of any kind). 3,000 standing defects of wire C (a cut list) and 344
+  walls: none turns a rake and stays as it was.
+- **Forecasts.** The lead's S11–S14 (emitter 40%, clock-driven counter 30%, corner 15%, period 4N 35%) all
+  failed; S15 (no reusable reflector, 50%) held without much of a search. The investigator's own: K1–K4 failed,
+  K5–K7 held (a stated negative about writers; a reader; no reflector). Signals tally for the lead across three
+  pushes: 13 forecasts tested, 7 held in some form (two of them weakened by review), 6 failed; the four that
+  asked for a new kind of object in this push all failed.
+- **What this says about computing.** The picture after three pushes: a pulse is emitted only by a moving rake;
+  rakes are turned only by caps; and the caps that turn them are perfect sinks for everything else. Ordered parts
+  can store (walls that move), carry (wires), time (clocks) and inhibit (the parity gate), but nothing found can
+  write a message onto a wire from a standing object, and nothing turns a corner. The investigator's reading, which
+  the lead shares for now: the gun is a precise search at clock scale (period ≥ 10), not a matter of small
+  enumeration.
+- Not checked (the author's list, README §19): everything in §16 to §18 rests on the study's own steppers or on
+  one SAT solver with one encoding; the scans looked 3 and 12 clock periods ahead at N = 3 and 5; the k = 2 caps
+  have not been put to the oracle; `sat_turn.py … --eat 16` in the 5 × 5 tube had not answered after 11 minutes.
+  An adversarial review is running (`research/audit/REVIEW-signals-3.md`); grades below are provisional.
+
+> **Corrected by the review (13:18 UTC; next signals entry below).** Three statements above are too strong or wrong.
+> (i) The eight k = 2 caps of the 5 × 5 tube do not "die in a clock": each destroys itself in turning a lone rake, so
+> "the 3 × 3 tube, not the rake, is what has kept every clock at 4N + 2" does not follow; no cap of the other class
+> that survives one turn is known in any tube. (ii) Two adjacent pulses at the 8|C wall are not lost: the wall counts
+> the pair once and sends one pulse back. (iii) The side-wire scan lit 205 placements, not 5,625 (the rest were not
+> stationary unlit). Also: wire 8 burns from a cut end, so the second counter exists only on a ring.
+
+## 2026-11-15: the kink is the wrapping: each short way round a face is a discount on the price per cell, the discounts add, and they stop between loop² 19 and 21 (the lead's fit on data on file; not reviewed; a tester is running)
+
+Prompted by the reviewer's remark that the bend in the nine equilateral faces rests on three faces "of three
+lattice kinds". The lead tabulated every wrapped face on file with shortest closed loop² ≥ 12 (the 23 classes and
+slabs of `research/constant/out/points.txt` that are not equilateral, and the card's nine equilateral faces from
+their rows) against its closed loops, counted one per ±v in the hexagonal basis.
+`python3 research/audit/wrap_law_lead.py` (2 s; output `research/audit/wrap_law_lead_out.txt`).
+
+- **Faces with no loop shorter than √21 share one line [fitted; 12 faces, 63 to 126 cells].** The seven equilateral
+  faces from 63 cells, the (21, 21, 36) class at 72 cells and the slabs 5 × 6, 5 × 7, 5 × 8, 6 × 7:
+  ln τ = 13.1622 + 0.20866·(A − 63), χ² 13.6 on 10. So the size of a face is not what bends the equilateral
+  family: at 72 and 84 cells the faces with a loop of 4 lie 0.06 to 0.08 below faces of the same area without one.
+- **The law [fitted; 32 faces of 48 to 126 cells; 7 parameters; χ² 42.0 on 25].**
+
+      ln τ_face = a + c·(A − 63) − (A − A0) · Σ over loop directions of k(|v|²)
+      a = 13.1629 ± 0.0007, c = 0.20860 ± 0.00005, A0 = 21.25 (20.0 to 22.25)
+      k(12) = 0.00292 ± 0.00005, k(13) = 0.00227 ± 0.00006, k(16) = 0.00135 ± 0.00002, k(19) = 0.00034 ± 0.00001
+
+  Each short way round lowers the price per cell: by 1.4%, 1.1%, 0.65% and 0.16% of 0.2086 for loops of squared
+  length 12, 13, 16, 19. With no wrapping term the same faces give χ² 12,467 on 30; with a constant offset per
+  direction that does not grow with area, 790 on 26. Largest residuals: +2.3, −2.4, +2.0 standard errors (census
+  classes at 48 and 60 cells with errors of 0.001 to 0.003).
+- **The discounts end [fitted].** A free k(21) comes out at (2.3 ± 1.9) × 10⁻⁵, a fifteenth of k(19); k(25),
+  k(27), k(28) are each within 1.5 errors of zero when freed together. From 13 to 19 the discounts fall nearly on
+  a straight line in loop² that reaches zero at 20: k ≈ 0.00032·(20 − loop²). Not an exponential tail: the
+  step from 19 to 21 is at least five times steeper than the step from 16 to 19.
+- **It forecasts the equilateral kink from other faces [leave-out fits].** Fitted on the 27 faces of 60 cells and
+  more (χ² 23.5 on 20), with no small equilateral face in the fit: the 57-cell equilateral face (three loops of
+  19) is forecast at 11.8760 against 11.8751 ± 0.0004 measured, so its deficit of 0.035 is three times the discount
+  that single 19-loops show elsewhere. The 4 × 4 (three loops of 16) is forecast at 9.9377 against 9.9251: its
+  deficit of 0.107 is forecast as 0.095. All four 48-cell faces come out 0.003 to 0.013 below this forecast, so
+  the form (A − A0) is not exact at the small end (A0 is 27 fitted from 60 cells up, 21 with everything).
+- **What it explains that was open.** (i) The "kink near 61 cells" of the equilateral faces (GL3): the family
+  passes loop² 16, 19, 21 at 48, 57, 63 cells; nothing happens at 61 cells as such. (ii) GP9's "not decided
+  between 0.2072 and 0.2117": 0.2072 is the price of a face of width 4 (0.2086 less k(16)); wide faces pay
+  0.2086. (iii) SH2 and SH4, the "second variable": at 60 cells the class (16, 19) lies below 4 × 5 by the
+  discount of its 19-loop (law 0.0131, measured 0.0142 ± 0.0019); at 48 cells the 4 × 4 lies below the (12, 19,
+  19) class because three 16s outweigh a 12 and two 19s (law 0.012, measured 0.0135 ± 0.0020); at 72 cells
+  pairs that differ only in loops longer than √21 do not differ (SH6).
+- **What it gets wrong.** The two loop² 12 classes at 60 cells differ by 0.0069 ± 0.0024 where the law says
+  nothing; the 48-cell pair (12, 16) against (12, 19, 19) is 0.018 in the law and 0.0148 ± 0.0013 measured.
+  χ² 42 on 25 is p = 0.02. The earlier studies refuted a sum over loops of e^(−1.41·length) with amplitude ∝ A
+  (SH9); this differs from it by the cut-off, the free discounts and A0, and has not faced the tests that refuted it.
+- Not checked: everything. One analysis by the lead, of values pooled by another study's loader; seven parameters
+  on 32 faces; the slab values come from a driver with a known firewall undercount; no new face has been measured.
+  Frozen parameters and forecasts W1–W6 are in `research/wrap/PREDICTIONS.md` (committed 2de9026 before any new
+  run); an independent tester is rebuilding the fit and measuring new classes at 51 to 69 cells
+  (`research/wrap/README.md` when done).
+
+## 2026-11-15: the third signals push reviewed: the reader proof is complete; the counter wall reflects double pulses; the caps of the other turn class destroy themselves; what the emitter negatives do and do not exclude
+
+`research/audit/REVIEW-signals-3.md` (an Opus reviewer; own code in `research/audit/signals3/`; dynamics on
+`reference/oracle.py` or on the second review's oracle-checked stepper). The README corrections it lists were
+applied by the fourth push (e082fe1).
+
+- **The reader stands [proved; re-derived by the reviewer; SG12 to A].** The 16-state automaton is closed for a
+  simple reason: units ≤ 1 after two generations depend only on the cap and the next four letters (16 cases), and
+  units ≥ 2 follow from the tape theorem. `python3 research/audit/signals3/reader_check.py local`: all 64
+  six-letter words on the oracle. The census of left caps (17 / 126 / 702 sinks) is reproduced exactly with the
+  reviewer's own construction; "none has a memory" reproduced at planes 29 and 31 (the closure at 33 was not
+  finished).
+- **New: the 8|C wall reflects a double pulse [oracle; reviewer's code and the lead's own].** Isolated pulses are
+  counted exactly (spacings 2, 3, 4, 7, an irregular train, up to 27 pulses). Two adjacent pulses move the wall
+  exactly one unit and **exactly one right-going pulse comes back**, the rest of the ring cell for cell as it was.
+  The lead's check from the oracle alone: `python3 research/audit/signals_reflect_lead_check.py` (4 s; the
+  difference from "wall one unit on" is two cells, identical to a lone right-going pulse, moving one unit per two
+  generations). Longer runs also count once and return the remainder as a right-going composite (kymographs only).
+  So gump has an object that answers: two pulses in, one pulse back, one count kept. It moves one unit each time,
+  so it is not a reflector that can be used twice in place.
+- **Wire 8 is not free-standing [reviewer's stepper].** A cut end burns at one unit per generation and sets an
+  attached wire C burning. The second counter therefore exists on a ring only, until someone finds a cap for
+  wire 8.
+- **Turn classes [SG13 reworded].** P = (b − a) + (a′ − b) exactly, so P ≡ k_R + k_L is bookkeeping; that k is a
+  constant of the cap is proved for a *lone* rake. In a clock the rake arrives one unit behind a train the cap is
+  still eating, so "all lone turners have k = 0, hence every clock has period 4N + 2" is not proved; it is measured
+  (lone and in-clock constants agree for clock-C and all 33 clock caps at plane 31). Convention: right caps have
+  k_R = 0, the clock's left cap k_L = 2. The census (201 of 201 lone turners with k = 0) and the eight k = 2 caps
+  (same eight, then UNSAT, on re-running the enumeration) are reproduced. **All eight k = 2 caps are destroyed by
+  the lone turn itself** (oracle, `python3 research/audit/signals3/k2_oracle.py`, 7 s); in a clock two of them
+  complete one round of 4N + 4 generations before dying. A clock of period 4N needs a cap of the other class that
+  survives a turn, and none is known.
+- **What the emitter negatives exclude [SG15 reworded].** "Emitter = writer" is exact only for an emitter whose
+  output is a train of left-going pulses inside the 3 × 3 tube. The SAT results exclude stationary periodic
+  writers in that tube, within about five units of the end of the tape, with word period 2, 3 or 4. Still
+  possible: word periods ≥ 5; emitters reaching outside the tube (wide pulses); emitters of moving objects (rakes,
+  the composites the wall returns); emitters beside a wire or two-sided; other wires; larger writers. The SAT
+  encodings pass fixed-cap controls (the clock's own cap is found, at the right turn time). The side-wire,
+  back-to-back and turner scans were not re-run and have no positive control.
+- Grades: SG12 A (census B); SG13 B; SG14 A for isolated pulses and the double-pulse reflection, B for longer
+  runs; SG15 B− for the SAT negatives, C for the scans.
+- Not checked (the reviewer's list): the three scans; a second SAT solver; the census closure at plane 33;
+  whether the 186 lone turners of the 3 × 3 tube survive outside clocks; `sat_turn --eat`; whether the double-pulse
+  reflection can be built into a shuttle.
+
+## 2026-11-15: the wrapping law tested: it forecast 11 new faces inside its margin and is still the wrong form; short loops discount, the discount ends at loop² 21, and how it grows with area is open (three forms fit equally; the card decides at 84 cells)
+
+`research/wrap/README.md` (an Opus tester with a brief to break the law of the entry "the kink is the wrapping";
+own lattice code, own loader from the primary files, own fit; forecasts committed in 93540eb at 13:09 UTC before
+its first run at 13:11). The lead's own refit with a third loader:
+`python3 research/audit/wrap_haz_lead.py` (4 s; `--single`, `--blind`, `--predict H K D`; output
+`research/audit/wrap_haz_lead_out.txt`).
+
+- **Rebuilt [checked].** The tester reproduced the lead's table and parameters to every printed digit, and the
+  loop counts on 1,099 lattices of 36–126 cells (`python3 research/wrap/loopcheck.py`: 0 differ).
+- **New faces [measured; one code, dynamics checked against the oracle].** 20 new classes of 36–78 cells plus the
+  4 × 4 and the 60-cell pair again, on research/shape3's `ts3` with face deaths booked every generation.
+  Validation on all 22 tori: the oracle's state on the cubic torus equals a numpy stepper on ts3's neighbour graph
+  cell for cell at each of 1,500 generations, and ts3's production path gives the same population every
+  generation; one swapped neighbour fails at generation 4 (`bash research/wrap/validate_all.sh`). Calibration:
+  4 × 4 at 9.9229 ± 0.0014 against the card's 9.9251 ± 0.0004 (−1.5σ). Table in the README;
+  `python3 research/wrap/run.py table; python3 research/wrap/score.py`.
+- **The forecasts [scored].** W1 held: all 11 new faces of 51–69 cells within max(0.010, 3σ) of the frozen law,
+  largest miss −2.5σ (66 cells, one loop of 12), Σz² 19.4 on 11. W2 held on two faces at ± 0.010–0.012 (both about
+  0.015 low). W3 held as worded, by a hair, and depends on the form. W4 held as worded, with a sign pattern (one
+  short direction: 0.004 below the law; two or more: 0.004 above). W5 failed (loop² 9 and 7: χ²/dof 63, 70).
+  W6 failed (the 60-cell loop² 12 pair re-measured differs by +0.0021 ± 0.0035; on file −0.0077 ± 0.0026).
+- **The law is the wrong form [fitted; the lead's refit agrees].** With research/shape3's precise values, which the
+  lead's fit had left out, and the new faces: 48 faces of 48 cells and up, χ² 111.6 on 41 (tester, stamping bias
+  removed) or 119.6 on 41 (lead, no correction); the frozen parameters with nothing refitted, 141 on 48. Three
+  failures: the lines for different loop lengths do not meet at one area (own zeros 28.6 ± 0.9, 26.3 ± 1.9,
+  18.7 ± 1.4 cells for loop² 12, 13, 16); a single loop of 12 falls further below the law as the face grows
+  (0.016 ± 0.003 at 72 cells, 0.033 ± 0.009 at 78); and below 48 cells it is far off (36 cells, three loops of
+  12: 7.3643 ± 0.0023 against 7.4016, 16σ; 39 cells: 9σ; 42 cells: 4σ; 45 cells passes).
+- **What replaces it is not settled [the lead's refit; this narrows the tester's reading].** The tester's form,
+  HAZ, ln τ = a + c(A − 63) − ln(1 + Σ_v r_q e^(g_q (A − 63))), fits (χ² 49.6 on 38 there, 51.8 here), and fitted
+  blind to the new rows it forecasts the 13 new classes of 57 cells and up at Σz² 12.0 against 25.5 for the law
+  refitted the same way (`--blind`). The tester read it as "a short loop opens a second way to die at 0.173–0.190
+  per cell". That reading does not follow: with the same ten parameters a straight line per loop length (LINES,
+  discount k_q (A − z_q), log-discounts adding) has χ² 46.7 and a power-law share (POW, ln(1 + r_q (A/63)^m_q),
+  m = 2.1, 1.9, 1.4, 0.6) has 41.3; on the 39 faces with at most one short direction the three give 32.8, 33.0,
+  36.8 on 29. Nor is "rates add, log-discounts do not" settled: LINES adds log-discounts and beats HAZ.
+- **What is established [measured, in every form tried].** (i) The price per cell of a face with no loop shorter
+  than √21 is 0.2086 ± 0.0001 (0.20854–0.20864 across forms). (ii) One short loop direction lowers ln τ_face at 63
+  cells by about 0.125 (loop² 12), 0.096 (13), 0.054 (16), 0.013 (19), and by less than 0.001 at 21. (iii) The
+  equilateral "kink near 61 cells" is that family passing loop² 16, 19, 21 at 48, 57, 63 cells. (iv) A single
+  loop of 12 costs 0.2046 ± 0.0003 per cell between 54 and 72 cells, against 0.2086 with no short loop
+  (12.4219 at 60, 14.8755 at 72; 11.1935 at 54).
+- **Where the forms part [forecasts frozen in `research/wrap/PREDICTIONS.md`, c89ce9d, before any run].** One
+  loop of 12 at 84 cells, torus (1, 12), (0, 28): old law 17.3604, LINES 17.3361, POW 17.3207, HAZ 17.2941; at 96
+  cells 19.829, 19.794, 19.761, 19.685; at 108 cells 22.297, 22.252, 22.196, 22.037. The card measures 84-cell
+  faces to ± 0.003. Queued for it in `research/GPU-QUEUE.md` (14:55 UTC), with three faces the tester also measured
+  as the cross-check of its stepper by independent code.
+- **Unexplained.** The 36-cell face with three loops of 12 dies sooner than the two loop² 9 faces of the same area
+  (7.3643 against 7.4099, 7.3874) and no form gets it; loop² 9 (SH7) is untouched; why the discount ends between
+  loops of √19 and √21; one torus, (1, 4), (0, 25), has seeds 2.8σ apart.
+- Not checked: the tester's event logic was not recounted from snapshots (it is the code reviewed in
+  research/shape3); the census and slab values on file were not rerun; the firewall-detection convention of the
+  slab driver inflates the 4 × n rectangles slightly and is not corrected; the lead's refit applies no stamping
+  correction; no second agent has reviewed the tester's new faces (the card's three will).
+- The lead's forecasts: of W1–W6, four held and two failed, and the thing forecast was wrong anyway. A margin of
+  0.010 on faces measured to 0.003 was too loose to test the form; W7–W10 are written with margins the size of
+  the measurement.
+
+## 2026-11-15: the fourth signals push: a standing object writes onto a wire (a gun of period 4), a gun, a wire and a receiver make a free-standing oscillator, and a catalogue oscillator beside the stream halves it (the lead's own oracle checks; review running)
+
+`research/signals/README.md` sections 20–25 and 21b (a Fable investigator, 12:55–15:15 UTC; commits 4a10c4e …
+f6ec867). Written before the review; **the review is the next entry ("the fourth signals push reviewed")
+and corrects three things here** (the census at C = 35, "never changed", the scope of the turn-class negative). The two objects marked
+"lead" were checked by the lead on `reference/oracle.py` from the stored cell lists alone.
+
+- **The gun [measured on the oracle; lead].** `objects/gun-5f.json`: 15 cells, period exactly 4, on the +v end of
+  bare wire C. Every 4 generations it puts one mirror rake on the wire and is exactly as it was.
+  `python3 research/signals/verify_gun.py research/signals/objects/gun-5f.json` (run from `research/signals/`);
+  lead: `python3 research/audit/signals_gun_lead_check.py` (3 s): the gun's own units repeat every 4 generations
+  and not every 2; after each period the wire differs from the start by one more copy of the same 4 cells, every
+  earlier copy two units further on and unchanged, 9 periods; the same wire without the gun does not do this.
+  Found by constraint search; census inside planes C: none at 29, one at 31 and 33, six at 35 [SAT, not reviewed].
+- **What it is not.** It fires at the highest rate there is: no unit between two rakes is bare, and the stream can
+  be read as a second wire (repeat 2 units, period 4) whose boundary with wire C runs away from the gun at pulse
+  speed. It is a writer of the word 5, f, 5, f, …, not a source of separated pulses.
+- **The line and the beam [measured on the oracle; "for every N" by a gluing argument, not yet reviewed].** A cap at
+  rest + N units of bare wire + the gun: the rakes cross and are swallowed for ever, period exactly 4 from
+  generation 2N (lead: period 4 from generation 48 at N = 24, never period 2). Mirror gun + N units of rake train +
+  an absorber: a free-standing oscillator of period 4 with 33 + 5N cells. `verify_line.py`, `verify_beam.py`,
+  `prove_line.py`, `prove_beam.py`: all pass here.
+- **A hole [measured].** One rake removed is a one-cell difference that travels with the stream and is swallowed;
+  the object heals exactly. "Every word of holes heals" rests on 200 random words.
+- **The divider [measured on the oracle; lead].** `objects/divider-C8.json`: the line with oscillator C8.24a of the
+  clockwork catalogue (24 cells, period 8) standing beside the wire, two diagonal layers outside its tube. Every
+  second rake that passes becomes a hole; the wire beyond reads 5f9f5f9f…; the whole object has period exactly 8.
+  Lead: `python3 research/audit/signals_divider_lead_check.py` (20 s, N = 24): the free oscillator has period
+  exactly 8; in the object every one of its cells is alive at every generation; the only other cell ever alive in
+  its layers is one cell beside it, alive at generations 8, 16, 24, … and dead the next (the whole coupling: the
+  push measured the same, `gunlab.py stroke`); the line has period 4 from generation 48, the divider period 8
+  from generation 45 and never period 4; read unit by unit the line is 5f5f…, the divider 5f9f5f9f…. This is the
+  first object in the study in which one ordered part acts on a signal produced by another and is not changed.
+- **Still absent [bounded searches, not reviewed].** No reader of the word; no clock of period 4N; no corner (not
+  searched); no sparse gun or divider inside the tube (UNSAT at the stated planes); no end of period 8; two guns
+  facing destroy each other; no catalogue oscillator acts on a wire at rest (23,760 sampled placements), and
+  against the stream only "rake, hole" is ever written (54,450 placements: C8.24a three times, C8.24b once).
+- **Turn class [computer-assisted, not reviewed].** No period-2 right end of wire C in the 3 × 3 tube, of any
+  length or shape, turns a lone rake with class 2 within T ≤ 36 generations (`sat_two.py T --open`); the eight
+  class-2 caps on file are each destroyed by one lone pulse (`eat_direct.py`).
+- The lead's forecasts S16–S21: two held (the emitter, with a caveat on "pulses"; the catalogue oscillator, beside
+  a stream and not where I worded it), four failed, among them the 60% that nothing standing would write.
+- Not checked by the lead: the three gluing proofs, every SAT answer, every scan, the start phases, the
+  place-and-phase table of the divider.
+
+## 2026-11-15: the fourth signals push reviewed: the line and the beam are proved for every length, every word of holes heals, the divider is real and its oscillator can be destroyed from the wire, the gun census double-counted
+
+`research/audit/REVIEW-signals-4.md` (an Opus reviewer; own stepper `research/audit/signals4/st.py`, written from
+`docs/AUTOMATON.md` §2 on the infinite lattice and checked cell for cell against the oracle on seven objects:
+`python3 research/audit/signals4/oracle_check.py`, ALL PASS). Commands below run from `research/audit/signals4/`
+unless a path is given. Its fourteen corrections to the README are being applied by the reviewer.
+
+- **The gun stands [measured, two codes and the lead's oracle check; SG16 B].** Reproduced for N = 10..40
+  (`python3 gun_check.py`). The census of guns inside planes C reproduces, but at C = 35 two of the six solutions
+  are the C = 31 gun and its translate, so there are at most four new ones (`python3 census_translate.py` after
+  the two `sat_gun.py … --all --out` runs it names).
+- **The line and the beam are proved for every length [proved; the gluing arguments re-derived step by step by
+  the reviewer; direct runs N = 2..60 and 1..60; SG17 A].** Line: onset exactly 2N, period exactly 4. Beam: period
+  4, 33 + 5N cells, both parities in the base.
+- **Every word of holes heals [measured exhaustively, not sampled; SG18 A].** Beam N = 25: all 4,096 words that
+  keep the first rake heal, and all 4,096 that remove it change the gun. Line N = 16: all 764 words heal,
+  including the rake next to the gun (the condition "not the first rake" is the beam's alone). Divider N = 16,
+  17, 28: all 432 words heal. `python3 holes2.py line 16` and the commands in the review's section on holes.
+- **The divider stands, from N = 3 [measured, two codes and the lead's oracle check; proof for N ≥ 8 holds as
+  written; SG19 B].** Period 8 from generation 2N − 3, word 5f9f, the oscillator equal to its free orbit at every
+  generation, the coupling one cell born in the step from 8k + 7 to 8k + 8. C8.24b is a divider too, on the
+  oracle (`python3 c824b.py --oracle`, N = 12, 13; N = 10..30 on the reviewer's stepper).
+- **"Nothing on the wire changes the oscillator" is false as a statement about the coupling [measured on the
+  oracle; the lead re-ran it].** `python3 research/audit/signals4/hole_oracle.py` (17 s): at N = 16, one cell
+  removed at unit 13 at generation 39, one generation before the stroke, changes the oscillator at generation 43
+  and the object ends with 32 live cells instead of 147. Holes arriving in the stream do not do this (they heal).
+  So the oscillator is untouched in the undisturbed orbit and under every word of holes, and it is not protected:
+  the wire can reach it. Of 1,222 single-cell flips of the divider, 273 heal and none leaves both gun and
+  oscillator alive in a changed state (`python3 holes.py divflip 12 21 28`).
+- **A second divider downstream never divides again [measured; new].** `python3 twodiv.py 24`: of 104 placements
+  of a second C8.24a on the halved stream, 84 keep both oscillators with the word still 5f9f and 20 destroy
+  something. No divide-by-four.
+- **The clock with a tail stands [SG20 A].** N = 2..40: stationary unlit, period exactly 4N + 2 lit.
+- **Turn class without planes [computer-assisted; SG21 B].** The open-end encoding is a sound relaxation for every
+  length, so the UNSAT answers do not need the light-cone argument (which is also correct). T = 4 was missing and
+  is UNSAT. The scope is period-2 ends in the 3 × 3 tube with T ≤ 36; the README's opening sentence said more.
+  `eat_direct.py` (the eight class-2 caps destroyed by a lone pulse) was not checked [C].
+- **The negatives are narrower than written [SG22 B for the SAT answers with controls, C for the scans].** The
+  period-8 encoding has a positive control now (`sat_gun.py 5f5f 31` returns the gun). "No gun for a sparser
+  train" covers the one train 5f9f. `sat_div.py` put both sides at the same phase of wire C; the reviewer closed
+  the out-of-step case for the divider (`python3 sat_div_parity.py 5fbb 5f W`: UNSAT, W = 1..4 in the 3 × 3 tube,
+  W = 1 in the 5 × 5 tube). The same one-phase restriction is in `sat_two.py --w` (the 225 leaky-turner
+  instances and the two-sided census) and is not closed. None of the step_set scans was re-run.
+- Not checked (the reviewer's list): `eat_direct.py`; the `gunlab.py` subcommands; `beamcaps.py`; `clockscan.py`
+  and the `clockstream.py` counts; the absorber census and the period-8 end negatives; the sparse-gun UNSATs; a
+  second SAT solver; two-oscillator placements other than two copies of C8.24a at N = 24.
+- What it adds up to. Gump now has, on the oracle: a standing object that writes a moving one onto bare wire every
+  period; a free-standing loop of writer, wire and receiver; a second ordered object that changes what the first
+  one wrote without being changed; and the fact that the same object can be destroyed by the right single cell
+  on the wire. It still has no reader of the word, no second stage, no corner.
+
+## 2026-11-15: the 84-cell face with one loop of 12: 17.3248 ± 0.0058; the exponential form is out; each tube girth has its own straight line (0.2044, 0.2060, 0.2072 per cell against 0.2086)
+
+The lead's run of the deciding face of the entry "the wrapping law tested", declared and forecast before it started
+(`research/wrap/PREDICTIONS.md`, commits c89ce9d and the declaration after it). Torus (1, 12), (0, 28), a rectangle
+√12 by 7; the tester's runner (ts3, face deaths booked every generation), checked against the oracle on this torus
+first (`python3 research/wrap/validate.py 1 12 28 1500`: MATCH); three jobs of 320,000,000 generations, seeds
+184001–184003 (`python3 research/wrap/run.py job 1 12 28 320000000 184001`, 82 minutes each).
+
+- **[measured; one code; the card's run is the cross-check]** ln τ_face = 17.3248 ± 0.0058 (29,412 deaths; seed χ²
+  1.7 on 2). Recompute: the rows A = 84 of `research/wrap/data/runs.csv`, ln(2 Σexposure / ΣF).
+- **[scored]** The lead's first law 17.3604 (−6.1σ); LINES 17.3361 (−1.9σ, outside the 0.008 I had allowed: W7
+  failed); POW 17.3207 (+0.7σ); the tester's HAZ 17.2941 (+5.3σ; 4σ with its forecast error). **The exponential
+  share, read as a second way to die at 0.173 per cell, is refuted.**
+- **[fitted, after the fact] Each girth has its own straight line.** `python3 research/audit/wrap_haz_lead.py
+  --tube`: faces with exactly one short loop direction, one loop length at a time, each fitted alone:
+
+  | short loop² | faces | cells | slope per cell | χ² | curvature per cell² |
+  |---|---:|---|---:|---|---:|
+  | 12 | 8 | 54–84 | 0.20437 ± 0.00016 | 5.6 on 6 | (−2.6 ± 3.5) × 10⁻⁵ |
+  | 13 | 7 | 57–75 | 0.20602 ± 0.00033 | 0.7 on 5 | (+4.6 ± 12.9) × 10⁻⁵ |
+  | 16 | 7 | 60–108 | 0.20717 ± 0.00011 | 7.7 on 5 | (+0.6 ± 2.6) × 10⁻⁵ |
+  | 19 | 4 | 66–75 | 0.20898 ± 0.00120 | 1.6 on 2 | not resolved |
+  | none | 14 | 63–126 | 0.20864 ± 0.00009 | 17.4 on 12 | (+0.7 ± 1.8) × 10⁻⁵ |
+
+  A face with one short way round is a tube, and a tube of a given girth pays a fixed price per cell, lower the
+  tighter the girth: 2.0%, 1.3% and 0.7% below the open price for girths √12, √13 and 4. The line through the
+  loop-12 faces of 54–78 cells alone gives 17.3278 ± 0.0047 at 84 cells (computed after the run from data on file
+  before it; not a forecast). A loop of 19 shows as an offset of 0.017 ± 0.005 at 72 cells with no slope
+  difference resolved.
+- **[open]** A gentle bend is not excluded: POW's curvature at these sizes is −4.7 × 10⁻⁵, inside the error. The
+  tube line and POW are 0.017 apart at 96 cells and 0.035 at 108 (forecasts with errors frozen in
+  `research/wrap/PREDICTIONS.md`, W11, W12). How the discounts of two or three short loops combine is not
+  described by either: the all-faces fits (LINES 49.8, POW 41.6 on 39) are acceptable, but the lines fitted with
+  additivity differ from the lines of the single-loop faces (k(12) 0.00378 against 0.00427).
+- Not checked: no second code has measured this face (queued for the card); the event logic of ts3 was not
+  recounted; the curvature bounds assume the faces of one family differ only in length (they are different
+  lattices of the same girth, e.g. the two loop-12 classes at 60 cells differ by 0.004 ± 0.002).

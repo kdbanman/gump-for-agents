@@ -71,6 +71,17 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    GP9). Slab faces at A > 90 have since been run (CLAIMS GP7, GP8: 0.215 ± 0.006 from A = 108 to 126, and part of
    that is width, GP9), so the question is now whether the cost per cell of a wide face rises at all, and whether
    the octahedral excess is the rim. Still needed: octahedral faces at A ≥ 165 and wide slabs at fixed width.
+   **Wrapped faces, 2026-11-15 (CLAIMS GL3, WL1–WL3):** with no closed loop shorter than √21 the price is
+   0.2086 ± 0.0001 from 63 to 126 cells with no drift. Each shorter loop direction shortens the life (0.125,
+   0.096, 0.054, 0.013 in ln τ at 63 cells for loop² 12, 13, 16, 19; nothing at 21). A face with one short loop
+   is a tube with its own straight line: 0.2044, 0.2060, 0.2072 per cell at loop² 12, 13, 16 (the 84-cell face,
+   forecast first, refuted the exponential form at 5σ). Open: (a) **whether those lines bend at all** — a
+   power-law share is 0.017 from the straight line at 96 cells and 0.035 at 108; forecasts frozen in
+   `research/wrap/PREDICTIONS.md` and queued for the card; and why a tube's price depends on its girth in just
+   this way (2.0%, 1.3%, 0.7% below the open price); (b) why the effect ends between loops of √19 and √21; (c) how the discounts of several loops
+   combine (neither sums of log-discounts nor sums of rates is established); (d) faces below 48 cells and loop²
+   9, where no form fits (the 36-cell face with three loops of 12 dies sooner than the loop² 9 faces of its
+   area).
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.
 
@@ -97,6 +108,33 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     a corner or a crossing (nothing found, nothing searched outside one wire direction), a reusable reflector for a
     pulse (none inside the searched bounds), a receiver that toggles, a gate with its own output line, and with
     them whether gump can compute.
+    **Third push, 2026-11-15** (CLAIMS SG12–SG15; notebook "the third signals push" and "the third signals push
+    reviewed"; `research/audit/REVIEW-signals-3.md`): no emitter, no corner, no clock of period 4N was found. The
+    clock's left cap swallows every word of pulses and keeps no trace (proved, reviewed). The counter wall 8|C counts
+    isolated pulses and **reflects a double pulse** (two in, one count, one pulse back; oracle, three codes), on a ring
+    only: wire 8 burns from a cut end. An emitter of left-going pulses on the end of wire C is a cap that writes a
+    periodic, non-constant word, and none of word period 2 to 4 exists near the end of the 3 × 3 tube. Clock periods
+    are 4N + 2 because every lone-rake-turning cap in that tube has the same turn constant (measured, and measured
+    to carry over into clocks); the eight caps of the other class one tube size up destroy themselves in the turn.
+    Sharpened questions: **(a)** an emitter outside what was excluded: word period ≥ 5, wide pulses, emitters of
+    moving objects, emitters beside a wire, other wires; **(b)** a cap of the other turn class that survives a turn
+    (a clock of period 4N); **(c)** a proof that the in-clock turn constant equals the lone one, and the invariant
+    that fixes it; **(d)** a corner: one scan of 205 placements of a second wire beside a lit clock found nothing,
+    and no other search exists; **(e)** a cap for wire 8 (a free-standing second counter); **(f)** whether the
+    double-pulse reflection can be made into a shuttle or a reusable reflector.
+    **Fourth push, reviewed 2026-11-15** (notebook "the fourth signals push reviewed"; CLAIMS SG16–SG22;
+    `research/audit/REVIEW-signals-4.md`): question (a) is answered for moving objects. A 15-cell standing gun of
+    period 4 writes a rake onto bare wire every period; gun, wire and receiver make a free-standing oscillator at
+    every length (proved); the catalogue oscillator C8.24a beside the stream turns every second rake into a hole
+    and is not changed (the divider, period 8); every word of holes heals. Still absent: anything that reads the
+    word; a second stage (a second divider on the halved stream never divides again); a clock of period 4N; a
+    corner (never searched). New questions: **(g)** a reader: a standing object left in a different lasting state
+    by a hole than by a rake (a wall that moves per hole, an absorber with two states); **(h)** a switch: the
+    divider works at one of the oscillator's eight phases and one cell on the wire at the right moment destroys
+    it, so is there an input that shifts its phase or place without destroying it; **(i)** a divide-by-four, or
+    any word other than rake, hole (oscillators of period 24 and 32 beside the stream, enumerated and not
+    sampled); **(j)** a corner as an exact constraint problem, with the stream as a standing probe; **(k)** why
+    the turn class is forced (no invariant is known; the negative is bounded by turn time T ≤ 36).
 14. The 94 clockwork objects (`research/clockwork/objects/`) are not merged into the atlas catalogue.
 
 ## Neighbouring rules

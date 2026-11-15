@@ -217,3 +217,173 @@ variables in place of a whole semi-infinite wire.
 is re-scored as held only in a weak sense. The carrier wires came almost entirely from rings of one unit, where
 the "soup" is one random unit repeated; on rings of 3, 4 or 6 units none appeared in 60,000 soups. S6, S7, S8 and
 S10 stand as scored (S10 with the review's correction that the isolating gap is three layers, not two).
+
+### Scored, 2026-11-15 12:05 UTC (third push; evidence in `README.md` sections 15 to 19)
+
+The lead's:
+
+- **S11 (40%): failed.** No periodic emitter. The question was made exact (a gun at the end of the tape is a
+  *writer* with a periodic non-constant word) and small writers were excluded: none of period dividing 4, 6 or 8 at
+  C = 29, 4 or 6 at C = 31, 33, 4 at C = 35 (SAT, 3 × 3 tube). Back-to-back caps (8,184 arrangements), a second wire
+  beside the clock (5,625 placements in all six directions) and two-sided turners gave nothing.
+- **S12 (30%): failed** (no emitter). The counting part exists: the 8|C wall moves one unit per pulse of a train
+  of spacing ≥ 2 [sg only].
+- **S13 (15%): failed.** No corner; the side-kick scan is the only search of two directions, and it found nothing.
+- **S14 (35%): failed, and the reason found in part.** P ≡ k_R + k_L (mod 4) with a turn class k of each cap
+  [proved]; inside the 3 × 3 tube every cap that turns the rake has k = 0 (201 of 201 measured; k = 2 UNSAT by SAT
+  for caps of period 2, 4, 6 within the bounds), so there 4N + 2 is forced; in the 5 × 5 tube a period-2 cap with
+  k = 2 exists (re-stepped) but does not survive in a clock.
+- **S15 (50%): held**, cheaply: no reusable reflector was found, but this push did not search for one beyond what
+  the readers census says (a left cap either eats everything or disturbs the tape).
+
+Mine:
+
+- **K1 (45%): failed.** (The sub-forecast was right in kind: the writer search is where the question became exact.)
+- **K2 (35%): failed.**
+- **K3 (8%): failed** (no corner).
+- **K4 (25%): failed**; the 30% on a proved reason: **half**: the reduction to a cap constant is proved, the
+  constancy of that constant holds only inside the 3 × 3 tube, and fails one size up.
+  *(Note of 2026-11-15 13:15 UTC, fourth investigator, from `research/audit/REVIEW-signals-3.md` item 7: "fails one
+  size up" overstates it. The class-2 caps of the 5 × 5 tube are destroyed by the turn itself; nothing about clocks
+  fails one size up.)*
+- **K5 (55%): held** (writers of period dividing 4, 6, 8 excluded in stated planes).
+- **K6 (30%): held.** capL eats every word and is exactly as it was at every even generation, proved for all words
+  by a closed automaton and checked on the oracle; the census adds that no left cap in the tables has a memory.
+- **K7 (70%): held** (none found; little searched).
+
+What I got wrong in kind: I expected the gun to be found by a constraint search once the problem was put as a
+writer; instead the search showed that small writers do not exist and grew too fast to reach clock-sized ones.
+What surprised me: capL, the end that makes the clock, is a perfect sink with no memory at all, and every cap in the
+3 × 3 tube that turns the rake turns it with the same delay mod 4 (one size up, not). The clock's ends are as simple as ends can be, which is
+exactly what keeps the clock from talking to anything else.
+
+### The lead's note on the third push, 2026-11-15 12:50 UTC
+
+I accept the scoring above. Of my five forecasts the four that asked for a new kind of object (emitter 40%,
+clock-driven counter 30%, corner 15%, period 4N 35%) all failed, and the one that held (no reusable reflector, 50%)
+was hardly tested. Taken together those four probabilities expected 1.2 new objects and got none: I was
+over-confident that the second push's rate of invention would continue. Over three pushes: 13 of my forecasts
+tested, 7 held in some form (S6 and S9 weakened afterwards by review), 6 failed. What I did not foresee at all was
+the form the negative took: that the clock's end is a perfect sink, and that the period's residue mod 4 is a
+property of the cap that the 3 × 3 tube pins and the 5 × 5 tube frees.
+
+## Fourth push: the lead's forecasts, 2026-11-15 12:53 UTC, written before it starts
+
+After three pushes my rate for "a new kind of object appears" was too high, so these are lower on purpose.
+
+- **S16 (20%).** An emitter is found and passes the oracle: a bounded standing object (period > 2) at the end of or
+  beside an otherwise undisturbed wire that puts at least ten pulses on it at a fixed period, itself returning
+  exactly to its state each period.
+- **S17 (30%).** A shuttle clock with period divisible by 4 is found and passes the oracle for at least three
+  lengths (a cap of the other turn class that survives in a clock).
+- **S18 (7%).** A corner: a pulse passes from a wire along one face diagonal to a wire along another, both wires
+  left as they were.
+- **S19 (15%).** Some oscillator from the clockwork catalogue (`research/clockwork/objects/`), placed against a
+  wire end, a cap or a counter wall, acts on it periodically and survives: it writes a letter each period, or moves
+  a wall one step each period, for at least five periods. (Counts toward S16 if the wire is then carrying pulses.)
+- **S20 (20%).** A proved obstruction that goes beyond a bounded search: either the invariant that fixes the turn
+  class of periodic caps in the 3 × 3 tube, or a theorem that no cap of period ≤ some P in that tube writes a
+  non-constant word, for all planes.
+- **S21 (60%).** The push ends with no emitter and no corner, and the honest summary is still "nothing standing can
+  write onto a wire".
+
+## The fourth investigator, 2026-11-15 12:59 UTC (after reading the README, both finished reviews, the forecasts and the tools; before any code of mine has run)
+
+What shapes these. Three pushes of bounded searches found nothing standing that writes, and the third showed the
+clock's ends to be perfect sinks. The one place where the earlier searches were thin is the *two-sided* object: a
+standing defect with wire on both sides that turns the rake. `turners.py` tried a cut list of 3,000 defects in 4
+units and `wallturn.py` walls with at most 3 free units, both by shooting, neither by constraint search. A clock
+closed at one end by a two-sided turner has a wire beyond it, and anything the turn leaks onto that wire is an
+emitter. So my first experiment is the SAT search of `sat_turn.py` with the cap replaced by a free stretch between
+two wires.
+
+- **F1 (12%).** An emitter passes the oracle (the lead's S16 as worded: a bounded standing object of period > 2
+  that puts at least ten pulses on an otherwise undisturbed wire at a fixed period and returns exactly to its state).
+- **F2 (20%).** A shuttle clock of period divisible by 4 passes the oracle at three lengths or more (S17).
+- **F3 (4%).** A corner (S18).
+- **F4 (10%).** An oscillator of the clockwork catalogue acts periodically on a wire end, cap or counter wall and
+  survives five periods or more (S19). 50% that I do not get to run this scan at all.
+- **F5a (45%).** An all-lengths form of the turn-class negative: no period-2 right cap of ANY length in the 3 × 3
+  tube (no bounding planes; the far end left open by a light-cone argument) turns a lone rake with class k = 2
+  within T ≤ 24 generations, by an UNSAT answer whose soundness argument is written out.
+- **F5b (8%).** A real invariant: a proof, not bounded by turn time, of why periodic caps in the 3 × 3 tube all turn
+  with one class, or a theorem that no cap of small period there writes a non-constant word for all planes.
+- **F6 (30%).** The constraint search finds at least one two-sided standing object of period 2 (wire C on the
+  left, any family wire or wire C on the right, free stretch of at most 6 units, 3 × 3 or 5 × 5 tube) that turns a
+  lone rake back and is itself restored. **F6b (10%)**: one of them, in a clock, leaks periodically (which is F1).
+- **F7 (65%).** None of the 8 caps of class k = 2 at T = 16, C = 47 swallows a lone p> and is restored 16
+  generations later, so the instance the third push left running (`sat_turn.py 16 47 --KS 10 --lo -1 --hi 7 --eat
+  16`) is UNSAT, settled by direct test of the complete list.
+- **F8 (70%).** The push ends with no emitter and no corner (S21).
+- **F9 (40%).** At least one more complete list of class-2 caps in the 5 × 5 tube (a larger T or C than 16, 47) is
+  obtained, or a direct search for the period-4N clock as a periodic orbit returns a definite answer on an
+  instance with 60 or more free cap cells.
+
+### The fourth investigator's forecasts scored, 2026-11-15 14:28 UTC (F1, F4 and the totals revised 14:47 UTC, after the divider)
+
+Sources: README sections 20 to 25; every command is there.
+
+- **F1 (12%): held on the letter, with a caveat for the lead to grade.** `gun-5f` is a bounded standing object of
+  period 4 at the end of an otherwise bare wire that puts one mirror rake on it every period and returns exactly to
+  its state (`verify_gun.py`: 12 rakes on the oracle; `verify_line.py` and `prove_line.py`: for ever, with a
+  receiver at the other end). The caveat: what it emits is the rake, not the letter p<, and the stream is full, one
+  rake per 4 generations with no bare wire between. *Revised:* with the oscillator C8.24a beside the wire the same
+  object emits one rake per 8 generations with a hole between, a non-constant word (`verify_divider.py`,
+  `prove_divider.py`); the wire between two rakes then holds the letter `9f`, still not bare wire. I count F1 as
+  held; (1 − 0.12)² = 0.77.
+- **F2 (20%): failed.** No clock of period divisible by 4. 0.04.
+- **F3 (4%): failed.** No corner, and no corner search was run. 0.002.
+- **F4 (10%): held, and the scan was run** (so the side forecast "50% that I do not run it" failed). Against a wire
+  at rest (23,760 placements of the 99 catalogue oscillators) none writes a letter per period or moves a wall; 52
+  light a shuttle clock once and then sit beside it. *Revised:* against the gun's running stream (14,850
+  placements) C8.24a writes a hole every period, for ever, and is itself never changed (the divider, on the
+  oracle). The forecast named "a wire end, cap or counter wall"; this is the side of a wire that carries a stream.
+  I count it as held; (1 − 0.10)² = 0.81, and 0.25 for the side forecast.
+- **F5a (45%): held, further than forecast.** No period-2 right end of any length in the 3 × 3 tube turns a lone
+  rake with class 2 within T ≤ 36 (forecast: T ≤ 24), with the soundness argument written out (section 22). 0.30.
+- **F5b (8%): failed.** No invariant; the bound on the turn time stays. 0.006.
+- **F6 (30%): held.** Five two-sided turners that are restored, in a complete list of 20 objects on 3 units (44 more
+  among the first 188 on 4 units); one of them closes a clock with a wire behind it on the oracle
+  (`objects/clock-C-tail.json`). 0.49. **F6b (10%): failed**: 225 UNSAT instances, none leaks. 0.01.
+- **F7 (65%): held.** `eat_direct.py`: none of the 8 caps is restored after a lone p>; all are destroyed. 0.12.
+- **F8 (70%): failed** if the gun is an emitter, as I count it (there is still no corner). 0.49.
+- **F9 (40%): failed.** No further complete list of class-2 caps in the 5 × 5 tube (`k2caps.py 20 47` was stopped
+  unfinished) and no periodic-orbit search for the 4N clock. 0.16.
+
+Mean Brier score over the twelve (F4's side forecast counted): about 0.29; without F1 and F8, which are one event,
+0.22. The large misses are that event and F4, and they are the same mistake. I had put the emitter at 12% because three pushes of writer searches had
+found nothing, and I did not ask what alphabet they had searched: all of them asked for a word of p< letters. The
+same constraint search with the rake train as the word answered SAT in seconds. The lesson for the next forecast of
+an absence here: check which family of moving objects the negative was stated for before leaning on it. F4 repeats
+it: the catalogue scan against a wire at rest came back empty an hour before the same scan against a wire with
+something moving on it found the divider.
+
+My reading of the lead's S16 to S21, for the lead to overrule: S16 yes if a rake is a pulse (see F1); S17 no; S18 no;
+S19 yes in substance (C8.24a writes a hole on the wire every period and survives for ever; it stands beside a wire
+carrying the gun's stream, not against an end, cap or wall; against a wire at rest the catalogue only lights a
+clock once); S20 no as worded (the open-end result removes the bounds
+on the cap's length and on the planes, not the bound on the turn time, and gives no reason); S21 no: something
+standing writes onto a wire, a constant stream and a two-letter periodic word; nothing found reads.
+
+## The lead's note on the fourth push (2026-11-15 15:16 UTC, before its review)
+
+- **S16 (20%): held, with a caveat about one word.** `gun-5f` is a bounded standing object of period 4 at the end
+  of bare wire that puts a moving object on the wire every period and returns exactly to its state (the lead's own
+  oracle check, `python3 research/audit/signals_gun_lead_check.py`: nine periods, each adding the same four-cell
+  change, every earlier one moved on two units unchanged). What I wrote was "pulses"; what it emits is mirror rakes
+  at the highest rate there is, so the wire behind is a full stream with no bare unit in it. The thing I gave one
+  chance in five exists; the thing I pictured (separated pulses on quiet wire) does not yet.
+- **S17 (30%): failed.** No clock of period divisible by 4; the eight caps of the other turn class are each
+  destroyed by one lone pulse.
+- **S18 (7%): failed**, and not searched.
+- **S19 (15%): held in a form I did not word.** Against a wire end, a cap or a wall at rest, as I wrote it: nothing
+  in 23,760 sampled placements. Beside a running stream: C8.24a turns every second rake into a hole and is never
+  changed (the lead's own oracle check, `python3 research/audit/signals_divider_lead_check.py`).
+- **S20 (20%): failed as worded.** No invariant and no theorem over all periods. What there is: the turn-class
+  negative for ends of every length and shape, bounded in turn time (T ≤ 36), computer-assisted.
+- **S21 (60%): failed.** Something standing writes onto a wire.
+
+Over four pushes: 19 forecasts tested, 9 held in some form, 10 failed. The two that held this time were the two I
+had marked down hardest after three empty pushes, and my most confident one (S21) was wrong. The investigator's own
+note says the same of itself: the earlier negatives were all stated for one kind of word and one kind of placement,
+and I, like it, took them for more.

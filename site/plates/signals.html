@@ -1,0 +1,40 @@
+<section class="plate" id="signals">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">Signals <b>· new</b></p><span class="st st-meas">both signals pushes reviewed, two or three codes</span><span class="st st-proved">a clock of every length, the tape: proofs checked</span><span class="st st-meas">gate: the lead’s own check</span></div>
+    <h2>Order can carry a message. A two-cell flaw runs along a thin wire at half the speed limit and leaves the wire as it was. Cap the wire and add one cell: a clock of any length you like.</h2>
+  </div>
+  <figure class="fig panel">
+    <div class="dy-head">
+      <h3>A pulse on wire C</h3>
+      <div class="dy-ctl"><button class="btn" type="button" id="b-sg-p">Pause</button><span class="mono" id="l-sg-p"></span></div>
+    </div>
+    <div id="f-sg-pulse" class="sg-strip"></div>
+    <div class="keys"><span class="key"><span class="sw" style="background:var(--ink-3);opacity:.6"></span>the wire: five cells per unit, blinking with period 2</span><span class="key"><span class="sw" style="background:var(--ember)"></span>a cell the bare wire does not have</span><span class="key"><span class="sw" style="background:transparent;border:1.5px solid var(--ember)"></span>a cell the bare wire has, missing here</span></div>
+    <figcaption>A ring of <span class="n-sg-ring"></span> units, stepped live by this page. Two flipped cells (orange) move one unit every two generations and the wire behind them is exactly as it was. Shown every second generation, when the wire is back in the same phase. A reviewer’s own program ran one on a <span class="n-sg-600"></span>-cube wire in open space, with no wrap-around. No pulse was in anything soup had given us; a constraint search found them in under a second.</figcaption>
+  </figure>
+  <figure class="fig panel">
+    <div class="dy-head">
+      <h3>A gate: two pulses meet</h3>
+      <div class="dy-ctl" role="group" aria-label="Separation"><button class="btn" type="button" id="b-sg-even" aria-pressed="true">10 apart</button><button class="btn" type="button" id="b-sg-odd" aria-pressed="false">11 apart</button></div>
+    </div>
+    <div id="f-sg-gate" class="sg-strip"></div>
+    <div class="sg-read mono" id="l-sg-gate" aria-live="polite"></div>
+    <figcaption>Exactly one survives, on time and unchanged, and the wire is as it was. An even distance apart, the left-mover survives; odd, the right-mover. So one line can block the other. The survivor leaves on the line it came in on: there is no third line, no corner, no crossing.</figcaption>
+  </figure>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <div class="dy-head">
+        <h3>A clock made to order</h3>
+        <div class="dy-ctl"><label for="r-sg-n">units of wire</label><input type="range" id="r-sg-n" min="1" max="12" value="5"><span class="mono" id="l-sg-n"></span></div>
+      </div>
+      <div id="f-sg-clock"></div>
+      <div class="sg-read mono" id="l-sg-clock" aria-live="polite"></div>
+      <figcaption>Wire C between two caps is a quiet object of 32 + 5N cells. Add one cell (orange, a “rake”): it runs to one cap laying pulses behind it, turns, runs back, turns again, for ever. This page finds the period by comparing whole states: always <b>4N + 2</b>. Periods 6, 10, 14, … : every period that leaves 2 when divided by 4. None that divides by 4 was found, and nobody knows why.</figcaption>
+    </figure>
+    <div class="fig c5 panel">
+      <h3>What was checked, and how</h3>
+      <ul class="plain" id="l-sg-checked"></ul>
+    </div>
+  </div>
+  <div class="nums" id="n-sg"></div>
+</section>

@@ -1,0 +1,26 @@
+validate (2, 2, 6) A=36 N=12 copies=12: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 97..77, distinct 121
+validate (1, 3, 13) A=39 N=13 copies=13: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 132..162, distinct 93
+validate (1, 3, 14) A=42 N=14 copies=14: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 139..152, distinct 83
+validate (1, 3, 15) A=45 N=15 copies=15: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 141..148, distinct 90
+validate (1, 3, 17) A=51 N=17 copies=17: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 163..147, distinct 90
+validate (1, 4, 18) A=54 N=18 copies=18: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 135..216, distinct 96
+validate (1, 3, 18) A=54 N=18 copies=18: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 172..170, distinct 108
+validate (1, 3, 19) A=57 N=19 copies=19: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 172..193, distinct 104
+validate (1, 3, 21) A=63 N=21 copies=21: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 191..214, distinct 100
+validate (1, 8, 21) A=63 N=21 copies=21: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 205..205, distinct 111
+validate (1, 5, 22) A=66 N=22 copies=22: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 213..222, distinct 105
+validate (1, 3, 22) A=66 N=22 copies=22: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 210..219, distinct 102
+validate (1, 4, 22) A=66 N=22 copies=22: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 225..274, distinct 103
+validate (1, 3, 23) A=69 N=23 copies=23: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 211..260, distinct 109
+validate (1, 4, 23) A=69 N=23 copies=23: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 220..257, distinct 117
+validate (1, 4, 25) A=75 N=25 copies=25: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 249..286, distinct 108
+validate (1, 8, 20) A=60 N=20 copies=20: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 191..209, distinct 114
+validate (2, 2, 10) A=60 N=20 copies=20: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 197..210, distinct 102
+validate (1, 3, 17) A=51 N=17 copies=17 NEGATIVE CONTROL: MISMATCH at generation 4 over 300 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 163..161, distinct 65
+VALIDATION DONE
+validate (4, 0, 4) A=48 N=16 copies=16: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 163..157, distinct 103
+validate (1, 6, 26) A=78 N=26 copies=26: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 253..290, distinct 116
+validate (1, 9, 25) A=75 N=25 copies=25: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 231..255, distinct 113
+validate (1, 4, 26) A=78 N=26 copies=26: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 243..304, distinct 123
+validate (1, 6, 26) A=78 N=26 copies=26: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 253..290, distinct 116
+validate (1, 3, 25) A=75 N=25 copies=25: MATCH over 1500 generations (oracle set = numpy set on ts3 graph, ts3 W=8 population); pops 226..301, distinct 113

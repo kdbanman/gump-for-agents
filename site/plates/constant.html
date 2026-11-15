@@ -1,0 +1,34 @@
+<section class="plate" id="constant">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">One price per cell? <b>· corrected</b></p><span class="st st-meas">fitted, by two independent analyses</span><span class="st st-once">empty patches: read after the data; the 4 × 5 point cross-checked on the CPU</span><span class="st st-meas">wrapped faces: your GTX 1080, nine faces, reviewed twice</span><span class="st st-open">one price or two: open</span></div>
+    <h2>One price per cell, or two? Nine wrapped faces measured on your card lie on one line, 0.2087 per cell, from 63 cells up. Faces with a rim cost more, and are moving away. The range <span id="n-cn">0.207 to 0.219</span> is the two families.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c6 panel">
+      <h3>What each family of faces allows</h3>
+      <div id="f-ranges"></div>
+      <div class="keys"><span class="key"><span class="sw" style="background:var(--ink-3);height:6px;width:16px;border-radius:3px"></span>range over fitted forms</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--ink)"></span>measured slopes, no model</span><span class="key"><span class="sw dot" style="background:var(--ink)"></span>a single constant that passes for both</span></div>
+      <div id="t-ranges"></div>
+      <figcaption>Flat periodic faces and hull faces approach from different sides. One constant fits both if either the hull’s rim is complicated (low end) or wide flat faces are still far from their limit (high end).</figcaption>
+    </figure>
+    <figure class="fig c6 panel">
+      <h3>Empty patches on a face that never dies: their price per cell</h3>
+      <div id="f-patch"></div>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--s1)"></span>the GPU run</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--ink-3)"></span>the CPU, an independent code</span><span class="key"><span class="sw dot" style="background:var(--ink)"></span>both combined</span><span class="key"><span class="sw" style="background:var(--s-mute);opacity:.6"></span>the lifetimes’ range</span></div>
+      <div id="t-patch"></div>
+      <figcaption>The price per cell of an empty patch, with perimeter and corner terms removed (second differences along similar shapes, chosen after seeing the data). Still falling at 36 cells, where it sits about one standard error above the lifetimes’ range (first written as inside it: withdrawn). <b>Compatible</b> with “a face dies as an empty patch of its own size”; <b>not established</b>.</figcaption>
+    </figure>
+  </div>
+  <div class="nums" id="n-constant"></div>
+  <!-- the nine equilateral wrapped faces on the owner's GTX 1080 (NB "the nine wrapped faces reviewed"; CLAIMS GL1, GL3), recomputed by
+       collect/collect.py from research/data/gpu_local_eqtorus/eqtorus_*.csv; quotes in collect/sources/update-2026-11-15e.json -->
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>Nine wrapped faces, measured on the GTX 1080 in your house</h3>
+      <div id="f-tori"></div>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--s1)"></span>measured on the card (bars: one standard error)</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--s1)"></span>what the line through the first five said the next four would be</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--ink-3)"></span>older forecasts, written before the runs</span></div>
+      <figcaption>Each face is a wrapped equilateral face of A cells, its lifetime drawn as its distance from one straight line in ln(generations), the line through the seven faces from 63 to 111 cells. The two smaller ones lie below it. Only a line that bends near <b id="n-kink"></b> cells fits all nine; every smooth curve tried misses. The bend rests on three faces of three lattice kinds, and the plate before this one says what it is: a short way round the face.</figcaption>
+    </figure>
+    <div class="fig c5"><div class="nums" id="n-tori" style="grid-template-columns:1fr"></div></div>
+  </div>
+</section>

@@ -200,6 +200,23 @@ The clock's proof survived the same reviewer, who rebuilt it and ran the clock a
 on the reference stepper. The gate I checked myself. The counter turns out to hold sixteen
 positions before it breaks.
 
+For three rounds of searching, nothing that stood still could put anything on a wire, and I
+wrote in your journal that gump's ordered parts cannot speak. The fourth round found one
+that does. It is fifteen cells on the end of a bare wire, it repeats every four generations,
+and each time round it leaves one more moving object on the wire and is exactly what it was.
+Put a receiver on the far end and the three together are a single object that runs for ever,
+at any length; an agent proved that and a second agent rebuilt the proof. Then stand one of
+the clocks from the catalogue beside the wire, not touching it, and every second object
+going past is turned into a gap, while the clock ticks on unchanged. The whole of that
+influence is one cell, born once in eight generations. I checked the gun and the clock
+beside the wire myself on the reference stepper. I had given the gun one chance in five and
+the clock one in seven, and three in five that the round would find nothing.
+What this is not, yet: the gun fires as fast as anything can travel, so its wire is full,
+and the gaps the clock makes are the only message there is. Nothing found reads that
+message. A second clock further down the wire does nothing more to it. And the reviewer
+showed the clock is not safe from the wire: one cell missing at the right place and moment
+and it is destroyed.
+
 ## The rule you meant to write
 
 In November 2026 you looked at a picture of the neighbourhood and said it was wrong: in its
@@ -325,17 +342,47 @@ the largest we could count, which is where the lifetime laws are. It would be a 
 if the two met. The measurement that would show it needs more time on rented graphics cards
 than this month's budget has left.
 
-The card in your house has since done part of it. It measured five wrapped faces of one
-shape, 48 to 93 cells, each to better than a part in a thousand, and a reviewer repeated
-four of them by other means. From 63 cells up they lie on one straight line, 0.2084 per
-cell, and the two smaller ones fall below it. Nothing smooth joins the two parts. The only
-description that fits is a kink near 61 cells, as if a face stopped noticing its own
-smallness all at once. I had written down three readings of how the price would approach
-its limit, and four forecasts on top of them. The 93-cell face landed below every reading,
-and the faces of 57 and 63 cells above every forecast. So for faces without a rim the price
-is 0.2084 as far as we can see, and the faces with a rim, which still say something nearer
-0.215, are the open half. Four larger wrapped faces and one large face with its rim are
-running on the card now.
+The card in your house has since done part of it. It measured nine wrapped faces of one
+shape, 48 to 111 cells, the smaller ones to better than a part in a thousand; a reviewer
+repeated four of them by other means and recomputed all nine from the raw counts, as did I.
+From 63 cells up the seven faces lie on one straight line, 0.2087 per cell, and the two
+smaller ones fall below it. Nothing smooth in the size of a face joins the two parts, and
+for a morning the only description that fitted was a kink near 61 cells that I could not
+explain. The bend has nothing to do with size. A wrapped face can see itself round the
+back, and the two small faces are the ones wrapped tightly enough to do it. I went through
+every wide wrapped face we had measured, thirty-two of them in many shapes, and wrote one
+rule for them all: each way round the face that is short enough gives a discount on the
+price per cell, and the discounts of different ways round add. An agent with a brief to
+break the rule then measured twenty new faces against forecasts I had frozen. All eleven
+inside the range I had claimed landed within my margin, and the rule is wrong all the same.
+My margin was three times wider than the measurements, and inside it the misses have a
+pattern: a face with one short way round sits a little below the rule, a face with several
+a little above, and the lines for different loop lengths do not meet where I said they did.
+Below 48 cells it fails outright.
+What survives is this. A short way round shortens a face's life: by an eighth at 63 cells
+for the shortest loops we have, by a little over one percent for the longest that still
+counts, and by nothing I can measure for the next length up. Faces with no short way round
+all pay 0.2086 per cell. What does not survive is my account of how one loop's discount
+grows as the face gets longer. The tester proposed that a short loop opens a second,
+cheaper way for the face to die. I refitted, and a plain straight line for each loop
+length fitted the same faces as well, as did a third form; below 80 cells the three could
+not be told apart. So I wrote down what each said about one face of 84 cells and measured
+it. The second way to die is out, by five times the error, and so is my first rule. What
+is left is the plainest picture of the lot: a face with one short way round is a tube, and
+a tube pays a fixed price per cell that depends only on how tightly it is wrapped. Two
+percent less than an open face at the tightest girth we have, 1.3 percent at the next, 0.7
+percent at the next, nothing beyond. I should say that the straight line I had frozen as a
+forecast missed by a little more than I had allowed, and the form that hit was the gently
+bending one; the straight lines I now believe in are the ones drawn through each family of
+tubes separately, after the fact. A longer tube, queued for the card, will say whether
+they bend. Above 63
+cells there is no sign that the price is still moving: allow it to drift and it stays
+between 0.2087 and 0.2090. I had written down three readings of how the price would approach
+its limit, and forecasts on top of them. The 93-cell face landed below every reading, the
+faces of 57 and 63 cells above every forecast, and the line I then drew through five faces
+was a little low at all four of the new ones. So for faces without a rim the price is
+0.2087, and the faces with a rim, which say something nearer 0.215 and are moving away from
+it, are the open half. One large face with its rim is running on the card now.
 
 ## How a face dies
 
@@ -545,15 +592,24 @@ corrected is part of what this repository is for.
   grows. The data allow it and do not yet demand it.
 - The neighbour B45/S3457, which behaves like gump with lifetimes growing a hundred-fold per
   step of radius instead of ten-fold, and B45/S3456, which slowly freezes like a glass.
-- Whether gump can compute. It has wires, pulses, a gate where two pulses meet, a counter
-  and a clock of any length. It has no corner, no crossing, no gate with an output line of
-  its own, and no mirror that sends pulse after pulse back. Everything so far lives along
-  one direction of one tube.
+- Whether gump can compute. It has wires, pulses, a gate where two pulses meet, a counter,
+  a clock of any length, and now a standing thing that writes onto a wire and a second thing
+  that edits what was written. It has nothing that reads: no object left in one state by a
+  gap and another by its absence. It has no corner, no crossing, and no second stage after
+  the first. Everything so far lives along one direction of one tube.
 - A clock whose period divides by four. Every length of the built clock gives a period that
-  leaves 2 when divided by 4, and I do not know why.
-- One price per cell or two. Faces without a rim say 0.2084 from 63 cells up. Faces with a
-  rim say more, and their local slope is moving away from that, not towards it. The card
-  in your house is running the larger faces that would tell.
+  leaves 2 when divided by 4. A third push found half of the reason: the remainder is a
+  property of the two ends, and every end that fits inside the narrow tube of the wire has
+  the same one. Ends of the other kind exist one size up, but each destroys itself in the
+  act of turning the shuttle round.
+- One price per cell or two. Faces without a rim say 0.2087 from 63 cells up, and show no
+  drift toward anything else. Faces with a rim say more, and their local slope is moving
+  away from that, not towards it. The card in your house is running the large rimmed face
+  that would tell.
+- Why a face stops seeing itself. A wrapped face lives less long for every short way round
+  it, and then, between one loop length and the next, loses nothing at all. I do not know
+  what sets that length, or why a tube's price per cell falls by just two percent, 1.3 and
+  0.7 as its girth tightens, or how the discounts of two short ways round combine.
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):

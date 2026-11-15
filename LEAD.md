@@ -247,9 +247,27 @@ let CI pass, merge.
   visual, text-minimal explainer artifact of the directions and findings so far? feel free to delegate to opus
   subagents for subtasks".
 - Made and published privately: https://claude.ai/artifact/EngGcGwZcZ2DG71aNgnvaA ("The Gump Map"). Source and
-  rebuild steps are in `docs/overview/` (see its README). To update it, rebuild and publish
-  `docs/overview/index.html` to that same link. It is a view of the repository, not a record: nothing is
-  established by appearing on it.
+  rebuild steps were in `docs/overview/` until 2026-11-15 and are now in `site/` (see `site/README.md`: one small
+  file per plate, data per page, `python3 site/build.py`, `bash site/check.sh`). It is a view of the repository,
+  not a record: nothing is established by appearing on it.
+- **2026-11-15 about 15:18 UTC, the owner:** "since artifacts are single giant pages, i'm wondering if it makes
+  sense to move and rearchitect it as a github-pages-compatible structure that can be navigated and edited more
+  piecemeal. how does that sound? we could put it in a folder with other gh pages deployed stuff, like the
+  interactive webapp. does that sound reasonable? if so, feel free to kick off a dedicated session for that task.
+  or subagents, whatever you please." The lead's reading: the overview becomes a multi-page static site in one
+  deploy folder (`site/`) together with the web app; small source files per page, data fetched per page, built by
+  one command, deployed by the existing manual workflow. A subagent does it (this session cannot message or read
+  a session it starts, since the trust change). **Nothing goes public by this:** the site appears on the web only
+  when the owner sets Settings → Pages → Source to "GitHub Actions" and the workflow is run; until then the same
+  built folder is published as the private artifact (a multi-file artifact), by the lead.
+- **Done 2026-11-15 15:56 UTC: version 14 of the private artifact is the multi-page site** (same link; eight pages,
+  84 files; content as version 13). To republish after a change: `python3 site/build.py --artifact &&
+  bash site/check.sh --artifact && python3 site/artifact_page.py`, then the Artifact tool with `file_path`
+  `research/scratch/site/artifact-page/index.html`, `url` the link above, `root` `site/dist-artifact`, and `files`
+  the paths of `site/dist-artifact/FILES.json` (as `{"path": …}` entries). The site's checks need the pre-installed
+  browser, so they are not part of `research/check.sh` or of CI; run `bash site/check.sh` before a publish. The
+  public site (overview and web app together) needs the owner: Settings → Pages → Source "GitHub Actions", then
+  Actions → pages → Run workflow.
 
 ## Which rule is gump
 
@@ -267,6 +285,8 @@ let CI pass, merge.
 
 ## Watching usage
 
+- **Readings given by the owner:** 2026-11-15 about 15:18 UTC: 62% weekly, 73% Fable weekly (the lead's reckoning
+  for that minute was 64% and 73%).
 - The account's usage is visible from inside the session: `mcp__claude-code-remote__list_events` on this session's
   own id with `kinds: ["rate_limit_event"]`, `limit: 100`, returns the latest event; under
   `rate_limit_info.unifiedWindows` are `five_hour` and `seven_day`, each with `utilization` (0–1) and `resetsAt`
@@ -330,6 +350,12 @@ let CI pass, merge.
   listed). Pace 04:41 → 06:15 with two to four Opus agents and the 1080 session on Fable: weekly 0.026 an hour,
   Fable 0.032 an hour. The 1080 session has been asked to keep readings in `research/gpu-local/USAGE.md` on its
   branch, so that a fetch gives them without a message.
+  **Third reading, 12:01 UTC 2026-11-15: weekly all models 0.54, weekly Fable 0.61.** The lead's reckoning for
+  that moment was 0.60 and 0.73, so it ran high again (by 0.06 and 0.12). Pace 06:15 → 12:01 with two to five
+  agents running, two of them Fable for three hours, and the 1080 session idle: weekly 0.024 an hour, Fable 0.029
+  an hour; so a Fable subagent costs the Fable window about 0.02 an hour, not 0.035. **The readings are now in
+  `research/gpu-local/USAGE.md` on the card's branch** (`git fetch origin claude/gpu-local-1080 && git show
+  origin/claude/gpu-local-1080:research/gpu-local/USAGE.md | tail`): read that at every wake-up.
 - **Timers no longer deliver either.** The check-in set with `send_later` for 02:23 UTC on 2026-11-15 fired and
   failed with `ACCESS_DENIED` (seen with `list_triggers`, which still works; ask it for one row, its output is
   long). So since the trust change nothing wakes the lead except a subagent's report, a message from another

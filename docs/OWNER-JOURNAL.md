@@ -84,4 +84,29 @@ What speaks to it (the lead, same day):
   agents, one exception), the clock (its proof was rebuilt by the reviewer and the clock run at 257 units), the
   gate, and the counter, which holds sixteen positions. The clean pulse that escapes ahead of the fire is rarer
   than I said: a few times in a hundred.
+- **The isolation goes one level further down (12:50 UTC; notebook entry "the third signals push"; a review is
+  running, so treat this as provisional).** Your note was about faces and layers that do not hear each other. A
+  third push went looking for the parts a computer would need next (something that emits pulses on its own, a
+  corner, a clock that drives a counter) and found none of them. What it found instead is the same isolation among
+  the *ordered* things. The end of the clock swallows any message sent down its wire, letter by letter, and is
+  exactly as it was afterwards: it cannot be told anything. In a census of several thousand other wire ends, each
+  either swallows everything the same way or disturbs the wire (sends something back, moves, grows or burns); not
+  one stays put and remembers. And the only thing that ever puts a
+  pulse on a wire is a moving object already inside that wire. So far gump's ordered parts can keep time, carry,
+  count and block, but none can speak onto a wire from where it stands, and none listens. Whether that is a law or
+  only the smallness of what was searched is open; the searches were small.
+  *Reviewed since (13:18 UTC; notebook "the third signals push reviewed"):* the proof about the clock's end holds.
+  And the reviewer found the first thing that answers back: a wall between two kinds of wire that, hit by two
+  pulses in a row, moves one step and returns exactly one pulse the way they came (I checked it myself on the
+  reference stepper). It only exists on a closed ring so far, and it moves each time it is used.
+  *And since (16:03 UTC; notebook "the fourth signals push reviewed"):* half of that sentence no longer holds. An
+  ordered thing can speak onto a wire from where it stands. A fourth push found a 15-cell object on the end of a
+  bare wire that puts a moving object on it every four generations and is exactly restored each time (checked on
+  the reference stepper by three separate codes, one of them mine). With a receiver at the other end it is a
+  closed loop that runs for ever at any length, and that is proved. And a second ordered object, one of the
+  catalogue's period-8 clocks standing beside the wire, turns every second passing object into a gap without
+  being changed itself: the first time one ordered part of gump acts on what another has sent. The other half
+  stands: nothing yet listens. Nothing found is left in a different state by a gap than by an object. The reviewer
+  did find that the right single cell on the wire, at the right moment, destroys the clock standing beside it, so
+  the clock is reachable from the wire; reaching it without destroying it is the open question.
 

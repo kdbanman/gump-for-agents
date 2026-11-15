@@ -1,0 +1,4 @@
+lead data, LAW: A=48 measured 9.9251 forecast 9.9337 ± 0.0021 (diff -0.0087); A=57 measured 11.8751 forecast 11.8741 ± 0.0039 (diff +0.0009)
+lead data, HAZ: A=48 measured 9.9251 forecast 9.9252 ± 0.0036 (diff -0.0001); A=57 measured 11.8751 forecast 11.8727 ± 0.0048 (diff +0.0024)
+all  data, LAW: A=48 measured 9.9251 forecast 9.9350 ± 0.0014 (diff -0.0099); A=57 measured 11.8751 forecast 11.8732 ± 0.0024 (diff +0.0019)
+all  data, HAZ: A=48 measured 9.9251 forecast 9.9272 ± 0.0032 (diff -0.0022); A=57 measured 11.8751 forecast 11.8713 ± 0.0033 (diff +0.0037)
