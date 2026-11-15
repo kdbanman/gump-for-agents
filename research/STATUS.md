@@ -136,13 +136,21 @@ _Last updated 2026-11-14 by the lead._
   area and different rim, the width-6 slope. Original brief: is there one asymptotic constant? Joint analysis of every family of lifetimes
   (periodic by width, twisted, hull, symmetric), models stated before fitting, out-of-sample scores, a blind forecast
   for the GPU patch experiment -> `research/constant/`.
+  **Dropped from the queue (01:05 UTC 2026-11-15):** the CPU run of the equilateral tori at A = 57 and 63 described
+  next. The pairs experiment (4) shows irregular differences of 0.007–0.02 between tori of equal area and equal
+  shortest loop at A ≤ 60, the size of the signal that run was to detect (+0.013), so it could not decide between
+  the readings; the decisive point is A = 93 on the GPU. As queued before:
   Queued for when two cores are free (the pairs experiment or the thin line ends): the equilateral tori
   (1,7),(0,19) and (1,4),(0,21), A = 57 and 63, to ± 0.003 on the CPU. The analyst's forecasts for the whole family
   under three readings are committed (`research/constant/PREDICTIONS.md` part C, 6c21dbd); these two points are the
   part of that test a CPU can reach (massive reading: both about +0.013 above the 4×4–5×5 chord; flat: on it;
   rising: below). A = 93, the most decisive point, needs the GPU and the owner's word on the Modal budget.
-  Queued, not started (the five-hour usage window is the binding one until 01:20 UTC): a Fable line on the symmetric
-  collapse (PROGRAM M5: derive 1/6, the −0.196·√A term and the factor 1.5 between centres from the asymmetric law).
+  **Started 01:05 UTC 2026-11-15 (Fable):** a line on the symmetric collapse (PROGRAM M5: derive 1/6, the
+  −0.196·√A term and the factor 1.5 between centres from the asymmetric law; forecasts first; CPU only) ->
+  `research/theory/symmetric/`. Owed on its report: the lead's check of one number, an Opus adversarial review,
+  notebook, CLAIMS. Small open item: the 37 settled states of period 9–52 kept in
+  `research/audit/shape3/zombie_states.txt` have not been identified against the catalogue in `research/clockwork/`
+  (periods 19 and 52 are not among the soup-ash periods of CLAIMS Z5).
   (5) GPU session, asked 21:22 UTC: empty patches on a face too large to die (12×12×8). **Pull request 18 arrived
   21:48 UTC** (head fcb3f39): the two-term fit gives c = 0.264 and fails (χ² 3,369/3), so the lead's forecast as
   stated is missed; cost per cell 0.42 → 0.32 over 12–60 cells, still falling; no hits above 75 cells. Lead's
@@ -164,7 +172,7 @@ _Last updated 2026-11-14 by the lead._
   face) for side 16, which are different quantities. The audit's corrected wordings are in `path/claims.md` (a0508c8; one number
   in P's illustration stays in the journal as written, corrected in the audit). Owed: the same audit for counting and the theory push on the
   constant (Fable, after the owner's reset; Fable was 0.90 at 15:22). (b) the overview page is current to the entry "the shortest way round": refreshed
-  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); pull request 17 (census, audits, draft, prior art, the constant) was merged at 22:18 UTC (merge commit 47af1a6); pull request 19 (the constant, the second variable, lives that settle unrecognised) was merged at 00:59 UTC 2026-11-15 (merge commit 0e3b642); pull requests 18 and 20 were the GPU session's (empty patches; bounds on unrecognised settled replicas), both merged. Later work on the branch goes to a new pull request, opened at the next push. **After the owner's Fable reset** (about 9am their time,
+  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); pull request 17 (census, audits, draft, prior art, the constant) was merged at 22:18 UTC (merge commit 47af1a6); pull request 19 (the constant, the second variable, lives that settle unrecognised) was merged at 00:59 UTC 2026-11-15 (merge commit 0e3b642); pull requests 18 and 20 were the GPU session's (empty patches; bounds on unrecognised settled replicas), both merged. Later work on the branch goes to pull request 21 (opened 01:00 UTC). **After the owner's Fable reset** (about 9am their time,
   probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
   counting and path, and a new theory push on the sharpened problem (the 0.2 per cell from six layers over noise).
 - **Swarm: closed 2026-11-14** (`research/theory/swarm/critic/board.md`, closing table at the top; notebook entry
