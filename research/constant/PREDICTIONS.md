@@ -343,3 +343,10 @@ because all three were anchored on the 4 × 4 torus, which is itself inside the 
 to 0.039 above the flat reading); N1 failed; N4 failed; N3 is open. The forecast now standing for n = 27, 28, 36,
 37 is the card's (its `PREDICTIONS.md`, block 3, committed at 6b2dc2b before those rows existed): 16.913, 17.539,
 22.540, 23.165. The lead adds none.
+
+**Scored at n = 27, 28, 36, 37 (the lead, 2026-11-15 12:05 UTC, from the card's rows at 16271f3, recomputed):**
+ln τ_face = 16.9222 ± 0.0031, 17.5467 ± 0.0031, 22.5600 ± 0.0222, 23.2032 ± 0.0231 at A = 81, 84, 108, 111. N3
+held by its letter (both within 0.02 of the stated intervals, 0.001 and 0.006 below them), though every reading it
+was built on has failed elsewhere. The card's line (16.913, 17.539, 22.540, 23.165) was low at all four, by 3.0,
+2.5, 0.9 and 1.7 of the errors; refitted over 63–111 cells the line is 13.1621 + 0.20867(9)·(A − 63), χ² 7.8 on 5.
+The 81-cell face lies between that old line and the smooth forms' 16.927.

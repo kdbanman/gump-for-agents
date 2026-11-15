@@ -330,6 +330,12 @@ let CI pass, merge.
   listed). Pace 04:41 → 06:15 with two to four Opus agents and the 1080 session on Fable: weekly 0.026 an hour,
   Fable 0.032 an hour. The 1080 session has been asked to keep readings in `research/gpu-local/USAGE.md` on its
   branch, so that a fetch gives them without a message.
+  **Third reading, 12:01 UTC 2026-11-15: weekly all models 0.54, weekly Fable 0.61.** The lead's reckoning for
+  that moment was 0.60 and 0.73, so it ran high again (by 0.06 and 0.12). Pace 06:15 → 12:01 with two to five
+  agents running, two of them Fable for three hours, and the 1080 session idle: weekly 0.024 an hour, Fable 0.029
+  an hour; so a Fable subagent costs the Fable window about 0.02 an hour, not 0.035. **The readings are now in
+  `research/gpu-local/USAGE.md` on the card's branch** (`git fetch origin claude/gpu-local-1080 && git show
+  origin/claude/gpu-local-1080:research/gpu-local/USAGE.md | tail`): read that at every wake-up.
 - **Timers no longer deliver either.** The check-in set with `send_later` for 02:23 UTC on 2026-11-15 fired and
   failed with `ACCESS_DENIED` (seen with `list_triggers`, which still works; ask it for one row, its output is
   long). So since the trust change nothing wakes the lead except a subagent's report, a message from another

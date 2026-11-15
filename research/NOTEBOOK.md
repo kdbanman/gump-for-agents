@@ -2928,3 +2928,46 @@ the study's SAT encoding imports study code; code in `research/audit/signals2/`)
   because it was a stopping clause.
 - Added to the ledger: SG11 (the two proved remarks on wires); section numbers in SG6–SG9; a dated note on CN1.
   Not done: ledger rows for forecast tallies (they are scores, not claims; the forecast files hold them).
+
+## 2026-11-15: nine wrapped faces on the owner's card: one line from 63 to 111 cells, 0.2087 per cell; the 81-cell face lands between the line and the smooth forms (recomputed by the lead; review started)
+
+The card's message of 12:01 UTC (branch `claude/gpu-local-1080` at 16271f3; rows in
+`research/data/gpu_local_eqtorus/` there; its write-up `research/gpu-local/README.md`; its forecasts
+`research/gpu-local/PREDICTIONS.md`, blocks 3 and 4). Four more equilateral wrapped faces, guard on, no guard hits.
+**The lead recomputed all nine from the raw rows** (ln τ = ln(2 · exposure / face deaths), Poisson error, seeds
+pooled; a few lines of python over `git show origin/claude/gpu-local-1080:research/data/gpu_local_eqtorus/eqtorus_*.csv`)
+and every figure in the message is reproduced.
+
+| cells | seeds | face deaths | ln τ_face | seeds' χ² |
+|---|---|---|---|---|
+| 48 | 1 | 7,478,823 | 9.9251 ± 0.0004 | – |
+| 57 | 4 | 6,579,101 | 11.8751 ± 0.0004 | 9.25 on 3 |
+| 63 | 2 | 1,811,510 | 13.1622 ± 0.0007 | 0.07 on 1 |
+| 75 | 2 | 183,954 | 15.6630 ± 0.0023 | 0.39 on 1 |
+| 81 | 2 | 103,883 | 16.9222 ± 0.0031 | 0.53 on 1 |
+| 84 | 2 | 106,629 | 17.5467 ± 0.0031 | 3.05 on 1 |
+| 93 | 4 | 35,521 | 19.4141 ± 0.0053 | 0.70 on 3 |
+| 108 | 4 | 2,032 | 22.5600 ± 0.0222 | 1.43 on 3 |
+| 111 | 4 | 1,875 | 23.2032 ± 0.0231 | 3.60 on 3 |
+
+- **One line fits the seven faces from 63 to 111 cells [measured; one GPU code above 75 cells].** Weighted least
+  squares: ln τ = 13.1621 + 0.20867·(A − 63), slope ± 0.00009, χ² = 7.79 on 5. Residuals in units of the errors:
+  +0.1, −1.4, +1.3, +0.8, −1.5, +0.3, +1.1 at 63, 75, 81, 84, 93, 108, 111: no trend with size, no pattern by
+  lattice that the lead can see. The two small faces fall below it by 0.107 (48 cells) and 0.035 (57 cells).
+- **The forecasts.** The card's line from five faces (0.2084 from 63 cells: 16.913, 17.539, 22.540, 23.165) was
+  low at all four: by 0.0092, 0.0077, 0.020, 0.038 (3.0, 2.5, 0.9, 1.7 of the Poisson errors). The slope moved
+  from 0.20840 ± 0.00014 to 0.20867 ± 0.00009. The 81-cell face, which was to separate the line (16.913) from
+  every smooth form (16.927), **landed between them at 16.922**: 3.0σ above the old line, 1.5σ below the smooth
+  forms. So the kink is not as clean as five faces made it look; whether any smooth form now fits all nine is the
+  first question for the review. Local slopes: 0.2084 ± 0.0002 from 63 to 93 cells, 0.2105 ± 0.0013 from 93 to
+  111, 0.2095 ± 0.0009 from 84 to 111: a rise of 1.2 to 1.6σ toward the top, not established.
+- **The lead's N3** (`research/constant/PREDICTIONS.md`: the faces of 81 and 84 cells within 0.02 of
+  16.923–16.935 and 17.553–17.572) held by its letter (16.9222 and 17.5467), on readings that are all dead.
+- **57 cells:** four seeds now, χ² 9.25 on 3; three agree at 11.8744 (the CPU reviewer's value) and one is 3σ
+  high. Pooled value unchanged at 11.8751 ± 0.0004; the card has not tested the high seed's soup.
+- **The hull face of 108 cells is running** (two seeds of 7 hours, to end about 02:00 UTC on the 16th), with the
+  card's out-of-sample readings written first: one price 0.2087 plus a rim term linear in the rim gives
+  23.273 ± 0.010; a repeating second difference gives 23.338; the old run was 23.376 ± 0.031; its own forecast
+  23.35 ± 0.02. Its hull driver reproduces the 63-cell hull face: 13.6362 ± 0.0013 against 13.635 on file.
+- Not checked: no second code at 81 cells or above; the hull driver has not been read by anyone else; the card's
+  claim that both review lists are closed. A reviewer has all three (`research/audit/REVIEW-gpu-local-tori2.md`).
