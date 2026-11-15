@@ -124,7 +124,19 @@ _Last updated 2026-11-14 by the lead._
   (what starts a collapse: excursion rates and committor by level, single deaths uniform or holes, births or
   deaths first, the same at A = 84; the lead's forecasts A1-D2 in its `PREDICTIONS.md`; figure
   `research/figures/dying_excursions.png`). Owed after both: notebook entry, ledger rows, the essay's "Where I was
-  wrong", an overview plate with the figure. Earlier, **started 02:04 UTC (Opus):** that audit ->
+  wrong", an overview plate with the figure. **Round 2 reported at 04:35 UTC (6d40e72, 3bf2f21, 4b41de0), not yet
+  reviewed or recorded:** ln τ = −ln(ν q) at every level, where ν(p) is the rate of dips of a face's population to
+  the fraction p of its mean and q(p) the fraction of those that end in death; dips to 0.7 are equally frequent in
+  all four groups; the point of no return is at about 2.5 live cells in c1; ln ν is Gaussian down to about half
+  the mean and then falls in a straight line (the lead's recomputation, `python3 research/audit/dying_lead_check.py`:
+  0.499 per live cell lost in c1, 0.436, 0.350, 0.231 with one, two, three tied edges, that is 5.5 + 3.4 per free
+  edge per unit p); births fail before survival; depleted faces are lopsided whether or not they die; adjacent
+  faces share their rim row, so round 1's "neighbour dragged down" is mostly the same cells; ln τ = 3.43 +
+  0.582·P̄²/(2σ_P²) fits the eight lifetimes at A = 63 and 84 within 0.31. Of the lead's round-2 forecasts one of
+  seven held. **Next:** the round-1 reviewer is resumed for round 2 when it reports; then the record. A third round
+  is taking shape (not started): the same ν(p) curves at other sizes, to see whether −ln ν / A is one curve (then
+  the constant is its value at zero and can be read on faces too big to die), and maps of deeply depleted faces
+  (a live clump and a hole?). Earlier, **started 02:04 UTC (Opus):** that audit ->
   `research/AUDIT-2026-11-15.md`; a naturalist identifying the 37 long-period
   settled states of `research/audit/shape3/zombie_states.txt` against the catalogue -> `research/clockwork/`. **The owner reset the Fable
   window at about 20:28 UTC** (0.00 at 20:29; words in `LEAD.md`, "Watching usage"). **Started 20:33 UTC:**
