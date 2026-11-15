@@ -161,3 +161,142 @@ python3 research/dying/figure.py      # research/figures/dying_face.png
 
 (The graph files are written by `python3 research/theory/symmetric/run.py run oct_11_c_G …` or
 `geom.py write oct_11_c_G FILE`.)
+
+# Round 2: excursions, single deaths, births or deaths, A = 84 (2026-11-15)
+
+Forecasts and definitions: `PREDICTIONS.md`, "Round 2" (committed 6d40e72 before any round-2 run). Fresh seeds
+throughout. Figure: `research/figures/dying_excursions.png`. Tables: `data/r2_excursions.csv`, `data/r2_runup.csv`,
+`data/r2_stationary.csv`. Commands at the end of this section.
+
+## Short answer
+
+- **[measured] Ties change how deep a dip goes, not how often a dip starts, and the deciding passage is very late.**
+  Excursions to 0.7 P̄ happen at nearly the same rate in all four groups (ln ν = −4.16, −3.80, −3.77, −3.74 per face
+  per generation for c1, csz, c2v, D2h). The groups separate only below about 0.6 P̄. A face that has reached half its
+  stationary population almost always recovers (q(0.5) = 0.0008 in c1, 0.107 in D2h). The point of no return
+  (q = 1/2) is at p* = 0.08 P̄ in c1, i.e. about 2.5 live cells, and 0.12, 0.15, 0.25 P̄ for csz, c2v, D2h.
+- **[measured] The survivors at the start of the plunge are clumped, but so are those of any depleted face.** Their
+  centroid sits 1.61× (c1) and 1.76× (D2h) further from the face centre than for a stationary face thinned at random
+  to the same count. Stationary faces whose population is low by chance (P ≤ 0.6 P̄) show the same ratio: 1.59 ± 0.04
+  (c1), 1.51 ± 0.06 (D2h; `round2_lowp.py`, added afterwards). So a depleted face is lopsided whether or not it then
+  dies. The mean maps of round 1 hide this, but it is not a mark of dying.
+- **[measured] Births fail first.** On the dying face, births per empty cell are already 10% below stationary at lag
+  16 (c1) while survival is 2% below. By lag 8 births are at 0.45 and survival at 0.88. Survival collapses only in
+  the last 5 generations. With more tied edges the birth deficit starts earlier: D2h is at 0.93 already at lag 40.
+- **[measured] At A = 84 a two-parameter function of the stationary state fits all eight lifetimes within 0.31.**
+  The fit is ln τ = 3.43 + 0.582·P̄²/(2σ_P²). That is a fit with two free constants, not a derivation.
+
+**The answer about shared cells.** Yes. In these face definitions adjacent faces share their common rim row: the 10
+non-apex cells with a = 0 (and the two apexes at its ends) are the *same cells* in both faces. The neighbour's
+"band on the shared edge" (16 cells) therefore contains 10 of the dying face's own cells, which are empty at lag 0
+by definition. Round 1's "the neighbour is dragged down" mostly restates that:
+- the c1 neighbour loses 0.229 × 31.29 = 7.2 cells by lag 0, of which the shared row and its apexes account for
+  about 5.5 (stationary 10 × 0.513 + 2 × 0.17);
+- the neighbour's own cells next to the edge (its row 2) are at 0.62 of stationary at lag 0 and 0.77 at lag 8
+  (`data/neighbour_c1.csv`), a real but modest drag;
+- away from the edge the neighbour is about 1.7 cells down.
+
+## What each number rests on
+
+- `ex.c` (copy of `sy.c` plus a bit-sliced count of each face orbit's population every generation and an online
+  excursion table) gave lives files byte-identical to `sy`'s for all four runs. Its time-averaged P over the
+  exposure, 31.25 ± ~0.03 (c1), matches round 1's null 31.29, which was counted by independent Python code. Its face
+  death rates give ln τ_face = 13.632 ± 0.013, 11.454 ± 0.011, 9.274 ± 0.008, 7.168 ± 0.003, which agree with the
+  symmetric study's 13.634, 11.456, 9.291, 7.168.
+- ν·q equals the death rate at every level by construction (every death ends an excursion). The check returns 1.000
+  for c1 at every level. Where it departs from 1, the departure is the censored share: up to 12.5% of excursions in
+  D2h at p = 0.2, mostly lives that settle at low P. 27% of D2h exposure is in lives that end settled, and those are
+  inside ν; they are not removed.
+- B and C use new `sd.c` histories (seeds 21/22). Their lives files are byte-identical to `sy`'s, and they pass the
+  same internal death-time checks as round 1 (`load.py`). These histories were not stepped by the engine again;
+  they rest on the round-1 engine check of the same code.
+- D uses `sd.c` null samples at R = 13 (seed 31, 200,000 generations). The ln τ values at A = 84 are the symmetric
+  study's, and c1's (18.141) is the GPU's, with a different protocol (soup 0.35).
+
+## Forecasts, scored
+
+| | said | found [measured] | |
+|---|---|---|---|
+| A1 | c1 q = 1/2 at 0.25–0.5 P̄ | p* = 0.079 (q(0.1) = 0.300 ± 0.003, q(0.05) ≈ 0.8) | **failed** |
+| A2 | c1 ln ν Gaussian within 1.0 to 0.6 P̄ | residuals −0.15, −0.43, −0.27 at 0.8, 0.7, 0.6 (then +0.08, +0.65, +1.50, +2.65, +4.15 at 0.5…0.1: fatter tail below 0.45) | **held** |
+| A3 | at 0.5 P̄: q within ×3, ν differs by > e^4 | q c1/D2h = 0.008 (ln −4.88); ln ν D2h − c1 = 1.59 | **failed** both parts: at this level the ladder is mostly in q |
+| B1 | concentration within 15% of stationary (c1, D2h) | S ratio 1.611 ± 0.014 (c1), 1.758 ± 0.015 (D2h); live-live adjacency 1.74, 1.82 | **failed**; but naturally low-P stationary faces give 1.59, 1.51 (not forecast) |
+| C1 | at t_8: births ≤ 0.70, survival ≥ 0.85 of stationary (c1) | births 0.377 ± 0.004, survival 0.639 ± 0.004 (t_8 is a median 8 generations before death) | **failed** (survival clause); births do fail first (lag 16: 0.90 vs 0.98; lag 8: 0.45 vs 0.88) |
+| D1 | A = 84 steps each 2.8–3.1 cells; Δln τ/ΔP̄ each 0.76–0.96 | steps 2.68, 2.95, 3.38 (± ~0.13); per cell 0.983, 0.898, 0.838 | **failed** |
+| D2 | no function of (P̄, σ_P) fits all eight within 0.5 | a + b·P̄²/(2σ²): max residual 0.31; a + bP̄ + cσ: 0.52 | **failed** (the first fit stays within 0.5) |
+| K5 (mine) | c1 p* in 0.4–0.7 | 0.079 | **failed** |
+| K6 (mine) | A2 fails, ν above the Gaussian at 0.6 | −0.27 (below, within 1) | **failed** |
+| K7 (mine) | B1 fails in c1 (> 1.15) | 1.61 | held, but not for the reason given (see low-P control) |
+| K8 (mine) | A3 holds both parts | failed both | **failed** |
+
+## Numbers [measured]
+
+ln ν(p) per face orbit per generation and q(p) (Poisson/binomial errors under 0.01 in ln ν; q errors in the csv):
+
+| p | c1 ln ν, q | csz | c2v | D2h |
+|---|---|---|---|---|
+| 0.9 | −2.31, 1.0e−5 | −2.53, 9e−5 | −2.62, 1.3e−3 | −2.64, 0.011 |
+| 0.7 | −4.16, 8e−5 | −3.80, 5e−4 | −3.77, 4.1e−3 | −3.74, 0.032 |
+| 0.5 | −6.51, 8.1e−4 | −5.82, 3.6e−3 | −5.18, 0.017 | −4.92, 0.107 |
+| 0.3 | −9.37, 0.014 | −8.31, 0.043 | −7.21, 0.128 | −5.89, 0.298 |
+| 0.1 | −12.43, 0.300 | −10.95, 0.607 | −8.95, 0.726 | −7.05, 0.892 |
+| ln τ_face = −ln(ν q) | 13.632 | 11.454 | 9.274 | 7.168 |
+
+Split of the ladder by level: from c1 to D2h ln τ falls by 6.46. At p = 0.5 that is 1.59 in ν and 4.88 in q; at
+p = 0.3, 3.48 and 3.07; at p = 0.1, 5.38 and 1.09. Where the ladder "is" depends on the level chosen. What does not
+depend on it: the rates of shallow dips (to 0.7 P̄) are equal across the groups within 0.4, and the groups part in
+the passage from about 0.6 P̄ down to a few cells.
+
+Stationary state (A = 63 from round 1's null; A = 84 new):
+
+| | c1 | csz | c2v | D2h |
+|---|---|---|---|---|
+| A = 84: P̄ | 42.49 ± 0.09 | 39.81 ± 0.09 | 36.86 ± 0.10 | 33.48 ± 0.12 |
+| A = 84: σ_P | 5.96 | 6.18 | 6.50 | 7.05 |
+| A = 63: P̄, σ_P | 31.29, 5.24 | 28.83, 5.56 | 26.29, 5.96 | 23.77, 6.37 |
+
+Births and survival on the dying face over stationary (pooled; stationary from lags 256–500 of the same
+histories: births per empty cell 0.321, 0.288, 0.253, 0.220; survival 0.674, 0.661, 0.647, 0.632 for c1…D2h):
+
+| | at t_8 (median lag 8, 8, 10, 12) | at t_h | lag 16 | lag 8 | lag 4 |
+|---|---|---|---|---|---|
+| c1 | 0.377 / 0.639 | 0.177 / 0.539 | 0.903 / 0.983 | 0.454 / 0.877 | 0.132 / 0.625 |
+| csz | 0.411 / 0.652 | 0.201 / 0.552 | 0.837 / 0.983 | 0.436 / 0.884 | 0.148 / 0.636 |
+| c2v | 0.453 / 0.683 | 0.229 / 0.592 | 0.746 / 0.990 | 0.391 / 0.893 | 0.158 / 0.653 |
+| D2h | 0.468 / 0.709 | 0.233 / 0.624 | 0.617 / 0.980 | 0.360 / 0.928 | 0.169 / 0.700 |
+
+(Births are a deterministic function of the neighbour count, so a birth deficit says the empty cells' neighbourhoods
+thinned first, including the layer beneath the face, which round 1 saw dip with it.)
+
+## What the excursion picture says about what starts a collapse
+
+Nothing special starts it. The face makes dips of all depths all the time. Those to 0.7 P̄ are about equally
+frequent whatever the symmetry, about once per 60 generations per face. A death is a dip that keeps going, and in c1
+it is decided only when two or three live cells are left. Ties make the descent easier at every level below about
+0.6 P̄: the q curves of the four groups are roughly parallel on a log scale from 0.9 to 0.4 P̄ (panel B), offset by
+about 1.5–2 in ln q per tied edge. A tied face is easier to push down at every step of the way. It is not a face
+that starts collapses more often, and not one with a different collapse once started. The survivors of a deep dip
+are clumped, as in any depleted face; whether the clump's position matters was not examined.
+**[conjectured]** The births-first run-up and the equal shallow-dip rates fit a picture in which the rim deficit of a
+tied face (round 1) costs it support only once the face is already thin.
+
+## Not checked (round 2)
+
+- One protocol (soup 0.4, T0 = 512). Settled D2h lives are inside ν, as they are inside the study's ln τ.
+- B's comparison is uniform thinning. The low-P stationary control (added afterwards, `round2_lowp.py`) is the
+  fairer one; it was not used to decide B1. Whether the position of the clump (rim or centre, tied edge or free)
+  predicts recovery was not measured.
+- C: a per-neighbour-count breakdown was not made. Neither was a measurement of whether the layer beneath falls
+  before the face's own births do.
+- D: one seed per group at A = 84, no engine check of those runs beyond the shared code. The D2 fit has two free
+  constants on eight points. c1 at A = 84 uses the GPU's ln τ (another protocol). No other size.
+- The excursion tables count per face orbit; for csz and c2v that is per pair or quadruple of faces in lockstep, as
+  in the study's nf.
+
+## Reproduce (round 2)
+
+```sh
+bash research/dying/round2.sh 1 & bash research/dying/round2.sh 2 & wait   # builds ex, sd; runs; checks lives files against sy (~10 min, 2 cores)
+python3 research/dying/round2.py        # A-D tables, data/r2_*.csv, research/figures/dying_excursions.png (~2 min)
+python3 research/dying/round2_lowp.py   # the low-P stationary control for B (added after the forecasts)
+```
