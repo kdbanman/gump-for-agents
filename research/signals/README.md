@@ -628,12 +628,19 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
   51, 55 (period 4) and T = 12 to 24 at C = 47, 51 (period 6), up to 91 s each. **But with no cap condition at all**
   (`--zp 0`: any state whatever on units ≥ 10 at generation 0, not periodic) k = 2 turns exist (T = 16 and 20 at
   C = 47, SAT in seconds). So the class is forced by the cap's being periodic, not by the rake and the tape alone.
-  So **within these bounds the turn class is forced, and no clock of this kind has period ≡ 0 mod 4.** What this
-  does not cover: caps of period 8 or more or of odd multiples beyond 6, caps reaching outside the 3 × 3 tube, turns in
+  So **within these bounds (the 3 × 3 tube) the turn class is forced, and no clock of this kind has period ≡ 0 mod
+  4.**
+- **[found by SAT, re-stepped with sg.step_set] In the 5 × 5 tube the other class exists.** `python3 sat_turn.py 16
+  47 --KS 10 --lo -1 --hi 7` (150 s; T = 8, 12 UNSAT there): a period-2 right cap of 43 cells, reaching outside the
+  3 × 3 tube (`objects/turn-k2-cap-5x5.json`), turns a lone rake with **k = 2** (re-stepped by `turnclass.right_turn`:
+  k = 2). Put opposite capL of the clock it is not enough: for N = 3..12 the lit object settles (period 1 or 2), the
+  cap does not survive the trains or the turn. `python3 k2caps.py T C` enumerates such caps and tries each in a
+  clock (section 19 says what it found). So the 3 × 3 tube was the obstruction to a period-4N clock, not the rake.
+  What the 3 × 3 negative does not cover: caps of period 8 or more or of odd multiples beyond 6, turns in
   which the rake's tape in front of the mirror rake is altered by more than the last two positions (the guard),
   turns slower than T = 28 to 32, clocks whose shuttling object is not this rake. No reason for the forced class is
-  known: it is a regularity of periodic caps (period 2, 4, 6 tested), not yet a theorem. [conjectured] Every periodic
-  right cap of wire C that turns the rake does so with k = 0, so every shuttle clock of wire C has period ≡ 2 mod 4.
+  known: it is a regularity of periodic caps inside the 3 × 3 tube (period 2, 4, 6 tested), not a theorem, and it
+  fails one size up (above).
 
 ## 19. Third push: not done, not checked, and where to go next
 
