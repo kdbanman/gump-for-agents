@@ -1,0 +1,29 @@
+/home/user/gump-for-agents/research/scratch/audit_ss/ent64k.npz 64000 snapshots; density by layer top..bottom 0.5178 0.4346 0.4057 0.4158 0.4157 0.4057 0.4347 0.5177
+/home/user/gump-for-agents/research/scratch/audit_ss/ent64k.npz: 64000 snapshots, layers [7]; bits per cell (MM full / MM half)
+density t7:0.5178 | coin h2 t7:0.9991
+K= 0 all 0.9991/0.9991  by layer t7:0.9991
+K= 2 all 0.9938/0.9938  by layer t7:0.9938
+K= 4 all 0.9915/0.9915  by layer t7:0.9915
+K= 6 all 0.9886/0.9886  by layer t7:0.9886
+K= 8 all 0.9873/0.9872  by layer t7:0.9873
+K=10 all 0.9867/0.9867  by layer t7:0.9867
+K=12 all 0.9865/0.9865  by layer t7:0.9865
+K=14 all 0.9864/0.9864  by layer t7:0.9864
+K=16 all 0.9862/0.9862  by layer t7:0.9862
+K=18 all 0.9860/0.9856  by layer t7:0.9860
+K=20 all 0.9828/0.9643  by layer t7:0.9828
+/home/user/gump-for-agents/research/scratch/audit_ss/ent64k.npz: 64000 snapshots, layers [0, 1, 2, 3, 4, 5, 6, 7]; bits per cell (MM full / MM half)
+density t7:0.5178 t6:0.4346 t5:0.4057 t4:0.4158 t3:0.4157 t2:0.4057 t1:0.4347 t0:0.5177 | coin h2 t7:0.9991 t6:0.9876 t5:0.9742 t4:0.9794 t3:0.9794 t2:0.9742 t1:0.9877 t0:0.9991
+K= 0 all 0.9851/0.9851  by layer t7:0.9991 t6:0.9876 t5:0.9742 t4:0.9794 t3:0.9794 t2:0.9742 t1:0.9877 t0:0.9991
+K= 2 all 0.9832/0.9831  by layer t7:0.9938 t6:0.9846 t5:0.9731 t4:0.9787 t3:0.9786 t2:0.9734 t1:0.9867 t0:0.9963
+K= 4 all 0.9797/0.9797  by layer t7:0.9915 t6:0.9801 t5:0.9699 t4:0.9757 t3:0.9757 t2:0.9705 t1:0.9829 t0:0.9909
+K= 6 all 0.9757/0.9757  by layer t7:0.9886 t6:0.9754 t5:0.9663 t4:0.9723 t3:0.9725 t2:0.9671 t1:0.9792 t0:0.9846
+K= 8 all 0.9726/0.9726  by layer t7:0.9873 t6:0.9719 t5:0.9626 t4:0.9688 t3:0.9695 t2:0.9640 t1:0.9755 t0:0.9810
+K=10 all 0.9681/0.9681  by layer t7:0.9867 t6:0.9676 t5:0.9570 t4:0.9636 t3:0.9647 t2:0.9590 t1:0.9701 t0:0.9762
+K=12 all 0.9649/0.9648  by layer t7:0.9865 t6:0.9639 t5:0.9531 t4:0.9602 t3:0.9613 t2:0.9555 t1:0.9661 t0:0.9724
+K=14 all 0.9620/0.9620  by layer t7:0.9864 t6:0.9620 t5:0.9497 t4:0.9572 t3:0.9584 t2:0.9524 t1:0.9625 t0:0.9676
+K=16 all 0.9602/0.9601  by layer t7:0.9862 t6:0.9599 t5:0.9474 t4:0.9553 t3:0.9566 t2:0.9505 t1:0.9604 t0:0.9652
+K=18 all 0.9585/0.9579  by layer t7:0.9860 t6:0.9588 t5:0.9454 t4:0.9537 t3:0.9550 t2:0.9488 t1:0.9584 t0:0.9618
+K=20 all 0.9528/0.9291  by layer t7:0.9828 t6:0.9536 t5:0.9390 t4:0.9477 t3:0.9489 t2:0.9425 t1:0.9524 t0:0.9557
+lzma top layer: 1.0004 bits per cell (2000 snapshots)
+lzma whole slab: 1.0001 bits per cell (2000 snapshots)

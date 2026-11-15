@@ -3,7 +3,10 @@
 research/statespace/data/vessels.jsonl, statistic by statistic.   compare.py NAME [NAME...]"""
 import json, sys
 ROOT = '/home/user/gump-for-agents'
+import os
 S = ROOT + '/research/scratch/audit_ss/'
+if not os.path.exists(S + 'slab_3_1_1_3.out'):
+    S = ROOT + '/research/audit/statespace/out/'      # the committed copies
 rows = {json.loads(l)['name']: json.loads(l) for l in open(ROOT + '/research/statespace/data/vessels.jsonl')}
 
 
