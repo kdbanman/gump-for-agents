@@ -125,3 +125,24 @@ T_d − O_h = 2.33 + 0.5·((R−1)/4 − 6.5) cube-centred, 2.36 + 0.5·(R/4 −
 values 10.984 (R = 31), 11.406 (R = 32) and the earlier 12.473 (R = 33):
 
     ln τ_face(oct_31_c_td) = 13.81 ± 0.15      ln τ_face(oct_32_v_td) = 14.27 ± 0.15      ln τ_face(oct_33_c_td) = 15.55 ± 0.20
+
+## Block 3 — committed 2026-11-15 01:46 UTC, before every run of `batch3.sh`
+
+**R1 (a wedge with no rim).** `hex_N_0_c3v`: threefold axis and mirrors imposed on a slab torus; the quotient is an
+equilateral triangle of N²/2 cells bounded by three diagonal mirror lines (N mirror cells), with no hull rim.
+Block 1 found that mirrors and threefold centres raise a slab face's life above the asymmetric torus of equal
+quotient area (by 0.4 to 1.9 and by 0.5 to 0.7). Forecast: ln τ_face = ref(N²/2) + 1.2 ± 0.7 with
+ref(n) = 9.935 + 0.2086·(n − 48): **7.8 (N = 8), 11.55 (N = 10), 16.1 (N = 12), each ± 0.7**, and the triangle
+outlives the T_d wedge of equal quotient area (8.02 + 0.196·(n − 39), from this study's cube-centred T_d values):
+at N = 10 by 1.4 ± 0.7. Slope from N = 8 to 12: 0.19–0.22 per quotient cell.
+
+**R2 (rims add, second size).** A = 84, cube-centred, with c1 = 18.141 (GPU) and d2h = 10.022 (block 2):
+ln τ_face(oct_13_c_csz) = 15.43 ± 0.12, ln τ_face(oct_13_c_c2v) = 12.73 ± 0.12.
+
+**R3 (the marginal rim cost stays 0.5 per period).** ln τ_face(oct_17_c_d2h) (A = 135) = 29.34 − 3·3.70 =
+18.24 ± 0.4 (the asymmetric value 29.34 ± 0.25 is the GPU's).
+
+**R4 (without symmetry the centring is an object of fixed size).** Asymmetric soups, v − c at equal area:
+0.72 ± 0.12 at A = 30 (R = 8, 7) and 0.66 ± 0.10 at A = 84 (R = 14 against the GPU's 18.141 at R = 13), i.e.
+ln τ_face(oct_14_v_c1) = 18.80 ± 0.10. A line term of the size seen in D2h and O_h faces (0.119·√A for a whole
+face) would give 1.09 at A = 84.
