@@ -1198,8 +1198,8 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   `python3 divgap.py 16` (45 s): C8.24a in each phase 0..7 at each shift −20..+5 from its stored place beside the
   line N = 16 (shifts with the oscillator between unit 3 and the gun), started from bare wire as in
   `verify_divider.py`: **71 placements stand** (the oscillator equal to its free orbit at every generation to
-  2N + 100, the gun of period 4): at shifts −9..+2 the four odd phases (nothing happens to the stream) and the one
-  even phase that divides, plus some others at shifts 2, 3, 5. Each was sent every one-cell gap: the cell hole_start
+  2N + 100, the gun of period 4): at each shift −9..+1 the four odd phases (nothing happens to the stream) and the
+  one even phase that divides; at +2 four odd and two even; at +3 two odd; at +5 (past the gun) all eight. Each was sent every one-cell gap: the cell hole_start
   removed at each of the four odd generations of a period (2N + 41..2N + 47) at each unit from the oscillator's
   lowest unit minus one to N − 1 where it is live: **1,034 gap runs, 1,021 heal exactly** (all 550 upstream of the
   oscillator included), **13 destroy the oscillator** (all at units beside or below it: the fuse of the fourth review,
