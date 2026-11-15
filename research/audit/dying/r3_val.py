@@ -18,7 +18,7 @@ SCR = os.path.join(ROOT, 'research', 'scratch', 'audit_dying', 'r3'); EX = os.pa
 os.makedirs(SCR, exist_ok=True)
 subprocess.run(['gcc', '-O3', '-march=native', '-o', EX, os.path.join(HERE, 'r3_ex.c')], check=True)
 subprocess.run(['gcc', '-O3', '-march=native', '-o', ST, os.path.join(ROOT, 'research', 'audit', 'symmetric', 'st.c')], check=True)
-out = open(os.path.join(HERE, 'r3_val_out.txt'), 'w')
+out = open(os.path.join(HERE, 'r3_val_out.txt'), 'a' if sys.argv[1:] else 'w')
 
 
 def say(s):
@@ -29,6 +29,8 @@ def graph(name):
     gf = os.path.join(SCR, f'g_{name}.txt')
     if name == 'slab21':
         S, nb, orb = r3_geo.build(); geo.write(S, nb, orb, gf, [[0], [1]])
+    elif name == 'slab44':
+        S, nb, orb = r3_geo.build((8, 0, -8), (0, 8, -8)); geo.write(S, nb, orb, gf, [[0], [1]])
     else:
         sysname, gname = name.split('_'); S, nb, orb, gens = geo.build(sysname, gname); _, fg = geo.summary(S, nb, orb, gens, gname)
         geo.write(S, nb, orb, gf, fg)
@@ -36,12 +38,14 @@ def graph(name):
 
 
 ok = True
-for name, G in [('v9c_c1', 600), ('v11c_c1', 600), ('v13c_c1', 600), ('v15c_c1', 400), ('v11c_csz', 600), ('slab21', 600)]:
+ONLY = sys.argv[1:]          # optional subset (the 4x4 calibration torus slab44 was added after the first runs)
+for name, G in [('v9c_c1', 600), ('v11c_c1', 600), ('v13c_c1', 600), ('v15c_c1', 400), ('v11c_csz', 600), ('slab21', 600), ('slab44', 600)]:
+    if ONLY and name not in ONLY: continue
     S, gf = graph(name)
     tr = subprocess.run([EX, gf, 'trace', '77', '0.4', str(G + 1)], capture_output=True, text=True, check=True).stdout.splitlines()
     sets = [set(map(int, l.split()[1:])) for l in tr]
-    if name == 'slab21':
-        H = 42; off = 0
+    if name.startswith('slab'):
+        H = 42 if name == 'slab21' else 24; off = 0
         m = oracle.masks(H); h = np.zeros((H, H, H), np.int8)
         alls = np.argwhere(m[0] | m[1] | m[2]); rep = {}
         for q in alls:

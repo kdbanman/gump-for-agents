@@ -34,3 +34,11 @@ elif [ "$1" = 2 ]; then
   x v15c_c1 9414 6000000 55.14 -1 100000000; x v11c_csz 9415 1600000 28.83 8 512; x slab21 9416 4000000 32.57 9 1024
   x v17c_c1 9417 1500000 69.49 -1 100000000
 fi
+# Part 3 (added after parts 1-2 had run, before its own run): the slab's lifetime came out 13.180 +- 0.016, above
+# both part-C forecasts (13.115, 13.128) and the study's 13.13 +- 0.04. A second seed of the same torus, and the
+# 4x4 equilateral torus (A = 48; GPU-measured 9.9324 +- 0.0020, the anchor of those forecasts) as a protocol check.
+if [ "$1" = 3 ]; then
+  python3 /home/user/gump-for-agents/research/audit/dying/r3_geo.py write44 g_slab44.txt
+  x() { b=x_$1_s$2; ./r3_ex g_$1.txt run $2 0.4 $3 $b.lives /dev/null /dev/null 100000000 /dev/null 0 1 512 $4 $b.x -1 /dev/null > $b.json; }
+  x slab21 9418 4000000 32.57; x slab44 9419 1000000 25
+fi
