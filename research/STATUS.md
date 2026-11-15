@@ -139,6 +139,16 @@ _Last updated 2026-11-14 by the lead._
   started 10:28 UTC (Opus)** -> `research/audit/REVIEW-signals-2.md`, `research/audit/signals2/` (the two proofs
   first). A third push (the tape as a shift register; wide pulses; a period 0 mod 4; a corner) waits for a usage
   reading or for the first review to finish.
+  **State-space review in and recorded 10:48 UTC** (notebook "the state-space study reviewed"; SS1–SS3 regraded:
+  A on seventeen vessels, B for the cubes 8–15 and the entropy): counts stand; the ranges, "linear not
+  exponential", the share and the random-map yardstick corrected; **one layer of the chaos is within about 1% of
+  coin flips, the slab at least 2.7% short** (the number behind "coins will do"; written under the owner's
+  journal note and into the essay). The study's author is applying the review's seven README corrections.
+  **Overview editor started 10:31 UTC (Opus)**: plates for signals (live pulse, clock, gate, with a node check of
+  the page's stepper), the state-space answer, dying rounds 3–4, the five tori; the lead publishes after reading
+  it. **Third signals push started 10:50 UTC (Opus, since no usage reading has come since 06:15)**: a machine made
+  of parts (a periodic emitter, a clock driving a counter, a corner); the lead's forecasts S11–S15 are in
+  `research/signals/PREDICTIONS.md`. Essay updated (signals section, the five tori, the state-space answer).
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
