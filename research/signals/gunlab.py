@@ -1,0 +1,98 @@
+#!/usr/bin/env python3
+"""Measurements on the rake gun, the beam and the line (sg.step_set only; the oracle's verdicts are verify_gun.py,
+verify_beam.py, verify_line.py).
+
+    python3 gunlab.py start     the gun's four phases set against bare wire C: which start emitting
+    python3 gunlab.py capL      capL of clock-C + N units + gun, N = 1..20: the final cycle
+    python3 gunlab.py mirror    the mirror image: a left end that emits rakes (kymograph)
+    python3 gunlab.py words     beam-5f, N = 40: sets of rakes removed (random words): which heal
+    python3 gunlab.py off       the left end of beam-5f against bare wire: its stationary state, and every one-cell flip
+    python3 gunlab.py split     a rake against the two-unit object `a7` in wire C (kymograph)
+"""
+import json, random, sys
+from collections import Counter
+import sg, scat, sat_gun as G, turnclass as tc
+from clocks import period
+tr = scat.tr; unit = scat.unit
+J = lambda n: json.load(open(sg.os.path.join(sg.HERE, 'objects', n)))
+gj, ck, bm = J('gun-5f.json'), J('clock-C.json'), J('beam-5f.json')
+T = lambda ob, k: [tuple(c) for c in ob[k]]
+gun, un, capL, capR = T(gj, 'gun'), T(gj, 'unit'), T(ck, 'capL'), T(ck, 'capR')
+left, b, R = T(bm, 'left'), [T(bm, 'b0'), T(bm, 'b1')], [T(bm, 'R_even'), T(bm, 'R_odd')]
+wire = lambda a, z: frozenset(tr(c, k) for c in un for k in range(a, z))
+
+
+def beam(N):
+    s = set(left) | {tr(c, N) for c in R[N % 2]}
+    for k in range(N):
+        s |= {tr(c, k) for c in b[k % 2]}
+    return frozenset(s)
+
+
+cmd = sys.argv[1] if len(sys.argv) > 1 else 'start'
+if cmd == 'start':
+    pat, _ = G.train([5, 0xf])
+    x = G.train_cells(pat, 0, -60, 0) | frozenset(gun)
+    odd = sg.step_set(wire(-90, 4))
+    for ph in range(4):
+        g = frozenset(c for c in x if unit(c) >= 0)
+        y = g | (wire(-80, 0) if ph % 2 == 0 else frozenset(c for c in odd if -80 <= unit(c) < 0))
+        rows = []
+        for t in range(0, 25):
+            if (t + ph) % 2 == 0:
+                rows.append(tc.dec(y, -14, 4))
+            y = sg.step_set(y)
+        print(f'gun at phase {ph} ({len(g)} cells) on bare wire C, even generations: {rows[0]} -> {rows[-1]}  {"EMITS" if "5f5f5f" in rows[-1] else "does not emit"}')
+        x = sg.step_set(x)
+elif cmd == 'capL':
+    for N in range(1, 21):
+        cells = set(capL) | set(wire(0, N)) | {tr(c, N) for c in gun}
+        p, t0 = period(cells, 3000)
+        print(f'capL + {N} units + gun: period {p} from generation {t0}')
+elif cmd == 'mirror':
+    M = lambda c: (c[2] - 4, c[1], c[0] + 4)
+    y = sg.step_set(frozenset(M(c) for c in wire(-60, 0) | frozenset(gun)))
+    for t in range(0, 22, 2):
+        print('%3d' % t, tc.dec(y, -8, 24)); y = sg.step_set(sg.step_set(y))
+elif cmd == 'words':
+    N = 40; o1 = sg.step_set(beam(N))
+    rakes = [k for k in range(N) if tr((1, 0, 4), k) in o1]
+    def heals(rm):
+        x = o1 - {tr((1, 0, 4), rakes[i]) for i in rm}; y = o1
+        for t in range(0, 300, 2):
+            if x == y:
+                return t
+            x = sg.step_set(sg.step_set(x)); y = sg.step_set(sg.step_set(y))
+        return None
+    random.seed(5); res = Counter()
+    for _ in range(200):
+        rm = [i for i in range(len(rakes)) if random.random() < 0.5]
+        res[('first rake removed' if 0 in rm else 'first rake kept', 'healed' if heals(rm) is not None else 'NOT healed')] += 1
+    print(f'beam-5f N={N}, {len(rakes)} rakes; 200 random sets of removed rakes (each rake with probability 1/2):', dict(res))
+    print('all rakes but the first removed:', 'healed after %s generations' % heals(list(range(1, len(rakes)))))
+elif cmd == 'off':
+    N = 40
+    odd = sg.step_set(wire(-4, N + 4) | frozenset(tr(c, N + 4) for c in capR))
+    x = frozenset(left) | frozenset(c for c in odd if 0 <= unit(c))
+    x = frozenset(c for c in x if unit(c) < N + 4 + 8)
+    for _ in range(9):
+        x = sg.step_set(x)
+    assert sg.step_set(sg.step_set(x)) == x
+    print('left end of beam-5f + bare wire + capR: stationary from generation 4; even generation:', tc.dec(x, -5, 12))
+    print('   the cap (units < 0):', sorted(c for c in x if unit(c) < 0))
+    cand = set()
+    for c in x:
+        if unit(c) < 8:
+            cand.add(c); cand.update(q for q in sg.nbrs(c) if unit(q) < 8)
+    res = Counter()
+    for q in sorted(cand):
+        z = x ^ {q}
+        for _ in range(40):
+            z = sg.step_set(z)
+        d = tc.dec(z, -5, 26)
+        res['unchanged' if d == tc.dec(x, -5, 26) else ('rake train (gun lit)' if 'bfbfbf' in d or 'fbfbfb' in d else 'something else')] += 1
+    print(f'   {len(cand)} one-cell flips (cells of units < 8 and their neighbours), 40 generations:', dict(res))
+elif cmd == 'split':
+    x = (wire(-60, 0) | frozenset(tc.uc(0xa, 0)) | frozenset(tc.uc(0x7, 1)) | wire(2, 60)) ^ frozenset(tc.uc(0xb, -1)) ^ frozenset(tc.uc(0xf, -1))
+    for t in range(0, 26, 2):
+        print('%3d' % t, tc.dec(x, -14, 20)); x = sg.step_set(sg.step_set(x))

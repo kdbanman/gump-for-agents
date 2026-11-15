@@ -5,7 +5,8 @@ argument, an exhaustive search inside stated bounds, or a construction the oracl
 (counts, with the command), **[conjectured]**. Commands run from `research/signals/`; bulk output goes to
 `research/scratch/signals/` (git-ignored). Forecasts and their scores: `PREDICTIONS.md`.
 Sections 1 to 7: the first push (does anything carry a signal). Sections 8 to 14: the second push (machinery made of
-carriers), brought up to date 2026-11-15 10:40 UTC.
+carriers), brought up to date 2026-11-15 10:40 UTC. Sections 15 to 19: the third push (corrected from its review,
+`research/audit/REVIEW-signals-3.md`). Sections 20 to 25: the fourth push (a standing emitter; 2026-11-15 14:00 UTC).
 
 ## Answer: yes. L1, L2 and L3 are reached, each with the oracle as judge; and (second push) a carrier has been turned into a clock, a register and a gate
 
@@ -27,6 +28,10 @@ carriers), brought up to date 2026-11-15 10:40 UTC.
 | second push | **tape**: wire B and wire C are two letters of one medium: EVERY sequence of B units and C units moves rigidly towards −v, one unit per 2 generations (a ring holding all 32 windows of 5 units; with the light cone, a proof for all sequences) | `python3 verify_pulse.py objects/tape-BC.json`; `python3 verify_wall.py` | 3 s; 12 s |
 | second push | two more pulses of wire C that reach outside its 3 × 3 tube, first seen coming out of chaos | `python3 verify_pulse.py objects/pulse-C-wide.json`, `... objects/pulse-C-wide-left.json` | 3 s |
 | third push | **reader**: capL of the clock eats EVERY word of the B/C tape and remembers nothing: at every even generation the state is capL and the tape moved on (proof for all words by a closed automaton: `python3 prove_reader.py`, 0.3 s) | `python3 verify_reader.py` | 30 s |
+| fourth push | **gun**: a 15-cell object of period 4 on the +v end of bare wire C puts a mirror rake on the wire every 4 generations and is exactly as it was each time; nothing is added to start it (section 20) | `python3 verify_gun.py objects/gun-5f.json` | 3 s |
+| fourth push | **line**: a cap at rest, N units of bare wire C, the gun. Rakes leave one end, cross the wire and are swallowed at the other, for ever: the object has period exactly 4 from generation 2N on (every N ≥ 2: `python3 prove_line.py`, section 21). Removing ONE cell of one rake makes a one-cell pulse on that stream; the far cap swallows it and the object is then exactly as if nothing had happened | `python3 verify_line.py objects/line-C.json` | 8 s |
+| fourth push | **beam**: the mirror-image gun, N units of rake train and a period-4 absorber found by constraint search: an oscillator of period 4 with 33 + 5N cells (N = 1, 2, 9, 24, 41 here); the same one-cell pulse | `python3 verify_beam.py objects/beam-5f.json` | 12 s |
+| fourth push | **clock with a tail**: the clock's right cap replaced by an 11-cell object inside the wire, with wire C going on behind it; period 4N + 2 as before (N = 3, 5, 8, 16): a rake can be turned by something that has wire on both sides (section 22) | `python3 verify_clock.py objects/clock-C-tail.json` | 5 s |
 | third push | **counter**: the wall between wire 8 and wire C moves one unit towards each pulse p< of a train (spacing ≥ 2) and the wire is otherwise exactly as it was. On a ring only: wire 8 has no known cap and burns from a cut end at one unit per generation (*third review*) | `python3 verify_counter.py` | 2 s |
 
 Each verifier steps only with `oracle.masks` and `oracle.step` on a cubic array torus (H = 80 to 128) and compares
@@ -693,3 +698,242 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
   periodic caps have that those starting states lack? Caps in the 5 × 5 tube are where a period-4N clock could
   still be. (4) A two-sided turner bigger
   than 4 units: `sat_defects.py` cut at 3,000 of an unknown total.
+
+# Fourth push (2026-11-15): something standing writes onto a wire
+
+The picture after three pushes was: pulses are emitted only by a moving rake, rakes are turned only by caps, and the
+caps that turn them swallow everything else; nothing that stands still writes onto a wire. Where the brief's items
+stand now. (1) An emitter: **a standing object that emits rakes exists** (the gun, section 20) and with a cap at the
+far end it is an emitter and a receiver exchanging objects for ever, at any distance (the line, section 21, proved for
+every length). What it emits is a rake every 4 generations, the densest possible stream; **no emitter of a sparse
+signal was found** (sections 20, 23), and the stream itself carries one-cell pulses written by hand, not by anything
+standing. (2) A corner: not searched. (3) A period-4N shuttle clock: not found; the negative of section 18 now holds
+for caps of every length and shape (section 22). The beam and the line are free-standing oscillators of period 4 of
+every length, but they are not shuttle clocks. (4) A reason: none; the turn-class statement was strengthened, not
+explained. (5) The clockwork catalogue against a wire: not run.
+
+How the gun was found. The third push put the emitter as a *writer*: a cap at the +v end of the B/C tape with a
+periodic non-constant word. The tape is not the only thing that moves rigidly towards −v on wire C: a mirror rake
+does, and so does a train of them. `sat_writer.py` with the tape replaced by a train of mirror rakes (`sat_gun.py`)
+returned a gun in one second at the first plane position where one fits.
+
+## 20. The gun: a standing emitter of rakes
+
+- **[measured, C stepper, then exact by the lift] Rigid trains of rakes.** `python3 sat_gun.py --trains` (1 s): one
+  mirror rake `5f` on a ring of L units of wire C. For even L = 2..12 the ring settles into a pattern that moves
+  rigidly towards −v, one unit per 2 generations: `5f(9f)^(L/2−1)`, mirror rakes L units apart, each swallowing the
+  p> train of the one in front of it (the parity rule of section 10 at even separation). For odd L the rake is stopped
+  (odd separation). The same for the rake `f` towards +v: `fb(7b)^(L/2−1)`. A ring state unrolled is an exact solution
+  of the infinite tube, so each train is an exact solution; `sat_gun.py` asserts the rigid shift cell for cell and
+  re-steps the unrolled train with `sg.step_set` before using it. For L = 2 the train `(5f)^∞` is mirror rakes back to
+  back: equally a wire of repeat 2 units and period 4.
+- **The search** (`sat_gun.py PATTERN C`). As `sat_writer.py`: the train fills units < KS = 6 (unit u at generation t
+  holds ring unit (u + t/2) mod L; constants, with units 4, 5 as variables tied to them); unknown are the cells of
+  units ≥ 6 inside the 3 × 3 tube and the planes x+y−z, x−y−z ≤ C at generations 0..T−1, T = 2L, the successor of
+  T−1 being 0. A model is an exact orbit of period T of the infinite lattice (T2 closes the tube and the planes; the
+  train is exact): a bounded object at the +v end from which a mirror rake leaves every T generations. Control: the
+  train `7b` is the tape word BC, and `sat_gun.py 7b 29`, `... 31` are UNSAT as `sat_writer.py 4 C` is.
+- **[found by SAT; proved by the oracle run] The gun** (`objects/gun-5f.json`; `python3 sat_gun.py 5f 31`, 1 s).
+  15 cells at generation 0 (15, 16, 15, 17 by phase), in units 0..2 beyond the wire's last unit, period 4.
+  **`python3 verify_gun.py objects/gun-5f.json`** (3 s): Object(30) = capL of the clock + 30 units of **bare** wire
+  C + the gun, nothing added. At generation 4j the state is, cell for cell, capL + bare wire + j mirror rakes on the
+  2j units next to the gun + the gun as it was, for j = 0..12; the gun's own cells repeat every 4 generations and not
+  every 2; no cell leaves the diagonal hull. So a standing object puts a moving object on bare wire once per period
+  and returns exactly to its state: the first such thing in this study.
+- **[proved within the bounds, CaDiCaL; every model re-stepped] Census** (`python3 sat_gun.py 5f C --all`, 1 to 7 s):
+  guns of period dividing 4 for the train `(5f)^∞` inside the planes: C = 29: none; C = 31: exactly 1; C = 33: exactly
+  1 (the same); C = 35: exactly 6 (15 to 22 cells).
+- **[measured, sg.step_set] Starting and stopping** (`python3 gunlab.py start`, 2 s): set against bare wire C, the
+  gun in phase 0, 1 or 3 emits at once; in phase 2 it does not (it sheds a mark `77` and the end decays).
+  `python3 gunlab.py capL` (1 s): with capL of the clock at the far end the rakes are not swallowed: capL turns them,
+  they meet the stream, and capL + N units + gun settles to period 2 after about 6N + 20 generations (N = 1..20). So
+  `gun-5f` alone is an emitter for as long as its wire lasts; the line of section 21 is the permanent form.
+- **[by symmetry; kymograph `python3 gunlab.py mirror`] The mirror image** ((x,y,z) ↦ (z−4, y, x+4), section 9) is a
+  left end that emits rakes `f` towards +v: the wire then reads `…??bfbfbfbf…`: wire C with ONE extra cell (the rake
+  cell (1,0,4)) in every second unit, travelling.
+- **What it is and what it is not.** It is a bounded standing object of period 4 on the end of bare wire C that
+  emits one rake per period and is restored each time. It is not a source of *pulses*: what it emits is rakes at the
+  highest rate there is, so no unit between them is left bare, and the stream `(5f)^∞` can equally be read as a
+  second wire (repeat 2, period 4) of which the gun is a cap that is not stationary against wire C (the boundary
+  between the two wires runs away from it at pulse speed). In the language of section 15 it writes the word 5, f, 5,
+  f, …: not constant unit by unit, constant pair by pair. Whether that meets the lead's S16 ("puts at least ten
+  pulses on an otherwise undisturbed wire") is a matter of wording that I leave open: ten rakes, yes; ten
+  separated pulses on bare wire, no. What a *sparse* emitter would be is exact: a gun for `5f9f` (a rake every 8
+  generations), or a standing object in the stream that lets every second rake through. Neither exists in the bounds
+  of section 23.
+
+## 21. The line and the beam: emitter, wire and receiver in one object
+
+- **[proved within the bounds; re-stepped] Absorbers** (`python3 sat_gun.py fb C --dir 1 [--all]`: the same search with
+  the rake train `(fb)^∞` running *into* the cap): none at C = 27, 29; exactly 1 at C = 31 (16 cells); exactly 12
+  at C = 33. **[measured, sg.step_set] Six ordinary caps on file become absorbers when the stream reaches them**
+  (`python3 beamcaps.py ../scratch/signals/table_28_29.json`, under 2 min; `... table_28_31.json`, about 4 min: every
+  cap state of the two scattering tables at the end of 4 and 5 units of bare wire beyond a running gun; 1,627
+  states, two parities): state 8 at C = 29 and states 14, 21, 34, 488, 969 at C = 31 settle into period 4 with the
+  gun alive, at both parities; of the other 3,242 runs 2,128 end at period 1, 1,067 at period 2, 11 at period 3, 22
+  at period 4 with the gun dead, and none is a stream with a period above 4 (14 end with a period above 4: in 13 the
+  gun is dead, and the fourteenth, period 40, is debris with the wire gone).
+- **[proved by the oracle runs] The line** (`objects/line-C.json`; `python3 verify_line.py objects/line-C.json`, 8 s).
+  capA (18 cells: the mirror image of state 8 above) + N units of bare wire C + the gun (15 cells), an object of
+  33 + 5N cells in empty space, for N = 2, 3, 12, 13, 30: (A) capA with the clock's capR on the other end is
+  stationary: it is a cap at rest; (B) the gun's cells repeat every 4 generations from generation 0 on, never
+  disturbed; (C) at generation 4j the wire holds j mirror rakes and is otherwise bare; (D) from generation 2N on
+  the whole state has period exactly 4, and not from generation 2N − 1; (E) nothing leaves the hull; (F) the pulse,
+  below. One standing object sends, another receives, again and again, with any length of wire between: the
+  literal form of open problem 13.
+- **[proved; base facts on the oracle: `python3 prove_line.py`, 3 s] The line has period exactly 4 from generation
+  2N on for every N ≥ 2.** N = 2..7: `python3 verify_line.py objects/line-C.json 2 3 4 5 6 7` (oracle, 2 s). For N ≥ 8, by
+  induction. Write X_N(t) for the orbit of Object(N), τ for the move by one unit towards +v, and L_N(t) = X_N(t−2)
+  for t ≥ 2, L_N(t) = X_N(t) for t = 0, 1. A cell's neighbours lie in its own unit and the two next to it, so one
+  generation of unit u needs units u−1..u+1. Statement S(N, m), with 1 ≤ m ≤ N − 4:
+  (P1) X_N has period 4 from generation 2N; (P2) for u = m, m+1 and every t ≥ 0, X_N(t) on unit u−1 moved by τ equals
+  L_N(t) on unit u; (P3) X_N(2) = X_N(0) on units ≤ m+1. The script checks S(8, 3) on the oracle (P2 for
+  t ≤ 2N + 12, which is enough since both sides have period 4 once t ≥ 2N + 2). Step: define Y(t) as L_N(t) on
+  units ≤ m+1 and τX_N(t) on units ≥ m. The two agree on units m, m+1 by P2. Y(0) is Object(N+1) (capA and bare
+  wire on the left, wire and the gun at unit N+1 on the right). Y obeys the rule at every unit: a unit ≤ m sees
+  only units ≤ m+1, where Y = L_N, and L_N is an orbit there (for t ≥ 2 it is X_N delayed; from 0 to 1 it is X_N;
+  from 1 to 2 by P3); a unit ≥ m+1 sees only units ≥ m, where Y = τX_N, an orbit. So Y = X_{N+1}. Then S(N+1, m+1):
+  P1 because L_N(t) = X_N(t−2) is periodic for t ≥ 2N + 2 and so is τX_N(t), and the period is not 1 or 2 because
+  the gun's own cells have period exactly 4 (`verify_line.py`, check B); P2 at u = m+1, m+2 lies in the right chart
+  and reads τ(X_N(t) on unit u−2) = L_N(t) on unit u−1, which is P2 of S(N, m) at u−1; P3 on units ≤ m+1 is
+  L_N(2) = L_N(0), and on unit m+2 it is P3 of S(N, m) moved by τ. The script also builds Y for N = 9..14 and
+  finds it equal to the oracle's own run of Object(N) at every generation. In words: what crosses the middle of the
+  wire is always a rigidly moving pattern (bare wire, then the front, then the train), so a longer wire only delays
+  the far end.
+- **[proved by the oracle runs] The beam** (`objects/beam-5f.json`; `python3 verify_beam.py objects/beam-5f.json`,
+  12 s). The mirror-image gun on the left (14 cells), N units of rake train, the SAT absorber of C = 31 on the right
+  (19 or 18 cells by the parity of N): 33 + 5N cells, period exactly 4 for N = 1, 2, 9, 24, 41, hull never left; one
+  generation after the stored phase its N units are wire C with the rake cell in every second one and nothing else,
+  and the pattern moves one unit per 2 generations from the gun to the absorber. [measured, sg.step_set] period 4
+  for every N = 1..24. Not proved for every N (the argument of the line would do it; not written).
+- **[proved by the oracle runs for one pulse; measured for words] The stream carries one-cell pulses.** Remove the
+  rake cell (1,0,4) of one rake of the beam: at every second generation from then on the state differs from the
+  undisturbed one in exactly ONE cell (the cell (0,2,3) of the unit where a rake should be: that unit is a B unit),
+  moving with the rakes; the absorber swallows it and the object is then identical to the undisturbed one, cell
+  for cell (`verify_beam.py` check D: N = 24, 41; `verify_line.py` check F on the line, where the pulse is one cell
+  at odd generations: N = 12, 13, 30). **Every set of holes heals** as long as the rake next to the gun is left
+  alone (`python3 gunlab.py words`, 45 s: 200 random sets of removed rakes on the beam with 20 rakes: all 106 that
+  keep the first rake heal exactly; all 94 that remove it kill the gun; with every rake but the first removed it
+  heals too). So the stream is a carrier on which a hole is a bit: written by one flipped cell anywhere along it,
+  carried to the receiving end at one unit per 2 generations, swallowed there, the whole object restored. Compare
+  the transmission of the first push (row L2): there each shot cost one cube of wire at the receiver.
+- **What this is not.** Nothing standing writes the holes: the gun writes only the constant stream. The receiving
+  cap has no memory of what it swallows (it is restored exactly), so nothing reads the holes either. And both ends
+  are needed: the gun's stream on bare wire with nothing to swallow it runs on as a front.
+
+## 22. Rake turns without bounding planes, and turners with wire on both sides
+
+`sat_two.py` is `sat_turn.py` with the planes removed. Same set-up: a lone rake at unit 5 at generation 0 with its
+tape behind it, the guard at unit 2, the mirror rake `5f` exactly at units 4, 5 at generation T, class
+k = (T + 2) mod 4 here (KS = 6).
+
+- **[proved, computer-assisted: UNSAT by CaDiCaL 1.5.3, and by Glucose 4 for T ≤ 20] No right end of wire C of period
+  2 in the 3 × 3 tube, of any length and shape, turns a lone rake with class 2 within T = 32 generations.** `python3
+  sat_two.py T --open` for T = 8, 12, 16, 20, 24, 28, 32: UNSAT in 0, 1, 6, 19, 43, 71, 221 s (`--solver glucose4`:
+  T = 8..20 in 0 to 4 s). "Within T": the rake is at unit u at generation 0, every unit up to u is bare wire in the
+  end's own state, and the mirror rake `5f` is at units u − 1, u at generation T. Also for ends of period 4 (`--zp 4`: T = 8..20; 0, 3, 9, 47 s) and period 6 (`--zp 6`: T = 8, 12, 16;
+  1, 16, 52 s). *What the instance is.* The end Z is free on units 6..U, U = T/2 + 6, and nothing is assumed beyond
+  unit U: the rule is imposed, on Z and on the lit trajectory X, only at units ≤ U − 1; unit U of X is tied to Z
+  while t ≤ U − 6 and is free afterwards; X = Z wherever the rake's influence (one unit per generation from unit 5)
+  has not arrived. *Why UNSAT covers every end.* Let Z* be any state of period 2 of the infinite tube that is bare
+  wire C on units < 6, and X* its orbit with the rake. Restricted to units ≤ U they satisfy every clause: the rule
+  at units ≤ U − 1 reads only units ≤ U; X* = Z* outside the light cone; the remaining clauses are the turn itself.
+  So if a turn of class 2 at T existed the instance would be SAT. *Why the far end cannot fake a turn.* Whatever
+  unit U does after generation U − 5 needs U − 5 more generations to reach unit 5 and so arrives after T. *What a
+  model would not prove.* The far end of a model need not continue; SAT here is not a construction (class 0 is SAT
+  at T = 6, 10). Controls: with clock-C's capR fixed as the end, SAT at T = 6 exactly and UNSAT at T = 8..14; with
+  the far end cut much nearer than the light cone class 2 becomes SAT, as it must (`--U 7` at T = 8, `--U 8` at
+  T = 12, `--U 10` at T = 16, `--U 9` at T = 20).
+  *What this covers that section 18 did not:* every plane position at once, caps longer than any plane tried, walls
+  to other wires and anything else periodic on the far side. An end may begin with bare units, so the instance
+  `sat_turn.py T' C --KS 10` of section 18 (rake at unit 9, mirror rake at units 4, 5 at T') is the case of four
+  bare units and T = T' + 8 here: T ≤ 32 contains section 18's T' ≤ 24 for every C, and not its T' = 28, 32 (those
+  stay negatives within their planes). What it does not cover: turns slower than that, the 5 × 5 tube, the guard (a
+  turn that alters the tape two units ahead of the mirror rake), a rake arriving behind a p> train as in a clock
+  (third review), periods other than 2, 4, 6.
+  No reason is known, and the refutation is not local to the wire's end, nor does it need the whole light cone: at
+  T = 16 (light cone to unit 14) the instance is UNSAT with the far end cut at unit 11, 12 or 13 and SAT with it at
+  unit 10; at T = 8 (unit 10) UNSAT at 8, 9 and SAT at 7; at T = 12 (unit 12) UNSAT at 9 and SAT at 8.
+- **[found by SAT; proved by the oracle run] Turners with wire on both sides exist** (`python3 sat_two.py 6 --w 3
+  --all`, 30 s: an object free on 3 units, wire C on both sides, the turn only). The list is complete at 20 objects
+  (re-stepped, `sg.step_set`): 5 turn the rake, swallow the p> train that follows and are restored; 4 are stretches
+  of wire 8, where the rake becomes the head of a moving wall (section 16); 1 turns wire C into wire C′ behind the
+  mirror rake; 8 burn (the wire is eaten on both sides); 2 are the splitter below. With 4 free units more than 188 (the list was
+  cut after 4 minutes; 44 of them restored turners). **`python3 verify_clock.py objects/clock-C-tail.json`** (5 s):
+  one of the five (11 cells in 3 units, found by `sat_two.py 6 --w 3 --restore 10`) in place of the clock's right
+  cap, with 6 units of wire C and a cap behind it: unlit stationary; lit, period exactly 4N + 2 for N = 3, 5, 8, 16.
+  The third push's shooting test (3,000 defects in 4 units, a cut list) had found no two-sided turner.
+- **[proved within the bounds; CaDiCaL] None of them leaks.** `python3 two_batch.py emit --T 6 10 14 --w 2 3 4 --dT
+  2 4 6 8 12 --V b 7 d e 8` (about 12 min): an object free on w units between wire C and wire V (C, B, B′, C′, 8),
+  a lone rake turned at T, the object and the first unit of the far wire exactly restored at T + dT, and the far
+  wire not bare anywhere beyond at that moment: UNSAT in all 225 instances (also w = 5, V = C, T = 6, dT = 2..8).
+  In the complete list above every object that disturbs the far wire is itself destroyed. What this does not cover:
+  an object that is restored only at other moments or never exactly (it swallows a p> every 4 generations), wider
+  objects, the 5 × 5 tube, turns of a rake arriving behind a train.
+- **[measured, sg.step_set] A splitter.** `python3 gunlab.py split`: the two units `a7` (family units, section 9)
+  in wire C are a standing defect; a rake that hits them goes on as a pair of rakes `fbf` and a mirror rake comes
+  back. One rake in, three out, the defect used up.
+- **[proved within the bounds] Class 2 in the 5 × 5 tube with survival asked for.** `python3 two_batch.py restore
+  --T 8 12 --w 2 --dT 2 4 6 --lo -1 --hi 7` (2 min): an object on 2 units of the 5 × 5 tube between wire C and wire
+  C that turns a lone rake with class 2 and is exactly restored 2, 4 or 6 generations after the mirror rake is at
+  units 4, 5: UNSAT, all six. Three units: not finished.
+- **[proved within the bounds, by the complete list and a direct test with sg.step_set] The instance left running in
+  section 18 is UNSAT.** `sat_turn.py 16 47 --KS 10 --lo -1 --hi 7 --eat 16` asks for one of the class-2 caps of
+  T = 16, C = 47 that also swallows a lone p> and is restored 16 generations later. The list of those caps is
+  complete at 8 (section 18), and `python3 eat_direct.py` (2 s) sends the same p> at each of the eight: none is
+  restored at any generation up to 120; all eight are destroyed by the one pulse.
+
+## 23. Looked for and not found, with bounds
+
+- **[proved within the bounds] No gun for a sparser train in the 3 × 3 tube, small planes.** `python3 sat_gun.py 5fbb
+  C` (the train `5f9f`: a mirror rake every 8 generations, period dividing 8): UNSAT at C = 29 (4 s) and C = 31
+  (131 s); C = 33: no answer in 9 minutes.
+- **[proved within the bounds] No divider.** `python3 sat_div.py 5fbb 5f W` (a standing object on W units inside the
+  stream, wire on both sides, no planes: the gun's train in on the right, the train `5f9f` out on the left, all four
+  relative phases, period 8): UNSAT for W = 1, 2, 3 (under 3 s each) and for W = 4 at the first phase (287 s); the
+  control `sat_div.py 5f 5f W` returns the train itself.
+- **[not finished] A pulse gun in the 5 × 5 tube.** `python3 sat_gun.py 7b 29 --lo -1 --hi 7` (a writer of the word
+  BC, a p< every 4 generations, in the 5 × 5 tube): no answer in 16 minutes. (The solver's own timeout does not
+  fire inside pysat here; the runs were ended from outside.)
+- **[measured] No far end on file modulates the stream** (`beamcaps.py`, section 21): 1,627 cap states, none gives
+  a stream of period above 4.
+- **[measured, sg.step_set] The emitting end has a stationary state too, and no single cell lights it.** `python3
+  gunlab.py off` (12 s): the left end of the beam set against bare wire in the stored phase settles within 4
+  generations into a stationary cap of 12 cells. Of 327 one-cell flips of it and of the first 8 units of its wire,
+  159 heal and 168 do something else; none starts the stream. (The gun of `gun-5f.json` needs nothing: in three
+  of its four phases it starts against bare wire.)
+- Not run at all: the clockwork catalogue against a wire, any corner search, the writer search at T ≥ 10, the
+  period-4N clock as a periodic orbit.
+
+## 24. Fourth push: not checked
+
+- The UNSAT answers rest on the encodings (`scat.Problem`, used unchanged; the new regions and trains are in
+  `sat_two.py`, `sat_gun.py`, `sat_div.py`) and on CaDiCaL, with Glucose agreeing where stated. Every model
+  reported was re-stepped; the objects in `objects/` have oracle verifiers. No proof certificates.
+- `prove_line.py` proves the cycle for every N ≥ 2 given the induction of section 21; the beam's "every N" is
+  measured to N = 24 only. That every word of holes heals is measured (200 words), not proved; a closed automaton
+  as in `prove_reader.py` would do it.
+- The census numbers for two-sided objects classify by a 80-generation run with `sg.step_set`; "restored" there
+  means equal to the unlit object at some even generation of the last 16.
+- The rule "a rake swallows a p< met at even separation" was used to explain the trains; the trains themselves are
+  checked directly (ring, then lift), not through that rule.
+- The mirror-image gun and the left end's stationary state are `sg.step_set` only.
+
+## 25. Where I would go next
+
+1. **A sparse emitter.** The gun shows that the writer formulation works once the alphabet is right. The exact
+   targets: `sat_gun.py 5fbb C` at C = 33, 35 and in the 5 × 5 tube; `sat_gun.py 5f5fbb C` (two rakes and a gap);
+   `sat_div.py 5fbb 5f W` for W ≥ 4 and in the 5 × 5 tube; a far cap of period 8 that sends a p> back at odd
+   separation every second rake (a p> at odd separation stops a mirror rake: that is a hole written from the far
+   end). Any of them would be a standing object writing a non-constant word, and the line already carries it.
+2. **A reader.** A far end that is changed by a hole and not by a rake: enumerate absorbers (`--dir 1 --all`, 12 at
+   C = 33) and feed each one hole; a wall that moves one unit per hole would be a counter driven through the stream.
+3. **Two streams.** A rake stream from the left and a mirror-rake stream from the right meet somewhere: rake
+   against rake leaves one survivor and a mark (section 10). The standing wave where two guns face each other was
+   not looked at with the phases right (`gunlab.py` has the pieces).
+4. **Why class 0.** `sat_two.py T --open` answers within minutes up to T = 32, and a proof for all T might come
+   from the shape of the refutation: at T = 16 it needs the end's periodicity five units in (unit 11), not at the
+   wire's end and not to the full light cone (section 22). A proof certificate (DRAT) of the T = 8 instance, read
+   for which cells it uses, is the cheapest next look.
+5. **The splitter and the off state** suggest a latch: an end with a stationary state and an emitting state. No
+   one-cell flip lights it; a pulse or a rake arriving might.
