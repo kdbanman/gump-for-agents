@@ -35,7 +35,7 @@ def canon(cells):
 
 def main():
     NMAX, W = int(sys.argv[1]), int(sys.argv[2])
-    seen = {}
+    seen = {}; tcache = {}
     res = (-3, -1, 1, 3)
     for lo0, lo1, lo2 in itertools.product(res, repeat=3):
         for w0, w1, w2 in itertools.product(range(1, W + 1), repeat=3):
@@ -67,7 +67,12 @@ def main():
                     if not ok:
                         continue
                     cells = [t[2] for t in sel]
-                    k = canon(cells)
+                    mn = [min(x[d] for x in cells) for d in range(3)]
+                    mn = [m - (m % 2) for m in mn]
+                    k0 = tuple(sorted(tuple(x[d] - mn[d] for d in range(3)) for x in cells))
+                    if k0 in tcache:
+                        continue
+                    k = canon(cells); tcache[k0] = k
                     if k not in seen:
                         seen[k] = (len(cells), (w0, w1, w2, w3), (lo0, lo0 + 2 * w0 - 2, lo1, lo1 + 2 * w1 - 2,
                                                                    lo2, lo2 + 2 * w2 - 2, lo3, hi3))

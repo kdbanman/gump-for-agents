@@ -1,7 +1,7 @@
 /* Independent exhaustive enumerator for the statespace audit (written without reusing research/statespace/enum.c).
  *
  *   cc -O3 -march=native -fopenmp -o aenum aenum.c
- *   ./aenum FILE CHAMPFILE SAMPLEFILE [NSAMPLE]
+ *   [INDEG=1] ./aenum FILE CHAMPFILE SAMPLEFILE [NSAMPLE]   (INDEG: also the second moment of in-degrees)
  *
  * FILE: int32 n, n*12 int32 neighbours (-1 = dead forever), from geom.py. Multi-edges counted with multiplicity.
  * The map is tabulated with a bit-sliced step: 64 states at a time (the low 6 bits of the state index are the lane),
@@ -59,6 +59,14 @@ int main(int argc, char **argv) {
     uint64_t r = 0x9E3779B97F4A7C15ull;
     for (int k = 0; k < ns; k++) { r ^= r << 13; r ^= r >> 7; r ^= r << 17; uint64_t s = r & (S - 1); fprintf(fs, "%llx %x\n", (unsigned long long)s, nx[s]); }
     fprintf(fs, "%llx %x\n%llx %x\n", 0ull, nx[0], (unsigned long long)(S - 1), nx[S - 1]); fclose(fs);
+    if (getenv("INDEG")) {   /* in-degree second moment: birthday yardstick sqrt(pi M^2 / (2 sum d^2)) */
+        uint32_t *cnt = calloc(S, 4); if (!cnt) { fprintf(stderr, "oom indeg\n"); return 1; }
+        for (uint64_t s = 0; s < S; s++) cnt[nx[s]]++;
+        double sq = 0, sq_ne = 0; uint32_t dmax = 0;
+        for (uint64_t s = 0; s < S; s++) { double d = cnt[s]; sq += d * d; if (s) sq_ne += d * d; if (cnt[s] > dmax) dmax = cnt[s]; }
+        printf("indeg sum_d2 %.6e max %u indeg0 %u sum_d2_without_empty %.6e\n", sq, dmax, cnt[0], sq_ne);
+        free(cnt);
+    }
     /* preimage bitmap and image iteration */
     for (uint64_t s = 0; s < S; s++) B[nx[s] >> 6] |= 1ull << (nx[s] & 63);
     uint64_t prev = S, cur = 0; for (uint64_t k = 0; k < W; k++) cur += __builtin_popcountll(B[k]);
