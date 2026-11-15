@@ -52,5 +52,22 @@ def main():
         print(f'  {f["A"]:3d}  {str(f["key"][:4]):20s} {f["y"]:8.4f}  {f["se"]:.4f}  {s_ * 1e4:6.2f}   {a_:+5.1f}        {b_:+5.1f}')
 
 
+def forecast():
+    """OPEN0 and DENS (kappa 1.9, A0 30, both refitted to the 14 faces) at faces with no loop^2 < 31"""
+    faces = [f for f in W.load() if not f['loops'] and f['A'] >= 63]
+    A = np.array([f['A'] for f in faces], float); y = np.array([f['y'] for f in faces]); se = np.array([f['se'] for f in faces])
+    S = np.array([sum(F.get(q, 0.0) for q in f['key']) for f in faces]); w = 1 / se
+    X0 = np.stack([np.ones_like(A), A - 72], 1)
+    b0, *_ = np.linalg.lstsq(X0 * w[:, None], y * w, rcond=None)
+    yk = y + KAPPA * S * (A - A0)
+    bk, *_ = np.linalg.lstsq(X0 * w[:, None], yk * w, rcond=None)
+    print('\nforecasts (no refit after this): face, A, S*1e4, OPEN0, DENS, DENS - OPEN0')
+    for hkd, Aq, Sq in (((1, 5, 31), 93, 3 * F[31]), ((6, 0, 6), 108, 0.0), ((1, 10, 37), 111, 0.0),
+                        ((1, 16, 39), 117, 0.0), ((1, 18, 49), 147, 0.0)):
+        o = b0[0] + b0[1] * (Aq - 72); dn = bk[0] + bk[1] * (Aq - 72) - KAPPA * Sq * (Aq - A0)
+        print(f'   {hkd}  {Aq}  {Sq * 1e4:.2f}  {o:.4f}  {dn:.4f}  {dn - o:+.4f}')
+
+
 if __name__ == '__main__':
     main()
+    forecast()
