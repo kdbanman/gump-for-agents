@@ -21,3 +21,25 @@ states visited by one seed number its settling time plus its final period. For s
   at first and then slowly: more than half of its eventual loss in bits happens in the first three generations.
 - **E7 (75%).** At every size where both can be had, a seed visits fewer states than a random map on the same
   number of *living-face* cells would before repeating (2^(A/2)): gump explores less than chance.
+
+## The investigator, 2026-11-15 (before any enumeration of this study has been run)
+
+What I had seen: `research/theory/exhaust_results.txt` (kagome tori of 9–30 cells: max transients 3–28, mean
+transients 1.7–6.3, most states without a predecessor) and the face law. Forecasts, each with the chance I give it;
+N = cells of the vessel, "listed" = the vessels whose 2^N states are enumerated in this study.
+
+- **I1 (60%).** In every listed vessel the empty state has the largest basin, and it holds more than half of all
+  seeds in every listed diagonal hull.
+- **I2 (70%).** The mean transient from a uniformly random seed stays below 12 generations in every listed vessel,
+  and does not grow exponentially with N over the listed range (E4 fails).
+- **I3 (55%).** The longest transient grows at most linearly over the listed range: it is below 2N in every listed
+  vessel.
+- **I4 (85%).** The share of states with no predecessor exceeds 0.8 in every listed vessel with N ≥ 15 (against
+  e⁻¹ = 0.37 for a random map).
+- **I5 (60%).** The states on cycles are fewer than a random map's √(πM/2) ≈ 1.25·2^(N/2) in every listed vessel
+  with N ≥ 20.
+- **I6 (60%).** Visited states per cell, log2(transient + period)/N, for the champion seed is below 0.25 at the
+  largest listed N of each family, and for the mean seed below 0.15.
+- **I7 (60%).** The Shannon entropy per cell of the long-lived (quasi-stationary) chaotic ensemble lies between
+  0.80 and 0.95 bits, both in the bulk and in the top layer of a living face; so a face of A cells (one layer) can
+  be in about 2^(0.9·A) states and a seed sees 2^(0.30·A) of them.
