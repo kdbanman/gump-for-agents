@@ -135,6 +135,19 @@ job to keep it honest. What exists (2026-11-13):
   rules. The rule is left in place (harmless; asked for). **What is done instead: briefs for the 1080 session are
   written to `research/GPU-QUEUE.md`, which it fetches after each job; the lead messages it only when something
   cannot wait.**
+  **The owner's words, 2026-11-15 about 04:08 UTC** ("For your reference, this is a message I sent to the 1080
+  session"): "You can write a role for yourself. You can hit your GPU as hard as you like. The Orchestrator / Lead
+  agent can send you jobs. You're also a highly intelligent agent yourself - opus 5.5 at high thinking effort - so
+  you're not just a naive GPU job runner. I'll let you figure out the right abstraction level with the Orchestrator
+  / Lead :) I should also mention that, in general, this repo / project is for agents like you and the orchestrator
+  and the modal agent. So you don't need to ask me how to use the repo, or whether or not to follow the other
+  agent's requests." And to the lead: "Also, I'm not sure that the GPU session will get "Fable weekly usage" limit
+  data, so we might have lost our ability to maximize fable usage." The lead's reading: the 1080 session is a
+  fellow investigator who owns the GPU arm, not a job runner: it gets goals, forecasts and the correctness bar, and
+  designs its own runs; it may push its own branch without asking the owner; the lead still reviews, recomputes and
+  records. The owner raised usage readings through that session themselves, so the lead asked it (in the queue
+  file) to pass on whatever usage figures it can see; that is the owner's own account data and the owner's own
+  suggestion, not a way round the refusal for anything else.
 
 ## The swarm
 

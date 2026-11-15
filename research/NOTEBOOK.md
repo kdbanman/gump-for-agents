@@ -2134,6 +2134,8 @@ auditor (a second agent, not the producer of any of them) ran what could be run 
 - **Still C (ten rows):** F12, S4, K5 (the ledger gives no arguments), Q4 (names no run), G3, G4, K7 (an hour or
   more each), K8 (several scripts of unstated length), L2 (re-run only by repeating the lead's own arithmetic), and
   Z13 (the wires, added after the audit began). With a C part: Z2 at n = 16, Z4's period-3 search, TH5's segment
-  n = 7, TH2, TH4, C2, C4, C8, Z3's flip property, Z8, Z9, Z10's phase shifts, Z12, S9, X3's 6.94, ZL2's other runs.
+  n = 7 and its percentages, TH2, TH4, C2, C4, C8, Z3's flip property, Z10's phase shifts, Z12, S9, X3's 6.94, ZL2's
+  other runs, and P4's restated centre and error until a second party refits them. (The tally script had read the
+  object names C44.26a and C35.29a in the rows Z8 and Z9 as grades; fixed, no best grade changes.)
 - Not checked by the lead beyond P4 and Z10: the other 24 matches are the auditor's alone. No proof was re-read
   in this audit.
