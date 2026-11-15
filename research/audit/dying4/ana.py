@@ -293,6 +293,7 @@ for p in [q for q in (0.3, 0.15) if q in PSa and fd_ > 0]:
         cd = N[md].sum() / D[md].sum() / S; cr = N[mr].sum() / D[mr].sum() / S
         per.append((int(k), int(md.sum()), int(mr.sum()), cd, cr))
         num_d += md.sum() * cd; num_r += md.sum() * cr; den += md.sum()
+    if den == 0: continue
     say(f'   matched: dying {num_d / den:.4f}, recovering {num_r / den:.4f};  per k: ' + '; '.join(f'k={k} ({a},{b}) {cd:.3f}/{cr:.3f}' for k, a, b, cd, cr in per))
     vd = void(X[dead]); vr = void(X[rec])
     say(f'   V matched per k: ' + '; '.join(f'k={k} {vd[ks[dead] == k].mean():.3f}/{vr[ks[rec] == k].mean():.3f}' for k, *_ in per))
