@@ -35,7 +35,7 @@ per job looked uneven; used only for zombie rates, never in a d).
 | 1. Sign change below saturation | **stands.** Independently: Q36 **−0.0220 ± 0.0009**, Q45 **+0.0085 ± 0.0014** (theirs −0.0223 ± 0.0007, +0.0076 ± 0.0013). Labels checked: both members of each pair have loop² 9 and Y has the longer second loop. The value does not depend on the check window (per generation, 8-generation rounding, ties either way, settled exposure dropped: all within 0.0002). |
 | 2. Structure [proved] | **stands, two small slips.** det = 0.75 n² is an identity; at every n ≤ 28 the 12-element point-group orbits coincide with the Gram classes; Q1 ≥ 12 groups only at A = 48, 60, 72, 84. But A = 72 has one pair and one triple with Q1 ≥ 12, not "two pairs and one triple"; and Q1 = 9 groups also exist at A = 81. |
 | 3. Zombie lives | **stands; harmless to every earlier published difference.** (a) a period-16 state on (1,4,12), period confirmed by the engine; (b) about 3.5 × 10⁻⁶ of lives at A = 36 and 4 × 10⁻⁶ at A = 48; (c) at most 0.0004 in ln τ at A = 48 and 0.0007 at A = 60 in any capped run, below every error; (d) ts3's test cannot cut a chaotic life; it misses periods with p / gcd(p, 840) > 128, of which none occurred among 13,000 settled lives here. |
-| 4. Nulls at A = 72 | **stands with correction.** Counts reproduce exactly from shape3's raw event files; job scatter matches the errors; no exposure-accounting bias within a pair. One independent job on (2,4,12): see claim 4. But T01 and T12 share (2,4,12), correlation −0.5, which the scoring ignores; the README's "≤ 0.4% of face deaths" for firewalls is false on the triple (5.3%). |
+| 4. Nulls at A = 72 | **stands with correction.** Counts reproduce exactly from shape3's raw event files; job scatter matches the errors; no exposure-accounting bias within a pair. One independent st.c job on (2,4,12) gives 14.9765 ± 0.0064 against their 14.9706 ± 0.0029. But T01 and T12 share (2,4,12), correlation −0.5, which the scoring ignores; the README's "≤ 0.4% of face deaths" for firewalls is false on the triple (5.3%). |
 | 5. Scoring | **the forecasts were fixed in time; "survives out of sample" does not stand.** Forecasts are unchanged since 46baf66, before any production result; the v1 glimpse could not touch them. Under the committed rule all five candidates are refuted. On the post hoc loop² ≥ 12 split the null "d = 0 at A = 72" fits better (χ² 2.4 / 3) than K2 (4.3) or K3 (5.2), and with the T01/T12 covariance K3 has p 0.036 and K2 p 0.086. |
 | 6. Other | Estimator and 8-generation window: no bias in d (checked against per-generation resolution). Firewall definition on the twisted tori agrees with an own derivation. Amendment timing text inaccurate (see corrections). |
 
@@ -134,7 +134,9 @@ open lives, short by construction). The largest period among the 12,968 settled 
   as a competing end they treat the members alike. Ties change no d by more than 0.0001. I find no bias above 0.001.
 - **Correlation.** T01 = (2,4,12) − (1,6,24) and T12 = (1,5,24) − (2,4,12) share (2,4,12): correlation −0.50. The
   committed scoring and the README's split treat them as independent (claim 5).
-- **Independent job.** One st.c job on (2,4,12), 7.5 × 10⁷ generations × 512, seed 71011: RESULT72.
+- **Independent job.** One st.c job on (2,4,12), 7.5 × 10⁷ generations × 512, seed 71011: F 24,053, W 1,270 (5.3%), X 1, S 0;
+  **ln τ_face = 14.9765 ± 0.0064**, against shape3's 14.9706 ± 0.0029 over five jobs (+0.0059 ± 0.0071, 0.8σ;
+  per-generation and 8-generation conventions agree to 0.0001 here). Their stepper lands within error of mine.
 - **Firewall share.** The README's "Firewalls (W), ties (X) and settled lives (S) are ≤ 0.4% of face deaths on every
   loop² ≥ 12 torus" is false for the triple: W is 5.3% of F on (1,6,24), (2,4,12), (1,5,24) (`data/runs.csv`).
 
