@@ -637,40 +637,97 @@ committed with `ex4.c`, `validate4.py` and `round4.sh` before any production run
 `research/figures/dying_two_phase.png`. Tables: `data/r4_company.csv` (every level, size and set: caught, control,
 bottom, dies, recovers), `data/r4_tangent.csv`, `data/r4_stationary.csv`, `data/r4_percell.csv`, `data/r4_by_k.csv`.
 
+## Reviewed (2026-11-15)
+
+The round-4 part of `research/audit/REVIEW-dying.md` reran the measurement with its own stepper
+(`research/audit/dying4/st4.c`, matched to `reference/oracle.py` at every generation) on fresh seeds 5101, 5103,
+5105, and built a **finite-face lever-rule null**: a compact patch (a graph ball grown until its stationary mass is
+k/p_t) filled from a stationary face and thinned to exactly k, nothing outside (`research/audit/dying4/null.py` →
+`null_r11.txt`, `null_r13.txt`, `null_r15.txt`). Command: `bash research/audit/dying4/run.sh` (one core, ~20 min).
+Every number of this round reproduces within its errors; the tangent arithmetic and the control stand. Ledger:
+CLAIMS DY13–DY15.
+
+**What the review changed, applied below** (marked "corrected 2026-11-15" where they fall):
+1. **C cannot test the lever rule on faces this small.** An exact lever-rule remnant at any p_t in 0.45–0.8 gives
+   C(0.15)/C(0.45) = 0.45–0.48 (A = 63), 0.58–0.61 (84), 0.65–0.69 (108), not ≈ 1: at 4–8 live cells the patch is
+   about the size of the radius-2 ball in which C is counted, so its live cells see the emptied face and C falls with
+   depth for a fixed-density remnant too. F1's "against" clause is met by a lever rule itself at 63 and 84 cells.
+   "Not a void beside a remnant held at fixed density" is withdrawn as a conclusion from C; what stands is "no
+   plateau at fixed density is seen". What does separate the caught faces from the null: their ratio lies
+   0.07–0.14 below it, and their profile is more peaked (higher at distance 1, with a tail into the far face).
+2. **The figure's guides** C = max(p, p_t) and V = 1 − p/p_t are infinite-face idealisations, now labelled so; the
+   review's finite-face null is drawn beside them in panels A and B (pale bars spanning p_t = 0.45–0.8, read from
+   `null_r1{1,3,5}.txt`, at the fixed count k = ⌊pP̄⌋ rather than the caught faces' counts). The caught C lies inside
+   or just below the bars; the caught V lies inside them. The null's V at p = 0.15 is 0.43–0.54, not the guide's
+   0.73–0.81.
+3. **F2 and F6.** A remnant at p_t does not read C = p_t at these counts, so F2's failure says nothing about the
+   remnant's density; F6 rested on an F1 clause that a lever rule also meets. Scores unchanged, caveats added.
+4. **Dies against recovers** is mostly count: matched, the gap is 0.021 ± 0.001 (p = 0.15) and 0.017 ± 0.003
+   (p = 0.3) at A = 63.
+5. **The size trend** of the ratio is to be read against the null's own rise, not against 1.
+6. **How a face is caught matters:** faces at first passage are looser than faces taken at a random moment with the
+   same count, by 0.03–0.04 in C at A = 63.
+
 ## Short answer
 
-- **[measured] A deeply depleted face is one thing that thins, with strong short-range clustering; it is not a void
-  beside a remnant held at fixed density.** The company C (occupancy within graph distance 2 of a live cell, over
+- **[measured] A deeply depleted face thins with strong short-range clustering; no plateau at fixed density is seen,
+  but on faces of 108 cells or fewer C cannot test the lever rule.** *Heading corrected 2026-11-15 (review); it
+  first read "it is not a void beside a remnant held at fixed density".* The company C (occupancy within graph distance 2 of a live cell, over
   stationary) falls steadily with depth at every size: at A = 108, C = 0.833, 0.738, 0.646, 0.542, 0.439, 0.288 at
-  p = 0.9 … 0.15; at A = 84, 0.534, 0.413, 0.260 at p = 0.45, 0.3, 0.15. A lever rule needs C flat below the tangent
-  point (C(0.15)/C(0.45) ≈ 1); it is 0.38, 0.49, 0.53 at A = 63, 84, 108. Even the nearest-neighbour shell, the
+  p = 0.9 … 0.15; at A = 84, 0.534, 0.413, 0.260 at p = 0.45, 0.3, 0.15. C(0.15)/C(0.45) is 0.38, 0.49, 0.53 at
+  A = 63, 84, 108. *Corrected 2026-11-15 (review). Withdrawn: "A lever rule needs C flat below the tangent point
+  (C(0.15)/C(0.45) ≈ 1)". That holds only on faces much larger than these. The review's finite-face null, a compact
+  remnant at fixed relative density p_t and nothing outside, gives 0.45–0.48, 0.58–0.61, 0.65–0.69 at A = 63, 84,
+  108 for any p_t in 0.45–0.8 (0.45 and 0.58 at 63 and 84 with the caught faces' own counts). The caught ratios lie
+  0.07, 0.10 and about 0.14 below the null, and the caught profile is more peaked than a fixed-density patch's (at
+  A = 63, k = 4: 0.449, 0.163, 0.043, 0.032 at distance 1, 2, 3, ≥ 4, against 0.330, 0.220, 0.078, 0.005 for a
+  p_t = 0.8 patch with the same C and V). So C falls a little faster with depth than a fixed-density remnant's would,
+  and the clump is peaked with a tail rather than flat; that is what separates them here, not the fall of C.* Even
+  the nearest-neighbour shell, the
   densest part of the "remnant", thins: C at distance 1 is 0.71, 0.63, 0.56, 0.43 at p = 0.6, 0.45, 0.3, 0.15
   (A = 108). The per-cell distribution of local company moves down as a whole (median 0.65, 0.54, 0.42, 0.27 at
-  p = 0.6 … 0.15, A = 108) instead of keeping its place and losing weight.
+  p = 0.6 … 0.15, A = 108) instead of keeping its place and losing weight (*note 2026-11-15: a small patch at fixed
+  density would also move it, for the same edge reason; this was not compared with the null*).
 - **[measured] But it is far from random thinning.** Against stationary faces thinned at random to the same count,
   the caught face has 1.15× (p = 0.6), 1.35× (0.45), 1.69× (0.3) and 2.43× (0.15) the company (A = 108), three times
   the void at p = 0.3 (V = 0.238 against 0.077), fewer and larger groups (2.3 groups with 77% of the cells in the
   largest, against 3.3 and 66%), and a company profile that falls with distance (at p = 0.3: 0.56, 0.39, 0.27, 0.21
   at graph distance 1, 2, 3, ≥ 4) where the control is flat (0.26). At p = 0.9 caught and control are the same
-  (0.833 and 0.828): the clustering builds up from about 0.75 down.
+  (0.833 and 0.828): the clustering builds up from about 0.75 down. (*Note 2026-11-15, review: a falling profile
+  separates the face from random thinning only; a lever-rule remnant's profile falls too.*)
 - **[measured] The excess grows with size at fixed p, the reverse of F5.** C(0.3) = 0.387, 0.413, 0.439 and
   C(0.15) = 0.196, 0.260, 0.288 at A = 63, 84, 108. At a fixed number of live cells instead, C is *lower* on the
   larger face (7–9 live cells caught at p = 0.3: 0.393, 0.321, 0.261), so C follows the face's relative population,
-  not the patch's cell count.
+  not the patch's cell count. *Corrected 2026-11-15 (review): the rise of the ratio C(0.15)/C(0.45), 0.38 → 0.49 →
+  0.53, is to be read against the finite-face null's own rise, 0.45 → 0.58 → 0.67, not against 1; against the null
+  the caught ratio trails by a roughly constant 0.07–0.14.*
 - **[conjectured]** The data fit a correlated thinning: a face loses cells everywhere but faster far from where its
   survivors are, so the live cells keep about two graph steps of mutual company while the face as a whole empties.
-  Whether C(0.15)/C(0.45), rising 0.38 → 0.49 → 0.53 with size, would reach the lever rule's ≈ 1 on much larger
-  faces is open; on these sizes it is far from it, and the tangent point is not the remnant's density (F2).
+  *Corrected 2026-11-15 (review). Withdrawn: "on these sizes it is far from [≈ 1], and the tangent point is not the
+  remnant's density (F2)". The reference is the null, not 1, and C does not measure a remnant's density at these
+  counts (a p_t = 0.55 remnant reads C ≈ 0.41 at k = 16 and about 0.33 at k = 8, A = 108). On C and V together the
+  review's random-moment faces are fitted by a lever-rule remnant at an effective p_t ≈ 0.7–0.8 at every depth; only
+  the peaked profile tells them apart. Faces larger than 108 cells would be needed for C to test a plateau.*
 - **[measured] The tangent construction, from this round's own dip table, threshold-free:** g = 0.3081, 0.3043,
   0.3022; s = 0.2489, 0.2611, 0.2689 per site (0.501, 0.516, 0.527 per live cell); p_t = 0.596, 0.571, 0.555; end
   point g(1 − p_t²) = 0.1955, 0.2020, 0.2061 per site at A = 63, 84, 108, against the true end point
   [ln τ + ln ν(0.9)]/A = 0.1786, 0.1877, 0.1934 from this round's own lifetimes. The construction overshoots the
-  true end point by 0.017, 0.014, 0.013 per site (1.06, 1.20, 1.37 nats): it is the review's K ≈ 2 again, and the
-  remnant density it implies (0.55–0.60) is not seen (the company over p ≤ 0.3 is 0.29, 0.34, 0.36).
+  true end point by 0.017, 0.014, 0.013 per site (1.06, 1.20, 1.37 nats): it is the review's K ≈ 2 again (review,
+  2026-11-15: the straight tail alone already overshoots by 0.46–0.53 nats). *Corrected 2026-11-15 (review).
+  Withdrawn: "the remnant density it implies (0.55–0.60) is not seen (the company over p ≤ 0.3 is 0.29, 0.34,
+  0.36)": a remnant at that density would not read C = p_t at these counts.*
 - **[measured] Dying faces are looser than recovering ones at the same level.** At A = 63, p = 0.15: C = 0.152 ±
   0.001 for the 28,552 caught faces that go on to die against 0.204 for the 132,174 that recover (A = 84: 0.203 ±
   0.004 against 0.263; p = 0.3, A = 63: 0.321 against 0.387). Part of this is count (the dying faces have fewer live
-  cells at the catch: 2.97 against 3.61), which this comparison does not remove.
+  cells at the catch: 2.97 against 3.61), which this comparison does not remove. *Corrected 2026-11-15 (review,
+  `research/audit/dying4/dies_out.txt`): matched in count (k ≥ 2, weights the dying faces'), at A = 63 the gap is
+  0.145 against 0.166 at p = 0.15 (difference 0.021 ± 0.001) and 0.303 against 0.320 at p = 0.3 (0.017 ± 0.003).
+  Most (60–75%) of the unmatched gap is count; the direction stands at every single k. At equal k the dying face's
+  void is smaller: its survivors are more spread out.*
+- **[measured, review] How the face is caught matters.** *Added 2026-11-15 from the review:* faces taken at a
+  random moment with P equal to the level (time-weighted) are more clustered than faces at first passage with the
+  same count, by 0.03–0.04 in C at A = 63 (k = 14, 9, 4: 0.576, 0.457, 0.253 against 0.538, 0.413, 0.219). A first
+  passage catches a face mid-fall. Every number of this round is at first passage, as registered.
 
 ## Forecasts, scored
 
@@ -679,12 +736,12 @@ Scored as registered, on the normalised C (definitions note). Errors are bootstr
 
 | | said | found [measured] | |
 |---|---|---|---|
-| F1 (65%) | C(0.15), C(0.3), C(0.45) within 15% of their mean (A = 84); C(0.3), C(0.45) within 15% (A = 108) | A = 84: 0.2598 ± 0.0008, 0.4127 ± 0.0003, 0.5341 ± 0.0002, max deviation 35%. A = 108: 0.4393 ± 0.0004, 0.5416 ± 0.0002, apart by 21% (with 0.15: 0.288 ± 0.005, 32%). Against clause C(0.15)/C(0.45) < 0.6 met: 0.486 ± 0.002 (84), 0.532 ± 0.009 (108), 0.384 (63) | **failed**, by the "against" clause |
-| F2 (50%) | mean C over p ≤ 0.3 at A = 108 in 0.47–0.63 | levels 0.3, 0.15: 0.364 ± 0.003 | **failed** |
+| F1 (65%) | C(0.15), C(0.3), C(0.45) within 15% of their mean (A = 84); C(0.3), C(0.45) within 15% (A = 108) | A = 84: 0.2598 ± 0.0008, 0.4127 ± 0.0003, 0.5341 ± 0.0002, max deviation 35%. A = 108: 0.4393 ± 0.0004, 0.5416 ± 0.0002, apart by 21% (with 0.15: 0.288 ± 0.005, 32%). Against clause C(0.15)/C(0.45) < 0.6 met: 0.486 ± 0.002 (84), 0.532 ± 0.009 (108), 0.384 (63) | **failed**, by the "against" clause. *Caveat 2026-11-15 (review): an exact lever rule on faces this small also fails F1 and meets "against" (null 0.45–0.48, 0.58–0.61, 0.65–0.69); the failure is not evidence against the two-phase reading* |
+| F2 (50%) | mean C over p ≤ 0.3 at A = 108 in 0.47–0.63 | levels 0.3, 0.15: 0.364 ± 0.003 | **failed**. *Caveat 2026-11-15 (review): a remnant at p_t does not read C = p_t at these counts (p_t = 0.55 reads C ≈ 0.41 at k = 16, about 0.33 at k = 8), so this failure says nothing about the remnant's density* |
 | F3 (55%) | at A = 108: |C(0.9) − 0.9| ≤ 0.08, |C(0.75) − 0.75| ≤ 0.08, C(0.3) − 0.3 ≥ 0.2 | −0.067, −0.012, +0.139 (± < 0.001); raw form −0.069, −0.013 | **failed** (third clause); C(p) − p grows from 0.6 down: +0.046, +0.092, +0.139, +0.138 |
 | F4 (55%) | V(0.9), V(0.75) < 0.05; [V(0.15) − V(0.3)] within 30% of [V(0.3) − V(0.45)]; control V(0.45) < half the caught | V = 0.0066, 0.0190 (held); ratio 1.85 ± 0.04 (failed; A = 84: 1.68, A = 63: 2.01); control/caught at 0.45 = 0.25 (held) | **failed** (the void grows faster than linearly in p) |
 | F5 (50%) | mean C over p ≤ 0.3 at A = 63 exceeds A = 108's by 0.03–0.12 | 0.291 against 0.364: −0.073 ± 0.003 | **failed** (the other sign) |
-| F6 | ends the reading if F1 fails by "against" and V(0.3) ≤ 1.5 × control | F1's "against" met at every size; V(0.3)/control = 2.31, 2.68, 3.08 at A = 63, 84, 108 | **not met**: the face is not a mixture, and not a uniform thinning either |
+| F6 | ends the reading if F1 fails by "against" and V(0.3) ≤ 1.5 × control | F1's "against" met at every size; V(0.3)/control = 2.31, 2.68, 3.08 at A = 63, 84, 108 | **not met**: the face is not a uniform thinning. *Caveat 2026-11-15 (review): F6 rested on F1's "against" clause, which an exact lever-rule remnant also meets at 63 and 84 cells (0.45–0.48, 0.58–0.61); its first half is no evidence against a mixture. The first text added "the face is not a mixture", withdrawn* |
 
 F3's first clause is close because the catch is at P ≤ ⌊0.9P̄⌋, which puts the mean count at 0.84 P̄, and C tracks the
 count: the control at the same counts gives 0.828. So C(0.9) − 0.9 = −0.067 is a property of the level, not of the
@@ -758,7 +815,9 @@ Threshold-free ln ν(0.9) = −2.382, −2.401, −2.485 (review −2.382, −2.
 - The per-cell local company (`data/r4_percell.csv`) is the observable I would put first for this question: a mixture
   keeps the distribution of local density around live cells in place and only empties it of weight; a thinning moves
   it. It moves (A = 108, median 0.83, 0.75, 0.65, 0.54, 0.42, 0.27 at p = 0.9 … 0.15; quartiles move with it). Not
-  registered; reported only.
+  registered; reported only. *Note 2026-11-15 (review): on an infinite face; at 4–24 live cells a fixed-density patch's
+  live cells sit mostly at its edge and its distribution moves too, so this needs the finite-face null beside it,
+  which was not done. The review's finite-face comparison found the profile shape, not C, to be what separates.*
 - Groups (live cells linked when within graph distance 2): from about one group at p ≥ 0.75 to 1.5–2.3 at p ≤ 0.3,
   always fewer than the control's 2.3–3.8, with the largest holding 74–85% of the cells. A depleted face is mostly one
   loose cluster with stragglers, not one compact remnant.
@@ -795,6 +854,9 @@ Threshold-free ln ν(0.9) = −2.382, −2.401, −2.485 (review −2.382, −2.
 - The graph-distance definitions do not use the in-plane geometry; the review's centroid-free radial measures were not
   recomputed here, though the d = 1 company at A = 63, p = 0.3 (0.51) is close to its 0.54 within 2.5 doubled units.
 - The registered "interior" restriction leaves 3 cells at A = 63; there it is not meaningful.
+- (Added 2026-11-15.) No null for a remnant was built in this round; the finite-face lever null is the review's
+  (one shape: a ball-shaped, uniformly occupied patch). The per-cell distribution and the group counts were not
+  compared with it.
 
 ## Against earlier rounds and the review
 
