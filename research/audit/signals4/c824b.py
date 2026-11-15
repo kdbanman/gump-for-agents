@@ -32,7 +32,7 @@ row = [json.loads(l) for l in open(os.path.join(st.ROOT, 'research', 'scratch', 
 Sb = frozenset(tuple(c) for c in row['cells'])
 base = orbit8(Sb)
 assert st.step(base[7]) == base[0]
-print('C8.24b placement: units', sorted({st.U(c) for c in Sb}), 'x+y+z', sorted({sum(c) for c in Sb}))
+if __name__ == "__main__": print('C8.24b placement: units', sorted({st.U(c) for c in Sb}), 'x+y+z', sorted({sum(c) for c in Sb}))
 
 
 def start(N):
@@ -44,7 +44,7 @@ if '--oracle' in sys.argv:
     import oracle_check
     for N in (12, 13):
         oracle_check.compare(f'C8.24b beside line N={N}', start(N), 160)
-for N in range(10, 31):
+for N in (range(10, 31) if __name__ == "__main__" else ()):
     x0 = start(N); G = 2 * N + 120
     xs = st.run(x0, G)
     fo = [st.trs(b, N - 12) for b in base]; sup = frozenset().union(*fo)
