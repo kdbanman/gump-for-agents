@@ -1170,8 +1170,9 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   `--same` is UNSAT too). Every end of period dividing 4 at C ≤ 37 is in the census lists of section 27, and the
   period-8 lists at C = 31 and 33 (complete) hold only period-4 ends, so all rows but C = 39 are a second method for a
   question the census also answers. Reproduced with an independent encoding (`research/audit/signals5/mysat5.py`,
-  own region, constants and counter; glucose4 and kissat404): one hole, (4, 4), C = 29 and 31 UNSAT; the other rows
-  rest on `sat_listen.py` alone. The holed train H of `sat_listen.py` is a finite piece ending at unit 46 whose end
+  own region, constants and counter; glucose4 and kissat404): UNSAT for one hole, (4, 4), at C = 29..39 (C = 39 in 787 s);
+  for (8, 8) at C = 31; for [0,1] and [0,2,4] at C = 33. (8, 8) at C = 33 was cut at 1,500 s; the other words rest on
+  `sat_listen.py` alone. The holed train H of `sat_listen.py` is a finite piece ending at unit 46 whose end
   burns back half a unit per generation; it reaches units 0, 1 near generation 88, so instances with T ≳ 88 (longer
   words, or S ≥ 50) would need a longer piece. All instances above have T ≤ 78.
 - **Not finished (cut at 25 minutes or more by `watchdog.sh`; pysat's own interrupt does not fire on these):** the
@@ -1299,8 +1300,9 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   the divider's oscillator stands) was cut at 25 minutes. `listen_batch.sh` was stopped half way (a kill meant for one
   instance stopped `xargs`); the remaining instances were run by `listen_queue.sh` from a queue file and are all in
   the log. Of the 28 + 18 runs in which a gap kills the gun while the oscillator beside the stream survives, one was
-  looked at (a fire, section 28); the others may differ. *Review (REVIEW-signals-5): checked since. The SAT rows C =
-  29, 31 (one hole, (4, 4)) and the controls were reproduced by an independent encoding with two other solvers; the
+  looked at (a fire, section 28); the others may differ. *Review (REVIEW-signals-5): checked since. Most SAT rows
+  (one hole at C = 29..39, (8, 8) at C = 31, two words at C = 33) were reproduced by an independent encoding with two
+  other solvers; the
   census was recounted (741) and re-run on the whole state with an independent stepper for all eight words; every
   one-unit change of one arriving rake was sent to the 741 ends; `divgap.py 16` was re-run; the four `LISTENER?` runs
   were put to the oracle; all 46 gun deaths were looked at, and they do differ (section 28).*

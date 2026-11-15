@@ -18,7 +18,7 @@ records of `gapstream*.jsonl`.
 
 | # | claim | verdict | in one line |
 |---|---|---|---|
-| 1 | §26 SAT negative | **confirmed, narrowed** | C = 29, 31 (and the controls) reproduced by an independent encoding and two other solvers; C = 29 is vacuous (no end exists there); "movers are excluded too" holds only for ends that fit at C − 4k; the rest of the table rests on the push's encoding |
+| 1 | §26 SAT negative | **confirmed, narrowed** | one hole (4, 4) at C = 29..39, (8, 8) at C = 31, and the words [0,1], [0,2,4] at C = 33 reproduced by an independent encoding with glucose4 / kissat404; (8, 8) at C = 33 cut; C = 29 is vacuous (no end exists there) and C ≤ 37 is also answered by the census; "movers are excluded too" holds only for ends that fit at C − 4k |
 | 2 | §27 census, 741 ends, 599 heal / 142 die | **confirmed for holes; the dichotomy refuted for other gaps** | 741 recounted with an independent key; all eight words re-run on the whole state: 599 / 142 exactly; but the stream carries a second one-cell signal, and 503 of the 741 ends treat it differently from the hole |
 | 3 | §28 beside the stream | **confirmed (no listener), narrowed** | divgap 1,034 / 1,021 / 13 / 0 reproduced; the four `LISTENER?` are false (oracle); one of the "28" is a plain-run gun death; of the 46 gun deaths only 25 are fires: beside capA, 8 turn the stream into another wire and 4 are **echoes**, a three-cell signal sent back up the stream through the rakes (oracle) |
 
@@ -61,7 +61,14 @@ glucose4 and kissat404 (the push used CaDiCaL 1.5.3).
 | `python3 mysat5.py 29` (one hole, (4,4)) | UNSAT (vacuous: `--same` also UNSAT) | 5 s |
 | `python3 mysat5.py 31` | UNSAT, glucose4 | 41 s |
 | `python3 mysat5.py 31 --solver kissat404` | UNSAT | 39 s |
-| QUEUE | | |
+| `python3 mysat5.py 33` | UNSAT, glucose4 / kissat404 | 36 s / 161 s |
+| `python3 mysat5.py 35` | UNSAT | 103 s |
+| `python3 mysat5.py 37` | UNSAT | 748 s |
+| `python3 mysat5.py 39 --solver kissat404` | **UNSAT** (the one row beyond the census) | 787 s |
+| `python3 mysat5.py 33 --word 0,1` | UNSAT | 135 s |
+| `python3 mysat5.py 33 --word 0,2,4` | UNSAT | 74 s |
+| `python3 mysat5.py 31 --mult 2 --multB 2` ((8, 8)) | UNSAT | 1,000 s |
+| `python3 mysat5.py 33 --mult 2 --multB 2` | CUT at 1,500 s (the push: UNSAT in 994 s with CaDiCaL) | — |
 
 **Mutation tests** (`mysat5.py`, glucose4):
 
@@ -209,7 +216,7 @@ Applied to `research/signals/README.md` (sections 26–29 and the fifth-push int
 2. §26 "movers are excluded too": only for ends that fit at C − 4|k| (B must be the train on units < 6 and inside the
    planes). Added to "what this does not exclude".
 3. §26 after the table: C = 29 vacuous; C ≤ 37 rows are a second method for the census's question; which rows were
-   reproduced independently (C = 29, 31 one hole; QUEUE_SHORT); the finite holed train H limits T to about 88.
+   reproduced independently (one hole (4, 4) at C = 29..39; (8, 8) at C = 31; [0,1] and [0,2,4] at C = 33); the finite holed train H limits T to about 88.
 4. §27 "which of the two is a property of the end alone": true for holes, false for gaps in general (the second
    one-cell signal K0; four classes of ends; oracle-checked on seven ends).
 5. §27 "Not covered": period 8 not covered from C = 35 (not 33); capA is in the census (it was listed as not covered).
@@ -225,7 +232,8 @@ from the stated probabilities; P1 "failed" is right but its C = 29 part is vacuo
 
 ## 5. Not checked
 
-- The push's SAT rows other than C = 29, 31 one hole (4, 4) were not re-encoded (QUEUE_NOT); no proof certificate
+- Of the push's SAT rows, these rest on `sat_listen.py` alone: (8, 8) at C = 33 (my encoding was cut at 1,500 s), the
+  words at C = 31, 35, 37, the words [0,2] and [0,1,2] at C = 33; no proof certificate
   was produced for any UNSAT (pysat's glucose4 / kissat404 verdicts only). The wire-B pulse control was not re-run.
   The 5 × 5 tube was not attempted.
 - The census's 1,500-generation transients: the review's scan stops at 400 generations, which no row reached (every
