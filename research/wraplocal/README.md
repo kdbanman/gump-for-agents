@@ -10,25 +10,31 @@ tracks its price per cell (loop² 12: 0.20437 ± 0.00016, 13: 0.20602 ± 0.00033
 - **The face-layer density tracks the price [measured, fitted on two girths].** On a torus with period lattice Λ
   the stationary density of the two face layers is, to the precision reached (± 0.00001),
 
-      ρ_face = ρ∞ − Σ_{v ∈ Λ∖0, one per ±v} f(|v|²),    ρ∞ = 0.517743 ± 0.000006,
+      ρ_face = ρ∞ − Σ_{v ∈ Λ∖0, one per ±v} f(|v|²),    ρ∞ = 0.517742 ± 0.000006,
 
-  with one f per loop length, the same for every torus (27 tori, 63–147 cells; χ² 25.4 on 14, of which 15.5 from
-  the three loop² 9 tubes, see below). f(12) = 0.002315, f(13) = 0.001601, f(16) = 0.000764, f(19) = 0.000270,
-  f(21) = 0.000180, f(25) = 0.000079, f(27) = 0.000029, f(28) = 0.000028 (errors 0.000004–0.000019; table below).
-  The deficit is per cell: tubes of one girth at 66, 72 and 84 cells agree to ± 0.00002. The tube's discount per
-  cell is **κ f(q) with κ = 1.86 ± 0.07** fixed on loop² 12 and 16; it then gives loop² 13 as 0.00297 ± 0.00012
-  against the measured 0.00262 ± 0.00034 (−1.0σ) and 19 as 0.00050 ± 0.00003 against −0.00034 ± 0.00120 (−0.7σ).
-  Two girths fix κ, two are forecast, and the 19 forecast is weak because the price at 19 is poorly known.
+  with one f per loop length, the same for every torus (27 tori, 63–147 cells, 1 to 3 short directions; χ² 13.8 on
+  14). f(9) = 0.006267, f(12) = 0.002317, f(13) = 0.001605, f(16) = 0.000768, f(19) = 0.000275, f(21) = 0.000181,
+  f(25) = 0.000079, f(27) = 0.000029, f(28) = 0.000028 (errors 0.000004–0.000019; table below). The deficits of
+  several loops add. The deficit is per cell: tubes of one girth at 66, 72 and 84 cells (loop² 12), 72 and 84 (13,
+  16), 63, 72 and 90 (9) agree to ± 0.00002. The tube's discount per cell is **κ f(q) with κ = 1.85 ± 0.07** fixed
+  on loop² 12 and 16; it then gives loop² 13 as 0.00298 ± 0.00012 against the measured 0.00262 ± 0.00034 (−1.0σ)
+  and 19 as 0.00051 ± 0.00003 against −0.00034 ± 0.00120 (−0.7σ). Two girths fix κ, two are forecast, and the 19
+  forecast is weak because the price at 19 is poorly known.
 - **Only the differences follow, not the open price.** κ ρ∞ = 0.96, against 0.2086: the relation has a large
   intercept. As an elasticity, the price moves 4.6 times as much in relative terms as the density.
 - **The density effect does not end between 19 and 21 [measured].** f falls smoothly, about as e^(−2.3|v|) (|v| in
   lattice units, |v|² = loop²): f(21)/f(19) = 0.67, f(21) = 0.000180 ± 0.000004 is 45σ from zero, f(25) is 20σ
   from zero, f(27) and f(28) 5σ. The exact neighbourhood has no feature there either (next section). By the
   relation, a loop of 21 costs 0.00033 per cell and one of 25 0.00015: below what the lifetimes on file resolve (the
-  19-tube slope is ± 0.0012; the no-short-loop faces give κ = 1.5 ± 0.8 for their own long loops, consistent with
-  1.86 and with 0, `pricefit.py`). So "the effect ends between 19 and 21" reads, from the living state, as "the
+  19-tube slope is ± 0.0012; the no-short-loop faces give κ = 1.9 ± 0.9 for their own long loops, consistent with
+  1.85 and 2σ from 0, `pricefit.py`). So "the effect ends between 19 and 21" reads, from the living state, as "the
   effect falls below the resolution of the lifetimes there"; it is not a threshold [fitted; the lifetime side is
   not settled, see "Where to go next"].
+- **Loop² 9 breaks the relation [measured].** Its density deficit is per cell (63–90 cells, once transverse
+  firewalls are detected) and gives a price of 0.1970 ± 0.0005; the loop² 9 tube's lifetimes are curved instead
+  (local slopes 0.200, 0.198, 0.1955, 0.1927 from 45 to 81 cells; 0.1944 ± 0.0005 over 63–81, run here), so the
+  relation holds near 60 cells and fails by 0.0026 (−3.7σ) over 63–81. These tubes die mostly by transverse
+  firewalls (6.5 firewalls per face death at 72 cells, 41 at 81), a channel the longer tubes do not have.
 - **What does not track it [measured].** The birth (= death) rate of the face layer and the interior activity have
   the wrong loop-length profile: f(16)/f(12) = 0.12 ± 0.01 and 0.15 ± 0.03, against the price's 0.344 ± 0.036 (−6σ,
   −5σ). The face population's variance per cell has 0.439 ± 0.008 (+2.6σ) and a relative size 3.2 times the
@@ -105,30 +111,31 @@ long loops only: (1,4,21) 63 [21×3], (1,4,24) 72 [21×2], (1,4,25) 75 [21,25], 
 
 Face density deficit per loop direction (`data/dens_rho_face.txt`) and the profile of each statistic,
 f(q)/f(12), against the price discount's profile (`data/ratios.txt`; price: 13: 0.614 ± 0.084, 16: 0.344 ± 0.036,
-19: −0.08 ± 0.28):
+19: −0.08 ± 0.28; loop² 9 at 63–81 cells: 3.3, at 54–63: 2.5):
 
 | statistic | value at ρ∞ | f(12)/value | f(9)/f(12) | f(13)/f(12) | f(16)/f(12) | f(19)/f(12) | f(21)/f(12) | f(25)/f(12) |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| face density | 0.517743 | 0.447% | 3.32 | 0.691 ± 0.007 | 0.330 ± 0.008 | 0.117 ± 0.004 | 0.078 ± 0.002 | 0.034 ± 0.002 |
-| dead face cell, mean live in-layer neighbours | 3.0175 | 0.76% | 3.73 | 0.721 | 0.347 | 0.125 | 0.081 | 0.039 |
-| live face cells with 3–5 live neighbours | 0.31956 | 0.54% | 2.46 | 0.689 | 0.399 | 0.115 | 0.077 | 0.038 |
-| in-layer perpendicular pair covariance | 0.011012 | −7.2% | 3.74 | 0.745 | 0.342 | 0.116 | 0.086 | 0.032 |
-| face births per cell per generation | 0.198191 | 0.31% | 5.68 | 0.695 | **0.121 ± 0.013** | 0.133 | 0.084 | 0.030 |
-| interior activity | 0.414974 | 0.10% | 6.24 | 0.802 | **0.146 ± 0.029** | 0.138 | 0.071 | 0.023 |
-| interior density | 0.418775 | 0.12% | 4.53 | 0.731 | 0.474 ± 0.012 | 0.137 | 0.095 | 0.035 |
-| face population variance per cell | 0.37767 | −6.5% | 2.79 | 0.777 | 0.439 ± 0.008 | 0.199 | 0.131 | 0.057 |
+| face density | 0.517742 | 0.448% | 2.705 ± 0.012 | 0.693 ± 0.007 | 0.332 ± 0.008 | 0.119 ± 0.004 | 0.078 ± 0.002 | 0.034 ± 0.002 |
+| dead face cell, mean live in-layer neighbours | 3.0175 | 0.76% | 3.06 | 0.722 | 0.350 | 0.127 | 0.081 | 0.039 |
+| live face cells with 3–5 live neighbours | 0.31956 | 0.54% | 2.03 | 0.688 | 0.397 | 0.114 | 0.077 | 0.038 |
+| in-layer perpendicular pair covariance | 0.011012 | −7.2% | 2.95 | 0.744 | 0.341 | 0.115 | 0.086 | 0.032 |
+| face births per cell per generation | 0.198191 | 0.31% | 4.54 | 0.697 | **0.122 ± 0.013** | 0.136 | 0.084 | 0.029 |
+| interior activity | 0.414974 | 0.10% | 3.26 | 0.802 | **0.146 ± 0.029** | 0.138 | 0.071 | 0.023 |
+| interior density | 0.418775 | 0.12% | 2.47 | 0.731 | 0.477 ± 0.012 | 0.137 | 0.095 | 0.036 |
+| face population variance per cell | 0.37767 | −6.5% | 2.26 | 0.777 | 0.439 ± 0.008 | 0.199 | 0.131 | 0.057 |
 
 (The signs: a short loop lowers density, births and activity, and raises the variance and the in-layer covariance.)
 Every statistic tried falls in the order 12 > 13 > 16 > 19 > 21 > 25, and none has a break between 19 and 21.
 
-Price relation (`dens.py rho_face --price`): κ = 1.857 ± 0.073 from the slopes of loop² 12 and 16.
+Price relation (`dens.py rho_face --price`): κ = 1.854 ± 0.073 from the slopes of loop² 12 and 16.
 
 | loop² | measured discount per cell | κ f(q) | (m − f)/σ |
 |---:|---:|---:|---:|
 | 12 | 0.00427 ± 0.00018 | 0.00430 ± 0.00017 | −0.1 (fit) |
-| 13 | 0.00262 ± 0.00034 | 0.00297 ± 0.00012 | −1.0 (forecast) |
+| 9 | 0.0142 ± 0.0005 (63–81 cells; curved) | 0.0116 ± 0.0005 | −3.7 (forecast after F6, see below) |
+| 13 | 0.00262 ± 0.00034 | 0.00298 ± 0.00012 | −1.0 (forecast) |
 | 16 | 0.00147 ± 0.00014 | 0.00142 ± 0.00007 | +0.3 (fit) |
-| 19 | −0.00034 ± 0.00120 | 0.00050 ± 0.00003 | −0.7 (forecast) |
+| 19 | −0.00034 ± 0.00120 | 0.00051 ± 0.00003 | −0.7 (forecast) |
 | 21 | — | 0.00033 ± 0.00002 | |
 | 25 | — | 0.00015 ± 0.00001 | |
 | 27, 28 | — | 0.00005 ± 0.00001 | |
@@ -137,18 +144,37 @@ Price relation (`dens.py rho_face --price`): κ = 1.857 ± 0.073 from the slopes
 The 14 faces with no loop² ≤ 20 (63–126 cells) all carry loops of 21–31, three each for the precise equilateral ones
 (63: 21×3; 75: 25×3; 81: 27×3; 84: 28×3; 93: 31×3), fewer and longer as the area grows. A straight line fits them
 with χ² 17.4 on 12; the line with the density's discounts subtracted (κ = 1.9, the tube lines' meeting point A0 =
-30 cells) fits with 17.9 (A0 = 20: 24.1; 40: 14.0); κ free gives 1.46 ± 0.76. The lifetimes on file cannot tell.
-If the relation holds, the price of a face with no loop at all is about 0.2075 (A0 = 30), not 0.2086, and the open
-line bends down: forecasts in `data/pricefit_out.txt`, e.g. (6,0,6) at 108 cells 22.529 against 22.551 on the
-straight line, (1,16,39) at 117 cells 24.396 against 24.429.
+30 cells) fits with 16.2 (A0 = 20: 21.5; 40: 13.2); κ free gives 1.94 ± 0.94 (A0 = 40). The lifetimes on file
+cannot tell. If the relation holds, the price of a face with no loop at all is about 0.2075 (A0 = 30), not 0.2086,
+and the open line bends down: forecasts in `data/pricefit_out.txt`, e.g. (6,0,6) at 108 cells 22.535 against
+22.551 on the straight line, (1,16,39) at 117 cells 24.403 against 24.429.
 
 ## Loop² 9
 
-See the section added below when the runs finished (and "Not checked"). The density deficit of the three loop² 9
-tubes is not per cell: 0.007562 ± 0.000095 at 63 cells, 0.007767 ± 0.000222 at 72, 0.008602 ± 0.000251 at 90 (ρ∞
-minus the measured density), and its block scatter is ten times that of every other torus. On these tubes the
-transverse firewall is as frequent as face death (research/shape3: W ≈ F at 63 cells), and these runs did not
-detect firewalls, so the post-firewall states are in the averages.
+- **Density [measured].** With replicas dropped at a transverse firewall (three consecutive empty transverse
+  layers, `live.py run … --fw`), the face density of the loop² 9 tubes is 0.511504 ± 0.000016 (63 cells),
+  0.511466 ± 0.000009 (72), 0.511462 ± 0.000008 (90): per cell, f(9) = 0.006267 ± 0.000008, f(9)/f(12) = 2.70.
+  Without firewall detection (the first production runs, kept in `research/scratch/wraplocal/nofw/`) the same tubes
+  read 0.0002–0.0023 lower, drifting with area and with ten times the block scatter: 2–3% of the replicas pass a
+  firewall in a 4,500-generation window. The (1,12,28) tube rerun with detection is unchanged (0 firewalls).
+- **Lifetimes [measured; one code, ts3, validated on both tori here].** `python3 research/wrap/validate.py 1 7 24 1500`
+  and `1 8 27 1500`: MATCH. `python3 research/wraplocal/tsjob.py job 1 7 24 22000000 309001` (7 min) and
+  `job 1 8 27 100000000 309002` (26 min) → `data/runs9.csv`, `data/runs9_table.txt`:
+
+  | torus | cells | face deaths F | firewalls W | ln τ_face |
+  |---|---:|---:|---:|---:|
+  | (1,6,21), research/shape3 (on file) | 63 | 495,056 | 484,881 | 12.8588 ± 0.0014 |
+  | (1,7,24) | 72 | 10,086 | 65,093 | 14.6191 ± 0.0100 |
+  | (1,8,27) | 81 | 8,090 | 333,463 | 16.3538 ± 0.0111 |
+
+  The 72-cell value agrees with the GPU slab value on file for the same area (14.6214 ± 0.0029). A line through
+  63–81: slope **0.19444 ± 0.00054** (χ² 1.2 on 1); local slopes 0.1955 ± 0.0011 (63–72), 0.1927 ± 0.0017 (72–81).
+  With the file's 45–63 values (0.200, 0.198) the loop² 9 tube's price per cell falls with its length, unlike the
+  tubes of 12–16; its density per cell does not.
+- **F6 as frozen passes** (0.1944 ± 0.0005 against 0.1947 ± 0.0010), **but for the wrong reason**: it used the
+  pilot's f(9) = 0.00737, which was firewall-contaminated. With the clean f(9) the relation gives 0.1970 ± 0.0005,
+  3.7σ above the 63–81 slope and close to the 54–63 one. At loop² 9 the density gives the price near 60 cells and
+  not its fall with length.
 
 ## Forecasts (written before any living-state statistic was measured) and scores
 
@@ -161,7 +187,7 @@ The exact neighbourhood table had been computed when F1–F5 were written; no st
 | **F3 (35%)** one statistic, one parameter fixed on 12 and 16, forecasts 13 within 0.00066 | | **passes** (density: off by 0.00035). Seventeen statistics were tried; the density was the one named in F1, and the others of its family pass too |
 | **F4 (60%)** on an open torus \|C(w)\| ordered 12 > 13 > 16 > 19 > 21 | | **fails**: not resolved at any loop length (all < 10⁻⁴, errors 1.5 × 10⁻⁵, no order) |
 | **F5 (70%)** a loop² 9 tube's price is more than 2.0% below the open price | | **passes on the data on file** (local slopes 0.200 at 45–54 and 0.198 at 54–63 cells, 4–5% below; these were on file but not looked at when F5 was written) |
-| **F6 (35%)** loop² 9 slope 63–81 cells within 2σ of 0.1947 ± 0.0010 | | see below |
+| **F6 (35%)** loop² 9 slope 63–81 cells within 2σ of 0.1947 ± 0.0010 | | **passes as frozen** (0.1944 ± 0.0005), by luck: the frozen f(9) was firewall-contaminated; the clean value misses by 3.7σ (section Loop² 9) |
 
 The lead's forecasts (`research/wrap/PREDICTIONS.md`, end), scored here for the lead to overrule:
 
@@ -177,8 +203,10 @@ The lead's forecasts (`research/wrap/PREDICTIONS.md`, end), scored here for the 
 
 - The stepper was checked against the oracle on one torus ((1,4,24)); the other tori use the same code on graphs
   validated by research/wrap (or here by `validate.py`). No second code measured any statistic.
-- Transverse firewalls were not detected in the production runs. Outside loop² 9 they are rare at these sizes
-  (research/wrap: no firewall in the 84-cell runs), but not counted here.
+- Transverse firewalls were detected only in the loop² 9 runs and one control ((1,12,28)). On tubes of loop² ≥ 12
+  research/wrap's lifetime runs saw 0–30 firewalls per 10⁴–10⁵ face deaths, so in a 4,500-generation window they
+  are negligible; not counted here.
+- A negative control for `live.py check` (a broken rule or neighbour entry must fail) was not run.
 - Burn-in: 500 generations from a 0.4 soup; not varied. A pilot with 300 generations and 3,000 measured
   (`pilot.sh`, 2 blocks per torus) agrees with production to 2–3 × 10⁻⁵, which is inside the pilot's (underestimated)
   errors; a slow transient of that size is not excluded.
@@ -199,4 +227,6 @@ The lead's forecasts (`research/wrap/PREDICTIONS.md`, end), scored here for the 
   relation gives slopes 0.2083 and 0.2085 against an open 0.2086, so ± 0.0001 per cell is needed: very long runs.
 - Space-time correlation C(w, τ) on an open torus, to find what travels round the loop (speed ≤ 1 lattice unit per
   generation along a kagome line, so a loop of 12 is felt after 6 generations at the earliest).
-- Loop² 9 with firewalls detected (`live.py run … --fw`).
+- Why the loop² 9 tube's price per cell falls with its length while its density does not: the firewall channel
+  (W/F = 1 at 63 cells, 6.5 at 72, 41 at 81) is the obvious suspect; the face hazard of lives near a firewall
+  was not looked at.

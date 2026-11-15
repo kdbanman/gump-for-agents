@@ -18,7 +18,7 @@ sys.argv = sys.argv[:1]
 sys.path.insert(0, os.path.join(ROOT, 'research', 'audit'))
 import wrap_haz_lead as W  # noqa: E402
 
-F = {21: 0.000164, 25: 0.000066, 27: 0.000015, 28: 0.000006, 31: 0.000011}   # dens.py rho_face, 15 tori
+F = {21: 0.000181, 25: 0.000079, 27: 0.000029, 28: 0.000028, 31: 0.000022}   # dens.py rho_face, 27 tori (data/dens_rho_face.txt)
 KAPPA, A0 = 1.90, 30.0
 
 
