@@ -20,7 +20,7 @@ from st5 import Tube, train, unit, ROOT
 
 ap = argparse.ArgumentParser(); ap.add_argument('scans', nargs='*'); ap.add_argument('--U0', type=int, default=-400)
 ap.add_argument('--G', type=int, default=500)
-ap.add_argument('--which', default='all', help='all, or heal: only ends that heal every census word')
+ap.add_argument('--which', default='all', help='all; heal: only ends that heal every census word; die: only the others')
 a = ap.parse_args()
 OUT = os.path.join(ROOT, 'research', 'scratch', 'audit', 'signals5')
 scans = a.scans or [os.path.join(OUT, 'scan5.json')]
@@ -30,7 +30,7 @@ for fn in scans:
     d = json.load(open(fn))
     heal = {pe['end'] for pe in d['per_end'] if pe['outcomes'].get('word rides|healed', 0) == 8}
     for r in d['upstream_from_riding']:
-        if a.which == 'all' or r['end'] in heal:
+        if a.which == 'all' or (a.which == 'heal') == (r['end'] in heal):
             rows[r['end']].append(r)
 print(sum(len(v) for v in rows.values()), 'rows on', len(rows), 'ends')
 KS = 6
@@ -68,5 +68,5 @@ for e, rs in rows.items():
         res[out[j]] += 1; byclass[(r['event'].split(' ')[0], out[j])] += 1
 print(dict(res))
 print(dict(byclass))
-json.dump(dict(result=dict(res), candidates=cand), open(os.path.join(OUT, 'echo5.json'), 'w'))
-print(len(cand), 'candidates saved to', os.path.join(OUT, 'echo5.json'))
+json.dump(dict(result=dict(res), candidates=cand), open(os.path.join(OUT, f'echo5_{a.which}.json'), 'w'))
+print(len(cand), 'candidates saved to', os.path.join(OUT, f'echo5_{a.which}.json'))

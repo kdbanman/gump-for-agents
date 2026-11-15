@@ -1216,8 +1216,10 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   within 39 generations, the whole state equal, so nothing was sent up the stream) and 142 × 8 burnt, as claimed.
   **The second half does not hold for other gaps.** Every one-unit change of one arriving rake (every subset of the
   cells of either unit of a train period removed, every dead tube cell of the two made live, the pair replaced by bare
-  wire; at each of the four generations of a period; 418 events per end) still ends healed (whole state) or with the
-  stream burnt; no end is left alive and changed, moved, or with an echo. But the stream carries a second one-cell
+  wire; at each of the four generations of a period; 418 events per end) ends healed (whole state) or with the stream
+  broken: by the event itself (338 events break the bare train), or, for the events that ride the train as a signal,
+  by the end burning back up the stream (all 12,022 such rows followed 256 units up: burns); no end is left alive and
+  changed, moved, or with an echo. But the stream carries a second one-cell
   signal, K0 (the wire cell (1,0,2) missing; made, e.g., by removing the cell (0,1,4) of a rake unit at an even
   generation), and the ends split four ways: 113 heal the hole and K0, 486 heal the hole and are destroyed by K0, 17
   are destroyed by the hole and heal K0, 125 are destroyed by both (`kinds5.py`; on the oracle for seven ends,

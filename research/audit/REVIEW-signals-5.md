@@ -123,8 +123,9 @@ eight words, 426 events per end, 315,666 runs. Each event was first run on the b
 39 generations or sends a difference 66 units up the stream. `python3 echo5.py --U0 -250 --G 300 --which heal` (4 min)
 re-ran every upstream row of a riding event on an end that heals the hole (3,888 rows) with the boundary 256 units up:
 **all 3,888 are burns** (the train 20–40 units in front of the end is broken at generation 300): no echo, no end left
-alive and changed. The riding rows on the 142 ends that die on holes were not followed up (their dying on holes is the
-fuse of §27).
+alive and changed. `python3 echo5.py --U0 -250 --G 300 --which die` (2 min) does the same for the 8,134 upstream rows
+of riding events on the 142 ends that die on holes: **all 8,134 are burns**. (The 286 + 52 events that break the bare
+train break the stream by themselves; their rows say nothing about the end and were not followed.)
 
 **But the dichotomy is not a property of the end alone.** `python3 kinds5.py` (1 min) sorts the 58 riding events by
 the signal they become on the bare train. Besides the hole (kind K1, 40 events: one cell (0,2,3) missing at even
@@ -164,7 +165,7 @@ This re-runs the push's code (`sg.step_set`); it was not re-implemented.
 **(ii) The four `LISTENER?` runs** (`python3 lis4.py`, 85 s, oracle only, from the line's generation 0). In all four
 plain runs the wire units 2..11 are empty from generation 84 on, as the push says; both runs end in period 20 with the
 oscillator in its free orbit; the final cycles differ. The gapped runs keep an 18-cell block on units 4..7 that the
-plain runs lose, and neither final cycle is the working line (checked against line-C's own period-4 cycle at every
+plain runs lose (seen with `st5.step` on C20.29a gap 0), and neither final cycle is the working line (checked against line-C's own period-4 cycle at every
 generation): debris in both. So "not listeners" is right: the placement without the gap is not standing (it burns the
 line), and the gap changes only the debris.
 
@@ -229,12 +230,13 @@ from the stated probabilities; P1 "failed" is right but its C = 29 part is vacuo
   The 5 × 5 tube was not attempted.
 - The census's 1,500-generation transients: the review's scan stops at 400 generations, which no row reached (every
   row healed within 39 generations or reached the boundary).
-- The upstream rows of the 142 ends that die on holes were not followed beyond the boundary at unit −60 (they are
-  fuses on holes; whether their K0 deaths are also plain burns was not looked at). Of the upstream rows on healing
-  ends all 3,888 were followed and all are burns.
+- The events that break the bare train by themselves (338 per end) were not followed: the end then receives a broken
+  stream, not a gap.
 - Events larger than one unit of the train (other than the eight words), events at other distances from the end, and
   additions of cells outside the 3 × 3 tube were not tried.
 - §28's catalogue samples were not re-run (only their not-healed records were re-examined); the 5 "other" mid-wire
   and 4 "other" end runs were not characterised further; the wall's wire was not matched to the family of section 9.
 - Which of the 46 behaviours depend on the placement only through the hole's arrival phase was not studied; the echo
-  was put to the oracle for one run (C18.23a, gap 0) and the wall for one (C13.24a, gap 0).
+  was put to the oracle for its four runs and the wall for one (C13.24a, gap 0); the other walls, the "other" runs
+  and the fires rest on `st5.step` (checked against the oracle inside `c46.py` on one record per file). Whether the
+  echo signal survives anything upstream other than the gun, or what it is on bare wire, was not looked at.
