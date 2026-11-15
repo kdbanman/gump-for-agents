@@ -287,6 +287,12 @@ _Last updated 2026-11-14 by the lead._
   line (0.2044, 0.2060, 0.2072 per cell against 0.2086). **Owed:** the card's 84-cell value as the cross-check
   and its 108-cell face as the test of a bend; the site agent's report on the new plates, then rebuild, check
   and republish the private artifact.
+  **16:34 UTC: the overview is version 15** (nine tori, the new plate "What a short way round costs", live plates
+  for the gun and the divider, third-push tiles, record and landing pages; the site agent's commits f2f7b66 …
+  10f7a40; both check suites pass for the lead; 89 files on the private artifact). The ledger's count paragraph
+  is corrected to the tally: 179 claims, A 86, B 82, C 10, D 1 (WL3's best grade is now B). **Nothing is running.**
+  **Waiting on:** the card (hull face of 108 cells, about 02:00 UTC on the 16th; then the 84-cell tube as the
+  cross-check and the 108-cell tube); the owner's two clicks if the site is to be public.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

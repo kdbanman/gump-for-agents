@@ -273,8 +273,8 @@ Nothing from the swarm is a claim of the project until a fresh reader has audite
 
 ## Counts (recounted 2026-11-15)
 
-179 claims, by the best grade any part of the claim has: **A** 86 (52 alone, 29 with B, 1 with B and C, 4 with C) · **B** 81 (68 alone,
-13 with C for part of the claim; B− counts as B) · **C** 11 · **D** 1 (`python3 research/audit/claims_tally.py`). Before the audit of 2026-11-15
+179 claims, by the best grade any part of the claim has: **A** 86 (52 alone, 29 with B, 1 with B and C, 4 with C) · **B** 82 (68 alone,
+14 with C for part of the claim; B− counts as B) · **C** 10 · **D** 1 (`python3 research/audit/claims_tally.py`). Before the audit of 2026-11-15
 (`research/AUDIT-2026-11-15.md`: 28 rows re-run, 26 matched, P4 restated, a sentence of ZL2 corrected) the count was A 56, B 46, C 30; twenty rows moved
 from C to B then (P4 on to A after a second fit), eight of them re-run on the producer's own seeds and four rebuilt from raw records that are not in git, as their level cells say. Counted mechanically: the best of the letters
 A–D that stand alone in a row's level column, a letter followed by "=" being an area, not a grade (so "C (…: B)"
