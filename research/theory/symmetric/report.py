@@ -136,12 +136,12 @@ print('  asymmetric v - c: ' + '; '.join(f'A = {area(R, "c")}: {fmt(diff(v(f"oct
 print('=' * 100)
 print('F. faces with a threefold axis: T (free rims), T_h (rims in lockstep), T_d (C3v, free rims), O_h (C3v, rims in lockstep)')
 print('   group   R   A    ln tau_face (c)     (c/k)A, c = 0.209   |  R   ln tau_face (v)      v - c')
-for g, k, Rs in (('t', 3, (15, 17, 19, 21)), ('th', 3, (19, 21, 23)), ('o', 3, (19, 21)), ('td', 6, (19, 21, 23, 25, 27, 29, 31, 33, 35)), ('oh', 6, (23, 25, 27, 29, 31, 33))):
+for g, k, Rs in (('t', 3, (15, 17, 19, 21)), ('th', 3, (19, 21, 23)), ('o', 3, (19, 21)), ('td', 6, (19, 21, 23, 25, 27, 29, 31, 33, 35, 37)), ('oh', 6, (23, 25, 27, 29, 31, 33, 35, 37))):
     for R in Rs:
         a = v(f'oct_{R}_c_{g}'); b_ = v(f'oct_{R + 1}_v_{g}'); A = area(R, 'c')
         print(f'   {g:3s}  {R:3d} {A:4d}   {fmt(a):18s}  {0.209 / k * A:7.3f} ({(a[0] - 0.209 / k * A) if a else float("nan"):+.2f})    | {R + 1:3d}  {fmt(b_):18s}  {fmt(diff(b_, a))}')
 print('   local slopes x |stabiliser| (per quotient cell), cube-centred:')
-for g, k, Rs in (('t', 3, (15, 17, 19, 21)), ('td', 6, (19, 21, 23, 25, 27, 29, 31, 33, 35)), ('oh', 6, (23, 25, 27, 29, 31, 33))):
+for g, k, Rs in (('t', 3, (15, 17, 19, 21)), ('td', 6, (19, 21, 23, 25, 27, 29, 31, 33, 35, 37)), ('oh', 6, (23, 25, 27, 29, 31, 33, 35, 37))):
     out = []
     for r0, r1 in zip(Rs, Rs[1:]):
         d = diff(v(f'oct_{r1}_c_{g}'), v(f'oct_{r0}_c_{g}'))
@@ -154,7 +154,7 @@ print('G. the rim term of a wedge: T_d minus O_h at equal hull; T_h minus T')
 pts = {'c': [], 'v': []}
 _pool = oh_data.load()
 OLD = {(A, c): (math.log(e / d), 1 / math.sqrt(d)) for (A, c), (d, e) in _pool.items() if d >= 10}
-for R in (23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35):
+for R in (23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35, 37):
     cen = 'c' if R % 2 else 'v'; oh = v(f'oct_{R}_{cen}_oh') or OLD.get((area(R, cen), cen))
     d = diff(v(f'oct_{R}_{cen}_td'), oh)
     if d:
@@ -204,7 +204,7 @@ for name, X in (('constant', np.ones((len(a_), 1))), ('k sqrt(A)', np.sqrt(a_)[:
 
 print('=' * 100)
 print('I. this study against the earlier O_h values (same vessel, other stepper, soup 0.35, T0 = 1000)')
-for R, cen in ((29, 'c'), (30, 'v'), (31, 'c'), (32, 'v'), (33, 'c'), (34, 'v')):
+for R, cen in ((29, 'c'), (30, 'v'), (31, 'c'), (32, 'v'), (33, 'c'), (34, 'v'), (35, 'c'), (37, 'c')):
     A = area(R, cen); o = (C if cen == 'c' else V).get(A); m = v(f'oct_{R}_{cen}_oh')
     if m and o:
         print(f'   R = {R} {cen} A = {A}: here {fmt(m)}   earlier {o[0]:.3f} +- {o[1]:.3f}   difference {m[0] - o[0]:+.3f} +- {math.hypot(m[1], o[1]):.3f}')
@@ -224,9 +224,9 @@ scat = math.sqrt(chir / max(len(p) - 2, 1))
 print(f'   rim term, R = 23..{int(4 * p[-1] + 1)}: T_d - O_h = {br[0]:.3f} + ({br[1]:.3f} +- {ebr[1] * scat:.3f}) n, n = (R-1)/4 rim periods in the wedge (error scaled by the scatter)')
 print(f'   n = (sqrt(1 + 8A/3) - 3)/4 = 0.408 sqrt(A) - 0.75 + O(1/sqrt(A)): coefficient of sqrt(A) from the rim = {-0.4082 * br[1]:.3f} +- {0.4082 * ebr[1] * scat:.3f}')
 print('   coefficient fitted to the earlier O_h data with the slope pinned at c/6 (oh_data.py): -0.157 (c = 0.2072), -0.171 (0.209), -0.193 (0.2117), -0.244 (0.2179); first quoted -0.196')
-print('   O_h rebuilt = a_Td + (c/6) A - rim(A), against the measured O_h (this study to A = 459, earlier CPU and GPU beyond):')
+print('   O_h rebuilt = a_Td + (c/6) A - rim(A), against the measured O_h (this study to A = 570, earlier CPU and GPU beyond):')
 meas = {A: OLD[(A, 'c')] for (A, cc) in OLD if cc == 'c'}
-for R in (23, 25, 27, 29, 31, 33):
+for R in (23, 25, 27, 29, 31, 33, 35, 37):
     m = v(f'oct_{R}_c_oh')
     if m:
         meas[area(R, 'c')] = m[:2]
@@ -238,28 +238,38 @@ for A in sorted(meas):
         row.append(a0 + c / 6 * A - (br[0] + br[1] * n) - meas[A][0])
     print(f'    {A:5d}   {meas[A][0]:7.3f} +- {meas[A][1]:.3f}    ' + '      '.join(f'{x:+.2f}' for x in row))
 
-x35 = v('oct_35_c_td')
-if x35:
-    for c in (0.209, 0.2117):
-        a0 = float(((y - c / 6 * A_) / s ** 2).sum() / (1 / s ** 2).sum())
-        print(f'   T_d at A = 513 (R = 35): measured {fmt(x35)}; T_d line with c = {c}: {a0 + c / 6 * 513:.3f}; measured minus the earlier O_h value 14.151: {x35[0] - 14.151:.3f}; rim law at n = 8.5: {br[0] + br[1] * 8.5:.3f}')
+for Rx in (35, 37):
+    x = v(f'oct_{Rx}_c_td'); Ax = area(Rx, 'c'); ohx = v(f'oct_{Rx}_c_oh') or OLD.get((Ax, 'c'))
+    if x:
+        for c in (0.209, 0.2117):
+            a0 = float(((y - c / 6 * A_) / s ** 2).sum() / (1 / s ** 2).sum())
+            print(f'   out of the fitted range, A = {Ax} (R = {Rx}): T_d measured {fmt(x)}; T_d line with c = {c}: {a0 + c / 6 * Ax:.3f}; T_d - O_h = {x[0] - ohx[0]:.3f} +- {math.hypot(x[1], ohx[1]):.3f}; '
+                  f'rim law at n = {(Rx - 1) / 4}: {br[0] + br[1] * (Rx - 1) / 4:.3f}')
 
-print('   all seven sizes R = 23..35 (T_d - O_h; O_h at R = 35 is the earlier 14.151), with the alternation in R mod 4 (alt = +1 for R = 1 mod 4):')
 pa = [q for q in pts['c']]
 n7, y7, s7 = (np.array(x, float) for x in zip(*pa)); R7 = np.rint(4 * n7 + 1).astype(int); alt = np.where(R7 % 4 == 1, 1.0, -1.0)
+print(f'   all {len(pa)} sizes R = {R7[0]}..{R7[-1]} (T_d - O_h), with the alternation in R mod 4 (alt = +1 for R = 1 mod 4):')
 for name, X in (('a + rho n', np.stack([np.ones_like(n7), n7], 1)), ('a + rho n + d alt', np.stack([np.ones_like(n7), n7, alt], 1)),
                 ('a + rho (n-7) + d alt + q (n-7)^2', np.stack([np.ones_like(n7), n7 - 7, alt, (n7 - 7) ** 2], 1))):
     bw, ew, cw = wls(X, y7, s7); bu = np.linalg.lstsq(X, y7, rcond=None)[0]; ru = y7 - X @ bu
-    print(f'      {name:34s} weighted: ' + ', '.join(f'{x:.3f}' for x in bw) + f'  chi2 {cw:.1f}/{len(n7) - X.shape[1]};   unweighted: ' + ', '.join(f'{x:.3f}' for x in bu)
+    print(f'      {name:34s} weighted: ' + ', '.join(f'{x:.3f} +- {e:.3f}' for x, e in zip(bw, ew)) + f'  chi2 {cw:.1f}/{len(n7) - X.shape[1]};   unweighted: ' + ', '.join(f'{x:.3f}' for x in bu)
           + f'  rms {math.sqrt((ru ** 2).sum() / (len(n7) - X.shape[1])):.3f}')
-print('      increments per period within a sub-series: R = 23, 27, 31, 35: ' + ', '.join(f'{b_ - a_:.3f}' for a_, b_ in zip(y7[0::2], y7[2::2])) + ';  R = 25, 29, 33: ' + ', '.join(f'{b_ - a_:.3f}' for a_, b_ in zip(y7[1::2], y7[3::2])))
-tdall = [(R, area(R, 'c'), v(f'oct_{R}_c_td')[0]) for R in (23, 25, 27, 29, 31, 33, 35) if v(f'oct_{R}_c_td')]
-Rt, At, yt = (np.array(x, float) for x in zip(*tdall)); altt = np.where(Rt % 4 == 1, 1.0, -1.0)
+sub = {m: [(int(R_), y_, s_) for R_, y_, s_ in zip(R7, y7, s7) if R_ % 4 == m] for m in (3, 1)}
+for m in (3, 1):
+    L = sub[m]
+    print(f'      increments per period within the sub-series R = {", ".join(str(q[0]) for q in L)}: ' + ', '.join(f'{b_[1] - a_[1]:.3f} +- {math.hypot(a_[2], b_[2]):.3f}' for a_, b_ in zip(L, L[1:])))
+tdall = [(R, area(R, 'c')) + v(f'oct_{R}_c_td')[:2] for R in (23, 25, 27, 29, 31, 33, 35, 37) if v(f'oct_{R}_c_td')]
+Rt, At, yt, st = (np.array(x, float) for x in zip(*tdall)); altt = np.where(Rt % 4 == 1, 1.0, -1.0)
 X = np.stack([np.ones_like(At), At, altt], 1); bt = np.linalg.lstsq(X, yt, rcond=None)[0]; rt = yt - X @ bt
-print(f'   T_d, A = 234..513, unweighted with the alternation: ln tau = {bt[0]:.3f} + {bt[1]:.5f} A + {bt[2]:.3f} alt   (slope x 6 = {6 * bt[1]:.4f}, rms {math.sqrt((rt ** 2).sum() / (len(At) - 3)):.3f})')
-print('      slopes x 6 within a sub-series: R = 23, 27, 31, 35: ' + ', '.join(f'{6 * (yt[i + 2] - yt[i]) / (At[i + 2] - At[i]):.4f}' for i in (0, 2, 4)) + ';  R = 25, 29, 33: '
-      + ', '.join(f'{6 * (yt[i + 2] - yt[i]) / (At[i + 2] - At[i]):.4f}' for i in (1, 3)))
-print('   if T_d keeps a slope c_T/6 beyond A = 513 (from 17.291 at R = 35, 15.635 at R = 33), the rim term the earlier O_h points need, and its marginal cost per period from R = 35 / 33:')
+print(f'   T_d, A = {int(At[0])}..{int(At[-1])}, unweighted with the alternation: ln tau = {bt[0]:.3f} + {bt[1]:.5f} A + {bt[2]:.3f} alt   (slope x 6 = {6 * bt[1]:.4f}, rms {math.sqrt((rt ** 2).sum() / (len(At) - 3)):.3f})')
+tsub = {m: [q for q in tdall if q[0] % 4 == m] for m in (3, 1)}
+for m in (3, 1):
+    L = tsub[m]
+    print(f'      slopes x 6 within the sub-series R = {", ".join(str(q[0]) for q in L)}: '
+          + ', '.join(f'{6 * (b_[2] - a_[2]) / (b_[1] - a_[1]):.4f} +- {6 * math.hypot(a_[3], b_[3]) / (b_[1] - a_[1]):.4f}' for a_, b_ in zip(L, L[1:])))
+g759, g828 = OLD[(759, 'c')][0], OLD[(828, 'c')][0]
+(R3, A3, y3, _), (R1, A1, y1, _) = tsub[3][-1], tsub[1][-1]
+print(f'   if T_d keeps a slope c_T/6 beyond its last points ({y3:.3f} at R = {R3}, {y1:.3f} at R = {R1}): the rim term the GPU O_h points ({g759:.3f}, {g828:.3f}) need, and its marginal cost per period beyond R = {R3} / {R1}:')
 for cT in (0.2022, 0.209, 0.2155):
-    r43 = 17.291 + cT / 6 * (759 - 513) - 21.889; r45 = 15.635 + cT / 6 * (828 - 459) - 24.175
-    print(f'      c_T = {cT}: A = 759 (n = 10.5): {r43:.2f}, marginal {(r43 - 3.140) / 2:.2f};   A = 828 (n = 11): {r45:.2f}, marginal {(r45 - 3.165) / 3:.2f}')
+    r43 = y3 + cT / 6 * (759 - A3) - g759; r45 = y1 + cT / 6 * (828 - A1) - g828
+    print(f'      c_T = {cT}: A = 759 (n = 10.5): {r43:.2f}, marginal {(r43 - sub[3][-1][1]) / ((43 - R3) / 4):.2f};   A = 828 (n = 11): {r45:.2f}, marginal {(r45 - sub[1][-1][1]) / ((45 - R1) / 4):.2f}')

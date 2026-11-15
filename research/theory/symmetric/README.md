@@ -20,8 +20,9 @@ Every table is printed by `python3 research/theory/symmetric/report.py` from `da
    as unproved as the area law itself. [measured] It holds at reachable sizes wherever the wedge's rim borders
    *living* faces: faces with a threefold axis only (group T, free rims) lie on **(0.209/3)·A + 0.00 ± 0.04** at
    A = 108–198 (slopes × 3: 0.204, 0.215, 0.210); faces with the full C3v and free rims (group T_d) have slope × 6
-   = **0.2035 ± 0.002** at A = 315–459 and sit at (0.209/6)·A − 0.33…−0.43 there; a C3v triangle with no hull rim
-   at all (slab torus) reaches 0.207 at 60–72 quotient cells. Below about 50 quotient cells every mirror-bounded
+   = **0.2035 ± 0.002** at A = 315–459 (0.201 with the larger sizes and the alternation of section 3) and sit at
+   (0.209/6)·A − 0.31…−0.43 there; a C3v triangle with no hull rim at all (slab torus) reaches 0.207 at 60–72
+   quotient cells. Below about 50 quotient cells every mirror-bounded
    quotient has a lower slope (0.17–0.20), rising with size.
 2. **The √A term is not a mirror-line term.** [measured] Imposing a mirror, a threefold axis, or both on a slab face
    *lengthens* its life relative to the asymmetric torus of equal quotient area (by 0.4–1.9, 0.5–0.7 and 0.4–0.7).
@@ -36,7 +37,7 @@ Every table is printed by `python3 research/theory/symmetric/report.py` from `da
    The O_h law rebuilt from parts measured at A ≤ 459 (T_d law minus rim term) reproduces the GPU's points at
    A = 759 and 828 to −0.13 and −0.25 (c = 0.2117) or +0.14 and +0.06 (c = 0.2155), out of 21.9 and 24.2.
 3. **The centring is both an object and a line.** [measured] Without any symmetry a vertex-centred hull face
-   already outlives a cube-centred one of equal area by 0.75, 0.74, 0.68, XX14 at A = 30, 45, 63, 84: a constant
+   already outlives a cube-centred one of equal area by 0.75, 0.74, 0.68, 0.65 ± 0.06 at A = 30, 45, 63, 84: a constant
    factor of about 2, a property of the hull's shape (the cube-centred face has three apex cells and a rim row
    of twice as many cells). A threefold face (T) shows a third of it, 0.25, 0.25, 0.22. With rims that die
    together the difference grows with the rim: D2h 0.51, 0.65, 0.83 at A = 63, 84, 108; O_h 0.33 ± 0.05 at A = 234
@@ -173,10 +174,11 @@ effect). What matters is that the two faces sharing the edge die together.
 | 63 | 11 | 13.634 ± 0.018 | 7.168 ± 0.003 | 2.155 | 0.431 | 7.673 ± 0.004 |
 | 84 | 13 | 18.141 ± 0.005 | 10.022 ± 0.007 | 2.706 | 0.451 | 10.667 ± 0.009 |
 | 108 | 15 | 23.376 ± 0.031 | 13.774 ± 0.022 | 3.201 | 0.457 | 14.604 ± 0.033 |
-| 135 | 17 | 29.34 ± 0.25 | XX17 | XX17b | XX17c | |
+| 135 | 17 | 29.34 ± 0.25 | 18.449 ± 0.071 | 3.630 | 0.454 | |
 
 (A = 45: 9.816 against 5.226, but D2h lives there last about 200 generations and depend on T0.) The marginal cost
-is 0.55 and 0.50 per period. D2h faces' own cost per cell is 0.136 (63 → 84) and 0.156 (84 → 108): the faces are
+is 0.55, 0.50 and 0.43 ± 0.09 per period. D2h faces' own cost per cell is 0.136 (63 → 84), 0.156 (84 → 108) and
+0.173 (108 → 135): the faces are
 so small that most of each lies within reach of a rim, which is why the phase study read D2h vessels as "an
 asymmetric vessel of 0.41–0.46 of the volume". Against the rim-free slab line −0.091 + 0.2088·A a D2h face is
 lower by 0.39–0.41 per period of rim, an asymmetric hull face higher by about 0.04: [conjectured] the hull's rim
@@ -251,7 +253,7 @@ Report section H. v − c at equal area:
 
 | group | rims | A: v − c |
 |---|---|---|
-| none | free | 30: +0.747 ± 0.016; 45: +0.738 ± 0.013; 63: +0.676 ± 0.032; 84: XX14 |
+| none | free | 30: +0.747 ± 0.016; 45: +0.738 ± 0.013; 63: +0.676 ± 0.032; 84: +0.646 ± 0.060 |
 | T | free | 108: +0.248 ± 0.006; 135: +0.250 ± 0.012; 165: +0.224 ± 0.015 |
 | T_d | free | 165–408: +0.249, +0.185, +0.398, +0.240, +0.382, +0.254, +0.405 (± 0.005–0.024): alternating, no trend |
 | D2h | lockstep | 63: +0.505; 84: +0.645 ± 0.011; 108: +0.830 ± 0.039 (settled-life bracket ± 0.03) |
@@ -268,15 +270,16 @@ Report section H. v − c at equal area:
 - O_h over eleven areas (this study below A = 400 with the settled-life bracket in the error, earlier data from
   408): constant 0.3745, χ² 60.8/10; k·√A with k = 0.0213 ± 0.0003, χ² 19.4/10; d0 + k·√A, d0 = 0.104 ± 0.039,
   k = 0.0155 ± 0.0022, χ² 12.5/9.
-- T_d's alternation (high at R ≡ 3 mod 4 cube-centred, low at R ≡ 1) follows the number of mirror cells on a
-  median, which steps every second R: the end of a mirror line at the rim is an object of fixed size with two
-  kinds, worth about ± 0.08. O_h does not show it.
+- T_d's alternation (v − c high where the cube-centred R ≡ 3 mod 4, low where R ≡ 1) follows the number of
+  mirror cells on a median, which steps every second R: the end of a mirror line at the rim is an object of fixed
+  size with two kinds. In ln τ it is worth about ± 0.03 cube-centred (R ≡ 1 mod 4 high) and ± 0.05 vertex-centred
+  (R ≡ 0 mod 4 high), in antiphase at equal area. O_h's v − c does not show it.
 
 ## Status of the three questions
 
 1. **The 1/6.** *Derived:* the exact reduction to the wedge; exactness of 1/|G| for free actions; which tori
    admit which symmetry. *Measured:* slope × |stabiliser| = 0.210 ± 0.003 (T, A = 108–198), 0.2035 ± 0.002 (T_d,
-   A = 315–459), 0.207 ± 0.003 (rim-free C3v triangle, 60–72 quotient cells), 0.2011 ± 0.0003 (threefold slab
+   A = 315–459; 0.201 with the larger sizes), 0.207 ± 0.003 (rim-free C3v triangle, 60–72 quotient cells), 0.2011 ± 0.0003 (threefold slab
    quotients), against asymmetric references 0.203–0.218 in the same protocol. *Conjectured:* that the limit is
    exactly c/6 (it needs the face law to be a local large-deviation rate, which nobody has proved), and that O_h's
    own slope × 6, 0.199–0.201 at A = 693–828, is c/6 minus the still-growing rim term.
@@ -302,7 +305,7 @@ Report section H. v − c at equal area:
 | P3 slope n = 49 → 64 | 3.13 ± 0.10 | 3.044 ± 0.017 | held |
 | P4 D2h v − c = 0.119·√A ± 0.15 | 0.94, 1.09, 1.24 at A = 63, 84, 108 | 0.505, 0.645, 0.830 | **failed** on level (low by 0.4); it grows as forecast |
 | P5 asymmetric v − c below a third of D2h's | < 0.2 | 0.74, 0.68 | **failed** |
-| P6 c1 − D2h | 5.4 ± 0.7 (A = 45), 6.9 ± 0.7 (63) | 4.6–4.9 (unreliable), 6.47–6.64 | failed at 45, held at 63 |
+| P6 c1 − D2h, mean of the centrings | 5.4 ± 0.7 (A = 45), 6.9 ± 0.7 (63) | 4.74 (c 4.59, v 4.90; D2h lives too short there to be reliable); 6.55 (6.47, 6.64) | held (at A = 45 by 0.04) |
 | Q1 D2h from A = 84 to 108 | 3.9 ± 0.35 | 3.752 ± 0.023 (c), 3.937 ± 0.034 (v) | held |
 | Q2 edges add, A = 63 | csz 11.48, c2v 9.32 (± 0.4) from the same hull's c1 and D2h | 11.456, 9.291 (v: within 0.11) | held |
 | Q3 inversion costs nothing | 13.63 ± 0.3 | 13.578 ± 0.014 | held |
@@ -316,8 +319,8 @@ Report section H. v − c at equal area:
 | R1 triangle above the T_d wedge of equal quotient area at N = 10 | 1.4 ± 0.7 | 0.65 | **failed** by 0.05 |
 | R1 slope N = 8 → 12 | 0.19–0.22 | 0.2001 | held |
 | R2 edges add, A = 84 | csz 15.43 ± 0.12, c2v 12.73 ± 0.12 | 15.506 ± 0.026, 12.857 ± 0.019 | held; **failed** by 0.007 |
-| R3 D2h at A = 135 | 18.24 ± 0.4 | XX17 | XXR3 |
-| R4 asymmetric v − c | 0.72 ± 0.12 (A = 30); 0.66 ± 0.10 (A = 84) | 0.747 ± 0.016; XX14 | held; XXR4 |
+| R3 D2h at A = 135 | 18.24 ± 0.4 | 18.449 ± 0.071 | held |
+| R4 asymmetric v − c | 0.72 ± 0.12 (A = 30); 0.66 ± 0.10 (A = 84) | 0.747 ± 0.016; 0.646 ± 0.060 | held; held |
 | S1 T_d at A = 513 | 17.52 ± 0.15 | XX35 | XXS1 |
 | S2 group O above T_h by 0.35 | 8.81 ± 0.2, 10.66 ± 0.2 | 7.086, 8.694 | **failed**: O is below T_h by 1.4–1.6 |
 | S2 c2e above csz at A = 84 | +0.30 ± 0.15 | +0.328 ± 0.040 | held |
