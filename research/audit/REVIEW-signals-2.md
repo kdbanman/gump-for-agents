@@ -171,8 +171,9 @@ not isolate a wire from chaos in general. Three do (T3), always.
 `python3 cap_brute.py WIRE C` (brute force over all 2^nfree generation-0 states; 10 s at C = 25, 20 min at 27) and
 `python3 sat_compare.py WIRE C` (the study's `caps.enumerate_caps` against it):
 - wire B, C = 25: 19 free cells, 0 caps by both; C = 27: 26 free cells, **2 caps by both, the same two cell sets**
-  (one is the 8-cell eater). Wire C, C = 25: 0 by both; C = 27: SAT 3 caps, brute force: see the commit of this
-  file (it was still running when this was written up; result appended below).
+  (one is the 8-cell eater). Wire C, C = 25: 0 by both; C = 27: **3 caps by both, the same three cell sets** (brute
+  force 20 min; SAT list printed by `caps.enumerate_caps(wire, 27, 1, 5, 6)`). So the census encoding finds every
+  cap and only caps on four instances with a known answer (two of them non-empty).
 - reflectors: `sat_reflect.py T 29 --solver glucose4` reproduces UNSAT for pulse B at T = 8, 10, 12 and for pulse C
   at T = 8, 10; the encoding's positive control (`--absorb`, T = 12, C = 29) is SAT and the eater it returns steps
   correctly. Odd delays, which the study did not search: pulse B, T = 9, 11, 13, 15 at C = 29 and 33, all UNSAT.
