@@ -622,12 +622,18 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
   the constants to the left are exact). Class k = 2 is T ≡ 0 mod 4 here. UNSAT for every T = 8, 12, .., 28 at
   C = 43, 45, 47, 49, 51 (26 to 54 free cells; under 3 s each), and T = 8 to 32 at C = 55, T = 8 to 28 at C = 59
   (68, 82 cells; up to 101 s). Class k = 0 is SAT at T = 14 (C ≥ 45) and T = 18 (C ≥ 49), and the caps returned
-  turn a lone rake with k = 0 when re-stepped: the encoding finds the turns that exist. So **within these bounds the
-  turn class is forced, and no clock of this kind has period ≡ 0 mod 4.** What this does not cover: caps of period
-  above 2, caps reaching outside the 3 × 3 tube (a run in the 5 × 5 tube was started; see section 19), turns in
+  turn a lone rake with k = 0 when re-stepped: the encoding finds the turns that exist. Also UNSAT: T = 8 to 28 at
+  C = 63 (96 free cells, up to 103 s). **Caps of period 4 and 6** (`--zp 4`, `--zp 6`; such a cap can tell the two
+  arrival classes apart, so the argument above does not apply to it): k = 2 UNSAT for T = 8 to 28 at C = 43, 47,
+  51, 55 (period 4) and T = 12 to 24 at C = 47, 51 (period 6), up to 91 s each. **But with no cap condition at all**
+  (`--zp 0`: any state whatever on units ≥ 10 at generation 0, not periodic) k = 2 turns exist (T = 16 and 20 at
+  C = 47, SAT in seconds). So the class is forced by the cap's being periodic, not by the rake and the tape alone.
+  So **within these bounds the turn class is forced, and no clock of this kind has period ≡ 0 mod 4.** What this
+  does not cover: caps of period 8 or more or of odd multiples beyond 6, caps reaching outside the 3 × 3 tube, turns in
   which the rake's tape in front of the mirror rake is altered by more than the last two positions (the guard),
   turns slower than T = 28 to 32, clocks whose shuttling object is not this rake. No reason for the forced class is
-  known: it is a regularity of the caps, not yet a theorem.
+  known: it is a regularity of periodic caps (period 2, 4, 6 tested), not yet a theorem. [conjectured] Every periodic
+  right cap of wire C that turns the rake does so with k = 0, so every shuttle clock of wire C has period ≡ 2 mod 4.
 
 ## 19. Third push: not done, not checked, and where to go next
 
@@ -641,6 +647,8 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
 - **Where I would go next.** (1) The gun is now one precise SAT question, `sat_writer.py` with T ≥ 10 and bigger
   planes; the instances grow fast with T, so fix the word (e.g. `--word BCCCC`, a single pulse per 10 generations)
   and seed the writer with a clock's cap. (2) Explain k: the class may come from a parity of the rake's own cells
-  at the moment it touches the cap; a proof would settle 4N + 2 for all caps of period 2. (3) Caps of period 4, or
-  in the 5 × 5 tube, are where a k = 2 turn (and a period 4N clock) could still be. (4) A two-sided turner bigger
+  at the moment it touches the cap; a proof would settle 4N + 2 for all caps of period 2. (3) The k = 2 turns that exist
+  without a periodic cap (`sat_turn.py 16 47 --KS 10 --zp 0`) are the place to look for the invariant: what do all
+  periodic caps have that those starting states lack? Caps in the 5 × 5 tube are where a period-4N clock could
+  still be. (4) A two-sided turner bigger
   than 4 units: `sat_defects.py` cut at 3,000 of an unknown total.
