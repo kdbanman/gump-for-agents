@@ -637,7 +637,11 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
   3 × 3 tube (`objects/turn-k2-cap-5x5.json`), turns a lone rake with **k = 2** (re-stepped by `turnclass.right_turn`:
   k = 2). Put opposite capL of the clock it is not enough: for N = 3..12 the lit object settles (period 1 or 2), the
   cap does not survive the trains or the turn. `python3 k2caps.py T C` enumerates such caps and tries each in a
-  clock (section 19 says what it found). So the 3 × 3 tube was the obstruction to a period-4N clock, not the rake.
+  clock: at T = 16, C = 47 the first four such caps (42 to 44 cells, about 3 min) all turn a lone rake with k = 2 and
+  all die in a clock (N = 5, 6: the lit object settles to period 1). `sat_turn.py ... --eat Te` adds the condition
+  that the cap also swallows a lone p> and is exactly restored Te generations later (positive control in the 3 × 3
+  tube: `sat_turn.py 14 47 --KS 10 --eat 16`, SAT in 1 s, k = 0); the k = 2 instance with it in the 5 × 5 tube
+  (`sat_turn.py 16 47 --KS 10 --lo -1 --hi 7 --eat 16`) had not answered after 10 minutes when this push ended. So the 3 × 3 tube was the obstruction to a period-4N clock, not the rake.
   What the 3 × 3 negative does not cover: caps of period 8 or more or of odd multiples beyond 6, turns in
   which the rake's tape in front of the mirror rake is altered by more than the last two positions (the guard),
   turns slower than T = 28 to 32, clocks whose shuttling object is not this rake. No reason for the forced class is
@@ -656,7 +660,10 @@ everything to the left of whatever sits at the +v end of a tape is fixed by the 
 - **Where I would go next.** (1) The gun is now one precise SAT question, `sat_writer.py` with T ≥ 10 and bigger
   planes; the instances grow fast with T, so fix the word (e.g. `--word BCCCC`, a single pulse per 10 generations)
   and seed the writer with a clock's cap. (2) Explain k: the class may come from a parity of the rake's own cells
-  at the moment it touches the cap; a proof would settle 4N + 2 for all caps of period 2. (3) The k = 2 turns that exist
+  at the moment it touches the cap; a proof would settle 4N + 2 for all caps of period 2. (3) **The closest thing to a new result: a period-4N shuttle clock.** It needs a 5 × 5-tube cap of class
+  k = 2 that also eats the p> train and is restored after each turn; run `sat_turn.py 16 47 --KS 10 --lo -1 --hi 7
+  --eat 16` to the end (and T = 20, C = 51), then `k2caps.py`-style clock tests, then the oracle (`verify_clock.py`
+  takes capL/capR from a file). (3b) The k = 2 turns that exist
   without a periodic cap (`sat_turn.py 16 47 --KS 10 --zp 0`) are the place to look for the invariant: what do all
   periodic caps have that those starting states lack? Caps in the 5 × 5 tube are where a period-4N clock could
   still be. (4) A two-sided turner bigger
