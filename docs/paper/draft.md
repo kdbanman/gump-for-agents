@@ -262,8 +262,8 @@ m ≥ 3): if v·ā < 0 and v·b̄ < 0 then v·ē = −2(v·ā + v·b̄) > 0, so 
 layer is symmetric. So c has at least 4 neighbours outside W and W is not sealed. In the full lattice take v
 generic in R³: six neighbours of the maximiser are outside. The torus and hull statements follow by lifting to
 the cover and by adjoining the (sealed) outside of the hull. ∎ (Full proofs: `research/theory/thickness.md` §2.
-The minimality of the 36-cell two-layer set is computer-checked within a finite patch only, grade C, and is not
-claimed.)
+The minimality of the 36-cell two-layer set is computer-checked within a finite patch only (T9; B: the search was
+re-run by a second agent for one and for two layers), and beyond that patch it is not claimed.)
 
 *Remark (a restatement in classical terms, checked from the definitions; `docs/AUTOMATON.md`, after T6).* Every
 cell has 12 neighbours, so "at most 3 neighbours outside" is "at least 9 inside": the largest dead sealed set K(t)
@@ -278,11 +278,12 @@ us through [BSU15], is a reviewer's and is not checked here.)
 
 Theorem 6 says that in three or more layers unconditional death cannot start locally: it must come in from a face
 or span the vessel. This is the mechanism the measurements of Section 5 find. It also explains, as far as a
-theorem about sealed sets can, the role of thickness 3: *preliminary* **[measured]** (ledger K1 of the thickness
-study; C) soups in slabs one or two layers thick settle in times growing like the logarithm of the area (means
-4.6–11.9 and 44–101 generations), while in three layers ln τ grows linearly with the slab's width. That thin
-slabs "freeze" is a statement about typical states only: *preliminary* **[measured]** (C) the one-layer automaton
-has oscillators of periods 3 to 12 (ledger K3 of the thickness study).
+theorem about sealed sets can, the role of thickness 3: **[measured]** (ledger K1 of the thickness study; B:
+repeated by a second agent on fresh seeds, every mean within 2 combined standard errors) soups in slabs one or two
+layers thick settle in times growing like the logarithm of the area (means 4.6–11.9 and 44–101 generations), while
+in three layers ln τ grows linearly with the slab's width. That thin slabs "freeze" is a statement about typical
+states only: **[measured]** (ledger K3 of the thickness study; B: every object re-verified with the reference
+implementation by a second agent) the one-layer automaton has oscillators of periods 3 to 12.
 
 **Proposition 7 (the vertex star) [proved]** (T10; A). The 12 faces incident to one lattice vertex form a closed
 vessel: each sees 5 of the others, and no cell outside sees more than 2 of them. Of its 4,096 states, all settle
@@ -317,15 +318,21 @@ at N = 4 cubes a side and 8.7 × 10⁵ at N = 5, and none of 512 ended within 10
 A + B: reruns gave 1194 ± 53 at N = 4, and 8.6 ± 0.8 × 10⁵ and 1.3 ± 0.2 × 10⁶ in two batches at N = 5). We do not
 claim the chaotic state is stable in infinite volume; that is not known.
 
-*Preliminary* (grade C; each has a command and has not been re-run): correlations are isotropic with correlation
-length ξ = 0.68 ± 0.01 cube (P4); damage from one flipped cell spread in 40 of 40 trials as a sphere at
-0.83–0.87 cube per generation (P5); chaos invades vacuum through planar fronts at 0.177 ({100}) and 0.165 ({110})
-cube per generation (P6). That the front speed across {111} is exactly zero is Theorem 2. A referee would ask for
-a Lyapunov exponent or an equivalent; none has been measured, and "chaotic" in this paper means: aperiodic over
-the times observed, with damage spreading (P5, preliminary) and short correlations (P4, preliminary).
+**Correlations, damage and fronts.** **[measured]** (P4; B: two sets of 12 snapshots at N = 64, the second made
+by a second agent with 8 of its 12 new, fitted by the lead with separate code) Correlations are isotropic at small
+k. The structure factor has the Ornstein–Zernike form for k ≤ 2.5 per cube, with correlation length
+ξ = 0.65 ± 0.03 cube (0.64 ± 0.013 and 0.66 ± 0.014 on the two sets) and S(0) ≈ 3.1 ≈ χ. An earlier value,
+0.68 ± 0.01, came from a fit window in which the form no longer fits, with error bars too small by √24.
+**[measured]** (P5; B: re-run by a second agent on the producer's own seeds and snapshots, which checks the code
+and the transcription, not the statistics) Damage from one flipped cell spread in 40 of 40 trials as a sphere at
+0.83–0.87 cube per generation. **[measured]** (P6; B: re-run by a second agent) Chaos invades vacuum through planar
+fronts, at 0.177 cube per generation across {100}; the {110} front slows, from 0.165 cube per generation in fit
+windows ending by generation 80 to 0.154 over generations 60–110. That the front speed across {111} is exactly zero
+is Theorem 2. A referee would ask for a Lyapunov exponent or an equivalent; none has been measured, and "chaotic"
+in this paper means: aperiodic over the times observed, with damage spreading (P5) and short correlations (P4).
 
 Figures: `research/figures/phase_bulk.png` (bulk density and its fluctuations),
-`research/figures/phase_spread.png` (damage and fronts; supports only the preliminary statements),
+`research/figures/phase_spread.png` (damage and fronts; not re-examined for this draft),
 `research/figures/phase_symmetry.png` (density by symmetry class).
 
 ## 5. How confined chaos ends
@@ -339,9 +346,10 @@ every face loses its outer layer at generations 3,290, 3,477 and 3,796 (the firs
 is empty), before a final collapse ending at 4,218; no interior firewall forms before the final collapse.
 **[measured]** (F3; B) The side-13 cube does the same at about 130,200, 145,850, 156,800, 166,650 and 168,200,
 ending at 169,049. Each stair is the loss of one {111} layer from every face of the octahedron (all eight at once
-because the seed is O_h-symmetric); by Theorem 2 each loss is irreversible. *Preliminary* **[measured]** (F2; C):
-the plateau heights of side 11 are 0.79, 0.61, 0.48 of the first, against hull-volume ratios (R/27)³ = 0.79,
-0.62, 0.47. A tracked picture of a peel as a kymograph of layer populations is `web/docs/peel-kymograph.png`.
+because the seed is O_h-symmetric); by Theorem 2 each loss is irreversible. **[measured]** (F2; B: re-run by a
+second agent; the heights only to within ±0.03, because they depend on an averaging window that was not recorded)
+the plateau heights of side 11 are 0.79, 0.61, 0.48 of the first (0.770, 0.604, 0.454 averaged over whole
+plateaus), against hull-volume ratios (R/27)³ = 0.79, 0.62, 0.47. A tracked picture of a peel as a kymograph of layer populations is `web/docs/peel-kymograph.png`.
 
 So the lifetime of confined chaos is a sum of waiting times for well-defined irreversible events, and the
 question becomes: what is the law of the wait for one face layer to die?
@@ -449,9 +457,10 @@ The endpoints are −ln h/A = 0.2268, 0.2182,
 extrapolated from densities n/A ≥ 0.1, which is all one can sample on large faces, misses ln h by 0.5–0.8; the
 endpoint has to be measured. Figure: `research/figures/fluct_tail.png`.
 
-*Preliminary* **[measured]** (C): the commonest three-cell remnant is a triangle of the kagome layer, the three
-faces round one cube corner (38% of three-cell faces; F10); a dying face is statistically ordinary until about 16
-generations before its death and empties in 10–12 (F12); forward-flux sampling along n is unbiased but gains
+**[measured]** (F10; B: re-run by a second agent on the producer's own seeds) The commonest three-cell remnant is
+a triangle of the kagome layer, the three faces round one cube corner (38% of three-cell faces). *Preliminary*
+**[measured]** (F12; C): a dying face is statistically ordinary until about 16 generations before its death and
+empties in 10–12; forward-flux sampling along n is unbiased but gains
 nothing, because two copies of a state differing in one cell have 55–95% correlated fates over the few
 generations of the plunge (F12). The last point matters for method: the rare event here is a rare
 *configuration* reached quickly, not a slow rare path, and what made large faces measurable was brute force on
@@ -466,10 +475,12 @@ death therefore mix two channels, and the face law must be read from the face ch
 cut of 216 cells is the same in a square and a non-square slab: ln τ_fw = 26.79 ± 0.28 per direction (6 × 6 × 8,
 13 firewalls) and 26.87 ± 0.19 (6 × 7 × 8, 29 firewalls). The method was validated on a slab where both channels
 are common: 3 × 6 × 8 gives ln τ_face = 11.084 ± 0.001 and ln τ_fw = 12.327 ± 0.002 on the GPU and
-11.076 ± 0.007 and 12.310 ± 0.018 in an independent CPU run with a different stepper. *Preliminary*
-**[measured]** (F11; C): over thin slabs the firewall costs about 0.12 per cell of the three-layer band that
-must die, roughly half the cost per cell of a face, and the first event switches from firewall to face death
-when the thickness is about the width. In an octahedron the faces are the smallest {111} sections and no interior
+11.076 ± 0.007 and 12.310 ± 0.018 in an independent CPU run with a different stepper. **[measured]** (F11; B
+(table): rebuilt by a second agent from the producer's raw slab records, which are not in git, without re-running
+the slabs) Over thin slabs the firewall costs about 0.12 per cell of the three-layer band that must die, roughly
+half the cost per cell of a face, and the first event switches from firewall to face death when the thickness is
+about the width. The fit behind the 0.12, ln τ_fw = −1.4 + 0.54·N·m + 0.22·N (N the side of the slab's face, m
+its thickness), is weighted by the numbers of firewall-first lives; unweighted it is −2.00 + 0.533·N·m + 0.356·N. In an octahedron the faces are the smallest {111} sections and no interior
 firewall was seen before the final collapse of the cubes examined (F1). A practical consequence: eight-layer
 slabs cannot measure the face channel beyond A ≈ 110 unless firewalls are detected.
 
@@ -587,10 +598,10 @@ on its limit and 14 failed (Table 5, row 19).
 *What remains preliminary.* In a symmetric state the cells of an orbit share one state (exactly, S5), so a face has
 about A/6 independent cells and its fluctuation to emptiness is correspondingly cheaper. *Preliminary*
 **[measured → conjecture]** (S4; C): across symmetry groups and on tori without faces, a symmetric system lives
-about as long as an asymmetric one of c times its fundamental domain's volume, c ≈ 1.5–3.5. *Preliminary*
-**[measured]** (SW3; C, one run by one examiner): octahedral faces cut by a single mirror plane cost 0.1026 ±
-0.0003 per cell at A = 84–135, 0.47 of the asymmetric value, and the first face to die is a mirror-fixed one in
-more than 99.9% of replicas.
+about as long as an asymmetric one of c times its fundamental domain's volume, c ≈ 1.5–3.5. **[measured]** (SW3;
+B: run by one examiner and re-run by a second agent on the examiner's seed sequence, not by different code):
+octahedral faces cut by a single mirror plane cost 0.1026 ± 0.0003 per cell at A = 84–135, 0.47 of the asymmetric
+value, and the first face to die is a mirror-fixed one in more than 99.9% of replicas.
 
 ### 5.6 The cubes, and the forecasts that were made in advance
 
@@ -634,7 +645,7 @@ included.
 | 15 | Five candidate second variables at equal area and shortest loop, fitted on three pairs (`research/shape3/PREDICTIONS.md`, commit 46baf66) | none fits (χ² ≥ 111 on 7) | **all refuted** (SH9; A) |
 | 16 | Empty patches on a 12 × 12 × 8 face: ln P = const − c·cells − σ·perimeter with c = 0.21 ± 0.015 (`research/NOTEBOOK.md`, entry "a forecast before the run") | c = 0.264; the form fails (χ² 3,369 on 3) | **missed** as stated (GP10; A + B−) |
 | 17 | The thin-face study's 14 forecasts, each committed before its run (`research/theory/thin/PREDICTIONS.md`) | rescored by the review | 8 hit, 2 half, 2 mostly missed, 2 missed (TH7; B) |
-| 18 | *Unverified (CN2; C).* The constant analysis's forecasts (`research/constant/PREDICTIONS.md`): −ln P = 5.0, 9.5, 15.3 for empty 2×2, 3×3, 4×4 patches; about zero for the equal-loop pairs at A = 63 and 72 | 6.25, 12.13, 19.42; Σz² 3.7 on 4, wrong in sign at A = 36 | patches **missed** (low by 1.3, 2.6, 4.1); pairs not refuted there; equilateral tori not run |
+| 18 | The constant analysis's forecasts (`research/constant/PREDICTIONS.md`): −ln P = 5.0, 9.5, 15.3 for empty 2×2, 3×3, 4×4 patches; about zero for the equal-loop pairs at A = 63 and 72 | 6.25, 12.13, 19.42; Σz² 3.7 on 4, wrong in sign at A = 36 | patches **missed** (low by 1.3, 2.6, 4.1); pairs not refuted there; equilateral tori not run (CN2; B: scores recomputed by a second agent) |
 | 19 | The symmetric-collapse line's forecasts (`research/theory/symmetric/PREDICTIONS.md`), among them that a mirror or threefold axis on a rim-free periodic face would shorten its life | 40 statements counted per size: 25 held, 1 on its limit, 14 failed; the symmetry lengthens such a face's life (+0.4 to +1.65) | **14 failed**, the mirror forecast among them (S7; B for the slab values). The tally has no ledger row (NOTEBOOK 2026-11-15, "the symmetric collapse") |
 
 Table 5. Forecasts committed before their outcomes. Sources searched: `research/peeling/cube_lifetime.csv`,
@@ -652,7 +663,7 @@ Among the swarm exam's entries these are the ones on the 2D rule and its dice mo
 0.3676 ± 0.0006 against 0.447 ± 0.012), probability P-E1 is undecided at its refutation line (0.512 ± 0.012 against
 a line at 0.51), path E2 was not refuted but its central value missed at L = 36 (7.99 ± 0.38 against 9.8 ± 1.0);
 path E1 and source S-E1 held. The exam's one other gump entry, counting C-E1, held (0.1026 ± 0.0003 against 0.105 ±
-0.009; SW3, grade C, Section 5.5). Several forecasts about other rules also failed (Section 9).
+0.009; SW3, grade B, Section 5.5). Several forecasts about other rules also failed (Section 9).
 
 **What the failure of forecast 1 showed.** The forecast multiplied a fit made on cube-centred symmetric soups
 with faces of at most 513 cells by a fixed factor for the vertex-centred hull. Both steps were wrong in the same
@@ -667,8 +678,8 @@ exponential wait; C5; B), or 6.1 times the fresh-soup mean 8.63 × 10⁷ (probab
 sixteen largest plateaus of cubes 13–16 finds three longer than four means (C6; B for the arithmetic), but that
 statistic was chosen after the side-16 plateaus suggested it; without side 16 it gives P ≈ 0.18, and it is not
 evidence. Cube-like seeds and soups are memoryless at every size tested up to R = 40 (L1, GP6). So either the
-side-16 cube was lucky (*preliminary and post hoc*: at about the 1% level by a statistic chosen after its plateaus
-were seen, L3; C), or its own lineage carries something that ensembles of similar
+side-16 cube was lucky (*post hoc*: at about the 1% level by a statistic chosen after its plateaus
+were seen, L3; B (table), the script re-run on the same data), or its own lineage carries something that ensembles of similar
 states do not; the cube's own lineage at R ≥ 42 has not been, and at present cannot be, replicated.
 
 **Extrapolations** **[conjecture]**. A side-17 cube's first plateau has mean about 3.2 × 10¹⁰ generations if the
@@ -707,9 +718,10 @@ analogue of Section 9: eight rows of the rule over coin flips give ln τ_edge = 
 deterministic strips' 5.644, 7.407, 9.142 at edge lengths L = 12, 16, 20, and are 0.067 ± 0.027 high at L = 24;
 the density of the coins hardly matters.
 
-*Preliminary* (X3; C): the noise-driven models can settle. The six faces of one cube lying on the face are a
-fixed point whatever the coins do (w ≥ 4 for a cube at a hull vertex, w ≥ 5 for one anywhere on the face), and a replica in such a state never dies; uncensored, one model
-reads 6.94 where the censored value is 6.54.
+**[proved by exhibiting the fixed point; measured]** (X3; B: the reviewer's script re-run by a second agent) The
+noise-driven models can settle. The six faces of one cube lying on the face are a fixed point whatever the coins
+do (w ≥ 4 for a cube at a hull vertex, w ≥ 5 for one anywhere on the face), and a replica in such a state never
+dies; censored, one model reads 6.542 ± 0.001. *Preliminary* (X3; C): uncensored, the same model reads 6.94.
 
 *What this does and does not establish.* At sizes A ≤ 84 and precisions of 0.01–0.05 in ln τ, the deterministic
 bulk enters the face law only as a source of noise produced within five or six layers. The question "why about
