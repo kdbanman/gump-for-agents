@@ -235,3 +235,40 @@ Two things follow, and the second concerns the earlier review as much as the bra
 5. Block 4 (in a new block, as the file's rule requires): the 81-cell comparison in combined errors (2.5σ from the
    line's forecast, 0.2σ from the smooth forms'), as above.
 6. Hull section: the A10G value is 13.6347 ± 0.0011, so the difference is +0.0016 ± 0.0017 (the README rounds both).
+
+## 4. A CPU value at 81 cells
+
+The earlier review's stepper (`research/audit/gpu_local_tori/tor.c`, `geo.py`: bit-sliced, 512 lanes, soup 0.4,
+firewall / face death / any-period cycle tested every generation, nothing taken from `research/`), run unchanged on
+(3,3),(0,9). Two cores, 63 minutes.
+
+    D=research/audit/gpu_local_tori; S=research/scratch/audit_gpu_local_tori2
+    gcc -O3 -march=native -o $S/tor $D/tor.c; python3 $D/geo.py 3 3 9 $S/g_3_3_9.bin
+    python3 $D/val.py 3 3 9 18 3000 2                      # -> gpu_local_tori2/val_3_3_9_out.txt
+    $S/tor run $S/g_3_3_9.bin 8 8101 75000000 $S/p81_s8101.rec &
+    $S/tor run $S/g_3_3_9.bin 8 8102 70000000 $S/p81_s8102.rec
+    python3 $D/ana.py $S/p81_s810?.rec                    # -> gpu_local_tori2/ana81_out.txt
+
+- **Validation** (`val_3_3_9_out.txt`): `geo.py` finds n = 648, 81 cells per layer, 6 transverse layers on each
+  diagonal (as the card's check file says). Against `reference/oracle.py` on its H = 36 torus (N = 18; 10 dead layers
+  between slab copies): 2 lanes × 3,001 generations, 0 mismatches; the three negative controls fail (300, 300, 295 of
+  301 generations).
+- **Result: ln τ_face = 16.9386 ± 0.0124** (6,536 face deaths, 7.42 × 10¹⁰ life-generations; seeds 16.9256 ±
+  0.0171 and 16.9528 ± 0.0179, χ² 1.20 on 1). No firewall and no cycle in 7,560 lives (the card: 0 + 1 firewall, 2
+  settled in 105,000 lives). Hazard flat within errors from age 1.3 × 10⁵ to 6.7 mean lives (the three bins below
+  1.3 × 10⁵ generations hold 0.8 ± 0.1, 34 deaths in all, i.e. no early excess).
+- **Against the card's 16.9222 ± 0.0031: +0.016 ± 0.013 (1.3σ).** No gross error of the GPU path at 81 cells; the
+  CPU value cannot test the fourth decimal. It sits above the card, toward the smooth forms' 16.927, but at this
+  error it separates nothing (the nine-point line puts 81 at 16.918).
+
+## 5. Not checked
+
+- The GPU execution itself (no GPU here): the R = 15 runs, and every row, are taken as the card's code produced them;
+  what was checked is the code path, the arithmetic and second-code agreement at 57, 63 (hull), 75, 81.
+- The hull-face driver was read, not executed: the guard and `facelaw.run` need CuPy. The earlier review exercised the
+  guard on a CPU stand-in; I did not repeat that.
+- The soup hash for particular seeds (the 57002 question).
+- Raw per-life data on the card's machine (old-life counts in the README; the per-run json of the hull runs).
+- Second codes at 84, 93, 108, 111.
+- The lead's readings in part C of `research/constant/PREDICTIONS.md` (theirs to score) and the README's
+  comparisons with them.

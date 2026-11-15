@@ -1,0 +1,6 @@
+research/scratch/audit_gpu_local_tori2/p81_s8101.rec: lives 3937 kinds(open, face, cycle, -, fw) [512, 3425, 0, 0, 0] E 3.84e+10  ln(2E/F) = 16.92561 +- 0.01709
+research/scratch/audit_gpu_local_tori2/p81_s8102.rec: lives 3623 kinds(open, face, cycle, -, fw) [512, 3111, 0, 0, 0] E 3.584e+10  ln(2E/F) = 16.95278 +- 0.01793
+POOLED: 2 runs, lives 7560, E 7.424e+10, F 6536, W 0: ln tau_face = ln(2E/F) = 16.93864 +- 0.01237; runs chi2 1.20 on 1
+  face hazard by age / pooled hazard: (3000,10638] 0.787+-0.394; (10638,37723] 0.834+-0.215; (37723,133766] 0.819+-0.114; (133766,474341] 0.994+-0.067; (474341,1682030] 0.997+-0.037; (1682030,5964530] 1.026+-0.023; (5964530,21150408] 0.989+-0.019; (21150408,75000000] 1.004+-0.038
+  face hazard beyond 2 mean lives (2.27e+07): 1.013 +- 0.041 of the pooled (600 deaths)
+  face hazard beyond 4 mean lives (4.54e+07): 1.115 +- 0.163 of the pooled (47 deaths)
