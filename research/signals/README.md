@@ -1166,3 +1166,45 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   it back later, or not at all); ends that settle more than 42 generations after the last hole arrives (section 27
   covers longer transients for the ends it lists); periods 3, 6, 12, …; other gaps than the one-cell hole; streams
   other than the gun's.
+
+## 28. Beside the stream: catalogue oscillators and the divider's own oscillator, each sent a gap
+
+- **[measured, sg.step_set; a SAMPLE] The catalogue beside the running line.** `python3 gapstream.py --K 150 --seed 3
+  --out ../scratch/signals/p5/gapstream.jsonl` (23 min). The 99 oscillators of `research/clockwork/objects/C*.cells`
+  (periods 8 to 52), each in 150 random placements (a lattice symmetry, a random phase, an even translation; drawn as
+  in `clockstream.py --anyphase`: no overlap with the line, halo meeting the halo of units 4..7 of the line N = 12 in
+  its cycle and nothing else): 14,850 placements. 4,190 lose the oscillator within 2P + 8 generations of the plain
+  stream; the other 10,660 were each sent two gaps (the cell hole_start (0,0,5) of the rake at unit 10 or 11, removed
+  at an odd generation: the one-cell pulse of `verify_line.py` check F; two consecutive rakes, so two arrival times
+  4 generations apart), 21,320 gap runs compared in lockstep with the plain run: **20,813 healed** (cell for cell
+  equal to the plain run within 200 generations); in 412 the gun was already disturbed in the plain run (no rake to
+  remove); 58 gaps destroy the oscillator; in 28 the oscillator survives unchanged and the gun dies (a disturbance
+  runs up the stream: a fuse acting backwards, not looked at further); 9 lose the oscillator in the plain run later.
+  **No run left the oscillator alive and the gun alive in a state different from the plain run's.**
+  `python3 gapstream.py --summary ../scratch/signals/p5/gapstream.jsonl` relabels the records (the run itself
+  printed the 28 gun deaths as `LISTENER?`; its labels were corrected afterwards and the jsonl holds both flags).
+- **[measured, sg.step_set; a SAMPLE] Beside the receiving end.** `python3 gapstream.py --K 100 --seed 4 --zone 0,2
+  --out ../scratch/signals/p5/gapstream_end.jsonl` (12 min): the same with the halo meeting units 0..2 and capA,
+  9,900 placements, 4,988 lose the oscillator early, 9,824 gap runs: 9,483 healed, 285 no rake, 11 destroy the
+  oscillator, 18 kill the gun with the oscillator kept, 21 + 2 lose the gun or the oscillator in the plain run later,
+  and 4 are labelled `LISTENER?` (C20.29a and C20.33a, two placements, two gaps each). **They are not listeners:** in
+  the plain run the oscillator has already burnt the line (units 2..11 empty from generation 84 on; what is left at
+  the gun's place is debris of period 4, which the gun test of the script accepts); the gap only changes which
+  debris is left (`python3 ../scratch/signals/p5/look.py ../scratch/signals/p5/gapstream_end.jsonl` prints both
+  final states; the script is in the git-ignored scratch area, eleven lines of `sg.step_set`). The gun test should
+  have required rakes on the wire; for "healed" this does not matter (a placement that burns the line identically
+  with and without the gap is not a standing placement, and it was not counted as a listener).
+- **[measured, sg.step_set; exhaustive over places and phases for one N] The divider's oscillator.**
+  `python3 divgap.py 16` (45 s): C8.24a in each phase 0..7 at each shift −20..+5 from its stored place beside the
+  line N = 16 (shifts with the oscillator between unit 3 and the gun), started from bare wire as in
+  `verify_divider.py`: **71 placements stand** (the oscillator equal to its free orbit at every generation to
+  2N + 100, the gun of period 4): at shifts −9..+2 the four odd phases (nothing happens to the stream) and the one
+  even phase that divides, plus some others at shifts 2, 3, 5. Each was sent every one-cell gap: the cell hole_start
+  removed at each of the four odd generations of a period (2N + 41..2N + 47) at each unit from the oscillator's
+  lowest unit minus one to N − 1 where it is live: **1,034 gap runs, 1,021 heal exactly** (all 550 upstream of the
+  oscillator included), **13 destroy the oscillator** (all at units beside or below it: the fuse of the fourth review,
+  at the other places), **0 leave it alive and changed**. So the stroke is not a door: the wire reaches the
+  oscillator only to destroy it.
+- Not covered: the placements not drawn (the full lists are some 10⁴ per oscillator and zone), other N and other
+  places along the wire, gaps other than the one-cell hole, words of gaps beside the stream, oscillators above
+  period 52 or outside the catalogue, two oscillators, and the divider at N other than 16.
