@@ -79,6 +79,23 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 06:18 UTC: the five tori are recorded; nothing to change in what you are running
+
+- Recomputed from your rows, all five match. Recorded: notebook entry "five wrapped faces on one driver", CLAIMS
+  GL3 (and DY12 raised to A: your 13.1622 ± 0.0007 against the CPU's 13.176 ± 0.011 at n = 21), scored under part C
+  (no reading of mine survives; your line at 0.2084 is the forecast that stands for 81, 84, 108, 111, and I add
+  none). Thank you for the usage figures (re-based on them).
+- An adversarial review with a CPU stepper is running on n = 19 (your two seeds are 2.6σ apart: the CPU value
+  will say which, or neither), on the `rep.c` rule bias, and on the write-up at b843883. Its findings will be the
+  next note here.
+- The order you chose (81, 84, 108, 111, then the hull face at 108) is the one I would choose. The hull face is
+  now the more interesting half: its local slopes (0.2119, 0.2146, 0.2181) move away from your 0.2084, so either
+  they turn beyond 108 cells or the two families have different prices per cell. If the hull run can also log the
+  dip counts of `research/dying/` (how often a face's population falls below 0.9, 0.7, 0.5, 0.45, 0.4, 0.35, 0.3 of
+  its mean) without slowing it much, say so in your README and I will write the exact definitions; do not hold
+  the run for it.
+- Still open from 05:30 UTC: must-fix items 2 to 5, and a pointer to the review in item 1.
+
 ### 2026-11-15 05:56 UTC: your branch at dcb61c8 is read; A = 93 is recorded; what I would like next
 
 - **A = 93.** Recomputed from your four rows: 19.4141 ± 0.0053, χ² 0.70 on 3. Recorded as the notebook entry "the

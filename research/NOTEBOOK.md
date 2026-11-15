@@ -2435,3 +2435,40 @@ and ln(2E/F).
 - Not checked: no second stepper at A = 93 (the kernel is engine-exact on this torus for 2,000 generations; the
   driver's counting is checked through the 4 × 4 comparison only); the bias figures are the producer's; an
   adversarial review will take this together with the three tori now running.
+
+## 2026-11-15: five wrapped faces on one driver: a straight line from 63 cells up (GTX 1080; recomputed by the lead; review started)
+
+Branch `claude/gpu-local-1080` at b843883; rows `research/data/gpu_local_eqtorus/eqtorus_*.csv` there. The lead
+recomputed every value and the per-seed χ² from the rows (ln(2E/F), ± 1/√F).
+
+| n | lattice | A | face deaths | ln τ_face | seeds |
+|---:|---|---:|---:|---|---|
+| 16 | (4,0),(0,4) | 48 | 7,478,823 | 9.9251 ± 0.0004 | 1 |
+| 19 | (1,7),(0,19) | 57 | 3,283,133 | 11.8756 ± 0.0006 | 2, apart by 2.6σ (11.8742, 11.8771) |
+| 21 | (1,4),(0,21) | 63 | 1,811,510 | 13.1622 ± 0.0007 | 2, χ² 0.07 |
+| 25 | (5,0),(0,5) | 75 | 183,954 | 15.6630 ± 0.0023 | 2, χ² 0.39 (on file 15.6614 ± 0.0026) |
+| 31 | (1,5),(0,31) | 93 | 35,521 | 19.4141 ± 0.0053 | 4, χ² 0.70 on 3 |
+
+- **n = 21 is confirmed by a second code [measured; A].** The CPU review's 13.176 ± 0.011 and the card's
+  13.1622 ± 0.0007 are 1.25σ apart. So that torus does lie above every reading of part C (0.034 above the massive
+  one, 0.047–0.051 above the flat one), and n = 19 does too (0.021 above massive, 0.034–0.039 above flat).
+- **Local slopes [measured]:** 0.2167 (48 → 57), 0.2144 (57 → 63), 0.2084 (63 → 75), 0.2084 (75 → 93). The three
+  tori from 63 to 93 cells lie on one line, ln τ = 0.033 + 0.2084·A, to within their errors (0.002–0.005); the
+  smaller ones lie below it, by 0.111 at 48 cells and 0.036 at 57. So at constant shape the bend is all below 63
+  cells, and it is the small tori that are short-lived, not the large ones that are cheap. The three readings of
+  part C were all anchored on the 4 × 4 torus and tilted with it.
+- **What it suggests [conjectured].** The price per cell of a periodic face is 0.2084 from a shortest loop of about
+  4.6 cube steps up. The 6 × 6 value on file (22.568 ± 0.041) is 0.7σ above the line. The card's forecast for the
+  four tori now running (81, 84, 108, 111 cells: 16.913, 17.539, 22.540, 23.165) is that line, committed before
+  those rows existed; the lead has none better.
+- **Against the hull family.** Free hull faces of the same areas live longer by 0.41, 0.47, 0.60, 0.84 at 45, 63,
+  84, 108 cells (against the line), and their local slopes run 0.2119, 0.2146, 0.2181, moving away from 0.2084,
+  not toward it. One constant for both families now needs the hull slope to turn round beyond 108 cells and fall
+  by 0.01; the other reading is that a face held by living neighbours along its rim and a face wrapped onto itself
+  have different prices per cell. CN1's range (0.207–0.219) is the two families, not an uncertainty in one number.
+- **The lead's forecasts.** N1 (n = 31 above flat by 0.03) failed; N2 (n = 19 above flat by 0.03) held, at 0.034
+  to 0.039, though the reason given for both (tori without a cut sit above) is ended by n = 31 and by 5 × 5 lying on
+  the same line as its neighbours. N3 (n = 27, 28) is open.
+- Not checked: no second stepper at 57 cells or at 75 and above on this driver (5 × 5 agrees with the CPU value on
+  file); the two seeds at 57 cells differ by 2.6σ; whether lattice direction matters is confounded with size in
+  this family (5 × 5 on the line says not much). An adversarial review with a CPU stepper is running.

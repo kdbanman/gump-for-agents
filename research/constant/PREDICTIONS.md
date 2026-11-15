@@ -332,3 +332,14 @@ to the card's branch at about 05:47 UTC; the lead had not fetched that branch an
 Since N1 failed, nothing rests on that. N4 cannot hold either (the excess over the massive reading at n = 31 is
 negative). N2 (n = 19) and N3 (n = 27, 28) are open; N2 was written on the two-kinds idea, which n = 31 has
 already ended, so it stands as written and is expected to fail.
+
+### C, scored at n = 19, 21, 25 (the lead, 2026-11-15 06:17 UTC)
+
+The card: n = 19 11.8756 ± 0.0006, n = 21 13.1622 ± 0.0007 (the CPU's 13.176 ± 0.011 confirmed), 5 × 5 15.6630 ±
+0.0023. Every reading above misses n = 19 and n = 21 on the low side: flat by 0.034 and 0.047, massive by 0.021 and
+0.034, rising by more. With n = 31 below all of them, **no reading of part C survives**: what the five tori show
+is one slope, 0.2084, from 63 cells up and a deficit below (0.111 at 48 cells, 0.036 at 57). The readings failed
+because all three were anchored on the 4 × 4 torus, which is itself inside the bend. The lead's **N2 held** (0.034
+to 0.039 above the flat reading); N1 failed; N4 failed; N3 is open. The forecast now standing for n = 27, 28, 36,
+37 is the card's (its `PREDICTIONS.md`, block 3, committed at 6b2dc2b before those rows existed): 16.913, 17.539,
+22.540, 23.165. The lead adds none.
