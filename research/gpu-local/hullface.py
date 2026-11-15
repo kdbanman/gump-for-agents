@@ -28,10 +28,10 @@ FIELDS = ['R', 'A', 'seed', 'p', 'T0', 'gens', 'replicas', 'nodes', 'wall_s', 'e
 
 
 def git_head():
-    """short commit, with '+dirty' when tracked files differ from it"""
+    """short commit, with '+dirty' when tracked code (research/gpu, research/shape, the .py here) differs from it"""
     try:
         h = subprocess.run(['git', 'rev-parse', '--short', 'HEAD'], cwd=ROOT, capture_output=True, text=True).stdout.strip()
-        d = subprocess.run(['git', 'status', '--porcelain', '--untracked-files=no'], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        d = subprocess.run(['git', 'status', '--porcelain', '--untracked-files=no', '--', 'research/gpu', 'research/shape', 'research/gpu-local/*.py'], cwd=ROOT, capture_output=True, text=True).stdout.strip()
         return h + ('+dirty' if d else '')
     except OSError:
         return 'unknown'
