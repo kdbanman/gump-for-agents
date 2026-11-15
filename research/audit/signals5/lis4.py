@@ -65,3 +65,24 @@ for r in recs:
         print(f'   {name:5s}: final period {per}, population {pop}, oscillator a free-orbit phase: {ok}, '
               f'live wire cells on units 2..11 in the final cycle: {wire}, wire units 2..11 empty from generation {ef}')
     print(f'   final cycles equal up to a time shift: {same}')
+
+
+# Added: is the gapped run's final cycle the working line (line-C N = 12 in its own period-4 cycle) with the
+# oscillator beside it?  Oracle only.
+*_, (t_, L0) = oracle_run(x0, 2 * N + 40, pad=PAD)
+Lc = [s for t, s in oracle_run(L0, 3, pad=PAD)]
+for r in recs:
+    S = frozenset(tuple(c) for c in r['cells'])
+    orb = [S]
+    for _ in range(r['P'] - 1):
+        orb.append(step(orb[-1]))
+    sup = frozenset().union(*orb)
+    *_, (t_, pre) = oracle_run(x0, 2 * N + 8, pad=PAD)
+    *_, (t_, cur) = oracle_run(pre | S, r['tg'], pad=PAD)
+    cur = cur - {tuple(r['hole'])}
+    *_, (t_, fin) = oracle_run(cur, G, pad=PAD)
+    cyc = [s for t, s in oracle_run(fin, 20, pad=PAD)]
+    ok = all(any(frozenset(c for c in s if c not in sup) == frozenset(c for c in l if c not in sup) for l in Lc) and
+             any((s & sup) == o for o in orb) for s in cyc)
+    print(f"{r['osc']} gap {r['gap_k']}: gapped run's final cycle = the working line (period-4 cycle of line-C N = 12, "
+          f"outside the oscillator's support) + the oscillator in its free orbit, at every generation of 20: {ok}")

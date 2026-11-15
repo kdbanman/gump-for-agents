@@ -20,7 +20,7 @@ records of `gapstream*.jsonl`.
 |---|---|---|---|
 | 1 | §26 SAT negative | **confirmed, narrowed** | C = 29, 31 (and the controls) reproduced by an independent encoding and two other solvers; C = 29 is vacuous (no end exists there); "movers are excluded too" holds only for ends that fit at C − 4k; the rest of the table rests on the push's encoding |
 | 2 | §27 census, 741 ends, 599 heal / 142 die | **confirmed for holes; the dichotomy refuted for other gaps** | 741 recounted with an independent key; all eight words re-run on the whole state: 599 / 142 exactly; but the stream carries a second one-cell signal, and 503 of the 741 ends treat it differently from the hole |
-| 3 | §28 beside the stream | **confirmed, two counts corrected** | divgap 1,034 / 1,021 / 13 / 0 reproduced; the four `LISTENER?` are false (oracle); all 45 gun deaths looked at are fires; one of the "28" is a plain-run gun death |
+| 3 | §28 beside the stream | **confirmed (no listener), narrowed** | divgap 1,034 / 1,021 / 13 / 0 reproduced; the four `LISTENER?` are false (oracle); one of the "28" is a plain-run gun death; of the 46 gun deaths only 25 are fires: beside capA, 8 turn the stream into another wire and 4 are **echoes**, a three-cell signal sent back up the stream through the rakes (oracle) |
 
 ## 1. The SAT negative (section 26)
 
@@ -68,7 +68,7 @@ glucose4 and kissat404 (the push used CaDiCaL 1.5.3).
 | instance | expected | got | time |
 |---|---|---|---|
 | `31 --same` (no "≠") | SAT, the C = 31 absorber | SAT; A(0) is the 16-cell absorber of `p4/abs8_fb_31.json` cell for cell; re-stepped: periodic, the run reaches B, B = A | 33 s |
-| `33 --fixA p4/abs4_fb_33.json:0 --onlyX` (a healing end, X alone) | SAT | SAT; re-stepped, the run equals the model and heals | 6 s |
+| `33 --fixA ../../scratch/signals/p4/abs4_fb_33.json:0 --onlyX` (a healing end, X alone) | SAT | SAT; re-stepped, the run equals the model and heals | 6 s |
 | `33 --fixA …:0` (the same end, full instance) | UNSAT | UNSAT | 6 s |
 | `33 --fixA …:5 --onlyX` (an end the census says dies) | UNSAT, because the end disturbs units 0, 1 | UNSAT | 6 s |
 | `33 --fixA …:5 --freeB --S 0` (B's rule and period dropped, T = 22) | SAT, X(T) ≠ A(T) | SAT; re-stepped: the run equals the model's X(T) and differs from the undisturbed end | 3 s |
@@ -156,9 +156,17 @@ scan predicted.
 
 ## 3. Beside the stream (section 28)
 
-**(i) `divgap.py 16`.** DIVGAP
+**(i) `divgap.py 16`** (the push's script, re-run from `research/signals/`: 42 s): 71 standing placements (the same
+list of (shift, phase) as §28 describes), 1,034 gap runs, **1,021 healed (471 beside or below the oscillator, 550
+upstream), 13 destroy the oscillator (all beside or below), 0 `LISTENER?`**: the three headline numbers reproduced.
+This re-runs the push's code (`sg.step_set`); it was not re-implemented.
 
-**(ii) The four `LISTENER?` runs** (`python3 lis4.py`, oracle only). LIS4
+**(ii) The four `LISTENER?` runs** (`python3 lis4.py`, 85 s, oracle only, from the line's generation 0). In all four
+plain runs the wire units 2..11 are empty from generation 84 on, as the push says; both runs end in period 20 with the
+oscillator in its free orbit; the final cycles differ. The gapped runs keep an 18-cell block on units 4..7 that the
+plain runs lose, and neither final cycle is the working line (checked against line-C's own period-4 cycle at every
+generation): debris in both. So "not listeners" is right: the placement without the gap is not standing (it burns the
+line), and the gap changes only the debris.
 
 **(iii) All 46 runs in which a gap kills the gun and the oscillator is kept** (`python3 c46.py`, 2 min; `st5.step`,
 checked against the oracle on the first record of each file for 150 generations inside the script). Classification
@@ -180,11 +188,13 @@ compact carrier), and **not for the receiving end**:
   wire at one unit per 2 generations; behind it the wire is uniform, of repeat one unit and period 2, with base cells
   {(0,0,1),(0,0,3),(0,0,5),(0,1,2),(0,1,4)} and {(0,1,2),(0,1,4),(0,2,3),(1,0,0),(1,0,4)} at the two parities (not
   wire C: (1,0,4) in place of (1,0,2)). The stream is converted, not burnt.
-- *Echo* (C18.23a gap 0, on the oracle: `python3 orc46.py`, 3 s; initial state in `end_echo.json`): the hole reaches
+- *Echo* (all four runs on the oracle: `python3 orc46.py`, 10 s; initial states in `end_echo.json`). C18.23a gap 0:
+  the hole reaches
   capA with the oscillator beside it at generation 18; from generation 24 to 38 the **whole-state** difference between
   the gapped and the plain run is exactly three cells, (1,2,2) of unit u and (0,0,3), (0,0,5) of unit u + 1, moving
   rigidly one unit towards the gun every two generations, through the oncoming rakes; capA, the oscillator and every
-  rake are as in the plain run. It reaches the gun at generation 40 and the gun dies. The end is restored, so this is
+  rake are as in the plain run. It reaches the gun at generation 40 and the gun dies. The other three runs (C18.23a gap
+  1, C20.33c gaps 0 and 1) give the same three-cell signal, rigid over the 14 generations checked. The end is restored, so this is
   not a listener; it is a reflector that turns a gap into a counter-propagating signal, the "rake turned against the
   stream" that section 29 asked for.
 

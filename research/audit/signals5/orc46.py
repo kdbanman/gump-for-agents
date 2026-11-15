@@ -8,7 +8,7 @@ continue: plain, and with the record's hole removed.  D(t) = cells where they di
 (1 <= x+y+z, x-y+z <= 7) and outside the support of the oscillator's free orbit.  Printed every 2 generations: the
 units holding D, and the units u in which the gapped run is exactly bare wire C (the cells of objects line-C 'unit',
 or of the wire's other phase, moved to unit u) while the plain run is not (empty in both runs below: kept as a check).
-Checks:  C18.23a gap 0: from the reflection on, D lies in at most 3 consecutive units and moves towards the gun,
+Checks:  C18.23a and C20.33c, gaps 0 and 1: from the reflection on, D lies in at most 3 consecutive units and moves towards the gun,
          while the end's units (<= 3) are equal in the two runs (an echo: a signal sent back up the stream);
          C13.24a gap 0: behind the moving front the gapped run is a uniform wire of repeat one unit (not wire C):
          the front is a wall between the rake train and another wire, moving up the stream.
@@ -24,7 +24,7 @@ x0 = frozenset(tuple(c) for c in ln['capA']) | frozenset(tr(tuple(c), k) for c i
 tube = lambda c: 1 <= c[0] + c[1] + c[2] <= 7 and 1 <= c[0] - c[1] + c[2] <= 7
 recs = [json.loads(l) for l in open(os.path.join(P5, 'gapstream_end.jsonl'))]
 save = []
-for osc, k in (('C18.23a', 0), ('C13.24a', 0)):
+for osc, k in (('C18.23a', 0), ('C18.23a', 1), ('C20.33c', 0), ('C20.33c', 1), ('C13.24a', 0)):
     r = next(q for q in recs if q['osc'] == osc and q['gap_k'] == k and q['verdict'] == 'gap kills the gun, oscillator kept')
     S = frozenset(tuple(c) for c in r['cells'])
     orb = [S]
@@ -50,13 +50,15 @@ for osc, k in (('C18.23a', 0), ('C13.24a', 0)):
                 and frozenset(c for c in P[t] if unit(c) == u and tube(c) and c not in sup) != frozenset(tr(c, u) for c in WIRE[ph])]
         print(f'  t={t:2d} D on units {us}  gapped run bare wire (plain not) on units {bare}')
         compact.append((t, us)); bare_ok.append((t, us, bare))
-    if osc == 'C18.23a':
-        seg = [(t, us) for t, us in compact if 24 <= t <= 38]
+    if osc != 'C13.24a':
+        t1 = next(t for t, us in compact if t > 12 and us and us[0] > 3 and us[-1] - us[0] <= 1)
+        seg = [(t, us) for t, us in compact if t1 <= t <= t1 + 14]
         ok = all(us and us[-1] - us[0] <= 2 and us[0] > 3 for t, us in seg) and all(seg[i + 1][1][-1] > seg[i][1][-1] for i in range(len(seg) - 1))
-        print('  echo check (t = 24..38: D within 3 consecutive units above unit 3, moving towards the gun):', ok)
-        whole = [len(P[t] ^ Q[t]) for t in range(24, 39, 2)]
-        rigid = all(frozenset(tr(c, 1) for c in P[t] ^ Q[t]) == P[t + 2] ^ Q[t + 2] for t in range(24, 37, 2))
-        print('  whole-state difference, t = 24..38 (every cell of the torus):', whole, '; moves rigidly one unit towards the gun per 2 generations:', rigid)
+        print(f'  echo check (t = {t1}..{t1 + 14}: D within 3 consecutive units above unit 3, moving towards the gun):', ok)
+        whole = [len(P[t] ^ Q[t]) for t in range(t1, t1 + 15, 2)]
+        rigid = all(frozenset(tr(c, 1) for c in P[t] ^ Q[t]) == P[t + 2] ^ Q[t + 2] for t in range(t1, t1 + 13, 2))
+        print(f'  whole-state difference, t = {t1}..{t1 + 14} (every cell of the torus):', whole, '; moves rigidly one unit towards the gun per 2 generations:', rigid,
+              '; its cells (unit offset, base cell):', sorted((unit(c) - min(unit(q) for q in P[t1] ^ Q[t1]), tr(c, -unit(c))) for c in P[t1] ^ Q[t1]))
     else:
         ok = True; shapes = set()
         for t in range(34, 45):
