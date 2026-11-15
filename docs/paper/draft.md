@@ -934,6 +934,56 @@ length. Not found in our searches: a work that replaces a chaotic interior by no
 lifetimes or escape rates, or that attributes a supertransient's exponent to a thin layer over noise. The review
 [TL08] was not obtained.
 
+### 6.1 How much of its state space a seed explores
+
+Within a hull there are finitely many states; the owner asked how many of them a long-lived seed visits
+(`docs/OWNER-JOURNAL.md`). Study: `research/statespace/` (forecasts committed before any enumeration); review:
+`research/audit/REVIEW-statespace.md`, with its own vessel builder (two deliberately broken neighbour tables caught),
+its own enumerator, its own hull search and its own entropy sampler.
+
+**[proved]** An orbit of a deterministic map cannot repeat a state before it reaches its cycle, so the states a seed
+visits number its settling time plus its final period. The question is the lifetime question in other units.
+
+**[proved by enumeration]** (SS1; A for seventeen vessels, enumerated independently: by the reviewer's enumerator on
+eight, by the lead with the reference on one, by an older enumerator, `research/theory/exhaust.c`, on eight; A for
+the symmetry statement on eight; B for the rest, one enumerator matched to the reference) All 2^N states were listed
+for 301 vessels of up to 30 cells: 262 diagonal hulls of 2–29 cells at most 6 layers wide, six of 30 cells, slab tori
+of 1–3 layers, and 3D tori. Over the 34 vessels of 27–30 cells the mean seed visits 4.5–14.4 states and the most
+patient 15–94. In vessels of 15 cells or more 57–98% of all states have no predecessor (53% at the least over all
+listed vessels); the states on cycles are mostly still or of period 2; and no most-patient seed of a vessel of 19 or
+more cells has a symmetry. At these sizes nothing is chaotic yet: the faces have 9–30 cells, under the 36 or so where
+lifetimes turn exponential (Section 5.2). The review corrected three readings: the ranges (first given from the
+largest vessel of each family); "linear, not exponential" (a line and an exponential with rate 0.02–0.09 per cell fit
+the mean visited count equally well, so the sizes listed cannot tell linear from slowly exponential growth); and the
+census, which is complete only for hulls at most 6 layers wide (at least 325 more hulls of 1–29 cells are wider).
+
+**[proved, from single runs]** (SS2; B for sides 8–15, re-run by the reviewer; side 16 *preliminary*, C, not re-run)
+The closed cubes of Table 1: side 16 visited 2,919,617,676 states (2^31.44) of the 2^51,888 of its hull; sides 8–16
+all come to 0.0005–0.0008 bits per hull cell. Side 14 enters its period-2 cycle at generation 4,460,296 (Table 1's
+4,460,298 is the generation of detection).
+
+**[measured]** (SS3; B: two samplers and two context orders agree to 0.001; every bound is one-sided) Read in bits,
+the face law says that an asymmetric seed visits about 2^(0.30·A) states for a face of A cells (0.296–0.305 bits per
+face cell from the face laws on file). A living face is close to coin flips: its top layer seen alone carries 0.986
+bits per cell, the whole 8-layer face slab at most 0.9585 (an upper bound, still falling slowly with the size of the
+context). An upper bound on the entropy is a lower bound on the *deficit* against coin flips of the same density,
+since a finite context can hide redundancy but not invent it. One layer alone is at least 0.006–0.013 bits per cell
+short of coins (the top layer 0.013, flat from 10 context cells; the layer under it 0.008; a bulk layer 0.006 against
+coins at 0.4155); the slab jointly at least 0.027, most of it between layers. So any one layer of the chaos is within
+about 1% of coin flips of its own density, and most of what distinguishes the chaos from noise lies between layers.
+A seed therefore sees a vanishing share even of one layer's configurations (at most 2^(−0.69·A)); against the states
+of a chaotic region several layers deep, or of the hull, its share is far smaller. Withdrawn after the review: the
+comparison with a uniform random map, the wrong yardstick when most states have no predecessor (a random map with
+gump's own in-degrees would visit 18–1,650 states where gump visits 7–10, so gump settles 3 to 160 times sooner than
+that, by a birthday estimate, not thousands of times).
+
+*Bearing on Section 6.* The deficit is the size of what the coin-flip models of Section 6 leave out below their
+layers of rule: a few hundredths of a bit per cell. It does not say why five or six layers of the rule must be kept
+above the coins; Section 6 measures that depth, and nothing here derives it. *Not checked:* hulls wider than 6
+layers; any vessel above 30 cells exactly; where the small vessels' regime joins the exponential one; small faces
+conditioned on survival (a large slab stands in for them); any lower bound on the entropy. The lead's forecasts
+E1–E7, made before any enumeration, scored three and a half of seven (Table 5, row 27).
+
 ## 7. The lifetime of a periodic face depends on its shape
 
 Slab faces are tori. If the face law were a law of area, tori of equal area would have equal lifetimes. They do
@@ -1282,10 +1332,155 @@ a compound of period 52 = 4 × 13 with no cell of period 52 (24 still cells, 4 o
 multiplies ordinary loops rather than selecting long ones; the longest untwisted loop found is C35.29a (L = 35).
 **[measured]** (Z10; B: re-run by a second agent on the producer's seed) P66.27a is reached from 4.1 × 10⁻⁴ of
 the random states of its own box, and single-cell perturbations destroy it more often than not (30% of 6,600
-heal). No object found carries or gates a signal.
+heal). No object found in these censuses carries or gates a signal; Section 8.1 constructs objects that do.
 
 Figure 5 (placeholder; does not exist): *P66.27a at phases 0 and 33, layer by layer.* A text rendering is
 produced by `engine/target/release/gump show --cells research/clockwork/views/P66.27a.cells --orbit`.
+
+### 8.1 Signals
+
+No finite pattern moves through empty space (Theorem 2), so a signal needs a medium: something periodic along a
+line that a defect can run along. A sustained search for one (`research/signals/README.md`; objects in
+`research/signals/objects/`) found media by constraint search, none of them among the objects soup had given. Every
+object below is stated with what verifies it. *Oracle-verified* means that a verifier stepping only
+`reference/oracle.py` reproduced the claimed state cell for cell; every such verifier was re-run by the lead, and
+two adversarial reviews (`research/audit/REVIEW-signals.md`, `research/audit/REVIEW-signals-2.md`) rebuilt the
+objects with steppers of their own, each matched to the reference. Vocabulary: a *wire* is a pattern periodic along
+one lattice vector v and bounded across it; a *unit* is one repeat; a *pulse* is a defect that moves along the wire
+and leaves it as it was; a *front* leaves a different wire behind (it uses the medium up). All wires here run along
+(1,0,−1).
+
+**Pulses.** **[measured]** (SG1; A: three codes on the reference) Wire B is a free-standing period-2 wire of 5 cells
+per cube. Flip two of its cells at an even generation and the flip moves one cube every two generations, half the
+speed limit, for as long as it is followed; the state is the bare wire with the moved defect and nothing else. The
+mirror pulse runs the other way; pulse A is 5 cells on another period-2 wire (6 cells per cube); pulse S is 32 cells
+on a still wire. Every pulse found has period 2 and shift 1. The pulses translate exactly on rings of 9–64 cubes, on
+box tori and on the reference's cubic torus, and on a 600-cube finite wire in the infinite lattice, with no torus at
+all. On the period-19 wire W00 a single flip starts a front instead. (`python3 research/signals/verify_pulse.py
+research/signals/objects/pulse-B.json`, likewise `pulse-A`, `pulse-S`, `pulse-B-left`; the lead's separate check
+`python3 research/audit/signals_lead_check.py research/signals/objects/pulse-B.json`.)
+
+*Two remarks* **[proved; no ledger row]** (README §4; the first review found the first argument incomplete as
+written, and it was repaired). A wire cannot grow at its end: with D the body diagonals d with d·v < 0, Theorem 2
+holds the wire in every half-space d·p ≤ C_d, and −v is a non-negative combination of the elements of D, so the
+support never passes a plane perpendicular to v; fronts burn wire, and nothing lays track. And a pulse on a wire of
+period ≤ 2 without a drive of its own carries its drive (Theorem 5 applied on a ring, with the shift symmetry): pulse
+B has one overcrowded cell per generation, dead at the time, the bare wires none.
+
+**A transmission, with a capacity.** **[measured]** (SG2; A: rebuilt by the first review with its own code on rings
+of 48 and 96) Flipping one cell of wire B at a sender A emits a pulse; a receiver d cubes away, a wall between wire B
+and a second period-2 wire B′, swallows it and moves one cube toward the sender, the line between left exactly as it
+was and an untouched control unchanged. It works d − 1 times (35 shots over 36 cubes; the study had run six); the
+next shot, with the receiver beside the sender, sets the line on fire. The receiver is a unary counter with a
+capacity, not a line that can be used indefinitely. Of the 84 one-cell flips of wire B, 74 heal, 2 leave a standing
+defect, 2 emit a pulse (one each way) and 6 start a front. (`python3 research/signals/verify_transmission.py
+research/signals/objects/transmission-B.json`.)
+
+**Interaction.** **[measured]** (SG3; A: the first review's code, every separation 2–44) Two pulses of wire B meeting
+head-on pass through each other without delay at odd separation and stop each other at even separation, leaving a
+3-cell standing mark; on rings of 64 and 65 parity is the whole rule for head-on pairs. Pulses going the same way run
+as rigid trains at any spacing.
+
+**Bounds of the first search.** **[measured, constraint search, no certificate]** (SG4; A for the 2 × 2 and 2 × 3
+rows, where a transfer-graph search sharing no code agrees on every row both answered; B for the 3 × 3 rows and the
+fronts) In closed tubes along (1,0,−1) with a background repeat of one cube, no pulse of any width exists in the
+2 × 2 tube for the twelve (period, shift) pairs tried, nor in the 2 × 3 tube for nine pairs and (6,5), where only
+(2,1) pulses exist; the 3 × 3 rows rest on one SAT encoding. A single flipped cell starts a front in 14 of the 18
+distinct wires on file and a pulse in none.
+
+**Theorem 8 (a clock of every length) [proved, computer-assisted]** (SG5; A: the proof read and its enumeration
+redone by a second agent with its own code; three codes on the reference at 24 lengths from 1 to 257). Wire C (five
+cells per unit) of N units between two caps is a free-standing object K_N of 32 + 5N cells, stationary with period 2.
+For every N ≥ 1 there is a finite pattern in empty space, K_N with a rake running between the caps (a rake is one
+added cell, below), whose period is exactly 4N + 2, and no cell of it is ever alive outside the diagonal hull of K_N.
+Hence gump has free-standing oscillators of every period 6, 10, 14, …, every period ≡ 2 (mod 4) from 6 up: periods
+are unbounded, which answers open problem 12 of `research/OPEN-PROBLEMS.md` (periods beyond 66, Section 8).
+*How it runs* (README §11, measured). The rake runs to one cap laying a train of left-moving pulses behind it; the
+cap turns it into the mirror rake, which runs back laying a train of right-moving pulses; the other cap turns it
+again; each cap swallows the train aimed at it and is as it was after each pulse. Travel takes 2N generations each
+way and the two turns 2.
+*Argument in outline.* Write a unit as the cells with x in {2u, 2u + 1}. A cell's neighbours lie in its own unit or
+the adjacent ones, so the step of a stretch of units depends only on that stretch and one unit either side (the
+light cone; the second review re-derived it). Lengths below 8 are stepped on the reference. For N = 8 + j the cycle
+is assembled from the computed cycle X(s) of the base clock of length 8 (period p = 34) by cutting the wire at unit
+m = 4 and inserting j units: at unit m + i the new state shows the base's unit m at a base time c_i(t) that runs as
+t − 2i, repeats a four-generation loop j − i times when the rakes have passed at one time t_a and i times at a
+second time t_b, and runs on, so that the period is p + 4j = 4N + 2. Five finite checks on the base make this an
+orbit: two (B1, B2) that the strip [m − 1, m] moved one unit on agrees with the strip [m, m + 1] two generations
+earlier, or later, over stated ranges of s; two (B3, B4) that the base states at t_a + 1 and t_a − 3 agree on the
+units at or below m + 1, and at t_b + 1 and t_b − 3 on the units at or above m − 1, which is what the loops need;
+and one (B5) that the strip [m − 1, m + 1] repeats only once per period, which gives the least period. With B1 and
+B2 neighbouring charts agree where they overlap (the cases are listed in order of t in the README), with B3 and B4
+every chart's time advances by one except at loop-backs whose states agree on what that chart supplies, and so by
+the light cone the assembled sequence is an orbit. Full proof: `research/signals/README.md` §11 and `python3
+research/signals/prove_clock.py 8 4` (1 s; it also passes with bases 12 and 20, enumerates all chart pairs for
+j ≤ 40 and steps the assembled orbit for j ≤ 6); checked in `research/audit/REVIEW-signals-2.md` §1, whose own
+script (`research/audit/signals2/prove_check.py`) redoes the enumeration for up to 150 inserted units on a base
+computed by the reference. *Not proved* (measured): that adding the one cell leads into this cycle for every N. On the
+reference at 14 lengths up to N = 257 and with the reviewer's stepper for every N up to 400 it does, after a
+transient of exactly max(N − 2, 0) generations. Other caps give shuttle clocks too, all of period 4N + 2; no period
+divisible by 4 was found in the family, and no reason is known.
+
+**A rake and a collision gate.** **[measured, oracle]** (SG6; A: the gate by the lead's own code at twelve
+separations, the rake by the second review's code at separations 3–22) One cell added to wire C is a *rake*: it
+moves a unit every 2 generations and emits a pulse every 2 generations, and a pulse met head-on is swallowed or
+stops it, by parity. Two pulses of wire C meeting head-on: exactly one survives, undelayed and unchanged, and the
+wire is as it was; the left-mover survives at even separation, the right-mover at odd. With inputs L and R (a pulse
+sent from either end) and outputs read further along the same two lines, the element computes (L, R ∧ ¬L) at even
+separation and (L ∧ ¬R, R) at odd: one line inhibits the other, reusably and without delay. It is an inhibition
+element whose outputs leave along its input lines (the second review's wording; the study called it a gate): there is
+no third line and no crossing. On wire B, by contrast, both pulses pass or both stop.
+
+**A counter.** **[measured, oracle]** (SG7; A: rebuilt by the second review with its own code, which found its range)
+The wall between wire B and wire B′ moves one unit towards whichever side a pulse arrives from; written by a
+one-cell flip on one side, erased by one on the other. It has sixteen positions and breaks when the wall reaches the
+write or the erase site; it takes a pulse arriving 1 to 31 generations after the last, but two writes 2 generations
+apart fail. The study's "register" is this bounded counter; it is not a toggle, and no receiver that toggles on
+pulses from one side was found (below).
+
+**Theorem 9 (the tape) [proved, computer-assisted]** (SG7; A: the proof checked and 36 more words run on the reference
+by the second review). Every sequence of units of wire B and wire C, on a ring or infinite, moves rigidly towards −v
+at one unit per 2 generations. *Argument.* Two generations reach two units either way, so what a unit becomes after
+two generations is decided by a window of five units, itself and two on each side. A ring of 40 units whose word
+contains all 32 windows of five letters over {B, C} moves rigidly on the reference, so every window maps as the
+statement requires, and hence so does every word. Full argument: `research/signals/README.md` §10 ("The tape");
+`python3 research/audit/signals_lead_check.py research/signals/objects/tape-BC.json 20`; review
+`research/audit/REVIEW-signals-2.md` §5. Read this way, a left-moving pulse of wire C is one unit of B in it and a wall
+between B and C is a front. Of all 120 pairs of the 16 unit types of the family, only {B, C} moves.
+
+**Where carriers come from.** **[measured]** (SG8; B: reproduced on other seeds with the second review's stepper,
+12,789 / 368 / 10 / 305) Of 100,000 soups in the 3 × 3 tube, 12,780 settle into uniform wires of period ≤ 2 (366
+distinct), ten of which carry a 2-cell pulse; the carriers came from 279 soups. But almost all were on rings of one
+unit, where the "soup" is one random unit of 14 cells repeated, a few on rings of two, and none in 60,000 soups on
+rings of 3, 4 or 6 units. So a random unit repeated along the tube settles into a pulse-carrying wire about once in a
+few hundred; the study's "born from soup" was nearly all one-unit rings (the second review's correction), and nothing
+shows that soup with no imposed repeat makes a carrier.
+
+**A wire against chaos.** **[measured]** (SG9; B: the second review's stepper, other seeds, block sizes and densities)
+Living chaos destroys a wire it touches: on 800 of 800 sides in the study and about 1,500 more in the review, with
+one exception. The fire runs at pulse speed for wire B, and for wire C at density 0.4; at lower densities many sides
+of wire C burn at half that speed (the review's correction: fire speed depends on density). On a few sides in a
+hundred of wire C a clean pulse leaves the chaos ahead of the fire, the first pulses here to come out of anything
+random, with the fire behind it. **[proved]** The gap that isolates order from chaos for ever is three empty diagonal
+layers, Theorem 3. Two are not enough in general: a wire running past chaos two empty layers off is hit at
+generation 2 in 20 of 20 soups (measured, SG9). Two suffice only for the capped end of wire C in the geometry the
+study ran, where a count of the cells that could couple the two sides shows that none can be born; the study's "two
+empty layers isolate a wire" is corrected to this (the second review). Nothing sent into chaos could be read on the
+far side, because nothing survives the contact.
+
+**Absent inside stated bounds.** **[measured, exhaustive inside the bounds]** (SG10; B: brute force gives the same
+caps cell for cell at the two smallest planes, a second solver reproduces the UNSATs, odd delays added) Among caps of
+period 2 inside the 3 × 3 tube there is no restoring reflector for a pulse of wire B or C, no cap of wire B that
+reflects or toggles (a complete census to plane 33), and every cap of wire C that reflects a pulse is changed by the
+reflection. Not excluded: caps of period above 2, caps outside the tube, a reflector whose cap is still settling when
+the pulse returns. The tube is too tight a search space in any case: pulses of wire C that reach outside it were seen
+leaving chaos and are in the study (README §10; no ledger row).
+
+**Open.** A corner between two wire directions; a closed polygon; a crossing; a reusable reflector; a gate with its
+own output line; a stationary source of pulses; a receiver that toggles on pulses from one side; a clock whose period
+is divisible by 4; whether the clock's one-cell ignition leads into its cycle for every N; whether soup without an
+imposed repeat makes a carrier. The prior art for these objects has not been searched (Section 11). Further work on
+signals is in progress and is not reported here.
 
 ## 9. The rule's neighbourhood: other rules, a 2D analogue, other lattices
 
