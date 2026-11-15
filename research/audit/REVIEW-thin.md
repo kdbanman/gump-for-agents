@@ -103,6 +103,44 @@ spread of forms rather than a confidence interval. "0.0993(3) per cell between A
 slope; its (3) is statistical only. The ordering "the segment slope is the lowest and flat since n ≈ 25" stands. Its
 flatness is within errors that grow from 0.0004 to 0.003 per site over that range.
 
+## Claim 6: how the face dies
+
+`tt.c -P` records, at a face death, the face's cells over the 32 generations before it. `python3 research/audit/thin/prof.py s29 32 3`
+(segment n = 29, 2,994 deaths) and `… r32 32 0` (ring b = 32) analyse them. The output is in `prof_*.txt`. For each lag k
+(generations before the empty one) they give the mean population, the occupied sites, the span of the live region,
+the islands (runs separated by ≥ 2 empty sites), and the extent of the live region to the left and to the right of
+the site of the last live cell.
+
+Segment n = 29, lags 1, 2, 3, 4, 6, 10, 20, 31:
+
+| | k = 1 | 2 | 3 | 4 | 6 | 10 | 20 | 31 |
+|---|---|---|---|---|---|---|---|---|
+| population | 1.71 | 4.11 | 7.11 | 9.35 | 12.96 | 18.70 | 27.62 | 32.38 |
+| span (sites) | 2.7 | 5.4 | 7.4 | 9.0 | 11.5 | 15.1 | 20.5 | 23.3 |
+| islands | 1.22 | 1.47 | 1.57 | 1.63 | 1.75 | 1.89 | 2.10 | 2.25 |
+| extent left / right of the last site | 1.4 / 0.4 | 2.8 / 1.8 | 3.8 / 2.9 | 4.6 / 3.7 | 5.9 / 5.0 | 7.6 / 6.9 | 10.4 / 9.6 | 11.6 / 11.1 |
+
+- The population falls 1.7, 4.1, 7.1, 9.4, 11.3, 13.0 at k = 1–6. The line gives 1.7, 4.1, 7.0, 9.2, 11.0, 12.5 at
+  n = 21, a close match.
+- The live region contracts on both sides of the place where the last cell dies, almost symmetrically. Its span falls
+  from 23 sites to 3 over about 30 generations. In the last 5 generations it loses about 1.3 sites per end per
+  generation; at k = 10–30 it loses about 0.4. Two islands are common at k > 10, one at the end.
+- That is the line's picture, an island shrinking from its ends, and it **stands**.
+- The half-collapse lag depends on the reference population. Against the segment's own living population (32.4 at
+  k = 31, which equals 0.371 × 87) the lag is 8.2 generations at n = 29. The line gives 9.8. The line's segment lags
+  appear to take the ring density 1.33 per site as the reference, which lengthens them. I inferred this from the
+  numbers and did not read it in the code.
+- Beneath gaps (`gap.py`, ring b = 48, 3 lanes, output in `gap_out.txt`), at the middle of a maximal empty run:
+
+  | run | layer 1 | layer 2 | layers 3–4 |
+  |---|---|---|---|
+  | 4 sites | 0.194 | 0.337 | 0.39–0.41 |
+  | 8 sites | 0.317 | 0.362 | 0.39–0.41 |
+  | mean of the layer | 0.414 | 0.395 | 0.400 |
+
+  This agrees qualitatively with under.py: layers 1–2 thin, layer 3 does not. Layer 1 is thinner here at a run of 4
+  (0.19 against 0.26), possibly because the definitions differ (maximal runs here).
+
 ## Claim 5: exact one-layer model
 
 `python3 research/audit/thin/exact.py 5 0` (ring b = 5), `… 8 3` (n = 5), `… 5 3` (n = 2). Output is in
