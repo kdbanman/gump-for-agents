@@ -122,7 +122,43 @@ Each torus passed `eqtorus.py check A K B` first. Analysis: `python research/gpu
 | A | lattice | runs | face deaths | firewalls | settled | kind 5 | ln τ_face | seeds χ² |
 |---:|---|---:|---:|---:|---:|---:|---:|---|
 | 48 | (4,0),(0,4) | 1 | 7,478,823 | 15,925 + 3,420 | 5,023 | 0 | 9.9251 ± 0.0004 | |
+| 57 | (1,7),(0,19) | 2 | 3,283,133 | none possible | 840 | 0 | **11.8756 ± 0.0006** | 6.9 on 1 |
+| 63 | (1,4),(0,21) | 2 | 1,811,510 | none possible | 236 | 0 | **13.1622 ± 0.0007** | 0.07 on 1 |
+| 75 | (5,0),(0,5) | 2 | 183,954 | 468 + 2 | 2 | 0 | 15.6630 ± 0.0023 (file: 15.6614 ± 0.0026) | 0.39 on 1 |
 | 93 | (1,5),(0,31) | 4 | 35,521 | none possible | 0 | 0 | **19.4141 ± 0.0053** | 0.70 on 3 |
+
+(Firewalls: face deaths on a firewalled state + lives that settled on one. Launch caps 2,048 / 8,192 / 65,536 /
+2¹⁸ generations for A = 48-57 / 63 / 75 / 93. A = 57, 63, 75 were added by this session; forecasts for them in
+`PREDICTIONS.md` block 2, committed before the runs.)
+
+**The family as measured here** (all five from one driver and one counting rule):
+
+| A → A | local slope | | A | ln τ − 0.2088·A |
+|---|---:|---|---:|---:|
+| 48 → 57 | 0.2167 ± 0.0001 | | 48 | −0.097 |
+| 57 → 63 | 0.2144 ± 0.0002 | | 57 | −0.026 |
+| 63 → 75 | 0.2084 ± 0.0002 | | 63 | +0.008 |
+| 75 → 93 | 0.2084 ± 0.0003 | | 75 | +0.003 |
+| | | | 93 | −0.004 |
+
+- **A = 57 and 63 lie 0.039 and 0.050 above the chord from 4 × 4 to 5 × 5**, and 0.021 and 0.034 above the highest
+  forecast on file (massive: 11.855, 13.128; its chord excess was +0.013 ± 0.006). My own forecasts (11.848, 13.124)
+  missed by the same amounts. 5 × 5 agrees with the file.
+- **From A = 63 to 93 the slope is 0.2084 twice over**; the bend is all below A = 63, and most of it is the 4 × 4
+  torus being low (0.1 below the line the larger ones follow). [conjecture] The family is straight from A = 63 with
+  slope 0.2084 ± 0.0003 and the smallest tori carry a finite-size deficit that is gone by a shortest loop of about
+  4.6; forecast for A = 81, 84, 108, 111 on that basis in `PREDICTIONS.md` block 3 (committed and pushed 06:13Z,
+  before any of their rows existed).
+- Hazard by age (`eq_analyze.py`): flat from age 60 on in every torus (A = 57: within 0.3% in 11 bins from 200 to
+  5.6 × 10⁵; A = 63: within 1.1% from 1,000 to 3 × 10⁶; A = 75: within 1.5% from 0 to 1.8 × 10⁷). Ages 0-60 carry
+  1.6 to 2.0 times the hazard (soups that lose a face at once): 0.14% of deaths at A = 57, 0.05% at A = 63.
+  Lives older than 8 mean lives: 1,101 / 593 / 59 against 1,103 / 610 / 64 expected for memoryless lives, so no
+  excess of old lives (the signature of unrecognised cycles) at A = 57, 63, 75.
+- **Not settled: the two A = 57 seeds differ by 0.0029 ± 0.0011 (2.6σ).** One of 5 seed comparisons so far at that
+  level; more seeds at A = 57 are owed before its fourth decimal is trusted.
+- Tori of this family differ in more than size: 4 × 4, 5 × 5, 6 × 6 have their loops along the cube axes and a
+  firewall channel; 19, 21, 31, 37 are rotated lattices where every transverse diagonal has only 2 layers (no
+  firewall can form). Nothing here separates those effects from size.
 
 **A = 93** (`eqtorus.py run 1 5 31 16 SEED`, seeds 93001-93004, launch cap 2¹⁸):
 - Hazard of a face death by age: flat within errors in 11 bins from 0 to 5.6 × 10⁸ generations (ratios to the mean
