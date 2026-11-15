@@ -51,16 +51,14 @@ def validate(P, M, G):
     rng = np.random.default_rng(7)
     x = (rng.random(v.n) < 0.4).astype(np.uint8)
     h = np.zeros((H, H, H), np.int8)
-    pidx = [tuple(np.array(pl).T) for pl in place]
-    for i in range(v.n):
-        if x[i]:
-            h[pidx[i]] = 1
+    cid = np.concatenate([[i] * len(pl) for i, pl in enumerate(place)]).astype(np.int64)
+    pos = tuple(np.concatenate([np.array(pl) for pl in place]).T)
+    h[pos] = x[cid]
     oth = tuple(np.array(others).T)
     for g in range(1, G + 1):
         x = step(x); h = oracle.step(h, m)
-        for i in range(v.n):
-            if not (h[pidx[i]] == x[i]).all():
-                print('MISMATCH gen', g, 'cell', i); sys.exit(1)
+        if not (h[pos] == x[cid]).all():
+            print('MISMATCH gen', g); sys.exit(1)
         if h[oth].any():
             print('LEAK gen', g); sys.exit(1)
     print(f'OK slab P={P} M={M} N={v.n} H={H}: numpy stepper = oracle for {G} generations, population {int(x.sum())}')
@@ -136,28 +134,13 @@ def order_and_contexts(v, P, M, layers, kmax):
     return out
 
 
-def cond_entropy(X, own, ctx, K):
-    """plug-in and Miller-Madow H(x | first K context cells), pooled over translates and snapshots"""
-    xs = X[:, own].reshape(-1).astype(np.int64)
-    if K == 0:
-        code = np.zeros_like(xs)
-    else:
-        w = (1 << np.arange(K)).astype(np.int64)
-        code = (X[:, ctx[:, :K]].astype(np.int64) @ w).reshape(-1)
-    key = code * 2 + xs
-    cnt = np.bincount(key, minlength=2 << K) if K <= 22 else np.unique(key, return_counts=True)[1]
-    if K <= 22:
-        c2 = cnt.reshape(-1, 2)
-        tot = c2.sum(1)
-        nz = c2 > 0
-        nobs = len(xs)
-        Hj = -(c2[nz] / nobs * np.log2(c2[nz] / nobs)).sum()
-        tz = tot > 0
-        Hc = -(tot[tz] / nobs * np.log2(tot[tz] / nobs)).sum()
-        H = Hj - Hc
-        mm = (nz.sum() - tz.sum()) / (2 * nobs * np.log(2))
-        return H, H + mm
-    raise ValueError
+def _hmm(key, K, nobs):
+    c2 = np.bincount(key, minlength=2 << K).reshape(-1, 2)
+    tot = c2.sum(1); nz = c2 > 0; tz = tot > 0
+    Hj = -(c2[nz] / nobs * np.log2(c2[nz] / nobs)).sum()
+    Hc = -(tot[tz] / nobs * np.log2(tot[tz] / nobs)).sum()
+    H = Hj - Hc
+    return H, H + (nz.sum() - tz.sum()) / (2 * nobs * np.log(2))
 
 
 def entropy(fn, layers, kmax, kstep=2, interior=False):
@@ -167,25 +150,33 @@ def entropy(fn, layers, kmax, kstep=2, interior=False):
     v = V.slab(P, 0, P, M)
     ctxs = order_and_contexts(v, P, M, layers, kmax)
     S = len(X)
-    print(f'{fn}: {S} snapshots, P={P}, M={M}, layers {layers}; per K: sum over the {3 * len(layers)} cell types '
+    Ks = list(range(0, kmax + 1, kstep))
+    res = {K: {} for K in Ks}
+    for (t, a), (own, ctx, cand) in ctxs.items():
+        if interior:      # translates whose contexts do not wrap round the torus (unit cells 4 <= i, j < P-4)
+            rr = np.arange(P * P); keep = ((rr % P) >= 4) & ((rr % P) < P - 4) & ((rr // P) >= 4)
+            own, ctx = own[keep], ctx[keep]
+        xs = X[:, own].astype(np.int32)
+        code = np.zeros_like(xs)
+        for K in range(0, kmax + 1):
+            if K > 0:
+                code |= X[:, ctx[:, K - 1]].astype(np.int32) << (K - 1)
+            if K in res:
+                key = (code * 2 + xs).reshape(-1).astype(np.int64)
+                h, hm = _hmm(key, K, key.size)
+                h2 = (code[:S // 2] * 2 + xs[:S // 2]).reshape(-1).astype(np.int64)
+                _, hm2 = _hmm(h2, K, h2.size)
+                res[K][(t, a)] = (h, hm, hm2)
+    print(f'{fn}: {S} snapshots, P={P}, M={M}, layers {layers}; per K: mean over the {3 * len(layers)} cell types '
           f'of H(x | K nearest past cells), bits per cell [plug-in, Miller-Madow, MM on first half]')
     rows = []
-    for K in list(range(0, kmax + 1, kstep)):
-        tot = np.zeros(3)
-        per_layer = {}
-        for (t, a), (own, ctx, _) in ctxs.items():
-            if interior:      # translates whose contexts do not wrap round the torus (unit cells 4 <= i, j < P-4)
-                rr = np.arange(P * P); keep = ((rr % P) >= 4) & ((rr % P) < P - 4) & ((rr // P) >= 4)
-                own, ctx = own[keep], ctx[keep]
-            h, hm = cond_entropy(X, own, ctx, K)
-            _, hm2 = cond_entropy(X[:S // 2], own, ctx, K)
-            tot += [h, hm, hm2]
-            per_layer.setdefault(t, np.zeros(3)); per_layer[t] += [h, hm, hm2]
-        nt = 3 * len(layers)
-        rows.append((K, *(tot / nt)))
-        print(f'K={K:2d}  {tot[0] / nt:.4f} {tot[1] / nt:.4f} {tot[2] / nt:.4f}   by layer (MM): ' +
-              ' '.join(f't{t}:{per_layer[t][1] / 3:.4f}' for t in sorted(per_layer, reverse=True)), flush=True)
-    return rows
+    for K in Ks:
+        tot = np.mean([res[K][k] for k in res[K]], 0)
+        per_layer = {t: np.mean([res[K][(tt, a)][1] for (tt, a) in res[K] if tt == t]) for t in layers}
+        rows.append((K, *tot))
+        print(f'K={K:2d}  {tot[0]:.4f} {tot[1]:.4f} {tot[2]:.4f}   by layer (MM): ' +
+              ' '.join(f't{t}:{per_layer[t]:.4f}' for t in sorted(per_layer, reverse=True)), flush=True)
+    return rows, res
 
 
 def selftest(P, M, kmax=16, S=4000):

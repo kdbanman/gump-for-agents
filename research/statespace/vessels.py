@@ -319,6 +319,19 @@ def make(kind, args):
 
 
 # ---------------------------------------------------------------- oracle embedding
+def period_ok(v, n):
+    if v.kind == 'slab':
+        p, q, r, m = v.args
+        if n < m + 3 or n % p or n % r or ((n // r) * q) % p:
+            return False
+        return True
+    a, b, c, d, e, f = v.args
+    if n < 3:
+        return False
+    co = np.linalg.inv(v.B.T.astype(float)) @ (n * np.eye(3))
+    return bool(np.abs(co - np.round(co)).max() < 1e-9)
+
+
 def embed(v):
     """returns (H, place) where place is a list, per vessel cell, of the oracle array positions holding that
     cell (all periodic copies), and `others`: positions of valid oracle cells that are not copies (must stay 0)."""
@@ -330,16 +343,10 @@ def embed(v):
         H = int(span + (span & 1))
         place = [[tuple(int(x) for x in np.array(c) + shift)] for c in v.cells]
     else:
-        if v.kind == 'slab':
-            p, q, r, m = v.args
-            n = p * r
-            while n < m + 3:
-                n += p * r
-        else:
-            a, b, c, d, e, f = v.args
-            n = a * c * f
-            while n < 3:
-                n += a * c * f
+        # smallest n with n Z^3 a period of the vessel (and n >= m + 3 for a slab, n >= 3 for a torus)
+        n = 1
+        while not period_ok(v, n):
+            n += 1
         H = 2 * n
         place = [[] for _ in range(v.n)]
         for x in range(H):
