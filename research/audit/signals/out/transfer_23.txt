@@ -1,0 +1,40 @@
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x3 (P,S)=(1,1): 15 backgrounds, pulses on 0, undecided 0, none on 15; 0s
+local rule == oracle.step on 5 random tube rings
+  background #6 (4 cells/cube at gen 0): PULSE (backward search, 537 windows)
+  background #41 (5 cells/cube at gen 0): PULSE (backward search, 446 windows)
+  background #71 (5 cells/cube at gen 0): PULSE (backward search, 466 windows)
+  background #98 (4 cells/cube at gen 0): PULSE (backward search, 392 windows)
+  background #99 (5 cells/cube at gen 0): PULSE (backward search, 315 windows)
+  background #101 (5 cells/cube at gen 0): PULSE (backward search, 270 windows)
+  background #102 (5 cells/cube at gen 0): PULSE (backward search, 431 windows)
+  background #103 (5 cells/cube at gen 0): PULSE (backward search, 312 windows)
+RESULT tube 2x3 (P,S)=(2,1): 111 backgrounds, pulses on 8, undecided 0, none on 103; 114s
+  oracle re-step, background #6: ring of 30 cubes, x(P) == x(0) moved 1 cubes: True; not the bare background: True
+  oracle re-step, background #41: ring of 30 cubes, x(P) == x(0) moved 1 cubes: True; not the bare background: True
+  oracle re-step, background #71: ring of 30 cubes, x(P) == x(0) moved 1 cubes: True; not the bare background: True
+  oracle re-step, background #98: ring of 29 cubes, x(P) == x(0) moved 1 cubes: True; not the bare background: True
+  oracle re-step, background #99: ring of 29 cubes, x(P) == x(0) moved 1 cubes: True; not the bare background: True
+  oracle re-step, background #101: ring of 28 cubes, x(P) == x(0) moved 1 cubes: True; not the bare background: True
+  oracle re-step, background #102: ring of 29 cubes, x(P) == x(0) moved 1 cubes: True; not the bare background: True
+  oracle re-step, background #103: ring of 29 cubes, x(P) == x(0) moved 1 cubes: True; not the bare background: True
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x3 (P,S)=(3,1): 15 backgrounds, pulses on 0, undecided 0, none on 15; 4s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x3 (P,S)=(3,2): 15 backgrounds, pulses on 0, undecided 0, none on 15; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x3 (P,S)=(4,1): 115 backgrounds, pulses on 0, undecided 0, none on 115; 725s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x3 (P,S)=(4,3): 115 backgrounds, pulses on 0, undecided 0, none on 115; 2s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x3 (P,S)=(5,1): 15 backgrounds, pulses on 0, undecided 0, none on 15; 200s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x3 (P,S)=(5,2): 15 backgrounds, pulses on 0, undecided 0, none on 15; 0s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x3 (P,S)=(5,3): 15 backgrounds, pulses on 0, undecided 0, none on 15; 1s
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x3 (P,S)=(5,4): 15 backgrounds, pulses on 0, undecided 0, none on 15; 1s
+local rule == oracle.step on 5 random tube rings
+local rule == oracle.step on 5 random tube rings
+RESULT tube 2x3 (P,S)=(6,5): 111 backgrounds, pulses on 0, undecided 0, none on 111; 79s
+tube 2x3 (6,1): no RESULT within the 900 s limit

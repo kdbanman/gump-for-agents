@@ -196,3 +196,56 @@
   numTile(N, 'within 1%', 'of coin flips of the same density: one layer of the living chaos, seen alone (at least ' + Z.deficit[0] + '–' + Z.deficit[1] + ' bits per cell short). The layers together are at least ' + (Z.deficit[2] * 100).toFixed(1) + '% short, most of it between layers. This is the number behind “coins will do”: it ties your two journal thoughts, the isolation and the share, together.', ['meas', 'reviewed, two samplers']);
   numTile(N, 'random seeds', 'are the long-lived family, as you guessed: in no room of ' + Z.champ[0] + ' cells or more is the longest-lived seed symmetric.', ['proved', 'every state listed']);
 })();
+
+// ---- dying faces, rounds 3 and 4 (NB "what the dips say about the price of a cell", "a depleted face thins as one thing",
+//      "round 4 reviewed"; CLAIMS DY8-DY15). The company curves are the study's table r4_company.csv; the grey bars the review's
+//      finite-face null (C over p_t = 0.45-0.8). Nothing here is computed except the drawing. ----
+(function () {
+  const Y = D.dying, R = Y.r34, CP = Y.company, SIZES = ['63', '84', '108'];
+  const N3 = $('#n-dy-r3');
+  pmTile(numTile(N3, R.shallow[0] + '–' + R.shallow[1], 'per cell, the price of a dip to half the usual population: the same on faces of 45 to 135 cells.', ['meas', 'two codes']), '');
+  pmTile(numTile(N3, R.c[0] + ' ', 'the price of a cell read from the dips alone. It cannot tell ' + R.c[2] + ' from ' + R.c[3] + ' and adds nothing to the lifetimes.', ['once', 'one review']), '± ' + R.c[1]);
+  numTile(N3, R.tail[0].toFixed(2) + '–' + R.tail[1], 'per live cell: the price of each further cell lost below half, on faces of ' + R.tail[2] + ' cells or more.', ['meas', 'two codes']);
+  numTile(N3, 'half full', 'near a survivor when a face is caught at a third of its population (' + R.half[0] + '–' + R.half[1] + ' of usual); farther off ' + R.far[0] + '–' + R.far[1].toFixed(2) + ': thinner, not empty.', ['meas', 'two codes']);
+
+  const HC = $('#f-dy-comp');
+  responsive(HC, w => {
+    const nar = w < 480, cols = nar ? 1 : 3, gap = 10, cw = (w - gap * (cols - 1)) / cols;
+    const grid = E('div', { style: `display:grid;grid-template-columns:repeat(${cols},minmax(0,1fr));gap:6px ${gap}px` }, HC);
+    SIZES.forEach((A, i) => {
+      const cell = E('div', {}, grid), C = CP[A];
+      const f = frame(cell, { w: cw, h: nar ? 170 : 210, label: 'Faces of ' + A + ' cells: company around a live cell against depth, caught faces, randomly thinned faces and the fixed-density patch',
+        x: { d: [0.95, 0.1], ticks: [0.9, 0.6, 0.3], fmt: v => v.toFixed(1), title: i === cols - 1 || nar ? 'population ÷ usual' : '' }, y: { d: [0, 1], ticks: [0, 0.5, 1], fmt: v => String(v), title: i === 0 || nar ? 'company' : '' }, m: { t: 24, r: 8, b: 34, l: 30 } });
+      lab6(f, f.w - f.m.r, 12, A + ' cells', 'end');
+      C.null.forEach(r => S('rect', { x: f.X(r[0]) - 5, y: f.Y(r[2]), width: 10, height: Math.max(2, f.Y(r[1]) - f.Y(r[2])), rx: 2, fill: 'var(--s-mute)', 'fill-opacity': .6 }, f.svg));
+      S('path', { class: 'ln', stroke: 'var(--ink-3)', 'stroke-width': 1.6, 'stroke-dasharray': '4 3', fill: 'none', d: pathOf(f, C.control.map(r => [r[0], r[1]])) }, f.svg);
+      S('path', { class: 'ln', stroke: 'var(--ember)', 'stroke-width': 2, fill: 'none', d: pathOf(f, C.caught.map(r => [r[0], r[1]])) }, f.svg);
+      C.caught.forEach(r => {
+        const c = C.control.find(q => q[0] === r[0]), nl = C.null.find(q => q[0] === r[0]);
+        dot(f, r[0], r[1], 'var(--ember)', () => [A + ' cells, caught at ' + r[0] + ' of usual', 'company ' + r[1].toFixed(3) + (c ? '; thinned at random ' + c[1].toFixed(3) : '') + (nl ? '; fixed-density patch ' + nl[1].toFixed(2) + '–' + nl[2].toFixed(2) : '')], { r: 3.2 });
+      });
+    });
+  });
+  tableView(HC.parentNode, ['cells', 'depth', 'caught', 'thinned at random', 'fixed-density patch'],
+    [].concat(...SIZES.map(A => CP[A].caught.map(r => { const c = CP[A].control.find(q => q[0] === r[0]), nl = CP[A].null.find(q => q[0] === r[0]); return [A, r[0], r[1].toFixed(3), c ? c[1].toFixed(3) : '', nl ? nl[1].toFixed(3) + '–' + nl[2].toFixed(3) : '']; }))));
+
+  const HO = $('#f-dy-over'), ov = R.overshoot;
+  responsive(HO, w => {
+    const f = frame(HO, { w, h: 230, label: 'How far above the lifetimes each construction puts the cost of a death, in nats, at 63, 84 and 108 cells: the remnant-and-void construction 1.07, 1.21, 1.34; a straight tail 0.53, 0.51, 0.46',
+      x: { d: [52, 119], ticks: [63, 84, 108], fmt: v => v + ' cells' }, y: { d: [-0.15, 1.6], ticks: [0, 0.5, 1, 1.5], title: 'nats too high' }, m: { t: 22, r: 14, b: 34, l: 34 } });
+    S('line', { x1: f.m.l, x2: f.w - f.m.r, y1: f.Y(0), y2: f.Y(0), stroke: 'var(--ink)', 'stroke-width': 1.5 }, f.svg);
+    lab6(f, f.w - f.m.r, f.Y(0) - 6, 'what the lifetimes say', 'end', 't-mono');
+    [63, 84, 108].forEach((A, i) => {
+      dot(f, A, ov[i], 'var(--ember)', () => [A + ' cells: a dense remnant beside a void', ov[i] + ' nats above the lifetimes'], { r: 5 });
+      dot(f, A, ov[3 + i], 'var(--ink-3)', () => [A + ' cells: a straight tail alone', ov[3 + i] + ' nats above the lifetimes'], { r: 4.5, hollow: true });
+      lab6(f, f.X(A) + 9, f.Y(ov[i]) + 4, ov[i].toFixed(2), 'start', 't-mono');
+    });
+  });
+
+  $('#p-dy-stands').textContent = 'No dense core is seen, and on faces of ' + R.stands[0] + ' cells or fewer this test could not see one. A caught face is neither healthy cells deleted at random nor an even patch: a tight knot with a thin scatter beyond it. The remnant-and-void construction misses by more than a nat. Whether a remnant in some looser sense exists is open.';
+  const N4 = $('#n-dy-r4'), k = R.knot, l = R.looser;
+  numTile(N4, R.control[0] + '–' + R.control[1] + '×', 'the company of a caught face against a healthy face thinned at random to the same count: dying faces huddle.', ['meas', 'two codes']);
+  numTile(N4, 'a knot', 'four live cells of a 63-cell face: company ' + k.slice(0, 4).join(', ') + ' at 1, 2, 3, 4+ steps; an even patch of the same mass would read ' + k.slice(4).join(', ') + '.', ['meas', 'the review']);
+  numTile(N4, l[0] + ' · ' + l[1], 'company at the same count of live cells, faces about to die against faces that recover: the dying are the looser (± ' + l[4] + ').', ['meas', 'the review']);
+  numTile(N4, '3 of 23', 'forecasts the lead wrote down before the four looks held. Two of the five scored on the fourth failed because the tests could not have told.', ['ret', 'missed']);
+})();

@@ -164,5 +164,5 @@
   const gap = Math.max(...[0, 1, 2].map(i => Math.abs(bk[i] - bk[6 + i])));
   numTile(NB, 'ν × q = 1/τ', 'counted dips × their share that end gives back the lifetimes measured before: ' + bk.slice(0, 3).join(', ') + ' against ' + bk.slice(6, 9).join(', ') + ' in ln τ (within ' + gap.toFixed(2) + ').', ['meas', 'two codes']);
   numTile(NB, '1 of 13', 'forecasts the lead wrote down before the two looks held (that shallow dips follow a bell curve). The other twelve failed.', ['ret', 'missed']);
-  fc.textContent = '1 of 13 held';
+  fc.textContent = '3 of 23 held';   // over four rounds (NB "a depleted face thins as one thing"; D.dying.r34 via update-2026-11-15d.json)
 })();

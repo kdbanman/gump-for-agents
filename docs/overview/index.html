@@ -480,10 +480,10 @@ blockquote.ask cite{display:block;margin-top:4px;font-style:normal;font-family:v
   </div>
 </section>
 
-<!-- Added 2026-11-15 (third refresh). NB "how a face dies (the first look, reviewed)" and "a death is a dip that keeps going"
+<!-- Added 2026-11-15 (third refresh); rounds 3 and 4 added in the late-morning refresh (see the block at the end). NB "how a face dies (the first look, reviewed)" and "a death is a dip that keeps going"
      (CLAIMS DY1-DY7); numbers from data/sources/update-2026-11-15c.json, tables from research/dying/data/ (read by collect.py),
      the eight deaths from data/sources/deaths.json (record_deaths.py: the study's stepper, fresh seeds, checked against the
-     oracle). Drawn by src/figures8.js. Round 3 of the study is under review and is not shown. -->
+     oracle). Drawn by src/figures8.js. -->
 <section class="plate" id="dying">
   <div class="plate-h">
     <div class="row"><p class="eyebrow">How a face dies, watched <b>· new</b></p><span class="st st-meas">measured, two independent codes</span><span class="st st-meas">eight real deaths, replayed</span><span class="st st-ret">the lead’s forecasts: <span id="n-dy-fc"></span></span></div>
@@ -531,6 +531,32 @@ blockquote.ask cite{display:block;margin-top:4px;font-style:normal;font-family:v
     </figure>
   </div>
   <div class="nums" id="n-dy-b"></div>
+  <!-- rounds 3 and 4 (added 2026-11-15, late morning): NB "what the dips say about the price of a cell", "a depleted face thins as
+       one thing" and "round 4 reviewed" (CLAIMS DY8-DY15); the company table is research/dying/data/r4_company.csv, the finite-face
+       null research/audit/dying4/null_r1{1,3,5}.txt (read by collect.py). Drawn by src/figures9.js. -->
+  <div class="row" style="margin-top:22px"><p class="eyebrow">Rounds 3 and 4: across sizes, and a face caught nearly empty <b>· new</b></p><span class="st st-meas">numbers: two codes</span><span class="st st-ret">“no remnant”: withdrawn</span><span class="st st-ret">the lead’s two-phase idea: fails on its number</span></div>
+  <div class="nums" id="n-dy-r3"></div>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>Company around a survivor, as a face thins</h3>
+      <div id="f-dy-comp"></div>
+      <div class="keys"><span class="key"><span class="sw line" style="background:var(--ember)"></span>faces caught on their way down</span><span class="key"><span class="sw line" style="background:var(--ink-3)"></span>healthy faces thinned at random to the same count</span><span class="key"><span class="sw" style="background:var(--s-mute);opacity:.6"></span>a compact patch at fixed density, nothing outside (the reviewer’s test)</span></div>
+      <figcaption>“Company”: how full the cells within two steps of a live cell are, against a healthy face. Caught faces keep far more company than random thinning, so they huddle. The lead read the steady fall as “no dense core”. The reviewer built a dense core with nothing round it and it falls the same way (grey bars): with four to eight cells left, a patch is no bigger than the neighbourhood being counted. On faces this small the test cannot tell.</figcaption>
+    </figure>
+    <figure class="fig c5 panel">
+      <h3>The two-phase idea, by its number</h3>
+      <div id="f-dy-over"></div>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--ember)"></span>a dense remnant beside a void, built from the dips</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--ink-3)"></span>a straight tail alone</span></div>
+      <figcaption>How far each construction puts the cost of a whole death above what the lifetimes say, in nats (one nat is a factor e ≈ 2.7 in the wait). The picture of a remnant and a void gives deaths three or four times too rare at every size.</figcaption>
+    </figure>
+  </div>
+  <div class="figs">
+    <div class="fig c7">
+      <div class="was"><span class="lab">What the lead wrote after round 4</span><p>A depleted face thins as one thing; there is no remnant.</p></div>
+      <div class="was now"><span class="lab">What stands after the review</span><p id="p-dy-stands"></p></div>
+    </div>
+    <div class="fig c5"><div class="nums" id="n-dy-r4" style="grid-template-columns:1fr"></div></div>
+  </div>
 </section>
 
 
@@ -2653,7 +2679,7 @@ const lab6 = (f, x, y, t, anc, cls) => { const e = S('text', { x, y, 'text-ancho
   const gap = Math.max(...[0, 1, 2].map(i => Math.abs(bk[i] - bk[6 + i])));
   numTile(NB, 'ν × q = 1/τ', 'counted dips × their share that end gives back the lifetimes measured before: ' + bk.slice(0, 3).join(', ') + ' against ' + bk.slice(6, 9).join(', ') + ' in ln τ (within ' + gap.toFixed(2) + ').', ['meas', 'two codes']);
   numTile(NB, '1 of 13', 'forecasts the lead wrote down before the two looks held (that shallow dips follow a bell curve). The other twelve failed.', ['ret', 'missed']);
-  fc.textContent = '1 of 13 held';
+  fc.textContent = '3 of 23 held';   // over four rounds (NB "a depleted face thins as one thing"; D.dying.r34 via update-2026-11-15d.json)
 })();
 
 // ---------- refresh of 2026-11-15 (late morning): signals (SG1-SG10), the state space a seed sees (SS1-SS3) ----------
@@ -2853,6 +2879,59 @@ const lab6 = (f, x, y, t, anc, cls) => { const e = S('text', { x, y, 'text-ancho
   numTile(N, Z.law[0].toFixed(2) + ' bits', 'per face cell: the count a random seed sees, from the face law (a face of A cells lives e^(' + Z.law[1] + '·A) generations), against one bit per cell of the room. So the share it sees falls exponentially with size.', ['meas', 'reviewed']);
   numTile(N, 'within 1%', 'of coin flips of the same density: one layer of the living chaos, seen alone (at least ' + Z.deficit[0] + '–' + Z.deficit[1] + ' bits per cell short). The layers together are at least ' + (Z.deficit[2] * 100).toFixed(1) + '% short, most of it between layers. This is the number behind “coins will do”: it ties your two journal thoughts, the isolation and the share, together.', ['meas', 'reviewed, two samplers']);
   numTile(N, 'random seeds', 'are the long-lived family, as you guessed: in no room of ' + Z.champ[0] + ' cells or more is the longest-lived seed symmetric.', ['proved', 'every state listed']);
+})();
+
+// ---- dying faces, rounds 3 and 4 (NB "what the dips say about the price of a cell", "a depleted face thins as one thing",
+//      "round 4 reviewed"; CLAIMS DY8-DY15). The company curves are the study's table r4_company.csv; the grey bars the review's
+//      finite-face null (C over p_t = 0.45-0.8). Nothing here is computed except the drawing. ----
+(function () {
+  const Y = D.dying, R = Y.r34, CP = Y.company, SIZES = ['63', '84', '108'];
+  const N3 = $('#n-dy-r3');
+  pmTile(numTile(N3, R.shallow[0] + '–' + R.shallow[1], 'per cell, the price of a dip to half the usual population: the same on faces of 45 to 135 cells.', ['meas', 'two codes']), '');
+  pmTile(numTile(N3, R.c[0] + ' ', 'the price of a cell read from the dips alone. It cannot tell ' + R.c[2] + ' from ' + R.c[3] + ' and adds nothing to the lifetimes.', ['once', 'one review']), '± ' + R.c[1]);
+  numTile(N3, R.tail[0].toFixed(2) + '–' + R.tail[1], 'per live cell: the price of each further cell lost below half, on faces of ' + R.tail[2] + ' cells or more.', ['meas', 'two codes']);
+  numTile(N3, 'half full', 'near a survivor when a face is caught at a third of its population (' + R.half[0] + '–' + R.half[1] + ' of usual); farther off ' + R.far[0] + '–' + R.far[1].toFixed(2) + ': thinner, not empty.', ['meas', 'two codes']);
+
+  const HC = $('#f-dy-comp');
+  responsive(HC, w => {
+    const nar = w < 480, cols = nar ? 1 : 3, gap = 10, cw = (w - gap * (cols - 1)) / cols;
+    const grid = E('div', { style: `display:grid;grid-template-columns:repeat(${cols},minmax(0,1fr));gap:6px ${gap}px` }, HC);
+    SIZES.forEach((A, i) => {
+      const cell = E('div', {}, grid), C = CP[A];
+      const f = frame(cell, { w: cw, h: nar ? 170 : 210, label: 'Faces of ' + A + ' cells: company around a live cell against depth, caught faces, randomly thinned faces and the fixed-density patch',
+        x: { d: [0.95, 0.1], ticks: [0.9, 0.6, 0.3], fmt: v => v.toFixed(1), title: i === cols - 1 || nar ? 'population ÷ usual' : '' }, y: { d: [0, 1], ticks: [0, 0.5, 1], fmt: v => String(v), title: i === 0 || nar ? 'company' : '' }, m: { t: 24, r: 8, b: 34, l: 30 } });
+      lab6(f, f.w - f.m.r, 12, A + ' cells', 'end');
+      C.null.forEach(r => S('rect', { x: f.X(r[0]) - 5, y: f.Y(r[2]), width: 10, height: Math.max(2, f.Y(r[1]) - f.Y(r[2])), rx: 2, fill: 'var(--s-mute)', 'fill-opacity': .6 }, f.svg));
+      S('path', { class: 'ln', stroke: 'var(--ink-3)', 'stroke-width': 1.6, 'stroke-dasharray': '4 3', fill: 'none', d: pathOf(f, C.control.map(r => [r[0], r[1]])) }, f.svg);
+      S('path', { class: 'ln', stroke: 'var(--ember)', 'stroke-width': 2, fill: 'none', d: pathOf(f, C.caught.map(r => [r[0], r[1]])) }, f.svg);
+      C.caught.forEach(r => {
+        const c = C.control.find(q => q[0] === r[0]), nl = C.null.find(q => q[0] === r[0]);
+        dot(f, r[0], r[1], 'var(--ember)', () => [A + ' cells, caught at ' + r[0] + ' of usual', 'company ' + r[1].toFixed(3) + (c ? '; thinned at random ' + c[1].toFixed(3) : '') + (nl ? '; fixed-density patch ' + nl[1].toFixed(2) + '–' + nl[2].toFixed(2) : '')], { r: 3.2 });
+      });
+    });
+  });
+  tableView(HC.parentNode, ['cells', 'depth', 'caught', 'thinned at random', 'fixed-density patch'],
+    [].concat(...SIZES.map(A => CP[A].caught.map(r => { const c = CP[A].control.find(q => q[0] === r[0]), nl = CP[A].null.find(q => q[0] === r[0]); return [A, r[0], r[1].toFixed(3), c ? c[1].toFixed(3) : '', nl ? nl[1].toFixed(3) + '–' + nl[2].toFixed(3) : '']; }))));
+
+  const HO = $('#f-dy-over'), ov = R.overshoot;
+  responsive(HO, w => {
+    const f = frame(HO, { w, h: 230, label: 'How far above the lifetimes each construction puts the cost of a death, in nats, at 63, 84 and 108 cells: the remnant-and-void construction 1.07, 1.21, 1.34; a straight tail 0.53, 0.51, 0.46',
+      x: { d: [52, 119], ticks: [63, 84, 108], fmt: v => v + ' cells' }, y: { d: [-0.15, 1.6], ticks: [0, 0.5, 1, 1.5], title: 'nats too high' }, m: { t: 22, r: 14, b: 34, l: 34 } });
+    S('line', { x1: f.m.l, x2: f.w - f.m.r, y1: f.Y(0), y2: f.Y(0), stroke: 'var(--ink)', 'stroke-width': 1.5 }, f.svg);
+    lab6(f, f.w - f.m.r, f.Y(0) - 6, 'what the lifetimes say', 'end', 't-mono');
+    [63, 84, 108].forEach((A, i) => {
+      dot(f, A, ov[i], 'var(--ember)', () => [A + ' cells: a dense remnant beside a void', ov[i] + ' nats above the lifetimes'], { r: 5 });
+      dot(f, A, ov[3 + i], 'var(--ink-3)', () => [A + ' cells: a straight tail alone', ov[3 + i] + ' nats above the lifetimes'], { r: 4.5, hollow: true });
+      lab6(f, f.X(A) + 9, f.Y(ov[i]) + 4, ov[i].toFixed(2), 'start', 't-mono');
+    });
+  });
+
+  $('#p-dy-stands').textContent = 'No dense core is seen, and on faces of ' + R.stands[0] + ' cells or fewer this test could not see one. A caught face is neither healthy cells deleted at random nor an even patch: a tight knot with a thin scatter beyond it. The remnant-and-void construction misses by more than a nat. Whether a remnant in some looser sense exists is open.';
+  const N4 = $('#n-dy-r4'), k = R.knot, l = R.looser;
+  numTile(N4, R.control[0] + '–' + R.control[1] + '×', 'the company of a caught face against a healthy face thinned at random to the same count: dying faces huddle.', ['meas', 'two codes']);
+  numTile(N4, 'a knot', 'four live cells of a 63-cell face: company ' + k.slice(0, 4).join(', ') + ' at 1, 2, 3, 4+ steps; an even patch of the same mass would read ' + k.slice(4).join(', ') + '.', ['meas', 'the review']);
+  numTile(N4, l[0] + ' · ' + l[1], 'company at the same count of live cells, faces about to die against faces that recover: the dying are the looser (± ' + l[4] + ').', ['meas', 'the review']);
+  numTile(N4, '3 of 23', 'forecasts the lead wrote down before the four looks held. Two of the five scored on the fourth failed because the tests could not have told.', ['ret', 'missed']);
 })();
 
 
