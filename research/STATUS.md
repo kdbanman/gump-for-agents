@@ -277,6 +277,10 @@ _Last updated 2026-11-14 by the lead._
   turn-class negative is for period-2 ends, T ≤ 36; the SAT negatives hold one wire phase unless stated.
   **Running:** only the lead's CPU run of the 84-cell face. **Next:** site content (nine tori, the wrapping
   result, signals pushes 3–4) and the draft, one Opus agent each; merge of pull request 26 at that checkpoint.
+  **16:04 UTC:** the site agent is adding that content now (plates for the nine tori, the cost of a short way
+  round, the gun, the divider, the third push; record and landing pages). **The draft (`docs/paper/`) is
+  deliberately not updated yet:** the wrapping question turns on the 84-cell face and the card's runs, and the
+  fourth push is a day old; update it once those settle.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
