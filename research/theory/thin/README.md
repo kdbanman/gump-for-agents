@@ -6,6 +6,38 @@ Forecasts and their scores: `PREDICTIONS.md`. Every number below comes from the 
 `research/scratch/thin/<TAG>/` (not in git; curated copies in `data/`, made by `python3 collect.py`); the
 command that prints it is given, and the run that makes a tag is in "Reproduce".
 
+## Reviewed
+
+An adversarial review, `research/audit/REVIEW-thin.md` (2026-11-14, scripts in `research/audit/thin/`), checked this
+write-up with its own bit-sliced stepper (`tt.c`, driven by `tt.py`), which shares no code with this directory. That
+stepper builds the slab from the cube-index table of `docs/AUTOMATON.md`, agrees with the engine on populations at
+every one of 3,000 generations (b = 16, 11, 12) and with a plain Python stepper on every cell of a traced lane. Its
+estimator has no 30-mean-lives cut. The corrections it asked for are applied below.
+
+**Confirmed by the review's own runs [measured]:**
+- Ring lifetimes at b = 16, 24, 26, 28, 30, 32: every ln τ agrees with this line's and the census's within 1.3σ.
+- The ring's bend is real: 0.1081(3) per cell (A 72 → 84) against 0.1067(4) (84 → 96), a difference of 2.9σ.
+- Segments n = 21, 29, 37: slopes 0.2981(3) and 0.2978(6) per site, so 0.0993 per cell reproduces.
+- M(5) − det = +0.0017(18) and M(4) − det = +0.0497(23) on the ring b = 16.
+- The exact M(1) for the ring of 5 and the segments of 2 and 5 sites, to all six decimals (its own code).
+- The way the face dies (§5) and the thinning of layers 1–2 beneath an open gap.
+- The old firewall rule does not matter at b = 16: the review's ring, which uses the three-dead-layer rule, differs
+  from `det_b16` by −0.0021(20).
+- Every forecast in `PREDICTIONS.md` was committed before the run that tests it.
+
+**Changed by the review [measured]:**
+- The error bar on the long-face limit. This was a refit of this line's data (`python3 research/audit/thin/refit.py`,
+  `python3 research/audit/thin/refit_win.py`), not a rerun. See §1 and §3.
+- The wording on the wall (§2), on censoring and firewalls (§8), on the half-collapse lags (§5), and the scoring of
+  forecasts (an appended note in `PREDICTIONS.md`).
+
+**Not rerun by the review:**
+- Rings of b = 20 or 36, and segments of n = 45 or 61. "Straight to A = 135" rests on this line's n = 45 alone.
+- The windows (route 3) and the wall statistics (route 4). These were refit from `data/windows.json` only.
+- M(w) at b = 24 or on segments; the coin density (F4); the 12-layer slab; the closures of §6b; the torus (1,2),(0,b).
+- The exact M(1) at n = 3, 4, 6, 7.
+- The thinning of the layers beneath *before* a gap opens (§4). Only gaps already open were checked.
+
 ## 1. Verdict
 
 **No number here is derived from the rule.** The asked-for derivation of the cost per cell of the thinnest face
@@ -27,17 +59,26 @@ reasons, each measured or exact:
    time proportional to its length (§5); the cost per site is a large-deviation rate of a front moving through a
    medium five layers deep. Nothing in it is small, and every finite-size quantity that could stand in for it
    (ring lifetimes, segment lifetimes, empty windows, the front's distance from a wall) approaches it slowly,
-   with corrections of relative size 1/length (§3).
+   with corrections whose form is not known. Powers of 1/length, logarithms and √length all fit (§3).
 
 What can be said instead **[measured]**:
 
-> The cost per cell of the thinnest face, in the limit of a long face, is **0.099 ± 0.004 per cell**
-> (0.298 ± 0.011 per site of three cells). The census values 0.115 (A 48 → 60) and 0.111 (60 → 72) are
-> reproduced (0.1144(3), 0.1104(6)) and are local slopes of a ring law that is still bending at A = 108, where
-> the local slope is 0.103(2). A face with two free ends (a segment) shows 0.0993(3) per cell from A = 75 to 135.
+> The cost per cell of the thinnest face, in the limit of a long face, is **about 0.099 per cell**. It lies **between
+> 0.093 and 0.107**, depending on the unknown form of the finite-size correction. If the four routes of §3 share one
+> limit, which is a conjecture, it lies between 0.097 and 0.102. The cost per site of three cells is three times
+> these values. The census values 0.115 (A 48 → 60) and 0.111 (60 → 72) are reproduced (0.1144(3), 0.1104(6)). They
+> are local slopes of a ring law that is still bending at A = 108, where the local slope is 0.103(2). A face with
+> two ends (a segment, §2) shows 0.0993(3) per cell from A = 75 to 135. That is a mean local slope, and its (3) is
+> statistical only.
 
-The error is dominated by the extrapolation, not by statistics: four different finite-size routes are given in
-§3 with what each says.
+The range is a spread over fitted correction forms, **not a confidence interval**. Every form behind it fits the
+data acceptably, and the data cannot tell them apart.
+- The low end, 0.093, is the segment lifetimes fitted with a + γn + c√n from n ≥ 17: 0.2793(23) per site, χ² 10.6/11.
+- The high end, 0.107, is the review's own rings (b = 16–32) fitted with a fast-decaying exponential correction
+  (ξ = 3): 0.3215(5) per site.
+
+Reproduce with `python3 research/audit/thin/refit.py` (lifetimes) and `python3 research/audit/thin/refit_win.py`
+(windows and wall). The four routes are in §3, with what each says.
 
 ## 2. The object
 
@@ -56,10 +97,22 @@ with three cells each**, X_c, Y_c, Z_c (the +x, +y, +z faces of the cube at site
   on layers 0 … w − 1 (layer 0 is the face) over two layers of coins redrawn every generation with density
   102/256 = 0.3984, the measured density of the interior layers of the deterministic slab (an input, not derived).
 - **Ring**: the face as it is. **Segment of n sites**: a ring of b = n + 3 sites in which the face cells of three
-  sites are held dead (a wall); the face is then a strip with two free ends, and the layers beneath are untouched.
-  Three sites is the least that keeps the two ends from seeing each other inside the face.
+  sites are held dead (a wall). The face is then a strip with two ends, and the layers beneath remain a full ring
+  under the rule.
+  - Three sites is a choice, not a minimum **[exact]**. A face cell reaches at most two sites along the ring, so
+    two dead sites already keep the two ends from seeing each other inside the face (`python3
+    research/audit/thin/tt.py geom 16`).
+  - The ends still see each other through the layers beneath, which have no ends. Those layers are not neutral
+    beneath the wall **[measured]**: layer 1 holds 0.456 of its cells there against 0.413 in the middle, and layer 2
+    holds 0.412 against 0.395. Layer 3 is unchanged (0.393 against 0.399). The face next to the wall holds 0.384 of
+    its cells against 0.441 (`python3 research/audit/thin/beneath.py`: b = 32, 6 lanes, output in
+    `research/audit/thin/beneath_out.txt`).
+  - So an "end" here is a stated boundary condition: dead face cells over a periodic support that is locally denser
+    beneath them. Its effect is an O(1) end term in ln τ and does not enter γ. It is not shown to be the free end of
+    a physical strip, and no end cost should be read from it.
 - **ln τ** is per face: τ = (faces × exposure)/deaths over the ages T0 ≤ age < 30 mean lives, T0 = 256
-  generations after the soup (64 for the smallest systems). A life also ends, without a death, when the state
+  generations after the soup (64 for the smallest systems). The 30-mean-lives cut does not act in the
+  large tags, because their chunks are shorter than 30 lives; see §8. A life also ends, without a death, when the state
   repeats or when three adjacent interior layers are dead (see §8).
 - **E(l)**: probability that l given consecutive sites of a living face are empty; **k(l)** = −ln E(l+1)/E(l).
   **W(x)**: in a segment, probability that the x sites next to a wall are empty; **k_wall(x)** likewise.
@@ -67,15 +120,21 @@ with three cells each**, X_c, Y_c, Z_c (the +x, +y, +z faces of the cube at site
 
 ## 3. The asymptotic cost: four routes
 
-`python3 analyze.py routes` prints everything in this section. **[measured]** throughout. Four quantities should
-each tend to γ per site as their length grows; only the segment's has stopped moving at the largest length reached.
+`python3 analyze.py routes` prints this line's own fits, and `python3 research/audit/thin/refit.py` and
+`python3 research/audit/thin/refit_win.py` print the review's wider set of forms (outputs in
+`research/audit/thin/refit_out.txt` and `refit_win_out.txt`). **[measured]** throughout. Four quantities should
+each tend to γ per site as their length grows. Only the segment's has stopped moving at the largest length reached.
+Each fitted value below is per site, with the cost per cell in brackets where it is quoted.
 
 | route | quantity | largest length | value there | extrapolated |
 |---|---|---|---|---|
-| 1. rings | local slope of ln τ_ring(b) | b = 32 → 36 | 0.3103(62) | falls by about 0.007 per four sites; no stable fit |
-| 2. segments | local slope of ln τ_seg(n) | n = 37 → 45 | 0.2998(27) | straight line through n ≥ 25: 0.2970(4); with a 1/n term (fits from n ≥ 17, 21, 25): 0.294–0.298; with a ln n term: 0.289–0.299 |
-| 3. empty windows, ring of 64 | k(l) | l = 34 | 0.3347(25) | g + a/(l + l0), l0 = 0, 1, 2 on l = 16 … 40: 0.309, 0.307, 0.305 (a = 0.8–1.0) |
-| 4. front from a wall, segment of 61 | k_wall(x) | x = 30 | 0.3120(12) | g + a/x: 0.3033(3) on x = 12 … 32, 0.3031(6) on 16 … 36 (a = 0.30); g + a/√x fits worse and its g moves with the range (0.280, 0.285, 0.288) |
+| 1. rings | local slope of ln τ_ring(b) | b = 32 → 36 | 0.3103(62) | Several three-parameter forms fit the six rings, and the data cannot tell them apart: + c ln b 0.2817(38) [0.0939], χ² 0.8/3; + c/b 0.3061(20) [0.1020], χ² 2.0/3; + c√b 0.233(7) [0.0776], χ² 0.7/3. The review's sharper rings (b = 16–32) reject every one of these (χ² 7.6–11.7/3) and accept only a fast-decaying exponential, ξ = 3: 0.3215(5) [0.1072]. On its own rings b = 24–32 a straight line fits, 0.3228(4) [0.1076], χ² 6.8/3. Together these allow 0.094–0.107 per cell. |
+| 2. segments | local slope of ln τ_seg(n) | n = 37 → 45 | 0.2998(27) | Straight line through n ≥ 25: 0.2970(4), χ² 1.7/4. That holds only because n = 37 and 45 carry errors of 0.007 and 0.020; every curved form also fits n ≥ 25 and gives 0.298–0.301. Fits from n ≥ 13 or 17: + c/n 0.2920(3) [0.0973] from n ≥ 13 (χ² 17/15), 0.2937 from n ≥ 17; + c ln n 0.2889(12) from n ≥ 17; + c√n 0.2793(23) [0.0931] from n ≥ 17, χ² 10.6/11; + c/n + d/n² 0.2954–0.2974; + c ln n + d/n 0.3019–0.3048. Together: 0.093–0.102 per cell. |
+| 3. empty windows, ring of 64 | k(l) | l = 34 | 0.3347(25) | g + a/(l + l0), l0 = 0, 1, 2 on l = 16 … 40: 0.309, 0.307, 0.305 (a = 0.8–1.0). Other forms of ln E(l) give 0.270–0.297 (with √l) or 0.311–0.318 (with ln l), and drift with the range. **This route does not constrain γ.** |
+| 4. front from a wall, segment of 61 | k_wall(x) | x = 30 | 0.3120(12) | g + a/x, i.e. ln W = c − γx − p ln x: 0.3033(3) on x = 12 … 32, 0.3031(6) on 16 … 36 (a = 0.30). A third term moves γ: + q/x 0.3032–0.3060; + q ln x/x 0.304–0.309; −a√x − p ln x 0.304–0.316. −a√x alone fits worse but not badly (rms residual 8e-4 against 5e-4) and gives 0.285–0.293. Together: 0.095–0.105 per cell. |
+
+The local slopes below are first differences of measured ln τ (rings, segments) or measured k (windows, wall).
+The ring column gives the review's sharper values next to this line's.
 
 Local slopes, per site (per cell in brackets):
 
@@ -83,8 +142,8 @@ Local slopes, per site (per cell in brackets):
 |---|---|---|---|---|
 | ≈ 18 | 0.3432(10) [0.1144] | 0.3018(5) [0.1006] at 19 | 0.3554(1) | 0.3199(2) |
 | ≈ 22 | 0.3312(18) [0.1104] | 0.2990(7) [0.0997] at 23 | 0.3469(3) | 0.3170(4) |
-| ≈ 26 | 0.3259(26) [0.1086] | 0.2967(9) [0.0989] at 27 | 0.3411(7) | 0.3156(6) |
-| ≈ 30 | 0.3188(40) [0.1063] | 0.2977(12) [0.0992] at 31 | 0.3372(12) | 0.3120(12) |
+| ≈ 26 | 0.3259(26) [0.1086]; review [0.1081(3)] | 0.2967(9) [0.0989] at 27 | 0.3411(7) | 0.3156(6) |
+| ≈ 30 | 0.3188(40) [0.1063]; review [0.1067(4)] | 0.2977(12) [0.0992] at 31 | 0.3372(12) | 0.3120(12) |
 | ≈ 34 | 0.3103(62) [0.1034] | 0.2951(20) [0.0984] at 35 | 0.3347(25) | 0.3151(26) |
 | ≈ 41 | | 0.2998(27) [0.0999] at 41 | | |
 
@@ -93,11 +152,20 @@ Segments: ln τ = 6.7257(8), 7.9635(11), 9.1708(15), 10.3666(22), 11.5533(29), 1
 deaths: 21.02(27), slope from n = 45: 0.294(17). Rings: 8.6470(16), 10.0199(36), 11.3448(63), 12.6482(83),
 13.9233(139), 15.1644(204) at b = 16, 20, …, 36 (census: 8.6426(20), 10.0201(29), 11.3481(40)).
 
+The review's rings are 8.6449(12), 11.3494(19), 11.9941(20), 12.6465(25), 13.2865(28) and 13.9268(43) at
+b = 16, 24, 26, 28, 30 and 32 (`python3 research/audit/thin/tt.py stats 'r*'`). Their local slopes per cell are
+0.1075(5), 0.1087(5), 0.1067(6) and 0.1067(9) for A = 72 → 78 → 84 → 90 → 96.
+
+The review re-measured segments at n = 21, 29 and 37: 9.1719(16), 11.5564(18) and 13.9390(48).
+
 - The segment slope is the lowest and has been flat at 0.295–0.300 since n ≈ 25 (0.3095, 0.3018, 0.2990, 0.2967,
   0.2977, 0.2951, 0.2998 at n = 15, 19, 23, 27, 31, 35, 41; every n from 5 to 25 was run and the steps fall
   smoothly, with no effect of n modulo anything); the three others are above it and falling towards 0.30–0.31.
-- The front's distance from a wall is the cleanest: one front, nothing to nucleate, no deaths needed, and the
-  form g + a/x gives the same g on every range of x. It says W(x) ∝ x^(−0.30) e^(−0.303 x). The 45-site segment
+  That flatness holds within errors that grow from 0.0004 to 0.003 per site over that range.
+- The front's distance from a wall is the cleanest: one front, nothing to nucleate, no deaths needed. Within the
+  two-term form g + a/x the same g comes out on every range of x, and it says W(x) ∝ x^(−0.30) e^(−0.303 x). That
+  constancy is a property of the form, not of the data: three-term forms move g to 0.304–0.316, and −a√x alone
+  gives 0.285–0.293 (table above). The 45-site segment
   gives the same k_wall within 0.0003 for x ≤ 16 and +0.001, +0.002 at x = 18, 20 (the island left is then short,
   §5), so the 61-site values are good to about 0.001 up to x ≈ 32.
 - **Reading [conjectured].** One γ, the price per site of pushing a front back. A window needs a gap to be born
@@ -107,10 +175,18 @@ deaths: 21.02(27), slope from n = 45: 0.294(17). Rings: 8.6470(16), 10.0199(36),
   the small sizes show. That would put the flat 0.297 at n = 25–45 at the turn of the curve and γ at 0.303. It is
   not established: the alternative that all four keep falling to about 0.29 is excluded only if the form g + a/x
   of route 4 is right.
-- **Value.** γ = **0.298 ± 0.011 per site, 0.099 ± 0.004 per cell**: the interval runs from the lowest fit of the
-  segment lifetimes with a correction term (0.289, a ln n term) to the window extrapolation (0.309), and the two
-  routes with stable fits (segments, straight: 0.297; wall: 0.303) sit inside it. Read from lifetimes alone, as
-  the census reads it, the cost per cell of a face with free ends is 0.0993(3) between A = 75 and 135.
+- **Value.** γ is **about 0.099 per cell, between 0.093 and 0.107 depending on the unknown form of the
+  correction**. If the four routes share one limit **[conjectured]**, it is between 0.097 and 0.102. This is a
+  spread of fitted forms, not a confidence interval.
+  - Route by route: segments 0.093–0.102, rings 0.094–0.107, wall 0.095–0.105. Windows give no bound.
+  - The low end is a + γn + c√n on the segments from n ≥ 17 (0.2793(23) per site, χ² 10.6/11).
+  - The high end is a fast exponential correction (ξ = 3) on the review's rings (0.3215(5) per site).
+  - The forms in `analyze.py routes` alone span 0.289–0.309 per site, which is narrower. That narrower spread is not
+    an error bar. Forms outside that set fit equally well and fall outside it: √n on segments, ln b on rings, a
+    third term on the wall.
+  - Read from lifetimes alone, as the census reads it, the cost per cell of a face with two ends is 0.0993(3)
+    between A = 75 and 135. That is a mean local slope, and its error is statistical only. The review reproduced it
+    to n = 37 (A = 111); "to A = 135" rests on this line's n = 45 alone.
 - The static formulation fails as a short cut **[measured]**: ln τ_ring(b) + ln E(b − s) is not constant for any
   shift s (`python3 analyze.py static win_det_b64 'det_b[0-9]*'`): for s = 0 it falls from 0.77 at b = 16 to 0.41
   at b = 36. The ring's lifetime grows more slowly than 1/E(b), by a factor b^0.45 over this range.
@@ -163,11 +239,26 @@ for w = 1 … 5 against 0.337 deterministic; segments 0.372, 0.413, 0.348, 0.311
 
 - Looking back from a death, the mean face population falls steadily: 1.7, 4.1, 7.3, 10.1, 12.6, 14.8 cells at
   1 … 6 generations before the end, the same on every ring from b = 20 to 36 (segments: 1.7, 4.1, 7.0, 9.2, 11.0,
-  12.5 at n = 21), about 2.7 cells = 2 sites per generation; the lag at which half of the living population
-  (1.33 cells per site) is gone grows in proportion to the size: 4.2, 5.4, 6.6, 7.8, 8.9, 10.4 generations at
-  b = 16, 20, …, 36 (0.29 per site), and 3.7, 6.6, 9.8, 11.5 at n = 13, 21, 29, 33 for segments (0.39 per site).
-  The face does not vanish in a flash: an island shrinks from its ends, at 0.85–1 site per generation per end
-  on a ring.
+  12.5 at n = 21). That is about 2.7 cells, or 2 sites, per generation. The review's stepper gives 1.70, 4.05, 7.36,
+  10.14, 12.58, 15.16 on the ring b = 32 and 1.71, 4.11, 7.11, 9.35 at k = 1–4 on the segment n = 29.
+- **Half-collapse lag.** This is the lag at which half of a reference population is gone. Its numbers depend on two
+  conventions, which `analyze.py` does not record: the reference population and the origin of the lag.
+  - Rings: 4.2, 5.4, 6.6, 7.8, 8.9, 10.4 generations at b = 16, 20, …, 36, growing by 0.29 per site. The reference
+    is the living ring, 1.33 cells per site. The lag appears to be counted from the last non-empty generation. The
+    review, counting from the empty generation, finds 8.9 at b = 32, where this line has 7.8.
+  - Segments: 3.7, 6.6, 9.8, 11.5 at n = 13, 21, 29, 33, growing by 0.39 per site. These appear to use the *ring*
+    density, 1.33 cells per site, as the reference. Against that the review finds 10.5 at n = 29 counting from the empty
+    generation, or 9.5 counting from the last non-empty one. Against the segment's own living population (0.371 of its cells) it finds 8.2.
+  - So the 0.39 per site against the ring's 0.29 is a matter of convention, not a second rate. The review inferred
+    the conventions from the numbers and did not read them in code.
+- The face does not vanish in a flash: its live region contracts from both sides of the place where the last cell
+  dies, at similar rates on the two sides. On a ring it loses 0.85–1 site per generation per end. In the review's
+  segment n = 29 the span falls from 23 sites to 3 over about 30 generations. It loses about 1.3 sites per end per
+  generation in the last 5 generations and about 0.4 at k = 10–30.
+- The live region is often not a single island. On the ring b = 32 there are 2.4 islands on average at k = 31 and
+  1.24 at k = 1. On the segment n = 29 there are 2.25 at k = 31 and 1.22 at k = 1, counting runs separated by ≥ 2
+  empty sites. (`python3 research/audit/thin/prof.py s29 32 3`, `… r32 32 0`; outputs in
+  `research/audit/thin/prof_*.txt`.)
 - The last step is the same at every size: 58.6% of deaths are from one live cell, 24.5% from two, 10% from
   three, 4% from four.
 - In the living state the face holds 0.4437 of its cells (interior layers 0.397); a segment's face 0.371 of the
@@ -248,7 +339,8 @@ the face alone, 4.1213(7), 4.5433(5) for the knowing coins):
   rule supply: M(4) is at +1.6%, M(5) at +0.2%.
 - None of these reaches its own straight law at the sizes that can be solved exactly, and the deterministic values
   at n ≤ 6 are themselves rough (there the hazard depends on age, 1% of lives end in a repeating state and the two
-  faces often die together: `python3 run.py stats 'seg_det_n[5-9]'`).
+  faces often die together: `python3 run.py stats 'seg_det_n[5-9]'`). At n ≤ 9 most firewalls are also missed and
+  the death of the isolated face is counted (§8).
 
 ## 7. Wider faces
 
@@ -274,7 +366,8 @@ What the same method says as the face widens, and what it would take:
   3, 7, 13, 21, 31), validated cell by cell. The census's 0.141 belongs to shortest loop squared 4, which is not
   of this form (two cubes per ring position) and was not stepped here.
 - The census slopes of wider tori are local slopes of ring laws too, and should come down with length as the
-  thin torus's did (0.115 → 0.103 between A = 54 and 102, limit 0.099 ± 0.004). How much of the rise 0.10 → 0.19 → 0.21
+  thin torus's did (0.115 → 0.103 between A = 54 and 102; limit about 0.099, between 0.093 and 0.107 depending on
+  the correction form, §3). How much of the rise 0.10 → 0.19 → 0.21
   with the loop is asymptotic and how much is the ring's bend is not known.
 - Reading **[conjectured]**: the cost per cell is the price of pushing a front line back by one cell, and a longer
   front line is harder to push because its cells hold each other up sideways; on the thinnest torus the line is
@@ -298,26 +391,48 @@ What the same method says as the face widens, and what it would take:
   first binary tested for repetition only every 840 generations against the state 840 earlier, missed it, and the
   lane's exposure raised ln τ from 6.726 to 6.810. That wrong value stood for an hour (it made the segment law
   look straight, and the five-layer model look 0.087 too weak) and was found because the two chunks of the tag
-  disagreed by 100σ. Now: (i) `ring.c` compares the state with a snapshot every generation (snapshots at ages
-  16, 32, 64, …), so any period is found; (ii) `run.py lntau` uses only ages below 30 mean lives and `run.py
-  stats` reports exposure beyond (none in any tag in use; the bad chunk is kept as
-  `seg_det_n13/stuck_c1.txt`); (iii) `validate_dump` re-derives every end of a life. In a model with w ≥ 4
-  the same happens when layers 1 … w − 1 all die: a cell of layer w − 1 sees only three coins and B needs four,
+  disagreed by 100σ. The safeguards now are as follows.
+  - (i) `ring.c` compares the state with a snapshot every generation (snapshots at ages 16, 32, 64, …), so any
+    period is found. **This is what protects the lifetimes.** For a deterministic finite state it is airtight.
+  - (ii) `run.py lntau` uses only ages below 30 mean lives, and `run.py stats` reports exposure beyond that. No tag
+    in use has exposure beyond the cut. The bad chunk is kept as `seg_det_n13/stuck_c1.txt`.
+    - The cut does not protect the large tags, because it cannot act in them. It sits at the first power of two
+      above 30τ, while chunks are only 5–10 lane-lives long (`det_b36`: 2 × 10⁷ generations, about 5τ). No age
+      reaches it, and a stuck life in such a tag would not be caught by it.
+    - For a flat hazard the cut cannot bias ln τ either, since the chaotic state does not survive to it.
+    - "None beyond the cut" is not "none at all". A tail check compares the deaths seen at ages beyond 4 and 8
+      mean lives with those a flat hazard predicts (`python3 research/audit/thin/tailcheck.py`, output in
+      `research/audit/thin/tailcheck_out.txt`). It finds no excess exposure in any deterministic ring or segment
+      tag used for lifetimes (`det_b*`, `seg_det_n13` … `n45`).
+    - The same check finds undetected stuck exposure below the cut in two model tags. In `mod_b16_w6` there is 1
+      death against 29.5 expected beyond 11 lives, with exposure out to 23 lives. In `seg_m5_n13` there are 74
+      against 202 beyond 9.8 lives, with exposure out to 20 lives.
+    - Both tags enter the quoted values. Their effect is about 2 × 10⁻⁴ and 1.4 × 10⁻⁴ in ln τ, far below the
+      quoted errors.
+  - (iii) `validate_dump` re-derives every end of a life.
+- **Stuck models.** In a model with w ≥ 4 the same happens when layers 1 … w − 1 all die: a cell of layer w − 1 sees only three coins and B needs four,
   so the face runs alone for ever (2–17 such lives per 10⁵ deaths at b = 16; they are cut at the snapshot).
   With w ≥ 6 the same happens behind any three adjacent dead layers while deeper layers flicker on with the coins:
   the first runs of M(6) and M(8) on the 13-site segment ended with every lane stuck. The firewall rule (next
   point) now applies to the models too, and those two tags were rerun; the model tags with w = 4, 5, 6 run before
-  that have no exposure beyond 30 mean lives.
+  that have no exposure beyond 30 mean lives (but `mod_b16_w6` has some below it, see above).
 - **Firewall.** A life is also cut when three adjacent layers beneath the face are dead (deterministic: between
   the two faces; models: among layers 1 … w − 1; looked for every 840 generations). Nothing crosses three dead
   layers (a cell there has at most three live neighbours), so what is above them is no longer the system under
   study. Deterministic: 72 per 376,000 deaths at b = 16, 4 at b = 20, none above; twelve layers: 165 per 331,000
   at b = 16. Models on the 13-site segment: 45 and 78 per 5–6 × 10⁵ deaths at w = 6 and 8. The tags `det_b16`, `det_b20` and the
-  first chunks of `det_b24` were run when the rule was "one empty interior layer"; the difference is below the
-  statistical error at b = 16 (the census value, made with other code, is 1.7σ away).
-- **Ring and segment are different laws with the same γ.** A ring must first open a gap; a segment has two from
+  first chunks of `det_b24` were run when the rule was "one empty interior layer". The difference is below the
+  statistical error at b = 16. The census value, made with other code, is 1.7σ away. The review's ring b = 16 uses
+  the three-dead-layer rule, checked every 16 generations, and differs from `det_b16` by −0.0021(20).
+- **Firewalls missed on short segments.** The firewall is looked for only every 840 generations, and at n ≤ 9 a
+  life lasts about 100 generations. Most firewalls there are never seen; the isolated face then dies, and its death
+  is counted as a death. Checking every 16 generations, the review's stepper finds a firewall in 22% of the ends
+  of a life at n = 7 (a 200k-generation test, not kept). So the deterministic values at n ≤ 9 are less reliable than "rough"
+  suggests: they include deaths of faces already cut off from the slab. This does not touch n ≥ 13.
+- **Ring and segment are different laws, with the same γ [conjectured].** A ring must first open a gap; a segment has two from
   the start. ln τ_ring(b) − ln τ_seg(b − 3) = 1.921, 2.174, 2.370, 2.42(2) at b = 16, 24, 32, 36: it grows like
-  0.65 ln b. Reading a cost per cell off rings at A ≤ 72 overstates it by 10–15%.
+  0.65 ln b. Reading a cost per cell off rings at A ≤ 72 overstates it by 10–15% if the limit is near 0.099
+  (by how much exactly depends on the limit, which §3 leaves between 0.093 and 0.107).
 - **Left and right ends of a segment are mirror images** (the reflection x ↔ y maps site c to −c), and the
   measured k_wall agree on the two sides from x = 2 on; at x = 1 they differ (0.410, 0.462) because the triple
   {Z_s, Y_s, X_{s+1}} is not mirror-symmetric.
@@ -359,8 +474,10 @@ What the same method says as the face widens, and what it would take:
   they meet is the front picture's expectation **[conjectured]**, not a measurement.
 - **Anything beyond 45 sites by lifetime.** Rings of b = 40 and 48 (forecast F2) were not run: a ring of 48 sites
   lives e^19 generations.
-- **The form of the corrections.** Powers of the length, logarithms and stretched exponentials fit equally; none
-  is derived. The quoted error is the spread between them.
+- **The form of the corrections.** Powers of the length, logarithms, √length and exponentials fit equally, and none
+  is derived. The quoted range, 0.093–0.107 per cell, is the spread between them (refit by the review:
+  `python3 research/audit/thin/refit.py`, `refit_win.py`). It is not a confidence interval, and a form outside
+  those tried could fall outside it.
 - **Coins correlated along the ring.** §6b stops at coins that follow the face above them and remember their own
   last state. Coins that depend on their neighbours in their own layer (a probabilistic automaton for layer 1,
   with a measured table) were not tried.
@@ -370,7 +487,15 @@ What the same method says as the face widens, and what it would take:
 - **Models deeper than six layers on rings**, and deeper than eight anywhere.
 - **Statistical errors** are 1/√deaths. Over all lifetime tags the scatter between chunks has χ² = 186 on 162
   degrees of freedom: the quoted errors may be about 7% too small.
-- **Old firewall rule** in `det_b16`, `det_b20` (§8): not rerun.
+- **Old firewall rule** in `det_b20` (§8): not rerun. At b = 16 the review's independent ring, which uses the
+  three-dead-layer rule, agrees with `det_b16` within 1.0σ.
+- **Short segments, n ≤ 9**: not rerun with the firewall checked often enough (§8).
+- **Stuck exposure below the 30-lives cut** was looked for by the review's tail check only, not by a test in
+  `run.py`. It found two model tags affected, at the 10⁻⁴ level in ln τ (§8).
+- **Not rerun by any second code**: rings of b = 20 and 36; segments of n = 45 and 61; the windows and wall
+  statistics (routes 3 and 4, refit from `data/windows.json` only); M(w) at b = 24 or on segments; the coin
+  density; the 12-layer slab; the closures of §6b; the torus (1,2),(0,b); the exact M(1) at n = 3, 4, 6, 7; the
+  thinning beneath a gap before it opens (§4).
 - **Other soups.** Every life starts from density 0.4; hazards are flat in age, so no dependence is expected, and
   none was looked for.
 - **The engine** was compared with `ring.c` on populations only (five sizes, up to 3,000 generations); lifetimes

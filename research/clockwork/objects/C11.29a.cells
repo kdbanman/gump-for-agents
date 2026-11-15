@@ -1,0 +1,35 @@
+# C11.29a: period 11, union 36, twist 1 (quotient length 11), cell periods {1: 23, 11: 13}; phase 0, doubled coords;
+# found by accident in lifetime runs (research/audit/shape3/zombie_states.txt state [22]); zombies.py
+0 1 2
+0 2 1
+0 2 3
+0 3 2
+1 0 2
+1 2 0
+1 2 2
+1 2 4
+1 4 2
+2 0 3
+2 1 2
+2 1 4
+2 2 1
+2 2 3
+2 2 9
+2 3 0
+2 3 4
+2 3 10
+2 4 1
+2 4 9
+3 2 2
+3 2 8
+3 2 10
+3 4 8
+3 4 10
+4 2 7
+4 2 9
+4 3 6
+4 3 10
+4 4 7
+4 5 8
+5 2 6
+5 4 8

@@ -144,9 +144,9 @@ const sci = v => { const e = Math.floor(Math.log10(v)), m = v / Math.pow(10, e);
   // what stands (NB 2026-11-14, "the theory swarm is closed"; the who-checked-it in each line is the notebook's)
   const S1 = $('#f-stands'), it = (st, b, rest) => { const d = E('div', {}, S1); E('span', { class: 'st st-' + st }, d); const s = E('span', {}, d); E('b', { style: 'color:var(--ink)' }, s, b + ' '); s.appendChild(document.createTextNode(rest)); };
   it('proved', 'The relative’s law.', 'Proved if two cited percolation facts hold; audited by a fresh reader.');
-  it('proved', 'Exact reductions for gump.', 'Every permanent loss is one sealed set dying at one instant; the death rate is an inflow times a chance of going on to empty. One critic, no second reader.');
+  it('proved', 'Exact reductions for gump.', 'Every permanent loss is one sealed set dying at one instant; the death rate is an inflow times a chance of going on to empty. One critic, then a second reader with its own code: they hold, with corrected wordings.');
   it('proved', 'A conditional area law.', 'Holds if sparse faces regrow fast enough, which is measured on four tables, not derived. It accounts for ' + Cl.share[0] + '–' + Cl.share[1] + ' of the ' + Cl.share[2] + ' per cell.');
-  it('proved', 'Exact fixed-age counts.', 'They describe a fresh soup’s start, not the steady law.');
+  it('proved', 'Exact fixed-age counts.', 'They describe a fresh soup’s start, not the steady law. Read a second time: ' + D.swarm2.counting + ' correct as stated, none wrong.');
   it('open', 'One conjecture:', Cl.V[0] + ' per cell, from a measured table, to set against the measured slopes ' + Cl.V[2] + ' and ' + Cl.V[3] + '.');
   const sg = $('#f-exam'), cls = ['g1', 'd', 'g3', 'c'], total = Cl.exam.reduce((s, e) => s + e[1], 0);
   sg.setAttribute('role', 'img'); sg.setAttribute('aria-label', Cl.exam.map(e => e[1] + ' ' + e[0]).join(', '));

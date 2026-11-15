@@ -167,3 +167,88 @@ is counted once, as unsupported, though some of its rows are only imprecise). Fi
   the exam entry and `exponent.md` were searched).
 - Figures (`research/figures/*.png`, `web/docs/*.png`): every path the draft names exists; their content was not examined.
 - Prose, structure and the ranking's judgments (not asked).
+
+## Update of 2026-11-15
+
+By a subagent bringing the draft up to date with the results recorded after it was written (draft 2). Base: commit
+98a66d8. Sources: `research/CLAIMS.md` rows CN1, GP10, SH2, SH6–SH9, TH1–TH6, ZL1, ZL2 and the notebook entries
+"is there one asymptotic cost per cell?" with its addendum, "empty patches on a face too large to die: the forecast
+missed …", "a forecast before the run: empty patches …", "the second variable at equal shortest loop: not found",
+"lives that settle and are not recognised", "the thinnest face".
+
+**What changed in the draft** (words by `wc -w`; the draft grew from 18,662 to 20,527, +1,865, of which about
++1,350 are words containing letters and the rest numbers and symbols).
+
+- *Abstract*: the equal-loop differences (SH6–SH9), the range 0.207–0.219 (CN1), the thin face's 0.099 (TH3); one
+  sentence on unbounded GPU runs (ZL2).
+- *§5.2*: † on Table 2 at A = 108, 135 with the ZL2 bounds at A = 63, 84; GP7/GP8 comparisons marked; pointer to §7.5.
+- *§5.5*: † on Table 3's GPU rows at A = 759 (1,057-death run, R = 44) and 828; R43 s501 bound marked preliminary.
+- *§5.6, Table 5*: rows 15 (SH9, five candidates, refuted) and 16 (GP10 forecast, missed as stated); caption names
+  `research/shape3/PREDICTIONS.md` (the five candidates only) and the notebook forecast entry as searched, and
+  `research/constant/PREDICTIONS.md` as not searched (its part A, for the patches, is scored in the notebook as
+  low by 1.3, 2.6, 4.1 in −ln P and is not in the table).
+- *§6*: a bullet for the thin face (TH4).
+- *§7.1*: † on Table 6 (s = 5 at A ≥ 90, s = 6, and s = 4 at A = 84, see below); pointer to §7.5.
+- *§7.2*: SH2 shortened; SH6, SH7 (difference gone at A = 72, opposite sign at A = 36), SH8 (proved identity),
+  SH9 (five candidates refuted), and the commensurability reading as a conjecture.
+- *§7.3*: Table 8 caption says the loop² 3 entries are local slopes (TH1); the superseded "Two consequences" of
+  the reading (±0.004, "nothing connecting the two", "within reach of a transfer-matrix calculation") cut.
+- *§7.4 (new)*: the thinnest face, TH1–TH6; TH5's 22%/11%/5.6% marked preliminary (C); the retracted ± 0.004 stated
+  as such, since its retraction is the finding.
+- *§7.5 (new)*: CN1 with the addendum's split; the two refuted wrap-around laws; the disputed deciding
+  measurements; GP10 with its failed forecast, post hoc second differences, and the unresolved 4×5 cross-check.
+- *§10.3*: items 2 and 3 rewritten. *§11*: shape row (five candidates; no variable found); ranking unchanged, with
+  the reason, and item 1's and 2's "missing" updated; the shape paragraph says why it stays outside.
+- *§12*: trap (i)'s "none has been seen" (now false) cut; a "threat to validity" paragraph for ZL1 and ZL2.
+- Header: draft 2.
+
+**Number check.** `python3 docs/paper/check_numbers.py` lists every number in each changed passage (22 passages)
+and looks for it as a token in the ledger rows and notebook entries the passage cites. Result: 248 distinct numbers
+per passage; 242 in the cited sources; 6 only in the earlier draft (43, 96, 16, 0.2191, and the section number 7.4
+twice; sizes and values the passage refers back to); 0 unsourced. During the edit it found nothing to fix; one
+number was chosen against the ledger on purpose: the octahedral slope 84 → 108 is written 0.2181 ± 0.0013 (the
+notebook's lead check, Table 2, and the arithmetic (23.3761 − 18.1407)/24 = 0.21814) where CN1 and the notebook's
+"measured" bullet print 0.2182 (see FOR-LEAD). Negative control: on a copy with 0.0993 → 0.0995, 0.2179 → 0.2178
+and one 6.7 × 10⁻³ → 6.9 × 10⁻³, the script reports all three UNSOURCED. **What the script does not check**: that
+a number is attached to the right quantity (a token match only), and signs (the notebook's d is a difference whose
+sign I checked by eye against the notebook table for SH6 and SH7). I read each new passage against its row and
+entry once for pairing.
+
+**Could not source from the ledger or notebook.**
+- The run list behind † in Tables 3 and 6 (which slabs are "five of the wider slabs"; that R43 s501 is Table 3's
+  longer run of 21.889 ± 0.012) comes from `research/gpu/README.md`, "Zombie lives", which ZL2 cites as "where".
+- Table 6's s = 4 run at A = 84 (fwslab 4×7×8) is in neither ZL2 nor that README's table; `python3
+  research/gpu/zombies.py` prints "no age bins in this file" for it, so the draft marks it † on that basis.
+- "the vertex-centred GPU rows by about 2 × 10⁻³" was drafted and then cut: the README gives 2.1 × 10⁻³ at R38 where
+  ledger and notebook say "≤ 2 × 10⁻³" (FOR-LEAD).
+- Not checked: any run; the GPU README's bounds other than by running `zombies.py` once (output not compared line by
+  line); the claims' underlying reviews.
+
+*Follow-up, 2026-11-15, after the lead applied the FOR-LEAD items (CLAIMS CN1, ZL2, GP10 changed; TH7, CN2 added;
+notebook entry "corrections found while the manuscript draft was brought up to date").* Draft: Table 5 rows 17 (TH7,
+B) and 18 (CN2, flagged unverified, grade C) and its caption; GP10's 4 × 5 grade now B− in §7.5 and row 16; the
+fwslab 4×7×8 note in Table 6 and §12 now cites ZL2 rather than `zombies.py` (the "could not source" item above on it
+is resolved); CN1's 0.2181 already matched. The draft does not state the ledger's size, so nothing changed for it.
+`python3 docs/paper/check_numbers.py` (now 24 passages): 270 numbers, 263 in the cited sources, 7 only in the
+earlier draft, 0 unsourced.
+
+## Update of 2026-11-15 (second): the symmetric collapse and the new clocks
+
+By a subagent, base bb22eda. Sources: CLAIMS S2, S3, S5–S9, Z12, Z13 and the notebook entries "the symmetric
+collapse: pairing faces across an edge is what costs" and "what the unrecognised settled states are". Changed:
+the header; the abstract (the edge cost, the mirror-line account corrected); §5.5 (the S2 qualification on the
+√A coefficient; "Centre matters, but not by a constant factor" with S9, its D2h and O_h parts flagged C; a new
+part "Why symmetric faces die sooner" with S5, Table 3a (the edge ladder, both codes), S7, S8, "What this
+corrects" and "What remains preliminary"); Table 5 row 19 (the line's forecasts; no ledger row for the tally)
+and its caption; §8 (Z12, one sentence); §10.1 (S5); §10.3 item 4; §11's table row and ranking item 3; §12's
+threat to validity (Z13, flagged preliminary). `GAPS.md`: items 23 and 37 annotated, items 44–46 added. Draft
+20,639 → 22,058 words (`wc -w`). Hedges kept as the notebook states them: "corrected, not reversed", "up to about a
+third … is not excluded", "a coincidence of ranges, not a test", "exactly c/6 is not shown", the mechanism a
+conjecture. **Number check:** `python3 docs/paper/check_numbers.py` now covers 41 passages (17 new, compared with
+the draft at bb22eda): 437 numbers, 419 in the cited sources, 18 only in the earlier draft, 0 unsourced. Negative
+control on a copy (9.291 → 9.219 in Table 3a, 0.2035 → 0.2053 in S8, a period 13 → 137 in Z12): all three
+UNSOURCED; a changed number that happens to occur elsewhere in the cited entry (13 → 31) or in the earlier draft
+(13 → 61) is not caught, the known limit of a token match. Removed while checking: S7's "2.6σ apart" for the rerun
+slab pair, which the review attaches to a different comparison (FOR-LEAD, second update, item 1). Not checked:
+any run; the review itself; that each number is attached to the right quantity beyond one reading of each passage
+against its row and entry.

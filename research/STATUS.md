@@ -56,6 +56,30 @@ _Last updated 2026-11-14 by the lead._
   commits need a new pull request.
 
 ## Next (lead's list; pick by judgment)
+- **Read this first (02:25 UTC, 2026-11-15): the lead cannot read usage any more, and cannot message the cloud GPU
+  session.** The owner approved a trust card so that this session could answer a ping from a local GPU session on
+  their machine (a GTX 1080); since then `list_events` and `send_message` to cloud sessions are refused. The rule for
+  working without readings (reckon from the last one, 01:21 UTC: weekly 0.27, Fable 0.27; no new agent past an
+  estimated 0.70) is in `LEAD.md`, "Watching usage"; the sessions and what may be done with them, "Other sessions".
+  The owner has been told and asked for the figures from their screen.
+- **GPU work moves to the owner's GTX 1080 (their words of about 03:30 UTC, 2026-11-15, in `LEAD.md`, "Other
+  sessions"): no budget, no limit.** **Its session reported ready at about 03:38 UTC and was briefed at 03:45 UTC; the
+  brief is `research/GPU-QUEUE.md`** (jobs 0 and 1, then queue items (2) and (3) without waiting for the lead's
+  review; a message to the lead after each job). Each message the lead sends it costs the owner an approval prompt
+  that no allow rule answers, so further briefs and review findings go into that file, which it fetches after each
+  job. It writes under `research/gpu-local/`; it has no gcc and no `gh`, and whether it may push is the owner's to
+  tell it; if it pushes a branch the lead opens the pull request. Readiness details: `LEAD.md`, "Other sessions".
+  Owed on each message from it: the lead's recomputation, an adversarial review with independent code, then the
+  record. Queue for
+  it, in this order, each with forecasts already committed where noted: (0) the acceptance bar of
+  `research/gpu/README.md` (bit-exact against the engine every generation) on that card; (1) the guard against
+  unrecognised settled replicas (`research/gpu/AGENT.md`, "To do"), tested on a planted long-period cycle, before
+  any lifetime run; (2) equilateral tori at constant shape, A = 93 first (`research/constant/PREDICTIONS.md` part C);
+  (3) the hull face at A = 108 to 10⁴ deaths; (4) T_d faces at A = 759 (`research/theory/symmetric/PREDICTIONS.md`,
+  S3 and S5); (5) the 4×5 and 5×5 empty patches on different hardware; (6) the equal-loop pairs at A = 84 (the
+  lead's conjecture in the notebook entry "the second variable"); (7) the runs that have no bound on unrecognised
+  settled replicas, repeated with the guard (R15, R17 first). Each result needs the same checks as a Modal one: the
+  lead's recomputation, an adversarial review, then the record.
 - **State at 11:30 UTC, 2026-11-14 (after a compaction).** Done since 10:30 and recorded: the exponent study
   (reviewed, corrected, notebook, CLAIMS X1-X3), the swarm's close, the essay section "Coins will do", the second
   revision of `class.md`. **Pull request 16 (GPU: the shape of a periodic face) is merged** (squash bad62e3, 12:05 UTC) after its
@@ -72,14 +96,26 @@ _Last updated 2026-11-14 by the lead._
   `research/audit/REVIEW-shape2.md` (independent stepper; claims 1-4 stand with corrections; no law passes at any
   area; the A = 60 pair is 0.0142 ± 0.0019 over four runs); notebook entry "every torus of a given area"; CLAIMS
   SH2 (corrected), SH3-SH5. The review's corrections are applied to `research/shape2/README.md` (9ffb393) and the
-  overview carries the census (ab66ba7; published 18:20 UTC, version 6). **The owner reset the Fable
+  overview carries the census (ab66ba7; published 18:20 UTC, version 6). **Overview refreshed and published again 01:48 UTC
+  2026-11-15 (version 7, 705f59d):** new plates for the second variable, the thinnest face, the one-constant
+  question with the empty patches, and lives that settle unrecognised (the period-16 state ticks on the page);
+  prior art, swarm, checks, milestones and "Open now" brought up to date. `docs/paper/draft.md` is now
+  draft 2 with the same results (4008b80, e88f889, bb22eda; its number check: 263 of 270 numbers in the cited row
+  or entry, 7 from the earlier draft, none unsourced); the six disagreements it traced are applied (notebook entry
+  "corrections found while the manuscript draft was brought up to date"; CLAIMS TH7, CN2; ledger 126 rows).
+  **Started 02:04 UTC (Opus):** an audit that re-runs the cheap C-graded ledger rows ->
+  `research/AUDIT-2026-11-15.md` (the lead applies grade changes); a naturalist identifying the 37 long-period
+  settled states of `research/audit/shape3/zombie_states.txt` against the catalogue -> `research/clockwork/`. **The owner reset the Fable
   window at about 20:28 UTC** (0.00 at 20:29; words in `LEAD.md`, "Watching usage"). **Started 20:33 UTC:**
   (1) Fable, **done 21:36 UTC**: second-reader audit of the counting line, `research/theory/swarm/audit/AUDIT-counting.md`:
   nothing tagged proved is wrong (19 correct, one gap filled, two wordings narrowed; one constant corrected,
   c₂(0.472) = 0.466846); notebook entry and CLAIMS SW6 written; an Opus editor is pasting the corrected wordings into
   `swarm/counting/claims.md`;
-  (2) Fable, **reported 23:26 UTC** (`research/theory/thin/README.md`; not yet in the notebook: an Opus adversarial
-  review is running -> `research/audit/REVIEW-thin.md`): no number was derived from the rule. Measured instead: the
+  (2) Fable, **reported 23:26 UTC, reviewed 01:30 UTC 2026-11-15 and recorded** (`research/theory/thin/README.md`;
+  `research/audit/REVIEW-thin.md`: own stepper; six claims stand, some with corrections; the headline's error bar
+  does not: the limit is about 0.099 per cell, 0.093–0.107 depending on the correction form; seven corrections being
+  applied by an Opus editor; notebook entry of 2026-11-15 "the thinnest face"; CLAIMS TH1–TH6, ledger 124 rows): no
+  number was derived from the rule. Measured instead: the
   census's 0.115/0.111 are local slopes of a ring law that is still bending (0.1086, 0.1063, 0.1034 at A = 78, 90,
   102); four routes extrapolate to 0.099 ± 0.004 per cell; noise is enough on the thin torus from five layers
   (+0.006 ± 0.003); every exactly solvable closure is wrong in slope (one layer over coins +22%); the face dies by
@@ -136,13 +172,37 @@ _Last updated 2026-11-14 by the lead._
   area and different rim, the width-6 slope. Original brief: is there one asymptotic constant? Joint analysis of every family of lifetimes
   (periodic by width, twisted, hull, symmetric), models stated before fitting, out-of-sample scores, a blind forecast
   for the GPU patch experiment -> `research/constant/`.
+  **Dropped from the queue (01:05 UTC 2026-11-15):** the CPU run of the equilateral tori at A = 57 and 63 described
+  next. The pairs experiment (4) shows irregular differences of 0.007–0.02 between tori of equal area and equal
+  shortest loop at A ≤ 60, the size of the signal that run was to detect (+0.013), so it could not decide between
+  the readings; the decisive point is A = 93 on the GPU. As queued before:
   Queued for when two cores are free (the pairs experiment or the thin line ends): the equilateral tori
   (1,7),(0,19) and (1,4),(0,21), A = 57 and 63, to ± 0.003 on the CPU. The analyst's forecasts for the whole family
   under three readings are committed (`research/constant/PREDICTIONS.md` part C, 6c21dbd); these two points are the
   part of that test a CPU can reach (massive reading: both about +0.013 above the 4×4–5×5 chord; flat: on it;
   rising: below). A = 93, the most decisive point, needs the GPU and the owner's word on the Modal budget.
-  Queued, not started (the five-hour usage window is the binding one until 01:20 UTC): a Fable line on the symmetric
-  collapse (PROGRAM M5: derive 1/6, the −0.196·√A term and the factor 1.5 between centres from the asymmetric law).
+  **Started 01:05 UTC 2026-11-15 (Fable):** a line on the symmetric collapse (PROGRAM M5: derive 1/6, the
+  −0.196·√A term and the factor 1.5 between centres from the asymmetric law; forecasts first; CPU only) ->
+  `research/theory/symmetric/`. **Reviewed 03:15 UTC and recorded** (`research/audit/REVIEW-symmetric.md`: own
+  stepper on the unreduced system; the edge ladder and the centring pairs confirmed; "rim, not mirror" stands only
+  in a weaker form, "bends" is open, the √A agreement is not a test; notebook entry "the symmetric collapse";
+  CLAIMS S5–S9 and notes on S2, S3; essay paragraph in "Where I was wrong"; an Opus editor is applying eleven
+  corrections to the write-up). Still owed: overview plate and draft section for this result. As first reported
+  (02:50 UTC): no derivation of the O_h law. Proved: a symmetric state is gump on the
+  orbit graph; inside a {111} face only diagonal mirrors exist; a coordinate mirror swaps two hull faces and fixes
+  their shared rim row. Measured: the deficit is **not** a mirror-line term (a mirror or threefold axis on a rim-free
+  slab face lengthens life); it sits on the rim, where edge-sharing faces die together (one, two, three edges in
+  lockstep at A = 63: −2.18, −4.34, −6.47; inversion −0.056); rim cost 0.45–0.55 per period, which gives a √A
+  coefficient of −0.19 to −0.22 without the fit; the rim term may bend, so −0.196·√A may not be asymptotic; the
+  factor between centrings has a fixed part present with no symmetry and a growing part. 40 forecast statements scored, 25
+  held. The lead re-ran `validate.py` (ALL OK) and `report.py` (table D reproduces; the asymmetric A = 63 value
+  13.634 agrees with the known 13.632). **If this stands, the essay's and the notebook's "penalty along its mirror
+  lines" is wrong and must be corrected** (essay section "Where I was wrong"; notebook entries of 2026-11-12).
+  Owed after the review: notebook, CLAIMS (S rows qualified), essay correction, overview, draft. The 37 settled states of period 9–52 kept in
+  `research/audit/shape3/zombie_states.txt` are identified (02:22 UTC; `research/clockwork/README.md`, "Found by
+  accident"; notebook entry "what the unrecognised settled states are"; CLAIMS Z12, Z13; lead's check
+  `python3 research/audit/clockwork_zombies_lead_check.py`): five new finite clocks, one a 4 × 13 compound of
+  period 52; 21 wires and 2 sheets that exist only because a small torus lets a line close on itself.
   (5) GPU session, asked 21:22 UTC: empty patches on a face too large to die (12×12×8). **Pull request 18 arrived
   21:48 UTC** (head fcb3f39): the two-term fit gives c = 0.264 and fails (χ² 3,369/3), so the lead's forecast as
   stated is missed; cost per cell 0.42 → 0.32 over 12–60 cells, still falling; no hits above 75 cells. Lead's
@@ -164,7 +224,7 @@ _Last updated 2026-11-14 by the lead._
   face) for side 16, which are different quantities. The audit's corrected wordings are in `path/claims.md` (a0508c8; one number
   in P's illustration stays in the journal as written, corrected in the audit). Owed: the same audit for counting and the theory push on the
   constant (Fable, after the owner's reset; Fable was 0.90 at 15:22). (b) the overview page is current to the entry "the shortest way round": refreshed
-  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); pull request 17 (census, audits, draft, prior art, the constant) was merged at 22:18 UTC (merge commit 47af1a6); later work on the branch goes to pull request 19 (18 is the GPU session's, the empty-patch experiment, opened 21:48 UTC). **After the owner's Fable reset** (about 9am their time,
+  twice today (9b5dc03, 010c908) and republished to the same private link (`LEAD.md`) at 14:59 UTC. Pull request 15 (the lead's) was merged at 15:01 UTC (merge commit dd66e9e); pull request 17 (census, audits, draft, prior art, the constant) was merged at 22:18 UTC (merge commit 47af1a6); pull request 19 (the constant, the second variable, lives that settle unrecognised) was merged at 00:59 UTC 2026-11-15 (merge commit 0e3b642); pull requests 18 and 20 were the GPU session's (empty patches; bounds on unrecognised settled replicas), both merged. Later work on the branch goes to pull request 21 (opened 01:00 UTC). **After the owner's Fable reset** (about 9am their time,
   probably 16:00 UTC; Fable was at 0.86 at 11:24, so nothing new on Fable before it): the fresh-reader audit of
   counting and path, and a new theory push on the sharpened problem (the 0.2 per cell from six layers over noise).
 - **Swarm: closed 2026-11-14** (`research/theory/swarm/critic/board.md`, closing table at the top; notebook entry

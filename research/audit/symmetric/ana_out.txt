@@ -1,0 +1,23 @@
+s4x2   c1   s9107  A= 48 nf=2 lives=  10374 D=  9557 lntau=  9.9208 +- 0.0102  S-low 9.9206  T0=128 9.9192  T0=2048 9.9197 +- 0.0110  F=9556 W=11 X=1 S=2 open=244  Sexpo=0.0003
+s8x2   cs   s9108  A= 96 nf=2 lives=  10277 D=  9770 lntau= 10.8462 +- 0.0101  S-low 10.8460  T0=128 10.8432  T0=2048 10.8513 +- 0.0105  F=9770 W=3 X=0 S=2 open=250  Sexpo=0.0006
+     per face orbit: [0]: D=4872 ln(E/D)=10.8489 +- 0.0143; [1]: D=4898 ln(E/D)=10.8436 +- 0.0143; deaths with more than one orbit dead at once: 0
+v10v   c1   s9114  A= 45 nf=8 lives=  21823 D= 19249 lntau= 10.5503 +- 0.0072  S-low 10.5503  T0=128 10.5538  T0=2048 10.5364 +- 0.0084  F=19249 W=0 X=0 S=0 open=237  Sexpo=0.0000
+v11c   c1   s9101  A= 63 nf=8 lives=  10042 D=  9730 lntau= 13.6384 +- 0.0101  S-low 13.6384  T0=128 13.6382  T0=2048 13.6379 +- 0.0102  F=9730 W=0 X=0 S=0 open=254  Sexpo=0.0000
+v11c   c2e  s9105  A= 63 nf=4 lives=  10333 D=  9902 lntau= 11.7116 +- 0.0100  S-low 11.7116  T0=128 11.7114  T0=2048 11.7143 +- 0.0103  F=9902 W=0 X=0 S=0 open=249  Sexpo=0.0000
+     per face orbit: +++/++-: D=4561 ln(E/D)=11.1005 +- 0.0148; +-+/-+-: D=385 ln(E/D)=13.5725 +- 0.0510; +--/-++: D=413 ln(E/D)=13.5023 +- 0.0492; --+/---: D=4544 ln(E/D)=11.1042 +- 0.0148; deaths with more than one orbit dead at once: 1
+v11c   c2v  s9106  A= 63 nf=2 lives=  14279 D= 12617 lntau=  9.3117 +- 0.0089  S-low 9.3029  T0=128 9.3093  T0=2048 9.3105 +- 0.0103  F=12617 W=0 X=0 S=123 open=230  Sexpo=0.0167
+     per face orbit: +++/+-+/-++/--+: D=6292 ln(E/D)=9.3143 +- 0.0126; ++-/+--/-+-/---: D=6347 ln(E/D)=9.3056 +- 0.0126; deaths with more than one orbit dead at once: 22
+v11c   ci   s9104  A= 63 nf=4 lives=   5474 D=  5202 lntau= 13.5737 +- 0.0139  S-low 13.5737  T0=128 13.5733  T0=2048 13.5742 +- 0.0139  F=5202 W=0 X=0 S=1 open=256  Sexpo=0.0001
+     per face orbit: +++/---: D=1352 ln(E/D)=13.5349 +- 0.0272; ++-/--+: D=1274 ln(E/D)=13.5943 +- 0.0280; +-+/-+-: D=1310 ln(E/D)=13.5665 +- 0.0276; +--/-++: D=1269 ln(E/D)=13.5983 +- 0.0281; deaths with more than one orbit dead at once: 3
+v11c   csz  s9102  A= 63 nf=4 lives=  11230 D= 10723 lntau= 11.4444 +- 0.0097  S-low 11.4444  T0=128 11.4437  T0=2048 11.4457 +- 0.0100  F=10723 W=0 X=0 S=0 open=252  Sexpo=0.0000
+     per face orbit: +++/++-: D=2719 ln(E/D)=11.4302 +- 0.0192; +-+/+--: D=2722 ln(E/D)=11.4291 +- 0.0192; -++/-+-: D=2584 ln(E/D)=11.4811 +- 0.0197; --+/---: D=2703 ln(E/D)=11.4361 +- 0.0192; deaths with more than one orbit dead at once: 5
+v11c   d2h  s9103  A= 63 nf=1 lives=  24337 D= 10599 lntau=  7.2927 +- 0.0097  S-low 7.0232  T0=128 7.2533  T0=2048 7.4750 +- 0.0223  F=10599 W=0 X=0 S=3585 open=174  Sexpo=0.3548
+v11c   d2h  s9116  A= 63 nf=1 lives=  26287 D= 11470 lntau=  7.1705 +- 0.0093  S-low 6.9592  T0=128 7.1698  T0=2048 7.1821 +- 0.0213  F=11470 W=0 X=0 S=4123 open=154  Sexpo=0.2710
+v12v   c1   s9115  A= 63 nf=8 lives=   5333 D=  5068 lntau= 14.2931 +- 0.0140  S-low 14.2931  T0=128 14.2941  T0=2048 14.2936 +- 0.0141  F=5068 W=0 X=0 S=0 open=255  Sexpo=0.0000
+v12v   c2e  s9117  A= 63 nf=4 lives=   4120 D=  3826 lntau= 12.8974 +- 0.0162  S-low 12.8974  T0=128 12.8945  T0=2048 12.8984 +- 0.0163  F=3826 W=0 X=0 S=0 open=256  Sexpo=0.0000
+     per face orbit: +++/++-: D=1695 ln(E/D)=12.3252 +- 0.0243; +-+/-+-: D=220 ln(E/D)=14.3670 +- 0.0674; +--/-++: D=244 ln(E/D)=14.2635 +- 0.0640; --+/---: D=1669 ln(E/D)=12.3407 +- 0.0245; deaths with more than one orbit dead at once: 2
+v12v   csz  s9118  A= 63 nf=4 lives=   8198 D=  7853 lntau= 12.1729 +- 0.0113  S-low 12.1729  T0=128 12.1726  T0=2048 12.1724 +- 0.0115  F=7853 W=0 X=0 S=0 open=250  Sexpo=0.0000
+     per face orbit: +++/++-: D=1977 ln(E/D)=12.1659 +- 0.0225; +-+/+--: D=1952 ln(E/D)=12.1786 +- 0.0226; -++/-+-: D=2035 ln(E/D)=12.1370 +- 0.0222; --+/---: D=1889 ln(E/D)=12.2114 +- 0.0230; deaths with more than one orbit dead at once: 0
+v7c    c1   s9111  A= 30 nf=8 lives= 684256 D=  7061 lntau=  6.8148 +- 0.0119  S-low 6.8142  T0=128 6.8039  T0=2048 nan +- nan  F=7061 W=0 X=0 S=1 open=0  Sexpo=0.0006
+v8v    c1   s9112  A= 30 nf=8 lives= 351973 D= 37730 lntau=  7.5683 +- 0.0051  S-low 7.5683  T0=128 7.5661  T0=2048 7.5207 +- 0.1195  F=37730 W=0 X=0 S=0 open=22  Sexpo=0.0000
+v9c    c1   s9113  A= 45 nf=8 lives=  44702 D= 35437 lntau=  9.8252 +- 0.0053  S-low 9.8252  T0=128 9.8240  T0=2048 9.8260 +- 0.0074  F=35437 W=0 X=0 S=0 open=202  Sexpo=0.0000

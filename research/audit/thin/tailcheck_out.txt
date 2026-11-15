@@ -88,4 +88,11 @@ line tab_det_b32       deaths      931 ln tau 13.9534 | ages >= 4194304 (7.3 liv
 own  m16w4             deaths   262731 ln tau 8.6946 | ages >= 32768 (5.5 lives): obs 1006 exp 1008.8 | ages >= 65536 (11.0 lives): obs 4 exp 4.2 | oldest bin [2^16, 2^17) = 11.0 lives
 own  m16w5             deaths   550126 ln tau 8.6466 | ages >= 32768 (5.8 lives): obs 1713 exp 1783.6 | ages >= 65536 (11.5 lives): obs 3 exp 0.8 | oldest bin [2^16, 2^17) = 11.5 lives
 own  r16               deaths   658178 ln tau 8.6449 | ages >= 16384 (5.8 lives): obs 2069 exp 2137.5 | ages >= 32768 (11.5 lives): obs 10 exp 9.9 | oldest bin [2^15, 2^16) = 11.5 lives
-own  s21               deaths   202501 ln tau 9.1677 | ages >= 32768 (6.8 lives): obs 208 exp 192.6 | ages >= 65536 (13.7 lives): obs 0 exp 0.0 | oldest bin [2^15, 2^16) = 6.8 lives
+own  r24               deaths   287621 ln tau 11.3494 | ages >= 262144 (6.2 lives): obs 496 exp 500.5 | ages >= 524288 (12.3 lives): obs 1 exp 2.8 | oldest bin [2^19, 2^20) = 12.3 lives
+own  r26               deaths   252343 ln tau 11.9941 | ages >= 524288 (6.5 lives): obs 343 exp 366.2 | ages >= 1048576 (13.0 lives): obs 0 exp 0.0 | oldest bin [2^19, 2^20) = 6.5 lives
+own  r28               deaths   157943 ln tau 12.6465 | ages >= 1048576 (6.8 lives): obs 142 exp 144.8 | ages >= 2097152 (13.5 lives): obs 0 exp 0.0 | oldest bin [2^20, 2^21) = 6.8 lives
+own  r30               deaths   125016 ln tau 13.2865 | ages >= 2097152 (7.1 lives): obs 23 exp 20.1 | ages >= 4194304 (14.2 lives): obs 0 exp 0.0 | oldest bin [2^21, 2^22) = 7.1 lives
+own  r32               deaths    54939 ln tau 13.9268 | ages >= 4194304 (7.5 lives): obs 0 exp 0.0 | ages >= 8388608 (15.0 lives): obs 0 exp 0.0 | oldest bin [2^21, 2^22) = 3.8 lives
+own  s21               deaths   403384 ln tau 9.1719 | ages >= 32768 (6.8 lives): obs 425 exp 397.4 | ages >= 65536 (13.6 lives): obs 0 exp 0.0 | oldest bin [2^15, 2^16) = 6.8 lives
+own  s29               deaths   312156 ln tau 11.5564 | ages >= 262144 (5.0 lives): obs 1834 exp 1928.0 | ages >= 524288 (10.0 lives): obs 13 exp 12.4 | oldest bin [2^19, 2^20) = 10.0 lives
+own  s37               deaths    43419 ln tau 13.9390 | ages >= 4194304 (7.4 lives): obs 0 exp 0.0 | ages >= 8388608 (14.8 lives): obs 0 exp 0.0 | oldest bin [2^21, 2^22) = 3.7 lives

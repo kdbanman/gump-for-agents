@@ -1,0 +1,22 @@
+hull faces: area, rim cells (on >= 2 faces), apex (on 4 faces); and rim removal
+  c R=7: A=30 (3(R+1)(R+3)/8=30) rim=21 (3(R-1)+3=21) apex=3; interior = v-face R-3 up to translation: (True, (np.int64(0), np.int64(0), np.int64(0)))
+  c R=9: A=45 (3(R+1)(R+3)/8=45) rim=27 (3(R-1)+3=27) apex=3; interior = v-face R-3 up to translation: (True, (np.int64(0), np.int64(0), np.int64(0)))
+  c R=11: A=63 (3(R+1)(R+3)/8=63) rim=33 (3(R-1)+3=33) apex=3; interior = v-face R-3 up to translation: (True, (np.int64(0), np.int64(0), np.int64(0)))
+  c R=13: A=84 (3(R+1)(R+3)/8=84) rim=39 (3(R-1)+3=39) apex=3; interior = v-face R-3 up to translation: (True, (np.int64(0), np.int64(0), np.int64(0)))
+  c R=15: A=108 (3(R+1)(R+3)/8=108) rim=45 (3(R-1)+3=45) apex=3; interior = v-face R-3 up to translation: (True, (np.int64(0), np.int64(0), np.int64(0)))
+  c R=23: A=234 (3(R+1)(R+3)/8=234) rim=69 (3(R-1)+3=69) apex=3; interior = v-face R-3 up to translation: (True, (np.int64(0), np.int64(0), np.int64(0)))
+  c R=37: A=570 (3(R+1)(R+3)/8=570) rim=111 (3(R-1)+3=111) apex=3; interior = v-face R-3 up to translation: (True, (np.int64(0), np.int64(0), np.int64(0)))
+  v R=8: A=30 (3R(R+2)/8=30) rim=12 (3R/2=12) apex=0
+  v R=12: A=63 (3R(R+2)/8=63) rim=18 (3R/2=18) apex=0
+  v R=24: A=234 (3R(R+2)/8=234) rim=36 (3R/2=36) apex=0
+cells adjacent to their own image (a quotient self-loop) and fixed cells, R = 11 c and 12 v:
+  v11c csz: |G|=2 fixed cells 144, cells adjacent to an image 0, of which more than 4 (L1, doubled) from any fixed cell 0; example None
+  v11c ci: |G|=2 fixed cells 0, cells adjacent to an image 0, of which more than 4 (L1, doubled) from any fixed cell 0; example None
+  v11c c2e: |G|=2 fixed cells 0, cells adjacent to an image 24, of which more than 4 (L1, doubled) from any fixed cell 24; example (-6, -5, 0)
+  v11c c2v: |G|=4 fixed cells 276, cells adjacent to an image 0, of which more than 4 (L1, doubled) from any fixed cell 0; example None
+  v11c d2h: |G|=8 fixed cells 396, cells adjacent to an image 0, of which more than 4 (L1, doubled) from any fixed cell 0; example None
+  v12v csz: |G|=2 fixed cells 84, cells adjacent to an image 0, of which more than 4 (L1, doubled) from any fixed cell 0; example None
+  v12v ci: |G|=2 fixed cells 0, cells adjacent to an image 12, of which more than 4 (L1, doubled) from any fixed cell 12; example (0, 0, 1)
+  v12v c2e: |G|=2 fixed cells 6, cells adjacent to an image 14, of which more than 4 (L1, doubled) from any fixed cell 0; example (-6, -4, 1)
+  v12v c2v: |G|=4 fixed cells 168, cells adjacent to an image 44, of which more than 4 (L1, doubled) from any fixed cell 0; example (0, 0, -9)
+  v12v d2h: |G|=8 fixed cells 252, cells adjacent to an image 132, of which more than 4 (L1, doubled) from any fixed cell 0; example (-9, 0, 0)

@@ -28,7 +28,8 @@
  *
  * usage: ring det|model|pca b m_or_w rho16 p0_16 seed GENS T0 CAP GS OUT [-i init.txt] [-d dump.txt] [-n G] [-p table.txt]
  *   -n G  a wall: the face cells of sites 0..G-1 (site s = {Z_s, Y_s, X_{s+1}}) are held dead, so the face is a
- *         segment of b - G sites with free ends (G >= 3: the two ends do not see each other within the face)
+ *         segment of b - G sites with two ends (G >= 2 already keeps the ends from seeing each other within the
+ *         face; the runs use G = 3, a choice; the layers beneath stay a full ring, see README section 2)
  *   GS  sample the face statistics every GS generations (0 = none)
  *   -i  lane 0 starts from the listed cells (index (t*3+o)*b+c)       -d  dump every lane every generation
  * Output OUT (text, key value...): totals, age-binned exposure/deaths, face-population histogram, deaths by

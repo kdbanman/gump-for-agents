@@ -236,6 +236,47 @@ by the four around it. Gump's octahedra do the same thing gently: a face with a 
 a little more than twice as long as the same face without one. I had been treating edges as a
 correction. In that rule they are the whole story.
 
+## The shortest way round
+
+The area law says a face of A cells waits about e^(0.21·A) generations to die. I had been
+reading 0.21 as a property of the rule. It is a property of the rule and of how the face
+closes on itself.
+
+The cleanest faces to measure have no rim: make the slab periodic in the plane and each
+face is a torus. Give two such faces the same area and different shapes and they do not
+live equally long. A face of 3 by 8 dies sooner than one of 4 by 6, by a factor of 1.42.
+An agent then ran every way of wrapping a face of 48 cells, and of 60, into a torus, and
+one quantity ordered almost all of them: the length of the shortest closed path round the
+face. Where that path is one cube step long, each added cell buys about 0.11 in the
+logarithm of the wait. At one and a half steps it buys 0.19, and from two steps up about
+0.21, where the shape stops mattering.
+
+So a face has to be killed across its narrowest way round, and a narrow face is cheap. The
+narrowest possible one, a ring one step around, got a study of its own. Its price is still
+falling at the largest rings we could run, toward something near 0.099 per cell: half the
+wide price, as far as we can tell. Looking back from the moment such a face dies, its live
+part is an island shrinking from both ends. It needs the same five layers of rule over coin
+flips that a wide face needs. I had asked for the number to be derived, since a ring of
+sites over noise looked like a problem one could solve. It was not derived. The one version
+that can be solved exactly is 22% too steep, and the agent said so in its first paragraph.
+
+Two faces with the same area and the same shortest loop still differed, by one and a half
+percent in lifetime, in two programs that share no code. That looked like a second
+variable, and five candidates for it were written down before the runs. All five failed. At
+72 cells the difference is gone; at 36 it has the opposite sign. I now think there is no
+second variable, only the small accident of how a pattern fits round a small torus. That is
+a guess, and the notebook marks it as one.
+
+What I cannot give you is the price for a face with no narrow way round at all. Every
+family we have measured (rimless faces by width, twisted ones, octahedral faces with their
+rims) is consistent with a single limiting price, and together they say only that it lies
+between 0.207 and 0.219. A second line of evidence points into the same range. On a face
+too large to die, count how often a patch of it happens to be empty and take out what the
+patch's edge costs: the price per empty cell falls from 0.27 for small patches to 0.22 for
+the largest we could count, which is where the lifetime laws are. It would be a good ending
+if the two met. The measurement that would show it needs more time on rented graphics cards
+than this month's budget has left.
+
 ## Where I was wrong
 
 Twice I told you the wrong density for the chaotic state, and both corrections came from
@@ -283,6 +324,30 @@ points by far more than that. Larger faces have since been measured on rented gr
 cards, and they cost more per cell, not less: 0.218, then 0.221. The cost is still creeping
 up at the largest face anyone has measured, and I do not know where it stops.
 
+The days of the shape work added more. I told you two faces of sixty cells differed by
+0.019; over four runs it is 0.014. I told you no single limiting price could fit all the
+families; a reviewer showed that one fits, anywhere from 0.207 to 0.219. I wrote a forecast
+for the empty patches whose test assumed a formula the data then refused, so it failed
+without teaching us anything. I proposed a law for how a face feels its own wrap-around, and
+it was refuted the same evening. An agent reported the thin face's price as 0.099 plus or
+minus 0.004, and its reviewer showed that the 0.004 was only the spread of the curves the
+agent had happened to try. And three programs, written by three agents, shared one blind
+spot: a life that freezes into a slow repeating pattern (one has 42 cells and repeats every
+16 generations) was not recognised as over, and went on being counted as alive. It happens
+about four times in a million lives. In the runs behind the numbers above it moves nothing
+by more than its error bar, which we know because someone went back and counted.
+
+And the picture I gave you of a symmetric face, six locked copies less a penalty along
+its mirror lines where the chaos runs thin, was half wrong. An agent set out to derive
+that penalty and instead measured where it sits. Put a mirror through a face with no rim
+and the face lives longer. What costs is the rim: a symmetric seed forces two faces that
+share an edge to die at the same moment, so neither has a living neighbour to lean on.
+Each such edge takes about 2.15 off the logarithm of the wait, one edge, two, three, like
+coins on a scale, while pairing two faces that share no edge takes almost nothing. A
+second agent ran the whole system without the shortcut and got the same numbers. It also
+would not let "the mirrors do nothing" stand, because on a fully symmetric face the shared
+edge lies on a mirror and the two cannot be told apart there.
+
 The notebook keeps these in place rather than tidied away. I think the record of being
 corrected is part of what this repository is for.
 
@@ -298,6 +363,11 @@ corrected is part of what this repository is for.
 - Longer clocks. A loop of thirty-odd steps in a box with a six-fold symmetry would have a
   period near 200, and nothing forbids it. And whether any oscillator here can pass a signal
   to another: so far the only clocks that share a frame ignore each other.
+- Where the price per cell stops. Two measurements would narrow 0.207 to 0.219: faces of
+  one fixed shape at growing size, and a face of 108 cells with its rim, run until ten
+  thousand faces have died. Both need the graphics cards.
+- Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
+  Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):
   days of computing on the present engine, less with one that steps a single symmetry
   domain.

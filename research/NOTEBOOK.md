@@ -1935,3 +1935,205 @@ each a few minutes; outputs in `audit/out/`).
   (4×5 hits per seed 216, 213, 225, even over halves of each run).
 - Owed: a guard in the GPU drivers before any further lifetime run (doubling snapshots, or an age cap at 30 mean
   lives; described in `research/gpu/AGENT.md`, not written, since it cannot be tested without the GPU).
+
+## 2026-11-15 — the thinnest face: no derivation; its cost per cell is about 0.099 (0.093 to 0.107), half a wide face's, and the census's 0.115 and 0.111 were local slopes (theory line; adversarial review with its own stepper; lead's re-run of the refits)
+
+- What was asked (`research/theory/thin/`, 2026-11-14): the census found that a periodic face whose shortest
+  closed loop is one cube step (loop² 3; the torus with periods (1,1), (0,b); a ring of b sites of three cells,
+  A = 3b) costs 0.115 and 0.111 per cell instead of 0.21. Derive that number: put noise beneath the face, then
+  solve a one-dimensional problem exactly.
+- **No number was derived from the rule**, for three stated reasons, each of which the review confirmed:
+  - *Noise is enough only from five layers* [measured]: the rule on the top w layers over coins (density 102/256)
+    gives the deterministic ln τ within +0.006 ± 0.003 at w = 5 (review, own stepper: +0.0017 ± 0.0018) and is off
+    by +0.049 at w = 4 (review +0.0497 ± 0.0023) and by 0.4–2.3 at w ≤ 3. Five layers are 15 cells per site. The
+    same depth as on wide faces (entry "where the exponent lives", 2026-11-14).
+  - *The exactly solvable model is the wrong one* [exact]: one layer over coins has ln τ = 3.967199 on a ring of
+    5 sites and 2.453108, 4.192750 on segments of 2 and 5 (reproduced to all digits by the review's own enumeration,
+    `python3 research/audit/thin/exact.py`); its slope is 22% above gump's, and two better closures are 11% and
+    5.6% above.
+  - *The face dies by fronts* [measured]: looking back from the death, the live part is an island shrinking from
+    both ends (population 1.70, 4.05, 7.36, 10.14, 12.58, 15.16 at successive steps back, review at b = 32; the
+    line's 1.7, 4.1, 7.3, 10.1, 12.6, 14.8), over a time proportional to its length. The cost per site is a
+    large-deviation rate of a front in a medium five layers deep.
+- **Measured instead.** Ring lifetimes (ln τ 8.6470, 10.0199, 11.3448, 12.6482, 13.9233, 15.1644 at b = 16 … 36)
+  bend: the cost per cell is 0.1144, 0.1104 over A = 48–72 (the census's two numbers, which are therefore local
+  slopes, not a constant), 0.1081 ± 0.0003 over 72–84 and 0.1067 ± 0.0004 over 84–96 (review's own rings), about
+  0.103 at 108. A face with two free ends (a ring with a wall of dead face sites) gives a straight 0.0993 ± 0.0003
+  per cell from A = 75 to 135 (review: 0.2981 ± 0.0003 and 0.2978 ± 0.0006 per site over n = 21, 29, 37).
+- **The long-face limit: about 0.099 per cell, range 0.093–0.107.** The line's "0.099 ± 0.004" did not survive
+  review as an error bar: it was the spread of the correction forms the line had chosen. Forms it had not tried
+  fit its data as well and land outside (segments with a √n term 0.093; rings with a ln b term 0.094; the wall
+  front with a third term up to 0.105; the review's own rings allow 0.107). The lead re-ran
+  `python3 research/audit/thin/refit.py`: same table; it also shows that a √b correction would allow 0.08 on the
+  line's six rings (χ² 0.7 on 3); the review's more precise rings reject that form (χ² 11.7 on 3), which is why
+  its range leaves it out. If the four
+  routes (rings, segments, empty windows, the front's distance from a wall) share one limit, the overlap is
+  0.097–0.102 [conjectured].
+- So the thinnest face costs about half of what a wide one does per cell (0.21), with the same five-layer depth
+  and no derivation of either number. What sets the ratio is open.
+- Found on the way, by the line and again by its review: lives that settle unrecognised (entry above). The
+  review's tail check of the line's raw files finds such exposure in two model runs, worth 2 × 10⁻⁴ in ln τ:
+  nothing quoted moves.
+- Forecasts (`research/theory/thin/PREDICTIONS.md`, 14, each committed before its run; none edited afterwards):
+  the review finds the line's tally generous (two "halves" are mostly misses, one clause failed, one value lies
+  outside its interval).
+- Not checked by the review: b = 20 and 36, segments of 45 and 61 sites, its own window and wall runs (those two
+  routes were refitted from the line's histograms), the coin-density forecast, 12 layers, the two better closures,
+  the wider torus. `research/audit/REVIEW-thin.md`; seven corrections are being applied to the write-up.
+
+## 2026-11-15 — corrections found while the manuscript draft was brought up to date (traced by a subagent, `docs/paper/FOR-LEAD.md`; applied by the lead)
+
+- Entry of 2026-11-14 "is there one asymptotic cost per cell?": the hull local slope from A = 84 to 108 is
+  **0.2181 ± 0.0013**, not 0.2182 ((23.3761 − 18.1407)/24 = 0.21814). CLAIMS CN1 corrected; CN1 now also carries
+  the addendum's statement (36 of 84 pairings pass, c = 0.2072–0.2190).
+- Entry of 2026-11-15 "lives that settle and are not recognised": "the rest ≤ 2 × 10⁻³" should read ≤ 2.1 × 10⁻³
+  (symmetric R38 is 2.1 × 10⁻³ in `research/gpu/README.md`). And one run is missing from the list with no bound:
+  the slab 4×7×8 (A = 84), whose log has no age bins (`python3 research/gpu/zombies.py` prints so). CLAIMS ZL2
+  corrected; the GPU session's README omits it too and has been told.
+- CLAIMS GP10: the part that rests on the GPU alone (4×5 and beyond) is graded B−, as the legend requires, not B.
+- New ledger rows for forecasts that had none: TH7 (the thin line's 14 forecasts as rescored by the review: 8 hit,
+  2 half, 2 mostly missed, 2 missed) and CN2 (the analyst's forecasts for the patches and the pairs, scored by the
+  lead; graded C). Ledger: 126 rows (`python3 research/audit/claims_tally.py`).
+
+## 2026-11-15 — what the unrecognised settled states are: five new clocks, a 4 × 13 compound, and wires (naturalist's identification of 37 states; lead's check with a stepper written from the rule document)
+
+- The 37 settled states of period 9 to 52 that the review of the pairs experiment logged (entry "lives that
+  settle and are not recognised"; `research/audit/shape3/zombie_states.txt`, from 8-layer slabs on the tori
+  (1,3,12), (1,4,12), (1,4,15), (1,5,15), (2,2,8)) were identified against the catalogue
+  (`research/clockwork/README.md`, section "Found by accident in lifetime runs, 2026-11-15";
+  `cd research/clockwork && python3 zombies.py --write`, about 80 s).
+- **None needs the walls** [proved, by stepping]: each repeats its cycle cell for cell on the same torus with
+  the slab widened to 24 layers.
+- **14 are finite objects of free space** [proved, by a lift whose orbit maps one-to-one onto the slab's]. Four
+  are in the catalogue (P9.20a, P13.22a, the twisted P16.15a, P3.13a). **Five are new**: C9.24a, C9.28a, C11.29a,
+  C13.24a and **C52.33a**. The lead re-derived all five with a stepper written from `docs/AUTOMATON.md` §2 alone
+  (`python3 research/audit/clockwork_zombies_lead_check.py`): periods 9, 9, 11, 13, 52; populations 24–25, 28–33,
+  29–34, 24–28, 33–38; unions 27, 35, 36, 30, 42.
+- **Period 52 is a compound, not a loop** [proved for the cell periods; the dependence by subset tests]: no cell
+  has period 52. Of its 42 cells 24 are still, 4 turn with period 4 and 14 with period 13 (the lead's stepper
+  gives the same split). The period-13 part cannot run without a still chunk that in turn needs the period-4 part,
+  and no moving cell's next state depends on the other clock: a 4-clock and a 13-clock on a shared frame, like
+  C44.26a (4 with 11). One of the two period-48 states is P16.15a beside P3.13a, touching and exchanging nothing.
+- **21 are wires** [measured]: the moving part has no finite lift to free space, but lives on a strip that is
+  periodic along one short vector of the torus, so in the infinite lattice it is an infinite oscillating line.
+  Periods 9, 11, 13, 16, 19, 22, along (3,0,−3), (1,3,−4) or (2,−4,2). Every state of period 19 here is a wire.
+  **2 are sheets** [measured]: they fail on every strip and on covers up to 3 × 3 and close only on their own
+  torus; one, of period 48, is a mirror-twisted cycle of the torus (1,4,12): phase t + 24 is the mirror image of
+  phase t under a mirror that is a symmetry of that torus [proved], the construction of P66.27a with the box
+  replaced by a torus.
+- So the lifetime runs' "zombies" are mostly not clocks one could put in a box: more than half are objects that
+  exist only because a small torus lets a line close on itself. That fits their rate falling steeply with area.
+  Wires and sheets are a kind of object the catalogue (finite objects only) does not hold.
+- Not checked: whether a wire's moving part could be held by a finite stator ("needs the torus" is measured on
+  lifts of the given states, not proved); whether wires of one period and direction are the same wire; sheets on
+  covers beyond 3 × 3; stability and basins of the new objects. The census lists the new objects were matched
+  against are git-ignored scratch files of the clockwork line.
+
+## 2026-11-15 — the symmetric collapse: pairing faces across an edge is what costs; "a penalty along the mirror lines" does not stand as told (theory line with 38 forecasts; adversarial review running the unreduced system with its own stepper; lead's re-run of the validation and tables)
+
+- What was asked (`research/theory/symmetric/`, PROGRAM M5): derive the three fitted ingredients of the law for
+  fully symmetric faces, ln τ ≈ 0.698 + (0.209/6)·A − 0.196·√A (CLAIMS S2) and the factor of about 1.5 between
+  centrings (S3), from the asymmetric law and geometry. The notebook's picture since 2026-11-12 was "six lockstep
+  domains minus a mirror-line term".
+- **No derivation came out.** What did:
+- **Proved** (checked by the review's own computation, one lemma apart): a G-symmetric state evolves exactly as
+  gump on the orbit graph, and for free actions the factor 1/|G| is exact. Inside a {111} face the only mirrors
+  are the three diagonal ones and their translates. A coordinate mirror never preserves a face: it exchanges two
+  hull faces and fixes the rim row they share. (A lemma about cells far from fixed cells is false as stated; no
+  measurement uses it.)
+- **Measured, by two codes** (the line's orbit stepper, bit-exact against the engine on 41 systems, lead's re-run
+  `python3 research/theory/symmetric/validate.py`; and the review's stepper on the full unreduced system,
+  `research/audit/symmetric/`): in an octahedral vessel at A = 63 (R = 11, cube-centred), ln τ_face is
+
+  | symmetry imposed | line | review |
+  |---|---|---|
+  | none | 13.634 ± 0.018 | 13.638 ± 0.010 |
+  | one coordinate mirror (one edge of every face in lockstep) | 11.456 ± 0.011 | 11.444 ± 0.010 |
+  | two (two edges) | 9.291 ± 0.008 | 9.312 ± 0.009 |
+  | three, D2h (three edges) | 7.168 ± 0.003 | 7.171 ± 0.009 (35% of exposure in settled lives; bracket 7.02–7.29) |
+  | inversion (pairs faces that share no edge) | 13.578 ± 0.014 | 13.574 ± 0.014 |
+
+  **Each edge shared with a face that is forced to die at the same moment costs about 2.15, additively; pairing
+  faces that share no edge costs at most about 0.1.** A twofold rotation about an edge, split by which faces it
+  pairs (the review's correction: the line had pooled them), costs 2.54 ± 0.02 on the edge-sharing faces
+  (cube-centred; 1.96 ± 0.02 vertex-centred) and about 0.1 on the opposite ones: no mirror is needed.
+- **Measured:** a mirror, a threefold axis or both, imposed on a rim-free periodic slab face, *lengthen* its life
+  against the asymmetric torus of equal area (+0.4 to +1.65 at 36–72 quotient cells; one pair rerun by the review:
+  +0.926 ± 0.014 against the line's +0.872 ± 0.013), by an amount that shrinks with size. The line had forecast a
+  loss.
+- **What may be said, in the review's wording:** in a fully symmetric face the lockstep rim lies on a coordinate
+  mirror, so "rim" and "mirror" cannot be separated there; and faces with diagonal mirrors and free rims (T_d) fall
+  below the mirror-free ones (T) by an amount growing like √A, so a diagonal-mirror share of up to about a third
+  of the −0.196 is not excluded. **So the 2026-11-12 picture is corrected, not reversed: the cost is mainly that
+  edge-sharing faces die together and cannot hold each other up, and "the chaos runs thin along mirror lines" is
+  not the mechanism of most of it.** [the mechanism itself is conjectured: nobody looked at the faces]
+- **The 1/6:** slope × order of the face's stabiliser is 0.2091 ± 0.0016 for T faces (threefold axis, free rims,
+  A = 108–198) and 0.2035 ± 0.0024 for T_d (A = 315–459), 3–5% lower. "c/6 within 5%" is supported; "exactly c/6"
+  is not shown, and c itself is only known to 0.207–0.219. A wedge is not a torus of A/6 cells: mirror-bounded
+  quotients outlive the equal-area torus by an offset that shrinks with size.
+- **The √A term:** the rim's marginal cost is 0.45–0.55 per rim period over 5.5–9 periods (three families). With
+  0.408·√A periods in a wedge that is a coefficient of −0.19 to −0.22, close to the fitted −0.196, **but the review
+  shows the agreement is a coincidence of ranges, not a test** (the fitted coefficient moves by −8.1 per unit of the
+  assumed c; with c pinned at T_d's own 0.2035 the fit gives −0.127). Whether the rim term bends, and so whether
+  −0.196·√A is an asymptotic form at all, is open: the fall in marginal cost rests on the two smallest sizes
+  (without them −0.02 ± 0.04 per period²). A T_d ensemble at A = 759 would speak to it (forecasts 26.2–26.4 if
+  linear, 25.65 ± 0.25 if T_d keeps its slope; only 1.9σ apart), and needs a GPU.
+- **The factor between centrings** is not one object: asymmetric faces already differ, vertex-centred minus
+  cube-centred = +0.75, +0.73, +0.66 at A = 30, 45, 63 (review: +0.754 ± 0.013, +0.725 ± 0.009, +0.655 ± 0.017),
+  falling with size (χ² 21 on 2 against a constant); with lockstep rims a part grows (D2h: 0.505, 0.645, 0.830 at
+  A = 63, 84, 108). For O_h a constant factor is excluded by the line's fit (χ² 60.8 on 10; not refitted by the
+  review). So "about 1.5 times tougher" (S3) is a snapshot of a slowly changing difference.
+- Forecasts: 40 statements counted per size; 25 held, 1 on its limit, 14 failed; each committed before the output
+  it is scored on (one block while its runs were in progress, disclosed).
+- Not checked: nothing beyond A = 63 was rerun by the review (the rim figures are refits of the line's data); each
+  number is one job with one seed; the mechanism was never looked at directly (no occupancy maps of dying faces);
+  group O lying far below T_h, T_d's two sub-series moving apart, and mirror strips two cells wide keeping a slope
+  of 0.186 are unexplained. `research/audit/REVIEW-symmetric.md`; eleven corrections are being applied to the
+  write-up.
+
+## 2026-11-15: the audit of the rows nobody had re-run
+
+The ledger had 30 claims whose best grade was C ("has a command, not re-run") and a dozen more with a C part. An
+auditor (a second agent, not the producer of any of them) ran what could be run in a few minutes each.
+`research/AUDIT-2026-11-15.md` has the table; its helpers are in `research/audit/c_rows/`.
+
+- **Result [measured].** 41 rows read, 28 re-run in whole or in part, **26 matched, 2 differ** (P4 and a sentence
+  of ZL2), 13 not run. The ledger now reads **133 claims: A 56, B 66, C 10, D 1** (was A 56, B 46, C 30, D 1);
+  `python3 research/audit/claims_tally.py`.
+- **What a match means here.** Eight rows were re-run on the producer's own seeds (F10, K2, P5, Z5, Z10, SW3, SW4,
+  SW7): that checks the code and the transcription, not the statistics. Four were rebuilt from the producers' raw
+  records, which are not in git, without repeating the simulations (F11, S1, C7, L3: "B (table)"). One was repeated
+  on fresh seeds (K1, the thickness of a living slab: every mean within 2 combined standard errors, the largest gap
+  2.0σ at N = 32, m = 2).
+- **Three matches rest on a choice the claim did not record**, now written into the level cells: F2's plateau
+  heights (ratios 0.770, 0.604, 0.454 over whole plateaus against the claimed 0.79, 0.61, 0.48; a trimmed window
+  moves them by about 0.03); P6's {110} front speed (0.165 only if the fit window ends by generation 80; 0.154 over
+  generations 60–110, because **that front slows down**, which nobody had noted); F11's fit (the stated
+  coefficients need weights by the firewall-first counts; unweighted, −2.00 + 0.533·N·m + 0.356·N).
+- **P4, the correlation length of the chaotic phase, was wrong in its error and slightly in its value
+  [measured, corrected].** The notebook's "ξ = 0.68 ± 0.01 cube" could not be reproduced as stated: no fit was
+  recorded. The lead's own fit (`python3 research/audit/p4_lead_check.py [file]`, written without the auditor's
+  script) finds where it came from: the Ornstein–Zernike form fitted to k ≤ 3 per cube gives 0.681 ± 0.009 on the
+  producer's file, exactly the old number, but the form does not fit that far (χ² 53 on 19 with corrected errors;
+  59 on 19 on the auditor's snapshots). It fits for k ≤ 2.5 (χ² 8.2 on 15 and 22.8 on 15), where **ξ = 0.638 ±
+  0.013 on the producer's 12 snapshots and 0.659 ± 0.014 on the auditor's** (8 of its 12 are new); windows from
+  k ≤ 1.5 to k ≤ 2.5 give 0.61–0.67. Recorded now as **ξ = 0.65 ± 0.03 cube**, S(0) = 3.04–3.18. The error bars of
+  `research/phase/sk.py` were too small by √24: it divided the scatter over modes of the snapshot-averaged S by
+  modes × snapshots, counting the 12 snapshots twice (the auditor's find), and it counted both members of each
+  ±k pair, which are equal for a real field (the lead's addition). With that mended the isotropy statement
+  survives, which with the old errors it did not: cones about ⟨100⟩, ⟨110⟩, ⟨111⟩ against the sphere average for
+  k ≤ 1.5 give χ² 6.6, 6.2, 6.7 on 11, 11, 10 bins (producer's snapshots) and 17.8, 5.4, 2.3 (auditor's). `sk.py`
+  is fixed; files written before the fix are recognised by the check script and rescaled. Not checked: sizes other
+  than N = 64; anisotropy at larger k, where the lattice must show.
+- **ZL2: a slip of the lead's in the ledger.** "others ≤ 2.1 × 10⁻³" left out slab 4×9×8, whose bound is
+  4.2 × 10⁻³ (against a statistical error of 0.042, so no number moves). The README table had it right.
+- **Two commands did not run as written.** `portrait.py OID NS` failed with a NameError (the seed was set only in
+  one branch): fixed, and the lead re-ran Z10's basin count with it (`cd research/clockwork && python3 portrait.py
+  P66.27a 1000000`, 76 s: 414 of 10⁶, as claimed, seed 1). SW3's command needs a binary that no script builds; the
+  build line is now in its row.
+- **Still C (ten rows):** F12, S4, K5 (the ledger gives no arguments), Q4 (names no run), G3, G4, K7 (an hour or
+  more each), K8 (several scripts of unstated length), L2 (re-run only by repeating the lead's own arithmetic), and
+  Z13 (the wires, added after the audit began). With a C part: Z2 at n = 16, Z4's period-3 search, TH5's segment
+  n = 7, TH2, TH4, C2, C4, C8, Z3's flip property, Z8, Z9, Z10's phase shifts, Z12, S9, X3's 6.94, ZL2's other runs.
+- Not checked by the lead beyond P4 and Z10: the other 24 matches are the auditor's alone. No proof was re-read
+  in this audit.

@@ -199,5 +199,76 @@ out["census"] = {
     "pair": cc["pair"]["value"], "pair48": cc["pair48"]["value"], "laws": cc["laws"]["value"],
 }
 
+
+# ---- the refresh of 2026-11-15: update-2026-11-15.json (CN1, GP10, SH6-SH9, TH1-TH6, ZL1-ZL2, prior art, second readings) ----
+R = S("update-2026-11-15.json")
+for sec in ("pairs", "thin", "constant", "patches", "zombie", "swarm"):
+    for k, v in R[sec].items():
+        if k != "rows": checked(v)
+for r in R["pairs"]["rows"]: checked(r)
+checked(R["prior"]["list"])
+for r in R["prior"]["refs"]: checked(r)
+for f in R["forecasts"]: checked(f)
+for a in R["audits"]: assert (repo / a["file"]).exists(), a["file"]
+pl = R["prior"]["list"]
+assert all(w in pl["words"] for w in pl["ours"] + pl["known"])
+out["forecasts"] += [{"line": f["line"], "result": f["result"]} for f in R["forecasts"]]
+out["project"]["audits"] += [[a["label"], a["line"]] for a in R["audits"]]
+tl["milestones"] += [{"date": x["date"], "text": x["text"]} for x in R["milestones"]]
+rp, rt, rc, rz, rq = R["pairs"], R["thin"], R["constant"], R["zombie"], R["patches"]
+out["pairs"] = {   # id, A, loop², d (signed), se, review d (signed) or None, review se
+    "rows": [[r["id"], r["value"][0], r["value"][1], r["sign"] * r["value"][2], r["value"][3]] + ([r["sign"] * r["value"][4], r["value"][5]] if len(r["value"]) > 4 else [None, None]) for r in rp["rows"]],
+    "nodiff": rp["nodiff"]["value"], "candidates": rp["candidates"]["value"], "gram": rp["gram"]["value"][0]}
+v = rt["slopes"]["value"]
+out["thin"] = {"slopes": [[48, 60, v[0], None], [60, 72, v[1], None], [72, 84, v[2], v[3]], [84, 96, v[4], v[5]], [96, 108, v[6], None]],   # from A, to A, cost per cell, se ("about 0.103 at 108": the 96 -> 108 step)
+               "wall": rt["wall"]["value"], "limit": rt["limit"]["value"], "overlap": rt["overlap"]["value"], "layers": rt["layers"]["value"],
+               "exact": rt["exact"]["value"][0], "profile_review": rt["profile"]["value"][0:6], "profile": rt["profile"]["value"][7:13], "b": rt["profile"]["value"][6], "wide": rt["half"]["value"][0]}
+out["constant"] = {"verdict": rc["verdict"]["value"], "periodic": rc["periodic"]["value"], "hull": rc["hull"]["value"], "slopes": rc["slopes"]["value"],
+                   "single": rc["single"]["value"], "split": rc["split"]["value"], "gpu": rc["gpu"]["value"]}
+L5 = rq["lnp"]
+out["patches"] = {"lnp": [[c, lab, L5["sign"] * x] for c, lab, x in zip(L5["cells"], L5["labels"], L5["value"])], "se": {"48": L5["se"][0], "60": L5["se"][1], "75": L5["se"][2]},
+                  "cpu45": [60, -rq["cpu45"]["value"][0], rq["cpu45"]["value"][1], rq["cpu45"]["value"][2]], "cpu45_cost": rq["cpu45_cost"]["value"][0],
+                  "cost": [list(r) for r in zip(rq["cost"]["cells"], rq["cost"]["value"][:4])], "cost_se": rq["cost"]["value"][4], "range": rq["range"]["value"], "fit": rq["fit"]["value"]}
+assert L5["cells"][5] == 60 and L5["labels"][5] == "4×5"
+g = rz["gpu"]["value"]
+out["zombie"] = {"rate": rz["rate"]["value"], "stuck": rz["stuck"]["value"], "cpu": rz["cpu"]["value"], "periods": rz["periods"]["value"], "state": rz["state"]["value"],
+                 "gpu": [[rz["gpu"]["runs"][0], g[0] * 1e-3, g[1]], [rz["gpu"]["runs"][1], g[2] * 1e-2, g[3]], [rz["gpu"]["runs"][2], g[4] * 1e-2, g[5]]], "r11": g[6] * 1e-4}
+assert "6.7 × 10⁻³" in rz["gpu"]["quote"] and "1.2 × 10⁻²" in rz["gpu"]["quote"] and "1.0 × 10⁻²" in rz["gpu"]["quote"] and "1.3 × 10⁻⁴" in rz["gpu"]["quote"]
+zj = S("zombie.json")    # the state itself (scripts/zombie.py, from research/audit/shape3/zombie_1_4_12_p16.txt)
+assert zj["live_slab"] == out["zombie"]["state"][0]
+out["zombie"]["sim"] = {"H": zj["H"], "cells": zj["cells"], "lifted": zj["lifted"]}
+out["prior3"] = {"ours": pl["ours"], "known": pl["known"], "refs": [[r["year"], r["who"], r["line"], r["read"]] for r in R["prior"]["refs"]]}
+out["swarm2"] = {"counting": R["swarm"]["counting"]["value"][0]}
+
+
+# ---- the second refresh of 2026-11-15: update-2026-11-15b.json (the symmetric collapse, S5-S9; the new clocks and wires, Z12, Z13) ----
+B = S("update-2026-11-15b.json")
+for k, v in B["sym"].items():
+    if k != "ladder": checked(v)
+for r in B["sym"]["ladder"]: checked(r)
+for k, v in B["clocks"].items(): checked(v)
+for c in B["corrections"]: checked(c)
+for f in B["forecasts"]: checked(f)
+for a in B["audits"]: assert (repo / a["file"]).exists(), a["file"]
+out["forecasts"] += [{"line": f["line"], "result": f["result"]} for f in B["forecasts"]]
+out["project"]["audits"] += [[a["label"], a["line"]] for a in B["audits"]]
+out["corrections"] += [{"said": c["said"], "now": c["now"], "by": c["by"], "who": who(c["by"]), "line": c["line"]} for c in B["corrections"]]
+tl["milestones"] += [{"date": x["date"], "text": x["text"]} for x in B["milestones"]]
+bs, bc = B["sym"], B["clocks"]
+v = lambda k: bs[k]["value"]
+out["ladder"] = {   # id, edges tied, label, line ln tau, se, review ln tau, se (, review bracket lo, hi)
+    "rows": [[r["id"], r["edges"], r["label"]] + r["value"][:4] + (r["value"][5:7] if len(r["value"]) > 4 else []) for r in bs["ladder"]],
+    "per_edge": v("per_edge"), "inversion": [v("inversion")[0], bs["inversion"]["sign"] * v("inversion")[1], v("inversion")[2]], "rotation": v("rotation"),
+    "slab": v("slab"), "sixth": v("sixth"), "c": v("sixth_verdict"), "rim": v("rim")[:4] + [-v("rim")[4], -v("rim")[5], -v("rim")[6]],
+    "pinned": [-v("pinned")[0], v("pinned")[1], -v("pinned")[2]], "bend": v("bend"), "centring": v("centring"), "centring_rim": v("centring_rim"), "vessel": v("vessel")}
+assert bs["ladder"][3]["value"][4] == 35 and bs["inversion"]["sign"] == -1 and bs["rim"]["sign"] == -1 and bs["pinned"]["sign"] == -1
+# the compound clock C52.33a, read from the catalogue's own cell file (phase 0, doubled coordinates)
+cf = (repo / "research" / "clockwork" / "objects" / "C52.33a.cells").read_text()
+assert "period 52" in cf and "union 42" in cf and "cell periods {1: 24, 4: 4, 13: 14}" in cf
+out["c52"] = {"cells": [list(map(int, l.split())) for l in cf.splitlines() if l.strip() and not l.startswith("#")], "period": 52, "union": bc["split"]["value"][0],
+              "split": {"1": bc["split"]["value"][1], "4": bc["split"]["value"][2], "13": bc["split"]["value"][3]},
+              "kinds": bc["kinds"]["value"], "new": bc["new"]["words"], "periods": [9, 9, 11, 13, 52]}
+assert all(str(p) in bc["periods"]["quote"] for p in out["c52"]["periods"]) and "periods 9, 9, 11, 13, 52" in bc["periods"]["quote"]
+
 (here / "data" / "data.json").write_text(json.dumps(out, separators=(",", ":")))
 print("data.json", (here / "data" / "data.json").stat().st_size, "bytes;", ", ".join(out))
