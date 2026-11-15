@@ -223,3 +223,11 @@ entry once for pairing.
   ledger and notebook say "≤ 2 × 10⁻³" (FOR-LEAD).
 - Not checked: any run; the GPU README's bounds other than by running `zombies.py` once (output not compared line by
   line); the claims' underlying reviews.
+
+*Follow-up, 2026-11-15, after the lead applied the FOR-LEAD items (CLAIMS CN1, ZL2, GP10 changed; TH7, CN2 added;
+notebook entry "corrections found while the manuscript draft was brought up to date").* Draft: Table 5 rows 17 (TH7,
+B) and 18 (CN2, flagged unverified, grade C) and its caption; GP10's 4 × 5 grade now B− in §7.5 and row 16; the
+fwslab 4×7×8 note in Table 6 and §12 now cites ZL2 rather than `zombies.py` (the "could not source" item above on it
+is resolved); CN1's 0.2181 already matched. The draft does not state the ledger's size, so nothing changed for it.
+`python3 docs/paper/check_numbers.py` (now 24 passages): 270 numbers, 263 in the cited sources, 7 only in the
+earlier draft, 0 unsourced.

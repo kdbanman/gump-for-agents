@@ -176,3 +176,11 @@ named. Nothing outside `docs/paper/` was edited.
    `research/constant/PREDICTIONS.md` (part A, for the patches, scored in the notebook as low by 1.3, 2.6, 4.1 in
    −ln P; part B not refuted; part C not run) and `research/theory/thin/PREDICTIONS.md` (14 forecasts, whose tally
    the review calls generous). Whether either should get ledger rows, and so table rows, is yours to decide.
+
+**Applied (2026-11-15, by the lead; draft followed in the same day's follow-up):**
+1. Applied: CN1 reads 0.2181 ± 0.0013; the draft already used it.
+2. Applied: ZL2 reads "others ≤ 2.1 × 10⁻³ (symmetric R38; the rest ≤ 2 × 10⁻³)"; the draft quotes no "others" figure.
+3. Applied: fwslab 4×7×8 is in ZL2's unbounded list; Table 6 and §12 now cite ZL2 for it.
+4. Applied: GP10's GPU-only part is B−; §7.5 and Table 5 row 16 say B−.
+5. Applied: CN1 carries the addendum (36 of 84 pairings, c = 0.2072–0.2190).
+6. Applied: TH7 and CN2 are new rows; Table 5 has them as rows 17 and 18 (CN2 flagged as grade C).
