@@ -30,6 +30,22 @@ EDITS = [
     ("fauna", "the same rule as the run at the top.", "the same rule as the run on the map page."),
     ("family", "(the 0.91 nats above)", "(the 0.91 nats on the area-law page)"),
 ]
+# Plates added since OLD_REV, and old plates whose HTML was rewritten on purpose (each with where it comes from); the data
+# keys whose content may differ from the old page's. Anything not named here must still be as it was.
+NEW = {
+    "wrap": "phase 2 (2026-11-15 afternoon): What a short way round costs (NB the wrapping law tested; CLAIMS WL1-WL3)",
+    "gun": "phase 2: A gun (NB the fourth signals push, reviewed; CLAIMS SG16-SG18)",
+    "divider": "phase 2: A clock that edits the message (CLAIMS SG19, SG22)",
+}
+CHANGED = {
+    "constant": "phase 2: nine wrapped faces in place of five (NB the nine wrapped faces reviewed; CLAIMS GL3)",
+    "next": "phase 2: Open now, from docs/WHAT-I-SEE.md 'What I would look at next' and OPEN-PROBLEMS 9 and 13",
+}
+CHANGED_DATA = {
+    "tori": "nine faces, recomputed from research/data/gpu_local_eqtorus (CLAIMS GL3)",
+    "project": "the ledger's counts (179 claims), the git timeline and the footer's date follow the repository",
+    "corrections": "four corrections of 2026-11-15 afternoon added",
+}
 bad = []
 
 if args:
@@ -82,17 +98,24 @@ for k, v in old_secs.items():
             if back.count(b) != 1:
                 bad.append(f"plate {k}: the allowed edit {b!r} is not there exactly once"); continue
             back = back.replace(b, a)
-    if back != v:
+    if back != v and k not in CHANGED:
         bad.append(f"plate {k}: HTML differs from the old page")
+    if k in CHANGED and back == v:
+        bad.append(f"plate {k} is declared changed but is as it was: take it out of CHANGED")
 extra = set(new_secs) - set(old_secs)
+for k in sorted(extra - set(NEW)):
+    bad.append(f"plate {k} is new and not declared in NEW")
+for k in sorted(set(NEW) - extra):
+    bad.append(f"plate {k} is declared in NEW and not in the site")
 if extra:
-    print("new plates (not in the old page):", " ".join(sorted(extra)))
+    print("new plates, declared:", " ".join(sorted(extra)), "; changed on purpose:", " ".join(sorted(CHANGED)))
 
 # 2
 def count(rx, secs): return sum(len(re.findall(rx, v)) for v in secs.values())
 counts = {}
 for name, rx in (("figures", r"<figure\b"), ("canvases", r"<canvas\b"), ("buttons", r"<button\b"), ("h2 headings", r"<h2\b")):
-    a, b = count(rx, old_secs), count(rx, {k: new_secs[k] for k in old_secs if k in new_secs})
+    a = count(rx, {k: v for k, v in old_secs.items() if k not in CHANGED})
+    b = count(rx, {k: new_secs[k] for k in old_secs if k in new_secs and k not in CHANGED})
     counts[name] = (a, b)
     if a != b:
         bad.append(f"{name}: {a} on the old page, {b} in the new site")
@@ -105,7 +128,7 @@ for k, v in old_secs.items():
         id_home[i] = k
 n_ids = 0
 for i in sorted(set(id_ref.findall(old_js))):
-    if i not in id_home:
+    if i not in id_home or id_home[i] in CHANGED:
         continue                                       # #tip, #stamp, the map's #m-built: checked by the smoke test
     n_ids += 1
     home = sec_page.get(id_home[i])
@@ -131,7 +154,7 @@ for slug, info in page_info.items():
             val = json.loads(t[len(pre):-1])
         else:
             bad.append(f"page {slug or 'index'} needs data {k}, which is not served to it"); continue
-        if k in D_old and val != D_old[k]:
+        if k in D_old and val != D_old[k] and k not in CHANGED_DATA:
             bad.append(f"data/{k}.json differs from the old page's D.{k}")
     served |= need
 for k in sorted(old_keys - served):
@@ -146,7 +169,7 @@ for i in old_map:
         bad.append(f"map tile for #{i} missing or not linking to {want}")
 
 print(f"plates: {len(old_secs)} on the old page, {sum(1 for k in old_secs if k in new_secs)} found once in the new site "
-      f"({sum(1 for k in old_secs if k in new_secs and not any(b.startswith('plate ' + k + ':') for b in bad))} byte-identical apart from the {len(EDITS)} listed edits)")
+      f"({sum(1 for k in old_secs if k in new_secs and k not in CHANGED and not any(b.startswith('plate ' + k + ':') for b in bad))} byte-identical apart from the {len(EDITS)} listed edits and the {len(CHANGED)} plates declared changed)")
 print("; ".join(f"{n}: {a} old, {b} new" for n, (a, b) in counts.items()))
 print(f"element ids looked up by scripts: {n_ids}; data keys read by the old page: {len(old_keys)}, read now: {len(served & old_keys)}"
       f" (old D held {len(D_old)} keys; never read: {', '.join(sorted(set(D_old) - old_keys)) or 'none'})")
