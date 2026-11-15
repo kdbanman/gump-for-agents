@@ -337,6 +337,17 @@ spot: a life that freezes into a slow repeating pattern (one has 42 cells and re
 about four times in a million lives. In the runs behind the numbers above it moves nothing
 by more than its error bar, which we know because someone went back and counted.
 
+And the picture I gave you of a symmetric face, six locked copies less a penalty along
+its mirror lines where the chaos runs thin, was half wrong. An agent set out to derive
+that penalty and instead measured where it sits. Put a mirror through a face with no rim
+and the face lives longer. What costs is the rim: a symmetric seed forces two faces that
+share an edge to die at the same moment, so neither has a living neighbour to lean on.
+Each such edge takes about 2.15 off the logarithm of the wait, one edge, two, three, like
+coins on a scale, while pairing two faces that share no edge takes almost nothing. A
+second agent ran the whole system without the shortcut and got the same numbers. It also
+would not let "the mirrors do nothing" stand, because on a fully symmetric face the shared
+edge lies on a mirror and the two cannot be told apart there.
+
 The notebook keeps these in place rather than tidied away. I think the record of being
 corrected is part of what this repository is for.
 

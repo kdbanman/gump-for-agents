@@ -2028,3 +2028,65 @@ each a few minutes; outputs in `audit/out/`).
   lifts of the given states, not proved); whether wires of one period and direction are the same wire; sheets on
   covers beyond 3 × 3; stability and basins of the new objects. The census lists the new objects were matched
   against are git-ignored scratch files of the clockwork line.
+
+## 2026-11-15 — the symmetric collapse: pairing faces across an edge is what costs; "a penalty along the mirror lines" does not stand as told (theory line with 38 forecasts; adversarial review running the unreduced system with its own stepper; lead's re-run of the validation and tables)
+
+- What was asked (`research/theory/symmetric/`, PROGRAM M5): derive the three fitted ingredients of the law for
+  fully symmetric faces, ln τ ≈ 0.698 + (0.209/6)·A − 0.196·√A (CLAIMS S2) and the factor of about 1.5 between
+  centrings (S3), from the asymmetric law and geometry. The notebook's picture since 2026-11-12 was "six lockstep
+  domains minus a mirror-line term".
+- **No derivation came out.** What did:
+- **Proved** (checked by the review's own computation, one lemma apart): a G-symmetric state evolves exactly as
+  gump on the orbit graph, and for free actions the factor 1/|G| is exact. Inside a {111} face the only mirrors
+  are the three diagonal ones and their translates. A coordinate mirror never preserves a face: it exchanges two
+  hull faces and fixes the rim row they share. (A lemma about cells far from fixed cells is false as stated; no
+  measurement uses it.)
+- **Measured, by two codes** (the line's orbit stepper, bit-exact against the engine on 41 systems, lead's re-run
+  `python3 research/theory/symmetric/validate.py`; and the review's stepper on the full unreduced system,
+  `research/audit/symmetric/`): in an octahedral vessel at A = 63 (R = 11, cube-centred), ln τ_face is
+
+  | symmetry imposed | line | review |
+  |---|---|---|
+  | none | 13.634 ± 0.018 | 13.638 ± 0.010 |
+  | one coordinate mirror (one edge of every face in lockstep) | 11.456 ± 0.011 | 11.444 ± 0.010 |
+  | two (two edges) | 9.291 ± 0.008 | 9.312 ± 0.009 |
+  | three, D2h (three edges) | 7.168 ± 0.003 | 7.171 ± 0.009 (35% of exposure in settled lives; bracket 7.02–7.29) |
+  | inversion (pairs faces that share no edge) | 13.578 ± 0.014 | 13.574 ± 0.014 |
+
+  **Each edge shared with a face that is forced to die at the same moment costs about 2.15, additively; pairing
+  faces that share no edge costs at most about 0.1.** A twofold rotation about an edge, split by which faces it
+  pairs (the review's correction: the line had pooled them), costs 2.54 ± 0.02 on the edge-sharing faces
+  (cube-centred; 1.96 ± 0.02 vertex-centred) and about 0.1 on the opposite ones: no mirror is needed.
+- **Measured:** a mirror, a threefold axis or both, imposed on a rim-free periodic slab face, *lengthen* its life
+  against the asymmetric torus of equal area (+0.4 to +1.65 at 36–72 quotient cells; one pair rerun by the review:
+  +0.926 ± 0.014 against the line's +0.872 ± 0.013), by an amount that shrinks with size. The line had forecast a
+  loss.
+- **What may be said, in the review's wording:** in a fully symmetric face the lockstep rim lies on a coordinate
+  mirror, so "rim" and "mirror" cannot be separated there; and faces with diagonal mirrors and free rims (T_d) fall
+  below the mirror-free ones (T) by an amount growing like √A, so a diagonal-mirror share of up to about a third
+  of the −0.196 is not excluded. **So the 2026-11-12 picture is corrected, not reversed: the cost is mainly that
+  edge-sharing faces die together and cannot hold each other up, and "the chaos runs thin along mirror lines" is
+  not the mechanism of most of it.** [the mechanism itself is conjectured: nobody looked at the faces]
+- **The 1/6:** slope × order of the face's stabiliser is 0.2091 ± 0.0016 for T faces (threefold axis, free rims,
+  A = 108–198) and 0.2035 ± 0.0024 for T_d (A = 315–459), 3–5% lower. "c/6 within 5%" is supported; "exactly c/6"
+  is not shown, and c itself is only known to 0.207–0.219. A wedge is not a torus of A/6 cells: mirror-bounded
+  quotients outlive the equal-area torus by an offset that shrinks with size.
+- **The √A term:** the rim's marginal cost is 0.45–0.55 per rim period over 5.5–9 periods (three families). With
+  0.408·√A periods in a wedge that is a coefficient of −0.19 to −0.22, close to the fitted −0.196, **but the review
+  shows the agreement is a coincidence of ranges, not a test** (the fitted coefficient moves by −8.1 per unit of the
+  assumed c; with c pinned at T_d's own 0.2035 the fit gives −0.127). Whether the rim term bends, and so whether
+  −0.196·√A is an asymptotic form at all, is open: the fall in marginal cost rests on the two smallest sizes
+  (without them −0.02 ± 0.04 per period²). A T_d ensemble at A = 759 would speak to it (forecasts 26.2–26.4 if
+  linear, 25.65 ± 0.25 if T_d keeps its slope; only 1.9σ apart), and needs a GPU.
+- **The factor between centrings** is not one object: asymmetric faces already differ, vertex-centred minus
+  cube-centred = +0.75, +0.73, +0.66 at A = 30, 45, 63 (review: +0.754 ± 0.013, +0.725 ± 0.009, +0.655 ± 0.017),
+  falling with size (χ² 21 on 2 against a constant); with lockstep rims a part grows (D2h: 0.505, 0.645, 0.830 at
+  A = 63, 84, 108). For O_h a constant factor is excluded by the line's fit (χ² 60.8 on 10; not refitted by the
+  review). So "about 1.5 times tougher" (S3) is a snapshot of a slowly changing difference.
+- Forecasts: 40 statements counted per size; 25 held, 1 on its limit, 14 failed; each committed before the output
+  it is scored on (one block while its runs were in progress, disclosed).
+- Not checked: nothing beyond A = 63 was rerun by the review (the rim figures are refits of the line's data); each
+  number is one job with one seed; the mechanism was never looked at directly (no occupancy maps of dying faces);
+  group O lying far below T_h, T_d's two sub-series moving apart, and mirror strips two cells wide keeping a slope
+  of 0.186 are unexplained. `research/audit/REVIEW-symmetric.md`; eleven corrections are being applied to the
+  write-up.

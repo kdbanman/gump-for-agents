@@ -165,8 +165,12 @@ _Last updated 2026-11-14 by the lead._
   rising: below). A = 93, the most decisive point, needs the GPU and the owner's word on the Modal budget.
   **Started 01:05 UTC 2026-11-15 (Fable):** a line on the symmetric collapse (PROGRAM M5: derive 1/6, the
   −0.196·√A term and the factor 1.5 between centres from the asymmetric law; forecasts first; CPU only) ->
-  `research/theory/symmetric/`. **Reported 02:50 UTC (not yet in the notebook; an Opus adversarial review is running
-  -> `research/audit/REVIEW-symmetric.md`):** no derivation of the O_h law. Proved: a symmetric state is gump on the
+  `research/theory/symmetric/`. **Reviewed 03:15 UTC and recorded** (`research/audit/REVIEW-symmetric.md`: own
+  stepper on the unreduced system; the edge ladder and the centring pairs confirmed; "rim, not mirror" stands only
+  in a weaker form, "bends" is open, the √A agreement is not a test; notebook entry "the symmetric collapse";
+  CLAIMS S5–S9 and notes on S2, S3; essay paragraph in "Where I was wrong"; an Opus editor is applying eleven
+  corrections to the write-up). Still owed: overview plate and draft section for this result. As first reported
+  (02:50 UTC): no derivation of the O_h law. Proved: a symmetric state is gump on the
   orbit graph; inside a {111} face only diagonal mirrors exist; a coordinate mirror swaps two hull faces and fixes
   their shared rim row. Measured: the deficit is **not** a mirror-line term (a mirror or threefold axis on a rim-free
   slab face lengthens life); it sits on the rim, where edge-sharing faces die together (one, two, three edges in
