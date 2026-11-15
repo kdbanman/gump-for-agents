@@ -264,7 +264,7 @@ tested, 7 held in some form (S6 and S9 weakened afterwards by review), 6 failed.
 the form the negative took: that the clock's end is a perfect sink, and that the period's residue mod 4 is a
 property of the cap that the 3 × 3 tube pins and the 5 × 5 tube frees.
 
-## Fourth push: the lead's forecasts, 2026-11-15 12:56 UTC, written before it starts
+## Fourth push: the lead's forecasts, 2026-11-15 12:53 UTC, written before it starts
 
 After three pushes my rate for "a new kind of object appears" was too high, so these are lower on purpose.
 
