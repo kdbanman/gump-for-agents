@@ -1935,3 +1935,47 @@ each a few minutes; outputs in `audit/out/`).
   (4×5 hits per seed 216, 213, 225, even over halves of each run).
 - Owed: a guard in the GPU drivers before any further lifetime run (doubling snapshots, or an age cap at 30 mean
   lives; described in `research/gpu/AGENT.md`, not written, since it cannot be tested without the GPU).
+
+## 2026-11-15 — the thinnest face: no derivation; its cost per cell is about 0.099 (0.093 to 0.107), half a wide face's, and the census's 0.115 and 0.111 were local slopes (theory line; adversarial review with its own stepper; lead's re-run of the refits)
+
+- What was asked (`research/theory/thin/`, 2026-11-14): the census found that a periodic face whose shortest
+  closed loop is one cube step (loop² 3; the torus with periods (1,1), (0,b); a ring of b sites of three cells,
+  A = 3b) costs 0.115 and 0.111 per cell instead of 0.21. Derive that number: put noise beneath the face, then
+  solve a one-dimensional problem exactly.
+- **No number was derived from the rule**, for three stated reasons, each of which the review confirmed:
+  - *Noise is enough only from five layers* [measured]: the rule on the top w layers over coins (density 102/256)
+    gives the deterministic ln τ within +0.006 ± 0.003 at w = 5 (review, own stepper: +0.0017 ± 0.0018) and is off
+    by +0.049 at w = 4 (review +0.0497 ± 0.0023) and by 0.4–2.3 at w ≤ 3. Five layers are 15 cells per site. The
+    same depth as on wide faces (entry "where the exponent lives", 2026-11-14).
+  - *The exactly solvable model is the wrong one* [exact]: one layer over coins has ln τ = 3.967199 on a ring of
+    5 sites and 2.453108, 4.192750 on segments of 2 and 5 (reproduced to all digits by the review's own enumeration,
+    `python3 research/audit/thin/exact.py`); its slope is 22% above gump's, and two better closures are 11% and
+    5.6% above.
+  - *The face dies by fronts* [measured]: looking back from the death, the live part is an island shrinking from
+    both ends (population 1.70, 4.05, 7.36, 10.14, 12.58, 15.16 at successive steps back, review at b = 32; the
+    line's 1.7, 4.1, 7.3, 10.1, 12.6, 14.8), over a time proportional to its length. The cost per site is a
+    large-deviation rate of a front in a medium five layers deep.
+- **Measured instead.** Ring lifetimes (ln τ 8.6470, 10.0199, 11.3448, 12.6482, 13.9233, 15.1644 at b = 16 … 36)
+  bend: the cost per cell is 0.1144, 0.1104 over A = 48–72 (the census's two numbers, which are therefore local
+  slopes, not a constant), 0.1081 ± 0.0003 over 72–84 and 0.1067 ± 0.0004 over 84–96 (review's own rings), about
+  0.103 at 108. A face with two free ends (a ring with a wall of dead face sites) gives a straight 0.0993 ± 0.0003
+  per cell from A = 75 to 135 (review: 0.2981 ± 0.0003 and 0.2978 ± 0.0006 per site over n = 21, 29, 37).
+- **The long-face limit: about 0.099 per cell, range 0.093–0.107.** The line's "0.099 ± 0.004" did not survive
+  review as an error bar: it was the spread of the correction forms the line had chosen. Forms it had not tried
+  fit its data as well and land outside (segments with a √n term 0.093; rings with a ln b term 0.094; the wall
+  front with a third term up to 0.105; the review's own rings allow 0.107). The lead re-ran
+  `python3 research/audit/thin/refit.py`: same table; it also shows that a √b correction on the rings alone would
+  allow 0.08 (χ² 0.7 on 3), which the review's range leaves out; no reason for such a term is known. If the four
+  routes (rings, segments, empty windows, the front's distance from a wall) share one limit, the overlap is
+  0.097–0.102 [conjectured].
+- So the thinnest face costs about half of what a wide one does per cell (0.21), with the same five-layer depth
+  and no derivation of either number. What sets the ratio is open.
+- Found on the way, by the line and again by its review: lives that settle unrecognised (entry above). The
+  review's tail check of the line's raw files finds such exposure in two model runs, worth 2 × 10⁻⁴ in ln τ:
+  nothing quoted moves.
+- Forecasts (`research/theory/thin/PREDICTIONS.md`, 14, each committed before its run; none edited afterwards):
+  the review finds the line's tally generous (two "halves" are mostly misses, one clause failed, one value lies
+  outside its interval).
+- Not checked by the review: b = 20 and 36, segments of 45 and 61 sites, its own window and wall runs (those two
+  routes were refitted from the line's histograms), the coin-density forecast, 12 layers, the two better closures,
+  the wider torus. `research/audit/REVIEW-thin.md`; seven corrections are being applied to the write-up.

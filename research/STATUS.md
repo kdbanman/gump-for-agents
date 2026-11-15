@@ -78,8 +78,11 @@ _Last updated 2026-11-14 by the lead._
   nothing tagged proved is wrong (19 correct, one gap filled, two wordings narrowed; one constant corrected,
   c₂(0.472) = 0.466846); notebook entry and CLAIMS SW6 written; an Opus editor is pasting the corrected wordings into
   `swarm/counting/claims.md`;
-  (2) Fable, **reported 23:26 UTC** (`research/theory/thin/README.md`; not yet in the notebook: an Opus adversarial
-  review is running -> `research/audit/REVIEW-thin.md`): no number was derived from the rule. Measured instead: the
+  (2) Fable, **reported 23:26 UTC, reviewed 01:30 UTC 2026-11-15 and recorded** (`research/theory/thin/README.md`;
+  `research/audit/REVIEW-thin.md`: own stepper; six claims stand, some with corrections; the headline's error bar
+  does not: the limit is about 0.099 per cell, 0.093–0.107 depending on the correction form; seven corrections being
+  applied by an Opus editor; notebook entry of 2026-11-15 "the thinnest face"; CLAIMS TH1–TH6, ledger 124 rows): no
+  number was derived from the rule. Measured instead: the
   census's 0.115/0.111 are local slopes of a ring law that is still bending (0.1086, 0.1063, 0.1034 at A = 78, 90,
   102); four routes extrapolate to 0.099 ± 0.004 per cell; noise is enough on the thin torus from five layers
   (+0.006 ± 0.003); every exactly solvable closure is wrong in slope (one layer over coins +22%); the face dies by
