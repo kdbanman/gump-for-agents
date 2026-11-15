@@ -3,6 +3,7 @@
 2026-11-15. The owner's question (`docs/OWNER-JOURNAL.md`, first note): within a hull there are finitely many states;
 for the longest-lived seeds, how many of them are hit, and is there a pattern as the size goes up? Forecasts written
 before any enumeration: `PREDICTIONS.md` (the lead's E1–E7, the investigator's I1–I7), scored below.
+
 ## Reviewed (2026-11-15)
 
 An adversarial review with its own code (`research/audit/REVIEW-statespace.md`, outputs in
