@@ -1543,8 +1543,9 @@ differ, as debris does (section 28's review), not as a record.
   solver, no certificate. They allow only these returns: one H or one K0 (gun), one E or one U (reflector); a gun or
   an end that answers with two signals, a front, or anything that disturbs the train more than 4 units in front of
   it, or settles later than T (52, 56), is not excluded. The returned signal's history assumes it rides out on the
-  plain train, which it does once out of the region (section 30). Periods 8 were not run (the instances for the gun
-  at TA = TB = 8 were dropped for time), nor the 5 × 5 tube. `gun_echo.py` and `oscecho.py` are `sg.step_set`
+  plain train, which it does once out of the region (section 30). Period 8: the gun instance for E at TA = TB = 8,
+  C = 33 (`python3 sat_gun_echo.py 33 --kind E --mult 2 --multB 2`) was cut at 20 minutes (external timeout);
+  nothing at period 8 is excluded. The 5 × 5 tube was not tried. `gun_echo.py` and `oscecho.py` are `sg.step_set`
   only; nothing they found was positive except U into the guns, which is on the oracle for one gun (#4). The census
   of guns at C = 37 may count a gun more than once (translates, time shifts); I did not deduplicate it. The
   catalogue scan of section 32 is a sample. The look at the echo inside the review's records was not kept as a
