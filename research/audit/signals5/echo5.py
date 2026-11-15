@@ -2,7 +2,7 @@
 difference that reached the refilled boundary 66 units upstream of the end.  Is that the end burning back up the
 stream (a fuse), or an echo (the end restored and something sent away up the stream)?
 
-    python3 echo5.py [SCAN.json ...] [--U0 -400] [--G 500]       (st5.Tube; a few minutes)
+    python3 echo5.py [SCAN.json ...] [--U0 -400] [--G 500] [--which heal]   (st5.Tube; --U0 -250 --G 300 --which heal: 5 min)
 
 Each row is re-run with the boundary moved to U0 (exact while units U0, U0 + 1 hold the plain train; checked) for G
 generations and classed at the end:
@@ -20,14 +20,18 @@ from st5 import Tube, train, unit, ROOT
 
 ap = argparse.ArgumentParser(); ap.add_argument('scans', nargs='*'); ap.add_argument('--U0', type=int, default=-400)
 ap.add_argument('--G', type=int, default=500)
+ap.add_argument('--which', default='all', help='all, or heal: only ends that heal every census word')
 a = ap.parse_args()
 OUT = os.path.join(ROOT, 'research', 'scratch', 'audit', 'signals5')
 scans = a.scans or [os.path.join(OUT, 'scan5.json')]
 ends = json.load(open(os.path.join(OUT, 'ends.json')))['ends']
 rows = defaultdict(list)
 for fn in scans:
-    for r in json.load(open(fn))['upstream_from_riding']:
-        rows[r['end']].append(r)
+    d = json.load(open(fn))
+    heal = {pe['end'] for pe in d['per_end'] if pe['outcomes'].get('word rides|healed', 0) == 8}
+    for r in d['upstream_from_riding']:
+        if a.which == 'all' or r['end'] in heal:
+            rows[r['end']].append(r)
 print(sum(len(v) for v in rows.values()), 'rows on', len(rows), 'ends')
 KS = 6
 TB = Tube(a.U0, 39)
