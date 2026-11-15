@@ -210,3 +210,32 @@ def read(d, t):
     if r is None:
         return None
     return [(K, u - t // 2) for K, u in r]   # unit in the generation-t frame (lowest unit of each)
+
+
+def phase_at(S, ua, ub):
+    for f in range(4):
+        if units(S, ua, ub) == train(f, ua, ub):
+            return f
+    return None
+
+
+def read_at(d, f):
+    """Decompose a difference d taken when the train (in the units concerned) is at phase f (1 or 3)."""
+    if f == 1:
+        return decompose(d)
+    if f == 3:
+        r = decompose(trs(d, 1))
+        return None if r is None else [(K, u - 1) for K, u in r]
+    raise ValueError(f)
+
+
+def reflector(rec_index, N=30):
+    """The line of N units with the oscillator of end_echo.json record rec_index beside capA, at the generation the
+    record's state corresponds to (2N + 8; the part near capA does not depend on N, section 21's induction)."""
+    recs = json.load(open(os.path.join(ROOT, 'research', 'audit', 'signals5', 'end_echo.json')))
+    r = recs[rec_index]
+    osc = frozenset(tuple(c) for c in r['oscillator'])
+    line12 = frozenset(tuple(c) for c in r['line'])
+    X = run(line_object(N), 2 * N + 8)
+    assert units(X, -10, 8) == units(line12, -10, 8), 'line near capA differs from the record'
+    return X | osc, r['osc']
