@@ -45,7 +45,8 @@
     const init = ring => {
       RING = ring; R = sigCore.ring(P.bg, P.v, RING, [[P.defect, 0]]); H = R.H; g = makeGump(H); b = makeGump(H); reset();
       pos = p => sigCore.unroll(p, H); fr = ghost(phases(R.wire, H, pos));
-      document.querySelectorAll('.n-sg-ring').forEach(e => { e.textContent = RING; });
+      document.querySelectorAll('.n-sg-600').forEach(e => { e.textContent = G.open600; });
+  document.querySelectorAll('.n-sg-ring').forEach(e => { e.textContent = RING; });
     };
     const draw = () => {
       if (!w) return;
@@ -129,18 +130,19 @@
 
   // ---- tiles and the checking list ----
   const N = $('#n-sg'), s = G.soup, c = G.chaos, iso_ = G.isolate, e = G.escape;
-  numTile(N, 'a counter', 'the wall between two kinds of wire moves one unit towards whichever side a pulse comes from: a number one line raises and the other lowers. It does not toggle.', ['meas', 'oracle, verifier re-run']);
+  numTile(N, G.capacity[1] + ' pulses', 'down a line of ' + G.capacity[0] + ' cubes: one flipped cell sends each, and the receiver, a wall, moves one cube toward the sender per pulse. It counts; pulse ' + G.capacity[0] + ' burns the wire.', ['meas', 'reviewed, two codes']);
+  numTile(N, 'a counter', 'the wall between two kinds of wire moves one unit towards whichever side a pulse comes from: a number one line raises and the other lowers. It does not toggle.', ['unchk', 'oracle; review running']);
   numTile(N, fmtInt(s[3]) + ' of ' + fmtInt(s[0]), 'random soups in a narrow tube settled into a wire that carries pulses (wire B ' + s[4] + ', wire C ' + s[5] + ', a third kind ' + s[6] + '). Wires are not only built.', ['unchk', 'one agent, under review']);
   numTile(N, c[0] + ' of ' + c[0], 'times a wire touched by living chaos was destroyed, by a fire running down it at the speed of a pulse. Chaos carries no message and leaves none alone.', ['unchk', 'one agent, under review']);
   numTile(N, '2 empty layers', 'between chaos and a wire: untouched, ' + iso_[0] + ' of ' + iso_[0] + ' for ' + fmtInt(iso_[1]) + ' generations. One layer or none: destroyed ' + iso_[0] + ' of ' + iso_[0] + '.', ['unchk', 'one agent, under review']);
   numTile(N, 'about 1 in ' + Math.round(e[1] / e[0]), 'sides of wire C (' + e[0] + ' of ' + e[1] + ') where a clean pulse ran out of the chaos ahead of the fire: the first pulses here to come out of anything random.', ['unchk', 'one agent, under review']);
   numTile(N, 'no corner', 'and no crossing, no gate with an output line of its own, no mirror that sends pulse after pulse back. Whether gump can compute is open.', ['open', 'open']);
   const UL = $('#l-sg-checked'), li = (b, t, st) => { const l = E('li', {}, UL); E('b', {}, l, b); l.appendChild(document.createTextNode(' ' + t + ' ')); E('span', { class: 'st st-' + st[0] }, l, st[1]); };
-  li('Pulses.', 'The lead stepped four kinds on the reference stepper with code of their own: every two generations each is back to itself, moved one unit, for 60 periods on a ring of 40 units.', ['meas', 'lead’s own check']);
+  li('Pulses, the transmission, the parity rule.', 'The lead stepped four kinds of pulse on the reference stepper with code of their own (each back to itself, moved one unit, every two generations, for 60 periods); a reviewer’s own program confirmed pulses, transmission and the head-on parity rule, on a ' + G.open600 + '-cube wire in open space too.', ['meas', 'reviewed, three codes']);
   li('The clock.', 'The lead found periods ' + G.lead_periods.join(', ') + ' by comparing whole states, on the reference stepper with separate code; the study’s verifier passed at N = 1, ' + G.study_N.slice(0, 4).join(', ') + ', its own stepper up to N = ' + G.study_N[4] + '. This page’s stepper agrees at every N its slider offers.', ['meas', 'lead’s own check']);
   li('A clock of every length.', 'Rests on a proof by surgery on one computed cycle. Another agent is trying to break it.', ['open', 'proof under review']);
   li('The gate.', 'The lead checked twelve separations, whole state against the single-pulse run after ' + G.gate_T + ' generations.', ['meas', 'lead’s own check']);
-  li('Soup-born wires and the chaos runs.', 'One agent’s stepper (itself checked against the reference); one block size, one density.', ['unchk', 'one agent, under review']);
+  li('The register, the tape, soup-born wires, the chaos runs.', 'One agent’s stepper (itself checked against the reference); one block size, one density.', ['unchk', 'one agent, under review']);
 })();
 
 // ---- the state space a seed sees (NB 2026-11-15, "how much of its state space a seed explores"; CLAIMS SS1-SS3) ----

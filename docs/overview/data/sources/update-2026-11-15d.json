@@ -149,6 +149,35 @@
    ],
    "quote": "Flipping one cell at A sends a pulse along wire B; 36 cubes away a standing defect swallows it and is changed",
    "src": "NB 2026-11-15, gump carries signals; CLAIMS SG2 (C)"
+  },
+  "reviewed": {
+   "words": [
+    "Pulses stand [measured, three codes]."
+   ],
+   "quote": "**Pulses stand [measured, three codes].**",
+   "src": "NB 2026-11-15, the first signals push reviewed; CLAIMS SG1 (A)"
+  },
+  "open600": {
+   "value": [
+    600
+   ],
+   "quote": "on a 600-cube finite wire in the infinite lattice with no torus at all",
+   "src": "NB 2026-11-15, the first signals push reviewed"
+  },
+  "capacity": {
+   "value": [
+    36,
+    35
+   ],
+   "quote": "Over 36 cubes it takes 35 clean shots (the study ran six), the line exactly bare after each and the control unchanged; **shot 36, with the receiver beside the sender, sets the whole wire on fire.**",
+   "src": "NB 2026-11-15, the first signals push reviewed; CLAIMS SG2 (A)"
+  },
+  "parity": {
+   "words": [
+    "The parity rule stands and is the whole rule"
+   ],
+   "quote": "**The parity rule stands and is the whole rule [measured, two codes].**",
+   "src": "NB 2026-11-15, the first signals push reviewed; CLAIMS SG3 (A)"
   }
  },
  "statespace": {
@@ -704,6 +733,28 @@
    ],
    "quote": "\"Less than chance by 2^(0.2·A)\" and \"thousands of times sooner than a random map\" are withdrawn.",
    "src": "NB 2026-11-15, the state-space study reviewed"
+  },
+  {
+   "said": "The line between sender and receiver is left as it was and used again and again",
+   "now": "Used d − 1 times: over 36 cubes it carries 35 pulses, and the 36th burns the wire",
+   "by": "a reviewer, with its own stepper (REVIEW-signals)",
+   "line": "signals",
+   "words": [
+    "becomes"
+   ],
+   "quote": "The README's \"used again and again\" becomes \"used d − 1 times\".",
+   "src": "NB 2026-11-15, the first signals push reviewed"
+  },
+  {
+   "said": "A single flipped cell starts a front in 17 of the 21 wires on file",
+   "now": "14 of 18 distinct wires: the 21 counted duplicates",
+   "by": "a reviewer (REVIEW-signals)",
+   "line": "signals",
+   "words": [
+    "counted duplicates"
+   ],
+   "quote": "\"Fronts in 17 of 21 wires\" counted duplicates: 14 of 18 distinct wires.",
+   "src": "NB 2026-11-15, the first signals push reviewed"
   }
  ],
  "audits": [
@@ -721,6 +772,11 @@
    "label": "Adversarial review of the state-space study",
    "line": "Own vessel builder, bit-sliced enumerator and entropy sampler: the counts stand on eight more vessels; three readings corrected; a layer of the chaos is within about 1% of coin flips.",
    "file": "research/audit/REVIEW-statespace.md"
+  },
+  {
+   "label": "Adversarial review of the first signals push",
+   "line": "Own sparse stepper and an independent search: pulses, the transmission and the parity rule stand on three codes; the line has a capacity of d − 1 pulses.",
+   "file": "research/audit/REVIEW-signals.md"
   }
  ],
  "milestones": [
