@@ -11,8 +11,9 @@ one period.  Translating an end by k units and shifting time by 2k (the train mo
 leaves the key unchanged; odd time shifts are not symmetries of the train.  Two list entries with one key are one end.
 Words (rakes removed, counted from the end, the rake cell (1,0,4) at generation 0): [0], [1], [2], [3], [0,1],
 [0,1,2], [0,2], [0,2,4,6,8].  Outcome after the word: 'healed' (equal to the undisturbed run, cell for cell, near the
-end, within 300 generations), else the run is followed to 1500 generations and classed: 'dead' (the train near
-the end is not the plain train: the end burnt back or something runs up the stream), 'not periodic', or an end of
+end, within 300 generations), else the run is followed to 1500 generations and classed: 'dead' (the train 100
+units from the end, or 40 to 60 units at the end of the run, is not the plain train: the end burnt back or something
+runs up the stream), 'not periodic', or an end of
 period p alive, with its key: 'SAME KEY, NOT HEALED' (the end moved or shifted its phase: a mover) or 'NEW END'
 (a listener).  Edges between two live ends are printed."""
 import json, sys, argparse
@@ -20,7 +21,7 @@ from collections import Counter, defaultdict
 import sg, scat, sat_gun as G
 from scat import unit, tr
 
-ap = argparse.ArgumentParser(); ap.add_argument('lists', nargs='+'); ap.add_argument('--out')
+ap = argparse.ArgumentParser(); ap.add_argument('lists', nargs='+'); ap.add_argument('--out'); ap.add_argument('--part', default='0/1')
 a = ap.parse_args()
 pat, _ = G.train([0xf, 0xb], True, 1)
 WORDS = [[0], [1], [2], [3], [0, 1], [0, 1, 2], [0, 2], [0, 2, 4, 6, 8]]
@@ -30,9 +31,8 @@ def key_of(states, t0):
     ks = []
     for j, s in enumerate(states):
         hi = max(unit(c) for c in s) + 2
-        lo = min(unit(c) for c in s) - 2
+        lo = min(unit(c) for c in s)          # s is a window: complete on units >= lo
         d = s ^ G.train_cells(pat, t0 + j, lo, hi + 1, 1)
-        d = frozenset(c for c in d if lo + 1 <= unit(c))
         if not d:
             return None
         m = min(unit(c) for c in d)
@@ -61,31 +61,41 @@ for fn in a.lists:
 print(f'{entries} list entries, {len(ends)} distinct ends up to translation and time shift', flush=True)
 names = {k: i for i, k in enumerate(ends)}
 res = Counter(); edges = []
-for k, e in ends.items():
+pi, pn = map(int, a.part.split('/'))
+W = 100
+
+
+def wstep(x, t, KS):
+    """One generation on the window of units >= KS - W, the plain train refilled below it (exact while the two units
+    KS - W .. KS - W + 1 still hold the plain train, which the caller checks)."""
+    y = sg.step_set(x)
+    return frozenset(c for c in y if unit(c) >= KS - W) | G.train_cells(pat, t + 1, KS - W - 3, KS - W, 1)
+
+
+def plain_at(x, t, KS, a_, b_):
+    return frozenset(c for c in x if a_ <= unit(c) < b_) == G.train_cells(pat, t, a_, b_, 1)
+
+
+done = 0
+for k, e in list(ends.items())[pi::pn]:
     KS = e['KS']; cap = frozenset(tuple(c) for c in e['cap'])
     rakes = sorted((u for u in range(KS - 40, KS) if tr((1, 0, 4), u) in G.train_cells(pat, 0, KS - 40, KS, 1)), reverse=True)
     for wd in WORDS:
-        far = KS - 400
-        y = G.train_cells(pat, 0, far, KS, 1) | cap
+        y = G.train_cells(pat, 0, KS - W - 3, KS, 1) | cap
         x = y - {tr((1, 0, 4), rakes[i]) for i in wd}
         out = None
-        for t in range(300):
-            x = sg.step_set(x); y = sg.step_set(y)
-            if window(x, KS) == window(y, KS):
+        for t in range(1500):
+            x = wstep(x, t, KS); y = wstep(y, t, KS)
+            if t < 300 and window(x, KS) == window(y, KS):
                 out = 'healed'; break
+            if not plain_at(x, t + 1, KS, KS - W, KS - W + 20):
+                out = 'dead'; break
         if out is None:
-            far = KS - 1700
-            x = G.train_cells(pat, 0, far, KS, 1) | cap
-            x = x - {tr((1, 0, 4), rakes[i]) for i in wd}
-            for t in range(1500):
-                x = sg.step_set(x)
-            tt = 1500
-            seq = []
+            tt = 1500; seq = []
             for j in range(48):
-                seq.append(window(x, KS, 60)); x = sg.step_set(x)
+                seq.append(window(x, KS, 60)); x = wstep(x, tt + j, KS)
             p = next((q for q in range(1, 25) if all(seq[i + q] == seq[i] for i in range(24))), None)
-            plainnear = all(frozenset(c for c in seq[j] if KS - 60 <= unit(c) < KS - 40) ==
-                            G.train_cells(pat, tt + j, KS - 60, KS - 40, 1) for j in range(8))
+            plainnear = all(plain_at(seq[j], tt + j, KS, KS - 60, KS - 40) for j in range(8))
             if not plainnear:
                 out = 'dead'
             elif p is None:
@@ -101,6 +111,9 @@ for k, e in ends.items():
                 edges.append((names[k], wd, out, names.get(k2), p))
                 print(f'  end #{names[k]} ({e["src"]}, {e["cells"]} cells) word {wd}: {out}, period {p}, -> #{names.get(k2)}', flush=True)
         res[out] += 1
-print('outcomes over', len(ends), 'ends x', len(WORDS), 'words:', dict(res))
+    done += 1
+    if done % 50 == 0:
+        print(f'  {done} ends done: {dict(res)}', flush=True)
+print(f'part {a.part}: outcomes over', len(list(ends)[pi::pn]), 'ends x', len(WORDS), 'words:', dict(res))
 if a.out:
     json.dump(dict(ends=list(ends.values()), outcomes=dict(res), edges=edges), open(a.out, 'w'))
