@@ -99,7 +99,7 @@ int main(int argc, char **argv) {
             u64 take = 0;
             for (int b = 0; b < 64; b++) { int l = w * 64 + b; if ((restart >> b) & 1) continue;
                 int due = LAD ? (age[l] == nextsnap[l]) : (age[l] && !(age[l] & (age[l] - 1)));
-                if (due) { take |= 1ULL << b; prevsnap[l] = snapage[l]; snapage[l] = age[l]; nextsnap[l] = age[l] + (age[l] / LAD > 1 ? age[l] / LAD : 1); } }
+                if (due) { take |= 1ULL << b; prevsnap[l] = snapage[l]; snapage[l] = age[l]; nextsnap[l] = LAD ? age[l] + (age[l] / LAD > 1 ? age[l] / LAD : 1) : 0; } }
             if (take) for (int i = 0; i < N; i++) snap[i * W + w] = (snap[i * W + w] & ~take) | (x[i * W + w] & take);
             snapok[w] = (snapok[w] | take) & ~restart;
             if (restart) { for (int o = 0; o < NO; o++) ob[o] = bern(); for (int i = 0; i < N; i++) x[i * W + w] = (x[i * W + w] & ~restart) | (ob[orb[i]] & restart); }
