@@ -242,7 +242,7 @@ _Last updated 2026-11-14 by the lead._
   UTC) with a 96-cell face and three faces that cross-check the tester's stepper. No second agent has reviewed the
   tester's new faces; the card's three are that check. **Still running:** the fourth signals push (Fable, since
   12:55). **Not yet done:** overview version 14 and the draft (nine tori, the wrapping result, signals pushes 3–4).
-  **15:20 UTC: the fourth signals push reported** (README sections 20–25, 21b; notebook "the fourth signals
+  **15:16 UTC: the fourth signals push reported** (README sections 20–25, 21b; notebook "the fourth signals
   push", provisional). A gun (15 cells, period 4, writes a rake onto bare wire every period), a line and a beam
   (gun + wire + receiver, free-standing, period 4), a divider (catalogue oscillator C8.24a beside the stream turns
   every second rake into a hole, period 8, the oscillator never changed). All its verifiers and proof scripts pass

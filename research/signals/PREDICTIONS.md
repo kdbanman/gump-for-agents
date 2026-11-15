@@ -365,7 +365,7 @@ clock once); S20 no as worded (the open-end result removes the bounds
 on the cap's length and on the planes, not the bound on the turn time, and gives no reason); S21 no: something
 standing writes onto a wire, a constant stream and a two-letter periodic word; nothing found reads.
 
-## The lead's note on the fourth push (2026-11-15 15:20 UTC, before its review)
+## The lead's note on the fourth push (2026-11-15 15:16 UTC, before its review)
 
 - **S16 (20%): held, with a caveat about one word.** `gun-5f` is a bounded standing object of period 4 at the end
   of bare wire that puts a moving object on the wire every period and returns exactly to its state (the lead's own
