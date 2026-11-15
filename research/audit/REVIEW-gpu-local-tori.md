@@ -23,7 +23,7 @@ bulk output is in `research/scratch/audit_gpu_local_tori/` (not in git). Command
 | # | claim (the card's number) | verdict | this review |
 |---|---|---|---|
 | 1 | A = 57, (1,7),(0,19): 11.8756 ± 0.0006; seeds 11.8742, 11.8771 (2.6σ apart) | **confirmed** | **11.8744 ± 0.0015** (own stepper, 445,165 face deaths, 4 seeds χ² 0.71 on 3). −0.0012 ± 0.0016 from the card. It is 0.1σ from seed 57001 and 1.7σ below seed 57002: it leans to the lower seed but excludes neither. |
-| 2 | A = 75, 5 × 5: 15.6630 ± 0.0023 | __V75__ | __N75__ |
+| 2 | A = 75, 5 × 5: 15.6630 ± 0.0023 | **confirmed** | **15.667 ± 0.010** (own stepper, 9,646 face deaths, 2 seeds χ² 0.54 on 1). +0.004 ± 0.010 from the card, +0.006 from the file's 15.6614. |
 | 3 | A = 48, 63, 93 | not re-measured | 48 and 63 have independent values already (9.9246 ± 0.0006, `REVIEW-gpu-local-pr23.md`; 13.176 ± 0.011, `REVIEW-dying.md` Round 3 claim 8). **93 still has one code.** |
 | 4 | one line through 63, 75, 93, slope 0.2084 | **confirmed** (arithmetic) | c = 0.20840 ± 0.00014, χ² 0.0002 on 1. Deficits: −0.111 at 48, −0.036 at 57. |
 | 5 | "the bend is all below A = 63"; the deficit "is gone by a shortest loop of about 4.6" | **consistent, not established; and the shape is not a decay** | The test has one degree of freedom. At 2σ it allows a slope change of 0.0009 above 63, or a residual of 0.01 at 63. **No smooth correction decaying in the loop or in 1/A fits the five (χ² 68–117 on 1).** Only a line kinked near A = 61.4 fits (χ² 0.000). |
@@ -106,7 +106,18 @@ E is the sum of ages at the end of every life, open lives included.
 - The 57-cell torus is one where stepper, soups and conventions are all independent of the card's. Their
   agreement to 0.0012 also checks the GPU driver's counting on a torus without a firewall channel.
 
-**A = 75 result:** __R75__
+**A = 75 result**
+
+    for s in 7501 7502; do $S/tor run $S/g_5_0_5.bin 8 $s 30000000 $S/p75_s$s.rec; done   # ~21 min each, 1 core
+    python3 $D/ana.py $S/p75_s750?.rec        # -> ana75_out.txt
+
+- 9,646 face deaths and 22 firewalls in 3.07 × 10¹⁰ life-generations. **ln τ_face = 15.6670 ± 0.0102**; the seeds
+  give 15.6745 and 15.6596 (χ² 0.54 on 1).
+- The card has 15.6630 ± 0.0023 (Δ = +0.004 ± 0.010) and the file 15.6614 ± 0.0026.
+- ln τ_fw = 21.06 ± 0.21, against the card's 20.94: E/(fw + fw_settled) = 5.83 × 10¹¹ / 470.
+- No cycle of any period was found, and the hazard is flat within errors from age 3,000 to 2.4 × 10⁷.
+- The 75-cell value is confirmed at ± 0.010. That is enough to exclude an error of the size of the deficits, not to
+  test its fourth decimal.
 
 ## 2. The 16-generation rule of rep.c
 
