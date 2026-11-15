@@ -240,3 +240,22 @@ per site. The alternative "slope = 0.282 + 0.36/n" (16.22) is 5σ away. The segm
 Hit: F1, F2 (where tested), F6, F8, F9, F10, F12, F14. Half: F3 (w ≥ 5 hit, w = 4 half, w ≤ 3 miss, w = 1 with
 the wrong sign), F4, F11 (a hit; b, c miss), F13. Miss: F5 (all parts), F7. The misses have one thing in
 common: I expected every finite-size quantity to settle sooner and lower than it did.
+
+## Correction after review, 2026-11-15
+
+Added after the adversarial review `research/audit/REVIEW-thin.md` (claim 7). Nothing above has been changed; this
+note records the review's scoring where it disputes the scores above.
+
+- The timing was checked with `git log -p` and chunk mtimes. No committed forecast line was changed afterwards.
+  Every block's first tested run started after its commit. For Block 1 and Block 5 the runs started within seconds
+  of the commit, which is admissible but cannot be proved from mtimes.
+- **F3: mostly miss**, not half. Three of six rows are missed (w = 1 with the wrong sign), and one (w = 4) is half.
+- **F11: mostly miss**, not half. One of three parts is hit, namely (a). k_wall(20) = 0.3182(3) lies *outside*
+  0.298–0.318, not "at the upper edge". It was scored a miss either way.
+- **F6: hit on its numbers, with its clause untested or failed.** The stated mechanism, "no drift like the ring's",
+  failed once the n = 13 value was corrected, and "the ring's local slope keeps falling towards the same value" was
+  not tested.
+- **F5(a)** was scored a miss against the ring slope at b = 32–36, because b = 48 was not run. Strictly it is
+  untested. The miss is the conservative score.
+- F4 and F13 are fair halves.
+- **Tally, as the review scores it:** hit 8; half 2 (F4, F13); mostly miss 2 (F3, F11); miss 2 (F5, F7).
