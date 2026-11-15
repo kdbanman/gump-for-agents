@@ -9,6 +9,7 @@ c_R = (b - a) - 4 K_R, c_L = (a' - b) + 4 K_L (K_R the first unit of the right c
 the wire after capL), measured (i) for a lone rake / lone mirror rake and (ii) inside lit clocks.
 
     python3 turn_check.py clockC [N ...]           capR / capL of clock-C: lone constants, and in clocks of length N
+    python3 turn_check.py capL                     capL's lone left-turn constant c_L = a' - b
     python3 turn_check.py table FILE [--max M]     each cap of a clocks_*.json list: lone c_R and in a clock
     python3 turn_check.py k2 [FILE]                the k = 2 caps (frame: first cap unit 10): lone turn, survival,
                                                    and in clocks with capL
@@ -131,6 +132,18 @@ def main():
         for N in map(int, sys.argv[2:]):
             tr0, P, ev, _ = clock_run({tr(c, N) for c in r3.capR0}, N)
             print(f'clock N={N}: transient {tr0} period {P} (4N+2 = {4*N+2}); in-clock (c_R, c_L) pairs: {clock_constants(ev, N, P)}')
+    elif cmd == 'capL':
+        K = 40
+        for u0 in (10, 11, 20):
+            base = set(r3.capL) | wireC(0, K) | {tr(c, K) for c in r3.capR0}
+            st = set(base) ^ uc('C', u0) ^ uc(5, u0) ^ uc('C', u0 + 1) ^ uc(0xf, u0 + 1)
+            run = r3.Run(st, extra=base); b = 2 * u0; t = 0; out = None
+            while t < 2 * u0 + 40 and out is None:
+                run.step(2); t += 2
+                rs = find_rake(run.cells(), 1, K - 8)
+                if rs:
+                    u = min(rs); out = (t, u, t - 2 * u - b)
+            print('capL, lone mirror rake from unit', u0, ': rake out at (t, unit), c_L = a\' - b:', out)
     elif cmd == 'table':
         L = json.load(open(sys.argv[2])); mx = int(sys.argv[sys.argv.index('--max') + 1]) if '--max' in sys.argv else 10 ** 9
         for e in L[:mx]:
