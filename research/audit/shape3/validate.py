@@ -56,7 +56,7 @@ def validate(L, gens, N, seed=5):
     live = [i for i in range(len(cells)) if rng.random() < 0.4]
     tag = f'{L[0]}_{L[1]}_{L[2]}_{os.getpid()}'
     ini = os.path.join(OUT, f'vinit_{tag}.txt'); open(ini, 'w').write('\n'.join(map(str, live)))
-    out = subprocess.run([BIN, path, str(seed), str(gens), os.devnull, '-i', ini, '-t', ','.join(map(str, range(gens + 1)))],
+    out = subprocess.run([BIN, path, str(seed), str(gens + 1), os.devnull, '-i', ini, '-t', 'all'],
                          capture_output=True, text=True, check=True).stdout
     mine = {}
     for line in out.splitlines():

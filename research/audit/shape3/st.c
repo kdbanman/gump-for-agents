@@ -96,12 +96,13 @@ int main(int argc, char **argv) {
   if (initf) { FILE *h = fopen(initf, "r"); for (int i = 0; i < n; i++) a[(size_t)i * WW] &= ~1ULL; int c;
     while (fscanf(h, "%d", &c) == 1) a[(size_t)c * WW] |= 1ULL; fclose(h); }
   memcpy(snap, a, 8 * (size_t)n * WW);
-  long tg[256]; int nt = 0; if (tlist) { char *s = strdup(tlist), *tok = strtok(s, ","); while (tok && nt < 256) { tg[nt++] = atol(tok); tok = strtok(0, ","); } }
+  long tall = tlist && !strcmp(tlist, "all"), *tg = malloc(8 * 4096); int nt = 0;
+  if (tlist && !tall) { char *s = strdup(tlist), *tok = strtok(s, ","); while (tok && nt < 4096) { tg[nt++] = atol(tok); tok = strtok(0, ","); } }
   FILE *ev = fopen(evf, "w"); FILE *zo = zf ? fopen(zf, "w") : 0; int nz = 0;
   long cnt[6] = {0}; double E = 0;
   for (long gen = 0; gen < gens; gen++) {
-    if (initf) { for (int t = 0; t < nt; t++) if (tg[t] == gen) { printf("T %ld", gen);
-        for (int i = 0; i < n; i++) if (a[(size_t)i * WW] & 1) printf(" %d", i); printf("\n"); } }
+    if (initf) { int hit = tall; for (int t = 0; t < nt; t++) hit |= tg[t] == gen;
+      if (hit) { printf("T %ld", gen); for (int i = 0; i < n; i++) if (a[(size_t)i * WW] & 1) printf(" %d", i); printf("\n"); } }
     step(a, b); { u64 *t = a; a = b; b = t; }
     long g1 = gen + 1;
     if (initf) continue;
