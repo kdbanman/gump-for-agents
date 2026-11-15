@@ -220,7 +220,7 @@ _Last updated 2026-11-14 by the lead._
   overview, draft (§7.5), and redo CN1's joint fits. A note of 13:05 in `research/GPU-QUEUE.md` gives the card five
   tori at 75 and 84 cells with frozen forecasts, for after its hull run. The essay's wrapped-face paragraph already
   describes the law as unreviewed. Ledger: 170 claims (`python3 research/audit/claims_tally.py`).
-  **13:20 UTC: both reviews are in and recorded.** (a) Nine faces: the reviewer's CPU value at 81 cells is 16.9386 ±
+  **13:19 UTC: both reviews are in and recorded.** (a) Nine faces: the reviewer's CPU value at 81 cells is 16.9386 ±
   0.0124 (card 16.9222; 1.3σ); GL3 is B at 81 cells, B− above. Nothing more is owed on that review. (b) **Third
   signals push reviewed** (`research/audit/REVIEW-signals-3.md`; notebook "the third signals push reviewed"; SG12
   A, SG13 B, SG14 A/B, SG15 B−/C; 170 claims, A 81, B 77, C 11, D 1): the reader proof is complete; the 8|C wall
