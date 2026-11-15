@@ -90,3 +90,11 @@ forced by the ensemble's symmetry and so tests the code, not the dynamics.)
 - K3 (50%). The c1 median plunge Δ is between 8 and 64 generations.
 - K4 (50%). In D2h the lag-4 ratio is below 1 on all three edges (with every neighbour in lockstep the rim, having
   fewer neighbours, empties first).
+
+## Notes added after the data (2026-11-15)
+
+1. No definition above was changed. The scores are in README.md.
+2. Added after seeing the first results, so not forecasts: `explore.py` (each region's occupancy over its own
+   stationary value; the layers beneath the dying face; a version of L6 that ranks edges by relative deficit, because
+   the pre-registered deficit centroid w_i = ρ_i − x_i inherits the stationary profile: a face that empties in
+   proportion to ρ has its centroid pulled away from a depleted edge), and the stationary occupancy by row.
