@@ -1405,8 +1405,8 @@ distinct wires on file and a pulse in none.
 redone by a second agent with its own code; three codes on the reference at 24 lengths from 1 to 257). Wire C (five
 cells per unit) of N units between two caps is a free-standing object K_N of 32 + 5N cells, stationary with period 2.
 For every N ≥ 1 there is a finite pattern in empty space, K_N with a rake running between the caps (a rake is one
-added cell, below), whose period is exactly 4N + 2, and no cell of it is ever alive outside the diagonal hull of K_N.
-Hence gump has free-standing oscillators of every period 6, 10, 14, …, every period ≡ 2 (mod 4) from 6 up: periods
+added cell, below), whose period is exactly 4N + 2. (At every length stepped on the reference no cell is ever alive
+outside the diagonal hull of K_N.) Hence gump has free-standing oscillators of every period 6, 10, 14, …, every period ≡ 2 (mod 4) from 6 up: periods
 are unbounded, which answers open problem 12 of `research/OPEN-PROBLEMS.md` (periods beyond 66, Section 8).
 *How it runs* (README §11, measured). The rake runs to one cap laying a train of left-moving pulses behind it; the
 cap turns it into the mirror rake, which runs back laying a train of right-moving pulses; the other cap turns it
@@ -1639,7 +1639,8 @@ face.
 6. **Hypothesis (R)** of Section 10.2(a) from the rule.
 7. **Fauna and signals.** Periods beyond 66 (open problem 12 of `research/OPEN-PROBLEMS.md`) are answered by
    Theorem 8, and signals exist (Section 8.1). Open: a clock whose period is set by its length and divisible by 4
-   (every one found is 2 mod 4; small oscillators with such periods exist, Section 8); a
+   (every one found is 2 mod 4; small oscillators with such periods exist, Section 8), and odd periods beyond those
+   of the fauna (`research/OPEN-PROBLEMS.md`, problem 12); a
    corner between wire directions, a closed polygon, a crossing; a reusable reflector; a gate with its own output
    line; a stationary source of pulses; a receiver that toggles; whether the clock's one-cell ignition works for
    every N; whether soup with no imposed repeat makes a carrier wire.
