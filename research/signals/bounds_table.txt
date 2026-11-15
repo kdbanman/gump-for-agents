@@ -1,0 +1,41 @@
+# Pulse search with an unknown uniform background (repeat 1 cube) in the closed tube M1 x M2 along (1,0,-1),
+# ring of 13 cubes: sat_pulse.py M1 M2 13 P S, with CaDiCaL 1.5.3 and with Glucose 4 (bash bounds.sh; time limit
+# 300 s per instance for 2x2 and 2x3, 100 s for 3x3, on a loaded machine).  width = N - K - 1 - S: the cubes left for
+# the defect and the S cubes it sweeps.  UNSAT = no pulse with that (p, s) and width on any uniform background whose
+# period divides p; SAT = one exists (re-stepped).  Tube 3x4 was not run.
+tube   (p,s)  width<=  cadical153        glucose4
+2x2    (1,1)  8        UNSAT 0.0s        UNSAT 0.0s       
+2x2    (2,1)  8        UNSAT 0.1s        UNSAT 0.3s       
+2x2    (3,1)  8        UNSAT 0.0s        UNSAT 0.0s       
+2x2    (3,2)  7        UNSAT 0.0s        UNSAT 0.0s       
+2x2    (4,1)  8        UNSAT 0.1s        UNSAT 0.7s       
+2x2    (4,3)  5        UNSAT 0.0s        UNSAT 0.0s       
+2x2    (5,1)  8        UNSAT 0.0s        UNSAT 0.0s       
+2x2    (5,2)  7        UNSAT 0.0s        UNSAT 0.0s       
+2x2    (5,3)  5        UNSAT 0.0s        UNSAT 0.0s       
+2x2    (5,4)  3        UNSAT 0.0s        UNSAT 0.0s       
+2x2    (6,1)  8        UNSAT 0.2s        UNSAT 0.4s       
+2x2    (6,5)  1        UNSAT 0.0s        UNSAT 0.0s       
+2x3    (1,1)  8        UNSAT 0.0s        UNSAT 0.0s       
+2x3    (2,1)  8        SAT 0.3s          SAT 0.3s         
+2x3    (3,1)  8        UNSAT 0.3s        UNSAT 0.1s       
+2x3    (3,2)  7        UNSAT 0.1s        UNSAT 0.0s       
+2x3    (4,1)  8        UNSAT 55.5s       UNSAT 49.8s      
+2x3    (4,3)  5        UNSAT 0.2s        UNSAT 0.2s       
+2x3    (5,1)  8        UNSAT 1.9s        UNSAT 0.4s       
+2x3    (5,2)  7        UNSAT 0.2s        UNSAT 0.1s       
+2x3    (5,3)  5        UNSAT 0.2s        UNSAT 0.1s       
+2x3    (5,4)  3        UNSAT 0.3s        UNSAT 0.2s       
+2x3    (6,1)  8        TIMEOUT           -                
+3x3    (1,1)  8        UNSAT 0.1s        UNSAT 0.1s       
+3x3    (2,1)  8        SAT 1.0s          SAT 8.0s         
+3x3    (3,1)  8        UNSAT 35.7s       UNSAT 50.9s      
+3x3    (3,2)  7        UNSAT 0.9s        UNSAT 0.5s       
+3x3    (4,1)  8        TIMEOUT           TIMEOUT          
+3x3    (4,3)  5        UNSAT 4.6s        UNSAT 3.1s       
+3x3    (5,1)  8        TIMEOUT           TIMEOUT          
+3x3    (5,2)  7        UNSAT 11.0s       UNSAT 21.1s      
+3x3    (5,3)  5        UNSAT 5.0s        UNSAT 4.9s       
+3x3    (5,4)  3        UNSAT 6.0s        UNSAT 5.7s       
+3x3    (6,1)  8        TIMEOUT           TIMEOUT          
+3x3    (6,5)  1        UNSAT 9.6s        UNSAT 13.9s      

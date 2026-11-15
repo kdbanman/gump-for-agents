@@ -116,15 +116,16 @@ the infinite tube: one pulse, the same background on both sides. Every pulse abo
   trains; not sorted). Standing defects of period 2 in 4 cubes: at least 150 (cut off). Standing clocks of exact
   period 4 in 4 cubes (`--exact`): exactly 28. Wire A: exactly 6 right-movers in 5 cubes; none with (p, s) = (4,1),
   (4,3), (6,1) in 5 cubes.
-- **[measured] What a train of pulses does to a standing defect of wire B** (`python3 receivers.py
-  ../scratch/signals/B_3x3_2_0_--N_8.json --pulse objects/pulse-B.json`): of 150 period-2 defects, 109 catch fire at
-  the first pulse, 10 are eaters, 31 are walls that advance one cube per pulse (8 pulses each). Of the 28 period-4
-  clocks: 14 fire, 8 eaters, 6 walls. No defect was found that a pulse toggles between two states, and no clock whose
-  phase a pulse shifts.
+- **[measured] What a train of pulses does to a standing defect of wire B** (`python3 sat_defects.py
+  objects/pulse-B.json 2 0 --N 8 --lo 1 --hi 5 --max 1000 --out ../scratch/signals/d.json; python3 receivers.py
+  ../scratch/signals/d.json --pulse objects/pulse-B.json --max 1000`, 10 min): of the first 1,000 period-2 standing
+  defects in 4 cubes (the list is longer), 636 catch fire at the first pulse, 109 are eaters, and 255 are walls
+  that swallow each pulse and advance one cube (8 pulses each). Of the 28 period-4 clocks: 14 fire, 8 eaters, 6
+  walls. **No defect was found that a pulse toggles between two states, none that lets the pulse through and keeps a
+  record, and no clock whose phase a pulse shifts.** (17 defects in the wider tube −1..7, 3 cubes: all fire.)
 - **[proved, exhaustive SAT] A pulse on a still wire needs room**: in the 3 × 3 tube, uniform still background,
   (p, s) = (2,1): none with defect-plus-sweep ≤ 6 cubes (rings of 7 to 11), one at 7 (pulse S, 32 cells).
-- **Bounds of the search with unknown uniform background**, ring of 13 cubes (defect plus sweep ≤ 9 − s cubes),
-  two solvers each (`bash bounds.sh`; table in `research/scratch/signals/bounds.log`, summarised in section 6).
+- **Bounds of the search with unknown uniform background**: section 6.
 
 ## 4. What is proved about carriers in general
 
@@ -154,7 +155,29 @@ the infinite tube: one pulse, the same background on both sides. Every pulse abo
   wire B a meeting either changes nothing or ends both pulses: that is a coincidence detector with a permanent
   record, not yet a logic gate with a signal out), and a way to end a wire (every wire here is a ring or infinite).
 
-## 6. Table of bounds (unknown uniform background, ring of 13 cubes)
+## 6. Bounds of the pulse search with an unknown background
 
-See `research/scratch/signals/bounds.log` after `bash bounds.sh`; the lines available when this file was last
-brought up to date are copied in `bounds_table.txt`.
+`bounds_table.txt` (from `bash bounds.sh`; every instance with CaDiCaL 1.5.3 and with Glucose 4, which agree
+everywhere both finished). Uniform background (repeat one cube, any period dividing p), closed tube M1 × M2 along
+(1,0,−1), ring of 13 cubes, defect plus the s cubes it sweeps at most 9 − s cubes (less for s ≥ 3: 5, 3, 1 cubes
+for s = 3, 4, 5):
+
+| tube | pulse exists [proved] | no pulse [proved within the bounds, two solvers] | undecided |
+|---|---|---|---|
+| 2 × 2 (6 cells per cube) | none | (1,1), (2,1), (3,1), (3,2), (4,1), (4,3), (5,1), (5,2), (5,3), (5,4), (6,1), (6,5) | — |
+| 2 × 3 (9 per cube) | (2,1) | (1,1), (3,1), (3,2), (4,1), (4,3), (5,1), (5,2), (5,3), (5,4) | (6,1) (300 s) |
+| 3 × 3 (14 per cube) | (2,1) | (1,1), (3,1), (3,2), (4,3), (5,2), (5,3), (5,4), (6,5) | (4,1), (5,1), (6,1) (100 s) |
+
+So within these bounds the only pulse speed is one cube per two generations; in particular there is no pulse at
+the speed limit ((1,1)) in any of the three tubes, although fronts at the speed limit exist (section 2). Not
+searched: (p, s) with p ≥ 7, the pairs (4,2), (6,2), (6,3), (6,4) (which contain the (2,1) pulses), s = p for p ≥ 2,
+backgrounds of repeat 2 or more cubes, wider tubes, other directions.
+
+## 7. What to show a human first
+
+`python3 -c "import plab; ob=plab.load('pulse-B'); g=plab.geom(64); b=plab.background(g,ob); print('\n'.join(plab.kymo(g, plab.with_defect(g,b,ob['defect'],0), b, 60, 2)))"`
+draws the pulse as a diagonal of two marks crossing a row of dots (one character per cube, one line per two
+generations; a dot is a cube that is exactly as the bare wire). Then `verify_interaction.py`: two such diagonals
+cross and go on as if nothing had happened, or, started one cube differently, end in three cells that stay.
+What is strange: the smallest carrier of a signal in this universe is two cells on a five-cell-per-cube ribbon;
+nothing random ever settled into it; and the constraint search found it in under a second in the first tube tried.
