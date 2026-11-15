@@ -166,6 +166,10 @@ _Last updated 2026-11-14 by the lead._
   is three layers (T3), not two; "born from soup" was nearly all one-unit rings; the fire's speed depends on
   density.** Essay, owner's journal, OPEN-PROBLEMS corrected; the overview's Signals plate is being corrected by
   its editor, then republished; six README corrections go to the third investigator.
+  **Overview version 13 published 11:30 UTC** with the Signals plate corrected (three empty layers; a repeated
+  random unit, not soup; "every time" with the speeds; a few in a hundred; the 16-position counter; both proofs
+  marked checked). The third investigator has applied both reviews' README corrections (6c32bfc and before).
+  Running: the third signals push (since 10:50 UTC), the manuscript editor (fifth update of `docs/paper/`).
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
