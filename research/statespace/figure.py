@@ -89,7 +89,7 @@ def main():
     axC.text(900, ent['top_layer'] - 0.012, f"living face, top layer alone: {ent['top_layer']:.3f}", ha='right', va='top', fontsize=7.5, color=INK)
     axC.axhspan(ent['slab_lo'], ent['slab_hi'], color=C[2], alpha=0.25, lw=0)
     axC.text(900, ent['slab_lo'] - 0.012, f"8-layer face slab, per cell: {ent['slab_lo']:.2f}-{ent['slab_hi']:.3f}", ha='right', va='top', fontsize=7.5, color=INK)
-    axC.axhline(0.5, color=MUTED, lw=1, ls='--'); axC.text(900, 0.51, 'random map on 2^A states: ½', ha='right', va='bottom', fontsize=7.5, color=MUTED)
+    axC.axhline(0.5, color=MUTED, lw=1, ls='--'); axC.text(900, 0.51, 'random map on one layer\'s 2^A states: ½', ha='right', va='bottom', fontsize=7.5, color=MUTED)
     law = lambda a: (-0.091 + 0.2088 * a) / math.log(2) / a
     am = np.linspace(27, 135, 50); ae = np.linspace(135, 900, 50)
     axC.plot(am, law(am), color=C[4], lw=2.5, label='face law, one face of A cells (measured A = 27-135)')
