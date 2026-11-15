@@ -420,6 +420,66 @@ t = Q["tori"]; v = t["t57_75"]["value"]
 out["tori"] = {"rows": [[48] + t["t48"]["value"], [57, v[1], v[2]], [63, v[4], v[5]], [75, v[7], v[8]], [93] + t["t93"]["value"][:2]],
                "line": t["line"]["value"][:2], "deficit": [[48, t["line"]["value"][2]], [57, t["line"]["value"][4]]], "slope": t["slope"]["value"], "kink": t["kink"]["value"][0],
                "chi": t["nosmooth"]["value"], "f63": t["f63"]["value"], "f93": t["f93"]["value"], "next": t["next"]["value"], "hull": t["hull"]["value"], "two": t["two"]["value"]}
+# ---- the refresh of 2026-11-15 (afternoon; the site's phase 2): update-2026-11-15e.json. The nine wrapped faces reviewed
+#      (GL3), the wrapping law tested (WL1-WL3), the third and fourth signals pushes (SG12, SG14, SG16-SG19, SG22) ----
+V = S("update-2026-11-15e.json")
+for sec in ("tori", "wrap", "signals4"):
+    for k, v in V[sec].items():
+        if k != "measured84": checked(v)
+for c in V["corrections"]: checked(c)
+out["corrections"] += [{"said": c["said"], "now": c["now"], "by": c["by"], "who": who(c["by"]), "line": c["line"]} for c in V["corrections"]]
+vv = lambda sec, k: V[sec][k].get("value")
+# the nine wrapped faces on the owner's card, recomputed from the rows: ln tau_face = ln(2 sum exposure / sum face), error
+# 1 / sqrt(sum face) (as research/audit/wrap_haz_lead.py and the reviews compute them); checked against CLAIMS GL3
+nine = []
+for f in sorted((repo / "research" / "data" / "gpu_local_eqtorus").glob("eqtorus_*.csv")):
+    rs = list(csv.DictReader(open(f)))
+    E_, F_ = sum(int(r["exposure"]) for r in rs), sum(int(r["face"]) for r in rs)
+    nine.append([int(rs[0]["A"]), round(math.log(2 * E_ / F_), 4), round(F_ ** -0.5, 4), len(rs)])
+nine.sort()
+assert [r[0] for r in nine] == [48, 57, 63, 75, 81, 84, 93, 108, 111], nine
+quoted = {48: t["t48"]["value"], 57: vv("tori", "t57"), 63: t["t57_75"]["value"][4:6], 75: t["t57_75"]["value"][7:9], 93: t["t93"]["value"][:2]}
+nv = vv("tori", "nine"); quoted.update({81: nv[0:2], 84: [nv[3], nv[1]], 108: nv[5:7], 111: nv[8:10]})
+for A_, y_, se_, _ in nine:
+    assert abs(y_ - quoted[A_][0]) < 1.5e-4 and abs(se_ - quoted[A_][1]) < 1.5e-4, (A_, y_, se_, quoted[A_])
+l7 = vv("tori", "line7")
+out["tori"] = {"rows": nine, "line63": [l7[2], l7[3]], "deficit": [[48, l7[7]], [57, l7[8]]], "chi7": l7[4],
+               "slope": [l7[3], 0.00009], "price": vv("tori", "price"), "smooth": vv("tori", "smooth"), "kink": vv("tori", "kink")[0],
+               "scatter": vv("tori", "scatter"), "second81": vv("tori", "second81"), "low4": V["tori"]["low4"]["value"],
+               "five": t["line"]["value"][:2], "next": t["next"]["value"], "f63": t["f63"]["value"], "f93": t["f93"]["value"],
+               "hull": t["hull"]["value"], "two": t["two"]["value"]}
+assert "0.20867(9)" in V["tori"]["line7"]["quote"]
+# a short way round (WL1-WL3): the faces and frozen forms of the lead's refit (sources/wrap.json, written by
+# sources/scripts/wrap.py from research/audit/wrap_haz_lead.py), the quoted numbers, and the card's 84-cell face when measured
+wj = S("wrap.json")
+assert [round(x, 3) for x in (wj["line0"]["c"],)] == [0.209] and abs(wj["line0"]["c"] - vv("wrap", "noloop")[3]) < 0.0002
+fz = wj["frozen"]
+src84 = "research/audit/wrap_haz_lead.py --predict 1 12 28"
+f84 = vv("wrap", "forecast84")
+m84 = V["wrap"]["measured84"]
+if m84.get("value") is not None:
+    checked({"value": [m84["value"], m84["se"]], "quote": m84["quote"]})
+out["wrap"] = {"faces": wj["faces"], "line0": wj["line0"], "frozen": {k: fz[k] for k in ("LINES", "POW", "HAZ")},
+               "discount": vv("wrap", "discount"), "noloop": vv("wrap", "noloop"), "loop12": vv("wrap", "loop12"), "law11": vv("wrap", "law11"),
+               "forecast84": {"A": f84[0], "law": f84[1], "LINES": f84[2], "POW": f84[3], "HAZ": f84[4], "src": src84},
+               "differ": vv("wrap", "differ"), "chi": vv("wrap", "three"),
+               "measured84": {"value": m84.get("value"), "se": m84.get("se"), "src": m84.get("src")}}
+# the frozen parameters must give the quoted forecasts at 84 cells, one loop of 12 (the plate draws the curves from them)
+L_, P_, H_ = fz["LINES"], fz["POW"], fz["HAZ"]
+assert abs(L_["a"] + L_["c"] * 21 - L_["k"][0] * (84 - L_["z"][0]) - f84[2]) < 2e-4
+assert abs(P_["a"] + P_["c"] * 21 - math.log1p(P_["r"][0] * (84 / 63) ** P_["m"][0]) - f84[3]) < 2e-4
+assert abs(H_["a"] + H_["c"] * 21 - math.log1p(H_["r"][0] * math.exp(H_["g"][0] * 21)) - f84[4]) < 2e-4
+# the fourth signals push: the line and the divider, copied from research/signals/objects (CLAIMS SG16-SG19)
+sob = lambda n: json.loads((repo / "research" / "signals" / "objects" / (n + ".json")).read_text())
+lc, dv = sob("line-C"), sob("divider-C8")
+assert lc["capA"] == dv["capA"] and lc["unit"] == dv["unit"] and lc["gun"] == dv["gun"] and len(lc["gun"]) == vv("signals4", "gun")[0]
+assert len(dv["osc"]) == 24
+out["signals4"] = {"objects": {"line": {k: lc[k] for k in ("v", "capA", "unit", "gun")}, "divider": {k: dv[k] for k in ("v", "capA", "unit", "gun", "osc")}},
+                   "gun": vv("signals4", "gun"), "line": vv("signals4", "line"), "divider": [24, 8, 3], "stroke": vv("signals4", "stroke"), "heal": vv("signals4", "heal")}
+# the footer's date: the newest date among the files the data were gathered into (update-<date>*.json); the stamp under it
+# gives the repository state the timeline was read from
+out["project"]["gathered"] = max(re.match(r"update-(\d{4}-\d\d-\d\d)", f.name).group(1) for f in (here / "sources").glob("update-*.json"))
+
 # one file per key: a page of the site fetches only the keys its plates read (site/build.py finds them). A key that
 # is no longer produced leaves its old file behind on purpose: delete it by hand once no plate reads it.
 dd_out = here.parent / "data"

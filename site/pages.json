@@ -19,7 +19,8 @@
   {"id": "census", "k": "Every torus of a given area", "v": "Narrow faces pay less per cell; no law in area and loop", "stc": "st-meas", "st": "measured · corrected"},
   {"id": "pairs", "k": "Equal area, equal loop", "v": "The second variable: gone by 72 cells", "stc": "st-meas", "st": "measured"},
   {"id": "thin", "k": "The thinnest face", "v": "About 0.099 per cell: half a wide face’s", "stc": "st-meas", "st": "measured"},
-  {"id": "constant", "k": "One price per cell?", "v": "Wrapped faces: 0.2084 from 63 cells up; rimmed faces more", "stc": "st-open", "st": "updated · open", "new": true},
+  {"id": "wrap", "k": "What a short way round costs", "v": "Each loop shorter than √21 shortens a face’s life; how it grows is open", "stc": "st-meas", "st": "new · measured", "new": true},
+  {"id": "constant", "k": "One price per cell?", "v": "Nine wrapped faces: 0.2087 from 63 cells up; rimmed faces more", "stc": "st-open", "st": "updated · open", "new": true},
   {"id": "sym", "k": "Symmetry", "v": "Faces tied across an edge die together: about −2.15 per edge", "stc": "st-meas", "st": "measured · corrected"}
 ]},
 {"slug": "fauna", "label": "Debris and clocks", "title": "Gump Debris and Clocks", "blurb": "What a dead box leaves behind: still lifes, clocks whose period is twist times loop, a compound clock, wires, and the lives that settle unrecognised.", "connects": "Wires carry pulses: signals are the next page.", "plates": [

@@ -123,11 +123,11 @@
   },
   "missing": {
    "words": [
-    "no corner, no crossing, no gate with an output line of its own"
+    "no corner, no crossing, and no second stage after the first"
    ],
-   "quote": "It has no corner, no crossing, no gate with an output line of its own, and no mirror that sends pulse after pulse back.",
+   "quote": "It has no corner, no crossing, and no second stage after the first.",
    "file": "docs/WHAT-I-SEE.md",
-   "src": "the essay, \"What I would look at next\""
+   "src": "the essay, \"What I would look at next\" (re-copied 2026-11-15 afternoon: the essay now names the gun and the divider)"
   },
   "transmission": {
    "value": [

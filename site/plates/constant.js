@@ -59,39 +59,37 @@
   pmTile(numTile(N, '~' + g[1] + ' GPU-hours ', 'for hull faces of ' + g[0] + ' cells at 10⁴ deaths, which the analyst says would rule out ' + g[2] + ' of the ' + g[3] + ' passing readings (the review disagrees). Not run yet: queued for the GTX 1080.', ['once', 'queued']), '');
 })();
 
-// ---- the five wrapped faces on the owner's GTX 1080 (NB "five wrapped faces on one driver", "the five tori, reviewed"; CLAIMS GL1,
-//      GL3). Computed here: each value's distance from the quoted line 0.033 + 0.2084·A (the quoted deficits 0.111 and 0.036 are
-//      checked against it below), and the same for the forecasts that were written before the runs. ----
+// ---- the nine wrapped faces on the owner's GTX 1080 (NB "the nine wrapped faces reviewed"; CLAIMS GL1, GL3). The values are
+//      recomputed from the card's rows by collect.py and checked there against the ledger. Computed here: each value's distance
+//      from the quoted line 13.1621 + 0.20867·(A − 63) (the quoted deficits 0.107 and 0.035 are checked against it below), and
+//      the same for the forecasts written before the runs. ----
 (function () {
-  const T = D.tori, L = T.line, res = (A, v) => v - (L[0] + L[1] * A), H = $('#f-tori');
-  $('#n-kink').textContent = T.kink;
-  $('#n-law-tori').textContent = T.slope[0].toFixed(4);
-  // the quoted deficits must be what the page draws (to the line's rounding)
-  T.deficit.forEach(([A, d]) => { const r = T.rows.find(x => x[0] === A); if (Math.abs(res(A, r[1]) + d) > 0.002) E('p', { class: 'cap', style: 'color:var(--ember)' }, H.parentNode, 'The drawn deficit at ' + A + ' cells differs from the notebook’s ' + d + ': trust the notebook.'); });
+  const T = D.tori, L = T.line63, line = A => L[0] + L[1] * (A - 63), res = (A, v) => v - line(A), H = $('#f-tori');
+  $('#n-kink').textContent = Math.round(T.kink);
+  $('#n-law-tori') && ($('#n-law-tori').textContent = T.price[0].toFixed(4));
+  T.deficit.forEach(([A, d]) => { const r = T.rows.find(x => x[0] === A); if (Math.abs(res(A, r[1]) + d) > 0.002) E('p', { class: 'cap', style: 'color:var(--ember)' }, H.parentNode, 'The drawn deficit at ' + A + ' cells differs from the ledger’s ' + d + ': trust the ledger.'); });
+  const five = A => T.five[0] + T.five[1] * A;   // the line through the first five faces (0.033 + 0.2084·A) and its forecasts
   const f63 = T.f63, f93 = T.f93;
   const fc = [[63, f63[0], 'flat reading, ' + f63[0]], [63, f63[2], 'massive reading, ' + f63[2]], [63, f63[4], 'rising reading, ' + f63[4]], [63, f63[5], 'rising reading, ' + f63[5]],
-              [93, f93[0], 'flat reading, ' + f93[0]], [93, f93[2], 'rising reading, ' + f93[2]], [93, f93[3], 'rising reading, ' + f93[3]], [93, f93[4], 'massive reading, ' + f93[4] + ' (1.2σ: it survived, on its low side)']];
+              [93, f93[0], 'flat reading, ' + f93[0]], [93, f93[2], 'rising reading, ' + f93[2]], [93, f93[3], 'rising reading, ' + f93[3]], [93, f93[4], 'massive reading, ' + f93[4]]];
   responsive(H, w => {
     const nar = w < 470;
-    const f = frame(H, { w, h: 270, label: 'Lifetimes of five wrapped faces of 48 to 93 cells as distances from the line 0.033 + 0.2084 A: 48 cells 0.111 below, 57 cells 0.036 below, 63, 75 and 93 on it; the forecasts written before lie off it; four more faces are running',
-      x: { d: [44, 115], ticks: [48, 57, 63, 75, 93, 111], fmt: String, title: 'A, cells of the face' }, y: { d: [-0.135, 0.13], ticks: [-0.1, -0.05, 0, 0.05, 0.1], fmt: v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(2), title: 'ln(lifetime) above the line' }, m: { t: 24, r: 12, b: 38, l: 44 } });
+    const f = frame(H, { w, h: 270, label: 'Lifetimes of nine wrapped faces of 48 to 111 cells as distances from the line 13.1621 + 0.20867 (A − 63): 48 cells 0.107 below, 57 cells 0.035 below, the seven from 63 to 111 on it',
+      x: { d: [44, 115], ticks: [48, 57, 63, 75, 84, 93, 108], fmt: String, title: 'A, cells of the face' }, y: { d: [-0.135, 0.13], ticks: [-0.1, -0.05, 0, 0.05, 0.1], fmt: v => (v > 0 ? '+' : v < 0 ? '−' : '') + Math.abs(v).toFixed(2), title: 'ln(lifetime) above the line' }, m: { t: 24, r: 12, b: 38, l: 44 } });
     S('rect', { x: f.X(T.kink - 2), y: f.m.t, width: f.X(T.kink + 2) - f.X(T.kink - 2), height: f.h - f.m.b - f.m.t, fill: 'var(--s-mute)', 'fill-opacity': .22 }, f.svg);
-    lab6(f, f.X(T.kink) - 4, f.m.t + 10, 'kink', 'end', 't-mono');
-    S('line', { x1: f.X(T.kink), x2: f.X(93), y1: f.Y(0), y2: f.Y(0), stroke: 'var(--s1)', 'stroke-width': 2 }, f.svg);
-    S('line', { x1: f.X(93), x2: f.X(113), y1: f.Y(0), y2: f.Y(0), stroke: 'var(--s1)', 'stroke-width': 1.5, 'stroke-dasharray': '4 4' }, f.svg);
-    lab6(f, f.X(66), f.Y(0) - 8, nar ? '0.2084 per cell' : 'one line, 0.2084 per cell', 'start');
-    fc.forEach(([A, v, t], i) => dot(f, A + (A === 63 ? -1.6 : 1.6), res(A, v), i === 7 ? 'var(--ink)' : 'var(--ink-3)', () => ['A forecast for ' + A + ' cells, written before the run', t, sgn(res(A, v), 3) + ' from the line'], { r: 3.4, hollow: true }));
-    if (!nar) { lab6(f, f.X(93) + 9, f.Y(res(93, f93[2])) + 4, 'missed', 'start', 't-mono'); lab6(f, f.X(93) + 9, f.Y(res(93, f93[4])) + 4, 'survived', 'start', 't-mono'); lab6(f, f.X(63) - 9, f.Y(res(63, f63[5])) + 16, 'missed', 'end', 't-mono'); }
-    T.next.slice(0, 4).forEach((A, i) => dot(f, A, res(A, T.next[4 + i]), 'var(--s1)', () => ['Running now on the card: ' + A + ' cells', 'its forecast is the line: ln τ = ' + T.next[4 + i]], { r: 3.6, hollow: true }));
-    if (!nar) lab6(f, f.X(96), f.Y(0) + 18, 'running now', 'start', 't-mono');
-    T.rows.forEach(([A, v, se]) => { const r = res(A, v); dot(f, A, r, 'var(--s1)', () => [A + ' cells, wrapped (the GTX 1080)', 'ln τ = ' + v + ' ± ' + se, sgn(r, 3) + ' from the line'].concat(A === 93 ? ['one code so far'] : ['confirmed by a second code']), { r: 5, se: Math.max(se, 0.0001) }); });
+    lab6(f, f.X(T.kink) - 4, f.m.t + 10, 'bend', 'end', 't-mono');
+    S('line', { x1: f.X(T.kink), x2: f.X(113), y1: f.Y(0), y2: f.Y(0), stroke: 'var(--s1)', 'stroke-width': 2 }, f.svg);
+    lab6(f, f.X(66), f.Y(0) - 8, nar ? T.price[0] + ' per cell' : 'one line, ' + T.price[0] + ' per cell', 'start');
+    fc.forEach(([A, v, t]) => dot(f, A + (A === 63 ? -1.6 : 1.6), res(A, v), 'var(--ink-3)', () => ['A forecast for ' + A + ' cells, written before the run', t, (res(A, v) > 0 ? '+' : '−') + Math.abs(res(A, v)).toFixed(3) + ' from the line'], { r: 3, hollow: true }));
+    T.next.slice(0, 4).forEach((A, i) => dot(f, A + 1.4, res(A, T.next[4 + i]), 'var(--s1)', () => ['What the line through the first five faces said for ' + A + ' cells', 'ln τ = ' + T.next[4 + i] + '; the card measured higher (' + T.low4[i] + 'σ)'], { r: 3.4, hollow: true }));
+    if (!nar) lab6(f, f.X(84) + 6, f.Y(res(84, T.next[5])) + 14, 'the five-face line', 'start', 't-mono');
+    T.rows.forEach(([A, v, se]) => { const r = res(A, v); dot(f, A, r, 'var(--s1)', () => [A + ' cells, wrapped (the GTX 1080)', 'ln τ = ' + v + ' ± ' + se, sgn(r, 3) + ' from the line'], { se, r: 4.5 }); });
     lab6(f, f.X(48) + 8, f.Y(res(48, T.rows[0][1])) + 4, sgn(res(48, T.rows[0][1]), 3), 'start', 't-mono');
     lab6(f, f.X(57) + 8, f.Y(res(57, T.rows[1][1])) + 4, sgn(res(57, T.rows[1][1]), 3), 'start', 't-mono');
   });
-  tableView(H.parentNode, ['cells', 'ln τ (the card)', '± s.e.', 'from the line'], T.rows.map(([A, v, se]) => [A, v, se, sgn(res(A, v), 4)])
-    .concat(T.next.slice(0, 4).map((A, i) => [A, T.next[4 + i] + ' (forecast)', '', 'running'])));
-  const N = $('#n-tori'), h = T.hull;
-  pmTile(numTile(N, T.slope[0].toFixed(4) + ' ', 'per cell, from 63 cells up: the faces of 63, 75 and 93 cells lie on one line. 48 to 75 cells are confirmed by a second program; 93 rests on the card alone.', ['meas', 'two codes to 75 cells']), '± ' + T.slope[1]);
-  numTile(N, 'a kink', 'near ' + T.kink + ' cells, not a correction fading with size: every smooth form tried misses (χ² ' + T.chi[0] + ' to ' + T.chi[1] + ' on 1). The small wrapped faces die young; the large ones are not cheap.', ['meas', 'the review']);
-  numTile(N, '+' + h[0] + ' to +' + h[3], 'how much longer faces with a living rim last (' + h[4] + ' to ' + h[7] + ' cells), and their price per cell runs ' + h.slice(8).join(', ') + ': away from 0.2084, not towards it. Either the rim’s price turns round beyond 108 cells, or a rimmed face and a wrapped one have different prices.', ['open', 'open']);
+  tableView(H.parentNode, ['cells', 'ln τ (the card)', '± s.e.', 'seeds', 'from the line'], T.rows.map(([A, v, se, n]) => [A, v, se, n, sgn(res(A, v), 4)]));
+  const N = $('#n-tori'), h = T.hull, sm = T.smooth;
+  numTile(N, T.price[0] + '–' + T.price[1].toFixed(4), 'per cell from 63 cells up, every description that survives the review. Seven faces on one line (χ² ' + T.chi7 + ' on 5); no drift towards a higher price. Faces of 84 to 111 cells rest on one code; at 81 cells a second code gives ' + T.second81[0] + ' ± ' + T.second81[1] + ', ' + T.second81[2] + 'σ away.', ['meas', 'reviewed, two codes to 81 cells']);
+  numTile(N, 'a bend', 'near ' + Math.round(T.kink) + ' cells: only the broken line fits all nine (χ² ' + sm[0] + ' on 5; smooth forms ' + sm[1] + ' to ' + sm[2] + '). The line through the first five was low at all four new faces.', ['meas', 'the second review']);
+  numTile(N, '+' + h[0] + ' to +' + h[3], 'how much longer faces with a living rim last (' + h[4] + ' to ' + h[7] + ' cells), and their price per cell runs ' + h.slice(8).join(', ') + ': away from ' + T.price[0] + ', not towards it. “One price or two” now leans to two; the rimmed face of 108 cells on your card is the next datum.', ['open', 'open']);
 })();

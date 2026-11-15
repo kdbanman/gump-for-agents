@@ -1,7 +1,7 @@
 <section class="plate" id="constant">
   <div class="plate-h">
-    <div class="row"><p class="eyebrow">One price per cell? <b>· corrected</b></p><span class="st st-meas">fitted, by two independent analyses</span><span class="st st-once">empty patches: read after the data; the 4 × 5 point cross-checked on the CPU</span><span class="st st-meas">wrapped faces: your GTX 1080, two codes to 75 cells</span><span class="st st-open">one price or two: open</span></div>
-    <h2>One price per cell, or two? Wrapped faces measured on your card lie on one line, 0.2084 per cell, from 63 cells up. Faces with a rim cost more, and are moving away. The range <span id="n-cn">0.207 to 0.219</span> is the two families.</h2>
+    <div class="row"><p class="eyebrow">One price per cell? <b>· corrected</b></p><span class="st st-meas">fitted, by two independent analyses</span><span class="st st-once">empty patches: read after the data; the 4 × 5 point cross-checked on the CPU</span><span class="st st-meas">wrapped faces: your GTX 1080, nine faces, reviewed twice</span><span class="st st-open">one price or two: open</span></div>
+    <h2>One price per cell, or two? Nine wrapped faces measured on your card lie on one line, 0.2087 per cell, from 63 cells up. Faces with a rim cost more, and are moving away. The range <span id="n-cn">0.207 to 0.219</span> is the two families.</h2>
   </div>
   <div class="figs">
     <figure class="fig c6 panel">
@@ -20,14 +20,14 @@
     </figure>
   </div>
   <div class="nums" id="n-constant"></div>
-  <!-- added 2026-11-15 (late morning): the five equilateral wrapped faces on the owner's GTX 1080 (NB "five wrapped faces on one driver",
-       "the five tori, reviewed"; CLAIMS GL1, GL3), from data/sources/update-2026-11-15d.json; drawn by src/figures9.js -->
+  <!-- the nine equilateral wrapped faces on the owner's GTX 1080 (NB "the nine wrapped faces reviewed"; CLAIMS GL1, GL3), recomputed by
+       collect/collect.py from research/data/gpu_local_eqtorus/eqtorus_*.csv; quotes in collect/sources/update-2026-11-15e.json -->
   <div class="figs">
     <figure class="fig c7 panel">
-      <h3>Five wrapped faces, measured on the GTX 1080 in your house</h3>
+      <h3>Nine wrapped faces, measured on the GTX 1080 in your house</h3>
       <div id="f-tori"></div>
-      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--s1)"></span>measured on the card (bars: one standard error)</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--ink-3)"></span>forecasts written before the run (dark: the one that survived)</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--s1)"></span>the card’s forecast for the four faces running now: the line</span></div>
-      <figcaption>Each face is a wrapped equilateral face of A cells, its lifetime drawn as its distance from one straight line in ln(generations), the line through the faces of 63, 75 and 93 cells. Those three lie on it; the two smaller ones lie below it. No smooth correction fits all five: the line bends at a kink near <b id="n-kink"></b> cells, and above it the price is flat. Of the forecasts written for these faces before the card measured them, one number survived, on its low side, and the reading it came from failed at 57 and 63 cells: none of the three readings stands.</figcaption>
+      <div class="keys"><span class="key"><span class="sw dot" style="background:var(--s1)"></span>measured on the card (bars: one standard error)</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--s1)"></span>what the line through the first five said the next four would be</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--ink-3)"></span>older forecasts, written before the runs</span></div>
+      <figcaption>Each face is a wrapped equilateral face of A cells, its lifetime drawn as its distance from one straight line in ln(generations), the line through the seven faces from 63 to 111 cells. The two smaller ones lie below it. Only a line that bends near <b id="n-kink"></b> cells fits all nine; every smooth curve tried misses. The bend rests on three faces of three lattice kinds, and the plate before this one says what it is: a short way round the face.</figcaption>
     </figure>
     <div class="fig c5"><div class="nums" id="n-tori" style="grid-template-columns:1fr"></div></div>
   </div>
