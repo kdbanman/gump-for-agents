@@ -76,8 +76,9 @@ def plain_at(x, t, KS, a_, b_):
     return frozenset(c for c in x if a_ <= unit(c) < b_) == G.train_cells(pat, t, a_, b_, 1)
 
 
-done = 0
+done = 0; vectors = []
 for k, e in list(ends.items())[pi::pn]:
+    vec = []
     KS = e['KS']; cap = frozenset(tuple(c) for c in e['cap'])
     rakes = sorted((u for u in range(KS - 40, KS) if tr((1, 0, 4), u) in G.train_cells(pat, 0, KS - 40, KS, 1)), reverse=True)
     for wd in WORDS:
@@ -110,10 +111,15 @@ for k, e in list(ends.items())[pi::pn]:
                         names[k2] = len(names)
                 edges.append((names[k], wd, out, names.get(k2), p))
                 print(f'  end #{names[k]} ({e["src"]}, {e["cells"]} cells) word {wd}: {out}, period {p}, -> #{names.get(k2)}', flush=True)
-        res[out] += 1
+        res[out] += 1; vec.append(out)
+    vectors.append(dict(end=names[k], src=e['src'], cells=e['cells'], outcomes=vec))
     done += 1
     if done % 50 == 0:
         print(f'  {done} ends done: {dict(res)}', flush=True)
 print(f'part {a.part}: outcomes over', len(list(ends)[pi::pn]), 'ends x', len(WORDS), 'words:', dict(res))
 if a.out:
-    json.dump(dict(ends=list(ends.values()), outcomes=dict(res), edges=edges), open(a.out, 'w'))
+    json.dump(dict(ends=list(ends.values()), outcomes=dict(res), edges=edges, vectors=vectors, words=WORDS), open(a.out, 'w'))
+vc = Counter(tuple(v['outcomes']) for v in vectors)
+print('outcome vectors over the words', WORDS, ':')
+for v, n in vc.most_common():
+    print('  ', n, v)

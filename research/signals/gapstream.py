@@ -6,7 +6,8 @@ alive and in a different lasting state (phase, place or kind)?  A SAMPLE, not an
 
 Target, placements and phases as clockstream.py --anyphase (line-C, N = 12, in its cycle; the oscillator, a random
 lattice symmetry, phase and even translation, not overlapping the target, its halo meeting the halo of units 4..7
-and nothing else), seed of its own.  A placement is kept if, run 2P + 8 generations with the plain stream, the cells
+and nothing else; --zone 0,2: units 0..2 beside the receiving end, whose cells count as the zone too when they
+are in unit -1 or below, i.e. capA itself: see the code), seed of its own.  A placement is kept if, run 2P + 8 generations with the plain stream, the cells
 inside the support of the oscillator's free orbit are its free cells of that phase (it survives, as far as that).
 Then, for each of GAPS = 2 consecutive rakes (rake k leaves 4k generations after the first: two relative timings
 of gap and oscillator, all of them when 4 divides... no: the timings 0 and 4 mod P), the gap: at the first odd
@@ -32,7 +33,7 @@ from lattice import GROUP, apply
 ap = argparse.ArgumentParser()
 ap.add_argument('--K', type=int, default=150); ap.add_argument('--seed', type=int, default=3)
 ap.add_argument('--part', default='0/1'); ap.add_argument('--out'); ap.add_argument('--minutes', type=float, default=60)
-ap.add_argument('--only'); ap.add_argument('--gaps', type=int, default=2); ap.add_argument('--summary')
+ap.add_argument('--only'); ap.add_argument('--gaps', type=int, default=2); ap.add_argument('--summary'); ap.add_argument('--zone', default='4,7', help='units a,b of the line beside which the oscillator stands (4,7: mid-wire; 0,2: beside the receiving end capA)')
 a = ap.parse_args()
 if a.summary:
     c = Counter(); look = []
@@ -64,7 +65,8 @@ for _ in range(3):
 assert sg.step_set(TG[3]) == TG[0] and TG[2] != TG[0]
 allT = frozenset().union(*TG)
 halo = lambda S: frozenset(S) | frozenset(q for c in S for q in sg.nbrs(c))
-zone = frozenset(c for c in allT if 4 <= unit(c) <= 7); rest = allT - zone
+za, zb_ = map(int, a.zone.split(','))
+zone = frozenset(c for c in allT if (za <= unit(c) <= zb_) or (za == 0 and unit(c) < 0)); rest = allT - zone
 Hz, Hr = halo(zone), halo(rest)
 zb = [(min(c[i] for c in Hz), max(c[i] for c in Hz)) for i in range(3)]
 gunc = lambda s: frozenset(c for c in s if unit(c) >= N)
