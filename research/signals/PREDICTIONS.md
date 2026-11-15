@@ -52,3 +52,36 @@ defect with the *same* background on both sides, so the medium is left as it was
   pulse without overcrowded cells; no pulse in one kagome layer; a speed bound below one cell per generation
   for some class).
 - **I9 (30%).** L3 in any form (two fronts or pulses meeting and doing something lawful, verified).
+
+## Scores, 2026-11-15 (the investigator; evidence and commands in `README.md`)
+
+The lead's forecasts:
+
+- **S1 (60%): failed.** One-cell flips start fronts that run the whole length of the wire in 17 of the 21 wires on
+  file (11,544 of 57,150 flips). What does hold is the narrower statement that no one-cell flip of a wire on file
+  makes a *pulse* (0 of 57,150). Two-cell flips and the two sheets were not run.
+- **S2 (35%): held.** Pulses were found by constraint search in periodic backgrounds (wires A, B, S and at least 27
+  more), and every one found moves exactly one cube per two generations, half the speed limit.
+- **S3 (20%): held, with a caveat to be judged by the reader.** One flipped cell at A changes a standing defect 36
+  cubes away, six times in a row, through a wire that is left exactly as it was between A and the defect; but the
+  defect advances one cube towards A with each pulse, so one cube of wire is used up at the receiving end per signal.
+- **S4 (70%): not tested** (no sheet was perturbed).
+- **S5 (50%): not tested** (no clock was unrolled; the pulses came from a search that does not start from a clock).
+
+Mine:
+
+- **I1 (55%): held.** 12 of the 21 wires burn from a cut for the whole ring; W00's front passed the oracle for ten periods.
+- **I2 (55%): held as far as it was run** (one-cell flips: no pulse in 57,150); two-cell flips and sheets not run.
+- **I3 (25%): failed on the wires on file** (no phase boundary travels: walls or fronts); not tested on new wires.
+- **I4 (60%): held.**
+- **I5 (20%): held** (three pulses verified by the oracle).
+- **I6 (10%): held, with the caveat under S3.** The one-shot version by fuse was not built (no detector).
+- **I7 (15%): not tested as stated** (no soups on long rings); the nearest test, 21,000 soup hits on 875 sampled
+  wires, found no pulse.
+- **I8 (35%): held in a small way.** Two short corollaries, not a new lemma: a wire cannot grow at its end (T2), and
+  a pulse on an undriven wire must carry an overcrowded cell (T5). No class of carriers was shown impossible.
+- **I9 (30%): held** (pass or stop by parity, on the oracle).
+
+What I got wrong in kind: I expected the answer to turn on the wires already on file and on sampling. Both gave only
+fuses. The pulses were sitting in the smallest tube the constraint search was pointed at, and the search took under a
+second.

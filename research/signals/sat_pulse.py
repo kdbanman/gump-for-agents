@@ -9,7 +9,8 @@ cubes.  Unknowns: the state at generations 0 .. P-1.  Constraints:
             along the ring;
   stretch   at every generation the K + B cubes 0 .. K+B-1 are B-periodic along the ring (a background of repeat B);
   defect    generation 0 is not B-periodic all the way round;
-  --live    the stretch is not empty at generation 0.
+  --live    the stretch is not empty at generation 0;
+  --still   the stretch is the same at every generation (a still background).
 With gcd(S, N) = 1 every solution is a moving defect: the set D of places where generation 0 is not locally
 B-periodic satisfies D(P) = D(0) + S, and D + S = D would force D to be empty or everything.  With K >= max(3, S + 1)
 the background alone is a solution of the infinite tube and the defect is a pulse on it (README, "soundness").
@@ -60,7 +61,7 @@ class CNF:
         return r
 
 
-def build(m1, m2, N, P, S, B, K, live=False):
+def build(m1, m2, N, P, S, B, K, live=False, still=False):
     g = tube(m1, m2, N)
     n = g.n; loc = np.zeros(n, int); un = g.unit
     for u in range(N):
@@ -90,6 +91,12 @@ def build(m1, m2, N, P, S, B, K, live=False):
             for l in range(g.nloc):
                 a, b = X[t][int(g.grid[u, l])], X[t][int(g.grid[u + B, l])]
                 f.add(-a, b); f.add(a, -b)
+    if still:                                               # the background does not change in time
+        for t in range(1, P):
+            for u in range(K + B):
+                for l in range(g.nloc):
+                    a, b = X[0][int(g.grid[u, l])], X[t][int(g.grid[u, l])]
+                    f.add(-a, b); f.add(a, -b)
     ds = []                                                 # defect
     for u in range(N):
         for l in range(g.nloc):
@@ -108,11 +115,12 @@ def main():
     ap.add_argument('--b', type=int, default=1); ap.add_argument('--K', type=int, default=None)
     ap.add_argument('--timeout', type=float, default=600); ap.add_argument('--live', action='store_true')
     ap.add_argument('--solver', default='cadical153'); ap.add_argument('--save')
+    ap.add_argument('--still', action='store_true', help='require a background that does not change in time')
     a = ap.parse_args()
     K = a.K if a.K is not None else max(3, a.S + 1)
     assert gcd(a.S, a.N) == 1 and K >= max(3, a.S + 1) and a.N > K + a.b + a.S
-    g, f, X = build(a.m1, a.m2, a.N, a.P, a.S, a.b, K, a.live)
-    tag = f'tube {a.m1}x{a.m2} N={a.N} (p,s)=({a.P},{a.S}) b={a.b} K={K} width<={a.N - K - a.b - a.S}'
+    g, f, X = build(a.m1, a.m2, a.N, a.P, a.S, a.b, K, a.live, a.still)
+    tag = f'tube {a.m1}x{a.m2} N={a.N} (p,s)=({a.P},{a.S}) b={a.b} K={K} width<={a.N - K - a.b - a.S}' + (' still-bg' if a.still else '')
     t0 = time.time()
     with Solver(name=a.solver, bootstrap_with=f.cl, use_timer=True) as s:
         import threading
