@@ -459,11 +459,16 @@ f84 = vv("wrap", "forecast84")
 m84 = V["wrap"]["measured84"]
 if m84.get("value") is not None:
     checked({"value": [m84["value"], m84["se"]], "quote": m84["quote"]})
+    f84r = [f for f in wj["faces"] if f[0] == 84 and f[1] == 12]
+    assert len(f84r) == 1 and abs(f84r[0][2] - m84["value"]) < 1e-4 and abs(f84r[0][3] - m84["se"]) < 1e-4, f84r
+tq = vv("wrap", "tubes")
+assert [wj["tubes"][k]["c"] for k in ("12", "13", "16", "none")] == tq[0::2] and [wj["tubes"][k]["se_c"] for k in ("12", "13", "16", "none")] == tq[1::2], wj["tubes"]
 out["wrap"] = {"faces": wj["faces"], "line0": wj["line0"], "frozen": {k: fz[k] for k in ("LINES", "POW", "HAZ")},
                "discount": vv("wrap", "discount"), "noloop": vv("wrap", "noloop"), "loop12": vv("wrap", "loop12"), "law11": vv("wrap", "law11"),
                "forecast84": {"A": f84[0], "law": f84[1], "LINES": f84[2], "POW": f84[3], "HAZ": f84[4], "src": src84},
-               "differ": vv("wrap", "differ"), "chi": vv("wrap", "three"),
-               "measured84": {"value": m84.get("value"), "se": m84.get("se"), "src": m84.get("src")}}
+               "measured84": {"value": m84.get("value"), "se": m84.get("se"), "deaths": m84.get("deaths"), "src": m84.get("src")},
+               "tubes": wj["tubes"], "scored84": vv("wrap", "scored84"), "percent": vv("wrap", "percent"),
+               "next": [vv("wrap", "next96"), vv("wrap", "next108")]}
 # the frozen parameters must give the quoted forecasts at 84 cells, one loop of 12 (the plate draws the curves from them)
 L_, P_, H_ = fz["LINES"], fz["POW"], fz["HAZ"]
 assert abs(L_["a"] + L_["c"] * 21 - L_["k"][0] * (84 - L_["z"][0]) - f84[2]) < 2e-4

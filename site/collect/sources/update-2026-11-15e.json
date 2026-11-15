@@ -177,35 +177,85 @@
    "quote": "One loop of 12 at 84 cells, torus (1, 12), (0, 28): old law 17.3604, LINES 17.3361, POW 17.3207, HAZ 17.2941",
    "src": "NB 2026-11-15, the wrapping law tested (frozen in research/wrap/PREDICTIONS.md, c89ce9d)"
   },
-  "differ": {
-   "value": [
-    0.015,
-    0.027,
-    84,
-    0.03,
-    0.16,
-    96,
-    108
-   ],
-   "quote": "They differ by 0.015–0.027 at 84 cells and 0.03–0.16 at 96–108 cells for one loop of 12",
-   "src": "CLAIMS WL3"
-  },
-  "three": {
-   "value": [
-    32.8,
-    33.0,
-    36.8,
-    29
-   ],
-   "quote": "on the 39 faces with at most one short direction give 32.8, 33.0, 36.8 on 29",
-   "src": "CLAIMS WL3"
-  },
   "measured84": {
-   "value": null,
-   "se": null,
-   "src": null,
-   "quote": null,
-   "note": "the card's measurement of the 84-cell face (1, 12), (0, 28): ln tau_face and its error. Fill in value, se, src and a quote that holds both numbers (from NOTEBOOK.md or CLAIMS.md), then run collect.py and build.py; the plate draws it only when value is not null."
+   "value": 17.3248,
+   "se": 0.0058,
+   "deaths": 29412,
+   "src": "rows A = 84 of research/wrap/data/runs.csv (three seeds, the tester's runner ts3); NB 2026-11-15, the 84-cell face with one loop of 12; research/wrap/PREDICTIONS.md, The 84-cell face, measured",
+   "quote": "ln τ_face = 17.3248 ± 0.0058 (29,412 deaths; seed χ² 1.7 on 2)",
+   "note": "filled 2026-11-15 from the lead's message; quote from NB 2026-11-15, the 84-cell face with one loop of 12"
+  },
+  "scored84": {
+   "value": [
+    17.3604,
+    6.1,
+    17.3361,
+    1.9,
+    17.3207,
+    0.7,
+    17.2941,
+    5.3
+   ],
+   "quote": "The lead's first law 17.3604 (−6.1σ); LINES 17.3361 (−1.9σ, outside the 0.008 I had allowed: W7 failed); POW 17.3207 (+0.7σ); the tester's HAZ 17.2941 (+5.3σ; 4σ with its forecast error).",
+   "src": "NB 2026-11-15, the 84-cell face with one loop of 12"
+  },
+  "tubes": {
+   "value": [
+    0.20437,
+    0.00016,
+    0.20602,
+    0.00033,
+    0.20717,
+    0.00011,
+    0.20864,
+    9e-05
+   ],
+   "quote": "lie on one straight line, slope 0.20437 ± 0.00016, χ² 5.6 on 6, curvature (−2.6 ± 3.5) × 10⁻⁵ per cell². One loop of 13 (57–75 cells): 0.20602 ± 0.00033. One loop of 16 (60–108 cells): 0.20717 ± 0.00011. No short loop (63–126): 0.20864 ± 0.00009. No family shows curvature.",
+   "file": "research/wrap/PREDICTIONS.md",
+   "src": "research/wrap/PREDICTIONS.md, The 84-cell face, measured (python3 research/audit/wrap_haz_lead.py --tube)"
+  },
+  "percent": {
+   "value": [
+    2.0,
+    1.3,
+    0.7
+   ],
+   "words": [
+    "2.0%, 1.3% and 0.7% below the open price for girths √12, √13 and 4"
+   ],
+   "quote": "A face with one short way round is a tube, and a tube of a given girth pays a fixed price per cell, lower the tighter the girth: 2.0%, 1.3% and 0.7% below the open price for girths √12, √13 and 4.",
+   "src": "NB 2026-11-15, the 84-cell face with one loop of 12"
+  },
+  "bend": {
+   "words": [
+    "A gentle bend is not excluded"
+   ],
+   "quote": "A gentle bend is not excluded: POW's curvature at these sizes is −4.7 × 10⁻⁵, inside the error.",
+   "src": "NB 2026-11-15, the 84-cell face with one loop of 12"
+  },
+  "next96": {
+   "value": [
+    96,
+    19.7791,
+    0.0055,
+    19.7618,
+    0.0075
+   ],
+   "quote": "| (1, 17), (0, 32) | 96 | 19.7791 ± 0.0055 | 19.7618 ± 0.0075 | 0.017 |",
+   "file": "research/wrap/PREDICTIONS.md",
+   "src": "research/wrap/PREDICTIONS.md (W11, W12): tube line and POW, frozen"
+  },
+  "next108": {
+   "value": [
+    108,
+    22.2316,
+    0.0074,
+    22.1969,
+    0.0115
+   ],
+   "quote": "| (1, 16), (0, 36) | 108 | 22.2316 ± 0.0074 | 22.1969 ± 0.0115 | 0.035 |",
+   "file": "research/wrap/PREDICTIONS.md",
+   "src": "research/wrap/PREDICTIONS.md (W11, W12)"
   }
  },
  "signals4": {
