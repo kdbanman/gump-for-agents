@@ -26,3 +26,19 @@ ln τ at 23.36 to 23.38.
   seen here, see above). Above 23.44: a high draw now, or the hazard is not flat at ages the old run did not reach
   (it reached ≤ 6 × 10⁸; this run will pass 10¹⁰): check the hazard by age before believing either.
 - Probability that the new value is lower than the old by more than 0.031: 20%.
+
+## 2. Three more equilateral tori on this card: A = 57, 63 and the 5 × 5 anchor (2026-11-15T05:46Z, HEAD 39f165f)
+
+Written after the A = 93 result (19.4141 ± 0.0053, in the data directory at this commit) and the 4 × 4 calibration
+(9.9251 ± 0.0004), before any run of these three. They are my additions to the queue: with them the whole family of
+`research/constant/PREDICTIONS.md` part C comes from one driver and one counting rule. The lead's forecasts for
+A = 57 and 63 are there (flat 11.842 and 13.115, massive 11.855 and 13.128, rising 11.828 to 11.835 and 13.100 to
+13.107, all anchored on a 4 × 4 value that I now measure 0.007 lower).
+
+- **5 × 5 (A = 75):** on file 15.6614 ± 0.0026 (143,857 deaths, several sources). Mean life 3 × 10⁶, so the
+  16-generation rule bias of `rep.c` is below 10⁻⁵ there. Forecast: within 2σ of the file, 15.656 to 15.667.
+- **A = 57 and 63:** A = 93 came out below every reading and nearest the massive one (a slope that falls with
+  size). Taking that sign and the lower 4 × 4 anchor: **11.848 ± 0.008** and **13.124 ± 0.008**; both above the
+  chord between my 4 × 4 and the 5 × 5 value (chord: 11.837 and 13.112 with 15.661 at A = 75). If both come out on or
+  below the chord, the falling slope seen at 75 → 93 does not start below A = 75.
+- Launch caps 2,048, 8,192 and 65,536 generations (3% or less of the mean life in each case).
