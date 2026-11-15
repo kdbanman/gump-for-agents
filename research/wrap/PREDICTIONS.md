@@ -133,3 +133,10 @@ Each form's own error on the 84-cell loop² 12 face is about ± 0.005, growing t
 - **W10 (75%).** The card's values for the three faces the tester also measured, (1, 3), (0, 25), (1, 9), (0, 25) and
   (1, 4), (0, 26), agree with the tester's (15.5363 ± 0.0104, 15.6575 ± 0.0106, 16.2769 ± 0.0120) to within 2.5 of
   the combined errors, all three. This is the cross-check of the tester's stepper by independent code.
+
+**The lead's own run of the deciding face (started 2026-11-15 14:58 UTC, after the forecasts above were pushed in
+2fa56cb).** Torus (1, 12), (0, 28), 84 cells, one loop of 12 (a rectangle √12 by 7): the tester's runner, three
+jobs of 320,000,000 generations, seeds 184001–184003 (`python3 research/wrap/run.py job 1 12 28 320000000 184001`
+etc.; about 30,000 face deaths expected, ± 0.006). The stepper was checked against the oracle on this torus first
+(`python3 research/wrap/validate.py 1 12 28 1500`: MATCH over 1,500 generations). The card's run of the same face
+stays in its queue as the check by independent code.
