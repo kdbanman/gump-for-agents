@@ -388,7 +388,7 @@ added. `FOR-LEAD.md`: fifth section, 11 items.
 - The 15.6614 "on file" against GP9 and the notebook's 2026-11-14 shape entry: a GPU value (FOR-LEAD item 4).
 - Counts: `claims_tally.py` output as above.
 
-**Number check.** `docs/paper/check_numbers.py` covers 69 more passages (base a8e925a) under twelve new notebook keys
+**Number check.** `docs/paper/check_numbers.py` covers 70 more passages (base a8e925a) under twelve new notebook keys
 (each keyed by date and heading, so that a mention of a heading inside another entry is not matched); three
 passages removed with their text (the old §7.5 equilateral note, the old "second card" and "142 claims" sentences);
 three earlier passages given the new sources their text now needs (the abstract's shape sentence, §5.5 S8, §12
