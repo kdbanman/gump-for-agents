@@ -208,6 +208,18 @@ _Last updated 2026-11-14 by the lead._
   `research/audit/REVIEW-signals-3.md`. On its report: regrade SG12–SG15, corrections to the README (by the
   third investigator or a successor), essay, overview, draft. Not yet updated for the nine faces or the third push:
   `docs/WHAT-I-SEE.md` (the five-tori paragraph), the overview (version 13), `docs/paper/`.
+  **13:05 UTC: two new lines of work started.** (1) **A fourth signals push** (Fable, since 12:55 UTC; forecasts
+  S16–S21 in `research/signals/PREDICTIONS.md`): emitter, corner, period-4N clock, or a proved obstruction; it will
+  also apply the third review's README corrections. On its report: the lead's own oracle check of any new object,
+  an adversarial review, record. (2) **The wrapping law** (the lead's fit, 13:00 UTC; notebook "the kink is the
+  wrapping"; CLAIMS WL1 at C; `research/audit/wrap_law_lead.py`; frozen parameters and forecasts W1–W6 in
+  `research/wrap/PREDICTIONS.md`): every wide wrapped face on file (32) fits one line less a discount per cell for
+  each closed loop of squared length 12, 13, 16, 19, none from 21; it forecasts the equilateral "kink" from other
+  faces. **An Opus tester is trying to break it** (since 13:03 UTC; new classes at 51 to 69 cells, forecast first)
+  -> `research/wrap/README.md`. On its report: regrade WL1, rewrite GL3/GP9/SH rows that the law subsumes, essay,
+  overview, draft (§7.5), and redo CN1's joint fits. A note of 13:05 in `research/GPU-QUEUE.md` gives the card five
+  tori at 75 and 84 cells with frozen forecasts, for after its hull run. The essay's wrapped-face paragraph already
+  describes the law as unreviewed. Ledger: 170 claims (`python3 research/audit/claims_tally.py`).
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

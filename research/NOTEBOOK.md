@@ -3079,3 +3079,52 @@ was found.** What came back instead:
   one SAT solver with one encoding; the scans looked 3 and 12 clock periods ahead at N = 3 and 5; the k = 2 caps
   have not been put to the oracle; `sat_turn.py … --eat 16` in the 5 × 5 tube had not answered after 11 minutes.
   An adversarial review is running (`research/audit/REVIEW-signals-3.md`); grades below are provisional.
+
+## 2026-11-15: the kink is the wrapping: each short way round a face is a discount on the price per cell, the discounts add, and they stop between loop² 19 and 21 (the lead's fit on data on file; not reviewed; a tester is running)
+
+Prompted by the reviewer's remark that the bend in the nine equilateral faces rests on three faces "of three
+lattice kinds". The lead tabulated every wrapped face on file with shortest closed loop² ≥ 12 (the 23 classes and
+slabs of `research/constant/out/points.txt` that are not equilateral, and the card's nine equilateral faces from
+their rows) against its closed loops, counted one per ±v in the hexagonal basis.
+`python3 research/audit/wrap_law_lead.py` (2 s; output `research/audit/wrap_law_lead_out.txt`).
+
+- **Faces with no loop shorter than √21 share one line [fitted; 12 faces, 63 to 126 cells].** The seven equilateral
+  faces from 63 cells, the (21, 21, 36) class at 72 cells and the slabs 5 × 6, 5 × 7, 5 × 8, 6 × 7:
+  ln τ = 13.1622 + 0.20866·(A − 63), χ² 13.6 on 10. So the size of a face is not what bends the equilateral
+  family: at 72 and 84 cells the faces with a loop of 4 lie 0.06 to 0.08 below faces of the same area without one.
+- **The law [fitted; 32 faces of 48 to 126 cells; 7 parameters; χ² 42.0 on 25].**
+
+      ln τ_face = a + c·(A − 63) − (A − A0) · Σ over loop directions of k(|v|²)
+      a = 13.1629 ± 0.0007, c = 0.20860 ± 0.00005, A0 = 21.25 (20.0 to 22.25)
+      k(12) = 0.00292 ± 0.00005, k(13) = 0.00227 ± 0.00006, k(16) = 0.00135 ± 0.00002, k(19) = 0.00034 ± 0.00001
+
+  Each short way round lowers the price per cell: by 1.4%, 1.1%, 0.65% and 0.16% of 0.2086 for loops of squared
+  length 12, 13, 16, 19. With no wrapping term the same faces give χ² 12,467 on 30; with a constant offset per
+  direction that does not grow with area, 790 on 26. Largest residuals: +2.3, −2.4, +2.0 standard errors (census
+  classes at 48 and 60 cells with errors of 0.001 to 0.003).
+- **The discounts end [fitted].** A free k(21) comes out at (2.3 ± 1.9) × 10⁻⁵, a fifteenth of k(19); k(25),
+  k(27), k(28) are each within 1.5 errors of zero when freed together. From 13 to 19 the discounts fall nearly on
+  a straight line in loop² that reaches zero at 20: k ≈ 0.00032·(20 − loop²). Not an exponential tail: the
+  step from 19 to 21 is at least five times steeper than the step from 16 to 19.
+- **It forecasts the equilateral kink from other faces [leave-out fits].** Fitted on the 27 faces of 60 cells and
+  more (χ² 23.5 on 20), with no small equilateral face in the fit: the 57-cell equilateral face (three loops of
+  19) is forecast at 11.8760 against 11.8751 ± 0.0004 measured, so its deficit of 0.035 is three times the discount
+  that single 19-loops show elsewhere. The 4 × 4 (three loops of 16) is forecast at 9.9377 against 9.9251: its
+  deficit of 0.107 is forecast as 0.095. All four 48-cell faces come out 0.003 to 0.013 below this forecast, so
+  the form (A − A0) is not exact at the small end (A0 is 27 fitted from 60 cells up, 21 with everything).
+- **What it explains that was open.** (i) The "kink near 61 cells" of the equilateral faces (GL3): the family
+  passes loop² 16, 19, 21 at 48, 57, 63 cells; nothing happens at 61 cells as such. (ii) GP9's "not decided
+  between 0.2072 and 0.2117": 0.2072 is the price of a face of width 4 (0.2086 less k(16)); wide faces pay
+  0.2086. (iii) SH2 and SH4, the "second variable": at 60 cells the class (16, 19) lies below 4 × 5 by the
+  discount of its 19-loop (law 0.0131, measured 0.0142 ± 0.0019); at 48 cells the 4 × 4 lies below the (12, 19,
+  19) class because three 16s outweigh a 12 and two 19s (law 0.012, measured 0.0135 ± 0.0020); at 72 cells
+  pairs that differ only in loops longer than √21 do not differ (SH6).
+- **What it gets wrong.** The two loop² 12 classes at 60 cells differ by 0.0069 ± 0.0024 where the law says
+  nothing; the 48-cell pair (12, 16) against (12, 19, 19) is 0.018 in the law and 0.0148 ± 0.0013 measured.
+  χ² 42 on 25 is p = 0.02. The earlier studies refuted a sum over loops of e^(−1.41·length) with amplitude ∝ A
+  (SH9); this differs from it by the cut-off, the free discounts and A0, and has not faced the tests that refuted it.
+- Not checked: everything. One analysis by the lead, of values pooled by another study's loader; seven parameters
+  on 32 faces; the slab values come from a driver with a known firewall undercount; no new face has been measured.
+  Frozen parameters and forecasts W1–W6 are in `research/wrap/PREDICTIONS.md` (committed 2de9026 before any new
+  run); an independent tester is rebuilding the fit and measuring new classes at 51 to 69 cells
+  (`research/wrap/README.md` when done).

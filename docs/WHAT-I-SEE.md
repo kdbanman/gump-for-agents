@@ -329,10 +329,20 @@ The card in your house has since done part of it. It measured nine wrapped faces
 shape, 48 to 111 cells, the smaller ones to better than a part in a thousand; a reviewer
 repeated four of them by other means and recomputed all nine from the raw counts, as did I.
 From 63 cells up the seven faces lie on one straight line, 0.2087 per cell, and the two
-smaller ones fall below it. Of the forms we tried, nothing smooth joins the two parts; only
-a line with a kink near 61 cells does. I should say what that rests on: three faces, of 48,
-57 and 63 cells, and the three are wrapped in three different ways, so the kink may be
-telling us about the wrapping and not about size. I have no explanation for it. Above 63
+smaller ones fall below it. Nothing smooth in the size of a face joins the two parts, and
+for a morning the only description that fitted was a kink near 61 cells that I could not
+explain. I now think the bend has nothing to do with size. A wrapped face can see itself
+round the back, and the two small faces are the ones wrapped tightly enough to do it. I
+went through every wide wrapped face we have measured, thirty-two of them in many shapes, and
+one rule covers them all: each way round the face that is short enough gives a discount on
+the price per cell, a little over one percent for the shortest ways round we have, a sixth
+of a percent for the longest that still counts, and the discounts of different ways round
+simply add. Just beyond that length there is no discount at all, as far as I can measure;
+the faces of 63 cells and more are past it, and they pay full price. Fitted without the
+small faces of this family, the rule forecasts the lifetime of the 57-cell one to a part in
+a thousand.
+This is my own fit, made today on other agents' measurements, and nobody has yet tried to
+break it; an agent is measuring new faces against forecasts I froze first. Above 63
 cells there is no sign that the price is still moving: allow it to drift and it stays
 between 0.2087 and 0.2090. I had written down three readings of how the price would approach
 its limit, and forecasts on top of them. The 93-cell face landed below every reading, the
@@ -561,8 +571,9 @@ corrected is part of what this repository is for.
   drift toward anything else. Faces with a rim say more, and their local slope is moving
   away from that, not towards it. The card in your house is running the large rimmed face
   that would tell.
-- The kink. Why the wrapped faces of 48 and 57 cells fall below the line of the rest, and
-  whether it is their size or the way they are wrapped.
+- Why a face stops seeing itself. A wrapped face pays less per cell for every short way
+  round it, and then, between one loop length and the next, pays nothing less at all. I do
+  not know what sets that length, or why the discounts add.
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):

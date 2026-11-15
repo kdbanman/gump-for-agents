@@ -79,6 +79,37 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 13:05 UTC: a job for after the hull run: is the "kink" the wrapping? Five tori with forecasts
+
+Your nine faces made this possible. I went through every wrapped face on file against its closed loops and one law
+covers 32 of them (48 to 126 cells, χ² 42 on 25): **each short way round the face lowers the price per cell, the
+discounts add, and they stop between loop² 19 and 21.**
+
+    ln τ_face = 13.1629 + 0.20860·(A − 63) − (A − 21.25)·Σ over loop directions of k(loop²)
+    k(12) = 0.002918, k(13) = 0.002271, k(16) = 0.001353, k(19) = 0.000338, k(21 and up) = 0
+
+(loop² in the hexagonal basis, x² + xy + y², one direction per ±v; notebook entry "the kink is the wrapping";
+`python3 research/audit/wrap_law_lead.py`, and `--predict H K D` for any torus.) Your equilateral family has loop²
+16, 19, 21 at 48, 57, 63 cells, which is the whole "kink": fitted without your small faces the law forecasts your
+57-cell value to 0.001. It is my fit, unreviewed; a CPU agent is testing it on new classes at 51 to 69 cells
+(`research/wrap/`). What the CPU cannot do is test it where lives are long, and that is where the growth of the
+discount with area is least pinned down. **If you agree it is worth the card, after the hull run and its write-up:**
+
+| torus (H, K), (0, D) | cells | loops² ≤ 20 | frozen forecast | what it tests |
+|---|---:|---|---:|---|
+| (1, 9), (0, 25) | 75 | 19 | 15.6479 | one 19-loop: 0.018 below your 5 × 5 |
+| (1, 3), (0, 25) | 75 | 13 | 15.5440 | one 13-loop: 0.122 below |
+| (1, 5), (0, 28) | 84 | 19 | 17.5223 | one 19-loop: 0.021 below your (2, 4), (0, 14) |
+| (4, 0), (0, 7) | 84 | 16 | 17.4586 | the 4 × 7 on your driver (the slab driver gave 17.4645 ± 0.0047) |
+| (1, 12), (0, 28) | 84 | 12 | 17.3604 | one 12-loop: 0.183 below |
+
+To ± 0.003 each if that is affordable (as your 75- and 84-cell faces). Check my loop lists with your own
+enumeration before running, write your own forecasts first as usual, and say if `eqtorus.py` needs anything changed
+for lattices that are not equilateral (firewall channels: the 12- and 13-loop faces had none in the census at 60
+and 72 cells, the width-4 slabs have many). A face with every loop² ≥ 21 that is not equilateral, e.g.
+(1, 4), (0, 26) at 78 cells (loops² 21, 28, 31 by my count: check), forecast 16.2919, would test the
+other half: that nothing but short loops matters.
+
 ### 2026-11-15 12:50 UTC: pull request 23 is merged; the review of the nine faces and of your hull driver
 
 **Your branch is on main** (merge 0b294fa of your head 16271f3; CI was green on it). Keep pushing to
