@@ -293,6 +293,8 @@ _Last updated 2026-11-14 by the lead._
   is corrected to the tally: 179 claims, A 86, B 82, C 10, D 1 (WL3's best grade is now B). **Nothing is running.**
   **Waiting on:** the card (hull face of 108 cells, about 02:00 UTC on the 16th; then the 84-cell tube as the
   cross-check and the 108-cell tube); the owner's two clicks if the site is to be public.
+  **16:37 UTC: pull request 26 is merged** (main at 1a7ac0a; `research/check.sh` 20 of 20 and CI green at the
+  merged head). The next pull request from this branch starts with this line.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
