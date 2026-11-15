@@ -194,7 +194,7 @@ The lead's forecasts (`research/wrap/PREDICTIONS.md`, end), scored here for the 
 | forecast | outcome |
 |---|---|
 | **L1 (70%)** a one-point or nearest-pair statistic differs between a loop² 12 tube and a no-short-loop torus by > 5 SE | **passes** (density 100 SE; births, pair covariances, neighbour counts 30–200 SE) |
-| **L2 (55%)** that difference ordered 12 > 13 > 16 > 19 and zero within error at 21 | **fails on its second half**: ordered, but at 21 it is 45 SE from zero (f(21) = 0.000180 ± 0.000004) |
+| **L2 (55%)** that difference ordered 12 > 13 > 16 > 19 and zero within error at 21 | **fails on its second half**: ordered, but at 21 it is 45 SE from zero (f(21) = 0.000181 ± 0.000004) |
 | **L3 (30%)** a one-parameter relation fixed on 12 and 16 forecasts 13 within 0.00066 | **passes** (density: 0.00297 against 0.00262 ± 0.00034) |
 | **L4 (30%)** the end between 19 and 21 comes out as an exact statement about the neighbourhood, checked on an unmeasured loop | **fails**: the exact counts have no feature there (table above), and the living state has no end there either |
 | **L5 (35%)** nothing local tracks it | **fails** |
@@ -220,8 +220,8 @@ The lead's forecasts (`research/wrap/PREDICTIONS.md`, end), scored here for the 
 
 - **Decide the long loops in the lifetimes.** The density relation says a loop of 21 costs 0.00033 per cell and
   the open price is ≈ 0.2075 rather than 0.2086; the line on file says neither. The deciding faces are the
-  equilateral ones without loops below 36: (6,0,6) at 108 cells (forecast 22.529 against 22.551, card value on file
-  22.560 ± 0.022) and (1,16,39) at 117 cells (24.396 against 24.429) to ± 0.008, or a single loop of 21 at large area,
+  equilateral ones without loops below 36: (6,0,6) at 108 cells (forecast 22.535 against 22.551, card value on file
+  22.560 ± 0.022) and (1,16,39) at 117 cells (24.403 against 24.429) to ± 0.008, or a single loop of 21 at large area,
   (1,4,34) at 102 cells against (1,10,37)-type faces. GPU work.
 - Measure the price of tubes of 21 and 25 directly at long length ((1,4,34), (1,4,38), (1,6,35), (1,7,40)); the
   relation gives slopes 0.2083 and 0.2085 against an open 0.2086, so ± 0.0001 per cell is needed: very long runs.
