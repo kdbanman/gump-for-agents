@@ -58,7 +58,9 @@ here without losing work, the working arrangement, and the current state.
 - **Seeds:** `soup_bit` hashes seed and replica separately (an earlier `seed ^ (r << 32)` made parallel runs repeat
   each other). Give every run its own seed; `facelaw.py`/`fwslab.py` summaries refuse two runs with equal (vessel, seed).
 - **Settling:** kernel B flags period 1–2 (kind 2) and 3..`pw` (kind 3, default 128) and freezes the replica; settled
-  lives must be censored, never left in the exposure. Kernel A has no kind 3. Periods > pw are not detected.
+  lives must be censored, never left in the exposure. Kernel A has no kind 3. Periods > pw are not detected, and with
+  one-generation launches (patches.py) kind 3 cannot fire at all. **There is no age cap**: a replica in an undetected
+  cycle ("zombie") adds exposure until the run ends. Bounds from the logs: `zombies.py`, README "Zombie lives".
 - **K_KEEP** (`Sim(..., keep=True)`) keeps a frozen replica's state at its event (post-peel and firewall tests need it).
 - **Slabs die two ways:** a face peel or a transverse 3-layer firewall (then a face dies soon). Always resolve the
   firewall channel (`fwslab.py`); for N1×N2×8 slabs the cheapest cut is 36·min(N1, N2). An 8-layer slab is
@@ -73,16 +75,26 @@ here without losing work, the working arrangement, and the current state.
   `::check_patches`. Engine reference cases are rebuilt locally (`check.py engine-cases|periodic-cases|slab-cases`),
   since the engine binary is built for this machine's CPU.
 
-## Current state (2026-11-14T23:30Z)
+## To do (described, not written)
 
-- Open PR: **#18** (empty patches on a 12×12×8 face). The lead's review (`REVIEW-gpu-pr18.md`) asked for nine text
-  fixes; all are applied, and `check_patches` was re-run on the committed kernel (ALL OK). The lead now reads the diff
-  against the fix list, waits for CI and merges. Nothing running; no scheduled check-ins pending.
-- Merged: #8 (kernels, face law), #10 (fixes), #12 (experiments a–c), #14 (firewall-resolved slabs), #16 (width).
-- Budget: about $25.8 of $30 spent this month (2026-11). About $4 left: enough for checks and short runs only. The lead's
-  optional 5×8×8 high-statistics run (≈ $14) was declined as unaffordable and is superseded.
-- Open scientific threads: empty patches beyond 60 cells need a rare-event estimator (splitting or biased sampling),
-  not more GPU time; the perimeter-free cost per cell (second differences, 0.273 → 0.219 over 12–36-cell middles) is
-  still falling and its limit (0.16–0.24) is open; the 4×5 rhombus disagrees with the review's CPU run at 1.9–2.6σ
-  (the lead is lengthening the CPU run); the cost per cell of a wide unwrapped face lies between ≈ 0.207 and 0.216; the
-  s = 3 slab family's curvature is entangled with firewall proximity.
+- **Zombie guard for future lifetime runs** (lead's request, 2026-11-15). Either (i) a snapshot test at ages 2^k: keep
+  each replica's state at ages 16, 32, 64, … and compare at every launch boundary, censoring at the first exact match
+  (catches any period eventually, as `research/theory/thin`'s `ring.c` does; cost one state copy per replica and a
+  compare per launch), or (ii) an age cap at 30 mean lives, ended as a censored life of its own kind. Not written: the
+  drivers (`facelaw.py`, `fwslab.py`) run kernel B on the GPU only (cupy), so it cannot be tested on the CPU path, and
+  no GPU runs until the owner answers about the budget. When written: test with a planted long-period cycle (period
+  > pw, e.g. from `check.py periodic-cases` with pw = 32) on Modal, and state the cap or the snapshot ages in each
+  result file.
+
+## Current state (2026-11-15T00:50Z)
+
+- Branch restarted from main after #18 merged (`merge -s ours` of the old head). Open: a text-only PR for zombie
+  lives (README "Zombie lives", patch Set-up, `zombies.py`, this file), asked for by the lead; it will check one bound
+  and have the diff read. **No Modal runs** until the owner answers the lead about the budget.
+- Merged: #8, #10, #12, #14, #16, #18 (empty patches, with the review's nine fixes).
+- Budget: about $25.8 of $30 spent this month (2026-11). Checks and short runs only, and none now (see above).
+- Open scientific threads: empty patches beyond 60 cells need a rare-event estimator; the perimeter-free cost per cell
+  (0.273 → 0.219 over 12–36-cell middles) is still falling, limit open (0.16–0.24); the 4×5 rhombus disagrees with the
+  review's CPU run at 1.9–2.6σ (lead lengthening the CPU run; no zombie signature on the GPU side); wide-face cost
+  between ≈ 0.207 and 0.216; s = 3 curvature entangled with firewall proximity; zombie bounds for runs shorter than
+  one mean life rest on an unproven rate argument.
