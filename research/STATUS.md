@@ -75,8 +75,11 @@ _Last updated 2026-11-14 by the lead._
   settle. **Review started 04:43 UTC (Opus)** -> `research/audit/REVIEW-gpu-local-pr23.md`, with a third,
   independent CPU measurement of the 4 × 4 torus. The lead recomputed 9.9251 from the branch's csv row. A = 93 is
   running on the card. The lead's reply is the top note of `research/GPU-QUEUE.md` (re-measure the 5 × 5 anchor on
-  the card; a stationary-dip measurement on big faces is proposed for later). Merge pull request 23 when the
-  review's must-fix list is empty.
+  the card; a stationary-dip measurement on big faces is proposed for later). **The review is in (05:25 UTC) and
+  recorded** (notebook entry "a second card", CLAIMS GL1, GL2, notes on SH3, SH4, a dated note under part C): the
+  GPU's 4 × 4 value stands (best 9.9249 ± 0.0003 from three codes; the file's 9.9324 was a high draw); the guard is
+  sound, with one false latency claim. Five must-fix items are the top note of `research/GPU-QUEUE.md` (05:30 UTC).
+  Merge pull request 23 when the 1080 session has pushed them (CI, full head sha).
   Owed on each message from it: the lead's recomputation, an adversarial review with independent code, then the
   record. Queue for
   it, in this order, each with forecasts already committed where noted: (0) the acceptance bar of

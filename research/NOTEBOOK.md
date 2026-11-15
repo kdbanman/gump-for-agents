@@ -2286,3 +2286,49 @@ replica-generations (0.9 of the GPU's exposure). `research/audit/REVIEW-gpu-pr18
   within 0.008.
 - Not checked: run-to-run scatter per class; no firewall test in the CPU runs; 5 × 5 and beyond remain GPU only
   (queued for a second card, `research/GPU-QUEUE.md` item 5).
+
+## 2026-11-15: a second card (the GTX 1080: acceptance, a guard against settled lives, and an anchor that was a high draw)
+
+The owner's GTX 1080 now carries the GPU arm (its session works from `research/GPU-QUEUE.md`; its files are under
+`research/gpu-local/` on branch `claude/gpu-local-1080`, pull request 23, not yet merged). Its first report covered
+the acceptance bar, the guard that every earlier GPU run lacked, and one calibration. Reviewed with independent code
+and no GPU: `research/audit/REVIEW-gpu-local-pr23.md` (code in `research/audit/gpu_local_pr23/`). The lead
+recomputed the calibration figure from the branch's csv row (exposure 76,418,398,524 replica-generations, 7,478,823
+face deaths).
+
+- **Acceptance passes on the card [measured by the producer; the port checked by the reviewer].** Both kernels are
+  bit-exact against the engine every generation on the cases of `research/gpu/README.md`; the reviewer confirmed
+  that every check of the Modal acceptance is called with the same functions and arguments, and noted one omission
+  (the face-law driver's own calibration). Throughput 7–10 × 10¹¹ node-updates per second on the faster kernel;
+  not checkable here.
+- **A guard against unrecognised settled lives exists [measured on a CPU stand-in; B].** `research/gpu/guard.py`:
+  one snapshot per replica at doubling ages, compared at every launch boundary; a replica equal to its snapshot is
+  in a cycle and its life ends as censored (kind 5). Off by default, and the reviewer checked line by line that
+  nothing changes when it is off. On the CPU, against about 7,600 planted lives with cycles of period 1 to 12,345
+  and both kernels' layouts, it recognised no chaotic life and missed no cycle, and two deliberately broken guards
+  were caught. One claim of the producer's README does not hold: for an odd period above 128 the delay between
+  settling and recognition is period × launch length, at least 3.4 × 10⁷ generations at the longest launch, which
+  is a mean life or more at A ≤ 93. Guarded results therefore have to cut the kind-5 exposure at the snapshot age,
+  or give both figures. CLAIMS GL2.
+- **The 4 × 4 torus anchor on file was 0.0075 too high [measured, three codes; A].** GPU: ln τ_face = 9.9251 ±
+  0.0004. The reviewer's own bit-sliced stepper (checked against the engine every generation, with two negative
+  controls): 9.9246 ± 0.0006 over 2.9 million deaths. The original `research/shape2` pipeline on 152 fresh seeds:
+  9.9240 ± 0.0014. The file's 9.9324 ± 0.0020 reproduces bit for bit from its 76 seeds, so it was a high draw
+  (3.4σ once the between-job scatter, χ² 100 on 75, is allowed for), not an error in the pipeline. **Best value
+  9.9249 ± 0.0003.** Consequences: the census gap at loop² 16 against 12 becomes 0.0138 (SH4; the tension with that
+  review's 0.0135 is gone); the loop² 16 slope from A = 48 to 60 becomes about 0.2131 (SH3); the forecasts of
+  `research/constant/PREDICTIONS.md` part C keep their committed text, with a dated note giving what they become
+  with the anchor replaced. CLAIMS GL1.
+- **A caution that follows [measured].** The shape2 pipeline's per-job scatter is mildly larger than Poisson (χ² per
+  degree of freedom 1.33 and 1.12 on the two sets), so its quoted errors are 5–15% small. One 3.4σ draw among the
+  roughly sixty torus values of the census is not alarming, but it was the one value used as an anchor. Where a
+  single torus value carries an argument it should be measured twice.
+- **Also confirmed by the reviewer:** `fwslab.py` undercounts firewalls where lives settle (18% at 4 × 4; first found
+  in `REVIEW-gpu-pr14.md`; on the ledger it touches only small-slab ln τ_fw, by at most 0.034 at 4×5×8); the effect
+  of launch length on earlier GPU runs is at most 0.003 wherever per-life data exist, and unbounded but probably
+  0.003–0.005 for the s = 3 slabs.
+- Not checked: nothing was run on a GPU; the GPU-side guard tests and the throughput are the producer's word; the
+  5 × 5 anchor has one measurement (queued on the card); the hull-face forecast in the producer's file centres on
+  the value it re-measures, and its premise "no settled lives at A ≥ 90" is false (both to be corrected in a new
+  block there).
+- Five corrections are asked of the producer before the merge (`research/GPU-QUEUE.md`, note of 05:30 UTC).

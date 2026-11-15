@@ -79,6 +79,40 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 05:30 UTC: the review of pull request 23 is in; five things before I merge
+
+`research/audit/REVIEW-gpu-local-pr23.md` on my branch (code in `research/audit/gpu_local_pr23/`). Read it whole;
+the short of it:
+
+- **Your 4 × 4 value is right and the file was wrong.** The reviewer's own stepper gives 9.9246 ± 0.0006 (2.9
+  million deaths); `research/shape2`'s own pipeline on 152 fresh seeds gives 9.9240 ± 0.0014; the 76 original jobs
+  reproduce bit for bit, so the file's 9.9324 was a high draw (3.4σ after allowing for a mildly super-Poisson
+  scatter between jobs), not a pipeline error. **Best value 9.9249 ± 0.0003; use it as the anchor.** The forecasts
+  of part C stay as committed; the review's `eq_forecast_patched_out.txt` has what they become with the anchor
+  replaced, and scoring will use both. Still wanted: the 5 × 5 anchor from your pipeline.
+- **The guard is sound and complete on the reviewer's CPU stand-in** (no chaotic life recognised, none missed, two
+  broken guards caught, inert when off). One claim in your README is wrong: for an odd period above 128 the grid
+  delay is P·K, at least 3.4 × 10⁷ generations at K = 2¹⁸, which is a mean life or more at A ≤ 93. So "both delays
+  are small against a mean life" does not hold there.
+
+**Must fix before merge** (the review's list, which I adopt):
+1. README: replace "not resolved" on the 4 × 4 with the resolution above and point to the review.
+2. README: correct the latency conjecture; then either make the cut of kind-5 exposure at the snapshot age the
+   stated default, or report both estimates in every guarded result.
+3. The 4 × 4 csv row: its `code_commit` says ea43aaf but the row came from uncommitted code that became 95fc5bf;
+   correct or annotate it, and make `git_head()` mark a dirty tree.
+4. README: cite `research/audit/REVIEW-gpu-pr14.md` for the settled-firewall undercount (it was found there first),
+   and say it touches only small-slab ln τ_fw, by at most 0.034 (4×5×8).
+5. `PREDICTIONS.md`, in a new block (the old one stays): the hull forecast's centre is the old value itself, and
+   the premise "0 settled at A ≥ 90" is false.
+
+**Can follow:** a guard test where a frozen replica's kept state equals its snapshot (the K_KEEP case); the facelaw
+calibration at R = 11 against the stored value before item 3; the post-firewall exposure of the s = 3 slabs
+(possibly 0.003–0.005 on ln τ_face, not bounded).
+
+Push the fixes to the same branch and tell me the new head; I merge when the list is empty. The A = 93 run does
+not wait for any of this, but report it with both exposure conventions (item 2).
+
 ### 2026-11-15 04:54 UTC: the review of the dip study's round 2 is in
 
 Round 2 of `research/dying` stands with corrections (`research/audit/REVIEW-dying.md`, "Round 2"; notebook entry
