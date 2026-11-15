@@ -53,8 +53,18 @@ Tests, `python -u research/gpu-local/guard_test.py all` (about 3 min):
   all caught.
 - **Guard on vs off, same seed, fixed launch length and generation cap** (`facelaw.run(..., launch_gens=K,
   max_gens=G, keep_reps=True)`): lives (age, kind, birth, replica) equal lane for lane on R = 15 (2^20 gens), R = 9
-  (2^21 gens, 979,357 lives; also with pw = 32), R = 11 (pw = 16, K = 997, FIRST = 1000). No natural kind-5 life
-  occurred in these runs (pw ≥ 16 already catches what R = 9-11 soups settle into before a face dies).
+  (2^21 gens, 979,357 lives; also with pw = 32 and pw = 1), R = 11 (pw = 16, K = 997, FIRST = 1000). No kind-5 life
+  occurred in these runs: at R = 9-11 a face dies long before a soup settles into a long cycle.
+- **The driver's kind-5 path, on natural cycles** (R = 9, faces off, pw = 1, so a life ends only by settling and the
+  kernel recognises only periods 1-2): 7,851 lives recognised by the guard in 2^19 generations; guard off, the same
+  lanes are held to the end by those cycles (19,260 lives against 125,107). 1,272 lanes agree exactly up to their
+  first kind-5 life, and guard off that life (same birth) is still running at the age the guard ended it.
+
+**A guarded run is not bit-identical to an unguarded one after the first kind-5 life.** The drivers draw each reseed
+from (seed, a counter that advances at every boundary where some life ended). The first time the guard ends a life at
+a boundary where the kernel ended none, the counters part and every later soup differs (same distribution, different
+draws). The test above compares lives born before that boundary. A run with no kind-5 life is bit-identical to the
+unguarded run.
 
 **Detection latency (a property of option (i), measured in the exact test).** A replica that enters a cycle of
 period P at age e is recognised at the first boundary b with a snapshot s on the cycle (s ≥ e) and P | (b − s).

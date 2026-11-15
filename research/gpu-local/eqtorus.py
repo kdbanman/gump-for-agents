@@ -155,10 +155,39 @@ def check_engine(a, kk, b, gens=2000, m=M, control=None, **kw):
             if not np.array_equal(np.nonzero(lb)[0], want):
                 bad += 1; first = t + 1 if first is None else first
     tagc = f' [control {control}]' if control else ''
-    print(f'torus ({a},{kk}),(0,{b}) x{m}{tagc}: GPU [{s.kernel} WB={s.WB} J={s.J}] vs engine torus {Nt} (x{kcop}), '
+    shape = f'WB={s.WB} J={s.J} blocks={s.blocks}' if s.kernel == 'shared' else f'WT={s.WT}'
+    print(f'torus ({a},{kk}),(0,{b}) x{m}{tagc}: GPU [{s.kernel} {shape}] vs engine torus {Nt} (x{kcop}), '
           f'{gens} gens x {len(lanes)} lanes: {"all equal" if bad == 0 else f"{bad} mismatches, first at generation {first}"}',
           flush=True)
     return bad == 0
+
+
+def sim_cfg():
+    """kernel-B shape for these slabs (744-888 nodes) on this card: two blocks per SM, 2 columns per block, 2 nodes
+    per thread: 1.29e9 replica-gens/s at A = 93 with K_KEEP, no register spills, against 8.4e8 for gsim's defaults
+    (`eqtorus.py tune 1 5 31`; 4 columns give the same total with twice the replicas, each half as fast).
+    `check` runs the engine comparison in this shape."""
+    import cupy as cp
+    sms = cp.cuda.Device().attributes['MultiProcessorCount']
+    return dict(WB=2, J=2, minb=2, blocks=2 * sms, keep=True)
+
+
+def tune(a, kk, b, m=M):
+    import cupy as cp
+    v = TwistedSlab(a, kk, b, m)
+    sms = cp.cuda.Device().attributes['MultiProcessorCount']
+    for mb in (1, 2):
+        for J in (1, 2):
+            for WB in (1, 2, 4):
+                s = gsim.Sim(v, backend='gpu', keep=True, WB=WB, J=J, minb=mb, blocks=mb * sms)
+                s.reseed(np.arange(s.R), seed=1, p=0.4)
+                s.step(64); cp.cuda.Device().synchronize()
+                K = 1 << 17
+                t = time.perf_counter(); s.step(K); cp.cuda.Device().synchronize(); dt = time.perf_counter() - t
+                at = s._run.attributes
+                print(f'minb={mb} J={J} WB={WB} T={s.T} blocks={s.blocks} replicas={s.R} regs={at.get("num_regs")} '
+                      f'lmem={at.get("local_size_bytes")}: {s.R * K / dt:.3g} replica-gens/s', flush=True)
+                del s
 
 
 def run(a, kk, b, wall_s, seed, p=0.4, m=M, guard=16, launch_s=1.0, max_launch=1 << 18, log=print):
@@ -166,7 +195,7 @@ def run(a, kk, b, wall_s, seed, p=0.4, m=M, guard=16, launch_s=1.0, max_launch=1
     v = TwistedSlab(a, kk, b, m)
     rs = rings(v)
     can_fw = any(r['layers'] >= 3 for r in rs)
-    s = gsim.Sim(v, backend='gpu', keep=True)
+    s = gsim.Sim(v, backend='gpu', **sim_cfg())
     gd = guard_mod.CycleGuard(s, first=guard) if guard else None
     s.reseed(np.arange(s.R), seed=seed << 32, p=p)
     birth = np.zeros(s.R, np.int64)
@@ -223,6 +252,10 @@ def run(a, kk, b, wall_s, seed, p=0.4, m=M, guard=16, launch_s=1.0, max_launch=1
                face=cnt[1], fw=cnt[4], settled12=cnt[2], settled3pw=cnt[3], guard=cnt[5], open=cnt[0],
                exposure_guard=int(A_[K_ == 5].sum()), guard_first=guard, guard_thresholds=f'{guard} * 2^j' if guard else None,
                fw_by_direction={int(d): int(((K_ == 4) & (D_ == d)).sum()) for d in (1, 2, 3)})
+    E = np.array(facelaw.EDGES, np.int64)           # ages by kind, for burn-in and hazard-by-age checks
+    out['hist'] = dict(edges=facelaw.EDGES,
+                       exposure=[int(np.clip(np.minimum(A_, hi) - lo, 0, None).sum()) for lo, hi in zip(E[:-1], E[1:])],
+                       ends={str(kd): np.histogram(A_[K_ == kd], E)[0].tolist() for kd in (1, 2, 3, 4, 5)})
     out['guard_lives'] = facelaw.pack(np.concatenate(snaps, axis=1) if snaps else np.zeros((3, 0), np.int64))
     if len(A_) <= 150000:
         out['raw'] = facelaw.pack(np.stack([A_, K_, B_, D_]))
@@ -263,8 +296,9 @@ if __name__ == '__main__':
         ok = tslab.check(a, kk, b)
         v = TwistedSlab(a, kk, b)
         print('cuts:', {r['d']: r['cut'] for r in rings(v)}, 'nodes', v.n)
-        ok &= check_engine(a, kk, b, gens)
-        ok &= check_engine(a, kk, b, gens, kernel='shared', J=3, WB=1, blocks=6)
+        ok &= check_engine(a, kk, b, gens, **sim_cfg())                  # the shape the runs use
+        ok &= check_engine(a, kk, b, gens)                               # gsim's defaults
+        ok &= check_engine(a, kk, b, gens, kernel='global', WT=1024)     # kernel A
         ok &= not check_engine(a, kk, b, 300, control='shift')
         ok &= not check_engine(a, kk, b, 300, control='flip')
         print('ALL OK' if ok else 'FAILURES')
@@ -286,3 +320,5 @@ if __name__ == '__main__':
         print(json.dumps({k: out[k] for k in CSV_FIELDS if k in out and k != 'cmd'}))
     elif what == 'summary':
         summary(a, kk, b)
+    elif what == 'tune':
+        tune(a, kk, b)

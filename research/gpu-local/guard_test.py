@@ -159,18 +159,30 @@ def test_identical(R=15, gens=1 << 20, K=4096, seed=990001, first=16, **cfg):
                     guard=first, **cfg)
     la, lb = [np.vstack([facelaw.unpack(x['raw']), facelaw.unpack(x['raw_reps'])]) for x in (a, b)]
     n5 = b['guard']['recognised']
-    bad = 0
+    # The driver draws each reseed from (seed, a counter that advances at every boundary where some life ended). The
+    # two runs' counters stay equal only while the same boundaries carry reseeds; Gs = the first boundary where they
+    # do not (it exists only when the guard ended lives at a boundary where the kernel ended none). Lives born
+    # before Gs are comparable; later ones are different soups by construction.
+    SA, SB = np.unique(la[2]), np.unique(lb[2])
+    m = min(len(SA), len(SB))
+    d = np.nonzero(SA[:m] != SB[:m])[0]
+    Gs = int(min(SA[d[0]], SB[d[0]])) if len(d) else (int(max(SA[m - 1], SB[m - 1])) + 1 if len(SA) != len(SB) else None)
+    bad = cmp5 = 0
     for r in range(a['replicas']):
         A_, B_ = la[:3, la[3] == r], lb[:3, lb[3] == r]
+        if Gs is not None:
+            A_, B_ = A_[:, A_[2] < Gs], B_[:, B_[2] < Gs]
         k5 = np.nonzero(B_[1] == guard.KIND)[0]
         if len(k5) == 0:
             bad += not np.array_equal(A_, B_)
-        else:                                    # equal up to the first kind-5 life, which A must still be living
-            f = k5[0]
-            bad += not (np.array_equal(A_[:, :f], B_[:, :f]) and A_.shape[1] > f and A_[2, f] == B_[2, f])
+        else:        # equal up to the first kind-5 life; guard off, that life (same birth) is still running at that age
+            f = k5[0]; cmp5 += 1
+            bad += not (np.array_equal(A_[:, :f], B_[:, :f]) and A_.shape[1] > f and A_[2, f] == B_[2, f]
+                        and A_[0, f] >= B_[0, f])
     ok = bad == 0
     print(f'guard on vs off, R={R} asym {cfg or ""}, {a["replicas"]} replicas, {gens} gens, K={K}: {la.shape[1]} vs {lb.shape[1]} '
-          f'lives, {n5} recognised by the guard ({b["guard"]["compares"]} comparisons): '
+          f'lives, {n5} recognised by the guard ({b["guard"]["compares"]} comparisons), lives compared: '
+          f'{"all" if Gs is None else f"born before generation {Gs}"}; {cmp5} lanes compared up to a kind-5 life: '
           f'{"equal lane for lane" if ok else f"{bad} lanes DIFFER"}', flush=True)
     return ok
 
@@ -194,5 +206,8 @@ if __name__ == '__main__':
         # pw = 1: the kernel recognises only periods 1-2, so every natural cycle of period >= 3 is the guard's: the
         # kind-5 path of the driver (recognise, reseed, reset) is exercised and the lanes must agree up to it
         ok &= test_identical(R=9, gens=1 << 21, K=1024, seed=990005, pw=1)
+        # faces off as well: a life ends only by settling, so the lanes fill with natural cycles (about 6% of R = 9
+        # soups end in a period > 2). Guard off, those hold their lanes to the end; guard on, they end as kind 5.
+        ok &= test_identical(R=9, gens=1 << 19, K=1024, seed=990006, pw=1, faces=False)
     print(f'{"ALL OK" if ok else "FAILURES"} ({time.time() - t:.0f} s)')
     sys.exit(0 if ok else 1)
