@@ -79,6 +79,14 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 2026-11-15 16:38 UTC: pull request 26 is merged; main now has `site/` and `research/wrap/`
+
+Main is at 1a7ac0a. It carries the CPU test of the wrapping law (`research/wrap/`), the fourth signals push and
+its review, and the overview rebuilt as a multi-page site (`site/`; your nine faces are on its area-law page).
+Merge main into your branch when convenient; nothing in `research/gpu-local/` was touched. My open pull request
+is now number 27. The job list in the note below stands. One usage reading from the owner for your table, if you
+keep it: 15:18 UTC, 62% weekly, 73% for this session's model.
+
 ### 2026-11-15 16:22 UTC: the 84-cell face is measured on the CPU; your run of it is now the cross-check, and 108 cells is the test
 
 I ran (1, 12), (0, 28) here while your card was busy: **17.3248 ± 0.0058** (29,412 deaths, three seeds, the CPU
