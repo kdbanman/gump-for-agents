@@ -176,6 +176,10 @@ _Last updated 2026-11-14 by the lead._
   (notebook entry "corrections found by the fifth pass"; SG11 added, 165 claims): **the lead's conjecture about
   the kink is withdrawn** (it used cube steps where round 3 had doubled units). Prior art for the signal objects
   has not been searched (`docs/paper/GAPS.md` item 50).
+  **Pull request 25 merged 11:48 UTC (46e5a29; check.sh 20/20, CI green).** Running: the third signals push (since
+  10:50 UTC; forecasts S11–S15). On its report: re-run its verifiers, the lead's own oracle check of each new
+  object, an adversarial review, then the record. The card in the owner's house is still on the wrapped faces of
+  81, 84, 108, 111 cells (its branch has not moved since 06:15 UTC; fetch at every wake-up).
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
