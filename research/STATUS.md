@@ -79,7 +79,7 @@ _Last updated 2026-11-14 by the lead._
   draft 2 with the same results (4008b80, e88f889, bb22eda; its number check: 263 of 270 numbers in the cited row
   or entry, 7 from the earlier draft, none unsourced); the six disagreements it traced are applied (notebook entry
   "corrections found while the manuscript draft was brought up to date"; CLAIMS TH7, CN2; ledger 126 rows).
-  **Started 02:08 UTC (Opus):** an audit that re-runs the cheap C-graded ledger rows ->
+  **Started 02:04 UTC (Opus):** an audit that re-runs the cheap C-graded ledger rows ->
   `research/AUDIT-2026-11-15.md` (the lead applies grade changes); a naturalist identifying the 37 long-period
   settled states of `research/audit/shape3/zombie_states.txt` against the catalogue -> `research/clockwork/`. **The owner reset the Fable
   window at about 20:28 UTC** (0.00 at 20:29; words in `LEAD.md`, "Watching usage"). **Started 20:33 UTC:**
