@@ -1222,8 +1222,11 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   `oracle5.py`). So which of the two a gap meets depends on the end and on the kind of gap: a K0 signal is a gap
   that 486 of the ends that forgive a hole do not forgive.
 - Not covered: the 5 × 5 tube (its absorber census at C = 31 found no solution in 11 minutes: section 26), C ≥ 39,
-  ends of period 8 at C ≥ 33, transients longer than 1,500 generations, words other than the eight, the line's own
-  receiving cap (capA, which is a cap at rest that becomes an absorber; it heals every word, section 21).
+  ends of period 8 at C ≥ 35 (at C = 33 the period-8 list `p4/abs8_fb_33.json`, complete, holds only the twelve
+  period-4 ends: review), transients longer than 1,500 generations, words other than the eight (see the review note
+  above for every one-unit change of one rake). The line's own receiving cap capA, in its absorbing cycle and
+  mirrored to a +v end, is one of the 741 (review, `research/audit/signals5/census5.py`); it is among the 113 that
+  heal every gap of the review's scan.
 ## 28. Beside the stream: catalogue oscillators and the divider's own oscillator, each sent a gap
 
 - **[measured, sg.step_set; a SAMPLE] The catalogue beside the running line.** `python3 gapstream.py --K 150 --seed 3
@@ -1239,6 +1242,10 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   at, C17.31a, with `python3 gaplook.py fire ../scratch/signals/p5/gapstream.jsonl 1`: when the gap
   reaches the oscillator the wire catches fire there and burns in both directions, up to the gun in about 15
   generations, leaving the oscillator standing: a fuse, not a signal); 9 lose the oscillator in the plain run later.
+  *Review (REVIEW-signals-5 §3):* in one of the 28 (C9.28a) the gun dies in the plain run too (`plain_gun` false;
+  `--summary` tests `gap_gun` first), so 27 are deaths caused by the gap. All 28 were looked at
+  (`research/audit/signals5/c46.py`): 23 are fires as described (every wire unit between the oscillator and the gun
+  burnt), 5 spread without burning every unit (two with the oscillator beside the gun, no wire between).
   **No run left the oscillator alive and the gun alive in a state different from the plain run's.**
   `python3 gapstream.py --summary ../scratch/signals/p5/gapstream.jsonl` relabels the records (the run itself
   printed the 28 gun deaths as `LISTENER?`; its labels were corrected afterwards and the jsonl holds both flags).
@@ -1252,6 +1259,15 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   debris is left (`python3 gaplook.py final ../scratch/signals/p5/gapstream_end.jsonl` prints both final states). The gun test should
   have required rakes on the wire; for "healed" this does not matter (a placement that burns the line identically
   with and without the gap is not a standing placement, and it was not counted as a listener).
+  *Review (REVIEW-signals-5 §3):* the 18 runs in which the gap kills the gun with the oscillator kept are **not
+  fires** except 2 (C9.28a). In 8 the end turns the stream into a wall: behind a front moving up the wire at one unit
+  per 2 generations the wire is a uniform wire of repeat one unit (not wire C), and the gun dies when the front
+  arrives. In 4 (C18.23a and C20.33c, both gaps) **the end sends the gap back**: the hole reaches capA with the
+  oscillator beside it, and a rigid three-cell signal leaves it and travels up the stream, through the oncoming
+  rakes, one unit per 2 generations, with the whole state otherwise equal to the plain run's (end, oscillator and
+  every rake included); it kills the gun on arrival (on the oracle: `python3 research/audit/signals5/orc46.py`;
+  initial cells in `research/audit/signals5/end_echo.json`). 4 others spread otherwise. That is an echo, not a
+  listener (the end is restored), but it is a signal moving against the stream, which no earlier push had.
 - **[measured, sg.step_set; exhaustive over places and phases for one N] The divider's oscillator.**
   `python3 divgap.py 16` (45 s): C8.24a in each phase 0..7 at each shift −20..+5 from its stored place beside the
   line N = 16 (shifts with the oscillator between unit 3 and the gun), started from bare wire as in
@@ -1279,15 +1295,23 @@ for the oracle; the controls of each search are stated with it. Forecasts and sc
   the divider's oscillator stands) was cut at 25 minutes. `listen_batch.sh` was stopped half way (a kill meant for one
   instance stopped `xargs`); the remaining instances were run by `listen_queue.sh` from a queue file and are all in
   the log. Of the 28 + 18 runs in which a gap kills the gun while the oscillator beside the stream survives, one was
-  looked at (a fire, section 28); the others may differ.
+  looked at (a fire, section 28); the others may differ. *Review (REVIEW-signals-5): checked since. The SAT rows C =
+  29, 31 (one hole, (4, 4)) and the controls were reproduced by an independent encoding with two other solvers; the
+  census was recounted (741) and re-run on the whole state with an independent stepper for all eight words; every
+  one-unit change of one arriving rake was sent to the 741 ends; `divgap.py 16` was re-run; the four `LISTENER?` runs
+  were put to the oracle; all 46 gun deaths were looked at, and they do differ (section 28).*
 - **What the five pushes now say about reading.** Every end of the stream inside the 3 × 3 tube that can be found
-  is a perfect sink for gaps or is destroyed by any gap at all; the same dichotomy held for the 13 ends of the fourth
+  is a perfect sink for holes or is destroyed by any hole at all; the same dichotomy held for the 13 ends of the fourth
   push and for the clock's left cap against every word of the B/C tape (section 15). Beside the stream the sample
-  gives the same two outcomes. The reason is not known. A guess worth testing: a stationary end locked to the stream
+  gives the same two outcomes. *(Review: for gaps other than holes the ends still only heal or burn, but the split is
+  not the same: a second one-cell signal K0 is fatal to 486 ends that heal holes and healed by 17 that holes destroy,
+  section 27; and beside the receiving end a gap can come back up the stream as a signal, section 28.)* The reason is not known. A guess worth testing: a stationary end locked to the stream
   is a driven system with one attractor per drive, so a missing drive pulse is followed by re-entrainment; a
   listener needs a driven object with two attractors under the same drive.
 - **Where I would go next.** (1) *The gap that kills the gun from downstream* (section 28): the one of 46 looked at is a fire; if
-  another sends back something smaller than a fire (a rake turned against the stream), the gun end could listen. (2) *Two-attractor drives.* Look for bistability directly: `sat_listen.py` with A and B both free and
+  another sends back something smaller than a fire (a rake turned against the stream), the gun end could listen.
+  *(Review: four do: C18.23a and C20.33c beside capA return a three-cell signal that crosses the oncoming rakes
+  intact. What is missing is a gun end, or anything upstream, that survives its arrival.)* (2) *Two-attractor drives.* Look for bistability directly: `sat_listen.py` with A and B both free and
   no gap, B ≠ every phase and translate of A, A and B in the same place (two different absorbers of one region
   that share their first units); then ask what event moves one into the other. (3) The 5 × 5 tube is out of reach of
   this encoding at C ≥ 29 within 25 minutes, and so is its plain absorber census; since the run from a known end is
