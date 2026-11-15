@@ -78,3 +78,58 @@ What I expect, written now:
 - **X3.** A = 36 (three loops² 12) lies above the frozen 7.4016 by more than 0.02: the (A − A0) form overstates
   the discount at small A (outside the fitted range, so this scores the form, not W1).
 - **X4.** W6: the A = 60 pair re-measured differs by less than 0.004 (I expect no second effect at that size).
+
+## The lead's note after the test (2026-11-15 15:05 UTC)
+
+Scored by the tester in `README.md` and accepted: **W1 held** (11 of 11 new faces of 51–69 cells inside the margin),
+**W2 held** on two faces at ± 0.010–0.012, **W3 held as worded and only just** (the answer depends on the form),
+**W4 held as worded** (but faces with one short direction sit below the law and faces with two or more above it),
+**W5 failed** (nothing of this kind reaches loop² 9 or 7), **W6 failed** (the 60-cell pair no longer differs).
+Four of six held, and the law is still the wrong form: with the precise values it had left out it does not fit
+faces of 48 cells and up (χ² 120–141 on 41–48 by my own loader, `python3 research/audit/wrap_haz_lead.py`), and
+below 48 cells it is 4 to 16σ off. A forecast that holds inside a margin of 0.010 says little about a form whose
+errors are 0.003.
+
+What my own refit adds to the tester's reading. Its replacement (HAZ: a short loop adds a second death rate whose
+share grows like an exponential of the area) fits, χ² 51.8 on 38 here against its 49.6. **But two other forms with
+the same number of parameters fit the same 48 faces as well or better**, and on the 39 faces with at most one short
+direction the three are indistinguishable (χ² 32.8, 33.0, 36.8 on 29):
+
+| form | discount of one loop direction | χ² on 38 |
+|---|---|---:|
+| LINES | k_q·(A − z_q): a straight line per loop length, zeros at 28.6, 26.3, 18.7 cells for loop² 12, 13, 16 | 46.7 |
+| POW | ln(1 + r_q·(A/63)^m_q), m = 2.11, 1.91, 1.44, 0.55 | 41.3 |
+| HAZ | ln(1 + r_q·e^(g_q·(A − 63))), g = 0.036, 0.033, 0.025, 0.019 | 51.8 |
+
+So what is established is narrower than "a second way to die at 0.173 per cell": short loops discount, the
+discount of one loop grows faster than my common-A0 line allowed, the lines for different loop lengths do not meet
+at one area, and nothing on file says whether the growth is a straight line (a tube of fixed girth has its own
+price per cell: 0.2048 for loop² 12), a power of the area, or an exponential (a price that keeps falling towards
+0.173). The three part company above 80 cells, where only the card can measure.
+
+**Forecasts for the card, frozen now** (`python3 research/audit/wrap_haz_lead.py --predict H K D`; the frozen
+numbers are in that file, commit of this note):
+
+| torus | cells | loops² ≤ 20 | old law | LINES | POW | HAZ |
+|---|---:|---|---:|---:|---:|---:|
+| (1, 12), (0, 28) | 84 | 12 | 17.3604 | 17.3361 | 17.3207 | 17.2941 |
+| (1, 17), (0, 32) | 96 | 12 | 19.8286 | 19.7939 | 19.7608 | 19.6850 |
+| (1, 16), (0, 36) | 108 | 12 | 22.2968 | 22.2518 | 22.1960 | 22.0366 |
+| (1, 3), (0, 25) | 75 | 13 | 15.5440 | 15.5352 | 15.5321 | 15.5270 |
+| (1, 3), (0, 28) | 84 | 13 | 17.4010 | 17.3881 | 17.3795 | 17.3614 |
+| (1, 9), (0, 25) | 75 | 19 | 15.6479 | 15.6516 | 15.6512 | 15.6485 |
+| (1, 5), (0, 28) | 84 | 19 | 17.5223 | 17.5277 | 17.5275 | 17.5228 |
+| (4, 0), (0, 7) | 84 | 16 | 17.4586 | 17.4604 | 17.4600 | 17.4544 |
+| (1, 4), (0, 26) | 78 | none | 16.2919 | 16.2908 | 16.2911 | 16.2912 |
+
+Each form's own error on the 84-cell loop² 12 face is about ± 0.005, growing to ± 0.02 for HAZ at 108 cells.
+
+- **W7 (40%).** The 84-cell face with one loop of 12 lands within 0.008 of LINES (17.336): the tube already has its
+  own straight line. **POW 30%, HAZ 15%, the old law 5%, none of the four 10%.**
+- **W8 (70%).** Whatever the form at 84 cells, the 96-cell face lands within 0.02 of the same form's forecast.
+- **W9 (65%).** The face with no short loop at 78 cells, (1, 4), (0, 26), lands within 0.008 of 16.291. The tester's
+  two such faces (75 and 78 cells) both came out 0.015 low, at 1.5σ and 1.2σ; if the card repeats that at ± 0.003,
+  a loop of 21 does something after all.
+- **W10 (75%).** The card's values for the three faces the tester also measured, (1, 3), (0, 25), (1, 9), (0, 25) and
+  (1, 4), (0, 26), agree with the tester's (15.5363 ± 0.0104, 15.6575 ± 0.0106, 16.2769 ± 0.0120) to within 2.5 of
+  the combined errors, all three. This is the cross-check of the tester's stepper by independent code.
