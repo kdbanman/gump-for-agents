@@ -1,5 +1,64 @@
 'use strict';
-// ---- one price per cell? (NB 2026-11-14, "is there one asymptotic cost per cell" and addendum; "empty patches"; CLAIMS CN1, GP10) ----
+// ---- one price per cell? No (NB 2026-11-16: the hull face of 108 cells; a living hull face is occupied …; the card's tube and
+//      wrapped faces. CLAIMS CN2-CN4, WL3, WL7, WL8; OPEN-PROBLEMS 9 (i)-(m)). Every number is D.prices, quoted in
+//      collect/sources/update-2026-11-16a.json and checked by collect.py; the wide-face line of the nine is D.tori. ----
+(function () {
+  const P = D.prices, tb = P.tubes, H = $('#f-prices'), wide = D.tori.price[0];
+  $('#n-pr-rim').textContent = P.rimmed[3].toFixed(3).replace(/0$/, '');
+  $('#n-pr-wide').textContent = String(wide);
+  const rows = [
+    { lab: 'rimmed faces (the faces of a real box)', sh: 'rimmed faces', v: P.rimmed[3], se: P.rimmed[4], c: 'var(--s2)', g: 'B', t: 'second differences of hull radii 9, 11, 13, 15 (to 108 cells): ' + P.rimmed[0] + ' and ' + P.rimmed[1] + ' ± ' + P.rimmed[2] + ', three prices with any rim term linear in the rim' },
+    { lab: 'wide wrapped faces, no loop shorter than √21', sh: 'wide wrapped faces', v: tb[6], se: tb[7], c: 'var(--ink-2)', g: 'B− for the nine on your card (reviewed twice); C for the 14-face line', t: '14 faces of 63–126 cells, the lead’s line (the nine on your card alone: ' + D.tori.line63[1] + ')' },
+    { lab: 'the same, 16 layers deep instead of 8', sh: '16 layers deep', v: P.thick[1], se: P.thick[2], c: 'var(--ink-2)', hollow: 1, g: 'C', t: 'faces of 63 and 84 cells on your card, one seed each: the 8-layer price' },
+    { lab: 'no loop at all, if the density rule held for long loops', sh: 'no loop at all, if…', v: P.noloop[0], se: 0, c: 'var(--ink-3)', hollow: 1, g: 'not tested', t: 'a consequence of the tube rule, not a measurement; the face with a loop of √21 leans to it (' + P.w13[0] + ' ± ' + P.w13[1] + ') and does not decide' },
+    { lab: 'tubes of girth 4 (loop² 16), 60–108 cells', sh: 'tubes, girth 4', v: tb[4], se: tb[5], c: 'var(--s3)', g: 'C: the lead’s line fit, not reviewed', t: '7 faces' },
+    { lab: 'tubes of girth √13, 57–75 cells', sh: 'tubes, girth √13', v: tb[2], se: tb[3], c: 'var(--s1)', g: 'C: the lead’s line fit, not reviewed', t: '7 faces' },
+    { lab: 'tubes of girth √12, 54–84 cells', sh: 'tubes, girth √12', v: tb[0], se: tb[1], c: 'var(--ember)', g: 'C: the lead’s line fit, not reviewed', t: '8 faces' },
+    { lab: 'tubes of girth √12, ' + P.long[2] + '–' + P.long[3] + ' cells', sh: 'long tubes, √12', v: P.long[0], se: P.long[1], c: 'var(--ember)', big: 1, g: 'C', t: 'three faces on your card, straight among themselves; 96 and 108 cells ' + P.longz[0] + ' and ' + P.longz[1] + ' combined errors below the shorter line' },
+  ];
+  const KK = $('#k-prices'), key = (sw, t) => { const k = E('span', { class: 'key' }, KK); E('span', { class: 'sw', style: sw }, k); k.appendChild(document.createTextNode(t)); };
+  key('background:var(--ink);border-radius:50%', 'measured slope (bars: one standard error, where wider than the dot)');
+  key('background:var(--surface);border:2px solid var(--ink-3);border-radius:50%', 'a check, or a consequence not tested');
+  responsive(H, w => {
+    const nar = w < 470, rowH = 38, top = 10, x0 = 0.199, x1 = 0.236, h = top + rows.length * rowH + 40;
+    const f = frame(H, { w, h, label: 'Price per cell by kind of face: rimmed faces ' + P.rimmed[3] + ' ± ' + P.rimmed[4] + '; wide wrapped faces ' + tb[6] + '; tubes of girth 4, √13, √12: ' + tb[4] + ', ' + tb[2] + ', ' + tb[0] + '; long tubes of girth √12 ' + P.long[0] + ' ± ' + P.long[1],
+      x: { d: [x0, x1], ticks: nar ? [0.2, 0.21, 0.22, 0.23] : [0.2, 0.205, 0.21, 0.215, 0.22, 0.225, 0.23, 0.235], fmt: v => v.toFixed(nar ? 2 : 3), title: 'price per cell (ln τ per cell added)' },
+      y: { d: [rows.length + 0.2, -0.2], ticks: [] }, m: { t: top, r: 14, b: 38, l: 12 } });
+    const yy = i => f.Y(i + 0.5);
+    S('line', { x1: f.X(wide), x2: f.X(wide), y1: f.m.t, y2: f.h - f.m.b, stroke: 'var(--ink-3)', 'stroke-width': 1, 'stroke-dasharray': '3 4' }, f.svg);
+    rows.forEach((r, i) => {
+      const y = yy(i), x = f.X(r.v), right = r.v > 0.222;
+      S('text', { x: f.m.l, y: y - 9, class: 't-mono halo' }, f.svg).textContent = nar ? r.sh : r.lab;
+      const g = S('g', {}, f.svg);
+      if (r.se && f.X(r.v + r.se) - f.X(r.v - r.se) > 6) S('line', { x1: f.X(r.v - r.se), x2: f.X(r.v + r.se), y1: y + 4, y2: y + 4, stroke: r.c, 'stroke-width': 2 }, g);
+      S('circle', { cx: x, cy: y + 4, r: r.big ? 5.5 : 4.5, fill: r.hollow ? 'var(--surface)' : r.c, stroke: r.hollow ? r.c : 'var(--surface)', 'stroke-width': 2 }, g);
+      const vt = S('text', { x: right ? f.X(r.v - (r.se || 0)) - 8 : f.X(r.v + (r.se || 0)) + 8, y: y + 8, 'text-anchor': right ? 'end' : 'start', class: 't-strong halo' }, f.svg);
+      vt.textContent = (r.se ? '' : 'about ') + r.v + (r.se && !nar ? ' ± ' + r.se : '');
+      const hit = S('circle', { class: 'hit', cx: x, cy: y + 4, r: 13, tabindex: 0 }, g);
+      tipOn(hit, () => [r.lab, (r.se ? r.v + ' ± ' + r.se : 'about ' + r.v) + ' per cell', r.t, 'grade: ' + r.g]);
+    });
+  });
+  tableView(H.parentNode, ['kind of face', 'price per cell', '± s.e.', 'grade', 'what it rests on'], rows.map(r => [r.lab, r.v, r.se || '–', r.g, r.t]));
+  $('#x-prices').textContent = 'The price per cell is how much ln(lifetime) grows for each cell added to a face. Rimmed faces pay a tenth more than wide wrapped ones (dashed: ' + wide + '); tubes pay less, the tighter the less, and a tube of girth √12 pays less again once it is long. The thinnest face, one cell across, pays half (“The thinnest face”). Grades are the ledger’s (“How it is checked”): B, re-run or recomputed by a second hand; C, not yet re-run. In the essay’s words: “' + P.essay + '”';
+  const N = $('#n-prices'), hb = P.hull108, rf = P.refuted, sc = P.scored, ea = P.earlier, rm = P.rimmed;
+  pmTile(numTile(N, String(hb[2]), 'ln τ of the rimmed face of ' + hb[0] + ' cells (hull radius ' + hb[1] + '), measured on your card: ' + fmtInt(hb[4]) + ' deaths, two seeds. One price of ' + rf[0] + ' per cell with any term linear in the rim said ' + rf[1] + ' ± ' + rf[2].toFixed(3) + ': refuted at ' + rf[3] + ' combined errors. The smaller faces’ second difference repeating said ' + sc[0] + ' ± ' + sc[1] + ', the card’s own forecast ' + sc[3] + ' ± ' + sc[4] + '. An earlier run by another code: ' + ea[1] + ' ± ' + ea[2] + ' (' + fmtInt(ea[0]) + ' deaths), ' + ea[3] + 'σ above.', ['meas', 'B · no adversarial review']), ' ± ' + hb[3]);
+  pmTile(numTile(N, String(rm[3]), 'per cell for rimmed faces, against ' + rm[5] + ' for wrapped ones. Not excluded: a correction for small rimmed faces that is not linear in the rim (0.2 at 45 cells, 0.07 at 63, none from 84). The ' + P.d135[0] + '-cell face would decide (' + P.d135[1].toFixed(3) + ' against ' + P.d135[2] + ') and is out of the card’s reach.', ['meas', 'B']), ' ± ' + rm[4]);
+  pmTile(numTile(N, String(P.long[0]), 'per cell for tubes of girth √12 from ' + P.long[2] + ' to ' + P.long[3] + ' cells, against ' + tb[0] + ' ± ' + tb[1] + ' from 54 to 84. So a tube’s price is not one number either. More on “What a short way round costs”.', ['unchk', 'C at 96 and 108 cells: one code']), ' ± ' + P.long[1]);
+  // where the difference is not, and what is checked and open
+  const li = (L, b, t) => { const e = E('li', {}, L); if (b) E('b', {}, e, b + ' '); e.appendChild(document.createTextNode(t)); };
+  const L1 = $('#l-prices-not'), it = P.interior, rim = P.rim, oc = P.occ, dp = P.depth, th = P.thick;
+  li(L1, 'Not how full it is.', 'Deep inside, a living rimmed face is as full as a wrapped one (' + it[0] + ' of its face cells alive): cells three or more layers from every other face are at ' + sgn(-it[1], 5) + ' at radius 15 and ' + sgn(-it[2], 5) + ' at radius 25, five or more layers in ' + sgn(it[3], 5) + ' ± ' + it[4].toFixed(6) + '. The lead’s own check, on the reference stepper alone, at radius 15: ' + sgn(-it[5], 4) + ' ± ' + it[6] + '. A tube’s discount is ' + oc[0] + ' times its emptiness; if that rule joined the two prices, the rimmed face would be fuller by ' + P.excluded + ', which is excluded by thirty standard errors. Occupation accounts for ' + sgn(-oc[1], 4) + ' ± ' + oc[2] + ' of the ' + sgn(oc[3], 3) + ' per cell: nothing, and with the wrong sign.');
+  li(L1, 'Its rim is different, but not in a way that prices.', 'Along each edge the edge row is ' + sgn(rim[0], 3) + ' fuller, the next row ' + sgn(-rim[1], 3) + ', then ' + sgn(rim[2], 3) + '; the corners, cells in four faces, stand nearly empty at ' + rim[3] + '. Summed over a face that is a constant (' + sgn(-P.rimsum[0], 3) + ' cells, from the corners) and ' + sgn(P.rimsum[1], 4) + ' cells per rim cell, linear in the rim, and the second differences behind the rimmed price cancel both.');
+  li(L1, 'Not depth.', 'Wrapped faces on slabs of ' + dp.slice(0, 3).join(', ') + ' and ' + dp[3] + ' layers have their face layers equally full within ' + dp[4].toFixed(6) + '. On your card, the price at ' + th[0] + ' layers is ' + th[1] + ' ± ' + th[2] + ', the 8-layer price; the lives are about ' + th[3] + ' shorter (' + th[4] + 'σ).');
+  li(L1, 'So it is in the dying.', '“' + P.essay2 + '” (the essay). A wrapped face has no corners; the nearly empty corners are the first suspect.');
+  const L2 = $('#l-prices-check');
+  li(L2, 'The 108-cell face:', 'grade B. The card’s code, calibrated at 63 cells against the value on file; an earlier run by another code agrees at ' + ea[3] + 'σ; the lead recomputed the value from the rows. No adversarial review; the age tables were not re-derived.');
+  li(L2, 'The living face:', 'B for the interior and the first three rows at radius 15 (two codes, one of them the reference stepper alone); C for the other radii, the rim sums and the thick slabs (one code). Nobody has run the larger radii on the reference stepper; the path to death was not measured.');
+  li(L2, 'Thickness and the long tubes:', 'C. The card’s code, one seed each for the thick slabs; at 96 and 108 cells no second code, and the seeds scatter (χ² ' + P.scatter[2] + ' on ' + P.scatter[3] + '). The lead checked the arithmetic from the rows, not the runs.');
+  li(L2, 'Open:', 'how each kind of face dies. Watch rimmed and wrapped faces die side by side: where the last living patch sits, whether a rimmed face’s death must start away from its corners or at them, whether the dip rate per cell differs (open problem 9 (k)). The form of a long tube’s lifetime, a bend that goes on or a second straight line, and whether tubes of girth √13 and 4 bend too (9 (l)). Whether a loop of √21 costs anything: ' + P.loop21[2] + ' ± ' + P.loop21[3] + ', a 2σ answer (9 (m)).');
+})();
+
+// ---- before the 108-cell face (NB 2026-11-14, "is there one asymptotic cost per cell" and addendum; "empty patches"; CLAIMS CN1, GP10) ----
 (function () {
   const C = D.constant, Q = D.patches, H = $('#f-ranges'), sl = C.slopes;
   $('#n-wide3').textContent = C.periodic[0] + '–' + C.periodic[1];
@@ -56,7 +115,7 @@
   numTile(N, 'missed', 'the lead’s forecast for the patches, as stated: the fit with a perimeter term fails (c = ' + fit[0] + ', χ² ' + fmtInt(fit[2]) + ' on ' + fit[3] + ').', ['ret', 'missed']);
   pmTile(numTile(N, Q.sigma45 + 'σ ', 'between CPU and GPU for the 4 × 5 patch after the CPU rerun (ln P ' + sgn(Q.cpu45[1], 3) + ' ± ' + Q.cpu45[2] + ' on ' + Q.cpu45[3] + ' hits against ' + sgn(Q.lnp[5][2], 3) + ' ± ' + Q.se['60'] + '; combined ' + sgn(Q.comb45[0], 3) + ' ± ' + Q.comb45[1] + '). The first CPU value was a low fluctuation.', ['meas', 'two codes']), 'apart');
   pmTile(numTile(N, String(Q.cost_comb[1]), 'per cell for the largest patch, both codes combined: about 1σ above the lifetimes’ range, not inside it as first written. Still falling; its limit is open (' + Q.range[0] + '–' + Q.range[1] + ').', ['ret', 'one sentence withdrawn']), ' ± ' + Q.cost_comb[2]);
-  pmTile(numTile(N, '~' + g[1] + ' GPU-hours ', 'for hull faces of ' + g[0] + ' cells at 10⁴ deaths, which the analyst says would rule out ' + g[2] + ' of the ' + g[3] + ' passing readings (the review disagrees). Not run yet: queued for the GTX 1080.', ['once', 'queued']), '');
+  pmTile(numTile(N, '~' + g[1] + ' GPU-hours ', 'for hull faces of ' + g[0] + ' cells at 10⁴ deaths, which the analyst said would rule out ' + g[2] + ' of the ' + g[3] + ' passing readings (the review disagreed). Your card has since run it, ' + fmtInt(D.prices.hull108[4]) + ' deaths: the rimmed face of ' + g[0] + ' cells, above.', ['meas', 'run']), '');
 })();
 
 // ---- the nine wrapped faces on the owner's GTX 1080 (NB "the nine wrapped faces reviewed"; CLAIMS GL1, GL3). The values are
@@ -67,7 +126,7 @@
   const T = D.tori, L = T.line63, line = A => L[0] + L[1] * (A - 63), res = (A, v) => v - line(A), H = $('#f-tori');
   $('#n-kink').textContent = Math.round(T.kink);
   // what the density law of the plate before implies for this line, if it holds for long loops (WL5; not tested: W13)
-  $('#x-cn-loop').textContent = 'And these faces are not free of loops either: each has loops of √21 to √31, which the lifetimes cannot resolve. If the rule of the plate before holds for loops that long (not tested; a face is queued on your card), they cost a little, and a face with no loop at all would pay about ' + D.dens.noloop[0] + ' per cell, not ' + D.dens.noloop[1] + '.';
+  $('#x-cn-loop').textContent = 'And these faces are not free of loops either: each has loops of √21 to √31, which the lifetimes barely resolve. If the rule of the plate before held for loops that long, they would cost a little, and a face with no loop at all would pay about ' + D.dens.noloop[0] + ' per cell, not ' + D.dens.noloop[1] + '. The face your card ran to test it came in at ' + D.prices.w13[0] + ' ± ' + D.prices.w13[1] + ', between the two forecasts: with the 78-cell face, a loop of √21 costs ' + D.prices.loop21[2] + ' ± ' + D.prices.loop21[3] + ', which leans to a cost and does not decide.';
   $('#n-law-tori') && ($('#n-law-tori').textContent = T.price[0].toFixed(4));
   T.deficit.forEach(([A, d]) => { const r = T.rows.find(x => x[0] === A); if (Math.abs(res(A, r[1]) + d) > 0.002) E('p', { class: 'cap', style: 'color:var(--ember)' }, H.parentNode, 'The drawn deficit at ' + A + ' cells differs from the ledger’s ' + d + ': trust the ledger.'); });
   const five = A => T.five[0] + T.five[1] * A;   // the line through the first five faces (0.033 + 0.2084·A) and its forecasts
@@ -93,5 +152,5 @@
   const N = $('#n-tori'), h = T.hull, sm = T.smooth;
   numTile(N, T.price[0] + '–' + T.price[1].toFixed(4), 'per cell from 63 cells up, every description that survives the review. Seven faces on one line (χ² ' + T.chi7 + ' on 5); no drift towards a higher price. Faces of 84 to 111 cells rest on one code; at 81 cells a second code gives ' + T.second81[0] + ' ± ' + T.second81[1] + ', ' + T.second81[2] + 'σ away.', ['meas', 'reviewed, two codes to 81 cells']);
   numTile(N, 'a bend', 'near ' + Math.round(T.kink) + ' cells: only the broken line fits all nine (χ² ' + sm[0] + ' on 5; smooth forms ' + sm[1] + ' to ' + sm[2] + '). The line through the first five was low at all four new faces.', ['meas', 'the second review']);
-  numTile(N, '+' + h[0] + ' to +' + h[3], 'how much longer faces with a living rim last (' + h[4] + ' to ' + h[7] + ' cells), and their price per cell runs ' + h.slice(8).join(', ') + ': away from ' + T.price[0] + ', not towards it. “One price or two” now leans to two; the rimmed face of 108 cells on your card is the next datum.', ['open', 'open']);
+  numTile(N, '+' + h[0] + ' to +' + h[3], 'how much longer faces with a living rim last (' + h[4] + ' to ' + h[7] + ' cells), and their price per cell runs ' + h.slice(8).join(', ') + ': away from ' + T.price[0] + ', not towards it. The rimmed face of 108 cells has since been run on your card: rimmed faces pay about ' + D.prices.rimmed[3] + ' per cell (above).', ['meas', 'answered']);
 })();

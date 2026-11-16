@@ -344,3 +344,35 @@ two milestones.
   plates' prose.
 - Not shown: the meetings with K3 and N1-N4 as runs (K3's two outcomes are named in words); the B′ stretch as a drawing; the
   constraint problems' planes (C = 31 … 37) beyond "within bounds"; U absorbed by a gun (echo-train.json `gun_absorbs_U`).
+
+## Refresh of 2026-11-16 (morning): one price per cell? No; the card's tubes and the loop of √21
+
+"One price per cell?" (`#constant`) rewritten around the answer no: a new figure of the price per cell by kind of face
+(`#f-prices`), three tiles (the 108-cell rimmed face, the rimmed price, the long tubes), "where the difference is not" (occupation,
+the rim, depth) and "how far it is checked, and what is open"; the old figures kept below, the ranges figure retitled "before the
+108-cell rimmed face", the GPU-hours tile and the nine-faces caption and tile told that the face has run. "What a short way round
+costs" (`#wrap`): W13 measured, the card's seven faces drawn (squares) and tabled, the long tubes and their line, κ 3.0 on long
+tubes in the heading and tiles, chips and check list updated. "Open now" (`#next`): items 3 and 4 rewritten. Map tiles for `wrap`,
+`constant`, `next`. Two corrections, three forecasts, three milestones.
+
+- Quoted numbers: `sources/update-2026-11-16a.json` (sections `price`, `wrap16`; every item with `src` and `how`), checked by
+  `collect.py` against NB "the hull face of 108 cells", "a living hull face is occupied …", "the card's tube and wrapped faces",
+  CLAIMS CN2-CN4, WL3, WL7, WL8, and (`file` quotes) `research/wrap/PREDICTIONS.md`, `research/OPEN-PROBLEMS.md` item 9 (j)-(m),
+  `docs/WHAT-I-SEE.md` ("Two prices", "Your card's answer on the queued face").
+- **W13 filled in here, not in `update-2026-11-15f.json`** (which keeps `w13measured` null): `wrap16.w13measured` (17.5387 ±
+  0.0031, CLAIMS WL8) overrides `dens.w13measured`; `collect.py` asserts the plate's own distances (+0.9σ, −1.9σ) equal the quote's.
+- The card's seven tube and wrapped faces: each row quoted from the notebook's table. Where `research/data/gpu_local_eqtorus/<file>.csv`
+  is in the tree (it is, since the merge of 2026-11-16), `collect.py` recomputes ln(2 Σexposure / Σface) and its error and asserts them
+  equal to the quote; the site does not need the files. The nine equilateral faces of `data/tori.json` are now read by name (the
+  folder holds sixteen files).
+- New key `data/prices.json`; changed keys `dens` (`w13measured`, `loop21`, `two21`, `kappa3`, `kappafit`), `wrap` (`card`,
+  `long`, `pow`, `repeat`), `forecasts`, `corrections`, `project`.
+- Computed on the pages, not quoted: the W13 distances (checked in `collect.py`); the long tubes' line in the tube figure, drawn at
+  the quoted slope 0.2016 through the weighted mean of the three card faces (not a fit); each card face's distance below the line.
+- Typed, not drawn from data: the grades in the price figure's tooltips and table (from the CLAIMS level columns: CN2 B, CN3 B + C,
+  CN4 C, WL3's line fits C, WL7 C at 96 and 108); the "not checked" sentences (NB's "Not checked" lines of the three entries);
+  "Open now" items 3 and 4 (from OPEN-PROBLEMS 9 (k)-(m) and the essay; their 0.231, 0.2087, 3.0, 0.0047 ± 0.0023 are CN2, WL7, WL8's);
+  the map labels; the plates' prose.
+- Claim counts: 197 (A 91, B 91, C 14, D 1), read from `research/CLAIMS.md` by `collect.py` as before.
+- Not shown: the hull face's hazard by age; the rim profile beyond three rows and the depth profile by radius (`research/hulllocal/README.md`);
+  the card's settled lives by thickness; the 75-cell repeats as points (they are in the card's table).
