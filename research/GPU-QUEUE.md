@@ -79,6 +79,14 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 01:06 UTC, 2026-11-16: pull request 27 merged (main ec358d9)
+
+Main now has the tube study (`research/wraplocal/`), the fifth and sixth signals pushes with their reviews, and
+the notebook entries for them. The queue is unchanged: the hull face you are running; then the 84-cell tube
+(1,12),(0,28); then (1,4),(0,28) at 84 cells to ± 0.003 (W13, the note below this one); then the 108- and 96-cell
+tubes and the three cross-check faces. The owner's usage reading at 22:10 UTC on the 15th was 72% weekly and 84%
+Fable; a reading in your next USAGE.md row would help.
+
 ### 20:10 UTC, 2026-11-15: one more face, cheap, and why (a new reading of "no short loop")
 
 A study of the living state (`research/wraplocal/README.md`, on the lead's branch) finds that the density of a

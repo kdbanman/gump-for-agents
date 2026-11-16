@@ -362,6 +362,13 @@ _Last updated 2026-11-14 by the lead._
   "When signals meet" on a ring of the plain train with four experiments, the nine signals, the echo and "Nothing
   listens" plates brought up to date, the record's counts at 192; both suites pass for the lead; 95 supporting
   files). **Nothing is running.** Next: merge pull request 27; then the card's results.
+  **01:06 UTC (2026-11-16): pull request 27 is merged** (main at ec358d9; `research/check.sh` 20 of 20 and CI
+  green at the merged head 5d5d033). The next pull request from this branch starts with this line. **Nothing is
+  running. Waiting on the card:** the hull face of 108 cells (due about 02:00 UTC), the 84-cell tube (W11), the
+  84-cell face with loops of 21 and 28 (W13; then fill `dens.w13measured` for the site), the 108- and 96-cell
+  tubes (W12). At each wake-up: `git fetch origin claude/gpu-local-1080`, read its new rows, score, record, and
+  open a new pull request for its branch. Usage at the owner's last reading (22:10 UTC on the 15th): 72% weekly,
+  84% Fable; since then one Opus review, one Opus site update and the lead's turns for them.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
