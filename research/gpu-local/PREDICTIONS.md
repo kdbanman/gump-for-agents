@@ -128,3 +128,67 @@ of those, and the area's second difference is 3 cells:
 - The run: `hullface.py run 15 420 SEED`, seeds 15001 and 15002, 1,280 replicas at 2.7 × 10⁵ generations per second
   each, so every lane reaches age 6.8 × 10⁹ (3.9 first-death means; the old run stopped at 6 × 10⁸). Guard on.
   Kind-5 forecast unchanged (none, 85%). If any appear, both exposure conventions are reported.
+
+## 5. Block 4 scored (the hull face at A = 108); forecasts for the tube and wrapped faces, three thicker slabs and a longer 6 × 6 (2026-11-16T02:09Z, HEAD 16271f3)
+
+Written after the two hull rows at R = 15 (in the data directory with this commit) and before any row of the faces
+forecast below (no csv or json of them exists).
+
+**Block 4, scored** (`python research/gpu-local/hullface.py summary 15`): **ln τ_face = 23.3392 ± 0.0099** at A = 108
+(10,187 deaths, two seeds, χ² 0.09 on 1; no life settled, no kind-5 life, so the kind-5 forecast "none, 85%" held).
+
+| reading of block 4 | its value at A = 108 | measured − reading | in combined errors |
+|---|---:|---:|---:|
+| (c) one price 0.2087 per cell plus a term linear in the rim | 23.273 ± 0.010 | +0.066 | 4.7 |
+| (d) the second difference of 45, 63, 84 repeats | 23.338 ± 0.012 | +0.001 | 0.1 |
+| (b) the local slope keeps rising by the same step | 23.356 ± 0.015 | −0.017 | 0.9 |
+| the old run (1,059 deaths) | 23.376 ± 0.031 | −0.037 | 1.1 |
+| **my forecast** | 23.35 ± 0.02 | −0.011 | 0.5 |
+
+- (c) is refuted as stated; I gave it 3%. "Above 23.40" (5%) did not happen.
+- **A sign error in block 4, corrected here.** It said (c) could be saved if "the 45-cell face carries a small-size
+  deficit of 0.065". The sign is the other way: the measured second differences (0.691, and now 0.692 ± 0.014) are
+  *larger* than 3 × 0.2087 = 0.626, and a deficit at the small end lowers a second difference. To keep the tori's
+  price the small hull faces would have to live *longer* than the form, by at least 0.197 at 45 cells and 0.066 at
+  63 with nothing at 84 and 108. Four values cannot exclude that; the 135-cell face would (29.230 if the second
+  difference repeats, 29.163 if the tori's price holds from 84 on; on file 29.34 ± 0.25), and it is out of this
+  card's reach (about 40 deaths a day).
+- Owed from `research/audit/REVIEW-gpu-local-tori2.md` (its item 5), on block 3: at 81 cells the measured 16.9222 ±
+  0.0031 is 2.5 combined errors above the forecast of the line through the first five faces and 0.2 from the smooth
+  forms' forecast, whose own error there was ± 0.023. So 81 cells was never a sharp test between them.
+
+**Forecasts for the next chain** (`research/scratch/gpu-local/chain2.sh`; each face: `eqtorus.py check` first, guard
+on). The lead's forecasts by form are frozen in `research/wrap/PREDICTIONS.md` (W11 to W13); these are mine. Loops²
+are my own enumeration (`python research/gpu-local/loops.py H K D`: primitive lattice vectors, x² + xy + y²) and
+agree with the lead's lists.
+
+| torus (H, K), (0, D) | cells | loops² | my forecast | basis |
+|---|---:|---|---:|---|
+| (1, 12), (0, 28) | 84 | 12, 49, 61, 61 | 17.325 ± 0.008 | it repeats the CPU value 17.3248 ± 0.0058 (independent code) |
+| (1, 4), (0, 28) | 84 | 21, 28, 49, 49 | 17.544 ± 0.004 | see below |
+| (1, 16), (0, 36) | 108 | 12, 81, 93, 93 | 22.229 ± 0.012 | a tube of fixed girth is straight in its length: the CPU value plus 24 × 0.20437 |
+| (1, 17), (0, 32) | 96 | 12, 67, 67 | 19.777 ± 0.008 | the same line; the twist of the tube does not matter |
+| (1, 3), (0, 25) | 75 | 13, 37, 43 | 15.535 ± 0.008 | the tester's 15.5363 ± 0.0104 repeats |
+| (1, 9), (0, 25) | 75 | 19, 25, 39 | 15.651 ± 0.006 | my 5 × 5 (15.6630) less 0.012 for one loop of 19 |
+| (1, 4), (0, 26) | 78 | 21, 28, 31 | 16.291 ± 0.004 | my line 13.1621 + 0.20867 (A − 63); the tester's 16.277 ± 0.012 does not repeat |
+
+- **(1, 4), (0, 28), the lead's W13** (17.534 if a loop of 21 still discounts by the relation of the living state's
+  density, 17.547 if the effect ends before 21). My reason for 17.544: my equilateral 63-cell face has three loops
+  of 21 and lies within 0.007 of the line through the faces of 75 cells and more, whose loops² are 25 to 37. A
+  discount of 0.013 per loop of 21 at 84 cells would put that face about 0.026 low unless loops of 25 to 37
+  discount nearly as much; and if they do, my equilateral 84 (three loops of 28) is discounted about as much as
+  this face (one of 21, one of 28). Either way the two 84-cell faces differ by little. Below 17.5405 (the midpoint
+  of the lead's two): 20%.
+- (1, 16), (0, 36): above 22.214 (the midpoint of the straight line and the power form): 70%.
+- **Thicker slabs** (not asked; `eqtorus.py ... m=N`, rows in `research/data/gpu_local_thick/`). Why: the hull face
+  pays 0.231 per cell where the 8-layer tori pay 0.2087, and no term linear in the rim joins them (above). One
+  candidate is depth: a hull face has the whole octahedron behind it, a torus face has 8 layers and a second face.
+  `research/constant/README.md` notes that 8 layers were never tested against more at large faces; the only
+  thickness data are first peels at A = 48 (notebook, "independent of thickness once m ≥ 7", to a few per cent).
+  Runs: (1, 4), (0, 21) at 12 and 16 layers; (2, 4), (0, 14) at 16 layers. Forecast: no change. The 63-cell face
+  within 0.005 of its 8-layer value 13.1622 at both thicknesses: 85%; if it moves, upward: 80%. The 84-cell face
+  at 16 layers: 17.547 ± 0.006, so a slope 63 → 84 of 0.2087 ± 0.0004 (the hull's slope there is 0.2146).
+- **The equilateral 6 × 6 again** (the lead's optional job; six runs of 150 minutes, about 18,000 more deaths):
+  pooled with the 2,032 on file, 22.552 ± 0.008 (my line; the lead's relation says 22.535, on file 22.5600 ±
+  0.0222). Firewalls about 400, ln τ_fw 25.7 ± 0.1.
+- Kind-5 lives in the whole chain: none, 85%.
