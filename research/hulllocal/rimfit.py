@@ -70,5 +70,22 @@ def main(rho_w, var_w, tags):
               f'D2 Var excess {f(d2V)}; first difference per added cell dE/dA = {f((c["E"] - a["E"]) / dA)}')
 
 
+def fit(rho_w, var_w, tags):
+    """E(R) = a + b R + c A over all radii given (weights from block errors): c = the per-cell occupation difference"""
+    rows = sorted((one(t, rho_w, var_w) for t in tags), key=lambda r: r['R'])
+    for key in ('E', 'Vx'):
+        y = np.array([r[key].mean() for r in rows]); s = np.array([r[key].std(ddof=1) / np.sqrt(len(r[key])) for r in rows])
+        X = np.array([[1, r['R'], r['A']] for r in rows], float)
+        Wt = 1 / s ** 2
+        C = np.linalg.inv(X.T @ (X * Wt[:, None]))
+        p = C @ X.T @ (Wt * y)
+        chi2 = (((X @ p - y) / s) ** 2).sum()
+        print(f'fit {key}(R) = a + b R + c A over R = {[r["R"] for r in rows]}: a = {p[0]:+.4f} ± {C[0, 0] ** .5:.4f}, '
+              f'b = {p[1]:+.5f} ± {C[1, 1] ** .5:.5f} per unit R (per rim cell: {p[1] / 3:+.5f}), '
+              f'c = {p[2]:+.6f} ± {C[2, 2] ** .5:.6f} per cell; chi2 {chi2:.1f} on {len(rows) - 3}'
+              + (f'; kappa c = {KAPPA * p[2]:+.5f} ± {KAPPA * C[2, 2] ** .5:.5f} per cell' if key == 'E' else ''))
+
+
 if __name__ == '__main__':
     main(float(sys.argv[1]), float(sys.argv[2]), sys.argv[3:])
+    fit(float(sys.argv[1]), float(sys.argv[2]), sys.argv[3:])
