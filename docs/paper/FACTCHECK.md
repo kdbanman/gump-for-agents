@@ -149,7 +149,7 @@ is counted once, as unsupported, though some of its rows are only imprecise). Fi
   not-repeated list.
 - **References** (35 entries): every one is recorded in PRIOR-ART or the shelf with the same authors, title, venue,
   volume, year and pages where given, and the "how far read" note is no stronger than the record.
-- **Appendix**: superseded rows F7, S1, F9's limit, GP4 match the ledger's four; C-graded list matches the ledger.
+- **Appendix**: superseded rows F7, S1, F9's limit, GP4 match the ledger's four; C-graded list matches the ledger. (As of 2026-11-14; rebuilt after the audit of 2026-11-15, see the third update below.)
 
 ## Not checked
 
@@ -167,3 +167,240 @@ is counted once, as unsupported, though some of its rows are only imprecise). Fi
   the exam entry and `exponent.md` were searched).
 - Figures (`research/figures/*.png`, `web/docs/*.png`): every path the draft names exists; their content was not examined.
 - Prose, structure and the ranking's judgments (not asked).
+
+## Update of 2026-11-15
+
+By a subagent bringing the draft up to date with the results recorded after it was written (draft 2). Base: commit
+98a66d8. Sources: `research/CLAIMS.md` rows CN1, GP10, SH2, SH6–SH9, TH1–TH6, ZL1, ZL2 and the notebook entries
+"is there one asymptotic cost per cell?" with its addendum, "empty patches on a face too large to die: the forecast
+missed …", "a forecast before the run: empty patches …", "the second variable at equal shortest loop: not found",
+"lives that settle and are not recognised", "the thinnest face".
+
+**What changed in the draft** (words by `wc -w`; the draft grew from 18,662 to 20,527, +1,865, of which about
++1,350 are words containing letters and the rest numbers and symbols).
+
+- *Abstract*: the equal-loop differences (SH6–SH9), the range 0.207–0.219 (CN1), the thin face's 0.099 (TH3); one
+  sentence on unbounded GPU runs (ZL2).
+- *§5.2*: † on Table 2 at A = 108, 135 with the ZL2 bounds at A = 63, 84; GP7/GP8 comparisons marked; pointer to §7.5.
+- *§5.5*: † on Table 3's GPU rows at A = 759 (1,057-death run, R = 44) and 828; R43 s501 bound marked preliminary.
+- *§5.6, Table 5*: rows 15 (SH9, five candidates, refuted) and 16 (GP10 forecast, missed as stated); caption names
+  `research/shape3/PREDICTIONS.md` (the five candidates only) and the notebook forecast entry as searched, and
+  `research/constant/PREDICTIONS.md` as not searched (its part A, for the patches, is scored in the notebook as
+  low by 1.3, 2.6, 4.1 in −ln P and is not in the table).
+- *§6*: a bullet for the thin face (TH4).
+- *§7.1*: † on Table 6 (s = 5 at A ≥ 90, s = 6, and s = 4 at A = 84, see below); pointer to §7.5.
+- *§7.2*: SH2 shortened; SH6, SH7 (difference gone at A = 72, opposite sign at A = 36), SH8 (proved identity),
+  SH9 (five candidates refuted), and the commensurability reading as a conjecture.
+- *§7.3*: Table 8 caption says the loop² 3 entries are local slopes (TH1); the superseded "Two consequences" of
+  the reading (±0.004, "nothing connecting the two", "within reach of a transfer-matrix calculation") cut.
+- *§7.4 (new)*: the thinnest face, TH1–TH6; TH5's 22%/11%/5.6% marked preliminary (C); the retracted ± 0.004 stated
+  as such, since its retraction is the finding.
+- *§7.5 (new)*: CN1 with the addendum's split; the two refuted wrap-around laws; the disputed deciding
+  measurements; GP10 with its failed forecast, post hoc second differences, and the unresolved 4×5 cross-check.
+- *§10.3*: items 2 and 3 rewritten. *§11*: shape row (five candidates; no variable found); ranking unchanged, with
+  the reason, and item 1's and 2's "missing" updated; the shape paragraph says why it stays outside.
+- *§12*: trap (i)'s "none has been seen" (now false) cut; a "threat to validity" paragraph for ZL1 and ZL2.
+- Header: draft 2.
+
+**Number check.** `python3 docs/paper/check_numbers.py` lists every number in each changed passage (22 passages)
+and looks for it as a token in the ledger rows and notebook entries the passage cites. Result: 248 distinct numbers
+per passage; 242 in the cited sources; 6 only in the earlier draft (43, 96, 16, 0.2191, and the section number 7.4
+twice; sizes and values the passage refers back to); 0 unsourced. During the edit it found nothing to fix; one
+number was chosen against the ledger on purpose: the octahedral slope 84 → 108 is written 0.2181 ± 0.0013 (the
+notebook's lead check, Table 2, and the arithmetic (23.3761 − 18.1407)/24 = 0.21814) where CN1 and the notebook's
+"measured" bullet print 0.2182 (see FOR-LEAD). Negative control: on a copy with 0.0993 → 0.0995, 0.2179 → 0.2178
+and one 6.7 × 10⁻³ → 6.9 × 10⁻³, the script reports all three UNSOURCED. **What the script does not check**: that
+a number is attached to the right quantity (a token match only), and signs (the notebook's d is a difference whose
+sign I checked by eye against the notebook table for SH6 and SH7). I read each new passage against its row and
+entry once for pairing.
+
+**Could not source from the ledger or notebook.**
+- The run list behind † in Tables 3 and 6 (which slabs are "five of the wider slabs"; that R43 s501 is Table 3's
+  longer run of 21.889 ± 0.012) comes from `research/gpu/README.md`, "Zombie lives", which ZL2 cites as "where".
+- Table 6's s = 4 run at A = 84 (fwslab 4×7×8) is in neither ZL2 nor that README's table; `python3
+  research/gpu/zombies.py` prints "no age bins in this file" for it, so the draft marks it † on that basis.
+- "the vertex-centred GPU rows by about 2 × 10⁻³" was drafted and then cut: the README gives 2.1 × 10⁻³ at R38 where
+  ledger and notebook say "≤ 2 × 10⁻³" (FOR-LEAD).
+- Not checked: any run; the GPU README's bounds other than by running `zombies.py` once (output not compared line by
+  line); the claims' underlying reviews.
+
+*Follow-up, 2026-11-15, after the lead applied the FOR-LEAD items (CLAIMS CN1, ZL2, GP10 changed; TH7, CN2 added;
+notebook entry "corrections found while the manuscript draft was brought up to date").* Draft: Table 5 rows 17 (TH7,
+B) and 18 (CN2, flagged unverified, grade C) and its caption; GP10's 4 × 5 grade now B− in §7.5 and row 16; the
+fwslab 4×7×8 note in Table 6 and §12 now cites ZL2 rather than `zombies.py` (the "could not source" item above on it
+is resolved); CN1's 0.2181 already matched. The draft does not state the ledger's size, so nothing changed for it.
+`python3 docs/paper/check_numbers.py` (now 24 passages): 270 numbers, 263 in the cited sources, 7 only in the
+earlier draft, 0 unsourced.
+
+## Update of 2026-11-15 (second): the symmetric collapse and the new clocks
+
+By a subagent, base bb22eda. Sources: CLAIMS S2, S3, S5–S9, Z12, Z13 and the notebook entries "the symmetric
+collapse: pairing faces across an edge is what costs" and "what the unrecognised settled states are". Changed:
+the header; the abstract (the edge cost, the mirror-line account corrected); §5.5 (the S2 qualification on the
+√A coefficient; "Centre matters, but not by a constant factor" with S9, its D2h and O_h parts flagged C; a new
+part "Why symmetric faces die sooner" with S5, Table 3a (the edge ladder, both codes), S7, S8, "What this
+corrects" and "What remains preliminary"); Table 5 row 19 (the line's forecasts; no ledger row for the tally)
+and its caption; §8 (Z12, one sentence); §10.1 (S5); §10.3 item 4; §11's table row and ranking item 3; §12's
+threat to validity (Z13, flagged preliminary). `GAPS.md`: items 23 and 37 annotated, items 44–46 added. Draft
+20,639 → 22,058 words (`wc -w`). Hedges kept as the notebook states them: "corrected, not reversed", "up to about a
+third … is not excluded", "a coincidence of ranges, not a test", "exactly c/6 is not shown", the mechanism a
+conjecture. **Number check:** `python3 docs/paper/check_numbers.py` now covers 41 passages (17 new, compared with
+the draft at bb22eda): 437 numbers, 419 in the cited sources, 18 only in the earlier draft, 0 unsourced. Negative
+control on a copy (9.291 → 9.219 in Table 3a, 0.2035 → 0.2053 in S8, a period 13 → 137 in Z12): all three
+UNSOURCED; a changed number that happens to occur elsewhere in the cited entry (13 → 31) or in the earlier draft
+(13 → 61) is not caught, the known limit of a token match. Removed while checking: S7's "2.6σ apart" for the rerun
+slab pair, which the review attaches to a different comparison (FOR-LEAD, second update, item 1). Not checked:
+any run; the review itself; that each number is attached to the right quantity beyond one reading of each passage
+against its row and entry.
+
+## Update of 2026-11-15 (third): after the audit of the rows nobody had re-run
+
+Base e126a10. Sources: `research/CLAIMS.md` as changed by 13f8732 (133 claims: A 56, B 66, C 10, D 1,
+`python3 research/audit/claims_tally.py`), `research/AUDIT-2026-11-15.md` and the notebook entry "the audit of
+the rows nobody had re-run". Every *preliminary* marker and every place the draft names grade C was matched to its
+row's level cell as it now stands.
+
+- **Released** (row now B; the sentence says what was repeated): T9's minimality (still within the patch, still
+  not claimed beyond it), K1 (fresh seeds), K3, P4 (restated: ξ = 0.65 ± 0.03 cube, Ornstein–Zernike form for
+  k ≤ 2.5 per cube, the old 0.68 ± 0.01 explained), P5 (producer's seeds), P6 (the {110} front slows: 0.165 in
+  windows ending by generation 80, 0.154 over 60–110), F2 (heights to ±0.03; whole-plateau ratios 0.770, 0.604,
+  0.454 given), F10 (producer's seeds), F11 (B (table), with the weighted and unweighted fits), SW3 (§5.5 and the
+  Table 5 caption), SW4, G2 (brute-force checks), Z5, Z10, L3 (the post hoc caveat kept), CN2 (Table 5 row 18, the
+  "unverified" flag removed), SW7 (Table 5 row 14 now cites its row, which it said did not exist).
+- **Narrowed** (part still C): F10/F12 (F12 kept), Z2 (n = 14, 15 released; 16 kept), Z3 (unions 12–13 released;
+  the hinge-flip property kept), Z4 (period 4 released; period 3 kept), X3 (fixed point and the censored 6.542 ±
+  0.001 released; the uncensored 6.94 kept), G2–G4/SW4 split; §10.1 and its preliminary paragraph follow Z2–Z4.
+- **Kept** (row or part still C): F12, S4, Q4, G3, G4, K7/K8 (now named in §9), Z13, S9's D2h and O_h parts, Z12's
+  absence from the census lists, TH2 (45, 61 sites), TH5's percentages, ZL2 beyond R11/R13 (§5.5, Table 6, §12),
+  C4's wall-clock time, and "volume over group order" (S4) in §11.
+- **Legend** (line 11): B now reads as the ledger's ("by someone other than the producer"); the old "from the
+  committed data" did not cover F11, S1, C7, L3, rebuilt from raw records that are not in git.
+- **Appendix**: its lists were rebuilt from the ledger's level cells; L3 had been listed as "not mentioned" though
+  §5.6 cites it. The draft still does not state the ledger's totals.
+- **Number check**: 18 passages added to `check_numbers.py` (base e126a10, the audit's notebook entry as source),
+  and the Table 5 row 18 marker updated; markers now match across line breaks. Result: 602 numbers, 575 in the
+  cited sources, 27 only in the earlier draft, 0 unsourced. Negative control on a copy (0.154 → 0.155 in §4):
+  UNSOURCED.
+
+Not checked: any run or fit (this is a text pass against the ledger); the audit's own numbers beyond reading them
+against the ledger; `research/figures/phase_spread.png`, which may show the {110} front's old single speed.
+
+## Update of 2026-11-15 (fourth): how a face dies, the 4 × 5 patch rerun, the second card
+
+By a subagent, base 67e0371. Sources: `research/CLAIMS.md` rows DY1–DY7, GP10, GL1, GL2 and the dated notes in SH3
+and SH4 (142 claims: A 65, B 66, C 10, D 1, `python3 research/audit/claims_tally.py`, run for this pass); notebook
+entries "how a face dies (the first look, reviewed)", "a death is a dip that keeps going", "the 4 × 5 empty patch,
+rerun on the CPU", "a second card"; `research/audit/REVIEW-dying.md` (rounds 1 and 2) and
+`research/audit/REVIEW-gpu-local-pr23.md`. Draft 22,526 → 24,974 words (`wc -w`).
+
+**Changed.** Header; abstract (one sentence on how a tied face dies, DY1/DY2/DY5); §1 (the cubes' section is now
+5.7); §5.5 (S7's "Nobody has looked at the dying faces" replaced by a pointer); **§5.6 new**, "How a face dies"
+(DY1–DY7 with grades and what the review did not confirm, the withdrawn readings, the forecasts, not checked; round
+3 named as under review, no numbers); the old §5.6 renumbered 5.7; Table 5 rows 20 and 21 and its caption; §7.3
+Table 8 (loop² 16, 48 → 60: 0.2125 → 0.2131 ± 0.0002, footnote ‡) and SH4 (census gap 0.0135–0.0138, the
+χ² 4.4 tension and the pooled 0.0108 ± 0.0017 removed as resting on the high draw); §7.5 (equilateral forecasts and
+CN1 rest on the old anchor; GP10 rewritten: CPU −23.412 ± 0.049 on 541 hits, combined −23.364 ± 0.034, cost
+0.226 ± 0.006 combined, "falling into the range" withdrawn, grade A to 4 × 5); §9 (twice 0.2072–0.2131 is
+0.414–0.426: arithmetic, 2 × 0.2131 = 0.4262); §10.3 item 4 (also its pointer for the side-16 plateaus, which said Section 5.5 and now says 5.7); §11
+ranking items 1 and 3; §12 (the second card in
+"Implementations"; new paragraphs "A guard, and its limit" (GL2) and "Errors of the census pipeline" (GL1);
+"Verification" gives the ledger counts). `GAPS.md`: header; items 2, 11, 14, 24, 41, 42, 43 (closed as a
+cross-check), 45 annotated; 48 and 49 added.
+
+**Checked against files, not notebook prose.**
+- GP10: `python3 research/audit/gpu_pr18/followup.py research/scratch/pr18 research/data/gpu_patches/patches_s81*_A10G.csv`
+  run for this pass (scratch runs present): 18 runs, 2.76 × 10¹⁰ replica-generations, 4×5 pool −23.4124 ± 0.0485
+  (541 hits) against GPU −23.3180 ± 0.0473, z −1.39; second differences 2x3 3x4 4x5 CPU 0.2349 ± 0.0082, GPU
+  0.2185 ± 0.0079. Combined by inverse variance (my arithmetic): −23.363 ± 0.034 and 0.2264 ± 0.0057.
+- GL1: ln(2 × 76,418,398,524 / 7,478,823) = 9.92505, error 1/√F = 0.00037; pooling 9.9246 ± 0.0006, 9.9251 ± 0.0004,
+  9.9240 ± 0.0014 gives 9.92490 ± 0.00032. Census values from `research/shape2/data/A48.csv` (ln(2E/F) recomputed for
+  every class: 4 0 4 → 9.93237, 1 6 16 → 9.93842) and `research/shape2/data/explore_report.txt` (loop² 16, A = 60:
+  12.4818 ± 0.0025). Slope (12.4818 − 9.9249)/12 = 0.21308, error √(0.0025² + 0.0003²)/12 = 0.0002; the file's
+  0.2125 is (12.4818 − 9.9324)/12. Census gap 0.0135 against 9.9249, 0.0138 against 9.9246 (FOR-LEAD item 1). The
+  A = 48 span of the loop² 12–16 classes (0.016 in the draft, 0.0147 from the file) does not involve the 4 × 4
+  value either way and was left as written.
+- DY1–DY7: every number in §5.6 against its ledger row and the two notebook entries; the review numbers the rows
+  quote against `research/audit/dying/ana_out.txt` and `ana2_out.txt` (lag-4 ratios, neighbour rows, tail slopes);
+  the round-1 forecast outcomes against `research/dying/README.md` (L5a 0.893).
+- Counts: `claims_tally.py` output as above.
+
+**Number check.** `docs/paper/check_numbers.py` now covers 22 more passages (base 67e0371, the commit before this
+pass; the existing GP10 passage also cites the rerun entry) and may cite a tracked file directly (`file:PATH`; used for `explore_report.txt`, the dying README and the
+pr23 review). Result: 851 numbers, 809 in the cited sources, 42 only in the earlier draft, 0 unsourced. Among the
+"earlier draft only": the §7.5 shifts (0.005, 0.010, 0.0003, 0.0004), which are in the pr23 review but also occur
+elsewhere in the old draft, and the ledger counts (142, 65, 66, 10, 1), which have no source file and were checked by
+running the tally. Negative control on a copy (0.298 → 0.289 in DY2, 0.226 → 0.227 in GP10, Table 8's 0.2131 →
+0.2137): all three UNSOURCED (the Table 8 row needed its own passage, added). Two numbers were reworded to match
+their sources (0.9992 → "99.92% of the time"; neighbour 0.89 → 0.893).
+
+Not checked: any run other than `followup.py`; the reviews' own code; the 0.414–0.426 range has no passage in the
+script (arithmetic above); that each number is attached to the right quantity beyond one reading of each passage
+against its row and entry; the overview (`docs/overview/`), which another editor is changing.
+
+## Update of 2026-11-15 (fifth): dying rounds 3 and 4, the wrapped faces on the second card, signals, the state space
+
+By a subagent, base a8e925a. Sources: `research/CLAIMS.md` rows DY5 (revised), DY8–DY15, GL1–GL3, SG1–SG10, SS1–SS3
+and the dated notes in SH3, SH4, CN1 (164 claims: A 78, B 75, C 10, D 1, `python3 research/audit/claims_tally.py`,
+run for this pass); notebook entries of 2026-11-15 "what the dips say about the price of a cell", "a depleted face
+thins as one thing", "round 4 reviewed", "the 93-cell torus lands below every reading", "five wrapped faces on one
+driver", "the five tori, reviewed", "gump carries signals", "the first signals push reviewed", "a clock of every
+length …", "the second signals push reviewed", "how much of its state space a seed explores", "the state-space study
+reviewed"; `research/signals/README.md` (§§4, 8–14), `research/audit/REVIEW-signals.md` and `REVIEW-signals-2.md`
+(verdict tables, §1), `research/constant/PREDICTIONS.md` part C with its dated blocks, `research/signals/PREDICTIONS.md`
+(scores), `research/OPEN-PROBLEMS.md` 12–13. Draft 24,974 → 32,313 words (`wc -w`).
+
+**Changed.** Header. Abstract: the "0.207 to 0.219" sentence replaced by the wrapped-face line (0.2084 from 63 cells,
+a kink near 61, hull slopes 0.2119–0.2181 moving away, one price or two open); one sentence on signals (pulses,
+transmission to a counter, inhibition element measured; the clock and the tape proved). §1: one sentence each; the
+proved and measured lists. §5.5 (S8): "c is only known to 0.207–0.219" replaced. §5.6: intro grades; DY5 tail
+(0.51–0.48 over 3–12 cells, 0.34 by 17–20); **round 3** (DY8–DY11) and **round 4** (DY13–DY15) added, with "no remnant
+at fixed density" withdrawn after the review's null, the construction's overshoot 1.07, 1.21, 1.34 nats, what a
+caught face is and is not, forecasts and not-checked. Table 5: row 18 points to row 24; rows 22–27 (dying rounds 3
+and 4; part C; N1–N4; S1–S10; E1–E7); caption's sources and not-searched list. **§6.1 new** (SS1–SS3; the deficit
+against coin flips and its bearing on §6). §7.1: pointer to 0.2084. §7.3: Table 8 caption, the 16-generation stamping
+(GL3) in place of "a tie-resolution bias of about −0.018"; SH4 gap 0.0135 ± 0.0020. **§7.5 rewritten** after the CN1
+paragraphs: CN1 dated; Table 8a (five tori, second codes, grades; 93 cells *preliminary*, C); the line and the kink
+(GL3, B); against the hull family; part C scored; the old "two measurements proposed" paragraph removed (the tori
+are made; the A = 108 hull run is still not). §8: Z10's "no object carries a signal" scoped to the censuses. **§8.1
+new**, Signals (SG1–SG10; Theorems 8 and 9 with outlines and where the full proofs are; the two README §4 remarks
+marked "no ledger row"; the reviews' corrections: the receiver's capacity d − 1, three layers not two, one random unit
+repeated not soup, fire speed depends on density; absent inside bounds; open). §10.1: Theorems 8, 9, the remarks,
+SS1's seventeen vessels; the ignition as not proved. §10.3: item 2 rewritten (one price or two), item 7 (open
+problem 12 answered; the new open items), items 9 and 10 new. §11: two table rows (signals, state space: **not
+searched**); ranking item 1; a paragraph saying why signals and state space are not ranked. §12: the second card
+(five tori; the 5 × 5 repeat of a GP9 value), the oracle-judged verifiers and the enumerator, the census's stamping
+bias (GL3), the guard used once (93 cells), the counts 164 / 78 / 75 / 10 / 1, the reviews named, "not repeated".
+Appendix: GL3 (93 cells) and SS2 (side 16) as C parts; the new rows all used. `GAPS.md`: 42, 46, 48 annotated; 50–55
+added. `FOR-LEAD.md`: fifth section, 11 items.
+
+**Checked against files, not only notebook prose.**
+- Part C of `research/constant/PREDICTIONS.md`: the three readings' constants (flat 0.21214, massive 0.2069 ± 0.0023,
+  rising c_h 0.2226, 0.2317), the A = 93 forecasts and refutation lines (19.479 ± 0.010 below 19.445; 19.506–19.530
+  below 19.488; 19.437 ± 0.019), the shortest loops of Table 8a (4.00, 4.36, 4.58, 5.00, 5.57) and which tori have
+  no cut; the dated scoring blocks ("no reading of part C survives"; N1, N4 failed, N2 held, N3 open).
+- Side 16's state count against `research/data/cube16_summary.json`: cycle_start 2,919,617,675, period 1,
+  detected 2,919,617,676, so 2,919,617,676 states; consistent with SS2 and Table 1.
+- `research/signals/README.md` §11 for the proof outline (B1–B5, m = 4, base 8, bases 12 and 20, j ≤ 40 enumerated,
+  j ≤ 6 stepped), §10 for the tape argument and the gate's logic table, §4 for the two remarks;
+  `REVIEW-signals-2.md` §1 for the light cone and what the review re-derived; `REVIEW-signals.md` verdict table for
+  the remarks (corollary 1 incomplete as first written; corollary 2 valid; pulse S's O1 count 2 or 9).
+- The ledger's SG row "where" cells against the README's headings (FOR-LEAD item 7).
+- The 15.6614 "on file" against GP9 and the notebook's 2026-11-14 shape entry: a GPU value (FOR-LEAD item 4).
+- Counts: `claims_tally.py` output as above.
+
+**Number check.** `docs/paper/check_numbers.py` covers 70 more passages (base a8e925a) under twelve new notebook keys
+(each keyed by date and heading, so that a mention of a heading inside another entry is not matched); three
+passages removed with their text (the old §7.5 equilateral note, the old "second card" and "142 claims" sentences);
+three earlier passages given the new sources their text now needs (the abstract's shape sentence, §5.5 S8, §12
+census errors). Result: 1,538 numbers, 1,469 in the cited sources, 69 only in an earlier draft, 0 unsourced.
+Negative control on a copy (Table 8a 13.1622 → 13.1623; SS3 0.9585 → 0.9586; SG8 12,780 → 12,781; DY14 1.21 → 1.22):
+the first three UNSOURCED; the fourth passes as "in the earlier draft only", because 1.22 occurs in the earlier
+draft (Table 5 row 20, "1.06–1.22"). That fallback is a known weakness of the script: a changed number that happens
+to occur anywhere in the earlier draft is not caught. `check_face_area.py` run: every A as before.
+
+Not confirmed against the record: the round-3 tally "three of eighteen" (it requires L1 not to be counted; FOR-LEAD
+item 11); the lead's conjecture about the kink with the remnant's width (FOR-LEAD item 5; stated without the number);
+that the five tori used soup 0.4 and 8 layers is taken from part C's protocol and GL1/GL3, not from the card's rows
+(not fetched: the branch is not merged and was not read); nothing was run but the two scripts, the tally and a JSON
+read; the reviews' and the study's code were not run; the overview (`docs/overview/`), which another agent is
+changing, was not looked at. The third signals push, running, is not described anywhere in the draft.

@@ -1,0 +1,248 @@
+=== A. Excursions at R = 11 c (fresh seeds 9301-9304; events every generation)
+
+-- c1 [all] exposure 3259406024 face-orbit generations, face deaths 3985: ln tau_face = ln(E/D) = 13.615 ± 0.016; time-averaged P over the exposure 31.25
+   p     ln nu (± 1/sqrt n)      q (± se)           -ln(nu q)   censored share
+  0.05   -13.364 ± 0.014   0.778 ± 0.0058     13.614   0.0004
+  0.10   -12.415 ± 0.009   0.302 ± 0.004     13.613   0.0011
+  0.20   -10.891 ± 0.004   0.0657 ± 0.001     13.614   0.0009
+  0.30    -9.365 ± 0.002   0.0143 ± 0.00022     13.614   0.0008
+  0.40    -7.896 ± 0.001   0.00329 ± 5.2e-05     13.614   0.0007
+  0.50    -6.513 ± 0.000   0.000824 ± 1.3e-05     13.614   0.0005
+  0.60    -5.254 ± 0.000   0.000234 ± 3.7e-06     13.614   0.0003
+  0.70    -4.164 ± 0.000   7.87e-05 ± 1.2e-06     13.614   0.0002
+  0.80    -2.995 ± 0.000   2.44e-05 ± 3.9e-07     13.614   0.0001
+  0.90    -2.311 ± 0.000   1.23e-05 ± 2e-07     13.614   0.0001
+   p* (q = 1/2, 0.05 grid) = 0.079 = 2.48 live cells; on the integer grid q(min <= k) first below 1/2 at k = 3 (q(min <= 2) = 0.505, q(min <= 3) = 0.302)
+
+-- csz [all] exposure 801439080 face-orbit generations, face deaths 8332: ln tau_face = ln(E/D) = 11.474 ± 0.011; time-averaged P over the exposure 28.90
+   p     ln nu (± 1/sqrt n)      q (± se)           -ln(nu q)   censored share
+  0.05   -11.292 ± 0.010   0.834 ± 0.0037     11.473   0.0017
+  0.10   -10.955 ± 0.008   0.597 ± 0.0042     11.471   0.0034
+  0.20    -9.648 ± 0.004   0.162 ± 0.0016     11.470   0.0046
+  0.30    -8.312 ± 0.002   0.0425 ± 0.00046     11.471   0.0037
+  0.40    -7.022 ± 0.001   0.0117 ± 0.00013     11.472   0.0027
+  0.50    -5.819 ± 0.001   0.00351 ± 3.8e-05     11.473   0.0019
+  0.60    -4.739 ± 0.000   0.00119 ± 1.3e-05     11.473   0.0012
+  0.70    -3.802 ± 0.000   0.000466 ± 5.1e-06     11.474   0.0007
+  0.80    -2.997 ± 0.000   0.000208 ± 2.3e-06     11.474   0.0004
+  0.90    -2.527 ± 0.000   0.00013 ± 1.4e-06     11.474   0.0003
+   p* (q = 1/2, 0.05 grid) = 0.114 = 3.29 live cells; on the integer grid q(min <= k) first below 1/2 at k = 3 (q(min <= 2) = 0.597, q(min <= 3) = 0.385)
+
+-- c2v [all] exposure 185697430 face-orbit generations, face deaths 17399: ln tau_face = ln(E/D) = 9.275 ± 0.008; time-averaged P over the exposure 26.14
+   p     ln nu (± 1/sqrt n)      q (± se)           -ln(nu q)   censored share
+  0.05    -9.175 ± 0.007   0.904 ± 0.0021      9.275   0.0043
+  0.10    -8.952 ± 0.006   0.728 ± 0.0029      9.269   0.0103
+  0.20    -7.922 ± 0.004   0.263 ± 0.0017      9.259   0.0206
+  0.30    -7.213 ± 0.003   0.129 ± 0.00091      9.263   0.0166
+  0.40    -6.163 ± 0.002   0.0448 ± 0.00033      9.269   0.0108
+  0.50    -5.185 ± 0.001   0.0168 ± 0.00013      9.273   0.0069
+  0.60    -4.587 ± 0.001   0.00921 ± 7e-05      9.274   0.0050
+  0.70    -3.779 ± 0.000   0.0041 ± 3.1e-05      9.276   0.0030
+  0.80    -3.059 ± 0.000   0.00199 ± 1.5e-05      9.278   0.0017
+  0.90    -2.620 ± 0.000   0.00128 ± 9.7e-06      9.278   0.0012
+   p* (q = 1/2, 0.05 grid) = 0.152 = 4.01 live cells; on the integer grid q(min <= k) first below 1/2 at k = 4 (q(min <= 3) = 0.512, q(min <= 4) = 0.371)
+
+-- c2v [noS] exposure 182937892 face-orbit generations, face deaths 17399: ln tau_face = ln(E/D) = 9.260 ± 0.008; time-averaged P over the exposure 26.25
+   p     ln nu (± 1/sqrt n)      q (± se)           -ln(nu q)   censored share
+  0.05    -9.160 ± 0.007   0.905 ± 0.0021      9.260   0.0041
+  0.10    -8.941 ± 0.006   0.73 ± 0.0029      9.256   0.0085
+  0.20    -7.918 ± 0.004   0.265 ± 0.0017      9.248   0.0168
+  0.30    -7.209 ± 0.003   0.13 ± 0.00092      9.250   0.0143
+  0.40    -6.159 ± 0.002   0.0452 ± 0.00034      9.254   0.0100
+  0.50    -5.180 ± 0.001   0.0169 ± 0.00013      9.258   0.0066
+  0.60    -4.582 ± 0.001   0.0093 ± 7e-05      9.260   0.0049
+  0.70    -3.774 ± 0.000   0.00414 ± 3.1e-05      9.262   0.0030
+  0.80    -3.054 ± 0.000   0.00201 ± 1.5e-05      9.263   0.0017
+  0.90    -2.615 ± 0.000   0.0013 ± 9.8e-06      9.263   0.0012
+   p* (q = 1/2, 0.05 grid) = 0.153 = 4.02 live cells; on the integer grid q(min <= k) first below 1/2 at k = 4 (q(min <= 3) = 0.514, q(min <= 4) = 0.374)
+
+-- d2h [all] exposure 63023546 face-orbit generations, face deaths 41834: ln tau_face = ln(E/D) = 7.318 ± 0.005; time-averaged P over the exposure 20.31
+   p     ln nu (± 1/sqrt n)      q (± se)           -ln(nu q)   censored share
+  0.05    -7.311 ± 0.005   0.974 ± 0.00078      7.337   0.0033
+  0.10    -7.198 ± 0.005   0.892 ± 0.0015      7.312   0.0280
+  0.20    -6.709 ± 0.004   0.61 ± 0.0019      7.204   0.1278
+  0.30    -6.032 ± 0.003   0.296 ± 0.0012      7.249   0.0875
+  0.40    -5.549 ± 0.002   0.177 ± 0.00079      7.282   0.0568
+  0.50    -5.059 ± 0.002   0.106 ± 0.00049      7.305   0.0353
+  0.60    -4.343 ± 0.001   0.0508 ± 0.00024      7.323   0.0173
+  0.70    -3.883 ± 0.001   0.0319 ± 0.00016      7.330   0.0109
+  0.80    -3.215 ± 0.001   0.0162 ± 8e-05      7.335   0.0056
+  0.90    -2.785 ± 0.001   0.0105 ± 5.2e-05      7.337   0.0037
+   p* (q = 1/2, 0.05 grid) = 0.245 = 5.82 live cells; on the integer grid q(min <= k) first below 1/2 at k = 5 (q(min <= 4) = 0.610, q(min <= 5) = 0.487)
+
+-- d2h [noS] exposure 39691075 face-orbit generations, face deaths 41834: ln tau_face = ln(E/D) = 6.855 ± 0.005; time-averaged P over the exposure 23.25
+   p     ln nu (± 1/sqrt n)      q (± se)           -ln(nu q)   censored share
+  0.05    -6.859 ± 0.005   0.98 ± 0.00068      6.878   0.0000
+  0.10    -6.791 ± 0.005   0.916 ± 0.0013      6.878   0.0000
+  0.20    -6.488 ± 0.004   0.677 ± 0.0019      6.878   0.0002
+  0.30    -5.859 ± 0.003   0.361 ± 0.0014      6.878   0.0002
+  0.40    -5.380 ± 0.002   0.223 ± 0.00097      6.878   0.0001
+  0.50    -4.890 ± 0.002   0.137 ± 0.00063      6.878   0.0001
+  0.60    -4.173 ± 0.001   0.0669 ± 0.00032      6.878   0.0001
+  0.70    -3.714 ± 0.001   0.0423 ± 0.0002      6.878   0.0001
+  0.80    -3.046 ± 0.001   0.0217 ± 0.00011      6.878   0.0000
+  0.90    -2.615 ± 0.001   0.0141 ± 6.9e-05      6.878   0.0000
+   p* (q = 1/2, 0.05 grid) = 0.265 = 6.30 live cells; on the integer grid q(min <= k) first below 1/2 at k = 6 (q(min <= 5) = 0.560, q(min <= 6) = 0.452)
+
+=== A, tail shape: ln n_k (excursions whose minimum is exactly k live cells; independent Poisson counts) against k
+    slope per live cell = d ln n_k / dk (the same as d ln nu / d(level) for an exponential tail); per unit p = slope * Pbar
+-- c1 [all]
+   [0.1,0.45] k 4-14: slope -0.472 ± 0.000 (/p -14.8), chi2 2039/9; quad -0.0049 ± 0.0001
+   [0.05,0.3] k 2-9: slope -0.510 ± 0.001 (/p -16.0), chi2 55/6; quad -0.0033 ± 0.0006
+   [0.2,0.5] k 7-15: slope -0.458 ± 0.000 (/p -14.3), chi2 2757/7; quad -0.0059 ± 0.0001
+   [0.3,0.5] k 10-15: slope -0.449 ± 0.000 (/p -14.1), chi2 916/4; quad -0.0067 ± 0.0002
+   [0.1,0.3] k 4-9: slope -0.507 ± 0.001 (/p -15.9), chi2 8/4; quad -0.0027 ± 0.0010
+   [0.05,0.45] k 2-14: slope -0.474 ± 0.000 (/p -14.8), chi2 2590/11; quad -0.0047 ± 0.0001
+   local slope per cell (k window): 1-4: -0.62±0.01; 3-6: -0.51±0.00; 5-8: -0.51±0.00; 7-10: -0.49±0.00; 9-12: -0.48±0.00; 11-14: -0.45±0.00; 13-16: -0.42±0.00; 15-18: -0.39±0.00; 17-20: -0.34±0.00; 19-22: -0.29±0.00; 21-24: -0.24±0.00
+-- csz [all]
+   [0.1,0.45] k 3-12: slope -0.421 ± 0.000 (/p -12.1), chi2 570/8; quad -0.0045 ± 0.0002
+   [0.05,0.3] k 2-8: slope -0.454 ± 0.001 (/p -13.1), chi2 135/5; quad -0.0064 ± 0.0008
+   [0.2,0.5] k 6-14: slope -0.397 ± 0.000 (/p -11.4), chi2 1797/7; quad -0.0062 ± 0.0001
+   [0.3,0.5] k 9-14: slope -0.387 ± 0.000 (/p -11.1), chi2 570/4; quad -0.0073 ± 0.0003
+   [0.1,0.3] k 3-8: slope -0.446 ± 0.002 (/p -12.9), chi2 13/4; quad -0.0008 ± 0.0011
+   [0.05,0.45] k 2-12: slope -0.424 ± 0.000 (/p -12.2), chi2 953/9; quad -0.0051 ± 0.0002
+   local slope per cell (k window): 1-4: -0.58±0.01; 3-6: -0.45±0.00; 5-8: -0.44±0.00; 7-10: -0.43±0.00; 9-12: -0.40±0.00; 11-14: -0.38±0.00; 13-16: -0.34±0.00; 15-18: -0.30±0.00; 17-20: -0.27±0.00; 19-22: -0.24±0.00
+-- c2v [all]
+   [0.1,0.45] k 3-11: slope -0.343 ± 0.001 (/p -9.0), chi2 300/7; quad -0.0031 ± 0.0003
+   [0.05,0.3] k 2-7: slope -0.378 ± 0.002 (/p -10.0), chi2 589/4; quad -0.0134 ± 0.0014
+   [0.2,0.5] k 6-13: slope -0.319 ± 0.001 (/p -8.4), chi2 606/6; quad -0.0063 ± 0.0003
+   [0.3,0.5] k 8-13: slope -0.311 ± 0.001 (/p -8.2), chi2 207/4; quad -0.0066 ± 0.0005
+   [0.1,0.3] k 3-7: slope -0.355 ± 0.002 (/p -9.3), chi2 132/3; quad +0.0128 ± 0.0019
+   [0.05,0.45] k 2-11: slope -0.349 ± 0.001 (/p -9.2), chi2 1043/8; quad -0.0057 ± 0.0003
+   local slope per cell (k window): 1-4: -0.55±0.01; 3-6: -0.35±0.00; 5-8: -0.36±0.00; 7-10: -0.34±0.00; 9-12: -0.31±0.00; 11-14: -0.29±0.00; 13-16: -0.26±0.00; 15-18: -0.23±0.00; 17-20: -0.21±0.00
+-- d2h [all]
+   [0.1,0.45] k 3-10: slope -0.236 ± 0.001 (/p -5.6), chi2 2927/6; quad +0.0127 ± 0.0004
+   [0.05,0.3] k 2-7: slope -0.238 ± 0.002 (/p -5.7), chi2 4961/4; quad -0.0101 ± 0.0014
+   [0.2,0.5] k 5-11: slope -0.256 ± 0.001 (/p -6.1), chi2 58/5; quad -0.0026 ± 0.0005
+   [0.3,0.5] k 8-11: slope -0.250 ± 0.002 (/p -5.9), chi2 3/2; quad -0.0038 ± 0.0021
+   [0.1,0.3] k 3-7: slope -0.188 ± 0.002 (/p -4.5), chi2 2331/3; quad +0.0618 ± 0.0018
+   [0.05,0.45] k 2-10: slope -0.250 ± 0.001 (/p -5.9), chi2 5006/7; quad +0.0015 ± 0.0004
+   local slope per cell (k window): 1-4: -0.48±0.01; 3-6: -0.15±0.00; 5-8: -0.26±0.00; 7-10: -0.26±0.00; 9-12: -0.24±0.00; 11-14: -0.23±0.00; 13-16: -0.22±0.00; 15-18: -0.21±0.00
+-- c1 [noS]
+   [0.1,0.45] k 4-14: slope -0.472 ± 0.000 (/p -14.8), chi2 2039/9; quad -0.0049 ± 0.0001
+   [0.05,0.3] k 2-9: slope -0.510 ± 0.001 (/p -16.0), chi2 55/6; quad -0.0033 ± 0.0006
+   [0.2,0.5] k 7-15: slope -0.458 ± 0.000 (/p -14.3), chi2 2757/7; quad -0.0059 ± 0.0001
+   [0.3,0.5] k 10-15: slope -0.449 ± 0.000 (/p -14.1), chi2 916/4; quad -0.0067 ± 0.0002
+   [0.1,0.3] k 4-9: slope -0.507 ± 0.001 (/p -15.9), chi2 8/4; quad -0.0027 ± 0.0010
+   [0.05,0.45] k 2-14: slope -0.474 ± 0.000 (/p -14.8), chi2 2590/11; quad -0.0047 ± 0.0001
+   local slope per cell (k window): 1-4: -0.62±0.01; 3-6: -0.51±0.00; 5-8: -0.51±0.00; 7-10: -0.49±0.00; 9-12: -0.48±0.00; 11-14: -0.45±0.00; 13-16: -0.42±0.00; 15-18: -0.39±0.00; 17-20: -0.34±0.00; 19-22: -0.29±0.00; 21-24: -0.24±0.00
+-- csz [noS]
+   [0.1,0.45] k 3-12: slope -0.421 ± 0.000 (/p -12.1), chi2 570/8; quad -0.0045 ± 0.0002
+   [0.05,0.3] k 2-8: slope -0.454 ± 0.001 (/p -13.1), chi2 135/5; quad -0.0064 ± 0.0008
+   [0.2,0.5] k 6-14: slope -0.397 ± 0.000 (/p -11.4), chi2 1797/7; quad -0.0062 ± 0.0001
+   [0.3,0.5] k 9-14: slope -0.387 ± 0.000 (/p -11.1), chi2 570/4; quad -0.0073 ± 0.0003
+   [0.1,0.3] k 3-8: slope -0.446 ± 0.002 (/p -12.9), chi2 13/4; quad -0.0008 ± 0.0011
+   [0.05,0.45] k 2-12: slope -0.424 ± 0.000 (/p -12.2), chi2 953/9; quad -0.0051 ± 0.0002
+   local slope per cell (k window): 1-4: -0.58±0.01; 3-6: -0.45±0.00; 5-8: -0.44±0.00; 7-10: -0.43±0.00; 9-12: -0.40±0.00; 11-14: -0.38±0.00; 13-16: -0.34±0.00; 15-18: -0.30±0.00; 17-20: -0.27±0.00; 19-22: -0.24±0.00
+-- c2v [noS]
+   [0.1,0.45] k 3-11: slope -0.344 ± 0.001 (/p -9.0), chi2 299/7; quad -0.0035 ± 0.0003
+   [0.05,0.3] k 2-7: slope -0.381 ± 0.002 (/p -10.0), chi2 537/4; quad -0.0139 ± 0.0014
+   [0.2,0.5] k 6-13: slope -0.319 ± 0.001 (/p -8.4), chi2 611/6; quad -0.0064 ± 0.0003
+   [0.3,0.5] k 8-13: slope -0.311 ± 0.001 (/p -8.2), chi2 203/4; quad -0.0065 ± 0.0005
+   [0.1,0.3] k 3-7: slope -0.358 ± 0.002 (/p -9.4), chi2 107/3; quad +0.0112 ± 0.0019
+   [0.05,0.45] k 2-11: slope -0.349 ± 0.001 (/p -9.2), chi2 1032/8; quad -0.0060 ± 0.0003
+   local slope per cell (k window): 1-4: -0.55±0.01; 3-6: -0.35±0.00; 5-8: -0.36±0.00; 7-10: -0.34±0.00; 9-12: -0.31±0.00; 11-14: -0.29±0.00; 13-16: -0.26±0.00; 15-18: -0.23±0.00; 17-20: -0.21±0.00
+-- d2h [noS]
+   [0.1,0.45] k 3-10: slope -0.283 ± 0.001 (/p -6.7), chi2 157/6; quad -0.0055 ± 0.0006
+   [0.05,0.3] k 2-7: slope -0.340 ± 0.003 (/p -8.1), chi2 678/4; quad -0.0289 ± 0.0018
+   [0.2,0.5] k 5-11: slope -0.266 ± 0.001 (/p -6.3), chi2 99/5; quad -0.0062 ± 0.0006
+   [0.3,0.5] k 8-11: slope -0.253 ± 0.002 (/p -6.0), chi2 9/2; quad -0.0072 ± 0.0024
+   [0.1,0.3] k 3-7: slope -0.306 ± 0.003 (/p -7.3), chi2 50/3; quad +0.0017 ± 0.0024
+   [0.05,0.45] k 2-10: slope -0.295 ± 0.001 (/p -7.0), chi2 1128/7; quad -0.0118 ± 0.0005
+   local slope per cell (k window): 1-4: -0.60±0.01; 3-6: -0.31±0.00; 5-8: -0.29±0.00; 7-10: -0.26±0.00; 9-12: -0.24±0.00; 11-14: -0.23±0.00; 13-16: -0.22±0.00; 15-18: -0.21±0.00
+
+--- "5.5 + 3.4 per free edge": slope per unit p against the number of free edges (3, 2, 1, 0 for c1, csz, c2v, d2h)
+  [all] window [0.1,0.45]: per unit p -14.8±0.0, -12.1±0.0, -9.0±0.0, -5.6±0.0; steps -2.6, -3.1, -3.4; line -5.9 + -2.98 per free edge, chi2 712.3/2; per live cell -0.472, -0.421, -0.343, -0.236
+  [all] window [0.05,0.3]: per unit p -16.0±0.0, -13.1±0.0, -10.0±0.1, -5.7±0.0; steps -2.9, -3.1, -4.3; line -6.0 + -3.38 per free edge, chi2 255.0/2; per live cell -0.510, -0.454, -0.378, -0.238
+  [all] window [0.2,0.5]: per unit p -14.3±0.0, -11.4±0.0, -8.4±0.0, -6.1±0.0; steps -2.9, -3.1, -2.3; line -5.7 + -2.86 per free edge, chi2 443.6/2; per live cell -0.458, -0.397, -0.319, -0.256
+  [all] window [0.1,0.3]: per unit p -15.9±0.0, -12.9±0.0, -9.3±0.1, -4.5±0.1; steps -3.0, -3.5, -4.9; line -4.9 + -3.76 per free edge, chi2 332.2/2; per live cell -0.507, -0.446, -0.355, -0.188
+  [noS] window [0.1,0.45]: per unit p -14.8±0.0, -12.1±0.0, -9.0±0.0, -6.7±0.0; steps -2.6, -3.1, -2.3; line -6.5 + -2.76 per free edge, chi2 306.9/2; per live cell -0.472, -0.421, -0.344, -0.283
+  [noS] window [0.05,0.3]: per unit p -16.0±0.0, -13.1±0.0, -10.0±0.1, -8.1±0.1; steps -2.9, -3.1, -1.9; line -7.7 + -2.72 per free edge, chi2 111.6/2; per live cell -0.510, -0.454, -0.381, -0.340
+  [noS] window [0.2,0.5]: per unit p -14.3±0.0, -11.4±0.0, -8.4±0.0, -6.3±0.0; steps -2.9, -3.1, -2.1; line -5.8 + -2.84 per free edge, chi2 697.1/2; per live cell -0.458, -0.397, -0.319, -0.266
+  [noS] window [0.1,0.3]: per unit p -15.9±0.0, -12.9±0.0, -9.4±0.1, -7.3±0.1; steps -3.0, -3.5, -2.1; line -6.9 + -2.97 per free edge, chi2 92.8/2; per live cell -0.507, -0.446, -0.358, -0.306
+
+=== D. Stationary Pbar and sigma_P (study null; one face per face orbit; errors from lanes)
+  A = 63 c1  : Pbar 31.25 ± 0.00 (study 31.29), sigma_P 5.248 ± 0.002 (study 5.24)
+  A = 63 csz : Pbar 28.90 ± 0.01 (study 28.83), sigma_P 5.499 ± 0.003 (study 5.56)
+  A = 63 c2v : Pbar 26.28 ± 0.01 (study 26.29), sigma_P 5.900 ± 0.009 (study 5.96)
+  A = 63 d2h : Pbar 23.50 ± 0.02 (study 23.77), sigma_P 6.309 ± 0.022 (study 6.37)
+  A = 84 c1  : Pbar 42.45 ± 0.00 (study 42.49), sigma_P 5.961 ± 0.003 (study 5.96)
+  A = 84 csz : Pbar 39.80 ± 0.01 (study 39.81), sigma_P 6.194 ± 0.005 (study 6.18)
+  A = 84 c2v : Pbar 36.86 ± 0.01 (study 36.86), sigma_P 6.552 ± 0.006 (study 6.5)
+  A = 84 d2h : Pbar 33.58 ± 0.03 (study 33.48), sigma_P 7.212 ± 0.049 (study 7.05)
+
+  fits over the eight points (columns: max |residual|; max |leave-one-out residual|; max |LOO residual| without c1 at A = 84 in the fit set (the GPU value); constants)
+  a + b Pbar^2/(2 sigma^2)                      [this review] max|r| 0.31; LOO max 0.50 (worst d2h63); c1 at 84 predicted from the other seven: 18.33 (GPU 18.141); constants 3.421, 0.584
+  a + b Pbar^2/(2 sigma^2)                      [study      ] max|r| 0.31; LOO max 0.51 (worst d2h63); c1 at 84 predicted from the other seven: 18.28 (GPU 18.141); constants 3.432, 0.581
+  a + b Pbar                                    [this review] max|r| 2.60; LOO max 2.98 (worst d2h84); c1 at 84 predicted from the other seven: 15.99 (GPU 18.141); constants -3.614, 0.484
+  a + b Pbar                                    [study      ] max|r| 2.54; LOO max 2.91 (worst d2h84); c1 at 84 predicted from the other seven: 16.05 (GPU 18.141); constants -3.743, 0.487
+  a + b Pbar/sigma                              [this review] max|r| 0.42; LOO max 0.79 (worst c184); c1 at 84 predicted from the other seven: 17.35 (GPU 18.141); constants -4.902, 3.177
+  a + b Pbar/sigma                              [study      ] max|r| 0.44; LOO max 0.83 (worst c184); c1 at 84 predicted from the other seven: 17.31 (GPU 18.141); constants -4.871, 3.166
+  a + b Pbar^2                                  [this review] max|r| 2.39; LOO max 2.78 (worst c163); c1 at 84 predicted from the other seven: 16.49 (GPU 18.141); constants 4.100, 0.007
+  a + b Pbar^2                                  [study      ] max|r| 2.39; LOO max 2.77 (worst c163); c1 at 84 predicted from the other seven: 16.55 (GPU 18.141); constants 4.062, 0.007
+  a + b (Pbar - 2 sigma)                        [this review] max|r| 1.48; LOO max 1.70 (worst d2h84); c1 at 84 predicted from the other seven: 16.91 (GPU 18.141); constants 1.429, 0.526
+  a + b (Pbar - 2 sigma)                        [study      ] max|r| 1.57; LOO max 1.81 (worst d2h84); c1 at 84 predicted from the other seven: 16.86 (GPU 18.141); constants 1.465, 0.523
+  a + b ln-Gauss tail Pbar^2/(2s^2) + ln(s)     [this review] max|r| 0.30; LOO max 0.50 (worst d2h63); c1 at 84 predicted from the other seven: 18.37 (GPU 18.141); constants 2.318, 0.587
+  a + b ln-Gauss tail Pbar^2/(2s^2) + ln(s)     [study      ] max|r| 0.32; LOO max 0.52 (worst d2h63); c1 at 84 predicted from the other seven: 18.31 (GPU 18.141); constants 2.341, 0.584
+  a + b Pbar + c sigma                          [this review] max|r| 0.47; LOO max 0.87 (worst c184); c1 at 84 predicted from the other seven: 17.27 (GPU 18.141); constants 10.174, 0.524, -2.477
+  a + b Pbar + c sigma                          [study      ] max|r| 0.52; LOO max 0.96 (worst c184); c1 at 84 predicted from the other seven: 17.18 (GPU 18.141); constants 11.575, 0.517, -2.672
+  a + b A + c Pbar                              [this review] max|r| 0.27; LOO max 0.50 (worst d2h63); c1 at 84 predicted from the other seven: 17.65 (GPU 18.141); constants 3.182, -0.269, 0.878
+  a + b A + c Pbar                              [study      ] max|r| 0.19; LOO max 0.37 (worst c184); c1 at 84 predicted from the other seven: 17.77 (GPU 18.141); constants 2.950, -0.268, 0.883
+
+=== B. Lopsidedness S (live centroid to rho-weighted centroid) over uniformly thinned stationary faces (20 per state)
+    low-P stationary faces: study null and every living state of age > 512; dying faces at t_h (round-1 deaths, seeds 9201-9204)
+-- c1
+   null                   P in (0.0,0.6] Pbar: n 600, mean k 16.2, ratio 1.529 ± 0.033
+   null                   P in (0.6,0.8] Pbar: n 600, mean k 23.0, ratio 1.250 ± 0.026
+   null                   P in (0.8,1.2] Pbar: n 600, mean k 31.7, ratio 1.060 ± 0.020
+   all living, rem > 64   P in (0.0,0.6] Pbar: n 600, mean k 16.2, ratio 1.541 ± 0.031
+   all living, rem > 64   P in (0.6,0.8] Pbar: n 600, mean k 23.0, ratio 1.274 ± 0.027
+   all living, rem > 64   P in (0.8,1.2] Pbar: n 600, mean k 31.6, ratio 1.060 ± 0.022
+   all living, rem <= 64  P in (0.0,0.6] Pbar: n 49, mean k 11.9, ratio 1.759 ± 0.104
+   all living, rem <= 64  P in (0.6,0.8] Pbar: n 291, mean k 23.0, ratio 1.297 ± 0.039
+   all living, rem <= 64  P in (0.8,1.2] Pbar: n 600, mean k 31.3, ratio 1.132 ± 0.026
+   deaths at t_h          n 1000, mean k 11.7, ratio 1.602 ± 0.023
+-- csz
+   null                   P in (0.0,0.6] Pbar: n 600, mean k 14.7, ratio 1.657 ± 0.031
+   null                   P in (0.6,0.8] Pbar: n 600, mean k 21.3, ratio 1.225 ± 0.028
+   null                   P in (0.8,1.2] Pbar: n 600, mean k 29.0, ratio 1.126 ± 0.023
+   all living, rem > 64   P in (0.0,0.6] Pbar: n 600, mean k 14.9, ratio 1.487 ± 0.030
+   all living, rem > 64   P in (0.6,0.8] Pbar: n 600, mean k 21.3, ratio 1.328 ± 0.027
+   all living, rem > 64   P in (0.8,1.2] Pbar: n 600, mean k 29.3, ratio 1.106 ± 0.024
+   all living, rem <= 64  P in (0.0,0.6] Pbar: n 295, mean k 11.4, ratio 1.731 ± 0.049
+   all living, rem <= 64  P in (0.6,0.8] Pbar: n 600, mean k 21.1, ratio 1.301 ± 0.025
+   all living, rem <= 64  P in (0.8,1.2] Pbar: n 600, mean k 29.1, ratio 1.131 ± 0.025
+   deaths at t_h          n 1500, mean k 10.9, ratio 1.586 ± 0.020
+-- c2v
+   null                   P in (0.0,0.6] Pbar: n 600, mean k 12.5, ratio 1.582 ± 0.031
+   null                   P in (0.6,0.8] Pbar: n 600, mean k 19.1, ratio 1.322 ± 0.028
+   null                   P in (0.8,1.2] Pbar: n 600, mean k 26.4, ratio 1.109 ± 0.023
+   all living, rem > 64   P in (0.0,0.6] Pbar: n 600, mean k 12.4, ratio 1.601 ± 0.035
+   all living, rem > 64   P in (0.6,0.8] Pbar: n 600, mean k 19.1, ratio 1.263 ± 0.026
+   all living, rem > 64   P in (0.8,1.2] Pbar: n 600, mean k 26.6, ratio 1.109 ± 0.023
+   all living, rem <= 64  P in (0.0,0.6] Pbar: n 600, mean k 9.2, ratio 1.907 ± 0.038
+   all living, rem <= 64  P in (0.6,0.8] Pbar: n 600, mean k 18.9, ratio 1.316 ± 0.026
+   all living, rem <= 64  P in (0.8,1.2] Pbar: n 600, mean k 26.5, ratio 1.152 ± 0.025
+   deaths at t_h          n 1500, mean k 10.4, ratio 1.642 ± 0.018
+-- d2h
+   null                   P in (0.0,0.6] Pbar: n 600, mean k 11.2, ratio 1.514 ± 0.033
+   null                   P in (0.6,0.8] Pbar: n 600, mean k 16.7, ratio 1.324 ± 0.028
+   null                   P in (0.8,1.2] Pbar: n 600, mean k 23.5, ratio 1.122 ± 0.024
+   all living, rem > 64   P in (0.0,0.6] Pbar: n 600, mean k 11.0, ratio 1.516 ± 0.035
+   all living, rem > 64   P in (0.6,0.8] Pbar: n 600, mean k 16.6, ratio 1.245 ± 0.023
+   all living, rem > 64   P in (0.8,1.2] Pbar: n 600, mean k 23.8, ratio 1.110 ± 0.026
+   all living, rem <= 64  P in (0.0,0.6] Pbar: n 600, mean k 8.3, ratio 1.909 ± 0.041
+   all living, rem <= 64  P in (0.6,0.8] Pbar: n 600, mean k 16.6, ratio 1.352 ± 0.028
+   all living, rem <= 64  P in (0.8,1.2] Pbar: n 600, mean k 23.3, ratio 1.144 ± 0.023
+   deaths at t_h          n 1498, mean k 8.8, ratio 1.729 ± 0.020
+
+=== C. Births per empty cell and survival per live cell on the dying face, step lag l -> l-1, over stationary
+    (stationary: lags 256-500 of the same histories, as the study; round-1 deaths, seeds 9201-9204)
+-- c1: stationary b 0.3197, s 0.6737; at t_8 (median lag 7): b 0.373, s 0.634
+   lag 40: b 1.007±0.010 s 1.001±0.005; lag 24: b 1.001±0.010 s 0.999±0.005; lag 16: b 0.911±0.012 s 0.988±0.005; lag 12: b 0.777±0.014 s 0.960±0.006; lag 8: b 0.481±0.014 s 0.882±0.009; lag 4: b 0.139±0.005 s 0.623±0.012
+-- csz: stationary b 0.2870, s 0.6611; at t_8 (median lag 8): b 0.423, s 0.656
+   lag 40: b 1.007±0.009 s 1.004±0.004; lag 24: b 0.957±0.009 s 1.001±0.005; lag 16: b 0.851±0.010 s 0.987±0.005; lag 12: b 0.703±0.011 s 0.944±0.005; lag 8: b 0.441±0.011 s 0.888±0.008; lag 4: b 0.144±0.004 s 0.638±0.011
+-- c2v: stationary b 0.2521, s 0.6472; at t_8 (median lag 10): b 0.466, s 0.690
+   lag 40: b 0.947±0.010 s 1.005±0.004; lag 24: b 0.874±0.013 s 0.997±0.004; lag 16: b 0.735±0.013 s 0.980±0.005; lag 12: b 0.585±0.011 s 0.946±0.006; lag 8: b 0.394±0.009 s 0.900±0.008; lag 4: b 0.160±0.004 s 0.666±0.012
+-- d2h: stationary b 0.2200, s 0.6318; at t_8 (median lag 13): b 0.503, s 0.712
+   lag 40: b 0.919±0.013 s 0.994±0.005; lag 24: b 0.803±0.013 s 0.991±0.005; lag 16: b 0.631±0.012 s 0.988±0.006; lag 12: b 0.510±0.011 s 0.965±0.006; lag 8: b 0.364±0.007 s 0.934±0.009; lag 4: b 0.175±0.004 s 0.715±0.011

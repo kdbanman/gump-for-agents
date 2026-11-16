@@ -1,0 +1,23 @@
+one shot: stationary True, 10 cells differ, cubes [39, 40, 41, 42, 43]
+gap  1: stationary True, 82 cells differ, cubes 3..43: NOT two clean receptions
+gap  2: stationary True, 10 cells differ, cubes 39..43: NOT two clean receptions
+gap  3: stationary True, 12 cells differ, cubes 38..43: two pulses received
+gap  4: stationary True, 12 cells differ, cubes 38..43: two pulses received
+gap  5: stationary True, 10 cells differ, cubes 39..43: NOT two clean receptions
+gap  6: stationary True, 12 cells differ, cubes 38..43: two pulses received
+gap  7: stationary True, 10 cells differ, cubes 39..43: NOT two clean receptions
+gap  8: stationary True, 12 cells differ, cubes 38..43: two pulses received
+gap  9: stationary True, 10 cells differ, cubes 39..43: NOT two clean receptions
+gap 10: stationary True, 12 cells differ, cubes 38..43: two pulses received
+gap 11: stationary True, 10 cells differ, cubes 39..43: NOT two clean receptions
+gap 12: stationary True, 12 cells differ, cubes 38..43: two pulses received
+gap 13: stationary True, 10 cells differ, cubes 39..43: NOT two clean receptions
+gap 14: stationary True, 12 cells differ, cubes 38..43: two pulses received
+gap 15: stationary True, 10 cells differ, cubes 39..43: NOT two clean receptions
+gap 16: stationary True, 12 cells differ, cubes 38..43: two pulses received
+gap 17: stationary True, 10 cells differ, cubes 39..43: NOT two clean receptions
+gap 18: stationary True, 12 cells differ, cubes 38..43: two pulses received
+gap 19: stationary True, 10 cells differ, cubes 39..43: NOT two clean receptions
+gap 20: stationary True, 12 cells differ, cubes 38..43: two pulses received
+gap 30: stationary True, 12 cells differ, cubes 38..43: two pulses received
+gap 40: stationary True, 12 cells differ, cubes 38..43: two pulses received

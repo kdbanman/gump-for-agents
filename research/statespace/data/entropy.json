@@ -1,0 +1,1 @@
+{"top_layer": 0.986, "slab_lo": 0.94, "slab_hi": 0.958, "note": "top layer: H_K flat at 0.9860-0.9868 for K = 10-18 (64,000 snapshots); 8-layer slab per cell: H_20 = 0.9580 (MM; 0.9573 on half the data) is an upper bound, still falling about 0.0015 per two context cells; 0.94 is a guessed floor from that trend"}

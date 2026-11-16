@@ -1,0 +1,3 @@
+frozen law   one short (25 faces): -0.0009 ± 0.0005  two+ short (9 faces): +0.0002 ± 0.0002   two+ minus one: +0.0012 ± 0.0006 (+2.0 se)
+LAW refit    one short (25 faces): +0.0008 ± 0.0005  two+ short (9 faces): +0.0000 ± 0.0002   two+ minus one: -0.0007 ± 0.0006 (-1.3 se)
+HAZ refit    one short (25 faces): -0.0005 ± 0.0005  two+ short (9 faces): +0.0001 ± 0.0002   two+ minus one: +0.0006 ± 0.0006 (+1.1 se)

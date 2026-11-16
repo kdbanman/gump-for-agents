@@ -1,0 +1,17 @@
+{
+ "name": "F-W00-plus",
+ "wire": "W00",
+ "cubes": 60,
+ "cut": 30,
+ "side": 1,
+ "t0": 95,
+ "p": 19,
+ "s": 1,
+ "periods": 10,
+ "window": [
+  8,
+  24
+ ],
+ "ahead": 6,
+ "note": "front of the period-19 wire W00 towards +v: the wire stops (the ash is a still wire)"
+}

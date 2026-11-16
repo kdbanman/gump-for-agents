@@ -1,0 +1,377 @@
+# How a face dies: forecasts and operational definitions
+
+Committed before any run whose output could bear on them. Definitions below are fixed; later changes go in dated
+notes at the end, the original text stays.
+
+## The lead's forecasts (2026-11-15, written before any run), verbatim
+
+Setting: R = 11 cube-centred hull, faces of 63 cells, groups as in the edge ladder; a death is the first face death of a life as `research/theory/symmetric/run.py` counts it. Rows are counted from each edge of the face inward; lag ℓ means ℓ generations before the death.
+
+- L1 (a deduction from the ladder, not from pictures). The steps are equal in ln τ (−2.18, −2.17, −2.12). If a tied edge were an independent local channel for death, rates would add and two and three tied edges would give 10.82 and 10.43, not 9.29 and 7.17. So a death is an event of the whole face, to which each free edge adds a cost.
+- L2. c1: just before death the rim outlives the interior. At lag 4 the mean occupancy of rows 1–2 along an edge is at least 1.5 times the interior's. Confidence 65%.
+- L3. csz: along the mirrored edge that ratio is below 1.2, and lower than along each free edge by a factor of at least 1.3. Confidence 60%.
+- L4. D2h: the ratio is within 0.8–1.2 on all three edges. Confidence 60%.
+- L5. c1, the neighbours: over the last 16 generations before a face dies, each adjacent face's population stays within 10% of its stationary mean on average (confidence 75%), and so do its rows 1–2 along the shared edge, within 15% (confidence 55%).
+- L6. Where emptying begins (the centroid of the vacated cells at the first generation from which the face's population stays below half its stationary mean): in csz it is nearer the mirrored edge than either free edge in 45–70% of deaths, against one third by chance; in c1 each edge gets one third within the error. Confidence 50%; I cannot derive this one.
+- L7. The final plunge is faster when more edges are tied: the median time from that generation to the death shrinks by at least 25% from c1 to D2h. Confidence 55%.
+- What would count against the "living neighbour" reading: in c1 the rim rows are not the late survivors (L2's ratio below 1.1), and csz shows no difference between its tied and free edges.
+
+## Operational definitions (fixed 2026-11-15, before any run)
+
+**Systems and runs.** `oct_11_c_G` for G = c1, csz, c2v, d2h, built by `research/theory/symmetric/geom.py`,
+stepped by a copy of `research/theory/symmetric/sy.c` that adds a ring buffer of the last H = 512 generations of
+every replica and writes it out at each death. Same seeds, generations and protocol as the symmetric study's
+tabulated runs: c1 seed 1, 600,000 generations; csz seed 1, 400,000; c2v seed 1, 200,000; d2h seed 2, 400,000
+(soup 0.4, events every 4 generations). The modified stepper's lives file must be byte-identical to `sy`'s for the
+same arguments (this is the check that the replay reproduces every death time), and a sample of written histories
+is stepped by the Rust engine on the full cell set and must agree at every generation.
+
+**Which deaths.** A death is a life that ends F or X (as `run.py` counts) at age > T0 = 512 generations. At most
+the first 3,000 such deaths of each run (in the order they are written) are used; all of them if fewer.
+
+**Death generation and lags.** The life ends at a check (every 4 generations). From the history, t_d is the first
+generation at which some face orbit has no live cell (dead for ever by T2). Lag ℓ is the state at generation
+t_d − ℓ: lag 0 is the first generation with the face empty, lag 1 the last with any of its cells alive.
+
+**The dying face.** A face orbit empty at t_d. If several face orbits are first empty at the same t_d, each is a
+sample with weight 1/k (k the number of them); the count of such deaths is reported. For a symmetric group one face
+of the orbit stands for it (the others are its images, with identical canonical pictures).
+
+**Canonical face.** The face with sign vector σ ∈ {±1}³ (cells with σ·p = 11, all doubled coordinates of σ⊙p ≥ 0)
+is mapped to the +++ face by p → σ⊙p. Edge a ∈ {x, y, z} of the canonical face is the row of cells with coordinate
+a = 0 (shared with the face across the plane a = 0). Tied edges: csz z; c2v x and y; d2h x, y and z; c1 none.
+
+**Rows, bands, interior.** Row k along edge a: cells of the canonical face with coordinate a = k − 1 (doubled units;
+row 1 is the shared rim row of 12 cells, row 2 the 6 cells with a = 1). The **edge band** B_a ("rows 1–2 along an
+edge") is rows 1 and 2 minus the three apex cells (11,0,0), (0,11,0), (0,0,11): 16 cells; neighbouring bands share
+two cells near each corner, which count in both. The **interior** I is the 18 cells with min(x, y, z) ≥ 2 (every
+face cell that is in no band and is not an apex).
+
+**Occupancy and ratio.** occ_S(ℓ) = mean over death samples (weighted) of the fraction of the cells of S alive at
+lag ℓ. The ratio along edge a at lag ℓ is occ_{B_a}(ℓ) / occ_I(ℓ) (ratio of means). Errors: bootstrap over deaths
+(1,000 resamples), one standard deviation. Where a forecast speaks of "an edge" in c1, the three edges are pooled
+(mean of the three bands); each is also reported. In csz the free-edge ratio is the pooled x, y value and each is
+also reported.
+
+**Null control (stationary).** Every gens/10 generations of the job, each replica with age > T0 has its state
+recorded; a record is kept only if its life then lasts at least 64 more generations and does not end settled (S);
+records of lives open at the end of the job are kept if 64 generations remain after them. For each group, every
+face orbit of every kept record is a null sample (canonical map as above). From these: P̄ the stationary mean face
+population (cells of the 63 alive), ρ_i the stationary occupancy of each canonical cell, the stationary band and
+interior occupancies, and the stationary ratio.
+
+**L2–L4** use the ratio at lag 4 as defined. L2 holds if the pooled c1 ratio ≥ 1.5. L3 holds if the csz z ratio
+< 1.2 and (x ratio)/(z ratio) ≥ 1.3 and (y ratio)/(z ratio) ≥ 1.3. L4 holds if all three D2h ratios are within
+0.8–1.2. A forecast is "undecided" if the decision flips within one bootstrap standard deviation of the number.
+
+**L5** (c1 only). The adjacent faces of a dying face σ are the three faces σ with one sign flipped; each is put in
+its own canonical frame, where the shared edge is again edge a. Part 1: the mean over death samples, the three
+neighbours and lags 1–16 of (neighbour face population)/P̄ lies in [0.90, 1.10]. Part 2: the same for the
+neighbour's band along the shared edge, occ/(stationary band occupancy), in [0.85, 1.15]. The per-lag curves are
+reported too.
+
+**L6.** P(t) is the dying face's population. t_h is the earliest generation t ≤ t_d with P(t') < P̄/2 for every
+t' in [t, t_d]. If P < P̄/2 over the whole recorded history (512 generations back from the check), the death is
+censored (counted, excluded from L6, counted as Δ > history for L7). The vacated-cell centroid is
+c = Σ_i w_i p_i / Σ_i w_i over the canonical face cells, w_i = ρ_i − x_i(t_h). The edge it is nearest is the a
+minimising c_a (distance from edge a is proportional to c_a). L6 holds for csz if the fraction with argmin = z is
+in [0.45, 0.70]; for c1 if each edge's fraction is within two binomial standard errors of 1/3. (For c1 this is
+forced by the ensemble's symmetry and so tests the code, not the dynamics.)
+
+**L7.** Δ = t_d − t_h. L7 holds if median Δ(d2h) ≤ 0.75 · median Δ(c1) (censored deaths enter the median as
+"larger than any measured"). Medians of csz and c2v are reported.
+
+## My own forecasts (2026-11-15, before any run)
+
+- K1 (60%). L5 part 2 fails: the neighbour's band along the shared edge is depressed by more than 15% on average
+  over lags 1–16, since the shared rim row is common to both faces and is empty at lag 0. Part 1 holds.
+- K2 (55%). L2 fails: the c1 lag-4 ratio is below 1.5. (A rim cell has 7 neighbours inside the hull against 9 for
+  an interior cell; I expect the rim to be held up by the neighbour only weakly, not to outlive the interior.)
+- K3 (50%). The c1 median plunge Δ is between 8 and 64 generations.
+- K4 (50%). In D2h the lag-4 ratio is below 1 on all three edges (with every neighbour in lockstep the rim, having
+  fewer neighbours, empties first).
+
+## Notes added after the data (2026-11-15)
+
+1. No definition above was changed. The scores are in README.md.
+2. Added after seeing the first results, so not forecasts: `explore.py` (each region's occupancy over its own
+   stationary value; the layers beneath the dying face; a version of L6 that ranks edges by relative deficit, because
+   the pre-registered deficit centroid w_i = ρ_i − x_i inherits the stationary profile: a face that empties in
+   proportion to ρ has its centroid pulled away from a depleted edge), and the stationary occupancy by row.
+
+# Round 2 (committed 2026-11-15, after round 1, before any round-2 run)
+
+## THE LEAD'S FORECASTS, ROUND 2 (2026-11-15, after round 1, before any round-2 run), verbatim
+
+What I now think and want tested: a death is a fast collapse of the whole face from an ordinary-looking state, ties change how often a collapse starts and not how it runs, and the face population P alone may or may not be the variable that decides. Known going in: sigma_P is 5.24 in c1 and 6.37 in D2h (your README); a Gaussian extrapolation of P to zero gives ln tau about 17.8 for c1 (measured 13.63) and 7.0 for D2h (measured 7.17), so it is not obviously right or wrong.
+
+A. Excursions, from long stationary traces of each face's population P(t), fresh seeds, all four groups at A = 63. For levels p = 0.9, 0.8, ..., 0.1 of the stationary mean: nu(p), the rate per face per generation of excursions that start above the mean and reach p; and q(p), the fraction of those that end in the face's death before P is back above the mean. (Then nu(p) q(p) should equal the death rate at every level: use that as the check.)
+- A1. In c1 the level where q = 1/2 lies between 0.25 and 0.5 of the mean: a face that has lost 40% of its cells usually recovers. Confidence 50%.
+- A2. In c1, ln nu(p) follows the Gaussian const - (Pbar - p)^2 / (2 sigma_P^2) to within 1.0 down to p = 0.6 Pbar. Confidence 50%.
+- A3. The ladder is in nu, not in q: at p = 0.5 Pbar, q differs by less than a factor of 3 between c1 and D2h, while nu differs by more than e^4. Confidence 55%.
+B. Single deaths: is the fade uniform inside each death, or a hole at a random place that spreads (which the mean maps would hide)? Use a statistic of your choosing, fixed in advance, that compares the spatial concentration of the missing cells at the start of the final plunge with faces of the same population drawn from the stationary sample.
+- B1. Uniform: the concentration is within 15% of the stationary comparison in c1 and in D2h. Confidence 55%.
+C. Births or deaths: in the run-up, which fails first?
+- C1. Births: at the generation from which P stays below 0.8 Pbar, births per empty site are down by at least 30% against stationary while survival per live cell is down by at most 15% (c1). Confidence 55%.
+D. Is the ladder a function of the stationary state? Measure Pbar and sigma_P for c1, csz, c2v, D2h at A = 84 (the symmetric study has ln tau there: steps -2.64, -2.65, -2.84), stationary sampling only.
+- D1. At A = 84 the stationary population falls by 2.8 to 3.1 cells per tied edge (the A = 63 figure of 2.5 scaled by the edge length), and ln tau lost per stationary live cell lost is 0.86 +- 0.10, as at A = 63 (0.885, 0.850, 0.844 from your table). Confidence 50%.
+- D2. Neither P^2/(2 sigma^2) nor any other function of (Pbar, sigma_P) alone reproduces all eight ln tau values (two sizes, four groups) to within 0.5. Confidence 60%.
+
+## Round-2 definitions (fixed before any round-2 run)
+
+Common. Round-1 definitions hold unless restated (canonical face, bands, interior, lags, T0 = 512, t_h). P(t) is the
+number of live cells of one face (63 cells); for a symmetric group one face per face orbit ("per face" means per
+face orbit, as nf in `run.py`). P̄ and σ_P at A = 63 are round 1's null values (P̄ = 31.29, 28.83, 26.29, 23.77;
+σ_P = SD of P over the null faces: 5.24, 5.56, 5.96, 6.37), fixed, not re-estimated.
+
+**A (excursions).** New stepper `ex.c` (a copy of `sy.c`, lives file again checked byte-identical to `sy`'s for the same
+arguments) computes every face orbit's P at every generation, for every replica, and follows excursions online.
+Fresh seeds: c1 seed 11, 1,200,000 generations; csz seed 11, 400,000; c2v seed 11, 200,000; d2h seed 12, 400,000
+(512 replicas, soup 0.4, checks every 4). Only generations at life age > T0 count. An excursion starts at the first
+generation t with P(t) < P̄ after a generation with P ≥ P̄ (the previous generation must also be at age > T0). It ends
+recovered at the first later generation with P ≥ P̄, dead when that face's orbit is empty (P = 0), or censored (the
+life ends for another reason first: another face's death, settling, or the end of the job). For each excursion the
+minimum P reached and the end type are recorded. Exposure E_f = face-orbit generations at age > T0. "Reaches level p"
+means min P < p·P̄. ν(p) = (excursions reaching p) / E_f; q(p) = (those ending dead) / (those reaching p and not
+censored). Check: ν(p)·q(p) against the face death rate (face deaths at age > T0 counted from the same run, per E_f);
+they agree up to censored excursions, whose share is reported. Errors: Poisson / binomial.
+- A1: p* = the level where q crosses 1/2, linear interpolation on the grid p = 0.05, 0.10, …, 0.95. Holds if
+  0.25 ≤ p* ≤ 0.5.
+- A2: G(p) = −(P̄ − pP̄)²/(2σ_P²) with c1's σ_P = 5.24; the constant is fixed by matching ln ν at p = 0.9. Holds if
+  |ln ν(p) − const − G(p)| ≤ 1.0 at p = 0.8, 0.7, 0.6.
+- A3: holds if 1/3 < q_c1(0.5)/q_d2h(0.5) < 3 and ν_d2h(0.5)/ν_c1(0.5) > e^4.
+
+**B (concentration).** Fresh histories from `sd.c` (round 1's stepper): c1 seed 21 600,000; d2h seed 22 400,000 (and
+csz seed 21 400,000, c2v seed 21 200,000, reported, not scored), first 3,000 deaths, H = 512, lives files checked
+against `sy`. At t_h of each death (round-1 definition) take the live cells of the dying face, k of them. Statistic
+S = distance (doubled units, in the face plane) from the centroid of the live cells to the centroid of the face
+weighted by ρ (the stationary occupancy of each canonical cell); a fade that is a hole at one place moves the
+live-cell centroid away from the hole and makes S large. Comparison: for each death, 20 stationary faces drawn at
+random from that group's null sample (round-1 definition, regenerated by these runs), each thinned uniformly at random
+to exactly k live cells (if a drawn face has fewer than k live cells, draw again). Concentration ratio = mean S
+(deaths) / mean S (thinned stationary). Deaths with k < 2 are skipped (counted). Error: bootstrap over deaths. B1
+holds if the ratio is within 0.85–1.15 in both c1 and d2h. Secondary statistic, reported, not scored: the fraction of
+live-live pairs among the kagome-adjacent pairs (in-face perpendicular neighbours) touching a live cell, against the
+same thinned comparison.
+
+**C (births or deaths).** Same fresh histories. t_8 = the earliest generation t ≤ t_d from which P < 0.8 P̄ holds at
+every generation up to t_d (censored if over the whole history). At the step t_8 → t_8 + 1, over the dying face's 63
+cells, pooled over deaths: birth rate b = Σ (dead at t_8, alive at t_8+1) / Σ (dead at t_8); survival s = Σ (alive at
+both) / Σ (alive at t_8). Stationary reference: the same pooled over every step at lags 256 → 255, …, 500 → 499 of the
+same histories. C1 holds (c1) if b/b_stat ≤ 0.70 and s/s_stat ≥ 0.85. All four groups reported; also at t_h and at
+lags 16, 8, 4.
+
+**D (A = 84 stationary).** `oct_13_c_{c1,csz,c2v,d2h}`, `sd.c` with no dumps (MAXD 0), seeds 31, 1 replica set,
+200,000 generations each (null sampling at ten times, round-1 rule: kept if the life lasts 64 more generations and does
+not end settled). P̄ and σ_P over every face orbit of every kept record. ln τ at A = 84 are the symmetric study's: c1
+18.141 (GPU), csz 15.506, c2v 12.857, d2h 10.022; at A = 63 13.634, 11.456, 9.291, 7.168.
+- D1: steps ΔP̄ (c1→csz, csz→c2v, c2v→d2h) at A = 84 each in 2.8–3.1, and each Δln τ/ΔP̄ in 0.76–0.96.
+- D2: holds if both of these leave some residual above 0.5 on the eight points: (i) ln τ = a + b·P̄²/(2σ_P²), least
+  squares; (ii) ln τ = a + b·P̄ + c·σ_P, least squares. (A good fit of either fails D2.)
+
+## My round-2 forecasts
+
+- K5 (50%). The c1 level where q = 1/2 is between 0.4 and 0.7 (higher than A1's range): once a face is down to about
+  half it rarely comes back.
+- K6 (60%). A2 fails with ν above the Gaussian at p = 0.6 (the tail is fatter than Gaussian, as the extrapolation's
+  17.8 against 13.6 suggests).
+- K7 (50%). B1 fails in c1: S at t_h exceeds the thinned stationary by more than 15% (a collapse starts somewhere,
+  and information travels one cube per generation).
+- K8 (55%). A3's q part holds and the ν part holds.
+
+# Round 3 (committed 2026-11-15, after round 2, before any round-3 run)
+
+## THE LEAD'S FORECASTS, ROUND 3 (2026-11-15, after round 2, before any round-3 run), verbatim
+
+- T1 (one curve across sizes, c1). nu(p), q(p), Pbar, sigma_P for c1 at cube-centred R = 9, 11, 13 and, for the levels you can reach, R = 15. (a) -ln nu(0.5)/A at A = 84 agrees with A = 63 (0.103) within 5%. Confidence 60%. (b) The straight-line slope of ln nu per live cell lost, fitted over 0.1 <= p <= 0.45 (or as deep as the data go at A = 84, stated), is within 7% of 0.499. Confidence 55%.
+- T2 (coexistence). In c1 stationary faces caught at P <= 0.3 Pbar, the occupancy profile against distance from the survivors' centroid is flat-topped: the inner half of the survivors sit in a region whose occupancy is at least 0.8 of the stationary value, and the profile falls from there to below 0.2 of stationary within 2 rows. Confidence 50%.
+- T3 (where the survivors sit). In csz faces at P <= 0.3 Pbar, after correcting for the stationary profile (your round-1 lesson), the survivors' centroid is nearest the tied edge in fewer than 25% of cases (one third by chance): a thin face holds on at its free edges. Confidence 45%.
+- T4 (how a thin face refills). In c1 recoveries from P <= 0.3 Pbar, at least 70% of the first ten births on the face are within two cells of a face cell that was alive at the bottom of the dip (regrowth from the clump), against the fraction expected if births fell on empty cells at random, which you compute. Confidence 55%.
+- What would count against the reading: the curves at different sizes do not collapse per site (T1a off by more than 15%), and depleted faces show no clump with an edge (T2's profile falls smoothly over the whole face).
+
+## Round-3 definitions (fixed before any round-3 run)
+
+**Stepper.** `ex3.c` = `ex.c` with faces of up to 127 cells and dumps of deep excursions: for every excursion whose
+P reaches ≤ M3, the face orbit's 63 cell states at every generation from the first with P ≤ M3 to the end of the
+excursion (cap 512 generations, flagged if truncated), with its end type and minimum. Checked before use: on a short
+D2h run its lives file, excursion table and P histogram are identical to `ex.c`'s. Every production lives file is
+compared with `sy`'s.
+
+**Runs** (soup 0.4, checks every 4, T0 = 512, 512 replicas):
+- c1, cube-centred, R = 9 (A = 45) seed 51, 400,000 generations; R = 11 (A = 63) seed 52, 1,200,000, M3 = 9
+  (= ⌊0.3·31.29⌋); R = 13 (A = 84) seed 53, 1,200,000; R = 15 (A = 108) seed 54, 1,200,000.
+- csz, R = 11, seed 52, 400,000, M3 = 8 (= ⌊0.3·28.83⌋).
+- P̄ (which sets the excursion threshold) and σ_P: R = 11 c1 31.29 and csz 28.83 (round 1); R = 13 42.49 (round 2);
+  R = 9 and 15 from a null run of `sd.c` (seed 41, 100,000 generations, no dumps, round-1 null rule) made before the
+  `ex3` run, rounded to 0.01.
+- Slab, without a forecast: `hex_4_1_c1` (a face torus of area 63, eight layers, no rim) if
+  `python3 research/theory/symmetric/validate.py 1500 hex_4_1_c1` prints ALL OK; P̄ from `sd.c` null seed 41
+  100,000 generations; `ex3` seed 55, 400,000 generations. A life also ends at a firewall there (censoring).
+
+**T1.** ν(p) as round 2 (levels p = 0.05 … 0.95, min P < p·P̄). (a) −ln ν(0.5)/A at A = 84 against the same at
+A = 63 from the round-3 R = 11 run; holds if within 5% (the round-2 value 0.1034 is reported too). (b) Slope s: least
+squares of ln ν(p) against p·P̄ (live cells) over the levels 0.10 ≤ p ≤ 0.45, weighted by the number of excursions,
+levels with fewer than 20 excursions dropped (the range used is stated); s per live cell lost; holds if |s/0.499 − 1|
+≤ 0.07 at A = 84. The same fit is reported at every size, and the straight part's extrapolation to p = 0 divided by A.
+
+**Caught faces.** The first recorded state of each deep excursion (the first generation with P ≤ M3), all end
+types; faces with fewer than 3 live cells skipped (counted). In-plane coordinates as round 2 (doubled units); ρ_i
+the round-2 c1 / csz null occupancy of canonical cell i (fresh seeds, round 2); row spacing ℓ = √1.5 doubled units.
+
+**T2** (c1, R = 11). For each caught face: survivors' centroid c (unweighted mean of the live cells' positions);
+r_half = median distance of the live cells from c. Relative occupancy of a region = Σ over faces of live cells in it
+/ Σ over faces of Σ ρ_i over its cells. Inner region: d ≤ r_half. Shells j = 0, 1, 2, …: r_half + jℓ < d ≤ r_half +
+(j+1)ℓ. Holds if inner ≥ 0.8 and shell j = 1 < 0.2. Control: the same for a stationary face thinned uniformly to the
+same k (one per caught face).
+
+**T3** (csz, R = 11). Corrected centroid of a caught face: Σ_i (x_i/ρ_i) p_i / Σ_i (x_i/ρ_i), canonical (x, y, z);
+nearest edge = argmin of its coordinates. Holds if the fraction nearest the tied edge z is below 0.25. Control: the
+same for thinned stationary csz faces.
+
+**T4** (c1, R = 11). Recovered deep excursions, not truncated. Bottom = first generation in the record with P equal
+to the excursion's minimum; B = live cells there. Births on the face at t → t+1 (dead at t, alive at t+1) for t =
+bottom, bottom+1, …, until the cumulative count reaches 10 (all births of the last such generation counted). "Within
+two cells" = graph distance ≤ 2 from B in the in-layer neighbour graph of the face (each cell's 6 in-layer gump
+neighbours that lie in the face). Observed fraction pooled over excursions. Random: for each counted generation, the
+fraction of the face's empty cells at t within distance ≤ 2 of B, weighted by that generation's births. Holds if the
+observed fraction ≥ 0.70 (the random figure is reported beside it).
+
+## My round-3 forecasts
+
+- K9 (60%). T1a holds: −ln ν(0.5)/A is size-independent within 5% (Gaussian and tail parts both scale with A if P̄ and
+  σ_P² do).
+- K10 (50%). T1b fails: the slope per cell at A = 84 is more than 7% below 0.499.
+- K11 (60%). T2 fails: no plateau of 0.8 in the inner region (the survivors of a thin face are a loose clump, not a
+  patch of stationary soup).
+- K12 (55%). T4: the observed fraction exceeds the random one by less than 0.10, because distance 2 already covers
+  most of a 63-cell face around ~9 survivors.
+
+# Round 4 (the lead's forecasts, written 2026-11-15 05:41 UTC, before any round-4 run and before the review of round 3 is in)
+
+**The reading under test: two phases.** A healthy face fluctuates like a homogeneous medium: the cost per site of
+a dip to relative population p is g·(1 − p)², with g set by the ordinary variance. Gump's rule is cooperative (a
+cell needs three to five live neighbours of twelve to stay alive, four or five to be born), so a face cannot be
+thinned uniformly below some density and stay alive. Below that point a depleted face should be a *mixture*: an
+emptied region beside a remnant held at a fixed relative density p_t, the remnant's area shrinking in proportion
+to the population (a lever rule), and the cost running along the tangent to the parabola at p_t. Then three numbers
+that are measured separately are tied together: the tail slope per site and per unit p is s = 2g(1 − p_t), and the
+price of emptying a whole face is c = g(1 − p_t²) = s − s²/(4g). On the round-3 data
+(`python3 research/audit/dying_tangent.py`, the lead's, unreviewed): g ≈ 0.30–0.32; s = 0.211, 0.248, 0.256, 0.270
+at A = 45, 63, 84, 108; so p_t = 0.64, 0.62, 0.59, 0.55, and the end point is 0.170, 0.197, 0.201, 0.206 per site
+against 0.180 and 0.188 from the lifetimes at A = 63 and 84. Round 3 measured the remnant at 0.58–0.61 of
+stationary density around its centroid at A = 63 (0.51 by the pre-registered measure), which is what suggested
+the reading; so that number is not a test of it. The tests are below.
+
+**Definitions.** c1 hull faces, R = 15 (A = 108) and R = 11 (A = 63), fresh seeds. A face is *caught at level p*
+at the first generation of an excursion (round-2 definition: from above P̄) at which P ≤ p·P̄, for p = 0.9, 0.75,
+0.6, 0.45, 0.3, 0.15; each excursion contributes at most one catch per level. For a caught face:
+- *Company* C(p): the number of live cells among the in-face cells within graph distance 2 of a live cell
+  (in-layer neighbour graph of the face, as in T4), summed over the face's live cells and over caught faces,
+  divided by the same sum with each cell's stationary occupancy ρ_i in place of its state (so C = 1 for the
+  stationary ensemble apart from correlations; the stationary value of this ratio, measured on uncaught faces, is
+  reported and divided out). Rim cells are handled by the ρ_i weighting; also report C restricted to live cells
+  at least two cells from the rim.
+- *Void fraction* V(p): the fraction of the face's cells farther than graph distance 2 from every live cell.
+- Control at every level: stationary faces thinned at random to the same count.
+
+**Forecasts** (R = 15 unless said):
+- **F1 (the lever rule; 65%).** C(0.15), C(0.3) and C(0.45) agree within 15% of their mean. Against: C falls
+  roughly in proportion to p (C(0.15)/C(0.45) < 0.6), which is uniform thinning with a local bias.
+- **F2 (the remnant's density is the tangent point; 50%).** The mean of C over p ≤ 0.3 lies in 0.47–0.63 at
+  A = 108 (the tangent construction gives 0.55; the interval allows for the difference between "company" and
+  density).
+- **F3 (a kink; 55%).** C(0.9) and C(0.75) track p (within 0.08 of p times the stationary ratio), and
+  C(p) − p grows from p = 0.6 down: C(0.3) − 0.3 ≥ 0.2 and C(0.9) − 0.9 ≤ 0.08.
+- **F4 (the void grows linearly; 55%).** V(p) is below 0.05 for p ≥ 0.75 and, for p ≤ 0.45, rises linearly as
+  p falls: V(0.15) − V(0.3) within 30% of V(0.3) − V(0.45). The random-thinning control has a much smaller void
+  at p = 0.45 (less than half the caught value).
+- **F5 (size; 50%).** The mean C over p ≤ 0.3 at A = 63 exceeds that at A = 108 by 0.03–0.12 (the tangent point
+  moves from 0.62 to 0.55).
+- **F6 (what would end the reading).** If F1 fails by the "against" clause and V at p = 0.3 is no more than
+  1.5 times its control, a depleted face is not a mixture and the tangent construction is a coincidence of
+  curve shapes.
+
+A measurement for the graphics card follows from this reading if F1 holds: the tail slope s on faces of A = 135
+to 234, which cannot be watched to their deaths. The construction says s rises to 2g(1 − √(1 − c/g)), about 0.278
+per site if c = 0.2155 and 0.263 if c = 0.207, with g ≈ 0.31; so s read to ±0.004 separates the two ends of the
+open range of c.
+
+**Note added 2026-11-15 05:49 UTC, after the round-3 review arrived and before any round-4 run** (the forecasts
+above are not changed). (1) Feasibility: at R = 15 a dip to 0.15 of the usual population is out of reach of the
+CPU (the study has nothing below 0.2 there), so F1 is scored at R = 13 (A = 84) with the three levels as written,
+and at R = 15 with C(0.3) against C(0.45) only (within 15% of each other); F2 and F4 use the levels that are
+reached and say which. (2) What the review already shows at one depth and one size (A = 63, P ≤ 0.3 P̄, mean 8.3
+cells): relative occupancy around a live cell 0.54 within 2.5 doubled units, 0.33, 0.23, 0.18, 0.16 farther out;
+0.54 at 7–9 cells and 0.38 at 3–6 cells. So at A = 63 the far field is not a void and the patch loosens as it
+shrinks: taken at face value that is against F1 at that size. Whether it is the smallness of an eight-cell patch
+or the absence of two phases is what the larger faces are for.
+
+## Round 4 definitions (the experimenter's readings, 2026-11-15, committed with `ex4.c` and `round4.sh` before any production run)
+
+Pilots: none beyond `validate4.py` (short runs used only to check the code; no C or V was computed from them). Where
+the block above is ambiguous, this is the reading taken; the forecasts are scored on it.
+
+- **Vessels, runs, thresholds.** c1 hull faces `v11c`, `v13c`, `v15c` (A = 63, 84, 108; the review's `geo.py`).
+  Stepper `ex4.c` (the review's `r3_ex.c` with catches; `validate4.py`). Runs and keep probabilities: `round4.sh`,
+  seeds 4411, 4413, 4415 + 4416 (two runs at R = 15, pooled). P̄ = 31.29, 42.49, 55.14 (the study's; the review's
+  31.25, 42.45, 55.19 give the same integers). Level p means P ≤ ⌊pP̄⌋: 28, 23, 18, 14, 9, 4 (A = 63); 38, 31, 25,
+  19, 12, 6 (84); 49, 41, 33, 24, 16, 8 (108). The excursion's first generation (P < P̄) can be a catch. Shallow
+  levels are subsampled by a keep draw made at the excursion's start (independent of the dynamics, nested in depth).
+  A level counts as *reached* at a size if it has at least 200 caught faces with k ≥ 1.
+- **Catches with P = 0** (a face that jumps over the level straight to empty) are counted and left out of C (they
+  have no live cell, so they add nothing to either sum) and out of V.
+- **Graph.** In-face neighbour graph: cell i linked to j if j is one of i's twelve gump neighbours and lies in the
+  same face (in-layer). gd(i, j) = graph distance. *Rim* = face cells with fewer than six in-face neighbours.
+- **ρ_i**: stationary occupancy of canonical cell i, from the same run's samples (`SAMP`, age > 512), the eight
+  faces mapped onto one canonical face (q = d ⊙ p), per size.
+- **Company.** For a face with state x (x_j = 1 if alive): N = Σ_{i live} Σ_{j ≠ i, gd(i,j) ≤ 2} x_j and
+  D = Σ_{i live} Σ_{j ≠ i, gd(i,j) ≤ 2} ρ_j (ρ replaces the state of the companion j, not of the live cell i, so that
+  N/D is the occupancy around a live cell relative to stationary). C_raw(p) = Σ_faces N / Σ_faces D; the stationary
+  value S = the same ratio over all stationary samples; **C(p) = C_raw(p)/S**. All forecasts are scored on C. F3's
+  "within 0.08 of p times the stationary ratio" is read on this normalised C as |C(p) − p| ≤ 0.08 (the raw form
+  |C_raw − pS| ≤ 0.08 is reported beside it). By shell: C_s the same with gd(i, j) = s for s = 1, 2, 3 and gd ≥ 4,
+  each normalised by its own stationary value. Interior: the sums over live cells i restricted to gd(i, rim) ≥ 2,
+  normalised by the same restriction on stationary faces.
+- **Void fraction.** V of a face = (number of face cells j with gd(i, j) > 2 for every live i) / A; V(p) = mean over
+  caught faces with k ≥ 1.
+- **Control.** For each caught face with k ≥ 1 live cells: one stationary sample drawn at random among those with
+  P ≥ k, and k of its live cells kept at random; C and V computed the same way (normalised by the same S).
+- **Errors.** Bootstrap over caught faces (200 resamples); the stationary S is treated as exact (its error is
+  given).
+- **Scoring.** F1: at A = 84, max_i |C_i − m|/m ≤ 0.15 over C(0.15), C(0.3), C(0.45) with m their mean; at
+  A = 108, |C(0.3) − C(0.45)| ≤ 0.15 × their mean; F1 holds if both hold (and its A = 108 three-level form is
+  reported if 0.15 is reached there). "Against": C(0.15)/C(0.45) < 0.6. F2: the mean of C over the reached levels
+  p ≤ 0.3 at A = 108 lies in [0.47, 0.63]. F3 (A = 108): |C(0.9) − 0.9| ≤ 0.08, |C(0.75) − 0.75| ≤ 0.08 and
+  C(0.3) − 0.3 ≥ 0.2; whether C(p) − p grows monotonically from 0.6 down is reported, not scored. F4 (A = 108):
+  V(0.9), V(0.75) < 0.05; |[V(p₁) − V(0.3)]/[V(0.3) − V(0.45)] − 1| ≤ 0.3 with p₁ = 0.15 if reached (if not, this
+  clause is scored at A = 84 and said so); and V_control(0.45) < V(0.45)/2. F5: the F2 mean at A = 63 minus the
+  F2 mean at A = 108, over the same levels, in [0.03, 0.12]. F6 is reported at each size where 0.15 is reached:
+  "against" clause of F1 met and V(0.3) ≤ 1.5 V_control(0.3).
+- **Tangent construction** (from ex4's own excursion table, all life end types). ν(≤ y) = excursions with min ≤ y
+  per face-generation of exposure; ln ν interpolated linearly between integers y, read at y = pP̄ − ½ (the review's
+  threshold-free reading), p = 0.05 … 0.95. I(p) = [ln ν(0.9) − ln ν(p)]/A. g: least squares of I = g[(1 − p)² −
+  0.01] over p = 0.60 … 0.85 (`dying_tangent.py`'s window). s: minus the unweighted slope of I against p over
+  0.10 ≤ p ≤ 0.45, levels with ≥ 20 excursions (window stated). p_t = 1 − s/(2g); end point g(1 − p_t²) − 0.01g.
+  Errors: Poisson resampling of the excursion counts.
+- **Exploratory (not scored).** Groups of live cells (linked if gd ≤ 2): their number and the largest group's share
+  of k; the largest connected void region (void cells linked by gd = 1) as a share of A; C and V at the bottom
+  (first generation at the minimum) of the excursions caught at p; C at fixed p for excursions that die against those
+  that recover; the distribution over live cells of the per-cell ratio N_i/D_i (a mixture keeps its position as p
+  falls and only loses weight; a thinning moves it), and C against k at fixed size.
+
+**Scored (the lead, 2026-11-15 09:45 UTC, from `data/r4_company.csv`; the producer's scores agree):** F1 failed
+(maximum deviation from the mean 46%, 35%, 32% at 63, 84, 108 cells; C(0.15)/C(0.45) = 0.384, 0.486, 0.532, so the
+"against" clause is met at every size). F2 failed (0.364 at 108 cells, outside 0.47–0.63). F3 failed on its third
+clause (C(0.3) − 0.3 = 0.139). F4 failed (the void's growth ratio is 2.01, 1.68, 1.85, not within 30% of 1). F5
+failed with the opposite sign. F6 not met (V(0.3) is 2.3 to 3.1 times the control's). The two-phase reading is
+withdrawn: a depleted face thins as one clustered thing.
+
+**After the review (the lead, 2026-11-15 10:15 UTC; `research/audit/REVIEW-dying.md`, "Round 4"):** the scores above
+stand as registered, but three of them say less than they seem to. An exact lever rule (a compact patch at any
+fixed density from 0.45 to 0.8, built by the reviewer and put through the same measures) gives C(0.15)/C(0.45) =
+0.45–0.48, 0.58–0.61, 0.65–0.69 at 63, 84, 108 cells, so F1's "against" clause is met by the very thing it was
+written to exclude, F2's window (C = p_t) is not what a remnant at p_t reads at these counts, and F6 rested on
+F1. The tests were badly made: the patch is the size of the neighbourhood they count in. What counts against the
+reading is the end point of its construction (too high by 1.07–1.34 nats) and the shape of the profile round a
+survivor (more peaked than an even patch). "There is no remnant at fixed density" is withdrawn; "no plateau is
+seen, and these measures cannot test for one on faces this small" replaces it.

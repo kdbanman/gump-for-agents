@@ -1,0 +1,401 @@
+{
+ "about": "Refresh of 2026-11-15 (afternoon, phase 2 of the site): the nine wrapped faces reviewed (GL3), the wrapping law tested (WL1-WL3), the third and fourth signals pushes (SG12, SG14, SG16-SG19, SG22), the record. Every quote is checked by collect.py against research/NOTEBOOK.md, research/CLAIMS.md or the named file.",
+ "tori": {
+  "nine": {
+   "value": [
+    16.9222,
+    0.0031,
+    81,
+    17.5467,
+    84,
+    22.56,
+    0.0222,
+    108,
+    23.2032,
+    0.0231,
+    111
+   ],
+   "quote": "four more on the same driver: 16.9222 ± 0.0031 (A = 81), 17.5467 ± 0.0031 (84), 22.5600 ± 0.0222 (108), 23.2032 ± 0.0231 (111)",
+   "src": "CLAIMS GL3"
+  },
+  "t57": {
+   "value": [
+    11.8751,
+    0.0004
+   ],
+   "quote": "57 cells is now 11.8751 ± 0.0004 on four seeds",
+   "src": "CLAIMS GL3"
+  },
+  "line7": {
+   "value": [
+    63,
+    111,
+    13.1621,
+    0.20867,
+    7.8,
+    48,
+    57,
+    0.107,
+    0.035
+   ],
+   "quote": "the seven faces from 63 to 111 cells fit ln τ = 13.1621 + 0.20867(9)·(A − 63) with χ² 7.8 on 5, the faces of 48 and 57 cells 0.107 and 0.035 below",
+   "src": "CLAIMS GL3"
+  },
+  "low4": {
+   "value": [
+    3.0,
+    2.5,
+    0.9,
+    1.7
+   ],
+   "words": [
+    "the five-face line was low at all four new faces (3.0, 2.5, 0.9, 1.7σ)"
+   ],
+   "quote": "the five-face line was low at all four new faces (3.0, 2.5, 0.9, 1.7σ)",
+   "src": "CLAIMS GL3"
+  },
+  "price": {
+   "value": [
+    0.2087,
+    0.209
+   ],
+   "quote": "price per cell above 63 cells 0.2087–0.2090",
+   "src": "CLAIMS GL3 (second review)"
+  },
+  "smooth": {
+   "value": [
+    7.8,
+    31,
+    178
+   ],
+   "quote": "only the broken line fits all nine (χ² 7.8 on 5; smooth forms 31–178 on 5)",
+   "src": "CLAIMS GL3 (second review)"
+  },
+  "kink": {
+   "value": [
+    61.39
+   ],
+   "quote": "kink fitted at 61.39 cells",
+   "src": "NB 2026-11-15, the nine wrapped faces reviewed"
+  },
+  "three": {
+   "words": [
+    "rests on three faces, 48, 57 and 63 cells, of three lattice kinds"
+   ],
+   "quote": "But the choice between smooth and kinked rests on three faces, 48, 57 and 63 cells, of three lattice kinds",
+   "src": "NB 2026-11-15, the nine wrapped faces reviewed"
+  },
+  "scatter": {
+   "value": [
+    0.004,
+    0.014
+   ],
+   "quote": "median 0.004, 95% upper bound 0.014",
+   "src": "NB 2026-11-15, the nine wrapped faces reviewed"
+  },
+  "second81": {
+   "value": [
+    16.9386,
+    0.0124,
+    1.3
+   ],
+   "quote": "16.9386 ± 0.0124, 1.3σ from the card",
+   "src": "CLAIMS GL3 (grades)"
+  },
+  "leans": {
+   "words": [
+    "\"one price or two\" now leans to two"
+   ],
+   "quote": "So \"one price or two\" now leans to two, or to a rim term that is not linear in the rim; the hull face of 108 cells is the next datum.",
+   "src": "NB 2026-11-15, the nine wrapped faces reviewed"
+  }
+ },
+ "wrap": {
+  "discount": {
+   "value": [
+    63,
+    0.125,
+    12,
+    0.096,
+    13,
+    0.054,
+    16,
+    0.013,
+    19,
+    0.001,
+    21
+   ],
+   "quote": "one loop direction lowers ln τ_face at 63 cells by about 0.125 (loop² 12), 0.096 (13), 0.054 (16), 0.013 (19) and by less than 0.001 at 21",
+   "src": "CLAIMS WL2"
+  },
+  "noloop": {
+   "value": [
+    14,
+    63,
+    126,
+    0.2086,
+    0.0001
+   ],
+   "quote": "faces with no loop shorter than √21 (14 faces, 63–126 cells) share one line at 0.2086 ± 0.0001 per cell in every form tried",
+   "src": "CLAIMS WL2"
+  },
+  "kinkis": {
+   "words": [
+    "the equilateral \"kink near 61 cells\" is that family passing loop² 16, 19, 21 at 48, 57, 63 cells"
+   ],
+   "quote": "the equilateral \"kink near 61 cells\" is that family passing loop² 16, 19, 21 at 48, 57, 63 cells",
+   "src": "CLAIMS WL2"
+  },
+  "loop12": {
+   "value": [
+    0.2046,
+    0.0003,
+    54,
+    72
+   ],
+   "quote": "a single loop of 12 costs 0.2046 ± 0.0003 per cell between 54 and 72 cells",
+   "src": "CLAIMS WL2"
+  },
+  "law11": {
+   "value": [
+    11,
+    51,
+    69,
+    2.5
+   ],
+   "quote": "forecast 11 new faces of 51–69 cells within max(0.010, 3σ) (largest miss −2.5σ) and is nevertheless the wrong form",
+   "src": "CLAIMS WL1"
+  },
+  "forecast84": {
+   "value": [
+    84,
+    17.3604,
+    17.3361,
+    17.3207,
+    17.2941
+   ],
+   "quote": "One loop of 12 at 84 cells, torus (1, 12), (0, 28): old law 17.3604, LINES 17.3361, POW 17.3207, HAZ 17.2941",
+   "src": "NB 2026-11-15, the wrapping law tested (frozen in research/wrap/PREDICTIONS.md, c89ce9d)"
+  },
+  "measured84": {
+   "value": 17.3248,
+   "se": 0.0058,
+   "deaths": 29412,
+   "src": "rows A = 84 of research/wrap/data/runs.csv (three seeds, the tester's runner ts3); NB 2026-11-15, the 84-cell face with one loop of 12; research/wrap/PREDICTIONS.md, The 84-cell face, measured",
+   "quote": "ln τ_face = 17.3248 ± 0.0058 (29,412 deaths; seed χ² 1.7 on 2)",
+   "note": "filled 2026-11-15 from the lead's message; quote from NB 2026-11-15, the 84-cell face with one loop of 12"
+  },
+  "scored84": {
+   "value": [
+    17.3604,
+    6.1,
+    17.3361,
+    1.9,
+    17.3207,
+    0.7,
+    17.2941,
+    5.3
+   ],
+   "quote": "The lead's first law 17.3604 (−6.1σ); LINES 17.3361 (−1.9σ, outside the 0.008 I had allowed: W7 failed); POW 17.3207 (+0.7σ); the tester's HAZ 17.2941 (+5.3σ; 4σ with its forecast error).",
+   "src": "NB 2026-11-15, the 84-cell face with one loop of 12"
+  },
+  "tubes": {
+   "value": [
+    0.20437,
+    0.00016,
+    0.20602,
+    0.00033,
+    0.20717,
+    0.00011,
+    0.20864,
+    9e-05
+   ],
+   "quote": "lie on one straight line, slope 0.20437 ± 0.00016, χ² 5.6 on 6, curvature (−2.6 ± 3.5) × 10⁻⁵ per cell². One loop of 13 (57–75 cells): 0.20602 ± 0.00033. One loop of 16 (60–108 cells): 0.20717 ± 0.00011. No short loop (63–126): 0.20864 ± 0.00009. No family shows curvature.",
+   "file": "research/wrap/PREDICTIONS.md",
+   "src": "research/wrap/PREDICTIONS.md, The 84-cell face, measured (python3 research/audit/wrap_haz_lead.py --tube)",
+   "words": [
+    "0.20437 ± 0.00016",
+    "0.20602 ± 0.00033",
+    "0.20717 ± 0.00011",
+    "0.20864 ± 0.00009",
+    "No family shows curvature"
+   ]
+  },
+  "percent": {
+   "value": [
+    2.0,
+    1.3,
+    0.7
+   ],
+   "words": [
+    "2.0%, 1.3% and 0.7% below the open price for girths √12, √13 and 4"
+   ],
+   "quote": "A face with one short way round is a tube, and a tube of a given girth pays a fixed price per cell, lower the tighter the girth: 2.0%, 1.3% and 0.7% below the open price for girths √12, √13 and 4.",
+   "src": "NB 2026-11-15, the 84-cell face with one loop of 12"
+  },
+  "bend": {
+   "words": [
+    "A gentle bend is not excluded"
+   ],
+   "quote": "A gentle bend is not excluded: POW's curvature at these sizes is −4.7 × 10⁻⁵, inside the error.",
+   "src": "NB 2026-11-15, the 84-cell face with one loop of 12"
+  },
+  "next96": {
+   "value": [
+    96,
+    19.7791,
+    0.0055,
+    19.7618,
+    0.0075
+   ],
+   "quote": "| (1, 17), (0, 32) | 96 | 19.7791 ± 0.0055 | 19.7618 ± 0.0075 | 0.017 |",
+   "file": "research/wrap/PREDICTIONS.md",
+   "src": "research/wrap/PREDICTIONS.md (W11, W12): tube line and POW, frozen"
+  },
+  "next108": {
+   "value": [
+    108,
+    22.2316,
+    0.0074,
+    22.1969,
+    0.0115
+   ],
+   "quote": "| (1, 16), (0, 36) | 108 | 22.2316 ± 0.0074 | 22.1969 ± 0.0115 | 0.035 |",
+   "file": "research/wrap/PREDICTIONS.md",
+   "src": "research/wrap/PREDICTIONS.md (W11, W12)"
+  }
+ },
+ "signals4": {
+  "gun": {
+   "value": [
+    15,
+    4
+   ],
+   "quote": "`gun-5f` (15 cells, period exactly 4) on the +v end of bare wire C puts one mirror rake on the wire every 4 generations and returns exactly to its state",
+   "src": "CLAIMS SG16 (A: three codes on the oracle)"
+  },
+  "line": {
+   "value": [
+    4,
+    2
+   ],
+   "quote": "A cap at rest, N units of bare wire C and the gun (the line) is a free-standing oscillator of period exactly 4 from generation 2N for every N ≥ 2",
+   "src": "CLAIMS SG17 (A)"
+  },
+  "divider": {
+   "value": [
+    24,
+    8,
+    3
+   ],
+   "words": [
+    "the whole coupling is one cell born once per 8 generations",
+    "turns every second rake into a hole"
+   ],
+   "quote": "The divider: the line with the catalogue oscillator C8.24a (24 cells, period 8) standing two diagonal layers outside the wire's tube turns every second rake into a hole; the wire beyond reads 5f9f…, the object has period exactly 8 from generation 2N − 3 for every N ≥ 3 (proof written for N ≥ 8), the oscillator equals its free orbit at every generation, and the whole coupling is one cell born once per 8 generations.",
+   "src": "CLAIMS SG19 (A + B)"
+  },
+  "stroke": {
+   "value": [
+    147,
+    32,
+    16,
+    104
+   ],
+   "quote": "one cell removed at unit N − 3 one generation before the stroke destroys it (147 cells to 32 at N = 16); a second C8.24a on the halved stream never divides again (104 placements)",
+   "src": "CLAIMS SG19"
+  },
+  "highest": {
+   "words": [
+    "It fires at the highest rate there is"
+   ],
+   "quote": "It fires at the highest rate there is, so the wire behind it is a full stream",
+   "src": "CLAIMS SG16"
+  },
+  "noreader": {
+   "words": [
+    "a reader of the word"
+   ],
+   "quote": "writes anything but rake, hole on the stream (54,450); a reader of the word; a corner (not searched)",
+   "src": "CLAIMS SG22"
+  },
+  "heal": {
+   "value": [
+    764,
+    432
+   ],
+   "quote": "line N = 16, all 764 words; divider N = 16, 17, 28, all 432 words",
+   "src": "CLAIMS SG18 (A)"
+  },
+  "reader": {
+   "words": [
+    "is a perfect reader with no memory"
+   ],
+   "quote": "The left cap of clock-C is a perfect reader with no memory: any word of B and C units arriving on the tape is swallowed one letter per 2 generations",
+   "src": "CLAIMS SG12 (A for the cap)"
+  },
+  "wall": {
+   "words": [
+    "Two adjacent pulses move it exactly one unit and send back exactly one right-going pulse",
+    "a cut end burns"
+   ],
+   "quote": "Two adjacent pulses move it exactly one unit and send back exactly one right-going pulse; longer runs also count once and return the remainder as a right-going composite. Wire 8 is not free-standing: a cut end burns at one unit per generation",
+   "src": "CLAIMS SG14"
+  },
+  "nothing": {
+   "words": [
+    "It has nothing that reads",
+    "no second stage after the first"
+   ],
+   "quote": "It has nothing that reads: no object left in one state by a gap and another by its absence, among 741 ends searched and thousands of placements sampled. It has no corner, no crossing, and no second stage after the first.",
+   "file": "docs/WHAT-I-SEE.md",
+   "src": "the essay, \"What I would look at next\""
+  }
+ },
+ "corrections": [
+  {
+   "said": "The lead's wrapping law: one formula with a discount per short loop for every wrapped face (it forecast 11 of 11 new faces)",
+   "now": "The wrong form: the lines for different loop lengths do not meet at one area, a single loop of 12 falls further below it as the face grows, and below 48 cells it misses by 4 to 16σ",
+   "by": "a tester briefed to break it, with its own code, and the lead's own refit (research/wrap)",
+   "line": "wrapped faces",
+   "words": [
+    "is nevertheless the wrong form"
+   ],
+   "quote": "is nevertheless the wrong form",
+   "src": "CLAIMS WL1"
+  },
+  {
+   "said": "Nothing found can write a message onto a wire from a standing object (third signals push)",
+   "now": "A 15-cell standing object of period 4 writes one rake onto bare wire every 4 generations: the gun",
+   "by": "the fourth signals push, checked on the oracle by three codes",
+   "line": "signals",
+   "words": [
+    "A bounded standing object writes onto a wire"
+   ],
+   "quote": "A bounded standing object writes onto a wire",
+   "src": "CLAIMS SG16"
+  },
+  {
+   "said": "Six guns at plane 35",
+   "now": "Two of the six are the plane-31 gun and its translate: at most four new ones",
+   "by": "a reviewer (REVIEW-signals-4)",
+   "line": "signals",
+   "words": [
+    "so there are at most four new ones"
+   ],
+   "quote": "at C = 35 two of the six solutions are the C = 31 gun and its translate, so there are at most four new ones",
+   "src": "NB 2026-11-15, the fourth signals push reviewed"
+  },
+  {
+   "said": "The divider's oscillator is never changed",
+   "now": "Only undisturbed, and under every word of holes: one cell removed at the right place one generation before the stroke destroys it (147 cells to 32)",
+   "by": "a reviewer (REVIEW-signals-4), re-run by the lead",
+   "line": "signals",
+   "words": [
+    "is false as a statement about the coupling"
+   ],
+   "quote": "\"Nothing on the wire changes the oscillator\" is false as a statement about the coupling",
+   "src": "NB 2026-11-15, the fourth signals push reviewed"
+  }
+ ]
+}

@@ -1,0 +1,1 @@
+wire B' (B with (1,0,2) off and (0,2,3) on in every cube), ring of 24 cubes: period 2 ; cells per cube over 12 generations: [5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]

@@ -1,0 +1,81 @@
+{
+ "name": "gate-C",
+ "kind": "interaction",
+ "v": [
+  1,
+  0,
+  -1
+ ],
+ "bg": [
+  [
+   0,
+   1,
+   2
+  ],
+  [
+   0,
+   1,
+   4
+  ],
+  [
+   0,
+   2,
+   3
+  ],
+  [
+   1,
+   0,
+   0
+  ],
+  [
+   1,
+   0,
+   2
+  ]
+ ],
+ "cubes": 48,
+ "T": 40,
+ "right": [
+  [
+   9,
+   0,
+   -6
+  ],
+  [
+   11,
+   0,
+   -6
+  ]
+ ],
+ "left": [
+  [
+   8,
+   2,
+   -5
+  ],
+  [
+   9,
+   0,
+   -4
+  ]
+ ],
+ "cases": [
+  {
+   "sep": 10,
+   "expect": "left"
+  },
+  {
+   "sep": 12,
+   "expect": "left"
+  },
+  {
+   "sep": 11,
+   "expect": "right"
+  },
+  {
+   "sep": 13,
+   "expect": "right"
+  }
+ ],
+ "note": "wire C: when its two pulses meet head-on exactly one survives, undelayed and unchanged, and the wire is left as it was; which one is decided by the parity of their separation. Left pulse started an even number of units from the first cell of the right pulse: the left one survives; odd: the right one."
+}

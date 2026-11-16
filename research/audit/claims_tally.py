@@ -14,7 +14,7 @@ for line in open(os.path.join(here, '..', 'CLAIMS.md'), encoding='utf-8'):
     cells = [c.strip() for c in line.strip().strip('|').split('|')]
     if len(cells) < 7 or not re.fullmatch(r'[A-Z]+[0-9]+[a-z]?', cells[0]): continue
     level = cells[5]
-    letters = set(re.findall(r'(?<![A-Za-z0-9·])([ABCD])(?![A-Za-z])(?!\s*[=≥≤<>])', level))
+    letters = set(re.findall(r'(?<![A-Za-z0-9·])([ABCD])(?![A-Za-z0-9])(?!\s*[=≥≤<>])', level))
     rows.append((cells[0], letters, level))
 best = collections.Counter(); combo = collections.Counter(); none = []
 for i, letters, level in rows:

@@ -1,0 +1,32 @@
+r16 1000 gens 250000 R 2048 T0 256 faces 2 exposure 4.674782e+08 deaths 164167 both 16 settled 1 firewall 39 censored 2048 maxage 35261
+r16 1001 gens 250000 R 2048 T0 256 faces 2 exposure 4.672763e+08 deaths 164972 both 18 settled 0 firewall 48 censored 2048 maxage 40282
+r16 1002 gens 250000 R 2048 T0 256 faces 2 exposure 4.673882e+08 deaths 164510 both 15 settled 0 firewall 35 censored 2048 maxage 33758
+r16 1003 gens 250000 R 2048 T0 256 faces 2 exposure 4.673584e+08 deaths 164529 both 17 settled 0 firewall 40 censored 2048 maxage 42847
+m16w5 1100 gens 400000 R 2048 T0 256 faces 1 exposure 7.826340e+08 deaths 137583 both 0 settled 0 firewall 14 censored 2048 maxage 63251
+m16w5 1101 gens 400000 R 2048 T0 256 faces 1 exposure 7.827656e+08 deaths 137043 both 0 settled 0 firewall 23 censored 2048 maxage 68181
+m16w5 1102 gens 400000 R 2048 T0 256 faces 1 exposure 7.827130e+08 deaths 137277 both 0 settled 0 firewall 18 censored 2048 maxage 63023
+m16w5 1103 gens 400000 R 2048 T0 256 faces 1 exposure 7.824757e+08 deaths 138223 both 0 settled 0 firewall 14 censored 2048 maxage 63034
+m16w4 1200 gens 400000 R 2048 T0 256 faces 1 exposure 7.842348e+08 deaths 131633 both 0 settled 0 firewall 10 censored 2048 maxage 63144
+m16w4 1201 gens 400000 R 2048 T0 256 faces 1 exposure 7.843743e+08 deaths 131098 both 0 settled 0 firewall 7 censored 2048 maxage 75427
+s21 1300 gens 500000 R 2048 T0 256 faces 2 exposure 9.702122e+08 deaths 202501 both 15 settled 0 firewall 0 censored 2048 maxage 54466
+s21 1301 gens 500000 R 2048 T0 256 faces 2 exposure 9.706561e+08 deaths 200883 both 13 settled 0 firewall 0 censored 2048 maxage 63282
+s29 1400 gens 2000000 R 2048 T0 256 faces 2 exposure 4.075491e+09 deaths 77904 both 1 settled 0 firewall 0 censored 2048 maxage 578308
+s29 1401 gens 2000000 R 2048 T0 256 faces 2 exposure 4.075361e+09 deaths 78396 both 1 settled 0 firewall 0 censored 2048 maxage 579047
+s29 1402 gens 2000000 R 2048 T0 256 faces 2 exposure 4.075406e+09 deaths 78204 both 1 settled 0 firewall 0 censored 2048 maxage 689566
+s29 1400 exists
+s29 1401 exists
+s29 1402 exists
+s29 1403 gens 2000000 R 2048 T0 256 faces 2 exposure 4.075549e+09 deaths 77652 both 1 settled 0 firewall 0 censored 2048 maxage 633173
+r24 1500 gens 1500000 R 2048 T0 256 faces 2 exposure 3.053013e+09 deaths 71899 both 1 settled 0 firewall 0 censored 2048 maxage 498360
+r24 1501 gens 1500000 R 2048 T0 256 faces 2 exposure 3.052979e+09 deaths 72024 both 1 settled 0 firewall 0 censored 2048 maxage 641304
+r24 1502 gens 1500000 R 2048 T0 256 faces 2 exposure 3.052988e+09 deaths 71996 both 1 settled 0 firewall 0 censored 2048 maxage 459171
+r24 1503 gens 1500000 R 2048 T0 256 faces 2 exposure 3.053061e+09 deaths 71702 both 0 settled 0 firewall 0 censored 2048 maxage 520312
+r28 1600 gens 3000000 R 2048 T0 256 faces 2 exposure 6.133436e+09 deaths 39191 both 0 settled 0 firewall 0 censored 2048 maxage 1581570
+r28 1601 gens 3000000 R 2048 T0 256 faces 2 exposure 6.133320e+09 deaths 39629 both 0 settled 0 firewall 0 censored 2048 maxage 1979364
+r28 1602 gens 3000000 R 2048 T0 256 faces 2 exposure 6.133351e+09 deaths 39509 both 0 settled 0 firewall 0 censored 2048 maxage 1433103
+r28 1603 gens 3000000 R 2048 T0 256 faces 2 exposure 6.133326e+09 deaths 39614 both 0 settled 0 firewall 0 censored 2048 maxage 1596495
+r32 1700 gens 3000000 R 2048 T0 256 faces 2 exposure 6.140653e+09 deaths 11024 both 0 settled 0 firewall 0 censored 2048 maxage 3000000
+r32 1701 gens 3000000 R 2048 T0 256 faces 2 exposure 6.140641e+09 deaths 11071 both 0 settled 0 firewall 0 censored 2048 maxage 3000000
+r32 1702 gens 3000000 R 2048 T0 256 faces 2 exposure 6.140652e+09 deaths 11028 both 0 settled 0 firewall 0 censored 2048 maxage 3000000
+r32 1703 gens 3000000 R 2048 T0 256 faces 2 exposure 6.140670e+09 deaths 10957 both 0 settled 0 firewall 0 censored 2048 maxage 3000000
+r32 1704 gens 3000000 R 2048 T0 256 faces 2 exposure 6.140695e+09 deaths 10859 both 0 settled 0 firewall 0 censored 2048 maxage 3000000

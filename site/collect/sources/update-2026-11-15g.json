@@ -1,0 +1,218 @@
+{
+ "about": "Refresh of 2026-11-15 (night): the sixth signals push and its review (CLAIMS SG28-SG32: nine signals, the meetings, no gun survives an echo, the reflector works once, the events review 5 had not followed). Every quote is checked by collect.py against research/NOTEBOOK.md, research/CLAIMS.md or the named file; the train's cells are copied from research/signals/objects/echo-train.json and the nine signals read from research/audit/signals6/sig6.py.",
+ "meet": {
+  "nine": {
+   "words": ["at least nine rigid signals", "for ever"],
+   "quote": "The plain rake train carries at least nine rigid signals, each moving one unit per two generations for ever (an exact two-generation identity on the infinite lattice)",
+   "src": "CLAIMS SG28 (A: the four, three codes and the oracle; the five more, the reviewer's proof and oracle run, re-run by the lead)",
+   "how": "quoted; cd research/signals && python3 echo_kinds.py && python3 prove_echo.py; cd research/audit/signals6 && python3 sig6.py"
+  },
+  "flips": {
+   "value": [112, 24, 66, 22],
+   "quote": "Over every one-cell flip inside the tube (112 events) 24 vanish, 66 break the stream and 22 become E, U, H or K0, so one flipped cell makes an echo; the list of nine is not known to be complete",
+   "src": "CLAIMS SG28",
+   "how": "quoted; the reviewer reproduced the count exactly (python3 research/audit/signals6/kinds6.py one)"
+  },
+  "wider": {
+   "words": ["Wider events give five more", "The list is not known to be complete"],
+   "quote": "Wider events give five more, each proved rigid by the same two-generation identity and run on the oracle: K3 (two cells, down), N1 (three cells, **up**: a third up-mover), N2 and N3 (four cells, down), N4 (down, one cell outside the tube). Re-run by the lead: `cd research/audit/signals6 && python3 sig6.py` (30 s): all nine pass both tests. The list is not known to be complete.",
+   "src": "NB 2026-11-15, the sixth signals push reviewed",
+   "how": "quoted"
+  },
+  "updown": {
+   "words": ["nine kinds of signal, six down and three up"],
+   "quote": "carries nine kinds of signal, six down and three up",
+   "src": "NB 2026-11-15, the sixth signals push reviewed (Where six pushes leave it)",
+   "how": "quoted; collect.py also counts the directions in sig6.py's table"
+  },
+  "one": {
+   "words": ["has one meeting up to translation and time"],
+   "quote": "each pair of opposite-moving kinds among E, U, H, K0 has one meeting up to translation and time",
+   "src": "CLAIMS SG29",
+   "how": "quoted"
+  },
+  "offsets": {
+   "value": [1, 41],
+   "quote": "Every offset from 1 to 41 gives the one orbit and the claimed outcome",
+   "src": "NB 2026-11-15, the sixth signals push reviewed",
+   "how": "quoted; python3 research/audit/signals6/meet6r.py opp"
+  },
+  "cancel": {
+   "words": ["U meets K0: both vanish exactly."],
+   "quote": "U meets K0: both vanish exactly.",
+   "src": "CLAIMS SG29",
+   "how": "quoted"
+  },
+  "wireB": {
+   "words": ["becomes wire B and the change spreads both ways for ever", "the gluing step is a script"],
+   "quote": "E or U meets H: the stream between two rigid edges becomes wire B and the change spreads both ways for ever (the gluing step is a script).",
+   "src": "CLAIMS SG29 (A: three codes, the lead's on the oracle; the fronts for ever: the reviewer's script research/audit/signals6/glue6.py)",
+   "how": "quoted"
+  },
+  "punch": {
+   "words": ["an edge moving up that removes the hole cell of every rake"],
+   "quote": "E meets K0 (or K3): an edge moving up that removes the hole cell of every rake.",
+   "src": "CLAIMS SG29",
+   "how": "quoted"
+  },
+  "uk3": {
+   "words": ["U meets K3: one H is left."],
+   "quote": "U meets K3: one H is left.",
+   "src": "CLAIMS SG29 (B: the reviewer's code)",
+   "how": "quoted"
+  },
+  "never": {
+   "words": ["An echo never passes a hole."],
+   "quote": "An echo never passes a hole.",
+   "src": "CLAIMS SG29",
+   "how": "quoted"
+  },
+  "untested": {
+   "file": "research/OPEN-PROBLEMS.md",
+   "words": ["N1 to N4 are untested"],
+   "quote": "**(q)** the full meeting table of the nine signals (N1 to N4 are untested), and whether the list of signals is complete",
+   "src": "research/OPEN-PROBLEMS.md, item 13 (q)",
+   "how": "quoted from the file"
+  },
+  "lead": {
+   "value": [80, 48],
+   "quote": "one oracle step of the table's train is its next phase; each of the four signals is rigid for 80 generations on a 48-unit ring, with the stated cell count and direction; U and K0 leave the whole torus plain from generation 20",
+   "src": "NB 2026-11-15, the sixth signals push (the lead's check, reference/oracle.py only)",
+   "how": "quoted; python3 research/audit/signals_meet_lead_check.py"
+  },
+  "steppers": {
+   "value": [1050],
+   "quote": "its steppers agree with the oracle on the whole state over 1,050 generations",
+   "src": "NB 2026-11-15, the sixth signals push reviewed",
+   "how": "quoted; python3 research/audit/signals6/check6.py"
+  },
+  "train": {
+   "file": "research/signals/objects/echo-train.json",
+   "src": "research/signals/objects/echo-train.json: the plain rake train's two unit cells at each of four phases, the cells, parity and direction of E, U, H, K0, wire B's two units",
+   "how": "copied by collect.py into data/meet.json; laid out by assets/signals-core.js (train) on a ring of 48 units in a torus of side 96, as research/audit/signals_meet_lead_check.py does"
+  },
+  "signals": {
+   "file": "research/audit/signals6/sig6.py",
+   "src": "research/audit/signals6/sig6.py, SIGS: the nine signals' parity, cells at train phase 1 and direction",
+   "how": "read by collect.py with ast (the literal SIGS) and asserted equal to echo-train.json for E, U, H, K0"
+  }
+ },
+ "echo6": {
+  "guns": {
+   "value": [67, 11],
+   "quote": "the 67 distinct guns of the C = 37 list are all destroyed by E and by N1, and 11 absorb U exactly",
+   "src": "CLAIMS SG30 (B: two encodings and two steppers)",
+   "how": "quoted; cd research/signals && python3 gun_echo.py; research/audit/signals6/guns6.py"
+  },
+  "anything": {
+   "words": ["answer with anything at all sent down the stream"],
+   "quote": "The reviewer's encoding lets the gun answer with anything at all sent down the stream, which the push's did not: UNSAT for E at C = 31 … 37",
+   "src": "NB 2026-11-15, the sixth signals push reviewed",
+   "how": "quoted"
+  },
+  "sat": {
+   "value": [4, 3, 52],
+   "quote": "as a constraint problem no gun of period dividing 4 in the 3 × 3 tube is a gun again within T = 52 generations after E, whatever it sends down the stream",
+   "src": "CLAIMS SG30",
+   "how": "quoted; two encodings, no certificate"
+  },
+  "notcovered": {
+   "words": ["Period 8, C ≥ 41 and wider tubes are not covered"],
+   "quote": "Period 8, C ≥ 41 and wider tubes are not covered",
+   "src": "CLAIMS SG30",
+   "how": "quoted"
+  },
+  "once": {
+   "value": [1, 20],
+   "quote": "works once: with two holes at any spacing from 1 to 20 a single E never comes back, because the first echo meets the second hole",
+   "src": "CLAIMS SG31 (B: two codes)",
+   "how": "quoted; cd research/signals && python3 reflect6.py; research/audit/signals6/refl6.py"
+  }
+ },
+ "ends6": {
+  "followed": {
+   "value": [16, 338, 14, 2],
+   "quote": "16 of the 338 events that review classed as breaking the bare train become a single up-signal (14 make E, 2 make U)",
+   "src": "NB 2026-11-15, the sixth signals push reviewed",
+   "how": "quoted; python3 research/audit/signals6/scan6a.py bare"
+  },
+  "rows": {
+   "value": [741, 10374, 1482],
+   "quote": "Sent to all 741 ends: 10,374 + 1,482 rows, **every one equal to the undisturbed end, none dead, none alive and different.**",
+   "src": "NB 2026-11-15, the sixth signals push reviewed",
+   "how": "quoted; python3 research/audit/signals6/scan6a.py ends; three ends × two events on the oracle (orcA6.py)"
+  },
+  "all": {
+   "value": [426],
+   "quote": "\"no end is left alive and changed\" now stands for all 426 one-unit events",
+   "src": "NB 2026-11-15, the sixth signals push reviewed",
+   "how": "quoted"
+  },
+  "count": {
+   "value": [3, 14],
+   "quote": "An echo against a word of holes leaves a standing stretch of wire B′, one unit longer per further hole (proved standing for spacings 3–14, to six holes)",
+   "src": "CLAIMS SG29 (B: the reviewer's code)",
+   "how": "quoted"
+  },
+  "destroyed": {
+   "words": ["exists only where the stream is being destroyed"],
+   "quote": "The one thing that keeps a count (the stretch of B′, one unit per hole) exists only where the stream is being destroyed.",
+   "src": "NB 2026-11-15, the sixth signals push reviewed",
+   "how": "quoted"
+  },
+  "erased": {
+   "words": ["in the finite line the dying gun's fire erases it"],
+   "quote": "The count an echo writes (SG29) exists only on the infinite train: in the finite line the dying gun's fire erases it.",
+   "src": "CLAIMS SG32 (C: the finite-line record, one code)",
+   "how": "quoted; cd research/signals && python3 record6.py 40"
+  },
+  "nolistener": {
+   "words": ["no listener and no loop is known"],
+   "quote": "After six pushes no listener and no loop is known: nothing found is left alive in a different lasting state by a signal.",
+   "src": "CLAIMS SG32",
+   "how": "quoted"
+  },
+  "pushes": {
+   "value": [30, 12, 18],
+   "quote": "Over six pushes: 30 forecasts tested, 12 held in some form, 18 failed.",
+   "src": "NB 2026-11-15, the sixth signals push",
+   "how": "quoted; replaces update-2026-11-15f.json's ends.pushes (24, 11, 13) on the page"
+  }
+ },
+ "corrections": [
+  {
+   "said": "The plain rake train carries four signals: E and U up the stream, H and K0 down",
+   "now": "Those four are every signal one flipped cell inside the tube makes; wider events make five more (K3, N1 up, N2, N3, N4), each proved to ride for ever, so at least nine are known and the list is not known to be complete",
+   "by": "a reviewer with independent code (research/audit/REVIEW-signals-6.md), re-run by the lead",
+   "line": "signals",
+   "words": ["Nine rigid signals, not four"],
+   "quote": "**[proved, two codes, oracle] Nine rigid signals, not four.**",
+   "src": "NB 2026-11-15, the sixth signals push reviewed"
+  },
+  {
+   "said": "An echo against two holes two rakes apart leaves clean wire B",
+   "now": "A pulse of one to three cells rides down inside that wire B beside the lower edge; the push's script had looked at 8 units round the middle",
+   "by": "a reviewer with independent code (research/audit/REVIEW-signals-6.md)",
+   "line": "signals",
+   "words": ["two holes two rakes apart leave clean wire B"],
+   "quote": "**Refuted:** \"two holes two rakes apart leave clean wire B\": a pulse of one to three cells rides down inside it beside the lower edge",
+   "src": "NB 2026-11-15, the sixth signals push reviewed"
+  },
+  {
+   "said": "338 of the one-unit events break the bare train (the fifth review)",
+   "now": "16 of them start a single up-signal instead (14 an echo, 2 a U); sent to every one of the 741 ends, each leaves the end as it was",
+   "by": "the sixth push, then a reviewer with independent code (research/audit/REVIEW-signals-6.md)",
+   "line": "signals",
+   "words": ["16 of the 338 events"],
+   "quote": "16 of the 338 events that review classed as breaking the bare train become a single up-signal (14 make E, 2 make U)",
+   "src": "NB 2026-11-15, the sixth signals push reviewed"
+  }
+ ],
+ "audits": [
+  {"label": "Review of the sixth signals push", "line": "Own steppers and two SAT encodings: nine signals, not four; every meeting at every offset, the fronts proved for ever by a script; 67 guns, none survives an echo even if it may answer with anything; the reflector works once; the events review 5 had not followed, followed.", "file": "research/audit/REVIEW-signals-6.md"}
+ ],
+ "milestones": [
+  {"date": "2026-11-15T21:50Z", "text": "The sixth signals push: four signals on the stream; they do not pass each other; no gun survives an echo", "src": "git 7927c42"},
+  {"date": "2026-11-15T23:08Z", "text": "The sixth signals push reviewed: nine signals; the meetings proved for ever", "src": "git 1949931"}
+ ]
+}

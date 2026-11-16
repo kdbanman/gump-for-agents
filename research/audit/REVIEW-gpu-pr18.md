@@ -240,3 +240,69 @@ rests on the 4×5 point, where the CPU run above and the GPU table differ by 1.9
   linked if they have the same replica and face, generations at most 1 apart, and patches (either orientation) that
   share a cell. I report hits per event (mean, and the ratio Σsize²/Σsize) and the compound-Poisson error
   √(Σsize²)/Σsize beside the batch-means error.
+
+## Follow-up 2026-11-15: the 4×5 point (result)
+
+The plan above was run as committed (dac1634, 23:28Z, before the first chunk). All 16 chunks completed, with no face
+death or settling. The 2-hour job limit stopped the first driver during chunk 926. That chunk was rerun from scratch,
+which the plan allows, and the rest ran as calls of `runs2.sh 5`. Output: `research/scratch/pr18/followup.out`.
+
+    python3 research/audit/gpu_pr18/followup.py research/scratch/pr18 research/data/gpu_patches/patches_s81*_A10G.csv
+
+**CPU only, 18 runs, 2.76 × 10¹⁰ replica-generations** (the two first runs plus 16 chunks; about 0.9× the GPU's
+3.04 × 10¹⁰). Values are the PR definition (pooled). Errors are batch means / run-to-run scatter / Poisson, and z uses
+the largest of the three:
+
+| rhombus | CPU ln P | bm | runs (18) | Poisson | hits | GPU | z |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| 3×4 | −15.3979 | 0.0011 | 0.0011 | 0.0008 | 1,636,233 | −15.3999 ± 0.0011 | +1.3 |
+| 4×4 | −19.4183 | 0.0072 | 0.0057 | 0.0058 | 29,364 | −19.4233 ± 0.0071 | +0.5 |
+| 4×5 | −23.412 | 0.049 | 0.049 | 0.043 | 541 | −23.318 ± 0.047 | **−1.4** |
+
+The 4×5 tension has fallen to 1.4σ, from 2.6σ on the first 43 hits. CPU and GPU together give 4×5 = −23.364 ± 0.034.
+The earlier caveat that my errors were about 1.4× too small is **withdrawn**: over 18 runs, the run-to-run scatter
+equals the batch-means error (3×4: 0.0011 and 0.0011; 4×5: 0.049 and 0.049). The first two runs' 2.9σ difference at
+3×3 was chance. The classes, again: 4×5 O −23.724, I −23.200 (O − I = −0.52 ± 0.07); 4×4 O −19.691, I −19.220.
+
+**Clustering** (from the hit logs of the 16 chunks). An event is a set of hits with the same replica and face,
+consecutive or equal generations, and patches that share a cell.
+
+| rhombus | hits per event, PR definition (all 4 groups) | Σs²/Σs | compound-Poisson error of ln P | batch-means error |
+|---|---:|---:|---:|---:|
+| 3×4 | 1.26 (1.40) | 1.63 | 0.0011 | 0.0011 |
+| 4×4 | 1.19 (1.28) | 1.44 | 0.0074 | 0.0072 |
+| 4×5 | 1.13 (1.19) | 1.28 | 0.051 | 0.049 |
+
+The true error is the Poisson error × √(Σs²/Σs), that is 1.13–1.28× Poisson, and batch means captures it exactly. The
+GPU's 4×5 error (0.047 on 654 hits) is likewise √1.28 × its Poisson 0.039. Clustering gets weaker as the patch grows,
+which is the falling persistence seen from the other side.
+
+**Second differences from CPU-only values:**
+
+| sequence (middle cells) | CPU pooled | CPU O | CPU I | GPU |
+|---|---:|---:|---:|---:|
+| 1×1, 2×2, 3×3 (12) | 0.2729 | 0.2740 | 0.2729 | 0.2729 |
+| 1×2, 2×3, 3×4 (18) | 0.2513 ± 0.0002 | 0.2543 | 0.2505 | 0.2517 ± 0.0002 |
+| 2×2, 3×3, 4×4 (27) | 0.2359 ± 0.0012 | 0.2430 | 0.2349 | 0.2368 ± 0.0012 |
+| 2×3, 3×4, 4×5 (36) | **0.2349 ± 0.0082** | 0.2394 ± 0.0093 | 0.2366 ± 0.0075 | 0.2185 ± 0.0079 |
+
+The last value differs between CPU and GPU by 1.4σ. Combined, it is **0.226 ± 0.006**. The perimeter-free cost per
+cell at the largest size is therefore 0.226 ± 0.006, not 0.2185 ± 0.008. That is just above the lifetime range
+0.205–0.221 (by 1σ), not inside it. The values are still falling: 0.273, 0.251, 0.236, 0.226. The extrapolations are
+unchanged, because the precise small-size points dominate them: CPU-only gives 0.208 (corrections ∝ 1/n, χ² 1.1 / 2)
+and 0.156 (∝ 1/√n, χ² 5.1 / 2); the combined values give 0.209 and 0.157. The range 0.16–0.24 for the asymptote stands.
+
+**Consequences for the text fixes.**
+- In fixes 2 and 5, replace "0.219 ± 0.008 … already inside the lifetime range" by "0.226 ± 0.006 (CPU and GPU
+  combined; the GPU alone 0.2185 ± 0.008, the CPU alone 0.235 ± 0.008) … within about 1σ of the lifetime range, and
+  still falling".
+- Fix 8's error statement is confirmed by a second, independent method.
+- The ninth line on the 4×5 tension can say: "an independent CPU run of 2.8 × 10¹⁰ replica-generations (541 hits) gives
+  4×5 −23.412 ± 0.049, 1.4σ from the table; 3×4 and 4×4 agree within 1.3σ".
+
+**The GPU counter for large patches.** The tension did not exceed 3σ, so nothing in the counter is indicated. Had it
+done so, I would have checked three things, and they remain the cheap checks:
+- the brute-force comparison on states that contain 4×5 hits (log a few hundred hit states on the GPU and recount them
+  on the host);
+- the `prev` mask after a frozen or dropped replica, and its carry-over across batches;
+- the u32 accumulators (a column accumulates at most 32 × 68,750 per batch, so no overflow; this was read, not run).

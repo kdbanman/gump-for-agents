@@ -132,6 +132,68 @@ C34.19a/b, C34.21a (all mirror-glides of quotient length 17), C30.32a, the C32 f
 The ≈9,500 shorter-period census objects are in `research/scratch/clockwork/census_3_objects.json` (not individually
 oracle-checked; every one was re-stepped by `lattice.step`).
 
+## Found by accident in lifetime runs, 2026-11-15
+
+The 37 settled states of `research/audit/shape3/zombie_states.txt` (periods 9, 11, 13, 16, 19, 22, 48, 52 on
+8-layer slabs over the twisted tori (1,3,12), (1,4,12), (1,5,15), (2,2,8)), identified by `python3 zombies.py --write`
+(80 s; states numbered 0–36 in file order, comments skipped; method in the script's docstring; table in
+`research/scratch/clockwork/zombies.json`). These tori are tiny: the shortest period vectors are 3–5 cube edges,
+the size of the objects themselves.
+
+- **[proved, two periods cell for cell]** The walls play no part: every one of the 37 cycles is unchanged when the
+  slab is widened to 24 layers on the same torus.
+- **[proved, by certificate]** 14 states are, part by part, the shadow of a finite free-space oscillator: a lift X
+  whose free orbit projects one-to-one onto the slab orbit for two periods. **[measured]** For the other 23 no
+  single-preimage lift (every phase × every start cell) does this in free space; 21 of them do it on a torus
+  periodic along one short vector only (strip 48 wide, 24 layers): they are **wires**, infinite in one direction.
+  2 (states 13, 27) fail on every strip and on the covers (k₁v₁, k₂v₂), k ≤ 3: **sheets** that close only on
+  their own torus.
+- **[proved]** Free objects split (exhaustively over unions of neighbour-components, then stripping still chunks) into:
+
+| object | period | pops | union | hull | layers | cell periods | twist | in catalogue? | states |
+|---|---|---|---|---|---|---|---|---|---|
+| P9.20a | 9 | 20–25 | 25 | 39 | 3,4,6,6 | 1:17, 9:8 | 1 | atlas | 3, 4, 32, 36 (+ S12i, S6c, S6a, KS6a) |
+| P13.22a | 13 | 22–27 | 28 | 48 | 3,4,6,7 | 1:16, 13:12 | 1 | atlas | 2 (+ 2 S6a) |
+| P16.15a | 16 | 15–24 | 30 | 30 | 3,4,4,5 | 1:4, 8:4, 16:22 | 2 (L 8) | atlas | 1, 7, 14, 28 (+ S9a, S16b) |
+| P3.13a | 3 | 13–17 | 17 | 18 | 2,4,4,4 | 1:11, 3:6 | 1 | atlas | 14 |
+| **C9.24a** | 9 | 24–25 | 27 | 47 | 4,5,5,5 | 1:19, 9:8 | 1 | new; rotor new | 6 (+ S12a) |
+| **C9.28a** | 9 | 28–33 | 35 | 105 | 4,6,7,8 | 1:19, 9:16 | 1 | new; rotor new | 34 |
+| **C11.29a** | 11 | 29–34 | 36 | 147 | 6,6,7,8 | 1:23, 11:13 | 1 | new; rotor in 9 census objects | 22 |
+| **C13.24a** | 13 | 24–28 | 30 | 79 | 4,5,6,8 | 1:16, 13:14 | 1 | new; rotor in 2 census objects | 8 |
+| **C52.33a** | 52 | 33–38 | 42 | 152 | 5,7,8,8 | 1:24, 4:4, 13:14 | 1 | new | 23 |
+
+  All five new objects have trivial symmetry (sym 1, spacetime sym 1) and are untwisted. "In catalogue" is by the
+  atlas canonical form against `research/atlas/catalogue.jsonl`, `objects/*.cells` and the box-census lists
+  `research/scratch/clockwork/census_{3,4}_objects.json` (git-ignored; regenerate with `box_census.py … report`);
+  "rotor" compares the orbit restricted to the non-still cells, up to O_h, translation and phase, against the
+  catalogue and census objects of the same period. Oracle: `python3 verify.py objects/C9.24a.cells 9 … objects/C52.33a.cells 52`
+  (all OK, appended to `objects/verify_oracle.txt`); the engine agrees (`gump run --torus 40`, period and cycle start 0).
+- **The period-48 state 14 is not an object**: P16.15a and P3.13a side by side, within reach but exchanging nothing
+  (48 = lcm(16, 3)). [proved: each reproduces its own orbit alone]
+- **C52.33a is a compound, not a 52-loop** [proved]: no cell has period 52; 14 cells run at 13, 4 at 4, 24 are still.
+  The 4-cell rotor with one 14-cell still chunk is a self-sufficient P4 by itself; the 13-rotor is not — it needs
+  that chunk, and the chunk needs the P4 rotor's cells (removing them breaks it). No rotor cell's next state ever
+  depends on the other rotor. A 4-clock and a 13-clock on a shared frame, like C44.26a (4 with 11). Period 19 occurs
+  only as wires; there is no free period-19 object here.
+- **Wires** [measured], by (period, shortest wrap vector up to O_h), states: P9 along (3,0,−3): 18, 19, 21, 30, 31
+  (one 13-cell period-9 rotor with different still decorations: identical pop sequences up to a constant);
+  P11 along (1,3,−4): 5, 10; P13 along (3,0,−3): 12, 35; P16 along (3,0,−3): 11 (rotor is P16.15a's 22+4 cells, the
+  stator wraps); P16 along (2,−4,2): 15, 16, 17, 20, 25, 26, 29, 33 (five share a 14-cell rotor); **P19 along (1,3,−4): 0, 9**;
+  P22 along (3,0,−3): 24. Sheets: state 13 (P9, the same 13-cell rotor as the P9 wires, stator closing in two
+  directions) and **state 27 (P48, 21 rotor cells)**, a mirror-twisted cycle of its torus [proved]: phase t+24 is phase t
+  under the mirror (x,y,z) ↦ (z,y,x), which preserves the (1,4,12) lattice; 3 cells (on the mirror) have period 24.
+  Neither wires nor sheets can enter the catalogue, which holds finite objects.
+
+So the new periods 19 and 52 of the lifetime runs are a wire and a compound; the genuinely new finite clocks are
+C9.24a, C9.28a, C11.29a, C13.24a (ordinary untwisted loops with large, lopsided stators) and the compound C52.33a.
+
+Not checked: whether the wire/sheet rotors can be supported by some finite stator (only lifts of the given
+states were tried, so "needs the torus" is measured, not proved); whether two wires in the same class are the
+same wire up to symmetry (fingerprint by period, direction and pop sequence only); sheet 13 on covers beyond
+k ≤ 3; point-symmetry twists of the wires; the two still parts of states 1 and 9 whose lift is not still
+(probably still lifes that wrap); stability or basins of the new objects; the C52.33a frame dependence beyond
+the subset tests above.
+
 ## Not settled
 
 - Whether P66.27a is the only period-66 cycle of its box: SAT did not finish; sampling at 10⁶ says no other
@@ -143,7 +205,7 @@ oracle-checked; every one was re-stepped by `lattice.step`).
 
 `cw.py` helpers (orbits, symmetries, hulls as vessels, batch runner) · `runinit.c` C runner for given initial
 states · `perturb.py` · `portrait.py` · `box_census.py` · `twist_stats.py` · `vessel_sat.py` (SAT in a box, with
-`--twist`) · `harvest_portraits.py` · `verify.py` · `objects/`.
+`--twist`) · `harvest_portraits.py` · `verify.py` · `zombies.py` (lifetime-run states) · `objects/`.
 
 ## What to show a human first
 

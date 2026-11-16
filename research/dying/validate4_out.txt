@@ -1,0 +1,13 @@
+v11c: oracle 600 gens OK (final pop 458, cells 876)
+v11c: lives, excursion table, samples vs r3_ex (20000 gens x 256 lanes): identical
+v11c: subsample run (probabilities [0.05, 0.1, 0.2, 0.4, 0.7, 1.0]): 29270 records, kept per level [20133, 11866, 4319, 1620, 225, 22] of [401624, 117166, 21081, 3934, 311, 22] (ratios [0.05, 0.101, 0.205, 0.412, 0.723, 1.0]), failures 0
+v11c: 401624 ex4 records (401624 r3_ex dumps), 401624 matched, catches per level [401624, 117166, 21081, 3934, 311, 22], failures 0
+v13c: oracle 600 gens OK (final pop 571, cells 1386)
+v13c: lives, excursion table, samples vs r3_ex (20000 gens x 256 lanes): identical
+v13c: subsample run (probabilities [0.05, 0.1, 0.2, 0.4, 0.7, 1.0]): 24093 records, kept per level [19381, 7366, 1786, 286, 20, 0] of [387057, 73901, 9159, 703, 25, 0] (ratios [0.05, 0.1, 0.195, 0.407, 0.8, 0.0]), failures 0
+v13c: 387057 ex4 records (387057 r3_ex dumps), 387057 matched, catches per level [387057, 73901, 9159, 703, 25, 0], failures 0
+v15c: oracle 400 gens OK (final pop 918, cells 2064)
+v15c: lives, excursion table, samples vs r3_ex (20000 gens x 256 lanes): identical
+v15c: subsample run (probabilities [0.05, 0.1, 0.2, 0.4, 0.7, 1.0]): 19776 records, kept per level [16711, 5399, 689, 23, 2, 0] of [332475, 54451, 3490, 62, 2, 0] (ratios [0.05, 0.099, 0.197, 0.371, 1.0, 0.0]), failures 0
+v15c: 332475 ex4 records (332475 r3_ex dumps), 332475 matched, catches per level [332475, 54451, 3490, 62, 2, 0], failures 0
+ALL OK

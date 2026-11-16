@@ -1,0 +1,22 @@
+<section class="plate" id="rule">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">The rule</p><span class="st st-proved">read from the 2012 source</span></div>
+    <h2>Each face watches twelve others.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c5 panel">
+      <div class="nbrow"><div id="f-nb"></div><div id="f-nbplan"></div></div>
+      <div class="keys"><span class="key"><span class="sw" style="background:var(--ink)"></span>the face</span><span class="key"><span class="sw" style="background:var(--s1)"></span>8 perpendicular faces that share an edge</span><span class="key"><span class="sw" style="background:var(--s3)"></span>4 in its own plane that touch at a corner</span><span class="key"><span class="sw" style="background:var(--surface);border:1.5px solid var(--ink-3)"></span>4 in its own plane that share an edge: not watched</span></div>
+      <figcaption>In its own plane a face watches the corner-touching four, not the edge-sharing four you meant to write in 2012. The code reads <span class="mono">y±2</span> and <span class="mono">z±2</span> together, and only that reproduces your logs. The slip is what makes the hull an octahedron: with the edge-sharing four it is a box (<a href="#meant">the rule you meant, on the Relatives page</a>).</figcaption>
+    </figure>
+    <figure class="fig c7 panel">
+      <div class="rule" id="f-rule"></div>
+      <div class="keys"><span class="key"><span class="sw" style="background:var(--ember)"></span>alive next generation</span><span class="key"><span class="sw over-key"></span>overcrowded: six or more live neighbours</span></div>
+      <figcaption>Count the live neighbours. <b>Born at 4 or 5, kept at 3, 4 or 5.</b></figcaption>
+      <div class="nums" style="margin-top:6px">
+        <div class="num"><span class="v">period ≤ 2</span><span class="l">all the rule can do without overcrowding: an energy only falls, and it freezes or blinks <span class="st st-proved" style="margin-left:4px">proved</span></span></div>
+        <div class="num"><span class="v">every clock</span><span class="l">of period 3 or more, and all the chaos, is paid for at overcrowded faces</span></div>
+      </div>
+    </figure>
+  </div>
+</section>

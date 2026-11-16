@@ -1,0 +1,22 @@
+<section class="plate" id="walls">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">Walls</p><span class="st st-proved">proved, then checked by brute force</span></div>
+    <h2>Nothing is ever born across a diagonal plane, because 3 is less than 4.</h2>
+  </div>
+  <div class="figs">
+    <figure class="fig c4 panel">
+      <div id="f-layers"></div>
+      <figcaption>Cut along a body diagonal. An empty face one layer outside sees at most <b>2 + 1 = 3</b> live faces. Birth needs 4.</figcaption>
+    </figure>
+    <figure class="fig c4 panel">
+      <div id="f-hull"></div>
+      <figcaption>So every seed is shut in an <b>octahedron</b> it can compute in advance. No gliders. The hull can shrink and never grow.</figcaption>
+    </figure>
+    <figure class="fig c4 panel">
+      <div class="seal" id="f-seal"></div>
+      <figcaption>Smallest patch that stays dead whatever surrounds it. In three layers or more there is none, so <b>chaos cannot die from the inside</b>.</figcaption>
+      <div class="fw" id="f-fw"></div>
+      <figcaption>Three empty layers right across are a wall for good. Two leak: 1 + 2 + 1 = 4.</figcaption>
+    </figure>
+  </div>
+</section>

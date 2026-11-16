@@ -1,0 +1,23 @@
+W17 ~ W20: g = ((2, 1, 0), (1, 1, 1)), phase 8, translation (-8, 20, -12)
+W17 ~ W26: g = ((0, 1, 2), (1, 1, 1)), phase 7, translation (0, 4, -4)
+W18 ~ W30: g = ((0, 1, 2), (1, -1, 1)), phase 5, translation (4, 2, -18)
+W20 ~ W26: g = ((2, 1, 0), (1, 1, 1)), phase 15, translation (8, -8, 0)
+21 wires on file; classes up to symmetry and phase: 18
+   ['W00'] period 19 v (1, 3, -4) cells/repeat 24
+   ['W05'] period 11 v (1, 3, -4) cells/repeat 32
+   ['W09'] period 19 v (1, 3, -4) cells/repeat 21
+   ['W10'] period 11 v (1, 3, -4) cells/repeat 18
+   ['W11'] period 16 v (3, -3, 0) cells/repeat 36
+   ['W12'] period 13 v (3, -3, 0) cells/repeat 37
+   ['W15'] period 16 v (2, -4, 2) cells/repeat 42
+   ['W16'] period 16 v (2, -4, 2) cells/repeat 35
+   ['W17', 'W20', 'W26'] period 16 v (2, -4, 2) cells/repeat 23
+   ['W18', 'W30'] period 9 v (3, 0, -3) cells/repeat 19
+   ['W19'] period 9 v (3, 0, -3) cells/repeat 33
+   ['W21'] period 9 v (3, 0, -3) cells/repeat 32
+   ['W24'] period 22 v (3, 0, -3) cells/repeat 37
+   ['W25'] period 16 v (2, -4, 2) cells/repeat 35
+   ['W29'] period 16 v (2, -4, 2) cells/repeat 27
+   ['W31'] period 9 v (3, 0, -3) cells/repeat 24
+   ['W33'] period 16 v (2, -4, 2) cells/repeat 34
+   ['W35'] period 13 v (3, 0, -3) cells/repeat 41

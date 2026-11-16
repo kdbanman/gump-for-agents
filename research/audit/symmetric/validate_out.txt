@@ -1,0 +1,16 @@
+v11c c1 seed 1c1 gens 1500 population at end 394 OK
+v11c csz seed 1csz gens 1500 population at end 374 OK
+v11c c2v seed 1c2v gens 1500 population at end 415 OK
+v11c d2h seed 1d2h gens 1500 population at end 36 OK
+v11c ci seed 1ci gens 1500 population at end 442 OK
+v11c c2e seed 1c2e gens 1500 population at end 396 OK
+v12v c1 seed 5 gens 1500 population at end 523 OK
+v12v csz seed 6 gens 1500 population at end 479 OK
+s8x2 cs seed 9 gens 300 population at end 311 OK
+
+real	0m20.200s
+user	0m20.162s
+sys	0m0.032s
+s4x2 c1 seed 10 gens 300 population at end 156 OK
+MISMATCH at generation 1: st 375 oracle 295 outside/inconsistent 0
+s8x2 cs seed 9 gens 30 population at end 337 FAIL

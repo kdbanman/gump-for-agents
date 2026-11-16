@@ -1,0 +1,36 @@
+=== c1 R = 11: 7960144 stationary face samples (age > 512); P mean 31.252, sigma 5.244; rho 0.175-0.577
+deep-excursion records 698446 (table: excursions with min <= 9: 698446); ends rec/dead/cens 688022/9836/588; truncated 0; failed popcount checks 0
+
+=== Claim 5 (T2): caught faces 698446, skipped k < 3: 238; mean k of the rest 8.26
+  caught     T2 regions (inner, shells 0-3): 0.514 0.420 0.184 0.080 0.044;  mean occupancy k/sum(rho) 0.264; centroid offset from face centre 2.65
+  thinned    T2 regions (inner, shells 0-3): 0.347 0.301 0.210 0.138 0.081;  mean occupancy k/sum(rho) 0.264; centroid offset from face centre 1.55
+  rho-random T2 regions (inner, shells 0-3): 0.339 0.285 0.211 0.154 0.100;  mean occupancy k/sum(rho) 0.264; centroid offset from face centre 1.45
+  radial profile about the own centroid (bins of l/2 = 0.612 from 0):
+    caught     0.584 0.599 0.609 0.589 0.521 0.426 0.336 0.260 0.201 0.155 0.120 0.092 0.066 0.047 0.031 0.019
+    thinned    0.338 0.337 0.337 0.338 0.337 0.333 0.320 0.298 0.270 0.238 0.207 0.172 0.140 0.108 0.078 0.051
+    rho-random 0.326 0.330 0.329 0.330 0.329 0.322 0.311 0.291 0.265 0.237 0.212 0.187 0.162 0.132 0.100 0.070
+  split-half profile (centroid from one random half, the other half counted, scaled by k/|half|):
+    caught     0.461 0.464 0.477 0.467 0.445 0.394 0.342 0.285 0.237 0.201 0.170 0.149 0.130 0.113 0.101 0.091
+    thinned    0.262 0.259 0.261 0.260 0.263 0.263 0.269 0.270 0.270 0.272 0.270 0.268 0.262 0.255 0.249 0.237
+    rho-random 0.253 0.257 0.251 0.251 0.254 0.257 0.258 0.262 0.267 0.268 0.273 0.273 0.278 0.281 0.280 0.278
+  occupancy around a live cell, by distance (0-1.3, 1.3-2.5, 2.5-3.75, 3.75-5, 5-7.5, >7.5):
+/home/user/gump-for-agents/research/audit/dying/r3_dump.py:152: RuntimeWarning: invalid value encountered in divide
+  a, b = acc[lab + ' pair']; print(f'    {lab:10s} ' + ' '.join(f'{v:.3f}' for v in a / b))
+    caught     nan 0.537 0.330 0.230 0.183 0.157
+    thinned    nan 0.265 0.244 0.239 0.237 0.234
+    rho-random nan 0.240 0.240 0.240 0.240 0.241
+/home/user/gump-for-agents/research/audit/dying/r3_dump.py:154: RuntimeWarning: invalid value encountered in divide
+  print('    caught / thinned: ' + ' '.join(f'{v:.2f}' for v in (a / b) / (a2 / b2)))
+    caught / thinned: nan 2.03 1.36 0.96 0.77 0.67
+    caught with k in 3-6 (2752): around a live cell within 2.5: 0.382, beyond: 0.124
+    caught with k in 7-9 (37248): around a live cell within 2.5: 0.544, beyond: 0.208
+
+=== Claim 7 (T4): recovered, untruncated deep excursions
+  excursions 688022; births counted 8833994; within 2 of the bottom survivors 0.9942; random over empty cells 0.6832; rule-aware (empty cells with >= 1 live in-face neighbour) 0.9912
+  births with at least one live in-face neighbour at t: 1.00000; graph distance from the bottom set 1,2,3,4,5+: 0.7172 0.1601 0.0055 0.0002 0.0000
+
+=== Claim 6 (T3): csz R = 11, 3130140 stationary samples (P mean 28.906); caught faces k >= 3: 394680 (mean k 7.27)
+  rho: tied-edge row (q_z = 0) 0.308, free rows 0.431, 0.430
+  caught     corrected centroid nearest the tied edge 0.2239 ± 0.0007; tied-edge third occupancy over the face mean (centroid-free) 0.820
+  thinned    corrected centroid nearest the tied edge 0.2983 ± 0.0007; tied-edge third occupancy over the face mean (centroid-free) 0.991
+  rho-random corrected centroid nearest the tied edge 0.3109 ± 0.0007; tied-edge third occupancy over the face mean (centroid-free) 1.005

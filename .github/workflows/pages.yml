@@ -1,10 +1,12 @@
-# GitHub Pages deployment for the gump web app (web/dist).
+# GitHub Pages deployment of the project site (site/dist): the Gump Map, one page per topic, with the
+# interactive web app mounted under app/. `python3 site/build.py` builds the web app (web/, into web/dist) and
+# copies it in; see site/README.md.
 #
 # Manual trigger only, on purpose: nothing is published until the repository owner
 #   1. sets Settings -> Pages -> Build and deployment -> Source to "GitHub Actions", and
 #   2. runs this workflow (Actions -> pages -> Run workflow).
-# The site then appears at https://<owner>.github.io/<repo>/. To publish on every push to
-# main instead, add  push: {branches: [main]}  under "on:".
+# The site then appears at https://<owner>.github.io/<repo>/ (the app at .../<repo>/app/). To publish on every
+# push to main instead, add  push: {branches: [main]}  under "on:".
 name: pages
 on:
   workflow_dispatch:
@@ -23,14 +25,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - run: npm ci
         working-directory: web
-      - run: node tools/build.mjs
-        working-directory: web
+      - run: python3 site/build.py
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: web/dist
+          path: site/dist
   deploy:
     needs: build
     runs-on: ubuntu-latest

@@ -1,0 +1,54 @@
+(4,0),(0,4) A = 48: 76 jobs, 311296 lives (the same lives under both K)
+  K = 16: E 2.54586e+09 F 247338 W 685  ln(2E/F) = 9.93237 +- 0.00201; mean life E/(F+W) 10265
+  K =  1: E 2.544e+09 F 247570 W 647  ln(2E/F) = 9.93070 +- 0.00201
+  bias (K16 - K1) = +0.00167  (per job: mean +0.00167, sd/sqrt(n) 0.00006); exposure part ln(E16/E1) = +0.00073, count part -ln(F16/F1) = +0.00094
+  ln tau_fw: K16 15.1283, K1 15.1847
+  rows K = 16, columns K = 1: count [exposure K16 - K1]
+  face         247338 [  +1857750]         0 [        +0]         0 [        +0]         0 [        +0]
+  firewall        110 [     +1008]       575 [     +4199]         0 [        +0]         0 [        +0]
+  settled          20 [      +203]        72 [      +715]        47 [      +280]         0 [        +0]
+  cap             102 [      +635]         0 [        +0]         0 [        +0]     63032 [        +0]
+(4,0),(0,4): jobs identical to research/scratch/shape2 76, different 0, no original file 0
+(2,0),(0,8) A = 48: 40 jobs, 163840 lives (the same lives under both K)
+  K = 16: E 3.63716e+08 F 55379 W 104127  ln(2E/F) = 9.48308 +- 0.00425; mean life E/(F+W) 2280
+  K =  1: E 3.62515e+08 F 56163 W 103367  ln(2E/F) = 9.46571 +- 0.00422
+  bias (K16 - K1) = +0.01737  (per job: mean +0.01737, sd/sqrt(n) 0.00045); exposure part ln(E16/E1) = +0.00331, count part -ln(F16/F1) = +0.01406
+  ln tau_fw: K16 8.1585, K1 8.1625
+  rows K = 16, columns K = 1: count [exposure K16 - K1]
+  face          55379 [   +413789]         0 [        +0]         0 [        +0]         0 [        +0]
+  firewall        774 [     +7515]    103353 [   +779624]         0 [        +0]         0 [        +0]
+  settled           0 [        +0]         1 [       +11]         0 [        +0]         0 [        +0]
+  cap              10 [       +76]        13 [       +94]         0 [        +0]      4310 [        +0]
+(2,0),(0,8): jobs identical to research/scratch/shape2 40, different 0, no original file 0
+(1,1),(0,20) A = 60: 20 jobs, 81920 lives (the same lives under both K)
+  K = 16: E 8.71394e+08 F 77460 W 0  ln(2E/F) = 10.02123 +- 0.00359; mean life E/(F+W) 11250
+  K =  1: E 8.70811e+08 F 77467 W 0  ln(2E/F) = 10.02048 +- 0.00359
+  bias (K16 - K1) = +0.00076  (per job: mean +0.00076, sd/sqrt(n) 0.00003); exposure part ln(E16/E1) = +0.00067, count part -ln(F16/F1) = +0.00009
+  rows K = 16, columns K = 1: count [exposure K16 - K1]
+  face          77460 [   +582258]         0 [        +0]         0 [        +0]         0 [        +0]
+  firewall          0 [        +0]         0 [        +0]         0 [        +0]         0 [        +0]
+  settled           1 [        +5]         0 [        +0]         0 [        +0]         0 [        +0]
+  cap               6 [       +41]         0 [        +0]         0 [        +0]      4453 [        +0]
+(1,1),(0,20): jobs identical to research/scratch/shape2 20, different 0, no original file 0
+(1,9),(0,20) A = 60: 40 jobs, 163840 lives (the same lives under both K)
+  K = 16: E 4.05433e+08 F 11339 W 145555  ln(2E/F) = 11.17761 +- 0.00939; mean life E/(F+W) 2584
+  K =  1: E 4.04258e+08 F 11516 W 145430  ln(2E/F) = 11.15922 +- 0.00932
+  bias (K16 - K1) = +0.01839  (per job: mean +0.01838, sd/sqrt(n) 0.00109); exposure part ln(E16/E1) = +0.00290, count part -ln(F16/F1) = +0.01549
+  ln tau_fw: K16 7.9322, K1 7.9301
+  rows K = 16, columns K = 1: count [exposure K16 - K1]
+  face          11339 [    +84158]         0 [        +0]         0 [        +0]         0 [        +0]
+  firewall        173 [     +1710]    145382 [  +1089126]         0 [        +0]         0 [        +0]
+  settled           0 [        +0]         0 [        +0]         0 [        +0]         0 [        +0]
+  cap               4 [        +7]        48 [      +389]         0 [        +0]      6894 [        +0]
+(1,9),(0,20): jobs identical to research/scratch/shape2 40, different 0, no original file 0
+(1,4),(0,20) A = 60: 20 jobs, 81920 lives (the same lives under both K)
+  K = 16: E 4.22702e+09 F 32022 W 160  ln(2E/F) = 12.48373 +- 0.00559; mean life E/(F+W) 131347
+  K =  1: E 4.22677e+09 F 32029 W 156  ln(2E/F) = 12.48346 +- 0.00559
+  bias (K16 - K1) = +0.00028  (per job: mean +0.00028, sd/sqrt(n) 0.00008); exposure part ln(E16/E1) = +0.00006, count part -ln(F16/F1) = +0.00022
+  ln tau_fw: K16 17.0896, K1 17.1148
+  rows K = 16, columns K = 1: count [exposure K16 - K1]
+  face          32022 [   +240866]         0 [        +0]         0 [        +0]         0 [        +0]
+  firewall          6 [       +60]       154 [     +1159]         0 [        +0]         0 [        +0]
+  settled           0 [        +0]         2 [       +14]         2 [        +8]         0 [        +0]
+  cap               1 [        +1]         0 [        +0]         0 [        +0]     49733 [        +0]
+(1,4),(0,20): jobs identical to research/scratch/shape2 20, different 0, no original file 0

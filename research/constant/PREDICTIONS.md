@@ -285,3 +285,68 @@ readings are ρ = −0.052, −0.090, −0.107 (2.0, 3.5, 4.1σ from flat); a fa
 - **It is supported** if ρ comes out at −0.05 to −0.11 with c = 0.2155 to 0.2190 ± 0.0016; flat (ρ = 0) is then
   refuted at 2 to 4σ.
 - Raising n = 31 to 10⁵ deaths and 6 × 6 and n = 37 to 10⁴ each brings the errors to ± 0.0011 and ± 0.019.
+
+### C, note added by the lead on 2026-11-15 (nothing above is changed): the 4 × 4 anchor was a high draw
+
+The 4 × 4 torus, one of the three anchors of part C, is on file at 9.9324 ± 0.0020 (`research/shape2/data/A48.csv`).
+Three later measurements put it at **9.9249 ± 0.0003** (GPU on the owner's GTX 1080, 9.9251 ± 0.0004; a reviewer's
+own stepper, 9.9246 ± 0.0006; the original pipeline on 152 fresh seeds, 9.9240 ± 0.0014); the original 76 jobs
+reproduce bit for bit, so the file's value was a 3.4σ draw (`research/audit/REVIEW-gpu-local-pr23.md`, section 2).
+The forecasts above stand as committed. With the anchor replaced
+(`python3 research/audit/gpu_local_pr23/eq_forecast_patched.py` → `eq_forecast_patched_out.txt`) the flat line
+becomes c = 0.21244 with χ² 6.3 on 1; A = 57 moves by −0.005 (flat) and −0.004 (massive), A = 63 by −0.004 and
+−0.002, A = 93 and 111 by +0.005 and +0.010 (flat; the massive reading barely moves). Scores will be given against
+both sets.
+
+### C, second note by the lead, 2026-11-15 05:49 UTC (nothing above is changed): n = 21 is measured, and a forecast for the rest
+
+The torus n = 21 was measured on the CPU as a by-product of the dying-face study: ln τ_face = 13.176 ± 0.011
+(`research/audit/REVIEW-dying.md`, "Round 3", claim 8: one stepper, two seeds; the study's own stepper gives 13.13 ±
+0.04). It lies above every reading above (flat 13.115, massive 13.128, rising 13.107 and 13.100; with the corrected
+anchor 13.111, 13.126, 13.104, 13.097). So at n = 21 none of the readings is right, by 0.05–0.07.
+
+The tori of the table are of two kinds, which the readings did not distinguish: those with a cut (n = 16, 25, 27,
+28, 36: shortest loops along lattice rows or at 30° to them, many layers between possible firewalls) and those
+with none (n = 19, 21, 31, 37: oblique shortest loops, transverse layer period 4, no dead layer anywhere). All
+three anchors are of the first kind and n = 21 is of the second.
+
+**The lead's forecasts, written before seeing any GPU result for these tori** (the A = 93 run was going on the
+owner's card when this was written; its result had not been reported):
+- **N1 (60%).** n = 31 (A = 93) lies above the flat reading with the corrected anchor (19.484) by at least 0.03.
+- **N2 (60%).** n = 19 (A = 57) lies above the flat reading (11.837) by at least 0.03.
+- **N3 (55%).** n = 27 and n = 28 (A = 81, 84), which have cuts, both lie between the massive and the flat reading
+  or within 0.02 of that interval (16.923–16.935 and 17.553–17.572).
+- **N4 (50%).** The excess of the tori without a cut over the massive reading, taken per cell, falls with size:
+  [ln τ − massive]/A is smaller at n = 31 than at n = 21 (0.050/63 = 0.0008).
+- Against the two-kinds reading: n = 31 within 0.02 of the flat or the massive reading while n = 21 is confirmed
+  on the card above 13.15.
+
+### C, scored at n = 31 (the lead, 2026-11-15 05:55 UTC)
+
+The owner's card measured n = 31 (A = 93): ln τ_face = 19.4141 ± 0.0053 (`research/gpu-local/README.md` on branch
+`claude/gpu-local-1080`; the lead recomputed it from the four rows). Flat (19.479 ± 0.010; refuted below 19.445):
+**refuted**. Rising (19.506, 19.530; refuted below 19.488): **refuted**. Massive (19.437 ± 0.019): 0.023 below,
+inside 1.2σ of its error: **stands**, on its low side. The lead's N1 of the block above: **failed** (0.070 below
+the flat reading, not 0.03 above). A note on its timing: N1 was committed at 05:49 UTC; the result had been pushed
+to the card's branch at about 05:47 UTC; the lead had not fetched that branch and learned the result at 05:54 UTC.
+Since N1 failed, nothing rests on that. N4 cannot hold either (the excess over the massive reading at n = 31 is
+negative). N2 (n = 19) and N3 (n = 27, 28) are open; N2 was written on the two-kinds idea, which n = 31 has
+already ended, so it stands as written and is expected to fail.
+
+### C, scored at n = 19, 21, 25 (the lead, 2026-11-15 06:17 UTC)
+
+The card: n = 19 11.8756 ± 0.0006, n = 21 13.1622 ± 0.0007 (the CPU's 13.176 ± 0.011 confirmed), 5 × 5 15.6630 ±
+0.0023. Every reading above misses n = 19 and n = 21 on the low side: flat by 0.034 and 0.047, massive by 0.021 and
+0.034, rising by more. With n = 31 below all of them, **no reading of part C survives**: what the five tori show
+is one slope, 0.2084, from 63 cells up and a deficit below (0.111 at 48 cells, 0.036 at 57). The readings failed
+because all three were anchored on the 4 × 4 torus, which is itself inside the bend. The lead's **N2 held** (0.034
+to 0.039 above the flat reading); N1 failed; N4 failed; N3 is open. The forecast now standing for n = 27, 28, 36,
+37 is the card's (its `PREDICTIONS.md`, block 3, committed at 6b2dc2b before those rows existed): 16.913, 17.539,
+22.540, 23.165. The lead adds none.
+
+**Scored at n = 27, 28, 36, 37 (the lead, 2026-11-15 12:05 UTC, from the card's rows at 16271f3, recomputed):**
+ln τ_face = 16.9222 ± 0.0031, 17.5467 ± 0.0031, 22.5600 ± 0.0222, 23.2032 ± 0.0231 at A = 81, 84, 108, 111. N3
+held by its letter (both within 0.02 of the stated intervals, 0.001 and 0.006 below them), though every reading it
+was built on has failed elsewhere. The card's line (16.913, 17.539, 22.540, 23.165) was low at all four, by 3.0,
+2.5, 0.9 and 1.7 of the errors; refitted over 63–111 cells the line is 13.1621 + 0.20867(9)·(A − 63), χ² 7.8 on 5.
+The 81-cell face lies between that old line and the smooth forms' 16.927.

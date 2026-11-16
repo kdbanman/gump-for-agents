@@ -1,0 +1,2 @@
+4x4x8, soup seed 5: t4 vs engine every generation, 3000 gens: 0 mismatches (population 161 .. 180, 105 distinct); controls: shifted 2999 mismatches (first 1), flipped node 300 of 300 (first 1)
+OK

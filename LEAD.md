@@ -87,6 +87,93 @@ job to keep it honest. What exists (2026-11-13):
 - "Modal API" (GPU, cloud): briefed 2026-11-13 by message with the acceptance bar and three experiments (lineage
   memorylessness at R = 36–40; symmetric τ at A = 759, 828; asymmetric faces at A = 108, 135). It cannot message
   back; read its pull requests and its directory (expected `research/gpu/`). Find it with the session list.
+  (Since 2026-11-14 it does message back: its replies arrive as notifications. Its session id is in the scratchpad.)
+- **A local GPU session on the owner's own machine** ("GPU endpoint agent communication", a GTX 1080;
+  `session_019L788Jx7xW3gsoejtZ4qdv`). It sent a test ping at about 02:06 UTC on 2026-11-15 ("checking that
+  cross-session messaging works. No action needed … just say 'pong'"). The reply was refused until the owner
+  allowed this session to reach their other sessions; the lead raised the permission card
+  (`confirm_repository_trust`) and **the owner allowed it, in person on a trusted device, at about 02:20 UTC**. The
+  tool's words for what that did: "This session is now limited to its owner's trusted devices, and that cannot be
+  undone. It may now ask to use a folder on one of its owner's computers, or start sessions, send messages and
+  schedule tasks on its owner's computers … once it has asked for a computer it no longer reaches the owner's other
+  sessions." The lead's reading (not the owner's words): the approval covers exchanging messages with that session
+  (`mcp__claude-code-remote__send_message` with its id; `SendMessage` does not reach it). The owner has not yet said
+  what the local GPU is for. **Side effect found at 02:24 UTC:** since the approval this session can no longer
+  message the cloud GPU session or read any session's events, its own included (see "Watching usage"); the cloud
+  GPU session's pull requests are still reachable through GitHub, and its messages to this session may still
+  arrive. Until the owner says more: do not start sessions or schedule tasks on their computers, and **do not
+  call `request_computer_folder`** (it would also cut this session off from the owner's other sessions).
+  **The owner's words, 2026-11-15 about 03:30 UTC:** "oh wow, i wish i hadn't done that card approval now. sounds
+  like it'll make things more complicated. can the remote controlled 1080 GPU endpoint serve as a message relay
+  between you and the other agent? the 1080 machine can run GPU experiments to your heart's content - it's in my
+  house, not billed by the hour, no limit. so hopefully it'll be worth this bit of hassle. the 1080 session is
+  still working on getting CUDA and everything set up, so we can't dispatch work yet." and "i also see that timers
+  are behaving strangely now? am I seeing that correctly?" The lead's reading: GPU experiments on the 1080 are
+  granted without a budget (this replaces the Modal budget question; spend no more on Modal); work is dispatched to
+  it by message once its session says CUDA works; a relay through it to the cloud GPU session was asked about as a
+  question, not ordered: the lead answered that it is probably not needed (the cloud session's hand-over is
+  `research/gpu/AGENT.md`) and that it would use one only on the owner's explicit word. The queue for the
+  GTX 1080 is in `research/STATUS.md` (the acceptance bar and the guard against unrecognised settled replicas come
+  first, then the measurements that would narrow the asymptotic constant).
+  **It reported ready at about 03:38 UTC** (GTX 1080, 8 GB, compute capability 6.1, 48 KB shared memory per block;
+  driver 576.02, CUDA 12.9, cupy-cuda12x 13.4.1, numpy 2.2.6, Python 3.12, Windows 10; the engine built there passes
+  its 27 tests; `check_engine` with the three kernel configurations equal in every lane on all five cases; both
+  negative controls caught at generation 1; no gcc there yet, so the checks that need `fl.c` or `cpu.c` have not run;
+  clone at main 0e3b642; no `gh`, and it had not been told it may push). It writes under `research/gpu-local/`.
+  **The owner's words, 2026-11-15 about 03:40 UTC:** "I'm getting prompted to approve the messages you send to the
+  1080 session, but I trust you. I don't need to approve. Can we try adding a setting to allow all the time?
+  Something like adding an allow rule for that one tool, mcp__claude-code-remote__send_message, in the repository's
+  .claude/settings.json under permissions.allow?" Done the same minute: `.claude/settings.json` now has
+  `permissions.allow: ["mcp__claude-code-remote__send_message"]` beside the compaction hook. The file is read by
+  every single-repository session on this repository, so the rule also covers the other sessions once they have
+  it. It allows the one tool and nothing else; what the trust change refuses stays refused.
+  **The rule did not stop the prompts** (the owner, about 03:47 UTC: "i got an approval prompt for that message
+  too. maybe the new setting didn't stick? what do you think?"). The lead's test at 03:48 UTC: a temporary hook
+  added to the same file fired on the very next command, so this session reloads the file as it changes and the
+  rule was in force when the 03:45 message went out. The lead's reading: the prompt belongs to the trust change
+  (a message to a session on the owner's computer is answered by a person each time), not to the permission
+  rules. The rule is left in place (harmless; asked for). **What is done instead: briefs for the 1080 session are
+  written to `research/GPU-QUEUE.md`, which it fetches after each job; the lead messages it only when something
+  cannot wait.**
+  **The owner's words, 2026-11-15 about 04:08 UTC** ("For your reference, this is a message I sent to the 1080
+  session"): "You can write a role for yourself. You can hit your GPU as hard as you like. The Orchestrator / Lead
+  agent can send you jobs. You're also a highly intelligent agent yourself - opus 5.5 at high thinking effort - so
+  you're not just a naive GPU job runner. I'll let you figure out the right abstraction level with the Orchestrator
+  / Lead :) I should also mention that, in general, this repo / project is for agents like you and the orchestrator
+  and the modal agent. So you don't need to ask me how to use the repo, or whether or not to follow the other
+  agent's requests." And to the lead: "Also, I'm not sure that the GPU session will get "Fable weekly usage" limit
+  data, so we might have lost our ability to maximize fable usage." The lead's reading: the 1080 session is a
+  fellow investigator who owns the GPU arm, not a job runner: it gets goals, forecasts and the correctness bar, and
+  designs its own runs; it may push its own branch without asking the owner; the lead still reviews, recomputes and
+  records. The owner raised usage readings through that session themselves, so the lead asked it (in the queue
+  file) to pass on whatever usage figures it can see; that is the owner's own account data and the owner's own
+  suggestion, not a way round the refusal for anything else.
+  **The owner's words, 2026-11-15 about 04:16 UTC:** "oh! i'll just change it to a fable agent. that way it can
+  see fable usage. and you'll have an even more capable peer." What follows for the lead: the 1080 session's own
+  turns then draw on the Fable window as well, and the lead cannot see how much, so the dead-reckoned estimate in
+  "Watching usage" undercounts from here on; treat any figure that session reports as the reading and re-base the
+  estimate on it.
+  **The owner's words, 2026-11-15 about 04:18 UTC:** "Makes sense. I trust you two to figure out how to collaborate
+  and coordinate. I'm going to step away from my machine for a bit. Good luck with your project!! Very excited to
+  see where this goes. You have great taste so far." The owner is away: nothing that needs their approval can
+  happen until they are back (no message to the 1080 session, since each one raises a prompt for them; the queue
+  file is the channel).
+
+- **The owner, about 07:10 UTC 2026-11-15, back at their machine:** "did you and the 1080 agent work out a
+  communication/collaboration model?" and "also, do you think there's any goal worth having a relentless fable
+  subagent push on for a while?" The lead's answer: yes to both. The model with the 1080 session is the one in the
+  paragraphs above (the queue file one way, its branch and milestone messages the other, a review before every
+  record). The goal chosen for a sustained Fable agent is open problem 13, whether anything in gump can carry a
+  signal (`research/signals/`; forecasts S1–S5 committed first); started 07:16 UTC, to be restarted with a successor
+  each time it hands back, while usage allows.
+
+- **The owner, about 07:50 UTC 2026-11-15:** "oh that's a *fascinating* question. great choice." (the signal
+  problem), and then a dictated note "for the human section of the repo, if you have one", ending "Do with these
+  questions what you will. Just writing them down as a journal here, because you got me thinking." The note is
+  kept verbatim in `docs/OWNER-JOURNAL.md` (made for it; `CLAUDE.md` points there): the isolation of faces from
+  what lies under them, signals as a lens on it, and how much of its state space a seed explores. The lead's
+  reading: no instruction in it; the third thought has an exact answer for small hulls and is being worked
+  (`research/statespace/`, forecasts E1–E7 first, Opus, started 07:56 UTC).
 
 ## The swarm
 
@@ -160,9 +247,27 @@ let CI pass, merge.
   visual, text-minimal explainer artifact of the directions and findings so far? feel free to delegate to opus
   subagents for subtasks".
 - Made and published privately: https://claude.ai/artifact/EngGcGwZcZ2DG71aNgnvaA ("The Gump Map"). Source and
-  rebuild steps are in `docs/overview/` (see its README). To update it, rebuild and publish
-  `docs/overview/index.html` to that same link. It is a view of the repository, not a record: nothing is
-  established by appearing on it.
+  rebuild steps were in `docs/overview/` until 2026-11-15 and are now in `site/` (see `site/README.md`: one small
+  file per plate, data per page, `python3 site/build.py`, `bash site/check.sh`). It is a view of the repository,
+  not a record: nothing is established by appearing on it.
+- **2026-11-15 about 15:18 UTC, the owner:** "since artifacts are single giant pages, i'm wondering if it makes
+  sense to move and rearchitect it as a github-pages-compatible structure that can be navigated and edited more
+  piecemeal. how does that sound? we could put it in a folder with other gh pages deployed stuff, like the
+  interactive webapp. does that sound reasonable? if so, feel free to kick off a dedicated session for that task.
+  or subagents, whatever you please." The lead's reading: the overview becomes a multi-page static site in one
+  deploy folder (`site/`) together with the web app; small source files per page, data fetched per page, built by
+  one command, deployed by the existing manual workflow. A subagent does it (this session cannot message or read
+  a session it starts, since the trust change). **Nothing goes public by this:** the site appears on the web only
+  when the owner sets Settings → Pages → Source to "GitHub Actions" and the workflow is run; until then the same
+  built folder is published as the private artifact (a multi-file artifact), by the lead.
+- **Done 2026-11-15 15:56 UTC: version 14 of the private artifact is the multi-page site** (same link; eight pages,
+  84 files; content as version 13). To republish after a change: `python3 site/build.py --artifact &&
+  bash site/check.sh --artifact && python3 site/artifact_page.py`, then the Artifact tool with `file_path`
+  `research/scratch/site/artifact-page/index.html`, `url` the link above, `root` `site/dist-artifact`, and `files`
+  the paths of `site/dist-artifact/FILES.json` (as `{"path": …}` entries). The site's checks need the pre-installed
+  browser, so they are not part of `research/check.sh` or of CI; run `bash site/check.sh` before a publish. The
+  public site (overview and web app together) needs the owner: Settings → Pages → Source "GitHub Actions", then
+  Actions → pages → Run workflow.
 
 ## Which rule is gump
 
@@ -180,6 +285,18 @@ let CI pass, merge.
 
 ## Watching usage
 
+- **Readings given by the owner:** 2026-11-15 about 15:18 UTC: 62% weekly, 73% Fable weekly (the lead's reckoning
+  for that minute was 64% and 73%). **2026-11-15 about 22:12 UTC: 72% weekly, 84% Fable** (the owner: "currently
+  72% overall, 84% fable!"; the lead's reckoning was 76% and 84%). So the status "allowed_warning" was showing with
+  the Fable window at 84%. Pace since 15:18, every agent on Opus: weekly 10 points and Fable 11 points in six and
+  a half hours, the Fable all from the lead's own turns. The lead's plan from here: Opus agents only, one at a
+  time; the lead's own turns kept to the owed work; stop of its own accord near 90% Fable unless the owner uses
+  the second reset; both windows reset 2026-11-18 11:00 UTC.
+- **A warning, 2026-11-15 21:50 UTC:** `get_session` showed `rate_limit_info.status` "allowed_warning" with
+  `rateLimitType` "seven_day_overage_included" (the Fable window); it had read "allowed" at 18:22 UTC. The lead's
+  reckoning for that minute was about 76% weekly and 84% Fable. What the lead did: started no agent (none was
+  running), wrote the state down, told the owner, and kept its own turns few. Where the warning sits (80%? 90%?)
+  is not known; a reading from the owner at such a moment would calibrate it.
 - The account's usage is visible from inside the session: `mcp__claude-code-remote__list_events` on this session's
   own id with `kinds: ["rate_limit_event"]`, `limit: 100`, returns the latest event; under
   `rate_limit_info.unifiedWindows` are `five_hour` and `seven_day`, each with `utilization` (0–1) and `resetsAt`
@@ -215,6 +332,47 @@ let CI pass, merge.
   like would/could be a novel contribution? Not necessarily trying to steer you, just curious for an update." The
   lead's reading: say candidly what looks new and what does not; a manuscript-style draft inside the repository
   (`docs/paper/`) is a fair way to find out; nothing is sent or posted anywhere without asking first.
+- **Usage can no longer be read from inside the session (since about 02:20 UTC, 2026-11-15).** After the owner
+  approved the trust card for messaging their local GPU session (see "Other sessions"), this session "is now limited
+  to its owner's trusted devices", and three calls that worked before are refused with
+  `elevated_session_untrusted_device`: `list_events` on this session's own id (the usage readings above),
+  `list_events` on the cloud GPU session, and `send_message` to the cloud GPU session. The refusals say not to retry
+  and to tell the owner, who can do these from the Claude app on a trusted device. Do not route round them through
+  another session. What still works: `get_session` with no id (context figure; `rate_limit_info.status`, which
+  read "allowed" at 02:24 UTC and carries no utilization), `send_message` to the local GPU session, `send_later`,
+  GitHub, subagents. **Last real reading: 01:21 UTC 2026-11-15, session 0.00 (window resets 06:20 UTC), weekly 0.27,
+  Fable 0.27; weekly and Fable reset 2026-11-18 11:00 UTC.** Until the owner gives a figure, reckon forward from
+  that reading at the paces measured on 2026-11-14 (weekly and Fable: about 0.04 an hour with two or more agents
+  running, 0.02 with one, 0.01 for the lead alone; session window: about 0.15 an hour under heavy use), write the
+  estimate into the scratchpad at each check, and hold a wider margin because it is an estimate: start no new
+  agent once the estimate for weekly or Fable passes 0.70, and stop running agents at 0.80. If `get_session` ever
+  shows a `rate_limit_info.status` other than "allowed", stop all agents and tell the owner. Ask the owner for the
+  three figures whenever they write (their screen shows them).
+- **Readings now come from the GTX 1080 session** (asked for in `research/GPU-QUEUE.md`; it appends them to each
+  message). **First one, read by it at 04:41 UTC 2026-11-15: 5-hour window 0.33 (resets 06:20 UTC), weekly all
+  models 0.36, weekly Fable 0.39 (both reset 2026-11-18 11:00 UTC).** The lead's dead-reckoned figure for the same
+  moment was 0.44, so the reckoning ran about 0.05 high over three hours and twenty minutes; measured pace over that
+  stretch: weekly 0.027 an hour, Fable 0.036 an hour, with two to three Opus agents running most of the time and
+  the 1080 session on Fable for the last part. Re-base on each new reading. The ceilings are the owner's 0.95 on
+  each window; with readings arriving, the reckoning rule above (0.70 / 0.80 on an estimate) applies only to the
+  stretch since the last reading: start no new agent if last reading + reckoned use since would pass 0.85.
+  **Second reading, 06:15 UTC 2026-11-15: weekly all models 0.40, weekly Fable 0.44** (the 5-hour window was not
+  listed). Pace 04:41 → 06:15 with two to four Opus agents and the 1080 session on Fable: weekly 0.026 an hour,
+  Fable 0.032 an hour. The 1080 session has been asked to keep readings in `research/gpu-local/USAGE.md` on its
+  branch, so that a fetch gives them without a message.
+  **Third reading, 12:01 UTC 2026-11-15: weekly all models 0.54, weekly Fable 0.61.** The lead's reckoning for
+  that moment was 0.60 and 0.73, so it ran high again (by 0.06 and 0.12). Pace 06:15 → 12:01 with two to five
+  agents running, two of them Fable for three hours, and the 1080 session idle: weekly 0.024 an hour, Fable 0.029
+  an hour; so a Fable subagent costs the Fable window about 0.02 an hour, not 0.035. **The readings are now in
+  `research/gpu-local/USAGE.md` on the card's branch** (`git fetch origin claude/gpu-local-1080 && git show
+  origin/claude/gpu-local-1080:research/gpu-local/USAGE.md | tail`): read that at every wake-up.
+- **Timers no longer deliver either.** The check-in set with `send_later` for 02:23 UTC on 2026-11-15 fired and
+  failed with `ACCESS_DENIED` (seen with `list_triggers`, which still works; ask it for one row, its output is
+  long). So since the trust change nothing wakes the lead except a subagent's report, a message from another
+  session, or the owner. Consequences: do not plan on a timed check; at every wake-up write the usage estimate and
+  what is running into the scratchpad; never leave agents running with nothing due to report after them unless the
+  estimate leaves room for them to finish unwatched; and keep one long-running agent's report as the next
+  wake-up when work should continue.
 - Context: `mcp__claude-code-remote__get_session` with no id shows `external_metadata.context_usage`
   (`used_tokens` of `max_tokens`) and the auto-compaction threshold.
 

@@ -1,0 +1,233 @@
+=== Claim 1: stationary face (null), three vessels, three null definitions
+null "study": age > 512, lived >= 64 more, life not settled; "all": every living state of age > 512; "noS": all but settled lives
+
+-- v11c: face area 63, rim row 12 cells (row 2: 6)
+group  null   samples   Pbar            row1 (no apex) free/tied   row2 free/tied   apex   interior
+c1    study   397114    31.25           0.512 / nan    0.434 / nan    0.175  0.521
+c1    all     397354    31.25           0.512 / nan    0.434 / nan    0.175  0.521
+c1    noS     397354    31.25           0.512 / nan    0.434 / nan    0.175  0.521
+csz   study   388936    28.90           0.489 / 0.349    0.410 / 0.395    0.126  0.521
+csz   all     390014    28.90           0.489 / 0.349    0.410 / 0.395    0.126  0.521
+csz   noS     390014    28.90           0.489 / 0.349    0.410 / 0.395    0.126  0.521
+c2v   study   352936    26.28           0.466 / 0.323    0.385 / 0.365    0.098  0.516
+c2v   all     361690    26.16           0.463 / 0.321    0.384 / 0.364    0.098  0.513
+c2v   noS     357338    26.25           0.465 / 0.322    0.385 / 0.365    0.097  0.515
+d2h   study   146580    23.50           nan / 0.298    nan / 0.337    0.086  0.508
+d2h   all     246797    20.40           nan / 0.264    nan / 0.299    0.092  0.428
+d2h   noS     156619    23.24           nan / 0.295    nan / 0.333    0.085  0.502
+Pbar with lane errors (study null) and steps per tied edge; ln tau steps; ratio
+  study Pbar 31.25 ± 0.00, 28.90 ± 0.01, 26.28 ± 0.01, 23.50 ± 0.02; steps -2.35, -2.62, -2.77; per tied edge (c1 to d2h)/3 -2.58 ± 0.01; dlnT/dP whole ladder 0.835; steps 0.93, 0.83, 0.77; lnT_c1/P_c1 0.436
+  all   Pbar 31.25 ± 0.00, 28.90 ± 0.01, 26.16 ± 0.03, 20.40 ± 0.05; steps -2.36, -2.74, -5.76; per tied edge (c1 to d2h)/3 -3.62 ± 0.02; dlnT/dP whole ladder 0.596; steps 0.92, 0.79, 0.37; lnT_c1/P_c1 0.436
+  csz: loss against c1 by row from nearest tied edge 1..4: -1.77 -0.23 -0.24 -0.08; total -2.35; per tied edge -2.35; rim row per tied edge -1.77 = -0.148 per rim cell; total per tied rim cell -0.196
+  c2v: loss against c1 by row from nearest tied edge 1..4: -4.01 -0.52 -0.33 -0.08; total -4.97; per tied edge -2.49; rim row per tied edge -2.01 = -0.167 per rim cell; total per tied rim cell -0.207
+  d2h: loss against c1 by row from nearest tied edge 1..4: -6.67 -0.85 -0.22 -0.01; total -7.75; per tied edge -2.58; rim row per tied edge -2.22 = -0.185 per rim cell; total per tied rim cell -0.215
+
+-- v13c: face area 84, rim row 14 cells (row 2: 7)
+group  null   samples   Pbar            row1 (no apex) free/tied   row2 free/tied   apex   interior
+c1    study   118775    42.45           0.523 / nan    0.443 / nan    0.176  0.520
+c1    all     118776    42.45           0.523 / nan    0.443 / nan    0.176  0.520
+c1    noS     118776    42.45           0.523 / nan    0.443 / nan    0.176  0.520
+csz   study   118725    39.81           0.504 / 0.361    0.422 / 0.411    0.126  0.520
+csz   all     118731    39.81           0.504 / 0.361    0.422 / 0.411    0.126  0.520
+csz   noS     118731    39.81           0.504 / 0.361    0.422 / 0.411    0.126  0.520
+c2v   study   118457    36.87           0.486 / 0.338    0.402 / 0.385    0.097  0.518
+c2v   all     118492    36.87           0.486 / 0.338    0.402 / 0.385    0.097  0.518
+c2v   noS     118492    36.87           0.486 / 0.338    0.402 / 0.385    0.097  0.518
+d2h   study   293805    33.28           nan / 0.314    nan / 0.355    0.085  0.506
+d2h   all     387097    31.34           nan / 0.298    nan / 0.338    0.088  0.472
+d2h   noS     295040    33.25           nan / 0.313    nan / 0.355    0.085  0.505
+Pbar with lane errors (study null) and steps per tied edge; ln tau steps; ratio
+  study Pbar 42.45 ± 0.01, 39.81 ± 0.01, 36.87 ± 0.02, 33.28 ± 0.08; steps -2.64, -2.94, -3.59; per tied edge (c1 to d2h)/3 -3.06 ± 0.03; dlnT/dP whole ladder 0.885; steps 1.00, 0.90, 0.79; lnT_c1/P_c1 0.427
+  all   Pbar 42.45 ± 0.01, 39.81 ± 0.01, 36.87 ± 0.02, 31.34 ± 0.16; steps -2.64, -2.94, -5.53; per tied edge (c1 to d2h)/3 -3.70 ± 0.05; dlnT/dP whole ladder 0.731; steps 1.00, 0.90, 0.51; lnT_c1/P_c1 0.427
+  csz: loss against c1 by row from nearest tied edge 1..4: -2.09 -0.22 -0.24 -0.08; total -2.64; per tied edge -2.64; rim row per tied edge -2.09 = -0.149 per rim cell; total per tied rim cell -0.188
+  c2v: loss against c1 by row from nearest tied edge 1..4: -4.67 -0.50 -0.31 -0.08; total -5.58; per tied edge -2.79; rim row per tied edge -2.33 = -0.167 per rim cell; total per tied rim cell -0.199
+  d2h: loss against c1 by row from nearest tied edge 1..4: -7.80 -0.92 -0.38 -0.05; total -9.17; per tied edge -3.06; rim row per tied edge -2.60 = -0.186 per rim cell; total per tied rim cell -0.218
+
+-- v12v: face area 63, rim row 6 cells (row 2: 12)
+group  null   samples   Pbar            row1 (no apex) free/tied   row2 free/tied   apex   interior
+c1    study   118470    34.20           0.550 / nan    0.539 / nan    nan  0.512
+c1    all     118502    34.20           0.550 / nan    0.539 / nan    nan  0.512
+c1    noS     118502    34.20           0.550 / nan    0.539 / nan    nan  0.512
+csz   study   117499    31.60           0.516 / 0.362    0.507 / 0.450    nan  0.508
+csz   all     117638    31.60           0.516 / 0.362    0.507 / 0.450    nan  0.508
+csz   noS     117638    31.60           0.516 / 0.362    0.507 / 0.450    nan  0.508
+c2v   study   111156    28.54           0.480 / 0.325    0.474 / 0.402    nan  0.500
+c2v   all     113119    28.42           0.479 / 0.324    0.472 / 0.401    nan  0.498
+c2v   noS     111875    28.52           0.480 / 0.325    0.473 / 0.402    nan  0.500
+d2h   study   121561    24.90           nan / 0.288    nan / 0.354    nan  0.484
+d2h   all     275482    20.44           nan / 0.249    nan / 0.302    nan  0.381
+d2h   noS     128302    24.67           nan / 0.285    nan / 0.351    nan  0.480
+Pbar with lane errors (study null) and steps per tied edge; ln tau steps; ratio
+  study Pbar 34.20 ± 0.01, 31.60 ± 0.01, 28.54 ± 0.01, 24.90 ± 0.02; steps -2.60, -3.06, -3.64; per tied edge (c1 to d2h)/3 -3.10 ± 0.01; dlnT/dP whole ladder 0.714; steps 0.82, 0.71, 0.64; lnT_c1/P_c1 0.418
+  all   Pbar 34.20 ± 0.01, 31.60 ± 0.01, 28.42 ± 0.05, 20.44 ± 0.06; steps -2.60, -3.17, -7.98; per tied edge (c1 to d2h)/3 -4.59 ± 0.02; dlnT/dP whole ladder 0.482; steps 0.82, 0.69, 0.29; lnT_c1/P_c1 0.418
+  csz: loss against c1 by row from nearest tied edge 1..4: -1.13 -1.08 -0.20 -0.15; total -2.60; per tied edge -2.60; rim row per tied edge -1.13 = -0.188 per rim cell; total per tied rim cell -0.433
+  c2v: loss against c1 by row from nearest tied edge 1..4: -2.70 -2.42 -0.32 -0.17; total -5.66; per tied edge -2.83; rim row per tied edge -1.35 = -0.225 per rim cell; total per tied rim cell -0.471
+  d2h: loss against c1 by row from nearest tied edge 1..4: -4.72 -4.06 -0.41 -0.10; total -9.29; per tied edge -3.10; rim row per tied edge -1.57 = -0.262 per rim cell; total per tied rim cell -0.516
+
+-- ln tau against the stationary population across vessels (c1, study null)
+  v11c: P 31.25, ln tau 13.634, ln tau / P 0.436
+  v13c: P 42.45, ln tau 18.141, ln tau / P 0.427
+  v12v: P 34.20, ln tau 14.31, ln tau / P 0.418
+  v11c -> v13c (c1): d ln tau / d P = 0.403
+
+=== Null control: does the face population depend on the age and on the future of the life? (v11c)
+c1   by age (lives not settled): 0-64: 31.07±0.16 (252); 64-128: 31.38±0.17 (248); 128-256: 31.27±0.10 (760); 256-512: 31.35±0.07 (1255); 512-1024: 31.24±0.05 (2501); 1024-2048: 31.24±0.04 (4960); 2048-4096: 31.27±0.03 (9672); 4096-inf: 31.25±0.00 (380221)
+      rem 1-64     : P 30.36 ± 0.18 (n 245)
+      rem 65-256   : P 31.28 ± 0.08 (n 1007)
+      rem > 256    : P 31.25 ± 0.00 (n 396102)
+      settled lives: n 0
+      share of old living samples in lives that end settled: 0.000
+csz  by age (lives not settled): 0-64: 28.86±0.11 (1109); 64-128: 29.02±0.10 (1383); 128-256: 28.98±0.07 (2470); 256-512: 28.88±0.05 (4880); 512-1024: 28.87±0.04 (9609); 1024-2048: 28.91±0.03 (18570); 2048-4096: 28.89±0.02 (34703); 4096-inf: 28.90±0.01 (327132)
+      rem 1-64     : P 27.77 ± 0.12 (n 1348)
+      rem 65-256   : P 28.86 ± 0.06 (n 3485)
+      rem > 256    : P 28.90 ± 0.01 (n 385181)
+      settled lives: n 0
+      share of old living samples in lives that end settled: 0.000
+c2v  by age (lives not settled): 0-64: 26.57±0.07 (4944); 64-128: 26.29±0.07 (4874); 128-256: 26.27±0.05 (9571); 256-512: 26.27±0.04 (18428); 512-1024: 26.28±0.03 (34376); 1024-2048: 26.27±0.02 (59169); 2048-4096: 26.23±0.02 (87946); 4096-inf: 26.24±0.01 (175847)
+      rem 1-64     : P 23.69 ± 0.10 (n 4467)
+      rem 65-256   : P 26.20 ± 0.04 (n 13132)
+      rem > 256    : P 26.28 ± 0.01 (n 339739)
+      settled lives: P 18.89 ± 0.86 (n 4352)
+      share of old living samples in lives that end settled: 0.012
+d2h  by age (lives not settled): 0-64: 23.93±0.05 (17434); 64-128: 23.22±0.05 (16362); 128-256: 23.31±0.04 (29579); 256-512: 23.26±0.03 (48212); 512-1024: 23.28±0.03 (65168); 1024-2048: 23.27±0.03 (59773); 2048-4096: 23.24±0.04 (27619); 4096-inf: 22.36±0.42 (4059)
+      rem 1-64     : P 19.52 ± 0.09 (n 10181)
+      rem 65-256   : P 23.50 ± 0.04 (n 26730)
+      rem > 256    : P 23.50 ± 0.02 (n 119708)
+      settled lives: P 15.45 ± 0.07 (n 90178)
+      share of old living samples in lives that end settled: 0.365
+
+=== Deaths (v11c), own histories: events every generation, lag 0 = first generation with a face empty
+c1: deaths 1000, samples 1000, multi-orbit 0; dump/sample state checks 2000 OK
+csz: deaths 1500, samples 1500, multi-orbit 0; dump/sample state checks 6000 OK
+c2v: deaths 1500, samples 1503, multi-orbit 3; dump/sample state checks 12000 OK
+d2h: deaths 1500, samples 1500, multi-orbit 0; dump/sample state checks 12000 OK
+
+--- face population over Pbar by lag; plunge t_d - t_h (t_h: P < Pbar/2 from then on)
+c1   lag 32 0.995 20 0.985 16 0.960 8 0.693 4 0.330 1 0.051; median plunge 6 (quartiles 4-8), censored 0
+csz  lag 32 0.993 20 0.963 16 0.921 8 0.640 4 0.303 1 0.055; median plunge 6 (quartiles 4-9), censored 0
+c2v  lag 32 0.970 20 0.903 16 0.831 8 0.562 4 0.302 1 0.059; median plunge 7 (quartiles 4-10), censored 0
+d2h  lag 32 0.937 20 0.821 16 0.756 8 0.520 4 0.312 1 0.066; median plunge 7 (quartiles 4-12), censored 0
+
+--- band/interior ratio at lag 4 (raw; and over the same ratio of the null), study band (16 cells) and corner-free band (12)
+c1   band16: x 1.112 ± 0.038 (null 0.926, rel 1.201), y 1.029 ± 0.037 (null 0.925, rel 1.111), z 1.049 ± 0.034 (null 0.925, rel 1.134); pooled 1.063
+c1   band12: x 1.287 ± 0.042 (null 1.041, rel 1.237), y 1.180 ± 0.043 (null 1.040, rel 1.134), z 1.197 ± 0.039 (null 1.040, rel 1.151); pooled 1.222
+csz  band16: x 0.990 ± 0.030 (null 0.882, rel 1.123), y 0.996 ± 0.032 (null 0.882, rel 1.129), z* 0.818 ± 0.027 (null 0.703, rel 1.163); pooled 0.935
+csz  band12: x 1.148 ± 0.032 (null 1.015, rel 1.132), y 1.151 ± 0.033 (null 1.015, rel 1.134), z* 0.934 ± 0.029 (null 0.809, rel 1.155); pooled 1.078
+c2v  band16: x* 0.701 ± 0.022 (null 0.657, rel 1.068), y* 0.706 ± 0.025 (null 0.657, rel 1.076), z 0.924 ± 0.032 (null 0.845, rel 1.094); pooled 0.777
+c2v  band12: x* 0.785 ± 0.026 (null 0.762, rel 1.031), y* 0.808 ± 0.027 (null 0.762, rel 1.060), z 1.092 ± 0.038 (null 0.997, rel 1.096); pooled 0.895
+d2h  band16: x* 0.765 ± 0.026 (null 0.616, rel 1.243), y* 0.723 ± 0.024 (null 0.614, rel 1.177), z* 0.715 ± 0.025 (null 0.615, rel 1.162); pooled 0.734
+d2h  band12: x* 0.843 ± 0.029 (null 0.721, rel 1.170), y* 0.801 ± 0.026 (null 0.719, rel 1.113), z* 0.790 ± 0.028 (null 0.720, rel 1.097); pooled 0.812
+
+--- relative emptying: band (16) and interior occupancy over own null, tied vs free, by lag
+c1   lag 16: interior 0.969; band free 0.950 tied nan; rim row free 0.948 tied nan
+c1   lag  8: interior 0.677; band free 0.695 tied nan; rim row free 0.693 tied nan
+c1   lag  4: interior 0.297; band free 0.341 tied nan; rim row free 0.346 tied nan
+c1   lag  2: interior 0.090; band free 0.126 tied nan; rim row free 0.131 tied nan
+c1   lag  1: interior 0.038; band free 0.058 tied nan; rim row free 0.058 tied nan
+csz  lag 16: interior 0.941; band free 0.908 tied 0.898; rim row free 0.904 tied 0.891
+csz  lag  8: interior 0.640; band free 0.638 tied 0.633; rim row free 0.637 tied 0.632
+csz  lag  4: interior 0.277; band free 0.312 tied 0.322; rim row free 0.317 tied 0.324
+csz  lag  2: interior 0.101; band free 0.127 tied 0.131; rim row free 0.130 tied 0.130
+csz  lag  1: interior 0.049; band free 0.058 tied 0.059; rim row free 0.058 tied 0.053
+c2v  lag 16: interior 0.841; band free 0.832 tied 0.821; rim row free 0.831 tied 0.822
+c2v  lag  8: interior 0.554; band free 0.572 tied 0.563; rim row free 0.567 tied 0.564
+c2v  lag  4: interior 0.288; band free 0.315 tied 0.309; rim row free 0.313 tied 0.310
+c2v  lag  2: interior 0.111; band free 0.139 tied 0.139; rim row free 0.141 tied 0.142
+c2v  lag  1: interior 0.055; band free 0.065 tied 0.063; rim row free 0.066 tied 0.057
+d2h  lag 16: interior 0.749; band free nan tied 0.762; rim row free nan tied 0.762
+d2h  lag  8: interior 0.502; band free nan tied 0.536; rim row free nan tied 0.537
+d2h  lag  4: interior 0.282; band free nan tied 0.337; rim row free nan tied 0.340
+d2h  lag  2: interior 0.124; band free nan tied 0.164; rim row free nan tied 0.170
+d2h  lag  1: interior 0.061; band free nan tied 0.070; rim row free nan tied 0.069
+
+=== Neighbour of the dying face across each edge (own frame; the shared row q_a = 0 IS the dying face's rim row)
+c1   free edges:
+    lag 0: whole 0.765 band16 0.207 shared row 0.000 row2 0.613 off-shared 0.928 beyond row2 0.963
+    lag 1: whole 0.762 band16 0.227 shared row 0.058 row2 0.559 off-shared 0.911 beyond row2 0.951
+    lag 2: whole 0.771 band16 0.278 shared row 0.131 row2 0.567 off-shared 0.906 beyond row2 0.945
+    lag 4: whole 0.821 band16 0.442 shared row 0.346 row2 0.629 off-shared 0.922 beyond row2 0.955
+    lag 8: whole 0.904 band16 0.727 shared row 0.693 row2 0.787 off-shared 0.949 beyond row2 0.967
+    lag 16: whole 0.981 band16 0.956 shared row 0.948 row2 0.955 off-shared 0.987 beyond row2 0.991
+csz  free edges:
+    lag 0: whole 0.742 band16 0.190 shared row 0.000 row2 0.568 off-shared 0.903 beyond row2 0.942
+    lag 1: whole 0.742 band16 0.218 shared row 0.058 row2 0.535 off-shared 0.891 beyond row2 0.933
+    lag 2: whole 0.755 band16 0.271 shared row 0.130 row2 0.553 off-shared 0.891 beyond row2 0.931
+    lag 4: whole 0.800 band16 0.411 shared row 0.317 row2 0.599 off-shared 0.905 beyond row2 0.941
+    lag 8: whole 0.877 band16 0.679 shared row 0.637 row2 0.753 off-shared 0.929 beyond row2 0.950
+    lag 16: whole 0.961 band16 0.910 shared row 0.904 row2 0.913 off-shared 0.973 beyond row2 0.980
+csz  tied edges:
+    lag 0: whole 0.000 band16 0.000 shared row 0.000 row2 0.000 off-shared 0.000 beyond row2 0.000
+    lag 1: whole 0.055 band16 0.059 shared row 0.053 row2 0.069 off-shared 0.056 beyond row2 0.054
+    lag 2: whole 0.119 band16 0.131 shared row 0.130 row2 0.135 off-shared 0.117 beyond row2 0.116
+    lag 4: whole 0.303 band16 0.322 shared row 0.324 row2 0.322 off-shared 0.300 beyond row2 0.298
+    lag 8: whole 0.640 band16 0.633 shared row 0.632 row2 0.625 off-shared 0.641 beyond row2 0.643
+    lag 16: whole 0.921 band16 0.898 shared row 0.891 row2 0.908 off-shared 0.925 beyond row2 0.927
+c2v  free edges:
+    lag 0: whole 0.691 band16 0.178 shared row 0.000 row2 0.536 off-shared 0.848 beyond row2 0.886
+    lag 1: whole 0.702 band16 0.219 shared row 0.066 row2 0.524 off-shared 0.846 beyond row2 0.885
+    lag 2: whole 0.721 band16 0.265 shared row 0.141 row2 0.519 off-shared 0.853 beyond row2 0.893
+    lag 4: whole 0.770 band16 0.406 shared row 0.313 row2 0.592 off-shared 0.874 beyond row2 0.908
+    lag 8: whole 0.828 band16 0.612 shared row 0.567 row2 0.709 off-shared 0.888 beyond row2 0.910
+    lag 16: whole 0.921 band16 0.842 shared row 0.831 row2 0.866 off-shared 0.942 beyond row2 0.951
+c2v  tied edges:
+    lag 0: whole 0.000 band16 0.000 shared row 0.000 row2 0.000 off-shared 0.000 beyond row2 0.000
+    lag 1: whole 0.059 band16 0.063 shared row 0.057 row2 0.075 off-shared 0.060 beyond row2 0.058
+    lag 2: whole 0.129 band16 0.139 shared row 0.142 row2 0.140 off-shared 0.127 beyond row2 0.125
+    lag 4: whole 0.302 band16 0.309 shared row 0.310 row2 0.314 off-shared 0.301 beyond row2 0.300
+    lag 8: whole 0.562 band16 0.563 shared row 0.564 row2 0.568 off-shared 0.561 beyond row2 0.561
+    lag 16: whole 0.831 band16 0.821 shared row 0.822 row2 0.819 off-shared 0.833 beyond row2 0.834
+d2h  tied edges:
+    lag 0: whole 0.000 band16 0.000 shared row 0.000 row2 0.000 off-shared 0.000 beyond row2 0.000
+    lag 1: whole 0.066 band16 0.070 shared row 0.069 row2 0.074 off-shared 0.065 beyond row2 0.064
+    lag 2: whole 0.146 band16 0.164 shared row 0.170 row2 0.167 off-shared 0.143 beyond row2 0.140
+    lag 4: whole 0.312 band16 0.337 shared row 0.340 row2 0.343 off-shared 0.307 beyond row2 0.303
+    lag 8: whole 0.520 band16 0.536 shared row 0.537 row2 0.542 off-shared 0.517 beyond row2 0.514
+    lag 16: whole 0.756 band16 0.762 shared row 0.762 row2 0.770 off-shared 0.755 beyond row2 0.754
+checked: for every face and edge, the neighbour's row q_a = 0 is the same set of cells as the face's own row q_a = 0 (12 cells)
+
+=== Single deaths: dipole |centroid(live) - centroid(stationary profile)| at the last crossing of f*Pbar,
+    against null states (study null, same group) thinned to the same live count (uniform fade with stationary correlations)
+    also: the same dipole for a state 64 generations before death; and the dipole direction persistence between f = 0.75 and f = 0.25
+-- c1
+   f=0.75: n 1000, mean dipole 1.42 vs matched null mean 1.09; fraction above null 95th pct 0.173 (null 0.05), above 99th 0.053; median percentile 0.69
+   f=0.5: n 1000, mean dipole 2.15 vs matched null mean 1.34; fraction above null 95th pct 0.341 (null 0.05), above 99th 0.146; median percentile 0.84
+   f=0.25: n 988, mean dipole 3.27 vs matched null mean 2.02; fraction above null 95th pct 0.348 (null 0.05), above 99th 0.172; median percentile 0.89
+   control lag 64: fraction above null 95th pct 0.085, median percentile 0.57
+   cos(dipole at 0.75 Pbar, dipole at 0.25 Pbar): mean 0.533 ± 0.018 (0 if unrelated), n 988
+-- csz
+   f=0.75: n 1500, mean dipole 1.50 vs matched null mean 1.14; fraction above null 95th pct 0.168 (null 0.05), above 99th 0.057; median percentile 0.72
+   f=0.5: n 1500, mean dipole 2.20 vs matched null mean 1.38; fraction above null 95th pct 0.319 (null 0.05), above 99th 0.139; median percentile 0.85
+   f=0.25: n 1492, mean dipole 3.26 vs matched null mean 1.94; fraction above null 95th pct 0.373 (null 0.05), above 99th 0.200; median percentile 0.89
+   control lag 64: fraction above null 95th pct 0.099, median percentile 0.60
+   cos(dipole at 0.75 Pbar, dipole at 0.25 Pbar): mean 0.523 ± 0.015 (0 if unrelated), n 1492
+-- c2v
+   f=0.75: n 1503, mean dipole 1.72 vs matched null mean 1.25; fraction above null 95th pct 0.201 (null 0.05), above 99th 0.073; median percentile 0.76
+   f=0.5: n 1503, mean dipole 2.41 vs matched null mean 1.46; fraction above null 95th pct 0.339 (null 0.05), above 99th 0.157; median percentile 0.89
+   f=0.25: n 1471, mean dipole 3.45 vs matched null mean 2.06; fraction above null 95th pct 0.359 (null 0.05), above 99th 0.202; median percentile 0.89
+   control lag 64: fraction above null 95th pct 0.114, median percentile 0.61
+   cos(dipole at 0.75 Pbar, dipole at 0.25 Pbar): mean 0.507 ± 0.015 (0 if unrelated), n 1471
+-- d2h
+   f=0.75: n 1500, mean dipole 1.90 vs matched null mean 1.38; fraction above null 95th pct 0.201 (null 0.05), above 99th 0.067; median percentile 0.76
+   f=0.5: n 1498, mean dipole 2.81 vs matched null mean 1.66; fraction above null 95th pct 0.388 (null 0.05), above 99th 0.174; median percentile 0.90
+   f=0.25: n 1435, mean dipole 3.80 vs matched null mean 2.24; fraction above null 95th pct 0.360 (null 0.05), above 99th 0.203; median percentile 0.89
+   control lag 64: fraction above null 95th pct 0.105, median percentile 0.59
+   cos(dipole at 0.75 Pbar, dipole at 0.25 Pbar): mean 0.521 ± 0.015 (0 if unrelated), n 1435
+
+=== Fronts: does a death start on one side and cross the face?
+    per death: u = unit vector from the deficit to the live centroid at the last crossing of 0.75 Pbar; for the cells alive then,
+    corr(position along u, last generation alive). Baseline: u taken from another death (same group). Persistence null:
+    the death's own 0.75 state thinned at random to its 0.25 count, cos of the two dipoles.
+c1   corr(position along u, survival): 0.195 ± 0.012  (baseline, u of another death: 0.001 ± 0.014); cos(dipole 0.75, dipole 0.25): 0.533 ± 0.018 vs random-thinning null 0.566 ± 0.017; lags from 0.75 to 0.25: median 3
+csz  corr(position along u, survival): 0.169 ± 0.010  (baseline, u of another death: -0.001 ± 0.011); cos(dipole 0.75, dipole 0.25): 0.523 ± 0.015 vs random-thinning null 0.620 ± 0.013; lags from 0.75 to 0.25: median 3
+c2v  corr(position along u, survival): 0.163 ± 0.011  (baseline, u of another death: -0.001 ± 0.012); cos(dipole 0.75, dipole 0.25): 0.507 ± 0.015 vs random-thinning null 0.648 ± 0.013; lags from 0.75 to 0.25: median 4
+d2h  corr(position along u, survival): 0.172 ± 0.012  (baseline, u of another death: 0.002 ± 0.013); cos(dipole 0.75, dipole 0.25): 0.521 ± 0.015 vs random-thinning null 0.674 ± 0.013; lags from 0.75 to 0.25: median 7
+
+=== L5 with and without the shared row (c1; mean over deaths, three neighbours, lags 1-16, over own null)
+  L5a as registered (whole neighbour face / Pbar): 0.895; neighbour without the 12 shared cells: 0.951
+  L5b as registered (band16, 10 of its 16 cells are the dying face's own rim row): 0.682; neighbour row 2 only (6 own cells): 0.778; shared row: 0.633
+
+=== L6 as registered (deficit centroid w = rho - x at t_h; nearest edge = argmin c_a)
+  c1   x 0.315, y 0.347, z 0.338 (± 0.016)
+  csz  x 0.384, y 0.361, z* 0.255 (± 0.013)
+  c2v  x* 0.279, y* 0.303, z 0.418 (± 0.013)
+  d2h  x* 0.315, y* 0.335, z* 0.350 (± 0.013)

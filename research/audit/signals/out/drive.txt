@@ -1,0 +1,8 @@
+pulse-A       bare : O1 events per generation over gens 1..47: [(0, 47)]; of them live at t: 0 of 0
+pulse-A       pulse: O1 events per generation over gens 1..47: [(2, 47)]; of them live at t: 71 of 94
+pulse-B       bare : O1 events per generation over gens 1..47: [(0, 47)]; of them live at t: 0 of 0
+pulse-B       pulse: O1 events per generation over gens 1..47: [(1, 47)]; of them live at t: 0 of 47
+pulse-B-left  bare : O1 events per generation over gens 1..47: [(0, 47)]; of them live at t: 0 of 0
+pulse-B-left  pulse: O1 events per generation over gens 1..47: [(1, 47)]; of them live at t: 0 of 47
+pulse-S       bare : O1 events per generation over gens 1..47: [(0, 47)]; of them live at t: 0 of 0
+pulse-S       pulse: O1 events per generation over gens 1..47: [(2, 24), (9, 23)]; of them live at t: 184 of 255

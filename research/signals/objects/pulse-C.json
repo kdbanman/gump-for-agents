@@ -1,0 +1,54 @@
+{
+ "name": "pulse-C",
+ "kind": "pulse",
+ "v": [
+  1,
+  0,
+  -1
+ ],
+ "bg": [
+  [
+   0,
+   1,
+   2
+  ],
+  [
+   0,
+   1,
+   4
+  ],
+  [
+   0,
+   2,
+   3
+  ],
+  [
+   1,
+   0,
+   0
+  ],
+  [
+   1,
+   0,
+   2
+  ]
+ ],
+ "bg_period": 2,
+ "defect": [
+  [
+   13,
+   0,
+   -10
+  ],
+  [
+   15,
+   0,
+   -10
+  ]
+ ],
+ "p": 2,
+ "s": 1,
+ "cubes": 40,
+ "found": "survey.py 3 3 9 2 1 (background #29 of its list, line 28 of survey.jsonl): one of the two 2-cell pulses of its 4-cell defect",
+ "note": "wire C: stators (0,1,2), (0,1,4) and the sites (1,0,0), (1,0,2), (0,2,3); 2 flipped cells move one cube towards +(1,0,-1) every 2 generations"
+}

@@ -1,0 +1,10 @@
+W00 (period 19, v (1, 3, -4)): 137 candidate cells, flips at phase 0: {'heal': 43, 'front': 94}; first front from (40, 107, -132)
+   front +v: speed 0.0500 repeats/gen; exact (p, s) at the edge: (19, 1); ash: {'period': 1, 'repeats': 16, 'cells': 384, 'is_wire_phase': False}
+   front -v: speed -0.0800 repeats/gen; exact (p, s) at the edge: (38, 3); ash: {'period': 1, 'repeats': 39, 'cells': 637, 'is_wire_phase': False}
+   oracle cross-check: identical for 300 generations (1237 live cells at the end)
+W05 (period 11, v (1, 3, -4)): 224 candidate cells, flips at phase 0: {'heal': 141, 'front': 83}; first front from (40, 128, -167)
+   front +v: speed 0.0875 repeats/gen; exact (p, s) at the edge: (22, 2); ash: {'period': 12, 'repeats': 45, 'cells': 1405, 'is_wire_phase': False}
+   front -v: speed -0.0900 repeats/gen; exact (p, s) at the edge: (22, 2); ash: {'period': 12, 'repeats': 48, 'cells': 1592, 'is_wire_phase': False}
+W18 (period 9, v (3, 0, -3)): 115 candidate cells, flips at phase 0: {'local': 16, 'front': 69, 'heal': 30}; first front from (120, -4, -105)
+   front +v: speed 0.0750 repeats/gen; exact (p, s) at the edge: (27, 2); ash: {'period': 30, 'repeats': 33, 'cells': 617, 'is_wire_phase': False}
+   front -v: speed 0.0000 repeats/gen; exact (p, s) at the edge: None; ash: None
