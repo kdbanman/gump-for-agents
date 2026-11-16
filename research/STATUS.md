@@ -358,6 +358,10 @@ _Last updated 2026-11-14 by the lead._
   endless fronts proved; no gun survives an echo; the fifth review's unfollowed events leave every end equal;
   no listener, no loop. `research/check.sh` 20 of 20 at 23:08. **Still owed:** the site's signals page (the nine
   signals, the meeting table) and a republish; merge of pull request 27; the card's results.
+  **01:01 UTC (2026-11-16): the overview is version 17** (the site agent's commits 2a778c4, b3b3e49: a live plate
+  "When signals meet" on a ring of the plain train with four experiments, the nine signals, the echo and "Nothing
+  listens" plates brought up to date, the record's counts at 192; both suites pass for the lead; 95 supporting
+  files). **Nothing is running.** Next: merge pull request 27; then the card's results.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
