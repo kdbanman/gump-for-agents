@@ -370,7 +370,7 @@ _Last updated 2026-11-14 by the lead._
   open a new pull request for its branch. Usage at the owner's last reading (22:10 UTC on the 15th): 72% weekly,
   84% Fable; since then one Opus review, one Opus site update and the lead's turns for them.
   **02:14 UTC (2026-11-16): the card's hull face of 108 cells is in: 23.3392 ± 0.0099** (recomputed by the lead;
-  notebook "the hull face of 108 cells"; CLAIMS CN2). One price with a linear rim term is refuted at 4.7σ: rimmed
+  notebook "the hull face of 108 cells"; CLAIMS CN5, first entered as a second CN2). One price with a linear rim term is refuted at 4.7σ: rimmed
   faces pay about 0.231 per cell, wrapped ones 0.209. The card has started its next chain (the 84-cell tube, W13's
   face, the 108- and 96-cell tubes, the cross-checks, and of its own accord thicker slabs and more of the
   equilateral 108). Its usage row at 02:05 UTC: 73% weekly, 85% Fable. **Owed:** a pull request for the card's

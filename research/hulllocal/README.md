@@ -2,7 +2,7 @@
 
 2026-11-16. Question: is the face layer of a living octahedral hull (radius 15, faces of 108 cells; radius 13, 84)
 occupied differently from a wrapped face (a face torus on an 8-layer slab), in its interior or near its rim, enough
-to join the two prices per cell (rimmed 0.2307 ± 0.0047, wrapped 0.2087; CLAIMS CN2) through the tube relation
+to join the two prices per cell (rimmed 0.2307 ± 0.0047, wrapped 0.2087; CLAIMS CN5) through the tube relation
 discount = 1.85 × density deficit (research/wraplocal)? That relation would need the hull interior denser by 0.012.
 
 ## Forecasts (written and committed before any stepping was run)
@@ -70,7 +70,7 @@ Nothing had been stepped or measured when these were written; only the cell coun
 
 **What it means for the two prices.** Occupation with κ = 1.85 explains 0.0000 ± 0.0001 of the 0.022 per cell
 (the fitted c gives −0.0002, the wrong sign). The hull face's occupation differs from a wrapped face's only by a
-constant corner term and a term linear in the rim. CN2's 0.2307 comes from second differences that cancel both.
+constant corner term and a term linear in the rim. CN5's 0.2307 comes from second differences that cancel both.
 Whatever makes a rimmed face pay 0.231 per cell is not in its one-point occupation, nor in the nearest-neighbour
 statistics that tracked the price on tubes. Candidates left: the way the face dies (from the corners, where the
 density is 0.175, or along the edge rows, against a wrapped face with no such place), and correlations or

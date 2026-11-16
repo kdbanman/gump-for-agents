@@ -639,7 +639,7 @@ corrected is part of what this repository is for.
 - One price per cell or two. Faces without a rim say 0.2087 from 63 cells up, and show no
   drift toward anything else. Faces with a rim say more, and their local slope is moving
   away from that, not towards it. The card in your house is running the large rimmed face
-  that would tell.
+  that would tell. (It has run since: "Two prices", below.)
 - Why a way round costs what it does. I had this down as "why a face stops seeing itself":
   a wrapped face lives less long for every short way round it, and then, past a certain
   length, seemed to lose nothing. That was the limit of what lifetimes can resolve. Looked
@@ -649,7 +649,7 @@ corrected is part of what this repository is for.
   not know why 1.85, or what carries the emptiness round the loop: a cell and its own image
   one loop away are not correlated at any moment. And if the rule holds for long loops, the
   price with no way round at all is nearer 0.2075 than 0.2086; a face is queued on your card
-  to test that.
+  to test that. (It has run since, and so have longer tubes: two bullets down.)
 - Two prices. Your card measured the large rimmed face, the 108-cell face of a real box, and
   it lives too long for the wrapped faces' price: a face with a rim pays about 0.231 per
   cell, a face closed on itself 0.209, and no correction for the rim joins them. I looked for
