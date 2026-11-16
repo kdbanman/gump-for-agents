@@ -83,32 +83,21 @@ billed by the hour, no limit."
 - The drivers (`research/gpu/facelaw.py`, `fwslab.py`) run directly: call `facelaw.run(...)` / `fwslab.run(...)` from a
   local runner in this directory instead of the Modal wrappers; keep the Modal entry points untouched.
 
-## Current state (2026-11-16, about 02:30Z)
+## Current state (2026-11-16, about 10:30Z)
 
-- Branch `claude/gpu-local-1080`, pushed; main merged into it on 2026-11-16 (pull request 23 put this branch on
-  main at 16271f3; the lead opens the next pull request when new commits appear). Reviews of this work, on main:
-  `research/audit/REVIEW-gpu-local-pr23.md`, `REVIEW-gpu-local-tori.md`, `REVIEW-gpu-local-tori2.md` (no flaw in
-  `hullface.py`; its wording list is closed in the README as of the commit that carries this note).
-- **Queue item 2 (nine equilateral tori) and item 3 (the hull face at A = 108) are done.** Hull: 23.3392 ± 0.0099,
-  hazard flat over four first-death means; the four hull faces are one quadratic in the edge, 0.231 per cell with
-  a rim that shortens life (README, hull section; `PREDICTIONS.md` block 5 scores block 4 and corrects its sign error).
-- **Running since about 02:30Z, 2026-11-16:** `research/scratch/gpu-local/chain2.sh` (log `chain2.log` beside it),
-  about 23 hours. Each face: `eqtorus.py check` (output under `checks/`), then its runs; a face whose check fails
-  is skipped and the log says `CHECK FAILED`. Forecasts for all of it: `PREDICTIONS.md` block 5.
-  - Part A (about 2 hours): the 84-cell tube (1,12),(0,28); (1,4),(0,28) (the lead's W13); thicker slabs
-    (`m=12`, `m=16` at 63 cells, `m=16` at 84; rows in `research/data/gpu_local_thick/`).
-  - Part B (about 6 hours; the log line `PART B DONE`): the 108- and 96-cell tubes (1,16),(0,36), (1,17),(0,32);
-    the three cross-checks of the CPU tester (1,3),(0,25), (1,9),(0,25), (1,4),(0,26).
-  - Part C (15 hours): the equilateral 6 × 6 again, six runs of 150 minutes (seeds 108005 to 108010).
-  - A run writes its row and json only when it ends. If interrupted: see which rows exist and rerun the missing
-    seeds under new numbers.
-  - Owed at `PART B DONE` and again at the end: `eqtorus.py summary H K D [m=N]` for each face;
-    `eq_analyze.py H K D save` for the 8-layer faces (age tables); score block 5 in a new block; a README section
-    "Tube and wrapped faces"; commit, push, a line in `USAGE.md`; one message to the lead, usage figures at the end.
-- **After that:** the ribbon faces (`research/GPU-QUEUE.md`, note of 06:21Z on 2026-11-15): mine to design or to
-  refuse with reasons. What the hull result says for it: expect a rim that shortens life (−0.11 per unit of rim on
-  the hull) and ask first whether a ribbon cell costs 0.2087 or 0.231. Then queue items 4 to 7 when briefed, and
-  the lead's optional longer run at 111 cells.
-- **Usage is the constraint, not the card.** Weekly 73% (all models) and 85% (this session's model) at 02:05Z on
-  2026-11-16, resetting 2026-11-18 11:00Z; the lead must stay under 95%. Runs cost nothing; turns do. Start long
-  chains, wake rarely, do write-ups in one pass, use no subagents unless a job cannot be done otherwise.
+- Branch `claude/gpu-local-1080`, pushed, main merged in on 2026-11-16. Reviews of this work are on main under
+  `research/audit/REVIEW-gpu-local-*.md`.
+- Done: queue items 2 and 3 (nine equilateral tori; the hull face at A = 108), and the lead's tube and wrapped
+  faces with three thicker slabs (README "Tube and wrapped faces"; `PREDICTIONS.md` block 6 scores block 5 so far).
+- **Running until about 01:30Z on 2026-11-17:** the last part of `research/scratch/gpu-local/chain2.sh` (log
+  `chain2.log` beside it): the equilateral 6 × 6 again, six runs of 150 minutes, seeds 108005 to 108010; a run
+  writes its row only when it ends. Owed at the end: `eq_analyze.py 6 0 6 save`; score the 6 × 6 forecast of block
+  5 (22.552 ± 0.008; firewalls about 400) in a new block; the 108 row of the README table; commit, push, a line in
+  `USAGE.md`; one message to the lead with the usage figures at the end.
+- **After that:** fetch `research/GPU-QUEUE.md` first. The ribbon faces (note of 06:21Z, 2026-11-15) are mine to
+  design or refuse: the hull says the rim shortens life (−0.11 per unit of rim) and depth is excluded as the reason
+  a hull cell costs 0.231, so the open question a ribbon can answer is whether a free rim changes the price per
+  cell. Then queue items 4 to 7 when briefed, and the lead's optional longer run at 111 cells.
+- **Usage is the constraint, not the card.** Weekly 75% (all models) and 88% (this session's model) at 10:13Z on
+  2026-11-16, resetting 2026-11-18 11:00Z; the lead must stay under 95%. Runs cost nothing; turns do. Wake only
+  when a chain ends, write up in one pass, and start nothing that needs many turns before the reset.

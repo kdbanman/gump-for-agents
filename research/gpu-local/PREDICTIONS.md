@@ -192,3 +192,33 @@ agree with the lead's lists.
   pooled with the 2,032 on file, 22.552 ± 0.008 (my line; the lead's relation says 22.535, on file 22.5600 ±
   0.0222). Firewalls about 400, ln τ_fw 25.7 ± 0.1.
 - Kind-5 lives in the whole chain: none, 85%.
+
+## 6. Block 5 scored so far: seven wrapped faces and three thicker slabs (2026-11-16T10:14Z, HEAD aea5a72)
+
+Written when parts A and B of `chain2.sh` had ended; the 6 × 6 runs of block 5 are still going and are scored later.
+(`python research/gpu-local/eqtorus.py summary H K D [m=N]`, `eq_analyze.py H K D`.)
+
+| torus (H, K), (0, D) | cells | my forecast | measured | measured − forecast | in combined errors |
+|---|---:|---:|---:|---:|---:|
+| (1, 12), (0, 28) | 84 | 17.325 ± 0.008 | 17.3175 ± 0.0031 | −0.008 | 0.9 |
+| (1, 4), (0, 28) | 84 | 17.544 ± 0.004 | 17.5387 ± 0.0031 | −0.005 | 1.0 |
+| (1, 16), (0, 36) | 108 | 22.229 ± 0.012 | 22.1557 ± 0.0121 | −0.073 | **4.3** |
+| (1, 17), (0, 32) | 96 | 19.777 ± 0.008 | 19.7405 ± 0.0059 | −0.037 | **3.7** |
+| (1, 3), (0, 25) | 75 | 15.535 ± 0.008 | 15.5250 ± 0.0028 | −0.010 | 1.2 |
+| (1, 9), (0, 25) | 75 | 15.651 ± 0.006 | 15.6442 ± 0.0030 | −0.007 | 1.0 |
+| (1, 4), (0, 26) | 78 | 16.291 ± 0.004 | 16.2884 ± 0.0033 | −0.003 | 0.5 |
+
+- **All seven are below my forecast, and the two long tubes are misses.** My reason for them ("a tube of fixed
+  girth is straight in its length") was half right: the three tubes of girth² 12 at 84, 96 and 108 cells are
+  straight among themselves (second difference −0.008 ± 0.017), but with a slope of 0.2017 ± 0.0004 per cell, not
+  the 0.2044 fitted to shorter tubes that I extrapolated with. I took a slope from a range where it was still
+  falling. The seeds scatter more than they should on those two faces (χ² 5.5 and 6.3 on 3); with errors scaled
+  by that the misses are 3.0 and 2.9.
+- (1, 4), (0, 28): I gave "below 17.5405" 20%, and it is below (17.5387). It lies between the lead's two W13
+  values, 0.9 errors from "a loop of 21 still discounts" (17.534) and 1.9 from "the effect ends before 21" (17.547).
+- "The tester's 16.277 at (1, 4), (0, 26) does not repeat": held (16.2884, 0.9 of its errors above it).
+- **Thicker slabs.** 63 cells: 13.1596 ± 0.0012 at 12 layers, 13.1589 ± 0.0013 at 16, against 13.1622 ± 0.0007 at
+  8. Both within 0.005, as forecast (85%). "If it moves, upward" (80%) was wrong: the two together are 0.0029 ±
+  0.0011 *below* the 8-layer value (2.6σ). 84 cells at 16 layers: 17.5401 ± 0.0044 (forecast 17.547 ± 0.006), slope
+  63 → 84 at 16 layers 0.20863 ± 0.00022 (forecast 0.2087 ± 0.0004). Depth is not what makes a hull cell dearer.
+- Kind-5 lives so far in the chain: none.
