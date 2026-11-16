@@ -3627,3 +3627,30 @@ Review with independent code: `research/audit/REVIEW-signals-6.md`, code `resear
 - Not checked (23:08 UTC): period 8 and the 5 × 5 tube at either end; settling slower than the stated T;
   three-cell events; the meetings of N1 to N4; the divider's stream; the oscillator samples beside the gun; no
   UNSAT has a certificate.
+
+## 2026-11-16: the hull face of 108 cells: 23.3392 ± 0.0099; one price per cell with a linear rim term is refuted; a rimmed face pays about 0.231 per cell where a wrapped one pays 0.209
+
+The card's run (branch `claude/gpu-local-1080`, commit bf29d29; `research/gpu-local/README.md`, its block 4 and
+5 in `research/gpu-local/PREDICTIONS.md`). Forecasts were frozen before the run.
+
+- **[measured; the card's code, calibrated at 63 cells against the value on file; recomputed by the lead from the
+  rows]** ln τ_face = **23.3392 ± 0.0099** at 108 cells (hull radius 15; 10,187 deaths; seeds 15001 and 15002:
+  23.3364 ± 0.0138 and 23.3422 ± 0.0142; no settled life, no guard event). Recompute: the two rows of
+  `research/data/gpu_local_hull/hull_R15.csv`, ln(8 Σexposure / Σdeaths). The earlier run by another code (1,059
+  deaths) gave 23.376 ± 0.031, 1.1σ above. Hazard by age flat over four first-death means (nine bins, χ² 9.9 on 8).
+- **[scored]** One price of 0.2087 per cell plus a term linear in the rim: 23.273 ± 0.010, **refuted at 4.7
+  combined errors**. The second difference of the faces of 45, 63, 84 cells repeating: 23.338 ± 0.012, hit to
+  0.001. The card's own forecast 23.35 ± 0.02: 0.5σ.
+- **What it says.** The second differences of ln τ over hull radii 9, 11, 13, 15 are 0.691 and 0.692 ± 0.014; one
+  price c with any rim term linear in the radius gives 3c, so c = 0.2307 ± 0.0047 for rimmed faces, against
+  0.2087 (or 0.2075, WL5) for wrapped ones: **two prices, a tenth apart**, unless small rimmed faces carry a
+  correction that is not linear in the rim (they would have to live longer than the form by 0.2 at 45 cells and
+  0.07 at 63, with nothing at 84 and 108; four values cannot exclude it; the 135-cell face would, and is out of
+  the card's reach).
+- **What could make two prices.** (i) Depth: a hull face has the whole octahedron behind it, a torus face has 8
+  layers and a second face; the card has queued thicker slabs (its forecast: no change, 85%). (ii) Occupation: by
+  WL5 a tube's discount is 1.85 times its density deficit; if the same relation joined the two prices, the
+  interior of a living hull face would be denser than a wrapped face by about 0.012 (2.3%). That is measurable in
+  minutes with no lifetimes; forecasts H1–H4 in `research/wrap/PREDICTIONS.md`, a study asked.
+- Not checked (02:14 UTC): no adversarial review of this run (the lead recomputed the value from the rows; the
+  calibration at 63 cells and the older run are the cross-checks); the age tables were not re-derived.

@@ -221,3 +221,19 @@ statistics, though it was the one named beforehand). L4 failed: no exact feature
 21, and there is no end to explain. L5 failed. My own measurement of five of the densities with separate code
 agrees (`research/audit/wraplocal_lead_check.py`). The thing I had wrong was the premise: I asked why the effect
 ends, and it does not.
+
+## Two prices: is a living hull face denser than a wrapped one? The lead's forecasts (02:14 UTC, 2026-11-16, before any such measurement)
+
+The card's hull face of 108 cells came in at 23.3392 ± 0.0099: rimmed faces pay about 0.231 per cell, wrapped ones
+0.209. A tube's discount is 1.85 times its density deficit (WL5). If that one relation joined the two prices, the
+face layer in the interior of a living hull face would be denser than a wrapped face's 0.517742 by about
+(0.2307 − 0.2087) / 1.85 = 0.012. I have not looked at any density of a hull face.
+
+- **H1 (35%).** The face-layer density in the interior of a living hull face of radius 15 (cells three or more
+  lattice steps from the rim) exceeds the wrapped value by more than 0.004.
+- **H2 (20%).** The excess is between 0.008 and 0.018, as the relation with κ = 1.85 asks.
+- **H3 (50%).** The interior density equals the wrapped value within 0.001: the two prices are not a matter of
+  occupation in the interior.
+- **H4 (25%).** A wrapped face's density depends on the slab's thickness: 8 against 16 layers differ by more than
+  0.0005.
+- **H5 (60%).** Within three steps of the rim the hull face is denser than its interior by more than 0.01.

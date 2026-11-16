@@ -93,6 +93,12 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    correlation at the loop vector (below 10⁻⁴); (h) tubes of girth three are cut by transverse firewalls and
    their price falls with length: is every tube, at great enough length, cut the same way, so that no tube line
    is straight for ever? (None in 29,412 deaths of the 84-cell loop-12 tube.)
+   **Since (2026-11-16, CLAIMS CN2):** the hull face of 108 cells is 23.3392 ± 0.0099, which refutes one price
+   with a linear rim term: rimmed faces pay about 0.231 per cell, wrapped ones 0.209. Open: (i) **why two
+   prices**: depth (the card runs thicker slabs), occupation (is a living hull face denser in its interior by the
+   0.012 that WL5's relation would ask; forecasts H1–H5 in `research/wrap/PREDICTIONS.md`), or a correction to
+   small rimmed faces that is not linear in the rim; (j) the 135-cell hull face would decide the last (29.230
+   against 29.163) and is out of the card's reach.
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.
 

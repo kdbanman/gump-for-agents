@@ -369,6 +369,13 @@ _Last updated 2026-11-14 by the lead._
   tubes (W12). At each wake-up: `git fetch origin claude/gpu-local-1080`, read its new rows, score, record, and
   open a new pull request for its branch. Usage at the owner's last reading (22:10 UTC on the 15th): 72% weekly,
   84% Fable; since then one Opus review, one Opus site update and the lead's turns for them.
+  **02:14 UTC (2026-11-16): the card's hull face of 108 cells is in: 23.3392 ± 0.0099** (recomputed by the lead;
+  notebook "the hull face of 108 cells"; CLAIMS CN2). One price with a linear rim term is refuted at 4.7σ: rimmed
+  faces pay about 0.231 per cell, wrapped ones 0.209. The card has started its next chain (the 84-cell tube, W13's
+  face, the 108- and 96-cell tubes, the cross-checks, and of its own accord thicker slabs and more of the
+  equilateral 108). Its usage row at 02:05 UTC: 73% weekly, 85% Fable. **Owed:** a pull request for the card's
+  branch (bf29d29, aea5a72) and its merge; the site's "One price per cell?" plate; a study of the living hull
+  face's density (forecasts H1–H5 frozen in `research/wrap/PREDICTIONS.md`).
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
