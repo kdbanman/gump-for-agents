@@ -400,6 +400,15 @@ _Last updated 2026-11-14 by the lead._
   "Open now") by an Opus agent, then version 18 of the overview; pull request 28 merged at that checkpoint. The
   card reports the equilateral 108 at about 01:30 UTC on the 17th and then stops until the reset (18th, 11:00
   UTC). Usage by the card's reading at 10:13 UTC: weekly 75%, Fable 88%; the lead stops near 90%.
+  **14:53 UTC: done.** Pull request 30 (the card's branch at 0345df0) is merged (main 095052d) and main is merged
+  back. The site shows today's three results (site commit f333f33: the `constant` plate rewritten around "no single
+  price", with a figure of the price per cell by kind of face; the `wrap` plate with W13 measured and the long
+  tubes; "Open now"; 197 claims) and **the overview is version 18**. The hull-face ledger row is CN5 (it was first
+  entered as a second CN2). Pull request 28 is merged at this checkpoint once CI is green. **Nothing is running.**
+  **Next:** the card's equilateral 108 at about 01:30 UTC on the 17th (the tube line says 22.552, the density
+  relation 22.535; on file 22.5600 ± 0.0222), and whatever it runs of the chain in `research/GPU-QUEUE.md`; score
+  and record them. A study not started: watching rimmed, wrapped and long-tube faces die (open problem 9 (k), (l)).
+  The lead takes no turns until the card or the owner writes.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
