@@ -34,7 +34,8 @@ EDITS = [
 # keys whose content may differ from the old page's. Anything not named here must still be as it was.
 NEW = {
     "wrap": "phase 2 (2026-11-15 afternoon): What a short way round costs (NB the wrapping law tested; CLAIMS WL1-WL3); rewritten the "
-            "evening of 2026-11-15 around the density law (NB why a tube is cheaper; CLAIMS WL4-WL6, W13)",
+            "evening of 2026-11-15 around the density law (NB why a tube is cheaper; CLAIMS WL4-WL6, W13); 2026-11-16: W13 measured, the "
+            "long tubes below their line, kappa 3.0 on them (NB the card's tube and wrapped faces; CLAIMS WL7, WL8)",
     "gun": "phase 2: A gun (NB the fourth signals push, reviewed; CLAIMS SG16-SG18)",
     "divider": "phase 2: A clock that edits the message (CLAIMS SG19, SG22)",
     "echo": "evening 2026-11-15: An echo, live (NB the fifth signals push reviewed; CLAIMS SG26; research/audit/signals5/end_echo.json); "
@@ -46,15 +47,19 @@ NEW = {
 }
 CHANGED = {
     "constant": "phase 2: nine wrapped faces in place of five (NB the nine wrapped faces reviewed; CLAIMS GL3); evening 2026-11-15: one "
-                "sentence on the price with no loop, if the density law holds (CLAIMS WL5)",
+                "sentence on the price with no loop, if the density law holds (CLAIMS WL5); 2026-11-16: rewritten around the answer no, the "
+                "prices by kind of face, the two negatives (NB the hull face of 108 cells; a living hull face …; the card's tube and wrapped "
+                "faces; CLAIMS CN2-CN4, WL7, WL8)",
     "next": "phase 2: Open now, from docs/WHAT-I-SEE.md 'What I would look at next' and OPEN-PROBLEMS 9 and 13; evening 2026-11-15: the echo "
             "and the sixth push, the loop of 21 queued (W13), the price with no loop (NB why a tube is cheaper; STATUS 20:27 UTC); night 2026-11-15: "
-            "the sixth push done, OPEN-PROBLEMS 13 (q)-(t) open (NB the sixth signals push reviewed)",
+            "the sixth push done, OPEN-PROBLEMS 13 (q)-(t) open (NB the sixth signals push reviewed); 2026-11-16: how each kind of face "
+            "dies, the long tubes and the loop of 21 (OPEN-PROBLEMS 9 (k)-(m))",
 }
 CHANGED_DATA = {
     "tori": "nine faces, recomputed from research/data/gpu_local_eqtorus (CLAIMS GL3)",
-    "project": "the ledger's counts (192 claims since the night of 2026-11-15), the git timeline and the footer's date follow the repository",
-    "corrections": "four corrections of 2026-11-15 afternoon added; two more in the evening (CLAIMS WL2/WL4; NB the fifth signals push reviewed); three at night (NB the sixth signals push reviewed)",
+    "project": "the ledger's counts (197 claims since 2026-11-16), the git timeline and the footer's date follow the repository",
+    "forecasts": "three forecasts scored on 2026-11-16 added (NB the hull face of 108 cells; research/wrap/PREDICTIONS.md, H1-H5 and W9-W13 scored)",
+    "corrections": "four corrections of 2026-11-15 afternoon added; two more in the evening (CLAIMS WL2/WL4; NB the fifth signals push reviewed); three at night (NB the sixth signals push reviewed); two on 2026-11-16 (CLAIMS CN2; NB the card's tube and wrapped faces)",
 }
 bad = []
 

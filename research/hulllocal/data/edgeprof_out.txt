@@ -1,0 +1,24 @@
+== hull15_s1: R = 15; cells away from corners, by r
+  r =  0 ( 18 cells/face): rho 0.578120 ± 0.000007 (rho - rho_w +0.060403); births 0.161588 ± 0.000002; dead n 3.301485 ± 0.000037; dead n in-layer 1.905596 ± 0.000027
+  r =  1 (  6 cells/face): rho 0.496465 ± 0.000006 (rho - rho_w -0.021252); births 0.194392 ± 0.000003; dead n 4.428410 ± 0.000051; dead n in-layer 3.110824 ± 0.000038
+  r =  2 ( 12 cells/face): rho 0.521967 ± 0.000004 (rho - rho_w +0.004250); births 0.197916 ± 0.000002; dead n 4.269254 ± 0.000034; dead n in-layer 3.046038 ± 0.000026
+  r =  3 (  9 cells/face): rho 0.516687 ± 0.000004 (rho - rho_w -0.001030); births 0.198448 ± 0.000002; dead n 4.262537 ± 0.000037; dead n in-layer 3.022648 ± 0.000028
+  r =  4 (  9 cells/face): rho 0.516754 ± 0.000004 (rho - rho_w -0.000963); births 0.198308 ± 0.000002; dead n 4.270821 ± 0.000032; dead n in-layer 3.021505 ± 0.000030
+== hull21_s10: R = 21; cells away from corners, by r
+  r =  0 ( 36 cells/face): rho 0.578455 ± 0.000005 (rho - rho_w +0.060738); births 0.161667 ± 0.000002; dead n 3.303929 ± 0.000029; dead n in-layer 1.907676 ± 0.000022
+  r =  1 ( 15 cells/face): rho 0.496300 ± 0.000004 (rho - rho_w -0.021417); births 0.194458 ± 0.000001; dead n 4.429850 ± 0.000031; dead n in-layer 3.112283 ± 0.000027
+  r =  2 ( 30 cells/face): rho 0.521852 ± 0.000002 (rho - rho_w +0.004135); births 0.197952 ± 0.000001; dead n 4.270104 ± 0.000024; dead n in-layer 3.046978 ± 0.000020
+  r =  3 ( 18 cells/face): rho 0.516913 ± 0.000002 (rho - rho_w -0.000804); births 0.198422 ± 0.000001; dead n 4.260942 ± 0.000021; dead n in-layer 3.021766 ± 0.000016
+  r =  4 ( 27 cells/face): rho 0.516881 ± 0.000002 (rho - rho_w -0.000836); births 0.198295 ± 0.000001; dead n 4.269865 ± 0.000023; dead n in-layer 3.021292 ± 0.000018
+  r =  5 (  9 cells/face): rho 0.517851 ± 0.000005 (rho - rho_w +0.000134); births 0.198158 ± 0.000002; dead n 4.262317 ± 0.000035; dead n in-layer 3.016037 ± 0.000027
+  r =  6 (  9 cells/face): rho 0.517805 ± 0.000005 (rho - rho_w +0.000088); births 0.198165 ± 0.000002; dead n 4.262351 ± 0.000053; dead n in-layer 3.016723 ± 0.000044
+== hull25_s11: R = 25; cells away from corners, by r
+  r =  0 ( 48 cells/face): rho 0.578551 ± 0.000007 (rho - rho_w +0.060834); births 0.161686 ± 0.000003; dead n 3.304628 ± 0.000056; dead n in-layer 1.908247 ± 0.000040
+  r =  1 ( 21 cells/face): rho 0.496280 ± 0.000005 (rho - rho_w -0.021437); births 0.194473 ± 0.000002; dead n 4.430238 ± 0.000059; dead n in-layer 3.112655 ± 0.000045
+  r =  2 ( 42 cells/face): rho 0.521835 ± 0.000004 (rho - rho_w +0.004118); births 0.197960 ± 0.000001; dead n 4.270314 ± 0.000030; dead n in-layer 3.047198 ± 0.000025
+  r =  3 ( 24 cells/face): rho 0.516976 ± 0.000003 (rho - rho_w -0.000741); births 0.198415 ± 0.000002; dead n 4.260598 ± 0.000029; dead n in-layer 3.021577 ± 0.000024
+  r =  4 ( 39 cells/face): rho 0.516902 ± 0.000003 (rho - rho_w -0.000815); births 0.198292 ± 0.000001; dead n 4.269762 ± 0.000018; dead n in-layer 3.021284 ± 0.000016
+  r =  5 ( 15 cells/face): rho 0.517833 ± 0.000003 (rho - rho_w +0.000116); births 0.198160 ± 0.000002; dead n 4.262524 ± 0.000034; dead n in-layer 3.016209 ± 0.000027
+  r =  6 ( 21 cells/face): rho 0.517797 ± 0.000004 (rho - rho_w +0.000080); births 0.198169 ± 0.000002; dead n 4.262528 ± 0.000037; dead n in-layer 3.016840 ± 0.000029
+  r =  7 (  6 cells/face): rho 0.517743 ± 0.000006 (rho - rho_w +0.000026); births 0.198189 ± 0.000002; dead n 4.263485 ± 0.000064; dead n in-layer 3.017642 ± 0.000055
+  r =  8 (  3 cells/face): rho 0.517752 ± 0.000009 (rho - rho_w +0.000035); births 0.198195 ± 0.000003; dead n 4.263420 ± 0.000096; dead n in-layer 3.017585 ± 0.000073

@@ -433,7 +433,9 @@ vv = lambda sec, k: V[sec][k].get("value")
 # the nine wrapped faces on the owner's card, recomputed from the rows: ln tau_face = ln(2 sum exposure / sum face), error
 # 1 / sqrt(sum face) (as research/audit/wrap_haz_lead.py and the reviews compute them); checked against CLAIMS GL3
 nine = []
-for f in sorted((repo / "research" / "data" / "gpu_local_eqtorus").glob("eqtorus_*.csv")):
+# (2026-11-16: the card's tube and wrapped faces now share the folder; the nine equilateral faces are named here)
+NINE = ("4_0_4", "5_0_5", "6_0_6", "3_3_9", "2_4_14", "1_7_19", "1_4_21", "1_5_31", "1_10_37")
+for f in [repo / "research" / "data" / "gpu_local_eqtorus" / ("eqtorus_" + n + ".csv") for n in NINE]:
     rs = list(csv.DictReader(open(f)))
     E_, F_ = sum(int(r["exposure"]) for r in rs), sum(int(r["face"]) for r in rs)
     nine.append([int(rs[0]["A"]), round(math.log(2 * E_ / F_), 4), round(F_ ** -0.5, 4), len(rs)])
@@ -563,6 +565,54 @@ assert gv("ends6", "all")[0] == out["ends"]["events"][0]
 pz = gv("ends6", "pushes"); assert pz[0] == pz[1] + pz[2]
 out["ends"].update({"followed": fw, "rows": rw, "count": gv("ends6", "count"), "pushes": pz})
 
+# ---- the refresh of 2026-11-16 (morning): update-2026-11-16a.json. The card's hull face of 108 cells (CN2), the living hull
+#      face (CN3), the card's tube and wrapped faces and thicker slabs (WL7, WL8, CN4); H1-H5 and W9-W13 scored ----
+N16 = S("update-2026-11-16a.json")
+for sec in ("price", "wrap16"):
+    for k, v in N16[sec].items():
+        if k not in ("w13measured", "card"): checked(v)
+for f in N16["forecasts"]: checked(f)
+for c in N16["corrections"]: checked(c)
+out["forecasts"] += [{"line": f["line"], "result": f["result"]} for f in N16["forecasts"]]
+out["corrections"] += [{"said": c["said"], "now": c["now"], "by": c["by"], "who": who(c["by"]), "line": c["line"]} for c in N16["corrections"]]
+tl["milestones"] += [{"date": x["date"], "text": x["text"]} for x in N16["milestones"]]
+pv = lambda k: N16["price"][k].get("value")
+wv = lambda k: N16["wrap16"][k].get("value")
+# the tube slopes quoted from WL3 must be the lead's refit the wrap plate draws (sources/wrap.json)
+tq16 = pv("tubes")
+assert [wj["tubes"][k]["c"] for k in ("12", "13", "16", "none")] == tq16[0::2] and [wj["tubes"][k]["se_c"] for k in ("12", "13", "16", "none")] == tq16[1::2]
+# the card's seven tube and wrapped faces: each row quoted from the notebook's table; recomputed from the rows when they are here
+crows = []
+for r in N16["wrap16"]["card"]["rows"]:
+    checked({"value": r["value"], "quote": r["quote"]})
+    fp = repo / "research" / "data" / "gpu_local_eqtorus" / (r["file"] + ".csv")
+    if fp.exists():
+        rs = list(csv.DictReader(open(fp)))
+        E_, F_ = sum(int(x["exposure"]) for x in rs), sum(int(x["face"]) for x in rs)
+        assert int(rs[0]["A"]) == r["A"] and abs(math.log(2 * E_ / F_) - r["value"][1]) < 1e-4 and abs(F_ ** -0.5 - r["value"][2]) < 1e-4, (r["file"], math.log(2 * E_ / F_), F_ ** -0.5)
+    crows.append([r["A"], r["loop"], r["value"][1], r["value"][2], r["value"][3] if len(r["value"]) > 3 else None, r["value"][4] if len(r["value"]) > 4 else None])
+lt = pv("longtube")
+assert [c[2:4] for c in crows if c[1] == 12] == [lt[3:5], lt[5:7], lt[7:9]]
+# W13 measured: update-2026-11-15f.json left it null (its REFRESHES note); filled here, and the plate's distances checked
+w13n = N16["wrap16"]["w13measured"]
+checked({"value": [w13n["value"], w13n["se"]], "quote": w13n["quote"]})
+assert F["dens"]["w13measured"]["value"] is None or F["dens"]["w13measured"]["value"] == w13n["value"]
+w13f = out["dens"]["w13"]
+zz = [(w13n["value"] - w13f[3]) / math.hypot(w13n["se"], w13f[4]), (w13n["value"] - w13f[5]) / math.hypot(w13n["se"], w13f[6])]
+assert abs(zz[0] - wv("w13z")[0]) < 0.05 and abs(-zz[1] - wv("w13z")[1]) < 0.05, zz
+assert [c[2] for c in crows if c[0] == 84 and c[1] == 21] == [w13n["value"]]
+out["dens"]["w13measured"] = {"value": w13n["value"], "se": w13n["se"], "src": w13n["src"]}
+out["dens"].update({"loop21": wv("loop21"), "two21": wv("two21"), "kappa3": wv("kappa3"), "kappafit": wv("kappafit")})
+out["wrap"].update({"card": crows, "long": {"A": lt[0:3], "c": lt[9], "se": lt[10], "below": lt[13:15], "z": lt[15:17]},
+                    "pow": wv("pow"), "repeat": wv("repeat")})
+# the prices by kind of face (the constant plate): every value quoted above
+rm, th = pv("rimmed"), pv("thick")
+assert abs(pv("reading")[0] - rm[3]) < 0.001 and pv("reading")[1] == rm[5] == pv("refuted")[0]
+out["prices"] = {"hull108": pv("hull108"), "refuted": pv("refuted"), "rimmed": rm, "scored": pv("scored"), "earlier": pv("earlier"),
+                 "d135": pv("d135"), "tubes": tq16, "long": [lt[9], lt[10], lt[0], lt[2]], "longz": lt[15:17], "scatter": pv("scatter"),
+                 "interior": pv("interior"), "excluded": pv("excluded")[0], "rim": pv("rim"), "rimsum": pv("rimsum"), "depth": pv("depth"),
+                 "occ": pv("occ"), "thick": th, "noloop": out["dens"]["noloop"], "loop21": wv("loop21"), "w13": [w13n["value"], w13n["se"]],
+                 "essay": N16["price"]["essay"]["quote"], "essay2": N16["price"]["essay2"]["quote"]}
 # the footer's date: the newest date among the files the data were gathered into (update-<date>*.json); the stamp under it
 # gives the repository state the timeline was read from
 out["project"]["gathered"] = max(re.match(r"update-(\d{4}-\d\d-\d\d)", f.name).group(1) for f in (here / "sources").glob("update-*.json"))
