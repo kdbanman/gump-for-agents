@@ -381,6 +381,15 @@ _Last updated 2026-11-14 by the lead._
   living hull face's density (Opus, `research/hulllocal/`). The card reports next at about 10:30 UTC (the 84-cell
   tube, W13's face, thicker slabs, the 108- and 96-cell tubes, the cross-checks) and at about 02:00 UTC on the
   17th (the equilateral 108).
+  **02:55 UTC: the hull-density study is in and recorded** (notebook "a living hull face is occupied …"; CLAIMS
+  CN3, 194 claims; H1–H5 scored; open problem 9 (k); the essay's "Two prices"). A living hull face's interior is
+  at the wrapped face's density within 0.001 (the lead's oracle-only run: −0.0006 ± 0.0004) and slab thickness
+  changes nothing: occupation and depth explain none of the 0.022 per cell. **Nothing is running.** **Owed:** the
+  site's "One price per cell?" plate (the hull face of 108 cells, two prices, this negative), to be done in one
+  update with the card's 10:30 UTC results (W11, W13, thicker slabs, W12, cross-checks); then the equilateral 108
+  at about 02:00 UTC on the 17th. A next study, not started: watching the two kinds of face die (open problem 9
+  (k)). The lead is near its own stop mark on the Fable window (about 86% by reckoning; the card read 85% at
+  02:05 UTC) and takes no turns until the card reports.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

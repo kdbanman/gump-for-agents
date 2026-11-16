@@ -650,6 +650,14 @@ corrected is part of what this repository is for.
   one loop away are not correlated at any moment. And if the rule holds for long loops, the
   price with no way round at all is nearer 0.2075 than 0.2086; a face is queued on your card
   to test that.
+- Two prices. Your card measured the large rimmed face, the 108-cell face of a real box, and
+  it lives too long for the wrapped faces' price: a face with a rim pays about 0.231 per
+  cell, a face closed on itself 0.209, and no correction for the rim joins them. I looked for
+  the reason in the living face and it is not there. Deep inside, a rimmed face is exactly
+  as full as a wrapped one, to a part in a thousand, and how much chaos lies behind the face
+  makes no difference. What a rimmed face has that a wrapped one lacks is corners, which
+  stand nearly empty, and one fuller row along each edge. So the difference must be in the
+  dying, not the living, and nobody has yet watched the two kinds die side by side.
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):

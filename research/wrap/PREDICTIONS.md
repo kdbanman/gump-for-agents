@@ -237,3 +237,10 @@ face layer in the interior of a living hull face would be denser than a wrapped 
 - **H4 (25%).** A wrapped face's density depends on the slab's thickness: 8 against 16 layers differ by more than
   0.0005.
 - **H5 (60%).** Within three steps of the rim the hull face is denser than its interior by more than 0.01.
+
+### H1–H5 scored by the lead (02:55 UTC, 2026-11-16)
+
+H1 failed, H2 failed, H3 held, H4 failed, H5 failed. The interior of a living hull face is at the wrapped face's
+density within 0.001 (my own oracle run: −0.0006 ± 0.0004), thickness changes nothing, and the rim is denser only
+in its outermost row. I put half on "the same" and that was the right side; what I had wrong was the rim, which I
+pictured as a fed, fuller margin: it is one fuller row, a thinner one behind it, and nearly empty corners.

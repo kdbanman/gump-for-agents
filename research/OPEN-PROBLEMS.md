@@ -99,6 +99,12 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    0.012 that WL5's relation would ask; forecasts H1–H5 in `research/wrap/PREDICTIONS.md`), or a correction to
    small rimmed faces that is not linear in the rim; (j) the 135-cell hull face would decide the last (29.230
    against 29.163) and is out of the card's reach.
+   **Since (the same day, CLAIMS CN3, `research/hulllocal/`):** occupation and depth are ruled out as the reason:
+   a living hull face's interior is at the wrapped face's density within 0.001 and slab thickness changes nothing.
+   What is left of (i): how a face dies. A hull face has nearly empty corners and a rim of one fuller row and one
+   thinner; a wrapped face has neither. **(k)** Watch hull faces and wrapped faces die (as `research/dying` did
+   for hull faces): where does the last living patch sit, does a wrapped face's death start anywhere while a hull
+   face's must start away from, or at, its corners, and does the dip rate per cell differ between the two?
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.
 

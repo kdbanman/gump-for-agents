@@ -3654,3 +3654,42 @@ The card's run (branch `claude/gpu-local-1080`, commit bf29d29; `research/gpu-lo
   minutes with no lifetimes; forecasts H1–H4 in `research/wrap/PREDICTIONS.md`, a study asked.
 - Not checked (02:14 UTC): no adversarial review of this run (the lead recomputed the value from the rows; the
   calibration at 63 cells and the older run are the cross-checks); the age tables were not re-derived.
+
+## 2026-11-16: a living hull face is occupied in its interior exactly as a wrapped face is, and depth does not matter: occupation explains none of the gap between the two prices
+
+A study of the living state of octahedral hulls, no lifetimes (`research/hulllocal/README.md`, commits e723451 …
+0deeb77; its stepper reproduces the oracle bit for bit on hulls of radius 15 and 13 and on four slabs, and matches
+the 2012 side-9 cube log). It was asked because the hull face of 108 cells put rimmed faces at about 0.231 per cell
+against 0.209 for wrapped ones, and because a tube's discount is 1.85 times its density deficit (WL5): if that
+relation joined the two prices, a hull face's interior would be denser than a wrapped face by 0.012.
+
+- **[measured; and the lead's check on the oracle alone] The interior is the same.** Against 0.517717 for the
+  wrapped 108-cell face by the same code: cells three or more layers from every other face are at −0.00100
+  (radius 15), −0.00134 (13), −0.00043 (25); cells five or more layers in are at +0.00021 falling to +0.00008 ±
+  0.000002 (radii 17 to 25). Both are the tail of the rim's profile. Mine: `python3
+  research/audit/hulllocal_lead_check.py 6000 SEED` (seeds 1, 2, 3; 10 minutes each; `reference/oracle.py` only,
+  geometry written for it: the hull with 2,064 cells and 108 per face, the same counts as the card's): depth 3
+  and more **0.51716 ± 0.00037, that is −0.0006 ± 0.0004 against the wrapped face**; the +0.012 the relation asks
+  is excluded by thirty standard errors.
+- **[measured; the lead's check agrees on the three bins it has] The rim.** Across an edge, away from corners:
+  the edge row (cells in two faces) +0.061, the next row −0.021, then +0.004, −0.0008, +0.0001. Corner cells (in
+  four faces) are at 0.175. Mine, by depth with corners included: depth 0 −0.0099 ± 0.0008, depth 1 −0.0193 ±
+  0.0005, depth 2 +0.0048 ± 0.0003. Summed over a face: a constant −1.712 ± 0.001 cells from the corners at every
+  radius from 11 to 25, +0.0541 ± 0.0002 cells per rim cell, strictly linear in the radius, and a per-cell term of
+  −0.00012 ± 0.00007.
+- **[measured, one code] Depth.** Wrapped faces on slabs of 8, 12, 16 and 24 layers have face layers equal within
+  0.000012 and the layers beneath within 0.00003.
+- **What it means.** With κ = 1.85, occupation accounts for −0.0002 ± 0.0001 of the +0.022 per cell: nothing, and
+  with the wrong sign. A hull face differs from a wrapped one in its living state only by a corner constant and a
+  term linear in the rim, and the second differences behind the 0.231 cancel both. So the two prices are not in
+  the living state's occupation and not in depth; they must be in how a face dies (the nearly empty corners are
+  the first suspect: a wrapped face has none) or in something correlated across the whole face. The density
+  relation of WL5 is a statement about loops on wrapped faces and does not extend to the rim.
+- **[scored]** H1 (denser by more than 0.004, 35%) and H2 (by the amount the relation asks, 20%) failed. H3 (the
+  same within 0.001, 50%) held, at radius 15 only just by the study's number (−0.00100) and comfortably deep in
+  larger faces. H4 (thickness matters, 25%) failed. H5 (the three rows by the rim denser than the interior by 0.01,
+  60%) failed: only the edge row is denser; the three rows together are thinner.
+- A forecast that follows, for the card's thicker slabs (its own forecast is the same): no change in lifetime.
+- Not checked (02:55 UTC): the larger radii and the thick slabs were not run on the oracle by anyone (the study's
+  builder is checked at radii 13 and 15 and on four slabs); my check has no cells deeper than four layers at
+  radius 15; the path to death, and space-time correlations, were not measured.
