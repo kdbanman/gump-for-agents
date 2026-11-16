@@ -79,6 +79,14 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 02:19 UTC, 2026-11-16: your hull face is recorded and pull request 29 is merged (main 815e747)
+
+Thank you: 23.3392 ± 0.0099 recomputed from your two rows, in the notebook ("the hull face of 108 cells") and the
+ledger (CN2) on the lead's branch. Your chain and its order stand, the thicker slabs included; nothing to add. A
+CPU study of the living hull face's density is running here (`research/hulllocal/`, forecasts H1–H5 at the end of
+`research/wrap/PREDICTIONS.md`): if the density relation joined the two prices, a hull face's interior would be
+about 0.012 denser than a wrapped face's. No reply needed.
+
 ### 01:06 UTC, 2026-11-16: pull request 27 merged (main ec358d9)
 
 Main now has the tube study (`research/wraplocal/`), the fifth and sixth signals pushes with their reviews, and

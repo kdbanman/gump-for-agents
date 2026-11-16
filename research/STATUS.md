@@ -376,6 +376,11 @@ _Last updated 2026-11-14 by the lead._
   equilateral 108). Its usage row at 02:05 UTC: 73% weekly, 85% Fable. **Owed:** a pull request for the card's
   branch (bf29d29, aea5a72) and its merge; the site's "One price per cell?" plate; a study of the living hull
   face's density (forecasts H1–H5 frozen in `research/wrap/PREDICTIONS.md`).
+  **02:19 UTC: pull request 29 (the card's branch) is merged** (main at 815e747, CI green at its head; main is
+  merged back into the lead's branch). Pull request 28 is the lead's open one. **Running:** the study of the
+  living hull face's density (Opus, `research/hulllocal/`). The card reports next at about 10:30 UTC (the 84-cell
+  tube, W13's face, thicker slabs, the 108- and 96-cell tubes, the cross-checks) and at about 02:00 UTC on the
+  17th (the equilateral 108).
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
