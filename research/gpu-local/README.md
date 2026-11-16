@@ -250,6 +250,57 @@ everything said about them here are later than that review.
   rising 19.506 to 19.530 (refutation line "below 19.488"), single-c readings 19.488 to 19.497. Those forecasts
   are anchored on the 4 × 4 value 9.9324, which is 0.0075 too high (above).
 
+## Tube and wrapped faces, and thicker slabs (the lead's W11 to W13) [measured]
+
+Asked in `research/GPU-QUEUE.md` (notes of 2026-11-15, 13:05Z to 20:10Z); the lead's forecasts by form are frozen in
+`research/wrap/PREDICTIONS.md`, mine in `PREDICTIONS.md` block 5 here, scored in block 6. Driver and estimator as for
+the equilateral tori; `eqtorus.py check` passed on each face first (`checks/`); loops² from `loops.py`. No kind-5 life.
+
+| torus (H, K), (0, D) | cells | loops² | seeds | face deaths | firewalls | ln τ_face | seeds' χ² | CPU value on file |
+|---|---:|---|---:|---:|---:|---:|---:|---:|
+| (1, 3), (0, 25) | 75 | 13, 37, 43 | 2 | 130,931 | 0 | 15.5250 ± 0.0028 | 0.02 on 1 | 15.5363 ± 0.0104 |
+| (1, 9), (0, 25) | 75 | 19, 25, 39 | 2 | 110,874 | 92 | 15.6442 ± 0.0030 | 0.09 on 1 | 15.6575 ± 0.0106 |
+| (1, 4), (0, 26) | 78 | 21, 28, 31 | 2 | 92,089 | 0 | 16.2884 ± 0.0033 | 0.91 on 1 | 16.2769 ± 0.0120 |
+| (1, 12), (0, 28) | 84 | 12, 49, 61, 61 | 2 | 107,478 | 2 | 17.3175 ± 0.0031 | 0.01 on 1 | 17.3248 ± 0.0058 |
+| (1, 4), (0, 28) | 84 | 21, 28, 49, 49 | 2 | 105,583 | 0 | 17.5387 ± 0.0031 | 0.03 on 1 | none |
+| (1, 17), (0, 32) | 96 | 12, 67, 67 | 4 | 28,517 | 0 | 19.7405 ± 0.0059 | 6.3 on 3 | none |
+| (1, 16), (0, 36) | 108 | 12, 81, 93, 93 | 4 | 6,877 | 0 | 22.1557 ± 0.0121 | 5.5 on 3 | none |
+
+- **The four CPU values repeat** on independent code: differences (CPU − here) +0.007, +0.011, +0.013, −0.012, each
+  within 1.2 of its combined error.
+- **Tubes of girth² 12 are straight from 84 to 108 cells, at 0.2017 ± 0.0004 per cell.** Second difference of the
+  three −0.008 ± 0.017; chords 0.2019 ± 0.0006 and 0.2013 ± 0.0011. That is 0.0070 per cell below the wide faces'
+  0.2087, and below the 0.2044 fitted to tubes of 48 to 84 cells (the lead's note of 16:22Z): the tube's slope falls
+  with length up to about 84 cells and is steady after. The discount against the wide-face line 13.1621 +
+  0.20867 (A − 63) is 0.227, 0.308, 0.397 at 84, 96, 108 cells.
+- Against the forms of the lead's table (theirs to score): at 96 and 108 cells the values are 0.039 and 0.076
+  below the per-girth straight line (4.8 and 5.3 combined errors), 0.021 and 0.041 below the power form (2.2 and
+  2.5), 0.056 and 0.119 above the exponential. Between the power form and the exponential at all three sizes.
+- The two long tubes' seeds scatter (χ² 11.8 on 6 together, one seed in each 2σ low). The hazard by age at 108 cells
+  is uneven without a trend (six bins 0.95 to 1.06, χ² 11.7 on 5). Those runs are 0.7 and 2.8 mean lives long.
+- **One loop of 19** at 75 cells costs 0.019 ± 0.004 ((1, 9), (0, 25) against the 5 × 5); **one loop of 13** costs
+  0.138 ± 0.004.
+- **A loop of 21: about 0.005, at 2σ.** (1, 4), (0, 26) is 0.004 ± 0.003 below the wide-face line and (1, 4), (0, 28)
+  is 0.006 ± 0.003 below it (0.008 ± 0.004 below the equilateral 84-cell face); together 0.0047 ± 0.0023. The
+  lead's W13 values for the second: 17.534 if the density relation holds, 17.547 if the effect ends before 21;
+  measured 17.5387, 0.9 and 1.9 errors from them. It leans to "still discounts" and does not decide.
+- Old lives (older than 8 mean lives) on the five faces whose runs are 18 to 26 mean lives long: 22, 29, 34, 27, 22
+  against 23.5, 22.8, 31.5, 24.7, 18.2 for memoryless lives. Age tables: `hist_H_K_D.json`.
+- **Thicker slabs** (`eqtorus.py ... m=N`; rows in `research/data/gpu_local_thick/`, checks beside them):
+
+  | torus | cells | layers | face deaths | ln τ_face | minus the 8-layer value |
+  |---|---:|---:|---:|---:|---:|
+  | (1, 4), (0, 21) | 63 | 12 | 660,097 | 13.1596 ± 0.0012 | −0.0026 ± 0.0014 |
+  | (1, 4), (0, 21) | 63 | 16 | 564,434 | 13.1589 ± 0.0013 | −0.0033 ± 0.0015 |
+  | (2, 4), (0, 14) | 84 | 16 | 52,480 | 17.5401 ± 0.0044 | −0.0066 ± 0.0054 |
+
+  The price per cell at 16 layers is 0.20863 ± 0.00022 (63 → 84), the 8-layer price. **Depth behind the face does
+  not explain the hull's 0.231.** Thicker slabs live shorter by about 0.003 if anything (2.6σ at 63 cells, the two
+  thicknesses pooled). Settled lives at 63 cells: 236 in 1,811,510 deaths at 8 layers, 30 in 660,097 at 12 layers
+  (23 of period 1 or 2), 1 in 564,434 at 16; settling falls steeply with thickness (not looked into further).
+- Not checked: no second code at 96 and 108 cells or on (1, 4), (0, 28); the thicker slabs have one seed each; the
+  engine comparison covers the dynamics at 12 and 16 layers, and the face-death test there is the same code as at 8.
+
 ## The asymmetric hull face (queue item 3) [measured]
 
 `research/gpu-local/hullface.py`: a local runner around `facelaw.run` (soup 0.35 in |p|₁ ≤ R, exact hull, 8 faces,

@@ -1,0 +1,3 @@
+torus,A,seed,start_utc,wall_s,gens,replicas,exposure,face,fw,settled12,settled3pw,guard,open,fw_settled,exposure_guard,guard_thresholds,max_launch,code_commit,cmd
+"1,9,25",75,7509001,2026-11-16T09:54:49Z,150.0,68221952,2560,172827915363,55469,46,2,0,0,2560,2,0,16 * 2^j,65536,aea5a72,python -u research/gpu-local/eqtorus.py run 1 9 25 2.5 7509001 max_launch=65536 raw_cap=3000000
+"1,9,25",75,7509002,2026-11-16T09:57:26Z,150.0,68025344,2560,172323005759,55405,46,5,0,0,2560,3,0,16 * 2^j,65536,aea5a72,python -u research/gpu-local/eqtorus.py run 1 9 25 2.5 7509002 max_launch=65536 raw_cap=3000000
