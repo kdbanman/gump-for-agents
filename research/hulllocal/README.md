@@ -44,7 +44,7 @@ Nothing had been stepped or measured when these were written; only the cell coun
   edges carry **+0.0541 ± 0.0002 cells per cell of rim length** (b/3, rim = 3R cells), linear in R: the
   second differences of E over R are −0.0023, −0.0014, +0.0015, −0.0023 (each ± 0.001 to 0.0015), all zero.
   H5's "within three steps of the rim denser by more than 0.01" is true of the edge row only. The next row is
-  less dense by 0.021, and r ≤ 2 averaged over cells is less dense than the interior (−0.0102 at R = 15, rim
+  less dense by 0.021, and r ≤ 2 averaged over cells is less dense than the interior (−0.0068 at R = 15, rim
   region including corners; +0.0225 per rim cell for the edge region alone without corners).
 - **Depth does not matter [measured].** Wrapped faces on slabs of 8, 12, 16, 24 layers ((6,0,6), 108 cells):
   face layer 0.517725, 0.517713, 0.517717, 0.517716 (± 0.000003). The layer beneath: 0.434709, 0.434740,
@@ -183,7 +183,7 @@ The lead's (`research/wrap/PREDICTIONS.md`), scored for the lead to overrule:
 | **H2 (20%)** excess 0.008–0.018 | **fails** |
 | **H3 (50%)** interior equals wrapped within 0.001 | **passes** at R = 15 (−0.000997 ± 0.000003, inside by 3 × 10⁻⁶; R = 13 would fail at −0.0013). The deep interior passes clearly |
 | **H4 (25%)** 8 vs 16 layers differ by > 0.0005 | **fails** (0.000008 ± 0.000004) |
-| **H5 (60%)** within three steps of the rim denser than the interior by > 0.01 | **fails as a statement about the region** (r ≤ 2 at R = 15, corners included: 0.5085 against 0.5167). It **holds for the edge row away from the corners** (+0.061), with r = 1 −0.021 beneath it |
+| **H5 (60%)** within three steps of the rim denser than the interior by > 0.01 | **fails as a statement about the region** (r ≤ 2 at R = 15, corners included: 0.5099 against 0.5167). It **holds for the edge row away from the corners** (+0.061), with r = 1 −0.021 beneath it |
 
 ## Not checked
 
