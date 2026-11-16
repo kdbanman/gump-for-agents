@@ -192,18 +192,23 @@ everything said about them here are later than that review.
   0.038 (0.8 to 1.4 of its stated errors each; 2.5 and 1.8 errors at 81 and 84 with the fit's own smaller errors).
   Its first criterion holds, its second (the slope 93 → 111) fails by its letter; `PREDICTIONS.md` block 4. The
   agreement of the two local slopes 63 → 75 → 93 to 10⁻⁵ was luck: 93 lies 1.5σ low and 75 lies 1.4σ low.
-- **The bend is a break, not a fading correction** (the review's finding at five tori, section 3, which the four
-  new ones sharpen): the deficit falls by a factor of 3 over the 9 cells from 48 to 57 and then by more than 5
-  over the next 6. No correction decaying smoothly in the loop or in 1/A does that (χ² 68 to 117 on 1 in the
-  review's fits); a line with a kink near A ≈ 61 does. Either something changes between shortest loops √19 and
+- **The bend is a break, not a fading correction** (the review's finding at five tori, section 3; the bend still
+  rests on the faces at 48, 57 and 63 cells, three kinds of lattice, and without 48 no form can be told from a line;
+  what the four new faces add is the straightness above 63): the deficit falls by a factor of 3 over the 9 cells from 48 to 57 and then by more than 5
+  over the next 6. No correction decaying smoothly in the loop or in 1/A does that (`REVIEW-gpu-local-tori2.md` section 3: on
+  five faces χ² 113 to 117 on 1 for the four decaying forms, 59 to 70 with the 57-cell error inflated, 15 for the
+  stretched one; on nine faces 164 to 177 on 5, stretched 31, one-sided quadratic 77); a line with a kink near A ≈ 61 does. Either something changes between shortest loops √19 and
   √21, or the 57 or 63 torus is off by 0.01 to 0.03 for a reason of its own lattice; a second code agrees at both
   (to 0.0007 ± 0.0016 at 57, 0.014 ± 0.011 at 63). [conjecture, untested] A wrapped face shorter than some length
   near 4.5 can die by a route that a longer one cannot (a void that closes on itself around the loop).
+  Since then the lead has read the bend as the wrapping across every wrapped face on file: each closed loop of
+  loop² 19 or less lowers the price per cell and the discounts add (`research/wrap/`; notebook, "the kink is the
+  wrapping").
 - **Lattice direction and the firewall channel matter by less than about 0.01 from 63 cells up.** Residuals from
   the line by kind of lattice: along the cube axes with a firewall channel (75, 108) −0.003 ± 0.002 and +0.008 ±
   0.022; in between (81, 84: 6 and 4 transverse layers) +0.004 and +0.002 ± 0.003; rotated with 2 layers (63, 93,
-  111) 0.000, −0.008 ± 0.005, +0.025 ± 0.023. χ² 7.8 on 5 leaves room for a scatter of about 0.003 between
-  lattices, no more.
+  111) 0.000, −0.008 ± 0.005, +0.025 ± 0.023. χ² 7.8 on 5 allows a scatter between lattices of 0.004 (median) and up
+  to 0.014 (95% bound; `REVIEW-gpu-local-tori2.md`).
 - Against the lead's readings in part C (theirs to score): the flat one is 0.011 (3.5σ), 0.023, 0.101 and 0.095
   too high at 81, 84, 108, 111. The massive one is within 1.7σ at those four (16.923, 17.552, 22.568, 23.194) but
   0.023 (4.3σ) high at 93 and 0.021 and 0.034 low at 57 and 63.
@@ -217,8 +222,10 @@ everything said about them here are later than that review.
     / 593 / 59 / 28 / 18 against 2,184 / 596 / 50 / 22 / 23 at A = 57 / 63 / 75 / 81 / 84. No excess of old lives
     (the signature of unrecognised cycles).
   - A = 93, 108, 111: the runs are 3.5, 0.2 and 0.2 mean lives long, so the age test has no power there and the
-    guard is what excludes cycles. Within that reach the hazard is flat within errors (108: four bins, 0.92 to
-    1.05, errors 0.04 to 0.08; 111: 0.91 ± 0.04 below age 3 × 10⁸, then 1.01 to 1.06).
+    guard is what excludes cycles. Within that reach the hazard at 108 is flat within errors (four bins, 0.92
+    to 1.05, errors 0.04 to 0.08). At 111 it is not: 0.87 ± 0.05 of its mean below 0.03 mean lives and 1.06 ± 0.04
+    later, χ² 8.9 on 2 (`REVIEW-gpu-local-tori2.md`); the rise of the local slope from 93 to 111 cells rests on
+    that face.
 - **Firewalls at 6 × 6:** 44, ln τ_fw = 25.70 ± 0.15 per slab (file: 25.694 ± 0.277). At 81 and 84 cells (6 and 4
   transverse layers) no face died on a firewalled state in 210,512 deaths; one life at 81 settled on one.
 - **A = 57, one seed in four is high.** The first two seeds differed by 0.0029 ± 0.0011 (2.6σ), so two more were
@@ -243,7 +250,7 @@ everything said about them here are later than that review.
   rising 19.506 to 19.530 (refutation line "below 19.488"), single-c readings 19.488 to 19.497. Those forecasts
   are anchored on the 4 × 4 value 9.9324, which is 0.0075 too high (above).
 
-## The asymmetric hull face (queue item 3) [calibrated; the A = 108 run is in progress]
+## The asymmetric hull face (queue item 3) [measured]
 
 `research/gpu-local/hullface.py`: a local runner around `facelaw.run` (soup 0.35 in |p|₁ ≤ R, exact hull, 8 faces,
 T0 = 200, τ_face = 8 × exposure / deaths), guard on (thresholds 16 · 2^j). Rows:
@@ -256,14 +263,40 @@ T0 = 200, τ_face = 8 × exposure / deaths), guard on (thresholds 16 · 2^j). Ro
 - **Engine comparison in that shape** (`hullface.py check`): the five reference vessels of the acceptance bar,
   every generation, 2,000 to 3,000 generations × 5 lanes, all equal; both negative controls fail at generation 1.
 - **Calibration at R = 11 (A = 63)**, as `REVIEW-gpu-local-pr23.md` asked before this driver is used here:
-  `hullface.py run 11 5 11001` gives **13.6362 ± 0.0013** (614,098 deaths), against 13.635 ± 0.001 on file (A10G,
-  `research/gpu/README.md` "First use"): +0.001 ± 0.002. Hazard by age flat within 2.2% in 13 bins from 200 to 10⁶
+  `hullface.py run 11 5 11001` gives **13.6362 ± 0.0013** (614,098 deaths), against 13.6347 ± 0.0011 on file (A10G,
+  `research/gpu/README.md` "First use"): +0.0016 ± 0.0017. Hazard by age flat within 2.2% in 13 bins from 200 to 10⁶
   (the largest departure 0.978 ± 0.011). No life settled, no kind-5 life.
 - **Hull against torus at 63 cells:** 13.6362 − 13.1622 = 0.474 ± 0.002 (the free face lives 1.6 times longer).
-- **A = 108 (R = 15):** `hullface.py run 15 420 SEED`, seeds 15001 and 15002, started 2026-11-15 about 12:00Z, 14 hours
-  in all, about 10⁴ deaths; every lane reaches age 6.8 × 10⁹, 3.9 first-death means (the run on file stopped at
-  6 × 10⁸). Forecasts and three out-of-sample readings: `PREDICTIONS.md` block 4, pushed (ecd01e9, 11:48Z) before
-  the run. Not yet in.
+- **A = 108 (R = 15):** `hullface.py run 15 420 SEED`, seeds 15001 and 15002 (2026-11-15 12:00Z to 2026-11-16 02:00Z, 7
+  hours each): **ln τ_face = 23.3392 ± 0.0099** (10,187 deaths; seeds 23.3364 ± 0.0138 and 23.3422 ± 0.0142, χ² 0.09 on
+  1). No life settled and no kind-5 life, so both exposure conventions give the same value. Lanes reached ages 7.0
+  and 6.6 × 10⁹, 4.1 and 3.9 first-death means (τ_face / 8 = 1.71 × 10⁹); the second seed ran 5.6% slower in the same
+  wall time (cause not looked for). The run on file (1,059 deaths, ages to 6 × 10⁸) gave 23.376 ± 0.031, 1.1σ above.
+- **Hazard by age at A = 108: flat over four first-death means.** Nine bins from age 200 to 7 × 10⁹, ratios to the
+  mean rate 0.95 to 1.09, χ² 9.9 on 8. Below 5.6 × 10⁷ (449 deaths) 1.094 ± 0.052; beyond 10⁹ (4,876 deaths) 0.997 to
+  1.017 with errors 0.02 to 0.04. So the young ages of the old run and the old ages of this one measure one rate.
+  Per-run age tables: `research/data/gpu_local_hull/hist_R15_s*.json` (`hullface.py summary 15 save` writes them;
+  `summary` reads them where the scratch json is absent).
+- **Scored against `PREDICTIONS.md` block 4** (scored in its block 5): my forecast 23.35 ± 0.02, off by −0.011.
+  "One price of 0.2087 per cell plus a term linear in the rim" (23.273 ± 0.010) is refuted at 4.7 combined errors;
+  "the second difference repeats" (23.338 ± 0.012) is hit to 0.001.
+- **What the four hull faces say** (A = 45, 63, 84, 108, edges k = 5 to 8; 9.820, 13.6353 ± 0.0008 pooling this card
+  with the A10G value, 18.141 ± 0.005, 23.3392 ± 0.0099). [measured] The second differences in k are 0.691 ± 0.006
+  and 0.692 ± 0.014: the same. [a description, not a law] One quadratic in the edge fits all four:
+
+      ln τ_face = 1.144 + 0.23083·A − 0.3418·k,   A = 3k(k + 1)/2
+
+  (through the last three; it gives 9.822 at k = 5). Read as a price, 0.231 ± 0.002 per cell (0.2301 ± 0.0020 from
+  the first three faces, 0.2308 ± 0.0047 from the last three), **0.022 above the wrapped faces' 0.2087**, with a rim
+  that shortens life: the face lives like a rimless face of edge k − 0.49 (96 cells at k = 8). The local slopes 0.212,
+  0.2146, 0.2166 that have been quoted for hull faces are this form's chords and rise toward 0.231.
+- **Hull against torus at equal area** grows: 0.474 ± 0.002 at 63 cells, 0.594 ± 0.006 at 84, 0.779 ± 0.024 at 108.
+- **Not established:** that 0.231 is a price. Four values fix a quadratic with one to spare. The tori's price with
+  a rim term survives only if small hull faces live longer than that form by 0.197 or more at 45 cells and 0.066 at
+  63 and by nothing from 84 on (the opposite sign to the tori's small-size deficit). The 135-cell face separates
+  the two (29.230 against 29.163; on file 29.34 ± 0.25) and is beyond this card (about 40 deaths a day). What makes
+  a hull cell dearer than a torus cell is open: depth behind the face (8 layers on the tori; tested next, `PREDICTIONS.md`
+  block 5), the wrapping itself, or the seven other faces.
 
 ## The cycle guard [measured]
 
