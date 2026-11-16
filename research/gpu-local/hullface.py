@@ -5,7 +5,7 @@
   python -u research/gpu-local/hullface.py tune R                 # replica-generations/s for several kernel shapes
   python -u research/gpu-local/hullface.py check                  # engine comparison every generation in the run's shape
   python -u research/gpu-local/hullface.py run R MINUTES SEED     # one run: a csv row + a json (raw lives, age bins)
-  python research/gpu-local/hullface.py summary R                 # pooled ln tau_face, seeds, hazard by age
+  python research/gpu-local/hullface.py summary R [save]          # pooled ln tau_face, seeds, hazard by age; save: commit-size age tables
 
 Rows: research/data/gpu_local_hull/hull_R{R}.csv. Per-run json: research/scratch/gpu-local/hull_R{R}_s{SEED}.json.
 The commit (with a dirty mark) is read when the run starts, not when it ends.
@@ -31,7 +31,7 @@ def git_head():
     """short commit, with '+dirty' when tracked code (research/gpu, research/shape, the .py here) differs from it"""
     try:
         h = subprocess.run(['git', 'rev-parse', '--short', 'HEAD'], cwd=ROOT, capture_output=True, text=True).stdout.strip()
-        d = subprocess.run(['git', 'status', '--porcelain', '--untracked-files=no', '--', 'research/gpu', 'research/shape', 'research/gpu-local/*.py'], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        d = subprocess.run(['git', 'status', '--porcelain', '--untracked-files=no', '--', 'research/gpu', 'research/shape', 'research/fluct', 'research/gpu-local/*.py'], cwd=ROOT, capture_output=True, text=True).stdout.strip()
         return h + ('+dirty' if d else '')
     except OSError:
         return 'unknown'
@@ -94,8 +94,11 @@ def row(out):
                 code_commit=out['code_commit'], started_utc=out['started_utc'], cmd=out.get('cmd', ''))
 
 
-def summary(R):
+def summary(R, save=False):
     rows = list(csv.DictReader(open(os.path.join(DATA, f'hull_R{R}.csv'))))
+    seeds = [r['seed'] for r in rows]
+    if len(set(seeds)) != len(seeds):
+        sys.exit(f'hull_R{R}.csv has two rows with the same seed: not pooled')
     E = sum(int(r['exposure']) for r in rows); F = sum(int(r['deaths']) for r in rows)
     print(f'hull octahedron R = {R}, A = {rows[0]["A"]}: {len(rows)} runs, exposure after T0 = {E:.5g}, face deaths {F}, '
           f'settled {sum(int(r["settled12"]) + int(r["settled3pw"]) for r in rows)}, guard {sum(int(r["guard"]) for r in rows)} '
@@ -114,8 +117,15 @@ def summary(R):
     hs = []
     for r in rows:
         p = os.path.join(SCR, f'hull_R{R}_s{r["seed"]}.json')
+        q = os.path.join(DATA, f'hist_R{R}_s{r["seed"]}.json')       # the run's age table, committed
         if os.path.exists(p):
-            hs.append(json.load(open(p))['bins'])
+            j = json.load(open(p)); hs.append(j['bins'])
+            if save:
+                keys = ('R', 'A', 'seed', 'p', 'gens', 'replicas', 'nodes', 'wall_s', 'config', 'agg', 'bins', 'max_age',
+                        'guard', 'code_commit', 'started_utc', 'cmd')
+                json.dump({k: j[k] for k in keys if k in j}, open(q, 'w'))
+        elif os.path.exists(q):
+            hs.append(json.load(open(q))['bins'])
     if hs:
         ed = np.array(hs[0]['edges'], float)
         ex = np.sum([h['exposure'] for h in hs], 0).astype(float); fd = np.sum([h['deaths'] for h in hs], 0).astype(float)
@@ -162,4 +172,4 @@ if __name__ == '__main__':
             w.writerow(row(out))
         print(json.dumps(row(out)))
     elif what == 'summary':
-        summary(int(sys.argv[2]))
+        summary(int(sys.argv[2]), save='save' in sys.argv[3:])

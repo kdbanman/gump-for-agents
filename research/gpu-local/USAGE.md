@@ -9,3 +9,6 @@ window is not listed by the reading on this plan. Weekly windows reset 2026-11-1
 | 2026-11-15 06:15 | not listed | 40% | 44% |
 | 2026-11-15 11:50 | not listed | 54% | 61% |
 | 2026-11-15 12:01 | not listed | 54% | 61% |
+| 2026-11-15 15:18 | not listed | 62% | 73% (the owner's reading, passed on by the lead) |
+| 2026-11-15 22:10 | not listed | 72% | 84% (the owner's reading, passed on by the lead) |
+| 2026-11-16 02:05 | not listed | 73% | 85% |

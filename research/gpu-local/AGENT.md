@@ -83,27 +83,32 @@ billed by the hour, no limit."
 - The drivers (`research/gpu/facelaw.py`, `fwslab.py`) run directly: call `facelaw.run(...)` / `fwslab.run(...)` from a
   local runner in this directory instead of the Modal wrappers; keep the Modal entry points untouched.
 
-## Current state (2026-11-15, about 12:00Z)
+## Current state (2026-11-16, about 02:30Z)
 
-- Branch `claude/gpu-local-1080`, pushed. The lead's reviews of it are `research/audit/REVIEW-gpu-local-pr23.md`
-  (jobs 0, 1, the 4 × 4 calibration) and `research/audit/REVIEW-gpu-local-tori.md` (five tori) on the lead's branch;
-  their must-fix lists are closed in this README and these scripts as of the commit that carries this note (the
-  README says where each correction came from). Not merged yet: the lead merges when it has read the fixes.
-- **Queue item 2 (equilateral tori) is done:** nine tori from 48 to 111 cells, README "Equilateral face tori".
-  One line from 63 cells up, 0.2087 per cell; a break near 61 cells below which tori are short-lived.
-- **Running since 11:49Z, 2026-11-15:** `research/scratch/gpu-local/chain_hull.sh` (log `chain_hull.log` beside it):
-  check reruns for 4 × 4 and 93, two more seeds at A = 57 (57003, 57004), then **queue item 3, the hull face at
-  R = 15**: `hullface.py run 15 420 15001`, then `15002` (7 hours each; ends about 02:00Z on 2026-11-16).
-  - A run writes its row and json only when it ends. If the session or machine was interrupted, see which rows
-    exist in `research/data/gpu_local_hull/hull_R15.csv` and run the missing seed again under a new number (15003…).
-  - Owed when it ends: `hullface.py summary 15`; score `PREDICTIONS.md` block 4 (in a new block); README hull
-    section; commit (rows, and the README must carry the two A = 57 seeds if not yet in); push; a line in
-    `USAGE.md`; one message to the lead with the usage figures at the end.
-- **After that** (`research/GPU-QUEUE.md` on the lead's branch, notes of 06:21Z and 08:15Z; fetch and read it
-  first): the lead proposes ribbon faces (a beam with rhombic cross-section along ⟨110⟩, periodic along it) to
-  separate a price per cell from a price per unit of rim. It is mine to design or to refuse with reasons: a design
-  note in the README, the vessel checked against the engine every generation, forecasts before the first row. Block
-  4 already says what the hull values imply: their second difference in the edge length is 0.69 to 0.73 where one
-  price of 0.2087 plus a rim term gives 0.626. Queue items 4 to 7 are not briefed yet.
-- Use subagents for anything that reads widely. The account's weekly usage was 54% (all models) and 61% at
-  11:50Z, resetting 2026-11-18 11:00Z; the lead must stay under 95%, so spend turns sparingly while runs are going.
+- Branch `claude/gpu-local-1080`, pushed; main merged into it on 2026-11-16 (pull request 23 put this branch on
+  main at 16271f3; the lead opens the next pull request when new commits appear). Reviews of this work, on main:
+  `research/audit/REVIEW-gpu-local-pr23.md`, `REVIEW-gpu-local-tori.md`, `REVIEW-gpu-local-tori2.md` (no flaw in
+  `hullface.py`; its wording list is closed in the README as of the commit that carries this note).
+- **Queue item 2 (nine equilateral tori) and item 3 (the hull face at A = 108) are done.** Hull: 23.3392 ± 0.0099,
+  hazard flat over four first-death means; the four hull faces are one quadratic in the edge, 0.231 per cell with
+  a rim that shortens life (README, hull section; `PREDICTIONS.md` block 5 scores block 4 and corrects its sign error).
+- **Running since about 02:30Z, 2026-11-16:** `research/scratch/gpu-local/chain2.sh` (log `chain2.log` beside it),
+  about 23 hours. Each face: `eqtorus.py check` (output under `checks/`), then its runs; a face whose check fails
+  is skipped and the log says `CHECK FAILED`. Forecasts for all of it: `PREDICTIONS.md` block 5.
+  - Part A (about 2 hours): the 84-cell tube (1,12),(0,28); (1,4),(0,28) (the lead's W13); thicker slabs
+    (`m=12`, `m=16` at 63 cells, `m=16` at 84; rows in `research/data/gpu_local_thick/`).
+  - Part B (about 6 hours; the log line `PART B DONE`): the 108- and 96-cell tubes (1,16),(0,36), (1,17),(0,32);
+    the three cross-checks of the CPU tester (1,3),(0,25), (1,9),(0,25), (1,4),(0,26).
+  - Part C (15 hours): the equilateral 6 × 6 again, six runs of 150 minutes (seeds 108005 to 108010).
+  - A run writes its row and json only when it ends. If interrupted: see which rows exist and rerun the missing
+    seeds under new numbers.
+  - Owed at `PART B DONE` and again at the end: `eqtorus.py summary H K D [m=N]` for each face;
+    `eq_analyze.py H K D save` for the 8-layer faces (age tables); score block 5 in a new block; a README section
+    "Tube and wrapped faces"; commit, push, a line in `USAGE.md`; one message to the lead, usage figures at the end.
+- **After that:** the ribbon faces (`research/GPU-QUEUE.md`, note of 06:21Z on 2026-11-15): mine to design or to
+  refuse with reasons. What the hull result says for it: expect a rim that shortens life (−0.11 per unit of rim on
+  the hull) and ask first whether a ribbon cell costs 0.2087 or 0.231. Then queue items 4 to 7 when briefed, and
+  the lead's optional longer run at 111 cells.
+- **Usage is the constraint, not the card.** Weekly 73% (all models) and 85% (this session's model) at 02:05Z on
+  2026-11-16, resetting 2026-11-18 11:00Z; the lead must stay under 95%. Runs cost nothing; turns do. Start long
+  chains, wake rarely, do write-ups in one pass, use no subagents unless a job cannot be done otherwise.

@@ -5,6 +5,7 @@ research/shape/tslab.py, for research/constant/PREDICTIONS.md part C.
   python -u research/gpu-local/eqtorus.py check A KK B [GENS]        # tslab check + GPU vs engine every generation
   python -u research/gpu-local/eqtorus.py run A KK B MINUTES SEED [max_launch=N] [raw_cap=N]   # one run (guard on); json + a csv row
   python -u research/gpu-local/eqtorus.py summary A KK B              # pooled ln tau_face, ln tau_fw over the csv rows
+  Each takes m=N (layers, default 8); rows then go to research/data/gpu_local_thick/eqtorus_A_KK_B_mN.csv.
 
 Vessel: TwistedSlab = tslab.tslab's cells and neighbour graph, in the shape gsim.Sim expects (as vessels.SlabVessel,
 which is the case kk = 0). Faces: the outer layers t = 0 and t = m - 1, A = 3ab each.
@@ -31,6 +32,7 @@ from gsim import fl  # noqa: E402
 
 M = 8
 DATA = os.path.join(ROOT, 'research', 'data', 'gpu_local_eqtorus')
+DATA_THICK = os.path.join(ROOT, 'research', 'data', 'gpu_local_thick')      # slabs of other than 8 layers (m=N)
 SCR = os.path.join(ROOT, 'research', 'scratch', 'gpu-local')
 os.makedirs(SCR, exist_ok=True)
 
@@ -273,21 +275,21 @@ def git_head():
     """short commit, with '+dirty' when tracked code (research/gpu, research/shape, the .py here) differs from it. Read at the start of a run."""
     try:
         h = subprocess.run(['git', 'rev-parse', '--short', 'HEAD'], cwd=ROOT, capture_output=True, text=True).stdout.strip()
-        d = subprocess.run(['git', 'status', '--porcelain', '--untracked-files=no', '--', 'research/gpu', 'research/shape', 'research/gpu-local/*.py'], cwd=ROOT, capture_output=True, text=True).stdout.strip()
+        d = subprocess.run(['git', 'status', '--porcelain', '--untracked-files=no', '--', 'research/gpu', 'research/shape', 'research/fluct', 'research/gpu-local/*.py'], cwd=ROOT, capture_output=True, text=True).stdout.strip()
         return h + ('+dirty' if d else '')
     except OSError:
         return 'unknown'
 
 
-def summary(a, kk, b):
-    path = os.path.join(DATA, f'eqtorus_{a}_{kk}_{b}.csv')
+def summary(a, kk, b, m=M):
+    path = os.path.join(DATA, f'eqtorus_{a}_{kk}_{b}.csv') if m == M else os.path.join(DATA_THICK, f'eqtorus_{a}_{kk}_{b}_m{m}.csv')
     rows = list(csv.DictReader(open(path)))
     seeds = [r['seed'] for r in rows]
     assert len(set(seeds)) == len(seeds), 'two runs with the same seed'
     E = sum(int(r['exposure']) for r in rows); F = sum(int(r['face']) for r in rows); W = sum(int(r['fw']) for r in rows)
     g5 = sum(int(r['guard']) for r in rows); e5 = sum(int(r['exposure_guard']) for r in rows)
     lf = math.log(2 * E / F) if F else float('nan')
-    print(f'torus ({a},{kk}),(0,{b}) A = {rows[0]["A"]}: {len(rows)} runs, exposure {E:.4g}, face deaths {F}, firewalls {W}, '
+    print(f'torus ({a},{kk}),(0,{b}) x{m} A = {rows[0]["A"]}: {len(rows)} runs, exposure {E:.4g}, face deaths {F}, firewalls {W}, '
           f'guard {g5} (their exposure {e5 / max(E, 1):.2e} of the total)')
     print(f'  ln tau_face = {lf:.4f} +- {1 / math.sqrt(max(F, 1)):.4f}' +
           (f';  ln tau_fw = {math.log(E / W):.3f} +- {1 / math.sqrt(W):.3f}' if W else ''))
@@ -297,28 +299,31 @@ if __name__ == '__main__':
     cmd = ' '.join(['python', '-u', 'research/gpu-local/eqtorus.py'] + sys.argv[1:])
     what = sys.argv[1]
     a, kk, b = map(int, sys.argv[2:5])
+    pos = [x for x in sys.argv[5:] if '=' not in x]
+    opt = dict(x.split('=') for x in sys.argv[5:] if '=' in x)      # max_launch=N raw_cap=N m=N
+    m = int(opt.pop('m', M))                                        # layers of the slab
+    data, tagm = (DATA, '') if m == M else (DATA_THICK, f'_m{m}')
     if what == 'check':
-        gens = int(sys.argv[5]) if len(sys.argv) > 5 else 2000
-        ok = tslab.check(a, kk, b)
-        v = TwistedSlab(a, kk, b)
+        gens = int(pos[0]) if pos else 2000
+        ok = tslab.check(a, kk, b, m)
+        v = TwistedSlab(a, kk, b, m)
         print('cuts:', {r['d']: r['cut'] for r in rings(v)}, 'nodes', v.n)
-        ok &= check_engine(a, kk, b, gens, **sim_cfg())                  # the shape the runs use
-        ok &= check_engine(a, kk, b, gens)                               # gsim's defaults
-        ok &= check_engine(a, kk, b, gens, kernel='global', WT=1024)     # kernel A
-        ok &= not check_engine(a, kk, b, 300, control='shift')
-        ok &= not check_engine(a, kk, b, 300, control='flip')
+        ok &= check_engine(a, kk, b, gens, m=m, **sim_cfg())             # the shape the runs use
+        ok &= check_engine(a, kk, b, gens, m=m)                          # gsim's defaults
+        ok &= check_engine(a, kk, b, gens, m=m, kernel='global', WT=1024)     # kernel A
+        ok &= not check_engine(a, kk, b, 300, m=m, control='shift')
+        ok &= not check_engine(a, kk, b, 300, m=m, control='flip')
         print('ALL OK' if ok else 'FAILURES')
         sys.exit(0 if ok else 1)
     elif what == 'run':
-        minutes, seed = float(sys.argv[5]), int(sys.argv[6])
-        opt = dict(x.split('=') for x in sys.argv[7:])              # max_launch=N raw_cap=N
+        minutes, seed = float(pos[0]), int(pos[1])
         head = git_head()                                           # before the run, not after it
-        out = run(a, kk, b, minutes * 60, seed, **{k: int(v) for k, v in opt.items()})
+        out = run(a, kk, b, minutes * 60, seed, m=m, **{k: int(v) for k, v in opt.items()})
         out['code_commit'] = head; out['cmd'] = cmd
-        os.makedirs(DATA, exist_ok=True)
-        jp = os.path.join(SCR, f'eqtorus_{a}_{kk}_{b}_s{seed}.json')
+        os.makedirs(data, exist_ok=True)
+        jp = os.path.join(SCR, f'eqtorus_{a}_{kk}_{b}{tagm}_s{seed}.json')
         json.dump(out, open(jp, 'w'))
-        path = os.path.join(DATA, f'eqtorus_{a}_{kk}_{b}.csv')
+        path = os.path.join(data, f'eqtorus_{a}_{kk}_{b}{tagm}.csv')
         new = not os.path.exists(path)
         with open(path, 'a', newline='') as f:
             w = csv.DictWriter(f, fieldnames=CSV_FIELDS, extrasaction='ignore')
@@ -327,6 +332,6 @@ if __name__ == '__main__':
             w.writerow(dict(out, torus=f'{a},{kk},{b}'))
         print(json.dumps({k: out[k] for k in CSV_FIELDS if k in out and k != 'cmd'}))
     elif what == 'summary':
-        summary(a, kk, b)
+        summary(a, kk, b, m)
     elif what == 'tune':
         tune(a, kk, b)
