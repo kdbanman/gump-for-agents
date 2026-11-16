@@ -105,6 +105,15 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    thinner; a wrapped face has neither. **(k)** Watch hull faces and wrapped faces die (as `research/dying` did
    for hull faces): where does the last living patch sit, does a wrapped face's death start anywhere while a hull
    face's must start away from, or at, its corners, and does the dip rate per cell differ between the two?
+   **Since (10:20 UTC the same day, CLAIMS WL7, WL8, CN4; the card's rows):** the card measured thicker slabs and
+   the price did not move (0.20863 ± 0.00022 at 16 layers), so depth is excluded on lifetimes too. And the wrapped
+   side is not one number either: tubes with one loop² of 12 pay 0.2016 ± 0.0005 per cell from 84 to 108 cells
+   against 0.2044 from 54 to 84. **(l)** What is the form of a long tube's lifetime: a bend that goes on (towards a
+   lifetime set by the girth and not the area, as for the loop² 9 tubes that firewalls cut), or a second straight
+   line? Do tubes of loop² 13 and 16 bend too (their lines rest on CPU values, to 75 and 108 cells)? Is the long
+   tube's death local, a dead band across the girth that then spreads, where a wide face dies whole? **(m)** The
+   loop of 21 costs 0.0047 ± 0.0023: a 2σ answer. A third face with a loop of 21 and none shorter, or the same two
+   to ± 0.0015, would settle whether the tail of the density law carries a price.
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.
 

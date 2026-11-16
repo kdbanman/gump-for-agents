@@ -244,3 +244,16 @@ H1 failed, H2 failed, H3 held, H4 failed, H5 failed. The interior of a living hu
 density within 0.001 (my own oracle run: −0.0006 ± 0.0004), thickness changes nothing, and the rim is denser only
 in its outermost row. I put half on "the same" and that was the right side; what I had wrong was the rim, which I
 pictured as a fed, fuller margin: it is one fuller row, a thinner one behind it, and nearly empty corners.
+
+### W9–W13 scored by the lead (10:20 UTC, 2026-11-16), from the card's rows (`python3 research/audit/gpu_tubes_lead_check.py`)
+
+- **W9 (65%) held.** 16.2884 ± 0.0033, 0.003 from 16.291. The tester's "0.015 low" was noise.
+- **W10 (75%) held.** The three faces agree with the tester's at 1.0, 1.2 and 0.9 combined errors.
+- **W11 (80%) held.** 17.3175 ± 0.0031 against my 17.3248 ± 0.0058: 1.1.
+- **W12 (55%) failed.** 22.1557 ± 0.0121 is 0.076 below the tube line and 0.041 below POW: nearer POW, below both.
+  At 96 cells the same (19.7405 ± 0.0059: 0.039 and 0.021 below). What I had wrong: I took "straight from 54 to 84
+  cells" for a property of tubes. The long tubes are straight among themselves at a lower slope, 0.2016 ± 0.0005.
+- **W13 (65%) held as worded** (17.5387 is below 17.5405) by 0.6 of its error, which decides nothing. The card's
+  17.544 ± 0.004 is 1.0 away.
+- Written in the notebook this morning, not numbered: "no change in lifetime on thicker slabs". The price did not
+  change; the lives are 0.003 shorter at 2.6σ. Half right.

@@ -3693,3 +3693,56 @@ relation joined the two prices, a hull face's interior would be denser than a wr
 - Not checked (02:55 UTC): the larger radii and the thick slabs were not run on the oracle by anyone (the study's
   builder is checked at radii 13 and 15 and on four slabs); my check has no cells deeper than four layers at
   radius 15; the path to death, and space-time correlations, were not measured.
+
+## 2026-11-16: the card's tube and wrapped faces: long tubes of loop² 12 are cheaper per cell (0.2016 from 84 to 108 cells, not 0.2044); the face with a loop of 21 lands between the two forecasts; thickness does not change the price
+
+From the card's branch at 0345df0 (`research/gpu-local/README.md`, "Tube and wrapped faces, and thicker slabs";
+rows in `research/data/gpu_local_eqtorus/` and `research/data/gpu_local_thick/`). I recomputed every value from
+the rows as ln(2 Σ exposure / Σ face deaths), error 1/√deaths, and the derived numbers below:
+`python3 research/audit/gpu_tubes_lead_check.py` (arithmetic only; nothing re-run). All ten values equal the card's.
+
+| torus (H, K), (0, D) | cells | shortest loops² | ln τ_face (the card) | CPU value on file |
+|---|---:|---|---:|---:|
+| (1, 3), (0, 25) | 75 | 13, 37 | 15.5250 ± 0.0028 | 15.5363 ± 0.0104 (tester) |
+| (1, 9), (0, 25) | 75 | 19, 25 | 15.6442 ± 0.0030 | 15.6575 ± 0.0106 (tester) |
+| (1, 4), (0, 26) | 78 | 21, 28 | 16.2884 ± 0.0033 | 16.2769 ± 0.0120 (tester) |
+| (1, 12), (0, 28) | 84 | 12, 49 | 17.3175 ± 0.0031 | 17.3248 ± 0.0058 (lead) |
+| (1, 4), (0, 28) | 84 | 21, 28 | 17.5387 ± 0.0031 | none |
+| (1, 17), (0, 32) | 96 | 12, 67 | 19.7405 ± 0.0059 | none |
+| (1, 16), (0, 36) | 108 | 12, 81 | 22.1557 ± 0.0121 | none |
+
+Thicker slabs: 63 cells at 12 and 16 layers 13.1596 ± 0.0012 and 13.1589 ± 0.0013 (8 layers: 13.1622 ± 0.0007);
+84 cells at 16 layers 17.5401 ± 0.0044 (8 layers: 17.5467 ± 0.0031).
+
+- **[two codes] The four CPU values repeat** on the card's independent code, 1.0, 1.2, 0.9 and 1.1 combined errors
+  apart. That cross-checks the tester's stepper and my own run (W10, W11 held). W9 held: 16.2884 is 0.003 from
+  16.291; the "0.015 low" of the tester's two faces without a short loop was noise in its runs.
+- **[measured; one code at 96 and 108 cells] The tube line does not continue.** Tubes with one loop² of 12 at 84,
+  96, 108 cells are straight among themselves (second difference −0.008 ± 0.017) with slope **0.2016 ± 0.0005 per
+  cell**; the line through the eight such faces of 54 to 84 cells was 0.20437 ± 0.00016. The difference is 0.0028 ±
+  0.0005. The 96- and 108-cell values are 0.039 and 0.076 below that line's frozen forecasts (4.8 and 5.4 combined
+  errors; 3.8 and 4.2 if the card's errors are inflated for the scatter of its seeds, χ² 6.3 and 5.5 on 3) and
+  0.021 and 0.041 below the form POW (2.2 and 2.5). **W12 failed**: the face is nearer POW and below both. "No
+  family shows curvature" (2026-11-15) was true of the 12-tube only up to 84 cells. A steady curvature of about
+  −5 × 10⁻⁵ per cell² would join the two slopes and is inside the (−2.6 ± 3.5) × 10⁻⁵ seen up to 84 cells, but
+  the three long faces show none among themselves: a bend that goes on and a second straight line are not told
+  apart.
+- **What that does to the price relation (WL5).** "A tube's discount per cell is κ times its density deficit, κ =
+  1.85" was fitted to the tube lines of 54 to 84 cells. Against 0.2087 the long 12-tube's discount is 0.0070 per
+  cell, which would make κ 3.0. The living state's deficit does not depend on length, so either κ does or the
+  relation was a property of that range. It stays grade C and now carries this.
+- **[measured, one code] The loop of 21 (W13).** 17.5387 ± 0.0031: 0.9 errors above 17.534 ± 0.004 (the relation
+  holds) and 1.9 below 17.547 ± 0.003 (the effect ends before 21). It is below the midpoint, so W13 held as
+  worded, by 0.6 of its error: it leans and does not decide. Against the wide-face line 13.1621 + 0.20867 (A − 63)
+  the two faces whose shortest loop² is 21 are −0.0038 ± 0.0033 and −0.0055 ± 0.0031: together a loop of 21 costs
+  0.0047 ± 0.0023.
+- **[measured, one code, one seed each] Thickness.** The price per cell from 63 to 84 cells at 16 layers is 0.20863
+  ± 0.00022, the 8-layer price. Lives are a little shorter on thicker slabs (−0.0026 ± 0.0014 and −0.0033 ± 0.0015
+  at 63 cells). This is the lifetime measurement of what the density study inferred (CN3): depth behind the face
+  is not why rimmed faces pay 0.231. The card also saw settled lives fall steeply with thickness: 236 in 1,811,510
+  deaths at 8 layers, 30 in 660,097 at 12, 1 in 564,434 at 16 (not looked into).
+- **Where this leaves the price per cell.** Not one number and not two: rimmed faces about 0.231, wide wrapped
+  faces 0.2087, tubes less, and less again when long. None of the differences is in the occupation of the living
+  state or in depth.
+- Not checked (10:20 UTC): no second code at 96 or 108 cells or on (1, 4), (0, 28); the thicker slabs have one seed
+  each; the seeds at 96 and 108 cells scatter (χ² 11.8 on 6 together); I checked arithmetic from rows, not the runs.

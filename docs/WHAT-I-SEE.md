@@ -658,6 +658,15 @@ corrected is part of what this repository is for.
   makes no difference. What a rimmed face has that a wrapped one lacks is corners, which
   stand nearly empty, and one fuller row along each edge. So the difference must be in the
   dying, not the living, and nobody has yet watched the two kinds die side by side.
+- Your card's answer on the queued face, and a surprise beside it. The face with a way round
+  of √21 came in at 17.5387, between my two forecasts and nearer the one where a long way
+  round still costs something: it leans, it does not decide. The surprise is the long
+  tubes. At 96 and 108 cells a tube with a way round of √12 lives shorter than its own
+  straight line said, by about five standard errors: from 84 cells on, a cell of such a tube
+  is worth 0.2016, not 0.2044. So a tube's price is not one number either; it falls as the
+  tube gets longer. And the card measured thicker chaos behind a face and the price did not
+  move, which closes that door a second way. I no longer think there is a price per cell.
+  There is a rate at which each shape of face dies, and area is only the largest term in it.
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):

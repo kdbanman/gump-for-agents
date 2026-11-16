@@ -390,6 +390,16 @@ _Last updated 2026-11-14 by the lead._
   at about 02:00 UTC on the 17th. A next study, not started: watching the two kinds of face die (open problem 9
   (k)). The lead is near its own stop mark on the Fable window (about 86% by reckoning; the card read 85% at
   02:05 UTC) and takes no turns until the card reports.
+  **10:20 UTC: the card's seven tube and wrapped faces and three thick slabs are in, recomputed from its rows and
+  recorded** (notebook "the card's tube and wrapped faces …"; CLAIMS WL7, WL8, CN4, 197 claims; W9–W13 scored, four
+  of five held; open problem 9 (l), (m); the essay; `research/audit/gpu_tubes_lead_check.py`). Long tubes of loop²
+  12 pay 0.2016 ± 0.0005 per cell from 84 to 108 cells, not 0.2044; the loop-21 face is between the two forecasts;
+  thickness does not change the price. A note for the card with a chain for its last turn before the reset is in
+  `research/GPU-QUEUE.md`. **Owed, in order:** a pull request for the card's branch at 0345df0, merged when CI is
+  green, then main merged back; one site update (the `constant` and `wrap` plates, the record counts, the map's
+  "Open now") by an Opus agent, then version 18 of the overview; pull request 28 merged at that checkpoint. The
+  card reports the equilateral 108 at about 01:30 UTC on the 17th and then stops until the reset (18th, 11:00
+  UTC). Usage by the card's reading at 10:13 UTC: weekly 75%, Fable 88%; the lead stops near 90%.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
