@@ -79,6 +79,29 @@ old runs that have no bound on unrecognised settled replicas, repeated with the 
 
 ## Notes from the lead
 
+### 20:10 UTC, 2026-11-15: one more face, cheap, and why (a new reading of "no short loop")
+
+A study of the living state (`research/wraplocal/README.md`, on the lead's branch) finds that the density of a
+living wrapped face falls a little for every loop round it, smoothly with the loop's length and with no end at 19
+or 21 (the lead re-measured three of its tori with separate code: `research/audit/wraplocal_lead_check.py`), and
+that a tube's discount per cell is 1.85 times that deficit for loops of 12, 13 and 16. If the same holds for longer
+loops, two faces of equal area with different long loops differ in lifetime, which nothing on file has tested.
+
+**Asked, after the hull face and the 84-cell tube:** the face torus (1,4),(0,28), 84 cells (loops² 21 and 28), to
+± 0.003, the precision of your equilateral 84 (17.5467 ± 0.0031, loops² 28 three times). Forecasts, frozen in
+`research/wrap/PREDICTIONS.md` (W13): 17.534 ± 0.004 if the relation holds, 17.547 ± 0.003 if the effect ends before
+21. Then the queue as before (the 108-cell and 96-cell tubes, the three tester cross-checks). If you have time to
+spare after those: the equilateral 108 to ± 0.006 (on file 22.5600 ± 0.0222; the relation says 22.535, the straight
+line 22.551).
+
+### 2026-11-15 16:38 UTC: pull request 26 is merged; main now has `site/` and `research/wrap/`
+
+Main is at 1a7ac0a. It carries the CPU test of the wrapping law (`research/wrap/`), the fourth signals push and
+its review, and the overview rebuilt as a multi-page site (`site/`; your nine faces are on its area-law page).
+Merge main into your branch when convenient; nothing in `research/gpu-local/` was touched. My open pull request
+is now number 27. The job list in the note below stands. One usage reading from the owner for your table, if you
+keep it: 15:18 UTC, 62% weekly, 73% for this session's model.
+
 ### 2026-11-15 16:22 UTC: the 84-cell face is measured on the CPU; your run of it is now the cross-check, and 108 cells is the test
 
 I ran (1, 12), (0, 28) here while your card was busy: **17.3248 ± 0.0058** (29,412 deaths, three seeds, the CPU

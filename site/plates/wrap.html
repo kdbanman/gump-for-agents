@@ -1,19 +1,33 @@
 <section class="plate" id="wrap">
   <div class="plate-h">
-    <div class="row"><p class="eyebrow">What a short way round costs <b>· new</b></p><span class="st st-meas">measured; the 84-cell face by one code so far</span><span class="st st-open">whether the lines bend: open</span><span class="st st-ret">the lead’s first formula: the wrong form</span></div>
-    <h2>A face that can see itself round the back is a tube, and a tube pays less per cell the tighter it is wrapped: <span id="n-wrap-pc"></span> less at girths √12, √13 and 4.</h2>
+    <div class="row"><p class="eyebrow">What a short way round costs <b>· updated</b></p><span class="st st-meas">the density law: measured; five densities re-measured by separate code</span><span class="st st-unchk">price = <span class="n-wrap-k"></span> × the deficit: fitted on two girths, one forecast held</span><span class="st st-once">loops of 21 and longer: a test queued for your card</span><span class="st st-ret">“the effect ends at 21”: withdrawn</span></div>
+    <h2>A living face is a little emptier for every way round it, by an amount that falls smoothly as the way round lengthens and does not end. A tube’s discount in price per cell is <span class="n-wrap-k"></span> times that emptiness.</h2>
   </div>
-  <!-- NB 2026-11-15 "the wrapping law tested" and "the 84-cell face with one loop of 12"; CLAIMS WL1-WL3; research/wrap/README.md and
-       PREDICTIONS.md. The faces and each girth's line are the lead's refit, research/audit/wrap_haz_lead.py (--single, --tube), via
-       collect/sources/scripts/wrap.py -> collect/sources/wrap.json; quotes in collect/sources/update-2026-11-15e.json -->
+  <!-- NB 2026-11-15 "why a tube is cheaper" (the density law, the price relation, the lead's check); CLAIMS WL4-WL6; research/wraplocal/README.md;
+       research/wrap/PREDICTIONS.md W13. Before it: NB "the wrapping law tested" and "the 84-cell face with one loop of 12"; CLAIMS WL1-WL3.
+       Deficits: research/wraplocal/data/dens_rho_face.txt via collect.py; quotes in collect/sources/update-2026-11-15f.json and -15e.json -->
+  <p class="cap">A wrapped face is a face of the box closed on itself like a torus: walk far enough across it and you are back where you started. Each way of getting back is a <b>loop</b>, a vector of the torus’s period lattice; its length is written as √loop², the number the ledger uses being the loop’s squared length in lattice steps. A face with exactly one loop much shorter than the others is a <b>tube</b>, and the length of that loop is its <b>girth</b>. The <b>price per cell</b> is how much the logarithm of a face’s mean lifetime grows for each cell added, which for a face with no short loop is about one fifth.</p>
   <div class="figs">
     <figure class="fig c8 panel">
-      <h3>How far below the line of faces with no short way round</h3>
+      <h3>How much emptier a living face is, for one loop of each length</h3>
+      <div id="f-dens"></div>
+      <div class="keys" id="k-dens"></div>
+      <figcaption id="x-dens"></figcaption>
+    </figure>
+    <div class="fig c4"><div class="nums" id="n-dens" style="grid-template-columns:1fr"></div></div>
+  </div>
+  <div class="figs">
+    <figure class="fig c8 panel">
+      <h3>The tubes’ lifetimes: how far below the line of faces with no loop shorter than √21</h3>
       <div id="f-wrap"></div>
       <div class="keys" id="k-wrap"></div>
       <div id="t-wrap"></div>
-      <figcaption>Each coloured point is a wrapped face with exactly one way round shorter than √21 lattice steps: a tube, coloured by its girth (the loop’s length squared, as the ledger writes it). It is drawn as its distance in ln(generations) below the straight line through the faces with no short way round (grey, on the zero line). Each girth’s faces lie on a straight line of their own, falling away from zero faster the tighter the tube. The face of 84 cells was forecast four ways before it ran, and two of the four are out. A gentle bend is not yet excluded: faces of 96 and 108 cells are queued for your card, with the straight line’s and the bending form’s forecasts written down.</figcaption>
+      <figcaption>Each coloured point is a wrapped face with exactly one loop shorter than √21 lattice steps, a tube, coloured by its girth. It is drawn as its distance in ln(generations) below the straight line through the faces whose loops are all √21 or longer (grey, on the zero line). Each girth’s faces lie on a straight line of their own, falling away from zero faster the tighter the tube; the slopes of those lines are the measured discounts drawn as orange rings above. The line at zero is not the price of a face with no loop at all: its faces carry loops of √21 to √31 themselves, and the lifetimes cannot resolve what those cost. The face of 84 cells was forecast four ways before it ran, and two of the four are out. A gentle bend is not yet excluded: faces of 96 and 108 cells are queued for your card, with the straight line’s and the bending form’s forecasts written down.</figcaption>
     </figure>
     <div class="fig c4"><div class="nums" id="n-wrap" style="grid-template-columns:1fr"></div></div>
+  </div>
+  <div class="fig panel">
+    <h3>How it was checked, and what was not</h3>
+    <ul class="plain" id="l-wrap-check"></ul>
   </div>
 </section>

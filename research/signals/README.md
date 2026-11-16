@@ -6,7 +6,7 @@ argument, an exhaustive search inside stated bounds, or a construction the oracl
 `research/scratch/signals/` (git-ignored). Forecasts and their scores: `PREDICTIONS.md`.
 Sections 1 to 7: the first push (does anything carry a signal). Sections 8 to 14: the second push (machinery made of
 carriers), brought up to date 2026-11-15 10:40 UTC. Sections 15 to 19: the third push (corrected from its review,
-`research/audit/REVIEW-signals-3.md`). Sections 20 to 25: the fourth push (a standing emitter of rakes, section 20, and of a two-letter word, section 21b; 2026-11-15 15:00 UTC).
+`research/audit/REVIEW-signals-3.md`). Sections 20 to 25: the fourth push (a standing emitter of rakes, section 20, and of a two-letter word, section 21b; 2026-11-15 15:00 UTC). Sections 26 to 29: the fifth push (a listener: none found; 2026-11-15 18:20 UTC). Sections 30 to 35: the sixth push (the echo: four signals of the stream, two of them running up it; their meetings; the gun end; 2026-11-15 21:30 UTC).
 
 ## Answer: yes. L1, L2 and L3 are reached, each with the oracle as judge; and (second push) a carrier has been turned into a clock, a register and a gate
 
@@ -1099,3 +1099,524 @@ k = (T + 2) mod 4 here (KS = 6).
    ran on one side, between the old cap and a wall made by the collision (to wire B′ in the two cases looked
    at), with the oscillator alive next to it (42 cases of 11,880). Those walls have wire on both sides and something periodic beside them: the
    place to look for a turn whose class depends on the oscillator's phase.
+
+# Fifth push (2026-11-15): a listener
+
+The question: a bounded standing object at the end of the stream or beside it that survives a gap (a rake removed)
+and is left in a lasting state different from the one it has when no gap comes, both states stable under the plain
+stream. **None was found.** What is excluded, exactly, is in sections 26 to 28; the strongest statement is the
+constraint search of section 26 (every end of the stream of period dividing 4 in the 3 × 3 tube up to C = 39, and of
+period dividing 8 up to C = 33, against the one-cell hole and four short words of holes, for an end that settles within
+42 generations and disturbs at most the 4 units of train in front of it; C = 29 is vacuous, since no end exists there,
+and up to C = 37 the census of section 27 answers the same question), the widest net is the census of section 27 (741
+ends, every one fed eight words of one-cell holes, transients up to 1,500 generations), and the only search beside the
+stream is a sample (section 28). *(Review, REVIEW-signals-5: confirmed with these bounds; and every one-unit change of
+one arriving rake was sent to the 741 ends as well: still nothing but healed or burnt, but the stream carries a second
+one-cell signal, and which ends it kills is not which ends the hole kills: section 27; and beside the receiving end
+two catalogue oscillators turn a hole into a signal that runs back up the stream through the rakes: section 28. Both
+on the oracle.)* No new object, so nothing new
+for the oracle; the controls of each search are stated with it. Forecasts and scores: `PREDICTIONS.md`.
+
+## 26. A listener at the end of the stream as one constraint problem: none in the 3 × 3 tube
+
+- **The instance** (`sat_listen.py C [--mult m] [--multB m'] [--word i,j,..] [--S s] [--M M]`). Three coupled copies
+  of the dynamics in one CNF, on the region of `sat_gun.py --dir 1` (units ≥ KS − 2 − M inside the tube and the planes
+  x+y−z, x−y−z ≤ C; KS = 6, M = 4), with the rake train (fb)^∞ running into the end:
+  **A**, a state of period dividing TA = 4m whose units < KS are the plain train at every generation (exactly an
+  absorber of section 21); **B**, the same with period dividing TB = 4m′ and the train's phase advanced by T; **X**,
+  a run of T + 1 generations from X(0) = A(0) in which the train arriving from the left carries the word (rake cell
+  (1,0,4) removed at generation 0 from the i-th, j-th, … rake counted from unit −4 leftwards: the one-cell hole of
+  section 21, which moves with the train, `sat_listen.py` checks it reaches nothing before generation 4), with
+  X(T) = B(0); and **B(0) ≠ A(T mod TA)** on the free cells (units ≥ 6): the state after the word is not the state
+  the end would be in without it. Cells left of unit 0 are the holed train stepped on its own, and units 0, 1 of X
+  are tied to it at every generation; units 2..5 of X are free (the end may disturb the 4 units in front of it during
+  the transient, if it heals them). T = 62 for one hole (it reaches unit 6 at generation 20, so the end has 42
+  generations to settle), 4 more per further rake of the word.
+- **Why UNSAT excludes every such end.** Let E be any end of period dividing TA of the infinite tube inside the planes
+  (by T2 the tube and the planes are closed, so the region is exact), X* its real orbit after the word, and suppose
+  X* is in some orbit B* of period dividing TB of the same train by generation T and B* is not E's own orbit. If X*
+  never changes units 0, 1 (six units in front of the end's first free unit), then X* equals the holed train on all
+  units < 2 for all t ≤ T (induction on t: units ≤ 0 at t + 1 see units ≤ 1 at t), so (E, B*, X*) restricted to the
+  region satisfy every clause. B may be A at a different phase relative to the train or a different end, so phase
+  shifts are excluded. B may also be A moved by k units, but only if both fit the region: B is tied to the train on
+  units < 6 and lies inside the planes, so an end whose lowest changed unit is 6 must fit inside the planes at C − 4k
+  (one unit is 4 in x + y − z). Movers are thus excluded only for ends that fit at C − 4|k| (at C = 39: one-unit movers
+  of the ends of C ≤ 35), not for ends that need the whole region (review, REVIEW-signals-5 §1). A model would be a listener of the write-once kind
+  at least (A → B, B stable); a reusable one is a special case.
+- **Controls.** `python3 sat_listen.py 31 --same` (the condition B ≠ A dropped): SAT in 6 s, the C = 31 absorber,
+  re-stepped (`sg.step_set`): A and B periodic, the run reaches B, and B is A healed. A control that the "≠" part finds
+  real changes: wire B with pulse B (`python3 sat_listen.py C --pattern 77 --event E.json`, E = the two cells of
+  `pulse-B.json` moved 12 units back, written by hand to `../scratch/signals/p5/pulseB_ev.json`: `[[-11,0,12],
+  [-10,2,13]]`): UNSAT at C = 29 and 31, **SAT at C = 33** (66 s): a period-2 cap A of 21 cells that one pulse turns
+  into a different period-2 cap B, re-stepped: A, B periodic, the run reaches B. B differs from A in unit 6, which
+  turns from a B unit into a B′ unit: it is the B|B′ wall of section 9 moving one unit towards the sender, the known
+  counter. So the encoding finds a mover when one exists.
+- **[proved within the bounds; CaDiCaL 1.5.3, every instance with M = 4, S = 40; no model, so nothing to re-step]**
+  (`bash listen_batch.sh`, and the instances of `listen_queue.sh`; times are single-core seconds; the log is
+  `../scratch/signals/p5/listen_batch.txt`):
+
+  | ends of period (TA, TB) | word (rakes removed) | C (3 × 3 tube) | UNSAT in |
+  |---|---|---|---|
+  | (4, 4) | one hole | 29, 31, 33, 35, 37, 39 | 6, 11, 22, 38, 199, 1212 s |
+  | (4, 4) | two in a row [0,1]; at spacing two [0,2]; three in a row [0,1,2]; three at spacing two [0,2,4] | 31, 33, 35, 37 | 10 to 45 s (C ≤ 35); 295, 136, 328, 143 s (C = 37) |
+  | (8, 8) | one hole | 31, 33 | 211, 994 s |
+
+  TA = 8 contains TA = 4 and TB = 8 contains TB = 4, so the last row also excludes an end of period 4 that a gap
+  turns into one of period 8 (a counter of rakes mod 2), and an end of period 8 that a gap moves by half a period
+  (a toggle). With TA = 8 one hole position covers both arrival times of a hole relative to the end's 8-cycle (the
+  end's phases are free in the instance). Holes at every rake of the train are equivalent to the one tried when the
+  end has period 4 (one rake per period).
+  *Review (REVIEW-signals-5 §1):* the row C = 29 is vacuous (no absorber exists there, section 21; the instance with
+  `--same` is UNSAT too). Every end of period dividing 4 at C ≤ 37 is in the census lists of section 27, and the
+  period-8 lists at C = 31 and 33 (complete) hold only period-4 ends, so all rows but C = 39 are a second method for a
+  question the census also answers. Reproduced with an independent encoding (`research/audit/signals5/mysat5.py`,
+  own region, constants and counter; glucose4 and kissat404): UNSAT for one hole, (4, 4), at C = 29..39 (C = 39 in 787 s);
+  for (8, 8) at C = 31; for [0,1] and [0,2,4] at C = 33. (8, 8) at C = 33 was cut at 1,500 s; the other words rest on
+  `sat_listen.py` alone. The holed train H of `sat_listen.py` is a finite piece ending at unit 46 whose end
+  burns back half a unit per generation; it reaches units 0, 1 near generation 88, so instances with T ≳ 88 (longer
+  words, or S ≥ 50) would need a longer piece. All instances above have T ≤ 78.
+- **Not finished (cut at 25 minutes or more by `watchdog.sh`; pysat's own interrupt does not fire on these):** the
+  5 × 5 tube (`--lo -1 --hi 7`) at C = 29 (33 min) and C = 31 (25 min), TA = 4. Even the plain absorber census of the
+  5 × 5 tube at C = 31 (`sat_gun.py fb 31 --dir 1 --lo -1 --hi 7 --all`) found no solution in 11 minutes. Not run:
+  C = 41 and beyond, TA = 8 at C ≥ 35, words other than the five above, S > 40 (a slower settling), and the
+  asymmetric widened tubes except the one in section 29.
+- **What this does not exclude.** Ends reaching outside the 3 × 3 tube or beyond the planes; ends that disturb the
+  train more than 4 units in front of them during the transient (anything that sends a signal up the stream and gets
+  it back later, or not at all); ends that settle more than 42 generations after the last hole arrives (section 27
+  covers longer transients for the ends it lists); movers of ends that need the whole region (above); periods 3, 6,
+  12, …; other gaps than the one-cell hole; streams other than the gun's.
+
+## 27. A census of 741 ends of the stream, and what eight words of gaps do to them
+
+- **[proved within the bounds; CaDiCaL, every model re-stepped] The ends.** `python3 sat_gun.py fb 35 --dir 1 --all
+  --out ../scratch/signals/p5/abs_fb_35.json` (43 s, 90 solutions) and `... fb 37 ... --out .../abs_fb_37.json`
+  (351 s, 753 solutions): every absorber of the rake train of period dividing 4 inside the 3 × 3 tube and the planes,
+  each re-stepped OK by `sat_gun.check_gun`. With the lists of the fourth push (`p4/abs8_fb_31.json`, period
+  dividing 8 at C = 31; `p4/abs4_fb_33.json`): 856 list entries.
+- **Deduplicated up to translation and time shift** (`census_ends.py`): the key of an end is the set, over one
+  period, of the cells in which its orbit differs from the plain train, each moved so that its lowest unit is 0 (a
+  translation by k units with a time shift of 2k leaves it unchanged; odd time shifts are not symmetries of the
+  train). **741 distinct ends.** The count checks itself: every entry at C ≤ 35 is an entry of the C = 37 list in the
+  same place (103), and each of the twelve C = 33 ends appears in the C = 37 list a second time one unit on (12):
+  856 − 115 = 741. The one absorber of C = 31 is one of the twelve of C = 33 (the fourth review's open item: 13
+  entries, 12 ends).
+- **[measured, sg.step_set with a window: the train is refilled exactly 100 units before the end, which is exact while
+  the disturbance has not reached it, and a run is called `dead` when it has] The transition graph.**
+  `python3 census_ends.py ../scratch/signals/p4/abs8_fb_31.json ../scratch/signals/p4/abs4_fb_33.json
+  ../scratch/signals/p5/abs_fb_35.json ../scratch/signals/p5/abs_fb_37.json --part i/2 --out ...` (i = 0, 1; 10 min
+  each): each end at the end of the infinite train, sent each of eight words (one rake removed, the first, second,
+  third or fourth from the end; two in a row; three in a row; two at spacing two; five at spacing two), compared
+  with the undisturbed run near the end for 300 generations and, if not equal, followed to 1,500. **599 ends heal
+  every word exactly; 142 ends die on every word** (the train 100 units in front of them is no longer the plain
+  train: they burn back up the stream); **no other outcome vector occurs.** No end survives a word in a changed
+  state, no end is moved or shifted in phase by one (the class "same key, not healed" is empty), no end tells one
+  word from another even by dying. The transition graph has no edge between two live ends. So at the end of the
+  stream, in this tube, a hole is forgotten or fatal, and which of the two is a property of the end alone.
+  *Review (REVIEW-signals-5 §2; `research/audit/signals5/scan5.py`, an independent stepper checked against the oracle,
+  every run compared on the whole state of 66 units of train and the end):* the eight words give 599 × 8 healed (all
+  within 39 generations, the whole state equal, so nothing was sent up the stream) and 142 × 8 burnt, as claimed.
+  **The second half does not hold for other gaps.** Every one-unit change of one arriving rake (every subset of the
+  cells of either unit of a train period removed, every dead tube cell of the two made live, the pair replaced by bare
+  wire; at each of the four generations of a period; 418 events per end) ends healed (whole state) or with the stream
+  broken: by the event itself (338 events break the bare train), or, for the events that ride the train as a signal,
+  by the end burning back up the stream (all 12,022 such rows followed 256 units up: burns); no end is left alive and
+  changed, moved, or with an echo. *(Sixth push, 2026-11-15: the review's test for 'rides' looks only down the stream, so an event that becomes one
+  of the two signals that run UP the stream, E or U, is counted among the 338 that 'break the bare train'; section 30.)* But the stream carries a second one-cell
+  signal, K0 (the wire cell (1,0,2) missing; made, e.g., by removing the cell (0,1,4) of a rake unit at an even
+  generation), and the ends split four ways: 113 heal the hole and K0, 486 heal the hole and are destroyed by K0, 17
+  are destroyed by the hole and heal K0, 125 are destroyed by both (`kinds5.py`; on the oracle for seven ends,
+  `oracle5.py`). So which of the two a gap meets depends on the end and on the kind of gap: a K0 signal is a gap
+  that 486 of the ends that forgive a hole do not forgive.
+- Not covered: the 5 × 5 tube (its absorber census at C = 31 found no solution in 11 minutes: section 26), C ≥ 39,
+  ends of period 8 at C ≥ 35 (at C = 33 the period-8 list `p4/abs8_fb_33.json`, complete, holds only the twelve
+  period-4 ends: review), transients longer than 1,500 generations, words other than the eight (see the review note
+  above for every one-unit change of one rake). The line's own receiving cap capA, in its absorbing cycle and
+  mirrored to a +v end, is one of the 741 (review, `research/audit/signals5/census5.py`); it is among the 113 that
+  heal every gap of the review's scan.
+## 28. Beside the stream: catalogue oscillators and the divider's own oscillator, each sent a gap
+
+- **[measured, sg.step_set; a SAMPLE] The catalogue beside the running line.** `python3 gapstream.py --K 150 --seed 3
+  --out ../scratch/signals/p5/gapstream.jsonl` (23 min). The 99 oscillators of `research/clockwork/objects/C*.cells`
+  (periods 8 to 52), each in 150 random placements (a lattice symmetry, a random phase, an even translation; drawn as
+  in `clockstream.py --anyphase`: no overlap with the line, halo meeting the halo of units 4..7 of the line N = 12 in
+  its cycle and nothing else): 14,850 placements. 4,190 lose the oscillator within 2P + 8 generations of the plain
+  stream; the other 10,660 were each sent two gaps (the cell hole_start (0,0,5) of the rake at unit 10 or 11, removed
+  at an odd generation: the one-cell pulse of `verify_line.py` check F; two consecutive rakes, so two arrival times
+  4 generations apart), 21,320 gap runs compared in lockstep with the plain run: **20,813 healed** (cell for cell
+  equal to the plain run within 200 generations); in 412 the gun was already disturbed in the plain run (no rake to
+  remove); 58 gaps destroy the oscillator; in 28 the oscillator survives unchanged and the gun dies (one case looked
+  at, C17.31a, with `python3 gaplook.py fire ../scratch/signals/p5/gapstream.jsonl 1`: when the gap
+  reaches the oscillator the wire catches fire there and burns in both directions, up to the gun in about 15
+  generations, leaving the oscillator standing: a fuse, not a signal); 9 lose the oscillator in the plain run later.
+  *Review (REVIEW-signals-5 §3):* in one of the 28 (C9.28a) the gun dies in the plain run too (`plain_gun` false;
+  `--summary` tests `gap_gun` first), so 27 are deaths caused by the gap. All 28 were looked at
+  (`research/audit/signals5/c46.py`): 23 are fires as described (every wire unit between the oscillator and the gun
+  burnt), 5 spread without burning every unit (two with the oscillator beside the gun, no wire between).
+  **No run left the oscillator alive and the gun alive in a state different from the plain run's.**
+  `python3 gapstream.py --summary ../scratch/signals/p5/gapstream.jsonl` relabels the records (the run itself
+  printed the 28 gun deaths as `LISTENER?`; its labels were corrected afterwards and the jsonl holds both flags).
+- **[measured, sg.step_set; a SAMPLE] Beside the receiving end.** `python3 gapstream.py --K 100 --seed 4 --zone 0,2
+  --out ../scratch/signals/p5/gapstream_end.jsonl` (12 min): the same with the halo meeting units 0..2 and capA,
+  9,900 placements, 4,988 lose the oscillator early, 9,824 gap runs: 9,483 healed, 285 no rake, 11 destroy the
+  oscillator, 18 kill the gun with the oscillator kept, 21 + 2 lose the gun or the oscillator in the plain run later,
+  and 4 are labelled `LISTENER?` (C20.29a and C20.33a, two placements, two gaps each). **They are not listeners:** in
+  the plain run the oscillator has already burnt the line (units 2..11 empty from generation 84 on; what is left at
+  the gun's place is debris of period 4, which the gun test of the script accepts); the gap only changes which
+  debris is left (`python3 gaplook.py final ../scratch/signals/p5/gapstream_end.jsonl` prints both final states). The gun test should
+  have required rakes on the wire; for "healed" this does not matter (a placement that burns the line identically
+  with and without the gap is not a standing placement, and it was not counted as a listener).
+  *Review (REVIEW-signals-5 §3):* the 18 runs in which the gap kills the gun with the oscillator kept are **not
+  fires** except 2 (C9.28a). In 8 the end turns the stream into a wall: behind a front moving up the wire at one unit
+  per 2 generations the wire is a uniform wire of repeat one unit (not wire C), and the gun dies when the front
+  arrives. In 4 (C18.23a and C20.33c, both gaps) **the end sends the gap back**: the hole reaches capA with the
+  oscillator beside it, and a rigid three-cell signal leaves it and travels up the stream, through the oncoming
+  rakes, one unit per 2 generations, with the whole state otherwise equal to the plain run's (end, oscillator and
+  every rake included); it kills the gun on arrival (on the oracle: `python3 research/audit/signals5/orc46.py`;
+  initial cells in `research/audit/signals5/end_echo.json`). 4 others spread otherwise. That is an echo, not a
+  listener (the end is restored), but it is a signal moving against the stream, which no earlier push had.
+- **[measured, sg.step_set; exhaustive over places and phases for one N] The divider's oscillator.**
+  `python3 divgap.py 16` (45 s): C8.24a in each phase 0..7 at each shift −20..+5 from its stored place beside the
+  line N = 16 (shifts with the oscillator between unit 3 and the gun), started from bare wire as in
+  `verify_divider.py`: **71 placements stand** (the oscillator equal to its free orbit at every generation to
+  2N + 100, the gun of period 4): at each shift −9..+1 the four odd phases (nothing happens to the stream) and the
+  one even phase that divides; at +2 four odd and two even; at +3 two odd; at +5 (past the gun) all eight. Each was sent every one-cell gap: the cell hole_start
+  removed at each of the four odd generations of a period (2N + 41..2N + 47) at each unit from the oscillator's
+  lowest unit minus one to N − 1 where it is live: **1,034 gap runs, 1,021 heal exactly** (all 550 upstream of the
+  oscillator included), **13 destroy the oscillator** (all at units beside or below it: the fuse of the fourth review,
+  at the other places), **0 leave it alive and changed**. So the stroke is not a door: the wire reaches the
+  oscillator only to destroy it.
+- Not covered: the placements not drawn (the full lists are some 10⁴ per oscillator and zone), other N and other
+  places along the wire, gaps other than the one-cell hole, words of gaps beside the stream, oscillators above
+  period 52 or outside the catalogue, two oscillators, and the divider at N other than 16.
+
+## 29. Fifth push: not checked, and where to go next
+
+- **Not checked.** The UNSATs of section 26 rest on the encoding (`sat_listen.py` on `scat.Problem` and
+  `sat_gun.build`'s region, used unchanged) and on CaDiCaL alone: no second solver, no certificate. Its controls are
+  the `--same` instance and the wire-B pulse instance (section 26); a positive control that is itself a listener of
+  the rake train does not exist, since none is known. The census and all of sections 27 and 28 are `sg.step_set`
+  (checked against the oracle by `check_stepper.py`), not the oracle; since nothing positive was found, nothing was
+  put to the oracle. The catalogue scans are samples (seeds 3 and 4); the divider scan is complete over places and
+  phases for N = 16 only. The asymmetric tube [1,9] × [1,5] (`sat_listen.py 29 --S 16 --lo 1 --hi 9`, the side where
+  the divider's oscillator stands) was cut at 25 minutes. `listen_batch.sh` was stopped half way (a kill meant for one
+  instance stopped `xargs`); the remaining instances were run by `listen_queue.sh` from a queue file and are all in
+  the log. Of the 28 + 18 runs in which a gap kills the gun while the oscillator beside the stream survives, one was
+  looked at (a fire, section 28); the others may differ. *Review (REVIEW-signals-5): checked since. Most SAT rows
+  (one hole at C = 29..39, (8, 8) at C = 31, two words at C = 33) were reproduced by an independent encoding with two
+  other solvers; the
+  census was recounted (741) and re-run on the whole state with an independent stepper for all eight words; every
+  one-unit change of one arriving rake was sent to the 741 ends; `divgap.py 16` was re-run; the four `LISTENER?` runs
+  were put to the oracle; all 46 gun deaths were looked at, and they do differ (section 28).*
+- **What the five pushes now say about reading.** Every end of the stream inside the 3 × 3 tube that can be found
+  is a perfect sink for holes or is destroyed by any hole at all; the same dichotomy held for the 13 ends of the fourth
+  push and for the clock's left cap against every word of the B/C tape (section 15). Beside the stream the sample
+  gives the same two outcomes. *(Review: for gaps other than holes the ends still only heal or burn, but the split is
+  not the same: a second one-cell signal K0 is fatal to 486 ends that heal holes and healed by 17 that holes destroy,
+  section 27; and beside the receiving end a gap can come back up the stream as a signal, section 28.)* The reason is not known. A guess worth testing: a stationary end locked to the stream
+  is a driven system with one attractor per drive, so a missing drive pulse is followed by re-entrainment; a
+  listener needs a driven object with two attractors under the same drive.
+- **Where I would go next.** (1) *The gap that kills the gun from downstream* (section 28): the one of 46 looked at is a fire; if
+  another sends back something smaller than a fire (a rake turned against the stream), the gun end could listen.
+  *(Review: four do: C18.23a and C20.33c beside capA return a three-cell signal that crosses the oncoming rakes
+  intact. What is missing is a gun end, or anything upstream, that survives its arrival.)* (2) *Two-attractor drives.* Look for bistability directly: `sat_listen.py` with A and B both free and
+  no gap, B ≠ every phase and translate of A, A and B in the same place (two different absorbers of one region
+  that share their first units); then ask what event moves one into the other. (3) The 5 × 5 tube is out of reach of
+  this encoding at C ≥ 29 within 25 minutes, and so is its plain absorber census; since the run from a known end is
+  determined, the census route (enumerate the ends, then step them) needs only the enumeration, which might be made
+  feasible by growing 5 × 5 ends from the 741 of the 3 × 3 tube (fix their cells, free the outer layer).
+  (4) The 142 ends that every gap destroys are fuses: one gap and the wire burns back at a fixed speed; a fuse
+  feeding a counter wall would record a gap once.
+
+## 30. Sixth push: the four signals of the rake train, and the echo among them
+
+Sections 30 to 35: the sixth push (2026-11-15, 20:00 to 22:30 UTC). Question: what is the echo found by the fifth
+push's review (REVIEW-signals-5 §3: the line's receiving cap capA with C18.23a or C20.33c beside it answers a hole
+with a three-cell signal that runs back up the stream), what happens when it meets a hole, and does any gun survive
+it. Frame throughout: that of `objects/line-C.json` (the train runs towards −v, the gun at the +v end, capA at the −v
+end; unit u = cells moved by u(2,0,−2)). Helpers: `echo6.py`; the train at generation t is `echo6.train(t, ua, ub)`,
+unit u holding `BASE[t % 4][u % 2]` (generation 0: rake5 on even units, rakef on odd units, as `verify_line.py`
+lays the rakes); it is an orbit and moves one unit towards −v every 2 generations (`echo6.check_train`). The
+oracle checks of this section and the next: `python3 verify_echo.py` (objects/echo-train.json, written by
+`python3 make_echo_json.py`), 20 s, ALL PASS.
+
+- **[proved] Four signals, one cell each to make, two of them running UP the stream.** Every one-cell change of the
+  plain train (each tube cell of units 0, 1 flipped at each of the four phases: 112 events; `python3 echo_kinds.py`,
+  30 s) either vanishes (24), breaks the stream (66: more than 8 cells differ after 41 to 44 generations and the
+  difference is still growing), or becomes, exactly, one of four signals that ride the train rigidly, one unit per 2
+  generations (22). Written as differences from the train at phase 1 (cells relative to
+  the signal's lowest unit u; all four have the train's own 4-cycle):
+
+  | signal | direction | at phase 1 (lowest unit u of parity) | at phase 2 | made by (one cell of the plain train flipped) | events of 112 |
+  |---|---|---|---|---|---|
+  | **E**, the echo | up (+v, towards the gun) | (1,2,2) of unit u; (0,0,3), (0,0,5) of unit u+1 (u even) | (1,0,0) of u; (0,2,3), (1,0,2) of u+1 | e.g. (1,0,0) of an even unit removed at phase 0 | 6 |
+  | **U** | up | (0,0,3) of unit u (u odd) | (1,0,2), (1,0,4) of u | e.g. (0,0,3) of an even unit removed at phase 3 | 2 |
+  | **H**, the hole of section 21 | down (−v, with the stream) | (1,2,2) of unit u (u odd) | (0,2,3), (1,0,4) of u | e.g. (1,2,2) of an even unit removed at phase 3 | 8 |
+  | **K0**, the review's second signal | down | (0,0,3) of unit u (u even) | (1,0,2) of u−1, (1,0,4) of u | e.g. (0,1,4) of an even unit removed at phase 1 | 6 |
+
+  (At phase 1, H and E both remove the cell (1,2,2), of an odd and of an even unit; K0 and U both remove (0,0,3), of
+  an even and of an odd unit: the same local defect on the two sublattices of the train runs in opposite
+  directions.) The echo of the review is E: in the four oracle runs of `research/audit/signals5/end_echo.json` the
+  difference, from the generation it leaves the end to its arrival at the gun, is E cell for cell
+  (seen by stepping the four records with `sg.step_set` and reading the difference against `echo6.train` from
+  generation tg + 23 to tg + 39: cells (1,2,2) of an even unit u and (0,0,3), (0,0,5) of u + 1 at phase 1, as in the
+  review; the snippet is not kept as a script).
+  *Proof that each rides for ever* (`python3 prove_echo.py`, 1 s, PASS): the train xor the signal at phase 1 on a
+  finite piece of units −30..29, stepped twice with `sg.step_set` on the infinite lattice, equals on units −27..26
+  the train at phase 3 xor the signal moved by its direction (one unit). Away from the signal both are the train
+  (an orbit), so the same holds on the infinite train; train(3) is train(1) moved one unit, so the state is again
+  of the form "train(1) xor the signal" up to a translation, and by induction the signal rides the infinite train for
+  ever, rigidly. On the oracle (`verify_echo.py` check B): each of the four on a ring of 48 units (torus H = 96),
+  whole torus, 120 generations, as predicted; check C: one event per kind becomes that signal.
+  *Review (REVIEW-signals-6 §2): the 112-event census reproduced with an independent stepper (24 / 66 / 22; 6 E, 2 U,
+  8 H, 6 K0, the same events; the 66 breaks still breaks at generation 101), and the two-generation argument checked:
+  it compares the whole infinite state, so it covers every distance. By the train's symmetry (two units, four
+  phases) the 112 events are every one-cell flip inside the tube at any place and time, so the list is complete for
+  what it claims. It is not the list of the train's signals: five more ride it rigidly for ever (two-generation
+  identity, and the oracle on a ring, 120 generations: `research/audit/signals6/sig6.py`): K3 (review-5's two-cell
+  signal, down), N1 (three cells, UP: (0,0,1), (1,2,2) of an even unit u and (0,0,3) of u + 1 at phase 1), N2, N3
+  (four cells, down), all made by two-cell flips inside the tube, and N4 (three cells, down, one of them outside the
+  3 × 3 tube), made by one-cell flips just outside it.*
+- **So an echo needs no reflector.** One cell removed from the stream anywhere sends an echo up it (6 of the 112
+  events), and another sends U. What the reflector of the review does is to turn an arriving H into an E (section 33).
+- **Correction to REVIEW-signals-5 §2 (iv)** (dated 2026-11-15, sixth push; the audit file is not edited): its
+  classification of events on the bare train (`research/audit/signals5/scan5.py`, `bare_classes`) calls an event
+  'rides' only if after G generations its difference has moved (G − g)/2 units *down* the stream; a signal moving up
+  the stream is counted as 'breaks'. So the review's "338 events per end break the bare train by themselves" includes
+  the events that become E or U; their rows were not followed. Among single cells (the review's one-cell additions
+  and one-cell removals) the up-moving fraction is 8 of 112 in the census above; how many of the review's 338 are
+  up-movers was not counted. The 'ride' classes and everything said of K0 stand.
+  *Review (REVIEW-signals-6 §1): counted and followed. Of the 338 'break' events per end exactly 16 become one
+  up-moving signal alone (14 E, 2 U; none with a second signal); the other 322 still break the bare train at
+  generation 202. All 16 × 741 = 11,856 rows: at generation 42 the whole-state difference from the undisturbed run is
+  exactly the departing signal, at least 6 units below any cell of the end, so every end is equal to the undisturbed
+  end for ever (locality and the two-generation argument; three ends × two events also on the oracle). No end is
+  left alive and changed by any of the 426 events.*
+- **Other media.** The echo is a defect of the rake train, not of wire C: on bare wire C there is no E (the cells it
+  changes are rake cells); wire C has its own pulses in both directions (section 10). On the divider's stream
+  `5f9f` the echo cannot ride: that stream is the plain train with a hole in every second rake, and an echo meets a
+  hole within 4 generations (section 31: the stream becomes wire B). [proved by the meeting below; not run on the
+  divider object itself.]
+
+## 31. Meetings: a table at every relative phase
+
+- **[proved] How many meetings there are.** At train phase 1 each signal sits on units of one parity (table above).
+  Write a meeting of an up-signal at unit a and a down-signal at unit b > a. Two generations on the state is
+  train(3) xor the up-signal at a + 1 xor the down-signal at b − 1, which is the phase-1 state with the up-signal
+  at a + 2 and the down-signal at b, moved by −1 unit; and translations by two units keep train(1). So up to
+  translation and time the configurations of one pair are labelled by b − a, of fixed parity, and the dynamics lowers
+  b − a by 2 every 2 generations: **each ordered pair of kinds moving in opposite directions has exactly one
+  meeting**, four in all (E or U against H or K0). `meet6.py` checks, for each pair, that two offsets give the same
+  orbit (the run with the down-signal two units further is the other run two generations later, moved one unit:
+  every generation 0..60, `ALL ORBIT CHECKS PASS`).
+  *Review (REVIEW-signals-6 §3): the argument checked; tested with an independent stepper at every offset of the
+  allowed parity from 1 to 41 units, for every pair of consecutive offsets, every generation 0..198: one orbit, no
+  exception, and the outcome is the claimed one at every offset (generation 200). With K3: E meets K3 gives the
+  puncher (as E meets K0); U meets K3 leaves one H (oracle).*
+- **[proved for the infinite train: exact runs, with the chart argument for the fronts; on the oracle by
+  `verify_echo.py` check D] The table** (`python3 meet6.py`, 3 min; sg.step_set on a finite piece, exact on the
+  units the difference occupies, which the script asserts):
+
+  | meeting | outcome | what is left |
+  |---|---|---|
+  | **E meets H** | **the stream turns into wire B** | Between two edges the wire is **wire B** of the first push (5 cells per unit, period 2; at the generations where the train elsewhere is at phase 1 or 3 it is wire B's generation-1 cells of section 1: (0,0,1), (0,0,5), (0,1,2), (0,1,4), (1,2,2)). The lower edge runs down with the stream (it is the last rake of the train below); the upper edge runs up at one unit per 2 generations and turns every rake that reaches it into wire B. Both edges are rigid with period 4 (S(t + 4) = S(t) moved two units, down or up, on a window of 12 units round each edge, t = 60..116: `python3 echo_rig.py`) |
+  | **U meets H** | the same: wire B between the same two edges | |
+  | **E meets K0** | **E becomes a puncher** | K0 is gone; an edge runs up at one unit per 2 generations behind which every rake has lost its hole cell: the train with every rake holed (equal, on the units between the edges, to the train xor H at every odd unit). Rigid, period 4 |
+  | **U meets K0** | **both vanish** | the plain train, exactly, 20 generations after the start at offset 19 (the whole state; on the oracle, whole torus, from generation 20 to 56) |
+
+  Why the edges are for ever (the chart argument of section 21): from generation t₀ on, S(t + 4) equals S(t) moved
+  two units down on the units at and below the lower edge, and moved two units up on the units at and above the upper
+  edge; between them both moves agree, because the medium (wire B, or the holed train) is unchanged by a move of two
+  units at the same generation mod 4. Each unit sees only its two neighbours, so the glued state is the orbit, for
+  every later time. The edge identities were checked for t = 60..116, every generation, periods 4, 8, 12, 16
+  (`python3 echo_rig.py`, 1 min); the gluing step itself
+  was not written as a proof script, so this row is [proved] only in the sense of section 21's argument applied by
+  hand. On the oracle (`verify_echo.py` check D): each of the four on the ring at generation 56, whole torus.
+  The edge of E-meets-H is wider than that of U-meets-H (at generation 56 one unit 6 units below its upper edge is
+  not yet wire B; at U-meets-H none).
+  *Review (REVIEW-signals-6 §3): the gluing step is now a script (`research/audit/signals6/glue6.py`: a lemma with
+  its proof in the docstring; it needs the medium between pieces to be at least 8 units, the medium to satisfy
+  Φ(M) = M over four generations, and each piece to move rigidly over one four-generation step on its units widened
+  by 4). It passes at generation 196 → 200 for E–H, U–H (wire B), E–K0 and E–K3 (the holed train) at every offset
+  1..41, so these fronts are proved for ever on the infinite train; U–K0 leaves the plain train exactly (proved).*
+- **Same direction** (`meet6.py`, every spacing of 1 to 8 units that the parities allow): two up-signals, or two
+  down-signals, travel together unchanged (each where it would be alone at generation 120) at every spacing, except
+  two configurations at distance one unit: U one unit above E (ahead of it), and H with K0 one unit apart (either
+  order); these are not two signals and the difference grows (a front). E one unit above U travels unchanged.
+  *Review (REVIEW-signals-6 §3): confirmed to spacing 12, and every travelling pair is proved to travel for ever (its
+  two-generation identity holds). "U one unit above E" is not a pair at all: the two share the cell (0,0,3) of unit
+  u + 1, so their xor is a different two-cell change. With K3: K3 fails at distance 1 or 3 below H, 2 below K0 or K3,
+  1 above H.*
+- **[proved for the listed words, exact runs; on the oracle for three] An echo against a word of holes**
+  (`meet6.py`, E against two holes 1..10 rakes apart; `verify_echo.py` for 2, 3, 4 holes at units 21, 27, 33, 41 of
+  the phase-1 train, i.e. 3, 3 and 4 rakes apart): the
+  first hole always gives wire B as above. If the second hole is 1 or 2 rakes behind the first, the wire B is clean;
+  if it is s ≥ 3 rakes behind, it leaves, standing in the wire B, a stretch of **wire B′** (B with (1,0,2) off and
+  (0,2,3) on: the register of section 9) on units s + 8 .. s + 10 (standing: the same units at generations 100, 120,
+  140, 160, s = 3, 4, 5, 8; `python3 echo_words.py`, 1 min; measured to generation 160 only), and every further hole
+  lengthens the stretch by one unit (2, 3, 4 holes: 3, 4, 5 units at generation 56, on the oracle).
+  *Review (REVIEW-signals-6 §3): wrong for s = 2: the wire B is not clean; a pulse of 1 to 3 cells rides down in it
+  at the speed of the lower edge, a few units above it, for ever (it is part of the lower piece in the gluing proof;
+  the push's medium test read only 8 units round the middle). s = 1 is clean. For s = 3..14 the B′ stretch is on units
+  s + 8 .. s + 10 and is proved standing for ever (gluing script, generation 236 → 240), and for 3 to 6 holes at
+  spacings 3 and 4 and three mixed words (21, 27, 33, 41; 21, 27, 35; 21, 29, 33) each further hole adds one unit,
+  also when it is 2 rakes behind the previous one (21, 29, 33: 4 units); s = 2, s = 3 and four holes 3 apart on the
+  oracle (ring of 128 units, generations 20 to 80, equal to the run these statements are read from).* So an echo meeting a word writes a unary count of
+  the later holes, at a place set by the spacing of the first two, into the wire B it has made: the B|B′ counter of
+  the second push, written by holes. It is not a lasting record of the line: in the finite line (section 34) the
+  dead gun's fire comes down the wire B and erases it.
+- **Every distinct case, counted.** Opposite directions: 4 meetings (all listed, each one orbit). Same direction:
+  each pair of kinds at each spacing 1..8 allowed by parity (32 cases), all listed. Words: E against two holes at
+  spacings 1..10 rakes, against 3, 4, 5 holes at one set of spacings each, and the five mixed words of `meet6.py`
+  (E with K0 and H, U with two H, U with two K0: U cancels the first K0 and the second rides on; E with two K0: a
+  puncher). Not covered: other words, and meetings on any train other than the plain one.
+
+
+## 32. The gun end: nothing on file survives an echo; U is absorbed by eleven guns
+
+- **[measured, sg.step_set; exact on the units compared] What the echo does to the line.** E put on the stream of
+  the line N = 16 in its cycle (at unit 4, phase 1) reaches the gun about 24 generations later; the gun dies and the
+  wire burns down to capA: at generation 100 the 33 + 5N = 113-cell line has become 37 cells of debris on 9 units,
+  unchanged to generation 300 (an interactive run, not kept as a script; `python3 record6.py 40`, the case with no
+  holes, shows the same at N = 40: the wire is gone and 44 cells of debris of period 4 are left).
+- **[measured, sg.step_set] Every gun on file against E and U** (`python3 gun_echo.py
+  ../scratch/signals/p6/guns_5f_37.json`, about 2 min; the list is `python3 sat_gun.py 5f 37 --all --out
+  ../scratch/signals/p6/guns_5f_37.json`, 36 s, **68 guns, list complete (UNSAT after the last)**, every one
+  re-stepped OK; it contains every entry of the C = 31, 33, 35 lists (1, 1, 6; re-run here, 1 s, 3 s, 7 s), so it is
+  every gun of period dividing 4 of the train `(5f)^∞` in the 3 × 3 tube inside the planes C ≤ 37, `gun-5f` among
+  them, possibly with translates and time shifts counted more than once): each gun at the end of the train (units
+  −400..5), the signal 30 units in front, compared with the undisturbed run for 160 generations.
+  **E: all 68 die** (at generation 160, 58 to 150 cells differ on the units near the gun; none heals, none is back
+  in its cycle with a signal sent down). **U: 11 heal exactly** (the whole state equal to the undisturbed run within 80 generations:
+  #0, 1, 2, 4, 8, 9, 10, 11, 12, 13, 14 of the list, 21 to 33 cells), **57 die**. On the oracle: `verify_echo.py`
+  check E (gun #4, 23 cells: the whole torus equal to the undisturbed run from 28 generations after U is set 5
+  units in front of it; the gun still in its cycle). So a gun can survive a signal coming up the stream: U, not E.
+  *Review (REVIEW-signals-6 §4): the 68 entries are 67 guns up to translation and time shift (entries 15 and 40 are
+  one gun). Re-run with an independent stepper: E kills all 68, U is absorbed exactly by the same eleven (#0, 1, 2, 4,
+  8–14), and the new up-moving signal N1 kills all 68.*
+- **[SAT, bounds; CaDiCaL 1.5.3, no model, nothing to re-step] No gun survives E** (`python3 sat_gun_echo.py C
+  --kind E`; instance in the script's docstring). Unknown: a gun A of period dividing 4 (units < 6 tied to the
+  train), a gun B of period dividing 4 at the train phase T later (any gun: B = A, A shifted, or a different gun),
+  and the run X from A(0) to B(0) in T = 52 generations, E arriving from 4 units in front of the region; the units
+  ua, ua + 1 in front of the gun (four units before its first free unit) follow either the history "E rides in,
+  nothing comes back" or one of 14 histories "E rides in, and later one H or one K0 rides out" (every place of the
+  right parity, so every leaving time, from just after E's passage to T − 8). So a model would be a gun that absorbs
+  the echo or answers it with one hole or one K0, and is a gun again (possibly a different one: a listener) within
+  52 generations. Results (single core): C = 31: UNSAT 32 s; 33: UNSAT 41 s; 35: UNSAT 47 s; 37: UNSAT 104 s;
+  **39: UNSAT 407 s** (beyond the census). Controls: with U instead of E (`sat_gun_echo.py 37 --kind U`) the same
+  instance is SAT (a 26-cell gun that absorbs U, re-stepped: periodic, reaches B; `--noreturn --same`: SAT in 37 s, a
+  23-cell gun, re-stepped). **U answered by a returned H or K0** (`--kind U --mustreturn`): UNSAT at C = 31, 33, 35,
+  37, 39 (single core: 31, 40, 49, 108, 328 s). No instance was cut. E at C = 41 was cut at 25 minutes.
+  *Review (REVIEW-signals-6 §4): what this instance does not exclude: a return of K3, N2 or N3 (signals that exist,
+  section 30's Review note), two signals, a front, a return later than T − 8, period 8, anything outside the tube.
+  An independent encoding (`research/audit/signals6/mysat6.py`: light cone instead of histories, so the gun may send
+  anything at all down the stream; it must be a gun of period dividing 4 again, on its units and the 4 in front, at
+  T = 36 after E is set 4 units in front of it; glucose4) is UNSAT for E at C = 31 (also maplechrono, and T = 48),
+  33, 35, 37 (C = 39 cut at 25 minutes), for N1 at C = 31, 33, 35, 37, and for U with something sent down at C = 35, 37; SAT for U at C = 37 (re-stepped);
+  planted controls behave. The push's U instance at C = 37 re-run: SAT, its gun re-stepped by the review absorbs U.*
+- **[measured, sg.step_set; a SAMPLE] Oscillators beside the gun** (`python3 oscecho.py --K 40 --seed 6 --zone 13,16
+  --out ../scratch/signals/p6/oscecho_gun.jsonl`, 23 min): the 99 catalogue oscillators, 40 random placements each
+  (as `gapstream.py`: halo meeting the halo of units 13..16 of the line N = 16, i.e. the gun and the three units in
+  front of it, and nothing else), 3,960 placements: 1,099 do not stand (oscillator or gun lost in 2P + 8
+  generations), 40 disturb the stream; the other 2,821 were sent E from unit 2: **in 2,090 the gun dies with the
+  oscillator kept, in 731 the oscillator is destroyed; none absorbs E, none returns a signal, none other** (verdicts
+  in the script's docstring; "gun dead" includes a stream that is no longer the plain train on units 2..11). Caveat:
+  this run's stream test read all cells of units 2..11, the oscillator's included, so a placement with oscillator
+  cells on those units and a returned signal would have been counted as "gun dead"; "absorbed" (the two runs equal)
+  is not affected. The script was corrected (tube cells only) before the run beside the wire; the gun-zone run was
+  not repeated.
+  Beside the wire (`python3 oscecho.py --K 25 --seed 7 --zone 6,9 --minutes 20`, 9 min; halo meeting units 6..9):
+  2,475 placements, 696 do not stand, 1 disturbs the stream; of the 1,778 sent E, in 1,615 the gun dies with the
+  oscillator kept (the echo passes or the stream is changed), in 163 the oscillator is destroyed; **none absorbs E,
+  none returns a signal**.
+  Not covered: placements not drawn, other N, oscillators outside the catalogue, two oscillators, U.
+- **So, for question 3:** (a) every gun on file dies on the echo; (b) no gun of period dividing 4 in the 3 × 3 tube
+  inside C ≤ 39 absorbs it or answers it with one H or K0 within 52 generations; (c) no sampled oscillator beside
+  the gun saves it. A signal coming up the stream *can* be survived, though: 11 of the 68 guns absorb U exactly. And
+  no gun in those bounds answers U with a returned H or K0, so no loop can be built from these parts (question 5:
+  not reached). *Review: "these parts" means period-4 guns and ends in the 3 × 3 tube at the stated C and T; the
+  signal set is larger than E, U, H, K0 (section 30's Review note), and the review's wider encoding (any answer)
+  excludes those answers too for C ≤ 37 (U and E).*
+
+## 33. The reflector: what makes the echo, and why it works once
+
+- **[measured, sg.step_set] How C18.23a makes it** (`python3 stroke6.py`, 1 s): step the joint state once and
+  compare with the line part and the oscillator part (the cells in the support of the free oscillator's orbit)
+  stepped apart. In the plain run (60 generations from the hole's generation) the two never couple: C18.23a stands
+  beside capA without touching it. In the holed run they couple through ONE cell, (2,0,−1) (unit 1, in front of
+  capA), at three generations, tg + 16, + 18, + 20, while the hole's transient is in capA; the line then carries E
+  away and everything else is as in the plain run. So the hole's transient reaches one cell that the oscillator can
+  bear on, and that cell's state decides the echo. C20.33c is different: it is coupled to capA at every generation,
+  in the plain run too, through the cell (1,0,−2): capA with C20.33c beside it is another end that heals no hole, not
+  capA with a bystander. (The split of a state into the two parts is by the oscillator's support, as in `gunlab.py
+  stroke`; a line cell inside that support would be misassigned; not checked.)
+- **[measured, sg.step_set] It works once** (`python3 reflect6.py`, 2 min; the line N = 40 with the oscillator
+  beside capA, words xored in at units 21, 23, … of the phase-1 train). One hole: E comes back, alone (both
+  oscillators). A word of two or more holes, at spacings 1 to 3 rakes, and four random words: the first hole's E meets
+  the second hole on its way up and the stream becomes wire B (section 31); this is forced by the meeting table at
+  every spacing, so **no word of two holes or more is returned**. K0 alone: not returned as a signal (C18.23a: 11
+  cells differ on units 3..33 and 3 at the end 76 generations on, not a set of signals; C20.33c: the end is
+  destroyed). H followed by K0 three units behind (at units 21, 24): one E comes back and the K0 is absorbed by both
+  ends.
+  *Review (REVIEW-signals-6 §5): the coupling re-checked with every step on the oracle: C18.23a plain, no coupled
+  generation in 60; holed, exactly tg + 16, 18, 20 through (2,0,−1); C20.33c coupled at every generation through
+  (1,0,−2). Two holes at every spacing s = 1..20 rakes (line N = 70, both oscillators): never one returned E; from
+  s = 2 on, wire B on the stream. One hole: one E; K0: no signal returned.*
+- **[SAT, bounds; CaDiCaL 1.5.3; no model] No simpler reflector in the 3 × 3 tube** (`python3 sat_reflect6.py C
+  --kind H|K0`; instance in its docstring: the absorber A of period dividing 4 inside the tube and the planes
+  x+y−z, x−y−z ≤ C, the arriving H or K0, and the units in front of the end following one of 8 or 9 histories in
+  which one E or one U rides out at some time between the signal's arrival and T − 8, T = 56; then an absorber B
+  of period dividing 4 (any)): H: UNSAT at C = 31, 33, 35, 37 (single core: under 60 s each for C ≤ 35, 494 s at
+  37); K0: UNSAT at C = 31, 33, 35, 37 (506 s at 37). H at C = 39: cut at 25 minutes (external timeout). Control: `python3 sat_reflect6.py 31
+  --any --same` (the history "nothing comes back" allowed, B = A) is SAT in 45 s, the 16-cell absorber of section
+  21, re-stepped: restored, train intact. There is no positive control for the "returns E or U" histories (no
+  reflector inside the tube is known); for C ≤ 37 the census of section 27 (the review's whole-state scan: every
+  end heals each word within 39 generations or burns) says the same for H.
+  *Review (REVIEW-signals-6 §5): an independent encoding that allows any answer up the stream (the end restored at
+  T = 36, on its units and 4 in front, and at least one cell of the 28 units above differing from the train) is
+  UNSAT for H at C = 31, 33, 35 (37 cut at 20 minutes) and for K0 at C = 31 (glucose4); its controls (no answer required; an extra E on
+  the stream) are SAT and re-step.*
+- So the only reflector known is the review's: capA with C18.23a or C20.33c beside it. Not tried: other
+  oscillators beside capA (the samples of section 28 found these two among 9,900 placements), the 5 × 5 tube.
+
+## 34. The line, the echo and a word: what is left
+
+`python3 record6.py 40` (1 min; sg.step_set): the line of 40 units in its cycle, E at unit 4 and 0 to 4 holes at
+units 21, 27, 33, 41 put on the stream together. At generation 80 the wire is wire B from capA's front to the gun,
+with the B′ stretch of section 31 for 2 or more holes (unit letters printed by the script with an intermediate
+generation; e.g. 3 holes at generation 80: `????BBBBBBBBBBBBBbbbTBBBB…`); the gun has died, and from it debris
+burns down the wire B and through the B′ stretch: at generation 440 the object is 12 to 177 cells of debris, of
+periods 1 to 20, different for each number of holes. So in the finite line the count is not kept: the final states
+differ, as debris does (section 28's review), not as a record.
+
+## 35. Sixth push: not checked, and where I would go next
+
+- **Not checked.** The meeting table and the signal census are exact computations on the infinite lattice with
+  `sg.step_set` (checked against the oracle by `check_stepper.py`) and are on the oracle for one offset each
+  (`verify_echo.py`); the chart argument for the fronts was applied by hand from checked identities, not written as
+  a proof script. The SAT negatives (sections 32, 33) rest on my two encodings (`sat_gun_echo.py`,
+  `sat_reflect6.py`, built on `scat.Problem` and `sat_gun`'s region, unchanged) and on CaDiCaL alone; no second
+  solver, no certificate. They allow only these returns: one H or one K0 (gun), one E or one U (reflector); a gun or
+  an end that answers with two signals, a front, or anything that disturbs the train more than 4 units in front of
+  it, or settles later than T (52, 56), is not excluded. The returned signal's history assumes it rides out on the
+  plain train, which it does once out of the region (section 30). Period 8: the gun instance for E at TA = TB = 8,
+  C = 33 (`python3 sat_gun_echo.py 33 --kind E --mult 2 --multB 2`) was cut at 20 minutes (external timeout);
+  nothing at period 8 is excluded. The 5 × 5 tube was not tried. `gun_echo.py` and `oscecho.py` are `sg.step_set`
+  only; nothing they found was positive except U into the guns, which is on the oracle for one gun (#4). The census
+  of guns at C = 37 may count a gun more than once (translates, time shifts); I did not deduplicate it. The
+  catalogue scan of section 32 is a sample. The look at the echo inside the review's records was not kept as a
+  script. The correction to the review's 'breaks' class is from reading its code; I did not re-run its scan.
+  *Review (REVIEW-signals-6): now checked by a second agent with its own stepper and encodings: the signal census
+  (and five further signals), the fronts (a gluing script: proved for ever), the meetings at offsets 1..41, the B′
+  stretch (standing for ever; s = 2 corrected), the follow-up of review 5's scan (nothing alive and changed), the
+  gun list (67 distinct), the gun and reflector negatives in a wider form (any answer) at C ≤ 37 / 35, the coupling
+  on the oracle. Still unchecked: period 8, the 5 × 5 tube, settling later than T, the oscillator samples, no UNSAT
+  certificate.*
+- **Where I would go next.** (1) *A reflector that returns U.* Eleven guns absorb U and are restored: a receiving
+  end that answered a hole with U would make the line a two-way channel with both ends restored (the hole goes
+  down, U comes back and is swallowed by the gun). In the 3 × 3 tube at C ≤ 37 there is none (section 33); beside
+  capA, run the catalogue placements of section 28 asking for U instead of E. (2) *U against the stream's other
+  objects*: U cancels K0 exactly, so an object that emits K0 on a U, or the reverse, would be a gate between
+  directions. (3) *A memory loop* needs a gun that turns an up-signal into a down-signal: UNSAT at C ≤ 39 for E and
+  U with one returned H or K0, period 4; next, period 8 and returns of two signals. (4) *The B′ record*: E meeting
+  holes writes a unary count into wire B; if the far end of the wire B could be capped (wire B has caps: section 8)
+  before the gun's fire arrives, the count would last. That needs the gun end to die cleanly or not at all.

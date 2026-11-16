@@ -177,3 +177,47 @@ Torus (1, 12), (0, 28), one loop of 12, three seeds on the tester's runner (rows
 - **W11 (80%).** The card's value for the 84-cell face agrees with 17.3248 ± 0.0058 to within 2.5 combined errors.
 - **W12 (55%).** The 108-cell face lands nearer the tube line than POW. Honest odds: the two are 0.035 apart with
   forecast errors of 0.007 and 0.012, so unless the card reaches ± 0.012 this will not be decided either.
+
+## Why a tube is cheaper: the lead's forecasts before a study of the living state (18:27 UTC, 2026-11-15)
+
+Each tube girth has its own price per cell (loop² 12: 0.20437; 13: 0.20602; 16: 0.20717; none: 0.20864), and the
+discount is the same for every cell of the tube, so it should show in something local, measured on a living tube
+with no death in sight. A study is asked (`research/wraplocal/`) which local property of the living state tracks
+the price. Written before it starts; I have not looked at any such statistic.
+
+- **L1 (70%).** Some one-point or nearest-pair statistic of the living state (density, births or deaths per cell
+  per generation, a pair correlation) on a tube of loop² 12 differs from its value on a no-short-loop torus of
+  about the same area by more than five standard errors.
+- **L2 (55%).** The size of that difference is ordered as the prices are: 12 > 13 > 16 > 19, and zero within error
+  at 21.
+- **L3 (30%).** One local statistic gives the prices: a one-parameter relation fixed on loop² 12 and 16 forecasts the
+  price at loop² 13 within twice the price's own error (0.00033 per cell).
+- **L4 (30%).** The reason the effect ends between loop² 19 and 21 comes out as a statement about the rule's
+  neighbourhood (which sums of neighbour offsets can equal the loop vector) that the study can state exactly and
+  check on a loop² the data have not got (9, or 25, 27, 28).
+- **L5 (35%).** Nothing local tracks it: every statistic tried is either equal within error on all tubes or not
+  ordered as the prices are.
+
+## W13: does the discount go on past loop² 19? A forecast for the card (20:10 UTC, 2026-11-15, before any such run)
+
+The study of the living state (`research/wraplocal/`) finds that the density of a living face falls with every
+loop, smoothly in the loop's length, with no end at 19 or 21, and that the discount in the price per cell is 1.85
+times the density's deficit for loops of 12, 13 and 16. If that goes on, faces I have called "no short loop" are
+not all alike: at equal area, one with a loop of 21 should live less long than one whose loops are all 28.
+
+- The face (1,4),(0,28), 84 cells, loops² 21 and 28, against the equilateral face of 84 cells, loops² 28 three
+  times, measured by the card at 17.5467 ± 0.0031.
+- **If the relation holds:** lower by 1.854 × (84 − 30) × (f(21) + f(28) − 3 f(28)) = 0.0125 (0.010 to 0.015 as the
+  meeting point A0 runs from 40 to 20 cells): **17.534 ± 0.004**.
+- **If the effect ends before 21:** equal to the equilateral face: **17.547 ± 0.003**.
+- **W13 (65%).** The card's value for (1,4),(0,28), measured to ± 0.003, is below 17.5405 (the midpoint).
+
+### L1–L5 scored by the lead (20:16 UTC)
+
+L1 held (the face density on a loop-12 tube is about 100 standard errors below the long-loop torus). L2 failed on
+its second half: the order is as the prices, but the deficit at 21 is 45σ from zero, not zero. L3 held (the density,
+fixed on 12 and 16, gives 13 within one standard error; one forecast, and the density was picked among 17
+statistics, though it was the one named beforehand). L4 failed: no exact feature of the neighbourhood sits at 19 to
+21, and there is no end to explain. L5 failed. My own measurement of five of the densities with separate code
+agrees (`research/audit/wraplocal_lead_check.py`). The thing I had wrong was the premise: I asked why the effect
+ends, and it does not.

@@ -8,5 +8,5 @@
   const T = $('#n-div');
   numTile(T, 'one cell', 'is the whole coupling, born once in ' + dv[1] + ' generations. The gun fires at the highest rate there is, so the gaps are the only message.', ['meas', 'three codes']);
   numTile(T, st[0] + ' → ' + st[1], 'cells, at ' + st[2] + ' units, when one cell is taken from the wire at the right place, one generation before the stroke: the clock is destroyed. Left alone, and under every word of gaps, it is never changed.', ['meas', 'reviewer; the lead re-ran it']);
-  numTile(T, 'no reader', 'Nothing found reads the word, and a second clock on the halved stream does nothing more (' + st[3] + ' placements).', ['open', 'open']);
+  numTile(T, 'no reader', 'Nothing found reads the word. A second clock on the halved stream does nothing more (' + st[3] + ' placements); this clock itself, sent gaps at every place and phase, heals or is destroyed (' + fmtInt(D.ends.divbeside[1]) + ' runs at N = ' + D.ends.divbeside[0] + '). Five pushes have looked for any end that a gap leaves changed: none is known (two plates down).', ['open', 'open']);
 })();

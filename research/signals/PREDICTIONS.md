@@ -387,3 +387,145 @@ Over four pushes: 19 forecasts tested, 9 held in some form, 10 failed. The two t
 had marked down hardest after three empty pushes, and my most confident one (S21) was wrong. The investigator's own
 note says the same of itself: the earlier negatives were all stated for one kind of word and one kind of placement,
 and I, like it, took them for more.
+
+## Fifth push (a listener): the lead's forecasts, 2026-11-15 16:39 UTC, written before it starts
+
+The question is one thing: does any standing object end up in a different lasting state after a gap has passed
+than after none? Four pushes found a writer and an editor and no reader. My last round's lesson was that I took
+narrow negatives for broad ones, so these are not marked down as far as habit suggests.
+
+- **S22 (15%).** A listener passes the oracle: a bounded standing object at the end of, or beside, the stream that
+  survives one gap (or one stated word of gaps) and is left in a lasting state different from the one it has when
+  no gap comes, both states stable under the plain stream.
+- **S23 (5%).** A reusable one: successive gaps take it A → B → A (a bit that toggles), or A → B → C … by a step
+  each time (a counter of gaps), for at least four gaps.
+- **S24 (25%).** Something moves: a gap shifts a standing object or a wall by a unit and leaves it otherwise intact.
+- **S25 (40%).** A census of stream ends at least five times the size of the one on file (13 absorbers) is
+  completed, deduplicated up to translation and time shift, and its transition graph under single gaps has no
+  edge between two different live ends.
+- **S26 (55%).** The push ends with no listener within its stated bounds.
+
+## Fifth push: the investigator's forecasts (2026-11-15, written before any code was run)
+
+Plan: (1) one SAT instance holding three copies of the dynamics (absorber A of the rake train, absorber B of the same
+train, and the run from A with a hole in the train that must end in B, B different from every phase of A), at period
+4 and 8, in the 3 × 3 tube for several plane positions and in the 5 × 5 tube; (2) a deduplicated census of absorbers
+with every one fed holes by stepping; (3) the catalogue oscillators that survive beside the running line, each sent a
+hole, compared with the hole-free run long after.
+
+- **P1 (12%).** The three-copy SAT instance finds a two-state end (A ≠ B, both period 4, the 3 × 3 tube, some C ≤ 39)
+  that re-steps correctly.
+- **P2 (20%).** It finds one anywhere in the bounds I manage to run (period 8 or the 5 × 5 tube included).
+- **P3 (35%).** If found, the B is A moved by one unit (a "mover"), not a different object. (Conditional.)
+- **P4 (15%).** The scan of catalogue oscillators beside the stream (attack 3) finds a placement where one hole leaves
+  the oscillator alive and in a different lasting phase, place or kind, gun and stream intact.
+- **P5 (55%).** A deduplicated census of absorbers of period 4 at least five times the 13 on file is completed.
+- **P6 (18%).** A listener of some kind passes the oracle by the end of this push.
+- **P7 (4%).** A reusable one (toggle A → B → A, or a counter of gaps over at least four gaps) passes the oracle.
+- **P8 (65%).** At least one of the SAT negatives I report will be cut by the 25-minute limit rather than finish.
+
+### The fifth push scored (investigator, 2026-11-15 18:20 UTC)
+
+- **P1 (12%): failed.** Every instance of the three-copy search in the 3 × 3 tube is UNSAT (C = 29..39 period 4;
+  C = 31, 33 period 8; five words). 0.01.
+- **P2 (20%): failed.** The 5 × 5 tube and the asymmetric tube were cut, nothing found anywhere. 0.04.
+- **P3 (35%, conditional): not tested** (nothing found).
+- **P4 (15%): failed.** 31,144 gap runs beside the stream (two samples) and 1,034 at the divider: no lasting change
+  without destruction. 0.02.
+- **P5 (55%): held.** 741 distinct ends up to translation and time shift, 57 times the 13 on file. 0.20.
+- **P6 (18%): failed.** 0.03.
+- **P7 (4%): failed.** 0.00.
+- **P8 (65%): held.** Three instances were cut (5 × 5 at C = 29, 31; [1,9] × [1,5] at C = 29). 0.12.
+
+Mean Brier score over the seven scored: 0.06. The forecasts were low on everything positive and that was right;
+the one I could not have guessed is how sharp the census is: 599 ends heal every word and 142 die on every word,
+with nothing between. My reading of the lead's S22–S26, for the lead to overrule: S22 failed, S23 failed, S24 failed
+(no end and no wall moves by a gap; the only mover the search found is the known B|B′ wall under a pulse of wire B,
+its control), S25 held (741 ends, deduplicated, eight words, no edge between two live ends), S26 held.
+
+### The fifth push: the lead's scoring (18:54 UTC, before the review)
+
+S22 failed, S23 failed, S24 failed, S25 held (741 ends against 13, no edge between two live ends; my own oracle run
+of every end for three of the eight words agrees), S26 held. Over five pushes: 24 forecasts tested, 11 held in some
+form, 13 failed. This time the two that held were the two I thought likeliest, and the size of the forecasts was
+about right; what I did not foresee is how clean the split is. I had expected a few ends that change, move or half
+heal, and there are none among 741: every end either forgets every word or is destroyed by every word.
+
+## Sixth push (the echo): the lead's forecasts, 2026-11-15 19:59 UTC, written before it starts
+
+The review of the fifth push found that the line's receiving cap with a catalogue oscillator beside it answers a
+hole with a three-cell signal sent back up the stream, through the oncoming rakes, the end restored (my own oracle
+check: `research/audit/signals_echo_lead_check.py`). It kills the gun when it arrives. So the stream now carries
+signals both ways. The sixth push asks what the echo is, what happens when it meets a hole, and whether any gun
+survives it.
+
+- **S27 (85%).** The echo rides the plain rake stream for ever: shown for every distance by an argument or an exact
+  periodic computation, not only for the 18 generations seen.
+- **S28.** An echo meeting a hole head-on, over every relative phase that exists: they pass through each other
+  unchanged at every phase (35%); the stream breaks at some phase (30%); they cancel cleanly at some phase and the
+  stream is left plain (15%); some other clean outcome at some phase, both or one changed in kind (20%). (The four
+  are scored on the most interesting outcome that occurs at any phase, in the order: other clean, cancel, break,
+  pass.)
+- **S29 (25%).** A gun that survives the echo is found and passes the oracle (it absorbs the echo or returns
+  something, and goes on firing).
+- **S30 (8%).** A closed loop: one signal goes round between a gun end and the reflector at least three times,
+  both ends restored each time.
+- **S31 (30%).** A reflector simpler than the cap with an 18- or 20-cell oscillator beside it is found.
+- **S32 (12%).** A listener: a standing object that an echo, or the meeting of an echo and a hole, leaves alive in
+  a different lasting state.
+
+## Sixth push (the echo): the investigator's forecasts, 2026-11-15 20:02 UTC, written before any code was run
+
+- **Q1 (88%).** The echo rides the plain rake train for every distance, shown by an exact periodic computation.
+- **Q2 (30%).** The echo also rides bare wire C (as some signal of bounded size, moving towards the gun end).
+- **Q3 (45%).** The echo rides the divider's stream `5f9f` past at least one stretch of 8 units unchanged.
+- **Q4 (35%).** An echo and a hole pass through each other unchanged at every distinct relative phase.
+- **Q5 (40%).** At some phase an echo meeting a hole breaks the stream.
+- **Q6 (25%).** At some phase an echo and a hole cancel and leave the plain stream exactly.
+- **Q7 (45%).** An echo meeting K0 breaks the stream at some phase.
+- **Q8 (8%).** Some gun on file (the census lists of the fourth push, `gun-5f`) survives an echo and returns to its cycle.
+- **Q9 (20%).** A constraint search finds an emitter of the rake train that survives one echo (and it passes the oracle).
+- **Q10 (50%).** The reflector (capA + oscillator) returns each of two holes one rake apart as two echoes, restored.
+- **Q11 (20%).** It returns K0 as an echo (of any kind).
+- **Q12 (20%).** A simpler reflector (fewer cells, or capA with a smaller oscillator, or an end alone) is found.
+- **Q13 (4%).** A loop: one signal goes round gun end -> reflector at least three times, oracle.
+- **Q14 (7%).** A listener (anything left alive in a different lasting state by an echo or a meeting), oracle.
+
+### The sixth push scored (investigator, 2026-11-15 21:05 UTC)
+
+- **Q1 (88%): held.** E rides the plain train for ever (`prove_echo.py`: a two-generation computation and an
+  induction; oracle ring, 120 generations). 0.01.
+- **Q2 (30%): failed.** The echo is a defect of rake cells; bare wire C has no E (its own pulses run both ways). 0.09.
+- **Q3 (45%): failed.** The divider's stream has a hole in every second rake; an echo meets one within 4
+  generations and the stream becomes wire B. 0.20.
+- **Q4 (35%): failed.** There is one meeting of E and H, and they do not pass. 0.12.
+- **Q5 (40%): held.** E meets H: the stream between two separating edges becomes wire B. 0.36.
+- **Q6 (25%): failed** for E and H. (U and K0 do cancel exactly; that was not the forecast.) 0.06.
+- **Q7 (45%): failed.** E meets K0: K0 vanishes and E becomes a puncher that holes every rake it passes; the train
+  survives, holed. 0.20.
+- **Q8 (8%): failed.** All 68 guns of the C = 37 census die on E (11 absorb U). 0.01.
+- **Q9 (20%): failed.** UNSAT at C = 31..39 (absorb, or return one H or K0; period 4). 0.04.
+- **Q10 (50%): failed.** The first echo meets the second hole on its way up. 0.25.
+- **Q11 (20%): failed.** 0.04.
+- **Q12 (20%): failed** as worded (no simpler reflector; but one flipped cell anywhere on the stream makes an echo
+  with no reflector at all). 0.04.
+- **Q13 (4%): failed.** 0.00.
+- **Q14 (7%): failed.** The meeting of an echo with a word of holes writes a unary count (a B′ stretch in the wire B it
+  makes), but the finite line burns it away. 0.00.
+
+Mean Brier score over the fourteen: 0.10. What I did not foresee: that the echo is not a property of the reflector
+at all (one cell of the stream makes it), that a second up-moving signal U exists which eleven guns absorb, and that
+the meeting of an echo and a hole makes wire B, the first push's wire.
+
+My reading of the lead's S27-S32, for the lead to overrule: **S27 (85%) held.** **S28**: one meeting exists, and its
+outcome is that the stream breaks (turns into wire B): the 30% branch. **S29 (25%) failed** for the echo (no gun on
+file and none in the SAT bounds survives E; guns that survive the other up-signal U exist, which the forecast did not
+name). **S30 (8%) failed.** **S31 (30%) failed** (no simpler reflector; the echo needs none). **S32 (12%) failed.**
+
+### The sixth push: the lead's scoring (21:50 UTC, before any review)
+
+S27 held. S28: the stream breaks (my 30% branch): an echo meeting a hole turns the stream between them into wire B
+and the change spreads both ways for ever; my likeliest branch, passing through unchanged (35%), did not happen at
+the one phase that exists. S29, S30, S31, S32 failed. Over six pushes: 30 forecasts tested, 12 held in some form,
+18 failed. What I did not foresee: that there are four signals and not two, that one pair cancels exactly, and
+that the echo needs no reflector at all (one flipped cell makes one).

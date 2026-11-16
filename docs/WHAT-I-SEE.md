@@ -217,6 +217,38 @@ message. A second clock further down the wire does nothing more to it. And the r
 showed the clock is not safe from the wire: one cell missing at the right place and moment
 and it is destroyed.
 
+The fifth round asked one thing: does anything listen? I mean a standing object that a gap
+leaves in a different state than no gap does. Within what could be searched, nothing does.
+There turn out to be 741 different ends a stream can run into, in the narrow tube the wire
+lives in, and every one of them either forgets a gap completely within a few dozen
+generations or is destroyed by it. I ran all 741 on the reference stepper myself. There are
+two kinds of one-cell gap that travel, and five hundred of the ends forget one kind and die
+of the other, which is a way of telling them apart, though a fatal one.
+The reviewer then found the first thing in gump that answers. Stand a certain clock beside
+the receiving end and send a gap down: the gap arrives, and three cells come back up the
+wire, against the stream, passing through every object on its way down without disturbing
+one of them, and the end and the clock are exactly what they were. I checked it on the
+reference stepper: for eighteen generations the whole world differs from the undisturbed one
+in three cells and no others. When the answer reaches the gun, the gun dies. So a wire now
+carries things both ways, and the next question is what an answer and a gap do when they
+meet.
+
+The sixth round asked that, and the answer is that they do not pass. The stream carries
+nine kinds of travelling flaw, not two: three swim up it and six ride down, and a single
+flipped cell is enough to start one. Each kind was proved to travel for ever. When an
+answer meets a gap head-on, the wire between them becomes a different wire, the one the
+first round started from, and that change spreads up and down without end. One pair cancels
+exactly and leaves the stream whole. Another turns the answer into an edge that punches a
+hole in every object it passes. No gun survives being answered, among all sixty-seven we
+can list and under a search that let the gun reply with anything. I ran the four signals
+and their four meetings on the reference stepper myself; a reviewer rebuilt the rest and
+found five of the nine signals that the round had missed. I had thought an answer and a gap
+would most likely pass through each other.
+There is one thing in all this that counts. An answer running into a word of gaps leaves a
+standing stretch of a third wire, one unit longer for every gap. It is the first mark in
+gump whose size depends on a message. It is written inside a stream that is being
+destroyed, and when the gun at the far end dies its fire erases the mark.
+
 ## The rule you meant to write
 
 In November 2026 you looked at a picture of the neighbourhood and said it was wrong: in its
@@ -594,9 +626,11 @@ corrected is part of what this repository is for.
   step of radius instead of ten-fold, and B45/S3456, which slowly freezes like a glass.
 - Whether gump can compute. It has wires, pulses, a gate where two pulses meet, a counter,
   a clock of any length, and now a standing thing that writes onto a wire and a second thing
-  that edits what was written. It has nothing that reads: no object left in one state by a
-  gap and another by its absence. It has no corner, no crossing, and no second stage after
-  the first. Everything so far lives along one direction of one tube.
+  that edits what was written, an end that answers a gap with a signal sent back, and nine
+  kinds of signal on one wire, which collide instead of passing. It has
+  nothing that reads: no object left in one state by a gap and another by its absence, among
+  741 ends searched and thousands of placements sampled. It has no corner, no crossing, and
+  no second stage after the first. Everything so far lives along one direction of one tube.
 - A clock whose period divides by four. Every length of the built clock gives a period that
   leaves 2 when divided by 4. A third push found half of the reason: the remainder is a
   property of the two ends, and every end that fits inside the narrow tube of the wire has
@@ -606,10 +640,16 @@ corrected is part of what this repository is for.
   drift toward anything else. Faces with a rim say more, and their local slope is moving
   away from that, not towards it. The card in your house is running the large rimmed face
   that would tell.
-- Why a face stops seeing itself. A wrapped face lives less long for every short way round
-  it, and then, between one loop length and the next, loses nothing at all. I do not know
-  what sets that length, or why a tube's price per cell falls by just two percent, 1.3 and
-  0.7 as its girth tightens, or how the discounts of two short ways round combine.
+- Why a way round costs what it does. I had this down as "why a face stops seeing itself":
+  a wrapped face lives less long for every short way round it, and then, past a certain
+  length, seemed to lose nothing. That was the limit of what lifetimes can resolve. Looked
+  at alive, a face is a little emptier for every way round it, by an amount that falls
+  smoothly as the way round lengthens and never quite ends, and the discount in the price is
+  1.85 times that emptiness. Two percent, 1.3 and 0.7 are that rule at three lengths. I do
+  not know why 1.85, or what carries the emptiness round the loop: a cell and its own image
+  one loop away are not correlated at any moment. And if the rule holds for long loops, the
+  price with no way round at all is nearer 0.2075 than 0.2086; a face is queued on your card
+  to test that.
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):

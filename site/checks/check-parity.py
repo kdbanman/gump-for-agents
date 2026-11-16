@@ -33,18 +33,28 @@ EDITS = [
 # Plates added since OLD_REV, and old plates whose HTML was rewritten on purpose (each with where it comes from); the data
 # keys whose content may differ from the old page's. Anything not named here must still be as it was.
 NEW = {
-    "wrap": "phase 2 (2026-11-15 afternoon): What a short way round costs (NB the wrapping law tested; CLAIMS WL1-WL3)",
+    "wrap": "phase 2 (2026-11-15 afternoon): What a short way round costs (NB the wrapping law tested; CLAIMS WL1-WL3); rewritten the "
+            "evening of 2026-11-15 around the density law (NB why a tube is cheaper; CLAIMS WL4-WL6, W13)",
     "gun": "phase 2: A gun (NB the fourth signals push, reviewed; CLAIMS SG16-SG18)",
     "divider": "phase 2: A clock that edits the message (CLAIMS SG19, SG22)",
+    "echo": "evening 2026-11-15: An echo, live (NB the fifth signals push reviewed; CLAIMS SG26; research/audit/signals5/end_echo.json); "
+            "night 2026-11-15: its result, no gun survives an echo and the reflector works once (NB the sixth signals push reviewed; CLAIMS SG30, SG31)",
+    "meetings": "night 2026-11-15: When signals meet, live (NB the sixth signals push, reviewed; CLAIMS SG28, SG29; "
+                "research/signals/objects/echo-train.json, research/audit/signals6/sig6.py)",
+    "ends": "evening 2026-11-15: Nothing listens (NB the fifth signals push, reviewed; CLAIMS SG23-SG25, SG27); night 2026-11-15: the events "
+            "review 5 had not followed, the count an echo writes, six pushes' forecasts (NB the sixth signals push reviewed; CLAIMS SG29, SG32)",
 }
 CHANGED = {
-    "constant": "phase 2: nine wrapped faces in place of five (NB the nine wrapped faces reviewed; CLAIMS GL3)",
-    "next": "phase 2: Open now, from docs/WHAT-I-SEE.md 'What I would look at next' and OPEN-PROBLEMS 9 and 13",
+    "constant": "phase 2: nine wrapped faces in place of five (NB the nine wrapped faces reviewed; CLAIMS GL3); evening 2026-11-15: one "
+                "sentence on the price with no loop, if the density law holds (CLAIMS WL5)",
+    "next": "phase 2: Open now, from docs/WHAT-I-SEE.md 'What I would look at next' and OPEN-PROBLEMS 9 and 13; evening 2026-11-15: the echo "
+            "and the sixth push, the loop of 21 queued (W13), the price with no loop (NB why a tube is cheaper; STATUS 20:27 UTC); night 2026-11-15: "
+            "the sixth push done, OPEN-PROBLEMS 13 (q)-(t) open (NB the sixth signals push reviewed)",
 }
 CHANGED_DATA = {
     "tori": "nine faces, recomputed from research/data/gpu_local_eqtorus (CLAIMS GL3)",
-    "project": "the ledger's counts (179 claims), the git timeline and the footer's date follow the repository",
-    "corrections": "four corrections of 2026-11-15 afternoon added",
+    "project": "the ledger's counts (192 claims since the night of 2026-11-15), the git timeline and the footer's date follow the repository",
+    "corrections": "four corrections of 2026-11-15 afternoon added; two more in the evening (CLAIMS WL2/WL4; NB the fifth signals push reviewed); three at night (NB the sixth signals push reviewed)",
 }
 bad = []
 

@@ -262,3 +262,85 @@ figure and tiles of "One price per cell?" for nine faces and "Open now"; two til
 - Typed, not drawn from data: "Open now" (from the essay's "What I would look at next" and OPEN-PROBLEMS 9 and 13 as of
   about 16:30 UTC; "running" for the 84-cell face and the rimmed face, per the essay); the plates' prose.
 - Not shown: the beam (SG17's second half), the clock with a tail (SG20), the turn-class negatives (SG21, SG13), C8.24b.
+
+## Refresh of 2026-11-15 (evening): why a tube is cheaper; nothing listens; an echo
+
+Rewrote "What a short way round costs" (`#wrap`, law page) around the density law: a living face is emptier by one term f per
+loop, falling smoothly with the loop's length and not ending at 21, and a tube's price discount per cell is κ = 1.85 times it.
+Added "An echo" (`#echo`, live) and "Nothing listens" (`#ends`, the census of ends) to the signals page after "A clock that edits
+the message". One sentence on "One price per cell?" (`#constant`); the divider's "no reader" tile, the "no corner" tile of
+"Signals", "Open now", the map tiles and the signals blurb updated. Two corrections, one audit, two milestones.
+
+- Quoted numbers: `sources/update-2026-11-15f.json` (every item with `src` and `how`), checked by `collect.py` as before against
+  NB "why a tube is cheaper", "the fifth signals push", "the fifth signals push reviewed", CLAIMS WL2, WL4-WL6, SG23-SG27, and
+  (`file` quotes) `research/wraplocal/data/dens_rho_face.txt` and `research/wrap/PREDICTIONS.md` (W13). `checked()` now also
+  accepts a float under 10⁻³ written in fixed notation (0.000029 for 2.9e-05); nothing else about it changed.
+- `data/dens.json`: the deficits f(9) … f(28) with their errors are read by `collect.py` from
+  `research/wraplocal/data/dens_rho_face.txt` (the study's `dens.py rho_face --price` output, committed) and asserted equal to the
+  notebook's quote to 2 × 10⁻⁶, and ρ∞ and κ to that file's. Loops² 31 to 37 are left out (not resolved; 37 comes out negative).
+  The tubes' measured discounts (12, 13, 16, 19) are quoted from the same file; the plate divides them by κ. 19's discount is
+  negative (−0.00034 ± 0.00120): drawn as the upper end of its bar only, with a marker "measured below zero".
+- The lead's re-measurement (five densities, three deficits; `research/audit/wraplocal_lead_check.py`) is quoted from the notebook
+  and shown under "How it was checked".
+- **A value still to come: `dens.w13measured`** (`sources/update-2026-11-15f.json`, `dens.w13measured`, now `null`): ln τ of the
+  84-cell face (1,4),(0,28) with loops of 21 and 28, forecast W13 at 17.534 ± 0.004 if the relation holds and 17.547 ± 0.003 if
+  not. **Who fills it in:** whoever records the card's run of that face (the lead, from the card's rows; the notebook entry that
+  scores W13). Set `value`, `se`, `src` and a `quote` from that notebook entry (or a `file` quote); `collect.py` then checks the
+  quote, and the plate's tile switches from "queued" to the value and its distance in σ from both forecasts. Change the plate's
+  chip "loops of 21 and longer: a test queued" by hand then.
+- The echo: `data/echo.json` is the first record of `research/audit/signals5/end_echo.json` (C18.23a, tg = 45, the hole),
+  copied by `collect.py`; `assets/signals-core.js` (`echo`) places it by an even shift in a torus of side 64 (the lead's check
+  uses 96; the page's stepper gives the same difference counts for 110 generations after the hole on both).
+  `checks/check-signals.js` (section 6) checks the copy against the record, then on the page's layout and stepper: the hole
+  cell alive at tg, exactly three cells differing at 18 generations, 23 to 42 after the hole, the difference two generations
+  later the same three moved (2, 0, −2), 61 to 65 cells differing at 80; and both runs (with and without the hole) against
+  `reference/oracle.py`, every generation to tg + 80. The quiet wire used to tell rakes from wire is line-C's cap and units.
+- Computed on the pages, not quoted: discount ÷ κ; the cells in which the two echo runs differ, and the generations with exactly
+  three (shown with ✓ against the ledger's); the row and column totals of the four kinds of end.
+- `update-2026-11-15e.json`'s essay quote `signals4.nothing` was re-copied: the essay's sentence now adds "among 741 ends
+  searched and thousands of placements sampled" (the words checked are unchanged).
+- Claim counts: 187 (A 89, B 84, C 13, D 1), read from `research/CLAIMS.md` by `collect.py` as before.
+- Typed, not drawn from data: "Open now" (from `research/STATUS.md` at 20:27 UTC and the essay's "What I would look at next":
+  the sixth push running, W13 and the 96- and 108-cell tubes queued; its "1.85" and "0.2075" are WL5's); the map labels; the
+  plates' prose (√21, √31: the loop lengths of the quotes).
+- Not shown: the statistics table of `research/wraplocal/README.md` (only its conclusion, "occupation, not turnover"); the loop-9
+  discount (0.0142, curved) as a point; the wall and fire kinds of gun death as drawings; the second echo clock C20.33c.
+
+## Refresh of 2026-11-15 (night): the sixth signals push and its review; when signals meet
+
+Added "When signals meet" (`#meetings`, live) to the signals page after "An echo". "An echo" (`#echo`): its open chip and
+"running" tile became the result (no gun survives an echo; the reflector works once) and one clause of its heading. "Nothing
+listens" (`#ends`): the events the fifth review had not followed, a paragraph on the count an echo writes, six pushes' forecasts.
+"Open now" (`#next`) first item, the map tiles for `echo`, `meetings` and `next`, the signals blurb. Three corrections, one audit,
+two milestones.
+
+- Quoted numbers: `sources/update-2026-11-15g.json` (sections `meet`, `echo6`, `ends6`; every item with `src` and `how`), checked by
+  `collect.py` as before against NB "the sixth signals push", "the sixth signals push reviewed", CLAIMS SG28-SG32 and (`file`
+  quote) `research/OPEN-PROBLEMS.md` item 13 (q). `collect.py` also asserts 112 = 24 + 66 + 22, 16 = 14 + 2, 10,374 = 14 × 741,
+  1,482 = 2 × 741, 30 = 12 + 18, and that the 426 events are the fifth push's.
+- New key `data/meet.json`: the plain rake train's unit cells at four phases, wire B's two units, `v` and `unit`, copied from
+  `research/signals/objects/echo-train.json`; the nine signals (parity, cells at train phase 1, direction) read by `collect.py`
+  with `ast` from the literal `SIGS` of `research/audit/signals6/sig6.py`, asserted equal to the train file's for E, U, H, K0 and
+  to "six down and three up"; "made by" for each is typed from the table of `research/audit/REVIEW-signals-6.md` section 2.
+  Also `flips`, `offsets`, `lead` (80 generations, 48 units), `steppers` (1,050) from the quotes.
+- Changed keys: `echo` gains `sixth` (`guns` 67, 11; `sat` 4, 3, 52; `once` 1, 20); `ends` gains `followed`, `rows`, `count` and
+  its `pushes` is now 30, 12, 18 (was 24, 11, 13 from `update-2026-11-15f.json`, still in that file).
+- The demo: `assets/signals-core.js` (`train`) lays the train on a ring of L units in a torus of side 2L, moved (0, L, 0), as
+  `research/audit/signals_meet_lead_check.py` does. Page choices, typed in `plates/meetings.js`: L = 48 (the lead's ring), the
+  run to generation 56 (the train file's sample meetings are read at 56; the change does not reach round the ring by then), and
+  the placements: the train file's sample meetings moved 10 units (the echo alone at unit 8).
+- `checks/check-signals.js` section 7 reads L, the run length and the four placements from `plates/meetings.js` and checks, on
+  `sigCore.train` and `gump-core.js`: `data/meet.json` equals the train file; one step of each phase is the next; E, U, H, K0 alone
+  rigid with the stated cell count and direction for 80 generations; the page's four runs (the echo alone rigid; U against K0 the
+  plain train from generation 20; E against H never back to the train, every unit more than 7 inside the span wire B's cells at
+  generation 56 (the units that are not: three at each end); E against K0 one differing cell in every second unit inside); and
+  E against H and U against K0 against `reference/oracle.py`, every generation to 56.
+- Computed on the page, not quoted: the cells differing from the plain train and their units, the history strip, the readings
+  (three cells; the generation from which nothing differs; whether the inner units all hold one cell set, and its size; the
+  alternation of one differing cell). The count of signals moving up (3) and of the nine is counted from `meet.sig`.
+- Claim counts: 192 (A 91, B 87, C 13, D 1), read from `research/CLAIMS.md` by `collect.py` as before.
+- Typed, not drawn from data: "Open now"'s first item, from `research/OPEN-PROBLEMS.md` item 13 (q)-(t) and NB "the sixth signals
+  push reviewed" ("nine", "three", "six", "eleven" are SG28's and SG30's; the wrapped-face items unchanged); the map labels; the
+  plates' prose.
+- Not shown: the meetings with K3 and N1-N4 as runs (K3's two outcomes are named in words); the B′ stretch as a drawing; the
+  constraint problems' planes (C = 31 … 37) beyond "within bounds"; U absorbed by a gun (echo-train.json `gun_absorbs_U`).

@@ -3377,3 +3377,253 @@ first (`python3 research/wrap/validate.py 1 12 28 1500`: MATCH); three jobs of 3
 - Not checked: no second code has measured this face (queued for the card); the event logic of ts3 was not
   recounted; the curvature bounds assume the faces of one family differ only in length (they are different
   lattices of the same girth, e.g. the two loop-12 classes at 60 cells differ by 0.004 ± 0.002).
+
+## 2026-11-15: the fifth signals push: nothing listens at the end of the stream; of 741 ends, 599 forget every gap and 142 die of any gap (the lead's oracle check of every end; review running)
+
+The question was one thing: is any standing object left in a different lasting state by a gap in the gun's stream
+than by none? Account: `research/signals/README.md` sections 26–29 (commits d9ee117 … e340fa0). Nothing positive
+was found. A review with independent code is running; its entry follows this one.
+
+- **[SAT, within bounds; one code, one solver, no certificate]** One instance holds three coupled copies of the
+  dynamics: an end A of the rake train, an end B of the same train, and a run from A, with a hole in the arriving
+  train, that must land on B with B not the state A would be in. B may be A moved or A out of phase, so movers and
+  toggles are covered. UNSAT in the 3 × 3 tube: periods (4, 4), one hole, planes C = 29 … 39; four more words of
+  holes at C = 31 … 37; periods (8, 8), one hole, C = 31, 33. Limits of the instance: the end may disturb at most
+  4 units of train in front of it while settling, and must settle within 42 generations of the hole's arrival.
+  Controls: without the "not equal" clause it returns the C = 31 absorber; on wire B with pulse B it is SAT at
+  C = 33 and returns the known B|B′ wall moving one unit. Cut: the 5 × 5 tube (C = 29, 31) and one asymmetric tube.
+  `cd research/signals && python3 sat_listen.py C [--mult 2 --multB 2] [--word 0,1]`.
+- **[SAT enumeration, re-stepped; then measured] A census of ends.** Every absorber of the train of period
+  dividing 4 inside the tube and planes C = 35, 37, with the fourth push's lists: 856 entries, **741 distinct ends**
+  up to translation and time shift. Each sent eight words of holes (`census_ends.py`, the push's stepper, the
+  train refilled 100 units back): **599 heal every word exactly, 142 are destroyed by every word, and no other
+  outcome occurs.** No end is moved, shifted in phase or changed; no end tells one word from another.
+- **[the lead's check, `reference/oracle.py` only, every end]** `python3 research/audit/signals_ends_lead_check.py
+  all i/3` (i = 0, 1, 2; 30 minutes each on one core; initial cells from the push's lists, nothing else of its
+  code in the stepping): each of the 741 ends at the end of a finite train of 44 units on a 128³ torus, for three
+  of the eight words (the nearest rake; three in a row; five at spacing two), with and without the holes. **All
+  2,223 runs agree with the push:** 1,797 healed, meaning the *whole* states of the two runs are equal (5 to 7
+  generations after the start for one hole, 13 to 15 for three in a row, 37 to 39 for five), which also shows that a
+  healing end sends nothing back up the stream; 426 dead, meaning the runs differ at every generation to 64 and the
+  train 12 or more units in front of the end is no longer the plain train while the undisturbed end still stands.
+  (A first run reported one mismatch, a fault of my own test for the one end listed with period 8; fixed, re-run,
+  agrees.) The other five words rest on the push's stepper alone.
+- **[measured, samples] Beside the stream.** 99 catalogue oscillators in random placements beside the running
+  line, each sent a gap: 21,320 gap runs mid-wire and 9,824 beside the receiving end: the oscillator and gun are
+  left exactly as without the gap, or something is destroyed; none is left alive and changed. The divider's own
+  oscillator at every place and phase for N = 16: 1,034 gap runs, 1,021 heal, 13 destroy it.
+- **[scored]** The lead's S22 (a listener, 15%), S23 (a reusable one, 5%) and S24 (something moves, 25%) failed;
+  S25 (a census at least five times larger with no edge between live ends, 40%) and S26 (no listener, 55%) held.
+  Over five pushes: 24 forecasts tested, 11 held in some form, 13 failed.
+- **What it says.** At the end of the stream, in this tube, a gap is forgotten or fatal, and which of the two is a
+  property of the end alone. The push's guess at a reason (an end locked to the stream has one attractor per drive)
+  does not survive its own census: 741 different ends stand under the same drive; what is missing is any event
+  that carries one to another.
+- Not checked (18:54 UTC): the SAT negatives by a second encoding or solver; five of the eight words on the
+  oracle; gaps other than the one-cell hole (the whole rake missing, other cells); the completeness of the SAT
+  enumeration; the samples beside the stream; 45 of the 46 runs in which a gap kills the gun and the oscillator
+  survives. All are in the reviewer's brief.
+
+## 2026-11-15: why a tube is cheaper: a living face is less dense for every loop round it, the deficit falls smoothly with the loop's length, and the price discount is 1.85 times it; the effect does not end at 21
+
+A study of the living state on wrapped faces, with no lifetimes needed (`research/wraplocal/README.md`, commits
+3cdbf30 … 22d6101). It answers open problem 9 (a) in part and overturns the premise of 9 (b).
+
+- **[measured; the study's bit-sliced stepper, checked bit for bit against the oracle on one torus] The density
+  law.** On a face torus with period lattice Λ the stationary density of the two face layers is
+  ρ = ρ∞ − Σ f(|v|²), one term per loop vector ±v of Λ, with ρ∞ = 0.517742 ± 0.000006 and one f per loop length:
+  f(9) = 0.006267, f(12) = 0.002317, f(13) = 0.001605, f(16) = 0.000768, f(19) = 0.000275, f(21) = 0.000181,
+  f(25) = 0.000079, f(27) ≈ f(28) ≈ 0.000029 (errors 4 to 19 × 10⁻⁶). 27 tori of 63 to 147 cells, χ² 13.8 on 14.
+  The deficit is per cell (tubes of one girth at 66, 72, 84 cells agree) and the deficits of several loops add.
+  `python3 research/wraplocal/dens.py rho_face --price`.
+- **[the lead's check: a stepper written for it, plain numpy on the oracle-validated slab graph, none of the
+  study's code]** `python3 research/audit/wraplocal_lead_check.py` (3 min) and `… 1024 4000 long` (5 min):
+  (1,12,28) 0.515424 ± 0.000038 (study 0.515429); (1,7,28) 0.517001 ± 0.000040 (0.516947); (1,4,28) 0.517521 ±
+  0.000032 (0.517541); (1,4,34) 0.517594 ± 0.000022 (0.517563); (6,0,6) 0.517752 ± 0.000019 (0.517717): all within
+  1.7σ. Deficit of the loop-12 tube against the long-loop torus of the same area 0.002097 ± 0.000050 (study
+  0.002112); of the loop-16 tube 0.000520 ± 0.000051 (0.000594); **of a torus with one loop of 21 against one with
+  loops of 36 only 0.000159 ± 0.000029, 5.5σ from zero (0.000154)**. (My first version took the error from 8
+  blocks of replicas, which was too noisy an error: it put one torus 3.7σ off on an error of 0.000005; with 32
+  blocks, as above.)
+- **[fitted on two girths; one forecast] The price.** A tube's discount per cell is κ f(loop²) with κ = 1.85 ±
+  0.07 fixed on loops of 12 and 16. It gives 13 as 0.00298 ± 0.00012 against the measured 0.00262 ± 0.00034
+  (−1.0σ); the price at 19 is too poorly known to test it. Only differences follow: κρ∞ = 0.96, not 0.2086.
+  Statistics with the density's profile across loop lengths: a dead face cell's mean count of live neighbours,
+  the share of live face cells with 3 to 5 live neighbours. With the wrong profile: births per cell (6σ off),
+  interior activity (5σ), the variance of the face population (2.6σ, and three times too large). The price follows
+  occupation, not turnover. The equal-time correlation of a cell with the cell one loop vector away, on a torus
+  without that loop, is below 10⁻⁴ for every loop length: what carries the deficit round the loop is not a
+  static correlation, and is not identified.
+- **[proved by enumeration, one code] The neighbourhood.** Six of a face cell's twelve neighbours are in its own
+  layer. A cell is its own neighbour only at loop² 1, shares a neighbour with itself at 1 and 4, meets itself in
+  three steps at 3 and 9. No count of this kind separates loops of 12 to 19 from 21 and up, and graph distance is
+  not monotone in loop length. `python3 research/wraplocal/nbhd.py`.
+- **The effect does not end between 19 and 21.** I recorded (WL2, WL3, the essay) that a loop of 21 costs
+  nothing. What the lifetimes showed is that its cost is below their resolution, against a baseline of faces that
+  themselves carry loops of 21 to 31. In the living state f(21) is 45σ from zero and two thirds of f(19).
+- **[consequence, if the relation holds for long loops; not tested]** The price of a face with no loop at all is
+  about 0.2075 per cell, not 0.2086, and the line of "no short loop" faces bends. Forecast frozen before any run
+  (W13, `research/wrap/PREDICTIONS.md`) and queued for the card: the 84-cell face with loops of 21 and 28 at
+  17.534 ± 0.004 if it holds, 17.547 ± 0.003 if the effect ends before 21.
+- **[measured, one code] A girth of three is different.** Tubes of loop² 9 are cut by transverse firewalls (a ring
+  of the tube dead at once, which by the wall theorem is for ever): 1.0 firewalls per face death at 63 cells, 6.5
+  at 72, 41 at 81 (new runs: (1,7,24) 14.6191 ± 0.0100; (1,8,27) 16.3538 ± 0.0111). Their price per cell falls
+  with length (0.200, 0.198, 0.1955, 0.1927 from 45 to 81 cells) and the density relation misses it by 3.7σ over
+  63–81. The loop-12 tube of 84 cells had no firewall in 29,412 deaths (`research/wrap/data/runs.csv`, column W).
+- **[scored]** L1 (some local statistic differs by more than 5 standard errors, 70%) held. L2 (ordered as the
+  prices and zero at 21, 55%) failed on its second half. L3 (one statistic gives the prices, 30%) held. L4 (an
+  exact neighbourhood rule explains the end, 30%) failed: there is no end. L5 (nothing local tracks it, 35%)
+  failed.
+- Not checked (20:16 UTC): the additive fit and κ by a second code (I re-measured five densities, not the fit); the
+  relation at any loop past 16 against a lifetime (W13 is the test); the study's stepper against the oracle on more
+  than one torus (my stepper is the cross-check on five); the firewall counts by a second code; burn-in (500
+  generations) was not varied; why κ is 1.85.
+
+## 2026-11-15: the fifth signals push reviewed: still no listener; a second kind of gap sorts the ends four ways; and one end answers a gap with an echo sent back up the stream
+
+Review with independent code: `research/audit/REVIEW-signals-5.md`, code `research/audit/signals5/` (commits
+f4009e7 … 577e0d9). It applied its corrections to README sections 26–29 itself, each marked *Review*.
+
+- **[SAT, a second encoding, two more solvers] No listener at the end of the stream, within bounds.** The
+  reviewer's own encoding (`mysat5.py`: its own region and holed train; glucose4 and kissat404) is UNSAT for one
+  hole, periods (4, 4), at C = 29 … 39; for (8, 8) at C = 31; for the words [0,1] and [0,2,4] at C = 33. The other
+  rows rest on the push's code alone ((8, 8) at C = 33 was cut at 1,500 s). Narrowed: C = 29 holds no absorber at
+  all, so that row says nothing; every row at C ≤ 37 is also answered by the census, so C = 39 is the only one
+  that reaches further; "movers are excluded" holds only for ends that still fit inside the planes when moved.
+  A hazard for later use: `sat_listen.py`'s holed train is finite and burns back from its far end, which would
+  make an instance with T above about 88 unsound (all instances run have T ≤ 78).
+- **[three codes] The census under holes stands.** 741 ends recounted with the reviewer's own key. All eight words,
+  compared on the whole state with its own stepper: 599 × 8 heal within 39 generations, 142 × 8 burn, no echo. (My
+  oracle run covers three of the words on every end.) The receiving cap's own absorbing cycle is one of the 741.
+- **[one code, its stepper checked against the oracle; exhaustive over the events listed] Every one-unit change
+  of an arriving rake.** Each end was sent every subset of the rake's cells removed, every dead tube cell made
+  live, the rake replaced by bare wire, at generations 0 to 3: 426 events per end, 315,666 runs. Every run either
+  becomes equal to the undisturbed run or sends a difference up the stream; the 12,022 of the second kind that
+  come from events which ride the train were followed 256 units up and every one is a burn. **No end is left
+  alive and changed.**
+- **[the reviewer's scan; the lead's oracle run of every end] A second kind of gap, and four classes of end.**
+  Besides the hole, one other one-cell signal rides the stream down (K0: it travels as the wire cell (1,0,2)
+  missing). The ends sort four ways: **113 heal both; 486 heal a hole and are destroyed by K0; 17 are destroyed
+  by a hole and heal K0; 125 are destroyed by both.** So 503 of 741 ends tell the two kinds apart, by dying of
+  one. "Forgotten or fatal is a property of the end alone" holds for holes only. The beam's receiver is one of the
+  486. Mine: `EVENT=k0 python3 research/audit/signals_ends_lead_check.py all i/3` (i = 0, 1, 2; 40 minutes each;
+  `reference/oracle.py` only): 113, 486, 17 and 124, and one end that burns too slowly for that run and is dead
+  on a longer train (`ONLY=0:152 EVENT=k0 LGH=70,100,192 python3 research/audit/signals_ends_lead_check.py all`).
+- **[oracle, two codes] An echo.** Among the sampled placements beside the receiving cap, four runs (the
+  oscillators C18.23a and C20.33c, two arrival times each) do something new: the hole reaches the cap, and a
+  rigid three-cell signal comes back up the stream, through the oncoming rakes, one unit every two generations;
+  the cap, the oscillator and every rake are exactly as in the undisturbed run. When it reaches the gun, the gun
+  dies. The reviewer: `python3 research/audit/signals5/orc46.py`. Mine, from the initial cells alone:
+  `python3 research/audit/signals_echo_lead_check.py` (20 s): the whole state differs from the undisturbed run in
+  exactly three cells for 18 generations (23 to 42 after the hole is made), each state the last one moved a unit
+  towards the gun; then the difference grows (61 to 65 cells at generation 80). The end is restored, so this is
+  not a listener: it is a reflector, and the stream now carries signals both ways.
+- **[one code] The other gun deaths.** Of the 46 sampled runs in which a gap kills the gun and the oscillator
+  survives: 25 are fires (the wire burns), 8 are walls (a front moves up the wire and leaves a different uniform
+  wire behind it: the stream is converted, not burnt), 4 are the echo, 9 are none of these. The four runs the
+  push's script flagged as possible listeners are debris in both runs, as the push said.
+- **Not applied by the review** (outside the sections it could edit): `gapstream.py --summary` mislabels one
+  record (C9.28a dies in the plain run too); the finite holed train in `sat_listen.py`; section 21's "every set
+  of holes heals" is true of holes, and K0 destroys the beam's receiver. The sixth push has been told of the
+  second.
+- **What it says.** Five pushes asked whether anything listens, and nothing does. But an end can now answer: a gap
+  goes down, a different signal comes back, and the end is ready for the next. What an echo does when it meets a
+  gap coming the other way is the question a gate would hang on, and the sixth push (started 20:00 UTC, the
+  lead's forecasts S27–S32 in `research/signals/PREDICTIONS.md`) asks it.
+- Not checked (20:26 UTC): certificates for any UNSAT; the 5 × 5 tube; events larger than one unit or outside the
+  tube; the 315,666-run table by a second code (I re-ran the hole and K0 on the oracle, not the other events);
+  the samples beside the stream were not drawn again; the nine "other" gun deaths and the wall's wire are not
+  characterised; what the echo does on bare wire or against anything but the gun.
+
+## 2026-11-15: the sixth signals push: the stream carries four signals, two each way; an up-signal meeting a hole turns the stream into another wire, one pair cancels exactly, and no gun survives an echo (the lead's own oracle check; not yet reviewed)
+
+Account: `research/signals/README.md` sections 30–35 (commits b73f24a … dbd710a); oracle verifier
+`cd research/signals && python3 verify_echo.py` (20 s, ALL PASS when the lead ran it). **No adversarial review
+has been run yet** (see the last bullet); everything below is one investigator's work plus the lead's check of
+the signals and meetings.
+
+- **[exact computation, and the oracle on a ring; the lead's own oracle check] Four signals.** Flipping each tube
+  cell of two units of the plain rake train at each phase (112 events): 24 vanish, 66 break the stream, 22 become
+  exactly one of four rigid signals, each moving one unit per two generations: **E**, the echo, three cells, up the
+  stream; **U**, one cell, up; **H**, the hole, one cell, down; **K0**, one cell, down. So one flipped cell makes
+  an echo; no reflector is needed. Each rides the train for ever (`prove_echo.py`: a two-generation computation on
+  the infinite lattice and an induction).
+- **[oracle; the push and the lead] Meetings.** Each kind sits on units of one parity, so each pair of
+  opposite-moving kinds has exactly one meeting. **U meets K0: both vanish exactly** (the plain train from
+  generation 20 on). **E meets H, and U meets H: the stream between two edges becomes wire B**, the first push's
+  wire; one edge moves down with the stream, the other up, turning each arriving rake into wire B; it never stops.
+  **E meets K0:** K0 vanishes and E becomes an edge moving up that removes the hole cell of every rake it passes.
+  An echo never passes a hole.
+- **[the lead's check: `reference/oracle.py` only, from the cell tables of `objects/echo-train.json`]**
+  `python3 research/audit/signals_meet_lead_check.py` (10 s, PASS): one oracle step of the table's train is its
+  next phase; each of the four signals is rigid for 80 generations on a 48-unit ring, with the stated cell count
+  and direction; U and K0 leave the whole torus plain from generation 20; E or U against H: the difference never
+  empties, its span grows ten units per ten generations, and inside it every unit holds the same five cells, not
+  the train's; E against K0: inside the span exactly one cell differs in every second unit, the same cell each
+  time. (As first written two of my tests failed, both my own faults: I located the span wrongly on the ring when
+  the difference has gaps.)
+- **[measured, complete over one list; SAT within bounds; one code] The gun end.** All 68 guns of the C = 37 list
+  die of E; 11 of them absorb U exactly (one on the oracle). As a constraint problem: no gun of period dividing 4
+  in the 3 × 3 tube, planes C = 31 … 39, absorbs E or answers it with one H or one K0 and is a gun again within 52
+  generations (UNSAT; the same search with U is SAT). Period 8 and C = 41 were cut and exclude nothing.
+- **[measured; SAT within bounds; one code] The reflector.** The clock C18.23a never touches the line until a hole
+  arrives, then couples through one cell at three generations. It works once: the first echo meets the second
+  hole on its way up. No end inside the 3 × 3 tube turns a hole or K0 into a returned E or U (UNSAT, C = 31 … 37).
+- **[oracle, on the infinite train] A count that does not last.** An echo against a word of holes leaves a
+  standing stretch of the wall-wire B′ inside the wire B it makes, one unit longer for each further hole (3, 4, 5
+  units for 2, 3, 4 holes). In the finite line the dying gun's fire erases it. Not a listener.
+- **A correction to the review of the fifth push:** its test of whether an event "rides" the train looked only
+  down the stream, so some of the 338 events it counted as breaking the bare train become E or U. Its table of
+  outcomes at the ends is not affected by this as far as the push could tell; the scan was not re-run.
+- **[scored by the lead]** S27 (the echo rides for ever, 85%) held. S28: of my four branches the one that happened
+  is "the stream breaks" (30%); the one I thought likeliest, passing through unchanged (35%), did not. S29 (a gun
+  survives the echo, 25%), S30 (a loop, 8%), S31 (a simpler reflector, 30%), S32 (a listener, 12%) failed. Over
+  six pushes: 30 forecasts tested, 12 held in some form, 18 failed.
+- **Not checked, and owed (21:50 UTC):** an adversarial review with independent code (the SAT negatives rest on one
+  encoding and one solver; the gun and reflector scans on one code; the gluing step of the "for ever" argument
+  for the fronts was done by hand; the oscillator samples beside the gun have a stated flaw in their stream
+  test). It was not started: at 21:50 UTC the session's rate-limit status read "allowed_warning" on the Fable
+  window, and the lead's rule is to start no agent on anything but "allowed". CLAIMS rows, the open problems, the
+  owner's journal, the essay and the site wait for that review.
+
+## 2026-11-15: the sixth signals push reviewed: nine signals, not four; the meetings and the endless fronts are proved; no gun survives an echo even if it may answer with anything; and the hole in the fifth review is closed with nothing in it
+
+Review with independent code: `research/audit/REVIEW-signals-6.md`, code `research/audit/signals6/` (commits
+5ebbb60 … e6fec90); its steppers agree with the oracle on the whole state over 1,050 generations
+(`check6.py`). It applied its corrections to README sections 30–35 itself, each marked *Review*.
+
+- **[closed] The events the fifth review did not follow.** 16 of the 338 events that review classed as breaking
+  the bare train become a single up-signal (14 make E, 2 make U); the other 322 do break it. Sent to all 741
+  ends: 10,374 + 1,482 rows, **every one equal to the undisturbed end, none dead, none alive and different.** So
+  "no end is left alive and changed" now stands for all 426 one-unit events. (At generation 42 the only
+  difference is the departing signal, six or more units from the end and moving away; three ends × two events
+  also on the oracle.)
+- **[proved, two codes, oracle] Nine rigid signals, not four.** The push's count over every one-cell flip inside
+  the tube reproduces exactly (24 vanish, 66 break, 22 become E, U, H or K0), and its "for ever" argument is
+  sound. Wider events give five more, each proved rigid by the same two-generation identity and run on the
+  oracle: K3 (two cells, down), N1 (three cells, **up**: a third up-mover), N2 and N3 (four cells, down), N4
+  (down, one cell outside the tube). Re-run by the lead: `cd research/audit/signals6 && python3 sig6.py` (30 s):
+  all nine pass both tests. The list is not known to be complete.
+- **[proved for ever, by script] Meetings.** Every offset from 1 to 41 gives the one orbit and the claimed
+  outcome: U and K0 cancel; E or U against H makes wire B between two edges; E against K0 makes the puncher. The
+  gluing step the push did by hand is now `glue6.py`, so the fronts spread for ever. New: E against K3 also
+  makes the puncher; U against K3 leaves one H. **Refuted:** "two holes two rakes apart leave clean wire B":
+  a pulse of one to three cells rides down inside it beside the lower edge (the push's script looked at 8 units
+  round the middle). The standing stretch of B′ is proved standing for ever for spacings 3 to 14, one unit
+  longer per further hole (to six holes, and mixed spacings).
+- **[SAT, two encodings; measured, two codes] The gun end.** The 68 guns are 67 distinct. E kills all, the new
+  up-signal N1 kills all, U is absorbed by the same 11. The reviewer's encoding lets the gun answer with anything
+  at all sent down the stream, which the push's did not: UNSAT for E at C = 31 … 37, for N1 at C = 31 … 37, for
+  U with any answer at C = 35, 37 (E at C = 39 was cut; that row is the push's alone).
+- **[oracle; SAT, two encodings] The reflector.** The one-cell coupling holds on the oracle. With two holes at
+  any spacing from 1 to 20 a single E never comes back. With any answer up the stream allowed: no end inside the
+  tube answers H at C = 31, 33, 35 or K0 at C = 31.
+- **Where six pushes leave it.** A wire in gump can be written on (the gun), edited (the divider), and carries
+  nine kinds of signal, six down and three up. Signals going opposite ways do not pass: one pair cancels, the
+  others turn the stream into another wire or punch it, and the change does not stop. The one thing that keeps a
+  count (the stretch of B′, one unit per hole) exists only where the stream is being destroyed. Nothing found is
+  left in a different lasting state by a signal and survives: no listener, no loop, within the 3 × 3 tube,
+  periods dividing 4, the stated planes and times.
+- Not checked (23:08 UTC): period 8 and the 5 × 5 tube at either end; settling slower than the stated T;
+  three-cell events; the meetings of N1 to N4; the divider's stream; the oscillator samples beside the gun; no
+  UNSAT has a certificate.

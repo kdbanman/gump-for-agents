@@ -293,6 +293,75 @@ _Last updated 2026-11-14 by the lead._
   is corrected to the tally: 179 claims, A 86, B 82, C 10, D 1 (WL3's best grade is now B). **Nothing is running.**
   **Waiting on:** the card (hull face of 108 cells, about 02:00 UTC on the 16th; then the 84-cell tube as the
   cross-check and the 108-cell tube); the owner's two clicks if the site is to be public.
+  **16:37 UTC: pull request 26 is merged** (main at 1a7ac0a; `research/check.sh` 20 of 20 and CI green at the
+  merged head). The next pull request from this branch starts with this line.
+  **16:39 UTC: pull request 27 is open (the lead's), and a fifth signals push is running** (Opus, about two and a
+  half hours; the one question is a listener: a standing object left in a different lasting state by a gap in
+  the stream than by none; the lead's forecasts S22–S26 are in `research/signals/PREDICTIONS.md`; it writes
+  README sections 26 on). **Owed on its report:** re-run its verifiers, the lead's own oracle check of any new
+  object, an adversarial review, notebook, CLAIMS rows, score S22–S26, OPEN-PROBLEMS 13, journal, essay, site.
+  Usage: the owner's reading at 15:18 UTC was 62% weekly, 73% Fable; reckoned now about 67% and 78%. The Fable
+  window moves only with the lead's own turns (every agent since 15:15 is Opus).
+  **18:26 UTC: the fifth push has reported: no listener.** (README sections 26–29, commits d9ee117 … e340fa0.) A
+  three-copy SAT search is UNSAT in the 3 × 3 tube (planes C = 29 … 39); a census of 741 ends of the stream:
+  599 heal every word of holes, 142 die on every word, nothing else; beside the stream (samples, and the divider
+  at every place and phase for N = 16) a gap heals or destroys. **Running:** the lead's own check
+  (`research/audit/signals_ends_lead_check.py all i/3`: every end, three words, `reference/oracle.py` only,
+  whole-state equality; output `research/scratch/audit/ends/part*.txt`), and an Opus adversarial review
+  (`research/audit/REVIEW-signals-5.md`, code `research/audit/signals5/`), which also sends the ends every other
+  one-unit change of a rake. **Owed when both are in:** notebook entries, CLAIMS rows SG23 on, the lead's scoring
+  of S22–S26, OPEN-PROBLEMS 13, the owner's journal, the essay, the site's signals page and a republish.
+  **18:28 UTC: a study of the living state on tubes is running** (Opus, about two hours, `research/wraplocal/`):
+  which local property of a living tube tracks its lower price per cell, and why the effect ends between loop² 19
+  and 21 (open problem 9 (a), (b)). The lead's forecasts L1–L5 are at the end of `research/wrap/PREDICTIONS.md`.
+  **Owed on its report:** the lead's own check of its key number, a review if it claims an explanation, notebook,
+  CLAIMS, score L1–L5, OPEN-PROBLEMS 9, the essay, the site's "What a short way round costs" plate.
+  **20:27 UTC: the fifth push, its review and the tube study are recorded** (notebook: "the fifth signals push",
+  "why a tube is cheaper", "the fifth signals push reviewed"; CLAIMS WL4–WL6 and SG23–SG27, 187 claims: A 89,
+  B 84, C 13, D 1; open problems 9 and 13; the owner's journal; the essay). In short: no listener among 741 ends
+  (the lead ran every end on the oracle, for holes and for the second kind of gap); the review found an **echo**
+  (the receiving cap with an oscillator beside it sends a hole back up the stream as a three-cell signal; the
+  lead's own oracle check passes); a living face is less dense for every loop round it, smoothly in the loop's
+  length, and the tube discount is 1.85 times the deficit (the lead re-measured five densities). **W13 is frozen
+  and queued for the card** (the 84-cell face with loops of 21 and 28). **Running:** the sixth signals push (the
+  echo: meetings with holes at every phase, a gun that survives it; the lead's forecasts S27–S32), and a site
+  agent (the density-law plate, a live echo plate, tiles and counts). **Owed:** on the site agent's report, both
+  site check suites, a look at the screenshots, and a republish (version 16); on the push's report, its
+  verifiers, the lead's own oracle check, an adversarial review, the records; then `research/check.sh`, CI and a
+  merge of pull request 27. Usage is reckoned near 74% weekly and 82% Fable (no reading since 15:18 UTC).
+  **21:00 UTC: the overview is version 16** (the site agent's commits 343555c, 29e5482: the plate "What a short
+  way round costs" rewritten around the density law with a new figure and the W13 tile as queued; a live plate
+  "An echo"; a plate "Nothing listens" with the four kinds of end; tiles, the record's counts and "Open now";
+  both check suites pass for the lead, who looked at the three plates; 93 supporting files on the private
+  artifact). To fill in later: `dens.w13measured` in `site/collect/sources/update-2026-11-15f.json` when the card
+  has measured the face. **Running:** the sixth signals push only.
+  **21:50 UTC: the sixth push has reported; nothing is running; no agent may be started.** Its account is README
+  sections 30–35 (four signals on the stream, two each way; U meets K0 cancels exactly; E or U meeting a hole
+  turns the stream into wire B, spreading; no gun survives an echo within bounds; no loop, no listener). Its
+  verifier and the lead's own oracle check (`research/audit/signals_meet_lead_check.py`) pass; the notebook has a
+  provisional entry and the lead's scoring of S27–S32. **`get_session` showed `rate_limit_info.status`
+  "allowed_warning", type `seven_day_overage_included` (the Fable window), at 21:50 UTC**: by the rule in
+  `LEAD.md` no agent is started until the owner gives a reading or uses the second Fable reset. **Owed, in
+  order, once usage allows:** (1) an Opus adversarial review of the sixth push (`research/audit/REVIEW-signals-6.md`,
+  code `research/audit/signals6/`; brief as for the fifth: own encoding of the gun and reflector SAT negatives,
+  the meeting table by its own stepper, the 68 guns, the "for ever" argument for the fronts, wording); (2)
+  CLAIMS rows SG28 on, open problem 13, the owner's journal, the essay, the site's signals page, a republish;
+  (3) the card's results (fetch `origin/claude/gpu-local-1080`: the hull face of 108 cells about 02:00 UTC on the
+  16th, then the 84-cell tube, W13's face, the 108- and 96-cell tubes) with a new pull request for its branch;
+  (4) `research/check.sh`, CI, merge pull request 27.
+  **22:13 UTC: the owner's reading is 72% weekly, 84% Fable; the adversarial review of the sixth push is
+  running** (Opus, about two hours; `research/audit/REVIEW-signals-6.md`, `research/audit/signals6/`; its first
+  item re-examines the events the fifth review classed as breaking the train that in fact make an up-signal).
+  Items (2) to (4) above follow its report. The lead keeps its own turns to that work and stops near 90% Fable.
+  **23:08 UTC: the sixth push is reviewed and recorded** (notebook "the sixth signals push reviewed"; CLAIMS
+  SG28–SG32; open problem 13 (q)–(t); the owner's journal; the essay). Nine rigid signals; the meetings and the
+  endless fronts proved; no gun survives an echo; the fifth review's unfollowed events leave every end equal;
+  no listener, no loop. `research/check.sh` 20 of 20 at 23:08. **Still owed:** the site's signals page (the nine
+  signals, the meeting table) and a republish; merge of pull request 27; the card's results.
+  **01:01 UTC (2026-11-16): the overview is version 17** (the site agent's commits 2a778c4, b3b3e49: a live plate
+  "When signals meet" on a ring of the plain train with four experiments, the nine signals, the echo and "Nothing
+  listens" plates brought up to date, the record's counts at 192; both suites pass for the lead; 95 supporting
+  files). **Nothing is running.** Next: merge pull request 27; then the card's results.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

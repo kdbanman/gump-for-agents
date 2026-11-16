@@ -82,6 +82,17 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    combine (neither sums of log-discounts nor sums of rates is established); (d) faces below 48 cells and loop²
    9, where no form fits (the 36-cell face with three loops of 12 dies sooner than the loop² 9 faces of its
    area).
+   **Since (the same day, CLAIMS WL4–WL6, `research/wraplocal/`):** (b) had a false premise. In the living state
+   the density of the face layer is lower by one term for every loop round the face, falling smoothly with the
+   loop's length (f(21) is two thirds of f(19) and 45σ from zero), and the tube discounts at 12, 13, 16 are 1.85
+   times that deficit; the "end at 21" was the lifetimes' resolution. Now open: (e) **does the relation hold past
+   16?** If it does, faces with "no short loop" differ by their long loops and the price with no loop at all is
+   about 0.2075, not 0.2086 (W13: the 84-cell face with loops of 21 and 28, forecast 17.534 against 17.547,
+   queued for the card); (f) why 1.85, and why the price follows occupation and not turnover (as an elasticity
+   the price moves 4.6 times the density); (g) what carries the deficit round a loop: it is not an equal-time
+   correlation at the loop vector (below 10⁻⁴); (h) tubes of girth three are cut by transverse firewalls and
+   their price falls with length: is every tube, at great enough length, cut the same way, so that no tube line
+   is straight for ever? (None in 29,412 deaths of the 84-cell loop-12 tube.)
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.
 
@@ -135,6 +146,32 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     any word other than rake, hole (oscillators of period 24 and 32 beside the stream, enumerated and not
     sampled); **(j)** a corner as an exact constraint problem, with the stream as a standing probe; **(k)** why
     the turn class is forced (no invariant is known; the negative is bounded by turn time T ≤ 36).
+    **Fifth push, reviewed 2026-11-15** (notebook "the fifth signals push" and "… reviewed"; CLAIMS SG23–SG27):
+    (g) was asked directly and the answer within bounds is no: among 741 ends of the stream in the 3 × 3 tube,
+    599 heal every word of holes and 142 are destroyed by every word; over every one-unit change of an arriving
+    rake no end is left alive and changed; beside the stream (samples) a gap heals or destroys. Two things are
+    new. A second one-cell signal (K0) rides the stream, and 503 of the ends tell it from a hole by dying of one
+    and not the other. And the receiving cap with a catalogue oscillator beside it answers a hole with an
+    **echo**: a three-cell signal sent back up the stream through the oncoming rakes, the end restored; it kills
+    the gun when it arrives. New questions: **(l)** what an echo and a hole do when they meet, at every phase
+    (the gate question); **(m)** a gun that survives an echo, by absorbing it or by returning a hole, and then a
+    signal that goes round between two ends; **(n)** what about the cap and its neighbour makes the echo, and a
+    simpler reflector (no bare end of the 741 echoes anything); **(o)** the "wall" outcomes, in which a gap at
+    the end converts the stream into a different uniform wire behind a moving front: what wire, and is the front
+    a signal; **(p)** a listener is still not known: the bounds are the 3 × 3 tube, periods 4 and 8, one-unit
+    events, and samples beside the stream.
+    **Sixth push, reviewed 2026-11-15** (notebook "the sixth signals push" and "… reviewed"; CLAIMS SG28–SG32):
+    (l) is answered: the stream carries at least nine rigid signals (three up, six down); opposite-moving ones
+    never pass: U and K0 cancel exactly, E or U against a hole turns the stream into wire B for ever, E against
+    K0 punches every rake. (m): no gun survives an echo within bounds, whatever it may send back; eleven guns
+    absorb U. (n): the reflector couples through one cell and works once; no bare end in the tube answers. New
+    questions: **(q)** the full meeting table of the nine signals (N1 to N4 are untested), and whether the list
+    of signals is complete; **(r)** a count that lasts: an echo against a word of holes writes one unit of wire
+    B′ per hole, but only inside a stream that is being converted; is there an end for the spreading edges of
+    wire B (something that stops the conversion and stands), which would make that count a record; **(s)** a
+    safe up-channel: U is absorbed by eleven guns and cancels K0 exactly, so an end that answers with U instead
+    of E would give a wire that survives being answered (none inside the tube for a hole at C ≤ 35; beside the
+    tube untried); **(t)** period 8 and the 5 × 5 tube at both ends, where every negative here stops.
 14. The 94 clockwork objects (`research/clockwork/objects/`) are not merged into the atlas catalogue.
 
 ## Neighbouring rules
