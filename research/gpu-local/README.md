@@ -297,7 +297,7 @@ the equilateral tori; `eqtorus.py check` passed on each face first (`checks/`); 
   The price per cell at 16 layers is 0.20863 ± 0.00022 (63 → 84), the 8-layer price. **Depth behind the face does
   not explain the hull's 0.231.** Thicker slabs live shorter by about 0.003 if anything (2.6σ at 63 cells, the two
   thicknesses pooled). Settled lives at 63 cells: 236 in 1,811,510 deaths at 8 layers, 30 in 660,097 at 12 layers
-  (23 of period 1 or 2), 1 in 564,434 at 16; the excess at 12 layers was not looked into.
+  (23 of period 1 or 2), 1 in 564,434 at 16; settling falls steeply with thickness (not looked into further).
 - Not checked: no second code at 96 and 108 cells or on (1, 4), (0, 28); the thicker slabs have one seed each; the
   engine comparison covers the dynamics at 12 and 16 layers, and the face-death test there is the same code as at 8.
 
