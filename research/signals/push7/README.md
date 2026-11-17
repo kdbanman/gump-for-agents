@@ -181,12 +181,85 @@ No SAT solver is installed on this machine (pysat is absent and nothing was inst
 
 ## Runs (reproduction)
 
-[filled in]
+Every command below runs from `research/scratch/signals/p7` (not in git), with
+`PY=C:\Users\kdbanman\.venvs\gump-gpu\Scripts\python.exe` and `S=../../../signals/push7`. Build `cdcl7.exe` (in
+p7) as in the Method section; step7.dll is built by step7.py on first use, which needs WinLibs gcc in
+`%LOCALAPPDATA%\Microsoft\WinGet\Packages`.
+
+- **Stepper check.** `$PY $S/check7.py fb37_3.list.json`: ALL PASS. Parts R and G are the oracle comparisons
+  (about 4 min); part W compares train mode with dead mode on 20 ends.
+- **Signals.** `$PY $S/signals7.py --two` and `$PY $S/signals7.py --two --train5f`: 1.5 min each.
+- **An enumeration.**
+  - `$PY $S/cnf7.py write fb C LO HI MULT STEM`.
+  - `$PY $S/pool7.py STEM 5 W 240 2`; the 5 x 5 and period-8 trees were later re-run with split 900.
+  - `$PY $S/cnf7.py decode STEM`.
+  - The stems used: `fb35_3` (`fb 35 1 5 1`), `fb37_3`, `fb39_3`, `g37_3` / `g39_3` (`5f 37 1 5 1` / `5f 39 1 5 1`),
+    `fb27_5` (`fb 27 -1 7 1`), `fb35_3p8` (`fb 35 1 5 2`).
+- **Census.**
+  - `$PY $S/census7.py c37.json fb37_3.list.json`: 10 min.
+  - `$PY $S/census7.py c39_pI.json fb39_3.list.json --part I/3` for I = 0, 1, 2: about 25 min each, in parallel.
+  - `$PY $S/census7.py gc37.json g37_3.list.json --guns` and the same for g39: 20 s and 3 min.
+  - Tables: `$PY $S/summary7.py CENSUS.json ...`.
+- **The count.**
+  - `$PY $S/record7.py c37.json` (3 s).
+  - `$PY $S/line7.py gc37.json c37.json --N 80 --n 1,2,3,4 [--gun g --end e] [--s s]` (2 s).
+- **Oracle.**
+  - `$PY $S/verify7.py $S/objects7.json --maxL 260` (210 records, about 80 min on the loaded machine): ALL PASS.
+  - `--minL 261` (40 records with long rings, the wire-B classes and the record runs, about 10 min each): see
+    "Pending" below.
+  - `objects7.json` holds:
+    - the line records (`line-*`), including `distinct` claims between consecutive n;
+    - the record runs (`record-*`);
+    - for the C <= 37 and C <= 39 receiving ends and guns, ten samples per outcome class (three for the wire-B
+      classes) plus an `orbit` record for each sampled end;
+    - the 5 x 5 C = 27 end.
+- **Data in git.** `wireB_caps.json` lists the 125 receiving ends and 5 guns of C <= 37 that cap wire B, with their
+  outcome vectors. The full tables (`ends_3x3_C37.json`, `ends_3x3_C39.json`, 3.3 MB) are in p7 only; regenerate them
+  with `summary7.py ... --out`.
+- **Wrap-up.** `bash $S/finish7.sh "2026-11-18 06:30"` waits for the open trees and checks, stops them at that
+  time, then decodes, runs the census, and writes and checks records into `final7.txt`.
 
 ## Not checked
 
-[filled in]
+- No second SAT solver and no UNSAT certificate. The completeness of every list rests on `cdcl7` and on the cube
+  partition in `pool7`.
+  - The solver was checked only by reproducing the CaDiCaL lists of earlier pushes: 90 solutions at C = 35, 753 at
+    C = 37 (741 ends), 68 guns at C = 37.
+  - No list at C = 39 was produced by another solver.
+- The outcomes are exact runs of step7, which is oracle-checked, under the census's definitions. Several things
+  are outside them:
+  - transients longer than 1,500 generations;
+  - signals placed other than 24 units upstream;
+  - arrival phases other than the ones listed;
+  - two different signals in succession, other than the words of holes;
+  - the upper part of a run after the difference has gone 80 units up the stream ('dead' means the end was not
+    restored by then, not that it was watched burning);
+  - other events: one-cell changes of an arriving rake beyond those that make the listed kinds (the fifth review's
+    418 events per end were not re-run), and the five composite kinds are pairs of signals, not new signals.
+- The wire-B classes are read at generations 200..216 only. That the 125 caps stand for ever, and the count on the
+  infinite train, are measured (to 266 generations), not proved. The finite line is proved periodic for ever on the
+  oracle (a finite object, whole state).
+- The tables count ends by C, the plane bound of `sat_gun.build`, for the 3 x 3 tube. Ends longer than C <= 39 are
+  not seen, nor ends outside the tube.
+- Oracle records are samples (ten per outcome class), not every pair.
 
 ## Forecasts scored
 
-[filled in]
+(`PREDICTIONS.md`, written before any census result.)
+
+1. 0.85, enumerator reproduces 741: the transfer-matrix enumerator was abandoned. The CDCL route reproduced 741
+   exactly, so the forecast is scored as true in substance.
+2. 0.55, the 3 x 3 set is infinite: not tested (the transfer graph was abandoned).
+3. 0.5, the 5 x 5 tube closed to a bound of at least 6 units: see Pending.
+4. 0.6, more than ten times as many 5 x 5 ends: see Pending.
+5. 0.07, a listener: no, within the bounds.
+6. 0.08, an end answering a hole with U: no.
+7. 0.05, a 5 x 5 gun surviving E: no 5 x 5 gun census was run; no 3 x 3 gun survives E at C <= 39.
+8. 0.15, an end that stops the lower edge of wire B: **yes** (125 at C <= 37; 1,223 at C <= 39).
+9. 0.8, the 5 x 5 ends heal or die on H: true for the one 5 x 5 end found.
+10. 0.6, period 8 adds nothing at C = 35: see Pending.
+11. 0.35, some end echoes: no (3 x 3, C <= 39).
+
+## Pending at the time of writing
+
+[filled in from final7.txt]
