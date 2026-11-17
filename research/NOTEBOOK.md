@@ -3627,3 +3627,122 @@ Review with independent code: `research/audit/REVIEW-signals-6.md`, code `resear
 - Not checked (23:08 UTC): period 8 and the 5 × 5 tube at either end; settling slower than the stated T;
   three-cell events; the meetings of N1 to N4; the divider's stream; the oscillator samples beside the gun; no
   UNSAT has a certificate.
+
+## 2026-11-16: the hull face of 108 cells: 23.3392 ± 0.0099; one price per cell with a linear rim term is refuted; a rimmed face pays about 0.231 per cell where a wrapped one pays 0.209
+
+The card's run (branch `claude/gpu-local-1080`, commit bf29d29; `research/gpu-local/README.md`, its block 4 and
+5 in `research/gpu-local/PREDICTIONS.md`). Forecasts were frozen before the run.
+
+- **[measured; the card's code, calibrated at 63 cells against the value on file; recomputed by the lead from the
+  rows]** ln τ_face = **23.3392 ± 0.0099** at 108 cells (hull radius 15; 10,187 deaths; seeds 15001 and 15002:
+  23.3364 ± 0.0138 and 23.3422 ± 0.0142; no settled life, no guard event). Recompute: the two rows of
+  `research/data/gpu_local_hull/hull_R15.csv`, ln(8 Σexposure / Σdeaths). The earlier run by another code (1,059
+  deaths) gave 23.376 ± 0.031, 1.1σ above. Hazard by age flat over four first-death means (nine bins, χ² 9.9 on 8).
+- **[scored]** One price of 0.2087 per cell plus a term linear in the rim: 23.273 ± 0.010, **refuted at 4.7
+  combined errors**. The second difference of the faces of 45, 63, 84 cells repeating: 23.338 ± 0.012, hit to
+  0.001. The card's own forecast 23.35 ± 0.02: 0.5σ.
+- **What it says.** The second differences of ln τ over hull radii 9, 11, 13, 15 are 0.691 and 0.692 ± 0.014; one
+  price c with any rim term linear in the radius gives 3c, so c = 0.2307 ± 0.0047 for rimmed faces, against
+  0.2087 (or 0.2075, WL5) for wrapped ones: **two prices, a tenth apart**, unless small rimmed faces carry a
+  correction that is not linear in the rim (they would have to live longer than the form by 0.2 at 45 cells and
+  0.07 at 63, with nothing at 84 and 108; four values cannot exclude it; the 135-cell face would, and is out of
+  the card's reach).
+- **What could make two prices.** (i) Depth: a hull face has the whole octahedron behind it, a torus face has 8
+  layers and a second face; the card has queued thicker slabs (its forecast: no change, 85%). (ii) Occupation: by
+  WL5 a tube's discount is 1.85 times its density deficit; if the same relation joined the two prices, the
+  interior of a living hull face would be denser than a wrapped face by about 0.012 (2.3%). That is measurable in
+  minutes with no lifetimes; forecasts H1–H4 in `research/wrap/PREDICTIONS.md`, a study asked.
+- Not checked (02:14 UTC): no adversarial review of this run (the lead recomputed the value from the rows; the
+  calibration at 63 cells and the older run are the cross-checks); the age tables were not re-derived.
+
+## 2026-11-16: a living hull face is occupied in its interior exactly as a wrapped face is, and depth does not matter: occupation explains none of the gap between the two prices
+
+A study of the living state of octahedral hulls, no lifetimes (`research/hulllocal/README.md`, commits e723451 …
+0deeb77; its stepper reproduces the oracle bit for bit on hulls of radius 15 and 13 and on four slabs, and matches
+the 2012 side-9 cube log). It was asked because the hull face of 108 cells put rimmed faces at about 0.231 per cell
+against 0.209 for wrapped ones, and because a tube's discount is 1.85 times its density deficit (WL5): if that
+relation joined the two prices, a hull face's interior would be denser than a wrapped face by 0.012.
+
+- **[measured; and the lead's check on the oracle alone] The interior is the same.** Against 0.517717 for the
+  wrapped 108-cell face by the same code: cells three or more layers from every other face are at −0.00100
+  (radius 15), −0.00134 (13), −0.00043 (25); cells five or more layers in are at +0.00021 falling to +0.00008 ±
+  0.000002 (radii 17 to 25). Both are the tail of the rim's profile. Mine: `python3
+  research/audit/hulllocal_lead_check.py 6000 SEED` (seeds 1, 2, 3; 10 minutes each; `reference/oracle.py` only,
+  geometry written for it: the hull with 2,064 cells and 108 per face, the same counts as the card's): depth 3
+  and more **0.51716 ± 0.00037, that is −0.0006 ± 0.0004 against the wrapped face**; the +0.012 the relation asks
+  is excluded by thirty standard errors.
+- **[measured; the lead's check agrees on the three bins it has] The rim.** Across an edge, away from corners:
+  the edge row (cells in two faces) +0.061, the next row −0.021, then +0.004, −0.0008, +0.0001. Corner cells (in
+  four faces) are at 0.175. Mine, by depth with corners included: depth 0 −0.0099 ± 0.0008, depth 1 −0.0193 ±
+  0.0005, depth 2 +0.0048 ± 0.0003. Summed over a face: a constant −1.712 ± 0.001 cells from the corners at every
+  radius from 11 to 25, +0.0541 ± 0.0002 cells per rim cell, strictly linear in the radius, and a per-cell term of
+  −0.00012 ± 0.00007.
+- **[measured, one code] Depth.** Wrapped faces on slabs of 8, 12, 16 and 24 layers have face layers equal within
+  0.000012 and the layers beneath within 0.00003.
+- **What it means.** With κ = 1.85, occupation accounts for −0.0002 ± 0.0001 of the +0.022 per cell: nothing, and
+  with the wrong sign. A hull face differs from a wrapped one in its living state only by a corner constant and a
+  term linear in the rim, and the second differences behind the 0.231 cancel both. So the two prices are not in
+  the living state's occupation and not in depth; they must be in how a face dies (the nearly empty corners are
+  the first suspect: a wrapped face has none) or in something correlated across the whole face. The density
+  relation of WL5 is a statement about loops on wrapped faces and does not extend to the rim.
+- **[scored]** H1 (denser by more than 0.004, 35%) and H2 (by the amount the relation asks, 20%) failed. H3 (the
+  same within 0.001, 50%) held, at radius 15 only just by the study's number (−0.00100) and comfortably deep in
+  larger faces. H4 (thickness matters, 25%) failed. H5 (the three rows by the rim denser than the interior by 0.01,
+  60%) failed: only the edge row is denser; the three rows together are thinner.
+- A forecast that follows, for the card's thicker slabs (its own forecast is the same): no change in lifetime.
+- Not checked (02:55 UTC): the larger radii and the thick slabs were not run on the oracle by anyone (the study's
+  builder is checked at radii 13 and 15 and on four slabs); my check has no cells deeper than four layers at
+  radius 15; the path to death, and space-time correlations, were not measured.
+
+## 2026-11-16: the card's tube and wrapped faces: long tubes of loop² 12 are cheaper per cell (0.2016 from 84 to 108 cells, not 0.2044); the face with a loop of 21 lands between the two forecasts; thickness does not change the price
+
+From the card's branch at 0345df0 (`research/gpu-local/README.md`, "Tube and wrapped faces, and thicker slabs";
+rows in `research/data/gpu_local_eqtorus/` and `research/data/gpu_local_thick/`). I recomputed every value from
+the rows as ln(2 Σ exposure / Σ face deaths), error 1/√deaths, and the derived numbers below:
+`python3 research/audit/gpu_tubes_lead_check.py` (arithmetic only; nothing re-run). All ten values equal the card's.
+
+| torus (H, K), (0, D) | cells | shortest loops² | ln τ_face (the card) | CPU value on file |
+|---|---:|---|---:|---:|
+| (1, 3), (0, 25) | 75 | 13, 37 | 15.5250 ± 0.0028 | 15.5363 ± 0.0104 (tester) |
+| (1, 9), (0, 25) | 75 | 19, 25 | 15.6442 ± 0.0030 | 15.6575 ± 0.0106 (tester) |
+| (1, 4), (0, 26) | 78 | 21, 28 | 16.2884 ± 0.0033 | 16.2769 ± 0.0120 (tester) |
+| (1, 12), (0, 28) | 84 | 12, 49 | 17.3175 ± 0.0031 | 17.3248 ± 0.0058 (lead) |
+| (1, 4), (0, 28) | 84 | 21, 28 | 17.5387 ± 0.0031 | none |
+| (1, 17), (0, 32) | 96 | 12, 67 | 19.7405 ± 0.0059 | none |
+| (1, 16), (0, 36) | 108 | 12, 81 | 22.1557 ± 0.0121 | none |
+
+Thicker slabs: 63 cells at 12 and 16 layers 13.1596 ± 0.0012 and 13.1589 ± 0.0013 (8 layers: 13.1622 ± 0.0007);
+84 cells at 16 layers 17.5401 ± 0.0044 (8 layers: 17.5467 ± 0.0031).
+
+- **[two codes] The four CPU values repeat** on the card's independent code, 1.0, 1.2, 0.9 and 1.1 combined errors
+  apart. That cross-checks the tester's stepper and my own run (W10, W11 held). W9 held: 16.2884 is 0.003 from
+  16.291; the "0.015 low" of the tester's two faces without a short loop was noise in its runs.
+- **[measured; one code at 96 and 108 cells] The tube line does not continue.** Tubes with one loop² of 12 at 84,
+  96, 108 cells are straight among themselves (second difference −0.008 ± 0.017) with slope **0.2016 ± 0.0005 per
+  cell**; the line through the eight such faces of 54 to 84 cells was 0.20437 ± 0.00016. The difference is 0.0028 ±
+  0.0005. The 96- and 108-cell values are 0.039 and 0.076 below that line's frozen forecasts (4.8 and 5.4 combined
+  errors; 3.8 and 4.2 if the card's errors are inflated for the scatter of its seeds, χ² 6.3 and 5.5 on 3) and
+  0.021 and 0.041 below the form POW (2.2 and 2.5). **W12 failed**: the face is nearer POW and below both. "No
+  family shows curvature" (2026-11-15) was true of the 12-tube only up to 84 cells. A steady curvature of about
+  −5 × 10⁻⁵ per cell² would join the two slopes and is inside the (−2.6 ± 3.5) × 10⁻⁵ seen up to 84 cells, but
+  the three long faces show none among themselves: a bend that goes on and a second straight line are not told
+  apart.
+- **What that does to the price relation (WL5).** "A tube's discount per cell is κ times its density deficit, κ =
+  1.85" was fitted to the tube lines of 54 to 84 cells. Against 0.2087 the long 12-tube's discount is 0.0070 per
+  cell, which would make κ 3.0. The living state's deficit does not depend on length, so either κ does or the
+  relation was a property of that range. It stays grade C and now carries this.
+- **[measured, one code] The loop of 21 (W13).** 17.5387 ± 0.0031: 0.9 errors above 17.534 ± 0.004 (the relation
+  holds) and 1.9 below 17.547 ± 0.003 (the effect ends before 21). It is below the midpoint, so W13 held as
+  worded, by 0.6 of its error: it leans and does not decide. Against the wide-face line 13.1621 + 0.20867 (A − 63)
+  the two faces whose shortest loop² is 21 are −0.0038 ± 0.0033 and −0.0055 ± 0.0031: together a loop of 21 costs
+  0.0047 ± 0.0023.
+- **[measured, one code, one seed each] Thickness.** The price per cell from 63 to 84 cells at 16 layers is 0.20863
+  ± 0.00022, the 8-layer price. Lives are a little shorter on thicker slabs (−0.0026 ± 0.0014 and −0.0033 ± 0.0015
+  at 63 cells). This is the lifetime measurement of what the density study inferred (CN3): depth behind the face
+  is not why rimmed faces pay 0.231. The card also saw settled lives fall steeply with thickness: 236 in 1,811,510
+  deaths at 8 layers, 30 in 660,097 at 12, 1 in 564,434 at 16 (not looked into).
+- **Where this leaves the price per cell.** Not one number and not two: rimmed faces about 0.231, wide wrapped
+  faces 0.2087, tubes less, and less again when long. None of the differences is in the occupation of the living
+  state or in depth.
+- Not checked (10:20 UTC): no second code at 96 or 108 cells or on (1, 4), (0, 28); the thicker slabs have one seed
+  each; the seeds at 96 and 108 cells scatter (χ² 11.8 on 6 together); I checked arithmetic from rows, not the runs.

@@ -1,0 +1,21 @@
+hull15: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 65535, at end 65534 of 65536; 97 s -> /home/user/gump-for-agents/research/scratch/hulllocal/hull15_s1.npz
+hull13: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 65512, at end 65488 of 65536; 69 s -> /home/user/gump-for-agents/research/scratch/hulllocal/hull13_s2.npz
+slab_6_0_6_8: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 65536, at end 65536 of 65536; 32 s -> /home/user/gump-for-agents/research/scratch/hulllocal/slab_6_0_6_8_s3.npz
+slab_2_4_14_8: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 65533, at end 65518 of 65536; 25 s -> /home/user/gump-for-agents/research/scratch/hulllocal/slab_2_4_14_8_s4.npz
+slab_1_18_49_8: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 65536, at end 65536 of 65536; 43 s -> /home/user/gump-for-agents/research/scratch/hulllocal/slab_1_18_49_8_s5.npz
+hull15: 16 blocks x 2048 replicas, burn 4000, measured 4000; replicas alive after burn 32768, at end 32768 of 32768; 62 s -> /home/user/gump-for-agents/research/scratch/hulllocal/hull15_s6.npz
+slab_6_0_6_12: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 65536, at end 65536 of 65536; 45 s -> /home/user/gump-for-agents/research/scratch/hulllocal/slab_6_0_6_12_s112.npz
+slab_2_4_14_12: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 65533, at end 65515 of 65536; 34 s -> /home/user/gump-for-agents/research/scratch/hulllocal/slab_2_4_14_12_s212.npz
+slab_6_0_6_16: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 65536, at end 65536 of 65536; 56 s -> /home/user/gump-for-agents/research/scratch/hulllocal/slab_6_0_6_16_s116.npz
+slab_2_4_14_16: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 65533, at end 65519 of 65536; 43 s -> /home/user/gump-for-agents/research/scratch/hulllocal/slab_2_4_14_16_s216.npz
+slab_6_0_6_24: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 65536, at end 65536 of 65536; 82 s -> /home/user/gump-for-agents/research/scratch/hulllocal/slab_6_0_6_24_s124.npz
+slab_2_4_14_24: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 65529, at end 65514 of 65536; 62 s -> /home/user/gump-for-agents/research/scratch/hulllocal/slab_2_4_14_24_s224.npz
+hull11: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 64532, at end 62120 of 65536; 48 s -> /home/user/gump-for-agents/research/scratch/hulllocal/hull11_s7.npz
+hull17: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 65536, at end 65536 of 65536; 135 s -> /home/user/gump-for-agents/research/scratch/hulllocal/hull17_s8.npz
+
+real	13m57.701s
+user	37m2.858s
+sys	0m2.905s
+hull19: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 65536, at end 65536 of 65536; 178 s -> /home/user/gump-for-agents/research/scratch/hulllocal/hull19_s9.npz
+hull21: 32 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 65536, at end 65536 of 65536; 232 s -> /home/user/gump-for-agents/research/scratch/hulllocal/hull21_s10.npz
+hull25: 16 blocks x 2048 replicas, burn 1000, measured 4000; replicas alive after burn 32768, at end 32768 of 32768; 188 s -> /home/user/gump-for-agents/research/scratch/hulllocal/hull25_s11.npz

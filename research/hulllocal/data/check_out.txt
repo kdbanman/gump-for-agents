@@ -1,0 +1,8 @@
+golden side 9: MATCH over 71 generations (final population 54, log 54)
+hull15: MATCH with reference/oracle.py over 600 generations, 3 replicas in 3 words (final populations [889, 885, 968])
+hull13: MATCH with reference/oracle.py over 600 generations, 3 replicas in 3 words (final populations [640, 649, 578])
+slab_2_2_12_8: MATCH with reference/oracle.py over 400 generations, 3 replicas in 3 words (final populations [267, 260, 249])
+slab_2_2_12_12: MATCH with reference/oracle.py over 400 generations, 3 replicas in 3 words (final populations [368, 401, 388])
+slab_2_2_12_16: MATCH with reference/oracle.py over 400 generations, 3 replicas in 3 words (final populations [504, 515, 505])
+slab_6_0_6_8: MATCH with reference/oracle.py over 150 generations, 3 replicas in 3 words (final populations [377, 376, 393])
+CHECK OK

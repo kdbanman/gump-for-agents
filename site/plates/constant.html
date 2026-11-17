@@ -1,15 +1,37 @@
 <section class="plate" id="constant">
   <div class="plate-h">
-    <div class="row"><p class="eyebrow">One price per cell? <b>· corrected</b></p><span class="st st-meas">fitted, by two independent analyses</span><span class="st st-once">empty patches: read after the data; the 4 × 5 point cross-checked on the CPU</span><span class="st st-meas">wrapped faces: your GTX 1080, nine faces, reviewed twice</span><span class="st st-open">one price or two: open</span></div>
-    <h2>One price per cell, or two? Nine wrapped faces measured on your card lie on one line, 0.2087 per cell, from 63 cells up. Faces with a rim cost more, and are moving away. The range <span id="n-cn">0.207 to 0.219</span> is the two families.</h2>
+    <div class="row"><p class="eyebrow">One price per cell? <b>· answered: no</b></p><span class="st st-meas">the 108-cell rimmed face: your GTX 1080, recomputed from its rows; no adversarial review</span><span class="st st-meas">not the living state, not depth: two codes at radius 15, one code elsewhere</span><span class="st st-unchk">long tubes, thick slabs, the loop of √21: one code each</span><span class="st st-open">how each kind of face dies: open</span></div>
+    <h2>No. A face with a rim pays about <span id="n-pr-rim"></span> per cell, a wide wrapped face <span id="n-pr-wide"></span>, a tube less, and a long tube less again. There is no single price: area is the largest term in a rate that depends on the face’s shape.</h2>
+  </div>
+  <!-- NB 2026-11-16: "the hull face of 108 cells", "a living hull face is occupied in its interior exactly as a wrapped face is",
+       "the card's tube and wrapped faces"; CLAIMS CN2-CN4, WL3, WL7, WL8; research/OPEN-PROBLEMS.md item 9 (i)-(m);
+       quotes in collect/sources/update-2026-11-16a.json (data key prices) -->
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>The price per cell, by kind of face</h3>
+      <div id="f-prices"></div>
+      <div class="keys" id="k-prices"></div>
+      <figcaption id="x-prices"></figcaption>
+    </figure>
+    <div class="fig c5"><div class="nums" id="n-prices" style="grid-template-columns:1fr"></div></div>
+  </div>
+  <div class="figs">
+    <div class="fig c6 panel">
+      <h3>Where the difference is not: the living face</h3>
+      <ul class="plain" id="l-prices-not"></ul>
+    </div>
+    <div class="fig c6 panel">
+      <h3>How far it is checked, and what is open</h3>
+      <ul class="plain" id="l-prices-check"></ul>
+    </div>
   </div>
   <div class="figs">
     <figure class="fig c6 panel">
-      <h3>What each family of faces allows</h3>
+      <h3>What each family allowed, before the 108-cell rimmed face</h3>
       <div id="f-ranges"></div>
       <div class="keys"><span class="key"><span class="sw" style="background:var(--ink-3);height:6px;width:16px;border-radius:3px"></span>range over fitted forms</span><span class="key"><span class="sw dot" style="background:var(--surface);border:2px solid var(--ink)"></span>measured slopes, no model</span><span class="key"><span class="sw dot" style="background:var(--ink)"></span>a single constant that passes for both</span></div>
       <div id="t-ranges"></div>
-      <figcaption>Flat periodic faces and hull faces approach from different sides. One constant fits both if either the hull’s rim is complicated (low end) or wide flat faces are still far from their limit (high end).</figcaption>
+      <figcaption>The fits of 2026-11-14, kept as they were: flat periodic faces and hull faces approach from different sides, and one constant (anywhere from <span id="n-cn">0.207 to 0.219</span>) fitted both if either the hull’s rim is complicated (low end) or wide flat faces are still far from their limit (high end). The 108-cell rimmed face, above, has since ruled out one constant with any rim term linear in the rim.</figcaption>
     </figure>
     <figure class="fig c6 panel">
       <h3>Empty patches on a face that never dies: their price per cell</h3>

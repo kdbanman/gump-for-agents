@@ -1,0 +1,16 @@
+wrapped reference: rho_w = 0.517717, Var/A = 0.37825
+  R    A int.cells    interior rho - rho_w      r>=5 rho - rho_w           E total         E corners           E edges      E edges/(3R)        Var excess
+ 11   63         3      -0.002086 ± 0.000009                     -  -1.3639 ± 0.0004  -1.7120 ± 0.0004  +0.3543 ± 0.0001  +0.0107 ± 0.0000  +3.6516 ± 0.0022
+ 13   84         9      -0.001339 ± 0.000005                     -  -1.0402 ± 0.0005  -1.7127 ± 0.0005  +0.6845 ± 0.0001  +0.0176 ± 0.0000  +3.7722 ± 0.0024
+ 15  108        18      -0.000997 ± 0.000003                     -  -0.7188 ± 0.0005  -1.7116 ± 0.0004  +1.0107 ± 0.0001  +0.0225 ± 0.0000  +3.9572 ± 0.0023
+ 17  135        30      -0.000791 ± 0.000003  +0.000209 ± 0.000008  -0.3987 ± 0.0007  -1.7121 ± 0.0005  +1.3372 ± 0.0002  +0.0262 ± 0.0000  +4.1514 ± 0.0035
+ 19  165        45      -0.000650 ± 0.000002  +0.000137 ± 0.000004  -0.0771 ± 0.0005  -1.7113 ± 0.0004  +1.6634 ± 0.0003  +0.0292 ± 0.0000  +4.3436 ± 0.0035
+ 21  198        63      -0.000556 ± 0.000002  +0.000111 ± 0.000003  +0.2422 ± 0.0006  -1.7121 ± 0.0005  +1.9894 ± 0.0002  +0.0316 ± 0.0000  +4.5457 ± 0.0037
+ 25  273       108      -0.000425 ± 0.000001  +0.000082 ± 0.000002  +0.8851 ± 0.0008  -1.7118 ± 0.0006  +2.6428 ± 0.0005  +0.0352 ± 0.0000  +4.9175 ± 0.0072
+second differences over consecutive radii (cancel constant + linear-in-R terms):
+  R = 11,13,15: D2 A = 3, D2 E = -0.0023 ± 0.0010, per cell of D2 A -0.0008 ± 0.0003; kappa x that = -0.0014 ± 0.0006 per cell (the price difference needs +0.0220 ± 0.0047); D2 Var excess +0.0643 ± 0.0054; first difference per added cell dE/dA = +0.0143 ± 0.0000
+  R = 13,15,17: D2 A = 3, D2 E = -0.0014 ± 0.0010, per cell of D2 A -0.0005 ± 0.0003; kappa x that = -0.0009 ± 0.0006 per cell (the price difference needs +0.0220 ± 0.0047); D2 Var excess +0.0093 ± 0.0057; first difference per added cell dE/dA = +0.0126 ± 0.0000
+  R = 15,17,19: D2 A = 3, D2 E = +0.0015 ± 0.0015, per cell of D2 A +0.0005 ± 0.0005; kappa x that = +0.0009 ± 0.0009 per cell (the price difference needs +0.0220 ± 0.0047); D2 Var excess -0.0020 ± 0.0074; first difference per added cell dE/dA = +0.0113 ± 0.0000
+  R = 17,19,21: D2 A = 3, D2 E = -0.0023 ± 0.0015, per cell of D2 A -0.0008 ± 0.0005; kappa x that = -0.0014 ± 0.0009 per cell (the price difference needs +0.0220 ± 0.0047); D2 Var excess +0.0098 ± 0.0082; first difference per added cell dE/dA = +0.0102 ± 0.0000
+fit E(R) = a + b R + c A over R = [11, 13, 15, 17, 19, 21, 25]: a = -3.1406 ± 0.0033, b = +0.16226 ± 0.00045 per unit R (per rim cell: +0.05409), c = -0.000117 ± 0.000032 per cell; chi2 17.0 on 4; kappa c = -0.00022 ± 0.00006 per cell
+fit Vx(R) = a + b R + c A over R = [11, 13, 15, 17, 19, 21, 25]: a = +2.9662 ± 0.0197, b = +0.04032 ± 0.00282 per unit R (per rim cell: +0.01344), c = +0.003625 ± 0.000204 per cell; chi2 214.3 on 4

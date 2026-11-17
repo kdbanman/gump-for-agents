@@ -221,3 +221,39 @@ statistics, though it was the one named beforehand). L4 failed: no exact feature
 21, and there is no end to explain. L5 failed. My own measurement of five of the densities with separate code
 agrees (`research/audit/wraplocal_lead_check.py`). The thing I had wrong was the premise: I asked why the effect
 ends, and it does not.
+
+## Two prices: is a living hull face denser than a wrapped one? The lead's forecasts (02:14 UTC, 2026-11-16, before any such measurement)
+
+The card's hull face of 108 cells came in at 23.3392 ± 0.0099: rimmed faces pay about 0.231 per cell, wrapped ones
+0.209. A tube's discount is 1.85 times its density deficit (WL5). If that one relation joined the two prices, the
+face layer in the interior of a living hull face would be denser than a wrapped face's 0.517742 by about
+(0.2307 − 0.2087) / 1.85 = 0.012. I have not looked at any density of a hull face.
+
+- **H1 (35%).** The face-layer density in the interior of a living hull face of radius 15 (cells three or more
+  lattice steps from the rim) exceeds the wrapped value by more than 0.004.
+- **H2 (20%).** The excess is between 0.008 and 0.018, as the relation with κ = 1.85 asks.
+- **H3 (50%).** The interior density equals the wrapped value within 0.001: the two prices are not a matter of
+  occupation in the interior.
+- **H4 (25%).** A wrapped face's density depends on the slab's thickness: 8 against 16 layers differ by more than
+  0.0005.
+- **H5 (60%).** Within three steps of the rim the hull face is denser than its interior by more than 0.01.
+
+### H1–H5 scored by the lead (02:55 UTC, 2026-11-16)
+
+H1 failed, H2 failed, H3 held, H4 failed, H5 failed. The interior of a living hull face is at the wrapped face's
+density within 0.001 (my own oracle run: −0.0006 ± 0.0004), thickness changes nothing, and the rim is denser only
+in its outermost row. I put half on "the same" and that was the right side; what I had wrong was the rim, which I
+pictured as a fed, fuller margin: it is one fuller row, a thinner one behind it, and nearly empty corners.
+
+### W9–W13 scored by the lead (10:20 UTC, 2026-11-16), from the card's rows (`python3 research/audit/gpu_tubes_lead_check.py`)
+
+- **W9 (65%) held.** 16.2884 ± 0.0033, 0.003 from 16.291. The tester's "0.015 low" was noise.
+- **W10 (75%) held.** The three faces agree with the tester's at 1.0, 1.2 and 0.9 combined errors.
+- **W11 (80%) held.** 17.3175 ± 0.0031 against my 17.3248 ± 0.0058: 1.1.
+- **W12 (55%) failed.** 22.1557 ± 0.0121 is 0.076 below the tube line and 0.041 below POW: nearer POW, below both.
+  At 96 cells the same (19.7405 ± 0.0059: 0.039 and 0.021 below). What I had wrong: I took "straight from 54 to 84
+  cells" for a property of tubes. The long tubes are straight among themselves at a lower slope, 0.2016 ± 0.0005.
+- **W13 (65%) held as worded** (17.5387 is below 17.5405) by 0.6 of its error, which decides nothing. The card's
+  17.544 ± 0.004 is 1.0 away.
+- Written in the notebook this morning, not numbered: "no change in lifetime on thicker slabs". The price did not
+  change; the lives are 0.003 shorter at 2.6σ. Half right.

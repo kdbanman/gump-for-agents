@@ -1,0 +1,298 @@
+{
+ "about": "Refresh of 2026-11-16 (morning): the card's hull face of 108 cells (CLAIMS CN2), the living hull face (CN3), the card's tube and wrapped faces and thicker slabs (WL7, WL8, CN4); forecasts H1-H5 and W9-W13 scored (research/wrap/PREDICTIONS.md); OPEN-PROBLEMS item 9 (i)-(m). Every quote is checked by collect.py against research/NOTEBOOK.md, research/CLAIMS.md or the named file. Where the card's rows are in the tree (research/data/gpu_local_eqtorus/), collect.py also recomputes the card's seven tube and wrapped faces from them and asserts they equal the quotes; it does not need them.",
+ "price": {
+  "hull108": {
+   "value": [108, 15, 23.3392, 0.0099, 10187],
+   "quote": "The hull face of 108 cells (radius 15) has ln τ_face = 23.3392 ± 0.0099 (10,187 deaths, two seeds, hazard flat over four first-death means)",
+   "src": "CLAIMS CN2; NB 2026-11-16, the hull face of 108 cells",
+   "how": "quoted; the card's run, recomputed by the lead from the two rows of research/data/gpu_local_hull/hull_R15.csv as ln(8 Σexposure / Σdeaths)"
+  },
+  "refuted": {
+   "value": [0.2087, 23.273, 0.010, 4.7],
+   "quote": "One price of 0.2087 per cell with a term linear in the rim (23.273 ± 0.010) is refuted at 4.7 combined errors",
+   "src": "CLAIMS CN2",
+   "how": "quoted; the forecast was frozen before the run (research/gpu-local/PREDICTIONS.md, block 4)"
+  },
+  "rimmed": {
+   "value": [0.691, 0.692, 0.014, 0.2307, 0.0047, 0.2087],
+   "quote": "the second differences over radii 9, 11, 13, 15 are 0.691 and 0.692 ± 0.014, which with any linear rim term means 0.2307 ± 0.0047 per cell for rimmed faces against 0.2087 for wrapped ones",
+   "src": "CLAIMS CN2",
+   "how": "quoted"
+  },
+  "scored": {
+   "value": [23.338, 0.012, 0.001, 23.35, 0.02, 0.5],
+   "quote": "The second difference of the faces of 45, 63, 84 cells repeating: 23.338 ± 0.012, hit to 0.001. The card's own forecast 23.35 ± 0.02: 0.5σ.",
+   "src": "NB 2026-11-16, the hull face of 108 cells",
+   "how": "quoted"
+  },
+  "earlier": {
+   "value": [1059, 23.376, 0.031, 1.1],
+   "quote": "The earlier run by another code (1,059 deaths) gave 23.376 ± 0.031, 1.1σ above.",
+   "src": "NB 2026-11-16, the hull face of 108 cells",
+   "how": "quoted"
+  },
+  "notexcl": {
+   "words": ["a small-size correction not linear in the rim", "0.2 at 45 cells, 0.07 at 63, none from 84"],
+   "quote": "Not excluded: a small-size correction not linear in the rim (0.2 at 45 cells, 0.07 at 63, none from 84)",
+   "src": "CLAIMS CN2",
+   "how": "quoted"
+  },
+  "d135": {
+   "value": [135, 29.230, 29.163],
+   "file": "research/OPEN-PROBLEMS.md",
+   "quote": "the 135-cell hull face would decide the last (29.230 against 29.163) and is out of the card's reach",
+   "src": "research/OPEN-PROBLEMS.md, item 9 (j)",
+   "how": "quoted from the file"
+  },
+  "tubes": {
+   "value": [0.20437, 0.00016, 0.20602, 0.00033, 0.20717, 0.00011, 0.20864, 0.00009],
+   "quote": "slope 0.20437 ± 0.00016 per cell for loop² 12 (8 faces, 54–84 cells, χ² 5.6 on 6), 0.20602 ± 0.00033 for 13 (7 faces, 57–75), 0.20717 ± 0.00011 for 16 (7 faces, 60–108), against 0.20864 ± 0.00009 with no short loop (14 faces, 63–126)",
+   "src": "CLAIMS WL3",
+   "how": "quoted; collect.py asserts the same slopes and errors in sources/wrap.json (the lead's refit, research/audit/wrap_haz_lead.py --tube)"
+  },
+  "longtube": {
+   "value": [84, 96, 108, 17.3175, 0.0031, 19.7405, 0.0059, 22.1557, 0.0121, 0.2016, 0.0005, 0.20437, 0.00016, 0.039, 0.076, 4.8, 5.4],
+   "quote": "with one loop² of 12, ln τ_face at 84, 96, 108 cells is 17.3175 ± 0.0031, 19.7405 ± 0.0059, 22.1557 ± 0.0121 (the card), straight among themselves at 0.2016 ± 0.0005 per cell against 0.20437 ± 0.00016 for 54 to 84 cells (WL3); the 96- and 108-cell faces are 0.039 and 0.076 below that line (4.8 and 5.4 combined errors)",
+   "src": "CLAIMS WL7; NB 2026-11-16, the card's tube and wrapped faces",
+   "how": "quoted; the lead's arithmetic from the card's rows (python3 research/audit/gpu_tubes_lead_check.py)"
+  },
+  "scatter": {
+   "value": [96, 108, 11.8, 6],
+   "quote": "C (96 and 108 cells: the card's code alone; its seeds scatter, χ² 11.8 on 6)",
+   "src": "CLAIMS WL7, level column",
+   "how": "quoted"
+  },
+  "interior": {
+   "value": [0.517717, 0.001, 0.00043, 0.00008, 0.000002, 0.0006, 0.0004],
+   "quote": "against 0.517717, cells three or more layers from every other face are at −0.00100 (radius 15), −0.00043 (radius 25), cells five or more layers in at +0.00008 ± 0.000002 (radius 25); the lead's oracle-only run at radius 15 gives −0.0006 ± 0.0004",
+   "src": "CLAIMS CN3; NB 2026-11-16, a living hull face is occupied …",
+   "how": "quoted (signs: −0.00100, −0.00043, +0.00008, −0.0006, as in the quote); the lead's run: python3 research/audit/hulllocal_lead_check.py 6000 SEED, reference/oracle.py only"
+  },
+  "excluded": {
+   "value": [0.012],
+   "quote": "the +0.012 the relation asks is excluded by thirty standard errors",
+   "src": "NB 2026-11-16, a living hull face is occupied …",
+   "how": "quoted"
+  },
+  "rim": {
+   "value": [0.061, 0.021, 0.004, 0.175],
+   "quote": "The rim: edge row +0.061, next row −0.021, then +0.004; corner cells at 0.175",
+   "src": "CLAIMS CN3",
+   "how": "quoted (signs as in the quote: +0.061, −0.021, +0.004)"
+  },
+  "rimsum": {
+   "value": [1.712, 0.0541],
+   "quote": "summed over a face a corner constant (−1.712 cells) and +0.0541 cells per rim cell, linear in the radius",
+   "src": "CLAIMS CN3",
+   "how": "quoted"
+  },
+  "depth": {
+   "value": [8, 12, 16, 24, 0.000012],
+   "quote": "Slabs of 8, 12, 16, 24 layers have equal face layers within 0.000012",
+   "src": "CLAIMS CN3",
+   "how": "quoted"
+  },
+  "occ": {
+   "value": [1.85, 0.0002, 0.0001, 0.022],
+   "quote": "With κ = 1.85, occupation accounts for −0.0002 ± 0.0001 of the +0.022 per cell: nothing, and with the wrong sign.",
+   "src": "NB 2026-11-16, a living hull face is occupied …",
+   "how": "quoted"
+  },
+  "thick": {
+   "value": [16, 0.20863, 0.00022, 0.003, 2.6],
+   "quote": "the price per cell at 16 layers is 0.20863 ± 0.00022, the 8-layer price; lives are about 0.003 shorter on thicker slabs (2.6σ)",
+   "src": "CLAIMS CN4",
+   "how": "quoted; the lead's arithmetic from the card's rows (python3 research/audit/gpu_tubes_lead_check.py)"
+  },
+  "dying": {
+   "words": ["they must be in how a face dies", "the nearly empty corners are the first suspect: a wrapped face has none"],
+   "quote": "they must be in how a face dies (the nearly empty corners are the first suspect: a wrapped face has none)",
+   "src": "NB 2026-11-16, a living hull face is occupied …",
+   "how": "quoted"
+  },
+  "reading": {
+   "value": [0.231, 0.2087],
+   "quote": "Not one number and not two: rimmed faces about 0.231, wide wrapped faces 0.2087, tubes less, and less again when long. None of the differences is in the occupation of the living state or in depth.",
+   "src": "NB 2026-11-16, the card's tube and wrapped faces (Where this leaves the price per cell)",
+   "how": "quoted"
+  },
+  "essay": {
+   "file": "docs/WHAT-I-SEE.md",
+   "words": ["I no longer think there is a price per cell.", "area is only the largest term in it"],
+   "quote": "I no longer think there is a price per cell. There is a rate at which each shape of face dies, and area is only the largest term in it.",
+   "src": "docs/WHAT-I-SEE.md, What I would look at next: Your card's answer on the queued face",
+   "how": "quoted from the file"
+  },
+  "essay2": {
+   "file": "docs/WHAT-I-SEE.md",
+   "words": ["So the difference must be in the dying, not the living, and nobody has yet watched the two kinds die side by side."],
+   "quote": "So the difference must be in the dying, not the living, and nobody has yet watched the two kinds die side by side.",
+   "src": "docs/WHAT-I-SEE.md, What I would look at next: Two prices",
+   "how": "quoted from the file"
+  },
+  "openk": {
+   "file": "research/OPEN-PROBLEMS.md",
+   "words": ["Watch hull faces and wrapped faces die"],
+   "quote": "**(k)** Watch hull faces and wrapped faces die (as `research/dying` did for hull faces): where does the last living patch sit, does a wrapped face's death start anywhere while a hull face's must start away from, or at, its corners, and does the dip rate per cell differ between the two?",
+   "src": "research/OPEN-PROBLEMS.md, item 9 (k)",
+   "how": "quoted from the file"
+  },
+  "openl": {
+   "file": "research/OPEN-PROBLEMS.md",
+   "words": ["What is the form of a long tube's lifetime", "Do tubes of loop² 13 and 16 bend too"],
+   "quote": "**(l)** What is the form of a long tube's lifetime: a bend that goes on (towards a lifetime set by the girth and not the area, as for the loop² 9 tubes that firewalls cut), or a second straight line? Do tubes of loop² 13 and 16 bend too (their lines rest on CPU values, to 75 and 108 cells)?",
+   "src": "research/OPEN-PROBLEMS.md, item 9 (l)",
+   "how": "quoted from the file"
+  },
+  "openm": {
+   "file": "research/OPEN-PROBLEMS.md",
+   "words": ["a 2σ answer", "A third face with a loop of 21 and none shorter"],
+   "quote": "**(m)** The loop of 21 costs 0.0047 ± 0.0023: a 2σ answer. A third face with a loop of 21 and none shorter, or the same two to ± 0.0015, would settle whether the tail of the density law carries a price.",
+   "src": "research/OPEN-PROBLEMS.md, item 9 (m)",
+   "how": "quoted from the file"
+  },
+  "gradeCN2": {
+   "words": ["no adversarial review"],
+   "quote": "B (the card's code, calibrated at 63 cells against the value on file; an earlier run by another code agrees at 1.1σ; recomputed by the lead; no adversarial review)",
+   "src": "CLAIMS CN2, level column",
+   "how": "quoted"
+  },
+  "gradeCN3": {
+   "words": ["two codes, one of them the oracle alone", "one code"],
+   "quote": "B (the interior and the first three rows at radius 15: two codes, one of them the oracle alone) + C (other radii, the rim sums, the thick slabs: one code)",
+   "src": "CLAIMS CN3, level column",
+   "how": "quoted"
+  },
+  "gradeCN4": {
+   "words": ["one seed each"],
+   "quote": "C (the card's code, one seed each; the engine check passed at each thickness)",
+   "src": "CLAIMS CN4, level column",
+   "how": "quoted"
+  }
+ },
+ "wrap16": {
+  "w13measured": {
+   "value": 17.5387,
+   "se": 0.0031,
+   "src": "the card; NB 2026-11-16, the card's tube and wrapped faces; CLAIMS WL8",
+   "quote": "The 84-cell face (1,4),(0,28), shortest loops² 21 and 28: 17.5387 ± 0.0031 (the card), between the frozen 17.534 ± 0.004 (the density relation holds) and 17.547 ± 0.003 (the effect ends before 21), 0.9 and 1.9 errors away",
+   "how": "quoted; fills dens.w13measured, which update-2026-11-15f.json left null. The plate computes the two distances itself (0.9 and 1.9, as quoted)"
+  },
+  "w13z": {
+   "value": [0.9, 1.9],
+   "quote": "between the frozen 17.534 ± 0.004 (the density relation holds) and 17.547 ± 0.003 (the effect ends before 21), 0.9 and 1.9 errors away",
+   "src": "CLAIMS WL8",
+   "how": "quoted; collect.py asserts the plate's own arithmetic gives these to 0.05"
+  },
+  "w13held": {
+   "file": "research/wrap/PREDICTIONS.md",
+   "words": ["held as worded", "which decides nothing"],
+   "quote": "**W13 (65%) held as worded** (17.5387 is below 17.5405) by 0.6 of its error, which decides nothing.",
+   "src": "research/wrap/PREDICTIONS.md, W9-W13 scored",
+   "how": "quoted from the file"
+  },
+  "loop21": {
+   "value": [78, 21, 0.0047, 0.0023],
+   "quote": "With the 78-cell face, a loop of 21 costs 0.0047 ± 0.0023 against the wide-face line: it leans to a cost and is not decided",
+   "src": "CLAIMS WL8",
+   "how": "quoted"
+  },
+  "two21": {
+   "value": [0.0038, 0.0033, 0.0055, 0.0031, 0.0047, 0.0023],
+   "quote": "the two faces whose shortest loop² is 21 are −0.0038 ± 0.0033 and −0.0055 ± 0.0031: together a loop of 21 costs 0.0047 ± 0.0023.",
+   "src": "NB 2026-11-16, the card's tube and wrapped faces",
+   "how": "quoted (both below the wide-face line 13.1621 + 0.20867 (A − 63))"
+  },
+  "kappa3": {
+   "value": [0.2087, 0.007, 3.0],
+   "quote": "Against 0.2087 the long 12-tube's discount is 0.0070 per cell, which would make κ 3.0.",
+   "src": "NB 2026-11-16, the card's tube and wrapped faces (What that does to the price relation)",
+   "how": "quoted"
+  },
+  "kappafit": {
+   "value": [1.85, 54, 84],
+   "quote": "κ = 1.85\" was fitted to the tube lines of 54 to 84 cells.",
+   "src": "NB 2026-11-16, the card's tube and wrapped faces",
+   "how": "quoted"
+  },
+  "kappaq": {
+   "words": ["either κ does or the relation was a property of that range"],
+   "quote": "The living state's deficit does not depend on length, so either κ does or the relation was a property of that range.",
+   "src": "NB 2026-11-16, the card's tube and wrapped faces",
+   "how": "quoted"
+  },
+  "pow": {
+   "value": [0.021, 0.041, 2.2, 2.5, 3.8, 4.2],
+   "quote": "(4.8 and 5.4 combined errors; 3.8 and 4.2 if the card's errors are inflated for the scatter of its seeds, χ² 6.3 and 5.5 on 3) and 0.021 and 0.041 below the form POW (2.2 and 2.5)",
+   "src": "NB 2026-11-16, the card's tube and wrapped faces",
+   "how": "quoted"
+  },
+  "twolines": {
+   "words": ["a bend that goes on and a second straight line are not told apart"],
+   "quote": "the three long faces show none among themselves: a bend that goes on and a second straight line are not told apart",
+   "src": "NB 2026-11-16, the card's tube and wrapped faces",
+   "how": "quoted"
+  },
+  "curv": {
+   "words": ["was true of the 12-tube only up to 84 cells"],
+   "quote": "\"No family shows curvature\" (2026-11-15) was true of the 12-tube only up to 84 cells.",
+   "src": "NB 2026-11-16, the card's tube and wrapped faces",
+   "how": "quoted"
+  },
+  "repeat": {
+   "value": [1.0, 1.2, 0.9, 1.1],
+   "quote": "on the card's independent code, 1.0, 1.2, 0.9 and 1.1 combined errors apart",
+   "src": "NB 2026-11-16, the card's tube and wrapped faces",
+   "how": "quoted"
+  },
+  "notchecked": {
+   "words": ["no second code at 96 or 108 cells or on (1, 4), (0, 28)"],
+   "quote": "Not checked (10:20 UTC): no second code at 96 or 108 cells or on (1, 4), (0, 28); the thicker slabs have one seed each; the seeds at 96 and 108 cells scatter (χ² 11.8 on 6 together); I checked arithmetic from rows, not the runs.",
+   "src": "NB 2026-11-16, the card's tube and wrapped faces",
+   "how": "quoted"
+  },
+  "card": {
+   "rows": [
+    {"file": "eqtorus_1_3_25", "A": 75, "loop": 13, "value": [75, 15.5250, 0.0028, 15.5363, 0.0104], "quote": "| (1, 3), (0, 25) | 75 | 13, 37 | 15.5250 ± 0.0028 | 15.5363 ± 0.0104 (tester) |"},
+    {"file": "eqtorus_1_9_25", "A": 75, "loop": 19, "value": [75, 15.6442, 0.0030, 15.6575, 0.0106], "quote": "| (1, 9), (0, 25) | 75 | 19, 25 | 15.6442 ± 0.0030 | 15.6575 ± 0.0106 (tester) |"},
+    {"file": "eqtorus_1_4_26", "A": 78, "loop": 21, "value": [78, 16.2884, 0.0033, 16.2769, 0.0120], "quote": "| (1, 4), (0, 26) | 78 | 21, 28 | 16.2884 ± 0.0033 | 16.2769 ± 0.0120 (tester) |"},
+    {"file": "eqtorus_1_12_28", "A": 84, "loop": 12, "value": [84, 17.3175, 0.0031, 17.3248, 0.0058], "quote": "| (1, 12), (0, 28) | 84 | 12, 49 | 17.3175 ± 0.0031 | 17.3248 ± 0.0058 (lead) |"},
+    {"file": "eqtorus_1_4_28", "A": 84, "loop": 21, "value": [84, 17.5387, 0.0031], "quote": "| (1, 4), (0, 28) | 84 | 21, 28 | 17.5387 ± 0.0031 | none |"},
+    {"file": "eqtorus_1_17_32", "A": 96, "loop": 12, "value": [96, 19.7405, 0.0059], "quote": "| (1, 17), (0, 32) | 96 | 12, 67 | 19.7405 ± 0.0059 | none |"},
+    {"file": "eqtorus_1_16_36", "A": 108, "loop": 12, "value": [108, 22.1557, 0.0121], "quote": "| (1, 16), (0, 36) | 108 | 12, 81 | 22.1557 ± 0.0121 | none |"}
+   ],
+   "src": "NB 2026-11-16, the card's tube and wrapped faces (its table: the card's value and the CPU value on file)",
+   "how": "each row quoted; where research/data/gpu_local_eqtorus/<file>.csv is in the tree, collect.py recomputes ln(2 Σexposure / Σface) and 1/√Σface from it and asserts them equal to the quote to 1e-4"
+  }
+ },
+ "forecasts": [
+  {"line": "The card and the lead, before the 108-cell hull face (one price with a rim term; the second difference; the card's own)", "result": "mixed (one price with a linear rim refuted at 4.7σ; the second difference held to 0.001; the card's 23.35 ± 0.02 at 0.5σ)", "words": ["refuted at 4.7 combined errors", "hit to 0.001"], "quote": "**refuted at 4.7 combined errors**. The second difference of the faces of 45, 63, 84 cells repeating: 23.338 ± 0.012, hit to 0.001.", "src": "NB 2026-11-16, the hull face of 108 cells"},
+  {"line": "The lead, before the living hull face was measured (H1–H5)", "result": "mixed (H3, the same density, held; H1, H2, H4, H5 failed)", "file": "research/wrap/PREDICTIONS.md", "words": ["H3 held"], "quote": "H1 failed, H2 failed, H3 held, H4 failed, H5 failed.", "src": "research/wrap/PREDICTIONS.md, H1-H5 scored"},
+  {"line": "The lead and the tester, before the card's tube and wrapped faces (W9–W13)", "result": "mixed (W9, W10, W11 held; W12 failed, the long tube below both forms; W13 held as worded, deciding nothing)", "file": "research/wrap/PREDICTIONS.md", "words": ["W12 (55%) failed."], "quote": "**W12 (55%) failed.** 22.1557 ± 0.0121 is 0.076 below the tube line and 0.041 below POW: nearer POW, below both.", "src": "research/wrap/PREDICTIONS.md, W9-W13 scored"}
+ ],
+ "corrections": [
+  {
+   "said": "A single price per cell could serve rimmed and wrapped faces alike, with a correction for the rim",
+   "now": "Not with any correction linear in the rim: the 108-cell hull face lives longer than one price of 0.2087 allows, by 4.7 combined errors; rimmed faces pay about 0.231 per cell, wrapped ones 0.209",
+   "by": "the automaton, on the owner's GTX 1080 (the 108-cell hull face)",
+   "line": "the price per cell",
+   "words": ["is refuted at 4.7 combined errors"],
+   "quote": "One price of 0.2087 per cell with a term linear in the rim (23.273 ± 0.010) is refuted at 4.7 combined errors",
+   "src": "CLAIMS CN2, and CN1's 'Since'"
+  },
+  {
+   "said": "No family of tubes shows curvature: each girth has its own straight line in area",
+   "now": "True of the loop² 12 tube only up to 84 cells: at 96 and 108 cells it lives shorter than its line by 4.8 and 5.4 combined errors, and from 84 to 108 cells pays 0.2016 per cell, not 0.2044",
+   "by": "the automaton, on the owner's GTX 1080 (the 96- and 108-cell tubes)",
+   "line": "wrapped faces",
+   "words": ["was true of the 12-tube only up to 84 cells"],
+   "quote": "\"No family shows curvature\" (2026-11-15) was true of the 12-tube only up to 84 cells.",
+   "src": "NB 2026-11-16, the card's tube and wrapped faces; CLAIMS WL3's 'Since', WL7"
+  }
+ ],
+ "milestones": [
+  {"date": "2026-11-16T02:14Z", "text": "The card's hull face of 108 cells: no single price per cell with a rim term; rimmed faces pay about 0.231", "src": "git 16bedd2"},
+  {"date": "2026-11-16T02:55Z", "text": "A living hull face is as full inside as a wrapped one: the two prices are not in the living state, nor in depth", "src": "git e22d5f4"},
+  {"date": "2026-11-16T10:20Z", "text": "The card's tubes: long tubes cheaper per cell; the loop of √21 leans to a cost and does not decide", "src": "git a8a5be3"}
+ ]
+}

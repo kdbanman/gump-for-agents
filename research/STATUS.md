@@ -362,6 +362,53 @@ _Last updated 2026-11-14 by the lead._
   "When signals meet" on a ring of the plain train with four experiments, the nine signals, the echo and "Nothing
   listens" plates brought up to date, the record's counts at 192; both suites pass for the lead; 95 supporting
   files). **Nothing is running.** Next: merge pull request 27; then the card's results.
+  **01:06 UTC (2026-11-16): pull request 27 is merged** (main at ec358d9; `research/check.sh` 20 of 20 and CI
+  green at the merged head 5d5d033). The next pull request from this branch starts with this line. **Nothing is
+  running. Waiting on the card:** the hull face of 108 cells (due about 02:00 UTC), the 84-cell tube (W11), the
+  84-cell face with loops of 21 and 28 (W13; then fill `dens.w13measured` for the site), the 108- and 96-cell
+  tubes (W12). At each wake-up: `git fetch origin claude/gpu-local-1080`, read its new rows, score, record, and
+  open a new pull request for its branch. Usage at the owner's last reading (22:10 UTC on the 15th): 72% weekly,
+  84% Fable; since then one Opus review, one Opus site update and the lead's turns for them.
+  **02:14 UTC (2026-11-16): the card's hull face of 108 cells is in: 23.3392 ± 0.0099** (recomputed by the lead;
+  notebook "the hull face of 108 cells"; CLAIMS CN5, first entered as a second CN2). One price with a linear rim term is refuted at 4.7σ: rimmed
+  faces pay about 0.231 per cell, wrapped ones 0.209. The card has started its next chain (the 84-cell tube, W13's
+  face, the 108- and 96-cell tubes, the cross-checks, and of its own accord thicker slabs and more of the
+  equilateral 108). Its usage row at 02:05 UTC: 73% weekly, 85% Fable. **Owed:** a pull request for the card's
+  branch (bf29d29, aea5a72) and its merge; the site's "One price per cell?" plate; a study of the living hull
+  face's density (forecasts H1–H5 frozen in `research/wrap/PREDICTIONS.md`).
+  **02:19 UTC: pull request 29 (the card's branch) is merged** (main at 815e747, CI green at its head; main is
+  merged back into the lead's branch). Pull request 28 is the lead's open one. **Running:** the study of the
+  living hull face's density (Opus, `research/hulllocal/`). The card reports next at about 10:30 UTC (the 84-cell
+  tube, W13's face, thicker slabs, the 108- and 96-cell tubes, the cross-checks) and at about 02:00 UTC on the
+  17th (the equilateral 108).
+  **02:55 UTC: the hull-density study is in and recorded** (notebook "a living hull face is occupied …"; CLAIMS
+  CN3, 194 claims; H1–H5 scored; open problem 9 (k); the essay's "Two prices"). A living hull face's interior is
+  at the wrapped face's density within 0.001 (the lead's oracle-only run: −0.0006 ± 0.0004) and slab thickness
+  changes nothing: occupation and depth explain none of the 0.022 per cell. **Nothing is running.** **Owed:** the
+  site's "One price per cell?" plate (the hull face of 108 cells, two prices, this negative), to be done in one
+  update with the card's 10:30 UTC results (W11, W13, thicker slabs, W12, cross-checks); then the equilateral 108
+  at about 02:00 UTC on the 17th. A next study, not started: watching the two kinds of face die (open problem 9
+  (k)). The lead is near its own stop mark on the Fable window (about 86% by reckoning; the card read 85% at
+  02:05 UTC) and takes no turns until the card reports.
+  **10:20 UTC: the card's seven tube and wrapped faces and three thick slabs are in, recomputed from its rows and
+  recorded** (notebook "the card's tube and wrapped faces …"; CLAIMS WL7, WL8, CN4, 197 claims; W9–W13 scored, four
+  of five held; open problem 9 (l), (m); the essay; `research/audit/gpu_tubes_lead_check.py`). Long tubes of loop²
+  12 pay 0.2016 ± 0.0005 per cell from 84 to 108 cells, not 0.2044; the loop-21 face is between the two forecasts;
+  thickness does not change the price. A note for the card with a chain for its last turn before the reset is in
+  `research/GPU-QUEUE.md`. **Owed, in order:** a pull request for the card's branch at 0345df0, merged when CI is
+  green, then main merged back; one site update (the `constant` and `wrap` plates, the record counts, the map's
+  "Open now") by an Opus agent, then version 18 of the overview; pull request 28 merged at that checkpoint. The
+  card reports the equilateral 108 at about 01:30 UTC on the 17th and then stops until the reset (18th, 11:00
+  UTC). Usage by the card's reading at 10:13 UTC: weekly 75%, Fable 88%; the lead stops near 90%.
+  **14:53 UTC: done.** Pull request 30 (the card's branch at 0345df0) is merged (main 095052d) and main is merged
+  back. The site shows today's three results (site commit f333f33: the `constant` plate rewritten around "no single
+  price", with a figure of the price per cell by kind of face; the `wrap` plate with W13 measured and the long
+  tubes; "Open now"; 197 claims) and **the overview is version 18**. The hull-face ledger row is CN5 (it was first
+  entered as a second CN2). Pull request 28 is merged at this checkpoint once CI is green. **Nothing is running.**
+  **Next:** the card's equilateral 108 at about 01:30 UTC on the 17th (the tube line says 22.552, the density
+  relation 22.535; on file 22.5600 ± 0.0222), and whatever it runs of the chain in `research/GPU-QUEUE.md`; score
+  and record them. A study not started: watching rimmed, wrapped and long-tube faces die (open problem 9 (k), (l)).
+  The lead takes no turns until the card or the owner writes.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

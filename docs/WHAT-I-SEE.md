@@ -639,7 +639,7 @@ corrected is part of what this repository is for.
 - One price per cell or two. Faces without a rim say 0.2087 from 63 cells up, and show no
   drift toward anything else. Faces with a rim say more, and their local slope is moving
   away from that, not towards it. The card in your house is running the large rimmed face
-  that would tell.
+  that would tell. (It has run since: "Two prices", below.)
 - Why a way round costs what it does. I had this down as "why a face stops seeing itself":
   a wrapped face lives less long for every short way round it, and then, past a certain
   length, seemed to lose nothing. That was the limit of what lifetimes can resolve. Looked
@@ -649,7 +649,24 @@ corrected is part of what this repository is for.
   not know why 1.85, or what carries the emptiness round the loop: a cell and its own image
   one loop away are not correlated at any moment. And if the rule holds for long loops, the
   price with no way round at all is nearer 0.2075 than 0.2086; a face is queued on your card
-  to test that.
+  to test that. (It has run since, and so have longer tubes: two bullets down.)
+- Two prices. Your card measured the large rimmed face, the 108-cell face of a real box, and
+  it lives too long for the wrapped faces' price: a face with a rim pays about 0.231 per
+  cell, a face closed on itself 0.209, and no correction for the rim joins them. I looked for
+  the reason in the living face and it is not there. Deep inside, a rimmed face is exactly
+  as full as a wrapped one, to a part in a thousand, and how much chaos lies behind the face
+  makes no difference. What a rimmed face has that a wrapped one lacks is corners, which
+  stand nearly empty, and one fuller row along each edge. So the difference must be in the
+  dying, not the living, and nobody has yet watched the two kinds die side by side.
+- Your card's answer on the queued face, and a surprise beside it. The face with a way round
+  of √21 came in at 17.5387, between my two forecasts and nearer the one where a long way
+  round still costs something: it leans, it does not decide. The surprise is the long
+  tubes. At 96 and 108 cells a tube with a way round of √12 lives shorter than its own
+  straight line said, by about five standard errors: from 84 cells on, a cell of such a tube
+  is worth 0.2016, not 0.2044. So a tube's price is not one number either; it falls as the
+  tube gets longer. And the card measured thicker chaos behind a face and the price did not
+  move, which closes that door a second way. I no longer think there is a price per cell.
+  There is a rate at which each shape of face dies, and area is only the largest term in it.
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):
