@@ -9,11 +9,11 @@ objects/echo-train.json, and its 'train' boundary mode against its own dead-boun
      generations (meetings: to their stated generation);
   G  dead mode against the oracle on a cubic torus H = 128 (as verify_echo.py check E): the gun #4 at the end of a
      finite train (units -24..5) with U set in front of it: whole state at every generation, 60 generations;
-  W  train mode against dead mode: for every end in the lists given (default: none; check7.py LIST.json ... adds
-     them), the end at the end of the train with one hole, stepped 200 generations in a window of units -40..20 with
-     the plain train below, and in dead mode on a window of units -260..20 holding a finite train: equal on units
-     -40..20 at every generation (the finite train's far end burns back about half a unit per generation, so the two
-     agree while the burn is far away: 220 units in 200 generations).
+  W  train mode against dead mode: for the first 20 ends of each list given (default: none; check7.py LIST.json ...
+     adds them), the end at the end of the train with one hole, stepped in a window of units -40..20 with the plain
+     train below, and in dead mode on a window of units -260..20 holding a finite train: equal on units -40..20 at
+     every generation up to 200, for as long as units -40..-31 of the long run are the plain train (train mode is exact
+     only then; census7 stops a run before a difference gets that far).
 """
 import sys, os, json
 import numpy as np
@@ -138,18 +138,23 @@ report('G  dead mode equals the oracle (torus 128): the gun #4 of echo-train.jso
 import sat_gun as G
 for fn in sys.argv[1:]:
     d = json.load(open(fn)); pat, _ = G.train([0xf, 0xb], True, 1)
-    bad = 0; n = 0
+    bad = 0; n = 0; gens = []
     for e in d['list'][:20]:
         cap = frozenset(tuple(c) for c in e['cap'])
         Wt = Window('fb', -40, 20); Wf = Window('fb', -260, 20)
         rakes = [u for u in range(-10, 6) if tr((1, 0, 4), u) in G.train_cells(pat, 0, -10, 6, 1)]
         hole = {tr((1, 0, 4), max(rakes))}
         x0 = (G.train_cells(pat, 0, -260, 6, 1) | cap) - hole
-        a = Wt.array(x0); b = Wf.array(x0)
+        a = Wt.array(x0); b = Wf.array(x0); g = 0
         for t in range(200):
             Wt.run(a, t, 1, 'train'); Wf.run(b, t, 1, 'dead')
+            # train mode is exact while the true state below the window is the plain train; stop comparing once
+            # units -40..-31 of the long run are no longer the plain train (a burning end, an echo)
+            if not np.array_equal(b[220:230], Wt.train(t + 1)[:10]):
+                break
             if not np.array_equal(a, b[220:]):
                 bad += 1; break
-        n += 1
-    report(f'W  {fn}: train mode equals dead mode with a finite train on units -40..20, 200 generations, {n} ends with a hole', bad == 0)
+            g += 1
+        n += 1; gens.append(g)
+    report(f'W  {fn}: train mode equals dead mode with a finite train on units -40..20 while units -40..-31 are the plain train ({n} ends with a hole; generations compared: min {min(gens)}, max {max(gens)})', bad == 0)
 print('ALL PASS' if allok else 'SOME FAIL')
