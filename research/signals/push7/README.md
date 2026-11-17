@@ -53,11 +53,73 @@ gun.
 
 ### (a), (b): nothing listens, nothing answers
 
-[filled in below from the census tables]
+**[proved within the bounds, by complete enumeration and exact runs]** In the bounds of the table below, every
+(end, event) pair has one of the outcomes listed there:
+- healed: the whole window equal to the undisturbed run;
+- dead: the end not restored when the difference has run 80 units up the stream;
+- for the wire-B edge, one of the four wireB classes.
+
+**No end is left alive and changed** by any word of holes or any down-running signal (no listener). **No end
+returns a signal**, U or any other (no safe up-channel). **No gun survives E or N1**. The dichotomy of the fifth push
+(heal or burn) holds for every signal kind at C <= 39. Which kinds an end forgives is a property of the end. Only 9
+outcome vectors occur among the 6,196 ends, and the same 9 occur among the 741. "Proved within the bounds" here
+means the following:
+- The lists are complete: every cube DONE.
+- Each end is checked against the same per-signal tests: placement 24 units upstream, the arrival phases listed,
+  runs to 1,500 generations.
+- Each outcome is an exact computation of step7, which is checked against the oracle.
+- A sample of each outcome class is re-run on the oracle.
 
 ## Bounds and census
 
-[filled in from the runs]
+The ends of the rake train, period dividing 4 unless stated otherwise. A cell bound C means everything inside the
+planes x+y-z, x-y-z <= C of `sat_gun.build`'s region, with units < 6 the plain train. Counts are of distinct ends
+up to translation and time shift. Each list contains every end of the smaller C.
+
+| tube | ends | C | list entries | distinct ends | complete | enumeration (cdcl7 via pool7) |
+|---|---|---|---|---|---|---|
+| 3 x 3 | receiving | <= 35 | 90 | 89 | yes | 147 s, 1 core |
+| 3 x 3 | receiving | <= 37 | 753 | 741 | yes | 43 min, 5 workers |
+| 3 x 3 | receiving | <= 39 | 6,286 | 6,196 | yes | 50 min, 4 workers |
+| 3 x 3 | guns | <= 37 | 68 | 67 | yes | ~10 min, 1 core |
+| 3 x 3 | guns | <= 39 | 873 | 867 | yes | 34 min, 1 worker |
+| 5 x 5 | receiving | <= 23, 25 | 0 | 0 | yes | 0.1 s, 1.8 s |
+| 5 x 5 | receiving | <= 27 | [pending] | | | |
+| 3 x 3 | receiving, period dividing 8 | <= 35 | [pending] | | | |
+
+Receiving ends of the 3 x 3 tube at C <= 39: 6,196, all of period 4. Sizes at generation 0 of the list entry run
+from 17 to 38 cells, mode 27. Outcomes per event (`summary7.py c39_p0.json c39_p1.json c39_p2.json`):
+
+| event | healed | dead |
+|---|---|---|
+| each of the 8 words of holes, H, and D5 (= two H) | 5,141 | 1,055 |
+| K0, D3, D4 (= two K0) | 1,212 | 4,984 |
+| D6 | 1,223 | 4,973 |
+| D7 | 1,115 | 5,081 |
+| N4 | 24 | 6,172 |
+| lower edge of wire B | cap 1,223, wall 695, periodic debris 36, dead 4,242 | |
+
+At C <= 37 (741 ends), in the same order: 599 / 142 (holes, H, D5); 130 / 611 (K0, D3, D4); 125 / 616 (D6);
+113 / 628 (D7); 1 / 740 (N4); wire-B edge: cap 125, wall 103, debris 4, dead 509.
+
+The outcome vectors over the 17 events (h healed, d dead). The columns: the 8 words of holes; then K0, H, N4, D3,
+D4, D5, D6, D7; then the wire-B edge.
+
+| ends (C <= 39) | ends (C <= 37) | words | K0 H N4 D3 D4 D5 D6 D7 | wire-B edge |
+|---|---|---|---|---|
+| 4,002 | 485 | h | d h d d d h d d | dead |
+| 1,115 | 113 | h | h h d h h h h h | cap |
+| 651 | 93 | d | d d d d d d d d | wall |
+| 163 | 16 | d | d d d d d d d d | dead |
+| 108 | 12 | d | d d d d d d h d | cap |
+| 53 | 7 | d | h d d h h d d d | dead |
+| 44 | 10 | d | h d d h h d d d | wall |
+| 36 | 4 | d | d d d d d d d d | debris |
+| 24 | 1 | h | d h h d d h d d | dead |
+
+Guns of the 3 x 3 tube at C <= 39: 867, all of period 4. Every one dies on E, N1 and EE. 89 absorb U exactly; the
+rest die on it. On the upper edge of wire B: 78 cap it, 21 become walls, 33 leave debris, 735 die. At C <= 37 (67
+guns): U absorbed by 11, wire-B edge capped by 5.
 
 ## Method, and how each tool was checked
 
