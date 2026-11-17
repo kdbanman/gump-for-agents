@@ -409,6 +409,16 @@ _Last updated 2026-11-14 by the lead._
   relation 22.535; on file 22.5600 ± 0.0222), and whatever it runs of the chain in `research/GPU-QUEUE.md`; score
   and record them. A study not started: watching rimmed, wrapped and long-tube faces die (open problem 9 (k), (l)).
   The lead takes no turns until the card or the owner writes.
+  **01:18 UTC, 2026-11-17: the card's equilateral 108 is in and recorded** (notebook of the 17th; CLAIMS WL9, 198
+  claims; open problem 9 (m)): 22.5405 ± 0.0074, between the two forecasts and nearer the density relation, as W13
+  was. Pull request 28 was merged on the 16th (main 2783777). **Left undone on purpose, to stay under the stop mark
+  on the Fable window (89% at 01:13 UTC by the card's reading):** no pull request yet for the card's branch at
+  0f5d1bd (its chain script pushes more rows at about 11:30 UTC on the 17th and 13:00 UTC on the 18th; one pull
+  request when the chain is scored); the site and overview (version 18) do not show this face and still count 197
+  claims. **Nothing is running here.** After the reset (18th, 11:00 UTC) or when the owner uses the second reset:
+  fetch the card's branch, recompute and score its chain 3 (more seeds on the long 12-tubes; loop² 16 and 13 at 96
+  cells; a 120-cell tube) against its block 7 and open problem 9 (l); one pull request for its branch; one site
+  update; then the study of how the kinds of face die (9 (k)).
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

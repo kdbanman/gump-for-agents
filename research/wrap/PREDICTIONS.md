@@ -257,3 +257,8 @@ pictured as a fed, fuller margin: it is one fuller row, a thinner one behind it,
   17.544 ± 0.004 is 1.0 away.
 - Written in the notebook this morning, not numbered: "no change in lifetime on thicker slabs". The price did not
   change; the lives are 0.003 shorter at 2.6σ. Half right.
+
+### The equilateral 108-cell face (01:18 UTC, 2026-11-17; not a numbered forecast, two values given before the run)
+
+22.5405 ± 0.0074 from the card's rows. The relation's 22.535 is 0.8 errors low, the straight line's 22.551 is 1.4 high.
+As with W13, it leans to the relation and decides nothing; the two together put the straight line at χ² 5.7 on 2.
