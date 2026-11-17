@@ -155,7 +155,7 @@ everything said about them here are later than that review.
 | 81 | (3,3),(0,9) | 6 | 2 | 103,883 | 0 + 1 | 2 | 0 | **16.9222 ± 0.0031** | 0.53 on 1 | none |
 | 84 | (2,4),(0,14) | 4 | 2 | 106,629 | 0 | 1 | 0 | **17.5467 ± 0.0031** | 3.05 on 1 | none |
 | 93 | (1,5),(0,31) | 2 | 4 | 35,521 | none possible | 0 | 0 | 19.4141 ± 0.0053 | 0.70 on 3 | none |
-| 108 | (6,0),(0,6) | 12 | 4 | 2,032 | 44 | 0 | 0 | **22.5600 ± 0.0222** | 1.43 on 3 | file 22.568 ± 0.041 (592 deaths, A10G, `fwslab.py`) |
+| 108 | (6,0),(0,6) | 12 | 10 | 18,394 | 298 | 0 | 0 | **22.5405 ± 0.0074** (four seeds: 22.5600 ± 0.0222) | 6.0 on 9 | file 22.568 ± 0.041 (592 deaths, A10G, `fwslab.py`) |
 | 111 | (1,10),(0,37) | 2 | 4 | 1,875 | none possible | 0 | 0 | **23.2032 ± 0.0231** | 3.60 on 3 | none |
 
 - Firewalls: face deaths on a firewalled state + lives that settled on one. A firewall needs three dead transverse
@@ -249,6 +249,13 @@ everything said about them here are later than that review.
   (measured is 0.065 below; its stated refutation line was "below 19.445"), massive 19.437 ± 0.019 (0.023 below),
   rising 19.506 to 19.530 (refutation line "below 19.488"), single-c readings 19.488 to 19.497. Those forecasts
   are anchored on the 4 × 4 value 9.9324, which is 0.0075 too high (above).
+- **The 6 × 6 with ten seeds (2026-11-17):** six more runs of 150 minutes give, with the four above, **22.5405 ±
+  0.0074** (18,394 deaths; seeds' χ² 6.0 on 9; 298 firewalls, ln τ_fw = 25.970 ± 0.058; no settled or kind-5 life).
+  It is 0.012 ± 0.007 below the line 13.1621 + 0.20867 (A − 63) (1.6σ). The family table, residuals and fits in this
+  section were made with the four-seed value 22.5600 ± 0.0222 and are not redone here; `eq_fit.py` reads the rows
+  and prints the fit with all ten seeds. Hazard by age: nine bins from 0 to 3.3 × 10⁹ (1.07 mean lives), 0.92 to
+  1.15, χ² 16.0 on 8; the low bin is ages 3 × 10⁷ to 10⁸ (0.919 ± 0.031), as at 111 cells. Scored in `PREDICTIONS.md`
+  block 7.
 
 ## Tube and wrapped faces, and thicker slabs (the lead's W11 to W13) [measured]
 

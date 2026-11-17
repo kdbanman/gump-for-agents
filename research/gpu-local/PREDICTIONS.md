@@ -222,3 +222,38 @@ Written when parts A and B of `chain2.sh` had ended; the 6 × 6 runs of block 5 
   0.0011 *below* the 8-layer value (2.6σ). 84 cells at 16 layers: 17.5401 ± 0.0044 (forecast 17.547 ± 0.006), slope
   63 → 84 at 16 layers 0.20863 ± 0.00022 (forecast 0.2087 ± 0.0004). Depth is not what makes a hull cell dearer.
 - Kind-5 lives so far in the chain: none.
+
+## 7. The 6 × 6 scored; forecasts for chain 3 (more tube seeds, loops of 16 and 13 at 96 cells, a 120-cell tube) (2026-11-17T01:15Z, HEAD 0345df0)
+
+Written after the six new 6 × 6 rows and before any row of chain 3 (`research/scratch/gpu-local/chain3.sh`).
+
+**The 6 × 6 of block 5, scored** (`python research/gpu-local/eq_analyze.py 6 0 6`): ten seeds, 18,394 deaths,
+**22.5405 ± 0.0074** (seeds' χ² 6.0 on 9; no kind-5 life). My forecast 22.552 ± 0.008: off by −0.012, 1.1 combined
+errors. The lead's two values: 22.535 (the density relation; +0.006, 0.7 errors) and 22.551 (the straight line;
+−0.011, 1.4 errors). It leans to the relation and does not decide. Firewalls: I said about 400 and ln τ_fw 25.7 ±
+0.1; there are 298 and ln τ_fw = 25.970 ± 0.058, a miss of 2.3 combined errors. The six long runs (ages to 3.3 ×
+10⁹) give 26.01 ± 0.06 where the four short ones (ages to 4 × 10⁸) gave 25.70 ± 0.15; I extrapolated a rate from
+young lives. Whether firewalls come less often to old lives was not tested.
+
+**Chain 3** (the lead's note of 10:20Z, 2026-11-16, in its order; guard on; `eqtorus.py check` first on each face;
+loops² from `loops.py`):
+
+| torus (H, K), (0, D) | cells | loops² | runs | my forecast | basis |
+|---|---:|---|---|---:|---|
+| (1, 17), (0, 32) | 96 | 12, 67, 67 | 4 more of 20 min | pooled 19.741 ± 0.006 | the value on file repeats |
+| (1, 16), (0, 36) | 108 | 12, 81, 93, 93 | 4 more of 60 min | pooled 22.156 ± 0.012 | the value on file repeats |
+| (4, 0), (0, 8) | 96 | 16, 48, 64 | 4 of 22 min | 19.937 ± 0.012 | the 16-tube line (19.946 to 19.951 from the 4 × 7) less a bend of 0.012 |
+| (1, 8), (0, 32) | 96 | 16, 49, 57, 73 | 4 of 22 min | 19.937 ± 0.012 | the same loop with a twist: the same value |
+| (1, 3), (0, 32) | 96 | 13, 61, 64 | 4 of 20 min | 19.82 ± 0.015 | my 75-cell value plus 21 × 0.20602 (19.851), less a bend of 0.03 |
+| (1, 18), (0, 40) | 120 | 12, 103, 103 | 8 of 180 min | 24.576 ± 0.020 | the 108-cell tube plus 12 × 0.2017 |
+
+- The 12-tube slope from 84 to 108 cells with the new seeds: inside 0.2005 to 0.2029, 80%.
+- The bend: the 12-tubes came out 0.039 below their short-tube line at 96 cells. I expect a loop of 16 to bend
+  about a third as much and a loop of 13 about three quarters as much (in proportion to their discounts). Below
+  19.940 at (4, 0), (0, 8): 60%. Below 19.840 at (1, 3), (0, 32): 75%.
+- The two 16-loop faces within 0.012 of each other: 80% (the three 12-tubes of different twist lie on one line).
+- The 120-cell tube within 0.04 of 24.576: 75%. If the tube's slope keeps falling it is lower.
+- Kind-5 lives: none, 85%.
+- The chain script commits and pushes its data rows itself (after the 96-cell faces and at the end), with
+  `chain3_summary.txt`, so that the lead can read them without a turn of this session; nothing is analysed or
+  scored until this session's next turn.
