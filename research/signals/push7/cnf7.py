@@ -8,15 +8,30 @@ re-step the solutions.
 TRAIN fb: absorbers (the rake train (fb)^inf moving +v into the end; sat_gun.py fb C --dir 1); TRAIN 5f: guns (the
 train (5f)^inf leaving towards -v; sat_gun.py 5f C).  Period dividing T = 4 MULT.  Region: units >= KS - 2 = 4,
 lo <= x+y+z, x-y+z <= hi, x+y-z <= C and x-y-z <= C; units < 6 tied to the train.  The projection is the free cells
-(units >= 6) at generation 0, which determine the orbit.  Every decoded solution is re-stepped with sg.step_set
-(sat_gun.check_gun) and the result is stored with it.
+(units >= 6) at generation 0, which determine the orbit.  Every decoded solution is re-stepped (restep(): step7, the
+same test as sat_gun.check_gun) and the result is stored with it.
 """
 import sys, os, json
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import shim  # noqa: F401
+import numpy as np
 import sat_gun as G
 
 KS = 6
+
+
+def restep(train, pat, d, cap, T, periods=15):
+    """The end at the end of the train, stepped with step7 (checked against the oracle by check7.py) in a window of
+    units KS-40 .. KS+19 with the plain train below it: equal to its generation-0 state on units >= KS-30 after every
+    T generations, for `periods` periods (the same test as sat_gun.check_gun, which uses sg.step_set on 200 units)."""
+    from step7 import Window
+    W = Window(train, KS - 40, KS + 20)
+    a = W.array(G.train_cells(pat, 0, KS - 40, KS, d) | frozenset(cap)); a0 = a.copy()
+    for k in range(periods):
+        W.run(a, k * T, T)
+        if not np.array_equal(a[10:], a0[10:]):
+            return False
+    return True
 
 
 def setup(train, C, lo, hi, mult):
@@ -53,7 +68,7 @@ def decode(stem, sols):
             if line.startswith('S '):
                 b = line.split()[1]
                 cap = sorted(cells[i] for i in range(len(cells)) if b[i] == '1')
-                ok, info = G.check_gun(pat, cap, KS, T, d=d)
+                ok = restep(m['train'], pat, d, cap, T)
                 out.append(dict(cap=[list(c) for c in cap], restep=ok))
             elif line.startswith('DONE'):
                 done.append(fn)

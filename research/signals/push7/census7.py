@@ -2,7 +2,12 @@
 """The census of push 7: ends of the rake train, deduplicated up to translation and time shift, each sent every
 signal of the train that runs into an end and the words of holes of the fifth push, with the outcome classified.
 
-    python census7.py OUT.json LIST.json [LIST.json ...] [--part i/n] [--gmax 1500]
+    python census7.py OUT.json LIST.json [LIST.json ...] [--part i/n] [--gmax 1500] [--guns]
+
+--guns: the lists hold guns (cnf7.py with TRAIN 5f: the train (5f)^inf leaving towards -v; the line frame of
+echo-train.json); the events are the kinds of signals7_5f.json that run up the stream into the gun (U, N1, E and the
+pair EE) and the upper edge of wire B (E below H, meeting in front of the gun); an 'echo' is then a signal sent back
+down the stream.
 
 LISTs: cnf7.py decode output (or sat_gun --all output): absorbers of (fb)^inf at a +v end, KS = 6.
 Dedup key as census_ends.py: the set over one period of the orbit's difference from the plain train, moved so that
@@ -36,12 +41,16 @@ from scat import unit, tr
 from step7 import Window, NC
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-pat, _ = G.train([0xf, 0xb], True, 1)
+TRAIN = '5f' if '--guns' in sys.argv else 'fb'        # --guns: ends that emit the train (5f)^inf towards -v
+TD = 1 if TRAIN == 'fb' else -1
+pat, _ = G.train([int(ch, 16) for ch in TRAIN], True, TD)
+IN = 'down' if TRAIN == 'fb' else 'up'                   # the direction of the signals that run INTO the end
+OUT = 'up' if TRAIN == 'fb' else 'down'
 WORDS = [[0], [1], [2], [3], [0, 1], [0, 1, 2], [0, 2], [0, 2, 4, 6, 8]]
-SK = json.load(open(os.path.join(HERE, 'signals7.json')))['kinds']
+SK = json.load(open(os.path.join(HERE, 'signals7.json' if TRAIN == 'fb' else 'signals7_5f.json')))['kinds']
 KS = 6; WL = 100; WR = 14
 # names of the kinds of signals7.json (by index; checked in signals7's output: H is the hole of census_ends.py)
-NAMES = ['K0', 'H', 'N4', 'D3', 'D4=K0K0', 'D5=HH', 'D6', 'D7', 'N1', 'U', 'E', 'EE']
+NAMES = ['K0', 'H', 'N4', 'D3', 'D4=K0K0', 'D5=HH', 'D6', 'D7', 'N1', 'U', 'E', 'EE'] if TRAIN == 'fb' else     ['K0', 'H', 'D2', 'D3', 'N4', 'D5', 'U', 'N1', 'E', 'EE']     # signals7_5f.json (the line frame of echo-train.json)
 assert len(NAMES) == len(SK)
 
 
@@ -49,7 +58,7 @@ def key_of(states, t0):
     ks = []
     for j, s in enumerate(states):
         lo = min(unit(c) for c in s); hi = max(unit(c) for c in s) + 2
-        d = s ^ G.train_cells(pat, t0 + j, lo, hi + 1, 1)
+        d = s ^ G.train_cells(pat, t0 + j, lo, hi + 1, TD)
         if not d:
             return None
         m = min(unit(c) for c in d)
@@ -62,17 +71,19 @@ def window(s, w=40):
 
 
 def load_ends(lists):
+    """Distinct ends of the lists (key_of over one period T, computed with step7 on units >= KS - 20)."""
     ends = {}; entries = 0
+    Wk = Window(TRAIN, KS - 40, KS + WR)
     for fn in lists:
         d = json.load(open(fn)); T = d['T']; assert d['KS'] == KS
         for e in d['list']:
             entries += 1
             cap = frozenset(tuple(c) for c in e['cap'])
-            x = G.train_cells(pat, 0, -60, KS, 1) | cap
+            a = Wk.array(G.train_cells(pat, 0, KS - 40, KS, TD) | cap); a0 = a.copy()
             st = []
             for t in range(T):
-                st.append(window(x, 20)); x = sg.step_set(x)
-            assert window(x, 20) == st[0], 'not periodic'
+                st.append(frozenset(c for c in Wk.cells(a) if unit(c) >= KS - 20)); Wk.run(a, t, 1)
+            assert np.array_equal(a[10:], a0[10:]), 'not periodic'
             k = key_of(st, 0)
             if k not in ends:
                 ends[k] = dict(src=os.path.basename(fn), C=d['C'], lo=d['lo'], hi=d['hi'], T=T, cap=sorted(cap), cells=len(cap))
@@ -80,7 +91,7 @@ def load_ends(lists):
 
 
 def period_of(W, cap):
-    a = W.array(G.train_cells(pat, 0, W.ua, KS, 1) | cap); a0 = a.copy()
+    a = W.array(G.train_cells(pat, 0, W.ua, KS, TD) | cap); a0 = a.copy()
     for t in range(8):
         W.run(a, t, 1)
         if t + 1 in (4, 8) and np.array_equal(a[WL - 30:], a0[WL - 30:]):
@@ -121,16 +132,16 @@ def classify(W, x, y, t, gmax):
                     while tt % 4 != 1:
                         W.run(x3, tt, 1); W.run(y3, tt, 1); tt += 1
                     k = kind_of(W.cells(x3 ^ y3))
-                    return (f'echo:{NAMES[k]}' if k is not None and SK[k]['dir'] == 'up' else 'up:other'), t, sorted(D)
+                    return (f'echo:{NAMES[k]}' if k is not None and SK[k]['dir'] == OUT else 'up:other'), t, sorted(D)
                 return 'up:other', t, sorted(D)
             return 'dead', t, None
     return 'alive', t, None
 
 
 def events_for(T):
-    ev = [('word', w, 0) for w in WORDS]
+    ev = [('word', w, 0) for w in WORDS] if TRAIN == 'fb' else []
     for i, k in enumerate(SK):
-        if k['dir'] == 'down':
+        if k['dir'] == IN:
             ev.append(('sig', i, 0))
             if T == 8:
                 ev.append(('sig', i, 4))
@@ -147,11 +158,11 @@ def find_kind(name_cells):
 
 def start_states(W, cap, ev):
     """(x, y, t): the disturbed and undisturbed arrays at generation t."""
-    y = W.array(G.train_cells(pat, 0, W.ua, KS, 1) | cap)
+    y = W.array(G.train_cells(pat, 0, W.ua, KS, TD) | cap)
     typ, arg, dt = ev
     if typ == 'word':
         rakes = sorted((u for u in range(KS - 40, KS) if tr((1, 0, 4), u) in G.train_cells(pat, 0, KS - 40, KS, 1)), reverse=True)
-        x = W.array((G.train_cells(pat, 0, W.ua, KS, 1) | cap) - {tr((1, 0, 4), rakes[i]) for i in arg})
+        x = W.array((G.train_cells(pat, 0, W.ua, KS, TD) | cap) - {tr((1, 0, 4), rakes[i]) for i in arg})
         return x, y, 0
     t = 1 + dt
     W.run(y, 0, t); x = y.copy()
@@ -159,33 +170,60 @@ def start_states(W, cap, ev):
         D = [tr(tuple(c), KS - 24) for c in SK[arg]['cells']]
     else:
         iE = NAMES.index('E'); iH = NAMES.index('H')
-        D = [tr(tuple(c), KS - 26) for c in SK[iE]['cells']] + [tr(tuple(c), KS - 40) for c in SK[iH]['cells']]
+        uE, uH = (KS - 26, KS - 40) if TRAIN == 'fb' else (KS - 40, KS - 26)
+        D = [tr(tuple(c), uE) for c in SK[iE]['cells']] + [tr(tuple(c), uH) for c in SK[iH]['cells']]
     for c in D:
         u = unit(c); x[u - W.ua, __import__('step7').INDEX[tr(c, -u)]] ^= 1
     return x, y, t
 
 
 WB = None
+WBT = None
+
+
+def wireB_template():
+    """Wire B as the meeting of E and H leaves it (ring mode, 200 units, E at unit 100 and H at unit 86 at generation
+    1, as start_states places them at KS - 26 and KS - 40): WBT[t % 4][u % 2] = the cells of a unit u in the middle of
+    the wire B (units 90, 91) at generations 60..63; checked uniform on units 80..107 at each of those generations."""
+    global WBT
+    if WBT is None:
+        R = Window(TRAIN, 0, 200); x = R.train(1)
+        from step7 import INDEX
+        for i, u0 in ((NAMES.index('E'), 100 if TRAIN == 'fb' else 86), (NAMES.index('H'), 86 if TRAIN == 'fb' else 100)):
+            for c in SK[i]['cells']:
+                c = tr(tuple(c), u0); u = unit(c); x[u, INDEX[tr(c, -u)]] ^= 1
+        R.run(x, 1, 59, 'ring'); WBT = np.zeros((4, 2, NC), np.uint8)
+        for t in range(60, 64):
+            for p in (0, 1):
+                WBT[t % 4, p] = x[90 + p]
+                assert all(np.array_equal(x[u], x[90 + p]) for u in range(80 + p, 108, 2)), "wire B not uniform"
+            R.run(x, t, 1, 'ring')
+    return WBT
 
 
 def classify_wireB(cap):
     """The lower edge of wire B arriving: a window of 220 units below the end (exact for some 400 generations: the
-    upper edge needs that long to reach the window's lower boundary from KS - 30).  At t = 300..316: is the region of
-    units >= KS - 30 periodic (period dividing 8), with units KS - 30 .. KS - 16 non-empty and of period 2 (wire B
-    standing in front)?  'wireB:cap' if so (an end of wire B: candidate), 'wireB:periodic-no-wire' if periodic
-    without a wire in front (debris), 'wireB:dead' otherwise."""
+    upper edge needs that long to reach the window's lower boundary from KS - 30).  At t = 200..216: is the region of
+    units >= KS - 30 periodic (period dividing 8), with units KS - 30 .. KS - 16 non-empty and of period 2?
+    'wireB:cap' if moreover those units are wire B (wireB_template): an end of wire B (candidate); 'wireB:wall' if
+    they are another wire (the end stands and has sent a front up the wire B that converts it); 'wireB:periodic-no-
+    wire' if periodic without a wire in front (debris); 'wireB:dead' otherwise."""
     global WB
     if WB is None:
-        WB = Window('fb', KS - 220, KS + WR)
+        WB = Window(TRAIN, KS - 220, KS + WR)
     x, y, t = start_states(WB, cap, ('wireB', None, 0))
-    WB.run(x, t, 300 - t); t = 300
+    WB.run(x, t, 200 - t); t = 200
     seq = []
     for j in range(17):
         seq.append(x[220 - 30:].copy()); WB.run(x, t, 1); t += 1
     per = all(np.array_equal(seq[j], seq[j + 8]) for j in range(9))
     wire = seq[0][:14].any() and all(np.array_equal(seq[j][:14], seq[j + 2][:14]) for j in range(15))
-    if per and wire:
+    T = wireB_template(); u0 = KS - 30
+    isB = all(np.array_equal(seq[j][k], T[(200 + j) % 4, (u0 + k) % 2]) for j in range(17) for k in range(14))
+    if per and wire and isB:
         return 'wireB:cap', t, None
+    if per and wire:
+        return 'wireB:wall', t, None
     if per:
         return 'wireB:periodic-no-wire', t, None
     return 'wireB:dead', t, None
@@ -193,12 +231,12 @@ def classify_wireB(cap):
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('out'); ap.add_argument('lists', nargs='+')
-    ap.add_argument('--part', default='0/1'); ap.add_argument('--gmax', type=int, default=1500)
+    ap.add_argument('--part', default='0/1'); ap.add_argument('--guns', action='store_true'); ap.add_argument('--gmax', type=int, default=1500)
     a = ap.parse_args()
     ends, entries = load_ends(a.lists)
     print(f'{entries} list entries, {len(ends)} distinct ends', flush=True)
     pi, pn = map(int, a.part.split('/'))
-    W = Window('fb', KS - WL, KS + WR)
+    W = Window(TRAIN, KS - WL, KS + WR)
     rows = []; res = Counter(); vec = Counter()
     done = {}
     if os.path.exists(a.out):
@@ -220,7 +258,7 @@ def main():
                 o, tt, info = classify(W, x, y, t, a.gmax)
             out.append(dict(ev=[ev[0], ev[1], ev[2]], out=o, t=tt))
             res[o] += 1
-            if o not in ('healed', 'dead', 'wireB:dead'):
+            if o not in ('healed', 'dead', 'wireB:dead', 'wireB:wall', 'wireB:periodic-no-wire'):
                 print(f'  end {i} ({e["cells"]} cells, C={e["C"]}) event {ev}: {o} at {tt}', flush=True)
         rows.append(dict(i=i, src=e['src'], C=e['C'], lo=e['lo'], hi=e['hi'], cells=e['cells'], period=per,
                          cap=[list(c) for c in e['cap']], outcomes=out))

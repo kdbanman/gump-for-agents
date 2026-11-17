@@ -3,8 +3,9 @@
 
     python verify7.py [objects7.json] [--only NAME]
 
-Each record holds initial cells (doubled coordinates) of a disturbed run `x0` and, where needed, of the undisturbed
-run `y0` (the same end and finite train without the event), a ring length L (the oracle runs on the box torus
+Each record holds the initial cells (doubled coordinates) `y0` of an undisturbed run (an end and a finite train),
+optionally `flips`: a list of [generation, cells]; the disturbed run x is y0 with those cells flipped at those
+generations (x = y until the first one), a ring length L (the oracle runs on the box torus
 2L x 16 x 2L, on which the tube along v = (1,0,-1) closes into a ring of L units), and a claim:
   equal      x(t) == y(t) on the whole torus for every t in [gen, until]        (the end healed; nothing left anywhere)
   differ     x(until) != y(until) on units [ua, ub)                              (the end was not restored)
@@ -58,27 +59,38 @@ class Ring:
 def check(r):
     R = Ring(r['L'], r['ulo'])
     c = r['claim']; typ = c['type']
-    x = R.arr(r['x0']); y = R.arr(r['y0']) if 'y0' in r else None
+    y = R.arr(r['y0'])
+    flips = {f[0]: f[1] for f in r.get('flips', [])}
+    t0 = min(flips) if flips else 0
+    for t in range(t0):
+        y = R.step(y)
+    x = y.copy()
+    def flip(x, t):
+        for cc in flips.get(t, []):
+            i = (cc[0] % R.shape[0], cc[1] % R.shape[1], cc[2] % R.shape[2]); x[i] ^= 1
+    flip(x, t0)
+    if typ in ('periodic', 'orbit') and not flips:
+        y = None
     G = c['until']
     if typ == 'equal':
         ok = True
-        for t in range(G + 1):
+        for t in range(t0, G + 1):
             if t >= c['gen'] and not np.array_equal(x, y):
                 ok = False; break
             if t < G:
-                x = R.step(x); y = R.step(y)
+                x = R.step(x); y = R.step(y); flip(x, t + 1)
         return ok
     if typ == 'differ':
-        for t in range(G):
-            x = R.step(x); y = R.step(y)
+        for t in range(t0, G):
+            x = R.step(x); y = R.step(y); flip(x, t + 1)
         return not np.array_equal(R.units(x, c['ua'], c['ub']), R.units(y, c['ua'], c['ub']))
     if typ in ('periodic', 'orbit'):
         P = c['period']; hist = []
-        for t in range(G + 1):
+        for t in range(t0, G + 1):
             if t >= c['gen']:
                 hist.append(x.copy())
             if t < G:
-                x = R.step(x)
+                x = R.step(x); flip(x, t + 1)
         ok = True
         for j in range(len(hist) - P):
             if not np.array_equal(R.units(hist[j], c['ua'], c['ub']), R.units(hist[j + P], c['ua'], c['ub'])):

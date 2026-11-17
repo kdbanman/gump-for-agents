@@ -14,7 +14,8 @@ Each riding kind is then proved to ride for ever by the two-generation identity 
 at phase 1 on units -30..29, stepped twice on the infinite lattice, equals on units -27..26 the train at phase 3 xor
 D moved one unit in its direction.
 
-    python signals7.py [--two]     (one-cell flips: ~1 min; --two adds the two-cell flips: ~15 min)
+    python signals7.py [--two] [--train5f]     (one-cell flips: 15 s; --two adds the two-cell flips: 1.5 min)
+--train5f: the same in the gun frame (train (5f)^inf moving -v), written to signals7_5f.json.
 Writes research/signals/push7/signals7.json: the kinds with direction, size, cells at phase 1, and the events that
 make them.
 """
@@ -26,8 +27,10 @@ from scat import unit, tr
 from geom7 import tube_cells
 from step7 import Window, INDEX
 
-pat, _ = G.train([0xf, 0xb], True, 1)
-train = lambda t, a, b: G.train_cells(pat, t, a, b, 1)
+TRAIN = '5f' if '--train5f' in sys.argv else 'fb'      # 5f: the gun frame (the train (5f)^inf moving -v)
+TDIR = 1 if TRAIN == 'fb' else -1
+pat, _ = G.train([int(ch, 16) for ch in TRAIN], True, TDIR)
+train = lambda t, a, b: G.train_cells(pat, t, a, b, TDIR)
 A, B = -150, 150
 
 
@@ -47,7 +50,7 @@ def classify(g, flips):
     """Ring mode of step7 (checked against the oracle by check7.py): a ring of 160 units, the flips at units 80, 81."""
     global RW
     if RW is None:
-        RW = Window('fb', 0, 160)
+        RW = Window(TRAIN, 0, 160)
     x = RW.train(g)
     for c in flips:
         c = tr(c, 80); u = unit(c); x[u, INDEX[tr(c, -u)]] ^= 1
@@ -61,7 +64,7 @@ def classify(g, flips):
     for d in (1, -1):
         if all(seq[t] and len(seq[t]) <= 12 and shift(seq[t], d) == seq[t + 2] for t in range(40, 81, 2)):
             t1 = next(t for t in range(40, 50) if t % 4 == 1)
-            return ('down' if d == 1 else 'up'), canon(seq[t1])
+            return ('down' if d == TDIR else 'up'), canon(seq[t1])
     return 'other', None
 
 
@@ -103,17 +106,18 @@ def main():
         print('with two-cell flips:', {k: v for k, v in tally.items()}, flush=True)
     out = []
     for key, k in kinds.items():
-        k['size'] = len(key); k['proved'] = prove(key, 1 if k['dir'] == 'down' else -1)
+        k['size'] = len(key); k['proved'] = prove(key, TDIR if k['dir'] == 'down' else -TDIR)
         k['parity'] = min(unit(tuple(c)) for c in key) % 2
         out.append(k)
     out.sort(key=lambda k: (k['dir'], k['size'], k['cells']))
     for i, k in enumerate(out):
         print(f"kind {i}: {k['dir']:4s} {k['size']} cells, lowest unit parity {k['parity']}, proved {k['proved']}: "
               f"{k['cells']}  made by e.g. {k['events'][0]}")
-    json.dump(dict(frame='absorber frame: train (fb)^inf moving +v, sat_gun.train([0xf,0xb], True, 1); D at train '
-                         'phase 1 (t = 1 mod 4) as cells relative to an even unit',
+    json.dump(dict(frame=f'train ({TRAIN})^inf moving {TDIR:+d} unit per 2 generations, sat_gun.train(.., True, {TDIR}); '
+                         'down = with the train, up = against it; D at train phase 1 (t = 1 mod 4) as cells relative '
+                         'to an even unit',
                    tally={f'{a}-cell {b}': v for (a, b), v in tally.items()}, kinds=out),
-              open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'signals7.json'), 'w'), indent=0)
+              open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'signals7.json' if TRAIN == 'fb' else 'signals7_5f.json'), 'w'), indent=0)
 
 
 def tr_in3(c, in3):

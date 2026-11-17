@@ -1,5 +1,5 @@
 {
-"frame": "absorber frame: train (fb)^inf moving +v, sat_gun.train([0xf,0xb], True, 1); D at train phase 1 (t = 1 mod 4) as cells relative to an even unit",
+"frame": "train (fb)^inf moving +1 unit per 2 generations, sat_gun.train(.., True, 1); down = with the train, up = against it; D at train phase 1 (t = 1 mod 4) as cells relative to an even unit",
 "tally": {
 "1-cell vanish": 112,
 "1-cell other": 148,
