@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Verify push 7's saved objects with reference/oracle.py alone (numpy and json; nothing else from this repository).
 
-    python verify7.py [objects7.json] [--only NAME] [--maxL L] [--minL L]   (--maxL / --minL: only records whose ring
+    python verify7.py [objects7.json] [--only NAME] [--maxL L] [--minL L] [--part i/n]   (--part: every n-th record from the i-th; --maxL / --minL: only records whose ring
     has at most / at least L units, to split a run; the long rings are the slow ones)
 
 Each record holds the initial cells (doubled coordinates) `y0` of an undisturbed run (an end and a finite train; the
@@ -137,10 +137,13 @@ def main():
     only = sys.argv[sys.argv.index('--only') + 1] if '--only' in sys.argv else None
     maxL = int(sys.argv[sys.argv.index('--maxL') + 1]) if '--maxL' in sys.argv else None
     minL = int(sys.argv[sys.argv.index('--minL') + 1]) if '--minL' in sys.argv else None
+    pi, pn = map(int, sys.argv[sys.argv.index('--part') + 1].split('/')) if '--part' in sys.argv else (0, 1)
     d = json.load(open(fn)); recs = d['records']
     BASES.update(d.get('bases', {}))
     allok = True
-    for r in recs:
+    for k, r in enumerate(recs):
+        if k % pn != pi:
+            continue
         if only and r['name'] != only:
             continue
         if (maxL and r['L'] > maxL) or (minL and r['L'] < minL):
