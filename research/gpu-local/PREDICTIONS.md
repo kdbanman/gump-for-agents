@@ -257,3 +257,24 @@ loops² from `loops.py`):
 - The chain script commits and pushes its data rows itself (after the 96-cell faces and at the end), with
   `chain3_summary.txt`, so that the lead can read them without a turn of this session; nothing is analysed or
   scored until this session's next turn.
+
+## 8. Block 7 scored so far: more tube seeds, loops of 16 and 13 at 96 cells (2026-11-17T11:43Z, HEAD 3fb4ec0)
+
+Written when the first five faces of `chain3.sh` had ended (rows pushed by the script at 3fb4ec0); the 120-cell tube
+is running and is scored later. (`python research/gpu-local/eq_analyze.py H K D`.)
+
+| torus (H, K), (0, D) | cells | my forecast | measured | measured − forecast | in combined errors |
+|---|---:|---:|---:|---:|---:|
+| (1, 17), (0, 32), eight seeds | 96 | 19.741 ± 0.006 | 19.7446 ± 0.0042 | +0.004 | 0.5 |
+| (1, 16), (0, 36), eight seeds | 108 | 22.156 ± 0.012 | 22.1599 ± 0.0086 | +0.004 | 0.3 |
+| (4, 0), (0, 8) | 96 | 19.937 ± 0.012 | 19.9366 ± 0.0064 | −0.000 | 0.0 |
+| (1, 8), (0, 32) | 96 | 19.937 ± 0.012 | 19.9284 ± 0.0063 | −0.009 | 0.6 |
+| (1, 3), (0, 32) | 96 | 19.82 ± 0.015 | 19.8109 ± 0.0062 | −0.009 | 0.6 |
+
+- The 12-tube slope from 84 to 108 cells is 0.2020 ± 0.0003 with the new seeds: inside 0.2005 to 0.2029 (I gave 80%).
+  The seeds' scatter that worried block 6 has gone: χ² 10.0 on 7 and 6.8 on 7.
+- "Below 19.940 at (4, 0), (0, 8)" (60%): yes. "Below 19.840 at (1, 3), (0, 32)" (75%): yes. "The two 16-loop faces
+  within 0.012 of each other" (80%): yes, 0.008 ± 0.009.
+- The bends against the short-tube lines are 0.040 ± 0.007 for the loop of 13 (I said about 0.03) and 0.014 to 0.019 for
+  the loop of 16 (I said 0.012). So the loop of 13 bends as much as the loop of 12 did (0.039), not three quarters of it.
+- Kind-5 lives so far in the chain: none.

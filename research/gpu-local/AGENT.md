@@ -83,24 +83,27 @@ billed by the hour, no limit."
 - The drivers (`research/gpu/facelaw.py`, `fwslab.py`) run directly: call `facelaw.run(...)` / `fwslab.run(...)` from a
   local runner in this directory instead of the Modal wrappers; keep the Modal entry points untouched.
 
-## Current state (2026-11-17, about 01:30Z)
+## Current state (2026-11-17, about 12:00Z)
 
 - Branch `claude/gpu-local-1080`, pushed. Reviews of this work are on main under `research/audit/REVIEW-gpu-local-*.md`.
-- Done: queue items 2 and 3; the lead's seven tube and wrapped faces and three thicker slabs (README "Tube and
-  wrapped faces"); the 6 × 6 to ten seeds (22.5405 ± 0.0074; `PREDICTIONS.md` block 7 scores it).
-- **Running until about 13:00Z on 2026-11-18:** `research/scratch/gpu-local/chain3.sh` (log `chain3.log` beside it),
-  the lead's note of 10:20Z on 2026-11-16: four more seeds each on the 96- and 108-cell 12-tubes; (4,0),(0,8) and
-  (1,8),(0,32) (one loop² of 16, 96 cells); (1,3),(0,32) (one loop² of 13, 96 cells); then (1,18),(0,40), the
-  120-cell 12-tube, eight runs of 180 minutes. Forecasts: block 7. **The script commits and pushes its own data
-  rows** (`chain3_summary.txt` with them) after the 96-cell faces and at the end; nothing else.
-  - A run writes its row only when it ends. If interrupted: see which rows exist; rerun missing seeds under new numbers.
-  - Owed when it ends: `eq_analyze.py H K D save` for each face; score block 7 in a new block; add the faces to the
-    README section "Tube and wrapped faces" (and redo the equilateral family's fit with the ten-seed 6 × 6, which
-    the README says is not redone); commit, push, a line in `USAGE.md`; one message to the lead, usage at the end.
-- **After that:** fetch `research/GPU-QUEUE.md` first. The ribbon faces (note of 06:21Z, 2026-11-15) are mine to
-  design or refuse: the hull says the rim shortens life and depth is excluded (twice) as the reason a hull cell
-  costs 0.231, so the question a ribbon can answer is whether a free rim changes the price per cell. Then queue
-  items 4 to 7 when briefed, and the lead's optional longer run at 111 cells.
-- **Usage is the constraint, not the card.** Weekly 76% (all models) and 89% (this session's model) at 01:13Z on
-  2026-11-17, resetting 2026-11-18 11:00Z; the lead must stay under 95%. Take no turn before the reset unless a
-  message asks for one.
+  The lead takes no turn before the usage reset (2026-11-18 11:00Z) and reads this branch then: do not message it
+  before that unless something cannot wait.
+- Done and written up: queue items 2 and 3; the tube and wrapped faces, thicker slabs, the 6 × 6 to ten seeds; the
+  first five faces of chain 3 (README "Chain 3"; `PREDICTIONS.md` block 8 scores block 7 so far).
+- **Three things are running:**
+  1. GPU, until about 13:00Z on 2026-11-18: the last job of `research/scratch/gpu-local/chain3.sh` (log `chain3.log`):
+     the 120-cell 12-tube (1,18),(0,40), eight runs of 180 minutes. The script commits and pushes its rows itself at
+     the end. Owed then: `eq_analyze.py 1 18 40 save`; score the 120-cell forecast of block 7 (24.576 ± 0.020) in a
+     new block; a row and a sentence in README "Chain 3"; commit, push, a `USAGE.md` line; one message to the lead.
+  2. CPU, 4 threads, until about 19:30Z on 2026-11-18: `research/scratch/gpu-local/chain_cpu.sh` (log
+     `chain_cpu.log`): the second code `research/gpu-local/cpu/fr.py` on the 96-cell tube (17 h), then (1,4),(0,28)
+     (8 h), then the tube again (12 h). Rows append every 15 minutes to `research/data/gpu_local_cpu/`; commit them
+     with any push. Owed: the comparison with the GPU values in the README (`fr.py summary`).
+  3. CPU, 8 threads: an Opus subagent on the lead's seventh signals push (`research/signals/push7/`, its own README
+     and commits; it must finish by 09:30Z on 2026-11-18). Owed when it reports: read its hand-back, check that its
+     verify script prints PASS here, push, and pass the summary to the lead in the same message as the 120-cell tube.
+- **After that:** fetch `research/GPU-QUEUE.md` first. The lead will brief a CPU study of how rimmed, wrapped and
+  long-tube faces die (open problem 9 (k), (l)). The ribbon faces (note of 06:21Z, 2026-11-15) are still mine to
+  design or refuse; queue items 4 to 7 when briefed; the lead's optional longer run at 111 cells.
+- **Usage:** the last reading is in `USAGE.md`. The owner allowed a few turns before the reset (2026-11-17, "feel
+  free to take a few turns until the reset") and offered the CPU ("leave a core free, but the rest is yours").

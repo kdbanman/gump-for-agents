@@ -275,8 +275,8 @@ the equilateral tori; `eqtorus.py check` passed on each face first (`checks/`); 
 | (1, 4), (0, 26) | 78 | 21, 28, 31 | 2 | 92,089 | 0 | 16.2884 ± 0.0033 | 0.91 on 1 | 16.2769 ± 0.0120 |
 | (1, 12), (0, 28) | 84 | 12, 49, 61, 61 | 2 | 107,478 | 2 | 17.3175 ± 0.0031 | 0.01 on 1 | 17.3248 ± 0.0058 |
 | (1, 4), (0, 28) | 84 | 21, 28, 49, 49 | 2 | 105,583 | 0 | 17.5387 ± 0.0031 | 0.03 on 1 | none |
-| (1, 17), (0, 32) | 96 | 12, 67, 67 | 4 | 28,517 | 0 | 19.7405 ± 0.0059 | 6.3 on 3 | none |
-| (1, 16), (0, 36) | 108 | 12, 81, 93, 93 | 4 | 6,877 | 0 | 22.1557 ± 0.0121 | 5.5 on 3 | none |
+| (1, 17), (0, 32) | 96 | 12, 67, 67 | 8 | 56,775 | 0 | 19.7446 ± 0.0042 (four seeds: 19.7405 ± 0.0059) | 10.0 on 7 | CPU `fr.c`, in progress |
+| (1, 16), (0, 36) | 108 | 12, 81, 93, 93 | 8 | 13,641 | 0 | 22.1599 ± 0.0086 (four seeds: 22.1557 ± 0.0121) | 6.8 on 7 | none |
 
 - **The four CPU values repeat** on independent code: differences (CPU − here) +0.007, +0.011, +0.013, −0.012, each
   within 1.2 of its combined error.
@@ -312,6 +312,48 @@ the equilateral tori; `eqtorus.py check` passed on each face first (`checks/`); 
   (23 of period 1 or 2), 1 in 564,434 at 16; settling falls steeply with thickness (not looked into further).
 - Not checked: no second code at 96 and 108 cells or on (1, 4), (0, 28); the thicker slabs have one seed each; the
   engine comparison covers the dynamics at 12 and 16 layers, and the face-death test there is the same code as at 8.
+
+### Chain 3 (2026-11-17): more seeds on the tubes, loops of 16 and 13 at 96 cells
+
+Asked in the lead's note of 10:20Z on 2026-11-16; forecasts in `PREDICTIONS.md` block 7, scored in block 8. The 96-
+and 108-cell tube rows of the table above now hold eight seeds each.
+
+| torus (H, K), (0, D) | cells | loops² | seeds | face deaths | firewalls | ln τ_face | seeds' χ² |
+|---|---:|---|---:|---:|---:|---:|---:|
+| (4, 0), (0, 8) | 96 | 16, 48, 64, 64 | 4 | 24,796 | 238,631 | 19.9366 ± 0.0064 | 2.2 on 3 |
+| (1, 8), (0, 32) | 96 | 16, 49, 57, 73 | 4 | 25,054 | 239,318 | 19.9284 ± 0.0063 | 5.0 on 3 |
+| (1, 3), (0, 32) | 96 | 13, 61, 64 | 4 | 25,797 | 0 | 19.8109 ± 0.0062 | 2.8 on 3 |
+
+- **The 12-tube's low price is real.** With eight seeds each: 17.3175 ± 0.0031, 19.7446 ± 0.0042, 22.1599 ± 0.0086 at
+  84, 96, 108 cells; chords 0.2023 ± 0.0004 and 0.2013 ± 0.0008; second difference −0.012 ± 0.012; one line of slope
+  **0.2020 ± 0.0003** per cell. The seeds now scatter as they should (χ² 10.0 on 7 and 6.8 on 7).
+- **Every short loop bends, the loop of 13 as much as the loop of 12.** Against the wide-face line 13.1623 +
+  0.20861 (A − 63) the discounts are:
+
+  | loop² | at 75 cells | at 84 cells | at 96 cells | at 108 cells | discount gained per cell |
+  |---:|---:|---:|---:|---:|---:|
+  | 12 | | 0.226 | 0.302 | 0.390 | 0.0064 (84 → 96), 0.0073 (96 → 108) |
+  | 13 | 0.141 | | 0.236 | | 0.0045 (75 → 96) |
+  | 16 | | 0.079 (the 4 × 7 on the slab driver, 17.4645 ± 0.0047) | 0.114 (the two faces pooled, 19.9324 ± 0.0045) | | 0.0030 (84 → 96) |
+  | 19 | 0.021 | | | | |
+
+  The loop-13 face is 0.040 ± 0.007 below its short-tube line (my 75-cell value plus 21 × 0.20602) and has slope
+  0.2041 ± 0.0003 from 75 to 96 cells. The loop-16 faces are 0.014 to 0.019 below theirs (19.946 to 19.951) and have
+  slope 0.2057 ± 0.0005 from 84 to 96.
+- **The twist does not matter for a loop of 16:** the two lattices differ by 0.008 ± 0.009, and their firewall rates
+  are the same (ln τ_fw 16.979 and 16.978).
+- A caution on the two 16-loop faces: firewalls end ten lives for every face death there, so the mean life is 2 × 10⁷
+  generations, a tenth of the face time, and the face hazard is sampled on young lives only (oldest 1.1 face times).
+  The big faces' hazard has a dip at ages 3 × 10⁷ to 10⁸ (6 × 6: 0.92 ± 0.03), so a value from a firewall-prone
+  lattice may sit a little above what long lives would give. Not measured.
+- **A CPU second code now exists** (`research/gpu-local/cpu/`: `fr.c`, `fr.py`, its README; written by a subagent,
+  not yet reviewed by the lead). Engine-exact every generation on five tori; events equal life by life to a numpy
+  implementation on four small vessels; 4 × 4: 9.9252 ± 0.0006. At 63 cells it gives 13.1607 ± 0.0017 at 8 layers
+  (here 13.1622 ± 0.0007) and 13.1619 ± 0.0025 at 16 layers (here 13.1589 ± 0.0013: +0.0030 ± 0.0028). On the 96-cell
+  tube it has 19.723 ± 0.016 so far (3,899 deaths; the run continues to about ± 0.007), 1.3σ below the value here.
+  `python research/gpu-local/cpu/fr.py summary`.
+- Not checked: no second code on the loop-16 and loop-13 faces at 96 cells; hazard by age on the five faces was
+  saved (`hist_H_K_D.json`) and not read.
 
 ## The asymmetric hull face (queue item 3) [measured]
 
