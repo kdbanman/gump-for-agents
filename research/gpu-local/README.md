@@ -172,22 +172,27 @@ everything said about them here are later than that review.
 
 **The family** (`eq_fit.py`):
 
-| A → A | local slope | | A | ln τ − [13.1621 + 0.20867 (A − 63)] |
+| A → A | local slope | | A | ln τ − [13.1623 + 0.20861 (A − 63)] |
 |---|---:|---|---:|---:|
-| 48 → 57 | 0.2167 ± 0.0001 | | 48 | −0.107 |
-| 57 → 63 | 0.2145 ± 0.0001 | | 57 | −0.035 |
-| 63 → 75 | 0.2084 ± 0.0002 | | 63 | +0.0001 (0.1σ) |
-| 75 → 81 | 0.2099 ± 0.0007 | | 75 | −0.0032 (1.4σ) |
-| 81 → 84 | 0.2082 ± 0.0015 | | 81 | +0.0039 (1.3σ) |
-| 84 → 93 | 0.2075 ± 0.0007 | | 84 | +0.0024 (0.8σ) |
-| 93 → 108 | 0.2097 ± 0.0015 | | 93 | −0.0082 (1.5σ) |
-| 108 → 111 | 0.214 ± 0.011 | | 108 | +0.008 (0.3σ) |
-| | | | 111 | +0.025 (1.1σ) |
+| 48 → 57 | 0.2167 ± 0.0001 | | 48 | −0.108 |
+| 57 → 63 | 0.2145 ± 0.0001 | | 57 | −0.036 |
+| 63 → 75 | 0.2084 ± 0.0002 | | 63 | −0.0001 (0.1σ) |
+| 75 → 81 | 0.2099 ± 0.0007 | | 75 | −0.0026 (1.1σ) |
+| 81 → 84 | 0.2082 ± 0.0015 | | 81 | +0.0050 (1.6σ) |
+| 84 → 93 | 0.2075 ± 0.0007 | | 84 | +0.0037 (1.2σ) |
+| 93 → 108 | 0.2084 ± 0.0006 | | 93 | −0.0064 (1.2σ) |
+| 108 → 111 | 0.221 ± 0.008 | | 108 | −0.0091 (1.2σ) |
+| | | | 111 | +0.028 (1.2σ) |
 
-- **One straight line fits the seven tori from 63 to 111 cells: ln τ_face = 13.1621 (± 0.0007) + 0.20867
-  (± 0.00009)·(A − 63), χ² 7.8 on 5.** The price per cell of a wrapped face is 0.2087 ± 0.0001 over that range.
-  The fit through 75 to 111 alone has slope 0.2088 ± 0.0003 and puts the line at 13.159 ± 0.005 at A = 63, where
-  the torus measures 13.1622: **any deficit at 63 cells is below 0.007** (2σ), against 0.035 at 57 and 0.107 at 48.
+(Refit on 2026-11-17 with the ten-seed 6 × 6. With its four-seed value the line was 13.1621 + 0.20867 (± 0.00009)
+(A − 63), χ² 7.8 on 5, and the slope 93 → 108 read 0.2097 ± 0.0015.)
+
+- **One straight line fits the seven tori from 63 to 111 cells: ln τ_face = 13.1623 (± 0.0007) + 0.20861
+  (± 0.00008)·(A − 63), χ² 9.6 on 5.** The price per cell of a wrapped face is 0.2086 ± 0.0001 over that range.
+  The fit through 75 to 111 alone has slope 0.2086 ± 0.0002 and puts the line at 13.164 ± 0.004 at A = 63, where
+  the torus measures 13.1622: **any deficit at 63 cells is below 0.009** (2σ), against 0.036 at 57 and 0.108 at 48.
+  From 81 cells up the slope is 0.2081 ± 0.0003 (χ² 3.7 on 3): with the longer 6 × 6 the local slope no longer
+  rises toward 108 cells (93 → 108 is 0.2084 ± 0.0006), and the only high point left is the 111-cell face.
 - **The forecast of block 3 (slope 0.2084 from A = 63) was low at all four new tori**, by 0.009, 0.008, 0.020 and
   0.038 (0.8 to 1.4 of its stated errors each; 2.5 and 1.8 errors at 81 and 84 with the fit's own smaller errors).
   Its first criterion holds, its second (the slope 93 → 111) fails by its letter; `PREDICTIONS.md` block 4. The
@@ -251,9 +256,9 @@ everything said about them here are later than that review.
   are anchored on the 4 × 4 value 9.9324, which is 0.0075 too high (above).
 - **The 6 × 6 with ten seeds (2026-11-17):** six more runs of 150 minutes give, with the four above, **22.5405 ±
   0.0074** (18,394 deaths; seeds' χ² 6.0 on 9; 298 firewalls, ln τ_fw = 25.970 ± 0.058; no settled or kind-5 life).
-  It is 0.012 ± 0.007 below the line 13.1621 + 0.20867 (A − 63) (1.6σ). The family table, residuals and fits in this
-  section were made with the four-seed value 22.5600 ± 0.0222 and are not redone here; `eq_fit.py` reads the rows
-  and prints the fit with all ten seeds. Hazard by age: nine bins from 0 to 3.3 × 10⁹ (1.07 mean lives), 0.92 to
+  It is 0.012 ± 0.007 below the line 13.1621 + 0.20867 (A − 63) (1.6σ). The family table and the line under it are refit
+  with it; the other bullets of this section (residuals by kind of lattice, the lead's readings, the score of block
+  3) keep the four-seed value 22.5600 ± 0.0222 they were written with. Hazard by age: nine bins from 0 to 3.3 × 10⁹ (1.07 mean lives), 0.92 to
   1.15, χ² 16.0 on 8; the low bin is ages 3 × 10⁷ to 10⁸ (0.919 ± 0.031), as at 111 cells. Scored in `PREDICTIONS.md`
   block 7.
 
