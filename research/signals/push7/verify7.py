@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Verify push 7's saved objects with reference/oracle.py alone (numpy and json; nothing else from this repository).
 
-    python verify7.py [objects7.json] [--only NAME]
+    python verify7.py [objects7.json] [--only NAME] [--maxL L] [--minL L]   (--maxL / --minL: only records whose ring
+    has at most / at least L units, to split a run; the long rings are the slow ones)
 
-Each record holds the initial cells (doubled coordinates) `y0` of an undisturbed run (an end and a finite train),
+Each record holds the initial cells (doubled coordinates) `y0` of an undisturbed run (an end and a finite train; the
+plain train may be given compactly as "train": [frame, ua, ub], expanded from the file's "bases"),
 optionally `flips`: a list of [generation, cells]; the disturbed run x is y0 with those cells flipped at those
 generations (x = y until the first one), a ring length L (the oracle runs on the box torus
 2L x 16 x 2L, on which the tube along v = (1,0,-1) closes into a ring of L units), and a claim:
@@ -11,7 +13,8 @@ generations (x = y until the first one), a ring length L (the oracle runs on the
   differ     x(until) != y(until) on units [ua, ub)                              (the end was not restored)
   periodic   x restricted to units [ua, ub) has period `period` on [gen, until], and units [wa, wb) of x are non-empty
              and of period 2 on [gen, until]                                     (an end standing with a wire in front)
-  orbit      x0 alone: x(t + T) == x(t) on units [ua, ub) for t in [gen, until] (an end of period dividing T)
+  orbit      x alone: x(t + T) == x(t) on units [ua, ub) for t in [gen, until]  (period dividing T)
+  distinct   the run with `flips` and the run with the claim's `flips2` (both from y0) differ at generation `until`
 Units: unit(p) = floor(p.x / 2) with p in the record's own coordinates (before reduction mod the torus); a cell's
 unit on the torus is taken as floor(x / 2) of its representative with x in [xlo, xlo + 2L), xlo = 2 * record['ulo'].
 Prints PASS or FAIL per record and ALL PASS at the end.
@@ -56,10 +59,21 @@ class Ring:
         return h[sel, :, :]
 
 
+BASES = {}
+
+
+def initial(r):
+    cells = [tuple(c) for c in r['y0']]
+    if 'train' in r:
+        fr, ua, ub = r['train']
+        cells += [(c[0] + 2 * u, c[1], c[2] - 2 * u) for u in range(ua, ub) for c in BASES[fr][u % 2]]
+    return cells
+
+
 def check(r):
     R = Ring(r['L'], r['ulo'])
     c = r['claim']; typ = c['type']
-    y = R.arr(r['y0'])
+    y = R.arr(initial(r))
     flips = {f[0]: f[1] for f in r.get('flips', [])}
     t0 = min(flips) if flips else 0
     for t in range(t0):
@@ -103,16 +117,33 @@ def check(r):
                 if j + 2 < len(hist) and not np.array_equal(w, R.units(hist[j + 2], c['wa'], c['wb'])):
                     ok = False
         return ok
+    if typ == 'distinct':
+        f2 = {f[0]: f[1] for f in c['flips2']}
+        z = R.arr(initial(r))
+        # x (flips) and z (flips2), both from y0 at generation 0
+        x = R.arr(initial(r))
+        for t in range(G):
+            for cc in flips.get(t, []):
+                i = (cc[0] % R.shape[0], cc[1] % R.shape[1], cc[2] % R.shape[2]); x[i] ^= 1
+            for cc in f2.get(t, []):
+                i = (cc[0] % R.shape[0], cc[1] % R.shape[1], cc[2] % R.shape[2]); z[i] ^= 1
+            x = R.step(x); z = R.step(z)
+        return not np.array_equal(x, z)
     raise ValueError(typ)
 
 
 def main():
     fn = sys.argv[1] if len(sys.argv) > 1 and not sys.argv[1].startswith('--') else os.path.join(HERE, 'objects7.json')
     only = sys.argv[sys.argv.index('--only') + 1] if '--only' in sys.argv else None
-    recs = json.load(open(fn))['records']
+    maxL = int(sys.argv[sys.argv.index('--maxL') + 1]) if '--maxL' in sys.argv else None
+    minL = int(sys.argv[sys.argv.index('--minL') + 1]) if '--minL' in sys.argv else None
+    d = json.load(open(fn)); recs = d['records']
+    BASES.update(d.get('bases', {}))
     allok = True
     for r in recs:
         if only and r['name'] != only:
+            continue
+        if (maxL and r['L'] > maxL) or (minL and r['L'] < minL):
             continue
         ok = check(r)
         allok &= ok

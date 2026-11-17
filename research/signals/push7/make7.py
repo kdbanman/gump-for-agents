@@ -48,8 +48,8 @@ def evname(ev):
 def record(row, o):
     cap = [tuple(c) for c in row['cap']]
     ev = tuple(o['ev']); out = o['out']; t = o['t']
-    G = {'healed': t + 20, 'dead': min(t, 60)}.get(out, 216 if out.startswith('wireB') else min(t, 600))
-    ulo, L = ring_for(G, KS - 40)
+    Gc = {'healed': t + 20, 'dead': min(t, 60)}.get(out, 216 if out.startswith('wireB') else min(t, 600))
+    ulo, L = ring_for(Gc, KS - 40)
     y0 = sorted(set(G.train_cells(pat, 0, ulo, KS, C.TD)) | set(cap))
     r = dict(name=f"end{row['i']}-{row['src']}-{evname(ev)}", L=L, ulo=ulo, y0=[list(c) for c in y0], flips=flips_for(ev))
     if out == 'healed':

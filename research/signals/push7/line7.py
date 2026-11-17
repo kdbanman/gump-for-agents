@@ -156,6 +156,10 @@ def main():
                          flips=[[1, [list(c) for c in D]]], claim=dict(type='orbit', gen=Gn, until=Gn + 16, period=8, ua=W.ua - 5, ub=W.ua + N + 55),
                          text=f"finite line N={N} (gun {g['i']}, mirrored end {e['i']}) with E and {n} holes: the whole object has period dividing 8 at generations {Gn}..{Gn + 16}"))
     ns = sorted(finals)
+    for i in range(len(recs) - 1):
+        recs.append(dict(name=recs[i]['name'] + '-vs-next', L=recs[i]['L'], ulo=recs[i]['ulo'], y0=recs[i]['y0'], flips=recs[i]['flips'],
+                         claim=dict(type='distinct', flips2=recs[i + 1]['flips'], until=Gn),
+                         text=f"the line's final objects after {ns[i]} and {ns[i + 1]} holes differ at generation {Gn}"))
     print('  final objects pairwise different:', all(not np.array_equal(finals[i], finals[j]) for i in ns for j in ns if i < j))
     if a.json:
         recs.append(dict(name=f"line-N{N}-gun{g['i']}-end{e['i']}-alone", L=N + 60, ulo=W.ua - 5, y0=[list(c) for c in sorted(line)],
