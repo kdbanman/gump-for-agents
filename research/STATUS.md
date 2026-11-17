@@ -419,6 +419,13 @@ _Last updated 2026-11-14 by the lead._
   fetch the card's branch, recompute and score its chain 3 (more seeds on the long 12-tubes; loop² 16 and 13 at 96
   cells; a 120-cell tube) against its block 7 and open problem 9 (l); one pull request for its branch; one site
   update; then the study of how the kinds of face die (9 (k)).
+  **04:54 UTC, 2026-11-17:** the card reports that the owner has opened the 1080 machine's CPU (12 threads) and
+  suggests signals work for it. Answered in `research/GPU-QUEUE.md` (note of 04:54 UTC): the card runs its CPU second
+  code on the 96-cell tube, the W13 face and the 16-layer calibration (rows to `research/data/gpu_local_cpu/` on its
+  branch), and starts an Opus subagent of its own on a seventh signals push, a census of ends beyond the 3 × 3
+  tube looking for a listener (`research/signals/push7/` on its branch; the brief is in the note). **Owed after
+  the reset:** the lead's own oracle check and an adversarial review of that push, besides the list above. Fable
+  90% at 05:00 UTC by the card's reading: the lead has stopped.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
