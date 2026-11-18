@@ -145,6 +145,47 @@ PI's 24.56 ± 0.03, `tube1d/`'s 24.563 ± 0.030 (its three forms spanned 24.53 t
   `strips/` is measuring closed tubes and strips with one code.
 Not checked: nothing of the card's was recomputed here.
 
+### 14:00 UTC. Corner-free strips, checked and extended: no row of a rimmed face costs more than a wrapped row (`strips/`; unrefereed, but itself an independent check of `rim/`)
+
+`strips/` rebuilt `rim/`'s prism with its own code (oracle-exact on ten vessels; octahedron anchors 6.8046 ±
+0.0018 and 9.8219 ± 0.0018) and took the table one step further each way. Reproduce every number:
+`sh research/blast/strips/collect.sh`.
+
+- **[measured] `rim/`'s nine lifetimes stand** (all within 0.02 but one at +0.038 ± 0.022; χ² 19 on 9). One number
+  derived from them does not: the mixed second difference at 4→5 rows, L 4→5 is 0.2486 ± 0.0043, not 0.2262 ±
+  0.0078 (the two pooled: 0.2436 ± 0.0037). The night's sentence "0.6 errors from the hull's 0.2307" is withdrawn;
+  it is above it.
+- **[measured] Thin strips are cut across by firewalls before a face dies**, and that, not the faces, bends their
+  lifetimes: 4 rows: 0.2%, 3%, 33% of lives at L = 5, 6, 7; 3 rows: 86% at L = 6. With those lives set aside (the
+  lead's booking) the 3-row strip's face lifetime keeps growing where all first deaths saturate at 10.2.
+- **[measured] The two new points.** (4 rows, L = 7): 19.111 ± 0.024 with no firewall before (18.716 ± 0.020 by all
+  first deaths). (5 rows, L = 6): 20.300 ± 0.022. The price of added length for 4 rows is 0.2450, 0.2301, 0.2210,
+  0.2177 ± 0.0021 per cell at L 3→4 … 6→7: flattening near 0.217. The price of added width (4→5 rows) is 0.1702,
+  0.1945, 0.2052, 0.2112 ± 0.0013 at L = 3 … 6: still rising, and past 0.2087.
+- **[measured] A row of a rimmed strip costs no more than a row of a closed tube of the same girth**: strip minus
+  tube, per cell, −0.03, −0.013 ± 0.001, −0.003 ± 0.001, +0.001 ± 0.003 at girth 3, 4, 5, 6. And a row costs the
+  same two rows deep and three rows deep (0.1702 against 0.1716; 0.1945 against 0.1947 at L = 3, 4). **No row
+  carries a surplus of 0.02.**
+- **[proved, algebra] The hull's kind of number is a marginal price.** If ln τ = a(L) + w·3L·p(L), the mixed
+  second difference is (L+1)·p(L+1) − L·p(L): the price of the cells added at the margin, above the average row
+  price p for as long as p is still rising with size. In a strip a marginal price of 0.24 goes with an average
+  row price of 0.21 [measured]; closed faces show the same at girth 4 (0.2276 against 0.2070).
+- **[measured, 2.4 errors] A caution of the size of the effect:** the 4-row strip is already thin at L = 5 (from 5
+  to 6 rows the row price is 0.1994 ± 0.0023, not 0.2052), so the last width price and mixed difference are
+  inflated by an unknown part.
+- **[measured; cause from T2] A tetrahedron of gump has no steady state.** Its corners are shaved by the four
+  opposite diagonal families (3.3 layers gone by generation 50, 8.0 by 12,800; the octahedron loses none) and its
+  faces' hazard climbs with age. There is no tetrahedral face law to compare with.
+
+What it means for the two prices [conjectured]. Three independent lines now say that 0.231 is not a second
+asymptotic price: a hull face's interior is a wrapped face in the living state (`holes/`, refereed); no row of a
+corner-free rimmed face costs more than a wrapped row (`rim/`, `strips/`); and a second difference is a marginal
+price, which sits above the average while the average is still climbing, on closed faces too. What none of them
+gives is the size at which the hull's marginal price comes down. The agents' forecasts for the 135-cell face
+from this side are 29.20 ± 0.03 (`strips/`), 29.21 ± 0.03 (`holes/`), against 29.230 for "the second difference
+repeats"; they are extrapolations and do not decide it. Not checked: second seeds for most long runs; the
+thickness of the 4-row strip at L of 6 and more; nobody has rewritten `strips/`' stepper.
+
 ## What was found
 
 1. **Boom and bust on wrapped faces [measured by four independent codes: `anatomy/`, `split-slab/`, `tube1d/`,

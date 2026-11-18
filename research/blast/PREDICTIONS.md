@@ -336,3 +336,18 @@ then the chords fall fast (two exponentials through the three chords give a seco
 3. The chord from 120 to 132 cells: below 0.1900 with 35%; above 0.2000 (the bend was a fluctuation) with 12%.
 4. If the second reading is right, the share of deaths in which the face empties band by band along the tube
    (not all at once) is visibly higher at 132 cells than at 96: 70% given the second reading.
+
+### Block 6 scored 14:00 UTC from `strips/README.md` (commit 7a670fd; unrefereed)
+
+1. Withdrawn (not blind). For the record: rows two deep cost the wrapped price or less at the same loop.
+2. Not decidable: strips of one and two rows hold no chaos and three rows are cut by firewalls.
+3. Not decidable: the tetrahedron has no steady state (its corners are shaved), so there is no face law.
+4. **Held**: the comparison with closed tubes of the same girth came out to ± 0.001 to 0.003 per cell.
+5. **Missed** on both parts: the length price at L 6→7, firewall lives set aside, is 0.2177 ± 0.0021, equal to the
+   value at 5→6, not below it and not in 0.209–0.216. (By all first deaths it is 0.1874: that is the firewall.)
+6. **Missed**: the width price at L = 6 is 0.2112 ± 0.0013, above 0.203–0.208 (with the caution that the 4-row
+   strip is thin there).
+7. **Held**: nine entries reproduced, the largest difference 2.4 combined errors.
+8. **Held** at L = 4 (−0.013 ± 0.001); at L = 5 the strip is cheaper by 0.003 ± 0.001, at L = 6 not (+0.001 ± 0.003).
+I expected the two prices of a strip to close on 0.209 faster than they do: at L of 6 to 7 they stand at 0.211 and
+0.218.

@@ -54,16 +54,15 @@ after its own check; the PI never merges it.
   with contexts of 500,000 to 740,000 tokens are dear. **Start no agent and resume none**, except one fresh, short
   referee for the noisy chain if the window allows (rule: none from 0.40, wrap-up from 0.45, nothing at 0.50).
   The PI analyses the noisy runs itself (`python3 research/blast/noisy/fit.py`, `ana.py`).
-- **Running agent: `strips`** (a31c465afadd10954; `research/blast/strips/`; 2 cores; hands back by 14:15 UTC).
-  Redirected at 12:40: check `rim/`'s strip table with its own code, extend it (4 unit rows at L = 7, 5 unit rows
-  at L = 6), closed tubes of the same girth as control, tetrahedron. Owed: read, score block 6 items 2-8, write
-  up; no referee (say so).
+- **No agent is running** (14:00 UTC). `strips` reported (commit 7a670fd): `rim/`'s table stands; no row of a rimmed
+  strip costs more than a wrapped row; marginal against average price; thin strips are cut by firewalls; the
+  tetrahedron has no steady state. In `REPORT.md`; block 6 scored.
 - **Long runs of the noisy hull (no agent; detached processes, `setsid nohup`; output
   `research/scratch/blast/noisy/runs/sub_R<R>_M<M>_s<seed>.txt`, usable at any time):**
   - Stage B, 108 cells blind (gump 23.3392 +- 0.0099): started 13:19 UTC on two cores:
-    `run_sub.sh 15 128 15100 22` and `run_sub.sh 15 32 15400 36` (2.4 h each). **Owed when `strips` frees its
-    cores (about 14:15): start `sh research/blast/noisy/run_sub.sh 15 128 15200 22` and `... 15 64 15300 30`**
-    the same way. Then `python3 research/blast/noisy/fit.py`: intercept at eps = 0 against 23.3392.
+    `run_sub.sh 15 128 15100 22` and `run_sub.sh 15 32 15400 36`; at 14:00 UTC the other two:
+    `run_sub.sh 15 128 15200 22` and `run_sub.sh 15 64 15300 30` (2.2 h each; all four done by about 16:15).
+    Then `python3 research/blast/noisy/fit.py`: intercept at eps = 0 against 23.3392.
   - Stage C, 135 cells: `sh research/blast/noisy/prod_C_135.sh 1` (4 cores, 8 h a round; later rounds 2, 3 add
     up) only after B is read. If B fails, run `prod_A_brute84.sh` (the chain's own offset at 84 cells) instead.
   - At each wake-up copy the `runs/` files of stages B and C to `research/blast/noisy/data/runs/` and commit
