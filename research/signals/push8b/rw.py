@@ -6,6 +6,8 @@
     python3 rw.py cross24    the same for all 24 reading placements of junc2.py (posmap.py)
     python3 rw.py train      all 24 reading placements beside push 7's line BEFORE the write (the rake train running),
                              crossing at units 38..49: does the reader stand there for 300 generations?
+    python3 rw.py early      push 7's write (E and n holes at generation 1) with the reader beside the line from generation
+                             0: the two placements that stand beside the running train (odd units), and b13, b8 at unit 42
     python3 rw.py grow       pulses of the store born beside the reader (one stator removed, 1 to 6 times, every 4, 6 or 8
                              generations) towards a wall to its right or an edge to its left: can a stretch grow past it?
 
@@ -127,6 +129,20 @@ if __name__ == '__main__':
                         tube = lab.pk([c for c in lab.up(X) if cell.in_tube(c)])
                         row += 'r' if lab.same(tube, lab.pk([c for c in lab.up(L300) if cell.in_tube(c)])) else 'X'
                 print(f"  reader {w} g={r['g']} phi={r['phi']} t={tuple(r['t'])}:  {row}", flush=True)
+    elif cmd == 'early':
+        import posmap
+        L0 = cell.line0()
+        for (w, g, t) in (('B', 21, (-2, 0, 0)), ('B', 22, (-4, 2, -2)), ('B', 13, (-2, 0, 0)), ('B', 8, (2, 2, 4))):
+            for u in ((39, 41, 43, 45, 47) if g in (21, 22) else (42,)):
+                row = f'  reader {w} g={g} t={t} at unit {u}:'
+                for n in range(1, 7):
+                    rd = posmap.R(w, g, 0, t, u)
+                    R0 = rd.place(lab.up(rd.own))
+                    k = lab.run(lab.union(L0, R0), 1)
+                    k = lab.run(lab.xor(k, lab.pk(cell.write_flips(n))), 899)
+                    ok = lab.same(k, lab.union(cell.standing(n), R0))
+                    row += f'  n={n}: ' + ('written, reader as it was' if ok else f'no ({len(k)} cells left, the two alone have {len(cell.standing(n)) + len(R0)})')
+                print(row, flush=True)
     elif cmd == 'erase':
         for name in names:
             print(f'reader {name}: stretch d^k f from unit w, the stator (0,1,2) of unit w-1 removed at generation 0')

@@ -3,12 +3,15 @@
 are judged by verify_read.py with the oracle alone).
 
     python3 cell.py table            the reader at unit 42 beside the standing line with n = 1..6 holes, three pulses
-    python3 cell.py positions        the same reader at every unit 30..56 of the lines n = 1..6: where it stands
-    python3 cell.py write            the reader standing beside the line BEFORE the write (the train running)
+    python3 cell.py positions        the same reader at every unit 34..52 of the lines n = 1..6: single pulses
+    python3 cell.py repeat           the four readers of the objects at unit 42, n = 1..6: the reading pair launched at a
+                                     generation divisible by 4 or 2 generations later, and a second time after the first
 
 Line: push 7's line (gun 4, end 70, N = 80; objects7.json record line-N80-gun4-end70-*), E at unit 32 and n holes at
 units 49, 55, .. flipped at generation 1; standing by generation 900.
-Reader: a capped wire C (clock caps), 14 + 14 units, placed as x -> g(x) + t.  READERS gives the placements used."""
+Reader: a capped wire C (clock caps; names r...) or a capped wire B (names b...), 14 + 14 units, placed as
+x -> g(x) + t.  READERS gives the placements used; the pair reads use b13, b8 (two adjacent pulses) and r246, r132 (two
+pulses three units apart)."""
 import sys, json
 import lab, wires, line
 from lab import tr, unit
@@ -180,6 +183,19 @@ if __name__ == '__main__':
         table()
     elif cmd == 'positions':
         positions()
+    elif cmd == 'repeat':
+        for name, sp in (('b13', 1), ('b8', 1), ('r246', 3), ('r132', 3)):
+            for n in range(1, 7):
+                S = standing(n)
+                rd = Reader(name, 42)
+                v, J = install(S, rd)
+                row = f'{name} n={n} {v}:'
+                for delay in (0, 2):
+                    Jd = lab.run(J, delay)
+                    arr1, J2, v1 = read(Jd, rd, spacing=sp)
+                    arr2, J3, v2 = read(J2, rd, spacing=sp) if J2 is not None else ('-', None, '-')
+                    row += f'  launch +{delay}: {arr1}, {v1}; again: {arr2}, {v2}'
+                print(row)
 
 
 def kymo(name, u, n, launches, T=80, every=2, settle=160):
