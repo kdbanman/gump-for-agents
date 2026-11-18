@@ -11,15 +11,21 @@ lifetimes: `data/life.txt`, `data/life_tori.txt`; forecasts: `PREDICTIONS.md`.
 
 1. **The bulk cost of a hole is about 0.26 per cell, not 0.2087, and it is flat [measured].** On the 12 × 12 × 8
    torus, the mixed second difference of −ln P over rhombi of a × b unit cells (3ab cells; it removes every term
-   that depends on a alone or on b alone, so perimeter and corners), per cell, is FINAL_M_SUMMARY. No value
+   that depends on a alone or on b alone, so perimeter and corners), per cell, is 0.2932, 0.2646 ± 0.0002, 0.2543 ± 0.0045 on the diagonal (a = b = 1.5, 2.5, 3.5), 0.2595 ± 0.0005, 0.2592 ±
+   0.0019, 0.265 ± 0.010 along a = 2.5 (b = 3.5, 4.5, 5.5), and 0.2575 ± 0.0008, 0.2562 ± 0.0030 at (1.5, 5.5), (1.5,
+   6.5): every value with the short side at 2.5 or more, or the long side at 4.5 or more, lies in 0.254–0.265 (6.3·10⁹
+   replica-generations; the rim zone of the hull face gives 0.246–0.260, item 4). No value
    reached is inside the PI's 0.195–0.222. The earlier "0.226 at 36 cells, falling into the lifetime range"
    (notebook, 2026-11-15) was the second difference along a × a, a × (a+1), which is not free of the single-variable
    curvature (f(3,4) − 2f(3,3) + f(2,3) = −0.064).
 2. **A hole pays more per cell than the death of a closed face of its own shape [measured].** Lifetimes of the
    small closed tori a × b measured with the same stepper (`data/life_tori.txt`) have mixed second differences per
-   cell of 0.2148 ± 0.0014 at (3.5, 3.5) and 0.226 ± 0.005 at (3.5, 4.5); holes of the same shapes: FINAL_HOLE_M35.
-   "−ln P(hole) − ln τ(closed torus of that shape)" is not a function of the perimeter alone: at perimeter 16 it
-   is 8.77 (2 × 6), 9.42 (3 × 5), 9.55 (4 × 4). (For 3 × 6 against 4 × 5, the PI's pair, it is: 11.00 and 11.01.)
+   cell of 0.2148 ± 0.003 at (3.5, 3.5) and 0.226 ± 0.009 at (3.5, 4.5) (errors doubled, section 4); holes of the same shapes (mean of the two
+   orientation classes) 0.2586 ± 0.0043 and 0.245 ± 0.026: **dearer by 0.044 ± 0.005 at (3.5, 3.5)**, by 0.016 ±
+   0.003 at (2.5, 4.5), by 0.069 at (2.5, 3.5) (there the tori are two units wide, loop² 4, and scatter: 0.193,
+   0.244, 0.260). "−ln P(hole) − ln τ(closed torus of that shape)" is not a function of the perimeter alone: at
+   perimeter 16 it is 8.77 (2 × 6), 9.42 ± 0.01 (3 × 5), 9.55 ± 0.02 (4 × 4); at 12, 5.90 and 6.65. (For 3 × 6
+   against 4 × 5, the PI's pair, it is: 11.00 ± 0.03 and 10.98 ± 0.08.)
 3. **The interior of a hull face is a wrapped face to one part in ten thousand per cell [measured].** In the hull
    of radius 29 (faces of side 15, 360 cells) rhombi of 12 to 27 cells with every unit cell three or more rows from
    every rim have the torus's −ln P to FINAL_INT; two rows in, the same; one row in, a 3 × 3 patch is 0.010 ± 0.002
@@ -36,14 +42,23 @@ lifetimes: `data/life.txt`, `data/life_tori.txt`; forecasts: `PREDICTIONS.md`.
    4, 5); the second edge by 2.21, 2.75, 3.30; and the lifetime of the hull face of that side (all three) lies
    another 0.82, 2.44, 3.68 below the corner triangle, FINAL_D6 at s = 6. Edge costs do not add, and "corner
    triangle = hull face + an edge cost linear in s" fails.
-6. **How a patch empties [measured].** In the interior, by a crash of the patch and the layer beneath it: 83%,
-   71%, 70% of new emptyings of 2 × 2, 3 × 3, 4 × 4 contain a one-generation fall of half the patch's cells; the
-   mean path of a 3 × 3 patch is 0.52, 0.545, 0.41, 0.13, 0 of its cells (normal 0.517) while the cells of the
-   second layer under it go 0.43, 0.45, 0.34, 0.16, 0.22 (normal 0.435). The boom is weak: FINAL_LAUNCH. On the rim
-   the bust share is 66%, 50%, 50%; in the corner 33%, 23%, 22%: corners fade.
+6. **How a patch empties: a local boom and bust, deeper than a dying face's [measured].** In the interior 83%,
+   71%, 70% of new emptyings of 2 × 2, 3 × 3, 4 × 4 patches contain a one-generation fall of at least half the
+   patch's cells ("busts"). In those the patch is **0.826, 0.805, 0.787 full** in the generation before the fall
+   (normal 0.517; a dying closed face launches from 0.738) with the cells of the second layer under it at 0.67
+   (normal 0.435), and one generation later the patch holds 0.11, 0.13, 0.15 of its cells and the layer beneath
+   0.16, 0.13, 0.13; 89%, 96%, 95% of busts start from a patch at least 0.7 full. The launch comes two or three
+   generations before the empty instant, so the mean path by lag hides it (3 × 3: 0.52, 0.545, 0.41, 0.13, 0).
+   On the rim the bust share is FINAL_BUST_RIM; in the corner FINAL_BUST_CORNER: corners fade.
+   [conjectured] The extra 0.05 per cell of a hole over a death is the price of the deeper boom: with the
+   night's ψ(x) for the frequency of an over-full face (0.075, 0.098, 0.127 per cell at x = 0.73, 0.76, 0.79) a
+   launch from 0.79–0.80 costs about 0.05–0.06 per cell more than one from 0.738. A death may leave a tenth of
+   the cells to die out over five to seven generations; a hole must be empty at one instant, and its edge is
+   retaken at 0.25 units per generation (`tube1d`), so every hole reached here (short side at most 4 units) is all
+   edge zone. Whether holes more than 6 to 8 units wide return to 0.2087 cannot be reached by plain running.
 7. **A new anchor, and what it does to the formulas [measured; the reading is conjecture].** The 18-cell hull
-   face (radius 5): ln τ_face = 4.855 ± 0.015 (`data/life.txt`; same mode gives 6.805 ± 0.002, 9.824 ± 0.003,
-   13.632 ± 0.014 at 30, 45, 63 cells against the anchors 6.804, 9.819, 13.633). The hull's second differences per
+   face (radius 5): ln τ_face = 4.855 ± 0.015 (`data/life.txt`; the same mode gives 6.808 ± 0.002 (five seeds), 9.824 ±
+   0.007, 13.63 ± 0.03 at 30, 45, 63 cells against the anchors 6.804, 9.819, 13.633). The hull's second differences per
    cell are then 0.355, 0.266, 0.231, 0.230 at k = 4…7. The rows formula (a price per row of depth, which makes
    the second difference step every third side) fits the five anchors with χ² 0.02 and misses the 18-cell face by
    0.27. A rim term, one asymptotic price and one geometric transient (formula S, `model.py`) fits all six with
@@ -64,7 +79,9 @@ Validation (`validate_log.txt`; `$S/holes val slab 12 8 21 1200 0 F && python3 v
 1000 0 F`): three lanes compared with the oracle state for state at every generation, slab 12 × 12 × 8 over 1,200
 generations and hull R = 29 over 1,000 (the whole oracle array, so a birth outside the vessel would show): identical,
 all states distinct. With one swapped neighbour (`NEG = 1`) the comparison fails at generation 3 (slab) and 7
-(hull). Hull R = 21 over 1,500 generations: identical (run once, earlier binary, same `step`).
+(hull). Hull R = 21 over 1,500 generations: identical. The log is from the binary of the committed source; the two long runs
+were made with an earlier build of the same stepper and counters, and the final build reproduces its counts line
+for line on short runs of both vessels (same seeds; `T` lines identical).
 
 Counter check: with the two orientation classes averaged as the GPU table did, 2 × 2, 2 × 3, 3 × 3, 3 × 4 read
 6.2542, 8.7926, 12.1281, 15.4008 ± 0.0019 against 6.254, 8.793, 12.128, 15.3999/15.3979 on file.
@@ -81,9 +98,10 @@ or by position (hull: 8 faces × 3 rotations, with the mirror image pooled). M(a
 f(a, b+1) + f(a, b). **Errors: delete-one jackknife over the 8 groups of 32 lanes of a run (independent
 replicas), never over translates.**
 
-Runs (one each): `$S/holes run slab 12 8 101 56000000 1000 $S/slab12_s101.txt 1` (FINAL_SLAB_GENS generations ×
-256 lanes; face density 0.51774; no face ever empty) and `$S/holes run hull 29 0 201 10400000 1000
-$S/hull29_s201.txt 1` (FINAL_HULL_GENS; face density 0.52195; no face ever empty). Tables: `python3 ana.py torus
+Runs (one each): `$S/holes run slab 12 8 101 56000000 1000 $S/slab12_s101.txt 1` (stopped by hand at 24,640,000 generations ×
+256 lanes = 6.3·10⁹ replica-generations; face density 0.51774; no face ever empty) and `$S/holes run hull 29 0 201 10400000 1000
+$S/hull29_s201.txt 1` (FINAL_HULL_GENS; face density 0.52195; no face ever empty). A second slab run with the launch recorder (`$S/holes run slab 12 8 102 2400000 1000 F 1`, `data/slab12_launch.txt`)
+gives the `busts:` lines of item 6. Tables: `python3 ana.py torus
 $S/slab12_s101.txt`, `python3 ana.py hull $S/hull29_s201.txt --torus $S/slab12_s101.txt`. The raw counts are in
 `data/slab12_s101.txt` and `data/hull29_s201.txt.gz`.
 
@@ -98,16 +116,16 @@ Bulk cost per cell, M(a+½, b+½)/3, class P (class Q is 0.001 to 0.005 higher):
 FINAL_TORUS_M
 
 - Along a = 1.5 it falls slowly with the long side; along a = 2.5 it is flat at 0.26 from b = 2.5 to 5.5; the one
-  value at a = 3.5 agrees. A geometric continuation of the diagonal (0.2932, 0.2646, FINAL_DIAG3) would end near
+  value at a = 3.5 agrees. A geometric continuation of the diagonal (0.2932, 0.2646, 0.2543 ± 0.0045) would end near
   0.25. Nothing reached is below 0.25. Not reached: any M at a ≥ 4.5 (it needs the 5 × 5 patch, −ln P ≈ 28).
-- Perimeter: a strip one unit cell wide costs 1.642 per unit of length (0.547 per cell), two wide 2.41, three
-  wide 3.21; with c = 0.26 the edge costs about 0.43 per lattice unit of perimeter (with c = 0.2087 it would be
+- Perimeter: a strip one unit cell wide costs 1.642 per unit of length (0.547 per cell), two wide 2.413 ± 0.009,
+  three wide 3.216 ± 0.03 (last increments reached); with c = 0.26 the edge costs about 0.43 per lattice unit of perimeter (with c = 0.2087 it would be
   0.66: the "0.66 to 0.69 per unit" on file is tied to the assumed bulk price).
 - The cost of one more unit of length of a strip keeps falling with the length for strips 2 and 3 wide (2.534,
-  2.515, 2.466, 2.437, 2.419, 2.410 for a = 2): the single-variable curvature that made the old estimator fall.
-- Triangles of side s, upright (class P): 1.9718, 4.9190, 8.7451, 13.307 ± 0.002, 18.55 ± 0.02 (s = 1…5); their
-  second differences per cell 0.293, 0.245, 0.232 ± 0.003 are not perimeter-free either (the same turned by 180°:
-  4.878, 8.648, 13.148, 18.36).
+  2.516, 2.467, 2.437, 2.420, 2.413 for a = 2): the single-variable curvature that made the old estimator fall.
+- Triangles of side s, upright (class P): 1.9718, 4.9190, 8.7452, 13.3087 ± 0.0012, 18.563 ± 0.016, 24.4 ± 0.2
+  (s = 1…6); their second differences per cell, 0.2930, 0.2457 ± 0.0004, 0.2304 ± 0.0050, are not perimeter-free
+  (the same triangles turned by 180°: 4.8777, 8.6479, 13.1449, 18.349).
 
 Holes against closed tori of the same shape (`data/life_tori.txt`: `$S/holes life slab NX NY SEED BATCHES T0
 TMAX`, first empty face, hazard after T0, τ_face = 2/hazard; 4 × 4 reads 9.928 ± 0.003 against 9.9251/9.9324 on
@@ -157,12 +175,14 @@ generations at risk after T0; τ_face = 8/hazard. `data/life.txt`:
 | hull radius | cells | this mode | anchor |
 |---|---:|---|---|
 | 5 | 18 | **4.855 ± 0.015** (4.8556 ± 0.0006 over generations 41–100; 4.857, 4.852, 4.856 in windows of 20; the error is my allowance for the window: 21–40 reads 4.899, 101–120 reads 4.879) | none |
-| 7 | 30 | 6.8048 ± 0.0019 (an earlier run with half the batches: 6.8148 ± 0.0026) | 6.804 ± 0.003 |
+| 7 | 30 | 6.8048 ± 0.0019; four more seeds 6.8148, 6.8041, 6.8086, 6.8058 (mean of the five 6.808 ± 0.002) | 6.804 ± 0.003 |
 | 9 | 45 | 9.8239 ± 0.0033 | 9.819 ± 0.003 |
 | 11 | 63 | 13.6315 ± 0.0139 | 13.633 ± 0.008 |
 
 Radius 3 (9 cells) has no steady hazard (4.28, 4.44, 4.56, 4.82 in successive windows): not a number.
-A hull of radius 5 has 114 cells and its eight faces share most of them; whether its faces belong to the same
+The errors printed by this mode are 1/√deaths; four more seeds at radius 7 (6.8148, 6.8041, 6.8086, 6.8058,
+each ± 0.0026) scatter 1.8 times that, so read every `life` error as doubled (the table of holes against closed
+tori in section 2 prints them undoubled). A hull of radius 5 has 114 cells and its eight faces share most of them; whether its faces belong to the same
 family as the larger ones is a judgement (the forecasts are given with and without it).
 
 ## 5. Formulas for the hull face and the forecasts
@@ -188,7 +208,22 @@ say why it could not be done (no rim surplus to put in; a bulk cost of emptiness
 
 ## 6. Forecasts and scores
 
-Mine, block A (`PREDICTIONS.md`, commit 7ebacea, before any code): FINAL_SCORE_A
+Mine, block A (`PREDICTIONS.md`, commit 7ebacea, before any code), 11 held, 5 missed, 2 half:
+- A1 (torus bulk cost). "Above 0.225 at the largest sizes": held. "Still falling with size": **missed** (flat at
+  0.26). 0.240 ± 0.012 at (3.5, 4.5): measured 0.266 ± 0.016, not scorable. 0.250 ± 0.012 at (2.5, 4.5): held at its
+  edge (0.2592). "Depends mainly on the short side": half (true along a = 2.5, false along a = 1.5).
+  "Extrapolates to 0.2087 ± 0.015": **missed**; there is nothing to extrapolate.
+- A2 (how a patch empties). Bust shares 0.65 ± 0.12 and 0.55 ± 0.15: held (0.715, 0.697). Falling with size: held.
+  Layer beneath below 0.30: held (0.22).
+- A3 (interior = torus within 0.03, within 0.05 two rows in): both held (within 0.002).
+- A4 (rim map). Rim patch likelier empty, 3 × 3 at −1.0 ± 1.0: held (−0.98). Corner likelier still: held.
+  "Monotone in the distance and within 0.05 from distance 2": half (one row in is dearer than the interior).
+- A5 (rim rows). Rim row 0.45 ± 0.05 per cell: held (0.436). Row prices 0.27 ± 0.03 and 0.245 ± 0.02: held (0.254,
+  0.250 and 0.254, 0.248 at l = 3.5, 4.5). "The static row prices equal the hull's second differences" (I gave
+  0.3): they do not.
+- A6. I gave "the data reject the hypothesis" 0.15 and "support it" 0.4: **missed**.
+- A7. My frozen 135-cell value inside 29.23 ± 0.04: held (29.21), which says little.
+- Block B's side forecast, the corner triangle of side 6 at 18.75 ± 0.15: FINAL_C6.
 
 The PI's block 5: (1) bulk cost on the torus 0.2087 ± 0.008: **missed** (0.26; outside 0.195–0.222, so by its own
 criterion "the price of a face is the price of a hole in an unbounded face" is dead, with the caveat of item 1
