@@ -110,12 +110,13 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
 2. *(SSM) as written is false at s = 1, for a trivial reason.* On wide tori all cells of an orientation are
    alike, so the mean of ⟨ε_i⟩₁ over cells is ⟨E⟩₁/A. ⟨E⟩₁ ≥ P(death from one live cell)·E(one live cell)
    ≥ 0.57 × 0.594 (7 cells × −ln(1 − ρ1²ρ2); the 0.57 is measured), and it stays O(1) when deaths come from O(1)
-   cells. So ⟨ε_i⟩₁ = Θ(1/A), its limit e_∞(1) is 0, and K·e^(−r_i/ξ) with r_i ~ √A cannot bound 1/A. **Missing
+   cells (measured: ⟨E⟩₁ = 0.70–1.63 at 9–15 cells; this step rests on that measured fact, not on a proof). So ⟨ε_i⟩₁ = Θ(1/A), its limit e_∞(1) is 0, and K·e^(−r_i/ξ) with r_i ~ √A cannot bound 1/A. **Missing
    step, and its repair (closed):** state the hypothesis as |⟨ε_i⟩_{s,G} − e_∞(s)| ≤ K e^(−r_i/ξ) + K₀/A. Then
    (a) gains an additive K₀ and (b)–(d) are unchanged.
 3. *Is the hypothesis plausibly false for wrapped faces? Yes, and it is visible exactly at 9–15 cells, in a
    quantity rigour's test cannot see.* [measured, exact, mine] Under μ_s the population of a wrapped face is
-   two-humped for every s ≳ 0.1: a sparse hump and an over-full hump, e.g. tube (1,1),(0,5), s = 0.3:
+   two-humped for every s ≳ 0.3 on all six wrapped faces (from s ≈ 0.2 on the (1,1) tubes; weakest on the
+   wide torus (2,0),(0,2): 0.044 at 11 of 12 against a valley of 0.010 at s = 0.5): a sparse hump and an over-full hump, e.g. tube (1,1),(0,5), s = 0.3:
    P(≤ 4 alive) = 0.61, P(≥ 10 of 15) = 0.28, valley 0.014 at 8; the valley at s = 0.3 deepens with size (0.029,
    0.026, 0.014 at 9, 12, 15 cells on the (1,1) tubes). Rimmed faces (triangle, patch 2×2, patch 1×3) have one
    hump at every s. The reason is plain: an over-full face has E ≈ 0 as surely as an empty one (every cell with 6
@@ -195,11 +196,12 @@ Answers to the three questions:
    conditioning on the *strip* being alive at t₁, an event of the torus's whole history; for seam histories with
    a live cell at t₁ the factor P_C(C alive) cancels and (★) holds verbatim between the two living states, with
    Z replaced by P_T(alive at t₁); for seam histories dead at t₁ it does not, and the cover's dead histories
-   enter. (ii) For a deterministic rule from a normalised soup Tr 𝒯^n = 1 for every n (the weights of all
-   histories sum to 1), so 𝒯 has the single non-zero eigenvalue 1 and **Z = 1 exactly**; at finite t₁ bands
-   further apart than the light cone are exactly independent. "The rate e^(−2.3|v|) is the gap of 𝒯" therefore
-   has no meaning at finite t₁; it is a statement about the limit t₁ → ∞ taken inside the lifetime, which is not
-   made. Label of that bullet: [conjectured].
+   enter. (ii) For a deterministic rule from a normalised soup the weights of all histories of a ring sum to 1,
+   so Tr 𝒯^n = 1 for every n: 𝒯 has the single non-zero eigenvalue 1, and in the infinite cover **Z = 1
+   exactly**, i.e. P_T(seam history = s) = P_C(image of the seam = s | seam = s). (My K = 2 check confirms the
+   normalisation: it holds only if (Tr 𝒯²)² = Tr 𝒯⁴.) At finite t₁ bands further apart than the light cone are
+   exactly independent, so "the rate e^(−2.3|v|) is the gap of 𝒯" has no meaning at finite t₁; it is a statement
+   about the limit t₁ → ∞ taken inside the lifetime, which is not made. Label of that bullet: [conjectured].
 3. *Does additivity follow?* No; it is assumed. Unwrapping one loop at a time gives the exact telescoping
    ρ_T − ρ_plane = (ρ_T − ρ_{C_v}) + (ρ_{C_v} − ρ_plane); "loops add" is the claim that closing v on a face that
    already has the loop w costs what it costs without w, which (★) does not give. Further: Q − 1 is not small for

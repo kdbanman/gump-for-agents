@@ -153,6 +153,34 @@ def qsd(P, tol=1e-15, maxit=20000):
     mu = np.zeros(N); mu[1:] = v
     return lam, mu, it
 
+def run_mc(nb, m, A, r1, r2, mcN):
+        rng = np.random.default_rng(12345)
+        half = (A + 1) // 2
+        tabs = [np.array([[p_alive(x, kk, m[i][0], m[i][1], r1, r2) for kk in range(7)] for x in (0, 1)]) for i in range(A)]
+        R = 200000
+        X = (rng.random((R, A)) < 0.5).astype(np.int8)
+        age = np.zeros(R, dtype=np.int64)
+        since = np.full(R, 10 ** 6, dtype=np.int64)       # transitions since the last half-fall
+        deaths = marked = 0; burn = 40; steps = 0; expo = 0
+        nbarr = [np.array(l, dtype=np.int64) for l in nb]
+        while deaths < mcN:
+            k = np.stack([X[:, nbarr[i]].sum(1) for i in range(A)], axis=1)
+            pa = np.stack([tabs[i][X[:, i], k[:, i]] for i in range(A)], axis=1)
+            Y = (rng.random((R, A)) < pa).astype(np.int8)
+            fl = X.sum(1) - Y.sum(1) >= half
+            since = np.where(fl, 0, since + 1); age += 1
+            dead_now = Y.sum(1) == 0
+            ok = dead_now & (age >= burn)
+            deaths += int(ok.sum()); marked += int((ok & (since <= 5)).sum())
+            expo += int((age >= burn).sum())
+            nd = int(dead_now.sum())
+            Y[dead_now] = (rng.random((nd, A)) < 0.5).astype(np.int8)
+            age[dead_now] = 0; since[dead_now] = 10 ** 6
+            X = Y
+        p = marked / deaths
+        print('MC (independent simulation, deaths after %d generations from a fair start): deaths %d  halffall6 share %.4f +- %.4f  lntau %.4f +- %.4f' %
+              (burn, deaths, p, math.sqrt(p * (1 - p) / deaths), math.log(expo / deaths), 1 / math.sqrt(deaths)))
+
 def main():
     av = sys.argv[1:]
     r1, r2 = 0.44, 0.42
@@ -167,6 +195,8 @@ def main():
     nb, m = build(kind, args)
     A = len(nb); N = 1 << A
     name = kind + '_' + '_'.join(map(str, args))
+    if '--mconly' in flags:
+        print('== %s A %d (simulation only)' % (name, A)); run_mc(nb, m, A, r1, r2, mcN); return
     P, al, bits = kernel(nb, m, r1, r2)
     assert np.allclose(P.sum(1), 1, atol=1e-12)
     assert P[0, 0] == 1.0
@@ -231,32 +261,7 @@ def main():
         # the marked share, split by where the fall happens (the death step itself, or earlier)
         print('  share with the DEATH step itself a half-fall (pop(T-1) >= %d): %.6f' % (half, (mu * d)[pop >= half].sum() / h))
     if mcN:
-        rng = np.random.default_rng(12345)
-        half = (A + 1) // 2
-        tabs = [np.array([[p_alive(x, kk, m[i][0], m[i][1], r1, r2) for kk in range(7)] for x in (0, 1)]) for i in range(A)]
-        R = 200000
-        X = (rng.random((R, A)) < 0.5).astype(np.int8)
-        age = np.zeros(R, dtype=np.int64)
-        since = np.full(R, 10 ** 6, dtype=np.int64)       # transitions since the last half-fall
-        deaths = marked = 0; burn = 40; steps = 0; expo = 0
-        nbarr = [np.array(l, dtype=np.int64) for l in nb]
-        while deaths < mcN:
-            k = np.stack([X[:, nbarr[i]].sum(1) for i in range(A)], axis=1)
-            pa = np.stack([tabs[i][X[:, i], k[:, i]] for i in range(A)], axis=1)
-            Y = (rng.random((R, A)) < pa).astype(np.int8)
-            fl = X.sum(1) - Y.sum(1) >= half
-            since = np.where(fl, 0, since + 1); age += 1
-            dead_now = Y.sum(1) == 0
-            ok = dead_now & (age >= burn)
-            deaths += int(ok.sum()); marked += int((ok & (since <= 5)).sum())
-            expo += int((age >= burn).sum())
-            nd = int(dead_now.sum())
-            Y[dead_now] = (rng.random((nd, A)) < 0.5).astype(np.int8)
-            age[dead_now] = 0; since[dead_now] = 10 ** 6
-            X = Y
-        p = marked / deaths
-        print('MC (independent simulation, deaths after %d generations from a fair start): deaths %d  halffall6 share %.4f +- %.4f  lntau %.4f +- %.4f' %
-              (burn, deaths, p, math.sqrt(p * (1 - p) / deaths), math.log(expo / deaths), 1 / math.sqrt(deaths)))
+        run_mc(nb, m, A, r1, r2, mcN)
     if '--lemma0' in flags:
         S = (P[1:, 1:] > 0)
         Sf = S.astype(np.float32)
