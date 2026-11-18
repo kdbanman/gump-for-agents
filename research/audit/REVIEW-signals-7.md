@@ -339,4 +339,24 @@ Pushes 8 and 9 (in the tree, built on this line, not reviewed here) take up the 
 
 ## 9. Not checked
 
-TODO-notchecked
+- **The tree of cubes.** `pool7.py` needs Windows process flags and its `tree.json` and cube files are not in the
+  repository: "every cube DONE" is the push's word. What stands in its place is the same count from another encoding
+  and another solver.
+- **No UNSAT certificate** from either solver. Completeness of each list is two solvers agreeing, not a proof object.
+- **Period 8, and the 5 × 5 tube beyond what §3 says.** Both are "pending" in the README and unresolved here.
+- **`ends7.cpp`** (dropped by the push, nothing rests on it).
+- **Events outside the 17.** Words of holes other than the eight; a signal at a second distance from the end (for a
+  period-4 end one distance already gives every arrival phase); two different signals in a row; up-signals N1, U, E
+  into receiving ends from below (they cannot arrive there). The census says nothing about them.
+- **The fronts in the dead rows** were classified by what they leave (no rake), not proved rigid or named. The
+  "wall" class (103 / 695 ends): what wire the front leaves and whether it is a signal was not looked at.
+- **The census outside the oracle samples** is fast7's, which is tested bit for bit against the oracle
+  (`fastcheck.py`) and compared row for row on the samples, but is not the oracle.
+- **The push's `census7.py`, `summary7.py`, `make7.py`, `merge7.py`, `line7.py`, `record7.py`, `signals7.py`,
+  `pool7.py`, `cnf7.py` were not run**: each of their results was rebuilt with other code instead. `step7.c` was
+  tested only through the push's own `check7.py` (§6).
+- **Run times and the Windows build** in the README.
+- **What a pulse does at the other caps.** §2 has five guns and five ends, two cells, one place each. The other 120
+  ends, pulses of wire B′ inside a stretch, wide pulses: not mapped.
+- **Odd N** (the train has a spatial period of two units; every line here has N even), and lines shorter than 80.
+- **A line that makes its own E** (the reflector end with a capping gun): not built.
