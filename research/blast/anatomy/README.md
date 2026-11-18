@@ -14,7 +14,7 @@ the automaton's speed limit in a face is 1 unit per generation). Labels: **[meas
    12 scattered cells are left, and those starve within a few generations. From the last generation with a normal
    population to the first empty one takes 6 generations (3–10).
 2. **A rimmed hull face dies differently: a tilted fade of about 10 generations (5–16), by starvation** [measured,
-   45 to 84 cells]. Only 1.6% of its deaths contain such a fall. A plane fitted to the last-alive times beats 95%
+   45 and 63 cells; 84: E84H]. Only 1.6% of its deaths contain such a fall. A plane fitted to the last-alive times beats 95%
    of shuffles in 77% of deaths, with a speed of 0.6 units per generation.
 3. **There is no band-first class on tubes** [measured]: a strip of width 1 right round the girth is finally empty
    4 generations before the last cell in 48–53% of deaths (loop² 12), no more often than a compact patch of the
@@ -23,8 +23,8 @@ the automaton's speed limit in a face is 1 unit per generation). Labels: **[meas
 4. **Where the shapes part, in 1/τ = ν(p)·q(p) at 63 cells** [measured]: a hull face reaches a quarter of its
    population 2.1 times as often as the wide torus, reaches 4 cells exactly as often (ratio e^(+0.035±0.01)), and
    from there dies 0.6 times as often (q(4) = 0.18 against 0.30): the whole 0.47 of ln τ is in the last four cells.
-   The same end-game ratio holds at 45/48 and at 84 cells, so the end-game is a constant factor and not the
-   source of the hull's higher price per cell (at 84 cells the hull already reaches 4 cells 0.85 times as often).
+   The same end-game ratio holds at 45/48 cells (0.197 against 0.326), so the end-game is a constant factor and
+   cannot be the source of the hull's higher price per cell (84 cells: E84).
    A loop²-9 tube against the wide torus is the opposite: all of its 0.31 is in the descent from 28 to 16 cells,
    none in the end-game.
 
@@ -95,7 +95,8 @@ probability of P ≥ 46 is 0.0024, mean 32.6, s.d. 4.94), after it 11.6 (8–15)
 the cells that die in it 80.9% have ≥ 6 of the 8 neighbours I recorded alive (overcrowded for certain), 18.5%
 have 5 (overcrowded if the ninth, unrecorded neighbour lives), 0.6% fewer. The other wrapped faces give the same
 numbers (tube60: 46.4 → 10.8, 81.2% + 18.2%). A fall of half the face is not itself rare (about 1.5·10⁻⁴ per
-generation on t63); roughly one in 130 is fatal (0.59·e^(−13.155) / 1.5·10⁻⁴).
+generation on t63, from 12 such falls in 7,899 control windows, so ± 30%); roughly one in 130 is fatal
+(0.59·e^(−13.155) / 1.5·10⁻⁴).
 On the hull face deaths are starvation: of the cells dying in the last 8 generations 36% are starved for certain
 (living face 17%), 24% overcrowded for certain (33%); on t63 the split is 24% / 44% (living face 11% / 46%).
 The layer beneath the face is depleted too but never emptied: its mean population is 15.5 (t63) and 19.0 (h63) at
@@ -183,8 +184,8 @@ Face cells killed in a living face (only the face layer; 800 generations of equi
 
 [measured] A hole never grows (the neighbours lose 1–7% of their occupancy for one generation and no more); it
 is retaken from its edge at 0.25–0.31 units per generation by first touch (slope of depth against median
-first-alive time, discs of 19–127 cells), and the population is back to half in w generations for a band of
-width w. No face died of a hole (1 in 1,024 for the 72-cell band). This is why a death cannot be a sweep on a
+first-alive time, discs of 19–127 cells), and a band of width 1, 2, 3, 4, 6 is back to half its population in
+2, 3, 4, 4, 6 generations. No face died of a hole (1 in 1,024 for the 72-cell band). This is why a death cannot be a sweep on a
 wrapped face: anything slower than about five generations is undone.
 
 Islands: every face cell killed except the n nearest to one cell. Share of faces that regrow, by the number of
@@ -192,7 +193,7 @@ island cells that happened to be alive (1,024–2,048 samples per island size):
 
 | live cells left | 1 | 2 | 3 | 4 | 5 | ≥ 6 |
 |---|---|---|---|---|---|---|
-| torus, 300 cells | 0.09–0.16 | 0.39–0.51 | 0.70–0.84 | 0.89–0.95 | 0.97–1.00 | ≥ 0.99 |
+| torus, 300 cells | 0.12–0.16 | 0.39–0.51 | 0.70–0.84 | 0.89–0.95 | 0.97–1.00 | ≥ 0.99 |
 | torus, 63 cells | 0.12–0.15 | 0.43–0.49 | 0.72–0.88 | 0.88–0.96 | 0.96–1.00 | ≥ 0.99 |
 | hull 63, centre | 0.16–0.19 | 0.47–0.55 | 0.80–0.85 | 0.94–0.95 | 0.99 | 1.00 |
 | hull 63, middle of a rim line | 0.17–0.20 | 0.52–0.62 | 0.79–0.90 | 0.92–0.96 | 0.98 | 1.00 |
@@ -208,10 +209,11 @@ on the 300-cell face.
 ## 7. The mechanism, one paragraph per shape
 
 **Wide wrapped face.** A hole cannot kill it: a hole of a third of the face is back at half its population in 4
-generations and is never seen to grow (§6). What kills it is the face acting as one. About once in 6,500
-generations the whole face is over-full at once, 48 cells of 63 where 33 is normal; then every live cell has six or
-more live neighbours and dies, and every dead cell has too many to be born: 12 cells are left a generation later
-(§2). Usually those 12 rebuild the face; one time in about 130 they starve first, in two to four generations.
+generations and is never seen to grow (§6). What kills it is the face acting as one. One generation in 400 the
+face is over-full, 46 or more cells of 63 where 33 is normal; when it reaches 48 nearly every live cell has six or
+more live neighbours and dies, and every dead cell has too many to be born: about once in 6,700 generations half
+the face goes in one step and 12 cells are left (§2). Usually those 12 rebuild the face; roughly one time in 130
+(between 100 and 200) they starve first, in two to four generations.
 The face is empty 6 generations after it was last normal (§1), the last-alive times are flat across the face with
 a spread of 1.85 generations, and no place is preferred. Once it is down to 4 cells the chance of death is 0.30,
 to 1 cell 0.86 (§5).
@@ -238,7 +240,7 @@ regrow the face more often (0.20–0.28 for one cell against 0.12–0.15; §6).
 - That the 59% is one class and the other 41% another. The largest fall has a broad distribution (median 32 of
   63); I did not test for two classes.
 - Any link between these routes and the prices per cell (0.2087 wrapped, 0.231 rimmed). The end-game factor is
-  size-independent (45 to 84 cells), so the price difference must be in how ν(4) scales with area on each shape:
+  the same at 45/48 and 63 cells, so the price difference must be in how ν(4) scales with area on each shape:
   measured here only at 63 and 84 cells (ratio hull/torus e^(+0.035) and N84).
 - That boom and bust persists beyond 84 cells. A face over-full everywhere at once is a collective state; at
   some size it should lose to something local. The trend of its share with size is in the table of §2.
