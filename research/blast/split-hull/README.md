@@ -5,7 +5,7 @@ cannot reach (one death per 6 × 10¹¹ hull-generations). Files: `sh.c` (steppe
 against `reference/oracle.py`), `chain.sh` and `variant.sh` (replications), `ana.py` (pooling), `levels.py` (dip rates
 by plain running, the lines, the forecasts), `fill.py`, `curate.py`, `PREDICTIONS.md` (forecasts), `paths/` (dying paths). Bulk output: `research/scratch/blast/split-hull/runs/`.
 
-## Short answer (04:34 UTC; point 4 added 05:25 UTC)
+## Short answer (04:34 UTC; point 4 rewritten 05:45 UTC)
 
 1. **The sampler does not reach the 135-cell face, and I can say why [measured].** Forward-flux sampling on the
    face's population, clones separated by deep flips. Weak, unbiased separations (one flip three layers down) leave
@@ -42,15 +42,15 @@ by plain running, the lines, the forecasts), `fill.py`, `curate.py`, `PREDICTION
    R = 7 under this protocol: 6.8345 ± 0.0024 (180,727 first deaths), not the 6.804 on file (another protocol; a
    hull of that size lives 115 generations, less than the ageing-in).
 
-4. **Dice under the hull: a measurement of the 135-cell face on a surrogate chain [measured; added 05:00 to 05:30 UTC].**
-   Split-slab's subset simulation over honest coins, on a hull dice chain (true rule on six layers beneath the
-   watched face inside the real hull boundary, fair coins on the two layers below). Blind calibration against
-   gump: +0.093 ± 0.065 at R = 13 and +0.079 ± 0.074 at R = 15 (both pass the two-error rule set beforehand; tuning
-   sizes +0.001 ± 0.019 and −0.044 ± 0.039). **R = 17: ln τ = 29.453 ± 0.042 on the chain (120 replications);
-   for gump 29.367 ± 0.065 if the chain's offset is that of the blind sizes, 29.358 ± 0.093 if it drifts linearly
-   with area.** That is 1.4 to 2.2 errors above my forecast 29.223 and 2.1 to 3.2 above 29.163; taken as it stands
-   (no offset) it is above them by 5 and 7 errors. It does not separate 29.230 from 29.163 cleanly (they are 0.067 apart),
-   but it leans against the wrapped price taking over, and says the forecast of point 2 is, if anything, low.
+4. **Dice under the hull: the 135-cell face on a surrogate chain [measured; 05:00 to 05:45 UTC].** Split-slab's subset
+   simulation over honest coins, on a hull dice chain (true rule on six layers beneath the watched face inside the
+   real hull boundary, fair coins on the two layers below). Chain − gump: +0.001 ± 0.019 (R = 9), −0.044 ± 0.039
+   (R = 11; by brute force +0.006 ± 0.030), **+0.051 ± 0.026 (R = 13, blind), +0.008 ± 0.086 (R = 15, blind)**.
+   **R = 17: 29.445 ± 0.041 on the chain (125 replications); less the pooled blind offset 29.398 ± 0.048.** That is above
+   29.230, 29.22 and 29.163 by +3.5, +3.5 and +4.9 quoted errors, but the replications' rates are heavy-tailed
+   (at R = 15 one large replication widened the error from 0.074 to 0.085 and lowered the value by 0.07), so I read
+   it as 29.40 +0.06/−0.15: against the wrapped price taking over, and leaning towards a second difference above
+   0.69 without showing it.
    Section "Dice under the hull".
 
 ## Dice under the hull (second attempt at the measurement itself, 04:45 to 05:35 UTC)
@@ -82,7 +82,7 @@ below the level and the reverse move is proposable). Frozen parameters (block 4)
 `sh research/blast/split-hull/dice.sh R SEED NREP`. Error: scatter of independent replications' rates.
 
 <!-- DICE -->
-**Results (05:34 UTC)** (`python3 research/blast/split-hull/dice_ana.py`, `dice_fill.py`; brute force of the chain:
+**Results (05:42 UTC)** (`python3 research/blast/split-hull/dice_ana.py`, `dice_fill.py`; brute force of the chain:
 `DICE=1 shd R SEED 0 GENS`, the base run of `sh.c` with the coins switched on):
 
 | R | cells | what | replications | ln τ, dice chain | gump anchor | chain − gump |
@@ -91,25 +91,73 @@ below the level and the reverse move is proposable). Frozen parameters (block 4)
 | 9 | 45 | sampler (tuning size) | 32 | 9.820 ± 0.019 | 9.819 | +0.001 ± 0.019 |
 | 11 | 63 | brute force of the chain | 275 deaths | 13.70 ± 0.06 | 13.633 | +0.07 ± 0.06 |
 | 11 | 63 | sampler (tuning size) | 32 | 13.589 ± 0.039 | 13.633 | -0.044 ± 0.039 |
-| 13 | 84 | sampler, **blind** | 228 | 18.194 ± 0.026 | 18.141 | **+0.053 ± 0.026** (2.0 errors) |
-| 15 | 108 | sampler, **blind** | 129 | 23.346 ± 0.106 | 23.3392 | **+0.007 ± 0.107** (0.1 errors) |
-| 17 | 135 | sampler, **the new size** | 120 | **29.453 ± 0.042** | none | forecast 29.223 ± 0.014 |
+| 13 | 84 | sampler, **blind** | 234 | 18.192 ± 0.025 | 18.141 | **+0.051 ± 0.026** (2.0 errors) |
+| 15 | 108 | sampler, **blind** | 184 | 23.347 ± 0.085 | 23.3392 | **+0.008 ± 0.086** (0.1 errors) |
+| 17 | 135 | sampler, **the new size** | 125 | **29.445 ± 0.041** | none | forecast 29.223 ± 0.014 |
 
 Both blind calibrations pass the rule set beforehand (within two errors); nothing was tuned after block 4. The two
-blind sizes together sit +0.050 ± 0.025 above gump (all four sizes: +0.011 ± 0.014). Scatter of one replication's
-rate, as a fraction of the mean: 0.11, 0.22, 0.39, 1.21, 0.46 at R = 9, 11, 13, 15, 17; the largest replication carries 4%, 4%, 1%, 11%, 3% of the sum; zero-rate replications: 0.
+blind sizes together sit +0.047 ± 0.025 above gump (all four sizes: +0.010 ± 0.014). Scatter of one replication's
+rate, as a fraction of the mean: 0.11, 0.22, 0.39, 1.15, 0.46 at R = 9, 11, 13, 15, 17; the largest replication carries 4%, 4%, 1%, 7%, 3% of the sum; zero-rate replications: 0.
 
-**R = 17 (135 cells) [measured on the dice chain; a surrogate for gump]:** ln τ = 29.453 ± 0.042 (120 replications; jackknife 0.042; mean of the replications' logarithms 29.535 ± 0.036).
-Minus the offset of the blind sizes: **29.403 ± 0.049** for gump; with no offset: 29.453 ± 0.042.
-Against the forecast 29.223 ± 0.014: +0.180 ± 0.051 (offset removed), +0.230 ± 0.044 (raw).
-If instead the offset drifts linearly with the area (weighted line through the four sizes: +0.00106 ± 0.00077 per cell,
-+0.090 ± 0.060 at 135 cells): **29.363 ± 0.073** for gump. In errors of each reading, the candidates sit at:
+**R = 17 (135 cells) [measured on the dice chain; a surrogate for gump]:** ln τ = 29.445 ± 0.041 (125 replications; jackknife 0.041; mean of the replications' logarithms 29.527 ± 0.035).
+Minus the offset of the blind sizes: **29.398 ± 0.048** for gump; with no offset: 29.445 ± 0.041.
+Against the forecast 29.223 ± 0.014: +0.175 ± 0.050 (offset removed), +0.222 ± 0.043 (raw).
+If instead the offset drifts linearly with the area (weighted line through the four sizes: +0.00096 ± 0.00074 per cell,
++0.082 ± 0.057 at 135 cells): **29.364 ± 0.070** for gump. In errors of each reading, the candidates sit at:
 | reading of the offset | value for gump | 29.230 (second difference repeats) | 29.223 (my forecast) | 29.163 (wrapped price) |
 |---|---|---|---|---|
-| none (the chain is gump) | 29.453 ± 0.042 | +5.3 | +5.2 | +6.9 |
-| constant, from the blind sizes | 29.403 ± 0.049 | +3.5 | +3.5 | +4.9 |
-| linear in the area | 29.363 ± 0.073 | +1.8 | +1.9 | +2.7 |
+| none (the chain is gump) | 29.445 ± 0.041 | +5.2 | +5.1 | +6.9 |
+| constant, from the blind sizes | 29.398 ± 0.048 | +3.5 | +3.5 | +4.9 |
+| linear in the area | 29.364 ± 0.070 | +1.9 | +2.0 | +2.9 |
 <!-- /DICE -->
+
+**After the first report (05:25 to 05:45 UTC): more replications, variations of the chain, and a warning about the errors.**
+- **The offset [measured].** R = 13 with 234 replications: chain − gump = **+0.051 ± 0.026**. R = 15 with 184:
+  **+0.008 ± 0.086**; its error GREW from 0.074 (48 replications) because one replication in 130 of the second seed
+  came out with 13 times the typical rate (ln τ_k = 20.74 against a median 23.60) and another large one turned up in
+  six further replications. The replications' rates are heavy-tailed at 108 cells (skewness of ln τ_k −1.8), so the
+  mean rate is under-estimated until a large replication arrives, and the quoted error of any batch without one is
+  too small. Pooled offset of the two sizes: +0.047 ± 0.025; with the tuning sizes +0.001 ± 0.019 (R = 9) and
+  −0.044 ± 0.039 (R = 11) there is no clear drift: about +0.05 at 84 cells, nothing measurable at 45, 63 or 108.
+- **Variations of the chain at R = 11, by brute force [measured]** (`DICE=1 [DDEP=8 | DPM=58 | DSIDE=3] shd2 11 SEED 0 450000`;
+  gump 13.633): the chain as defined **13.639 ± 0.030** (1,097 deaths; with the earlier run 13.652 ± 0.027); coins two
+  layers deeper (depth 8 and 9) **13.632 ± 0.030**: no change; coins at the living density of those layers (0.453,
+  measured in gump: `DENS=1 shd2 11 601 0 1500`) instead of 0.5: **13.703 ± 0.031**, +0.064 ± 0.044 from the chain and
+  if anything away from gump. So at 63 cells the chain sits on gump (+0.006 ± 0.030) and neither depth nor density
+  explains an offset. The third variation (coins only where at least three layers beneath every other face, the
+  rest of the hull by rule) gave 12.461 ± 0.017 and is **not a valid test as run**: the neighbouring faces are then
+  whole and die, and my chain code does not retire the hull when they do.
+- **R = 17, three ways [chain measured; readings for gump are inference]** (29.445 ± 0.041 on the chain, 125 replications):
+
+  | reading | value for gump | against 29.230 | against 29.22 ± 0.02 (dip-rate forecast) | against 29.163 |
+  |---|---|---|---|---|
+  | the chain itself | 29.445 ± 0.041 | +5.2 errors | +5.1 | +6.9 |
+  | less the pooled blind offset | 29.398 ± 0.048 | +3.5 | +3.5 | +4.9 |
+  | less an offset linear in the area | 29.364 ± 0.070 | +1.9 | +2.0 | +2.9 |
+
+  **Which I believe: the second, with a wider and lopsided error than quoted, roughly 29.40 +0.06/−0.15.** The
+  data do not ask for a linear offset (no drift from 45 to 108 cells). But the quoted ± 0.04 is the scatter of 125
+  replications among which no large one has appeared (largest share of the sum 3%); at 108 cells such a
+  replication appeared once in about 100 and moved the estimate down by 0.07. So: 29.163 is 4.9 quoted errors
+  below the reading and still about 2 below if the downward error is tripled; 29.230 and the forecast 29.22 are
+  3.5 quoted errors below it, about 1.5 once the tail is allowed for. At face value the hull's second difference
+  at k = 8 would be 0.86 ± 0.05, not 0.69. **The reading leans that way and I would not claim it**: my odds that
+  gump's 135-cell value is above 29.30 are about 3 to 2; that it is below 29.20, about one in ten. What would
+  settle it: 500 replications at R = 17 and 500 at R = 15 (about 3 core-hours), watching the largest replication's
+  share of the sum.
+- **How the watched face dies on the chain [measured, surrogate]** (`sh dice_paths.sh R 91 N; python3 dice_paths.py`;
+  6, 6, 5 replications at R = 13, 15, 17; means over replications):
+
+  | R | cells | fall ≥ A/2 in one generation | fall ≥ 0.4 A | largest fall | fade: last P > 0.9 P̄ to empty | last P > 0.5 P̄ to empty | last live cells on the rim line (share of cells) | inside (share of cells) |
+  |---|---:|---|---|---|---|---|---|---|
+  | 13 | 84 | 0.001 ± 0.001 | 0.034 ± 0.008 | 0.25 A from 0.55 A | 10.9 ± 0.3 | 8.4 ± 0.4 | 0.54 ± 0.02 (0.46) | 0.07 ± 0.01 (0.11) |
+  | 15 | 108 | 0.013 ± 0.005 | 0.087 ± 0.031 | 0.28 A from 0.57 A | 11.0 ± 0.4 | 8.9 ± 0.3 | 0.49 ± 0.04 (0.42) | 0.11 ± 0.02 (0.17) |
+  | 17 | 135 | 0.003 ± 0.002 | 0.095 ± 0.029 | 0.25 A from 0.52 A | 11.4 ± 0.2 | 9.2 ± 0.2 | 0.48 ± 0.03 (0.38) | 0.14 ± 0.01 (0.22) |
+
+  The half-face bust does not rise with size (0.1%, 1.3%, 0.3%); falls of 0.4 A go from 3% to 9%. The fade
+  lengthens by half a generation from 84 to 135 cells: the face still empties everywhere at once. The last one
+  or two cells sit on the rim line 1.2 to 1.3 times as often as its share of the face, and inside 0.65 times.
+
 
 ## Deliverable 1: the stepper [measured]
 

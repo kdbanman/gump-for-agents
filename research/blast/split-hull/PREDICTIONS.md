@@ -148,3 +148,14 @@ TWIN 24; WBACK 12. No tuning on R = 13 or 15.
 - So the forecast of block 3 (29.223 +- 0.014) is 1.4 to 2.2 errors below what the dice chain says, depending on
   how the chain's offset is read. If the chain is right and its offset is 0.09, the second difference of ln tau at
   k = 8 is 0.83 +- 0.07, larger than 0.69, not smaller.
+
+## After block 4 (05:45 UTC): what more replications did to the dice chain's numbers (no forecast was frozen for these)
+
+- R = 13: 48 replications gave +0.093 +- 0.065 above gump, 234 give +0.051 +- 0.026. R = 15: 48 gave +0.079 +- 0.074,
+  184 give +0.008 +- 0.086: the error grew, because one replication in the second seed carried 11% of the summed
+  rate. I had quoted the 48-replication errors as if the rates were well behaved; they are heavy-tailed at 108 cells.
+- R = 17: 125 replications, 29.445 +- 0.041 on the chain, no large replication yet (largest share 3%). Less the pooled
+  blind offset (+0.047 +- 0.025): 29.398 +- 0.048. Against block 3's 29.223 +- 0.014 that is +0.175, 3.5 quoted errors.
+  I do not trust the quoted error downward (see README) and read 29.40 +0.06/-0.15.
+- Brute force of the chain at R = 11, redone with 1,097 deaths: 13.639 +- 0.030 (gump 13.633): the earlier 13.70 +- 0.06
+  was a fluctuation; block 4's "within 0.04" would have held.

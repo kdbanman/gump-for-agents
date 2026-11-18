@@ -10,8 +10,8 @@ D = os.path.join(HERE, '..', '..', 'scratch', 'blast', 'split-hull', 'dice')
 ANCHOR = {9: (9.819, 0.002), 11: (13.633, 0.001), 13: (18.141, 0.005), 15: (23.3392, 0.0099)}
 AREA = {9: 45, 11: 63, 13: 84, 15: 108, 17: 135}
 rates = {}
-for f in sorted(glob.glob(os.path.join(D, 'sub_R*_s*.txt'))):
-    R = int(re.search(r'sub_R(\d+)_s', f).group(1))
+for f in sorted(glob.glob(os.path.join(D, 'sub_R*_s*.txt')) + glob.glob(os.path.join(D, 'pathrun_R*_s*.txt'))):
+    R = int(re.search(r'_R(\d+)_s', f).group(1))
     for line in open(f):
         if line.startswith('REP') and ' rate ' in line:
             rates.setdefault(R, []).append(float(line.split(' rate ')[1].split()[0]))
