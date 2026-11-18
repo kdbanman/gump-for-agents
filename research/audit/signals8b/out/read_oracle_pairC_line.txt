@@ -1,2 +1,6 @@
 [E and 1 hole: plain wire B]  S: store 419 cells, period 4
    U: reader 172 cells, period 2; joint = union at generations 0..8: [True, False, False, False, False, False, False, False, False]; joint period at generation 16: 4
+   T: generations (of 63) with a difference inside the store's tube: 0
+   D: difference size every 2 generations after the probe: [4, 4, 4, 4, 4, 4, 4, 4, 6, 8, 7, 7, 8, 7, 5, 5, 7, 11, 11, 9, 9, 9, 9, 9, 7, 7, 7, 8, 6, 6, 4, 0]
+   R: identical from 62 generations after the probe
+   E: 30 generations after the probe the runs differ in 5 cells: [(69, -8, -84), (71, -8, -84), (75, -2, -84), (79, 2, -84), (80, 1, -86)]
