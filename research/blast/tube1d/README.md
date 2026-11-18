@@ -29,8 +29,11 @@ header), `validate.py` + `validate_all.sh` (oracle check), `bandfit.py`, `margfi
    tubes (anchors): 0.2049, 0.2035, 0.2019, 0.2013 from 5→6 … 8→9 units. And −ln P(band of width w empty) −
    ln τ_face(tube of length w) = 3.809 ± 0.018, 3.80 ± 0.06, 3.86 ± 0.20 at w = 5, 6, 7: a constant. One curve
    price(ℓ) = c∞ + B·e^(−ℓ/ξ) fits all twelve slopes (χ² = 4.5 for 9): **c∞ = 0.1989 (0.1978 … 0.1997), ξ = 2.05
-   (1.85 … 2.30) lattice units, B = 0.114**. So the price of a loop²-12 tube levels near 0.199; it neither returns
-   to the wide price 0.2087 nor falls as a parabola. ξ is five times the living state's correlation length.
+   (1.85 … 2.30) lattice units, B = 0.114**. **But a power-law prefactor fits them too** (χ² = 8.1 for 10):
+   τ ∝ ℓ^p·e^(12cℓ) with p = 1.39 ± 0.04, c = 0.1863 ± 0.0008. So the price of a loop²-12 tube does not return to
+   the wide price 0.2087 and does not fall as a parabola; whether it levels at 0.199 or creeps down to 0.186 the
+   data cannot say. The 120-cell tube will not say either (24.556 against 24.538); 192 cells would (39.0 against
+   38.6).
 4. **Boom and bust does not change with tube length** [measured, §4]: the share of deaths with a one-generation
    fall of at least half the face is 59.3 ± 2.0%, 56.7 ± 1.1%, 56.3 ± 1.7% at 48 (4×4), 60 and 72 cells (tubes of
    length 5 and 6), 84 cells: see §4. My forecast that it falls with length (block C) was wrong. Inside 5-unit
@@ -114,6 +117,15 @@ its cells is alive. err = 1/√(number of separate appearances).
   retaken at once; the interior cannot be reborn before they arrive (T2's count: a dead face cell with dead
   in-layer neighbours has at most 3 live neighbours).
 - **Boom and bust inside bands** (`PRE` lines): see §4.
+- **A band emptied by hand always heals, at 0.25 units per generation from each edge** (`$S/tube1d band 1 22 48 8 0
+  77 W 40 8`, W = 1, 2, 3, 4, 6: the top face's cells with axis coordinate below W are killed in 512 living lanes;
+  `data/band_g12_w*.txt`). Longest run of empty 0.5-bins, W = 6: 6.02, 5.29, 4.69, 4.12, 3.65, 3.17, 2.63, 2.15,
+  1.65, 1.23, 0.85 at t = 0 … 10 (0.51 units per generation, both fronts together; the living state's own
+  baseline is 0.25); W = 4: 4.03, 3.28, 2.67, 2.18, 1.68, 1.26, 0.83. Half of the lanes have no empty bin left
+  after 3, 5, 6, 8, 12 generations for W = 1, 2, 3, 4, 6, all of them by 2W + 16; the band's density is back at
+  0.51 by then. No lane's face died and no gap grew, at any width. So the front between living and empty face
+  moves into the empty side at 0.25 units per generation and a sweep would have to be pushed against it: the
+  sign asked for in the brief's (b) is "heals". (Only the face layer was killed; the layers beneath were left alive.)
 
 Other girths, a longer tube (finite-length check) and the long run with histories: §7 (filled as the jobs end).
 
@@ -171,16 +183,24 @@ Anchors for loop² 12 (lengths 5…9): 12.4166 ± 0.0031, 14.8753 ± 0.0140, 17.
   B = 0.114; the worst point is the tube's 5→6 (−1.6 σ). Tube alone: c∞ = 0.199 (0.195 … 0.202), ξ unconstrained.
   Curve at 10, 12, 16, 20 units: 0.1998, 0.1992, 0.1989, 0.1989; 120-cell tube: 22.1557 + 12 × 0.2001 = 24.556.
 
+- The same script, power law instead: price = c + p·ln(ℓ2/ℓ1)/(12(ℓ2 − ℓ1)), i.e. τ ∝ ℓ^p·e^(12cℓ): bands + tubes
+  χ² = 8.05 for 10, c = 0.1863 ± 0.0008, p = 1.39 ± 0.04 (worst point again the tube's 5→6, −2.2 σ); bands alone
+  p = 1.34 ± 0.11, c = 0.188 ± 0.003; tubes alone p = 0.72 ± 0.27, c = 0.194 ± 0.003. Its forecasts: L = 10: 24.538
+  (tubes alone 24.560); 12: 29.26 (29.35); 16: 38.61 (38.87); 20: 47.86 (48.34); 30: 70.78 (71.91). **The two forms
+  agree to 0.02 at 120 cells and part by 0.1–0.4 at 192 cells and 0.2–0.8 at 240**: the PI's "prefactors can fake
+  prices" applies to my c∞ in full.
+
 **Form** [measured as a description, three numbers; ξ comes from the bands, so one number c∞ and one intercept are
-fitted to the tubes]:
+fitted to the tubes; the power law above is the rival with one number fewer]:
 
     ln τ_face(L) = a + 12·c∞·L − 12·B·ξ·e^(−L/ξ),   c∞ = 0.199, ξ = 2.05, B = 0.114 (bands), or equivalently
     1/τ = r·e^(−12 c∞ L)·(1 + K e^(−L/ξ)) with K ≈ 2.
 
-Answers to the brief's (c): **a flash**, ln τ = a(g) + c(g)·12L with a correction e^(−L/ξ), not nucleate-and-sweep
-(§3, §4). c(12) = 0.199 ± 0.001 if bands and tubes share the curve (they do where both are measured, 5–7 units).
-The discount of the long tube against the wide line is then 0.2087 − 0.199 = 0.0097 per cell = 4.2 × f(12)
-(f(12) = 0.002317): the "1.85" (54–84 cells) and the "3.0" (84–108) are two points on the way to about 4, so the
+Answers to the brief's (c): **a flash**, ln τ = a(g) + c(g)·12L with a correction that dies off with length
+(e^(−L/ξ) or p·ln L), not nucleate-and-sweep (§3, §4). c(12) = 0.199 ± 0.001 if the correction is exponential and
+bands and tubes share the curve (they do where both are measured, 5–7 units); 0.186–0.194 if it is a power law.
+The discount of the long tube against the wide line is then at least 0.2087 − 0.199 = 0.0097 per cell = 4.2 × f(12)
+(f(12) = 0.002317): the "1.85" (54–84 cells) and the "3.0" (84–108) are two points on the way to 4 or more, so the
 discount is **not** the density deficit times a constant at any one length. [measured, given the anchors]
 
 What ξ ≈ 2 units is [conjectured]: not the living state's correlation length (0.43 units); not a mixture of two

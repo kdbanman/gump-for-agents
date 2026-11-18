@@ -39,3 +39,13 @@ for sel in (None, 'band', 'tube'):
         for l1, l2, m, er, p, src in chi(c, B, xi)[1]: print(f"     {src}  {l1:4.1f} -> {l2:4.1f}   measured {m:.5f} +- {er:.5f}   curve {p:.5f}   ({(m - p) / er:+.1f} s)")
         print("     curve at 10, 12, 16, 20 units:", ' '.join(f"{c + B * math.exp(-x / xi):.5f}" for x in (10, 12, 16, 20)),
               f";  ln tau(120-cell tube) = 22.1557 + 12 x price(9 -> 10) = {22.1557 + 12 * (c + B * xi * (math.exp(-9 / xi) - math.exp(-10 / xi))):.3f}")
+# Alternative: a power-law prefactor, S(l) = a + 12 c l + p ln l, price between l1 and l2 = c + p ln(l2/l1) / (12 (l2 - l1)).
+print("\npower-law prefactor instead (price = c + p ln(l2/l1)/(12 (l2 - l1))):")
+for sel in (None, 'band', 'tube'):
+    P = [p for p in pts if not sel or p[4] == sel]
+    X = np.array([[1, math.log(p[1] / p[0]) / (12 * (p[1] - p[0]))] for p in P]); yy = np.array([p[2] for p in P]); er = np.array([p[3] for p in P])
+    b, *_ = np.linalg.lstsq(X / er[:, None], yy / er, rcond=None); res = (yy - X @ b) / er
+    cov = np.linalg.inv((X / er[:, None]).T @ (X / er[:, None]))
+    print(f"{sel or 'band + tube':12s}: chi2 {float((res**2).sum()):6.2f} / {len(P) - 2}   c = {b[0]:.5f} +- {cov[0,0]**0.5:.5f}   p = {b[1]:.3f} +- {cov[1,1]**0.5:.3f}"
+          + (f"   120-cell tube: {22.1557 + 12 * b[0] + b[1] * math.log(10 / 9):.3f};  L = 12, 16, 20, 30: " + ' '.join(f"{22.1557 + 12 * b[0] * (x - 9) + b[1] * math.log(x / 9):.2f}" for x in (12, 16, 20, 30)) if sel != 'band' else ''))
+    if sel is None: print("     residuals (sigma):", ' '.join(f"{r:+.1f}" for r in res))
