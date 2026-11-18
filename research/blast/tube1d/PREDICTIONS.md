@@ -94,3 +94,16 @@ Local price per cell = Δ(−ln P)/ΔA between consecutive lengths at fixed dens
   to 0.001: P = 35%.)
 - D2. Lower tail P(pop ≤ 0.32 A): same statement: P = 60%.
 - D3. The sum of the upper-tail price at x = 0.74 and whatever the rest costs is not checkable today; no forecast.
+
+### Block D scored (04:19 UTC; `python3 tails.py data/ph_L*.txt`)
+
+- D1 **miss by a hair**: upper tail, price 7→12 units below price 5→7 by 0.0018 at pop ≥ 2A/3 and by 0.0018 ± 0.001
+  at pop ≥ 3A/4 (I said more than 0.002 at 55%). The fall is that of an A^(−1/2) prefactor.
+- D2 **hit**: lower tail at pop ≤ A/3: 0.0397 against 0.0373, lower by 0.0024.
+
+### Block A1 and B, note (04:16 UTC)
+
+The band numbers quoted in block B were from the first run. Pooled over five runs the price from 4.5 to 5 units is
+0.2141 ± 0.0024 (not 0.2103 ± 0.0033) and from 4 to 6 units 0.2117 ± 0.0021 (A1 still a hit). The forecast for the
+120-cell tube stands as frozen: 24.563 ± 0.030. Fits made after it: 24.545 (bands + tubes, exponential), 24.56–24.57
+(tubes, two-route form), 24.557 (tubes, power law p = 0.75), 24.584 (p = 1/2), 24.530 (p = 1).

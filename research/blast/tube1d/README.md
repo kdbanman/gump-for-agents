@@ -199,6 +199,8 @@ Anchors for loop² 12 (lengths 5…9): 12.4166 ± 0.0031, 14.8753 ± 0.0140, 17.
 22.1557 ± 0.0121. `python3 tubefit.py`:
 
 - a straight line fails: χ² = 26.0 for 3.
+- τ ∝ L^p·e^(sL) fits too: p = 0.75 ± 0.15, s/12 = 0.1937, χ² = 0.08 for 2 (p = 1/2: χ² = 2.9 for 3; p = 1: 3.0 for 3;
+  see §7 for why a power is natural). Forecasts L = 10, 12, 16, 20, 30: 24.557, 29.343, 38.856, 48.321, 71.869.
 - ln τ(L) = a + s·L − ln(1 + K·e^(−L/ξ)) fits: χ² = 0.07 for 2 at K = 2, ξ = 2.4, s/12 = 0.1992; χ² = 0.31 at K = 2,
   ξ = 2.0 (s/12 = 0.2003); K = 4, ξ = 1.4: 0.15 (0.2009); K free: 2.2, ξ = 2.05 (0.1998). The anchors alone do not
   separate K from ξ. Forecasts along the valley: L = 10: 24.56–24.57; 12: 29.36–29.39; 16: 38.93–39.04; 20:
@@ -280,9 +282,47 @@ levels have no leverage on the rare step. A repair would have to make the boom i
 63 cells, so e^(−0.1·A): reachable by brute force at 120 cells, not at 240) and would still meet (iii) in the
 starving stage. Not attempted.
 
-## 7. Late results
+## 7. The living tube's population tails, the surrogate's offsets, other girths [measured]
 
-(filled below as jobs end; see the git log)
+**Tails of the stationary population against length** (`$S/tube1d pophist h k d 8 0 seed 3000000 500` for the
+tubes of length 5, 7, 9, 12 (seeds 51–54) and 16 (seed 55, 2.5·10⁶ generations); `python3 tails.py data/ph_L5.txt
+data/ph_L7.txt data/ph_L9.txt data/ph_L12.txt data/ph_L16.txt`; thresholds are exact fractions of A at every
+length; local price = Δ(−ln P)/ΔA between consecutive lengths; errors naive, from counts):
+
+| event | 5→7 | 7→9 | 9→12 | 12→16 |
+|---|---:|---:|---:|---:|
+| pop ≥ 7A/12 | 0.0102 | 0.0094 | 0.0087 | 0.0082 |
+| pop ≥ 2A/3 | 0.0383 | 0.0371 | 0.0361 | 0.0353 |
+| pop ≥ 3A/4 (the boom) | 0.0906 ± 0.0002 | 0.0884 ± 0.0006 | 0.0890 ± 0.0018 | 0.083 ± 0.010 |
+| pop ≤ 5A/12 | 0.0154 | 0.0144 | 0.0137 | 0.0131 |
+| pop ≤ A/3 | 0.0397 | 0.0378 | 0.0370 | 0.0361 |
+| pop ≤ A/4 | 0.0750 ± 0.0001 | 0.0693 ± 0.0002 | 0.0692 ± 0.0005 | 0.0631 ± 0.0020 |
+| pop ≤ A/6 | 0.1213 ± 0.0005 | 0.1086 ± 0.0018 | 0.115 ± 0.009 | |
+| for comparison ln(A2/A1)/(2ΔA) | 0.0070 | 0.0052 | 0.0040 | 0.0030 |
+
+Mean density 0.5154 and variance per cell 0.402 at every length from 7 units on (0.5153, 0.404 at 5).
+Every tail's local price falls with length. For the over-full side and for mild depletion the fall is that of the
+prefactor A^(−1/2) of the tail of a sum of nearly independent pieces (last row: falls of 0.0018, 0.0012, 0.0010
+between successive columns; seen 0.0012, 0.0010, 0.0008 at 2A/3 and 0.0019, 0.0008, 0.0009 at A/3). Deep depletion
+falls more (A/4: 0.0057 then 0.006 over the last two steps; A/6: 0.013). Block D: D1 (upper tail, more than 0.002
+between 5→7 and 7→12): 0.0018 at both 2A/3 and 3A/4, **miss by a hair**; D2 (lower tail at A/3): 0.0024, **hit**.
+
+What this suggests for §5 [conjectured]: a falling local price is what any tail probability with a power-law
+prefactor shows, and `python3 tubefit.py` on the tube anchors gives τ ∝ L^p·e^(12cL) with **p = 0.75 ± 0.15**
+(χ² = 0.08 for 2; c = 0.1937); p = 1/2 fixed: χ² = 2.9 for 3, c = 0.1970, 120-cell tube 24.584; p = 1 fixed: χ² =
+3.0 for 3, c = 0.1904, 24.530. The wide-face line has no such prefactor (its two halves have the same slope to
+0.0002, where p = 1/2 would make them differ by 0.0016). The 120-cell tube, to ± 0.012, separates p = 1/2 (24.584)
+from p = 1 (24.530); the exponential forms sit between (24.545–24.571).
+
+**Surrogate against gump** (`brute h k d 7 2 seed 500 gens`, w = 5, dice density 53/128):
+
+| vessel | surrogate | gump | offset |
+|---|---|---|---|
+| (4,0),(0,4), 48 cells | 9.9349 ± 0.0064 (24,213 deaths) | 9.9251 ± 0.0004 | +0.010 ± 0.006 |
+| (1,8),(0,20), 60-cell tube | 12.4268 ± 0.0198 (2,561 deaths) | 12.4166 ± 0.0031 | +0.010 ± 0.020 |
+
+No sign that the offset moves with area or girth, on two vessels; nothing at 63–96 cells (forward flux failed,
+brute force not run there); w = 6, 8 not measured (see the end of this section if the job ended).
 
 ## 8. Data formats (for other agents)
 

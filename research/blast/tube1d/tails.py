@@ -12,14 +12,14 @@ for fn in sys.argv[1:]:
         if l[0].isdigit(): k, c = l.split(); h[int(k)] = float(c)
     D.append((L, A, h))
 print("# stationary mean density and variance per cell:", ' '.join(f"L={L:.0f}: {(np.arange(A+1)*h).sum()/h.sum()/A:.4f}, {(((np.arange(A+1)-(np.arange(A+1)*h).sum()/h.sum())**2)*h).sum()/h.sum()/A:.4f}" for L, A, h in D))
-for name, thr, up in (('upper tail P(pop >= x A)', (0.62, 0.66, 0.70, 0.74), True), ('lower tail P(pop <= x A)', (0.40, 0.36, 0.32, 0.28, 0.24), False)):
+for name, thr, up in (('upper tail P(pop >= x A)', (7/12, 2/3, 3/4), True), ('lower tail P(pop <= x A)', (5/12, 1/3, 1/4, 1/6), False)):   # thresholds exact at every A = 12 L
     print(f"# {name}: -ln P (events), then local price per cell between consecutive lengths")
     for x in thr:
         vals = []
         for L, A, h in D:
-            k = math.ceil(x * A - 1e-9) if up else math.floor(x * A + 1e-9)
+            k = int(round(x * A))
             n = h[k:].sum() if up else h[:k + 1].sum()
             vals.append((L, A, -math.log(n / h.sum()) if n > 0 else float('nan'), n, k))
-        line = f"x = {x:.2f}: " + '  '.join(f"L={L:.0f} k={k}: {v:.3f} ({n:.0f})" for L, A, v, n, k in vals)
-        line += '   | prices: ' + ' '.join(f"{(vals[i+1][2]-vals[i][2])/(vals[i+1][1]-vals[i][1]):.4f}" for i in range(len(vals) - 1))
+        line = f"x = {x:.4f}: " + '  '.join(f"L={L:.0f} k={k}: {v:.3f} ({n:.0f})" for L, A, v, n, k in vals)
+        line += '   | prices: ' + ' '.join(f"{(vals[i+1][2]-vals[i][2])/(vals[i+1][1]-vals[i][1]):.4f}+-{math.hypot(1/math.sqrt(max(vals[i][3],1)), 1/math.sqrt(max(vals[i+1][3],1)))/(vals[i+1][1]-vals[i][1]):.4f}" for i in range(len(vals) - 1))
         print(line)

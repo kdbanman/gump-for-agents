@@ -26,3 +26,13 @@ for K in (1.0, 2.0, 4.0, None):
 # profile of chi2 in xi for K = 2
 for xi in (1.0, 1.5, 2.0, 2.5, 3.0, 4.0):
     off = -np.log1p(2 * np.exp(-L / xi)); b, c = lin(off); print(f"   K = 2, xi = {xi}: chi2 {c:.2f}, asymptotic price {b[1]/12:.5f}, L=10: {b[0]+10*b[1]-math.log1p(2*math.exp(-10/xi)):.3f}")
+# power-law prefactor: ln tau = a + s L + p ln L  (tau ~ L^p exp(s L)); p = 1/2 is the prefactor of the tail of a sum
+for p in (0.5, 1.0, None):
+    if p is None:
+        X = np.column_stack([np.ones_like(L), L, np.log(L)]) / se[:, None]; b, *_ = np.linalg.lstsq(X, y / se, rcond=None)
+        r = y - b[0] - b[1] * L - b[2] * np.log(L); c = float(((r / se) ** 2).sum()); pp = b[2]; dof = 2
+        cov = np.linalg.inv(X.T @ X); extra = f" +- {cov[2,2]**0.5:.2f}"
+    else:
+        b, c = lin(p * np.log(L)); pp = p; dof = 3; extra = " (fixed)"
+    f = lambda x: b[0] + b[1] * x + pp * math.log(x)
+    print(f"power law, p = {pp:.2f}{extra}: chi2 {c:6.2f} / {dof}   s {b[1]:.4f} = {b[1]/12:.5f} per cell;  L=10: {f(10):.3f}  12: {f(12):.3f}  16: {f(16):.3f}  20: {f(20):.3f}  30: {f(30):.3f}")
