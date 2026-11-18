@@ -69,7 +69,7 @@ after its own check; the PI never merges it.
 - **Pull request 36 was merged at 14:17 UTC** (head db1791c) after the outside audit
   (`research/audit/REVIEW-blast.md`: mechanism confirmed by a rebuild; three statements qualified, which
   `REPORT.md` now carries in its entry of 16:40 UTC). The commits after the merge (the interim and final 108-cell
-  numbers, the audit entry, this state) are in a **second pull request** from the same branch, with `main` merged
+  numbers, the audit entry, this state) are in a **second pull request, kdbanman/gump-for-agents#39,** from the same branch, with `main` merged
   in (no rebase, no force push). The lead merges it; this session does not.
 - Not done: `research/check.sh` not run on the blast; no figures; nothing of the second phase has been recomputed
   by the lead or the audit.
