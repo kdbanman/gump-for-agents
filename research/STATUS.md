@@ -426,6 +426,21 @@ _Last updated 2026-11-14 by the lead._
   tube looking for a listener (`research/signals/push7/` on its branch; the brief is in the note). **Owed after
   the reset:** the lead's own oracle check and an adversarial review of that push, besides the list above. Fable
   90% at 05:00 UTC by the card's reading: the lead has stopped.
+  **2026-11-18, 03:14 UTC: a night with a fresh Fable window.** The owner reset the Fable limit at about 02:50 UTC:
+  "feel free to use as much of that usage as you like yourself, just stop once it reaches ~85%". A second session
+  (it cannot be messaged) is to run a Fable swarm until 11:00 UTC on why each kind of face dies at the rate it
+  does, writing under `research/blast/` on its own branch; the lead's notes to it are in
+  `research/blast/FROM-THE-LEAD.md` on main; its pull request is not to be merged before the lead's own check. The
+  1080 session was offered a brief for watching wrapped, tube and rimmed faces die (`research/dying2/` on its
+  branch). Pull requests 31, 32 (the card's branch at 03904b2: the 6 × 6, chain 3, CPU rows, the seventh signals
+  push) and 33 are merged; 34 is open and collects tonight's work. **Recorded:** the card's chain 3, recomputed
+  (notebook of the 18th, CLAIMS WL10, 199 claims, open problem 9 (l)). **Running:** a Fable review of the seventh
+  signals push (it reports a finite line that keeps a count: `research/signals/push7/README.md`) into
+  `research/audit/REVIEW-signals-7.md`; a Fable eighth push, "read the count", in `research/signals/push8/`.
+  **Owed when they report:** the lead's own oracle check of the counting line, records (notebook, CLAIMS, open
+  problem 13, the essay and the owner's journal), a review of push 8, one site update and version 19 of the
+  overview, merges. The lead cannot read the usage percentage here (the read is refused); it stops new Fable work
+  when `get_session` shows the warning status (seen at 84%) or the card's `USAGE.md` rows say about 85%.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
