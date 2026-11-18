@@ -166,7 +166,7 @@ cells   eps    who            replications  ln tau sampler      scatter   brute 
 - **84 cells, ε = 1/4:** 18.111 ± 0.051 (40 replications; scatter 0.32), −0.030 ± 0.051 from gump and −0.057 ± 0.063
   from the brute force of §1. The two together put the chain at +0.007 ± 0.030 from gump there.
 - **108 cells, ε = 1/4** (20 replications, 127 s each): 22.64 ± 0.50; one replication carries 52% of the summed
-  rate (§4, §5); the other nineteen give 23.335, −0.004 from gump (± 0.06).
+  rate (§4, §5); the other nineteen give 23.335 ± 0.079, −0.004 from gump.
 
 ## 4. Ancestry: what the final level descends from [measured here]
 
