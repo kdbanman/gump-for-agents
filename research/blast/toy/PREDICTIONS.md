@@ -52,3 +52,11 @@ From the two-exit split of the ring edge (flash ln τ = 0.296 + 0.4550·L, other
 - gump (not measurable by me tonight; conjecture from the 2D relative): the bust share of HULL-face deaths rises
   with face size (its logit linear in A with slope ≈ +0.022 per cell minus a rim term), so 1.6% is not a
   constant: at 108 cells I would expect a higher share than at 63 (probability 0.6).
+
+## Scoring of block 2, exact part (04:40 UTC)
+
+- Ring L = 22: forecast 11.787 ± 0.006, exact 11.7800: **miss by 0.001** (the ring's slope fell to 0.520, faster
+  than my two-exit extrapolation). Segment L = 22: forecast 12.331 ± 0.004, exact 12.3311: **hit**. Segment L = 24:
+  forecast 13.249 ± 0.008, exact 13.2497: **hit**. Slope difference at 20–22 ≥ 0.055: 0.0618: **hit**. Segment
+  flash share (6 steps) at L = 22: forecast 0.475 ± 0.01, exact 0.476: **hit**.
+- The 2D items (ring at L = 36, 40, 48) and the gump item are NOT scored: no data.

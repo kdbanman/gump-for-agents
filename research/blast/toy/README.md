@@ -10,20 +10,28 @@ Commands run from this directory; bulk output in `research/scratch/blast/toy/`; 
 
 ## Verdict
 
-**Yes, both exits exist in 2D, and the rim does what it does in gump; but the prices are the other way round,
-and that turns "two prices" into a crossover.** A ring edge dies by boom and bust (it over-fills to 85–90% of
-the row against 57% alive, the cap kills it to 1–2 cells, they starve; no tilt), a box edge fades over 6–8
-generations with its last cells at the corners. The ring's deaths split cleanly into a flash exit with
-ln τ = 0.30 + **0.455**·L and a no-flash exit with ln τ = 4.03 + **0.327**·L; the box edge's no-flash exit has the
-same price (0.31–0.34) and is e^0.73 ≈ 2 times faster; its flash exit is 3–5 times slower than the ring's. Because
-in 2D the flash is the DEARER exit per cell (in gump it is the cheaper one), the ring's bust share falls like a
-logistic in L (0.90 at 12 cells, 0.47 at 32; logit slope −0.128 ± 0.003 per cell; half at L = 29), its local price
-falls from 0.44 to 0.40 towards the box's 0.34, and the measured "0.416 against 0.343" is a mixture, not two
-asymptotic prices. The exactly solved one-row surrogate shows the same thing with no chaos beneath: ring and
-open-segment prices are still 0.527 and 0.459 at L = 20 (not converging: a rim of two points changes the price at
-every size I can reach), while the exact flash share of the ring falls with the same logit slope (−0.11 to −0.15
-per cell). So: a rim does not set a price; it closes (taxes) the flash exit and opens ends for the fade, and the
-observed price of a shape is the price of whichever exit carries its deaths at that size.
+**Yes: both exits exist in 2D and the rim closes the flash, as in gump. But in 2D the flash is the DEARER exit
+per cell, so "two prices" there is a crossover between exits, not two asymptotic prices.**
+
+1. A ring edge dies by boom and bust: the row over-fills (peak 19.4 of 24 against a living mean of 13.9), the cap
+   kills it to 1–2 cells, they starve; flat along the ring. A box edge fades over 6–8 generations from the middle
+   towards its corners, with FEWER over-full generations before death than a living window has (0.8 times),
+   where the ring has 3.6–4 times as many.
+2. The ring's deaths are a mixture of two exits with their own exponential laws: flash
+   ln τ = 0.30 + **0.455**·L and no-flash 4.03 + **0.327**·L. The flash share falls like a logistic in L (0.90 at
+   12 cells, 0.47 at 32; logit slope −0.128 ± 0.003 per cell, the same with a second classifier; one half at
+   L ≈ 29), and the ring's local price falls with it, 0.441 → 0.397, towards the box's steady 0.34. The measured
+   "0.416 (ring) against 0.343 (box)" of `research/toy2d` is that mixture. The box edge outlives the ring edge
+   below L ≈ 25 and dies sooner above (ln τ_box − ln τ_ring = +1.13 … −0.39 at L = 12 … 32).
+3. The exactly solved one-row surrogate has the two prices with no chaos beneath and to four digits: open
+   segments 0.4591, 0.4594, 0.4593 per cell at L = 21, 22, 24 (converged), rings 0.520–0.528 at L = 16–22 (not
+   converging to it: the difference 0.060–0.069 does not decay, so there is no e^(−L/ξ) to fit). Its ring is
+   still 88% flash at L = 20. So in one dimension, where a rim is two points, two prices persist for as long as
+   the wrapped shape's deaths go through the flash, and they end by a change of exit (2D brute force: at L ≈ 30,
+   over a width of 1/0.128 ≈ 8 cells), not by a correlation length.
+4. The boom is shape-blind and the kill is not, exactly as in gump: the surrogate's segment is over-full MORE
+   often than its ring (same rate per cell, prefactor e^0.15) and dies straight from a half-full row less than
+   0.05% of the time against 5–30% for the ring.
 
 ## 0. Codes and validation
 
@@ -41,7 +49,10 @@ observed price of a shape is the price of whichever exit carries its deaths at t
   site-by-site kernel, h computed as the flux into the empty row. `ex1d 12 1 0.472` → 6.4169049205 and
   `ex1d 16 1 0.472` → 8.6349890757: the lab's 6.4169 and 8.6350 (`research/theory/exponent/exact1d.c`, an
   independent code). `exg L ring 2 2 3 4 0.472` reproduces `ex1d` to all printed digits (ring 12, segment 11).
-  Segments have no second code [not checked beyond exg = ex1d, which share the kernel routine's design].
+- `python3 mc_check.py L ring` (plain numpy Monte Carlo of the surrogate, an independent code): segment L = 12:
+  ln τ 7.7379 ± 0.011 and 7.7505 ± 0.008 (exact 7.7402), flash share (6 steps) 0.698 ± 0.005 and 0.707 ± 0.004
+  (exact 0.7046); ring L = 12: 6.4220 ± 0.009 (6.4169), 0.9548 ± 0.0018 (0.9560); segment L = 16: 9.567 ± 0.017 and
+  9.552 ± 0.012 (9.5731), 0.578 ± 0.008 and 0.600 ± 0.006 (0.6022; the first is 2.9σ low, the second seed is not).
 
 ## 1. Neighbours inside the vessel [proved by enumeration: `python3 counts.py`]
 
@@ -81,7 +92,12 @@ same for living windows of K transitions (25,000–56,000 windows; 6,000–16,00
   peak BELOW the living one (15.9 against 17.9: no boom), spread 2.3–3.1 generations, and the last living cells
   are within 2 of a corner 0.57, 0.45, 0.37, 0.33, 0.29, 0.27 of the time at L = 12 … 32 (uniform: 0.33 … 0.125):
   twice uniform at every size; the corner cell itself is last alive 0.6 generations later than the rest.
-- The contrast is 2–3 in bust share, not gump's 40 (0.6 against 0.016), and both shares FALL with L (gump's
+- **Second classifier** (`python3 boom.py` → `data/boom.json`): "boom" = the row at least 0.8·L full in one of
+  its last 6 living generations. Ring deaths: 0.886, 0.828, 0.731, 0.555, 0.448, 0.353 at L = 12 … 32 (living
+  windows 0.53, 0.46, 0.38, 0.14, 0.12, 0.097): enriched 3.6–4 times at L ≥ 24, logit slope −0.13 per cell. Box
+  deaths: 0.529, 0.379, 0.286, 0.151, 0.107, 0.097 (living 0.62, 0.53, 0.45, 0.18, 0.16, 0.12): BELOW chance at
+  every size. So the box's "bust6" above is mostly chance falls inside a fade; the box has in effect one exit.
+- The contrast in bust share is 2–3, not gump's 40 (0.6 against 0.016), and the ring's share FALLS with L (gump's
   wrapped share is flat or rising, 0.57 … 0.67). §3 says why.
 
 ## 3. Prices [measured; `python3 table.py` → `data/tables.txt`]
@@ -116,10 +132,13 @@ ln τ_flash = ln τ − ln b, ln τ_other = ln τ − ln(1 − b).
 
 - Robust to the window: with 4, 6, 12 steps the ring's flash slope is 0.459, 0.451, 0.448 and the other 0.335,
   0.329, 0.318; the box's 0.41–0.40 and 0.32–0.31 (unweighted fits, `table.py`).
-- ring other − box other = +0.53, +0.71, +0.73, +0.75, +0.75, +0.85 (± 0.03–0.06): the fade costs the same per
-  cell with or without ends and is about twice as fast with them (ln 2 = 0.69) [measured; why 2: not explained].
-- box flash − ring flash = +1.74, +1.48, +1.22, +1.06, +0.97, +0.73: the ends tax the flash by a factor 5.7
-  falling to 2 (part of the box's "flash" at small L is chance: living windows contain such a fall 0.11–0.004).
+- ring other − box other = +0.53, +0.71, +0.73, +0.75, +0.75, +0.85 (± 0.03–0.06): the ring's no-flash exit is
+  about half as fast as the box edge's fade at every size (ln 2 = 0.69) [measured; why 2: not explained], and
+  its price (0.327 ± 0.002; 0.318–0.335 over classifiers) is at or slightly below the box's (0.343 ± 0.003).
+- The box's total price does not move (0.332–0.349) while its bust6 share falls from 0.49 to 0.15: so the box's
+  "flash" line is not a second exit but chance falls (see the boom classifier, §2); likewise the exact segment
+  (§4), whose price is constant to four digits while its share falls. The split is a real decomposition only
+  for the ring, where the two classes differ in kind (bimodal population two generations before the end).
 - Reading [conjectured, with a frozen forecast in PREDICTIONS block 2]: 1/τ_ring = e^(−0.30 − 0.455 L) +
   e^(−4.03 − 0.327 L). The ring's price is 0.455 where the flash carries the deaths and 0.33 beyond L ≈ 40
   (ln τ(40) = 16.90, (48) = 19.66, bust share 0.20 and 0.08). The file's L = 36 point (15.58 ± 0.045) is 0.11
@@ -130,22 +149,41 @@ ln τ_flash = ln τ − ln b, ln τ_other = ln τ − ln(1 − b).
 Row over two private coins (density 0.472) per cell; ring or open segment; quasi-stationary law and death rate
 by power iteration (relative convergence 10⁻¹¹ in h).
 
-EXACT_TABLE
+<!--EX-->
+| L | ln τ ring | ln τ segment | segment − ring | slope ring | slope segment | flash share (6 steps) ring | segment |
+|---|---|---|---|---|---|---|---|
+| 8 | 4.4000 | 5.8468 | +1.4468 |  |  | 0.976 | 0.767 |
+| 9 | 4.9554 | 6.2863 | +1.3310 | 0.5554 | 0.4395 | 0.968 | 0.697 |
+| 10 | 5.3838 | 6.7641 | +1.3803 | 0.4284 | 0.4777 | 0.967 | 0.754 |
+| 11 | 5.8667 | 7.2587 | +1.3920 | 0.4829 | 0.4947 | 0.960 | 0.679 |
+| 12 | 6.4169 | 7.7402 | +1.3233 | 0.5502 | 0.4814 | 0.956 | 0.705 |
+| 13 | 7.0061 | 8.2010 | +1.1949 | 0.5892 | 0.4608 | 0.945 | 0.637 |
+| 14 | 7.5765 | 8.6551 | +1.0787 | 0.5704 | 0.4542 | 0.939 | 0.654 |
+| 15 | 8.1122 | 9.1123 | +1.0002 | 0.5357 | 0.4572 | 0.927 | 0.591 |
+| 16 | 8.6350 | 9.5731 | +0.9381 | 0.5228 | 0.4608 | 0.923 | 0.602 |
+| 17 | 9.1571 | 10.0344 | +0.8773 | 0.5221 | 0.4613 | 0.909 | 0.544 |
+| 18 | 9.6834 | 10.4946 | +0.8112 | 0.5263 | 0.4602 | 0.905 | 0.554 |
+| 19 | 10.2118 | 10.9538 | +0.7419 | 0.5284 | 0.4591 | 0.888 | 0.502 |
+| 20 | 10.7379 | 11.4127 | +0.6747 | 0.5261 | 0.4589 | 0.884 | 0.513 |
+| 21 | 11.2602 | 11.8718 | +0.6115 | 0.5223 | 0.4591 | — | — |
+| 22 | 11.7800 | 12.3311 | +0.5511 | 0.5198 | 0.4594 | — | 0.476 |
+| 24 | — | 13.2497 | — | — | 0.4593 | — | — |
+<!--/EX-->
 
-- **Two prices do not converge by L = 20–24.** Ring local slope 0.523, 0.524, 0.527 at 16, 18, 20; segment 0.461,
-  0.461, 0.459. The difference (0.062, 0.063, 0.068) is not decaying, so there is no e^(−L/ξ) to fit: in the
-  range exact computation reaches, two end points change the price per cell by 13%. The gap
-  ln τ_seg − ln τ_ring falls 1.45 → 0.67 from L = 8 to 20 and would vanish near L ≈ 30.
-- **The same two exits, exactly.** Share of the death flux with a fall ≥ L/2 in its last K steps, K = 1, 2, 4, 6:
-  ring 0.047, 0.289, 0.727, 0.884 at L = 20; segment 0.0000, 0.048, 0.330, 0.513 (living windows of 5
-  transitions: 0.068 and 0.036). A death straight from a row at least half full (K = 1) carries 30% → 4.7% of a
-  ring's deaths (L = 8 → 20) and less than 0.05% of a segment's from L = 9 on. Exact split at K = 6, slopes
-  12–20: ring flash 0.550, ring other 0.420, segment flash 0.499, segment other 0.397; ring other − segment
-  other = 0.58 … 0.76 (again about ln 2); logit of the ring's share falls 3.08 → 2.04 (−0.13 per cell), so the
-  ring would leave the flash near L ≈ 36 and its price would then fall towards 0.40–0.42. This is the exact
-  version of §3, and it says two prices at these sizes are neither a small-size transient of one route nor two
-  asymptotic prices: they are the two exits' own per-cell prices, seen through a mixture that tips at a size set
-  by the exits' constants.
+- **Two prices, exact, and not converging.** Segment local slope per cell 0.4608, 0.4613, 0.4602, 0.4591, 0.4589,
+  0.4591, 0.4594 at L = 16 … 22 and 0.4593 over 22–24: the open row's price is **0.4593 ± 0.0003**. Ring: 0.5228,
+  0.5221, 0.5263, 0.5284, 0.5261, 0.5223, 0.5198 at L = 16 … 22 (it wobbles with L; at L ≤ 15 between 0.43 and
+  0.59). The difference, 0.060–0.069, does not decay over L = 16–22: no e^(−L/ξ) can be fitted, i.e. ξ is not
+  "a few cells" (the last three ring slopes fall by 0.003 per cell: the start of the bend or the next wobble, I
+  cannot tell). The gap ln τ_seg − ln τ_ring falls 1.447 → 0.551 from L = 8 to 22 and would vanish near L ≈ 31.
+- **Flash share of the death flux, exact** (a fall ≥ L/2 in the last K steps; K = 1, 2, 4, 6): ring 0.047, 0.289,
+  0.727, 0.884 at L = 20; segment 0.0000, 0.048, 0.330, 0.513 (living windows of 5 transitions: 0.068 and 0.036).
+  A death straight from a row at least half full (K = 1) carries 30% → 4.7% of a ring's deaths (L = 8 → 20) and
+  less than 0.05% of a segment's from L = 9 on: an end cell with its two neighbours alive cannot die. The ring's
+  logit (K = 6) falls 3.08 → 2.04 from L = 12 to 20 (−0.13 per cell, the brute force's slope), which puts its
+  change of exit near L ≈ 36, beyond exact reach. I do NOT trust the split of the surrogate's rates into two
+  exponentials (`data/tables.txt` prints it): at a share of 0.9 the "other" class is mostly misclassified flash,
+  and the segment's share falls 0.60 → 0.48 while its price stays 0.4593, so there the classifier counts chance.
 - **The boom is shape-blind; the kill is not.** Upper tail of the quasi-stationary population,
   −ln P(n ≥ xL)/L, ring / segment at L = 20: 0.0629 / 0.0556 (x = 0.75), 0.184 / 0.173 (0.875), 0.3662 / 0.3522
   (full row). The difference in −ln P at x = 0.75 is 0.149, 0.167, 0.150, 0.146 at L = 8, 12, 16, 20: a constant,
@@ -156,7 +194,17 @@ EXACT_TABLE
 
 ## 5. Other capped-threshold rows (exact; `sh run_other.sh`)
 
-OTHER_TABLE
+<!--OT-->
+**Rule A** (range 3, 3 coins of density 0.5, alive iff n + x ≥ 4 and n ≤ 6; a segment's end cell has n ≤ 6: never overcrowded):
+
+| L | ln τ ring | ln τ segment | segment − ring | slope ring | slope segment | flash share (6 steps) ring | segment |
+|---|---|---|---|---|---|---|---|
+
+**Rule B** (range 1, 2 coins of density 0.5, alive iff n + x ≥ 2 and n ≤ 2; a segment's end cell has n ≤ 3: it CAN be overcrowded):
+
+| L | ln τ ring | ln τ segment | segment − ring | slope ring | slope segment | flash share (6 steps) ring | segment |
+|---|---|---|---|---|---|---|---|
+<!--/OT-->
 
 ## 6. What this says about gump [conjectured]
 
