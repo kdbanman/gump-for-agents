@@ -103,3 +103,9 @@ measured by plain running at any size: -8.304 +- 0.008 (135 cells), -9.764 +- 0.
   does not know about the rim, a wrapped face should have the same q there as a rimmed face of equal area, and the
   whole gap between hull and torus (0.474, 0.594, 0.779 at 63, 84, 108 cells) should be the logarithm of the ratio
   of their dip rates to that density. P(the gap at 63 cells is explained to within 0.1 by the dip rates) = 40%.
+- Correction to the last item, 04:19 UTC, no new data: I wrote 40% before recalling `research/dying` round 3's slab.
+  Its 63-cell torus has a cheaper tail than the hull face (0.427 against 0.499 per live cell lost) and a dearer
+  shallow part, which already says that q below half population is larger on the torus (by roughly e^1). So I
+  now put "the hull/torus gap is all in the dip rates" at 10%. What my tables show is narrower: among hull faces
+  of 45 to 108 cells, q below 0.6 P-bar has no term that grows with the edge. The rim can still change q by a
+  fixed factor (the last cells sit on the rim line, agent anatomy), and the torus can have another slope.

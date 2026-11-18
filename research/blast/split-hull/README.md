@@ -5,30 +5,40 @@ cannot reach (one death per 6 × 10¹¹ hull-generations). Files: `sh.c` (steppe
 against `reference/oracle.py`), `chain.sh` (replications), `ana.py` (pooling), `PREDICTIONS.md` (forecasts),
 `paths/` (dying paths). Bulk output: `research/scratch/blast/split-hull/runs/`.
 
-## Short answer (04:15 UTC; numbers marked * are being sharpened by runs still going)
+## Short answer (04:20 UTC)
 
 1. **The sampler does not reach the 135-cell face, and I can say why [measured].** Forward-flux sampling on the
-   face's population, clones separated by deep flips. Unbiased, weak separations (one flip three layers down) leave
-   it starved: it beats plain running by a factor of about 7 only, because a dip from 0.9 P̄ to an empty face lasts
-   about 10 generations and a deep flip needs several to change the face. Strong separations (a sixth of the fifth
-   layer flipped, two generations back, which is the setting I froze) bias it: **estimate − anchor = −0.027 ± 0.018
-   at R = 9, −0.173 ± 0.044 at R = 11**, and at R = 13 it is starved as well (scatter 0.57 per replication). The bias
-   grows as the face thins: +0.1% per stage at 0.8 P̄, +20% when four cells are left (table below). No number for
-   R = 17 comes from it.
-2. **What does come out is a decomposition that forecasts R = 17 [measured tables, conjectured law].** By plain
-   running (no cloning) I measured the dip rates ν(p) (first passages of P ≤ p·P̄ per hull-generation, coming from
-   above P̄) at R = 9 … 21. With the anchors' lifetimes, −ln q(p) = ln τ + ln ν(p) is, for p ≤ 0.6, **a straight line
-   in the area with no rim term**: at p = 0.6 it is 5.611, 8.668, 12.242, 16.330 at 45, 63, 84, 108 cells, slope
-   0.1701 per cell, residuals +0.003, −0.003, −0.002, +0.002 (χ² 0.4 on 2; at p = 0.5 and 0.4 likewise, χ² 1.7 and
-   0.1; at p = 0.7, 0.8, 0.85 it is not a line, χ² 9, 32, 44). So the hull face's rim term (the −0.34 k of
-   ln τ = 1.144 + 0.2308 A − 0.342 k) sits in **how often the face dips to 0.6 P̄**, not in what happens below.
-   ν(0.6 P̄) can be measured at any size by plain running. If the line continues:
-   **ln τ_face(R = 17) = 29.223 ± 0.016\***, **R = 19: 35.79 ± 0.03\***, **R = 21: 42.97 ± 0.07\***. That is the value of
-   "the second difference repeats" (29.230) and 3.7 errors above "the wrapped price takes over" (29.163). It is a
-   forecast resting on a four-point straight line, not a measurement of τ.
+   face's population, clones separated by deep flips. Weak, unbiased separations (one flip three layers down) leave
+   it starved: a dip from 0.9 P̄ to an empty face lasts about 10 generations and a deep flip needs several to
+   change the face, so most of the selection acts on clones that are still identical. Strong separations (a sixth
+   of the fifth layer flipped, two generations back: the setting I froze) bias it: **estimate − anchor = −0.027 ±
+   0.018 at R = 9 and −0.173 ± 0.044 at R = 11**, and at R = 13 it is starved as well (scatter 0.57 per
+   replication, 6 effective ancestors). The bias grows as the face thins: +0.1% per stage at 0.8 P̄, +20% when four
+   cells are left. No number for R = 17 comes from it.
+2. **Plain running gives a decomposition that forecasts R = 17, 19 and 21 [tables measured, law conjectured].** I
+   measured the dip rates ν(p) (first passages of P ≤ p·P̄ per hull-generation, coming from above P̄; no cloning)
+   at R = 7 … 21, 0.8 to 4.9 × 10⁸ hull-generations per size. With the anchors' lifetimes, −ln q(p) = ln τ + ln ν(p)
+   is, for p ≤ 0.6, **a straight line in the area with no rim term** over 45, 63, 84, 108 cells: at p = 0.6 it is
+   5.611, 8.668, 12.242, 16.334, i.e. −2.051 + 0.17018·A with weighted χ² 0.8 on 2 (p = 0.5: 2.3; 0.4: 0.1; 0.3: 0.2),
+   while for p ≥ 0.7 it is not a line (χ² 11, 35, 46 at 0.7, 0.8, 0.85). So the rim term of the hull's lifetime (the
+   −0.34·k of ln τ = 1.144 + 0.2308·A − 0.342·k) is a property of **how often the face dips to 0.6 P̄**, and what
+   happens below has no term growing with the edge. ν(0.6 P̄) is cheap at any size. If the line continues:
+
+   | face | forecast of ln τ_face | "second difference repeats" | "wrapped price takes over" |
+   |---|---|---|---|
+   | R = 17, 135 cells | **29.227 ± 0.014** | 29.230 | 29.163 |
+   | R = 19, 165 cells | **35.778 ± 0.021** | 35.812 | 35.613 |
+   | R = 21, 198 cells | **43.03 ± 0.03** | 43.085 | 42.689 |
+
+   The same from other deep levels: 29.221 ± 0.022 (p = 0.5); from levels at fixed density 0.28 instead of a
+   fraction of P̄: 29.222 ± 0.014, 35.784 ± 0.026, 43.10 ± 0.07. These are forecasts resting on a four-point straight
+   line, not measurements of τ; one size below the fit the line fails (30 cells: −ln q(0.6) is 0.22 above it, and
+   the lifetime's own quadratic misses there by 0.13).
 3. **Brute force agrees with the anchors [measured]:** R = 9: ln(8E/D) = 9.8201 ± 0.0055 (32,644 first deaths);
    R = 11: 13.627 ± 0.036 (790). The dip rates agree with `research/dying`'s independent code at 63 cells
    (ln ν = −2.311, −4.164, −6.513, −9.359, −12.48 at P ≤ 28, 21, 15, 9, 3 against its −2.31, −4.16, −6.51, −9.37, −12.43).
+   R = 7 under this protocol: 6.8345 ± 0.0024 (180,727 first deaths), not the 6.804 on file (another protocol; a
+   hull of that size lives 115 generations, less than the ageing-in).
 
 ## Deliverable 1: the stepper [measured]
 
@@ -74,7 +84,8 @@ generations back, by the same cells of an independent hull from the base run; `s
 
 ## Deliverable 3: R = 17. Not measured; forecast instead
 
-See point 2 above and `PREDICTIONS.md` block 3 (frozen 04:11 UTC, commit 3946e01, before the longer runs).
+See point 2 above and `PREDICTIONS.md` block 3 (frozen 04:11 UTC, commit 3946e01, on the first tables; the longer
+runs since then moved every ν within its error).
 `python3 research/blast/split-hull/levels.py`, parts 2 to 4. Brute-force dip rates (threshold-free: ln ν
 interpolated linearly in L at L = p·P̄; Poisson errors 0.001 to 0.06, printed by the script):
 
@@ -88,72 +99,93 @@ PART 2: brute-force dip rates at fixed fractions of P-bar (threshold-free), per 
       (Poisson errors)            0.000      0.000      0.001      0.002      0.003      0.006      0.012     exposure 8.18e+07
   13   84   42.445   5.964      -2.730     -3.212     -4.400     -5.899     -7.687     -9.669    -11.770
       (Poisson errors)            0.000      0.001      0.001      0.002      0.004      0.014      0.039     exposure 1.23e+08
-  15  108   55.176   6.702      -2.895     -3.497     -5.031     -7.010     -9.355    -11.993        nan
-      (Poisson errors)            0.001      0.001      0.002      0.004      0.014      0.045        nan     exposure 8.19e+07
-  17  135   69.478   7.436      -3.063     -3.812     -5.767     -8.304    -11.323        nan        nan
-      (Poisson errors)            0.001      0.001      0.002      0.008      0.038        nan        nan     exposure 8.19e+07
+  15  108   55.203   6.701      -2.891     -3.492     -5.026     -7.005     -9.354    -11.999    -14.785
+      (Poisson errors)            0.000      0.000      0.001      0.002      0.006      0.021      0.097     exposure 3.89e+08
+  17  135   69.480   7.433      -3.063     -3.811     -5.765     -8.304    -11.299    -14.727        nan
+      (Poisson errors)            0.000      0.000      0.001      0.003      0.015      0.086        nan     exposure 4.91e+08
   19  165   85.381   8.155      -3.264     -4.172     -6.595     -9.749    -13.450        nan        nan
       (Poisson errors)            0.000      0.000      0.002      0.007      0.049        nan        nan     exposure 3.89e+08
-  21  198  102.752   8.938      -3.495     -4.595     -7.548    -11.337        nan        nan        nan
-      (Poisson errors)            0.001      0.002      0.009      0.059        nan        nan        nan     exposure 3.07e+07
+  21  198  102.780   8.925      -3.490     -4.589     -7.545    -11.387        nan        nan        nan
+      (Poisson errors)            0.000      0.001      0.003      0.018        nan        nan        nan     exposure 3.38e+08
 
   ln tau (anchor) + ln nu(p) = -ln q(p): what is left of the lifetime once the attempt rate at p is taken out
    R    A   -ln q(0.85)  -ln q(0.8)  -ln q(0.7)  -ln q(0.6)  -ln q(0.5)  -ln q(0.4)  -ln q(0.3)
    9   45      7.316      7.022      6.364      5.611      4.761      3.831      2.841
   11   63     11.013     10.639      9.752      8.668      7.394      5.974      4.461
   13   84     15.411     14.929     13.741     12.242     10.454      8.472      6.371
-  15  108     20.444     19.843     18.308     16.330     13.984     11.347        nan
+  15  108     20.448     19.848     18.314     16.334     13.985     11.340      8.555
   second differences in the edge k (9,11,13 and 11,13,15); ln tau itself gives 0.694, 0.690:
-    p = 0.85: 0.700  0.635     slopes per cell 45-63, 63-84, 84-108: 0.2054 0.2094 0.2097
-    p = 0.8: 0.672  0.624     slopes per cell 45-63, 63-84, 84-108: 0.2010 0.2043 0.2047
-    p = 0.7: 0.601  0.578     slopes per cell 45-63, 63-84, 84-108: 0.1882 0.1899 0.1903
-    p = 0.6: 0.517  0.513     slopes per cell 45-63, 63-84, 84-108: 0.1698 0.1702 0.1703
-    p = 0.5: 0.427  0.471     slopes per cell 45-63, 63-84, 84-108: 0.1463 0.1457 0.1471
-    p = 0.4: 0.355  0.376     slopes per cell 45-63, 63-84, 84-108: 0.1191 0.1190 0.1198
-    p = 0.3: 0.290  nan     slopes per cell 45-63, 63-84, 84-108: 0.0900 0.0910 nan
+    p = 0.85: 0.700  0.640     slopes per cell 45-63, 63-84, 84-108: 0.2054 0.2094 0.2099
+    p = 0.8: 0.672  0.629     slopes per cell 45-63, 63-84, 84-108: 0.2010 0.2043 0.2049
+    p = 0.7: 0.601  0.584     slopes per cell 45-63, 63-84, 84-108: 0.1882 0.1899 0.1905
+    p = 0.6: 0.517  0.518     slopes per cell 45-63, 63-84, 84-108: 0.1698 0.1702 0.1705
+    p = 0.5: 0.427  0.472     slopes per cell 45-63, 63-84, 84-108: 0.1463 0.1457 0.1471
+    p = 0.4: 0.355  0.370     slopes per cell 45-63, 63-84, 84-108: 0.1191 0.1190 0.1195
+    p = 0.3: 0.290  0.274     slopes per cell 45-63, 63-84, 84-108: 0.0900 0.0910 0.0910
 
 PART 4: weighted straight-line fit of -ln q(p) and the forecasts with errors
-  p = 0.85: -ln q = -2.096 + 0.20842 A  (slope error 0.00019; chi2 43.8 on 2)   R = 17: 29.105 +- 0.014;  R = 19: 35.559 +- 0.019;  R = 21: 42.667 +- 0.025
-  p = 0.8: -ln q = -2.164 + 0.20351 A  (slope error 0.00019; chi2 32.4 on 2)   R = 17: 29.122 +- 0.014;  R = 19: 35.588 +- 0.019;  R = 21: 42.726 +- 0.025
-  p = 0.7: -ln q = -2.182 + 0.18958 A  (slope error 0.00019; chi2 9.2 on 2)   R = 17: 29.178 +- 0.014;  R = 19: 35.693 +- 0.019;  R = 21: 42.902 +- 0.027
-  p = 0.6: -ln q = -2.048 + 0.17012 A  (slope error 0.00019; chi2 0.4 on 2)   R = 17: 29.223 +- 0.016;  R = 19: 35.772 +- 0.021;  R = 21: 42.974 +- 0.065
-  p = 0.5: -ln q = -1.816 + 0.14616 A  (slope error 0.00023; chi2 1.7 on 2)   R = 17: 29.238 +- 0.042;  R = 19: 35.750 +- 0.055
-  p = 0.4: -ln q = -1.528 + 0.11909 A  (slope error 0.00038; chi2 0.1 on 2)   
-  second differences in k of ln nu(0.6 P-bar): -0.177+-0.013  -0.177+-0.013  -0.183+-0.017  -0.151+-0.022  -0.142+-0.063   (centred on R = 11 ... 19)
+  p = 0.85: -ln q = -2.099 + 0.20848 A  (slope error 0.00019; chi2 46.1 on 2)   R = 17: 29.108 +- 0.014;  R = 19: 35.564 +- 0.019;  R = 21: 42.670 +- 0.025
+  p = 0.8: -ln q = -2.167 + 0.20357 A  (slope error 0.00019; chi2 34.7 on 2)   R = 17: 29.125 +- 0.014;  R = 19: 35.593 +- 0.019;  R = 21: 42.728 +- 0.025
+  p = 0.7: -ln q = -2.186 + 0.18964 A  (slope error 0.00019; chi2 10.7 on 2)   R = 17: 29.181 +- 0.014;  R = 19: 35.700 +- 0.019;  R = 21: 42.909 +- 0.025
+  p = 0.6: -ln q = -2.051 + 0.17018 A  (slope error 0.00019; chi2 0.8 on 2)   R = 17: 29.227 +- 0.014;  R = 19: 35.778 +- 0.021;  R = 21: 43.032 +- 0.031
+  p = 0.5: -ln q = -1.821 + 0.14625 A  (slope error 0.00021; chi2 2.3 on 2)   R = 17: 29.221 +- 0.022;  R = 19: 35.760 +- 0.053
+  p = 0.4: -ln q = -1.530 + 0.11912 A  (slope error 0.00031; chi2 0.1 on 2)   R = 17: 29.277 +- 0.090
+  p = 0.3: -ln q = -1.224 + 0.09029 A  (slope error 0.00065; chi2 0.2 on 2)   
+  second differences in k of ln nu(0.6 P-bar): -0.177+-0.013  -0.172+-0.013  -0.192+-0.013  -0.147+-0.016  -0.192+-0.026   (centred on R = 11 ... 19)
 
 PART 5: levels at fixed density x (L = x A): weighted straight-line fit of ln tau + ln nu and forecasts
-  x = 0.42: slope 0.20116, chi2 313.4 on 2, residuals +0.083 -0.005 +0.018 +0.074   R = 17: 29.033 +- 0.010;  R = 19: 35.455 +- 0.015;  R = 21: 42.520 +- 0.019
-  x = 0.38: slope 0.19159, chi2 161.6 on 2, residuals +0.059 -0.004 +0.013 +0.053   R = 17: 29.099 +- 0.010;  R = 19: 35.578 +- 0.015;  R = 21: 42.726 +- 0.020
-  x = 0.34: slope 0.17861, chi2 42.3 on 2, residuals +0.030 -0.003 +0.007 +0.027   R = 17: 29.171 +- 0.011;  R = 19: 35.690 +- 0.015;  R = 21: 42.868 +- 0.027
-  x = 0.31: slope 0.16680, chi2 9.7 on 2, residuals +0.014 -0.002 +0.004 +0.012   R = 17: 29.206 +- 0.013;  R = 19: 35.752 +- 0.017;  R = 21: 42.918 +- 0.063
-  x = 0.28: slope 0.15344, chi2 0.6 on 2, residuals +0.002 -0.000 -0.002 +0.007   R = 17: 29.229 +- 0.022;  R = 19: 35.781 +- 0.026
-  x = 0.25: slope 0.13888, chi2 3.4 on 2, residuals -0.001 +0.001 -0.008 +0.021   R = 17: 29.245 +- 0.050;  R = 19: 35.791 +- 0.068
-  x = 0.22: slope 0.12335, chi2 0.5 on 2, residuals -0.000 +0.001 -0.004 +0.020   R = 17: 29.363 +- 0.141
+  x = 0.42: slope 0.20116, chi2 313.3 on 2, residuals +0.083 -0.005 +0.018 +0.074   R = 17: 29.033 +- 0.010;  R = 19: 35.455 +- 0.015;  R = 21: 42.521 +- 0.019
+  x = 0.38: slope 0.19160, chi2 162.2 on 2, residuals +0.059 -0.004 +0.013 +0.053   R = 17: 29.099 +- 0.010;  R = 19: 35.578 +- 0.015;  R = 21: 42.722 +- 0.019
+  x = 0.34: slope 0.17863, chi2 43.0 on 2, residuals +0.030 -0.003 +0.007 +0.027   R = 17: 29.167 +- 0.011;  R = 19: 35.691 +- 0.015;  R = 21: 42.892 +- 0.020
+  x = 0.31: slope 0.16680, chi2 9.5 on 2, residuals +0.014 -0.002 +0.004 +0.011   R = 17: 29.205 +- 0.011;  R = 19: 35.752 +- 0.016;  R = 21: 42.975 +- 0.027
+  x = 0.28: slope 0.15346, chi2 0.8 on 2, residuals +0.002 -0.000 -0.003 +0.007   R = 17: 29.222 +- 0.014;  R = 19: 35.784 +- 0.026;  R = 21: 43.097 +- 0.074
+  x = 0.25: slope 0.13891, chi2 3.1 on 2, residuals -0.001 +0.001 -0.009 +0.012   R = 17: 29.208 +- 0.023;  R = 19: 35.794 +- 0.068
+  x = 0.22: slope 0.12337, chi2 0.3 on 2, residuals -0.000 +0.001 -0.004 +0.007   R = 17: 29.194 +- 0.054
+
+PART 6: the 30-cell face (R = 7), outside the fit. Brute force here: ln tau = 6.8345 +- 0.0024 (180727 first deaths; on file 6.804, another protocol), P-bar 13.682
+  p = 0.85: -ln q = 4.421; the line of 45..108 cells says 4.155; difference +0.266
+  p = 0.8: -ln q = 4.209; the line of 45..108 cells says 3.940; difference +0.269
+  p = 0.7: -ln q = 3.754; the line of 45..108 cells says 3.504; difference +0.250
+  p = 0.6: -ln q = 3.277; the line of 45..108 cells says 3.055; difference +0.223
+  p = 0.5: -ln q = 2.774; the line of 45..108 cells says 2.566; difference +0.208
+  p = 0.4: -ln q = 2.240; the line of 45..108 cells says 2.043; difference +0.197
+  p = 0.3: -ln q = 1.677; the line of 45..108 cells says 1.485; difference +0.191
+  (the lifetime's own quadratic 1.144 + 0.23083 A - 0.3418 k says 6.702 at 30 cells: it misses by +0.132)
 ```
 <!-- /DIPTABLE -->
 
 What the forecast rests on, and what would break it: (a) the anchors (the 108-cell one, ± 0.0099, gives most of the
-forecast's error); (b) P̄ from each run's 300-generation pilot (± 0.015 cells, ± 0.005 in ln ν(0.6), included);
-(c) the conjecture that the line continues. If the 135-cell face is 29.163, −ln q(0.6) must fall 0.06 below a line
-that four sizes follow to 0.003. A check inside the 135-cell data that needs no lifetime: ln ν(0.6) − ln ν(0.5)
-should itself be linear in the area if both lines hold; it is 0.850, 1.274, 1.788, 2.345, 3.02 ± 0.04\*, 3.7 ± 0.2\*
-at 45 … 165 cells, steps per cell 0.0236, 0.0245, 0.0232, 0.0250\*, 0.024\*.
+forecast's error); (b) P̄ from each run's 300-generation pilot (± 0.015 cells, allowed for as ± 0.005 in ln ν; the
+fixed-density levels of part 5 need no P̄ and give the same forecasts); (c) the conjecture that the line continues.
+If the 135-cell face is 29.163, −ln q(0.6) must fall 0.06 below a line that four sizes follow to 0.004. The choice
+of p ≤ 0.6 was made after seeing which fits are lines (`PREDICTIONS.md`, scores of block 2); the shallow levels,
+which are not lines, would say 29.11 to 29.18. Checks inside the larger hulls' own data, needing no lifetime:
+- ln ν(0.6) − ln ν(0.5) must be linear in the area if both lines hold: 0.850, 1.274, 1.788, 2.349, 2.995 ± 0.015,
+  3.70 ± 0.05 at 45 … 165 cells; steps per cell 0.0236, 0.0245, 0.0234, 0.0239, 0.0235. It is.
+- The second differences in k of ln ν(0.6 P̄) are −0.177, −0.172, −0.192, −0.147, −0.192 (± 0.013, 0.013, 0.013, 0.016,
+  0.026) centred on R = 11 … 19: the three that reach beyond the anchors average −0.177 ± 0.009. With the line's
+  3 × 0.17018 = 0.5105 that makes the lifetime's second difference 0.687 ± 0.009 through 198 cells (0.694, 0.690 on
+  file for the first two); the wrapped price would need −0.116.
+- One size down it fails (part 6): the 30-cell face is 0.19 to 0.27 above every line.
 
-## Deliverable 4: the prefactor [measured tables; the reading is conjecture]
+## Deliverable 4: the prefactor [tables measured; the reading is conjecture]
 
 - **ln τ + ln ν(p) is linear in A only for p ≤ 0.6, and its slope is not the wrapped price.** Slopes per cell of
-  −ln q(p): 0.2084 (p = 0.85), 0.2035 (0.8), 0.1896 (0.7), 0.1701 (0.6), 0.1462 (0.5), 0.1191 (0.4). The slope passes
-  through the wrapped faces' 0.2087 at p ≈ 0.85, where −ln q is *not* a line (χ² 44 on 2), so that coincidence
-  means nothing. There is no level at which "attempt rate removed" leaves the wrapped slope and a straight line.
-- **How ν scales.** At fixed p, ln ν(p) is a quadratic in the edge k: for p = 0.6, second differences −0.177,
-  −0.177, −0.183 ± 0.017, −0.166 ± 0.030\*, −0.11 ± 0.08\* centred on R = 11 … 19, i.e. −0.059 per cell with a term
-  +0.305 k. The lifetime's rim term is −0.342 k: nine tenths of it is the attempt rate's. Shallower, the rim term
-  of ν is smaller (the fits of −ln q with a term in k give −0.29 k at p = 0.85, −0.26 at 0.8, −0.14 at 0.7, −0.03 at
-  0.6, −0.07 at 0.5, −0.05 at 0.4), so the rim acts on the passage from about 0.85 P̄ down to 0.6 P̄.
-- **Reading [conjectured].** A rimmed face is "dearer per cell" than a wrapped one because its dips to 0.6 P̄ get
-  rarer with size faster, not because the collapse below 0.6 P̄ costs more. Note that p·P̄ is not a fixed density:
-  P̄/A = 0.480, 0.496, 0.505, 0.511, 0.515, 0.517, 0.519 at R = 9 … 21 (the rim's emptier corners), so 0.6 P̄ is a
-  deeper dip, per interior cell, on a small face than on a large one. Not tested: levels at fixed density.
+  −ln q(p): 0.2085 (p = 0.85), 0.2036 (0.8), 0.1896 (0.7), 0.1702 (0.6), 0.1463 (0.5), 0.1191 (0.4), 0.0903 (0.3). The
+  slope passes through the wrapped faces' 0.2087 at p ≈ 0.85, where −ln q is not a line (χ² 46 on 2): a coincidence
+  of the level. There is no level at which "attempt rate removed" leaves the wrapped slope and a straight line.
+- **How ν scales with A and the rim.** At fixed p, ln ν(p) is a quadratic in the edge k. For p = 0.6: −0.059 per
+  cell and +0.305·k (second differences above). The lifetime's rim term is −0.342·k: nine tenths of it is the
+  attempt rate's. Fits of −ln q(p) with a term b·k give b = −0.29 (p = 0.85), −0.26 (0.8), −0.14 (0.7), −0.03 (0.6),
+  −0.07 (0.5), −0.05 (0.4): the rim acts on the passage from about 0.85 P̄ down to 0.6 P̄, and little below.
+  Shallow rates fall slowly with size: ln ν(0.85) = −2.503, −2.620, −2.730, −2.891, −3.063, −3.264, −3.490 at
+  45 … 198 cells. P̄ = 21.60, 31.25, 42.45, 55.20, 69.48, 85.38, 102.78 and σ_P = 4.56, 5.22, 5.96, 6.70, 7.43, 8.16, 8.93.
+- **Reading [conjectured].** A rimmed face looks dearer per cell than a wrapped one because its dips to about
+  0.6 P̄ get rarer with size faster (the rim's fuller and thinner rows and empty corners enter the stationary
+  fluctuations of P), not because the collapse below 0.6 P̄ has a cost growing with the edge. This is a
+  statement among hull faces. It does not say a wrapped face has the same q: `research/dying` round 3 found the
+  63-cell torus's tail cheaper per live cell lost (0.427 against 0.499), so q differs by a factor between the two
+  kinds of face; my tables say only that for rimmed faces that factor does not grow with the edge.
 
 ## Deliverable 5: reactive paths
 
@@ -181,7 +213,7 @@ that cell was last alive (255 = 255 or more), then the face population at the la
 
 ## Not checked
 
-- Whether the −ln q(0.6) line continues beyond 108 cells: that is the forecast itself.
+- Whether the −ln q(0.6) line continues beyond 108 cells: that is the forecast itself. It fails at 30 cells.
 - Levels at fixed density instead of fixed fractions of P̄; the same decomposition on wrapped faces (the test that
   would say whether the two prices differ only in the attempt rate).
 - The sampler at R = 15 and R = 17; lag 3 or 4 with a single flip; whether the donor swap is unbiased.
@@ -246,6 +278,15 @@ Pooled value ln τ = −ln(mean of the K rates 1/τ̂_k); error = standard devia
 a jackknife beside it (`ana.py`). The mean of the K logarithms is printed too; it is biased upward by about half
 the variance of one replication's logarithm.
 
+**Brute-force dip rates** (`shb R SEED 0 GENS`: the base run alone, with a counting phase of GENS generations; no
+cloning, no flips, so this part is plain gump). Each hull carries m, the smallest P seen since P was last ≥ λ_A
+(reset when P ≥ λ_A and at a soup). At a counted generation at which P ≥ λ_A, or at which the hull is retired
+(some face empty), the excursion ends and, if m < λ_A, is booked once with its minimum (0 if the watched face is
+empty; min(m, P) if another face is). ν(L) = (excursions booked with minimum ≤ L) / exposure: the rate of first
+passages below L+1 coming from above P̄, the same quantity as the sampler's Φ₀·∏p̂. "Threshold-free" ν(p): ln ν
+interpolated linearly between the integer levels on either side of p·P̄. First deaths and exposure give
+ln(8E/D) as in the anchors. `levels.py` pools all `runs/brute_R<R>*.txt` (counts and exposures add).
+
 **Why the lag.** Gump is deterministic, so clones must be separated, and a separation deep enough to be harmless
 takes generations to reach the face, while the whole dip from 0.9 P̄ to an empty face lasts about ten generations.
 Flipping one cell three layers down at the moment of the crossing left the estimator starved (scatter 0.4 to 0.5 of
@@ -261,8 +302,18 @@ state and stored with it; and the last 16 values of P. Neither enters the dynami
 
 ```sh
 python3 research/blast/split-hull/validate.py 1200            # stepper against the oracle, R = 11 and 15 (~1 min)
-sh research/blast/split-hull/chain.sh 13 13001 10             # 10 replications at R = 13 (frozen parameters)
+S=research/scratch/blast/split-hull; mkdir -p $S/runs
+gcc -O3 -march=native -o $S/shb research/blast/split-hull/sh.c -lm    # (shf, shs, shb, shb2 in scratch are this file at
+                                                                      #  successive commits; the sampler part is unchanged)
+$S/shb 17 17900 0 40000 > $S/runs/brute_R17.txt              # plain running: dip rates, P-bar, first deaths (~90 s)
+#   runs used: R 7: 7900 x 60000 | 9: 9900 x 40000 | 11: 11900 x 40000 | 13: 13900 x 60000 | 15: 15900 x 40000, 15901 x 150000
+#   17: 17900 x 40000, 17901 x 200000 | 19: 19900 x 20000, 19901 x 170000 | 21: 21900 x 15000, 21901 x 150000   (seed x GENS)
+python3 research/blast/split-hull/levels.py                   # sampler against brute force; the lines; the forecasts
+sh research/blast/split-hull/chain.sh 11 11001 12             # 12 replications of the frozen sampler at R = 11 (~5 min)
 python3 research/blast/split-hull/ana.py                      # pooled values, nu and q by level, path statistics
-# one replication by hand:  shf R SEED M LAG NFLIP STEP H PATHFILE CAP
+sh research/blast/split-hull/variant.sh 11 11201 6 2 0 swap2 1    # donor swap
+python3 research/blast/split-hull/curate.py 25                # paths/R*.txt from the runs' path files
+python3 research/blast/split-hull/fill.py                     # pastes levels.py's tables into this README
+# one replication by hand:  sh R SEED M LAG NFLIP STEP H PATHFILE CAP [MODE]
 research/scratch/blast/split-hull/shf 11 11001 300000 2 -6 3 0.5 - 100000
 ```
