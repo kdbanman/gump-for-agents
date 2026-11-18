@@ -669,8 +669,8 @@ rq = bv("rim"); assert [rh[0][2], rw[0][2], rh[1][2]] == [rq[2], rq[3], rq[5]] a
 nx = [float(x) for x in re.findall(r"one generation later ([\d.]+)", "".join(rt))]
 assert abs(nx[0] - bv("rimnext")[0]) < 0.05 and abs(nx[1] - bv("rimnext")[1]) < 0.05
 out["blast"] = {"t": BT, "rim": {"hull": rh, "wrapped": rw, "next": nx[:2]},
-                **{k: bv(k) for k in ("launch", "falls", "crash", "fade", "rim", "rimnext", "slow", "survived", "together", "tube", "qk", "qkex")},
-                "prices": [N16["price"]["rimmed"]["value"][3], N16["price"]["rimmed"]["value"][4], N16["price"]["rimmed"]["value"][5]]}
+                **{k: bv(k) for k in ("launch", "falls", "crash", "fade", "rimnext", "slow", "survived", "together", "tube", "qk", "qkex")},
+                "rimq": bv("rim"), "prices": [N16["price"]["rimmed"]["value"][3], N16["price"]["rimmed"]["value"][4], N16["price"]["rimmed"]["value"][5]]}
 # the long 12-tubes to 120 cells (WL10, WL11): the four faces recomputed from the files, the chords checked against the quote
 def face(fn):
     rs = list(csv.DictReader(open(repo / "research" / "data" / "gpu_local_eqtorus" / (fn + ".csv"))))
