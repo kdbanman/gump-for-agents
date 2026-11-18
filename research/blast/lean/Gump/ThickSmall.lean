@@ -335,4 +335,153 @@ theorem two_layers_finite_sealed :
   simp only [h04]
   exact set36_sealed p hp
 
+/-! ## Every hexagon ring, every 36-cell set: translations and reflections -/
+
+/-- A vector with even coordinates (a translation of the lattice of cubes). -/
+def Pt.IsEven (t : Pt) : Prop := t.x % 2 = 0 ∧ t.y % 2 = 0 ∧ t.z % 2 = 0
+
+theorem isCell_add_even (p t : Pt) (ht : t.IsEven) : (p + t).isCell = p.isCell := by
+  obtain ⟨hx, hy, hz⟩ := ht
+  obtain ⟨x, y, z⟩ := p
+  simp only [Pt.isCell, Pt.add_x, Pt.add_y, Pt.add_z]
+  have e1 : (x + t.x) % 2 = x % 2 := by omega
+  have e2 : (y + t.y) % 2 = y % 2 := by omega
+  have e3 : (z + t.z) % 2 = z % 2 := by omega
+  rw [e1, e2, e3]
+
+theorem axis_add_even (p t : Pt) (ht : t.IsEven) : (p + t).axis = p.axis := by
+  obtain ⟨hx, hy, hz⟩ := ht
+  apply axis_congr <;> simp only [Pt.add_x, Pt.add_y, Pt.add_z] <;> omega
+
+/-- Translations by even vectors carry neighbours to neighbours. -/
+theorem nbrs_add_even (p t : Pt) (ht : t.IsEven) : nbrs (p + t) = (nbrs p).map (· + t) := by
+  simp only [nbrs, axis_add_even p t ht, List.map_map]
+  apply List.map_congr_left
+  intro o _
+  apply Pt.ext' <;> simp only [Function.comp, Pt.add_x, Pt.add_y, Pt.add_z] <;> omega
+
+theorem neg_isEven (t : Pt) (ht : t.IsEven) : t.neg.IsEven := by
+  obtain ⟨hx, hy, hz⟩ := ht
+  simp only [Pt.IsEven, Pt.neg]; omega
+
+theorem add_neg_cancel' (p t : Pt) : p + t + t.neg = p := by
+  apply Pt.ext' <;> simp [Pt.neg] <;> omega
+
+theorem add_neg_add' (q t : Pt) : q + t.neg + t = q := by
+  apply Pt.ext' <;> simp [Pt.neg] <;> omega
+
+/-- **Sealed sets translate.** If `W` is sealed in `V`, its translate by an even vector `t` is sealed in the
+translate of `V`. -/
+theorem SealedIn.translate {V W : Pt → Bool} (hS : SealedIn V W) (t : Pt) (ht : t.IsEven) :
+    SealedIn (fun q => V (q + t.neg)) (fun q => W (q + t.neg)) := by
+  intro q hq
+  have hp := hS _ hq
+  have e : q = q + t.neg + t := (add_neg_add' q t).symm
+  rw [e, nbrs_add_even _ t ht, List.countP_map]
+  refine Nat.le_trans (Nat.le_of_eq ?_) hp
+  apply List.countP_congr
+  intro r _
+  simp only [Function.comp, add_neg_cancel']
+
+/-- The translate of a slab by an even vector is a slab. -/
+theorem slab_translate (d : Diag) (A B : Int) (t : Pt) (ht : t.IsEven) (q : Pt) :
+    slab d A B (q + t.neg) = slab d (A + d.dot t) (B + d.dot t) q := by
+  have hc : (q + t.neg).isCell = q.isCell := isCell_add_even q t.neg (neg_isEven t ht)
+  simp only [slab, hc, Diag.dot_add, Diag.dot_neg]
+  cases q.isCell
+  · rfl
+  · simp only [Bool.true_and]
+    apply Bool.eq_iff_iff.2
+    simp only [decide_eq_true_eq]; omega
+
+/-- A sealed set of a slab, translated by an even vector, is sealed in the translated slab. -/
+theorem SealedIn.translate_slab {d : Diag} {A B : Int} {W : Pt → Bool} (hS : SealedIn (slab d A B) W)
+    (t : Pt) (ht : t.IsEven) :
+    SealedIn (slab d (A + d.dot t) (B + d.dot t)) (fun q => W (q + t.neg)) := by
+  have := hS.translate t ht
+  intro q hq
+  have h := this q hq
+  simp only [slab_translate d A B t ht] at h
+  exact h
+
+/-- The reflection that carries the diagonal `(1, 1, 1)` to `d`. -/
+def Diag.refl (d : Diag) (p : Pt) : Pt := ⟨sg d.sx p.x, sg d.sy p.y, sg d.sz p.z⟩
+
+theorem sg_sg (b : Bool) (n : Int) : sg b (sg b n) = n := by cases b <;> simp [sg]
+
+theorem Diag.refl_refl (d : Diag) (p : Pt) : d.refl (d.refl p) = p := by
+  simp [Diag.refl, sg_sg]
+
+theorem Diag.refl_add (d : Diag) (p q : Pt) : d.refl (p + q) = d.refl p + d.refl q := by
+  apply Pt.ext' <;> simp [Diag.refl, sg_add]
+
+theorem Diag.dot_refl (d : Diag) (p : Pt) : d.dot (d.refl p) = d111.dot p := by
+  obtain ⟨a, b, c⟩ := d
+  cases a <;> cases b <;> cases c <;> simp [Diag.dot, Diag.refl, sg, d111]
+
+theorem refl_isCell (d : Diag) (p : Pt) : (d.refl p).isCell = p.isCell := by
+  obtain ⟨a, b, c⟩ := d
+  obtain ⟨x, y, z⟩ := p
+  cases a <;> cases b <;> cases c <;> simp only [Diag.refl, sg, Pt.isCell] <;> simp
+
+theorem refl_axis (d : Diag) (p : Pt) : (d.refl p).axis = p.axis := by
+  obtain ⟨a, b, c⟩ := d
+  apply axis_congr <;> cases a <;> cases b <;> cases c <;> simp only [Diag.refl, sg] <;> simp <;> omega
+
+/-- The offsets are invariant under each reflection (as lists up to order). -/
+theorem offsets_refl_perm (d : Diag) (a : Axis) : ((offsets a).map d.refl).Perm (offsets a) := by
+  obtain ⟨x, y, z⟩ := d
+  cases a <;> cases x <;> cases y <;> cases z <;> decide
+
+/-- Reflections carry neighbours to neighbours. -/
+theorem nbrs_refl_perm (d : Diag) (p : Pt) : (nbrs (d.refl p)).Perm ((nbrs p).map d.refl) := by
+  have e : (nbrs p).map d.refl = ((offsets p.axis).map d.refl).map (d.refl p + ·) := by
+    simp only [nbrs, List.map_map]
+    apply List.map_congr_left
+    intro o _
+    simp [Function.comp, Diag.refl_add]
+  rw [e, nbrs, refl_axis]
+  exact ((offsets_refl_perm d p.axis).map _).symm
+
+theorem slab_refl (d : Diag) (A B : Int) (p : Pt) : slab d A B (d.refl p) = slab d111 A B p := by
+  simp [slab, refl_isCell, Diag.dot_refl]
+
+/-- **Sealed sets reflect.** A set sealed in a slab along `(1, 1, 1)`, reflected, is sealed in the slab along
+`d` with the same levels. -/
+theorem SealedIn.refl_slab {A B : Int} {W : Pt → Bool} (hS : SealedIn (slab d111 A B) W) (d : Diag) :
+    SealedIn (slab d A B) (fun q => W (d.refl q)) := by
+  intro q hq
+  have hp := hS _ hq
+  have e : q = d.refl (d.refl q) := (Diag.refl_refl d q).symm
+  rw [e, List.Perm.countP_eq _ (nbrs_refl_perm d _), List.countP_map]
+  refine Nat.le_trans (Nat.le_of_eq ?_) hp
+  apply List.countP_congr
+  intro r _
+  simp only [Function.comp, slab_refl, Diag.refl_refl]
+
+/-- **Theorem 4 (i), existence, for every layer of every diagonal.** For every diagonal `d` and every even
+translation `t`, the reflected and translated hexagon ring is sealed in its layer `d·p = 1 + d·t`. (All
+hexagon rings of all layers are of this form: the hexagons of a kagome layer form one orbit of the layer's
+translations, and even translations move a layer by every even amount. That sentence is not checked in
+Lean.) -/
+theorem hexRing_all_sealed (d : Diag) (t : Pt) (ht : t.IsEven) :
+    SealedIn (slab d (1 + d.dot t) (1 + d.dot t)) (fun q => hexRing.contains (d.refl (q + t.neg))) :=
+  (hexRing_sealed.refl_slab d).translate_slab t ht
+
+/-- **Proposition 5, existence, for every two-layer slab.** Every pair of consecutive layers along every
+diagonal holds a 36-cell sealed set (the reflected and translated `set36`). -/
+theorem set36_all_sealed (d : Diag) (t : Pt) (ht : t.IsEven) :
+    SealedIn (slab d (1 + d.dot t) (3 + d.dot t)) (fun q => set36.contains (d.refl (q + t.neg))) :=
+  (set36_sealed.refl_slab d).translate_slab t ht
+
+/-- **Theorem 4 (ii) fails in two layers**: a half-plane of the two-layer slab need not be sealed (the
+bottom-layer cell `(1, 0, 0)` has four neighbours in the slab behind the line `v·p = v·(1,0,0)`,
+`v = (-2, 1, 1)`). -/
+theorem two_layer_halfPlane_not_sealed :
+    ¬ SealedIn (slab d111 1 3) (fun p => slab d111 1 3 p && decide (-3 < dotv ⟨-2, 1, 1⟩ p)) := by
+  intro h
+  have := h ⟨1, 0, 0⟩ (by decide)
+  revert this
+  decide
+
 end Gump
