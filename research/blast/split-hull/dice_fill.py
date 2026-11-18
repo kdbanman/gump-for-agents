@@ -53,8 +53,18 @@ if 17 in st:
           f"({s['K']} replications; jackknife {s['jerr']:.3f}; mean of the replications' logarithms {s['mlog']:.3f} ± {s['selog']:.3f}).",
           f"Minus the offset of the blind sizes: **{s['est'] - d:.3f} ± {e2:.3f}** for gump; with no offset: {s['est']:.3f} ± {s['err']:.3f}.",
           f"Against the forecast 29.223 ± 0.014: {s['est'] - d - 29.223:+.3f} ± {math.hypot(e2, 0.014):.3f} (offset removed), "
-          f"{s['est'] - 29.223:+.3f} ± {math.hypot(s['err'], 0.014):.3f} (raw). 29.230 and 29.163 are 0.067 apart: "
-          f"this does not separate them."]
+          f"{s['est'] - 29.223:+.3f} ± {math.hypot(s['err'], 0.014):.3f} (raw)."]
+    # offset as a straight line in the area through the four sizes (weighted), carried to 135 cells
+    xs = np.array([AREA[R] for R in (9, 11, 13, 15)], float); ys = np.array([st[R]['est'] - ANCHOR[R][0] for R in (9, 11, 13, 15)])
+    ws = np.array([w4[R] for R in (9, 11, 13, 15)]); xb = (ws * xs).sum() / ws.sum(); yb = (ws * ys).sum() / ws.sum()
+    sxx = (ws * (xs - xb) ** 2).sum(); sl = (ws * (xs - xb) * ys).sum() / sxx
+    d135 = yb + sl * (135 - xb); e135 = math.sqrt(1 / ws.sum() + (135 - xb) ** 2 / sxx); e3 = math.hypot(s['err'], e135)
+    L += [f"If instead the offset drifts linearly with the area (weighted line through the four sizes: {sl:+.5f} ± {1 / math.sqrt(sxx):.5f} per cell,",
+          f"{d135:+.3f} ± {e135:.3f} at 135 cells): **{s['est'] - d135:.3f} ± {e3:.3f}** for gump. In errors of each reading, the candidates sit at:",
+          "| reading of the offset | value for gump | 29.230 (second difference repeats) | 29.223 (my forecast) | 29.163 (wrapped price) |", "|---|---|---|---|---|",
+          f"| none (the chain is gump) | {s['est']:.3f} ± {s['err']:.3f} | {(s['est'] - 29.230) / s['err']:+.1f} | {(s['est'] - 29.223) / math.hypot(s['err'], 0.014):+.1f} | {(s['est'] - 29.163) / s['err']:+.1f} |",
+          f"| constant, from the blind sizes | {s['est'] - d:.3f} ± {e2:.3f} | {(s['est'] - d - 29.230) / e2:+.1f} | {(s['est'] - d - 29.223) / math.hypot(e2, 0.014):+.1f} | {(s['est'] - d - 29.163) / e2:+.1f} |",
+          f"| linear in the area | {s['est'] - d135:.3f} ± {e3:.3f} | {(s['est'] - d135 - 29.230) / e3:+.1f} | {(s['est'] - d135 - 29.223) / math.hypot(e3, 0.014):+.1f} | {(s['est'] - d135 - 29.163) / e3:+.1f} |"]
 block = '<!-- DICE -->\n' + '\n'.join(L) + '\n<!-- /DICE -->'
 f = os.path.join(HERE, 'README.md'); t = open(f).read()
 t = re.sub(r'<!-- DICE -->.*?<!-- /DICE -->', lambda m: block, t, flags=re.S)
