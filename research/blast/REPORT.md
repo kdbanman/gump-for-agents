@@ -99,17 +99,27 @@ forecast of 29.22 that four routes agree on.
    - **Beyond brute force, on a surrogate** (`split-slab/`: six layers of the true rule over two layers of coins,
      sampled by subset simulation over the coins; against gump's anchors +0.01 ± 0.04, −0.01 ± 0.06, +0.09 ± 0.07,
      +0.02 ± 0.06, −0.01 ± 0.09 at 63, 84, 96, 108 (tube) and 108 (wide) cells, the last three blind; being
-     refereed by `ref-slab/`): 24.68 ± 0.09 for the 120-cell tube, 29.44 ± 0.22 at 144 cells, 38.6 ± 0.25 for the
-     192-cell tube, 40.7 ± 0.26 for a wide 192-cell torus (the wide-face line gives 40.07; the agent allows a drift
-     of ± 0.3 on the last two). Wide faces keep dying by a face-wide fall up to 192 cells (share 0.54–0.59 at 63,
-     108, 192); long tubes do not (0.50, 0.50, 0.38, 0.26, 0.17 at 84, 108, 120, 144, 192).
+     refereed by `ref-slab/`; final pooled offsets +0.03 ± 0.03, +0.02 ± 0.05, +0.09 ± 0.07, +0.07 ± 0.05, +0.07 ±
+     0.07): **24.64 ± 0.07 for the 120-cell tube**, 38.71 ± 0.18 for the 192-cell tube and 40.59 ± 0.19 for a wide
+     192-cell torus (the agent puts ± 0.3 on the last two: two wide runs read −0.33 and +0.51 against the wide-face
+     line, so "0.2087 at 192 cells" is neither confirmed nor refuted). Wide faces keep dying by a face-wide fall
+     up to 192 cells (share 0.54–0.59 at 63, 108, 192); long tubes do not (0.50, 0.50, 0.38, 0.26, 0.17 at 84,
+     108, 120, 144, 192).
    - Loop² 16 is a different problem at length: a cut right through the slab neither heals nor spreads, and a
      168-cell tube lives only ln τ = 17.42 ± 0.17 (`tube1d/`). The lifetime saturates.
-   - My reading, frozen as forecasts before anyone looked (`PREDICTIONS.md` block 3): a long tube does not stop
-     busting, it stops busting all at once. Sections more than two units apart crash a generation or so apart,
-     each such freedom multiplies the rate, and a boundary between sections costs per unit of its length, so the
-     freedom pays only on a short girth (the end near loop² 21) and a wide face stays rigid in time. K = 2 would
-     be three timings. PENDING_STAGGER
+   - **A long tube does not stop busting; it stops busting all at once [measured on the surrogate's deaths, with
+     gump's natural deaths at 63 and 84 cells matching it row for row; `split-slab/` §9; my forecast of it was
+     frozen first, `PREDICTIONS.md` block 3].** Cut into sections two units long, every section of a dying tube
+     goes from 0.69–0.73 full to 0.22 in one generation at every length (in living faces the largest falls go
+     0.69 → 0.37), and at least one section busts in 95–98% of deaths. What changes with length is the timing: the
+     two halves of the tube crash in different generations in 0.17, 0.21, 0.26, 0.29, 0.65 of deaths at 84, 108,
+     120, 144, 192 cells, where the two halves of a wide torus do so in 0.03 at 108 and at 192 cells: a wide face
+     is rigid in time, a tube is not. Neighbouring sections crash together 77–90% of the time; sections 6–8 units
+     apart on the 192-cell tube only 25%. So the falling share of face-wide falls on long tubes is not a second
+     route: it is the same crash, out of step. [conjectured, the PI] Each freedom of timing multiplies the rate,
+     which is the discount; a boundary between sections that crash at different times costs per unit of its
+     length, which is why the discount needs a short girth and ends near loop² 21; and the K = 2 of the trace form
+     is a count of timings. Not tested: whether one section's crash triggers the next.
 6. **Rims [measured, `rim/`, `split-hull/`; `ref-hull/` checking the second].**
    - Corner-free strips (prisms bounded by two diagonal families, periodic along their common direction) have
      the hull's number in their mixed second difference, 0.2262 ± 0.0078 per cell with no corner anywhere, so the
@@ -248,7 +258,11 @@ PENDING_REFEREES_3
   cells.
 - **What in the kill grows like the square of a tube's length:** not found (`boom/`); at 72 cells a more
   frequent four-layer launch state accounts for 0.076 ± 0.011 of the tube's 0.164.
-- My own forecasts: PENDING_SCORE
+- My own forecasts, 14 scored: 7 held (the two 96-cell faces and the bend of loops 13 and 16, block 0; wide faces
+  rigid in time and the staggered crash in substance, block 3; item 5 of block 2: the tube's advantage is not in
+  the end-game), 7 failed or half failed (band-first deaths; wide tori carrying the front term; the strip's width
+  price; "two prices = two routes"; one edge cost for patches and tubes; and two numbers of block 3). The 120-cell
+  tube and the 135-cell hull face are still blind.
 
 ## What is not known, in order of what I would do next
 

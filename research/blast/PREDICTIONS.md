@@ -149,3 +149,19 @@ Forecasts:
 3. On wide tori of 108 and 192 cells the two halves crash in the same generation in more than 75% of deaths. P = 55%.
 4. Crash times of sections 2 units long, along a 144- or 192-cell tube: r.m.s. difference between neighbours
    1.0–1.6 generations, no growth with separation beyond 3 units. P = 50%.
+
+### Block 3 scored (05:08 UTC; `split-slab/README.md` §9, definitions committed by the agent before it read this block)
+
+- Item 1 (halves crash in different generations: 30–45% at 84 cells, above 65% at 192): **half right.** 0.17 ± 0.02
+  at 84 (gump's own natural deaths: 0.17 ± 0.04), 0.21, 0.26, 0.29 at 108, 120, 144, and 0.65 ± 0.08 at 192. It
+  rises as forecast and I had the short tubes twice too staggered.
+- Item 2 (at 192 cells at least one HALF loses half its cells in one generation in more than half of deaths):
+  **failed as worded** (0.22 ± 0.06). The unit that busts is a section of 2–4 units, not a half: at least one
+  2-unit section busts locally in 0.98 of deaths at 192 cells and 3.7 of 8 sections do. The reading survives, my
+  number did not.
+- Item 3 (wide tori of 108 and 192 cells: halves crash together in more than 75%): **held** (0.97 at both).
+- Item 4 (neighbouring sections differ by 1.0–1.6 generations r.m.s., no growth with separation beyond 3 units):
+  **half right** (the size is about right once sections that do not crash are set aside; it does grow, out to about
+  6 units).
+- So: "a long tube does not stop busting, it stops busting all at once" stands [measured on the surrogate; gump
+  matches at 63 and 84 cells]; the link from the freedom of timing to the size of the discount is still conjecture.
