@@ -11,7 +11,9 @@
  * (w = nl-2 layers, the top one the face) follow the rule: a Markov chain on the w rule layers.
  *
  *   tube1d trace h k d nl seed gens [bad]            lane 0 of a deterministic slab, one line of N bits per gen
- *   tube1d brute h k d nl ndice seed T0 gens         lifetimes by brute force (restart at death)
+ *   tube1d brute h k d nl ndice seed T0 gens [pathfile]   lifetimes by brute force (restart at death); pathfile gets, per
+ *                    face death: age face(0 top, 1 bottom) then per face cell the lag (generations before the death at which
+ *                    the cell was last alive; 1 = alive in the last living generation; -1 = not alive in the last 255)
  *   tube1d ffs   h k d nl ndice seed M delta N0 [pathfile [maxpaths]]   forward-flux estimate of the face lifetime
  *   tube1d band  h k d nl ndice seed width T reps [depth]   kill a band of the face (and depth-1 layers beneath)
  *   tube1d clone h k d nl ndice seed lamA lam n0     is a death decided at the crossing of lam? (64 clones each)
@@ -132,23 +134,30 @@ static void cmd_trace(int gens) {
 }
 
 /* ---- brute force ---- */
-static void cmd_brute(int T0, long gens) {
+static void cmd_brute(int T0, long gens, FILE *pathf) {
   init_all();
   long age[64]; for (int j = 0; j < 64; j++) age[j] = 0;
   double expo = 0; long deaths = 0, settled = 0; u64 fdiff = 0;
   int f0 = N - A; int z0 = NDICE ? f0 : 0; u64 *snap = calloc(N + 1, 8);   /* snapshot for the period | 840 test */
+  enum { RB = 256 }; u64 *ring = pathf ? calloc((size_t)RB * 2 * A, 8) : NULL; long npath = 0;
   for (long g = 1; g <= gens; g++) {
     step();
     u64 top = 0, bot = ~0ULL;
     for (int c = f0; c < N; c++) top |= xa[c];
     if (!NDICE) { bot = 0; for (int c = 0; c < A; c++) bot |= xa[c]; }
     u64 dead = ~top | ~bot, sett = 0;
+    if (ring) { u64 *r = ring + (size_t)(g % RB) * 2 * A; memcpy(r, xa + f0, 8 * A); if (!NDICE) memcpy(r + A, xa, 8 * A); }
     if (NDICE) { for (int c = f0; c < N; c++) fdiff |= xa[c] ^ xc[c]; if ((g & 255) == 0) { sett = ~fdiff; fdiff = 0; } }
     else if ((g & 127) == 0) { u64 df = 0; for (int c = 0; c < N; c++) df |= xa[c] ^ xc[c]; sett = ~df; }
     if (g % 840 == 0) { u64 df = 0; for (int c = z0; c < N; c++) { df |= xa[c] ^ snap[c]; snap[c] = xa[c]; } sett |= ~df; }   /* zombies: any period dividing 840 */
     for (int j = 0; j < 64; j++) {
       u64 m = 1ULL << j; age[j]++;
-      if (dead & m) { if (age[j] > T0) { deaths += ((~top & m) != 0) + ((~bot & m) != 0); expo += 1; } init_lane(j); age[j] = 0; fdiff |= m; }
+      if (dead & m) { if (age[j] > T0) { deaths += ((~top & m) != 0) + ((~bot & m) != 0); expo += 1;
+          if (ring && age[j] > RB) for (int f = 0; f < 2; f++) if ((f ? ~bot : ~top) & m) {   /* lag of each cell's last live generation before the death */
+            fprintf(pathf, "%ld %d", age[j], f);
+            for (int c = 0; c < A; c++) { int lag = -1; for (int k = 1; k < RB; k++) if (ring[(size_t)((g - k) % RB) * 2 * A + f * A + c] & m) { lag = k; break; } fprintf(pathf, " %d", lag); }
+            fputc('\n', pathf); fflush(pathf); npath++; } }
+        init_lane(j); age[j] = 0; fdiff |= m; }
       else if (sett & m) { settled++; init_lane(j); age[j] = 0; fdiff |= m; }
       else if (age[j] > T0) expo += 1;
     }
@@ -346,7 +355,7 @@ int main(int argc, char **argv) {
   if (!strcmp(cmd, "geom")) { NDICE = 0; build(0); printf("# A=%d girth vector (%d,%d) girth %.4f length %.4f\n# face-cell-index a x y xi eta\n", A, VA, VB, GIRTH, LT);
     for (int a = 0; a < 3; a++) for (int x = 0; x < H_; x++) for (int y = 0; y < D_; y++) { int c = idx(NL - 1, a, x, y); printf("%d %d %d %d %.4f %.4f\n", c - (N - A), a, x, y, XI[c], ETA[c]); } return 0; }
   NDICE = atoi(argv[6]); seedrng(strtoull(argv[7], 0, 10)); build(0); NW = (N + 63) / 64;
-  if (!strcmp(cmd, "brute")) cmd_brute(atoi(argv[8]), atol(argv[9]));
+  if (!strcmp(cmd, "brute")) cmd_brute(atoi(argv[8]), atol(argv[9]), argc > 10 ? fopen(argv[10], "w") : NULL);
   else if (!strcmp(cmd, "ffs")) { const char *pfile = argc > 11 ? argv[11] : NULL; if (pfile && !strcmp(pfile, "-")) pfile = NULL; PATHS = pfile != NULL;
     cmd_ffs(atoi(argv[8]), atoi(argv[9]), atoi(argv[10]), pfile, argc > 12 ? atoi(argv[12]) : 1000, argc > 13 ? atoi(argv[13]) : 0, argc > 14 ? atoi(argv[14]) : 0); }
   else if (!strcmp(cmd, "clone")) cmd_clone(atoi(argv[8]), atoi(argv[9]), atoi(argv[10]));
