@@ -3819,3 +3819,47 @@ entry was written. Nothing was re-run.
   which has no rows yet (the card's chain commits at its end, about 13:00 UTC today).
 - Not checked (03:14 UTC): the runs themselves and the GPU-against-engine checks; the hazard-by-age files; the CPU
   code and its validation (not reviewed by the lead); whether the CPU's 96-cell rows are final.
+
+## 2026-11-18: the eighth signals push, reviewed: a memory cell. Pulses write a count into a wire, a pulse reads one bit of it, and one changed cell gives the count back as that many pulses
+
+The push: `research/signals/push8/README.md` (commits 7e07444 … bf86026). The review, with its own code on the
+oracle's step: `research/audit/REVIEW-signals-8.md`, `research/audit/signals8/` (commits 544bc46 … 9cc37c1; 17
+verdicts). The lead ran the push's three oracle-only verifiers at 04:06 UTC, all passing: from
+`research/signals/push8/`, `python3 verify_cell8.py` (6 s), `python3 prove_unzip8.py` (5 s), `python3
+verify_read8.py` (46 s). The lead froze no forecasts for this push.
+
+- **[exact; two codes on the oracle] The cell.** A cap, N units of wire B and the same cap turned round: 38 + 5N
+  cells, period 2, for N = 4 to 30. Every stored state has period exactly 2, so it stands for ever (followed for
+  20,000 generations). Removing one stator of a wire unit sends a pulse left or right; that is how the runs write.
+- **Set and add.** Two pulses that meet leave a standing stretch `d f` of a variant wire, the first push's mark.
+  Every later pulse that reaches the stretch, from either side, is absorbed and lengthens it by one: `d^k f`.
+  Capacity by signals is N − 4. **[review] It does not count adjacent pulses singly**: a block of m pulses one unit
+  apart adds ⌈m/2⌉; the count is exact for pulses two or more units apart. Set needs the two senders an odd number
+  of units, three or more, apart; at two the whole cell burns.
+- **A one-bit read by a signal.** A pulse crosses an empty cell and is absorbed by a set one (whose count goes up by
+  one). Not new in kind: that a mark absorbs a pulse and grows was the first and second pushes'; here it is read as
+  an answer.
+- **[proved for every k; the proof refereed] The count comes back out.** Removing the stator (0,1,2) of the wire-B
+  unit next to the stretch's first unit, at an even generation, dissolves `d^k f` into exactly k pulses two units
+  apart and leaves the wire plain, complete from generation 2k + 6 (the review's bound; the push said 4k + 8). The
+  proof glues charts on the tape theorem (`prove_unzip8.py`, docstring); the review found three places it passed
+  over and closed each. Seven other release laws are measured to k = 40 by two steppers.
+- **Transfer.** A second store two or more units away catches the k pulses and then holds k + 1.
+- **[review] New facts.** A pulse sent into a running release at even distance stops it: the store stands again
+  with the same count, shifted. A fixed sender is "add one" until the wall reaches it and then is the count read,
+  so the reader need not know where the stretch begins. Pulses from both sides, at any relative timing, add two.
+- **[review] Corrected.** "Smallest at 73 cells" holds for one criterion only (set, add and an emptying read work
+  at 68 cells; set at 63). "Take one off" works at one end only. Several counts in the censuses (66 left and 68
+  right, not 67 and 67; 60 single pulses, not 46; two new movers in the two-cell census). A count read of the empty
+  seventh-push line at a generation ≡ 0 mod 4 destroys the line.
+- **The negative, and its end.** Within the wire's tube, with one kind of arriving pulse, nothing arriving starts
+  the release (48 standing structures at k = 3; replayed by the review). **As a general statement that is false**:
+  the ninth push, under way, has a six-cell still life beside the wall that makes an arriving pulse release the
+  count; the reviewer confirmed that in one oracle run with its own code (k = 1, 3, 6). Not found: a read that keeps
+  the count; re-arming a spent gun.
+- **What it is.** For one bit, a memory in the strict sense: written by signals, lasting, answered to a signal; with
+  the caveats that reading a set store raises its count and that in the cell the answering pulse ends in a cap. For
+  the count, within this push: written by signals, read by a cell changed by hand.
+- Not checked (05:02 UTC): `latch8.py --k 2 --words 4` (148 states) not replayed; the fronts in every census;
+  re-arming and the second-wire scans not rebuilt on the oracle; the seventh push's other gun and end pairs; the
+  seventh push's own review is not in.

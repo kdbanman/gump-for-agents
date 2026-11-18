@@ -441,6 +441,14 @@ _Last updated 2026-11-14 by the lead._
   problem 13, the essay and the owner's journal), a review of push 8, one site update and version 19 of the
   overview, merges. The lead cannot read the usage percentage here (the read is refused); it stops new Fable work
   when `get_session` shows the warning status (seen at 84%) or the card's `USAGE.md` rows say about 85%.
+  **05:02 UTC:** the eighth push (a memory cell: count written by pulses, one-bit read by a pulse, the count given
+  back by a hand-changed cell, proved for every k) is reviewed and recorded (notebook of the 18th; CLAIMS SG33,
+  SG34; 201 claims; open problem 13 (u) to (x)). Push 8b (a non-destructive read from a crossing wire with a pair
+  of pulses; no write under a reader) has reported; its small oracle verifiers pass for the lead; its review is
+  running. **Running (Fable):** the review of push 7; the review of push 8b; the ninth push (a trigger that
+  travels: `research/signals/push9/`; the push-8 reviewer has already confirmed one oracle run of its six-cell
+  still life). **Owed:** records of pushes 7, 8b and 9 as their reviews land; a review of push 9; the essay and
+  the owner's journal (the isolation note); one site update and version 19; merge pull request 35.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
