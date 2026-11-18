@@ -107,3 +107,17 @@ billed by the hour, no limit."
   design or refuse; queue items 4 to 7 when briefed; the lead's optional longer run at 111 cells.
 - **Usage:** the last reading is in `USAGE.md`. The owner allowed a few turns before the reset (2026-11-17, "feel
   free to take a few turns until the reset") and offered the CPU ("leave a core free, but the rest is yours").
+
+### Addendum, 2026-11-18 03:15Z (the owner's message, with a brief drafted by the lead)
+
+- The owner reset the Fable window on 2026-11-18 and asked this session to be the measurement side of a theory
+  swarm (branch of its own, `research/blast/`) that runs until 2026-11-18 11:00Z on why each kind of face dies at
+  its rate. Heavy work goes to Opus subagents ("Stay on Opus").
+- Two Opus subagents started at 03:10Z on "how each kind of face dies, watched": wrapped faces and tubes
+  (`research/dying2/`, 4 threads) and the rimmed hull face at R = 11 and 13 (`research/dying2/hull/`, 3 threads).
+  They commit their own paths at least hourly and must finish by 10:30Z. A background loop here pushes the branch
+  every hour until about 12:15Z. The signals subagent was cut to 2 threads and may close period 8 if it can.
+- Still running: the 120-cell tube on the card (until about 13:00Z on the 18th; the script pushes its rows) and the
+  CPU second code on 4 threads (`chain_cpu.sh`, until about 19:30Z).
+- Owed: a row in `USAGE.md` at every turn, pushed (the lead goes by those rows); when the subagents report, read
+  the hand-backs, push, and tell the lead in one message; then what the state above lists for the 120-cell tube.
