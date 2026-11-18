@@ -43,12 +43,18 @@ static inline vec rule(const vec *x, vec me) {
   FA(b2, b3, cp, cq, cw);                                       /* fours, eights */
   return ~b3 & ((b2 & ~b1) | (me & ~b2 & b1 & b0));            /* count 4,5 -> alive; count 3 -> keeps state */
 }
+/* WD = 0: gump on the 8-layer slab. WD = w > 0 ("dice chain"): layers 0..w-1 follow the rule, layers w and w+1 are
+   replaced after every generation by fresh fair coin flips (independent per cell, lane and generation), deeper
+   layers are never read; the vessel then has ONE face (layer 0) and is a true Markov chain. */
+static int WD = 0;
 static void step(void) {
-  for (int i = 0; i < n; i++) {
+  int nstep = WD ? WD * A : n;
+  for (int i = 0; i < nstep; i++) {
     const int *q = nb + 12 * (size_t)i; vec x[12], me, o;
     for (int t = 0; t < 12; t++) memcpy(&x[t], a + (size_t)q[t] * W, 64);
     memcpy(&me, a + (size_t)i * W, 64); o = rule(x, me); memcpy(b + (size_t)i * W, &o, 64);
   }
+  if (WD) for (int i = WD * A; i < (WD + 2) * A; i++) for (int w = 0; w < W; w++) b[(size_t)i * W + w] = rnd();
   u64 *t = a; a = b; b = t;
 }
 /* bit-sliced population of layer starting at cell `base` : c[bit][word] */
@@ -98,7 +104,7 @@ static void flux_gen(int store) {
     if (burn[l] > 0) { if (--burn[l] == 0) { for (int f = 0; f < 2; f++) st[l][f] = 0; age[l] = 0; } continue; }
     age[l]++;
     int dead = 0;
-    for (int f = 0; f < 2; f++) {
+    for (int f = 0; f < (WD ? 1 : 2); f++) {
       int p = lane_count(c[f], l);
       if (st[l][f] == 0) { if (p >= PA) st[l][f] = 1; else { if (p == 0) dead = 1; continue; } }
       g_E += 1; g_sp += p; g_spp += (double)p * p; g_ns += 1;
@@ -130,6 +136,7 @@ int main(int argc, char **argv) {
   a = aligned_alloc(64, (size_t)(n + 1) * W * 8); b = aligned_alloc(64, (size_t)(n + 1) * W * 8);
   memset(a, 0, (size_t)(n + 1) * W * 8); memset(b, 0, (size_t)(n + 1) * W * 8);
   const char *mode = argv[2];
+  if (getenv("WD")) WD = atoi(getenv("WD"));
   if (!strcmp(mode, "dump")) {
     const char *initf = argv[3]; int lane = atoi(argv[4]); long gens = atol(argv[5]); const char *outf = argv[6];
     sm = strtoull(argv[7], 0, 10) * 0x2545F4914F6CDD1DULL + 99;
@@ -147,6 +154,24 @@ int main(int argc, char **argv) {
     printf("PLAIN A %d PA %d LAM0 %d E %.6e N0 %ld deaths %ld capped %ld meanpop %.4f varpop %.4f lntau_brute %.4f +- %.4f\n", A, PA, LAM0, g_E, g_N0,
            g_deaths, g_capped, g_sp / g_ns, g_spp / g_ns - (g_sp / g_ns) * (g_sp / g_ns), g_deaths ? log(g_E / g_deaths) : 0.0, g_deaths ? 1 / sqrt(g_deaths) : 0.0);
     long cum = 0; for (int p = 0; p <= LAM0; p++) { cum += g_hist[p]; if (g_hist[p] || g_cross[p]) printf("HIST %d min %ld cum %ld cross %ld\n", p, g_hist[p], cum, g_cross[p]); }
+    return 0;
+  }
+  if (!strcmp(mode, "lag")) {   /* ss GEOM lag SEED GENS : mean population of the layer at depth d beneath a dying face, by lag before its death */
+    sm = strtoull(argv[3], 0, 10) * 0x2545F4914F6CDD1DULL + 7; long gens = atol(argv[4]);
+    #define RB 64
+    static short ring[NL][RB][8]; static long lage[NL]; double sum[RB][8] = {{0}}, sq[RB][8] = {{0}}, m1[8] = {0}, m2[8] = {0}; long nd = 0, ns = 0;
+    for (int l = 0; l < NL; l++) { lane_soup(l); lage[l] = 0; }
+    for (long g = 0; g < gens; g++) { step(); u64 c[8][NB][W]; for (int y = 0; y < 8; y++) laypop(y * A, c[y]);
+      for (int l = 0; l < NL; l++) { short *r = ring[l][g % RB]; for (int y = 0; y < 8; y++) r[y] = lane_count(c[y], l); lage[l]++;
+        if (lage[l] > 1000 && (g & 15) == 0) { for (int y = 0; y < 8; y++) { m1[y] += r[y]; m2[y] += (double)r[y] * r[y]; } ns++; }
+        int f = r[0] == 0 ? 0 : (r[7] == 0 ? 1 : -1);
+        if (f >= 0) { if (lage[l] > 1000 + RB) { nd++; for (int lag = 0; lag < RB; lag++) { short *q = ring[l][((g - lag) % RB + RB) % RB];
+              for (int d = 0; d < 8; d++) { int y = f ? 7 - d : d; sum[lag][d] += q[y]; sq[lag][d] += (double)q[y] * q[y]; } } }
+          lane_soup(l); lage[l] = 0; } } }
+    printf("LAG deaths %ld; stationary mean (sd) by layer:", nd); for (int y = 0; y < 8; y++) printf(" %.2f (%.2f)", m1[y] / ns, sqrt(m2[y] / ns - (m1[y] / ns) * (m1[y] / ns))); printf("\n");
+    printf("lag: mean pop at depth 0..7 beneath the dying face; then z = (mean - stationary)/sd for depth 0..7\n");
+    for (int lag = 0; lag < RB; lag += (lag < 24 ? 1 : 4)) { printf("%2d:", lag); for (int d = 0; d < 8; d++) printf(" %6.2f", sum[lag][d] / nd);
+      printf("  |"); for (int d = 0; d < 8; d++) { int y = d; double mu = (m1[y] + m1[7 - y]) / 2 / ns, sd = sqrt((m2[y] + m2[7 - y]) / 2 / ns - mu * mu); printf(" %6.2f", (sum[lag][d] / nd - mu) / sd); } printf("\n"); }
     return 0;
   }
   /* ffs */
