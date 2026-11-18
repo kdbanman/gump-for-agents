@@ -2,8 +2,8 @@
 
 Agent `split-hull`, blast of 2026-11-18. Aim: ln τ_face of the 135-cell rimmed face (R = 17), which brute force
 cannot reach (one death per 6 × 10¹¹ hull-generations). Files: `sh.c` (stepper and sampler), `validate.py` (stepper
-against `reference/oracle.py`), `chain.sh` (replications), `ana.py` (pooling), `PREDICTIONS.md` (forecasts),
-`paths/` (dying paths). Bulk output: `research/scratch/blast/split-hull/runs/`.
+against `reference/oracle.py`), `chain.sh` and `variant.sh` (replications), `ana.py` (pooling), `levels.py` (dip rates
+by plain running, the lines, the forecasts), `fill.py`, `curate.py`, `PREDICTIONS.md` (forecasts), `paths/` (dying paths). Bulk output: `research/scratch/blast/split-hull/runs/`.
 
 ## Short answer (04:20 UTC)
 
@@ -13,11 +13,11 @@ against `reference/oracle.py`), `chain.sh` (replications), `ana.py` (pooling), `
    change the face, so most of the selection acts on clones that are still identical. Strong separations (a sixth
    of the fifth layer flipped, two generations back: the setting I froze) bias it: **estimate − anchor = −0.027 ±
    0.018 at R = 9 and −0.173 ± 0.044 at R = 11**, and at R = 13 it is starved as well (scatter 0.57 per
-   replication, 6 effective ancestors). The bias grows as the face thins: +0.1% per stage at 0.8 P̄, +20% when four
-   cells are left. No number for R = 17 comes from it.
+   replication, 6 effective ancestors). The bias grows as the face thins: +0.1% per stage near 0.8 P̄, +8% and more
+   per stage below seven cells. No number for R = 17 comes from it.
 2. **Plain running gives a decomposition that forecasts R = 17, 19 and 21 [tables measured, law conjectured].** I
    measured the dip rates ν(p) (first passages of P ≤ p·P̄ per hull-generation, coming from above P̄; no cloning)
-   at R = 7 … 21, 0.8 to 4.9 × 10⁸ hull-generations per size. With the anchors' lifetimes, −ln q(p) = ln τ + ln ν(p)
+   at R = 7 … 21, 2 × 10⁷ to 5 × 10⁸ hull-generations per size. With the anchors' lifetimes, −ln q(p) = ln τ + ln ν(p)
    is, for p ≤ 0.6, **a straight line in the area with no rim term** over 45, 63, 84, 108 cells: at p = 0.6 it is
    5.611, 8.668, 12.242, 16.334, i.e. −2.051 + 0.17018·A with weighted χ² 0.8 on 2 (p = 0.5: 2.3; 0.4: 0.1; 0.3: 0.2),
    while for p ≥ 0.7 it is not a line (χ² 11, 35, 46 at 0.7, 0.8, 0.85). So the rim term of the hull's lifetime (the
@@ -72,9 +72,9 @@ replications. It falls by about 10 for every 4 in ln τ: at R = 17 a replication
 | sampler − brute force, ln ν | −0.000 | +0.001 | +0.004 | +0.009 | +0.014 | +0.036 | +0.064 | +0.101 | +0.178 | +0.36 |
 | in combined errors | −0.5 | +1.5 | +2.8 | +2.5 | +1.8 | +2.8 | +3.0 | +3.0 | +3.2 | +3.4 |
 
-(R = 13, four replications: +0.009 at P ≤ 29, +0.025 at 23, +0.043 at 20 (6 errors), +0.17 at 11.) Flipping a sixth of
+(At L = 1 brute force has only 106 excursions. R = 13, four replications: +0.009 at P ≤ 29, +0.025 at 23, +0.043 at 20 (6 errors), +0.17 at 11.) Flipping a sixth of
 the fifth layer beneath a face makes every further loss of three cells more likely, slightly while the face is
-full and by a fifth when it is nearly empty. **What bias I can exclude:** none below 0.17 at 63 cells for the
+full and by a tenth to a fifth when it is nearly empty. **What bias I can exclude:** none below 0.17 at 63 cells for the
 frozen setting; the sampler is not calibrated. For the weak setting (one flip at depth three, no lag; six
 replications before the freeze: 13.69 ± 0.16) a bias above 0.4 is excluded and nothing finer.
 
