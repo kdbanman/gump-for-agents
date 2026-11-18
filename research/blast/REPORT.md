@@ -103,6 +103,13 @@ price takes over" (29.163) is 1.5 to 3 errors below each.
      fixed 0.127 per cell and the bend of the price with size (0.2158 below 63 cells, 0.2087 above) is all in how
      often the living face is over-full. On the 84-cell tube the same formula returns the wide value, 0.23 too
      high: a tube's face is over-full exactly as often, and its whole discount is in the kill.
+     **Applied beyond the reach of deaths (the last run of the night, 07:00 UTC):** on wide tori of 126, 144 and 192
+     cells the estimator gives 26.324 ± 0.113, 30.055 ± 0.139, 40.030 ± 0.242 (with the kill law refitted on 1.1
+     million deaths: 26.329 ± 0.042, 30.062 ± 0.051, 40.043 ± 0.142), where the wide-face line 13.1623 + 0.20861·(A −
+     63) gives 26.305, 30.060, 40.073 and the card's 126-cell face on file is 26.4045 ± 0.1043. A threshold
+     systematic of about ± 0.1 at 192 cells is not in those errors. **If the kill law holds beyond the 108 cells
+     to which it was checked, a wide face still pays 0.2087 per cell at 192 cells: neither bending nor rising.**
+     The dice-chain sampler's 40.49 ± 0.20 for the same face is 1.8 errors above this.
    - **A measured two-layer map finds the wrapped route and falls 23% short of its price; it does not give the
      hull's [computed, `ref-anatomy/THEORY.md`, `boom/`; refereed by `ref-map/`].** Let a face be a Markov chain
      on (face population, population of the layer beneath) with the drift and covariance measured in living gump
@@ -374,8 +381,10 @@ face separates only K = 1 (24.608) from the rest. The GPU's value for it lands a
    Tried at the end of the night (item 4, last bullet): no such event was found, but a two-number kill law on
    top of a living-state frequency forecasts wide faces to 108 cells. The same estimator reaches 126–192 cells by
    plain running and would say, without a single death, whether the wide price keeps bending.
-3. **Whether 0.2087 lasts.** On the surrogate a wide 192-cell face still busts as one; its lifetime is 0.42 ± 0.20
-   above the line with a possible drift of the surrogate underneath. Nobody has seen gump itself above 126 cells.
+3. **Whether 0.2087 lasts.** Two indirect readings at 192 cells now disagree by 1.8 errors: the living-state
+   estimator puts a wide face on the line (40.03 ± 0.24), the dice-chain sampler 0.42 ± 0.20 above it, with a
+   possible drift of the surrogate underneath. On the surrogate the face still busts as one. Nobody has seen gump
+   itself die above 126 cells.
 4. **A tube's asymptote** (0.2004 with K = 2, or lower with a power in front): tubes of 240–360 cells on the
    surrogate, with the timing of their sections recorded.
 5. **The wrapped face's own decomposition by area** (`ref-hull`'s next step): the rate of over-full generations at
