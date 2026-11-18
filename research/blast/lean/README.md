@@ -24,6 +24,7 @@ program outside Lean becomes a theorem once Lean has checked its certificate.
 | statement (`docs/AUTOMATON.md`) | Lean name | file |
 |---|---|---|
 | The lattice, the twelve neighbours, B45/S345, one generation, n generations | `Pt`, `offsets`, `rule`, `step`, `run` | `Gump/Basic.lean` |
+| The definitions restated in the oracle's terms: an offset is a neighbour iff it is ±2 on both other axes and 0 on the normal one, or ±1 on the normal axis and ±1 on exactly one other; a cell has exactly its axis coordinate odd; born with 4 or 5, stays with 3, 4 or 5; neighbours of cells are cells; the twelve offsets are distinct | `mem_offsets_iff`, `isCell_iff`, `axis_odd`, `rule_iff`, `nbrs_isCell`, `offsets_nodup` | `Gump/Spec.lean` |
 | **T1**, layer histogram: 1, 2, 6, 2, 1 neighbours at Δs = −4, −2, 0, +2, +4, for every orientation and diagonal | `layer_histogram` | `Gump/Layers.lean` |
 | A dead sealed set stays dead whatever happens elsewhere (opening of **T6**) | `Sealed.step_dead`, `Sealed.run_dead` | `Gump/Sealed.lean` |
 | Unions of sealed sets are sealed (**T6**) | `Sealed.union` | `Gump/Sealed.lean` |

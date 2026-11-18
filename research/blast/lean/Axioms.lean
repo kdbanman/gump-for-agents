@@ -2,6 +2,10 @@
 (the compiler trusted as a prover) appears. -/
 import Gump
 open Gump
+#print axioms mem_offsets_iff
+#print axioms isCell_iff
+#print axioms rule_iff
+#print axioms nbrs_isCell
 #print axioms layer_histogram
 #print axioms Sealed.run_dead
 #print axioms Sealed.union
