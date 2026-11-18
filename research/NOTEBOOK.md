@@ -3769,3 +3769,53 @@ Thicker slabs: 63 cells at 12 and 16 layers 13.1596 ± 0.0012 and 13.1589 ± 0.0
   of 13, at 96 cells; a 120-cell tube of loop² 12. Its script pushes the rows at about 11:30 UTC on the 17th and
   13:00 UTC on the 18th, unanalysed.
 - Not checked (01:18 UTC): one code; arithmetic from rows only; the refit and the firewall numbers are the card's.
+
+## 2026-11-18: the card's third chain, recomputed: the long 12-tubes hold at 0.2020 per cell on eight seeds, tubes of loop² 13 bend too, loop² 16 leans; a CPU second code agrees at five faces
+
+From the card's branch as merged (main 6a197ba; `research/gpu-local/README.md`, the chain-3 bullets; rows in
+`research/data/gpu_local_eqtorus/` and `research/data/gpu_local_cpu/`). Recomputed from the rows by an Opus agent
+with its own script (`research/audit/CHAIN3-CHECK.md`; `python3 research/audit/gpu_chain3_lead_check.py`, under a
+second, PASS); the five chain-3 values and the 12-tube line re-derived by the lead with its own estimator when this
+entry was written. Nothing was re-run.
+
+| torus (H, K), (0, D) | cells | one loop² of | seeds | face deaths | ln τ_face | seeds' χ² |
+|---|---:|---:|---:|---:|---:|---:|
+| (1, 17), (0, 32) | 96 | 12 | 8 | 56,775 | 19.7446 ± 0.0042 | 10.0 on 7 |
+| (1, 16), (0, 36) | 108 | 12 | 8 | 13,641 | 22.1599 ± 0.0086 | 6.8 on 7 |
+| (1, 3), (0, 32) | 96 | 13 | 4 | 25,797 | 19.8109 ± 0.0062 | 2.8 on 3 |
+| (4, 0), (0, 8) | 96 | 16 | 4 | 24,796 | 19.9366 ± 0.0064 | 2.2 on 3 |
+| (1, 8), (0, 32) | 96 | 16 | 4 | 25,054 | 19.9284 ± 0.0063 | 5.0 on 3 |
+
+- **[measured; at 96 cells now two codes] The long 12-tubes.** With 17.3175 ± 0.0031 at 84 cells the three lie on one
+  line at **0.20198 ± 0.00031 per cell** (second difference −0.012 ± 0.012), below the 0.20437 of 54 to 84 cells by
+  0.00239 ± 0.00035 (6.8 combined errors). Against the frozen tube line the faces are 0.0345 low at 96 cells (5.0)
+  and 0.0717 low at 108 (6.3). The four new seeds agree with the four old (1.0 and 0.5 apart) and the scatter I
+  flagged is gone (χ² 16.8 on 14). WL7 stands, firmer.
+- **[measured, one code] Tubes of loop² 13 bend too.** Their line of 57 to 75 cells forecasts 19.8628 ± 0.0113 at 96
+  cells (the error includes the fit's covariance); measured 0.052 lower, 4.0 combined errors.
+- **[measured, one code] Loop² 16 leans.** Its line of 60 to 108 cells forecasts 19.9446 ± 0.0034; the two faces are
+  0.008 (1.1) and 0.016 (2.3) lower, pooled 0.012 ± 0.006 (2.2). Not established. That line already holds a
+  96-cell face of the first lattice's class (19.943 ± 0.018 on CPU), which the card's face repeats.
+- The fall in slope past each line's end: 0.0024 for loop² 12, 0.0019 ± 0.0005 for 13, 0.0015 ± 0.0006 for 16. In
+  the order of the girths; no two resolved apart.
+- **Firewalls on the girth-4 faces.** The two loop² 16 faces had 238,631 and 239,318 firewall events against about
+  25,000 face deaths each (ln τ_fw 16.98): ten firewalls per face death, where the 12- and 13-tubes of the same
+  size had none. The checker took the card's event definitions as given; what the firewalls do to these two face
+  lifetimes has not been examined by anyone.
+- **[two codes] The CPU second code** (`fr.c`, rows `research/data/gpu_local_cpu/`): five faces, each within 1.4
+  combined errors of the GPU value. 96-cell 12-tube 19.7231 ± 0.0160 (partial; −1.3); 63 cells at 8 layers 13.1607
+  ± 0.0017 (−0.9); 63 cells at 16 layers 13.1619 ± 0.0025 (+1.1); the loop-21 face 17.600 ± 0.044 (527 deaths;
+  +1.4); the 4 × 4 at 48 cells 9.9252 ± 0.0006 (+0.3). So: WL7 has two codes at 96 cells (the CPU value alone is 3.3
+  below the frozen line), not at 108. WL8 has not: ± 0.044 cannot speak to a 0.013 question. CN4: the CPU's own
+  thickness difference is +0.0013 ± 0.0030 against the GPU's −0.0033 ± 0.0015, so "thicker slabs live a little
+  shorter" is neither repeated nor excluded, and "the price does not change" stands. The two codes share the
+  vessel geometry (`tslab.py`), the event definitions, the estimator, the engine both are validated against, and
+  their author; the stepper, kernel, driver, random streams and bookkeeping are separate.
+- **Corrections to the card's write-up** (CHAIN3-CHECK, point 5): its error on the loop-13 shortfall leaves out the
+  slope's error (0.040 ± 0.007 should be ± 0.010; against my line 0.052 ± 0.013); "13 bends as much as 12" compares
+  21 cells past a line's end with 12; "every short loop bends" is established for 12 and 13, not for 16.
+- **What it answers** (open problem 9 (l)): the bend is not a peculiarity of loop² 12. For every girth measured
+  past its fitted range the price per cell falls with length. Whether it goes on falling is for the 120-cell tube,
+  which has no rows yet (the card's chain commits at its end, about 13:00 UTC today).
+- Not checked (03:14 UTC): the runs themselves and the GPU-against-engine checks; the hazard-by-age files; the CPU
+  code and its validation (not reviewed by the lead); whether the CPU's 96-cell rows are final.

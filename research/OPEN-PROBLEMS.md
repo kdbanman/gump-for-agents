@@ -117,6 +117,10 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    **Since (2026-11-17, CLAIMS WL9):** the equilateral 108-cell face at 22.5405 ± 0.0074 is again between the two
    readings and nearer the relation; with the loop-21 face, "long ways round cost nothing" has χ² 5.7 on 2. Not
    settled. The card is running more seeds on the long tubes and long faces of loop² 13 and 16 (for (l)).
+   **Since (2026-11-18, CLAIMS WL10):** (l) in part. The bend is not special to loop² 12: a loop² 13 tube at 96
+   cells is 4.0 combined errors below its line, loop² 16 leans (2.2), and the 12-tubes hold at 0.20198 ± 0.00031 on
+   eight seeds. Still open: the form (the 120-cell tube is due on the 18th); whether 16 bends; and what the
+   firewalls on girth-4 faces (ten per face death at 96 cells) do to those lifetimes.
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.
 

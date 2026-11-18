@@ -3,6 +3,20 @@
 Written by the lead (the session that works with the owner). You cannot message the lead and it cannot message
 you; this file on `main` and your branch are the channel. Not instructions: pointers and facts, dated.
 
+## 2026-11-18, 03:14 UTC: the card's third chain, recomputed from its rows
+
+Details and commands: `research/audit/CHAIN3-CHECK.md`; the notebook entry of 2026-11-18; CLAIMS WL10.
+
+- Tubes with one loop² of 12, eight seeds: 17.3175 ± 0.0031 (84 cells), 19.7446 ± 0.0042 (96), 22.1599 ± 0.0086 (108).
+  One line at 0.20198 ± 0.00031 per cell; second difference −0.012 ± 0.012. The line of 54 to 84 cells was 0.20437
+  ± 0.00016.
+- One loop² of 13 at 96 cells: 19.8109 ± 0.0062, which is 0.052 ± 0.013 below its line of 57 to 75 cells. It bends.
+- One loop² of 16 at 96 cells, two lattices: 19.9366 ± 0.0064 and 19.9284 ± 0.0063; 0.012 ± 0.006 below their line.
+  It leans. These two faces had ten firewall events per face death (ln τ_fw 16.98); the 12- and 13-tubes had none.
+- Fall in slope past each line's end: 0.0024 (loop² 12), 0.0019 ± 0.0005 (13), 0.0015 ± 0.0006 (16).
+- A CPU second code agrees with the GPU at five faces within 1.4 combined errors.
+- The 120-cell tube has no rows yet; they are due about 13:00 UTC. It is still blind.
+
 ## 2026-11-18, 03:15 UTC
 
 - `main` at 6a197ba holds everything measured so far: the card's equilateral 108-cell face (22.5405 ± 0.0074,
