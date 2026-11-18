@@ -16,9 +16,11 @@ corrected.
   three quarters full (33 → 48.8 of 63 cells), together with the layers beneath it. Then four in five of its live
   cells have six or more live neighbours and die, almost nothing is born, and one generation later about 11
   scattered cells are left over layers that have crashed with them. Usually the fragments rebuild the face; about
-  one time in 130 none of them is large enough, and the face is empty five to seven generations after it was
-  normal. It happens everywhere on the face at once: no hole, no front, no band. Nearly every death of a wrapped
-  face goes this way.
+  one time in 130 at 63 cells (one in 1,100 at 84, the outside audit's count) none of them is large enough, and
+  the face is empty five to seven generations after it was normal. The crash is everywhere on the face at once:
+  no hole, no front, no band in it. What it leaves is a dozen cells in clumps, and the order in which those go is
+  patterned in space in about half the deaths (the audit's correction to this report's first wording). Nearly
+  every death of a wrapped face goes this way.
 - **A hull face fades instead.** Its rim cells have 7 neighbours inside the vessel where an interior cell has 9, so
   they are rarely overcrowded; the face lives through an over-full generation and is back to normal one generation
   later. It dies by a lopsided fade of about ten generations (of the cells that die in it, 58% starve and 42% are
@@ -32,6 +34,31 @@ is no formula yet. The 135-cell hull face is **not decided**: a forecast of 29.2
 four-point straight line) and a first measurement on a coin-driven surrogate (between 29.26 ± 0.06 and 29.34,
 depending on how the surrogate's own offset from gump continues) agree within about one error, and "the wrapped
 price takes over" (29.163) is 1.5 to 3 errors below each.
+
+**What the second phase added (the same day from 11:00 UTC; three solvers and one referee; details in the next
+section).**
+
+- **Boom and bust is confirmed on gump itself by another session's code**: four generations before death a
+  wrapped face is at 0.72 to 0.75 of full on four faces (the launch level here: 0.738), and hull faces show no
+  such generation. Forecast first; held.
+- **The lifetime price is not the cost of a hole in the living state.** That was the PI's idea; it failed at
+  every size reached (refereed).
+- **The two prices are probably not both asymptotic [conjectured, from three measured facts].** Alive, the
+  interior of a hull face is a wrapped face from two rows in (refereed). No row of a corner-free rimmed strip
+  costs more than a wrapped row at the same loop (two codes agree). And the hull's 0.231 is a marginal price, a
+  second difference, which sits above the average price for as long as the average is still rising with size;
+  closed faces show the same. At what size the hull's marginal price comes down is not known.
+- **The 120-cell tube is 24.5086 ± 0.0169, below every forecast, this report's included.** A tube's line bends
+  (0.2023, 0.2013, 0.1957 per cell from 84 to 120 cells) and the night's fitted tube law is refuted.
+- **The 135-cell hull face is still not decided.** A second sampler (gump on the whole hull, coin replacements at
+  a low rate deep under the watched face) is exact at zero noise and shows no offset at 45 and 63 cells. Its
+  blind test at 108 cells: at the largest noise rate it reads +0.083 ± 0.027 above gump; extrapolated to zero
+  noise it agrees with gump, but only to ± 0.08 (the last entry of the next section; unrefereed). That is too
+  coarse for the 135-cell face, whose two readings are 0.067 apart, and the 135-cell runs were not started. The
+  extrapolations stand at 29.20 to 29.22 ± 0.03, against 29.230 and 29.163.
+- New small facts: thin strips and narrow tubes are cut across by firewalls before a face dies; a tetrahedron of
+  gump has no steady state (its corners are shaved off); the 18-cell hull face lives 4.855 ± 0.015 and is too
+  small to belong to the family.
 
 ## Second phase (after the usage reset at 11:00 UTC): additions, newest last
 
@@ -185,6 +212,118 @@ gives is the size at which the hull's marginal price comes down. The agents' for
 from this side are 29.20 ± 0.03 (`strips/`), 29.21 ± 0.03 (`holes/`), against 29.230 for "the second difference
 repeats"; they are extrapolations and do not decide it. Not checked: second seeds for most long runs; the
 thickness of the 4-row strip at L of 6 and more; nobody has rewritten `strips/`' stepper.
+
+### 14:57 UTC. The noisy hull: a sampler with all eight faces real; its blind test at 108 cells is not clean (`noisy/`; unrefereed)
+
+The chain: gump's rule on every cell of the hull, all eight faces real; after each generation the cells 6 or
+more layers under the watched face and 3 or more under every other face are hit by darts that set a cell to a
+fair coin, at a rate ε per cell and generation. ε = 0 is gump. The sampler is the night's subset simulation, over
+the darts; it is exact for the chain at any ε > 0 [proved, standard]. The aim was to extrapolate in ε at the
+target size and not in size.
+- [measured] At zero noise the stepper is gump bit for bit (`python3 research/blast/noisy/validate.py 1200`), and
+  brute force of the chain shows **no offset from gump at 45 and 63 cells at any ε up to 0.3** (63 cells: weighted
+  mean +0.003 ± 0.004). The sampler against brute force at 63 cells: −0.024 ± 0.023, +0.019 ± 0.018, +0.003 ±
+  0.018 at ε = 1/64, 1/16, 1/4. At 84 cells, ε = 1/16: 18.173 ± 0.029, which is +0.032 ± 0.029 above gump.
+- [measured, interim] **108 cells, blind (gump: 23.3392 ± 0.0099).** With about a third of the planned
+  replications: 23.433 ± 0.052 at ε = 1/16 (96 replications), 23.49 ± 0.09 at 1/32 (19), 23.39 ± 0.09 at 1/64
+  (about 150, scatter 1.0 per replication). Weighted mean **+0.093 ± 0.044 above gump**; the line's intercept at
+  ε = 0 is +0.05 ± 0.13. Reproduce: `python3 research/blast/noisy/fit.py` on the rows in
+  `research/blast/noisy/data/runs/`.
+- What that says: the offset from gump grows with the face (+0.008 ± 0.009, +0.032 ± 0.029, +0.09 ± 0.04 at 63, 84,
+  108 cells) as the night's dice chain's did, and at small ε, where the chain is nearest to gump, the sampler's
+  replications scatter too much to extrapolate. **The method does not reach the 135-cell face** better than the
+  night's surrogate did (29.26 ± 0.06 to 29.34), and the 135-cell runs were not started.
+- A fact about the machine: the planned runs were cut at 14:07 UTC because this container is stopped whenever
+  the session has no turn, agent or tracked job in flight, and detached processes die with it. The rest of the
+  108-cell runs were restarted at 14:57 UTC as a tracked job (`sh research/blast/noisy/pi_resume_B.sh`, four
+  cores, 105 minutes); the final numbers are appended below when it ends.
+Not checked: no referee has rewritten the chain or the sampler (the window had no room for one); whether the
+offset at 108 cells is the chain's or the sampler's (the script `prod_A_brute84.sh`, 10 core-hours, would say at
+84 cells); other noise regions.
+
+**Final numbers of the blind test at 108 cells, 16:39 UTC** (the tracked job ended; all planned replications in;
+about 10 core-hours in all). [measured] Gump: 23.3392 ± 0.0099.
+
+| ε | replications | ln τ | minus gump | scatter of one replication | largest share of the rate |
+|---|---|---|---|---|---|
+| 1/16 | 440 | 23.422 ± 0.025 | +0.083 ± 0.027 | 0.52 | 0.015 |
+| 1/32 | 300 | 23.228 ± 0.119 | −0.111 ± 0.119 | 2.06 | 0.115 |
+| 1/64 | 360 | 23.368 ± 0.065 | +0.029 ± 0.066 | 1.23 | 0.056 |
+
+- Weighted mean over the three: 23.408 ± 0.023, which is **+0.069 ± 0.025 above gump** (2.8 errors; χ² 3.0 on 2).
+- A line in ε: intercept at ε = 0 **23.314 ± 0.082, which is −0.025 ± 0.083 from gump**; slope +1.7 ± 1.4 per unit
+  of ε (χ² 1.6 on 1).
+- Reproduce: `python3 research/blast/noisy/fit.py` (rows in `research/blast/noisy/data/runs/`; the runs are
+  `sh research/blast/noisy/prod_B_108.sh` as far as it got, then `sh research/blast/noisy/pi_resume_B.sh`).
+
+What the final numbers change, and what they do not. At ε = 1/16 the chain reads above gump by three of its
+errors at 108 cells, where it read +0.032 ± 0.029 at 84 cells and nothing at 63: that offset is real for this
+chain or for its sampler, and it grows with the face. The extrapolation to zero noise agrees with gump, but only
+to ± 0.08, and the two readings of the 135-cell face are 0.067 apart; the slope it rests on is 1.2 errors from
+zero. So the interim verdict stands: **the method, as tuned, does not decide the 135-cell face**, and the
+135-cell runs were not started. Not checked, beyond the list above: the error bars at ε = 1/32 and 1/64 are not
+to be read as Gaussian (at 1/32 the value moved from 23.386 at 200 replications to 23.228 at 300, and one
+replication carries 11% of the summed rate); no second set of seeds; no referee.
+
+### 16:40 UTC. The outside audit of the night's report (`research/audit/REVIEW-blast.md`, on `main`; the lead's, not this session's)
+
+The pull request was merged at 14:17 UTC after an audit that rebuilt the night's main claims from the oracle with
+its own code (`research/audit/blast/`; 234,823 deaths of a 63-cell wrapped face, 281,631 of a 63-cell hull face,
+a wide face and a tube at 84 cells). Read by the PI at 16:40 UTC; nothing below is recomputed here.
+- [measured by the audit] **Confirmed:** boom and bust on wrapped faces at 63 and 84 cells (launch at 0.7376·A
+  against this report's 0.738; fall 48.79 → 11.24 against 48.83 → 11.18); the fade on the hull face; the cause
+  given for it, now cell by cell (in an over-full generation the hull's interior cells survive as rarely as a
+  wrapped face's, 0.34 and 0.33, and its rim row twice as often, 0.66); the exactly solved surrogate to every
+  digit recomputed; the tilt identity.
+- **Three statements of this report it qualifies, and the report now carries the qualification:**
+  1. "No hole, no front, no band" holds for the crash (the two halves of the face fall in the same generation in
+     88% of deaths at 63 cells, 92% at 84) and is too strong for what follows it: the cells' last-alive times are
+     patterned in space in about half the deaths. `anatomy/`'s own table had a plane beating shuffles in 32.5% of
+     deaths against 11.9% on a living face, and the report passed over it. The short version is reworded.
+  2. "About one bust in 130 kills" is the 63-cell number; at 84 cells it is one in 1,100. Item 1 below should be
+     read with that.
+  3. "The same number of survivors is deadlier after a bust" (0.334 against 0.236): the direction is confirmed,
+     the size is smaller under the audit's definition (0.311 against 0.260).
+- **What the audit says is not a result**, and this report agrees: the tube's asymptote 0.2004 and its K = 2 curve
+  and 0.0046·L² (refuted at 120 cells, the 13:21 entry above); the 192-cell and staggered-crash statements, which
+  rest on a surrogate that is 0.12 ± 0.05 off at 120 cells; "0.079 + 0.136" as parts of the price; the
+  living-state estimator beyond 108 cells; the 135-cell forecasts.
+- New from the audit: the chance that a face with k cells left dies is lower on the hull than on a wrapped face
+  under one definition (0.77, 0.50, 0.30 against 0.86, 0.64, 0.44 at k = 1, 2, 3), and neither the bust nor the
+  shared rim row accounts for it. That was "unreconciled" in this report; it is a fact with no explanation.
+- Not checked by the audit (its section 9): anything above 84 cells on gump; `rim/`, `split-hull/`, `ref-hull/`,
+  the dice chains and their samplers; and the whole of the second phase above, which it predates.
+
+### 19:37 UTC. The noisy hull's sampler under the review's questions: the tail, the families, the odd sweeps (`noisy/`; the lead's rebuild is still to report)
+
+Asked by the lead on pull request 39. Rows: `research/blast/noisy/data/runs_diag/` (from `sh research/blast/noisy/diag.sh`).
+- [measured] **The law of one replication has a rare heavy tail at 108 cells** (`python3 research/blast/noisy/tails.py`).
+  At 63 and 84 cells the largest replication is 1.4 to 2.5 times the mean; at 108 cells 20, 35 and 7 times at
+  ε = 1/64, 1/32, 1/16, with the median at 0.80, 0.73, 0.90 of the mean. An unbiased estimate with such a law reads
+  high in ln τ in most samples; its error bar from the scatter knows nothing of the part of the tail it has not
+  caught. One replication of 35 times the mean among the 440 at ε = 1/16 would move that value by −0.077.
+- [measured] **Ancestry** (`python3 research/blast/noisy/anc.py research/blast/noisy/data/runs_diag`; `nz.c` now
+  prints it, with no change to its random numbers). The dying chains of one replication descend from a median of
+  47, 54 and 56 distinct initial states at ε = 1/64, 1/32, 1/16 (30 replications each; 130 at 63 cells, 86 at 84),
+  and the largest family holds 0.15 to 0.22 of them. So a typical replication is not one start reweighted. The
+  tail is: in each set the replication with the largest rate has a largest family of 0.32 to 0.71.
+- [measured] **Odd sweeps off** (every sweep proposes anywhere; 420 replications at 108 cells, ε = 1/16):
+  **23.330 ± 0.043, which is −0.009 ± 0.044 from gump** and 0.092 ± 0.050 below the value with the odd sweeps on
+  (23.422 ± 0.025; 1.8 combined errors). Its replications scatter more (0.88 of the mean against 0.52), its
+  families are fewer (median 38), and 32 of its 420 replications have one family holding half or more of the dying
+  chains; those 32 carry 0.21 of the summed rate. A fresh 30 replications with the odd sweeps on read 23.339 ± 0.075.
+- What this says. Read as code, the odd sweeps leave the conditional law invariant (the window before the first
+  minimum always holds the same number of bits, and a move is refused unless its reverse is proposable), so both
+  forms estimate the same number without bias and differ by 1.8 errors. [conjectured] The +0.083 of the 14:57 entry
+  is the sampler's, not gump's: either a tail not yet caught with the odd sweeps on, or a fault in them that the
+  reading missed. Not decided. `diag2.sh` (running) repeats on against off at 84 cells, where the lead's rebuild
+  will have the chain by brute force. **The sentence of the 14:57 entry "that offset is real for this chain or for
+  its sampler, and it grows with the face" should be read with this: nothing here shows an offset of the chain.**
+- What it means for the method: its variance at 108 cells is in the initial states, which the moves never touch.
+  A sampler that also moves the initial state (an independence move among stationary snapshots, accepted iff the
+  score stays under the level) is the next form to build; forecast in `noisy/PREDICTIONS.md`, block 3, item 5.
+Not checked: the brute force of the chain at 84 cells (the rebuild's, and block 3's first two forecasts wait on
+it); ancestry with the odd sweeps on beyond 30 replications per ε; no second code for the sampler.
 
 ## What was found
 

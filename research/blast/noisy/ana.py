@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Pool the replications of the subset sampler on the noisy chain.
 
-    python3 research/blast/noisy/ana.py [DIR_OR_FILES ...]      (default: scratch runs/)
+    python3 research/blast/noisy/ana.py [DIR_OR_FILES ...]      (default: the committed rows, data/runs/)
 
 Groups the REP lines of all given files by the header line (R, M, sampler parameters).  Per group: the number of
 replications K; ln tau = -ln(mean rate) with the error from the scatter of the replications' rates (and a
@@ -12,7 +12,7 @@ trusted: "has the tail been met?"); the running pooled value every 50 replicatio
 import glob, math, os, re, sys
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
-args = sys.argv[1:] or [os.path.join(HERE, '..', '..', 'scratch', 'blast', 'noisy', 'runs')]
+args = sys.argv[1:] or [os.path.join(HERE, 'data', 'runs')]
 files = []
 for a in args:
     files += sorted(glob.glob(os.path.join(a, '*.txt'))) if os.path.isdir(a) else [a]

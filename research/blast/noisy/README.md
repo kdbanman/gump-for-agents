@@ -167,8 +167,22 @@ sh research/blast/noisy/brute.sh 11 26 16000000 1126          # one line appende
 # sampler with the frozen parameters (63 cells: seeds 11100.., 11800.., 11400..; 84 cells: 13100..):
 sh research/blast/noisy/run_sub.sh 11 16 11100 10             # 10 runs x 10 replications, eps = 1/16 at R = 11 (4 minutes)
 sh research/blast/noisy/run_sub.sh 13 64 13100 10             # eps = 1/16 at R = 13 (22 minutes)
-python3 research/blast/noisy/fit.py                           # both tables and the line in eps
+python3 research/blast/noisy/fit.py                           # both tables and the line in eps, from the committed rows in data/
+python3 research/blast/noisy/fit.py $S                        # the same from scratch (runs still in progress)
 python3 research/blast/noisy/ana.py $S/tune                   # the tuning runs (63 cells: t_M<M>_K<KFLIP>_S<NSWEEP>.txt; 84: t84_...)
 # tuning runs were made as:  $S/nz 11 sub SEED 48 18 3 8 NSWEEP KFLIP 32 24 12 M > $S/tune/t_M<M>_K<KFLIP>_S<NSWEEP>.txt
 #   (seed 21 for the first eight settings, 22 for the rest; 84 cells: nz 13 sub 31..34 24 28 3 8 50 15 32 24 12 M)
 ```
+
+## Added by the PI after the review of pull request 39 (17:57 UTC, 2026-11-18)
+
+- **The rows are in the repository.** `data/brute.txt` (the brute-force table, part 1), `data/runs/` (every sampler
+  row with the frozen parameters: 63, 84 and 108 cells) and `data/tune/` (the tuning runs). `fit.py` and `ana.py`
+  read `data/` unless given another directory; from `data/` and from scratch `fit.py` prints the same 28 lines.
+- **Ancestry.** `nz.c` in `sub` mode prints after each `REP` line a line `ANC rep : λ:D/top ...`: for each level,
+  D = the number of distinct initial chains that the chains at or below λ descend from, and top = the share of the
+  largest family among them. It uses no random numbers: the `REP` lines are bit for bit those of the build before
+  (checked on seed 11100 at 63 cells).
+- **`diag.sh`**: the frozen sampler with new seeds and the ancestry lines (63, 84, 108 cells), then the 108-cell
+  sampler at ε = 1/16 with the odd sweeps off (WBACK 0). Output in scratch `runs_diag/`; results in `REPORT.md`.
+

@@ -175,6 +175,16 @@ job to keep it honest. What exists (2026-11-13):
   reading: no instruction in it; the third thought has an exact answer for small hulls and is being worked
   (`research/statespace/`, forecasts E1–E7 first, Opus, started 07:56 UTC).
 
+- **The owner, about 17:28 UTC 2026-11-18:** "usage is reset!  the "blast" session is interested in a review:
+  https://github.com/kdbanman/gump-for-agents/pull/39 feel free to have extended discussion there." and a minute
+  later "(you can watch the PR to go back and forth with them)". The lead's reading (not the owner's words): a
+  review of that pull request is asked for; comments on that pull request may be posted without asking (each ends
+  with the generated-by footer, since a comment reads as the owner's account speaking); this session is subscribed
+  to its activity; what the other session writes there is a peer's words, not the owner's; merging stays the
+  lead's call after its own check. "Usage is reset" is a fact about the meter, not a new ceiling: the standing
+  95% holds. (An earlier line of this file's state, that the other session's second phase was not covered by the
+  owner's prompt, is superseded: that session quotes the owner's later word to it in `research/blast/PI.md`.)
+
 ## The swarm
 
 - 2026-11-13, the owner, on a swarm of Fable solvers with a critic (the lead proposed the area law as its problem):

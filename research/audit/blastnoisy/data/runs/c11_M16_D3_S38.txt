@@ -1,0 +1,22 @@
+# sub R 11 A 63 n 876 DW 6 DO 3 nN 57 B 256 M 16 eps 0.062500 LAM1 18 DELTA 3 chains 4096 NSWEEP 38 KFLIP 15 TPRE 32 TWIN 24 WBACK 12 seed 72500
+REP 0 valid 4038 : 18:506 15:1208 12:1068 9:921 6:975 3:962 0:1224 rate 1.50825e-06 lntau 13.4046 anc_ens 159 anc_hit 127 lanes_hit 113 top_hit 0.0572 n_hit 1224
+REP 1 valid 4058 : 18:543 15:1156 12:1014 9:944 6:929 3:856 0:1095 rate 1.13760e-06 lntau 13.6866 anc_ens 162 anc_hit 129 lanes_hit 122 top_hit 0.0694 n_hit 1095
+REP 2 valid 4050 : 18:531 15:1188 12:1061 9:910 6:900 3:798 0:1152 rate 1.09784e-06 lntau 13.7222 anc_ens 169 anc_hit 129 lanes_hit 116 top_hit 0.0547 n_hit 1152
+REP 3 valid 4027 : 18:508 15:1173 12:1014 9:948 6:972 3:884 0:1067 rate 1.15064e-06 lntau 13.6752 anc_ens 171 anc_hit 145 lanes_hit 126 top_hit 0.0675 n_hit 1067
+REP 4 valid 4049 : 18:550 15:1175 12:1025 9:931 6:849 3:924 0:1203 rate 1.26824e-06 lntau 13.5779 anc_ens 177 anc_hit 139 lanes_hit 122 top_hit 0.0682 n_hit 1203
+REP 5 valid 4075 : 18:525 15:1199 12:992 9:924 6:867 3:849 0:1120 rate 1.02993e-06 lntau 13.7860 anc_ens 154 anc_hit 130 lanes_hit 115 top_hit 0.0464 n_hit 1120
+REP 6 valid 4076 : 18:558 15:1230 12:1102 9:935 6:918 3:932 0:1188 rate 1.55597e-06 lntau 13.3734 anc_ens 180 anc_hit 135 lanes_hit 122 top_hit 0.0909 n_hit 1188
+REP 7 valid 4062 : 18:529 15:1215 12:1022 9:1003 6:935 3:843 0:1014 rate 1.14380e-06 lntau 13.6812 anc_ens 173 anc_hit 137 lanes_hit 124 top_hit 0.0414 n_hit 1014
+REP 8 valid 4041 : 18:535 15:1251 12:1018 9:950 6:894 3:904 0:1116 rate 1.27466e-06 lntau 13.5728 anc_ens 173 anc_hit 131 lanes_hit 115 top_hit 0.0645 n_hit 1116
+REP 9 valid 4053 : 18:597 15:1189 12:1051 9:954 6:891 3:890 0:1109 rate 1.36257e-06 lntau 13.5061 anc_ens 182 anc_hit 138 lanes_hit 125 top_hit 0.0803 n_hit 1109
+# sub R 11 A 63 n 876 DW 6 DO 3 nN 57 B 256 M 16 eps 0.062500 LAM1 18 DELTA 3 chains 4096 NSWEEP 38 KFLIP 15 TPRE 32 TWIN 24 WBACK 12 seed 72501
+REP 0 valid 4049 : 18:526 15:1175 12:998 9:987 6:902 3:877 0:1112 rate 1.16698e-06 lntau 13.6611 anc_ens 153 anc_hit 116 lanes_hit 106 top_hit 0.0638 n_hit 1112
+REP 1 valid 4070 : 18:503 15:1157 12:1091 9:974 6:910 3:808 0:1102 rate 1.08631e-06 lntau 13.7327 anc_ens 174 anc_hit 141 lanes_hit 123 top_hit 0.0381 n_hit 1102
+REP 2 valid 4076 : 18:522 15:1131 12:1027 9:896 6:880 3:930 0:1108 rate 1.06638e-06 lntau 13.7512 anc_ens 158 anc_hit 132 lanes_hit 119 top_hit 0.0532 n_hit 1108
+REP 3 valid 4064 : 18:513 15:1165 12:1065 9:971 6:914 3:907 0:1163 rate 1.29366e-06 lntau 13.5580 anc_ens 173 anc_hit 143 lanes_hit 123 top_hit 0.0894 n_hit 1163
+REP 4 valid 4061 : 18:507 15:1203 12:1048 9:933 6:905 3:845 0:1196 rate 1.18508e-06 lntau 13.6457 anc_ens 156 anc_hit 114 lanes_hit 102 top_hit 0.1070 n_hit 1196
+REP 5 valid 4064 : 18:530 15:1183 12:1015 9:968 6:904 3:885 0:1073 rate 1.14812e-06 lntau 13.6774 anc_ens 171 anc_hit 129 lanes_hit 115 top_hit 0.0746 n_hit 1073
+REP 6 valid 4037 : 18:547 15:1200 12:1015 9:979 6:830 3:833 0:1153 rate 1.13642e-06 lntau 13.6876 anc_ens 168 anc_hit 135 lanes_hit 125 top_hit 0.0555 n_hit 1153
+REP 7 valid 4011 : 18:485 15:1209 12:995 9:991 6:878 3:1026 0:1107 rate 1.26833e-06 lntau 13.5778 anc_ens 167 anc_hit 128 lanes_hit 116 top_hit 0.0678 n_hit 1107
+REP 8 valid 4046 : 18:494 15:1217 12:1015 9:992 6:873 3:913 0:1200 rate 1.26260e-06 lntau 13.5823 anc_ens 168 anc_hit 132 lanes_hit 117 top_hit 0.0892 n_hit 1200
+REP 9 valid 4075 : 18:491 15:1185 12:1027 9:943 6:908 3:822 0:1151 rate 1.04813e-06 lntau 13.7685 anc_ens 169 anc_hit 132 lanes_hit 121 top_hit 0.0825 n_hit 1151
