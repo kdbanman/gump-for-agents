@@ -176,7 +176,8 @@ int main(int argc, char **argv) {
   build(0); seedrng(seed * 7919 + R);
   nFS = 0;
   for (int c = 0; c < N; c++) { int sd = cx[c] + cy[c] + cz[c]; if (sd <= R - 4 * LAG - 2 && sd > R - 4 * LAG - 2 - 2 * DL) FS[nFS++] = c; }
-  mflip = (nFS + DIV - 1) / DIV;
+  mflip = (PMODE == 2) ? DIV : (nFS + DIV - 1) / DIV;   // PMODE 2: DIV is the number of flips itself
+  long NS0 = argc > 11 ? atol(argv[11]) : NS; long CAP = NS0 > NS ? NS0 : NS;
   clock_t t0 = clock();
   static int age[NL], flag[NL], plast[NL], mfl[NL];
   int cur = 0; long g = 0;
@@ -184,9 +185,9 @@ int main(int argc, char **argv) {
   double sp = 0, sp2 = 0; long np = 0;
   int lamA = 1 << 30, lam0 = -1, set = 0, counting = 0;
   long expo = 0, ncross = 0, deaths = 0; double deathsw = 0;
-  Store a, b; st_init(&a, NS); st_init(&b, NS);
+  Store a, b; st_init(&a, CAP); st_init(&b, CAP); a.cap = NS0; b.cap = NS;
   long maxg = 2000000000L;
-  while (a.seen < NS && g < maxg) {
+  while (a.seen < NS0 && g < maxg) {
     int nx = (cur + 1) % KH; step(cur, nx); cur = nx; g++; facestats(cur);
     int old = (cur - LAG + KH) % KH;
     int pilot = (g > 200 && g <= 500);
@@ -232,7 +233,7 @@ int main(int argc, char **argv) {
     long *perm = malloc(Ni * sizeof(long));
     for (long k = 0; k < Ni; k++) perm[k] = k;
     for (long k = Ni - 1; k > 0; k--) { long r = rint_(k + 1), t = perm[k]; perm[k] = perm[r]; perm[r] = t; }
-    sb->n = sb->seen = 0;
+    sb->n = sb->seen = 0; sb->cap = NS;
     long j = 0, nsucc = 0; double sumw = 0; int nact = 0;
     for (int l = 0; l < NL; l++) act[l] = 0;
     for (;;) {
