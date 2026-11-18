@@ -52,3 +52,31 @@ again) is "the second difference repeats", 29.230, and only from 165 cells on do
 0.01 with the surplus in the rim rows": P = 0.4; "the data reject it": P = 0.15; undecided: P = 0.45.
 
 **A7. The forecast I expect to freeze.** ln τ(135 cells) within 29.23 ± 0.04: P = 0.7.
+
+## Block B. Frozen 2026-11-18 11:55 UTC: ln τ of hull faces of 135, 165, 198 cells
+
+Frozen before reading anything under `research/blast/noisy/` (never opened) and before reading the PI's block 5.
+What I had seen when freezing: my own interim tables (torus 12 × 12 at about 2·10⁷ generations of 256 lanes, hull
+R = 29 at about 3·10⁶), my lifetime of the 18-cell hull face (4.855 ± 0.015, `data/life.txt`), the anchors of the
+common brief, and the night's forecasts quoted in `REPORT.md` (29.22 ± 0.02 by the dip-rate route, 29.30 ± 0.09
+and 29.34 on the surrogate, 35.780 and 43.011 at 165 and 198 cells by the dip-rate route). So these are NOT
+independent of the night's extrapolations: the static measurement gave me no number that enters them (see README:
+the living state shows no surplus in the rim rows, and its cost of emptiness is not converged at the sizes plain
+running reaches). They are the anchors, plus one new anchor of mine at 18 cells, extrapolated by formula S of
+`model.py` (a rim term, one asymptotic price left free, one geometric transient), with the rows formula R as the
+upper companion.
+
+| face | forecast (ln τ_face) | how |
+|---|---|---|
+| 135 cells (R = 17) | **29.21 ± 0.03** | S, price free, anchors 18–108 cells: 29.207 (29.177 … 29.232); anchors 30–108: 29.225; R: 29.231 ± 0.025 |
+| 165 cells (R = 19) | **35.75 ± 0.06** | S: 35.746 (35.677 … 35.801); R with ρ = 0.6 ± 0.3: 35.787 ± 0.048 |
+| 198 cells (R = 21) | **42.96 ± 0.11** | S: 42.954 (42.830 … 43.051); R: 43.010 ± 0.087 |
+
+Probabilities: 135-cell face inside 29.21 ± 0.03: 0.6; above 29.26: 0.12; below 29.165 (the wrapped price taking
+over at once): 0.08. The asymptotic price per cell of a hull face, if formula S is the right family: 0.223 (0.2175
+to 0.227), neither 0.2087 (χ² 6.4 on 2) nor 0.2307 (χ² 4.1 on 2); P(the true asymptote is within 0.003 of 0.2087):
+0.3; within 0.003 of 0.2307: 0.25.
+
+Forecast inside block B that can be scored today from my own run: the corner triangle of side 6 (63 cells, two
+real rims) will read −ln P = 18.75 ± 0.15 when the hull run ends (interim 18.79 ± 0.17 on 78 hits; "the same
+object as the 63-cell hull face plus an edge linear in its length" would be 18.55).

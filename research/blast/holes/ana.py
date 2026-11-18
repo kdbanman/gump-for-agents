@@ -97,6 +97,53 @@ def torus_tables(meta, T):
 def M(f, a, b):  # mixed second difference at (a+1/2, b+1/2)
     return f(a + 1, b + 1) - f(a + 1, b) - f(a, b + 1) + f(a, b)
 
+def extrap(f):
+    """Where does the bulk cost per cell go? (1) strips: the cost of one more unit of length of a strip a wide,
+       I_a(b) = f(a,b+1) - f(a,b), extrapolated in b by Shanks' rule on its last three good values; the price of
+       the a-th row of a long strip is then [eps(a) - eps(a-1)]/3. (2) fits M/3 = c + U(a+1/2) + U(b+1/2)."""
+    print('\nextrapolations of the bulk cost (class P) [model-dependent]')
+    eps = {}
+    for a in range(1, 5):
+        I = []
+        for b in range(1, 8):
+            q = f(0, a, b + 1) - f(0, a, b)
+            if math.isnan(q.val()) or not math.isfinite(q.err()) or q.err() > 0.03: break
+            I.append((q.val(), q.err()))
+        if len(I) < 3: continue
+        x0, x1, x2 = I[-3][0], I[-2][0], I[-1][0]
+        den = (x2 - x1) - (x1 - x0)
+        sh = x2 - (x2 - x1) ** 2 / den if abs(den) > 1e-9 and 0 < (x2 - x1) / (x1 - x0) < 1 else float('nan')
+        eps[a] = (x2, sh, len(I))
+        print(f'  strip {a} wide: last increment (b={len(I)}->{len(I)+1}) {x2:.4f}±{I[-1][1]:.4f}; ratio of the last two steps {(x2-x1)/(x1-x0):.2f}; Shanks limit {sh:.4f}')
+    for a in range(2, 5):
+        if a in eps and a - 1 in eps:
+            print(f'  price per cell of row {a} of a long strip: from last increments {(eps[a][0]-eps[a-1][0])/3:.4f}, from Shanks limits {(eps[a][1]-eps[a-1][1])/3:.4f}')
+    pts = []
+    for a in range(1, 5):
+        for b in range(a, 8):
+            q = (1 / 3) * M(lambda x, y: f(0, x, y), a, b)
+            if math.isnan(q.val()) or not math.isfinite(q.err()) or q.err() > 0.012: continue
+            pts.append((a + .5, b + .5, q.val(), q.err()))
+    for amin in (1.5, 2.5):
+        sel = [p for p in pts if p[0] >= amin]
+        if len(sel) < 4: continue
+        y = np.array([p[2] for p in sel]); e = np.array([max(p[3], 0.001) for p in sel])   # 0.001: a floor for model error
+        for name, U in (('exp(-x/xi)', lambda x, t: np.exp(-x / t)), ('x^-p', lambda x, t: x ** (-t))):
+            best = None
+            for t in np.arange(0.3, 8.01, 0.05):
+                X = np.stack([np.ones(len(sel)), np.array([U(p[0], t) + U(p[1], t) for p in sel])], 1)
+                co, *_ = np.linalg.lstsq(X / e[:, None], y / e, rcond=None)
+                chi = float((((X @ co) - y) / e) ** 2 @ np.ones(len(sel)))
+                if best is None or chi < best[0]: best = (chi, t, co[0], co[1])
+            ok = [None, None]
+            for t in np.arange(0.3, 8.01, 0.05):
+                X = np.stack([np.ones(len(sel)), np.array([U(p[0], t) + U(p[1], t) for p in sel])], 1)
+                co, *_ = np.linalg.lstsq(X / e[:, None], y / e, rcond=None)
+                chi = float((((X @ co) - y) / e) ** 2 @ np.ones(len(sel)))
+                if chi < best[0] * (1 + 4.0 / max(1, len(sel) - 3)) + 0.0:
+                    ok = [co[0] if ok[0] is None else min(ok[0], co[0]), co[0] if ok[1] is None else max(ok[1], co[0])]
+            print(f'  fit M/3 = c + B[U(a+1/2) + U(b+1/2)], U = {name}, {len(sel)} values with a+1/2 >= {amin}: c = {best[2]:.4f} (range {ok[0]:.4f} .. {ok[1]:.4f}), parameter {best[1]:.2f}, B = {best[3]:.3f}, chi2 = {best[0]:.1f} on {len(sel)-3}')
+
 def show_pre(P, sel, title):
     print(title)
     print('  shape  where          events  not-new  flicker  bust-share  over-full-share   patch density at lags 1..5 | layer beneath at lags 0..4')
@@ -147,6 +194,12 @@ def main():
         for s in range(1, 8): print(f'  s={s} cells {3*s*(s+1)//2:3d}  {f(0, s, TRI).s():>15s} | {f(2, s, TRI).s():>15s} | {f(1, s, TRI).s():>15s} | {f(3, s, TRI).s():>15s}   hits {int(f(0, s, TRI).hits())}')
         print('second differences of the triangle cost in s (3 cells each), per cell, class P: ' +
               ' '.join(f"s={s}: {((1/3) * (f(0, s + 1, TRI) - 2.0 * f(0, s, TRI) + f(0, s - 1, TRI))).s()}" for s in range(2, 6)))
+        extrap(f)
+        both = lambda a, b: Q([(0.5, *f(0, a, b).terms[0][1:]), (0.5, *f(1, a, b).terms[0][1:])])
+        print('\nan empty patch against a closed torus of the same shape: mean of the two classes of -ln P, less ln tau_face of the a x b torus (research/constant/out/points.txt)')
+        for (a, b), lt in (((4, 4), 9.9251), ((3, 6), 11.0824), ((4, 5), 12.4865), ((2, 8), 9.4888)):
+            q = both(a, b)
+            print(f'  {a}x{b} perimeter {2*(a+b)}: -ln P {q.s(3)}  ln tau {lt:.4f}  difference {q.val()-lt:.3f}±{q.err():.3f}')
         show_pre(P, [(f'{a}x{a} torus', [(0, a, a, 0, 0), (2, a, a, 0, 0)]) for a in (2, 3, 4)], '\nhow a patch empties (class P)')
         return
     meta, T, P = load(rest)
@@ -224,6 +277,16 @@ def main():
             print('  the same for the torus (class P): M(w+1/2, l+1/2)/3')
             for w in range(1, 5):
                 print(f'  w={w}.5 ' + ' '.join(f"{((1/3) * M(lambda x, y: ft(0, x, y), w, l)).s():>15s}" for l in range(1, 8)))
+            print('  rim strips less torus, in the cost per cell from the mixed second difference')
+            for w in range(1, 5):
+                cells = []
+                for l in range(1, 8):
+                    qs = [g(w + 1, l + 1), g(w + 1, l), g(w, l + 1), g(w, l)]
+                    if not all(q is not None for q in qs): cells.append('-'); continue
+                    qr = (1 / 3) * (qs[0] - qs[1] - qs[2] + qs[3]); qt = (1 / 3) * M(lambda x, y: ft(0, x, y), w, l)
+                    e = math.hypot(qr.err(), qt.err())
+                    cells.append(f'{qr.val()-qt.val():+.4f}±{e:.4f}' if math.isfinite(e) and not math.isnan(qr.val() - qt.val()) else '-')
+                print(f'  w={w}.5 ' + ' '.join(f'{c:>15s}' for c in cells))
             print('  rim strip less the same rhombus in the torus, g(w,l) - f(w,l); w down, l across')
             for w in range(1, 6):
                 cells = []

@@ -8,6 +8,7 @@
 //   holes val hull R 0 SEED GENS NEG OUT        (NEG=1: one swapped neighbour, the negative control)
 //   holes run slab n L SEED GENS BURN OUT [TRACK]
 //   holes run hull R 0 SEED GENS BURN OUT [TRACK]
+//   holes life hull R 0 SEED BATCHES T0 TMAX   lifetimes of hull faces by first face death (see life())
 //
 // A unit cell is the three faces of one cube that lie in the face layer and point out of the vessel (a kagome
 // triangle); on the hull face with outward diagonal (1,1,1) these are the cells with floor(x/2), floor(z/2),
@@ -33,6 +34,7 @@
 #include <string.h>
 #include <time.h>
 #include <immintrin.h>
+#include <math.h>
 
 typedef uint64_t v4 __attribute__((vector_size(32)));
 #define MAXC 24000
@@ -397,7 +399,58 @@ static void dump(const char *out, int argc, char **argv, long ngen, double secs,
   fclose(F); rename(tmp, out);
 }
 
+// ---- lifetimes of hull faces by first face death (used to check the convention at R = 7 against the anchor and
+// to measure the small hulls): 256 lanes from a random soup of density 1/2; a lane leaves the risk set when one
+// of its 8 faces is empty (a death) or when its state repeats with a period of 12 or less (censored); the hazard
+// is deaths / lane-generations at risk after T0, and tau_face = 8 / hazard.
+static void life(int R, uint64_t seed, long batches, int T0, int Tmax) {
+  build_hull(R);
+  int nfc[8], *fcs[8];
+  for (int f = 0; f < 8; f++) {
+    int sg[3] = {(f & 1) ? -1 : 1, (f & 2) ? -1 : 1, (f & 4) ? -1 : 1}; fcs[f] = malloc(sizeof(int) * N); nfc[f] = 0;
+    for (int c = 0; c < N; c++) if (sg[0] * cx[c] + sg[1] * cy[c] + sg[2] * cz[c] == R) fcs[f][nfc[f]++] = c;
+  }
+  enum { RG = 13 };
+  v4 *H[RG]; for (int r = 0; r < RG; r++) H[r] = zalloc(sizeof(v4) * (N + 1));
+  uint64_t *risk = calloc(Tmax + 2, 8), *dth = calloc(Tmax + 2, 8), settled = 0, multi = 0;
+  seedrng(seed);
+  const v4 ones = {~0ULL, ~0ULL, ~0ULL, ~0ULL}, zero = {0, 0, 0, 0};
+  for (long bt = 0; bt < batches; bt++) {
+    for (int c = 0; c < N; c++) for (int w = 0; w < 4; w++) H[0][c][w] = rnd();
+    H[0][N] = zero;
+    v4 alive = ones;
+    for (int t = 1; t <= Tmax; t++) {
+      for (int w = 0; w < 4; w++) risk[t] += __builtin_popcountll(alive[w]);
+      const v4 *st = H[t % RG]; step(H[(t - 1) % RG], H[t % RG]);
+      v4 dead = zero, two = zero;
+      for (int f = 0; f < 8; f++) { v4 o = zero; for (int q = 0; q < nfc[f]; q++) o |= st[fcs[f][q]]; two |= dead & ~o; dead |= ~o; }
+      v4 nd = dead & alive;
+      for (int w = 0; w < 4; w++) { dth[t] += __builtin_popcountll(nd[w]); multi += __builtin_popcountll(nd[w] & two[w]); }
+      alive &= ~dead;
+      if (t >= 12 && nz(alive)) for (int p = 7; p <= 12; p++) {
+        const v4 *so = H[(t - p) % RG]; v4 diff = zero;
+        for (int c = 0; c < N; c++) diff |= st[c] ^ so[c];
+        v4 per = ~diff & alive;
+        if (nz(per)) { for (int w = 0; w < 4; w++) settled += __builtin_popcountll(per[w]); alive &= ~per; }
+      }
+      if (!nz(alive)) break;
+    }
+  }
+  printf("# life hull R=%d face cells %d N=%d seed %llu batches %ld T0 %d Tmax %d; censored as periodic %llu; first deaths with two faces at once %llu\n",
+         R, nfc[0], N, (unsigned long long)seed, batches, T0, Tmax, (unsigned long long)settled, (unsigned long long)multi);
+  int edges[8]; for (int q = 0; q < 8; q++) edges[q] = T0 + (int)((long)(Tmax - T0) * q / 7);
+  uint64_t D = 0, X = 0;
+  for (int q = 0; q < 7; q++) {
+    uint64_t d = 0, x = 0; for (int t = edges[q] + 1; t <= edges[q + 1]; t++) { d += dth[t]; x += risk[t]; }
+    D += d; X += x;
+    if (d) printf("  generations %4d..%4d: deaths %10llu exposure %12llu  ln tau_face %.4f +- %.4f\n", edges[q] + 1, edges[q + 1],
+                  (unsigned long long)d, (unsigned long long)x, log(8.0 * x / d), 1 / sqrt((double)d));
+  }
+  if (D) printf("LIFE R %d cells %d deaths %llu exposure %llu ln_tau_face %.4f +- %.4f\n", R, nfc[0], (unsigned long long)D, (unsigned long long)X, log(8.0 * X / D), 1 / sqrt((double)D));
+}
+
 int main(int argc, char **argv) {
+  if (argc >= 9 && !strcmp(argv[1], "life")) { life(atoi(argv[3]), strtoull(argv[5], 0, 10), atol(argv[6]), atoi(argv[7]), atoi(argv[8])); return 0; }
   if (argc < 9) { fprintf(stderr, "usage: see header\n"); return 1; }
   int isval = !strcmp(argv[1], "val"), slab = !strcmp(argv[2], "slab");
   int p1 = atoi(argv[3]), p2 = atoi(argv[4]); uint64_t seed = strtoull(argv[5], 0, 10); long gens = atol(argv[6]);
