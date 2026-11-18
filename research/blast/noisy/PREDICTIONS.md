@@ -134,3 +134,9 @@ brute force; a chain that replaces a sixteenth as often should be off by thousan
    three eps (0.40 against 0.22; 0.71 against 0.18; 0.32 against 0.15).
 Items 1 and 2 wait for a brute force at 84 cells; item 5 is not planned yet.
 
+### Block 3, items 1 and 2, as far as they can be scored (20:52 UTC)
+
+1. Brute force at 84 cells and eps = 1/16: **not run by anyone** (the lead's rebuild ran eps = 1/4). Open.
+2. Brute force at 84 cells at a large eps: the rebuild has +0.027 +- 0.038 at eps = 1/4 (725 deaths). In 0.01 to 0.06
+   (60%): **held in value**, with an error as wide as the interval; it does not separate the alternatives.
+
