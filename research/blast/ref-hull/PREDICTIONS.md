@@ -38,3 +38,11 @@ over the three intervals); the two candidates 29.230 (second difference repeats;
   wrapped price in ν while q has the same slope 0.170 for both (P = 0.4).
   (Note, 04:59 UTC: this last forecast was written when the second difference centred on R = 19 read −0.153 ± 0.006;
   with sixteen more seeds it reads −0.160 ± 0.004. The forecast stands as written and is now less likely.)
+
+## 2026-11-18 06:10 UTC — scoring of the 04:55 forecast on wrapped faces (WRAPPED.md)
+
+- "On wide tori −ln ν(0.6 P̄) will be a straight line in the area with slope 0.035–0.045 per cell (P = 0.5)": WRONG.
+  Slope 0.050 (63–84 cells) and 0.053 (84–108); not quite straight (convex by 0.003).
+- "q has the same slope 0.170 for both (P = 0.4)": WRONG. Wide tori 0.157 (0.158, 0.156) against the hull's 0.170; the
+  difference between rimmed and wrapped faces is mostly in q, below 0.4 P̄, not in ν as I had guessed.
+- The hull part (second difference of ln ν(0.6 P̄) centred on R = 21 between −0.15 and −0.11): not measured.
