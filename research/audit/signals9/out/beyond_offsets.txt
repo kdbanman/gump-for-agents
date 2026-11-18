@@ -43,19 +43,19 @@ o = -2 k = 5: stands; CALL                     store           out 0  7^30 d^5 f
 o = -2 k = 6: stands; CALL                     store           out 0  7^30 d^6 f 7^27
 o = -1 k = 1: stands; CALL                     store           out 0  7^31 d f 7^31
 o = -1 k = 2: stands; CALL                     store           out 0  7^31 dd f 7^30
-o = -1 k = 3: stands; CALL                     store           out 0  7^31 ddd f 7^29
+o = -1 k = 3: stands; CALL                     store           out 0  7^31 ddd f 7^29   [oracle: whole state equal at every even generation 0..300: True; 15 s]
 o = -1 k = 4: stands; CALL                     store           out 0  7^31 d^4 f 7^28
 o = -1 k = 5: stands; CALL                     store           out 0  7^31 d^5 f 7^27
 o = -1 k = 6: stands; CALL                     store           out 0  7^31 d^6 f 7^26
 o = +0 k = 1: stands; CALL                     store           out 1  7^64
 o = +0 k = 2: stands; CALL                     store           out 2  7^64
-o = +0 k = 3: stands; CALL                     store           out 3  7^64
+o = +0 k = 3: stands; CALL                     store           out 3  7^64   [oracle: whole state equal at every even generation 0..300: True; 16 s]
 o = +0 k = 4: stands; CALL                     store           out 4  7^64
 o = +0 k = 5: stands; CALL                     store           out 5  7^64
 o = +0 k = 6: stands; CALL                     store           out 6  7^64
 o = +1 k = 1: stands; CALL                     store           out 0  7^33 d f 7^29
 o = +1 k = 2: stands; CALL                     store           out 0  7^33 dd f 7^28
-o = +1 k = 3: stands; CALL                     store           out 0  7^33 ddd f 7^27
+o = +1 k = 3: stands; CALL                     store           out 0  7^33 ddd f 7^27   [oracle: whole state equal at every even generation 0..300: True; 16 s]
 o = +1 k = 4: stands; CALL                     store           out 0  7^33 d^4 f 7^26
 o = +1 k = 5: stands; CALL                     store           out 0  7^33 d^5 f 7^25
 o = +1 k = 6: stands; CALL                     store           out 0  7^33 d^6 f 7^24
@@ -113,4 +113,4 @@ o = +10 k = 3: stands; CALL                    store           out 0  7^42 ddd f
 o = +10 k = 4: stands; CALL                    store           out 0  7^42 d^4 f 7^17
 o = +10 k = 5: stands; CALL                    store           out 0  7^42 d^5 f 7^16
 o = +10 k = 6: stands; CALL                    store           out 0  7^42 d^6 f 7^15
-# 43 s
+# 83 s

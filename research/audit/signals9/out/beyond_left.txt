@@ -19,8 +19,8 @@ k = 3 R@CROSS-4                                store           out 0  7^31 d^4 f
 k = 3 R@CROSS-4, CALL at 200                   store           out 0  7^31 d^4 f 7^28
 k = 3 R@CROSS-5                                store           out 0  7^31 d^4 f 7^28
 k = 3 R@CROSS-5, CALL at 200                   store           out 0  7^31 d^4 f 7^28
-k = 3 R@CROSS-9                                store           out 0  7^31 d^4 f 7^28
-k = 3 R@CROSS-9, CALL at 200                   store           out 0  7^31 d^4 f 7^28
+k = 3 R@CROSS-9                                store           out 0  7^31 d^4 f 7^28   [oracle: whole state equal at every even generation 0..300: True; 16 s]
+k = 3 R@CROSS-9, CALL at 200                   store           out 0  7^31 d^4 f 7^28   [oracle: whole state equal at every even generation 0..300: True; 16 s]
 k = 3 R@CROSS-16                               store           out 0  7^31 d^4 f 7^28
 k = 3 R@CROSS-16, CALL at 200                  store           out 0  7^31 d^4 f 7^28
-# 23 s
+# 41 s

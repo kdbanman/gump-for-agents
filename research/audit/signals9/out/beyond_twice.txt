@@ -86,14 +86,14 @@ k = 2 second CALL 56 generations later         store           out 2  7^64
 k = 2 second CALL 58 generations later         store           out 2  7^64
 k = 2 second CALL 60 generations later         store           out 2  7^64
 k = 2 second CALL 62 generations later         store           out 2  7^64
-k = 3 second CALL 6 generations later          standing-other  out 1  174 cells, line as it was, store letters ?^64
-k = 3 second CALL 8 generations later          standing-other  out 3  174 cells, line as it was, store letters ?^64
-k = 3 second CALL 10 generations later         standing-other  out 3  174 cells, line changed
-k = 3 second CALL 12 generations later         standing-other  out 3  174 cells, line as it was, store letters ?^64
-k = 3 second CALL 14 generations later         store           out 3  7^64
+k = 3 second CALL 6 generations later          standing-other  out 1  174 cells, line as it was, store letters ?^64   [oracle: whole state equal at every even generation 0..300: True; 15 s]
+k = 3 second CALL 8 generations later          standing-other  out 3  174 cells, line as it was, store letters ?^64   [oracle: whole state equal at every even generation 0..300: True; 15 s]
+k = 3 second CALL 10 generations later         standing-other  out 3  174 cells, line changed   [oracle: whole state equal at every even generation 0..300: True; 15 s]
+k = 3 second CALL 12 generations later         standing-other  out 3  174 cells, line as it was, store letters ?^64   [oracle: whole state equal at every even generation 0..300: True; 15 s]
+k = 3 second CALL 14 generations later         store           out 3  7^64   [oracle: whole state equal at every even generation 0..300: True; 15 s]
 k = 3 second CALL 16 generations later         store           out 3  7^64
 k = 3 second CALL 18 generations later         store           out 3  7^64
-k = 3 second CALL 20 generations later         store           out 3  7^64
+k = 3 second CALL 20 generations later         store           out 3  7^64   [oracle: whole state equal at every even generation 0..300: True; 15 s]
 k = 3 second CALL 22 generations later         store           out 3  7^64
 k = 3 second CALL 24 generations later         store           out 3  7^64
 k = 3 second CALL 26 generations later         store           out 3  7^64
@@ -192,4 +192,4 @@ k = 3 pairs 8 units apart                      store           out 3  7^64
 k = 3 pairs 9 units apart                      store           out 3  7^64
 k = 3 pairs 10 units apart                     store           out 3  7^64
 k = 3 pairs 11 units apart                     store           out 3  7^64
-# 63 s
+# 144 s

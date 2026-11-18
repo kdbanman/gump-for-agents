@@ -8,11 +8,11 @@ set a = 7                                      store           out 1  7^64
 set a = 8                                      store           out 1  7^64
 set a = 9                                      store           out 1  7^64
 set a = 10                                     store           out 1  7^64
-set a = 11                                     store           out 1  7^64
-set a = 12                                     store           out 1  7^64
-set a = 13                                     store           out 1  7^64
-set a = 14                                     standing-other  out 2  174 cells, line changed
-set a = 15                                     store           out 0  7^32 d f 7^30
+set a = 11                                     store           out 1  7^64   [oracle: whole state equal at every even generation 0..300: True; 16 s]
+set a = 12                                     store           out 1  7^64   [oracle: whole state equal at every even generation 0..300: True; 16 s]
+set a = 13                                     store           out 1  7^64   [oracle: whole state equal at every even generation 0..300: True; 15 s]
+set a = 14                                     standing-other  out 2  174 cells, line changed   [oracle: whole state equal at every even generation 0..300: True; 15 s]
+set a = 15                                     store           out 0  7^32 d f 7^30   [oracle: whole state equal at every even generation 0..300: True; 15 s]
 set a = 16                                     store           out 0  7^32 d f 7^30
 set a = 17                                     store           out 0  7^32 d f 7^30
 set a = 18                                     store           out 0  7^32 d f 7^30
@@ -60,11 +60,11 @@ add k = 2 a = 8                                store           out 3  7^64
 add k = 2 a = 9                                store           out 3  7^64
 add k = 2 a = 10                               store           out 3  7^64
 add k = 2 a = 11                               store           out 3  7^64
-add k = 2 a = 12                               store           out 3  7^64
-add k = 2 a = 13                               store           out 3  7^64
-add k = 2 a = 14                               store           out 3  7^64
-add k = 2 a = 15                               store           out 3  7^64
-add k = 2 a = 16                               store           out 3  7^64
+add k = 2 a = 12                               store           out 3  7^64   [oracle: whole state equal at every even generation 0..300: True; 15 s]
+add k = 2 a = 13                               store           out 3  7^64   [oracle: whole state equal at every even generation 0..300: True; 15 s]
+add k = 2 a = 14                               store           out 3  7^64   [oracle: whole state equal at every even generation 0..300: True; 15 s]
+add k = 2 a = 15                               store           out 3  7^64   [oracle: whole state equal at every even generation 0..300: True; 15 s]
+add k = 2 a = 16                               store           out 3  7^64   [oracle: whole state equal at every even generation 0..300: True; 15 s]
 add k = 2 a = 17                               store           out 3  7^64
 add k = 2 a = 18                               store           out 3  7^64
 add k = 2 a = 19                               store           out 3  7^64
@@ -125,4 +125,4 @@ add k = 5 a = 23                               store           out 6  7^64
 add k = 5 a = 24                               store           out 6  7^64
 add k = 5 a = 25                               store           out 6  7^64
 add k = 5 a = 26                               store           out 6  7^64
-# 82 s
+# 189 s
