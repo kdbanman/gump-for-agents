@@ -108,7 +108,7 @@ static void step(void) {       /* one generation of gump on the hull */
 }
 static inline void dart(int lane, dart_t v) {      /* one dart on lane `lane` */
   int sq = v & (B - 1);
-  if (sq < nN) { u64 *x = a + (size_t)Ncell[sq] * W + (lane >> 6), bit = 1ULL << (lane & 63); *x = (v >> 15) ? (*x | bit) : (*x & ~bit); }
+  if (sq < nN) { u64 *x = a + (size_t)Ncell[sq] * W + (lane >> 6), bit = 1ULL << (lane & 63); *x = (*x & ~bit) | (-(u64)(v >> 15) & bit); }
 }
 static void noise_slow(int M) {                    /* M fresh darts on every lane, thrown one by one */
   for (int l = 0; l < NL; l++) for (int d = 0; d < M; d += 4) { u64 r = rnd(); for (int k = 0; k < 4 && d + k < M; k++) dart(l, (dart_t)(r >> (16 * k))); }
@@ -129,7 +129,7 @@ static void noise_random(int M) {
       if (!have) { r = rnd(); have = 2; }
       uint32_t v = (uint32_t)r; r >>= 32; have--;
       u64 *x = base + (size_t)Ncell[((u64)(v >> 1) * (u64)nN) >> 31] * W;
-      *x = (v & 1) ? (*x | bit) : (*x & ~bit);
+      *x = (*x & ~bit) | (-(u64)(v & 1) & bit);
     }
   }
 }
@@ -230,8 +230,9 @@ int main(int argc, char **argv) {
   dart_t *HI = malloc(NC * hsz * sizeof(dart_t)), *HI2 = malloc(NC * hsz * sizeof(dart_t)); uint16_t *HC = malloc(NC * T * 2), *HC2 = malloc(NC * T * 2);
   dart_t *uh = malloc((size_t)NL * KFLIP * HCAP * sizeof(dart_t)); uint16_t *uc = malloc((size_t)NL * KFLIP * 2); int *ug = malloc(sizeof(int) * NL * KFLIP), *un = malloc(sizeof(int) * NL);
   size_t *upos = malloc(sizeof(size_t) * NL * KFLIP); dart_t *umask = malloc(sizeof(dart_t) * NL * KFLIP);
-  #define BUILD(dd, cntp, hp) do { int c_ = 0; for (int d_ = 0; d_ < M; d_++) { dart_t v_ = (dd)[d_]; int q_ = v_ & (B - 1); if (q_ < nN) { if (c_ < HCAP) (hp)[c_] = (dart_t)(q_ | (v_ & 0x8000)); c_++; } } \
-      *(cntp) = (uint16_t)(c_ > HCAP ? 0xFFFF : c_); } while (0)
+  dart_t *btmp = malloc(((size_t)M + 1) * sizeof(dart_t));
+  #define BUILD(dd, cntp, hp) do { int c_ = 0; for (int d_ = 0; d_ < M; d_++) { dart_t v_ = (dd)[d_]; int q_ = v_ & (B - 1); btmp[c_] = (dart_t)(q_ | (v_ & 0x8000)); c_ += (q_ < nN); } \
+      if (c_ <= HCAP) { memcpy((hp), btmp, (size_t)c_ * sizeof(dart_t)); *(cntp) = (uint16_t)c_; } else *(cntp) = 0xFFFF; } while (0)
   int *score = malloc(4 * NC), *score2 = malloc(4 * NC), *seeds = malloc(4 * NC), *gmin = malloc(4 * NC), *gmin2 = malloc(4 * NC);
   static int am[NL], sc[NL]; static short popser[NL][128]; static long page[NL];
   double *rate = malloc(8 * nrep); double sumlnP[128] = {0}, accs = 0, accn = 0; long nlevP[128] = {0}; int lamlist[128], nlam = 0;
@@ -246,7 +247,7 @@ int main(int argc, char **argv) {
         for (int l_ = 0; l_ < NL; l_++) { int c_ = (hcs)[(size_t)l_ * T + t_]; \
           if (c_ == 0xFFFF) { const dart_t *dd_ = (darts) + ((size_t)l_ * T + t_) * M; for (int d_ = 0; d_ < M; d_++) dart(l_, dd_[d_]); } \
           else { const dart_t *hh_ = (his) + ((size_t)l_ * T + t_) * HCAP; u64 *base_ = a + (l_ >> 6), bit_ = 1ULL << (l_ & 63); \
-            for (int i_ = 0; i_ < c_; i_++) { dart_t v_ = hh_[i_]; u64 *x_ = base_ + (size_t)Ncell[v_ & 0x7FFF] * W; *x_ = (v_ >> 15) ? (*x_ | bit_) : (*x_ & ~bit_); } } } \
+            for (int i_ = 0; i_ < c_; i_++) { dart_t v_ = hh_[i_]; u64 *x_ = base_ + (size_t)Ncell[v_ & 0x7FFF] * W; *x_ = (*x_ & ~bit_) | (-(u64)(v_ >> 15) & bit_); } } } \
         observe(); \
         for (int l_ = 0; l_ < NL; l_++) { popser[l_][t_ + 1] = (short)pop[l_]; \
           if (go_[l_] > T && ((od[l_ >> 6] >> (l_ & 63)) & 1)) go_[l_] = t_ + 1; \
