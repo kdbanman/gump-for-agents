@@ -4051,8 +4051,8 @@ octahedron of radius 11, 63 cells a face; A is the face's area.
   from ≥ 48 cells 29.91; q(1..3) 0.770, 0.499, 0.299 (with a fall 0.755, without 0.771); a last cell dies 0.695
   (interior), 0.685 (rim row); survival in an over-full generation 0.341 (interior), 0.655 (rim row), 0.327
   (wrapped). Every one within error of the audit's value. A re-run of the audit's code, not a third code.
-- **What it settles and what it does not.** The two prices (hull about 0.215–0.217 a cell locally between 63 and
-  108 cells, wrapped 0.2087) belong to two different ways of dying, and the reason a hull face cannot take the
+- **What it settles and what it does not.** The two prices (hull 0.2307 ± 0.0047 a cell once a term linear in the rim is allowed, CN5,
+  with chords of 0.215 to 0.217 between 63 and 108 cells; wrapped 0.2087) belong to two different ways of dying, and the reason a hull face cannot take the
   wrapped face's way is a property of single cells at its rim. That is a mechanism, checked. It is not a
   calculation of either number.
 - **A forecast, frozen here before the run is read** (`bash research/audit/blast_lead_hull84.sh`, started
