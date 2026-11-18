@@ -5,8 +5,8 @@
 
 Every expected cell list in the files is computed here with st.c; verify_read.py recomputes all of it with
 reference/oracle.py and compares.
-  read-echo-B-line     push 7's line with E and 1 hole (plain wire B) or 3 holes (a stretch of wire B' at units
-                       41..43); reader: capped wire B crossing at unit 42 (cell.READERS['b13']); probe: two pulses B
+  read-echo-B-line     push 7's line with E and 1 hole (plain wire B) or 2, 3, 4 holes (a stretch of wire B' from
+                       unit 41); reader: capped wire B crossing at unit 42 (cell.READERS['b13']); probe: two pulses B
                        in adjacent units.
   read-echo-B-small    the same reader and probe beside a short capped wire B / wire B' (no line, small boxes).
   read-pair-C-line     reader: capped wire C at the same place (cell.READERS['r246']); probe: two pulses p> three
@@ -70,9 +70,11 @@ def build(name, rname, spacing, kind, timing, texts, note):
         l0 = cell.line0()
         ob['line0'] = L(l0)
         sb, so = box_for(lab.up(l0), 8)
-        for lab_, n in (('0: E and 1 hole, plain wire B', 1), ('1: E and 3 holes, wire B\' at units 41..43', 3)):
+        for n in (1, 2, 3, 4):
+            lab_ = 'E and 1 hole: plain wire B' if n == 1 else f"E and {n} holes: wire B' on units 41..{40 + n}"
             S = cell.standing(n)
             d, s = case(lab_, S, rd, spacing, probe_gen, out_gen, restored, until, texts[0 if n == 1 else 1])
+            d['value'] = 0 if n == 1 else 1
             d['store'] = dict(start='line0', flips=[[1, [list(c) for c in cell.write_flips(n)]]], gens=900, box=sb, offset=so)
             ob['cases'].append(d); seen |= s
     else:
@@ -81,6 +83,7 @@ def build(name, rname, spacing, kind, timing, texts, note):
         sBp = lab.run(lab.pk([wires.SIGB(c) for c in wires.capped_B(-10, 10)]), 1)
         for lab_, S, i in (('wire B', sB, 0), ("wire B'", sBp, 1)):
             d, s = case(lab_, S, rd, spacing, probe_gen, out_gen, restored, until, texts[i])
+            d['value'] = i
             d['store'] = dict(cells=L(S))
             ob['cases'].append(d); seen |= s
     ob['box'], ob['offset'] = box_for(seen, 10)

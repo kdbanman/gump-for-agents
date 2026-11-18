@@ -22,7 +22,8 @@ the torus is never felt and the statements hold in empty space):
      differs from the run without the probe: the store is never touched
   D  at `out_gen` the difference between the two runs is exactly `out`
   E  from `restored` to `until` the two runs are identical, cell for cell: store and reader are exactly as they were
-  F  the `out` of the cases differ pairwise: the fate of the signal tells the stored values apart
+  F  the stores of the cases differ pairwise; cases with different `value` (default: each case its own) have different
+     `out`, cases with the same `value` the same `out`: the fate of the signal tells the stored values apart
 Prints PASS or FAIL per check and ALL PASS."""
 import json, os, sys, time
 import numpy as np
@@ -126,10 +127,11 @@ def main():
         gD = dout == want
         print('PASS' if gD else 'FAIL', f"D  [{lab}] at generation {og} the two runs differ in exactly the {len(want)} given cells ({case['out_text']})"); ok &= gD
         print('PASS' if good else 'FAIL', f"E  [{lab}] from generation {rg} to {until} the run with the probe is identical to the run without it"); ok &= good
-        outs[lab] = dout
+        outs[lab] = (case.get('value', lab), dout, sorted(store))
     labs = list(outs)
-    gF = all(outs[a] != outs[b] for i, a in enumerate(labs) for b in labs[i + 1:])
-    print('PASS' if gF else 'FAIL', f"F  what is travelling differs between the stored values {labs}"); ok &= gF
+    pairs = [(a, b) for i, a in enumerate(labs) for b in labs[i + 1:]]
+    gF = all(outs[a][2] != outs[b][2] and ((outs[a][1] != outs[b][1]) == (outs[a][0] != outs[b][0])) for a, b in pairs)
+    print('PASS' if gF else 'FAIL', f"F  the {len(labs)} stores differ pairwise; what is travelling differs exactly between the stored values {sorted(set(str(outs[a][0]) for a in labs))}"); ok &= gF
     print(('ALL PASS' if ok else 'SOME FAIL') + f"  ({time.time() - t0:.0f} s)")
     sys.exit(0 if ok else 1)
 
