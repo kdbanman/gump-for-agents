@@ -42,6 +42,10 @@ def load(fns):
             i = w.index('face'); d['face'] += n * np.array(list(map(float, w[i + 1:i + 11])))
             i = w.index('ben'); d['ben'] += n * np.array(list(map(float, w[i + 1:i + 11])))
             i = w.index('fall'); d['fall'] += np.array(list(map(float, w[i + 1:i + 22])))
+            if 'launch' in w:
+                i = w.index('launch'); nb_ = int(w[w.index('bust') + 1])
+                d['launch'] = d.get('launch', np.zeros(4)) + nb_ * np.array(list(map(float, w[i + 1:i + 5])))
+                i = w.index('lhist'); d['lhist'] = d.get('lhist', np.zeros(11)) + np.array(list(map(float, w[i + 1:i + 12])))
     meta = per[0][0]; meta['gens_each'] = gens; meta['ng'] = ng
     # exposure per group, in lane-generations: gens * 32 for the groups of each file
     meta['expo'] = np.repeat(np.array(gens, float) * 32, 8)
@@ -146,6 +150,7 @@ def extrap(f):
 
 def show_pre(P, sel, title):
     print(title)
+    extra = []
     print('  shape  where          events  not-new  flicker  bust-share  over-full-share   patch density at lags 1..5 | layer beneath at lags 0..4')
     for name, keys in sel:
         d = None
@@ -153,11 +158,16 @@ def show_pre(P, sel, title):
             if k not in P: continue
             if d is None: d = {x: (v.copy() if hasattr(v, 'copy') else v) for x, v in P[k].items()}
             else:
-                for x in d: d[x] = d[x] + P[k][x]
+                for x in d: d[x] = d[x] + P[k].get(x, 0)
         if d is None or d['n'] == 0: continue
         nn = d['n']
+        if 'launch' in d and d['bust'] > 0:
+            L = d['launch'] / d['bust']; h = d['lhist'] / max(1, d['lhist'].sum())
+            extra.append(f"  {name:22s} busts: patch {L[0]:.3f} -> {L[1]:.3f} in the generation of the largest fall; layer beneath {L[2]:.3f} -> {L[3]:.3f}; "
+                         f"share launched from >= 0.7 full: {h[7:].sum():.3f}, from < 0.6 full: {h[:6].sum():.3f}")
         print(f"  {name:22s} {nn:8d} {d['old']:8d} {d['re']:7d}   {d['bust']/nn:.3f}±{math.sqrt(d['bust']*(nn-d['bust'])/nn**3):.3f}     {d['full']/nn:.3f}        "
               + ' '.join(f'{x/nn:.3f}' for x in d['face'][1:6]) + ' | ' + ' '.join(f'{x/nn:.3f}' for x in d['ben'][0:5]))
+    for e in extra: print(e)
 
 def main():
     args = sys.argv[1:]
@@ -196,10 +206,29 @@ def main():
               ' '.join(f"s={s}: {((1/3) * (f(0, s + 1, TRI) - 2.0 * f(0, s, TRI) + f(0, s - 1, TRI))).s()}" for s in range(2, 6)))
         extrap(f)
         both = lambda a, b: Q([(0.5, *f(0, a, b).terms[0][1:]), (0.5, *f(1, a, b).terms[0][1:])])
-        print('\nan empty patch against a closed torus of the same shape: mean of the two classes of -ln P, less ln tau_face of the a x b torus (research/constant/out/points.txt)')
-        for (a, b), lt in (((4, 4), 9.9251), ((3, 6), 11.0824), ((4, 5), 12.4865), ((2, 8), 9.4888)):
+        import os
+        lf = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'life_tori.txt'); tau = {}
+        if os.path.exists(lf):
+            for line in open(lf):
+                w = line.split()
+                if w and w[0] == 'LIFE' and w[1] == 'slab': tau[(int(w[2]), int(w[3]))] = (float(w[11]), float(w[13]))
+        print('\nan empty patch against the closed torus of the same shape (lifetimes: data/life_tori.txt, this stepper, first empty face):')
+        print('  shape cells perimeter   -ln P (mean of the two classes)   ln tau_face      difference D')
+        Dq = {}
+        for (a, b) in sorted(tau):
             q = both(a, b)
-            print(f'  {a}x{b} perimeter {2*(a+b)}: -ln P {q.s(3)}  ln tau {lt:.4f}  difference {q.val()-lt:.3f}±{q.err():.3f}')
+            if math.isnan(q.val()) or not math.isfinite(q.err()): continue
+            lt, le = tau[(a, b)]; Dq[(a, b)] = (q.val() - lt, math.hypot(q.err(), le))
+            print(f'  {a}x{b} {3*a*b:4d} {2*(a+b):4d}        {q.s(3):>14s}          {lt:.4f}±{le:.4f}   {q.val()-lt:.3f}±{math.hypot(q.err(), le):.3f}')
+        print('  bulk cost per cell by the mixed second difference, hole | closed torus | hole less torus')
+        for (a, b) in ((2, 3), (2, 4), (2, 5), (3, 3), (3, 4), (3, 5)):
+            ks = [(a + 1, b + 1), (a + 1, b), (a, b + 1), (a, b)]; ks = [tuple(sorted(k)) for k in ks]
+            if not all(k in tau for k in ks): continue
+            mt = (tau[ks[0]][0] - tau[ks[1]][0] - tau[ks[2]][0] + tau[ks[3]][0]) / 3
+            et = math.sqrt(sum(tau[k][1] ** 2 for k in ks) + (tau[ks[1]][1] ** 2 * 2 if ks[1] == ks[2] else 0)) / 3
+            qm = (1 / 3) * M(both, a, b)
+            if math.isnan(qm.val()) or not math.isfinite(qm.err()): continue
+            print(f'  ({a}.5, {b}.5): {qm.s()} | {mt:.4f}±{et:.4f} | {qm.val()-mt:+.4f}±{math.hypot(qm.err(), et):.4f}')
         show_pre(P, [(f'{a}x{a} torus', [(0, a, a, 0, 0), (2, a, a, 0, 0)]) for a in (2, 3, 4)], '\nhow a patch empties (class P)')
         return
     meta, T, P = load(rest)

@@ -9,6 +9,7 @@
 //   holes run slab n L SEED GENS BURN OUT [TRACK]
 //   holes run hull R 0 SEED GENS BURN OUT [TRACK]
 //   holes life hull R 0 SEED BATCHES T0 TMAX   lifetimes of hull faces by first face death (see life())
+//   holes life slab NX NY SEED BATCHES T0 TMAX the same for the 8-layer slab with period lattice (NX,0),(0,NY); tau_face = 2/hazard
 //
 // A unit cell is the three faces of one cube that lie in the face layer and point out of the vessel (a kagome
 // triangle); on the hull face with outward diagonal (1,1,1) these are the cells with floor(x/2), floor(z/2),
@@ -27,7 +28,8 @@
 // cells of the second layer adjacent to it over the last 10 generations (2x2: every 64th generation only).
 // Also counted: triangles of side s (unit cells I >= I0, J >= J0, I + J <= I0 + J0 + s - 1: the shape of a hull face of
 // side s), written as shape "s 9". Output: "T grid a b I0 J0 stride c0..c7" (counts by lane group) and "P grid a b I0 J0 n .. old .. re .. bust ..
-// full .. nben .. face <10 lags> ben <10 lags> fall <21 bins>".
+// full .. nben .. face <10 lags> ben <10 lags> fall <21 bins> launch <patch density before and after the largest
+// one-generation fall, the same for the layer beneath; busts only> lhist <11 bins of the launch density>".
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -50,14 +52,14 @@ typedef uint64_t v4 __attribute__((vector_size(32)));
 #define SUBS 8   // shapes of a*b <= 4 unit cells are counted every SUBS-th generation only
 static const int TA[NTR] = {2, 3, 4}, TB[NTR] = {2, 3, 4};
 
-static int N, isSlab, SN, SL, HR;
+static int N, isSlab, SN, SNX, SNY, SL, HR;
 static int cx[MAXC], cy[MAXC], cz[MAXC], lay[MAXC], nb[MAXC][12];
 static v4 *S[RINGMAX];
 static int ring = 2;
 
 typedef struct {
-  uint64_t n, nold, nre, nbust, nfull, fallhist[21];
-  double sface[NLAG], sben[NLAG], nbensum;
+  uint64_t n, nold, nre, nbust, nfull, fallhist[21], launchhist[11];
+  double sface[NLAG], sben[NLAG], nbensum, slaunch, safter, sblaunch, sbafter;   // launch = the generation before the largest fall (busts only)
 } Pre;
 typedef struct {
   int G, wrap, npos, track;
@@ -100,10 +102,11 @@ static inline int fdiv2(int v) { return (v >= 0) ? v / 2 : -((-v + 1) / 2); }
 static inline int pmod(int v, int n) { v %= n; return v < 0 ? v + n : v; }
 
 // ---- slab: cell (l, x, y, a) is the +a face of cube (i, j, k) = (x, -x-y, y+l); index ((l n + x) n + y) 3 + a
-static inline int sidx(int l, int x, int y, int a) { return ((l * SN + pmod(x, SN)) * SN + pmod(y, SN)) * 3 + a; }
-static void build_slab(int n, int L) {
-  isSlab = 1; SN = n; SL = L; N = 3 * n * n * L;
-  for (int l = 0; l < L; l++) for (int x = 0; x < n; x++) for (int y = 0; y < n; y++) for (int a = 0; a < 3; a++) {
+static inline int sidx(int l, int x, int y, int a) { return ((l * SNX + pmod(x, SNX)) * SNY + pmod(y, SNY)) * 3 + a; }
+static void build_slab2(int nx, int ny, int L) {   // period lattice (nx,0),(0,ny)
+  isSlab = 1; SN = nx; SNX = nx; SNY = ny; SL = L; N = 3 * nx * ny * L;
+  if (N > MAXC) { fprintf(stderr, "MAXC\n"); exit(1); }
+  for (int l = 0; l < L; l++) for (int x = 0; x < nx; x++) for (int y = 0; y < ny; y++) for (int a = 0; a < 3; a++) {
     int c = sidx(l, x, y, a), cu[3] = {x, -x - y, y + l}, p[3], o[12][3];
     for (int d = 0; d < 3; d++) p[d] = 2 * cu[d] + (d == a);
     cx[c] = p[0]; cy[c] = p[1]; cz[c] = p[2]; lay[c] = l;
@@ -117,6 +120,7 @@ static void build_slab(int n, int L) {
     }
   }
 }
+static void build_slab(int n, int L) { build_slab2(n, n, L); }
 // ---- hull
 static int *hidx; static int HW;
 static inline int hget(int x, int y, int z) {
@@ -236,13 +240,18 @@ static void record(Grid *g, int s, int I0, int J0, int lane) {
   if (pf[1] == 0) { p->nold++; return; }      // already empty one generation ago: not a new emptying
   for (int lag = 2; lag <= 4; lag++) if (pf[lag] == 0) { p->nre++; return; }   // a flicker of an emptied patch
   p->n++; p->nbensum += nbn;
-  int maxfall = 0, maxpop = 0;
+  int maxfall = 0, maxpop = 0, lagfall = 0;
   for (int lag = 0; lag < NLAG; lag++) {
     p->sface[lag] += (double)pf[lag] / nf; p->sben[lag] += (double)pb[lag] / nbn;
     if (pf[lag] > maxpop) maxpop = pf[lag];
-    if (lag + 1 < NLAG && pf[lag + 1] - pf[lag] > maxfall) maxfall = pf[lag + 1] - pf[lag];
+    if (lag + 1 < NLAG && pf[lag + 1] - pf[lag] > maxfall) { maxfall = pf[lag + 1] - pf[lag]; lagfall = lag; }
   }
-  if (2 * maxfall >= nf) p->nbust++;
+  if (2 * maxfall >= nf) {
+    p->nbust++;
+    p->slaunch += (double)pf[lagfall + 1] / nf; p->safter += (double)pf[lagfall] / nf;
+    p->sblaunch += (double)pb[lagfall + 1] / nbn; p->sbafter += (double)pb[lagfall] / nbn;
+    p->launchhist[(10 * pf[lagfall + 1]) / nf]++;
+  }
   if (10 * maxpop >= 7 * nf) p->nfull++;
   p->fallhist[(20 * maxfall) / nf]++;
 }
@@ -393,6 +402,9 @@ static void dump(const char *out, int argc, char **argv, long ngen, double secs,
       for (int l = 0; l < NLAG; l++) fprintf(F, " %.4f", p->n ? p->sface[l] / p->n : 0.0);
       fprintf(F, " ben"); for (int l = 0; l < NLAG; l++) fprintf(F, " %.4f", p->n ? p->sben[l] / p->n : 0.0);
       fprintf(F, " fall"); for (int l = 0; l < 21; l++) fprintf(F, " %llu", (unsigned long long)p->fallhist[l]);
+      fprintf(F, " launch %.4f %.4f %.4f %.4f lhist", p->nbust ? p->slaunch / p->nbust : 0.0, p->nbust ? p->safter / p->nbust : 0.0,
+              p->nbust ? p->sblaunch / p->nbust : 0.0, p->nbust ? p->sbafter / p->nbust : 0.0);
+      for (int l = 0; l < 11; l++) fprintf(F, " %llu", (unsigned long long)p->launchhist[l]);
       fprintf(F, "\n");
     }
   }
@@ -403,12 +415,17 @@ static void dump(const char *out, int argc, char **argv, long ngen, double secs,
 // to measure the small hulls): 256 lanes from a random soup of density 1/2; a lane leaves the risk set when one
 // of its 8 faces is empty (a death) or when its state repeats with a period of 12 or less (censored); the hazard
 // is deaths / lane-generations at risk after T0, and tau_face = 8 / hazard.
-static void life(int R, uint64_t seed, long batches, int T0, int Tmax) {
-  build_hull(R);
-  int nfc[8], *fcs[8];
-  for (int f = 0; f < 8; f++) {
-    int sg[3] = {(f & 1) ? -1 : 1, (f & 2) ? -1 : 1, (f & 4) ? -1 : 1}; fcs[f] = malloc(sizeof(int) * N); nfc[f] = 0;
-    for (int c = 0; c < N; c++) if (sg[0] * cx[c] + sg[1] * cy[c] + sg[2] * cz[c] == R) fcs[f][nfc[f]++] = c;
+static void life(int slab, int R, int ny, uint64_t seed, long batches, int T0, int Tmax) {
+  int nfc[8], *fcs[8], NF = slab ? 2 : 8;
+  if (slab) {      // slab R x ny x 8, period lattice (R,0),(0,ny): two faces
+    build_slab2(R, ny, 8);
+    for (int f = 0; f < 2; f++) { fcs[f] = malloc(sizeof(int) * N); nfc[f] = 0; for (int c = 0; c < N; c++) if (lay[c] == (f ? 0 : SL - 1)) fcs[f][nfc[f]++] = c; }
+  } else {
+    build_hull(R);
+    for (int f = 0; f < 8; f++) {
+      int sg[3] = {(f & 1) ? -1 : 1, (f & 2) ? -1 : 1, (f & 4) ? -1 : 1}; fcs[f] = malloc(sizeof(int) * N); nfc[f] = 0;
+      for (int c = 0; c < N; c++) if (sg[0] * cx[c] + sg[1] * cy[c] + sg[2] * cz[c] == R) fcs[f][nfc[f]++] = c;
+    }
   }
   enum { RG = 13 };
   v4 *H[RG]; for (int r = 0; r < RG; r++) H[r] = zalloc(sizeof(v4) * (N + 1));
@@ -423,7 +440,7 @@ static void life(int R, uint64_t seed, long batches, int T0, int Tmax) {
       for (int w = 0; w < 4; w++) risk[t] += __builtin_popcountll(alive[w]);
       const v4 *st = H[t % RG]; step(H[(t - 1) % RG], H[t % RG]);
       v4 dead = zero, two = zero;
-      for (int f = 0; f < 8; f++) { v4 o = zero; for (int q = 0; q < nfc[f]; q++) o |= st[fcs[f][q]]; two |= dead & ~o; dead |= ~o; }
+      for (int f = 0; f < NF; f++) { v4 o = zero; for (int q = 0; q < nfc[f]; q++) o |= st[fcs[f][q]]; two |= dead & ~o; dead |= ~o; }
       v4 nd = dead & alive;
       for (int w = 0; w < 4; w++) { dth[t] += __builtin_popcountll(nd[w]); multi += __builtin_popcountll(nd[w] & two[w]); }
       alive &= ~dead;
@@ -436,21 +453,21 @@ static void life(int R, uint64_t seed, long batches, int T0, int Tmax) {
       if (!nz(alive)) break;
     }
   }
-  printf("# life hull R=%d face cells %d N=%d seed %llu batches %ld T0 %d Tmax %d; censored as periodic %llu; first deaths with two faces at once %llu\n",
-         R, nfc[0], N, (unsigned long long)seed, batches, T0, Tmax, (unsigned long long)settled, (unsigned long long)multi);
+  printf("# life %s %d %d face cells %d N=%d seed %llu batches %ld T0 %d Tmax %d; censored as periodic %llu; first deaths with two faces at once %llu\n",
+         slab ? "slab" : "hull", R, ny, nfc[0], N, (unsigned long long)seed, batches, T0, Tmax, (unsigned long long)settled, (unsigned long long)multi);
   int edges[8]; for (int q = 0; q < 8; q++) edges[q] = T0 + (int)((long)(Tmax - T0) * q / 7);
   uint64_t D = 0, X = 0;
   for (int q = 0; q < 7; q++) {
     uint64_t d = 0, x = 0; for (int t = edges[q] + 1; t <= edges[q + 1]; t++) { d += dth[t]; x += risk[t]; }
     D += d; X += x;
     if (d) printf("  generations %4d..%4d: deaths %10llu exposure %12llu  ln tau_face %.4f +- %.4f\n", edges[q] + 1, edges[q + 1],
-                  (unsigned long long)d, (unsigned long long)x, log(8.0 * x / d), 1 / sqrt((double)d));
+                  (unsigned long long)d, (unsigned long long)x, log((double)NF * x / d), 1 / sqrt((double)d));
   }
-  if (D) printf("LIFE R %d cells %d deaths %llu exposure %llu ln_tau_face %.4f +- %.4f\n", R, nfc[0], (unsigned long long)D, (unsigned long long)X, log(8.0 * X / D), 1 / sqrt((double)D));
+  if (D) printf("LIFE %s %d %d cells %d deaths %llu exposure %llu ln_tau_face %.4f +- %.4f\n", slab ? "slab" : "hull", R, ny, nfc[0], (unsigned long long)D, (unsigned long long)X, log((double)NF * X / D), 1 / sqrt((double)D));
 }
 
 int main(int argc, char **argv) {
-  if (argc >= 9 && !strcmp(argv[1], "life")) { life(atoi(argv[3]), strtoull(argv[5], 0, 10), atol(argv[6]), atoi(argv[7]), atoi(argv[8])); return 0; }
+  if (argc >= 9 && !strcmp(argv[1], "life")) { life(!strcmp(argv[2], "slab"), atoi(argv[3]), atoi(argv[4]), strtoull(argv[5], 0, 10), atol(argv[6]), atoi(argv[7]), atoi(argv[8])); return 0; }
   if (argc < 9) { fprintf(stderr, "usage: see header\n"); return 1; }
   int isval = !strcmp(argv[1], "val"), slab = !strcmp(argv[2], "slab");
   int p1 = atoi(argv[3]), p2 = atoi(argv[4]); uint64_t seed = strtoull(argv[5], 0, 10); long gens = atol(argv[6]);
