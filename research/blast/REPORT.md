@@ -55,6 +55,44 @@ cells are left the chance of death does not depend on the face (0.85, 0.63, 0.42
 faces; 0.77, 0.50, 0.30 on hull faces of 63 and 84 cells), so on gump too the lifetimes differ in how often a face
 gets down to a few cells and not in what happens there.
 
+### 12:28 UTC. The price of a hole is not the price of a face (`holes/`; a referee is at work on it)
+
+The PI's idea was that the lifetime price is the cost of emptiness in the living state: −ln P(a region of a living
+face is empty at an instant) = c·(cells) + (edge terms), with c = 0.2087, so that the hull's 0.231 could be looked
+for in the living state of a large hull face. Forecast frozen first (`PREDICTIONS.md`, block 5). It failed.
+
+- **[measured] A hole costs about 0.26 per cell.** On a 12 × 12 × 8 torus, mixed second differences of −ln P over
+  rhombi of a × b unit cells (free of anything that depends on a alone or b alone) are 0.254 to 0.265 per cell
+  wherever the short side is 2.5 unit cells or more, flat, from 6.3·10⁹ replica-generations. The smallest follows
+  from the table that was already on file: (12.128 − 2·8.793 + 6.254)/3 = 0.265. Closed tori of the same shapes,
+  same stepper, give 0.215 ± 0.003 at (3.5, 3.5). Reproduce: `python3 research/blast/holes/ana.py torus
+  research/blast/holes/data/slab12_s101.txt`. Not reached: any hole wider than 4 unit cells, so "a wide hole comes
+  back to 0.2087" is not excluded; an emptied patch is retaken from its edge at a quarter of a unit per generation.
+- **[measured] The interior of a hull face is a wrapped face.** In a hull of radius 29 (360-cell faces), patches of
+  12 to 27 cells two or more rows from every rim have the torus's −ln P within 0.002; one row in, a 27-cell patch
+  is 0.010 dearer. (`sh research/blast/holes/finalize.sh`.)
+- **[measured] The living state has no rim surplus.** A patch on the rim is likelier to be empty (27 cells: by
+  0.98 in the logarithm on a rim, 3.21 in a corner), and further rows against the rim cost what the torus's cost.
+  The 0.022 per cell between the two lifetime prices is not in the living state's cost of emptiness.
+- **[measured] A patch empties by a boom and bust of its own, deeper than a dying face's.** 71% of the emptyings
+  of a 27-cell interior patch contain a one-generation fall of half its cells, launched from 0.805 full (a dying
+  wrapped face: 0.738) with the layer beneath at 0.67. In corners 23%: corners fade.
+- **[measured] A new anchor: the 18-cell hull face, ln τ = 4.855 ± 0.015.** The hull's second differences per cell
+  are then 0.355, 0.266, 0.231, 0.230 at sides 4 to 7.
+
+What it changes. (1) [conjectured, the PI's argument] The two prices cannot both be asymptotic. A hull face's
+interior is a wrapped face, so a large hull face can die the wrapped way inside while a rim zone of fixed width
+dies in step, at a cost proportional to the rim: ln τ_hull ≤ 0.2087·A + (a term linear in the side) for large
+faces. The hull's 0.231 is therefore the price of faces that are all rim zone, and the open question is where it
+comes down, not whether. (2) The agent's "rows formula" (a price per cell by depth in rows from the nearest rim)
+makes the triangle's second difference 3·c_⌊k/3⌋, the same for three consecutive sides. If that reading is right
+from side 6 up, **the 135-cell face repeats 0.231 by construction (29.230) whatever deeper rows cost, and cannot
+decide the question it was meant to decide; the 165-cell face is the first that can** (35.746 if rows three deep
+cost 0.2087, 35.812 if 0.231). The 18-cell face breaks the rows formula at sides 4 and 5, where the corners
+overlap. The rival reading puts the surplus in the corners. Triangles cannot separate the two; a rimmed strip
+without corners can, at lifetimes plain running reaches (`strips/`, running; forecasts in block 6).
+Not checked: everything in this entry is one agent's code and one long run per vessel until the referee reports.
+
 ## What was found
 
 1. **Boom and bust on wrapped faces [measured by four independent codes: `anatomy/`, `split-slab/`, `tube1d/`,
