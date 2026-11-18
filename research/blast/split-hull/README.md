@@ -5,7 +5,7 @@ cannot reach (one death per 6 × 10¹¹ hull-generations). Files: `sh.c` (steppe
 against `reference/oracle.py`), `chain.sh` and `variant.sh` (replications), `ana.py` (pooling), `levels.py` (dip rates
 by plain running, the lines, the forecasts), `fill.py`, `curate.py`, `PREDICTIONS.md` (forecasts), `paths/` (dying paths). Bulk output: `research/scratch/blast/split-hull/runs/`.
 
-## Short answer (04:34 UTC; point 4 rewritten 05:45 UTC)
+## Short answer (04:34 UTC; point 4 rewritten 06:15 UTC)
 
 1. **The sampler does not reach the 135-cell face, and I can say why [measured].** Forward-flux sampling on the
    face's population, clones separated by deep flips. Weak, unbiased separations (one flip three layers down) leave
@@ -42,16 +42,16 @@ by plain running, the lines, the forecasts), `fill.py`, `curate.py`, `PREDICTION
    R = 7 under this protocol: 6.8345 ± 0.0024 (180,727 first deaths), not the 6.804 on file (another protocol; a
    hull of that size lives 115 generations, less than the ageing-in).
 
-4. **Dice under the hull: the 135-cell face on a surrogate chain [measured; 05:00 to 05:45 UTC].** Split-slab's subset
+4. **Dice under the hull: the 135-cell face on a surrogate chain [measured; 05:00 to 06:15 UTC].** Split-slab's subset
    simulation over honest coins, on a hull dice chain (true rule on six layers beneath the watched face inside the
    real hull boundary, fair coins on the two layers below). Chain − gump: +0.001 ± 0.019 (R = 9), −0.044 ± 0.039
-   (R = 11; by brute force +0.006 ± 0.030), **+0.051 ± 0.026 (R = 13, blind), +0.008 ± 0.086 (R = 15, blind)**.
-   **R = 17: 29.445 ± 0.041 on the chain (125 replications); less the pooled blind offset 29.398 ± 0.048.** That is above
-   29.230, 29.22 and 29.163 by +3.5, +3.5 and +4.9 quoted errors, but the replications' rates are heavy-tailed
-   (at R = 15 one large replication widened the error from 0.074 to 0.085 and lowered the value by 0.07), so I read
-   it as 29.40 +0.06/−0.15: against the wrapped price taking over, and leaning towards a second difference above
-   0.69 without showing it.
-   Section "Dice under the hull".
+   (R = 11; by brute force +0.006 ± 0.030), **+0.051 ± 0.026 (R = 13, blind, 234 replications), +0.059 ± 0.046 (R = 15,
+   blind, 460)**. **R = 17: 29.397 ± 0.037 on the chain (385 replications); less the pooled blind offset
+   29.344 ± 0.043. R = 19: 36.090 ± 0.070 on the chain (65 replications); less the offset 36.04 ± 0.07.** The
+   replications' rates are heavy-tailed and the pooled value comes down as they accumulate (29.50 at 50, 29.45 at
+   200, 29.40 at 385; the first large replication arrived near 220). **Value I defend for gump at 135 cells:
+   29.34, +0.06, −0.10**: 29.22 and 29.230 are inside it, 29.163 at its lower edge. Section "Dice under the hull",
+   subsection "The last run".
 
 ## Dice under the hull (second attempt at the measurement itself, 04:45 to 05:35 UTC)
 
@@ -82,7 +82,7 @@ below the level and the reverse move is proposable). Frozen parameters (block 4)
 `sh research/blast/split-hull/dice.sh R SEED NREP`. Error: scatter of independent replications' rates.
 
 <!-- DICE -->
-**Results (05:58 UTC)** (`python3 research/blast/split-hull/dice_ana.py`, `dice_fill.py`; brute force of the chain:
+**Results (06:14 UTC)** (`python3 research/blast/split-hull/dice_ana.py`, `dice_fill.py`; brute force of the chain:
 `DICE=1 shd R SEED 0 GENS`, the base run of `sh.c` with the coins switched on):
 
 | R | cells | what | replications | ln τ, dice chain | gump anchor | chain − gump |
@@ -92,23 +92,23 @@ below the level and the reverse move is proposable). Frozen parameters (block 4)
 | 11 | 63 | brute force of the chain | 275 deaths | 13.70 ± 0.06 | 13.633 | +0.07 ± 0.06 |
 | 11 | 63 | sampler (tuning size) | 32 | 13.589 ± 0.039 | 13.633 | -0.044 ± 0.039 |
 | 13 | 84 | sampler, **blind** | 234 | 18.192 ± 0.025 | 18.141 | **+0.051 ± 0.026** (2.0 errors) |
-| 15 | 108 | sampler, **blind** | 310 | 23.384 ± 0.058 | 23.3392 | **+0.045 ± 0.059** (0.8 errors) |
-| 17 | 135 | sampler, **the new size** | 237 | **29.408 ± 0.053** | none | forecast 29.223 ± 0.014 |
+| 15 | 108 | sampler, **blind** | 460 | 23.399 ± 0.045 | 23.3392 | **+0.059 ± 0.046** (1.3 errors) |
+| 17 | 135 | sampler, **the new size** | 385 | **29.397 ± 0.037** | none | forecast 29.223 ± 0.014 |
 
 Both blind calibrations pass the rule set beforehand (within two errors); nothing was tuned after block 4. The two
-blind sizes together sit +0.050 ± 0.024 above gump (all four sizes: +0.012 ± 0.014). Scatter of one replication's
-rate, as a fraction of the mean: 0.11, 0.22, 0.39, 1.03, 0.82, 0.69 at R = 9, 11, 13, 15, 17, 19; the largest replication carries 4%, 4%, 1%, 5%, 4%, 14% of the sum; zero-rate replications: 0.
+blind sizes together sit +0.053 ± 0.022 above gump (all four sizes: +0.015 ± 0.014). Scatter of one replication's
+rate, as a fraction of the mean: 0.11, 0.22, 0.39, 0.95, 0.73, 0.56 at R = 9, 11, 13, 15, 17, 19; the largest replication carries 4%, 4%, 1%, 3%, 3%, 6% of the sum; zero-rate replications: 0.
 
-**R = 17 (135 cells) [measured on the dice chain; a surrogate for gump]:** ln τ = 29.408 ± 0.053 (237 replications; jackknife 0.054; mean of the replications' logarithms 29.538 ± 0.029).
-Minus the offset of the blind sizes: **29.358 ± 0.058** for gump; with no offset: 29.408 ± 0.053.
-Against the forecast 29.223 ± 0.014: +0.135 ± 0.060 (offset removed), +0.185 ± 0.055 (raw).
-If instead the offset drifts linearly with the area (weighted line through the four sizes: +0.00104 ± 0.00068 per cell,
-+0.088 ± 0.052 at 135 cells): **29.320 ± 0.074** for gump. In errors of each reading, the candidates sit at:
+**R = 17 (135 cells) [measured on the dice chain; a surrogate for gump]:** ln τ = 29.397 ± 0.037 (385 replications; jackknife 0.037; mean of the replications' logarithms 29.516 ± 0.022).
+Minus the offset of the blind sizes: **29.344 ± 0.043** for gump; with no offset: 29.397 ± 0.037.
+Against the forecast 29.223 ± 0.014: +0.121 ± 0.045 (offset removed), +0.174 ± 0.040 (raw).
+If instead the offset drifts linearly with the area (weighted line through the four sizes: +0.00111 ± 0.00063 per cell,
++0.094 ± 0.047 at 135 cells): **29.303 ± 0.060** for gump. In errors of each reading, the candidates sit at:
 | reading of the offset | value for gump | 29.230 (second difference repeats) | 29.223 (my forecast) | 29.163 (wrapped price) |
 |---|---|---|---|---|
-| none (the chain is gump) | 29.408 ± 0.053 | +3.3 | +3.4 | +4.6 |
-| constant, from the blind sizes | 29.358 ± 0.058 | +2.2 | +2.3 | +3.4 |
-| linear in the area | 29.320 ± 0.074 | +1.2 | +1.3 | +2.1 |
+| none (the chain is gump) | 29.397 ± 0.037 | +4.5 | +4.4 | +6.3 |
+| constant, from the blind sizes | 29.344 ± 0.043 | +2.6 | +2.7 | +4.2 |
+| linear in the area | 29.303 ± 0.060 | +1.2 | +1.3 | +2.3 |
 <!-- /DICE -->
 
 **After the first report (05:25 to 05:45 UTC): more replications, variations of the chain, and a warning about the errors.**
@@ -158,6 +158,120 @@ If instead the offset drifts linearly with the area (weighted line through the f
   lengthens by half a generation from 84 to 135 cells: the face still empties everywhere at once. The last one
   or two cells sit on the rim line 1.2 to 1.3 times as often as its share of the face, and inside 0.65 times.
 
+
+### The last run (05:45 to 06:15 UTC): three cores of replications at R = 17 and 15, one at R = 19
+
+Fresh seeds, each run with its own 512 stationary lanes (10 to 12 replications per run; `sh dice.sh R SEED N` with
+seeds 1001.., 2001.. at R = 17, 3001.. at R = 15, 4001.. at R = 19). `python3 dice_run.py`, `dice_ana.py`:
+
+| R | cells | replications | ln τ, dice chain | scatter of one replication | largest replication's share | chain − gump |
+|---|---:|---:|---|---:|---:|---|
+| 13 | 84 | 234 | 18.192 ± 0.025 | 0.39 | 0.015 | +0.051 ± 0.026 |
+| 15 | 108 | 460 | 23.399 ± 0.045 | 0.95 | 0.031 | +0.059 ± 0.046 |
+| 17 | 135 | 385 | **29.397 ± 0.037** | 0.73 | 0.026 | less the pooled offset +0.053 ± 0.022: **29.344 ± 0.043** |
+| 19 | 165 | 65 | **36.090 ± 0.070** | 0.56 | 0.062 | less the pooled offset: 36.037 ± 0.073 |
+
+Running pooled values (every 50 replications, in the order the runs were made):
+
+```
+R = 15: 460 replications in 26 runs (each run has its own stationary lanes)
+    n    -ln<rate>   +-      largest share   lognormal estimate
+    50   23.424   0.072     0.058          23.429
+   100   23.333   0.132     0.134          23.405
+   150   23.361   0.093     0.092          23.414
+   200   23.367   0.080     0.069          23.423
+   250   23.367   0.069     0.056          23.421
+   300   23.393   0.060     0.048          23.442
+   350   23.379   0.052     0.040          23.422
+   400   23.379   0.050     0.035          23.426
+   450   23.400   0.045     0.032          23.443
+   460   23.399   0.045     0.031          23.441
+  all: scatter of one replication 0.95 of the mean; sd of ln tau_k 0.440, skewness -1.82; the 3 largest replications carry 0.068 of the sum; smallest and median ln tau_k 20.74, 23.59
+  per run (>= 5 replications): 26 runs, their -ln<rate> from 22.58 to 23.71, sd 0.253
+R = 17: 385 replications in 30 runs (each run has its own stationary lanes)
+    n    -ln<rate>   +-      largest share   lognormal estimate
+    50   29.498   0.079     0.069          29.509
+   100   29.457   0.048     0.033          29.464
+   150   29.440   0.044     0.032          29.449
+   200   29.453   0.043     0.029          29.467
+   250   29.412   0.051     0.041          29.442
+   300   29.410   0.045     0.034          29.438
+   350   29.405   0.040     0.029          29.429
+   385   29.397   0.037     0.026          29.420
+  all: scatter of one replication 0.73 of the mean; sd of ln tau_k 0.440, skewness -1.08; the 3 largest replications carry 0.053 of the sum; smallest and median ln tau_k 27.09, 29.56
+  per run (>= 5 replications): 30 runs, their -ln<rate> from 28.82 to 29.89, sd 0.203
+R = 19: 65 replications in 13 runs (each run has its own stationary lanes)
+    n    -ln<rate>   +-      largest share   lognormal estimate
+    50   36.070   0.082     0.080          36.073
+    65   36.090   0.070     0.062          36.090
+  all: scatter of one replication 0.56 of the mean; sd of ln tau_k 0.491, skewness +0.08; the 3 largest replications carry 0.129 of the sum; smallest and median ln tau_k 34.69, 36.20
+  per run (>= 5 replications): 13 runs, their -ln<rate> from 35.77 to 36.30, sd 0.146
+```
+
+**What the last run shows.**
+- **The heavy tail has been met at 135 cells.** Through 200 replications the pooled value sat at 29.44 to 29.50 with the
+  largest replication carrying 3% of the rate; near replication 220 one came out 2.5 below the median in ln τ and the
+  pooled value fell to 29.41, then drifted to 29.40 by replication 385. At 108 cells the same happened near replication 80
+  (23.42 → 23.33) and the value then settled at 23.37 to 23.39. So at both sizes the pooled value starts high and
+  comes down by 0.05 to 0.09 when the first large replication arrives, and the errors quoted before that were too
+  small. The estimator's finite-sample bias is upward in ln τ and grows with size (the chains move only about half a
+  percent of their coins per level, so an ensemble is a few families).
+- **The offset is the same at the two blind sizes**, about +0.05 (table). Part of it is that upward bias, part the
+  chain itself (+0.006 ± 0.030 at 63 cells by brute force; split-slab's slab chain +0.02).
+- **The value I defend for gump's 135-cell face: 29.34, +0.06, −0.10.** It is the chain less the pooled offset; the
+  downward error is wider because the offset at 135 cells cannot be smaller than at 84 to 108 if it is a sampling
+  bias, and may be larger. **29.22 (the dip-rate forecast) and 29.230 are inside it, at about 1.2 of the downward
+  error; 29.163 is at about 1.8.** The chain does not establish that the second difference grows: 0.81 ± 0.05 at face
+  value, 0.69 if the offset at 135 cells is 0.17 instead of 0.05.
+- **165 cells:** the chain less the same offset reads 36.04 ± 0.07 from 65 replications, with no large
+  replication met yet (so, by the pattern above, probably 0.05 to 0.1 too high): against 35.78 (dip-rate route),
+  35.81 (second difference repeats), 35.61 (wrapped price). Like the 135-cell reading before its tail was met, it sits
+  about 0.25 above the dip-rate route; the increment from 135 to 165 cells, 6.69 ± 0.08, is close to the ordinary one (6.56 by
+  the dip-rate route, 6.58 if the second difference repeats, 6.45 at the wrapped price).
+- **Where a real discrepancy would have to sit.** If the dip-rate line and the chain are both right, −ln q(0.6) bends up
+  by about 0.13 between 108 and 135 cells. Gump's own plain-running tables say it is not between 0.6 and 0.5 P̄
+  (passage cost against the trend of 45 to 108 cells: 0.000 ± 0.017 at 135 cells, −0.010 ± 0.038 at 165) and show
+  +0.09 ± 0.07 between 0.5 and 0.4 P̄, the deepest plain running reaches at that size. The chain puts its whole
+  excess over the trend of its own smaller faces at the very end (tables below: +0.11 to +0.16 at every level from
+  0.45 P̄ down to 0.1 P̄ at 135 cells, +0.26 to +0.35 at 165: all of it already in the passage from the last seven or
+  eight cells to none). That is the stretch plain running
+  cannot check at 135 cells, and it is also where the sampler's replications scatter most; so the excess is
+  either a real dearer end game on large faces or the unmet part of the tail. I lean to the second.
+
+Level by level on the chain (`python3 dice_levels.py`) and gump's own deep passages (`python3 bend.py`):
+
+```
+c(p) = ln P(S <= p P-bar) - ln P(S = 0) on the dice chain (replications in brackets)
+   R  cells    p = 0.6           p = 0.45          p = 0.4           p = 0.3           p = 0.2           p = 0.1       
+   9    45     nan +- nan   4.355 +- 0.016   3.885 +- 0.015   2.922 +- 0.013   1.890 +- 0.010   0.858 +- 0.005   [32]
+  11    63     nan +- nan   6.688 +- 0.036   5.970 +- 0.035   4.471 +- 0.031   2.906 +- 0.024   1.340 +- 0.012   [32]
+  13    84  12.297 +- 0.025   9.557 +- 0.025   8.536 +- 0.024   6.424 +- 0.023   4.213 +- 0.019   1.955 +- 0.011   [234]
+  15   108  16.389 +- 0.045  12.750 +- 0.045  11.413 +- 0.044   8.607 +- 0.042   5.673 +- 0.036   2.663 +- 0.020   [460]
+  17   135  21.097 +- 0.037  16.457 +- 0.037  14.752 +- 0.036  11.171 +- 0.035   7.414 +- 0.029   3.531 +- 0.017   [385]
+  19   165  26.335 +- 0.070  20.600 +- 0.068  18.492 +- 0.066  14.049 +- 0.056   9.368 +- 0.040   4.505 +- 0.024   [65]
+weighted straight line in the area through R = 9..15 (R = 13, 15 where a size has no level that high), and the larger faces against it:
+  p = 0.6: slope 0.1705 +- 0.0021 per cell (two sizes: no test);  R = 17: 21.097 against 20.994: excess +0.103 +- 0.106;  R = 19: 26.335 against 26.110: excess +0.226 +- 0.177
+  p = 0.45: slope 0.1333 +- 0.0006 per cell, chi2 3.2 on 2;  R = 17: 16.457 against 16.343: excess +0.114 +- 0.058;  R = 19: 20.600 against 20.341: excess +0.259 +- 0.092
+  p = 0.4: slope 0.1193 +- 0.0006 per cell, chi2 2.9 on 2;  R = 17: 14.752 against 14.618: excess +0.135 +- 0.057;  R = 19: 18.492 against 18.197: excess +0.295 +- 0.089
+  p = 0.3: slope 0.0899 +- 0.0005 per cell, chi2 4.9 on 2;  R = 17: 11.171 against 11.007: excess +0.164 +- 0.054;  R = 19: 14.049 against 13.704: excess +0.346 +- 0.079
+  p = 0.2: slope 0.0597 +- 0.0004 per cell, chi2 5.5 on 2;  R = 17: 7.414 against 7.257: excess +0.157 +- 0.045;  R = 19: 9.368 against 9.048: excess +0.320 +- 0.061
+  p = 0.1: slope 0.0283 +- 0.0002 per cell, chi2 6.3 on 2;  R = 17: 3.531 against 3.401: excess +0.130 +- 0.025;  R = 19: 4.505 against 4.250: excess +0.255 +- 0.035
+
+end game at fixed numbers of cells: c_abs(L) = ln P(S <= L cells) - ln P(S = 0)
+   R  cells    L = 3             L = 6             L = 9             L = 12            L = 18          last levels
+   9    45   1.259 +- 0.007   2.693 +- 0.012   4.042 +- 0.015     nan +- nan     nan +- nan   [7, 4, 1, 0]  [32]
+  11    63   1.277 +- 0.012   2.780 +- 0.024   4.290 +- 0.030   5.740 +- 0.035   8.359 +- 0.039   [9, 6, 3, 0]  [32]
+  13    84   1.321 +- 0.007   2.893 +- 0.015   4.485 +- 0.020   6.048 +- 0.023   9.032 +- 0.025   [7, 4, 1, 0]  [234]
+  15   108   1.305 +- 0.010   2.925 +- 0.021   4.562 +- 0.031   6.188 +- 0.037   9.352 +- 0.043   [8, 5, 2, 0]  [460]
+  17   135   1.330 +- 0.008   2.994 +- 0.015   4.689 +- 0.021   6.366 +- 0.027   9.654 +- 0.033   [9, 6, 3, 0]  [385]
+  19   165   1.346 +- 0.010   3.037 +- 0.019   4.772 +- 0.024   6.495 +- 0.029   9.884 +- 0.042   [8, 5, 2, 0]  [65]
+
+passage 0.85 -> 0.6: 1.705, 2.345, 3.170, 4.114 at R = 9..15; line slope 0.03838 per cell (chi2 45.9 on 2);  R = 17: 5.241, line 5.137, excess +0.105 +- 0.010;  R = 19: 6.486, line 6.288, excess +0.198 +- 0.014;  R = 21: 7.875, line 7.555, excess +0.320 +- 0.020
+passage 0.6 -> 0.5: 0.850, 1.274, 1.781, 2.349 at R = 9..15; line slope 0.02383 per cell (chi2 0.6 on 2);  R = 17: 2.994, line 2.994, excess -0.000 +- 0.017;  R = 19: 3.699, line 3.709, excess -0.010 +- 0.038;  R = 21: 4.687, line 4.496, excess +0.191 +- 0.112
+passage 0.5 -> 0.4: 0.930, 1.420, 1.989, 2.645 at R = 9..15; line slope 0.02718 per cell (chi2 0.0 on 2);  R = 17: 3.463, line 3.376, excess +0.087 +- 0.073
+passage 0.4 -> 0.3: 0.990, 1.513, 2.105, 2.786 at R = 9..15; line slope 0.02870 per cell (chi2 0.2 on 2)
+passage 0.6 -> 0.4: 1.780, 2.694, 3.770, 4.994 at R = 9..15; line slope 0.05101 per cell (chi2 0.2 on 2);  R = 17: 6.457, line 6.370, excess +0.087 +- 0.072
+```
 
 ## Deliverable 1: the stepper [measured]
 

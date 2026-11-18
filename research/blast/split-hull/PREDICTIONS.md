@@ -159,3 +159,12 @@ TWIN 24; WBACK 12. No tuning on R = 13 or 15.
   I do not trust the quoted error downward (see README) and read 29.40 +0.06/-0.15.
 - Brute force of the chain at R = 11, redone with 1,097 deaths: 13.639 +- 0.030 (gump 13.633): the earlier 13.70 +- 0.06
   was a fluctuation; block 4's "within 0.04" would have held.
+
+## The last run (06:15 UTC; no forecast was frozen for it)
+
+- R = 17 on the dice chain went 29.498, 29.457, 29.440, 29.453, 29.412, 29.410, 29.405, 29.397 at 50, 100, ..., 385
+  replications: the value I reported at 125 replications (29.445 +- 0.041) was 0.05 too high and its error too
+  small, as I had warned without being able to show it. Less the pooled blind offset (+0.053 +- 0.022):
+  29.344 +- 0.043; defended as 29.34 +0.06 -0.10. Block 3's 29.223 +- 0.014 is 1.2 downward errors below it.
+- R = 19: 36.090 +- 0.070 on the chain (65 replications, no large one met); the PI's "near 36.2 if the 135-cell reading
+  is right" and my block-3 forecast 35.779 +- 0.020 are 0.1 above and 0.26 (0.31 raw) below it.
