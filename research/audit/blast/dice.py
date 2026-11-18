@@ -8,7 +8,7 @@ wrapped face); B45/S345 on n = k + b, all cells at once; the empty face absorbs.
 quasi-stationary law.  "Bust share" (their definition, rigour/qsd.c): the share of the quasi-stationary death flux
 whose last 6 transitions, the death included, contain a fall of at least ceil(A/2) cells in one generation.
 
-    python3 research/audit/blast/dice.py            # the rows below against rigour's printed values (2 min, 1 GB)
+    python3 research/audit/blast/dice.py            # the rows below against rigour's printed values (3 s)
 """
 import os, sys
 import numpy as np

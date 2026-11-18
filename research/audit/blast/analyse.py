@@ -170,6 +170,9 @@ def main():
     P('largest one-generation fall in the window: share of deaths / share of ordinary windows')
     for fr in (0.3, 0.4, 0.5, 0.6):
         P(f'  >= {fr} A: {np.mean(big >= fr * A):.4f} +- {np.sqrt(np.mean(big >= fr * A) * (1 - np.mean(big >= fr * A)) / nd):.4f} / {np.mean(rdrop.max(1) >= fr * A):.4f}')
+    jb = np.argmax(drop, axis=1); hf = big >= 0.5 * A; ar = np.arange(nd)
+    P(f'deaths whose largest fall is >= 0.5 A: population before the fall {win[ar, jb][hf].mean():.2f}, after it {win[ar, jb + 1][hf].mean():.2f}, '
+      f'one generation before it {win[ar, np.maximum(jb - 1, 0)][hf & (jb > 0)].mean():.2f}')
     P('distribution of the largest fall (cells): ' + ' '.join(f'{lo}-{lo + 4}: {np.mean((big >= lo) & (big < lo + 5)):.3f}' for lo in range(0, A, 5)))
     half = int(np.ceil(A / 2))
     jl = np.array([np.nonzero(r >= half)[0].max() if (r >= half).any() else -1 for r in pop])      # launch index
@@ -183,6 +186,9 @@ def main():
     tr = np.array([pop[i, j - 3:j + 5] if j + 5 <= RING else np.r_[pop[i, j - 3:], np.zeros(j + 5 - RING, int)] for i, j in zip(np.nonzero(ok)[0], jl[ok])])
     P('  mean population at launch -3 .. +4: ' + ' '.join(f'{v:.2f}' for v in tr.mean(0)))
     bust = ok.copy(); bust[ok] = (pl >= 0.65 * A) & (tr[:, 3] - tr[:, 4] >= 0.4 * A)
+    layall = np.array([D['pops'][a_, b_ - 1:b_ + 2, :] for a_, b_ in zip(np.nonzero(ok)[0], jl[ok])]).mean(0)
+    for o, nm in zip(range(3), ('one before', 'at the launch', 'one after')):
+        P(f'  all deaths, layers 1..{len(sizes)} (fraction of each layer), {nm}: ' + ' '.join(f'{layall[o, l] / sizes[l]:.3f}' for l in range(len(sizes))))
     P(f'  deaths with a launch at >= 0.65 A followed by a fall of >= 0.4 A in one generation ("bust deaths"): {bust.mean():.4f}')
     for name, sel in (('bust deaths', bust), ('the other deaths', ok & ~bust)):
         if sel.sum() < 5: continue

@@ -81,12 +81,16 @@ largest one-generation fall in the window: share of deaths / share of ordinary w
   >= 0.4 A: 0.7750 +- 0.0078 / 0.0029
   >= 0.5 A: 0.5316 +- 0.0094 / 0.0003
   >= 0.6 A: 0.1756 +- 0.0072 / 0.0000
+deaths whose largest fall is >= 0.5 A: population before the fall 64.41, after it 15.57, one generation before it 44.16
 distribution of the largest fall (cells): 0-4: 0.026 5-9: 0.027 10-14: 0.011 15-19: 0.011 20-24: 0.037 25-29: 0.055 30-34: 0.076 35-39: 0.146 40-44: 0.198 45-49: 0.200 50-54: 0.136 55-59: 0.061 60-64: 0.012 65-69: 0.002 70-74: 0.000 75-79: 0.000 80-84: 0.000
 launch = the last generation with >= A/2 = 42 cells (2831 deaths have one inside the record):
   population at the launch: mean 61.01 (0.7263 A), s.d. 5.33, median 62; shares >=51: 0.949 >=55: 0.893 >=59: 0.755 >=63: 0.437 >=68: 0.072
   histogram of the launch population: 42:13 43:13 44:24 45:12 46:13 47:10 48:21 49:15 50:23 51:30 52:33 53:48 54:49 55:62 56:86 57:94 58:147 59:163 60:216 61:265 62:257 63:268 64:246 65:231 66:167 67:121 68:95 69:59 70:23 71:19 72:6 73:1 74:1
   generations from the launch to the empty face: mean 7.11, quartiles [5. 6. 9.], 5-95% [ 3. 13.]
   mean population at launch -3 .. +4: 45.14 41.42 43.72 61.01 19.21 10.96 6.31 3.65
+  all deaths, layers 1..6 (fraction of each layer), one before: 0.520 0.398 0.356 0.379 0.393 0.396
+  all deaths, layers 1..6 (fraction of each layer), at the launch: 0.726 0.626 0.553 0.499 0.461 0.428
+  all deaths, layers 1..6 (fraction of each layer), one after: 0.229 0.162 0.200 0.308 0.365 0.382
   deaths with a launch at >= 0.65 A followed by a fall of >= 0.4 A in one generation ("bust deaths"): 0.8054
   bust deaths (2280): population at launch -3..+1: 45.13 41.51 44.05 62.97 17.49; launch to empty: median 6, quartiles [5. 8.]
       layers 1..6 (fraction of each layer), one before: 0.524 0.399 0.355 0.379 0.392 0.397
