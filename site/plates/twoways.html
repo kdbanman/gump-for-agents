@@ -1,0 +1,54 @@
+<section class="plate" id="twoways">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">Two ways to die <b>· new</b></p><span class="st st-meas">the crash and the fade: three independent lines (grade A)</span><span class="st st-meas">the rim row: the audit’s code, re-run by the lead on fresh seeds (B); one size</span><span class="st st-open">no price follows from it</span><span class="st st-open">the 84-cell hull face: running, no result</span></div>
+    <h2>A wrapped face of 63 cells dies by over-filling: in one generation it fills to <span id="n-tw-launch"></span> of its area, and the next generation it crashes, its cells dying of overcrowding. A hull face of the same area fades over about ten generations. The difference is the hull face’s rim row, whose cells have fewer neighbours inside the box and survive an over-full generation twice as often.</h2>
+  </div>
+  <!-- NB 2026-11-18 "how a face dies, audited from outside"; CLAIMS DY16-DY21; research/audit/REVIEW-blast.md; tables
+       research/audit/blast/data/{slab63,hull63,wide84,tube84,rimtest}.txt read by collect/collect.py into data/blast.json;
+       quotes in collect/sources/update-2026-11-18.json (blast) -->
+  <p class="cap">Two kinds of face, both of 63 cells. A <b>wrapped</b> face is the face layer of a slab closed on itself like a torus, (1,4),(0,21): it has no rim, and every cell of it has 9 neighbours inside the box. A <b>hull</b> face is one of the eight faces of a closed octahedron of radius 11, the kind of face in the box of “The staircase”: its 30 cells along the edges, the <b>rim row</b>, have 7 neighbours inside, its 30 interior cells 9, its 3 corners 4. The <b>launch</b> is the last generation in which at least half the face is alive. The numbers come from an audit with its own code, built from the reference stepper, of another session’s night of work; the other plates of this page are about hull faces only.</p>
+  <div class="figs">
+    <figure class="fig c7 panel">
+      <h3>The last generations before the face is empty, lined up at the launch</h3>
+      <div id="f-tw-launch"></div>
+      <div class="keys" id="k-tw-launch"></div>
+      <figcaption id="x-tw-launch"></figcaption>
+    </figure>
+    <div class="fig c5"><div class="nums" id="n-tw" style="grid-template-columns:1fr"></div></div>
+  </div>
+  <div class="figs">
+    <figure class="fig c6 panel">
+      <h3>The largest fall in one generation, in the last 12 before death</h3>
+      <div id="f-tw-fall"></div>
+      <div class="keys" id="k-tw-fall"></div>
+      <figcaption id="x-tw-fall"></figcaption>
+    </figure>
+    <figure class="fig c6 panel">
+      <h3>Why: which cells live through an over-full generation</h3>
+      <div id="f-tw-cells"></div>
+      <figcaption id="x-tw-cells"></figcaption>
+    </figure>
+  </div>
+  <div class="figs">
+    <figure class="fig c6 panel">
+      <h3>With k cells left, the chance the face goes on to die</h3>
+      <div id="f-tw-q"></div>
+      <div class="keys" id="k-tw-q"></div>
+      <figcaption id="x-tw-q"></figcaption>
+    </figure>
+    <div class="fig c6 panel">
+      <h3>A tube against a wide face, and a surrogate</h3>
+      <ul class="plain" id="l-tw-more"></ul>
+    </div>
+  </div>
+  <div class="figs">
+    <div class="fig c6 panel">
+      <h3>What follows from it, and what does not</h3>
+      <ul class="plain" id="l-tw-follows"></ul>
+    </div>
+    <div class="fig c6 panel">
+      <h3>How it was checked, and what was not</h3>
+      <ul class="plain" id="l-tw-check"></ul>
+    </div>
+  </div>
+</section>
