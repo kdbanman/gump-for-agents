@@ -20,11 +20,16 @@ one-step mean and covariance and Gaussian noise, nothing fitted:
   ln τ/A at 63 cells: 0.216), i.e. hull > torus as measured, but by a factor 1.45 where gump has 1.11;
 - gives the tube a lower action than the wide torus at equal size (right sign, wrong size; see iv).
 
-**Why it falls short [measured]:** the boom is not a two-layer event. Before a fatal fall the first five layers hold
-48.8, 39.9, 34.5, 30.7, 28.7 cells (stationary 32.5, 27.3, 25.5, 26.1, 26.0), and one generation earlier the face
-is normal and layers 2–5 are all *under*-full (25.2, 22.3, 24.0, 24.8). Two variables do not close in the
-over-full state (the fall of P depends on C with slope −0.24 cell per cell at fixed (P, B)), and the Gaussian is
-thinner than the true one-step upper tail by a further 0.012–0.017 per cell.
+**Why it falls short [measured]: half of the gap is the jump's tail, as the PI expected.** At the route's landing
+point, taken at equal fillings (0.73, 0.667) on every size, the measured one-step chance from the launch box is
+smaller than the Gaussian's by e^−0.42, e^−0.76, e^−1.19 at 48, 63, 84 cells (on the quadrant beyond it: 0.69,
+1.12, 1.65): an excess that grows by **0.022–0.027 per cell**, i.e. a jump exponent about 1.22 times the Gaussian's
+in the limit (`model` found 1.27 for the stationary tail). With the measured jump in place of the Gaussian one the
+minimum action rises by **0.186–0.191 per cell** (48–84 cells; 0.193–0.197 between 63 and 84): **9–11% short**.
+The rest is not located. It is *not* depth, at least not in the jump: the fatal surge fills five layers (48.8,
+39.9, 34.5, 30.7, 28.7 against a stationary 32.5, 27.3, 25.5, 26.1, 26.0, launched from a normal face over four
+thin layers), but in a linear Gaussian model of the top k layers the measured jump costs 5.45, 6.74, 7.08, 7.11,
+7.12 for k = 1…5: the second layer matters (+1.3), the third adds 0.34, the fourth and fifth 0.04.
 
 ## 0. What is measured, what is computed, what is fitted
 
@@ -149,12 +154,12 @@ after it 2.47 = **0.039 per cell** (measured fatality: 0.088). The Gaussian acti
 Replacing the Gaussian end-game by the measured chance of death q(P) below 8, 12, 16 or 20 cells (`REVIEW.md`'s
 table; B-blind) gives S = 10.45, 10.65, 10.95, 11.55 at 63 cells and slopes 0.1635, 0.1625, 0.1616, 0.1624: the
 chain then spends about 5 on the kill (0.08 per cell, near the measured 0.088) but buys a cheaper, shallower
-boom, and the total hardly moves. **The Gaussian is too generous on the jump**, as the PI said, but by less than 1.27: landing
-exactly on the route's (46,42) from the launch box happens with −ln probability 11.57 (2,318 times in 2.4·10⁸)
-against a Gaussian −ln density of 10.81, +0.76 nats (ratio of exponents 1.13 once the normalisation 4.78 is taken
-off); at 84 cells (65,53): 15.11 against 13.65, +1.46 nats (1.17). That is +0.012 to +0.017 per cell: with it the
-minimum action is about 0.175. Marginal upper tail of P′ alone from the launch box: 1.05–1.11 times the Gaussian
-exponent at P′ = 45–50 of 63.
+boom, and the total hardly moves. **The Gaussian is too generous on the jump**, as the PI said: landing exactly on the route's (46,42) from the
+launch box happens with −ln probability 11.57 (2,318 times in 2.4·10⁸) against a Gaussian 10.81, +0.76 nats (ratio
+of exponents 1.13 once the normalisation 4.78 is taken off), and at equal fillings the excess is +0.42, +0.76,
++1.19 at 48, 63, 84 cells (§4, item 1): +0.022 per cell, an asymptotic ratio of about 1.22. **With the measured
+jump the minimum action has slope 0.186–0.191 per cell.** Marginal upper tail of P′ alone from the launch box:
+1.05–1.11 times the Gaussian exponent at P′ = 45–50 of 63.
 
 **(ii) The route.** Right in kind and in its first two states, coarse after: launch (33,25) against the measured
 (33.3, 25.2); peak (46,42) against (48.8, 39.9); landing (16,7) against (11.2, 9.9); then 7 more generations
@@ -177,18 +182,43 @@ times the measured discount, depending on which low map is used).
 
 ## 4. Where the missing 0.03–0.05 per cell is **[conjectured, with the measurements that point there]**
 
-1. **Depth.** The fatal surge fills five layers (§1) and is launched from four thin ones. The two-variable chain
-   pays for P and B only, and treats C's effect on the fall as free noise (the fall (46,42) → (16,7) costs it
-   1.58). A chain on (P, B, C) is the next thing to compute; (P, B, C, D) may be needed.
-2. **The jump's tail**: +0.012 to +0.017 per cell, measured (i).
+1. **The jump's tail: +0.022 to +0.027 per cell [measured]** (`python3 theory5.py` → `out/theory5.txt`). One-step
+   histogram of (P′, B′) from the launch box against the Gaussian with the histogram's own mean and covariance,
+   at the landing point of the minimum-action route (fillings 0.73, 0.667 on every size):
+
+   | | steps from the box | on the point | 3 × 3 | 5 × 5 | quadrant beyond |
+   |---|---:|---|---|---|---|
+   | 48 cells, (35,32) | 7.6·10⁷ | +0.42 ± 0.01 | +0.36 | +0.27 | +0.69 ± 0.01 |
+   | 63 cells, (46,42) | 2.4·10⁸ | +0.76 ± 0.02 | +0.72 | +0.60 | +1.12 ± 0.01 |
+   | 84 cells, (61,56) | 1.2·10⁸ | +1.19 ± 0.12 | +1.24 | +1.06 | +1.65 ± 0.06 |
+   | tube 60, (44,40) | 1.3·10⁸ | +0.82 | +0.75 | +0.63 | +1.20 |
+   | tube 84, (61,56) | 7.6·10⁷ | +1.59 ± 0.16 | +1.36 | +1.18 | +1.90 ± 0.08 |
+
+   (excess of the measured −ln probability over the Gaussian's.) It grows linearly with A: 0.022 per cell (5 × 5),
+   0.026–0.029 (quadrant). Minimum action with the measured jump: 8.05, 10.66, 14.71 (5 × 5) or 8.46, 11.17, 15.31
+   (quadrant) at 48, 63, 84 cells: slope 0.186 or 0.191 per cell. The tube's excess is larger than the wide
+   torus's at 84 cells (+1.59 against +1.19 on the point, 2σ): the tube's jump is, if anything, *dearer*; its
+   discount is not made there.
+2. **Depth: measured, and small for the jump** (`python3 theory4.py t63 tube60` → `out/theory4.txt`; 224,130
+   living transitions with the full state). One-step linear model of the populations of the top k layers with
+   Gaussian noise (noise s.d. 4.9, 4.6, 4.4, 4.5, 4.5 cells; neighbouring layers' noise correlated +0.3; every
+   layer below the face has a *negative* one-step coefficient on itself, −0.21 to −0.29, the face +0.13). Price of
+   the measured jump of a fatal fall (launch 33.3, 25.2, 22.3, 24.0, 24.8 → peak 48.8, 39.9, 34.5, 30.7, 28.7):
+   5.45, 6.74, 7.08, 7.11, 7.12 for k = 1…5 (tube60: 5.00, 6.14, 6.50, 6.54, 6.55); of a non-fatal fall of half
+   the face: 5.55, 5.64, 5.61, 5.60, 5.60. Launched from the stationary mean instead of the thin profile the fatal
+   jump would cost 7.79: the priming is worth 0.67. So three layers close the jump (+0.38 over two, 0.006 per
+   cell), and the fatal jump is 1.5 nats dearer than the non-fatal one. Depth in the *fall* was not priced.
 3. **The collapse corrections**: a covariance per cell that grows 3.7% per 30% of area lowers the Gaussian price
    with size unless it saturates; the drift's 1.5 cells / A raises the intercept only.
 4. Not the end-game: measured q(P) in place of the Gaussian kill changes the slope by 0.001–0.003.
 
-A reading of the whole [conjectured]: the face's lifetime is the cost of a rare *vertical* event (a column of
-thin layers filling at once) on wrapped faces, where the cliff turns over-filling into emptying, and of a slow
-*horizontal* one (a fade the layer beneath cannot stop) on the hull face, whose rim removes the cliff. A local
-large-deviation theory of the first needs the depth profile as its variable, not the face.
+5. Not located: the remaining 0.018–0.023 per cell. Candidates not priced: the non-Gaussian law of the fall and of
+   the generations after it, depth in the fall, the collapse corrections.
+
+A reading of the whole [conjectured]: on a wrapped face the lifetime is the cost of one non-Gaussian jump of the
+top two or three layers onto the cliff of the return map, plus the fall and a short starvation; on the hull face,
+whose rim removes the cliff, it is the cost of a slow fade the layer beneath cannot stop. A formula for the
+wrapped price needs the one-step rate function of (P, B) at fillings (0.73, 0.67), not its covariance.
 
 ## 5. Not checked, and known defects
 
@@ -201,7 +231,7 @@ large-deviation theory of the first needs the depth profile as its variable, not
   across sizes, which §1 shows is good to 0.006 in drift and 4% in variance per step, not better.
 - A grid of integers at 48–108 cells is far from a large-deviation limit: the chain's ln τ exceeds S by 3.0–3.9
   (prefactors), and its slope is not smooth. No continuum limit was taken.
-- No three-variable chain. No measured-kernel chain (it would reproduce τ by construction and test nothing).
+- No three-variable chain (only the linear five-layer price of the jump, §4 item 2). No measured-kernel chain (it would reproduce τ by construction and test nothing).
 - The hull map carried to other sizes ignores that the rim's share of the face changes.
 - n ≥ 200, the 0.5 threshold and the bilinear carrying were not varied. `theory.py` has had no second reader.
 - Agent `boom`'s directory was not read; agreement or disagreement with it is unknown to me.
