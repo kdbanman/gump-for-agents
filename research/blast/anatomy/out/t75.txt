@@ -1,0 +1,10 @@
+== slab_1_9_25 / t75: 1144 deaths recorded; ln tau_face = 15.6501 +- 0.0296; lives ended W 0, S 0; deaths with a transverse firewall present 0
+cells used in the fits (stationary occupancy >= 0.4): 75 of 75
+generations from the last time P >= 36 to the death: percentiles 10/25/50/75/90 = 4 4 6 8 10   (not within 128: 0.000)
+generations from the last time P >= 19 to the death: percentiles 10/25/50/75/90 = 4 4 5 8 10   (not within 128: 0.000)
+generations from the last time P >=  9 to the death: percentiles 10/25/50/75/90 = 2 3 4 6 8   (not within 128: 0.000)
+spread of T over the cells of one death (cells used in the fits; standard deviation, generations): percentiles = 1.36 1.55 1.86 2.26 2.85; range max-min: 8 9 11 14 17; mean T -6.21; cells not alive within 128: 0.0000
+-- field T: plane beats 95% of shuffles in 0.377 of deaths; median R2 0.134 (shuffles 0.097); speed 1/|g| among those, percentiles: 0.847 1.15 1.51 1.94 2.44 (all deaths: 1.15 1.58 2.25 3.02 3.88)
+   cone: hole-first (b>0) beats 95% in 0.248, remnant (b<0) in 0.316, either in 0.349; median R2 hole 0.053, remnant 0.061 (shuffle best 0.041); remnant fits better than plane in 0.072, hole better than plane in 0.044, remnant better than hole in 0.559; remnant speed pct: 0.525 0.737 1.02 1.38 2.13
+-- field T3: plane beats 95% of shuffles in 0.170 of deaths; median R2 0.101 (shuffles 0.098); speed 1/|g| among those, percentiles: 0.738 0.873 0.997 1.15 1.38 (all deaths: 0.99 1.29 1.64 2.01 2.42)
+   cone: hole-first (b>0) beats 95% in 0.122, remnant (b<0) in 0.145, either in 0.153; median R2 hole 0.036, remnant 0.038 (shuffle best 0.040); remnant fits better than plane in 0.036, hole better than plane in 0.024, remnant better than hole in 0.510; remnant speed pct: 0.435 0.576 0.737 1.02 1.96

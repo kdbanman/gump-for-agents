@@ -156,22 +156,33 @@ int main(int argc, char **argv) {
     long cum = 0; for (int p = 0; p <= LAM0; p++) { cum += g_hist[p]; if (g_hist[p] || g_cross[p]) printf("HIST %d min %ld cum %ld cross %ld\n", p, g_hist[p], cum, g_cross[p]); }
     return 0;
   }
-  if (!strcmp(mode, "lag")) {   /* ss GEOM lag SEED GENS : mean population of the layer at depth d beneath a dying face, by lag before its death */
+  if (!strcmp(mode, "lag")) {   /* ss GEOM lag SEED GENS [PATHFILE]: natural deaths of plain gump (no flips). Mean population of the layer at depth d
+       beneath a dying face by lag before its death, and per death the face cells' last-alive generations. */
     sm = strtoull(argv[3], 0, 10) * 0x2545F4914F6CDD1DULL + 7; long gens = atol(argv[4]);
     #define RB 64
-    static short ring[NL][RB][8]; static long lage[NL]; double sum[RB][8] = {{0}}, sq[RB][8] = {{0}}, m1[8] = {0}, m2[8] = {0}; long nd = 0, ns = 0;
-    for (int l = 0; l < NL; l++) { lane_soup(l); lage[l] = 0; }
-    for (long g = 0; g < gens; g++) { step(); u64 c[8][NB][W]; for (int y = 0; y < 8; y++) laypop(y * A, c[y]);
-      for (int l = 0; l < NL; l++) { short *r = ring[l][g % RB]; for (int y = 0; y < 8; y++) r[y] = lane_count(c[y], l); lage[l]++;
-        if (lage[l] > 1000 && (g & 15) == 0) { for (int y = 0; y < 8; y++) { m1[y] += r[y]; m2[y] += (double)r[y] * r[y]; } ns++; }
-        int f = r[0] == 0 ? 0 : (r[7] == 0 ? 1 : -1);
-        if (f >= 0) { if (lage[l] > 1000 + RB) { nd++; for (int lag = 0; lag < RB; lag++) { short *q = ring[l][((g - lag) % RB + RB) % RB];
-              for (int d = 0; d < 8; d++) { int y = f ? 7 - d : d; sum[lag][d] += q[y]; sq[lag][d] += (double)q[y] * q[y]; } } }
-          lane_soup(l); lage[l] = 0; } } }
-    printf("LAG deaths %ld; stationary mean (sd) by layer:", nd); for (int y = 0; y < 8; y++) printf(" %.2f (%.2f)", m1[y] / ns, sqrt(m2[y] / ns - (m1[y] / ns) * (m1[y] / ns))); printf("\n");
-    printf("lag: mean pop at depth 0..7 beneath the dying face; then z = (mean - stationary)/sd for depth 0..7\n");
+    static u64 rc[RB][8][NB][W]; static long born[NL]; static u64 fring[RB][2][512][W]; FILE *pp = argc > 5 ? fopen(argv[5], "w") : 0;
+    double sum[RB][8] = {{0}}, sq[RB][8] = {{0}}, m1[8] = {0}, m2[8] = {0}; long nd = 0, ns = 0; double E = 0;
+    if (A > 512) return 1;
+    if (pp) fprintf(pp, "# A %d; one line per natural face death: P face age pop(-1) pop(-2) ... pop(-24) | last[c] for c = 0..A-1 (cell c of the dying face: last generation alive relative to the death generation, -1..-63; -64 = not alive in the last 63 generations)\n", A);
+    for (int l = 0; l < NL; l++) { lane_soup(l); born[l] = 0; }
+    for (long g = 1; g <= gens; g++) { step(); int slot = g % RB; for (int y = 0; y < 8; y++) laypop(y * A, rc[slot][y]);
+      for (int c2 = 0; c2 < A; c2++) { memcpy(fring[slot][0][c2], a + (size_t)c2 * W, 64); memcpy(fring[slot][1][c2], a + (size_t)(7 * A + c2) * W, 64); }
+      if ((g & 15) == 0) for (int l = 0; l < NL; l++) if (g - born[l] > 1000) { for (int y = 0; y < 8; y++) { int r = lane_count(rc[slot][y], l); m1[y] += r; m2[y] += (double)r * r; } ns++; }
+      for (int w = 0; w < W; w++) { u64 z0 = ~0ULL, z1 = ~0ULL; for (int k = 0; k < NB; k++) { z0 &= ~rc[slot][0][k][w]; z1 &= ~rc[slot][7][k][w]; }
+        u64 z = z0 | z1;
+        while (z) { int k = __builtin_ctzll(z); z &= z - 1; int l = 64 * w + k; int f = (z0 >> k) & 1 ? 0 : 1; long age = g - born[l];
+          if (age > 1000 + RB) { nd++; E += 2.0 * (age - 1000 - RB);
+            for (int lag = 0; lag < RB; lag++) { int sl = (int)(((g - lag) % RB + RB) % RB);
+              for (int d = 0; d < 8; d++) { int y = f ? 7 - d : d; int q = lane_count(rc[sl][y], l); sum[lag][d] += q; sq[lag][d] += (double)q * q; } }
+            if (pp) { fprintf(pp, "P %d %ld", f, age); for (int lag = 1; lag <= 24; lag++) fprintf(pp, " %d", lane_count(rc[((g - lag) % RB + RB) % RB][f ? 7 : 0], l)); fprintf(pp, " |");
+              for (int c2 = 0; c2 < A; c2++) { int last = -RB; for (int lag = 1; lag < RB; lag++) if ((fring[((g - lag) % RB + RB) % RB][f][c2][w] >> k) & 1) { last = -lag; break; } fprintf(pp, " %d", last); } fprintf(pp, "\n"); } }
+          lane_soup(l); born[l] = g; } } }
+    for (int l = 0; l < NL; l++) if (gens - born[l] > 1000 + RB) E += 2.0 * (gens - born[l] - 1000 - RB);
+    printf("LAG A %d deaths %ld (lives older than %d generations) exposure %.4e lntau_brute %.4f +- %.4f\n", A, nd, 1000 + RB, E, nd ? log(E / nd) : 0.0, nd ? 1 / sqrt(nd) : 0.0);
+    printf("stationary mean (sd) by layer:"); for (int y = 0; y < 8; y++) printf(" %.2f (%.2f)", m1[y] / ns, sqrt(m2[y] / ns - (m1[y] / ns) * (m1[y] / ns))); printf("\n");
+    printf("lag: mean pop at depth 0..7 beneath the dying face; then sd of the face pop; then z = (mean - stationary)/sd for depth 0..7\n");
     for (int lag = 0; lag < RB; lag += (lag < 24 ? 1 : 4)) { printf("%2d:", lag); for (int d = 0; d < 8; d++) printf(" %6.2f", sum[lag][d] / nd);
-      printf("  |"); for (int d = 0; d < 8; d++) { int y = d; double mu = (m1[y] + m1[7 - y]) / 2 / ns, sd = sqrt((m2[y] + m2[7 - y]) / 2 / ns - mu * mu); printf(" %6.2f", (sum[lag][d] / nd - mu) / sd); } printf("\n"); }
+      printf("  | %5.2f |", sqrt(sq[lag][0] / nd - (sum[lag][0] / nd) * (sum[lag][0] / nd))); for (int d = 0; d < 8; d++) { int y = d; double mu = (m1[y] + m1[7 - y]) / 2 / ns, sd = sqrt((m2[y] + m2[7 - y]) / 2 / ns - mu * mu); printf(" %6.2f", (sum[lag][d] / nd - mu) / sd); } printf("\n"); }
     return 0;
   }
   /* ffs */

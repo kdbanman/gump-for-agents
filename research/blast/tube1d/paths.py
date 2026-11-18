@@ -50,3 +50,17 @@ print(f"median over deaths of the median lag {np.median(med):.1f}; of the 90th-p
 print(f"cells alive in the last 2 living generations: mean number {np.mean(nlast):.2f}; span along the tube < 2 units in {np.mean(span2 < 2):.3f} of deaths (median span {np.median(span2):.2f}; tube length {L:.2f})")
 print("distance from the last clump (units) | mean lag | median lag | cells")
 for dd in sorted(prof): print(f"  {dd*0.5:.1f}-{dd*0.5+0.5:.1f}  {np.mean(prof[dd]):.2f}  {np.median(prof[dd]):.1f}  {len(prof[dd])}")
+# death-time profile along the tube: per 0.5-bin, the median over its cells of the lag; structure function over
+# separation r of bins (mean squared difference of bin death times within one death) -- flat = rigid flash,
+# growing with r = the death time wanders or tilts along the tube.
+BW = 0.5; nb = int(round(L / BW)); D = {}; allv = []
+for age, f, lag in P:
+    lag = np.where(lag < 0, 256, lag).astype(float); b = np.minimum((xi[f] / BW).astype(int), nb - 1)
+    t = np.array([np.median(lag[b == i]) for i in range(nb)])
+    allv.append(t.var())
+    for i in range(nb):
+        for r in range(1, nb // 2 + 1):
+            D.setdefault(r, []).append((t[i] - t[(i + r) % nb]) ** 2)
+print(f"per-bin (0.5 unit) median death lag: mean within-death variance across bins {np.mean(allv):.2f} gens^2")
+print("separation (units) | mean squared difference of bin death times (gens^2)")
+for r in sorted(D): print(f"  {r*BW:.1f}  {np.mean(D[r]):.2f}")

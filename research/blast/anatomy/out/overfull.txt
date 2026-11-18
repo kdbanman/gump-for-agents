@@ -1,0 +1,18 @@
+== t63
+   P >= 40:  51208 generations; one generation later: mean P  29.7, 10-90% 24-35; share with P <= 15: 0.0013 +- 0.0002; share with P <= 15: 0.0013
+   P >= 42:  19934 generations; one generation later: mean P  27.8, 10-90% 22-34; share with P <= 15: 0.0031 +- 0.0004; share with P <= 15: 0.0031
+   P >= 44:   6269 generations; one generation later: mean P  25.6, 10-90% 20-31; share with P <= 15: 0.0086 +- 0.0012; share with P <= 15: 0.0086
+   P >= 46:   1609 generations; one generation later: mean P  22.9, 10-90% 18-28; share with P <= 15: 0.0267 +- 0.0040; share with P <= 15: 0.0267
+   P >= 48:    321 generations; one generation later: mean P  20.3, 10-90% 16-25; share with P <= 15: 0.0935 +- 0.0162; share with P <= 15: 0.0935
+== h63
+   P >= 40:  32957 generations; one generation later: mean P  33.5, 10-90% 27-40; share with P <= 15: 0.0001 +- 0.0000; share with P <= 15: 0.0001
+   P >= 42:  12601 generations; one generation later: mean P  33.0, 10-90% 27-39; share with P <= 15: 0.0000 +- 0.0000; share with P <= 15: 0.0000
+   P >= 44:   3992 generations; one generation later: mean P  32.3, 10-90% 26-38; share with P <= 15: 0.0000 +- 0.0000; share with P <= 15: 0.0000
+   P >= 46:   1040 generations; one generation later: mean P  31.5, 10-90% 25-38; share with P <= 15: 0.0000 +- 0.0000; share with P <= 15: 0.0000
+   P >= 48:    207 generations; one generation later: mean P  29.9, 10-90% 24-36; share with P <= 15: 0.0000 +- 0.0000; share with P <= 15: 0.0000
+   after P >= 44 on the hull face, corner         : occupied 0.422 of the time at that generation; of those alive, 0.812 survive it; occupancy one generation later 0.452
+   after P >= 44 on the hull face, next to corner : occupied 0.638 of the time at that generation; of those alive, 0.696 survive it; occupancy one generation later 0.537
+   after P >= 44 on the hull face, rim line       : occupied 0.785 of the time at that generation; of those alive, 0.694 survive it; occupancy one generation later 0.659
+   after P >= 44 on the hull face, depth 1        : occupied 0.679 of the time at that generation; of those alive, 0.423 survive it; occupancy one generation later 0.380
+   after P >= 44 on the hull face, depth 2        : occupied 0.719 of the time at that generation; of those alive, 0.434 survive it; occupancy one generation later 0.408
+   after P >= 44 on the hull face, depth 3        : occupied 0.706 of the time at that generation; of those alive, 0.425 survive it; occupancy one generation later 0.401

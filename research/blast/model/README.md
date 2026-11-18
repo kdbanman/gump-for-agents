@@ -24,8 +24,9 @@ Nothing here is proved. The session was cut to about 70 minutes; "Not checked" a
    Where FG fails exactly: (a) **the loop-length law is not e^(−2σ|v|).** The share of the death rate per loop
    direction at 63 cells is 0.130, 0.102, 0.055, 0.015, 0.001 ± 0.001 for loop² 12, 13, 16, 19, 21 (HAZ r_q; GEN
    K_21). From 12 to 13 to 16 it falls as e^(−1.3…1.7 per unit of girth); from 16 to 19 as e^(−3.7); from 19 to 21 by
-   a factor above 5 for 5% more girth. One σ puts far too much discount on the "wide" faces (loop² 21–36):
-   residuals −19σ to −32σ at the 57- and 63-cell equilateral faces, +6σ to +15σ at 75–108 cells. (b) **Growth with
+   a factor above 5 for 5% more girth. One σ cannot serve loop² 16, 19 and 21
+   together: FG leaves the three equilateral faces 4×4, 57 cells, 63 cells at +20σ, −10σ, −19σ; FG2 at +47σ, −33σ,
+   −32σ, and the equilateral faces of 75–108 cells at +10σ to +15σ (it puts a discount on loops of 25–36). (b) **Growth with
    size:** with K_q free, a common power of L leaves the long loop² 12 tubes +6.4σ, +6.8σ (96, 108 cells) and the
    loop² 16 faces −5σ (72, 84, 96 cells); GEN drives m to 0.1–0.2. But no common growth law fits either: g_12 =
    0.0298 ± 0.0005, g_13 = 0.0290 ± 0.0009, g_16 = 0.0226 ± 0.0008 in HAZ. (c) **Small sizes:** refitted with the

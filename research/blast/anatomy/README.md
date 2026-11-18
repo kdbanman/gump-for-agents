@@ -101,6 +101,19 @@ On the hull face deaths are starvation: of the cells dying in the last 8 generat
 The layer beneath the face is depleted too but never emptied: its mean population is 15.5 (t63) and 19.0 (h63) at
 its lowest, against 27.4 and 27.8.
 
+**Why the rim closes this route** (`python3 overfull.py` → `out/overfull.txt`; living faces: lags 41–127 of the
+death records) [measured]. One generation after a generation with P ≥ 46:
+
+| | generations found | mean P one generation later (10–90%) | share that fall to P ≤ 15 |
+|---|---:|---|---|
+| t63 | 1,609 | 22.9 (18–28) | 0.027 ± 0.004 (0.094 ± 0.016 after P ≥ 48) |
+| h63 | 1,040 | 31.5 (25–38) | 0 of 1,040 (0 of 207 after P ≥ 48) |
+
+On the hull face, a live cell of the rim line survives an over-full generation (P ≥ 44) with probability 0.69
+(corner 0.81), a live cell inside (depth 1, 2, 3) with 0.42–0.43, and the rim line is the fuller part to begin with
+(0.79 occupied against 0.68–0.72). The rim line is 33 of the 63 cells. The over-full state itself is only 1.6 times
+rarer on the hull face (P(P ≥ 46) = 0.0015 against 0.0024).
+
 ## 3. The band test asked for by the PI  (same command; the PI's forecast is block 1 item 1 of ../PREDICTIONS.md)
 
 Strip = all face cells whose coordinate across the shortest loop lies in [z0, z0 + 1); lead = generations between
@@ -210,7 +223,9 @@ a dip to 16 cells is 1.85 times as frequent as on the wide torus, a dip to 4 cel
 changes after that (§5). At loop² 9 the chaos behind the face is also cut across the tube as often as a face dies.
 
 **Rimmed hull face.** It almost never dies by the fall (1.6% of deaths; in the living face such a fall was not
-seen once in 7,390 windows). It fades over 10 generations by starvation, lopsidedly: the last-alive times tilt
+seen once in 7,390 windows): its rim line, half of its cells at this size, has too few neighbours to be
+overcrowded, survives the over-full generation (0.69 per live cell against 0.42 inside) and the face is still at
+31.5 cells a generation later where the wrapped face is at 22.9 (§2). So it has to die the slow way. It fades over 10 generations by starvation, lopsidedly: the last-alive times tilt
 across the face in 77% of deaths at 0.6 units per generation (§1), the living set at 8 cells is 4.2 times as
 lopsided as a random subset, and the last cell is on the rim line 54% of the time, most often near a corner (§4).
 A hull face reaches 16 cells twice as often as a wrapped face of the same area and 4 cells exactly as often, but
@@ -218,9 +233,8 @@ its last cells are harder to kill: 0.18 against 0.30 from 4 cells, because one o
 regrow the face more often (0.20–0.28 for one cell against 0.12–0.15; §6).
 
 **Still inference, not measurement.**
-- *Why* the rim closes the boom-and-bust route. My guess: the rim line and corners have fewer neighbours in the
-  layer, cannot be overcrowded, survive the over-full generation and reseed. I did not look at which cells
-  survive on the hull, nor at the hull's over-full generations.
+- That the rim's protection lasts as faces grow. At 63 cells the rim line is 33 cells of 63 and survives the
+  over-full generation (§2, measured); at 135 cells it is 51 of 135 and the inside may then bust on its own.
 - That the 59% is one class and the other 41% another. The largest fall has a broad distribution (median 32 of
   63); I did not test for two classes.
 - Any link between these routes and the prices per cell (0.2087 wrapped, 0.231 rimmed). The end-game factor is
@@ -239,7 +253,7 @@ regrow the face more often (0.20–0.28 for one cell against 0.12–0.15; §6).
 | 3 | sweep speed 0.35 (0.2–0.6) | 1.00 (the speed limit) | miss |
 | 4 | remnant cone better than plane in 60% | 8.8% | miss |
 | 5 | last cell of a hull face: corner / rim line / inside = 0.02 / 0.60 / 0.38; rim enriched; corners depleted | 0.007 / 0.538 / 0.455; ratio 1.10; 0.42 | numbers near, both qualitative calls right |
-| 6 | tube: axial mode > girth mode in 70% of deaths | not scored per death; mean shares 0.085 against 0.063 | open |
+| 6 | tube (loop² 9): axial mode > girth mode in 70% of deaths | 0.655 (loop² 12: 0.56; shuffles 0.50; `out/axial_vs_girth.txt`) | near; a weak preference |
 | 7 | hull and torus part late (under half of the 0.47 present at p = 10) | at p = 10 the hull is ahead by 0.57; all of it comes below 8 cells | hit |
 | 8 | tube and torus part early | +0.475 at p = 10 against +0.310 in the end | hit |
 | 9 | hole retaken at 0.4 units/generation (0.25–0.6) | 0.25–0.31 | hit, at the edge |

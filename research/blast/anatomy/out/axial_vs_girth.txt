@@ -1,0 +1,3 @@
+tube60: lowest mode along the tube stronger than the lowest mode round the girth in 0.564 of 8223 deaths (shuffled fields: 0.504)
+tube54: lowest mode along the tube stronger than the lowest mode round the girth in 0.561 of 9604 deaths (shuffled fields: 0.497)
+tube63: lowest mode along the tube stronger than the lowest mode round the girth in 0.655 of 8023 deaths (shuffled fields: 0.501)
