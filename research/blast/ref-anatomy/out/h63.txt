@@ -156,5 +156,5 @@ exposure 543379399 replica-generations, deaths 5268, lost in burn-in 64, settled
    survival of a live cell through this generation: inside 0.3862 (65565 cells), rim line (a zero coordinate) 0.6878 (74726)
 [dispersion over thirds on a living face, any generation] 2.451 +- 0.046
 [live face cells overcrowded on a living face] 0.1991
-[tilt, deaths, 2000 windows of 16 generations, 54 cells, last-alive times censored at -16] plane beats 95% of 100 shuffles: 0.790 +- 0.009; median R^2 0.255 (shuffles 0.027); speed where it does, median 0.62 (quartiles 0.45-0.90) units per generation
-[tilt, living faces, 2000 windows of 16 generations, 54 cells, last-alive times censored at -16] plane beats 95% of 100 shuffles: 0.333 +- 0.011; median R^2 0.062 (shuffles 0.028); speed where it does, median 1.13 (quartiles 0.75-1.53) units per generation
+[tilt, deaths, 2000 windows of 16 generations, the face without its 3 corners and their 6 neighbours, last-alive times censored at -16] plane beats 95% of 100 shuffles: 0.790 +- 0.009; median R^2 0.255 (shuffles 0.027); speed where it does, median 0.62 (quartiles 0.45-0.90) units per generation
+[tilt, living faces, 2000 windows of 16 generations, the face without its 3 corners and their 6 neighbours, last-alive times censored at -16] plane beats 95% of 100 shuffles: 0.333 +- 0.011; median R^2 0.062 (shuffles 0.028); speed where it does, median 1.13 (quartiles 0.75-1.53) units per generation

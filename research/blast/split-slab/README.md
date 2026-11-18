@@ -191,7 +191,42 @@ anchor sizes, `nuq_quad.py` a parabola.
 
 ## 6. A sampler that works: subset simulation on the dice chain [measured]
 
-RESULTS-SUB
+The dice chain (`WD=6`): layers 0..5 follow gump's rule, layers 6 and 7 are replaced after every generation by
+fair coin flips (independent per cell and generation); one face (layer 0). It is a Markov chain whose only
+randomness is i.i.d. bits, so the rare event can be sampled in the space of those bits without touching the
+question that sank section 3 (what perturbation is neutral in gump's measure).
+
+    WD=6 ss_sub G/g.bin sub SEED NREP LAM1 DELTA NBATCH NSWEEP KFLIP TPRE TWIN PATHFILE|- WBACK
+    python3 run_sub.py H K D NREP SEED [paths]      # the frozen parameters; output data/sub_H_K_D_sSEED.txt
+    python3 table_sub.py                             # the table below
+
+**Exact statement.** Parameters (frozen in `PREDICTIONS.md` block 2, version 2 in block 2b): LAM1 =
+round(0.515 A - 2.5 sqrt(0.415 A)), DELTA = 3, NBATCH = 8 (4,096 chains), NSWEEP = round(A / 6), KFLIP = 4,
+TPRE = 32, TWIN = 24, WBACK = 12.
+- A chain x = (initial state, dice). Initial states are snapshots, 64 generations apart, of 512 stationary lanes
+  of the dice chain (0.4 soup, 1,000 generations of burn-in; a lane whose face is dead is reseeded and not used
+  for 1,000 generations). Dice: T = TPRE + TWIN = 56 generations of fair bits for the 2 A cells of layers 6, 7.
+- Score S(x) = the minimum face population over generations TPRE+1..T of the trajectory from the initial state
+  under those dice; the chain does not count at all if its face is already dead at generation TPRE.
+  {S = 0} = {the face dies at a generation in (TPRE, T]}, so P(S = 0) = TWIN / tau_face (to (TPRE + TWIN)/tau).
+- Levels lam_1 = LAM1, lam_{i+1} = lam_i - 3 while positive, then 0. P_1 = share of the valid fresh chains
+  with S <= lam_1.
+- For each level i: the chains with S <= lam_i are copied round-robin from a uniform random offset into a full
+  ensemble of 4,096, then moved by NSWEEP Metropolis sweeps. A proposal flips KFLIP dice bits: on even sweeps
+  uniform over all T x 2A bits; on odd sweeps uniform over the 2A cells and the WBACK generations of dice before
+  g_min, the first generation at which the chain attains its minimum. It is accepted iff S' <= lam_i and, on odd
+  sweeps, every flipped bit lies in the WBACK generations before the new g_min' (so that the reverse move is
+  proposable). P_{i+1} = share of the ensemble with S <= lam_{i+1} after the sweeps.
+- Estimate: 1/tau_face = (prod P_i) / TWIN. Error: independent replications (fresh chains from later windows of
+  the same stationary ensemble), mean of their rates, standard error from their scatter.
+- Why it is exact for the chain **[proved, standard]**: the bits are i.i.d. fair, so a flip is a symmetric move
+  that preserves their law; accepting on the indicator of {S <= lam_i} (with the Hastings condition on odd sweeps)
+  leaves the law conditioned on that set invariant; the seeds are exact draws from it by induction. The initial
+  states are never moved, which validity does not need.
+- Version 1 (`data/v1/`) had only the uniform sweeps: correct, but its level counts scattered by 20-30% between
+  replications on the last four levels (the fade after the crash), 7-10% in version 2.
+
+RESULTS-SUB-TABLE
 
 ## 7. Reactive paths (deliverable 4)
 

@@ -21,7 +21,8 @@ All labels **[measured]** unless said. Error bars are binomial or 1/√deaths. N
 - **Validation** (`python3 validate.py NAME [swap] [REPLICA]`, results in `validate.out`, `validate_t48.out`):
   state for state against the oracle for 1,100 generations on the 63-cell torus (1,4),(0,21) (replicas 0, 201),
   the tube (1,8),(0,20) (replicas 0, 130), the hull of radius 11 (replicas 0, 77) and the 48-cell torus; the same
-  graph with one swapped neighbour fails at generation 1, 2, 10 (and see `validate_t48.out`). A slab of index n is
+  graph with one swapped neighbour fails at generation 1, 2, 10; the 45-cell hull likewise (`validate_t48.out`,
+  `validate_h45.out`). `check_windows.py` re-derives 72,000 recorded transitions from the rule in Python: 0 wrong. A slab of index n is
   embedded in the oracle's cubic torus of side 2n (21 or 20 images of every cell, ≥ 12 dead layers between images).
 - **Runs** (`sh run.sh`, one core, 10 minutes; seeds 2026111801–04, none of them anatomy's): soup of density 0.375,
   1,000 generations of burn-in (a face lost in burn-in restarts the replica, uncounted), then every generation of
@@ -45,9 +46,10 @@ All labels **[measured]** unless said. Error bars are binomial or 1/√deaths. N
 | tube (1,8),(0,20), loop² 12 | 60 | 1,031,150,521 | 8,218 | 12.4330 ± 0.0110 | 12.4230 ± 0.0025 | 12.4168 ± 0.0110 |
 | hull radius 11 | 63 | 543,379,399 | 5,268 | 13.6234 ± 0.0138 | 13.633 | 13.6205 ± 0.0116 |
 | torus (4,0),(0,4) | 48 | 600,572,609 | 58,668 | 9.9269 ± 0.0041 | 9.9251 ± 0.0004 | 9.9383 ± 0.0086 |
+| hull radius 9 | 45 | 151,903,800 | 66,084 | 9.8195 ± 0.0039 | 9.819 | 9.8142 ± 0.0083 |
 
-All within 1σ of the anchors (`out/NAME.txt`, line `[lifetime]`). The 48-cell torus was added late for §3e; 36 of
-its lives ended settled (a state repeating with a period dividing 2,520 while both faces lived) and are not
+All within 1σ of the anchors (`out/NAME.txt`, line `[lifetime]`). The 48-cell torus and the 45-cell hull face were added late for §3e and claim 3; 36 of
+the 48-cell torus's lives ended settled (a state repeating with a period dividing 2,520 while both faces lived) and are not
 counted as deaths; none on the other vessels.
 
 ## 2. Verdicts, claim by claim
@@ -101,7 +103,7 @@ Command for every row: `sh run.sh && sh analyse_all.sh`, then the tagged line of
 | q(1) | 0.862 / 0.770 | 0.8619 ± 0.0037 / 0.7794 ± 0.0050 | CONFIRMED |
 | hull reaches 4 cells as often: ratio e^(+0.035 ± 0.01) | | e^(+0.038 ± 0.009) | CONFIRMED |
 | Δ ln ν (hull − torus) at p = 28, 24, 20, 16, 12, 8, 4, 2, 1, 0 | −0.05, +0.20, +0.54, +0.75, +0.69, +0.42, +0.04, −0.22, −0.35, −0.47 | −0.053, +0.195, +0.539, +0.755, +0.688, +0.419, +0.038, −0.222, −0.364, −0.464 | CONFIRMED to the last digit |
-| the same ratio at 45/48 cells | 0.326 / 0.197 | torus 48: q(4) = 0.3297 ± 0.0011, q(1) = 0.8737 ± 0.0013; hull 45 not run | torus half CONFIRMED; hull half NOT TESTED |
+| the same ratio at 45/48 cells | 0.326 / 0.197; q(1) 0.872 / 0.780 | torus 48: q(4) = 0.3297 ± 0.0011, q(1) = 0.8737 ± 0.0013; hull 45: q(4) = 0.1965 ± 0.0007, q(1) = 0.7797 ± 0.0014 | CONFIRMED |
 
 ### Claim 4: holes and islands made by hand
 
@@ -292,12 +294,25 @@ A wrapped face about to bust fatally is the most evenly filled face there is.
    times rarer over-full state.
 4. **The fall is equally deadly everywhere it happens** (1 in 125 torus, 1 in 103 tube60, 1 in 151 hull): what a
    shape changes is its frequency (1.35·10⁻⁴, 2.35·10⁻⁴, 1.98·10⁻⁶ per generation).
-5. **One live cell by place on the hull face** (claim 4's table above): 0.154 corner cell, 0.275 and 0.221 rim
+5. **How much the layer beneath decides the bust** (`python3 twolayer.py t63 tube60 h63` → `out/twolayer.txt`;
+   from the full states of 6,000 over-full living generations and 90,000 ordinary transitions per vessel). In an
+   over-full generation of the torus, P(t+1) = 105.4 − 1.40·P(t) − 0.555·B(t) (B = live cells of the layer
+   beneath; tube: 105.4 − 1.50·P − 0.566·B): a cell too many beneath costs 0.4 of what a cell too many in the face
+   costs, and knowing B takes the scatter of P(t+1) from 3.82 to 2.95 cells (40% of its variance). On the hull:
+   69.0 − 0.57·P − 0.335·B, scatter 4.82 → 4.61. In ordinary generations B adds nothing linear to the return map
+   (correlation of the map's residual with B: +0.009 torus, +0.019 tube, +0.126 hull). So the variable that falls
+   off the cliff is roughly P + 0.4·B, and P and B are nearly independent in the over-full generation
+   (correlation +0.04), which is why the fatal fall needs both over-full at once. Autocorrelation of B alive:
+   torus −0.249, −0.025, +0.065, −0.043 at lags 1–4 (an overshoot that is gone in one generation; no period 2
+   either: lag 2 is not positive); hull +0.059, +0.176, +0.143, +0.097.
+6. **One live cell by place on the hull face** (claim 4's table above): 0.154 corner cell, 0.275 and 0.221 rim
    line, 0.303 one row in, 0.240 two rows in, 0.181 centre; wrapped 0.138.
 
 ## 5. What I did not check
 
-- Sizes other than 60 and 63 cells (and the 48-cell torus for §3e and q); nothing above 63. Whether boom and
+- Sizes other than 60 and 63 cells (the 48-cell torus and the 45-cell hull face only for lifetimes, q and §3e;
+  on the 45-cell hull face the share of deaths with a fall of ≥ 23 cells is 0.0137 ± 0.0005, anatomy 0.022, and the
+  lag-1 autocorrelation +0.590); nothing above 63. Whether boom and
   bust is the route at 108 cells and beyond is as open as anatomy says.
 - Claim 4's holes, the band test, the last cell's place, the wrapped faces' plane fits, `primed.txt`.
 - My tilt statistic uses 16 generations of history with censoring, not anatomy's 128; that the two agree

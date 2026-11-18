@@ -278,7 +278,7 @@ if v['kind'] == 'hull':
         beat = []; speed = []; r2s = []; r2n = []
         for i in idx[:nmax]:
             st = states(i); f = fidx[i]; fc = faces[f]; pts = cells[fc].astype(float)
-            keep = np.abs(pts).max(1) < 10                      # drop the 3 corners and their 6 neighbours
+            keep = np.abs(pts).max(1) < v['R'] - 1              # drop the 3 corners and their 6 neighbours
             alive = st[:, fc][:, keep]                          # 16 x 54, t-15..t
             T = np.where(alive.any(0), 15 - np.argmax(alive[::-1], axis=0), -1).astype(float) - 15   # last alive, -15..0; never alive: -16
             X = pts[keep] / np.sqrt(8.0)                        # hexagonal units (|a| = 2 sqrt 2 doubled units)
@@ -292,7 +292,7 @@ if v['kind'] == 'hull':
             if b:
                 gvec = np.linalg.lstsq(X @ Vt[:2].T, Tc, rcond=None)[0]; speed.append(1 / np.linalg.norm(gvec))
         sp = np.array(speed)
-        pr(f'[tilt, {lab}, {len(beat)} windows of 16 generations, 54 cells, last-alive times censored at -16] plane beats 95% of {nsh} shuffles: {np.mean(beat):.3f} +- {np.sqrt(np.mean(beat)*(1-np.mean(beat))/len(beat)):.3f}; '
+        pr(f'[tilt, {lab}, {len(beat)} windows of 16 generations, the face without its 3 corners and their 6 neighbours, last-alive times censored at -16] plane beats 95% of {nsh} shuffles: {np.mean(beat):.3f} +- {np.sqrt(np.mean(beat)*(1-np.mean(beat))/len(beat)):.3f}; '
            f'median R^2 {np.median(r2s):.3f} (shuffles {np.median(r2n):.3f}); speed where it does, median {np.median(sp):.2f} (quartiles {np.percentile(sp,25):.2f}-{np.percentile(sp,75):.2f}) units per generation')
     tilt(D, 'deaths'); tilt(L, 'living faces')
 out.close()

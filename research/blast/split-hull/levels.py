@@ -189,3 +189,23 @@ for xd in (0.42, 0.38, 0.34, 0.31, 0.28, 0.25, 0.22):
         if np.isfinite(a):
             xx = np.array([1.0, AREA[R]]); txt.append(f'R = {R}: {float(xx @ co) - a:.3f} +- {math.sqrt(float(xx @ C @ xx) + e * e):.3f}')
     print(f'  x = {xd}: slope {co[1]:.5f}, chi2 {float(((res / sg) ** 2).sum()):.1f} on 2, residuals ' + ' '.join(f'{r:+.3f}' for r in res) + '   ' + ';  '.join(txt))
+
+# PART 6: one size below the fit. R = 7 (30 cells): lifetime by brute force here (same protocol), and its nu.
+b7 = brute(7)
+if b7 is not None:
+    base7, tab7 = b7
+    print(f'\nPART 6: the 30-cell face (R = 7), outside the fit. Brute force here: ln tau = {base7["direct_lntau"]:.4f} +- {base7["direct_err"]:.4f} '
+          f'({int(base7["deaths_any"])} first deaths; on file 6.804, another protocol), P-bar {base7["PBAR"]:.3f}')
+    for i, p in enumerate(P):
+        y = np.array([q[R][i] for R in Rs]) if all(R in q for R in Rs) else None
+        if y is None or not np.isfinite(y).all():
+            continue
+        sg = np.array([math.sqrt(AERR[R] ** 2 + errs[R][i] ** 2 + PB ** 2) for R in Rs])
+        X = np.vstack([np.ones(4), Aa]).T; W = np.diag(1 / sg ** 2)
+        co = np.linalg.inv(X.T @ W @ X) @ X.T @ W @ y
+        x = p * base7['PBAR']; lo = int(math.floor(x))
+        if lo in tab7 and lo + 1 in tab7:
+            v = tab7[lo][0] + (x - lo) * (tab7[lo + 1][0] - tab7[lo][0])
+            print(f'  p = {p}: -ln q = {base7["direct_lntau"] + v:.3f}; the line of 45..108 cells says {co[0] + co[1] * 30:.3f}; difference {base7["direct_lntau"] + v - co[0] - co[1] * 30:+.3f}')
+    print('  (the lifetime\'s own quadratic 1.144 + 0.23083 A - 0.3418 k says 6.702 at 30 cells: it misses by '
+          f'{base7["direct_lntau"] - 6.702:+.3f})')

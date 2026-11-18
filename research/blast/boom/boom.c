@@ -208,5 +208,62 @@ int main(int argc, char **argv) {
     snprintf(path, sizeof path, "%s.Mc", argv[8]); o = fopen(path, "wb"); fwrite(Mc, 8, (size_t)12 * NA * NA, o); fclose(o);
     return 0;
   }
+  if (!strcmp(argv[2], "island")) {
+    /* boom GRAPH island PAR H SEED PMIN PMAX OUT: every parent with PMIN <= P <= PMAX is stepped once (the bust). The live
+     * cells of its face then fall into clusters (connected through the 6 in-layer neighbours). Replicas: the bust state
+     * untouched, and one per cluster with every other cell of that face killed (the layers beneath untouched).
+     * Each is run until its face is empty (outcome 0) or has >= L = ceil(A/2) cells (1), at most H generations (2).
+     * OUT: 'i idx P q U ncl out0 t0  size:out:t ...' (q, U: face and layer beneath after the bust). */
+    FILE *fp = fopen(argv[3], "rb"); int32_t hd[4]; if (fread(hd, 4, 4, fp) != 4) return 1;
+    int nrec = hd[0]; if (hd[1] != recsize || hd[2] != n) { fprintf(stderr, "parents do not fit the graph\n"); return 1; }
+    unsigned char *par = malloc((size_t)nrec * recsize); if (fread(par, recsize, nrec, fp) != (size_t)nrec) return 1; fclose(fp);
+    int H = atoi(argv[4]), PMIN = atoi(argv[6]), PMAX = atoi(argv[7]), L = (na + 1) / 2; (void)argv[5];
+    int *sel = malloc(4 * (size_t)nrec), nsel = 0; for (int i = 0; i < nrec; i++) { int P = par[(size_t)i * recsize + nbt + 1]; if (P >= PMIN && P <= PMAX) sel[nsel++] = i; }
+    unsigned char *B = malloc((size_t)R * n), *Pn = malloc((size_t)nf * R), *Un = malloc((size_t)nf * R);
+    int *cl = malloc(4 * (size_t)R * na), *ncl = malloc(4 * R), *csz = malloc(4 * (size_t)R * na), *fid = malloc(4 * (size_t)(n + 1)), *stk = malloc(4 * (size_t)na);
+    int *qp = malloc(4 * R), *qc = malloc(4 * R), *oc = malloc(4 * R), *ot = malloc(4 * R);
+    FILE *o = fopen(argv[8], "w");
+    for (int base = 0; base < nsel; base += R) {
+      int np = nsel - base < R ? nsel - base : R;
+      memset(a, 0, SZ);
+      for (int j = 0; j < np; j++) { const unsigned char *rec = par + (size_t)sel[base + j] * recsize;
+        for (int i = 0; i < n; i++) if (rec[i >> 3] >> (i & 7) & 1) a[(size_t)i * W + (j >> 6)] |= 1ULL << (j & 63); }
+      step(a, b); { u64 *x = a; a = b; b = x; }
+      for (int f = 0; f < nf; f++) { popc(a, F[f].c, na, Pn + (size_t)f * R); popc(a, F[f].c + na, nu, Un + (size_t)f * R); }
+      for (int j = 0; j < np; j++) for (int i = 0; i < n; i++) B[(size_t)j * n + i] = (unsigned char)(a[(size_t)i * W + (j >> 6)] >> (j & 63) & 1);
+      unsigned char *qq = malloc(np), *uu = malloc(np);
+      for (int j = 0; j < np; j++) { const unsigned char *rec = par + (size_t)sel[base + j] * recsize; int f = rec[nbt];
+        qq[j] = Pn[(size_t)f * R + j]; uu[j] = Un[(size_t)f * R + j];
+        for (int i = 0; i <= n; i++) fid[i] = -1; for (int q = 0; q < na; q++) fid[F[f].c[q]] = q;
+        int *c = cl + (size_t)j * na; for (int q = 0; q < na; q++) c[q] = -1; int nc = 0;
+        for (int q = 0; q < na; q++) { if (c[q] >= 0 || !B[(size_t)j * n + F[f].c[q]]) continue; int sp = 0, sz = 0; stk[sp++] = q; c[q] = nc;
+          while (sp) { int x = stk[--sp]; sz++; const int *nn = nb + 12 * (size_t)F[f].c[x];
+            for (int t = 0; t < 12; t++) { int y = fid[nn[t]]; if (y >= 0 && c[y] < 0 && B[(size_t)j * n + F[f].c[y]]) { c[y] = nc; stk[sp++] = y; } } }
+          csz[(size_t)j * na + nc] = sz; nc++; }
+        ncl[j] = nc; }
+      int j0 = 0;
+      while (j0 < np) {
+        int nq = 0, j1 = j0; while (j1 < np && nq + 1 + ncl[j1] <= R) { qp[nq] = j1; qc[nq++] = -1; for (int c = 0; c < ncl[j1]; c++) { qp[nq] = j1; qc[nq++] = c; } j1++; }
+        if (j1 == j0) { fprintf(stderr, "too many clusters\n"); return 1; }
+        memset(a, 0, SZ);
+        for (int r = 0; r < nq; r++) { int j = qp[r]; const unsigned char *rec = par + (size_t)sel[base + j] * recsize; int f = rec[nbt];
+          for (int i = 0; i <= n; i++) fid[i] = -1; for (int q = 0; q < na; q++) fid[F[f].c[q]] = q;
+          for (int i = 0; i < n; i++) { if (!B[(size_t)j * n + i]) continue; if (qc[r] >= 0 && fid[i] >= 0 && cl[(size_t)j * na + fid[i]] != qc[r]) continue;
+            a[(size_t)i * W + (r >> 6)] |= 1ULL << (r & 63); }
+          oc[r] = 2; ot[r] = H; if (qc[r] < 0 && qq[j] >= L) { oc[r] = 1; ot[r] = 0; } if (qc[r] < 0 && qq[j] == 0) { oc[r] = 0; ot[r] = 0; } }
+        for (int k = 1; k <= H; k++) {
+          step(a, b); { u64 *x = a; a = b; b = x; }
+          for (int f = 0; f < nf; f++) popc(a, F[f].c, na, Pn + (size_t)f * R);
+          for (int r = 0; r < nq; r++) { if (oc[r] != 2) continue; int f = par[(size_t)sel[base + qp[r]] * recsize + nbt]; int P = Pn[(size_t)f * R + r];
+            if (P == 0) { oc[r] = 0; ot[r] = k; } else if (P >= L) { oc[r] = 1; ot[r] = k; } } }
+        for (int r = 0; r < nq; ) { int j = qp[r]; const unsigned char *rec = par + (size_t)sel[base + j] * recsize;
+          fprintf(o, "i %d %d %d %d %d %d %d ", sel[base + j], rec[nbt + 1], qq[j], uu[j], ncl[j], oc[r], ot[r]); r++;
+          for (int c = 0; c < ncl[j]; c++, r++) fprintf(o, " %d:%d:%d", csz[(size_t)j * na + c], oc[r], ot[r]);
+          fprintf(o, "\n"); }
+        j0 = j1; }
+      free(qq); free(uu);
+    }
+    fclose(o); return 0;
+  }
   fprintf(stderr, "unknown mode\n"); return 1;
 }
