@@ -34,7 +34,7 @@ pulse was found, and no call by a single pulse that leaves the second wire stand
 | every stepper and shortcut used here = the oracle | `python3 check9.py` | @@CHECKT@@ |
 | the call law, k = 1..40 | `python3 call9.py --law` | @@LAWT@@ |
 | the block law, k = 1..40, both parities | `python3 cell9.py --law` | 16 s |
-| the CALL acts as push 8's hand release | `python3 reduce9.py` | @@REDT@@ |
+| the CALL acts as push 8's hand release | `python3 reduce9.py` | 17 s |
 
 ## 1 Vocabulary
 
@@ -80,7 +80,12 @@ after the launch the line is at rest.
 - **[oracle: `bus`]** One line across two parallel store wires (the second moved by 5 units of the line, (10,10,0)),
   stores holding 1 and 3 on the first and 1 and 2 on the second: one CALL releases three pulses on the first wire and
   two on the second. Wires 4, 5, 6 and 8 line units apart work on the stepper; other distances were not tried.
-- **[measured: `reduce9.py`]** @@REDUCE@@
+- **[measured: `reduce9.py`]** **The CALL is push 8's hand release.** For k = 1..40 the store and line after
+  a CALL launched at generation 0 are, at generation 90 + 4k, cell for cell what they are when instead the stator
+  (0,1,2) of the crossing unit is removed by hand at generation 28; and the hand release with the line in place is at
+  every generation the hand release alone plus the line at rest. (At generation 90 the two runs are equal for
+  k ≤ 29 only: the CALL also sends a difference along the stretch, one unit per two generations, which ends at the
+  stretch's edge.)
 
 **What destroys it** [measured on push 8b's stepper at k = 3, not kept as scripts, not on the oracle]. At a crossing
 with a stretch beside it, one pulse of the line, three adjacent pulses, or two pulses with a plain unit between them
@@ -88,10 +93,10 @@ destroy the store wire and the line (on an empty wire all three pass). A left-go
 also calls, at one of the launch positions tried. A CALL while store pulses are under the line was not tried.
 
 **For every k** [conjectured; route]. Push 8 proved that removing the stator (0,1,2) of the unit before the wall
-releases exactly k pulses for every k (`../push8/prove_unzip8.py`). `reduce9.py` shows for k = 1..40 that the CALL is
-that removal at a fixed generation and that the line takes no part afterwards. What is missing for a proof is the
-same two facts for every k: both are local to the crossing, and the pulse train passing under the line is periodic
-(period 4), so push 8's gluing argument should carry over; it was not written.
+releases exactly k pulses for every k (`../push8/prove_unzip8.py`). `reduce9.py` shows for k = 1..40 that the CALL ends
+as that removal at a fixed generation and that the line takes no part afterwards. Missing for a proof: the same for
+every k. The line's part is local to the crossing and the pulse train under it is periodic (period 4); the
+difference the CALL sends along the stretch needs its own gluing step. Not written.
 
 ## 3 The still life at the wall
 
@@ -103,8 +108,10 @@ neighbour of a live cell of the wire, and six dead cells have neighbours in both
 - **[oracle: `trigger`, `control`; measured k = 1..40 and both parities of the pulse: `cell9.py --law`]** The stretch
   stands beside it. A right-going pulse arriving at the wall releases the whole stretch as one block `b^(2k+2)` moving
   left; the wire is plain; the still life is as it was. Without the still life the pulse is absorbed (count + 1).
-- **[measured, n = 1..12, lab8 rings, not kept as a script]** A stretch absorbs a block `b^n` as ⌈n/2⌉. So the
-  released count arrives in another store as k + 1 (the calling pulse is counted).
+- **[measured, n = 1..12, lab8 rings, not kept as a script; the same fact is in `research/audit/REVIEW-signals-8.md`]**
+  A stretch absorbs a block `b^n` as ⌈n/2⌉: adjacent pulses are not counted singly. So the block `b^(2k+2)` arrives in
+  another store as k + 1, not as 2k + 2 (the calling pulse is counted with the k), and only the call line's pulses,
+  two units apart, are counted one by one.
 - **[oracle: `loop`, `write-then-call`, `smallest-loop`]** Stores 1 and 3, one cell removed between them: the left
   store holds 1 + 4. A store written by three left-going pulses (they pass the still life) and then called: 1 + 5.
   The smallest loop made: a cell of 24 units, 166 cells in all, two stores holding 1 and 1, one cell removed 10 units
@@ -161,13 +168,13 @@ lcm(2, P) generations. Then each standing placement is put with its highest unit
 | objects | standing placements | pulse on plain wire | at the wall of `d^3 f` |
 |---|---|---|---|
 | the 13 still lifes of at most 8 cells | 3,780 | see below | 147 triggers (59 `b^11`, 59 `b^8`, 21 erased, 8 `bb`); 59 where the stretch falls without a pulse (`b^6`); 16 where it grows and a standing defect is left |
-| the 81 still lifes of 9 to 11 cells | 69,773 | see below | @@STILL911@@ |
-| 37 oscillators (28 of period 3 and 9 of period 4: the catalogue's oscillators of period ≥ 3 and union ≤ 22 cells, in catalogue order up to P4.14c; the other 48 were not run) | 51,223 | @@OSCPULSE@@ | @@OSC@@ |
+| the 81 still lifes of 9 to 11 cells | 69,773 | see below | 1,950 triggers in all 81 objects (656 `b^11`, 578 `b^8`, 458 erased, 258 `bb`); 498 falls; 285 keeps |
+| 37 oscillators (28 of period 3 and 9 of period 4: the catalogue's oscillators of period ≥ 3 and union ≤ 22 cells, in catalogue order up to P4.14c; the other 48 were not run) | 51,223 | 45,694 pass both pulses; in 16 (all P4.10a) the pulse is eaten and the oscillator is left as a still life of 6 cells or a period-2 object of 9; 990 + 961 lose the whole wire | 647 triggers in 33 objects (the four kinds of the still lifes, and P3.15f below); 50 that release at one of the two pulse timings only; 116 falls in 18 objects; 39 keeps |
 
 Commands: `python3 beside9.py --sel still --max-cells 8 --out F` then `python3 wall9.py F --out G` (94 s) and
 `python3 sum9.py G`; `--sel still --min-cells 9 --max-cells 11` (971 s in one process; the wall scan in four parts of
 about 370 s each, `--part i/4`); `--sel osc --max-cells 99 --max-union 22` (stopped after 37 objects, 542 s; the wall
-scan in two parts, @@OSCT@@).
+scan in two parts, 670 s and 673 s).
 
 - **[measured]** Still lifes (73,553 standing placements): 62,094 pass both pulses with everything restored; 1,670
   eat a pulse of one direction; 613 turn `b` into `bb`; 413 give `b^5` after three laps of a ring of 24; 8,760 leave
@@ -176,7 +183,20 @@ scan in two parts, @@OSCT@@).
   unchanged) is one of four kinds by what leaves: `b^8` (= `b^(2k+2)`), `b^11` (= `b^(2k+5)`), `bb`, nothing. In every
   one of them a right-going pulse on plain wire burns the wire or is changed: **no trigger in these scans is harmless
   to the pulses of an empty wire.**
-- **[measured]** @@SITE@@
+- **[measured at one arrival timing each: the lead of these scans, not followed]** **The period-3 oscillator
+  P3.15f.** In 8 placements (`lab9.placements` indices gi = 12, 14, 20, 22, 25, 27, 33, 35, translation (0,0,10) or
+  (0,2,10)) the stretch `d^3 f` stands beside it and an arriving right-going pulse releases the stretch with the
+  oscillator as it would have been, at three consecutive positions along the wire: as `b7b^13` at one of the two
+  arrival timings tried and not at all at the other; one unit on, as three separate pulses `b7b7b` (the call line's
+  output) at one timing and the block `b^11` at the other; one unit on again, as `b^8` and `b^9`; one more unit on the
+  stretch falls without a pulse (`b^6`). **On plain wire the same placements pass a right-going and a left-going
+  pulse with everything restored**, at the one timing `beside9.py` tries. No still life does both. A pulse can meet
+  a period-3 oscillator at three timings and the result depends on it, so this is not yet a reusable same-wire
+  trigger: plain wire at the other two timings, the wall at the third, and k other than 3 are **not checked**.
+  (22 rows of `w_osc36.*.jsonl`: classes trigger and trigger-1 with R = L = `pass`.)
+- **[not run]** `site9.py` sends two pulses that would stop each other to a place where a stretch cannot stand
+  (the falls: 59, 498 and 116 above; 6 of the oscillator ones, all P3.15f, pass both pulses on plain wire). It was
+  written and not run.
 
 **One cell held live** (`python3 ghost9.py`, 80 s; `lab9.c`'s stepper with a constant added to the neighbour counts):
 972 cells of tube radius 3..8 in the units −4..4 round the wall of `d^3 f`. Some release the stretch when a pulse
@@ -205,7 +225,7 @@ two in adjacent units, each at two launch positions.
 
 ## 6 What failed or was not found
 
-- A same-wire trigger that can be used twice (hazard, section 3; the scans of section 5).
+- A same-wire trigger shown to be usable twice (hazard, section 3; the scans of section 5; P3.15f is the open candidate).
 - A call by one pulse of a second wire that keeps that wire (section 5); a way to turn one pulse of wire C into the
   adjacent pair (one-cell and two-cell changes only were tried).
 - A reflector of pulses among 73,553 still-life placements.
@@ -242,7 +262,9 @@ that every live cell is within 4 sites of a start cell, which makes the torus ru
 - The line's behaviour when a CALL and a store pulse are at the crossing together; two CALLs closer than 44
   generations; lines shorter than 26 units; a smallest call cell (the oracle runs use 50 and 64 units).
 - The other release lines of the crossing scan (`6f6f6f` to the right, `bb5f9f9f`) beyond k = 3.
-- The oscillators of the catalogue beyond the 37 listed, periods 5, 6 and 10, and period-2 objects, beside the wire.
+- The oscillators of the catalogue beyond the 37 listed, periods 5, 6 and 10, and period-2 objects, beside the wire;
+  for the 37, pulses at one arrival timing on plain wire and two at the wall, out of three (period 3) or two (period 4).
+- `site9.py` was not run; the constraint search was not attempted.
 - Still lifes of 12 cells or more; objects that touch the wire's tube from two sides; anything in the tube itself.
 - The scans use `d^3 f` only; a trigger that needs another k would be missed.
 
@@ -252,6 +274,9 @@ Scored in `PREDICTIONS.md`.
 
 ## 10 Where next
 
+0. **P3.15f** (section 5): run its 8 placements at all three arrival timings on plain wire and at the wall, for
+   k = 1..10, and put the result on the oracle. If plain wire passes, it is a call on the store's own wire that can be
+   repeated, and at one timing it gives exactly k separate pulses.
 1. **A count that calls a count.** The released pulses are pulses of wire B two units apart; a CALL is two adjacent
    pulses of wire C. A junction from wire B into the line that turns two B pulses into the pair (push 8b's survey has
    junction placements) would let one store's release call another: the first loop with no hand in it after the

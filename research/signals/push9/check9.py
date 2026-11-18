@@ -117,7 +117,7 @@ def part_B():
 def part_C():
     R = 36; W0 = 18; ok = True; n = 0
     word = '7' * W0 + 'dddf' + '7' * (R - W0 - 4)
-    for ghost in ((0, 1, 8), (-2, 1, 10), (0, -3, 3)):
+    for ghost in ((0, 1, 8), (-2, 1, 10), (0, -3, 4)):
         gc = tr(ghost, W0)
         L = Z.Lab(0, R, -18, 18, -16, 22, ring=True); T = Tor(2 * R)
         s = set(X.hexword(word, 0))
