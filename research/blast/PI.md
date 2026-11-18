@@ -68,10 +68,11 @@ after its own check; the PI never merges it.
 
 - **Open again, on the owner's word of about 17:50 UTC** (quoted above): Lean, at full ambition, and in-depth
   discussion on pull request 39. Before that the owner had closed the blast (14:55 UTC).
-- **Usage at 17:53 UTC: Fable weekly window 0.45, all-model weekly 0.24; resets 2026-11-25 11:00 UTC.** The window
-  is shared with the lead's session, which is running a rebuild; it rose 0.41 to 0.45 in 26 minutes with this
-  session nearly idle. The owner's last number was a 50% target (10:05 UTC). The PI has asked whether it still
-  holds; until answered: **no agents**, the PI works alone and sparingly.
+- **Usage at 18:09 UTC: Fable weekly window 0.48** (0.45 at 17:53; all-model weekly 0.25; resets 2026-11-25 11:00
+  UTC). The window is shared with the lead's session, which is running a rebuild. The owner's last number for this
+  session was a 50% target (10:05 UTC), given before the Lean instruction. The PI told the owner at 18:10 UTC that
+  it holds there: **from 0.50 no agents and no new Lean work until the owner names a ceiling**; CPU jobs already
+  started finish, and the diagnostics owed to the lead are posted when they end (one short turn).
 - **Pull request 39** (kdbanman/gump-for-agents#39; subscribed; the lead merges). The lead's comments do NOT wake
   this session (same GitHub account): poll with `pull_request_read` `get_comments` on every turn and by check-ins
   (`send_later`). The lead's first review (17:34 UTC) is answered in a comment (fixes pushed; tail analysis;
@@ -86,7 +87,8 @@ after its own check; the PI never merges it.
   Lean 4.36.0 via elan in `~/.elan` (`export PATH=$HOME/.elan/bin:$PATH`; if the container was rebuilt, reinstall:
   `curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --no-modify-path`).
   Done: Basic, Layers (T1), Sealed (T2, T3 both halves, T4, hull, sealed lemma, union), Finite + Check (the rule
-  against the oracle and the 2012 logs). Next, in the README's order: T6 in full, the cube still life and the
+  against the oracle and the 2012 logs); `mathlib/` (Mathlib v4.36.0 fetched, 7 GB in `.lake`, not in git):
+  `Certificate.lean` (upper and lower survival certificates for a killed chain). Next, in the README's order: T6 in full, the cube still life and the
   small sealed sets, stepper correctness, T5 (in `mathlib/`), then certified rates for the dice surrogate.
 - **Language** (the owner, 17:50 UTC): goals at full size; estimates and obstacles as facts or hypotheses only.
   Every brief and every README written from now on is read once against that before it goes out.
