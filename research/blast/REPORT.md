@@ -370,6 +370,18 @@ the median; those carry 8% of the summed rate; the ε = 1/16 sample met none.
 Not checked: the depth series has one code and one seed a row, and the region's size changes with d (57 to 132
 cells); the 84-cell brute force at ε = 1/16 (block 3, item 1) has not been run by anyone; no second seeds.
 
+### 22:16 UTC. The odd sweeps are cleared at 84 cells (`noisy/`)
+
+[measured] `sh research/blast/noisy/diag3.sh` added about 800 replications each way at 84 cells and ε = 1/16
+(rows in `noisy/data/runs_diag/`; `python3 research/blast/noisy/ana.py research/blast/noisy/data/runs_diag`).
+Odd sweeps on: 18.142 ± 0.010 (1,050 replications; 18.145 ± 0.010 with the 100 committed earlier). Odd sweeps
+off: 18.146 ± 0.009 (1,040). Gump: 18.141 ± 0.005. **On minus off: −0.001 ± 0.014.** Both forms agree with gump
+to ± 0.011, where one replication's law has no long tail. So the +0.027 ± 0.028 of the entry above was a
+fluctuation, the fault reading of the odd sweeps is closed, and the +0.083 at 108 cells is left with one
+explanation: the tail of one replication's rate. It also says, through a sampler that is exact for the chain,
+that the chain at 84 cells and ε = 1/16 is within 0.011 of gump (block 3's first forecast asked for this by brute
+force, which nobody has run). Not checked: no second code for the sampler at 84 cells.
+
 ## What was found
 
 1. **Boom and bust on wrapped faces [measured by four independent codes: `anatomy/`, `split-slab/`, `tube1d/`,
