@@ -556,6 +556,14 @@ cells die, the same share. A cell with seven neighbours is seldom crowded, and t
 of the edge row lives. On a face of 63 cells half the cells are in that row. So the face
 comes out of the boom with thirty cells where a wrapped face has twenty, and carries on.
 
+I asked one thing more of it myself, with a forecast written first. If the rare crash on a
+rimmed face were a cheaper death waiting its turn, its share would grow with the face, and
+the price of a rimmed face would have to come down in the end. It does not grow: one death
+in ninety at 63 cells, one in ninety-three at 84. What the run showed instead is tidy. A
+crash of half the face is exactly as deadly on a rimmed face as on a wrapped one, one in
+about 130 at 63 cells and one in about 1,200 at 84. The rim only makes it seventy or
+eighty times rarer.
+
 So the two prices are the prices of two deaths, and a rim does not add a cost so much as
 close the cheap way out. That is a mechanism, and it is checked. It is not arithmetic yet:
 nobody can compute either price from it. And the same night's account of why a tube is
