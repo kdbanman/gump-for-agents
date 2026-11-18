@@ -8,7 +8,8 @@ of shapes (which lattice "torus H K D" is, which unit cell a strip uses). Output
 
 Summary: **nothing marked [proved] broke as mathematics, and every exact number I recomputed agrees to all
 printed digits.** Four readings are corrected (A1 reading, A2 hypothesis, A3 discrete form, B consequences),
-and one new exact fact bears on Theorem 3's hypothesis (A2, point 3).
+and one new measurement goes against Theorem 3's hypothesis itself (A2, point 3): along the tilt a jump is
+forming, with two coexisting kinds of face on wrapped faces through 27 cells.
 
 ## A. `rigour`
 
@@ -107,7 +108,7 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
   the quasi-stationary law) is inside the tilted measure, untouched. The upper bound is honest and weak
   (⟨E⟩₀/A = 0.69–1.19 against ln τ/A = 0.21–0.38).
 
-### A2. Theorem 3 (structure, conditional on SSM) — CONFIRMED as an implication; hypothesis CORRECTED; scope CORRECTED
+### A2. Theorem 3 (structure, conditional on SSM) — CONFIRMED as an implication; its hypothesis is false as stated at s = 1 (repairable) and, on the measurements below, near s ≈ 0.2 (not repairable without assuming the conclusion)
 
 0. *Is the hypothesis stated exactly?* Nearly. Two imprecisions: "the ball is isomorphic to the ball in the
    infinite layer" must include the coin counts (hull corners have two coins); and e_∞(s) exists only through the
@@ -121,26 +122,35 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
    cells (measured: ⟨E⟩₁ = 0.70–1.63 at 9–15 cells; this step rests on that measured fact, not on a proof). So ⟨ε_i⟩₁ = Θ(1/A), its limit e_∞(1) is 0, and K·e^(−r_i/ξ) with r_i ~ √A cannot bound 1/A. **Missing
    step, and its repair (closed):** state the hypothesis as |⟨ε_i⟩_{s,G} − e_∞(s)| ≤ K e^(−r_i/ξ) + K₀/A. Then
    (a) gains an additive K₀ and (b)–(d) are unchanged.
-3. *Is the hypothesis plausibly false for wrapped faces? Yes, and it is visible exactly at 9–15 cells, in a
-   quantity rigour's test cannot see.* [measured, exact, mine] Under μ_s the population of a wrapped face is
-   two-humped for every s ≳ 0.3 on all six wrapped faces (from s ≈ 0.2 on the (1,1) tubes; weakest on the
-   wide torus (2,0),(0,2): 0.044 at 11 of 12 against a valley of 0.010 at s = 0.5): a sparse hump and an over-full hump, e.g. tube (1,1),(0,5), s = 0.3:
-   P(≤ 4 alive) = 0.61, P(≥ 10 of 15) = 0.28, valley 0.014 at 8; the valley at s = 0.3 deepens with size (0.029,
-   0.026, 0.014 at 9, 12, 15 cells on the (1,1) tubes) while the over-full hump keeps its weight (0.42, 0.26, 0.30
-   of the law above the valley). Rimmed faces (triangle, patch 2×2, patch 1×3) have one
-   hump at every s. The reason is plain: an over-full face has E ≈ 0 as surely as an empty one (every cell with 6
-   live neighbours dies), so e^(−sE) selects both. rigour's proposed test (does Var_s(E)/A grow like A?) is
-   blind to this, because E is small on *both* humps; the test must be on the population (or on the occupancy)
-   under μ_s. Whether the mixture survives in large faces is open: at s = 1 its weight is the one-generation
-   annihilation share, which dies like e^(−0.18·A); at s = 0.2 the two humps are of comparable weight at 15 cells (0.55 sparse, 0.37 over-full).
-   (Also: rigour's "largest slope 2.3 on the 9-cell triangle" is 2.60–2.63 = Var_s(E)/A at s = 0–0.1 by my code
-   and by its own cumulant k2 = 2.5998; the 12-cell torus's 1.5 is right.)
-4. *The link "two exits ⇒ SSM fails" is not an implication.* The exits are properties of paths (six
-   generations); μ_s is a reweighting of one instant. Only the one-generation part of "bust" (10–38% of deaths
-   here, vanishing with size) appears in μ_s as a second kind of face. A death that crashed three generations ago
-   and one that starved look the same to μ₁.
-5. *What the theorem licenses.* The contrapositive only: two bulk prices ⇒ the tilted local means are not
-   uniformly local. Not: "two prices are impossible", nor "the rimmed slope must fall towards the wrapped one".
+3. *Is the hypothesis plausibly false? Yes: on wrapped faces in the way rigour named, and probably on rimmed
+   faces too.* [measured; exact at 9–15 cells (`ref.py --tilt`, `ref15.py`), by reweighted simulation at 18–30
+   cells (`tiltmc.py`, which reproduces the exact 12-cell law to three decimals at every s; `data/tiltmc.txt`)]
+   - **Wrapped faces: two kinds of face at one tilt.** Under μ_s the population law is two-humped, a sparse hump
+     and an over-full hump, on all six exact wrapped faces for s ≳ 0.3 and on the tori of 18 and 27 cells. Wide
+     tori at s = 0.3, (valley, upper maximum): (0.039, 0.047) at 12 cells, (0.014, 0.054) at 18, (0.003, 0.044)
+     at 27: the ratio grows 1.2, 3.9, 15, while the over-full hump keeps a quarter of the weight (0.24 at 18 and
+     27). At s = 0.2 the 27-cell torus (3,0),(0,3) is a 53 : 47 mixture of sparse faces and faces with about 20 of
+     27 cells alive (living mean: 15). The reason is plain: an over-crowded face has small E as surely as an empty
+     one (a cell with 6 live neighbours dies), so e^(−sE) selects both.
+   - **Rimmed faces: one hump at every s** (triangles of 9, 18, 30 cells, patches), but a flat plateau from 5 to 12
+     live cells at s = 0.2 on the 30-cell triangle.
+   - **rigour's own criterion** (does the largest slope −d(⟨E⟩_s/A)/ds = Var_s(E)/A grow with A?) could not be
+     read from 9–18 cells of mixed shapes. On size series it rises in both families: wide tori 1.5 (12, exact),
+     2.5 (18), 3.3 (27); triangles 2.6 (9, exact), 2.7 (18), 3.6 (30) (finite differences over Δs = 0.1 above 15
+     cells, so lower bounds). (rigour's "2.3 on the 9-cell triangle" is 2.60–2.63 by my code and by its own
+     cumulant k2 = 2.5998; the 12-cell torus's 1.5 is right.)
+   - So a jump of ⟨E⟩_s/A near s ≈ 0.2 is forming in both families [conjectured for the limit], and any jump
+     makes (SSM) false as stated: e_∞ would be discontinuous while every finite face's curve is continuous, so
+     the bound uniform in s cannot hold however large r_i is. A version integrated over s would need the jump's
+     position s*(G) to be shape-independent to exponential accuracy, and s*(G) is fixed by ln τ(G)/A itself: that
+     hypothesis is the conclusion.
+4. *The link "two exits ⇒ SSM fails" is not an implication, but the two go together.* The exits are properties
+   of paths (six generations); μ_s reweights one instant, and at s = 1 only the one-generation part of "bust"
+   (10–38% of deaths at 9–15 cells, 1.5% at 27) shows as a second kind of face. At intermediate tilt, though,
+   wrapped faces pass through over-full states and rimmed faces do not: the one-instant counterpart of "wrapped
+   faces bust, rimmed faces starve".
+5. *What the theorem licenses.* As stated, nothing, if point 3 holds in the limit; at best the contrapositive:
+   two bulk prices ⇒ the tilted local means are not uniformly local. Not: "two prices are impossible", nor "the rimmed slope must fall towards the wrapped one".
    And it is a theorem about S; for gump E is not a sum over cells (rigour says so), and S does not have gump's
    order in the first place (triangles die sooner than wrapped faces in S), so the sentence "under this theorem
    gump's two prices mean one of two things, and nothing else" is an analogy, not a consequence.
@@ -243,7 +253,9 @@ Answers to the three questions:
 - Tried to break: the identity of Theorem 2 on 10 shapes (holds to 10⁻¹⁴); its constant (own enumeration);
   Lemma 0 by exhaustive reachability; the bust shares by a different exact formulation and by simulation; the seam
   identity on gump's rule with a negative control. None broke.
-- Not done: 18 cells and beyond; any Monte Carlo row of rigour's; `mc.c`, `qsd.c` read only for the definition of
-  the marker; the 18-cell triangle's price map and tilt path; fair coins (½, ½); image's measurements (items 2–5 of
+- Not done: exact rows of 18 cells; rigour's Monte Carlo rows other than the six I simulated; `mc.c` (`qsd.c`
+  read only for the definition of the marker); the 18-cell triangle's price map (its tilt path agrees with my
+  reweighted densities: 0.475, 0.369, 0.251, 0.170, 0.108, 0.076 at s = 0, 0.1, 0.2, 0.3, 0.5, 1); fair coins (½, ½); image's measurements (items 2–5 of
   its README: one torus, one stepper, not rerun); the seam identity on a slab of several layers or a tube of
-  girth > 1 (2^24 torus states); a proof that the two-humped tilted law persists at large size.
+  girth > 1 (2^24 torus states); the tilted law beyond 30 cells (the reweighting still has an effective sample
+  of 10⁵ at s = 0.5 on 27 cells, so 36–48 cells are within reach); errors on the reweighted laws (one run each).

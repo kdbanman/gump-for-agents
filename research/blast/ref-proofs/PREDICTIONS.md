@@ -26,3 +26,13 @@ valley, beyond the sampling noise.
   (effective sample above 10³).
 - **T3 (80%).** Both triangles, s = 0.3 and 0.5: one hump.
 - **T4 (50%).** On the 27-cell torus at s = 0.3 the weight above the valley is at least 0.15 (fails also if T2 fails).
+
+## Scores (04:45 UTC)
+
+- T1: **passes** at both tilts (18-cell torus, s = 0.3: valley 0.014, upper maximum 0.054; s = 0.5: 0.001, 0.040).
+- T2: **passes** at both tilts (27-cell torus, s = 0.3: 0.003, 0.044; s = 0.5: below 0.0005, 0.019; effective samples
+  3.7·10⁵ and 1.25·10⁵).
+- T3: **passes** (triangles of 18 and 30 cells: one hump at s = 0.3 and 0.5; a flat plateau at s = 0.2 on 30 cells).
+- T4: **passes** (weight above the valley 0.235).
+- P1, P2 at D = 6, 8, 10: every ln τ within 0.4σ and every bust share within 0.5σ of rigour's. D = 12: see below.
+- P3, step 8→10: −Δ ln h_starve = 0.581 ± 0.007 (in [0.54, 0.63]), −Δ ln h_bust = 0.880 ± 0.006 (in [0.80, 0.95]).
