@@ -274,7 +274,7 @@ def objects():
     out.append((f'wire C, {N} units, capped at one end (gun-5f.json capL + unit)', sorted(wire), 40))
     out.append((f'rake gun gun-5f at the end of {N} units of wire C', sorted(wire | {tr(c, N) for c in g['gun']}), 80))
     lc = json.load(open(os.path.join(ROOT, 'research', 'signals', 'objects', 'line-C.json')))
-    for N in (lc['N'], 10):
+    for N in (lc['N'][0], lc['N'][2]):             # N values stated in line-C.json
         cells = {tuple(c) for c in lc['capA']} | {tr(c, k) for c in lc['unit'] for k in range(N)} | \
             {tr(c, N) for c in lc['gun']}
         out.append((f'line-C, cap + {N} units of wire C + gun (free-standing, period 4 from 2N)', sorted(cells),
