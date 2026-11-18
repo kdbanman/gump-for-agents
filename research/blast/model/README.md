@@ -1,6 +1,6 @@
 # blast/model: models of the face-death rate against every number on file (2026-11-18)
 
-Agent `model` of the blast. Brief: `../BRIEF-COMMON.md`. Forecasts: `PREDICTIONS.md` (blocks M1–M3, each committed
+Agent `model` of the blast. Brief: `../BRIEF-COMMON.md`. Forecasts: `PREDICTIONS.md` (blocks M1–M5, each committed
 before the data it concerns was opened). Labels: **[measured]**, **[fitted]**, **[conjectured]**, **[post hoc]**.
 Nothing here is proved. The session was cut to about 70 minutes; "Not checked" at the end is long.
 
@@ -250,6 +250,11 @@ h. **[fitted: one number, the level at which the lead is read] The two-route for
 - M4 (commit e46be69, after anatomy's boom and bust): 120-cell tube 24.560 ± 0.020; 240-cell tube 48.40 ± 0.25; wide
   torus of 200 cells 41.716 ± 0.05; hull 135 cells 29.215 ± 0.030; hull 165 cells 35.76 ± 0.08; the inside of a hull
   face busts on its own from side 12 ± 2 (234 cells, range 165–340). All open.
+  Its last clause, scored on my 66-cell pair: over-full share of dying faces 0.169 ± 0.007 (tube) against 0.192 ±
+  0.008 (wide): "the same within 0.03" holds as written, but the reading is the other branch (the tube's extra deaths
+  are deaths without a bust).
+- M5 (commit 8f3721c): the two-route formula's number for the 120-cell tube, 24.585 ± 0.030; my own number moved
+  to 24.575 ± 0.025. Open.
 - The times in the block headers run two to five minutes ahead of the machine clock; the commits carry the true order.
 
 ## What was run, and on what it rests
