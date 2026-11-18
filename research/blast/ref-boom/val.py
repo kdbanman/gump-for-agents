@@ -48,7 +48,7 @@ loops = sorted(int(((m * (H * e1 + K * e2) + j * D * e2) ** 2).sum()) // 8
                for m in range(0, 12) for j in range(-40, 41) if (m, j) > (0, 0))[:3]
 print('shortest loops^2:', loops)
 
-HB = 44; off = 20   # slab s' = s + 60 in [61, 75]; box centre has s' = 66
+HB = int(os.environ.get('HB', 44)); off = 2 * round((1.5 * HB - 8) / 6)   # the slab sits in the middle of the box (HB = 44: off = 20)
 m = oracle.masks(HB)
 valid = m[0] | m[1] | m[2]
 X, Y, Z = np.nonzero(valid)

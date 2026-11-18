@@ -17,6 +17,8 @@ Third task (05:46–06:05 UTC), second half of `STATIC.md`: look-ahead events of
 binary `rba`; `run6.sh`, `run7.sh`; `ah.py` → `out_ahead.txt`, `out_ahead_tube.txt`). No static event whose rarity is
 the price; but ln τ(A) = −ln ν_A(face ≥ 0.74·A) + 0.1273·A − 1.37, fitted on 48–63 cells, gives 75, 84 and 108 cells
 to 0.03 without a death, and misses the 84-cell tube by its whole discount (0.22).
+Wide faces of 126–192 cells (last section of `STATIC.md`; `run8.sh`, binary `rbw`, `out_wide_*.txt`): the estimator
+sits on the wide-face line (0.2087 per cell) at 126, 144 and 192 cells.
 
 Files:
 - `rb.c`: stepper for the 8-layer slab torus (64 replicas, bit-sliced) with the statistics; modes `dump`, `run`,

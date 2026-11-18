@@ -15,8 +15,9 @@
 #include <stdint.h>
 #include <string.h>
 #include <assert.h>
+#include <time.h>
 typedef uint64_t u64;
-#define MAXN 1024
+#define MAXN 2048
 #define R 64
 #define BURN 300
 static int H, K, D, A, N;
@@ -74,10 +75,10 @@ static void step(const u64 *restrict s, u64 *restrict o) {
   o[N] = 0;
 }
 static void cnt(const u64 *s, int base, u64 *pl) {
-  for (int b = 0; b < 7; b++) pl[b] = 0;
-  for (int i = 0; i < A; i++) { u64 in = s[base + i]; for (int b = 0; b < 7 && in; b++) { u64 cr = pl[b] & in; pl[b] ^= in; in = cr; } }
+  for (int b = 0; b < 8; b++) pl[b] = 0;
+  for (int i = 0; i < A; i++) { u64 in = s[base + i]; for (int b = 0; b < 8 && in; b++) { u64 cr = pl[b] & in; pl[b] ^= in; in = cr; } }
 }
-static inline int ext(const u64 *pl, int r) { int p = 0; for (int b = 0; b < 7; b++) p |= (int)((pl[b] >> r) & 1) << b; return p; }
+static inline int ext(const u64 *pl, int r) { int p = 0; for (int b = 0; b < 8; b++) p |= (int)((pl[b] >> r) & 1) << b; return p; }
 static int lpop(long tt, int l, int r) { const u64 *s = ring[tt & (R - 1)] + l * A; int p = 0; for (int i = 0; i < A; i++) p += (int)((s[i] >> r) & 1); return p; }
 static void reinit(u64 *s, int r) { for (int c = 0; c < N; c++) { s[c] &= ~(1ULL << r); if (rnd() % 5 < 2) s[c] |= 1ULL << r; } }
 
@@ -85,12 +86,12 @@ static void reinit(u64 *s, int r) { for (int c = 0; c < N; c++) { s[c] &= ~(1ULL
 // face cells are grouped into clusters (connected through in-layer neighbours); variant j < 63 keeps cluster j only
 // (all other cells of that face killed, everything beneath untouched), variant 63 is the untouched state.  A variant
 // "fails" if its face is empty before it holds Lhalf cells again.
-static int isl = 0, Lhalf; static long isN[3][128], isF[3][128], isU[3][128], isC[3][2], isPar[3], isOver, ISCAP = 15000;
+static int isl = 0, Lhalf; static long isN[3][256], isF[3][256], isU[3][256], isC[3][2], isPar[3], isOver, ISCAP = 15000;
 static void island(const u64 *s, int r, int f, int q) {
   static u64 wa[MAXN + 1], wb[MAXN + 1];
   int bin = q < 0.70 * A ? 0 : (q < 0.78 * A ? 1 : 2);
   if (isPar[bin] >= ISCAP) return;
-  int base = (f ? 7 : 0) * A, comp[128], size[64], stack[128], ncomp = 0;
+  int base = (f ? 7 : 0) * A, comp[256], size[64], stack[256], ncomp = 0;
   for (int i = 0; i < A; i++) comp[i] = -1;
   for (int i = 0; i < A; i++) if (((s[base + i] >> r) & 1) && comp[i] < 0) {
     if (ncomp == 63) { isOver++; return; }
@@ -103,7 +104,7 @@ static void island(const u64 *s, int r, int f, int q) {
   for (int c = 0; c < N; c++) wa[c] = ((s[c] >> r) & 1) ? ~0ULL : 0;
   wa[N] = 0;
   for (int i = 0; i < A; i++) if (comp[i] >= 0) wa[base + i] = (1ULL << comp[i]) | (1ULL << 63);
-  u64 und = ((1ULL << ncomp) - 1) | (1ULL << 63), failm = 0, pl[7]; u64 *a = wa, *b = wb;
+  u64 und = ((1ULL << ncomp) - 1) | (1ULL << 63), failm = 0, pl[8]; u64 *a = wa, *b = wb;
   for (int g = 0; g < 400 && und; g++) {
     step(a, b); u64 *tmp = a; a = b; b = tmp; cnt(a, base, pl);
     for (int j = 0; j < 64; j++) if ((und >> j) & 1) { int p = ext(pl, j);
@@ -112,8 +113,8 @@ static void island(const u64 *s, int r, int f, int q) {
   isC[bin][0]++; isC[bin][1] += (failm >> 63) & 1; isPar[bin]++;
 }
 
-static long Np[128], Lp[128], dur[R + 2], profDn[128][5], profCn[128];
-static double profD[128][5][4], profC[128][4][4], normS[4], normS2[4];
+static long Np[256], Lp[256], dur[R + 2], profDn[256][5], profCn[256];
+static double profD[256][5][4], profC[256][4][4], normS[4], normS2[4];
 static long normN;
 // ---- static mode: joint law of the four top layer populations in the corner where deaths launch
 static int stat = 0, lo1, lo2, lo3, lo4, n1, n2, n3, n4; static unsigned *H4; static long Hout; static FILE *fl, *fs;
@@ -146,13 +147,14 @@ int main(int argc, char **argv) {
   for (int r = 0; r < 64; r++) { burn[r] = BURN; born[r] = 0; for (int f = 0; f < 2; f++) { lastP[r][f] = 0; prevP[r][f] = 0; lastT[r][f] = 0; } }
   static u64 snap[MAXN + 1]; memcpy(snap, ring[0], sizeof snap);
   long t = 0, E = 0, deaths = 0, old = 0, nper = 0, burnfail = 0;
-  u64 pl0[7], pl1[7], plm[6][7];
+  u64 pl0[8], pl1[8], plm[6][8]; long tstop = getenv("RB_STOP") ? atol(getenv("RB_STOP")) : 0;   // optional wall-clock stop
   if (ah) { char nm[600]; alo = (int)(0.62 * A); an1 = A - alo + 1; A3 = calloc((size_t)an1 * (A + 1) * (A + 1), sizeof(unsigned));
     A4 = calloc((size_t)an1 * (A + 1), sizeof(unsigned)); snprintf(nm, 600, "%s.ll2", out); fa = fopen(nm, "w"); }
   if (stat) { char nm[600]; lo1 = (int)(0.62 * A); lo2 = (int)(0.45 * A); lo3 = (int)(0.38 * A); lo4 = (int)(0.33 * A);
     n1 = A - lo1 + 1; n2 = A - lo2 + 1; n3 = A - lo3 + 1; n4 = A - lo4 + 1; H4 = calloc((size_t)n1 * n2 * n3 * n4, sizeof(unsigned));
     snprintf(nm, 600, "%s.ll", out); fl = fopen(nm, "w"); snprintf(nm, 600, "%s.smp", out); fs = fopen(nm, "wb"); }
   while (E < target) {
+    if (tstop && (t & 8191) == 0 && time(NULL) >= tstop) break;
     u64 *nxt = ring[(t + 1) & 63];
     step(ring[t & 63], nxt); t++;
     cnt(nxt, 0, pl0); cnt(nxt, 7 * A, pl1);

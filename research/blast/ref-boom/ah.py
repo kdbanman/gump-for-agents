@@ -8,7 +8,7 @@ n = living events, L = launches of deaths among them, d = L/n, f = L/deaths; I =
 import sys, os
 import numpy as np
 S = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'scratch', 'blast', 'ref-boom')
-ANCH = {48: 9.9251, 57: 11.8751, 63: 13.1622, 75: 15.6442, 84: 17.5387, 108: 22.5405}
+ANCH = {48: 9.9251, 57: 11.8751, 63: 13.1622, 75: 15.6442, 84: 17.5387, 108: 22.5405, 126: 26.305, 144: 30.060, 192: 40.073}   # 126-192: the wide-face line 13.1623 + 0.20861 (A - 63)
 
 
 def load(name):
@@ -69,7 +69,7 @@ for r in runs:
     if not len(LL): continue
     print(f"   A={A}: launches: mean P(launch)/A {LL[:, 0].mean() / A:.3f}, P(+1)/A {LL[:, 1].mean() / A:.3f}, P(+2)/A {LL[:, 2].mean() / A:.3f}, P(+3)/A {LL[:, 3].mean() / A:.3f};"
           f" share with P(+1) <= 0.2A: {np.mean(LL[:, 1] <= 0.2 * A):.3f}; dead by +2: {np.mean(LL[:, 4] <= 2):.3f}, by +3: {np.mean(LL[:, 4] <= 3):.3f}")
-events = [(0, a, 0) for a in (0.66, 0.70, 0.74)] + [(1, a, b) for a in (0.66, 0.70, 0.74) for b in (0.30, 0.25, 0.20, 0.15, 0.10)]
+events = [(0, a, 0) for a in (0.66, 0.70, 0.72, 0.74, 0.76)] + [(1, a, b) for a in (0.66, 0.70, 0.74) for b in (0.30, 0.25, 0.20, 0.15, 0.10)]
 events += [(lag, a, k) for lag in (2, 3) for a in (0.66, 0.70) for k in (0, 1, 2, 4, 6, 8, 0.10, 0.15, 0.20)]
 for lag, a, x in events:
     xs = f'{x:.2f}A' if isinstance(x, float) else f'{x} cells'
@@ -82,7 +82,7 @@ for lag, a, x in events:
     print(f"\nL{lag}(a={a:.2f}, x={xs})   " + '   '.join(row))
     if len(fx) < 2: continue
     xm, nm, bn, sn = wfit(fx, yn, en); xd, dm, bd, sd = wfit(fx, yd, ed); xf, fm, bf, sf = wfit(fx, yf, ed)
-    out = f"   I {-bn:.4f} +- {sn:.4f}   J {-bd:+.4f} +- {sd:.4f}   F {bf:+.4f} +- {sf:.4f}   sum {-bn - bd + bf:.4f}   |"
+    out = f"   I {-bn:.4f} +- {sn:.4f}   J {-bd:+.4f} +- {sd:.4f}   F {bf:+.4f} +- {sf:.4f}   sum {-bn - bd + bf:.4f}   formula: ln tau = -ln nu + {-bd + bf:.4f} A {bd * xd - dm + fm - bf * xf:+.3f}   |"
     for r in runs:
         if r['A'] <= 63: continue
         lnN, _ = ev(r, lag, a, x)
@@ -90,7 +90,7 @@ for lag, a, x in events:
         lnP = lnN - np.log(r['E'])
         c = -lnP - dm + fm; li = -lnP - (dm + bd * (r['A'] - xd)) + (fm + bf * (r['A'] - xf))
         e = np.hypot(np.hypot(sd, sf) * (r['A'] - xd), 3 * np.exp(-lnN / 2))
-        out += f"  A={r['A']} ({np.exp(lnN):.0f} events): forecast const {c:.3f} ({c - ANCH[r['A']]:+.2f}), linear {li:.3f} +- {e:.3f} ({li - ANCH[r['A']]:+.2f})"
+        out += f"  A={r['A']} ({np.exp(lnN):.0f} events): forecast const {c:.3f} ({c - ANCH[r['A']]:+.2f}), linear {li:.3f} +- {e:.3f} [fit {np.hypot(sd, sf) * (r['A'] - xd):.3f}, frequency {3 * np.exp(-lnN / 2):.3f}] ({li - ANCH[r['A']]:+.3f})"
     print(out)
 
 # the lag-free version (the dip law): generations a face spends at 1..k cells, per death

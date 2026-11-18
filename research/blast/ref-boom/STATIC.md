@@ -164,3 +164,45 @@ fractions of the area. But something more useful came out: the kill exponent of 
 - The errors hold the fit's slope error and a factor 3 on the counting error of the events; no term for curvature.
   The forecasts with the tighter events run low at 108 cells (−0.11 to −0.14), the loosest run high (+0.11, +0.15).
 - Tubes other than the one above; rimmed faces (a hull face has no hump of launches at all, boom §8).
+
+
+---
+
+# Wide faces of 126–192 cells (06:42–07:00 UTC)
+
+Plain running, four cores, 17 minutes (`sh run8.sh`; binary `rbw` = final `rb.c` with room for 192 cells and a
+wall-clock stop; `python3 ah.py a48 a57 a63 a75 a84 a108 a126 a144 a192` → `out_wide_frozen.txt`, and the same with
+`a48L`, `a63L` in place of `a48`, `a63` → `out_wide_refit.txt`). Vessels: (6,0),(0,7), 126 cells, loops² 36, 43, 49;
+(4,4),(0,12), 144 cells, loops² 48, 48, 48 (my choice: the equilateral one); (8,0),(0,8), 192 cells, loops² 64 ×3.
+Validated against the oracle on all three (200 generations each in a box of side 64, 0 mismatches; the swapped
+neighbour fails at 192 cells: `RB=rbw HB=64 python3 val.py 6 0 7 200`, `… 4 4 12 200`, `… 8 0 8 200 [neg]`).
+Exposure 5.92e+09, 1.80e+10, 1.41e+10 face-generations; deaths 0, 0, 0; periodic restarts 0, 0, 0.
+
+[measured] The estimator ln τ = −ln ν_A(face ≥ 0.74·A) + 0.1273·A − 1.37 (kill law frozen from 48, 57, 63 cells):
+
+| size | generations with face ≥ 0.74·A | estimator, frozen kill law | kill law refitted (below) | wide-face line | other |
+|---|---:|---|---|---|---|
+| 126 | 51,301 | 26.324 ± 0.113 (fit 0.112, frequency 0.013) | 26.329 ± 0.042 | 26.305 | card's 6×7: 26.4045 ± 0.1043 |
+| 144 | 37,022 | 30.055 ± 0.139 (fit 0.138, frequency 0.016) | 30.062 ± 0.051 | 30.060 | |
+| 192 | 608 | 40.030 ± 0.242 (fit 0.209, frequency 0.122) | 40.043 ± 0.142 (fit 0.073, frequency 0.122) | 40.073 | dice chain: 40.49 ± 0.20 |
+
+The frozen kill law's fit error grows to 0.21 at 192 cells, so one core spent the 17 minutes on the fit sizes:
+63 cells, 59,405 deaths, and 48 cells, 1,117,473 deaths. The refit gives ln τ = −ln ν + 0.1275·A − 1.387
+(J = 0.1283 ± 0.0004 against 0.1286 ± 0.0010): the same law, three times sharper; it gives 15.676, 17.569, 22.578 at 75,
+84, 108 cells (anchors 15.6442, 17.5387, 22.5405: +0.03 each).
+
+**The living state says the wide price holds at 0.2087 out to 192 cells**: the estimator is +0.02, 0.00, −0.03 from
+the line at 126, 144, 192 cells (slope from 126 to 192: 0.2078 ± 0.0022); it neither bends further nor rises to the
+dice chain's 40.49 (0.45 apart, 1.8 of the combined errors).
+
+What the errors do not hold: the choice of threshold. With the same procedure the neighbouring thresholds give,
+relative to the line at 126 / 144 / 192 cells (refit): face ≥ 0.66·A: +0.20, +0.23, +0.29; ≥ 0.70·A: +0.13, +0.14,
++0.15; ≥ 0.72·A: +0.07, +0.06, +0.02; ≥ 0.74·A: +0.02, 0.00, −0.03; ≥ 0.76·A: +0.01, −0.04, −0.05 (27 events at 192);
+"≥ 0.70·A now, ≤ 0.30·A next": −0.06, −0.12, −0.34 ± 0.19. The kill law of an event away from the launch point
+(0.738) is not exactly exponential in A, and the drift is one-signed for each event; thresholds from 0.72 to 0.76,
+around the launch point, agree to 0.07. A systematic of about ± 0.1 at 192 cells is the honest addition.
+
+Not checked: the long 48-cell run's own lifetime is 9.9408 ± 0.0009, 0.016 above the anchor and above my four
+shorter 48-cell runs (9.925–9.928); [conjectured] replicas caught in cycles whose period does not divide 840 add
+exposure in a long run (825 periodic restarts were caught). The estimator does not use the fit runs' exposure, only
+d and f, and the refitted J agrees with the frozen one, but nobody should quote 9.9408.
