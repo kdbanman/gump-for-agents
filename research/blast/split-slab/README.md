@@ -633,46 +633,79 @@ Neighbouring sections, all sections:
 | 0.5 | 0.48, 0.721 ± 0.037, 0.0136 ± 0.0021 | 0.39, 0.628 ± 0.074, 0.0129 ± 0.0033 | 0.32, 0.523 ± 0.089, 0.0135 ± 0.0036 |
 | 0.6 | 0.24, 0.830 ± 0.037, 0.0077 ± 0.0019 | 0.17, 0.664 ± 0.110, 0.0114 ± 0.0046 | 0.13, 0.588 ± 0.125, 0.0111 ± 0.0044 |
 
-**Verdict, plainly.**
+**A crash time defined for every section, without selection: the number of generations before the death at which the section last held at least theta of its cells.** P_k = share of pairs of sections k apart with the same time; chain = ring formula with u from P1.
 
-- **In size, yes.** On the 192-cell tube -ln P1 / cells is **0.0136 ± 0.0021, 0.0129 ± 0.0033, 0.0135 ± 0.0036 for
-  sections of 2, 3 and 4 units**: it does not depend on the section length, as the chain requires, and it is 1.4 to
-  1.6 times the measured discount (0.0083 to 0.0097), about 2 sd above it. On wide faces the same statistic is
-  zero: neighbouring quarters of the wide 192-cell torus crash together in 0.998 ± 0.002 of deaths (0.0000 per
-  cell; 0.0009 ± 0.0002 at 108 cells). So the timing freedom that tubes have and wide faces lack is worth
-  about as much as the tube's discount.
-- **But the number is soft by a factor of about 2.** It moves with what counts as a crashed section (last
-  table): 0.019 to 0.022 if a fall of 0.3 to 0.4 of the section counts, 0.013 at 0.5, 0.008 to 0.011 at 0.6. Counting
-  every section (no condition) gives 0.020 to 0.028. Sections without a clear crash get a noisy crash generation,
-  which lowers P1 and inflates the implied discount; stricter selection keeps the sections that belong to the
-  largest busts. The measured discount lies inside the range 0.008 to 0.014 that thresholds 0.5 and 0.6 span; I
-  cannot say more sharply than that. Sections of 1 unit give 0.024: shorter than one crash is coherent.
-- **The 144-cell tube cannot test it.** There P1 does not fall with section length at all (0.84, 0.87, 0.87 for
-  2, 3, 4 units; -ln P1 / cells 0.0073, 0.0040, 0.0028; ring-corrected 0.0103, 0.0077, 0.0067): with 6, 4 or 3
-  sections on a ring most deaths are still one crash. Its ring-corrected values average 0.008 ± 0.001, lower than
-  the 192-cell tube's 0.014 ± 0.002. A chain with one bond weight for both lengths is not excluded (1.5 to 2.7
-  sd apart, depending on how the correlated errors are counted) and not confirmed: the test rests on ONE tube
-  length.
-- **No one-parameter chain fits both the bond and the decay.** With u from P1 and W = 3 the chain predicts
-  P2 = 0.570, P3 = 0.495, P4 = 0.473 for crashed 2-unit sections of the 192-cell tube; measured 0.378 ± 0.067,
-  0.275 ± 0.078, 0.277 ± 0.072 (2 to 3 sd below; W = 4 or 5 do no better: 0.56, 0.48, 0.45). Measured P2 is even below
-  P1^2 = 0.52, which a Markov chain of timings cannot do; but these pairs are selected (both crashed, whatever
-  lies between), so that bound is not strict here. Without the selection (all sections) a chain with FOUR OR
-  FIVE timings does fit the whole decay (P1..P4 measured 0.514, 0.326, 0.247, 0.237; chain on the ring of 8
-  sections: W = 4: 0.514, 0.344, 0.287, 0.273; W = 5: 0.514, 0.326, 0.256, 0.238; W = 3: 0.383, 0.348, 0.341, too
-  high), but its bond then implies 0.028 per cell, three times the discount, and
-  falls with section length (0.028, 0.022, 0.020): crash generations of sections without a clear crash are partly
-  noise. So: where the size is right the shape is not, and where the shape is right the size is not.
-- **Correlation length.** The chain (W = 3, u from P1) gives 3.5 units for 2-unit sections. What the paths show
-  is shorter: P(same) minus its plateau falls from 0.44 at 2 units to 0.10 at 4 units and to nothing at 6: about
-  1.4 to 1.8 units. The 25% together at 6 to 8 units is the plateau (chance agreement among about four
-  generations), not a tail of the correlation.
-- **Bottom line [measured, surrogate, one length]:** the numbers support "a tube is cheaper because its
-  stretches need not crash in the same generation, and a wide face has no such freedom" and they put the worth of
-  that freedom at 0.008 to 0.014 per cell, the size of the tube's discount. They do not support the specific
-  one-parameter chain with three timings: nearest-neighbour agreement and the decay beyond it do not fit
-  together. A sharper test needs longer tubes (240 to 360 cells, where 2-unit and 4-unit sections both have many
-  bonds) and a crash time defined without a threshold.
+| tube | theta | section | N | P1 | -ln P1 / cells | ring-corrected ln lam1 / cells (W = 3) | P2 | P3 | P4 | chain W = 3: P2, P3, P4 | chain W = 5: P2, P3, P4 |
+|---|---:|---|---:|---|---|---:|---|---|---|---|---|
+| 144 cells | 0.3 | 1 u | 12 | 0.526 ± 0.017 | 0.0535 ± 0.0027 | 0.0535 | 0.446 ± 0.023 | 0.408 ± 0.026 | 0.383 ± 0.028 | 0.389, 0.349, 0.338 | 0.333, 0.255, 0.223 |
+| 144 cells | 0.3 | 2 u | 6 | 0.572 ± 0.027 | 0.0233 ± 0.0020 | 0.0236 | 0.485 ± 0.035 | 0.470 ± 0.040 |  | 0.427, 0.393 | 0.397, 0.350 |
+| 144 cells | 0.3 | 3 u | 4 | 0.519 ± 0.033 | 0.0182 ± 0.0017 | 0.0189 | 0.467 ± 0.040 |  |  | 0.425 | 0.407 |
+| 144 cells | 0.3 | 4 u | 3 | 0.560 ± 0.040 | 0.0121 ± 0.0015 | 0.0140 |  |  |  |  |  |
+| 144 cells | 0.35 | 1 u | 12 | 0.701 ± 0.018 | 0.0296 ± 0.0021 | 0.0297 | 0.612 ± 0.028 | 0.560 ± 0.035 | 0.528 ± 0.040 | 0.537, 0.448, 0.400 | 0.517, 0.406, 0.341 |
+| 144 cells | 0.35 | 2 u | 6 | 0.676 ± 0.029 | 0.0163 ± 0.0018 | 0.0175 | 0.584 ± 0.043 | 0.561 ± 0.047 |  | 0.532, 0.491 | 0.522, 0.476 |
+| 144 cells | 0.35 | 3 u | 4 | 0.668 ± 0.038 | 0.0112 ± 0.0016 | 0.0134 | 0.602 ± 0.048 |  |  | 0.580 | 0.577 |
+| 144 cells | 0.35 | 4 u | 3 | 0.660 ± 0.042 | 0.0086 ± 0.0013 | 0.0116 |  |  |  |  |  |
+| 144 cells | 0.4 | 1 u | 12 | 0.701 ± 0.018 | 0.0296 ± 0.0021 | 0.0297 | 0.612 ± 0.028 | 0.560 ± 0.035 | 0.528 ± 0.040 | 0.537, 0.448, 0.400 | 0.517, 0.406, 0.341 |
+| 144 cells | 0.4 | 2 u | 6 | 0.749 ± 0.030 | 0.0120 ± 0.0016 | 0.0140 | 0.646 ± 0.046 | 0.618 ± 0.051 |  | 0.625, 0.587 | 0.621, 0.582 |
+| 144 cells | 0.4 | 3 u | 4 | 0.727 ± 0.041 | 0.0088 ± 0.0015 | 0.0116 | 0.652 ± 0.052 |  |  | 0.650 | 0.649 |
+| 144 cells | 0.4 | 4 u | 3 | 0.706 ± 0.046 | 0.0073 ± 0.0013 | 0.0106 |  |  |  |  |  |
+| 192 cells | 0.3 | 1 u | 16 | 0.473 ± 0.012 | 0.0623 ± 0.0021 | 0.0623 | 0.358 ± 0.017 | 0.289 ± 0.020 | 0.237 ± 0.024 | 0.363, 0.340, 0.335 | 0.293, 0.232, 0.211 |
+| 192 cells | 0.3 | 2 u | 8 | 0.465 ± 0.016 | 0.0319 ± 0.0014 | 0.0319 | 0.300 ± 0.035 | 0.235 ± 0.038 | 0.217 ± 0.036 | 0.359, 0.339, 0.335 | 0.289, 0.232, 0.219 |
+| 192 cells | 0.3 | 3 u | 5 | 0.388 ± 0.030 | 0.0263 ± 0.0021 | 0.0263 | 0.233 ± 0.038 | 0.228 ± 0.037 | 0.301 ± 0.039 | 0.338, 0.334, 0.333 | 0.244, 0.210, 0.202 |
+| 192 cells | 0.3 | 4 u | 4 | 0.363 ± 0.042 | 0.0211 ± 0.0024 | 0.0211 | 0.261 ± 0.047 |  |  | 0.336 | 0.263 |
+| 192 cells | 0.35 | 1 u | 16 | 0.634 ± 0.011 | 0.0379 ± 0.0015 | 0.0379 | 0.483 ± 0.024 | 0.380 ± 0.033 | 0.315 ± 0.039 | 0.469, 0.395, 0.361 | 0.436, 0.328, 0.270 |
+| 192 cells | 0.35 | 2 u | 8 | 0.536 ± 0.025 | 0.0260 ± 0.0020 | 0.0260 | 0.344 ± 0.044 | 0.271 ± 0.051 | 0.253 ± 0.051 | 0.395, 0.354, 0.345 | 0.345, 0.270, 0.250 |
+| 192 cells | 0.35 | 3 u | 5 | 0.464 ± 0.041 | 0.0213 ± 0.0024 | 0.0213 | 0.278 ± 0.058 | 0.279 ± 0.057 | 0.376 ± 0.053 | 0.359, 0.338, 0.334 | 0.287, 0.229, 0.210 |
+| 192 cells | 0.35 | 4 u | 4 | 0.399 ± 0.052 | 0.0191 ± 0.0027 | 0.0192 | 0.282 ± 0.061 |  |  | 0.346 | 0.291 |
+| 192 cells | 0.4 | 1 u | 16 | 0.634 ± 0.011 | 0.0379 ± 0.0015 | 0.0379 | 0.483 ± 0.024 | 0.380 ± 0.033 | 0.315 ± 0.039 | 0.469, 0.395, 0.361 | 0.436, 0.328, 0.270 |
+| 192 cells | 0.4 | 2 u | 8 | 0.587 ± 0.030 | 0.0222 ± 0.0021 | 0.0222 | 0.373 ± 0.049 | 0.289 ± 0.059 | 0.271 ± 0.061 | 0.432, 0.375, 0.361 | 0.395, 0.311, 0.287 |
+| 192 cells | 0.4 | 3 u | 5 | 0.487 ± 0.045 | 0.0200 ± 0.0026 | 0.0200 | 0.296 ± 0.066 | 0.287 ± 0.065 | 0.404 ± 0.058 | 0.369, 0.341, 0.335 | 0.303, 0.237, 0.213 |
+| 192 cells | 0.4 | 4 u | 4 | 0.411 ± 0.054 | 0.0185 ± 0.0028 | 0.0186 | 0.290 ± 0.067 |  |  | 0.351 | 0.302 |
+
+    python3 chain.py empty > data/chain_empty.txt
+
+**Verdict, plainly: the direction and the order of magnitude, yes; the equality, no.**
+
+- **What supports it.** Wide faces have no timing freedom and tubes do: neighbouring quarters of the wide
+  192-cell torus crash together in 0.998 ± 0.002 of deaths (-ln P1 / cells = 0.0000; 0.0009 ± 0.0002 at 108
+  cells), neighbouring sections of the 192-cell tube in 0.5 to 0.7. And the worth of that freedom comes out at the
+  size of the tube's discount, not ten times more or less: on the 192-cell tube, for crashed sections (both with
+  a half-fall), **-ln P1 / cells = 0.0136 ± 0.0021, 0.0129 ± 0.0033, 0.0135 ± 0.0036 for sections of 2, 3, 4
+  units**, the same at every section length as the chain requires, against a measured discount of 0.0083 to
+  0.0097: 1.4 to 1.6 times too much, about 2 sd.
+- **What does not.** Every other way of taking the statistic gives more, not the same:
+  - it moves with what counts as a crashed section: 0.019 to 0.022 per cell if a fall of 0.3 to 0.4 of the section
+    counts, 0.013 at 0.5, 0.008 to 0.011 at 0.6 (the only choice that reaches the measured discount); every section,
+    no condition: 0.020 to 0.028;
+  - with a crash time that needs no selection (the generation a section last held 0.3 to 0.4 of its cells) it
+    is 0.022 to 0.032 for 2-unit sections and falls with section length (0.026, 0.021, 0.019 at theta = 0.35):
+    not constant;
+  - the decay of the timing correlation, which does not care about an independent jitter of each section's
+    time, says the same: P(same) minus its plateau falls by a factor 3 to 4 per 2 units (0.44 -> 0.10 for crashed
+    sections; 0.29 -> 0.09 selection-free), a correlation length of 1.4 to 1.8 units. In the chain
+    lam2 / lam1 = 0.25 to 0.33 per 2-unit bond means ln lam1 >= 0.41 (W = 2) to 0.6-0.7 (W = 3), i.e. **0.017 to
+    0.030 per cell, two to three and a half times the measured discount.**
+- **No one-parameter chain fits both the bond and the decay of crashed sections.** With u from P1 = 0.721 and
+  W = 3 the chain predicts P2 = 0.570, P3 = 0.495, P4 = 0.473 (2-unit sections, 192 cells); measured 0.378 ± 0.067,
+  0.275 ± 0.078, 0.277 ± 0.072 (W = 4 or 5 do no better: 0.56, 0.48, 0.45). (These pairs are selected, both
+  crashed whatever lies between, so the Markov bound P2 >= P1^2 = 0.52 is not strict for them.) Without
+  selection a chain with FIVE timings fits the whole decay to the digit (selection-free time, theta = 0.35:
+  measured 0.536, 0.344, 0.271, 0.253; chain 0.536, 0.345, 0.270, 0.250; largest fall, all sections: 0.514, 0.326,
+  0.247, 0.237 against 0.514, 0.326, 0.256, 0.238; W = 3 has a plateau of 1/3, too high), but its bond is then
+  0.026 to 0.028 per cell. Where the size is right the shape is not; where the shape is right the size is three
+  times too big.
+- **The 144-cell tube cannot test it.** There P1 does not fall with section length (0.84, 0.87, 0.87 for crashed
+  sections of 2, 3, 4 units; -ln P1 / cells 0.0073, 0.0040, 0.0028; ring-corrected 0.0103, 0.0077, 0.0067): with
+  6, 4 or 3 sections on the ring most deaths are still one crash. Everything above rests on ONE tube length.
+- **Reading [conjectured].** Either the crash times of sections carry more independent noise than the checks
+  above can remove, or the timing freedom is real and worth 0.02 to 0.03 per cell and something else takes about
+  two thirds of it back (a staggered death must also keep each crashed stretch from being recolonised by its
+  not-yet-crashed neighbour for a few generations, which a rigid crash never has to). In the second case a
+  loop^2 12 tube that could only crash at once would cost more per cell than a wide face. I cannot tell the two
+  apart with these paths.
+- **What would settle it:** tubes of 240 to 360 cells (many bonds at 2 and at 4 units, no ring correction), a
+  crash time read from a per-cell record of gump itself rather than a threshold on a section, and the same
+  statistic on loop^2 16 and 13 tubes, whose discounts are known and smaller.
 
 ## Files
 

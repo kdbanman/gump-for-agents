@@ -58,7 +58,15 @@ def solve_u(P1, W, N):
     return (lo + hi) / 2
 
 
-def tube(H, K, D, fn, lengths=(1, 2, 3, 4), thr=0.5):
+def last_above(pop, m, theta):
+    """threshold-free-of-selection timing: generations before the death at which the section last held >= theta m cells (17 = not in the record)"""
+    for g in range(len(pop)):
+        if pop[g] >= theta * m:
+            return g + 1
+    return len(pop) + 1
+
+
+def tube(H, K, D, fn, lengths=(1, 2, 3, 4), thr=0.5, theta=None):
     ring, R, ii, jj = rings(H, K, D); A = 3 * H * D
     units = load(fn)
     out = []
@@ -73,8 +81,11 @@ def tube(H, K, D, fn, lengths=(1, 2, 3, 4), thr=0.5):
                     idx = [(o + b * r + np.arange(r)) % R for b in range(N)]
                     ks = []; hf = []
                     for b in range(N):
-                        k, bf, af = sections.crash(ringpop[:, idx[b]].sum(1), 6 * r)
-                        ks.append(k); hf.append(bf - af >= thr)
+                        if theta is None:
+                            k, bf, af = sections.crash(ringpop[:, idx[b]].sum(1), 6 * r)
+                            ks.append(k); hf.append(bf - af >= thr)
+                        else:
+                            ks.append(last_above(ringpop[:, idx[b]].sum(1), 6 * r, theta)); hf.append(True)
                     for sep in range(1, kmax + 1):
                         pairs = [(b, (b + sep) % N) for b in range(N)] if circ else [(b, b + sep) for b in range(N - sep)]
                         for b, c in pairs:
@@ -168,9 +179,29 @@ def sensitivity():
         print(f'| {thr} | ' + ' | '.join(cellsrow) + ' |')
 
 
+def emptying():
+    print('\n**A crash time defined for every section, without selection: the number of generations before the death at which the section last held at least theta of its cells.** P_k = share of pairs of sections k apart with the same time; chain = ring formula with u from P1.\n')
+    print('| tube | theta | section | N | P1 | -ln P1 / cells | ring-corrected ln lam1 / cells (W = 3) | P2 | P3 | P4 | chain W = 3: P2, P3, P4 | chain W = 5: P2, P3, P4 |')
+    print('|---|---:|---|---:|---|---|---:|---|---|---|---|---|')
+    for L in ((1, 22, 48), (1, 30, 64)):
+        for theta in (0.3, 0.35, 0.4):
+            out, R, A = tube(*L, os.path.join(C, 'cells_%d_%d_%d_s5.txt' % L), theta=theta)
+            for r in out:
+                P1, e1 = r[('all', 1)]; N = r['N']; cells = r['cells']
+                g = lambda k: (f'{r[("all", k)][0]:.3f} ± {r[("all", k)][1]:.3f}' if ('all', k) in r else '')
+                pred = {}
+                for W in (3, 5):
+                    u = solve_u(P1, W, N) if r['circ'] else (1 / P1 - 1) / (W - 1)
+                    l1, l2 = 1 + (W - 1) * u, 1 - u
+                    pred[W] = (math.log(l1) / cells, ', '.join((f'{ring_pk(u, W, N, k):.3f}' if r['circ'] else f'{1 / W + (1 - 1 / W) * (l2 / l1) ** k:.3f}') for k in (2, 3, 4) if ('all', k) in r))
+                print(f'| {A} cells | {theta} | {r["l"]} u | {N} | {P1:.3f} ± {e1:.3f} | {-math.log(P1) / cells:.4f} ± {e1 / P1 / cells:.4f} | {pred[3][0]:.4f} | {g(2)} | {g(3)} | {g(4)} | {pred[3][1]} | {pred[5][1]} |')
+
+
 if __name__ == '__main__':
     if len(sys.argv) > 1 and sys.argv[1] == 'sens':
         sensitivity(); sys.exit(0)
+    if len(sys.argv) > 1 and sys.argv[1] == 'empty':
+        emptying(); sys.exit(0)
     for L in ((1, 22, 48), (1, 30, 64)):
         report_tube(*L)
     print('\n**Wide tori cut into four quarters (every offset of the two cuts averaged): neighbouring quarters share an edge, diagonal ones a corner.**\n')
