@@ -1,1 +1,1 @@
-RES n 1386 A 84 nN 168 B 1024 M 256 mode F seed 1301 gens 100000000 exposure 51198928175 d 655 643 642 582 605 558 564 598 ties 0 young 4 settled 0
+RES n 1386 A 84 nN 168 B 1024 M 256 mode F seed 1301 gens 110000000 exposure 56318834175 d 725 700 699 631 674 618 619 651 ties 0 young 4 settled 0
