@@ -10,3 +10,7 @@ identical over 1000 generations on 3 lanes (val_prism_5_6.txt); N=324 H=24 copie
 MISMATCH at generation 1 lane index 0 (neg_prism_5_6.txt; N=324 H=24 copies=2)
 identical over 1000 generations on 3 lanes (val_slab_4_3.txt); N=288 H=48 copies=48; distinct states [1001, 1001, 1001]; final populations [108, 120, 85]
 MISMATCH at generation 3 lane index 2 (neg_slab_4_3.txt; N=288 H=48 copies=48)
+identical over 1000 generations on 3 lanes (val_slab_5_4.txt); N=480 H=40 copies=20; distinct states [1001, 1001, 1001]; final populations [208, 203, 217]
+MISMATCH at generation 8 lane index 1 (neg_slab_5_4.txt; N=480 H=40 copies=20)
+identical over 1000 generations on 3 lanes (val_tet_5_0.txt); N=210 H=20 copies=1; distinct states [126, 144, 137]; final populations [13, 19, 6]
+MISMATCH at generation 4 lane index 0 (neg_tet_5_0.txt; N=210 H=20 copies=1)
