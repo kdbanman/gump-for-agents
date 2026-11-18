@@ -36,7 +36,7 @@ Symmetric strips (w,w,L,0), ln τ_face (`data/table_out.txt`; errors 1/√deaths
 **1. ln τ is linear in the width at fixed length: a row costs the same wherever it is added; no support zone
 ends within 7 rows of a rim [measured].** The cost of two more rows (3L cells), g(L) = ln τ(w+2, L) − ln τ(w, L):
 L = 3: 1.525, 1.558, 1.557 (8→10→12→14 rows); L = 4: 2.347 ± 0.008 (8→10), 2.335 ± 0.026 (10→12); L = 5: 3.026 ± 0.022 (8→10).
-So ln τ = a(L) + (w/2)·g(L) with g = 1.55, 2.35, 3.03 and a = 1.97, 1.72, 1.76 at L = 3, 4, 5.
+So ln τ = a(L) + (w/2)·g(L) with g = 1.55, 2.35, 3.03 and a = 1.97, 1.70, 1.76 at L = 3, 4, 5.
 The **price per cell of added width** is g/(3L): **0.169 to 0.173 (L = 3), 0.195 to 0.196 (L = 4), 0.2017 ± 0.0015 (L = 5)**.
 Below the wrapped 0.2087 at every length reached, and rising with L.
 
@@ -47,7 +47,7 @@ at the next (at L = 4 the strip is still a tube of girth 4; the step 5→6 is th
 number is 0.209 or 0.231 as a constant.
 
 **3. The mixed second difference, the strip's analogue of the hull's second difference in k, per cell
-[measured]: 0.2741 ± 0.0029 (8→10 rows, L 3→4), 0.2590 ± 0.0087 (10→12, 3→4), **0.2262 ± 0.0078** (8→10, 4→5).** It
+[measured]: 0.2741 ± 0.0029 (8→10 rows, L 3→4), 0.2590 ± 0.0087 (10→12, 3→4), 0.2262 ± 0.0078 (8→10, 4→5).** It
 is the increment of g: 0.82, then 0.679 ± 0.023 (the hull's second differences: 0.800, 0.692, 0.692 ± 0.015; the wrapped
 price would give 0.626). At L 4→5 the corner-free strips of 48 to 75 cells are 0.6σ below the hull's 0.2307 and
 2.2σ above the wrapped 0.2087, **with no corner anywhere: corners are not needed for the excess.** But a strip
