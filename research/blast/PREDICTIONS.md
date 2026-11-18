@@ -105,3 +105,18 @@ Forecasts:
 5. **The tube's advantage is in the boom or the bust, not the end-game**: at equal area a loop-12 tube has a
    larger variance of the face population than a wide torus (more frequent over-full generations) or fewer
    survivors of the bust; P(one of the two accounts for more than half of the discount) = 60%.
+
+### Block 2 scored so far (04:20 UTC)
+
+- Item 3 (corner-free strips: price per cell of added width nearer 0.231 than 0.209 under about 5 units): **failed
+  as worded.** `rim`: 0.169–0.173, 0.195, 0.2017 ± 0.0015 per cell of added width at row lengths 3, 4, 5 units, with
+  no change from 8 to 14 rows: below both, and no support zone that ends within 7 rows. What the strips do show is
+  the hull's number in the mixed second difference (0.2262 ± 0.0078 with no corner anywhere), a length price that
+  falls with length (0.2455, 0.2308, 0.2177 per cell for 3→4, 4→5, 5→6 units) and a bust share of 0.15–0.20
+  (hull 0.016, wrapped 0.57). My "zone that life retakes from the rim" is not what the strips show.
+- Item 1 (135 cells): open; `rim` forecasts 29.210 ± 0.035, `model` 29.215 ± 0.030, both blind to the samplers.
+- "Two routes, two prices" in its simple form is weakened by `model`: on a wrapped face the route without a bust
+  costs only 0.004–0.005 per cell more than the route with one (the bust share rises 0.57 → 0.60 → 0.67 from 48
+  to 84 cells), and at equal area a hull face starves more readily than a wrapped face's own no-bust route; it
+  lives longer only because it has no bust route at all (worth 0.85–0.9 at 63 cells).
+- Items 2, 4, 5: open.
