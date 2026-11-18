@@ -1,9 +1,10 @@
 # blast/ref-proofs: referee's review of `rigour` (proofs, exact numbers) and `image` (seam identity)
 
-Agent `ref-proofs`, 2026-11-18, 04:15–04:50 UTC. Verdicts: CONFIRMED / CORRECTED / REFUTED / NOT TESTED.
+Agent `ref-proofs`, 2026-11-18, 04:13–04:50 UTC. Verdicts: CONFIRMED / CORRECTED / REFUTED / NOT TESTED.
 All of my numbers come from my own code, written from `docs/AUTOMATON.md` and the definition of the surrogate S
 alone (`ref.py`: geometry from the 12 offsets, coins enumerated, dense 2^A kernel, numpy; `ref15.py`: the same
-kernel lumped over a tube's translations; `seam.py`; `lemmaR.py`). I read rigour's `geom.py` only for the *names*
+kernel lumped over a tube's translations; `tiltmc.py`: tilted laws by reweighted simulation; `seam.py`,
+`seam3.py`; `lemmaR.py`, `tube_mine.py`). I read rigour's `geom.py` only for the *names*
 of shapes (which lattice "torus H K D" is, which unit cell a strip uses). Outputs are in `data/`.
 
 Summary: **nothing marked [proved] broke as mathematics, and every exact number I recomputed agrees to all
