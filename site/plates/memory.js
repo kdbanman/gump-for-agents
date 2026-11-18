@@ -80,7 +80,7 @@
     if (ev.length) E('span', {}, read, ' · ' + ev[ev.length - 1][1]);
     E('span', {}, read, ' · the whole state was exactly its letters at ' + exact + ' of ' + rows.length + ' even generations; the file’s ' + R.checks.length + ' checks: ' + filed[1] + ' of ' + filed[0] + ' so far ' + (filed[1] === filed[0] ? '✓' : '✗'));
   };
-  const drawAll = () => { if (!w) return; drawTape(); drawStrip(); drawRead(); };
+  const drawAll = () => { if (!w || !R) return; drawTape(); drawStrip(); drawRead(); };
   M.runs.forEach((r, i) => { const b = E('button', { class: 'btn', type: 'button', 'aria-pressed': 'false' }, ctl, r.label); b.addEventListener('click', () => { pick(i); if (!timer && !reduce) play(); }); });
   const tick = () => {
     if (g.gen >= G) { if (++hold > 25) { pick((k + 1) % M.runs.length); } return; }

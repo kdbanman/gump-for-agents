@@ -652,7 +652,9 @@ def btable(name):
     lp = re.search(r"population at the launch: mean ([\d.]+) \(([\d.]+) A\)", t)
     return {"A": A, "ln": float(m[2]), "se": float(m[3]), "deaths": deaths, "series": series, "dist": dist, "share": share, "q": qk,
             "launch": [float(lp[1]), float(lp[2])], "toempty": [float(gl[1]), float(gl[2]), float(gl[3]), float(gl[4])]}
-BT = {n: btable(n) for n in ("slab63", "hull63", "wide84", "tube84")}
+BT = {n: btable(n) for n in ("slab63", "hull63", "wide84", "tube84", "lead_hull84")}
+h84 = bv("hull84"); assert BT["lead_hull84"]["A"] == 84 and BT["lead_hull84"]["deaths"] == h84[3] and abs(BT["lead_hull84"]["share"]["0.5"][0] * 100 - h84[1]) < 1e-9 and BT["lead_hull84"]["toempty"][2] == h84[6] and abs(BT["hull63"]["share"]["0.5"][0] * 100 - bv("fade")[1]) < 1e-9
+assert all(abs(a - b) < 6e-4 for a, b in zip(BT["lead_hull84"]["q"][:3], bv("q84")))
 an = bv("anchors")
 assert [[BT[n]["ln"], BT[n]["se"]] for n in ("slab63", "hull63", "wide84", "tube84")] == [an[1:3], an[3:5], an[5:7], an[7:9]]
 assert abs(BT["slab63"]["launch"][1] - bv("launch")[0]) < 5e-4 and abs(BT["slab63"]["share"]["0.4"][0] - bv("falls")[0] / 100) < 0.005
@@ -669,7 +671,7 @@ rq = bv("rim"); assert [rh[0][2], rw[0][2], rh[1][2]] == [rq[2], rq[3], rq[5]] a
 nx = [float(x) for x in re.findall(r"one generation later ([\d.]+)", "".join(rt))]
 assert abs(nx[0] - bv("rimnext")[0]) < 0.05 and abs(nx[1] - bv("rimnext")[1]) < 0.05
 out["blast"] = {"t": BT, "rim": {"hull": rh, "wrapped": rw, "next": nx[:2]},
-                **{k: bv(k) for k in ("launch", "falls", "crash", "fade", "rimnext", "slow", "survived", "together", "tube", "qk", "qkex")},
+                **{k: bv(k) for k in ("launch", "falls", "crash", "fade", "rimnext", "hull84", "deadly", "deadlyw", "q84", "slow", "survived", "together", "tube", "qk", "qkex")},
                 "rimq": bv("rim"), "prices": [N16["price"]["rimmed"]["value"][3], N16["price"]["rimmed"]["value"][4], N16["price"]["rimmed"]["value"][5]]}
 # the long 12-tubes to 120 cells (WL10, WL11): the four faces recomputed from the files, the chords checked against the quote
 def face(fn):
@@ -686,6 +688,9 @@ assert F13[1:3] == xv("l13")[2:4] and F16a[1:3] == xv("l16rows")[0:2] and F16b[1
 out["wrap"]["w18"] = {"t12": T12, "chords": ch, "tube120": t120, "line": [cq[8], cq[9]], "high": xv("high"), "l12": l12, "l13": xv("l13"), "f13": F13,
                       "l16": xv("l16"), "f16": [F16a, F16b], "cpu": xv("cpu"), "bends": xv("bends")[0], "loop21": xv("loop21"), "eq108": xv("eq108"),
                       "pair": xv("pair"), "W": [xv("W14"), xv("W15"), xv("W16")]}
+fr18 = xv("frozen")
+out["wrap"]["long"].update({"c": l12[4], "se": l12[5], "below": [fr18[0], fr18[3]], "z": [fr18[2], fr18[5]], "since": "CLAIMS WL10 (eight seeds)"})
+out["prices"].update({"long": [l12[4], l12[5], 84, 108], "longz": [fr18[2], fr18[5]]})
 out["prices"]["w18"] = {"l12": l12, "chord120": [cq[4], cq[5]], "tube120": t120[1:3], "blast": [bv("falls")[0], bv("fade")[1]]}
 # the memory cell (SG33, SG34, SG38): the object files, copied for the page's live runs (laid out by signals-core.js memory,
 # stepped by gump-core.js makeSparse; site/checks/check-signals.js runs every one against the files' checks and the oracle)
@@ -701,6 +706,7 @@ MR = [mrun("research/signals/push9/objects/call9.json", c9, "cycle", "write 3, c
       mrun("research/signals/push9/objects/call9.json", c9, "move", "call a store of 3 into a store of 1"),
       mrun("research/signals/push8/objects/cell8.json", c8, "count", "write 4, release by hand")]
 assert 38 + 5 * MR[0]["N"] == sv("cell")[0] + sv("cell")[1] * MR[0]["N"] and len(MR[0]["extra"]) == sv("callline")[1]
+out["reg"] = {"line7": sv("line7"), "line7b": sv("line7b"), "guns34": sv("guns34")}
 out["memory"] = {"obj": {k: c8[k] for k in ("capL", "capR", "stators", "sites")}, "runs": MR}
 
 # the footer's date: the newest date among the files the data were gathered into (update-<date>*.json); the stamp under it

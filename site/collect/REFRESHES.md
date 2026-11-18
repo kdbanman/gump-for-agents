@@ -376,3 +376,51 @@ tubes in the heading and tiles, chips and check list updated. "Open now" (`#next
 - Claim counts: 197 (A 91, B 91, C 14, D 1), read from `research/CLAIMS.md` by `collect.py` as before.
 - Not shown: the hull face's hazard by age; the rim profile beyond three rows and the depth profile by radius (`research/hulllocal/README.md`);
   the card's settled lives by thickness; the 75-cell repeats as points (they are in the card's table).
+
+## Refresh of 2026-11-18: two ways to die; the long tubes to 120 cells; a line that keeps a count; a memory cell, live
+
+New plates: "Two ways to die" (`#twoways`, dying page, after "A face dying, watched"), "A line that keeps a count" (`#register`) and
+"A memory cell" (`#memory`, live), both on the signals page after "Nothing listens". Changed: "What a short way round costs" (`#wrap`),
+"One price per cell?" (`#constant`), "An echo" (`#echo`: "no gun survives" corrected), "Nothing listens" (`#ends`: a panel of what now
+listens and what is missing, and the end of its memory caption), "Open now" (`#next`: items 1, 3, 4), the eyebrows of "The staircase",
+"How a face dies", "A face dying, watched" and "Luck or lineage" (they are hull faces of a box; `#death` points to `#twoways`). Map:
+"new" marks only on this refresh's plates (the older ones removed, and "new · " dropped from older status texts); the dying and signals
+blurbs. Three corrections, three forecasts (one hit, one missed, one pending), seven audits, six milestones.
+
+- Quoted numbers: `sources/update-2026-11-18.json` (sections `blast`, `wrap18`, `sig18`; every item with `src` and `how`), checked by
+  `collect.py` against NB "how a face dies, audited from outside" (with its result of 13:49 UTC), "the 120-cell tube is 24.5086 ± 0.0169",
+  "the card's third chain, recomputed", "the eighth signals push, reviewed", "three more signals results in one night", "the ninth signals
+  push, reviewed", CLAIMS DY16-DY21, WL8-WL11, CN5, SG33-SG41, and (`file` quotes) `research/wrap/PREDICTIONS.md` W14-W16 and
+  `research/OPEN-PROBLEMS.md` items 9 (l)-(q), 13 (v), (y), (aa)-(ae). SG38-SG41 are worded and graded as in the ledger after the ninth
+  push's review (ledger at 215 claims).
+- Read from tables by `collect.py` (new key `data/blast.json`): `research/audit/blast/data/{slab63,hull63,wide84,tube84,lead_hull84}.txt`
+  (lifetime, the mean population at launch −3 .. +4, the distribution of the largest fall, the shares of deaths by largest fall, q(1..7),
+  the launch level, launch to empty) and `rimtest.txt` (the first two blocks: survival and overcrowding by class of cell at ≥ 48 cells);
+  asserted against the quotes (the four lifetimes, 0.738, 80%, 1.14%, the medians 5, 10 and 11, q(1..3) at 63 and 84 cells, 0.342 / 0.333 /
+  0.661, 30.1 / 20.1, 1.07%, 4,859 deaths, the tube's launch 0.726 and q equal to 0.0161).
+- Recomputed from rows: the four 12-tubes (84, 96, 108, 120 cells), the 13-tube and the two 16-faces at 96 cells, from
+  `research/data/gpu_local_eqtorus/*.csv`, asserted equal to WL10, WL11 and the notebook's table; the chords 84-96-108-120 recomputed and
+  asserted equal to the quote. **Superseded values**: the 96- and 108-cell tubes now hold eight seeds and the 6 × 6 face ten, so the
+  assertions of the 2026-11-15e and 2026-11-16a sections now check those files against the 2026-11-18 quotes (WL9, WL10); the older
+  quotes are still checked as quotes. `wrap.long` (slope, distances below the frozen line) and `prices.long`/`longz` now carry WL10's
+  values (0.20198 ± 0.00031; 0.0345 and 0.0717, 5.0 and 6.3 errors). The "nine wrapped faces" figure of `#constant` now draws the 6 × 6
+  face at 22.5405 ± 0.0074 against the line of 2026-11-15, unchanged.
+- The memory cell (new key `data/memory.json`): the capL, capR, stators and sites of `research/signals/push8/objects/cell8.json` (equal to
+  `push9/objects/call9.json`'s, asserted) and three runs copied as they are: `cycle` and `move` of call9.json, `count` of cell8.json.
+  Laid out by `assets/signals-core.js` (`memory`, as `verify_cell8.py` / `verify_call9.py` lay them out) and stepped by a new sparse
+  stepper, `makeSparse` in `assets/gump-core.js` (the same rule on the same torus, stepping only live cells and their neighbours).
+  Checks: `checks/check-core.js` compares makeSparse with makeGump, the whole state every generation, on three random soups (tori 16,
+  24, 30; 301 generations; wrapping included); `checks/check-signals.js` section 8 asserts `data/memory.json` equals the object files,
+  runs each of the three runs on makeSparse with the files' hand operations, asserts every whole-state check of the file (13, 5 and 6
+  checks) and agreement with `reference/oracle.py` (same operations) at every generation (963, 263, 521 generations). The pushes' own
+  verifiers were also run once for these runs: `verify_cell8.py --only count`, `verify_call9.py --only cycle`, `--only move`: PASS.
+- Computed on the page, not quoted: the shares of the face in the launch figure; the memory cell's letters at every even generation, the
+  comparison of the whole state with the state of those letters, the comparison with the file's letters at its check generations, the
+  stores' counts, the hand operations' labels (a removal next to a d is "the release").
+- Typed, not drawn from data: the plates' prose; the grades in the status chips and tiles (the CLAIMS level columns); the "Open now"
+  items; the map labels. The register plate is text and tiles (no live run of the seventh push's line).
+- Claim counts: 215 (A 102, B 94, …), read from `research/CLAIMS.md` by `collect.py` as before.
+- Not shown: the surrogate's table (`dice.txt`) beyond the ledger's ranges; the patterned-order and halves tables beyond two numbers; the
+  read of push 8b, the still life at the wall, the oscillator call and the one-less collision as live runs (their objects are in
+  `research/signals/push8b/objects/`, `push9/objects/trigger9.json`, `research/audit/signals9/objects/`); the tables by lag of the GTX 1080
+  studies (`research/dying2/`).
