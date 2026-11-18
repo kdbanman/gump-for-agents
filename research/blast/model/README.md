@@ -6,7 +6,9 @@ Nothing here is proved. The session was cut to about 70 minutes; "Not checked" a
 
 ## The upper tail (added 03:57 on the PI's second brief, after agent `anatomy`'s boom and bust)
 
-**Does the over-full tail explain the wrapped price? Half of it, and none of the shape dependence.**
+**Does the over-full tail explain the wrapped price? About 40–50% of it (the boom), and none of the shape
+dependence. The rest is the kill after the fall, which is the old tail price again; and both the boom and the kill
+from a given low population are blind to tube against wide, so the tube's discount is made in between.**
 
 a. **[measured] The over-full tail obeys a clean law per cell, and it is the same law on tubes and on wide faces.**
    From the stationary histograms (1.5 × 10⁸ samples each; wide faces of 57–111 cells, loop² 12 tubes of 54–120
@@ -82,6 +84,38 @@ f. **[measured] Where the 63-cell hull face parts from the 63-cell torus in π(n
    0.460 per live cell over 4–12 cells against 0.382. That is the only place where the histogram shows the hull's
    higher price; put into the tangent estimate (with all its faults, item 6 below) it raises the price per cell by
    6% where 11% is measured.
+
+g. **[measured] At equal area the tube's bust route is the wide face's; its extra deaths are deaths without a
+   bust.** 66 cells, tube (1,5),(0,22) against wide (1,4),(0,22), equal exposure (`pair66.py`; 2,995 and 2,670
+   deaths; ln τ 13.657 ± 0.018 and 13.772 ± 0.019): the stationary over-full share is 0.0152 on both; the fall map
+   agrees to 0.03 cells at every filling (from 45, 49, 53 of 66 cells: 29.51 / 29.52, 24.11 / 24.14, 17.84 / 17.85);
+   the kill g₄(P) agrees within its counts (26/22, 45/48, 66/68, 71/53, 38/41, 15/17 deaths at P = 45 … 55); the
+   number of deaths that were over-full four generations earlier is 506 on the tube and 513 on the wide face; and
+   the over-full share of dying faces is lower on the tube, 0.169 ± 0.007 against 0.192 ± 0.008 (0.192·e^(−0.115) =
+   0.171 if every extra death of the tube were a death without a bust). Also the chance q(n) that a dip to n cells
+   ends in death is the same on the 60- and 66-cell tubes and the 63-cell wide face at every n ≤ 20, up to a
+   smooth fall with area (q(12) = 0.0104, 0.0092, 0.0104; 0.0136 at 48 cells).
+
+h. **[measured against three lifetimes, no fitted number] The two-route formula for the tube's discount.** If the
+   route without a bust runs faster on a tube by the factor by which the living tube is more often half empty
+   (Δ_mid = mean of ln π_tube(n) − ln π_wide(n) over 0.40–0.55 P̄, from the stationary histograms at equal area),
+   and the bust route not at all:
+
+       D = ln τ_wide − ln τ_tube = ln( b + (1 − b)·e^Δ_mid ),    b = bust share of the wide face (anatomy: logit b = 0.364 + 0.0045 (A − 63))
+
+   | cells | Δ_mid | b | D from the formula | D measured |
+   |---|---|---|---|---|
+   | 66 | 0.264 ± 0.002 | 0.593 | 0.116 ± 0.001 | 0.125 ± 0.007 (0.115 ± 0.027 in my own pair) |
+   | 84 | 0.484 ± 0.016 | 0.613 | 0.216 ± 0.008 | 0.220 ± 0.004 |
+   | 108 | 0.857 ± 0.033 | 0.638 | 0.400 ± 0.019 | 0.381 ± 0.011 |
+
+   χ² ≈ 2.6 on 3 with nothing fitted (b's own error, a few percent, not included). This is why the lead of the tube
+   at half population is 2.1–2.25 times its discount: only the 40% of deaths that go without a bust profit from it.
+   The bending with tube length is the growth of Δ_mid (0.0123 per cell from 66 to 84 cells, 0.0155 from 84 to
+   108), i.e. of the fat lower side of the tube's living fluctuations (item 4 below: extensive κ₃, κ₄), together with
+   the falling share of the route that cannot profit. `python3 research/blast/model/tworoute.py`. Not checked: that
+   b on tubes follows the wide faces' line; any face above 108 cells; the choice of the window 0.40–0.55 (it was
+   fixed in `pairs.py` before the formula was thought of, but only one window was tried).
 
 ## Short answer (written before the section above; the front gas has since been killed by agent `anatomy`: no band-first class of deaths)
 
@@ -185,6 +219,7 @@ f. **[measured] Where the 63-cell hull face parts from the 63-cell torus in π(n
 | # | model, in three lines | fitted numbers | against the anchors | kills it |
 |---|---|---:|---|---|
 | 0 | **Boom, bust, starve (anatomy's mechanism made quantitative; added last).** 1/τ = Σ_P π(P)·g(P): boom to x ≈ 0.75 A at ψ(x) per cell (measured from the living state, shape-blind), fall to s(x) ≈ 0.36 A (a map of the filling alone), then the survivors starve at the tail price. Hull: no fall, so starvation only. | 0 for the boom; the kill is measured, not derived | boom 0.083–0.098 per cell + kill 0.11–0.15 per cell = 0.21–0.23 (two sizes, peak term only); explains hull > wrapped at equal area (0.47 at 63 cells = no bust route, +0.87, less a readier starvation, −0.4); does NOT give the tube discount (the boom is identical on tubes) nor 0.231 | a wrapped face of 84–108 cells whose dying faces are not over-full at lag 4–5 at ten times the living share; or a tube whose over-full share of deaths equals the wide face's while its lifetime is shorter (then the tube's discount is in the kill) |
+| 0b | **Two routes for the tube's discount.** D = ln(b + (1 − b)e^Δ_mid): the bust route is shape-blind (boom, fall and kill measured equal at 66 cells); the route without a bust is faster on a tube by its stationary lead at half population. | 0 (b from anatomy's shares, Δ_mid from living histograms) | D = 0.116, 0.216, 0.400 against 0.125 ± 0.007, 0.220 ± 0.004, 0.381 ± 0.011 at 66, 84, 108 cells | the 120-cell tube more than 0.04 from the number in PREDICTIONS.md block M5; or a tube of 84+ cells whose number of over-full deaths differs from the wide face's by more than 15% |
 | 1 | **Two ways to die, rates add (HAZ refitted).** 1/τ = e^(−a−cA)(1 + Σ_v r_q e^(g_q(A−63))): a short loop opens a second channel at price c − g_q. A description; the only form within reach of the errors. | 10 | χ² 87 on 44 (A ≥ 48), 107 on 48 (A ≥ 36); hull: not addressed | the 120-cell tube above 24.55 (HAZ says 24.51; it is already −2.6σ at 108 cells): then the channel's price is not constant |
 | 2 | **A tube has its own price (stationary cumulants).** Tubes are one-dimensional: ρ, κ₂, κ₃, κ₄ per cell independent of length; long-tube price c − Δ, Δ = tilt series of the cumulant differences, 0.007–0.011 for loop² 12. Short tubes cross over. | 0 (λ measured) | second order alone: discounts within 20% at 66–96 cells, ×1.7 at 54, ×0.8 at 108 (Σ z² 4594 on 20) | local slope of the loop² 12 tube from 120 to 240 cells outside 0.196–0.202 |
 | 3 | **Rim as an expansion in the side at the wrapped price.** Hull: ln τ = 0.2086·A + b·k + d + e/k. | 3 | χ² 16.8 on 2 (30–108 cells); two prices 152.8 on 2 | the 135-cell hull face at 29.23 or above (expansion: 29.17–29.21) |
@@ -204,6 +239,10 @@ f. **[measured] Where the 63-cell hull face parts from the 63-cell torus in π(n
   face 0.013 ± 0.005 at 66 cells, **measured 0.0164 (inside)**; 0.021 ± 0.005 at 84 cells, **measured 0.0203
   (inside)**. The reasoning was half wrong (see M3): the excess grows because the wide faces' variance falls.
 - Tangent construction "works to 0.3 with one constant": I gave 35%; it fails (spread 0.63).
+- M3 (commit e3466c8): the 240-cell tube revised to 48.40 ± 0.25 (local slope 0.1985 ± 0.002 from 120 cells on). Open.
+- M4 (commit e46be69, after anatomy's boom and bust): 120-cell tube 24.560 ± 0.020; 240-cell tube 48.40 ± 0.25; wide
+  torus of 200 cells 41.716 ± 0.05; hull 135 cells 29.215 ± 0.030; hull 165 cells 35.76 ± 0.08; the inside of a hull
+  face busts on its own from side 12 ± 2 (234 cells, range 165–340). All open.
 - The times in the block headers run two to five minutes ahead of the machine clock; the commits carry the true order.
 
 ## What was run, and on what it rests
@@ -226,6 +265,9 @@ f. **[measured] Where the 63-cell hull face parts from the 63-cell torus in π(n
 
 ## Failed, in a line each
 
+- min over x of [ψ(x) + λ·s(x)] as a formula for the bust route's price: 0.275 at 48 cells against 0.207.
+- The population chain with the measured one-step kernel as a model of τ: it reproduces ln τ to 0.001–0.017, but it
+  must (the stationary marginal is a left eigenvector of the empirical kernel); an identity, not a test.
 - Tangent construction as a formula for c or for the discounts: too sensitive to λ, and λ is not a constant.
 - "The growth of the tube discount with length is a growth of its variance" (M2's reasoning): the tube's variance is flat.
 - A single exponential in the girth for the loop weights (the patch strip cost): right from 12 to 16, wrong beyond.

@@ -107,3 +107,20 @@ difference repeats" at 135 and 165 cells.
 - P(at equal area the 66-cell tube and the 66-cell wide torus have the same over-full share of deaths five
   generations or so before death, within 0.03) = 50%. If the tube's is lower by more than 0.03 its extra deaths are
   starvation deaths; if equal, its discount sits in the kill after the bust.
+
+## Block M5: 04:11 UTC (machine clock): the two-route formula's number for the 120-cell tube
+
+Scores of M4's last clause (my 66-cell pair, `pair66.py`): over-full share of dying faces, tube 0.169 ± 0.007 (lag 4;
+0.171 at lag 5) against wide 0.192 ± 0.008: "the same within 0.03" holds as written (−0.023 ± 0.011), but the
+reading is the other branch: the numbers of over-full deaths are equal (506 and 513) and the tube's extra deaths
+are deaths without a bust.
+
+Formula (README item h): D = ln(b + (1 − b)·e^Δ), Δ = ln π_tube − ln π_wide at equal area, read at the fraction f of
+the mean population, b = 1/(1 + e^(−0.364 − 0.0045 (A − 63))). The level f is one fitted number: on the four measured
+pairs (66, 84, 96, 108 cells) Σ z² = 86.6, 11.4, 3.8, 24.9, 262 at f = 0.45, 0.50, 0.525, 0.55, 0.60. At 120 cells
+(tube (1,18),(0,40) against wide (1,11),(0,40); 5.6 × 10⁸ and 4.1 × 10⁸ stationary samples; no death seen):
+Δ(0.525) = 0.974 → D = 0.455 → **ln τ = 24.598**; Δ(0.50) = 1.032 → D = 0.490 → 24.563.
+
+- The formula's forecast for the 120-cell tube: **24.585 ± 0.030** (P = 60%).
+- My number for it moves from 24.560 ± 0.020 to **24.575 ± 0.025** (both are scored; the first was frozen in M1).
+- The formula at 240 cells cannot be evaluated (my stepper counts faces of at most 127 cells); M3's 48.40 ± 0.25 stands.
