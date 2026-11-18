@@ -22,3 +22,4 @@ window is not listed by the reading on this plan. Weekly windows reset 2026-11-1
 | 2026-11-18 08:48 | not listed | 93% | 99% (verify7.py objects7.json --maxL 260 rerun by this session: ALL PASS, 52 min) |
 | 2026-11-18 08:52 | not listed | 94% | 99% (all three Opus subagents finished: dying2, dying2/hull, signals push 7; the two chains continue) |
 | 2026-11-18 12:02 | not listed | 5% | 9% (after the weekly reset; chain 3 ended, chain 4 starting) |
+| 2026-11-18 12:07 | not listed | 5% | 10% (chain 4 started on the card; the hourly push loop ended) |
