@@ -51,3 +51,23 @@ action of 0.2104 per cell (empirical tails) and 0.188 (Gaussian) against ln τ/A
     per cell; P = 60%. Gaussian version 0.185–0.195: P = 60%.
 12. **Launch hump** at 63, 75, 84 cells and on the tubes: mean launch 0.74 ± 0.015 of A everywhere (no drift with
     A, none between tube and torus beyond 0.01): P = 60%.
+
+## Scored (04:28 UTC; numbers and commands in README.md)
+
+| # | forecast | measured | |
+|---|---|---|---|
+| 1 | mean peak (largest population in the 30 generations before the end, deaths with peak ≥ 0.68·A) 0.77 ± 0.02 at every size, moving by under 0.02 | 0.756, 0.751, 0.758 at 48, 63, 84 cells (92% of deaths); the launch (the definition I then used) 0.738, 0.738, 0.739 | hit |
+| 2 | I_up(θ*) 0.090 ± 0.015 (43%), J 0.119 ± 0.02 (57%); I_up share in 33–53%; sum within 0.015 of 0.2087 | 0.078 (37%), 0.132 (63%); sum 0.2099 | shares inside my interval, both point values at the edge of their errors: hit on the interval, sum hit |
+| 3 | clone sum rule within 25% at 48 and 63 cells; under 3 effective clones of 64 | within 1% ± 7% and 3% ± 17%; 1.6–2.8 of 16 (2.3 of 64 in the test) | hit |
+| 4 | bias of the flip under 0.3 cells at lag 4 | 0.014 cells | hit |
+| 5 | the tube's ν at the saddle within 10% of the torus's; more than half of the discount in d; variance per cell 2–6% larger on tubes and growing with length | ν +1.8%; ν-part 0.003–0.014 of 0.221; variance +5.4%, but *falling* slowly with length (0.4049, 0.4026, 0.4022) | first two hit, "growing with length" wrong |
+| 6 | slope of the map at the fixed point between −0.5 and −0.9; Gaussian one-variable action within 20% of 0.2087 (I gave 35%) | slope −0.08 to −0.11: the face does not breathe; action 0.188–0.197 (within 10%) | slope: miss; action: it was within 20% |
+| 7 | one-variable chain's lifetime within 0.3 | void: any chain built on the run's own counts reproduces the rate by flux balance. The real test (placement of launches) the one-variable chain fails: launches at 0.65–0.68 instead of 0.738 | void |
+| 8 | hull bust share at 84 cells below 1.6% | not measured at 84; 1.55 ± 0.05% at 45 and 1.40 ± 0.24% at 63 | open |
+| 9 | 120-cell tube 24.56 ± 0.04 | not known to me | open |
+| 10 | at 108 cells the tube's ln ν exceeds the torus's by under half the discount | not run at 108 (dropped when `model` reported the tail from the card); at 84 cells: +0.018 of 0.221 | not scored at 108; the 84-cell answer is the same way |
+| 11 | one-variable action with measured tails at 63 cells 0.210 ± 0.004; Gaussian 0.185–0.195 | 0.2187; 0.1973 | both miss |
+| 12 | launch hump at 0.74 ± 0.015 everywhere, tube and torus within 0.01 | tori 0.733–0.739, tubes 0.728–0.734; difference 0.004–0.007 | hit |
+
+Seven hits or part-hits, four misses or part-misses, one void, three open. The misses that taught something: the
+face does not oscillate into its boom (6), and no one-variable map is the model (11).
