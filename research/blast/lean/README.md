@@ -18,7 +18,8 @@ program outside Lean becomes a theorem once Lean has checked its certificate.
 
 ## What is checked now
 
-`sh research/blast/lean/check.sh` (about 10 seconds; `--long` adds the 4,218-generation log).
+`sh research/blast/lean/check.sh` (about 10 seconds; `--long` adds the 4,218-generation log). The Mathlib package:
+`cd research/blast/lean/mathlib && lake exe cache get && lake build` (Mathlib v4.36.0; the cache is 7 GB on disk).
 
 | statement (`docs/AUTOMATON.md`) | Lean name | file |
 |---|---|---|
@@ -32,6 +33,8 @@ program outside Lean becomes a theorem once Lean has checked its certificate.
 | **T3**, firewall: three dead layers stay dead | `firewall` | `Gump/Sealed.lean` |
 | **T3**, second half: the two sides never influence each other again | `firewall_separates` | `Gump/Sealed.lean` |
 | **T4**, a pattern in the layers A ≤ s ≤ B stays in them | `slab_closed` | `Gump/Sealed.lean` |
+
+| Upper and lower certificates for a killed finite Markov chain: Q ≥ 0 and Qv ≤ λv give Qᵗv ≤ λᵗv and survival ≤ c·λᵗ·v; Qv ≥ μv gives survival ≥ μᵗ·v/C (first step of line 3 of the climb) | `pow_mulVec_le`, `le_pow_mulVec`, `survival_le`, `survival_ge` | `mathlib/GumpMath/Certificate.lean` |
 
 All **[proved, machine-checked]**; axioms: `propext`, `Classical.choice`, `Quot.sound` only (`Axioms.lean`).
 T2 and T3 are proved here as two instances of one lemma (a dead sealed set stays dead), which is how T6 says they
