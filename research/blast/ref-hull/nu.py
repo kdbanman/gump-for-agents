@@ -148,3 +148,19 @@ for p in PS:
         if v is None: continue
         q = rim[3][i]; out.append(f"R {R}: measured - quadratic = {v[0] - q[0]:+.4f} +- {math.hypot(q[1], v[1]):.4f}")
     print(f" p = {p}: chi2 {rim[2]:.1f} on 1; " + ";  ".join(out))
+
+print("\nPART H: is the change of curvature an artefact of interpolating ln nu linearly between integer levels? The same second differences")
+print("        with a three-point (quadratic) interpolation in the level, at p = 0.6, 0.5 and at fixed density 0.30, 0.28")
+def lnnu3(R, L):
+    I = info[R]; m = int(round(L))
+    if m - 1 < 0 or m + 1 >= len(I["nu"]) or I["cnt"][m - 1] < 20: return None
+    y = [math.log(I["nu"][m + d]) for d in (-1, 0, 1)]; t = L - m
+    v = y[1] + t * (y[2] - y[0]) / 2 + t * t * (y[2] - 2 * y[1] + y[0]) / 2
+    return v, max(I["err"][m - 1], I["err"][m], I["err"][m + 1])
+for name, lev in (("p = 0.6", lambda R: 0.6 * info[R]["pbar"]), ("p = 0.5", lambda R: 0.5 * info[R]["pbar"]),
+                  ("x = 0.30", lambda R: 0.30 * Aof(R)), ("x = 0.28", lambda R: 0.28 * Aof(R))):
+    for label, fn in (("linear", lambda R, L: lnnu(R, L)), ("3-point", lnnu3)):
+        v = [(R, fn(R, lev(R))) for R in Rs]; v = [(R, x) for R, x in v if x is not None]
+        print(f" {name} {label}: values " + " ".join(f"{x[0]:.4f}" for _, x in v))
+        print("      second differences (centred on R = 11 ...): " + "  ".join(
+            f"{v[i + 2][1][0] - 2 * v[i + 1][1][0] + v[i][1][0]:+.4f}+-{math.sqrt(v[i + 2][1][1] ** 2 + 4 * v[i + 1][1][1] ** 2 + v[i][1][1] ** 2):.4f}" for i in range(len(v) - 2)))

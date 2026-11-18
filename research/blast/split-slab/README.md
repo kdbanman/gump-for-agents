@@ -366,6 +366,34 @@ offset d = dice chain - gump, weighted mean over the tubes of 84, 96, 108 cells:
 - The early 48-cell table of section 3(b) predates the first commit of `ss.c`; the 63-cell rows are from the
   committed code.
 
+## 9. Does a long tube stop busting, or stop busting all at once? (the PI's follow-up, 04:45 UTC)
+
+Asked after sections 1-8 were written. The stored paths held populations only, so the dying paths were
+regenerated with every face cell recorded for the last 16 generations: the subset sampler on the dice chain
+(`python3 run_sub.py H K D NREP 5 cells` -> `G/cells/cells_H_K_D_s5.txt`, the first 8 dying chains of each of the
+8 batches of every replication; these replications also enter the table of section 6), natural deaths of gump
+itself at 48, 63 and 84 cells (`ss_lag G/g.bin lag 5 GENS - G/cells/gump_H_K_D.txt`), and, as the null, 16-generation
+windows of LIVING gump faces (`ss_lag G/g.bin lag 8 80000 - - G/cells/null_H_K_D.txt`, one window every 256
+generations). All as launched: `chain_cells.sh`, `chain_null.sh`. The cell files are bulk (scratch, git-ignored).
+
+    python3 sections.py H K D G/cells/FILE      # one torus, everything;  python3 sec_table.py: the tables below
+    (full output for every torus: data/sections_full.txt)
+
+**Definitions** (fixed in `sections.py` and committed, 18812e7, before I read the PI's forecast, block 3 of
+`research/blast/PREDICTIONS.md`; table 9e was added after). A *ring* is the set of face cells at one position
+along the axis perpendicular to the shortest loop (6 cells, every 0.5 lattice units on these tubes). *Sections*
+are contiguous blocks of rings: about 4 rings = 2 lattice units = 24 cells (4 sections of 21 cells at 84 cells, 4
+of 24-30 at 108, then 5, 6, 8 sections of 24), or the two halves; on the tori (H,0),(0,D) halves and quarters are
+cut along the two periods. The *crash* of a section (or of the face) is its largest one-generation fall in the last
+16 generations (ties: nearest the death); *before* and *after* are the section's population at the two ends of
+that fall as fractions of its size; *half-fall*: before - after >= 0.5; *local bust*: before >= 0.68 and a
+half-fall. Shares are per replication (or per natural death, or per null window) first; mean ± standard error.
+
+<!-- SEC9-TABLES-BEGIN -->
+<!-- SEC9-TABLES-END -->
+
+SEC9-CONCLUSIONS
+
 ## Files
 
 `geom.py` (graph, numpy stepper), `ss.c` (stepper; modes `dump`, `plain`, `ffs`, `lag`, `sub`), `validate.py`,

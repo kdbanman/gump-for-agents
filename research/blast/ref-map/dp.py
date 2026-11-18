@@ -6,6 +6,7 @@ Modes (how drift and covariance are defined where the tally is thin, n < nmin):
   nearest  every cell is a state; a thin cell copies drift (mean - position) and covariance of the nearest measured cell
   poly2/3  thin cells take a weighted polynomial fit (degree 2/3 in the fillings; weights min(n,1e4)) of drift/A and cov/A
   carry    thin cells take another size's map at equal fillings (bilinear), then nearest
+  carryabs thin cells take another size's map at equal absolute P and equal filling of B, then nearest
 Death: P' < 0.5 (rounded to 0). Start: the mode of the living histogram."""
 import sys, numpy as np
 
@@ -52,6 +53,11 @@ def build(m, mode='visited', nmin=200, src=None):
                 val = (Fs[i0, j0] * ((1 - fx) * (1 - fb))[..., None] + Fs[i0 + 1, j0] * (fx * (1 - fb))[..., None]
                        + Fs[i0, j0 + 1] * ((1 - fx) * fb)[..., None] + Fs[i0 + 1, j0 + 1] * (fx * fb)[..., None])
                 use = thin & good; F[use] = val[use]; ok = ok | use; thin = sel & ~ok
+            if mode == 'carryabs':     # thin cells: another size's map at equal ABSOLUTE P and equal filling of B
+                Fs = src.fields(); oks = (src.n >= nmin) & (src.P >= 1)
+                i0 = np.clip(m.P, 0, src.A); j0 = np.clip(np.rint(m.B / m.nB * src.nB).astype(int), 0, src.nB)
+                r = src.A / m.A; val = Fs[i0, j0] * np.array([r, 1.0, r, 1.0, np.sqrt(r)])
+                use = thin & oks[i0, j0] & (m.P <= src.A); F[use] = val[use]; ok = ok | use; thin = sel & ~ok
             src_p = np.argwhere(ok); th = np.argwhere(thin)
             for c0 in range(0, len(th), 512):
                 c = th[c0:c0 + 512]

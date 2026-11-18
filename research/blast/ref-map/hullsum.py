@@ -5,7 +5,7 @@ under several extrapolation rules and both definitions of B; per-cell price from
 import sys, os, numpy as np
 from dp import Map, build, chain
 SCR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'scratch', 'blast', 'ref-map')
-confs = sys.argv[1:] or ['visited:200', 'visited:50', 'visited:1000', 'nearest:200', 'poly2:200', 'poly3:200', 'carry:200']
+confs = sys.argv[1:] or ['visited:200', 'visited:50', 'visited:1000', 'nearest:200', 'poly2:200', 'poly3:200', 'carry:200', 'carryabs:200', 'carry:2000']
 def fit3(v):   # v at k=5,6,7 (A=45,63,84): v = a + c*A + b*k
     c = (v[2] - 2 * v[1] + v[0]) / 3; b = (v[1] - v[0]) - 18 * c; a = v[0] - 45 * c - 5 * b
     return a, c, b
@@ -21,8 +21,8 @@ for d in (0, 1):
     for cf in confs:
         mode, nmin = cf.split(':'); nmin = int(nmin); Sv = []; Tv = []; routes = []
         for k, m in enumerate(maps):
-            src = maps[k - 1] if (mode == 'carry' and k > 0) else None
-            r = chain(m, *build(m, mode if (mode != 'carry' or k > 0) else 'nearest', nmin, src))
+            src = maps[k - 1] if (mode.startswith('carry') and k > 0) else None
+            r = chain(m, *build(m, mode if (not mode.startswith('carry') or k > 0) else 'nearest', nmin, src))
             Sv.append(r['S']); Tv.append(r['lntau']); routes.append(r)
         print(f"d={d} {cf:13s} S      %7.3f %7.3f %7.3f | S/A %.4f %.4f %.4f | d1 %.4f %.4f | a %.2f c %.4f b %+.3f" %
               (*Sv, Sv[0]/45, Sv[1]/63, Sv[2]/84, (Sv[1]-Sv[0])/18, (Sv[2]-Sv[1])/21, *fit3(Sv)))

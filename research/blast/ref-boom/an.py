@@ -67,7 +67,7 @@ def at(arr, x, how, w=None, A=None):
         return (1 - f) * arr[i] + f * arr[i + 1]
     if how == 'quad':   # weighted quadratic in p over 0.62 A .. 0.88 A
         p = np.arange(len(arr)); ok = np.isfinite(arr) & (p >= 0.62 * A) & (p <= 0.88 * A) & (w > 4)
-        co = np.polyfit(p[ok], arr[ok], 2, w=np.sqrt(w[ok]))
+        co = np.polyfit(p[ok], arr[ok], 2, w=np.sqrt(np.minimum(w[ok], 1e4)))   # Poisson weights, capped (ln nu: uniform)
         return np.polyval(co, x)
 
 
