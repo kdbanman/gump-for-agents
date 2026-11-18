@@ -1,0 +1,2 @@
+== hull_5 A 18 (simulation only)
+MC (independent simulation, deaths after 40 generations from a fair start): deaths 300785  halffall6 share 0.0028 +- 0.0001  lntau 4.2293 +- 0.0018

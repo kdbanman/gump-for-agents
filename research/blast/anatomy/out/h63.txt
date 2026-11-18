@@ -1,0 +1,40 @@
+== hull_11 / h63: 7390 deaths recorded; ln tau_face = 13.6205 +- 0.0116; lives ended W 0, S 0; deaths with a transverse firewall present 0
+cells used in the fits (stationary occupancy >= 0.4): 54 of 63
+generations from the last time P >= 30 to the death: percentiles 10/25/50/75/90 = 5 7 10 13 16   (not within 128: 0.000)
+generations from the last time P >= 16 to the death: percentiles 10/25/50/75/90 = 4 5 7 9 12   (not within 128: 0.000)
+generations from the last time P >=  8 to the death: percentiles 10/25/50/75/90 = 3 3 5 7 9   (not within 128: 0.000)
+spread of T over the cells of one death (cells used in the fits; standard deviation, generations): percentiles = 2.03 2.54 3.28 4.29 5.41; range max-min: 10 12 15 19 24; mean T -8.30; cells not alive within 128: 0.0009
+-- field T: plane beats 95% of shuffles in 0.767 of deaths; median R2 0.241 (shuffles 0.037); speed 1/|g| among those, percentiles: 0.304 0.413 0.596 0.853 1.16 (all deaths: 0.325 0.466 0.725 1.26 2.17)
+   cone: hole-first (b>0) beats 95% in 0.743, remnant (b<0) in 0.770, either in 0.832; median R2 hole 0.233, remnant 0.255 (shuffle best 0.048); remnant fits better than plane in 0.498, hole better than plane in 0.413, remnant better than hole in 0.553; remnant speed pct: 0.25 0.334 0.489 0.706 0.965
+-- field T3: plane beats 95% of shuffles in 0.681 of deaths; median R2 0.181 (shuffles 0.038); speed 1/|g| among those, percentiles: 0.283 0.373 0.513 0.699 0.869 (all deaths: 0.313 0.436 0.678 1.12 2.02)
+   cone: hole-first (b>0) beats 95% in 0.682, remnant (b<0) in 0.651, either in 0.744; median R2 hole 0.197, remnant 0.178 (shuffle best 0.048); remnant fits better than plane in 0.401, hole better than plane in 0.532, remnant better than hole in 0.430; remnant speed pct: 0.236 0.31 0.435 0.593 0.757
+-- field TP: plane beats 95% of shuffles in 0.884 of deaths; median R2 0.403 (shuffles 0.038); speed 1/|g| among those, percentiles: 0.322 0.458 0.665 1.03 1.61 (all deaths: 0.335 0.479 0.74 1.28 2.22)
+   cone: hole-first (b>0) beats 95% in 0.833, remnant (b<0) in 0.936, either in 0.951; median R2 hole 0.325, remnant 0.461 (shuffle best 0.048); remnant fits better than plane in 0.681, hole better than plane in 0.223, remnant better than hole in 0.737; remnant speed pct: 0.255 0.35 0.516 0.806 1.27
+-- baseline (the same field 100 generations before the death, a living face): plane beats 95% of shuffles in 0.334
+-- lopsidedness of the living set at the last generation with P = p cells (1 = a random subset of the face):
+   p = 32: mean ratio 1.786, median 1.213, share above 3: 0.192   (3000 deaths)
+   p = 24: mean ratio 2.196, median 1.488, share above 3: 0.259   (2850 deaths)
+   p = 16: mean ratio 3.471, median 2.548, share above 3: 0.449   (982 deaths)
+   p =  8: mean ratio 4.212, median 3.514, share above 3: 0.550   (872 deaths)
+   p =  4: mean ratio 2.501, median 2.121, share above 3: 0.325   (1266 deaths)
+   p =  2: mean ratio 1.499, median 1.351, share above 3: 0.068   (1684 deaths)
+   the same ratio 110 generations before the death (living face): mean 1.713
+-- stationary occupancy of a face cell (mean over cells): 0.4961
+   class (sorted |coords|; first = depth from the rim line)  cells  occupancy  P(last cell here)  per cell/(1/A)  per unit occupancy  same, last 5 cells  mean T
+   (0, 0, 11)       3  0.1750  0.0070   0.147   0.416   1.358   -29.93
+   (0, 1, 10)       6  0.3027  0.0499   0.524   0.858   0.982   -23.37
+   (0, 2, 9)        6  0.5466  0.1346   1.413   1.283   1.260    -8.91
+   (0, 3, 8)        6  0.5591  0.1230   1.292   1.146   1.227    -8.52
+   (0, 4, 7)        6  0.5734  0.1174   1.233   1.066   1.011    -8.07
+   (0, 5, 6)        6  0.5768  0.1129   1.185   1.019   1.034    -8.03
+   (1, 2, 8)        6  0.5050  0.1065   1.118   1.099   1.047    -8.59
+   (1, 4, 6)        6  0.4937  0.0883   0.927   0.931   0.902    -8.21
+   (2, 2, 7)        3  0.5277  0.0472   0.991   0.931   0.933    -8.01
+   (2, 3, 6)        6  0.5211  0.0899   0.944   0.899   0.845    -8.08
+   (2, 4, 5)        6  0.5214  0.0831   0.872   0.830   0.763    -8.18
+   (3, 4, 4)        3  0.5156  0.0403   0.846   0.814   0.713    -8.24
+   corner (3 cells)          : cells   3  occupancy 0.1750  P(last cell) 0.0070 +- 0.0015  share by count 0.0476  by count x occupancy 0.0168  ratio 0.416  (last 5 cells: 1.358)  mean T -29.93
+   rim line, not corner (30) : cells  30  occupancy 0.5117  P(last cell) 0.5378 +- 0.0091  share by count 0.4762  by count x occupancy 0.4912  ratio 1.095  (last 5 cells: 1.113)  mean T -11.38
+   depth 1 (12)              : cells  12  occupancy 0.4993  P(last cell) 0.1948 +- 0.0072  share by count 0.1905  by count x occupancy 0.1917  ratio 1.016  (last 5 cells: 0.975)  mean T -8.40
+   depth 2 (15)              : cells  15  occupancy 0.5225  P(last cell) 0.2202 +- 0.0076  share by count 0.2381  by count x occupancy 0.2508  ratio 0.878  (last 5 cells: 0.830)  mean T -8.11
+   depth 3 (3)               : cells   3  occupancy 0.5156  P(last cell) 0.0403 +- 0.0036  share by count 0.0476  by count x occupancy 0.0495  ratio 0.814  (last 5 cells: 0.713)  mean T -8.24

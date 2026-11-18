@@ -1,0 +1,5 @@
+identical over 1200 generations on 3 lanes; N=3456 H=24; distinct states [1201, 1201, 1201]; final populations [1617, 1529, 1476]
+MISMATCH at generation 3 lane index 2 (/home/user/gump-for-agents/research/scratch/blast/holes/val_slab_neg.txt)
+identical over 1000 generations on 3 lanes; N=13530 H=64; distinct states [1001, 1001, 1001]; final populations [5929, 5871, 5857]
+MISMATCH at generation 7 lane index 1 (/home/user/gump-for-agents/research/scratch/blast/holes/val_hull29_neg.txt)
+identical over 1500 generations on 3 lanes; N=5346 H=48; distinct states [1501, 1501, 1501]; final populations [2363, 2385, 2419]

@@ -1,0 +1,31 @@
+t48 (A = 48): 75874303 steps from the box (25+-1, 20+-2); next mean (26.45, 22.18), var 15.21, 14.04, cov 4.42
+   landing (35,32) = fillings (0.729, 0.667), on the landing point: measured -ln 9.40 (6297 steps, +- 0.01), Gaussian 8.98, excess +0.42
+   landing (35,32) = fillings (0.729, 0.667), 3 x 3 round it: measured -ln 7.03 (67000 steps, +- 0.00), Gaussian 6.67, excess +0.36
+   landing (35,32) = fillings (0.729, 0.667), 5 x 5 round it: measured -ln 5.72 (248060 steps, +- 0.00), Gaussian 5.45, excess +0.27
+   landing (35,32) = fillings (0.729, 0.667), quadrant beyond it: measured -ln 8.03 (24783 steps, +- 0.01), Gaussian 7.34, excess +0.69
+t63 (A = 63): 244415926 steps from the box (33+-1, 26+-2); next mean (34.19, 28.81), var 20.78, 19.08, cov 6.36
+   landing (46,42) = fillings (0.730, 0.667), on the landing point: measured -ln 11.57 (2318 steps, +- 0.02), Gaussian 10.81, excess +0.76
+   landing (46,42) = fillings (0.730, 0.667), 3 x 3 round it: measured -ln 9.22 (24209 steps, +- 0.01), Gaussian 8.50, excess +0.72
+   landing (46,42) = fillings (0.730, 0.667), 5 x 5 round it: measured -ln 7.86 (94168 steps, +- 0.00), Gaussian 7.26, excess +0.60
+   landing (46,42) = fillings (0.730, 0.667), quadrant beyond it: measured -ln 10.21 (8978 steps, +- 0.01), Gaussian 9.10, excess +1.12
+t84 (A = 84): 119858297 steps from the box (44+-1, 35+-2); next mean (45.05, 37.98), var 28.82, 26.20, cov 9.02
+   landing (61,56) = fillings (0.726, 0.667), on the landing point: measured -ln 14.33 (72 steps, +- 0.12), Gaussian 13.14, excess +1.19
+   landing (61,56) = fillings (0.726, 0.667), 3 x 3 round it: measured -ln 12.06 (695 steps, +- 0.04), Gaussian 10.82, excess +1.24
+   landing (61,56) = fillings (0.726, 0.667), 5 x 5 round it: measured -ln 10.63 (2902 steps, +- 0.02), Gaussian 9.57, excess +1.06
+   landing (61,56) = fillings (0.726, 0.667), quadrant beyond it: measured -ln 13.00 (272 steps, +- 0.06), Gaussian 11.34, excess +1.65
+tube60 (A = 60): 128200188 steps from the box (31+-1, 25+-2); next mean (32.57, 27.47), var 20.14, 18.42, cov 6.24
+   landing (44,40) = fillings (0.733, 0.667), on the landing point: measured -ln 11.26 (1655 steps, +- 0.02), Gaussian 10.43, excess +0.82
+   landing (44,40) = fillings (0.733, 0.667), 3 x 3 round it: measured -ln 8.88 (17844 steps, +- 0.01), Gaussian 8.13, excess +0.75
+   landing (44,40) = fillings (0.733, 0.667), 5 x 5 round it: measured -ln 7.52 (69251 steps, +- 0.00), Gaussian 6.90, excess +0.63
+   landing (44,40) = fillings (0.733, 0.667), quadrant beyond it: measured -ln 9.91 (6366 steps, +- 0.01), Gaussian 8.71, excess +1.20
+tube84 (A = 84): 75989968 steps from the box (44+-1, 35+-2); next mean (45.02, 37.96), var 29.75, 26.83, cov 9.54
+   landing (61,56) = fillings (0.726, 0.667), on the landing point: measured -ln 14.51 (38 steps, +- 0.16), Gaussian 12.92, excess +1.59
+   landing (61,56) = fillings (0.726, 0.667), 3 x 3 round it: measured -ln 11.97 (482 steps, +- 0.05), Gaussian 10.61, excess +1.36
+   landing (61,56) = fillings (0.726, 0.667), 5 x 5 round it: measured -ln 10.55 (1985 steps, +- 0.02), Gaussian 9.37, excess +1.18
+   landing (61,56) = fillings (0.726, 0.667), quadrant beyond it: measured -ln 12.98 (176 steps, +- 0.08), Gaussian 11.07, excess +1.90
+== the jump's excess over the Gaussian (5 x 5 round the landing point; quadrant), and the minimum action with it
+   t48: excess +0.27 (5x5), +0.69 (quadrant); Gaussian S 7.78; with the measured jump 8.05 = 0.1676 per cell (5x5), 8.46 = 0.1763 (quadrant)
+   t63: excess +0.60 (5x5), +1.12 (quadrant); Gaussian S 10.05; with the measured jump 10.66 = 0.1692 per cell (5x5), 11.17 = 0.1773 (quadrant)
+   t84: excess +1.06 (5x5), +1.65 (quadrant); Gaussian S 13.65; with the measured jump 14.71 = 0.1751 per cell (5x5), 15.31 = 0.1822 (quadrant)
+   slope of the minimum action with the measured jump (5x5): 0.1856 per cell, intercept -0.93; between 63 and 84 alone: 0.1930; excess alone grows by 0.0215 per cell (63 to 84), 0.0223 (48 to 63)
+   slope of the minimum action with the measured jump (quadrant): 0.1906 per cell, intercept -0.74; between 63 and 84 alone: 0.1971; excess alone grows by 0.0256 per cell (63 to 84), 0.0286 (48 to 63)

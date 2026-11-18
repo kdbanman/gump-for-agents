@@ -1,0 +1,4 @@
+hull [3]: living baseline (6 transitions) 0.006333 ; P_mu(pop >= 7) = 0.1328 ; mean pop 4.521
+torus [1, 1, 3]: living baseline (6 transitions) 0.267530 ; P_mu(pop >= 7) = 0.1612 ; mean pop 4.822
+torus [1, 0, 3]: living baseline (6 transitions) 0.208879 ; P_mu(pop >= 7) = 0.0927 ; mean pop 4.093
+strip [1, 3]: living baseline (6 transitions) 0.002925 ; P_mu(pop >= 7) = 0.3577 ; mean pop 5.366

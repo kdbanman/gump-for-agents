@@ -1,0 +1,8 @@
+h7 d=0 visited:200: S of 12 redraws mean 6.278 sd 0.011 (min 6.258 max 6.297)
+h9 d=0 visited:200: S of 12 redraws mean 10.174 sd 0.009 (min 10.160 max 10.186)
+h11 d=0 visited:200: S of 12 redraws mean 14.596 sd 0.047 (min 14.513 max 14.674)
+c from second difference: 0.1750 sd 0.0187; b: +1.272 sd 0.287; first differences per cell 0.2598 sd 0.0009, 0.2456 sd 0.0028
+h7 d=1 visited:200: S of 12 redraws mean 6.126 sd 0.007 (min 6.116 max 6.140)
+h9 d=1 visited:200: S of 12 redraws mean 9.707 sd 0.009 (min 9.695 max 9.725)
+h11 d=1 visited:200: S of 12 redraws mean 13.778 sd 0.041 (min 13.698 max 13.833)
+c from second difference: 0.1637 sd 0.0152; b: +1.125 sd 0.234; first differences per cell 0.2387 sd 0.0009, 0.2262 sd 0.0023

@@ -1,0 +1,57 @@
+04:45:47 START WD=6 nice -n 10 ./ss_diag g_4_0_4.bin sub 7101 64 14 3 8 8 4 32 24 out/paths_48_s7101.txt 12 > out/sub_48_s7101.txt
+04:46:17 END
+04:46:17 START WD=6 nice -n 10 ./ss_diag g_1_4_21.bin sub 7102 48 20 3 8 10 4 32 24 out/paths_63_s7102.txt 12 > out/sub_63_s7102.txt
+04:46:55 END
+04:46:55 START WD=6 nice -n 10 ./ss_diag g_1_18_40.bin sub 7201 8 44 3 8 20 4 32 24 out/paths_120_s7201.txt 12 > out/sub_120_s7201.txt
+04:47:34 END
+04:47:34 START WD=6 nice -n 10 ./ss_diag g_1_18_40.bin sub 7202 8 44 3 8 20 4 32 24 out/paths_120_s7202.txt 12 > out/sub_120_s7202.txt
+04:48:21 END
+04:48:21 START WD=6 nice -n 10 ./ss_diag g_8_0_8.bin sub 7301 4 77 3 8 32 4 32 24 out/paths_192w_s7301.txt 12 > out/sub_192w_s7301.txt
+04:50:29 END
+04:50:29 START nice -n 10 ./dice r_4_0_4.graph brute 6 11 3000000 out/bpaths_dice_48.txt > out/brute_dice_48.txt
+04:50:45 END
+04:50:45 START nice -n 10 ./dice r_1_4_21.graph brute 6 12 8000000 out/bpaths_dice_63.txt > out/brute_dice_63.txt
+04:51:49 END
+04:51:49 START nice -n 10 ./dice r_4_0_4.graph brute 0 13 1500000 out/bpaths_gump_48.txt > out/brute_gump_48.txt
+04:51:59 END
+04:51:59 START nice -n 10 ./dice r_1_4_21.graph brute 0 14 3000000 out/bpaths_gump_63.txt > out/brute_gump_63.txt
+04:52:27 END
+04:52:27 START nice -n 10 ./dice r_1_8_20.graph brute 6 15 2500000 out/bpaths_dice_60t.txt > out/brute_dice_60t.txt
+04:52:49 END
+04:52:49 START nice -n 10 ./dice r_1_8_20.graph brute 0 16 1500000 out/bpaths_gump_60t.txt > out/brute_gump_60t.txt
+04:53:04 END
+04:53:04 START nice -n 10 ./dice r_1_12_28.graph brute 6 17 20000000 out/bpaths_dice_84t.txt > out/brute_dice_84t.txt
+04:56:57 END
+04:56:57 START WD=6 nice -n 10 ./ss_diag g_1_4_21.bin sub 7103 64 20 3 8 10 4 32 24 out/paths_63_s7103.txt 12 > out/sub_63_s7103.txt
+04:57:54 END
+04:57:54 START WD=6 nice -n 10 ./ss_diag g_4_0_4.bin sub 7104 64 14 3 8 8 4 32 24 - 12 > out/sub_48_s7104.txt
+04:58:21 END
+04:58:21 START WD=6 nice -n 10 ./ss_diag2 g_1_18_40.bin sub 7250 2 44 3 8 20 4 32 24 - 12 > out/diag2_120_s7250.txt
+04:58:32 END
+04:58:32 START WD=6 nice -n 10 ./ss_diag2 g_1_4_21.bin sub 7150 4 20 3 8 10 4 32 24 - 12 > out/diag2_63_s7150.txt
+04:58:36 END
+04:58:36 START WD=6 nice -n 10 ./ss_diag g_1_18_40.bin sub 7260 6 44 3 32 20 4 32 24 out/paths_120big_s7260.txt 12 > out/sub_120big_s7260.txt
+05:00:58 END
+05:00:58 START CAP=5000 nice -n 10 ./dice r_4_0_4.graph brute 6 21 3000000 > out/brute_dice_48_cap5000.txt
+05:01:18 END
+05:01:18 START WD=6 nice -n 10 ./ss_diag g_1_18_40.bin sub 7203 8 44 3 8 20 4 32 24 out/paths_120_s7203.txt 12 > out/sub_120_s7203.txt
+05:02:07 END
+05:02:07 START WD=6 nice -n 10 ./ss_diag g_4_0_4.bin sub 7190 3000 0 3 8 0 4 32 24 - 12 > out/sub_48_direct.txt
+05:02:33 END
+05:02:33 START WD=6 nice -n 10 ./ss_diag g_1_18_40.bin sub 7204 8 44 3 8 20 4 32 24 out/paths_120_s7204.txt 12 > out/sub_120_s7204.txt
+05:03:09 END
+05:03:09 START WD=6 nice -n 10 ./ss_diag g_1_30_64.bin sub 7401 4 77 3 8 32 4 32 24 out/paths_192t_s7401.txt 12 > out/sub_192t_s7401.txt
+05:04:42 END
+05:04:42 START ./direct48.sh
+05:05:14 END
+05:05:14 START WD=6 nice -n 10 ./ss_diag g_1_18_40.bin sub 7205 8 44 3 8 20 4 32 24 out/paths_120_s7205.txt 12 > out/sub_120_s7205.txt
+05:05:48 END
+05:05:48 START WD=6 nice -n 10 ./ss_diag g_4_0_4.bin sub 7105 256 14 3 8 8 4 32 24 - 12 > out/sub_48_s7105.txt
+05:07:04 END
+05:07:04 START WD=6 nice -n 10 ./ss_diag g_8_0_8.bin sub 7302 4 77 3 8 32 4 32 24 out/paths_192w_s7302.txt 12 > out/sub_192w_s7302.txt
+05:08:41 END
+05:08:41 START WD=6 nice -n 10 ./ss_diag g_1_18_40.bin sub 7206 8 44 3 8 20 4 32 24 out/paths_120_s7206.txt 12 > out/sub_120_s7206.txt
+05:09:20 END
+05:09:20 START WD=6 nice -n 10 ./ss_diag g_1_30_64.bin sub 7402 4 77 3 8 32 4 32 24 out/paths_192t_s7402.txt 12 > out/sub_192t_s7402.txt
+05:10:50 END
+05:16:04 done 7106 (48 cells, 512 replications, run directly)

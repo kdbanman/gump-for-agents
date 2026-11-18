@@ -1,0 +1,49 @@
+
+**Tube (1,22),(0,48), 144 cells, 12 lattice units long, 10 replications.**
+
+Neighbouring sections, both sections with a half-fall:
+
+| section | cells | sections on the tube | share of sections with a half-fall | P1 = P(neighbours crash in the same generation) | discount per cell = -ln P1 / cells | ring-corrected ln lam1 / cells (W = 3) | P2 measured | P2 chain (W = 3) | P3 measured | P3 chain | P4 measured | P4 chain | xi of the chain (units) | W from the far plateau |
+|---|---:|---:|---:|---|---|---:|---|---:|---|---:|---|---:|---:|---:|
+| 1 unit | 12 | 12 | 0.64 | 0.794 ± 0.018 | 0.0192 ± 0.0019 | 0.0200 | 0.677 ± 0.028 | 0.656 | 0.611 ± 0.038 | 0.566 | 0.575 ± 0.046 | 0.510 | 2.6 | 1.9 (P = 0.54 at 6 units) |
+| 2 units | 24 | 6 | 0.54 | 0.839 ± 0.025 | 0.0073 ± 0.0013 | 0.0103 | 0.705 ± 0.053 | 0.752 | 0.644 ± 0.064 | 0.725 |  |  | 5.0 | 1.6 (P = 0.64 at 6 units) |
+| 3 units | 36 | 4 | 0.49 | 0.865 ± 0.027 | 0.0040 ± 0.0009 | 0.0077 | 0.719 ± 0.064 | 0.823 |  |  |  |  | 6.6 | 1.4 (P = 0.72 at 6 units) |
+| 4 units | 48 | 3 | 0.45 | 0.873 ± 0.032 | 0.0028 ± 0.0008 | 0.0067 |  |  |  |  |  |  | 7.6 | 1.1 (P = 0.87 at 4 units) |
+
+Neighbouring sections, all sections:
+
+| section | cells | sections on the tube | share of sections with a half-fall | P1 = P(neighbours crash in the same generation) | discount per cell = -ln P1 / cells | ring-corrected ln lam1 / cells (W = 3) | P2 measured | P2 chain (W = 3) | P3 measured | P3 chain | P4 measured | P4 chain | xi of the chain (units) | W from the far plateau |
+|---|---:|---:|---:|---|---|---:|---|---:|---|---:|---|---:|---:|---:|
+| 1 unit | 12 | 12 | 0.64 | 0.605 ± 0.020 | 0.0418 ± 0.0027 | 0.0418 | 0.524 ± 0.025 | 0.444 | 0.484 ± 0.032 | 0.379 | 0.447 ± 0.038 | 0.352 | 1.1 | 2.3 (P = 0.43 at 6 units) |
+| 2 units | 24 | 6 | 0.54 | 0.676 ± 0.030 | 0.0163 ± 0.0018 | 0.0174 | 0.576 ± 0.046 | 0.532 | 0.551 ± 0.049 | 0.492 |  |  | 2.8 | 1.8 (P = 0.55 at 6 units) |
+| 3 units | 36 | 4 | 0.49 | 0.700 ± 0.040 | 0.0099 ± 0.0016 | 0.0125 | 0.625 ± 0.052 | 0.617 |  |  |  |  | 3.8 | 1.6 (P = 0.62 at 6 units) |
+| 4 units | 48 | 3 | 0.45 | 0.686 ± 0.046 | 0.0078 ± 0.0014 | 0.0110 |  |  |  |  |  |  | 4.2 | 1.5 (P = 0.69 at 4 units) |
+
+
+**Tube (1,30),(0,64), 192 cells, 16 lattice units long, 10 replications.**
+
+Neighbouring sections, both sections with a half-fall:
+
+| section | cells | sections on the tube | share of sections with a half-fall | P1 = P(neighbours crash in the same generation) | discount per cell = -ln P1 / cells | ring-corrected ln lam1 / cells (W = 3) | P2 measured | P2 chain (W = 3) | P3 measured | P3 chain | P4 measured | P4 chain | xi of the chain (units) | W from the far plateau |
+|---|---:|---:|---:|---|---|---:|---|---:|---|---:|---|---:|---:|---:|
+| 1 unit | 12 | 16 | 0.60 | 0.748 ± 0.019 | 0.0241 ± 0.0021 | 0.0242 | 0.528 ± 0.034 | 0.592 | 0.409 ± 0.037 | 0.495 | 0.312 ± 0.047 | 0.436 | 2.1 | 4.4 (P = 0.23 at 8 units) |
+| 2 units | 24 | 8 | 0.48 | 0.721 ± 0.037 | 0.0136 ± 0.0021 | 0.0143 | 0.378 ± 0.067 | 0.570 | 0.275 ± 0.078 | 0.495 | 0.277 ± 0.072 | 0.473 | 3.5 | 3.6 (P = 0.28 at 8 units) |
+| 3 units | 36 | 5 (+ remainder) | 0.39 | 0.628 ± 0.074 | 0.0129 ± 0.0033 | 0.0129 | 0.318 ± 0.088 | 0.464 | 0.288 ± 0.081 | 0.391 | 0.505 ± 0.071 | 0.359 | 3.7 | 2.0 (P = 0.50 at 12 units) |
+| 4 units | 48 | 4 | 0.32 | 0.523 ± 0.089 | 0.0135 ± 0.0036 | 0.0141 | 0.348 ± 0.093 | 0.428 |  |  |  |  | 3.0 | 2.9 (P = 0.35 at 8 units) |
+
+Neighbouring sections, all sections:
+
+| section | cells | sections on the tube | share of sections with a half-fall | P1 = P(neighbours crash in the same generation) | discount per cell = -ln P1 / cells | ring-corrected ln lam1 / cells (W = 3) | P2 measured | P2 chain (W = 3) | P3 measured | P3 chain | P4 measured | P4 chain | xi of the chain (units) | W from the far plateau |
+|---|---:|---:|---:|---|---|---:|---|---:|---|---:|---|---:|---:|---:|
+| 1 unit | 12 | 16 | 0.60 | 0.531 ± 0.012 | 0.0527 ± 0.0019 | 0.0527 | 0.394 ± 0.022 | 0.392 | 0.318 ± 0.025 | 0.351 | 0.260 ± 0.029 | 0.339 | 0.8 | 5.1 (P = 0.20 at 8 units) |
+| 2 units | 24 | 8 | 0.48 | 0.514 ± 0.027 | 0.0277 ± 0.0022 | 0.0277 | 0.326 ± 0.043 | 0.383 | 0.247 ± 0.052 | 0.348 | 0.237 ± 0.053 | 0.341 | 1.5 | 4.2 (P = 0.24 at 8 units) |
+| 3 units | 36 | 5 (+ remainder) | 0.39 | 0.455 ± 0.044 | 0.0219 ± 0.0027 | 0.0219 | 0.266 ± 0.062 | 0.356 | 0.257 ± 0.061 | 0.337 | 0.369 ± 0.049 | 0.334 | 1.8 | 2.7 (P = 0.37 at 12 units) |
+| 4 units | 48 | 4 | 0.32 | 0.388 ± 0.054 | 0.0197 ± 0.0029 | 0.0197 | 0.270 ± 0.066 | 0.342 |  |  |  |  | 1.6 | 3.7 (P = 0.27 at 8 units) |
+
+
+**Wide tori cut into four quarters (every offset of the two cuts averaged): neighbouring quarters share an edge, diagonal ones a corner.**
+
+| torus | cells | cells per quarter | replications | P(same generation), neighbours, both with a half-fall | neighbours, all | diagonal, both | diagonal, all | -ln P1 / cells (both) | (all) |
+|---|---:|---:|---:|---|---|---|---|---|---|
+| (6,0),(0,6) | 108 | 27 | 16 | 0.976 ± 0.005 | 0.854 ± 0.015 | 0.971 ± 0.006 | 0.853 ± 0.016 | 0.0009 ± 0.0002 | 0.0059 ± 0.0006 |
+| (8,0),(0,8) | 192 | 48 | 6 | 0.998 ± 0.002 | 0.933 ± 0.036 | 1.000 ± 0.000 | 0.933 ± 0.036 | 0.0000 ± 0.0000 | 0.0014 ± 0.0008 |

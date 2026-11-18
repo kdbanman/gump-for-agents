@@ -1,0 +1,10 @@
+# trunc tet 9 0 seed 77: N 990, cells/face 135, layers from a face to the opposite extreme 18
+TRUNC tet 9 gen      50 lanes with no face yet empty  512: layers shaved off opposite a face: mean 3.34 (least 2.10, most 4.39 of the 4); face population 58.30
+TRUNC tet 9 gen     100 lanes with no face yet empty  512: layers shaved off opposite a face: mean 4.12 (least 3.21, most 5.04 of the 4); face population 54.42
+TRUNC tet 9 gen     200 lanes with no face yet empty  512: layers shaved off opposite a face: mean 4.80 (least 3.95, most 5.73 of the 4); face population 49.79
+TRUNC tet 9 gen     400 lanes with no face yet empty  512: layers shaved off opposite a face: mean 5.48 (least 4.52, most 6.18 of the 4); face population 44.83
+TRUNC tet 9 gen     800 lanes with no face yet empty  512: layers shaved off opposite a face: mean 6.10 (least 5.62, most 6.69 of the 4); face population 39.70
+TRUNC tet 9 gen    1600 lanes with no face yet empty  511: layers shaved off opposite a face: mean 6.56 (least 5.96, most 7.37 of the 4); face population 35.45
+TRUNC tet 9 gen    3200 lanes with no face yet empty  496: layers shaved off opposite a face: mean 7.15 (least 6.22, most 7.96 of the 4); face population 29.51
+TRUNC tet 9 gen    6400 lanes with no face yet empty  310: layers shaved off opposite a face: mean 7.76 (least 7.05, most 8.23 of the 4); face population 23.68
+TRUNC tet 9 gen   12800 lanes with no face yet empty   46: layers shaved off opposite a face: mean 7.96 (least 7.26, most 8.48 of the 4); face population 20.77

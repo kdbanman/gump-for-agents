@@ -1,0 +1,16 @@
+R 11 lane 0: 1200 generations identical to the oracle, state for state; N=876 pop first/min/last 425/309/415
+R 11 lane 97: 1200 generations identical to the oracle, state for state; N=876 pop first/min/last 418/330/411
+R 11 lane 255: 1200 generations identical to the oracle, state for state; N=876 pop first/min/last 378/315/355
+VALIDATION PASSED (R=11, seed=1, gens=1200, neg=0)
+R 15 lane 0: 1200 generations identical to the oracle, state for state; N=2064 pop first/min/last 978/738/874
+R 15 lane 97: 1200 generations identical to the oracle, state for state; N=2064 pop first/min/last 972/710/892
+R 15 lane 255: 1200 generations identical to the oracle, state for state; N=2064 pop first/min/last 926/738/958
+VALIDATION PASSED (R=15, seed=2, gens=1200, neg=0)
+R 11 lane 0: FIRST MISMATCH at generation 1 (oracle pop 425, rh pop 424)
+R 11 lane 97: FIRST MISMATCH at generation 1 (oracle pop 418, rh pop 417)
+R 11 lane 255: FIRST MISMATCH at generation 5 (oracle pop 386, rh pop 387)
+VALIDATION FAILED (R=11, seed=1, gens=1200, neg=1)
+R 15 lane 0: FIRST MISMATCH at generation 1 (oracle pop 978, rh pop 979)
+R 15 lane 97: FIRST MISMATCH at generation 1 (oracle pop 972, rh pop 973)
+R 15 lane 255: FIRST MISMATCH at generation 2 (oracle pop 738, rh pop 739)
+VALIDATION FAILED (R=15, seed=2, gens=1200, neg=1)

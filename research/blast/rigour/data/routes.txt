@@ -1,0 +1,45 @@
+== torus_1_1_3
+A 9 peakbits 16 iterations 76 rho1 0.440000 rho2 0.420000
+h 6.7567606407232e-02  check_h 6.7567606407208e-02  lntau 2.694626605943
+overfull_share thr 7 (0.7A)  K=2: 0.637214 (living 0.306443)  K=4: 0.878443 (living 0.517759)  K=6: 0.951549 (living 0.648120)  K=10: 0.984569 (living 0.800349)
+halffall_share (fall >= 5 cells in one generation)  K=1: 0.379678 (living 0.066095)  K=2: 0.638629 (living 0.118215)  K=4: 0.872226 (living 0.201944)  K=6: 0.936853 (living 0.267530)
+== hull_R3
+A 9 peakbits 13 iterations 64 rho1 0.440000 rho2 0.420000
+h 8.3432634405153e-02  check_h 8.3432634405136e-02  lntau 2.483715746333
+overfull_share thr 7 (0.7A)  K=2: 0.003529 (living 0.231925)  K=4: 0.091121 (living 0.412796)  K=6: 0.268772 (living 0.565052)  K=10: 0.593910 (living 0.770865)
+halffall_share (fall >= 5 cells in one generation)  K=1: 0.000324 (living 0.001568)  K=2: 0.002935 (living 0.003041)  K=4: 0.012103 (living 0.005069)  K=6: 0.017018 (living 0.006333)
+== torus_2_0_2
+A 12 peakbits 19 iterations 59 rho1 0.440000 rho2 0.420000
+h 1.8651353006078e-02  check_h 1.8651353006083e-02  lntau 3.981836588281
+overfull_share thr 9 (0.7A)  K=2: 0.214908 (living 0.172942)  K=4: 0.454898 (living 0.331441)  K=6: 0.612337 (living 0.460042)  K=10: 0.776120 (living 0.647577)
+halffall_share (fall >= 6 cells in one generation)  K=1: 0.098654 (living 0.036279)  K=2: 0.221218 (living 0.070918)  K=4: 0.442104 (living 0.135153)  K=6: 0.567517 (living 0.193123)
+== torus_1_1_4
+A 12 peakbits 20 iterations 50 rho1 0.440000 rho2 0.420000
+h 2.4432675106795e-02  check_h 2.4432675106798e-02  lntau 3.711833898815
+overfull_share thr 9 (0.7A)  K=2: 0.367282 (living 0.259891)  K=4: 0.672834 (living 0.477795)  K=6: 0.822816 (living 0.630903)  K=10: 0.932022 (living 0.815079)
+halffall_share (fall >= 6 cells in one generation)  K=1: 0.168442 (living 0.053549)  K=2: 0.369807 (living 0.103396)  K=4: 0.662052 (living 0.193604)  K=6: 0.790945 (living 0.271642)
+== torus_1_0_4
+A 12 peakbits 17 iterations 70 rho1 0.440000 rho2 0.420000
+h 1.6034503556443e-02  check_h 1.6034503556448e-02  lntau 4.133012406314
+overfull_share thr 9 (0.7A)  K=2: 0.184628 (living 0.121662)  K=4: 0.331760 (living 0.235966)  K=6: 0.438671 (living 0.336981)  K=10: 0.589548 (living 0.501966)
+halffall_share (fall >= 6 cells in one generation)  K=1: 0.108086 (living 0.030262)  K=2: 0.216281 (living 0.059253)  K=4: 0.363154 (living 0.114661)  K=6: 0.446610 (living 0.167139)
+== strip_2_2
+A 12 peakbits 17 iterations 73 rho1 0.440000 rho2 0.420000
+h 1.1228281095316e-02  check_h 1.1228281095312e-02  lntau 4.489319585588
+overfull_share thr 9 (0.7A)  K=2: 0.026875 (living 0.441697)  K=4: 0.218999 (living 0.669256)  K=6: 0.448950 (living 0.800210)  K=10: 0.763032 (living 0.925864)
+halffall_share (fall >= 6 cells in one generation)  K=1: 0.000857 (living 0.016353)  K=2: 0.027377 (living 0.032591)  K=4: 0.171672 (living 0.063119)  K=6: 0.287524 (living 0.090997)
+== patch_2_2
+A 12 peakbits 16 iterations 124 rho1 0.440000 rho2 0.420000
+h 3.3860751742025e-02  check_h 3.3860751741998e-02  lntau 3.385498701046
+overfull_share thr 9 (0.7A)  K=2: 0.001360 (living 0.322807)  K=4: 0.048878 (living 0.468306)  K=6: 0.169402 (living 0.579024)  K=10: 0.447693 (living 0.737121)
+halffall_share (fall >= 6 cells in one generation)  K=1: 0.000126 (living 0.001519)  K=2: 0.001632 (living 0.003037)  K=4: 0.011178 (living 0.005745)  K=6: 0.019558 (living 0.007993)
+== torus_1_1_5
+A 15 peakbits 23 iterations 43 rho1 0.440000 rho2 0.420000
+h 1.2435565327884e-02  check_h 1.2435565327882e-02  lntau 4.387194740124
+overfull_share thr 11 (0.7A)  K=2: 0.322393 (living 0.271126)  K=4: 0.680439 (living 0.497340)  K=6: 0.859276 (living 0.654751)  K=10: 0.965150 (living 0.837379)
+halffall_share (fall >= 8 cells in one generation)  K=1: 0.118624 (living 0.033419)  K=2: 0.322963 (living 0.064687)  K=4: 0.662912 (living 0.121307)  K=6: 0.817663 (living 0.171797)
+== hull_R5
+A 18 peakbits 24 iterations 99 rho1 0.440000 rho2 0.420000
+h 1.4528328690895e-02  check_h 1.4528328690884e-02  lntau 4.231654832731
+overfull_share thr 13 (0.7A)  K=2: 0.000105 (living 0.100716)  K=4: 0.007861 (living 0.175803)  K=6: 0.034952 (living 0.243487)  K=10: 0.135890 (living 0.363205)
+halffall_share (fall >= 9 cells in one generation)  K=1: 0.000001 (living 0.000167)  K=2: 0.000114 (living 0.000335)  K=4: 0.001523 (living 0.000648)  K=6: 0.002979 (living 0.000925)

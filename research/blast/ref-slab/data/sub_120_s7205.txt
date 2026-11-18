@@ -1,0 +1,34 @@
+# sub A 120 WD 6 LAM1 44 DELTA 3 chains 4096 NSWEEP 20 KFLIP 4 TPRE 32 TWIN 24
+REP 0 valid 4096 : 44:631 41:1537 38:1373 35:1241 32:1137 29:1147 26:975 23:964 20:1007 17:961 14:911 11:917 8:986 5:1049 2:1170 0:2403 rate 3.16092e-11 lntau 24.1776
+DIAG 0 dying 2403 distinct_ancestors_of_dying 32 | 44:anc631,u0.34,f0.47 41:anc600,u0.27,f0.45 38:anc510,u0.24,f0.43 35:anc429,u0.23,f0.42 32:anc349,u0.23,f0.42 29:anc287,u0.23,f0.42 26:anc226,u0.23,f0.42 23:anc168,u0.23,f0.42 20:anc140,u0.24,f0.42 17:anc116,u0.23,f0.42 14:anc100,u0.23,f0.43 11:anc79,u0.24,f0.44 8:anc60,u0.24,f0.47 5:anc46,u0.24,f0.51 2:anc36,u0.25,f0.57
+REP 1 valid 4096 : 44:613 41:1527 38:1370 35:1251 32:1167 29:1084 26:991 23:939 20:928 17:918 14:902 11:942 8:980 5:944 2:1020 0:2197 rate 1.88115e-11 lntau 24.6966
+DIAG 1 dying 2197 distinct_ancestors_of_dying 30 | 44:anc613,u0.34,f0.46 41:anc587,u0.27,f0.44 38:anc515,u0.23,f0.43 35:anc437,u0.22,f0.42 32:anc368,u0.22,f0.41 29:anc299,u0.22,f0.41 26:anc240,u0.21,f0.41 23:anc197,u0.21,f0.41 20:anc147,u0.21,f0.41 17:anc112,u0.21,f0.42 14:anc88,u0.20,f0.43 11:anc74,u0.21,f0.45 8:anc59,u0.20,f0.46 5:anc45,u0.20,f0.50 2:anc33,u0.21,f0.55
+REP 2 valid 4096 : 44:576 41:1580 38:1336 35:1218 32:1162 29:1049 26:1017 23:920 20:876 17:846 14:893 11:875 8:840 5:915 2:912 0:2266 rate 1.03120e-11 lntau 25.2977
+DIAG 2 dying 2266 distinct_ancestors_of_dying 35 | 44:anc576,u0.34,f0.47 41:anc563,u0.26,f0.44 38:anc500,u0.23,f0.43 35:anc434,u0.22,f0.42 32:anc348,u0.22,f0.41 29:anc286,u0.21,f0.41 26:anc234,u0.21,f0.41 23:anc184,u0.22,f0.41 20:anc156,u0.22,f0.41 17:anc122,u0.22,f0.43 14:anc95,u0.22,f0.44 11:anc73,u0.22,f0.45 8:anc57,u0.22,f0.46 5:anc46,u0.22,f0.49 2:anc37,u0.23,f0.57
+REP 3 valid 4096 : 44:620 41:1544 38:1460 35:1235 32:1102 29:1114 26:1009 23:973 20:986 17:922 14:871 11:915 8:853 5:968 2:1088 0:2351 rate 2.11306e-11 lntau 24.5803
+DIAG 3 dying 2351 distinct_ancestors_of_dying 38 | 44:anc620,u0.35,f0.47 41:anc590,u0.27,f0.44 38:anc538,u0.24,f0.43 35:anc438,u0.23,f0.42 32:anc348,u0.23,f0.42 29:anc278,u0.22,f0.42 26:anc230,u0.22,f0.41 23:anc194,u0.23,f0.41 20:anc157,u0.23,f0.42 17:anc125,u0.23,f0.42 14:anc99,u0.23,f0.43 11:anc80,u0.23,f0.44 8:anc69,u0.23,f0.47 5:anc53,u0.23,f0.51 2:anc41,u0.23,f0.57
+REP 4 valid 4096 : 44:625 41:1541 38:1468 35:1261 32:1133 29:1072 26:1099 23:1030 20:952 17:852 14:827 11:887 8:877 5:901 2:827 0:2339 rate 1.47972e-11 lntau 24.9366
+DIAG 4 dying 2339 distinct_ancestors_of_dying 39 | 44:anc625,u0.34,f0.46 41:anc586,u0.27,f0.45 38:anc529,u0.24,f0.44 35:anc424,u0.22,f0.42 32:anc337,u0.22,f0.42 29:anc284,u0.22,f0.41 26:anc225,u0.21,f0.42 23:anc185,u0.21,f0.41 20:anc156,u0.21,f0.42 17:anc123,u0.21,f0.42 14:anc106,u0.22,f0.43 11:anc83,u0.22,f0.44 8:anc64,u0.24,f0.46 5:anc54,u0.23,f0.48 2:anc41,u0.24,f0.56
+REP 5 valid 4096 : 44:654 41:1579 38:1366 35:1312 32:1219 29:1123 26:1092 23:1015 20:912 17:950 14:802 11:899 8:1015 5:1111 2:1130 0:2359 rate 3.50014e-11 lntau 24.0756
+DIAG 5 dying 2359 distinct_ancestors_of_dying 38 | 44:anc654,u0.34,f0.47 41:anc616,u0.26,f0.45 38:anc531,u0.23,f0.43 35:anc444,u0.22,f0.42 32:anc369,u0.21,f0.42 29:anc301,u0.21,f0.42 26:anc240,u0.21,f0.41 23:anc195,u0.21,f0.41 20:anc162,u0.21,f0.41 17:anc127,u0.21,f0.41 14:anc95,u0.22,f0.43 11:anc74,u0.22,f0.45 8:anc60,u0.23,f0.47 5:anc46,u0.23,f0.50 2:anc38,u0.25,f0.57
+REP 6 valid 4096 : 44:610 41:1552 38:1383 35:1267 32:1214 29:1170 26:1024 23:1024 20:934 17:948 14:932 11:906 8:957 5:842 2:982 0:2352 rate 2.28206e-11 lntau 24.5034
+DIAG 6 dying 2352 distinct_ancestors_of_dying 37 | 44:anc610,u0.34,f0.46 41:anc576,u0.27,f0.45 38:anc506,u0.24,f0.44 35:anc427,u0.23,f0.43 32:anc357,u0.22,f0.43 29:anc306,u0.22,f0.41 26:anc250,u0.22,f0.42 23:anc200,u0.22,f0.41 20:anc157,u0.23,f0.42 17:anc127,u0.23,f0.42 14:anc102,u0.25,f0.43 11:anc77,u0.25,f0.44 8:anc61,u0.26,f0.47 5:anc50,u0.26,f0.50 2:anc44,u0.26,f0.57
+REP 7 valid 4096 : 44:617 41:1572 38:1407 35:1231 32:1212 29:1071 26:1026 23:948 20:913 17:863 14:848 11:819 8:788 5:773 2:942 0:2021 rate 8.93411e-12 lntau 25.4411
+DIAG 7 dying 2021 distinct_ancestors_of_dying 37 | 44:anc617,u0.34,f0.47 41:anc587,u0.27,f0.45 38:anc514,u0.24,f0.44 35:anc430,u0.23,f0.42 32:anc371,u0.22,f0.42 29:anc303,u0.22,f0.41 26:anc243,u0.23,f0.41 23:anc202,u0.23,f0.41 20:anc158,u0.23,f0.41 17:anc122,u0.23,f0.42 14:anc94,u0.22,f0.42 11:anc75,u0.22,f0.43 8:anc64,u0.20,f0.45 5:anc50,u0.19,f0.49 2:anc40,u0.19,f0.54
+SUMMARY sub A 120 WD 6 reps 8 lntau 24.6142 +- 0.1619 (rel sd of one replication 0.458) acceptance 0.340
+LEVEL 0 lam 44 mean lnP -1.8914 (8 reps)
+LEVEL 1 lam 41 mean lnP -0.9693 (8 reps)
+LEVEL 2 lam 38 mean lnP -1.0773 (8 reps)
+LEVEL 3 lam 35 mean lnP -1.1855 (8 reps)
+LEVEL 4 lam 32 mean lnP -1.2551 (8 reps)
+LEVEL 5 lam 29 mean lnP -1.3119 (8 reps)
+LEVEL 6 lam 26 mean lnP -1.3821 (8 reps)
+LEVEL 7 lam 23 mean lnP -1.4345 (8 reps)
+LEVEL 8 lam 20 mean lnP -1.4744 (8 reps)
+LEVEL 9 lam 17 mean lnP -1.5083 (8 reps)
+LEVEL 10 lam 14 mean lnP -1.5467 (8 reps)
+LEVEL 11 lam 11 mean lnP -1.5217 (8 reps)
+LEVEL 12 lam 8 mean lnP -1.5058 (8 reps)
+LEVEL 13 lam 5 mean lnP -1.4800 (8 reps)
+LEVEL 14 lam 2 mean lnP -1.4071 (8 reps)
+LEVEL 15 lam 0 mean lnP -0.5846 (8 reps)

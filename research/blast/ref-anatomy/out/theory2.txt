@@ -1,0 +1,51 @@
+== tube against wide torus at the same size (each map at A = 60)
+[t63 map at A = 60] A = 60: 1644 states (n >= 200); living mode (31, 26), mean (30.90, 26.01); minimum action S = 9.672 = 0.1612 per cell; exact ln tau of the Gaussian chain = 12.927 = 0.2154 per cell
+    route (P, B): (31,26) -> (33,28) -> (32,24) -> (44,40) -> (15,7) -> (10,6) -> (6,6) -> (4,6) -> (3,7) -> (2,9) -> (1,11) -> empty
+    cost of each step: 0.02 0.16 5.62 1.31 1.21 0.56 0.40 0.05 0.09 0.21 0.04   (Gaussian mass sent outside the populated states, per step in the living state: 8.1e-05)
+    split: up to and including the fall 7.10 = 0.1184 per cell; after it 2.57 = 0.0428 per cell
+    hybrid (Gaussian map down to P <= 8, then the measured chance of death q(P) of this shape at 63 cells): 9.969 = 0.1662 per cell; route (31,26) -> (33,28) -> (32,24) -> (45,39) -> (14,9) -> (9,11) -> (7,14)
+    hybrid (Gaussian map down to P <= 12, then the measured chance of death q(P) of this shape at 63 cells): 10.196 = 0.1699 per cell; route (31,26) -> (33,28) -> (32,24) -> (43,38) -> (17,11) -> (13,13) -> (10,17)
+    hybrid (Gaussian map down to P <= 16, then the measured chance of death q(P) of this shape at 63 cells): 10.513 = 0.1752 per cell; route (31,26) -> (33,28) -> (32,24) -> (43,37) -> (17,13) -> (13,17)
+    hybrid (Gaussian map down to P <= 20, then the measured chance of death q(P) of this shape at 63 cells): 10.949 = 0.1825 per cell; route (31,26) -> (33,28) -> (32,25) -> (46,35) -> (14,16)
+[tube60 map at A = 60] A = 60: 1741 states (n >= 200); living mode (31, 26), mean (30.81, 25.97); minimum action S = 9.422 = 0.1570 per cell; exact ln tau of the Gaussian chain = 12.293 = 0.2049 per cell
+    route (P, B): (31,26) -> (34,29) -> (31,24) -> (43,41) -> (15,6) -> (9,6) -> (5,6) -> (4,7) -> (3,8) -> (2,10) -> (1,13) -> empty
+    cost of each step: 0.09 0.09 5.64 1.73 0.76 0.60 0.03 0.08 0.16 0.21 0.03   (Gaussian mass sent outside the populated states, per step in the living state: 6.0e-03)
+    split: up to and including the fall 7.55 = 0.1259 per cell; after it 1.87 = 0.0311 per cell
+    hybrid (Gaussian map down to P <= 8, then the measured chance of death q(P) of this shape at 63 cells): 9.727 = 0.1621 per cell; route (31,26) -> (33,29) -> (32,24) -> (45,39) -> (13,9) -> (9,11) -> (7,14)
+    hybrid (Gaussian map down to P <= 12, then the measured chance of death q(P) of this shape at 63 cells): 10.113 = 0.1686 per cell; route (31,26) -> (33,29) -> (32,24) -> (45,39) -> (14,10) -> (9,13)
+    hybrid (Gaussian map down to P <= 16, then the measured chance of death q(P) of this shape at 63 cells): 10.499 = 0.1750 per cell; route (31,26) -> (33,29) -> (32,24) -> (43,37) -> (17,12) -> (12,16)
+    hybrid (Gaussian map down to P <= 20, then the measured chance of death q(P) of this shape at 63 cells): 10.800 = 0.1800 per cell; route (31,26) -> (33,28) -> (32,25) -> (47,36) -> (12,14)
+== 84 cells: own map where populated, the 63-cell torus map elsewhere
+[t84 own map + t63 map below] A = 84: 3250 states (n >= 200); living mode (44, 37), mean (43.45, 36.50); minimum action S = 13.788 = 0.1641 per cell; exact ln tau of the Gaussian chain = 17.212 = 0.2049 per cell
+    route (P, B): (44,37) -> (46,39) -> (44,34) -> (61,56) -> (22,9) -> (15,9) -> (10,9) -> (6,9) -> (4,10) -> (3,12) -> (1,15) -> empty
+    cost of each step: 0.04 0.14 7.81 2.39 1.02 0.71 0.75 0.30 0.08 0.54 0.02   (Gaussian mass sent outside the populated states, per step in the living state: 2.2e-06)
+    split: up to and including the fall 10.37 = 0.1235 per cell; after it 3.41 = 0.0406 per cell
+    hybrid (Gaussian map down to P <= 8, then the measured chance of death q(P) of this shape at 63 cells): 13.867 = 0.1651 per cell; route (44,37) -> (46,39) -> (44,34) -> (62,54) -> (21,14) -> (14,14) -> (10,17) -> (8,22)
+    hybrid (Gaussian map down to P <= 12, then the measured chance of death q(P) of this shape at 63 cells): 13.982 = 0.1665 per cell; route (44,37) -> (46,39) -> (44,34) -> (62,54) -> (20,14) -> (14,17) -> (10,21)
+    hybrid (Gaussian map down to P <= 16, then the measured chance of death q(P) of this shape at 63 cells): 14.374 = 0.1711 per cell; route (44,37) -> (46,39) -> (44,34) -> (60,55) -> (23,13) -> (17,15) -> (12,20)
+    hybrid (Gaussian map down to P <= 20, then the measured chance of death q(P) of this shape at 63 cells): 14.744 = 0.1755 per cell; route (44,37) -> (46,39) -> (44,34) -> (62,54) -> (21,14) -> (13,17)
+[tube84 own map + tube60 map below] A = 84: 3270 states (n >= 200); living mode (44, 37), mean (43.27, 36.45); minimum action S = 13.327 = 0.1587 per cell; exact ln tau of the Gaussian chain = 16.612 = 0.1978 per cell
+    route (P, B): (44,37) -> (46,39) -> (44,34) -> (59,56) -> (24,9) -> (16,9) -> (10,9) -> (7,10) -> (5,11) -> (3,13) -> (2,17) -> (1,23) -> empty
+    cost of each step: 0.04 0.14 6.90 2.60 1.30 0.87 0.32 0.34 0.41 0.11 0.22 0.08   (Gaussian mass sent outside the populated states, per step in the living state: 3.2e-06)
+    split: up to and including the fall 9.68 = 0.1152 per cell; after it 3.65 = 0.0434 per cell
+    hybrid (Gaussian map down to P <= 8, then the measured chance of death q(P) of this shape at 63 cells): 13.634 = 0.1623 per cell; route (44,37) -> (46,39) -> (44,34) -> (63,55) -> (19,11) -> (12,13) -> (9,16) -> (7,21)
+    hybrid (Gaussian map down to P <= 12, then the measured chance of death q(P) of this shape at 63 cells): 13.893 = 0.1654 per cell; route (44,37) -> (46,39) -> (44,34) -> (63,54) -> (19,13) -> (13,16) -> (10,21)
+    hybrid (Gaussian map down to P <= 16, then the measured chance of death q(P) of this shape at 63 cells): 14.397 = 0.1714 per cell; route (44,37) -> (46,39) -> (44,34) -> (61,55) -> (22,12) -> (17,14) -> (11,18)
+    hybrid (Gaussian map down to P <= 20, then the measured chance of death q(P) of this shape at 63 cells): 14.867 = 0.1770 per cell; route (44,37) -> (46,39) -> (44,34) -> (63,53) -> (21,16) -> (15,21)
+[tube84 own map + t63 map below] A = 84: 3250 states (n >= 200); living mode (44, 37), mean (43.27, 36.45); minimum action S = 13.404 = 0.1596 per cell; exact ln tau of the Gaussian chain = 17.127 = 0.2039 per cell
+    route (P, B): (44,37) -> (46,39) -> (44,34) -> (59,56) -> (24,9) -> (16,9) -> (10,9) -> (6,9) -> (4,10) -> (3,12) -> (1,15) -> empty
+    cost of each step: 0.04 0.14 6.90 2.60 1.26 0.78 0.75 0.30 0.08 0.54 0.02   (Gaussian mass sent outside the populated states, per step in the living state: 3.0e-06)
+    split: up to and including the fall 9.68 = 0.1152 per cell; after it 3.72 = 0.0443 per cell
+    hybrid (Gaussian map down to P <= 8, then the measured chance of death q(P) of this shape at 63 cells): 13.693 = 0.1630 per cell; route (44,37) -> (46,39) -> (44,34) -> (62,56) -> (20,11) -> (13,12) -> (9,15) -> (7,19)
+    hybrid (Gaussian map down to P <= 12, then the measured chance of death q(P) of this shape at 63 cells): 13.938 = 0.1659 per cell; route (44,37) -> (46,39) -> (44,34) -> (63,54) -> (19,13) -> (13,15) -> (10,19)
+    hybrid (Gaussian map down to P <= 16, then the measured chance of death q(P) of this shape at 63 cells): 14.375 = 0.1711 per cell; route (44,37) -> (46,39) -> (44,34) -> (61,55) -> (22,12) -> (17,14) -> (11,18)
+    hybrid (Gaussian map down to P <= 20, then the measured chance of death q(P) of this shape at 63 cells): 14.813 = 0.1763 per cell; route (44,37) -> (46,39) -> (44,34) -> (63,53) -> (21,16) -> (15,21)
+== 48 cells: own map in the living and over-full cells (x >= 0.35), the 63-cell torus map below (settled replicas spoil the low cells of t48)
+[t48 own map (P >= 17) + t63 map below] A = 48: 1185 states (n >= 200); living mode (25, 21), mean (24.66, 20.75); minimum action S = 7.641 = 0.1592 per cell; exact ln tau of the Gaussian chain = 10.570 = 0.2202 per cell
+    route (P, B): (25,21) -> (27,23) -> (25,19) -> (35,32) -> (12,5) -> (8,5) -> (5,5) -> (3,6) -> (2,7) -> (1,9) -> empty
+    cost of each step: 0.03 0.14 4.23 1.48 0.55 0.44 0.24 0.20 0.23 0.09   (Gaussian mass sent outside the populated states, per step in the living state: 3.2e-03)
+    split: up to and including the fall 5.88 = 0.1225 per cell; after it 1.76 = 0.0367 per cell
+    hybrid (Gaussian map down to P <= 8, then the measured chance of death q(P) of this shape at 63 cells): 7.776 = 0.1620 per cell; route (25,21) -> (27,23) -> (25,19) -> (35,31) -> (12,8) -> (9,10) -> (7,13)
+    hybrid (Gaussian map down to P <= 12, then the measured chance of death q(P) of this shape at 63 cells): 8.074 = 0.1682 per cell; route (25,21) -> (27,23) -> (26,19) -> (35,30) -> (13,9) -> (9,12)
+    hybrid (Gaussian map down to P <= 16, then the measured chance of death q(P) of this shape at 63 cells): 8.501 = 0.1771 per cell; route (25,21) -> (27,23) -> (25,20) -> (37,28) -> (11,12)
+    hybrid (Gaussian map down to P <= 20, then the measured chance of death q(P) of this shape at 63 cells): 8.501 = 0.1771 per cell; route (25,21) -> (27,23) -> (25,20) -> (37,28) -> (11,12)

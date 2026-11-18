@@ -1,0 +1,113 @@
+runs: A=48 face-gens 1.50e+09 deaths 73375 ln tau 9.9254; A=57 face-gens 1.50e+09 deaths 10407 ln tau 11.8785; A=63 face-gens 4.00e+09 deaths 7463 ln tau 13.1918; A=75 face-gens 3.00e+09 deaths 462 ln tau 15.6863; A=84 face-gens 3.00e+09 deaths 87 ln tau 17.3560; A=108 face-gens 2.50e+09 deaths 0 ln tau nan
+lifetime slope over the fit sizes [48, 57, 63]: 0.2177
+
+== launch profile (shares of A): mean and s.d. over the launches; living state mean and s.d. (from the samples)
+   A=48: launch mean 0.738 0.637 0.562 0.505  s.d. 0.064 0.065 0.074 0.083   living mean 0.515 0.434 0.405 0.415  s.d. 0.093 0.088 0.087 0.086
+   A=57: launch mean 0.737 0.637 0.561 0.505  s.d. 0.060 0.059 0.067 0.075   living mean 0.517 0.434 0.406 0.416  s.d. 0.083 0.080 0.079 0.078
+   A=63: launch mean 0.739 0.636 0.560 0.504  s.d. 0.056 0.055 0.064 0.071   living mean 0.517 0.435 0.406 0.416  s.d. 0.078 0.076 0.075 0.074
+   A=75: launch mean 0.739 0.635 0.559 0.504  s.d. 0.053 0.053 0.057 0.068   living mean 0.517 0.435 0.406 0.416  s.d. 0.072 0.069 0.069 0.068
+   A=84: launch mean 0.731 0.633 0.554 0.491  s.d. 0.056 0.049 0.054 0.057   living mean 0.518 0.435 0.406 0.416  s.d. 0.067 0.065 0.065 0.064
+
+== boxes B_delta = {x_k >= m_k - delta}: P = frequency per face-generation, n = living events, L = launches in the box,
+   d4 = L / n, f = share of all launches in the box
+   delta -0.06  A= 48  ln P  -17.691  n         31.1  L      26.5  d4 0.8520  f 0.0004
+   delta -0.06  A= 57  ln P  -20.513  n          1.9  L       1.0  d4 0.5172  f 0.0001
+   delta -0.06  A= 63  ln P  -22.085  n          1.0  L       0.9  d4 0.8332  f 0.0001
+   delta -0.06  A= 75  ln P  -22.980  n          0.3  L       0.0  d4 0.0000  f 0.0000
+   delta -0.06  A= 84  ln P  -23.026  n          0.3  L       0.0  d4 0.0000  f 0.0000
+   delta -0.06  A=108  ln P  -22.844  n          0.3  L       0.0  d4 0.0000  f 0.0000
+   delta -0.04  A= 48  ln P  -15.437  n        296.4  L     202.5  d4 0.6830  f 0.0028
+   delta -0.04  A= 57  ln P  -17.727  n         30.0  L      19.1  d4 0.6361  f 0.0018
+   delta -0.04  A= 63  ln P  -18.907  n         24.6  L      11.0  d4 0.4467  f 0.0015
+   delta -0.04  A= 75  ln P  -21.312  n          1.7  L       1.2  d4 0.7016  f 0.0025
+   delta -0.04  A= 84  ln P  -22.660  n          0.4  L       0.0  d4 0.0000  f 0.0000
+   delta -0.04  A=108  ln P  -22.844  n          0.3  L       0.0  d4 0.0000  f 0.0000
+   delta -0.02  A= 48  ln P  -13.263  n       2605.5  L    1218.6  d4 0.4677  f 0.0166
+   delta -0.02  A= 57  ln P  -15.109  n        411.5  L     139.7  d4 0.3395  f 0.0134
+   delta -0.02  A= 63  ln P  -16.210  n        364.9  L     102.0  d4 0.2796  f 0.0137
+   delta -0.02  A= 75  ln P  -18.600  n         25.1  L       5.7  d4 0.2288  f 0.0124
+   delta -0.02  A= 84  ln P  -19.978  n          6.3  L       0.0  d4 0.0000  f 0.0000
+   delta -0.02  A=108  ln P  -22.844  n          0.3  L       0.0  d4 0.0000  f 0.0000
+   delta +0.00  A= 48  ln P  -11.332  n      17966.0  L    4906.2  d4 0.2731  f 0.0669
+   delta +0.00  A= 57  ln P  -12.835  n       3997.3  L     645.8  d4 0.1616  f 0.0621
+   delta +0.00  A= 63  ln P  -13.808  n       4030.2  L     469.9  d4 0.1166  f 0.0630
+   delta +0.00  A= 75  ln P  -15.623  n        492.2  L      30.2  d4 0.0614  f 0.0654
+   delta +0.00  A= 84  ln P  -16.996  n        124.6  L       1.4  d4 0.0113  f 0.0162
+   delta +0.00  A=108  ln P  -21.570  n          1.1  L       0.0  d4 0.0000  f 0.0000
+   delta +0.02  A= 48  ln P   -9.619  n      99703.6  L   12916.9  d4 0.1296  f 0.1760
+   delta +0.02  A= 57  ln P  -10.826  n      29806.3  L    1856.0  d4 0.0623  f 0.1783
+   delta +0.02  A= 63  ln P  -11.614  n      36156.0  L    1388.0  d4 0.0384  f 0.1860
+   delta +0.02  A= 75  ln P  -13.085  n       6227.4  L      91.8  d4 0.0147  f 0.1987
+   delta +0.02  A= 84  ln P  -14.201  n       2040.8  L      11.3  d4 0.0056  f 0.1302
+   delta +0.02  A=108  ln P  -17.036  n         99.8  L       0.0  d4 0.0000  f 0.0000
+   delta +0.04  A= 48  ln P   -8.099  n     455934.9  L   24583.6  d4 0.0539  f 0.3350
+   delta +0.04  A= 57  ln P   -9.054  n     175324.1  L    3674.8  d4 0.0210  f 0.3531
+   delta +0.04  A= 63  ln P   -9.673  n     251769.9  L    2774.7  d4 0.0110  f 0.3718
+   delta +0.04  A= 75  ln P  -10.841  n      58768.5  L     179.8  d4 0.0031  f 0.3892
+   delta +0.04  A= 84  ln P  -11.718  n      24445.0  L      34.1  d4 0.0014  f 0.3921
+   delta +0.04  A=108  ln P  -13.959  n       2165.2  L       0.0  d4 0.0000  f 0.0000
+   delta +0.06  A= 48  ln P   -6.767  n    1725941.1  L   37163.2  d4 0.0215  f 0.5065
+   delta +0.06  A= 57  ln P   -7.507  n     823569.4  L    5595.7  d4 0.0068  f 0.5377
+   delta +0.06  A= 63  ln P   -7.987  n    1358769.4  L    4256.7  d4 0.0031  f 0.5704
+   delta +0.06  A= 75  ln P   -8.884  n     415763.8  L     278.8  d4 0.0007  f 0.6035
+   delta +0.06  A= 84  ln P   -9.555  n     212506.1  L      54.8  d4 0.0003  f 0.6299
+   delta +0.06  A=108  ln P  -11.273  n      31785.4  L       0.0  d4 0.0000  f 0.0000
+   delta +0.08  A= 48  ln P   -5.606  n    5514842.1  L   48301.2  d4 0.0088  f 0.6583
+   delta +0.08  A= 57  ln P   -6.165  n    3153841.5  L    7206.8  d4 0.0023  f 0.6925
+   delta +0.08  A= 63  ln P   -6.523  n    5874875.6  L    5444.4  d4 0.0009  f 0.7295
+   delta +0.08  A= 75  ln P   -7.195  n    2251841.4  L     352.4  d4 0.0002  f 0.7627
+   delta +0.08  A= 84  ln P   -7.699  n    1359615.0  L      69.3  d4 0.0001  f 0.7962
+   delta +0.08  A=108  ln P   -8.971  n     317728.4  L       0.0  d4 0.0000  f 0.0000
+   delta +0.10  A= 48  ln P   -4.600  n   15081606.2  L   56923.3  d4 0.0038  f 0.7758
+   delta +0.10  A= 57  ln P   -5.004  n   10066659.0  L    8420.6  d4 0.0008  f 0.8091
+   delta +0.10  A= 63  ln P   -5.263  n   20716983.6  L    6250.2  d4 0.0003  f 0.8375
+   delta +0.10  A= 75  ln P   -5.753  n    9518835.1  L     401.9  d4 0.0000  f 0.8699
+   delta +0.10  A= 84  ln P   -6.113  n    6641131.2  L      76.1  d4 0.0000  f 0.8752
+   delta +0.10  A=108  ln P   -7.030  n    2212405.8  L       0.0  d4 0.0000  f 0.0000
+
+== slopes in A over the fit sizes: I4 = -d ln P/dA, J4 = -d ln d4/dA, F = d ln f/dA; I4 + J4 + F = lifetime slope (identity)
+   delta -0.04 sizes [48, 57, 63]: I4 0.2380 +- 0.0364   J4 0.0208 +- 0.0168   F -0.0432 +- 0.0168   sum 0.2156   d4 at A=50: 0.6655
+   delta -0.02 sizes [48, 57, 63]: I4 0.1987 +- 0.0100   J4 0.0347 +- 0.0059   F -0.0163 +- 0.0059   sum 0.2171   d4 at A=51: 0.4376
+   delta +0.00 sizes [48, 57, 63]: I4 0.1655 +- 0.0032   J4 0.0572 +- 0.0028   F -0.0053 +- 0.0028   sum 0.2174   d4 at A=52: 0.2415
+   delta +0.02 sizes [48, 57, 63]: I4 0.1332 +- 0.0012   J4 0.0812 +- 0.0016   F +0.0030 +- 0.0016   sum 0.2174   d4 at A=53: 0.1073
+   delta +0.04 sizes [48, 57, 63]: I4 0.1051 +- 0.0005   J4 0.1056 +- 0.0012   F +0.0066 +- 0.0012   sum 0.2173   d4 at A=54: 0.0418
+   delta +0.06 sizes [48, 57, 63]: I4 0.0814 +- 0.0002   J4 0.1284 +- 0.0009   F +0.0075 +- 0.0009   sum 0.2174   d4 at A=55: 0.0158
+   delta +0.08 sizes [48, 57, 63]: I4 0.0612 +- 0.0001   J4 0.1496 +- 0.0008   F +0.0065 +- 0.0008   sum 0.2173   d4 at A=56: 0.0061
+   delta +0.10 sizes [48, 57, 63]: I4 0.0442 +- 0.0001   J4 0.1681 +- 0.0008   F +0.0050 +- 0.0008   sum 0.2173   d4 at A=57: 0.0025
+
+== out-of-sample forecasts: ln tau(A) = -ln P_A(B) - ln d4(B) + ln f(B), d4 and f extrapolated from the fit sizes
+   A= 75 delta -0.02: living events       25.1  forecast, d4 and f constant:  15.295   extrapolated:  15.729 +- 0.632   anchor 15.6442   own run 15.686 +- 0.047
+   A= 75 delta +0.00: living events      492.2  forecast, d4 and f constant:  14.326   extrapolated:  15.526 +- 0.163   anchor 15.6442   own run 15.686 +- 0.047
+   A= 75 delta +0.02: living events     6227.4  forecast, d4 and f constant:  13.587   extrapolated:  15.455 +- 0.064   anchor 15.6442   own run 15.686 +- 0.047
+   A= 75 delta +0.04: living events    58768.5  forecast, d4 and f constant:  12.937   extrapolated:  15.310 +- 0.037   anchor 15.6442   own run 15.686 +- 0.047
+   A= 75 delta +0.06: living events   415763.8  forecast, d4 and f constant:  12.372   extrapolated:  15.111 +- 0.027   anchor 15.6442   own run 15.686 +- 0.047
+   A= 75 delta +0.08: living events  2251841.4  forecast, d4 and f constant:  11.889   extrapolated:  14.889 +- 0.022   anchor 15.6442   own run 15.686 +- 0.047
+   A= 75 delta +0.10: living events  9518835.1  forecast, d4 and f constant:  11.488   extrapolated:  14.679 +- 0.020   anchor 15.6442   own run 15.686 +- 0.047
+   --> pre-registered box for A=75: delta +0.00: forecast 15.526 +- 0.163 (constants: 14.326); anchor 15.6442; miss -0.118
+   A= 84 delta +0.00: living events      124.6  forecast, d4 and f constant:  15.699   extrapolated:  17.367 +- 0.297   anchor 17.5387   own run 17.356 +- 0.107
+   A= 84 delta +0.02: living events     2040.8  forecast, d4 and f constant:  14.702   extrapolated:  17.329 +- 0.098   anchor 17.5387   own run 17.356 +- 0.107
+   A= 84 delta +0.04: living events    24445.0  forecast, d4 and f constant:  13.814   extrapolated:  17.197 +- 0.053   anchor 17.5387   own run 17.356 +- 0.107
+   A= 84 delta +0.06: living events   212506.1  forecast, d4 and f constant:  13.043   extrapolated:  17.006 +- 0.039   anchor 17.5387   own run 17.356 +- 0.107
+   A= 84 delta +0.08: living events  1359615.0  forecast, d4 and f constant:  12.393   extrapolated:  16.799 +- 0.033   anchor 17.5387   own run 17.356 +- 0.107
+   A= 84 delta +0.10: living events  6641131.2  forecast, d4 and f constant:  11.848   extrapolated:  16.597 +- 0.030   anchor 17.5387   own run 17.356 +- 0.107
+   --> pre-registered box for A=84: delta +0.02: forecast 17.329 +- 0.098 (constants: 14.702); anchor 17.5387; miss -0.210
+   A=108 delta +0.02: living events       99.8  forecast, d4 and f constant:  17.538   extrapolated:  22.185 +- 0.326   anchor 22.5405
+   A=108 delta +0.04: living events     2165.2  forecast, d4 and f constant:  16.055   extrapolated:  22.132 +- 0.110   anchor 22.5405
+   A=108 delta +0.06: living events    31785.4  forecast, d4 and f constant:  14.760   extrapolated:  21.986 +- 0.072   anchor 22.5405
+   A=108 delta +0.08: living events   317728.4  forecast, d4 and f constant:  13.665   extrapolated:  21.817 +- 0.061   anchor 22.5405
+   A=108 delta +0.10: living events  2212405.8  forecast, d4 and f constant:  12.765   extrapolated:  21.669 +- 0.056   anchor 22.5405
+   --> pre-registered box for A=108: delta +0.04: forecast 22.132 +- 0.110 (constants: 16.055); anchor 22.5405; miss -0.409
+
+== one generation earlier: the four populations at launch-1 (and launch-2, launch) against the living state
+   A=48 lag -2: shift in living s.d. -0.22 -0.14 -0.09 -0.11; Mahalanobis D 0.25, D^2/(2A) = 0.0007 per cell; lift (share of deaths / share of living states): top 0.1: linear 0.4, quadratic 2.7; top 0.01: linear 0.0, quadratic 4.1; top 0.001: linear 0.0, quadratic 4.3
+   A=48 lag -1: shift in living s.d. +0.09 -0.40 -0.59 -0.46; Mahalanobis D 0.72, D^2/(2A) = 0.0053 per cell; lift (share of deaths / share of living states): top 0.1: linear 1.7, quadratic 4.9; top 0.01: linear 0.3, quadratic 6.6; top 0.001: linear 0.2, quadratic 7.2
+   A=48 lag +0: shift in living s.d. +2.40 +2.31 +1.81 +1.04; Mahalanobis D 3.11, D^2/(2A) = 0.1008 per cell; lift (share of deaths / share of living states): top 0.1: linear 9.9, quadratic 9.9; top 0.01: linear 97.3, quadratic 97.2; top 0.001: linear 843.4, quadratic 840.4
+   A=57 lag -2: shift in living s.d. -0.28 -0.16 -0.09 -0.09; Mahalanobis D 0.30, D^2/(2A) = 0.0008 per cell; lift (share of deaths / share of living states): top 0.1: linear 0.5, quadratic 2.6; top 0.01: linear 0.0, quadratic 4.3; top 0.001: linear 0.0, quadratic 5.1
+   A=57 lag -1: shift in living s.d. +0.09 -0.43 -0.65 -0.50; Mahalanobis D 0.78, D^2/(2A) = 0.0054 per cell; lift (share of deaths / share of living states): top 0.1: linear 2.0, quadratic 5.0; top 0.01: linear 0.3, quadratic 6.6; top 0.001: linear 0.0, quadratic 6.0
+   A=57 lag +0: shift in living s.d. +2.65 +2.54 +1.97 +1.14; Mahalanobis D 3.43, D^2/(2A) = 0.1032 per cell; lift (share of deaths / share of living states): top 0.1: linear 10.0, quadratic 10.0; top 0.01: linear 98.1, quadratic 98.0; top 0.001: linear 919.9, quadratic 918.4
+   A=63 lag -2: shift in living s.d. -0.29 -0.18 -0.10 -0.08; Mahalanobis D 0.31, D^2/(2A) = 0.0008 per cell; lift (share of deaths / share of living states): top 0.1: linear 0.5, quadratic 2.7; top 0.01: linear 0.0, quadratic 4.0; top 0.001: linear 0.0, quadratic 4.0
+   A=63 lag -1: shift in living s.d. +0.09 -0.47 -0.69 -0.52; Mahalanobis D 0.82, D^2/(2A) = 0.0054 per cell; lift (share of deaths / share of living states): top 0.1: linear 2.2, quadratic 5.2; top 0.01: linear 0.5, quadratic 6.8; top 0.001: linear 0.0, quadratic 7.1
+   A=63 lag +0: shift in living s.d. +2.83 +2.66 +2.06 +1.19; Mahalanobis D 3.63, D^2/(2A) = 0.1044 per cell; lift (share of deaths / share of living states): top 0.1: linear 10.0, quadratic 10.0; top 0.01: linear 98.4, quadratic 98.4; top 0.001: linear 949.9, quadratic 949.8
+   A=75 lag -2: shift in living s.d. -0.28 -0.18 -0.15 -0.15; Mahalanobis D 0.33, D^2/(2A) = 0.0007 per cell; lift (share of deaths / share of living states): top 0.1: linear 0.4, quadratic 2.9; top 0.01: linear 0.0, quadratic 6.5; top 0.001: linear 0.0, quadratic 8.7
+   A=75 lag -1: shift in living s.d. +0.17 -0.49 -0.77 -0.55; Mahalanobis D 0.92, D^2/(2A) = 0.0057 per cell; lift (share of deaths / share of living states): top 0.1: linear 2.9, quadratic 5.6; top 0.01: linear 1.1, quadratic 10.4; top 0.001: linear 0.0, quadratic 6.5
+   A=75 lag +0: shift in living s.d. +3.09 +2.89 +2.24 +1.30; Mahalanobis D 3.96, D^2/(2A) = 0.1044 per cell; lift (share of deaths / share of living states): top 0.1: linear 10.0, quadratic 10.0; top 0.01: linear 98.3, quadratic 98.5; top 0.001: linear 956.7, quadratic 956.7

@@ -1,0 +1,13 @@
+PLAIN A 48 PA 20 LAM0 11 E 2.904506e+08 N0 679250 deaths 13992 capped 1404 meanpop 24.7216 varpop 20.0849 lntau_brute 9.9407 +- 0.0085
+HIST 0 min 13992 cum 13992 cross 2
+HIST 1 min 2018 cum 16010 cross 18
+HIST 2 min 4961 cum 20971 cross 81
+HIST 3 min 8656 cum 29627 cross 336
+HIST 4 min 12964 cum 42591 cross 1075
+HIST 5 min 19798 cum 62389 cross 3248
+HIST 6 min 30105 cum 92494 cross 8758
+HIST 7 min 43890 cum 136384 cross 21002
+HIST 8 min 65734 cum 202118 cross 46469
+HIST 9 min 98712 cum 300830 cross 95385
+HIST 10 min 149567 cum 450397 cross 180563
+HIST 11 min 228822 cum 679219 cross 322313

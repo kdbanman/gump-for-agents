@@ -1,0 +1,136 @@
+# sub A 48 WD 6 LAM1 14 DELTA 3 chains 4096 NSWEEP 8 KFLIP 4 TPRE 32 TWIN 24
+REP 0 valid 3820 : 14:802 11:1140 8:1192 5:1256 2:1395 0:2511 rate 4.53619e-05 lntau 10.0008
+DIAG 0 dying 2511 distinct_ancestors_of_dying 195 | 14:anc802,u0.37,f0.40 11:anc608,u0.26,f0.41 8:anc417,u0.23,f0.42 5:anc296,u0.23,f0.44 2:anc218,u0.22,f0.46
+REP 1 valid 3705 : 14:731 11:1233 8:1310 5:1346 2:1415 0:2592 rate 5.68577e-05 lntau 9.7750
+DIAG 1 dying 2592 distinct_ancestors_of_dying 196 | 14:anc731,u0.37,f0.41 11:anc576,u0.27,f0.41 8:anc415,u0.24,f0.43 5:anc293,u0.24,f0.46 2:anc209,u0.25,f0.48
+REP 2 valid 3867 : 14:767 11:1191 8:1391 5:1202 2:1394 0:2589 rate 5.15167e-05 lntau 9.8736
+DIAG 2 dying 2589 distinct_ancestors_of_dying 183 | 14:anc767,u0.37,f0.41 11:anc586,u0.29,f0.43 8:anc419,u0.33,f0.48 5:anc288,u0.24,f0.45 2:anc204,u0.24,f0.49
+REP 3 valid 3916 : 14:810 11:1259 8:1327 5:1096 2:1407 0:2449 rate 4.71652e-05 lntau 9.9619
+DIAG 3 dying 2449 distinct_ancestors_of_dying 200 | 14:anc810,u0.38,f0.41 11:anc628,u0.30,f0.43 8:anc453,u0.32,f0.48 5:anc283,u0.23,f0.45 2:anc221,u0.23,f0.47
+REP 4 valid 3952 : 14:796 11:1212 8:1378 5:1183 2:1382 0:2508 rate 4.98491e-05 lntau 9.9065
+DIAG 4 dying 2508 distinct_ancestors_of_dying 201 | 14:anc796,u0.37,f0.41 11:anc595,u0.29,f0.43 8:anc424,u0.33,f0.48 5:anc300,u0.24,f0.44 2:anc217,u0.24,f0.48
+REP 5 valid 3918 : 14:790 11:1261 8:1360 5:1106 2:1403 0:2654 rate 5.14659e-05 lntau 9.8746
+DIAG 5 dying 2654 distinct_ancestors_of_dying 195 | 14:anc790,u0.38,f0.41 11:anc620,u0.29,f0.43 8:anc434,u0.31,f0.47 5:anc299,u0.23,f0.44 2:anc211,u0.23,f0.48
+REP 6 valid 3906 : 14:753 11:1289 8:1350 5:1252 2:1479 0:2562 rate 5.75162e-05 lntau 9.7634
+DIAG 6 dying 2562 distinct_ancestors_of_dying 199 | 14:anc753,u0.38,f0.41 11:anc608,u0.30,f0.44 8:anc415,u0.33,f0.49 5:anc299,u0.24,f0.45 2:anc221,u0.24,f0.48
+REP 7 valid 3916 : 14:739 11:1222 8:1412 5:1186 2:1340 0:2512 rate 4.69792e-05 lntau 9.9658
+DIAG 7 dying 2512 distinct_ancestors_of_dying 182 | 14:anc739,u0.37,f0.41 11:anc560,u0.30,f0.43 8:anc422,u0.32,f0.49 5:anc291,u0.24,f0.44 2:anc199,u0.24,f0.48
+REP 8 valid 3917 : 14:728 11:1207 8:1481 5:1222 2:1516 0:2635 rate 5.86111e-05 lntau 9.7446
+DIAG 8 dying 2635 distinct_ancestors_of_dying 204 | 14:anc728,u0.38,f0.41 11:anc573,u0.30,f0.44 8:anc424,u0.33,f0.49 5:anc290,u0.24,f0.45 2:anc221,u0.24,f0.48
+REP 9 valid 3923 : 14:768 11:1254 8:1337 5:1155 2:1359 0:2644 rate 4.92293e-05 lntau 9.9190
+DIAG 9 dying 2644 distinct_ancestors_of_dying 196 | 14:anc768,u0.37,f0.40 11:anc599,u0.28,f0.43 8:anc417,u0.31,f0.49 5:anc303,u0.23,f0.44 2:anc213,u0.23,f0.47
+REP 10 valid 3896 : 14:761 11:1283 8:1322 5:1174 2:1434 0:2542 rate 5.12396e-05 lntau 9.8790
+DIAG 10 dying 2542 distinct_ancestors_of_dying 190 | 14:anc761,u0.38,f0.41 11:anc612,u0.29,f0.43 8:anc418,u0.33,f0.49 5:anc291,u0.24,f0.45 2:anc209,u0.24,f0.48
+REP 11 valid 3880 : 14:789 11:1174 8:1395 5:1197 2:1214 0:2536 rate 4.43546e-05 lntau 10.0233
+DIAG 11 dying 2536 distinct_ancestors_of_dying 193 | 14:anc789,u0.37,f0.40 11:anc598,u0.29,f0.43 8:anc450,u0.32,f0.48 5:anc302,u0.23,f0.43 2:anc215,u0.24,f0.48
+REP 12 valid 3884 : 14:792 11:1199 8:1322 5:1196 2:1378 0:2523 rate 4.85717e-05 lntau 9.9325
+DIAG 12 dying 2523 distinct_ancestors_of_dying 198 | 14:anc792,u0.37,f0.40 11:anc593,u0.29,f0.43 8:anc421,u0.32,f0.49 5:anc304,u0.24,f0.44 2:anc218,u0.24,f0.47
+REP 13 valid 3859 : 14:753 11:1224 8:1329 5:1097 2:1171 0:2416 rate 3.56021e-05 lntau 10.2431
+DIAG 13 dying 2416 distinct_ancestors_of_dying 180 | 14:anc753,u0.38,f0.41 11:anc575,u0.29,f0.43 8:anc400,u0.33,f0.48 5:anc277,u0.23,f0.43 2:anc198,u0.23,f0.47
+REP 14 valid 3867 : 14:751 11:1207 8:1340 5:1226 2:1339 0:2538 rate 4.72966e-05 lntau 9.9591
+DIAG 14 dying 2538 distinct_ancestors_of_dying 190 | 14:anc751,u0.37,f0.41 11:anc582,u0.28,f0.43 8:anc412,u0.32,f0.49 5:anc288,u0.22,f0.44 2:anc212,u0.22,f0.48
+REP 15 valid 3902 : 14:782 11:1245 8:1330 5:1118 2:1340 0:2503 rate 4.49715e-05 lntau 10.0095
+DIAG 15 dying 2503 distinct_ancestors_of_dying 176 | 14:anc782,u0.37,f0.41 11:anc603,u0.29,f0.43 8:anc410,u0.31,f0.48 5:anc274,u0.22,f0.44 2:anc200,u0.22,f0.48
+REP 16 valid 3893 : 14:736 11:1263 8:1294 5:1183 2:1458 0:2607 rate 5.02115e-05 lntau 9.8993
+DIAG 16 dying 2607 distinct_ancestors_of_dying 190 | 14:anc736,u0.37,f0.41 11:anc589,u0.29,f0.42 8:anc420,u0.33,f0.49 5:anc284,u0.23,f0.46 2:anc199,u0.23,f0.48
+REP 17 valid 3909 : 14:810 11:1240 8:1464 5:1170 2:1452 0:2475 rate 5.71609e-05 lntau 9.7696
+DIAG 17 dying 2475 distinct_ancestors_of_dying 197 | 14:anc810,u0.37,f0.41 11:anc606,u0.29,f0.44 8:anc439,u0.32,f0.47 5:anc279,u0.24,f0.44 2:anc206,u0.24,f0.47
+REP 18 valid 3878 : 14:780 11:1181 8:1393 5:1192 2:1214 0:2516 rate 4.35394e-05 lntau 10.0418
+DIAG 18 dying 2516 distinct_ancestors_of_dying 199 | 14:anc780,u0.36,f0.40 11:anc589,u0.29,f0.43 8:anc430,u0.32,f0.49 5:anc294,u0.23,f0.44 2:anc214,u0.23,f0.48
+REP 19 valid 3805 : 14:744 11:1212 8:1403 5:1263 2:1387 0:2706 rate 5.69607e-05 lntau 9.7731
+DIAG 19 dying 2706 distinct_ancestors_of_dying 200 | 14:anc744,u0.38,f0.40 11:anc567,u0.29,f0.43 8:anc420,u0.32,f0.49 5:anc307,u0.23,f0.46 2:anc221,u0.24,f0.48
+REP 20 valid 3822 : 14:797 11:1204 8:1302 5:1171 2:1315 0:2412 rate 4.38787e-05 lntau 10.0341
+DIAG 20 dying 2412 distinct_ancestors_of_dying 183 | 14:anc797,u0.38,f0.41 11:anc592,u0.29,f0.42 8:anc422,u0.32,f0.49 5:anc296,u0.23,f0.44 2:anc201,u0.25,f0.48
+REP 21 valid 3850 : 14:756 11:1261 8:1347 5:1175 2:1552 0:2574 rate 5.65810e-05 lntau 9.7798
+DIAG 21 dying 2574 distinct_ancestors_of_dying 189 | 14:anc756,u0.38,f0.40 11:anc595,u0.29,f0.43 8:anc417,u0.31,f0.48 5:anc288,u0.23,f0.44 2:anc211,u0.23,f0.47
+REP 22 valid 3905 : 14:744 11:1309 8:1426 5:1172 2:1254 0:2529 rate 4.77721e-05 lntau 9.9491
+DIAG 22 dying 2529 distinct_ancestors_of_dying 211 | 14:anc744,u0.38,f0.41 11:anc601,u0.29,f0.44 8:anc446,u0.31,f0.48 5:anc314,u0.23,f0.44 2:anc230,u0.23,f0.47
+REP 23 valid 3923 : 14:763 11:1247 8:1361 5:1130 2:1399 0:2694 rate 5.08058e-05 lntau 9.8875
+DIAG 23 dying 2694 distinct_ancestors_of_dying 180 | 14:anc763,u0.37,f0.40 11:anc576,u0.28,f0.44 8:anc428,u0.31,f0.48 5:anc279,u0.23,f0.45 2:anc193,u0.23,f0.48
+REP 24 valid 3831 : 14:794 11:1243 8:1382 5:1183 2:1362 0:2587 rate 5.36333e-05 lntau 9.8333
+DIAG 24 dying 2587 distinct_ancestors_of_dying 194 | 14:anc794,u0.38,f0.42 11:anc606,u0.30,f0.43 8:anc452,u0.32,f0.48 5:anc322,u0.23,f0.45 2:anc214,u0.25,f0.48
+REP 25 valid 3859 : 14:769 11:1204 8:1367 5:1166 2:1472 0:2540 rate 5.16744e-05 lntau 9.8705
+DIAG 25 dying 2540 distinct_ancestors_of_dying 186 | 14:anc769,u0.37,f0.41 11:anc585,u0.29,f0.43 8:anc427,u0.32,f0.49 5:anc293,u0.23,f0.45 2:anc209,u0.22,f0.48
+REP 26 valid 3920 : 14:772 11:1252 8:1331 5:1133 2:1456 0:2518 rate 4.92663e-05 lntau 9.9183
+DIAG 26 dying 2518 distinct_ancestors_of_dying 183 | 14:anc772,u0.37,f0.41 11:anc593,u0.29,f0.42 8:anc415,u0.32,f0.48 5:anc272,u0.23,f0.45 2:anc195,u0.24,f0.48
+REP 27 valid 3924 : 14:729 11:1304 8:1412 5:1191 2:1232 0:2408 rate 4.36796e-05 lntau 10.0386
+DIAG 27 dying 2408 distinct_ancestors_of_dying 203 | 14:anc729,u0.37,f0.40 11:anc572,u0.30,f0.43 8:anc448,u0.31,f0.48 5:anc312,u0.22,f0.43 2:anc223,u0.22,f0.47
+REP 28 valid 3881 : 14:774 11:1265 8:1313 5:1094 2:1375 0:2427 rate 4.37050e-05 lntau 10.0380
+DIAG 28 dying 2427 distinct_ancestors_of_dying 187 | 14:anc774,u0.38,f0.41 11:anc610,u0.28,f0.43 8:anc438,u0.31,f0.49 5:anc289,u0.22,f0.44 2:anc209,u0.22,f0.48
+REP 29 valid 3892 : 14:790 11:1202 8:1332 5:1105 2:1489 0:2566 rate 4.95867e-05 lntau 9.9118
+DIAG 29 dying 2566 distinct_ancestors_of_dying 186 | 14:anc790,u0.38,f0.41 11:anc596,u0.29,f0.43 8:anc429,u0.32,f0.49 5:anc272,u0.23,f0.45 2:anc199,u0.23,f0.48
+REP 30 valid 3930 : 14:803 11:1199 8:1413 5:1191 2:1463 0:2617 rate 5.70470e-05 lntau 9.7716
+DIAG 30 dying 2617 distinct_ancestors_of_dying 206 | 14:anc803,u0.37,f0.40 11:anc613,u0.29,f0.43 8:anc442,u0.31,f0.48 5:anc309,u0.24,f0.44 2:anc225,u0.23,f0.47
+REP 31 valid 3913 : 14:732 11:1186 8:1398 5:1112 2:1251 0:2646 rate 4.12605e-05 lntau 10.0956
+DIAG 31 dying 2646 distinct_ancestors_of_dying 188 | 14:anc732,u0.37,f0.40 11:anc566,u0.29,f0.43 8:anc402,u0.33,f0.49 5:anc283,u0.24,f0.44 2:anc202,u0.24,f0.48
+REP 32 valid 3911 : 14:786 11:1226 8:1380 5:1116 2:1350 0:2681 rate 4.96350e-05 lntau 9.9108
+DIAG 32 dying 2681 distinct_ancestors_of_dying 204 | 14:anc786,u0.37,f0.41 11:anc597,u0.29,f0.43 8:anc438,u0.31,f0.48 5:anc289,u0.23,f0.45 2:anc216,u0.22,f0.49
+REP 33 valid 3885 : 14:753 11:1230 8:1296 5:1174 2:1391 0:2659 rate 4.84860e-05 lntau 9.9342
+DIAG 33 dying 2659 distinct_ancestors_of_dying 196 | 14:anc753,u0.38,f0.41 11:anc572,u0.29,f0.42 8:anc395,u0.33,f0.49 5:anc274,u0.25,f0.45 2:anc213,u0.25,f0.48
+REP 34 valid 3900 : 14:763 11:1228 8:1368 5:1127 2:1297 0:2408 rate 4.18075e-05 lntau 10.0824
+DIAG 34 dying 2408 distinct_ancestors_of_dying 189 | 14:anc763,u0.38,f0.41 11:anc577,u0.29,f0.43 8:anc419,u0.33,f0.48 5:anc278,u0.24,f0.44 2:anc212,u0.23,f0.48
+REP 35 valid 3908 : 14:747 11:1246 8:1311 5:1116 2:1332 0:2465 rate 4.13486e-05 lntau 10.0935
+DIAG 35 dying 2465 distinct_ancestors_of_dying 190 | 14:anc747,u0.37,f0.40 11:anc579,u0.29,f0.43 8:anc410,u0.32,f0.48 5:anc282,u0.23,f0.44 2:anc208,u0.22,f0.47
+REP 36 valid 3922 : 14:746 11:1255 8:1335 5:1131 2:1441 0:2489 rate 4.67193e-05 lntau 9.9714
+DIAG 36 dying 2489 distinct_ancestors_of_dying 190 | 14:anc746,u0.37,f0.41 11:anc589,u0.30,f0.43 8:anc416,u0.32,f0.49 5:anc272,u0.24,f0.45 2:anc207,u0.23,f0.48
+REP 37 valid 3948 : 14:774 11:1226 8:1325 5:1177 2:1379 0:2606 rate 4.86827e-05 lntau 9.9302
+DIAG 37 dying 2606 distinct_ancestors_of_dying 193 | 14:anc774,u0.37,f0.41 11:anc580,u0.29,f0.43 8:anc406,u0.32,f0.48 5:anc269,u0.23,f0.45 2:anc208,u0.24,f0.47
+REP 38 valid 3917 : 14:739 11:1194 8:1390 5:1086 2:1414 0:2569 rate 4.46419e-05 lntau 10.0168
+DIAG 38 dying 2569 distinct_ancestors_of_dying 197 | 14:anc739,u0.38,f0.41 11:anc564,u0.29,f0.44 8:anc426,u0.32,f0.49 5:anc291,u0.23,f0.45 2:anc218,u0.23,f0.48
+REP 39 valid 3877 : 14:771 11:1249 8:1345 5:1184 2:1448 0:2521 rate 5.21826e-05 lntau 9.8608
+DIAG 39 dying 2521 distinct_ancestors_of_dying 180 | 14:anc771,u0.37,f0.42 11:anc595,u0.29,f0.43 8:anc434,u0.32,f0.48 5:anc287,u0.23,f0.45 2:anc206,u0.23,f0.48
+REP 40 valid 3879 : 14:820 11:1186 8:1340 5:1196 2:1395 0:2617 rate 5.30129e-05 lntau 9.8450
+DIAG 40 dying 2617 distinct_ancestors_of_dying 198 | 14:anc820,u0.38,f0.40 11:anc602,u0.29,f0.43 8:anc418,u0.32,f0.49 5:anc302,u0.23,f0.45 2:anc220,u0.22,f0.48
+REP 41 valid 3918 : 14:778 11:1206 8:1357 5:1175 2:1430 0:2530 rate 4.99259e-05 lntau 9.9050
+DIAG 41 dying 2530 distinct_ancestors_of_dying 201 | 14:anc778,u0.38,f0.41 11:anc600,u0.29,f0.43 8:anc424,u0.32,f0.49 5:anc304,u0.23,f0.45 2:anc219,u0.23,f0.48
+REP 42 valid 3963 : 14:796 11:1256 8:1313 5:1098 2:1447 0:2593 rate 4.93180e-05 lntau 9.9172
+DIAG 42 dying 2593 distinct_ancestors_of_dying 192 | 14:anc796,u0.38,f0.41 11:anc613,u0.28,f0.42 8:anc421,u0.32,f0.47 5:anc278,u0.23,f0.44 2:anc205,u0.24,f0.48
+REP 43 valid 3957 : 14:824 11:1246 8:1372 5:1172 2:1375 0:2440 rate 5.05874e-05 lntau 9.8918
+DIAG 43 dying 2440 distinct_ancestors_of_dying 198 | 14:anc824,u0.37,f0.41 11:anc621,u0.28,f0.43 8:anc435,u0.31,f0.48 5:anc289,u0.23,f0.45 2:anc220,u0.23,f0.47
+REP 44 valid 3924 : 14:858 11:1263 8:1347 5:1157 2:1385 0:2583 rate 5.56450e-05 lntau 9.7965
+DIAG 44 dying 2583 distinct_ancestors_of_dying 201 | 14:anc858,u0.37,f0.41 11:anc633,u0.29,f0.43 8:anc441,u0.31,f0.48 5:anc310,u0.23,f0.44 2:anc223,u0.24,f0.48
+REP 45 valid 3910 : 14:768 11:1270 8:1288 5:1074 2:1374 0:2622 rate 4.49280e-05 lntau 10.0105
+DIAG 45 dying 2622 distinct_ancestors_of_dying 203 | 14:anc768,u0.38,f0.41 11:anc599,u0.30,f0.42 8:anc428,u0.32,f0.48 5:anc292,u0.25,f0.44 2:anc217,u0.25,f0.47
+REP 46 valid 3847 : 14:743 11:1259 8:1388 5:1252 2:1443 0:2492 rate 5.49148e-05 lntau 9.8097
+DIAG 46 dying 2492 distinct_ancestors_of_dying 206 | 14:anc743,u0.38,f0.41 11:anc573,u0.30,f0.44 8:anc405,u0.33,f0.49 5:anc294,u0.25,f0.45 2:anc217,u0.23,f0.48
+REP 47 valid 3806 : 14:774 11:1214 8:1349 5:1166 2:1302 0:2566 rate 4.68876e-05 lntau 9.9678
+DIAG 47 dying 2566 distinct_ancestors_of_dying 177 | 14:anc774,u0.37,f0.41 11:anc594,u0.29,f0.43 8:anc429,u0.32,f0.49 5:anc293,u0.24,f0.45 2:anc200,u0.25,f0.49
+REP 48 valid 3843 : 14:741 11:1241 8:1380 5:1192 2:1288 0:2527 rate 4.63004e-05 lntau 9.9804
+DIAG 48 dying 2527 distinct_ancestors_of_dying 200 | 14:anc741,u0.37,f0.41 11:anc582,u0.29,f0.43 8:anc416,u0.31,f0.48 5:anc291,u0.22,f0.45 2:anc209,u0.23,f0.48
+REP 49 valid 3889 : 14:749 11:1230 8:1321 5:1171 2:1403 0:2649 rate 4.92195e-05 lntau 9.9192
+DIAG 49 dying 2649 distinct_ancestors_of_dying 192 | 14:anc749,u0.37,f0.41 11:anc575,u0.30,f0.43 8:anc414,u0.33,f0.49 5:anc283,u0.25,f0.45 2:anc211,u0.24,f0.48
+REP 50 valid 3910 : 14:769 11:1303 8:1375 5:1104 2:1405 0:2577 rate 5.09033e-05 lntau 9.8856
+DIAG 50 dying 2577 distinct_ancestors_of_dying 192 | 14:anc769,u0.37,f0.42 11:anc600,u0.29,f0.43 8:anc422,u0.31,f0.48 5:anc287,u0.23,f0.45 2:anc215,u0.24,f0.47
+REP 51 valid 3912 : 14:755 11:1259 8:1322 5:1156 2:1375 0:2526 rate 4.66110e-05 lntau 9.9737
+DIAG 51 dying 2526 distinct_ancestors_of_dying 193 | 14:anc755,u0.38,f0.41 11:anc589,u0.29,f0.43 8:anc429,u0.32,f0.49 5:anc286,u0.23,f0.44 2:anc207,u0.22,f0.49
+REP 52 valid 3922 : 14:781 11:1269 8:1327 5:1161 2:1400 0:2584 rate 5.09000e-05 lntau 9.8856
+DIAG 52 dying 2584 distinct_ancestors_of_dying 192 | 14:anc781,u0.37,f0.41 11:anc606,u0.28,f0.42 8:anc443,u0.31,f0.49 5:anc295,u0.23,f0.45 2:anc209,u0.23,f0.48
+REP 53 valid 3951 : 14:786 11:1167 8:1420 5:1099 2:1385 0:2647 rate 4.80026e-05 lntau 9.9443
+DIAG 53 dying 2647 distinct_ancestors_of_dying 182 | 14:anc786,u0.38,f0.41 11:anc578,u0.29,f0.43 8:anc422,u0.32,f0.48 5:anc288,u0.23,f0.45 2:anc204,u0.24,f0.47
+REP 54 valid 3953 : 14:776 11:1255 8:1380 5:1109 2:1310 0:2514 rate 4.48761e-05 lntau 10.0116
+DIAG 54 dying 2514 distinct_ancestors_of_dying 197 | 14:anc776,u0.38,f0.41 11:anc603,u0.30,f0.43 8:anc427,u0.31,f0.48 5:anc283,u0.22,f0.44 2:anc217,u0.22,f0.47
+REP 55 valid 3932 : 14:752 11:1235 8:1329 5:1087 2:1159 0:2534 rate 3.62164e-05 lntau 10.2260
+DIAG 55 dying 2534 distinct_ancestors_of_dying 197 | 14:anc752,u0.37,f0.41 11:anc571,u0.30,f0.43 8:anc410,u0.32,f0.49 5:anc293,u0.23,f0.43 2:anc214,u0.24,f0.46
+REP 56 valid 3941 : 14:799 11:1285 8:1263 5:1192 2:1337 0:2568 rate 4.86674e-05 lntau 9.9305
+DIAG 56 dying 2568 distinct_ancestors_of_dying 189 | 14:anc799,u0.37,f0.41 11:anc624,u0.29,f0.43 8:anc437,u0.32,f0.47 5:anc290,u0.23,f0.44 2:anc210,u0.23,f0.48
+REP 57 valid 3926 : 14:786 11:1248 8:1375 5:1183 2:1471 0:2591 rate 5.59814e-05 lntau 9.7905
+DIAG 57 dying 2591 distinct_ancestors_of_dying 201 | 14:anc786,u0.38,f0.41 11:anc602,u0.29,f0.44 8:anc443,u0.31,f0.48 5:anc297,u0.24,f0.45 2:anc226,u0.24,f0.49
+REP 58 valid 3920 : 14:744 11:1232 8:1329 5:1268 2:1483 0:2622 rate 5.53738e-05 lntau 9.8014
+DIAG 58 dying 2622 distinct_ancestors_of_dying 192 | 14:anc744,u0.37,f0.41 11:anc575,u0.29,f0.43 8:anc416,u0.33,f0.50 5:anc302,u0.24,f0.45 2:anc214,u0.24,f0.47
+REP 59 valid 3936 : 14:742 11:1236 8:1372 5:1188 2:1265 0:2498 rate 4.33720e-05 lntau 10.0457
+DIAG 59 dying 2498 distinct_ancestors_of_dying 178 | 14:anc742,u0.38,f0.41 11:anc574,u0.30,f0.44 8:anc421,u0.32,f0.49 5:anc301,u0.24,f0.45 2:anc207,u0.23,f0.49
+REP 60 valid 3888 : 14:787 11:1371 8:1320 5:1175 2:1507 0:2672 rate 6.26378e-05 lntau 9.6781
+DIAG 60 dying 2672 distinct_ancestors_of_dying 191 | 14:anc787,u0.38,f0.41 11:anc629,u0.29,f0.43 8:anc441,u0.31,f0.48 5:anc294,u0.23,f0.45 2:anc213,u0.23,f0.50
+REP 61 valid 3919 : 14:741 11:1198 8:1329 5:1104 2:1270 0:2557 rate 3.90047e-05 lntau 10.1518
+DIAG 61 dying 2557 distinct_ancestors_of_dying 196 | 14:anc741,u0.37,f0.40 11:anc580,u0.29,f0.42 8:anc409,u0.32,f0.49 5:anc280,u0.23,f0.44 2:anc212,u0.23,f0.48
+REP 62 valid 3972 : 14:808 11:1244 8:1413 5:1208 2:1392 0:2512 rate 5.45858e-05 lntau 9.8157
+DIAG 62 dying 2512 distinct_ancestors_of_dying 206 | 14:anc808,u0.37,f0.41 11:anc629,u0.29,f0.44 8:anc434,u0.32,f0.48 5:anc307,u0.24,f0.45 2:anc236,u0.23,f0.48
+REP 63 valid 3977 : 14:788 11:1299 8:1375 5:1216 2:1407 0:2564 rate 5.61070e-05 lntau 9.7882
+DIAG 63 dying 2564 distinct_ancestors_of_dying 182 | 14:anc788,u0.38,f0.42 11:anc619,u0.29,f0.43 8:anc440,u0.31,f0.48 5:anc305,u0.23,f0.45 2:anc210,u0.24,f0.48
+SUMMARY sub A 48 WD 6 reps 64 lntau 9.9190 +- 0.0139 (rel sd of one replication 0.111) acceptance 0.369
+LEVEL 0 lam 14 mean lnP -1.6212 (64 reps)
+LEVEL 1 lam 11 mean lnP -1.1974 (64 reps)
+LEVEL 2 lam 8 mean lnP -1.1076 (64 reps)
+LEVEL 3 lam 5 mean lnP -1.2570 (64 reps)
+LEVEL 4 lam 2 mean lnP -1.0916 (64 reps)
+LEVEL 5 lam 0 mean lnP -0.4724 (64 reps)

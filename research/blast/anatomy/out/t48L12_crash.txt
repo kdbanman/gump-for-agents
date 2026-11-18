@@ -1,0 +1,14 @@
+== t48L12: 13640 deaths. Highest P in the last 10 living generations: mean 33.54 (control, 100 generations earlier: 31.48); share with a peak >= 30: 0.905 +- 0.003 (control 0.840)
+   lag of that peak: percentiles 10/25/50/75/90 = 3 4 5 7 9; P one and two generations after the peak: mean 10.5, 6.0
+   largest one-generation fall in the last 10 generations: mean 23.8, median 25 (control 10.4); share of deaths with a one-generation fall of at least half the face (24 cells): 0.563 (control 0.0087)
+   cells dying in the last 8 generations: overcrowded for certain 0.446, known count 5 (overcrowded if the unseen neighbour lives) 0.168, known count 2 (starved if it does not) 0.150, starved for certain 0.236   (835095 cell deaths)
+   cells dying in the control (lags 101-108): overcrowded for certain 0.462, known count 5 (overcrowded if the unseen neighbour lives) 0.245, known count 2 (starved if it does not) 0.180, starved for certain 0.113   (1036548 cell deaths)
+   the generation of the largest fall, in the 7675 deaths where it takes at least half the face: P before 37.3 (10-90%: 35-40), after 8.4 (5-11), births in it 1.33; cells dying in it: overcrowded for certain 0.815, known count 5 0.180, known count 2 0.004, starved for certain 0.001
+   stationary probability of P >= 35 (the 10% point of "P before"): 0.0083
+   band test: 3 shortest loop(s) of length 4.000; a strip of width 1 holds 14.8 cells (12-20); length across = 3.46 lattice units
+   some girth band finally empty >=  2 generations before the last cell: 0.9159 +- 0.0024;   some compact patch of 15 cells: 0.9227 +- 0.0023
+   some girth band finally empty >=  4 generations before the last cell: 0.4503 +- 0.0043;   some compact patch of 15 cells: 0.4639 +- 0.0043
+   some girth band finally empty >=  8 generations before the last cell: 0.0962 +- 0.0025;   some compact patch of 15 cells: 0.0993 +- 0.0026
+   some girth band finally empty >= 16 generations before the last cell: 0.0032 +- 0.0005;   some compact patch of 15 cells: 0.0031 +- 0.0005
+   lead of the best band, percentiles 10/25/50/75/90/99: 2 2 3 5 7 13; of the best compact patch: 2 2 3 5 7 13
+   width of the widest stretch (lattice units, along the tube) finally empty >= 4 generations early, among those deaths: percentiles 10/50/90 = 1.73 2.6 3.03

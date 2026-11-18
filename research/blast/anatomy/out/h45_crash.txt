@@ -1,0 +1,7 @@
+== h45: 14365 deaths. Highest P in the last 10 living generations: mean 22.11 (control, 100 generations earlier: 27.41); share with a peak >= 29: 0.209 +- 0.003 (control 0.377)
+   lag of that peak: percentiles 10/25/50/75/90 = 4 6 8 10 10; P one and two generations after the peak: mean 13.4, 10.0
+   largest one-generation fall in the last 10 generations: mean 10.5, median 10 (control 7.2); share of deaths with a one-generation fall of at least half the face (22 cells): 0.022 (control 0.0001)
+   cells dying in the last 8 generations: overcrowded for certain 0.233, known count 5 (overcrowded if the unseen neighbour lives) 0.191, known count 2 (starved if it does not) 0.230, starved for certain 0.346   (526167 cell deaths)
+   cells dying in the control (lags 101-108): overcrowded for certain 0.305, known count 5 (overcrowded if the unseen neighbour lives) 0.284, known count 2 (starved if it does not) 0.231, starved for certain 0.180   (786269 cell deaths)
+   the generation of the largest fall, in the 315 deaths where it takes at least half the face: P before 33.5 (10-90%: 31-37), after 9.9 (7-13), births in it 1.29; cells dying in it: overcrowded for certain 0.670, known count 5 0.301, known count 2 0.019, starved for certain 0.010
+   stationary probability of P >= 31 (the 10% point of "P before"): 0.0178

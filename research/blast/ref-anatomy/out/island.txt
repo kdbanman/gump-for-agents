@@ -1,0 +1,10 @@
+t63     any cell                     (63 cells): trials 30055 regrown 4135 died 25920 undecided 0 skipped 665  share regrown 0.1376 +- 0.0020
+tube60  any cell                     (60 cells): trials 29710 regrown 4075 died 25635 undecided 0 skipped 1010  share regrown 0.1372 +- 0.0020
+h63     corner                       ( 3 cells): trials 13088 regrown 2013 died 11075 undecided 0 skipped 17632  share regrown 0.1538 +- 0.0032
+h63     rim line next to a corner    (12 cells): trials 29141 regrown 7998 died 21143 undecided 0 skipped 1579  share regrown 0.2745 +- 0.0026
+h63     rim line, the rest           (18 cells): trials 29338 regrown 6474 died 22864 undecided 0 skipped 1382  share regrown 0.2207 +- 0.0024
+h63     rim line, all but corners    (30 cells): trials 29287 regrown 7089 died 22198 undecided 0 skipped 1433  share regrown 0.2421 +- 0.0025
+h63     inside (no zero coordinate)  (30 cells): trials 29307 regrown 7549 died 21758 undecided 0 skipped 1413  share regrown 0.2576 +- 0.0026
+h63     centre (min coordinate 3)    ( 3 cells): trials 25612 regrown 4645 died 20967 undecided 0 skipped 5108  share regrown 0.1814 +- 0.0024
+h63     inside, min coordinate 1     (12 cells): trials 29366 regrown 8905 died 20461 undecided 0 skipped 1354  share regrown 0.3032 +- 0.0027
+h63     inside, min coordinate 2     (15 cells): trials 29338 regrown 7044 died 22294 undecided 0 skipped 1382  share regrown 0.2401 +- 0.0025

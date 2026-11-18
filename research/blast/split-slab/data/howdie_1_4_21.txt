@@ -1,0 +1,11 @@
+torus (1,4),(0,21), A = 63: 770 natural deaths; stationary face population about 32.5 +- 5.1
+  highest population in the last 24 generations: median 47 = 0.75 A = mean + 2.8 sd (10%..90%: 43..50); at lag (median) 6
+  largest one-generation fall: median 33 cells (10%..90%: 23..41), from 47 (= mean + 2.8 sd) to 14; it ends 4 generations before the death (10%..90%: 2..9)
+  deaths whose largest fall starts above mean + 1.5 sd: 0.952; above mean + 2 sd: 0.877; above the mean: 0.996
+  deaths whose largest fall removes more than half of the mean population: 0.984; more than a third: 0.999
+  share of the face cells last alive in one and the same generation: median 0.52 (10%..90%: 0.37..0.65); sd of the cells' last-alive generations within a death: median 1.79
+  deaths with a one-generation fall of at least half the face (A/2 = 31.5 cells): 0.558; of at least 0.4 A: 0.823
+  mean population at generations relative to the largest fall (-1 = the last generation before it, 0 = the first after it):
+   -6: 32.3  -5: 32.5  -4: 34.0  -3: 31.1  -2: 33.0  -1: 46.3  +0: 14.3  +1: 7.8  +2: 4.8  +3: 3.8  +4: 3.9
+  shortest loop^2 21; face = 4.58 x 3.97 lattice units; 2 segments along the axis perpendicular to the shortest loop:
+   range of the segments' median last-alive generation within a death: median 0.0 generations (10%..90%: 0.0..1.0); share of deaths with range <= 1: 0.96, >= 4: 0.01

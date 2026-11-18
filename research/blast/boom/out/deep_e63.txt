@@ -1,0 +1,9 @@
+e63: A 63; 2692 deaths (those empty at least 4 generations after the launch); stationary means / A: P 0.517, U 0.435, layer 3 0.406, layer 4 0.416
+  generation relative to the launch:  P/A    U/A   layer 3 / A   layer 4 / A
+   -2                                0.496  0.419    0.399        0.407
+   -1                                0.525  0.399    0.355        0.377
+   +0                                0.732  0.637    0.562        0.507
+   +1                                0.230  0.154    0.191        0.297
+   +2                                0.127  0.158    0.242        0.347
+   +3                                0.070  0.176    0.311        0.409
+  at the launch, in s.d. of all face-generations with the same P: U +2.18, layer 3 +1.86, layer 4 +1.20

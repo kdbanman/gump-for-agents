@@ -1,0 +1,172 @@
+EXACT (rho1, rho2) = (0.44, 0.42)
+shape            A          ln tau  ln tau/A   density var/cell  die n=1    p2/p1  note
+strip_1_2        6    2.4221752964   0.40370  0.611732   0.3993   0.7840   1.1330  free rim both sides; periodic along
+hull_R3          9    2.4837157463   0.27597  0.502351   0.3825   0.7341   1.0669  rimmed triangle
+patch_1_3        9    1.8804189341   0.20894  0.407845   0.4023   0.7385   0.9840  free rim all round
+strip_1_3        9    2.7988780569   0.31099  0.596218   0.5379   0.7201   1.0902  free rim both sides; periodic along
+torus_1_0_3      9    3.3935247191   0.37706  0.454757   0.3546   0.6716   1.4123  gram=1/1/7 loops2=1/4/7/7/9/9/9
+torus_1_1_3      9    2.6946266059   0.29940  0.535817   0.3871   0.5678   1.0328  gram=3/3/3 loops2=3/3/3/9/9/9/12/12/12
+patch_1_4       12    1.9812289224   0.16510  0.331769   0.3779   0.7326   0.9862  free rim all round
+patch_2_2       12    3.3854987010   0.28212  0.542753   0.4914   0.7140   1.1189  free rim all round
+strip_1_4       12    2.6373948650   0.21978  0.492908   0.7033   0.7137   1.0304  free rim both sides; periodic along
+strip_2_2       12    4.4893195856   0.37411  0.589382   0.3697   0.7504   1.2750  free rim both sides; periodic along
+torus_1_0_4     12    4.1330124063   0.34442  0.425096   0.3837   0.7544   1.5800  gram=1/0/12 loops2=1/4/9/12
+torus_1_1_4     12    3.7118338988   0.30932  0.499260   0.4275   0.7079   1.2878  gram=3/0/4 loops2=3/4/7/7/12
+torus_2_0_2     12    3.9818365883   0.33182  0.468080   0.3920   0.7620   1.5447  gram=4/4/4 loops2=4/4/4/12/12/12
+patch_1_5       15    2.0388020889   0.13592  0.278563   0.3480   0.7295   0.9871  free rim all round
+strip_1_5       15    2.4517229018   0.16345  0.386585   0.7333   0.7151   1.0116  free rim both sides; periodic along
+torus_1_0_5     15    4.6335254447   0.30890  0.403953   0.4127   0.7811   1.6320  gram=1/1/19 loops2=1/4/9
+torus_1_1_5     15    4.3871947401   0.29248  0.524395   0.4260   0.7035   1.2431  gram=3/3/7 loops2=3/7/7/12
+hull_R5         18    4.2316548327   0.23509  0.474732   0.4350   0.7060   1.1303  rimmed triangle
+patch_1_6       18    2.0728291284   0.11516  0.239007   0.3165   0.7276   0.9874  free rim all round
+patch_2_3       18    4.4727866504   0.24849  0.527943   0.5345   0.7024   1.1213  free rim all round
+patch_3_2       18    4.4727866504   0.24849  0.527943   0.5345   0.7024   1.1213  free rim all round
+strip_1_6       18    2.3062451767   0.12812  0.297914   0.6069   0.7185   1.0004  free rim both sides; periodic along
+strip_2_3       18    6.1754024793   0.34308  0.622261   0.3365   0.7038   1.1483  free rim both sides; periodic along
+strip_3_2       18    5.8253390091   0.32363  0.555087   0.3732   0.7364   1.2596  free rim both sides; periodic along
+torus_1_0_6     18    4.9945459981   0.27747  0.387645   0.4452   0.7853   1.6397  gram=1/0/27 loops2=1/4/9
+
+FAMILIES at fixed girth (exact where present, else Monte Carlo +- stderr): ln tau, step per 3 cells, second difference
+tube, girth one unit cell (loop^2 1): torus (1,0),(0,D)
+   torus_1_0_3    A=  9  ln tau   3.39352 +- 0.0000 (exact)  density 0.4548  step/unit cell    -    change of step 
+   torus_1_0_4    A= 12  ln tau   4.13301 +- 0.0000 (exact)  density 0.4251  step/unit cell 0.7395  change of step 
+   torus_1_0_5    A= 15  ln tau   4.63353 +- 0.0000 (exact)  density 0.4040  step/unit cell 0.5005  change of step -0.2390
+   torus_1_0_6    A= 18  ln tau   4.99455 +- 0.0000 (exact)  density 0.3876  step/unit cell 0.3610  change of step -0.1395
+   torus_1_0_7    A= 21  ln tau   5.27687 +- 0.0071 (mc)  density 0.3746  step/unit cell 0.2823  change of step -0.0787
+   torus_1_0_8    A= 24  ln tau   5.52887 +- 0.0071 (mc)  density 0.3638  step/unit cell 0.2520  change of step -0.0303
+   torus_1_0_10   A= 30  ln tau   5.96866 +- 0.0071 (mc)  density 0.3474  step/unit cell    -    change of step 
+   torus_1_0_12   A= 36  ln tau   6.30828 +- 0.0071 (mc)  density 0.3346  step/unit cell    -    change of step 
+tube, loop^2 3: torus (1,1),(0,D)
+   torus_1_1_3    A=  9  ln tau   2.69463 +- 0.0000 (exact)  density 0.5358  step/unit cell    -    change of step 
+   torus_1_1_4    A= 12  ln tau   3.71183 +- 0.0000 (exact)  density 0.4993  step/unit cell 1.0172  change of step 
+   torus_1_1_5    A= 15  ln tau   4.38719 +- 0.0000 (exact)  density 0.5244  step/unit cell 0.6754  change of step -0.3418
+   torus_1_1_6    A= 18  ln tau   5.10356 +- 0.0071 (mc)  density 0.5243  step/unit cell 0.7164  change of step +0.0410
+   torus_1_1_7    A= 21  ln tau   5.88182 +- 0.0071 (mc)  density 0.5239  step/unit cell 0.7783  change of step +0.0619
+   torus_1_1_8    A= 24  ln tau   6.72859 +- 0.0071 (mc)  density 0.5237  step/unit cell 0.8468  change of step +0.0685
+   torus_1_1_9    A= 27  ln tau   7.52901 +- 0.0050 (mc)  density 0.5233  step/unit cell 0.8004  change of step -0.0463
+   torus_1_1_10   A= 30  ln tau   8.27355 +- 0.0050 (mc)  density 0.5229  step/unit cell 0.7445  change of step -0.0559
+   torus_1_1_11   A= 33  ln tau   9.01995 +- 0.0050 (mc)  density 0.5226  step/unit cell 0.7464  change of step +0.0019
+   torus_1_1_12   A= 36  ln tau   9.73042 +- 0.0058 (mc)  density 0.5223  step/unit cell 0.7105  change of step -0.0359
+   torus_1_1_13   A= 39  ln tau  10.42452 +- 0.0071 (mc)  density 0.5222  step/unit cell 0.6941  change of step -0.0164
+   torus_1_1_14   A= 42  ln tau  11.10385 +- 0.0100 (mc)  density 0.5222  step/unit cell 0.6793  change of step -0.0148
+tube, girth two unit cells (loop^2 4): torus (2,0),(0,D)
+   torus_2_0_2    A= 12  ln tau   3.98184 +- 0.0000 (exact)  density 0.4681  step/unit cell    -    change of step 
+   torus_2_0_3    A= 18  ln tau   5.33817 +- 0.0071 (mc)  density 0.5236  step/unit cell 1.3563  change of step 
+   torus_2_0_4    A= 24  ln tau   6.93563 +- 0.0071 (mc)  density 0.5273  step/unit cell 1.5975  change of step +0.2411
+   torus_2_0_5    A= 30  ln tau   8.60526 +- 0.0104 (mc)  density 0.5292  step/unit cell 1.6696  change of step +0.0722
+   torus_2_0_6    A= 36  ln tau  10.18384 +- 0.0252 (mc)  density 0.5293  step/unit cell 1.5786  change of step -0.0910
+   torus_2_0_7    A= 42  ln tau  11.69062 +- 0.0578 (mc)  density 0.5293  step/unit cell 1.5068  change of step -0.0718
+   torus_2_0_8    A= 48  ln tau  12.90082 +- 0.1132 (mc)  density 0.5293  step/unit cell 1.2102  change of step -0.2966
+tube, girth three unit cells (loop^2 9): torus (3,0),(0,D)
+   torus_3_0_3    A= 27  ln tau   7.29969 +- 0.0071 (mc)  density 0.5512  step/unit cell    -    change of step 
+   torus_3_0_4    A= 36  ln tau   9.52002 +- 0.0181 (mc)  density 0.5537  step/unit cell 2.2203  change of step 
+   torus_3_0_5    A= 45  ln tau  11.85824 +- 0.0651 (mc)  density 0.5548  step/unit cell 2.3382  change of step +0.1179
+strip one unit cell wide, free rims: strip 1 x D
+   strip_1_2      A=  6  ln tau   2.42218 +- 0.0000 (exact)  density 0.6117  step/unit cell    -    change of step 
+   strip_1_3      A=  9  ln tau   2.79888 +- 0.0000 (exact)  density 0.5962  step/unit cell 0.3767  change of step 
+   strip_1_4      A= 12  ln tau   2.63739 +- 0.0000 (exact)  density 0.4929  step/unit cell -0.1615  change of step -0.5382
+   strip_1_5      A= 15  ln tau   2.45172 +- 0.0000 (exact)  density 0.3866  step/unit cell -0.1857  change of step -0.0242
+   strip_1_6      A= 18  ln tau   2.30625 +- 0.0000 (exact)  density 0.2979  step/unit cell -0.1455  change of step +0.0402
+strip two unit cells wide, free rims: strip 2 x D
+   strip_2_2      A= 12  ln tau   4.48932 +- 0.0000 (exact)  density 0.5894  step/unit cell    -    change of step 
+   strip_2_3      A= 18  ln tau   6.17540 +- 0.0000 (exact)  density 0.6223  step/unit cell 1.6861  change of step 
+   strip_2_4      A= 24  ln tau   7.38312 +- 0.0071 (mc)  density 0.6218  step/unit cell 1.2077  change of step -0.4784
+   strip_2_5      A= 30  ln tau   8.35295 +- 0.0092 (mc)  density 0.6207  step/unit cell 0.9698  change of step -0.2379
+   strip_2_6      A= 36  ln tau   9.27035 +- 0.0160 (mc)  density 0.6197  step/unit cell 0.9174  change of step -0.0524
+strip three unit cells wide, free rims: strip 3 x D
+   strip_3_2      A= 18  ln tau   5.82534 +- 0.0000 (exact)  density 0.5551  step/unit cell    -    change of step 
+   strip_3_3      A= 27  ln tau   8.40849 +- 0.0090 (mc)  density 0.5957  step/unit cell 2.5832  change of step 
+   strip_3_4      A= 36  ln tau  10.85189 +- 0.0352 (mc)  density 0.5989  step/unit cell 2.4434  change of step -0.1398
+
+MONTE CARLO (0.44, 0.42)
+hull_R5         18    4.2347 +- 0.0071  ln tau/A 0.2353  density 0.4743  deaths 20000  rimmed triangle
+torus_1_1_6     18    5.1036 +- 0.0071  ln tau/A 0.2835  density 0.5243  deaths 20000  tube girth2=3
+torus_2_0_3     18    5.3382 +- 0.0071  ln tau/A 0.2966  density 0.5236  deaths 20000  tube girth2=4
+torus_1_0_7     21    5.2769 +- 0.0071  ln tau/A 0.2513  density 0.3746  deaths 20000  tube girth2=1
+torus_1_1_7     21    5.8818 +- 0.0071  ln tau/A 0.2801  density 0.5239  deaths 20000  tube girth2=3
+torus_1_2_7     21    5.7809 +- 0.0071  ln tau/A 0.2753  density 0.5442  deaths 20000  widest class gram=7/7/7
+strip_2_4       24    7.3831 +- 0.0071  ln tau/A 0.3076  density 0.6218  deaths 20000  free rim both sides; periodic along
+torus_1_0_8     24    5.5289 +- 0.0071  ln tau/A 0.2304  density 0.3638  deaths 20000  tube girth2=1
+torus_1_1_8     24    6.7286 +- 0.0071  ln tau/A 0.2804  density 0.5237  deaths 20000  tube girth2=3
+torus_1_2_8     24    6.4956 +- 0.0071  ln tau/A 0.2707  density 0.5466  deaths 20000  widest class gram=7/2/7
+torus_2_0_4     24    6.9356 +- 0.0071  ln tau/A 0.2890  density 0.5273  deaths 20000  tube girth2=4
+strip_3_3       27    8.4085 +- 0.0090  ln tau/A 0.3114  density 0.5957  deaths 12387  free rim both sides; periodic along
+torus_1_1_9     27    7.5290 +- 0.0050  ln tau/A 0.2789  density 0.5233  deaths 40000  pass2 tube girth2=3
+torus_3_0_3     27    7.2997 +- 0.0071  ln tau/A 0.2704  density 0.5512  deaths 20000  tube girth2=9
+hull_R7         30    6.8977 +- 0.0071  ln tau/A 0.2299  density 0.5119  deaths 20000  rimmed triangle
+hull_R7         30    6.8893 +- 0.0050  ln tau/A 0.2296  density 0.5120  deaths 40000  pass2 rimmed triangle
+strip_2_5       30    8.3529 +- 0.0092  ln tau/A 0.2784  density 0.6207  deaths 11785  free rim both sides; periodic along
+torus_1_0_10    30    5.9687 +- 0.0071  ln tau/A 0.1990  density 0.3474  deaths 20000  tube girth2=1
+torus_1_1_10    30    8.2824 +- 0.0089  ln tau/A 0.2761  density 0.5228  deaths 12646  tube girth2=3
+torus_1_1_10    30    8.2736 +- 0.0050  ln tau/A 0.2758  density 0.5229  deaths 40000  pass2 tube girth2=3
+torus_1_2_10    30    7.9960 +- 0.0077  ln tau/A 0.2665  density 0.5511  deaths 16841  widest class gram=7/6/12
+torus_1_2_10    30    7.9851 +- 0.0050  ln tau/A 0.2662  density 0.5511  deaths 40000  pass2 widest class gram=7/6/12
+torus_2_0_5     30    8.6053 +- 0.0104  ln tau/A 0.2868  density 0.5292  deaths 9157  tube girth2=4
+torus_1_1_11    33    9.0199 +- 0.0050  ln tau/A 0.2733  density 0.5226  deaths 40000  pass2 tube girth2=3
+strip_2_6       36    9.2704 +- 0.0160  ln tau/A 0.2575  density 0.6197  deaths 3924  free rim both sides; periodic along
+strip_3_4       36   10.8519 +- 0.0352  ln tau/A 0.3014  density 0.5989  deaths 807  free rim both sides; periodic along
+torus_1_0_12    36    6.3083 +- 0.0071  ln tau/A 0.1752  density 0.3346  deaths 20000  tube girth2=1
+torus_1_1_12    36    9.7180 +- 0.0200  ln tau/A 0.2699  density 0.5223  deaths 2508  tube girth2=3
+torus_1_1_12    36    9.7304 +- 0.0058  ln tau/A 0.2703  density 0.5223  deaths 30000  pass2 tube girth2=3
+torus_2_0_6     36   10.1838 +- 0.0252  ln tau/A 0.2829  density 0.5293  deaths 1574  tube girth2=4
+torus_2_2_6     36    9.4435 +- 0.0174  ln tau/A 0.2623  density 0.5542  deaths 3300  widest class gram=12/12/12
+torus_3_0_4     36    9.5200 +- 0.0181  ln tau/A 0.2644  density 0.5537  deaths 3057  tube girth2=9
+torus_1_1_13    39   10.4245 +- 0.0071  ln tau/A 0.2673  density 0.5222  deaths 19797  pass2 tube girth2=3
+torus_1_3_13    39   10.2231 +- 0.0267  ln tau/A 0.2621  density 0.5549  deaths 1397  widest class gram=13/13/13
+torus_1_1_14    42   11.1107 +- 0.0433  ln tau/A 0.2645  density 0.5222  deaths 534  tube girth2=3
+torus_1_1_14    42   11.1038 +- 0.0100  ln tau/A 0.2644  density 0.5222  deaths 10000  pass2 tube girth2=3
+torus_1_3_14    42   11.0596 +- 0.0422  ln tau/A 0.2633  density 0.5551  deaths 562  widest class gram=12/6/13
+torus_2_0_7     42   11.6906 +- 0.0578  ln tau/A 0.2783  density 0.5293  deaths 299  tube girth2=4
+hull_R9         45   10.5513 +- 0.0339  ln tau/A 0.2345  density 0.5384  deaths 872  rimmed triangle
+hull_R9         45   10.5819 +- 0.0100  ln tau/A 0.2352  density 0.5384  deaths 10000  pass2 rimmed triangle
+torus_3_0_5     45   11.8582 +- 0.0651  ln tau/A 0.2635  density 0.5548  deaths 236  tube girth2=9
+torus_1_1_16    48   12.4513 +- 0.0187  ln tau/A 0.2594  density 0.5221  deaths 2853  pass2 tube girth2=3
+torus_2_0_8     48   12.9008 +- 0.1132  ln tau/A 0.2688  density 0.5293  deaths 78  tube girth2=4
+torus_4_0_4     48   12.5126 +- 0.0932  ln tau/A 0.2607  density 0.5548  deaths 115  widest class gram=16/16/16
+
+wide tori, A >= 27 (least squares, unweighted): ln tau = 0.406 + 0.2524 A
+discount against that line (positive = dies sooner than a wide face of equal area):
+   patch_1_6      A= 18  +2.876   free rim all round
+   patch_2_3      A= 18  +0.476   free rim all round
+   patch_3_2      A= 18  +0.476   free rim all round
+   strip_1_6      A= 18  +2.642   free rim both sides; periodic along
+   strip_3_2      A= 18  -0.877   free rim both sides; periodic along
+   strip_2_3      A= 18  -1.227   free rim both sides; periodic along
+   strip_2_4      A= 24  -0.920   free rim both sides; periodic along
+   strip_3_3      A= 27  -1.188   free rim both sides; periodic along
+   strip_2_5      A= 30  -0.376   free rim both sides; periodic along
+   strip_2_6      A= 36  +0.221   free rim both sides; periodic along
+   strip_3_4      A= 36  -1.360   free rim both sides; periodic along
+   torus_1_0_6    A= 18  -0.046   gram=1/0/27 loops2=1/4/9
+   hull_R7        A= 30  +1.088   pass2 rimmed triangle
+   hull_R9        A= 45  +1.181   pass2 rimmed triangle
+   torus_1_1_9    A= 27  -0.309   pass2 tube girth2=3
+   torus_1_1_10   A= 30  -0.296   pass2 tube girth2=3
+   torus_1_1_11   A= 33  -0.286   pass2 tube girth2=3
+   torus_1_1_12   A= 36  -0.239   pass2 tube girth2=3
+   torus_1_1_13   A= 39  -0.176   pass2 tube girth2=3
+   torus_1_1_14   A= 42  -0.098   pass2 tube girth2=3
+   torus_1_1_16   A= 48  +0.069   pass2 tube girth2=3
+   hull_R5        A= 18  +0.714   rimmed triangle
+   hull_R5        A= 18  +0.717   rimmed triangle
+   hull_R7        A= 30  +1.080   rimmed triangle
+   hull_R9        A= 45  +1.211   rimmed triangle
+   torus_1_0_7    A= 21  +0.429   tube girth2=1
+   torus_1_0_8    A= 24  +0.934   tube girth2=1
+   torus_1_0_10   A= 30  +2.009   tube girth2=1
+   torus_1_0_12   A= 36  +3.183   tube girth2=1
+   torus_1_1_6    A= 18  -0.155   tube girth2=3
+   torus_1_1_7    A= 21  -0.176   tube girth2=3
+   torus_1_1_8    A= 24  -0.266   tube girth2=3
+   torus_1_1_10   A= 30  -0.305   tube girth2=3
+   torus_1_1_12   A= 36  -0.227   tube girth2=3
+   torus_1_1_14   A= 42  -0.105   tube girth2=3
+   torus_2_0_3    A= 18  -0.389   tube girth2=4
+   torus_2_0_4    A= 24  -0.473   tube girth2=4
+   torus_2_0_5    A= 30  -0.628   tube girth2=4
+   torus_2_0_6    A= 36  -0.692   tube girth2=4
+   torus_2_0_7    A= 42  -0.685   tube girth2=4
+   torus_2_0_8    A= 48  -0.381   tube girth2=4
+   torus_3_0_3    A= 27  -0.080   tube girth2=9
+   torus_3_0_4    A= 36  -0.029   tube girth2=9
+   torus_3_0_5    A= 45  -0.095   tube girth2=9

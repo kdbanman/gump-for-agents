@@ -1,0 +1,8 @@
+# life prism 9 3 seed 936 T0 1000: N 450 faces 4 cells/face 45 gens 606208 secs 2.6 (9.40 ns per cell-generation of 512 lanes); censored as periodic 3; deaths before T0 17187; deaths with two faces at once 41; oldest lane at the end 36728; exposure by bins 240742521
+  age     1000..: deaths     13500 exposure       53286182 ln tau_face 9.6670 +- 0.0086
+  age     2000..: deaths     18426 exposure       74252239 ln tau_face 9.6878 +- 0.0074
+  age     4000..: deaths     18095 exposure       71882832 ln tau_face 9.6735 +- 0.0074
+  age     8000..: deaths      8914 exposure       35904550 ln tau_face 9.6873 +- 0.0106
+  age    16000..: deaths      1376 exposure        5340642 ln tau_face 9.6502 +- 0.0270
+  age    32000..: deaths        22 exposure          76076 ln tau_face 9.5347 +- 0.2132
+LIFE prism 9 3 cells 45 seed 936 T0 1000 deaths 60333 exposure 240742521 ln_tau_face 9.6779 +- 0.0041 | nofw deaths 60332 exposure 240742516 ln_tau_face 9.6779 +- 0.0041 firewalls 1 fw% 0.0

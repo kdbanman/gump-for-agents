@@ -1,0 +1,54 @@
+subpaths_1_4_21_s4.txt: A = 63, 38984 dying chains in 16 replications; stationary population 32.4 ± 5.1
+  share of deaths with a one-generation fall >= A/2: 0.54 ± 0.02;  >= 0.4 A: 0.81 ± 0.02
+  largest one-generation fall: 32.06 ± 0.30 cells = 0.51 A, from 46.09 ± 0.15 (= mean + 2.7 sd) to 14.03 ± 0.17, ending 5.39 ± 0.12 generations before the death
+  highest population in the last 16 generations: 46.27 ± 0.14 = 0.73 A;  generations spent below a third of the mean before the death: 4.30 ± 0.11
+  second largest one-generation fall: 11.17 ± 0.20 cells = 0.18 A, 4.75 ± 0.15 generations away from the largest; deaths with two falls >= 0.15 A at least 2 generations apart: 0.53 ± 0.02
+  mean population by generations before the death (1..12): 1.7 4.2 10.4 18.0 22.4 24.9 27.1 28.7 29.9 30.8 31.6 32.0
+subpaths_1_12_28_s4.txt: A = 84, 52949 dying chains in 16 replications; stationary population 43.3 ± 5.9
+  share of deaths with a one-generation fall >= A/2: 0.50 ± 0.03;  >= 0.4 A: 0.77 ± 0.02
+  largest one-generation fall: 41.01 ± 0.46 cells = 0.49 A, from 59.92 ± 0.35 (= mean + 2.8 sd) to 18.91 ± 0.23, ending 5.69 ± 0.07 generations before the death
+  highest population in the last 16 generations: 60.72 ± 0.26 = 0.72 A;  generations spent below a third of the mean before the death: 4.61 ± 0.05
+  second largest one-generation fall: 12.93 ± 0.35 cells = 0.15 A, 3.84 ± 0.13 generations away from the largest; deaths with two falls >= 0.15 A at least 2 generations apart: 0.37 ± 0.04
+  mean population by generations before the death (1..12): 1.7 4.1 9.7 19.8 27.6 31.8 35.6 38.1 40.1 41.4 42.3 42.9
+subpaths_6_0_6_s2.txt: A = 108, 34926 dying chains in 24 replications; stationary population 55.6 ± 6.7
+  share of deaths with a one-generation fall >= A/2: 0.59 ± 0.03;  >= 0.4 A: 0.88 ± 0.02
+  largest one-generation fall: 55.17 ± 0.59 cells = 0.51 A, from 78.94 ± 0.31 (= mean + 3.5 sd) to 23.77 ± 0.33, ending 5.94 ± 0.07 generations before the death
+  highest population in the last 16 generations: 79.12 ± 0.29 = 0.73 A;  generations spent below a third of the mean before the death: 4.96 ± 0.07
+  second largest one-generation fall: 14.63 ± 0.21 cells = 0.14 A, 3.81 ± 0.15 generations away from the largest; deaths with two falls >= 0.15 A at least 2 generations apart: 0.23 ± 0.02
+  mean population by generations before the death (1..12): 1.7 4.1 9.7 20.8 32.0 39.1 44.7 48.6 51.3 53.2 54.1 54.7
+subpaths_1_16_36_s2.txt: A = 108, 24009 dying chains in 16 replications; stationary population 55.6 ± 6.7
+  share of deaths with a one-generation fall >= A/2: 0.50 ± 0.04;  >= 0.4 A: 0.72 ± 0.03
+  largest one-generation fall: 51.30 ± 1.13 cells = 0.48 A, from 75.24 ± 0.77 (= mean + 2.9 sd) to 23.94 ± 0.55, ending 6.36 ± 0.10 generations before the death
+  highest population in the last 16 generations: 77.17 ± 0.58 = 0.71 A;  generations spent below a third of the mean before the death: 5.20 ± 0.05
+  second largest one-generation fall: 16.49 ± 0.40 cells = 0.15 A, 3.73 ± 0.21 generations away from the largest; deaths with two falls >= 0.15 A at least 2 generations apart: 0.40 ± 0.04
+  mean population by generations before the death (1..12): 1.7 3.9 8.8 19.0 29.2 35.5 41.5 45.7 49.1 51.5 52.8 53.8
+subpaths_1_18_40_s2.txt: A = 120, 71023 dying chains in 32 replications; stationary population 61.8 ± 7.1
+  share of deaths with a one-generation fall >= A/2: 0.38 ± 0.03;  >= 0.4 A: 0.65 ± 0.03
+  largest one-generation fall: 52.69 ± 0.96 cells = 0.44 A, from 79.70 ± 1.05 (= mean + 2.5 sd) to 27.00 ± 0.31, ending 6.56 ± 0.09 generations before the death
+  highest population in the last 16 generations: 83.30 ± 0.51 = 0.69 A;  generations spent below a third of the mean before the death: 5.34 ± 0.09
+  second largest one-generation fall: 17.76 ± 0.34 cells = 0.15 A, 3.26 ± 0.09 generations away from the largest; deaths with two falls >= 0.15 A at least 2 generations apart: 0.38 ± 0.03
+  mean population by generations before the death (1..12): 1.7 3.9 8.7 18.6 29.4 37.3 43.8 49.3 53.4 56.2 58.3 59.7
+subpaths_4_4_12_s2.txt: A = 144, 44422 dying chains in 14 replications; stationary population 74.2 ± 7.7
+  share of deaths with a one-generation fall >= A/2: 0.68 ± 0.05;  >= 0.4 A: 0.95 ± 0.01
+  largest one-generation fall: 75.84 ± 1.56 cells = 0.53 A, from 106.27 ± 0.89 (= mean + 4.2 sd) to 30.43 ± 0.70, ending 6.34 ± 0.10 generations before the death
+  highest population in the last 16 generations: 106.40 ± 0.86 = 0.74 A;  generations spent below a third of the mean before the death: 5.42 ± 0.10
+  second largest one-generation fall: 17.50 ± 0.34 cells = 0.12 A, 2.98 ± 0.23 generations away from the largest; deaths with two falls >= 0.15 A at least 2 generations apart: 0.13 ± 0.03
+  mean population by generations before the death (1..12): 1.7 3.9 8.6 19.9 35.9 47.0 56.6 63.6 67.7 70.1 71.9 72.7
+subpaths_1_22_48_s2.txt: A = 144, 25755 dying chains in 8 replications; stationary population 74.2 ± 7.7
+  share of deaths with a one-generation fall >= A/2: 0.26 ± 0.05;  >= 0.4 A: 0.59 ± 0.05
+  largest one-generation fall: 58.90 ± 1.84 cells = 0.41 A, from 91.69 ± 2.11 (= mean + 2.3 sd) to 32.78 ± 0.78, ending 7.13 ± 0.18 generations before the death
+  highest population in the last 16 generations: 96.50 ± 1.43 = 0.67 A;  generations spent below a third of the mean before the death: 5.83 ± 0.12
+  second largest one-generation fall: 21.10 ± 0.63 cells = 0.15 A, 3.23 ± 0.15 generations away from the largest; deaths with two falls >= 0.15 A at least 2 generations apart: 0.30 ± 0.05
+  mean population by generations before the death (1..12): 1.7 3.7 7.8 16.3 27.7 38.0 47.1 54.9 61.3 65.7 68.5 70.8
+subpaths_8_0_8_s2.txt + subpaths_8_0_8_s3.txt: A = 192, 23937 dying chains in 12 replications; stationary population 98.9 ± 8.9
+  share of deaths with a one-generation fall >= A/2: 0.55 ± 0.08;  >= 0.4 A: 0.91 ± 0.04
+  largest one-generation fall: 97.12 ± 2.86 cells = 0.51 A, from 138.69 ± 2.00 (= mean + 4.5 sd) to 41.57 ± 1.13, ending 6.91 ± 0.22 generations before the death
+  highest population in the last 16 generations: 139.29 ± 1.68 = 0.73 A;  generations spent below a third of the mean before the death: 5.93 ± 0.19
+  second largest one-generation fall: 22.70 ± 0.55 cells = 0.12 A, 2.55 ± 0.25 generations away from the largest; deaths with two falls >= 0.15 A at least 2 generations apart: 0.07 ± 0.02
+  mean population by generations before the death (1..12): 1.7 3.9 8.3 18.9 36.7 53.2 65.6 76.7 85.1 90.3 93.7 95.9
+subpaths_1_30_64_s2.txt + subpaths_1_30_64_s3.txt: A = 192, 36057 dying chains in 16 replications; stationary population 98.9 ± 8.9
+  share of deaths with a one-generation fall >= A/2: 0.17 ± 0.06;  >= 0.4 A: 0.33 ± 0.07
+  largest one-generation fall: 65.98 ± 3.49 cells = 0.34 A, from 112.14 ± 3.20 (= mean + 1.5 sd) to 46.16 ± 1.39, ending 8.33 ± 0.26 generations before the death
+  highest population in the last 16 generations: 121.97 ± 1.94 = 0.64 A;  generations spent below a third of the mean before the death: 6.60 ± 0.13
+  second largest one-generation fall: 28.58 ± 1.11 cells = 0.15 A, 3.07 ± 0.14 generations away from the largest; deaths with two falls >= 0.15 A at least 2 generations apart: 0.33 ± 0.05
+  mean population by generations before the death (1..12): 1.7 3.4 6.7 13.4 24.2 35.6 47.5 59.2 69.5 77.7 84.5 89.0

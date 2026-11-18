@@ -1,0 +1,27 @@
+# nice -n 10 /home/user/gump-for-agents/research/scratch/blast/split-slab/ss_sub /home/user/gump-for-agents/research/scratch/blast/split-slab/g_1_4_21.bin sub 4 16 20 3 8 10 4 32 24 /home/user/gump-for-agents/research/scratch/blast/split-slab/subpaths_full/subpaths_1_4_21_s4.txt 12   (WD=6)
+# sub A 63 WD 6 LAM1 20 DELTA 3 chains 4096 NSWEEP 10 KFLIP 4 TPRE 32 TWIN 24
+REP 0 valid 4074 : 20:649 17:1078 14:1120 11:1123 8:1134 5:1069 2:1223 0:2466 rate 1.70106e-06 lntau 13.2843
+REP 1 valid 4072 : 20:627 17:1129 14:1059 11:1158 8:1104 5:1154 2:1222 0:2387 rate 1.70658e-06 lntau 13.2810
+REP 2 valid 4091 : 20:637 17:1134 14:1071 11:1101 8:1269 5:1133 2:1194 0:2502 rate 1.92642e-06 lntau 13.1598
+REP 3 valid 4088 : 20:648 17:1037 14:1053 11:1147 8:1193 5:1246 2:1142 0:2425 rate 1.76052e-06 lntau 13.2499
+REP 4 valid 4091 : 20:629 17:1152 14:1102 11:1073 8:1122 5:1072 2:1051 0:2398 rate 1.36761e-06 lntau 13.5024
+REP 5 valid 4095 : 20:625 17:1039 14:1033 11:1100 8:1101 5:1142 2:1243 0:2404 rate 1.45835e-06 lntau 13.4382
+REP 6 valid 4083 : 20:624 17:1083 14:1000 11:1103 8:1192 5:1272 2:1315 0:2541 rate 1.99238e-06 lntau 13.1262
+REP 7 valid 4081 : 20:600 17:1077 14:1035 11:1164 8:1292 5:1285 2:1375 0:2385 rate 2.23728e-06 lntau 13.0103
+REP 8 valid 4093 : 20:637 17:1103 14:1039 11:1036 8:1170 5:1167 2:1110 0:2254 rate 1.35973e-06 lntau 13.5082
+REP 9 valid 4096 : 20:610 17:1133 14:1105 11:1019 8:1096 5:1182 2:1226 0:2527 rate 1.64259e-06 lntau 13.3192
+REP 10 valid 4096 : 20:572 17:1120 14:1053 11:1093 8:1218 5:1169 2:1367 0:2507 rate 1.89215e-06 lntau 13.1778
+REP 11 valid 4081 : 20:642 17:1126 14:1146 11:1128 8:1238 5:1347 2:1397 0:2634 rate 3.02670e-06 lntau 12.7080
+REP 12 valid 4079 : 20:618 17:1164 14:1102 11:1145 8:1093 5:1149 2:1199 0:2209 rate 1.59441e-06 lntau 13.3490
+REP 13 valid 4087 : 20:607 17:1136 14:1048 11:1141 8:1217 5:1193 2:1239 0:2483 rate 1.94114e-06 lntau 13.1522
+REP 14 valid 4089 : 20:654 17:1050 14:1105 11:1073 8:1167 5:1146 2:1138 0:2351 rate 1.53473e-06 lntau 13.3872
+REP 15 valid 4092 : 20:617 17:1229 14:1064 11:1045 8:1135 5:1084 2:1262 0:2511 rate 1.73045e-06 lntau 13.2671
+SUMMARY sub A 63 WD 6 reps 16 lntau 13.2252 +- 0.0558 (rel sd of one replication 0.223) acceptance 0.337
+LEVEL 0 lam 20 mean lnP -1.8787 (16 reps)
+LEVEL 1 lam 17 mean lnP -1.3049 (16 reps)
+LEVEL 2 lam 14 mean lnP -1.3421 (16 reps)
+LEVEL 3 lam 11 mean lnP -1.3127 (16 reps)
+LEVEL 4 lam 8 mean lnP -1.2532 (16 reps)
+LEVEL 5 lam 5 mean lnP -1.2502 (16 reps)
+LEVEL 6 lam 2 mean lnP -1.2047 (16 reps)
+LEVEL 7 lam 0 mean lnP -0.5204 (16 reps)

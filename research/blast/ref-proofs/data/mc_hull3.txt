@@ -1,0 +1,5 @@
+== hull_3 A 9 rho 0.44 0.42  power iterations 70
+h 8.3432634405111e-02  1-lambda 8.3432634405111e-02  lntau 2.483715746334
+density 0.502351406909  death_from_1,2,3 7.340665e-01 2.345166e-01 2.851371e-02
+p1..p4 8.566157e-02 9.139593e-02 1.117539e-01 1.494431e-01
+MC (independent simulation, deaths after 40 generations from a fair start): deaths 300086  halffall6 share 0.0170 +- 0.0002  lntau 2.4838 +- 0.0018

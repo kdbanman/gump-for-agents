@@ -1,0 +1,26 @@
+# life prism 7 5 seed 705 T0 1000: N 480 faces 4 cells/face 60 gens 20185088 secs 70.4 (7.27 ns per cell-generation of 512 lanes); censored as periodic 0; deaths before T0 174; deaths with two faces at once 7; oldest lane at the end 2679533; exposure by bins 10293861357
+  age     1000..: deaths       166 exposure       40128671 ln tau_face 13.7819 +- 0.0776
+  age     2000..: deaths       324 exposure       80364324 ln tau_face 13.8076 +- 0.0556
+  age     4000..: deaths       610 exposure      158809189 ln tau_face 13.8560 +- 0.0405
+  age     8000..: deaths      1247 exposure      310183745 ln tau_face 13.8105 +- 0.0283
+  age    16000..: deaths      2269 exposure      591738957 ln tau_face 13.8578 +- 0.0210
+  age    32000..: deaths      4207 exposure     1077856670 ln tau_face 13.8400 +- 0.0154
+  age    64000..: deaths      6935 exposure     1787297460 ln tau_face 13.8459 +- 0.0120
+  age   128000..: deaths      9658 exposure     2463190013 ln tau_face 13.8355 +- 0.0102
+  age   256000..: deaths      9254 exposure     2399584933 ln tau_face 13.8520 +- 0.0104
+  age   512000..: deaths      5336 exposure     1384707395 ln tau_face 13.8528 +- 0.0137
+LIFE prism 7 5 cells 60 seed 705 T0 1000 deaths 40006 exposure 10293861357 ln_tau_face 13.8443 +- 0.0050 | nofw deaths 39923 exposure 10293849976 ln_tau_face 13.8464 +- 0.0050 firewalls 83 fw% 0.2
+LIVE prism 7 5 cells 60 samples 2512949 mean 31.772 q50 32 q90 38 q95 40 q99 43
+BUST prism 7 5 deaths 40006 share with a one-generation fall of at least half the face 0.1603
+LAG prism 7 5 lag  1 mean 1.649 q10 1 q50 1 q90 3 q95 4
+LAG prism 7 5 lag  2 mean 3.816 q10 1 q50 3 q90 8 q95 10
+LAG prism 7 5 lag  3 mean 7.649 q10 1 q50 5 q90 16 q95 20
+LAG prism 7 5 lag  4 mean 12.921 q10 2 q50 9 q90 35 q95 44
+LAG prism 7 5 lag  5 mean 17.118 q10 3 q50 13 q90 38 q95 44
+LAG prism 7 5 lag  6 mean 20.249 q10 3 q50 19 q90 38 q95 43
+LAG prism 7 5 lag  7 mean 23.039 q10 5 q50 25 q90 39 q95 42
+LAG prism 7 5 lag  8 mean 25.290 q10 7 q50 28 q90 39 q95 42
+LAG prism 7 5 lag  9 mean 26.967 q10 9 q50 30 q90 39 q95 41
+LAG prism 7 5 lag 10 mean 28.307 q10 13 q50 30 q90 38 q95 41
+LAG prism 7 5 lag 11 mean 29.316 q10 17 q50 31 q90 38 q95 41
+LAG prism 7 5 lag 12 mean 29.995 q10 20 q50 31 q90 38 q95 40

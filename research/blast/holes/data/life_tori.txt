@@ -1,0 +1,105 @@
+# life slab 3 3 face cells 27 N=216 seed 71 batches 20000 T0 50 Tmax 400; censored as periodic 21535; first deaths with two faces at once 10762
+  generations   51.. 100: deaths    1181040 exposure    142647927  ln tau_face 5.4871 +- 0.0009
+  generations  101.. 150: deaths     777507 exposure     93950732  ln tau_face 5.4876 +- 0.0011
+  generations  151.. 200: deaths     512297 exposure     61800151  ln tau_face 5.4859 +- 0.0014
+  generations  201.. 250: deaths     336310 exposure     40650234  ln tau_face 5.4879 +- 0.0017
+  generations  251.. 300: deaths     221019 exposure     26750977  ln tau_face 5.4892 +- 0.0021
+  generations  301.. 350: deaths     145495 exposure     17602274  ln tau_face 5.4888 +- 0.0026
+  generations  351.. 400: deaths      96037 exposure     11575351  ln tau_face 5.4850 +- 0.0032
+LIFE slab 3 3 cells 27 deaths 3269705 exposure 394977646 ln_tau_face 5.4873 +- 0.0006
+# life slab 3 4 face cells 36 N=288 seed 72 batches 3000 T0 100 Tmax 6000; censored as periodic 1723; first deaths with two faces at once 318
+  generations  101.. 942: deaths     441674 exposure    356226042  ln tau_face 7.3859 +- 0.0015
+  generations  943..1785: deaths     155201 exposure    124827209  ln tau_face 7.3831 +- 0.0025
+  generations 1786..2628: deaths      54071 exposure     43734007  ln tau_face 7.3887 +- 0.0043
+  generations 2629..3471: deaths      18934 exposure     15390375  ln tau_face 7.3937 +- 0.0073
+  generations 3472..4314: deaths       6688 exposure      5433067  ln tau_face 7.3931 +- 0.0122
+  generations 4315..5157: deaths       2409 exposure      1923064  ln tau_face 7.3756 +- 0.0204
+  generations 5158..6000: deaths        867 exposure       629539  ln tau_face 7.2809 +- 0.0340
+LIFE slab 3 4 cells 36 deaths 679844 exposure 548163303 ln_tau_face 7.3856 +- 0.0012
+# life slab 3 5 face cells 45 N=360 seed 73 batches 300 T0 200 Tmax 40000; censored as periodic 65; first deaths with two faces at once 6
+  generations  201..5885: deaths      49128 exposure    256606977  ln tau_face 9.2540 +- 0.0045
+  generations 5886..11571: deaths      16497 exposure     85408210  ln tau_face 9.2452 +- 0.0078
+  generations 11572..17257: deaths       5524 exposure     28699778  ln tau_face 9.2487 +- 0.0135
+  generations 17258..22942: deaths       1854 exposure      9453138  ln tau_face 9.2299 +- 0.0232
+  generations 22943..28628: deaths        604 exposure      3058034  ln tau_face 9.2229 +- 0.0407
+  generations 28629..34314: deaths        202 exposure      1001575  ln tau_face 9.2020 +- 0.0704
+  generations 34315..40000: deaths         65 exposure       365046  ln tau_face 9.3265 +- 0.1240
+LIFE slab 3 5 cells 45 deaths 73874 exposure 384592758 ln_tau_face 9.2507 +- 0.0037
+# life slab 3 6 face cells 54 N=432 seed 74 batches 60 T0 300 Tmax 200000; censored as periodic 5; first deaths with two faces at once 1
+  generations  301..28828: deaths       9703 exposure    273101157  ln tau_face 10.9383 +- 0.0102
+  generations 28829..57357: deaths       3452 exposure     99981945  ln tau_face 10.9669 +- 0.0170
+  generations 57358..85885: deaths       1343 exposure     36271396  ln tau_face 10.8970 +- 0.0273
+  generations 85886..114414: deaths        455 exposure     12958855  ln tau_face 10.9501 +- 0.0469
+  generations 114415..142942: deaths        154 exposure      4857563  ln tau_face 11.0522 +- 0.0806
+  generations 142943..171471: deaths         67 exposure      1819037  ln tau_face 10.9023 +- 0.1222
+  generations 171472..200000: deaths         25 exposure       713675  ln tau_face 10.9525 +- 0.2000
+LIFE slab 3 6 cells 54 deaths 15199 exposure 429703628 ln_tau_face 10.9428 +- 0.0081
+# life slab 4 4 face cells 48 N=384 seed 75 batches 400 T0 300 Tmax 20000; censored as periodic 72; first deaths with two faces at once 4
+  generations  301..3114: deaths      23986 exposure    244601832  ln tau_face 9.9231 +- 0.0065
+  generations 3115..5928: deaths      18164 exposure    185623241  ln tau_face 9.9252 +- 0.0074
+  generations 5929..8742: deaths      13627 exposure    141124054  ln tau_face 9.9385 +- 0.0086
+  generations 8743..11557: deaths      10538 exposure    107448316  ln tau_face 9.9229 +- 0.0097
+  generations 11558..14371: deaths       7946 exposure     81526435  ln tau_face 9.9292 +- 0.0112
+  generations 14372..17185: deaths       6011 exposure     61950763  ln tau_face 9.9337 +- 0.0129
+  generations 17186..20000: deaths       4553 exposure     47203317  ln tau_face 9.9396 +- 0.0148
+LIFE slab 4 4 cells 48 deaths 84825 exposure 869477958 ln_tau_face 9.9282 +- 0.0034
+# life slab 4 5 face cells 60 N=480 seed 76 batches 24 T0 500 Tmax 500000; censored as periodic 0; first deaths with two faces at once 0
+  generations  501..71857: deaths       2566 exposure    337505204  ln tau_face 12.4801 +- 0.0197
+  generations 71858..143214: deaths       1483 exposure    195317464  ln tau_face 12.4815 +- 0.0260
+  generations 143215..214571: deaths        842 exposure    114452298  ln tau_face 12.5130 +- 0.0345
+  generations 214572..285928: deaths        531 exposure     66164562  ln tau_face 12.4260 +- 0.0434
+  generations 285929..357285: deaths        325 exposure     36683433  ln tau_face 12.3272 +- 0.0555
+  generations 357286..428642: deaths        160 exposure     20530574  ln tau_face 12.4554 +- 0.0791
+  generations 428643..500000: deaths         93 exposure     11223686  ln tau_face 12.3941 +- 0.1037
+LIFE slab 4 5 cells 60 deaths 6000 exposure 781877221 ln_tau_face 12.4708 +- 0.0129
+# life slab 2 3 face cells 18 N=144 seed 77 batches 20000 T0 30 Tmax 300; censored as periodic 19512; first deaths with two faces at once 44242
+  generations   31..  68: deaths    1441053 exposure     42243227  ln tau_face 4.0712 +- 0.0008
+  generations   69.. 107: deaths     384065 exposure     11329154  ln tau_face 4.0775 +- 0.0016
+  generations  108.. 145: deaths      96609 exposure      2879140  ln tau_face 4.0877 +- 0.0032
+  generations  146.. 184: deaths      25653 exposure       772737  ln tau_face 4.0984 +- 0.0062
+  generations  185.. 222: deaths       6529 exposure       200053  ln tau_face 4.1155 +- 0.0124
+  generations  223.. 261: deaths       1750 exposure        55091  ln tau_face 4.1425 +- 0.0239
+  generations  262.. 300: deaths        437 exposure        15549  ln tau_face 4.2650 +- 0.0478
+LIFE slab 2 3 cells 18 deaths 1956096 exposure 57494951 ln_tau_face 4.0739 +- 0.0007
+# life slab 2 4 face cells 24 N=192 seed 78 batches 20000 T0 50 Tmax 600; censored as periodic 15185; first deaths with two faces at once 12361
+  generations   51.. 128: deaths    1701600 exposure    187380420  ln tau_face 5.3947 +- 0.0008
+  generations  129.. 207: deaths     840711 exposure     92493518  ln tau_face 5.3938 +- 0.0011
+  generations  208.. 285: deaths     404242 exposure     44354797  ln tau_face 5.3911 +- 0.0016
+  generations  286.. 364: deaths     198485 exposure     21882569  ln tau_face 5.3959 +- 0.0022
+  generations  365.. 442: deaths      94982 exposure     10521303  ln tau_face 5.4006 +- 0.0032
+  generations  443.. 521: deaths      47095 exposure      5208554  ln tau_face 5.3990 +- 0.0046
+  generations  522.. 600: deaths      22881 exposure      2527710  ln tau_face 5.3979 +- 0.0066
+LIFE slab 2 4 cells 24 deaths 3309996 exposure 364368871 ln_tau_face 5.3944 +- 0.0005
+# life slab 2 5 face cells 30 N=240 seed 79 batches 6000 T0 100 Tmax 3000; censored as periodic 2229; first deaths with two faces at once 1576
+  generations  101.. 514: deaths     818596 exposure    279433114  ln tau_face 6.5261 +- 0.0011
+  generations  515.. 928: deaths     242569 exposure     82702071  ln tau_face 6.5249 +- 0.0020
+  generations  929..1342: deaths      71717 exposure     24572901  ln tau_face 6.5298 +- 0.0037
+  generations 1343..1757: deaths      21247 exposure      7338048  ln tau_face 6.5378 +- 0.0069
+  generations 1758..2171: deaths       6331 exposure      2192751  ln tau_face 6.5406 +- 0.0126
+  generations 2172..2585: deaths       1903 exposure       655178  ln tau_face 6.5346 +- 0.0229
+  generations 2586..3000: deaths        551 exposure       200091  ln tau_face 6.5879 +- 0.0426
+LIFE slab 2 5 cells 30 deaths 1162914 exposure 397094154 ln_tau_face 6.5264 +- 0.0009
+# life slab 2 6 face cells 36 N=288 seed 80 batches 2000 T0 100 Tmax 8000; censored as periodic 486; first deaths with two faces at once 458
+  generations  101..1228: deaths     340497 exposure    290249970  ln tau_face 7.4412 +- 0.0017
+  generations 1229..2357: deaths      90188 exposure     76329605  ln tau_face 7.4341 +- 0.0033
+  generations 2358..3485: deaths      23799 exposure     20029805  ln tau_face 7.4285 +- 0.0065
+  generations 3486..4614: deaths       6195 exposure      5266903  ln tau_face 7.4386 +- 0.0127
+  generations 4615..5742: deaths       1640 exposure      1401066  ln tau_face 7.4434 +- 0.0247
+  generations 5743..6871: deaths        433 exposure       388338  ln tau_face 7.4920 +- 0.0481
+  generations 6872..8000: deaths        124 exposure       102498  ln tau_face 7.4105 +- 0.0898
+LIFE slab 2 6 cells 36 deaths 462876 exposure 393768185 ln_tau_face 7.4392 +- 0.0015
+# life slab 2 8 face cells 48 N=384 seed 81 batches 300 T0 200 Tmax 60000; censored as periodic 141; first deaths with two faces at once 99
+  generations  201..8742: deaths      71717 exposure    167805008  ln tau_face 8.4510 +- 0.0037
+  generations 8743..17285: deaths       1768 exposure      3990539  ln tau_face 8.4150 +- 0.0238
+  generations 17286..25828: deaths         44 exposure       110415  ln tau_face 8.5210 +- 0.1508
+  generations 25829..34371: deaths          1 exposure        11623  ln tau_face 10.0539 +- 1.0000
+LIFE slab 2 8 cells 48 deaths 73530 exposure 171943214 ln_tau_face 8.4504 +- 0.0037
+# life slab 3 7 face cells 63 N=504 seed 82 batches 30 T0 300 Tmax 400000; censored as periodic 7; first deaths with two faces at once 0
+  generations  301..57400: deaths       3358 exposure    335977720  ln tau_face 12.2066 +- 0.0173
+  generations 57401..114500: deaths       1965 exposure    185476785  ln tau_face 12.1483 +- 0.0226
+  generations 114501..171600: deaths       1027 exposure    101757720  ln tau_face 12.1969 +- 0.0312
+  generations 171601..228700: deaths        604 exposure     56358976  ln tau_face 12.1368 +- 0.0407
+  generations 228701..285800: deaths        327 exposure     30040025  ln tau_face 12.1212 +- 0.0553
+  generations 285801..342900: deaths        174 exposure     16457959  ln tau_face 12.1504 +- 0.0758
+  generations 342901..400000: deaths         85 exposure      9184881  ln tau_face 12.2836 +- 0.1085
+LIFE slab 3 7 cells 63 deaths 7540 exposure 735254066 ln_tau_face 12.1809 +- 0.0115

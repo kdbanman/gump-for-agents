@@ -1,0 +1,10 @@
+torus (12,0),(0,12) lane 0: 1200 generations identical to the oracle (cubic torus of side 24, 1 copies), state for state; N=3456, population min/last 1270/1541
+torus (12,0),(0,12) lane 97: 1200 generations identical to the oracle (cubic torus of side 24, 1 copies), state for state; N=3456, population min/last 1245/1560
+torus (12,0),(0,12) lane 255: 1200 generations identical to the oracle (cubic torus of side 24, 1 copies), state for state; N=3456, population min/last 1243/1655
+VALIDATION PASSED (torus (12,0),(0,12), seed=1, gens=1200, neg=0)
+torus (12,0),(0,12) lane 0: FIRST MISMATCH at generation 3
+torus (12,0),(0,12) lane 97: FIRST MISMATCH at generation 3
+torus (12,0),(0,12) lane 255: FIRST MISMATCH at generation 4
+VALIDATION FAILED (torus (12,0),(0,12), seed=1, gens=1200, neg=1)
+torus (1,4),(0,21) lane 0: 1000 generations identical to the oracle (cubic torus of side 42, 21 copies), state for state; N=504, population min/last 145/212
+VALIDATION PASSED (torus (1,4),(0,21), seed=2, gens=1000, neg=0)

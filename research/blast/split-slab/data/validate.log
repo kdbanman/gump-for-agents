@@ -1,0 +1,45 @@
+  lane 0: compared generations 0..1200, distinct populations 93, final population 191
+  lane 311: compared generations 0..1200, distinct populations 90, final population 199
+validate (4,0),(0,4) A=48 N=12 gens=1200 swap=False: MATCH
+validate (4,0),(0,4) A=48 N=12 gens=200 swap=True: MISMATCH (0, 19, False, True)
+RESULT (4,0),(0,4): stepper PASS; negative control PASS (mismatch detected)
+  lane 0: compared generations 0..1200, distinct populations 106, final population 250
+  lane 311: compared generations 0..1200, distinct populations 94, final population 226
+validate (1,4),(0,21) A=63 N=21 gens=1200 swap=False: MATCH
+validate (1,4),(0,21) A=63 N=21 gens=200 swap=True: MISMATCH (0, 5, False, True)
+RESULT (1,4),(0,21): stepper PASS; negative control PASS (mismatch detected)
+  lane 0: compared generations 0..1200, distinct populations 113, final population 311
+  lane 311: compared generations 0..1200, distinct populations 120, final population 310
+validate (1,12),(0,28) A=84 N=28 gens=1200 swap=False: MATCH
+validate (1,12),(0,28) A=84 N=28 gens=200 swap=True: MISMATCH (0, 7, False, True)
+RESULT (1,12),(0,28): stepper PASS; negative control PASS (mismatch detected)
+  lane 0: compared generations 0..1200, distinct populations 122, final population 396
+  lane 311: compared generations 0..1200, distinct populations 126, final population 348
+validate (6,0),(0,6) A=108 N=12 gens=1200 swap=False: MATCH
+validate (6,0),(0,6) A=108 N=12 gens=200 swap=True: MISMATCH (0, 2, False, True)
+RESULT (6,0),(0,6): stepper PASS; negative control PASS (mismatch detected)
+  lane 0: compared generations 0..1200, distinct populations 117, final population 288
+  lane 311: compared generations 0..1200, distinct populations 106, final population 318
+validate (1,4),(0,28) A=84 N=28 gens=1200 swap=False: MATCH
+validate (1,4),(0,28) A=84 N=28 gens=200 swap=True: MISMATCH (0, 7, False, True)
+RESULT (1,4),(0,28): stepper PASS; negative control PASS (mismatch detected)
+  lane 0: compared generations 0..1200, distinct populations 128, final population 329
+  lane 311: compared generations 0..1200, distinct populations 114, final population 359
+validate (1,17),(0,32) A=96 N=32 gens=1200 swap=False: MATCH
+validate (1,17),(0,32) A=96 N=32 gens=200 swap=True: MISMATCH (0, 1, False, True)
+RESULT (1,17),(0,32): stepper PASS; negative control PASS (mismatch detected)
+  lane 0: compared generations 0..1200, distinct populations 126, final population 386
+  lane 311: compared generations 0..1200, distinct populations 129, final population 384
+validate (1,16),(0,36) A=108 N=36 gens=1200 swap=False: MATCH
+validate (1,16),(0,36) A=108 N=36 gens=200 swap=True: MISMATCH (0, 4, False, True)
+RESULT (1,16),(0,36): stepper PASS; negative control PASS (mismatch detected)
+  lane 0: compared generations 0..1200, distinct populations 129, final population 400
+  lane 311: compared generations 0..1200, distinct populations 134, final population 417
+validate (1,18),(0,40) A=120 N=40 gens=1200 swap=False: MATCH
+validate (1,18),(0,40) A=120 N=40 gens=200 swap=True: MISMATCH (0, 7, False, True)
+RESULT (1,18),(0,40): stepper PASS; negative control PASS (mismatch detected)
+  lane 0: compared generations 0..1200, distinct populations 107, final population 258
+  lane 311: compared generations 0..1200, distinct populations 116, final population 268
+validate (1,6),(0,26) A=78 N=26 gens=1200 swap=False: MATCH
+validate (1,6),(0,26) A=78 N=26 gens=200 swap=True: MISMATCH (0, 1, False, True)
+RESULT (1,6),(0,26): stepper PASS; negative control PASS (mismatch detected)

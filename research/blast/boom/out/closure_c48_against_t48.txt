@@ -1,0 +1,30 @@
+c48: A 48 L 24; 49417 natural deaths with a launch; total rate 4.923e-05
+  natural deaths               sum nu d = 4.925e-05; mean launch theta 0.7383; share launched from >= 0.70 A: 0.756
+  chain 1 (P)                  sum nu d = 4.924e-05; mean launch theta 0.6796; share launched from >= 0.70 A: 0.473
+  chain 2 (P(t-1), P(t))       sum nu d = 4.924e-05; mean launch theta 0.7333; share launched from >= 0.70 A: 0.741
+  chain PU (P, layer beneath)  sum nu d = 4.929e-05; mean launch theta 0.7065; share launched from >= 0.70 A: 0.586
+    p  theta  launches   d natural   chain 1 / natural   chain 2 / natural   chain PU / natural
+   24  0.500      88   9.867e-07     28.213               4.412               6.028
+   25  0.521     118   1.272e-06     19.839               3.141               4.679
+   26  0.542     153   1.675e-06     14.879               2.699               4.136
+   27  0.562     249   2.929e-06      9.157               1.971               3.230
+   28  0.583     405   5.436e-06      5.773               1.554               2.709
+   29  0.604     707   1.151e-05      3.472               1.211               2.216
+   30  0.625    1187   2.498e-05      2.207               1.026               1.941
+   31  0.646    1904   5.539e-05      1.485               0.965               1.704
+   32  0.667    2973   1.283e-04      1.034               0.913               1.467
+   33  0.688    4299   2.957e-04      0.777               0.899               1.259
+   34  0.708    5532   6.560e-04      0.658               0.945               1.114
+   35  0.729    6504   1.440e-03      0.593               0.959               0.950
+   36  0.750    6636   2.995e-03      0.585               1.008               0.834
+   37  0.771    6179   6.198e-03      0.593               1.012               0.710
+   38  0.792    4988   1.228e-02      0.620               1.009               0.605
+   39  0.812    3540   2.370e-02      0.659               0.970               0.527
+   40  0.833    2185   4.447e-02      0.689               0.946               0.460
+   41  0.854    1112   7.876e-02      0.753               0.951               0.444
+   42  0.875     424   1.219e-01      0.852               0.973               0.472
+   43  0.896     169   2.181e-01      0.888               0.926               0.504
+   44  0.917      52   3.562e-01      0.823               0.800               0.501
+  chain 1: rate launched from >= 0.70 A, model / natural = 0.626
+  chain 2: rate launched from >= 0.70 A, model / natural = 0.981
+  chain PU: rate launched from >= 0.70 A, model / natural = 0.775

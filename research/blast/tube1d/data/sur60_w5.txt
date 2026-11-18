@@ -1,0 +1,1 @@
+BRUTE h=1 k=8 d=20 nl=7 ndice=2 A=60 exposure=638686540 deaths=2561 settled=0 lntau_face=12.4268 +- 0.0198

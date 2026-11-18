@@ -1,0 +1,7 @@
+t48: A 48; 1e+09 face-generations, 49458 deaths, ln tau / A = 0.2066; states used as starting points (>= 100 visits): 1431
+  two-variable Gaussian map: minimum action to an empty face = 0.1597 per cell (A V = 7.67)
+  path (P, U) and V per cell: (25,21) 0.0000  (27,23) 0.0007  (25,19) 0.0037  (35,33) 0.1036  (12,5) 0.1216  (8,5) 0.1326  (5,6) 0.1361  (4,6) 0.1411  (3,7) 0.1425  (2,9) 0.1455  (1,12) 0.1508  (1,16) 0.1509  (1,20) 0.1514  -> empty 0.1597
+  top of the path: P = 35 (0.729 A), U = 33 (0.688 A), V = 0.1036; the rest 0.0561
+  V_min over U at P = theta A against measured -ln(nu sqrt(2 pi A 0.4))/A: 0.66: 0.0207 / 0.0286; 0.70: 0.0384 / 0.0496; 0.74: 0.0617 / 0.0775; 0.78: 0.0753 / 0.0941; 0.82: 0.1069 / 0.1337
+  over-full states (P >= 0.68 A): E[P'] = 78.2 + -1.352 P + -0.530 U
+  over-full states (P >= 0.68 A): E[U'] = 45.2 + -0.232 P + -0.807 U

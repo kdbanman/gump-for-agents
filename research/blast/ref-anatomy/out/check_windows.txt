@@ -1,0 +1,4 @@
+t63: 18000 transitions checked against the rule, 0 wrong; windows with a wrong population record: 0
+tube60: 18000 transitions checked against the rule, 0 wrong; windows with a wrong population record: 0
+h63: 18000 transitions checked against the rule, 0 wrong; windows with a wrong population record: 0
+t48: 18000 transitions checked against the rule, 0 wrong; windows with a wrong population record: 0

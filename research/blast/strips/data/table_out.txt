@@ -1,0 +1,186 @@
+== every vessel: ln tau_face, both bookings
+vessel           cells   all first deaths   deaths no firewall before   deaths    fw%
+oct 7 0             30    6.8046 ± 0.0018   300339    6.8046 ± 0.0018   300339    0.0
+oct 9 0             45    9.8219 ± 0.0018   300594    9.8219 ± 0.0018   300594    0.0
+prism 5 3           27    6.6463 ± 0.0032    97222    6.6459 ± 0.0032    97047    0.3
+prism 5 4           36    8.5488 ± 0.0032   100145    8.6088 ± 0.0033    94229    6.1
+prism 5 5           45    9.8501 ± 0.0032   100351   10.4316 ± 0.0042    55895   44.3
+prism 5 6           54   10.2111 ± 0.0032   100126   12.1464 ± 0.0084    14308   85.6
+prism 5 7           63   10.1553 ± 0.0032   100225   13.8044 ± 0.0198     2556   97.4
+prism 5 8           72   10.0451 ± 0.0032   100131   15.3496 ± 0.0455      482   99.5
+prism 7 3           36    8.1451 ± 0.0013   601033    8.1451 ± 0.0013   601012    0.0
+prism 7 4           48   11.0852 ± 0.0035    80041   11.0853 ± 0.0035    80028    0.0
+prism 7 5           60   13.8443 ± 0.0050    40006   13.8464 ± 0.0050    39923    0.2
+prism 7 6           72   16.4680 ± 0.0091    12000   16.4981 ± 0.0093    11644    3.0
+prism 7 7           84   18.7164 ± 0.0196     2600   19.1106 ± 0.0239     1753   32.6
+prism 9 3           45    9.6765 ± 0.0013   581738    9.6765 ± 0.0013   581736    0.0
+prism 9 4           60   13.4191 ± 0.0058    30005   13.4191 ± 0.0058    30005    0.0
+prism 9 5           75   16.9241 ± 0.0096    10768   16.9241 ± 0.0096    10768    0.0
+prism 9 6           90   20.3003 ± 0.0216     2142   20.3003 ± 0.0216     2142    0.0
+prism 11 3          54   11.2205 ± 0.0041    60026   11.2205 ± 0.0041    60026    0.0
+prism 11 4          72   15.7560 ± 0.0129     6000   15.7560 ± 0.0129     6000    0.0
+prism 11 5          90   19.9156 ± 0.0328      927   19.9156 ± 0.0328      927    0.0
+slab 4 3            36    7.3920 ± 0.0022   201265    7.3959 ± 0.0022   200385    0.5
+slab 4 4            48    9.9219 ± 0.0041    60000    9.9235 ± 0.0041    59900    0.2
+slab 5 3            45    9.2467 ± 0.0032   100064    9.2672 ± 0.0032    97869    2.2
+slab 5 4            60   12.4876 ± 0.0058    30011   12.4921 ± 0.0058    29870    0.5
+slab 5 5            75   15.6652 ± 0.0141     5002   15.6692 ± 0.0142     4982    0.4
+slab 6 3            54   10.9535 ± 0.0041    60060   11.0819 ± 0.0044    52498   12.4
+slab 6 4            72   14.9347 ± 0.0129     6000   14.9846 ± 0.0132     5703    5.0
+slab 7 3            63   12.1799 ± 0.0050    40008   12.8519 ± 0.0071    20112   49.6
+slab 8 3            72   12.6400 ± 0.0071    20004   14.6348 ± 0.0195     2643   86.8
+tet 5 0             45    4.7206 ± 0.0016   400980    4.7206 ± 0.0016   400980    0.0
+tet 6 0             63    5.7320 ± 0.0016   401914    5.7320 ± 0.0016   401914    0.0
+tet 7 0             84    7.1740 ± 0.0016   403061    7.1740 ± 0.0016   403061    0.0
+tet 8 0            108    8.7855 ± 0.0016   400443    8.7855 ± 0.0016   400443    0.0
+tet 9 0            135   10.2462 ± 0.0031   102414   10.2462 ± 0.0031   102414    0.0
+tet 10 0           165   12.0406 ± 0.0073    18622   12.0406 ± 0.0073    18622    0.0
+tet 11 0           198   13.7700 ± 0.0174     3312   13.7700 ± 0.0174     3312    0.0
+
+== referee's part: strips (w unit rows, L) against agent rim's table (all first deaths)
+  (8,8,3) = strip w=4 L=3: mine 8.1451 ± 0.0013   rim 8.1447 ± 0.0015   difference +0.0004 = +0.2 sigma
+  (8,8,4) = strip w=4 L=4: mine 11.0852 ± 0.0035   rim 11.0912 ± 0.0032   difference -0.0060 = -1.3 sigma
+  (8,8,5) = strip w=4 L=5: mine 13.8443 ± 0.0050   rim 13.8608 ± 0.0082   difference -0.0165 = -1.7 sigma
+  (8,8,6) = strip w=4 L=6: mine 16.4680 ± 0.0091   rim 16.4735 ± 0.0264   difference -0.0055 = -0.2 sigma
+  (10,10,3) = strip w=5 L=3: mine 9.6765 ± 0.0013   rim 9.6694 ± 0.0026   difference +0.0071 = +2.4 sigma
+  (10,10,4) = strip w=5 L=4: mine 13.4191 ± 0.0058   rim 13.4383 ± 0.0076   difference -0.0192 = -2.0 sigma
+  (10,10,5) = strip w=5 L=5: mine 16.9241 ± 0.0096   rim 16.8863 ± 0.0203   difference +0.0378 = +1.7 sigma
+  (12,12,3) = strip w=6 L=3: mine 11.2205 ± 0.0041   rim 11.2277 ± 0.0037   difference -0.0072 = -1.3 sigma
+  (12,12,4) = strip w=6 L=4: mine 15.7560 ± 0.0129   rim 15.7736 ± 0.0247   difference -0.0176 = -0.6 sigma
+
+== strips, booking: all first deaths (rim's)
+  ln tau(w, L):
+   w=3: 6.6463 ± 0.0032  8.5488 ± 0.0032  9.8501 ± 0.0032  10.2111 ± 0.0032  10.1553 ± 0.0032  10.0451 ± 0.0032
+   w=4: 8.1451 ± 0.0013  11.0852 ± 0.0035  13.8443 ± 0.0050  16.4680 ± 0.0091  18.7164 ± 0.0196        --      
+   w=5: 9.6765 ± 0.0013  13.4191 ± 0.0058  16.9241 ± 0.0096  20.3003 ± 0.0216        --              --      
+   w=6: 11.2205 ± 0.0041  15.7560 ± 0.0129  19.9156 ± 0.0328        --              --              --      
+  width price per cell [ln tau(w+1,L) - ln tau(w,L)] / 3L:
+   w=3->4: 0.1665 ± 0.0004  0.2114 ± 0.0004  0.2663 ± 0.0004  0.3476 ± 0.0005  0.4077 ± 0.0009        --      
+   w=4->5: 0.1702 ± 0.0002  0.1945 ± 0.0006  0.2053 ± 0.0007  0.2129 ± 0.0013        --              --      
+   w=5->6: 0.1716 ± 0.0005  0.1947 ± 0.0012  0.1994 ± 0.0023        --              --              --      
+  length price per cell [ln tau(w,L+1) - ln tau(w,L)] / 3w:
+   w=3, L->L+1 from 3: 0.2114 ± 0.0005  0.1446 ± 0.0005  0.0401 ± 0.0005  -0.0062 ± 0.0005  -0.0122 ± 0.0005
+   w=4, L->L+1 from 3: 0.2450 ± 0.0003  0.2299 ± 0.0005  0.2186 ± 0.0009  0.1874 ± 0.0018        --      
+   w=5, L->L+1 from 3: 0.2495 ± 0.0004  0.2337 ± 0.0007  0.2251 ± 0.0016        --              --      
+   w=6, L->L+1 from 3: 0.2520 ± 0.0008  0.2311 ± 0.0020        --              --              --      
+  mixed second difference per cell M(w+1/2, L+1/2):
+   w=3->4, L->L+1 from 3: 0.3459 ± 0.0020  0.4860 ± 0.0025  0.7542 ± 0.0038  0.7681 ± 0.0074        --      
+   w=4->5, L->L+1 from 3: 0.2675 ± 0.0023  0.2486 ± 0.0043  0.2508 ± 0.0086        --              --      
+   w=5->6, L->L+1 from 3: 0.2643 ± 0.0049  0.2182 ± 0.0123        --              --              --      
+
+== strips, booking: no firewall before the death (the lead's)
+  ln tau(w, L):
+   w=3: 6.6459 ± 0.0032  8.6088 ± 0.0033  10.4316 ± 0.0042  12.1464 ± 0.0084  13.8044 ± 0.0198  15.3496 ± 0.0455
+   w=4: 8.1451 ± 0.0013  11.0853 ± 0.0035  13.8464 ± 0.0050  16.4981 ± 0.0093  19.1106 ± 0.0239        --      
+   w=5: 9.6765 ± 0.0013  13.4191 ± 0.0058  16.9241 ± 0.0096  20.3003 ± 0.0216        --              --      
+   w=6: 11.2205 ± 0.0041  15.7560 ± 0.0129  19.9156 ± 0.0328        --              --              --      
+  width price per cell [ln tau(w+1,L) - ln tau(w,L)] / 3L:
+   w=3->4: 0.1666 ± 0.0004  0.2064 ± 0.0004  0.2277 ± 0.0004  0.2418 ± 0.0007  0.2527 ± 0.0015        --      
+   w=4->5: 0.1702 ± 0.0002  0.1945 ± 0.0006  0.2052 ± 0.0007  0.2112 ± 0.0013        --              --      
+   w=5->6: 0.1716 ± 0.0005  0.1947 ± 0.0012  0.1994 ± 0.0023        --              --              --      
+  length price per cell [ln tau(w,L+1) - ln tau(w,L)] / 3w:
+   w=3, L->L+1 from 3: 0.2181 ± 0.0005  0.2025 ± 0.0006  0.1905 ± 0.0010  0.1842 ± 0.0024  0.1717 ± 0.0055
+   w=4, L->L+1 from 3: 0.2450 ± 0.0003  0.2301 ± 0.0005  0.2210 ± 0.0009  0.2177 ± 0.0021        --      
+   w=5, L->L+1 from 3: 0.2495 ± 0.0004  0.2337 ± 0.0007  0.2251 ± 0.0016        --              --      
+   w=6, L->L+1 from 3: 0.2520 ± 0.0008  0.2311 ± 0.0020        --              --              --      
+  mixed second difference per cell M(w+1/2, L+1/2):
+   w=3->4, L->L+1 from 3: 0.3258 ± 0.0020  0.3128 ± 0.0027  0.3123 ± 0.0047  0.3182 ± 0.0111        --      
+   w=4->5, L->L+1 from 3: 0.2675 ± 0.0023  0.2480 ± 0.0043  0.2415 ± 0.0086        --              --      
+   w=5->6, L->L+1 from 3: 0.2643 ± 0.0049  0.2182 ± 0.0123        --              --              --      
+
+== closed wrapped faces a x L (8-layer slab): mine, both bookings, against the lead's table (no firewall before)
+  3x4: all 7.3920 ± 0.0022  nofw 7.3959 ± 0.0022  lead --
+  4x4: all 9.9219 ± 0.0041  nofw 9.9235 ± 0.0041  lead 9.9324 ± 0.0020
+  3x5: all 9.2467 ± 0.0032  nofw 9.2672 ± 0.0032  lead --
+  4x5: all 12.4876 ± 0.0058  nofw 12.4921 ± 0.0058  lead 12.4865 ± 0.0009
+  5x5: all 15.6652 ± 0.0141  nofw 15.6692 ± 0.0142  lead 15.6614 ± 0.0026
+  3x6: all 10.9535 ± 0.0041  nofw 11.0819 ± 0.0044  lead 11.0824 ± 0.0004
+  4x6: all 14.9347 ± 0.0129  nofw 14.9846 ± 0.0132  lead 14.9710 ± 0.0016
+  3x7: all 12.1799 ± 0.0050  nofw 12.8519 ± 0.0071  lead --
+  3x8: all 12.6400 ± 0.0071  nofw 14.6348 ± 0.0195  lead 14.6209 ± 0.0029
+  width price of a closed tube of girth g, per cell, [ln tau(g x (a+1)) - ln tau(g x a)] / 3g  (lead's values where they exist, else mine):
+   girth 3: 4->5: 0.2079 ± 0.0004;  5->6: 0.2017 ± 0.0004;  6->7: 0.1966 ± 0.0008;  7->8: 0.1966 ± 0.0008;  8->10: 0.1903 ± 0.0007
+   girth 4: 3->4: 0.2114 ± 0.0002;  4->5: 0.2128 ± 0.0002;  5->6: 0.2070 ± 0.0002;  6->7: 0.2078 ± 0.0004;  7->8: 0.2065 ± 0.0016;  8->9: 0.2025 ± 0.0038
+   girth 5: 3->4: 0.2146 ± 0.0002;  4->5: 0.2117 ± 0.0002;  5->6: 0.2083 ± 0.0008;  6->7: 0.2069 ± 0.0028;  7->8: 0.2104 ± 0.0055
+   girth 6: 3->4: 0.2160 ± 0.0001;  4->5: 0.2120 ± 0.0006;  5->6: 0.2101 ± 0.0024;  6->7: 0.2131 ± 0.0062
+
+== the comparison: row of a rimmed strip (w = 4 -> 5, no firewall before) against row of a closed tube of the same girth, per cell
+  girth 3: strip 0.1702 ± 0.0002   tube 4->5: 0.2079 ± 0.0004   strip - tube -0.0378 ± 0.0005
+  girth 3: strip 0.1702 ± 0.0002   tube 5->6: 0.2017 ± 0.0004   strip - tube -0.0315 ± 0.0004
+  girth 3: strip 0.1702 ± 0.0002   tube 6->7: 0.1966 ± 0.0008   strip - tube -0.0265 ± 0.0008
+  girth 3: strip 0.1702 ± 0.0002   tube 7->8: 0.1966 ± 0.0008   strip - tube -0.0264 ± 0.0009
+  girth 4: strip 0.1945 ± 0.0006   tube 4->5: 0.2128 ± 0.0002   strip - tube -0.0184 ± 0.0006
+  girth 4: strip 0.1945 ± 0.0006   tube 5->6: 0.2070 ± 0.0002   strip - tube -0.0126 ± 0.0006
+  girth 4: strip 0.1945 ± 0.0006   tube 6->7: 0.2078 ± 0.0004   strip - tube -0.0133 ± 0.0007
+  girth 4: strip 0.1945 ± 0.0006   tube 7->8: 0.2065 ± 0.0016   strip - tube -0.0121 ± 0.0017
+  girth 5: strip 0.2052 ± 0.0007   tube 4->5: 0.2117 ± 0.0002   strip - tube -0.0065 ± 0.0007
+  girth 5: strip 0.2052 ± 0.0007   tube 5->6: 0.2083 ± 0.0008   strip - tube -0.0031 ± 0.0011
+  girth 5: strip 0.2052 ± 0.0007   tube 6->7: 0.2069 ± 0.0028   strip - tube -0.0017 ± 0.0029
+  girth 5: strip 0.2052 ± 0.0007   tube 7->8: 0.2104 ± 0.0055   strip - tube -0.0052 ± 0.0056
+  girth 6: strip 0.2112 ± 0.0013   tube 4->5: 0.2120 ± 0.0006   strip - tube -0.0007 ± 0.0014
+  girth 6: strip 0.2112 ± 0.0013   tube 5->6: 0.2101 ± 0.0024   strip - tube +0.0011 ± 0.0027
+  girth 6: strip 0.2112 ± 0.0013   tube 6->7: 0.2131 ± 0.0062   strip - tube -0.0019 ± 0.0064
+  mixed second differences per cell at (4.5, L+1/2): strip (no firewall before) against closed faces (a = 4 -> 5, girth L -> L+1)
+  L 3->4: strip 0.2675 ± 0.0023   closed 0.2276 ± 0.0015   strip - closed +0.0399 ± 0.0028
+  L 4->5: strip 0.2480 ± 0.0043   closed 0.2069 ± 0.0012   strip - closed +0.0411 ± 0.0044
+  L 5->6: strip 0.2415 ± 0.0086   closed 0.2134 ± 0.0039   strip - closed +0.0281 ± 0.0095
+  all first deaths, (4.5, L 3->4): mine 0.2675 ± 0.0023   rim's table 0.2741 ± 0.0029   the two tables pooled 0.2692 ± 0.0018
+  all first deaths, (4.5, L 4->5): mine 0.2486 ± 0.0043   rim's table 0.2261 ± 0.0078   the two tables pooled 0.2436 ± 0.0037
+  intercept a(L) = ln tau(4, L) - 4 g(L), g(L) = ln tau(5, L) - ln tau(4, L) (no firewall before): L=3: g 1.5314 ± 0.0018, a 2.0195 ± 0.0083  L=4: g 2.3338 ± 0.0068, a 1.7503 ± 0.0291  L=5: g 3.0777 ± 0.0109, a 1.5354 ± 0.0460  L=6: g 3.8022 ± 0.0235, a 1.2892 ± 0.0981
+  rows formula of agent holes with the octahedron's row prices at both rims (c0 0.1572, c1 0.2666, c2 0.2307): lambda(4) = 2.543, lambda(5) = 3.235, lambda(6) = 3.927
+   measured lambda(4) = ln tau(w, L+1) - ln tau(w, L): L 3->4: 2.9402 ± 0.0038;  L 4->5: 2.7611 ± 0.0061;  L 5->6: 2.6517 ± 0.0105;  L 6->7: 2.6125 ± 0.0256
+   measured lambda(5) = ln tau(w, L+1) - ln tau(w, L): L 3->4: 3.7426 ± 0.0059;  L 4->5: 3.5050 ± 0.0112;  L 5->6: 3.3762 ± 0.0237
+   measured lambda(6) = ln tau(w, L+1) - ln tau(w, L): L 3->4: 4.5355 ± 0.0135;  L 4->5: 4.1596 ± 0.0353
+
+== octahedron (calibration): mine against the anchors
+  R = 7: mine 6.8046 ± 0.0018   anchor 6.804 ± 0.003
+  R = 9: mine 9.8219 ± 0.0018   anchor 9.819 ± 0.003
+
+== tetrahedron: the hazard is not steady; ln tau_face = ln(4 * exposure / deaths) by age since the soup
+  side  5 ( 45 cells): 100+: 4.6458±0.0016  200+: 4.9293±0.0134
+  side  6 ( 63 cells): 150+: 5.7778±0.0017  300+: 5.3901±0.0042  600+: 6.4347±0.0870
+  side  7 ( 84 cells): 200+: 7.7763±0.0030  400+: 6.8305±0.0020  800+: 6.3581±0.0049  1600+: 6.5504±0.1010
+  side  8 (108 cells): 300+: 11.1444±0.0122  600+: 9.4584±0.0038  1200+: 8.4072±0.0021  2400+: 7.8978±0.0032  4800+: 7.6270±0.0226
+  side  9 (135 cells): 400+: 15.9049±0.2236  800+: 13.9106±0.0578  1600+: 11.8148±0.0145  3200+: 10.2136±0.0051  6400+: 9.4208±0.0043  12800+: 9.1499±0.0126  25600+: 9.2152±0.2041
+  side 10 (165 cells): 1600+: 17.9291±0.7071  3200+: 16.1354±0.2041  6400+: 14.2564±0.0567  12800+: 12.5697±0.0180  25600+: 11.5228±0.0099  51200+: 11.0054±0.0143  102400+: 10.7452±0.0902
+  side 11 (198 cells): 12800+: 18.3889±0.7071  25600+: 16.9287±0.2425  51200+: 14.7238±0.0585  102400+: 13.4247±0.0259  204800+: 12.9978±0.0257
+  oct 9: layers shaved off each corner opposite a face (mean over lanes with no face yet empty), by generation: 50: 0.00 (pop 21.68, lanes 502)  100: 0.00 (pop 21.70, lanes 492)  200: 0.00 (pop 21.64, lanes 465)  400: 0.00 (pop 21.45, lanes 420)  800: 0.00 (pop 21.82, lanes 353)  1600: 0.00 (pop 21.68, lanes 263)  3200: 0.00 (pop 21.43, lanes 142)
+  tet 11: layers shaved off each corner opposite a face (mean over lanes with no face yet empty), by generation: 50: 3.28 (pop 91.89, lanes 512)  100: 4.12 (pop 87.10, lanes 512)  200: 4.83 (pop 82.68, lanes 512)  400: 5.58 (pop 77.03, lanes 512)  800: 6.14 (pop 72.62, lanes 512)  1600: 6.60 (pop 68.35, lanes 512)  3200: 7.17 (pop 62.91, lanes 512)  6400: 7.77 (pop 57.44, lanes 512)  12800: 8.15 (pop 53.50, lanes 512)  25600: 8.45 (pop 49.87, lanes 511)
+  tet 7: layers shaved off each corner opposite a face (mean over lanes with no face yet empty), by generation: 50: 3.28 (pop 32.35, lanes 512)  100: 4.07 (pop 27.66, lanes 511)  200: 4.79 (pop 22.76, lanes 495)  400: 5.47 (pop 17.18, lanes 371)  800: 5.95 (pop 13.75, lanes 56)
+  tet 9: layers shaved off each corner opposite a face (mean over lanes with no face yet empty), by generation: 50: 3.34 (pop 58.30, lanes 512)  100: 4.12 (pop 54.42, lanes 512)  200: 4.80 (pop 49.79, lanes 512)  400: 5.48 (pop 44.83, lanes 512)  800: 6.10 (pop 39.70, lanes 512)  1600: 6.56 (pop 35.45, lanes 511)  3200: 7.15 (pop 29.51, lanes 496)  6400: 7.76 (pop 23.68, lanes 310)  12800: 7.96 (pop 20.77, lanes 46)
+
+== how faces die: living face population, and the dying face's population 3 to 5 generations before its death
+  oct 7 0 (30 cells, 300339 deaths): living mean 0.453 of the face, q95 0.667, q99 0.733; dying q95 at lags 3, 4, 5: 0.567 0.600 0.600; q90 at lag 4: 0.533; bust share 0.030
+  oct 9 0 (45 cells, 150152 deaths): living mean 0.480 of the face, q95 0.644, q99 0.689; dying q95 at lags 3, 4, 5: 0.378 0.556 0.578; q90 at lag 4: 0.444; bust share 0.015
+  oct 9 0 (45 cells, 150442 deaths): living mean 0.480 of the face, q95 0.644, q99 0.689; dying q95 at lags 3, 4, 5: 0.400 0.556 0.578; q90 at lag 4: 0.444; bust share 0.015
+  prism 9 6 (90 cells, 1674 deaths): living mean 0.527 of the face, q95 0.633, q99 0.678; dying q95 at lags 3, 4, 5: 0.222 0.622 0.689; q90 at lag 4: 0.300; bust share 0.146
+  prism 11 3 (54 cells, 60026 deaths): living mean 0.513 of the face, q95 0.667, q99 0.704; dying q95 at lags 3, 4, 5: 0.481 0.685 0.685; q90 at lag 4: 0.556; bust share 0.149
+  prism 11 4 (72 cells, 6000 deaths): living mean 0.524 of the face, q95 0.639, q99 0.694; dying q95 at lags 3, 4, 5: 0.306 0.708 0.736; q90 at lag 4: 0.528; bust share 0.190
+  prism 11 5 (90 cells, 927 deaths): living mean 0.526 of the face, q95 0.633, q99 0.678; dying q95 at lags 3, 4, 5: 0.233 0.656 0.722; q90 at lag 4: 0.300; bust share 0.167
+  prism 5 3 (27 cells, 97222 deaths): living mean 0.504 of the face, q95 0.704, q99 0.778; dying q95 at lags 3, 4, 5: 0.815 0.815 0.778; q90 at lag 4: 0.741; bust share 0.254
+  prism 5 4 (36 cells, 100145 deaths): living mean 0.528 of the face, q95 0.694, q99 0.750; dying q95 at lags 3, 4, 5: 0.722 0.778 0.750; q90 at lag 4: 0.694; bust share 0.185
+  prism 5 5 (45 cells, 100351 deaths): living mean 0.529 of the face, q95 0.689, q99 0.733; dying q95 at lags 3, 4, 5: 0.356 0.600 0.622; q90 at lag 4: 0.400; bust share 0.055
+  prism 5 6 (54 cells, 100126 deaths): living mean 0.527 of the face, q95 0.667, q99 0.722; dying q95 at lags 3, 4, 5: 0.259 0.315 0.333; q90 at lag 4: 0.259; bust share 0.009
+  prism 5 7 (63 cells, 100225 deaths): living mean 0.525 of the face, q95 0.667, q99 0.714; dying q95 at lags 3, 4, 5: 0.222 0.238 0.254; q90 at lag 4: 0.206; bust share 0.001
+  prism 5 8 (72 cells, 100131 deaths): living mean 0.522 of the face, q95 0.653, q99 0.694; dying q95 at lags 3, 4, 5: 0.194 0.208 0.222; q90 at lag 4: 0.181; bust share 0.000
+  prism 7 3 (36 cells, 300328 deaths): living mean 0.516 of the face, q95 0.694, q99 0.750; dying q95 at lags 3, 4, 5: 0.750 0.778 0.750; q90 at lag 4: 0.694; bust share 0.226
+  prism 7 3 (36 cells, 300705 deaths): living mean 0.515 of the face, q95 0.694, q99 0.750; dying q95 at lags 3, 4, 5: 0.750 0.778 0.750; q90 at lag 4: 0.694; bust share 0.227
+  prism 7 4 (48 cells, 80041 deaths): living mean 0.528 of the face, q95 0.667, q99 0.729; dying q95 at lags 3, 4, 5: 0.604 0.750 0.750; q90 at lag 4: 0.667; bust share 0.207
+  prism 7 5 (60 cells, 40006 deaths): living mean 0.530 of the face, q95 0.667, q99 0.717; dying q95 at lags 3, 4, 5: 0.333 0.733 0.733; q90 at lag 4: 0.583; bust share 0.160
+  prism 7 6 (72 cells, 12000 deaths): living mean 0.530 of the face, q95 0.653, q99 0.694; dying q95 at lags 3, 4, 5: 0.278 0.639 0.708; q90 at lag 4: 0.375; bust share 0.113
+  prism 7 7 (84 cells, 2600 deaths): living mean 0.530 of the face, q95 0.643, q99 0.679; dying q95 at lags 3, 4, 5: 0.214 0.345 0.571; q90 at lag 4: 0.262; bust share 0.063
+  prism 9 3 (45 cells, 100221 deaths): living mean 0.514 of the face, q95 0.667, q99 0.733; dying q95 at lags 3, 4, 5: 0.622 0.733 0.711; q90 at lag 4: 0.622; bust share 0.167
+  prism 9 4 (60 cells, 30005 deaths): living mean 0.525 of the face, q95 0.650, q99 0.700; dying q95 at lags 3, 4, 5: 0.367 0.733 0.733; q90 at lag 4: 0.600; bust share 0.197
+  prism 9 5 (75 cells, 5000 deaths): living mean 0.527 of the face, q95 0.640, q99 0.693; dying q95 at lags 3, 4, 5: 0.280 0.707 0.720; q90 at lag 4: 0.480; bust share 0.151
+  prism 9 5 (75 cells, 5768 deaths): living mean 0.527 of the face, q95 0.640, q99 0.693; dying q95 at lags 3, 4, 5: 0.267 0.693 0.733; q90 at lag 4: 0.480; bust share 0.166
+  prism 9 6 (90 cells, 386 deaths): living mean 0.527 of the face, q95 0.633, q99 0.678; dying q95 at lags 3, 4, 5: 0.222 0.611 0.689; q90 at lag 4: 0.322; bust share 0.155
+  prism 9 6 (90 cells, 82 deaths): living mean 0.527 of the face, q95 0.633, q99 0.678; dying q95 at lags 3, 4, 5: 0.244 0.556 0.756; q90 at lag 4: 0.311; bust share 0.098
+  slab 4 3 (36 cells, 201265 deaths): living mean 0.507 of the face, q95 0.694, q99 0.750; dying q95 at lags 3, 4, 5: 0.806 0.778 0.750; q90 at lag 4: 0.750; bust share 0.588
+  slab 4 4 (48 cells, 60000 deaths): living mean 0.515 of the face, q95 0.667, q99 0.708; dying q95 at lags 3, 4, 5: 0.792 0.792 0.771; q90 at lag 4: 0.750; bust share 0.584
+  slab 5 3 (45 cells, 100064 deaths): living mean 0.510 of the face, q95 0.667, q99 0.711; dying q95 at lags 3, 4, 5: 0.800 0.778 0.756; q90 at lag 4: 0.756; bust share 0.525
+  slab 5 4 (60 cells, 30011 deaths): living mean 0.517 of the face, q95 0.650, q99 0.700; dying q95 at lags 3, 4, 5: 0.783 0.783 0.767; q90 at lag 4: 0.750; bust share 0.572
+  slab 5 5 (75 cells, 5002 deaths): living mean 0.518 of the face, q95 0.627, q99 0.680; dying q95 at lags 3, 4, 5: 0.747 0.787 0.773; q90 at lag 4: 0.747; bust share 0.566
+  slab 6 3 (54 cells, 60060 deaths): living mean 0.511 of the face, q95 0.648, q99 0.704; dying q95 at lags 3, 4, 5: 0.778 0.778 0.759; q90 at lag 4: 0.741; bust share 0.464
+  slab 6 4 (72 cells, 6000 deaths): living mean 0.517 of the face, q95 0.639, q99 0.681; dying q95 at lags 3, 4, 5: 0.750 0.778 0.764; q90 at lag 4: 0.750; bust share 0.545
+  slab 7 3 (63 cells, 40008 deaths): living mean 0.509 of the face, q95 0.635, q99 0.683; dying q95 at lags 3, 4, 5: 0.508 0.746 0.730; q90 at lag 4: 0.571; bust share 0.238
+  slab 8 3 (72 cells, 20004 deaths): living mean 0.507 of the face, q95 0.625, q99 0.681; dying q95 at lags 3, 4, 5: 0.347 0.431 0.486; q90 at lag 4: 0.347; bust share 0.058

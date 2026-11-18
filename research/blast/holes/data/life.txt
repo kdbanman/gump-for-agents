@@ -1,0 +1,54 @@
+# life hull R=5 face cells 18 N=114 seed 51 batches 200000 T0 20 Tmax 160; censored as periodic 123981; first deaths with two faces at once 6678579
+  generations   21..  40: deaths   15725981 exposure    263659124  ln tau_face 4.8988 +- 0.0003
+  generations   41..  60: deaths    4600602 exposure     73938437  ln tau_face 4.8565 +- 0.0005
+  generations   61..  80: deaths    1260546 exposure     20199129  ln tau_face 4.8535 +- 0.0009
+  generations   81.. 100: deaths     342358 exposure      5509017  ln tau_face 4.8577 +- 0.0017
+  generations  101.. 120: deaths      93232 exposure      1524439  ln tau_face 4.8737 +- 0.0033
+  generations  121.. 140: deaths      24760 exposure       446212  ln tau_face 4.9710 +- 0.0064
+  generations  141.. 160: deaths       6813 exposure       155219  ln tau_face 5.2054 +- 0.0121
+LIFE R 5 cells 18 deaths 22054292 exposure 365431577 ln_tau_face 4.8870 +- 0.0002
+# life hull R=5 face cells 18 N=114 seed 52 batches 100000 T0 40 Tmax 100; censored as periodic 61228; first deaths with two faces at once 3331570
+  generations   41..  48: deaths    1276941 exposure     20579558  ln tau_face 4.8593 +- 0.0009
+  generations   49..  57: deaths     835917 exposure     13407579  ln tau_face 4.8545 +- 0.0011
+  generations   58..  65: deaths     428688 exposure      6835014  ln tau_face 4.8485 +- 0.0015
+  generations   66..  74: deaths     276952 exposure      4432882  ln tau_face 4.8524 +- 0.0019
+  generations   75..  82: deaths     140778 exposure      2261134  ln tau_face 4.8559 +- 0.0027
+  generations   83..  91: deaths      91687 exposure      1469353  ln tau_face 4.8536 +- 0.0033
+  generations   92.. 100: deaths      50916 exposure       819911  ln tau_face 4.8585 +- 0.0044
+LIFE R 5 cells 18 deaths 3101879 exposure 49805431 ln_tau_face 4.8556 +- 0.0006
+# life hull R=7 face cells 30 N=264 seed 53 batches 6000 T0 200 Tmax 1200; censored as periodic 42; first deaths with two faces at once 37104
+  generations  201.. 342: deaths     207610 exposure     23396598  ln tau_face 6.8041 +- 0.0022
+  generations  343.. 485: deaths      58369 exposure      6611304  ln tau_face 6.8092 +- 0.0041
+  generations  486.. 628: deaths      16512 exposure      1853448  ln tau_face 6.8002 +- 0.0078
+  generations  629.. 771: deaths       4555 exposure       515791  ln tau_face 6.8089 +- 0.0148
+  generations  772.. 914: deaths       1319 exposure       144210  ln tau_face 6.7738 +- 0.0275
+  generations  915..1057: deaths        344 exposure        37731  ln tau_face 6.7770 +- 0.0539
+  generations 1058..1200: deaths         90 exposure         8905  ln tau_face 6.6740 +- 0.1054
+LIFE R 7 cells 30 deaths 288799 exposure 32567987 ln_tau_face 6.8048 +- 0.0019
+# life hull R=9 face cells 45 N=510 seed 54 batches 600 T0 300 Tmax 3000; censored as periodic 0; first deaths with two faces at once 235
+  generations  301.. 685: deaths      20826 exposure     48151051  ln tau_face 9.8253 +- 0.0069
+  generations  686..1071: deaths      17589 exposure     40845636  ln tau_face 9.8297 +- 0.0075
+  generations 1072..1457: deaths      15088 exposure     34542356  ln tau_face 9.8155 +- 0.0081
+  generations 1458..1842: deaths      12585 exposure     29136627  ln tau_face 9.8267 +- 0.0089
+  generations 1843..2228: deaths      10764 exposure     24739768  ln tau_face 9.8194 +- 0.0096
+  generations 2229..2614: deaths       9083 exposure     20917322  ln tau_face 9.8214 +- 0.0105
+  generations 2615..3000: deaths       7628 exposure     17685419  ln tau_face 9.8281 +- 0.0114
+LIFE R 9 cells 45 deaths 93563 exposure 216018179 ln_tau_face 9.8239 +- 0.0033
+# life hull R=11 face cells 63 N=876 seed 55 batches 24 T0 500 Tmax 200000; censored as periodic 0; first deaths with two faces at once 0
+  generations  501..29000: deaths       1500 exposure    151392951  ln tau_face 13.6016 +- 0.0258
+  generations 29001..57500: deaths       1094 exposure    114690784  ln tau_face 13.6396 +- 0.0302
+  generations 57501..86000: deaths        823 exposure     87935685  ln tau_face 13.6586 +- 0.0349
+  generations 86001..114500: deaths        636 exposure     67086483  ln tau_face 13.6457 +- 0.0397
+  generations 114501..143000: deaths        504 exposure     50782251  ln tau_face 13.5999 +- 0.0445
+  generations 143001..171500: deaths        369 exposure     38978313  ln tau_face 13.6472 +- 0.0521
+  generations 171501..200000: deaths        275 exposure     29982558  ln tau_face 13.6788 +- 0.0603
+LIFE R 11 cells 63 deaths 5201 exposure 540849025 ln_tau_face 13.6315 +- 0.0139
+# four more seeds at R = 7 (final binary; the LIFE line now names the vessel)
+# life hull 7 0 face cells 30 N=264 seed 31 batches 3000 T0 200 Tmax 1200; censored as periodic 14; first deaths with two faces at once 18882
+LIFE hull 7 0 cells 30 deaths 144573 exposure 16466801 ln_tau_face 6.8148 +- 0.0026
+# life hull 7 0 face cells 30 N=264 seed 131 batches 3000 T0 200 Tmax 1200; censored as periodic 23; first deaths with two faces at once 18646
+LIFE hull 7 0 cells 30 deaths 144561 exposure 16290845 ln_tau_face 6.8041 +- 0.0026
+# life hull 7 0 face cells 30 N=264 seed 231 batches 3000 T0 200 Tmax 1200; censored as periodic 21; first deaths with two faces at once 18768
+LIFE hull 7 0 cells 30 deaths 144379 exposure 16344192 ln_tau_face 6.8086 +- 0.0026
+# life hull 7 0 face cells 30 N=264 seed 331 batches 3000 T0 200 Tmax 1200; censored as periodic 15; first deaths with two faces at once 18781
+LIFE hull 7 0 cells 30 deaths 144517 exposure 16314404 ln_tau_face 6.8058 +- 0.0026

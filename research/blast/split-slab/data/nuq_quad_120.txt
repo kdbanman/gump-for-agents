@@ -1,0 +1,13 @@
+weights [1.0, -3.0, 3.0]
+p  15 count     105  ln tau (parabola) = 24.6662 +- 0.1570
+p  16 count     188  ln tau (parabola) = 24.6801 +- 0.1210
+p  17 count     308  ln tau (parabola) = 24.5838 +- 0.0968
+p  18 count     508  ln tau (parabola) = 24.5620 +- 0.0778
+p  19 count     837  ln tau (parabola) = 24.5868 +- 0.0632
+p  20 count    1381  ln tau (parabola) = 24.5995 +- 0.0526
+p  21 count    2284  ln tau (parabola) = 24.5863 +- 0.0450
+p  22 count    3837  ln tau (parabola) = 24.5557 +- 0.0395
+p  23 count    6247  ln tau (parabola) = 24.5603 +- 0.0358
+p  24 count   10113  ln tau (parabola) = 24.5626 +- 0.0334
+p  25 count   16208  ln tau (parabola) = 24.5483 +- 0.0318
+p  26 count   25646  ln tau (parabola) = 24.5565 +- 0.0307
