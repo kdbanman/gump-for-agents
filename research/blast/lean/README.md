@@ -113,8 +113,9 @@ smaller goal; where a tool is missing from Lean's libraries, building it is part
 3. **Finite vessels as Markov chains, with certified rates.** The dice surrogate and the noisy hull are finite
    chains with honest randomness. For a non-negative matrix Q and a positive vector v, Qv ≤ λv entrywise gives
    survival ≤ C·λᵗ, and Qv ≥ λv gives survival ≥ c·λᵗ: two inductions, no spectral theory. So a vector computed
-   outside Lean certifies a two-sided bound on a death rate inside it, in exact rational arithmetic. First move:
-   the one-layer dice surrogate on the smallest wrapped and rimmed faces, with its rate in a proved interval.
+   outside Lean certifies a two-sided bound on a death rate inside it, in exact rational arithmetic. First move: the 9-cell hull triangle of the
+   one-layer dice surrogate, its rate in a proved interval set beside the exactly solved value (ln τ =
+   2.4837157463, reproduced by the outside audit): the first theorem in the repository about a lifetime.
 4. **The blast's theorems** (`rigour/THEOREMS.md`): Lemma 0, Theorem 1 (ln τ ≤ 2.509·A), the tilt identity,
    Lemma R, the seam identity, and Theorem 3 with its hypothesis proved or refuted rather than assumed.
 5. **Both exits as theorems.** That a wrapped face of the surrogate dies by the bust and a rimmed one by the fade
