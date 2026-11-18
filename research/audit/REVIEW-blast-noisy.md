@@ -308,6 +308,20 @@ vulnerable state is made by the darts and not drawn, or a first stage that split
 - Settled lives under noise (nb's guard works only with the noise off; none was seen in 9 × 10¹⁰ noise-free
   hull-generations).
 
+## 9. The author's forecasts for this rebuild (`noisy/PREDICTIONS.md` block 3 at b80248c, frozen 17:58 UTC)
+
+Read after sections 0 to 8 were committed (d35b1eb). Its conjecture, "the +0.083 ± 0.027 at 108 cells and ε = 1/16
+is the sampler's, not the chain's: an unbiased estimate whose law has a rare heavy tail", is this review's §7,
+reached separately.
+
+| | forecast | here |
+|---|---|---|
+| 1 | Brute force at 84 cells, ε = 1/16, within 0.015 of gump given an error ≤ 0.01 (80%); above by more than 0.03 (7%) | not measured here (§8) |
+| 2 | Brute force at 84 cells at a large ε: above gump by 0.01 to 0.06 (60%); by more than 0.06 (15%) | +0.027 ± 0.038 at ε = 1/4: in the 60% band by its value; its error reaches both neighbours |
+| 3 | The sampler at 108 cells with the odd sweeps off within two errors of 23.422 (75%); its scatter above 0.52 (70%) | not run here |
+| 4 | Ancestry at 108 cells: median number of distinct initial chains at the last level between 35 and 70 at every ε (75%); the replication with the largest rate has a largest-family share above the median's (65%) | yes and yes in this audit's three small sets: medians 59, 55, 48 at ε = 1/4, 1/16, 1/64 (20, 6, 6 replications); the largest-rate replication's share is 0.92, 0.63, 0.18 against medians 0.15, 0.23, 0.14 |
+| 5 | 2,000 replications at ε = 1/16, or a sampler that moves the initial states, bring the 108-cell value within 0.03 of gump (65%) | not run; it is the deciding measurement of §7 |
+
 ## E. The three qualifications carried from `REVIEW-blast.md` (the 16:40 entry) [read]
 
 All three match that review. (1) "88% at 63 cells, 92% at 84" and "32.5% against 11.9%": the review's verdict and
