@@ -48,27 +48,27 @@ after its own check; the PI never merges it.
   without warning: after every milestone bring this file up to date ("State"), and within 60,000 tokens of the
   threshold do it at once.
 
-## State (overwritten; last written 14:57 UTC 2026-11-18)
+## State (overwritten; last written 16:41 UTC 2026-11-18)
 
-- **The owner at about 14:55 UTC: "Anything to finish or document here? We can do another blast at a later date,
-  but for now let's see what you found!"** So the blast is being closed: no agent, no new experiment. What is left
-  is the one job in flight and the record.
-- **Usage at 13:56 UTC: Fable window 0.39, weekly 0.20.** No agent is started or resumed.
-- **In flight (CPU only):** the rest of the noisy hull's blind test at 108 cells, a tracked background job
-  started 14:57 UTC (`sh research/blast/noisy/pi_resume_B.sh`, about 105 minutes; it then copies the rows to
-  `research/blast/noisy/data/runs/` and prints `fit.py`). **Owed when it ends:** put the final 108-cell numbers
-  into the last second-phase entry of `REPORT.md` and its short version, score `noisy/PREDICTIONS.md` block 2 and
-  the PI's block 5 items 5 and 6 (the 135-cell item stays open), commit, push, one line to the owner. Do not start
-  the 135-cell runs.
-- **Done this phase and written into `REPORT.md` (short version and dated entries):** the card's recorder and boom
-  and bust; `holes` (failed hypothesis, refereed); `strips` (checks and extends `rim/`); the 120-cell tube scored;
-  the noisy hull's stage 1 and interim 108-cell test. Forecast blocks 5 to 7 in `PREDICTIONS.md`. The pull
-  request's description, `README.md`'s index and `TO-THE-LEAD.md` are current as of 14:05 UTC.
+- **The blast is closed.** The owner at about 14:55 UTC: "Anything to finish or document here? We can do another
+  blast at a later date, but for now let's see what you found!" Nothing is running: no agent, no job. Start none
+  without the owner's word.
+- **Usage at 13:56 UTC: Fable window 0.39, weekly 0.20** (PI turns only since then).
+- **Last job, ended 16:37 UTC:** the noisy hull's blind test at 108 cells, complete. Final numbers are in the last
+  second-phase entry of `REPORT.md` (weighted mean +0.069 +- 0.025 above gump; intercept at zero noise -0.025 +-
+  0.083) and in the short version; `noisy/PREDICTIONS.md` block 2 and the PI's block 5 items 5 and 6 are scored.
+  The 135-cell runs were not started and the 135-cell face stays open.
+- **After the closing message the owner asked whether the theory is amenable to Lean.** Answered in chat, not in
+  the repository: T1 to T4 easy in core Lean, T5 and T6 moderate, the dice-surrogate theorems possible with weeks
+  of work, the measured laws not until there is a paper proof. Installing Lean here was refused by the session's
+  permission layer and was not worked around; nothing was machine-checked.
 - **For a later blast** (the PI's list): a thick corner-free strip by a sampler or on the card ((6 unit rows,
-  L = 6), about 24; (5 unit rows, L = 7), about 23.6); the 126- and 132-cell tubes against block 7; the chain's own
-  offset at 84 cells by brute force (`prod_A_brute84.sh`); a referee for `noisy/` and for `strips/`; the lead's
-  outside audit of the night's report (`research/audit/REVIEW-blast.md`, not yet on main at 14:05 UTC).
-- Not done: the lead has recomputed nothing; `research/check.sh` not run on the blast; no figures.
+  L = 6), about 24; (5 unit rows, L = 7), about 23.6); the 126- and 132-cell tubes against block 7; the noisy
+  chain's own offset at 84 cells by brute force (`prod_A_brute84.sh`); a referee for `noisy/` and for `strips/`;
+  the lead's outside audit of the night's report (`research/audit/REVIEW-blast.md`); T1 to T3 in Lean if the owner
+  allows the install.
+- Not done: the lead has recomputed nothing; `research/check.sh` not run on the blast; no figures. The pull
+  request's description says "second phase" but predates the final 108-cell numbers.
 
 ## Results that are easy to misremember (all in `REPORT.md`)
 

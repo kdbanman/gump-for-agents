@@ -49,9 +49,11 @@ section).**
 - **The 120-cell tube is 24.5086 ± 0.0169, below every forecast, this report's included.** A tube's line bends
   (0.2023, 0.2013, 0.1957 per cell from 84 to 120 cells) and the night's fitted tube law is refuted.
 - **The 135-cell hull face is still not decided.** A second sampler (gump on the whole hull, coin replacements at
-  a low rate deep under the watched face) is exact at zero noise and shows no offset at 45 and 63 cells, but its
-  blind test at 108 cells reads above gump (see the last entry of the next section). It does not reach the
-  135-cell face. The extrapolations stand at 29.20 to 29.22 ± 0.03, against 29.230 and 29.163.
+  a low rate deep under the watched face) is exact at zero noise and shows no offset at 45 and 63 cells. Its
+  blind test at 108 cells: at the largest noise rate it reads +0.083 ± 0.027 above gump; extrapolated to zero
+  noise it agrees with gump, but only to ± 0.08 (the last entry of the next section; unrefereed). That is too
+  coarse for the 135-cell face, whose two readings are 0.067 apart, and the 135-cell runs were not started. The
+  extrapolations stand at 29.20 to 29.22 ± 0.03, against 29.230 and 29.163.
 - New small facts: thin strips and narrow tubes are cut across by firewalls before a face dies; a tetrahedron of
   gump has no steady state (its corners are shaved off); the 18-cell hull face lives 4.855 ± 0.015 and is too
   small to belong to the family.
@@ -236,6 +238,30 @@ target size and not in size.
 Not checked: no referee has rewritten the chain or the sampler (the window had no room for one); whether the
 offset at 108 cells is the chain's or the sampler's (the script `prod_A_brute84.sh`, 10 core-hours, would say at
 84 cells); other noise regions.
+
+**Final numbers of the blind test at 108 cells, 16:39 UTC** (the tracked job ended; all planned replications in;
+about 10 core-hours in all). [measured] Gump: 23.3392 ± 0.0099.
+
+| ε | replications | ln τ | minus gump | scatter of one replication | largest share of the rate |
+|---|---|---|---|---|---|
+| 1/16 | 440 | 23.422 ± 0.025 | +0.083 ± 0.027 | 0.52 | 0.015 |
+| 1/32 | 300 | 23.228 ± 0.119 | −0.111 ± 0.119 | 2.06 | 0.115 |
+| 1/64 | 360 | 23.368 ± 0.065 | +0.029 ± 0.066 | 1.23 | 0.056 |
+
+- Weighted mean over the three: 23.408 ± 0.023, which is **+0.069 ± 0.025 above gump** (2.8 errors; χ² 3.0 on 2).
+- A line in ε: intercept at ε = 0 **23.314 ± 0.082, which is −0.025 ± 0.083 from gump**; slope +1.7 ± 1.4 per unit
+  of ε (χ² 1.6 on 1).
+- Reproduce: `python3 research/blast/noisy/fit.py` (rows in `research/blast/noisy/data/runs/`; the runs are
+  `sh research/blast/noisy/prod_B_108.sh` as far as it got, then `sh research/blast/noisy/pi_resume_B.sh`).
+
+What the final numbers change, and what they do not. At ε = 1/16 the chain reads above gump by three of its
+errors at 108 cells, where it read +0.032 ± 0.029 at 84 cells and nothing at 63: that offset is real for this
+chain or for its sampler, and it grows with the face. The extrapolation to zero noise agrees with gump, but only
+to ± 0.08, and the two readings of the 135-cell face are 0.067 apart; the slope it rests on is 1.2 errors from
+zero. So the interim verdict stands: **the method, as tuned, does not decide the 135-cell face**, and the
+135-cell runs were not started. Not checked, beyond the list above: the error bars at ε = 1/32 and 1/64 are not
+to be read as Gaussian (at 1/32 the value moved from 23.386 at 200 replications to 23.228 at 300, and one
+replication carries 11% of the summed rate); no second set of seeds; no referee.
 
 ## What was found
 

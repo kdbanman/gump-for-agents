@@ -81,3 +81,21 @@ three eps" meaning these. New since block 2: brute force at 63 cells, eps = 0.10
   +0.003 +- 0.018, -0.024 +- 0.023; 100 replications each).
 - Scatter larger at eps = 0.03 than at 0.10 (65%): a tie in tuning (0.14 against 0.13 at 40 sweeps); with the frozen
   setting 0.21, 0.15, 0.13 at eps = 1/64, 1/16, 1/4: yes in direction.
+
+## Scores of block 2 (16:39 UTC; written by the PI, the agent having finished, from `python3 research/blast/noisy/fit.py`)
+
+- 84 cells by brute force (`prod_A_brute84.sh`): **not run** (the usage window closed first). Its three forecasts
+  are not scored.
+- 84 cells, sampler at eps = 1/16: 18.173 +- 0.029 after 100 replications (200 were planned), +0.032 +- 0.029 above
+  gump. Above gump by more than 0.03 (60%): **yes, by 0.002, which is no evidence either way.** Within two errors of
+  the brute force: not scored, there is no brute force.
+- 108 cells, blind (gump 23.3392 +- 0.0099), final: 23.422 +- 0.025, 23.228 +- 0.119, 23.368 +- 0.065 at eps = 1/16,
+  1/32, 1/64 (440, 300, 360 replications).
+  - Weighted mean within two of its errors of gump (55%): **no** (+0.069 +- 0.025, 2.8 errors).
+  - The line's intercept within two errors (75%): **yes** (-0.025 +- 0.083).
+  - The intercept's error 0.08 or less (45%): **no**, narrowly (0.082).
+  - The eps = 1/16 value alone above gump by more than 0.05 (45%): **yes** (+0.083 +- 0.027).
+- 135 cells (`prod_C_135.sh`): **not run**, by the PI's decision: an intercept good to 0.08 at 108 cells cannot
+  separate 29.230 from 29.163. The forecasts for it and the two on efficiency at 135 cells are not scored. At 108
+  cells one replication scatters by 0.52, 2.06 and 1.23 of the mean at eps = 1/16, 1/32, 1/64.
+
