@@ -90,13 +90,26 @@ authors and by the PI only. `set36` was found by a fresh SAT run and not compare
 Each line is a goal at full size with a first move. Difficulty is a fact to be found out, not a reason to choose a
 smaller goal; where a tool is missing from Lean's libraries, building it is part of the work.
 
-1. **The rest of the structure theory.** T6 in full (no finite sealed set in three or more layers; the 9-core);
-   T5 (the energy, ΔE = D − Q, period ≤ 2 without overcrowding); eventual periodicity of every finite seed; the
-   speed limit; the symmetric neighbourhood and "neighbours of cells are cells"; the stepper's correctness.
-   First move: T6's extremal-cell argument, in `Gump/Thickness.lean`.
+1. **The rest of the structure theory.** Done on 2026-11-18: T6 in full, T5 on finite vessels, eventual periodicity,
+   no spaceships, the speed limit, the symmetries, the stepper's correctness. Open: T5 on tori and the uncapped rule
+   with its Goles–Olivos theorem; that 36 is the least two-layer sealed set; the torus clause of Theorem 3 on the
+   torus itself; whether a set sealed in a thick slab can be bounded along a non-generic in-plane direction;
+   `research/theory/thickness.md` §4 (thin slabs cannot sustain chaos: the percolation step).
 2. **A certified census.** Still lifes, oscillators and sealed sets in bounded windows, found by SAT or search
    outside Lean and certified inside it (`decide`, `bv_decide` with its checked certificates). First move: the
    six faces of a cube are a still life; the 6-cell hexagon ring is sealed in one layer; the 36-cell set in two.
+2b. **The catalogue's "for every N" laws as theorems** (proposed by the lead on pull request 39, with where each is
+   stated most exactly; "a finite set of base runs plus an induction"). In the lead's order: (1) the tape theorem,
+   `research/signals/README.md` §10; (2) a clock of every length, §11, `research/signals/prove_clock.py`; (3) the
+   gun's line, period exactly 4 from generation 2N for every N ≥ 2, §21, `prove_line.py`, `prove_beam.py`; (4) nine
+   rigid signals on the rake train, §30–35; (5) the unzip law, `research/signals/push8/README.md`,
+   `prove_unzip8.py`, with `research/audit/REVIEW-signals-8.md` read first; (6) the call law,
+   `research/audit/REVIEW-signals-9.md` §3, `research/audit/signals9/proof9.py`, which no referee has read: a
+   formal proof would be its first. Objects are cell lists in `research/signals/objects/` and `push8/`, `push9/`.
+   Foothold: `Signals.lineC_N_period_four` for N = 2, 3, 12, 13 and `Bits.oscCert_spec`; base runs of a few hundred
+   cells are within the kernel's reach. Statements quantify over the whole lattice with finite support. If a base
+   run is too long for the kernel, `native_decide` for base runs only, in a separate tier of the axioms table, each
+   such run also in the differential test. First move: the tape theorem, then the gluing induction for (3).
 3. **Finite vessels as Markov chains, with certified rates.** The dice surrogate and the noisy hull are finite
    chains with honest randomness. For a non-negative matrix Q and a positive vector v, Qv ≤ λv entrywise gives
    survival ≤ C·λᵗ, and Qv ≥ λv gives survival ≥ c·λᵗ: two inductions, no spectral theory. So a vector computed
