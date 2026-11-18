@@ -13,6 +13,7 @@ exact period P under `Gump.run`.
 -/
 import Gump.Certify
 import Gump.Speed
+import Gump.Periodic
 
 namespace Gump.Bits
 open Gump
@@ -518,6 +519,49 @@ theorem oscCert_spec (L : List Pt) (P : Nat) (h : oscCert L P = true) :
   have := isOscB_spec (ofList L) P h2 h3
   rw [bcfg_ofList L h1] at this
   exact this
+
+/-- μ generations, checking that every state before the last is in the core. -/
+def advance (S : Nat) : Nat → Option Nat
+  | 0 => some S
+  | n + 1 => if inCore S then advance (bstep S) n else none
+
+theorem advance_spec : ∀ (n S T : Nat), advance S n = some T →
+    (∀ j, j < n → inCore (brun S j) = true) ∧ T = brun S n
+  | 0, S, T, h => by simp only [advance, Option.some.injEq] at h; exact ⟨fun j hj => absurd hj (Nat.not_lt_zero j), h.symm⟩
+  | n + 1, S, T, h => by
+    simp only [advance] at h
+    split at h
+    · rename_i hS
+      obtain ⟨h1, h2⟩ := advance_spec n (bstep S) T h
+      refine ⟨fun j hj => ?_, by rw [h2, brun_shift]⟩
+      cases j with
+      | zero => exact hS
+      | succ j => rw [← brun_shift]; exact h1 j (by omega)
+    · exact absurd h (by simp)
+
+/-- **The certificate of eventual periodicity.** L lies in the box; its orbit stays in the core for μ
+generations, and from generation μ on it is an oscillator of exact period P. -/
+def evCert (L : List Pt) (μ P : Nat) : Bool :=
+  L.all inBox && match advance (ofList L) μ with
+    | some T => inCore T && isOscB T P
+    | none => false
+
+theorem evCert_spec (L : List Pt) (μ P : Nat) (h : evCert L μ P = true) :
+    0 < P ∧ run (lcfg L) (μ + P) = run (lcfg L) μ ∧
+      ∀ k, 0 < k → k < P → run (lcfg L) (μ + k) ≠ run (lcfg L) μ := by
+  simp only [evCert, Bool.and_eq_true] at h
+  obtain ⟨h1, h2⟩ := h
+  split at h2
+  · rename_i T hT
+    simp only [Bool.and_eq_true] at h2
+    obtain ⟨a1, a2⟩ := advance_spec μ (ofList L) T hT
+    have hμ : run (lcfg L) μ = bcfg T := by
+      rw [← bcfg_ofList L h1, run_brun _ μ a1, a2]
+    obtain ⟨o1, o2, o3⟩ := isOscB_spec T P h2.1 h2.2
+    refine ⟨o1, by rw [run_add, hμ, o2], fun k hk0 hkP => ?_⟩
+    rw [run_add, hμ]
+    exact o3 k hk0 hkP
+  · simp at h2
 
 /-- The six faces of a cube, again, by the bit-parallel stepper. -/
 example : oscCert [⟨1, 0, 0⟩, ⟨-1, 0, 0⟩, ⟨0, 1, 0⟩, ⟨0, -1, 0⟩, ⟨0, 0, 1⟩, ⟨0, 0, -1⟩] 1 = true := by
