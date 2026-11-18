@@ -125,3 +125,14 @@ The band numbers quoted in block B were from the first run. Pooled over five run
   complete emptiness under 3 generations): 90%.
 - E3. Boom share at 5 units within 5 points of loop² 12's 52.6%: 60%.
 - E4. −ln P(band of 6 units) − ln τ_face((1,3),(0,25), length 6.005, 15.5250) = 3.9 ± 0.3: 60%.
+
+### Block E scored (04:32 UTC; `data/bandp_g13_L12.txt`, after a first run with a faulty last bin was discarded)
+
+- E1 **hit**: 0.2195 ± 0.0016 (forecast 0.2200 ± 0.0020); above loop² 12's 0.2190 by 0.0005, not significant.
+- E2 **hit**: ages at 5 units 2.53 3.00 3.03 2.95 2.88; durations 1.7 generations.
+- E3 **hit**: 56.0 ± 1.7% at 5 units against 52.6%.
+- E4 **hit**: 19.686 − 15.5250 = 4.16 ± 0.26.
+
+Tally of my scored forecasts tonight: A1 hit, A2 half (sign right, value 72% against my 85%), A3 miss, C miss
+(three numbers), D1 miss, D2 hit, E1–E4 hit, two band forecasts of block B void or miss. The 120-cell forecast of
+block B is open.

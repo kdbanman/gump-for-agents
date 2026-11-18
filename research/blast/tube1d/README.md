@@ -387,9 +387,27 @@ measured. Beyond 5.5 units one run cannot tell. The boom share falls the same wa
 51.5, 44.1, 33.7 ± 3.5, 22.9 ± 5.4% at 3, 4, 5, 5.5, 6, 6.5 units (length 12: 68.8, 60.7, 52.6, 47.6, 43.3, 37.1), so
 the take-over by thinning is not an artefact of the short tube.
 
-So the band–tube constant, c∞(g) and ξ(g) of §5 exist only for loop² 12 here: at loop² 16 the band statistic
-measures firewalls (it would need lanes with a firewall censored, which `bandp` does not do), and the band jobs for
-loop² 13 and 9 and the length-20 check were not run for lack of time.
+**Loop² 13 behaves like loop² 12** (`$S/tube1d bandp 1 3 50 8 0 61 12000000 500 16`: the 150-cell tube
+(1,3),(0,50), length 12.01, one run, 3.7·10¹⁰ band-position-generations; `data/bandp_g13_L12.txt`; 24 bins of
+0.5004 units; errors naive, to be doubled from 4.5 units on as at loop² 12). Price per cell of an empty band:
+0.2386 (2–2.5 units), 0.2286, 0.2201 ± 0.0008, 0.2195 ± 0.0016, 0.2217 ± 0.0031, 0.2104 ± 0.0060, 0.210 ± 0.012 at
+2.5–3 … 5–5.5 units, against loop² 12's 0.2359, 0.2286, 0.2223, 0.2190, 0.2165, 0.2141, 0.2102: the same curve
+within errors from 2.5 units on. A flash again (ages when a 5-unit band first is empty: 2.53 3.00 3.03 2.95 2.88;
+complete emptiness lasts 1.7 generations); boom share 68.2, 60.5, 56.0 ± 1.7, 52 ± 3% at 3, 4, 5, 5.5 units (loop² 12:
+68.8, 60.7, 52.6, 47.6). Band–tube constant against the tubes on file (band widths interpolated to the tubes'
+lengths 4.80 and 5.77; 6.005 is exact): −ln P(band) − ln τ_face = 16.507 − 12.4465 = 4.06 ± 0.05, 19.05 − 14.9213 =
+4.12 ± 0.15, 19.686 − 15.5250 = 4.16 ± 0.26: constant again, and 0.2 above loop² 12's 3.86, about what two edges
+longer by the ratio of the girths would add if the constant is 2σg (3.86 × 3.606/3.464 = 4.02). c∞(13) and ξ(13)
+were not fitted (one band run, three tube anchors up to 6 units). Block E: all four forecasts hit.
+
+Note on bins: before 04:27 `bandp` used bins of exactly 0.5 units, which leaves a sliver bin when the length is not
+a multiple of 0.5; a first loop²-13 run (discarded) was biased by it, and the loop²-16 run above has a short last
+bin of 0.12 units (its conclusions do not hang on that). Bins now tile the tube exactly; the loop²-12 runs
+(lengths 12 and 20) are unaffected.
+
+So c∞(g) and ξ(g) of §5 exist only for loop² 12 here; loop² 13 shares its band curve where measured; at loop² 16
+the band statistic measures firewalls (it would need lanes with a firewall censored, which `bandp` does not do);
+loop² 9 was not run.
 
 ## 8. Data formats (for other agents)
 
@@ -415,6 +433,8 @@ loop² 13 and 9 and the length-20 check were not run for lack of time.
   everything below 3 units, where more than one sub-leading term must matter.
 - The paths are from one or two seeds per vessel; the 84-cell statistics rest on 323 deaths (113 with population series).
 - The settled test catches periods dividing 840 and period ≤ 2 only.
+- The 96-cell anchor (1,17),(0,32) is a tube with half a twist; twisted tubes on file live 0.003–0.014 longer at
+  48–72 cells. Not corrected in the fits of §5.
 - The surrogate's offset was measured at 48 cells (and 60, §7) only; nothing about its dependence on area or girth
   beyond that; the dice density is 0.414, not the swarm's 0.4155.
 - `imagefit.py` uses the density deficits f as given in the brief and floors errors at 0.003.
