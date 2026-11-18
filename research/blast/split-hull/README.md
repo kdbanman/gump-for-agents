@@ -70,7 +70,24 @@ below the level and the reverse move is proposable). Frozen parameters (block 4)
 18, 28, 38, 51 for R = 9 … 17; NSWEEP = round(A/6) = 8, 10, 14, 18, 22; KFLIP 5; TPRE 32, TWIN 24, WBACK 12.
 `sh research/blast/split-hull/dice.sh R SEED NREP`. Error: scatter of independent replications' rates.
 
-DICERESULTS
+<!-- DICE -->
+**Results so far (05:00 UTC)** (`python3 research/blast/split-hull/dice_ana.py`; brute force of the chain:
+`DICE=1 shd R SEED 0 GENS`, the base run of `sh.c` with the coins switched on):
+
+| R | cells | what | replications | ln τ, dice chain | gump anchor | chain − gump |
+|---|---:|---|---:|---|---|---|
+| 9 | 45 | brute force of the chain | 3,248 deaths | 9.837 ± 0.018 | 9.819 | +0.018 ± 0.018 |
+| 9 | 45 | sampler (tuning size) | 32 | 9.820 ± 0.019 | 9.819 | +0.001 ± 0.019 |
+| 11 | 63 | brute force of the chain | 275 deaths | 13.70 ± 0.06 | 13.633 | +0.07 ± 0.06 |
+| 11 | 63 | sampler (tuning size) | 32 | 13.589 ± 0.039 | 13.633 | −0.044 ± 0.039 |
+| 13 | 84 | sampler, **blind** | 48 | 18.234 ± 0.065 | 18.141 ± 0.005 | **+0.093 ± 0.065** (1.4 errors) |
+| 15 | 108 | sampler, **blind** | 48 | 23.418 ± 0.074 | 23.3392 ± 0.0099 | **+0.079 ± 0.074** (1.1 errors) |
+
+Both blind calibrations pass the rule set beforehand (within two errors), so R = 17 is running. Nothing was tuned
+after block 4. The two blind sizes together sit +0.087 ± 0.049 above gump; all four +0.003 ± 0.016. Scatter of one
+replication's rate: 0.11, 0.22, 0.45, 0.51 of the mean at R = 9, 11, 13, 15; no replication gave zero; the largest
+replication carries 4 to 7% of the sum.
+<!-- /DICE -->
 
 ## Deliverable 1: the stepper [measured]
 
