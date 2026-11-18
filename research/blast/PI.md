@@ -89,6 +89,14 @@ after its own check; the PI never merges it.
   `diag.sh` (ancestry at 108 cells; odd sweeps off), and the depth series the PI offered (noise at depth >= d for
   d = 2 .. 6 by brute force at 63 cells, `nz R brute SEED GENS M DW DO`), then score block 3 when the lead's
   rebuild reports brute force at 84 cells.
+- **In flight (agents, both Opus at xhigh, started 18:25 UTC):** `lean-thickness` (T6 in full: no finite sealed
+  set in the lattice and in slabs of three or more layers; the converse of the sealing lemma; the small sealed
+  sets; files `lean/Gump/Thick*.lean`) and `lean-link` (the neighbourhood is symmetric; `stepFin` proved equal
+  to `step`; a differential test against the oracle that is more than a sample, `lean/difftest.sh`; eventual
+  periodicity of finite seeds; the speed limit; then T5). Neither edits the shared files: **owed when each
+  reports:** read its statements against the paper ones, add its imports to `Gump.lean`, its lines to
+  `Axioms.lean` and `check.sh`, its rows to `lean/README.md`, run `sh research/blast/lean/check.sh`, commit
+  (a commit that touches `research/blast/lean/` only), push, and tell the lead on the pull request what is new.
 - **In flight (CPU):** tracked job `sh research/blast/noisy/diag.sh` (started 17:56 UTC, about 100 minutes; rows in
   scratch `runs_diag/`; read with `python3 research/blast/noisy/anc.py` and `tails.py research/scratch/blast/noisy/runs_diag`).
   Tracked job fetching Mathlib into `research/blast/lean/mathlib/` (`lake update`, `lake exe cache get`).
@@ -137,6 +145,8 @@ after its own check; the PI never merges it.
   the PI once briefed an agent to redo what `rim/` had done.
 
 ## Session-private ids (valid only in this session; an agent resumed by id keeps its context)
+
+Second-phase Lean agents (Opus): lean-thickness a4e16ed4e4f3a8c9b · lean-link a27ca9c827a98f418.
 
 split-slab a6cf747f951a40794 · split-hull a3569cf285a0ef651 · tube1d aa106621bb873fec2 · anatomy a94ca87ca9da97616 ·
 rim ab5a56882ea42ba61 · image ab0b5ef769471d467 · model ad6a0e85503ffe25e · rigour a2335f9a30eb2ed29 · ref-anatomy
