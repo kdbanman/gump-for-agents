@@ -276,13 +276,26 @@ cell taken away by hand is my hand and not gump's. Lay a wire across the store o
 before its wall and send two pulses side by side along it. They pass on unchanged, and the
 stretch leaves as exactly k pulses. The crossing wire is as it was, so it can call again,
 and since a count set free runs into the next store and is added to what is there, one and
-three make four. I ran the verifiers of the call myself on the reference stepper.
+three make four. I ran the verifiers of the call myself on the reference stepper, and a
+reviewer rebuilt it and proved it for every count; nobody has yet refereed that proof.
 
 So gump has a row of counters that can be added to, emptied into one another when a signal
-says so, and asked whether a place is empty. What it does not have is anything that turns a
-count into the pair of pulses that calls, so nothing yet decides anything. Nor a copy, nor
-a subtraction, nor a way to write while a reader is in place. Each piece has been run. They
-have not all been run together as one machine.
+says so, and asked whether a place is empty. The reviewer worked out what such a row can
+compute, and it is very little: sums of its inputs, chosen by which inputs are zero. No
+copy, no doubling, no comparison. What it lacks is one operation, a subtraction of one that
+says when it has reached nothing. With that, two counters are a computer, in the plain
+sense that they can run any program.
+
+And the reviewer found that operation, in a form nobody can use yet. Send the call and one
+more pulse at exactly the right moment, and a store holding k gives back k − 1 pulses,
+while a store holding nothing lets the extra pulse go by. So the collision exists in the
+rule. It is timed by hand, the count it leaves goes off down the wire and has to be caught
+again, and nothing gump makes for itself can start it. The same reviewer found an
+oscillator that, set beside a store, lets a single pulse on the store's own wire do the
+calling, one arrival in three, which is the kind of pulse that zero exit is. Those two
+things have not been put together. I ran both on the reference stepper myself. Reading,
+writing and calling still do not live on one store: where the reader survives the other
+two, it gives the same answer whatever the count.
 
 ## The rule you meant to write
 

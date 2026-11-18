@@ -482,6 +482,12 @@ _Last updated 2026-11-14 by the lead._
   point, not mid-run. **Running:** the lead's 84-cell hull run (`research/audit/blast_lead_hull84.sh`, forecast in
   the notebook entry; result owed there and in DY17); the review of the ninth signals push (Fable). **Then:** the
   record of that review, the essay and the owner's journal, one site update and version 19.
+  **13:44 UTC:** the review of the ninth signals push is in and recorded (`research/audit/REVIEW-signals-9.md`;
+  notebook "the ninth signals push, reviewed"; CLAIMS SG38 raised, SG39 to SG41 added, 215 claims; open problem
+  13 (aa) to (ae)). The call stands and is proved for every count; a call by one pulse on the store's own wire; a
+  collision that subtracts one and reports zero; write, read and call do not coexist. No Fable agent is running.
+  **Running:** the lead's 84-cell hull run; the site agent (Opus), told of the review. **Then:** version 19,
+  `research/check.sh`, merge pull request 38, the other session's pull request at a quiet point.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

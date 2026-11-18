@@ -131,10 +131,16 @@ What speaks to it (the lead, same day):
   find; nobody has repeated it). And the count that was written in a dying wire can now be kept. A capped length of
   the third wire absorbs each pulse sent into it and grows a stretch one unit longer per pulse; it holds that
   number for ever; one cell removed gives it back as exactly that many pulses (proved for every count); two
-  pulses on a wire laid across it do the same without a hand (measured to 40, checked by me on the reference
-  stepper, under review); and a pair of pulses on another crossing wire reads whether one place is empty without
+  pulses on a wire laid across it do the same without a hand (rebuilt by a reviewer and proved for every count,
+  the proof not yet refereed; the pair itself is still made by a hand); and a pair of pulses on another crossing wire reads whether one place is empty without
   changing it. So ordered parts of gump can now speak, keep, add and hand over. What is still missing is the thing
   the note asked about turned round: nothing found lets what is stored decide what is sent next.
+  *Later the same day (notebook "the ninth signals push, reviewed"; CLAIMS SG39, SG40):* two exceptions, both on
+  the reference stepper and both with the deciding pulse made by a hand. A pulse sent along the wire sets a far
+  store free if the place before it is empty and is swallowed if a store is there. And at one exact timing a call
+  plus a pulse gives back one fewer than was stored, and lets the pulse through only when nothing was stored: a
+  subtraction that reports zero, which is the one operation a row of counters needs to be a computer. It cannot
+  yet be repeated, and nothing the machine makes starts it. The reader does not live with writing and calling.
 - **2026-11-18: what the isolation is made of, seen in a death** (notebook "how a face dies, audited from
   outside"; CLAIMS DY16 to DY21). A second session watched wrapped and rimmed faces die and an outside audit
   rebuilt it. A face layer over nothing but private coins has both ways of dying that the real faces have (a

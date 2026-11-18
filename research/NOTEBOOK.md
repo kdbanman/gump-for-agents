@@ -4071,3 +4071,88 @@ octahedron of radius 11, 63 cells a face; A is the face's area.
   over private coins has both ways of dying, and which one a face takes is decided cell by cell by how many
   neighbours a face cell has inside the vessel. The limit of the indifference is in the numbers: the coin-driven
   chain is 0.12 ± 0.05 above gump at the 120-cell tube, and the layer beneath a dying face is far from ordinary.
+
+## 2026-11-18: the ninth signals push, reviewed: the call stands and is proved for every count; an oscillator makes it a call by one pulse on the store's own wire; one collision takes one off a count and tells zero from non-zero; what is missing is a decrement the machine can start itself
+
+Review `research/audit/REVIEW-signals-9.md` (a verdict per claim with command and run time), code and outputs in
+`research/audit/signals9/`. Its instruments: `reference/oracle.py`'s step on a rectangular torus with four guard
+planes asserted dead at every generation (nothing wraps; nearest image of a start cell 26 to 44 sites), and a
+sparse stepper of its own, equal to the oracle on soups and at every generation of every oracle run
+(`check_st9.py`). Only starting cells were taken from the push. Nothing in the push is refuted outright.
+
+- **[oracle, the reviewer's harness; the push's own verifiers re-run by the lead earlier] The call stands.** Store
+  and line stand together; two adjacent pulses on the crossing wire pass on and the stretch `d^k f` leaves as
+  exactly k pulses two units apart with the wire plain behind, for k = 1 to 12, 16, 20, 25, 30, 40; it calls
+  again; a called count is added to a store on the left (1+3, 2+5, 1+1, 4+2); chain; bus (one line across two
+  store wires 3 to 12 line units apart; 2 does not stand). A stretch that begins anywhere else is not called
+  (offsets −8 to 10). A pair coming from the far side calls as well.
+- **[sharper than the push said] The call is one cell.** At every generation the whole state is the store wire
+  alone with one cell, (1,2,0) of the crossing unit, made live at generation 29, plus the free line: the line
+  never feels the store. The train is exact from generation 2k + 34 and equals push 8's hand release from 2k + 32
+  (the push: 90 + 4k).
+- **[proved for every k ≥ 1; the proof has not been refereed] The call law** on the infinite store wire, for the
+  line and seed place of `call9.json` (the review's section 3; `python3 research/audit/signals9/proof9.py`, six
+  base facts on the oracle). The forced-cell orbit obeys the law by push 8's seam gluing (direct for k ≤ 13,
+  induction from 12, continued by the tape theorem); the union with the line holds because the coupling cells see
+  five units of the wire (direct for k ≤ 18, light cone before generation 44, then all 512 tape words on nine
+  units pass under the line at rest). Left: a second reader of the argument; the finite cell's left cap taking a
+  train of any length (measured to k = 40); other seed places and shorter lines (runs only; lines down to 77
+  cells still call).
+- **Three statements of the push are false once a second signal is present** (all oracle). (1) "A call does
+  nothing to an empty wire": with one store pulse within about 3 units of the crossing, 4 of 50 birth places
+  destroy or convert the store wire, two also change the line. (2) "Pulses pass under the line in both
+  directions": a pulse from the left is absorbed by an armed store and moves the wall onto the crossing unit; a
+  later call does nothing. Counts must be added from the right. (3) Two calls need 4k + 2 generations between
+  them; closer, the store wire is destroyed (k = 3 and 12), so the push's untested "closer than 44" is unsafe for
+  k ≥ 11. A set under way with a call is destroyed at one timing; an add under way is always clean.
+- **[the reviewer's own object, oracle only; re-run by the lead] A call by one pulse on the store's own wire.**
+  The period-3 oscillator P3.15f beside the wall is a junction with the wire (one oscillator cell absent every
+  third generation). A right-going pulse passes it on plain wire at one arrival timing in three; the other two
+  change wire or oscillator. At that timing a pulse releases `d^k f` as exactly k separate pulses (k = 1 to 10)
+  and the oscillator is as it would have been; it calls twice; 2 + 3 = 5 in a store on the left. Object
+  `research/audit/signals9/objects/osc-call-P3.15f.json`, verifier `verify_osc9.py`. Measured, not proved; the
+  other 36 oscillators were not run at three timings.
+- **[the same verifier] What is stored can decide what is sent**, with a hand-made pulse: sent along the wire
+  towards the oscillator past a place where a second store may stand, the pulse goes on and releases the store at
+  the oscillator if that place is empty (three pulses leave), and is absorbed if a store is there (2 becomes 3,
+  the far store untouched).
+- **[the reviewer's find; oracle k = 0 to 5, its stepper to 10; the oracle runs repeated by the lead] One less,
+  with a zero exit.** A call and one right-going store pulse born 17 units before the crossing at the same
+  generation: for k ≥ 1 exactly k − 1 pulses leave to the left and nothing to the right; for k = 0 the pulse goes
+  on to the right. A store on the left holding 2 ends with 2 + (k − 1), or 2 when k = 0. One relative timing only
+  (at 19 and 21 units pulse and train pass through each other; at even distances the count is stored again), and
+  both signals are made by hand at the same generation.
+- **[oracle for three scenarios, the reviewer's stepper for the tables] Write, read and call do not coexist
+  usefully on one store.** Push 8b's reader left of the line reads plain wire whatever the count and is destroyed
+  by the released pulses; inside the stretch it does tell the stretch, but a call then destroys reader, line and
+  wire, and it cannot be written under; 13 or more units right of the wall it survives set, add, add, call, and
+  answers the same for counts 1, 3 and 0. The call line is not a reader (zero cells of difference, 17 words at 17
+  offsets). Not tried: 8b's other 22 placements, its reader b8, readers of wire C.
+- **[confirmed] The still life** at the wall: block `b^(2k+2)` for k = 1 to 8 at both arrival parities, worth
+  k + 1, single use. An independent count of the 13 still lifes of at most 8 cells gives the push's 3,780
+  standing placements, 147 triggers and 59 falls.
+- **What the machine is (the reviewer's argument, section 8; not a ledger row).** Set, add one, move-and-clear
+  into the left neighbour, clear, and an emptiness test. With no decrement, every counter always holds the sum of
+  a set of inputs plus a constant and no input is ever in two counters, so every output is a sum of some of the
+  inputs plus a constant, chosen only by which inputs are zero: no copy, doubling, subtraction, comparison or
+  parity. **The missing operation that matters most is a decrement that reports zero**: with an increment, that
+  on two counters is a Minsky machine. The one-less collision is that operation, hand-timed and relocating.
+  Between it and a machine stand, in order: the count k − 1 leaves and every release goes left (nothing moves a
+  count to the right); no signal of the machine makes the calling pair (the P3.15f call is started by one pulse of
+  the store's own wire, the kind of pulse the zero exit is, but the two were not composed, and the collision was
+  not tried at P3.15f); and the hazards above bound every schedule.
+- **The lead's check** (oracle only): `python3 verify_osc9.py` from `research/audit/signals9/` (69 s
+  here, ALL PASS: pass, cycle, law 1 to 10, move, the two branch runs); `python3 proof9.py` (118 s, ALL
+  PASS: the six base facts); `python3 extra9.py minus2` (93 s: 6 runs, oracle equal to the
+  reviewer's stepper at every even generation, the counts as stated). Earlier the same day the push's
+  `verify_call9.py` and `verify_trigger9.py`. Re-runs of the reviewer's code on the oracle's step, not a third
+  code; the proof was not read line by line by the lead.
+- Not checked by anyone but the push: still lifes of 9 to 11 cells, the other 36 oscillators, `cross9.py`,
+  `ghost9.py` beyond two cells, `ghostpairs9.py`, `rearm9.py`, the block-meeting table, the fuse, the other
+  release lines. Not checked by anyone: the proof by a second reader; the oscillator law beyond k = 10 and the
+  still-life law beyond k = 8 on the oracle; the one-less collision at other seeds, at P3.15f, or composed into a
+  decrement that can be repeated.
+- **Bears on the owner's journal** (2026-11-18, "a memory"): "without a hand" is confirmed and proved, the pair
+  itself still made by a hand; the reader and the call do not live on one store where the reading says anything;
+  and "nothing found lets what is stored decide what is sent next" now has two exceptions on the oracle (the
+  branch runs and the zero exit), both with the deciding pulse made by a hand.

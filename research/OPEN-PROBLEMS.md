@@ -231,6 +231,19 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    the period-3 oscillator that may make a reusable call on the store's own wire; **(v)** still stands (no write
    under a reader); and whether add, move and an is-it-empty test, with no copy and no subtraction, compute
    anything beyond sums.
+   **Since (2026-11-18, the ninth push reviewed; CLAIMS SG38 to SG41):** (x) is done in part: the call stands on
+   the oracle and its law is proved for every count (proof not yet refereed). The reviewer found a call by one
+   pulse on the store's own wire (an oscillator at the wall, one arrival timing in three), and a collision that
+   takes one off a count and lets a pulse escape exactly when the store was empty. Its analysis: without a
+   decrement the stores compute only sums of inputs chosen by which inputs are zero; **a decrement that reports
+   zero, on two counters, would be a Minsky machine.** Open, in the order they would have to be met: **(aa)** a
+   decrement that leaves the count where it can be decremented again (every release goes left; nothing moves a
+   count to the right); **(ab)** the one-less collision at the oscillator's call, where the zero exit is the kind
+   of pulse that starts the next call; **(ac)** any operation started by a signal the machine made itself (a
+   source for the calling pair is (y)); **(ad)** schedules that respect the hazards (4k + 2 generations between
+   calls, no call near a travelling pulse, adds from the right only); **(ae)** a referee for the proof of the
+   call law, and a proof of the oscillator's law (measured to k = 10). A reader that lives with write and call
+   was looked for and not found (SG41).
 14. The 94 clockwork objects (`research/clockwork/objects/`) are not merged into the atlas catalogue.
 
 ## Neighbouring rules
