@@ -23,23 +23,27 @@ header), `validate.py` + `validate_all.sh` (oracle check), `bandfit.py`, `margfi
 2. **The same holds for a band of a long living tube** [measured, §3]: when a band of width w ≤ 6 units of a
    144-cell tube is momentarily empty, every 0.5-unit bin of it has been empty for 2.4–3.2 generations, edge and
    middle alike, and complete emptiness lasts 1.7 generations whatever the width (it refills from its edges at once).
-3. **The price of emptying one more unit of tube falls with the length already emptied, and bands and whole tubes
-   lie on one curve** [measured, §3, §5]. Marginal price per cell of an empty band: 0.2365 at 2–2.5 units, 0.2285,
-   0.2223, 0.2181 ± 0.0009, 0.2137 ± 0.0018, 0.2103 ± 0.0033, 0.204 ± 0.006 at 3, 3.5, 4, 4.5, 5, 5.5 units; whole
-   tubes (anchors): 0.2049, 0.2035, 0.2019, 0.2013 from 5→6 … 8→9 units. And −ln P(band of width w empty) −
-   ln τ_face(tube of length w) = 3.809 ± 0.018, 3.80 ± 0.06, 3.86 ± 0.20 at w = 5, 6, 7: a constant. One curve
-   price(ℓ) = c∞ + B·e^(−ℓ/ξ) fits all twelve slopes (χ² = 4.5 for 9): **c∞ = 0.1989 (0.1978 … 0.1997), ξ = 2.05
-   (1.85 … 2.30) lattice units, B = 0.114**. **But a power-law prefactor fits them too** (χ² = 8.1 for 10):
-   τ ∝ ℓ^p·e^(12cℓ) with p = 1.39 ± 0.04, c = 0.1863 ± 0.0008. So the price of a loop²-12 tube does not return to
-   the wide price 0.2087 and does not fall as a parabola; whether it levels at 0.199 or creeps down to 0.186 the
-   data cannot say. The 120-cell tube will not say either (24.556 against 24.538); 192 cells would (39.0 against
-   38.6).
+3. **The price of emptying one more unit of tube falls with the length already emptied, for bands of a living
+   tube as for whole tubes** [measured, §3, §5]. Marginal price per cell of an empty band (five independent
+   runs, 2.1·10¹¹ band-position-generations, errors from the runs): 0.2359 at 2–2.5 units, 0.2286, 0.2223, 0.2190 ±
+   0.0005, 0.2165 ± 0.0011, 0.2141 ± 0.0024, 0.2102 ± 0.0031, 0.2059 ± 0.0035 at 2.5–3, 3–3.5, … 5.5–6 units (then
+   0.2135 ± 0.008, 0.208 ± 0.019 to 7 units): still falling at 6 units, where it has come down to the whole tube's
+   own price at that length (anchors: 0.2049, 0.2035, 0.2019, 0.2013 from 5→6 … 8→9 units). −ln P(band of width w
+   empty) − ln τ_face(tube of length w) = 3.855 ± 0.022, 3.893 ± 0.053, 3.98 ± 0.20 at w = 5, 6, 7: a constant
+   within errors. **Where it levels**: a straight line through the tubes fails (χ² = 26 for 3); tubes alone with an
+   exponential approach give c∞ = 0.199 (0.195 … 0.202); bands and tubes on one curve c∞ + B·e^(−ℓ/ξ) give c∞ =
+   0.1966 (0.1952 … 0.1976), ξ = 2.65 (2.45 … 2.95) units with χ² = 16.0 for 10; a power-law prefactor
+   τ ∝ ℓ^p·e^(12cℓ) gives c = 0.187, p = 1.39 with χ² = 23.0 for 11 on bands and tubes (strained) and c = 0.194 ±
+   0.003, p = 0.72 ± 0.27 on tubes alone (fine). So: **it does not return to the wide price 0.2087, it does not fall
+   as a parabola, and it levels between 0.195 and 0.202 unless the correction is a power law, which the tubes alone
+   cannot exclude.** The 120-cell tube will not decide (24.545–24.57 in every variant); 192 cells would (38.9–39.0
+   exponential, 38.65 joint power law). I could not push the band beyond 7 units (§9).
 4. **Boom and bust hardly changes with tube length up to 7 units, but loses ground to thinning in bands**
    [measured, §4]: the share of deaths with a one-generation fall of at least half the face is 59.3 ± 2.0%, 56.7 ±
    1.1%, 56.3 ± 1.7%, 51.3 ± 4.7% at 48 (4×4), 60, 72 and 84 cells (tubes of length 5, 6, 7). My forecast that it
    falls to 27% by 84 cells (block C) was wrong. In bands of a living tube the same criterion gives 77% at 2
-   units, 60.5% at 4, 52 ± 1% at 5, 47 ± 4% at 6: a second route (thinning over 3–4 generations, no over-filling)
-   takes over with width.
+   units, 60.7% at 4, 52.6 ± 0.7% at 5, 43 ± 3% at 6, 22 ± 6% at 7: a second route (thinning over 3–4 generations,
+   no over-filling) takes over with width.
 5. **Forward-flux sampling on the face population does not work on the honest-dice surrogate, and I can say why**
    [measured, §6]: the dice need 3 generations to reach the face, a death takes 5–8 from one standard deviation
    below the mean, and half of the variance of the outcome is already decided by the state when the population
@@ -82,39 +86,46 @@ lattice units (|e1| = 1), length = area/girth; loop² 12 has 12 cells per unit l
 
 ## 3. An empty band right round the girth of a living tube [measured]
 
-`$S/tube1d bandp 1 22 48 8 0 5 20000000 500 16` (deterministic gump, 144-cell tube, both faces, 2·10⁷
-generations × 64 lanes, 6.1·10¹⁰ band-position-generations; `data/bandp_g12_L12.txt`; slopes by
-`python3 bandfit.py data/bandp_g12_L12.txt`). A window of m bins of 0.5 units (6 cells each) is "empty" when none of
-its cells is alive. err = 1/√(number of separate appearances).
+`$S/tube1d bandp 1 22 48 8 0 SEED GENS 500 16` (deterministic gump, 144-cell tube, both faces, 64 lanes): five
+independent runs, seed 5 with 2·10⁷ generations (`data/bandp_g12_L12.txt`) and seeds 15, 16, 17, 18 with 1.2·10⁷
+(`data/bandp5_g12_L12*.txt`, which also carry the `AGE` and `PRE` histories), 2.1·10¹¹ band-position-generations
+in all. Pooled by `python3 bandcombine.py data/bandp_g12_L12.txt data/bandp5_g12_L12*.txt
+--out=data/band_g12_pooled.slopes` (table in `data/band_g12_pooled.txt`). A window of m bins of 0.5 units (6 cells
+each) is "empty" when none of its cells is alive. **Errors are the standard error over the five runs**; the naive
+1/√appearances is 2 to 2.5 times too small from 4.5 units on (appearances come in clusters: an emptied band
+flickers at its edges while it heals).
 
-| width (units) | cells | −ln P(empty) | err | price per cell from the previous width | appearances | mean duration (gens) |
-|---:|---:|---:|---:|---:|---:|---:|
-| 0.5 | 6 | 3.6264 | 0.0000 | | 1.2·10⁹ | 1.35 |
-| 1.0 | 12 | 5.4855 | 0.0001 | 0.3099 | 1.4·10⁸ | 1.81 |
-| 1.5 | 18 | 6.8325 | 0.0002 | 0.2245 | 3.7·10⁷ | 1.79 |
-| 2.0 | 24 | 8.2534 | 0.0003 | 0.2368 | 9.2·10⁶ | 1.74 |
-| 2.5 | 30 | 9.6687 | 0.0007 | 0.2359 | 2.3·10⁶ | 1.71 |
-| 3.0 | 36 | 11.0394 | 0.0013 | 0.2285 ± 0.0002 | 581,384 | 1.70 |
-| 3.5 | 42 | 12.3732 | 0.0025 | 0.2223 ± 0.0005 | 154,147 | 1.69 |
-| 4.0 | 48 | 13.6819 | 0.0049 | 0.2181 ± 0.0009 | 41,798 | 1.68 |
-| 4.5 | 54 | 14.9638 | 0.0093 | 0.2137 ± 0.0018 | 11,573 | 1.68 |
-| 5.0 | 60 | 16.2254 | 0.0175 | 0.2103 ± 0.0033 | 3,268 | 1.69 |
-| 5.5 | 66 | 17.4505 | 0.0320 | 0.2042 ± 0.0061 | 974 | 1.66 |
-| 6.0 | 72 | 18.6780 | 0.0579 | 0.2046 ± 0.0110 | 298 | 1.59 |
-| 6.5 | 78 | 19.9661 | 0.1072 | 0.215 ± 0.020 | 87 | 1.51 |
-| 7.0 | 84 | 21.178 | 0.204 | 0.202 ± 0.038 | 24 | 1.6 |
-| 7.5 | 90 | 22.44 | 0.38 | | 7 | |
+| width (units) | cells | −ln P(empty), pooled | s.e. over runs | price per cell from the previous width | mean duration (gens) |
+|---:|---:|---:|---:|---:|---:|
+| 0.5 | 6 | 3.6263 | 0.0000 | | 1.35 |
+| 1.0 | 12 | 5.4854 | 0.0001 | 0.3098 | 1.81 |
+| 1.5 | 18 | 6.8326 | 0.0002 | 0.2245 | 1.79 |
+| 2.0 | 24 | 8.2536 | 0.0004 | 0.2368 | 1.74 |
+| 2.5 | 30 | 9.6689 | 0.0007 | 0.2359 ± 0.0001 | 1.71 |
+| 3.0 | 36 | 11.0402 | 0.0009 | 0.2286 ± 0.0001 | 1.70 |
+| 3.5 | 42 | 12.3740 | 0.0020 | 0.2223 ± 0.0002 | 1.69 |
+| 4.0 | 48 | 13.6878 | 0.0041 | 0.2190 ± 0.0005 | 1.68 |
+| 4.5 | 54 | 14.9866 | 0.0101 | 0.2165 ± 0.0011 | 1.68 |
+| 5.0 | 60 | 16.2714 | 0.0217 | 0.2141 ± 0.0024 | 1.69 |
+| 5.5 | 66 | 17.5324 | 0.0396 | 0.2102 ± 0.0031 | 1.66 |
+| 6.0 | 72 | 18.7679 | 0.0507 | 0.2059 ± 0.0035 | 1.6 |
+| 6.5 | 78 | 20.049 | 0.087 | 0.2135 ± 0.0081 | 1.5 |
+| 7.0 | 84 | 21.29 | 0.20 | 0.208 ± 0.019 | 1.6 |
 
-- **The price is not constant**: a plateau at 0.2365 (2–2.5 units), then a steady fall, 0.2082 ± 0.0024 from 4 to 6
-  units (forecast A1: 0.205 ± 0.015, hit).
-- **The band and the tube are the same object** [measured]: −ln P(band w) − ln τ_face(tube of length w) = 16.2254 −
-  12.4166 = 3.809 ± 0.018 (5 units), 18.678 − 14.8753 = 3.803 ± 0.060 (6), 21.178 − 17.3175 = 3.86 ± 0.20 (7).
-  [conjectured] The constant is two edges plus a duration: with 1.7 generations of emptiness and 0.5-unit positions,
-  2σg ≈ 3.8 gives σ ≈ 0.55 per lattice unit of edge, near the 0.66 the PI quotes for patches.
-- **A flash, not a hole that grew** (`AGE` lines of the output, `data/bandp5_g12_L12.txt`): number of generations
-  each 0.5-bin had been empty when the window first was, from the edge bin to the middle: 4 units 2.42 2.88 2.82
-  2.77; 5 units 2.95 3.19 3.01 2.85 2.78 (pilot of 3·10⁵ generations; the long run is in the data file). A hole
-  growing at u units per generation would show (w/2)/u more in the middle than at the edge.
+(The first run alone read 0.2103 ± 0.0033 at 4.5–5 units and 0.2044 at 5–6; the forecasts of block B quote those.
+The durations are from the first run.)
+
+- **The price is not constant**: a plateau at 0.236 (2–2.5 units), then a steady fall, (18.7679 − 13.6878)/24 =
+  0.2117 ± 0.0021 from 4 to 6 units (forecast A1: 0.205 ± 0.015, hit) and 0.2059 ± 0.0035 at 5.5–6.
+- **The band and the tube are the same object to within a constant** [measured]: −ln P(band w) − ln τ_face(tube of
+  length w) = 16.2714 − 12.4166 = 3.855 ± 0.022 (5 units), 18.7679 − 14.8753 = 3.893 ± 0.053 (6), 21.29 − 17.3175 =
+  3.98 ± 0.20 (7). [conjectured] The constant is two edges plus a duration: with 1.7 generations of emptiness and
+  0.5-unit positions, 2σg ≈ 3.8 gives σ ≈ 0.55 per lattice unit of edge, near the 0.66 the PI quotes for patches.
+- **A flash, not a hole that grew** (`AGE` lines, `data/bandp5_g12_L12.txt`, seed 15): number of generations
+  each 0.5-bin had been empty when the window first was, from the edge bin to the middle: 4 units (24,993
+  events) 2.38 2.87 2.86 2.78; 5 units (1,834) 2.62 3.12 3.14 3.03 2.99; 6 units (150) 2.92 3.46 3.39 3.29 3.31 3.28.
+  A hole growing at u units per generation would show (w/2)/u more in the middle than at the edge; the middle is
+  not older than the bins next to the edge.
 - **How long an emptied band lasts**: completely empty for 1.7 generations at every width (table). The edges are
   retaken at once; the interior cannot be reborn before they arrive (T2's count: a dead face cell with dead
   in-layer neighbours has at most 3 live neighbours).
@@ -165,16 +176,15 @@ Block C forecast (48, 37, 27% at 60, 72, 84 cells): **wrong at all three**; the 
 I gave 20%, is the nearest (a drift of a few points per unit is not excluded: log-odds fall by 0.05 ± 0.07 per
 unit from 5 to 7 units). The 84-cell run also gives ln τ_face = 17.159 ± 0.094 (on file 17.3175).
 
-**Bands are different** (`PRE` lines of `data/bandp5_g12_L12.txt`, 1.2·10⁷ generations): the share of
-band-emptying events with a one-generation fall of at least half the band's cells in the band's last 9
-generations falls steadily with width: 82.0% (1 unit), 77.1% (2), 73.0% (2.5), 68.7% (3), 64.4% (3.5), 60.5% (4;
-24,993 events), 56.2% (4.5), 52.1 ± 1.2% (5; 1,834), 48.1 ± 2.3% (5.5), 46.7 ± 4.1% (6; 150), 40 ± 7% (6.5), 31 ±
-13% (7). (A pilot of 10⁵ generations had suggested it levels at 63%; it does not.) The other events are a
-thinning over 3–4 generations with no over-filling. Mean density of a 5-unit band 1, 2, … 7 generations before it
-first is empty: 0.039, 0.117, 0.302, 0.429, 0.478, 0.495, 0.508 (stationary 0.5155). In log-odds the share falls by
-0.43, 0.36, 0.34, 0.21 per unit from 2 to 6 units: in a band the boom-and-bust route costs about 0.03 per cell more
-than thinning. That shift accounts for part of the band's falling price, not all (the thinning route's own price,
-price − share × 0.031, still falls: 0.2065, 0.2017, 0.1956, 0.1936 at 2.75, 3.25, 4.25, 4.75 units).
+**Bands are different** (`python3 bandboom.py data/bandp5_g12_L12*.txt`: `PRE` lines of four runs, 4.8·10⁷
+generations): the share of band-emptying events with a one-generation fall of at least half the band's cells in
+the band's last 9 generations falls steadily with width: 81.9% (1 unit), 77.1% (2), 68.8% (3), 60.7 ± 0.2% (4;
+99,919 events), 56.7 ± 0.5% (4.5), 52.6 ± 0.7% (5; 7,490), 47.6 ± 1.1% (5.5), 43.3 ± 2.8% (6; 617), 37.1 ± 2.9%
+(6.5), 22 ± 6% (7; 51 events) (s.e. over the runs). (A pilot of 10⁵ generations had suggested it levels at 63%; it
+does not.) The other events are a thinning over 3–4 generations with no over-filling. Mean density of a 5-unit
+band 1, 2, … 7 generations before it first is empty: 0.039, 0.117, 0.302, 0.429, 0.478, 0.495, 0.508 (stationary
+0.5155). In log-odds the share falls by 0.36, 0.33, 0.37 per unit from 3 to 6 units (and by 1.0 from 6 to 7, in a
+tube with only 5 units left alive): in a band the boom-and-bust route costs about 0.03 per cell more than thinning.
 
 So the falling price of a **whole tube** up to 7 units is not a change of route (not band-first, not a sweep; a
 shift between routes of 0.05 ± 0.07 in log-odds per unit bends ln τ by 0.25 × 0.05² ≈ 0.0006 per unit², against
@@ -193,30 +203,36 @@ Anchors for loop² 12 (lengths 5…9): 12.4166 ± 0.0031, 14.8753 ± 0.0140, 17.
   ξ = 2.0 (s/12 = 0.2003); K = 4, ξ = 1.4: 0.15 (0.2009); K free: 2.2, ξ = 2.05 (0.1998). The anchors alone do not
   separate K from ξ. Forecasts along the valley: L = 10: 24.56–24.57; 12: 29.36–29.39; 16: 38.93–39.04; 20:
   48.50–48.68; 30: 72.4–72.8.
-- `python3 margfit.py data/bandp_g12_L12.txt`: band slopes (2.5–6.5 units) and tube slopes (5–9) together,
-  price(ℓ) = c∞ + B·e^(−ℓ/ξ): χ² = 4.50 for 9; c∞ = 0.1989 (0.1978 … 0.1997 over χ² + 1), ξ = 2.05 (1.85 … 2.30),
-  B = 0.114; the worst point is the tube's 5→6 (−1.6 σ). Tube alone: c∞ = 0.199 (0.195 … 0.202), ξ unconstrained.
-  Curve at 10, 12, 16, 20 units: 0.1998, 0.1992, 0.1989, 0.1989; 120-cell tube: 22.1557 + 12 × 0.2001 = 24.556.
-
+- `python3 margfit.py data/band_g12_pooled.slopes`: band slopes (2.5–7 units, pooled over five runs, errors from
+  the runs, floored at 0.0005) and tube slopes (5–9) together, price(ℓ) = c∞ + B·e^(−ℓ/ξ): χ² = 15.95 for 10 (the
+  tube's 5→6 at −2.6 σ, the band's 3.5–5 at +1.1 … +1.6 σ); c∞ = 0.1966 (0.1952 … 0.1976 over χ² + 1), ξ = 2.65 (2.45
+  … 2.95), B = 0.090. Bands alone: χ² = 4.3 for 6, c∞ = 0.207 (0.2005 … 0.2105), ξ = 1.65 (1.25 … 2.45). Tubes alone:
+  χ² = 0.10 for 1, c∞ = 0.199 (0.195 … 0.202), ξ unconstrained. Joint curve at 10, 12, 16, 20 units: 0.1987, 0.1976,
+  0.1968, 0.1967; 120-cell tube: 24.545. (With the first band run alone the same fit gave c∞ = 0.1989, ξ = 2.05,
+  χ² = 4.5 for 9: the pooled data are less kind to "one curve".)
 - The same script, power law instead: price = c + p·ln(ℓ2/ℓ1)/(12(ℓ2 − ℓ1)), i.e. τ ∝ ℓ^p·e^(12cℓ): bands + tubes
-  χ² = 8.05 for 10, c = 0.1863 ± 0.0008, p = 1.39 ± 0.04 (worst point again the tube's 5→6, −2.2 σ); bands alone
-  p = 1.34 ± 0.11, c = 0.188 ± 0.003; tubes alone p = 0.72 ± 0.27, c = 0.194 ± 0.003. Its forecasts: L = 10: 24.538
-  (tubes alone 24.560); 12: 29.26 (29.35); 16: 38.61 (38.87); 20: 47.86 (48.34); 30: 70.78 (71.91). **The two forms
-  agree to 0.02 at 120 cells and part by 0.1–0.4 at 192 cells and 0.2–0.8 at 240**: the PI's "prefactors can fake
-  prices" applies to my c∞ in full.
+  χ² = 22.97 for 11 (p = 0.02; strained), c = 0.1869 ± 0.0007, p = 1.39 ± 0.03; bands alone χ² = 3.7 for 7,
+  p = 1.17 ± 0.07, c = 0.193 ± 0.002; tubes alone χ² = 0.11 for 2, p = 0.72 ± 0.27, c = 0.194 ± 0.003. Its forecasts:
+  L = 10: 24.545 (tubes alone 24.560); 12: 29.28 (29.35); 16: 38.65 (38.87); 20: 47.93 (48.34); 30: 70.92 (71.91).
+  **The forms agree to 0.02 at 120 cells and part by 0.1–0.4 at 192 cells and 0.2–0.8 at 240**: the PI's
+  "prefactors can fake prices" applies to my c∞ in full. Bands and tubes want different p (1.17 ± 0.07 against
+  0.72 ± 0.27) and different c∞ (0.207 against 0.199 exponential): the band has two healing edges and a shifting
+  route (§4), so "one curve" is an approximation, good to about 0.003 per cell where both are measured.
 
-**Form** [measured as a description, three numbers; ξ comes from the bands, so one number c∞ and one intercept are
-fitted to the tubes; the power law above is the rival with one number fewer]:
+**Form** [measured as a description; the power law above is the rival]:
 
-    ln τ_face(L) = a + 12·c∞·L − 12·B·ξ·e^(−L/ξ),   c∞ = 0.199, ξ = 2.05, B = 0.114 (bands), or equivalently
-    1/τ = r·e^(−12 c∞ L)·(1 + K e^(−L/ξ)) with K ≈ 2.
+    ln τ_face(L) = a + 12·c∞·L − ln(1 + K·e^(−L/ξ)),   i.e.  1/τ = r·e^(−12 c∞ L)·(1 + K e^(−L/ξ)),
+    c∞ = 0.199 (0.195 … 0.202), K ≈ 2, ξ ≈ 2–2.6 lattice units  (tubes: K and ξ are not separable; bands give ξ).
 
 Answers to the brief's (c): **a flash**, ln τ = a(g) + c(g)·12L with a correction that dies off with length
-(e^(−L/ξ) or p·ln L), not nucleate-and-sweep (§3, §4). c(12) = 0.199 ± 0.001 if the correction is exponential and
-bands and tubes share the curve (they do where both are measured, 5–7 units); 0.186–0.194 if it is a power law.
-The discount of the long tube against the wide line is then at least 0.2087 − 0.199 = 0.0097 per cell = 4.2 × f(12)
-(f(12) = 0.002317): the "1.85" (54–84 cells) and the "3.0" (84–108) are two points on the way to 4 or more, so the
-discount is **not** the density deficit times a constant at any one length. [measured, given the anchors]
+(e^(−L/ξ) or p·ln L), not nucleate-and-sweep (§3, §4). c(12) = 0.199 (0.195 … 0.202) if the correction is
+exponential; 0.187–0.194 if it is a power law. The discount of the long tube against the wide line is then at
+least 0.2087 − 0.202 = 0.007 per cell and more likely 0.010 = 4.2 × f(12) (f(12) = 0.002317): the "1.85" (54–84
+cells) and the "3.0" (84–108) are two points on the way to 3–4 or more, so the discount is **not** the density
+deficit times one constant at every length. [measured, given the anchors] The wide-face line itself is straight
+from 63 to 108 cells (0.2084 and 0.2084 on the two halves), although both loops of those tori are only 4.6–6 units,
+the range in which a tube's price is still falling by 0.0015 per cell per unit: whatever lowers the price along a
+tube does not act the same way when both loops grow together. I have no explanation. [open]
 
 What ξ ≈ 2 units is [conjectured]: not the living state's correlation length (0.43 units); not a mixture of two
 routes with different prices per cell in which boom and bust is the dearer one (that reading of K·e^(−L/ξ)
@@ -234,13 +250,15 @@ rimmed faces.
 
 Surrogate: nl − 2 rule layers (the top one the face) over two layers of Bernoulli(53/128 = 0.414) cells redrawn
 every generation (`ndice = 2`; the swarm used 0.4155). Offsets by brute force (`brute h k d nl 2 seed 500 gens`,
-one face, lives with a frozen face censored): see §7 for the final table. First run, 48 cells, w = 5: 9.9574 ±
-0.0041 (59,217 deaths), i.e. **+0.032 ± 0.004 above gump's 9.9251** (the swarm quoted "within 0.015").
+one face; lives whose face is frozen with period ≤ 2 for 256 generations or repeats after 840 are censored).
+48 cells, w = 5 (`brute 4 0 4 7 2 41 500 8000000`): **9.9349 ± 0.0064** (24,213 deaths, 10 censored), i.e. **+0.010
+± 0.006 against gump's 9.9251**, in line with the swarm's "within 0.015". (Without the period-840 test: 9.9574 ±
+0.0041, +0.032: frozen faces of period > 2 inflate it, as in §1.) Other anchors: §7.
 
 Forward flux (`ffs h k d nl 2 seed M delta N0`): basin = face population ≥ its mean, first level one standard
 deviation below, levels every 2 cells down to 0, M trials per level from the pool of states that crossed the
 level before; τ = 1/(flux × Π p). It is unbiased as the number of trials grows, and it reproduces brute force at
-48 cells (mean of six replications 9.951 ± 0.028 against 9.9574 ± 0.0041). But replications of the whole estimator
+48 cells (mean of six replications 9.951 ± 0.028 against 9.9349 ± 0.0064). But replications of the whole estimator
 (3·10⁵ trials per level at 48 cells, 7·10⁵ at 63 and 84; `data/ffs_replications.txt`):
 
 | vessel | replications (ln τ_face) | gump |
