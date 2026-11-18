@@ -50,6 +50,13 @@ try:
         print(f'   logit b6 = {cf[0]:.3f}±{math.sqrt(cov[0, 0]):.3f} + ({cf[1]:.4f}±{math.sqrt(cov[1, 1]):.4f}) L, chi2 {float(((A @ cf - lg / e) ** 2).sum()):.1f}/{len(x) - 2}; b = 1/2 at L = {-cf[0] / cf[1]:.1f}')
     print('ring other - box other: ' + ' '.join(f'{L}: {ex2["r", L][4] - ex2["b", L][4]:+.3f}±{math.hypot(ex2["r", L][5], ex2["b", L][5]):.3f}' for L in (12, 16, 20, 24, 28, 32) if ('r', L) in ex2 and ('b', L) in ex2))
     print('box flash - ring flash: ' + ' '.join(f'{L}: {ex2["b", L][2] - ex2["r", L][2]:+.3f}±{math.hypot(ex2["r", L][3], ex2["b", L][3]):.3f}' for L in (12, 16, 20, 24, 28, 32) if ('r', L) in ex2 and ('b', L) in ex2))
+    print('robustness to the window K (steps before the empty row in which the fall is looked for): slopes of the two exits')
+    for g in 'rb':
+        for KK in ('4', '6', '12'):
+            Ls = [L for L in (12, 16, 20, 24, 28, 32) if f'{g}{L}' in J and (g, L) in comb]
+            b = np.array([J[f'{g}{L}']['bust'][KK] for L in Ls]); y = np.array([comb[g, L][0] for L in Ls]); x = np.array(Ls, float)
+            pf = np.polyfit(x, y - np.log(b), 1); po = np.polyfit(x, y - np.log(1 - b), 1); pl = np.polyfit(x, np.log(b / (1 - b)), 1)
+            print(f'   {"ring" if g == "r" else "box "} K={KK:>2s}: flash {pf[1]:.2f} + {pf[0]:.4f} L; other {po[1]:.2f} + {po[0]:.4f} L; logit b slope {pl[0]:+.4f} per cell (unweighted fits)')
 except FileNotFoundError:
     pass
 def ex(pref, L):
@@ -80,6 +87,18 @@ for name, pr, ps in (('cross2 B34/S234 row over coins 0.472 (ex1d)', 'xr', 'xs')
         lw = lambda d: f'{d["bust"][6][1]:.4f}' if d and 6 in d['bust'] else '-'
         line += f' | {b(r)} / {b(s)} | {lw(r)} / {lw(s)}'
         print(line); prev = (L, r, s)
+    rows = [(L, ex(pr, L), ex(ps, L)) for L in range(6, 27)]
+    rows = [(L, r, s) for L, r, s in rows if r and s and 6 in r['bust'] and 6 in s['bust']]
+    if rows:
+        print(' two exits, exact (K = 6): L, ring ln tau_flash, ring ln tau_other, segment ln tau_flash, segment ln tau_other, ring other - segment other, logit b ring, logit b segment')
+        for L, r, s in rows:
+            br, bs = r['bust'][6][0], s['bust'][6][0]
+            print(f'  {L:2d}  {r["lntau"] - math.log(br):.4f}  {r["lntau"] - math.log(1 - br):.4f}  {s["lntau"] - math.log(bs):.4f}  {s["lntau"] - math.log(1 - bs):.4f}  {r["lntau"] - math.log(1 - br) - s["lntau"] + math.log(1 - bs):+.4f}  {math.log(br / (1 - br)):+.3f}  {math.log(bs / (1 - bs)):+.3f}')
+        ev = [(L, r, s) for L, r, s in rows if L % 2 == 0 and L >= 12]
+        if len(ev) >= 2:
+            (L0, r0, s0), (L1, r1, s1) = ev[0], ev[-1]; d = L1 - L0
+            f = lambda d_, K: d_['lntau'] - math.log(K(d_['bust'][6][0]))
+            print(f'  slopes {L0}-{L1}: ring flash {(f(r1, lambda b: b) - f(r0, lambda b: b)) / d:.4f}, ring other {(f(r1, lambda b: 1 - b) - f(r0, lambda b: 1 - b)) / d:.4f}, segment flash {(f(s1, lambda b: b) - f(s0, lambda b: b)) / d:.4f}, segment other {(f(s1, lambda b: 1 - b) - f(s0, lambda b: 1 - b)) / d:.4f}')
     print(' upper tail of the quasi-stationary population: -ln P(n >= x L)/L at x = 0.75, 0.875, 1 (ring / segment), and mean density')
     for L in range(8, 27, 4):
         r, s = ex(pr, L), ex(ps, L)

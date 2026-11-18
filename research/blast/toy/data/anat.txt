@@ -1,0 +1,60 @@
+ring L=12 deaths= 6014 bust2=0.658 bust4=0.876 bust6=0.903±0.004 bust12=0.931±0.003 | live6=0.2023 live12=0.3625 (n=32097)
+     pop@lag1..8 mean   3.52  7.44  7.21  6.95  6.96  6.90  6.97  6.91   (living mean 7.07)
+     pop@lag1..8 10/50/90% 1/1/12 2/8/12 4/7/10 4/7/9 4/7/10 4/7/10 4/7/10 4/7/10
+     largest fall in 12 steps: deaths mean 9.27 10/50/90% 6/10/12; living mean 4.91 10/50/90% 2/5/8; peak before it: deaths 10.99 living 9.83; steps before the empty row (median) 2
+     last-alive: spread 0.90 generations; last living cells within 2 of an end: 0.337 (uniform 0.333); mean last-alive lag by distance from the nearest end 0..5: 2.31 2.31 2.34 2.32 2.32 2.31
+box  L=12 deaths= 6054 bust2=0.258 bust4=0.434 bust6=0.490±0.006 bust12=0.583±0.006 | live6=0.1071 live12=0.2012 (n=52595)
+     pop@lag1..8 mean   1.77  5.61  6.35  6.10  6.25  6.58  6.75  6.90   (living mean 7.45)
+     pop@lag1..8 10/50/90% 1/2/3 2/5/12 3/6/11 3/6/9 3/6/10 3/7/10 4/7/10 4/7/10
+     largest fall in 12 steps: deaths mean 6.21 10/50/90% 4/6/9; living mean 4.04 10/50/90% 2/4/6; peak before it: deaths 9.73 living 9.79; steps before the empty row (median) 3
+     last-alive: spread 1.84 generations; last living cells within 2 of an end: 0.569 (uniform 0.333); mean last-alive lag by distance from the nearest end 0..5: 3.04 3.78 3.77 3.64 3.60 3.62
+ring L=16 deaths= 6001 bust2=0.520 bust4=0.811 bust6=0.848±0.005 bust12=0.876±0.004 | live6=0.1120 live12=0.2140 (n=49747)
+     pop@lag1..8 mean   2.98  8.73  9.44  8.83  8.98  9.05  9.01  9.06   (living mean 9.26)
+     pop@lag1..8 10/50/90% 1/1/15 2/9/16 4/10/14 5/9/12 5/9/12 6/9/12 6/9/12 6/9/12
+     largest fall in 12 steps: deaths mean 11.60 10/50/90% 7/12/15; living mean 5.88 10/50/90% 3/6/9; peak before it: deaths 14.15 living 12.58; steps before the empty row (median) 2
+     last-alive: spread 1.12 generations; last living cells within 2 of an end: 0.248 (uniform 0.250); mean last-alive lag by distance from the nearest end 0..5: 2.73 2.74 2.74 2.73 2.73 2.72
+box  L=16 deaths= 6016 bust2=0.172 bust4=0.318 bust6=0.384±0.006 bust12=0.472±0.006 | live6=0.0620 live12=0.1208 (n=49980)
+     pop@lag1..8 mean   1.78  5.84  7.09  7.14  7.61  8.14  8.44  8.60   (living mean 9.63)
+     pop@lag1..8 10/50/90% 1/2/3 2/4/13 3/6/13 3/7/12 3/8/12 4/8/12 4/9/12 4/9/12
+     largest fall in 12 steps: deaths mean 7.63 10/50/90% 4/7/12; living mean 5.05 10/50/90% 3/5/8; peak before it: deaths 11.98 living 12.55; steps before the empty row (median) 4
+     last-alive: spread 2.25 generations; last living cells within 2 of an end: 0.445 (uniform 0.250); mean last-alive lag by distance from the nearest end 0..5: 3.76 4.46 4.40 4.25 4.24 4.24
+ring L=20 deaths= 6001 bust2=0.403 bust4=0.709 bust6=0.762±0.005 bust12=0.802±0.005 | live6=0.0590 live12=0.1161 (n=55980)
+     pop@lag1..8 mean   2.60  9.32 10.91 10.64 10.92 11.11 11.22 11.31   (living mean 11.54)
+     pop@lag1..8 10/50/90% 1/1/3 2/6/19 4/11/18 5/11/15 6/11/15 7/11/15 7/11/15 7/11/15
+     largest fall in 12 steps: deaths mean 13.60 10/50/90% 7/14/19; living mean 6.50 10/50/90% 4/6/10; peak before it: deaths 17.01 living 15.19; steps before the empty row (median) 3
+     last-alive: spread 1.34 generations; last living cells within 2 of an end: 0.187 (uniform 0.200); mean last-alive lag by distance from the nearest end 0..5: 3.19 3.19 3.15 3.17 3.15 3.19
+box  L=20 deaths= 6001 bust2=0.125 bust4=0.257 bust6=0.314±0.006 bust12=0.403±0.006 | live6=0.0317 live12=0.0632 (n=38272)
+     pop@lag1..8 mean   1.79  6.09  7.85  8.11  8.63  9.46  9.89 10.31   (living mean 11.92)
+     pop@lag1..8 10/50/90% 1/2/3 2/5/13 3/7/15 3/8/14 3/8/14 4/10/15 4/10/15 5/11/15
+     largest fall in 12 steps: deaths mean 9.01 10/50/90% 5/9/14; living mean 5.77 10/50/90% 3/5/9; peak before it: deaths 14.12 living 15.22; steps before the empty row (median) 5
+     last-alive: spread 2.53 generations; last living cells within 2 of an end: 0.369 (uniform 0.200); mean last-alive lag by distance from the nearest end 0..5: 4.25 4.87 4.83 4.70 4.71 4.75
+ring L=24 deaths= 4000 bust2=0.290 bust4=0.590 bust6=0.655±0.008 bust12=0.703±0.007 | live6=0.0309 live12=0.0626 (n=49955)
+     pop@lag1..8 mean   2.29  9.18 12.06 11.93 12.39 12.89 13.15 13.41   (living mean 13.85)
+     pop@lag1..8 10/50/90% 1/2/3 2/5/23 3/13/22 5/13/18 6/13/18 7/13/18 8/13/18 9/14/18
+     largest fall in 12 steps: deaths mean 14.93 10/50/90% 8/15/22; living mean 7.03 10/50/90% 4/7/11; peak before it: deaths 19.37 living 17.78; steps before the empty row (median) 3
+     last-alive: spread 1.59 generations; last living cells within 2 of an end: 0.165 (uniform 0.167); mean last-alive lag by distance from the nearest end 0..5: 3.63 3.62 3.62 3.64 3.65 3.65
+box  L=24 deaths= 4000 bust2=0.085 bust4=0.185 bust6=0.237±0.007 bust12=0.314±0.007 | live6=0.0178 live12=0.0363 (n=26153)
+     pop@lag1..8 mean   1.81  6.12  8.15  8.65  9.51 10.46 11.22 11.81   (living mean 14.21)
+     pop@lag1..8 10/50/90% 1/2/3 2/5/13 3/7/16 3/8/15 4/9/17 4/10/17 5/12/17 5/12/17
+     largest fall in 12 steps: deaths mean 9.98 10/50/90% 5/9/16; living mean 6.43 10/50/90% 4/6/10; peak before it: deaths 15.90 living 17.85; steps before the empty row (median) 5
+     last-alive: spread 2.76 generations; last living cells within 2 of an end: 0.327 (uniform 0.167); mean last-alive lag by distance from the nearest end 0..5: 4.68 5.35 5.30 5.14 5.17 5.25
+ring L=28 deaths= 2000 bust2=0.198 bust4=0.467 bust6=0.536±0.011 bust12=0.586±0.011 | live6=0.0172 live12=0.0344 (n=24747)
+     pop@lag1..8 mean   2.05  8.83 12.46 12.78 13.44 14.49 14.99 15.24   (living mean 16.14)
+     pop@lag1..8 10/50/90% 1/2/3 2/5/26 3/11/25 4/13/20 6/14/20 7/15/20 9/16/20 10/16/20
+     largest fall in 12 steps: deaths mean 15.76 10/50/90% 8/15/24; living mean 7.53 10/50/90% 4/7/11; peak before it: deaths 21.34 living 20.34; steps before the empty row (median) 3
+     last-alive: spread 1.87 generations; last living cells within 2 of an end: 0.148 (uniform 0.143); mean last-alive lag by distance from the nearest end 0..5: 4.09 4.13 4.11 4.09 4.11 4.12
+box  L=28 deaths= 2000 bust2=0.059 bust4=0.135 bust6=0.172±0.008 bust12=0.238±0.010 | live6=0.0102 live12=0.0212 (n=10351)
+     pop@lag1..8 mean   1.80  6.27  8.42  9.17 10.07 11.34 12.34 13.08   (living mean 16.50)
+     pop@lag1..8 10/50/90% 1/2/3 1/5/14 3/7/17 3/8/17 3/9/18 4/11/19 5/12/20 6/14/20
+     largest fall in 12 steps: deaths mean 10.83 10/50/90% 6/10/17; living mean 6.99 10/50/90% 4/7/11; peak before it: deaths 17.35 living 20.42; steps before the empty row (median) 6
+     last-alive: spread 2.95 generations; last living cells within 2 of an end: 0.290 (uniform 0.143); mean last-alive lag by distance from the nearest end 0..5: 5.06 5.72 5.66 5.54 5.49 5.57
+ring L=32 deaths=  600 bust2=0.160 bust4=0.387 bust6=0.465±0.020 bust12=0.513±0.020 | live6=0.0075 live12=0.0166 (n=16586)
+     pop@lag1..8 mean   2.08  8.79 12.63 13.51 14.32 15.75 16.59 16.86   (living mean 18.45)
+     pop@lag1..8 10/50/90% 1/2/3 1/5/28 3/10/27 4/14/22 5/15/22 7/16/23 9/17/23 11/17/23
+     largest fall in 12 steps: deaths mean 16.75 10/50/90% 8/16/27; living mean 7.94 10/50/90% 5/8/12; peak before it: deaths 23.25 living 22.88; steps before the empty row (median) 4
+     last-alive: spread 2.09 generations; last living cells within 2 of an end: 0.125 (uniform 0.125); mean last-alive lag by distance from the nearest end 0..5: 4.37 4.40 4.44 4.53 4.55 4.63
+box  L=32 deaths=  600 bust2=0.042 bust4=0.122 bust6=0.152±0.015 bust12=0.203±0.016 | live6=0.0039 live12=0.0117 (n=6174)
+     pop@lag1..8 mean   1.80  6.16  8.91  9.94 10.76 12.29 13.36 14.08   (living mean 18.81)
+     pop@lag1..8 10/50/90% 1/2/3 2/5/12 3/7/18 3/9/19 3/10/19 4/12/21 5/13/21 6/14/22
+     largest fall in 12 steps: deaths mean 11.39 10/50/90% 6/10/18; living mean 7.46 10/50/90% 4/7/11; peak before it: deaths 18.70 living 22.97; steps before the empty row (median) 6
+     last-alive: spread 3.10 generations; last living cells within 2 of an end: 0.271 (uniform 0.125); mean last-alive lag by distance from the nearest end 0..5: 5.24 5.86 5.82 5.69 5.73 5.80
