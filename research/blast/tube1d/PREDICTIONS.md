@@ -74,3 +74,23 @@ within) = 30%; P(the share falls monotonically from 60 to 84 cells by at least 1
 Alternative I give 15%: the share is what my fitted tube form would say if its correction term were the boom
 route, 2e^(−L/2)/(1 + 2e^(−L/2)) = 14%, 9%, 6%. Alternative I give 20%: no trend (all three within 6 points of 55%).
 Wide tori (1,4),(0,21) (63 cells) and (1,4),(0,28) (84 cells): 57 ± 5% and 52 ± 8%.
+
+### Block C scored (04:05 UTC; `python3 pops.py A data/paths_*.pop`)
+
+Share of deaths with a one-generation fall of at least half the face: 60 cells 56.7 ± 1.1% (forecast 48 ± 8: miss),
+72 cells 56.3 ± 1.7% (37 ± 8: miss), 84 cells 51.3 ± 4.7% (113 deaths; 27 ± 8: miss). No fall of 10 points: **miss**;
+the "no trend" alternative I gave 20% is the nearest. The mixture reading (14, 9, 6%), which I gave 15%, is dead.
+Wide tori: not measured (dropped for time).
+A2, second half (wide 84-cell torus within 15 points of the tube's band-first share): not measured.
+
+## Block D, 04:07 UTC: tails of the living tube's population against length — before any histogram
+
+`tube1d pophist` for loop²-12 tubes of length 5, 7, 9, 12, 16 (3·10⁶ generations each). The band's price falls
+with width and that is a property of the living state at one time; do the population's own tails show it?
+Local price per cell = Δ(−ln P)/ΔA between consecutive lengths at fixed density threshold x.
+
+- D1. Upper tail P(pop ≥ 0.70 A): the price between 7 and 12 units is below the price between 5 and 7 by more
+  than 0.002 per cell: P = 55%. (If the over-full fluctuation is a sum of nearly independent pieces it is flat
+  to 0.001: P = 35%.)
+- D2. Lower tail P(pop ≤ 0.32 A): same statement: P = 60%.
+- D3. The sum of the upper-tail price at x = 0.74 and whatever the rest costs is not checkable today; no forecast.

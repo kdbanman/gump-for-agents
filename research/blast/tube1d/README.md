@@ -34,10 +34,12 @@ header), `validate.py` + `validate_all.sh` (oracle check), `bandfit.py`, `margfi
    the wide price 0.2087 and does not fall as a parabola; whether it levels at 0.199 or creeps down to 0.186 the
    data cannot say. The 120-cell tube will not say either (24.556 against 24.538); 192 cells would (39.0 against
    38.6).
-4. **Boom and bust does not change with tube length** [measured, §4]: the share of deaths with a one-generation
-   fall of at least half the face is 59.3 ± 2.0%, 56.7 ± 1.1%, 56.3 ± 1.7% at 48 (4×4), 60 and 72 cells (tubes of
-   length 5 and 6), 84 cells: see §4. My forecast that it falls with length (block C) was wrong. Inside 5-unit
-   bands the same criterion gives 64%.
+4. **Boom and bust does not change with tube length up to 6 units, but loses ground to thinning in bands**
+   [measured, §4]: the share of deaths with a one-generation fall of at least half the face is 59.3 ± 2.0%, 56.7 ±
+   1.1%, 56.3 ± 1.7% at 48 (4×4), 60 and 72 cells (tubes of length 5 and 6; 84 cells in §7). My forecast that it
+   falls with length (block C) was wrong there. In bands of a living tube the same criterion gives 77% at 2
+   units, 60.5% at 4, 52 ± 1% at 5, 47 ± 4% at 6: a second route (thinning over 3–4 generations, no over-filling)
+   takes over with width.
 5. **Forward-flux sampling on the face population does not work on the honest-dice surrogate, and I can say why**
    [measured, §6]: the dice need 3 generations to reach the face, a death takes 5–8 from one standard deviation
    below the mean, and half of the variance of the outcome is already decided by the state when the population
@@ -157,16 +159,23 @@ generations; `python3 pops.py A FILE.pop`). Share of deaths with a one-generatio
 | (4,4),(0,6) tube, length 6 | 72 | 885 | 56.3 ± 1.7% | 55.6 → 12.9 (36.9) |
 | (1,12),(0,28) tube, length 7 | 84 | §7 | §7 | |
 
-Block C forecast (48, 37, 27% at 60, 72, 84 cells, from the band pilot's ≥ 0.70 criterion): **wrong at 60 and 72**;
-the "no trend" alternative, to which I gave 20%, is what the data show. The band pilot misled me: with the same
-criterion as for faces (a one-generation fall of at least half the band's cells within its last 9 generations) the
-share in bands is 78% at 2 units, 69% at 3, 65% at 4, 63–64% at 4.5–5 (pilot, 10⁵ generations, 22 events at 5
-units): it levels. What fell was "density ≥ 0.70 one to three generations before", because in a wider band the bust
-comes earlier before the last cell goes. Mean density of a 5-unit band 1, 2, 3, 4, 5 generations before it first
-is empty: 0.04, 0.12–0.13, 0.33–0.35, 0.46–0.48, 0.47–0.48 (stationary 0.516).
+Block C forecast (48, 37, 27% at 60, 72, 84 cells): **wrong at 60 and 72**; the "no trend" alternative, to which
+I gave 20%, is what whole tubes show up to 6 units.
 
-So the falling price (§3, §5) is **not** a change of route: not band-first, not a sweep, not boom-and-bust giving
-way to something local. [measured]
+**Bands are different** (`PRE` lines of `data/bandp5_g12_L12.txt`, 1.2·10⁷ generations): the share of
+band-emptying events with a one-generation fall of at least half the band's cells in the band's last 9
+generations falls steadily with width: 82.0% (1 unit), 77.1% (2), 73.0% (2.5), 68.7% (3), 64.4% (3.5), 60.5% (4;
+24,993 events), 56.2% (4.5), 52.1 ± 1.2% (5; 1,834), 48.1 ± 2.3% (5.5), 46.7 ± 4.1% (6; 150), 40 ± 7% (6.5), 31 ±
+13% (7). (A pilot of 10⁵ generations had suggested it levels at 63%; it does not.) The other events are a
+thinning over 3–4 generations with no over-filling. Mean density of a 5-unit band 1, 2, … 7 generations before it
+first is empty: 0.039, 0.117, 0.302, 0.429, 0.478, 0.495, 0.508 (stationary 0.5155). In log-odds the share falls by
+0.43, 0.36, 0.34, 0.21 per unit from 2 to 6 units: in a band the boom-and-bust route costs about 0.03 per cell more
+than thinning. That shift accounts for part of the band's falling price, not all (the thinning route's own price,
+price − share × 0.031, still falls: 0.2065, 0.2017, 0.1956, 0.1936 at 2.75, 3.25, 4.25, 4.75 units).
+
+So the falling price of a **whole tube** up to 6 units is not a change of route (not band-first, not a sweep, no
+shift between boom-and-bust and thinning), while in a **band** of a living tube thinning gains on boom and bust
+with width. Whether whole tubes follow at 7 units and beyond: §7. [measured]
 
 ## 5. The one-dimensional form [measured fits; the reading is conjecture]
 

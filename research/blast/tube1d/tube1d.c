@@ -18,6 +18,7 @@
  *   tube1d band  h k d nl ndice seed width T reps [depth]   kill a band of the face (and depth-1 layers beneath)
  *   tube1d clone h k d nl ndice seed lamA lam n0     is a death decided at the crossing of lam? (64 clones each)
  *   tube1d bandp h k d nl ndice seed gens T0 [maxbins]   P(band of width w right round the girth is empty), living tube
+ *   tube1d pophist h k d nl ndice seed gens T0        stationary histogram of the face population
  *   tube1d geom  h k d nl                             face-cell geometry (index, a, x, y, xi, eta)
  */
 #include <stdint.h>
@@ -342,6 +343,26 @@ static void cmd_bandp(long gens, int T0, int wm) {
     for (int k = 1; k < HB; k++) printf(" %.4f", hden[m * HB + k] / hn[m]); putchar('\n'); }
 }
 
+/* ---- stationary histogram of the face population of a living vessel (both faces of a deterministic slab) ----
+ * Lanes whose whole state repeats after 840 generations (settled debris) are restarted and their last two blocks
+ * of 840 generations are not counted; a lane is restarted (after T0 uncounted generations) when a face dies. */
+static void cmd_pophist(long gens, int T0) {
+  int pop[64], nf = NDICE ? 1 : 2; double *h = calloc(A + 1, sizeof(double)); long restarts = 0, settled = 0;
+  int *hp = calloc((size_t)64 * (A + 1), sizeof(int)), *hc = calloc((size_t)64 * (A + 1), sizeof(int)); u64 *snap = calloc(N + 1, 8);
+  init_all(); for (int g = 0; g < T0; g++) step();
+  int cool[64]; for (int j = 0; j < 64; j++) cool[j] = 0;
+  for (long g = 1; g <= gens; g++) { step();
+    for (int f = 0; f < nf; f++) { int c0 = f ? 0 : N - A; popcounts(xa, c0, c0 + A, pop);
+      for (int j = 0; j < 64; j++) { if (pop[j] == 0 && cool[j] == 0) { init_lane(j); cool[j] = T0; restarts++; } if (cool[j] == 0) hc[j * (A + 1) + pop[j]]++; } }
+    for (int j = 0; j < 64; j++) if (cool[j] > 0) cool[j]--;
+    if (g % 840 == 0) { u64 df = 0; int z0 = NDICE ? N - A : 0; for (int c = z0; c < N; c++) { df |= xa[c] ^ snap[c]; snap[c] = xa[c]; }
+      for (int j = 0; j < 64; j++) { int *a = hp + j * (A + 1), *b = hc + j * (A + 1);
+        if (!(df >> j & 1)) { settled++; init_lane(j); cool[j] = T0; memset(a, 0, sizeof(int) * (A + 1)); memset(b, 0, sizeof(int) * (A + 1)); }
+        else { for (int k = 0; k <= A; k++) { h[k] += a[k]; a[k] = b[k]; b[k] = 0; } } } } }
+  printf("# pophist (%d,%d),(0,%d) nl=%d ndice=%d A=%d length=%.3f gens=%ld restarts=%ld settled=%ld\n# population count\n", H_, K_, D_, NL, NDICE, A, LT, gens, restarts, settled);
+  for (int k = 0; k <= A; k++) if (h[k] > 0) printf("%d %.0f\n", k, h[k]);
+}
+
 /* ---- band experiment ---- */
 static void cmd_band(double width, int T, int reps, int depth) {
   int f0 = N - A; const double BW = 0.5; int nbin = (int)ceil(LT / BW - 1e-9);
@@ -388,6 +409,7 @@ int main(int argc, char **argv) {
     cmd_ffs(atoi(argv[8]), atoi(argv[9]), atoi(argv[10]), pfile, argc > 12 ? atoi(argv[12]) : 1000, argc > 13 ? atoi(argv[13]) : 0, argc > 14 ? atoi(argv[14]) : 0); }
   else if (!strcmp(cmd, "clone")) cmd_clone(atoi(argv[8]), atoi(argv[9]), atoi(argv[10]));
   else if (!strcmp(cmd, "bandp")) cmd_bandp(atol(argv[8]), atoi(argv[9]), argc > 10 ? atoi(argv[10]) : 12);
+  else if (!strcmp(cmd, "pophist")) cmd_pophist(atol(argv[8]), atoi(argv[9]));
   else if (!strcmp(cmd, "band")) cmd_band(atof(argv[8]), atoi(argv[9]), atoi(argv[10]), argc > 11 ? atoi(argv[11]) : 1);
   else { fprintf(stderr, "unknown command\n"); return 2; }
   return 0;

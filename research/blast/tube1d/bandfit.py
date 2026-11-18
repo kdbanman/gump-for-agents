@@ -3,7 +3,7 @@
     python3 bandfit.py FILE [FILE ...]"""
 import sys, math
 for fn in sys.argv[1:]:
-    rows = [l.split() for l in open(fn) if l.strip() and not l.startswith('#')]
+    rows = [l.split() for l in open(fn) if l.strip() and l[0].isdigit()]
     hdr = open(fn).readline().strip()
     print(hdr[:150])
     w = [float(r[0]) for r in rows]; cells = [float(r[1]) for r in rows]; y = [float(r[4]) for r in rows]; e = [float(r[5]) for r in rows]
