@@ -66,9 +66,20 @@ forecast of 29.22 that four routes agree on.
    ± 0.003 for the kill**, against 0.2087 measured. The first part is a property of the living state alone
    (−ln P(population = xA) = 1.9 + ψ(x)·A with ψ = 0.056, 0.075, 0.098, 0.127 at x = 0.70, 0.73, 0.76, 0.79, from
    the card's histograms of 16 faces, 1.27 times a Gaussian's, and identical on tubes and wide faces). The second
-   is still measured from deaths. No small map reproduces the price with nothing fitted: face and layer beneath
-   as a Gaussian pair give 0.160–0.165 (right route, price 23% short, found by two agents independently); the face
-   with one generation of memory and measured tails gives 0.191–0.194.
+   is still measured from deaths.
+   **A measured map that finds both routes and nearly both prices [computed, `ref-anatomy/THEORY.md`; being
+   refereed by `ref-map/`].** Take the face population P and the population B of the layer beneath, measure
+   their one-step map in living gump (drift and covariance against the two fillings), and let a face be a Markov
+   chain on (P, B) with Gaussian noise. With nothing fitted the chain's cheapest way to an empty face is, on a
+   wrapped face, one jump up and a crash, (33, 25) → (46, 42) → (16, 7), where gump's dying faces go (33.3, 25.2)
+   → (48.8, 39.9) → (11.2, 9.9); and on a hull face a 13-generation fade with no over-full generation. Its action
+   per cell is 0.1608 on wrapped faces (23% short; `boom/` found 0.160–0.165 independently) and **0.2313 on the
+   63-cell hull face, where gump's rimmed price is 0.231**. The wrapped shortfall is the non-Gaussian tail of the
+   single jump (the measured chance of the jump is below the Gaussian's by 0.42, 0.76, 1.19 nats at 48, 63, 84
+   cells, i.e. +0.022 to +0.027 per cell); with it and the smaller measured corrections added linearly the wrapped
+   number is 0.200–0.207. So the two prices may be two least actions of one measured map: a single jump whose tail
+   has to be measured, and a slow fade for which a Gaussian is enough. Caution: the hull number is one size and
+   one code; whether it is a price (differences between sizes) or an accident is what the referee is asked.
 5. **Tubes [measured; the reading in the last bullet is conjecture].**
    - "1.85" and "3.0" are two slopes of one curve: against the wide-face line the discount of a loop²-12 tube is
      0.0046·L² from 54 to 108 cells (L the tube's length in lattice units).
