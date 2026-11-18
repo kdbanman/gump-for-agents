@@ -7,21 +7,24 @@ Labels: [proved], [measured], [conjectured]. `S` = `research/scratch/blast/strip
 anything under `noisy/`.
 
 A strip (w, L) is one of the four equivalent faces of the prism |x+y| + |z| ≤ R = 2w − 1 (doubled coordinates),
-periodic along (1,−1,0) with period L·(2,−2,0): w unit rows (rim's 2w rows), 3wL cells, one obtuse rim (z = 0, the
+periodic along (1,−1,0) with period L·(2,−2,0): w = (R + 1)/2 unit rows (rim's 2w rows), 3wL = 3L(R + 1)/2 cells
+(every cell with x + y + z = R and 0 ≤ z ≤ R, shared edge cells included), one obtuse rim (z = 0, the
 octahedron's edge) and one sharp rim (x + y = 0), no corner. rim's (2w, 2w, L, 0) is the same vessel.
 
 ## 0. What stands
 
 1. **rim's table stands [measured, independent code].** All nine entries reproduced: differences +0.000, −0.006,
    −0.017, −0.006 (4 rows, L = 3…6), +0.007, −0.019, +0.038 (5 rows, L = 3…5), −0.007, −0.018 (6 rows, L = 3, 4);
-   the largest is 2.4 combined errors ((10,10,3)), χ² 19 on 9. One derived number moves: the mixed second
+   the largest is 2.4 combined errors ((10,10,3)); χ² is 19 on 9, so the two codes differ by about 1.5 times
+   their 1/√deaths (soup 0.4 against 0.5, T0 = 200 against 1,000 and the settled test differ; my own seeds scatter
+   as Poisson, section 1), with no sign pattern. One derived number moves: the mixed second
    difference at (4.5 rows, L 4→5) is **0.2486 ± 0.0043** here against rim's 0.2262 ± 0.0078 (its four entries
    each deviate the unlucky way; the two tables pooled give 0.2436 ± 0.0037). So that quantity was not "0.6σ
    below the hull's 0.2307" at L 4→5; it is 4σ above it.
 2. **Thin strips are cut across before a face dies, and that is what bends the lifetimes at large L [measured].**
    A "firewall" (three consecutive dead layers of one of the two diagonals that are not face normals; T3) cuts the
    prism across its axis. Share of lives ended by one before any face was empty: 4 rows: 0.0%, 0.0%, 0.2%, 3.0%,
-   **32.6%** at L = 3…7; 5 rows: none in FWN96 lives at L = 6; 3 rows (rim's 6×6 rod): 0.3%, 6.1%, 44%, 86%, 97.4%,
+   **32.6%** at L = 3…7; 5 rows: none in 2,142 lives at L = 6; 3 rows (rim's 6×6 rod): 0.3%, 6.1%, 44%, 86%, 97.4%,
    99.5% at L = 3…8. This settles rim's open point ("whether the thin rods die as rods"): they do, and the
    lead's booking (count only face deaths with no firewall before; exposure up to the firewall) removes it: the
    3-row strip's face lifetime then keeps growing, 8.609, 10.432, 12.146, 13.804 ± 0.020, 15.350 ± 0.046 (L = 4…8),
@@ -30,54 +33,71 @@ octahedron's edge) and one sharp rim (x + y = 0), no corner. rim's (2w, 2w, L, 0
    Length price at L 6→7: **0.1874 ± 0.0018** (all first deaths: it plunges, because the rod is being cut) and
    **0.2177 ± 0.0021** (face deaths proper). In the second booking the sequence is 0.2450, 0.2301, 0.2210 ± 0.0009,
    0.2177 ± 0.0021 (steps −0.015, −0.009, −0.003): it is flattening near 0.217, not falling to 0.209.
-4. **(5 unit rows, L = 6) [measured]: LT96.** Width price at L = 6 (4 → 5 rows, 18 cells, no firewall before):
-   **WP6**. The sequence is 0.1702 ± 0.0002, 0.1945 ± 0.0006, 0.2052 ± 0.0007, WP6S at L = 3, 4, 5, 6 (steps +0.024,
-   +0.011, STEP6). Length price for 5 rows at L 5→6: LP56.
-5. **A row of a rimmed strip costs what a row of a closed tube of the same girth costs, or less; never 0.02 more
-   [measured].** Strip (4 → 5 rows) minus closed tube (8-layer slab, girth g, the lead's table and mine, firewall
-   deaths set aside), per cell: −0.026 to −0.038 (g = 3, depending on the tube's length), **−0.013 ± 0.001 (g = 4),
-   −0.003 ± 0.001 (g = 5), DIFF6 (g = 6)**. Where it can be tested (L = 3, 4) a row costs the same two and three
-   rows deep: 0.1702 against 0.1716 ± 0.0005 (L = 3), 0.1945 against 0.1947 ± 0.0012 (L = 4).
-6. **The mixed second difference is another quantity and it is still high [measured]:** 0.2675 ± 0.0023 (L 3→4),
-   0.2480 ± 0.0043 (4→5), **M56** (5→6) for 4 → 5 rows; 0.2643 ± 0.0049 for 5 → 6 rows at L 3→4. Closed faces
-   a = 4 → 5 at the same girths: 0.2276 ± 0.0015, 0.2069 ± 0.0012, 0.2134 ± 0.0040. [proved, algebra] If ln τ = a(L) +
-   w·g(L) (measured for w ≥ 4 at L = 3, 4), then with p(L) = g(L)/3L the row price, M(L+½) = (L+1)·p(L+1) −
-   L·p(L) = p(L+1) + L·(p(L+1) − p(L)): the mixed difference exceeds the row price for as long as the row price
-   is still rising with L. In the strip a "second difference" of 0.24 coexists with a row price of 0.21.
-7. **The tetrahedron is not a vessel with a steady state [measured; the cause proved from T2].** T2 holds for
+4. **(5 unit rows, L = 6) [measured]: 20.3003 ± 0.0216 (2,142 deaths, three seeds; no firewall in any life).** Width price at
+   L = 6 (4 → 5 rows, 18 cells, no firewall before): **0.2112 ± 0.0013**; the sequence is 0.1702 ± 0.0002, 0.1945 ± 0.0006,
+   0.2052 ± 0.0007, 0.2112 at L = 3, 4, 5, 6 (steps +0.024, +0.011, +0.0061). Length price for 5 rows at L 5→6: 0.2251 ± 0.0016.
+5. **At every girth reached a row of a rimmed strip costs no more than a row of a closed tube of that girth
+   [measured].** Strip (4 → 5 rows) minus closed tube (8-layer slab, the lead's table and mine, firewall deaths
+   set aside), per cell: −0.026 to −0.038 (girth 3, depending on the tube's length), **−0.013 ± 0.001 (4),
+   −0.003 ± 0.001 (5), +0.0011 ± 0.0027 (6)**. At L = 3 and 4 a row costs the same two and three rows deep: 0.1702 against
+   0.1716 ± 0.0005, 0.1945 against 0.1947 ± 0.0012. At L = 5 the thicker pair is CHEAPER: 0.1994 ± 0.0023 (5 → 6 rows;
+   (6 rows, L = 5) = 19.916 ± 0.033, 927 deaths) against 0.2052 ± 0.0007 (4 → 5), 2.4 errors apart, and 0.009 ± 0.002
+   below the closed tube of girth 5 (item 7).
+6. **From 4 → 5 rows the strip's row price is still climbing where the tube's has stopped, so its mixed second
+   difference is high [measured; partly thinness, item 7]:** 0.2675 ± 0.0023 (L 3→4), 0.2480 ± 0.0043 (4→5), **0.2415 ± 0.0086** (5→6) for 4 → 5 rows; 0.2643 ± 0.0049
+   (3→4) and 0.218 ± 0.012 (4→5) for 5 → 6 rows. Closed faces 4 → 5 at the same girths: 0.2276 ± 0.0015, 0.2069 ± 0.0012,
+   0.2134 ± 0.0040 (their row price: 0.2070, 0.2083, 0.2101 at girth 4, 5, 6). [proved, algebra] If ln τ = a(L) + w·g(L)
+   and p(L) = g(L)/3L is the row price, the mixed difference is M(L+½) = (L+1)·p(L+1) − L·p(L) = p(L+1) +
+   L·(p(L+1) − p(L)): the *marginal* price of a middle row's cells, above the *average* p for as long as p rises.
+   In a strip a marginal price of 0.24 goes with an average row price of 0.21.
+7. **A thin strip's faces die early, and the 4-row strip is thin from L = 5 on [measured at L = 5, 2.4 errors;
+   conjectured beyond].** Against the straight line in w through 4 and 5 rows, the 3-row strip's ln τ (no firewall
+   before) is +0.03, −0.14, −0.34, −0.55 at L = 3…6, where its firewall share is 0.3, 6, 44, 86%. The 4-row strip
+   (firewall shares 0.2, 3.0, 32.6% at L = 5, 6, 7) lies 0.09 ± 0.04 under the line through 5 and 6 rows at L = 5 (and
+   0.013 ± 0.005 and 0.003 ± 0.018 ABOVE it at L = 3, 4). If its deficit at L = 6 is 0.15 to 0.25, the row price at L = 6 is 0.197 to
+   0.203 instead of 0.2112 and the mixed difference at 5→6 is 0.19 to 0.22 instead of 0.241. Everything in items 3,
+   4 and 6 that uses (4 rows, L ≥ 5) carries this systematic, of the size of the effect sought.
+8. **The tetrahedron is not a vessel with a steady state [measured; the cause proved from T2].** T2 holds for
    all eight diagonals, so the pattern's own hull is cut by the four directions opposite to the faces' normals,
    and those cuts shave the four corners irreversibly: 3.3 layers gone by generation 50, 6.1 by 800, 8.0 by
-   12,800 (side 9), growing by about half a layer per doubling of the time; the octahedron: 0.00 throughout. The faces'
+   12,800 (side 9), about half a layer more per doubling of the time; the octahedron: 0.00 throughout. The faces'
    population falls with it (58 → 21 of 135 cells) and the hazard of a face death climbs with age: side 9 reads
    ln τ_face = 15.9, 13.9, 11.8, 10.2, 9.42, 9.15 in the age bins from 400, 800, …, 12,800 generations. There is
    no τ for a tetrahedral face, no second difference, and no "sharp-rim row price" to be had this way.
 
-**Verdict [measured, with one conjecture marked].** In a corner-free strip the rows two and three deep do not
-cost 0.02 more than a wrapped face's rows at the same loop length: they cost less at L = 3 and 4 and the same at
-L = 5 and 6 (item 5; a surplus of 0.02 at L = 6 is excluded by SIG6 errors). The strip's row price is still rising
-(WP6S at L = 6) and its mixed second difference still falling (M56S at L 5→6); the asymptotic price of a row lies
-between them. [conjectured] Continuing either sequence geometrically gives 0.210 to 0.223; I put it at
-**0.215 ± 0.006**: at or slightly above the wrapped 0.2087, and below the hull's 0.2307. Width price and length
-price need not meet: the intercept a(L) = ln τ(4, L) − 4·g(L) goes on falling (AL6), so the length price of a
-strip of fixed width tends to the row price plus a′/(3w), which is below it if that continues; what the two
-sequences bracket is the row price, and the length price of 4 rows is at 0.2177 only because −a′/12 ≈ 0.015
-is subtracted from a mixed difference of about 0.23.
-What could spoil it: (i) the 4-row strip may itself be too thin at L = 6 (the 3-row strip is: its step to 4 rows
-costs 0.242 per cell at L = 6 against 0.21 for 4 → 5), which would make the true row price at L = 6 LOWER than
-WP6S; (ii) (5 rows, L = 6) rests on N96 deaths; (iii) the sharp rim: a strip measures only the sum of an obtuse
-and a sharp rim, and the tetrahedron cannot isolate the sharp one (item 7).
+**Verdict.** *Do the rows two deep in a rimmed strip cost what a wrapped face's rows cost at the same loop
+length, or 0.02 more?* [measured] Bought as a whole row at fixed length, they cost less (L = 3, 4: by 0.03, 0.013;
+L = 5: by 0.003 ± 0.001 from 4 → 5 rows, 0.009 ± 0.002 from 5 → 6) or the same (L = 6: +0.0011 ± 0.0027, from 4 → 5
+rows only), and the same at depth 2 as at depth 3: there is no price by
+depth, and no surplus of 0.02 in any row. Bought at the margin (the mixed difference, which is what the hull's
+second difference is), they cost 0.040 ± 0.003, 0.041 ± 0.004, 0.028 ± 0.010 MORE than a closed face's at L 3→4, 4→5, 5→6.
+Both are true because a strip's row price depends on the loop far more than a closed tube's (0.170, 0.1945,
+0.205, 0.2112 against 0.197, 0.207, 0.208, 0.210). **The measurement does not pin where the row price ends.** From 4 → 5
+rows it is bracketed by 0.2112 (rising by +0.0061 at the last step) and 0.241 (falling by 0.006). But the one test with
+thicker strips, 5 → 6 rows at L = 5 (forecast block B), reads lower on both: row price 0.1994 ± 0.0023 against 0.2052 ±
+0.0007, mixed difference at L 4→5 0.218 ± 0.012 against 0.2480 ± 0.0043, each about two errors down, and (4 rows, L = 5)
+lies 0.09 ± 0.04 under the line through 5 and 6 rows. So the 4-row strip is probably thin already at L = 5 (item 7), more
+so at L = 6 and 7, and part of the marginal surplus is thinness. From the thick pair alone the row price is
+0.1716, 0.1947, 0.1994 at L = 3, 4, 5 (steps +0.023, +0.0047): levelling at or below the wrapped 0.209.
+[conjectured] I lean to "no surplus in a corner-free strip's rows, average or marginal, once the strip is thick
+enough" (0.65) and cannot exclude a marginal price near 0.23 (0.35). The same holds for "do width and length price meet":
+0.2112 against 0.2177 ± 0.0021 at L = 6 to 7 for 4 rows, the gap halving at each step (0.050, 0.025, 0.010), but
+the 4-row length price at 6→7 is the one most damaged by thinness (32.6% of lives cut), and the intercept
+a(L) = ln τ(4, L) − 4·g(L) still falls (2.02, 1.75, 1.54, 1.29), so the two need not meet at the row price.
+What would separate the readings: the row price at L = 6, 7, 8 from strips of 5 and 6 rows ((6, 6) ≈ 24, (5, 7) ≈
+23.6, (6, 7) ≈ 28): beyond plain running, within reach of a splitting sampler on this prism.
 
-**For the hull [conjectured].** The hull's second differences (0.355, 0.266, 0.2313, 0.2301 at k = 4…7) are the
-analogue of the strip's mixed difference (0.2675, 0.248, M56S), not of its row price (0.170, 0.1945, 0.205, WP6S).
-The strip shows, with no corner, that a mixed difference of 0.23 to 0.25 goes with a row price at the wrapped
-value; so two equal second differences of 0.231 do not make 0.231 a price, and "rows" in holes' sense (a price by
-depth: rim row cheap, second dear, third 0.231) is not what a strip shows: rows cost the same at depth 2 and 3
-and their price depends on the loop. "The wrapped price takes over at once" is not what it shows either: at 75
-to 90 cells the mixed difference is still M56S. If the hull's second difference now sinks as the strip's does
-(by 0.008 ± 0.006 per step of the side), the 135-cell face is at **29.20 ± 0.02** and the 165-cell face at **35.72 ±
-0.06** (29.230 and 35.81 if 0.2307 repeats; 29.163 if 0.2087 takes over). The strips cannot decide between
-29.20 and 29.23. What would: the width price at L = 7 and 8 (strips of 5 and 6 rows at ln τ 23 to 30: a
-sampler's job, not plain running), or the 135-cell face itself to ± 0.02.
+**For the hull [conjectured].** (a) The hull's second differences (0.355, 0.266, 0.2313, 0.2301 at k = 4…7) are the
+analogue of the strip's mixed difference (0.2675, 0.248, 0.241 from 4 → 5 rows; 0.264, 0.218 from 5 → 6), which reads
+0.22 to 0.27 with no corner anywhere: corners are not needed for an excess of that size, and "the surplus sits
+in the corners" is not supported. (b) "Rows" in holes' sense (a price by depth: rim row cheap, second dear,
+third 0.231) is not supported either: rows cost the same at depth 2 and 3 and their price moves with the loop.
+(c) What the strip shows is a row price that depends on the row's length and rises to about the wrapped price
+by 5 to 6 units; while it rises, the mixed difference overshoots. A triangle's rows are 1 to k units long, so on
+this reading its second difference stays inflated until its inner rows pass 5 or 6 units (k about 9 to 11) and
+then sinks towards 0.21: **135 cells: 29.20 ± 0.03; 165 cells: 35.72 ± 0.07** (29.230 and 35.81 if 0.2307 repeats;
+29.163 if 0.2087 takes over at once). This gives a reason, not precision: the strips cannot decide between 29.20
+and 29.23, and a 135-cell value of 29.23 would not by itself make 0.231 a price.
 
 ## 1. Code, conventions, validation, calibration
 
@@ -107,8 +127,9 @@ R = 9; prisms (R, L) = (7,5), (9,3), (11,4), (5,6) lifted 3, 5, 5, 2 times into 
 4×3 and 5×4 lifted into the 48- and 40-torus; tetrahedra of side 5, 6, 7 (their chaos dies within 130 to 1,000
 generations: 126 to 1,001 distinct states). All identical; with one swapped neighbour every one fails within 8
 generations. Eight diagonal half-spaces are separately invariant: T2's proof uses one direction at a time, and
-the comparison of the whole array confirms it for the prism and the tetrahedron. The log is from the build
-before the last edit of `life` (the 4096-snapshot); the stepper and `val` were not touched by it.
+the comparison of the whole array confirms it for the prism and the tetrahedron. The log is from the binary
+of the committed source; the runs were made with earlier builds of the same stepper (`life` gained progress
+lines, the `trunc` mode and the 4096-snapshot test on the way; `step` and the vessel builder were not touched).
 Not oracle-checked: the booking of deaths and firewalls (checked only through the anchors and the lead's table
 below).
 
@@ -124,7 +145,7 @@ the Poisson 0.0041 (`data/runs/seedtest_9_3_*.txt`): the errors are honest for t
 booked dead and piles up exposure: with only the period-≤-12 test the octahedron R = 7 at T0 = 400 read 7.0018
 (three lanes 2.2 million generations old); with the snapshot test 6.8046. It matters only in vessels of under
 about 300 cells (3-row rods moved by 0.02; the 2-row prisms, 24L cells, are not chaos at all). The long runs
-(4 rows L = 5, 6, 7; 5 rows L = 4, 5, 6; 6 rows; the slabs) were made before the snapshot test; their hazards are
+(4 rows L = 5, 6, 7; 5 rows L = 4, 5, 6; 6 rows L = 3, 4; the slabs) were made before the snapshot test; their hazards are
 flat in age and their periodic-censored counts are 0 to 3, and (4 rows, L = 3) re-run with it reads 8.1457 ±
 0.0018 against 8.1444 ± 0.0018 without.
 
@@ -139,30 +160,31 @@ brackets where they differ):
 |---|---:|---:|---:|---:|---:|---:|
 | 3 (too thin: see 0.2) | 6.646 | 8.609 [8.549] | 10.432 [9.850] | 12.146 [10.211] | 13.804 ± 0.020 [10.155] | 15.350 ± 0.046 [10.045] |
 | 4 | 8.1451 ± 0.0013 | 11.0853 ± 0.0035 | 13.8464 ± 0.0050 [13.8443] | 16.4981 ± 0.0093 [16.4680] | 19.1106 ± 0.0239 [18.7164 ± 0.0196] | |
-| 5 | 9.6765 ± 0.0013 | 13.4191 ± 0.0058 | 16.9241 ± 0.0096 | T96 | | |
-| 6 | 11.2205 ± 0.0041 | 15.7560 ± 0.0129 | | | | |
+| 5 | 9.6765 ± 0.0013 | 13.4191 ± 0.0058 | 16.9241 ± 0.0096 | 20.3003 ± 0.0216 | | |
+| 6 | 11.2205 ± 0.0041 | 15.7560 ± 0.0129 | 19.916 ± 0.033 | | | |
 
 Per cell, no firewall before:
 
 | | L = 3 | 4 | 5 | 6 | 7 |
 |---|---:|---:|---:|---:|---:|
-| width price, 4 → 5 rows, at L | 0.1702 ± 0.0002 | 0.1945 ± 0.0006 | 0.2052 ± 0.0007 | WP6 | |
-| width price, 5 → 6 rows | 0.1716 ± 0.0005 | 0.1947 ± 0.0012 | | | |
+| width price, 4 → 5 rows, at L | 0.1702 ± 0.0002 | 0.1945 ± 0.0006 | 0.2052 ± 0.0007 | 0.2112 ± 0.0013 | |
+| width price, 5 → 6 rows | 0.1716 ± 0.0005 | 0.1947 ± 0.0012 | 0.1994 ± 0.0023 | | |
 | width price, 3 → 4 rows (3 rows too thin) | 0.1666 | 0.2064 | 0.2277 | 0.2418 | 0.2527 ± 0.0015 |
 | closed tube of that girth (a → a+1) | 0.197 to 0.208 | 0.2070 ± 0.0002 (5→6) | 0.2083 ± 0.0008 (5→6) | 0.2101 ± 0.0024 (5→6) | |
 | length price, 4 rows, L−1 → L | | 0.2450 ± 0.0003 | 0.2301 ± 0.0005 | 0.2210 ± 0.0009 | 0.2177 ± 0.0021 |
-| length price, 5 rows | | 0.2495 ± 0.0004 | 0.2337 ± 0.0007 | LP56 | |
-| mixed difference, 4 → 5 rows, L−1 → L | | 0.2675 ± 0.0023 | 0.2480 ± 0.0043 | M56 | |
+| length price, 5 rows | | 0.2495 ± 0.0004 | 0.2337 ± 0.0007 | 0.2251 ± 0.0016 | |
+| mixed difference, 4 → 5 rows, L−1 → L | | 0.2675 ± 0.0023 | 0.2480 ± 0.0043 | 0.2415 ± 0.0086 | |
+| mixed difference, 5 → 6 rows, L−1 → L | | 0.2643 ± 0.0049 | 0.218 ± 0.012 | | |
 | the same for closed faces 4 → 5 | | 0.2276 ± 0.0015 | 0.2069 ± 0.0012 | 0.2134 ± 0.0040 | |
 
-g(L) = ln τ(5, L) − ln τ(4, L) = 1.5314 ± 0.0018, 2.3338 ± 0.0068, 3.0777 ± 0.0109, G6 and the intercept
-a(L) = ln τ(4, L) − 4·g(L) = 2.020 ± 0.008, 1.750 ± 0.029, 1.535 ± 0.046, A6 at L = 3, 4, 5, 6.
+g(L) = ln τ(5, L) − ln τ(4, L) = 1.5314 ± 0.0018, 2.3338 ± 0.0068, 3.0777 ± 0.0109, 3.802 ± 0.024 and the intercept
+a(L) = ln τ(4, L) − 4·g(L) = 2.020 ± 0.008, 1.750 ± 0.029, 1.535 ± 0.046, 1.289 ± 0.098 at L = 3, 4, 5, 6.
 
 **The rows formula against the strip** (holes' fit to the hull, the octahedron's row prices used at both rims
 because the tetrahedron gives none): it has λ(w) = ln τ(w, L+1) − ln τ(w, L) = 2.543, 3.235, 3.927 for w = 4, 5, 6
-at every L. Measured: λ(4) = 2.940, 2.761, 2.652 ± 0.011, 2.613 ± 0.026 (L 3→4 … 6→7); λ(5) = 3.743, 3.505 ± 0.011, L56;
+at every L. Measured: λ(4) = 2.940, 2.761, 2.652 ± 0.011, 2.613 ± 0.026 (L 3→4 … 6→7); λ(5) = 3.743, 3.505 ± 0.011, 3.376 ± 0.024;
 λ(6) = 4.536 (3→4). The measured values depend on L, which the formula cannot; at the largest L they are 3 to
-4% above it and still falling. Its increment per middle row, 0.692, against the measured 0.802, 0.744, INC56.
+4% above it and still falling. Its increment per middle row, 0.692, against the measured 0.802, 0.744, 0.724 ± 0.026.
 Not confirmed, not excluded as a limit.
 
 **Closed tubes, both bookings** (mine; `data/table_out.txt`): 3×4 7.3920 / 7.3959; 3×5 9.2467 / 9.2672; 3×6 10.9535
@@ -210,10 +232,47 @@ death in five to nine is a bust, the rest fade**, and the bust share falls with 
 0.150 at the same four vessels: reproduced, 0.207, 0.197, 0.160, 0.149). Tetrahedron: 0.000 (its faces are a
 fifth full when they die). The shares for (4 rows, L = 7) (0.063) and the 3-row rods mix in deaths after a cut.
 
+**The two exits have different length prices [measured, with this crude classifier].** Rate of each exit =
+share / τ. For 4 rows the bust's rate falls by 3.032, 3.019, 3.000 per unit of length (L 3→4, 4→5, 5→6): **0.253,
+0.252, 0.250 per cell, constant**; the fade's by 2.915, 2.704, 2.597: 0.243, 0.225, 0.216 per cell, falling (shares
+0.227, 0.207, 0.160, 0.113 ± 0.003 and ln τ from section 2; e.g. [2.7611 − ln(0.160/0.207)]/12 = 0.2516). In the
+width direction the two cost nearly the same (L = 5, 4 → 5 rows: 0.209 and 0.2045). So a rimmed strip's bust costs
+0.25 per cell of added length where a closed face's costs 0.21, the fade is the cheaper exit and takes over as
+L grows, and the falling length price of section 2 is the fade's. Not checked: any other definition of a bust.
+
 ## 5. Forecasts scored
 
 Mine, `PREDICTIONS.md` block A (commit 993537c, 12:36 UTC, before any lifetime):
-SCORES
+- A1 (my code reproduces rim's nine entries within 3 combined errors; I gave 0.70): **held** (largest 2.4).
+- A2 ((4 rows, L = 7) = 18.97 ± 0.10; length price 6→7 = 0.208 ± 0.008): **missed** in both bookings (18.716 and
+  19.111; 0.1874 and 0.2177). The branch I gave 0.20, "the rod begins to die as a rod", is what happened.
+- A3 ((5 rows, L = 6) = 20.15 ± 0.12: **missed**, 20.3003 ± 0.0216. Width price at L = 6 = 0.2045 ± 0.006: **missed** narrowly,
+  0.2112. "Goes on rising" (0.65): held. "Exceeds 0.2087" (0.2): it does, by about one error. Mixed difference at
+  L 5→6 = 0.218 ± 0.03: held (0.241); "below the value one step earlier": held against my own 0.248, not against
+  rim's 0.2262, which is what I meant.
+- A4 (the two prices cross between L = 6 and 8 at 0.205 ± 0.007): not reached; at L = 6 to 7 they stand at 0.2112 and
+  0.2177, both above my band: **missed** as far as it can be scored.
+- A5 (firewall shares: (4 rows, L = 4) < 2%, (4 rows, L = 6) < 10%, (3 rows, L = 6) > 50%): **all three held**
+  (0.0%, 3.0%, 85.6%).
+- A6 (closed tubes: my 4×4, 4×5, 4×6, 5×5 within 0.02 of the lead's): **held** (−0.009, +0.006, +0.014, +0.008).
+  Unseen 3×4, 3×5, 3×7 = 7.39 ± 0.03, 9.27 ± 0.05, 12.85 ± 0.15: **all held** (7.396, 9.267, 12.852).
+- A7 (tetrahedron 4.0, 5.9, 8.6, 12.0, 16.0 at sides 3…7; second differences): **missed**: there is no steady
+  lifetime at all. "Shorter-lived than the octahedron at every side" held in the trivial sense.
+- A8 (tetrahedron faces fade, bust share < 0.05): held (0.000).
+- Block B (commit c7ac402, 13:30 UTC): B1 (6 rows, L = 5) = 20.00 ± 0.06, width price 5 → 6 rows 0.205 ± 0.004:
+  measured 19.916 ± 0.033 and 0.1994 ± 0.0023: both **missed** low by 1.4 of my errors; the branch I gave 0.15,
+  "four rows already too thin at L = 5", is what the data say, at 2.4 of theirs. B2 mixed difference at (5.5 rows,
+  L 4→5) = 0.246 ± 0.015: **missed**, 0.218 ± 0.012.
+
+The PI's block 6 (`research/blast/PREDICTIONS.md`), items 2 to 8: (2) "row prices not monotone in depth": not
+decidable (3 rows are too thin; from 4 rows up the price is flat in depth). (3) "tetrahedron faces live shorter
+than the octahedron's at 45 and 63 cells": held, for a reason that empties the question; "second difference
+within 0.015 of 0.231": not defined. (4) "mixed differences clean to 0.008 with controls": held at L 3→4 and 4→5
+(0.003, 0.004), at the edge at 5→6 (0.028 ± 0.010 for the difference), and the thinness of item 7 is a systematic of
+that size. (5) "length price at 6→7 below 0.2177": by all first deaths yes (0.1874), for face deaths proper no
+(0.2177 ± 0.0021); "0.209 to 0.216": no in either booking. (6) "width price at L = 6 in 0.203 to 0.208":
+0.2112 ± 0.0013, above (inside if (4 rows, L = 6) is low by 0.1 for thinness). (7) "reproduces rim's nine entries": held.
+(8) "a strip's row is cheaper than a closed tube's at L = 4 and 5": held (−0.013 ± 0.001, −0.003 ± 0.001).
 
 ## 6. Failed, not checked, next
 
@@ -221,9 +280,12 @@ Failed or dropped: the row-price profile from w = 1 up (prisms of 1 and 2 unit r
 strip is too thin to be a face: its step to 4 rows costs 0.21, 0.23, 0.24, 0.25 per cell at L = 4…7 where 4 → 5
 costs 0.19 to 0.21, so "is the second row dearer?" cannot be separated from "is the body too thin?"); the
 tetrahedron as a source of sharp-rim prices (section 3); a first version of the periodic censoring (section 1).
-Not checked: the long runs with a second seed each except (5 rows, L = 3), (5 rows, L = 5), (5 rows, L = 6);
-whether 4 rows are thick enough at L = 6, 7 (needs 5 → 6 rows at L = 5, 6: ln τ 20 and 24); strips with the other
-rim kinds (odd numbers of half-rows, unequal constants); the firewall test against any code but the lead's
-table; nobody has rewritten this stepper; the hull forecasts are an analogy, not a derivation.
-Next step: the width price at L = 7 (5 rows, L = 7, ln τ ≈ 23.5 — a splitting sampler on the prism, which `strips.c`
-could drive), because the row price there decides between an asymptote at 0.209–0.212 and one at 0.22.
+Not checked: a second seed for the long runs other than (5 rows, L = 3, 5, 6) and (4 rows, L = 3); whether 4
+rows are thick enough at L = 6 and 7 (item 0.7 is an analogy with 3 rows; the direct test is 5 → 6 rows at L = 6,
+ln τ ≈ 24); strips with the other rim kinds (odd numbers of half-rows, unequal constants); the firewall
+booking against anything but the lead's table; the bust classifier against another definition; nobody has
+rewritten this stepper; the hull forecasts are an analogy, not a derivation.
+Next step: the row price at L = 6 and 7 from strips of 5 and 6 rows ((6, 6) ≈ 24, (5, 7) ≈ 23.6): a splitting
+sampler on this prism (the `life` loop already restarts lanes; cloning lanes at low face population is a small
+change). That one number decides between a row price that levels at the wrapped 0.21 and one that climbs to the
+hull's 0.23.
