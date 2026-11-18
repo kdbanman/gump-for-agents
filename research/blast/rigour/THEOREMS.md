@@ -155,6 +155,26 @@ For gump itself the hypothesis is the same statement about the slab over coins (
 triples of the face up to interaction through shared cells. Not proved; the measured facts that bear on it are
 "a depleted face thins as one thing" (for a flash) and "single deaths are lopsided" (against).
 
+## Lemma R (routes; curvature is minus the variance of the branch prices) [proved]
+
+*Let the deaths of a family of faces indexed by a size A be partitioned into routes r (any measurable property of
+the path before death), h(A) = Σ_r h_r(A), p_r = h_r/h, c_r = −d ln h_r/dA. Then*
+
+    d ln τ/dA = Σ_r p_r c_r,     d² ln τ/dA² = −Var_p(c) + Σ_r p_r c_r′,
+
+*and for two routes d ln(p₁/p₂)/dA = c₂ − c₁. In particular two routes each exactly exponential in A give a ln τ
+that is concave, with slope moving from the larger price (small A, if that route has the larger prefactor) to the
+smaller, and the curvature is −p(1−p)(c₁ − c₂)².*
+
+*Proof.* ln τ = −ln Σ_r h_r; differentiate twice, using h_r′ = −c_r h_r. ∎ (For integer A read differences; the
+statement is then exact for the mixture of exponentials and approximate otherwise.)
+
+Use (README, claim 5; **[measured]**): on the surrogate's tube (1,1),(0,D) the log-odds of "bust" against "starve"
+fall by 0.29 per unit of length and the step of ln τ falls from 0.85 to 0.69 between D = 7 and D = 13, by p·0.29 to
+within the errors: a price that falls with length there is the crossover between two branches of one killed chain.
+The two-branch structure is also the expected failure of (SSM) in Theorem 3: at the tilt where the two kinds of
+dying face have equal weight the tilted measure is a mixture and its local means are not local.
+
 ## Where the others stop
 
 **B2 (a lower bound e^{cA}).** Not proved, for any density. What is established here:
@@ -176,10 +196,12 @@ triples of the face up to interaction through shared cells. Not proved; the meas
   over outsides non-trivial (an outside can overcrowd the rim). That minimum is a finite game; nobody has run it.
 
 **B3 (inequalities between shapes).** No inequality is proved. Three are *refuted exactly* for the surrogate as
-general statements (README table): "a tube dies before a wide face of equal area" (false at 9, 12 and 15 cells:
-the girth-1 tube outlives the equilateral torus), "ln τ increases with length at fixed width" (false for strips
-one unit cell wide), "a free rim costs" (false at 18 cells: the strip 3 × 2 with two free rims outlives every
-18-cell torus solved). Any true inequality must assume loops and widths above a threshold. The covering relation
+general statements (README, claim 3): "a tube dies before a wide face of equal area" (false at 9, 12 and 15 cells:
+the girth-one tube outlives every other torus solved; and by Monte Carlo tubes of loop² 3 and 4 outlive the wide
+tori at 18–42 cells), "ln τ increases with length at fixed width" (false for strips one unit cell wide), "a free
+rim costs" (false at 12 and 18 cells: the strips 2 × 2, 2 × 3 and 3 × 2 with two free rims outlive every wrapped
+face of equal area; at 18 cells one of the three tori is exact and two are Monte Carlo). Any true inequality must
+assume loops and widths above a threshold. The covering relation
 is exact only for one step: a state of Λ lifted to an m-fold cover Λ′ has d_{Λ′}(lift x) = d_Λ(x)^m and
 P_{Λ′}(lift x → lift y) = P_Λ(x → y)^m; the symmetric states are not invariant under the dice, so nothing follows
 for τ. Gluing: two faces with no edges between them have ln τ = max, not the sum (an empty half stays empty), so
