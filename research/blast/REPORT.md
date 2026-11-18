@@ -33,6 +33,28 @@ four-point straight line) and a first measurement on a coin-driven surrogate (be
 depending on how the surrogate's own offset from gump continues) agree within about one error, and "the wrapped
 price takes over" (29.163) is 1.5 to 3 errors below each.
 
+## Second phase (after the usage reset at 11:00 UTC): additions, newest last
+
+*(The night's report follows unchanged below. What is added here is dated; forecasts for this phase are block 5
+of `PREDICTIONS.md`.)*
+
+**11:25 UTC. The card's own recorder sees the over-full generation on gump itself, at the same level, and none on
+hull faces [measured by the GTX 1080 session's study, `research/dying2/` on `claude/gpu-local-1080`; read by the PI
+after a forecast, block 5b, both parts held].** That study (another code, another machine, 2,500–8,000 natural
+deaths per face) tabulates the dying face's population by lag before death. It reports means and medians and does
+not mention an over-full face; its quantiles show it. Four generations before death the 90th percentile of the
+dying face's population is 1.44, 1.43, 1.43, 1.39 of the living mean on the 63-cell torus, the 84-cell torus and
+the 84- and 96-cell tubes, where the living 90th percentile is 1.15–1.20 and the dying median is 0.18–0.34. In
+cells that is 47.0 of 63, 62.0 of 84, 62.0 of 84, 69.0 of 96: **0.746, 0.738, 0.738, 0.719 of the face, the launch
+level of item 1 below (0.738)**. On the hull faces of 63 and 84 cells the dying face's 95th percentile never
+exceeds the living one at any lag from 1 to 12 (1.25 and 1.23 of the mean at most). Reproduce:
+`git show origin/claude/gpu-local-1080:research/dying2/data/2_4_14_lags.csv` (columns lag, mean, quantiles; likewise
+`1_4_21`, `1_12_28`, `1_17_32`) and `…/research/dying2/hull/data/R13_death_timecourse.csv`. Not checked: nothing
+was recomputed from that study's records, which are on the owner's machine. The same study finds that once k
+cells are left the chance of death does not depend on the face (0.85, 0.63, 0.42 at k = 1, 2, 3 on four wrapped
+faces; 0.77, 0.50, 0.30 on hull faces of 63 and 84 cells), so on gump too the lifetimes differ in how often a face
+gets down to a few cells and not in what happens there.
+
 ## What was found
 
 1. **Boom and bust on wrapped faces [measured by four independent codes: `anatomy/`, `split-slab/`, `tube1d/`,

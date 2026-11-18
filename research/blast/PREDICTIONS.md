@@ -254,3 +254,7 @@ tabulates the dying face's population by lag before death, with quantiles. I hav
 1.20, the median 0.34) and none of the others. If boom and bust is right:
 1. The 84-cell torus and the two tubes (84, 96 cells) show a 90th percentile of at least 1.35 at lag 4, 5 or 6: 80%.
 2. The hull faces (63 and 84 cells) do not: their 95th percentile stays at or below 1.25 at every lag from 2 to 12: 75%.
+**Scored 11:17 UTC.** 1 **held**: 90th percentile at lag 4 = 1.426 (84-cell torus), 1.432 (84-cell tube), 1.395
+(96-cell tube; 1.354 at lag 6); in cells 62.0, 62.0, 69.0, i.e. 0.738, 0.738, 0.719 of the face. 2 **held**: the
+hull's 95th percentile at lags 1–12 is at most 39 of a mean 31.25 (1.248; living 1.25–1.28) and 52 of 42.45 (1.225;
+living 1.225). The second was near its edge at 63 cells.
