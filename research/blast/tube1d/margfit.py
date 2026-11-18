@@ -5,11 +5,17 @@ so the price between l1 and l2 is c + B xi (exp(-l1/xi) - exp(-l2/xi)) / (l2 - l
     python3 margfit.py BANDP_FILE"""
 import sys, math
 import numpy as np
-rows = [l.split() for l in open(sys.argv[1]) if l.strip() and l[0].isdigit()]
-w = [float(r[0]) for r in rows]; y = [float(r[4]) for r in rows]; e = [float(r[5]) for r in rows]
 pts = []      # (l1, l2, price per cell, err, source)
-for i in range(1, len(rows)):
-    if w[i - 1] >= 2.5 and w[i] <= 6.5: pts.append((w[i - 1], w[i], (y[i] - y[i - 1]) / (12 * (w[i] - w[i - 1])), max(math.hypot(e[i], e[i - 1]) / 6, 0.0007), 'band'))
+if sys.argv[1].endswith('.slopes'):      # pooled slopes with errors from independent runs (bandcombine.py --out=...)
+    for l in open(sys.argv[1]):
+        if l[0].isdigit():
+            a, b, p, e = map(float, l.split())
+            if a >= 2.5 and b <= 7.5: pts.append((a, b, p, max(e, 0.0005), 'band'))
+else:
+    rows = [l.split() for l in open(sys.argv[1]) if l.strip() and l[0].isdigit()]
+    w = [float(r[0]) for r in rows]; y = [float(r[4]) for r in rows]; e = [float(r[5]) for r in rows]
+    for i in range(1, len(rows)):
+        if w[i - 1] >= 2.5 and w[i] <= 6.5: pts.append((w[i - 1], w[i], (y[i] - y[i - 1]) / (12 * (w[i] - w[i - 1])), max(math.hypot(e[i], e[i - 1]) / 6, 0.0007), 'band'))
 T = [(5, 12.4166, 0.0031), (6, 14.8753, 0.0140), (7, 17.3175, 0.0031), (8, 19.7405, 0.0059), (9, 22.1557, 0.0121)]
 for i in range(1, len(T)): pts.append((T[i - 1][0], T[i][0], (T[i][1] - T[i - 1][1]) / 12, math.hypot(T[i][2], T[i - 1][2]) / 12, 'tube'))
 def chi(c, B, xi, sel=None):

@@ -5,3 +5,6 @@ t63 SWAP replica 0: oracle torus side 42, 21 images per cell, 504 cells; populat
 tube60 replica 0: oracle torus side 40, 20 images per cell, 480 cells; populations at t=0,10,100,550,1100: [179, 200, 219, 211, 191]; identical for 1100 generations
 tube60 SWAP replica 0: oracle torus side 40, 20 images per cell, 480 cells; populations at t=0,10,100,550,1100: [179, 201, 223, 192, 224]; FIRST MISMATCH at generation 10
 t63 replica 201: oracle torus side 42, 21 images per cell, 504 cells; populations at t=0,10,100,550,1100: [187, 229, 229, 215, 218]; identical for 1100 generations
+h63 replica 77: oracle torus side 28, 1 images per cell, 876 cells; populations at t=0,10,100,550,1100: [319, 407, 437, 384, 345]; identical for 1100 generations
+tube60 replica 130: oracle torus side 40, 20 images per cell, 480 cells; populations at t=0,10,100,550,1100: [179, 213, 227, 213, 215]; identical for 1100 generations
+./analyse_all.sh: 8: Syntax error: "do" unexpected

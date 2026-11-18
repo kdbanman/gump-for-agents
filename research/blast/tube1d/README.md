@@ -34,10 +34,10 @@ header), `validate.py` + `validate_all.sh` (oracle check), `bandfit.py`, `margfi
    the wide price 0.2087 and does not fall as a parabola; whether it levels at 0.199 or creeps down to 0.186 the
    data cannot say. The 120-cell tube will not say either (24.556 against 24.538); 192 cells would (39.0 against
    38.6).
-4. **Boom and bust does not change with tube length up to 6 units, but loses ground to thinning in bands**
+4. **Boom and bust hardly changes with tube length up to 7 units, but loses ground to thinning in bands**
    [measured, §4]: the share of deaths with a one-generation fall of at least half the face is 59.3 ± 2.0%, 56.7 ±
-   1.1%, 56.3 ± 1.7% at 48 (4×4), 60 and 72 cells (tubes of length 5 and 6; 84 cells in §7). My forecast that it
-   falls with length (block C) was wrong there. In bands of a living tube the same criterion gives 77% at 2
+   1.1%, 56.3 ± 1.7%, 51.3 ± 4.7% at 48 (4×4), 60, 72 and 84 cells (tubes of length 5, 6, 7). My forecast that it
+   falls to 27% by 84 cells (block C) was wrong. In bands of a living tube the same criterion gives 77% at 2
    units, 60.5% at 4, 52 ± 1% at 5, 47 ± 4% at 6: a second route (thinning over 3–4 generations, no over-filling)
    takes over with width.
 5. **Forward-flux sampling on the face population does not work on the honest-dice surrogate, and I can say why**
@@ -133,9 +133,11 @@ Other girths, a longer tube (finite-length check) and the long run with historie
 
 ## 4. How a tube dies: reactive paths [measured]
 
-`$S/tube1d brute 1 12 28 8 0 7 500 60000000 paths_1_12_28.txt` (stopped at 203 face deaths) and
+`$S/tube1d brute 1 12 28 8 0 7 500 60000000 paths_1_12_28.txt` (stopped at 210 face deaths) and
 `python3 paths.py $S/tube1d 1 12 28 8 data/paths_1_12_28.txt`; lag = generations before the death at which a cell
-was last alive (format in §8). Numbers below at 106 deaths, unchanged within errors at 203:
+was last alive (format in §8). Numbers below at the first 106 deaths; with the second run
+(`data/paths_1_12_28_b.txt`, seed 33, 113 deaths) the 323 deaths give the same: median lag 6.0, 90th percentile
+8.0, band-first against the median cell 0.9% (0.5-unit bands) and 0.3% (1-unit), last cells within 2 units in 55%:
 
 - median over deaths of the median lag: 6.0; of the 90th-percentile lag: 7.7. The face empties within about 2
   generations everywhere; 5.8 cells are alive in the last 2 living generations, spanning under 2 units of the
@@ -157,10 +159,11 @@ generations; `python3 pops.py A FILE.pop`). Share of deaths with a one-generatio
 | (4,0),(0,4) torus | 48 | 597 | 59.3 ± 2.0% | 37.3 → 8.3 (stationary 24.6) |
 | (1,8),(0,20) tube, length 5 | 60 | 2,074 | 56.7 ± 1.1% | 46.5 → 10.7 (30.7) |
 | (4,4),(0,6) tube, length 6 | 72 | 885 | 56.3 ± 1.7% | 55.6 → 12.9 (36.9) |
-| (1,12),(0,28) tube, length 7 | 84 | §7 | §7 | |
+| (1,12),(0,28) tube, length 7 | 84 | 113 | 51.3 ± 4.7% | 64.6 → 15.2 (43.0) |
 
-Block C forecast (48, 37, 27% at 60, 72, 84 cells): **wrong at 60 and 72**; the "no trend" alternative, to which
-I gave 20%, is what whole tubes show up to 6 units.
+Block C forecast (48, 37, 27% at 60, 72, 84 cells): **wrong at all three**; the "no trend" alternative, to which
+I gave 20%, is the nearest (a drift of a few points per unit is not excluded: log-odds fall by 0.05 ± 0.07 per
+unit from 5 to 7 units). The 84-cell run also gives ln τ_face = 17.159 ± 0.094 (on file 17.3175).
 
 **Bands are different** (`PRE` lines of `data/bandp5_g12_L12.txt`, 1.2·10⁷ generations): the share of
 band-emptying events with a one-generation fall of at least half the band's cells in the band's last 9
@@ -173,9 +176,12 @@ first is empty: 0.039, 0.117, 0.302, 0.429, 0.478, 0.495, 0.508 (stationary 0.51
 than thinning. That shift accounts for part of the band's falling price, not all (the thinning route's own price,
 price − share × 0.031, still falls: 0.2065, 0.2017, 0.1956, 0.1936 at 2.75, 3.25, 4.25, 4.75 units).
 
-So the falling price of a **whole tube** up to 6 units is not a change of route (not band-first, not a sweep, no
-shift between boom-and-bust and thinning), while in a **band** of a living tube thinning gains on boom and bust
-with width. Whether whole tubes follow at 7 units and beyond: §7. [measured]
+So the falling price of a **whole tube** up to 7 units is not a change of route (not band-first, not a sweep; a
+shift between routes of 0.05 ± 0.07 in log-odds per unit bends ln τ by 0.25 × 0.05² ≈ 0.0006 per unit², against
+the 0.017 per unit² seen), while in a **band** of a living tube thinning gains on boom and bust with width: there
+the shift bends −ln P by 0.25 × 0.36² = 0.032 per unit², i.e. it lowers the band's price by 0.0027 per cell per
+unit of width, about half of the band's fall at 4–5 units (0.005 per unit); the other half is the size of the whole
+tube's own fall (0.0015 per unit at 6–7 units). [measured; the bookkeeping is mine]
 
 ## 5. The one-dimensional form [measured fits; the reading is conjecture]
 

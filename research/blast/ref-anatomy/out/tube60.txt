@@ -68,6 +68,8 @@ exposure 1031150521 replica-generations, deaths 8218, lost in burn-in 80, settle
    fatal share of falls: deaths with such a fall / all falls = 0.00968 = 1 in 103
    sensitivity to one cell of threshold: >= 28: 0.6659, >= 29: 0.6188, >= 30: 0.5717, >= 31: 0.5204, >= 32: 0.4679
    the same share with the fall looked for in the last 47 generations instead of 12: 0.5918
+   deaths with no fall above 8 cells in the last 12 generations: 0.0363; their P at t = -12: mean 9.34 (share <= 8: 0.507); their largest fall in the last 47 generations: median 28; all deaths, largest fall in 47 generations <= 8: 0.0000
+   largest fall in the last 47 generations: deaths median 31 (10/25/75/90%: 21/26/36/39); living windows median 16 (12/14/19/23); >= 18: deaths 0.9688, living 0.3963; >= 24: deaths 0.8465, living 0.0841; >= 30: deaths 0.5918, living 0.0127
    threshold 0.3 of the face (>= 18): deaths 0.9212, living windows 0.1236
    threshold 0.4 of the face (>= 24): deaths 0.8105, living windows 0.0228
    threshold 0.5 of the face (>= 30): deaths 0.5717, living windows 0.0035

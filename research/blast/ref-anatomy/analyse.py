@@ -60,6 +60,11 @@ pr(f'[autocorrelation of P, all face-generations] lag 1: {corr(h1):+.4f}   lag 2
 am = accs / accn; av = acc[0] / accn - am * am
 pr('[autocorrelation, lags 1..16, replicas 0-31] ' + ' '.join(f'{(acc[k]/accn - am*am)/av:+.4f}' for k in range(1, 17)))
 os.makedirs(os.path.join(HERE, 'data'), exist_ok=True)
+with open(os.path.join(HERE, 'data', f'autocorr_{tag}.csv'), 'w') as f:
+    f.write('vessel,lag,rho,source\n')
+    f.write(f'{name},1,{corr(h1):.5f},all face-generations\n{name},2,{corr(h2):.5f},all face-generations\n')
+    for k in range(1, 33):
+        f.write(f'{name},{k},{(acc[k]/accn - am*am)/av:.5f},replicas 0-31 ({accn:.0f} face-generations)\n')
 with open(os.path.join(HERE, 'data', f'returnmap_{tag}.csv'), 'w') as f:
     f.write('vessel,p,n,mean_next,var_next,mean_next2,var_next2,p_next_le_quarter,p_dead_next\n')
     rows = []
@@ -169,6 +174,12 @@ pr(f'   fatal share of falls: deaths with such a fall / all falls = {sh*g["death
 pr('   sensitivity to one cell of threshold: ' + ', '.join(f'>= {k}: {(fallD >= k).mean():.4f}' for k in range(HALF - 2, HALF + 3)))
 anyw = (PH[D][:, 0:47] - PH[D][:, 1:48]).max(1)
 pr(f'   the same share with the fall looked for in the last 47 generations instead of 12: {(anyw >= HALF).mean():.4f}')
+slow = fallD <= 8
+pr(f'   deaths with no fall above 8 cells in the last 12 generations: {slow.mean():.4f}; their P at t = -12: mean {PH[D][slow][:, 35].mean():.2f} (share <= 8: {(PH[D][slow][:, 35] <= 8).mean():.3f}); '
+   f'their largest fall in the last 47 generations: median {np.median(anyw[slow]):.0f}; all deaths, largest fall in 47 generations <= 8: {(anyw <= 8).mean():.4f}')
+anyL = (PH[L][:, 0:47] - PH[L][:, 1:48]).max(1)
+pr(f'   largest fall in the last 47 generations: deaths median {np.median(anyw):.0f} (10/25/75/90%: {qs(anyw,(10,25,75,90))}); living windows median {np.median(anyL):.0f} ({qs(anyL,(10,25,75,90))}); '
+   + '; '.join(f'>= {int(np.ceil(t_*A))}: deaths {(anyw >= int(np.ceil(t_*A))).mean():.4f}, living {(anyL >= int(np.ceil(t_*A))).mean():.4f}' for t_ in (0.3, 0.4, 0.5)))
 for th in (0.3, 0.4, 0.5, 0.6):
     k = int(np.ceil(th * A)); s_ = (fallD >= k).mean()
     pr(f'   threshold {th:.1f} of the face (>= {k}): deaths {s_:.4f}, living windows {(fallL >= k).mean():.4f}')

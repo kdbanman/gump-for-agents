@@ -70,6 +70,40 @@ def main():
             else:
                 w(f'{th:.2f}   {cols}')
         if best: w(f'minimum of I_up + J over theta: {best[1]:.4f} at theta = {best[0]:.2f} (I_up {best[2]:.4f}, J {best[3]:.4f}; shares {best[2] / best[1]:.2f}, {best[3] / best[1]:.2f})')
+    # cumulative version: Nu(theta) = P(P >= theta A), Dbar(theta) = (deaths launched from >= theta A) / (face-generations at >= theta A)
+    for fam, names in (('wide tori', [n for n in TORI if n in runs]), ('tubes of loop^2 12', [n for n in TUBES if n in runs])):
+        if len(names) < 2: continue
+        w(f'\n{fam}, cumulative: ln(sqrt(A) P(P >= theta A)) and ln dbar(theta) = ln(share of those generations that launch a death), natural deaths only (number)')
+        w('theta   ' + '  '.join(f'{n:>22s}' for n in names) + '     I_up     J  (+-)    I_up + J   [all sizes]      I_up     J  (+-)   I_up + J   [without the smallest]')
+        As = np.array([runs[n]['A'] for n in names], float)
+        for th in (0.62, 0.66, 0.68, 0.70, 0.72, 0.74, 0.76, 0.78):
+            a = []; b = []; e = []; cols = []
+            for n in names:
+                r = runs[n]; A = r['A']; N = np.array(r['N']); nl = np.array(r['nl'])
+                cN = N[::-1].cumsum()[::-1]; cl = nl[::-1].cumsum()[::-1]          # tails, interpolated in p (ln, linearly)
+                a.append(interp(cN / N.sum(), th * A) + 0.5 * np.log(A)); nd = np.exp(interp(cl, th * A)) if cl[int(np.ceil(th * A))] > 0 else 0
+                b.append(interp(cl, th * A) - interp(cN, th * A) if nd > 0 else np.nan); e.append(nd ** -.5 if nd > 0 else np.nan)
+                cols.append(f'{a[-1]:7.3f} {b[-1]:8.3f} ({int(nd):5d})')
+            a = np.array(a); b = np.array(b); e = np.array(e); s = f'{th:.2f}   ' + '  '.join(cols)
+            for sel in (slice(None), slice(1, None)):
+                ok = np.isfinite(b[sel])
+                if ok.sum() >= 2:
+                    I = -np.polyfit(As[sel][ok], a[sel][ok], 1)[0]
+                    if ok.sum() > 2:
+                        cf, cov = np.polyfit(As[sel][ok], b[sel][ok], 1, w=1 / e[sel][ok], cov='unscaled'); J = -cf[0]; eJ = cov[0, 0] ** .5
+                    else:
+                        J = -np.polyfit(As[sel][ok], b[sel][ok], 1)[0]; eJ = ((e[sel][ok] ** 2).sum()) ** .5 / abs(np.diff(As[sel][ok])[0])
+                    s += f'   {I:.4f}  {J:.4f} ({eJ:.4f})  {I + J:.4f}            '
+            w(s)
+    # the nu-part of a tube's discount: ln sum nu_tube(p) e^{kappa p} - ln sum nu_torus(p) e^{kappa p}; the rest of the anchors' discount is d
+    for a, b in (('tube84', 't84'), ('tube108', 't108')):
+        if a not in runs or b not in runs: continue
+        ra, rb = runs[a], runs[b]; A = ra['A']; ps = np.arange(A + 1); disc = ANCH[b] - ANCH[a]
+        s = []
+        for kap in (0.55, 0.65, 0.75):
+            wa = np.array(ra['nu']) * np.exp(kap * (ps - 0.74 * A)); wb = np.array(rb['nu']) * np.exp(kap * (ps - 0.74 * A))
+            s.append(f'kappa {kap}: {np.log(wa.sum() / wb.sum()):+.3f} (weight centred at theta {(wb * ps).sum() / wb.sum() / A:.3f})')
+        w(f'\n{a} against {b}: discount of the anchors {disc:.3f}; its nu-part with d(p) ~ e^(kappa p): ' + '; '.join(s))
     # tube against torus at equal area
     for a, b in (('tube84', 't84'), ('tube108', 't108')):
         if a not in runs or b not in runs: continue

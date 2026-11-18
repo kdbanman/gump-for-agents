@@ -35,25 +35,25 @@ Symmetric strips (w,w,L,0), ln τ_face (`data/table_out.txt`; errors 1/√deaths
 
 **1. ln τ is linear in the width at fixed length: a row costs the same wherever it is added; no support zone
 ends within 7 rows of a rim [measured].** The cost of two more rows (3L cells), g(L) = ln τ(w+2, L) − ln τ(w, L):
-L = 3: 1.525, 1.556, 1.559 (8→10→12→14 rows); L = 4: G4A (8→10), G4B (10→12); L = 5: G5 (8→10).
+L = 3: 1.525, 1.558, 1.557 (8→10→12→14 rows); L = 4: G4A (8→10), G4B (10→12); L = 5: G5 (8→10).
 So ln τ = a(L) + (w/2)·g(L) with g = 1.55, 2.35, G5S and a = 1.97, 1.72, A5 at L = 3, 4, 5.
 The **price per cell of added width** is g/(3L): **0.169 to 0.173 (L = 3), 0.195 to 0.196 (L = 4), W5 (L = 5)**.
 Below the wrapped 0.2087 at every length reached, and rising with L.
 
 **2. The price per cell of added length at fixed width falls with length and does not depend on the width
-[measured]:** L 3→4: 0.2455 (8 rows), 0.2509 (10), 0.2524 (12); L 4→5: **0.2308 ± 0.0007** (8), L45W10 (10);
+[measured]:** L 3→4: 0.2455 (8 rows), 0.2513 (10), 0.2525 (12); L 4→5: **0.2308 ± 0.0007** (8), L45W10 (10);
 L 5→6: **0.2177 ± 0.0023** (8). The hull's 0.231 appears here as the length price at one step (4→5) and is gone
-at the next. Width and length disagree at every size: the death of a rimmed strip is not isotropic, and neither
+at the next (at L = 4 the strip is still a tube of girth 4; the step 5→6 is the clean one). Width and length disagree at every size: the death of a rimmed strip is not isotropic, and neither
 number is 0.209 or 0.231 as a constant.
 
 **3. The mixed second difference, the strip's analogue of the hull's second difference in k, per cell
-[measured]: 0.2725 ± 0.0039 (8→10 rows, L 3→4), 0.2596 ± 0.0092 (10→12, 3→4), MIX45 (8→10, 4→5).** It
-is the increment of g: 0.80, then G45INC (the hull's second differences: 0.800, 0.692, 0.692 ± 0.015; the wrapped
-price would be 0.626). So corner-free strips of 48 to 75 cells show the hull's "0.231" at L 4→5, **without any
-corner**: corners do not make it. But the strips do not show it as a constant: it is 0.27 one step earlier.
-Whether it goes on falling is not measured: if a(6) = a(5), then g(6) = 3.69 and the next increment is 0.65
-(0.217 per cell) [conjectured from one assumption; (10,10,6), 90 cells, would decide: 20.16 if so, 20.29 if the
-increment stays 0.692].
+[measured]: 0.2741 ± 0.0029 (8→10 rows, L 3→4), 0.2590 ± 0.0087 (10→12, 3→4), MIX45 (8→10, 4→5).** It
+is the increment of g: 0.82, then G45INC (the hull's second differences: 0.800, 0.692, 0.692 ± 0.015; the wrapped
+price would give 0.626). At L 4→5 the corner-free strips of 48 to 75 cells are 0.6σ below the hull's 0.2307 and
+2.2σ above the wrapped 0.2087, **with no corner anywhere: corners are not needed for the excess.** But a strip
+has no constant price: one step earlier the same quantity is 0.27. Whether it goes on falling is not measured:
+if a(6) lies between a(4) and a(5), then g(6) = 3.69 ± 0.02 and the next increment is 0.66 ± 0.04 (0.220 ± 0.013
+per cell) [conjectured from that one assumption]. That cannot tell a plateau at 0.231 from a slow bend to 0.209.
 
 **4. A face's lifetime depends on its neighbours and on what is behind it, strongly, when those are small
 [measured].** An 8-row face lives ln τ = 11.091, 13.861, 16.47 (L = 4, 5, 6) beside 8-row faces over depth 8,
@@ -74,8 +74,7 @@ its cells have 6 neighbours inside the vessel (below).
 triangle itself, so "the cost of an obtuse rim" and "of a corner" are not separately defined by any corner-free
 vessel. What the strips give with nothing fitted to hulls is the size of the second difference (3) and one
 coincidence worth a test: the hull's step from k = 4 to 5 adds a row pair of length 5 and costs 3.015; a strip's
-row pair of length 5 costs G5. If a row pair of length ℓ cost the same in a triangle as round a prism, the
-strip's g(6), g(7) would be the hull's 3.814, 4.506 (and a(L) would have to fall by 0.5 at L = 6, which I doubt).
+row pair of length 5 costs G5. Not tested at any other length.
 
 **7. Bust or starve (the PI's test) [measured: `python3 research/blast/rim/bust.py …`, `data/bust_out.txt`].**
 Share of single-face deaths with a one-generation fall of at least half the face's cells among the twelve
@@ -89,12 +88,12 @@ steps that end at the death:
 | strip 8 rows, L = 5 | 60 | 11,412 | 0.158 ± 0.003 | 21 |
 | strip 12 rows, L = 3 | 54 | 11,999 | 0.150 ± 0.003 | 18 |
 | strip 14 rows, L = 3 | 63 | 11,999 | 0.108 ± 0.003 | 20 |
-BUSTEXTRA
+| strip 10 rows, L = 5 | 75 | 1,125 | 0.168 ± 0.011 | 28 |
 
 The hull value agrees with agent `anatomy`'s (0.016 to 0.022 at 63 and 84 cells; wrapped 0.51 to 0.60), so the
 definition is the same. Corner-free strips sit between: ten times the hull's share, a third of the wrapped one.
-The share does **not** rise with width (0.203 → 0.196 from 8 to 10 rows at L = 4; 0.150 → 0.108 from 12 to 14
-rows at L = 3); it falls with the face's size. So a strip of 5 to 7 units is not "bust in the middle, starve at
+The share does **not** rise with width (0.203 → 0.196 from 8 to 10 rows at L = 4; 0.158 → 0.168 ± 0.011 at L = 5; 0.150 → 0.108
+from 12 to 14 rows at L = 3). So a strip of 5 to 7 units is not "bust in the middle, starve at
 the rims" in any way this statistic sees, and the corners (or the three-fold closure of the rim) are what take
 the hull from 0.2 to 0.02.
 

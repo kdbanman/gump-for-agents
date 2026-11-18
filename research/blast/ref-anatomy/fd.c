@@ -1,7 +1,7 @@
 /* fd.c: referee's stepper for face deaths.  Written from docs/AUTOMATON.md and reference/oracle.py alone.
    Generic graph stepper (B45/S345, 12 neighbours, neighbour id N = dead outside), 256 replicas bit-sliced.
 
-   gcc -O3 -march=native -o fd fd.c
+   gcc -O3 -march=native -o fd fd.c -lm
    fd GEOM trace SEED REPLICA GENS OUT          one replica's state per generation (N bytes each), no restarts
    fd GEOM run SEED SECONDS LGAP OSUB CSUB OUTPREFIX
 

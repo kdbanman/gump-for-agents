@@ -8,7 +8,7 @@ B = sys.argv[1] if len(sys.argv) > 1 else '60'
 out = open(os.path.join(HERE, 'out', 'island.txt'), 'w')
 def run(name, lab, cand, seed):
     fn, v = vessel.write(name)
-    r = subprocess.check_output([os.path.join(HERE, 'fd_island'), fn, 'island', str(seed), B, str(len(cand))] + [str(c) for c in cand]).decode().strip()
+    r = subprocess.check_output([os.path.join(HERE, 'fd'), fn, 'island', str(seed), B, str(len(cand))] + [str(c) for c in cand]).decode().strip()
     s = f'{name:7s} {lab:28s} ({len(cand):2d} cells): {r}'; print(s); out.write(s + '\n')
 for k, name in enumerate(('t63', 'tube60')):
     v = vessel.get(name); run(name, 'any cell', list(v['faces'][0]), 31 + k)
