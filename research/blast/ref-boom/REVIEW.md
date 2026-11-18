@@ -45,7 +45,7 @@ error 1/√deaths. A replica whose state repeats after 840 generations is restar
 Poisson counting allows, both times: 63 cells 13.1441 ± 0.0101 and 13.1787 ± 0.0103 (9,785 and 9,452 deaths in equal
 exposure: 2.4 s.d.), 75 cells 15.761 ± 0.045 and 15.629 ± 0.042 (500 and 571: 2.2 s.d.); together p ≈ 0.005.
 It is not a failure of memorylessness at 48 cells [measured, `./rbt run 4 0 4 121 1500 …/t48.txt; python3 life.py t48`]:
-the 73,162 slab lives of a third 48-cell run (ln τ = 9.9281 ± 0.0037) have CV² = 0.988 ± 0.011 and follow the
+the 73,162 slab lives of a second 48-cell run (ln τ = 9.9281 ± 0.0037) have CV² = 0.988 ± 0.011 and follow the
 exponential law in every octave from 1 to 65,536 generations (no excess of early deaths after the 300-generation
 start). The same at 63 cells (a third seed, `t63`: 9,518 lives, CV² = 1.009 ± 0.029,
 ln τ = 13.1718 ± 0.0103; the three 63-cell seeds together give 13.1647 ± 0.0059, +0.4 s.e. from the anchor, with
