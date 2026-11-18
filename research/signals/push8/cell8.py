@@ -2,6 +2,7 @@
 """cell8 (push 8): the memory cell and its protocol, written to objects/cell8.json for verify_cell8.py.
 
     python3 cell8.py            prints each run (letters at the checked generations) and writes objects/cell8.json
+    python3 cell8.py --search   the shortest wire on which set, add one and a two-pulse count read all work (N = 4, 5, ...)
 
 The cell: capL (18 cells, units 0..3) + N units of wire B (units 4..N+3) + capL turned round (20 cells): a standing
 object of period 2 with 38 + 5N cells.  Its state is written as the N hex letters of the wire (7 = wire B; d = wire
@@ -87,5 +88,41 @@ def write():
     print('wrote objects/cell8.json')
 
 
+def search(Nmax=9):
+    """the shortest wire on which set, add one and a count read with two separate pulses on the wire all work"""
+    for N in range(4, Nmax + 1):
+        Lb = X.lab_for(N); e0 = Lb.arr(state('7' * N)); sols = []
+        for uA in range(4, 4 + N):
+            for uB in range(uA + 1, 4 + N):
+                a = e0.copy(); Lb.flip(a, [tr(X.RIGHT, uA), tr(X.LEFT, uB)]); Lb.run(a, 120)
+                s = X.hexletters(Lb, a, 4, 4 + N)
+                b = a.copy(); Lb.run(b, 2)
+                if s.replace('7', '') != 'df' or not np.array_equal(a, b):
+                    continue
+                w0 = 4 + s.index('d')
+                for side, cc, rng in (('R', X.RIGHT, range(4, w0 - 1)), ('L', X.LEFT, range(w0 + 3, 4 + N))):
+                    for ui in rng:
+                        c = a.copy(); Lb.flip(c, [tr(cc, ui)]); Lb.run(c, 120)
+                        s2 = X.hexletters(Lb, c, 4, 4 + N)
+                        if s2.replace('7', '') != 'ddf' or 4 + s2.index('d') - 1 < 4:
+                            continue
+                        w1 = 4 + s2.index('d')
+                        d = c.copy(); Lb.flip(d, [tr(X.RIGHT, w1 - 1)]); seen = None
+                        for g in range(0, 60, 2):
+                            sx = X.hexletters(Lb, d, 4, 4 + N)
+                            if sx.replace('7', '') == 'bb' and 'bb' not in sx and seen is None:
+                                seen = g
+                            Lb.run(d, 2)
+                        Lb.run(d, 100)
+                        if seen is not None and np.array_equal(d, e0):
+                            sols.append(f'set R@{uA} L@{uB} -> {s}; add one {side}@{ui} -> {s2}; count read R@{w1 - 1}: two pulses at +{seen}, then empty')
+        print(f'  N = {N} ({38 + 5 * N} cells): {len(sols)} protocols' + (': e.g. ' + sols[0] if sols else ''))
+        if sols:
+            return N
+
+
 if __name__ == '__main__':
-    write()
+    if '--search' in sys.argv:
+        search()
+    else:
+        write()

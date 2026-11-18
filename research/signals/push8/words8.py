@@ -56,6 +56,15 @@ def main():
     for k, v in sorted(cnt.items(), key=lambda kv: -kv[1]):
         print(f'  {v:5d}  {k}   e.g. {ex[k][:4]}')
     names = {v: dict(parity=k[0], cells=sorted(k[1])) for k, v in C.names.items()}
+    if a.mid and a.at in ('left', 'right'):
+        span = {n: max(c[0] for c in v['cells']) // 2 for n, v in names.items()}
+        beyond = 0
+        for r in rows:
+            for n, d, u in r['parts']:
+                if (a.at == 'left' and u > 4 + w1 + 1) or (a.at == 'right' and u + span[n] < 4 + w0 - 1):
+                    beyond += 1; break
+        nonother = sum(1 for r in rows if r['verdict'] != 'other')
+        print(f"  events with a rigid or standing outcome: {nonother}; of these, with any part beyond the stretch: {beyond}")
     for n in sorted(names, key=lambda s: int(s[1:])):
         print(f"  {n}: {len(names[n]['cells'])} cells {names[n]['cells'][:12]}{' ...' if len(names[n]['cells']) > 12 else ''}")
     if a.out:
