@@ -231,21 +231,61 @@ TPRE = 32, TWIN = 24, WBACK = 12.
 
 | cells | torus | replications | ln tau, dice chain | gump anchor | dice chain (sampler) - gump |
 |---:|---|---:|---|---|---|
-| 63 | (1,4),(0,21) | 16 | 13.129 ± 0.063 | 13.1622 ± 0.0007 | -0.033 ± 0.063 |
-| 84 | (1,12),(0,28) | 16 | 17.228 ± 0.098 | 17.3175 ± 0.0031 | -0.090 ± 0.098 |
+| 63 | (1,4),(0,21) | 32 | 13.176 ± 0.042 | 13.1622 ± 0.0007 | +0.014 ± 0.042 |
+| 84 | (1,12),(0,28) | 32 | 17.311 ± 0.060 | 17.3175 ± 0.0031 | -0.007 ± 0.060 |
 | 96 | (1,17),(0,32) | 48 | 19.832 ± 0.067 | 19.7446 ± 0.0042 | +0.087 ± 0.067 |
 | 108 | (1,16),(0,36) | 48 | 22.178 ± 0.060 | 22.1599 ± 0.0086 | +0.018 ± 0.061 |
 | 120 | (1,18),(0,40) | 32 | 24.707 ± 0.090 | — | — |
 | 144 | (1,22),(0,48) | 8 | 29.473 ± 0.214 | — | — |
-| 192 | (1,30),(0,64) | 8 | 38.866 ± 0.280 | — | — |
-| 192 | (8,0),(0,8) | 4 | 40.389 ± 0.301 | — | — |
+| 192 | (1,30),(0,64) | 16 | 38.647 ± 0.245 | — | — |
+| 192 | (8,0),(0,8) | 6 | 40.554 ± 0.255 | — | — |
 
-offset d = dice chain - gump, weighted mean over the tubes of 84, 96, 108 cells: +0.025 ± 0.041 (chi2 2.2 on 2)
-  (1,18),(0,40), 120 cells: dice chain 24.707 ± 0.090; minus d: 24.682 ± 0.099
-  (1,22),(0,48), 144 cells: dice chain 29.473 ± 0.214; minus d: 29.448 ± 0.218
-  (1,30),(0,64), 192 cells: dice chain 38.866 ± 0.280; minus d: 38.841 ± 0.283
-  (8,0),(0,8), 192 cells: dice chain 40.389 ± 0.301; minus d: 40.364 ± 0.304
+offset d = dice chain - gump, weighted mean over the tubes of 84, 96, 108 cells: +0.029 ± 0.036 (chi2 1.1 on 2)
+  (1,18),(0,40), 120 cells: dice chain 24.707 ± 0.090; minus d: 24.678 ± 0.097
+  (1,22),(0,48), 144 cells: dice chain 29.473 ± 0.214; minus d: 29.444 ± 0.217
+  (1,30),(0,64), 192 cells: dice chain 38.647 ± 0.245; minus d: 38.618 ± 0.248
+  (8,0),(0,8), 192 cells: dice chain 40.554 ± 0.255; minus d: 40.524 ± 0.258
 <!-- SUB-RESULTS-END -->
+
+<!-- COMMENTARY-BEGIN -->
+- **Exactness [measured].** The dice chain by brute force: 9.9407 ± 0.0085 at 48 cells (13,992 deaths;
+  `WD=6 ss G/g_4_0_4.bin plain 77 600000 20 11`) and 13.182 ± 0.027 at 63 cells (1,417 deaths;
+  `WD=6 ss G/g_1_4_21.bin plain 77 1500000 27 17`). The sampler on the same chain: 9.920 ± 0.021 (48 cells, version
+  1, 32 replications, `data/v1/`) and the 63-cell row above. Gump itself: 9.9251 and 13.1622, so the dice chain
+  sits +0.016 ± 0.009 and +0.020 ± 0.027 above gump there.
+- **Calibration [measured].** 48 and 63 cells were tuning tori, 84 cells became one (block 2b); **96 and 108 cells
+  are blind**. Sampler minus gump anchor: see the table; the four offsets from 63 to 108 cells are all within
+  1.3 of their errors (0.04 to 0.07) and show no trend. **Bias I can exclude: more than about 0.10 at 63 to 108
+  cells (2 sd of the pooled offset is 0.07); a drift of the offset with size is only bounded to ± 0.004 per cell**
+  (84 to 108 cells), which is ± 0.3 at 192 cells. So beyond 120 cells the absolute numbers are trustworthy to
+  about ± 0.3 on top of their statistical errors, and differences at equal size (tube against wide) to better.
+- **120 cells [measured, surrogate].** The row above minus the offset d is the sampler's value for gump. It is
+  independent of section 5's 24.59 ± 0.05 and agrees with it.
+- **Long tubes and the wide torus [measured, surrogate; few replications].** At 144 and 192 cells one replication
+  scatters by 0.6 to 1.0 in relative terms and there are 8 to 16 of them: the errors quoted are themselves
+  uncertain, and the mean is carried by the largest replications. Read with that: the 192-cell tube lies about
+  1.5 to 2 below the wide 192-cell torus (8,0),(0,8) *in the same chain*. The three readings of the tube's
+  discount against the wide price put it at 1.18 (quadratic in length), 1.29 (straight line near 0.198 per cell)
+  and 0.47 (the tube returns to the wide price beyond 120 cells): **the return to the wide price is excluded
+  at about 3 sd; quadratic and straight are not separated.** The wide torus itself reads above the wide line
+  13.1622 + 0.20866 (A - 63) = 40.08: either the line steepens beyond 126 cells, or the surrogate reads high at
+  192 cells (which would put the tube lower still); six to twelve replications cannot say which.
+- **Dying paths [measured, surrogate]** (`python3 subpaths.py G/subpaths_full/FILE A`; `data/subpaths_stats.txt`;
+  per-replication means ± their standard error). The sampler's deaths at 63 cells reproduce the natural route of
+  section 4: a one-generation fall of at least A/2 in 0.54 ± 0.02 of deaths (natural gump 0.558), of at least
+  0.4 A in 0.81 ± 0.02 (0.823), from 46.1 to 14.0 cells (47 to 14). Along the loop^2 12 tubes the single
+  face-wide crash fades out as the tube lengthens, while the wide torus keeps it at 192 cells:
+
+PATHTABLE
+
+  On the long tube the largest fall starts from a face that is hardly over-full (mean + 1.3 sd at 192 cells
+  against + 4.6 sd on the wide torus of the same area) and removes a third of it; the population then runs down
+  over 8 generations. **[conjectured]** The tube does not have to fill everywhere at once: a stretch of it booms
+  and busts and the rest follows within the time information needs to travel its length, which would be why a
+  tube is cheaper per cell and cheaper the longer it is. The path files hold populations only; whether the
+  emptying travels along the axis needs per-cell records, which this mode does not write.
+<!-- COMMENTARY-END -->
+
 
 ## 7. Reactive paths (deliverable 4)
 
