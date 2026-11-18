@@ -59,9 +59,11 @@ Everything below is about the surrogate S at (0.44, 0.42) unless gump is named.
 
    - Free strips one unit cell wide are **subcritical**: ln τ falls with length (2.80, 2.64, 2.45, 2.31) and so does
      the density (0.60 → 0.30). Any block argument for a lower bound needs blocks ≥ 2 unit cells wide.
-   - A straight free rim **lengthens** life (strips 2×2, 2×3, 3×2 outlive every wrapped face of equal area: the rim
-     face is fuller, density 0.56–0.62 against 0.39–0.52, because a rim row cannot be overcrowded); **corners shorten it** (patches and
-     triangles are below the wrapped faces).
+   - A straight free rim **lengthens** life at these sizes (strips 2×2, 2×3, 3×2 outlive every wrapped face of equal
+     area, and by Monte Carlo 3×3 and 3×4 do by 1.1 and 1.4 at 27 and 36 cells: such a face is fuller, density
+     0.56–0.62 against 0.39–0.55, because a rim row cannot be overcrowded); **corners shorten it** (patches and
+     triangles are below the wrapped faces). A strip only two unit cells wide gains 0.15–0.16 per added cell
+     against the wide faces' 0.25 and falls below them at 36 cells (9.270 ± 0.016 against 9.445 ± 0.016).
    - Exact price map of the 18-cell triangle (`tilt`): corners 0.0234, rim cells next to a corner 0.2164, mid-rim
      0.3007, interior 0.3530 (sum 4.2316548327 = ln τ). Occupancies: corners 0.098, mid-rim 0.614, interior 0.547:
      a fuller rim row and nearly empty corners, as in gump (+0.061; 0.175), from the cap alone.
@@ -99,6 +101,11 @@ Everything below is about the surrogate S at (0.44, 0.42) unless gump is named.
    75 cells: c_s − c_b ≈ 0.004 per cell), so there the two branches are nearly degenerate; **"two prices = two
    branches" as the whole account of 0.231 against 0.209 is refuted by that number** (it would need the share's
    log-odds to rise by 0.022 per cell). What survives is the test R9 of PREDICTIONS.md for gump's long tubes.
+   Frozen forecast from this reading, then run (PREDICTIONS.md R7, R8): the 48-cell tube (1,1),(0,16) at
+   12.43 ± 0.07 with bust share 0.22 ± 0.06; outcome 12.445 ± 0.032 and 0.229 ± 0.013.
+   Caveat: the second branch is defined by exclusion ("no fall of half the *whole* face in the last 6
+   generations"). On a long tube it may hold deaths in which a part of the tube busts and the rest starves; which
+   it is was not examined, and the branch prices above are per unit of length whatever the answer.
    *Two exit channels, not two eigen-branches* [measured]: the killed chain has no near-degeneracy. Its second
    eigenvalue is at |λ₂/λ₁| = 0.62–0.81 on the 9-cell shapes (`dense.py`), and the power iteration converges in
    43–59 steps on the wrapped faces of 12–15 cells with no growth in size. There is one quasi-stationary state and

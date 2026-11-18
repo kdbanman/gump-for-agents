@@ -118,6 +118,7 @@ torus_1_1_14    42   11.1038 +- 0.0100  ln tau/A 0.2644  density 0.5222  deaths 
 torus_1_3_14    42   11.0596 +- 0.0422  ln tau/A 0.2633  density 0.5551  deaths 562  widest class gram=12/6/13
 torus_2_0_7     42   11.6906 +- 0.0578  ln tau/A 0.2783  density 0.5293  deaths 299  tube girth2=4
 hull_R9         45   10.5513 +- 0.0339  ln tau/A 0.2345  density 0.5384  deaths 872  rimmed triangle
+hull_R9         45   10.5819 +- 0.0100  ln tau/A 0.2352  density 0.5384  deaths 10000  pass2 rimmed triangle
 torus_3_0_5     45   11.8582 +- 0.0651  ln tau/A 0.2635  density 0.5548  deaths 236  tube girth2=9
 torus_2_0_8     48   12.9008 +- 0.1132  ln tau/A 0.2688  density 0.5293  deaths 78  tube girth2=4
 torus_4_0_4     48   12.5126 +- 0.0932  ln tau/A 0.2607  density 0.5548  deaths 115  widest class gram=16/16/16
@@ -137,6 +138,7 @@ discount against that line (positive = dies sooner than a wide face of equal are
    strip_3_4      A= 36  -1.360   free rim both sides; periodic along
    torus_1_0_6    A= 18  -0.046   gram=1/0/27 loops2=1/4/9
    hull_R7        A= 30  +1.088   pass2 rimmed triangle
+   hull_R9        A= 45  +1.181   pass2 rimmed triangle
    torus_1_1_9    A= 27  -0.309   pass2 tube girth2=3
    torus_1_1_10   A= 30  -0.296   pass2 tube girth2=3
    torus_1_1_11   A= 33  -0.286   pass2 tube girth2=3

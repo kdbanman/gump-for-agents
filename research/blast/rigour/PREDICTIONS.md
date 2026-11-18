@@ -36,3 +36,20 @@ c_s = 0.585 from the steps at D = 9..13.
   then on the loop^2 12 tubes of 84, 96, 108 cells the share of deaths with a half-face fall changes by 3 to 6
   points per 12 cells (curvature of ln tau = -(d ln odds/dA)^2 p(1-p); the measured second difference
   -0.008 per 12 cells needs |d ln odds/dA| = 0.015 per cell). If the share is flat to 1 point, the reading is dead.
+
+## Scores (04:04 UTC)
+
+| | forecast | outcome | |
+|---|---|---|---|
+| R1 | triangle of 30 cells at least 0.3 below the wide wrapped line (60%); same sign at 45 (55%) | 6.889 ± 0.005 against 7.985 ± 0.005: 1.10 below; 45 cells: 10.582 ± 0.010 against 11.76: 1.18 below | **hit, hit** |
+| R2 | girth-2 tube (2,0),(0,D): step falls with D at every D (55%) | steps 1.356, 1.598, 1.669, 1.579 (± 0.01–0.03): rises first | **miss** |
+| R3 | wide wrapped slope 0.20–0.30 per cell (65%) | 0.2524 (least squares, 27–48 cells) | **hit** |
+| R4 | girth-one tube of 36 cells below 6.5 (50%) | 6.308 ± 0.007 | **hit** |
+| R5 | strip 2 x 3 above 4.9 (60%) and above 4.69 (75%) | 6.1754024793 (exact) | **hit, hit** (and far too timid: I expected about 5) |
+| R6 | gump's 120-cell tube 24.570 ± 0.025 | not yet measured | open |
+| R7 | surrogate tube (1,1),(0,16): 12.43 ± 0.07 (65%) | 12.445 ± 0.032 (984 deaths, `mc` seed 77) | **hit** |
+| R8 | its bust share 0.22 ± 0.06 (60%) | 0.229 ± 0.013 | **hit** |
+| R9 | gump's long tubes: bust share moves 3–6 points per 12 cells | not measured here | open |
+
+6 of 7 scored forecasts hit (two of them double). The miss is the one that assumed thin tubes behave alike: girth one
+saturates, girth two does not. The first exact rows had no forecast on file (stated above).
