@@ -38,7 +38,7 @@ price takes over" (29.163) is 1.5 to 3 errors below each.
 *(The night's report follows unchanged below. What is added here is dated; forecasts for this phase are block 5
 of `PREDICTIONS.md`.)*
 
-**11:25 UTC. The card's own recorder sees the over-full generation on gump itself, at the same level, and none on
+**11:18 UTC. The card's own recorder sees the over-full generation on gump itself, at the same level, and none on
 hull faces [measured by the GTX 1080 session's study, `research/dying2/` on `claude/gpu-local-1080`; read by the PI
 after a forecast, block 5b, both parts held].** That study (another code, another machine, 2,500–8,000 natural
 deaths per face) tabulates the dying face's population by lag before death. It reports means and medians and does
