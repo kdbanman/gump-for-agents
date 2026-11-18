@@ -135,3 +135,57 @@ if all(R in q for R in (9, 11, 13, 15)):
             print(f'  {p}  {name} c = {co[1]:.4f} b = {co[2]:+.3f}   ' + ' '.join(f'{r:+.3f}' for r in res) + '     ' + ' '.join(fc))
     print('  (for comparison: 29.230 if the second difference of ln tau repeats, 29.205 wrapped price with A^-1.5, 29.163 wrapped price;')
     print('   R = 19: 35.81 if it repeats)')
+
+# PART 4: the forecast with its error. Weighted straight line through -ln q(p) at the four anchors (errors: the
+# anchors' own, the Poisson error of nu, and 0.005 for the uncertainty of P-bar in the level p * P-bar), carried to
+# the larger faces, plus the error of their own nu(p).
+AERR = {9: 0.0055, 11: 0.001, 13: 0.005, 15: 0.0099}
+PB = 0.005
+print('\nPART 4: weighted straight-line fit of -ln q(p) and the forecasts with errors')
+if all(R in q for R in (9, 11, 13, 15)):
+    for i, p in enumerate(P):
+        y = np.array([q[R][i] for R in Rs])
+        if not np.isfinite(y).all():
+            continue
+        sg = np.array([math.sqrt(AERR[R] ** 2 + errs[R][i] ** 2 + PB ** 2) for R in Rs])
+        X = np.vstack([np.ones(4), Aa]).T; W = np.diag(1 / sg ** 2)
+        C = np.linalg.inv(X.T @ W @ X); co = C @ X.T @ W @ y; res = y - X @ co
+        chi2 = float(((res / sg) ** 2).sum())
+        txt = []
+        for R in (17, 19, 21):
+            if R in rows and np.isfinite(rows[R][1][i]):
+                x = np.array([1.0, AREA[R]]); v = float(x @ C @ x) + errs[R][i] ** 2 + PB ** 2
+                txt.append(f'R = {R}: {float(x @ co) - rows[R][1][i]:.3f} +- {math.sqrt(v):.3f}')
+        print(f'  p = {p}: -ln q = {co[0]:.3f} + {co[1]:.5f} A  (slope error {math.sqrt(C[1, 1]):.5f}; chi2 {chi2:.1f} on 2)   ' + ';  '.join(txt))
+    # second differences of ln nu(0.6) and of the forecast lifetimes
+    i6 = P.index(0.6)
+    lnnu = {R: rows[R][1][i6] for R in rows}; er = {R: errs[R][i6] for R in rows}
+    Rl = sorted(lnnu)
+    print('  second differences in k of ln nu(0.6 P-bar): ' + '  '.join(
+        f'{lnnu[Rl[j - 1]] - 2 * lnnu[Rl[j]] + lnnu[Rl[j + 1]]:+.3f}+-{math.sqrt(er[Rl[j - 1]] ** 2 + 4 * er[Rl[j]] ** 2 + er[Rl[j + 1]] ** 2 + 6 * PB ** 2):.3f}'
+        for j in range(1, len(Rl) - 1)) + f'   (centred on R = {Rl[1]} ... {Rl[-2]})')
+
+# PART 5: the same with levels at a fixed density x (L = x * A) instead of a fixed fraction of P-bar.
+print('\nPART 5: levels at fixed density x (L = x A): weighted straight-line fit of ln tau + ln nu and forecasts')
+BR = {R: brute(R) for R in (9, 11, 13, 15, 17, 19, 21)}
+def nu_at(R, x):
+    if BR[R] is None:
+        return float('nan'), float('nan')
+    tab = BR[R][1]; lo = int(math.floor(x))
+    if lo in tab and lo + 1 in tab and tab[lo][2] >= 30:
+        return tab[lo][0] + (x - lo) * (tab[lo + 1][0] - tab[lo][0]), tab[lo][1]
+    return float('nan'), float('nan')
+for xd in (0.42, 0.38, 0.34, 0.31, 0.28, 0.25, 0.22):
+    v = [nu_at(R, xd * AREA[R]) for R in Rs]
+    y = np.array([ANCH[R] + a for R, (a, e) in zip(Rs, v)])
+    if not np.isfinite(y).all():
+        continue
+    sg = np.array([math.sqrt(AERR[R] ** 2 + e ** 2) for R, (a, e) in zip(Rs, v)])
+    X = np.vstack([np.ones(4), Aa]).T; W = np.diag(1 / sg ** 2)
+    C = np.linalg.inv(X.T @ W @ X); co = C @ X.T @ W @ y; res = y - X @ co
+    txt = []
+    for R in (17, 19, 21):
+        a, e = nu_at(R, xd * AREA[R])
+        if np.isfinite(a):
+            xx = np.array([1.0, AREA[R]]); txt.append(f'R = {R}: {float(xx @ co) - a:.3f} +- {math.sqrt(float(xx @ C @ xx) + e * e):.3f}')
+    print(f'  x = {xd}: slope {co[1]:.5f}, chi2 {float(((res / sg) ** 2).sum()):.1f} on 2, residuals ' + ' '.join(f'{r:+.3f}' for r in res) + '   ' + ';  '.join(txt))
