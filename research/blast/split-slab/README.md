@@ -707,12 +707,40 @@ Neighbouring sections, all sections:
   crash time read from a per-cell record of gump itself rather than a threshold on a section, and the same
   statistic on loop^2 16 and 13 tubes, whose discounts are known and smaller.
 
+## 11. The 192-cell tube and the wide 192-cell torus again, with doubled sweeps (the PI's part 2, 05:05 UTC)
+
+Two cores for 25 minutes: `SWEEPX=2 python3 run_sub.py 1 30 64 80 7` and `SWEEPX=2 python3 run_sub.py 8 0 8 80 7`
+(NSWEEP = 64 instead of 32, everything else as frozen; stopped by hand at 05:33 UTC; outputs
+`data/subx2_*_s7.txt`). Doubled sweeps because the open question at this size was whether the sampler drifts
+(section 6: between replications ln(rate) scattered by 0.65 on the tube and 1.0 on the wide torus), and more
+replications at the old setting could not have answered it.
+
+    python3 pool192.py
+
+<!-- SEC11-BEGIN -->
+| torus | sweeps | replications | ln tau (dice chain) | bootstrap 16-84% | sd of ln(rate) between replications | error for a lognormal of that width | median replication |
+|---|---|---:|---|---|---:|---:|---:|
+| (1,30),(0,64) | default (32) | 26 | 38.764 ± 0.181 | 38.61 .. 38.96 | 0.65 | 0.143 | 39.17 |
+| (1,30),(0,64) | doubled (64) | 18 | 38.967 ± 0.088 | 38.88 .. 39.06 | 0.39 | 0.096 | 39.06 |
+| (1,30),(0,64) | pooled | 44 | 38.842 ± 0.120 | 38.73 .. 38.97 | 0.56 | 0.091 | 39.06 |
+| (8,0),(0,8) | default (32) | 18 | 40.588 ± 0.193 | 40.42 .. 40.80 | 1.02 | 0.319 | 40.91 |
+| (8,0),(0,8) | doubled (64) | 18 | 40.486 ± 0.139 | 40.37 .. 40.63 | 0.67 | 0.178 | 40.73 |
+| (8,0),(0,8) | pooled | 36 | 40.536 ± 0.116 | 40.43 .. 40.66 | 0.87 | 0.176 | 40.83 |
+
+(1,30),(0,64): doubled - default = +0.203 ± 0.201 (lognormal errors: ± 0.173); tube forms: 39.17 (K = 1), 39.01 (K = 2), 38.92 (K = 3), 38.86 (power law)
+(8,0),(0,8): doubled - default = -0.102 ± 0.238 (lognormal errors: ± 0.365); wide-face line: 40.07
+pooled: wide - tube = 1.694 ± 0.167 (lognormal ± 0.198)
+doubled (64): wide - tube = 1.519 ± 0.165 (lognormal ± 0.202)
+<!-- SEC11-END -->
+
+SEC11-COMMENT
+
 ## Files
 
 `geom.py` (graph, numpy stepper), `ss.c` (stepper; modes `dump`, `plain`, `ffs`, `lag`, `sub`), `validate.py`,
 `nuq.py`, `nuq_quad.py` (bookkeeping forecast), `howdie.py` (anatomy of natural deaths), `run_sub.py`,
 `table_sub.py`, `derived.py`, `subpaths.py`, `fill.py` (subset sampler: frozen-parameter driver, tables, dying
-paths), `sections.py`, `sec_table.py`, `fill9.py` (section 9), `chain.py` (section 10), `chain_*.sh` (the runs as launched; several were
+paths), `sections.py`, `sec_table.py`, `fill9.py` (section 9), `chain.py` (section 10), `pool192.py`, `fill11.py` (section 11), `chain_*.sh` (the runs as launched; several were
 cut short and replaced, as their headers say), `data/` (validation log, plain-run histograms, lag profiles,
 paths, sampler outputs, `sections_full.txt`; `data/v1/` = sampler version 1), `PREDICTIONS.md`. Bulk, git-ignored,
 under `research/scratch/blast/split-slab/`: `subpaths_full/` (25 MB), `cells/` (per-cell records of section 9).
