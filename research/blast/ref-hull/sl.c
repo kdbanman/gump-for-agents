@@ -177,6 +177,54 @@ int main(int argc, char **argv) {
     }
     return 0;
   }
+  if (!strcmp(argv[1], "bust")) {   // sl bust n 0 n SEED GENS : how a x a patches (a = 2, 3) of class-P unit cells empty
+    // event: patch empty now and in none of the four generations before; bust: a one-generation fall of at least half its cells within the last nine
+    long G = atol(argv[6]); int n = TH;
+    if (TK != 0 || TH != TD || n > 16) return 1;
+    build(0); seedrng(seed * 6007 + 3);
+    static int uc[2][16][16][3];
+    for (int I = 0; I < n; I++) for (int J = 0; J < n; J++) {
+      int c[3] = {2 * I, 6 - 2 * I - 2 * J, 2 * J};
+      for (int k = 0; k < 3; k++) { int p[3] = {c[0], c[1], c[2]}; p[k] += 1; uc[0][I][J][k] = cellof(p[0], p[1], p[2]); uc[1][I][J][k] = cellof(-p[0], -p[1], -p[2]); }
+    }
+    static v4 U[16][16], hist[2][2][16][16][4];
+    long nev[2] = {0, 0}, nbust[2] = {0, 0}, n07[2] = {0, 0}; double sb[2] = {0, 0}, sa[2] = {0, 0};
+    for (int l = 0; l < NL; l++) for (int c = 0; c < N; c++) setbit(0, c, l, urand() < 0.5);
+    int cur = 0;
+    for (long g = 1; g <= G; g++) {
+      int nx = (cur + 1) % KH; step(cur, nx); cur = nx;
+      int hs = g % 4;
+      for (int f = 0; f < 2; f++) {
+        for (int I = 0; I < n; I++) for (int J = 0; J < n; J++) U[I][J] = ld(S[cur][uc[f][I][J][0]]) | ld(S[cur][uc[f][I][J][1]]) | ld(S[cur][uc[f][I][J][2]]);
+        for (int sh = 0; sh < 2; sh++) { int a = sh + 2, nc = 3 * a * a;
+          for (int I = 0; I < n; I++) for (int J = 0; J < n; J++) {
+            v4 o = (v4){0, 0, 0, 0};
+            for (int i = 0; i < a; i++) for (int j = 0; j < a; j++) o |= U[(I + i) % n][(J + j) % n];
+            v4 e = ~o, *h = hist[sh][f][I][J];
+            v4 ev = e & ~(h[0] | h[1] | h[2] | h[3]);
+            h[hs] = e;
+            if (g <= 600) continue;
+            uint64_t w[4]; memcpy(w, &ev, 32);
+            for (int q = 0; q < 4; q++) while (w[q]) {
+              int l = q * 64 + __builtin_ctzll(w[q]); w[q] &= w[q] - 1;
+              int pop[10];
+              for (int lag = 0; lag < 10; lag++) { int r = (cur - lag + KH) % KH, p = 0;
+                for (int i = 0; i < a; i++) for (int j = 0; j < a; j++) for (int k = 0; k < 3; k++) p += (S[r][uc[f][(I + i) % n][(J + j) % n][k]][l >> 6] >> (l & 63)) & 1;
+                pop[lag] = p; }
+              int best = 0, bl = 1;
+              for (int lag = 1; lag <= 9; lag++) { int fall = pop[lag] - pop[lag - 1]; if (fall > best) { best = fall; bl = lag; } }
+              nev[sh]++;
+              if (2 * best >= nc) { nbust[sh]++; sb[sh] += (double)pop[bl] / nc; sa[sh] += (double)pop[bl - 1] / nc; if (10 * pop[bl] >= 7 * nc) n07[sh]++; }
+            }
+          }
+        }
+      }
+    }
+    for (int sh = 0; sh < 2; sh++)
+      printf("BUST torus n %d seed %ld gens %ld shape %dx%d events %ld busts %ld share %.4f | in busts: patch %.3f -> %.3f full across the largest fall; launched from >= 0.7 full: %.3f\n",
+             n, seed, G - 600, sh + 2, sh + 2, nev[sh], nbust[sh], (double)nbust[sh] / nev[sh], sb[sh] / nbust[sh], sa[sh] / nbust[sh], (double)n07[sh] / nbust[sh]);
+    return 0;
+  }
   if (!strcmp(argv[1], "life")) {   // sl life H K D SEED GENS T0 TMAX DENS : first empty face, with the firewall channel resolved
     long G = atol(argv[6]); int T0 = atoi(argv[7]), TMAX = atoi(argv[8]); double dens = argc > 9 ? atof(argv[9]) : 0.5;
     build(0); seedrng(seed * 31337 + 5);

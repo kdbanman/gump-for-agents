@@ -13,7 +13,7 @@ Everything is **[measured]** unless marked.
 | 2. hull interior = torus; rim −0.98, corner −3.21 | **CONFIRMED** |
 | 3. 18-cell hull face, ln τ = 4.855 ± 0.015, plateau | number and plateau **CONFIRMED**; "same family" **doubtful** (two corrections) |
 | 4. closed tori 3 × 6 and 2 × 8 against `points.txt` | **both right**: different definitions (firewalls along the short diagonals) |
-| 5. else | one consequence of 4 for its item 2; busts and fits not checked |
+| 5. else | one consequence of 4 for its item 2; bust statistics on the torus **CONFIRMED** to three digits; fits not checked |
 
 ## 1. The torus 12 × 12 × 8
 
@@ -123,10 +123,24 @@ along the slab's own normal, or along the three others, whose layers close up ar
   "dearer by 0.044 ± 0.005" stands. The rows built on two-unit tori and on 3 × 6 do not: D(3 × 6) becomes 10.87, not
   11.00, against 10.98 ± 0.08 for 4 × 5, and D(2 × 8) 11.6, not 12.65.
 
+## 5. How a patch empties (its item 6), on the torus
+
+`./sl bust 12 0 12 SEED 200000`, SEED = 1, 2, 3 (`out/holes/h_bust.txt`). Same definitions as its section 3: an
+event is a patch empty now and in none of the four generations before; a bust is a one-generation fall of at least
+half the patch's cells within the last nine.
+
+| patch | bust share, mine (three seeds) | `holes` | in busts, fullness across the largest fall, mine | `holes` | launched from ≥ 0.7 full, mine | `holes` |
+|---|---|---|---|---|---|---|
+| 2 × 2 | 0.8287, 0.8289, 0.8287 | 0.829 | 0.826 → 0.111 | 0.826 → 0.111 | 0.894 | 0.894 |
+| 3 × 3 | 0.7151, 0.7159, 0.7139 | 0.715 | 0.805 → 0.132 | 0.805 → 0.132 | 0.963–0.965 | 0.964 |
+
+**Confirmed.** (My runs count 106 events per generation for 2 × 2 where its table implies 1.7; it must record a
+sample; the shares do not depend on it.) Not checked: 4 × 4, the layer beneath, rim and corner, the hull.
+
 ## Not checked
 
-- Item 6 of `holes` (busts, launch fullness), the fits of its section 5, the triangles and strips of its item 5,
-  class Q, anything at R = 29, patches beyond 4 × 4.
+- The fits of its section 5, the [conjectured] reading of its item 6 (the extra 0.05 as the price of a deeper
+  boom), the triangles and strips of its item 5, class Q, anything at R = 29, patches beyond 4 × 4.
 - Lifetimes of the 3 × 3, 3 × 4, 3 × 5 tori: my `sl life` has no censoring of periodic states and reads high there
   (6.51 for 3 × 3 against `holes`'s 5.487, whose own windows are flat); only its firewall shares are used.
 - Which convention `points.txt` uses for a firewall and a face emptying in the same generation (I book it as

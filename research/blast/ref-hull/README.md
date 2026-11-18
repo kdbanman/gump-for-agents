@@ -10,6 +10,9 @@ replications), `nu.py` (dip-rate analysis), `chain.sh`, `nuchain.sh`, `nuchain2.
 **Second task (05:57–06:15 UTC): rimmed against wrapped faces, where the 0.022 per cell lives: see `WRAPPED.md`**
 (slab-torus stepper `sl.c`, `validate_slab.py`, `wchain.sh`, `wnu.py`, rows `out/w/`, tables `out/W-ANALYSIS.txt`).
 
+**Third task (12:28–12:45 UTC): referee of agent `holes`: see `HOLES.md`** (new modes `sl hole`, `sl life`, `sl bust`,
+`rh hole`, `rh life`; `holes.py`; rows `out/holes/`, table `out/HOLES-ANALYSIS.txt`).
+
 ## Short answer (04:55 UTC)
 
 1. **My own splitting sampler has split-hull's weakness; no R = 17 measurement comes from it [measured].** Strong

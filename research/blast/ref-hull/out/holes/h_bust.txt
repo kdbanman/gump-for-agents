@@ -1,0 +1,6 @@
+BUST torus n 12 seed 1 gens 199400 shape 2x2 events 21196720 busts 17565578 share 0.8287 | in busts: patch 0.826 -> 0.111 full across the largest fall; launched from >= 0.7 full: 0.894
+BUST torus n 12 seed 1 gens 199400 shape 3x3 events 73497 busts 52557 share 0.7151 | in busts: patch 0.805 -> 0.132 full across the largest fall; launched from >= 0.7 full: 0.963
+BUST torus n 12 seed 2 gens 199400 shape 2x2 events 21196883 busts 17569279 share 0.8289 | in busts: patch 0.826 -> 0.111 full across the largest fall; launched from >= 0.7 full: 0.894
+BUST torus n 12 seed 2 gens 199400 shape 3x3 events 73374 busts 52526 share 0.7159 | in busts: patch 0.805 -> 0.132 full across the largest fall; launched from >= 0.7 full: 0.965
+BUST torus n 12 seed 3 gens 199400 shape 2x2 events 21201934 busts 17570857 share 0.8287 | in busts: patch 0.826 -> 0.111 full across the largest fall; launched from >= 0.7 full: 0.894
+BUST torus n 12 seed 3 gens 199400 shape 3x3 events 73444 busts 52435 share 0.7139 | in busts: patch 0.805 -> 0.132 full across the largest fall; launched from >= 0.7 full: 0.964
