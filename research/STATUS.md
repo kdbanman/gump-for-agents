@@ -499,6 +499,15 @@ _Last updated 2026-11-14 by the lead._
   agent is done (two new signals plates, one new dying plate, a live memory cell checked against the oracle at
   every generation). **Version 19 of the overview was published at 14:20 UTC** (102 supporting files; 215 claims;
   the memory cell live, "two ways to die", the register line, the tubes to 120 cells). **Fable agents running: none.**
+  **17:34 UTC:** pull request 38 was merged at 14:25 UTC (main 8b29a89). The owner reset usage at about 17:28 UTC
+  and asked for a review of the other session's closing pull request 39 (`research/blast/noisy/`: a noisy hull
+  and a rare-event sampler; blind test at 108 cells +0.069 ± 0.025 above gump), with discussion on the pull
+  request (words in `LEAD.md`, "Other sessions"). Done: the lead's first pass, posted there (the 108-cell table
+  reproduces from the committed rows once copied to scratch; `fit.py` reads scratch only; the brute-force rows
+  and the 63- and 84-cell rows are not in the repository; questions on chain against sampler). **Running
+  (Fable):** an independent rebuild and attack -> `research/audit/REVIEW-blast-noisy.md`, `research/audit/blastnoisy/`.
+  This session is subscribed to the pull request's activity. **Then:** post the rebuild's findings there, record
+  what stands (notebook, ledger), and merge only after that.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
