@@ -38,7 +38,9 @@ all five 9-cell shapes and for torus_2_0_2 (4095 × 4095; `data/eig12.txt`), wit
 0.66, 0.76, 0.93 (patch 1×3), 0.62 (12-cell torus): one dominant eigenvalue, as rigour says (its "0.62–0.81"
 leaves out the 1×3 patch at 0.93). An independent simulation (`ref.py … --mc 300000`, deaths later than 40
 generations after a fair start) gives ln τ = 2.6948 ± 0.0018 and 2.4838 ± 0.0018 on torus_1_1_3 and the triangle.
-NOT TESTED: the 18-cell rows, every Monte Carlo row, `mc.c`, the `hull2` rim.
+The 18-cell triangle (hull_R5, beyond my dense reach) by the same simulation (`ref.py hull 5 --mc 300000 --mconly`):
+ln τ = 4.2293 ± 0.0018 against rigour's exact 4.231655 (1.3σ). NOT TESTED exactly: the other 18-cell rows; `mc.c`;
+the `hull2` rim.
 
 ### A4′. Bust share ("wrapped faces bust, rimmed faces starve") — CONFIRMED at 9, 12, 15 cells, with three riders
 
@@ -75,7 +77,8 @@ carry:
 3. *"Wrapped" is not sufficient.* Girth-one tubes (wrapped, 6 neighbours per cell): 0.6466 at 9 cells, 0.4466
    at 12, **0.2073 at 15** (mine; rigour's table shows only the 12-cell value). The periodic strip 1×3 is at
    0.0084. The share is graded by how overcrowdable the face is, not by wrapped/rimmed as such.
-NOT TESTED: 0.0030 on the 18-cell triangle; all shares above 15 cells (Monte Carlo); anything about gump.
+The 18-cell triangle by simulation: 0.0028 ± 0.0001 against rigour's exact 0.0030 (1.9σ). NOT TESTED: the
+shares of wide faces above 18 cells; anything about gump. (Tube shares: see A3.)
 
 ### A1. Theorem 2 (tilt identity) — CONFIRMED as an identity; its reading CORRECTED
 
@@ -141,7 +144,8 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
    joint effect of two perturbations differs from the sum by a product of their sizes). Label: [conjectured].
 7. *"A length² discount cannot persist"* is true unconditionally and says little: 0 ≤ ln τ ≤ ε_max·A, so any
    discount is ≤ c_∞·A, linear in length at fixed girth. For gump's loop² 12 tubes (discounts of a few tenths of
-   a nat against c·A ≈ 20) that bound allows quadratic growth for another factor of about 7 in length.
+   a nat: 0.40 at 108 cells, against c·A ≈ 22) the bound is reached only when length × 0.40/22 ≈ 1, i.e. it
+   allows quadratic growth for another factor of about 50 in length.
 
 ### A3. Lemma R — CONFIRMED (calculus); discrete form CORRECTED; the 0.29 reading CONFIRMED within errors
 
@@ -185,6 +189,9 @@ falls off the torus's support (529–572 seam histories are shared by several st
 vacuous). With a seam ONE unit cell thick: 3,354 off-support histories, relative error 6.3. `chk_identity.py`
 rerun: PASS (its fourth case, rule 30 with L = 4, has no seam class with more than one strip history and tests
 nothing).
+
+The sign rule (f > 0 iff the seam histories that recur more often than chance are emptier) is exact in the
+soup-started ensemble: ρ_T − ρ_C = Cov_C(x_c, Q)/Z, and Z = 1 (below). CONFIRMED.
 
 Answers to the three questions:
 1. *Is a seam two steps thick a separator?* Yes, with the condition stated exactly: no rule factor (a cell and
