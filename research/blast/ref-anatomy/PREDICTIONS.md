@@ -21,3 +21,22 @@ was still going and before any of its output was opened.
 1 hit (13.6234). 2 miss, badly (+0.517 and +0.340: the hull face's population is a slow variable; I expected it to
 look like the torus alive). 3 hit at the edge (0.0108). 4 hit (31.18; 0.0004). 5 hit (0.1827; e^+0.038). 6 hit
 (0.084). 7 hit (0.790). 8 hit (one hump, median 14). Seven of eight.
+
+## Block 2 (the two-variable map (P, B) and its minimum action), 2026-11-18 04:24 UTC, before any joint tally exists
+
+Known to me when writing: the review's numbers (one-variable return maps, the regression in over-full generations,
+the route 33 → 48.8 → 11.2 with 25 → 39.9 → 9.9 beneath), `model`'s remark that the measured upper tail is 1.27
+times the Gaussian exponent. Not known: any joint map, any action.
+
+1. Gaussian minimum action per cell on the wide torus (map measured at 63 cells): 0.16 (60%: 0.12–0.20); below
+   gump's 0.2087 (70%).
+2. ln τ of the Gaussian two-variable chain at 63 cells (exact absorption time): 11.0 (60%: 9.5–12.5); below 13.16 (75%).
+3. The torus's minimum-action route has a single generation at x ≥ 0.70 followed by one at x ≤ 0.25 (65%).
+4. Hull face: action per cell higher than the torus's (65%); ratio between 1.05 and 1.25 (45%); its route has no
+   generation at x ≥ 0.70 and takes at least 6 generations from the last normal state (55%).
+5. Collapse: drift at equal (x, b) agrees between 48, 63 and 84 cells to 0.01 in filling over the populated living
+   region (60%); covariance times A agrees to 10% (60%).
+6. The third layer: in ordinary generations the residual of P′ about the (P, B) map depends on C by less than 0.1
+   cell per cell (70%); in over-full generations by 0.15 or more (50%).
+7. The loop²-12 tube's map equals the wide torus's at equal fillings to 0.005 over the living and over-full region
+   (60%), so the action does not reproduce the tube's lower lifetime (60%).
