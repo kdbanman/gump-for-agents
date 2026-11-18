@@ -32,8 +32,8 @@ Nothing of `research/signals/` is imported. The lists of ends were enumerated ag
 | 6 | `cdcl7.cpp` | **confirmed on tests** | 400 small CNFs against brute force, 62 larger ones against glucose4 (stops, resumes, splits included), the C = 33 instance: no difference |
 | 7 | the census tables (17 events per end) | **confirmed in full; oracle on a sample** | see §4 |
 | 8 | (a), (b): no listener, no answer | **confirmed within the bounds, with the criterion tightened** | every row is healed on the whole state or has no rake left in front of the end; "dead" as the push defines it would also hold a changed end that had sent one signal, so that was checked directly |
-| 9 | guns: 5 of 67 cap, all absorb U; at C ≤ 39 none survives E, N1, EE | see §5 | |
-| 10 | "E alone destroys the line: E kills every gun on file" | **confirmed, with an exception worth having** | E alone, N1, EE, E with K0 or K3 in front: debris. **E with N2 in front: the two leave one hole**, the end heals it and the line runs on unchanged |
+| 9 | guns: 5 of 67 cap, 11 absorb U; at C ≤ 39 89 absorb U, 78 cap, "every one dies on E, N1 and EE" | **counts confirmed; "dies" refuted for 34 guns** | 34 of the 867 guns are left standing and changed by E, N1 or EE and fire a stream of holes for ever (oracle, exact orbit of period 4). §5 |
+| 10 | "E alone destroys the line: E kills every gun on file"; "nothing absorbs E" | **confirmed for the guns at C ≤ 37; refuted at C ≤ 39** | with gun 4: debris, as claimed. With any of the 34 and a healing end, E alone turns the line into a **clock of period 4N − 12** (oracle, five lengths). Also new: **E with N2 in front leaves one hole**, the end heals it and the line runs on |
 | 11 | the count on the infinite train (`record7.py`) | **confirmed** | oracle: n = 1..6, period 2, standing, 0, 2+1, 3+1, .. units |
 | 12 | the README's own state | **corrected** | "Runs", "Not checked" and "Forecasts scored" are empty placeholders; the 5 × 5 row "pending" has a result in `objects7.json` that the text does not report; forecasts scored in §7 |
 
@@ -226,21 +226,99 @@ splitting is what handles that. `ends7.cpp` was dropped by the push and nothing 
 criteria on units that are exact for the semi-infinite train (the end stands on a finite train on a ring of 448
 units; the cut tail cannot reach unit u before generation u + 405). `--fast` runs it on fast7; without, on the oracle.
 
-TODO-census
+**All ends, fast7** (`python3 census7a.py fb $S/fb_37.json $S/cen37_fast.json --fast`, 3 min; the same for
+`fb_39.json` in four parts, `--part i/4`, 8 min each; tables by `python3 cen_report.py FILES`). Every number of the
+README's two tables is reproduced:
+
+| event | C ≤ 37 (741 ends): healed / dead | C ≤ 39 (6,196 ends): healed / dead |
+|---|---|---|
+| each of the 8 words of holes, H, D5 = HH | 599 / 142 | 5,141 / 1,055 |
+| K0, D3 (= N3), D4 = K0K0 | 130 / 611 | 1,212 / 4,984 |
+| D6 (= N2) | 125 / 616 | 1,223 / 4,973 |
+| D7 (= K3) | 113 / 628 | 1,115 / 5,081 |
+| N4 | 1 / 740 | 24 / 6,172 |
+| lower edge of wire B | cap 125, wall 103, debris 4, dead 509 | cap 1,223, wall 695, debris 36, dead 4,242 |
+
+The nine outcome vectors and their counts are the README's (485 / 113 / 93 / 16 / 12 / 10 / 7 / 4 / 1 and 4,002 /
+1,115 / 651 / 163 / 108 / 53 / 44 / 36 / 24). Every end is an orbit of least period 4. No row is 'sent' (the end and
+30 units in front of it equal to the undisturbed run while something differs far upstream: an answer), none is
+undecided. One regularity the README does not state: in both bounds **the ends that cap wire B are exactly the ends
+that heal D6 = N2** (125 and 1,223).
+
+**Oracle samples.** TODO-orc
 
 **What "dead" hides.** The push calls a row dead when the disturbance has reached 80 units up the stream and the end
 is not equal to the undisturbed end. An end that had changed and sent a single signal up would be "dead" by that test
 and would be exactly the listener looked for. So for every dead row two things are recorded at that generation: how
 many of the 70 units between there and the end differ from the undisturbed run, and how many rake units are left on
-them (the plain train has 35). TODO-dead. There are two kinds of death: a fire that leaves nothing (70 of 70 units
+them (the plain train has 35). Of 5,237 dead rows at C ≤ 37 and 41,728 at C ≤ 39 (the wire-B column apart), all but 1 and 8
+have no rake unit left; in 8 of those 9 the unit counted is the one at the upstream edge of the window, two
+generations ahead of the front, and in one (end 5620 of the own numbering, K0K0) five units of a transient pattern
+behind a first front are counted, which a second front has eaten 40 generations later (`python3 deadrow.py FILE END
+KIND`). The disturbance arrives 80 units upstream at generations 163..220. Healed rows (6,619 and 57,408) are equal
+to the undisturbed run on the whole ring by generation 53 at the latest. There are two kinds of death: a fire that leaves nothing (70 of 70 units
 differ; in most of these the end's own cells are still there, without a train), and a front that strips the rakes and
 leaves bare wire C, which a slower fire then eats (44 or 51 of 70 differ: the bare-wire units equal the train's own).
-In no row is a rake left. So "no end is left alive and changed" is right in the sense that matters: **healed on the
-whole state, or the train is gone.**
+A third kind was seen and not counted: the end stands and a front converts the stream into another wire (the
+fifth push's "wall", its question (o)), as end 5620 does on D6. In no row is the train left. So for receiving ends
+"no end is left alive and changed" is right in the sense that matters: **healed on the whole state, or the train is
+gone.** (For guns the same test finds the opposite: §5.)
 
 ## 5. Guns
 
-TODO-guns
+`python3 census7a.py 5f $S/5f_37.json $S/gun37_fast.json --fast` (10 s) and the same for `5f_39.json` (3 min): each gun
+is sent U, N1, E and the pair EE from 46 units down its stream, and the upper edge of wire B.
+
+| | C ≤ 37 (67 guns) | C ≤ 39 (867 guns) | README |
+|---|---|---|---|
+| U absorbed (whole state restored) | 11 | 89 | 11; 89 |
+| N1, E, EE: the gun not restored | 67 each | 867 each | "every one dies" |
+| upper edge of wire B: cap / wall / debris / dead | 5 / 3 / 4 / 55 | 78 / 21 / 33 / 735 | 5; 78 / 21 / 33 / 735 |
+
+The counts are the README's. The five capping guns at C ≤ 37 are among the eleven that absorb U, as stated; at
+C ≤ 39 that is no longer so (44 of the 78 absorb U, 34 are changed by it for the worse: see below). TODO-gunorc
+
+**"Every one dies on E, N1 and EE" is refuted for 34 of the 867 guns.** The push calls a gun dead when it is not
+restored by the time the difference has run 80 units along the stream. A gun that is left standing in another state
+and goes on firing something else passes that test, and 34 guns do exactly this (ids 723..756 of the own numbering,
+24 to 30 cells; their cells are in `guns_changed.json`; none of them fits at C ≤ 37): in their rows for E, N1 and EE
+all 35 rakes are still on the 70 units below the gun (`python3 gun7.py find`). `python3 gun7.py survive --part i/2`
+(oracle, 2 × 52 s), for each of the 34 and each of E, N1, EE:
+- from generation 236 at the latest the gun has period 4 again, in a changed state, the same one for the three
+  signals, and the 40 units below it are, cell for cell over 45 generations, the stream **S: the train with a
+  hole (H) on every rake**;
+- the changed gun with S below it is an exact orbit of period 4 of the semi-infinite tube (re-stepped with S cut 60
+  units down: the units from −24 up are equal after 4 generations). So the gun stands for ever and fires S.
+ALL PASS, 34 of 34. U kills these 34 guns. S itself (`python3 gun7.py stream`, 1 min): period 4, rigid like the
+train (one unit per two generations), 10 cells per two units at every generation (the train: 11, 10, 11, 10); in the
+family code it reads 9f9f.. at even generations where the train reads 5f5f.. . It carries riders of its own: U's or
+K0's cells put on S leave a rigid two-cell difference running up; H's cell at the place of a hole (a rake put back)
+runs down; E's or N1's cells at one of the two parities break S.
+
+**With one of the 34, E alone does not destroy the line: it becomes a clock.** `python3 gun7.py clock` (oracle, 20 s;
+gun 723, N units of train, end 70, N = 80, 82, 84, 100, 120): the line alone has period 4; with E alone at unit 32
+the whole array has **least period 4N − 12** (308, 316, 324, 388, 468) from generation 4N − 72 on, for ever; 423 to
+426 cells at N = 80. What shuttles is a front: S runs down from the changed gun to the end; when it arrives a front
+starts up through S, at the train's speed, and leaves bare wire C (the uniform family unit b) behind it; at the gun
+the front is turned and S is written again from the top. The plain train does not come back. `python3 gun7.py lines`
+(fast7, 90 s; 19 of its 218 lines again on the oracle with the same onset, period, populations and final state),
+N = 80, E alone:
+
+| gun | end | lines | after E alone |
+|---|---|---|---|
+| 723 | the 113 caps that heal a hole | 113 | a clock: period 308 (31 ends) or 304 (82) |
+| 723 | 40 ends at C ≤ 37 that heal a hole and do not cap wire B | 40 | a clock: period 300 (24), 304 (15), 308 (1) |
+| 723 | the 12 caps that do not heal a hole | 12 | wire B between the two caps, with units of B′ |
+| 723 | 20 ends that do neither | 20 | debris (6), a standing object of period 1, 2 or 6 (10), no period found (4) |
+| the other 33 | cap 70 | 33 | a clock of period 308 |
+
+So every healing end tried (153 of 153) gives a clock, and its period is a multiple of 4 (4N − 12, 4N − 16 or
+4N − 20 by the end), which the rake clocks of the second and third pushes (4N + 2) never are. "E kills every gun on
+file", "no gun survives E or N1" and "nothing absorbs E" are true of the 67 guns at C ≤ 37, which is what the push's
+lines were built from, and false in its own list at C ≤ 39.
+
+Not done here: whether anything turns the changed gun back (a second E meets holes on S), what the clock does with
+later signals, and a line with the reflector end, where the E would come from inside (§8, §9).
 
 ## 6. The other claims and tools
 
