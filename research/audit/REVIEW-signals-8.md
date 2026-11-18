@@ -246,8 +246,8 @@ push's in 96 of 96 runs; six rows on the oracle equal st8 on the whole state. Re
   other arriving signal against a structure (pairs, `6ef`, R⁺), structures of longer period, structures the
   census classes call fronts.
 - **The place it did not look holds a trigger.** Push 8 itself found that one cell made live outside the tube,
-  (1,4,2), releases the count, and named an object beside the wall as a route. Push 9 (committed while this review
-  ran; not reviewed here) reports a six-cell still life there. `python3 extra8.py beside` (6 s, oracle, my code,
+  (1,4,2), releases the count, and named an object beside the wall as a route. Push 9 (a later commit,
+  `research/signals/push9/`; not reviewed here) reports a six-cell still life there. `python3 extra8.py beside` (6 s, oracle, my code,
   only those six cells taken from push 9): capL + `7^(2k+20) d^k f 7^6` + right cap + the six cells stands; ONE
   stator removed 12 units before the wall; the first exact state without d or f carries `b^(2k+2)` (k = 1, 3, 6);
   the run ends as the empty cell with the six cells untouched. So "none among 48 standing structures" is true
