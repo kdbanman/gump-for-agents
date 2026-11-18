@@ -1,33 +1,34 @@
 # REVIEW (referee `ref-report`): `research/blast/REPORT.md` against its sources
 
-2026-11-18, 05:45 to 05:58 UTC. No simulation run; every item is the report's sentence (as of commit b1e3900)
+2026-11-18, 05:45 to 05:55 UTC. No simulation run; every item is the report's sentence (as of commit b1e3900)
 against the named file. "Paste:" is the sentence I propose. Not read: anything under `research/scratch`,
 `gpu-local`, agents' code.
 
-State of `ref-dicehull/`: an interim `REVIEW.md` is committed (3128836; written 05:23 to 05:50). Its five-line
-verdict and its section (d) are complete; five table placeholders (GUMPROWS, VARROWS, TAILROWS, POOLROWS, DURROWS)
-are still unfilled. Its verdict changes the report's headline on the 135-cell face (A1).
+State of `ref-dicehull/`: **finished.** Final `REVIEW.md` committed (a0b224e, then a README, ec3f978), no
+placeholder left. Its verdict changes the report's headline on the 135-cell face (A1); the numbers below are from
+that final version.
 
 ## (A) Wrong or overstated, most serious first
 
 1. **The 135-cell "measurement" (short version; "The 135-cell face"; "What is not known" 1).** Report: "reads
    **29.398 ± 0.048**: 3.5 errors above ... 4.9 above", "about 29.40, +0.06, −0.15", "no clear drift with size",
    "disagree by about 0.18 ... the hull's second difference growing (0.86 ± 0.05)". Source,
-   `ref-dicehull/REVIEW.md`: the chain value reproduces (29.420 ± 0.068 fresh; pooled 29.447 ± 0.036), but "(d)
-   'R = 17 is above both 29.163 and 29.230': **REFUTED as a claim; not excluded as a fact.** Gump at 135 cells
-   from this method: **29.30 ± 0.09**"; like with like, sampler minus gump GROWS (+0.001, −0.044, +0.053, +0.120 ±
-   0.040 at 45, 63, 84, 108 cells; a constant rejected, χ² 11.5 on 3; +0.14 ± 0.08 at 135); "29.230 is 0.8 errors
-   below, 29.163 is 1.5 errors below ... **Nothing is decided**"; the errors-above sentence "should not be
-   repeated". `split-hull/README.md` itself has a third reading the report drops (offset linear in the area:
-   29.364 ± 0.070, +1.9 / +2.9 errors).
+   `ref-dicehull/REVIEW.md` (final): the chain value reproduces (fresh seeds 29.394 ± 0.066; pooled 29.420 ± 0.042,
+   156 replications, "an upper estimate"), but "(d) 'R = 17 is above both 29.163 and 29.230': **REFUTED as a
+   claim; not excluded as a fact.** Gump at 135 cells from this method: **29.30 ± 0.09**"; like with like, sampler
+   minus gump GROWS (+0.001, −0.044, +0.047, +0.126 ± 0.034 at 45, 63, 84, 108 cells; a constant rejected, χ² 14.2
+   on 3; +0.12 ± 0.08 at 135); "29.230 is 0.8 errors below, 29.163 is 1.5 errors below ... **Nothing is
+   decided**"; the errors-above sentence "should not be repeated". `split-hull/README.md` itself has a third
+   reading the report drops (offset linear in the area: 29.364 ± 0.070, +1.9 / +2.9 errors).
    Paste (for the paragraph after the table, PENDING_DICEHULL_FINAL, the paragraph "So the forecast and the first
    measurement disagree", and the last two sentences of the short version): "The chain's value reproduces with
-   fresh seeds (29.447 ± 0.036, 146 replications), but its referee (`ref-dicehull/REVIEW.md`, interim) finds the
-   replications heavy-tailed and the sampler's offset from gump growing with size (+0.12 ± 0.04 at 108 cells once
-   one giant replication is set aside; +0.14 ± 0.08 extrapolated to 135): **for gump 29.30 ± 0.09 by this method**,
-   0.8 errors above the forecast 29.22 and 'the second difference repeats' (29.230), 1.5 above 'the wrapped price
-   takes over' (29.163). Nothing is decided at 135 cells: the surrogate does not show a growing second difference
-   and does not exclude one."
+   fresh seeds (29.420 ± 0.042 over 156 replications, an upper estimate), but its referee
+   (`ref-dicehull/REVIEW.md`) finds the replications heavy-tailed and the sampler's offset from gump growing with
+   size (+0.13 ± 0.03 at 108 cells once one giant replication is set aside; +0.12 ± 0.08 extrapolated to 135):
+   **for gump 29.30 ± 0.09 by this method**, 0.8 errors above the forecast 29.22 and 'the second difference
+   repeats' (29.230), 1.5 above 'the wrapped price takes over' (29.163). Nothing is decided at 135 cells: the
+   surrogate does not show a growing second difference and does not exclude one." In the table, the 108-cell row
+   needs "(+0.126 ± 0.034 without its one giant replication)".
 2. **Item 5 and "not known" 3, the 192-cell surrogate numbers.** Report: "38.71 ± 0.18 for the 192-cell tube and
    40.59 ± 0.19 for a wide 192-cell torus"; "sits at or above the line". `split-slab/README.md` l.264: 40.588 is
    the raw chain (40.536 after the offset; the other two numbers quoted are after the offset).
