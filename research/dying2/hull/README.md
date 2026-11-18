@@ -3,99 +3,165 @@
 2026-11-18. The rimmed half of the dying2 study (the wrapped faces and tubes are in the rest of `research/dying2/`,
 another agent's). Vessel: the hull octahedron of `research/gpu/facelaw.py` (soup 0.35 in |p|_1 <= R, exact hull,
 8 faces, deaths at age > T0 = 200), R = 11 (faces of 63 cells) and R = 13 (84 cells). Definitions are those of
-`research/dying/README.md` (rounds 1-2) and are restated in `PREDICTIONS.md`, which holds the forecasts, committed
+`research/dying/README.md` (rounds 1-2), restated in `PREDICTIONS.md`, which holds the forecasts, committed
 (a47fa31) before any production run. Tags: **[measured]** (number, error, command), **[conjectured]**.
+Figure: `hull_dying.svg` (`figure.py`). Numbers below: R = 11 from seeds 1100-1102; R = 13 from seeds 1300-1302
+(STATUS line below says whether the second R = 13 seed set, 1310-1312, is pooled in yet).
 
-**Status (03:40 UTC): R = 11 done and tabled below; R = 13 running (until about 05:05 UTC, then a second seed set). Figure: `hull_dying.svg` (`figure.py`).**
+**STATUS: R = 13 second seed set running until about 06:52 UTC; R = 13 numbers below are the first set (4,205 deaths).**
 
-## Short answer (R = 11, A = 63)
+## Short answer
 
-- **[measured] A dying hull face is at its stationary population until about 16-20 generations before it is empty,
-  then collapses in a median of 7 generations from half its mean; the last generation holds 1.62 live cells.**
-  P/P bar = 0.955, 0.676, 0.314, 0.052 at lags 16, 8, 4, 1 (round 1, c1, another recorder and soup 0.4: 0.95,
-  0.67, 0.31, 1.61 cells: **agreement**). Quantiles in `data/R11_death_timecourse.csv`.
-- **[measured] Point of no return: 2 live cells.** q(k), the chance that a dip from above P bar that reaches k or
-  fewer cells ends in death: 0.769 (k = 1), 0.499 (2), 0.298 (3), 0.180 (4), 0.064 (6), 0.014 (9), 0.0032 (12).
-  k* = 2.00 = 0.064 P bar (round 2: q(0.1 P bar) = 0.300, p* = 0.079 P bar with the strict "< p P bar" level, which
-  is the same point on the integer grid: **agreement**). ln nu(0.9 P bar) = -2.311 (round 2: -2.31).
-- **[measured] Dips that recover and dips that die look the same on the way down.** Aligned at the first generation
-  with P <= k, the mean population before it is the same for both (k = 3: 27.5 / 27.6 at -8, 19.4 / 18.8 at -4,
-  10.7 / 9.5 at -2), and the descent from the last P >= U takes the same time (median 7, IQR 5-10, both). Where
-  they part is after the passage: recovering dips are back to half P bar in about 8-16 generations.
-- **[measured] Where the last cells sit: on the rim, not in the corners and not in the interior.** Share of the
-  lag-1 live cells over the share of stationary live cells: rim row (the row shared with the neighbour face) 1.10,
-  row 1 1.01, row 2 0.84, rows >= 3 0.79; within one cube unit of a corner 0.91, 1-2 units 1.17, 2-3 units 1.04,
-  farther 0.92. Stationary faces thinned at random give 1.00 +- 0.02 everywhere (the control is geometry only).
-- **[measured] And survivors on the rim are the ones that die.** At the first passage of a dip to exactly k cells,
-  q rises with the number of those k cells in the rim row: k = 4: 0.061 +- 0.021 (none on the rim), 0.080, 0.101,
-  0.130, 0.145 +- 0.027 (all four); k = 6: 0.006, 0.019, 0.022, 0.028, 0.041, 0.043, 0.059. Spread-out survivors
-  die more than clumped ones (k = 3: 0.243 against 0.155 either side of the median pair distance 1.73). Survivors
-  near corners: a weak, non-monotone effect (k = 4: 0.087, 0.120, 0.142, 0.100 for 0, 1, 2, 3 survivors within 1.5
-  units). So the excess of rim cells among the last survivors is the rim's own poor prospects, not rims holding out:
-  a remnant in the interior comes back more often.
-- **[measured] Neighbours:** the three edge neighbours fall to 0.772 of P bar at the moment of death (their shared
-  rim row is the dying face's own), the three vertex neighbours to 0.960, the opposite face stays at 0.999. Which
-  face dies: uniform (5,258-5,418 per face of 42,494; chi2 5.9 on 7); one co-death.
-- Calibration: ln tau_face = ln(8E/F) = **13.6429 +- 0.0049** (42,494 face deaths), GPU 13.636 (+1.4 sigma); P bar =
-  31.253 (round 1 review 31.25).
+| | A = 63 (R = 11) | A = 84 (R = 13) |
+|---|---|---|
+| face deaths recorded (lives) / dumped with history | 42,494 / 4,500 | 4,205 / 4,205 |
+| ln tau_face = ln(8E/F), T0 = 200 (GPU value) | 13.6429 +- 0.0049 (13.636) | 18.154 +- 0.015 (18.141) |
+| P bar, sigma_P (face-generations at age > T0) | 31.253, 5.24 | 42.448, 5.96 |
+| P / P bar at lags 32, 16, 8, 4, 2, 1 | 0.998, 0.955, 0.676, 0.314, 0.114, 0.052 | 0.995, 0.952, 0.619, 0.231, 0.081, 0.038 |
+| live cells at lag 1: mean (5%, median, 95%) | 1.62 (1, 1, 4) | 1.60 (1, 1, 4) |
+| plunge, last P >= P bar/2 to empty: median (IQR, 5-95%) | 7 (5-9, 3-14) | 8 (6-10, 4-15) |
+| final excursion, last P >= U to empty: median (IQR) | 10 (7-14) | 11 (8-14) |
+| q(k), death after a dip reaching <= k: k = 1, 2, 3, 4, 6, 9 | 0.769, 0.499, 0.298, 0.180, 0.064, 0.014 | 0.769, 0.496, 0.295, 0.176, 0.058, 0.012 |
+| point of no return k* (q = 1/2) | 2.00 cells (0.064 P bar) | 1.98 cells (0.047 P bar) |
+| ln nu(min <= 3) per face-generation | -12.43 | -16.93 |
+| edge / vertex / opposite neighbours at death, over P bar | 0.772 / 0.960 / 0.999 | 0.808 / 0.972 / 1.001 |
+| last live cells (lag 1) over stationary share: rim row, row 1, row 2, rows >= 3 | 1.10, 1.01, 0.84, 0.79 | 1.14, 1.06, 0.80, 0.80 |
+| same, by corner distance < 1, 1-2, 2-3, >= 3 cube units | 0.91, 1.17, 1.04, 0.92 | 0.93, 1.24, 1.13, 0.90 |
+| which face dies: chi2 against uniform (7 dof); co-deaths | 5.9; 1 | 6.7; 0 |
 
-## Interim, R = 13 (A = 84), 04:05 UTC: 1,351 face deaths, 1,515 dumped, 14,870 recovered dips
+In words:
 
-Partial files (`data/R13_interim_0405.txt`, `data/R13_condq_interim_0405.txt`; the ln tau there is biased low
-because open lives are not yet written, and condq's death weight is off by the same lag). What is already clear:
-- **q at a fixed number of live cells does not depend on the size.** q(1), q(2), q(3), q(4), q(6) = 0.760, 0.485,
-  0.286, 0.171, 0.059 at A = 84 against 0.769, 0.499, 0.298, 0.180, 0.064 at A = 63; k* = 1.95 against 2.00 live
-  cells. So the e^4.5 between the two lifetimes is all in how often a dip reaches a few cells (ln nu(min <= 3) =
-  -16.93 against -12.43), none in the last cells.
-- The collapse has the same shape and is one generation slower: P/P bar 0.942, 0.603, 0.226, 0.037 at lags 16, 8,
-  4, 1 (A = 63: 0.955, 0.676, 0.314, 0.052); plunge from P bar/2 median 8 (A = 63: 7); 1.56 cells at lag 1.
-- The rim again: last cells 1.16 x stationary share in the rim row, 0.81 and 0.76 in rows 2 and >= 3; and q at
-  first passage to 4 cells rises from 0.067 (none on the rim) to 0.118 (all four), to 6 cells from 0.008 to 0.045.
-- Edge neighbours at 0.809 of P bar at death, vertex neighbours 0.971, opposite 0.996.
+- **[measured] The decision is made in the last two or three cells, and it does not depend on the size of the
+  face.** Once a dip from above P bar has reached k live cells, the chance it ends in death is the same at 63 and
+  84 cells to within 0.005 at every k <= 9 (table). A face that reaches two cells dies half the time; at three, 30%;
+  at six, 6%. So the factor e^4.5 between the two lifetimes is entirely in how often a dip gets down to a few cells
+  (ln nu(min <= 3): -12.43 against -16.93), none of it in the endgame. In units of P bar the point of no return moves
+  down (0.064 to 0.047): it is a number of cells, not a fraction.
+- **[measured] On average a death is a whole-face collapse of about 16 generations, the same at both sizes and one
+  generation slower at 84 cells.** Before lag ~20 the dying face is at its stationary population (and the 4,000
+  generations before that are flat at 1.00 +- 0.005: no slow run-up). Round 1 (c1, another recorder, soup 0.4) gave
+  0.95, 0.67, 0.31 at lags 16, 8, 4 and 1.61 cells at lag 1 at A = 63: **agreement** to 0.01.
+- **[measured] Dips that die and dips that recover look identical on the way down.** Aligned at the first
+  generation with P <= k, the mean population before it agrees within about 1 cell at every offset (k = 3, A = 63:
+  27.5 / 27.6 at -8, 19.4 / 18.8 at -4, 10.7 / 9.5 at -2), and the descent from the last P >= U takes the same time
+  (median 7 at A = 63, 8 at A = 84, both kinds; `data/R*_equal_depth.csv`). They part only after the passage:
+  recovering dips are back to half P bar about 8 (A = 63) to 10 (A = 84) generations after it.
+- **[measured] Where the last cells sit: by the rim, next to (not in) the corners, away from the interior.** The
+  rim row (shared with the edge neighbour) holds 1.10-1.14 of its stationary share of the last live cells, rows 2
+  and deeper 0.76-0.84. The three corner cells themselves (stationary occupancy 0.26) are slightly under-represented
+  (0.91-0.93), the cells one to two units from a corner over-represented (1.17-1.24). A stationary face thinned at
+  random gives 1.00 +- 0.03 everywhere, so this is not geometry. Per-cell maps: figure panels D, E.
+- **[measured] And survivors on the rim and spread-out survivors are the ones that die.** q at the first passage of
+  a dip to exactly k cells, by how many of the k sit in the rim row (`data/R*_condq.csv`):
+
+  | k | A | 0 on rim | 1 | 2 | 3 | 4 | 5 | 6 |
+  |---|---|---|---|---|---|---|---|---|
+  | 4 | 63 | 0.061 +- 0.021 | 0.080 | 0.101 | 0.130 | 0.145 +- 0.027 | | |
+  | 4 | 84 | 0.058 +- 0.018 | 0.090 | 0.104 | 0.112 | 0.135 +- 0.030 | | |
+  | 6 | 63 | 0.006 +- 0.013 | 0.019 | 0.022 | 0.028 | 0.041 | 0.043 | 0.059 +- 0.040 |
+  | 6 | 84 | 0.012 +- 0.013 | 0.016 | 0.027 | 0.027 | 0.039 | | |
+
+  Spread matters more: survivors more spread than the median pair distance die 1.3-1.7 times as often (k = 3:
+  0.243 against 0.155 at A = 63, 0.251 against 0.147 at A = 84). The rim effect is partly the spread (rim cells lie
+  along three edges) but not wholly: among clumped remnants, those with more than half their cells on the rim die
+  about 1.5-2 times as often (k = 6: 0.038 against 0.020 at A = 63, 0.041 against 0.020 at A = 84; k = 4: 0.112
+  against 0.074, 0.096 against 0.071); among spread remnants the rim adds less and at k = 3 (A = 84) nothing.
+  Survivors near corners: a weak, non-monotone effect. So the excess of rim cells among the last survivors is the
+  rim's poorer prospects, not the rim holding out; a remnant that keeps a clump in the interior comes back.
+- **[measured] Neighbours:** the three edge neighbours lose 19-23% by the moment of death, mostly in the shared rim
+  row (which is the dying face's own; round 1 measured this split at A = 63), the vertex neighbours 3-4%, the
+  opposite face nothing. They start to fall about 16 generations before death, with the dying face.
+
+**[conjectured] For the theory session.** The rimmed-face price (0.231 per cell against 0.209 wrapped) cannot be
+in the endgame, which is size-independent here; it must be in nu, the rate at which dips reach a few cells, and the
+hull face's own contribution to that is its rim: the rim row is where a thin hull face's survivors gather (it is
+denser in the living face, 0.48-0.50 at the edge row against 0.26 at corners) and where they do worst. The direct
+test is the wrapped faces' q(k) and nu(k) from the other half of this study: if their q(k) matches these to the same
+0.005, the two prices are all in nu.
+
+## Forecasts, scored (`PREDICTIONS.md`)
+
+| | forecast | found | |
+|---|---|---|---|
+| H1 | ln tau within 2 sigma of the GPU | +1.4 sigma (63), +0.8 sigma (84) | held |
+| H2 | P bar within 0.15 / 0.25 | 31.253, 42.448 | held |
+| H3 | A = 63 lag 4 in 0.26-0.36, lag 8 in 0.60-0.74, lag 16 >= 0.90 | 0.314, 0.676, 0.955 | held |
+| H4 | plunge median 6-8 at 63, longer by 0-2 at 84 | 7, 8 | held |
+| H5 | k* 2-3.5 (63) and 2-4 (84); smaller in P bar at 84 | 2.00, 1.98; 0.064 -> 0.047 | 63 held (at the edge), 84 **failed** by 0.02; second part held |
+| H6 | q(3) at 84 within x1.5 of 63 | 0.295 against 0.298 | held (far inside) |
+| H7 | rim-row share of last cells over stationary in 1.05-1.40 | 1.10, 1.14 | held |
+| H8 | last cells under-represented within 1.5 units of a corner | 1.13, 1.17 (over; the 9 cells within 1 unit: 0.91, 0.93) | **failed** |
+| H9 | uniform over the 8 faces | chi2 5.9, 6.7 on 7 | held |
+| H10 | edge nb 0.70-0.88, vertex and opposite >= 0.93 at death | 0.772 / 0.808; 0.960 / 0.972; 1.00 | held |
+| H11 | dying dips descend faster than recovering ones | same medians (7 / 7, 8 / 8) | **failed** |
+| H12 | a recovered dip's minimum more clumped than a dying face at equal count | pair distance 1.71 vs 2.08 (k = 3), 2.30 vs 2.50 (6) at 63; 1.91 vs 2.38, 2.64 vs 2.86 at 84 | held |
+
+"Against my reading" (rim holding out, corners irrelevant): H7 held but the reading behind it did not: the rim
+excess is there because rim remnants die, not because the rim is fed and holds out (the q-by-class table).
+
+## Agreement with research/dying (rounds 1-4, A = 63 c1 and A = 84, soup 0.4, other recorders)
+
+- Time course and lag-1 count: agree (above). Neighbours at death 0.772 against round 1's 0.77.
+- q and the point of no return: round 2 q(0.1 P bar) = 0.300 against q(3) = 0.298 here; p* = 0.079 P bar there with
+  the strict level "min < p P bar", the same integer point (min <= 2) as k* = 2 here.
+- ln nu(0.9 P bar) = -2.311 (round 2 -2.31). P bar 31.253 (round 1 review 31.25), 42.448 (round 2: 42.49 +- 0.09).
+- Round 3's "the patch sits on the rim side of its centroid more often than on the centre side (not quantified)" is
+  quantified here (rows). Round 2's lopsidedness and round 4's company were not recomputed.
 
 ## What was measured, and what each number rests on
 
 - **Recorder `hd.c`**: research/gpu-local/cpu/fr.c's bit-sliced stepper (256 lanes per thread, AVX2), copied, on the
-  hull's neighbour table (`hullvessel.py`, built with fl.Vessel as hullface.py does, numpy only). Events every
-  generation: a face empty (kind 1), period 1-2 (kind 2), cycles caught by snapshots (kind 3; none occurred at
-  R = 11). Per lane: a ring of the 8 face populations (4,096 generations) and of the 366 face-layer cells (1,024),
-  dumped at the first 1,500 deaths per thread (4,500 in all, lags to 4,095) and at the first 300 recovered dips per
-  minimum value 1..12 per thread (900 per value: 1,024 generations of populations, 256 of states). Null: every
-  lane at age > 2,000 every 9,973 generations (90,000 face-states x 8 faces). Excursions follow round 2 exactly, with
-  U = 32 (P >= 32 is "above P bar = 31.25").
-- **Stepper = engine, every generation** (`validate.py 11 3000 7`, `validate.py 13 3000 8`): 5 lanes (0, 63, 64,
-  130, 255) of hd.c's own soups, 3,000 generations, against `gump run --cells` in open space: all equal at both
-  sizes; the face counter equals numpy on all 256 lanes x 8 faces x 3,000 generations. Negative controls: the engine
-  one generation later differs in 2,999 of 2,999 generations; one flipped face node differs in 3,000 of 3,000.
-  Log: `data/validate.log`.
-- **Every dump is checked as it is read** (`analyze.py`): ring populations equal popcounts of the stored states (first
-  300 deaths and dips); the named face is empty at the last generation and not one before (all 4,500); a recovered
-  dip ends at P >= U with its minimum where the header says and nothing lower in the excursion (all).
-- **End to end**: ln tau_face from the lives file against the GPU's value (above); dead excursions 42,489 against
-  42,494 face deaths (the 5 are deaths at age 201 and the co-death).
+  hull's neighbour table (`hullvessel.py`: fl.Vessel as hullface.py builds it, numpy only, no GPU). Events every
+  generation: a face empty (kind 1), period 1-2 (kind 2), cycles caught by snapshots at multiples of 2^10, 2^14,
+  2^18 (kind 3; none occurred). Per lane, rings of the 8 face populations (4,096 generations) and of the face-layer
+  cells (366 / 510; 1,024 generations), dumped at deaths (first 1,500 per thread; all at R = 13) and at recovered
+  dips (first 300 per minimum value 1..12 / 1..17 per thread; 1,024 generations of populations, 256 of states).
+  Null: every lane at age > 2,000 every 9,973 generations (30,000 face-states per thread, 8 faces each).
+  Excursions follow round 2 exactly, U = 32 and 43.
+- **Stepper = engine, every generation** (`validate.py 11 3000 7`, `validate.py 13 3000 8`; `data/validate.log`):
+  5 lanes (0, 63, 64, 130, 255) of hd.c's own soups, 3,000 generations each size, against `gump run --cells` in
+  open space (the hull is exact): all equal; the production face counter equals numpy on 256 lanes x 8 faces x
+  3,000 generations. Negative controls: the engine one generation later differs in 2,999 of 2,999 generations; one
+  flipped face node differs in 3,000 of 3,000.
+- **Each dump is checked as read** (`analyze.py`): ring populations equal popcounts of the stored states (first 300
+  deaths and dips); the named face is empty at the last generation and not one before (all deaths); a recovered dip
+  ends at P >= U with its minimum where the header says and nothing lower in its excursion (all).
+- **End to end**: ln tau_face from the lives files against the GPU's values (table); dead excursions equal face
+  deaths (42,489 / 42,494; 4,205 / 4,205); ν·q = death rate by construction.
 
-Commands (from the repository root, P = C:\Users\kdbanman\.venvs\gump-gpu\Scripts\python.exe):
+## Reproduce (from the repository root; P = C:\Users\kdbanman\.venvs\gump-gpu\Scripts\python.exe)
 
-    P research/dying2/hull/hullvessel.py 11; P research/dying2/hull/hullvessel.py 13     # vessels
-    P -u research/dying2/hull/validate.py 11 3000 7                                     # VALIDATE OK
-    bash research/dying2/hull/run.sh 11 0.1667 1100       # 10 min, 3 threads: 4.5e9 replica-generations
-    P -u research/dying2/hull/analyze.py 11 run_11_s1100  # ~1 min -> data/R11_*.csv, data/R11_analyze_out.txt
-    P -u research/dying2/hull/condq.py 11 run_11_s1100    # ~20 s  -> data/R11_condq.csv, data/R11_condq_out.txt
+    P research/dying2/hull/hullvessel.py 11; P research/dying2/hull/hullvessel.py 13      # vessels (scratch)
+    P -u research/dying2/hull/validate.py 11 3000 7; P -u research/dying2/hull/validate.py 13 3000 8   # VALIDATE OK
+    bash research/dying2/hull/run.sh 11 0.1667 1100      # 10 min x 3 threads: 4.5e9 replica-generations
+    bash research/dying2/hull/run.sh 13 1.6667 1300      # 100 min x 3 threads: 4.0e10 (machine shared: ~1.7e6 /s/thread)
+    bash research/dying2/hull/run.sh 13 1.75 1310        # the second R = 13 seed set
+    P -u research/dying2/hull/analyze.py 11 run_11_s1100               # ~1 min -> data/R11_*.csv, R11_analyze_out.txt
+    P -u research/dying2/hull/analyze.py 13 run_13_s1300 run_13_s1310  # likewise R = 13
+    P -u research/dying2/hull/condq.py 11 run_11_s1100                 # -> data/R11_condq.csv, R11_condq_out.txt
+    P -u research/dying2/hull/condq.py 13 run_13_s1300 run_13_s1310
+    P research/dying2/hull/figure.py                                   # hull_dying.svg
 
-(The R = 11 production ran an earlier build, `hd.exe`, that wrote excursion lines down to minimum 12 instead of 4;
-nothing else differs, and no table uses those lines.)
+The R = 11 production ran an earlier build (`hd.exe`) that wrote excursion lines down to minimum 12 instead of 4;
+nothing else differs, and no table uses those lines. Bulk output (~1.6 GB) is in `research/scratch/dying2-hull/`.
 
 ## Tables (`data/`)
 
-`R{R}_death_timecourse.csv` (dying face by lag: mean, 5/25/50/75/95%, neighbours), `R{R}_excursions.csv` (nu, q by
-k), `R{R}_equal_depth.csv` (dying vs recovering aligned at first P <= k), `R{R}_positions.csv` (row and corner
-shares over stationary, pair distance), `R{R}_cells.csv` (per canonical cell: row, corner distance, stationary
-occupancy, occupancy at lag 1), `R{R}_condq.csv` (q at first passage to exactly k, by where the survivors sit).
+`R{R}_death_timecourse.csv` (dying face by lag 0..4000: mean, 5/25/50/75/95%, neighbours), `R{R}_excursions.csv`
+(nu, q by k), `R{R}_equal_depth.csv` (dying against recovering, aligned at the first P <= k), `R{R}_positions.csv`
+(row and corner shares over stationary, pair distance), `R{R}_cells.csv` (per canonical cell: row, corner distance,
+stationary occupancy, occupancy at lag 1), `R{R}_condq.csv` (q at first passage to exactly k, by where the
+survivors sit), `R{R}_analyze_out.txt`, `R{R}_condq_out.txt` (the printed tables), `validate.log`.
 
 ## Not checked
 
-- No second code for the dying statistics (one recorder; its stepper is engine-checked on 5 lanes x 3,000
-  generations per size, its counter on all lanes).
-- The null samples are not conditioned on the face living on afterwards (round 1 showed < 0.01 effect in c1).
-- q by class uses weights from the hist files for the capped recovered dumps; its errors (effective-count
-  binomial) are approximate.
+- No second code for the dying statistics: one recorder, whose stepper is engine-checked (5 lanes x 3,000
+  generations per size) and whose counter is checked on all lanes; the event logic is checked end to end only
+  through ln tau and the dump checks.
+- The null samples are not conditioned on the face living on (round 1: < 0.01 effect in c1).
+- q by class uses weights from the hist files for the capped recovered dumps; errors are effective-count binomial,
+  approximate. The rim x spread split is one cut (median spread, half the cells on the rim); no regression.
+- Where the last cells sit is measured on the dying face only; the edge neighbour's rim row is the same cells, but
+  the neighbour's own interior was not mapped.
+- Recovered dips are capped per minimum value (900 or more per value) and are the first ones of each run, not a
+  random sample in time (the runs are stationary after T0, so this should not matter; not tested).
