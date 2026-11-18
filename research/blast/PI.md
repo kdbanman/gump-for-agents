@@ -89,14 +89,20 @@ after its own check; the PI never merges it.
   `diag.sh` (ancestry at 108 cells; odd sweeps off), and the depth series the PI offered (noise at depth >= d for
   d = 2 .. 6 by brute force at 63 cells, `nz R brute SEED GENS M DW DO`), then score block 3 when the lead's
   rebuild reports brute force at 84 cells.
-- **In flight (agents, both Opus at xhigh, started 18:25 UTC):** `lean-thickness` (T6 in full: no finite sealed
-  set in the lattice and in slabs of three or more layers; the converse of the sealing lemma; the small sealed
-  sets; files `lean/Gump/Thick*.lean`) and `lean-link` (the neighbourhood is symmetric; `stepFin` proved equal
-  to `step`; a differential test against the oracle that is more than a sample, `lean/difftest.sh`; eventual
-  periodicity of finite seeds; the speed limit; then T5). Neither edits the shared files: **owed when each
-  reports:** read its statements against the paper ones, add its imports to `Gump.lean`, its lines to
-  `Axioms.lean` and `check.sh`, its rows to `lean/README.md`, run `sh research/blast/lean/check.sh`, commit
-  (a commit that touches `research/blast/lean/` only), push, and tell the lead on the pull request what is new.
+- **`lean-thickness` reported at 19:15 UTC and is integrated** (48 theorems in `lean/Gump/Thick*.lean`: T6 in
+  full, Lemma 1 both ways, the small sealed sets with one-layer minimality proved for every layer, the 9-core,
+  pockets, sealed half-spaces iff body diagonals; imports, `Axioms.lean` (46 theorems), README rows and
+  `STATEMENTS.md` (written by `statements.py`: add a row there for every new headline theorem) are in; pushed).
+  Its open ends: Proposition 5's minimality (36) is not in Lean; `set36` not compared with `sealed.py`'s set; the
+  torus clause is stated on the cover.
+- **In flight (agent, Opus at xhigh, started 18:25 UTC):** `lean-link` (the neighbourhood is symmetric; `stepFin`
+  proved equal to `step`; `difftest.sh`; a torus; eventual periodicity; speed limit; a bit-parallel stepper and
+  kernel-checked oscillator certificates; T5's window budget in `mathlib/`). It does not edit the shared files.
+  **Owed when it reports:** read its statements against their sources, add imports to `Gump.lean` (and
+  `GumpMath.lean`), lines to `Axioms.lean` and `check.sh` (add `--wfail`), rows to `lean/README.md` and
+  `statements.py`, run `sh research/blast/lean/check.sh`, commit (lean-only), push, tell the lead on the pull
+  request what is new. The lead asked where Lean is headed and proposed the signal laws (the gun's loop, the unzip
+  law, the call law) as theorems; the PI asked for where they are stated exactly (comment of 19:05 UTC).
 - **In flight (CPU):** tracked job `sh research/blast/noisy/diag.sh` (started 17:56 UTC, about 100 minutes; rows in
   scratch `runs_diag/`; read with `python3 research/blast/noisy/anc.py` and `tails.py research/scratch/blast/noisy/runs_diag`).
   Tracked job fetching Mathlib into `research/blast/lean/mathlib/` (`lake update`, `lake exe cache get`).
