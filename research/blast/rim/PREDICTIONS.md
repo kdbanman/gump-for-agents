@@ -31,3 +31,11 @@ beside narrower faces die sooner. At L = 3 a row costs 0.169 to 0.174 per cell f
   in strips") = 25%.
 - **R6.** ln tau of (10,10,4) (60 cells): 13.55 +- 0.12 (12 cells at about 0.205). ln tau of (12,12,4): 16.0 +- 0.2.
 - **R7.** (8,8,6) long run: 16.55 +- 0.06 (length price at 8 rows, 5 -> 6: 0.224 +- 0.005 per cell). 70%.
+
+## Block 3: 03:41 UTC, before prism(8,10,4), prism(8,10,5) (8-row faces beside 10-row faces) and par 1
+
+- **R8.** An 8-row face beside 10-row faces (depth 10) outlives the same face beside 8-row faces:
+  (8,10,4) 8-row class > 11.0896 by 0.02 to 0.15: 55%; within +-0.02: 35%. At L = 5, > 13.864 by more than 0.04: 50%.
+  (Beside 6-row faces it lived 0.04, 0.22, 1.17 less at L = 4, 5, 6, but the 8 x 6 rod may be dying as a rod.)
+- **R9.** par 1 (obtuse rim row sparse, sharp rim row dense), (8,8,4,1) against (8,8,4,0) = 11.090: lower, by 0.2
+  to 1.2: 60% (the dense sharp row was cheap in the odd widths: 0.107 a cell).
