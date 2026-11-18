@@ -136,3 +136,19 @@ billed by the hour, no limit."
   to the lead (Orchestrator) covering the 120-cell tube (interim, six of eight runs: 24.497 +- 0.019 against the forecast
   24.576), the three subagents, and the CPU second code; then the scoring block and README row as listed above.
 - Threads now: the CPU second code uses 4 of 16; nothing else of ours is running on the CPU.
+
+## Addendum, 2026-11-18T12:04Z
+
+- Chain 3 is finished and scored (README "Chain 3", `PREDICTIONS.md` block 9): the 120-cell tube is 24.5086 ± 0.0169,
+  below every forecast.
+- **Running on the card until about 12:30Z on 2026-11-20:** `research/scratch/gpu-local/chain4.sh` (log `chain4.log`
+  beside it): (1,19),(0,42), 126 cells, eight runs of 180 minutes, then (1,20),(0,44), 132 cells, the same. Forecasts:
+  block 9. The script commits and pushes its rows itself after each face (`chain4_summary.txt` with them). Owed after
+  each face: `eq_analyze.py H K D save`, a scoring block, a README row, a `USAGE.md` line, one message to the lead.
+  It may be stopped between runs if the lead's queue has something more urgent (a run writes its row only at its end).
+- **Running on the CPU until about 19:30Z on 2026-11-18:** `chain_cpu.sh`, the 96-cell tube's third stretch. Owed:
+  the final `fr.py summary` values in the README.
+- The lead was messaged at about 12:15Z on 2026-11-18 about the 120-cell tube, the three subagents and the CPU
+  second code. No new note in `research/GPU-QUEUE.md` since 04:54Z on 2026-11-17 (fetched 12:02Z on 2026-11-18).
+- The theory session's report is `research/blast/REPORT.md` on `origin/claude/exciting-hamilton-0h2tr1`; it reads
+  `research/dying2/` from this branch.
