@@ -459,6 +459,15 @@ _Last updated 2026-11-14 by the lead._
   19 of the overview; `research/check.sh` and the merge of pull request 35; the other session's pull request for
   `research/blast/` (the lead's own check before anything of it is recorded); the card's `research/dying2/` and the
   120-cell tube (about 13:00 UTC).
+  **12:07 UTC, after the reset** (the card at 12:02 UTC: weekly 5%, Fable 9%; the standing ceiling of 95% applies
+  again). The card reports the 120-cell tube at 24.5086 ± 0.0169, below every forecast; its `research/dying2/`
+  studies are final; its branch at a09f8d3 goes to main by a pull request opened now. The other session's work is on
+  `claude/exciting-hamilton-0h2tr1` (`research/blast/REPORT.md`: a wrapped face "busts", over-filling and crashing;
+  a hull face fades); it went on working after the reset, which its prompt did not cover: the owner is told.
+  **Running (Fable):** an outside audit of that report with a rebuild on the oracle (`research/audit/REVIEW-blast.md`,
+  `research/audit/blast/`); an adversarial review of the ninth signals push (`research/audit/REVIEW-signals-9.md`).
+  **Next:** an Opus recomputation of the card's 120-cell tube and CPU rows and an audit of `research/dying2/` once
+  its branch is merged; then records, the essay and the owner's journal, one site update and version 19.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
