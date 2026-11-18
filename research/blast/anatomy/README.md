@@ -39,7 +39,7 @@ the automaton's speed limit in a face is 1 unit per generation). Labels: **[meas
 | tube60 | (1,8),(0,20), loop² 12, 5 long | 60 | 8,223 | 12.4168 ± 0.0110 | 12.4230 ± 0.0025 (same file) |
 | t63 | torus (1,4),(0,21), loops² 21 | 63 | 7,899 | 13.1547 ± 0.0113 | 13.1622 ± 0.0007 |
 | tube63 | (1,6),(0,21), loop² 9, 6.1 long | 63 | 8,023 | 12.8448 ± 0.0112 | none; 7,811 lives ended by a transverse firewall instead |
-| t75 | torus (1,9),(0,25), loops² 19, 25 | 75 | T75D | T75L | 15.6442 ± 0.0030 |
+| t75 | torus (1,9),(0,25), loops² 19, 25 | 75 | 1,144 | 15.6501 ± 0.0296 | 15.6442 ± 0.0030 |
 | t84 | torus (1,4),(0,28), loops² 21, 28 | 84 | T84D | T84L | 17.5387 ± 0.0031 |
 | h45 | hull radius 9 | 45 | 14,365 | 9.8142 ± 0.0083 | 9.819 |
 | h63 | hull radius 11 | 63 | 7,390 | 13.6205 ± 0.0116 | 13.633 |
@@ -86,9 +86,9 @@ P = 32, 2.0 at P = 8 (living face 1.34); h63 1.8 at 32, 4.2 at 8 (living face 1.
 
 | | t48 | tube54 | tube60 | t63 | tube63 | t75 | t84 | h45 | h63 | h84 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| deaths with a one-generation fall of ≥ half the face | 0.572 | 0.565 | 0.567 | 0.590 | 0.512 | T75F | T84F | 0.022 | 0.016 | H84F |
-| the same in a 10-generation window of the living face | 0.0075 | 0.0050 | 0.0022 | 0.0015 | 0.0017 | T75C | T84C | 0.0001 | 0.0000 | H84C |
-| largest one-generation fall, median (cells) | 25 | 28 | 31 | 32 | 31 | T75M | T84M | 10 | 13 | H84M |
+| deaths with a one-generation fall of ≥ half the face | 0.572 | 0.565 | 0.567 | 0.590 | 0.512 | 0.601 | T84F | 0.022 | 0.016 | H84F |
+| the same in a 10-generation window of the living face | 0.0075 | 0.0050 | 0.0022 | 0.0015 | 0.0017 | 0.0009 | T84C | 0.0001 | 0.0000 | H84C |
+| largest one-generation fall, median (cells) | 25 | 28 | 31 | 32 | 31 | 39 | T84M | 10 | 13 | H84M |
 
 [measured, t63, the 4,659 deaths with such a fall] Population before the fall 48.5 (10–90%: 46–52; the stationary
 probability of P ≥ 46 is 0.0024, mean 32.6, s.d. 4.94), after it 11.6 (8–15); births in that generation 1.9; of
