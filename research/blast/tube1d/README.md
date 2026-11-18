@@ -47,7 +47,7 @@ header), `validate.py` + `validate_all.sh` (oracle check), `bandfit.py`, `margfi
    [measured, §6]: the dice need 3 generations to reach the face, a death takes 5–8 from one standard deviation
    below the mean, and half of the variance of the outcome is already decided by the state when the population
    first crosses half (clone test). Replications of the whole estimator scatter by 0.07 at 48 cells, 0.3 at 63,
-   0.75–1.2 at 84 (7×10⁵ trials per level), biased upward. **No lifetime of a tube longer than 9 units was
+   0.75–1.2 at 84 (7×10⁵ trials per level). **No lifetime of a tube longer than 9 units was
    measured here.** The curves beyond are extrapolations of item 3.
 
 6. **The trace reading passes with multiplicity 2** [measured, §5]: bands and tubes fitted with one c∞ and one ξ
