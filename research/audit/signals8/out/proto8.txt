@@ -1,0 +1,26 @@
+PASS A  the empty cell (capL + 7^N + right cap) has 38 + 5N cells and period exactly 2 for N = 4..30 (so it stands for ever)  [1 s]
+PASS A  N = 7 (73 cells): equal to the start at every even generation up to 20000  [44 s]
+PASS B  set on N = 7: R@5 and L@10 at generation 0 give exactly 777df77 from generation 6 on (period 2)  [44 s]
+PASS B  N = 9, every pair R@p, L@q (places 0..8) in one generation: exactly the pairs with 1 <= p, q - p odd and >= 3 leave one df (9 pairs), with d at place (p + q - 1)/2: True  [87 s]
+PASS B  ... the empty cell again, for 1 <= p <= 7, exactly when q >= 2 and (q - p even and >= 4: the pulses pass; or q <= p - 2: they part): 16 pairs  [87 s]
+PASS B  CORRECTION to "u' - u even: they pass": 28 pairs burn the whole cell down to 12 cells: every pair with q - p = 2 (p >= 1), with q <= 1, or with p = 8  [87 s]
+PASS B  ... and 15 pairs leave another object (every pair with |q - p| = 1 away from the caps, and pairs with p = 0): e.g. (3,4): [bbb8e^5: 82 cells]; (4,3): [bbbae^5: 83 cells]; (0,4): None  [87 s]
+      p=0: --           [_^9: 12 cel [bba?e^5: 80 E            E            E            [b5f8f8eee:  E            [b5f8f8f8e: 
+      p=1: [_^9: 12 cel --           [b8e^7: 82 c [_^9: 12 cel 77df7^5      E            777df7^4     E            7^4df777    
+      p=2: [_^9: 12 cel [_^9: 12 cel --           [bb8e^6: 82  [_^9: 12 cel 777df7^4     E            7^4df777     E           
+      p=3: [_^9: 12 cel [_^9: 12 cel [bbae^6: 83  --           [bbb8e^5: 82 [_^9: 12 cel 7^4df777     E            7^5df77     
+      p=4: [_^9: 12 cel [_^9: 12 cel E            [bbbae^5: 83 --           [b^48e^4: 82 [_^9: 12 cel 7^5df77      E           
+      p=5: [_^9: 12 cel [_^9: 12 cel E            E            [b^4ae^4: 83 --           [b^58eee: 82 [_^9: 12 cel 7^6df7      
+      p=6: [_^9: 12 cel [_^9: 12 cel E            E            E            [b^5aeee: 83 --           [b^68ee: 82  [_^9: 12 cel
+      p=7: [_^9: 12 cel [_^9: 12 cel E            E            E            E            [b^6aee: 83  --           [b^78e: 82 c
+      p=8: [_^9: 12 cel [_^9: 12 cel [_^9: 12 cel [_^9: 12 cel [_^9: 12 cel [_^9: 12 cel [_^9: 12 cel [_^9: 12 cel --          
+PASS C  set (R@8, L@21): df with d at place 10 from generation 14  [87 s]
+PASS C  add one / bit read "full" (R@6): the pulse is absorbed, count 2, and at no even generation does any unit right of the edge differ from the standing cell  [88 s]
+PASS C  add one from the right (L@27): count 3, the edge one unit to the right  [89 s]
+PASS C  add one from the left (R@5): count 4, the wall one unit to the left  [89 s]
+PASS C  count read (R@11, the unit before the wall at place 8): from generation +14 the whole state is the empty cell with exactly 4 units b, two apart (4 even generations); as capL swallows them the trains seen are ['b', 'b7b', 'b7b7b', 'b7b7b7b']  [91 s]
+PASS C  ... and the cell is exactly the empty cell from generation +34 after the read  [91 s]
+PASS C  bit read "empty" (R@6 on the empty cell): the pulse 6f is at place 18 at generation 34, whole state exact; then the right cap swallows it: the empty cell  [92 s]
+PASS D  count read for k = 1..20 (N = 3k + 12, 2k + 10 units of wire before the wall): at every even generation t from 2k + 6 to 4k + 20 the whole state is the empty cell with exactly k units b two apart, the leading one at place (wall + 2 - t/2), and at no even generation before 2k + 6; at 8k + 160 exactly the empty cell, period 2 (whole-state checks per k: 9..28)  [139 s]
+PASS E  transfer: stores 1 (place 4) and 3 (place 14); count read of the right one; the left one holds 4 and the right one is gone  [140 s]
+PASS E  ... k = 1..8 into a receiver df four units of wire away: the receiver holds k + 1 (it grows on the side the pulses come from, into the place the store has left)  [144 s]
