@@ -94,9 +94,12 @@ def main():
                 bad += 1; print('  MISMATCH', k, n, m, len(got), len(want), last)
         print(f'small: {K} random CNFs ({unsat} with no solution, {nsol} projected solutions in all): {K - bad} agree with brute force, {bad} differ; {time.time() - t0:.0f} s')
     elif mode in ('medium', 'resume'):
-        K = K or (40 if mode == 'medium' else 12); nsol = 0; conf = 0; stops = 0
+        K = K or (40 if mode == 'medium' else 12); nsol = 0; conf = 0; stops = 0; splits = 0
         for k in range(K):
-            n = rnd.randint(60, 140); m = int(n * rnd.uniform(3.9, 4.3))
+            if mode == 'medium':
+                n = rnd.randint(60, 140); m = int(n * rnd.uniform(3.9, 4.3))
+            else:
+                n = rnd.randint(150, 190); m = int(n * rnd.uniform(4.0, 4.2))     # hard enough to be stopped
             cl = rand3(rnd, n, m); proj = rnd.sample(range(1, n + 1), rnd.randint(8, 12))
             want = pysat_enum(n, cl, proj)
             write(stem, n, cl, proj)
@@ -124,6 +127,7 @@ def main():
                 rc, parent, last = run(stem, secs=0.01)
                 union = set(parent)
                 if rc == 3:
+                    splits += 1
                     for bits in itertools.product((0, 1), repeat=2):
                         cs = stem + f'.child{bits[0]}{bits[1]}'
                         open(cs, 'w').write(''.join(f'S {s}\n' for s in parent))
@@ -135,7 +139,7 @@ def main():
             nsol += len(want)
             if not ok:
                 bad += 1; print('  MISMATCH', k, n, m, len(got), len(want), last)
-        print(f'{mode}: {K} random 3-CNFs of 60..140 variables ({nsol} projected solutions in all{", " + str(stops) + " stops and resumes" if mode == "resume" else ""}): '
+        print(f'{mode}: {K} random 3-CNFs of {"60..140" if mode == "medium" else "150..190"} variables ({nsol} projected solutions in all{", " + str(stops) + " stops and resumes, " + str(splits) + " instances split as pool7 splits" if mode == "resume" else ""}): '
               f'{K - bad} agree with pysat glucose4, {bad} differ; {time.time() - t0:.0f} s')
     elif mode == 'hard':
         # harder instances: thousands of conflicts each, so that restarts and learnt-clause deletion are exercised

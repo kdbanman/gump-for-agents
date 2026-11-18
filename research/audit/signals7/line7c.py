@@ -90,11 +90,16 @@ def main():
             if out != 'same object':
                 print(f'    {where}: {out}: e.g. unit {v[0][0]} phase {v[0][1]} cell {v[0][2]} ({len(v)} flips)')
     elif mode == 'robust':
-        ss = [int(x) for x in sys.argv[2:]] or [3]
+        args = sys.argv[2:]; only = None
+        if '--gun' in args:
+            k = args.index('--gun'); only = int(args[k + 1]); args = args[:k] + args[k + 2:]
+        ss = [int(x) for x in args] or [3]
         w = Ln.caps(); t0 = time.time()
         res = Counter(); fails = []
-        outfn = os.path.join(O.SCR, 'line7c_robust.json'); rows = []
+        outfn = os.path.join(O.SCR, f'line7c_robust_{"-".join(map(str, ss))}_{only}.json'); rows = []
         for g in w['guns']:
+            if only is not None and g['i'] != only:
+                continue
             for e in w['receiving']:
                 try:
                     lab = Lab(80, gun=g['cap'], end=e['cap'])
@@ -115,9 +120,23 @@ def main():
                 rows.append(row)
             print(f'  gun {g["i"]}: done, {dict(res)}, {time.time() - t0:.0f} s', flush=True)
             json.dump(rows, open(outfn, 'w'))
-        print(f'spacings {ss}: {dict(res)} of {len(w["guns"]) * len(w["receiving"])} pairs')
+        print(f'spacings {ss}: {dict(res)} of {len(rows) + res["line not standing / E + one hole does not settle"]} pairs (guns {[g["i"] for g in w["guns"]] if only is None else [only]} x {len(w["receiving"])} ends)')
         for f in fails[:40]:
             print('   ', f)
+    elif mode == 'late2':
+        # a hole made at the gun's mouth (unit N - 2) at a late generation g = 1 mod 4: the last g at which it is still
+        # written, and what a later g does
+        N = int(sys.argv[2]) if len(sys.argv) > 2 else 400
+        lab = Lab(N); e = 8; H = lab.H
+        for base in ([24, 30], [24, 30, 36], [24]):
+            r0 = lab.run(e, base); s0 = lab.sig(r0)
+            print(f'holes {base} at generation 1: {s0} (period 4 from {r0["g0"]})')
+            gs = list(range(1, 2 * N - 40, 80)) + list(range(2 * N - 39, 2 * N + 21, 4))
+            for g in gs:
+                r = lab.run(e, base, extra={g: [O.tr(c, N - 2) for c in H]}); s = lab.sig(r)
+                c = s.split(':')[1] if ':' in s and not s.startswith('OTHER') else ''
+                grew = (c.count('d') == len(base) + 1) if len(base) >= 2 else (c.count('d') == 2)
+                print(f'   + a hole made at unit {N - 2} at generation {g}: {s.split(":")[0]}{":" + rle(c) if c else ""} (from {r["g0"]}): {"one unit more" if grew else ("unchanged" if s == s0 else "OTHER OUTCOME")}', flush=True)
     elif mode == 'dense':
         import random
         N = int(sys.argv[2]) if len(sys.argv) > 2 else 400

@@ -24,8 +24,11 @@ READERS = {
     'r132': (8, (0, 2, 6), 0),
     'r663': (29, (0, 0, -2), -1),      # phi = 1: beside B the pulse passes, beside B' eater after one pulse
     'r549': (24, (0, 2, 6), 0),
+    # wire B as the reader, the same four places
+    'b13': (13, (-2, 0, 0), -1), 'b8': (8, (0, 2, 6), 0), 'b29': (29, (-2, 0, 0), -1), 'b24': (24, (0, 2, 6), 0),
+    'b19': (19, (0, 4, 10), 1), 'b22': (22, (-4, 2, -2), 0),
 }
-PHI = {'r246': 0, 'r132': 0, 'r663': 1, 'r549': 1}
+PHI = {'r246': 0, 'r132': 0, 'r663': 1, 'r549': 1, 'b13': 0, 'b8': 0, 'b29': 1, 'b24': 1, 'b19': 0, 'b22': 0}
 
 
 def in_tube(c):
@@ -53,7 +56,9 @@ class Reader:
         self.name = name; self.g = lab.SYMS[gi_]; self.gi = inv(self.g); self.phi = PHI[name]; self.ur = ur; self.u = u
         self.t = (t0[0] + 2 * u, t0[1], t0[2] - 2 * u)
         self.nr = nr
-        self.own = lab.pk(wires.capped_C(-nr, nr))
+        self.wire = 'B' if name.startswith('b') else 'C'
+        self.own = lab.pk(wires.capped_B(-nr, nr) if self.wire == 'B' else wires.capped_C(-nr, nr))
+        self.p = lab.PULSE_B if self.wire == 'B' else lab.PULSE_C
 
     def cells(self, own_gen=0):
         """the placed reader at its own generation own_gen."""
@@ -61,7 +66,7 @@ class Reader:
 
     def pulse(self, at):
         """the two cells of p> at the reader's own unit `at` (own even generation), placed."""
-        return lab.pk([lab.app(self.g, c, self.t) for c in wires.pulse(lab.PULSE_C, at)])
+        return lab.pk([lab.app(self.g, c, self.t) for c in wires.pulse(self.p, at)])
 
     def runit(self, c):
         return unit(lab.app(self.gi, (c[0] - self.t[0], c[1] - self.t[1], c[2] - self.t[2])))
@@ -88,18 +93,21 @@ def install(S, rd, settle=160):
     return ('transparent' if not D else f'junction({len(D)})'), J
 
 
-def read(J, rd, launch=-9, check=8):
-    """one pulse on the standing state J (generation divisible by 4).  Returns (what arrives, state 240 generations
-    later, verdict)."""
+def read(J, rd, launch=-9, check=8, spacing=None):
+    """one pulse (or two, `spacing` units apart) on the standing state J (generation divisible by 4).  Returns
+    (what arrives, state 240 generations later, verdict)."""
     Y = lab.run(J, rd.phi)
     X = lab.xor(Y, rd.pulse(rd.ur + launch))
+    if spacing:
+        X = lab.xor(X, rd.pulse(rd.ur + launch - spacing))
     n1 = 2 * (check - launch)
     Xc = lab.run(X, n1); Yc = lab.run(Y, n1)
     D = lab.up(lab.xor(Xc, Yc))
     far = sorted(tr(rd.back(c), -(rd.ur + check)) for c in D if rd.runit(c) - rd.ur > 3)
     backw = sorted(tr(rd.back(c), -(rd.ur + check)) for c in D if rd.runit(c) - rd.ur < -3)
-    free = sorted(wires.pulse(lab.PULSE_C, 0))
-    arr = 'pulse' if far == free else ('nothing' if not far else f'{len(far)} cells')
+    free = sorted(wires.pulse(rd.p, 0))
+    two = sorted(wires.pulse(rd.p, 0) + wires.pulse(rd.p, -spacing)) if spacing else None
+    arr = 'pulse' if far == free else 'both pulses' if far == two else ('nothing' if not far else f'{len(far)} cells')
     if backw:
         arr += f' (+{len(backw)} back)'
     Xf = lab.run(Xc, 240 - n1 - rd.phi)
@@ -115,9 +123,9 @@ def read(J, rd, launch=-9, check=8):
     return arr, Xf, f'mark({len(D)})'
 
 
-def table(names=('r246', 'r132', 'r663', 'r549'), u=42):
+def table(names=('r246', 'r132', 'r663', 'r549'), u=42, spacing=None):
     for name in names:
-        print(f'reader {name} at unit {u}:')
+        print(f'reader {name} at unit {u}:' + (f' probe: two pulses {spacing} apart' if spacing else ''))
         for n in range(1, 7):
             S = standing(n)
             _, s = line.letters(S, 36, 52)
@@ -126,8 +134,8 @@ def table(names=('r246', 'r132', 'r663', 'r549'), u=42):
             row = f'  n={n}  units 36..51 {s}  install: {v}'
             if J is not None:
                 for i in range(3):
-                    arr, J2, verdict = read(J, rd)
-                    row += f' | pulse {i + 1}: {arr}, {verdict}'
+                    arr, J2, verdict = read(J, rd, spacing=spacing)
+                    row += f' | probe {i + 1}: {arr}, {verdict}'
                     if J2 is None:
                         break
                     J = J2
