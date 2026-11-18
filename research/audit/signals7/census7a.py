@@ -45,6 +45,9 @@ def kinds(frame):
     return {n: dict(dir=x['dir'], cells=[tuple(c) for c in x['cells']]) for n, x in zip(NAMES[frame], k)}
 
 
+_F = [O.INDEX[c] for c in [(0, 1, 2), (0, 1, 4), (1, 0, 0), (1, 0, 2), (1, 0, 4), (0, 2, 3)]]
+RAKE = np.array(_F)
+RAKEM = np.zeros(O.NC, bool); RAKEM[_F] = True
 _P = {}
 
 
@@ -89,12 +92,18 @@ def canon(frame, cap):
     return tuple(key)
 
 
+SIZES = []
+
+
 def dedup(frame, caps):
+    """Distinct ends in order of first appearance.  SIZES[i]: the end's cell counts on its own units (from the first
+    unit that ever differs from the train) at the four generations of the canonical placement."""
     seen = {}; out = []
+    del SIZES[:]
     for cap in caps:
         k = canon(frame, cap)
         if k not in seen:
-            seen[k] = len(out); out.append([tuple(c) for c in cap])
+            seen[k] = len(out); out.append([tuple(c) for c in cap]); SIZES.append([len(x) for x in k])
     return out
 
 
@@ -116,10 +125,10 @@ def wireB_template(frame):
 
 
 class Census:
-    def __init__(self, frame, L=448, gmax=330, after=0):
-        self.frame = frame; self.K = kinds(frame)
+    def __init__(self, frame, L=448, gmax=None, after=0, fast=False):
+        self.frame = frame; self.K = kinds(frame); self.fast = fast
         self.set_ring(L)
-        self.gmax = gmax; self.after = after
+        self.after = after
         self.WB = wireB_template(frame)
         tr0 = O.train0('fb', KS - 40, KS)
         self.rakes = sorted((u for u in range(KS - 40, KS) if O.tr((1, 0, 4), u) in tr0), reverse=True)
@@ -127,8 +136,13 @@ class Census:
 
     def set_ring(self, L):
         self.L = L; self.ulo = KS + 24 - L + 10            # ring units ulo-10 .. KS+23 ; train on ulo .. KS-1
-        self.T = O.Tor.helix(L, self.ulo - 10)
         self.ua = self.ulo - 10
+        if self.fast:
+            import fast7
+            self.T = fast7.Ring(L, self.ua)
+        else:
+            self.T = O.Tor.helix(L, self.ua)
+        self.gmax = L - 118                                 # the last generation at which units >= KS-100 are exact
 
     def events(self):
         ev = [('word', tuple(w)) for w in WORDS] if self.frame == 'fb' else []
@@ -164,6 +178,8 @@ class Census:
         far_a, far_b = KS - 100 - self.ua, KS - 80 - self.ua
         near = KS - 30 - self.ua
         for t in range(t0, self.gmax + 1):
+            if t >= len(ys):
+                return dict(out='alive', t=t)
             y = ys[t]
             if t > t0 and np.array_equal(x, y):
                 return dict(out='healed', t=t)
@@ -174,7 +190,15 @@ class Census:
                 assert T.outside(x) == 0
                 if np.array_equal(ux[near:], uy[near:]):
                     return dict(out='sent', t=t)
-                r = dict(out='dead', t=t)
+                # how much of the stream between the far region and the end differs from the undisturbed run: a
+                # burn or a front leaves no plain train there; a changed end that had sent one signal would
+                a, b = KS - 78 - self.ua, KS - 8 - self.ua
+                r = dict(out='dead', t=t, mid=int((ux[a:b] != uy[a:b]).any(1).sum()),
+                         endcells=int(ux[KS - self.ua:].sum()))
+                # rake units left on those 70 units (read at an even generation, where a rake unit is the family
+                # unit 'f' and the plain train has 35 of them)
+                xe = x if t % 2 == 0 else T.step(x)
+                r['rakes'] = int(sum(1 for u in T.units(xe)[a:b] if u[RAKE].all() and not u[~RAKEM].any()))
                 if self.after:
                     r['then'] = self.describe(x, t)
                 return r
@@ -216,25 +240,42 @@ class Census:
         out = 'wireB:cap' if per and wire and isB else ('wireB:wall' if per and wire else ('wireB:periodic-no-wire' if per else 'wireB:dead'))
         return dict(out=out, t=217)
 
-    def row(self, cap):
+    def row(self, cap, only=None):
         cap = [tuple(c) for c in cap]
+        L0 = self.L
         ys = self.undisturbed(cap, self.gmax)
         # the end is an orbit of period dividing 4 on the exact units (units >= KS - 12 over 24 generations)
         a = KS - 12 - self.ua
         orbit = all(np.array_equal(self.T.units(ys[t])[a:], self.T.units(ys[t + 4])[a:]) for t in range(0, 24))
-        outs = []
-        for ev in self.events():
+        period = next((p for p in (1, 2, 4) if all(np.array_equal(self.T.units(ys[t])[KS - self.ua:], self.T.units(ys[t + p])[KS - self.ua:]) for t in range(0, 24))), None)
+        outs = []; again = []
+        for k, ev in enumerate(self.events()):
+            if only is not None and k not in only:
+                outs.append(dict(out='skipped', ev=[ev[0], list(ev[1]) if isinstance(ev[1], tuple) else ev[1]])); continue
             r = self.wireB(cap) if ev[0] == 'wireB' else self.classify(cap, ev, ys)
             r['ev'] = [ev[0], list(ev[1]) if isinstance(ev[1], tuple) else ev[1]]
             outs.append(r)
-        return dict(orbit=orbit, outcomes=outs)
+            if r['out'] in ('horizon', 'alive'):
+                again.append(k)
+        for L in (880, 1680):                               # undecided on the exact units: a longer train
+            if not again:
+                break
+            self.set_ring(L); ys = self.undisturbed(cap, self.gmax); left = []
+            for k in again:
+                r = self.classify(cap, self.events()[k], ys); r['ev'] = outs[k]['ev']; r['L'] = L; outs[k] = r
+                if r['out'] in ('horizon', 'alive'):
+                    left.append(k)
+            again = left
+        if self.L != L0:
+            self.set_ring(L0)
+        return dict(orbit=orbit, period=period, outcomes=outs)
 
 
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('frame'); ap.add_argument('list'); ap.add_argument('out')
     ap.add_argument('--sample', type=int); ap.add_argument('--seed', type=int, default=7); ap.add_argument('--ids')
     ap.add_argument('--part', default='0/1'); ap.add_argument('--after', type=int, default=0); ap.add_argument('--L', type=int, default=448)
-    ap.add_argument('--gmax', type=int, default=330)
+    ap.add_argument('--fast', action='store_true', help='fast7 (the C ring stepper checked by fastcheck.py) in place of the oracle')
     a = ap.parse_args()
     d = json.load(open(a.list)); assert d['complete'], 'list not complete'
     ends = dedup(a.frame, d['list'])
@@ -246,21 +287,21 @@ def main():
         ids = sorted(random.Random(a.seed).sample(ids, min(a.sample, len(ids))))
     pi, pn = map(int, a.part.split('/'))
     ids = ids[pi::pn]
-    C = Census(a.frame, a.L, a.gmax, a.after)
+    C = Census(a.frame, a.L, None, a.after, a.fast)
     rows = {}
     if os.path.exists(a.out):
         rows = {r['i']: r for r in json.load(open(a.out))['rows']}
     t0 = time.time(); res = Counter()
     for n, i in enumerate(ids):
         if i not in rows:
-            r = C.row(ends[i]); r['i'] = i; r['cells'] = len(ends[i]); r['cap'] = [list(c) for c in ends[i]]
+            r = C.row(ends[i]); r['i'] = i; r['cells'] = len(ends[i]); r['cap'] = [list(c) for c in ends[i]]; r['sizes'] = SIZES[i]
             rows[i] = r
             if n % 10 == 9:
                 json.dump(dict(frame=a.frame, list=a.list, nends=len(ends), rows=[rows[k] for k in sorted(rows)]), open(a.out, 'w'))
                 print(f'  {n + 1}/{len(ids)} ends, {time.time() - t0:.0f} s', flush=True)
     json.dump(dict(frame=a.frame, list=a.list, nends=len(ends), rows=[rows[k] for k in sorted(rows)]), open(a.out, 'w'))
     rs = [rows[i] for i in ids]
-    print(f'{len(rs)} ends on the oracle; every one an orbit of period dividing 4: {all(r["orbit"] for r in rs)}')
+    print(f'{len(rs)} ends ({"fast7" if a.fast else "oracle"}); every one an orbit of period dividing 4: {all(r["orbit"] for r in rs)}')
     evs = [tuple(map(str, o['ev'])) for o in rs[0]['outcomes']]
     for k, ev in enumerate(evs):
         ct = Counter(r['outcomes'][k]['out'] for r in rs)

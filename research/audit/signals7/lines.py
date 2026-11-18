@@ -110,7 +110,7 @@ def settle(T, cells, flips, Gmax, also=None):
     h = T.arr(cells); hist = []; g0 = None; per = None
     for t in range(Gmax + 1):
         if t in flips:
-            T.flip(h, flips[t])
+            T.flip(h, flips[t]); hist = []; g0 = None      # periodicity is looked for after the last flip only
         if g0 is None:
             if len(hist) == 4 and np.array_equal(hist[0], h):
                 g0 = t - 4
