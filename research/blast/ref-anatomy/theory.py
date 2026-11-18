@@ -62,7 +62,17 @@ def per_cell(src, A, nmin):
 def phi(z):
     return 0.5 * (1 + erf(z / sqrt(2)))
 
-def chain(src, A, nmin=200, label="", verbose=True, iters=200):
+def qtable(name):
+    q = {}
+    fn = os.path.join(S_, name + '.tal')
+    if not os.path.exists(fn): return q
+    for line in open(fn):
+        w = line.split()
+        if w[0] == 'exc' and int(w[2]) > 0 and int(w[3]) > 0:
+            q[int(w[1])] = int(w[3]) / int(w[2])
+    return q
+
+def chain(src, A, nmin=200, label="", verbose=True, iters=200, qt=None):
     M, C, ok = per_cell(src, A, nmin)
     idx = np.argwhere(ok); Ns = len(idx)
     Z = idx.astype(float); mu = M[ok]; c = C[ok]
@@ -100,13 +110,32 @@ def chain(src, A, nmin=200, label="", verbose=True, iters=200):
         if cdead[i] <= cj + 1e-9:
             steps.append(float(cdead[i])); break
         steps.append(float(cost[i, j])); route.append(j)
-    res = dict(A=A, Ns=Ns, S=float(V[zs]), route=[tuple(int(t) for t in idx[i]) for i in route], steps=steps, lntau=-math.log(rate),
+    hyb = {}
+    if qt:
+        for pc in (8, 12, 16, 20):
+            term = np.array([-math.log(qt[int(p)]) if (p <= pc and int(p) in qt) else np.inf for p in Z[:, 0]])
+            Vh = np.minimum(cdead, term)
+            for it in range(200):
+                Vn = np.minimum(np.minimum(cdead, term), (cost + Vh[None, :]).min(1))
+                if np.abs(np.where(np.isfinite(Vn), Vn, 0) - np.where(np.isfinite(Vh), Vh, 0)).max() < 1e-6: Vh = Vn; break
+                Vh = Vn
+            rt = [zs]
+            while len(rt) < 40 and not np.isfinite(term[rt[-1]]):
+                i = rt[-1]; j = int(np.argmin(cost[i] + Vh))
+                if cdead[i] <= cost[i, j] + Vh[j]: break
+                rt.append(j)
+            hyb[pc] = (float(Vh[zs]), [tuple(int(t) for t in idx[i]) for i in rt])
+    big = int(np.argmax(steps)) if steps else 0
+    res = dict(hyb=hyb, big=big, A=A, Ns=Ns, S=float(V[zs]), route=[tuple(int(t) for t in idx[i]) for i in route], steps=steps, lntau=-math.log(rate),
                mode=tuple(int(t) for t in idx[zs]), mean=mean_state, pi=pi, idx=idx, lost=float((pi * np.abs(lost)).sum()), mu=mu, c=c)
     if verbose:
         pr(f'[{label}] A = {A}: {Ns} states (n >= {nmin}); living mode {res["mode"]}, mean ({mean_state[0]:.2f}, {mean_state[1]:.2f}); '
            f'minimum action S = {res["S"]:.3f} = {res["S"]/A:.4f} per cell; exact ln tau of the Gaussian chain = {res["lntau"]:.3f} = {res["lntau"]/A:.4f} per cell')
         pr('    route (P, B): ' + ' -> '.join(f'({p},{b})' for p, b in res['route']) + ' -> empty')
         pr('    cost of each step: ' + ' '.join(f'{s:.2f}' for s in steps) + f'   (Gaussian mass sent outside the populated states, per step in the living state: {res["lost"]:.1e})')
+        up = sum(steps[:big + 2]); pr(f'    split: up to and including the fall {up:.2f} = {up/A:.4f} per cell; after it {sum(steps[big+2:]):.2f} = {sum(steps[big+2:])/A:.4f} per cell')
+        for pc, (sh, rt) in hyb.items():
+            pr(f'    hybrid (Gaussian map down to P <= {pc}, then the measured chance of death q(P) of this shape at 63 cells): {sh:.3f} = {sh/A:.4f} per cell; route ' + ' -> '.join(f'({p},{b})' for p, b in rt))
     return res
 
 def compare(a, b, nmin=2000, lab=''):
@@ -149,24 +178,28 @@ if __name__ == '__main__':
         if a in D and b in D: compare(D[a], D[b], lab=f'{a} -> {b}')
     pr('== the Gaussian chain and its minimum action, each vessel with its own map')
     R = {}
+    QT = {'t63': qtable('t63'), 'h63': qtable('h63'), 'tube60': qtable('tube60'), 't48': qtable('t48'), 't84': qtable('t63'), 'tube84': qtable('tube60')}
     for n in names:
         nmin = 200 if D[n]['hd']['deaths'] > 500 else 50
-        R[n] = chain(D[n], D[n]['A'], nmin=nmin, label=f'{n}, own map')
+        R[n] = chain(D[n], D[n]['A'], nmin=nmin, label=f'{n}, own map', qt=QT.get(n))
         pr(f'    gump: ln tau = {gump[n]} = {gump[n]/D[n]["A"]:.4f} per cell')
     pr('== the 63-cell torus map carried to other sizes at equal fillings (the collapse used as a law)')
     if 't63' in D:
-        for A in (36, 48, 63, 84, 108):
-            r = chain(D['t63'], A, nmin=200, label=f't63 map at A = {A}')
+        for A in (48, 63, 84, 108):
+            r = chain(D['t63'], A, nmin=200, label=f't63 map at A = {A}', qt=QT['t63'])
             R[('t63', A)] = r
         As = [48, 63, 84, 108]
         sl = np.polyfit(As, [R[('t63', a)]['lntau'] for a in As], 1); sa = np.polyfit(As, [R[('t63', a)]['S'] for a in As], 1)
+        for pc in (8, 12, 16, 20):
+            sh = np.polyfit(As, [R[('t63', a)]['hyb'][pc][0] for a in As], 1)
+            pr(f'   hybrid with the end-game measured below {pc} cells: ' + ', '.join(f'A={a}: {R[("t63", a)]["hyb"][pc][0]:.2f}' for a in As) + f'; slope {sh[0]:.4f} per cell, intercept {sh[1]:+.2f}')
         pr(f'   slopes over A = 48..108: ln tau of the chain {sl[0]:.4f} per cell (intercept {sl[1]:+.2f}); minimum action {sa[0]:.4f} per cell (intercept {sa[1]:+.2f}); gump wide faces 0.2087 (intercept about 0)')
     if 'tube60' in D:
-        for A in (60, 84):
-            R[('tube60', A)] = chain(D['tube60'], A, nmin=200, label=f'tube60 map at A = {A}')
+        for A in (84,):
+            R[('tube60', A)] = chain(D['tube60'], A, nmin=200, label=f'tube60 map at A = {A}', qt=QT['tube60'])
     if 'h63' in D:
-        for A in (45, 63, 84):
-            R[('h63', A)] = chain(D['h63'], A, nmin=200, label=f'h63 map at A = {A}')
+        for A in (45, 84):
+            R[('h63', A)] = chain(D['h63'], A, nmin=200, label=f'h63 map at A = {A}', qt=QT['h63'])
         pr('   gump hull faces: 9.819 (45), 13.633 (63), 18.141 (84)')
     # the jump: measured one-step law from the launch box against the Gaussian
     pr('== the jump up: measured one-step law from the launch box against the Gaussian with the measured mean and covariance')
@@ -188,7 +221,13 @@ if __name__ == '__main__':
         if n in R:
             rt = R[n]['route']
             if len(rt) > 1:
-                p1, b1 = rt[1]; tail = J[p1:, b1:].sum() / tot
-                pr(f'      the route\'s first step lands at ({p1},{b1}); measured chance of P\' >= {p1} and B\' >= {b1} from the box: ' + (f'{tail:.3e} (-ln {-math.log(tail):.2f})' if tail > 0 else 'none seen')
-                   + f'; Gaussian cost of that step {R[n]["steps"][0]:.2f}')
+                bg = R[n]['big']; p0_, b0_ = rt[bg]; p1, b1 = rt[min(bg + 1, len(rt) - 1)]
+                det = vp * vb - cpb * cpb
+                for (pp, bb) in ((p1, b1), (p1 + 2, b1 - 2), (p1 + 3, b1 - 3), (p1 - 2, b1 - 4)):
+                    if J[pp, bb] > 0:
+                        dq = np.array([pp - mp, bb - mb]); g = 0.5 * (vb * dq[0]**2 - 2 * cpb * dq[0] * dq[1] + vp * dq[1]**2) / det + math.log(2 * math.pi * math.sqrt(det))
+                        pr(f'      jump of the route: ({p0_},{b0_}) -> ({p1},{b1}); landing exactly on ({pp},{bb}) from the box: measured -ln {-math.log(J[pp, bb] / tot):.2f} ({int(J[pp, bb])} times), Gaussian -ln density {g:.2f}, ratio {-math.log(J[pp, bb] / tot) / g:.3f}')
+                tail = J[p1:, b1:].sum() / tot
+                pr(f'      measured chance of P\' >= {p1} and B\' >= {b1} from the box: ' + (f'{tail:.3e} (-ln {-math.log(tail):.2f})' if tail > 0 else 'none seen')
+                   + f'; Gaussian quadratic cost of that step {R[n]["steps"][R[n]["big"]]:.2f}')
     out.close()
