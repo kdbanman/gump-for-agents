@@ -8,6 +8,7 @@
 //
 //   gcc -O3 -march=native -o sh sh.c -lm
 //   ./sh R SEED M [LAG=1] [NFLIP=1] [STEP=2] [H=0.125] [PATHFILE or -] [CAP=200000]   one replication of the estimator
+//        (NFLIP = -f means one flip per f perturbation sites, rounded up; the frozen setting is  M=300000 2 -6 3 0.5 FILE 100000)
 //   ./sh R SEED 0 GENS                                    brute force: base run only for GENS generations
 //   gcc -O3 -march=native -shared -fPIC -DLIB -o libsh.so sh.c -lm     (validation against reference/oracle.py)
 #define _GNU_SOURCE
@@ -27,7 +28,7 @@ typedef uint64_t u64;
 #define THR 12          // a word is refreshed when this many of its lanes have finished
 #define TMAX 20000      // a trial longer than this is booked as a timeout (and a failure)
 #define AGEMAX 100000   // base run: a hull older than this is reseeded and counted (guards settled lives)
-#define PMAX 4000       // dying paths kept per run (reservoir)
+#define PMAX 500        // dying paths kept per run (reservoir)
 
 static int R, n, A, NC, NCW, DEPTH;
 static int *co, *nb, nf[8], *fcell[8], nS, *S;
@@ -208,7 +209,7 @@ static void lane_extract_s(int lane, u64 *cfg, int sl) {
     for (int col = 0; col < NC; col++) cfg[col >> 6] |= ((X[(size_t)col * WMAX + w] >> b) & 1) << (col & 63);
 }
 
-static void lane_extract(int lane, u64 *cfg) { lane_extract_s(lane, cfg, cs); }
+__attribute__((unused)) static void lane_extract(int lane, u64 *cfg) { lane_extract_s(lane, cfg, cs); }
 static u64 rs[4];
 static inline u64 rotl(u64 x, int k) { return (x << k) | (x >> (64 - k)); }
 static inline u64 rnd(void) {
@@ -231,12 +232,12 @@ static void cfg_soup(u64 *c) {
     for (int i = 0; i < n; i++) if (rndu() < SOUP) c[i >> 6] |= 1ULL << (i & 63);
     for (int i = 0; i < A; i++) if (!cbit(c, i)) for (int k = 0; k < 8; k++) { int col = n + 8 * i + k; c[col >> 6] |= 1ULL << (col & 63); }
 }
-static int cfg_pop0(const u64 *c) {
+__attribute__((unused)) static int cfg_pop0(const u64 *c) {
     int p = 0;
     for (int i = 0; i < A; i += 64) { u64 v = c[i >> 6]; if (A - i < 64) v &= (1ULL << (A - i)) - 1; p += __builtin_popcountll(v); }
     return p;
 }
-static int cfg_ndead(const u64 *c) {
+__attribute__((unused)) static int cfg_ndead(const u64 *c) {
     int k = 0;
     for (int f = 0; f < 8; f++) { u64 o = 0; for (int j = 0; j < NCW; j++) o |= c[j] & fmask[f][j]; k += (o == 0); }
     return k;
@@ -268,6 +269,9 @@ void v_set(int lane, const uint8_t *cells) {
 }
 void v_get(int lane, uint8_t *cells) { for (int i = 0; i < n; i++) cells[i] = (X[(size_t)i * WMAX + (lane >> 6)] >> (lane & 63)) & 1; }
 void v_step(void) { step(WMAX); observe(WMAX); }
+int v_cs(void) { return cs; }
+int v_ns(void) { return NS; }
+void v_get_s(int lane, uint8_t *cells, int sl) { for (int i = 0; i < n; i++) cells[i] = (Xr[sl][(size_t)i * WMAX + (lane >> 6)] >> (lane & 63)) & 1; }
 int v_pop(int lane) { return pop[lane]; }
 int v_faceor(int lane, int f) { return (faceor[f][lane >> 6] >> (lane & 63)) & 1; }
 int v_age(int lane, int c) { int a = 0; for (int k = 0; k < 8; k++) a |= ((X[(size_t)(n + 8 * c + k) * WMAX + (lane >> 6)] >> (lane & 63)) & 1) << k; return a; }
@@ -294,19 +298,22 @@ static int Wact, LA, L0, Lnext, final_stage;
 static int lage[NL], linA[NL], lstate[NL], lanc[NL], lt0[NL], llen[NL], lk[NL], lfs[NL];
 static u64 *cur, *nxt, *T, *TS[8]; static int *canc, *ct, *nanc, *nt, Ncur, Nnxt, M;
 static long launched, done, ntimeout, nrun; static double succw, lensum; static int *order;
-static uint8_t *pages; static int *panc, *pT, *pk, npath; static long pseen;
-static void path_add(const u64 *c, int anc, int Tl, int k) {   // c: the state at the death generation
+static uint8_t *pages, *phist; static int *panc, *pT, *pk, npath; static long pseen, nbust, nreplaybad;
+#define HL 16            // generations of face-0 population kept with every lane and stored configuration (newest last)
+static uint8_t lhist[NL][HL], bh[NL][HL], *chist, *nhist;
+static void path_add(const u64 *c, int anc, int Tl, int k, const uint8_t *h) {   // c: the state at the death generation
     long slot; pseen++;
+    for (int i = 1; i < HL; i++) if (2 * (h[i - 1] - h[i]) >= A) { nbust++; break; }   // a one-generation fall of half the face
     if (npath < PMAX) slot = npath++; else { slot = (long)rndn(pseen); if (slot >= PMAX) return; }
-    panc[slot] = anc; pT[slot] = Tl; pk[slot] = k;
+    panc[slot] = anc; pT[slot] = Tl; pk[slot] = k; memcpy(phist + slot * HL, h, HL);
     for (int i = 0; i < A; i++) pages[slot * A + i] = cfg_age(c, i);
 }
 static int CAPN; static long nseen;
 // lag: the state LAG generations before the success (what the next stage's clones start from)
-static void store_success(const u64 *lag, int anc, int Tl) {   // reservoir of CAPN: a uniform subset of the successes
+static void store_success(const u64 *lag, int anc, int Tl, const uint8_t *h) {   // reservoir of CAPN: a uniform subset of the successes
     long slot; nseen++;
     if (Nnxt < CAPN) slot = Nnxt++; else { slot = (long)rndn(nseen); if (slot >= CAPN) return; }
-    memcpy(nxt + (size_t)slot * NCW, lag, 8 * NCW); nanc[slot] = anc; nt[slot] = Tl;
+    memcpy(nxt + (size_t)slot * NCW, lag, 8 * NCW); nanc[slot] = anc; nt[slot] = Tl; memcpy(nhist + slot * HL, h, HL);
 }
 static void flush_succ(int w) {   // store the successes sitting frozen in word w
     int need = 0;
@@ -317,8 +324,8 @@ static void flush_succ(int w) {   // store the successes sitting frozen in word 
         int lane = w * 64 + b;
         if (lstate[lane] != SUCC) continue;
         int Tl = lt0[lane] + llen[lane] - LAG;
-        store_success(TS[(lfs[lane] + 1) % NS] + (size_t)b * NCW, lanc[lane], Tl);
-        if (final_stage) path_add(TS[lfs[lane]] + (size_t)b * NCW, lanc[lane], Tl, lk[lane]);
+        store_success(TS[(lfs[lane] + 1) % NS] + (size_t)b * NCW, lanc[lane], Tl, lhist[lane]);
+        if (final_stage) path_add(TS[lfs[lane]] + (size_t)b * NCW, lanc[lane], Tl, lk[lane], lhist[lane]);
         lstate[lane] = IDLE;
     }
 }
@@ -331,17 +338,17 @@ static void refresh(int w) {
         u64 *c = T + (size_t)b * NCW;
         int j = order[launched % Ncur]; launched++;
         memcpy(c, cur + (size_t)j * NCW, 8 * NCW); cfg_flips(c);
-        lstate[lane] = RUN; lanc[lane] = canc[j]; lt0[lane] = ct[j]; llen[lane] = 0; nrun++;
+        lstate[lane] = RUN; lanc[lane] = canc[j]; lt0[lane] = ct[j]; llen[lane] = 0; nrun++; memcpy(lhist[lane], chist + (size_t)j * HL, HL);
         Fz[w] &= ~(1ULL << b);
     }
     word_in(w, T);
 }
 static void compact(void) {
-    static u64 *buf; static int ma[NL], mt[NL], ml[NL], src[NL];
+    static u64 *buf; static int ma[NL], mt[NL], ml[NL]; static uint8_t mh[NL][HL];
     if (!buf) buf = malloc(8 * (size_t)NL * NCW);
     int na = 0, Wold = Wact;
     for (int w = 0; w < Wold; w++) flush_succ(w);
-    for (int lane = 0; lane < Wold * 64; lane++) if (lstate[lane] == RUN) { src[na] = lane; ma[na] = lanc[lane]; mt[na] = lt0[lane]; ml[na] = llen[lane]; na++; }
+    for (int lane = 0; lane < Wold * 64; lane++) if (lstate[lane] == RUN) { memcpy(mh[na], lhist[lane], HL); ma[na] = lanc[lane]; mt[na] = lt0[lane]; ml[na] = llen[lane]; na++; }
     int Wnew = na ? (na + 63) / 64 : 1;
     for (int sl = 0; sl < NS; sl++) {
         int k = 0;
@@ -360,7 +367,7 @@ static void compact(void) {
     }
     for (int lane = 0; lane < NL; lane++) lstate[lane] = IDLE;
     for (int w = 0; w < WMAX; w++) Fz[w] = ~0ULL;
-    for (int lane = 0; lane < na; lane++) { lstate[lane] = RUN; lanc[lane] = ma[lane]; lt0[lane] = mt[lane]; llen[lane] = ml[lane]; Fz[lane >> 6] &= ~(1ULL << (lane & 63)); }
+    for (int lane = 0; lane < na; lane++) { memcpy(lhist[lane], mh[lane], HL); lstate[lane] = RUN; lanc[lane] = ma[lane]; lt0[lane] = mt[lane]; llen[lane] = ml[lane]; Fz[lane >> 6] &= ~(1ULL << (lane & 63)); }
     Wact = Wnew;
 }
 
@@ -378,6 +385,7 @@ int main(int argc, char **argv) {
     NS = LAG + 1;
     int D = 2 * LAG + 1;     // a flip there cannot reach the face layer within LAG generations
     geom_init(Rr, D); seed_rng(seed);
+    if (NFLIP <= 0) NFLIP = (nS + (-NFLIP ? -NFLIP : 6) - 1) / (-NFLIP ? -NFLIP : 6);   // NFLIP = -f: one flip per f sites, rounded up
     if (nS < 2) { fprintf(stderr, "no perturbation sites at depth %d in R = %d\n", D, Rr); return 2; }
     {   // self-test of the transpose
         u64 a[64], b[64]; for (int i = 0; i < 64; i++) a[i] = b[i] = rnd();
@@ -395,6 +403,7 @@ int main(int argc, char **argv) {
     long g = 0, gphase = 0; double PBAR = 0, SIG = 0;
     int cap = M ? CAPN : 1;
     cur = malloc(8 * (size_t)cap * NCW); nxt = malloc(8 * (size_t)cap * NCW);
+    chist = malloc((size_t)cap * HL); nhist = malloc((size_t)cap * HL); memset(bh, 0, sizeof bh);
     canc = malloc(sizeof(int) * cap); ct = malloc(sizeof(int) * cap); nanc = malloc(sizeof(int) * cap); nt = malloc(sizeof(int) * cap);
     LA = 1000; L0 = -1;
     for (;; g++, gphase++) {
@@ -411,6 +420,7 @@ int main(int argc, char **argv) {
             int w = lane >> 6, b = lane & 63, p = pop[lane], nd = (p == 0);
             for (int f = 1; f < 8; f++) nd += !((faceor[f][w] >> b) & 1);
             lage[lane]++;
+            memmove(bh[lane], bh[lane] + 1, HL - 1); bh[lane][HL - 1] = p;
             int counted = (phase == 3 && lage[lane] > T0);
             if (counted) exposure += 1;
             int reseed = 0, cross = 0;
@@ -431,7 +441,7 @@ int main(int argc, char **argv) {
             if (cross) {
                 ncross++;
                 if (M && nstore < CAPN && rndu() < H) {   // keep the state LAG generations before the crossing
-                    lane_extract_s(lane, cur + (size_t)nstore * NCW, (cs + 1) % NS); canc[nstore] = nstore; ct[nstore] = 0; nstore++;
+                    lane_extract_s(lane, cur + (size_t)nstore * NCW, (cs + 1) % NS); memcpy(chist + (size_t)nstore * HL, bh[lane], HL); canc[nstore] = nstore; ct[nstore] = 0; nstore++;
                 }
             }
             if (reseed) { cfg_soup(tmp); lane_load(lane, tmp); lage[lane] = 0; linA[lane] = 0; }
@@ -446,8 +456,8 @@ int main(int argc, char **argv) {
     // ---- stages
     Ncur = (int)nstore;
     order = malloc(sizeof(int) * CAPN);
-    pages = malloc((size_t)PMAX * A); panc = malloc(sizeof(int) * PMAX); pT = malloc(sizeof(int) * PMAX); pk = malloc(sizeof(int) * PMAX);
-    char *mark = malloc(CAPN);
+    pages = malloc((size_t)PMAX * A); phist = malloc((size_t)PMAX * HL); panc = malloc(sizeof(int) * PMAX); pT = malloc(sizeof(int) * PMAX); pk = malloc(sizeof(int) * PMAX);
+    int *acnt = malloc(sizeof(int) * CAPN);
     double lnq = 0; int lev = L0, zero = 0, stage = 0;
     while (lev > 0) {
         Lnext = lev - STEP > 0 ? lev - STEP : 0; final_stage = (Lnext == 0);
@@ -467,6 +477,8 @@ int main(int argc, char **argv) {
                     int b = __builtin_ctzll(run), lane = w * 64 + b; run &= run - 1;
                     if (++llen[lane] < LAG) continue;   // catching up with the parent: the face is the parent's own
                     int p = pop[lane], od = 0, fin = 0;
+                    if (llen[lane] == LAG) nreplaybad += (p != lhist[lane][HL - 1]);   // the replay must end on the parent's face
+                    else { memmove(lhist[lane], lhist[lane] + 1, HL - 1); lhist[lane][HL - 1] = p; }
                     for (int f = 1; f < 8; f++) od += !((faceor[f][w] >> b) & 1);
                     if (p == 0) { fin = SUCC; lk[lane] = 1 + od; succw += final_stage ? 1.0 / (1 + od) : 1.0; }
                     else if (od) fin = IDLE;
@@ -480,27 +492,31 @@ int main(int argc, char **argv) {
         }
         for (int w = 0; w < Wact; w++) flush_succ(w);
         double p = succw / M; lnq += log(p);
-        memset(mark, 0, CAPN); int dist = 0; double tsum = 0;
-        for (int i = 0; i < Nnxt; i++) { if (!mark[nanc[i]]) { mark[nanc[i]] = 1; dist++; } tsum += nt[i]; }
-        printf("L %d from %d to %d trials %d succw %.3f p %.6f stored %d ancestors %d meanlen %.2f meanT %.2f gens %ld lnnu_next %.5f\n",
-               stage, lev, Lnext, M, succw, p, Nnxt, dist, lensum / (M > 0 ? M : 1), Nnxt ? tsum / Nnxt : 0.0, gens, lnphi + lnq);
+        memset(acnt, 0, sizeof(int) * CAPN); int dist = 0; double tsum = 0, s2 = 0;
+        for (int i = 0; i < Nnxt; i++) { if (!acnt[nanc[i]]++) dist++; tsum += nt[i]; }
+        for (int i = 0; i < CAPN; i++) s2 += (double)acnt[i] * acnt[i];
+        double neff = s2 > 0 ? (double)Nnxt * Nnxt / s2 : 0;
+        printf("L %d from %d to %d trials %d succw %.3f p %.6f stored %d ancestors %d neff %.1f meanlen %.2f meanT %.2f gens %ld lnnu_next %.5f\n",
+               stage, lev, Lnext, M, succw, p, Nnxt, dist, neff, lensum / (M > 0 ? M : 1), Nnxt ? tsum / Nnxt : 0.0, gens, lnphi + lnq);
         fflush(stdout);
-        { u64 *t = cur; cur = nxt; nxt = t; int *q = canc; canc = nanc; nanc = q; q = ct; ct = nt; nt = q; Ncur = Nnxt; }
+        { u64 *t = cur; cur = nxt; nxt = t; uint8_t *hh = chist; chist = nhist; nhist = hh; int *q = canc; canc = nanc; nanc = q; q = ct; ct = nt; nt = q; Ncur = Nnxt; }
         lev = Lnext; stage++;
         if (succw == 0) { zero = 1; break; }
     }
-    printf("RESULT R %d seed %llu M %d lnPhi0 %.5f lnq %.5f lntau %.5f zero %d timeouts %ld paths_seen %ld\n", R, (unsigned long long)seed, M,
-           lnphi, lnq, zero ? INFINITY : -(lnphi + lnq), zero, ntimeout, pseen);
+    printf("RESULT R %d seed %llu M %d lnPhi0 %.5f lnq %.5f lntau %.5f zero %d timeouts %ld paths_seen %ld busts %ld replaybad %ld\n", R, (unsigned long long)seed, M,
+           lnphi, lnq, zero ? INFINITY : -(lnphi + lnq), zero, ntimeout, pseen, nbust, nreplaybad);
     if (pathfile && npath) {
         FILE *fp = fopen(pathfile, "w");
         fprintf(fp, "# R %d seed %llu M %d A %d LAG %d NFLIP %d STEP %d ; line C: doubled coordinates of the face-0 cells; then one line per dying path:\n", R, (unsigned long long)seed, M, A, LAG, NFLIP, STEP);
-        fprintf(fp, "# ancestor T k age[0..A-1]   (ancestor: index of the 0.9 P-bar crossing the path descends from; T: generations from that crossing to the death; k: faces empty at the death;\n# age: generations before the death generation at which the cell was last alive, 255 = 255 or more)\n");
+        fprintf(fp, "# ancestor T k age[0..A-1]   (ancestor: index of the 0.9 P-bar crossing the path descends from; T: generations from that crossing to the death; k: faces empty at the death;\n# age: generations before the death generation at which the cell was last alive, 255 = 255 or more;\n# after the token P: the face population at the last 16 generations, the death generation (0) last)\n");
         fprintf(fp, "C");
         for (int i = 0; i < A; i++) fprintf(fp, " %d,%d,%d", co[3 * i], co[3 * i + 1], co[3 * i + 2]);
         fprintf(fp, "\n");
         for (int s = 0; s < npath; s++) {
             fprintf(fp, "%d %d %d", panc[s], pT[s], pk[s]);
             for (int i = 0; i < A; i++) fprintf(fp, " %d", pages[(size_t)s * A + i]);
+            fprintf(fp, " P");
+            for (int i = 0; i < HL; i++) fprintf(fp, " %d", phist[(size_t)s * HL + i]);
             fprintf(fp, "\n");
         }
         fclose(fp);

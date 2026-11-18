@@ -6,7 +6,8 @@
 For R = 11 and R = 15: three soups (density 0.35 inside |p|_1 <= R) in three lanes of the bit-sliced stepper
 (lanes 0, 37 and 2047), every cell compared with the oracle at every generation; also the face-0 population counter,
 the "face f is not empty" bits, and the age counters of face-0 cells (generations since last alive, saturating at
-255), each against values computed here from the oracle's states. Then the frozen-lane mask (a frozen lane must not
+255), each against values computed here from the oracle's states; and the ring of lagged states (LAG = 2: the state
+two generations ago, which is what the sampler's clones start from) against the oracle's history. Then the frozen-lane mask (a frozen lane must not
 move), the packed-configuration round trip (word_out / word_in / lane_load / lane_extract), and the negative
 control: one neighbour of one cell replaced by another cell must make the comparison fail.
 """
@@ -27,7 +28,8 @@ ok_all = True
 
 def run(R, swap):
     lib = ctypes.CDLL(so)          # a fresh handle shares globals; geom_init rebuilds everything
-    n = lib.geom_init(R, 3)
+    lib.v_setlag(2)                # ring of 3 arrays: the present, one and two generations ago
+    n = lib.geom_init(R, 5)
     A = lib.v_A()
     co = np.zeros((n, 3), np.int32)
     lib.v_coords(co.ctypes.data_as(ctypes.c_void_p))
@@ -55,6 +57,7 @@ def run(R, swap):
         lib.v_set(lane, np.ascontiguousarray(x[ix].astype(np.uint8)).ctypes.data_as(ctypes.c_void_p))
     ages = [np.where(x[ix][:A] == 1, 0, 0).astype(int) for x in xs]   # the library starts ages at 0 after v_clear
     buf = np.zeros(n, np.uint8)
+    hist = [[x[ix].astype(np.uint8)] for x in xs]
     for g in range(1, GENS + 1):
         lib.v_step()
         for k, lane in enumerate(lanes):
@@ -70,6 +73,11 @@ def run(R, swap):
             for f in range(1, 8):
                 if lib.v_faceor(lane, f) != int(ref[faces[f]].any()):
                     return f'face-{f} emptiness bit differs at generation {g}'
+            hist[k] = (hist[k] + [ref])[-3:]
+            if g >= 2:      # the ring: the array after the present one holds the state two generations ago
+                lib.v_get_s(lane, buf.ctypes.data_as(ctypes.c_void_p), (lib.v_cs() + 1) % lib.v_ns())
+                if not (buf == hist[k][0]).all():
+                    return f'lagged state (two generations ago) differs at generation {g}'
             ages[k] = np.where(ref[:A] == 1, 0, np.minimum(ages[k] + 1, 255))
             if g % 50 == 0 or g < 5:
                 got = np.array([lib.v_age(lane, c) for c in range(A)])
@@ -78,13 +86,13 @@ def run(R, swap):
     # frozen lanes do not move
     lib.v_get(37, buf.ctypes.data_as(ctypes.c_void_p)); keep = buf.copy()
     lib.v_freeze(37)
-    for _ in range(5):
+    for _ in range(6):             # a multiple of the ring length: the same array is the present again
         lib.v_step()
     lib.v_get(37, buf.ctypes.data_as(ctypes.c_void_p))
     if not (buf == keep).all():
         return 'a frozen lane moved'
     lib.v_get(0, buf.ctypes.data_as(ctypes.c_void_p))
-    for _ in range(5):
+    for _ in range(6):
         xs[0] = oracle.step(xs[0], m)
     if not (buf == xs[0][ix].astype(np.uint8)).all():
         return 'an unfrozen lane went wrong next to a frozen one'
