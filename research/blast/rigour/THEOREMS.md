@@ -119,14 +119,19 @@ G ∈ 𝒢, i ∈ G, s ∈ [0,1]:  |⟨ε_i⟩_{s,G} − e_∞(s)| ≤ K e^{−r
 
 *Theorem. Under (SSM), with c_∞ = ∫₀¹ e_∞(s) ds:*
 *(a) |ln τ(G) − c_∞ A| ≤ K Σ_i e^{−r_i(G)/ξ} for every G ∈ 𝒢.*
-*(b) Wrapped faces with shortest loop of graph length ℓ: |ln τ − c_∞ A| ≤ K A e^{−(ℓ−1)/2ξ}.*
+*(b) Wrapped faces with shortest loop of graph length ℓ: |ln τ − c_∞ A| ≤ K A e^{−(ℓ−2)/2ξ}.*
 *(c) Polygons with n_r cells at graph distance r from the rim: |ln τ − c_∞ A| ≤ K Σ_r n_r e^{−r/ξ} ≤ K′·(rim length).*
 *(d) Hence along any sequence in 𝒢 with rim length/A → 0 and ℓ → ∞, ln τ / A → c_∞: **the same number for rimmed
 and wrapped faces. Two bulk prices are impossible under (SSM).** A difference of 0.02 per cell between a rimmed and
 a wrapped family at 63–108 cells must then be one of: a rim term linear in the rim (b·rim/A is 0.02 at these
 sizes for b of order 0.05–0.1 per rim cell), corner terms, or a failure of (SSM).*
+*The brief reports the first refuted at 4.7σ by the 108-cell face, and corner terms are constants. So under this
+theorem gump's two prices mean one of two things, and nothing else: (SSM) fails for gump's faces (the hypothesis
+gump may violate, named), or its ξ at the dying end of the tilt is several lattice units, so that at 63–108 cells
+(inradius 4–6 units) the rim's tail still reaches the centre and the rimmed slope has not converged; in the second
+case the rimmed slope must fall towards the wrapped one as the face grows.*
 
-*Proof.* (a) is Theorem 2 with the triangle inequality. (b): r_i ≥ (ℓ − 1)/2. (c): r_i = distance to the rim for a
+*Proof.* (a) is Theorem 2 with the triangle inequality. (b): a ball of radius r wraps onto itself or gains an edge only if ℓ ≤ 2r + 1, so r_i ≥ (ℓ − 2)/2. (c): r_i = distance to the rim for a
 polygon without loops; Σ_r n_r e^{−r/ξ} ≤ (rim cells)·C(ξ) for convex polygons. (d) follows. ∎
 
 *Refinement (stated, proof the same).* If in addition the local means near a straight rim, and near a corner of each

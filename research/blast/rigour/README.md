@@ -46,8 +46,8 @@ Everything below is about the surrogate S at (0.44, 0.42) unless gump is named.
    |ln τ − c_∞A| ≤ K Σ_i e^{−r_i/ξ}: the same c_∞ for wrapped and rimmed faces, loops enter as a discount per
    cell (additive over loop vectors at first order), a rim as a term linear in its length, and a discount growing
    like length² at fixed girth cannot persist. SSM fails exactly when the tilted family has two coexisting kinds
-   of face at one tilt. Finding 4 says it does.
-3. **[measured, exact] 25 small faces solved** (`data/exact.csv`, `data/report.txt`; `python3 table.py run 25 0.44 0.42`).
+   of face at one tilt; claims 4 and 5 (two routes to death) make that likely [conjectured].
+3. **[measured, exact] 25 rows of small faces solved** (`data/exact.csv`, `data/report.txt`; `python3 table.py run 25 0.44 0.42`).
    At equal area the order is not gump's and not monotone in anything simple:
 
    | cells | wrapped faces (ln τ) | free strips, periodic along | free rim all round |
@@ -99,9 +99,13 @@ Everything below is about the surrogate S at (0.44, 0.42) unless gump is named.
    75 cells: c_s − c_b ≈ 0.004 per cell), so there the two branches are nearly degenerate; **"two prices = two
    branches" as the whole account of 0.231 against 0.209 is refuted by that number** (it would need the share's
    log-odds to rise by 0.022 per cell). What survives is the test R9 of PREDICTIONS.md for gump's long tubes.
+   *Two exit channels, not two eigen-branches* [measured]: the killed chain has no near-degeneracy. Its second
+   eigenvalue is at |λ₂/λ₁| = 0.62–0.81 on the 9-cell shapes (`dense.py`), and the power iteration converges in
+   43–59 steps on the wrapped faces of 12–15 cells with no growth in size. There is one quasi-stationary state and
+   two ways out of it, each with its own price; a theorem about "two prices" would be about two saddle paths.
 6. **[measured] Rimmed against wrapped, and what holds the rim.** Triangles over the same coins as the interior are
    *shorter*-lived than wide wrapped faces: 4.2317 (exact) against 5.10–5.34 at 18 cells; 6.889 ± 0.005 against
-   7.985 ± 0.005 at 30; 10.55 ± 0.03 against ≈ 11.8 at 45. Give the rim's coins that are cells of the neighbouring
+   7.985 ± 0.005 at 30; 10.582 ± 0.010 against ≈ 11.76 (the wide line) at 45. Give the rim's coins that are cells of the neighbouring
    faces' own layers the density of a face (0.5177; `geom.py hull2`, `data/mc_hull2.csv`) and the order turns into
    gump's: 5.549 ± 0.007 at 18 and 8.796 ± 0.008 at 30 cells (+0.81 over the wrapped face; gump: +0.53 at 30), with
    slope 0.271 per cell against the wrapped 0.24–0.25. At 0.58 (gump's fuller rim row): 6.539, 10.093.
@@ -154,4 +158,11 @@ Everything below is about the surrogate S at (0.44, 0.42) unless gump is named.
   numerical.
 - The coins' densities were taken from one table of the earlier study, not re-measured; shared coins (the cube
   lemma) and correlated coins (the brief's second model) were not run.
+- The route markers of `qsd.c` are checked by `mc.c` on three faces only (half-face fall within 6 generations:
+  0.5693 against the exact 0.5675, 0.8160 against 0.8177, 0.0024 against 0.0030). The Monte Carlo rows are single
+  runs; their errors are 1/√deaths and ignore the burn-in (200 generations from a fair start).
+- The rim held by a second face (`hull2`) is Monte Carlo only, at two sizes, with one density for both kinds of
+  coin that lie in another face's layers; gump's own values there (a fuller first row, a thinner second) were not used.
+- The 18-cell tori (1,1),(0,6) and (1,2),(0,6) (26–27 bits) were queued for the exact solver and had not finished
+  when this was written; their values above are Monte Carlo.
 - Nothing here is a measurement of gump. Every comparison with gump is of signs and orders, not of values.
