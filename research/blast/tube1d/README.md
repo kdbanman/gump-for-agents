@@ -51,8 +51,18 @@ header), `validate.py` + `validate_all.sh` (oracle check), `bandfit.py`, `margfi
    0.75–1.2 at 84 (7×10⁵ trials per level), biased upward. **No lifetime of a tube longer than 9 units was
    measured here.** The curves beyond are extrapolations of item 3.
 
+6. **The trace reading passes with multiplicity 2** [measured, §5]: bands and tubes fitted with one c∞ and one ξ
+   and ln τ(L) = a + 12c∞L − ln(1 + K·e^(−L/ξ)) for the closed tube: K = 2: χ² = 3.35 for 9, c∞ = 0.2004, ξ = 1.95;
+   K = 1: 11.1 for 9; K = 3: 3.2 for 9; K free = 2.5. Forecasts K = 2: 24.571, 29.388, 39.010, 48.628 at 10, 12,
+   16, 20 units (K = 1: 24.608, 29.463, 39.168, 48.871).
+7. **Girth 4 is a different problem** [measured, §7]: a tube of loop² 16 gets cut by transverse firewalls that
+   neither heal nor spread (a through-cut of 3 units stays 2.4 units wide for 600 generations in 256 lanes; at
+   loop² 12 the same cut heals in 24), and a 168-cell tube's face then lives only ln τ = 17.42 ± 0.17: the
+   lifetime saturates with length.
+
 Forecast frozen for the blind 120-cell tube (block B, commit 9a1ccc4, 03:46): **24.563 ± 0.030** (an extrapolation,
-not independent of the PI's block 0). The one-curve fit made afterwards gives 24.556, the two-route form 24.56–24.57.
+not independent of the PI's block 0). Fits made afterwards: 24.571 (trace reading, K = 2), 24.608 (K = 1), 24.557
+(power law p = 0.75).
 
 ## 1. Stepper and validation [measured]
 
@@ -221,10 +231,35 @@ Anchors for loop² 12 (lengths 5…9): 12.4166 ± 0.0031, 14.8753 ± 0.0140, 17.
   0.72 ± 0.27) and different c∞ (0.207 against 0.199 exponential): the band has two healing edges and a shifting
   route (§4), so "one curve" is an approximation, good to about 0.003 per cell where both are measured.
 
+**The trace reading (PI's request after agent `image`'s identity), tested** — `python3 jointfit.py
+data/band_g12_pooled.slopes 3.0`: tubes ln τ(L) = a_t + sL − ln(1 + K_t·e^(−L/ξ)) on the five anchors, bands
+S(w) = a_b + sw − ln(1 + K_b·e^(−w/ξ)) on the eight pooled slopes from 3 to 7 units (errors from the five runs), one
+s = 12c∞ and one ξ for both, K_b free:
+
+| K_tube | χ² / dof | c∞ | ξ (χ² + 1) | K_band | tube at 10 | 12 | 16 | 20 units |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1 (fixed) | 11.10 / 9 | 0.20216 | 1.85 (1.75 … 1.95) | 4.5 | 24.608 | 29.463 | 39.168 | 48.871 |
+| **2 (fixed)** | **3.35 / 9** | **0.20037** | **1.95 (1.85 … 2.00)** | 5.5 | **24.571** | **29.388** | **39.010** | **48.628** |
+| 3 (fixed) | 3.17 / 9 | 0.19938 | 1.85 (1.65 … 1.90) | 6.0 | 24.549 | 29.343 | 38.917 | 48.487 |
+| free: 2.46 | 1.76 / 8 | 0.20030 | 1.80 (1.70 … 1.85) | 5.5 | 24.567 | 29.381 | 38.998 | 48.613 |
+
+With the band slopes from 4 units only (6 slopes): K_t = 1: 8.46 / 7 (c∞ 0.2012, ξ 2.45); K_t = 2: 2.41 / 7 (0.2003,
+ξ 2.00); K_t = 3: 1.52 / 7 (0.2003, ξ 1.65); free 3.3. Separately: tubes alone want ξ = 2.40 (1.80 … 3.65), c∞ =
+0.1992 (0.1977 … 0.2009) at K_t = 2 (χ² 0.07 for 2) and reach only χ² = 4.7 for 2 at K_t = 1; bands alone want
+ξ = 1.80 (1.45 … 1.95), c∞ = 0.199 (0.188 … 0.207). **Verdict [measured]: band and tube accept one c∞ and one ξ
+(c∞ = 0.2004, ξ = 1.95 units at K_t = 2); K_t = 1 is 7.7 worse in χ² than K_t = 2 but not excluded on its own (p =
+0.27); K_t = 2 and 3 are equally good; free K_t is 2.5–3.3. So the trace reading passes with a multiplicity of 2
+(or 3), not 1.** The band–tube constant it implies is not quite constant: (a_b − a_t) − ln[(1 + K_b e^(−w/ξ))/(1 +
+K_t e^(−w/ξ))] rises by 0.07 from 5 to 6 units and 0.05 from 6 to 7 towards 4.07; measured 3.855 ± 0.022, 3.893 ±
+0.053, 3.98 ± 0.20: compatible. The 192-cell tube separates the multiplicities (39.17, 39.01, 38.92), and the
+blind 120-cell tube separates K_t = 1 (24.608) from 2 (24.571) and 3 (24.549) if it is good to ± 0.015. The
+power-law rival (p = 0.75 ± 0.15 for tubes) says 24.557 and 38.86.
+
 **Form** [measured as a description; the power law above is the rival]:
 
     ln τ_face(L) = a + 12·c∞·L − ln(1 + K·e^(−L/ξ)),   i.e.  1/τ = r·e^(−12 c∞ L)·(1 + K e^(−L/ξ)),
-    c∞ = 0.199 (0.195 … 0.202), K ≈ 2, ξ ≈ 2–2.6 lattice units  (tubes: K and ξ are not separable; bands give ξ).
+    c∞ = 0.2004 (0.199 … 0.202 across K = 1, 2, 3), K = 2, ξ = 1.95 lattice units  (tubes alone do not separate K
+    from ξ; the bands fix ξ).
 
 Answers to the brief's (c): **a flash**, ln τ = a(g) + c(g)·12L with a correction that dies off with length
 (e^(−L/ξ) or p·ln L), not nucleate-and-sweep (§3, §4). c(12) = 0.199 (0.195 … 0.202) if the correction is
@@ -321,8 +356,30 @@ from p = 1 (24.530); the exponential forms sit between (24.545–24.571).
 | (4,0),(0,4), 48 cells | 9.9349 ± 0.0064 (24,213 deaths) | 9.9251 ± 0.0004 | +0.010 ± 0.006 |
 | (1,8),(0,20), 60-cell tube | 12.4268 ± 0.0198 (2,561 deaths) | 12.4166 ± 0.0031 | +0.010 ± 0.020 |
 
-No sign that the offset moves with area or girth, on two vessels; nothing at 63–96 cells (forward flux failed,
-brute force not run there); w = 6, 8 not measured (see the end of this section if the job ended).
+w = 6 at 48 cells (`brute 4 0 4 8 2 42 500 8000000`): 9.9264 ± 0.0064 (24,414 deaths), offset +0.001 ± 0.006: it
+vanishes from w = 5 to w = 6 within errors. No sign that the offset moves with area or girth, on two vessels;
+nothing at 63–96 cells (forward flux failed, brute force not run there); w = 8 not measured.
+
+**Other girths: loop² 16 is another problem, because it can be cut** (`$S/tube1d bandp 4 0 14 8 0 5 10000000 500
+16`, the 168-cell tube (4,0),(0,14), length 12.1; `data/bandp5_g16_L12.txt`). Empty bands there are not flashes:
+−ln P(band empty) = 4.53, 5.11, 5.43, 5.79, 6.22, 6.77, 7.48, 8.47 at 1, 2, 3, 4, 5, 6, 7, 8 units (a price of
+0.02–0.08 per cell), they last 21, 56, 111, 100, 82, 61, 43, 27 generations at 1.5, 2, 3, 4, 5, 6, 7, 8 units, every
+bin of them has been empty for 32–63+ generations (the counter stops at 63) and no boom precedes them. These are
+transverse firewalls (T3) and the dead stretches between two of them. 35 faces died in 6.4·10⁸ slab-generations
+with nothing censored: **ln τ_face = 17.42 ± 0.17 for a 168-cell tube**, where the uncut price would give about 34
+and the face-death-only numbers on file are 17.46 at 84 cells and 22.37 at 108 (firewalled lives censored). So for
+this girth ln τ saturates with length: death by a local event. The brief's (a) for girths 4 and 3 is answered by
+that, not by a price.
+Through-cuts by hand (`$S/tube1d band h k d 8 0 78 3 600 4 8`: all 8 layers killed in a band of 3 units, 256
+lanes; `data/cut_g*_w3.txt`): at loop² 12 the cut **heals** (gap 3.0, 2.3, 1.3 units at t = 0, 6, 12; all lanes
+whole by t = 48); at loop² 16 it shrinks to 2.43 units by t = 24 and **stays at 2.43–2.47 for the 600 generations
+watched, in every lane**: a firewall neither heals nor spreads; its edges stand still. [conjectured, from the
+geometry] A transverse {111} layer meets the face along a kagome line, and it closes round the tube only if the
+girth vector lies along such a line (loop² 9, 16, 25: the girths with firewalls on file); at loop² 12 and 13 it
+winds along the whole tube, so there is nothing local to cut.
+So the band–tube constant, c∞(g) and ξ(g) of §5 exist only for loop² 12 here: at loop² 16 the band statistic
+measures firewalls (it would need lanes with a firewall censored, which `bandp` does not do), and the band jobs for
+loop² 13 and 9 and the length-20 check were not run for lack of time.
 
 ## 8. Data formats (for other agents)
 
@@ -340,8 +397,12 @@ brute force not run there); w = 6, 8 not measured (see the end of this section i
 ## 9. Not checked
 
 - No lifetime beyond 9 units was measured; every number for L ≥ 10 is an extrapolation of §5.
-- Bands were measured in a tube of length 12 only up to 7.5 units (4 units of living tube left at the widest); the
-  length-20 check is in §7 if it ended. Windows are aligned to 0.5-unit bins of the axis coordinate.
+- Bands were measured in a tube of length 12 only, up to 7 units (5 units of living tube left at the widest); the
+  length-20 check was not run. Windows are aligned to 0.5-unit bins of the axis coordinate. Brute force gains
+  half a unit of width per factor 3.5 of computing: 8 units needs about 10¹² band-position-generations (five
+  times what I ran), 10 units 10¹⁴; no estimator here goes further.
+- The joint fits treat the band slopes as independent with errors from five runs (floored at 0.0005) and ignore
+  everything below 3 units, where more than one sub-leading term must matter.
 - The paths are from one seed per vessel; the 84-cell statistics rest on 203 deaths.
 - The settled test catches periods dividing 840 and period ≤ 2 only.
 - The surrogate's offset was measured at 48 cells (and 60, §7) only; nothing about its dependence on area or girth
