@@ -30,7 +30,7 @@ b = one unit of wire C in wire B = a left-going pulse, `6f` = a right-going puls
 | 4 | "every later pulse is absorbed and lengthens it by one. So it counts" | **confirmed for pulses two or more units apart; corrected for adjacent pulses** | a block of m pulses one unit apart adds ⌈m/2⌉; the same stator removed twice two generations apart makes such a pair and is counted once |
 | 5 | bit read: crosses an empty cell, absorbed by a full one | **confirmed** | oracle, cell and push 7's line at both phases; the answer is the pulse on the far side, which the far cap swallows; a full store gains one |
 | 6 | count read: exactly k pulses, the cell empty again | **confirmed, time bound sharpened** | oracle, k = 1..20 in the cell at every even generation from 2k + 6 (the push says 4k + 8), then exactly the empty cell; selected k to 40 |
-| 7 | proof for every k | **a proof**; three places it passes over are closed here | finite runs against the infinite wire; H(k+1) at t = 2, 3; the time bound for 11 ≤ k ≤ 17 (section 3) |
+| 7 | proof for every k | **a proof**; three places it passes over are closed here | finite runs against the infinite wire; H(k+1) at t = 2, 3; the time bound for 11 ≤ k ≤ 24 (section 3) |
 | 8 | transfer: k into a store holding 1 gives k + 1 | **confirmed, one condition added** | oracle k = 1..8; the receiver's edge must be at least 2 units from the store's wall (at 1 unit both stores are lost) |
 | 9 | "take one off": a stator inside the stretch gives k − 1 | **corrected** | only the first two units ((0,1,2)) or the last unit and the edge ((0,1,4)); the other end's two units empty the store, the middle does nothing |
 | 10 | census of 760 one-cell events | **confirmed; one count corrected** | 526 / 134 / 72 / 10 / 8 / 6 / 4 reproduced event by event; the 134 are 66 to the left and 68 to the right, not 67 and 67 |
@@ -152,9 +152,16 @@ Three places the docstring passes over, each closed:
 3. **The continuation of the path and the time bound.** The script tests the continuation m = lead + 3 at even
    t only; at odd t it follows from the tape theorem by one step (the state at T is invariant under a move of two
    units on units lead + 1 .. lead + 2k − 1, hence one generation later on lead + 2 .. lead + 2k − 2), and it is
-   checked here at both parities for t = 80..92. The induction as written gives the final state from generation
-   max(4·K0 + 40, 2k + 6) = 80 on for 11 ≤ k ≤ 36; the stated bound 4k + 8 is below 80 for 11 ≤ k ≤ 17 and is
-   covered there by the direct runs (k = 11..18: exact at 4k + 8 and 4k + 12).
+   checked here at both parities for t = 80..92. As written the induction places the seam inside the train only
+   at t ≥ T = 80, so it gives the final state of k + 1 from max(80, t_k + 2) on, i.e. from 2k + 58 for k ≥ 11:
+   later than the stated 4k + 8 for 11 ≤ k ≤ 24. Closed two ways. (i) Direct runs (k = 11..18, 20, 25, 30, 40:
+   exact at 4k + 8 and 4k + 12). (ii) An argument: at an even t at which both charts are final (t ≥ 2k + 8, given
+   the claim for k from 2k + 6), they differ exactly at the units lead and lead + 2k, so H excludes
+   m − lead in {−1, 0, 1} and m − (lead + 2k) in {−1, 0, 1}; from one even generation to the next m − lead rises
+   by at most 2 and falls by at most 1 (m(t) ≤ m(t − 2) + 1, steps ≤ 1, the lead one unit on); so a seam ahead of
+   the lead cannot get behind it and a seam behind the last pulse cannot get in front of it; it is inside the
+   train at T, hence at every even t from 2k + 8 to T, where the glued state is the k + 1 pulses. With the base
+   k = 10 final from 26 this proves **final from generation 2k + 6 for every k**, which is what the runs show.
 
 Base facts with my code: H(10) on t = 2..80 by my own dynamic programme, a path from w + 3 to lead + 3 (it runs
 two or three units behind the leading pulse throughout); the agreement sets hold 64 to 66 of the 72 units tested.
@@ -213,17 +220,18 @@ read as fire.
 - Re-run with the push's code, counts as in the README: `signals8.py wire` (76: 66 / 6 / 2 / 1 / 1), `wire --bg d`,
   `words8.py --K 3` (3,840: 34 vanish, 3,238 other), the two `--mid dddf` runs (3,264 and 2,918 other),
   `unzip8.py absorb`, `unzip8.py caps`, `cell8.py --search`, `probe8.py scan` (3,600: 2,808 / 404 / 36 / 22 / 18;
-  440 kept). Not rebuilt.
+  440 kept), `probe8.py ride` (320 / 112 / 8), `probe8.py ringstretch` (312 placements unchanged after one lap
+  with both pulses, 8 not standing). Not rebuilt.
 
 ## 6. The negatives and their bounds
 
 **"Nothing that travels as a signal starts the read."** `python3 latch8.py --k 3 --pairs --words 3` (the push's
 code; 202 s here): 7,239 candidates, 48 distinct states. Read one by one from its output:
 
-- 10 of the 48 are not structures: the plain line with the stretch already released (1,299 candidates end there)
-  and 9 plain stores or pairs of stores with another count or place. 6 are the eaters `6?`, `6??`. 4 are a
-  standing `d?` or `d??` with the stretch gone or kept; the pulse makes `dd?`: another absorbing counter. 3 turn
-  the wire on the left into wire C. The rest burn.
+- 9 of the 48 are not structures: the plain line with the stretch already released (1,299 candidates end there)
+  and 8 plain stores or pairs of stores with another count or place. 6 are the eaters `6?`, `6??`. 5 are a
+  standing `d?` or `d??` with the stretch gone or kept; the pulse makes `dd?`, `dd??`: another absorbing counter.
+  In 6 the pulse turns the wire on the left into wire C. 22 burn.
 - None leaves plain wire and a train. Confirmed for k = 3. The k = 2, four-unit-word run (148 states, 20 minutes)
   was not re-run.
 - What was searched, exactly: states reached within 200 generations from one- or two-cell flips or family words
@@ -287,9 +295,9 @@ only.
 3. Section 6: N = 7 is the smallest for "two pulses seen at once"; the protocol works at N = 6 (68 cells).
 4. Section 5: 66 to the left and 68 to the right; the release is complete from generation 2k + 6.
 5. Section 5, the proof: add the check that nothing nears a cap at any generation, the two lines for t = 2, 3,
-   and the direct runs for 11 ≤ k ≤ 17 (or state the bound as max(80, 2k + 6)).
+   and the no-crossing argument for the time bound (which then reads 2k + 6).
 6. Section 2: 60 single pulses among the two-cell events, and R⁺ with an L⁺ train occurs there.
-7. Section 7 and the summary: say that 10 of the 48 states are the plain line or plain stores, and that the
+7. Section 7 and the summary: say that 9 of the 48 states are the plain line or plain stores, and that the
    search is inside the tube with one kind of arriving signal; the fixed sender answers "the reader has to know
    where the stretch begins".
 8. Section 4: the count read of the empty line is safe only at generations ≡ 2 mod 4.
