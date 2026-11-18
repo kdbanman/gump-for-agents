@@ -124,6 +124,27 @@ corrected.**
 - The bust statistics on the torus are confirmed to three digits.
 Not checked by the referee: the fits, the reading of the extra 0.05, triangles and strips, the radius-29 run.
 
+### 13:21 UTC. The 120-cell tube: below every forecast, and the bend goes on
+
+The card's final value for the loop-12 tube of 120 cells is **24.5086 ± 0.0169** (eight seeds, 3,494 face deaths,
+no firewalls; another session's measurement, read from its branch: `git show
+origin/claude/gpu-local-1080:research/gpu-local/README.md`, "Chain 3"). The night's forecasts were all high: the
+PI's 24.56 ± 0.03, `tube1d/`'s 24.563 ± 0.030 (its three forms spanned 24.53 to 24.61), the dice chain's 24.60 ±
+0.07, the card's own 24.576 ± 0.020. Scores in `PREDICTIONS.md`. The chords are 0.2023 ± 0.0004, 0.2013 ± 0.0008,
+0.1957 ± 0.0016 per cell from 84 to 120 cells: the last step bends by 2.7 errors of the second difference.
+- [measured, the card's] A tube's price is not a constant at any length reached, and `tube1d/`'s saturating form
+  with an asymptote of 0.2004 per cell is refuted: the local slope is already below it.
+- [conjectured] Two readings, with forecasts for the card's next tubes (126 and 132 cells) frozen in block 7: a
+  slow bend with a low fluctuation at 120 cells, or a second way to die whose rate hardly falls with length (a
+  local death that spreads along the tube) taking over. The second would make the tube's lifetime stop growing
+  with its area, as the lead's open question (l) asks.
+- [measured, `rim/`; the comparison is the PI's] A rimmed strip of loop L is a tube of girth L with two ends, and
+  its rows cost 0.172, 0.196, 0.2017 per cell at L = 3, 4, 5 with no bend from 4 to 7 rows: less than closed tubes
+  of the same girth pay at 54 to 108 cells (0.2072 falling to 0.2057 at loop² 16). If a row's price belongs to the
+  girth alone, closed tubes should bend down towards the strip's values (about 0.185 at loop² 12). Not tested;
+  `strips/` is measuring closed tubes and strips with one code.
+Not checked: nothing of the card's was recomputed here.
+
 ## What was found
 
 1. **Boom and bust on wrapped faces [measured by four independent codes: `anatomy/`, `split-slab/`, `tube1d/`,

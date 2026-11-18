@@ -48,35 +48,31 @@ after its own check; the PI never merges it.
   without warning: after every milestone bring this file up to date ("State"), and within 60,000 tokens of the
   threshold do it at once.
 
-## State (overwritten; last written 12:28 UTC 2026-11-18)
+## State (overwritten; last written 13:21 UTC 2026-11-18)
 
-- **Usage at 12:16 UTC: Fable window 0.14, weekly 0.07.** Two agents cost 14 points in 70 minutes (about 6 points
-  per agent-hour, more than last night's 4.5). Plan to the 0.50 stop: `noisy` about 15 more, its referee 5, the
-  referee of `holes` 5, `strips` 12. That is the whole budget: no further agent.
-- **Reported: `holes`** (`research/blast/holes/README.md`, commit f88da5d). The PI's hypothesis failed: a hole
-  costs 0.26 per cell, not 0.2087; the hull's interior is a wrapped face in the living state; no rim surplus in
-  the living state; new 18-cell hull anchor 4.855; its forecast for 135 cells 29.21 +- 0.03 (an extrapolation of
-  the anchors). Block 5 items 1-4 scored; written into `REPORT.md` (second-phase section).
-- **Running (three Fable agents):**
-  1. `split-hull` resumed, directory `research/blast/noisy/` (epsilon-noisy gump on the whole hull). At 12:25 it was
-     at brute force at 63 cells and sampler tests. It hands back scripts for the long runs; **the PI starts them
-     in the background and resumes the agent when they finish.** Owed: a referee (`ref-dicehull` resumed:
-     independent brute force of the noisy chain at 84 cells) before the 135 number is believed.
-  2. `strips` (new, a31c465afadd10954; `research/blast/strips/`; 2 cores; hands back by 14:15 UTC): lifetimes of
-     rimmed strips on a periodic prism |x+y| + |z| <= R (one obtuse and one sharp rim, no corners) and of
-     tetrahedron faces; mixed second differences in width and length give the price of the middle rows, against
-     wrapped faces of the same loop. Decides "rows or corners" (block 6). Owed when it reports: read, score block
-     6, write up; no budget for a referee, so say so in the report.
-  3. (done 12:43 UTC) `ref-hull` refereed `holes`: numbers confirmed, two readings corrected (the mixed difference
-     is not a bulk cost at these sizes; the 18-cell face is doubtful as a family member; the narrow-torus
-     disagreement is the firewall channel). In `REPORT.md`.
-- **The 120-cell tube** finishes on the card about 13:00 UTC (interim 24.497 +- 0.019). Check-in set for 13:40 UTC
-  (`trig_017L4TdzGa4cQWGCtF5pZtxu`): fetch `origin/claude/gpu-local-1080`, score block 0 and block 5 item 7, add
-  to `REPORT.md`. No budget left for a refit of the tube law: write the bend down and leave it.
-- **The PI's reading after holes (in `REPORT.md`):** the two prices cannot both be asymptotic (a hull face's
-  interior is a wrapped face); under the rows reading the 135-cell face repeats 0.231 by construction and the
-  165-cell face is the first that can decide (35.746 against 35.812).
-- Budget rule: no new agent from 0.40, wrap-up from 0.45, nothing running at 0.50.
+- **Usage at 13:18 UTC: Fable window 0.33, weekly 0.17.** Three agents cost 19 points in an hour: resumed agents
+  with contexts of 500,000 to 740,000 tokens are dear. **Start no agent and resume none**, except one fresh, short
+  referee for the noisy chain if the window allows (rule: none from 0.40, wrap-up from 0.45, nothing at 0.50).
+  The PI analyses the noisy runs itself (`python3 research/blast/noisy/fit.py`, `ana.py`).
+- **Running agent: `strips`** (a31c465afadd10954; `research/blast/strips/`; 2 cores; hands back by 14:15 UTC).
+  Redirected at 12:40: check `rim/`'s strip table with its own code, extend it (4 unit rows at L = 7, 5 unit rows
+  at L = 6), closed tubes of the same girth as control, tetrahedron. Owed: read, score block 6 items 2-8, write
+  up; no referee (say so).
+- **Long runs of the noisy hull (no agent; detached processes, `setsid nohup`; output
+  `research/scratch/blast/noisy/runs/sub_R<R>_M<M>_s<seed>.txt`, usable at any time):**
+  - Stage B, 108 cells blind (gump 23.3392 +- 0.0099): started 13:19 UTC on two cores:
+    `run_sub.sh 15 128 15100 22` and `run_sub.sh 15 32 15400 36` (2.4 h each). **Owed when `strips` frees its
+    cores (about 14:15): start `sh research/blast/noisy/run_sub.sh 15 128 15200 22` and `... 15 64 15300 30`**
+    the same way. Then `python3 research/blast/noisy/fit.py`: intercept at eps = 0 against 23.3392.
+  - Stage C, 135 cells: `sh research/blast/noisy/prod_C_135.sh 1` (4 cores, 8 h a round; later rounds 2, 3 add
+    up) only after B is read. If B fails, run `prod_A_brute84.sh` (the chain's own offset at 84 cells) instead.
+  - At each wake-up copy the `runs/` files of stages B and C to `research/blast/noisy/data/runs/` and commit
+    (the scratch directory dies with the container).
+  - `noisy` stage 1 as reported (commit e98b53e): chain = gump at M = 0 bit for bit; no offset at 45 and 63
+    cells at any eps up to 0.3 (63 cells: weighted mean +0.003 +- 0.004); sampler against brute force at 63 cells
+    within errors; 84 cells at eps = 1/16: 18.173 +- 0.029 (gump 18.141). Its forecast: 135 cells 29.27 +- 0.08.
+- **Done this phase:** `holes` reported and refereed (in `REPORT.md`); the 120-cell tube scored (24.5086 +-
+  0.0169, below every forecast; chords 0.2023, 0.2013, 0.1957); block 7 frozen (126- and 132-cell tubes).
 - Not done: the pull request's description is still the night's; `README.md`'s index lacks rows for `holes`,
   `noisy`, `strips`, `ref-report`, `ref-hull/WRAPPED.md`, `ref-hull/HOLES.md`, the last section of `ref-dicehull`;
   the lead has recomputed nothing; `research/check.sh` not run on the blast; no figures.

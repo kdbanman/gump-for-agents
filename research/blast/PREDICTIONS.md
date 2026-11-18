@@ -311,3 +311,28 @@ same girth (firewall deaths set aside) at L = 4 and 5: 65%.
 stand, but the mixed difference is not a bulk cost at these sizes (−ln P is not bulk + perimeter + corner there).
 So item 1 is **missed at every size reached**, and "dead by its own criterion" is too strong: the reading is
 unsupported, and not refuted for holes wider than 4 unit cells, which nobody has reached.
+
+### The 120-cell tube, scored 13:21 UTC (the card's final value: 24.5086 ± 0.0169, eight seeds, 3,494 face deaths, no firewalls; `git show origin/claude/gpu-local-1080:research/gpu-local/README.md`, "Chain 3")
+
+- Block 0, the PI's 24.56 ± 0.03: **missed** (0.051 low, 1.5 combined errors, outside the band).
+- Block 0, "the local slope from 108 to 120 cells is below 0.2030" (85%): **held**; "below 0.2000" (35%): it is
+  0.1957 ± 0.0016 (against 22.1599 ± 0.0086 at 108 cells).
+- The dice chain's 24.60 ± 0.07 (`split-slab/`, refereed): inside two errors, 1.3 high.
+- `tube1d/`'s 24.563 ± 0.030: missed the same way; its three forms spanned 24.53 to 24.61 and the value is below all.
+- Block 5 item 7 (final within 0.03 of the interim): **held**.
+Every forecast made for this tube, here and on the card (24.576 ± 0.020), was high. The chords are now 0.2023 ±
+0.0004, 0.2013 ± 0.0008, 0.1957 ± 0.0016 per cell at 84–96–108–120 cells.
+
+## Block 7: the 126- and 132-cell tubes (PI; frozen 13:21 UTC 2026-11-18; the card's own forecasts for them not read)
+
+The card will time the loop-12 tubes of 126 and 132 cells. Two readings of the bend at 120 cells. *Gentle*: the
+last chord is a low fluctuation on a slow bend (true slope near 0.197) and the local slope goes on down by a few
+thousandths per step. *A second way to die*: a channel whose rate falls much more slowly with length (a local
+death that spreads) has reached a few per cent of the deaths at 114 cells and takes over within twenty cells;
+then the chords fall fast (two exponentials through the three chords give a second slope near 0.06 per cell,
+25.59 at 126 cells and 26.55 at 132). I give the second reading 30%.
+1. 126 cells: **25.66 ± 0.06**; P(below 25.64) = 35%.
+2. 132 cells: **26.78 ± 0.13**; P(below 26.70) = 35%.
+3. The chord from 120 to 132 cells: below 0.1900 with 35%; above 0.2000 (the bend was a fluctuation) with 12%.
+4. If the second reading is right, the share of deaths in which the face empties band by band along the tube
+   (not all at once) is visibly higher at 132 cells than at 96: 70% given the second reading.
