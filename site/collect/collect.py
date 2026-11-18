@@ -621,6 +621,88 @@ out["prices"] = {"hull108": pv("hull108"), "refuted": pv("refuted"), "rimmed": r
                  "interior": pv("interior"), "excluded": pv("excluded")[0], "rim": pv("rim"), "rimsum": pv("rimsum"), "depth": pv("depth"),
                  "occ": pv("occ"), "thick": th, "noloop": out["dens"]["noloop"], "loop21": wv("loop21"), "w13": [w13n["value"], w13n["se"]],
                  "essay": N16["price"]["essay"]["quote"], "essay2": N16["price"]["essay2"]["quote"]}
+# ---- the refresh of 2026-11-18: update-2026-11-18.json. How faces die, audited from outside (DY16-DY21; tables of
+#      research/audit/blast/data/); the long tubes to 120 cells, the loop-21 face on two codes, the 6 x 6 face (WL9-WL11);
+#      the seventh, eighth, 8b and ninth signals pushes (SG33-SG38); the memory cell's objects for the live run ----
+for sec in ("blast", "wrap18", "sig18"):
+    for k, v in N18[sec].items(): checked(v)
+for f in N18["forecasts"]: checked(f)
+for c in N18["corrections"]: checked(c)
+for a in N18["audits"]: assert (repo / a["file"]).exists(), a["file"]
+out["forecasts"] += [{"line": f["line"], "result": f["result"]} for f in N18["forecasts"]]
+out["corrections"] += [{"said": c["said"], "now": c["now"], "by": c["by"], "who": who(c["by"]), "line": c["line"]} for c in N18["corrections"]]
+out["project"]["audits"] += [[a["label"], a["line"]] for a in N18["audits"]]
+tl["milestones"] += [{"date": x["date"], "text": x["text"]} for x in N18["milestones"]]
+bv = lambda k: N18["blast"][k].get("value")
+xv = lambda k: N18["wrap18"][k].get("value")
+# the four tables of the blast audit (research/audit/blast/data/<name>.txt), read here; the plate draws these numbers
+bdir = repo / "research" / "audit" / "blast" / "data"
+def btable(name):
+    t = (bdir / (name + ".txt")).read_text()
+    A = int(re.search(r"face layer A = (\d+) cells", t)[1])
+    m = re.search(r"([\d,]+|\d+) face deaths \(age >= 1000\).*?ln tau_face = ([\d.]+) \+- ([\d.]+)", t)
+    deaths = int(re.search(r"(\d+) face deaths \(age", t)[1])
+    series = [float(x) for x in re.search(r"mean population at launch -3 \.\. \+4: ([\d. ]+)", t)[1].split()]
+    dist = [[int(a), int(b), float(c)] for a, b, c in re.findall(r"(\d+)-(\d+): ([\d.]+)", re.search(r"distribution of the largest fall \(cells\): (.*)", t)[1])]
+    sec5 = t[t.index("largest one-generation fall in the window"):]
+    share = {x: [float(a), float(b)] for x, a, b in re.findall(r">= (0\.[3456]) A: ([\d.]+) \+- [\d.]+ / ([\d.]+)", sec5[:600])}
+    U_ = re.search(r"U = \d+: (q\(1\).*?)   \(", t)[1]
+    qk = [float(x) for x in re.findall(r"q\(\d\) = ([\d.]+)", U_)]
+    gl = re.search(r"generations from the launch to the empty face: mean ([\d.]+), quartiles \[ *([\d.]+) +([\d.]+) +([\d.]+)\]", t)
+    lp = re.search(r"population at the launch: mean ([\d.]+) \(([\d.]+) A\)", t)
+    return {"A": A, "ln": float(m[2]), "se": float(m[3]), "deaths": deaths, "series": series, "dist": dist, "share": share, "q": qk,
+            "launch": [float(lp[1]), float(lp[2])], "toempty": [float(gl[1]), float(gl[2]), float(gl[3]), float(gl[4])]}
+BT = {n: btable(n) for n in ("slab63", "hull63", "wide84", "tube84")}
+an = bv("anchors")
+assert [[BT[n]["ln"], BT[n]["se"]] for n in ("slab63", "hull63", "wide84", "tube84")] == [an[1:3], an[3:5], an[5:7], an[7:9]]
+assert abs(BT["slab63"]["launch"][1] - bv("launch")[0]) < 5e-4 and abs(BT["slab63"]["share"]["0.4"][0] - bv("falls")[0] / 100) < 0.005
+assert abs(BT["hull63"]["share"]["0.5"][0] * 100 - bv("fade")[1]) < 1e-9 and BT["hull63"]["toempty"][2] == bv("fade")[5] and BT["slab63"]["toempty"][2] == bv("launch")[3]
+qq = bv("qk"); assert all(abs(a - b) < 6e-4 for a, b in zip(BT["hull63"]["q"][:3] + BT["slab63"]["q"][:3], qq)), (BT["hull63"]["q"][:3], BT["slab63"]["q"][:3])
+assert abs(BT["tube84"]["launch"][1] - bv("tube")[8]) < 5e-4 and all(abs(a - b) <= 0.0161 for a, b in zip(BT["tube84"]["q"], BT["wide84"]["q"]))
+# survival by class of cell in a non-fatal over-full generation (>= 48 of 63 cells): the first two blocks of rimtest.txt
+rt = (bdir / "rimtest.txt").read_text().split("# ")[1:3]
+def cls(block):
+    return [[int(a), int(b), float(c), float(d), float(e)] for a, b, c, d, e in re.findall(r"cells with (\d+) neighbours inside \((\d+) a face\): occupancy [\d.]+; live cells that survive ([\d.]+); live cells with >= 6 live neighbours ([\d.]+); births per dead cell ([\d.]+)", block)]
+rh, rw = cls(rt[0]), cls(rt[1])
+assert "hull_11" in rt[0] and "slab_1_4_21" in rt[1] and ">= 48 cells" in rt[0] and ">= 48 cells" in rt[1]
+rq = bv("rim"); assert [rh[0][2], rw[0][2], rh[1][2]] == [rq[2], rq[3], rq[5]] and rh[0][:2] == [9, 30] and rh[1][:2] == [7, 30]
+nx = [float(x) for x in re.findall(r"one generation later ([\d.]+)", "".join(rt))]
+assert abs(nx[0] - bv("rimnext")[0]) < 0.05 and abs(nx[1] - bv("rimnext")[1]) < 0.05
+out["blast"] = {"t": BT, "rim": {"hull": rh, "wrapped": rw, "next": nx[:2]},
+                **{k: bv(k) for k in ("launch", "falls", "crash", "fade", "rim", "rimnext", "slow", "survived", "together", "tube", "qk", "qkex")},
+                "prices": [N16["price"]["rimmed"]["value"][3], N16["price"]["rimmed"]["value"][4], N16["price"]["rimmed"]["value"][5]]}
+# the long 12-tubes to 120 cells (WL10, WL11): the four faces recomputed from the files, the chords checked against the quote
+def face(fn):
+    rs = list(csv.DictReader(open(repo / "research" / "data" / "gpu_local_eqtorus" / (fn + ".csv"))))
+    E_, F_ = sum(int(x["exposure"]) for x in rs), sum(int(x["face"]) for x in rs)
+    return [int(rs[0]["A"]), round(math.log(2 * E_ / F_), 4), round(F_ ** -0.5, 4), F_, len(rs)]
+T12 = [face(f) for f in ("eqtorus_1_12_28", "eqtorus_1_17_32", "eqtorus_1_16_36", "eqtorus_1_18_40")]
+t120 = xv("tube120")
+assert T12[3][1:3] == t120[1:3] and T12[3][3] == t120[4] and T12[3][4] == t120[3] and [T12[1][1:3], T12[2][1:3]] == [l12[0:2], l12[2:4]]
+ch = [[(b[1] - a[1]) / (b[0] - a[0]), math.hypot(a[2], b[2]) / (b[0] - a[0])] for a, b in zip(T12, T12[1:])]
+cq = xv("chords"); assert all(abs(c[0] - cq[2 * i]) < 2e-5 and abs(c[1] - cq[2 * i + 1]) < 2e-5 for i, c in enumerate(ch)), ch
+F13, F16a, F16b = face("eqtorus_1_3_32"), face("eqtorus_4_0_8"), face("eqtorus_1_8_32")
+assert F13[1:3] == xv("l13")[2:4] and F16a[1:3] == xv("l16rows")[0:2] and F16b[1:3] == xv("l16rows")[2:4]
+out["wrap"]["w18"] = {"t12": T12, "chords": ch, "tube120": t120, "line": [cq[8], cq[9]], "high": xv("high"), "l12": l12, "l13": xv("l13"), "f13": F13,
+                      "l16": xv("l16"), "f16": [F16a, F16b], "cpu": xv("cpu"), "bends": xv("bends")[0], "loop21": xv("loop21"), "eq108": xv("eq108"),
+                      "pair": xv("pair"), "W": [xv("W14"), xv("W15"), xv("W16")]}
+out["prices"]["w18"] = {"l12": l12, "chord120": [cq[4], cq[5]], "tube120": t120[1:3], "blast": [bv("falls")[0], bv("fade")[1]]}
+# the memory cell (SG33, SG34, SG38): the object files, copied for the page's live runs (laid out by signals-core.js memory,
+# stepped by gump-core.js makeSparse; site/checks/check-signals.js runs every one against the files' checks and the oracle)
+sv = lambda k: N18["sig18"][k].get("value")
+c8 = json.loads((repo / "research" / "signals" / "push8" / "objects" / "cell8.json").read_text())
+c9 = json.loads((repo / "research" / "signals" / "push9" / "objects" / "call9.json").read_text())
+assert all(c8[k] == c9[k] for k in ("capL", "capR", "stators", "sites"))
+def mrun(f, d, name, label):
+    r = next(x for x in d["runs"] if x["name"] == name)
+    return {"file": f, "name": name, "label": label, "text": r["text"], "N": r["N"], "H": r["H"], "start": r["start"], "offsets": r.get("offsets", [[0, 0, 0]]),
+            "extra": r.get("extra", []), "crossings": r.get("crossings", []), "ops": [[o[0], o[1], o[2] if len(o) > 2 else []] for o in r["ops"]], "checks": r["checks"]}
+MR = [mrun("research/signals/push9/objects/call9.json", c9, "cycle", "write 3, call; write 2, call"),
+      mrun("research/signals/push9/objects/call9.json", c9, "move", "call a store of 3 into a store of 1"),
+      mrun("research/signals/push8/objects/cell8.json", c8, "count", "write 4, release by hand")]
+assert 38 + 5 * MR[0]["N"] == sv("cell")[0] + sv("cell")[1] * MR[0]["N"] and len(MR[0]["extra"]) == sv("callline")[1]
+out["memory"] = {"obj": {k: c8[k] for k in ("capL", "capR", "stators", "sites")}, "runs": MR}
+
 # the footer's date: the newest date among the files the data were gathered into (update-<date>*.json); the stamp under it
 # gives the repository state the timeline was read from
 out["project"]["gathered"] = max(re.match(r"update-(\d{4}-\d\d-\d\d)", f.name).group(1) for f in (here / "sources").glob("update-*.json"))
