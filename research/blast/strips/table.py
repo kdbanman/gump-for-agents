@@ -89,15 +89,62 @@ for g in (3, 4, 5, 6):
     out += [f"{a}->{a+2}: {fmt(v)}" for a, v in v2 if v and not (T(g, a + 1))]
     print(f"   girth {g}: " + ";  ".join(out))
 
-print("\n== tetrahedra and octahedra: ln tau_face by side, first and second differences per cell")
-for ves, name in (("oct", "octahedron (anchors where not run)"), ("tet", "tetrahedron")):
-    ANCH = {3: (4.855, 0.015), 4: (6.804, 0.003), 5: (9.819, 0.003), 6: (13.633, 0.008), 7: (18.141, 0.005), 8: (23.3392, 0.0099)}
-    def G(s):
-        v = val((ves, 2 * s - 1 if ves == "oct" else s, 0))
-        return v if v else (ANCH.get(s) if ves == "oct" else None)
-    print(f"  {name}")
-    for s in range(2, 14):
-        if not G(s): continue
-        d1 = comb([(1, G(s)), (-1, G(s - 1))], 3 * s) if G(s - 1) else None
-        d2 = comb([(1, G(s + 1)), (-2, G(s)), (1, G(s - 1))], 3) if G(s - 1) and G(s + 1) else None
-        print(f"   side {s:2d} cells {3*s*(s+1)//2:3d}: ln tau {fmt(G(s))}   per added cell from side-1: {fmt(d1)}   second difference/3: {fmt(d2)}")
+print("\n== the comparison: row of a rimmed strip (w = 4 -> 5, no firewall before) against row of a closed tube of the same girth, per cell")
+Sn = lambda w, L: val(("prism", 2 * w - 1, L), True)
+for g in (3, 4, 5, 6):
+    ps = comb([(1, Sn(5, g)), (-1, Sn(4, g))], 3 * g)
+    for a in (4, 5, 6, 7):
+        pt = comb([(1, T(g, a + 1)), (-1, T(g, a))], 3 * g)
+        if ps and pt: print(f"  girth {g}: strip {fmt(ps)}   tube {a}->{a+1}: {fmt(pt)}   strip - tube {ps[0]-pt[0]:+.4f} ± {math.hypot(ps[1], pt[1]):.4f}")
+print("  mixed second differences per cell at (4.5, L+1/2): strip (no firewall before) against closed faces (a = 4 -> 5, girth L -> L+1)")
+for L in (3, 4, 5, 6):
+    ms_ = comb([(1, Sn(5, L + 1)), (-1, Sn(5, L)), (-1, Sn(4, L + 1)), (1, Sn(4, L))], 3)
+    mt = comb([(1, T(L + 1, 5)), (-1, T(L, 5)), (-1, T(L + 1, 4)), (1, T(L, 4))], 3)
+    if ms_ and mt: print(f"  L {L}->{L+1}: strip {fmt(ms_)}   closed {fmt(mt)}   strip - closed {ms_[0]-mt[0]:+.4f} ± {math.hypot(ms_[1], mt[1]):.4f}")
+def pool(a, b):
+    if a is None: return b
+    if b is None: return a
+    wa, wb = 1 / a[1] ** 2, 1 / b[1] ** 2
+    return ((wa * a[0] + wb * b[0]) / (wa + wb), (wa + wb) ** -0.5)
+Sa = lambda w, L: val(("prism", 2 * w - 1, L))
+for L in (3, 4):
+    mine = comb([(1, Sa(5, L + 1)), (-1, Sa(5, L)), (-1, Sa(4, L + 1)), (1, Sa(4, L))], 3)
+    rim_ = comb([(1, RIM.get((5, L + 1))), (-1, RIM.get((5, L))), (-1, RIM.get((4, L + 1))), (1, RIM.get((4, L)))], 3)
+    both = comb([(1, pool(Sa(5, L + 1), RIM.get((5, L + 1)))), (-1, pool(Sa(5, L), RIM.get((5, L)))), (-1, pool(Sa(4, L + 1), RIM.get((4, L + 1)))), (1, pool(Sa(4, L), RIM.get((4, L))))], 3)
+    print(f"  all first deaths, (4.5, L {L}->{L+1}): mine {fmt(mine)}   rim's table {fmt(rim_)}   the two tables pooled {fmt(both)}")
+print("  intercept a(L) = ln tau(4, L) - 4 g(L), g(L) = ln tau(5, L) - ln tau(4, L) (no firewall before): "
+      + "  ".join(f"L={L}: g {fmt(comb([(1, Sn(5, L)), (-1, Sn(4, L))]))}, a {fmt(comb([(5, Sn(4, L)), (-4, Sn(5, L))]))}" for L in (3, 4, 5, 6) if Sn(5, L) and Sn(4, L)))
+print("  rows formula of agent holes with the octahedron's row prices at both rims (c0 0.1572, c1 0.2666, c2 0.2307): lambda(4) = 2.543, lambda(5) = 3.235, lambda(6) = 3.927")
+for w in (4, 5, 6):
+    out = [f"L {L}->{L+1}: " + fmt(comb([(1, Sn(w, L + 1)), (-1, Sn(w, L))])) for L in range(3, 7) if Sn(w, L + 1) and Sn(w, L)]
+    print(f"   measured lambda({w}) = ln tau(w, L+1) - ln tau(w, L): " + ";  ".join(out))
+
+print("\n== octahedron (calibration): mine against the anchors")
+ANCH = {7: (6.804, 0.003), 9: (9.819, 0.003)}
+for R in (7, 9):
+    v = val(("oct", R, 0))
+    if v: print(f"  R = {R}: mine {fmt(v)}   anchor {ANCH[R][0]:.3f} ± {ANCH[R][1]:.3f}")
+
+print("\n== tetrahedron: the hazard is not steady; ln tau_face = ln(4 * exposure / deaths) by age since the soup")
+for d in dirs:
+    for fn in sorted(glob.glob(os.path.join(d, "tet_*.txt")), key=lambda f: int(os.path.basename(f).split("_")[1])):
+        side = int(os.path.basename(fn).split("_")[1]); out = []
+        for line in open(fn):
+            if line.startswith("  age"):
+                t = line.split(); out.append(f"{t[1].rstrip('.:')}+: {t[8]}±{t[10]}")
+        print(f"  side {side:2d} ({3*side*(side+1)//2:3d} cells): " + "  ".join(out))
+    for fn in sorted(glob.glob(os.path.join(d, "trunc_*.txt"))):
+        rows = [l.split() for l in open(fn) if l.startswith("TRUNC")]
+        if rows: print(f"  {rows[0][1]} {rows[0][2]}: layers shaved off each corner opposite a face (mean over lanes with no face yet empty), by generation: "
+                       + "  ".join(f"{r[4]}: {r[r.index('mean') + 1]} (pop {r[-1]}, lanes {r[r.index('empty') + 1].rstrip(':')})" for r in rows))
+
+print("\n== how faces die: living face population, and the dying face's population 3 to 5 generations before its death")
+for d in dirs:
+    for fn in sorted(glob.glob(os.path.join(d, "*.txt"))):
+        L = [l.split() for l in open(fn)]
+        live = [t for t in L if t and t[0] == "LIVE"]; bust = [t for t in L if t and t[0] == "BUST"]
+        lag = {int(t[5]): t for t in L if t and t[0] == "LAG"}
+        if not live or 4 not in lag or live[0][1] == "tet": continue
+        t = live[0]; A = int(t[5]); mean = float(t[9])
+        print(f"  {t[1]} {t[2]} {t[3]} ({A} cells, {bust[0][5]} deaths): living mean {mean/A:.3f} of the face, q95 {int(t[15])/A:.3f}, q99 {int(t[17])/A:.3f}; "
+              f"dying q95 at lags 3, 4, 5: {int(lag[3][15])/A:.3f} {int(lag[4][15])/A:.3f} {int(lag[5][15])/A:.3f}; q90 at lag 4: {int(lag[4][13])/A:.3f}; bust share {float(bust[0][-1]):.3f}")

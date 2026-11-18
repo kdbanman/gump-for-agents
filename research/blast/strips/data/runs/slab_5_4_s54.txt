@@ -1,0 +1,26 @@
+# life slab 5 4 seed 54 T0 1000: N 480 faces 2 cells/face 60 gens 7827456 secs 29.6 (7.87 ns per cell-generation of 512 lanes); censored as periodic 7; deaths before T0 234; deaths with two faces at once 0; oldest lane at the end 831380; exposure by bins 3976783732
+  age     1000..: deaths       241 exposure       30177646 ln tau_face 12.4310 +- 0.0644
+  age     2000..: deaths       492 exposure       60055932 ln tau_face 12.4055 +- 0.0451
+  age     4000..: deaths       892 exposure      117293478 ln tau_face 12.4799 +- 0.0335
+  age     8000..: deaths      1696 exposure      224077658 ln tau_face 12.4846 +- 0.0243
+  age    16000..: deaths      3002 exposure      409005545 ln tau_face 12.5154 +- 0.0183
+  age    32000..: deaths      5315 exposure      682343400 ln tau_face 12.4559 +- 0.0137
+  age    64000..: deaths      7058 exposure      951277653 ln tau_face 12.5045 +- 0.0119
+  age   128000..: deaths      7090 exposure      943338990 ln tau_face 12.4916 +- 0.0119
+  age   256000..: deaths      3645 exposure      483008000 ln tau_face 12.4876 +- 0.0166
+  age   512000..: deaths       580 exposure       76205430 ln tau_face 12.4791 +- 0.0415
+LIFE slab 5 4 cells 60 seed 54 T0 1000 deaths 30011 exposure 3976783732 ln_tau_face 12.4876 +- 0.0058 | nofw deaths 29870 exposure 3976122175 ln_tau_face 12.4921 +- 0.0058 firewalls 143 fw% 0.5
+LIVE slab 5 4 cells 60 samples 970795 mean 30.991 q50 31 q90 37 q95 39 q99 42
+BUST slab 5 4 deaths 30011 share with a one-generation fall of at least half the face 0.5719
+LAG slab 5 4 lag  1 mean 1.688 q10 1 q50 1 q90 3 q95 4
+LAG slab 5 4 lag  2 mean 4.329 q10 1 q50 3 q90 9 q95 11
+LAG slab 5 4 lag  3 mean 10.741 q10 1 q50 6 q90 41 q95 47
+LAG slab 5 4 lag  4 mean 18.152 q10 2 q50 11 q90 45 q95 47
+LAG slab 5 4 lag  5 mean 22.308 q10 3 q50 25 q90 44 q95 46
+LAG slab 5 4 lag  6 mean 24.597 q10 4 q50 29 q90 42 q95 45
+LAG slab 5 4 lag  7 mean 26.674 q10 5 q50 30 q90 40 q95 44
+LAG slab 5 4 lag  8 mean 28.003 q10 9 q50 30 q90 38 q95 42
+LAG slab 5 4 lag  9 mean 28.834 q10 15 q50 31 q90 38 q95 41
+LAG slab 5 4 lag 10 mean 29.554 q10 21 q50 31 q90 38 q95 40
+LAG slab 5 4 lag 11 mean 30.010 q10 23 q50 31 q90 37 q95 40
+LAG slab 5 4 lag 12 mean 30.320 q10 24 q50 31 q90 37 q95 39

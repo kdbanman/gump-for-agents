@@ -1,0 +1,20 @@
+# life prism 7 3 seed 713 T0 1000: N 288 faces 4 cells/face 36 gens 1630208 secs 8.1 (17.16 ns per cell-generation of 512 lanes); censored as periodic 197 (of them by the 4096-snapshot 1); deaths before T0 658533; deaths with two faces at once 1275; oldest lane at the end 5789; exposure by bins 259252444
+  age     1000..: deaths    205683 exposure      177529061 ln tau_face 8.1468 +- 0.0022
+  age     2000..: deaths     85802 exposure       73648759 ln tau_face 8.1413 +- 0.0034
+  age     4000..: deaths      9130 exposure        7993115 ln tau_face 8.1611 +- 0.0105
+  age     8000..: deaths        90 exposure          81509 ln tau_face 8.1950 +- 0.1054
+LIFE prism 7 3 cells 36 seed 713 T0 1000 deaths 300705 exposure 259252444 ln_tau_face 8.1457 +- 0.0018 | nofw deaths 300694 exposure 259251641 ln_tau_face 8.1458 +- 0.0018 firewalls 29 fw% 0.0
+LIVE prism 7 3 cells 36 samples 62808 mean 18.552 q50 19 q90 24 q95 25 q99 27
+BUST prism 7 3 deaths 300705 share with a one-generation fall of at least half the face 0.2274
+LAG prism 7 3 lag  1 mean 1.656 q10 1 q50 1 q90 3 q95 4
+LAG prism 7 3 lag  2 mean 4.137 q10 1 q50 3 q90 8 q95 10
+LAG prism 7 3 lag  3 mean 8.264 q10 2 q50 6 q90 20 q95 27
+LAG prism 7 3 lag  4 mean 11.636 q10 2 q50 10 q90 25 q95 28
+LAG prism 7 3 lag  5 mean 13.371 q10 3 q50 13 q90 24 q95 27
+LAG prism 7 3 lag  6 mean 14.559 q10 4 q50 15 q90 23 q95 26
+LAG prism 7 3 lag  7 mean 15.593 q10 5 q50 16 q90 24 q95 26
+LAG prism 7 3 lag  8 mean 16.346 q10 7 q50 17 q90 24 q95 25
+LAG prism 7 3 lag  9 mean 16.891 q10 9 q50 18 q90 24 q95 25
+LAG prism 7 3 lag 10 mean 17.319 q10 10 q50 18 q90 24 q95 25
+LAG prism 7 3 lag 11 mean 17.620 q10 11 q50 18 q90 24 q95 25
+LAG prism 7 3 lag 12 mean 17.855 q10 11 q50 18 q90 24 q95 25
