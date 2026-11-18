@@ -63,6 +63,10 @@ int main(int argc, char **argv) {
   int win = !strcmp(argv[2], "win");     /* win: also the histogram WHIST of the minimum of the face population over consecutive 24-generation
                                             blocks of counting lanes (the sampler's score: min over 24 generations after a generation with the face alive) */
   static int bc[NL], bmin[NL]; long *whist = calloc(A + 1, sizeof(long)); long nblk = 0; for (int l = 0; l < NL; l++) bmin[l] = 1 << 20;
+  /* win with two more arguments PBAR SIGMA: for every counted death, the number of generations since the face population was last
+     above L_j = round(PBAR - k_j SIGMA), k = 2.5, 3.5, 4.5 (how long the fatal dip had been under way): histogram DUR j */
+  int LV[3] = {-1, -1, -1}; static int lastab[3][NL]; static long dur[3][512];
+  if (win && argc > 8) for (int j = 0; j < 3; j++) { LV[j] = (int)floor(atof(argv[7]) - (2.5 + j) * atof(argv[8]) + 0.5); if (LV[j] < 0) LV[j] = 0; }
   static int age[NL]; for (int i = 0; i < n; i++) a[i] = rvec();
   double expo = 0, deaths = 0, ps = 0, ps2 = 0, pn = 0; double *occ = calloc(A, 8); long burndeaths = 0; long *hist = calloc(A + 1, sizeof(long));
   for (long g = 1; g <= gens; g++) {
@@ -72,6 +76,8 @@ int main(int argc, char **argv) {
     vec cnt = {0, 0, 0, 0}; for (int l = 0; l < NL; l++) { age[l]++; if (age[l] > burn) cnt[l >> 6] |= 1ULL << (l & 63); }
     if (win) { static int wp[NL]; memset(wp, 0, sizeof wp);
       for (int i = 0; i < A; i++) for (int w = 0; w < 4; w++) { u64 x = a[i][w]; while (x) { wp[w * 64 + __builtin_ctzll(x)]++; x &= x - 1; } }
+      if (LV[0] >= 0) for (int l = 0; l < NL; l++) for (int j = 0; j < 3; j++) { if (wp[l] > LV[j]) lastab[j][l] = age[l];
+          else if (wp[l] == 0 && age[l] > burn) { int d_ = age[l] - lastab[j][l]; dur[j][d_ > 511 ? 511 : d_]++; } }
       for (int l = 0; l < NL; l++) if (age[l] > burn + 1) { if (wp[l] < bmin[l]) bmin[l] = wp[l]; bc[l]++;
           if (bc[l] == 24 || wp[l] == 0) { whist[bmin[l]]++; nblk++; bc[l] = 0; bmin[l] = 1 << 20; } } }
     for (int w = 0; w < 4; w++) { expo += __builtin_popcountll(alive[w] & cnt[w]); u64 d = ~alive[w];
@@ -89,6 +95,7 @@ int main(int argc, char **argv) {
          n, A, NRULE, dpm, burn, gens, expo, deaths, deaths > 0 ? log((all8 ? 8 : 1) * expo / deaths) : 99.0, deaths > 0 ? 1 / sqrt(deaths) : 0.0, burndeaths, m, sqrt(v), pn);
   for (int i = 0; i < A; i++) printf("OCC %d %d %d %.5f\n", xyz[3 * i], xyz[3 * i + 1], xyz[3 * i + 2], occ[i] / pn);
   if (win) { printf("WHIST %ld", nblk); for (int p = 0; p <= A; p++) printf(" %ld", whist[p]); printf("\n"); }
+  if (LV[0] >= 0) for (int j = 0; j < 3; j++) { printf("DUR %d level %d :", j, LV[j]); for (int d_ = 0; d_ < 512; d_++) printf(" %ld", dur[j][d_]); printf("\n"); }
   printf("HIST"); for (int p = 0; p <= A; p++) printf(" %ld", hist[p]); printf("\n");
   return 0;
 }
