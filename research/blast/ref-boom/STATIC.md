@@ -142,8 +142,8 @@ fractions of the area. But something more useful came out: the kill exponent of 
 | ≥ 0.70·A now, ≤ 0.25·A next | 15.642 ± 0.035 (0.00) | 17.514 ± 0.049 (−0.02) | 22.429 ± 0.096 (−0.11) |
 | ≥ 0.70·A now, ≤ 0.20·A next | 15.624 ± 0.052 (−0.02) | 17.492 ± 0.085 (−0.05) | 22.40 ± 0.31 (−0.14; 105 events) |
 | ≥ 0.70·A now, ≤ 0.20·A two generations on | 15.654 ± 0.034 (+0.01) | 17.528 ± 0.049 (−0.01) | 22.488 ± 0.109 (−0.05) |
-| straight line through the anchors of 48, 57, 63 | 15.75 (+0.11) | 17.69 (+0.16) | 22.87 (+0.33) |
-| the same events with d held constant (purely static) | 12.5–14.0 | 13.2–15.3 | 15.2–18.6 |
+| straight line through the anchors of 48, 57, 63 | 15.76 (+0.11) | 17.70 (+0.16) | 22.88 (+0.34) |
+| the same events with d held constant (purely static) | 11.8–14.0 | 12.3–15.3 | 13.6–18.6 |
 
    In one formula, fitted on 48–63 cells only: **ln τ(A) = −ln ν_A(face ≥ 0.74·A) + 0.1273·A − 1.37**, where ν_A is
    the fraction of generations a living face of A cells is that full (2.6·10⁻⁴ at 84 cells, 3.7·10⁻⁵ at 108: tens
