@@ -1,0 +1,36 @@
+ffs_1_12_28_w5_s1.txt: # A=84 N=588 mean face pop 43.420 sd 5.779 (density 0.5169) lamA=43 lam0=37 girth^2=12 (v=2,-4) length=7.000
+ffs_1_12_28_w5_s1.txt: # basin: 700006 crossings of lam0 in 7704922 lane-gens: flux 0.0908518 per gen (ln -2.3985)
+ffs_1_12_28_w5_s1.txt: RESULT h=1 k=12 d=28 nl=7 ndice=2 A=84 M=700000 delta=2 lamA=43 lam0=37 lnflux=-2.3985 lntau_face=16.8046 work=7.32e+07 tdip=6.3
+ffs_1_12_28_w5_s2.txt: # A=84 N=588 mean face pop 43.325 sd 5.815 (density 0.5158) lamA=43 lam0=37 girth^2=12 (v=2,-4) length=7.000
+ffs_1_12_28_w5_s2.txt: # basin: 700004 crossings of lam0 in 7715527 lane-gens: flux 0.0907267 per gen (ln -2.3999)
+ffs_1_12_28_w5_s2.txt: RESULT h=1 k=12 d=28 nl=7 ndice=2 A=84 M=700000 delta=2 lamA=43 lam0=37 lnflux=-2.3999 lntau_face=18.2784 work=7.89e+07 tdip=8.1
+ffs_1_12_28_w5_s3.txt: # A=84 N=588 mean face pop 43.275 sd 5.866 (density 0.5152) lamA=43 lam0=37 girth^2=12 (v=2,-4) length=7.000
+ffs_1_12_28_w5_s3.txt: # basin: 700001 crossings of lam0 in 7712258 lane-gens: flux 0.0907647 per gen (ln -2.3995)
+ffs_1_12_28_w5_s3.txt: RESULT h=1 k=12 d=28 nl=7 ndice=2 A=84 M=700000 delta=2 lamA=43 lam0=37 lnflux=-2.3995 lntau_face=18.0971 work=7.85e+07 tdip=7.7
+ffs_1_12_28_w5_s4.txt: # A=84 N=588 mean face pop 43.351 sd 5.783 (density 0.5161) lamA=43 lam0=37 girth^2=12 (v=2,-4) length=7.000
+ffs_1_12_28_w5_s4.txt: # basin: 700004 crossings of lam0 in 7707195 lane-gens: flux 0.0908247 per gen (ln -2.3988)
+ffs_1_12_28_w5_s4.txt: RESULT h=1 k=12 d=28 nl=7 ndice=2 A=84 M=700000 delta=2 lamA=43 lam0=37 lnflux=-2.3988 lntau_face=18.5204 work=7.96e+07 tdip=8.3
+ffs_1_4_21_w5_s1.txt: # A=63 N=441 mean face pop 32.541 sd 4.956 (density 0.5165) lamA=33 lam0=28 girth^2=21 (v=1,4) length=3.969
+ffs_1_4_21_w5_s1.txt: # basin: 700002 crossings of lam0 in 6200540 lane-gens: flux 0.112894 per gen (ln -2.1813)
+ffs_1_4_21_w5_s1.txt: RESULT h=1 k=4 d=21 nl=7 ndice=2 A=63 M=700000 delta=2 lamA=33 lam0=28 lnflux=-2.1813 lntau_face=13.2160 work=5.09e+07 tdip=5.7
+ffs_1_4_21_w5_s2.txt: # A=63 N=441 mean face pop 32.666 sd 4.856 (density 0.5185) lamA=33 lam0=28 girth^2=21 (v=1,4) length=3.969
+ffs_1_4_21_w5_s2.txt: # basin: 700004 crossings of lam0 in 6207739 lane-gens: flux 0.112763 per gen (ln -2.1825)
+ffs_1_4_21_w5_s2.txt: RESULT h=1 k=4 d=21 nl=7 ndice=2 A=63 M=700000 delta=2 lamA=33 lam0=28 lnflux=-2.1825 lntau_face=13.5611 work=5.17e+07 tdip=6.2
+ffs_1_4_21_w5_s3.txt: # A=63 N=441 mean face pop 32.659 sd 4.917 (density 0.5184) lamA=33 lam0=28 girth^2=21 (v=1,4) length=3.969
+ffs_1_4_21_w5_s3.txt: # basin: 700004 crossings of lam0 in 6214750 lane-gens: flux 0.112636 per gen (ln -2.1836)
+ffs_1_4_21_w5_s3.txt: RESULT h=1 k=4 d=21 nl=7 ndice=2 A=63 M=700000 delta=2 lamA=33 lam0=28 lnflux=-2.1836 lntau_face=13.0714 work=5.03e+07 tdip=5.4
+ffs_1_4_21_w5_s4.txt: # A=63 N=441 mean face pop 32.566 sd 4.981 (density 0.5169) lamA=33 lam0=28 girth^2=21 (v=1,4) length=3.969
+ffs_1_4_21_w5_s4.txt: # basin: 700004 crossings of lam0 in 6203303 lane-gens: flux 0.112844 per gen (ln -2.1818)
+ffs_1_4_21_w5_s4.txt: RESULT h=1 k=4 d=21 nl=7 ndice=2 A=63 M=700000 delta=2 lamA=33 lam0=28 lnflux=-2.1818 lntau_face=13.7548 work=5.21e+07 tdip=6.2
+ffs_1_4_28_w5_s1.txt: # A=84 N=588 mean face pop 43.556 sd 5.607 (density 0.5185) lamA=44 lam0=38 girth^2=21 (v=1,4) length=5.292
+ffs_1_4_28_w5_s1.txt: # basin: 700004 crossings of lam0 in 6396826 lane-gens: flux 0.10943 per gen (ln -2.2125)
+ffs_1_4_28_w5_s1.txt: RESULT h=1 k=4 d=28 nl=7 ndice=2 A=84 M=700000 delta=2 lamA=44 lam0=38 lnflux=-2.2125 lntau_face=15.7025 work=6.35e+07 tdip=4.5
+ffs_1_4_28_w5_s2.txt: # A=84 N=588 mean face pop 43.467 sd 5.651 (density 0.5175) lamA=43 lam0=37 girth^2=21 (v=1,4) length=5.292
+ffs_1_4_28_w5_s2.txt: # basin: 700007 crossings of lam0 in 7816410 lane-gens: flux 0.0895561 per gen (ln -2.4129)
+ffs_1_4_28_w5_s2.txt: RESULT h=1 k=4 d=28 nl=7 ndice=2 A=84 M=700000 delta=2 lamA=43 lam0=37 lnflux=-2.4129 lntau_face=18.3444 work=7.29e+07 tdip=7.0
+ffs_1_4_28_w5_s3.txt: # A=84 N=588 mean face pop 43.508 sd 5.648 (density 0.5179) lamA=44 lam0=38 girth^2=21 (v=1,4) length=5.292
+ffs_1_4_28_w5_s3.txt: # basin: 700001 crossings of lam0 in 6385075 lane-gens: flux 0.109631 per gen (ln -2.2106)
+ffs_1_4_28_w5_s3.txt: RESULT h=1 k=4 d=28 nl=7 ndice=2 A=84 M=700000 delta=2 lamA=44 lam0=38 lnflux=-2.2106 lntau_face=17.5834 work=7.02e+07 tdip=7.0
+ffs_1_4_28_w5_s4.txt: # A=84 N=588 mean face pop 43.530 sd 5.609 (density 0.5182) lamA=44 lam0=38 girth^2=21 (v=1,4) length=5.292
+ffs_1_4_28_w5_s4.txt: # basin: 700003 crossings of lam0 in 6382583 lane-gens: flux 0.109674 per gen (ln -2.2102)
+ffs_1_4_28_w5_s4.txt: RESULT h=1 k=4 d=28 nl=7 ndice=2 A=84 M=700000 delta=2 lamA=44 lam0=38 lnflux=-2.2102 lntau_face=16.2264 work=6.81e+07 tdip=6.0

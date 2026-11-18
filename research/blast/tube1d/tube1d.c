@@ -304,7 +304,7 @@ static void cmd_bandp(long gens, int T0, int wm) {
   enum { HB = 10 }; u64 *hring = calloc((size_t)HB * 2 * A, 8);
   int (*blist)[16] = calloc((size_t)2 * nbin, sizeof *blist), *bn = calloc((size_t)2 * nbin, sizeof(int));
   for (int f = 0; f < nf; f++) { int c0 = f ? 0 : N - A; for (int c = 0; c < A; c++) { int b = bin[c0 + c]; if (bn[f * nbin + b] < 16) blist[f * nbin + b][bn[f * nbin + b]++] = c; } }
-  double *hden = calloc((size_t)(wm + 1) * HB, sizeof(double)), *hboom = calloc(wm + 1, sizeof(double)), *hmax = calloc(wm + 1, sizeof(double)), *hn = calloc(wm + 1, sizeof(double));
+  double *hden = calloc((size_t)(wm + 1) * HB, sizeof(double)), *hboom = calloc(wm + 1, sizeof(double)), *hmax = calloc(wm + 1, sizeof(double)), *hn = calloc(wm + 1, sizeof(double)), *hfall = calloc(wm + 1, sizeof(double));
   long restarts = 0; int cool[64]; for (int j = 0; j < 64; j++) cool[j] = 0;
   for (long g = 0; g < gens; g++) {
     step(); { u64 *r = hring + (size_t)(g % HB) * 2 * A; memcpy(r, xa + N - A, 8 * A); if (nf == 2) memcpy(r + A, xa, 8 * A); }
@@ -320,11 +320,11 @@ static void cmd_bandp(long gens, int T0, int wm) {
       for (int m = 1; m <= wm; m++) { u64 *pv = prev + ((size_t)f * (wm + 1) + m) * nbin;
         for (int b = 0; b < nbin; b++) { e[b] &= ~any[(b + m - 1) % nbin]; cnt[m] += __builtin_popcountll(e[b]); u64 ev = e[b] & ~pv[b]; births[m] += __builtin_popcountll(ev); pv[b] = e[b];
           while (ev) { int j = __builtin_ctzll(ev); ev &= ev - 1; anum[m] += 1;
-            if (m >= 2 && g >= HB) { int nc = 0, mx = 0; for (int i = 0; i < m; i++) nc += bn[f * nbin + (b + i) % nbin];
+            if (m >= 2 && g >= HB) { int nc = 0, mx = 0, prevp = 0, bigfall = 0; for (int i = 0; i < m; i++) nc += bn[f * nbin + (b + i) % nbin];
               for (int k = 1; k < HB; k++) { const u64 *r = hring + (size_t)((g - k) % HB) * 2 * A + (size_t)f * A; int p = 0;
                 for (int i = 0; i < m; i++) { int bb = f * nbin + (b + i) % nbin; for (int q = 0; q < bn[bb]; q++) p += (int)((r[blist[bb][q]] >> j) & 1); }
-                hden[m * HB + k] += (double)p / nc; if (k <= 3 && p > mx) mx = p; }
-              hn[m] += 1; hmax[m] += (double)mx / nc; if ((double)mx / nc >= 0.70) hboom[m] += 1; }
+                hden[m * HB + k] += (double)p / nc; if (k <= 3 && p > mx) mx = p; if (2 * (p - prevp) >= nc) bigfall = 1; prevp = p; }
+              hn[m] += 1; hmax[m] += (double)mx / nc; if ((double)mx / nc >= 0.70) hboom[m] += 1; hfall[m] += bigfall; }
             for (int i = 0; i < m; i++) { const u64 *pl = agep + ((size_t)f * nbin + (b + i) % nbin) * AP; int a = 0; for (int q = 0; q < AP; q++) a |= (int)((pl[q] >> j) & 1) << q; aprof[m * (wm + 1) + i] += a; } } } }
     }
     samples += (double)__builtin_popcountll(ok) * nf * nbin;
@@ -337,8 +337,8 @@ static void cmd_bandp(long gens, int T0, int wm) {
   printf("# AGE: width | events | mean number of generations each 0.5-bin of the window had been empty when the window first became empty (bins from the edge to the middle, symmetrized)\n");
   for (int m = 1; m <= wm; m++) if (anum[m] > 0) { printf("AGE %.1f %.0f |", m * BW, anum[m]);
     for (int i = 0; i < (m + 1) / 2; i++) printf(" %.2f", (aprof[m * (wm + 1) + i] + aprof[m * (wm + 1) + m - 1 - i]) / (2 * anum[m])); putchar('\n'); }
-  printf("# PRE: width | events | share with density >= 0.70 at 1, 2 or 3 generations before | mean of that maximum | mean density of the window's cells 1, 2, ... %d generations before it first is empty\n", HB - 1);
-  for (int m = 2; m <= wm; m++) if (hn[m] > 0) { printf("PRE %.1f %.0f | %.4f | %.4f |", m * BW, hn[m], hboom[m] / hn[m], hmax[m] / hn[m]);
+  printf("# PRE: width | events | share with density >= 0.70 at 1, 2 or 3 generations before | mean of that maximum | share with a one-generation fall of at least half the window's cells in its last 9 generations | mean density of the window's cells 1, 2, ... %d generations before it first is empty\n", HB - 1);
+  for (int m = 2; m <= wm; m++) if (hn[m] > 0) { printf("PRE %.1f %.0f | %.4f | %.4f | fall>=half: %.4f |", m * BW, hn[m], hboom[m] / hn[m], hmax[m] / hn[m], hfall[m] / hn[m]);
     for (int k = 1; k < HB; k++) printf(" %.4f", hden[m * HB + k] / hn[m]); putchar('\n'); }
 }
 
