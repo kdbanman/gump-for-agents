@@ -1,0 +1,21 @@
+# life tet 8 0 seed 28 T0 300: N 720 faces 4 cells/face 108 gens 1519616 secs 12.0 (10.92 ns per cell-generation of 512 lanes); censored as periodic 212 (of them by the 4096-snapshot 4); deaths before T0 544; deaths with two faces at once 650; oldest lane at the end 4428; exposure by bins 654574467
+  age      300..: deaths      6743 exposure      116609987 ln tau_face 11.1444 +- 0.0122
+  age      600..: deaths     68689 exposure      220060859 ln tau_face 9.4584 +- 0.0038
+  age     1200..: deaths    222723 exposure      249394227 ln tau_face 8.4072 +- 0.0021
+  age     2400..: deaths    100333 exposure       67506044 ln tau_face 7.8978 +- 0.0032
+  age     4800..: deaths      1955 exposure        1003350 ln tau_face 7.6270 +- 0.0226
+LIFE tet 8 0 cells 108 seed 28 T0 300 deaths 400443 exposure 654574467 ln_tau_face 8.7855 +- 0.0016
+LIVE tet 8 0 cells 108 samples 159212 mean 23.530 q50 23 q90 33 q95 35 q99 40
+BUST tet 8 0 deaths 400443 share with a one-generation fall of at least half the face 0.0000
+LAG tet 8 0 lag  1 mean 1.561 q10 1 q50 1 q90 3 q95 3
+LAG tet 8 0 lag  2 mean 3.397 q10 1 q50 3 q90 7 q95 8
+LAG tet 8 0 lag  3 mean 5.780 q10 1 q50 4 q90 12 q95 15
+LAG tet 8 0 lag  4 mean 7.772 q10 2 q50 6 q90 16 q95 19
+LAG tet 8 0 lag  5 mean 9.208 q10 2 q50 8 q90 17 q95 20
+LAG tet 8 0 lag  6 mean 10.402 q10 3 q50 10 q90 19 q95 21
+LAG tet 8 0 lag  7 mean 11.419 q10 4 q50 11 q90 19 q95 22
+LAG tet 8 0 lag  8 mean 12.245 q10 4 q50 12 q90 20 q95 23
+LAG tet 8 0 lag  9 mean 12.920 q10 5 q50 13 q90 21 q95 23
+LAG tet 8 0 lag 10 mean 13.454 q10 6 q50 13 q90 21 q95 24
+LAG tet 8 0 lag 11 mean 13.875 q10 6 q50 14 q90 21 q95 24
+LAG tet 8 0 lag 12 mean 14.233 q10 7 q50 14 q90 22 q95 24

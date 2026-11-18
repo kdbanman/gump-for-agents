@@ -1,0 +1,3 @@
+h45 replica 0: oracle torus side 28, 1 images per cell, 510 cells; populations at t=0,10,100,550,1100: [188, 238, 225, 222, 202]; identical for 1100 generations
+h45 SWAP replica 0: oracle torus side 28, 1 images per cell, 510 cells; populations at t=0,10,100,550,1100: [188, 259, 225, 251, 194]; FIRST MISMATCH at generation 3
+Wed Nov 18 04:15:24 UTC 2026

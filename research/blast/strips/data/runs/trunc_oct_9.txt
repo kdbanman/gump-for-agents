@@ -1,0 +1,8 @@
+# trunc oct 9 0 seed 77: N 510, cells/face 45, layers from a face to the opposite extreme 10
+TRUNC oct 9 gen      50 lanes with no face yet empty  502: layers shaved off opposite a face: mean 0.00 (least 0.00, most 0.00 of the 8); face population 21.68
+TRUNC oct 9 gen     100 lanes with no face yet empty  492: layers shaved off opposite a face: mean 0.00 (least 0.00, most 0.00 of the 8); face population 21.70
+TRUNC oct 9 gen     200 lanes with no face yet empty  465: layers shaved off opposite a face: mean 0.00 (least 0.00, most 0.00 of the 8); face population 21.64
+TRUNC oct 9 gen     400 lanes with no face yet empty  420: layers shaved off opposite a face: mean 0.00 (least 0.00, most 0.00 of the 8); face population 21.45
+TRUNC oct 9 gen     800 lanes with no face yet empty  353: layers shaved off opposite a face: mean 0.00 (least 0.00, most 0.00 of the 8); face population 21.82
+TRUNC oct 9 gen    1600 lanes with no face yet empty  263: layers shaved off opposite a face: mean 0.00 (least 0.00, most 0.00 of the 8); face population 21.68
+TRUNC oct 9 gen    3200 lanes with no face yet empty  142: layers shaved off opposite a face: mean 0.00 (least 0.00, most 0.00 of the 8); face population 21.43

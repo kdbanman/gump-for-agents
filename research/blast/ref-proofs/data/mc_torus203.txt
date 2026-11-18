@@ -1,0 +1,2 @@
+== torus_2_0_3 A 18 (simulation only)
+MC (independent simulation, deaths after 40 generations from a fair start): deaths 200661  halffall6 share 0.7136 +- 0.0010  lntau 5.3389 +- 0.0022

@@ -1,0 +1,141 @@
+== t48: slab(4,0),(0,4), 384 cells, 2 faces of 48 cells; soup 0.375, burn-in 1000; seeds in run.sh
+exposure 600572609 replica-generations, deaths 58668, lost in burn-in 6022, settled 36
+[lifetime] ln tau_face = ln(2*exposure/deaths) = 9.9269 +- 0.0041
+[stationary] face-generations 1200320350; mean P 24.729, s.d. 4.469; P(P>=35) = 0.00832 (ln -4.789); P(P>=34) = 0.01672; P(P>=37) = 0.001612
+[autocorrelation of P, all face-generations] lag 1: +0.1808   lag 2: +0.0110
+[autocorrelation, lags 1..16, replicas 0-31] +0.1807 +0.0121 +0.0585 +0.0268 +0.0170 +0.0150 +0.0097 +0.0109 +0.0106 +0.0093 +0.0099 +0.0097 +0.0093 +0.0096 +0.0095 +0.0092
+[return map] p: n, mean and s.d. of P(t+1), mean of P(t+2)   (full table: data/returnmap_t48.csv)
+   p= 4 n=      180420  next   4.69 +-  2.01   next-but-one   6.41
+   p= 8 n=      690159  next   9.62 +-  2.77   next-but-one  12.52
+   p=12 n=     3065664  next  14.46 +-  3.32   next-but-one  18.02
+   p=16 n=    14866406  next  19.51 +-  3.66   next-but-one  22.60
+   p=20 n=    55040652  next  23.90 +-  3.87   next-but-one  25.12
+   p=24 n=   106627495  next  26.22 +-  3.90   next-but-one  25.64
+   p=28 n=    89108918  next  25.77 +-  3.77   next-but-one  24.93
+   p=32 n=    27714376  next  22.53 +-  3.56   next-but-one  22.78
+   p=36 n=     2653068  next  17.11 +-  3.34   next-but-one  18.31
+   p=40 n=       58263  next  10.66 +-  2.97   next-but-one  11.60
+   p=44 n=         154  next   4.60 +-  1.91   next-but-one   4.76
+   p=45 n=          24  next   3.21 +-  1.80   next-but-one   2.91
+   p=46 n=           2  next   1.50 +-  1.50   next-but-one   5.00
+   p=47 n=           1  next   0.00 +-  0.00   next-but-one    nan
+[after P>=34] 20073530 generations; next P mean 18.74 (10-90%: 14-24); share falling to <= 11: 0.02963 +- 0.00004 (594753)
+[after P>=35] 9987457 generations; next P mean 17.44 (10-90%: 13-22); share falling to <= 11: 0.05457 +- 0.00007 (545041)
+[after P>=37] 1934980 generations; next P mean 14.61 (10-90%: 10-19); share falling to <= 11: 0.18619 +- 0.00031 (360280)
+[one generation before a generation with P>=35] mean 25.10 (10/50/90%: 22/25/28); share <= mean - 1 s.d. (20): 0.0193 (stationary 0.1625); share >= mean + 1 s.d. (30): 0.0239 (stationary 0.1358)
+[two generations before a generation with P>=35] mean 23.69 (10/50/90%: 19/24/28); share <= mean - 1 s.d. (20): 0.1697 (stationary 0.1625); share >= mean + 1 s.d. (30): 0.0408 (stationary 0.1358)
+[one generation before a generation with P>=37] mean 25.09 (10/50/90%: 22/25/28); share <= mean - 1 s.d. (20): 0.0140 (stationary 0.1625); share >= mean + 1 s.d. (30): 0.0190 (stationary 0.1358)
+[two generations before a generation with P>=37] mean 23.37 (10/50/90%: 19/23/28); share <= mean - 1 s.d. (20): 0.1948 (stationary 0.1625); share >= mean + 1 s.d. (30): 0.0344 (stationary 0.1358)
+[falls of >= 24 cells in one generation] 1144679 in 1200320350 face-generations = 9.536e-04 per generation (+- 8.9e-07)
+[excursions below 23] p: nu(p) per face-generation, q(p) = share ending in death
+   p<=21: reached 151588614  ln nu =  -2.0692  q = 0.0004 +- 0.0000
+   p<=18: reached  54607370  ln nu =  -3.0902  q = 0.0011 +- 0.0000
+   p<=15: reached  15688934  ln nu =  -4.3374  q = 0.0037 +- 0.0000
+   p<=12: reached   4280398  ln nu =  -5.6363  q = 0.0137 +- 0.0001
+   p<= 9: reached   1245929  ln nu =  -6.8705  q = 0.0470 +- 0.0002
+   p<= 6: reached    382995  ln nu =  -8.0501  q = 0.1530 +- 0.0006
+   p<= 5: reached    260450  ln nu =  -8.4357  q = 0.2250 +- 0.0008
+   p<= 4: reached    177705  ln nu =  -8.8180  q = 0.3297 +- 0.0011
+   p<= 3: reached    123441  ln nu =  -9.1823  q = 0.4747 +- 0.0014
+   p<= 2: reached     87910  ln nu =  -9.5218  q = 0.6666 +- 0.0016
+   p<= 1: reached     67065  ln nu =  -9.7924  q = 0.8737 +- 0.0013
+   p<= 0: reached     58597  ln nu =  -9.9274  q = 1.0000 +- 0.0000
+[was the dip made by a bust?] excursions reaching <= L: share whose first generation at <= L was preceded by P >= 34 one generation / within 2 / within 4 generations before
+   L=12 not fatal: n= 4221801  lag 1: 0.2341  within 2: 0.4521  within 4: 0.5103  (+- 0.0002 at most)
+   L=12 fatal    : n=   58597  lag 1: 0.6391  within 2: 0.7496  within 4: 0.7593  (+- 0.0021 at most)
+   L= 9 not fatal: n= 1187332  lag 1: 0.1272  within 2: 0.4591  within 4: 0.6067  (+- 0.0005 at most)
+   L= 9 fatal    : n=   58597  lag 1: 0.3762  within 2: 0.7155  within 4: 0.7550  (+- 0.0021 at most)
+   L= 6 not fatal: n=  324398  lag 1: 0.0364  within 2: 0.3389  within 4: 0.6460  (+- 0.0009 at most)
+   L= 6 fatal    : n=   58597  lag 1: 0.1172  within 2: 0.5767  within 4: 0.7423  (+- 0.0021 at most)
+   L= 3 not fatal: n=   64844  lag 1: 0.0036  within 2: 0.1332  within 4: 0.6051  (+- 0.0020 at most)
+   L= 3 fatal    : n=   58597  lag 1: 0.0136  within 2: 0.2604  within 4: 0.6877  (+- 0.0021 at most)
+[does the way down matter?] q(L) split by whether the first generation at <= L came within 4 generations of P >= 34
+   L=12: after a bust q = 0.0202 +- 0.0001 (n=2198764); otherwise q = 0.0068 +- 0.0001 (n=2081634)
+   L= 9: after a bust q = 0.0579 +- 0.0003 (n=764581); otherwise q = 0.0298 +- 0.0002 (n=481348)
+   L= 6: after a bust q = 0.1719 +- 0.0008 (n=253042); otherwise q = 0.1162 +- 0.0009 (n=129953)
+   L= 3: after a bust q = 0.5067 +- 0.0018 (n=79531); otherwise q = 0.4168 +- 0.0024 (n=43910)
+[windows] deaths 58302, living 7766, over-full living (P>=35 8 generations before the end) 9824, non-fatal falls of half 4416
+[claim 1/2] deaths with a one-generation fall >= 24 in the last 12 generations: 0.5822 +- 0.0020; living windows of 12 generations: 0.0100 (78 of 7766); expected from the rate: 0.0114
+   largest fall, deaths: median 25 (10/25/75/90%: 16/20/29/33); living: median 10 (6/8/13/17)
+   fatal share of falls: deaths with such a fall / all falls = 0.02984 = 1 in 34
+   sensitivity to one cell of threshold: >= 22: 0.6924, >= 23: 0.6400, >= 24: 0.5822, >= 25: 0.5228, >= 26: 0.4586
+   the same share with the fall looked for in the last 47 generations instead of 12: 0.6073
+   deaths with no fall above 8 cells in the last 12 generations: 0.0356; their P at t = -12: mean 9.20 (share <= 8: 0.552); their largest fall in the last 47 generations: median 21; all deaths, largest fall in 47 generations <= 8: 0.0003
+   largest fall in the last 47 generations: deaths median 25 (10/25/75/90%: 18/21/29/33); living windows median 15 (11/13/18/21); >= 15: deaths 0.9716, living 0.5659; >= 20: deaths 0.8287, living 0.1606; >= 24: deaths 0.6073, living 0.0428
+   threshold 0.3 of the face (>= 15): deaths 0.9195, living windows 0.1898
+   threshold 0.4 of the face (>= 20): deaths 0.7836, living windows 0.0434
+   threshold 0.5 of the face (>= 24): deaths 0.5822, living windows 0.0100
+   threshold 0.6 of the face (>= 29): deaths 0.2799, living windows 0.0014
+   distribution of the largest fall (cells: share of deaths | share of living windows), bins of 3
+      0- 2: 0.0105 ## | 0.0006
+      3- 5: 0.0173 ### | 0.0583
+      6- 8: 0.0077 ## | 0.2532
+      9-11: 0.0129 ### | 0.2931
+     12-14: 0.0321 ###### | 0.2050
+     15-17: 0.0652 ############# | 0.1082
+     18-20: 0.1135 ####################### | 0.0501
+     21-23: 0.1586 ################################ | 0.0215
+     24-26: 0.1859 ##################################### | 0.0063
+     27-29: 0.1700 ################################## | 0.0031
+     30-32: 0.1251 ######################### | 0.0005
+     33-35: 0.0674 ############# | 0.0000
+     36-38: 0.0265 ##### | 0.0001
+     39-41: 0.0066 # | 0.0000
+     42-44: 0.0006  | 0.0000
+     45-47: 0.0001  | 0.0000
+     48-50: 0.0000  | 0.0000
+[peak P in the 12 generations before death] median 36 (31/36/39); share >= 34: 0.7526; living windows: median 32, share >= 34: 0.1890
+[mean P(t), t = -12..0 before death; 10/50/90%]
+   t=-12:  24.32  18/25/30     living window:  24.70
+   t=-11:  24.12  18/25/30     living window:  24.77
+   t=-10:  23.88  17/25/31     living window:  24.71
+   t= -9:  23.44  14/25/31     living window:  24.74
+   t= -8:  22.86  9/24/31     living window:  24.68
+   t= -7:  22.02  6/24/32     living window:  24.63
+   t= -6:  20.65  4/23/32     living window:  24.69
+   t= -5:  19.22  3/22/35     living window:  24.76
+   t= -4:  16.44  2/12/36     living window:  24.74
+   t= -3:  10.84  2/6/36     living window:  24.75
+   t= -2:   4.58  1/3/8     living window:  24.74
+   t= -1:   1.68  1/1/3     living window:  24.68
+   t=  0:   0.00  0/0/0     living window:  24.78
+[generations from the last P >= 23 to death] median 5 (10-90%: 3/10); mean 5.83; censored at 48: 17
+[layer beneath the dying face, t = -12..0: mean, 10/50/90%]
+   t=-12:  20.52  15/21/26
+   t=-11:  20.53  15/21/27
+   t=-10:  20.26  14/21/27
+   t= -9:  20.04  13/20/27
+   t= -8:  19.71  11/20/27
+   t= -7:  19.63  9/20/28
+   t= -6:  18.67  7/19/28
+   t= -5:  18.23  6/19/31
+   t= -4:  16.75  5/16/32
+   t= -3:  13.70  4/10/30
+   t= -2:  11.11  3/8/25
+   t= -1:  11.18  2/9/24
+   t=  0:  13.23  1/12/27
+   layer beneath a living face: mean 20.75, s.d. 4.29
+[cells of the face dying in the last 8 generations of a death, all 12 neighbours counted] starved (<=2): 0.3852, overcrowded (>=6): 0.6148
+   the same on a living face: starved 0.2936, overcrowded 0.7064
+[the fatal fall, 2327 deaths] P before 37.31 (35/40), after 8.46 (5/11), births 1.32, cells dying 30.17 of which overcrowded 0.9947, starved 0.0053; live cells overcrowded before the fall 0.8044
+   generations from the fall to the empty face: mean 3.99, 10/50/90% 2/3/7; distribution 1..8: 0.031 0.223 0.268 0.179 0.096 0.076 0.044 0.035
+   face cells dying in the generations after the fall: starved 0.9801, overcrowded 0.0199
+   layer beneath: before the fall 30.21, after 7.75
+   P in the 6 generations before the over-full one, the over-full one, and after the fall (mean; 10/50/90%):
+     -6:  24.91  19/25/30
+     -5:  24.64  19/25/30
+     -4:  24.63  19/25/30
+     -3:  25.65  20/26/31
+     -2:  23.64  19/24/28
+     -1:  25.19  23/25/28
+     +0:  37.31  35/37/40
+     +1:   8.46  5/9/11
+   dispersion over thirds in the over-full generation before a fatal fall (1 = random subset): 1.438 +- 0.020
+[non-fatal fall of half the face, 3000 windows] P before 37.34 (36/39), next 11.39 (9/13), births 2.16, dying 28.11 of which overcrowded 0.9890, starved 0.0110; live cells overcrowded 0.7445; layer beneath 26.23 -> 14.36; lowest P in the next 8 generations: mean 9.93 (6/10/13)
+   mean P from 6 generations before to 8 after: 24.8 24.7 24.6 25.0 23.5 25.1 37.3 11.4 11.6 14.0 17.0 20.0 21.8 23.2 23.9
+   dispersion over thirds (1 = random subset): 1.613 +- 0.020
+[over-full living generation (P >= 35), 3000 windows] P before 35.77 (35/37), next 17.47 (13/22), births 3.70, dying 22.00 of which overcrowded 0.9825, starved 0.0175; live cells overcrowded 0.6043; layer beneath 23.40 -> 17.99; lowest P in the next 8 generations: mean 15.71 (11/16/20)
+   mean P from 6 generations before to 8 after: 24.6 24.8 24.6 24.7 23.7 25.2 35.8 17.5 18.6 21.7 22.9 23.8 24.2 24.4 24.6
+   dispersion over thirds (1 = random subset): 1.534 +- 0.019
+[dispersion over thirds on a living face, any generation] 1.794 +- 0.023
+[live face cells overcrowded on a living face] 0.2711

@@ -1,0 +1,36 @@
+# nice -n 10 /home/user/gump-for-agents/research/scratch/blast/split-slab/ss_sub /home/user/gump-for-agents/research/scratch/blast/split-slab/g_8_0_8.bin sub 2 6 77 3 8 32 4 32 24 /home/user/gump-for-agents/research/scratch/blast/split-slab/subpaths_full/subpaths_8_0_8_s2.txt 12   (WD=6)
+# sub A 192 WD 6 LAM1 77 DELTA 3 chains 4096 NSWEEP 32 KFLIP 4 TPRE 32 TWIN 24
+REP 0 valid 4096 : 77:501 74:1649 71:1454 68:1285 65:1216 62:1173 59:1097 56:1011 53:958 50:944 47:950 44:1011 41:1019 38:965 35:923 32:927 29:858 26:969 23:934 20:1002 17:1025 14:979 11:1007 8:1017 5:983 2:1016 0:2118 rate 3.67990e-18 lntau 40.1436
+REP 1 valid 4096 : 77:509 74:1596 71:1444 68:1315 65:1219 62:1170 59:1064 56:1040 53:1025 50:959 47:1004 44:957 41:992 38:917 35:928 32:901 29:952 26:950 23:965 20:961 17:890 14:930 11:886 8:864 5:870 2:871 0:1990 rate 1.70861e-18 lntau 40.9109
+REP 2 valid 4096 : 77:481 74:1720 71:1499 68:1323 65:1222 62:1185 59:1077 56:1022 53:1023 50:981 47:896 44:980 41:960 38:1025 35:930 32:1036 29:1006 26:1035 23:1003 20:1031 17:1028 14:996 11:964 8:877 5:931 2:1048 0:2036 rate 4.93167e-18 lntau 39.8509
+REP 3 valid 4096 : 77:510 74:1690 71:1464 68:1315 65:1283 62:1101 59:1106 56:969 53:980 50:924 47:956 44:965 41:958 38:952 35:928 32:972 29:966 26:958 23:900 20:877 17:856 14:992 11:934 8:792 5:807 2:872 0:1765 rate 1.19940e-18 lntau 41.2647
+REP 4 valid 4096 : 77:483 74:1679 71:1436 68:1406 65:1298 62:1126 59:1113 56:1072 53:957 50:995 47:985 44:966 41:914 38:930 35:995 32:1076 29:1063 26:1109 23:1036 20:1008 17:986 14:910 11:904 8:784 5:826 2:742 0:1417 rate 1.95149e-18 lntau 40.7779
+REP 5 valid 4096 : 77:525 74:1617 71:1482 68:1416 65:1324 62:1172 59:1099 56:1054 53:990 50:988 47:962 44:965 41:933 38:953 35:952 32:902 29:886 26:890 23:886 20:867 17:898 14:854 11:855 8:868 5:819 2:832 0:1860 rate 1.18259e-18 lntau 41.2788
+SUMMARY sub A 192 WD 6 reps 6 lntau 40.5536 +- 0.2550 (rel sd of one replication 0.625) acceptance 0.316
+LEVEL 0 lam 77 mean lnP -2.1006 (6 reps)
+LEVEL 1 lam 74 mean lnP -0.9044 (6 reps)
+LEVEL 2 lam 71 mean lnP -1.0295 (6 reps)
+LEVEL 3 lam 68 mean lnP -1.1155 (6 reps)
+LEVEL 4 lam 65 mean lnP -1.1792 (6 reps)
+LEVEL 5 lam 62 mean lnP -1.2667 (6 reps)
+LEVEL 6 lam 59 mean lnP -1.3215 (6 reps)
+LEVEL 7 lam 56 mean lnP -1.3829 (6 reps)
+LEVEL 8 lam 53 mean lnP -1.4216 (6 reps)
+LEVEL 9 lam 50 mean lnP -1.4458 (6 reps)
+LEVEL 10 lam 47 mean lnP -1.4527 (6 reps)
+LEVEL 11 lam 44 mean lnP -1.4365 (6 reps)
+LEVEL 12 lam 41 mean lnP -1.4487 (6 reps)
+LEVEL 13 lam 38 mean lnP -1.4546 (6 reps)
+LEVEL 14 lam 35 mean lnP -1.4694 (6 reps)
+LEVEL 15 lam 32 mean lnP -1.4438 (6 reps)
+LEVEL 16 lam 29 mean lnP -1.4585 (6 reps)
+LEVEL 17 lam 26 mean lnP -1.4274 (6 reps)
+LEVEL 18 lam 23 mean lnP -1.4587 (6 reps)
+LEVEL 19 lam 20 mean lnP -1.4556 (6 reps)
+LEVEL 20 lam 17 mean lnP -1.4669 (6 reps)
+LEVEL 21 lam 14 mean lnP -1.4697 (6 reps)
+LEVEL 22 lam 11 mean lnP -1.4894 (6 reps)
+LEVEL 23 lam 8 mean lnP -1.5565 (6 reps)
+LEVEL 24 lam 5 mean lnP -1.5489 (6 reps)
+LEVEL 25 lam 2 mean lnP -1.5258 (6 reps)
+LEVEL 26 lam 0 mean lnP -0.7955 (6 reps)

@@ -1,0 +1,331 @@
+# blast/toy — do gump's two exits exist in its 2D relative? (agent `toy`, 2026-11-18)
+
+Rule: cross2 B34/S234 ("alive next iff n + x ≥ 3, except n ≥ 5 dies"; `research/toy2d/`). The "face" is an edge
+row of L cells. **Ring** = edge row of a strip 16 × L periodic along the edge (the analogue of a wrapped face);
+**box** = edge of an L × L box (the analogue of a hull face: two ends at corners). Tags: [proved] (by enumeration
+or exact linear algebra), [measured] (one code unless said; error = 1/√deaths or binomial), [conjectured].
+Commands run from this directory; bulk output in `research/scratch/blast/toy/`; curated output in `data/`
+(`data/tables.txt` = `python3 table.py`, `data/anat.txt` = `python3 anat.py`). Forecasts: `PREDICTIONS.md`
+(block 1, before any run: 2 hits, 2 half hits, 3 misses, among them the bust shares, forecast 0.30 and 0.15,
+measured 0.88 and 0.47, and the surrogate's two prices, forecast to agree within 0.01 at L = 18–20; blocks 2–4,
+frozen before the runs they concern: 9 hits, 1 miss by 0.001; unscored: ring edges at L = 40, 48, and gump).
+
+## Verdict
+
+**Yes: both exits exist in 2D and the rim closes the flash, as in gump. But in 2D the flash is the DEARER exit
+per cell, so "two prices" there is a crossover between exits, not two asymptotic prices.**
+
+1. A ring edge dies by boom and bust: the row over-fills (peak 19.4 of 24 against a living mean of 13.9), the cap
+   kills it to 1–2 cells, they starve; flat along the ring. A box edge fades over 6–8 generations, its corner
+   cells holding out longest (no sweep along the row), with FEWER over-full generations before death than a living window has (0.6–0.85 times),
+   where the ring has 3.6–4 times as many.
+2. The ring's deaths are a mixture of two exits with their own exponential laws: flash
+   ln τ = 0.30 + **0.455**·L and no-flash 4.03 + **0.327**·L. The flash share falls like a logistic in L (0.90 at
+   12 cells, 0.47 at 32; logit slope −0.128 ± 0.003 per cell, the same with a second classifier; one half at
+   L ≈ 29; the fit to L ≤ 32 forecast 0.298 at L = 36 and ln τ = 15.47: measured 0.290 ± 0.024 and 15.44 ± 0.05), and
+   the ring's local price falls with it, 0.441 → 0.384, towards the box's steady 0.34. The measured
+   "0.416 (ring) against 0.343 (box)" of `research/toy2d` is that mixture. The box edge outlives the ring edge
+   below L ≈ 25 and dies sooner above (ln τ_box − ln τ_ring = +1.13 … −0.39 at L = 12 … 32).
+3. The exactly solved one-row surrogate has the two prices with no chaos beneath and to four digits: open
+   segments 0.4594, 0.4593, 0.4592 per cell at L = 22, 23, 24 (converged), rings 0.519–0.528 at L = 16–24 (not
+   converging to it: the difference 0.059–0.069 does not decay, so there is no e^(−L/ξ) to fit). Its ring is
+   still 88% flash at L = 20. So in one dimension, where a rim is two points, two prices persist for as long as
+   the wrapped shape's deaths go through the flash, and they end by a change of exit (2D brute force: at L ≈ 30,
+   over a width of 1/0.128 ≈ 8 cells), not by a correlation length.
+4. The boom is shape-blind and the kill is not, exactly as in gump: the surrogate's segment is over-full MORE
+   often than its ring (same rate per cell, prefactor e^0.15) and dies straight from a half-full row less than
+   0.05% of the time against 5–30% for the ring.
+
+## 0. Codes and validation
+
+- `ed.c`: one replica, one machine word per row, bit-sliced neighbour count; ring strips and boxes; books edge
+  deaths with the last 16 generations of the dying row, living windows, the row-population histogram and its
+  one-step transition matrix. Protocol as `research/toy2d/law.py`: soup p = 0.4, states younger than 300 not
+  measured, a residence ends at an edge death, a 3-row interior firewall or a 3-column cut (strips), or a settled
+  state (equal to a snapshot taken every 64 / 4096 generations). τ_edge = n_edges·exposure/deaths.
+- `python3 validate.py` → **ALL OK**: state for state against a plain numpy stepper on toy2d's neighbour table,
+  1000 generations, strips 16 × 20 and 5 × 64, boxes 18 and 11; against `toy2d/t2d.c` (population every generation
+  and final state, 300 generations, same four vessels); negative control (neighbour (2,0) replaced by (3,0)) fails
+  in 59 of 59 generations. A first version of `ed.c` detected only period ≤ 2 and stalled in oscillators (42 deaths
+  in 6×10⁸ generations at L = 12); the snapshot test fixed it.
+- `ex1d.c` (exact surrogate, cross2 row over coins) and `exg.c` (any range, coins, threshold, cap): in-place
+  site-by-site kernel, h computed as the flux into the empty row. `ex1d 12 1 0.472` → 6.4169049205 and
+  `ex1d 16 1 0.472` → 8.6349890757: the lab's 6.4169 and 8.6350 (`research/theory/exponent/exact1d.c`, an
+  independent code). `exg L ring 2 2 3 4 0.472` reproduces `ex1d` to all printed digits (ring 12, segment 11).
+- `python3 dense_check.py` → **ALL OK**: the full 2^L × 2^L transition matrix built cell by cell in numpy and its
+  killed block's top eigenvalue agree with `exg` to 9 digits on rings and segments of 8–9 cells, for cross2 and
+  for rules A and B of §5 (an independent exact code, small L only).
+- `python3 mc_check.py L ring` (plain numpy Monte Carlo of the surrogate, an independent code): segment L = 12:
+  ln τ 7.7379 ± 0.011 and 7.7505 ± 0.008 (exact 7.7402), flash share (6 steps) 0.698 ± 0.005 and 0.707 ± 0.004
+  (exact 0.7046); ring L = 12: 6.4220 ± 0.009 (6.4169), 0.9548 ± 0.0018 (0.9560); segment L = 16: 9.567 ± 0.017 and
+  9.552 ± 0.012 (9.5731), 0.578 ± 0.008 and 0.600 ± 0.006 (0.6022; the first is 2.9σ low, the second seed is not).
+
+## 1. Neighbours inside the vessel [proved by enumeration: `python3 counts.py`]
+
+| edge-row cell | in the row | beneath | total | can it be overcrowded (n ≥ 5)? |
+|---|---|---|---|---|
+| ring, any cell | 4 | 2 | 6 | yes |
+| box, ≥ 2 from the corner | 4 | 2 | 6 | yes |
+| box, next to the corner | 3 | 2 | 5 | only if every neighbour it has is alive |
+| box, corner | 2 | 2 | 4 | **never** |
+
+The 2D rim is 4 cells of L (gump's is a line of ~3k cells of 3k(k+1)/2). A corner cell with ≥ 2 live neighbours
+always survives. In the surrogate segment the same holds for the end cell (2 in-row + 2 coins).
+
+## 2. How they die [measured; `sh run_bf.sh` (8 min, one core), `python3 anat.py` → `data/anat.txt`, `data/anat.json`]
+
+Deaths: 6000, 6000, 6000, 4000, 2000, 600 per geometry at L = 12 … 32. bustK = share of deaths whose last K
+steps (fatal step included) contain a one-generation fall of the row population of at least L/2; "living" = the
+same for living windows of K transitions (25,000–56,000 windows; 6,000–16,000 at L = 32).
+
+| L | ring bust6 | ring bust12 | ring living12 | box bust6 | box bust12 | box living12 |
+|---|---|---|---|---|---|---|
+| 12 | 0.903 ± 0.004 | 0.931 | 0.36 | 0.490 ± 0.006 | 0.583 | 0.20 |
+| 16 | 0.848 ± 0.005 | 0.876 | 0.21 | 0.384 ± 0.006 | 0.472 | 0.12 |
+| 20 | 0.762 ± 0.005 | 0.802 | 0.12 | 0.314 ± 0.006 | 0.403 | 0.063 |
+| 24 | 0.655 ± 0.008 | 0.703 | 0.063 | 0.237 ± 0.007 | 0.314 | 0.036 |
+| 28 | 0.536 ± 0.011 | 0.586 | 0.034 | 0.172 ± 0.008 | 0.238 | 0.021 |
+| 32 | 0.465 ± 0.020 | 0.513 | 0.017 | 0.152 ± 0.015 | 0.203 | 0.012 |
+
+- **Ring = boom and bust.** Two generations before the empty row the population is bimodal: 10/50/90% =
+  2/5/23 of 24 (2/6/19 of 20; 1/5/28 of 32) against 9/14/18 alive; one generation before: 1/2/3. The largest fall
+  in the last 12 steps is 15 cells (median, L = 24; living windows 7) from a peak of 19.4 (living peaks 17.8; mean
+  population 13.85), two to three steps before the end. Flat: the spread of last-alive times over the cells of
+  one death is 1.1–2.1 generations, and the last living cells are uniform along the ring (0.165 within 2 of an
+  arbitrary point against 0.167).
+- **Box = a fade whose last cells are at the corners.** The population falls steadily over the last 8 generations
+  (L = 24: 11.8, 11.2, 10.5, 9.5, 8.7, 8.2, 6.1, 1.8 against 14.2 alive), the largest fall is 9 (living 6) from a
+  peak BELOW the living one (15.9 against 17.9: no boom), spread 2.3–3.1 generations, and the last living cells
+  are within 2 of a corner 0.57, 0.45, 0.37, 0.33, 0.29, 0.27 of the time at L = 12 … 32 (uniform: 0.33 … 0.125):
+  twice uniform at every size; the corner cell itself is last alive 0.6 generations later than the rest, and
+  beyond it the last-alive time does not depend on the distance from the end (L = 24: lags 4.68, 5.35, 5.30, 5.14,
+  5.17, 5.25 at distance 0 … 5): the corners hold out, but nothing sweeps along the row.
+- **Second classifier** (`python3 boom.py` → `data/boom.json`): "boom" = the row at least 0.8·L full in one of
+  its last 6 living generations (thresholds 10, 13, 16, 20, 23, 26 cells). Ring deaths: 0.886, 0.828, 0.731, 0.555, 0.448, 0.353 at L = 12 … 32 (living
+  windows 0.53, 0.46, 0.38, 0.14, 0.12, 0.097): enriched 3.6–4 times at L ≥ 24, logit slope −0.13 per cell. Box
+  deaths: 0.529, 0.379, 0.286, 0.151, 0.107, 0.097 (living 0.62, 0.53, 0.45, 0.18, 0.16, 0.12): BELOW chance at
+  every size. So the box's "bust6" above is mostly chance falls inside a fade; the box has in effect one exit.
+- **The boom is shape-blind in 2D too, and the kill is what the ends stop** [measured; last block of
+  `data/tables.txt`, from the living rows' population histogram and one-step transition counts]. Upper tail
+  −ln P(n ≥ 0.75 L)/L, ring / box: 0.0962 / 0.0843, 0.0903 / 0.0806, 0.0857 / 0.0776, 0.0820 / 0.0750 at L = 20, 24,
+  28, 32: the difference times L is 0.24, 0.23, 0.23, 0.22, a constant: one rate per cell, and the box row is
+  over-full e^0.23 times MORE often. After a generation at least 0.85·L full, the next has 0.43–0.46 of the row
+  on the ring and 0.49–0.55 on the box, and falls to ≤ 0.15·L with probability 0.0107, 0.0045, 0.0022, 0.0009 on
+  the ring against 0.0008, 0.0002, 0.0002, 0.0001 on the box (L = 20 … 32; 1.5–4 million over-full generations
+  each): the crash succeeds 9–20 times less often with two ends.
+- The contrast in bust share is 2–3, not gump's 40 (0.6 against 0.016), and the ring's share FALLS with L (gump's
+  wrapped share is flat or rising, 0.57 … 0.67). §3 says why.
+
+## 3. Prices [measured; `python3 table.py` → `data/tables.txt`]
+
+ln τ_edge, mine pooled with `research/toy2d/data/law_cross2_B34S234{,_box_none}.json` (what was on file: the
+ring law to L = 36 and the box to L = 32, read there as "0.416" and "0.343"; what I added: 2–5 times the deaths at
+L ≤ 28, the per-edge comparison, the anatomy and the split):
+
+| L | ring | box | box − ring |
+|---|---|---|---|
+| 12 | 5.647 ± 0.011 | 6.774 ± 0.010 | +1.127 ± 0.014 |
+| 16 | 7.413 ± 0.010 | 8.101 ± 0.010 | +0.688 ± 0.014 |
+| 20 | 9.129 ± 0.012 | 9.464 ± 0.012 | +0.334 ± 0.017 |
+| 24 | 10.811 ± 0.014 | 10.859 ± 0.015 | +0.048 ± 0.021 |
+| 28 | 12.401 ± 0.019 | 12.232 ± 0.020 | −0.169 ± 0.027 |
+| 32 | 13.988 ± 0.028 | 13.601 ± 0.030 | −0.388 ± 0.041 |
+| 36 | 15.523 ± 0.034 (mine 15.441 ± 0.054, file 15.581 ± 0.045) | — | — |
+
+Local slopes per cell: ring 0.441, 0.429, 0.420, 0.398, 0.397, 0.384 (± 0.004–0.011; the last is 32–36);
+box 0.332, 0.341, 0.349, 0.343, 0.342. So the 2D analogue of "0.2087 against 0.231" is **0.40–0.44 (ring) against
+0.34 (box)**, in the opposite order to gump: the rimmed edge is cheaper per cell, outlives the ring below
+L ≈ 25 and dies sooner above. Caveat: my ring values and the file's scatter more than their errors (differences
++0.09, +0.05, +0.05, −0.13 at L = 20 … 32; χ² ≈ 19 on 6 for the ring, fine for the box); cause not found; pooled
+errors are therefore optimistic by about a factor 1.8 on the ring.
+
+**The two exits have their own exponential laws** [measured]. Split 1/τ by the bust share b (6 steps):
+ln τ_flash = ln τ − ln b, ln τ_other = ln τ − ln(1 − b).
+
+| | flash | other (fade) | logit b |
+|---|---|---|---|
+| ring | 0.296 ± 0.023 + (**0.4550 ± 0.0013**)·L, χ² 5.4/4 | 4.03 ± 0.05 + (**0.3274 ± 0.0023**)·L, χ² 7.4/4 | 3.74 − (0.1277 ± 0.0030)·L, χ² 8.7/4; b = ½ at L = 29.3 |
+| box | 2.66 + 0.4005·L (χ² 12/4) | local slopes 0.284, 0.314, 0.322, 0.323, 0.336 (not straight: χ² 53/4) | 1.04 − (0.092 ± 0.003)·L |
+
+- Robust to the window: with 4, 6, 12 steps the ring's flash slope is 0.459, 0.451, 0.448 and the other 0.335,
+  0.329, 0.318; the box's 0.41–0.40 and 0.32–0.31 (unweighted fits, `table.py`).
+- ring other − box other = +0.53, +0.71, +0.73, +0.75, +0.75, +0.85 (± 0.03–0.06): the ring's no-flash exit is
+  about half as fast as the box edge's fade at every size (ln 2 = 0.69) [measured; why 2: not explained], and
+  its price (0.327 ± 0.002; 0.318–0.335 over classifiers) is at or slightly below the box's (0.343 ± 0.003).
+- The box's total price does not move (0.332–0.349) while its bust6 share falls from 0.49 to 0.15: so the box's
+  "flash" line is not a second exit but chance falls (see the boom classifier, §2); likewise the exact segment
+  (§4), whose price is constant to four digits while its share falls. The split is a real decomposition only
+  for the ring, where the two classes differ in kind (bimodal population two generations before the end).
+- **Out-of-sample test at L = 36** [measured; forecast frozen in PREDICTIONS blocks 2–3 before the run;
+  `ed run 16 36 1 21 400 9e8 r36.rec`, 348 deaths, 3 minutes; `python3 anat.py 36; python3 boom.py 36`]. The fits
+  above (L = 12–32) say 1/τ_ring = e^(−0.296 − 0.455 L) + e^(−4.03 − 0.327 L), hence at L = 36: ln τ = 15.465, bust
+  share 0.298, flash exit 16.68, other exit 15.82. Measured: ln τ = **15.441 ± 0.054**, bust6 = **0.290 ± 0.024**
+  (boom share 0.224 ± 0.022, forecast 0.24), flash exit 16.68 ± 0.10, other exit 15.78 ± 0.06. All hit. (The
+  file's 15.581 ± 0.045 at L = 36 is 2σ above mine.) Two generations before the end the ring's population is no
+  longer bimodal at the 90% point (2/5/15 of 36; 1/5/28 of 32) and the peak before the largest fall is below the
+  living one (24.1 against 25.4): at L = 36 the ring dies mostly as a box edge does.
+- **The second exit is not made by the strip's width** [measured; forecast in PREDICTIONS block 4;
+  `ed run 32 28 1 31 1200 3.2e8 r28w32.rec`, 1 minute]. At W = 16 three-column cuts end 6 residences in 7 at
+  L = 28 (150 in 151 at L = 36), and a nearly cut strip gives its edge row two ends. In a strip 32 × 28 (no cut
+  in 1.5×10⁸ generations, mean residence 125,000 generations instead of 19,000): ln τ = 12.436 ± 0.029 (W = 16:
+  12.416 ± 0.022), bust6 = 0.532 ± 0.014 (0.536 ± 0.011), boom share 0.443 ± 0.014 (0.448 ± 0.011). Unchanged: the
+  two exits belong to the ring edge, and its states at W = 16 are not too young to measure.
+- Reading [conjectured; forecast frozen in PREDICTIONS block 2, untested beyond 36]: the ring's price is 0.455
+  where the flash carries the deaths and 0.33 beyond L ≈ 40 (ln τ(40) = 16.90, (48) = 19.66, bust share 0.20 and
+  0.08): in 2D "two prices" disappears above L ≈ 40.
+
+## 4. The exact one-row surrogate [proved = exact linear algebra; `sh run_exact.sh`, `python3 table.py`]
+
+Row over two private coins (density 0.472) per cell; ring or open segment; quasi-stationary law and death rate
+by power iteration (relative convergence 10⁻¹¹ in h).
+
+<!--EX-->
+| L | ln τ ring | ln τ segment | segment − ring | slope ring | slope segment | flash share (6 steps) ring | segment |
+|---|---|---|---|---|---|---|---|
+| 8 | 4.4000 | 5.8468 | +1.4468 |  |  | 0.976 | 0.767 |
+| 9 | 4.9554 | 6.2863 | +1.3310 | 0.5554 | 0.4395 | 0.968 | 0.697 |
+| 10 | 5.3838 | 6.7641 | +1.3803 | 0.4284 | 0.4777 | 0.967 | 0.754 |
+| 11 | 5.8667 | 7.2587 | +1.3920 | 0.4829 | 0.4947 | 0.960 | 0.679 |
+| 12 | 6.4169 | 7.7402 | +1.3233 | 0.5502 | 0.4814 | 0.956 | 0.705 |
+| 13 | 7.0061 | 8.2010 | +1.1949 | 0.5892 | 0.4608 | 0.945 | 0.637 |
+| 14 | 7.5765 | 8.6551 | +1.0787 | 0.5704 | 0.4542 | 0.939 | 0.654 |
+| 15 | 8.1122 | 9.1123 | +1.0002 | 0.5357 | 0.4572 | 0.927 | 0.591 |
+| 16 | 8.6350 | 9.5731 | +0.9381 | 0.5228 | 0.4608 | 0.923 | 0.602 |
+| 17 | 9.1571 | 10.0344 | +0.8773 | 0.5221 | 0.4613 | 0.909 | 0.544 |
+| 18 | 9.6834 | 10.4946 | +0.8112 | 0.5263 | 0.4602 | 0.905 | 0.554 |
+| 19 | 10.2118 | 10.9538 | +0.7419 | 0.5284 | 0.4591 | 0.888 | 0.502 |
+| 20 | 10.7379 | 11.4127 | +0.6747 | 0.5261 | 0.4589 | 0.884 | 0.513 |
+| 21 | 11.2602 | 11.8718 | +0.6115 | 0.5223 | 0.4591 | — | — |
+| 22 | 11.7800 | 12.3311 | +0.5511 | 0.5198 | 0.4594 | — | 0.476 |
+| 23 | 12.2990 | 12.7905 | +0.4915 | 0.5190 | 0.4593 | — | — |
+| 24 | 12.8176 | 13.2497 | +0.4321 | 0.5186 | 0.4592 | — | — |
+<!--/EX-->
+
+- **Two prices, exact, and not converging.** Segment local slope per cell 0.4608, 0.4613, 0.4602, 0.4591, 0.4589,
+  0.4591, 0.4594, 0.4593, 0.4592 at L = 16 … 24: the open row's price is **0.4593 ± 0.0003**. Ring: 0.5228, 0.5221,
+  0.5263, 0.5284, 0.5261, 0.5223, 0.5198, 0.5190, 0.5186 at L = 16 … 24 (it wobbles with L; at L ≤ 15 between 0.43
+  and 0.59).
+  The difference, 0.059–0.069, does not decay over L = 16–24: no e^(−L/ξ) can be fitted, i.e. ξ is not "a few
+  cells" (compare rule B, §5, where it is 2.0 cells). The ring's slope has fallen for five sizes running, by
+  0.002, 0.004, 0.003, 0.001, 0.0004, and is levelling near 0.518: the trough of the wobble, not the bend. The gap
+  ln τ_seg − ln τ_ring falls 1.447 → 0.432 from L = 8 to 24 and would vanish near L ≈ 31.
+- **Flash share of the death flux, exact** (a fall ≥ L/2 in the last K steps; K = 1, 2, 4, 6): ring 0.047, 0.289,
+  0.727, 0.884 at L = 20; segment 0.0000, 0.048, 0.330, 0.513 (living windows of 5 transitions: 0.068 and 0.036).
+  A death straight from a row at least half full (K = 1) carries 30% → 4.7% of a ring's deaths (L = 8 → 20) and
+  less than 0.05% of a segment's from L = 9 on: an end cell with its two neighbours alive cannot die. The ring's
+  logit (K = 6) falls 3.08 → 2.04 from L = 12 to 20 (−0.13 per cell, the brute force's slope), which puts its
+  change of exit near L ≈ 36, beyond exact reach. I do NOT trust the split of the surrogate's rates into two
+  exponentials (`data/tables.txt` prints it): at a share of 0.9 the "other" class is mostly misclassified flash,
+  and the segment's share falls 0.60 → 0.48 while its price stays 0.4593, so there the classifier counts chance.
+- **The boom is shape-blind; the kill is not.** Upper tail of the quasi-stationary population,
+  −ln P(n ≥ xL)/L, ring / segment at L = 20: 0.0629 / 0.0556 (x = 0.75), 0.184 / 0.173 (0.875), 0.3662 / 0.3522
+  (full row). The difference in −ln P at x = 0.75 is 0.149, 0.167, 0.150, 0.146 at L = 8, 12, 16, 20: a constant,
+  i.e. the same rate per cell with a prefactor e^0.15 in the segment's favour (its ends are denser: 0.709, 0.772,
+  0.631 against 0.645). The segment is over-full MORE often than the ring and dies by flash far less: the ends
+  survive the over-full generation. Same statement as gump's ("−ln P = 1.9 + ψ(x)·A, identical on tubes and wide
+  faces"; "the rim line survives the over-full generation").
+
+## 5. Other capped-threshold rows (exact; `sh run_other.sh`)
+
+<!--OT-->
+**Rule A** (range 3, 3 coins of density 0.5, alive iff n + x ≥ 4 and n ≤ 6; a segment's end cell has n ≤ 6: never overcrowded):
+
+| L | ln τ ring | ln τ segment | segment − ring | slope ring | slope segment | flash share (6 steps) ring | segment |
+|---|---|---|---|---|---|---|---|
+| 8 | 2.4460 | 6.4775 | +4.0315 |  |  | 0.984 | 0.838 |
+| 10 | 3.3052 | 6.1046 | +2.7995 | 0.4296 | -0.1864 | 0.979 | 0.897 |
+| 12 | 4.0999 | 6.5518 | +2.4520 | 0.3974 | 0.2236 | 0.974 | 0.900 |
+| 14 | 4.5641 | 7.2958 | +2.7317 | 0.2321 | 0.3720 | 0.972 | 0.892 |
+| 16 | 5.0478 | 8.0891 | +3.0413 | 0.2418 | 0.3966 | — | 0.879 |
+
+**Rule B** (range 1, 2 coins of density 0.5, alive iff n + x ≥ 2 and n ≤ 2; a segment's end cell has n ≤ 3: it CAN be overcrowded):
+
+| L | ln τ ring | ln τ segment | segment − ring | slope ring | slope segment | flash share (6 steps) ring | segment |
+|---|---|---|---|---|---|---|---|
+| 8 | 5.9208 | 6.2836 | +0.3628 |  |  | 0.756 | 0.644 |
+| 10 | 7.3522 | 7.6983 | +0.3460 | 0.7157 | 0.7073 | 0.693 | 0.585 |
+| 12 | 8.7934 | 9.1334 | +0.3400 | 0.7206 | 0.7176 | 0.645 | 0.544 |
+| 14 | 10.2422 | 10.5799 | +0.3378 | 0.7244 | 0.7233 | 0.609 | 0.515 |
+| 16 | 11.6959 | 12.0328 | +0.3369 | 0.7269 | 0.7264 | 0.582 | 0.494 |
+<!--/OT-->
+
+- **Rule B is the control, and it has ONE price** [proved = exact]. Its end cells can be overcrowded, its
+  segments die by flash as its rings do (death straight from a half-full row: ring 0.52, segment 0.43 of the
+  flux at L = 16; cross2: 0.09 against 0.0000), and the ring − segment slope difference is 0.0084, 0.0030, 0.0011,
+  0.0004 at L = 10, 12, 14, 16: it decays like **e^(−L/ξ) with ξ = 2.0 cells** (ratio 0.36 per 2 cells) and
+  ln τ_seg − ln τ_ring tends to the constant 0.336. This is what "a rim is a boundary correction" looks like, and
+  it is what cross2 does NOT do (difference 0.059–0.069, flat, L = 16–24).
+- **Rule A: the flash is closed to the segment; its prices are not settled** [exact numbers, weak reading]. End
+  cells never overcrowded; segments die straight from a half-full row 0.000 of the time against 0.26–0.45 on
+  rings and outlive rings by e^2.5–e^4. At L = 14–16 the ring's local price is 0.24 per cell and the segment's
+  0.40, which would be gump's order (flash cheaper, rimmed shape dearer), but the slopes are still moving (ring
+  0.43, 0.40, 0.23, 0.24; segment −0.19, 0.22, 0.37, 0.40), L = 16 is under three neighbourhood widths and the
+  ring is barely metastable (τ ≈ 150). A suggestion that the order of the two prices depends on the rule, no more.
+- So across three rules: boundary cells that cannot be overcrowded at all ⇒ the flash is closed to the rimmed
+  shape and the two shapes pay different prices over the whole range reached; boundary cells that can be (B: an
+  end cell dies in an over-full generation with probability 0.25, an inner one 0.75) ⇒ one price, reached
+  exponentially fast. Which shape pays more depends on which exit is cheaper per cell (cross2: flash dearer;
+  gump: flash cheaper; rule A: perhaps cheaper).
+
+## 6. What this says about gump [conjectured]
+
+1. "Capped threshold + a boundary whose cells cannot be overcrowded ⇒ two exits, flash closed by the rim" holds
+   in 2D and in its exact surrogate (a second exact rule, A, agrees on the closed flash); the exact control whose boundary cells can be
+   overcrowded (B) has one exit and one price. Fewer neighbours is not enough in one dimension: in B an end cell
+   survives an over-full generation with probability 0.75 against 0.25 inside (partly protected), and two such
+   points only shift ln τ by a constant. In cross2 and A the end cell is absolutely protected (4 neighbours
+   against a cap at 5; 6 against 7). Gump's rim line is of the PARTLY protected kind by count (7 neighbours
+   inside the vessel, cap at 6; `blast/rim`, survival 0.69 against 0.42), but it is a line of ~k cells, not two
+   points: a flash must beat all of them, a tax that grows with the rim. So the 1D control does not transfer
+   to gump as it stands; a 2D-face surrogate with a partly protected rim line is the missing case.
+2. Which geometry is dearer per cell is NOT generic: it is the order of the two exits' prices. In 2D the flash
+   costs 0.455 and the fade 0.33 (the cap needs 5 of an edge cell's 6 neighbours; in gump 6 of 9, so gump's
+   over-fill is cheap), so rings look dear at small L and both shapes end on the fade's price. In gump the flash
+   is the cheaper exit (0.2087 against about 0.213 for a wrapped face's no-bust route and 0.231 for the hull's
+   fade), so wrapped faces keep it at every size and their bust share does not fall.
+   Arithmetic on the blast README's own numbers (not my measurement): a mixture of two exits predicts
+   d logit(bust share)/dA = c_no-bust − c_bust = +0.004 to +0.005 per cell on wrapped faces; the shares 0.57 …
+   0.67 ± 0.05 at 48 … 84 cells give +0.012 ± 0.007 per cell. Same sign, 1σ.
+3. A test this suggests for gump: 1/τ = Σ over exits of e^(−a_i − c_i·A). The hull face's flash exit should
+   cost 0.2087·A + (rim tax), with a tax that is sub-extensive (a line of partly protected cells). If so the bust
+   share of hull deaths must RISE with face size and the hull's price must eventually fall from 0.231 to
+   0.2087; "no correction linear in the rim joins the two" would then be because the two numbers belong to
+   different exits. Measure the hull's bust share at 45, 63, 84, 108 cells: a rising logit decides it.
+
+## 7. Not checked
+
+- Ring edges beyond L = 36; the forecast fall of the ring's price to 0.33 above L ≈ 40 is untested.
+- The 2–3σ scatter between my ring lifetimes and the file's (same protocol as far as I can tell).
+- The width test (§3) was made at L = 28 only; at L = 36, where cuts are 150 times as frequent as edge deaths,
+  it was not.
+- The split by "a fall ≥ L/2 within K steps" is a classifier, not a decomposition into disjoint routes; chance
+  falls contaminate it at L ≤ 16 (living baseline up to 0.2). Slopes are stable under K = 4, 6, 12; constants move
+  by 0.3–0.4.
+- Exact rings and segments stop at L = 24 (ring 24: 2 GB, 8 minutes: `ex1d 24 1 0.472`; not in `run_exact.sh`,
+  which stops at 22; ring 23 likewise by hand).
+- Exact codes above L = 9: one kernel routine (`ex1d` = `exg`), checked against the lab's `exact1d.c` on rings
+  of 12 and 16, by Monte Carlo to 1% on a ring of 12 and segments of 12 and 16, and by a dense matrix at L = 8–9.
+  Coin density fixed at 0.472. Rules A and B stop at L = 16 and are rows over coins, not edges of a real
+  automaton: no 2D brute force stands behind them.
+- Why the fade is twice as fast with ends; whether the box's fade slope (rising 0.28 → 0.34) converges to the
+  ring's 0.327.
+- No box edge at L = 36.
+
+## Tried and dropped
+
+- "Gump's count on a line" (range 3, 3 coins of density 0.4155, B45/S345 counts: `exg 10 1 3 3 5 5 0.4155`) is
+  not metastable (ln τ = 0.9): a single row with gump's numbers over independent coins dies at once, so the
+  second rule had to be chosen by a scan (15 candidates, in my session only; A and B are the two kept).
+- A boom classifier at 0.8·L is weak below L = 24 (half of all living windows qualify at L = 12).
+- Splitting the exact surrogate's rate into two exponentials by the 6-step classifier (§4): not trustworthy.
+
+## Reproduce
+
+```sh
+cd research/blast/toy
+python3 validate.py && python3 counts.py && python3 dense_check.py && python3 mc_check.py 12 0
+sh run_bf.sh        # ring and box, L = 12..32: 8 min on one core
+sh run_exact.sh     # exact rings and segments to L = 22 / 24: 10 min, 0.5 GB (waits for run_bf.sh's bf.done)
+sh run_other.sh     # two more rules, exact: 3 min (waits for exact.done)
+python3 anat.py > data/anat.txt; python3 table.py > data/tables.txt
+```

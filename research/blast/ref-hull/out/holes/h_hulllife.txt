@@ -1,0 +1,60 @@
+# life hull R 5 A 18 N 114 soup 0.35 censor 1 seed 21: first deaths 13705821, faces empty per first death 1.3140, share with two or more 0.2376; after generation 40: 1.1758 and 0.1450; censored as periodic 11219; reached TMAX 448; face density in generations 41-100: 0.4196
+  generations    1..  20: deaths   12204980 exposure     78126658 periodic     3000  ln(8E/D) 3.9359 +- 0.0003
+  generations   21..  40: deaths    1085592 exposure     17609368 periodic     5162  ln(8E/D) 4.8657 +- 0.0010
+  generations   41..  60: deaths     302903 exposure      4837757 periodic     2112  ln(8E/D) 4.8502 +- 0.0018
+  generations   61..  80: deaths      81836 exposure      1316324 periodic      677  ln(8E/D) 4.8573 +- 0.0035
+  generations   81.. 100: deaths      22345 exposure       362744 periodic      195  ln(8E/D) 4.8665 +- 0.0067
+  generations  101.. 120: deaths       6060 exposure       102575 periodic       63  ln(8E/D) 4.9083 +- 0.0128
+  generations  121.. 140: deaths       1662 exposure        32043 periodic        8  ln(8E/D) 5.0385 +- 0.0245
+  generations  141.. 160: deaths        443 exposure        12531 periodic        2  ln(8E/D) 5.4218 +- 0.0475
+# life hull R 5 A 18 N 114 soup 0.50 censor 1 seed 21: first deaths 4600257, faces empty per first death 1.1559, share with two or more 0.1306; after generation 40: 1.1753 and 0.1444; censored as periodic 10915; reached TMAX 458; face density in generations 41-100: 0.4206
+  generations    1..  20: deaths    2613320 exposure     69442658 periodic     1740  ln(8E/D) 5.3593 +- 0.0006
+  generations   21..  40: deaths    1416115 exposure     23764979 periodic     5406  ln(8E/D) 4.8997 +- 0.0008
+  generations   41..  60: deaths     414659 exposure      6671181 periodic     2546  ln(8E/D) 4.8575 +- 0.0016
+  generations   61..  80: deaths     113841 exposure      1827999 periodic      875  ln(8E/D) 4.8556 +- 0.0030
+  generations   81.. 100: deaths      31078 exposure       498809 periodic      238  ln(8E/D) 4.8552 +- 0.0057
+  generations  101.. 120: deaths       8333 exposure       138575 periodic       82  ln(8E/D) 4.8906 +- 0.0110
+  generations  121.. 140: deaths       2284 exposure        41158 periodic       18  ln(8E/D) 4.9709 +- 0.0209
+  generations  141.. 160: deaths        627 exposure        14641 periodic       10  ln(8E/D) 5.2301 +- 0.0399
+# life hull R 5 A 18 N 114 soup 0.50 censor 0 seed 22: first deaths 4540393, faces empty per first death 1.1559, share with two or more 0.1307; after generation 40: 1.1756 and 0.1451; censored as periodic 0; reached TMAX 11512; face density in generations 41-100: 0.4087
+  generations    1..  20: deaths    2579427 exposure     68557501 periodic        0  ln(8E/D) 5.3595 +- 0.0006
+  generations   21..  40: deaths    1398782 exposure     23529965 periodic        0  ln(8E/D) 4.9021 +- 0.0008
+  generations   41..  60: deaths     408012 exposure      6743915 periodic        0  ln(8E/D) 4.8845 +- 0.0016
+  generations   61..  80: deaths     112521 exposure      2007860 periodic        0  ln(8E/D) 4.9611 +- 0.0030
+  generations   81.. 100: deaths      30557 exposure       708122 periodic        0  ln(8E/D) 5.2225 +- 0.0057
+  generations  101.. 120: deaths       8275 exposure       356265 periodic        0  ln(8E/D) 5.8419 +- 0.0110
+  generations  121.. 140: deaths       2184 exposure       260750 periodic        0  ln(8E/D) 6.8618 +- 0.0214
+  generations  141.. 160: deaths        635 exposure       235622 periodic        0  ln(8E/D) 7.9958 +- 0.0397
+# life hull R 7 A 30 N 264 soup 0.35 censor 1 seed 23: first deaths 1892808, faces empty per first death 1.0427, share with two or more 0.0400; after generation 40: 1.0254 and 0.0246; censored as periodic 26; reached TMAX 32; face density in generations 41-100: 0.4527
+  generations    1.. 120: deaths    1430945 exposure    101402579 periodic       13  ln(8E/D) 6.3402 +- 0.0008
+  generations  121.. 240: deaths     302716 exposure     34269911 periodic        7  ln(8E/D) 6.8087 +- 0.0018
+  generations  241.. 360: deaths     104638 exposure     11775775 periodic        5  ln(8E/D) 6.8027 +- 0.0031
+  generations  361.. 480: deaths      35818 exposure      4030952 periodic        0  ln(8E/D) 6.8027 +- 0.0053
+  generations  481.. 600: deaths      12266 exposure      1391132 periodic        1  ln(8E/D) 6.8105 +- 0.0090
+  generations  601.. 720: deaths       4205 exposure       482464 periodic        0  ln(8E/D) 6.8221 +- 0.0154
+  generations  721.. 840: deaths       1473 exposure       166322 periodic        0  ln(8E/D) 6.8061 +- 0.0261
+  generations  841.. 960: deaths        524 exposure        56702 periodic        0  ln(8E/D) 6.7635 +- 0.0437
+  generations  961..1080: deaths        169 exposure        17812 periodic        0  ln(8E/D) 6.7372 +- 0.0769
+  generations 1081..1200: deaths         54 exposure         6351 periodic        0  ln(8E/D) 6.8468 +- 0.1361
+# life hull R 7 A 30 N 264 soup 0.35 censor 0 seed 23: first deaths 1892489, faces empty per first death 1.0427, share with two or more 0.0400; after generation 40: 1.0254 and 0.0246; censored as periodic 0; reached TMAX 58; face density in generations 41-100: 0.4527
+  generations    1.. 120: deaths    1430707 exposure    101386105 periodic        0  ln(8E/D) 6.3402 +- 0.0008
+  generations  121.. 240: deaths     302663 exposure     34265158 periodic        0  ln(8E/D) 6.8087 +- 0.0018
+  generations  241.. 360: deaths     104620 exposure     11776164 periodic        0  ln(8E/D) 6.8029 +- 0.0031
+  generations  361.. 480: deaths      35810 exposure      4033322 periodic        0  ln(8E/D) 6.8036 +- 0.0053
+  generations  481.. 600: deaths      12265 exposure      1394140 periodic        0  ln(8E/D) 6.8127 +- 0.0090
+  generations  601.. 720: deaths       4205 exposure       485555 periodic        0  ln(8E/D) 6.8285 +- 0.0154
+  generations  721.. 840: deaths       1473 exposure       169366 periodic        0  ln(8E/D) 6.8242 +- 0.0261
+  generations  841.. 960: deaths        523 exposure        59787 periodic        0  ln(8E/D) 6.8184 +- 0.0437
+  generations  961..1080: deaths        169 exposure        20932 periodic        0  ln(8E/D) 6.8986 +- 0.0769
+  generations 1081..1200: deaths         54 exposure         9471 periodic        0  ln(8E/D) 7.2464 +- 0.1361
+# life hull R 9 A 45 N 510 soup 0.35 censor 1 seed 24: first deaths 36260, faces empty per first death 1.0027, share with two or more 0.0027; after generation 40: 1.0020 and 0.0020; censored as periodic 0; reached TMAX 12282; face density in generations 41-100: 0.4800
+  generations    1.. 300: deaths       8591 exposure     12899014 periodic        0  ln(8E/D) 9.3936 +- 0.0108
+  generations  301.. 600: deaths       4818 exposure     11300686 periodic        0  ln(8E/D) 9.8397 +- 0.0144
+  generations  601.. 900: deaths       4235 exposure      9949573 periodic        0  ln(8E/D) 9.8413 +- 0.0154
+  generations  901..1200: deaths       3784 exposure      8730205 periodic        0  ln(8E/D) 9.8232 +- 0.0163
+  generations 1201..1500: deaths       3273 exposure      7673968 periodic        0  ln(8E/D) 9.8393 +- 0.0175
+  generations 1501..1800: deaths       2923 exposure      6729719 periodic        0  ln(8E/D) 9.8211 +- 0.0185
+  generations 1801..2100: deaths       2571 exposure      5896197 periodic        0  ln(8E/D) 9.8172 +- 0.0197
+  generations 2101..2400: deaths       2288 exposure      5156506 periodic        0  ln(8E/D) 9.7998 +- 0.0209
+  generations 2401..2700: deaths       2021 exposure      4512842 periodic        0  ln(8E/D) 9.7905 +- 0.0222
+  generations 2701..3000: deaths       1756 exposure      3951290 periodic        0  ln(8E/D) 9.7982 +- 0.0239

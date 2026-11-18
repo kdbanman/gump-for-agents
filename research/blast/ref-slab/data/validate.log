@@ -1,0 +1,8 @@
+(4,0),(0,4) A=48 N=16: dice.c vs oracle: MATCH, 1200 generations, state for state (population at the end 180, oracle 2880 in 16 tiles)
+(4,0),(0,4) A=48 N=16: negative control (one neighbour swapped): FIRST MISMATCH at generation 4
+(1,4),(0,21) A=63 N=21: dice.c vs oracle: MATCH, 1200 generations, state for state (population at the end 222, oracle 4662 in 21 tiles)
+(1,4),(0,21) A=63 N=21: negative control (one neighbour swapped): FIRST MISMATCH at generation 5
+(1,8),(0,20) A=60 N=20: dice.c vs oracle: MATCH, 1200 generations, state for state (population at the end 216, oracle 4320 in 20 tiles)
+(1,8),(0,20) A=60 N=20: negative control (one neighbour swapped): FIRST MISMATCH at generation 1
+(1,12),(0,28) A=84 N=28: dice.c vs oracle: MATCH, 1000 generations, state for state (population at the end 295, oracle 8260 in 28 tiles)
+(1,12),(0,28) A=84 N=28: negative control (one neighbour swapped): FIRST MISMATCH at generation 8

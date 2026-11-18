@@ -1,0 +1,6 @@
+test48: A 48; fixed point p* = 26 (0.5417); slope of the map there -0.111; one-step variance per cell there 0.3096; stationary variance per cell 0.4149; AR(1) value s2/(1-slope^2) = 0.3135
+  model G: V(0) = 0.1883 per cell (A V = 9.04); path 26 27 25 36 12 10 8 6 5 4 3 2 1 0; top 36 (theta 0.750) at V = 0.0651; the rest (bust and starvation) 0.1232
+    V(theta) of the model / measured -ln(nu sqrt(2 pi A s2))/A: 0.62: 0.0093 / 0.0132; 0.66: 0.0223 / 0.0282; 0.70: 0.0410 / 0.0492; 0.74: 0.0651 / 0.0771; 0.78: 0.0791 / 0.0937; 0.82: 0.1111 / 0.1332
+  model E: V(0) = 0.2104 per cell (A V = 10.10); path 26 35 13 11 9 7 6 5 4 3 2 1 0; top 35 (theta 0.729) at V = 0.0567; the rest (bust and starvation) 0.1536
+    V(theta) of the model / measured -ln(nu sqrt(2 pi A s2))/A: 0.62: 0.0096 / 0.0132; 0.66: 0.0234 / 0.0282; 0.70: 0.0438 / 0.0492; 0.74: 0.0715 / 0.0771; 0.78: 0.0881 / 0.0937; 0.82: 0.1283 / 0.1332
+  map, x: f(x) s2(x):  0.05: 0.043 0.044;  0.10: 0.124 0.101;  0.15: 0.176 0.143;  0.20: 0.250 0.195;  0.25: 0.301 0.230;  0.30: 0.354 0.258;  0.40: 0.478 0.306;  0.50: 0.546 0.318;  0.60: 0.525 0.289;  0.70: 0.417 0.248;  0.75: 0.356 0.231;  0.80: 0.290 0.211;  0.85: 0.188 0.155

@@ -1,0 +1,7 @@
+OK   (4,0),(0,4) nl=8 m=12 seed=1: 1500 generations bit for bit; N=384; population gen0 190, last 154, distinct states 1501
+OK   (1,4),(0,21) nl=8 m=21 seed=2: 1500 generations bit for bit; N=504; population gen0 242, last 220, distinct states 1501
+OK   (1,12),(0,28) nl=8 m=28 seed=3: 1500 generations bit for bit; N=672; population gen0 339, last 285, distinct states 1501
+OK   (1,17),(0,32) nl=8 m=32 seed=4: 1500 generations bit for bit; N=768; population gen0 372, last 322, distinct states 1501
+OK   (1,3),(0,25) nl=7 m=25 seed=5: 1500 generations bit for bit; N=525; population gen0 270, last 215, distinct states 1501
+FAIL (4,0),(0,4) nl=8 m=12 seed=1 [bad neighbour]: first mismatch at generation 8
+FAIL (1,12),(0,28) nl=8 m=28 seed=3 [bad neighbour]: first mismatch at generation 5

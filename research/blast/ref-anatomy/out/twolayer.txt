@@ -1,0 +1,21 @@
+t63: living face, 90000 transitions from 6000 windows. B mean 27.37, s.d. 4.76 (P: 32.58, 4.95)
+   corr(P,B) same generation +0.313; corr(B_t,B_t+1) -0.249; corr(P_t,B_t+1) -0.115; corr(B_t,P_t+1) +0.062; corr(P_t,P_t+1) +0.139
+   residual of P_t+1 about the return map: s.d. 4.452; its correlation with B_t +0.009; slope +0.008 cells per cell of B; residual s.d. after removing it 4.452
+   autocorrelation of B at lags 1..6: -0.249 -0.025 +0.065 -0.043 +0.001 +0.008;  of P: +0.139 -0.036 +0.031 +0.009 -0.005 +0.001
+   autocorrelation of P + B at lags 1..6: -0.056 -0.040 +0.077 -0.024 -0.008 +0.010
+   mean residual when B is >= 1 s.d. above its mean: -0.63; >= 1 s.d. below: -0.67
+   over-full generation (P >= 46 scaled), 6000 windows: B mean 30.74, s.d. 4.37; P_t+1 = 105.4 -1.40 P -0.555 B; s.d. of P_t+1 given P 3.82, given P and B 2.95; corr(P,B) +0.043
+tube60: living face, 60450 transitions from 4030 windows. B mean 26.03, s.d. 4.71 (P: 30.89, 4.94)
+   corr(P,B) same generation +0.314; corr(B_t,B_t+1) -0.229; corr(P_t,B_t+1) -0.103; corr(B_t,P_t+1) +0.088; corr(P_t,P_t+1) +0.173
+   residual of P_t+1 about the return map: s.d. 4.370; its correlation with B_t +0.019; slope +0.018 cells per cell of B; residual s.d. after removing it 4.369
+   autocorrelation of B at lags 1..6: -0.229 -0.020 +0.058 -0.039 -0.005 +0.005;  of P: +0.173 -0.000 +0.042 +0.012 +0.002 +0.000
+   autocorrelation of P + B at lags 1..6: -0.020 -0.012 +0.082 -0.016 -0.007 +0.002
+   mean residual when B is >= 1 s.d. above its mean: -0.40; >= 1 s.d. below: -0.69
+   over-full generation (P >= 46 scaled), 5311 windows: B mean 29.27, s.d. 4.28; P_t+1 = 105.4 -1.50 P -0.566 B; s.d. of P_t+1 given P 3.75, given P and B 2.86; corr(P,B) +0.017
+h63: living face, 90000 transitions from 6000 windows. B mean 27.83, s.d. 4.67 (P: 31.30, 5.25)
+   corr(P,B) same generation +0.375; corr(B_t,B_t+1) +0.059; corr(P_t,B_t+1) +0.087; corr(B_t,P_t+1) +0.295; corr(P_t,P_t+1) +0.514
+   residual of P_t+1 about the return map: s.d. 4.341; its correlation with B_t +0.126; slope +0.117 cells per cell of B; residual s.d. after removing it 4.307
+   autocorrelation of B at lags 1..6: +0.059 +0.176 +0.143 +0.097 +0.098 +0.087;  of P: +0.514 +0.335 +0.260 +0.206 +0.162 +0.124
+   autocorrelation of P + B at lags 1..6: +0.366 +0.326 +0.275 +0.212 +0.182 +0.149
+   mean residual when B is >= 1 s.d. above its mean: +0.54; >= 1 s.d. below: -1.06
+   over-full generation (P >= 46 scaled), 6000 windows: B mean 32.77, s.d. 4.17; P_t+1 = 69.0 -0.57 P -0.335 B; s.d. of P_t+1 given P 4.82, given P and B 4.61; corr(P,B) +0.064

@@ -1,0 +1,31 @@
+== slab_1_9_25 / t75: 1144 deaths recorded; ln tau_face = 15.6501 +- 0.0296; lives ended W 0, S 0; deaths with a transverse firewall present 0
+cells used in the fits (stationary occupancy >= 0.4): 75 of 75
+generations from the last time P >= 36 to the death: percentiles 10/25/50/75/90 = 4 4 6 8 10   (not within 128: 0.000)
+generations from the last time P >= 19 to the death: percentiles 10/25/50/75/90 = 4 4 5 8 10   (not within 128: 0.000)
+generations from the last time P >=  9 to the death: percentiles 10/25/50/75/90 = 2 3 4 6 8   (not within 128: 0.000)
+spread of T over the cells of one death (cells used in the fits; standard deviation, generations): percentiles = 1.36 1.55 1.86 2.26 2.85; range max-min: 8 9 11 14 17; mean T -6.21; cells not alive within 128: 0.0000
+-- field T: plane beats 95% of shuffles in 0.377 of deaths; median R2 0.134 (shuffles 0.097); speed 1/|g| among those, percentiles: 0.847 1.15 1.51 1.94 2.44 (all deaths: 1.15 1.58 2.25 3.02 3.88)
+   cone: hole-first (b>0) beats 95% in 0.248, remnant (b<0) in 0.316, either in 0.349; median R2 hole 0.053, remnant 0.061 (shuffle best 0.041); remnant fits better than plane in 0.072, hole better than plane in 0.044, remnant better than hole in 0.559; remnant speed pct: 0.525 0.737 1.02 1.38 2.13
+-- field T3: plane beats 95% of shuffles in 0.170 of deaths; median R2 0.101 (shuffles 0.098); speed 1/|g| among those, percentiles: 0.738 0.873 0.997 1.15 1.38 (all deaths: 0.99 1.29 1.64 2.01 2.42)
+   cone: hole-first (b>0) beats 95% in 0.122, remnant (b<0) in 0.145, either in 0.153; median R2 hole 0.036, remnant 0.038 (shuffle best 0.040); remnant fits better than plane in 0.036, hole better than plane in 0.024, remnant better than hole in 0.510; remnant speed pct: 0.435 0.576 0.737 1.02 1.96
+-- field TP: plane beats 95% of shuffles in 0.952 of deaths; median R2 0.312 (shuffles 0.099); speed 1/|g| among those, percentiles: 0.777 1.12 1.75 2.57 3.43 (all deaths: 0.796 1.15 1.82 2.67 3.6)
+   cone: hole-first (b>0) beats 95% in 0.747, remnant (b<0) in 0.828, either in 0.926; median R2 hole 0.161, remnant 0.198 (shuffle best 0.040); remnant fits better than plane in 0.216, hole better than plane in 0.113, remnant better than hole in 0.585; remnant speed pct: 0.449 0.72 1.16 1.93 2.93
+-- baseline (the same field 100 generations before the death, a living face): plane beats 95% of shuffles in 0.127
+-- Fourier: reduced period vectors [-4.    -1.732] (length 4.359), [-2.5   4.33] (length 5.000)
+   k = 1.265 (wavelength 4.97; winds 0 x round the short loop, 1 x round the other): mean share of variance 0.0683, shuffled 0.0270
+   k = 1.451 (wavelength 4.33; winds 1 x round the short loop, 0 x round the other): mean share of variance 0.0614, shuffled 0.0270
+   k = 1.812 (wavelength 3.47; winds 1 x round the short loop, 1 x round the other): mean share of variance 0.0533, shuffled 0.0272
+   k = 2.031 (wavelength 3.09; winds 1 x round the short loop, 1 x round the other): mean share of variance 0.0452, shuffled 0.0273
+   k = 2.530 (wavelength 2.48; winds 0 x round the short loop, 2 x round the other): mean share of variance 0.0367, shuffled 0.0268
+   k = 2.768 (wavelength 2.27; winds 1 x round the short loop, 2 x round the other): mean share of variance 0.0323, shuffled 0.0271
+   k = 2.902 (wavelength 2.17; winds 2 x round the short loop, 0 x round the other): mean share of variance 0.0311, shuffled 0.0271
+   k = 3.030 (wavelength 2.07; winds 2 x round the short loop, 1 x round the other): mean share of variance 0.0284, shuffled 0.0269
+-- lopsidedness of the living set at the last generation with P = p cells (1 = a random subset of the face):
+   p = 38: mean ratio 1.248, median 1.053, share above 3: 0.038   (1144 deaths)
+   p = 28: mean ratio 1.678, median 1.527, share above 3: 0.095   (777 deaths)
+   p = 19: mean ratio 1.805, median 1.575, share above 3: 0.142   (120 deaths)
+   p =  9: mean ratio 1.930, median 1.689, share above 3: 0.128   (203 deaths)
+   p =  4: mean ratio 1.764, median 1.629, share above 3: 0.091   (363 deaths)
+   p =  2: mean ratio 1.433, median 1.560, share above 3: 0.000   (616 deaths)
+   the same ratio 110 generations before the death (living face): mean 1.328
+-- stationary occupancy of a face cell (mean over cells): 0.5174

@@ -1,0 +1,6 @@
+ring L=36 deaths=  348 bust2=0.063 bust4=0.221 bust6=0.290±0.024 bust12=0.356±0.026 | live6=0.0045 live12=0.0103 (n=44119)
+     pop@lag1..8 mean   1.76  7.01 11.66 12.70 14.23 16.44 17.84 18.65   (living mean 20.77)
+     pop@lag1..8 10/50/90% 1/2/3 2/5/15 3/8/26 4/11/23 5/13/24 7/16/25 9/18/25 11/19/25
+     largest fall in 12 steps: deaths mean 16.08 10/50/90% 8/14/27; living mean 8.45 10/50/90% 5/8/13; peak before it: deaths 24.08 living 25.43; steps before the empty row (median) 5
+     last-alive: spread 2.43 generations; last living cells within 2 of an end: 0.079 (uniform 0.111); mean last-alive lag by distance from the nearest end 0..5: 5.20 5.23 5.25 5.19 5.26 5.20
+ring L=36 deaths   348 boom share 0.224±0.022 (living windows 0.0823); boom and half-row fall 0.210; fall without boom 0.080; ln tau - ln b = 16.936; ln tau - ln(1-b) = 15.695; logit -1.242

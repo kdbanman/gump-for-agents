@@ -1,0 +1,15 @@
+t63: 4659 deaths; columns: generations relative to the fall (0 = the first generation after it); stationary means: face 32.6, beneath 27.4
+   rel      -8    -7    -6    -5    -4    -3    -2    -1     0     1     2     3     4
+   face   32.5  32.8  32.5  32.5  33.8  31.0  33.2  48.5  11.6   5.5   2.6   1.6   1.4
+   under  27.2  27.7  27.4  26.7  29.0  26.9  25.2  39.9   9.8  10.1  11.6  14.7  19.4
+   generations from the fall to the death: percentiles 10/50/90 = 2 4 8
+tube60: 4661 deaths; columns: generations relative to the fall (0 = the first generation after it); stationary means: face 30.9, beneath 26.0
+   rel      -8    -7    -6    -5    -4    -3    -2    -1     0     1     2     3     4
+   face   30.8  31.0  30.7  30.8  32.0  29.5  31.6  46.4  10.8   5.1   2.3   1.5   1.2
+   under  25.9  26.2  26.1  25.5  27.7  25.6  24.0  38.0   9.4   9.6  11.0  14.1  18.7
+   generations from the fall to the death: percentiles 10/50/90 = 2 4 7
+t75: 687 deaths; columns: generations relative to the fall (0 = the first generation after it); stationary means: face 38.8, beneath 32.6
+   rel      -8    -7    -6    -5    -4    -3    -2    -1     0     1     2     3     4
+   face   38.7  39.5  38.5  38.4  40.4  36.9  39.6  57.5  14.0   6.8   3.1   1.8   1.4
+   under  32.4  33.2  32.2  31.7  34.9  31.9  29.8  47.5  11.6  11.9  13.5  17.0  22.1
+   generations from the fall to the death: percentiles 10/50/90 = 3 4 8

@@ -1,0 +1,4 @@
+tube84 against t84 (A = 84; 44 and 43 deaths): ln rate tube - wide = +0.023 +- 0.214
+  P-frequency part       ln R1 = -0.007 +- 0.023
+  (P, U)-frequency part  ln R2 = +0.023 +- 0.042
+  mean launch (P, U)/A: tube (0.728, 0.631), wide (0.739, 0.634)

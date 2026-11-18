@@ -1,0 +1,4 @@
+== strip_1_4 A 12 rho 0.44 0.42  power iterations 189
+h 7.1547417662109e-02  1-lambda 7.1547417662110e-02  lntau 2.637394865006
+== patch_1_4 A 12 rho 0.44 0.42  power iterations 241
+h 1.3789966515401e-01  1-lambda 1.3789966515401e-01  lntau 1.981228922366

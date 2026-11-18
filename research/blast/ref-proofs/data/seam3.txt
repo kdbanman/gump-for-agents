@@ -1,0 +1,7 @@
+tube (1,0),(0,3) vs its 3-fold cover, t1=3, p=0.60, seam 2 unit cells: cover histories off the support of T: 0, largest relative error: 2.51e-14
+tube (1,0),(0,3) vs its 3-fold cover, t1=4, p=0.50, seam 2 unit cells: cover histories off the support of T: 0, largest relative error: 0.00e+00
+PASS
+
+real	0m3.846s
+user	0m3.652s
+sys	0m0.140s

@@ -1,0 +1,6 @@
+gump one-layer tube (1,0),(0,4) vs its double cover, t1=3, p=0.60, seam 2 unit cell(s): 4096 histories of T (3380 alive at t1), 1277 seam histories (572 shared by several strip histories), cover histories off the support of T: 0, largest relative error of (I): 1.14e-15
+gump one-layer tube (1,0),(0,4) vs its double cover, t1=4, p=0.50, seam 2 unit cell(s): 4096 histories of T (3268 alive at t1), 1415 seam histories (529 shared by several strip histories), cover histories off the support of T: 0, largest relative error of (I): 0.00e+00
+gump one-layer tube (1,0),(0,4) vs its double cover, t1=2, p=0.70, seam 2 unit cell(s): 4096 histories of T (3572 alive at t1), 897 seam histories (569 shared by several strip histories), cover histories off the support of T: 0, largest relative error of (I): 8.47e-16
+negative control (seam one unit cell thick):
+gump one-layer tube (1,0),(0,4) vs its double cover, t1=3, p=0.60, seam 1 unit cell(s): 4096 histories of T (3380 alive at t1), 267 seam histories (217 shared by several strip histories), cover histories off the support of T: 3354, largest relative error of (I): 6.28e+00
+PASS

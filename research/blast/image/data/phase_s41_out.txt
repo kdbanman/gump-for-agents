@@ -1,0 +1,5 @@
+generation: mean face density (first 24): 0.3999 0.5180 0.5081 0.5145 0.5066 0.5024 0.5105 0.5137 0.5147 0.5170 0.5175 0.5175 0.5178 0.5179 0.5177 0.5179 0.5180 0.5172 0.5179 0.5180 0.5179 0.5179 0.5175 0.5178
+generations 40..99: density by generation mod 4 minus their mean, x 1e6: 0: -36.3 +- 32.5, 1: +52.0 +- 32.1, 2: -50.8 +- 21.3, 3: +35.2 +- 53.8;  drift over the segment +107.6
+generations 100..199: density by generation mod 4 minus their mean, x 1e6: 0: +14.7 +- 22.8, 1: -24.4 +- 51.2, 2: -45.9 +- 28.7, 3: +55.6 +- 57.4;  drift over the segment +29.2
+generations 200..399: density by generation mod 4 minus their mean, x 1e6: 0: -5.3 +- 21.7, 1: -26.3 +- 14.6, 2: +25.2 +- 8.4, 3: +6.4 +- 21.9;  drift over the segment -73.2
+generations 400..700: density by generation mod 4 minus their mean, x 1e6: 0: -38.6 +- 18.0, 1: -10.6 +- 3.8, 2: +6.4 +- 22.8, 3: +42.8 +- 12.8;  drift over the segment -1.5

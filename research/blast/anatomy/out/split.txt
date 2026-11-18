@@ -1,0 +1,5 @@
+t48: A = 48; 100 falls of >= half the face in 13422 living windows of 10 generations: ln(rate per generation) = -7.20 +- 0.10; ln(share of them fatal) = -3.30; ln tau = 9.938
+tube54: A = 54; 48 falls of >= half the face in 9604 living windows of 10 generations: ln(rate per generation) = -7.60 +- 0.14; ln(share of them fatal) = -4.16; ln tau = 11.191
+tube60: A = 60; 18 falls of >= half the face in 8223 living windows of 10 generations: ln(rate per generation) = -8.43 +- 0.24; ln(share of them fatal) = -4.56; ln tau = 12.417
+t63: A = 63; 12 falls of >= half the face in 7899 living windows of 10 generations: ln(rate per generation) = -8.79 +- 0.29; ln(share of them fatal) = -4.89; ln tau = 13.155
+t75: A = 75; 1 falls of >= half the face in 1144 living windows of 10 generations: ln(rate per generation) = -9.34 +- 1.00; ln(share of them fatal) = -6.82; ln tau = 15.650

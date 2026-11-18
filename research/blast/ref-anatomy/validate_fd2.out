@@ -1,0 +1,9 @@
+t63 replica 0: oracle torus side 42, 21 images per cell, 504 cells; populations at t=0,10,100,550,1100: [187, 238, 241, 181, 222]; identical for 1100 generations
+h63 replica 0: oracle torus side 28, 1 images per cell, 876 cells; populations at t=0,10,100,550,1100: [337, 391, 399, 386, 424]; identical for 1100 generations
+t84 replica 0: oracle torus side 56, 28 images per cell, 672 cells; populations at t=0,10,100,550,1100: [252, 290, 291, 309, 305]; identical for 1100 generations
+t48 replica 0: oracle torus side 32, 16 images per cell, 384 cells; populations at t=0,10,100,550,1100: [137, 176, 201, 193, 178]; identical for 1100 generations
+tube60 replica 0: oracle torus side 40, 20 images per cell, 480 cells; populations at t=0,10,100,550,1100: [179, 200, 219, 211, 191]; identical for 1100 generations
+tube84 replica 0: oracle torus side 56, 28 images per cell, 672 cells; populations at t=0,10,100,550,1100: [252, 288, 310, 311, 277]; identical for 1100 generations
+t84 SWAP replica 0: oracle torus side 56, 28 images per cell, 672 cells; populations at t=0,10,100,550,1100: [252, 290, 325, 315, 322]; FIRST MISMATCH at generation 12
+tube84 SWAP replica 0: oracle torus side 56, 28 images per cell, 672 cells; populations at t=0,10,100,550,1100: [252, 285, 280, 362, 309]; FIRST MISMATCH at generation 6
+Wed Nov 18 04:24:00 UTC 2026

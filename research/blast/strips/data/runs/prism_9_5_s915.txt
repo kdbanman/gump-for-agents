@@ -1,0 +1,24 @@
+# life prism 9 5 seed 915 T0 1000: N 750 faces 4 cells/face 75 gens 62967808 secs 420.0 (8.89 ns per cell-generation of 512 lanes); censored as periodic 0; deaths before T0 0; deaths with two faces at once 0; oldest lane at the end 46330079; exposure by bins 32233190252
+  age     4000..: deaths         4 exposure       25106261 ln tau_face 17.0386 +- 0.5000
+  age     8000..: deaths        11 exposure       50153967 ln tau_face 16.7190 +- 0.3015
+  age    16000..: deaths        29 exposure       99932637 ln tau_face 16.4390 +- 0.1857
+  age    32000..: deaths        31 exposure      198873802 ln tau_face 17.0605 +- 0.1796
+  age    64000..: deaths        84 exposure      393937708 ln tau_face 16.7472 +- 0.1091
+  age   128000..: deaths       129 exposure      772870956 ln tau_face 16.9921 +- 0.0880
+  age   256000..: deaths       265 exposure     1490510157 ln tau_face 16.9289 +- 0.0614
+  age   512000..: deaths      5215 exposure    29183012329 ln tau_face 16.9239 +- 0.0138
+LIFE prism 9 5 cells 75 seed 915 T0 1000 deaths 5768 exposure 32233190252 ln_tau_face 16.9225 +- 0.0132 | nofw deaths 5768 exposure 32233190252 ln_tau_face 16.9225 +- 0.0132 firewalls 0 fw% 0.0
+LIVE prism 9 5 cells 75 samples 7869422 mean 39.540 q50 40 q90 46 q95 48 q99 52
+BUST prism 9 5 deaths 5768 share with a one-generation fall of at least half the face 0.1659
+LAG prism 9 5 lag  1 mean 1.621 q10 1 q50 1 q90 3 q95 4
+LAG prism 9 5 lag  2 mean 3.745 q10 1 q50 3 q90 8 q95 10
+LAG prism 9 5 lag  3 mean 7.617 q10 1 q50 5 q90 16 q95 20
+LAG prism 9 5 lag  4 mean 13.468 q10 2 q50 8 q90 36 q95 52
+LAG prism 9 5 lag  5 mean 19.072 q10 3 q50 13 q90 47 q95 55
+LAG prism 9 5 lag  6 mean 23.415 q10 3 q50 20 q90 47 q95 54
+LAG prism 9 5 lag  7 mean 27.290 q10 5 q50 29 q90 48 q95 53
+LAG prism 9 5 lag  8 mean 30.408 q10 6 q50 35 q90 48 q95 53
+LAG prism 9 5 lag  9 mean 32.812 q10 9 q50 37 q90 47 q95 51
+LAG prism 9 5 lag 10 mean 34.608 q10 13 q50 38 q90 47 q95 51
+LAG prism 9 5 lag 11 mean 35.987 q10 18 q50 39 q90 47 q95 50
+LAG prism 9 5 lag 12 mean 36.963 q10 24 q50 39 q90 47 q95 49

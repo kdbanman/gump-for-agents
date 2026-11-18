@@ -1,0 +1,2 @@
+BRUTE A 60 WD 0 faces 2 gens 1500000 exposure 1.522369e+09 deaths 6279 lntau_face 12.3986 +- 0.0126 | stationary face pop 28.157 sd 4.298 | paths 6277 fall>=A/2 (last 16 gens, subpaths.py convention) 0.5802 +- 0.0062 ; >=0.4A 0.8386 ; fall>=A/2 (last 24 gens incl. last step) 0.5834
+STUCK (lives with more than half of their 64-generation samples below A/4; gump: the lower of the two faces) lives 1 of 6784, exposure share 0.00014, deaths 0; capped at age 0: 0; lntau_face without stuck lives 12.3984 +- 0.0126

@@ -1,0 +1,1 @@
+covering (1,0),(0,2) <- (2,0),(0,2): max |P_cover(lift x, lift y) - P(x,y)^2| over 64 x 64 pairs = 1.11e-16

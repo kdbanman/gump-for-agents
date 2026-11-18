@@ -1,0 +1,30 @@
+(F) how a patch empties, by position
+  shape  where          events  not-new  flicker  bust-share  over-full-share   patch density at lags 1..5 | layer beneath at lags 0..4
+  2x2 corner               182857   298147   18289   0.331±0.001     0.424        0.146 0.346 0.425 0.431 0.431 | 0.225 0.178 0.314 0.368 0.382
+  2x2 on a rim             754155   584038   27367   0.663±0.001     0.868        0.182 0.460 0.548 0.537 0.536 | 0.255 0.188 0.381 0.448 0.448
+  2x2 one row in           496018   224834   13487   0.836±0.001     0.889        0.334 0.535 0.530 0.514 0.519 | 0.240 0.292 0.434 0.432 0.429
+  2x2 interior(>=3)        414176   182390   10943   0.829±0.001     0.886        0.322 0.532 0.537 0.515 0.518 | 0.241 0.285 0.433 0.440 0.431
+  2x2 interior(>=2)       1160098   508298   30639   0.829±0.000     0.885        0.323 0.532 0.536 0.515 0.518 | 0.241 0.286 0.433 0.440 0.431
+  3x3 corner               146716   133474    5744   0.227±0.001     0.455        0.076 0.213 0.368 0.424 0.444 | 0.243 0.184 0.234 0.340 0.374
+  3x3 on a rim             212157    90501    3446   0.498±0.001     0.790        0.090 0.288 0.487 0.518 0.522 | 0.238 0.163 0.257 0.408 0.427
+  3x3 one row in            71944    18070     819   0.708±0.002     0.845        0.128 0.412 0.532 0.515 0.516 | 0.220 0.165 0.346 0.432 0.423
+  3x3 interior(>=3)         27365     6358     260   0.715±0.003     0.856        0.127 0.408 0.543 0.520 0.517 | 0.218 0.163 0.339 0.444 0.427
+  3x3 interior(>=2)        138193    32606    1328   0.714±0.001     0.855        0.127 0.409 0.544 0.520 0.516 | 0.218 0.163 0.341 0.445 0.428
+  4x4 corner                  382      212       4   0.188±0.020     0.335        0.050 0.143 0.289 0.393 0.418 | 0.265 0.206 0.210 0.291 0.365
+  4x4 on a rim                172       37       4   0.459±0.038     0.634        0.058 0.188 0.423 0.501 0.501 | 0.239 0.162 0.186 0.353 0.410
+  4x4 one row in               26        3       0   0.731±0.087     0.731        0.058 0.237 0.429 0.498 0.521 | 0.237 0.163 0.230 0.350 0.425
+  4x4 interior(>=2)            35        1       0   0.514±0.084     0.714        0.074 0.254 0.576 0.523 0.518 | 0.199 0.138 0.227 0.478 0.417
+  2x2 corner             busts: patch 0.786 -> 0.193 in the generation of the largest fall; layer beneath 0.658 -> 0.174; share launched from >= 0.7 full: 0.760, from < 0.6 full: 0.033
+  2x2 on a rim           busts: patch 0.843 -> 0.186 in the generation of the largest fall; layer beneath 0.697 -> 0.150; share launched from >= 0.7 full: 0.924, from < 0.6 full: 0.020
+  2x2 one row in         busts: patch 0.828 -> 0.107 in the generation of the largest fall; layer beneath 0.670 -> 0.155; share launched from >= 0.7 full: 0.895, from < 0.6 full: 0.025
+  2x2 interior(>=3)      busts: patch 0.826 -> 0.111 in the generation of the largest fall; layer beneath 0.671 -> 0.158; share launched from >= 0.7 full: 0.893, from < 0.6 full: 0.025
+  2x2 interior(>=2)      busts: patch 0.826 -> 0.111 in the generation of the largest fall; layer beneath 0.671 -> 0.158; share launched from >= 0.7 full: 0.893, from < 0.6 full: 0.025
+  3x3 corner             busts: patch 0.777 -> 0.185 in the generation of the largest fall; layer beneath 0.645 -> 0.155; share launched from >= 0.7 full: 0.914, from < 0.6 full: 0.011
+  3x3 on a rim           busts: patch 0.809 -> 0.178 in the generation of the largest fall; layer beneath 0.675 -> 0.138; share launched from >= 0.7 full: 0.963, from < 0.6 full: 0.004
+  3x3 one row in         busts: patch 0.806 -> 0.129 in the generation of the largest fall; layer beneath 0.664 -> 0.128; share launched from >= 0.7 full: 0.961, from < 0.6 full: 0.005
+  3x3 interior(>=3)      busts: patch 0.805 -> 0.132 in the generation of the largest fall; layer beneath 0.665 -> 0.129; share launched from >= 0.7 full: 0.964, from < 0.6 full: 0.004
+  3x3 interior(>=2)      busts: patch 0.805 -> 0.132 in the generation of the largest fall; layer beneath 0.665 -> 0.130; share launched from >= 0.7 full: 0.964, from < 0.6 full: 0.004
+  4x4 corner             busts: patch 0.770 -> 0.194 in the generation of the largest fall; layer beneath 0.632 -> 0.154; share launched from >= 0.7 full: 0.903, from < 0.6 full: 0.014
+  4x4 on a rim           busts: patch 0.783 -> 0.179 in the generation of the largest fall; layer beneath 0.652 -> 0.152; share launched from >= 0.7 full: 0.873, from < 0.6 full: 0.013
+  4x4 one row in         busts: patch 0.796 -> 0.149 in the generation of the largest fall; layer beneath 0.673 -> 0.114; share launched from >= 0.7 full: 1.000, from < 0.6 full: 0.000
+  4x4 interior(>=2)      busts: patch 0.759 -> 0.149 in the generation of the largest fall; layer beneath 0.646 -> 0.126; share launched from >= 0.7 full: 0.889, from < 0.6 full: 0.000

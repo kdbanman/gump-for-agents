@@ -1,0 +1,27 @@
+t63b: A 63 L 32; 3010 natural deaths with a launch; total rate 1.471e-06
+  natural deaths               sum nu d = 1.96e-06; mean launch theta 0.7375; share launched from >= 0.70 A: 0.736
+  chain 1 (P)                  sum nu d = 1.939e-06; mean launch theta 0.6467; share launched from >= 0.70 A: 0.292
+  chain 2 (P(t-1), P(t))       sum nu d = 1.939e-06; mean launch theta 0.7262; share launched from >= 0.70 A: 0.682
+  chain PU (P, layer beneath)  sum nu d = 1.939e-06; mean launch theta 0.6948; share launched from >= 0.70 A: 0.479
+    p  theta  launches   d natural   chain 1 / natural   chain 2 / natural   chain PU / natural
+   37  0.587      21   2.381e-07      7.759               1.786               3.071
+   38  0.603      23   3.204e-07      6.983               1.984               3.455
+   39  0.619      24   4.317e-07      6.594               2.425               4.328
+   40  0.635      73   1.786e-06      2.133               0.989               1.836
+   41  0.651      76   2.667e-06      2.012               1.246               2.286
+   42  0.667     120   6.380e-06      1.251               1.020               1.807
+   43  0.683     173   1.475e-05      0.854               0.955               1.500
+   44  0.698     254   3.687e-05      0.573               0.840               1.170
+   45  0.714     290   7.608e-05      0.494               0.916               1.073
+   46  0.730     345   1.744e-04      0.405               0.904               0.853
+   47  0.746     383   3.981e-04      0.345               0.863               0.680
+   48  0.762     336   7.693e-04      0.358               0.926               0.606
+   49  0.778     301   1.625e-03      0.346               0.933               0.499
+   50  0.794     219   3.017e-03      0.382               0.957               0.440
+   51  0.810     145   5.554e-03      0.421               1.003               0.368
+   52  0.825     107   1.237e-02      0.375               0.851               0.297
+   53  0.841      43   1.660e-02      0.517               1.006               0.277
+   54  0.857      25   3.251e-02      0.544               1.135               0.292
+  chain 1: rate launched from >= 0.70 A, model / natural = 0.392
+  chain 2: rate launched from >= 0.70 A, model / natural = 0.917
+  chain PU: rate launched from >= 0.70 A, model / natural = 0.644
