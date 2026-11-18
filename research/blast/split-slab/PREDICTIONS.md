@@ -20,3 +20,37 @@ ln tau_120 = -ln nu_120(p) - ln q_120(p), at the deepest level p with at least 4
 two shallower levels as a check. The same procedure is first run blind on a known case: the 108-cell tube from
 78, 84, 96 cells. P(the procedure's 108-cell value lands within 0.04 of 22.1599) = 65%.
 P(the 120-cell value so obtained lands within 0.05 of the GPU's) = 55%.
+
+(Block 1 was committed at 03:46 UTC by the machine clock, e9fc172; its heading says 03:50.)
+
+### Block 1, scored on its blind test (04:00 UTC)
+
+The bookkeeping procedure, run on the known 108-cell tube from the anchors at 78, 84 and 96 cells
+(`python3 nuq.py data/plain_1_16_36_s101.txt data/plain_1_6_26_s101.txt:16.0932:0.0093 data/plain_1_12_28_s101.txt:17.3175:0.0031 data/plain_1_17_32_s101.txt:19.7446:0.0042`):
+level of record p = 14 (430 excursions): **22.171 ± 0.057** against the anchor 22.1599 ± 0.0086: +0.011. Inside
+0.04: the forecast held. Shallower levels (p = 18 to 23, statistical error 0.011 to 0.023) come out +0.04 to +0.06
+high: ln q is slightly concave in A there, so the rule "deepest level with 400 excursions" matters.
+
+## Block 2: 04:00 UTC, before any run of the subset sampler at 84 cells or more
+
+A second sampler now exists (`ss ... sub`, README section 5): subset simulation on the *dice chain* (6 layers on
+the rule over 2 layers of fair coins, one face), exact for that Markov chain; it has been run only once, on 48
+cells (8 replications, 9.883 ± 0.053; dice chain by brute force 9.918 ± 0.027; gump 9.9251).
+
+Procedure, fixed now: WD = 6; mu = 0.515 A, s = sqrt(0.415 A); LAM1 = round(mu - 2.5 s), DELTA = 3, 4096 chains
+(NBATCH 8), NSWEEP = round(A / 6), KFLIP = 4, TPRE = 32, TWIN = 24; error from independent replications.
+Tuning tori: 48 and 63 cells (there the dice chain is also measured by brute force). Then, without further tuning:
+63, 84 (1,12),(0,28), 96 (1,17),(0,32), 108 (1,16),(0,36) against the gump anchors; the offset
+d = ln tau(dice chain) - ln tau(gump) is whatever these give. The 120-cell value of record is
+ln tau(dice chain, 120) - d, with d the mean offset at 84, 96, 108.
+
+Forecasts:
+- P(|d| < 0.05 at each of 84, 96, 108, within 2 of my standard errors) = 55%. P(d shows a trend with size larger
+  than 0.05 from 84 to 108) = 30%.
+- The sampler's 120-cell value: 24.57 ± 0.06 (my prior of block 1 widened by the sampler's own error);
+  P(within) = 55%.
+- Loop^2 12 tubes beyond: local slope between 120 and 240 cells stays in 0.196 to 0.202 per cell (P = 60%), i.e.
+  ln tau(144) = 29.38 ± 0.10, ln tau(192) = 38.9 ± 0.3, ln tau(240) = 48.5 ± 0.5. P(the slope falls below 0.190
+  somewhere before 240 cells) = 20%; P(it returns above 0.205) = 10%.
+- P(the dying paths at 108 and 120 cells still pass through an over-full generation and a one-generation crash in
+  more than half of the deaths) = 70%.

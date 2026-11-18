@@ -185,6 +185,75 @@ int main(int argc, char **argv) {
       printf("  | %5.2f |", sqrt(sq[lag][0] / nd - (sum[lag][0] / nd) * (sum[lag][0] / nd))); for (int d = 0; d < 8; d++) { int y = d; double mu = (m1[y] + m1[7 - y]) / 2 / ns, sd = sqrt((m2[y] + m2[7 - y]) / 2 / ns - mu * mu); printf(" %6.2f", (sum[lag][d] / nd - mu) / sd); } printf("\n"); }
     return 0;
   }
+  if (!strcmp(mode, "sub")) {
+    /* Subset simulation on the dice chain (WD = w > 0), exact for that Markov chain.
+       ss G sub SEED NREP LAM1 DELTA NBATCH NSWEEP KFLIP TPRE TWIN [PATHFILE]
+       A chain = (stationary initial state, T = TPRE + TWIN generations of dice for layers w, w+1). Score = minimum face population over
+       generations TPRE+1..T, defined only if the face is alive at generation TPRE. Event {score = 0} = {death time in (TPRE, T]}, probability
+       TWIN / tau. Levels LAM1 > LAM1 - DELTA > ... > 0. P_1 from NBATCH*512 independent chains; at each level the chains at or below it are
+       copied round-robin to refill the ensemble and moved by NSWEEP Metropolis sweeps (proposal: flip KFLIP dice bits uniform in space-time;
+       accept iff the score stays at or below the level), then the share at or below the next level is P_{i+1}. */
+    if (!WD) { fprintf(stderr, "sub needs WD\n"); return 1; }
+    u64 seed0 = strtoull(argv[3], 0, 10); int nrep = atoi(argv[4]); int LAM1 = atoi(argv[5]), DELTA = atoi(argv[6]), NBATCH = atoi(argv[7]), NSWEEP = atoi(argv[8]), KFLIP = atoi(argv[9]);
+    int TPRE = atoi(argv[10]), TWIN = atoi(argv[11]); int T = TPRE + TWIN; FILE *pp = argc > 12 ? fopen(argv[12], "w") : 0; if (T > 127) return 1;
+    size_t ssz = (size_t)(n + 1) * W, dsz = (size_t)T * 2 * A * W; long NC = (long)NBATCH * NL;
+    u64 *init = malloc(NBATCH * ssz * 8), *init2 = malloc(NBATCH * ssz * 8), *D = malloc(NBATCH * dsz * 8), *D2 = malloc(NBATCH * dsz * 8), *Dp = malloc(dsz * 8), *pl = malloc(ssz * 8);
+    int *score = malloc(4 * NC), *score2 = malloc(4 * NC), *seeds = malloc(4 * NC); static short popser[NL][128]; static int sc[NL]; static long page[NL];
+    double *rate = malloc(8 * nrep); double sumlnP[64] = {0}; long nlevP[64] = {0}; double accs = 0, accn = 0; int lamlist[64], nlam = 0;
+    #define EVAL(initb, diceb) do { memcpy(a, (initb), ssz * 8); for (int t_ = 0; t_ < T; t_++) { \
+        for (int i_ = 0; i_ < WD * A; i_++) { const int *q_ = nb + 12 * (size_t)i_; vec x_[12], me_, o_; for (int u_ = 0; u_ < 12; u_++) memcpy(&x_[u_], a + (size_t)q_[u_] * W, 64); \
+          memcpy(&me_, a + (size_t)i_ * W, 64); o_ = rule(x_, me_); memcpy(b + (size_t)i_ * W, &o_, 64); } \
+        memcpy(b + (size_t)WD * A * W, (diceb) + (size_t)t_ * 2 * A * W, (size_t)2 * A * W * 8); { u64 *sw_ = a; a = b; b = sw_; } \
+        u64 c_[NB][W]; laypop(0, c_); for (int l_ = 0; l_ < NL; l_++) popser[l_][t_ + 1] = lane_count(c_, l_); } \
+      for (int l_ = 0; l_ < NL; l_++) { int m_ = 1 << 20; if (popser[l_][TPRE] > 0) for (int g_ = TPRE + 1; g_ <= T; g_++) if (popser[l_][g_] < m_) m_ = popser[l_][g_]; sc[l_] = m_; } } while (0)
+    printf("# sub A %d WD %d LAM1 %d DELTA %d chains %ld NSWEEP %d KFLIP %d TPRE %d TWIN %d\n", A, WD, LAM1, DELTA, NC, NSWEEP, KFLIP, TPRE, TWIN);
+    sm = seed0 * 0x2545F4914F6CDD1DULL + 4242; for (int l = 0; l < NL; l++) { lane_soup(l); page[l] = 0; }
+    for (int g = 0; g < 1000; g++) step(); for (int l = 0; l < NL; l++) page[l] = 1000;
+    for (int rep = 0; rep < nrep; rep++) {
+      long nvalid = 0;
+      for (int bt = 0; bt < NBATCH; bt++) {
+        for (int g = 0; g < 64; g++) step();
+        u64 c[NB][W]; laypop(0, c); int valid[NL];
+        for (int l = 0; l < NL; l++) { page[l] += 64; int p0 = lane_count(c, l); valid[l] = (p0 > 0 && page[l] >= 1000); if (p0 == 0) { lane_soup(l); page[l] = 0; } }
+        memcpy(pl, a, ssz * 8); memcpy(init + bt * ssz, a, ssz * 8); u64 *d = D + bt * dsz; for (size_t x = 0; x < dsz; x++) d[x] = rnd();
+        EVAL(init + bt * ssz, d); for (int l = 0; l < NL; l++) { score[bt * NL + l] = valid[l] ? sc[l] : (1 << 20); nvalid += valid[l]; }
+        memcpy(a, pl, ssz * 8);
+      }
+      memcpy(pl, a, ssz * 8);
+      int lam = LAM1, lev = 0; double prod = 1; long denom = nvalid; printf("REP %d valid %ld :", rep, nvalid);
+      for (;;) {
+        long ns = 0; for (long j = 0; j < NC; j++) if (score[j] <= lam) seeds[ns++] = (int)j;
+        double P = (double)ns / denom; prod *= P; printf(" %d:%ld", lam, ns); lamlist[lev] = lam; if (ns) { sumlnP[lev] += log(P); nlevP[lev]++; } lev++; if (lev > nlam) nlam = lev;
+        if (ns == 0 || lam == 0) break;
+        u64 r0 = rnd() % (u64)ns;
+        memset(init2, 0, NBATCH * ssz * 8); memset(D2, 0, NBATCH * dsz * 8);
+        for (long j = 0; j < NC; j++) { int src = seeds[(r0 + (u64)j) % (u64)ns]; int sb = src / NL, sl = src % NL, db = (int)(j / NL), dl = (int)(j % NL);
+          const u64 *si = init + sb * ssz + (sl >> 6); u64 *di = init2 + db * ssz + (dl >> 6); int sk = sl & 63, dk = dl & 63;
+          for (int i = 0; i < n; i++) di[(size_t)i * W] |= ((si[(size_t)i * W] >> sk) & 1) << dk;
+          const u64 *sd = D + sb * dsz + (sl >> 6); u64 *dd = D2 + db * dsz + (dl >> 6); size_t nd2 = (size_t)T * 2 * A;
+          for (size_t i = 0; i < nd2; i++) dd[i * W] |= ((sd[i * W] >> sk) & 1) << dk;
+          score2[j] = score[src]; }
+        { u64 *t1 = init; init = init2; init2 = t1; t1 = D; D = D2; D2 = t1; int *t2 = score; score = score2; score2 = t2; }
+        for (int sw = 0; sw < NSWEEP; sw++) for (int bt = 0; bt < NBATCH; bt++) { u64 *d = D + bt * dsz; memcpy(Dp, d, dsz * 8);
+          for (int l = 0; l < NL; l++) for (int k = 0; k < KFLIP; k++) { u64 z = rnd(); size_t pos = (size_t)((z >> 8) % (u64)((size_t)T * 2 * A)); Dp[pos * W + (l >> 6)] ^= 1ULL << (l & 63); }
+          EVAL(init + bt * ssz, Dp); u64 acc[W] = {0};
+          for (int l = 0; l < NL; l++) { accn++; if (sc[l] <= lam) { acc[l >> 6] |= 1ULL << (l & 63); score[bt * NL + l] = sc[l]; accs++; } }
+          for (size_t x = 0; x < dsz; x++) { int w = (int)(x % W); d[x] = (d[x] & ~acc[w]) | (Dp[x] & acc[w]); } }
+        denom = NC; lam = lam - DELTA > 0 ? lam - DELTA : 0;
+      }
+      rate[rep] = prod / TWIN; printf(" rate %.5e lntau %.4f\n", rate[rep], rate[rep] > 0 ? -log(rate[rep]) : 99.0); fflush(stdout);
+      if (pp && rate[rep] > 0) for (int bt = 0; bt < NBATCH; bt++) { EVAL(init + bt * ssz, D + bt * dsz);   /* dying paths of the dice chain: face population by generation */
+          for (int l = 0; l < NL; l++) if (sc[l] == 0) { int gd = TPRE + 1; while (popser[l][gd] > 0) gd++; fprintf(pp, "S %d %d %d |", rep, bt * NL + l, gd);
+            for (int g = gd - 1; g >= 1 && g >= gd - 24; g--) fprintf(pp, " %d", popser[l][g]); fprintf(pp, "\n"); } }
+      memcpy(a, pl, ssz * 8);
+    }
+    double m = 0, v = 0; for (int i = 0; i < nrep; i++) m += rate[i]; m /= nrep; for (int i = 0; i < nrep; i++) v += (rate[i] - m) * (rate[i] - m);
+    printf("SUMMARY sub A %d WD %d reps %d lntau %.4f +- %.4f (rel sd of one replication %.3f) acceptance %.3f\n", A, WD, nrep, -log(m), nrep > 1 ? sqrt(v / (nrep - 1) / nrep) / m : 0,
+           nrep > 1 ? sqrt(v / (nrep - 1)) / m : 0, accs / (accn > 0 ? accn : 1));
+    for (int i = 0; i < nlam; i++) if (nlevP[i]) printf("LEVEL %d lam %d mean lnP %.4f (%ld reps)\n", i, lamlist[i], sumlnP[i] / nlevP[i], nlevP[i]);
+    if (pp) fclose(pp);
+    return 0;
+  }
   /* ffs */
   u64 seed0 = strtoull(argv[3], 0, 10); int nrep = atoi(argv[4]); PA = atoi(argv[5]); LAM0 = atoi(argv[6]); int DELTA = atoi(argv[7]);
   long M = atol(argv[8]); long N0TGT = atol(argv[9]); NFLIP = atoi(argv[10]); FDEP0 = atoi(argv[11]); FDEP1 = atoi(argv[12]);
