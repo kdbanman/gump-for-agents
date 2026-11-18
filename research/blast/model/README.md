@@ -96,26 +96,33 @@ g. **[measured] At equal area the tube's bust route is the wide face's; its extr
    ends in death is the same on the 60- and 66-cell tubes and the 63-cell wide face at every n ≤ 20, up to a
    smooth fall with area (q(12) = 0.0104, 0.0092, 0.0104; 0.0136 at 48 cells).
 
-h. **[measured against three lifetimes, no fitted number] The two-route formula for the tube's discount.** If the
-   route without a bust runs faster on a tube by the factor by which the living tube is more often half empty
-   (Δ_mid = mean of ln π_tube(n) − ln π_wide(n) over 0.40–0.55 P̄, from the stationary histograms at equal area),
-   and the bust route not at all:
+h. **[fitted: one number, the level at which the lead is read] The two-route formula for the tube's discount.**
+   If the bust route is the same on tube and wide face (item g) and the route without a bust runs faster on the
+   tube by the factor by which the living tube is more often at a given low population,
 
-       D = ln τ_wide − ln τ_tube = ln( b + (1 − b)·e^Δ_mid ),    b = bust share of the wide face (anatomy: logit b = 0.364 + 0.0045 (A − 63))
+       D = ln τ_wide − ln τ_tube = ln( b + (1 − b)·e^Δ ),    Δ = ln π_tube(n) − ln π_wide(n) at n = f·P̄, equal area,
+       b = bust share of the wide face (anatomy's 0.572, 0.590, 0.601 at 48, 63, 75 cells: logit b = 0.364 + 0.0045 (A − 63)).
 
-   | cells | Δ_mid | b | D from the formula | D measured |
+   | cells (tube / wide) | Δ at f = 0.525 | b | D from the formula | D measured |
    |---|---|---|---|---|
-   | 66 | 0.264 ± 0.002 | 0.593 | 0.116 ± 0.001 | 0.125 ± 0.007 (0.115 ± 0.027 in my own pair) |
-   | 84 | 0.484 ± 0.016 | 0.613 | 0.216 ± 0.008 | 0.220 ± 0.004 |
-   | 108 | 0.857 ± 0.033 | 0.638 | 0.400 ± 0.019 | 0.381 ± 0.011 |
+   | 66: (1,5),(0,22) / (1,4),(0,22) | 0.268 | 0.593 | 0.118 | 0.125 ± 0.007 |
+   | 84: (1,12),(0,28) / (1,4),(0,28) | 0.466 | 0.613 | 0.207 | 0.220 ± 0.004 |
+   | 96: (1,17),(0,32) / (1,13),(0,32) | 0.661 | 0.625 | 0.301 | 0.302 ± 0.004 (against the wide line; no wide 96-cell lifetime on file) |
+   | 108: (1,16),(0,36) / (6,0),(0,6) | 0.848 | 0.638 | 0.394 | 0.381 ± 0.011 |
+   | 120: (1,18),(0,40) / (1,11),(0,40) | 0.974 | 0.650 | 0.455 → ln τ = 24.598 | not measured (block M5) |
 
-   χ² ≈ 2.6 on 3 with nothing fitted (b's own error, a few percent, not included). This is why the lead of the tube
-   at half population is 2.1–2.25 times its discount: only the 40% of deaths that go without a bust profit from it.
-   The bending with tube length is the growth of Δ_mid (0.0123 per cell from 66 to 84 cells, 0.0155 from 84 to
-   108), i.e. of the fat lower side of the tube's living fluctuations (item 4 below: extensive κ₃, κ₄), together with
-   the falling share of the route that cannot profit. `python3 research/blast/model/tworoute.py`. Not checked: that
-   b on tubes follows the wide faces' line; any face above 108 cells; the choice of the window 0.40–0.55 (it was
-   fixed in `pairs.py` before the formula was thought of, but only one window was tried).
+   Σ z² over the four measured pairs (error floor 0.01): 86.6, 11.4, **3.8**, 24.9, 262 at f = 0.45, 0.50, 0.525,
+   0.55, 0.60. So the level is a fitted number, f = 0.52 ± 0.02, about 0.27 A; it is where the falls of item b land
+   (0.19–0.36 A), which is what the formula needs (below the landing level the two routes are one stream), but that
+   was noticed after the fit. The count-weighted mean of Δ over 0.40–0.55 P̄, the estimator fixed in `pairs.py`
+   before the formula existed, gives 0.116, 0.216, 0.310, 0.400 (Σ z² 3.0) but its effective level drifts with the
+   sample size; the plateau of Δ near 0.45 P̄ overshoots (0.232, 0.355, 0.465). This is why the tube's lead at half
+   population is 2.1–2.25 times its discount: only the 36–41% of deaths that go without a bust profit from it. The
+   bending with tube length is the growth of Δ (0.011 per cell from 66 to 84 cells, 0.016 from 84 to 108) on the fat
+   lower side of the tube's living fluctuations, set against the falling share of the route that can profit.
+   `python3 research/blast/model/tworoute.py` → `data/tworoute_out.txt`. Not checked: that the bust share of a
+   wide face follows anatomy's line beyond 75 cells; the equality of the bust route at any size but 66 cells; loop²
+   13 and 16.
 
 ## Short answer (written before the section above; the front gas has since been killed by agent `anatomy`: no band-first class of deaths)
 
@@ -219,7 +226,7 @@ h. **[measured against three lifetimes, no fitted number] The two-route formula 
 | # | model, in three lines | fitted numbers | against the anchors | kills it |
 |---|---|---:|---|---|
 | 0 | **Boom, bust, starve (anatomy's mechanism made quantitative; added last).** 1/τ = Σ_P π(P)·g(P): boom to x ≈ 0.75 A at ψ(x) per cell (measured from the living state, shape-blind), fall to s(x) ≈ 0.36 A (a map of the filling alone), then the survivors starve at the tail price. Hull: no fall, so starvation only. | 0 for the boom; the kill is measured, not derived | boom 0.083–0.098 per cell + kill 0.11–0.15 per cell = 0.21–0.23 (two sizes, peak term only); explains hull > wrapped at equal area (0.47 at 63 cells = no bust route, +0.87, less a readier starvation, −0.4); does NOT give the tube discount (the boom is identical on tubes) nor 0.231 | a wrapped face of 84–108 cells whose dying faces are not over-full at lag 4–5 at ten times the living share; or a tube whose over-full share of deaths equals the wide face's while its lifetime is shorter (then the tube's discount is in the kill) |
-| 0b | **Two routes for the tube's discount.** D = ln(b + (1 − b)e^Δ_mid): the bust route is shape-blind (boom, fall and kill measured equal at 66 cells); the route without a bust is faster on a tube by its stationary lead at half population. | 0 (b from anatomy's shares, Δ_mid from living histograms) | D = 0.116, 0.216, 0.400 against 0.125 ± 0.007, 0.220 ± 0.004, 0.381 ± 0.011 at 66, 84, 108 cells | the 120-cell tube more than 0.04 from the number in PREDICTIONS.md block M5; or a tube of 84+ cells whose number of over-full deaths differs from the wide face's by more than 15% |
+| 0b | **Two routes for the tube's discount.** D = ln(b + (1 − b)e^Δ): the bust route is shape-blind (boom, fall, kill and the number of over-full deaths measured equal at 66 cells); the route without a bust is faster on a tube by its stationary lead Δ at the level where falls land. | 1 (the level, f = 0.52 of the mean population); b from anatomy's shares, Δ from living histograms | Σ z² 3.8 on 4 pairs (66, 84, 96, 108 cells): 0.118, 0.207, 0.301, 0.394 against 0.125, 0.220, 0.302, 0.381 | the 120-cell tube outside 24.585 ± 0.06; or a tube of 84+ cells whose number of over-full deaths differs from the wide face's by more than 15% |
 | 1 | **Two ways to die, rates add (HAZ refitted).** 1/τ = e^(−a−cA)(1 + Σ_v r_q e^(g_q(A−63))): a short loop opens a second channel at price c − g_q. A description; the only form within reach of the errors. | 10 | χ² 87 on 44 (A ≥ 48), 107 on 48 (A ≥ 36); hull: not addressed | the 120-cell tube above 24.55 (HAZ says 24.51; it is already −2.6σ at 108 cells): then the channel's price is not constant |
 | 2 | **A tube has its own price (stationary cumulants).** Tubes are one-dimensional: ρ, κ₂, κ₃, κ₄ per cell independent of length; long-tube price c − Δ, Δ = tilt series of the cumulant differences, 0.007–0.011 for loop² 12. Short tubes cross over. | 0 (λ measured) | second order alone: discounts within 20% at 66–96 cells, ×1.7 at 54, ×0.8 at 108 (Σ z² 4594 on 20) | local slope of the loop² 12 tube from 120 to 240 cells outside 0.196–0.202 |
 | 3 | **Rim as an expansion in the side at the wrapped price.** Hull: ln τ = 0.2086·A + b·k + d + e/k. | 3 | χ² 16.8 on 2 (30–108 cells); two prices 152.8 on 2 | the 135-cell hull face at 29.23 or above (expansion: 29.17–29.21) |

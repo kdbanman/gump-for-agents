@@ -69,3 +69,31 @@ for t, w, A, D, se in PAIRS:
     ref = WIDE(A) if A in (96, 120) else None
     print(f'{A:4d}   {ta:.2e} {tb:.2e}   {dm:+.3f} ({sdm:.3f})   {bb:.3f}   {Dm:.3f} ({sD:.3f})   {meas:15s}   [{pl:+.3f}, {Dpl:.3f}]   ' +
           (f'{ref - Dm:.3f} to {ref - Dpl:.3f} (wide line {ref:.3f} less D)' if ref else ''))
+
+
+def lnpi_at(ph, tot, x):
+    i = int(math.floor(x))
+    if ph[i] < 50 or ph[i + 1] < 50:
+        return None
+    a, b = math.log(ph[i] / tot), math.log(ph[i + 1] / tot)
+    return a + (b - a) * (x - i)
+
+
+# the level at which the lead is read is one fitted number: scan it
+MEAS = {66: (0.125, 0.007), 84: (0.220, 0.004), 96: (0.302, 0.004), 108: (0.381, 0.011), 120: (None, None)}
+print('\nDelta read at a fixed fraction f of the tube\'s mean population:  A: Delta -> D;  sum z^2 over the 4 measured pairs (se floor 0.01)')
+for f in (0.45, 0.50, 0.525, 0.55, 0.60):
+    out = []; chi = 0.0
+    for t, w, A, D, se in PAIRS:
+        a, b = ph_sum(t), ph_sum(w)
+        if a is None or b is None:
+            continue
+        ta, tb = sum(a[1:]), sum(b[1:]); m = sum(n * c for n, c in enumerate(a) if n) / ta
+        la, lb = lnpi_at(a, ta, f * m), lnpi_at(b, tb, f * m)
+        if la is None or lb is None:
+            out.append(f'{A}: n/a'); continue
+        d = la - lb; bb = 1 / (1 + math.exp(-logit_b(A))); Dm = math.log(bb + (1 - bb) * math.exp(d))
+        out.append(f'{A}: {d:+.3f} -> {Dm:.3f}')
+        if MEAS[A][0] is not None:
+            chi += ((Dm - MEAS[A][0]) / max(MEAS[A][1], 0.01)) ** 2
+    print(f'  f = {f}:  ' + ';  '.join(out) + f'   | {chi:.1f}')
