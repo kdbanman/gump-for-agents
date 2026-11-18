@@ -160,6 +160,12 @@ ln τ_flash = ln τ − ln b, ln τ_other = ln τ − ln(1 − b).
   file's 15.581 ± 0.045 at L = 36 is 2σ above mine.) Two generations before the end the ring's population is no
   longer bimodal at the 90% point (2/5/15 of 36; 1/5/28 of 32) and the peak before the largest fall is below the
   living one (24.1 against 25.4): at L = 36 the ring dies mostly as a box edge does.
+- **The second exit is not made by the strip's width** [measured; forecast in PREDICTIONS block 4;
+  `ed run 32 28 1 31 1200 3.2e8 r28w32.rec`, 1 minute]. At W = 16 three-column cuts end 6 residences in 7 at
+  L = 28 (150 in 151 at L = 36), and a nearly cut strip gives its edge row two ends. In a strip 32 × 28 (no cut
+  in 1.5×10⁸ generations, mean residence 125,000 generations instead of 19,000): ln τ = 12.436 ± 0.029 (W = 16:
+  12.416 ± 0.022), bust6 = 0.532 ± 0.014 (0.536 ± 0.011), boom share 0.443 ± 0.014 (0.448 ± 0.011). Unchanged: the
+  two exits belong to the ring edge, and its states at W = 16 are not too young to measure.
 - Reading [conjectured; forecast frozen in PREDICTIONS block 2, untested beyond 36]: the ring's price is 0.455
   where the flash carries the deaths and 0.33 beyond L ≈ 40 (ln τ(40) = 16.90, (48) = 19.66, bust share 0.20 and
   0.08): in 2D "two prices" disappears above L ≈ 40.
@@ -282,8 +288,8 @@ by power iteration (relative convergence 10⁻¹¹ in h).
 
 - Ring edges beyond L = 36; the forecast fall of the ring's price to 0.33 above L ≈ 40 is untested.
 - The 2–3σ scatter between my ring lifetimes and the file's (same protocol as far as I can tell).
-- The ring is a strip of width 16; the cut channel ends 29 residences in 30 at L = 32, so ring states are young
-  (mean residence 19,000 generations against τ = 1.1×10⁶). The box has no such channel.
+- The width test (§3) was made at L = 28 only; at L = 36, where cuts are 150 times as frequent as edge deaths,
+  it was not.
 - The split by "a fall ≥ L/2 within K steps" is a classifier, not a decomposition into disjoint routes; chance
   falls contaminate it at L ≤ 16 (living baseline up to 0.2). Slopes are stable under K = 4, 6, 12; constants move
   by 0.3–0.4.

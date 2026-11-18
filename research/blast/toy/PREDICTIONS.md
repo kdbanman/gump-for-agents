@@ -85,3 +85,8 @@ share 0.448 ± 0.011, ln τ = 12.416 ± 0.022.
 - Forecast: unchanged within errors (bust6 0.536 ± 0.05, ln τ 12.42 ± 0.06): probability 0.55.
 - Otherwise (0.45): bust6 ≥ 0.62 and ln τ ≥ 12.50, i.e. the exit is partly the cut channel's doing and §3 of the
   README must say so.
+
+## Scoring of block 4 (04:47 UTC)
+
+Strip 32 × 28, 1200 deaths, no cut: ln τ = 12.436 ± 0.029 (W = 16: 12.416), bust6 = 0.532 ± 0.014 (0.536), boom share
+0.443 ± 0.014 (0.448). **Hit**: unchanged; the second exit is the ring edge's own.
