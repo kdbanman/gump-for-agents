@@ -497,7 +497,8 @@ _Last updated 2026-11-14 by the lead._
   the earlier line here, that its second phase was not covered, is superseded by that. It suggests a measurement
   for the card (a thick corner-free strip) and has a sampler of its own running on CPU, unrefereed. The site
   agent is done (two new signals plates, one new dying plate, a live memory cell checked against the oracle at
-  every generation); version 19 of the overview is being published. **Fable agents running: none.**
+  every generation). **Version 19 of the overview was published at 14:20 UTC** (102 supporting files; 215 claims;
+  the memory cell live, "two ways to die", the register line, the tubes to 120 cells). **Fable agents running: none.**
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
