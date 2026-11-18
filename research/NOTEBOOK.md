@@ -4032,7 +4032,8 @@ octahedron of radius 11, 63 cells a face; A is the face's area.
   (0.726·A). So the tube's discount sits between the over-full generation and the end-game. Why is not derived.
 - **[the audit's dense solver against the session's numbers] The one-layer surrogate with coins beneath it, solved
   exactly, has both exits**: bust share 0.57–0.94 on wrapped faces of 9–15 cells, 0.003–0.02 on rimmed ones; six
-  rows of ln τ reproduce to 10 digits. A statement about a surrogate; its chain reads 24.63 ± 0.05 where gump's
+  rows of ln τ reproduce to 10 digits. A wrapped tube one cell round is lower (0.45 at 12 cells in the audit's own
+  table): what matters is whether cells can be overcrowded, not wrapping as such. A statement about a surrogate; its chain reads 24.63 ± 0.05 where gump's
   120-cell tube is 24.509 ± 0.017.
 - **Not confirmed, and not entered as results:** the tube's asymptote 0.2004 and the one-curve fit (all nine of that
   session's forecasts for the 120-cell tube were high, by 0.05 to 0.12; the chord from 108 to 120 cells, 0.1957 ±
