@@ -257,8 +257,11 @@ by power iteration (relative convergence 10⁻¹¹ in h).
    over-fill is cheap), so rings look dear at small L and both shapes end on the fade's price. In gump the flash
    is the cheaper exit (0.2087 against about 0.213 for a wrapped face's no-bust route and 0.231 for the hull's
    fade), so wrapped faces keep it at every size and their bust share does not fall.
+   Arithmetic on the blast README's own numbers (not my measurement): a mixture of two exits predicts
+   d logit(bust share)/dA = c_no-bust − c_bust = +0.004 to +0.005 per cell on wrapped faces; the shares 0.57 …
+   0.67 ± 0.05 at 48 … 84 cells give +0.012 ± 0.007 per cell. Same sign, 1σ.
 3. A test this suggests for gump: 1/τ = Σ over exits of e^(−a_i − c_i·A). The hull face's flash exit should
-   cost 0.2087·A + (rim tax), with a tax that is sub-extensive (in 2D: a constant factor 2–6). If so the bust
+   cost 0.2087·A + (rim tax), with a tax that is sub-extensive (a line of partly protected cells). If so the bust
    share of hull deaths must RISE with face size and the hull's price must eventually fall from 0.231 to
    0.2087; "no correction linear in the rim joins the two" would then be because the two numbers belong to
    different exits. Measure the hull's bust share at 45, 63, 84, 108 cells: a rising logit decides it.
@@ -277,6 +280,14 @@ by power iteration (relative convergence 10⁻¹¹ in h).
   brute force behind them (they are rows over coins, not edges of a real automaton).
 - Why the fade is twice as fast with ends; whether the box's fade slope (rising 0.28 → 0.34) converges to the
   ring's 0.327.
+
+## Tried and dropped
+
+- "Gump's count on a line" (range 3, 3 coins of density 0.4155, B45/S345 counts: `exg 10 1 3 3 5 5 0.4155`) is
+  not metastable (ln τ = 0.9): a single row with gump's numbers over independent coins dies at once, so the
+  second rule had to be chosen by a scan (15 candidates, in my session only; A and B are the two kept).
+- A boom classifier at 0.8·L is weak below L = 24 (half of all living windows qualify at L = 12).
+- Splitting the exact surrogate's rate into two exponentials by the 6-step classifier (§4): not trustworthy.
 
 ## Reproduce
 

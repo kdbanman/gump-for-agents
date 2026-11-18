@@ -1,12 +1,13 @@
 """Second classifier of the flash exit: 'boom' = the row was at least 0.8 L full in one of its last 6 living
-generations (deaths) / in a window of 6 generations (living).  Usage: python3 boom.py  -> data/boom.json"""
-import os, json, math, re
+generations (deaths) / in a window of 6 generations (living).  Usage: python3 boom.py [L ...]  -> data/boom.json (no arguments: L = 12..32)"""
+import os, json, math, re, sys
+LS = [int(z) for z in sys.argv[1:]] or [12, 16, 20, 24, 28, 32]
 H = os.path.dirname(os.path.abspath(__file__)); S = os.path.join(H, '..', '..', 'scratch', 'blast', 'toy')
 J = {}
 for g in 'rb':
-    for L in (12, 16, 20, 24, 28, 32):
+    for L in LS:
         fn = f'{S}/{g}{L}.rec'
-        if not os.path.exists(fn): continue
+        if not os.path.exists(fn) or not os.path.exists(f'{S}/{g}{L}.out') or 'lntau' not in open(f'{S}/{g}{L}.out').read(): continue
         thr = math.ceil(0.8 * L - 1e-9); nd = bd = nv = bv = 0; both = 0; fallonly = 0
         for line in open(fn):
             t = line.split()
@@ -20,4 +21,4 @@ for g in 'rb':
         m = re.search(r'lntau (\S+)', open(f'{S}/{g}{L}.out').read()); lt = float(m.group(1))
         b = bd / nd; J[f'{g}{L}'] = dict(deaths=nd, boom=b, living=bv / max(nv, 1), boom_and_fall=both / nd, fall_without_boom=fallonly / nd)
         print(f"{'ring' if g == 'r' else 'box '} L={L:2d} deaths {nd:5d} boom share {b:.3f}±{math.sqrt(b * (1 - b) / nd):.3f} (living windows {bv / max(nv, 1):.4f}); boom and half-row fall {both / nd:.3f}; fall without boom {fallonly / nd:.3f}; ln tau - ln b = {lt - math.log(b):.3f}; ln tau - ln(1-b) = {lt - math.log(1 - b):.3f}; logit {math.log(b / (1 - b)):+.3f}")
-json.dump(J, open(f'{H}/data/boom.json', 'w'), indent=1)
+if not sys.argv[1:]: json.dump(J, open(f'{H}/data/boom.json', 'w'), indent=1)
