@@ -68,3 +68,9 @@ From the two-exit split of the ring edge (flash ln τ = 0.296 + 0.4550·L, other
   begun, not a wobble): probability 0.55. Ring − segment slope difference at 23–24 still ≥ 0.05: probability 0.85.
 - 2D ring edge L = 36 (`ed run 16 36 1 21 400 9e8`, ~300 deaths): bust share (6 steps) 0.30 ± 0.04 (block 2);
   boom share (≥ 0.8 L in the last 6 generations) 0.24 ± 0.04; ln τ = 15.47 ± 0.08.
+
+## Scoring of blocks 2–3, 2D ring at L = 36 (04:45 UTC; 348 deaths)
+
+- Bust share (6 steps): forecast 0.30 ± 0.04 (two-exit fit: 0.298); measured 0.290 ± 0.024. **Hit.**
+- Boom share: forecast 0.24 ± 0.04; measured 0.224 ± 0.022. **Hit.**
+- ln τ: forecast 15.47 ± 0.08; measured 15.441 ± 0.054 (the file: 15.581 ± 0.045). **Hit.**

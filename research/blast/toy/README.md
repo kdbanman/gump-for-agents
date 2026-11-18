@@ -20,7 +20,8 @@ per cell, so "two prices" there is a crossover between exits, not two asymptotic
 2. The ring's deaths are a mixture of two exits with their own exponential laws: flash
    ln τ = 0.30 + **0.455**·L and no-flash 4.03 + **0.327**·L. The flash share falls like a logistic in L (0.90 at
    12 cells, 0.47 at 32; logit slope −0.128 ± 0.003 per cell, the same with a second classifier; one half at
-   L ≈ 29), and the ring's local price falls with it, 0.441 → 0.397, towards the box's steady 0.34. The measured
+   L ≈ 29; the fit to L ≤ 32 forecast 0.298 at L = 36 and ln τ = 15.47: measured 0.290 ± 0.024 and 15.44 ± 0.05), and
+   the ring's local price falls with it, 0.441 → 0.384, towards the box's steady 0.34. The measured
    "0.416 (ring) against 0.343 (box)" of `research/toy2d` is that mixture. The box edge outlives the ring edge
    below L ≈ 25 and dies sooner above (ln τ_box − ln τ_ring = +1.13 … −0.39 at L = 12 … 32).
 3. The exactly solved one-row surrogate has the two prices with no chaos beneath and to four digits: open
@@ -122,8 +123,9 @@ L ≤ 28, the per-edge comparison, the anatomy and the split):
 | 24 | 10.811 ± 0.014 | 10.859 ± 0.015 | +0.048 ± 0.021 |
 | 28 | 12.401 ± 0.019 | 12.232 ± 0.020 | −0.169 ± 0.027 |
 | 32 | 13.988 ± 0.028 | 13.601 ± 0.030 | −0.388 ± 0.041 |
+| 36 | 15.523 ± 0.034 (mine 15.441 ± 0.054, file 15.581 ± 0.045) | — | — |
 
-Local slopes per cell: ring 0.441, 0.429, 0.420, 0.398, 0.397 (± 0.004–0.008; 0.398 ± 0.013 to 36 from the file);
+Local slopes per cell: ring 0.441, 0.429, 0.420, 0.398, 0.397, 0.384 (± 0.004–0.011; the last is 32–36);
 box 0.332, 0.341, 0.349, 0.343, 0.342. So the 2D analogue of "0.2087 against 0.231" is **0.40–0.44 (ring) against
 0.34 (box)**, in the opposite order to gump: the rimmed edge is cheaper per cell, outlives the ring below
 L ≈ 25 and dies sooner above. Caveat: my ring values and the file's scatter more than their errors (differences
@@ -147,10 +149,17 @@ ln τ_flash = ln τ − ln b, ln τ_other = ln τ − ln(1 − b).
   "flash" line is not a second exit but chance falls (see the boom classifier, §2); likewise the exact segment
   (§4), whose price is constant to four digits while its share falls. The split is a real decomposition only
   for the ring, where the two classes differ in kind (bimodal population two generations before the end).
-- Reading [conjectured, with a frozen forecast in PREDICTIONS block 2]: 1/τ_ring = e^(−0.30 − 0.455 L) +
-  e^(−4.03 − 0.327 L). The ring's price is 0.455 where the flash carries the deaths and 0.33 beyond L ≈ 40
-  (ln τ(40) = 16.90, (48) = 19.66, bust share 0.20 and 0.08). The file's L = 36 point (15.58 ± 0.045) is 0.11
-  above this formula (15.47): a 2.5σ tension I could not resolve.
+- **Out-of-sample test at L = 36** [measured; forecast frozen in PREDICTIONS blocks 2–3 before the run;
+  `ed run 16 36 1 21 400 9e8 r36.rec`, 348 deaths, 3 minutes; `python3 anat.py 36; python3 boom.py 36`]. The fits
+  above (L = 12–32) say 1/τ_ring = e^(−0.296 − 0.455 L) + e^(−4.03 − 0.327 L), hence at L = 36: ln τ = 15.465, bust
+  share 0.298, flash exit 16.68, other exit 15.82. Measured: ln τ = **15.441 ± 0.054**, bust6 = **0.290 ± 0.024**
+  (boom share 0.224 ± 0.022, forecast 0.24), flash exit 16.68 ± 0.10, other exit 15.78 ± 0.06. All hit. (The
+  file's 15.581 ± 0.045 at L = 36 is 2σ above mine.) Two generations before the end the ring's population is no
+  longer bimodal at the 90% point (2/5/15 of 36; 1/5/28 of 32) and the peak before the largest fall is below the
+  living one (24.1 against 25.4): at L = 36 the ring dies mostly as a box edge does.
+- Reading [conjectured; forecast frozen in PREDICTIONS block 2, untested beyond 36]: the ring's price is 0.455
+  where the flash carries the deaths and 0.33 beyond L ≈ 40 (ln τ(40) = 16.90, (48) = 19.66, bust share 0.20 and
+  0.08): in 2D "two prices" disappears above L ≈ 40.
 
 ## 4. The exact one-row surrogate [proved = exact linear algebra; `sh run_exact.sh`, `python3 table.py`]
 
@@ -268,7 +277,7 @@ by power iteration (relative convergence 10⁻¹¹ in h).
 
 ## 7. Not checked
 
-- Ring edges beyond L = 32 (36 from the file only); the forecast crossover to 0.33 above L ≈ 40 is untested.
+- Ring edges beyond L = 36; the forecast fall of the ring's price to 0.33 above L ≈ 40 is untested.
 - The 2–3σ scatter between my ring lifetimes and the file's (same protocol as far as I can tell).
 - The ring is a strip of width 16; the cut channel ends 29 residences in 30 at L = 32, so ring states are young
   (mean residence 19,000 generations against τ = 1.1×10⁶). The box has no such channel.
@@ -280,6 +289,7 @@ by power iteration (relative convergence 10⁻¹¹ in h).
   brute force behind them (they are rows over coins, not edges of a real automaton).
 - Why the fade is twice as fast with ends; whether the box's fade slope (rising 0.28 → 0.34) converges to the
   ring's 0.327.
+- No box edge at L = 36.
 
 ## Tried and dropped
 
