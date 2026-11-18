@@ -16,7 +16,7 @@ def fit3(v):   # v at three consecutive sides k: v = a + c*A + b*k
 g = [GUMP[r] for r in RS]; D1 = AS[1] - AS[0]; D2 = AS[2] - AS[1]
 print("cells", AS)
 print("gump            ln tau %7.3f %7.3f %7.3f | d1 %.4f %.4f | a %.2f c %.4f b %+.3f" % (*g, (g[1]-g[0])/D1, (g[2]-g[1])/D2, *fit3(g)))
-for d in (0, 1):
+for d in [int(x) for x in os.environ.get('HULLSUM_D', '0,1').split(',')]:
     maps = [Map('+'.join(os.path.join(SCR, f) for f in FILES[R].split('+')), d) for R in RS]
     if d == 0:
         for m in maps:

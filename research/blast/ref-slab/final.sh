@@ -48,3 +48,12 @@ a=""; for f in $R/paths_192t_s*.txt; do [ -e $f ] || continue; s=${f/paths_/sub_
 sub 192 "192 wide split-slab" $F/subpaths_8_0_8_s2.txt:$D/sub_8_0_8_s2.txt $F/subpaths_8_0_8_s3.txt:$D/sub_8_0_8_s3.txt
 a=""; for f in $R/paths_192w_s*.txt; do s=${f/paths_/sub_}; a="$a $f:$s"; done; sub 192 "192 wide fresh" $a
 sub 192 "192 wide all" $F/subpaths_8_0_8_s2.txt:$D/sub_8_0_8_s2.txt $F/subpaths_8_0_8_s3.txt:$D/sub_8_0_8_s3.txt $a
+echo; echo "== 120-cell tube run by run (runs.py) =="
+a=""; for f in $R/sub_120_s72*.txt; do grep -q SUMMARY $f && a="$a $f:${f/sub_/paths_}"; done
+python3 runs.py 120 $D/sub_1_18_40_s2.txt:$F/subpaths_1_18_40_s2.txt $D/sub_1_18_40_s3.txt $a $R/sub_120big_s7260.txt:$R/paths_120big_s7260.txt
+echo; echo "== per-replication ln tau at 192 cells =="
+echo -n "wide, split-slab s2 s3: "; grep -h "^REP" $D/sub_8_0_8_s2.txt $D/sub_8_0_8_s3.txt | awk '{printf "%s ", $NF}'; echo
+ls $D/sub_8_0_8_s5.txt >/dev/null 2>&1 && { echo -n "wide, split-slab s5: "; grep -h "^REP" $D/sub_8_0_8_s5.txt | awk '{printf "%s ", $NF}'; echo; }
+echo -n "wide, fresh: "; grep -h "^REP" data/sub_192w_s*.txt | awk '{printf "%s ", $NF}'; echo
+echo -n "tube, split-slab s2 s3: "; grep -h "^REP" $D/sub_1_30_64_s2.txt $D/sub_1_30_64_s3.txt | awk '{printf "%s ", $NF}'; echo
+ls data/sub_192t_s*.txt >/dev/null 2>&1 && { echo -n "tube, fresh: "; grep -h "^REP" data/sub_192t_s*.txt | awk '{printf "%s ", $NF}'; echo; }

@@ -162,3 +162,13 @@ if 75 in by and 63 in by and 48 in by: twoterm([by[48], by[63], by[75]], "boom's
 if 75 in by and 63 in by: twoterm([by[63], by[75]], 'two sizes')
 for r in runs:
     if r['A'] in (48, 63): profile(r)
+
+print('\n== drift with size: consecutive pairs, linear interpolation: I_up, J (+- bootstrap), sum, lifetime slope of the pair')
+rs = sorted(runs, key=lambda r: r['A'])
+for a, b in zip(rs[:-1], rs[1:]):
+    ct = (b['lt'] - a['lt']) / (b['A'] - a['A']); cte = np.hypot(a['lte'], b['lte']) / (b['A'] - a['A'])
+    for t in (0.70, 0.74, 0.78):
+        I, J = slopes([a, b], t, 'linear')
+        Jb = [slopes([a, b], t, 'linear', [rng.poisson(a['L']).astype(float), rng.poisson(b['L']).astype(float)])[1] for _ in range(200)]
+        Jb = np.array(Jb); Jb = Jb[np.isfinite(Jb)]
+        print(f"   {a['A']}->{b['A']}  theta {t:.2f}: I_up {I:.4f}  J {J:.4f} +- {np.std(Jb):.4f}  sum {I + J:.4f}   lifetime slope {ct:.4f} +- {cte:.4f}")

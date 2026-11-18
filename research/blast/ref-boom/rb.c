@@ -109,6 +109,7 @@ static void island(const u64 *s, int r, int f, int q) {
 static long Np[128], Lp[128], dur[R + 2], profDn[128][5], profCn[128];
 static double profD[128][5][4], profC[128][4][4], normS[4], normS2[4];
 static long normN;
+static double lifeS, lifeS2; static long lifeN, lifeH[40];
 int main(int argc, char **argv) {
   if (argc < 7) { fprintf(stderr, "usage\n"); return 2; }
   H = atoi(argv[2]); K = atoi(argv[3]); D = atoi(argv[4]); rs = strtoull(argv[5], 0, 10) * 0x2545F4914F6CDD1DULL + 12345;
@@ -157,6 +158,8 @@ int main(int argc, char **argv) {
         if (p[f] >= L) { lastT[r][f] = t; lastP[r][f] = p[f]; }
         else if (p[f] == 0) {
           deaths++; int lp = lastP[r][f]; long tl = lastT[r][f], d = t - tl;
+          if (!((kill >> r) & 1)) { double lf = (double)(t - born[r]); lifeN++; lifeS += lf; lifeS2 += lf * lf;   // life of the slab: counted generations to its first face death
+            int k = 0; while ((1L << (k + 1)) <= t - born[r] && k < 39) k++; lifeH[k]++; }
           Lp[lp]++; dur[d < R ? d : R]++;
           if (d <= R - 5) {
             for (int lag = -2; lag <= 2; lag++) { long tt = tl + lag; if (tt > t) continue;
@@ -201,6 +204,8 @@ int main(int argc, char **argv) {
     fprintf(fo, "C %d %d %ld %.0f %.0f %.0f %.0f\n", p, lg - 2, profCn[p], profC[p][lg][0], profC[p][lg][1], profC[p][lg][2], profC[p][lg][3]);
   if (isl) for (int b = 0; b < 3; b++) { fprintf(fo, "IC %d %ld %ld %ld over %ld\n", b, isPar[b], isC[b][0], isC[b][1], isOver);
     for (int z = 1; z <= A; z++) if (isN[b][z]) fprintf(fo, "I %d %d %ld %ld %ld\n", b, z, isN[b][z], isF[b][z], isU[b][z]); }
+  fprintf(fo, "T %ld %.6e %.6e\n", lifeN, lifeS, lifeS2);
+  for (int k = 0; k < 40; k++) if (lifeH[k]) fprintf(fo, "TH %d %ld\n", k, lifeH[k]);
   fprintf(fo, "M %ld %.0f %.0f %.0f %.0f\n", normN, normS[0], normS[1], normS[2], normS[3]);
   fclose(fo);
   return 0;
