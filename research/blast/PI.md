@@ -74,7 +74,7 @@ after its own check; the PI never merges it.
   without warning: after every milestone bring this file up to date ("State"), and within 60,000 tokens of the
   threshold do it at once.
 
-## State (overwritten; last written 19:39 UTC 2026-11-18)
+## State (overwritten; last written 20:53 UTC 2026-11-18)
 
 - **Open again, on the owner's word of about 17:50 UTC** (quoted above): Lean, at full ambition, and in-depth
   discussion on pull request 39. Before that the owner had closed the blast (14:55 UTC).
@@ -96,14 +96,21 @@ after its own check; the PI never merges it.
   tool); the tape theorem and the gun's line for every N (line 2b); the unzip and call laws; both exits and the
   price as theorems; a sampler for the noisy hull that moves the initial state; the thick strips and the 126- and
   132-cell tubes of the earlier list.
-- **Pull request 39**: the lead will merge b80248c and cherry-pick f069674 (named as the answer commit at 19:45 UTC)
-  once its rebuild has reported; the Lean part is a second pass. Six comments by 19:07 UTC were read; the PI's
-  last is of 19:45 UTC (the eighth). Poll with `get_comments`, `perPage` 1, `page` 9 upward.
-- **In flight (CPU):** tracked job `sh research/blast/noisy/diag2.sh` (started 19:37 UTC, about an hour): the
-  sampler at 84 cells with the odd sweeps on and off (scratch `runs_diag/anc_R13_*`, `w0_R13_*`) and the depth
-  series (scratch `depth.txt`, six BRUTE lines, DW = 6 .. 1 at eps = 1/4, 63 cells; gump there is 13.633).
-  **Owed when it ends:** copy the rows to `noisy/data/runs_diag/` and `noisy/data/depth.txt`, a short entry in
-  `REPORT.md`, a comment for the lead with the numbers and the commit to cherry-pick (a commit without `lean/`).
+- **Pull request 39** (title and text rewritten 20:53 UTC): the lead's rebuild has reported (comments of 19:37 and
+  19:49 UTC: chain and sampler confirmed; the weighted mean withdrawn for the equal-weight value, +0.009 +- 0.044
+  from gump at 108 cells; the limit is the unmoved initial state). The lead has b80248c merged and f069674
+  cherry-picked in its branch (pull request 40); **1eaddfc is named as the next answer commit**. The Lean part is
+  a second pass, deferred with a review of `strips/` (no Fable agents on either side for now). Eleven comments by
+  20:53 UTC, the last is the PI's. Poll with `get_comments`, `perPage` 1, `page` 12 upward, and count the pages
+  (a miscount hid two of the lead's comments for an hour).
+- **In flight (CPU):** tracked job `sh research/blast/noisy/diag3.sh` (started 20:53 UTC, 105 minutes): on against
+  off at 84 cells, about 600 replications each way; it then copies the rows to `noisy/data/runs_diag/` and prints
+  `ana.py`. **Owed when it ends:** pooled on and off at 84 cells with on minus off (now +0.027 +- 0.028; gump
+  18.141 +- 0.005), three lines in `REPORT.md` and `noisy/README.md`, a commit without `lean/`, a short comment for
+  the lead naming it. If on minus off is at zero the fault reading of the odd sweeps is closed; if near +0.03, say
+  so and ask the lead for its `nb` at the same parameters.
+- **New this evening, in `REPORT.md`** (entry of 20:53 UTC): the depth series (coins at depth >= d under a 63-cell
+  face at rate 1/4: -0.005, +0.019, +0.054, +0.101, +0.304, +0.674 for d = 6 .. 1): one code, one seed a row.
 - **Lean** (`research/blast/lean/`, `README.md` there = the aim and the climb; `sh research/blast/lean/check.sh`).
   Lean 4.36.0 via elan in `~/.elan` (`export PATH=$HOME/.elan/bin:$PATH`; if the container was rebuilt, reinstall:
   `curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --no-modify-path`).
