@@ -194,3 +194,25 @@ fitted. From the 77–90% quoted for 2-unit sections that is 0.004–0.011 per c
   crash together in 0.97 of deaths, which is 0.0003 per cell at 108 cells. Counted held.
 - Item 4: by my own rule the failure is within a factor of two to three: "the order of magnitude, not the number".
   The entropy of timing is the right size for the tube's discount; the simple chain is not its law.
+
+### Final scoring of the PI's blocks (05:58 UTC), after the report's referee recounted them (`ref-report/REVIEW.md`)
+
+Corrections to the scores above:
+- Block 2 item 4 (boom and bust persists on wrapped faces at 108–240 cells, share never under 40%): **half right.**
+  On the surrogate, wide tori keep 0.54–0.70 to 192 cells; loop-12 tubes fall to 0.15–0.17 at 192 (they bust in
+  sections out of step). Gump itself has not been seen above 84 cells.
+- Block 2 item 5 (the tube's advantage is a more frequent over-full face or fewer survivors): **failed.** `boom`: a
+  tube's face is over-full exactly as often as a wide face's and its crash leaves the same survivors; the
+  discount is in the chance of death given the launch.
+- Block 4 item 2 (the timing statistic does not depend on section length): **held on the 192-cell tube** (0.0136,
+  0.0129, 0.0135 per cell for 2, 3, 4 units); the 144-cell tube, on which I first scored it failed, is too short
+  to test it. Item 1 stays failed (1.4–1.6 times the measured discount). Item 3 held (0.998 together on the wide
+  192-cell torus).
+- Block 1 item 3 (one edge cost of 0.66 ± 0.08 for patches and tubes): **failed** (`model`: 0.50–0.73 depending on
+  the shape family; its premise is gone with the front gas).
+
+Count: sixteen scored. Held 6 (block 0: three; block 3 item 3; block 4 items 2 and 3). Half right 3 (block 2 item
+4; block 3 items 1 and 4). Failed 7 (block 1 items 1, 3, 4; block 2 items 3 and 5; block 3 item 2; block 4 item
+1). Open 6: the 120-cell tube and its slope (block 0), the 135-cell face (blocks 0 and 2: forecast 29.22 ± 0.03;
+surrogate 29.30 ± 0.09, not decided), the 12-tube's slope at 240–360 cells (block 1 item 2), the hull's second
+difference by k = 12 (block 2 item 2).
