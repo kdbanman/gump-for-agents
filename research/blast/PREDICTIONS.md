@@ -3,7 +3,7 @@
 Each block: who, UTC time, what was known, the numbers with errors and probabilities. Scored below each block
 when the data arrive. Agents' own forecasts are in `research/blast/<agent>/PREDICTIONS.md`.
 
-## Block 0: the PI, 03:50 UTC, before reading "Chain 3" of research/gpu-local/README.md and before any agent has run
+## Block 0: the PI, 03:19 UTC by the machine clock (commit d1af672), before reading "Chain 3" of research/gpu-local/README.md and before any agent has run
 
 Known to me: the anchors in BRIEF-COMMON.md and nothing about the 96-cell faces with loop² 16 and 13 or the extra
 seeds on the long tubes. These are quick, by hand, and I hold them weakly.
@@ -27,7 +27,7 @@ Qualitative, same time:
 - "Tubes of 13 and 16 also fall below their short-tube lines by more than 0.010": both did (0.040, 0.014–0.019). Held.
 - The 120-cell tube and the 135-cell hull face are still blind.
 
-## Block 1: the PI, 03:40 UTC: the front-gas reading of tubes, before any agent of the blast has reported
+## Block 1: the PI, 03:31 UTC by the machine clock (commit 10753e8): the front-gas reading of tubes, before any agent of the blast has reported
 
 **What I noticed in numbers already on file** (`python3` arithmetic in `research/blast/README.md`, section "The
 front gas"; no new run). Against the wide-face line 13.1623 + 0.20861 (A − 63), the discount D of a tube with one
