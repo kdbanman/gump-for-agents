@@ -3978,3 +3978,96 @@ was re-run.
   longer by definition than the wrapped ones; a CSV with unquoted commas.
 - Not checked: the runs, the recorders and their validations; the CPU code (not reviewed); death records (in
   scratch on the card's machine).
+
+## 2026-11-18: how a face dies, audited from outside: a wrapped face over-fills and crashes in one generation, a hull face fades, and the difference is the hull face's rim row; no price follows, and the account of tubes fails at 120 cells
+
+The other session's night (`research/blast/` on branch `claude/exciting-hamilton-0h2tr1`, report at f7918ca; not
+merged when this is written) was audited by an agent that had no part in it, with its own code from
+`reference/oracle.py`: `research/audit/REVIEW-blast.md` (verdict per finding, what was not checked),
+`research/audit/blast/` (`run.sh` has every command; `geom.py` builds the vessels from the oracle's offsets, `fd.c`
+is a 512-replica stepper and death recorder, traced state for state against the oracle on six vessels with a
+swapped-neighbour control that fails within 22 generations). Its four lifetimes are within 1.3 errors of the
+anchors on file (63-cell wrapped 13.1640 ± 0.0021, 63-cell hull 13.6357 ± 0.0019, 84-cell wide 17.5443 ± 0.0210,
+84-cell tube 17.3203 ± 0.0188). "Wrapped" below is the slab torus (1,4),(0,21), 63 cells; "hull" the closed
+octahedron of radius 11, 63 cells a face; A is the face's area.
+
+- **[three independent lines: the session's codes, the audit's rebuild, the card's tables by lag; re-run by the
+  lead] A wrapped face dies through one over-full generation and a crash.** From an ordinary generation (33 of 63
+  cells) the face fills in one step to 0.738·A, with the five layers beneath it over-full as well (0.64, 0.56, 0.50,
+  0.47, 0.43 of a layer, where 0.43, 0.41, 0.42, 0.42, 0.41 is ordinary); in the next generation 46.5 cells become
+  14.0, and 99.2% of the cells that die then have six or more live neighbours: they are overcrowded, not starved.
+  The face is empty a median 5 generations after that launch. 80.5% of 84,000 deaths hold a one-generation fall of
+  at least 0.4·A in their last 12 generations (1.3% of ordinary windows), 55.3% a fall of half the face (0.16%);
+  the distribution of the largest fall has one hump. The same at 84 cells (2,263 deaths wide, 2,831 on the tube).
+- **[the audit and the session at 63 cells; the audit alone at 84] An over-full generation is usually survived.**
+  Falls of half the face come 70 times per death at 63 cells: 1 in 128 is fatal, and 1 in 1,100 at 84 cells. The
+  report's "one bust in 130 kills" is a 63-cell number.
+- **[the audit] "Everywhere at once" holds for the crash, not for what is left.** The two halves of the face have
+  their largest fall in the same generation in 88% of deaths (92% at 84 cells wide). The order in which the last
+  cells go is patterned in space in 49% of deaths where 5% would be chance: the dozen cells the crash leaves are
+  clumps. The report's "no hole, no front, no band" needs that qualification.
+- **[the session's codes and the audit; one size] A hull face of the same area fades.** 1.14 ± 0.04% of its deaths
+  hold a fall of half the face; such falls are 69 times rarer than on the wrapped face (1.96 × 10⁻⁶ against
+  1.35 × 10⁻⁴ per face-generation) and as deadly (1 in 143). From the last generation with half the face alive to
+  the empty face: median 10 generations. Its population is a slow variable (autocorrelation +0.52 and +0.34 at
+  lags 1 and 2, against +0.14 and −0.03 on the wrapped face).
+- **[the audit's table, one code; re-run by the lead on fresh seeds] Why: the rim row.** In a non-fatal generation
+  with at least 48 of 63 cells, the 30 interior cells of a hull face (9 neighbours inside the vessel) survive to
+  the next generation with probability 0.342, the 63 cells of a wrapped face with 0.333; the 30 cells of the hull
+  face's rim row (7 neighbours inside) survive with 0.661. One generation later the hull face holds 30.1 cells and
+  the wrapped face 20.1. The interior of a hull face busts exactly as a wrapped face does; half of a 63-cell hull
+  face is rim row and is not overcrowded. Not checked: a larger hull face, where the rim row is a smaller share.
+- **[three codes for the totals; the two exclusions are the audit's alone, re-run by the lead] The chance that a
+  face with k cells left goes on to die differs under one definition**: 0.860, 0.643, 0.445 (wrapped) against
+  0.771, 0.502, 0.300 (hull) at k = 1, 2, 3 (the card's totals to 0.003). So the difference recorded on the 18th as
+  possibly one of definition is real. It is not the bust (split by whether the dip held a fall of 0.4·A: 0.861
+  against 0.862 wrapped, 0.768 against 0.771 hull) and not the shared rim row (a last single cell dies with 0.686
+  in a hull face's interior, 0.693 in its rim row, 0.800 on a wrapped face). What does differ: the layer beneath a
+  nearly empty face holds 0.56–0.59 of its ordinary population under a wrapped face and 0.70–0.73 under a hull
+  face. Not tested as the cause.
+- **[the audit, two faces, one code; the first two parts also the session and the card] Tube against wide face at
+  84 cells.** The loop-12 tube is over-full as often as the wide face (ln frequency of ≥ 0.74·A: −8.2325 against
+  −8.2498) and its end-game is the same (q(k) equal to 0.01), yet it dies 1.25 times as often; the halves of the
+  tube crash in different generations in 0.135 ± 0.006 of deaths against 0.072 ± 0.005, and it launches lower
+  (0.726·A). So the tube's discount sits between the over-full generation and the end-game. Why is not derived.
+- **[the audit's dense solver against the session's numbers] The one-layer surrogate with coins beneath it, solved
+  exactly, has both exits**: bust share 0.57–0.94 on wrapped faces of 9–15 cells, 0.003–0.02 on rimmed ones; six
+  rows of ln τ reproduce to 10 digits. A statement about a surrogate; its chain reads 24.63 ± 0.05 where gump's
+  120-cell tube is 24.509 ± 0.017.
+- **Not confirmed, and not entered as results:** the tube's asymptote 0.2004 and the one-curve fit (all nine of that
+  session's forecasts for the 120-cell tube were high, by 0.05 to 0.12; the chord from 108 to 120 cells, 0.1957 ±
+  0.0016, is below the asymptote); "0.0046·L²" (0.00544 at 120); the split of the price into 0.079 + 0.136 (an
+  identity whose parts move with the threshold: 0.083 + 0.126 at ≥ 0.74·A here); the living-state estimator off wide
+  tori (17.79 against 18.14 on the 84-cell hull face, 22.57 against 23.34 at 108); the 135-cell hull forecast;
+  staggered crashes beyond 84 cells (surrogate only). **The report derives no price and says so**: neither 0.2087
+  nor the hull's higher price, nor why a tube is cheaper. Its timing-entropy conjecture failed its own test.
+- **The lead's check** (`bash research/audit/blast_lead_rerun.sh`, 4 minutes, two cores): the oracle trace and its
+  negative control on both 63-cell vessels (PASS), then fresh seeds 91 and 92 (6 × 10⁶ generations of 512
+  replicas each; 11,875 and 28,978 deaths) through the audit's analysis. Wrapped: ln τ_face 13.1525 ± 0.0092;
+  launch 0.7390·A; fall 48.78 → 11.21; 81.4 ± 0.9% and 57.0 ± 1.1% of deaths with a fall of 0.4·A and of half the
+  face; 99.23% of the cells dying in the fall overcrowded; 69.7 falls of half the face per death; halves together
+  0.891; patterned 0.483; q(1..3) 0.863, 0.645, 0.449 (with a fall 0.861, without 0.870); a last cell dies 0.801.
+  Hull: 13.6411 ± 0.0059; 1.10 ± 0.23% of deaths with a fall of half the face; launch to empty median 10; return
+  from ≥ 48 cells 29.91; q(1..3) 0.770, 0.499, 0.299 (with a fall 0.755, without 0.771); a last cell dies 0.695
+  (interior), 0.685 (rim row); survival in an over-full generation 0.341 (interior), 0.655 (rim row), 0.327
+  (wrapped). Every one within error of the audit's value. A re-run of the audit's code, not a third code.
+- **What it settles and what it does not.** The two prices (hull about 0.215–0.217 a cell locally between 63 and
+  108 cells, wrapped 0.2087) belong to two different ways of dying, and the reason a hull face cannot take the
+  wrapped face's way is a property of single cells at its rim. That is a mechanism, checked. It is not a
+  calculation of either number.
+- **A forecast, frozen here before the run is read** (`bash research/audit/blast_lead_hull84.sh`, started
+  13:25 UTC, about 4,900 deaths expected on the 84-cell hull face). The 1.14% of hull deaths that do hold a fall of
+  half the face are either the tail of the fade or a second way to die with its own price. If the second, and its
+  price is the wrapped face's, the share grows as e^(0.006 to 0.022 a cell): 1.3 to 1.8% at 84 cells, and the hull
+  face's price must in the end come down. If the rim row taxes it (a hull fall of half the face is 69 times rarer
+  than a wrapped one at 63 cells, about 0.13 per rim cell, and the rim grows with the side), the share stays near
+  1.1% out to hundreds of cells. **The lead: 65% that the share at 84 cells is between 0.8 and 1.6%, 25% above
+  1.6%, 10% below 0.8%.** Above 1.6% would mean the hull face's price bends within reach of a measurement.
+- Not checked by anyone outside that session: anything above 84 cells on gump; the fragmentation table; "three
+  quarters of the price is static"; the two-layer map and the fits of `model/`; the `rim/` strips; the six-layer
+  dice chains; the 2D relative by brute force; the seam identity (read, not rebuilt). In the audit's code: only one
+  lane of the stepper is traced against the oracle (the four lifetimes are the end-to-end check); one code.
+- **Bears on the owner's note of 2026-11-15** (does a layer care whether rule or noise is beneath it): a face layer
+  over private coins has both ways of dying, and which one a face takes is decided cell by cell by how many
+  neighbours a face cell has inside the vessel. The limit of the indifference is in the numbers: the coin-driven
+  chain is 0.12 ± 0.05 above gump at the 120-cell tube, and the layer beneath a dying face is far from ordinary.

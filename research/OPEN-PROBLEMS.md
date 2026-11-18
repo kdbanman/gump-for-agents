@@ -125,6 +125,18 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    and the last chord is 0.1957 per cell: the price is still falling, faster than a constant curvature. The 126- and
    132-cell tubes are running (forecasts W14 to W16). For (m): on two codes the loop-21 face is midway between the
    two readings; undecided, and no longer leaning.
+   **Since (2026-11-18, the audit of the other session's night; CLAIMS DY16 to DY21):** the two prices belong to
+   two ways of dying. A wrapped face over-fills in one step to 0.74 of its area and crashes by overcrowding (80% of
+   deaths); a hull face of the same area fades over ten generations, because the cells of its rim row have 7
+   neighbours inside the vessel, not 9, and survive an over-full generation twice as often. Checked by an outside
+   rebuild at 63 and 84 cells. **No price is derived by this**, and these are open: (n) why the fade costs more per
+   cell than the bust, as a calculation; (o) whether the hull's rare falls of half the face (1.1% of deaths at 63
+   cells) are a second way to die with a lower price, in which case the hull's price must come down at large
+   sizes (the lead's run on the 84-cell hull face, forecast in the notebook); (p) why a hull face with k cells
+   left dies less often than a wrapped one (0.77 against 0.86 at one cell; not the bust, not the rim row; the
+   layer beneath is fuller under a hull face); (q) why a tube, over-full as often as a wide face, dies 1.25 times
+   as often at 84 cells (its halves crash apart twice as often): the other session's fit for the tube's price
+   failed at 120 cells.
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.
 

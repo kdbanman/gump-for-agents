@@ -473,6 +473,15 @@ _Last updated 2026-11-14 by the lead._
   for the 126- and 132-cell tubes; open problem 9). **Running (Fable):** the outside audit of the other session's
   report; the review of the ninth signals push. **Then:** records of both, the essay and the owner's journal, one
   site update and version 19.
+  **13:30 UTC:** the outside audit of the other session's report is in and recorded (`research/audit/REVIEW-blast.md`;
+  notebook "how a face dies, audited from outside"; CLAIMS DY16 to DY21, 212 claims; open problem 9 (n) to (q)).
+  Confirmed by a rebuild from the oracle and by the lead's re-run on fresh seeds: a wrapped face over-fills and
+  crashes, a hull face fades, and the rim row is why. Not confirmed: that session's account of the tube's price
+  (nine forecasts high at 120 cells). **That session's pull request is cleared by the audit** (only
+  `research/blast/`, 6.9 MB); it is still committing (44db7bf at 13:21 UTC), so it is merged at its next quiet
+  point, not mid-run. **Running:** the lead's 84-cell hull run (`research/audit/blast_lead_hull84.sh`, forecast in
+  the notebook entry; result owed there and in DY17); the review of the ninth signals push (Fable). **Then:** the
+  record of that review, the essay and the owner's journal, one site update and version 19.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
