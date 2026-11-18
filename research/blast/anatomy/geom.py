@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Vessels for an.c, built from docs/AUTOMATON.md (doubled coordinates) only.
 
-    python3 geom.py slab H K D      # 8 {111} layers s = x+y+z = 1..15, periodic in the plane by (H,K),(0,D)
+    python3 geom.py slab H K D [NL] # NL (default 8) {111} layers s = x+y+z = 1..2NL-1, periodic in the plane by (H,K),(0,D)
     python3 geom.py hull R          # all cells with |x|+|y|+|z| <= R (R odd)
 
 Hexagonal basis: e1 = (2,-2,0), e2 = (2,0,-2) (60 degrees, |a e1 + b e2|^2 = 8 (a^2 + ab + b^2)); the period
@@ -78,7 +78,7 @@ def slab(H, K, D, nl=NL):
     meta = dict(kind='slab', H=H, K=K, D=D, cells=cells, period=[pos2d(v1), pos2d(v2)],
                 facepos=[[pos2d(cells[i]) for i in f[0]] for f in faces],
                 underpos=[[pos2d(cells[i]) for i in f[1]] for f in faces])
-    return f'slab_{H}_{K}_{D}', cells, nb, faces, groups, meta
+    return f'slab_{H}_{K}_{D}' + ('' if nl == NL else f'_L{nl}'), cells, nb, faces, groups, meta
 
 
 def hull(R):

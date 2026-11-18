@@ -9,9 +9,10 @@ the automaton's speed limit in a face is 1 unit per generation). Labels: **[meas
 ## The answer in four sentences
 
 1. **A wrapped face (wide torus or tube) dies by boom and bust, not by a hole or a front** [measured, 48 to 75
-   cells]. In 51–59% of deaths at least half of all the cells of the face die in one generation: the face has
-   filled to about three quarters (48.5 of 63 cells), every live cell is overcrowded, almost nothing is born, about
-   12 scattered cells are left, and those starve within a few generations. From the last generation with a normal
+   cells]. In 51–60% of deaths at least half of all the cells of the face die in one generation (in 84% at least
+   24 of 63; the distribution has one hump): in a single generation the face and the layer beneath fill to about
+   three quarters (33 → 48.5 of 63 cells), every live cell is then overcrowded, almost nothing is born, about 12
+   scattered cells are left, and those starve within a few generations. From the last generation with a normal
    population to the first empty one takes 6 generations (3–10).
 2. **A rimmed hull face dies differently: a tilted fade of about 10 generations (5–16), by starvation** [measured,
    45 and 63 cells; 84: E84H]. Only 1.6% of its deaths contain such a fall. A plane fitted to the last-alive times beats 95%
@@ -115,6 +116,11 @@ What is unusual two generations before the fall is not the number of live cells 
 (`out/primed.txt`, t63) [measured]: with 33.2 cells alive (normal), 27.9 of them have 3–5 of their 8 recorded
 neighbours alive (normally 22.0) and 18.8 dead cells have 4–5 (normally 12.6). The face is evenly spread: hardly
 any cell is overcrowded or starved, so nearly all survive and nearly every gap is filled, in one step.
+
+One class, not two (`out/fall_hist.txt`) [measured]: on t63 the largest one-generation fall is unimodal round
+32–36 cells; 90% of deaths contain a fall of ≥ 20 cells and 84% one of ≥ 24 (living face: 6.4% and 2.0% of
+10-generation windows); only 7% of deaths have no fall above 16. "Half the face" cuts this one hump in the middle.
+On h63 the hump sits at 12–16 cells (living face 8–12); 10% of deaths contain a fall of ≥ 24.
 
 Cross-check on another agent's stepper [measured]: the natural-death records of `split-slab` for the same 48-cell
 torus (`research/scratch/blast/split-slab/paths_test.txt`, 1,268 deaths, read at 03:55 UTC; its populations by lag)
@@ -261,8 +267,6 @@ regrow the face more often (0.20–0.28 for one cell against 0.12–0.15; §6).
 **Still inference, not measurement.**
 - That the rim's protection lasts as faces grow. At 63 cells the rim line is 33 cells of 63 and survives the
   over-full generation (§2, measured); at 135 cells it is 51 of 135 and the inside may then bust on its own.
-- That the 59% is one class and the other 41% another. The largest fall has a broad distribution (median 32 of
-  63); I did not test for two classes.
 - Any link between these routes and the prices per cell (0.2087 wrapped, 0.231 rimmed). The end-game factor is
   the same at 45/48 and 63 cells, so the price difference must be in how ν(4) scales with area on each shape:
   measured here only at 63 and 84 cells (ratio hull/torus e^(+0.035) and N84).

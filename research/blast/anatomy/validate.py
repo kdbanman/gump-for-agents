@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Validate an.c + geom.py against reference/oracle.py, state for state.
 
-    python3 validate.py slab H K D [GENS]      python3 validate.py hull R [GENS]        (default 1200 generations)
+    python3 validate.py slab H K D [GENS [NL]]      python3 validate.py hull R [GENS]     (default 1200 generations, 8 layers)
 
 A 0.4 soup on the vessel is run by `an trace` (replica 0 of the production kernel) and, independently, laid out in
 the oracle's array and run by oracle.step:
@@ -32,8 +32,8 @@ def build():
 def layout(kind, args, cells):
     """site index array: for every site of the oracle's array, the vessel cell it shows (or -1)."""
     if kind == 'slab':
-        H, K, D = args
-        N = next(N for N in range(11, H * D + 11) if N % H == 0 and N % D == 0 and (N // H * K) % D == 0)   # N e1, N e2 periods
+        H, K, D = args[:3]; nl = args[3] if len(args) > 3 else 8
+        N = next(N for N in range(nl + 3, H * D + nl + 3) if N % H == 0 and N % D == 0 and (N // H * K) % D == 0)   # N e1, N e2 periods
         S = 2 * N
         v1 = (2 * H + 2 * K, -2 * H, -2 * K); v2 = (2 * D, 0, -2 * D)
         site = -np.ones((S, S, S), np.int64)
@@ -43,7 +43,7 @@ def layout(kind, args, cells):
                     q = tuple((p[k] + m * v1[k] + j * v2[k]) % S for k in range(3))
                     assert site[q] in (-1, i)
                     site[q] = i
-        assert (site >= 0).sum() == 8 * 3 * N * N, ((site >= 0).sum(), 24 * N * N)
+        assert (site >= 0).sum() == nl * 3 * N * N, ((site >= 0).sum(), nl * 3 * N * N)
     else:
         R, = args; c = R + 3; S = 2 * c
         site = -np.ones((S, S, S), np.int64)
@@ -89,6 +89,8 @@ if __name__ == '__main__':
     kind = sys.argv[1]
     nargs = 3 if kind == 'slab' else 1
     args = tuple(map(int, sys.argv[2:2 + nargs])); gens = int(sys.argv[2 + nargs]) if len(sys.argv) > 2 + nargs else 1200
+    if kind == 'slab' and len(sys.argv) > 6:
+        args += (int(sys.argv[6]),)          # optional number of layers (default 8)
     bad, pops = run(kind, args, gens)
     distinct = len(set(pops[-200:]))
     print(f'{kind} {args}: {"MISMATCH at generation %d" % bad if bad is not None else "identical to the oracle"} over {gens} '
