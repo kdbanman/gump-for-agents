@@ -134,12 +134,13 @@ static void cmd_trace(int gens) {
 }
 
 /* ---- brute force ---- */
-static void cmd_brute(int T0, long gens, FILE *pathf) {
+static void cmd_brute(int T0, long gens, FILE *pathf, const char *pathname) {
   init_all();
   long age[64]; for (int j = 0; j < 64; j++) age[j] = 0;
   double expo = 0; long deaths = 0, settled = 0; u64 fdiff = 0;
   int f0 = N - A; int z0 = NDICE ? f0 : 0; u64 *snap = calloc(N + 1, 8);   /* snapshot for the period | 840 test */
   enum { RB = 256 }; u64 *ring = pathf ? calloc((size_t)RB * 2 * A, 8) : NULL; long npath = 0;
+  FILE *popf = NULL; if (pathf && pathname) { char fn[1024]; snprintf(fn, sizeof fn, "%s.pop", pathname); popf = fopen(fn, "w"); }   /* populations of the dying face, lags 0..23 */
   for (long g = 1; g <= gens; g++) {
     step();
     u64 top = 0, bot = ~0ULL;
@@ -156,7 +157,8 @@ static void cmd_brute(int T0, long gens, FILE *pathf) {
           if (ring && age[j] > RB) for (int f = 0; f < 2; f++) if ((f ? ~bot : ~top) & m) {   /* lag of each cell's last live generation before the death */
             fprintf(pathf, "%ld %d", age[j], f);
             for (int c = 0; c < A; c++) { int lag = -1; for (int k = 1; k < RB; k++) if (ring[(size_t)((g - k) % RB) * 2 * A + f * A + c] & m) { lag = k; break; } fprintf(pathf, " %d", lag); }
-            fputc('\n', pathf); fflush(pathf); npath++; } }
+            fputc('\n', pathf); fflush(pathf); npath++;
+            if (popf) { fprintf(popf, "%ld %d", age[j], f); for (int k = 0; k < 24; k++) { int p = 0; const u64 *r = ring + (size_t)((g - k) % RB) * 2 * A + f * A; for (int c = 0; c < A; c++) p += (int)((r[c] >> j) & 1); fprintf(popf, " %d", p); } fputc('\n', popf); fflush(popf); } } }
         init_lane(j); age[j] = 0; fdiff |= m; }
       else if (sett & m) { settled++; init_lane(j); age[j] = 0; fdiff |= m; }
       else if (age[j] > T0) expo += 1;
@@ -298,9 +300,15 @@ static void cmd_bandp(long gens, int T0, int wm) {
      at the generation the window first becomes empty: flat = the band emptied at once, tent = a hole that grew */
   enum { AP = 6 }; u64 *agep = calloc((size_t)2 * nbin * AP, 8);
   double *aprof = calloc((size_t)(wm + 1) * (wm + 1), sizeof(double)), *anum = calloc(wm + 1, sizeof(double));
+  /* boom and bust?  density of the window's own cells 1..HB-1 generations before it first is empty */
+  enum { HB = 10 }; u64 *hring = calloc((size_t)HB * 2 * A, 8);
+  int (*blist)[16] = calloc((size_t)2 * nbin, sizeof *blist), *bn = calloc((size_t)2 * nbin, sizeof(int));
+  for (int f = 0; f < nf; f++) { int c0 = f ? 0 : N - A; for (int c = 0; c < A; c++) { int b = bin[c0 + c]; if (bn[f * nbin + b] < 16) blist[f * nbin + b][bn[f * nbin + b]++] = c; } }
+  double *hden = calloc((size_t)(wm + 1) * HB, sizeof(double)), *hboom = calloc(wm + 1, sizeof(double)), *hmax = calloc(wm + 1, sizeof(double)), *hn = calloc(wm + 1, sizeof(double));
   long restarts = 0; int cool[64]; for (int j = 0; j < 64; j++) cool[j] = 0;
   for (long g = 0; g < gens; g++) {
-    step(); u64 ok = 0; for (int j = 0; j < 64; j++) { if (cool[j] > 0) cool[j]--; else ok |= 1ULL << j; }
+    step(); { u64 *r = hring + (size_t)(g % HB) * 2 * A; memcpy(r, xa + N - A, 8 * A); if (nf == 2) memcpy(r + A, xa, 8 * A); }
+    u64 ok = 0; for (int j = 0; j < 64; j++) { if (cool[j] > 0) cool[j]--; else ok |= 1ULL << j; }
     for (int f = 0; f < nf; f++) {
       int c0 = f ? 0 : N - A; memset(any, 0, 8 * nbin); u64 all = 0;
       for (int c = c0; c < c0 + A; c++) { any[bin[c]] |= xa[c]; all |= xa[c]; }
@@ -312,6 +320,11 @@ static void cmd_bandp(long gens, int T0, int wm) {
       for (int m = 1; m <= wm; m++) { u64 *pv = prev + ((size_t)f * (wm + 1) + m) * nbin;
         for (int b = 0; b < nbin; b++) { e[b] &= ~any[(b + m - 1) % nbin]; cnt[m] += __builtin_popcountll(e[b]); u64 ev = e[b] & ~pv[b]; births[m] += __builtin_popcountll(ev); pv[b] = e[b];
           while (ev) { int j = __builtin_ctzll(ev); ev &= ev - 1; anum[m] += 1;
+            if (m >= 2 && g >= HB) { int nc = 0, mx = 0; for (int i = 0; i < m; i++) nc += bn[f * nbin + (b + i) % nbin];
+              for (int k = 1; k < HB; k++) { const u64 *r = hring + (size_t)((g - k) % HB) * 2 * A + (size_t)f * A; int p = 0;
+                for (int i = 0; i < m; i++) { int bb = f * nbin + (b + i) % nbin; for (int q = 0; q < bn[bb]; q++) p += (int)((r[blist[bb][q]] >> j) & 1); }
+                hden[m * HB + k] += (double)p / nc; if (k <= 3 && p > mx) mx = p; }
+              hn[m] += 1; hmax[m] += (double)mx / nc; if ((double)mx / nc >= 0.70) hboom[m] += 1; }
             for (int i = 0; i < m; i++) { const u64 *pl = agep + ((size_t)f * nbin + (b + i) % nbin) * AP; int a = 0; for (int q = 0; q < AP; q++) a |= (int)((pl[q] >> j) & 1) << q; aprof[m * (wm + 1) + i] += a; } } } }
     }
     samples += (double)__builtin_popcountll(ok) * nf * nbin;
@@ -324,6 +337,9 @@ static void cmd_bandp(long gens, int T0, int wm) {
   printf("# AGE: width | events | mean number of generations each 0.5-bin of the window had been empty when the window first became empty (bins from the edge to the middle, symmetrized)\n");
   for (int m = 1; m <= wm; m++) if (anum[m] > 0) { printf("AGE %.1f %.0f |", m * BW, anum[m]);
     for (int i = 0; i < (m + 1) / 2; i++) printf(" %.2f", (aprof[m * (wm + 1) + i] + aprof[m * (wm + 1) + m - 1 - i]) / (2 * anum[m])); putchar('\n'); }
+  printf("# PRE: width | events | share with density >= 0.70 at 1, 2 or 3 generations before | mean of that maximum | mean density of the window's cells 1, 2, ... %d generations before it first is empty\n", HB - 1);
+  for (int m = 2; m <= wm; m++) if (hn[m] > 0) { printf("PRE %.1f %.0f | %.4f | %.4f |", m * BW, hn[m], hboom[m] / hn[m], hmax[m] / hn[m]);
+    for (int k = 1; k < HB; k++) printf(" %.4f", hden[m * HB + k] / hn[m]); putchar('\n'); }
 }
 
 /* ---- band experiment ---- */
@@ -367,7 +383,7 @@ int main(int argc, char **argv) {
   if (!strcmp(cmd, "geom")) { NDICE = 0; build(0); printf("# A=%d girth vector (%d,%d) girth %.4f length %.4f\n# face-cell-index a x y xi eta (top face) xi eta (bottom face, layer 0; same index)\n", A, VA, VB, GIRTH, LT);
     for (int a = 0; a < 3; a++) for (int x = 0; x < H_; x++) for (int y = 0; y < D_; y++) { int c = idx(NL - 1, a, x, y); int c0 = idx(0, a, x, y); printf("%d %d %d %d %.4f %.4f %.4f %.4f\n", c - (N - A), a, x, y, XI[c], ETA[c], XI[c0], ETA[c0]); } return 0; }
   NDICE = atoi(argv[6]); seedrng(strtoull(argv[7], 0, 10)); build(0); NW = (N + 63) / 64;
-  if (!strcmp(cmd, "brute")) cmd_brute(atoi(argv[8]), atol(argv[9]), argc > 10 ? fopen(argv[10], "w") : NULL);
+  if (!strcmp(cmd, "brute")) cmd_brute(atoi(argv[8]), atol(argv[9]), argc > 10 ? fopen(argv[10], "w") : NULL, argc > 10 ? argv[10] : NULL);
   else if (!strcmp(cmd, "ffs")) { const char *pfile = argc > 11 ? argv[11] : NULL; if (pfile && !strcmp(pfile, "-")) pfile = NULL; PATHS = pfile != NULL;
     cmd_ffs(atoi(argv[8]), atoi(argv[9]), atoi(argv[10]), pfile, argc > 12 ? atoi(argv[12]) : 1000, argc > 13 ? atoi(argv[13]) : 0, argc > 14 ? atoi(argv[14]) : 0); }
   else if (!strcmp(cmd, "clone")) cmd_clone(atoi(argv[8]), atoi(argv[9]), atoi(argv[10]));

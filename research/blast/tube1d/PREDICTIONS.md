@@ -52,3 +52,25 @@ P(local price at 240 cells below 0.193, "quadratic for ever") = 10%. P(price ret
 Band prices at other girths (jobs queued, not seen): P(marginal band price from 4 to 6 units at loop² 16 is above
 loop² 12's 0.2082) = 70%; P(at loop² 9 it is below) = 65%; P(at every girth the age profile is flat, i.e. a flash,
 edge-to-middle difference under 1 generation at 5 units) = 80%.
+
+### Blocks A2, A3 scored (03:47 UTC; `python3 paths.py EXE 1 12 28 8 paths_1_12_28.txt`, 106 then 203 deaths of the 84-cell tube)
+
+- A2 **hit on the sign, point value high**: band-first share by the PI's criterion 72% (0.5-unit band) / 60% (1-unit
+  band); I said 85%, P(> 50%) = 85%. The criterion is met by a flash because a last clump of about 6 cells lingers
+  5–6 generations: measured against the MEDIAN cell's last live generation the share is 2% / 1%. Second half (wide
+  84-cell torus within 15 points): pending.
+- A3 **miss**: the cells alive in the last 2 living generations span under 2 units in 53% of deaths, not > 70%.
+
+## Block C, 03:54 UTC: boom and bust against tube length — before any population series of a dying tube
+
+Known: PI's message (anatomy: 51–59% of deaths of wrapped faces at 63 cells contain a one-generation fall of at
+least half the face); my 48-cell 4×4 torus: 59.3 ± 2.0% (`pops.py 48 p48b.txt.pop`, 597 deaths); my pilot in bands
+of a living 144-cell tube (200,000 generations): the share of band-emptying events with the band's density ≥ 0.70
+one to three generations before falls with width: 58% at 2 units, 41% at 3, 32% at 4, 24% at 5 (45 events).
+
+Forecast, share of deaths with a one-generation fall of at least half the face, loop²-12 tubes:
+60 cells (1,8),(0,20): 48 ± 8%; 72 cells (4,4),(0,6): 37 ± 8%; 84 cells (1,12),(0,28): 27 ± 8%. P(all three
+within) = 30%; P(the share falls monotonically from 60 to 84 cells by at least 10 points in all) = 65%.
+Alternative I give 15%: the share is what my fitted tube form would say if its correction term were the boom
+route, 2e^(−L/2)/(1 + 2e^(−L/2)) = 14%, 9%, 6%. Alternative I give 20%: no trend (all three within 6 points of 55%).
+Wide tori (1,4),(0,21) (63 cells) and (1,4),(0,28) (84 cells): 57 ± 5% and 52 ± 8%.
