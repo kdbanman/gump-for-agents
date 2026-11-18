@@ -90,3 +90,30 @@ everything else as in block 2. Tested on 63 and 84 cells only: 13.129 ± 0.063 a
 is now a tuning torus; the blind calibration tori are 96 and 108 cells**, run next without further change,
 then 120, 144, 192 (tube and the wide torus (8,0),(0,8)), 240. Block 2's forecasts stand unchanged.
 The v1 outputs are kept in `data/v1/`.
+
+## Block 4: 04:40 UTC. Scores, and the sampler's 120-cell number
+
+Block 2 (subset sampler on the dice chain), scored on `python3 table_sub.py`:
+- "|d| < 0.05 at each of 84, 96, 108 within 2 standard errors" (55%): **held**, weakly: -0.007 ± 0.060,
+  +0.087 ± 0.067, +0.018 ± 0.061 (and -0.005 ± 0.088 on the equilateral 108-cell torus, not in the forecast).
+  "A trend larger than 0.05 from 84 to 108" (30%): not seen (+0.025 ± 0.085), not excluded either.
+- "The sampler's 120-cell value 24.57 ± 0.06" (55%): the sampler gives 24.710 ± 0.078 for the dice chain,
+  **24.68 ± 0.09** after the offset. 0.11 from my forecast: **missed** by the forecast's own error, 1.2 of the
+  measurement's.
+- Tubes beyond: 144 cells forecast 29.38 ± 0.10, sampler 29.44 ± 0.22: held. 192 cells forecast 38.9 ± 0.3,
+  sampler 38.62 ± 0.25: held, at the edge. 240 cells: not run. "Slope stays in 0.196 to 0.202 between 120 and 240"
+  (60%): 0.193 ± 0.004 from 120 to 192 cells, so **just below my range**; "falls below 0.190 somewhere" (20%):
+  144 to 192 reads 0.191 ± 0.007, undecided; "returns above 0.205" (10%): no.
+- "Dying paths at 108 and 120 cells still pass through an over-full generation and a one-generation crash in more
+  than half of the deaths" (70%): by the A/2 criterion 0.50 ± 0.04 at 108 cells and 0.38 ± 0.03 at 120:
+  **failed at 120 cells** (by the 0.4 A criterion 0.72 and 0.65). I did not expect the tube to leave the route.
+
+The 120-cell tube, two independent numbers of mine, both before the GPU's:
+- bookkeeping (block 3, the forecast of record, commit 2398569): 24.59 ± 0.05;
+- subset sampler on the dice chain, offset from the tube anchors at 84, 96, 108: 24.68 ± 0.09.
+They differ by 0.09 ± 0.10. Weighted together: 24.61 ± 0.045. The forecast of record stays 24.59 ± 0.05 as
+committed; if the GPU's value lands above 24.64 the sampler was the better of the two.
+
+New forecast, for whoever runs it (no data of mine or anyone's): the wide 192-cell torus (8,0),(0,8) of gump
+itself. The wide line says 40.08; my sampler says 40.72 ± 0.26 on the dice chain. P(gump's value is above 40.30)
+= 45%: I do not know whether the wide price rises or my sampler drifts.
