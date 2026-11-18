@@ -728,9 +728,11 @@ dying chains of its final ensemble.
 | (1,30),(0,64) | default (32) | 26 | 38.764 ± 0.181 | 38.61 .. 38.96 | 0.65 | 0.143 | 39.17 |
 | (1,30),(0,64) | doubled (64) | 26 | 38.920 ± 0.066 | 38.86 .. 38.99 | 0.37 | 0.075 | 38.91 |
 | (1,30),(0,64) | pooled | 52 | 38.839 ± 0.102 | 38.75 .. 38.94 | 0.53 | 0.078 | 39.04 |
-| (8,0),(0,8) | default (32) | 18 | 40.588 ± 0.193 | 40.41 .. 40.80 | 1.02 | 0.319 | 40.91 |
-| (8,0),(0,8) | doubled (64) | 26 | 40.534 ± 0.106 | 40.43 .. 40.64 | 0.58 | 0.123 | 40.73 |
+| (1,30),(0,64) | 16,384 chains (32 sweeps) | 3 | 39.254 ± 0.112 | 39.17 .. 39.35 | 0.19 | 0.110 | 39.32 |
+| (8,0),(0,8) | default (32) | 18 | 40.588 ± 0.193 | 40.42 .. 40.79 | 1.02 | 0.319 | 40.91 |
+| (8,0),(0,8) | doubled (64) | 26 | 40.534 ± 0.106 | 40.44 .. 40.64 | 0.58 | 0.123 | 40.73 |
 | (8,0),(0,8) | pooled | 44 | 40.556 ± 0.098 | 40.46 .. 40.66 | 0.79 | 0.141 | 40.78 |
+| (8,0),(0,8) | 16,384 chains (32 sweeps) | 3 | 40.674 ± 0.285 | 40.48 .. 40.92 | 0.59 | 0.376 | 40.57 |
 
 (1,30),(0,64): doubled - default = +0.156 ± 0.193 (lognormal errors: ± 0.162); tube forms: 39.17 (K = 1), 39.01 (K = 2), 38.92 (K = 3), 38.86 (power law)
 (8,0),(0,8): doubled - default = -0.054 ± 0.220 (lognormal errors: ± 0.342); wide-face line: 40.07
@@ -741,6 +743,32 @@ doubled (64): wide - tube = 1.614 ± 0.125 (lognormal ± 0.144)
 
 | torus | replication | ln tau | distinct ancestors | effective number | share of the largest family |
 |---|---:|---:|---:|---:|---:|
+| (1,30),(0,64) | 0 | 39.42 | 93 | 22.9 | 0.10 |
+| (1,30),(0,64) | 1 | 39.06 | 90 | 23.3 | 0.10 |
+| (1,30),(0,64) | 2 | 39.32 | 97 | 27.2 | 0.10 |
+| (1,30),(0,64) | mean of 3 | | 93.3 | 24.5 | 0.10 |
+| (8,0),(0,8) | 0 | 40.57 | 45 | 10.4 | 0.19 |
+| (8,0),(0,8) | 1 | 40.32 | 30 | 3.5 | 0.49 |
+| (8,0),(0,8) | 2 | 41.45 | 33 | 5.3 | 0.38 |
+| (8,0),(0,8) | mean of 3 | | 36.0 | 6.4 | 0.35 |
+
+16,384 chains: wide - tube = 1.419 ± 0.307 (lognormal ± 0.392); wide - line 40.07 = +0.604 ± 0.376
+
+**Sensitivity to the largest replication, and the combination I would defend.** Per set: share of the summed rate carried by the largest replication; ln tau without it. Combination: the three sets weighted by 1/e^2, e = the larger of the scatter error and the lognormal error; error inflated by sqrt(chi2/dof) if that exceeds 1.
+
+| torus | set | n | ln tau ± e | largest replication carries | ln tau without it | lognormal-model estimate: mean(ln tau_i) - s^2/2 |
+|---|---|---:|---|---:|---:|---|
+| (1,30),(0,64) | 4,096 chains, 32 sweeps | 26 | 38.764 ± 0.181 | 0.17 | 38.917 | 38.800 ± 0.142 |
+| (1,30),(0,64) | 4,096 chains, 64 sweeps | 26 | 38.920 ± 0.075 | 0.07 | 38.949 | 38.913 ± 0.075 |
+| (1,30),(0,64) | 16,384 chains, 32 sweeps | 3 | 39.254 ± 0.112 | 0.41 | 39.370 | 39.249 ± 0.110 |
+| (1,30),(0,64) | **combined** | | **38.996 ± 0.118** (chi2 8.0 on 2) | | | |
+| (8,0),(0,8) | 4,096 chains, 32 sweeps | 18 | 40.588 ± 0.319 | 0.14 | 40.686 | 40.470 ± 0.300 |
+| (8,0),(0,8) | 4,096 chains, 64 sweeps | 26 | 40.534 ± 0.123 | 0.10 | 40.597 | 40.515 ± 0.122 |
+| (8,0),(0,8) | 16,384 chains, 32 sweeps | 3 | 40.674 ± 0.376 | 0.48 | 40.916 | 40.601 ± 0.386 |
+| (8,0),(0,8) | **combined** | | **40.552 ± 0.110** (chi2 0.1 on 2) | | | |
+
+combined, dice chain: tube 38.996 ± 0.118; wide 40.552 ± 0.110; wide - tube = 1.557 ± 0.161
+minus the calibrated offset of the chain and sampler against gump (+0.041 ± 0.021, anchors of 63 to 108 cells): tube 38.955 ± 0.119; wide 40.511 ± 0.112 (wide line 40.07: +0.441); not included: a drift of the offset beyond 108 cells, bounded only to +0.17 ± 0.25 at 192 cells
 <!-- SEC11-END -->
 
 **(a) Doubled sweeps [measured, surrogate].** 26 replications each. Tube: 38.920 ± 0.075 against 38.764 ± 0.181

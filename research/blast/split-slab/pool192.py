@@ -81,8 +81,8 @@ if t and w:
 print()
 print('**Sensitivity to the largest replication, and the combination I would defend.** Per set: share of the summed rate carried by the largest replication; ln tau without it. Combination: the three sets weighted by 1/e^2, e = the larger of the scatter error and the lognormal error; error inflated by sqrt(chi2/dof) if that exceeds 1.')
 print()
-print('| torus | set | n | ln tau ± e | largest replication carries | ln tau without it |')
-print('|---|---|---:|---|---:|---:|')
+print('| torus | set | n | ln tau ± e | largest replication carries | ln tau without it | lognormal-model estimate: mean(ln tau_i) - s^2/2 |')
+print('|---|---|---:|---|---:|---:|---|')
 comb = {}
 for L in ((1, 30, 64), (8, 0, 8)):
     tag = '%d_%d_%d' % L; vals = []
@@ -91,12 +91,13 @@ for L in ((1, 30, 64), (8, 0, 8)):
         if len(r) < 3:
             continue
         st = stat(r); e = max(st['se'], st['lnse']); top = max(r) / sum(r); r2 = sorted(r)[:-1]
-        print(f'| ({L[0]},{L[1]}),(0,{L[2]}) | {name} | {len(r)} | {st["lt"]:.3f} ± {e:.3f} | {top:.2f} | {-math.log(sum(r2) / len(r2)):.3f} |')
+        ln = [-math.log(x) for x in r]; mu = sum(ln) / len(ln); s2 = sum((x - mu) ** 2 for x in ln) / (len(ln) - 1)
+        print(f'| ({L[0]},{L[1]}),(0,{L[2]}) | {name} | {len(r)} | {st["lt"]:.3f} ± {e:.3f} | {top:.2f} | {-math.log(sum(r2) / len(r2)):.3f} | {mu - s2 / 2:.3f} ± {math.sqrt(s2 / len(r) + s2 * s2 / (2 * (len(r) - 1))):.3f} |')
         vals.append((st['lt'], e))
     w = [1 / e ** 2 for _, e in vals]; m = sum(wi * v for wi, (v, _) in zip(w, vals)) / sum(w); err = 1 / math.sqrt(sum(w))
     chi = sum(((v - m) / e) ** 2 for v, e in vals); dof = max(1, len(vals) - 1); infl = max(1.0, math.sqrt(chi / dof))
     comb[L] = (m, err * infl)
-    print(f'| ({L[0]},{L[1]}),(0,{L[2]}) | **combined** | | **{m:.3f} ± {err * infl:.3f}** (chi2 {chi:.1f} on {dof}) | | |')
+    print(f'| ({L[0]},{L[1]}),(0,{L[2]}) | **combined** | | **{m:.3f} ± {err * infl:.3f}** (chi2 {chi:.1f} on {dof}) | | | |')
 if len(comb) == 2:
     t, w = comb[(1, 30, 64)], comb[(8, 0, 8)]; d, de = 0.041, 0.021
     print(f'\ncombined, dice chain: tube {t[0]:.3f} ± {t[1]:.3f}; wide {w[0]:.3f} ± {w[1]:.3f}; wide - tube = {w[0] - t[0]:.3f} ± {math.hypot(t[1], w[1]):.3f}')
