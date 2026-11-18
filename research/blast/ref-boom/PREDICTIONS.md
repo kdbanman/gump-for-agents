@@ -61,3 +61,7 @@ event; I, J, F as before, fitted on 48, 57, 63 cells; forecasts at 75 and 84 fro
 12. (05:54 UTC, before the 108-cell look-ahead run finished) (p = 0.6) The forecast at 108 cells from L1(0.70, 0.30A)
     (living frequency at 108 cells, d and f extrapolated linearly from 48, 57, 63) is within 0.15 of 22.5405;
     (p = 0.5) the same from the face alone, {P ≥ 0.70A}, is within 0.25.
+13. (05:56 UTC, before the tube run) (p = 0.6) For the 84-cell tube (1,12),(0,28) (anchor 17.3175; the wide 84-cell
+    torus 17.5387) the forecast from the tube's own living-state frequency of L0(0.74) and L1(0.70, 0.30A) with the
+    WIDE faces' kill law lands within 0.08 of 17.54, i.e. misses the tube by about +0.2: the tube's discount is in
+    the kill (boom's finding), not in the static term.
