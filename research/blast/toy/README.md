@@ -6,7 +6,9 @@ row of L cells. **Ring** = edge row of a strip 16 × L periodic along the edge (
 or exact linear algebra), [measured] (one code unless said; error = 1/√deaths or binomial), [conjectured].
 Commands run from this directory; bulk output in `research/scratch/blast/toy/`; curated output in `data/`
 (`data/tables.txt` = `python3 table.py`, `data/anat.txt` = `python3 anat.py`). Forecasts: `PREDICTIONS.md`
-(block 1 frozen before any run: 3 hits, 4 misses; block 2 frozen before the last exact runs and unscored data).
+(block 1, before any run: 2 hits, 2 half hits, 3 misses, among them the bust shares, forecast 0.30 and 0.15,
+measured 0.88 and 0.47, and the surrogate's two prices, forecast to agree within 0.01 at L = 18–20; blocks 2–4,
+frozen before the runs they concern: 9 hits, 1 miss by 0.001; unscored: ring edges at L = 40, 48, and gump).
 
 ## Verdict
 

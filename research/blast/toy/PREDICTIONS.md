@@ -96,3 +96,8 @@ Strip 32 × 28, 1200 deaths, no cut: ln τ = 12.436 ± 0.029 (W = 16: 12.416), b
 ln τ = 12.2990 (forecast 12.298 ± 0.003): **hit**; slope 22–23 = 0.5190 (forecast 0.518 ± 0.003; below 0.5198 by
 0.0008: the fall is flattening, so "the bend has begun" is NOT supported). Ring − segment difference 0.060.
 L = 24: running at 04:47; if `research/scratch/blast/toy/xr24.out` exists it was finished after this line.
+
+Note on block 3's 2D items: the L = 36 run had been going for 30 seconds when block 3 was committed, and I had
+seen its running death count (24, 47, 62 deaths; no shares, no populations). The ln τ value 15.47 and the bust
+share 0.30 are block 2's (committed nine minutes before the run started); only the boom-share forecast (0.24) is
+new in block 3, and nothing I had seen bears on it.
