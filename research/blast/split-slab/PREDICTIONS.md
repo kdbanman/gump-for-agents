@@ -54,3 +54,27 @@ Forecasts:
   somewhere before 240 cells) = 20%; P(it returns above 0.205) = 10%.
 - P(the dying paths at 108 and 120 cells still pass through an over-full generation and a one-generation crash in
   more than half of the deaths) = 70%.
+
+## Block 3: 04:04 UTC. THE 120-CELL TUBE (1,18),(0,40): forecast of record from exact bookkeeping
+
+Nobody's measurement of the 120-cell lifetime exists yet (GPU value expected about 13:00 UTC). Mine is not a
+lifetime measurement either: no face died in my 120-cell run (5.5e9 face-generations). It is
+ln tau = -ln nu_120(p) - ln q_120(p) with nu_120(p) **measured** (508 excursions to <= 18 cells) and q_120(p)
+**continued** from the anchors at 84, 96, 108 cells.
+
+- Frozen procedure of block 1 (straight line in A, deepest level with 400 excursions, p = 18):
+  **24.636 ± 0.052** (statistical). `python3 nuq.py data/plain_1_18_40_s101.txt data/plain_1_12_28_s101.txt:17.3175:0.0031 data/plain_1_17_32_s101.txt:19.7446:0.0042 data/plain_1_16_36_s101.txt:22.1599:0.0086`
+  Levels p = 16 to 26 give 24.62 to 24.67.
+- Known weakness, found on the 108-cell test after block 1 was written: ln q_A(p) is convex in A (the middle
+  anchor lies 0.02 ± 0.01 below the chord), and the straight line then overshoots: +0.011 at the test's level of
+  record but +0.04 to +0.06 at its shallower levels, which are the ones comparable to p = 18 here
+  (ln q about -8.4). The parabola through the three anchors (`nuq_quad.py`, written after the test; on the 108-cell
+  test it gives 22.12 to 22.18 at every level, truth 22.160) says 24.562 ± 0.078 at p = 18 and 24.556 ± 0.031 at
+  p = 22 to 26.
+
+**Forecast of record: ln tau_face(120-cell tube) = 24.59 ± 0.05.** P(the GPU's value within ± 0.05) = 60%;
+P(below 24.64) = 80%; P(below 24.54) = 15%. It rests on: my stepper (bit-exact against the oracle on this torus),
+the excursion bookkeeping (it reproduces the anchors at 48, 63, 78 and 84 cells by brute force), the three tube
+anchors, and the assumption that ln q_A(18) continues smoothly from 84-108 to 120 cells (it moves by -0.017 to
+-0.024 per cell there, about a tenth of the whole slope: nine tenths of the step from 108 to 120 cells is measured).
+It implies a local slope from 108 to 120 cells of 0.2025 ± 0.004 per cell: not falling further.
