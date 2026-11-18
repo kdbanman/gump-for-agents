@@ -721,16 +721,16 @@ replications at the old setting could not have answered it.
 | torus | sweeps | replications | ln tau (dice chain) | bootstrap 16-84% | sd of ln(rate) between replications | error for a lognormal of that width | median replication |
 |---|---|---:|---|---|---:|---:|---:|
 | (1,30),(0,64) | default (32) | 26 | 38.764 ± 0.181 | 38.61 .. 38.96 | 0.65 | 0.143 | 39.17 |
-| (1,30),(0,64) | doubled (64) | 18 | 38.967 ± 0.088 | 38.88 .. 39.06 | 0.39 | 0.096 | 39.06 |
-| (1,30),(0,64) | pooled | 44 | 38.842 ± 0.120 | 38.73 .. 38.97 | 0.56 | 0.091 | 39.06 |
+| (1,30),(0,64) | doubled (64) | 25 | 38.924 ± 0.069 | 38.86 .. 38.99 | 0.37 | 0.078 | 38.91 |
+| (1,30),(0,64) | pooled | 51 | 38.839 ± 0.104 | 38.75 .. 38.95 | 0.53 | 0.080 | 39.04 |
 | (8,0),(0,8) | default (32) | 18 | 40.588 ± 0.193 | 40.42 .. 40.80 | 1.02 | 0.319 | 40.91 |
-| (8,0),(0,8) | doubled (64) | 18 | 40.486 ± 0.139 | 40.37 .. 40.63 | 0.67 | 0.178 | 40.73 |
-| (8,0),(0,8) | pooled | 36 | 40.536 ± 0.116 | 40.43 .. 40.66 | 0.87 | 0.176 | 40.83 |
+| (8,0),(0,8) | doubled (64) | 25 | 40.520 ± 0.108 | 40.42 .. 40.63 | 0.59 | 0.128 | 40.73 |
+| (8,0),(0,8) | pooled | 43 | 40.548 ± 0.100 | 40.45 .. 40.65 | 0.80 | 0.145 | 40.75 |
 
-(1,30),(0,64): doubled - default = +0.203 ± 0.201 (lognormal errors: ± 0.173); tube forms: 39.17 (K = 1), 39.01 (K = 2), 38.92 (K = 3), 38.86 (power law)
-(8,0),(0,8): doubled - default = -0.102 ± 0.238 (lognormal errors: ± 0.365); wide-face line: 40.07
-pooled: wide - tube = 1.694 ± 0.167 (lognormal ± 0.198)
-doubled (64): wide - tube = 1.519 ± 0.165 (lognormal ± 0.202)
+(1,30),(0,64): doubled - default = +0.160 ± 0.194 (lognormal errors: ± 0.163); tube forms: 39.17 (K = 1), 39.01 (K = 2), 38.92 (K = 3), 38.86 (power law)
+(8,0),(0,8): doubled - default = -0.068 ± 0.221 (lognormal errors: ± 0.344); wide-face line: 40.07
+pooled: wide - tube = 1.709 ± 0.144 (lognormal ± 0.165)
+doubled (64): wide - tube = 1.596 ± 0.128 (lognormal ± 0.150)
 <!-- SEC11-END -->
 
 SEC11-COMMENT
