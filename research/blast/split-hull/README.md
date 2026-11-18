@@ -42,6 +42,36 @@ by plain running, the lines, the forecasts), `fill.py`, `curate.py`, `PREDICTION
    R = 7 under this protocol: 6.8345 ± 0.0024 (180,727 first deaths), not the 6.804 on file (another protocol; a
    hull of that size lives 115 generations, less than the ageing-in).
 
+## Dice under the hull (second attempt at the measurement itself, 04:45 to 05:35 UTC)
+
+After agent `split-slab` showed that subset simulation over honest dice works on wrapped faces
+(`research/blast/split-slab/README.md`, section 6), the same on the hull. Forecast frozen first: `PREDICTIONS.md`
+block 4 (commit 1356c1c). Files: `hullgeom.py` (the graph), `hd.c` (split-slab's `ss.c` with one change: rule
+cells and dice cells are counted from the graph, NR and ND, instead of 6 and 2 layers of A cells), `dice.sh`.
+
+**The hull dice chain, exactly.** Cells: the hull's cells (|x| + |y| + |z| ≤ R, one odd coordinate) at depth
+r = (R − (x + y + z))/2 ≤ 7 beneath the watched face x + y + z = R. Depth 0 to 5: gump's rule, neighbours outside the
+hull dead (so the watched face's three rim rows are the real ones, and the three neighbouring faces are real for
+their first six rows from the shared edge, with their own layers beneath as far as depth 5). Depth 6 and 7: every
+cell replaced after every generation by an independent fair coin. Deeper cells do not exist. No rule cell has a
+neighbour deeper than 7 (T1), so every influence on the watched face from below passes the coins. Sizes (A, rule
+cells, dice cells): 45, 312, 108 (R = 9); 63, 438, 162; 84, 582, 222; 108, 744, 288; 135, 924, 360 (R = 17).
+Convention: one watched face, τ_face = (generations with the watched face alive) / (its deaths); other faces are
+not whole in this chain and their deaths are not defined, which matters only where hulls die fast (R = 9: a
+gump hull is retired at the first death of any of 8 faces every 2,300 generations).
+
+**The sampler** is split-slab's, unchanged (its README has the exact statement; `hd.c` mode `sub`): a chain is an
+initial state (a snapshot of 512 stationary lanes of the dice chain, 64 generations apart) plus 56 generations of
+coins; score = minimum population of the watched face over generations 33 to 56 (chains whose face is dead at
+generation 32 do not count); P(score = 0) = 24/τ; levels LAM1, LAM1 − 3, …, 0; at each level the chains at or below
+it refill an ensemble of 4,096 and are moved by NSWEEP Metropolis sweeps of KFLIP coin flips (even sweeps uniform
+in space-time, odd sweeps in the 12 generations before the chain's minimum, accepted iff the score stays at or
+below the level and the reverse move is proposable). Frozen parameters (block 4): LAM1 = round(P̄ − 2.5 σ_P) = 10,
+18, 28, 38, 51 for R = 9 … 17; NSWEEP = round(A/6) = 8, 10, 14, 18, 22; KFLIP 5; TPRE 32, TWIN 24, WBACK 12.
+`sh research/blast/split-hull/dice.sh R SEED NREP`. Error: scatter of independent replications' rates.
+
+DICERESULTS
+
 ## Deliverable 1: the stepper [measured]
 
 `python3 research/blast/split-hull/validate.py 1200`: `sh.c`'s bit-sliced hull stepper equals `reference/oracle.py`
