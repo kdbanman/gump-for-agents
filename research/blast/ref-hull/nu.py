@@ -124,8 +124,8 @@ def partE(name, lev1, lev2):
     for i, R in enumerate(EXT):
         v = lndiff(R, lev1(R), lev2(R))
         if v is None: continue
-        l = line[3][i]; ce = math.hypot(l[1], v[1])
-        print(f"     R {R} (A {Aof(R)}): measured {v[0]:.4f} +- {v[1]:.4f};  line from 9..15 predicts {l[0]:.4f} +- {l[1]:.4f};  measured - line = {v[0] - l[0]:+.4f} = {(v[0] - l[0]) / ce:+.1f} combined errors")
+        l = line[3][i]; ce = math.hypot(l[1], v[1]); q = rim[3][i]; cq = math.hypot(q[1], v[1])
+        print(f"     R {R} (A {Aof(R)}): measured {v[0]:.4f} +- {v[1]:.4f};  line from 9..15: {l[0]:.4f} +- {l[1]:.4f}, measured - line = {v[0] - l[0]:+.4f} ({(v[0] - l[0]) / ce:+.1f} errors);  line+rim: {q[0]:.4f} +- {q[1]:.4f}, measured - fit = {v[0] - q[0]:+.4f} ({(v[0] - q[0]) / cq:+.1f} errors)")
 for p in (0.5, 0.4, 0.3):
     partE(f"0.6 against {p}", lambda R: 0.6 * info[R]["pbar"], lambda R, p=p: p * info[R]["pbar"])
 partE("0.5 against 0.4", lambda R: 0.5 * info[R]["pbar"], lambda R: 0.4 * info[R]["pbar"])
@@ -135,3 +135,16 @@ print("\nPART F: the anchors alone (no dip rates): ln tau = a + cA + rk fitted t
 ys = [ANCH[R][0] for R in (9, 11, 13, 15)]; es = [ANCH[R][1] for R in (9, 11, 13, 15)]
 q = fit([9, 11, 13, 15], ys, es, [lambda R: 1.0, lambda R: float(Aof(R)), lambda R: float(kof(R))], [17, 19, 21])
 print(f"   c = {q[0][1]:.4f} +- {q[1][1]:.4f}, r = {q[0][2]:+.3f} +- {q[1][2]:.3f}, chi2 {q[2]:.2f} on 1;  R 17: {q[3][0][0]:.3f} +- {q[3][0][1]:.3f};  R 19: {q[3][1][0]:.3f} +- {q[3][1][1]:.3f};  R 21: {q[3][2][0]:.3f} +- {q[3][2][1]:.3f}")
+
+print("\nPART G: how good is a one-step extrapolation? ln nu(p P-bar) itself, fitted on R = 9..15 (a + cA + rk, the quadratic in k), against its measured value at R = 17, 19, 21")
+for p in PS:
+    pts = [(R, lnnu(R, p * info[R]["pbar"])) for R in FIT]
+    if any(v is None for _, v in pts): continue
+    ys = [v[0] for _, v in pts]; es = [max(v[1], 2e-4) for _, v in pts]
+    rim = fit(FIT, ys, es, [lambda R: 1.0, lambda R: float(Aof(R)), lambda R: float(kof(R))], EXT)
+    out = []
+    for i, R in enumerate(EXT):
+        v = lnnu(R, p * info[R]["pbar"])
+        if v is None: continue
+        q = rim[3][i]; out.append(f"R {R}: measured - quadratic = {v[0] - q[0]:+.4f} +- {math.hypot(q[1], v[1]):.4f}")
+    print(f" p = {p}: chi2 {rim[2]:.1f} on 1; " + ";  ".join(out))

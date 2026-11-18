@@ -105,3 +105,18 @@ for name, pr, ps in (('cross2 B34/S234 row over coins 0.472 (ex1d)', 'xr', 'xs')
         if not r or not s: continue
         t = lambda d, x: -math.log(d['pn'][int(math.ceil(x * L - 1e-9)):].sum()) / L
         print(f'  L={L:2d} ' + '  '.join(f'x={x}: {t(r, x):.4f} / {t(s, x):.4f}' for x in (0.75, 0.875, 1.0)) + f'   density {np.dot(r["pn"], np.arange(L + 1)) / L:.4f} / {np.dot(s["pn"], np.arange(L + 1)) / L:.4f}; segment end cells {s["dens"][0]:.3f} {s["dens"][1]:.3f} {s["dens"][2]:.3f}')
+
+# 2D brute force: upper tail of the living edge-row population, and what follows an over-full generation
+print('\n== brute force: living edge row. -ln P(n >= xL)/L at x = 0.75, 0.875 (ring / box); after a generation with n >= 0.85 L: mean next n / L, P(next n <= 0.15 L) (ring / box) ==')
+for L in (12, 16, 20, 24, 28, 32):
+    row = [f'L={L:2d}']; d = {}
+    for g in 'rb':
+        fn = f'{S}/{g}{L}.out'
+        if not os.path.exists(fn): continue
+        t = open(fn).read(); m = re.search(r'hist (.*)', t)
+        if not m: continue
+        h = np.array([float(z) for z in m.group(1).split()]); tr = np.array([[float(z) for z in l.split()[2:]] for l in re.findall(r'tr \d+ .*', t)])
+        hi = int(math.ceil(0.85 * L - 1e-9)); lo = int(math.floor(0.15 * L + 1e-9)); w = tr[hi:].sum(0)
+        d[g] = (-math.log(h[int(math.ceil(0.75 * L - 1e-9)):].sum() / h.sum()) / L, -math.log(max(h[int(math.ceil(0.875 * L - 1e-9)):].sum(), 1) / h.sum()) / L, (w * np.arange(L + 1)).sum() / w.sum() / L, w[:lo + 1].sum() / w.sum(), w.sum(), h.sum())
+    if len(d) == 2:
+        print(f'L={L:2d}  x=0.75: {d["r"][0]:.4f} / {d["b"][0]:.4f}   x=0.875: {d["r"][1]:.4f} / {d["b"][1]:.4f}   next n/L: {d["r"][2]:.3f} / {d["b"][2]:.3f}   P(next <= 0.15L): {d["r"][3]:.4f} / {d["b"][3]:.4f}   (over-full generations {d["r"][4]:.0f} / {d["b"][4]:.0f})')
