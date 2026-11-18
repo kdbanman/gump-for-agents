@@ -120,12 +120,24 @@ forecast of 29.22 that four routes agree on.
      running, measured from radius 7 to 21) and q = 1/(τν): −ln q(0.6) is a straight line in the area with no rim
      term over 45, 63, 84, 108 cells, −2.049 + 0.17014·A (χ² 1.1 on 2). Nine tenths of the lifetime's rim term is
      in how often the face dips to 0.6 of its population; from there to empty a hull face pays 0.170 per cell.
-7. **Why rare-event sampling fails on gump itself [measured, three agents].** On wrapped faces there is no ladder
+7. **The same two exits in gump's 2D relative, with the prices the other way round [measured and exact,
+   `toy/`].** In B34/S234 on the range-2 cross an edge row that is a ring dies by boom and bust (the row
+   over-fills to 19.4 of 24 where 13.9 is normal, the cap takes it to one or two cells), and the edge of a box,
+   whose end cells are protected, fades over 6–8 generations. There the flash is the DEARER exit per cell: the
+   ring's deaths are two exponential laws, flash 0.30 + 0.455·L and no flash 4.03 + 0.327·L, the flash share falls
+   from 0.90 at 12 cells to 0.47 at 32 (and, forecast first, 0.290 ± 0.024 at 36 against 0.298), and the ring's
+   local price falls with it, 0.441 → 0.384, towards the box's steady 0.34. So the "0.416 against 0.343" on file
+   for that rule is a crossover between exits, and the box outlives the ring only below about 25 cells. The
+   exactly solved one-row surrogate has two prices that do not converge by 24 cells (open segment 0.4593 ±
+   0.0003, ring 0.519–0.528), and a control rule whose end cells can be overcrowded has one price, the difference
+   dying as e^(−L/2.0). Which shape is dearer depends on which exit is cheaper per cell.
+8. **Why rare-event sampling fails on gump itself [measured, four agents].** On wrapped faces there is no ladder
    of levels: the rare step is the over-full generation, the crash jumps every level at once, and sixteen clones
    of one parent count as two, because the fate is sealed at the launch. On hull faces forward flux is biased
    where it is not starved (estimate − anchor = −0.027 ± 0.018, −0.173 ± 0.044, −0.35 ± 0.26 at 45, 63, 84 cells):
-   a dip lasts ten generations and a flip deep in the chaos needs several to reach the face. What does work is to
-   put honest dice two layers under six layers of rule and sample the dice (item 5).
+   a dip lasts ten generations and a flip deep in the chaos needs several to reach the face (`ref-hull/` built a
+   second sampler of another design and met the same wall: −0.032 ± 0.010 at 45 cells). What does work is to put
+   honest dice under six layers of rule and sample the dice (item 5).
 
 ## What was proved
 
@@ -169,9 +181,19 @@ its place there are four forecasts, by different routes, all frozen before any o
 
 They agree, and they favour "the second difference repeats" (implied 0.683 ± 0.009 through 198 cells). But the
 first rests on a four-point straight line, and the others on forms fitted to the same five faces: this is one
-extrapolation seen four ways, not a measurement. PENDING_REFHULL
+extrapolation seen four ways, not a measurement. **The referee (`ref-hull/REVIEW.md`)** rebuilt the first route with its own stepper: the dip rates agree value
+by value from radius 9 to 21 (largest difference 2.3 combined errors), the line is reproduced (slope 0.17016 ±
+0.00014, χ² 0.5 on 2) and gives 29.219 ± 0.010; a quadratic in the side through the same four values gives 29.232
+± 0.023. Its verdict: an honest figure is **29.22 ± 0.02, conditional** on the line having no rim term, which the
+fit knows only as −0.027 ± 0.043. It favours 29.230 over 29.163 half on evidence (the dip to 0.4 of the
+population, which is 14.65 of the 29.2 and carries all of the rim term, is measured at 135 cells and sits on
+trend) and half by construction ("the wrapped price takes over" would be a 2% bend in the part no dip rate can
+test). Beyond 135 cells the dip rate's own second difference shrinks (−0.176, −0.181, −0.176, −0.168 ± 0.002,
+−0.160 ± 0.004 from 63 to 198 cells), so this route puts the 165- and 198-cell faces at 35.780 ± 0.014 and 43.011
+± 0.019, below "the second difference repeats" (35.812, 43.085), and levels disagree by ± 0.03 and ± 0.05 there.
+PENDING_DICEHULL
 What would measure it: the surrogate route that worked for wrapped faces (honest coins a few layers under the
-watched face of a hull), calibrated on 45–108 cells. Nobody built it tonight.
+watched face of a hull), calibrated on 45–108 cells.
 
 ## Forecasts frozen before the data
 
@@ -203,6 +225,8 @@ face separates only K = 1 (24.608) from the rest. The 192-cell tube decides betw
   every digit with its own dense code; bust shares confirmed; Theorem 2, Lemma R (with its discrete form
   corrected) and the seam identity confirmed; Theorem 3's hypothesis measured to be failing (above). Not checked:
   the 18-cell exact rows, anything on gump itself.
+- **The 135-cell forecast (`ref-hull/REVIEW.md`): rates confirmed, forecast fair at 29.22 ± 0.02, conditional;**
+  see "The 135-cell face". Its own forward-flux sampler failed in the same way as the first.
 PENDING_REFEREES_3
 
 ## What failed
