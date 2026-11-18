@@ -114,6 +114,9 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    tube's death local, a dead band across the girth that then spreads, where a wide face dies whole? **(m)** The
    loop of 21 costs 0.0047 ± 0.0023: a 2σ answer. A third face with a loop of 21 and none shorter, or the same two
    to ± 0.0015, would settle whether the tail of the density law carries a price.
+   **Since (2026-11-17, CLAIMS WL9):** the equilateral 108-cell face at 22.5405 ± 0.0074 is again between the two
+   readings and nearer the relation; with the loop-21 face, "long ways round cost nothing" has χ² 5.7 on 2. Not
+   settled. The card is running more seeds on the long tubes and long faces of loop² 13 and 16 (for (l)).
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.
 

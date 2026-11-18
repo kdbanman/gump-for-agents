@@ -3746,3 +3746,26 @@ Thicker slabs: 63 cells at 12 and 16 layers 13.1596 ± 0.0012 and 13.1589 ± 0.0
   state or in depth.
 - Not checked (10:20 UTC): no second code at 96 or 108 cells or on (1, 4), (0, 28); the thicker slabs have one seed
   each; the seeds at 96 and 108 cells scatter (χ² 11.8 on 6 together); I checked arithmetic from rows, not the runs.
+
+## 2026-11-17: the equilateral 108-cell wrapped face to ± 0.007: 22.5405, between the two forecasts again and nearer the density relation
+
+- **[measured, one code]** The card's 6 × 6 face, 10 seeds, 18,394 face deaths, no settled life (its branch at 0f5d1bd;
+  seeds' χ² 6.0 on 9 by its count): ln τ_face = **22.5405 ± 0.0074**. Recomputed by me from the rows (arithmetic
+  only), until that branch is merged:
+  `git show origin/claude/gpu-local-1080:research/data/gpu_local_eqtorus/eqtorus_6_0_6.csv | python3 -c "import sys,csv,math; r=list(csv.DictReader(sys.stdin)); E=sum(int(x['exposure']) for x in r); F=sum(int(x['face']) for x in r); print(math.log(2*E/F), F**-.5, len(r))"`
+- Against the two values written before the run (`research/GPU-QUEUE.md`): 22.535 if a long way round still costs something (the
+  density relation, WL5): +0.0055, 0.8 of the measurement's error. 22.551 if the wide faces' straight line
+  simply continues: -0.0105, 1.4. The card's own forecast, 22.552 ± 0.008, was 1.1 high. The value on file
+  before, 22.5600 ± 0.0222 (four seeds, the same code), is 0.8 away.
+- **With the loop-21 face (W13, 2026-11-16)** there are now two independent faces, each between the two readings
+  and each nearer the relation. χ² of the pair against the relation's values 1.4 on 2; against "long ways
+  round cost nothing" 5.7 on 2 (p about 0.06). It leans and is not decided. Both faces sit above the
+  relation's values, so if a long way round does cost, it may cost less than κ = 1.85 says.
+- The card's, not recomputed by me: the wide-face line refitted with this value is 13.1623 + 0.20861 (± 0.00008)
+  (A − 63), χ² 9.6 on 5 (it was 0.20867, χ² 7.8); 298 firewall deaths on this face, ln τ_fw 25.970 ± 0.058; the
+  hazard by age has a low bin at ages 3 × 10⁷ to 10⁸ (0.919 ± 0.031), as at 111 cells.
+- Running on the card (its chain 3; its forecasts in `research/gpu-local/PREDICTIONS.md` block 7 on its branch): four
+  more seeds each on the 96- and 108-cell tubes of loop² 12; two faces with one loop² of 16 and one with a loop²
+  of 13, at 96 cells; a 120-cell tube of loop² 12. Its script pushes the rows at about 11:30 UTC on the 17th and
+  13:00 UTC on the 18th, unanalysed.
+- Not checked (01:18 UTC): one code; arithmetic from rows only; the refit and the firewall numbers are the card's.
