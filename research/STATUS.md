@@ -489,6 +489,15 @@ _Last updated 2026-11-14 by the lead._
   **13:49 UTC:** the 84-cell hull run is in and recorded (share of deaths with a fall of half the face 1.07 ± 0.15%,
   flat; the forecast held; DY17, DY18, DY20). `research/check.sh` 20/20 at 13:46 UTC. **Running:** the site agent (Opus), told of the review. **Then:** version 19,
   `research/check.sh`, merge pull request 38, the other session's pull request at a quiet point.
+  **14:17 UTC:** the other session's pull request 36 is merged (main 49681b1; only `research/blast/`, 838 files, 7 MB)
+  after the audit; main is merged back into this branch. What of its report is confirmed is DY16 to DY21; the rest
+  and its second phase are its own account, not in the ledger. Its note `research/blast/TO-THE-LEAD.md` (14:02 UTC)
+  says the owner wrote to it at about 10:05 UTC that it could go on after the reset "targeting 50% fable usage"
+  (quoted in its `PI.md`), that its agents are done, and that it read the Fable window at 0.39 at 13:56 UTC; so
+  the earlier line here, that its second phase was not covered, is superseded by that. It suggests a measurement
+  for the card (a thick corner-free strip) and has a sampler of its own running on CPU, unrefereed. The site
+  agent is done (two new signals plates, one new dying plate, a live memory cell checked against the oracle at
+  every generation); version 19 of the overview is being published. **Fable agents running: none.**
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
