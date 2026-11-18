@@ -18,6 +18,15 @@ def rates(pattern):
     return r
 
 
+def ancestry(pattern):
+    a = []
+    for f in sorted(glob.glob(os.path.join(HERE, 'data', pattern))):
+        for l in open(f):
+            if l.startswith('REP') and ' anc ' in l:
+                t = l.split(); a.append((float(t[t.index('lntau') + 1]), int(t[t.index('anc') + 1]), float(t[t.index('eff') + 1]), float(t[t.index('top') + 1])))
+    return a
+
+
 def stat(r, rng=random.Random(7)):
     n = len(r); m = sum(r) / n; sd = math.sqrt(sum((x - m) ** 2 for x in r) / (n - 1))
     ln = [-math.log(x) for x in r if x > 0]; mu = sum(ln) / len(ln); s2 = sum((x - mu) ** 2 for x in ln) / (len(ln) - 1)
@@ -34,6 +43,7 @@ for L in ((1, 30, 64), (8, 0, 8)):
     tag = '%d_%d_%d' % L
     sets = [('default (32)', rates(f'sub_{tag}_s*.txt')), ('doubled (64)', rates(f'subx2_{tag}_s*.txt'))]
     sets.append(('pooled', sets[0][1] + sets[1][1]))
+    sets.append(('16,384 chains (32 sweeps)', rates(f'sub16k_{tag}_s*.txt')))
     for name, r in sets:
         if len(r) < 2:
             continue
@@ -51,3 +61,19 @@ for key in ('doubled (64)',):
     t, w = res.get(((1, 30, 64), key)), res.get(((8, 0, 8), key))
     if t and w:
         print(f'{key}: wide - tube = {w["lt"] - t["lt"]:.3f} ± {math.hypot(w["se"], t["se"]):.3f} (lognormal ± {math.hypot(w["lnse"], t["lnse"]):.3f})')
+
+print()
+print('**Replications of 16,384 chains: value and ancestry of the dying chains of each** (distinct ancestors = fresh chains that have descendants among the dying chains of the final ensemble; effective number = inverse Simpson index of the family sizes; top = share of the largest family).')
+print()
+print('| torus | replication | ln tau | distinct ancestors | effective number | share of the largest family |')
+print('|---|---:|---:|---:|---:|---:|')
+for L in ((1, 30, 64), (8, 0, 8)):
+    a = ancestry('sub16k_%d_%d_%d_s*.txt' % L)
+    for i, (lt, anc, eff, top) in enumerate(a):
+        print(f'| ({L[0]},{L[1]}),(0,{L[2]}) | {i} | {lt:.2f} | {anc} | {eff:.1f} | {top:.2f} |')
+    if a:
+        n = len(a)
+        print(f'| ({L[0]},{L[1]}),(0,{L[2]}) | mean of {n} | | {sum(x[1] for x in a) / n:.1f} | {sum(x[2] for x in a) / n:.1f} | {sum(x[3] for x in a) / n:.2f} |')
+t, w = res.get(((1, 30, 64), '16,384 chains (32 sweeps)')), res.get(((8, 0, 8), '16,384 chains (32 sweeps)'))
+if t and w:
+    print(f'\n16,384 chains: wide - tube = {w["lt"] - t["lt"]:.3f} ± {math.hypot(w["se"], t["se"]):.3f} (lognormal ± {math.hypot(w["lnse"], t["lnse"]):.3f}); wide - line 40.07 = {w["lt"] - 40.07:+.3f} ± {max(w["se"], w["lnse"]):.3f}')

@@ -1,0 +1,1 @@
+# nice -n 10 /home/user/gump-for-agents/research/scratch/blast/split-slab/ss_sub /home/user/gump-for-agents/research/scratch/blast/split-slab/g_1_30_64.bin sub 9 40 77 3 32 32 4 32 24 - 12   (WD=6)

@@ -707,13 +707,18 @@ Neighbouring sections, all sections:
   crash time read from a per-cell record of gump itself rather than a threshold on a section, and the same
   statistic on loop^2 16 and 13 tubes, whose discounts are known and smaller.
 
-## 11. The 192-cell tube and the wide 192-cell torus again, with doubled sweeps (the PI's part 2, 05:05 UTC)
+## 11. The 192-cell tube and the wide 192-cell torus again: doubled sweeps, then replications of 16,384 chains
 
-Two cores for 25 minutes: `SWEEPX=2 python3 run_sub.py 1 30 64 80 7` and `SWEEPX=2 python3 run_sub.py 8 0 8 80 7`
-(NSWEEP = 64 instead of 32, everything else as frozen; stopped by hand at 05:33 UTC; outputs
-`data/subx2_*_s7.txt`). Doubled sweeps because the open question at this size was whether the sampler drifts
-(section 6: between replications ln(rate) scattered by 0.65 on the tube and 1.0 on the wide torus), and more
-replications at the old setting could not have answered it.
+Two requests of the PI, two cores each time. (a) 05:06 to 05:24 UTC, **doubled sweeps**:
+`SWEEPX=2 python3 run_sub.py 1 30 64 80 7` and `SWEEPX=2 python3 run_sub.py 8 0 8 80 7` (NSWEEP = 64 instead of 32,
+everything else as frozen; stopped by hand after 26 replications each; `data/subx2_*_s7.txt`): the open
+question was whether the sampler drifts at this size. (b) from 05:24 UTC, after the referee's review
+(`research/blast/ref-slab/REVIEW.md`: the dying chains of one replication descend from few fresh chains, so the
+errors of section 6 at 192 cells are understated), **fewer, larger replications**:
+`NBATCH=32 SNAPGAP=256 python3 run_sub.py 1 30 64 40 9` and the same for `8 0 8` (16,384 chains per replication
+instead of 4,096; the 32 batches of initial states are snapshots 256 generations apart instead of 64; 32 sweeps;
+stopped by hand; `data/sub16k_*_s9.txt`). The sampler now prints, for every replication, the ancestry of the
+dying chains of its final ensemble.
 
     python3 pool192.py
 
@@ -721,16 +726,21 @@ replications at the old setting could not have answered it.
 | torus | sweeps | replications | ln tau (dice chain) | bootstrap 16-84% | sd of ln(rate) between replications | error for a lognormal of that width | median replication |
 |---|---|---:|---|---|---:|---:|---:|
 | (1,30),(0,64) | default (32) | 26 | 38.764 ± 0.181 | 38.61 .. 38.96 | 0.65 | 0.143 | 39.17 |
-| (1,30),(0,64) | doubled (64) | 25 | 38.924 ± 0.069 | 38.86 .. 38.99 | 0.37 | 0.078 | 38.91 |
-| (1,30),(0,64) | pooled | 51 | 38.839 ± 0.104 | 38.75 .. 38.95 | 0.53 | 0.080 | 39.04 |
-| (8,0),(0,8) | default (32) | 18 | 40.588 ± 0.193 | 40.42 .. 40.80 | 1.02 | 0.319 | 40.91 |
-| (8,0),(0,8) | doubled (64) | 25 | 40.520 ± 0.108 | 40.42 .. 40.63 | 0.59 | 0.128 | 40.73 |
-| (8,0),(0,8) | pooled | 43 | 40.548 ± 0.100 | 40.45 .. 40.65 | 0.80 | 0.145 | 40.75 |
+| (1,30),(0,64) | doubled (64) | 26 | 38.920 ± 0.066 | 38.86 .. 38.99 | 0.37 | 0.075 | 38.91 |
+| (1,30),(0,64) | pooled | 52 | 38.839 ± 0.102 | 38.75 .. 38.94 | 0.53 | 0.078 | 39.04 |
+| (8,0),(0,8) | default (32) | 18 | 40.588 ± 0.193 | 40.41 .. 40.80 | 1.02 | 0.319 | 40.91 |
+| (8,0),(0,8) | doubled (64) | 26 | 40.534 ± 0.106 | 40.43 .. 40.64 | 0.58 | 0.123 | 40.73 |
+| (8,0),(0,8) | pooled | 44 | 40.556 ± 0.098 | 40.46 .. 40.66 | 0.79 | 0.141 | 40.78 |
 
-(1,30),(0,64): doubled - default = +0.160 ± 0.194 (lognormal errors: ± 0.163); tube forms: 39.17 (K = 1), 39.01 (K = 2), 38.92 (K = 3), 38.86 (power law)
-(8,0),(0,8): doubled - default = -0.068 ± 0.221 (lognormal errors: ± 0.344); wide-face line: 40.07
-pooled: wide - tube = 1.709 ± 0.144 (lognormal ± 0.165)
-doubled (64): wide - tube = 1.596 ± 0.128 (lognormal ± 0.150)
+(1,30),(0,64): doubled - default = +0.156 ± 0.193 (lognormal errors: ± 0.162); tube forms: 39.17 (K = 1), 39.01 (K = 2), 38.92 (K = 3), 38.86 (power law)
+(8,0),(0,8): doubled - default = -0.054 ± 0.220 (lognormal errors: ± 0.342); wide-face line: 40.07
+pooled: wide - tube = 1.717 ± 0.142 (lognormal ± 0.161)
+doubled (64): wide - tube = 1.614 ± 0.125 (lognormal ± 0.144)
+
+**Replications of 16,384 chains: value and ancestry of the dying chains of each** (distinct ancestors = fresh chains that have descendants among the dying chains of the final ensemble; effective number = inverse Simpson index of the family sizes; top = share of the largest family).
+
+| torus | replication | ln tau | distinct ancestors | effective number | share of the largest family |
+|---|---:|---:|---:|---:|---:|
 <!-- SEC11-END -->
 
 SEC11-COMMENT

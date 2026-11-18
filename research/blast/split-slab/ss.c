@@ -205,7 +205,9 @@ int main(int argc, char **argv) {
     if (cf && A > 512) return 1;   /* > 0: every second sweep proposes flips only in the WBACK generations of dice before the chain's minimum */
     size_t ssz = (size_t)(n + 1) * W, dsz = (size_t)T * 2 * A * W; long NC = (long)NBATCH * NL;
     u64 *init = malloc(NBATCH * ssz * 8), *init2 = malloc(NBATCH * ssz * 8), *D = malloc(NBATCH * dsz * 8), *D2 = malloc(NBATCH * dsz * 8), *Dp = malloc(dsz * 8), *pl = malloc(ssz * 8);
-    int *score = malloc(4 * NC), *score2 = malloc(4 * NC), *seeds = malloc(4 * NC), *gmin = malloc(4 * NC), *gmin2 = malloc(4 * NC); static int am[NL]; static short popser[NL][128]; static int sc[NL]; static long page[NL];
+    int *score = malloc(4 * NC), *score2 = malloc(4 * NC), *seeds = malloc(4 * NC), *gmin = malloc(4 * NC), *gmin2 = malloc(4 * NC); static int am[NL];
+    int *anc = malloc(4 * NC), *anc2 = malloc(4 * NC), *cnta = calloc(NC, 4);   /* ancestor = index of the fresh chain a chain descends from */
+    int SNAPGAP = getenv("SNAPGAP") ? atoi(getenv("SNAPGAP")) : 64;       /* generations between the snapshots that give the initial states */ static short popser[NL][128]; static int sc[NL]; static long page[NL];
     double *rate = malloc(8 * nrep); double sumlnP[64] = {0}; long nlevP[64] = {0}; double accs = 0, accn = 0; int lamlist[64], nlam = 0;
     #define EVAL(initb, diceb) do { memcpy(a, (initb), ssz * 8); for (int t_ = 0; t_ < T; t_++) { \
         for (int i_ = 0; i_ < WD * A; i_++) { const int *q_ = nb + 12 * (size_t)i_; vec x_[12], me_, o_; for (int u_ = 0; u_ < 12; u_++) memcpy(&x_[u_], a + (size_t)q_[u_] * W, 64); \
@@ -220,11 +222,11 @@ int main(int argc, char **argv) {
     for (int rep = 0; rep < nrep; rep++) {
       long nvalid = 0;
       for (int bt = 0; bt < NBATCH; bt++) {
-        for (int g = 0; g < 64; g++) step();
+        for (int g = 0; g < SNAPGAP; g++) step();
         u64 c[NB][W]; laypop(0, c); int valid[NL];
-        for (int l = 0; l < NL; l++) { page[l] += 64; int p0 = lane_count(c, l); valid[l] = (p0 > 0 && page[l] >= 1000); if (p0 == 0) { lane_soup(l); page[l] = 0; } }
+        for (int l = 0; l < NL; l++) { page[l] += SNAPGAP; int p0 = lane_count(c, l); valid[l] = (p0 > 0 && page[l] >= 1000); if (p0 == 0) { lane_soup(l); page[l] = 0; } }
         memcpy(pl, a, ssz * 8); memcpy(init + bt * ssz, a, ssz * 8); u64 *d = D + bt * dsz; for (size_t x = 0; x < dsz; x++) d[x] = rnd();
-        EVAL(init + bt * ssz, d); for (int l = 0; l < NL; l++) { score[bt * NL + l] = valid[l] ? sc[l] : (1 << 20); gmin[bt * NL + l] = am[l]; nvalid += valid[l]; }
+        EVAL(init + bt * ssz, d); for (int l = 0; l < NL; l++) { score[bt * NL + l] = valid[l] ? sc[l] : (1 << 20); gmin[bt * NL + l] = am[l]; anc[bt * NL + l] = bt * NL + l; nvalid += valid[l]; }
         memcpy(a, pl, ssz * 8);
       }
       memcpy(pl, a, ssz * 8);
@@ -240,8 +242,8 @@ int main(int argc, char **argv) {
           for (int i = 0; i < n; i++) di[(size_t)i * W] |= ((si[(size_t)i * W] >> sk) & 1) << dk;
           const u64 *sd = D + sb * dsz + (sl >> 6); u64 *dd = D2 + db * dsz + (dl >> 6); size_t nd2 = (size_t)T * 2 * A;
           for (size_t i = 0; i < nd2; i++) dd[i * W] |= ((sd[i * W] >> sk) & 1) << dk;
-          score2[j] = score[src]; gmin2[j] = gmin[src]; }
-        { u64 *t1 = init; init = init2; init2 = t1; t1 = D; D = D2; D2 = t1; int *t2 = score; score = score2; score2 = t2; t2 = gmin; gmin = gmin2; gmin2 = t2; }
+          score2[j] = score[src]; gmin2[j] = gmin[src]; anc2[j] = anc[src]; }
+        { u64 *t1 = init; init = init2; init2 = t1; t1 = D; D = D2; D2 = t1; int *t2 = score; score = score2; score2 = t2; t2 = gmin; gmin = gmin2; gmin2 = t2; t2 = anc; anc = anc2; anc2 = t2; }
         for (int sw = 0; sw < NSWEEP; sw++) for (int bt = 0; bt < NBATCH; bt++) { u64 *d = D + bt * dsz; memcpy(Dp, d, dsz * 8);
           int foc = (WBACK > 0 && (sw & 1)); static int tlo[NL], thi[NL];
           for (int l = 0; l < NL; l++) { tlo[l] = T; thi[l] = -1; for (int k = 0; k < KFLIP; k++) { u64 z = rnd(); size_t pos;
@@ -255,7 +257,13 @@ int main(int argc, char **argv) {
           for (size_t x = 0; x < dsz; x++) { int w = (int)(x % W); d[x] = (d[x] & ~acc[w]) | (Dp[x] & acc[w]); } }
         denom = NC; lam = lam - DELTA > 0 ? lam - DELTA : 0;
       }
-      rate[rep] = prod / TWIN; printf(" rate %.5e lntau %.4f\n", rate[rep], rate[rep] > 0 ? -log(rate[rep]) : 99.0); fflush(stdout);
+      rate[rep] = prod / TWIN;
+      { /* ancestry of the dying chains of the final ensemble: distinct ancestors, effective number (inverse Simpson), share of the largest family */
+        long nd = 0, dist = 0, top = 0; double s2 = 0; memset(cnta, 0, 4 * NC);
+        for (long j = 0; j < NC; j++) if (score[j] == 0) { nd++; cnta[anc[j]]++; }
+        for (long j = 0; j < NC; j++) if (cnta[j]) { dist++; s2 += (double)cnta[j] * cnta[j]; if (cnta[j] > top) top = cnta[j]; }
+        printf(" rate %.5e lntau %.4f anc %ld eff %.1f top %.3f dying %ld\n", rate[rep], rate[rep] > 0 ? -log(rate[rep]) : 99.0, dist, nd ? (double)nd * nd / s2 : 0.0, nd ? (double)top / nd : 0.0, nd); }
+      fflush(stdout);
       if (cf && rate[rep] > 0) for (int bt = 0; bt < NBATCH; bt++) { rec = 1; EVAL(init + bt * ssz, D + bt * dsz); rec = 0; int nw_ = 0;
           /* per batch the first 8 dying chains: C rep chain gd | cells at gd-1 | cells at gd-2 | ... (16 generations, A characters each) */
           for (int l = 0; l < NL && nw_ < 8; l++) if (sc[l] == 0) { int gd = TPRE + 1; while (popser[l][gd] > 0) gd++; if (gd <= 17) continue; nw_++;

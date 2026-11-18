@@ -15,8 +15,11 @@ mu, s = 0.515 * A, math.sqrt(0.415 * A)
 lam1 = round(mu - 2.5 * s); nsweep = round(A / 6)
 SWEEPX = int(os.environ.get('SWEEPX', '1'))      # SWEEPX=2: doubled sweeps (convergence test); output data/subx2_...
 nsweep *= SWEEPX
+NBATCH = int(os.environ.get('NBATCH', '8'))      # NBATCH=32: 16,384 chains per replication; output data/sub16k_...
 out = os.path.join(HERE, 'data', (f'sub_{H}_{K}_{D}_s{seed}.txt' if SWEEPX == 1 else f'subx{SWEEPX}_{H}_{K}_{D}_s{seed}.txt'))
-cmd = ['nice', '-n', '10', os.path.join(SCR, 'ss_sub'), g, 'sub', str(seed), str(nrep), str(lam1), '3', '8', str(nsweep), '4', '32', '24']
+if NBATCH != 8:
+    out = os.path.join(HERE, 'data', f'sub{NBATCH * 512 // 1024}k{"x" + str(SWEEPX) if SWEEPX != 1 else ""}_{H}_{K}_{D}_s{seed}.txt')
+cmd = ['nice', '-n', '10', os.path.join(SCR, 'ss_sub'), g, 'sub', str(seed), str(nrep), str(lam1), '3', str(NBATCH), str(nsweep), '4', '32', '24']
 os.makedirs(os.path.join(SCR, 'subpaths_full'), exist_ok=True)
 full = os.path.join(SCR, 'subpaths_full', f'subpaths_{H}_{K}_{D}_s{seed}.txt')     # every dying chain (bulk, scratch)
 cmd.append(full if (len(sys.argv) > 6 and sys.argv[6] == 'paths') else '-')
