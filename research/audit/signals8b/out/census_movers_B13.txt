@@ -1,0 +1,54 @@
+  (word 6fd6f does not ride rigidly: dropped)
+B13 w=0 k=0 (77777777777777777777777777777777777777777777; reads echo): 46 events: 46 burn
+B13 w=-10 k=1 (777777777777df777777777777777777777777777777; reads echo): 50 events: 26 burn, 24 changed, 24 changed: reader as it was, same answer
+B13 w=-9 k=1 (7777777777777df77777777777777777777777777777; reads echo): 50 events: 26 burn, 24 changed, 24 changed: reader as it was, same answer
+B13 w=-8 k=1 (77777777777777df7777777777777777777777777777; reads echo): 50 events: 26 burn, 24 changed, 24 changed: reader as it was, same answer
+B13 w=-7 k=1 (777777777777777df777777777777777777777777777; reads echo): 50 events: 26 burn, 24 changed, 24 changed: reader as it was, same answer
+B13 w=-6 k=1 (7777777777777777df77777777777777777777777777; reads echo): 50 events: 26 burn, 24 changed, 24 changed: reader as it was, same answer
+B13 w=-5 k=1 (77777777777777777df7777777777777777777777777; reads echo): 50 events: 26 burn, 24 changed, 24 changed: reader as it was, same answer
+B13 w=-4 k=1 (777777777777777777df777777777777777777777777; reads echo): 50 events: 26 burn, 24 changed, 24 changed: reader as it was, same answer
+B13 w=-3 k=1 (7777777777777777777df77777777777777777777777; reads echo): 50 events: 26 burn, 24 changed, 24 changed: reader as it was, same answer
+B13 w=-2 k=1 (77777777777777777777df7777777777777777777777; reads echo): 50 events: 26 burn, 24 changed, 24 changed: reader as it was, same answer
+B13 w=3 k=1 (7777777777777777777777777df77777777777777777; reads echo): 50 events: 24 burn, 26 changed, 26 changed: reader as it was, same answer
+B13 w=4 k=1 (77777777777777777777777777df7777777777777777; reads echo): 50 events: 24 burn, 26 changed, 26 changed: reader as it was, same answer
+B13 w=5 k=1 (777777777777777777777777777df777777777777777; reads echo): 50 events: 24 burn, 26 changed, 26 changed: reader as it was, same answer
+B13 w=6 k=1 (7777777777777777777777777777df77777777777777; reads echo): 50 events: 24 burn, 26 changed, 26 changed: reader as it was, same answer
+B13 w=7 k=1 (77777777777777777777777777777df7777777777777; reads echo): 50 events: 24 burn, 26 changed, 26 changed: reader as it was, same answer
+B13 w=8 k=1 (777777777777777777777777777777df777777777777; reads echo): 50 events: 24 burn, 26 changed, 26 changed: reader as it was, same answer
+B13 w=9 k=1 (7777777777777777777777777777777df77777777777; reads echo): 50 events: 24 burn, 26 changed, 26 changed: reader as it was, same answer
+B13 w=-11 k=2 (77777777777ddf777777777777777777777777777777; reads echo): 54 events: 27 burn, 27 changed, 27 changed: reader as it was, same answer
+B13 w=-10 k=2 (777777777777ddf77777777777777777777777777777; reads echo): 54 events: 27 burn, 27 changed, 27 changed: reader as it was, same answer
+B13 w=-9 k=2 (7777777777777ddf7777777777777777777777777777; reads echo): 54 events: 27 burn, 27 changed, 27 changed: reader as it was, same answer
+B13 w=-8 k=2 (77777777777777ddf777777777777777777777777777; reads echo): 54 events: 27 burn, 27 changed, 27 changed: reader as it was, same answer
+B13 w=-7 k=2 (777777777777777ddf77777777777777777777777777; reads echo): 54 events: 27 burn, 27 changed, 27 changed: reader as it was, same answer
+B13 w=-6 k=2 (7777777777777777ddf7777777777777777777777777; reads echo): 54 events: 27 burn, 27 changed, 27 changed: reader as it was, same answer
+B13 w=-5 k=2 (77777777777777777ddf777777777777777777777777; reads echo): 54 events: 27 burn, 27 changed, 27 changed: reader as it was, same answer
+B13 w=-4 k=2 (777777777777777777ddf77777777777777777777777; reads echo): 54 events: 27 burn, 27 changed, 27 changed: reader as it was, same answer
+B13 w=-3 k=2 (7777777777777777777ddf7777777777777777777777; reads echo): 54 events: 27 burn, 27 changed, 27 changed: reader as it was, same answer
+B13 w=-1 k=2 (777777777777777777777ddf77777777777777777777; reads nothing): 54 events: 12 burn, 42 changed, 42 changed: reader as it was, same answer
+B13 w=3 k=2 (7777777777777777777777777ddf7777777777777777; reads echo): 54 events: 25 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=4 k=2 (77777777777777777777777777ddf777777777777777; reads echo): 54 events: 25 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=5 k=2 (777777777777777777777777777ddf77777777777777; reads echo): 54 events: 25 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=6 k=2 (7777777777777777777777777777ddf7777777777777; reads echo): 54 events: 25 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=7 k=2 (77777777777777777777777777777ddf777777777777; reads echo): 54 events: 25 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=8 k=2 (777777777777777777777777777777ddf77777777777; reads echo): 54 events: 25 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=9 k=2 (7777777777777777777777777777777ddf7777777777; reads echo): 54 events: 25 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=-12 k=3 (7777777777dddf777777777777777777777777777777; reads echo): 58 events: 29 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=-11 k=3 (77777777777dddf77777777777777777777777777777; reads echo): 58 events: 29 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=-10 k=3 (777777777777dddf7777777777777777777777777777; reads echo): 58 events: 29 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=-9 k=3 (7777777777777dddf777777777777777777777777777; reads echo): 58 events: 29 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=-8 k=3 (77777777777777dddf77777777777777777777777777; reads echo): 58 events: 29 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=-7 k=3 (777777777777777dddf7777777777777777777777777; reads echo): 58 events: 29 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=-6 k=3 (7777777777777777dddf777777777777777777777777; reads echo): 58 events: 29 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=-5 k=3 (77777777777777777dddf77777777777777777777777; reads echo): 58 events: 29 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=-4 k=3 (777777777777777777dddf7777777777777777777777; reads echo): 58 events: 29 burn, 29 changed, 29 changed: reader as it was, same answer
+B13 w=-2 k=3 (77777777777777777777dddf77777777777777777777; reads nothing): 58 events: 15 burn, 43 changed, 43 changed: reader as it was, same answer
+B13 w=-1 k=3 (777777777777777777777dddf7777777777777777777; reads nothing): 58 events: 15 burn, 43 changed, 42 changed: reader as it was, same answer, 1 changed: reader changed
+B13 w=3 k=3 (7777777777777777777777777dddf777777777777777; reads echo): 58 events: 27 burn, 31 changed, 31 changed: reader as it was, same answer
+B13 w=4 k=3 (77777777777777777777777777dddf77777777777777; reads echo): 58 events: 27 burn, 31 changed, 31 changed: reader as it was, same answer
+B13 w=5 k=3 (777777777777777777777777777dddf7777777777777; reads echo): 58 events: 27 burn, 31 changed, 31 changed: reader as it was, same answer
+B13 w=6 k=3 (7777777777777777777777777777dddf777777777777; reads echo): 58 events: 27 burn, 31 changed, 31 changed: reader as it was, same answer
+B13 w=7 k=3 (77777777777777777777777777777dddf77777777777; reads echo): 58 events: 27 burn, 31 changed, 31 changed: reader as it was, same answer
+B13 w=8 k=3 (777777777777777777777777777777dddf7777777777; reads echo): 58 events: 27 burn, 31 changed, 31 changed: reader as it was, same answer
+B13 w=9 k=3 (7777777777777777777777777777777dddf777777777; reads echo): 58 events: 27 burn, 31 changed, 31 changed: reader as it was, same answer
+TOTAL B13 movers: 1358 burn, 1450 changed, 1449 changed: reader as it was, same answer, 1 changed: reader changed, 12 seed does not stand, 52 seeds  (60 s) -> /home/user/gump-for-agents/research/scratch/audit8b/census_movers_B13_0of1.jsonl

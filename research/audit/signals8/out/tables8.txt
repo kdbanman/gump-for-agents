@@ -1,0 +1,52 @@
+  cell 7^16 (wall at place 8, edge at place 8); columns = places 0..15
+    R at generation 0: X:b^68fd6e^6/117m E E E E E E E E E E E E E E DEAD12
+    R at generation 1: DEAD12 E E E E E E E E E E E E E E DEAD12
+    L at generation 0: DEAD12 DEAD12 E E E E E E E E E E E E E E
+    L at generation 1: X:?7^15/117 DEAD12 E E E E E E E E E E E E E E
+PASS singles, empty cell: R@p is harmless exactly for 1 <= p <= N - 2 and L@p for p >= 2; R at place 0 wrecks the wire, R at the last place and L at places 0, 1 burn the cell down  [3 s]
+  cell 7^8df7^8 (wall at place 8, edge at place 9); columns = places 0..17
+    R at generation 0: E 2@7 2@7 2@7 2@7 2@7 2@7 E E E E 1@8 1@8 1@8 1@8 1@8 1@8 DEAD12
+    R at generation 1: DEAD12 1@8 1@8 1@8 1@8 1@8 2@7 2@7 X:b5f8f8f8f8f8f8f8fd/121m E E 1@8 1@8 1@8 1@8 1@8 1@8 DEAD12
+    L at generation 0: DEAD12 DEAD12 1@8 1@8 1@8 1@8 1@8 E E E E 2@8 2@8 2@8 2@8 2@8 2@8 2@8
+    L at generation 1: X:?7^7df7^8/128 DEAD12 1@8 1@8 1@8 1@8 1@8 E E X:b5f8f8f8f8f8f8f8fd/121m 2@8 2@8 1@8 1@8 1@8 1@8 1@8 1@8
+PASS singles, count 1: R@p adds one for 1 <= p <= wall - 2 and empties the cell at p = wall - 1 (the count read); L@q adds one for q >= edge + 2 (to the last place) and empties the cell at q = edge + 1 (the mirror read); L left of the store (p >= 2) and R right of it (to N - 2) change nothing  [6 s]
+NOTE singles, count 1: R at generation 0 on the stretch and one unit after (places 8..10): ['E', 'E', 'E']; L on the unit before and the stretch (places 7..9): ['E', 'E', 'E']  [6 s]
+NOTE singles, count 1, generation 1: R: ['1@8', '2@7', '2@7', 'X:b5f8f8f8f8f8f8f8fd/121m', 'E', 'E', '1@8'] ; L: ['1@8', '1@8', 'E', 'E', 'X:b5f8f8f8f8f8f8f8fd/121m', '2@8', '2@8'] (places 5..11)  [6 s]
+  cell 7^8ddf7^8 (wall at place 8, edge at place 10); columns = places 0..18
+    R at generation 0: E 3@7 3@7 3@7 3@7 3@7 3@7 E 1@9 E E E 2@8 2@8 2@8 2@8 2@8 2@8 DEAD12
+    R at generation 1: DEAD12 2@8 2@8 2@8 2@8 2@8 3@7 3@7 E E E E 2@8 2@8 2@8 2@8 2@8 2@8 DEAD12
+    L at generation 0: DEAD12 DEAD12 2@8 2@8 2@8 2@8 2@8 E E E 1@8 E 3@8 3@8 3@8 3@8 3@8 3@8 3@8
+    L at generation 1: X:?7^7ddf7^8/133 DEAD12 2@8 2@8 2@8 2@8 2@8 E E E E 3@8 3@8 2@8 2@8 2@8 2@8 2@8 2@8
+PASS singles, count 2: R@p adds one for 1 <= p <= wall - 2 and empties the cell at p = wall - 1 (the count read); L@q adds one for q >= edge + 2 (to the last place) and empties the cell at q = edge + 1 (the mirror read); L left of the store (p >= 2) and R right of it (to N - 2) change nothing  [10 s]
+NOTE singles, count 2: R at generation 0 on the stretch and one unit after (places 8..11): ['1@9', 'E', 'E', 'E']; L on the unit before and the stretch (places 7..10): ['E', 'E', 'E', '1@8']  [10 s]
+NOTE singles, count 2, generation 1: R: ['2@8', '3@7', '3@7', 'E', 'E', 'E', 'E', '2@8'] ; L: ['2@8', '2@8', 'E', 'E', 'E', 'E', '3@8', '3@8'] (places 5..12)  [10 s]
+  cell 7^8dddf7^8 (wall at place 8, edge at place 11); columns = places 0..19
+    R at generation 0: E 4@7 4@7 4@7 4@7 4@7 4@7 E 2@9 2@9 E E E 3@8 3@8 3@8 3@8 3@8 3@8 DEAD12
+    R at generation 1: DEAD12 3@8 3@8 3@8 3@8 3@8 4@7 4@7 E 2@9 E E E 3@8 3@8 3@8 3@8 3@8 3@8 DEAD12
+    L at generation 0: DEAD12 DEAD12 3@8 3@8 3@8 3@8 3@8 E E E 2@8 2@8 E 4@8 4@8 4@8 4@8 4@8 4@8 4@8
+    L at generation 1: X:?7^7dddf7^8/138 DEAD12 3@8 3@8 3@8 3@8 3@8 E E E 2@8 E 4@8 4@8 3@8 3@8 3@8 3@8 3@8 3@8
+PASS singles, count 3: R@p adds one for 1 <= p <= wall - 2 and empties the cell at p = wall - 1 (the count read); L@q adds one for q >= edge + 2 (to the last place) and empties the cell at q = edge + 1 (the mirror read); L left of the store (p >= 2) and R right of it (to N - 2) change nothing  [14 s]
+NOTE singles, count 3: R at generation 0 on the stretch and one unit after (places 8..12): ['2@9', '2@9', 'E', 'E', 'E']; L on the unit before and the stretch (places 7..11): ['E', 'E', 'E', '2@8', '2@8']  [14 s]
+NOTE singles, count 3, generation 1: R: ['3@8', '4@7', '4@7', 'E', '2@9', 'E', 'E', 'E', '3@8'] ; L: ['3@8', '3@8', 'E', 'E', 'E', '2@8', 'E', '4@8', '4@8'] (places 5..13)  [14 s]
+  cell 7^8d^4f7^8 (wall at place 8, edge at place 12); columns = places 0..20
+    R at generation 0: E 5@7 5@7 5@7 5@7 5@7 5@7 E 3@9 3@9 4@8 E E E 4@8 4@8 4@8 4@8 4@8 4@8 DEAD12
+    R at generation 1: DEAD12 4@8 4@8 4@8 4@8 4@8 5@7 5@7 E 3@9 3@9 E E E 4@8 4@8 4@8 4@8 4@8 4@8 DEAD12
+    L at generation 0: DEAD12 DEAD12 4@8 4@8 4@8 4@8 4@8 E E E 4@8 3@8 3@8 E 5@8 5@8 5@8 5@8 5@8 5@8 5@8
+    L at generation 1: X:?7^7d^4f7^8/143 DEAD12 4@8 4@8 4@8 4@8 4@8 E E E 3@8 3@8 E 5@8 5@8 4@8 4@8 4@8 4@8 4@8 4@8
+PASS singles, count 4: R@p adds one for 1 <= p <= wall - 2 and empties the cell at p = wall - 1 (the count read); L@q adds one for q >= edge + 2 (to the last place) and empties the cell at q = edge + 1 (the mirror read); L left of the store (p >= 2) and R right of it (to N - 2) change nothing  [18 s]
+NOTE singles, count 4: R at generation 0 on the stretch and one unit after (places 8..13): ['3@9', '3@9', '4@8', 'E', 'E', 'E']; L on the unit before and the stretch (places 7..12): ['E', 'E', 'E', '4@8', '3@8', '3@8']  [18 s]
+NOTE singles, count 4, generation 1: R: ['4@8', '5@7', '5@7', 'E', '3@9', '3@9', 'E', 'E', 'E', '4@8'] ; L: ['4@8', '4@8', 'E', 'E', 'E', '3@8', '3@8', 'E', '5@8', '5@8'] (places 5..14)  [18 s]
+PASS pairs: R@p at 0 and L@q at dt (places 2..17, dt = 0, 2, 4, 6), s = q - p - dt/2: s odd >= 3: one df with d at place (p + dt/2 + q - 1)/2; s even >= 4: empty; s <= -2: empty. exceptions: []  [54 s]
+NOTE pairs: counts {'s=1: other': 15, 's=2: DEAD': 50, 'as the rule': 802, 's=-1: other': 60, 's=0: E': 15, 's=1: E': 39, 's=0: other': 27}  [54 s]
+PASS blocks: 1024 runs (k = 1..4, distance 2..9, blocks of m = 1..8 adjacent pulses and 8 trains with gaps, each side): a block of m adds ceil(m/2), blocks separated by one or more plain units add up, the stretch grows on the side hit; exceptions: []  [119 s]
+NOTE blocks: laid 0 units from the store ddf (wall at 24 / first d at 12): [('6f', '3@23'), ('6ef', '3@23'), ('6eef', '4@22'), ('b', '3@12'), ('bb', '3@12'), ('bbb', '4@12')]  [119 s]
+NOTE blocks: laid 1 units from the store ddf (wall at 24 / first d at 12): [('6f', '3@23'), ('6ef', '3@23'), ('6eef', '4@22'), ('b', '3@12'), ('bb', '3@12'), ('bbb', '4@12')]  [120 s]
+PASS both: a formed pulse from each side, 1..12 units from the wall and from the edge (144 pairs, k = 1..4): always count + 2, one unit gained on each side; exceptions: []  [144 s]
+PASS during, from the left: a formed right-going pulse D units before the wall when the count read starts (D = 2..45, k = 1..6): D odd (and D = 2): the cell ends empty; D even >= 4: a store with the same count k stands again, its first d at wall - D/2; exceptions: []  [178 s]
+PASS during, from the right: a formed left-going pulse D units after the edge when the count read starts (D = 1..24, k = 1..5), with a receiver df to the left: the receiver ends with k + 2 (the k released pulses and the late one); exceptions: []  [192 s]
+PASS capacity, N = 7: senders at place 1 (R) and at the last place (L): ['1@3', 'R@1:2@2', 'L@6:3@2']; full at count 3 = N - 4 (wall at place 2, edge at place N - 2); one more R@1 -> E, one more L@6 -> E (each is then the count read: the count leaves into the cap)  [192 s]
+PASS capacity, N = 12: senders at place 1 (R) and at the last place (L): ['1@5', 'R@1:2@4', 'L@11:3@4', 'R@1:4@3', 'L@11:5@3', 'R@1:6@2', 'L@11:7@2', 'L@11:8@2']; full at count 8 = N - 4 (wall at place 2, edge at place N - 2); one more R@1 -> E, one more L@11 -> E (each is then the count read: the count leaves into the cap)  [192 s]
+PASS capacity, N = 16: senders at place 1 (R) and at the last place (L): ['1@7', 'R@1:2@6', 'L@15:3@6', 'R@1:4@5', 'L@15:5@5', 'R@1:6@4', 'L@15:7@4', 'R@1:8@3', 'L@15:9@3', 'R@1:10@2', 'L@15:11@2', 'L@15:12@2']; full at count 12 = N - 4 (wall at place 2, edge at place N - 2); one more R@1 -> E, one more L@15 -> E (each is then the count read: the count leaves into the cap)  [193 s]
+PASS places: on N = 12 every d^k f laid with its first d at place p stands (period 2) for p >= 1, to the edge on the last place (k up to N - 2 = 10); at p = 0 (against capL) it is erased and the cell is empty; exceptions: []  [194 s]
+PASS gap: transfer into a receiver df whose edge is g units of wire from the store's wall: g = 2..6, k = 1..6: the receiver holds k + 1; g = 1 (the removed stator touches both): both stores are lost and the cell is empty  [196 s]
+ALL PASS

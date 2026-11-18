@@ -3819,3 +3819,118 @@ entry was written. Nothing was re-run.
   which has no rows yet (the card's chain commits at its end, about 13:00 UTC today).
 - Not checked (03:14 UTC): the runs themselves and the GPU-against-engine checks; the hazard-by-age files; the CPU
   code and its validation (not reviewed by the lead); whether the CPU's 96-cell rows are final.
+
+## 2026-11-18: the eighth signals push, reviewed: a memory cell. Pulses write a count into a wire, a pulse reads one bit of it, and one changed cell gives the count back as that many pulses
+
+The push: `research/signals/push8/README.md` (commits 7e07444 … bf86026). The review, with its own code on the
+oracle's step: `research/audit/REVIEW-signals-8.md`, `research/audit/signals8/` (commits 544bc46 … 9cc37c1; 17
+verdicts). The lead ran the push's three oracle-only verifiers at 04:06 UTC, all passing: from
+`research/signals/push8/`, `python3 verify_cell8.py` (6 s), `python3 prove_unzip8.py` (5 s), `python3
+verify_read8.py` (46 s). The lead froze no forecasts for this push.
+
+- **[exact; two codes on the oracle] The cell.** A cap, N units of wire B and the same cap turned round: 38 + 5N
+  cells, period 2, for N = 4 to 30. Every stored state has period exactly 2, so it stands for ever (followed for
+  20,000 generations). Removing one stator of a wire unit sends a pulse left or right; that is how the runs write.
+- **Set and add.** Two pulses that meet leave a standing stretch `d f` of a variant wire, the first push's mark.
+  Every later pulse that reaches the stretch, from either side, is absorbed and lengthens it by one: `d^k f`.
+  Capacity by signals is N − 4. **[review] It does not count adjacent pulses singly**: a block of m pulses one unit
+  apart adds ⌈m/2⌉; the count is exact for pulses two or more units apart. Set needs the two senders an odd number
+  of units, three or more, apart; at two the whole cell burns.
+- **A one-bit read by a signal.** A pulse crosses an empty cell and is absorbed by a set one (whose count goes up by
+  one). Not new in kind: that a mark absorbs a pulse and grows was the first and second pushes'; here it is read as
+  an answer.
+- **[proved for every k; the proof refereed] The count comes back out.** Removing the stator (0,1,2) of the wire-B
+  unit next to the stretch's first unit, at an even generation, dissolves `d^k f` into exactly k pulses two units
+  apart and leaves the wire plain, complete from generation 2k + 6 (the review's bound; the push said 4k + 8). The
+  proof glues charts on the tape theorem (`prove_unzip8.py`, docstring); the review found three places it passed
+  over and closed each. Seven other release laws are measured to k = 40 by two steppers.
+- **Transfer.** A second store two or more units away catches the k pulses and then holds k + 1.
+- **[review] New facts.** A pulse sent into a running release at even distance stops it: the store stands again
+  with the same count, shifted. A fixed sender is "add one" until the wall reaches it and then is the count read,
+  so the reader need not know where the stretch begins. Pulses from both sides, at any relative timing, add two.
+- **[review] Corrected.** "Smallest at 73 cells" holds for one criterion only (set, add and an emptying read work
+  at 68 cells; set at 63). "Take one off" works at one end only. Several counts in the censuses (66 left and 68
+  right, not 67 and 67; 60 single pulses, not 46; two new movers in the two-cell census). A count read of the empty
+  seventh-push line at a generation ≡ 0 mod 4 destroys the line.
+- **The negative, and its end.** Within the wire's tube, with one kind of arriving pulse, nothing arriving starts
+  the release (48 standing structures at k = 3; replayed by the review). **As a general statement that is false**:
+  the ninth push, under way, has a six-cell still life beside the wall that makes an arriving pulse release the
+  count; the reviewer confirmed that in one oracle run with its own code (k = 1, 3, 6). Not found: a read that keeps
+  the count; re-arming a spent gun.
+- **What it is.** For one bit, a memory in the strict sense: written by signals, lasting, answered to a signal; with
+  the caveats that reading a set store raises its count and that in the cell the answering pulse ends in a cap. For
+  the count, within this push: written by signals, read by a cell changed by hand.
+- Not checked (05:02 UTC): `latch8.py --k 2 --words 4` (148 states) not replayed; the fronts in every census;
+  re-arming and the second-wire scans not rebuilt on the oracle; the seventh push's other gun and end pairs; the
+  seventh push's own review is not in.
+
+## 2026-11-18: three more signals results in one night: the seventh push reviewed (a line that turns itself into a register; 34 guns that survive the echo changed), a read from a crossing wire (reviewed in part), and a call: a signal that gives a stored count back (not reviewed)
+
+Written at 05:36 UTC with the account near its usage mark, so two of the three reviews were cut short and the third
+push has none. Each part says what was and was not checked. The lead froze no forecasts for any of these.
+
+### The seventh push, reviewed (`research/signals/push7/README.md`; `research/audit/REVIEW-signals-7.md`, `research/audit/signals7/`, commits aed5afa … 5989478)
+
+- **[exact; two codes on the oracle] The line.** A gun, 80 units of train and a mirrored end; an echo E and n holes
+  turn it into a standing wire B capped at both ends, period 4 from generation 100, holding the count as a stretch
+  of the variant wire. The review rebuilt it on the oracle alone: the states for n = 1 to 6 differ by exactly the
+  cells claimed; a 40,000-generation run agrees.
+- **[review] What it stores.** Nothing unless the second hole is three or more rakes behind the first; then the
+  number of holes exactly (up to 193 in a 400-unit line, no saturation) and the place of the second hole. Holes that
+  arrive after the wire B has formed still count. Period 4, not "dividing 8".
+- **[two solvers, two steppers; an oracle sample] The census.** 741 ends at C ≤ 37 and 6,196 at C ≤ 39; 67 and 867
+  guns: reproduced with the review's own CNF and CaDiCaL, the tables on its own stepper, 205 ends on the oracle with
+  every row equal. No end is left alive and changed.
+- **[review; the oracle, one code] Refuted: "no gun survives E".** True of the 67 guns at C ≤ 37; of the 867 at C ≤
+  39, **34 are left standing and changed**, and from then on fire a hole with every rake (exact period-4 orbit, all
+  34, three signals). With one of them and a healing end, E alone turns the whole line into a clock of period 4N −
+  12 (or −16, −20), checked at N = 80 to 120. Also refuted: "spacings 1 and 2 leave plain wire B for every n" (12
+  capping ends write the count at the cap).
+- **[review] What is new and what is not.** The standing object is the second push's B/B′ register with two walls
+  and new caps; new is that a running line converts itself into it, written by holes. The 34 guns are the first
+  objects in gump left alive and changed by a signal; nothing is known to turn them back.
+- Not checked: the oracle sample at C ≤ 37 (4 ends only) and a quarter of the one at C ≤ 39; no gun census row on
+  the oracle; the push's own `check7.py` and `verify7.py`; the cube tree of the push's solver (no UNSAT
+  certificate); period 8; the 5 × 5 tube beyond one end.
+
+### Push 8b, reviewed in part (`research/signals/push8b/README.md`; `research/audit/REVIEW-signals-8b.md`, `research/audit/signals8b/`, commits 03a326b, fe14db0)
+
+- **[exact; two codes on the oracle] A read that does not disturb the store.** A capped wire laid across the store
+  at 60 degrees; two pulses in adjacent units sent along it. Beside a unit of plain wire B one pulse comes back;
+  beside a unit of the variant wire nothing does; no cell of the store's tube differs at any generation and the
+  whole state is restored (from 50 and 21 generations after the probe). Confirmed for n = 1 to 4 on the seventh
+  push's line, on short stores and on a 128-cell cell; a second read with wire C likewise. The lead ran the push's
+  verifier on the three small objects (`python3 verify_read.py objects/cell-small.json` and two more; 1 to 3 s).
+- **[review] What it reads.** The letter of the one unit it crosses, nothing else: it is a read of the stored bit
+  only when the write fixes where the stretch lies. A single pulse never reads (1,056 placements recounted); only
+  the adjacent pair, from one end; three adjacent pulses also read. Reads must be spaced: a second pair 8 to 44
+  generations behind the first meets the returning echo.
+- **[one reader placement, about 100,000 events] No write with the reader in place.** Not found by the push (24
+  placements, a list of things tried) nor by the review (one placement). A list, not a bound.
+- Not checked: the other 23 placements for the write; the surveys behind every negative on the oracle; n = 5, 6.
+
+### The ninth push, not reviewed (`research/signals/push9/README.md`, commits c50092f … ddb9d22)
+
+- **[the push's oracle runs; re-run by the lead] A call.** A capped wire C of 26 units, 162 cells, laid across the
+  store wire one unit before the stretch's wall. Two pulses in adjacent units of that line pass the crossing and go
+  on unchanged, and the stretch `d^k f` leaves as exactly k pulses two units apart; the wire is plain and the line
+  cell for cell as it was. Runs on the oracle: write 3, call, three pulses out, write 2, call, two out (reusable);
+  stores holding 1 and 3, a call, and the left store holds 4; two stores and two lines chained; one line across two
+  store wires. From `research/signals/push9/`: `python3 verify_call9.py` (106 s; ALL PASS for the lead at 05:36).
+  The law is measured for k = 1 to 40 on a stepper and reduced, by measurement, to the eighth push's proved
+  release; it is not proved for every k.
+- **[two codes for one run] A still life at the wall.** A six-cell still life beside the unit before the wall: a
+  pulse of the store's own wire releases the stretch as one block, which a store receives as k + 1; single use
+  (with no stretch there the pulse burns the wire). `python3 verify_trigger9.py` (62 s; ALL PASS for the lead); the
+  eighth push's reviewer confirmed one such run with its own code (k = 1, 3, 6).
+- **Not found:** a way to make the calling pair from one pulse; a call on the store's own wire that can be reused (a
+  period-3 oscillator is a candidate, one timing tried, nothing on the oracle); copying, doubling, subtracting or
+  comparing counts.
+- Not checked: everything beyond the verifiers' runs is one stepper; no adversarial review; no proof.
+
+### Where that leaves "can gump compute"
+
+Written by signals, kept, read without change from a crossing wire, and given back as pulses on a call from a
+crossing wire, with stores feeding stores: a row of unary counters with add, move and an is-it-empty test. Each
+piece has run on the oracle; the pieces have not all been run together under one reviewer, the calling pair is
+still made by hand, and nothing copies or subtracts. Open problem 13 (u) to (x) carries the list.

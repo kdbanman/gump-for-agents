@@ -1,0 +1,40 @@
+B13 at unit 42, n=1: install union
+   pair from the left end, 3 distances x 8 launch generations: 12 x restored [(odd launch) 2 cells]; 12 x restored [L]
+   pair from the right end, 3 distances x 8 launch generations: 12 x restored [(odd launch) 4 cells]; 12 x restored [L]
+B13 at unit 42, n=2: install union
+   pair from the left end, 3 distances x 8 launch generations: 12 x restored [(odd launch) -]; 12 x restored [-]
+   pair from the right end, 3 distances x 8 launch generations: 12 x restored [(odd launch) 4 cells]; 12 x restored [L]
+B13 at unit 42, n=3: install union
+   pair from the left end, 3 distances x 8 launch generations: 12 x restored [(odd launch) -]; 12 x restored [-]
+   pair from the right end, 3 distances x 8 launch generations: 12 x restored [(odd launch) 4 cells]; 12 x restored [L]
+B13 at unit 42, n=4: install union
+   pair from the left end, 3 distances x 8 launch generations: 12 x restored [(odd launch) -]; 12 x restored [-]
+   pair from the right end, 3 distances x 8 launch generations: 12 x restored [(odd launch) 4 cells]; 12 x restored [L]
+B13 at unit 42, n=5: install union
+   pair from the left end, 3 distances x 8 launch generations: 12 x restored [(odd launch) -]; 12 x restored [-]
+   pair from the right end, 3 distances x 8 launch generations: 12 x restored [(odd launch) 4 cells]; 12 x restored [L]
+B13 at unit 42, n=6: install union
+   pair from the left end, 3 distances x 8 launch generations: 12 x restored [(odd launch) -]; 12 x restored [-]
+   pair from the right end, 3 distances x 8 launch generations: 12 x restored [(odd launch) 4 cells]; 12 x restored [L]
+B8 at unit 42, n=1: install union
+   pair from the left end, 3 distances x 8 launch generations: 12 x restored [(odd launch) 2 cells]; 12 x restored [L]
+   pair from the right end, 3 distances x 8 launch generations: 12 x restored [(odd launch) 4 cells]; 12 x restored [L]
+B8 at unit 42, n=2: install union
+   pair from the left end, 3 distances x 8 launch generations: 12 x restored [(odd launch) -]; 12 x restored [-]
+   pair from the right end, 3 distances x 8 launch generations: 12 x restored [(odd launch) 4 cells]; 12 x restored [L]
+B8 at unit 42, n=3: install union
+   pair from the left end, 3 distances x 8 launch generations: 12 x restored [(odd launch) -]; 12 x restored [-]
+   pair from the right end, 3 distances x 8 launch generations: 12 x restored [(odd launch) 4 cells]; 12 x restored [L]
+B8 at unit 42, n=4: install union
+   pair from the left end, 3 distances x 8 launch generations: 12 x restored [(odd launch) -]; 12 x restored [-]
+   pair from the right end, 3 distances x 8 launch generations: 12 x restored [(odd launch) 4 cells]; 12 x restored [L]
+B8 at unit 42, n=5: install union
+   pair from the left end, 3 distances x 8 launch generations: 12 x restored [(odd launch) -]; 12 x restored [-]
+   pair from the right end, 3 distances x 8 launch generations: 12 x restored [(odd launch) 4 cells]; 12 x restored [L]
+B8 at unit 42, n=6: install union
+   pair from the left end, 3 distances x 8 launch generations: 12 x restored [(odd launch) -]; 12 x restored [-]
+   pair from the right end, 3 distances x 8 launch generations: 12 x restored [(odd launch) 4 cells]; 12 x restored [L]
+
+real	0m5.421s
+user	0m5.408s
+sys	0m0.020s

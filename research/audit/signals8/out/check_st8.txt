@@ -1,0 +1,8 @@
+PASS protocol: set, three adds, count read on N = 24, generations 0..520 (ends as the empty cell)  [4 s]
+PASS destroyed / wrecked cells, 300 generations each (name, first difference, touch, cells left): [('R@4', None, False, 97), ('L@4', None, False, 12), ('L@5', None, False, 12), ('R@15', None, False, 12), ('R@8 L@10', None, False, 12), ('R@8 L@9', None, False, 97), ('R@9 L@8', None, False, 98), ('R@8 at 1', None, False, 98), ('L@4 at 1', None, False, 97)]  [14 s]
+PASS trains and a pulse into a count read (start, first difference, touch, end): [('7^46ef7^5df7^10', None, False, '7^11ddf7^10'), ('7^6df7^4bbb7^9', None, False, '7^6dddf7^14'), ('7^46f6f7^4df7^10', None, False, '7^10dddf7^10'), ('7^106f7^8dddf7^6', None, False, '7^16dddf7^10'), ('7^96f7^9dddf7^6', None, False, '7^30')]  [23 s]
+PASS census: 30 of the 760 one-cell events at d^3 f (push 7's caps, 30 units of wire each side), 110 generations: 30 equal at every generation, touch 0  [78 s]
+PASS outside cell (1,4,2) made live beside the unit before the stretch (k, first difference, touch, train at 4k + 60): [(1, None, False, 'b'), (4, None, False, 'b7b7b7b'), (9, None, False, 'b7b7b7b7b7b7b7b7b')]  [84 s]
+PASS push 7's right cap, a right-going pulse born at unit 14 at generation 0 / 2 (generation, first difference, touch, cells at 300): [(0, None, False, 12), (2, None, False, 179)]  [89 s]
+PASS soup of 615 cells: st8 == set stepper for 40 generations (1874 cells left)  [90 s]
+ALL PASS

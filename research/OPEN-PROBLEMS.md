@@ -200,6 +200,21 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
     safe up-channel: U is absorbed by eleven guns and cancels K0 exactly, so an end that answers with U instead
     of E would give a wire that survives being answered (none inside the tube for a hole at C ≤ 35; beside the
     tube untried); **(t)** period 8 and the 5 × 5 tube at both ends, where every negative here stops.
+   **The seventh and eighth pushes (2026-11-17 and 18; CLAIMS SG33, SG34; the seventh's review is not in yet).** (r)
+   is answered: a finite line keeps a count (seventh push), and a free-standing cell of 38 + 5N cells holds one,
+   written by pulses (eighth). A pulse reads one bit of it; one stator removed by hand gives the count back as k
+   pulses, proved for every k. **Open now: (u)** a release started by a signal (a ninth push reports a six-cell
+   still life beside the wall that does it; under way, not reviewed). **(v)** A write with a reader in place (push
+   8b reads a store from a crossing wire without disturbing it, with a pair of pulses, but nothing writes under a
+   reader; not reviewed). **(w)** A read that keeps the count; re-arming a spent gun. **(x)** Given (u): the
+   smallest loop, and what a row of unary counters with calls can compute.
+   **Since (05:36 UTC the same night; CLAIMS SG35 to SG38):** (u) has an answer that is not yet reviewed: two
+   pulses on a crossing wire C call the count out as k pulses, reusably, and stores feed stores (ninth push). The
+   seventh push's review found 34 guns that survive the echo changed. **Open now: (u′)** an adversarial review of the
+   ninth push and a proof of the call for every k; **(y)** a source for the calling pair (one pulse into two); **(z)**
+   the period-3 oscillator that may make a reusable call on the store's own wire; **(v)** still stands (no write
+   under a reader); and whether add, move and an is-it-empty test, with no copy and no subtraction, compute
+   anything beyond sums.
 14. The 94 clockwork objects (`research/clockwork/objects/`) are not merged into the atlas catalogue.
 
 ## Neighbouring rules

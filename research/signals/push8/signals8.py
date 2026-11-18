@@ -1,14 +1,15 @@
 #!/usr/bin/env python3
 """signals8 (push 8): what each small change of a standing background becomes (the sixth push's method, section 30).
 
-    python3 signals8.py wire  [--bg 7|d] [--pairs]        one-cell flips (5 x 5 tube) of the uniform wire B (7) or B' (d);
+    python3 signals8.py wire  [--bg 7|d] [--pairs] [--T 60]   one-cell flips (5 x 5 tube) of the uniform wire B (7) or B' (d;
+                                                          inside a stretch of 60 units: use --T 40 so that pulses do not reach its walls);
                                                           --pairs: also every two-cell flip inside the 3 x 3 tube on
                                                           two adjacent units
     python3 signals8.py wall  [--mid ddf] [--pairs]       the same at the two boundaries of the stretch `mid` in wire B
 
 Background: capL + 7^50 + mid + 7^50 + capR (exp8.line), a finite object, so every run is exact on the infinite
 lattice.  An event is a set of cells flipped at generation g0 (0 or 1; the background has period 2 away from capR).
-The run and the undisturbed run are compared at generations g0 + 60 and g0 + 64.  The difference is cut into
+The run and the undisturbed run are compared at generations g0 + T and g0 + T + 4 (T = 60).  The difference is cut into
 clusters (pieces separated by 4 or more units that do not differ).  Verdicts:
   vanish        no difference at g0 + 60
   stand:<k>     one cluster, same cells at both times (a standing defect; k = number of cells that differ)
@@ -82,16 +83,16 @@ class Census:
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('what', choices=['wire', 'wall'])
     ap.add_argument('--bg', default='7'); ap.add_argument('--mid', default='ddf'); ap.add_argument('--pairs', action='store_true')
-    ap.add_argument('--out')
+    ap.add_argument('--out'); ap.add_argument('--T', type=int, default=60)
     a = ap.parse_args()
     if a.what == 'wire':
         if a.bg == '7':
-            C = Census('', 50, 50); sites = [54]
+            C = Census('', 50, 50, a.T); sites = [54]
         else:
-            C = Census('d' * 60 + 'f', 20, 20); sites = [4 + 20 + 30]
+            C = Census('d' * 60 + 'f', 20, 20, a.T); sites = [4 + 20 + 30]
         label = 'wire ' + a.bg
     else:
-        C = Census(a.mid, 50, 50)
+        C = Census(a.mid, 50, 50, a.T)
         w0 = 4 + 50; w1 = w0 + len(a.mid) - 1          # first unit of the stretch; the edge unit
         sites = sorted(set(range(w0 - 2, w0 + 2)) | set(range(w1 - 1, w1 + 3)))
         label = 'stretch ' + a.mid + f' (units {w0}..{w1}; flips on units {sites})'

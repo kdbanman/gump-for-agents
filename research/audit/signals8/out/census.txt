@@ -1,0 +1,21 @@
+d^3 f in wire B: 760 one-cell events (units -3..6 from the first d, 38 cells of the 5 x 5 tube, 2 phases)  [29 s]
+   526  healed
+   134  released
+    76  other
+    10  standing
+     8  count +1
+     6  count -1
+  released: 66 to the left, 68 to the right
+      <-  13  separate pulses (b7)^j: b7b7b
+      <-  11  a block of adjacent b: b^7
+      <-  11  a block of adjacent b: b^6
+      <-   9  b5f(9f)^j: b5f9f9f
+      <-   4  other train: bb5f9f9f
+      <-   4  b5f(9f)^j: b5f9f9f9f
+      <-   4  separate pulses (b7)^j: b7b
+      <-   3  b5f(9f)^j: b5f9f9f9f9f
+      <-   3  separate pulses (b7)^j: b
+      <-   2  b5f(9f)^j: b5f9f9f9f9f9f9f
+      <-   1  a block of adjacent b: b^8
+      <-   1  a block of adjacent b: b^5
+  oracle: 12 events (up to 2 of each class) re-run; class and whole state at generation 100 equal to st8 in 12  [87 s]

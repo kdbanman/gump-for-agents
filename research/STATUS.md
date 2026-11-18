@@ -441,6 +441,33 @@ _Last updated 2026-11-14 by the lead._
   problem 13, the essay and the owner's journal), a review of push 8, one site update and version 19 of the
   overview, merges. The lead cannot read the usage percentage here (the read is refused); it stops new Fable work
   when `get_session` shows the warning status (seen at 84%) or the card's `USAGE.md` rows say about 85%.
+  **05:02 UTC:** the eighth push (a memory cell: count written by pulses, one-bit read by a pulse, the count given
+  back by a hand-changed cell, proved for every k) is reviewed and recorded (notebook of the 18th; CLAIMS SG33,
+  SG34; 201 claims; open problem 13 (u) to (x)). Push 8b (a non-destructive read from a crossing wire with a pair
+  of pulses; no write under a reader) has reported; its small oracle verifiers pass for the lead; its review is
+  running. **Running (Fable):** the review of push 7; the review of push 8b; the ninth push (a trigger that
+  travels: `research/signals/push9/`; the push-8 reviewer has already confirmed one oracle run of its six-cell
+  still life). **Owed:** records of pushes 7, 8b and 9 as their reviews land; a review of push 9; the essay and
+  the owner's journal (the isolation note); one site update and version 19; merge pull request 35.
+  **05:36 UTC: the lead has stopped for the night.** The owner at about 05:20 UTC: "Now at 81% fable and weekly
+  usage, FYI"; the lead's mark was 85%, so its three running agents were asked to wrap up and all have handed
+  back. Recorded: the seventh push reviewed, push 8b reviewed in part, the ninth push (a call) not reviewed but its
+  two oracle verifiers re-run by the lead (notebook of the 18th, "three more signals results"; CLAIMS SG35 to SG38;
+  205 claims; open problem 13). **Nothing is running here.** **Owed after the reset (11:00 UTC):** an adversarial
+  review of the ninth push; the cut parts of the reviews of pushes 7 and 8b; the essay and the owner's journal (the
+  isolation note: 34 guns survive being answered; a stretch can be told and called); one site update and version
+  19 of the overview; `research/check.sh` and the merge of pull request 35; the other session's pull request for
+  `research/blast/` (the lead's own check before anything of it is recorded); the card's `research/dying2/` and the
+  120-cell tube (about 13:00 UTC).
+  **12:07 UTC, after the reset** (the card at 12:02 UTC: weekly 5%, Fable 9%; the standing ceiling of 95% applies
+  again). The card reports the 120-cell tube at 24.5086 ± 0.0169, below every forecast; its `research/dying2/`
+  studies are final; its branch at a09f8d3 goes to main by a pull request opened now. The other session's work is on
+  `claude/exciting-hamilton-0h2tr1` (`research/blast/REPORT.md`: a wrapped face "busts", over-filling and crashing;
+  a hull face fades); it went on working after the reset, which its prompt did not cover: the owner is told.
+  **Running (Fable):** an outside audit of that report with a rebuild on the oracle (`research/audit/REVIEW-blast.md`,
+  `research/audit/blast/`); an adversarial review of the ninth signals push (`research/audit/REVIEW-signals-9.md`).
+  **Next:** an Opus recomputation of the card's 120-cell tube and CPU rows and an audit of `research/dying2/` once
+  its branch is merged; then records, the essay and the owner's journal, one site update and version 19.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,
