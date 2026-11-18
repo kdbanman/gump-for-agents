@@ -113,7 +113,9 @@ def check(L, gens=1000, neg=False):
     return True
 
 
-def run(L, W, burn, snaps, every, seed):
+def run(L, W, burn, snaps, every, seed, lag=0):
+    # lag=1: the window patterns are taken 6 generations before the newest state, and for every match of the c10 window
+    # the cell's own state at the 13 generations around it is accumulated by pattern (HL): the tilt's effect at other times
     h, k, d = L
     cells, idx, NB = vessel(L)
     n = len(cells)
@@ -151,16 +153,19 @@ def run(L, W, burn, snaps, every, seed):
     t0 = time.time()
     for g in range(burn):
         X = step(X, NB)
-    ring = []
+    ring = []; ringX = []
+    HL = np.zeros((len(QS), TAU + 1, wins['c10']))
     for s in range(snaps):
         for g in range(every):
             X = step(X, NB)
-            ring.append(X[F].copy())
+            ring.append(X[F].copy()); ringX.append(X)
             if len(ring) > TAU + 1:
-                ring.pop(0)
+                ring.pop(0); ringX.pop(0)
         if len(ring) < TAU + 1:
             continue
-        xa = unpack(X)                                           # (n+1, R) uint8, row n dead
+        xa = unpack(ringX[-7] if lag else X)                     # (n+1, R) uint8, row n dead
+        if lag:
+            xs = [unpack(r) for r in ring]                       # the face cells at t0-12 .. t0; the patterns are at t0-6
         code = xa[F].astype(np.int32)
         for j in range(12):
             code += xa[nbF[:, j]].astype(np.int32) << (j + 1)
@@ -175,6 +180,13 @@ def run(L, W, burn, snaps, every, seed):
             dif = code ^ code[pm]
             for w, eq in (('c7', (dif & m7) == 0), ('c10', dif == 0), ('h6', hist == hist[pm])):
                 H2[w][vi] += np.bincount(cb[w][eq], minlength=NBLK * wins[w]).reshape(NBLK, -1)
+            if lag:
+                eq = dif == 0
+                ci, ri = np.nonzero(eq)
+                kc = codes['c10'][ci, ri]
+                qi = QS.index(vecs[vi][0])
+                for kk in range(TAU + 1):
+                    HL[qi, kk] += np.bincount(kc, weights=xs[kk][ci, ri], minlength=wins['c10'])
             now = ring[-1]
             for tau in range(TAU + 1):
                 pc = np.bitwise_count(now & ring[-1 - tau][pm]).reshape(nF, NBLK, -1).sum((0, 2))
@@ -184,9 +196,9 @@ def run(L, W, burn, snaps, every, seed):
         if s % 20 == 0:
             print(f'snap {s} {time.time() - t0:.0f}s', flush=True)
     os.makedirs(SCR, exist_ok=True)
-    out = os.path.join(SCR, f'rec_{h}_{k}_{d}_s{seed}.npz')
+    out = os.path.join(SCR, f'rec{"lag" if lag else ""}_{h}_{k}_{d}_s{seed}.npz')
     np.savez_compressed(out, L=L, W=W, burn=burn, snaps=snaps, every=every, seed=seed, cnt=cnt, nF=nF, R=R,
-                        vecs=np.array(vecs), PC=PC, S1=S1, **{'H1_' + w: H1[w] for w in wins}, **{'H2_' + w: H2[w] for w in wins})
+                        vecs=np.array(vecs), PC=PC, S1=S1, HL=HL, lag=lag, **{'H1_' + w: H1[w] for w in wins}, **{'H2_' + w: H2[w] for w in wins})
     print(f'{L} R={R} snaps counted {cnt}: {time.time() - t0:.0f} s -> {out}', flush=True)
 
 
@@ -250,8 +262,15 @@ def ana2(files):
     code = np.arange(8192 * NCLS) % 8192
     x = (code & 1).astype(float); n = np.array([bin(c >> 1).count('1') for c in code]).astype(float)
     nxt = (((n == 4) | (n == 5)) | ((x == 1) & (n == 3))).astype(float)
+    L = tuple(int(v) for v in D[0]['L']); cells, idx, NB = vessel(L); n_ = len(cells)
+    mcl = np.zeros(NCLS, np.int64)                              # in-layer neighbour bits per class (face, axis)
+    for c in range(n_):
+        if cells[c][3] in (0, 7):
+            mcl[(3 if cells[c][3] == 7 else 0) + cells[c][0]] = sum(1 << (j + 1) for j in range(12) if NB[c, j] < n_ and cells[NB[c, j]][3] == cells[c][3])
+    nin = np.array([bin(int(c % 8192) & int(mcl[c // 8192])).count('1') for c in code]).astype(float)
     stats = {'x now': x, 'x next': nxt, 'births (x=0, n in 45)': (1 - x) * ((n == 4) | (n == 5)),
-             'survivals (x=1, n in 345)': x * ((n >= 3) & (n <= 5)), 'n (slab neighbours)': n, 'n^2': n * n}
+             'survivals (x=1, n in 345)': x * ((n >= 3) & (n <= 5)), 'n (slab neighbours)': n, 'n in-layer': nin,
+             'n in-layer of dead cells': None}
     for w in ('c10', 'c7'):
         H1 = sum(d['H1_' + w].sum(0) for d in D); P = H1 / H1.sum() * NCLS; ok = P > 0
         print(f'\nwindow {w}: shift of <g> under the tilt, per +-v (for c7, n counts the in-layer neighbours only and the rule columns are meaningless)')
@@ -266,11 +285,14 @@ def ana2(files):
                     wgt = np.where(ok, H2 / np.where(ok, P, 1), 0)
                     zz.append(wgt.sum() / npair - 1)
                     for k, gk in stats.items():
-                        rows[k].append((gk * wgt).sum() / wgt.sum() - (gk * P).sum() / NCLS)
+                        if gk is None:                           # conditional mean: in-layer neighbours of a dead cell
+                            rows[k].append((nin * (1 - x) * wgt).sum() / ((1 - x) * wgt).sum() - (nin * (1 - x) * P).sum() / ((1 - x) * P).sum())
+                        else:
+                            rows[k].append((gk * wgt).sum() / wgt.sum() - (gk * P).sum() / NCLS)
             zz = np.array(zz)
             print(f'{q:<4d} {1e3 * zz.mean():+8.3f} +- {1e3 * zz.std(ddof=1) / np.sqrt(nb):.3f}   ' +
                   ''.join(f'{np.mean(v):+16.6f} +- {np.std(v, ddof=1) / np.sqrt(nb):.6f}' for v in rows.values()))
-        print('unperturbed: ' + ', '.join(f'{k} = {(gk * P).sum() / NCLS:.6f}' for k, gk in stats.items()))
+        print('unperturbed: ' + ', '.join(f'{k} = {(gk * P).sum() / NCLS:.6f}' for k, gk in stats.items() if gk is not None) + f', n in-layer of dead cells = {(nin * (1 - x) * P).sum() / ((1 - x) * P).sum():.6f}')
     # history window: each of the HK generations of the cell gives an estimate of the same density shift
     H1 = sum(d['H1_h6'].sum(0) for d in D); P = H1 / H1.sum()
     print('\nwindow h6: shift of the density of generation t-k, k = 0..5 (the exact law gives the same number at every k)')
@@ -278,6 +300,24 @@ def ana2(files):
         vi = [i for i, v in enumerate(vecs) if v[0] == q]
         H2 = sum(d['H2_h6'][vi].sum((0, 1)) for d in D); wgt = H2 / P
         print(f'{q:<4d} ' + ' '.join(f'{((np.arange(64) >> k & 1) * wgt).sum() / wgt.sum() - ((np.arange(64) >> k & 1) * P).sum():+.6f}' for k in range(HK)))
+
+
+def ana3(files):
+    """lag files: the c10 window's tilt seen in the cell's own density k generations after (+) or before (-) the pattern"""
+    D = [np.load(f) for f in files if 'lag' in np.load(f).files and int(np.load(f)['lag'])]
+    if not D:
+        return
+    vecs = D[0]['vecs']
+    H1 = sum(d['H1_c10'].sum(0) for d in D); P = H1 / H1.sum() * NCLS; ok = P > 0
+    rho = ((np.arange(len(P)) & 1) * P).sum() / NCLS
+    print(f'\nwindow c10 at generation t, the cell at generation t+k: shift of its density under the tilt, x 1e6 (files {len(D)})')
+    print('q    ' + ''.join(f'{k - 6:>8d}' for k in range(TAU + 1)) + '      sum over k   f measured')
+    for qi, q in enumerate(QS):
+        vi = [i for i, v in enumerate(vecs) if v[0] == q]
+        H2 = sum(d['H2_c10'][vi].sum((0, 1)) for d in D)
+        den = np.where(ok, H2 / np.where(ok, P, 1), 0).sum()
+        sh = [np.where(ok, sum(d['HL'][qi, k] for d in D) / np.where(ok, P, 1), 0).sum() / den - rho for k in range(TAU + 1)]
+        print(f'{q:<4d} ' + ''.join(f'{1e6 * v:+8.0f}' for v in sh) + f'   {1e6 * sum(sh):+10.0f}   {-1e6 * FMEAS[q]:+10.0f}')
 
 
 if __name__ == '__main__':
@@ -291,7 +331,8 @@ if __name__ == '__main__':
         sys.exit(0 if ok and not bad else 1)
     elif c == 'run':
         a = [int(v) for v in sys.argv[2:]]
-        run(tuple(a[:3]), *a[3:])
+        run(tuple(a[:3]), *a[3:])       # ... SEED [1 for the lag mode]
     elif c == 'ana':
         ana(sys.argv[2:])
         ana2(sys.argv[2:])
+        ana3(sys.argv[2:])

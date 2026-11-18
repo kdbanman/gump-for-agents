@@ -24,3 +24,16 @@ Formula values asked for by the brief, stated before the run: I expect the 10-ce
 Conditioned ratio (not to be measured tonight unless the living-state part is done): sign positive (the image
 term is larger in a depleted face); size from f_λ = f + λ·δs² with wraplocal's δs²/f = 10.6 at loop² 12: about 6
 at the tilt λ ≈ 0.5, about 8 at half population. 50% that a measurement would land within a factor 2 of that.
+
+## Block 2: 03:45 UTC, before the first production run has finished (no production number seen; only 5-snapshot smoke tests, pure noise)
+
+The lag run (`img.py run … SEED 1`): the tilt of the 10-cell window at generation t, read in the cell's own density at
+t + k, k = −6..6. (The exact law gives −f at every k once the window is the whole seam; a truncated window gives a
+profile, and the first-order sum over windows in time is its sum over k, overlaps not corrected.)
+
+| # | forecast | P |
+|---|---|---:|
+| L1 | at loop² 9 the shift at k = 0 is the largest in size, and \|shift(±3)\| < half of it | 60% |
+| L2 | at loop² 9 the sum over k = −6..6 is between 1.5 and 4 times the k = 0 value | 40% |
+| L3 | minus that sum is within a factor 1.5 of f at loop² 9 and at loop² 12 both | 20% |
+| L4 | the shift of (x + in-layer neighbour count) under the 10-cell tilt is more than 3 times the shift of x alone at loop² 9 (the tilt lowers the neighbours about as much as the centre) | 50% |
