@@ -68,3 +68,16 @@ cheap). The lever arm for the line in eps shrinks from 16 to 4; the forecasts of
 three eps" meaning these. New since block 2: brute force at 63 cells, eps = 0.10 with a second seed, pooled +0.005 +-
 0.007 (the +0.032 was a fluctuation), and eps = 1/16: +0.001 +- 0.010; the sampler at 84 cells and eps = 1/16 stands at
 18.180 +- 0.037 after 63 replications (gump 18.141).
+
+## Scores of block 1 (13:20 UTC)
+
+- 63 cells, eps = 0.30, offset between -0.01 and +0.05 (70%): **yes** (-0.009 +- 0.010); positive (70%): **no**.
+- eps = 0.10: |offset| < 0.02 (75%): **yes** (+0.005 +- 0.007, two seeds; the first alone read +0.032). eps = 0.03 and
+  0.012: |offset| < 0.015 each (80%): **yes** (+0.001, +0.010).
+- Monotone in eps beyond its errors (25%): **no**; there is no offset to be monotone (seven rows, mean +0.003 +- 0.004).
+- The eight-face value at eps = 0.3 above gump by more than 0.03 (65%): **yes** (+0.061 +- 0.004).
+- 84 cells by brute force: not run yet (stage A1).
+- Sampler against brute force at 63 cells within two errors (80%): **yes** at the three frozen eps (+0.019 +- 0.018,
+  +0.003 +- 0.018, -0.024 +- 0.023; 100 replications each).
+- Scatter larger at eps = 0.03 than at 0.10 (65%): a tie in tuning (0.14 against 0.13 at 40 sweeps); with the frozen
+  setting 0.21, 0.15, 0.13 at eps = 1/64, 1/16, 1/4: yes in direction.
