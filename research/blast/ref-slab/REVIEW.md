@@ -170,8 +170,8 @@ checks are split-slab's against gump's anchors (to 0.06-0.09 each), and the larg
 
 ## (c) The new numbers [measured, surrogate]
 
-Fresh seeds 7201-7207 (120-cell tube: `WD=6 R/ss_diag G/g_1_18_40.bin sub SEED 8 44 3 8 20 4 32 24 PATHS 12`),
-7301-7303 (wide 192: `... g_8_0_8.bin sub SEED 4 77 3 8 32 4 32 24 PATHS 12`), 7401-7402 (192-cell tube:
+Fresh seeds 7201-7206 (120-cell tube: `WD=6 R/ss_diag G/g_1_18_40.bin sub SEED 8 44 3 8 20 4 32 24 PATHS 12`),
+7301-7302 (wide 192: `... g_8_0_8.bin sub SEED 4 77 3 8 32 4 32 24 PATHS 12`), 7401-7402 (192-cell tube:
 `... g_1_30_64.bin ...` same parameters). `python3 pool.py LABEL FILES`: ln tau from the mean rate, error from the
 scatter, a bootstrap interval over replications, and the share of the summed rate carried by the largest one.
 
@@ -192,12 +192,12 @@ Per-replication ln tau at 192 cells (end of `data/final.txt`): wide 38.41 to 42.
   in place of 24.68 +- 0.09 (24.62 if the offset is the +0.01 that brute force sees up to 84 cells). This is
   also where its independent bookkeeping forecast sits: 24.59 +- 0.05.
   What the error does not contain: any drift of the chain's offset from gump between 84 and 120 cells that brute
-  force has not seen, and the unexplained 0.015 of (b).
+  force has not seen, and the unexplained 0.010 of (b).
 - **Wide 192 cells: 40.25 +- 0.26 against the wide line's 40.07: +0.18, not established.** My 8 fresh
   replications read 39.75 +- 0.46, below the line; split-slab's own six later ones read 40.36. The scatter of ln
   rate is 1.2 and a quarter to a half of the summed rate sits in one replication, so even +- 0.26 is an
-  understatement (a lognormal reading of the same 26 gives 40.19 +- 0.30). The 2.5 sd of the README was the
-  small-sample skew of a heavy-tailed estimator: 12 replications, median 41.09, mean-rate value 40.72, and each
+  understatement (a lognormal reading of the same 26 gives 40.19 +- 0.30). The 2.5 sd of the README is most
+  simply [conjectured] the small-sample skew of a heavy-tailed estimator: 12 replications, median 41.09, mean-rate value 40.72, and each
   further batch has pulled the value down. Neither "the wide price rises beyond 126 cells" nor "the sampler
   loses accuracy" is needed. To settle it: at least 100 replications of 4,096 chains, or 25 of 16,384 (the same cost, and more
   ancestors survive).
