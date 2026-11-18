@@ -15,6 +15,12 @@ Tests (all coordinates are shifted by an even vector so that they straddle zero;
            of the rule at the centres, so every neighbour count 0..12 for live and dead cells of each axis.
   soups    random boxes: cubes, slabs and rods of many sizes, densities 0.05..1.0, several seeds each, run
            until a state repeats or 60 generations.
+  objects  catalogued objects (research/atlas/catalogue.jsonl: a still life, oscillators of periods 3 and 66) and
+           the signal objects of research/signals/objects/ (wire C capped at one end; the rake gun gun-5f on
+           wire C; line-C, a free-standing cap + wire + gun), as finite seeds.
+  torus    the oracle's array-index torus (even H = 2..24, densities 0.1..0.9, and the period-19 wire W00 of
+           research/signals/wires/ laid on H = 24) against Gump.Torus.tstep, run entry by entry by
+           TorusCheck.lean; tstep is proved to be Gump.step on the periodic configuration (lift_tstep).
   controls the same comparison with the oracle's rule mutated (a wrong offset, a wrong birth or survival
            number, a wrong parity test): each must be caught, i.e. produce at least one mismatch.
 
@@ -25,10 +31,11 @@ Basic.lean's offsets. It is reported for the local test and for the soups separa
 Exit status 0 iff the baseline has no mismatch, the coverage has all 78 triples, and every control is caught.
 Bulk files go to OUTDIR (use research/scratch/blast/lean/, which git ignores).
 """
-import os, re, sys, subprocess, time
+import json, os, re, sys, subprocess, time
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.join(HERE, '..', '..', '..')
 sys.path.insert(0, os.path.join(HERE, '..', '..', '..', 'reference'))
 import oracle  # noqa: E402
 
@@ -236,6 +243,106 @@ def soup_H(hx, hy, hz):
     return 2 * (hx + hy + hz) + 16             # the hull's L1 radius is at most hx+hy+hz (T2)
 
 
+def centred_seed(cells):
+    """A finite cell list placed in an array whose torus never matters (T2: the hull's L1 radius about the centre
+    bounds every later generation)."""
+    c = np.array(cells)
+    lo, hi = c.min(0), c.max(0)
+    centre = ((lo + hi) // 2) & ~1                                     # even: parities kept
+    r = int(np.abs(c - centre).sum(1).max())
+    H = 2 * r + 20
+    H += H % 2
+    h = np.zeros((H, H, H), np.int8)
+    for x in c - centre + H // 2:
+        h[tuple(x)] = 1
+    assert (h.sum() == len(set(map(tuple, cells))))
+    return h
+
+
+def objects():
+    out = []
+    cat = {}
+    for l in open(os.path.join(ROOT, 'research', 'atlas', 'catalogue.jsonl')):
+        r = json.loads(l); cat[r['id']] = r
+    for i in ('S6a', 'P3.11a', 'P66.27a'):
+        r = cat[i]
+        out.append((f'catalogue {i} (period {r["period"]}, {len(r["cells"])} cells)', r['cells'], 2 * r['period'] + 4))
+    tr = lambda c, k: (c[0] + 2 * k, c[1], c[2] - 2 * k)
+    g = json.load(open(os.path.join(ROOT, 'research', 'signals', 'objects', 'gun-5f.json')))
+    N = 12
+    wire = {tuple(c) for c in g['capL']} | {tr(c, k) for c in g['unit'] for k in range(N)}
+    out.append((f'wire C, {N} units, capped at one end (gun-5f.json capL + unit)', sorted(wire), 40))
+    out.append((f'rake gun gun-5f at the end of {N} units of wire C', sorted(wire | {tr(c, N) for c in g['gun']}), 80))
+    lc = json.load(open(os.path.join(ROOT, 'research', 'signals', 'objects', 'line-C.json')))
+    for N in (lc['N'], 10):
+        cells = {tuple(c) for c in lc['capA']} | {tr(c, k) for c in lc['unit'] for k in range(N)} | \
+            {tr(c, N) for c in lc['gun']}
+        out.append((f'line-C, cap + {N} units of wire C + gun (free-standing, period 4 from 2N)', sorted(cells),
+                    2 * N + 24))
+    return out
+
+
+TORUS_CHECK = os.path.join(HERE, 'TorusCheck.lean')
+
+
+def torus_compare(path, H):
+    r = subprocess.run(['lake', 'env', 'lean', '--run', TORUS_CHECK, path, str(H)], capture_output=True, text=True,
+                       cwd=HERE)
+    out = r.stdout
+    m = re.search(r'(\d+) generations of the torus .* (\d+) mismatches', out)
+    if m is None:
+        raise RuntimeError(f'TorusCheck failed on {path}: {out} {r.stderr}')
+    gens, mism = int(m.group(1)), int(m.group(2))
+    assert (r.returncode == 0) == (mism == 0)
+    return gens, mism
+
+
+def run_torus(path, h0, gens, step, cov=None):
+    H = h0.shape[0]
+    m = oracle.masks(H)
+    states = [h0]; seen = {h0.tobytes()}
+    h = h0
+    for g in range(1, gens + 1):
+        if cov is not None:
+            add_coverage(cov, h, m)
+        h = step(h, m)
+        states.append(h)
+        if h.tobytes() in seen:
+            break
+        seen.add(h.tobytes())
+    with open(path, 'w') as f:
+        for g, hh in enumerate(states):
+            pts = np.argwhere(hh == 1)
+            f.write(f'G {g} {len(pts)}\n')
+            f.write(''.join(f'{x} {y} {z}\n' for x, y, z in pts))
+    return torus_compare(path, H)
+
+
+def torus_soup(H, dens, seed):
+    m = oracle.masks(H)
+    rng = np.random.default_rng(seed)
+    return ((rng.random((H, H, H)) < dens) & (m[0] | m[1] | m[2])).astype(np.int8)
+
+
+def torus_list(quick):
+    Hs = [2, 4, 6, 8, 12, 16, 24] if not quick else [4, 8, 16]
+    dens = [0.1, 0.2, 0.3, 0.35, 0.4, 0.5, 0.7, 0.9] if not quick else [0.2, 0.35, 0.7]
+    return [(H, d, 100 * H + int(100 * d)) for H in Hs for d in dens]
+
+
+def wire_on_torus(H=24):
+    w = json.load(open(os.path.join(ROOT, 'research', 'signals', 'wires', 'W00.json')))
+    v2 = np.array(w['v']) * 2
+    h = np.zeros((H, H, H), np.int8)
+    m = oracle.masks(H)
+    for c in w['cells']:
+        for k in range(H):
+            x = (np.array(c) + k * v2) % H
+            h[tuple(x)] = 1
+    assert all(((m[0] | m[1] | m[2])[tuple(x)]) for x in np.argwhere(h == 1))
+    return h, w['period']
+
+
 def main():
     gumpcheck, outdir = sys.argv[1], sys.argv[2]
     quick = '--quick' in sys.argv
@@ -270,8 +377,31 @@ def main():
           f'{sorted(set(s[3] for s in soups))}), {ncells} live cells in the seeds, {nsoup_bad} with a mismatch')
     print(f'baseline: {total_gens} generations compared state for state, {total_bad} mismatches '
           f'({time.time() - t0:.0f}s)')
+    # 3. objects as finite seeds
+    for label, cells, gens in objects():
+        h0 = centred_seed(cells)
+        g, bad = run_test(gumpcheck, os.path.join(outdir, 'object.txt'), h0, gens, oracle.step, cov,
+                          stop_on_repeat=False)
+        total_gens += g; total_bad += bad
+        print(f'object: {label}: {g} generations, {bad} mismatches')
+    # 4. the torus
+    covt = np.zeros((3, 2, 13), np.int64)
+    tl = torus_list(quick)
+    tg = tb = 0
+    for (H, d, seed) in tl:
+        g, bad = run_torus(os.path.join(outdir, 'torus.txt'), torus_soup(H, d, seed), 60, oracle.step, covt)
+        tg += g; tb += bad
+        if bad:
+            print(f'  torus H={H} density {d}: {bad} mismatches')
+    hw, pw = wire_on_torus()
+    g, bad = run_torus(os.path.join(outdir, 'torus_wire.txt'), hw, 3 * pw, oracle.step, covt)
+    tg += g; tb += bad
+    print(f'torus: {len(tl)} soups (H {sorted(set(t[0] for t in tl))}, densities {sorted(set(t[1] for t in tl))}) '
+          f'and wire W00 (period {pw}) on H=24: {tg} generations compared entry by entry, {tb} mismatches')
+    total_gens += tg; total_bad += tb
+    print(f'all baseline tests: {total_gens} generations compared, {total_bad} mismatches')
     # coverage
-    for label, cv in (('local test', covl), ('soups', cov)):
+    for label, cv in (('local test', covl), ('soups and objects', cov), ('torus', covt)):
         miss = [(a, al, n) for a in range(3) for al in range(2) for n in range(13) if cv[a, al, n] == 0]
         print(f'coverage, {label}: cells of each (axis, state, live-neighbour count 0..12) over the compared '
               f'transitions; {78 - len(miss)}/78 triples hit')
@@ -283,8 +413,9 @@ def main():
     missing = [(a, al, n) for a in range(3) for al in range(2) for n in range(13) if covl[a, al, n] == 0]
     # 3. negative controls
     ctl = soup_list(True)[::2]
+    tctl = [(8, 0.35, 1), (12, 0.6, 2)]
     uncaught = []
-    print(f'controls: each mutant of the oracle against the unmutated Lean stepper; local test, and {len(ctl)} soups')
+    print(f'controls: each mutant of the oracle against the unmutated Lean steppers; local test, {len(ctl)} soups, {len(tctl)} torus soups')
     for name, what in MUTANTS.items():
         st = mutant_step(name)
         gl, bl = run_test(gumpcheck, os.path.join(outdir, f'ctl_local.txt'), hl, 1, st)
@@ -297,11 +428,15 @@ def main():
             except AssertionError:            # a mutant can grow past the hull and reach the array edge
                 g, bad = 1, 1
             caught_soups += (bad > 0); bad_gens += bad
+        caught_torus = 0
+        for (H, d, seed) in tctl:
+            g, bad = run_torus(os.path.join(outdir, 'ctl_torus.txt'), torus_soup(H, d, seed), 20, st)
+            caught_torus += (bad > 0)
         ok = bl > 0 or caught_soups > 0
-        if not ok:
+        if not ok or caught_torus == 0:
             uncaught.append(name)
-        print(f'  {name:13s} {"caught" if ok else "NOT CAUGHT"}: local {bl} mismatch, soups {caught_soups}/{len(ctl)} '
-              f'({bad_gens} mismatching generations) -- {what}')
+        print(f'  {name:13s} {"caught" if ok and caught_torus else "NOT CAUGHT"}: local {bl} mismatch, soups '
+              f'{caught_soups}/{len(ctl)} ({bad_gens} mismatching generations), torus {caught_torus}/{len(tctl)} -- {what}')
     passed = total_bad == 0 and not missing and not uncaught
     print(f'difftest: {"PASS" if passed else "FAIL"} ({time.time() - t0:.0f}s)')
     sys.exit(0 if passed else 1)
