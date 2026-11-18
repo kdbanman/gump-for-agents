@@ -90,3 +90,9 @@ share 0.448 ± 0.011, ln τ = 12.416 ± 0.022.
 
 Strip 32 × 28, 1200 deaths, no cut: ln τ = 12.436 ± 0.029 (W = 16: 12.416), bust6 = 0.532 ± 0.014 (0.536), boom share
 0.443 ± 0.014 (0.448). **Hit**: unchanged; the second exit is the ring edge's own.
+
+## Scoring of block 3, exact ring L = 23 (04:47 UTC)
+
+ln τ = 12.2990 (forecast 12.298 ± 0.003): **hit**; slope 22–23 = 0.5190 (forecast 0.518 ± 0.003; below 0.5198 by
+0.0008: the fall is flattening, so "the bend has begun" is NOT supported). Ring − segment difference 0.060.
+L = 24: running at 04:47; if `research/scratch/blast/toy/xr24.out` exists it was finished after this line.

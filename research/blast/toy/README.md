@@ -25,7 +25,7 @@ per cell, so "two prices" there is a crossover between exits, not two asymptotic
    "0.416 (ring) against 0.343 (box)" of `research/toy2d` is that mixture. The box edge outlives the ring edge
    below L ≈ 25 and dies sooner above (ln τ_box − ln τ_ring = +1.13 … −0.39 at L = 12 … 32).
 3. The exactly solved one-row surrogate has the two prices with no chaos beneath and to four digits: open
-   segments 0.4591, 0.4594, 0.4593 per cell at L = 21, 22, 24 (converged), rings 0.520–0.528 at L = 16–22 (not
+   segments 0.4594, 0.4593, 0.4592 per cell at L = 22, 23, 24 (converged), rings 0.519–0.528 at L = 16–23 (not
    converging to it: the difference 0.060–0.069 does not decay, so there is no e^(−L/ξ) to fit). Its ring is
    still 88% flash at L = 20. So in one dimension, where a rim is two points, two prices persist for as long as
    the wrapped shape's deaths go through the flash, and they end by a change of exit (2D brute force: at L ≈ 30,
@@ -193,16 +193,17 @@ by power iteration (relative convergence 10⁻¹¹ in h).
 | 20 | 10.7379 | 11.4127 | +0.6747 | 0.5261 | 0.4589 | 0.884 | 0.513 |
 | 21 | 11.2602 | 11.8718 | +0.6115 | 0.5223 | 0.4591 | — | — |
 | 22 | 11.7800 | 12.3311 | +0.5511 | 0.5198 | 0.4594 | — | 0.476 |
-| 23 | — | 12.7905 | — | — | 0.4593 | — | — |
+| 23 | 12.2990 | 12.7905 | +0.4915 | 0.5190 | 0.4593 | — | — |
 | 24 | — | 13.2497 | — | — | 0.4592 | — | — |
 <!--/EX-->
 
 - **Two prices, exact, and not converging.** Segment local slope per cell 0.4608, 0.4613, 0.4602, 0.4591, 0.4589,
-  0.4591, 0.4594 at L = 16 … 22 and 0.4593 over 22–24: the open row's price is **0.4593 ± 0.0003**. Ring: 0.5228,
-  0.5221, 0.5263, 0.5284, 0.5261, 0.5223, 0.5198 at L = 16 … 22 (it wobbles with L; at L ≤ 15 between 0.43 and
-  0.59). The difference, 0.060–0.069, does not decay over L = 16–22: no e^(−L/ξ) can be fitted, i.e. ξ is not
-  "a few cells" (the last three ring slopes fall by 0.003 per cell: the start of the bend or the next wobble, I
-  cannot tell). The gap ln τ_seg − ln τ_ring falls 1.447 → 0.551 from L = 8 to 22 and would vanish near L ≈ 31.
+  0.4591, 0.4594, 0.4593, 0.4592 at L = 16 … 24: the open row's price is **0.4593 ± 0.0003**. Ring: 0.5228, 0.5221,
+  0.5263, 0.5284, 0.5261, 0.5223, 0.5198, 0.5190 at L = 16 … 23 (it wobbles with L; at L ≤ 15 between 0.43 and 0.59).
+  The difference, 0.060–0.069, does not decay over L = 16–23: no e^(−L/ξ) can be fitted, i.e. ξ is not "a few
+  cells" (compare rule B, §5, where it is 2.0 cells). The ring's slope has fallen for four sizes running, by
+  0.002, 0.004, 0.003, 0.001: the trough of the wobble more likely than the bend. The gap
+  ln τ_seg − ln τ_ring falls 1.447 → 0.492 from L = 8 to 23 and would vanish near L ≈ 31.
 - **Flash share of the death flux, exact** (a fall ≥ L/2 in the last K steps; K = 1, 2, 4, 6): ring 0.047, 0.289,
   0.727, 0.884 at L = 20; segment 0.0000, 0.048, 0.330, 0.513 (living windows of 5 transitions: 0.068 and 0.036).
   A death straight from a row at least half full (K = 1) carries 30% → 4.7% of a ring's deaths (L = 8 → 20) and
@@ -293,6 +294,7 @@ by power iteration (relative convergence 10⁻¹¹ in h).
 - The split by "a fall ≥ L/2 within K steps" is a classifier, not a decomposition into disjoint routes; chance
   falls contaminate it at L ≤ 16 (living baseline up to 0.2). Slopes are stable under K = 4, 6, 12; constants move
   by 0.3–0.4.
+- Exact rings stop at L = 23 (24 if `xr24.out` exists: see the table), segments at 24.
 - Exact codes above L = 9: one kernel routine (`ex1d` = `exg`), checked against the lab's `exact1d.c` on rings
   of 12 and 16, by Monte Carlo to 1% on a ring of 12 and segments of 12 and 16, and by a dense matrix at L = 8–9.
   Coin density fixed at 0.472. Rules A and B stop at L = 16 and are rows over coins, not edges of a real
