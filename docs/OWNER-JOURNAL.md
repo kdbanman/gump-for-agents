@@ -125,4 +125,26 @@ What speaks to it (the lead, same day):
   carries messages both ways, and for now two-way traffic is a head-on collision. The nearest thing to a memory
   yet: an answer running into several gaps leaves a standing mark one unit longer for each gap, a count, but it
   is written in a wire that is being destroyed around it.
-
+- **2026-11-18: a memory, and one sentence above taken back** (notebook entries of that date: "the eighth signals
+  push, reviewed", "three more signals results in one night"; CLAIMS SG33 to SG38). "No gun survives being
+  answered" is wrong: of 867 guns that can be listed one size up, 34 survive the answer, changed (a reviewer's
+  find; nobody has repeated it). And the count that was written in a dying wire can now be kept. A capped length of
+  the third wire absorbs each pulse sent into it and grows a stretch one unit longer per pulse; it holds that
+  number for ever; one cell removed gives it back as exactly that many pulses (proved for every count); two
+  pulses on a wire laid across it do the same without a hand (rebuilt by a reviewer and proved for every count,
+  the proof not yet refereed; the pair itself is still made by a hand); and a pair of pulses on another crossing wire reads whether one place is empty without
+  changing it. So ordered parts of gump can now speak, keep, add and hand over. What is still missing is the thing
+  the note asked about turned round: nothing found lets what is stored decide what is sent next.
+  *Later the same day (notebook "the ninth signals push, reviewed"; CLAIMS SG39, SG40):* two exceptions, both on
+  the reference stepper and both with the deciding pulse made by a hand. A pulse sent along the wire sets a far
+  store free if the place before it is empty and is swallowed if a store is there. And at one exact timing a call
+  plus a pulse gives back one fewer than was stored, and lets the pulse through only when nothing was stored: a
+  subtraction that reports zero, which is the one operation a row of counters needs to be a computer. It cannot
+  yet be repeated, and nothing the machine makes starts it. The reader does not live with writing and calling.
+- **2026-11-18: what the isolation is made of, seen in a death** (notebook "how a face dies, audited from
+  outside"; CLAIMS DY16 to DY21). A second session watched wrapped and rimmed faces die and an outside audit
+  rebuilt it. A face layer over nothing but private coins has both ways of dying that the real faces have (a
+  one-step boom and crash on a wrapped face, a slow fade on a rimmed one), and which one a face takes is decided
+  cell by cell by how many of a cell's neighbours lie inside the vessel, nine or seven. So the mechanism needs no
+  chaos underneath, as the note guessed. The numbers do care: the coin-driven model is 0.12 ± 0.05 high at the
+  120-cell tube, and the layer under a dying face is far from its ordinary state (0.56 to 0.73 of it).

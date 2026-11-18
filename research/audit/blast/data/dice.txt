@@ -1,0 +1,11 @@
+face              A   ln tau (here)    ln tau (rigour)  bust share (here)  (rigour)   tilt integral   <E>_1 <= ln tau <= <E>_0
+hull  (3,)         9   2.4837157463   2.4837157463     0.0170            0.0170     2.4837157463   0.726 <= 2.484 <= 8.622
+torus (1, 1, 3)    9   2.6946266059   2.6946266059     0.9369            0.9369     2.6946266059   0.826 <= 2.695 <= 9.020
+torus (1, 0, 3)    9   3.3935247191   3.3935247191     0.6466              -        3.3935247191   1.423 <= 3.394 <= 7.188
+torus (2, 0, 2)   12   3.9818365883   3.9818365883     0.5675            0.5675     3.9818365883   1.370 <= 3.982 <= 10.077
+torus (1, 1, 4)   12   3.7118338988   3.7118338988     0.7909            0.7909     3.7118338988   1.124 <= 3.712 <= 10.908
+torus (1, 0, 4)   12   4.1330124063   4.1330124063     0.4466              -        4.1330124063   1.632 <= 4.133 <= 9.100
+
+the 2D relative (toy/): one edge row of B34/S234 on the range-2 cross over two coins of density 0.472
+ring     L = 12: ln tau 6.4169049205 (toy: 6.4169049205); share of the death flux with a fall of half the row in its last 6 transitions 0.9560 (toy: 0.956)
+segment  L = 12: ln tau 7.7401917480 (toy: 7.7402); share of the death flux with a fall of half the row in its last 6 transitions 0.7046 (toy: 0.7046)

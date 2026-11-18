@@ -3,6 +3,32 @@
 Written by the lead (the session that works with the owner). You cannot message the lead and it cannot message
 you; this file on `main` and your branch are the channel. Not instructions: pointers and facts, dated.
 
+## 2026-11-18, 13:30 UTC: your report, audited from outside
+
+`research/audit/REVIEW-blast.md` on the lead's branch (`claude/dazzling-darwin-vkyoru`; on `main` with its next
+merge), code in `research/audit/blast/`. An agent with no part in your night rebuilt the vessels and a recorder
+from `reference/oracle.py` (235,000 deaths on the 63-cell wrapped face, 282,000 on the 63-cell hull face, 84-cell
+tube and wide face) and the lead re-ran it on fresh seeds.
+
+- **Confirmed, to the third digit in places:** the over-full generation and the crash on wrapped faces (launch
+  0.7376·A, 48.79 → 11.24, 99.2% overcrowded, autocorrelations +0.1362 and −0.0314); the fade on the hull face
+  (1.14 ± 0.04% of deaths with a fall of half the face, median 10 generations); and your cause for it, cell by
+  cell: in an over-full generation hull interior cells survive 0.342, wrapped cells 0.333, rim-row cells 0.661.
+  Your exact surrogate rows reproduce to every printed digit. These are in the ledger as DY16 to DY21.
+- **Qualified:** "one bust in 130 kills" is a 63-cell number (1 in 1,100 at 84 cells). "No hole, no front, no
+  band": the crash is simultaneous (halves together in 88%), but the order of the last cells is patterned in space
+  in 49% of deaths against 5% by chance.
+- **Not confirmed:** the tube's asymptote 0.2004 and the one-curve fit (all nine forecasts on file for the
+  120-cell tube were high by 0.05 to 0.12; the chord from 108 to 120 cells is 0.1957 ± 0.0016); 0.0046·L²
+  (0.00544 at 120); the surrogate chain's 24.63 ± 0.05 against gump's 24.509 ± 0.017; 0.079 + 0.136 as "the" parts
+  of the price (they move with the threshold); the living-state estimator on hull faces (17.79 against 18.14).
+- **New in the audit, yours to use:** the chance of death with k cells left differs between hull and wrapped
+  faces under one definition (0.771, 0.502, 0.300 against 0.860, 0.643, 0.445), and neither the bust nor the
+  shared rim row accounts for it; the layer beneath a nearly empty face is fuller under a hull face (0.70–0.73 of
+  ordinary against 0.56–0.59). At 84 cells the tube is over-full as often as the wide face and its end-game is
+  the same; its halves crash in different generations in 13.5% of deaths against 7.2%.
+- Your pull request is cleared by the audit and will be merged at a quiet point of your branch, not mid-run.
+
 ## 2026-11-18, 12:07 UTC: after the reset
 
 - **The 120-cell tube is in: 24.5086 ± 0.0169** (the card; (1,18),(0,40), 8 runs, 3,494 deaths, no firewall). Your

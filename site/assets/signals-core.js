@@ -103,6 +103,47 @@ const sigCore = (() => {
     const s = md(p[0] + p[2] + H / 2, H) - H / 2, y = md(p[1] + H / 2, H) - H / 2;
     return [p[0], y, s - p[0]];
   }
-  return { ring, clock, gate, unroll, line, echo, train };
+  // the memory cell (research/signals/push8/objects/cell8.json, push9/objects/call9.json), as their verifiers lay it out
+  // (verify_cell8.py, verify_call9.py): a state of letters = for each word j (words joined by '|', one per store wire) capL +
+  // for each letter i the two stators and the sites of hex digit w[i] moved to unit 4 + i + capR moved to unit 4 + N, all
+  // moved by offsets[j]; + the run's extra cells (the call line at rest). Unit u = move by (2u, 0, -2u). Doubled
+  // coordinates in empty space; the stepper takes them mod the run's H, as the verifiers do on the oracle's torus.
+  // ops: {generation: [cells removed, cells made live]}; applied after that generation's checks, before its step.
+  // decode(has): the letters of each store wire at an even generation, read from the sites ('?' where a stator is missing).
+  function memory(d, run) {
+    const tr = (c, k) => [c[0] + 2 * k, c[1], c[2] - 2 * k], mv = (c, o) => [c[0] + o[0], c[1] + o[1], c[2] + o[2]];
+    const offs = run.offsets || [[0, 0, 0]], extra = run.extra || [];
+    const one = word => {
+      const out = d.capL.slice();
+      for (let i = 0; i < word.length; i++) {
+        const h = parseInt(word[i], 16);
+        d.stators.forEach(c => out.push(tr(c, 4 + i)));
+        for (let j = 0; j < 4; j++) if (h >> j & 1) out.push(tr(d.sites[j], 4 + i));
+      }
+      d.capR.forEach(c => out.push(tr(c, 4 + word.length)));
+      return out;
+    };
+    const state = word => {
+      const set = new Map();
+      word.split('|').forEach((w, j) => one(w).forEach(c => { const p = mv(c, offs[j]), q = key(p); if (set.has(q)) throw new Error('two pieces at ' + q); set.set(q, p); }));
+      for (const p of extra) { const q = key(p); if (set.has(q)) throw new Error('the line meets a store wire at ' + q); set.set(q, p); }
+      return [...set.values()];
+    };
+    const ops = {};
+    for (const o of run.ops) ops[o[0]] = [o[1] || [], o[2] || []];
+    const decode = has => offs.map(o => {
+      let s = '';
+      for (let i = 0; i < run.N; i++) {
+        if (!d.stators.every(c => has(mv(tr(c, 4 + i), o)))) { s += '?'; continue; }
+        let h = 0; for (let j = 0; j < 4; j++) if (has(mv(tr(d.sites[j], 4 + i), o))) h |= 1 << j;
+        s += h.toString(16);
+      }
+      return s;
+    }).join('|');
+    // the unit of a store wire that a cell lies in (unit index 0 .. N - 1 of word j), or null: by x after removing the offset
+    const unitOf = (p, j) => { const o = offs[j || 0]; const u = Math.floor((p[0] - o[0]) / 2) - 4; return u; };
+    return { H: run.H, N: run.N, state, ops, decode, unitOf, start: state(run.start), extra, offs, tr };
+  }
+  return { ring, clock, gate, unroll, line, echo, train, memory };
 })();
 if (typeof module !== 'undefined') module.exports = { sigCore };

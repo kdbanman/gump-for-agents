@@ -1,0 +1,19 @@
+# second CALL d generations after the first (both seeded at line unit 6), store d^k f armed: the smallest d from
+# which every tried d (step 2, up to 4k + 12) ends as the empty wire with the line as it was, and what the last bad d gives
+k = 1: not clean for d in None..None (0 values, 4k = 4); clean for every d from 6 to 16
+k = 2: not clean for d in 6..8 (2 values, 4k = 8); clean for every d from 10 to 20; at d = 8: 174 cells, line as it was, store letters ?^64
+k = 3: not clean for d in 6..12 (4 values, 4k = 12); clean for every d from 14 to 24; at d = 12: 174 cells, line as it was, store letters ?^64
+k = 4: not clean for d in 6..16 (6 values, 4k = 16); clean for every d from 18 to 28; at d = 16: 174 cells, line as it was, store letters ?^64
+k = 5: not clean for d in 6..20 (8 values, 4k = 20); clean for every d from 22 to 32; at d = 20: 174 cells, line as it was, store letters ?^64
+k = 6: not clean for d in 6..24 (10 values, 4k = 24); clean for every d from 26 to 36; at d = 24: 174 cells, line as it was, store letters ?^64
+k = 7: not clean for d in 6..28 (12 values, 4k = 28); clean for every d from 30 to 40; at d = 28: 174 cells, line as it was, store letters ?^64
+k = 8: not clean for d in 6..32 (14 values, 4k = 32); clean for every d from 34 to 44; at d = 32: 174 cells, line as it was, store letters ?^64
+k = 9: not clean for d in 6..36 (16 values, 4k = 36); clean for every d from 38 to 48; at d = 36: 174 cells, line as it was, store letters ?^64
+k = 10: not clean for d in 6..40 (18 values, 4k = 40); clean for every d from 42 to 52; at d = 40: 174 cells, line as it was, store letters ?^64
+k = 11: not clean for d in 6..44 (20 values, 4k = 44); clean for every d from 46 to 56; at d = 44: 174 cells, line as it was, store letters ?^64
+k = 12: not clean for d in 6..48 (22 values, 4k = 48); clean for every d from 50 to 60; at d = 48: 174 cells, line as it was, store letters ?^64
+k = 13: not clean for d in 6..52 (24 values, 4k = 52); clean for every d from 54 to 64; at d = 52: 174 cells, line as it was, store letters ?^64
+k = 14: not clean for d in 6..56 (26 values, 4k = 56); clean for every d from 58 to 68; at d = 56: 174 cells, line as it was, store letters ?^64
+k = 12, second CALL 44 generations later: at generation 300 308 cells, the line as it was, store letters ?^41 e^23; oracle = st9 at every even generation 0..300: True; 16 s
+k = 12, second CALL 48 generations later: at generation 300 174 cells, the line as it was, store letters ?^64; oracle = st9 at every even generation 0..300: True; 31 s
+k = 12, second CALL 50 generations later: at generation 300 520 cells, the line as it was, store letters 7^64; oracle = st9 at every even generation 0..300: True; 46 s

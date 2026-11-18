@@ -1,0 +1,23 @@
+# the line cut short: units removed before / after the crossing (the caps kept); k = 3, CALL seeded 4 units before the crossing
+21 units before, 4 after (162 cells): line alone stands True; with d^3 f stands True; CALL -> 7^64
+12 units before, 4 after (117 cells): line alone stands True; with d^3 f stands True; CALL -> 7^64
+8 units before, 4 after (97 cells): line alone stands True; with d^3 f stands True; CALL -> 7^64
+6 units before, 4 after (87 cells): line alone stands True; with d^3 f stands True; CALL -> 7^64
+5 units before, 4 after (82 cells): line alone stands True; with d^3 f stands True; CALL -> 7^64
+21 units before, 3 after (157 cells): line alone stands True; with d^3 f stands True; CALL -> 7^64
+21 units before, 2 after (152 cells): line alone stands True; with d^3 f stands True; CALL -> 7^64
+21 units before, 1 after (147 cells): line alone stands True; with d^3 f stands True; CALL -> 7^64
+8 units before, 2 after (87 cells): line alone stands True; with d^3 f stands True; CALL -> 7^64
+6 units before, 2 after (77 cells): line alone stands True; with d^3 f stands True; CALL -> 7^64
+# the bus: a second store wire n line units further on (both hold stores 1 and 3 / 1 and 2), one CALL
+n = 2: does not stand
+n = 3: stands; one CALL -> both counts moved exactly (4 and 3), line at rest
+n = 4: stands; one CALL -> both counts moved exactly (4 and 3), line at rest
+n = 5: stands; one CALL -> both counts moved exactly (4 and 3), line at rest
+n = 6: stands; one CALL -> both counts moved exactly (4 and 3), line at rest
+n = 7: stands; one CALL -> both counts moved exactly (4 and 3), line at rest
+n = 8: stands; one CALL -> both counts moved exactly (4 and 3), line at rest
+n = 9: stands; one CALL -> both counts moved exactly (4 and 3), line at rest
+n = 10: stands; one CALL -> both counts moved exactly (4 and 3), line at rest
+n = 11: stands; one CALL -> both counts moved exactly (4 and 3), line at rest
+n = 12: stands; one CALL -> both counts moved exactly (4 and 3), line at rest

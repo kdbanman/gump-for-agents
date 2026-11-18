@@ -1,0 +1,37 @@
+<section class="plate" id="memory">
+  <div class="plate-h">
+    <div class="row"><p class="eyebrow">A memory cell <b>· new</b></p><span class="st st-proved">write, and the release of k pulses: on the reference stepper by two codes; the release proved for every k</span><span class="st st-meas">a read that leaves the store as it was: two codes</span><span class="st st-meas">the call: two codes on the reference stepper; its law proved for every k, the proof not yet refereed</span><span class="st st-unchk">a call by one pulse, one less with a zero exit: the reviewer’s code alone</span></div>
+    <h2>Pulses write a count into a wire, and it stays. A pair of pulses on a second wire laid across it calls the count back out as exactly that many pulses, and another store catches them. The calling pair is still made by hand, and nothing yet copies or subtracts.</h2>
+  </div>
+  <!-- NB 2026-11-18 "the eighth signals push, reviewed", "three more signals results in one night", "the ninth signals push,
+       reviewed"; CLAIMS SG33, SG34, SG37-SG41; research/signals/push8/objects/cell8.json, research/signals/push9/objects/call9.json
+       (copied by collect.py into data/memory.json; laid out by signals-core.js memory; stepped by gump-core.js makeSparse; every
+       run checked by site/checks/check-signals.js against the files' checks and reference/oracle.py); quotes in
+       collect/sources/update-2026-11-18.json (sig18) -->
+  <p class="cap">The <b>store</b> is a wire B between two caps: 38 + 5N cells for N units, standing for ever with period 2. Each unit of it is read as a letter: <b>7</b> is plain wire, <b>d</b> a unit of the variant wire, <b>f</b> the unit at the end of a stretch. A stretch <b>d…df</b> with k letters d holds the number k. A pulse is sent by removing one cell of the wire by hand; two pulses that meet write 1, and each later pulse that reaches the stretch adds one. The <b>call line</b> is a capped wire C of 26 units, 162 cells, laid across the store wire one unit before the stretch’s wall; two cells made live on it at one generation become the pair of pulses that calls.</p>
+  <div class="figs">
+    <figure class="fig c8 panel">
+      <div class="dy-head">
+        <h3>The store wire, unit by unit, every second generation</h3>
+        <div class="dy-ctl"><button class="btn" type="button" id="b-mem">Pause</button><button class="btn" type="button" id="b-mem-r">Restart</button></div>
+      </div>
+      <div class="dy-ctl" id="c-mem" role="group" aria-label="Which run"></div>
+      <div id="f-mem-tape"></div>
+      <div class="sg-read mono" id="l-mem" aria-live="polite"></div>
+      <div id="f-mem"></div>
+      <div class="keys"><span class="key"><span class="sw" style="background:var(--ember)"></span>d: the stored count</span><span class="key"><span class="sw" style="background:var(--ember);opacity:.45"></span>f: the end of a stretch</span><span class="key"><span class="sw" style="background:var(--s1)"></span>a pulse moving along the wire</span><span class="key"><span class="sw" style="background:var(--ink-3)"></span>anything else (a cell of the wire missing)</span><span class="key"><span class="sw" style="background:var(--ink-2);height:2px;width:16px"></span>where the call line crosses</span></div>
+      <figcaption id="x-mem"></figcaption>
+    </figure>
+    <div class="fig c4"><div class="nums" id="n-mem" style="grid-template-columns:1fr"></div></div>
+  </div>
+  <div class="figs">
+    <div class="fig c6 panel">
+      <h3>What it is, and what is missing</h3>
+      <ul class="plain" id="l-mem-what"></ul>
+    </div>
+    <div class="fig c6 panel">
+      <h3>How it was checked, and what was not</h3>
+      <ul class="plain" id="l-mem-check"></ul>
+    </div>
+  </div>
+</section>

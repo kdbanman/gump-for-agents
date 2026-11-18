@@ -468,6 +468,37 @@ _Last updated 2026-11-14 by the lead._
   `research/audit/blast/`); an adversarial review of the ninth signals push (`research/audit/REVIEW-signals-9.md`).
   **Next:** an Opus recomputation of the card's 120-cell tube and CPU rows and an audit of `research/dying2/` once
   its branch is merged; then records, the essay and the owner's journal, one site update and version 19.
+  **12:26 UTC:** pull requests 37 (the card) and 35 are merged; 38 is open. The Opus recomputation is in and
+  recorded (notebook "the 120-cell tube …"; CLAIMS WL11, 206 claims; WL8's lean withdrawn; forecasts W14 to W16
+  for the 126- and 132-cell tubes; open problem 9). **Running (Fable):** the outside audit of the other session's
+  report; the review of the ninth signals push. **Then:** records of both, the essay and the owner's journal, one
+  site update and version 19.
+  **13:30 UTC:** the outside audit of the other session's report is in and recorded (`research/audit/REVIEW-blast.md`;
+  notebook "how a face dies, audited from outside"; CLAIMS DY16 to DY21, 212 claims; open problem 9 (n) to (q)).
+  Confirmed by a rebuild from the oracle and by the lead's re-run on fresh seeds: a wrapped face over-fills and
+  crashes, a hull face fades, and the rim row is why. Not confirmed: that session's account of the tube's price
+  (nine forecasts high at 120 cells). **That session's pull request is cleared by the audit** (only
+  `research/blast/`, 6.9 MB); it is still committing (44db7bf at 13:21 UTC), so it is merged at its next quiet
+  point, not mid-run. **Running:** the lead's 84-cell hull run (`research/audit/blast_lead_hull84.sh`, forecast in
+  the notebook entry; result owed there and in DY17); the review of the ninth signals push (Fable). **Then:** the
+  record of that review, the essay and the owner's journal, one site update and version 19.
+  **13:44 UTC:** the review of the ninth signals push is in and recorded (`research/audit/REVIEW-signals-9.md`;
+  notebook "the ninth signals push, reviewed"; CLAIMS SG38 raised, SG39 to SG41 added, 215 claims; open problem
+  13 (aa) to (ae)). The call stands and is proved for every count; a call by one pulse on the store's own wire; a
+  collision that subtracts one and reports zero; write, read and call do not coexist. No Fable agent is running.
+  **13:49 UTC:** the 84-cell hull run is in and recorded (share of deaths with a fall of half the face 1.07 ± 0.15%,
+  flat; the forecast held; DY17, DY18, DY20). `research/check.sh` 20/20 at 13:46 UTC. **Running:** the site agent (Opus), told of the review. **Then:** version 19,
+  `research/check.sh`, merge pull request 38, the other session's pull request at a quiet point.
+  **14:17 UTC:** the other session's pull request 36 is merged (main 49681b1; only `research/blast/`, 838 files, 7 MB)
+  after the audit; main is merged back into this branch. What of its report is confirmed is DY16 to DY21; the rest
+  and its second phase are its own account, not in the ledger. Its note `research/blast/TO-THE-LEAD.md` (14:02 UTC)
+  says the owner wrote to it at about 10:05 UTC that it could go on after the reset "targeting 50% fable usage"
+  (quoted in its `PI.md`), that its agents are done, and that it read the Fable window at 0.39 at 13:56 UTC; so
+  the earlier line here, that its second phase was not covered, is superseded by that. It suggests a measurement
+  for the card (a thick corner-free strip) and has a sampler of its own running on CPU, unrefereed. The site
+  agent is done (two new signals plates, one new dying plate, a live memory cell checked against the oracle at
+  every generation). **Version 19 of the overview was published at 14:20 UTC** (102 supporting files; 215 claims;
+  the memory cell live, "two ways to die", the register line, the tubes to 120 cells). **Fable agents running: none.**
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

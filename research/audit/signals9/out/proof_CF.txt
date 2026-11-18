@@ -1,0 +1,21 @@
+PASS  C  lemma T: for each of the 512 words over {7, b} on the nine units c-3..c+5 (plain wire around), the wire with the line at rest is after one and after two generations the union of the wire alone and the line alone; exceptions: [] (0); 29 s
+PASS  F  k = 1: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 2: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 3: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 4: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 5: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 6: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 7: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 8: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 9: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 10: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 11: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 12: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 13: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 14: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 15: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 16: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 17: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+PASS  F  k = 18: X_k(t) = V_k(t) + Lf(t), disjoint, at every generation 0..46 (oracle; the four end units of the wire stand throughout: True)
+      48 s
+ALL PASS

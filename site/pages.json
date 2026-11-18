@@ -7,10 +7,11 @@
   {"id": "walls", "k": "Walls", "v": "Nothing crosses a diagonal plane", "stc": "st-proved", "st": "proved"},
   {"id": "phase", "k": "The chaotic state", "v": "Density 0.4155, no grain", "stc": "st-meas", "st": "measured"}
 ]},
-{"slug": "dying", "label": "How faces die", "title": "How Gump Faces Die", "blurb": "A box of chaos ends one whole face at a time. The staircase of deaths, one face dying up close, and whether a death is luck or lineage.", "connects": "How long a face lasts, as a function of its size and shape, is the area law.", "plates": [
-  {"id": "stairs", "k": "The staircase", "v": "Whole faces die, one at a time", "stc": "st-meas", "st": "measured"},
-  {"id": "death", "k": "How a face dies", "v": "Busy, then gone in ten generations", "stc": "st-meas", "st": "measured"},
-  {"id": "dying", "k": "A face dying, watched", "v": "A dip that keeps going; at the end a loose knot, not a dense core", "stc": "st-meas", "st": "updated · rounds 3–4", "new": true},
+{"slug": "dying", "label": "How faces die", "title": "How Gump Faces Die", "blurb": "A box of chaos ends one whole face at a time. The staircase of deaths, one face of a box dying up close, two ways to die (a wrapped face crashes, a face of a box fades), and whether a death is luck or lineage.", "connects": "How long a face lasts, as a function of its size and shape, is the area law.", "plates": [
+  {"id": "stairs", "k": "The staircase", "v": "Whole faces of a box die, one at a time", "stc": "st-meas", "st": "measured"},
+  {"id": "death", "k": "How a face dies", "v": "A face of a box: busy, then gone in ten generations", "stc": "st-meas", "st": "measured"},
+  {"id": "dying", "k": "A face dying, watched", "v": "A face of a box: a dip that keeps going; at the end a loose knot, not a dense core", "stc": "st-meas", "st": "measured · rounds 3–4"},
+  {"id": "twoways", "k": "Two ways to die", "v": "A wrapped face over-fills and crashes; a face of a box fades; its rim row is why. No price follows", "stc": "st-meas", "st": "new · measured, three lines", "new": true},
   {"id": "luck", "k": "Luck or lineage", "v": "Waits are memoryless; faces do not age", "stc": "st-meas", "st": "measured"}
 ]},
 {"slug": "law", "label": "The area law", "title": "The Gump Area Law", "blurb": "A face's lifetime grows exponentially with its area. The price per cell, and what else counts: width, the shortest way round a wrapped face, symmetry.", "connects": "What is left when the last face dies is debris, the next page.", "plates": [
@@ -19,22 +20,24 @@
   {"id": "census", "k": "Every torus of a given area", "v": "Narrow faces pay less per cell; no law in area and loop", "stc": "st-meas", "st": "measured · corrected"},
   {"id": "pairs", "k": "Equal area, equal loop", "v": "The second variable: gone by 72 cells", "stc": "st-meas", "st": "measured"},
   {"id": "thin", "k": "The thinnest face", "v": "About 0.099 per cell: half a wide face’s", "stc": "st-meas", "st": "measured"},
-  {"id": "wrap", "k": "What a short way round costs", "v": "A face is emptier for every way round it; long tubes cost less than their line; a loop of √21: undecided", "stc": "st-meas", "st": "updated · measured + fitted", "new": true},
-  {"id": "constant", "k": "One price per cell?", "v": "No: rimmed faces about 0.231, wide wrapped 0.2087, tubes less; not in the living face", "stc": "st-meas", "st": "updated · measured; how faces die open", "new": true},
+  {"id": "wrap", "k": "What a short way round costs", "v": "A face is emptier for every way round it; long tubes cost less per cell, still falling at 120 cells; a loop of √21: undecided, the lean withdrawn", "stc": "st-meas", "st": "updated · measured, one code past 96 cells", "new": true},
+  {"id": "constant", "k": "One price per cell?", "v": "No: rimmed faces about 0.231, wide wrapped 0.2087, tubes less; two ways of dying behind them, no price computed", "stc": "st-meas", "st": "updated · measured; no price derived", "new": true},
   {"id": "sym", "k": "Symmetry", "v": "Faces tied across an edge die together: about −2.15 per edge", "stc": "st-meas", "st": "measured · corrected"}
 ]},
 {"slug": "fauna", "label": "Debris and clocks", "title": "Gump Debris and Clocks", "blurb": "What a dead box leaves behind: still lifes, clocks whose period is twist times loop, a compound clock, wires, and the lives that settle unrecognised.", "connects": "Wires carry pulses: signals are the next page.", "plates": [
   {"id": "fauna", "k": "Debris and clocks", "v": "Period = twist × loop; a 4 × 13 compound; wires", "stc": "st-proved", "st": "proved"},
   {"id": "zombie", "k": "Unrecognised lives", "v": "4 in a million settle unseen; bounded; most are wires", "stc": "st-meas", "st": "measured"}
 ]},
-{"slug": "signals", "label": "Signals", "title": "Gump Signals", "blurb": "Pulses that travel along wires, a gate, a clock of any length, a gun, a clock that edits what the gun writes, an end that sends a gap back up the stream as an echo, and what happens when signals going opposite ways meet, run live on this page; why nothing yet listens; and how much of its state space a seed ever visits.", "connects": "Gump is one rule among many; its relatives are the next page.", "plates": [
-  {"id": "signals", "k": "Signals", "v": "Pulses on wires; a gate; a clock of any length", "stc": "st-meas", "st": "new · checked on the oracle", "new": true},
-  {"id": "gun", "k": "A gun", "v": "Fifteen cells write a rake onto a wire every 4 generations", "stc": "st-meas", "st": "new · three codes; proved at every length", "new": true},
-  {"id": "divider", "k": "A clock that edits the message", "v": "Every second rake becomes a gap; still nothing reads it", "stc": "st-meas", "st": "new · three codes", "new": true},
-  {"id": "echo", "k": "An echo", "v": "A gap goes down the wire, three cells come back up; no gun survives the answer", "stc": "st-meas", "st": "new · two codes; SAT within bounds", "new": true},
-  {"id": "meetings", "k": "When signals meet", "v": "Nine signals ride the stream; opposite ones never pass", "stc": "st-proved", "st": "new · proved for ever + oracle", "new": true},
-  {"id": "ends", "k": "Nothing listens", "v": "741 ends: each forgets a gap or dies of it; two kinds of gap sort them four ways", "stc": "st-meas", "st": "new · two or three codes", "new": true},
-  {"id": "statespace", "k": "How much a seed sees", "v": "States seen = lifetime: 2^0.30·A of nearly 2^A", "stc": "st-proved", "st": "new · proved + measured", "new": true}
+{"slug": "signals", "label": "Signals", "title": "Gump Signals", "blurb": "Pulses that travel along wires, a gate, a clock of any length, a gun, an echo, the meetings of signals, run live on this page; a line that turns itself into a register, and a memory cell that pulses write and a call reads out, also live; what still does not listen; and how much of its state space a seed ever visits.", "connects": "Gump is one rule among many; its relatives are the next page.", "plates": [
+  {"id": "signals", "k": "Signals", "v": "Pulses on wires; a gate; a clock of any length", "stc": "st-meas", "st": "checked on the oracle"},
+  {"id": "gun", "k": "A gun", "v": "Fifteen cells write a rake onto a wire every 4 generations", "stc": "st-meas", "st": "three codes; proved at every length"},
+  {"id": "divider", "k": "A clock that edits the message", "v": "Every second rake becomes a gap; still nothing reads it", "stc": "st-meas", "st": "three codes"},
+  {"id": "echo", "k": "An echo", "v": "A gap goes down the wire, three cells come back up; 34 of 867 guns survive the answer", "stc": "st-meas", "st": "corrected · two codes; one code for the 34", "new": true},
+  {"id": "meetings", "k": "When signals meet", "v": "Nine signals ride the stream; opposite ones never pass", "stc": "st-proved", "st": "proved for ever + oracle"},
+  {"id": "ends", "k": "Nothing listens", "v": "No end listens; a store does. Missing: a source for the calling pair, copy, subtract, compare", "stc": "st-meas", "st": "updated · two or three codes", "new": true},
+  {"id": "register", "k": "A line that keeps a count", "v": "An echo and n holes turn a running line into a register holding n", "stc": "st-proved", "st": "new · exact runs, two codes", "new": true},
+  {"id": "memory", "k": "A memory cell", "v": "Pulses write a count; a call gives it back as k pulses, proved for every k; live", "stc": "st-meas", "st": "new · two codes on the oracle; proof not refereed", "new": true},
+  {"id": "statespace", "k": "How much a seed sees", "v": "States seen = lifetime: 2^0.30·A of nearly 2^A", "stc": "st-proved", "st": "proved + measured"}
 ]},
 {"slug": "relatives", "label": "Relatives", "title": "Gump and Its Relatives", "blurb": "Gump among 960 rules, a flat cousin on a square grid, the rule the 2012 code meant to run, the family of sealed half-spaces, and where the exponent lives.", "connects": "How all of this is checked, and what is open, is the last page.", "plates": [
   {"id": "rules", "k": "Rule space", "v": "Gump is minimal among 960", "stc": "st-meas", "st": "measured"},
@@ -48,6 +51,6 @@
   {"id": "swarm", "k": "The swarm", "v": "Closed: no proof of the area law", "stc": "st-open", "st": "open"},
   {"id": "checked", "k": "How it is checked", "v": "Graded claims, kept corrections"},
   {"id": "built", "k": "Built, and when", "v": "Commits and pull requests", "vid": "m-built"},
-  {"id": "next", "k": "Open now", "v": "The full meeting table of nine signals; a count that lasts; how rimmed and wrapped faces die; the long tube’s form", "stc": "st-open", "st": "open"}
+  {"id": "next", "k": "Open now", "v": "A decrement that reports zero; a source for the calling pair; why the fade costs more; the 126- and 132-cell tubes", "stc": "st-open", "st": "open · updated", "new": true}
 ]}
 ]

@@ -1,0 +1,17 @@
+# 13 still lifes of at most 8 cells: ['S6a', 'S6b', 'S6c', 'S7a', 'S7b', 'S8a', 'S8b', 'S8c', 'S8d', 'S8e', 'S8f', 'S8g', 'KS6a']
+S6a: 6 cells, 44 placements, 34 standing; triggers 1
+S6b: 6 cells, 182 placements, 138 standing; triggers 6
+S6c: 6 cells, 542 placements, 380 standing; triggers 17
+S7a: 7 cells, 552 placements, 318 standing; triggers 14
+S7b: 7 cells, 1104 placements, 674 standing; triggers 30
+S8a: 8 cells, 288 placements, 168 standing; triggers 2
+S8b: 8 cells, 278 placements, 166 standing; triggers 8
+S8c: 8 cells, 284 placements, 202 standing; triggers 8
+S8d: 8 cells, 294 placements, 200 standing; triggers 5
+S8e: 8 cells, 566 placements, 344 standing; triggers 16
+S8f: 8 cells, 580 placements, 360 standing; triggers 6
+S8g: 8 cells, 1130 placements, 670 standing; triggers 28
+KS6a: 6 cells, 184 placements, 126 standing; triggers 6
+# total: {'placements': 6028, 'standing': 3780}; pulses on plain wire (right-going, left-going): {('eaten', 'eaten'): 66, ('eaten', 'other'): 23, ('eaten', 'pass'): 66, ('other', 'eaten'): 23, ('other', 'other'): 305, ('other', 'pass'): 88, ('pass', 'other'): 88, ('pass', 'pass'): 3121}
+# beside d^3 f, 7 offsets: absorbed as usual: 23420; another store: 401; changing: 200; does not stand, other: 556; falls: plain wire and the object 240 generations on: 118; object changed: 361; trigger: b^11: 59; trigger: b^8: 59; trigger: bb: 8; trigger: nothing seen: 21; wire changed, object as it would be: 1257
+# 471 s

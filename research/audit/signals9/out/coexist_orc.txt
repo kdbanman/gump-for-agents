@@ -1,0 +1,14 @@
+(a) reader at w+14, line, empty wire: set at 0, add at 180 and 300, CALL at 420: oracle = st9 at every even generation 0..620: True; nearest image 28, torus (180, 110, 180); 44 s
+      t = 120: whole state = 7^32 d f 7^36 + line + reader: True
+      t = 298: whole state = 7^32 dd f 7^35 + line + reader: True
+      t = 418: whole state = 7^32 ddd f 7^34 + line + reader: True
+      t = 620: whole state = 7^70 + line + reader: True
+      read launched at t = 120 (oracle): the probed run differs from the unprobed one in 2 cells 30 generations on and in 0 cells 60 generations on
+      read launched at t = 360 (oracle): the probed run differs from the unprobed one in 2 cells 30 generations on and in 0 cells 60 generations on
+      read launched at t = 620 (oracle): the probed run differs from the unprobed one in 2 cells 30 generations on and in 0 cells 60 generations on
+(b) d^5 f armed, reader at w+3 (inside the stretch): stands True; read (oracle): 0 cells differ 30 generations on, 0 60 generations on
+(b) then a CALL: oracle = st9 at every even generation 0..90: True; nearest image 28, torus (180, 110, 180); 7 s
+      t = 90: 1213 cells (start 720); line changed; reader changed
+(c) d^4 f armed, reader at w-6 (left of the line): a CALL: oracle = st9 at every even generation 0..120: True; nearest image 29, torus (180, 110, 180); 9 s
+      t = 120: 406 cells (start 720); line ok; reader changed
+# 91 s

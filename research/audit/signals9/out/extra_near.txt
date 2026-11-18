@@ -1,0 +1,5 @@
+k = 3, R@CROSS-17 and a CALL at generation 0: store, 2 pulses out, 7^64; oracle = st9 at every even generation 0..300: True; 16 s
+k = 3, R@CROSS-16 and a CALL at generation 0: store, 0 pulses out, 7^31 ddd f 7^29; oracle = st9 at every even generation 0..300: True; 15 s
+k = 3, R@CROSS-15 and a CALL at generation 0: standing-other, 0 pulses out, 516 cells, line as it was, store letters 7^30 c ? 4 e^31; oracle = st9 at every even generation 0..300: True; 16 s
+k = 1, R@CROSS-15 and a CALL at generation 0: standing-other, 0 pulses out, 518 cells, line as it was, store letters 7^30 c ? e^32; oracle = st9 at every even generation 0..300: True; 16 s
+k = 1, R@CROSS-17 and a CALL at generation 0: store, 0 pulses out, 7^64; oracle = st9 at every even generation 0..300: True; 16 s
