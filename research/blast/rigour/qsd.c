@@ -13,7 +13,7 @@
    h = (vP)(empty) / |v| converges to 1 - lambda; from the quasi-stationary law the death time is exactly
    geometric with mean tau = 1/h.
 
-   usage: qsd graph rho1 rho2 [maxiter=4000] [tol=1e-13] [vecout]
+   usage: qsd graph rho1 rho2 [maxiter=4000] [tol=1e-13] [verbose 0/1] [tilt]
    graph: A; then per cell "m1 m2 deg n1..ndeg"; then an elimination order (see geom.py).
    build: gcc -O3 -march=native -o qsd qsd.c -lm                                                    */
 #include <stdio.h>
@@ -159,7 +159,7 @@ int main(int argc, char **argv) {
         /* mass is conserved by the product: h + z = 1 up to rounding */
         if (fabs(h + z - 1) > 1e-9) { fprintf(stderr, "mass not conserved: %g\n", h + z - 1); return 1; }
         if (hprev > 0 && fabs(h - hprev) <= tol * h) good++; else good = 0;
-        if (argc > 6 && it % 20 == 0) fprintf(stderr, "it %d h %.15g\n", it, h);
+        if (argc > 6 && atoi(argv[6]) && it % 20 == 0) fprintf(stderr, "it %d h %.15g\n", it, h);
         hprev = h;
         if (good >= 8) break;
     }
@@ -191,5 +191,53 @@ int main(int argc, char **argv) {
     printf("death_from_n"); for (int n = 1; n <= A; n++) printf(" %.6e", hn[n] / hsum); printf("\n");
     printf("occ"); for (int c = 0; c < A; c++) printf(" %.8f", occ[c]); printf("\n");
     printf("predeath_occ"); for (int c = 0; c < A; c++) printf(" %.8f", docc[c] / hsum); printf("\n");
+    /* Tilt identity (README, Theorem 2): with eps_i(x) = -ln P(cell i dead next | x) and E = sum_i eps_i,
+       h = E_mu[exp(-E)], so ln tau = int_0^1 <E>_s ds = sum_i c_i, c_i = int_0^1 <eps_i>_s ds,
+       <.>_s the mean under mu_s ~ mu exp(-sE).  32-point Gauss-Legendre in s.  Also cumulants of E under mu. */
+    if (argc > 7) {
+        enum { NG = 32 };
+        double xs[NG], ws[NG];
+        for (int i = 0; i < NG; i++) {            /* Gauss-Legendre nodes on [0,1] by Newton */
+            double z = cos(M_PI * (i + 0.75) / (NG + 0.5)), pp = 0;
+            for (int itn = 0; itn < 100; itn++) {
+                double p1 = 1, p2 = 0;
+                for (int j = 1; j <= NG; j++) { double p3 = p2; p2 = p1; p1 = ((2.0 * j - 1) * z * p2 - (j - 1.0) * p3) / j; }
+                pp = NG * (z * p1 - p2) / (z * z - 1);
+                double dz = p1 / pp; z -= dz; if (fabs(dz) < 1e-15) break;
+            }
+            xs[i] = 0.5 * (1 - z); ws[i] = 1.0 / ((1 - z * z) * pp * pp);
+        }
+        static double Z[NG], Ns[NG][MAXA], Ds[NG], Es[NG];
+        double k1 = 0, m2c = 0, m3c = 0, m4c = 0;
+        double lneps[MAXA][2][8];
+        for (int c = 0; c < A; c++) for (int x = 0; x < 2; x++) for (int k = 0; k < 8; k++) lneps[c][x][k] = -log(1 - q[c][x][k]);
+        for (uint64_t s = 1; s < NA; s++) k1 += T[s] * 0;   /* placeholder to keep structure simple */
+        for (int pass = 0; pass < 2; pass++)
+        for (uint64_t s = 1; s < NA; s++) {
+            double v = T[s], e[MAXA], E = 0;
+            for (int c = 0; c < A; c++) {
+                int k = __builtin_popcountll(s & nbm[c][1]) + 2 * __builtin_popcountll(s & nbm[c][2]) + 3 * __builtin_popcountll(s & nbm[c][3]);
+                e[c] = lneps[c][(s >> posold[c]) & 1][k]; E += e[c];
+            }
+            if (pass == 0) { k1 += v * E; continue; }
+            double dE = E - k1; m2c += v * dE * dE; m3c += v * dE * dE * dE; m4c += v * dE * dE * dE * dE;
+            int n = __builtin_popcountll(s);
+            for (int g = 0; g < NG; g++) {
+                double w = v * exp(-xs[g] * E);
+                Z[g] += w; Ds[g] += w * n; Es[g] += w * E;
+                for (int c = 0; c < A; c++) Ns[g][c] += w * e[c];
+            }
+        }
+        double ci[MAXA], tot = 0;
+        for (int c = 0; c < A; c++) { ci[c] = 0; for (int g = 0; g < NG; g++) ci[c] += ws[g] * Ns[g][c] / Z[g]; tot += ci[c]; }
+        printf("tilt_sum_ci %.12f  (lntau %.12f)\n", tot, -log(h));
+        printf("price_map"); for (int c = 0; c < A; c++) printf(" %.8f", ci[c]); printf("\n");
+        printf("E_cumulants_per_cell k1 %.10f k2 %.10f k3 %.10f k4 %.10f\n", k1 / A, m2c / A, m3c / A, (m4c - 3 * m2c * m2c) / A);
+        printf("cumulant_series_lntau 1: %.6f 2: %.6f 3: %.6f 4: %.6f\n", k1, k1 - m2c / 2, k1 - m2c / 2 + m3c / 6,
+               k1 - m2c / 2 + m3c / 6 - (m4c - 3 * m2c * m2c) / 24);
+        printf("tilt_path s:<E>_s/A:density_s");
+        for (int g = 0; g < NG; g += 3) printf(" %.3f:%.5f:%.5f", xs[g], Es[g] / Z[g] / A, Ds[g] / Z[g] / A);
+        printf("\n");
+    }
     return 0;
 }

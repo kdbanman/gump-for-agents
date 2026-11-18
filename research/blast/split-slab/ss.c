@@ -1,0 +1,235 @@
+/* ss.c (research/blast/split-slab): bit-sliced gump on a slab graph, 512 lanes, with
+ *   (1) a plain renewal run that books excursion minima of each face ("flux stage": brute force + nu(p)),
+ *   (2) forward-flux / fixed-effort multilevel splitting on the face population, clones separated by flips,
+ *   (3) a dump mode for validation against reference/oracle.py.
+ * Written from docs/AUTOMATON.md; shares no code with other steppers of this repository.
+ *
+ * Geometry file (geom.py): int32 n, A, nbr[n*12] (n = outside = always dead). Layer l = cells [l A, (l+1) A).
+ *
+ *   ss GEOM dump INIT.bin LANE GENS OUT.bin SEED
+ *        lane LANE starts from INIT (n bytes 0/1), all other lanes from a 0.4 soup; writes n bytes per generation
+ *        (generations 0..GENS) of lane LANE.
+ *   ss GEOM ffs SEED NREP PA LAM0 DELTA M N0TGT NFLIP FDEP0 FDEP1 NPATH [PATHFILE] [BRUTEGENS]
+ *        NREP independent replications of the whole estimator. See README.md for the exact algorithm.
+ *   ss GEOM plain SEED GENS PA LAM0
+ *        plain renewal run only (512 lanes, GENS generations): deaths, exposure, excursion-minimum histogram.
+ */
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <string.h>
+#include <math.h>
+typedef uint64_t u64;
+#define W 8
+#define NL (64 * W)
+#define NB 10
+typedef u64 vec __attribute__((vector_size(64), aligned(8)));
+
+static int n, A, nw;
+static int *nb;
+static u64 *a, *b;
+static u64 sm;
+static inline u64 rnd(void) { u64 z = (sm += 0x9e3779b97f4a7c15ULL); z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9ULL;
+  z = (z ^ (z >> 27)) * 0x94d049bb133111ebULL; return z ^ (z >> 31); }
+static inline u64 mix(u64 *s) { u64 z = (*s += 0x9e3779b97f4a7c15ULL); z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9ULL;
+  z = (z ^ (z >> 27)) * 0x94d049bb133111ebULL; return z ^ (z >> 31); }
+
+#define FA(s, c, p, q, r) do { vec t_ = (p) ^ (q); s = t_ ^ (r); c = ((p) & (q)) | (t_ & (r)); } while (0)
+static inline vec rule(const vec *x, vec me) {
+  vec s0, c0, s1, c1, s2, c2, s3, c3, u, cu, b0, cv, p, cp, q, cq, b1, cw, b2, b3;
+  FA(s0, c0, x[0], x[1], x[2]); FA(s1, c1, x[3], x[4], x[5]); FA(s2, c2, x[6], x[7], x[8]); FA(s3, c3, x[9], x[10], x[11]);
+  FA(u, cu, s0, s1, s2); b0 = u ^ s3; cv = u & s3;            /* ones */
+  FA(p, cp, c0, c1, c2); FA(q, cq, c3, cu, cv); b1 = p ^ q; cw = p & q;   /* twos */
+  FA(b2, b3, cp, cq, cw);                                       /* fours, eights */
+  return ~b3 & ((b2 & ~b1) | (me & ~b2 & b1 & b0));            /* count 4,5 -> alive; count 3 -> keeps state */
+}
+static void step(void) {
+  for (int i = 0; i < n; i++) {
+    const int *q = nb + 12 * (size_t)i; vec x[12], me, o;
+    for (int t = 0; t < 12; t++) memcpy(&x[t], a + (size_t)q[t] * W, 64);
+    memcpy(&me, a + (size_t)i * W, 64); o = rule(x, me); memcpy(b + (size_t)i * W, &o, 64);
+  }
+  u64 *t = a; a = b; b = t;
+}
+/* bit-sliced population of layer starting at cell `base` : c[bit][word] */
+static void laypop(int base, u64 c[NB][W]) {
+  vec cc[NB]; for (int k = 0; k < NB; k++) cc[k] = (vec){0};
+  for (int i = base; i < base + A; i++) { vec x; memcpy(&x, a + (size_t)i * W, 64);
+    for (int k = 0; k < NB; k++) { vec t = cc[k] & x; cc[k] ^= x; x = t; } }
+  for (int k = 0; k < NB; k++) memcpy(c[k], &cc[k], 64);
+}
+static inline u64 lt_mask(u64 c[NB][W], int w, int K) {   /* lanes with count < K */
+  if (K <= 0) return 0; if (K >= (1 << NB)) return ~0ULL;
+  u64 lt = 0, eq = ~0ULL;
+  for (int k = NB - 1; k >= 0; k--) { u64 x = c[k][w]; if ((K >> k) & 1) { lt |= eq & ~x; eq &= x; } else eq &= ~x; }
+  return lt;
+}
+static inline int lane_count(u64 c[NB][W], int lane) { int w = lane >> 6, k = lane & 63, p = 0;
+  for (int t = 0; t < NB; t++) p |= (int)((c[t][w] >> k) & 1) << t; return p; }
+static void lane_get(int lane, u64 *cfg) { int w = lane >> 6, k = lane & 63; memset(cfg, 0, 8 * nw);
+  for (int i = 0; i < n; i++) cfg[i >> 6] |= ((a[(size_t)i * W + w] >> k) & 1) << (i & 63); }
+static void lane_put(int lane, const u64 *cfg) { int w = lane >> 6, k = lane & 63; u64 bit = 1ULL << k;
+  for (int i = 0; i < n; i++) { u64 *x = a + (size_t)i * W + w; *x = (*x & ~bit) | (((cfg[i >> 6] >> (i & 63)) & 1) << k); } }
+static void lane_soup(int lane) { int w = lane >> 6, k = lane & 63; u64 bit = 1ULL << k; u64 thr = (u64)(0.4 * 18446744073709551616.0);
+  for (int i = 0; i < n; i++) { u64 *x = a + (size_t)i * W + w; if (rnd() < thr) *x |= bit; else *x &= ~bit; } }
+/* the flips of a clone: NFLIP cells, each uniform in the layers at depth FDEP0..FDEP1 beneath the active face */
+static int NFLIP, FDEP0, FDEP1;
+static void apply_flips(u64 *cfg, int face, u64 seed) {
+  int nlay = FDEP1 - FDEP0 + 1;
+  for (int f = 0; f < NFLIP; f++) { u64 z = mix(&seed); int r = (int)((z >> 11) % (u64)(nlay * A));
+    int dep = FDEP0 + r / A, c = r % A; int lay = face ? 7 - dep : dep; int cell = lay * A + c;
+    cfg[cell >> 6] ^= 1ULL << (cell & 63); }
+}
+
+/* ---------- flux stage (plain renewal run) ---------- */
+#define BURN 1000
+#define LCAP 50000
+#define TMAX 1000   /* a trial not ended after TMAX generations is a failure (settled lane) */
+static int PA, LAM0;
+static int st[NL][2], curmin[NL][2]; static long burn[NL], age[NL];
+static double g_E; static long g_N0, g_deaths, g_hist[1 << NB], g_cross[1 << NB], g_capped; static double g_sp, g_spp, g_ns;
+/* store of level-0 crossings */
+static u64 *s0; static int *s0face, *s0pop; static long s0cap, s0n;
+static void flux_reset(void) { for (int l = 0; l < NL; l++) { lane_soup(l); burn[l] = BURN; age[l] = 0; st[l][0] = st[l][1] = 0; } }
+static void flux_gen(int store) {
+  step();
+  u64 c[2][NB][W]; laypop(0, c[0]); laypop(7 * A, c[1]);
+  for (int l = 0; l < NL; l++) {
+    if (burn[l] > 0) { if (--burn[l] == 0) { for (int f = 0; f < 2; f++) st[l][f] = 0; age[l] = 0; } continue; }
+    age[l]++;
+    int dead = 0;
+    for (int f = 0; f < 2; f++) {
+      int p = lane_count(c[f], l);
+      if (st[l][f] == 0) { if (p >= PA) st[l][f] = 1; else { if (p == 0) dead = 1; continue; } }
+      g_E += 1; g_sp += p; g_spp += (double)p * p; g_ns += 1;
+      if (st[l][f] == 1) {
+        if (p <= LAM0) { g_N0++; g_cross[p]++; st[l][f] = 2; curmin[l][f] = p;
+          if (store && s0n < s0cap) { lane_get(l, s0 + (size_t)s0n * nw); s0face[s0n] = f; s0pop[s0n] = p; s0n++; }
+          if (p == 0) { g_deaths++; g_hist[0]++; dead = 1; } }
+      } else {
+        if (p < curmin[l][f]) curmin[l][f] = p;
+        if (p == 0) { g_deaths++; g_hist[0]++; dead = 1; }
+        else if (p >= PA) { g_hist[curmin[l][f]]++; st[l][f] = 1; }
+      }
+    }
+    if (!dead && age[l] >= LCAP) { g_capped++; dead = 1; }
+    if (dead) { lane_soup(l); burn[l] = BURN; st[l][0] = st[l][1] = 0; }
+  }
+}
+
+/* ---------- splitting stages ---------- */
+typedef struct { long cap, cnt; u64 *state; int *face, *pop, *parent, *t, *anc; u64 *seed; } store_t;
+static void st_alloc(store_t *s, long cap, int withstate) { s->cap = cap; s->cnt = 0;
+  s->state = withstate ? malloc((size_t)cap * nw * 8) : 0; s->face = malloc(4 * cap); s->pop = malloc(4 * cap);
+  s->parent = malloc(4 * cap); s->t = malloc(4 * cap); s->anc = malloc(4 * cap); s->seed = malloc(8 * cap); }
+
+int main(int argc, char **argv) {
+  if (argc < 3) { fprintf(stderr, "usage\n"); return 1; }
+  FILE *f = fopen(argv[1], "rb"); int32_t hd[2]; if (fread(hd, 4, 2, f) != 2) return 1; n = hd[0]; A = hd[1]; nw = (n + 63) / 64;
+  nb = malloc(4 * 12 * (size_t)n); if (fread(nb, 4, 12 * (size_t)n, f) != 12 * (size_t)n) return 1; fclose(f);
+  a = aligned_alloc(64, (size_t)(n + 1) * W * 8); b = aligned_alloc(64, (size_t)(n + 1) * W * 8);
+  memset(a, 0, (size_t)(n + 1) * W * 8); memset(b, 0, (size_t)(n + 1) * W * 8);
+  const char *mode = argv[2];
+  if (!strcmp(mode, "dump")) {
+    const char *initf = argv[3]; int lane = atoi(argv[4]); long gens = atol(argv[5]); const char *outf = argv[6];
+    sm = strtoull(argv[7], 0, 10) * 0x2545F4914F6CDD1DULL + 99;
+    for (int l = 0; l < NL; l++) lane_soup(l);
+    unsigned char *buf = malloc(n); FILE *g = fopen(initf, "rb"); if (fread(buf, 1, n, g) != (size_t)n) return 1; fclose(g);
+    u64 *cfg = calloc(nw, 8); for (int i = 0; i < n; i++) if (buf[i]) cfg[i >> 6] |= 1ULL << (i & 63);
+    lane_put(lane, cfg); FILE *o = fopen(outf, "wb");
+    for (long gen = 0; gen <= gens; gen++) { lane_get(lane, cfg); for (int i = 0; i < n; i++) buf[i] = (cfg[i >> 6] >> (i & 63)) & 1;
+      fwrite(buf, 1, n, o); if (gen < gens) step(); }
+    fclose(o); return 0;
+  }
+  if (!strcmp(mode, "plain")) {
+    sm = strtoull(argv[3], 0, 10) * 0x2545F4914F6CDD1DULL + 7; long gens = atol(argv[4]); PA = atoi(argv[5]); LAM0 = atoi(argv[6]);
+    flux_reset(); for (long g = 0; g < gens; g++) flux_gen(0);
+    printf("PLAIN A %d PA %d LAM0 %d E %.6e N0 %ld deaths %ld capped %ld meanpop %.4f varpop %.4f lntau_brute %.4f +- %.4f\n", A, PA, LAM0, g_E, g_N0,
+           g_deaths, g_capped, g_sp / g_ns, g_spp / g_ns - (g_sp / g_ns) * (g_sp / g_ns), g_deaths ? log(g_E / g_deaths) : 0.0, g_deaths ? 1 / sqrt(g_deaths) : 0.0);
+    long cum = 0; for (int p = 0; p <= LAM0; p++) { cum += g_hist[p]; if (g_hist[p] || g_cross[p]) printf("HIST %d min %ld cum %ld cross %ld\n", p, g_hist[p], cum, g_cross[p]); }
+    return 0;
+  }
+  /* ffs */
+  u64 seed0 = strtoull(argv[3], 0, 10); int nrep = atoi(argv[4]); PA = atoi(argv[5]); LAM0 = atoi(argv[6]); int DELTA = atoi(argv[7]);
+  long M = atol(argv[8]); long N0TGT = atol(argv[9]); NFLIP = atoi(argv[10]); FDEP0 = atoi(argv[11]); FDEP1 = atoi(argv[12]);
+  int npath = atoi(argv[13]); const char *pathf = argc > 14 ? argv[14] : 0;
+  int lam[256], nlev = 0; for (int x = LAM0; x > 0; x -= DELTA) lam[nlev++] = x; lam[nlev++] = 0;   /* lam[0] = LAM0, ..., lam[nlev-1] = 0 */
+  s0cap = M; s0 = malloc((size_t)s0cap * nw * 8); s0face = malloc(4 * s0cap); s0pop = malloc(4 * s0cap);
+  store_t *S = malloc(sizeof(store_t) * nlev); for (int i = 1; i < nlev; i++) st_alloc(&S[i], M, 0);
+  u64 *bufA = malloc((size_t)M * nw * 8), *bufB = malloc((size_t)M * nw * 8); u64 *cfg = malloc(8 * nw);
+  FILE *pf = pathf ? fopen(pathf, "w") : 0;
+  u64 *bak = aligned_alloc(64, (size_t)(n + 1) * W * 8);
+  if (pf) { fprintf(pf, "# n %d A %d PA %d levels", n, A, PA); for (int i = 0; i < nlev; i++) fprintf(pf, " %d", lam[i]);
+    fprintf(pf, " NFLIP %d FDEP %d %d\n", NFLIP, FDEP0, FDEP1); }
+  double *rate = malloc(8 * nrep); double sumP[256] = {0}, sumReach[256] = {0}; double sumPhi = 0;
+  long totS[256] = {0}, totM[256] = {0}, timeouts = 0, lanegens = 0;
+  printf("# A %d n %d PA %d levels", A, n, PA); for (int i = 0; i < nlev; i++) printf(" %d", lam[i]);
+  printf(" M %ld N0TGT %ld NFLIP %d FDEP %d %d\n", M, N0TGT, NFLIP, FDEP0, FDEP1);
+  for (int rep = 0; rep < nrep; rep++) {
+    sm = (seed0 * 1000003ULL + rep) * 0x2545F4914F6CDD1DULL + 12345;
+    /* stage 0: flux */
+    double E0 = g_E; long N00 = g_N0; s0n = 0; if (rep == 0) flux_reset();   /* one persistent plain ensemble; its windows feed the replications */
+    do { for (int g = 0; g < 64; g++) flux_gen(1); lanegens += 64L * NL; } while (g_N0 - N00 < N0TGT);
+    double E = g_E - E0; long N0 = g_N0 - N00; double phi = N0 / E; sumPhi += phi;
+    memcpy(bak, a, (size_t)(n + 1) * W * 8);
+    double r = phi; int ok = 1; long Sprev = s0n; u64 *prev = s0, *cur = bufA;
+    int *pface = s0face, *ppop = s0pop; int *pt = 0;
+    printf("REP %d N0 %ld E %.4e", rep, N0, E);
+    for (int i = 1; i < nlev && ok; i++) {
+      store_t *T = &S[i]; T->cnt = 0; int L = lam[i];
+      long launched = 0, done = 0, succ = 0; u64 r0 = rnd() % (u64)Sprev;
+      int lpar[NL]; u64 lseed[NL]; long lstart[NL]; int lface[NL]; u64 busy[W] = {0}, act1[W] = {0}; long gen = 0;
+      #define LAUNCH(lane) do { int l_ = (lane); int w_ = l_ >> 6; u64 bit_ = 1ULL << (l_ & 63); busy[w_] &= ~bit_; \
+        while (launched < M) { long j_ = launched++; int par_ = (int)((r0 + (u64)j_) % (u64)Sprev); u64 sd_ = rnd(); \
+          memcpy(cfg, prev + (size_t)par_ * nw, 8 * nw); apply_flips(cfg, pface[par_], sd_); \
+          if (ppop[par_] <= L) { long k_ = T->cnt++; memcpy(cur + (size_t)k_ * nw, cfg, 8 * nw); T->face[k_] = pface[par_]; T->pop[k_] = ppop[par_]; \
+            T->parent[k_] = par_; T->seed[k_] = sd_; T->t[k_] = pt ? pt[par_] : 0; done++; succ++; continue; } \
+          lane_put(l_, cfg); lpar[l_] = par_; lseed[l_] = sd_; lstart[l_] = gen; lface[l_] = pface[par_]; busy[w_] |= bit_; \
+          if (pface[par_]) act1[w_] |= bit_; else act1[w_] &= ~bit_; break; } } while (0)
+      for (int l = 0; l < NL; l++) LAUNCH(l);
+      for (;;) {
+        u64 any = 0; for (int w = 0; w < W; w++) any |= busy[w]; if (!any) break;
+        step(); gen++; lanegens += NL;
+        u64 c[2][NB][W]; laypop(0, c[0]); laypop(7 * A, c[1]);
+        for (int w = 0; w < W; w++) {
+          u64 le0 = lt_mask(c[0], w, L + 1), le1 = lt_mask(c[1], w, L + 1), ge0 = ~lt_mask(c[0], w, PA), ge1 = ~lt_mask(c[1], w, PA);
+          u64 sc = busy[w] & ((~act1[w] & le0) | (act1[w] & le1)); u64 fl = busy[w] & ~sc & ((~act1[w] & ge0) | (act1[w] & ge1));
+          if ((gen & 255) == 0) { for (int k = 0; k < 64; k++) if (((busy[w] & ~sc & ~fl) >> k) & 1 && gen - lstart[64 * w + k] > TMAX) { fl |= 1ULL << k; timeouts++; } }
+          while (sc) { int k = __builtin_ctzll(sc); sc &= sc - 1; int l = 64 * w + k; long kk = T->cnt++;
+            lane_get(l, cur + (size_t)kk * nw); T->face[kk] = lface[l]; T->pop[kk] = lane_count(c[lface[l]], l);
+            T->parent[kk] = lpar[l]; T->seed[kk] = lseed[l]; T->t[kk] = (pt ? pt[lpar[l]] : 0) + (int)(gen - lstart[l]); done++; succ++; LAUNCH(l); }
+          while (fl) { int k = __builtin_ctzll(fl); fl &= fl - 1; int l = 64 * w + k; done++; LAUNCH(l); }
+        }
+      }
+      double P = (double)succ / (double)M; r *= P; totS[i] += succ; totM[i] += M; sumP[i] += P; sumReach[i] += r;
+      printf(" %ld", succ);
+      if (succ == 0) { ok = 0; break; }
+      Sprev = succ; prev = cur; cur = (cur == bufA) ? bufB : bufA; pface = T->face; ppop = T->pop; pt = T->t;
+    }
+    memcpy(a, bak, (size_t)(n + 1) * W * 8);
+    rate[rep] = ok ? r : 0; printf(" rate %.6e lntau %.4f\n", rate[rep], rate[rep] > 0 ? -log(rate[rep]) : 99.0); fflush(stdout);
+    /* reactive paths: lineages of a sample of deaths (stage-0 state + the flip seeds of every stage) */
+    if (pf && ok) { store_t *T = &S[nlev - 1]; long nd = T->cnt; for (int q = 0; q < npath && q < nd; q++) {
+        long idx = (long)(rnd() % (u64)nd); u64 seeds[256]; long id = idx; int tt = T->t[idx], face = T->face[idx];
+        for (int i = nlev - 1; i >= 1; i--) { seeds[i] = S[i].seed[id]; id = S[i].parent[id]; }
+        fprintf(pf, "PATH rep %d face %d t %d s0pop %d seeds", rep, face, tt, s0pop[id]);
+        for (int i = 1; i < nlev; i++) fprintf(pf, " %llu", (unsigned long long)seeds[i]);
+        fprintf(pf, " state "); for (int x = 0; x < nw; x++) fprintf(pf, "%016llx", (unsigned long long)s0[(size_t)id * nw + x]); fprintf(pf, "\n"); }
+      fflush(pf); }
+  }
+  /* summary: mean of the replications' rates, error from their scatter */
+  double m = 0, v = 0; for (int i = 0; i < nrep; i++) m += rate[i]; m /= nrep; for (int i = 0; i < nrep; i++) v += (rate[i] - m) * (rate[i] - m);
+  double se = nrep > 1 ? sqrt(v / (nrep - 1) / nrep) : 0;
+  printf("SUMMARY A %d reps %d lntau %.4f +- %.4f (rel sd of one replication %.3f) phi %.5e timeouts %ld lanegens %.3e\n", A, nrep, -log(m), se / m,
+         nrep > 1 ? sqrt(v / (nrep - 1)) / m : 0, sumPhi / nrep, timeouts, (double)lanegens);
+  printf("FLUXSTAGE E %.6e N0 %ld deaths %ld capped %ld meanpop %.4f varpop %.4f", g_E, g_N0, g_deaths, g_capped, g_sp / g_ns, g_spp / g_ns - (g_sp / g_ns) * (g_sp / g_ns));
+  if (g_deaths) printf(" lntau_brute %.4f +- %.4f", log(g_E / g_deaths), 1 / sqrt(g_deaths)); printf("\n");
+  /* per level: pooled P, the split estimate of nu(level) = phi * prod P, and the plain-run nu(level) from excursion minima */
+  { long cum[1 << NB]; long cc = 0; for (int p = 0; p < (1 << NB); p++) { cc += g_hist[p]; cum[p] = cc; }
+    for (int i = 1; i < nlev; i++) { double nus = sumReach[i] / nrep; long nat = cum[lam[i]];
+      printf("LEVEL %d lam %d P %.5f lnnu_split %.4f natural_count %ld lnnu_plain %.4f diff %.4f +- %.4f\n", i, lam[i], (double)totS[i] / totM[i], log(nus), nat,
+             nat ? log(nat / g_E) : 0.0, nat ? log(nus) - log(nat / g_E) : 0.0, nat ? 1 / sqrt(nat) : 0.0); } }
+  for (int i = 0; i < nrep; i++) printf("RATE %d %.8e\n", i, rate[i]);
+  if (pf) fclose(pf);
+  return 0;
+}

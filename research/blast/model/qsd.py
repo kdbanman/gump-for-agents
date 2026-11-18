@@ -81,7 +81,7 @@ if __name__ == '__main__':
     for s in specs:
         try:
             st = stats(s)
-        except FileNotFoundError:
+        except (FileNotFoundError, KeyError):
             continue
         lp, ph, m, v, A = st['lp'], st['ph'], st['mean'], st['var'], st['A']
         if summary:

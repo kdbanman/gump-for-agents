@@ -148,8 +148,14 @@ def main(vessel, run, maxd=4000, nsh=100):
     nd = len(hd); rng = np.random.default_rng(1)
     period = meta.get('period')
     geos, adjs = [], []
+    occ0 = [np.array(o[:na]) / sm['occden'] for o in sm['occ']]
+    masks = [o >= 0.4 for o in occ0]; nm_ = int(masks[0].sum())
+    print(f'cells used in the fits (stationary occupancy >= 0.4): {nm_} of {na}')
+    out['cells_in_fits'] = nm_
+    fgeos = []
     for f, fc in enumerate(faces):
         geos.append(Geo(meta['facepos'][f], period))
+        fgeos.append(Geo(np.array(meta['facepos'][f])[masks[f]], period))
         ix = {c: i for i, c in enumerate(fc)}
         adjs.append([np.array([i] + [ix[int(x)] for x in nb[c] if int(x) in ix]) for i, c in enumerate(fc)])
     T = np.zeros((nd, na)); T3 = np.zeros((nd, na)); TP = np.zeros((nd, na))
@@ -166,9 +172,10 @@ def main(vessel, run, maxd=4000, nsh=100):
         print(f'generations from the last time P >= {L:2d} to the death: percentiles 10/25/50/75/90 = {pct(lag[~np.isnan(lag)])}'
               f'   (not within {H}: {np.isnan(lag).mean():.3f})')
         out[f'fall_from_{nm}'] = dict(level=L, pct=[float(x) for x in np.percentile(lag[~np.isnan(lag)], (10, 25, 50, 75, 90))])
-    print(f'spread of T over the cells of one death (standard deviation, generations): percentiles = {pct(T.std(1))}; '
-          f'range max-min: {pct(T.max(1) - T.min(1))}; cells not alive within {H}: {(T == -H).mean():.4f}')
-    out['T_std_pct'] = [float(x) for x in np.percentile(T.std(1), (10, 25, 50, 75, 90))]
+    Tm = np.concatenate([T[hd[:, 1] == f][:, masks[f]] for f in range(len(faces))])
+    print(f'spread of T over the cells of one death (cells used in the fits; standard deviation, generations): percentiles = {pct(Tm.std(1))}; '
+          f'range max-min: {pct(Tm.max(1) - Tm.min(1))}; mean T {Tm.mean():.2f}; cells not alive within {H}: {(T == -H).mean():.4f}')
+    out['T_std_pct'] = [float(x) for x in np.percentile(Tm.std(1), (10, 25, 50, 75, 90))]; out['T_mean'] = float(Tm.mean())
     # ---- fits against shuffles
     for nm, fld in (('T', T), ('T3', T3), ('TP', TP)):
         res = dict(plane=[], pshuf=[], conep=[], conen=[], cshufp=[], cshufn=[], g=[], bp=[], bn=[], cn=[], cp=[])
@@ -177,10 +184,10 @@ def main(vessel, run, maxd=4000, nsh=100):
             k = np.where(hd[:, 1] == f)[0]
             if not len(k):
                 continue
-            G = geos[f]; X = fld[k]
+            G = fgeos[f]; X = fld[k][:, masks[f]]
             r2, g, _ = G.plane(X); cpos, cneg, bp, bn, cp, cn = G.cone(X)
-            perm = rng.random((len(k), nsh, na)).argsort(2)
-            Xs = np.take_along_axis(np.repeat(X[:, None, :], nsh, 1), perm, 2).reshape(-1, na)
+            perm = rng.random((len(k), nsh, nm_)).argsort(2)
+            Xs = np.take_along_axis(np.repeat(X[:, None, :], nsh, 1), perm, 2).reshape(-1, nm_)
             s2, _, _ = G.plane(Xs); sp, sn, _, _, _, _ = G.cone(Xs)
             s2 = s2.reshape(len(k), nsh); sp = sp.reshape(len(k), nsh); sn = sn.reshape(len(k), nsh)
             pv['plane'] += list((s2 >= r2[:, None]).mean(1)); pv['conep'] += list((sp >= cpos[:, None]).mean(1))
@@ -221,9 +228,9 @@ def main(vessel, run, maxd=4000, nsh=100):
         k = np.where(hd[:, 1] == f)[0]
         if not len(k):
             continue
-        G = geos[f]; X = Tb[k]; r2, _, _ = G.plane(X)
-        perm = rng.random((len(k), nsh, na)).argsort(2)
-        Xs = np.take_along_axis(np.repeat(X[:, None, :], nsh, 1), perm, 2).reshape(-1, na)
+        G = fgeos[f]; X = Tb[k][:, masks[f]]; r2, _, _ = G.plane(X)
+        perm = rng.random((len(k), nsh, nm_)).argsort(2)
+        Xs = np.take_along_axis(np.repeat(X[:, None, :], nsh, 1), perm, 2).reshape(-1, nm_)
         s2, _, _ = G.plane(Xs); pvb += list((s2.reshape(len(k), nsh) >= r2[:, None]).mean(1))
     out['baseline_frac_plane_beats95'] = float((np.array(pvb) <= 0.05).mean())
     print(f'-- baseline (the same field 100 generations before the death, a living face): plane beats 95% of shuffles in '

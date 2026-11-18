@@ -6,8 +6,8 @@
 A 0.4 soup on the vessel is run by `an trace` (replica 0 of the production kernel) and, independently, laid out in
 the oracle's array and run by oracle.step:
   slab: every cell is copied to all its images p + m v1 + j v2 (mod 2N per coordinate) in the cubic torus of
-        N = H D cubes (N e1 and N e2 are period vectors, and the slab's 8 layers repeat every 2N in x+y+z with at
-        least 3 dead layers between: N >= 11). The images are generated here from the period vectors, not from
+        N cubes, N the smallest number >= 11 for which N e1 and N e2 are period vectors (the slab's 8 layers repeat
+        every 2N in x+y+z with at least 3 dead layers between). The images are generated here from the period vectors, not from
         geom.py's reduction, so the reduction is tested too.
   hull: the octahedron is placed in a box with a dead margin of 3.
 At every generation the oracle's array must equal the image of an.c's state. Then a negative control: one
@@ -32,7 +32,8 @@ def build():
 def layout(kind, args, cells):
     """site index array: for every site of the oracle's array, the vessel cell it shows (or -1)."""
     if kind == 'slab':
-        H, K, D = args; N = H * D; assert N >= 11
+        H, K, D = args
+        N = next(N for N in range(11, H * D + 11) if N % H == 0 and N % D == 0 and (N // H * K) % D == 0)   # N e1, N e2 periods
         S = 2 * N
         v1 = (2 * H + 2 * K, -2 * H, -2 * K); v2 = (2 * D, 0, -2 * D)
         site = -np.ones((S, S, S), np.int64)
