@@ -415,8 +415,17 @@ int main(int argc, char **argv) {
     // DICE=1 (env): the hull dice chain by brute force. Cells at depth 6 and 7 beneath the watched face (x+y+z = R-12,
     // R-14) are replaced by fair coins after every generation; deeper cells no longer matter; only the watched face's
     // death counts (other faces are not whole in this chain), so ln tau_face = ln(exposure / deaths) = direct_lntau - ln 8.
+    // Variations (env): DDEP (default 6): coins at depth DDEP and DDEP+1. DPM (default 64): coins alive with probability
+    // DPM/128. DSIDE (default 0): coins only on cells at least DSIDE layers beneath every other face (the rest of the hull,
+    // below the coins too, then follows the rule). DENS=1 without DICE: measure gump's own density on those cells.
     int DICE = getenv("DICE") ? atoi(getenv("DICE")) : 0, ndc = 0; int *dcell = malloc(sizeof(int) * n);
-    for (int i = 0; i < n; i++) { int sdep = R - (co[3 * i] + co[3 * i + 1] + co[3 * i + 2]); if (sdep == 12 || sdep == 14) dcell[ndc++] = i; }
+    int DDEP = getenv("DDEP") ? atoi(getenv("DDEP")) : 6, DPM = getenv("DPM") ? atoi(getenv("DPM")) : 64, DSIDE = getenv("DSIDE") ? atoi(getenv("DSIDE")) : 0;
+    int DENS = getenv("DENS") ? atoi(getenv("DENS")) : 0; double densum[2] = {0, 0}, dencnt[2] = {0, 0}; int *ddep = malloc(sizeof(int) * n);
+    for (int i = 0; i < n; i++) {
+        int *pp_ = co + 3 * i, sdep = R - (pp_[0] + pp_[1] + pp_[2]), okd = (sdep == 2 * DDEP || sdep == 2 * DDEP + 2);
+        for (int f = 1; f < 8 && okd && DSIDE; f++) { int sx = (f & 1) ? -1 : 1, sy = (f & 2) ? -1 : 1, sz = (f & 4) ? -1 : 1; if (R - (sx * pp_[0] + sy * pp_[1] + sz * pp_[2]) < 2 * DSIDE) okd = 0; }
+        if (okd) { ddep[ndc] = (sdep == 2 * DDEP + 2); dcell[ndc++] = i; }
+    }
     static double fallh[256], fallfrom = 0, falldead = 0;
     static uint8_t exmin[NL]; static double exh[256]; memset(exmin, 255, sizeof exmin);   // brute-force table of excursion minima
     int phase = 0;        // 0 burn-in, 1 pilot (P-bar), 2 flags settle, 3 counting
@@ -438,7 +447,13 @@ int main(int argc, char **argv) {
         if (MODE && phase == 3 && gphase % 100 == 0 && npool < POOLN)   // donors: 512 hulls every 100 generations
             for (int k = 0; k < 512 && npool < POOLN; k++) { int lane = (int)((gphase / 100 * 512 + k) % NL); if (lage[lane] > T0) lane_extract(lane, pool + (size_t)npool++ * NCW); }
         step(WMAX);
-        if (DICE) for (int k = 0; k < ndc; k++) for (int w = 0; w < WMAX; w++) X[(size_t)dcell[k] * WMAX + w] = rnd();
+        if (DICE && DPM == 64) for (int k = 0; k < ndc; k++) for (int w = 0; w < WMAX; w++) X[(size_t)dcell[k] * WMAX + w] = rnd();
+        else if (DICE) for (int k = 0; k < ndc; k++) for (int w = 0; w < WMAX; w++) {   // bits alive with probability DPM/128
+            u64 lt = 0, eq = ~0ULL;
+            for (int bb = 6; bb >= 0; bb--) { u64 rr = rnd(); if ((DPM >> bb) & 1) { lt |= eq & ~rr; eq &= rr; } else eq &= ~rr; }
+            X[(size_t)dcell[k] * WMAX + w] = lt;
+        }
+        if (DENS && phase == 3) for (int k = 0; k < ndc; k++) { for (int w = 0; w < WMAX; w++) densum[ddep[k]] += __builtin_popcountll(X[(size_t)dcell[k] * WMAX + w]); dencnt[ddep[k]] += NL; }
         observe(WMAX);
         for (int lane = 0; lane < NL; lane++) {
             int w = lane >> 6, b = lane & 63, p = pop[lane], nd = (p == 0);
@@ -481,7 +496,8 @@ int main(int argc, char **argv) {
            PBAR, SIG, LA, L0, exposure, ncross, lnphi, deaths, d0w, nold,
            deaths ? log(8 * exposure / deaths) : NAN, deaths ? 1 / sqrt((double)deaths) : NAN);
     if (!M) {
-        if (DICE && deaths) printf("DICE R %d dice_cells %d watched-face deaths %ld lntau_face %.4f +- %.4f\n", R, ndc, deaths, log(exposure / deaths), 1 / sqrt((double)deaths));
+        if (DICE && deaths) printf("DICE R %d DDEP %d DPM %d DSIDE %d dice_cells %d watched-face deaths %ld lntau_face %.4f +- %.4f\n", R, DDEP, DPM, DSIDE, ndc, deaths, log(exposure / deaths), 1 / sqrt((double)deaths));
+        if (DENS) printf("DENS R %d depth %d density %.5f depth %d density %.5f (cells %d, all hulls incl. young ones)\n", R, DDEP, densum[0] / dencnt[0], DDEP + 1, densum[1] / dencnt[1], ndc);
         double cf = 0;
         for (int d = 255; d >= 1; d--) { cf += fallh[d]; if (cf > 0 && 5 * d >= A) printf("F R %d fall %d count %.0f lnrate %.5f\n", R, d, cf, log(cf / exposure)); if (cf > 0 && d == (A + 1) / 2) printf("B R %d halfface_falls %.0f lnrate %.5f mean_P_before %.2f ending_empty %.0f\n", R, cf, log(cf / exposure), fallfrom / cf, falldead); }
         double cum = 0;
