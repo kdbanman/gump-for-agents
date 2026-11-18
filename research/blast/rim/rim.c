@@ -10,7 +10,8 @@
  *        stdout: summary; with -s K: per-node live counts over replicas of life age >= 256, every K generations
  *        (written to OUT.dens: node count; first line: number of replica-samples).
  *        -r: for each face death at life age > 400, the bits of all face cells (faces concatenated in file order)
- *        of the dying replica at lags 0,2,4,8,16,32,64,128,256 generations before the death generation, and, every
+ *        of the dying replica at lags 0,1,..,13 generations before the death generation (lag 0: the first generation
+ *        with the face empty), and, every
  *        4096 generations, the same for replica 0 at lag 0 if its age > 400 (stationary samples; lines "Q").
  *   rim GRAPH trace INIT GENS OUT    INIT (text): lines "replica node node ..."; steps GENS generations with no
  *        renewal; OUT (binary): for each generation 0..GENS and each listed replica, n bytes (0/1).
@@ -86,7 +87,7 @@ int main(int argc, char **argv) {
   FILE *ev = fopen(outf, "w");
   int ncf = 0; for (int k = 0; k < nf; k++) ncf += fsz[k];
   int *allf = malloc(4 * ncf); { int t = 0; for (int k = 0; k < nf; k++) for (int j = 0; j < fsz[k]; j++) allf[t++] = fc[k][j]; }
-  enum { RB = 512 }; static const int lags[9] = {0, 2, 4, 8, 16, 32, 64, 128, 256};
+  enum { RB = 512, NLAG = 14 }; static const int lags[NLAG] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
   u64 *ring = ringf ? calloc((size_t)RB * ncf * W, 8) : 0; FILE *rf = ringf ? fopen(ringf, "w") : 0; long nring = 0;
   long nF = 0, nS = 0, nFd[MAXF] = {0}; double E = 0;
   u64 *mature = calloc(W, 8);
@@ -114,7 +115,7 @@ int main(int argc, char **argv) {
         if (endF & bit) { int mask = 0; for (int f = 0; f < nf; f++) if (dead[f] & bit) { mask |= 1 << f; nFd[f]++; }
           nF++; fprintf(ev, "F %ld %d\n", age, mask); E += age;
           if (rf && age > 400 && nring < maxd) { nring++; fprintf(rf, "D %d %ld", mask, age);
-            for (int l = 0; l < 9; l++) { const u64 *sl = ring + (size_t)((g1 - lags[l]) % RB) * ncf * W; fputc(' ', rf);
+            for (int l = 0; l < NLAG; l++) { const u64 *sl = ring + (size_t)((g1 - lags[l]) % RB) * ncf * W; fputc(' ', rf);
               for (int j = 0; j < ncf; j++) fputc('0' + (int)((sl[(size_t)j * W + w] >> k) & 1), rf); }
             fputc('\n', rf); } }
         else { nS++; fprintf(ev, "S %ld\n", age - 840L * lagS[k]); E += age - 840L * lagS[k]; }
