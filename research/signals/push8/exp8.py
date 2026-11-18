@@ -155,3 +155,28 @@ def shoot(mid, sig, side, dist=10, nL=40, nR=40, G=120, g0=0):
     capl = 'ok' if np.array_equal(L.units(a, -6, 4), L.units(r, -6, 4)) else 'CHANGED'
     capr = 'ok' if np.array_equal(L.units(a, 4 + N, N + 16), L.units(r, 4 + N, N + 16)) else 'CHANGED'
     return hexrle(hexletters(L, a, 4, 4 + N)), capl, capr
+
+
+def _half(c):
+    """the half-turn that maps wire B onto itself reversed (README section 1 of the signals account)"""
+    return (-c[0] - 2, c[1], 8 - c[2])
+
+
+def _capr2():
+    img = frozenset(_half(c) for c in CAPL | W.wire('B', 4, 14))
+    L = Lab(-20, 2); a = L.arr(img)
+    u = -6
+    assert W.letter(L.unit_cells(a, u), 0) == 'B'
+    while W.letter(L.unit_cells(a, u), 0) == 'B':
+        u += 1
+    return frozenset(tr(c, -u) for c in img if unit(c) >= u)
+
+
+CAPR2 = _capr2()        # capL turned round: a right cap of wire B of period 2 (first unit 0; wire B at phase 0 up to unit -1)
+
+
+def cell(mid='', nL=10, nR=10):
+    """(cells, N): capL + 7^nL mid 7^nR + capL turned round (a standing object of period 2)"""
+    s = '7' * nL + mid + '7' * nR
+    N = len(s)
+    return CAPL | hexword(s, 4) | frozenset(tr(c, 4 + N) for c in CAPR2), N
