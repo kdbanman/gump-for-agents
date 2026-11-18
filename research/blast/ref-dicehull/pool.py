@@ -45,3 +45,25 @@ for R in sorted(set(mine) | set(theirs)):
         line('split-hull, its seeds', R, theirs[R]['r'])
     if R in mine and R in theirs:
         line('both pooled', R, mine[R]['r'] + theirs[R]['r'])
+
+# Like with like: the pooled value WITHOUT replications above 8 x the median (what a run that has not yet met a giant
+# replication reports), against gump's anchors; a weighted line in the area, extrapolated to 135 cells.
+print('\n"typical" pooled value (replications above 8 x median left out) minus gump, and its trend with the area:')
+ANCH = {9: 9.819, 11: 13.633, 13: 18.141, 15: 23.3392}; AREA = {9: 45, 11: 63, 13: 84, 15: 108, 17: 135}
+xs, ys, es = [], [], []; typ = {}
+for R in sorted(set(mine) | set(theirs)):
+    r = np.array((mine.get(R, {'r': []})['r']) + (theirs.get(R, {'r': []})['r'])); med = np.median(r); t = r[r <= 8 * med]
+    est = -math.log(t.mean()); err = t.std(ddof=1) / math.sqrt(len(t)) / t.mean(); typ[R] = (est, err)
+    s = f'  R={R:2d} A={AREA[R]:3d}: {len(t)} of {len(r)} replications: {est:.3f} +- {err:.3f}; with all: {-math.log(r.mean()):.3f}'
+    if R in ANCH:
+        s += f'; typical - gump = {est - ANCH[R]:+.3f} +- {err:.3f}; all - gump = {-math.log(r.mean()) - ANCH[R]:+.3f} +- {r.std(ddof=1) / math.sqrt(len(r)) / r.mean():.3f}'
+        xs.append(AREA[R]); ys.append(est - ANCH[R]); es.append(err)
+    print(s)
+xs, ys, es = map(np.array, (xs, ys, es)); w = 1 / es ** 2
+M = np.vstack([np.ones_like(xs, float), xs - 135.0]).T; C = np.linalg.inv(M.T @ (M * w[:, None])); b = C @ (M.T @ (w * ys))
+chi2 = (w * (ys - M @ b) ** 2).sum()
+print(f'  line: offset at 135 cells {b[0]:+.3f} +- {math.sqrt(C[0, 0]):.3f}, slope {b[1]:+.5f} +- {math.sqrt(C[1, 1]):.5f} per cell, chi2 {chi2:.2f} on {len(xs) - 2}')
+c0 = (w * ys).sum() / w.sum(); print(f'  constant: {c0:+.3f} +- {1 / math.sqrt(w.sum()):.3f}, chi2 {(w * (ys - c0) ** 2).sum():.2f} on {len(xs) - 1}')
+if 17 in typ:
+    e17, s17 = typ[17]
+    print(f'  R = 17 typical {e17:.3f} +- {s17:.3f}  ->  gump: {e17 - b[0]:.3f} +- {math.hypot(s17, math.sqrt(C[0, 0])):.3f} (line), {e17 - c0:.3f} +- {math.hypot(s17, 1 / math.sqrt(w.sum())):.3f} (constant)')
