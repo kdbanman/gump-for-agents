@@ -32,7 +32,8 @@ the automaton's speed limit in a face is 1 unit per generation). Labels: **[meas
 
 ## Vessels, lifetimes (check of the stepper against the anchors)
 
-`sh run1.sh; sh run2.sh; sh run3.sh` (about 5, 2 and 20 minutes on one core). ln τ_face = ln(faces·exposure/deaths).
+`sh run1.sh; sh run2.sh; sh run3.sh` (about 5, 2 and 20 minutes on one idle core; run3.sh also starts an 84-cell
+torus, t84, which had not finished when this was written and is not used). ln τ_face = ln(faces·exposure/deaths).
 
 | run | vessel | cells | deaths | ln τ_face here | anchor |
 |---|---|---:|---:|---|---|
@@ -42,7 +43,6 @@ the automaton's speed limit in a face is 1 unit per generation). Labels: **[meas
 | t63 | torus (1,4),(0,21), loops² 21 | 63 | 7,899 | 13.1547 ± 0.0113 | 13.1622 ± 0.0007 |
 | tube63 | (1,6),(0,21), loop² 9, 6.1 long | 63 | 8,023 | 12.8448 ± 0.0112 | none; 7,811 lives ended by a transverse firewall instead |
 | t75 | torus (1,9),(0,25), loops² 19, 25 | 75 | 1,144 | 15.6501 ± 0.0296 | 15.6442 ± 0.0030 |
-| t84 | torus (1,4),(0,28), loops² 21, 28 | 84 | T84D | T84L | 17.5387 ± 0.0031 |
 | h45 | hull radius 9 | 45 | 14,365 | 9.8142 ± 0.0083 | 9.819 |
 | h63 | hull radius 11 | 63 | 7,390 | 13.6205 ± 0.0116 | 13.633 |
 | h84 | hull radius 13 | 84 | 117 | 18.0636 ± 0.0925 | 18.141 ± 0.005 |
@@ -86,11 +86,11 @@ P = 32, 2.0 at P = 8 (living face 1.34); h63 1.8 at 32, 4.2 at 8 (living face 1.
 
 ## 2. Boom and bust  (`python3 crash.py VESSEL RUN` → `out/RUN_crash.txt`)
 
-| | t48 | tube54 | tube60 | t63 | tube63 | t75 | t84 | h45 | h63 | h84 |
-|---|---|---|---|---|---|---|---|---|---|---|
-| deaths with a one-generation fall of ≥ half the face | 0.572 | 0.565 | 0.567 | 0.590 | 0.512 | 0.601 | T84F | 0.022 | 0.016 | 0 of 117 |
-| the same in a 10-generation window of the living face | 0.0075 | 0.0050 | 0.0022 | 0.0015 | 0.0017 | 0.0009 | T84C | 0.0001 | 0.0000 | 0.0000 |
-| largest one-generation fall, median (cells) | 25 | 28 | 31 | 32 | 31 | 39 | T84M | 10 | 13 | 16 |
+| | t48 | tube54 | tube60 | t63 | tube63 | t75 | h45 | h63 | h84 |
+|---|---|---|---|---|---|---|---|---|---|
+| deaths with a one-generation fall of ≥ half the face | 0.572 | 0.565 | 0.567 | 0.590 | 0.512 | 0.601 | 0.022 | 0.016 | 0 of 117 |
+| the same in a 10-generation window of the living face | 0.0075 | 0.0050 | 0.0022 | 0.0015 | 0.0017 | 0.0009 | 0.0001 | 0.0000 | 0.0000 |
+| largest one-generation fall, median (cells) | 25 | 28 | 31 | 32 | 31 | 39 | 10 | 13 | 16 |
 
 [measured, t63, the 4,659 deaths with such a fall] Population before the fall 48.5 (10–90%: 46–52; the stationary
 probability of P ≥ 46 is 0.0024, mean 32.6, s.d. 4.94), after it 11.6 (8–15); births in that generation 1.9; of
@@ -273,22 +273,26 @@ a dip to 16 cells is 1.85 times as frequent as on the wide torus, a dip to 4 cel
 changes after that (§5). At loop² 9 the chaos behind the face is also cut across the tube as often as a face dies.
 
 **Rimmed hull face.** It almost never dies by the fall (1.6% of deaths; in the living face such a fall was not
-seen once in 7,390 windows): its rim line, half of its cells at this size, has too few neighbours to be
-overcrowded, survives the over-full generation (0.69 per live cell against 0.42 inside) and the face is still at
-31.5 cells a generation later where the wrapped face is at 22.9 (§2). So it has to die the slow way. It fades over 10 generations by starvation, lopsidedly: the last-alive times tilt
-across the face in 77% of deaths at 0.6 units per generation (§1), the living set at 8 cells is 4.2 times as
+seen once in 7,390 windows; at 84 cells in none of 117 deaths): its rim line, half of its cells at this size,
+survives the over-full generation (0.69 per live cell against 0.42 inside) and the face is still at
+31.5 cells a generation later where the wrapped face is at 22.9 (§2). So it has to die the slow way. It fades over 10
+generations by starvation, lopsidedly: the last-alive times tilt across the face in 77% of deaths at 0.6 units per generation (§1), the living set at 8 cells is 4.2 times as
 lopsided as a random subset, and the last cell is on the rim line 54% of the time, most often near a corner (§4).
 A hull face reaches 16 cells twice as often as a wrapped face of the same area and 4 cells exactly as often, but
-its last cells are harder to kill: 0.18 against 0.30 from 4 cells, because one or two live cells on the rim
-regrow the face more often (0.20–0.28 for one cell against 0.12–0.15; §6).
+its last cells are harder to kill: 0.18 against 0.30 from 4 cells; by hand, one or two live cells on the rim
+regrow the face more often than on a wrapped face (0.20–0.28 for one cell against 0.12–0.15; §6).
 
 **Still inference, not measurement.**
 - That the rim's protection lasts as faces grow. At 63 cells the rim line is 33 cells of 63 and survives the
   over-full generation (§2, measured); at 135 cells it is 51 of 135 and the inside may then bust on its own.
-- Any link between these routes and the prices per cell (0.2087 wrapped, 0.231 rimmed). The end-game factor is
-  the same at 45/48 and 63 cells, so the price difference must be in how ν(4) scales with area on each shape:
-  measured here only at 63 and 84 cells (ratio hull/torus e^(+0.035) and N84).
-- That boom and bust persists beyond 84 cells. A face over-full everywhere at once is a collective state; at
+- Any link between these routes and the prices per cell (0.2087 wrapped, 0.231 rimmed). The end-game factor
+  does not change with size, so the price difference must be in how ν(4), the rate of reaching 4 cells, scales
+  with area on each shape. Measured only at 63 cells (hull/torus = e^(+0.035)). At 84 cells, from the anchors'
+  lifetimes and q(4) = 0.197 (h84, measured) against about 0.28 (wrapped, extrapolated from 0.326, 0.302, 0.287),
+  ln ν(4) is −16.52 for the hull face and about −16.27 for the wrapped one: the hull face would reach 4 cells
+  only 0.78 times as often. So the rimmed face's extra price is in the descent, not in the end-game [conjectured
+  from one size and one extrapolation].
+- That boom and bust persists beyond 75 cells. A face over-full everywhere at once is a collective state; at
   some size it should lose to something local. The trend of its share with size is in the table of §2.
 - Why a short loop makes deep dips more frequent.
 
@@ -317,7 +321,7 @@ Seven of fifteen. Every forecast that assumed a sweep was wrong.
 
 ## 9. What was not checked
 
-- Nothing above 84 cells, and no reactive paths from the samplers of `split-slab`, `split-hull`, `tube1d` (their
+- Nothing above 84 cells (wrapped faces: 75; an 84-cell torus run was cut by the deadline), and no reactive paths from the samplers of `split-slab`, `split-hull`, `tube1d` (their
   files had not appeared by 03:45 UTC). Whether boom and bust is the route at 108–360 cells is the open question.
 - "Align before averaging": I fitted every death singly but did not build the aligned average profile T(r).
 - The third layer is not in the death records (8 of a face cell's 9 neighbours are), hence "overcrowded for
