@@ -12,7 +12,10 @@ Files (all the referee's own, except `ss_diag.c`):
 - `ss_diag.c`: split-slab's `ss.c` with diagnostics added to mode `sub` (acceptance per level and sweep kind,
   distinct ancestors); the sampler itself is unchanged (`diff ss_diag.c ../split-slab/ss.c`).
 - `pool.py` (replications -> ln tau, bootstrap, tail diagnostics), `shares.py` (boom-and-bust shares from paths,
-  plain and rate-weighted), `final.sh` (all tables).
+  plain and rate-weighted), `runs.py` (run against run), `final.sh` (all tables).
+- `runner.sh`, `direct48.sh`: copies of the queue runner and of the direct-count test as run from `R`
+  (`R/runner.log` has every command with its start time; seeds 7101-7105, 7150, 7190, 7201-7206, 7250, 7260,
+  7301-7302, 7401-7402, 7501-7540).
 
 Build and run (R = research/scratch/blast/ref-slab, G = research/scratch/blast/split-slab):
 

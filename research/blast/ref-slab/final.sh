@@ -3,11 +3,12 @@
 #   bash final.sh > data/final.txt
 cd "$(dirname "$0")"
 R=../../scratch/blast/ref-slab/out; D=../split-slab/data; F=../../scratch/blast/split-slab/subpaths_full
-mkdir -p data; cp $R/sub_*.txt $R/brute_*.txt $R/diag2_*.txt data/ 2>/dev/null
+mkdir -p data; cp $R/sub_*_s7*.txt $R/brute_*.txt $R/diag2_*.txt data/ 2>/dev/null   # the two direct-count files (0.5 MB) stay in scratch
 echo "== brute force, own stepper (dice.c) =="; cat data/brute_*.txt | grep -v "^$"
 echo; echo "== sampler replications pooled (pool.py) =="
 python3 pool.py "48 cells, fresh seeds (ref-slab)" data/sub_48_s7*.txt
-ls data/sub_48_direct.txt >/dev/null 2>&1 && python3 pool.py "48 cells, direct count through the sampler's own pipeline (LAM1 = 0: no levels, no sweeps)" data/sub_48_direct.txt
+ls $R/sub_48_direct.txt >/dev/null 2>&1 && python3 pool.py "48 cells, direct count through the sampler's own pipeline (LAM1 = 0: no levels, no sweeps)" $R/sub_48_direct.txt
+ls $R/sub_48_directshort.txt >/dev/null 2>&1 && python3 pool.py "48 cells, direct count, 40 short runs of 100 replications (no stuck lanes accumulate)" $R/sub_48_directshort.txt 2>/dev/null
 python3 pool.py "63 cells, split-slab's" $D/sub_1_4_21_s2.txt $D/sub_1_4_21_s4.txt
 python3 pool.py "63 cells, fresh seeds" data/sub_63_s*.txt
 python3 pool.py "63 cells, all" $D/sub_1_4_21_s2.txt $D/sub_1_4_21_s4.txt data/sub_63_s*.txt

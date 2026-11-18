@@ -1,0 +1,37 @@
+# sub A 192 WD 6 LAM1 77 DELTA 3 chains 4096 NSWEEP 32 KFLIP 4 TPRE 32 TWIN 24
+REP 0 valid 4096 : 77:489 74:1601 71:1420 68:1353 65:1253 62:1132 59:1020 56:1057 53:981 50:1005 47:987 44:1004 41:1049 38:1083 35:1177 32:1188 29:1196 26:1212 23:1132 20:1077 17:1034 14:1081 11:1025 8:1044 5:955 2:1040 0:2283 rate 2.08603e-17 lntau 38.4087
+DIAG 0 dying 2283 distinct_ancestors_of_dying 6 | 77:anc489,u0.32,f0.46 74:anc480,u0.26,f0.44 71:anc442,u0.23,f0.43 68:anc404,u0.22,f0.42 65:anc357,u0.22,f0.40 62:anc311,u0.21,f0.40 59:anc258,u0.21,f0.39 56:anc222,u0.22,f0.39 53:anc193,u0.22,f0.39 50:anc157,u0.22,f0.40 47:anc128,u0.23,f0.40 44:anc103,u0.23,f0.41 41:anc84,u0.25,f0.41 38:anc69,u0.26,f0.42 35:anc57,u0.28,f0.43 32:anc44,u0.28,f0.44 29:anc34,u0.29,f0.44 26:anc28,u0.30,f0.45 23:anc20,u0.30,f0.45 20:anc18,u0.31,f0.46 17:anc14,u0.31,f0.46 14:anc14,u0.31,f0.47 11:anc11,u0.31,f0.48 8:anc10,u0.31,f0.50 5:anc8,u0.32,f0.53 2:anc6,u0.32,f0.59
+REP 1 valid 4096 : 77:510 74:1604 71:1481 68:1337 65:1211 62:1151 59:1065 56:1046 53:988 50:952 47:929 44:961 41:922 38:860 35:903 32:876 29:851 26:851 23:845 20:916 17:784 14:753 11:757 8:719 5:676 2:799 0:1989 rate 3.12508e-19 lntau 42.6097
+DIAG 1 dying 1989 distinct_ancestors_of_dying 12 | 77:anc510,u0.32,f0.46 74:anc502,u0.26,f0.44 71:anc464,u0.23,f0.43 68:anc420,u0.22,f0.41 65:anc361,u0.22,f0.41 62:anc317,u0.21,f0.40 59:anc270,u0.22,f0.40 56:anc221,u0.21,f0.39 53:anc184,u0.22,f0.39 50:anc156,u0.21,f0.39 47:anc129,u0.20,f0.39 44:anc108,u0.20,f0.38 41:anc90,u0.20,f0.39 38:anc81,u0.20,f0.39 35:anc71,u0.20,f0.39 32:anc60,u0.19,f0.40 29:anc45,u0.19,f0.40 26:anc39,u0.19,f0.40 23:anc34,u0.19,f0.41 20:anc30,u0.18,f0.42 17:anc27,u0.18,f0.42 14:anc21,u0.18,f0.44 11:anc18,u0.18,f0.44 8:anc15,u0.18,f0.46 5:anc13,u0.18,f0.49 2:anc12,u0.18,f0.57
+REP 2 valid 4096 : 77:498 74:1663 71:1473 68:1315 65:1206 62:1140 59:1125 56:1026 53:959 50:923 47:922 44:919 41:884 38:923 35:830 32:782 29:751 26:835 23:794 20:759 17:777 14:775 11:859 8:790 5:882 2:948 0:2371 rate 3.77414e-19 lntau 42.4209
+DIAG 2 dying 2371 distinct_ancestors_of_dying 8 | 77:anc498,u0.32,f0.46 74:anc492,u0.26,f0.44 71:anc463,u0.24,f0.42 68:anc418,u0.22,f0.41 65:anc363,u0.22,f0.41 62:anc315,u0.22,f0.40 59:anc272,u0.21,f0.40 56:anc229,u0.22,f0.39 53:anc191,u0.21,f0.39 50:anc157,u0.20,f0.39 47:anc133,u0.20,f0.39 44:anc111,u0.20,f0.39 41:anc99,u0.20,f0.39 38:anc80,u0.20,f0.38 35:anc70,u0.20,f0.39 32:anc61,u0.20,f0.39 29:anc48,u0.19,f0.40 26:anc40,u0.19,f0.40 23:anc37,u0.19,f0.40 20:anc36,u0.19,f0.41 17:anc29,u0.19,f0.42 14:anc21,u0.19,f0.44 11:anc17,u0.19,f0.46 8:anc13,u0.19,f0.48 5:anc9,u0.18,f0.51 2:anc8,u0.18,f0.59
+REP 3 valid 4096 : 77:468 74:1694 71:1461 68:1315 65:1233 62:1166 59:1122 56:1062 53:987 50:983 47:1006 44:1003 41:1017 38:1010 35:1004 32:933 29:969 26:917 23:960 20:926 17:1021 14:1031 11:927 8:817 5:749 2:905 0:1856 rate 2.37400e-18 lntau 40.5820
+DIAG 3 dying 1856 distinct_ancestors_of_dying 12 | 77:anc468,u0.31,f0.46 74:anc467,u0.25,f0.44 71:anc438,u0.23,f0.43 68:anc393,u0.22,f0.42 65:anc352,u0.21,f0.41 62:anc302,u0.21,f0.40 59:anc251,u0.22,f0.40 56:anc214,u0.21,f0.39 53:anc175,u0.21,f0.39 50:anc149,u0.20,f0.39 47:anc118,u0.20,f0.40 44:anc92,u0.20,f0.40 41:anc81,u0.19,f0.40 38:anc65,u0.19,f0.40 35:anc58,u0.19,f0.40 32:anc46,u0.19,f0.41 29:anc38,u0.18,f0.42 26:anc33,u0.18,f0.42 23:anc29,u0.17,f0.43 20:anc24,u0.16,f0.45 17:anc17,u0.16,f0.46 14:anc17,u0.16,f0.46 11:anc15,u0.16,f0.46 8:anc13,u0.16,f0.49 5:anc13,u0.16,f0.52 2:anc12,u0.16,f0.58
+SUMMARY sub A 192 WD 6 reps 4 lntau 39.6579 +- 0.8331 (rel sd of one replication 1.666) acceptance 0.324
+LEVEL 0 lam 77 mean lnP -2.1213 (4 reps)
+LEVEL 1 lam 74 mean lnP -0.9153 (4 reps)
+LEVEL 2 lam 71 mean lnP -1.0326 (4 reps)
+LEVEL 3 lam 68 mean lnP -1.1249 (4 reps)
+LEVEL 4 lam 65 mean lnP -1.2066 (4 reps)
+LEVEL 5 lam 62 mean lnP -1.2727 (4 reps)
+LEVEL 6 lam 59 mean lnP -1.3311 (4 reps)
+LEVEL 7 lam 56 mean lnP -1.3635 (4 reps)
+LEVEL 8 lam 53 mean lnP -1.4316 (4 reps)
+LEVEL 9 lam 50 mean lnP -1.4454 (4 reps)
+LEVEL 10 lam 47 mean lnP -1.4505 (4 reps)
+LEVEL 11 lam 44 mean lnP -1.4393 (4 reps)
+LEVEL 12 lam 41 mean lnP -1.4450 (4 reps)
+LEVEL 13 lam 38 mean lnP -1.4453 (4 reps)
+LEVEL 14 lam 35 mean lnP -1.4404 (4 reps)
+LEVEL 15 lam 32 mean lnP -1.4789 (4 reps)
+LEVEL 16 lam 29 mean lnP -1.4851 (4 reps)
+LEVEL 17 lam 26 mean lnP -1.4690 (4 reps)
+LEVEL 18 lam 23 mean lnP -1.4890 (4 reps)
+LEVEL 19 lam 20 mean lnP -1.5016 (4 reps)
+LEVEL 20 lam 17 mean lnP -1.5204 (4 reps)
+LEVEL 21 lam 14 mean lnP -1.5176 (4 reps)
+LEVEL 22 lam 11 mean lnP -1.5304 (4 reps)
+LEVEL 23 lam 8 mean lnP -1.5912 (4 reps)
+LEVEL 24 lam 5 mean lnP -1.6231 (4 reps)
+LEVEL 25 lam 2 mean lnP -1.4946 (4 reps)
+LEVEL 26 lam 0 mean lnP -0.6613 (4 reps)
