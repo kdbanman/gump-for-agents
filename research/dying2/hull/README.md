@@ -39,6 +39,20 @@ another agent's). Vessel: the hull octahedron of `research/gpu/facelaw.py` (soup
 - Calibration: ln tau_face = ln(8E/F) = **13.6429 +- 0.0049** (42,494 face deaths), GPU 13.636 (+1.4 sigma); P bar =
   31.253 (round 1 review 31.25).
 
+## Interim, R = 13 (A = 84), 04:05 UTC: 1,351 face deaths, 1,515 dumped, 14,870 recovered dips
+
+Partial files (`data/R13_interim_0405.txt`, `data/R13_condq_interim_0405.txt`; the ln tau there is biased low
+because open lives are not yet written, and condq's death weight is off by the same lag). What is already clear:
+- **q at a fixed number of live cells does not depend on the size.** q(1), q(2), q(3), q(4), q(6) = 0.760, 0.485,
+  0.286, 0.171, 0.059 at A = 84 against 0.769, 0.499, 0.298, 0.180, 0.064 at A = 63; k* = 1.95 against 2.00 live
+  cells. So the e^4.5 between the two lifetimes is all in how often a dip reaches a few cells (ln nu(min <= 3) =
+  -16.93 against -12.43), none in the last cells.
+- The collapse has the same shape and is one generation slower: P/P bar 0.942, 0.603, 0.226, 0.037 at lags 16, 8,
+  4, 1 (A = 63: 0.955, 0.676, 0.314, 0.052); plunge from P bar/2 median 8 (A = 63: 7); 1.56 cells at lag 1.
+- The rim again: last cells 1.16 x stationary share in the rim row, 0.81 and 0.76 in rows 2 and >= 3; and q at
+  first passage to 4 cells rises from 0.067 (none on the rim) to 0.118 (all four), to 6 cells from 0.008 to 0.045.
+- Edge neighbours at 0.809 of P bar at death, vertex neighbours 0.971, opposite 0.996.
+
 ## What was measured, and what each number rests on
 
 - **Recorder `hd.c`**: research/gpu-local/cpu/fr.c's bit-sliced stepper (256 lanes per thread, AVX2), copied, on the
