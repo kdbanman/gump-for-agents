@@ -15,3 +15,9 @@ was still going and before any of its output was opened.
 6. Share of fatal excursions whose first generation at <= 16 cells came within 4 generations of P >= 44: under 0.15 (65%).
 7. Plane fit to last-alive times (my 16-generation window, censored) beats 95% of shuffles in 0.60-0.85 of deaths (60%).
 8. The largest-fall distribution of hull deaths is one hump with median 12-14 cells (70%).
+
+### Scored (04:12 UTC; `out/h63.txt`)
+
+1 hit (13.6234). 2 miss, badly (+0.517 and +0.340: the hull face's population is a slow variable; I expected it to
+look like the torus alive). 3 hit at the edge (0.0108). 4 hit (31.18; 0.0004). 5 hit (0.1827; e^+0.038). 6 hit
+(0.084). 7 hit (0.790). 8 hit (one hump, median 14). Seven of eight.
