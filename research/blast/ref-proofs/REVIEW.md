@@ -167,6 +167,12 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
   against 0.842 ± 0.011 on neighbouring steps). The log-odds fall by 0.30 per unit over D = 7–12 and by
   0.22 ± 0.02 over D = 12–16: "0.29 per unit" is the early slope, not a constant. The README's list of shares has
   no entry for D = 13 (it runs 5…12, then 14) without saying so.
+- My own simulation of the tube (`ref.py torus 1 1 D --mc N --mconly`, `python3 tube_mine.py`, `data/tube_mine.txt`)
+  agrees with rigour's rows at D = 6, 8, 10: ln τ = 5.1075 ± 0.0041, 6.7300 ± 0.0050, 8.2788 ± 0.0071 (theirs 5.1064,
+  6.7278, 8.2757; +0.2σ, +0.3σ, +0.4σ) and bust shares 0.8119 ± 0.0016, 0.7136 ± 0.0023, 0.5782 ± 0.0035 (theirs 0.8105,
+  0.7131, 0.5772). From my points alone, per unit of length: −Δ ln h_bust = 0.876 ± 0.004 (6→8) and 0.880 ± 0.006
+  (8→10); −Δ ln h_starve = 0.601 ± 0.007 and 0.581 ± 0.007. So both branches are exponential in the length over
+  D = 6–10 and differ by 0.29 ± 0.01 per unit (0.097 per cell): rigour's number.
 - Rider (rigour states it): the second branch is defined by exclusion, with a marker tied to the whole face.
 
 ### Other statements marked [proved] in `THEOREMS.md`
