@@ -1,5 +1,15 @@
 # The blast: why does a face die at the rate it does? (common brief for every agent of 2026-11-18)
 
+> **Second phase (added 11:16 UTC 2026-11-18).** The night ended; its account is `research/blast/REPORT.md`
+> (read "The short version" and the items your angle needs before anything below; where this brief and the report
+> disagree, the report is later). The usage window has reset and the owner asked for the pursuit to go on, at a
+> smaller scale: two or three agents at a time. Times and deadlines written below are the night's and no longer
+> apply; yours are in your own message. New since the night: the GTX 1080 session's study of how faces die on
+> gump itself, on its branch (`git show origin/claude/gpu-local-1080:research/dying2/README.md` and
+> `…/research/dying2/hull/README.md`, with small tables under `research/dying2/data/` and `…/hull/data/`; read
+> with `git show`, never check the branch out), and its interim value for the 120-cell tube, 24.497 ± 0.019.
+> The machine's 4 cores are now shared by two or three agents; your core budget is in your message.
+
 You are one of several Fable agents working tonight, in parallel, for the investigator in charge (the "PI", the
 session that spawned you). Nobody else can be reached: not the owner, not the project's lead. Never wait for an
 answer and never ask a question; decide and carry on. Your own angle is in the message that spawned you. This

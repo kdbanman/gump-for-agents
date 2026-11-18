@@ -216,3 +216,32 @@ Count: sixteen scored. Held 6 (block 0: three; block 3 item 3; block 4 items 2 a
 1). Open 6: the 120-cell tube and its slope (block 0), the 135-cell face (blocks 0 and 2: forecast 29.22 ± 0.03;
 surrogate 29.30 ± 0.09, not decided), the 12-tube's slope at 240–360 cells (block 1 item 2), the hull's second
 difference by k = 12 (block 2 item 2).
+
+## Block 5: the second phase (PI; frozen 11:15 UTC 2026-11-18, before any agent of the second phase has started)
+
+What I had seen when writing this: the report as it stands; the GTX 1080 session's interim for the 120-cell tube,
+six of eight runs, 24.497 ± 0.019 (its `AGENT.md`, addendum of 09:00Z; so the tube forecasts of block 0 are no
+longer blind to me and I add none); its study of dying faces (`research/dying2/` on `claude/gpu-local-1080`).
+
+Two experiments are about to be briefed. **Holes:** the chance that a patch of a living face is empty at an
+instant, on wide tori and inside large hull faces. **Noisy hull:** gump on the whole hull with a low rate ε of
+honest coin replacements deep under the watched face, sampled by subset simulation over the noise, extrapolated
+to ε = 0 at the target size.
+
+1. On a wide torus the bulk cost of an empty patch, from mixed second differences over two-parameter families of
+   patches, is the lifetime price: **0.2087 ± 0.008 per cell (65%)**. If it is outside 0.195–0.222 the reading
+   "the price of a face is the price of a hole in an unbounded face" is dead.
+2. Inside a large hull face (198 cells or more), patches three or more rows from every rim have the same bulk
+   cost as on the wide torus, **within 0.010 per cell (70%)**: the hull's interior is a wrapped face.
+3. Patches that include the rim row cost more per cell than interior patches of the same shape **by at least
+   0.02 per cell (60%)**; the surplus is confined to the first two or three rows (55%).
+4. Hence "0.231 is a long transient": a model built from the two measurements (interior price, rim-zone surplus,
+   one fitted constant) reproduces the hull anchors at 45–108 cells within 0.05 each **(45%)** and puts the
+   135-cell face at **29.19–29.24 (50% given that it fits)**.
+5. Noisy hull: at 84 cells the offset from gump at ε = 0.03 is below 0.03 in absolute value **(60%)** and is
+   linear in ε between 0.01 and 0.1 within errors (55%). The sampler survives small ε with usable errors (0.05 or
+   better at 135 cells in under 30 core-hours): **50%**.
+6. The 135-cell hull face of gump, whatever method gets there: **in 29.19–29.27 with 55%; above 29.27 with 20%;
+   below 29.19 with 25%.** (29.230 is "the second difference repeats", 29.163 "the wrapped price takes over".)
+7. The 120-cell tube's final value will be within 0.03 of the interim (24.47–24.53): 85%. So my 24.56 ± 0.03 will
+   score as missed by about two of its errors, and the dice chain's 24.60 ± 0.07 as 1.4 errors high.
