@@ -443,6 +443,9 @@ nine.sort()
 assert [r[0] for r in nine] == [48, 57, 63, 75, 81, 84, 93, 108, 111], nine
 quoted = {48: t["t48"]["value"], 57: vv("tori", "t57"), 63: t["t57_75"]["value"][4:6], 75: t["t57_75"]["value"][7:9], 93: t["t93"]["value"][:2]}
 nv = vv("tori", "nine"); quoted.update({81: nv[0:2], 84: [nv[3], nv[1]], 108: nv[5:7], 111: nv[8:10]})
+# 2026-11-18: the 6 x 6 face's file now holds ten seeds (CLAIMS WL9, 22.5405 +- 0.0074; update-2026-11-15e.json quoted two)
+N18 = S("update-2026-11-18.json")
+quoted[108] = N18["wrap18"]["eq108"]["value"][:2]
 for A_, y_, se_, _ in nine:
     assert abs(y_ - quoted[A_][0]) < 1.5e-4 and abs(se_ - quoted[A_][1]) < 1.5e-4, (A_, y_, se_, quoted[A_])
 l7 = vv("tori", "line7")
@@ -583,16 +586,21 @@ tq16 = pv("tubes")
 assert [wj["tubes"][k]["c"] for k in ("12", "13", "16", "none")] == tq16[0::2] and [wj["tubes"][k]["se_c"] for k in ("12", "13", "16", "none")] == tq16[1::2]
 # the card's seven tube and wrapped faces: each row quoted from the notebook's table; recomputed from the rows when they are here
 crows = []
+# 2026-11-18: the 96- and 108-cell 12-tubes now hold eight seeds (CLAIMS WL10, quoted in update-2026-11-18.json); the rows
+# drawn are the files' values, which must equal the newer quote; the 2026-11-16 quotes are kept and checked as quotes
+l12 = N18["wrap18"]["line12"]["value"]
+SINCE = {"eqtorus_1_17_32": l12[0:2], "eqtorus_1_16_36": l12[2:4]}
 for r in N16["wrap16"]["card"]["rows"]:
     checked({"value": r["value"], "quote": r["quote"]})
     fp = repo / "research" / "data" / "gpu_local_eqtorus" / (r["file"] + ".csv")
+    want = SINCE.get(r["file"], r["value"][1:3])
     if fp.exists():
         rs = list(csv.DictReader(open(fp)))
         E_, F_ = sum(int(x["exposure"]) for x in rs), sum(int(x["face"]) for x in rs)
-        assert int(rs[0]["A"]) == r["A"] and abs(math.log(2 * E_ / F_) - r["value"][1]) < 1e-4 and abs(F_ ** -0.5 - r["value"][2]) < 1e-4, (r["file"], math.log(2 * E_ / F_), F_ ** -0.5)
-    crows.append([r["A"], r["loop"], r["value"][1], r["value"][2], r["value"][3] if len(r["value"]) > 3 else None, r["value"][4] if len(r["value"]) > 4 else None])
+        assert int(rs[0]["A"]) == r["A"] and abs(math.log(2 * E_ / F_) - want[0]) < 1e-4 and abs(F_ ** -0.5 - want[1]) < 1e-4, (r["file"], math.log(2 * E_ / F_), F_ ** -0.5)
+    crows.append([r["A"], r["loop"], want[0], want[1], r["value"][3] if len(r["value"]) > 3 else None, r["value"][4] if len(r["value"]) > 4 else None])
 lt = pv("longtube")
-assert [c[2:4] for c in crows if c[1] == 12] == [lt[3:5], lt[5:7], lt[7:9]]
+assert [r["value"][1:3] for r in N16["wrap16"]["card"]["rows"] if r["loop"] == 12] == [lt[3:5], lt[5:7], lt[7:9]]
 # W13 measured: update-2026-11-15f.json left it null (its REFRESHES note); filled here, and the plate's distances checked
 w13n = N16["wrap16"]["w13measured"]
 checked({"value": [w13n["value"], w13n["se"]], "quote": w13n["quote"]})

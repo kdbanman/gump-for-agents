@@ -46,4 +46,43 @@ function makeGump(H) {
   };
   return g;
 }
-if (typeof module !== 'undefined') module.exports = { makeGump };
+// The same rule on the same torus of side H, stepping only the live cells and their neighbours: for small objects in a
+// large torus (the memory cell of the signals page, H = 80 to 132). A cell is its index (x * H + y) * H + z, coordinates
+// taken mod H, as makeGump's. Checked against makeGump on random soups by site/checks/check-core.js, and on the page's
+// runs against reference/oracle.py every generation by site/checks/check-signals.js.
+function makeSparse(H) {
+  const w = v => ((v % H) + H) % H, idx = (x, y, z) => (w(x) * H + w(y)) * H + w(z), nbc = new Map();
+  const nbs = c => {
+    let r = nbc.get(c); if (r) return r;
+    const p = [Math.floor(c / (H * H)), Math.floor(c / H) % H, c % H], a = p[0] & 1 ? 0 : p[1] & 1 ? 1 : 2, b = (a + 1) % 3, d = (a + 2) % 3;
+    r = new Int32Array(12); let k = 0;
+    const put = o => { r[k++] = idx(p[0] + o[0], p[1] + o[1], p[2] + o[2]); };
+    for (const sb of [2, -2]) for (const sd of [2, -2]) { const o = [0, 0, 0]; o[b] = sb; o[d] = sd; put(o); }
+    for (const sa of [1, -1]) for (const t of [b, d]) for (const st of [1, -1]) { const o = [0, 0, 0]; o[a] = sa; o[t] = st; put(o); }
+    nbc.set(c, r); return r;
+  };
+  let live = new Set();
+  const cellOk = (x, y, z) => ((x & 1) + (y & 1) + (z & 1)) === 1;
+  const g = {
+    H, gen: 0, idx,
+    get live() { return live; },
+    get pop() { return live.size; },
+    setCells(list) { live = new Set(); g.gen = 0; for (const [x, y, z] of list) { if (!cellOk(w(x), w(y), w(z))) throw new Error('not a cell: ' + [x, y, z]); live.add(idx(x, y, z)); } },
+    has(p) { return live.has(idx(p[0], p[1], p[2])); },
+    set(p, on) { const c = idx(p[0], p[1], p[2]); if (!cellOk(w(p[0]), w(p[1]), w(p[2]))) throw new Error('not a cell: ' + p); if (on) live.add(c); else live.delete(c); },
+    step() {
+      const cand = new Set(live);
+      for (const c of live) for (const n of nbs(c)) cand.add(n);
+      const nx = new Set();
+      for (const c of cand) {
+        const r = nbs(c); let n = 0;
+        for (let k = 0; k < 12; k++) if (live.has(r[k])) n++;
+        if (n + (live.has(c) ? 1 : 0) >= 4 && n < 6) nx.add(c);      // B45/S345, as makeGump
+      }
+      live = nx; g.gen++;
+      return live.size;
+    },
+  };
+  return g;
+}
+if (typeof module !== 'undefined') module.exports = { makeGump, makeSparse };

@@ -1,0 +1,993 @@
+{
+ "about": "Refresh of 2026-11-18: how faces die, audited from outside (CLAIMS DY16-DY21); the long tubes to 120 cells, the loop-21 face on two codes, the equilateral 108-cell face (WL9-WL11); the seventh, eighth, 8b and ninth signals pushes (SG33-SG38). Every item is checked by collect.py against research/NOTEBOOK.md, research/CLAIMS.md or the named file; the tables of the blast audit are read by collect.py from research/audit/blast/data/ and asserted against the quotes here.",
+ "blast": {
+  "anchors": {
+   "value": [
+    1.3,
+    13.164,
+    0.0021,
+    13.6357,
+    0.0019,
+    17.5443,
+    0.021,
+    17.3203,
+    0.0188
+   ],
+   "quote": "Its four lifetimes are within 1.3 errors of the anchors on file (63-cell wrapped 13.1640 ± 0.0021, 63-cell hull 13.6357 ± 0.0019, 84-cell wide 17.5443 ± 0.0210, 84-cell tube 17.3203 ± 0.0188).",
+   "src": "NB 2026-11-18, how a face dies, audited from outside",
+   "how": "quoted; the same four lifetimes are read by collect.py from the tables' section 1"
+  },
+  "launch": {
+   "value": [
+    0.738,
+    99,
+    0.2,
+    5
+   ],
+   "quote": "from an ordinary generation it fills in one step to 0.738·A with five layers beneath it over-full, 99% of the cells that die in the next generation are overcrowded, about 0.2·A is left, and the face is empty a median 5 generations after the launch",
+   "src": "CLAIMS DY16",
+   "how": "quoted"
+  },
+  "falls": {
+   "value": [
+    80,
+    0.4,
+    0.16
+   ],
+   "quote": "80% of deaths hold a one-generation fall of 0.4·A and 55–59% one of half the face (0.16% of ordinary windows); one hump",
+   "src": "CLAIMS DY16",
+   "how": "quoted"
+  },
+  "crash": {
+   "value": [
+    46.5,
+    14.0,
+    99.2
+   ],
+   "quote": "in the next generation 46.5 cells become 14.0, and 99.2% of the cells that die then have six or more live neighbours: they are overcrowded, not starved.",
+   "src": "NB 2026-11-18, how a face dies, audited from outside",
+   "how": "quoted"
+  },
+  "gradeDY16": {
+   "words": [
+    "the lead re-ran the audit's code on fresh seeds"
+   ],
+   "quote": "A (the other session's codes, the audit's rebuild from the oracle, the card's tables by lag; the lead re-ran the audit's code on fresh seeds: launch 0.739·A, 81% and 57%)",
+   "src": "CLAIMS DY16, level column",
+   "how": "quoted"
+  },
+  "fade": {
+   "value": [
+    63,
+    1.14,
+    0.04,
+    69,
+    143,
+    10
+   ],
+   "quote": "A hull face of 63 cells fades instead: 1.14 ± 0.04% of its deaths hold a fall of half the face (such falls are 69 times rarer than on the wrapped face of that area and as deadly, 1 in 143); launch to empty face median 10 generations.",
+   "src": "CLAIMS DY17",
+   "how": "quoted"
+  },
+  "rim": {
+   "value": [
+    30,
+    9,
+    0.342,
+    0.333,
+    7,
+    0.661
+   ],
+   "quote": "In a non-fatal over-full generation its 30 interior cells (9 neighbours inside the vessel) survive 0.342, as a wrapped face's cells do (0.333); the 30 cells of its rim row (7 neighbours) survive 0.661",
+   "src": "CLAIMS DY17",
+   "how": "quoted; collect.py asserts the same three in research/audit/blast/data/rimtest.txt"
+  },
+  "rimnext": {
+   "value": [
+    30.1,
+    20.1
+   ],
+   "quote": "One generation later the hull face holds 30.1 cells and the wrapped face 20.1.",
+   "src": "NB 2026-11-18, how a face dies, audited from outside",
+   "how": "quoted"
+  },
+  "rimhalf": {
+   "words": [
+    "Not checked: a larger hull face"
+   ],
+   "quote": "half of a 63-cell hull face is rim row and is not overcrowded. Not checked: a larger hull face, where the rim row is a smaller share.",
+   "src": "NB 2026-11-18, how a face dies, audited from outside",
+   "how": "quoted"
+  },
+  "slow": {
+   "value": [
+    0.52,
+    0.34,
+    0.14,
+    0.03
+   ],
+   "quote": "Its population is a slow variable (autocorrelation +0.52 and +0.34 at lags 1 and 2, against +0.14 and −0.03 on the wrapped face).",
+   "src": "NB 2026-11-18, how a face dies, audited from outside",
+   "how": "quoted"
+  },
+  "gradeDY17": {
+   "words": [
+    "the audit's code alone",
+    "One size"
+   ],
+   "quote": "A (the fade: the other session's codes and the audit's rebuild); B (the cell classes: the audit's code alone, re-run by the lead on fresh seeds: 0.341, 0.327, 0.655; 1.10 ± 0.23%). One size",
+   "src": "CLAIMS DY17, level column",
+   "how": "quoted"
+  },
+  "survived": {
+   "value": [
+    128,
+    70,
+    1100
+   ],
+   "quote": "An over-full generation is usually survived: 1 fall of half the face in 128 is fatal on the 63-cell wrapped face (70 such falls per death), 1 in 1,100 at 84 cells",
+   "src": "CLAIMS DY18",
+   "how": "quoted"
+  },
+  "gradeDY18": {
+   "words": [
+    "C (84 cells: the audit alone)"
+   ],
+   "quote": "A (63 cells: the other session and the audit; lead's re-run 69.7 falls per death, 57.0% of deaths); C (84 cells: the audit alone)",
+   "src": "CLAIMS DY18, level column",
+   "how": "quoted"
+  },
+  "together": {
+   "value": [
+    88,
+    92,
+    49,
+    5
+   ],
+   "quote": "The two halves of the face have their largest fall in the same generation in 88% of deaths (92% at 84 cells wide). The order in which the last cells go is patterned in space in 49% of deaths where 5% would be chance: the dozen cells the crash leaves are clumps.",
+   "src": "NB 2026-11-18, how a face dies, audited from outside",
+   "how": "quoted"
+  },
+  "tube": {
+   "value": [
+    8.2325,
+    8.2498,
+    0.01,
+    1.25,
+    0.135,
+    0.006,
+    0.072,
+    0.005,
+    0.726
+   ],
+   "quote": "At 84 cells the loop-12 tube (1,12),(0,28) is over-full as often as the wide face (1,4),(0,28) (ln frequency of ≥ 0.74·A: −8.2325 against −8.2498), has the same end-game (q(k) equal to 0.01) and dies 1.25 times as often; its halves crash in different generations in 0.135 ± 0.006 of deaths against 0.072 ± 0.005, and it launches at 0.726·A",
+   "src": "CLAIMS DY19",
+   "how": "quoted"
+  },
+  "tubewhy": {
+   "words": [
+    "Why is not derived."
+   ],
+   "quote": "So the tube's discount sits between the over-full generation and the end-game. Why is not derived.",
+   "src": "NB 2026-11-18, how a face dies, audited from outside",
+   "how": "quoted"
+  },
+  "gradeDY19": {
+   "words": [
+    "C (the halves and the launch level: the audit alone)"
+   ],
+   "quote": "A (equal over-full frequency and the rate ratio: the other session, the card's study, the audit); C (the halves and the launch level: the audit alone)",
+   "src": "CLAIMS DY19, level column",
+   "how": "quoted"
+  },
+  "qk": {
+   "value": [
+    0.771,
+    0.502,
+    0.3,
+    0.86,
+    0.643,
+    0.445
+   ],
+   "quote": "Once k cells are left a hull face goes on to die less often than a wrapped face of the same area, under one definition and one code: 0.771, 0.502, 0.300 against 0.860, 0.643, 0.445 at k = 1, 2, 3 (63 cells).",
+   "src": "CLAIMS DY20",
+   "how": "quoted; collect.py asserts the same values (to 0.001) in the q(k) lines of research/audit/blast/data/hull63.txt and slab63.txt"
+  },
+  "qkex": {
+   "value": [
+    0.861,
+    0.862,
+    0.768,
+    0.771,
+    0.686,
+    0.693,
+    0.8
+   ],
+   "quote": "Neither the bust (q(1) with and without a fall of 0.4·A in the dip: 0.861, 0.862 wrapped; 0.768, 0.771 hull) nor the shared rim row (a last single cell dies 0.686 in the hull face's interior, 0.693 in its rim row, 0.800 on the wrapped face) accounts for it",
+   "src": "CLAIMS DY20",
+   "how": "quoted"
+  },
+  "beneath": {
+   "words": [
+    "0.70–0.73",
+    "0.56–0.59",
+    "not tested as the cause"
+   ],
+   "quote": "the layer beneath a nearly empty face is at 0.70–0.73 of its ordinary population under a hull face and 0.56–0.59 under a wrapped one (not tested as the cause)",
+   "src": "CLAIMS DY20",
+   "how": "quoted"
+  },
+  "gradeDY20": {
+   "words": [
+    "B (the two exclusions"
+   ],
+   "quote": "A (the totals: the card's two recorders and the audit); B (the two exclusions: the audit's code, re-run by the lead on fresh seeds: 0.861, 0.870; 0.755, 0.771; 0.695, 0.685, 0.801)",
+   "src": "CLAIMS DY20, level column",
+   "how": "quoted"
+  },
+  "dice": {
+   "words": [
+    "0.57–0.94",
+    "0.003–0.02",
+    "A statement about the surrogate",
+    "0.12 ± 0.05"
+   ],
+   "quote": "The one-layer surrogate (a face layer over private coins), solved exactly, has both exits: the share of deaths by a bust is 0.57–0.94 on wrapped faces of 9–15 cells and 0.003–0.02 on rimmed ones. A statement about the surrogate: its chain is 0.12 ± 0.05 above gump at the 120-cell tube",
+   "src": "CLAIMS DY21",
+   "how": "quoted"
+  },
+  "pricemech": {
+   "words": [
+    "That is a mechanism, checked. It is not a calculation of either number."
+   ],
+   "quote": "belong to two different ways of dying, and the reason a hull face cannot take the wrapped face's way is a property of single cells at its rim. That is a mechanism, checked. It is not a calculation of either number.",
+   "src": "NB 2026-11-18, how a face dies, audited from outside",
+   "how": "quoted"
+  },
+  "noprice": {
+   "words": [
+    "The report derives no price and says so",
+    "Its timing-entropy conjecture failed its own test."
+   ],
+   "quote": "**The report derives no price and says so**: neither 0.2087 nor the hull's higher price, nor why a tube is cheaper. Its timing-entropy conjecture failed its own test.",
+   "src": "NB 2026-11-18, how a face dies, audited from outside",
+   "how": "quoted"
+  },
+  "notconf": {
+   "words": [
+    "Not confirmed, and not entered as results:"
+   ],
+   "quote": "**Not confirmed, and not entered as results:** the tube's asymptote 0.2004 and the one-curve fit (all nine of that session's forecasts for the 120-cell tube were high, by 0.05 to 0.12; the chord from 108 to 120 cells, 0.1957 ± 0.0016, is below the asymptote); \"0.0046·L²\" (0.00544 at 120); the split of the price into 0.079 + 0.136 (an identity whose parts move with the threshold: 0.083 + 0.126 at ≥ 0.74·A here); the living-state estimator off wide tori (17.79 against 18.14 on the 84-cell hull face, 22.57 against 23.34 at 108); the 135-cell hull forecast; staggered crashes beyond 84 cells (surrogate only).",
+   "src": "NB 2026-11-18, how a face dies, audited from outside",
+   "how": "quoted"
+  },
+  "forecast84": {
+   "words": [
+    "65%",
+    "between 0.8 and 1.6%"
+   ],
+   "quote": "**The lead: 65% that the share at 84 cells is between 0.8 and 1.6%, 25% above 1.6%, 10% below 0.8%.**",
+   "src": "NB 2026-11-18, how a face dies, audited from outside",
+   "how": "quoted; the run (research/audit/blast_lead_hull84.sh) had not finished when this was collected: no result is shown"
+  },
+  "twoways": {
+   "words": [
+    "either the tail of the fade or a second way to die with its own price"
+   ],
+   "quote": "The 1.14% of hull deaths that do hold a fall of half the face are either the tail of the fade or a second way to die with its own price.",
+   "src": "NB 2026-11-18, how a face dies, audited from outside",
+   "how": "quoted"
+  },
+  "notchecked": {
+   "words": [
+    "only one lane of the stepper is traced against the oracle"
+   ],
+   "quote": "In the audit's code: only one lane of the stepper is traced against the oracle (the four lifetimes are the end-to-end check); one code.",
+   "src": "NB 2026-11-18, how a face dies, audited from outside",
+   "how": "quoted"
+  },
+  "owner": {
+   "words": [
+    "decided cell by cell by how many neighbours a face cell has inside the vessel"
+   ],
+   "quote": "a face layer over private coins has both ways of dying, and which one a face takes is decided cell by cell by how many neighbours a face cell has inside the vessel.",
+   "src": "NB 2026-11-18, how a face dies, audited from outside",
+   "how": "quoted"
+  }
+ },
+ "wrap18": {
+  "tube120": {
+   "value": [
+    120,
+    24.5086,
+    0.0169,
+    8,
+    3494,
+    0.081,
+    0.02,
+    4.1,
+    0.1957,
+    0.0016,
+    0.2013,
+    0.0008
+   ],
+   "quote": "The 120-cell tube with one loop² of 12 is ln τ_face = 24.5086 ± 0.0169 (8 seeds, 3,494 deaths): 0.081 ± 0.020 below the straight line through 84, 96 and 108 cells (4.1 combined errors); the chord from 108 to 120 cells is 0.1957 ± 0.0016 per cell against 0.2013 ± 0.0008 before it.",
+   "src": "CLAIMS WL11",
+   "how": "quoted; collect.py recomputes ln(2 Σexposure / Σface) and its error from research/data/gpu_local_eqtorus/eqtorus_1_18_40.csv and asserts them equal"
+  },
+  "chords": {
+   "value": [
+    0.20227,
+    0.00043,
+    0.20127,
+    0.00079,
+    0.19572,
+    0.00158,
+    0.067,
+    0.024,
+    24.5893,
+    0.0097
+   ],
+   "quote": "the chords are 0.20227 ± 0.00043, 0.20127 ± 0.00079 and **0.19572 ± 0.00158** per cell; the second difference at 108 cells is −0.067 ± 0.024. The straight line through 84 to 108 cells gives 24.5893 ± 0.0097",
+   "src": "NB 2026-11-18, the 120-cell tube is 24.5086 ± 0.0169",
+   "how": "quoted; collect.py recomputes the three chords from the four rows and asserts them equal to 1e-5"
+  },
+  "high": {
+   "value": [
+    24.576,
+    0.02,
+    2.6,
+    24.56,
+    24.608,
+    1.3,
+    2.2
+   ],
+   "quote": "**Every forecast on file was high.** The card's 24.576 ± 0.020 (2.6 of its errors); the theory session's eight, from 24.56 to 24.608 (1.3 to 2.2 of theirs). The lead had frozen none.",
+   "src": "NB 2026-11-18, the 120-cell tube is 24.5086 ± 0.0169",
+   "how": "quoted"
+  },
+  "falling": {
+   "words": [
+    "still falling at 120 cells"
+   ],
+   "quote": "A long tube's price per cell is still falling at 120 cells",
+   "src": "CLAIMS WL11",
+   "how": "quoted"
+  },
+  "gradeWL11": {
+   "words": [
+    "one lattice"
+   ],
+   "quote": "C (the card's GPU code, one lattice; arithmetic recomputed twice)",
+   "src": "CLAIMS WL11, level column",
+   "how": "quoted"
+  },
+  "line12": {
+   "value": [
+    19.7446,
+    0.0042,
+    22.1599,
+    0.0086,
+    0.20198,
+    0.00031,
+    6.8,
+    16.8,
+    14
+   ],
+   "quote": "tubes with one loop² of 12 on eight seeds are 19.7446 ± 0.0042 at 96 cells and 22.1599 ± 0.0086 at 108, one line with the 84-cell face at 0.20198 ± 0.00031 per cell, 6.8 combined errors below the slope of 54 to 84 cells, seeds' χ² 16.8 on 14.",
+   "src": "CLAIMS WL10",
+   "how": "quoted; collect.py recomputes the two faces from research/data/gpu_local_eqtorus/ and asserts them equal"
+  },
+  "l13": {
+   "value": [
+    13,
+    96,
+    19.8109,
+    0.0062,
+    0.052,
+    0.013,
+    4.0
+   ],
+   "quote": "A tube with one loop² of 13 at 96 cells is 19.8109 ± 0.0062, 0.052 ± 0.013 below its line of 57 to 75 cells (4.0): it bends too.",
+   "src": "CLAIMS WL10",
+   "how": "quoted"
+  },
+  "l16": {
+   "value": [
+    16,
+    96,
+    0.012,
+    0.006,
+    2.2
+   ],
+   "quote": "Two faces with one loop² of 16 at 96 cells are 0.012 ± 0.006 below theirs (2.2): leans, not established.",
+   "src": "CLAIMS WL10",
+   "how": "quoted"
+  },
+  "l16rows": {
+   "value": [
+    19.9366,
+    0.0064,
+    19.9284,
+    0.0063
+   ],
+   "quote": "| (4, 0), (0, 8) | 96 | 16 | 4 | 24,796 | 19.9366 ± 0.0064 | 2.2 on 3 | | (1, 8), (0, 32) | 96 | 16 | 4 | 25,054 | 19.9284 ± 0.0063 | 5.0 on 3 |",
+   "src": "NB 2026-11-18, the card's third chain, recomputed (its table)",
+   "how": "quoted; collect.py recomputes both from research/data/gpu_local_eqtorus/"
+  },
+  "cpu": {
+   "value": [
+    1.4,
+    19.7231,
+    0.016
+   ],
+   "quote": "A CPU second code agrees with the GPU at five faces within 1.4 combined errors (the 96-cell 12-tube: 19.7231 ± 0.0160)",
+   "src": "CLAIMS WL10",
+   "how": "quoted"
+  },
+  "gradeWL10": {
+   "words": [
+    "the GPU code alone"
+   ],
+   "quote": "B (the 12-tube at 84 and 96 cells: two codes) + C (108 cells and the loop² 13 and 16 faces: the GPU code alone)",
+   "src": "CLAIMS WL10, level column",
+   "how": "quoted"
+  },
+  "firewalls": {
+   "words": [
+    "ten firewalls per face death"
+   ],
+   "quote": "The two loop² 16 faces had 238,631 and 239,318 firewall events against about 25,000 face deaths each (ln τ_fw 16.98): ten firewalls per face death, where the 12- and 13-tubes of the same size had none.",
+   "src": "NB 2026-11-18, the card's third chain, recomputed",
+   "how": "quoted"
+  },
+  "bends": {
+   "value": [
+    4.7
+   ],
+   "quote": "The 96-cell 12-tube on CPU alone is 4.7 errors below the frozen line, so the bend rests on two codes to 96 cells and on one at 108 and 120.",
+   "src": "NB 2026-11-18, the 120-cell tube is 24.5086 ± 0.0169",
+   "how": "quoted"
+  },
+  "loop21": {
+   "value": [
+    17.5442,
+    0.0034,
+    17.5387,
+    0.0031,
+    17.5411,
+    0.0023,
+    1.5,
+    17.534,
+    1.6,
+    17.547
+   ],
+   "quote": "On the loop-21 face it gives 17.5442 ± 0.0034 against the GPU's 17.5387 ± 0.0031; **pooled 17.5411 ± 0.0023, 1.5 above 17.534 and 1.6 below 17.547: midway. The lean I recorded on the 16th is withdrawn** (WL8).",
+   "src": "NB 2026-11-18, the 120-cell tube is 24.5086 ± 0.0169",
+   "how": "quoted"
+  },
+  "eq108": {
+   "value": [
+    22.5405,
+    0.0074,
+    10,
+    18394,
+    0.8,
+    22.535,
+    1.4,
+    22.551
+   ],
+   "quote": "The equilateral 108-cell wrapped face (6 × 6) is ln τ_face = 22.5405 ± 0.0074 (the card, 10 seeds, 18,394 deaths): 0.8 errors above the density relation's 22.535 and 1.4 below the wide faces' straight line at 22.551.",
+   "src": "CLAIMS WL9",
+   "how": "quoted; collect.py recomputes it from research/data/gpu_local_eqtorus/eqtorus_6_0_6.csv (it was 22.56 ± 0.022 on two seeds in update-2026-11-15e.json)"
+  },
+  "pair": {
+   "value": [
+    2.9,
+    4.4,
+    2
+   ],
+   "quote": "with the two-code value of WL8 the pair's χ² is 2.9 against the relation and 4.4 against no cost, on 2.",
+   "src": "CLAIMS WL9",
+   "how": "quoted"
+  },
+  "gradeWL9": {
+   "words": [
+    "the card's code alone"
+   ],
+   "quote": "C (the card's code alone)",
+   "src": "CLAIMS WL9, level column",
+   "how": "quoted"
+  },
+  "forms": {
+   "words": [
+    "25.70 to 25.71 at 126 cells",
+    "26.87 to 26.89 at 132",
+    "25.801 and 27.013"
+   ],
+   "quote": "They agree within 0.02 on the tubes now running: 25.70 to 25.71 at 126 cells and 26.87 to 26.89 at 132 (errors about 0.04 and 0.05), where the line says 25.801 and 27.013.",
+   "src": "NB 2026-11-18, the 120-cell tube is 24.5086 ± 0.0169",
+   "how": "quoted"
+  },
+  "W14": {
+   "value": [
+    60,
+    126,
+    0.05,
+    25.705
+   ],
+   "quote": "**W14 (60%).** The 126-cell tube (1,19),(0,42) is within 0.05 of 25.705.",
+   "file": "research/wrap/PREDICTIONS.md",
+   "src": "research/wrap/PREDICTIONS.md, W14-W16",
+   "how": "quoted from the file; frozen before any row; not scored when this was collected"
+  },
+  "W15": {
+   "value": [
+    55,
+    132,
+    0.07,
+    26.88
+   ],
+   "quote": "**W15 (55%).** The 132-cell tube (1,20),(0,44) is within 0.07 of 26.88.",
+   "file": "research/wrap/PREDICTIONS.md",
+   "src": "research/wrap/PREDICTIONS.md, W14-W16",
+   "how": "quoted from the file; not scored when this was collected"
+  },
+  "W16": {
+   "value": [
+    85,
+    0.04,
+    25.761,
+    26.973
+   ],
+   "quote": "**W16 (85%).** Both are more than 0.04 below the straight line (below 25.761 and 26.973).",
+   "file": "research/wrap/PREDICTIONS.md",
+   "src": "research/wrap/PREDICTIONS.md, W14-W16",
+   "how": "quoted from the file; not scored when this was collected"
+  },
+  "CN5": {
+   "words": [
+    "renamed CN5 on 2026-11-16"
+   ],
+   "quote": "(Entered at first as a second CN2 by mistake; renamed CN5 on 2026-11-16. CN2 is the analyst's forecasts.)",
+   "src": "CLAIMS CN5",
+   "how": "quoted"
+  },
+  "openn": {
+   "words": [
+    "(n) why the fade costs more per cell than the bust"
+   ],
+   "quote": "**No price is derived by this**, and these are open: (n) why the fade costs more per cell than the bust, as a calculation;",
+   "file": "research/OPEN-PROBLEMS.md",
+   "src": "research/OPEN-PROBLEMS.md, item 9 (n)",
+   "how": "quoted from the file"
+  },
+  "openo": {
+   "words": [
+    "(o) whether the hull's rare falls of half the face"
+   ],
+   "quote": "(o) whether the hull's rare falls of half the face (1.1% of deaths at 63 cells) are a second way to die with a lower price, in which case the hull's price must come down at large sizes",
+   "file": "research/OPEN-PROBLEMS.md",
+   "src": "research/OPEN-PROBLEMS.md, item 9 (o)",
+   "how": "quoted from the file"
+  },
+  "openp": {
+   "words": [
+    "(p) why a hull face with k cells left dies less often than a wrapped one"
+   ],
+   "quote": "(p) why a hull face with k cells left dies less often than a wrapped one (0.77 against 0.86 at one cell; not the bust, not the rim row; the layer beneath is fuller under a hull face);",
+   "file": "research/OPEN-PROBLEMS.md",
+   "src": "research/OPEN-PROBLEMS.md, item 9 (p)",
+   "how": "quoted from the file"
+  },
+  "openq": {
+   "words": [
+    "(q) why a tube, over-full as often as a wide face, dies 1.25 times as often at 84 cells"
+   ],
+   "quote": "(q) why a tube, over-full as often as a wide face, dies 1.25 times as often at 84 cells (its halves crash apart twice as often): the other session's fit for the tube's price failed at 120 cells.",
+   "file": "research/OPEN-PROBLEMS.md",
+   "src": "research/OPEN-PROBLEMS.md, item 9 (q)",
+   "how": "quoted from the file"
+  },
+  "openl": {
+   "words": [
+    "whether 16 bends"
+   ],
+   "quote": "Still open: the form (the 120-cell tube is due on the 18th); whether 16 bends; and what the firewalls on girth-4 faces (ten per face death at 96 cells) do to those lifetimes.",
+   "file": "research/OPEN-PROBLEMS.md",
+   "src": "research/OPEN-PROBLEMS.md, item 9 (l), since 2026-11-18",
+   "how": "quoted from the file"
+  }
+ },
+ "sig18": {
+  "cell": {
+   "value": [
+    38,
+    5,
+    2,
+    4,
+    30
+   ],
+   "quote": "A memory cell: a cap, N units of wire B and the cap turned round (38 + 5N cells, period 2, N = 4 to 30).",
+   "src": "CLAIMS SG33",
+   "how": "quoted"
+  },
+  "add": {
+   "words": [
+    "two or more units behind the last",
+    "capacity N − 4",
+    "adds ⌈m/2⌉"
+   ],
+   "quote": "Two pulses that meet leave a standing stretch `d f`; every later pulse that reaches it from either side, two or more units behind the last, is absorbed and lengthens it by one (`d^k f`; capacity N − 4; a block of m adjacent pulses adds ⌈m/2⌉).",
+   "src": "CLAIMS SG33",
+   "how": "quoted"
+  },
+  "bit": {
+   "words": [
+    "a one-bit read by a signal"
+   ],
+   "quote": "A pulse crosses an empty cell and is absorbed by a set one: a one-bit read by a signal. Every stored state has period exactly 2",
+   "src": "CLAIMS SG33",
+   "how": "quoted"
+  },
+  "gradeSG33": {
+   "words": [
+    "two codes on the oracle's step"
+   ],
+   "quote": "A (two codes on the oracle's step; the lead ran the verifiers)",
+   "src": "CLAIMS SG33, level column",
+   "how": "quoted"
+  },
+  "caveat": {
+   "words": [
+    "reading a set store raises its count"
+   ],
+   "quote": "with the caveats that reading a set store raises its count and that in the cell the answering pulse ends in a cap.",
+   "src": "NB 2026-11-18, the eighth signals push, reviewed",
+   "how": "quoted"
+  },
+  "release": {
+   "words": [
+    "exactly k pulses two units apart",
+    "2k + 6",
+    "for every k"
+   ],
+   "quote": "The count comes back out: removing one stator beside a stretch `d^k f` at an even generation dissolves it into exactly k pulses two units apart and leaves the wire plain from generation 2k + 6, for every k (chart gluing on the tape theorem; refereed, three gaps closed by the review).",
+   "src": "CLAIMS SG34",
+   "how": "quoted"
+  },
+  "catch": {
+   "words": [
+    "holds k + 1"
+   ],
+   "quote": "A second store two or more units away catches them and holds k + 1.",
+   "src": "CLAIMS SG34",
+   "how": "quoted"
+  },
+  "negative": {
+   "value": [
+    48,
+    3
+   ],
+   "quote": "Within the wire's tube nothing that arrives as a pulse starts the release (48 standing structures, k = 3); outside the tube that fails (see the ninth push)",
+   "src": "CLAIMS SG34",
+   "how": "quoted"
+  },
+  "gradeSG34": {
+   "words": [
+    "proof refereed"
+   ],
+   "quote": "A (the release for every k: proof refereed, base cases on the oracle by two codes) + B (the other laws and the catch: two steppers) + C (the negative: one search, replayed)",
+   "src": "CLAIMS SG34, level column",
+   "how": "quoted"
+  },
+  "line7": {
+   "value": [
+    4,
+    193,
+    400,
+    741,
+    37,
+    6196,
+    39
+   ],
+   "quote": "A running rake line (gun, train, mirrored end) is turned by an echo and n holes into a standing wire B capped at both ends, period 4, holding the number of holes exactly when the second hole is three or more rakes behind the first (to 193 in a 400-unit line). 741 ends at C ≤ 37 and 6,196 at C ≤ 39: none is left alive and changed",
+   "src": "CLAIMS SG35",
+   "how": "quoted"
+  },
+  "line7b": {
+   "value": [
+    4,
+    100,
+    6,
+    40000
+   ],
+   "quote": "an echo E and n holes turn it into a standing wire B capped at both ends, period 4 from generation 100, holding the count as a stretch of the variant wire. The review rebuilt it on the oracle alone: the states for n = 1 to 6 differ by exactly the cells claimed; a 40,000-generation run agrees.",
+   "src": "NB 2026-11-18, three more signals results in one night (the seventh push, reviewed)",
+   "how": "quoted"
+  },
+  "late": {
+   "words": [
+    "still count"
+   ],
+   "quote": "Holes that arrive after the wire B has formed still count.",
+   "src": "NB 2026-11-18, three more signals results in one night (the seventh push, reviewed)",
+   "how": "quoted"
+  },
+  "gradeSG35": {
+   "value": [
+    205
+   ],
+   "quote": "A (the line: two codes on the oracle's step) + B (the lists and census: two solvers, two steppers, an oracle sample of 205 ends)",
+   "src": "CLAIMS SG35, level column",
+   "how": "quoted"
+  },
+  "regnew": {
+   "words": [
+    "a running line converts itself into it, written by holes"
+   ],
+   "quote": "The standing object is the second push's B/B′ register with two walls and new caps; new is that a running line converts itself into it, written by holes.",
+   "src": "NB 2026-11-18, three more signals results in one night (the seventh push, reviewed)",
+   "how": "quoted"
+  },
+  "guns34": {
+   "value": [
+    867,
+    39,
+    34,
+    80,
+    120,
+    37,
+    67
+   ],
+   "quote": "Of the 867 guns at C ≤ 39, 34 survive the echo E changed: left standing, and from then on firing a hole with every rake; with one of them and a healing end E alone turns the line into a clock of period 4N − 12 (or −16, −20), N = 80 to 120. The first objects left alive and changed by a signal. (At C ≤ 37 all 67 guns die, as the sixth push found)",
+   "src": "CLAIMS SG36",
+   "how": "quoted"
+  },
+  "gradeSG36": {
+   "words": [
+    "nobody has repeated it"
+   ],
+   "quote": "C (the reviewer's code alone, on the oracle's step; nobody has repeated it)",
+   "src": "CLAIMS SG36, level column",
+   "how": "quoted"
+  },
+  "notback": {
+   "words": [
+    "nothing is known to turn them back"
+   ],
+   "quote": "The 34 guns are the first objects in gump left alive and changed by a signal; nothing is known to turn them back.",
+   "src": "NB 2026-11-18, three more signals results in one night (the seventh push, reviewed)",
+   "how": "quoted"
+  },
+  "read": {
+   "words": [
+    "It reads the one unit it crosses.",
+    "A single pulse never reads.",
+    "No write with a reader in place was found"
+   ],
+   "quote": "A read that does not disturb the store: two adjacent pulses on a capped wire crossing the store at 60 degrees return one pulse beside a unit of plain wire B and none beside a unit of the variant wire; no cell of the store's tube ever differs and the whole state is restored. It reads the one unit it crosses. A single pulse never reads. No write with a reader in place was found (a list of things tried, one placement attacked by the review)",
+   "src": "CLAIMS SG37",
+   "how": "quoted"
+  },
+  "readspace": {
+   "value": [
+    8,
+    44
+   ],
+   "quote": "Reads must be spaced: a second pair 8 to 44 generations behind the first meets the returning echo.",
+   "src": "NB 2026-11-18, three more signals results in one night (push 8b, reviewed in part)",
+   "how": "quoted"
+  },
+  "gradeSG37": {
+   "words": [
+    "one stepper each"
+   ],
+   "quote": "A (the read: two codes on the oracle's step) + C (the surveys and the negatives: one stepper each, partly recounted)",
+   "src": "CLAIMS SG37, level column",
+   "how": "quoted"
+  },
+  "call": {
+   "words": [
+    "reusable",
+    "(1 and 3 give 4)",
+    "Measured for k = 1 to 40",
+    "not proved",
+    "once"
+   ],
+   "quote": "A call: two adjacent pulses on a capped wire C crossing the store wire one unit before a stretch's wall pass on unchanged and the stretch `d^k f` leaves as exactly k pulses two units apart, store wire plain, line as it was; reusable; a called count is caught by another store exactly (1 and 3 give 4). Measured for k = 1 to 40 and reduced by measurement to the release of SG34; not proved. Also a six-cell still life at the wall that lets a pulse of the store's own wire release the stretch, once",
+   "src": "CLAIMS SG38",
+   "how": "quoted"
+  },
+  "callline": {
+   "value": [
+    26,
+    162
+   ],
+   "quote": "A capped wire C of 26 units, 162 cells, laid across the store wire one unit before the stretch's wall.",
+   "src": "NB 2026-11-18, three more signals results in one night (the ninth push, not reviewed)",
+   "how": "quoted"
+  },
+  "gradeSG38": {
+   "words": [
+    "no review",
+    "re-run by the lead"
+   ],
+   "quote": "C (the push's code, on the oracle's step, re-run by the lead; no review) + B (the still life: one run repeated by a second code)",
+   "src": "CLAIMS SG38, level column",
+   "how": "quoted"
+  },
+  "notfound": {
+   "words": [
+    "a way to make the calling pair from one pulse",
+    "copying, doubling, subtracting or comparing counts"
+   ],
+   "quote": "**Not found:** a way to make the calling pair from one pulse; a call on the store's own wire that can be reused (a period-3 oscillator is a candidate, one timing tried, nothing on the oracle); copying, doubling, subtracting or comparing counts.",
+   "src": "NB 2026-11-18, three more signals results in one night (the ninth push, not reviewed)",
+   "how": "quoted"
+  },
+  "compute": {
+   "words": [
+    "the pieces have not all been run together under one reviewer",
+    "the calling pair is still made by hand",
+    "nothing copies or subtracts"
+   ],
+   "quote": "a row of unary counters with add, move and an is-it-empty test. Each piece has run on the oracle; the pieces have not all been run together under one reviewer, the calling pair is still made by hand, and nothing copies or subtracts.",
+   "src": "NB 2026-11-18, three more signals results in one night (where that leaves \"can gump compute\")",
+   "how": "quoted"
+  },
+  "openv": {
+   "words": [
+    "still stands (no write under a reader)",
+    "compute anything beyond sums"
+   ],
+   "quote": "**(v)** still stands (no write under a reader); and whether add, move and an is-it-empty test, with no copy and no subtraction, compute anything beyond sums.",
+   "file": "research/OPEN-PROBLEMS.md",
+   "src": "research/OPEN-PROBLEMS.md, item 13, since 05:36 UTC 2026-11-18",
+   "how": "quoted from the file"
+  },
+  "openy": {
+   "words": [
+    "a source for the calling pair",
+    "the period-3 oscillator"
+   ],
+   "quote": "**(y)** a source for the calling pair (one pulse into two); **(z)** the period-3 oscillator that may make a reusable call on the store's own wire;",
+   "file": "research/OPEN-PROBLEMS.md",
+   "src": "research/OPEN-PROBLEMS.md, item 13 (y), (z)",
+   "how": "quoted from the file"
+  },
+  "openu": {
+   "words": [
+    "an adversarial review of the ninth push"
+   ],
+   "quote": "**Open now: (u′)** an adversarial review of the ninth push and a proof of the call for every k;",
+   "file": "research/OPEN-PROBLEMS.md",
+   "src": "research/OPEN-PROBLEMS.md, item 13 (u′)",
+   "how": "quoted from the file"
+  }
+ },
+ "forecasts": [
+  {
+   "line": "The 120-cell tube: the card's 24.576 ± 0.020 and the theory session's eight, 24.56 to 24.608 (none frozen by the lead)",
+   "result": "missed: every one high (the face 24.5086 ± 0.0169)",
+   "words": [
+    "Every forecast on file was high."
+   ],
+   "quote": "**Every forecast on file was high.** The card's 24.576 ± 0.020 (2.6 of its errors)",
+   "src": "NB 2026-11-18, the 120-cell tube is 24.5086 ± 0.0169"
+  },
+  {
+   "line": "W14–W16: the 126- and 132-cell tubes (the lead, frozen before any row)",
+   "result": "pending: running on your card",
+   "words": [
+    "W14 (60%)"
+   ],
+   "quote": "**W14 (60%).** The 126-cell tube (1,19),(0,42) is within 0.05 of 25.705.",
+   "file": "research/wrap/PREDICTIONS.md",
+   "src": "research/wrap/PREDICTIONS.md, W14-W16"
+  },
+  {
+   "line": "The share of hull deaths with a fall of half the face at 84 cells (the lead: 65% between 0.8 and 1.6%)",
+   "result": "pending: the run had not finished when this was collected",
+   "words": [
+    "65% that the share at 84 cells is between 0.8 and 1.6%"
+   ],
+   "quote": "**The lead: 65% that the share at 84 cells is between 0.8 and 1.6%, 25% above 1.6%, 10% below 0.8%.**",
+   "src": "NB 2026-11-18, how a face dies, audited from outside"
+  }
+ ],
+ "corrections": [
+  {
+   "said": "The face with a loop of √21 at 84 cells leans to a cost (a loop of 21 costs 0.0047 ± 0.0023)",
+   "now": "On two codes the face is 17.5411 ± 0.0023, midway between the two forecasts: the lean is withdrawn, undecided",
+   "by": "the lead, pooling the card's CPU second code with its GPU value",
+   "line": "the area law",
+   "words": [
+    "the lean is withdrawn, undecided"
+   ],
+   "quote": "**Since (2026-11-18): on two codes the face is 17.5411 ± 0.0023, midway between the two forecasts; the lean is withdrawn, undecided.**",
+   "src": "CLAIMS WL8 (Since)"
+  },
+  {
+   "said": "No gun survives an echo (every gun listed, and a search within bounds)",
+   "now": "True of the 67 guns at C ≤ 37. Of the 867 at C ≤ 39, 34 are left standing and changed, and from then on fire a hole with every rake (one code on the oracle's step; nobody has repeated it)",
+   "by": "a reviewer with independent code (research/audit/REVIEW-signals-7.md)",
+   "line": "signals",
+   "words": [
+    "Refuted: \"no gun survives E\"."
+   ],
+   "quote": "**[review; the oracle, one code] Refuted: \"no gun survives E\".**",
+   "src": "NB 2026-11-18, three more signals results in one night (the seventh push, reviewed); CLAIMS SG36"
+  },
+  {
+   "said": "CN2: the hull face of 108 cells (the ledger id was used twice; this site's sources of 2026-11-16 cite that row as CN2)",
+   "now": "The hull face's row is CN5, renamed on 2026-11-16; CN2 is the analyst's forecasts",
+   "by": "the lead, in the ledger",
+   "line": "the ledger",
+   "words": [
+    "renamed CN5 on 2026-11-16"
+   ],
+   "quote": "(Entered at first as a second CN2 by mistake; renamed CN5 on 2026-11-16. CN2 is the analyst's forecasts.)",
+   "src": "CLAIMS CN5"
+  }
+ ],
+ "audits": [
+  {
+   "label": "Audit of how a face dies (the other session's night)",
+   "line": "Own stepper and death recorder from the oracle's offsets, traced against the oracle with a control that fails: a wrapped face crashes, a hull face fades, the rim row is why; no price derived; the lead re-ran it on fresh seeds.",
+   "file": "research/audit/REVIEW-blast.md"
+  },
+  {
+   "label": "Review of the seventh signals push",
+   "line": "The line that turns itself into a register rebuilt on the oracle; the census reproduced with another solver; 34 of 867 guns survive the echo changed.",
+   "file": "research/audit/REVIEW-signals-7.md"
+  },
+  {
+   "label": "Review of the eighth signals push",
+   "line": "The memory cell on the oracle by a second code; the proof of the release for every k refereed, three gaps closed; corrections to the censuses.",
+   "file": "research/audit/REVIEW-signals-8.md"
+  },
+  {
+   "label": "Review of push 8b, in part",
+   "line": "The read from a crossing wire confirmed on the oracle; a single pulse never reads; no write with a reader in place at one placement.",
+   "file": "research/audit/REVIEW-signals-8b.md"
+  },
+  {
+   "label": "The card's third chain, recomputed",
+   "line": "The long 12-tubes on eight seeds, the loop² 13 and 16 tubes and the CPU second code, from the rows.",
+   "file": "research/audit/CHAIN3-CHECK.md"
+  },
+  {
+   "label": "The 120-cell tube and the dying-face tables, recomputed",
+   "line": "The 120-cell tube and the four long 12-tubes from the rows; the GTX 1080 studies of dying faces from their CSVs.",
+   "file": "research/audit/CHAIN3B-DYING2-CHECK.md"
+  }
+ ],
+ "milestones": [
+  {
+   "date": "2026-11-17T01:18Z",
+   "text": "The equilateral 108-cell wrapped face to ± 0.007: between the two forecasts again",
+   "src": "git ebad9b4"
+  },
+  {
+   "date": "2026-11-18T05:02Z",
+   "text": "A memory cell: pulses write a count, one changed cell gives it back as that many pulses, proved for every k",
+   "src": "git ba1e5ee"
+  },
+  {
+   "date": "2026-11-18T05:36Z",
+   "text": "A line that turns itself into a register; 34 guns survive the echo; a read and a call from a crossing wire",
+   "src": "git df9f586"
+  },
+  {
+   "date": "2026-11-18T12:26Z",
+   "text": "The 120-cell tube: four errors below the line; the lean on the loop of √21 withdrawn",
+   "src": "git a0c8a47"
+  },
+  {
+   "date": "2026-11-18T13:30Z",
+   "text": "How a face dies, audited from outside: a wrapped face crashes, a hull face fades; the rim row is why",
+   "src": "git aef91e3"
+  }
+ ]
+}
