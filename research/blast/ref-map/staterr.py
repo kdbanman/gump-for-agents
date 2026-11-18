@@ -17,9 +17,10 @@ for v in ves:
         q.mP = m.mP + sP * z1; q.mB = m.mB + sB * (rho * z1 + np.sqrt(1 - rho ** 2) * z2)
         f = 1 + np.sqrt(2 / n) * rng.standard_normal(m.n.shape); f = np.clip(f, 0.3, 3)
         q.vPP = m.vPP * f; q.vBB = m.vBB * f; q.vPB = m.vPB * f
-        out.append(chain(q, *build(q, 'visited', nmin), tau=False)['S'])
+        mode = os.environ.get('SE_MODE', 'visited'); src = Map(os.path.join(SCR, os.environ['SE_SRC']), d) if os.environ.get('SE_SRC') else None
+        out.append(chain(q, *build(q, mode, nmin, src), tau=False)['S'])
     res[v] = np.array(out)
-    print(f"{v} d={d} visited:{nmin}: S of 12 redraws mean {res[v].mean():.3f} sd {res[v].std(ddof=1):.3f} (min {res[v].min():.3f} max {res[v].max():.3f})", flush=True)
+    print(f"{v} d={d} {os.environ.get('SE_MODE', 'visited')}:{nmin}: S of 12 redraws mean {res[v].mean():.3f} sd {res[v].std(ddof=1):.3f} (min {res[v].min():.3f} max {res[v].max():.3f})", flush=True)
 if len(ves) == 3:
     a, b, c = (res[v] for v in ves); cc = (c - 2 * b + a) / 3; D1 = AA[1] - AA[0]; D2 = AA[2] - AA[1]; bb = (b - a) - D1 * cc
     print(f"c from second difference: {cc.mean():.4f} sd {cc.std(ddof=1):.4f}; b: {bb.mean():+.3f} sd {bb.std(ddof=1):.3f}; "
