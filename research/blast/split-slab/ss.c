@@ -195,17 +195,18 @@ int main(int argc, char **argv) {
        accept iff the score stays at or below the level), then the share at or below the next level is P_{i+1}. */
     if (!WD) { fprintf(stderr, "sub needs WD\n"); return 1; }
     u64 seed0 = strtoull(argv[3], 0, 10); int nrep = atoi(argv[4]); int LAM1 = atoi(argv[5]), DELTA = atoi(argv[6]), NBATCH = atoi(argv[7]), NSWEEP = atoi(argv[8]), KFLIP = atoi(argv[9]);
-    int TPRE = atoi(argv[10]), TWIN = atoi(argv[11]); int T = TPRE + TWIN; FILE *pp = argc > 12 ? fopen(argv[12], "w") : 0; if (T > 127) return 1;
+    int TPRE = atoi(argv[10]), TWIN = atoi(argv[11]); int T = TPRE + TWIN; FILE *pp = (argc > 12 && strcmp(argv[12], "-")) ? fopen(argv[12], "w") : 0; if (T > 127) return 1;
+    int WBACK = argc > 13 ? atoi(argv[13]) : 0;   /* > 0: every second sweep proposes flips only in the WBACK generations of dice before the chain's minimum */
     size_t ssz = (size_t)(n + 1) * W, dsz = (size_t)T * 2 * A * W; long NC = (long)NBATCH * NL;
     u64 *init = malloc(NBATCH * ssz * 8), *init2 = malloc(NBATCH * ssz * 8), *D = malloc(NBATCH * dsz * 8), *D2 = malloc(NBATCH * dsz * 8), *Dp = malloc(dsz * 8), *pl = malloc(ssz * 8);
-    int *score = malloc(4 * NC), *score2 = malloc(4 * NC), *seeds = malloc(4 * NC); static short popser[NL][128]; static int sc[NL]; static long page[NL];
+    int *score = malloc(4 * NC), *score2 = malloc(4 * NC), *seeds = malloc(4 * NC), *gmin = malloc(4 * NC), *gmin2 = malloc(4 * NC); static int am[NL]; static short popser[NL][128]; static int sc[NL]; static long page[NL];
     double *rate = malloc(8 * nrep); double sumlnP[64] = {0}; long nlevP[64] = {0}; double accs = 0, accn = 0; int lamlist[64], nlam = 0;
     #define EVAL(initb, diceb) do { memcpy(a, (initb), ssz * 8); for (int t_ = 0; t_ < T; t_++) { \
         for (int i_ = 0; i_ < WD * A; i_++) { const int *q_ = nb + 12 * (size_t)i_; vec x_[12], me_, o_; for (int u_ = 0; u_ < 12; u_++) memcpy(&x_[u_], a + (size_t)q_[u_] * W, 64); \
           memcpy(&me_, a + (size_t)i_ * W, 64); o_ = rule(x_, me_); memcpy(b + (size_t)i_ * W, &o_, 64); } \
         memcpy(b + (size_t)WD * A * W, (diceb) + (size_t)t_ * 2 * A * W, (size_t)2 * A * W * 8); { u64 *sw_ = a; a = b; b = sw_; } \
         u64 c_[NB][W]; laypop(0, c_); for (int l_ = 0; l_ < NL; l_++) popser[l_][t_ + 1] = lane_count(c_, l_); } \
-      for (int l_ = 0; l_ < NL; l_++) { int m_ = 1 << 20; if (popser[l_][TPRE] > 0) for (int g_ = TPRE + 1; g_ <= T; g_++) if (popser[l_][g_] < m_) m_ = popser[l_][g_]; sc[l_] = m_; } } while (0)
+      for (int l_ = 0; l_ < NL; l_++) { int m_ = 1 << 20, a_ = T; if (popser[l_][TPRE] > 0) for (int g_ = TPRE + 1; g_ <= T; g_++) if (popser[l_][g_] < m_) { m_ = popser[l_][g_]; a_ = g_; } sc[l_] = m_; am[l_] = a_; } } while (0)
     printf("# sub A %d WD %d LAM1 %d DELTA %d chains %ld NSWEEP %d KFLIP %d TPRE %d TWIN %d\n", A, WD, LAM1, DELTA, NC, NSWEEP, KFLIP, TPRE, TWIN);
     sm = seed0 * 0x2545F4914F6CDD1DULL + 4242; for (int l = 0; l < NL; l++) { lane_soup(l); page[l] = 0; }
     for (int g = 0; g < 1000; g++) step(); for (int l = 0; l < NL; l++) page[l] = 1000;
@@ -216,7 +217,7 @@ int main(int argc, char **argv) {
         u64 c[NB][W]; laypop(0, c); int valid[NL];
         for (int l = 0; l < NL; l++) { page[l] += 64; int p0 = lane_count(c, l); valid[l] = (p0 > 0 && page[l] >= 1000); if (p0 == 0) { lane_soup(l); page[l] = 0; } }
         memcpy(pl, a, ssz * 8); memcpy(init + bt * ssz, a, ssz * 8); u64 *d = D + bt * dsz; for (size_t x = 0; x < dsz; x++) d[x] = rnd();
-        EVAL(init + bt * ssz, d); for (int l = 0; l < NL; l++) { score[bt * NL + l] = valid[l] ? sc[l] : (1 << 20); nvalid += valid[l]; }
+        EVAL(init + bt * ssz, d); for (int l = 0; l < NL; l++) { score[bt * NL + l] = valid[l] ? sc[l] : (1 << 20); gmin[bt * NL + l] = am[l]; nvalid += valid[l]; }
         memcpy(a, pl, ssz * 8);
       }
       memcpy(pl, a, ssz * 8);
@@ -232,12 +233,18 @@ int main(int argc, char **argv) {
           for (int i = 0; i < n; i++) di[(size_t)i * W] |= ((si[(size_t)i * W] >> sk) & 1) << dk;
           const u64 *sd = D + sb * dsz + (sl >> 6); u64 *dd = D2 + db * dsz + (dl >> 6); size_t nd2 = (size_t)T * 2 * A;
           for (size_t i = 0; i < nd2; i++) dd[i * W] |= ((sd[i * W] >> sk) & 1) << dk;
-          score2[j] = score[src]; }
-        { u64 *t1 = init; init = init2; init2 = t1; t1 = D; D = D2; D2 = t1; int *t2 = score; score = score2; score2 = t2; }
+          score2[j] = score[src]; gmin2[j] = gmin[src]; }
+        { u64 *t1 = init; init = init2; init2 = t1; t1 = D; D = D2; D2 = t1; int *t2 = score; score = score2; score2 = t2; t2 = gmin; gmin = gmin2; gmin2 = t2; }
         for (int sw = 0; sw < NSWEEP; sw++) for (int bt = 0; bt < NBATCH; bt++) { u64 *d = D + bt * dsz; memcpy(Dp, d, dsz * 8);
-          for (int l = 0; l < NL; l++) for (int k = 0; k < KFLIP; k++) { u64 z = rnd(); size_t pos = (size_t)((z >> 8) % (u64)((size_t)T * 2 * A)); Dp[pos * W + (l >> 6)] ^= 1ULL << (l & 63); }
+          int foc = (WBACK > 0 && (sw & 1)); static int tlo[NL], thi[NL];
+          for (int l = 0; l < NL; l++) { tlo[l] = T; thi[l] = -1; for (int k = 0; k < KFLIP; k++) { u64 z = rnd(); size_t pos;
+              if (foc) { int g0 = gmin[bt * NL + l]; int t = g0 - WBACK + (int)((z >> 40) % (u64)WBACK); if (t < 0) t = 0; if (t < tlo[l]) tlo[l] = t; if (t > thi[l]) thi[l] = t;
+                pos = (size_t)t * 2 * A + (size_t)((z >> 8) % (u64)(2 * A)); }
+              else pos = (size_t)((z >> 8) % (u64)((size_t)T * 2 * A));
+              Dp[pos * W + (l >> 6)] ^= 1ULL << (l & 63); } }
           EVAL(init + bt * ssz, Dp); u64 acc[W] = {0};
-          for (int l = 0; l < NL; l++) { accn++; if (sc[l] <= lam) { acc[l >> 6] |= 1ULL << (l & 63); score[bt * NL + l] = sc[l]; accs++; } }
+          for (int l = 0; l < NL; l++) { accn++; int ok = sc[l] <= lam; if (ok && foc) ok = (tlo[l] >= am[l] - WBACK && thi[l] < am[l]);   /* the reverse move must be proposable */
+            if (ok) { acc[l >> 6] |= 1ULL << (l & 63); score[bt * NL + l] = sc[l]; gmin[bt * NL + l] = am[l]; accs++; } }
           for (size_t x = 0; x < dsz; x++) { int w = (int)(x % W); d[x] = (d[x] & ~acc[w]) | (Dp[x] & acc[w]); } }
         denom = NC; lam = lam - DELTA > 0 ? lam - DELTA : 0;
       }

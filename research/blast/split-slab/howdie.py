@@ -59,7 +59,8 @@ def main():
             k = bl[i] - off          # lag index of generation (crash start + off)
             if 1 <= k <= nl:
                 prof.setdefault(off, []).append(P[i, k - 1])
-    print('  mean population at generations relative to the top of the largest fall (0 = last generation before it):')
+    print(f'  deaths with a one-generation fall of at least half the face (A/2 = {A / 2:.1f} cells): {(big >= A / 2).mean():.3f}; of at least 0.4 A: {(big >= 0.4 * A).mean():.3f}')
+    print('  mean population at generations relative to the largest fall (-1 = the last generation before it, 0 = the first after it):')
     print('   ' + '  '.join(f'{off:+d}: {np.mean(prof[off]):.1f}' for off in sorted(prof)))
     # along the short loop's perpendicular (the tube axis): do segments die at the same time?
     q, vx, vy = shortest(H, K, D); n = H * D

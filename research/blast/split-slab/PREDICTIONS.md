@@ -78,3 +78,15 @@ the excursion bookkeeping (it reproduces the anchors at 48, 63, 78 and 84 cells 
 anchors, and the assumption that ln q_A(18) continues smoothly from 84-108 to 120 cells (it moves by -0.017 to
 -0.024 per cell there, about a tenth of the whole slope: nine tenths of the step from 108 to 120 cells is measured).
 It implies a local slope from 108 to 120 cells of 0.2025 ± 0.004 per cell: not falling further.
+
+### Block 2b: 04:10 UTC. The sampler was changed after its first runs at 63 and 84 cells (said plainly)
+
+Version 1 (block 2's parameters, proposals uniform in space-time) ran at 48, 63, 84 cells and two replications at
+96: 9.920 ± 0.021, 13.227 ± 0.080, 17.381 ± 0.122 (gump anchors 9.9251, 13.1622, 17.3175). Its level counts
+scatter by 20-30% between replications at the last four levels (the fade after the crash), so its error is too
+large to calibrate anything. Version 2 adds, on every second sweep, proposals confined to the 12 generations of
+dice before the chain's minimum (a Metropolis-Hastings move, rejected unless the reverse move is proposable);
+everything else as in block 2. Tested on 63 and 84 cells only: 13.129 ± 0.063 and 17.228 ± 0.098. So **84 cells
+is now a tuning torus; the blind calibration tori are 96 and 108 cells**, run next without further change,
+then 120, 144, 192 (tube and the wide torus (8,0),(0,8)), 240. Block 2's forecasts stand unchanged.
+The v1 outputs are kept in `data/v1/`.

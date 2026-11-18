@@ -15,8 +15,8 @@ mu, s = 0.515 * A, math.sqrt(0.415 * A)
 lam1 = round(mu - 2.5 * s); nsweep = round(A / 6)
 out = os.path.join(HERE, 'data', f'sub_{H}_{K}_{D}_s{seed}.txt')
 cmd = ['nice', '-n', '10', os.path.join(SCR, 'ss_sub'), g, 'sub', str(seed), str(nrep), str(lam1), '3', '8', str(nsweep), '4', '32', '24']
-if len(sys.argv) > 6:
-    cmd.append(os.path.join(HERE, 'data', f'subpaths_{H}_{K}_{D}_s{seed}.txt'))
+cmd.append(os.path.join(HERE, 'data', f'subpaths_{H}_{K}_{D}_s{seed}.txt') if (len(sys.argv) > 6 and sys.argv[6] == 'paths') else '-')
+cmd.append(os.environ.get('WBACK', '12'))
 env = dict(os.environ, WD='6')
 with open(out, 'w') as f:
     f.write('# ' + ' '.join(cmd) + '   (WD=6)\n'); f.flush()
