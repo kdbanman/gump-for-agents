@@ -3,7 +3,7 @@
 Agent `image` of the blast of 2026-11-18. Question: derive ρ = ρ∞ − Σ_v f(|v|²) (research/wraplocal) from
 quantities measured on a face WITHOUT the loop. Marks: [proved], [measured], [conjectured].
 
-## Answer (04:05 UTC; three production runs, 13 minutes of one core)
+## Answer (04:12 UTC; four production runs, 20 minutes of one core)
 
 1. **The law's form has a proof; its numbers do not yet have a derivation.** A torus is its loop-free cover
    conditioned on the seam's whole history recurring one loop along and reweighted by 1/probability of that history
@@ -29,8 +29,10 @@ quantities measured on a face WITHOUT the loop. Marks: [proved], [measured], [co
    four lengths measured: 2.9 ± 0.2, 2.4 ± 1.1, 2.7 ± 0.8, 3.3 ± 2.3 at loop² 9, 12, 13, 16. **One number (0.34,
    fixed at loop² 9) times a function measured without the loop gives f(12) = 0.0019 ± 0.0009, f(13) = 0.0015 ±
    0.0004, f(16) = 0.0009 ± 0.0006 against 0.0023, 0.0016, 0.0008** — within 1σ, but the errors are 30–70%, the
-   number depends on the patch, and loop² ≥ 19 was not reached. This is the brief's target met at four lengths to a
-   factor 1.5, not at eight lengths to a few per cent.
+   number depends on the patch, and loop² ≥ 19 was not reached. Control: the same sum at loop² 25, 28, 36, where f is
+   under 0.0001, is 0.0008, 0.0019, −0.0008 (± 0.002–0.003; mean 0.0006 ± 0.0013), so there is no floor above 0.003, and
+   only loop² 9 (15σ) and 13 (3σ) are individually resolved. This is the brief's target met at four lengths to a
+   factor 1.5 at best, not at eight lengths to a few per cent.
 5. **The delayed pair correlation exists and is far too small [measured].** C(v, τ) = Cov(x(c,t), x(c+v,t−τ)) at
    loop² 9: +22 ± 9 at τ = 0, +68 ± 9 at τ = 3 (the graph distance of one sublattice), +32 ± 9 at τ = 4 (× 10⁻⁶);
    at loop² ≥ 12 no lag stands out. Pair correlations, equal-time or delayed, are 10⁻⁴ of ρ(1−ρ); the recurrence of
@@ -40,7 +42,7 @@ quantities measured on a face WITHOUT the loop. Marks: [proved], [measured], [co
    The conditioned ensemble (κ) was dropped on the PI's instruction of 03:32.
 
 Forecasts: `PREDICTIONS.md`, blocks 1–3, each committed before its run (39a7868, b0c6402, 87e69d8). Scores below:
-2 of 7, 0 of 1 (three not run), 1 of 6 by the letter.
+2 of 7, 0 of 1 (three not run), 1 of 6 by the letter, 1 of 2: 4 of 16 scored.
 
 
 ## The identity [proved; checked by brute force on small automata]
@@ -144,7 +146,8 @@ The sum has not converged at 53 cells (radius about 1.5 lattice units, half the 
 f threefold: when one cell's dead run recurs, its neighbours' recur with it, and adding each window's effect counts
 the same event many times. The patch is a disc round the window; the exact formula wants the strip between the seam
 and its image, which was not separated here. With the 9-generation window the 53-cell sums are 0.0202 ± 0.0021,
-0.0016 ± 0.0029, 0.0070 ± 0.0013, 0.0026 ± 0.0021.
+0.0016 ± 0.0029, 0.0070 ± 0.0013, 0.0026 ± 0.0021. Control at far loops (`img.py patch 13 0 13 64 300 80 5 32 25 28 36`,
+`data/patch_s32_far_out.txt`): 53-cell sums +0.0008 ± 0.0019, +0.0019 ± 0.0029, −0.0008 ± 0.0019 at loop² 25, 28, 36.
 
 **C(v, τ)** (`data/rec_s11_out.txt`, × 10⁻⁶, ± 9): loop² 9: +22, +6, −7, +68, +32, −7, −23 at τ = 0..6. In that run
 (sampled every 4 generations) every loop length from 12 to 25 shows the same lag pattern of period 4 (about −15
@@ -164,8 +167,12 @@ stable dependence of the mean face density on the generation mod 4 (generations 
   mostly dead (dead runs recur twice to four times as much as live runs): the face is emptier. Nothing in ★ could
   make it fuller unless live runs recurred more than dead ones.
 - The fall e^(−2.3|v|) is then the decay of the correlation of quiet between a band and its translate: a static
-  length of the loop-free state (0.43 units), not a travel time. The 6-generation recurrence excess Z_W − 1 falls
-  from 1.64 × 10⁻³ at loop² 9 to 0.49, 0.27, 0.30 × 10⁻³ at 12, 13, 16 (f: 1, 0.37, 0.26, 0.12 of f(9)).
+  length of the loop-free state (0.43 units), not a travel time. The 6-generation recurrence excess Z_W − 1 (× 10⁻³,
+  two runs each) is 1.64 ± 0.15 and 1.88 ± 0.26 at loop² 9, 0.49 ± 0.12 and 0.55 ± 0.32 at 12, 0.27 ± 0.17 and 0.34 ±
+  0.14 at 13, 0.30 ± 0.12 and 0.36 ± 0.19 at 16 (f: 1, 0.37, 0.26, 0.12 of f(9)), and at loop² 19–36 scatters round
+  zero: −0.16, +0.32, +0.31, −0.25, −0.01, −0.28. That scatter (0.27) is 1.6 times the quoted errors: **read every
+  error in this file as about 1.5 times larger** (4 blocks are too few). The rate itself was not measured to
+  better than "falls by 3–6 between loop² 9 and 12–16".
 - This is the same object as a death seen small: a dip is a quiet region that grows. So the living-state deficit
   and the lifetime discount would share a carrier (quiet recurring round the loop) without the one being a multiple
   of the other. Not tested here.
@@ -188,6 +195,8 @@ stable dependence of the mean face density on the generation mod 4 (generations 
 | H4 (35%) two neighbouring cells' histories > twice one cell's | passes by the letter (2.1×), **not resolved** (± 1.4) |
 | H5 (55%) the period-4 lag pattern gone when sampled every 5 | **fails** by the letter (mean at τ ≡ 2: +17 × 10⁻⁶, threshold 12), though the pattern itself is gone and +17 is within the run's common offset (± 25) |
 | H6 (40%) density by generation mod 4 differs by > 3 × 10⁻⁵ at > 2.5 SE | **fails** (32 ± 17 × 10⁻⁶) |
+| C1 (50%) far-loop floor of the 53-cell patch sum above 0.002 | **fails** (0.0006 ± 0.0013) |
+| C2 (25%) … below 0.001 | **passes** (weakly: the error is 0.0013) |
 
 My formula's values asked for before the test: I expected the 10-cell window to carry 30% of f(9); it carries none.
 

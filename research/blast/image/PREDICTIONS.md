@@ -75,3 +75,7 @@ grow in proportion to the patch (about 10⁻⁴ per cell), which is what a dista
 |---|---|---:|
 | C1 | the mean 53-cell patch sum over loop² 25, 28, 36 exceeds 0.002 (a floor at least a third of the loop² 12 value: claim 4's "same ratio at four lengths" is then not established beyond loop² 9) | 50% |
 | C2 | it is below 0.001 (claim 4 stands as written) | 25% |
+
+Block 4 scored 04:12 UTC: 53-cell patch sums at loop² 25, 28, 36: +0.0008 ± 0.0019, +0.0019 ± 0.0029, −0.0008 ± 0.0019;
+mean 0.0006 ± 0.0013. C1 fails, C2 passes (weakly). Z_W − 1 there: −0.25, −0.01, −0.28 × 10⁻³: the "floor" seen in the
+first run was scatter. Total: 4 of 16 scored forecasts held.
