@@ -16,9 +16,12 @@ This file says what is here and how to rerun it.
 3. [proved] Theorem 3 is a valid but nearly empty implication. Its hypothesis as written is false at s = 1
    (local means are Θ(1/A) there, not exponentially close to a limit); repaired by an additive K₀/A.
    Its "refinement" (additivity over loops) is not proved by the same proof.
-4. [measured, exact, new] On wrapped faces of 9, 12, 15 cells the tilted law μ_s is a mixture of a sparse and an
-   over-full face for s ≳ 0.3 (valley deepening with size); on rimmed faces it has one hump. rigour's test for the
-   failure of its hypothesis (variance of E) cannot see this, because E ≈ 0 on both humps.
+4. [measured, new; exact to 15 cells, reweighted simulation (`tiltmc.py`) to 30] Along the tilt the hypothesis of
+   Theorem 3 is failing. Wrapped faces: μ_s is a mixture of sparse and over-full faces; on wide tori at s = 0.3
+   the valley-to-hump ratio grows 1.2, 3.9, 15 at 12, 18, 27 cells with a quarter of the weight in the over-full
+   hump. Triangles: one hump through 30 cells. In both families the largest slope of ⟨E⟩_s/A rises with size
+   (tori 1.5, 2.5, 3.3; triangles 2.6, 2.7, 3.6): a jump is forming near s ≈ 0.2, and a jump makes the uniform
+   hypothesis false.
 5. [proved, enumerated on gump's rule] image's seam identity (★) is correct; with a soup start Z = 1 exactly.
    "Loops add, per cell, independent of tube length" does not follow from it: it is a first-order ansatz.
 6. Forecasts: `PREDICTIONS.md` (P1–P3, on my tube simulations; scores there).
@@ -32,6 +35,7 @@ This file says what is here and how to rerun it.
 | `seam.py` | seam identity on one layer of gump's rule, tube (1,0),(0,4) against its double cover, with a negative control | `python3 seam.py` (6 s) | `data/seam.txt` |
 | `seam3.py` | the same for a threefold cover and a rest band one unit cell thick | `python3 seam3.py` (4 s) | `data/seam3.txt` |
 | `lemmaR.py` | branch rates of rigour's tube rows | `python3 lemmaR.py` | `data/lemmaR.txt` |
+| `tiltmc.py` | population law and ⟨E⟩ under the tilted measure by reweighting simulated quasi-stationary states (checked against the exact 12-cell law) | `python3 tiltmc.py torus 3 0 3`; `python3 tiltmc.py hull 7` (2 min each) | `data/tiltmc.txt` |
 | `tube_mine.py` | my simulations of the tube (1,1),(0,D) against rigour's rows; branch rates from mine alone | `python3 -u ref.py torus 1 1 8 --mc 40000 --mconly >> data/mc_tube11.txt`; `python3 tube_mine.py` | `data/mc_tube11.txt`, `data/tube_mine.txt` |
 | | covering relation; living baselines | inline scripts, results kept | `data/cover.txt`, `data/living_baseline.txt` |
 
@@ -41,8 +45,8 @@ Shapes: `torus H K D`, `hull R`, `strip W D`, `patch W D` (rigour's names; conve
 ## Not checked
 
 Exact rows of 18 cells; rigour's Monte Carlo rows other than the six I simulated (`mc.c` not read); fair coins; the 18-cell triangle's price
-map and bust share (0.0030); image's measurements; the seam identity on more than one layer or girth > 1; whether
-the two-humped tilted law persists in large faces. No stepper of gump was used: `ref.py` is the surrogate's kernel
+map; image's measurements; the seam identity on more than one layer or girth > 1; the tilted law beyond 30
+cells and its errors (one run per shape). No stepper of gump was used: `ref.py` is the surrogate's kernel
 and `seam.py` runs only the one-layer rule (B45/S345 on the six in-layer neighbours, closed by T4), neither was
 compared with `reference/oracle.py` (rigour's graph was; my kernel agrees with rigour's solver to 12–13 digits on
 14 shapes, which ties my graphs to theirs).
