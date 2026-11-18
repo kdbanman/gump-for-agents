@@ -22,7 +22,7 @@ rep = nums[0] if nums else 0
 G = nums[1] if len(nums) > 1 else 1100
 fn, v = vessel.write(name, swap)
 out = os.path.join(vessel.SCR, f'trace_{name}{"_swap" if swap else ""}.bin')
-subprocess.check_call([os.path.join(HERE, 'fd'), fn, 'trace', '7', str(rep), str(G), out])
+subprocess.check_call([os.path.join(HERE, os.environ.get('FD', 'fd')), fn, 'trace', '7', str(rep), str(G), out])
 tr = np.fromfile(out, np.uint8).reshape(G + 1, v['N'])
 if v['kind'] == 'slab':
     H = 2 * v['HKD'][0] * v['HKD'][2]

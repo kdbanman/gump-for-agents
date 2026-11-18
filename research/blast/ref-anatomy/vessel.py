@@ -73,8 +73,9 @@ def slab(H, K, D, nl=8):
     lay = np.array([sum(p) for p in cells])
     faces = [np.where(lay == 1)[0], np.where(lay == 2 * nl - 1)[0]]
     beneath = [np.where(lay == 3)[0], np.where(lay == 2 * nl - 3)[0]]
+    third = [np.where(lay == 5)[0], np.where(lay == 2 * nl - 5)[0]]
     # in-plane position (unwrapped modulo the lattice) of each cell: components along a1, a2 in units of |a|
-    return dict(name=f'slab({H},{K}),(0,{D})', cells=cells, nb=nb, faces=faces, beneath=beneath, canon=canon,
+    return dict(name=f'slab({H},{K}),(0,{D})', cells=cells, nb=nb, faces=faces, beneath=beneath, third=third, canon=canon,
                 idx=idx, N=N, lay=lay, v1=v1, v2=v2, per=2 * H * D, kind='slab', HKD=(H, K, D))
 
 
@@ -93,15 +94,16 @@ def hull(R):
             q = (p[0] + o[0], p[1] + o[1], p[2] + o[2])
             if q in idx:
                 nb[i, j] = idx[q]
-    faces, beneath = [], []
+    faces, beneath, third = [], [], []
     for d in itertools.product((1, -1), repeat=3):
         s = np.array([d[0] * p[0] + d[1] * p[1] + d[2] * p[2] for p in cells])
-        faces.append(np.where(s == R)[0]); beneath.append(np.where(s == R - 2)[0])
-    return dict(name=f'hull({R})', cells=cells, nb=nb, faces=faces, beneath=beneath, idx=idx, N=N, kind='hull', R=R)
+        faces.append(np.where(s == R)[0]); beneath.append(np.where(s == R - 2)[0]); third.append(np.where(s == R - 4)[0])
+    return dict(name=f'hull({R})', cells=cells, nb=nb, faces=faces, beneath=beneath, third=third, idx=idx, N=N, kind='hull', R=R)
 
 
 VESSELS = {'t63': lambda: slab(1, 4, 21), 'tube60': lambda: slab(1, 8, 20), 'h63': lambda: hull(11),
-           't48': lambda: slab(4, 0, 4), 'h45': lambda: hull(9)}
+           't48': lambda: slab(4, 0, 4), 'h45': lambda: hull(9), 't84': lambda: slab(1, 4, 28),
+           'tube84': lambda: slab(1, 12, 28), 't108': lambda: slab(6, 0, 6)}
 
 
 def get(name):
@@ -123,6 +125,9 @@ def write(name, swap=False):
             f.write(' '.join(map(str, nb[i])) + '\n')
         for fc in v['faces']:
             f.write(f'{len(fc)} ' + ' '.join(map(str, fc)) + '\n')
+        for key in ('beneath', 'third'):                 # read by fd2.c only; fd.c stops after the faces
+            for fc in v[key]:
+                f.write(f'{len(fc)} ' + ' '.join(map(str, fc)) + '\n')
     return fn, v
 
 

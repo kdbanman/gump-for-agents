@@ -290,7 +290,7 @@ static void cmd_clone(int lamA, int lam, int n0) {
  * bins of 0.5 lattice units along the axis; a window of m bins is empty when no face cell in it is alive.
  * Counts, per window position and generation, P(empty) and the rate at which empty windows appear. */
 static void cmd_bandp(long gens, int T0, int wm) {
-  const double BW = 0.5; int nbin = (int)ceil(LT / BW - 1e-9); int nf = NDICE ? 1 : 2;
+  int nbin = (int)floor(LT / 0.5 + 0.5); const double BW = LT / nbin; int nf = NDICE ? 1 : 2;   /* bins tile the tube exactly (width LT/nbin, 0.5 when the length is a multiple of 0.5) */
   int *bin = malloc(sizeof(int) * N), *bcnt = calloc(nbin, sizeof(int));
   for (int c = 0; c < N; c++) { int b = (int)(XI[c] / BW); if (b >= nbin) b = nbin - 1; bin[c] = b; if (c >= N - A) bcnt[b]++; }
   if (wm > nbin - 2) wm = nbin - 2;

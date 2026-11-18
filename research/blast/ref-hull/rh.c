@@ -129,6 +129,17 @@ static void extract(int h, int l, uint64_t *cfg) {
 static void loadsplice(int h, int l, const uint64_t *par, const uint64_t *don) {
   for (int c = 0; c < N; c++) { const uint64_t *src = deep[c] ? don : par; setbit(h, c, l, (src[c >> 6] >> (c & 63)) & 1); }
 }
+// flips mode: the parent's stored state with m distinct cells of the set FS toggled
+static int FS[MAXC], nFS, mflip;
+static void loadflip(int h, int l, const uint64_t *par) {
+  for (int c = 0; c < N; c++) setbit(h, c, l, (par[c >> 6] >> (c & 63)) & 1);
+  int ch[512];
+  for (int i = 0; i < mflip; i++) {
+    int c, dup;
+    do { c = FS[rint_(nFS)]; dup = 0; for (int k = 0; k < i; k++) if (ch[k] == c) dup = 1; } while (dup);
+    ch[i] = c; S[h][c][l >> 6] ^= 1ULL << (l & 63);
+  }
+}
 
 typedef struct { uint64_t *cfg; unsigned char *pc, *mf; long n, seen, cap; } Store;
 static void st_init(Store *s, long cap) { s->cfg = malloc((size_t)cap * nw * 8); s->pc = malloc(cap); s->mf = malloc(cap); s->n = s->seen = 0; s->cap = cap; }
@@ -160,8 +171,12 @@ int main(int argc, char **argv) {
   }
   // ---- run ----
   long M = atol(argv[4]); long NS = atol(argv[5]); LAG = atoi(argv[6]); int STEP = atoi(argv[7]);
+  int PMODE = argc > 8 ? atoi(argv[8]) : 0, DIV = argc > 9 ? atoi(argv[9]) : 16, DL = argc > 10 ? atoi(argv[10]) : 1;
   if (LAG + 1 > KH) return 1;
   build(0); seedrng(seed * 7919 + R);
+  nFS = 0;
+  for (int c = 0; c < N; c++) { int sd = cx[c] + cy[c] + cz[c]; if (sd <= R - 4 * LAG - 2 && sd > R - 4 * LAG - 2 - 2 * DL) FS[nFS++] = c; }
+  mflip = (nFS + DIV - 1) / DIV;
   clock_t t0 = clock();
   static int age[NL], flag[NL], plast[NL], mfl[NL];
   int cur = 0; long g = 0;
@@ -224,7 +239,8 @@ int main(int argc, char **argv) {
       for (int l = 0; l < NL; l++) if (!act[l] && j < M) {
         long par = perm[j % Ni], don = par;
         if (Ni > 1) while (don == par) don = rint_(Ni);
-        loadsplice(cur, l, sa->cfg + (size_t)par * nw, sa->cfg + (size_t)don * nw);
+        if (PMODE == 0) loadsplice(cur, l, sa->cfg + (size_t)par * nw, sa->cfg + (size_t)don * nw);
+        else loadflip(cur, l, sa->cfg + (size_t)par * nw);
         act[l] = 1; tage[l] = 0; tpar[l] = par; j++; nact++;
       }
       if (!nact) break;
@@ -263,8 +279,8 @@ int main(int argc, char **argv) {
   long nd = 0; double mean = 0; for (int k = 0; k < 256; k++) { nd += hist[k]; mean += (double)k * hist[k]; }
   int q50 = 0, q99 = 0, mx = 0; long acc = 0;
   for (int k = 0; k < 256; k++) { acc += hist[k]; if (!q50 && acc * 2 >= nd) q50 = k; if (!q99 && acc * 100 >= nd * 99) q99 = k; if (hist[k]) mx = k; }
-  printf("RESULT R %d seed %ld A %d lamA %d lam0 %d M %ld NS %ld LAG %d STEP %d phi0 %.6g lnTau %.5f deathsSampled %ld bigFallShare %.6g fallMean %.2f fallMed %d fallQ99 %d fallMax %d replaybad %ld timeouts %ld trialgens %ld expo %ld deathsDirect %ld sec %.1f\n",
-         R, seed, A, lamA, lam0, M, NS, LAG, STEP, phi0, -lnrate, nd, wtot > 0 ? wbig / wtot : 0.0, nd ? mean / nd : 0.0, q50, q99, mx,
+  printf("RESULT R %d seed %ld A %d lamA %d lam0 %d M %ld NS %ld LAG %d STEP %d PMODE %d DIV %d DL %d nS %d mflip %d phi0 %.6g lnTau %.5f deathsSampled %ld bigFallShare %.6g fallMean %.2f fallMed %d fallQ99 %d fallMax %d replaybad %ld timeouts %ld trialgens %ld expo %ld deathsDirect %ld sec %.1f\n",
+         R, seed, A, lamA, lam0, M, NS, LAG, STEP, PMODE, DIV, DL, nFS, mflip, phi0, -lnrate, nd, wtot > 0 ? wbig / wtot : 0.0, nd ? mean / nd : 0.0, q50, q99, mx,
          replaybad, timeouts, trialgens, expo, deaths, (double)(clock() - t0) / CLOCKS_PER_SEC);
   return 0;
 }

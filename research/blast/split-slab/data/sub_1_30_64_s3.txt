@@ -1,0 +1,4 @@
+# nice -n 10 /home/user/gump-for-agents/research/scratch/blast/split-slab/ss_sub /home/user/gump-for-agents/research/scratch/blast/split-slab/g_1_30_64.bin sub 3 8 77 3 8 32 4 32 24 /home/user/gump-for-agents/research/scratch/blast/split-slab/subpaths_full/subpaths_1_30_64_s3.txt 12   (WD=6)
+# sub A 192 WD 6 LAM1 77 DELTA 3 chains 4096 NSWEEP 32 KFLIP 4 TPRE 32 TWIN 24
+REP 0 valid 4096 : 77:717 74:1932 71:1689 68:1590 65:1494 62:1419 59:1336 56:1223 53:1233 50:1214 47:1151 44:1112 41:1103 38:1011 35:992 32:985 29:917 26:864 23:907 20:871 17:898 14:827 11:802 8:728 5:861 2:935 0:2054 rate 1.47176e-17 lntau 38.7575
+REP 1 valid 4096 : 77:719 74:1873 71:1766 68:1566 65:1482 62:1374 59:1377 56:1295 53:1267 50:1240 47:1131 44:1087 41:1130 38:1013 35:1012 32:1011 29:1030 26:996 23:989 20:880 17:902 14:909 11:890 8:920 5:978 2:1193 0:2545 rate 6.63833e-17 lntau 37.2511

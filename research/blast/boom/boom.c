@@ -3,7 +3,9 @@
  * readgraph, trace) is the one of ../anatomy/an.c; it is validated here again by validate.py on every vessel.
  *
  *   boom GRAPH trace INIT T OUT                      (validation; see validate.py)
- *   boom GRAPH run SEED DENS GENS T0 P0 MRES OUT
+ *   boom GRAPH run SEED DENS GENS T0 P0 MRES OUT [LAYERS]
+ *       (with LAYERS, a file from layers.py: the populations of the third and fourth layers beneath each face are
+ *        appended to every death line, 32 generations each, and OUT.W holds by P: count, sum W3, W3^2, W4, W4^2)
  *       renewal lives from soups of density DENS; a life ends when a face is empty; statistics at age > T0 >= 34.
  *       OUT.sum   text summary;  OUT.M  doubles [(na+1)^2]: counts of face-generations P(t-1) -> P(t)
  *       OUT.G2    doubles [(na+1)^2][3]: by (P(t-2), P(t-1)): count, sum P(t), sum P(t)^2
@@ -110,11 +112,18 @@ int main(int argc, char **argv) {
     long *age = calloc(R, sizeof(long)); long deaths = 0, nS = 0; double expoF = 0;
     int NP = na - P0 + 1; double *rc = calloc(NP, 8); unsigned char *res = calloc((size_t)NP * MRES, recsize);
     u64 *snap = calloc(ST, 8);
+    /* optional argv[10]: layers 3 and 4 beneath each face (text: per face n3 cells... n4 cells...), written by layers.py */
+    int n3 = 0, n4 = 0, *c3 = NULL, *c4 = NULL; unsigned char *h3 = NULL, *h4 = NULL, *W3n = NULL, *W4n = NULL; double *WS = calloc((size_t)NA * 5, 8);
+    if (argc > 10) { FILE *fl = fopen(argv[10], "r"); c3 = malloc(4 * (size_t)nf * 4096); c4 = malloc(4 * (size_t)nf * 4096);
+      for (int f = 0; f < nf; f++) { if (fscanf(fl, "%d", &n3) != 1) return 1; for (int j = 0; j < n3; j++) if (fscanf(fl, "%d", &c3[f * 4096 + j]) != 1) return 1;
+        if (fscanf(fl, "%d", &n4) != 1) return 1; for (int j = 0; j < n4; j++) if (fscanf(fl, "%d", &c4[f * 4096 + j]) != 1) return 1; }
+      fclose(fl); h3 = calloc((size_t)nf * R * HL, 1); h4 = calloc((size_t)nf * R * HL, 1); W3n = malloc((size_t)nf * R); W4n = malloc((size_t)nf * R); }
     snprintf(path, sizeof path, "%s.deaths", argv[9]); FILE *fd = fopen(path, "w");
     for (int r = 0; r < R; r++) seed_rep(a, r);
     for (long g = 1; g <= GENS; g++) {
       step(a, b); { u64 *x = a; a = b; b = x; }
       for (int f = 0; f < nf; f++) { popc(a, F[f].c, na, Pn + (size_t)f * R); popc(a, F[f].c + na, nu, Un + (size_t)f * R); }
+      if (c3) for (int f = 0; f < nf; f++) { popc(a, c3 + f * 4096, n3, W3n + (size_t)f * R); popc(a, c4 + f * 4096, n4, W4n + (size_t)f * R); }
       int i1 = (int)((g - 1) % HL), i2 = (int)((g - 2 + HL) % HL), i0 = (int)(g % HL);
       for (int r = 0; r < R; r++) {
         age[r]++; int dead = 0;
@@ -129,6 +138,7 @@ int main(int argc, char **argv) {
             if (P == 0) { deaths++; fprintf(fd, "%d %ld", f, age[r]);
               for (int j = 1; j <= HL; j++) fprintf(fd, " %d", hp[ix + (g - j) % HL]);
               for (int j = 1; j <= HL; j++) fprintf(fd, " %d", hu[ix + (g - j) % HL]);
+              if (c3) { for (int j = 1; j <= HL; j++) fprintf(fd, " %d", h3[ix + (g - j) % HL]); for (int j = 1; j <= HL; j++) fprintf(fd, " %d", h4[ix + (g - j) % HL]); }
               fprintf(fd, "\n"); }
             else if (P >= P0) {
               int k = P - P0; rc[k] += 1; long slot = -1;
@@ -140,6 +150,8 @@ int main(int argc, char **argv) {
                 for (int j = 1; j <= HL; j++) { rec[nbt + 1 + j] = hp[ix + (g - j) % HL]; rec[nbt + 1 + HL + j] = hu[ix + (g - j) % HL]; } }
             }
           }
+          if (c3) { int w3 = W3n[(size_t)f * R + r], w4 = W4n[(size_t)f * R + r]; h3[ix + i0] = (unsigned char)w3; h4[ix + i0] = (unsigned char)w4;
+            if (age[r] > T0) { double *q = WS + (size_t)P * 5; q[0] += 1; q[1] += w3; q[2] += (double)w3 * w3; q[3] += w4; q[4] += (double)w4 * w4; } }
           hp[ix + i0] = (unsigned char)P; hu[ix + i0] = (unsigned char)U; if (P == 0) dead = 1;
         }
         if (dead) { seed_rep(a, r); age[r] = 0; }
@@ -153,6 +165,7 @@ int main(int argc, char **argv) {
     snprintf(path, sizeof path, "%s.M", argv[9]); FILE *o = fopen(path, "wb"); fwrite(M, 8, (size_t)NA * NA, o); fclose(o);
     snprintf(path, sizeof path, "%s.M3", argv[9]); o = fopen(path, "wb"); fwrite(M3, 8, (size_t)NA * NA * NA, o); fclose(o);
     if (M4) { snprintf(path, sizeof path, "%s.M4", argv[9]); o = fopen(path, "wb"); fwrite(M4, 4, (size_t)NA * NU * NA * NU, o); fclose(o); }
+    if (c3) { snprintf(path, sizeof path, "%s.W", argv[9]); o = fopen(path, "wb"); fwrite(WS, 8, (size_t)NA * 5, o); fclose(o); }
     snprintf(path, sizeof path, "%s.G2", argv[9]); o = fopen(path, "wb"); fwrite(G2, 8, (size_t)NA * NA * 3, o); fclose(o);
     snprintf(path, sizeof path, "%s.GU", argv[9]); o = fopen(path, "wb"); fwrite(GU, 8, (size_t)NA * NU * 6, o); fclose(o);
     snprintf(path, sizeof path, "%s.par", argv[9]); o = fopen(path, "wb"); int32_t nrec = 0;

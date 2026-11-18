@@ -226,7 +226,26 @@ TPRE = 32, TWIN = 24, WBACK = 12.
 - Version 1 (`data/v1/`) had only the uniform sweeps: correct, but its level counts scattered by 20-30% between
   replications on the last four levels (the fade after the crash), 7-10% in version 2.
 
-RESULTS-SUB-TABLE
+<!-- SUB-RESULTS-BEGIN -->
+**Results** (`python3 table_sub.py`; every replication of version 2, pooled over seeds):
+
+| cells | torus | replications | ln tau, dice chain | gump anchor | dice chain (sampler) - gump |
+|---:|---|---:|---|---|---|
+| 63 | (1,4),(0,21) | 16 | 13.129 ± 0.063 | 13.1622 ± 0.0007 | -0.033 ± 0.063 |
+| 84 | (1,12),(0,28) | 16 | 17.228 ± 0.098 | 17.3175 ± 0.0031 | -0.090 ± 0.098 |
+| 96 | (1,17),(0,32) | 48 | 19.832 ± 0.067 | 19.7446 ± 0.0042 | +0.087 ± 0.067 |
+| 108 | (1,16),(0,36) | 48 | 22.178 ± 0.060 | 22.1599 ± 0.0086 | +0.018 ± 0.061 |
+| 120 | (1,18),(0,40) | 32 | 24.707 ± 0.090 | — | — |
+| 144 | (1,22),(0,48) | 8 | 29.473 ± 0.214 | — | — |
+| 192 | (1,30),(0,64) | 8 | 38.866 ± 0.280 | — | — |
+| 192 | (8,0),(0,8) | 4 | 40.389 ± 0.301 | — | — |
+
+offset d = dice chain - gump, weighted mean over the tubes of 84, 96, 108 cells: +0.025 ± 0.041 (chi2 2.2 on 2)
+  (1,18),(0,40), 120 cells: dice chain 24.707 ± 0.090; minus d: 24.682 ± 0.099
+  (1,22),(0,48), 144 cells: dice chain 29.473 ± 0.214; minus d: 29.448 ± 0.218
+  (1,30),(0,64), 192 cells: dice chain 38.866 ± 0.280; minus d: 38.841 ± 0.283
+  (8,0),(0,8), 192 cells: dice chain 40.389 ± 0.301; minus d: 40.364 ± 0.304
+<!-- SUB-RESULTS-END -->
 
 ## 7. Reactive paths (deliverable 4)
 
