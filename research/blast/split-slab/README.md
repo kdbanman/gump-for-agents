@@ -31,7 +31,7 @@ anchors, reach 120 cells and beyond. What came out, in order of how far I trust 
 Marks: **[proved]**, **[measured]**, **[conjectured]**. Runs used one core (the machine gave it 40-50%).
 `G/` = `research/scratch/blast/split-slab/`; build and geometry:
 
-    gcc -O3 -march=native -o G/ss research/blast/split-slab/ss.c -lm      # the same binary is called ss_lag, ss_sub below
+    for b in ss ss_lag ss_sub; do gcc -O3 -march=native -o G/$b research/blast/split-slab/ss.c -lm; done   # one program, three names
     python3 geom.py H K D G/g_H_K_D.bin                                    # torus (H,K),(0,D): A = 3 H D cells per layer
 
 ## 1. Stepper and validation [measured]
