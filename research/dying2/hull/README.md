@@ -6,7 +6,7 @@ another agent's). Vessel: the hull octahedron of `research/gpu/facelaw.py` (soup
 `research/dying/README.md` (rounds 1-2) and are restated in `PREDICTIONS.md`, which holds the forecasts, committed
 (a47fa31) before any production run. Tags: **[measured]** (number, error, command), **[conjectured]**.
 
-**Status (03:35 UTC): R = 11 done and tabled below; R = 13 running (until about 05:05 UTC).**
+**Status (03:40 UTC): R = 11 done and tabled below; R = 13 running (until about 05:05 UTC, then a second seed set). Figure: `hull_dying.svg` (`figure.py`).**
 
 ## Short answer (R = 11, A = 63)
 
