@@ -3,8 +3,8 @@
 
     python3 research/audit/blastnoisy/rows.py DIR_OR_FILES ... [--ref LNTAU ERR]
 
-Groups the files by their header (R, M, LAM1, DELTA, NSWEEP, KFLIP).  A file is one run: its replications share 512
-lanes.  Per group:
+Groups the runs by their header (R, M, LAM1, DELTA, NSWEEP, KFLIP).  A run (one header line and its REP lines; a
+file may hold several) shares 512 lanes among its replications.  Per group:
   K replications in F runs; ln tau = -ln(mean rate); its error (a) from the scatter of the replications, as the pull
   request does, (b) from the scatter of the run means (replications of a run are not independent if the lanes are
   remembered), with the ratio of the two variances; bootstrap 95% intervals of ln tau resampling replications and
@@ -25,19 +25,22 @@ for a in args:
     files += sorted(glob.glob(os.path.join(a, '*.txt'))) if os.path.isdir(a) else sorted(glob.glob(a))
 groups = {}
 for f in files:
-    key = None; rates = []; anc = []
+    key = None; rates = []; anc = []; seed = 0
+
+    def flush():
+        if key and rates:
+            groups.setdefault(key, []).append((seed, np.array(rates), list(anc)))
     for line in open(f):
-        if line.startswith('# sub'):
-            t = line.split(); d = dict(zip(t[2::2], t[3::2]))
+        if line.startswith('# sub'):                 # a header starts a run (files may hold several runs)
+            flush(); rates = []; anc = []
+            t = line.split(); d = dict(zip(t[2::2], t[3::2])); seed = int(d['seed'])
             key = tuple((k, d[k]) for k in ('R', 'A', 'M', 'eps', 'LAM1', 'DELTA', 'NSWEEP', 'KFLIP'))
         elif line.startswith('REP') and ' rate ' in line and key:
             rates.append(float(line.split(' rate ')[1].split()[0]))
             if ' anc_ens ' in line:
                 t = line.split(' anc_ens ')[1].split()
                 anc.append((int(t[0]), int(t[2]), int(t[4]), float(t[6]), int(t[8])))
-    if key and rates:
-        seed = int(os.path.basename(f).split('_s')[-1].split('.')[0])
-        groups.setdefault(key, []).append((seed, np.array(rates), anc))
+    flush()
 rng = np.random.default_rng(1)
 for key in sorted(groups, key=lambda k: (int(dict(k)['R']), -float(dict(k)['eps']), int(dict(k)['DELTA']), int(dict(k)['NSWEEP']))):
     d = dict(key); runs = sorted(groups[key], key=lambda x: x[0])
