@@ -29,9 +29,9 @@ corrected.
 That is the mechanism in plain words, and it is why the differences between shapes "are not in the living state":
 the living states are the same and the exits differ. It is **not** a derivation of 0.2087 or of 0.231, and there
 is no formula yet. The 135-cell hull face is **not decided**: a forecast of 29.22 ± 0.02 (conditional on a
-four-point straight line) and a first measurement on a coin-driven surrogate (29.34, +0.06, −0.10 by its author
-after 385 replications; 29.30 ± 0.09 by its referee on fewer) agree within about one error, and "the wrapped price
-takes over" (29.163) is 1.5 to 3 errors below each.
+four-point straight line) and a first measurement on a coin-driven surrogate (between 29.26 ± 0.06 and 29.34,
+depending on how the surrogate's own offset from gump continues) agree within about one error, and "the wrapped
+price takes over" (29.163) is 1.5 to 3 errors below each.
 
 ## What was found
 
@@ -277,8 +277,17 @@ at 135 cells, 0.000 ± 0.017), possibly between 0.5 and 0.4 (+0.09 ± 0.07), and
 passage from the last seven or eight cells to none, where plain running cannot check and the sampler scatters
 most.
 
-So: forecast 29.22 ± 0.02 (conditional); surrogate 29.34 (+0.06, −0.10) by its author and 29.30 ± 0.09 by its
-referee; the old GPU value 29.34 ± 0.25. They agree with each other within about one error, and all sit at or
+**The deciding test the referee named, run last (`ref-dicehull/REVIEW.md`, "Brute force of the chain at R = 13").**
+The chain itself, brute-forced at 84 cells with the referee's own code on four cores: ln τ = 18.2005 ± 0.0223
+(2,004 deaths). Chain minus sampler +0.009 ± 0.034: **the sampler is exact at 84 cells**, and the referee
+withdraws "unsampled tail" at that size. Chain minus gump +0.060 ± 0.023: **the offset is the chain's own**, and by
+brute force it grows with size (−0.003, +0.024, +0.060 at 45, 63, 84 cells). So what the 135-cell chain value
+(29.397 ± 0.037) means for gump depends on how that offset continues: held constant it gives 29.34–29.36; continued
+as a line in the area, 29.26 ± 0.06. Why six layers of rule over coins sit above gump by an amount that grows on a
+hull and not on a slab (where the same construction is within 0.02 to 108 cells) is not known.
+
+So: forecast 29.22 ± 0.02 (conditional); surrogate between 29.26 ± 0.06 and 29.34 (+0.06, −0.10), depending on
+the chain's offset; the old GPU value 29.34 ± 0.25. They agree with each other within about one error, and all sit at or
 above "the second difference repeats" (29.230); the wrapped price taking over (29.163) is 1.5 to 3 errors below
 each, on evidence that is partly by construction in the forecast and partly an extrapolated offset in the
 surrogate. That is a lean against "two prices is a small-size effect that ends by 135 cells", not a decision.
@@ -353,8 +362,9 @@ face separates only K = 1 (24.608) from the rest. The GPU's value for it lands a
 
 ## What is not known, in order of what I would do next
 
-1. **Settle the 135-cell hull face** (item above: brute force of the chain at 84 cells, then more initial states
-   per replication), and the 165-cell one. The forecast route's own second difference is shrinking beyond 135
+1. **Settle the 135-cell hull face.** The sampler is now known to be exact at 84 cells; what is missing is the
+   chain's own offset from gump at 108 cells by brute force of the chain (about a day of four cores, or an hour of
+   the GPU), and why it grows. Then the 165-cell face. The forecast route's own second difference is shrinking beyond 135
    cells; whether "0.231" is a price or a long transient is still the question you asked.
 2. **The kill, or: is the price static?** Of the 0.21 per cell, 0.079 is the rarity of an over-full face, 0.166 the
    rarity of an over-full stack of four layers, and the remaining 0.057 is still only measured from deaths. The
