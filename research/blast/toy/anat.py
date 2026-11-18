@@ -18,6 +18,8 @@ def maxfall(p):  # p: populations in time order
     i = int(np.argmax(d)); return d[i], p[i], len(d) - i
 def q(a, f): return np.percentile(a, f)
 Ls = [int(z) for z in sys.argv[1:]] or [12, 16, 20, 24, 28, 32]
+import json
+J = {}
 for L in Ls:
     for g in 'rb':
         fn = f'{S}/{g}{L}.rec'
@@ -46,6 +48,7 @@ for L in Ls:
             last = [x for x in range(L) if (d[15] >> x) & 1]
             for x in last: lastpos[x] += 1.0 / len(last)
         err = lambda p: np.sqrt(max(p * (1 - p), 1e-9) / n)
+        J[f'{g}{L}'] = dict(deaths=n, bust={str(K): float(out[K]) for K in out}, live={str(K): float(live[K]) for K in live}, windows=len(PV), pop_lag=[float(P[:, 16 - j].mean()) for j in range(1, 9)], living_mean=float(PV.mean()) if len(PV) else None, spread=float(np.mean(spread)))
         print(f"{'ring' if g == 'r' else 'box '} L={L:2d} deaths={n:5d} bust2={out[2]:.3f} bust4={out[4]:.3f} bust6={out[6]:.3f}±{err(out[6]):.3f} bust12={out[12]:.3f}±{err(out[12]):.3f} | live6={live[6]:.4f} live12={live[12]:.4f} (n={len(PV)})")
         print("     pop@lag1..8 mean  " + ' '.join(f"{P[:, 16 - j].mean():5.2f}" for j in range(1, 9)) + f"   (living mean {PV.mean():.2f})" if len(PV) else '')
         print("     pop@lag1..8 10/50/90% " + ' '.join(f"{q(P[:, 16 - j], 10):.0f}/{q(P[:, 16 - j], 50):.0f}/{q(P[:, 16 - j], 90):.0f}" for j in range(1, 9)))
@@ -55,3 +58,4 @@ for L in Ls:
         pr = prof / np.maximum(cnt, 1)
         dist = [np.mean([pr[x] for x in range(L) if min(x, L - 1 - x) == k]) for k in range(min(6, L // 2))]
         print(f"     last-alive: spread {np.mean(spread):.2f} generations; last living cells within 2 of an end: {endshare:.3f} (uniform {2 * w / L:.3f}); mean last-alive lag by distance from the nearest end 0..5: " + ' '.join(f"{z:.2f}" for z in dist))
+if not sys.argv[1:]: json.dump(J, open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data', 'anat.json'), 'w'), indent=1)
