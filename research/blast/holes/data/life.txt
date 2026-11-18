@@ -43,3 +43,12 @@ LIFE R 9 cells 45 deaths 93563 exposure 216018179 ln_tau_face 9.8239 +- 0.0033
   generations 143001..171500: deaths        369 exposure     38978313  ln tau_face 13.6472 +- 0.0521
   generations 171501..200000: deaths        275 exposure     29982558  ln tau_face 13.6788 +- 0.0603
 LIFE R 11 cells 63 deaths 5201 exposure 540849025 ln_tau_face 13.6315 +- 0.0139
+# four more seeds at R = 7 (final binary; the LIFE line now names the vessel)
+# life hull 7 0 face cells 30 N=264 seed 31 batches 3000 T0 200 Tmax 1200; censored as periodic 14; first deaths with two faces at once 18882
+LIFE hull 7 0 cells 30 deaths 144573 exposure 16466801 ln_tau_face 6.8148 +- 0.0026
+# life hull 7 0 face cells 30 N=264 seed 131 batches 3000 T0 200 Tmax 1200; censored as periodic 23; first deaths with two faces at once 18646
+LIFE hull 7 0 cells 30 deaths 144561 exposure 16290845 ln_tau_face 6.8041 +- 0.0026
+# life hull 7 0 face cells 30 N=264 seed 231 batches 3000 T0 200 Tmax 1200; censored as periodic 21; first deaths with two faces at once 18768
+LIFE hull 7 0 cells 30 deaths 144379 exposure 16344192 ln_tau_face 6.8086 +- 0.0026
+# life hull 7 0 face cells 30 N=264 seed 331 batches 3000 T0 200 Tmax 1200; censored as periodic 15; first deaths with two faces at once 18781
+LIFE hull 7 0 cells 30 deaths 144517 exposure 16314404 ln_tau_face 6.8058 +- 0.0026

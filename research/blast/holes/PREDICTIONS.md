@@ -80,3 +80,10 @@ to 0.227), neither 0.2087 (χ² 6.4 on 2) nor 0.2307 (χ² 4.1 on 2); P(the true
 Forecast inside block B that can be scored today from my own run: the corner triangle of side 6 (63 cells, two
 real rims) will read −ln P = 18.75 ± 0.15 when the hull run ends (interim 18.79 ± 0.17 on 78 hits; "the same
 object as the 63-cell hull face plus an edge linear in its length" would be 18.55).
+
+## Scores (2026-11-18 12:20 UTC)
+
+Block A and the PI's block 5 are scored in `README.md`, section 6 (mine: 11 held, 5 missed, 2 half; the chief
+misses are "the bulk cost is still falling", "it extrapolates to 0.2087" and the 0.15 I gave to "the data reject
+the hypothesis"). Block B's three lifetimes are not scored: nobody has measured them. Its side forecast (corner
+triangle of side 6 at 18.75 ± 0.15) held: 18.66 ± 0.06.

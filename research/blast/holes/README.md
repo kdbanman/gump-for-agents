@@ -28,19 +28,24 @@ lifetimes: `data/life.txt`, `data/life_tori.txt`; forecasts: `PREDICTIONS.md`.
    against 4 × 5, the PI's pair, it is: 11.00 ± 0.03 and 10.98 ± 0.08.)
 3. **The interior of a hull face is a wrapped face to one part in ten thousand per cell [measured].** In the hull
    of radius 29 (faces of side 15, 360 cells) rhombi of 12 to 27 cells with every unit cell three or more rows from
-   every rim have the torus's −ln P to FINAL_INT; two rows in, the same; one row in, a 3 × 3 patch is 0.010 ± 0.002
+   every rim have the torus's −ln P within 0.001 (2 × 2: −0.0005 ± 0.0001; 2 × 3: −0.0009 ± 0.0003; 3 × 3: −0.001 ± 0.002); two rows
+   in, the same (+0.0001, +0.0007, +0.0014 ± 0.0011, 3 × 4: 0.000 ± 0.003); one row in, a 3 × 3 patch is 0.010 ± 0.002
    DEARER (11.995 against 11.985).
 4. **The rim zone of the living state carries no surplus [measured].** A patch that touches the rim is CHEAPER:
    3 × 3 on the rim −0.98, in the corner −3.21; a strip against the rim is cheaper than the same rhombus in the
-   interior by 0.33, 0.37, 0.39 per unit of rim for 1, 2, 3 rows. The rim row itself costs 0.436 per cell of added
+   interior by 0.34, 0.37, 0.40 per unit of rim for 1, 2, 3 rows. The rim row itself costs 0.436 per cell of added
    length (0.547 for a one-row strip in the interior). The cost per cell of each further row, from the mixed
    second difference of strips of w rows by l units against the rim, is at or below the torus value at the same
-   (w, l): FINAL_RIM_M. The 0.022 between 0.231 and 0.2087 is not in the living state's cost of emptiness near
+   (w, l): 0.2500 ± 0.0002 against 0.2618 at (1.5, 4.5), 0.2541 ± 0.0011 against 0.2595 at (2.5, 3.5), 0.2593 ±
+   0.0007 against 0.2595 at (3.5, 2.5), 0.254 ± 0.004 against 0.254 ± 0.005 at (3.5, 3.5); every rim value with an
+   error under 0.005 lies in 0.247–0.261. (If one charges the strip's one living edge at the torus's 0.43 per unit,
+   the rim row alone is dearer than an interior row by about 0.03 per cell: a term per unit of rim, one row deep.)
+   The 0.022 between 0.231 and 0.2087 is not in the living state's cost of emptiness near
    the rim.
 5. **Hull-face-shaped holes: the rims cooperate [measured].** For an upright triangle of side s (the shape of a
    hull face of 3s(s+1)/2 cells) turning one living edge into a real rim lowers −ln P by 0.86, 1.32, 1.76 (s = 3,
-   4, 5); the second edge by 2.21, 2.75, 3.30; and the lifetime of the hull face of that side (all three) lies
-   another 0.82, 2.44, 3.68 below the corner triangle, FINAL_D6 at s = 6. Edge costs do not add, and "corner
+   4, 5); the second edge by 2.21, 2.75, 3.31; and the lifetime of the hull face of that side (all three) lies
+   another 0.82, 2.44, 3.67 below the corner triangle, 5.03 ± 0.06 at s = 6 (increments 1.62, 1.23, 1.36 ± 0.06). Edge costs do not add, and "corner
    triangle = hull face + an edge cost linear in s" fails.
 6. **How a patch empties: a local boom and bust, deeper than a dying face's [measured].** In the interior 83%,
    71%, 70% of new emptyings of 2 × 2, 3 × 3, 4 × 4 patches contain a one-generation fall of at least half the
@@ -49,7 +54,8 @@ lifetimes: `data/life.txt`, `data/life_tori.txt`; forecasts: `PREDICTIONS.md`.
    (normal 0.435), and one generation later the patch holds 0.11, 0.13, 0.15 of its cells and the layer beneath
    0.16, 0.13, 0.13; 89%, 96%, 95% of busts start from a patch at least 0.7 full. The launch comes two or three
    generations before the empty instant, so the mean path by lag hides it (3 × 3: 0.52, 0.545, 0.41, 0.13, 0).
-   On the rim the bust share is FINAL_BUST_RIM; in the corner FINAL_BUST_CORNER: corners fade.
+   On the rim the bust share is 66%, 50%, 49% (launched from 0.84, 0.81, 0.78 full); in the corner 33%, 23%, 22%
+   (from 0.79, 0.78, 0.77): corners mostly fade.
    [conjectured] The extra 0.05 per cell of a hole over a death is the price of the deeper boom: with the
    night's ψ(x) for the frequency of an over-full face (0.075, 0.098, 0.127 per cell at x = 0.73, 0.76, 0.79) a
    launch from 0.79–0.80 costs about 0.05–0.06 per cell more than one from 0.738. A death may leave a tenth of
@@ -100,24 +106,40 @@ replicas), never over translates.**
 
 Runs (one each): `$S/holes run slab 12 8 101 56000000 1000 $S/slab12_s101.txt 1` (stopped by hand at 24,640,000 generations ×
 256 lanes = 6.3·10⁹ replica-generations; face density 0.51774; no face ever empty) and `$S/holes run hull 29 0 201 10400000 1000
-$S/hull29_s201.txt 1` (FINAL_HULL_GENS; face density 0.52195; no face ever empty). A second slab run with the launch recorder (`$S/holes run slab 12 8 102 2400000 1000 F 1`, `data/slab12_launch.txt`)
+$S/hull29_s201.txt 1` (stopped by hand at 6,240,000 generations × 256 lanes = 1.6·10⁹ replica-generations, 1.3·10¹⁰ face-generations;
+face density 0.52195; no face ever empty). A second slab run with the launch recorder (`$S/holes run slab 12 8 102 2400000 1000 F 1`, `data/slab12_launch.txt`)
 gives the `busts:` lines of item 6. Tables: `python3 ana.py torus
 $S/slab12_s101.txt`, `python3 ana.py hull $S/hull29_s201.txt --torus $S/slab12_s101.txt`. The raw counts are in
-`data/slab12_s101.txt` and `data/hull29_s201.txt.gz`.
+`data/slab12_s101.txt` and `data/hull29_s201.txt.gz`; `sh finalize.sh` rebuilds every table of this file from them.
+A third, short hull run with the launch recorder: `$S/holes run hull 29 0 202 300000 1000 F 1`
+(`data/hull29_launch.txt.gz`, `data/hull_launch_table.txt`). Check on the size of the face: `$S/holes run hull 21 0 203
+300000 1000 F 0` (198-cell faces) gives the corner rhombi 1 × 1 … 3 × 4 as 0.5440, 1.9948, 4.0556, 6.0608, 8.775 ± 0.002,
+11.519 ± 0.010 and the corner triangles of side 4, 5 as 9.234 ± 0.003, 13.46 ± 0.03: the R = 29 values within 0.01.
 
 ## 2. The wide torus [measured]
 
 −ln P of an empty a × b rhombus, class P (the full table, class Q and the hit counts are in `data/torus_table.txt`):
 
-FINAL_TORUS_F
+```
+-ln P(a x b rhombus empty), class P (outward triangles, the hull kind); a down, b across
+  a=1   1.9718±0.0000   3.6260±0.0000   5.2975±0.0000   6.9565±0.0001   8.6081±0.0000  10.2553±0.0001  11.8998±0.0003  13.5418±0.0006
+  a=2   6.1598±0.0001   8.6753±0.0001  11.1417±0.0002  13.5786±0.0007  15.9981±0.0026  18.4114±0.0114  20.8134±0.0421
+  a=3  11.9849±0.0007  15.2298±0.0022  18.4443±0.0071  21.6599±0.0323  24.7780±0.1325  27.5349±0.6239
+  a=4  19.2377±0.0151  23.2513±0.0448  27.5349±0.6239         -               -      
+```
 
 Bulk cost per cell, M(a+½, b+½)/3, class P (class Q is 0.001 to 0.005 higher):
 
-FINAL_TORUS_M
+```
+bulk cost per cell from mixed second differences, M(a+1/2, b+1/2)/3, class P; a down, b across (b >= a)
+  a=1.5   0.2932±0.0000   0.2814±0.0000   0.2691±0.0000   0.2618±0.0002   0.2575±0.0008   0.2562±0.0030   0.2533±0.0111
+  a=2.5   0.2646±0.0002   0.2595±0.0005   0.2592±0.0019   0.2654±0.0102   0.2350±0.0432   0.1183±0.1896
+  a=3.5   0.2543±0.0045   0.2663±0.0156   0.3560±0.2044         -               -      
+```
 
 - Along a = 1.5 it falls slowly with the long side; along a = 2.5 it is flat at 0.26 from b = 2.5 to 5.5; the one
   value at a = 3.5 agrees. A geometric continuation of the diagonal (0.2932, 0.2646, 0.2543 ± 0.0045) would end near
-  0.25. Nothing reached is below 0.25. Not reached: any M at a ≥ 4.5 (it needs the 5 × 5 patch, −ln P ≈ 28).
+  0.25. No torus value with an error under 0.01 is below 0.254. Not reached: any M at a ≥ 4.5 (it needs the 5 × 5 patch, −ln P ≈ 28).
 - Perimeter: a strip one unit cell wide costs 1.642 per unit of length (0.547 per cell), two wide 2.413 ± 0.009,
   three wide 3.216 ± 0.03 (last increments reached); with c = 0.26 the edge costs about 0.43 per lattice unit of perimeter (with c = 0.2087 it would be
   0.66: the "0.66 to 0.69 per unit" on file is tied to the assumed bulk price).
@@ -131,7 +153,28 @@ Holes against closed tori of the same shape (`data/life_tori.txt`: `$S/holes lif
 TMAX`, first empty face, hazard after T0, τ_face = 2/hazard; 4 × 4 reads 9.928 ± 0.003 against 9.9251/9.9324 on
 file, 4 × 5 12.471 ± 0.013 against 12.4865):
 
-FINAL_HOLE_TORUS
+```
+an empty patch against the closed torus of the same shape (lifetimes: data/life_tori.txt, this stepper, first empty face):
+  shape cells perimeter   -ln P (mean of the two classes)   ln tau_face      difference D
+  2x3   18   10           8.800±0.000          4.0739±0.0007   4.727±0.001
+  2x4   24   12          11.295±0.000          5.3944±0.0005   5.901±0.001
+  2x5   30   14          13.762±0.001          6.5264±0.0009   7.236±0.001
+  2x6   36   16          16.214±0.003          7.4392±0.0015   8.774±0.003
+  2x8   48   20          21.099±0.028          8.4504±0.0037   12.649±0.028
+  3x3   27   12          12.140±0.001          5.4873±0.0006   6.653±0.001
+  3x4   36   14          15.419±0.002          7.3856±0.0012   8.033±0.002
+  3x5   45   16          18.666±0.007          9.2507±0.0037   9.415±0.008
+  3x6   54   18          21.945±0.030          10.9428±0.0081   11.002±0.031
+  3x7   63   20          25.133±0.119          12.1809±0.0115   12.952±0.120
+  4x4   48   16          19.473±0.015          9.9282±0.0034   9.545±0.015
+  4x5   60   18          23.455±0.079          12.4708±0.0129   10.984±0.080
+  bulk cost per cell by the mixed second difference, hole | closed torus | hole less torus
+  (2.5, 3.5): 0.2613±0.0004 | 0.1926±0.0005 | +0.0687±0.0007
+  (2.5, 4.5): 0.2598±0.0018 | 0.2444±0.0013 | +0.0155±0.0022
+  (2.5, 5.5): 0.2759±0.0097 | 0.2598±0.0030 | +0.0162±0.0102
+  (3.5, 3.5): 0.2586±0.0043 | 0.2148±0.0014 | +0.0438±0.0045
+  (3.5, 4.5): 0.2450±0.0259 | 0.2258±0.0046 | +0.0191±0.0263
+```
 
 Caution: my 3 × 6 and 2 × 8 tori read 10.943 ± 0.008 and 8.450 ± 0.004 where `research/constant/out/points.txt`
 has 11.0824 and 9.4888. Those shapes are the ones with a large "fw%" there; I did not find out which lives that
@@ -141,30 +184,142 @@ table drops. The 4 × 4 and 4 × 5 values agree.
 
 Interior against torus (difference in −ln P, hull − torus):
 
-FINAL_HULL_A
+```
+  margin 4:
+    1x1  hull   1.9717±0.0000 hits 32023479384   torus   1.9718±0.0000   hull-torus -0.0001±0.0000
+    1x2  hull   3.6258±0.0000 hits 6125399328   torus   3.6260±0.0000   hull-torus -0.0002±0.0000
+    2x2  hull   6.1589±0.0002 hits   81066024   torus   6.1598±0.0001   hull-torus -0.0008±0.0002
+  margin 3:
+    1x1  hull   1.9719±0.0000 hits 112065939432   torus   1.9718±0.0000   hull-torus +0.0001±0.0000
+    1x2  hull   3.6259±0.0000 hits 30622689296   torus   3.6260±0.0000   hull-torus -0.0001±0.0000
+    2x2  hull   6.1592±0.0001 hits  810415248   torus   6.1598±0.0001   hull-torus -0.0005±0.0001
+    2x3  hull   8.6745±0.0003 hits   78621810   torus   8.6753±0.0001   hull-torus -0.0009±0.0003
+    3x3  hull  11.9841±0.0014 hits     718016   torus  11.9849±0.0007   hull-torus -0.0008±0.0015
+    3x4  hull  15.2073±0.0093 hits      19065   torus  15.2298±0.0022   hull-torus -0.0225±0.0095
+  margin 2:
+    1x1  hull   1.9708±0.0000 hits 240398477952   torus   1.9718±0.0000   hull-torus -0.0010±0.0000
+    1x2  hull   3.6252±0.0000 hits 73543364960   torus   3.6260±0.0000   hull-torus -0.0008±0.0000
+    2x2  hull   6.1599±0.0001 hits 2267723040   torus   6.1598±0.0001   hull-torus +0.0001±0.0001
+    2x3  hull   8.6760±0.0002 hits  274749967   torus   8.6753±0.0001   hull-torus +0.0007±0.0002
+    3x3  hull  11.9862±0.0008 hits    3582386   torus  11.9849±0.0007   hull-torus +0.0014±0.0011
+    3x4  hull  15.2298±0.0026 hits     186398   torus  15.2298±0.0022   hull-torus +0.0000±0.0034
+    4x4  hull  19.1870±0.0313 hits       1069   torus  19.2377±0.0151   hull-torus -0.0507±0.0348
+```
 
 The same rhombus against its distance d from a rim (the other rims three or more rows away):
 
-FINAL_HULL_B
+```
+  1 along x 1 deep:   1.941±0.000   1.976±0.000   1.970±0.000   1.972±0.000   1.972±0.000   1.972±0.000   | 1.972±0.000
+  1 along x 2 deep:   3.517±0.000   3.626±0.000   3.625±0.000   3.626±0.000   3.626±0.000   3.626±0.000   | 3.626±0.000
+  2 along x 1 deep:   3.328±0.000   3.623±0.000   3.624±0.000   3.626±0.000   3.626±0.000   3.626±0.000   | 3.626±0.000
+  2 along x 2 deep:   5.688±0.000   6.155±0.000   6.160±0.000   6.159±0.000   6.159±0.000   6.159±0.000   | 6.160±0.000
+  2 along x 3 deep:   8.082±0.000   8.677±0.000   8.676±0.000   8.674±0.000   8.675±0.000   8.674±0.000   | 8.675±0.000
+  3 along x 2 deep:   7.829±0.000   8.677±0.000   8.677±0.000   8.675±0.000   8.674±0.000   8.675±0.000   | 8.675±0.000
+  3 along x 3 deep:  11.003±0.001  11.995±0.001  11.986±0.001  11.984±0.001  11.984±0.002        -        | 11.985±0.001
+  3 along x 4 deep:  14.184±0.003  15.242±0.007  15.235±0.007  15.207±0.009        -             -        | 15.230±0.002
+  4 along x 3 deep:  13.849±0.004  15.248±0.006  15.230±0.005  15.207±0.009        -             -        | 15.230±0.002
+  4 along x 4 deep:  17.792±0.017  19.270±0.027  19.099±0.046        -             -             -        | 19.238±0.015
+```
 
-Corner rhombi (two sides on rims): FINAL_HULL_C
+Corner rhombi (two sides on rims): 
+```
+  1x1  corner   0.5442±0.0000 hits 22248844272   torus   1.9718±0.0000  corner-torus -1.428±0.000
+  1x2  corner   1.9952±0.0000 hits 10427464448   torus   3.6260±0.0000  corner-torus -1.631±0.000
+  2x2  corner   4.0558±0.0001 hits 664114880   torus   6.1598±0.0001  corner-torus -2.104±0.000
+  2x3  corner   6.0613±0.0001 hits 178759812   torus   8.6753±0.0001  corner-torus -2.614±0.000
+  3x3  corner   8.7763±0.0007 hits   5917428   torus  11.9849±0.0007  corner-torus -3.209±0.001
+  3x4  corner  11.5140±0.0023 hits    765940   torus  15.2298±0.0022  corner-torus -3.716±0.003
+  4x4  corner  14.9701±0.0172 hits     12084   torus  19.2377±0.0151  corner-torus -4.268±0.023
+  4x5  corner  18.4481±0.0387 hits       746   torus  23.2513±0.0448  corner-torus -4.803±0.059
+  5x5  corner  22.9834±0.3806 hits         4   torus      28.2280(?)  corner-torus -5.245±inf
+```
 
 Strips of w rows against a rim and l units along it, ends three or more rows from the other rims, g(w, l):
 
-FINAL_HULL_D
+```
+  w=1   1.941±0.000   3.328±0.000   4.688±0.000   6.012±0.000   7.327±0.000   8.639±0.000   9.949±0.001  11.257±0.002
+  w=2   3.517±0.000   5.688±0.000   7.829±0.000   9.913±0.001  11.979±0.001  14.031±0.003  16.085±0.009  18.107±0.040
+  w=3   5.140±0.000   8.082±0.000  11.003±0.001  13.849±0.004  16.656±0.016  19.459±0.044  22.018±0.199             -
+  w=4   6.771±0.000  10.486±0.000  14.184±0.003  17.792±0.017  21.522±0.160       -                   -             -
+  w=5   8.405±0.000  12.884±0.001  17.349±0.012  22.042±0.158       -                   -             -             -
+```
 
 Cost per cell of row w+1 from the mixed second difference, rim strips | the torus at the same (w, l):
 
-FINAL_HULL_DM
+```
+  w=1   1.941±0.000   3.328±0.000   4.688±0.000   6.012±0.000   7.327±0.000   8.639±0.000   9.949±0.001  11.257±0.002
+  w=2   3.517±0.000   5.688±0.000   7.829±0.000   9.913±0.001  11.979±0.001  14.031±0.003  16.085±0.009  18.107±0.040
+  w=3   5.140±0.000   8.082±0.000  11.003±0.001  13.849±0.004  16.656±0.016  19.459±0.044  22.018±0.199             -
+  w=4   6.771±0.000  10.486±0.000  14.184±0.003  17.792±0.017  21.522±0.160       -                   -             -
+  w=5   8.405±0.000  12.884±0.001  17.349±0.012  22.042±0.158       -                   -             -             -
+```M
 
 Triangles of side s as holes, with two, one and no real rim, and the hull face itself (ln τ; 18 cells: this work):
 
-FINAL_HULL_E
+```
+  s=1 cells   3: corner 0.544±0.000 [22248844272]  rim 1.941±0.000 [49540834120] (1.937±0.000 [60787506656])  interior 1.972±0.000 [112065939432] (1.971±0.000 [240398477952])  torus 1.972±0.000
+  s=2 cells   9: corner 2.824±0.000 [2275437360]  rim 4.504±0.000 [3394505424] (4.501±0.000 [4254177304])  interior 4.919±0.000 [4203343920] (4.919±0.000 [10087827120])  torus 4.919±0.000
+  s=3 cells  18: corner  5.675±0.000 [131478424]  rim  7.882±0.000 [101347304] (7.878±0.000 [130784630])  interior 8.744±0.000 [61104990] (8.746±0.000 [170815710])  torus 8.745±0.000
+  s=4 cells  30: corner    9.239±0.001 [3726921]  rim   11.990±0.002 [1427106] (11.986±0.001 [1910551])  interior  13.307±0.004 [382665] (13.310±0.003 [1334625])  torus 13.309±0.001
+  s=5 cells  45: corner     13.488±0.005 [53180]  rim      16.803±0.015 [9668] (16.804±0.012 [13517])  interior    18.512±0.043 [1050] (18.527±0.028 [5169])  torus 18.563±0.016
+  s=6 cells  63: corner       18.663±0.062 [301]  rim        22.578±0.263 [24] (22.498±0.245 [39])  interior                      - (25.574(?) [3])  torus 24.399±0.227
+  s=7 cells  84: corner                        -  rim                        - (-)  interior                      - (-)  torus       -      
+  s=8 cells 108: corner                        -  rim                        - (-)  interior                      - (-)  torus       -      
+  edge-to-rim conversions: rim - corner, interior - rim (torus for the interior if given), and 2*corner - rim against ln tau
+  s=1: rim-corner 1.397±0.000  torus-rim 0.031±0.000   2*corner-rim -0.853±0.000
+  s=2: rim-corner 1.679±0.000  torus-rim 0.415±0.000   2*corner-rim 1.145±0.000
+  s=3: rim-corner 2.206±0.000  torus-rim 0.864±0.000   2*corner-rim 3.469±0.000
+  s=4: rim-corner 2.752±0.002  torus-rim 1.318±0.002   2*corner-rim 6.487±0.002   ln tau 6.804  difference -0.317
+  s=5: rim-corner 3.314±0.013  torus-rim 1.761±0.022   2*corner-rim 10.174±0.013   ln tau 9.819  difference 0.355
+  s=6: rim-corner 3.835±0.229  torus-rim 1.901±0.334   2*corner-rim 14.827±0.229   ln tau 13.633  difference 1.194
+  second differences in s, per cell (divided by 3): corner | rim (margin 2) | ln tau of hull faces: k=5 0.2663, k=6 0.2313, k=7 0.2300
+  s=2:    0.1903±0.0000 |    0.2709±0.0001
+  s=3:    0.2374±0.0003 |    0.2439±0.0004
+  s=4:    0.2288±0.0013 |    0.2364±0.0033
+  s=5:    0.3082±0.0217 |    0.2921±0.0775
+  s=6:                - |                -
+```
 
 How a patch empties, by position (`P` lines; an event is a patch empty now and not empty in any of the four
 generations before; "bust" = a one-generation fall of at least half the patch's cells within the last nine):
 
-FINAL_HULL_F
+```
+  shape  where          events  not-new  flicker  bust-share  over-full-share   patch density at lags 1..5 | layer beneath at lags 0..4
+  2x2 corner              3808671  6197155  378524   0.331±0.000     0.423        0.147 0.346 0.425 0.430 0.431 | 0.225 0.177 0.314 0.369 0.383
+  2x2 on a rim           15682145 12148871  567770   0.664±0.000     0.869        0.182 0.459 0.548 0.538 0.536 | 0.255 0.188 0.381 0.448 0.448
+  2x2 one row in         10292394  4669801  285228   0.836±0.000     0.888        0.333 0.535 0.530 0.514 0.519 | 0.240 0.292 0.434 0.432 0.429
+  2x2 interior(>=3)       8646117  3798215  227411   0.829±0.000     0.885        0.323 0.532 0.536 0.515 0.518 | 0.241 0.285 0.433 0.440 0.431
+  2x2 interior(>=2)      24205219 10609335  634973   0.829±0.000     0.885        0.324 0.532 0.536 0.514 0.518 | 0.241 0.286 0.433 0.440 0.431
+  3x3 corner              3049400  2750060  117966   0.229±0.000     0.455        0.076 0.213 0.369 0.424 0.443 | 0.243 0.184 0.234 0.341 0.375
+  3x3 on a rim            4422094  1893151   70892   0.500±0.000     0.790        0.090 0.289 0.487 0.518 0.522 | 0.238 0.162 0.258 0.408 0.427
+  3x3 one row in          1499791   377773   16408   0.712±0.000     0.850        0.129 0.413 0.532 0.516 0.516 | 0.220 0.165 0.346 0.432 0.424
+  3x3 interior(>=3)        575019   137421    5576   0.714±0.001     0.854        0.126 0.408 0.545 0.521 0.516 | 0.218 0.162 0.340 0.446 0.428
+  3x3 interior(>=2)       2870513   684261   27608   0.715±0.000     0.855        0.127 0.408 0.545 0.520 0.516 | 0.218 0.163 0.340 0.446 0.428
+  4x4 corner                 7560     4358     166   0.215±0.005     0.330        0.049 0.141 0.296 0.395 0.440 | 0.261 0.199 0.205 0.295 0.356
+  4x4 on a rim               3453      832      29   0.493±0.009     0.641        0.060 0.194 0.434 0.508 0.514 | 0.230 0.160 0.195 0.373 0.418
+  4x4 one row in              557       97       2   0.668±0.020     0.754        0.065 0.264 0.501 0.527 0.514 | 0.210 0.142 0.236 0.416 0.430
+  4x4 interior(>=2)           930      137       2   0.712±0.015     0.747        0.072 0.285 0.554 0.537 0.514 | 0.206 0.139 0.244 0.455 0.430
+```
+
+Busts by position, from the short run with the launch recorder (the hit counts in brackets of the interior
+triangles above are three times the number of events: the three rotations of a triangle are the same cells):
+
+```
+  2x2 corner             busts: patch 0.786 -> 0.193 in the generation of the largest fall; layer beneath 0.658 -> 0.174; share launched from >= 0.7 full: 0.760, from < 0.6 full: 0.033
+  2x2 on a rim           busts: patch 0.843 -> 0.186 in the generation of the largest fall; layer beneath 0.697 -> 0.150; share launched from >= 0.7 full: 0.924, from < 0.6 full: 0.020
+  2x2 one row in         busts: patch 0.828 -> 0.107 in the generation of the largest fall; layer beneath 0.670 -> 0.155; share launched from >= 0.7 full: 0.895, from < 0.6 full: 0.025
+  2x2 interior(>=3)      busts: patch 0.826 -> 0.111 in the generation of the largest fall; layer beneath 0.671 -> 0.158; share launched from >= 0.7 full: 0.893, from < 0.6 full: 0.025
+  2x2 interior(>=2)      busts: patch 0.826 -> 0.111 in the generation of the largest fall; layer beneath 0.671 -> 0.158; share launched from >= 0.7 full: 0.893, from < 0.6 full: 0.025
+  3x3 corner             busts: patch 0.777 -> 0.185 in the generation of the largest fall; layer beneath 0.645 -> 0.155; share launched from >= 0.7 full: 0.914, from < 0.6 full: 0.011
+  3x3 on a rim           busts: patch 0.809 -> 0.178 in the generation of the largest fall; layer beneath 0.675 -> 0.138; share launched from >= 0.7 full: 0.963, from < 0.6 full: 0.004
+  3x3 one row in         busts: patch 0.806 -> 0.129 in the generation of the largest fall; layer beneath 0.664 -> 0.128; share launched from >= 0.7 full: 0.961, from < 0.6 full: 0.005
+  3x3 interior(>=3)      busts: patch 0.805 -> 0.132 in the generation of the largest fall; layer beneath 0.665 -> 0.129; share launched from >= 0.7 full: 0.964, from < 0.6 full: 0.004
+  3x3 interior(>=2)      busts: patch 0.805 -> 0.132 in the generation of the largest fall; layer beneath 0.665 -> 0.130; share launched from >= 0.7 full: 0.964, from < 0.6 full: 0.004
+  4x4 corner             busts: patch 0.770 -> 0.194 in the generation of the largest fall; layer beneath 0.632 -> 0.154; share launched from >= 0.7 full: 0.903, from < 0.6 full: 0.014
+  4x4 on a rim           busts: patch 0.783 -> 0.179 in the generation of the largest fall; layer beneath 0.652 -> 0.152; share launched from >= 0.7 full: 0.873, from < 0.6 full: 0.013
+  4x4 one row in         busts: patch 0.796 -> 0.149 in the generation of the largest fall; layer beneath 0.673 -> 0.114; share launched from >= 0.7 full: 1.000, from < 0.6 full: 0.000
+  4x4 interior(>=2)      busts: patch 0.759 -> 0.149 in the generation of the largest fall; layer beneath 0.646 -> 0.126; share launched from >= 0.7 full: 0.889, from < 0.6 full: 0.000
+```
 
 ## 4. Lifetimes by first face death [measured]
 
@@ -223,7 +378,7 @@ Mine, block A (`PREDICTIONS.md`, commit 7ebacea, before any code), 11 held, 5 mi
   0.3): they do not.
 - A6. I gave "the data reject the hypothesis" 0.15 and "support it" 0.4: **missed**.
 - A7. My frozen 135-cell value inside 29.23 ± 0.04: held (29.21), which says little.
-- Block B's side forecast, the corner triangle of side 6 at 18.75 ± 0.15: FINAL_C6.
+- Block B's side forecast, the corner triangle of side 6 at 18.75 ± 0.15: held (18.66 ± 0.06 on 301 hits).
 
 The PI's block 5: (1) bulk cost on the torus 0.2087 ± 0.008: **missed** (0.26; outside 0.195–0.222, so by its own
 criterion "the price of a face is the price of a hole in an unbounded face" is dead, with the caveat of item 1
@@ -235,17 +390,18 @@ built**. (6) is for the 135-cell measurement.
 ## 7. Failed, not checked, next
 
 Failed or dropped: the rows formula (killed by the 18-cell face); "2·corner − rim = ln τ + constant" for triangle
-holes (off by −0.31, +0.38 at s = 4, 5); extrapolating the bulk cost with a sum of two decaying functions (χ² 43
+holes (off by −0.32, +0.36 at s = 4, 5); extrapolating the bulk cost with a sum of two decaying functions (χ² 43
 on 9; the fitted "asymptote" moves from 0.19 to 0.25 with the cut); a lifetime for the 9-cell hull face.
 
-Not checked: more than one run per vessel (errors come from the eight lane groups of one run each); another
-hull radius, slab thickness or torus size; patches beyond −ln P ≈ 24; why two of my narrow-torus lifetimes differ
+Not checked: more than one long run per vessel (errors come from the eight lane groups of one run each); another
+hull radius (beyond the short corner check at R = 21), slab thickness or torus size; patches beyond −ln P ≈ 24; why two of my narrow-torus lifetimes differ
 from the table on file; whether the censoring of the `life` mode (periods up to 12) lets long-period debris into
 the 18-cell number; the triangle "turned by 180°" on the hull; nobody has rewritten the stepper or the counters.
 
 Next step I would take: lifetimes of rimmed faces that are not triangles. A vessel cut by eight diagonal
-half-spaces with unequal constants has hexagonal and trapezoidal faces; a hexagon of 84–96 cells has cells four
-rows from every rim where the 108-cell triangle has none, at a lifetime plain running reaches. If its price by
-mixed second differences is 0.209, the hull's 0.231 is the triangle's transient; if 0.23, it is the rim's price.
-(The side faces must be made to outlive the watched one.) On the static side: count patches that hold at most
+half-spaces with unequal constants has hexagonal and trapezoidal faces. A hexagon of 57 cells already has a unit
+cell in the third row from every rim (a triangle needs 84 cells for that), one of 111 cells a cell in the fourth
+row (a triangle needs 165), and such faces come in two-parameter families, so their price can be read from mixed
+second differences at lifetimes plain running reaches. If it is 0.209, the hull's 0.231 is the triangle's
+transient; if 0.23, it is the rim's price. (The side faces must be made to outlive the watched one.) On the static side: count patches that hold at most
 two or three cells, not none, to see whether the 0.05 per cell is the price of the instant.
