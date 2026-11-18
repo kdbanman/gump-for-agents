@@ -1,0 +1,11 @@
+  (word 6fd6f does not ride rigidly: dropped)
+B13 w=0 k=0 (77777777777777777777777777777777777777777777; reads echo): 400 events: 400 burn
+B13 w=-10 k=1 (777777777777df777777777777777777777777777777; reads echo): 400 events: 400 burn
+B13 w=-9 k=1 (7777777777777df77777777777777777777777777777; reads echo): 400 events: 296 burn, 104 changed, 104 changed: reader as it was, same answer
+B13 w=-8 k=1 (77777777777777df7777777777777777777777777777; reads echo): 400 events: 200 burn, 152 changed, 152 changed: reader as it was, same answer, 48 healed
+B13 w=-7 k=1 (777777777777777df777777777777777777777777777; reads echo): 400 events: 200 burn, 200 changed, 200 changed: reader as it was, same answer
+B13 w=-6 k=1 (7777777777777777df77777777777777777777777777; reads echo): 400 events: 200 burn, 200 changed, 200 changed: reader as it was, same answer
+B13 w=-5 k=1 (77777777777777777df7777777777777777777777777; reads echo): 400 events: 200 burn, 200 changed, 200 changed: reader as it was, same answer
+B13 w=-4 k=1 (777777777777777777df777777777777777777777777; reads echo): 400 events: 200 burn, 200 changed, 200 changed: reader as it was, same answer
+B13 w=-3 k=1 (7777777777777777777df77777777777777777777777; reads echo): 400 events: 200 burn, 200 changed, 200 changed: reader as it was, same answer
+B13 w=-2 k=1 (77777777777777777777df7777777777777777777777; reads echo): 400 events: 200 burn, 200 changed, 200 changed: reader as it was, same answer

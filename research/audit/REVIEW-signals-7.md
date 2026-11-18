@@ -187,12 +187,20 @@ cells, each part ending in UNSAT):
 | guns, C = 31 / 33 / 35 / 37 | 68 at 37 | 1 / 1 / 6 / 68, the caps of the sixth push's lists | 1, 2, 9, 18 s |
 | guns, C = 39 | 873 | **873** (16 parts, each UNSAT) | 6 min |
 | receiving, 5 × 5, C = 23 / 25 | 0 / 0 | 0 / 0 | 0, 1 s |
-| receiving, 5 × 5, C = 27 | pending | TODO-fb5 | |
+| receiving, 5 × 5, C = 27 | pending | **not closed**: no first answer in 9 min from either CaDiCaL or glucose4 (64 region cells); at least one end exists (below) | 2 × 9 min |
 
 Distinct ends (`final_checks.py`; own key: the orbit over one period translated so that the first unit that ever
-differs from the train is unit 0, with the time shift the translation needs): TODO-counts. The counts check
+differs from the train is unit 0, with the time shift the translation needs): 0, 1, 12, 89, 741, 6,196 receiving ends
+at C ≤ 29, .., 39 and 1, 1, 5, 67, 867 guns at C ≤ 31, .., 39 (50 s): the README's column. The counts check
 themselves: an end that fits at C − 4k is listed again k units on, so entries(C) = Σₖ distinct(C − 4k):
 753 = 741 + 12, 6,286 = 6,196 + 89 + 1, 873 = 867 + 5 + 1.
+
+**The 5 × 5 end the README does not mention.** `objects7.json` holds 17 records of one end from a list
+`fb27_5.list.json` (14 cells, two of them outside the 3 × 3 tube), so the "pending" row has at least one entry.
+`python3 end5.py` (6 s): it is a model of my instance at C = 27 and not at C = 25 (seven of its cells lie beyond
+that bound); it re-steps on the oracle as an end of period 4; its 16 events on the oracle are what the push's
+records say (it heals the eight words, H and HH and is dead on K0, N3, K0K0, N2, K3, N4); the lower edge of wire B
+destroys it. It is the first end known that uses the wider tube, and it behaves like the commonest 3 × 3 vector.
 
 **Is "none within the bound" a theorem?** It is a finite computation with three parts, each now done twice by
 unrelated code: the list (two encodings, two solvers: cdcl7 and CaDiCaL; no UNSAT certificate from either), the runs
@@ -216,7 +224,7 @@ equal to brute force over all assignments, 400 of 400. `medium` (2 s) and `hard`
 variables near the threshold (up to 58,690 conflicts, so restarts and clause deletion run): equal to glucose4's
 enumeration. `resume` (13 s): 12 instances stopped by the time limit 70 times and resumed from the solver's own
 file, and split as `pool7.py` splits (the parent's solutions copied into four children): the union equals glucose4.
-`ends 33` (31 s): my CNF at C = 33: 12 solutions, DONE, the same caps. One property to know: a stopped run keeps
+`ends 33` (31 s) and `ends 35` (215 s): my CNF at C = 33 and C = 35: 12 and 90 solutions, DONE, the same caps as CaDiCaL's. One property to know: a stopped run keeps
 its solutions but no learnt clause, so a part whose last proof does not fit in one time slice never ends; pool7's
 splitting is what handles that. `ends7.cpp` was dropped by the push and nothing rests on it; not tested.
 
@@ -267,7 +275,7 @@ gone.** (For guns the same test finds the opposite: §5.)
 ## 5. Guns
 
 `python3 census7a.py 5f $S/5f_37.json $S/gun37_fast.json --fast` (10 s) and the same for `5f_39.json` (3 min): each gun
-is sent U, N1, E and the pair EE from 46 units down its stream, and the upper edge of wire B.
+is sent U, N1, E and the pair EE from 24 units down its stream, and the upper edge of wire B.
 
 | | C ≤ 37 (67 guns) | C ≤ 39 (867 guns) | README |
 |---|---|---|---|
@@ -276,7 +284,7 @@ is sent U, N1, E and the pair EE from 46 units down its stream, and the upper ed
 | upper edge of wire B: cap / wall / debris / dead | 5 / 3 / 4 / 55 | 78 / 21 / 33 / 735 | 5; 78 / 21 / 33 / 735 |
 
 The counts are the README's. The five capping guns at C ≤ 37 are among the eleven that absorb U, as stated; at
-C ≤ 39 that is no longer so (44 of the 78 absorb U, 34 are changed by it for the worse: see below). TODO-gunorc
+C ≤ 39 that is no longer so (44 of the 78 absorb U; the other 34 die of it, and they are the 34 guns of the next paragraph). TODO-gunorc
 
 **"Every one dies on E, N1 and EE" is refuted for 34 of the 867 guns.** The push calls a gun dead when it is not
 restored by the time the difference has run 80 units along the stream. A gun that is left standing in another state
@@ -311,6 +319,13 @@ N = 80, E alone:
 | 723 | the 12 caps that do not heal a hole | 12 | wire B between the two caps, with units of B′ |
 | 723 | 20 ends that do neither | 20 | debris (6), a standing object of period 1, 2 or 6 (10), no period found (4) |
 | the other 33 | cap 70 | 33 | a clock of period 308 |
+
+`python3 gun7.py where` (oracle, 62 s; gun 723, end 70, N = 80): E, N1 or EE put on at any of six units from 8 to 70,
+or E at generation 5, 9 or 13 instead of 1: the same clock of period 308 each time (18 + 3 runs; it is periodic
+from 172 to 296 generations after the start, by the place). U destroys this line (12 cells left). **E followed by
+holes still counts**: one hole leaves plain wire B between the caps, two and three holes leave 2 and 3 units of B′
+from unit 41, exactly as with gun 4. So a line with one of these guns ends in three different kinds of object
+according to what the E meets: nothing (a clock), one hole (plain wire B), more (the count).
 
 So every healing end tried (153 of 153) gives a clock, and its period is a multiple of 4 (4N − 12, 4N − 16 or
 4N − 20 by the end), which the rake clocks of the second and third pushes (4N + 2) never are. "E kills every gun on
@@ -385,6 +400,23 @@ or erase it (§2, `line7c.py flips 3`).
    by no end.
 3. *It is generic.* Every one of the 625 pairs of caps at C ≤ 37 does it; TODO-pairs39
 
+**The larger find is on the gun side, and the push's own list holds it.** 34 of the 867 guns at C ≤ 39 are not
+killed by an answer: E (or N1, or two E) leaves the gun standing in a second state, in which it fires a hole with
+every rake, for ever (§5; oracle, exact orbit). The census wrote these rows down as dead because its test is "not
+restored". This is an object **left alive and changed by a signal**, which is what questions (g), (m) and (p) of open
+problem 13 have been asking for since the fourth push, and what the owner's journal has as "no gun, of every one we
+can list or search for, survives being answered". What it gives, and what it does not:
+- *A gun with two states*, set by a signal that arrives up its own stream, and broadcast from then on in what it
+  fires: every end the stream reaches is told. It is one-way so far. Nothing is known that turns it back.
+- *A clock.* With any end that forgets a hole (153 of 153 tried) the line after E is a free-standing oscillator of
+  period 4N − 12 (or − 16, − 20, by the end) at every length tried, 80 to 120 units: periods that are multiples of
+  4, where every clock on file has period 4N + 2 (sections 11 and 18 of `research/signals/README.md` leave "a clock
+  of period ≡ 0 mod 4" open; this one is not a shuttle clock: what goes to and fro is a front between two streams,
+  not a rake). The line therefore has two lasting states, period 4 and period 4N − 12, and one E takes it from the
+  first to the second.
+- *Not yet a loop.* The E here is put on by hand. The reflector end makes an E from a hole and so far killed its
+  gun with it; with one of the 34 it would not. That line was not built (§9).
+
 **What limits it** (and the README says most of this): the write needs E, which nothing in the line makes (in the
 push and here E is put on by hand; the only standing source on file is the reflector end, cap A with C18.23a beside
 it, answering a hole); it happens once, because the train is spent; nothing is stored unless the second hole comes 3
@@ -405,10 +437,11 @@ anything.
   its own E from the first hole and then count the rest; whether the reflector end stops the lower edge of wire B was
   not tested by the push or here (it is not a bare end, so it is not among the 741).
 - *Re-arming.* Written once. A reset would be a way from capped wire B back to a running train.
-- *The listener in the strict sense* (an end left alive and changed while the train still runs) does not exist within
-  the bounds (§4): every end at C ≤ 39 heals on the whole state or loses its train.
+- *The listener in the strict sense, at the receiving end* (an end left alive and changed while the train still
+  runs) does not exist within the bounds (§4): every receiving end at C ≤ 39 heals on the whole state or loses its
+  train. At the firing end it does exist (the 34 guns), with the stream changed instead of the end.
 
-Two smaller things this review adds to the stock: **E meeting N2 leaves exactly one hole** (§2; with U against K3 the
+Two smaller things this review adds: **E meeting N2 leaves exactly one hole** (§2; with U against K3 the
 second meeting that turns an up-signal into a down-signal, and one that saves the gun), and the twelve non-healing
 caps, with which the line counts every word of two or more holes and writes the count at the end cap instead of in
 mid-wire.

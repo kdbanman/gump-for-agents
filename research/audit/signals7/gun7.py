@@ -17,6 +17,11 @@ dies on E, N1 and EE").  Oracle only, except `scan` (fast7, bit-exact against th
     python3 gun7.py clock             the first of the 34 guns, N units of train, end 70 (N = 80, 82, 84, 100, 120): the
                                       line alone; then E alone on its stream: least period of the whole array and the
                                       generation from which it holds (states compared on the oracle)
+    python3 gun7.py where             the same line, N = 80: E, N1, EE at six places, E at three later generations, U,
+                                      and E followed by 1, 2, 3 holes (oracle)
+    python3 gun7.py others            every gun of the list at C <= 39 and each of U, N1, E, EE (fast7): 280 generations
+                                      after the signal has arrived, is the gun region periodic and what is below it:
+                                      nothing, a standing wire, the train, S, another stream
     python3 gun7.py lines [K]         N = 80, E alone: the first gun with the 125 ends of wireB_caps.json, with K
                                       (default 40) ends at C <= 37 that heal a hole but do not cap wire B and with 20
                                       that do neither; the other 33 guns with end 70.  fast7, every 12th on the oracle.
@@ -200,6 +205,76 @@ def clock():
     print('ALL PASS' if ok else 'SOME FAIL')
 
 
+def where():
+    """Oracle: does the clock depend on where and what the signal is?  Gun 723, 80 units, end 70."""
+    guns = changed_guns(); w = Ln.caps(); t0 = time.time(); N = 80
+    e70 = next(e['cap'] for e in w['receiving'] if e['i'] == 70); K = CA.kinds('5f')
+    y0 = Ln.build(guns[0]['cap'], e70, N); T = O.Tor.helix(O.helix_len(N + 60), -30)
+    a0, Pa, pa, Ua = run_line(T, y0, {}, N, G=6 * N + 100)
+    H = K['H']['cells']; ref = None
+    tests = [(f'{n} at unit {e}', {1: [O.tr(c, e) for c in K[n]['cells']]}) for n in ('E', 'N1', 'EE') for e in (8, 20, 32, 44, 56, 70)]
+    tests += [(f'E at unit 32 at generation {g}', {g: [O.tr(c, 32) for c in K['E']['cells']]}) for g in (5, 9, 13)]
+    tests += [(f'U at unit {e}', {1: [O.tr(c, e) for c in K['U']['cells']]}) for e in (32, 33)]
+    tests += [(f'E at unit 32 and {len(hs)} hole(s) at {hs}', {1: [O.tr(c, 32) for c in K['E']['cells']] + [O.tr(c, p) for p in hs for c in H]}) for hs in ([48], [48, 54], [48, 54, 60])]
+    for name, fl in tests:
+        g0, P, pops, U = run_line(T, y0, fl, N)
+        k = kind_of(P, pops, U, N, -30, Ua)
+        if k.startswith('wire B'):
+            c = Ln.code(U[30:30 + N]); st = next((i for i, x in enumerate(c) if x in 'df' and 3 < i < N - 3), None)
+            k += '' if st is None else f' ({sum(1 for x in c[st:st + 40] if x == "d")} units of B-prime from unit {st})'
+        print(f'   {name}: {k}' + (f', from generation {g0}, {pops[0]}..{pops[1]} cells' if P else ''), flush=True)
+    print(f'{len(tests)} runs on the oracle; {time.time() - t0:.0f} s')
+
+
+def others(lst='5f_39.json'):
+    """fast7: every gun of the list, each of U, N1, E, EE: what stands at generations 330..338 (the signal arrives at
+    the gun near generation 50): is the gun region (units >= 2) periodic, and what are the 36 units below it?"""
+    d = json.load(open(os.path.join(O.SCR, lst))); ends = CA.dedup('5f', d['list'])
+    C = CA.Census('5f', fast=True); T = C.T; t0_ = time.time()
+    a, b = KS - 40 - C.ua, KS - 4 - C.ua; g = KS - 4 - C.ua
+    assert C.exact_from(340) <= KS - 40
+    tr = {}
+    R = O.Tor.helix(96, 0); h = R.arr(O.train0('5f', 0, 96))
+    for t in range(4):
+        tr[t] = R.units(h)[:2].copy(); h = R.step(h)
+    def plain(t, dt):
+        return np.array([tr[(t + dt) % 4][u % 2] for u in range(KS - 40, KS - 4)])
+    res = Counter(); ex = {}
+    for i, cap in enumerate(ends):
+        cap = [tuple(c) for c in cap]
+        ys = C.undisturbed(cap, 2)
+        for ev in (('sig', 'U'), ('sig', 'N1'), ('sig', 'E'), ('sig', 'EE')):
+            t0, fl = C.flips(ev)
+            x = ys[t0].copy(); T.flip(x, fl); x = T.step(x, 330 - t0)
+            seq = []
+            for j in range(9):
+                seq.append(T.units(x).copy()); x = T.step(x)
+            gun = 'gun region empty' if not any(q[g:].any() for q in seq) else next((f'gun region of period {p}' for p in (1, 2, 4, 8) if all(np.array_equal(seq[j][g:], seq[j + p][g:]) for j in range(9 - p))), 'gun region not periodic')
+            F = [q[a:b] for q in seq]
+            if not any(f.any() for f in F):
+                front = 'nothing below it'
+            elif all(np.array_equal(F[j], plain(330 + j, 0)) for j in range(9)):
+                front = 'the plain train below it (in step)'
+            elif any(all(np.array_equal(F[j], plain(330 + j, dt)) for j in range(9)) for dt in (1, 2, 3)):
+                front = 'the plain train below it, out of step'
+            elif all(np.array_equal(F[j], O.uarr(stream_S(None, KS - 40, KS - 4, 330 + j), KS - 40, KS - 4)) for j in range(9)):
+                front = 'the stream S below it'
+            elif all(np.array_equal(F[j], F[j + 2]) for j in range(7)) and all(np.array_equal(F[0][k], F[0][k % 2]) for k in range(b - a)):
+                front = 'a standing wire below it (period 2, uniform or of two alternating units)'
+            elif all(np.array_equal(F[j], F[j + 4]) for j in range(5)) and all(np.array_equal(F[0][k], F[0][k % 2]) for k in range(b - a)):
+                front = 'ANOTHER STREAM of period 4 below it'
+            elif all(np.array_equal(F[j], F[j + 8]) for j in range(1)):
+                front = 'something of period 8 or less below it (not uniform)'
+            else:
+                front = 'something not periodic below it'
+            healed = all(np.array_equal(seq[j], T.units(T.step(ys[2], 328 + j))) for j in (0,)) if front.startswith('the plain train below it (in') else False
+            k = (ev[1], 'restored' if healed else gun + '; ' + front)
+            res[k] += 1; ex.setdefault(k, i)
+    print(f'{len(ends)} guns x (U, N1, E, EE) at generation 330..338; {time.time() - t0_:.0f} s')
+    for k, v in sorted(res.items()):
+        print(f'   {v:5d}  {k[0]:3s} {k[1]}   (e.g. gun {ex[k]})')
+
+
 def lines(K, oracle_every=12):
     """fast7 for the sweep; every `oracle_every`-th line again on the oracle."""
     import fast7, random
@@ -251,6 +326,10 @@ def main():
         lines(int(sys.argv[2]) if len(sys.argv) > 2 else 40)
     elif mode == 'clock':
         clock()
+    elif mode == 'where':
+        where()
+    elif mode == 'others':
+        others(sys.argv[2] if len(sys.argv) > 2 else '5f_39.json')
 
 
 if __name__ == '__main__':

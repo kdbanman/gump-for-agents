@@ -6,7 +6,8 @@
 Ring of 60 units of wire B with the stretch d^k f on units 40..40+k (wall: unit 39 | unit 40; nothing released
 comes round the ring within the run).  The object is placed
 with its highest unit at 39 + e for e = -3..3 (e <= 0: wholly before the wall; e > 0: reaching beside the stretch).
-Three scenarios for each e: 'rest' (nothing sent), 'A' and 'B' (a right-going pulse born at unit 40 - 11, 40 - 12:
+Three scenarios for each e: 'rest' (nothing sent; the inert test over 12 generations, so periods 1, 2, 3, 4, 6
+only), 'A' and 'B' (a right-going pulse born at unit 40 - 11, 40 - 12:
 the two parities), each read 76 generations after the start.
 
 Exact shortcut (the inert test): if at every generation of the scenario run WITHOUT the object every cell of the
@@ -44,7 +45,7 @@ class Ref:
         self.word = '7' * W0 + 'd' * k + 'f' + '7' * (R - W0 - k - 1)
         base = L.arr(X.hexword(self.word, 0))
         self.X = {}; self.N = {}
-        for s, fl, n in (('rest', [], 2), ('A', X.pulseR(W0 - 11), T), ('B', X.pulseR(W0 - 12), T)):
+        for s, fl, n in (('rest', [], 12), ('A', X.pulseR(W0 - 11), T), ('B', X.pulseR(W0 - 12), T)):
             a = base.copy(); L.flip(a, fl)
             xs = []; ns = []
             for t in range(n + 1):
