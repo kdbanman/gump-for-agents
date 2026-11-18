@@ -18,6 +18,8 @@
  *   QB U b m count     the same split by b = 1 if the dip held a one-generation fall of >= FALL cells (its first
  *                      generation counts: the fall that took the face below U), else 0;
  *   DB U b count       the deaths, split the same way.  FALL = ceil(0.4 A) unless given.
+ *   Q1 d dead recovered   dips (U = U0) in which the face came down to exactly one live cell, by the number d of
+ *                      neighbours that cell has inside the vessel (the first such cell of the dip), and how they ended.
  * PREFIX.rec (binary): records of the last RING = 32 generations of one replica about one face:
  *   'D' a death (the last row is the empty generation), at most MAXD of them;
  *   'O' the face layer held >= THR cells 16 generations before the last row and no face of the replica died since
@@ -144,6 +146,9 @@ int main(int argc, char **argv) {
   static v8 armed[2][64]; static uint8_t lowmin[2][64][NREP]; static u64 Q[2][8];
   static v8 pprev[64][8], fell[2][64]; static u64 QB[2][2][8], DB[2][2];
   int FALL = argc > 12 ? atoi(argv[12]) : (int)(0.4 * lsz[0][0] + 0.999);
+  static uint8_t first1[64][NREP]; static u64 D1[13], R1[13];
+  int *deg = malloc(sizeof(int) * n);
+  for (int i = 0; i < n; i++) { deg[i] = 0; for (int t = 0; t < 12; t++) deg[i] += nb[12 * i + t] < n; }
   memset(lowmin, 255, sizeof lowmin);
   char path[1024]; snprintf(path, sizeof path, "%s.rec", prefix); rec = fopen(path, "wb");
   if (!rec) { perror(path); return 1; }
@@ -191,8 +196,9 @@ int main(int argc, char **argv) {
           int r = w * 64 + __builtin_ctzll(m);
           if (age[r] >= burn && lowmin[u][f][r] >= 1 && lowmin[u][f][r] <= 7) {
             Q[u][lowmin[u][f][r]]++; QB[u][(fell[u][f][w] >> (r & 63)) & 1][lowmin[u][f][r]]++;
+            if (u == 0 && first1[f][r]) R1[first1[f][r]]++;
           }
-          lowmin[u][f][r] = 255;
+          lowmin[u][f][r] = 255; if (u == 0) first1[f][r] = 0;
         }
         armed[u][f] = (armed[u][f] & ~ge) | low;
         fell[u][f] = (fell[u][f] | bigfall) & ~ge;
@@ -200,6 +206,8 @@ int main(int argc, char **argv) {
           int s = __builtin_ctzll(m), r = w * 64 + s;
           int c = (int)((p[0][w] >> s) & 1) | (int)((p[1][w] >> s) & 1) << 1 | (int)((p[2][w] >> s) & 1) << 2;
           if (c < lowmin[u][f][r]) lowmin[u][f][r] = (uint8_t)c;
+          if (u == 0 && c == 1 && !first1[f][r] && !((p[3][w] >> s) & 1))
+            for (int k = 0; k < A; k++) if (bitof(cur, lc[f][0][k], r)) { first1[f][r] = (uint8_t)deg[lc[f][0][k]]; break; }
         }
       }
       if (phase < 3)
@@ -234,6 +242,7 @@ int main(int argc, char **argv) {
         for (int f = 0; f < nf; f++) if ((fdead[f][w] >> s) & 1) {
           deaths++;
           for (int u = 0; u < 2; u++) DB[u][(fell[u][f][w] >> s) & 1]++;
+          if (first1[f][r]) D1[first1[f][r]]++;
           for (int lag = 1; lag < RING; lag++) {
             const v8 *st = ring[(g - lag) % RING]; int c = 0;
             for (int k = 0; k < A; k++) c += bitof(st, lc[f][0][k], r);
@@ -243,7 +252,7 @@ int main(int argc, char **argv) {
         }
       } else young++;
       reseed(cur, r); age[r] = 0; lifeid[r]++;
-      for (int u = 0; u < 2; u++) for (int f = 0; f < nf; f++) { armed[u][f][w] &= ~(1ULL << s); fell[u][f][w] &= ~(1ULL << s); lowmin[u][f][r] = 255; }
+      for (int u = 0; u < 2; u++) for (int f = 0; f < nf; f++) { armed[u][f][w] &= ~(1ULL << s); fell[u][f][w] &= ~(1ULL << s); lowmin[u][f][r] = 255; first1[f][r] = 0; }
       for (int i = 0; i < n; i++) setbit(snap, i, r, !bitof(cur, i, r));      /* never equal to the old snapshot */
     }
     if (g % 840 == 0) {
@@ -251,7 +260,7 @@ int main(int argc, char **argv) {
       for (int i = 0; i < n; i++) d |= cur[i] ^ snap[i];
       for (int r = 0; r < NREP; r++) if (!((d[r >> 6] >> (r & 63)) & 1)) {
         settled++; reseed(cur, r); age[r] = 0; lifeid[r]++;
-        for (int u = 0; u < 2; u++) for (int f = 0; f < nf; f++) { armed[u][f][r >> 6] &= ~(1ULL << (r & 63)); fell[u][f][r >> 6] &= ~(1ULL << (r & 63)); lowmin[u][f][r] = 255; }
+        for (int u = 0; u < 2; u++) for (int f = 0; f < nf; f++) { armed[u][f][r >> 6] &= ~(1ULL << (r & 63)); fell[u][f][r >> 6] &= ~(1ULL << (r & 63)); lowmin[u][f][r] = 255; first1[f][r] = 0; }
       }
       memcpy(snap, cur, sizeof(v8) * (n + 1));
     }
@@ -270,6 +279,7 @@ int main(int argc, char **argv) {
   for (int p = 0; p < MAXP; p++) for (int s = 0; s < MAXP; s++) if (K[p][s]) fprintf(o, "K %d %d %llu\n", p, s, (unsigned long long)K[p][s]);
   for (int lag = 1; lag < RING; lag++) for (int p = 0; p < MAXP; p++) if (L[lag][p]) fprintf(o, "L %d %d %llu\n", lag, p, (unsigned long long)L[lag][p]);
   for (int u = 0; u < 2; u++) for (int m = 1; m < 8; m++) fprintf(o, "Q %d %d %llu\n", U[u], m, (unsigned long long)Q[u][m]);
+  for (int d = 0; d < 13; d++) if (D1[d] + R1[d]) fprintf(o, "Q1 %d %llu %llu\n", d, (unsigned long long)D1[d], (unsigned long long)R1[d]);
   for (int u = 0; u < 2; u++) for (int b = 0; b < 2; b++) {
     fprintf(o, "DB %d %d %llu fall %d\n", U[u], b, (unsigned long long)DB[u][b], FALL);
     for (int m = 1; m < 8; m++) fprintf(o, "QB %d %d %d %llu\n", U[u], b, m, (unsigned long long)QB[u][b][m]);

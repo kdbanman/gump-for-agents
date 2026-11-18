@@ -16,6 +16,7 @@ RING, NLB = 32, 3
 
 def load_sum(prefixes):
     S = {}; H = np.zeros(256); J = np.zeros((256, 256)); K = np.zeros((256, 256)); L = np.zeros((RING, 256)); Q = {}
+    QB = {}; DB = {}; S['dq'] = 0; S['fall'] = 0; S['Q1'] = {}
     for p in prefixes:
         for line in open(os.path.join(SCR, p + '.sum')):
             w = line.split()
@@ -27,7 +28,13 @@ def load_sum(prefixes):
             elif w[0] == 'K': K[int(w[1]), int(w[2])] += int(w[3])
             elif w[0] == 'L': L[int(w[1]), int(w[2])] += int(w[3])
             elif w[0] == 'Q': Q[(int(w[1]), int(w[2]))] = Q.get((int(w[1]), int(w[2])), 0) + int(w[3])
-    return S, H, J, K, L, Q
+            elif w[0] == 'QB': QB[tuple(int(v) for v in w[1:4])] = QB.get(tuple(int(v) for v in w[1:4]), 0) + int(w[4])
+            elif w[0] == 'Q1':
+                a_ = S['Q1'].setdefault(int(w[1]), [0, 0]); a_[0] += int(w[2]); a_[1] += int(w[3])
+            elif w[0] == 'DB': DB[(int(w[1]), int(w[2]))] = DB.get((int(w[1]), int(w[2])), 0) + int(w[3]); S['fall'] = int(w[5])
+        if any(l.startswith('Q ') for l in open(os.path.join(SCR, p + '.sum'))):
+            S['dq'] += [int(l.split()[l.split().index('deaths') + 1]) for l in open(os.path.join(SCR, p + '.sum')) if l.startswith('S ')][0]
+    return S, H, J, K, L, Q, QB, DB
 
 
 def load_rec(prefixes, sizes):
@@ -73,7 +80,7 @@ def main():
     n = len(cells)
     sizes = [int((faces[0, l] >= 0).sum()) for l in range(faces.shape[1])]
     A = sizes[0]
-    S, H, J, K, L, Q = load_sum(prefixes)
+    S, H, J, K, L, Q, QB, DB = load_sum(prefixes)
     nf = S['nfaces']
     P(f'# {vessel}: runs {" ".join(prefixes)}')
     P(f'# face layer A = {A} cells, {nf} faces, layers beneath {sizes[1:]}')
@@ -87,6 +94,11 @@ def main():
     P(f'\n## 2. The face layer in ordinary time ({H.sum():.3e} face-generations sampled)')
     P(f'mean {mean:.3f} ({mean / A:.4f} A), s.d. {sd:.3f}; quantiles 5/10/25/50/75/90/95%: {quant(H, [.05, .1, .25, .5, .75, .9, .95])}')
     P('P(population >= x):  ' + '  '.join(f'{v}: {pr[v:].sum():.3e}' for v in range(int(0.65 * A), int(0.85 * A) + 1, 2)))
+    cum = pr[::-1].cumsum()[::-1]
+    u = 0.74 * A; lnnu = (1 - (u - int(u))) * np.log(cum[int(u)]) + (u - int(u)) * np.log(cum[int(u) + 1])
+    P(f'ln of the frequency of a face >= 0.74 A (log-interpolated between {int(u)} and {int(u) + 1} cells): {lnnu:.4f}; '
+      f'the report\'s estimator -ln nu + 0.1273 A - 1.37 = {-lnnu + 0.1273 * A - 1.37:.3f}')
+    P('-ln P(population = x A): ' + '  '.join(f'x = {v / A:.3f} ({v}): {-np.log(pr[v]):.3f}' for v in sorted({int(round(f * A)) for f in (0.70, 0.73, 0.76, 0.79)}) if pr[v] > 0))
     j0 = J.sum(1); k0 = K.sum(1)
     m1 = (J * x[None, :]).sum(1) / np.maximum(j0, 1)
     cov1 = (J * np.outer(x - mean, x - mean)).sum() / J.sum(); cov2 = (K * np.outer(x - mean, x - mean)).sum() / K.sum()
@@ -124,9 +136,19 @@ def main():
     if Q:
         P('\n## 4. Chance that a dip ends in death once it has reached <= k cells (dip: from below U to back at >= U)')
         for U in sorted({u for u, _ in Q}):
-            rec = np.cumsum([Q[(U, m)] for m in range(1, 8)]); D = S['deaths']
+            rec = np.cumsum([Q[(U, m)] for m in range(1, 8)]); D = S['dq']
             P(f'U = {U}: ' + ', '.join(f'q({k}) = {D / (D + rec[k - 1]):.4f}' for k in range(1, 8))
-              + f'   (errors about {np.sqrt(0.25 / (D + rec[1])):.4f})')
+              + f'   ({D} deaths in the runs that tallied dips; errors about {np.sqrt(0.25 / (D + rec[1])):.4f})')
+        for U in sorted({u for u, _ in DB}):
+            for b, nm in ((1, f'dips with a one-generation fall of >= {S["fall"]} cells'), (0, 'dips without one')):
+                rec = np.cumsum([QB[(U, b, m)] for m in range(1, 8)]); D = DB[(U, b)]
+                P(f'U = {U}, {nm}: {D} deaths ({D / (DB[(U, 0)] + DB[(U, 1)]):.4f} of all); '
+                  + ', '.join(f'q({k}) = {D / (D + rec[k - 1]):.4f}' for k in range(1, 6)) + f'   (errors about {np.sqrt(0.25 / (D + rec[1])):.4f})')
+
+    if S['Q1']:
+        P('dips that came down to exactly one live cell, by the number of neighbours that cell has inside the vessel:')
+        for d_, (dd, rr) in sorted(S['Q1'].items(), reverse=True):
+            P(f'  {d_} neighbours: {dd} ended in death, {rr} recovered: {dd / (dd + rr):.4f} +- {np.sqrt(dd * rr / (dd + rr) ** 3):.4f}')
 
     # ---- single deaths
     R, nbytes = load_rec(prefixes, sizes)
@@ -173,6 +195,11 @@ def main():
             P(f'      layers 1..{len(sizes)} (fraction of each layer), {nm}: ' + ' '.join(f'{lay[o, l] / sizes[l]:.3f}' for l in range(len(sizes))))
     rl = Rn['pops'][:, -1, :].mean(0)
     P('  ordinary time, the same layers: ' + ' '.join(f'{rl[l] / sizes[l]:.3f}' for l in range(len(sizes))))
+    P('layers 2, 3, 4 under the dying face, over their ordinary means, at lags 6, 4, 3, 2, 1, 0:')
+    for name, sel in (('all deaths', np.ones(nd, bool)), ('bust deaths', bust), ('the other deaths', ok & ~bust)):
+        if sel.sum() < 5: continue
+        m = D['pops'][sel].mean(0)
+        P(f'  {name}: ' + '; '.join(f'layer {l + 1}: ' + ' '.join(f'{m[RING - 1 - lag, l] / rl[l]:.3f}' for lag in (6, 4, 3, 2, 1, 0)) for l in (1, 2, 3)))
 
     # ---- cells: causes of death, where, when
     lists = [[faces[f, l][faces[f, l] >= 0] for l in range(NLB)] for f in range(nf)]
@@ -192,6 +219,13 @@ def main():
         assert ((t >= 0) | (NBR[lists[f][0]] == n)).all(), 'a neighbour of a face cell is outside the recorded layers'
         nbidx.append(np.where(t >= 0, t, base))
     over = starve = other = 0; over_b = starve_b = 0; over_f = starve_f = 0
+    over_l = starve_l = 0; over_r = starve_r = 0
+    for i in range(min(len(Rn['pops']), 3000)):          # ordinary time: how face cells die
+        f = int(Rn['face'][i]); cb = cellbits(Rn, i)
+        allb = np.concatenate(cb + [np.zeros((RING, 1), np.uint8)], axis=1)
+        face = cb[0].astype(int); c = allb[:, nbidx[f]].sum(2)[:-1]
+        dies = (face[:-1] == 1) & (face[1:] == 0)
+        over_r += (dies & (c >= 6)).sum(); starve_r += (dies & (c <= 2)).sum()
     spread = []; lastlag_all = []
     rng = np.random.default_rng(1)
     # in-plane coordinates of face cells
@@ -212,12 +246,35 @@ def main():
             ab = np.linalg.solve(M, (p[:, :2] / 2).T).T % 1.0          # fractional coordinates along v1, v2
             co.append(ab)
     sync = []; beat = []; nsect = 2
+    secst = {'D': [], 'R': []}
+
+    def sections(face, f):                               # face: RING x A bits; the report's section statistics
+        w = face[RING - 17:]                             # the last 16 falls
+        res = {}
+        for ns in (2, 4):
+            if vessel.startswith('hull'):
+                ang = np.arctan2(co[f][:, 1] - co[f][:, 1].mean(), co[f][:, 0] - co[f][:, 0].mean())
+                sec = ((ang + np.pi) / (2 * np.pi) * ns).astype(int) % ns
+            else:
+                sec = (co[f][:, 1] * ns).astype(int) % ns
+            tt = []; nb_ = 0
+            for k_ in range(ns):
+                pk = w[:, sec == k_].sum(1); d = pk[:-1] - pk[1:]; size = (sec == k_).sum()
+                i = len(d) - 1 - int(np.argmax(d[::-1]))          # the largest fall; ties: nearest the death
+                tt.append(i)
+                nb_ += (pk[i] >= 0.68 * size) and (d[i] >= 0.5 * size)
+            res[ns] = (len(set(tt)) > 1, nb_, max(tt) - min(tt))
+        pk = w.sum(1); d = pk[:-1] - pk[1:]
+        return [res[2][0], res[2][1] >= 1, res[4][0], res[4][1], res[4][1] >= 1, d.max() >= 0.5 * face.shape[1], res[2][2]]
+    for i in range(min(len(Rn['pops']), 3000)):
+        secst['R'].append(sections(cellbits(Rn, i)[0].astype(int), int(Rn['face'][i])))
     cl_surv = []
     for i in range(nd):
         f = int(D['face'][i]); cb = cellbits(D, i)
         allb = np.concatenate(cb + [np.zeros((RING, 1), np.uint8)], axis=1)
         face = cb[0].astype(int)                         # RING x A
         cnt = allb[:, nbidx[f]].sum(2)                   # RING x A live-neighbour counts
+        if i < 20000: secst['D'].append(sections(face, f))
         dies = (face[:-1] == 1) & (face[1:] == 0)
         c = cnt[:-1]
         j0 = RING - 1 - W
@@ -228,6 +285,8 @@ def main():
             over_b += (dies[jj] & (c[jj] >= 6)).sum(); starve_b += (dies[jj] & (c[jj] <= 2)).sum()
         else:
             over_f += o; starve_f += s_
+            if ok[i]:
+                over_l += (dies[jl[i]:] & (c[jl[i]:] >= 6)).sum(); starve_l += (dies[jl[i]:] & (c[jl[i]:] <= 2)).sum()
         w = face[j0:]                                    # lags 12..0
         ever = w.any(0)
         last = np.array([W - np.nonzero(w[:, c_])[0].max() for c_ in np.nonzero(ever)[0]])     # lag of last life, per cell
@@ -264,6 +323,9 @@ def main():
         P(f'cells that die in the fall after the launch, bust deaths: {over_b / (over_b + starve_b):.4f} with >= 6 live neighbours ({over_b + starve_b} cell deaths)')
     if over_f + starve_f:
         P(f'cells that die in the window, the other deaths: {over_f / (over_f + starve_f):.4f} with >= 6, {starve_f / (over_f + starve_f):.4f} with <= 2')
+    if over_l + starve_l:
+        P(f'cells that die from the launch on, the other deaths: {over_l / (over_l + starve_l):.4f} with >= 6, {starve_l / (over_l + starve_l):.4f} with <= 2')
+    P(f'face cells that die in ordinary time: {over_r / (over_r + starve_r):.4f} with >= 6, {starve_r / (over_r + starve_r):.4f} with <= 2 ({over_r + starve_r} cell deaths)')
     P(f'spread of the cells\' last-alive generations within one death (s.d., generations): mean {np.mean(spread):.2f}, median {np.median(spread):.2f}')
     beat = np.array(beat); sync = np.array(sync)
     kind = 'plane fitted to' if vessel.startswith('hull') else 'lowest Fourier modes of'
@@ -273,6 +335,13 @@ def main():
         if sel.sum() > 5:
             P(f'    {name}: {np.mean(beat[sel] > 0.95):.3f} beat 95%; the two halves of the face have their largest fall in the same generation in {np.mean(sync[sel]):.3f}')
     P(f'the two halves of the face have their largest one-generation fall in the same generation: {sync.mean():.3f} of deaths')
+    P('\n## 7. Sections of the face (the report\'s definitions: last 16 generations; crash of a section = its largest '
+      'one-generation fall, ties nearest the death; local bust = from >= 0.68 of the section, a fall of >= half of it)')
+    for key, nm in (('D', 'deaths'), ('R', 'ordinary windows')):
+        t = np.array(secst[key], float); m = t.mean(0); e = t.std(0) / np.sqrt(len(t))
+        P(f'{nm} ({len(t)}): halves crash in different generations {m[0]:.3f} +- {e[0]:.3f} (mean gap {m[6]:.2f} generations); '
+          f'at least one half busts locally {m[1]:.3f}; quarters crash in different generations {m[2]:.3f}; '
+          f'quarters busting locally {m[3]:.2f} of 4; at least one quarter busts {m[4]:.3f} +- {e[4]:.3f}; face-wide fall of half the face {m[5]:.3f} +- {e[5]:.3f}')
     if out: out.close()
 
 

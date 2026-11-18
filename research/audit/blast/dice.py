@@ -29,8 +29,18 @@ def face_graph(kind, *a):
     return N, m1, m2
 
 
-def solve(kind, a, r1=0.44, r2=0.42, K=6):
-    N, m1, m2 = face_graph(kind, *a)
+def row_graph(kind, L):
+    """The 2D relative (research/blast/toy): an edge row of L cells of B34/S234 on the range-2 cross, over two
+    private coins a cell (the two cells beneath); a ring, or a segment whose end cells lack the neighbours outside."""
+    N = []
+    for i in range(L):
+        nb = [i + o for o in (-2, -1, 1, 2)]
+        N.append([j % L for j in nb] if kind == 'ring' else [j for j in nb if 0 <= j < L])
+    return N, [2] * L, [0] * L
+
+
+def solve(kind, a, r1=0.44, r2=0.42, K=6, birth=(4, 5), survive=(3, 4, 5)):
+    N, m1, m2 = row_graph(kind, *a) if kind in ('ring', 'segment') else face_graph(kind, *a)
     A = len(N); S = 1 << A
     st = (np.arange(S)[:, None] >> np.arange(A)[None, :]) & 1                 # S x A
     pop = st.sum(1)
@@ -48,7 +58,7 @@ def solve(kind, a, r1=0.44, r2=0.42, K=6):
         assert abs(pb.sum() - 1) < 1e-12
         for b in range(4):
             n = k + b
-            alive[:, i] += pb[b] * np.where(st[:, i] == 1, (n >= 3) & (n <= 5), (n >= 4) & (n <= 5))
+            alive[:, i] += pb[b] * np.where(st[:, i] == 1, np.isin(n, survive), np.isin(n, birth))
     P = np.ones((S, 1))
     for i in range(A):                                                        # next-state bit i is the new high bit
         P = np.concatenate([P * (1 - alive[:, i:i + 1]), P * alive[:, i:i + 1]], axis=1)
@@ -86,9 +96,16 @@ def solve(kind, a, r1=0.44, r2=0.42, K=6):
 ROWS = [('hull', (3,), 2.4837157463, 0.0170), ('torus', (1, 1, 3), 2.6946266059, 0.9369), ('torus', (1, 0, 3), 3.3935247191, None),
         ('torus', (2, 0, 2), 3.9818365883, 0.5675), ('torus', (1, 1, 4), 3.7118338988, 0.7909), ('torus', (1, 0, 4), 4.1330124063, None)]
 
+TOY = [('ring', (12,), 6.4169049205, 0.9560), ('segment', (12,), 7.7402, 0.7046)]
+
 if __name__ == '__main__':
     print('face              A   ln tau (here)    ln tau (rigour)  bust share (here)  (rigour)   tilt integral   <E>_1 <= ln tau <= <E>_0')
     for kind, a, lt, bs in ROWS:
         r = solve(kind, a)
         print(f'{kind:5s} {str(a):10s} {r["A"]:3d}   {r["lntau"]:.10f}   {lt:.10f}     {r["bust"]:.4f}            '
               f'{"%.4f" % bs if bs is not None else "  -   "}     {r["tilt"]:.10f}   {r["E1"]:.3f} <= {r["lntau"]:.3f} <= {r["E0"]:.3f}', flush=True)
+    print('\nthe 2D relative (toy/): one edge row of B34/S234 on the range-2 cross over two coins of density 0.472')
+    for kind, a, lt, bs in TOY:
+        r = solve(kind, a, r1=0.472, r2=0.0, birth=(3, 4), survive=(2, 3, 4))
+        print(f'{kind:8s} L = {a[0]}: ln tau {r["lntau"]:.10f} (toy: {lt}); share of the death flux with a fall of half the row '
+              f'in its last 6 transitions {r["bust"]:.4f} (toy: {bs})', flush=True)

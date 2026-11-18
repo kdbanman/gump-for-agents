@@ -1,0 +1,119 @@
+# slab_1_4_28: runs wide84_s41 wide84_s42
+# face layer A = 84 cells, 2 faces, layers beneath [84, 84, 84, 84, 84]
+
+## 1. Lifetime
+exposure 4.7101e+10 replica-generations, 2263 face deaths (age >= 1000), 0 younger, 0 settled lives: ln tau_face = 17.5443 +- 0.0210
+
+## 2. The face layer in ordinary time (1.178e+10 face-generations sampled)
+mean 43.473 (0.5175 A), s.d. 5.662; quantiles 5/10/25/50/75/90/95%: [34, 36, 40, 44, 47, 51, 53]
+P(population >= x):  54: 3.338e-02  56: 1.311e-02  58: 4.403e-03  60: 1.250e-03  62: 2.966e-04  64: 5.799e-05  66: 9.209e-06  68: 1.162e-06  70: 1.094e-07
+ln of the frequency of a face >= 0.74 A (log-interpolated between 62 and 63 cells): -8.2498; the report's estimator -ln nu + 0.1273 A - 1.37 = 17.573
+-ln P(population = x A): x = 0.702 (59): 6.770  x = 0.726 (61): 8.026  x = 0.762 (64): 10.282  x = 0.786 (66): 12.054
+autocorrelation of the population at lag 1, 2: +0.1242, -0.0435
+mean population one generation after population p (and share of those next generations at <= A/4):
+  p = 43..43:  44.87   (0.0000)   n = 825519652
+  p = 40..41:  44.18   (0.0000)   n = 1397424607
+  p = 42..43:  44.77   (0.0000)   n = 1616301464
+  p = 44..45:  44.99   (0.0000)   n = 1654114077
+  p = 46..47:  44.83   (0.0000)   n = 1489042640
+  p = 48..49:  44.29   (0.0000)   n = 1171939473
+  p = 50..52:  43.10   (0.0000)   n = 1073130903
+  p = 48..84:  42.93   (0.0001)   n = 2838667047
+where a population p was the generation before (mean of the previous population, by p):
+  p = 44..45: previous  43.81
+  p = 46..47: previous  43.92
+  p = 48..49: previous  43.99
+  p = 50..84: previous  44.04
+one-generation falls of >= 0.5 A in ordinary time: 1.569e-05 per face-generation (184749 seen); face deaths per face-generation 2.402e-08; ratio 653.1 falls per death
+one-generation falls of >= 0.4 A in ordinary time: 2.385e-04 per face-generation (2807912 seen); face deaths per face-generation 2.402e-08; ratio 9926.3 falls per death
+
+## 3. The dying face by lag, all 2263 deaths (population / ordinary mean; quantiles in cells)
+lag   mean/Pbar   q10 q25 q50 q75 q90 q95   P(>=0.70A) P(>=0.746A)   [ordinary: q90 51, q95 53, P(>=0.70A) 2.40e-03, P(>=0.746A) 1.34e-04]
+  1     0.0394     1   1   1   2   3   4   0.0000     0.0000
+  2     0.0961     1   2   3   5   9  12   0.0022     0.0022
+  3     0.2365     1   2   5  12  19  60   0.0535     0.0429
+  4     0.4630     2   4  10  24  63  66   0.1538     0.1065
+  5     0.6136     2   6  19  45  62  65   0.1476     0.0901
+  6     0.7141     3   9  38  46  60  64   0.1167     0.0650
+  7     0.8003     5  17  41  47  57  63   0.0928     0.0517
+  8     0.8570     8  31  42  47  54  61   0.0650     0.0345
+  9     0.9088    15  37  43  47  53  60   0.0619     0.0318
+ 10     0.9513    26  39  43  48  52  58   0.0486     0.0221
+ 11     0.9606    33  39  43  47  51  54   0.0234     0.0097
+ 12     0.9753    35  39  43  47  51  53   0.0186     0.0075
+ 14     0.9863    36  39  43  47  51  53   0.0084     0.0035
+ 16     1.0006    36  40  44  48  51  53   0.0049     0.0013
+ 20     1.0007    36  40  44  47  51  52   0.0009     0.0000
+ 24     0.9976    36  40  43  47  50  52   0.0027     0.0000
+ 31     1.0053    37  40  44  48  51  53   0.0027     0.0000
+
+chance that a generation with population p is within 12 generations before a death of that face:
+  p = 42..44: 1.444e-07  (1 in 6923113;  2833 of about 1.961e+10)
+  p = 40..41: 1.391e-07  (1 in 7189323;  1555 of about 1.118e+10)
+  p = 42..43: 1.432e-07  (1 in 6985636;  1851 of about 1.293e+10)
+  p = 44..45: 1.443e-07  (1 in 6931856;  1909 of about 1.323e+10)
+  p = 46..47: 1.341e-07  (1 in 7459199;  1597 of about 1.191e+10)
+  p = 48..49: 1.267e-07  (1 in 7891848;  1188 of about 9.376e+09)
+  p = 50..51: 1.159e-07  (1 in 8625856;  743 of about 6.409e+09)
+  p = 52..84: 4.012e-07  (1 in 2492732;  2778 of about 6.925e+09)
+  p = 47..84: 1.916e-07  (1 in 5220314;  5442 of about 2.841e+10)
+  p = 48..84: 2.074e-07  (1 in 4822539;  4709 of about 2.271e+10)
+
+## 4. Chance that a dip ends in death once it has reached <= k cells (dip: from below U to back at >= U)
+U = 43: q(1) = 0.8416, q(2) = 0.6270, q(3) = 0.4201, q(4) = 0.2784, q(5) = 0.1812, q(6) = 0.1172, q(7) = 0.0753   (2263 deaths in the runs that tallied dips; errors about 0.0083)
+U = 44: q(1) = 0.8416, q(2) = 0.6270, q(3) = 0.4201, q(4) = 0.2784, q(5) = 0.1812, q(6) = 0.1172, q(7) = 0.0753   (2263 deaths in the runs that tallied dips; errors about 0.0083)
+U = 43, dips with a one-generation fall of >= 34 cells: 1975 deaths (0.8727 of all); q(1) = 0.8394, q(2) = 0.6268, q(3) = 0.4216, q(4) = 0.2826, q(5) = 0.1866   (errors about 0.0089)
+U = 43, dips without one: 288 deaths (0.1273 of all); q(1) = 0.8571, q(2) = 0.6288, q(3) = 0.4097, q(4) = 0.2522, q(5) = 0.1512   (errors about 0.0234)
+U = 44, dips with a one-generation fall of >= 34 cells: 1975 deaths (0.8727 of all); q(1) = 0.8394, q(2) = 0.6268, q(3) = 0.4216, q(4) = 0.2826, q(5) = 0.1866   (errors about 0.0089)
+U = 44, dips without one: 288 deaths (0.1273 of all); q(1) = 0.8571, q(2) = 0.6288, q(3) = 0.4097, q(4) = 0.2522, q(5) = 0.1512   (errors about 0.0234)
+
+## 5. Single deaths (2263 records; window = the last 12 generations before the empty one)
+largest population in the window: share of deaths / share of 91174 ordinary windows of the same length
+  >= 0.600 A (51): 0.9421 / 0.8087
+  >= 0.650 A (55): 0.9112 / 0.2538
+  >= 0.700 A (59): 0.7764 / 0.0312
+  >= 0.730 A (62): 0.5524 / 0.0040
+  >= 0.746 A (63): 0.4640 / 0.0016
+  >= 0.760 A (64): 0.3654 / 0.0006
+  >= 0.800 A (68): 0.0778 / 0.0000
+largest one-generation fall in the window: share of deaths / share of ordinary windows
+  >= 0.3 A: 0.9302 +- 0.0054 / 0.0303
+  >= 0.4 A: 0.8365 +- 0.0078 / 0.0030
+  >= 0.5 A: 0.5930 +- 0.0103 / 0.0002
+  >= 0.6 A: 0.2033 +- 0.0085 / 0.0000
+distribution of the largest fall (cells): 0-4: 0.023 5-9: 0.018 10-14: 0.006 15-19: 0.006 20-24: 0.015 25-29: 0.038 30-34: 0.082 35-39: 0.143 40-44: 0.215 45-49: 0.213 50-54: 0.156 55-59: 0.067 60-64: 0.015 65-69: 0.005 70-74: 0.000 75-79: 0.000 80-84: 0.000
+launch = the last generation with >= A/2 = 42 cells (2263 deaths have one inside the record):
+  population at the launch: mean 61.95 (0.7375 A), s.d. 4.47, median 62; shares >=51: 0.979 >=55: 0.946 >=59: 0.808 >=63: 0.480 >=68: 0.080
+  histogram of the launch population: 42:4 43:3 44:2 45:1 46:6 47:3 48:9 49:8 50:11 51:11 52:14 53:15 54:35 55:39 56:58 57:87 58:128 59:126 60:178 61:225 62:213 63:230 64:194 65:193 66:161 67:129 68:82 69:41 70:24 71:18 72:8 73:6 76:1
+  generations from the launch to the empty face: mean 6.80, quartiles [5. 6. 8.], 5-95% [ 3. 12.]
+  mean population at launch -3 .. +4: 45.10 41.44 44.00 61.95 18.51 9.86 5.18 2.93
+  deaths with a launch at >= 0.65 A followed by a fall of >= 0.4 A in one generation ("bust deaths"): 0.8683
+  bust deaths (1965): population at launch -3..+1: 44.99 41.38 44.16 63.08 17.38; launch to empty: median 6, quartiles [4. 8.]
+      layers 1..6 (fraction of each layer), one before: 0.526 0.400 0.357 0.376 0.395 0.396
+      layers 1..6 (fraction of each layer), at the launch: 0.751 0.637 0.557 0.502 0.459 0.428
+      layers 1..6 (fraction of each layer), one after: 0.207 0.153 0.195 0.307 0.367 0.383
+  the other deaths (298): population at launch -3..+1: 45.81 41.78 42.92 54.48 25.97; launch to empty: median 7, quartiles [ 6. 10.]
+      layers 1..6 (fraction of each layer), one before: 0.511 0.391 0.354 0.372 0.391 0.391
+      layers 1..6 (fraction of each layer), at the launch: 0.649 0.622 0.569 0.516 0.485 0.446
+      layers 1..6 (fraction of each layer), one after: 0.309 0.162 0.176 0.266 0.334 0.361
+  ordinary time, the same layers: 0.518 0.435 0.406 0.416 0.416 0.405
+layers 2, 3, 4 under the dying face, over their ordinary means, at lags 6, 4, 3, 2, 1, 0:
+  all deaths: layer 2: 0.830 0.714 0.595 0.594 0.639 0.747; layer 3: 0.925 0.882 0.821 0.875 0.927 1.026; layer 4: 0.971 0.962 0.926 0.970 0.994 1.022
+  bust deaths: layer 2: 0.844 0.734 0.599 0.592 0.637 0.746; layer 3: 0.934 0.899 0.826 0.876 0.928 1.029; layer 4: 0.979 0.974 0.930 0.973 0.999 1.023
+  the other deaths: layer 2: 0.742 0.585 0.573 0.609 0.650 0.755; layer 3: 0.867 0.767 0.789 0.870 0.919 1.000; layer 4: 0.919 0.884 0.898 0.955 0.964 1.012
+
+## 6. Cells of the dying face
+face cells that die in the window, all deaths: 0.6461 with >= 6 live neighbours, 0.3539 with <= 2 (354583 cell deaths)
+cells that die in the fall after the launch, bust deaths: 0.9919 with >= 6 live neighbours (96140 cell deaths)
+cells that die in the window, the other deaths: 0.5675 with >= 6, 0.4325 with <= 2
+cells that die from the launch on, the other deaths: 0.4852 with >= 6, 0.5148 with <= 2
+face cells that die in ordinary time: 0.7094 with >= 6, 0.2906 with <= 2 (1549687 cell deaths)
+spread of the cells' last-alive generations within one death (s.d., generations): mean 1.82, median 1.70
+lowest Fourier modes of the last-alive generations: share of deaths that beat 95% of 200 shuffles of the cells: 0.578 (first 2263 records; 0.05 expected with no pattern in space)
+    bust deaths: 0.547 beat 95%; the two halves of the face have their largest fall in the same generation in 0.957
+    the other deaths: 0.785 beat 95%; the two halves of the face have their largest fall in the same generation in 0.641
+the two halves of the face have their largest one-generation fall in the same generation: 0.916 of deaths
+
+## 7. Sections of the face (the report's definitions: last 16 generations; crash of a section = its largest one-generation fall, ties nearest the death; local bust = from >= 0.68 of the section, a fall of >= half of it)
+deaths (2263): halves crash in different generations 0.072 +- 0.005 (mean gap 0.30 generations); at least one half busts locally 0.819; quarters crash in different generations 0.367; quarters busting locally 2.22 of 4; at least one quarter busts 0.939 +- 0.005; face-wide fall of half the face 0.614 +- 0.010
+ordinary windows (3000): halves crash in different generations 0.899 +- 0.005 (mean gap 5.19 generations); at least one half busts locally 0.024; quarters crash in different generations 0.998; quarters busting locally 0.31 of 4; at least one quarter busts 0.276 +- 0.008; face-wide fall of half the face 0.000 +- 0.000
