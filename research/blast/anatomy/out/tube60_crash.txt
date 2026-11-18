@@ -3,6 +3,8 @@
    largest one-generation fall in the last 10 generations: mean 29.6, median 31 (control 11.4); share of deaths with a one-generation fall of at least half the face (30 cells): 0.567 (control 0.0022)
    cells dying in the last 8 generations: overcrowded for certain 0.448, known count 5 (overcrowded if the unseen neighbour lives) 0.165, known count 2 (starved if it does not) 0.148, starved for certain 0.238   (597095 cell deaths)
    cells dying in the control (lags 101-108): overcrowded for certain 0.462, known count 5 (overcrowded if the unseen neighbour lives) 0.244, known count 2 (starved if it does not) 0.181, starved for certain 0.112   (779720 cell deaths)
+   the generation of the largest fall, in the 4661 deaths where it takes at least half the face: P before 46.4 (10-90%: 44-49), after 10.8 (7-14), births in it 1.76; cells dying in it: overcrowded for certain 0.812, known count 5 0.182, known count 2 0.005, starved for certain 0.001
+   stationary probability of P >= 44 (the 10% point of "P before"): 0.0026
    band test: 1 shortest loop(s) of length 3.464; a strip of width 1 holds 12.0 cells (12-12); length across = 5.00 lattice units
    some girth band finally empty >=  2 generations before the last cell: 0.9492 +- 0.0024;   some compact patch of 12 cells: 0.9739 +- 0.0018
    some girth band finally empty >=  4 generations before the last cell: 0.5261 +- 0.0055;   some compact patch of 12 cells: 0.5756 +- 0.0055

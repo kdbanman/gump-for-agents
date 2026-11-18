@@ -39,7 +39,7 @@ def main(vessel, run):
     out.update(peak_mean=float(pk.mean()), peak_ctl=float(ctl.mean()), share_peak_hi=float((pk >= hi).mean()), share_peak_hi_ctl=float((ctl >= hi).mean()),
                hi=hi, share_fall_half=float((drop >= na // 2).mean()), share_fall_half_ctl=float((dctl >= na // 2).mean()), fall_mean=float(drop.mean()))
     # 2. cause of death
-    tot = np.zeros(4); ctot = np.zeros(4)
+    tot = np.zeros(4); ctot = np.zeros(4); big = np.zeros(4); before = []; after = []; births = []
     for f in range(len(faces)):
         k = np.where(hd[:, 1] == f)[0]
         if not len(k):
@@ -57,11 +57,25 @@ def main(vessel, run):
             died = (Sf[:, lo:hi_] == 1) & (Sf[:, lo - 1:hi_ - 1] == 0)       # alive at lag j, dead at lag j-1
             c = cnt[:, lo:hi_][died]
             acc += np.array([(c >= 6).sum(), (c == 5).sum(), (c == 2).sum(), (c <= 1).sum()])
+        # the generation of the largest fall (deaths whose largest one-generation fall is at least half the face)
+        Pk = P[k]; fall = Pk[:, 2:12] - Pk[:, 1:11]; js = fall.argmax(1) + 1          # fall from lag js+1 to lag js
+        for d in np.where(fall.max(1) >= na // 2)[0]:
+            j = js[d]; dying = (Sf[d, j + 1] == 1) & (Sf[d, j] == 0); c = cnt[d, j + 1][dying]
+            big += np.array([(c >= 6).sum(), (c == 5).sum(), (c == 2).sum(), (c <= 1).sum()])
+            before.append(Pk[d, j + 1]); after.append(Pk[d, j]); births.append(((Sf[d, j + 1] == 0) & (Sf[d, j] == 1)).sum())
     for nm, t in (('last 8 generations', tot), ('control (lags 101-108)', ctot)):
         s = t.sum()
         print(f'   cells dying in the {nm}: overcrowded for certain {t[0] / s:.3f}, known count 5 (overcrowded if the unseen neighbour lives) {t[1] / s:.3f}, '
               f'known count 2 (starved if it does not) {t[2] / s:.3f}, starved for certain {t[3] / s:.3f}   ({s:.0f} cell deaths)')
     out.update(cause_last8=list(tot / tot.sum()), cause_ctl=list(ctot / ctot.sum()))
+    if before:
+        print(f'   the generation of the largest fall, in the {len(before)} deaths where it takes at least half the face: P before {np.mean(before):.1f} (10-90%: {np.percentile(before, 10):.0f}-{np.percentile(before, 90):.0f}), '
+              f'after {np.mean(after):.1f} ({np.percentile(after, 10):.0f}-{np.percentile(after, 90):.0f}), births in it {np.mean(births):.2f}; cells dying in it: overcrowded for certain {big[0] / big.sum():.3f}, '
+              f'known count 5 {big[1] / big.sum():.3f}, known count 2 {big[2] / big.sum():.3f}, starved for certain {big[3] / big.sum():.3f}')
+        out.update(bigfall_before=float(np.mean(before)), bigfall_after=float(np.mean(after)), bigfall_births=float(np.mean(births)), bigfall_cause=list(big / big.sum()))
+    hp = D.read_sum(run)['histP']; hp = hp / hp.sum()
+    if before:
+        lo = int(np.percentile(before, 10)); print(f'   stationary probability of P >= {lo} (the 10% point of "P before"): {hp[lo:].sum():.4f}')
     # 3. bands
     if meta['kind'] == 'slab':
         G0 = D.Geo(meta['facepos'][0], meta['period']); v1, v2 = G0.v
