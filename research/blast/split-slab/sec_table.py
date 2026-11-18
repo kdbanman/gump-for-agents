@@ -88,3 +88,13 @@ for L in TUBES:
             continue
         ns = r['sec_ns']; ln = r['sec_len']
         print(f'| {r["A"]} | {kind} (sections of {ln:.2f} units) | ' + ' | '.join((rms(r, 'sec', k, 'msdb') if k <= ns // 2 else '') for k in range(1, 5)) + ' |')
+print('\n**9f. Share of pairs of busting sections (both with a half-fall) that crash in the SAME generation, by separation.**\n')
+print('| cells | ensemble | ' + ' | '.join(f'{2 * k} units' for k in range(1, 5)) + ' |')
+print('|---:|---|' + '---|' * 4)
+for L in TUBES:
+    for pat, kind in KINDS:
+        r = res.get((L, kind))
+        if not r:
+            continue
+        ns = r['sec_ns']; ln = r['sec_len']
+        print(f'| {r["A"]} | {kind} (sections of {ln:.2f} units) | ' + ' | '.join((v(r, 'sec', f'sameb{k}') if k <= ns // 2 else '') for k in range(1, 5)) + ' |')

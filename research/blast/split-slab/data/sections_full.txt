@@ -1,19 +1,391 @@
-torus (1,30),(0,64): A = 192, shortest loop^2 12, 32 rings, length 16.00 lattice units; 320 deaths in 5 units (G/cells/cells_1_30_64_s5.txt)
-  whole face: half-fall 0.041 ± 0.029; over-full bust (before >= 0.68, fall >= 0.5) 0.041 ± 0.029; before 0.495 ± 0.027 after 0.233 ± 0.014; crash generation k = 7.912 ± 0.347
+torus (1,12),(0,28): A = 84, shortest loop^2 12, 14 rings, length 7.00 lattice units; 1024 deaths in 16 units (G/cells/cells_1_12_28_s5.txt)
+  whole face: half-fall 0.452 ± 0.033; over-full bust (before >= 0.68, fall >= 0.5) 0.450 ± 0.033; before 0.711 ± 0.004 after 0.236 ± 0.004; crash generation k = 6.015 ± 0.148
+  partition "sec": 4 sections of [24, 18, 24, 18] cells, 1.75 lattice units each
+    per section: half-fall 0.583 ± 0.017; local bust 0.562 ± 0.018; before 0.732 ± 0.005, after 0.218 ± 0.002; section crashes in the face's crash generation 0.820 ± 0.011
+    sections crash in different generations: 0.521 ± 0.032 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.479 ± 0.032 / 0.061 ± 0.012 / 0.043 ± 0.008 / 0.418 ± 0.028; mean spread 2.761 ± 0.200; distinct crash generations per death 1.650 ± 0.044
+    at least one section half-falls 0.974 ± 0.007, busts locally 0.966 ± 0.007; all sections half-fall 0.136 ± 0.015; all sections bust locally 0.123 ± 0.015; sections busting locally per death 2.250 ± 0.071 of 4
+    the same over pairs of sections that both have a half-fall: 1.8 units: 2.51; 3.5 units: 2.74
+    r.m.s. difference of crash generations by separation: 1.8 units: 3.05; 3.5 units: 3.15
+    deaths WITHOUT a face-wide half-fall (0.548 ± 0.033 of deaths): share of sections with half-fall 0.432 ± 0.017, busting locally 0.415 ± 0.016; at least one section busts 0.942 ± 0.011, at least half of them 0.576 ± 0.043, every section half-falls 0.012 ± 0.006; sections differ in crash generation 0.736 ± 0.042, mean spread 3.814 ± 0.293; mean before 0.705 ± 0.006
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.768 ± 0.014, busting locally 0.743 ± 0.014; sections differ in crash generation 0.284 ± 0.031, mean spread 1.567 ± 0.226
+  partition "half": 2 sections of [42, 42] cells, 3.50 lattice units each
+    per section: half-fall 0.496 ± 0.022; local bust 0.493 ± 0.022; before 0.719 ± 0.003, after 0.232 ± 0.004; section crashes in the face's crash generation 0.914 ± 0.012
+    sections crash in different generations: 0.168 ± 0.024 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.832 ± 0.024 / 0.015 ± 0.003 / 0.021 ± 0.005 / 0.132 ± 0.022; mean spread 0.753 ± 0.159; distinct crash generations per death 1.168 ± 0.024
+    at least one section half-falls 0.738 ± 0.023, busts locally 0.734 ± 0.023; all sections half-fall 0.254 ± 0.024; all sections bust locally 0.252 ± 0.023; sections busting locally per death 0.986 ± 0.043 of 2
+    the same over pairs of sections that both have a half-fall: 3.5 units: 1.21
+    r.m.s. difference of crash generations by separation: 3.5 units: 2.12
+    deaths WITHOUT a face-wide half-fall (0.548 ± 0.033 of deaths): share of sections with half-fall 0.264 ± 0.020, busting locally 0.259 ± 0.020; at least one section busts 0.509 ± 0.036, at least half of them 0.509 ± 0.036, every section half-falls 0.012 ± 0.008; sections differ in crash generation 0.307 ± 0.042, mean spread 1.318 ± 0.254; mean before 0.680 ± 0.004
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.776 ± 0.015, busting locally 0.776 ± 0.015; sections differ in crash generation 0.009 ± 0.006, mean spread 0.084 ± 0.058
+
+torus (1,12),(0,28): A = 84, shortest loop^2 12, 14 rings, length 7.00 lattice units; 111 deaths in 111 units (G/cells/gump_1_12_28.txt)
+  whole face: half-fall 0.532 ± 0.048; over-full bust (before >= 0.68, fall >= 0.5) 0.532 ± 0.048; before 0.716 ± 0.010 after 0.224 ± 0.007; crash generation k = 5.604 ± 0.264
+  partition "sec": 4 sections of [24, 18, 24, 18] cells, 1.75 lattice units each
+    per section: half-fall 0.608 ± 0.025; local bust 0.592 ± 0.026; before 0.733 ± 0.009, after 0.205 ± 0.005; section crashes in the face's crash generation 0.813 ± 0.022
+    sections crash in different generations: 0.486 ± 0.048 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.514 ± 0.048 / 0.063 ± 0.023 / 0.045 ± 0.020 / 0.378 ± 0.046; mean spread 2.667 ± 0.341; distinct crash generations per death 1.694 ± 0.079
+    at least one section half-falls 0.964 ± 0.018, busts locally 0.964 ± 0.018; all sections half-fall 0.153 ± 0.034; all sections bust locally 0.153 ± 0.034; sections busting locally per death 2.369 ± 0.103 of 4
+    the same over pairs of sections that both have a half-fall: 1.8 units: 2.20; 3.5 units: 2.56
+    r.m.s. difference of crash generations by separation: 1.8 units: 3.01; 3.5 units: 3.28
+    deaths WITHOUT a face-wide half-fall (0.468 ± 0.048 of deaths): share of sections with half-fall 0.418 ± 0.031, busting locally 0.389 ± 0.030; at least one section busts 0.923 ± 0.037, at least half of them 0.481 ± 0.070, every section half-falls 0.019 ± 0.019; sections differ in crash generation 0.769 ± 0.059, mean spread 4.173 ± 0.519; mean before 0.684 ± 0.015
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.775 ± 0.022, busting locally 0.771 ± 0.022; sections differ in crash generation 0.237 ± 0.056, mean spread 1.339 ± 0.376
+  partition "half": 2 sections of [42, 42] cells, 3.50 lattice units each
+    per section: half-fall 0.532 ± 0.038; local bust 0.532 ± 0.038; before 0.726 ± 0.008, after 0.220 ± 0.006; section crashes in the face's crash generation 0.910 ± 0.019
+    sections crash in different generations: 0.171 ± 0.036 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.829 ± 0.036 / 0.027 ± 0.015 / 0.027 ± 0.015 / 0.117 ± 0.031; mean spread 0.676 ± 0.173; distinct crash generations per death 1.171 ± 0.036
+    at least one section half-falls 0.712 ± 0.043, busts locally 0.712 ± 0.043; all sections half-fall 0.351 ± 0.046; all sections bust locally 0.351 ± 0.046; sections busting locally per death 1.063 ± 0.076 of 2
+    the same over pairs of sections that both have a half-fall: 3.5 units: 0.00
+    r.m.s. difference of crash generations by separation: 3.5 units: 1.94
+    deaths WITHOUT a face-wide half-fall (0.468 ± 0.048 of deaths): share of sections with half-fall 0.192 ± 0.034, busting locally 0.192 ± 0.034; at least one section busts 0.385 ± 0.068, at least half of them 0.385 ± 0.068, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.365 ± 0.067, mean spread 1.442 ± 0.341; mean before 0.673 ± 0.014
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.831 ± 0.031, busting locally 0.831 ± 0.031; sections differ in crash generation 0.000 ± 0.000, mean spread 0.000 ± 0.000
+
+torus (1,12),(0,28): A = 84, shortest loop^2 12, 14 rings, length 7.00 lattice units; 308 deaths in 308 units (G/cells/null_1_12_28.txt)
+  whole face: half-fall 0.000 ± 0.000; over-full bust (before >= 0.68, fall >= 0.5) 0.000 ± 0.000; before 0.606 ± 0.003 after 0.431 ± 0.003; crash generation k = 7.867 ± 0.239
+  partition "sec": 4 sections of [24, 18, 24, 18] cells, 1.75 lattice units each
+    per section: half-fall 0.130 ± 0.010; local bust 0.124 ± 0.010; before 0.706 ± 0.002, after 0.357 ± 0.003; section crashes in the face's crash generation 0.305 ± 0.010
+    sections crash in different generations: 1.000 ± 0.000 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.000 ± 0.000 / 0.000 ± 0.000 / 0.006 ± 0.005 / 0.994 ± 0.005; mean spread 8.753 ± 0.160; distinct crash generations per death 3.516 ± 0.032
+    at least one section half-falls 0.419 ± 0.028, busts locally 0.406 ± 0.028; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.497 ± 0.038 of 4
+    the same over pairs of sections that both have a half-fall: 1.8 units: 5.54; 3.5 units: 7.62
+    r.m.s. difference of crash generations by separation: 1.8 units: 6.02; 3.5 units: 5.92
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.130 ± 0.010, busting locally 0.124 ± 0.010; at least one section busts 0.406 ± 0.028, at least half of them 0.081 ± 0.016, every section half-falls 0.000 ± 0.000; sections differ in crash generation 1.000 ± 0.000, mean spread 8.753 ± 0.160; mean before 0.706 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+  partition "half": 2 sections of [42, 42] cells, 3.50 lattice units each
+    per section: half-fall 0.010 ± 0.004; local bust 0.010 ± 0.004; before 0.647 ± 0.003, after 0.401 ± 0.003; section crashes in the face's crash generation 0.443 ± 0.014
+    sections crash in different generations: 0.935 ± 0.014 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.065 ± 0.014 / 0.088 ± 0.016 / 0.091 ± 0.016 / 0.756 ± 0.024; mean spread 5.055 ± 0.192; distinct crash generations per death 1.935 ± 0.014
+    at least one section half-falls 0.019 ± 0.008, busts locally 0.019 ± 0.008; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.019 ± 0.008 of 2
+    the same over pairs of sections that both have a half-fall: 
+    r.m.s. difference of crash generations by separation: 3.5 units: 6.07
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.010 ± 0.004, busting locally 0.010 ± 0.004; at least one section busts 0.019 ± 0.008, at least half of them 0.019 ± 0.008, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.935 ± 0.014, mean spread 5.055 ± 0.192; mean before 0.647 ± 0.003
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+
+torus (1,16),(0,36): A = 108, shortest loop^2 12, 18 rings, length 9.00 lattice units; 1024 deaths in 16 units (G/cells/cells_1_16_36_s5.txt)
+  whole face: half-fall 0.458 ± 0.035; over-full bust (before >= 0.68, fall >= 0.5) 0.457 ± 0.035; before 0.690 ± 0.006 after 0.226 ± 0.003; crash generation k = 6.216 ± 0.141
+  partition "sec": 4 sections of [30, 24, 30, 24] cells, 2.25 lattice units each
+    per section: half-fall 0.532 ± 0.013; local bust 0.517 ± 0.014; before 0.724 ± 0.003, after 0.219 ± 0.002; section crashes in the face's crash generation 0.828 ± 0.013
+    sections crash in different generations: 0.435 ± 0.035 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.565 ± 0.035 / 0.053 ± 0.013 / 0.053 ± 0.013 / 0.329 ± 0.033; mean spread 2.140 ± 0.211; distinct crash generations per death 1.594 ± 0.047
+    at least one section half-falls 0.955 ± 0.011, busts locally 0.953 ± 0.011; all sections half-fall 0.092 ± 0.015; all sections bust locally 0.085 ± 0.014; sections busting locally per death 2.068 ± 0.055 of 4
+    the same over pairs of sections that both have a half-fall: 2.2 units: 1.56; 4.5 units: 1.84
+    r.m.s. difference of crash generations by separation: 2.2 units: 2.57; 4.5 units: 2.68
+    deaths WITHOUT a face-wide half-fall (0.542 ± 0.035 of deaths): share of sections with half-fall 0.380 ± 0.012, busting locally 0.362 ± 0.012; at least one section busts 0.913 ± 0.017, at least half of them 0.435 ± 0.033, every section half-falls 0.014 ± 0.008; sections differ in crash generation 0.675 ± 0.045, mean spread 3.222 ± 0.293; mean before 0.690 ± 0.004
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.704 ± 0.012, busting locally 0.693 ± 0.012; sections differ in crash generation 0.138 ± 0.026, mean spread 0.738 ± 0.166
+  partition "half": 2 sections of [54, 54] cells, 4.50 lattice units each
+    per section: half-fall 0.500 ± 0.028; local bust 0.494 ± 0.028; before 0.706 ± 0.004, after 0.226 ± 0.003; section crashes in the face's crash generation 0.890 ± 0.013
+    sections crash in different generations: 0.209 ± 0.024 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.791 ± 0.024 / 0.038 ± 0.013 / 0.056 ± 0.012 / 0.115 ± 0.021; mean spread 0.662 ± 0.090; distinct crash generations per death 1.209 ± 0.024
+    at least one section half-falls 0.718 ± 0.032, busts locally 0.710 ± 0.032; all sections half-fall 0.281 ± 0.030; all sections bust locally 0.278 ± 0.030; sections busting locally per death 0.988 ± 0.056 of 2
+    the same over pairs of sections that both have a half-fall: 4.5 units: 0.66
+    r.m.s. difference of crash generations by separation: 4.5 units: 1.70
+    deaths WITHOUT a face-wide half-fall (0.542 ± 0.035 of deaths): share of sections with half-fall 0.248 ± 0.022, busting locally 0.239 ± 0.021; at least one section busts 0.469 ± 0.041, at least half of them 0.469 ± 0.041, every section half-falls 0.014 ± 0.006; sections differ in crash generation 0.389 ± 0.043, mean spread 1.199 ± 0.146; mean before 0.659 ± 0.007
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.793 ± 0.018, busting locally 0.793 ± 0.018; sections differ in crash generation 0.007 ± 0.005, mean spread 0.033 ± 0.025
+
+torus (1,16),(0,36): A = 108, shortest loop^2 12, 18 rings, length 9.00 lattice units; 308 deaths in 308 units (G/cells/null_1_16_36.txt)
+  whole face: half-fall 0.000 ± 0.000; over-full bust (before >= 0.68, fall >= 0.5) 0.000 ± 0.000; before 0.604 ± 0.002 after 0.444 ± 0.002; crash generation k = 7.435 ± 0.249
+  partition "sec": 4 sections of [30, 24, 30, 24] cells, 2.25 lattice units each
+    per section: half-fall 0.074 ± 0.007; local bust 0.072 ± 0.007; before 0.686 ± 0.002, after 0.375 ± 0.002; section crashes in the face's crash generation 0.307 ± 0.010
+    sections crash in different generations: 0.994 ± 0.005 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.006 ± 0.005 / 0.000 ± 0.000 / 0.013 ± 0.006 / 0.981 ± 0.008; mean spread 8.968 ± 0.179; distinct crash generations per death 3.516 ± 0.037
+    at least one section half-falls 0.276 ± 0.026, busts locally 0.273 ± 0.025; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.289 ± 0.028 of 4
+    the same over pairs of sections that both have a half-fall: 2.2 units: 6.58; 4.5 units: 3.61
+    r.m.s. difference of crash generations by separation: 2.2 units: 6.08; 4.5 units: 6.29
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.074 ± 0.007, busting locally 0.072 ± 0.007; at least one section busts 0.273 ± 0.025, at least half of them 0.016 ± 0.007, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.994 ± 0.005, mean spread 8.968 ± 0.179; mean before 0.686 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+  partition "half": 2 sections of [54, 54] cells, 4.50 lattice units each
+    per section: half-fall 0.003 ± 0.002; local bust 0.003 ± 0.002; before 0.634 ± 0.002, after 0.413 ± 0.002; section crashes in the face's crash generation 0.440 ± 0.016
+    sections crash in different generations: 0.903 ± 0.017 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.097 ± 0.017 / 0.091 ± 0.016 / 0.107 ± 0.018 / 0.705 ± 0.026; mean spread 4.828 ± 0.201; distinct crash generations per death 1.903 ± 0.017
+    at least one section half-falls 0.006 ± 0.005, busts locally 0.006 ± 0.005; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.006 ± 0.005 of 2
+    the same over pairs of sections that both have a half-fall: 
+    r.m.s. difference of crash generations by separation: 4.5 units: 5.98
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.003 ± 0.002, busting locally 0.003 ± 0.002; at least one section busts 0.006 ± 0.005, at least half of them 0.006 ± 0.005, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.903 ± 0.017, mean spread 4.828 ± 0.201; mean before 0.634 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+
+torus (1,18),(0,40): A = 120, shortest loop^2 12, 20 rings, length 10.00 lattice units; 1024 deaths in 16 units (G/cells/cells_1_18_40_s5.txt)
+  whole face: half-fall 0.370 ± 0.039; over-full bust (before >= 0.68, fall >= 0.5) 0.367 ± 0.040; before 0.667 ± 0.010 after 0.231 ± 0.005; crash generation k = 6.837 ± 0.191
+  partition "sec": 5 sections of [24, 24, 24, 24, 24] cells, 2.00 lattice units each
+    per section: half-fall 0.550 ± 0.013; local bust 0.537 ± 0.013; before 0.723 ± 0.005, after 0.218 ± 0.002; section crashes in the face's crash generation 0.768 ± 0.019
+    sections crash in different generations: 0.619 ± 0.040 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.381 ± 0.040 / 0.057 ± 0.014 / 0.076 ± 0.024 / 0.486 ± 0.041; mean spread 2.973 ± 0.240; distinct crash generations per death 1.945 ± 0.081
+    at least one section half-falls 0.978 ± 0.003, busts locally 0.977 ± 0.004; all sections half-fall 0.056 ± 0.010; all sections bust locally 0.045 ± 0.010; sections busting locally per death 2.683 ± 0.067 of 5
+    the same over pairs of sections that both have a half-fall: 2.0 units: 1.47; 4.0 units: 1.78
+    r.m.s. difference of crash generations by separation: 2.0 units: 2.68; 4.0 units: 2.74
+    deaths WITHOUT a face-wide half-fall (0.630 ± 0.039 of deaths): share of sections with half-fall 0.437 ± 0.014, busting locally 0.425 ± 0.013; at least one section busts 0.959 ± 0.009, at least half of them 0.351 ± 0.036, every section half-falls 0.004 ± 0.003; sections differ in crash generation 0.832 ± 0.035, mean spread 3.997 ± 0.250; mean before 0.701 ± 0.004
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.737 ± 0.013, busting locally 0.725 ± 0.013; sections differ in crash generation 0.247 ± 0.029, mean spread 1.190 ± 0.154
+  partition "half": 2 sections of [60, 60] cells, 5.00 lattice units each
+    per section: half-fall 0.394 ± 0.023; local bust 0.389 ± 0.023; before 0.688 ± 0.008, after 0.230 ± 0.003; section crashes in the face's crash generation 0.858 ± 0.024
+    sections crash in different generations: 0.262 ± 0.040 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.738 ± 0.040 / 0.043 ± 0.015 / 0.069 ± 0.027 / 0.149 ± 0.024; mean spread 0.772 ± 0.112; distinct crash generations per death 1.262 ± 0.040
+    at least one section half-falls 0.604 ± 0.030, busts locally 0.597 ± 0.030; all sections half-fall 0.184 ± 0.019; all sections bust locally 0.182 ± 0.019; sections busting locally per death 0.778 ± 0.046 of 2
+    the same over pairs of sections that both have a half-fall: 5.0 units: 0.60
+    r.m.s. difference of crash generations by separation: 5.0 units: 1.75
+    deaths WITHOUT a face-wide half-fall (0.630 ± 0.039 of deaths): share of sections with half-fall 0.192 ± 0.016, busting locally 0.184 ± 0.015; at least one section busts 0.356 ± 0.029, at least half of them 0.356 ± 0.029, every section half-falls 0.014 ± 0.007; sections differ in crash generation 0.409 ± 0.056, mean spread 1.223 ± 0.164; mean before 0.649 ± 0.008
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.741 ± 0.019, busting locally 0.741 ± 0.019; sections differ in crash generation 0.003 ± 0.003, mean spread 0.010 ± 0.010
+
+torus (1,18),(0,40): A = 120, shortest loop^2 12, 20 rings, length 10.00 lattice units; 308 deaths in 308 units (G/cells/null_1_18_40.txt)
+  whole face: half-fall 0.000 ± 0.000; over-full bust (before >= 0.68, fall >= 0.5) 0.000 ± 0.000; before 0.591 ± 0.003 after 0.447 ± 0.002; crash generation k = 7.360 ± 0.250
+  partition "sec": 5 sections of [24, 24, 24, 24, 24] cells, 2.00 lattice units each
+    per section: half-fall 0.090 ± 0.007; local bust 0.088 ± 0.007; before 0.694 ± 0.002, after 0.367 ± 0.002; section crashes in the face's crash generation 0.270 ± 0.009
+    sections crash in different generations: 1.000 ± 0.000 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.000 ± 0.000 / 0.000 ± 0.000 / 0.003 ± 0.003 / 0.997 ± 0.003; mean spread 9.513 ± 0.157; distinct crash generations per death 4.185 ± 0.042
+    at least one section half-falls 0.377 ± 0.028, busts locally 0.370 ± 0.028; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.442 ± 0.036 of 5
+    the same over pairs of sections that both have a half-fall: 2.0 units: 6.73; 4.0 units: 4.55
+    r.m.s. difference of crash generations by separation: 2.0 units: 5.91; 4.0 units: 5.97
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.090 ± 0.007, busting locally 0.088 ± 0.007; at least one section busts 0.370 ± 0.028, at least half of them 0.003 ± 0.003, every section half-falls 0.000 ± 0.000; sections differ in crash generation 1.000 ± 0.000, mean spread 9.513 ± 0.157; mean before 0.694 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+  partition "half": 2 sections of [60, 60] cells, 5.00 lattice units each
+    per section: half-fall 0.002 ± 0.002; local bust 0.002 ± 0.002; before 0.628 ± 0.002, after 0.419 ± 0.002; section crashes in the face's crash generation 0.422 ± 0.015
+    sections crash in different generations: 0.922 ± 0.015 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.078 ± 0.015 / 0.081 ± 0.016 / 0.110 ± 0.018 / 0.731 ± 0.025; mean spread 5.078 ± 0.199; distinct crash generations per death 1.922 ± 0.015
+    at least one section half-falls 0.003 ± 0.003, busts locally 0.003 ± 0.003; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.003 ± 0.003 of 2
+    the same over pairs of sections that both have a half-fall: 
+    r.m.s. difference of crash generations by separation: 5.0 units: 6.16
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.002 ± 0.002, busting locally 0.002 ± 0.002; at least one section busts 0.003 ± 0.003, at least half of them 0.003 ± 0.003, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.922 ± 0.015, mean spread 5.078 ± 0.199; mean before 0.628 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+
+torus (1,22),(0,48): A = 144, shortest loop^2 12, 24 rings, length 12.00 lattice units; 640 deaths in 10 units (G/cells/cells_1_22_48_s5.txt)
+  whole face: half-fall 0.328 ± 0.066; over-full bust (before >= 0.68, fall >= 0.5) 0.327 ± 0.066; before 0.658 ± 0.014 after 0.236 ± 0.008; crash generation k = 7.142 ± 0.162
+  partition "sec": 6 sections of [24, 24, 24, 24, 24, 24] cells, 2.00 lattice units each
+    per section: half-fall 0.523 ± 0.023; local bust 0.512 ± 0.023; before 0.720 ± 0.006, after 0.218 ± 0.004; section crashes in the face's crash generation 0.751 ± 0.027
+    sections crash in different generations: 0.652 ± 0.059 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.348 ± 0.059 / 0.048 ± 0.014 / 0.039 ± 0.009 / 0.564 ± 0.060; mean spread 3.455 ± 0.396; distinct crash generations per death 2.145 ± 0.119
+    at least one section half-falls 0.969 ± 0.011, busts locally 0.969 ± 0.011; all sections half-fall 0.020 ± 0.009; all sections bust locally 0.014 ± 0.008; sections busting locally per death 3.075 ± 0.138 of 6
+    the same over pairs of sections that both have a half-fall: 2.0 units: 1.93; 4.0 units: 2.44; 6.0 units: 2.47
+    r.m.s. difference of crash generations by separation: 2.0 units: 2.65; 4.0 units: 2.94; 6.0 units: 2.98
+    deaths WITHOUT a face-wide half-fall (0.672 ± 0.066 of deaths): share of sections with half-fall 0.454 ± 0.020, busting locally 0.445 ± 0.020; at least one section busts 0.953 ± 0.014, at least half of them 0.549 ± 0.037, every section half-falls 0.004 ± 0.004; sections differ in crash generation 0.812 ± 0.052, mean spread 4.431 ± 0.418; mean before 0.701 ± 0.006
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.656 ± 0.030, busting locally 0.640 ± 0.028; sections differ in crash generation 0.306 ± 0.073, mean spread 1.218 ± 0.280
+  partition "half": 2 sections of [72, 72] cells, 6.00 lattice units each
+    per section: half-fall 0.390 ± 0.043; local bust 0.388 ± 0.043; before 0.671 ± 0.011, after 0.225 ± 0.004; section crashes in the face's crash generation 0.848 ± 0.022
+    sections crash in different generations: 0.292 ± 0.043 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.708 ± 0.043 / 0.078 ± 0.039 / 0.086 ± 0.022 / 0.128 ± 0.032; mean spread 0.794 ± 0.142; distinct crash generations per death 1.292 ± 0.043
+    at least one section half-falls 0.611 ± 0.047, busts locally 0.608 ± 0.046; all sections half-fall 0.169 ± 0.045; all sections bust locally 0.167 ± 0.046; sections busting locally per death 0.775 ± 0.087 of 2
+    the same over pairs of sections that both have a half-fall: 6.0 units: 0.26
+    r.m.s. difference of crash generations by separation: 6.0 units: 1.75
+    deaths WITHOUT a face-wide half-fall (0.672 ± 0.066 of deaths): share of sections with half-fall 0.217 ± 0.021, busting locally 0.214 ± 0.020; at least one section busts 0.425 ± 0.040, at least half of them 0.425 ± 0.040, every section half-falls 0.004 ± 0.002; sections differ in crash generation 0.416 ± 0.050, mean spread 1.120 ± 0.167; mean before 0.633 ± 0.010
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.738 ± 0.018, busting locally 0.738 ± 0.018; sections differ in crash generation 0.002 ± 0.002, mean spread 0.006 ± 0.006
+
+torus (1,22),(0,48): A = 144, shortest loop^2 12, 24 rings, length 12.00 lattice units; 308 deaths in 308 units (G/cells/null_1_22_48.txt)
+  whole face: half-fall 0.000 ± 0.000; over-full bust (before >= 0.68, fall >= 0.5) 0.000 ± 0.000; before 0.592 ± 0.002 after 0.456 ± 0.002; crash generation k = 7.948 ± 0.244
+  partition "sec": 6 sections of [24, 24, 24, 24, 24, 24] cells, 2.00 lattice units each
+    per section: half-fall 0.090 ± 0.006; local bust 0.088 ± 0.006; before 0.695 ± 0.002, after 0.370 ± 0.002; section crashes in the face's crash generation 0.241 ± 0.008
+    sections crash in different generations: 1.000 ± 0.000 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.000 ± 0.000 / 0.000 ± 0.000 / 0.000 ± 0.000 / 1.000 ± 0.000; mean spread 10.390 ± 0.135; distinct crash generations per death 4.929 ± 0.045
+    at least one section half-falls 0.448 ± 0.028, busts locally 0.435 ± 0.028; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.526 ± 0.038 of 6
+    the same over pairs of sections that both have a half-fall: 2.0 units: 5.85; 4.0 units: 5.76; 6.0 units: 7.26
+    r.m.s. difference of crash generations by separation: 2.0 units: 5.95; 4.0 units: 6.07; 6.0 units: 6.07
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.090 ± 0.006, busting locally 0.088 ± 0.006; at least one section busts 0.435 ± 0.028, at least half of them 0.010 ± 0.006, every section half-falls 0.000 ± 0.000; sections differ in crash generation 1.000 ± 0.000, mean spread 10.390 ± 0.135; mean before 0.695 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+  partition "half": 2 sections of [72, 72] cells, 6.00 lattice units each
+    per section: half-fall 0.000 ± 0.000; local bust 0.000 ± 0.000; before 0.617 ± 0.002, after 0.429 ± 0.002; section crashes in the face's crash generation 0.429 ± 0.016
+    sections crash in different generations: 0.912 ± 0.016 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.088 ± 0.016 / 0.075 ± 0.015 / 0.101 ± 0.017 / 0.737 ± 0.025; mean spread 5.075 ± 0.203; distinct crash generations per death 1.912 ± 0.016
+    at least one section half-falls 0.000 ± 0.000, busts locally 0.000 ± 0.000; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.000 ± 0.000 of 2
+    the same over pairs of sections that both have a half-fall: 
+    r.m.s. difference of crash generations by separation: 6.0 units: 6.20
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.000 ± 0.000, busting locally 0.000 ± 0.000; at least one section busts 0.000 ± 0.000, at least half of them 0.000 ± 0.000, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.912 ± 0.016, mean spread 5.075 ± 0.203; mean before 0.617 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+
+torus (1,30),(0,64): A = 192, shortest loop^2 12, 32 rings, length 16.00 lattice units; 640 deaths in 10 units (G/cells/cells_1_30_64_s5.txt)
+  whole face: half-fall 0.073 ± 0.032; over-full bust (before >= 0.68, fall >= 0.5) 0.069 ± 0.033; before 0.522 ± 0.025 after 0.232 ± 0.009; crash generation k = 8.139 ± 0.221
   partition "sec": 8 sections of [24, 24, 24, 24, 24, 24, 24, 24] cells, 2.00 lattice units each
-    per section: half-fall 0.492 ± 0.037; local bust 0.472 ± 0.034; before 0.704 ± 0.014, after 0.221 ± 0.003; section crashes in the face's crash generation 0.430 ± 0.038
-    sections crash in different generations: 0.981 ± 0.009 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.019 ± 0.009 / 0.022 ± 0.018 / 0.159 ± 0.060 / 0.800 ± 0.065; mean spread 5.653 ± 0.535; distinct crash generations per death 3.591 ± 0.142
-    at least one section half-falls 0.991 ± 0.006, busts locally 0.991 ± 0.006; all sections half-fall 0.006 ± 0.006; all sections bust locally 0.003 ± 0.003; sections busting locally per death 3.775 ± 0.275 of 8
-    the same over pairs of sections that both have a half-fall: 2.0 units: 1.55; 4.0 units: 3.05; 6.0 units: 3.75; 8.0 units: 4.01
-    r.m.s. difference of crash generations by separation: 2.0 units: 2.83; 4.0 units: 3.41; 6.0 units: 3.74; 8.0 units: 3.80
-    deaths WITHOUT a face-wide half-fall (0.959 ± 0.029 of deaths): share of sections with half-fall 0.483 ± 0.039, busting locally 0.463 ± 0.036; at least one section busts 0.991 ± 0.006, at least half of them 0.553 ± 0.089, every section half-falls 0.006 ± 0.006; sections differ in crash generation 0.996 ± 0.004, mean spread 5.783 ± 0.510; mean before 0.701 ± 0.015
-    deaths WITH a face-wide half-fall: share of sections with half-fall 0.638 ± 0.073, busting locally 0.633 ± 0.073; sections differ in crash generation 0.267 ± 0.267, mean spread 0.933 ± 0.933
+    per section: half-fall 0.478 ± 0.019; local bust 0.463 ± 0.018; before 0.693 ± 0.010, after 0.220 ± 0.003; section crashes in the face's crash generation 0.492 ± 0.043
+    sections crash in different generations: 0.942 ± 0.027 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.058 ± 0.027 / 0.031 ± 0.012 / 0.102 ± 0.035 / 0.809 ± 0.046; mean spread 5.548 ± 0.347; distinct crash generations per death 3.423 ± 0.150
+    at least one section half-falls 0.984 ± 0.007, busts locally 0.981 ± 0.007; all sections half-fall 0.006 ± 0.004; all sections bust locally 0.005 ± 0.003; sections busting locally per death 3.706 ± 0.147 of 8
+    the same over pairs of sections that both have a half-fall: 2.0 units: 1.54; 4.0 units: 2.76; 6.0 units: 3.36; 8.0 units: 3.44
+    r.m.s. difference of crash generations by separation: 2.0 units: 2.85; 4.0 units: 3.31; 6.0 units: 3.58; 8.0 units: 3.66
+    deaths WITHOUT a face-wide half-fall (0.927 ± 0.032 of deaths): share of sections with half-fall 0.458 ± 0.020, busting locally 0.443 ± 0.019; at least one section busts 0.980 ± 0.007, at least half of them 0.506 ± 0.046, every section half-falls 0.003 ± 0.003; sections differ in crash generation 0.978 ± 0.013, mean spread 5.805 ± 0.301; mean before 0.688 ± 0.010
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.709 ± 0.054, busting locally 0.707 ± 0.054; sections differ in crash generation 0.343 ± 0.156, mean spread 1.313 ± 0.607
   partition "half": 2 sections of [96, 96] cells, 8.00 lattice units each
-    per section: half-fall 0.077 ± 0.030; local bust 0.073 ± 0.029; before 0.589 ± 0.017, after 0.249 ± 0.014; section crashes in the face's crash generation 0.558 ± 0.075
-    sections crash in different generations: 0.744 ± 0.102 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.256 ± 0.102 / 0.231 ± 0.068 / 0.163 ± 0.060 / 0.350 ± 0.086; mean spread 2.413 ± 0.605; distinct crash generations per death 1.744 ± 0.102
-    at least one section half-falls 0.134 ± 0.057, busts locally 0.128 ± 0.054; all sections half-fall 0.019 ± 0.009; all sections bust locally 0.019 ± 0.009; sections busting locally per death 0.147 ± 0.057 of 2
-    the same over pairs of sections that both have a half-fall: 8.0 units: 1.73
-    r.m.s. difference of crash generations by separation: 8.0 units: 3.56
-    deaths WITHOUT a face-wide half-fall (0.959 ± 0.029 of deaths): share of sections with half-fall 0.051 ± 0.022, busting locally 0.048 ± 0.019; at least one section busts 0.093 ± 0.040, at least half of them 0.093 ± 0.040, every section half-falls 0.003 ± 0.003; sections differ in crash generation 0.772 ± 0.097, mean spread 2.508 ± 0.597; mean before 0.582 ± 0.018
-    deaths WITH a face-wide half-fall: share of sections with half-fall 0.717 ± 0.148, busting locally 0.717 ± 0.148; sections differ in crash generation 0.000 ± 0.000, mean spread 0.000 ± 0.000
+    per section: half-fall 0.129 ± 0.039; local bust 0.125 ± 0.039; before 0.593 ± 0.015, after 0.237 ± 0.008; section crashes in the face's crash generation 0.635 ± 0.053
+    sections crash in different generations: 0.653 ± 0.081 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.347 ± 0.081 / 0.159 ± 0.043 / 0.150 ± 0.037 / 0.344 ± 0.056; mean spread 2.031 ± 0.351; distinct crash generations per death 1.653 ± 0.081
+    at least one section half-falls 0.222 ± 0.064, busts locally 0.217 ± 0.063; all sections half-fall 0.036 ± 0.017; all sections bust locally 0.033 ± 0.017; sections busting locally per death 0.250 ± 0.078 of 2
+    the same over pairs of sections that both have a half-fall: 8.0 units: 1.25
+    r.m.s. difference of crash generations by separation: 8.0 units: 3.09
+    deaths WITHOUT a face-wide half-fall (0.927 ± 0.032 of deaths): share of sections with half-fall 0.088 ± 0.026, busting locally 0.085 ± 0.025; at least one section busts 0.166 ± 0.051, at least half of them 0.166 ± 0.051, every section half-falls 0.005 ± 0.004; sections differ in crash generation 0.690 ± 0.076, mean spread 2.149 ± 0.337; mean before 0.583 ± 0.013
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.725 ± 0.080, busting locally 0.654 ± 0.071; sections differ in crash generation 0.000 ± 0.000, mean spread 0.000 ± 0.000
+
+torus (1,30),(0,64): A = 192, shortest loop^2 12, 32 rings, length 16.00 lattice units; 308 deaths in 308 units (G/cells/null_1_30_64.txt)
+  whole face: half-fall 0.000 ± 0.000; over-full bust (before >= 0.68, fall >= 0.5) 0.000 ± 0.000; before 0.576 ± 0.002 after 0.465 ± 0.002; crash generation k = 7.643 ± 0.238
+  partition "sec": 8 sections of [24, 24, 24, 24, 24, 24, 24, 24] cells, 2.00 lattice units each
+    per section: half-fall 0.075 ± 0.005; local bust 0.075 ± 0.005; before 0.691 ± 0.002, after 0.372 ± 0.002; section crashes in the face's crash generation 0.209 ± 0.007
+    sections crash in different generations: 1.000 ± 0.000 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.000 ± 0.000 / 0.000 ± 0.000 / 0.000 ± 0.000 / 1.000 ± 0.000; mean spread 11.299 ± 0.111; distinct crash generations per death 6.146 ± 0.055
+    at least one section half-falls 0.474 ± 0.028, busts locally 0.474 ± 0.028; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.597 ± 0.041 of 8
+    the same over pairs of sections that both have a half-fall: 2.0 units: 7.68; 4.0 units: 6.57; 6.0 units: 4.66; 8.0 units: 6.46
+    r.m.s. difference of crash generations by separation: 2.0 units: 5.87; 4.0 units: 6.09; 6.0 units: 6.03; 8.0 units: 6.04
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.075 ± 0.005, busting locally 0.075 ± 0.005; at least one section busts 0.474 ± 0.028, at least half of them 0.000 ± 0.000, every section half-falls 0.000 ± 0.000; sections differ in crash generation 1.000 ± 0.000, mean spread 11.299 ± 0.111; mean before 0.691 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+  partition "half": 2 sections of [96, 96] cells, 8.00 lattice units each
+    per section: half-fall 0.000 ± 0.000; local bust 0.000 ± 0.000; before 0.601 ± 0.002, after 0.441 ± 0.002; section crashes in the face's crash generation 0.404 ± 0.016
+    sections crash in different generations: 0.919 ± 0.016 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.081 ± 0.016 / 0.104 ± 0.017 / 0.088 ± 0.016 / 0.727 ± 0.025; mean spread 5.266 ± 0.210; distinct crash generations per death 1.919 ± 0.016
+    at least one section half-falls 0.000 ± 0.000, busts locally 0.000 ± 0.000; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.000 ± 0.000 of 2
+    the same over pairs of sections that both have a half-fall: 
+    r.m.s. difference of crash generations by separation: 8.0 units: 6.42
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.000 ± 0.000, busting locally 0.000 ± 0.000; at least one section busts 0.000 ± 0.000, at least half of them 0.000 ± 0.000, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.919 ± 0.016, mean spread 5.266 ± 0.210; mean before 0.601 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+
+torus (1,4),(0,21): A = 63, shortest loop^2 21, 21 rings, length 3.97 lattice units; 1024 deaths in 16 units (G/cells/cells_1_4_21_s5.txt)
+  whole face: half-fall 0.557 ± 0.024; over-full bust (before >= 0.68, fall >= 0.5) 0.557 ± 0.024; before 0.734 ± 0.003 after 0.223 ± 0.003; crash generation k = 5.094 ± 0.105
+  partition "sec": 5 sections of [15, 12, 12, 12, 12] cells, 0.79 lattice units each
+    per section: half-fall 0.643 ± 0.010; local bust 0.573 ± 0.010; before 0.750 ± 0.003, after 0.202 ± 0.002; section crashes in the face's crash generation 0.801 ± 0.010
+    sections crash in different generations: 0.647 ± 0.024 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.353 ± 0.024 / 0.067 ± 0.010 / 0.038 ± 0.007 / 0.542 ± 0.023; mean spread 3.820 ± 0.200; distinct crash generations per death 1.928 ± 0.050
+    at least one section half-falls 0.988 ± 0.004, busts locally 0.974 ± 0.011; all sections half-fall 0.137 ± 0.017; all sections bust locally 0.070 ± 0.012; sections busting locally per death 2.864 ± 0.048 of 5
+    the same over pairs of sections that both have a half-fall: 0.8 units: 2.72; 1.6 units: 3.08
+    r.m.s. difference of crash generations by separation: 0.8 units: 3.34; 1.6 units: 3.48
+    deaths WITHOUT a face-wide half-fall (0.443 ± 0.024 of deaths): share of sections with half-fall 0.470 ± 0.016, busting locally 0.412 ± 0.012; at least one section busts 0.945 ± 0.021, at least half of them 0.324 ± 0.024, every section half-falls 0.008 ± 0.006; sections differ in crash generation 0.884 ± 0.022, mean spread 5.387 ± 0.220; mean before 0.713 ± 0.004
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.778 ± 0.010, busting locally 0.700 ± 0.011; sections differ in crash generation 0.466 ± 0.026, mean spread 2.620 ± 0.194
+  partition "half": 2 sections of [33, 30] cells, 1.98 lattice units each
+    per section: half-fall 0.558 ± 0.018; local bust 0.552 ± 0.017; before 0.736 ± 0.003, after 0.219 ± 0.003; section crashes in the face's crash generation 0.946 ± 0.007
+    sections crash in different generations: 0.106 ± 0.014 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.894 ± 0.014 / 0.021 ± 0.005 / 0.008 ± 0.003 / 0.078 ± 0.009; mean spread 0.467 ± 0.058; distinct crash generations per death 1.106 ± 0.014
+    at least one section half-falls 0.780 ± 0.017, busts locally 0.776 ± 0.017; all sections half-fall 0.336 ± 0.026; all sections bust locally 0.327 ± 0.026; sections busting locally per death 1.104 ± 0.035 of 2
+    the same over pairs of sections that both have a half-fall: 2.0 units: 1.03
+    r.m.s. difference of crash generations by separation: 2.0 units: 1.69
+    deaths WITHOUT a face-wide half-fall (0.443 ± 0.024 of deaths): share of sections with half-fall 0.253 ± 0.015, busting locally 0.249 ± 0.015; at least one section busts 0.493 ± 0.029, at least half of them 0.493 ± 0.029, every section half-falls 0.005 ± 0.003; sections differ in crash generation 0.225 ± 0.030, mean spread 0.966 ± 0.121; mean before 0.690 ± 0.003
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.799 ± 0.017, busting locally 0.790 ± 0.018; sections differ in crash generation 0.014 ± 0.007, mean spread 0.085 ± 0.039
+
+torus (1,4),(0,21): A = 63, shortest loop^2 21, 21 rings, length 3.97 lattice units; 774 deaths in 774 units (G/cells/gump_1_4_21.txt)
+  whole face: half-fall 0.572 ± 0.018; over-full bust (before >= 0.68, fall >= 0.5) 0.572 ± 0.018; before 0.733 ± 0.003 after 0.216 ± 0.002; crash generation k = 5.132 ± 0.104
+  partition "sec": 5 sections of [15, 12, 12, 12, 12] cells, 0.79 lattice units each
+    per section: half-fall 0.664 ± 0.008; local bust 0.595 ± 0.009; before 0.747 ± 0.003, after 0.193 ± 0.002; section crashes in the face's crash generation 0.793 ± 0.007
+    sections crash in different generations: 0.663 ± 0.017 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.337 ± 0.017 / 0.068 ± 0.009 / 0.047 ± 0.008 / 0.548 ± 0.018; mean spread 4.078 ± 0.145; distinct crash generations per death 1.959 ± 0.031
+    at least one section half-falls 0.983 ± 0.005, busts locally 0.977 ± 0.005; all sections half-fall 0.164 ± 0.013; all sections bust locally 0.089 ± 0.010; sections busting locally per death 2.974 ± 0.043 of 5
+    the same over pairs of sections that both have a half-fall: 0.8 units: 2.98; 1.6 units: 3.21
+    r.m.s. difference of crash generations by separation: 0.8 units: 3.54; 1.6 units: 3.70
+    deaths WITHOUT a face-wide half-fall (0.428 ± 0.018 of deaths): share of sections with half-fall 0.489 ± 0.011, busting locally 0.422 ± 0.011; at least one section busts 0.946 ± 0.012, at least half of them 0.335 ± 0.026, every section half-falls 0.015 ± 0.007; sections differ in crash generation 0.891 ± 0.017, mean spread 5.722 ± 0.210; mean before 0.697 ± 0.006
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.795 ± 0.008, busting locally 0.724 ± 0.008; sections differ in crash generation 0.492 ± 0.024, mean spread 2.849 ± 0.179
+  partition "half": 2 sections of [33, 30] cells, 1.98 lattice units each
+    per section: half-fall 0.557 ± 0.013; local bust 0.553 ± 0.013; before 0.735 ± 0.003, after 0.213 ± 0.002; section crashes in the face's crash generation 0.941 ± 0.006
+    sections crash in different generations: 0.115 ± 0.011 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.885 ± 0.011 / 0.013 ± 0.004 / 0.010 ± 0.004 / 0.092 ± 0.010; mean spread 0.594 ± 0.071; distinct crash generations per death 1.115 ± 0.011
+    at least one section half-falls 0.792 ± 0.015, busts locally 0.788 ± 0.015; all sections half-fall 0.322 ± 0.017; all sections bust locally 0.318 ± 0.017; sections busting locally per death 1.106 ± 0.026 of 2
+    the same over pairs of sections that both have a half-fall: 2.0 units: 1.16
+    r.m.s. difference of crash generations by separation: 2.0 units: 2.05
+    deaths WITHOUT a face-wide half-fall (0.428 ± 0.018 of deaths): share of sections with half-fall 0.260 ± 0.014, busting locally 0.255 ± 0.014; at least one section busts 0.505 ± 0.028, at least half of them 0.505 ± 0.028, every section half-falls 0.006 ± 0.004; sections differ in crash generation 0.245 ± 0.024, mean spread 1.251 ± 0.147; mean before 0.680 ± 0.006
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.779 ± 0.012, busting locally 0.775 ± 0.012; sections differ in crash generation 0.018 ± 0.006, mean spread 0.104 ± 0.044
+
+torus (1,4),(0,21): A = 63, shortest loop^2 21, 21 rings, length 3.97 lattice units; 308 deaths in 308 units (G/cells/null_1_4_21.txt)
+  whole face: half-fall 0.010 ± 0.006; over-full bust (before >= 0.68, fall >= 0.5) 0.010 ± 0.006; before 0.635 ± 0.003 after 0.421 ± 0.003; crash generation k = 7.506 ± 0.231
+  partition "sec": 5 sections of [15, 12, 12, 12, 12] cells, 0.79 lattice units each
+    per section: half-fall 0.223 ± 0.010; local bust 0.197 ± 0.010; before 0.724 ± 0.003, after 0.337 ± 0.003; section crashes in the face's crash generation 0.314 ± 0.011
+    sections crash in different generations: 0.994 ± 0.005 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.006 ± 0.005 / 0.000 ± 0.000 / 0.016 ± 0.007 / 0.977 ± 0.009; mean spread 9.185 ± 0.168; distinct crash generations per death 3.929 ± 0.048
+    at least one section half-falls 0.724 ± 0.026, busts locally 0.656 ± 0.027; all sections half-fall 0.003 ± 0.003; all sections bust locally 0.003 ± 0.003; sections busting locally per death 0.987 ± 0.052 of 5
+    the same over pairs of sections that both have a half-fall: 0.8 units: 5.00; 1.6 units: 5.87
+    r.m.s. difference of crash generations by separation: 0.8 units: 5.67; 1.6 units: 5.81
+    deaths WITHOUT a face-wide half-fall (0.990 ± 0.006 of deaths): share of sections with half-fall 0.217 ± 0.010, busting locally 0.191 ± 0.010; at least one section busts 0.652 ± 0.027, at least half of them 0.052 ± 0.013, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.997 ± 0.003, mean spread 9.226 ± 0.167; mean before 0.723 ± 0.003
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.800 ± 0.115, busting locally 0.800 ± 0.115; sections differ in crash generation 0.667 ± 0.333, mean spread 5.000 ± 2.646
+  partition "half": 2 sections of [33, 30] cells, 1.98 lattice units each
+    per section: half-fall 0.028 ± 0.007; local bust 0.028 ± 0.007; before 0.669 ± 0.003, after 0.394 ± 0.003; section crashes in the face's crash generation 0.472 ± 0.017
+    sections crash in different generations: 0.844 ± 0.021 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.156 ± 0.021 / 0.058 ± 0.013 / 0.094 ± 0.017 / 0.692 ± 0.026; mean spread 4.769 ± 0.206; distinct crash generations per death 1.844 ± 0.021
+    at least one section half-falls 0.052 ± 0.013, busts locally 0.052 ± 0.013; all sections half-fall 0.003 ± 0.003; all sections bust locally 0.003 ± 0.003; sections busting locally per death 0.055 ± 0.014 of 2
+    the same over pairs of sections that both have a half-fall: 2.0 units: 0.00
+    r.m.s. difference of crash generations by separation: 2.0 units: 5.98
+    deaths WITHOUT a face-wide half-fall (0.990 ± 0.006 of deaths): share of sections with half-fall 0.021 ± 0.006, busting locally 0.021 ± 0.006; at least one section busts 0.043 ± 0.012, at least half of them 0.043 ± 0.012, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.852 ± 0.020, mean spread 4.816 ± 0.206; mean before 0.668 ± 0.003
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.667 ± 0.167, busting locally 0.667 ± 0.167; sections differ in crash generation 0.000 ± 0.000, mean spread 0.000 ± 0.000
+
+torus (6,0),(0,6): A = 108, shortest loop^2 36, 6 rings, length 5.20 lattice units; 1024 deaths in 16 units (G/cells/cells_6_0_6_s5.txt)
+  whole face: half-fall 0.582 ± 0.041; over-full bust (before >= 0.68, fall >= 0.5) 0.582 ± 0.041; before 0.731 ± 0.003 after 0.222 ± 0.005; crash generation k = 5.878 ± 0.129
+  partition "sec": 2 sections of [54, 54] cells, 2.60 lattice units each
+    per section: half-fall 0.575 ± 0.031; local bust 0.574 ± 0.031; before 0.732 ± 0.003, after 0.223 ± 0.005; section crashes in the face's crash generation 0.992 ± 0.002
+    sections crash in different generations: 0.016 ± 0.003 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.984 ± 0.003 / 0.003 ± 0.002 / 0.001 ± 0.001 / 0.012 ± 0.003; mean spread 0.056 ± 0.016; distinct crash generations per death 1.016 ± 0.003
+    at least one section half-falls 0.793 ± 0.036, busts locally 0.793 ± 0.036; all sections half-fall 0.356 ± 0.034; all sections bust locally 0.354 ± 0.033; sections busting locally per death 1.147 ± 0.063 of 2
+    the same over pairs of sections that both have a half-fall: 2.6 units: 0.00
+    r.m.s. difference of crash generations by separation: 2.6 units: 0.51
+    deaths WITHOUT a face-wide half-fall (0.418 ± 0.041 of deaths): share of sections with half-fall 0.258 ± 0.023, busting locally 0.258 ± 0.023; at least one section busts 0.517 ± 0.046, at least half of them 0.517 ± 0.046, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.042 ± 0.012, mean spread 0.144 ± 0.051; mean before 0.688 ± 0.004
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.806 ± 0.016, busting locally 0.804 ± 0.016; sections differ in crash generation 0.002 ± 0.002, mean spread 0.012 ± 0.012
+  partition "half": 2 sections of [54, 54] cells, 2.60 lattice units each
+    per section: half-fall 0.587 ± 0.031; local bust 0.587 ± 0.031; before 0.731 ± 0.004, after 0.221 ± 0.005; section crashes in the face's crash generation 0.986 ± 0.003
+    sections crash in different generations: 0.026 ± 0.006 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.974 ± 0.006 / 0.008 ± 0.003 / 0.003 ± 0.002 / 0.016 ± 0.005; mean spread 0.101 ± 0.024; distinct crash generations per death 1.026 ± 0.006
+    at least one section half-falls 0.815 ± 0.030, busts locally 0.815 ± 0.030; all sections half-fall 0.359 ± 0.040; all sections bust locally 0.358 ± 0.040; sections busting locally per death 1.174 ± 0.062 of 2
+    the same over pairs of sections that both have a half-fall: 2.6 units: 0.00
+    r.m.s. difference of crash generations by separation: 2.6 units: 0.78
+    deaths WITHOUT a face-wide half-fall (0.418 ± 0.041 of deaths): share of sections with half-fall 0.282 ± 0.020, busting locally 0.282 ± 0.020; at least one section busts 0.565 ± 0.039, at least half of them 0.565 ± 0.039, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.076 ± 0.022, mean spread 0.301 ± 0.089; mean before 0.685 ± 0.005
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.801 ± 0.019, busting locally 0.800 ± 0.019; sections differ in crash generation 0.002 ± 0.002, mean spread 0.018 ± 0.018
+  partition "quarter": 4 sections of [27, 27, 27, 27] cells
+    per section: half-fall 0.559 ± 0.019; local bust 0.552 ± 0.019; before 0.736 ± 0.003, after 0.217 ± 0.004; section crashes in the face's crash generation 0.920 ± 0.010
+    sections crash in different generations: 0.276 ± 0.033 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.724 ± 0.033 / 0.059 ± 0.017 / 0.023 ± 0.017 / 0.194 ± 0.025; mean spread 1.316 ± 0.186; distinct crash generations per death 1.312 ± 0.039
+    at least one section half-falls 0.957 ± 0.007, busts locally 0.951 ± 0.008; all sections half-fall 0.124 ± 0.019; all sections bust locally 0.116 ± 0.019; sections busting locally per death 2.209 ± 0.076 of 4
+    deaths WITHOUT a face-wide half-fall (0.418 ± 0.041 of deaths): share of sections with half-fall 0.337 ± 0.010, busting locally 0.331 ± 0.009; at least one section busts 0.881 ± 0.014, at least half of them 0.410 ± 0.025, every section half-falls 0.003 ± 0.003; sections differ in crash generation 0.486 ± 0.049, mean spread 2.120 ± 0.239; mean before 0.696 ± 0.003
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.717 ± 0.014, busting locally 0.710 ± 0.013; sections differ in crash generation 0.118 ± 0.030, mean spread 0.766 ± 0.253
+
+torus (6,0),(0,6): A = 108, shortest loop^2 36, 6 rings, length 5.20 lattice units; 308 deaths in 308 units (G/cells/null_6_0_6.txt)
+  whole face: half-fall 0.000 ± 0.000; over-full bust (before >= 0.68, fall >= 0.5) 0.000 ± 0.000; before 0.605 ± 0.002 after 0.449 ± 0.002; crash generation k = 7.627 ± 0.252
+  partition "sec": 2 sections of [54, 54] cells, 2.60 lattice units each
+    per section: half-fall 0.000 ± 0.000; local bust 0.000 ± 0.000; before 0.634 ± 0.002, after 0.422 ± 0.002; section crashes in the face's crash generation 0.468 ± 0.016
+    sections crash in different generations: 0.880 ± 0.019 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.120 ± 0.019 / 0.101 ± 0.017 / 0.094 ± 0.017 / 0.685 ± 0.027; mean spread 5.117 ± 0.214; distinct crash generations per death 1.880 ± 0.019
+    at least one section half-falls 0.000 ± 0.000, busts locally 0.000 ± 0.000; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.000 ± 0.000 of 2
+    the same over pairs of sections that both have a half-fall: 
+    r.m.s. difference of crash generations by separation: 2.6 units: 6.35
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.000 ± 0.000, busting locally 0.000 ± 0.000; at least one section busts 0.000 ± 0.000, at least half of them 0.000 ± 0.000, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.880 ± 0.019, mean spread 5.117 ± 0.214; mean before 0.634 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+  partition "half": 2 sections of [54, 54] cells, 2.60 lattice units each
+    per section: half-fall 0.002 ± 0.002; local bust 0.002 ± 0.002; before 0.635 ± 0.002, after 0.423 ± 0.002; section crashes in the face's crash generation 0.440 ± 0.015
+    sections crash in different generations: 0.906 ± 0.017 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.094 ± 0.017 / 0.117 ± 0.018 / 0.097 ± 0.017 / 0.692 ± 0.026; mean spread 5.052 ± 0.207; distinct crash generations per death 1.906 ± 0.017
+    at least one section half-falls 0.003 ± 0.003, busts locally 0.003 ± 0.003; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.003 ± 0.003 of 2
+    the same over pairs of sections that both have a half-fall: 
+    r.m.s. difference of crash generations by separation: 2.6 units: 6.22
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.002 ± 0.002, busting locally 0.002 ± 0.002; at least one section busts 0.003 ± 0.003, at least half of them 0.003 ± 0.003, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.906 ± 0.017, mean spread 5.052 ± 0.207; mean before 0.635 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+  partition "quarter": 4 sections of [27, 27, 27, 27] cells
+    per section: half-fall 0.035 ± 0.005; local bust 0.034 ± 0.005; before 0.679 ± 0.002, after 0.383 ± 0.002; section crashes in the face's crash generation 0.301 ± 0.011
+    sections crash in different generations: 0.997 ± 0.003 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.003 ± 0.003 / 0.003 ± 0.003 / 0.010 ± 0.006 / 0.984 ± 0.007; mean spread 8.802 ± 0.166; distinct crash generations per death 3.490 ± 0.036
+    at least one section half-falls 0.133 ± 0.019, busts locally 0.130 ± 0.019; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.136 ± 0.021 of 4
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.035 ± 0.005, busting locally 0.034 ± 0.005; at least one section busts 0.130 ± 0.019, at least half of them 0.006 ± 0.005, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.997 ± 0.003, mean spread 8.802 ± 0.166; mean before 0.679 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+
+torus (8,0),(0,8): A = 192, shortest loop^2 64, 8 rings, length 6.93 lattice units; 384 deaths in 6 units (G/cells/cells_8_0_8_s5.txt)
+  whole face: half-fall 0.591 ± 0.085; over-full bust (before >= 0.68, fall >= 0.5) 0.591 ± 0.085; before 0.726 ± 0.012 after 0.228 ± 0.005; crash generation k = 7.219 ± 0.256
+  partition "sec": 2 sections of [96, 96] cells, 3.46 lattice units each
+    per section: half-fall 0.569 ± 0.053; local bust 0.569 ± 0.053; before 0.725 ± 0.013, after 0.226 ± 0.004; section crashes in the face's crash generation 0.982 ± 0.017
+    sections crash in different generations: 0.036 ± 0.033 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.964 ± 0.033 / 0.003 ± 0.003 / 0.029 ± 0.029 / 0.005 ± 0.005; mean spread 0.076 ± 0.072; distinct crash generations per death 1.036 ± 0.033
+    at least one section half-falls 0.797 ± 0.040, busts locally 0.797 ± 0.040; all sections half-fall 0.341 ± 0.076; all sections bust locally 0.341 ± 0.076; sections busting locally per death 1.138 ± 0.105 of 2
+    the same over pairs of sections that both have a half-fall: 3.5 units: 0.00
+    r.m.s. difference of crash generations by separation: 3.5 units: 0.41
+    deaths WITHOUT a face-wide half-fall (0.409 ± 0.085 of deaths): share of sections with half-fall 0.242 ± 0.037, busting locally 0.242 ± 0.037; at least one section busts 0.484 ± 0.073, at least half of them 0.484 ± 0.073, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.053 ± 0.042, mean spread 0.102 ± 0.090; mean before 0.694 ± 0.011
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.761 ± 0.044, busting locally 0.761 ± 0.044; sections differ in crash generation 0.000 ± 0.000, mean spread 0.000 ± 0.000
+  partition "half": 2 sections of [96, 96] cells, 3.46 lattice units each
+    per section: half-fall 0.542 ± 0.055; local bust 0.535 ± 0.053; before 0.725 ± 0.013, after 0.226 ± 0.004; section crashes in the face's crash generation 0.987 ± 0.010
+    sections crash in different generations: 0.026 ± 0.020 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.974 ± 0.020 / 0.005 ± 0.003 / 0.013 ± 0.013 / 0.008 ± 0.008; mean spread 0.094 ± 0.088; distinct crash generations per death 1.026 ± 0.020
+    at least one section half-falls 0.815 ± 0.048, busts locally 0.815 ± 0.048; all sections half-fall 0.268 ± 0.073; all sections bust locally 0.255 ± 0.073; sections busting locally per death 1.070 ± 0.106 of 2
+    the same over pairs of sections that both have a half-fall: 3.5 units: 0.00
+    r.m.s. difference of crash generations by separation: 3.5 units: 0.76
+    deaths WITHOUT a face-wide half-fall (0.409 ± 0.085 of deaths): share of sections with half-fall 0.279 ± 0.039, busting locally 0.279 ± 0.039; at least one section busts 0.558 ± 0.078, at least half of them 0.558 ± 0.078, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.042 ± 0.025, mean spread 0.127 ± 0.108; mean before 0.694 ± 0.010
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.705 ± 0.045, busting locally 0.697 ± 0.047; sections differ in crash generation 0.000 ± 0.000, mean spread 0.000 ± 0.000
+  partition "quarter": 4 sections of [48, 48, 48, 48] cells
+    per section: half-fall 0.555 ± 0.054; local bust 0.554 ± 0.055; before 0.726 ± 0.011, after 0.223 ± 0.003; section crashes in the face's crash generation 0.960 ± 0.020
+    sections crash in different generations: 0.146 ± 0.075 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.854 ± 0.075 / 0.016 ± 0.006 / 0.060 ± 0.054 / 0.070 ± 0.024; mean spread 0.594 ± 0.278; distinct crash generations per death 1.156 ± 0.080
+    at least one section half-falls 0.932 ± 0.043, busts locally 0.932 ± 0.043; all sections half-fall 0.089 ± 0.044; all sections bust locally 0.089 ± 0.044; sections busting locally per death 2.216 ± 0.220 of 4
+    deaths WITHOUT a face-wide half-fall (0.409 ± 0.085 of deaths): share of sections with half-fall 0.377 ± 0.039, busting locally 0.376 ± 0.040; at least one section busts 0.879 ± 0.049, at least half of them 0.518 ± 0.087, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.287 ± 0.076, mean spread 1.309 ± 0.505; mean before 0.696 ± 0.009
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.682 ± 0.030, busting locally 0.682 ± 0.030; sections differ in crash generation 0.051 ± 0.051, mean spread 0.231 ± 0.231
+
+torus (8,0),(0,8): A = 192, shortest loop^2 64, 8 rings, length 6.93 lattice units; 308 deaths in 308 units (G/cells/null_8_0_8.txt)
+  whole face: half-fall 0.000 ± 0.000; over-full bust (before >= 0.68, fall >= 0.5) 0.000 ± 0.000; before 0.580 ± 0.002 after 0.466 ± 0.002; crash generation k = 7.890 ± 0.252
+  partition "sec": 2 sections of [96, 96] cells, 3.46 lattice units each
+    per section: half-fall 0.000 ± 0.000; local bust 0.000 ± 0.000; before 0.605 ± 0.002, after 0.448 ± 0.002; section crashes in the face's crash generation 0.403 ± 0.017
+    sections crash in different generations: 0.906 ± 0.017 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.094 ± 0.017 / 0.127 ± 0.019 / 0.117 ± 0.018 / 0.662 ± 0.027; mean spread 4.776 ± 0.205; distinct crash generations per death 1.906 ± 0.017
+    at least one section half-falls 0.000 ± 0.000, busts locally 0.000 ± 0.000; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.000 ± 0.000 of 2
+    the same over pairs of sections that both have a half-fall: 
+    r.m.s. difference of crash generations by separation: 3.5 units: 5.97
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.000 ± 0.000, busting locally 0.000 ± 0.000; at least one section busts 0.000 ± 0.000, at least half of them 0.000 ± 0.000, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.906 ± 0.017, mean spread 4.776 ± 0.205; mean before 0.605 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+  partition "half": 2 sections of [96, 96] cells, 3.46 lattice units each
+    per section: half-fall 0.000 ± 0.000; local bust 0.000 ± 0.000; before 0.602 ± 0.002, after 0.446 ± 0.002; section crashes in the face's crash generation 0.424 ± 0.016
+    sections crash in different generations: 0.899 ± 0.017 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.101 ± 0.017 / 0.104 ± 0.017 / 0.136 ± 0.020 / 0.659 ± 0.027; mean spread 4.698 ± 0.205; distinct crash generations per death 1.899 ± 0.017
+    at least one section half-falls 0.000 ± 0.000, busts locally 0.000 ± 0.000; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.000 ± 0.000 of 2
+    the same over pairs of sections that both have a half-fall: 
+    r.m.s. difference of crash generations by separation: 3.5 units: 5.92
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.000 ± 0.000, busting locally 0.000 ± 0.000; at least one section busts 0.000 ± 0.000, at least half of them 0.000 ± 0.000, every section half-falls 0.000 ± 0.000; sections differ in crash generation 0.899 ± 0.017, mean spread 4.698 ± 0.205; mean before 0.602 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+  partition "quarter": 4 sections of [48, 48, 48, 48] cells
+    per section: half-fall 0.003 ± 0.002; local bust 0.003 ± 0.002; before 0.635 ± 0.002, after 0.415 ± 0.002; section crashes in the face's crash generation 0.295 ± 0.011
+    sections crash in different generations: 1.000 ± 0.000 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.000 ± 0.000 / 0.010 ± 0.006 / 0.010 ± 0.006 / 0.981 ± 0.008; mean spread 8.860 ± 0.172; distinct crash generations per death 3.513 ± 0.035
+    at least one section half-falls 0.013 ± 0.006, busts locally 0.013 ± 0.006; all sections half-fall 0.000 ± 0.000; all sections bust locally 0.000 ± 0.000; sections busting locally per death 0.013 ± 0.006 of 4
+    deaths WITHOUT a face-wide half-fall (1.000 ± 0.000 of deaths): share of sections with half-fall 0.003 ± 0.002, busting locally 0.003 ± 0.002; at least one section busts 0.013 ± 0.006, at least half of them 0.000 ± 0.000, every section half-falls 0.000 ± 0.000; sections differ in crash generation 1.000 ± 0.000, mean spread 8.860 ± 0.172; mean before 0.635 ± 0.002
+    deaths WITH a face-wide half-fall: share of sections with half-fall n/a, busting locally n/a; sections differ in crash generation n/a, mean spread n/a
+
+torus (4,0),(0,4): A = 48, shortest loop^2 16, 4 rings, length 3.46 lattice units; 1337 deaths in 1337 units (G/cells/gump_4_0_4.txt)
+  whole face: half-fall 0.604 ± 0.013; over-full bust (before >= 0.68, fall >= 0.5) 0.604 ± 0.013; before 0.735 ± 0.002 after 0.218 ± 0.002; crash generation k = 4.871 ± 0.077
+  partition "sec": 2 sections of [24, 24] cells, 1.73 lattice units each
+    per section: half-fall 0.604 ± 0.010; local bust 0.595 ± 0.010; before 0.741 ± 0.002, after 0.210 ± 0.002; section crashes in the face's crash generation 0.893 ± 0.006
+    sections crash in different generations: 0.206 ± 0.011 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.794 ± 0.011 / 0.033 ± 0.005 / 0.020 ± 0.004 / 0.153 ± 0.010; mean spread 1.108 ± 0.073; distinct crash generations per death 1.206 ± 0.011
+    at least one section half-falls 0.816 ± 0.011, busts locally 0.812 ± 0.011; all sections half-fall 0.393 ± 0.013; all sections bust locally 0.378 ± 0.013; sections busting locally per death 1.190 ± 0.020 of 2
+    the same over pairs of sections that both have a half-fall: 1.7 units: 2.03
+    r.m.s. difference of crash generations by separation: 1.7 units: 2.88
+    deaths WITHOUT a face-wide half-fall (0.396 ± 0.013 of deaths): share of sections with half-fall 0.280 ± 0.012, busting locally 0.275 ± 0.012; at least one section busts 0.526 ± 0.022, at least half of them 0.526 ± 0.022, every section half-falls 0.025 ± 0.007; sections differ in crash generation 0.440 ± 0.022, mean spread 2.202 ± 0.144; mean before 0.682 ± 0.005
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.817 ± 0.008, busting locally 0.804 ± 0.009; sections differ in crash generation 0.053 ± 0.008, mean spread 0.391 ± 0.063
+  partition "half": 2 sections of [24, 24] cells, 1.73 lattice units each
+    per section: half-fall 0.612 ± 0.010; local bust 0.596 ± 0.010; before 0.740 ± 0.002, after 0.210 ± 0.002; section crashes in the face's crash generation 0.893 ± 0.006
+    sections crash in different generations: 0.203 ± 0.011 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.797 ± 0.011 / 0.026 ± 0.004 / 0.022 ± 0.004 / 0.154 ± 0.010; mean spread 1.036 ± 0.069; distinct crash generations per death 1.203 ± 0.011
+    at least one section half-falls 0.823 ± 0.010, busts locally 0.813 ± 0.011; all sections half-fall 0.401 ± 0.013; all sections bust locally 0.379 ± 0.013; sections busting locally per death 1.192 ± 0.020 of 2
+    the same over pairs of sections that both have a half-fall: 1.7 units: 2.06
+    r.m.s. difference of crash generations by separation: 1.7 units: 2.71
+    deaths WITHOUT a face-wide half-fall (0.396 ± 0.013 of deaths): share of sections with half-fall 0.286 ± 0.012, busting locally 0.273 ± 0.012; at least one section busts 0.529 ± 0.022, at least half of them 0.529 ± 0.022, every section half-falls 0.021 ± 0.006; sections differ in crash generation 0.416 ± 0.021, mean spread 1.985 ± 0.134; mean before 0.679 ± 0.004
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.825 ± 0.008, busting locally 0.808 ± 0.009; sections differ in crash generation 0.063 ± 0.009, mean spread 0.415 ± 0.063
+  partition "quarter": 4 sections of [12, 12, 12, 12] cells
+    per section: half-fall 0.702 ± 0.007; local bust 0.643 ± 0.007; before 0.761 ± 0.002, after 0.192 ± 0.002; section crashes in the face's crash generation 0.754 ± 0.006
+    sections crash in different generations: 0.649 ± 0.013 of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: 0.351 ± 0.013 / 0.055 ± 0.006 / 0.043 ± 0.006 / 0.552 ± 0.014; mean spread 4.144 ± 0.111; distinct crash generations per death 1.916 ± 0.022
+    at least one section half-falls 0.978 ± 0.004, busts locally 0.969 ± 0.005; all sections half-fall 0.282 ± 0.012; all sections bust locally 0.191 ± 0.011; sections busting locally per death 2.571 ± 0.028 of 4
+    deaths WITHOUT a face-wide half-fall (0.396 ± 0.013 of deaths): share of sections with half-fall 0.511 ± 0.010, busting locally 0.461 ± 0.010; at least one section busts 0.922 ± 0.012, at least half of them 0.652 ± 0.021, every section half-falls 0.043 ± 0.009; sections differ in crash generation 0.928 ± 0.011, mean spread 5.881 ± 0.158; mean before 0.710 ± 0.005
+    deaths WITH a face-wide half-fall: share of sections with half-fall 0.827 ± 0.006, busting locally 0.762 ± 0.007; sections differ in crash generation 0.467 ± 0.018, mean spread 3.006 ± 0.138
 

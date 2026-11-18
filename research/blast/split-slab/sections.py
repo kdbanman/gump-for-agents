@@ -136,6 +136,8 @@ def analyse(H, K, D, files, verbose=True):
                     # (added after the PI's forecast was read) the same over pairs of sections that BOTH have a half-fall
                     db = [(ks[s] - ks[(s + sep) % ns]) ** 2 for s in range(ns) if half[s] and half[(s + sep) % ns]]
                     out[f'msdb{sep}'] = float(np.mean(db)) if db else float('nan')
+                    out[f'sameb{sep}'] = float(np.mean([d == 0 for d in db])) if db else float('nan')
+                    out[f'same{sep}'] = float(np.mean([d == 0 for d in dd]))
             return out
         r = agg(f); RES[name] = r; RES[name + '_ns'] = ns; RES[name + '_len'] = seclen
         say(f'  partition "{name}": {ns} sections of {sizes} cells' + (f', {seclen:.2f} lattice units each' if name != 'quarter' else ''))

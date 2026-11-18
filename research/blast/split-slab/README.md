@@ -18,10 +18,11 @@ anchors, reach 120 cells and beyond. What came out, in order of how far I trust 
    run blind on the 108-cell tube gave 22.171 ± 0.057 against 22.1599.
 5. **[measured] A sampler that does work, on a surrogate** (section 6): subset simulation over the coin flips of
    the *dice chain* (6 layers of gump over 2 layers of fair coins; brute force puts it within 0.02 of gump at 48 and
-   63 cells). Exact for that chain. Against the gump anchors: +0.01 ± 0.04 (63 cells), -0.01 ± 0.06 (84),
-   +0.09 ± 0.07 (96, blind), +0.02 ± 0.06 (108 tube, blind), -0.01 ± 0.09 (108 equilateral, blind). It gives
-   24.68 ± 0.09 for the 120-cell tube. Beyond that (144 and 192 cells, tubes and wide tori, 8-16 replications
-   each) its lifetimes are too noisy to decide anything: section 6 says by how much.
+   63 cells). Exact for that chain. Against the gump anchors: +0.03 ± 0.03 (63 cells), +0.02 ± 0.05 (84),
+   +0.09 ± 0.07 (96, blind), +0.07 ± 0.05 (108 tube, blind), +0.07 ± 0.07 (108 equilateral, blind). It gives
+   24.64 ± 0.07 for the 120-cell tube and 38.7 ± 0.2 (± 0.3 for drift) for the 192-cell tube. Beyond 120 cells
+   its lifetimes (tubes and wide tori, 14-26 replications each) are too noisy to decide between the readings of
+   the tube's discount: section 6 says by how much.
 6. **[measured, surrogate] Wide faces keep dying by a face-wide boom and bust up to 192 cells; long tubes stop
    doing so** (section 6, last table): the share of deaths with a one-generation fall of half the face is 0.54,
    0.59, 0.68, 0.55 on wide tori of 63, 108, 144, 192 cells, and 0.50, 0.50, 0.38, 0.26, 0.17 on loop^2 12 tubes
@@ -239,23 +240,23 @@ TPRE = 32, TWIN = 24, WBACK = 12.
 
 | cells | torus | replications | ln tau, dice chain | gump anchor | dice chain (sampler) - gump |
 |---:|---|---:|---|---|---|
-| 63 | (1,4),(0,21) | 32 | 13.176 ± 0.042 | 13.1622 ± 0.0007 | +0.014 ± 0.042 |
-| 84 | (1,12),(0,28) | 32 | 17.311 ± 0.060 | 17.3175 ± 0.0031 | -0.007 ± 0.060 |
+| 63 | (1,4),(0,21) | 48 | 13.188 ± 0.031 | 13.1622 ± 0.0007 | +0.026 ± 0.031 |
+| 84 | (1,12),(0,28) | 48 | 17.336 ± 0.046 | 17.3175 ± 0.0031 | +0.019 ± 0.046 |
 | 96 | (1,17),(0,32) | 48 | 19.832 ± 0.067 | 19.7446 ± 0.0042 | +0.087 ± 0.067 |
-| 108 | (1,16),(0,36) | 48 | 22.178 ± 0.060 | 22.1599 ± 0.0086 | +0.018 ± 0.061 |
-| 108 | (6,0),(0,6) | 24 | 22.536 ± 0.087 | 22.5405 ± 0.0074 | -0.005 ± 0.088 |
-| 120 | (1,18),(0,40) | 48 | 24.710 ± 0.078 | — | — |
-| 144 | (1,22),(0,48) | 8 | 29.473 ± 0.214 | — | — |
+| 108 | (1,16),(0,36) | 64 | 22.232 ± 0.051 | 22.1599 ± 0.0086 | +0.072 ± 0.052 |
+| 108 | (6,0),(0,6) | 40 | 22.609 ± 0.071 | 22.5405 ± 0.0074 | +0.068 ± 0.072 |
+| 120 | (1,18),(0,40) | 64 | 24.696 ± 0.065 | — | — |
+| 144 | (1,22),(0,48) | 18 | 29.288 ± 0.190 | — | — |
 | 144 | (4,4),(0,12) | 14 | 29.738 ± 0.239 | — | — |
-| 192 | (1,30),(0,64) | 16 | 38.647 ± 0.245 | — | — |
-| 192 | (8,0),(0,8) | 12 | 40.723 ± 0.257 | — | — |
+| 192 | (1,30),(0,64) | 26 | 38.764 ± 0.181 | — | — |
+| 192 | (8,0),(0,8) | 18 | 40.588 ± 0.193 | — | — |
 
-offset d = dice chain - gump, weighted mean over the tubes of 84, 96, 108 cells: +0.029 ± 0.036 (chi2 1.1 on 2)
-  (1,18),(0,40), 120 cells: dice chain 24.710 ± 0.078; minus d: 24.681 ± 0.086
-  (1,22),(0,48), 144 cells: dice chain 29.473 ± 0.214; minus d: 29.444 ± 0.217
-  (1,30),(0,64), 192 cells: dice chain 38.647 ± 0.245; minus d: 38.618 ± 0.248
-  (4,4),(0,12), 144 cells: dice chain 29.738 ± 0.239; minus d: 29.709 ± 0.242
-  (8,0),(0,8), 192 cells: dice chain 40.723 ± 0.257; minus d: 40.694 ± 0.259
+offset d = dice chain - gump, weighted mean over the tubes of 84, 96, 108 cells: +0.052 ± 0.031 (chi2 0.9 on 2)
+  (1,18),(0,40), 120 cells: dice chain 24.696 ± 0.065; minus d: 24.644 ± 0.071
+  (1,22),(0,48), 144 cells: dice chain 29.288 ± 0.190; minus d: 29.235 ± 0.193
+  (1,30),(0,64), 192 cells: dice chain 38.764 ± 0.181; minus d: 38.712 ± 0.184
+  (4,4),(0,12), 144 cells: dice chain 29.738 ± 0.239; minus d: 29.686 ± 0.241
+  (8,0),(0,8), 192 cells: dice chain 40.588 ± 0.193; minus d: 40.536 ± 0.195
 <!-- SUB-RESULTS-END -->
 
 <!-- COMMENTARY-BEGIN -->
@@ -265,31 +266,39 @@ offset d = dice chain - gump, weighted mean over the tubes of 84, 96, 108 cells:
   1, 32 replications, `data/v1/`) and the 63-cell row above. Gump itself: 9.9251 and 13.1622, so the dice chain
   sits +0.016 ± 0.009 and +0.020 ± 0.027 above gump there.
 - **Calibration [measured].** 48 and 63 cells were tuning tori, 84 cells became one (block 2b); **96 cells and the
-  two 108-cell tori (tube and the equilateral (6,0),(0,6)) are blind**. Sampler minus gump anchor: +0.014 ± 0.042,
-  -0.007 ± 0.060, +0.087 ± 0.067, +0.018 ± 0.061, -0.005 ± 0.088 (table): all within 1.3 of their errors, no
-  trend, and the 108-cell discount of the tube against the wide torus comes out 0.36 ± 0.11 (gump: 0.381).
-  **Bias I can exclude: more than about 0.08 on average over 63 to 108 cells (pooled offset +0.02 ± 0.03), more
-  than about 0.15 at any one of them; a drift of the offset with size is bounded only to ± 0.004 per cell**
-  (84 to 108 cells), which is ± 0.3 at 192 cells. So beyond 120 cells the absolute numbers carry about ± 0.3 on
-  top of their statistical errors.
-- **120 cells [measured, surrogate].** Dice chain 24.710 ± 0.078 (48 replications); minus the offset d:
-  **24.68 ± 0.09** for gump. Independent of section 5's 24.59 ± 0.05 (other randomness, other assumptions) and
-  0.9 sd from it; weighted together 24.61 ± 0.045.
-- **Long tubes and wide tori beyond the anchors [measured, surrogate; few replications; NOT decisive].** At 144
-  and 192 cells one replication scatters by 0.6 to 1.0 in relative terms and there are 8 to 16 of them; the mean
-  is carried by the largest replications and the quoted errors are too small, by up to a factor 2 on this
-  evidence: against the wide line 13.1622 + 0.20866 (A - 63), the two wide tori read **-0.33 ± 0.24 at 144 cells**
-  ((4,4),(0,12): 29.74 against 30.06) and **+0.64 ± 0.26 at 192 cells** ((8,0),(0,8): 40.72 against 40.08), chi2
-  8 on 2 if the line holds. Together they neither confirm nor refute that 0.2087 holds to 192 cells.
-  With that warning:
-  - the tube's slope from 108 to 192 cells is (38.647 - 22.178) / 84 = 0.196 ± 0.003 per cell with the quoted
-    error, ± 0.006 with the doubled one (120 to 144: 0.198 ± 0.010; 144 to 192: 0.191 ± 0.007). The quadratic
-    discount 0.0046 (A/12)^2 and the straight line near 0.198 both predict 0.198 to 0.199 here and cannot be
-    separated below 240 cells; the return to the wide price (0.2086) is disfavoured at about 2 sd, no more;
-  - tube against wide torus of the same chain and area: 0.27 ± 0.32 at 144 cells and 2.08 ± 0.36 at 192 (the
-    three readings: 0.66 / 0.77 / 0.47 at 144 and 1.18 / 1.29 / 0.47 at 192). The two sizes do not tell one story;
+  two 108-cell tori (tube and the equilateral (6,0),(0,6)) are blind**. Sampler minus gump anchor (table):
+  +0.026 ± 0.031 (63), +0.019 ± 0.046 (84), +0.087 ± 0.067 (96), +0.072 ± 0.052 (108 tube), +0.068 ± 0.072 (108
+  wide): each within 1.4 of its error, all five positive, weighted mean **+0.04 ± 0.02**, which is the size of the
+  dice chain's own offset by brute force. The 108-cell discount of the tube against the wide torus comes out
+  0.38 ± 0.09 (gump: 0.381). **Bias I can exclude: more than about 0.08 on average over 63 to 108 cells, more than
+  about 0.2 at any one of them; a drift of the offset with size is bounded only to +0.002 ± 0.003 per cell** (84
+  to 108 cells), which is +0.2 ± 0.25 at 192 cells. So beyond 120 cells the absolute numbers carry about ± 0.3
+  on top of their statistical errors.
+- **120 cells [measured, surrogate].** Dice chain 24.696 ± 0.065 (64 replications); minus the offset d of the tube
+  anchors (+0.052 ± 0.031): **24.64 ± 0.07** for gump. Independent of section 5's 24.59 ± 0.05 (other randomness,
+  other assumptions) and 0.6 sd from it; weighted together 24.61 ± 0.04.
+- **Long tubes and wide tori beyond the anchors [measured, surrogate; few replications; NOT decisive].**
+  (`python3 derived.py` prints the numbers of this paragraph.) At 144 and 192 cells ln(rate) scatters between
+  replications with sd 0.65 (tubes), 0.8 and 1.0 (wide tori), there are 14 to 26 of them, the mean is carried by
+  the largest, and the quoted errors are too small: for a lognormal scatter of that width they would be 0.14 to
+  0.33 instead of 0.18 to 0.24, and against the wide line 13.1622 + 0.20866 (A - 63) the two wide tori read
+  **-0.33 ± 0.24 at 144 cells** ((4,4),(0,12): 29.74 against 30.06) and **+0.51 ± 0.19 (lognormal: ± 0.32) at
+  192 cells** ((8,0),(0,8): 40.59 against 40.08). Together they neither confirm nor refute that 0.2087 holds
+  to 192 cells. With that warning:
+  - the tube's slope from 108 to 192 cells is (38.764 - 22.232) / 84 = **0.197 ± 0.002 per cell** (120 to 144:
+    0.191 ± 0.008; 144 to 192: 0.197 ± 0.006). The quadratic discount 0.0046 (A/12)^2 and the straight line near
+    0.198 both predict 0.198 to 0.199 here and cannot be separated below 240 cells; the return to the wide price
+    (0.2086) is disfavoured (5 sd on the statistical error, about 2 sd once a drift of ± 0.3 at 192 cells is
+    allowed);
+  - the 192-cell tube itself: 38.76 ± 0.18 on the dice chain, 38.71 ± 0.18 after the offset (and ± 0.3 for
+    drift). The PI's forms give 39.17 / 39.01 / 38.92 / 38.86 (trace form K = 1 / 2 / 3, power law): K = 1 is
+    2.5 sd away on the statistical error, the others 0.8 to 1.7;
+  - tube against wide torus of the same chain and area: 0.38 ± 0.09 at 108 cells, 0.45 ± 0.31 at 144, 1.82 ± 0.26
+    (lognormal ± 0.35) at 192 (the three readings: 0.66 / 0.77 / 0.47 at 144 and 1.18 / 1.29 / 0.47 at 192);
   - what it would take: about 100 replications per torus (15 core-minutes each at 192 cells), or more chains per
-    replication; and a convergence test (doubling NSWEEP), which was not done at these sizes.
+    replication; and a convergence test (doubling NSWEEP), which was not done at these sizes. The scatter between
+    replications is larger on the wide torus (1.0) than on the tube (0.65) at 192 cells: the wide face's single
+    face-wide event is the harder one for the Metropolis moves.
   - The 240-cell tube was not run.
 - **Dying paths [measured, surrogate]** (`python3 subpaths.py G/subpaths_full/FILE [FILE ...] A`, outputs in
   `data/subpaths_stats.txt`; per-replication means ± their standard error; "fall" = the largest one-generation
@@ -390,9 +399,157 @@ that fall as fractions of its size; *half-fall*: before - after >= 0.5; *local b
 half-fall. Shares are per replication (or per natural death, or per null window) first; mean ± standard error.
 
 <!-- SEC9-TABLES-BEGIN -->
+**9a. Tubes cut into sections of 2 lattice units (24 cells; 21 and 27-30 cells at 84 and 108 cells).**
+
+| cells | ensemble | units (deaths) | face-wide half-fall | sections with a half-fall | sections busting locally | section before -> after | busting sections per death | >= 1 section busts | spread of crash generations | distinct crash generations | r.m.s. difference, neighbours (2 units) | at 4 units | at half the tube |
+|---:|---|---:|---|---|---|---|---|---|---|---|---:|---:|---:|
+| 84 | dying, dice chain (sampler) | 16 (1024) | 0.45 ± 0.03 | 0.58 ± 0.02 | 0.56 ± 0.02 | 0.73 ± 0.01 -> 0.22 ± 0.00 | 2.25 ± 0.07 of 4 | 0.97 ± 0.01 | 2.76 ± 0.20 | 1.65 ± 0.04 | 3.05 | 3.15 | 3.15 |
+| 84 | dying, gump (natural deaths) | 111 (111) | 0.53 ± 0.05 | 0.61 ± 0.03 | 0.59 ± 0.03 | 0.73 ± 0.01 -> 0.21 ± 0.00 | 2.37 ± 0.10 of 4 | 0.96 ± 0.02 | 2.67 ± 0.34 | 1.69 ± 0.08 | 3.01 | 3.28 | 3.28 |
+| 84 | LIVING, gump (null) | 308 (308) | 0.00 ± 0.00 | 0.13 ± 0.01 | 0.12 ± 0.01 | 0.71 ± 0.00 -> 0.36 ± 0.00 | 0.50 ± 0.04 of 4 | 0.41 ± 0.03 | 8.75 ± 0.16 | 3.52 ± 0.03 | 6.02 | 5.92 | 5.92 |
+| 108 | dying, dice chain (sampler) | 16 (1024) | 0.46 ± 0.03 | 0.53 ± 0.01 | 0.52 ± 0.01 | 0.72 ± 0.00 -> 0.22 ± 0.00 | 2.07 ± 0.06 of 4 | 0.95 ± 0.01 | 2.14 ± 0.21 | 1.59 ± 0.05 | 2.57 | 2.68 | 2.68 |
+| 108 | LIVING, gump (null) | 308 (308) | 0.00 ± 0.00 | 0.07 ± 0.01 | 0.07 ± 0.01 | 0.69 ± 0.00 -> 0.38 ± 0.00 | 0.29 ± 0.03 of 4 | 0.27 ± 0.03 | 8.97 ± 0.18 | 3.52 ± 0.04 | 6.08 | 6.29 | 6.29 |
+| 120 | dying, dice chain (sampler) | 16 (1024) | 0.37 ± 0.04 | 0.55 ± 0.01 | 0.54 ± 0.01 | 0.72 ± 0.00 -> 0.22 ± 0.00 | 2.68 ± 0.07 of 5 | 0.98 ± 0.00 | 2.97 ± 0.24 | 1.95 ± 0.08 | 2.68 | 2.74 | 2.74 |
+| 120 | LIVING, gump (null) | 308 (308) | 0.00 ± 0.00 | 0.09 ± 0.01 | 0.09 ± 0.01 | 0.69 ± 0.00 -> 0.37 ± 0.00 | 0.44 ± 0.04 of 5 | 0.37 ± 0.03 | 9.51 ± 0.16 | 4.19 ± 0.04 | 5.91 | 5.97 | 5.97 |
+| 144 | dying, dice chain (sampler) | 10 (640) | 0.33 ± 0.07 | 0.52 ± 0.02 | 0.51 ± 0.02 | 0.72 ± 0.01 -> 0.22 ± 0.00 | 3.08 ± 0.14 of 6 | 0.97 ± 0.01 | 3.45 ± 0.40 | 2.15 ± 0.12 | 2.65 | 2.94 | 2.98 |
+| 144 | LIVING, gump (null) | 308 (308) | 0.00 ± 0.00 | 0.09 ± 0.01 | 0.09 ± 0.01 | 0.69 ± 0.00 -> 0.37 ± 0.00 | 0.53 ± 0.04 of 6 | 0.44 ± 0.03 | 10.39 ± 0.13 | 4.93 ± 0.05 | 5.95 | 6.07 | 6.07 |
+| 192 | dying, dice chain (sampler) | 10 (640) | 0.07 ± 0.03 | 0.48 ± 0.02 | 0.46 ± 0.02 | 0.69 ± 0.01 -> 0.22 ± 0.00 | 3.71 ± 0.15 of 8 | 0.98 ± 0.01 | 5.55 ± 0.35 | 3.42 ± 0.15 | 2.85 | 3.31 | 3.66 |
+| 192 | LIVING, gump (null) | 308 (308) | 0.00 ± 0.00 | 0.08 ± 0.01 | 0.07 ± 0.01 | 0.69 ± 0.00 -> 0.37 ± 0.00 | 0.60 ± 0.04 of 8 | 0.47 ± 0.03 | 11.30 ± 0.11 | 6.15 ± 0.06 | 5.87 | 6.09 | 6.04 |
+
+**9b. Two halves (tubes: along the length; wide tori: across one period).**
+
+| cells | torus | ensemble | units | halves crash in different generations | spread 0 / 1 / 2 / >= 3 generations | r.m.s. difference | a half with a half-fall: at least one | both | half before -> after |
+|---:|---|---|---:|---|---|---:|---|---|---|
+| 84 | (1,12),(0,28) tube | dying, dice chain (sampler) | 16 | 0.17 ± 0.02 | 0.83 ± 0.02 / 0.01 ± 0.00 / 0.02 ± 0.01 / 0.13 ± 0.02 | 2.12 | 0.74 ± 0.02 | 0.25 ± 0.02 | 0.72 ± 0.00 -> 0.23 ± 0.00 |
+| 84 | (1,12),(0,28) tube | dying, gump (natural deaths) | 111 | 0.17 ± 0.04 | 0.83 ± 0.04 / 0.03 ± 0.02 / 0.03 ± 0.02 / 0.12 ± 0.03 | 1.94 | 0.71 ± 0.04 | 0.35 ± 0.05 | 0.73 ± 0.01 -> 0.22 ± 0.01 |
+| 84 | (1,12),(0,28) tube | LIVING, gump (null) | 308 | 0.94 ± 0.01 | 0.06 ± 0.01 / 0.09 ± 0.02 / 0.09 ± 0.02 / 0.76 ± 0.02 | 6.07 | 0.02 ± 0.01 | 0.00 ± 0.00 | 0.65 ± 0.00 -> 0.40 ± 0.00 |
+| 108 | (1,16),(0,36) tube | dying, dice chain (sampler) | 16 | 0.21 ± 0.02 | 0.79 ± 0.02 / 0.04 ± 0.01 / 0.06 ± 0.01 / 0.12 ± 0.02 | 1.70 | 0.72 ± 0.03 | 0.28 ± 0.03 | 0.71 ± 0.00 -> 0.23 ± 0.00 |
+| 108 | (1,16),(0,36) tube | LIVING, gump (null) | 308 | 0.90 ± 0.02 | 0.10 ± 0.02 / 0.09 ± 0.02 / 0.11 ± 0.02 / 0.70 ± 0.03 | 5.98 | 0.01 ± 0.00 | 0.00 ± 0.00 | 0.63 ± 0.00 -> 0.41 ± 0.00 |
+| 120 | (1,18),(0,40) tube | dying, dice chain (sampler) | 16 | 0.26 ± 0.04 | 0.74 ± 0.04 / 0.04 ± 0.02 / 0.07 ± 0.03 / 0.15 ± 0.02 | 1.75 | 0.60 ± 0.03 | 0.18 ± 0.02 | 0.69 ± 0.01 -> 0.23 ± 0.00 |
+| 120 | (1,18),(0,40) tube | LIVING, gump (null) | 308 | 0.92 ± 0.02 | 0.08 ± 0.02 / 0.08 ± 0.02 / 0.11 ± 0.02 / 0.73 ± 0.03 | 6.16 | 0.00 ± 0.00 | 0.00 ± 0.00 | 0.63 ± 0.00 -> 0.42 ± 0.00 |
+| 144 | (1,22),(0,48) tube | dying, dice chain (sampler) | 10 | 0.29 ± 0.04 | 0.71 ± 0.04 / 0.08 ± 0.04 / 0.09 ± 0.02 / 0.13 ± 0.03 | 1.75 | 0.61 ± 0.05 | 0.17 ± 0.05 | 0.67 ± 0.01 -> 0.22 ± 0.00 |
+| 144 | (1,22),(0,48) tube | LIVING, gump (null) | 308 | 0.91 ± 0.02 | 0.09 ± 0.02 / 0.07 ± 0.02 / 0.10 ± 0.02 / 0.74 ± 0.03 | 6.20 | 0.00 ± 0.00 | 0.00 ± 0.00 | 0.62 ± 0.00 -> 0.43 ± 0.00 |
+| 192 | (1,30),(0,64) tube | dying, dice chain (sampler) | 10 | 0.65 ± 0.08 | 0.35 ± 0.08 / 0.16 ± 0.04 / 0.15 ± 0.04 / 0.34 ± 0.06 | 3.09 | 0.22 ± 0.06 | 0.04 ± 0.02 | 0.59 ± 0.02 -> 0.24 ± 0.01 |
+| 192 | (1,30),(0,64) tube | LIVING, gump (null) | 308 | 0.92 ± 0.02 | 0.08 ± 0.02 / 0.10 ± 0.02 / 0.09 ± 0.02 / 0.73 ± 0.03 | 6.42 | 0.00 ± 0.00 | 0.00 ± 0.00 | 0.60 ± 0.00 -> 0.44 ± 0.00 |
+| 63 | (1,4),(0,21) wide | dying, dice chain (sampler) | 16 | 0.11 ± 0.01 | 0.89 ± 0.01 / 0.02 ± 0.00 / 0.01 ± 0.00 / 0.08 ± 0.01 | 1.69 | 0.78 ± 0.02 | 0.34 ± 0.03 | 0.74 ± 0.00 -> 0.22 ± 0.00 |
+| 63 | (1,4),(0,21) wide | dying, gump (natural deaths) | 774 | 0.11 ± 0.01 | 0.89 ± 0.01 / 0.01 ± 0.00 / 0.01 ± 0.00 / 0.09 ± 0.01 | 2.05 | 0.79 ± 0.01 | 0.32 ± 0.02 | 0.74 ± 0.00 -> 0.21 ± 0.00 |
+| 63 | (1,4),(0,21) wide | LIVING, gump (null) | 308 | 0.84 ± 0.02 | 0.16 ± 0.02 / 0.06 ± 0.01 / 0.09 ± 0.02 / 0.69 ± 0.03 | 5.98 | 0.05 ± 0.01 | 0.00 ± 0.00 | 0.67 ± 0.00 -> 0.39 ± 0.00 |
+| 108 | (6,0),(0,6) wide | dying, dice chain (sampler) | 16 | 0.03 ± 0.01 | 0.97 ± 0.01 / 0.01 ± 0.00 / 0.00 ± 0.00 / 0.02 ± 0.01 | 0.78 | 0.82 ± 0.03 | 0.36 ± 0.04 | 0.73 ± 0.00 -> 0.22 ± 0.00 |
+| 108 | (6,0),(0,6) wide | LIVING, gump (null) | 308 | 0.91 ± 0.02 | 0.09 ± 0.02 / 0.12 ± 0.02 / 0.10 ± 0.02 / 0.69 ± 0.03 | 6.22 | 0.00 ± 0.00 | 0.00 ± 0.00 | 0.64 ± 0.00 -> 0.42 ± 0.00 |
+| 192 | (8,0),(0,8) wide | dying, dice chain (sampler) | 6 | 0.03 ± 0.02 | 0.97 ± 0.02 / 0.01 ± 0.00 / 0.01 ± 0.01 / 0.01 ± 0.01 | 0.76 | 0.82 ± 0.05 | 0.27 ± 0.07 | 0.72 ± 0.01 -> 0.23 ± 0.00 |
+| 192 | (8,0),(0,8) wide | LIVING, gump (null) | 308 | 0.90 ± 0.02 | 0.10 ± 0.02 / 0.10 ± 0.02 / 0.14 ± 0.02 / 0.66 ± 0.03 | 5.92 | 0.00 ± 0.00 | 0.00 ± 0.00 | 0.60 ± 0.00 -> 0.45 ± 0.00 |
+
+**9c. Wide tori cut into four quarters.**
+
+| cells | torus | ensemble | units | quarters crash in different generations | spread 0 / 1 / 2 / >= 3 | distinct crash generations | quarters with a half-fall | all four | quarter before -> after |
+|---:|---|---|---:|---|---|---|---|---|---|
+| 108 | (6,0),(0,6) | dying, dice chain (sampler) | 16 | 0.28 ± 0.03 | 0.72 ± 0.03 / 0.06 ± 0.02 / 0.02 ± 0.02 / 0.19 ± 0.03 | 1.31 ± 0.04 | 0.56 ± 0.02 | 0.12 ± 0.02 | 0.74 ± 0.00 -> 0.22 ± 0.00 |
+| 108 | (6,0),(0,6) | LIVING, gump (null) | 308 | 1.00 ± 0.00 | 0.00 ± 0.00 / 0.00 ± 0.00 / 0.01 ± 0.01 / 0.98 ± 0.01 | 3.49 ± 0.04 | 0.03 ± 0.01 | 0.00 ± 0.00 | 0.68 ± 0.00 -> 0.38 ± 0.00 |
+| 192 | (8,0),(0,8) | dying, dice chain (sampler) | 6 | 0.15 ± 0.08 | 0.85 ± 0.08 / 0.02 ± 0.01 / 0.06 ± 0.05 / 0.07 ± 0.02 | 1.16 ± 0.08 | 0.56 ± 0.05 | 0.09 ± 0.04 | 0.73 ± 0.01 -> 0.22 ± 0.00 |
+| 192 | (8,0),(0,8) | LIVING, gump (null) | 308 | 1.00 ± 0.00 | 0.00 ± 0.00 / 0.01 ± 0.01 / 0.01 ± 0.01 / 0.98 ± 0.01 | 3.51 ± 0.03 | 0.00 ± 0.00 | 0.00 ± 0.00 | 0.63 ± 0.00 -> 0.41 ± 0.00 |
+
+**9d. Deaths with NO face-wide fall of half the face: are they staggered busts? (tubes, sections of 2 units)**
+
+| cells | ensemble | share of deaths without a face-wide half-fall | their sections: half-fall | busting locally | section before | >= 1 section busts | >= half of the sections bust | spread of crash generations |
+|---:|---|---|---|---|---|---|---|---|
+| 84 | dying, dice chain (sampler) | 0.55 ± 0.03 | 0.43 ± 0.02 | 0.42 ± 0.02 | 0.71 ± 0.01 | 0.94 ± 0.01 | 0.58 ± 0.04 | 3.81 ± 0.29 |
+| 84 | dying, gump (natural deaths) | 0.47 ± 0.05 | 0.42 ± 0.03 | 0.39 ± 0.03 | 0.68 ± 0.01 | 0.92 ± 0.04 | 0.48 ± 0.07 | 4.17 ± 0.52 |
+| 84 | LIVING, gump (null) | 1.00 ± 0.00 | 0.13 ± 0.01 | 0.12 ± 0.01 | 0.71 ± 0.00 | 0.41 ± 0.03 | 0.08 ± 0.02 | 8.75 ± 0.16 |
+| 108 | dying, dice chain (sampler) | 0.54 ± 0.03 | 0.38 ± 0.01 | 0.36 ± 0.01 | 0.69 ± 0.00 | 0.91 ± 0.02 | 0.43 ± 0.03 | 3.22 ± 0.29 |
+| 108 | LIVING, gump (null) | 1.00 ± 0.00 | 0.07 ± 0.01 | 0.07 ± 0.01 | 0.69 ± 0.00 | 0.27 ± 0.03 | 0.02 ± 0.01 | 8.97 ± 0.18 |
+| 120 | dying, dice chain (sampler) | 0.63 ± 0.04 | 0.44 ± 0.01 | 0.42 ± 0.01 | 0.70 ± 0.00 | 0.96 ± 0.01 | 0.35 ± 0.04 | 4.00 ± 0.25 |
+| 120 | LIVING, gump (null) | 1.00 ± 0.00 | 0.09 ± 0.01 | 0.09 ± 0.01 | 0.69 ± 0.00 | 0.37 ± 0.03 | 0.00 ± 0.00 | 9.51 ± 0.16 |
+| 144 | dying, dice chain (sampler) | 0.67 ± 0.07 | 0.45 ± 0.02 | 0.45 ± 0.02 | 0.70 ± 0.01 | 0.95 ± 0.01 | 0.55 ± 0.04 | 4.43 ± 0.42 |
+| 144 | LIVING, gump (null) | 1.00 ± 0.00 | 0.09 ± 0.01 | 0.09 ± 0.01 | 0.69 ± 0.00 | 0.44 ± 0.03 | 0.01 ± 0.01 | 10.39 ± 0.13 |
+| 192 | dying, dice chain (sampler) | 0.93 ± 0.03 | 0.46 ± 0.02 | 0.44 ± 0.02 | 0.69 ± 0.01 | 0.98 ± 0.01 | 0.51 ± 0.05 | 5.81 ± 0.30 |
+| 192 | LIVING, gump (null) | 1.00 ± 0.00 | 0.08 ± 0.01 | 0.07 ± 0.01 | 0.69 ± 0.00 | 0.47 ± 0.03 | 0.00 ± 0.00 | 11.30 ± 0.11 |
+
+**9e. Timing of the sections that do bust (pairs of sections that both have a half-fall): r.m.s. difference of crash generations by separation.**
+
+| cells | ensemble | 2 units | 4 units | 6 units | 8 units |
+|---:|---|---:|---:|---:|---:|
+| 84 | dying, dice chain (sampler) (sections of 1.75 units) | 2.51 | 2.74 |  |  |
+| 84 | dying, gump (natural deaths) (sections of 1.75 units) | 2.20 | 2.56 |  |  |
+| 84 | LIVING, gump (null) (sections of 1.75 units) | 5.54 | 7.62 |  |  |
+| 108 | dying, dice chain (sampler) (sections of 2.25 units) | 1.56 | 1.84 |  |  |
+| 108 | LIVING, gump (null) (sections of 2.25 units) | 6.58 | 3.61 |  |  |
+| 120 | dying, dice chain (sampler) (sections of 2.00 units) | 1.47 | 1.78 |  |  |
+| 120 | LIVING, gump (null) (sections of 2.00 units) | 6.73 | 4.55 |  |  |
+| 144 | dying, dice chain (sampler) (sections of 2.00 units) | 1.93 | 2.44 | 2.47 |  |
+| 144 | LIVING, gump (null) (sections of 2.00 units) | 5.85 | 5.76 | 7.26 |  |
+| 192 | dying, dice chain (sampler) (sections of 2.00 units) | 1.54 | 2.76 | 3.36 | 3.44 |
+| 192 | LIVING, gump (null) (sections of 2.00 units) | 7.68 | 6.57 | 4.66 | 6.46 |
+
+**9f. Share of pairs of busting sections (both with a half-fall) that crash in the SAME generation, by separation.**
+
+| cells | ensemble | 2 units | 4 units | 6 units | 8 units |
+|---:|---|---|---|---|---|
+| 84 | dying, dice chain (sampler) (sections of 1.75 units) | 0.84 ± 0.02 | 0.79 ± 0.04 |  |  |
+| 84 | dying, gump (natural deaths) (sections of 1.75 units) | 0.86 ± 0.03 | 0.82 ± 0.05 |  |  |
+| 84 | LIVING, gump (null) (sections of 1.75 units) | 0.26 ± 0.10 | 0.00 ± 0.00 |  |  |
+| 108 | dying, dice chain (sampler) (sections of 2.25 units) | 0.90 ± 0.01 | 0.83 ± 0.03 |  |  |
+| 108 | LIVING, gump (null) (sections of 2.25 units) | 0.25 ± 0.25 | 0.00 ± 0.00 |  |  |
+| 120 | dying, dice chain (sampler) (sections of 2.00 units) | 0.88 ± 0.02 | 0.75 ± 0.04 |  |  |
+| 120 | LIVING, gump (null) (sections of 2.00 units) | 0.23 ± 0.12 | 0.00 ± 0.00 |  |  |
+| 144 | dying, dice chain (sampler) (sections of 2.00 units) | 0.85 ± 0.03 | 0.68 ± 0.05 | 0.62 ± 0.07 |  |
+| 144 | LIVING, gump (null) (sections of 2.00 units) | 0.09 ± 0.09 | 0.00 ± 0.00 | 0.17 ± 0.17 |  |
+| 192 | dying, dice chain (sampler) (sections of 2.00 units) | 0.77 ± 0.03 | 0.38 ± 0.06 | 0.27 ± 0.08 | 0.25 ± 0.08 |
+| 192 | LIVING, gump (null) (sections of 2.00 units) | 0.17 ± 0.09 | 0.09 ± 0.09 | 0.25 ± 0.13 | 0.00 ± 0.00 |
 <!-- SEC9-TABLES-END -->
 
-SEC9-CONCLUSIONS
+**Answers [measured: dice chain, sampled deaths; gump itself at 63 and 84 cells and for the null].**
+
+1. **A long tube does not stop busting. It stops busting all at once.** At every length each stretch of 2
+   lattice units goes from 0.69-0.73 of its cells to 0.22 in one generation (9a), which is exactly what a wide
+   face does as a whole (0.72 -> 0.23, 9b) and not what a living face does (largest fall in 16 generations:
+   0.69 -> 0.37). The threshold "half of the cells" sits at the median of that fall, which is why "half" of the
+   sections pass it at every length (0.58, 0.53, 0.55, 0.52, 0.48 at 84..192 cells; living faces 0.07 to 0.13), as
+   half of the wide faces do. At least one section busts locally in 95-98% of deaths at every length (living:
+   27-47% per 16-generation window). What falls with length is only the *face-wide* half-fall: 0.45, 0.46, 0.37,
+   0.33, 0.07.
+2. **Timing (9b, 9a, 9e, 9f).** The two halves of the tube crash in different generations in 0.17 ± 0.02 (84
+   cells), 0.21 ± 0.02 (108), 0.26 ± 0.04 (120), 0.29 ± 0.04 (144) and **0.65 ± 0.08 (192)** of deaths; when they
+   differ it is mostly by 3 generations or more, not by one. Distinct crash generations per death among the
+   2-unit sections: 1.65, 1.59, 1.95, 2.15, 3.42 (of 4, 4, 5, 6, 8 sections; living faces 3.5 to 6.2). Among
+   sections that both bust, neighbours (2 units apart) crash in the same generation 77-90% of the time at every
+   length; 4 units apart: 0.79, 0.83, 0.75, 0.68 up to 144 cells but 0.38 ± 0.06 at 192; 6 and 8 units apart at
+   192 cells: 0.27 and 0.25, r.m.s. difference 3.4 generations. So a bust is coherent over about one girth
+   (3.5 units) and the staggering sets in sharply between 12 and 16 units of length (144 and 192 cells): up to
+   144 cells most deaths are still one crash that part of the tube misses by a little; at 192 cells there are
+   typically two or three separate crashes a few generations apart.
+3. **A wide face is rigid in time (9b, 9c).** Halves crash in the same generation in 0.97 ± 0.01 (108 cells) and
+   0.97 ± 0.02 (192 cells) of deaths (0.89 at 63 cells, where a half is 31 cells and the largest fall is noisier);
+   the four quarters all in one generation in 0.72 and 0.85, with 1.31 and 1.16 distinct crash generations
+   (living faces: 3.5). Nothing changes from 108 to 192 cells.
+4. **The "thinning" deaths of long tubes are staggered busts (9d).** In deaths with no face-wide fall of half
+   (0.55 of deaths at 84 cells, 0.93 at 192), 0.36 to 0.45 of the sections still bust locally (over-full to
+   0.68 and a fall of half; living: 0.07 to 0.12), at least one does in 91-98% and at least half of them do in
+   35-58% (living: 0-8%).
+5. **Surrogate against gump.** On the 84-cell tube (111 natural deaths of gump) and the wide 63-cell torus (774)
+   every row agrees with the sampler's dice-chain deaths within errors: face-wide half-fall 0.53 ± 0.05 against
+   0.45 ± 0.03, sections busting 0.59 ± 0.03 against 0.56 ± 0.02, section before -> after 0.73 -> 0.21 against
+   0.73 -> 0.22, halves in different generations 0.17 ± 0.04 against 0.17 ± 0.02 (63 cells: 0.11 against 0.11).
+   Gump itself was not looked at beyond 84 cells (no natural deaths there).
+
+**The PI's forecasts (block 3 of `research/blast/PREDICTIONS.md`), scored.**
+(1) halves in different generations, "30-45% at 84 cells, above 65% at 192": 0.17 ± 0.02 and 0.65 ± 0.08. The
+rise is there, the level at 84 cells is half the forecast and the 192-cell value sits on the line: **half
+right**. (2) "At the 192-cell tube at least one half loses half of its own cells in one generation in more than
+half of deaths": 0.22 ± 0.06, **failed as worded**; the unit that busts is a stretch of 2 to 4 units, not a
+half of 8 (at least one 2-unit section busts in 0.98, and the reading "it still busts, locally" stands). (3)
+"Wide tori of 108 and 192 cells: halves in the same generation in more than 75% of deaths": 97% and 97%,
+**held**. (4) "Sections 2 units long on a 144- or 192-cell tube: r.m.s. difference between neighbours 1.0-1.6
+generations, no growth beyond 3 units": among busting pairs 1.93 (144) and 1.54 (192) for neighbours, then
+2.44, 2.47 (144) and 2.76, 3.36, 3.44 (192) at 4, 6, 8 units: the neighbour value is about right, **the "no
+growth" is wrong**: the difference keeps growing to about 6 units. (With all sections, not only busting ones,
+the numbers are 2.6 to 3.7: the sections without a clear crash add noise.)
+
+**What this does and does not show.** It shows the route: local over-fill and crash everywhere, synchronised
+over about a girth, and beyond 12 units of length no longer synchronised along the tube. It does not show
+causation between sections (no test of whether one crash triggers the next: differences of 3 generations over 6
+units are within the speed limit of one unit per generation, so a travelling cause is possible but not needed),
+and the timing statistics rest on 10 replications at 144 and 192 cells (640 dying chains each, relatives within
+a replication). Not done: sections of other widths, the 96-cell tube (other twist), tubes of loop^2 13 and 16.
+
 
 ## Files
 
