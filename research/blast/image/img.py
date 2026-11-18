@@ -5,6 +5,7 @@
     python3 research/blast/image/img.py run H K D WORDS BURN SNAPS EVERY SEED   # -> research/scratch/blast/image/rec_*.npz
     python3 research/blast/image/img.py ana FILE...               # table of f_W(q) and C(v, tau)
     python3 research/blast/image/img.py hist H K D WORDS BURN SNAPS EVERY SEED  # history windows -> hist_*.npz;  anahist FILE...
+    python3 research/blast/image/img.py patch H K D WORDS BURN SNAPS EVERY SEED # one cell's history tilt read in a patch -> patch_*.npz;  anapatch FILE...
 
 Vessel: the 8-layer slab graph of research/audit/shape/geom_check.my_slab (AUTOMATON.md's cube-index table).
 Stepper: bit-sliced numpy (the scheme of research/wraplocal/live.py, retyped here), 64 replicas per word.
@@ -313,7 +314,7 @@ def run_hist(L, W, burn, snaps, every, seed):
     nF = len(F)
     pos = {int(c): i for i, c in enumerate(F)}
     R = 64 * W
-    vecs = [(q, X, Y) for q in QS for X in range(-7, 8) for Y in range(-7, 8)
+    vecs = [(q, X, Y) for q in (9, 12, 13, 16) for X in range(-7, 8) for Y in range(-7, 8)
             if X * X + X * Y + Y * Y == q and (X > 0 or (X == 0 and Y > 0))]
     lat = [(a * h, a * k + b * d) for a in range(-9, 10) for b in range(-9, 10) if (a, b) != (0, 0)]
     for q, X, Y in vecs:
@@ -394,7 +395,7 @@ def ana_hist(files):
     W_ = ('h3', 'h6', 'h9', 'h12', 'p2h6')
     print('\nf_W(q), history windows (one term per +-v)')
     print('q    ' + ''.join(f'{w:>24s}' for w in W_) + '   f measured')
-    for q in QS:
+    for q in sorted(set(int(v[0]) for v in vecs)):
         vi = [i for i, v in enumerate(vecs) if v[0] == q]
         row = f'{q:<4d} '
         for w in W_:
@@ -411,19 +412,150 @@ def ana_hist(files):
         print(row + f'   {FMEAS[q]:.6f}')
     H1 = sum(d['H1_h12'].sum(0) for d in D); P = H1 / H1.sum(); ok = P > 0
     print('\nwindow h12: shift of the density of generation t-k, k = 0..11, x 1e6 (the exact law gives -f at every k)')
-    for q in QS:
+    for q in sorted(set(int(v[0]) for v in vecs)):
         vi = [i for i, v in enumerate(vecs) if v[0] == q]
         H2 = sum(d['H2_h12'][vi].sum((0, 1)) for d in D); wgt = np.where(ok, H2 / np.where(ok, P, 1), 0)
         print(f'{q:<4d} ' + ' '.join(f'{1e6 * (((np.arange(4096) >> k & 1) * wgt).sum() / wgt.sum() - ((np.arange(4096) >> k & 1) * P).sum()):+6.0f}' for k in range(12)))
     print('\nC(v,tau) x 1e6')
     print('q    ' + ''.join(f'{tau:>9d}' for tau in range(TAU + 1)))
-    for q in QS:
+    for q in sorted(set(int(v[0]) for v in vecs)):
         vi = [i for i, v in enumerate(vecs) if v[0] == q]
         row = f'{q:<4d} '; errs = []
         for tau in range(TAU + 1):
             pc = np.concatenate([d['PC'][vi, tau, :].sum(0) / (int(d['cnt']) * per * len(vi)) for d in D]) - S1 ** 2
             row += f'{1e6 * pc.mean():+9.1f}'; errs.append(1e6 * pc.std(ddof=1) / np.sqrt(nb))
         print(row + f'   (+- {np.mean(errs):.1f})')
+
+
+def run_patch(L, W, burn, snaps, every, seed):
+    """the tilt of ONE cell's history window (h6, h9), read in the population of a patch round it at the newest generation:
+    the cell (G1), the cell + its in-layer neighbours (G7), all face cells within two in-layer steps (G2s), within three (G3s).
+    By translation symmetry the patch sum is the first-order sum, over the windows of all cells of the patch, of their effect on one cell."""
+    h, k, d = L
+    cells, idx, NB = vessel(L)
+    n = len(cells)
+    t = np.array([c[3] for c in cells])
+    F = np.nonzero((t == 0) | (t == 7))[0]
+    nF = len(F)
+    pos = {int(c): i for i, c in enumerate(F)}
+    R = 64 * W
+    QP = [9, 12, 13, 16]
+    vecs = [(q, X, Y) for q in QP for X in range(-7, 8) for Y in range(-7, 8)
+            if X * X + X * Y + Y * Y == q and (X > 0 or (X == 0 and Y > 0))]
+    perms = []
+    for q, X, Y in vecs:
+        pm = np.empty(nF, np.int64)
+        for i, c in enumerate(F):
+            ax, ci, cj, ct = cells[c]
+            I, J = gc.reduce_ij(ci + X, cj + Y, L)
+            pm[i] = pos[idx[(ax, I, J, ct)]]
+        perms.append(pm)
+    adj = [set(pos[int(NB[c, j])] for j in range(12) if NB[c, j] < n and t[NB[c, j]] == t[c]) for c in F]
+    sh = [[{i}] for i in range(nF)]
+    for i in range(nF):
+        cur = {i}
+        for r in range(3):
+            cur = cur | set(b for a in cur for b in adj[a])
+            sh[i].append(set(cur))
+    sizes = [len(sh[0][r]) for r in range(4)]
+    assert all(len(sh[i][r]) == sizes[r] for i in range(nF) for r in range(4)), 'patches differ in size'
+    pidx = [np.array([sorted(sh[i][r]) for i in range(nF)]) for r in range(4)]       # (nF, size_r)
+    wins = {'h6': 64, 'h9': 512}
+    H1 = {w: np.zeros((NBLK, wins[w])) for w in wins}
+    H2 = {w: np.zeros((len(vecs), NBLK, wins[w])) for w in wins}
+    HG = {w: np.zeros((4, len(vecs), NBLK, wins[w])) for w in wins}
+    SG = np.zeros((4, NBLK)); cnt = 0
+    blk = (np.arange(R) // (R // NBLK)).astype(np.int32)[None, :]
+    rng = np.random.default_rng(seed)
+    X = np.zeros((n + 1, W), np.uint64)
+    X[:n] = soup(rng, n, W)
+    t0 = time.time()
+    for g in range(burn):
+        X = step(X, NB)
+    ring = []
+    for s in range(snaps):
+        for g in range(every):
+            X = step(X, NB)
+            ring.append(X[F].copy())
+            if len(ring) > 9:
+                ring.pop(0)
+        if len(ring) < 9:
+            continue
+        xf = unpack(ring[-1])
+        h9 = np.zeros((nF, R), np.int32)
+        for kk in range(9):
+            h9 += (xf if kk == 0 else unpack(ring[-1 - kk])).astype(np.int32) << kk
+        G = []
+        for r in range(4):
+            a = np.zeros((nF, R), np.float32)
+            for j in range(sizes[r]):
+                a += xf[pidx[r][:, j]]
+            G.append(a)
+            SG[r] += a.reshape(nF, NBLK, -1).sum((0, 2))
+        codes = {'h6': h9 & 63, 'h9': h9}
+        cb = {w: codes[w] + wins[w] * blk for w in wins}
+        for w in wins:
+            H1[w] += np.bincount(cb[w].ravel(), minlength=NBLK * wins[w]).reshape(NBLK, -1)
+        for vi, pm in enumerate(perms):
+            dif = h9 ^ h9[pm]
+            for w, m in (('h6', 63), ('h9', 511)):
+                eq = (dif & m) == 0
+                kc = cb[w][eq]
+                H2[w][vi] += np.bincount(kc, minlength=NBLK * wins[w]).reshape(NBLK, -1)
+                for r in range(4):
+                    HG[w][r, vi] += np.bincount(kc, weights=G[r][eq], minlength=NBLK * wins[w]).reshape(NBLK, -1)
+        cnt += 1
+        if s % 20 == 0:
+            print(f'snap {s} {time.time() - t0:.0f}s', flush=True)
+    os.makedirs(SCR, exist_ok=True)
+    out = os.path.join(SCR, f'patch_{h}_{k}_{d}_s{seed}.npz')
+    np.savez_compressed(out, L=L, W=W, burn=burn, snaps=snaps, every=every, seed=seed, cnt=cnt, nF=nF, R=R, sizes=sizes, QP=QP,
+                        vecs=np.array(vecs), SG=SG, **{'H1_' + w: H1[w] for w in wins}, **{'H2_' + w: H2[w] for w in wins},
+                        **{'HG_' + w: HG[w] for w in wins})
+    print(f'{L} R={R} snaps counted {cnt}, patch sizes {sizes}: {time.time() - t0:.0f} s -> {out}', flush=True)
+
+
+def ana_patch(files):
+    D = [np.load(f) for f in files]
+    vecs = D[0]['vecs']; nb = NBLK * len(D); nF = int(D[0]['nF']); R = int(D[0]['R']); per = nF * (R // NBLK)
+    sizes = [int(v) for v in D[0]['sizes']]
+    G0 = np.concatenate([d['SG'] / (int(d['cnt']) * per) for d in D], axis=1).mean(1)
+    print(f'files {len(D)}, snapshots {sum(int(d["cnt"]) for d in D)}; patches of {sizes} face cells, mean live {np.round(G0, 4)}')
+    for w in ('h6', 'h9'):
+        H1 = sum(d['H1_' + w].sum(0) for d in D); P = H1 / H1.sum(); ok = P > 0
+        print(f'\nwindow {w} on one cell: minus the shift of the live count of the patch round it under the tilt (first-order sum over the patch\'s windows of their effect on one cell)')
+        print('q    ' + ''.join(f'{"patch of " + str(sz):>24s}' for sz in sizes) + '   f measured')
+        for q in [int(v) for v in D[0]['QP']]:
+            vi = [i for i, v in enumerate(vecs) if v[0] == q]
+            row = f'{q:<4d} '
+            for r in range(4):
+                fb = []
+                for d in D:
+                    for b in range(NBLK):
+                        den = np.where(ok, d['H2_' + w][vi, b, :].sum(0) / np.where(ok, P, 1), 0).sum()
+                        num = np.where(ok, d['HG_' + w][r][vi, b, :].sum(0) / np.where(ok, P, 1), 0).sum()
+                        fb.append(G0[r] - num / den)
+                row += f'{np.mean(fb):+14.6f} +- {np.std(fb, ddof=1) / np.sqrt(nb):.6f}'
+            print(row + f'   {FMEAS[q]:.6f}')
+
+
+def ana_pat(files):
+    """which 6-generation histories of one cell recur at distance v more than chance (window h6), and what each adds to f_W"""
+    d = np.load(files[0])
+    vecs = d['vecs']; H1 = d['H1_h6'].sum(0); P = H1 / H1.sum()
+    per = int(d['nF']) * int(d['R']) * int(d['cnt'])
+    x = (np.arange(64) & 1).astype(float); rho = (x * P).sum()
+    for q in (9, 12, 13, 16):
+        vi = [i for i, v in enumerate(vecs) if v[0] == q]
+        H2b = d['H2_h6'][vi].sum(0); npair = per * len(vi)
+        ex = H2b.sum(0) / npair - P ** 2
+        err = (H2b / (npair / NBLK) - P ** 2).std(0, ddof=1) / np.sqrt(NBLK)
+        con = -(x - rho) * ex / P
+        print(f'loop^2 {q}: Z_W - 1 = {1e3 * (ex / P).sum():+.3f}e-3, f_W (first order) = {con.sum():+.6f}; histories written oldest -> newest')
+        for i in np.argsort(-np.abs(con))[:7]:
+            print(f'   {format(i, "06b")}  P = {P[i]:.4f}  r - 1 = {1e3 * ex[i] / P[i] ** 2:+6.2f}e-3 +- {1e3 * err[i] / P[i] ** 2:.2f}   adds {1e6 * con[i]:+7.1f}e-6 to f_W')
+        dead = np.array([i for i in range(64) if i & 7 == 0]); live = np.array([i for i in range(64) if i & 7 == 7])
+        print(f'   dead for the last 3 generations: adds {1e6 * con[dead].sum():+.1f}e-6; alive for the last 3: {1e6 * con[live].sum():+.1f}e-6; all others {1e6 * (con.sum() - con[dead].sum() - con[live].sum()):+.1f}e-6')
 
 
 def ana3(files):
@@ -461,6 +593,13 @@ if __name__ == '__main__':
         run_hist(tuple(a[:3]), *a[3:])
     elif c == 'anahist':
         ana_hist(sys.argv[2:])
+    elif c == 'patch':
+        a = [int(v) for v in sys.argv[2:]]
+        run_patch(tuple(a[:3]), *a[3:])
+    elif c == 'anapatch':
+        ana_patch(sys.argv[2:])
+    elif c == 'anapat':
+        ana_pat(sys.argv[2:])
     elif c == 'ana':
         ana(sys.argv[2:])
         ana2(sys.argv[2:])

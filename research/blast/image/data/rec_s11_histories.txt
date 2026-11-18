@@ -1,0 +1,36 @@
+loop^2 9: Z_W - 1 = +1.643e-3, f_W (first order) = +0.000590; histories written oldest -> newest
+   100000  P = 0.0241  r - 1 = +12.38e-3 +- 0.48   adds  +154.2e-6 to f_W
+   000000  P = 0.0341  r - 1 =  +6.28e-3 +- 1.31   adds  +110.9e-6 to f_W
+   010000  P = 0.0169  r - 1 = +11.16e-3 +- 1.31   adds   +97.5e-6 to f_W
+   111111  P = 0.0513  r - 1 =  +3.36e-3 +- 0.42   adds   -83.2e-6 to f_W
+   110000  P = 0.0242  r - 1 =  +6.62e-3 +- 1.08   adds   +83.0e-6 to f_W
+   001000  P = 0.0169  r - 1 =  +7.56e-3 +- 1.21   adds   +66.1e-6 to f_W
+   111000  P = 0.0250  r - 1 =  +3.17e-3 +- 1.16   adds   +41.0e-6 to f_W
+   dead for the last 3 generations: adds +605.8e-6; alive for the last 3: -100.5e-6; all others +84.5e-6
+loop^2 12: Z_W - 1 = +0.486e-3, f_W (first order) = +0.000101; histories written oldest -> newest
+   000000  P = 0.0341  r - 1 =  +1.84e-3 +- 0.77   adds   +32.6e-6 to f_W
+   100000  P = 0.0241  r - 1 =  +2.02e-3 +- 0.35   adds   +25.1e-6 to f_W
+   001000  P = 0.0169  r - 1 =  +2.86e-3 +- 0.31   adds   +25.0e-6 to f_W
+   001001  P = 0.0109  r - 1 =  +4.38e-3 +- 1.98   adds   -23.0e-6 to f_W
+   101000  P = 0.0115  r - 1 =  +3.75e-3 +- 2.08   adds   +22.3e-6 to f_W
+   000011  P = 0.0245  r - 1 =  +1.85e-3 +- 0.86   adds   -21.8e-6 to f_W
+   010111  P = 0.0118  r - 1 =  +3.22e-3 +- 0.95   adds   -18.4e-6 to f_W
+   dead for the last 3 generations: adds +124.2e-6; alive for the last 3: -12.0e-6; all others -11.5e-6
+loop^2 13: Z_W - 1 = +0.273e-3, f_W (first order) = +0.000112; histories written oldest -> newest
+   100000  P = 0.0241  r - 1 =  +2.42e-3 +- 0.50   adds   +30.1e-6 to f_W
+   010010  P = 0.0074  r - 1 =  +5.42e-3 +- 1.83   adds   +20.7e-6 to f_W
+   010001  P = 0.0115  r - 1 =  -3.39e-3 +- 0.75   adds   +18.8e-6 to f_W
+   111000  P = 0.0250  r - 1 =  +1.33e-3 +- 0.87   adds   +17.2e-6 to f_W
+   011011  P = 0.0118  r - 1 =  +2.76e-3 +- 1.52   adds   -15.7e-6 to f_W
+   100001  P = 0.0170  r - 1 =  +1.83e-3 +- 0.33   adds   -15.0e-6 to f_W
+   001001  P = 0.0109  r - 1 =  -2.86e-3 +- 1.77   adds   +15.0e-6 to f_W
+   dead for the last 3 generations: adds +64.3e-6; alive for the last 3: +23.1e-6; all others +24.5e-6
+loop^2 16: Z_W - 1 = +0.300e-3, f_W (first order) = +0.000268; histories written oldest -> newest
+   010100  P = 0.0074  r - 1 =  +8.57e-3 +- 1.33   adds   +33.0e-6 to f_W
+   100111  P = 0.0170  r - 1 =  -3.37e-3 +- 0.61   adds   +27.6e-6 to f_W
+   101000  P = 0.0115  r - 1 =  +3.57e-3 +- 1.64   adds   +21.3e-6 to f_W
+   101011  P = 0.0081  r - 1 =  -5.33e-3 +- 2.46   adds   +20.7e-6 to f_W
+   111101  P = 0.0198  r - 1 =  +2.05e-3 +- 1.40   adds   -19.6e-6 to f_W
+   111000  P = 0.0250  r - 1 =  +1.51e-3 +- 0.55   adds   +19.6e-6 to f_W
+   111010  P = 0.0123  r - 1 =  +2.96e-3 +- 1.92   adds   +18.9e-6 to f_W
+   dead for the last 3 generations: adds +103.6e-6; alive for the last 3: +37.9e-6; all others +126.4e-6
