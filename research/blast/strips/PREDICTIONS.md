@@ -1,6 +1,6 @@
 # blast/strips: forecasts, frozen before the data (agent `strips`, 2026-11-18, second phase)
 
-## Block A. Frozen 12:45 UTC, before any strip, tube or tetrahedron lifetime was computed by this agent
+## Block A. Frozen 12:36 UTC (commit 993537c), before any strip, tube or tetrahedron lifetime was computed by this agent
 
 Seen before writing (so not forecast): `rim/README.md` (its table of symmetric strips, 8 to 14 half-rows, L = 3…6),
 `holes/README.md` and `holes/data/life_tori.txt` (closed tori 2…4 × 3…8, all first deaths), the lead's
@@ -49,3 +49,15 @@ A8. **How they die.** Tetrahedron faces fade: share of deaths with a one-generat
 face < 0.05 (P = 0.6). Strips: I have seen rim's 0.15–0.20.
 
 Record so far on this problem (others'): about 40% held. Expect the same of these.
+
+## Block B. Frozen 13:30 UTC, when the run of (6 unit rows, L = 5) was started and before any output of it
+
+Seen: everything in `data/table_out.txt` as committed in 928d3b0 (4 rows L = 3…7, 5 rows L = 3…5, 6 rows L = 3, 4;
+progress lines of (5 rows, L = 6) reading 20.29 ± 0.03).
+
+B1. If a row costs the same wherever it is added at L = 5 too, ln τ(6, 5) = ln τ(5, 5) + g(5) = 16.924 + 3.078 =
+20.00. Forecast **20.00 ± 0.06**; width price 5 → 6 rows at L = 5: **0.205 ± 0.004**; P(within 0.005 of the 4 → 5
+price 0.2052) = 0.70. If four rows were already too thin at L = 5 the step 5 → 6 would be cheaper than 4 → 5:
+P(below 0.200) = 0.15. P(above 0.210) = 0.15.
+B2. Mixed second difference at (5.5 rows, L 4→5) = [ln τ(6,5) − ln τ(6,4) − ln τ(5,5) + ln τ(5,4)]/3: **0.246 ± 0.015**
+(the same as at 4.5 rows, 0.248).
