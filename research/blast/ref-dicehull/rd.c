@@ -55,12 +55,25 @@ int main(int argc, char **argv) {
     fclose(fo); return 0;
   }
   seedrng(strtoull(argv[3], 0, 10)); long gens = atol(argv[4]); int burn = atoi(argv[5]); int dpm = atoi(argv[6]);
+  int all8 = !strcmp(argv[2], "run8");   /* run8 (full hull only): a lane is retired at the first death of ANY of the 8 faces; tau_face = 8 * exposure / deaths */
+  int R = 0; for (int i = 0; i < A; i++) { int q = xyz[3 * i] + xyz[3 * i + 1] + xyz[3 * i + 2]; if (q > R) R = q; }
+  int *fl[8], fnum[8]; for (int f = 0; f < 8; f++) { fl[f] = malloc(4 * (size_t)n); fnum[f] = 0; int sx = f & 1 ? -1 : 1, sy = f & 2 ? -1 : 1, sz = f & 4 ? -1 : 1;
+    for (int i = 0; i < n; i++) if (sx * xyz[3 * i] + sy * xyz[3 * i + 1] + sz * xyz[3 * i + 2] == R) fl[f][fnum[f]++] = i; }
+  if (all8) for (int f = 0; f < 8; f++) if (fnum[f] != A) { fprintf(stderr, "run8 needs the full hull\n"); return 1; }
+  int win = !strcmp(argv[2], "win");     /* win: also the histogram WHIST of the minimum of the face population over consecutive 24-generation
+                                            blocks of counting lanes (the sampler's score: min over 24 generations after a generation with the face alive) */
+  static int bc[NL], bmin[NL]; long *whist = calloc(A + 1, sizeof(long)); long nblk = 0; for (int l = 0; l < NL; l++) bmin[l] = 1 << 20;
   static int age[NL]; for (int i = 0; i < n; i++) a[i] = rvec();
   double expo = 0, deaths = 0, ps = 0, ps2 = 0, pn = 0; double *occ = calloc(A, 8); long burndeaths = 0; long *hist = calloc(A + 1, sizeof(long));
   for (long g = 1; g <= gens; g++) {
     step(dpm);
     vec alive = {0, 0, 0, 0}; for (int i = 0; i < A; i++) alive |= a[i];
+    if (all8) for (int f = 1; f < 8; f++) { vec al = {0, 0, 0, 0}; for (int k = 0; k < A; k++) al |= a[fl[f][k]]; alive &= al; }
     vec cnt = {0, 0, 0, 0}; for (int l = 0; l < NL; l++) { age[l]++; if (age[l] > burn) cnt[l >> 6] |= 1ULL << (l & 63); }
+    if (win) { static int wp[NL]; memset(wp, 0, sizeof wp);
+      for (int i = 0; i < A; i++) for (int w = 0; w < 4; w++) { u64 x = a[i][w]; while (x) { wp[w * 64 + __builtin_ctzll(x)]++; x &= x - 1; } }
+      for (int l = 0; l < NL; l++) if (age[l] > burn + 1) { if (wp[l] < bmin[l]) bmin[l] = wp[l]; bc[l]++;
+          if (bc[l] == 24 || wp[l] == 0) { whist[bmin[l]]++; nblk++; bc[l] = 0; bmin[l] = 1 << 20; } } }
     for (int w = 0; w < 4; w++) { expo += __builtin_popcountll(alive[w] & cnt[w]); u64 d = ~alive[w];
       deaths += __builtin_popcountll(d & cnt[w]); burndeaths += __builtin_popcountll(d & ~cnt[w]);
       while (d) { int k = __builtin_ctzll(d); d &= d - 1; int lane = w * 64 + k; age[lane] = 0; u64 m = 1ULL << k;
@@ -73,8 +86,9 @@ int main(int argc, char **argv) {
   }
   double m = ps / pn, v = ps2 / pn - m * m;
   printf("RUN n %d A %d NRULE %d dpm %d burn %d gens %ld exposure %.0f deaths %.0f lntau %.4f +- %.4f burn_deaths %ld Pbar %.3f sigma %.3f samples %.0f\n",
-         n, A, NRULE, dpm, burn, gens, expo, deaths, deaths > 0 ? log(expo / deaths) : 99.0, deaths > 0 ? 1 / sqrt(deaths) : 0.0, burndeaths, m, sqrt(v), pn);
+         n, A, NRULE, dpm, burn, gens, expo, deaths, deaths > 0 ? log((all8 ? 8 : 1) * expo / deaths) : 99.0, deaths > 0 ? 1 / sqrt(deaths) : 0.0, burndeaths, m, sqrt(v), pn);
   for (int i = 0; i < A; i++) printf("OCC %d %d %d %.5f\n", xyz[3 * i], xyz[3 * i + 1], xyz[3 * i + 2], occ[i] / pn);
+  if (win) { printf("WHIST %ld", nblk); for (int p = 0; p <= A; p++) printf(" %ld", whist[p]); printf("\n"); }
   printf("HIST"); for (int p = 0; p <= A; p++) printf(" %ld", hist[p]); printf("\n");
   return 0;
 }
