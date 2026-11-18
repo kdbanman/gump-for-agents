@@ -12,7 +12,8 @@ For each object (cells = phase 0, period P) this writes, in chunks of 100 to OUT
 
 and checks each chunk with `lake env lean` (the kernel evaluates the bit-parallel orbit, `Gump.Bits.bstep`, proved
 equal to `Gump.step` by `Gump.Bits.bstep_spec`), then prints the axioms of the first and last theorem of each chunk.
-A chunk that fails is re-checked object by object to name the objects that fail. Bulk files go to OUTDIR
+A chunk that fails is re-checked object by object to name the objects that fail. Negative controls at the end: a
+wrong period (not minimal, or not returning) and a pattern with one cell removed must each be rejected by the kernel. Bulk files go to OUTDIR
 (use research/scratch/blast/lean/census, which git ignores).
 """
 import json, os, re, subprocess, sys, time
@@ -76,13 +77,28 @@ def main():
                 else:
                     bad.append(r['id'])
         print(f'chunk {c // 100}: objects {c}..{c + len(chunk) - 1}, {"ok" if ok else "FAILED"}, {dt:.0f}s', flush=True)
+    byid = {r['id']: r for r in rows}
+    controls = [('S6a as period 2 (not minimal)', 'S6a', 2, 0), ('P3.11a as period 6 (not minimal)', 'P3.11a', 6, 0),
+                ('P3.11a as period 4 (does not return)', 'P3.11a', 4, 0), ('P3.11a minus a cell', 'P3.11a', 3, 1),
+                ('P66.27a as period 33', 'P66.27a', 33, 0)]
+    ctl_bad = []
+    for label, i, P, drop in controls:
+        if i not in byid:
+            continue
+        r = dict(byid[i]); r['cells'] = r['cells'][drop:]; r['period'] = P; r['id'] = 'control'
+        p1 = os.path.join(out, 'control.lean')
+        write(p1, [r], [])
+        rejected = not check(p1)[0]
+        print(f'control: {label}: {"rejected" if rejected else "ACCEPTED (control failed)"}')
+        if not rejected:
+            ctl_bad.append(label)
     periods = {}
     for r in rows:
         periods[r['period']] = periods.get(r['period'], 0) + 1
     print(f'census: {ok_n} of {len(rows)} catalogued objects certified by the kernel as oscillators of exactly their '
           f'listed period (periods: {dict(sorted(periods.items()))}); failed: {bad}; axioms seen: {sorted(axioms)}; '
           f'{time.time() - t0:.0f}s')
-    sys.exit(0 if not bad and ok_n == len(rows) else 1)
+    sys.exit(0 if not bad and ok_n == len(rows) and not ctl_bad else 1)
 
 
 if __name__ == '__main__':
