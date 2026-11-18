@@ -8,6 +8,7 @@
 //
 //   gcc -O3 -march=native -o sh sh.c -lm
 //   ./sh R SEED M [LAG=1] [NFLIP=1] [STEP=2] [H=0.125] [PATHFILE or -] [CAP=200000]   one replication of the estimator
+//        [MODE=0]: 1 = donor swap instead of flips (see perturb())
 //        (NFLIP = -f means one flip per f perturbation sites, rounded up; the frozen setting is  M=300000 2 -6 3 0.5 FILE 100000)
 //   ./sh R SEED 0 GENS                                    brute force: base run only for GENS generations
 //   gcc -O3 -march=native -shared -fPIC -DLIB -o libsh.so sh.c -lm     (validation against reference/oracle.py)
@@ -309,6 +310,15 @@ static void path_add(const u64 *c, int anc, int Tl, int k, const uint8_t *h) {  
     for (int i = 0; i < A; i++) pages[slot * A + i] = cfg_age(c, i);
 }
 static int CAPN; static long nseen;
+// MODE 1 ("donor swap"): instead of flips, everything at depth >= DEPTH beneath the watched face (x+y+z <= R - 2 DEPTH)
+// is replaced by the same cells of an independent hull taken from the base run at an unrelated time (the pool).
+#define POOLN 4096
+static int MODE = 0, npool = 0; static u64 *pool, *deepmask;
+static void perturb(u64 *c) {
+    if (!MODE) { cfg_flips(c); return; }
+    const u64 *d = pool + (size_t)rndn(npool) * NCW;
+    for (int j = 0; j < NCW; j++) c[j] = (c[j] & ~deepmask[j]) | (d[j] & deepmask[j]);
+}
 // lag: the state LAG generations before the success (what the next stage's clones start from)
 static void store_success(const u64 *lag, int anc, int Tl, const uint8_t *h) {   // reservoir of CAPN: a uniform subset of the successes
     long slot; nseen++;
@@ -337,7 +347,7 @@ static void refresh(int w) {
         int b = __builtin_ctzll(fz), lane = w * 64 + b; fz &= fz - 1;
         u64 *c = T + (size_t)b * NCW;
         int j = order[launched % Ncur]; launched++;
-        memcpy(c, cur + (size_t)j * NCW, 8 * NCW); cfg_flips(c);
+        memcpy(c, cur + (size_t)j * NCW, 8 * NCW); perturb(c);
         lstate[lane] = RUN; lanc[lane] = canc[j]; lt0[lane] = ct[j]; llen[lane] = 0; nrun++; memcpy(lhist[lane], chist + (size_t)j * HL, HL);
         Fz[w] &= ~(1ULL << b);
     }
@@ -381,12 +391,15 @@ int main(int argc, char **argv) {
     const char *pathfile = (M && argc > 8 && strcmp(argv[8], "-")) ? argv[8] : 0;
     CAPN = (M && argc > 9) ? atoi(argv[9]) : 200000;
     if (CAPN > M && M) CAPN = M;
+    MODE = (M && argc > 10) ? atoi(argv[10]) : 0;
     if (LAG < 1 || LAG > 7) { fprintf(stderr, "LAG must be 1..7\n"); return 2; }
     NS = LAG + 1;
     int D = 2 * LAG + 1;     // a flip there cannot reach the face layer within LAG generations
     geom_init(Rr, D); seed_rng(seed);
     if (NFLIP <= 0) NFLIP = (nS + (-NFLIP ? -NFLIP : 6) - 1) / (-NFLIP ? -NFLIP : 6);   // NFLIP = -f: one flip per f sites, rounded up
-    if (nS < 2) { fprintf(stderr, "no perturbation sites at depth %d in R = %d\n", D, Rr); return 2; }
+    pool = malloc(8 * (size_t)POOLN * NCW); deepmask = calloc(NCW, 8);
+    for (int i = 0; i < n; i++) if (co[3 * i] + co[3 * i + 1] + co[3 * i + 2] <= R - 2 * D) deepmask[i >> 6] |= 1ULL << (i & 63);
+    if (nS < 2 && !MODE) { fprintf(stderr, "no perturbation sites at depth %d in R = %d\n", D, Rr); return 2; }
     {   // self-test of the transpose
         u64 a[64], b[64]; for (int i = 0; i < 64; i++) a[i] = b[i] = rnd();
         transpose64(b);
@@ -416,6 +429,8 @@ int main(int argc, char **argv) {
         }
         if (phase == 2 && gphase == 100) { phase = 3; gphase = 0; }
         if (phase == 3 && ((M && nstore >= CAPN) || (!M && gphase >= bfgens))) break;
+        if (MODE && phase == 3 && gphase % 100 == 0 && npool < POOLN)   // donors: 512 hulls every 100 generations
+            for (int k = 0; k < 512 && npool < POOLN; k++) { int lane = (int)((gphase / 100 * 512 + k) % NL); if (lage[lane] > T0) lane_extract(lane, pool + (size_t)npool++ * NCW); }
         step(WMAX); observe(WMAX);
         for (int lane = 0; lane < NL; lane++) {
             int w = lane >> 6, b = lane & 63, p = pop[lane], nd = (p == 0);
@@ -452,7 +467,7 @@ int main(int argc, char **argv) {
         }
     }
     double lnphi = log(ncross / exposure);
-    printf("# R %d n %d A %d nS %d LAG %d D %d NFLIP %d STEP %d H %g CAP %d seed %llu M %d\n", R, n, A, nS, LAG, D, NFLIP, STEP, H, CAPN, (unsigned long long)seed, M);
+    printf("# R %d n %d A %d nS %d LAG %d D %d NFLIP %d STEP %d H %g CAP %d seed %llu M %d MODE %d npool %d\n", R, n, A, nS, LAG, D, NFLIP, STEP, H, CAPN, (unsigned long long)seed, M, MODE, npool);
     printf("# PBAR %.4f SIG %.4f LA %d L0 %d exposure %.0f ncross %ld lnPhi0 %.5f deaths_any %ld d0w %.3f old %ld direct_lntau %.4f direct_err %.4f\n",
            PBAR, SIG, LA, L0, exposure, ncross, lnphi, deaths, d0w, nold,
            deaths ? log(8 * exposure / deaths) : NAN, deaths ? 1 / sqrt((double)deaths) : NAN);

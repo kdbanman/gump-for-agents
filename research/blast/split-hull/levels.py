@@ -91,3 +91,33 @@ if all(R in q for R in (9, 11, 13, 15)):
         d1 = q[9][i] - 2 * q[11][i] + q[13][i]; d2 = q[11][i] - 2 * q[13][i] + q[15][i]
         print(f'    p = {p}: {d1:.3f}  {d2:.3f}     slopes per cell 45-63, 63-84, 84-108: '
               f'{(q[11][i] - q[9][i]) / 18:.4f} {(q[13][i] - q[11][i]) / 21:.4f} {(q[15][i] - q[13][i]) / 24:.4f}')
+
+# PART 3: is -ln q(p) = ln tau + ln nu(p) linear in the area?  If it is, the measured nu(p) of the larger hulls
+# turns into a forecast of their lifetimes: ln tau = a_p + c_p * A - ln nu_R(p).
+print('\nPART 3: fits of -ln q(p) over R = 9..15 (anchors\' ln tau, brute-force nu), and what they say beyond')
+KK = {R: k for R, k in zip(range(9, 23, 2), range(5, 12))}
+if all(R in q for R in (9, 11, 13, 15)):
+    Rs = (9, 11, 13, 15)
+    Aa = np.array([AREA[R] for R in Rs], float); ka = np.array([KK[R] for R in Rs], float)
+    print('  p     fit                       residuals at 45, 63, 84, 108        forecast ln tau at R = 17, 19, 21 (A = 135, 165, 198)')
+    for i, p in enumerate(P):
+        y = np.array([q[R][i] for R in Rs])
+        if not np.isfinite(y).all():
+            continue
+        for name, X in (('a + c A      ', np.vstack([np.ones(4), Aa]).T), ('a + c A + b k', np.vstack([np.ones(4), Aa, ka]).T),
+                        ('last 3: a+cA ', None)):
+            if X is None:
+                co = np.linalg.lstsq(np.vstack([np.ones(3), Aa[1:]]).T, y[1:], rcond=None)[0]; co = np.append(co, 0.0)
+                res = y - (co[0] + co[1] * Aa)
+            else:
+                co = np.linalg.lstsq(X, y, rcond=None)[0]; res = y - X @ co
+                co = np.append(co, 0.0) if len(co) == 2 else co
+            fc = []
+            for R in (17, 19, 21):
+                if R in rows and np.isfinite(rows[R][1][i]):
+                    fc.append(f'{co[0] + co[1] * AREA[R] + co[2] * KK[R] - rows[R][1][i]:7.3f}')
+                else:
+                    fc.append('    -  ')
+            print(f'  {p}  {name} c = {co[1]:.4f} b = {co[2]:+.3f}   ' + ' '.join(f'{r:+.3f}' for r in res) + '     ' + ' '.join(fc))
+    print('  (for comparison: 29.230 if the second difference of ln tau repeats, 29.205 wrapped price with A^-1.5, 29.163 wrapped price;')
+    print('   R = 19: 35.81 if it repeats)')
