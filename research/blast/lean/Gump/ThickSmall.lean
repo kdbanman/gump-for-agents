@@ -462,8 +462,9 @@ theorem SealedIn.refl_slab {A B : Int} {W : Pt → Bool} (hS : SealedIn (slab d1
 /-- **Theorem 4 (i), existence, for every layer of every diagonal.** For every diagonal `d` and every even
 translation `t`, the reflected and translated hexagon ring is sealed in its layer `d·p = 1 + d·t`. (All
 hexagon rings of all layers are of this form: the hexagons of a kagome layer form one orbit of the layer's
-translations, and even translations move a layer by every even amount. That sentence is not checked in
-Lean.) -/
+translations, and even translations move a layer by every even amount. That sentence is not checked here;
+`hexagon_sealed` in `Gump/ThickHex.lean` proves the statement for every closed kagome walk of six cells
+directly.) -/
 theorem hexRing_all_sealed (d : Diag) (t : Pt) (ht : t.IsEven) :
     SealedIn (slab d (1 + d.dot t) (1 + d.dot t)) (fun q => hexRing.contains (d.refl (q + t.neg))) :=
   (hexRing_sealed.refl_slab d).translate_slab t ht
