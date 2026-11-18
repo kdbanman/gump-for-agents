@@ -23,6 +23,11 @@ anchors, reach 120 cells and beyond. What came out, in order of how far I trust 
    24.64 ± 0.07 for the 120-cell tube and 38.7 ± 0.2 (± 0.3 for drift) for the 192-cell tube. Beyond 120 cells
    its lifetimes (tubes and wide tori, 14-26 replications each) are too noisy to decide between the readings of
    the tube's discount: section 6 says by how much.
+7. **[measured] A long tube does not stop busting, it stops busting all at once** (section 9, the PI's follow-up):
+   every 2-unit stretch of a dying tube still over-fills to 0.7 of its cells and crashes to 0.22, at every
+   length; the stretches crash together up to 144 cells and in two or three separate crashes at 192 (halves in
+   different generations: 0.17, 0.21, 0.26, 0.29, 0.65 at 84..192 cells; wide tori 0.03). Gump's own deaths at
+   63 and 84 cells give the same numbers as the surrogate's.
 6. **[measured, surrogate] Wide faces keep dying by a face-wide boom and bust up to 192 cells; long tubes stop
    doing so** (section 6, last table): the share of deaths with a one-generation fall of half the face is 0.54,
    0.59, 0.68, 0.55 on wide tori of 63, 108, 144, 192 cells, and 0.50, 0.50, 0.38, 0.26, 0.17 on loop^2 12 tubes
@@ -555,6 +560,8 @@ a replication). Not done: sections of other widths, the 96-cell tube (other twis
 
 `geom.py` (graph, numpy stepper), `ss.c` (stepper; modes `dump`, `plain`, `ffs`, `lag`, `sub`), `validate.py`,
 `nuq.py`, `nuq_quad.py` (bookkeeping forecast), `howdie.py` (anatomy of natural deaths), `run_sub.py`,
-`table_sub.py`, `subpaths.py` (subset sampler: frozen-parameter driver, table, dying paths), `chain_*.sh` (the
-runs as launched), `data/` (validation log, plain-run histograms, lag profiles, paths, sampler outputs; `data/v1/`
-= sampler version 1), `PREDICTIONS.md`.
+`table_sub.py`, `derived.py`, `subpaths.py`, `fill.py` (subset sampler: frozen-parameter driver, tables, dying
+paths), `sections.py`, `sec_table.py`, `fill9.py` (section 9), `chain_*.sh` (the runs as launched; several were
+cut short and replaced, as their headers say), `data/` (validation log, plain-run histograms, lag profiles,
+paths, sampler outputs, `sections_full.txt`; `data/v1/` = sampler version 1), `PREDICTIONS.md`. Bulk, git-ignored,
+under `research/scratch/blast/split-slab/`: `subpaths_full/` (25 MB), `cells/` (per-cell records of section 9).

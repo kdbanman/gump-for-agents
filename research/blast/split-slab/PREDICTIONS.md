@@ -122,3 +122,10 @@ Added 04:43 UTC, after one more run (the wide 144-cell torus (4,4),(0,12), 14 re
 the wide line's 30.06): the sampler's errors at 144 and 192 cells are too small by up to a factor 2 (wide tori
 -0.33 at 144, +0.64 at 192 against the line). Block 4's scores for 144 and 192 cells ("held") therefore mean
 little, and my 45% for the wide 192-cell torus above 40.30 goes down to 30%.
+
+Added 05:04 UTC: with the replications run for README section 9 (seed 5) the pooled sampler table moved a little:
+offsets +0.026 ± 0.031 (63), +0.019 ± 0.046 (84), +0.087 ± 0.067 (96), +0.072 ± 0.052 (108 tube), +0.068 ± 0.072
+(108 wide); 120 cells 24.696 ± 0.065 on the dice chain, **24.64 ± 0.07** after the offset (was 24.68 ± 0.09);
+144-cell tube 29.29 ± 0.19; 192-cell tube 38.76 ± 0.18; wide 192-cell torus 40.59 ± 0.19 (lognormal error 0.32).
+The forecast of record for the 120-cell tube is unchanged: 24.59 ± 0.05 (bookkeeping); both of mine together
+24.61 ± 0.04.
