@@ -50,10 +50,9 @@ after its own check; the PI never merges it.
 
 ## State (overwritten; last written 13:21 UTC 2026-11-18)
 
-- **Usage at 13:18 UTC: Fable window 0.33, weekly 0.17.** Three agents cost 19 points in an hour: resumed agents
-  with contexts of 500,000 to 740,000 tokens are dear. **Start no agent and resume none**, except one fresh, short
-  referee for the noisy chain if the window allows (rule: none from 0.40, wrap-up from 0.45, nothing at 0.50).
-  The PI analyses the noisy runs itself (`python3 research/blast/noisy/fit.py`, `ana.py`).
+- **Usage at 13:56 UTC: Fable window 0.39, weekly 0.20; about 0.40 at 14:02.** By the rule no agent is started or
+  resumed from here on. The rest of the window (to 0.50) is for the PI's own check-ins on the long runs: keep
+  them few (every two to three hours) and short. The noisy sampler therefore stays **unrefereed**; say so.
 - **No agent is running** (14:00 UTC). `strips` reported (commit 7a670fd): `rim/`'s table stands; no row of a rimmed
   strip costs more than a wrapped row; marginal against average price; thin strips are cut by firewalls; the
   tetrahedron has no steady state. In `REPORT.md`; block 6 scored.
@@ -63,8 +62,14 @@ after its own check; the PI never merges it.
     `run_sub.sh 15 128 15100 22` and `run_sub.sh 15 32 15400 36`; at 14:00 UTC the other two:
     `run_sub.sh 15 128 15200 22` and `run_sub.sh 15 64 15300 30` (2.2 h each; all four done by about 16:15).
     Then `python3 research/blast/noisy/fit.py`: intercept at eps = 0 against 23.3392.
+  - Running values at 14:02 (`fit.py`; 73 and 127 replications): 108 cells at eps = 1/16: 23.448 +- 0.056 (+0.11
+    above gump, 1.9 errors); at 1/64: 23.387 +- 0.092 with a scatter of 1.0 per replication. If the full run keeps
+    an offset near +0.1 at eps = 1/16, the chain is not gump at that size and rate, and the small-eps points are
+    too noisy to extrapolate: then run `prod_A_brute84.sh` (the chain's own offset at 84 cells by brute force,
+    10 core-hours) before spending 32 core-hours on 135 cells, and report the method as not reaching 135 cells
+    better than about +- 0.15.
   - Stage C, 135 cells: `sh research/blast/noisy/prod_C_135.sh 1` (4 cores, 8 h a round; later rounds 2, 3 add
-    up) only after B is read. If B fails, run `prod_A_brute84.sh` (the chain's own offset at 84 cells) instead.
+    up) only after B is read.
   - At each wake-up copy the `runs/` files of stages B and C to `research/blast/noisy/data/runs/` and commit
     (the scratch directory dies with the container).
   - `noisy` stage 1 as reported (commit e98b53e): chain = gump at M = 0 bit for bit; no offset at 45 and 63
@@ -72,9 +77,7 @@ after its own check; the PI never merges it.
     within errors; 84 cells at eps = 1/16: 18.173 +- 0.029 (gump 18.141). Its forecast: 135 cells 29.27 +- 0.08.
 - **Done this phase:** `holes` reported and refereed (in `REPORT.md`); the 120-cell tube scored (24.5086 +-
   0.0169, below every forecast; chords 0.2023, 0.2013, 0.1957); block 7 frozen (126- and 132-cell tubes).
-- Not done: the pull request's description is still the night's; `README.md`'s index lacks rows for `holes`,
-  `noisy`, `strips`, `ref-report`, `ref-hull/WRAPPED.md`, `ref-hull/HOLES.md`, the last section of `ref-dicehull`;
-  the lead has recomputed nothing; `research/check.sh` not run on the blast; no figures.
+- The pull request's description and `README.md`'s index were brought up to date at 14:05 UTC. Not done: the lead has recomputed nothing; `research/check.sh` not run on the blast; no figures.
 
 ## Results that are easy to misremember (all in `REPORT.md`)
 

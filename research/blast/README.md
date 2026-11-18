@@ -24,7 +24,13 @@ kept as written; where they disagree with the report, the report is later and re
 | `split-hull/` | forward flux on hulls fails; dip rates to radius 21 and the forecast 29.22; dice under the hull | dip rates refereed by `ref-hull/` (confirmed); the dice chain by `ref-dicehull/` |
 | `toy/` | the 2D relative: the same two exits, prices reversed, a crossover | unrefereed |
 | `pi/` | the PI's own arithmetic (`frontgas_check.py`, `patch_vs_torus.py`) | unrefereed |
-| `PREDICTIONS.md` | the PI's forecasts, blocks 0–4, each frozen before its data, each scored | |
+| `holes/` | second phase: the chance that a patch of a living face is empty; hull interior = wrapped face; the 18-cell hull face | refereed by `ref-hull/HOLES.md` (numbers confirmed, two readings corrected) |
+| `strips/` | second phase: `rim/`'s corner-free strips re-measured with independent code and extended; closed tubes of the same girth; firewalls in thin strips; the tetrahedron has no steady state | unrefereed (itself a check of `rim/`'s table, which stands) |
+| `noisy/` | second phase: ε-noisy gump on the whole hull and a sampler over the noise, for the 135-cell face; `data/runs/` holds the long runs' raw rows | unrefereed; validated against brute force at 45 and 63 cells, blind at 108 cells (see `REPORT.md`) |
+| `ref-hull/WRAPPED.md`, `ref-hull/HOLES.md` | the hull referee's second and third tasks (rimmed against wrapped faces; the referee of `holes/`) | |
+| `ref-report/` | the referee of the report itself against its sources (night) | |
+| `PI.md` | the investigator's standing file: the owner's words, usage rules, what is running and owed | |
+| `PREDICTIONS.md` | the PI's forecasts, blocks 0–7, each frozen before its data, each scored when the data came | |
 
 Not done, for whoever comes next: nothing here has been recomputed by the lead; `research/check.sh` was not run
 against these directories (they add no tests to it); no figure was made; several agents left compiled binaries
