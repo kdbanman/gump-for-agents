@@ -24,3 +24,31 @@ L × L box (first death of the vessel). Rule cross2 B34/S234.
 6. Exact bust share of the death flux in the surrogate: ring > segment (0.7), but both below 0.5 at L ≥ 16 (0.6).
 7. Upper tail of the quasi-stationary row population in the surrogate: per-cell rate ψ(x) the same on ring and
    segment to 0.005 per cell at L = 20 (0.7).
+
+## Scoring of block 1 (04:32 UTC; numbers in README.md)
+
+1. Ring bust share (12 steps), L = 16, 20: forecast 0.30; measured 0.876, 0.802. **Miss** (far too low).
+2. Box bust share: forecast 0.15; measured 0.472, 0.403. **Miss** in level; ratio ring/box 1.9–2.0 ≥ 1.5: **hit**.
+3. Ring flat (spread 1.1–1.3 generations), box last cell at an end twice as often as uniform: **hit**.
+4. Ring slope 0.42–0.44 falling to 0.40, box 0.33–0.35, order reversed relative to gump, box outlives ring below
+   L ≈ 25: **hit** (it was on file).
+5. Surrogate slopes within 0.01 at L = 18–20: **miss**. They differ by 0.063–0.068 (ring 0.524–0.527, segment
+   0.459–0.461). Sign of the offset positive: hit (segment outlives ring by 0.67 at L = 20), but it is not a
+   constant: it shrinks by 0.065 per cell.
+6. Exact bust share ring > segment: **hit** (0.88 against 0.51 at L = 20, 6 steps); both below 0.5 at L ≥ 16: **miss**.
+7. Upper tail the same to 0.005 per cell at L = 20: **miss by the letter** (0.007 at x = 0.75, 0.014 at x = 1); the
+   difference is a constant 0.15 in −ln P at x = 0.75 (L = 8 … 20), i.e. a prefactor, not a rate.
+
+## Block 2 — 2026-11-18 04:33 UTC, frozen before reading the exact L = 21–24 outputs and with no data beyond L = 36
+
+From the two-exit split of the ring edge (flash ln τ = 0.296 + 0.4550·L, other 4.033 + 0.3274·L; README §3):
+- 2D ring edge (strip 16 × L): bust share (6 steps) 0.30 at L = 36, 0.20 at L = 40, 0.08 at L = 48;
+  ln τ_edge(40) = 16.90 ± 0.10, ln τ_edge(48) = 19.66 ± 0.15; local slope 40–48 = 0.345 ± 0.010, i.e. the ring's
+  price falls to the box's (0.34) and "two prices" disappears in 2D above L ≈ 40 (probability 0.65).
+  Retrodiction on file data I had seen: L = 36 gives 15.47 against the file's 15.58 ± 0.045.
+- Exact surrogate, read after this commit: ring L = 22: 11.787 ± 0.006; segment L = 22: 12.331 ± 0.004;
+  segment L = 24: 13.249 ± 0.008; ring − segment slope difference still ≥ 0.055 at 20–22 (0.8); segment bust
+  share (6 steps) at L = 22: 0.475 ± 0.01.
+- gump (not measurable by me tonight; conjecture from the 2D relative): the bust share of HULL-face deaths rises
+  with face size (its logit linear in A with slope ≈ +0.022 per cell minus a rim term), so 1.6% is not a
+  constant: at 108 cells I would expect a higher share than at 63 (probability 0.6).
