@@ -102,7 +102,8 @@ Everything below is about the surrogate S at (0.44, 0.42) unless gump is named.
    branches" as the whole account of 0.231 against 0.209 is refuted by that number** (it would need the share's
    log-odds to rise by 0.022 per cell). What survives is the test R9 of PREDICTIONS.md for gump's long tubes.
    Frozen forecast from this reading, then run (PREDICTIONS.md R7, R8): the 48-cell tube (1,1),(0,16) at
-   12.43 ± 0.07 with bust share 0.22 ± 0.06; outcome 12.445 ± 0.032 and 0.229 ± 0.013.
+   12.43 ± 0.07 with bust share 0.22 ± 0.06; outcome 12.451 ± 0.019 (a second run: 12.445 ± 0.032) and
+   0.229 ± 0.013; the step 14→16 is 0.674 ± 0.011 per unit and step − p·0.29 = 0.59 again.
    Caveat: the second branch is defined by exclusion ("no fall of half the *whole* face in the last 6
    generations"). On a long tube it may hold deaths in which a part of the tube busts and the rest starves; which
    it is was not examined, and the branch prices above are per unit of length whatever the answer.
@@ -128,6 +129,16 @@ Everything below is about the surrogate S at (0.44, 0.42) unless gump is named.
    against gump's 5.50, 7.39, 9.93: slope 0.24–0.25 against 0.209. Private coins make the face too tough; depth
    and shared cells matter for the number, not for the routes.
 
+## The tilt path (the test of Theorem 3's hypothesis; undecided at these sizes)
+
+`./qsd g 0.44 0.42 4000 2e-12 0 tilt`, line `tilt_path` (s : ⟨E⟩_s/A : density under μ_s). On the 18-cell triangle the
+density falls 0.474 (s = 0), 0.366 (0.10), 0.245 (0.21), 0.153 (0.33), 0.112 (0.48), 0.076 (s = 1): the dying face is
+reached a third of the way along the tilt. A jump (two coexisting kinds of face, the failure of SSM) would show
+as a largest slope −d⟨E⟩_s/ds / A = Var_s(E)/A growing in proportion to A. Between the first nodes it is 2.3 on the
+9-cell triangle and 2.7 on the 18-cell one; 1.5 on the 12-cell torus (2,0),(0,2); 2.7 and 2.6 on the strips 2×2 and
+3×2. [measured, exact] No trend that 9–18 cells could establish: **the hypothesis is neither supported nor refuted
+by the exact data**; the route shares (claims 4, 5) are the indirect evidence against it.
+
 ## Where the brief's questions stand
 
 | question | answer |
@@ -150,8 +161,13 @@ Everything below is about the surrogate S at (0.44, 0.42) unless gump is named.
     python3 check_graph.py                         # graph against the oracle, negative control
     python3 geom.py torus 2 0 2 > t.g; ./qsd t.g 0.44 0.42; python3 dense.py t.g 0.44 0.42
     ./qsd t.g 0.44 0.42 4000 2e-12 0 tilt          # adds the tilt identity, price map, tilt path (Theorem 2)
+    ./qsd t.g 0.44 0.42 4000 2e-12 0 - bust        # routes to death: over-full and half-face-fall shares (data/routes.txt)
     python3 table.py run 25 0.44 0.42              # exact rows -> data/exact.csv (minutes; 26-27 bits: 1 GB, longer)
     python3 mcrun.py 0.44 0.42 1.5e9               # Monte Carlo rows -> data/mc.csv
+    python3 mcrun2.py 0.44 0.42                    # longer runs on the tube family (1,1),(0,D) and the triangles
+    python3 -c "import geom; nb,m=geom.build('hull2',7); geom.emit(nb,m,list(range(len(nb))),open('h2.g','w'))"
+    ./mc h2.g 0.44 0.42 20000 1e8 11 200 0.5177    # rim held by a second face (data/mc_hull2.csv); the last three
+                                                   # numbers printed are the route shares (data/mc_routes.csv)
     python3 report.py                              # every table of this README
 
 ## Not checked

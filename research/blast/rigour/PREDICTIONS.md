@@ -47,7 +47,7 @@ c_s = 0.585 from the steps at D = 9..13.
 | R4 | girth-one tube of 36 cells below 6.5 (50%) | 6.308 ± 0.007 | **hit** |
 | R5 | strip 2 x 3 above 4.9 (60%) and above 4.69 (75%) | 6.1754024793 (exact) | **hit, hit** (and far too timid: I expected about 5) |
 | R6 | gump's 120-cell tube 24.570 ± 0.025 | not yet measured | open |
-| R7 | surrogate tube (1,1),(0,16): 12.43 ± 0.07 (65%) | 12.445 ± 0.032 (984 deaths, `mc` seed 77) | **hit** |
+| R7 | surrogate tube (1,1),(0,16): 12.43 ± 0.07 (65%) | 12.445 ± 0.032 (984 deaths, `mc` seed 77); 12.451 ± 0.019 (2,853 deaths, `mcrun2.py`) | **hit** |
 | R8 | its bust share 0.22 ± 0.06 (60%) | 0.229 ± 0.013 | **hit** |
 | R9 | gump's long tubes: bust share moves 3–6 points per 12 cells | not measured here | open |
 

@@ -153,7 +153,7 @@ enters, and that is what distinguishes a tube (two straight interfaces round the
 interface) and a polygon (an interface that can end on the rim or sit in a corner). **So the PI's "sweep or flash"
 and "long correlations at the point of no return" are one question, and it is decidable on the surrogate:
 is s ↦ ⟨E⟩_s/A a smooth curve as A grows, or does it steepen into a jump?** `qsd … tilt` prints the curve
-(`tilt_path`); the README gives it for the shapes solved.
+(`tilt_path`); the README (section "The tilt path") says what it shows at 9–18 cells: nothing decisive.
 
 For gump itself the hypothesis is the same statement about the slab over coins (w ≥ 5), with E replaced by
 −ln P(face empty g generations later | present state): no longer a sum over cells, but a sum over the cube
