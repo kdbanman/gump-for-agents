@@ -23,16 +23,16 @@ anchors, reach 120 cells and beyond. What came out, in order of how far I trust 
    24.64 ± 0.07 for the 120-cell tube and 38.7 ± 0.2 (± 0.3 for drift) for the 192-cell tube. Beyond 120 cells
    its lifetimes (tubes and wide tori, 14-26 replications each) are too noisy to decide between the readings of
    the tube's discount: section 6 says by how much.
-7. **[measured] A long tube does not stop busting, it stops busting all at once** (section 9, the PI's follow-up):
-   every 2-unit stretch of a dying tube still over-fills to 0.7 of its cells and crashes to 0.22, at every
-   length; the stretches crash together up to 144 cells and in two or three separate crashes at 192 (halves in
-   different generations: 0.17, 0.21, 0.26, 0.29, 0.65 at 84..192 cells; wide tori 0.03). Gump's own deaths at
-   63 and 84 cells give the same numbers as the surrogate's.
 6. **[measured, surrogate] Wide faces keep dying by a face-wide boom and bust up to 192 cells; long tubes stop
    doing so** (section 6, last table): the share of deaths with a one-generation fall of half the face is 0.54,
    0.59, 0.68, 0.55 on wide tori of 63, 108, 144, 192 cells, and 0.50, 0.50, 0.38, 0.26, 0.17 on loop^2 12 tubes
    of 84, 108, 120, 144, 192 cells. This comparison is within the dying ensemble and does not suffer from the
    noise of the lifetimes.
+7. **[measured] A long tube does not stop busting, it stops busting all at once** (section 9, the PI's follow-up):
+   every 2-unit stretch of a dying tube still over-fills to 0.7 of its cells and crashes to 0.22, at every
+   length; the stretches crash together up to 144 cells and in two or three separate crashes at 192 (halves in
+   different generations: 0.17, 0.21, 0.26, 0.29, 0.65 at 84..192 cells; wide tori 0.03). Gump's own deaths at
+   63 and 84 cells give the same numbers as the surrogate's.
 
 Marks: **[proved]**, **[measured]**, **[conjectured]**. Runs used one core (the machine gave it 40-50%).
 `G/` = `research/scratch/blast/split-slab/`; build and geometry:
