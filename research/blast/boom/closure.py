@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Is the face population a sufficient variable? d(p) of three Markov closures against the natural deaths.
 
-    python3 closure.py NAME        (NAME run with the M3/M4 binary, see run_c.sh)  -> out/closure_NAME.txt
+    python3 closure.py NAME        (NAME run with the M3/M4 counts)  -> out/closure_NAME.txt
+    python3 closure.py NAME against OTHER    the chains of NAME tested on the natural deaths of the independent run OTHER
 
 chain 1: states P.   chain 2: states (P(t-1), P(t)).   chain PU: states (P, U), U = population of the layer beneath.
 Each chain is built from the run's own transition counts; d(p) = chance that from a generation with population p the
@@ -14,6 +15,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SCR = os.path.abspath(os.path.join(HERE, '..', '..', 'scratch', 'blast', 'boom'))
 HL = 32
 
+TEST = None
 def main(nm):
     p = os.path.join(SCR, nm)
     M = np.fromfile(p + '.M'); A = int(round(len(M) ** .5)) - 1; NA = A + 1; M = M.reshape(NA, NA); L = (A + 1) // 2
@@ -26,6 +28,8 @@ def main(nm):
         j = np.nonzero(r >= L)[0]
         if len(j): nl[r[j[0]]] += 1
     d_dir = nl / np.maximum(N, 1)
+    if TEST:      # cross-validation: the natural deaths of an independent run of the same vessel (out/TEST.json from analyse.py)
+        import json; r = json.load(open(os.path.join(HERE, 'out', TEST + '.json'))); nl = np.array(r['nl']); d_dir = nl / np.maximum(np.array(r['N']), 1)
     low = np.arange(1, L); nlw = len(low)
     # chain 1
     T = M / np.maximum(N, 1)[:, None]
@@ -64,7 +68,9 @@ def main(nm):
     hi = ps >= 0.70 * A
     for lab, d in (('chain 1', d1), ('chain 2', d2), ('chain PU', d4)):
         w(f'  {lab}: rate launched from >= 0.70 A, model / natural = {(nu * d)[hi].sum() / (nu * d_dir)[hi].sum():.3f}')
-    open(os.path.join(HERE, 'out', 'closure_' + nm + '.txt'), 'w').write('\n'.join(out) + '\n'); print('\n'.join(out))
+    open(os.path.join(HERE, 'out', 'closure_' + nm + ('_against_' + TEST if TEST else '') + '.txt'), 'w').write('\n'.join(out) + '\n'); print('\n'.join(out))
 
 if __name__ == '__main__':
-    for nm in sys.argv[1:]: main(nm)
+    if len(sys.argv) > 3 and sys.argv[2] == 'against': TEST = sys.argv[3]; main(sys.argv[1])
+    else:
+        for nm in sys.argv[1:]: main(nm)

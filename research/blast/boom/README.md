@@ -167,6 +167,9 @@ layer. In over-full states E[P′] = 98.2 − 1.28·P − 0.50·U (63 cells; the
 
   The face population with one generation of memory is a sufficient state to a few per cent; the layer beneath, taken
   at the same time, is not (it does not know whether a thin face is thin after a bust).
+  Cross-validated: the chains of one run against the natural deaths of an independent run of the same vessel
+  (`python3 closure.py c48 against t48`, `… t63b against t63`): rate launched from ≥ 0.70·A, chain / natural =
+  0.63 (P), 0.78 (P, U), 0.98 (pair) at 48 cells; 0.39, 0.64, 0.92 at 63 cells.
 - A closed form, c = min_θ [I_up(θ) + λ·f(θ) − λ²σ²(θ)/2] with λ = 2(g − 1)/κ the extinction exponent of the bottom
   branch of the map (E[P′|q] = 1.21·q, Var = 0.87·q: λ = 0.49; the chain's own ratio of failure chances per cell 0.63:
   λ = 0.47), gives 0.215–0.225, and λ = 0.446 fits 0.2087 (`out/formula.txt`), but its minimum sits at θ = 0.60, not
@@ -182,8 +185,12 @@ layer. In over-full states E[P′] = 98.2 − 1.28·P − 0.50·U (63 cells; the
 - the fall: E[P′ | p] 31.11 / 31.13 and Var 19.87 / 19.78 at p = 62; equal to 0.1% from p = 54 to 67.
 - clusters after the bust and fail(size) the same on the 60-cell tube as on the 63-cell torus at equal θ.
 - the joint over-fill is a little more frequent on the tube: P ≥ 0.70·A and U ≥ 0.64·A: +0.065 ± 0.011; P + U ≥
-  1.35·A: +0.059 ± 0.008; ≥ 1.40·A: +0.10 ± 0.03 (fatal launches sit at P + U ≈ 1.39·A). A third to a half of the
-  discount at 84 cells may be here; Var(P + U)/A is 1.008 against 0.967.
+  1.35·A: +0.059 ± 0.008; ≥ 1.40·A: +0.10 ± 0.03 (fatal launches sit at P + U ≈ 1.37·A); Var(P + U)/A is 1.008
+  against 0.967. Weighed properly (`python3 joint2.py tube72 w72`: the rate ratio that the frequencies of the launch
+  states alone would give, with d(p, u) pooled over both shapes): **at 72 cells the frequency of P alone gives
+  +0.013 ± 0.002 and the frequency of (P, U) gives +0.046 ± 0.007 of a discount of 0.164** (0.20 ± 0.06 in these
+  runs). So about a quarter of the discount is a more frequent two-layer over-fill; the rest is in the kill at a
+  given (P, U), or in layers I did not record.
 - duration and path of the death: the same (mean launch → empty 6.2 against 6.3 generations at 60/63 cells; the
   dying face is 0.224, 0.122, 0.066 of A on tubes against 0.221, 0.118, 0.062 on wide faces one, two, three
   generations after the launch).
