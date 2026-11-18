@@ -323,6 +323,7 @@ and 108-cell tube rows of the table above now hold eight seeds each.
 | (4, 0), (0, 8) | 96 | 16, 48, 64, 64 | 4 | 24,796 | 238,631 | 19.9366 ± 0.0064 | 2.2 on 3 |
 | (1, 8), (0, 32) | 96 | 16, 49, 57, 73 | 4 | 25,054 | 239,318 | 19.9284 ± 0.0063 | 5.0 on 3 |
 | (1, 3), (0, 32) | 96 | 13, 61, 64 | 4 | 25,797 | 0 | 19.8109 ± 0.0062 | 2.8 on 3 |
+| (1, 18), (0, 40) | 120 | 12, 103, 103 | 8 | 3,494 | 0 | 24.5086 ± 0.0169 | 4.4 on 7 |
 
 - **The 12-tube's low price is real.** With eight seeds each: 17.3175 ± 0.0031, 19.7446 ± 0.0042, 22.1599 ± 0.0086 at
   84, 96, 108 cells; chords 0.2023 ± 0.0004 and 0.2013 ± 0.0008; second difference −0.012 ± 0.012; one line of slope
@@ -350,8 +351,24 @@ and 108-cell tube rows of the table above now hold eight seeds each.
   not yet reviewed by the lead). Engine-exact every generation on five tori; events equal life by life to a numpy
   implementation on four small vessels; 4 × 4: 9.9252 ± 0.0006. At 63 cells it gives 13.1607 ± 0.0017 at 8 layers
   (here 13.1622 ± 0.0007) and 13.1619 ± 0.0025 at 16 layers (here 13.1589 ± 0.0013: +0.0030 ± 0.0028). On the 96-cell
-  tube it has 19.723 ± 0.016 so far (3,899 deaths; the run continues to about ± 0.007), 1.3σ below the value here.
+  tube it has 19.7394 ± 0.0065 (23,904 deaths, twelve seeds, read at 12:00Z on 2026-11-18; the run ends about
+  19:30Z; here 19.7446 ± 0.0042: −0.005 ± 0.008). On the 84-cell face (1, 4), (0, 28) it has 17.5442 ± 0.0034
+  (84,908 deaths, eight seeds, finished; here 17.5387 ± 0.0031: +0.0055 ± 0.0046, 1.2 errors).
   `python research/gpu-local/cpu/fr.py summary`.
+- **The 120-cell tube is lower than every forecast (2026-11-18): (1, 18), (0, 40) has 24.5086 ± 0.0169** (eight runs
+  of 180 minutes, 3,494 deaths, seeds' χ² 4.4 on 7; no firewall, no settled or kind-5 life; hazard by age flat over
+  five bins, 0.94 to 1.06, the oldest life being 0.17 of the face time). `python research/gpu-local/eq_analyze.py 1 18 40`.
+  - My forecast was 24.576 ± 0.020 (2.6 combined errors above). The theory session's frozen forecasts
+    (`research/blast/REPORT.md` on `claude/exciting-hamilton-0h2tr1`) were 24.56 ± 0.03 to 24.60 ± 0.07; the K = 1
+    case of its fitted form (24.608) is 5.9 of the measurement's errors away.
+  - The chord from 108 to 120 cells is **0.1957 ± 0.0016 per cell**, against 0.2013 ± 0.0008 (96 → 108) and 0.2023 ±
+    0.0004 (84 → 96). The second difference at 108 cells is −0.067 ± 0.024. The line through 84, 96 and 108 cells
+    (19.7419 + 0.20197 (A − 96)) gives 24.589 ± 0.010 at 120 cells: the face is 0.081 ± 0.020 below it.
+  - The discount against the wide-face line is 0.545 at 120 cells (0.390 at 108): 0.0129 gained per cell, against
+    0.0073 (96 → 108) and 0.0064 (84 → 96).
+  - So on this face the 12-tube's price per cell is below 0.2004, the limit of the form the theory session fitted to
+    the shorter tubes [measured at 2.7 to 4 errors, depending on the comparison; one lattice, one code, no second
+    code at this size]. Chain 4 (`PREDICTIONS.md` block 9) runs the 126- and 132-cell tubes of the same family.
 - Not checked: no second code on the loop-16 and loop-13 faces at 96 cells; hazard by age on the five faces was
   saved (`hist_H_K_D.json`) and not read.
 

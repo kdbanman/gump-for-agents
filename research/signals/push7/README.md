@@ -1,6 +1,6 @@
 # Seventh signals push: a census of ends of the rake train beyond the closed bounds
 
-2026-11-17. The standing account of push 7 (the lead's brief: look for a listener among ends of the rake train
+2026-11-17 to 18. The standing account of push 7 (the lead's brief: look for a listener among ends of the rake train
 beyond the bounds already closed). Everything here was run on the owner's Windows machine (8 worker processes at
 most, below-normal priority, no GPU). Numbers carry the command that reproduces them; run times are wall-clock on
 the loaded machine.
@@ -84,8 +84,18 @@ up to translation and time shift. Each list contains every end of the smaller C.
 | 3 x 3 | guns | <= 37 | 68 | 67 | yes | ~10 min, 1 core |
 | 3 x 3 | guns | <= 39 | 873 | 867 | yes | 34 min, 1 worker |
 | 5 x 5 | receiving | <= 23, 25 | 0 | 0 | yes | 0.1 s, 1.8 s |
-| 5 x 5 | receiving | <= 27 | [pending] | | | |
-| 3 x 3 | receiving, period dividing 8 | <= 35 | [pending] | | | |
+| 5 x 5 | receiving | <= 27 | 3 | 3 | yes (787 leaves) | 5.1 h, 3 to 5 workers |
+| 3 x 3 | receiving, period dividing 8 | <= 35 | 90 | 89 | **no**: 374 of 403 leaves | stopped at 06:30 UTC on 2026-11-18 after about 19 h, 1 to 2 workers |
+
+**The 5 x 5 tube at C <= 27** (64 free cells; every end of period dividing 4 inside it): **3 ends**, of 14, 14
+and 15 cells. They are shorter than any end of the 3 x 3 tube, whose smallest is at C = 31, and two of their
+generation-0 cells lie outside the 3 x 3 tube. One heals every word and H and dies on K0, and walls the wire-B
+edge. One does the same but dies on the edge. One dies on every word, heals K0, D3 and D4, and **caps wire B**. None
+listens or echoes (`summary7.py c_fb27_5.json`). C <= 25 holds no end.
+
+**Period dividing 8 (3 x 3, C <= 35): not closed.** In the 374 of 403 leaves searched, the 90 solutions are the 89
+ends of period 4 already known at C <= 35. No end of period exactly 8 was found, and their census outcomes are those
+of the period-4 census. The 29 open leaves were never searched, so "no period-8 end" is not proved.
 
 Receiving ends of the 3 x 3 tube at C <= 39: 6,196, all of period 4. Sizes at generation 0 of the list entry run
 from 17 to 38 cells, mode 27. Outcomes per event (`summary7.py c39_p0.json c39_p1.json c39_p2.json`):
@@ -181,12 +191,92 @@ No SAT solver is installed on this machine (pysat is absent and nothing was inst
 
 ## Runs (reproduction)
 
-[filled in]
+Every command below runs from `research/scratch/signals/p7` (not in git), with
+`PY=C:\Users\kdbanman\.venvs\gump-gpu\Scripts\python.exe` and `S=../../../signals/push7`. Build `cdcl7.exe` (in
+p7) as in the Method section; step7.dll is built by step7.py on first use, which needs WinLibs gcc in
+`%LOCALAPPDATA%\Microsoft\WinGet\Packages`.
+
+- **Stepper check.** `$PY $S/check7.py fb37_3.list.json`: ALL PASS. Parts R and G are the oracle comparisons
+  (about 4 min); part W compares train mode with dead mode on 20 ends.
+- **Signals.** `$PY $S/signals7.py --two` and `$PY $S/signals7.py --two --train5f`: 1.5 min each.
+- **An enumeration.**
+  - `$PY $S/cnf7.py write fb C LO HI MULT STEM`.
+  - `$PY $S/pool7.py STEM 5 W 240 2`; the 5 x 5 and period-8 trees were later re-run with split 900.
+  - `$PY $S/cnf7.py decode STEM`.
+  - The stems used: `fb35_3` (`fb 35 1 5 1`), `fb37_3`, `fb39_3`, `g37_3` / `g39_3` (`5f 37 1 5 1` / `5f 39 1 5 1`),
+    `fb27_5` (`fb 27 -1 7 1`), `fb35_3p8` (`fb 35 1 5 2`).
+- **Census.**
+  - `$PY $S/census7.py c37.json fb37_3.list.json`: 10 min.
+  - `$PY $S/census7.py c39_pI.json fb39_3.list.json --part I/3` for I = 0, 1, 2: about 25 min each, in parallel.
+  - `$PY $S/census7.py gc37.json g37_3.list.json --guns` and the same for g39: 20 s and 3 min.
+  - Tables: `$PY $S/summary7.py CENSUS.json ...`.
+- **The count.**
+  - `$PY $S/record7.py c37.json` (3 s).
+  - `$PY $S/line7.py gc37.json c37.json --N 80 --n 1,2,3,4 [--gun g --end e] [--s s]` (2 s).
+- **Oracle.**
+  - `$PY $S/verify7.py $S/objects7.json --maxL 260` (210 records, about 80 min on the loaded machine): ALL PASS.
+  - `--minL 261` (40 records with long rings, the wire-B classes and the record runs, about 10 min each): 41 PASS,
+    0 FAIL (`final7.txt`).
+  - `objects7.json` holds:
+    - the line records (`line-*`), including `distinct` claims between consecutive n;
+    - the record runs (`record-*`);
+    - for the C <= 37 and C <= 39 receiving ends and guns, ten samples per outcome class (three for the wire-B
+      classes) plus an `orbit` record for each sampled end;
+    - the 5 x 5 C = 27 end.
+- **Data in git.** `wireB_caps.json` lists the 125 receiving ends and 5 guns of C <= 37 that cap wire B, with their
+  outcome vectors. The full tables (`ends_3x3_C37.json`, `ends_3x3_C39.json`, 3.3 MB) are in p7 only; regenerate them
+  with `summary7.py ... --out`.
+- **Wrap-up.** `bash $S/finish7.sh "2026-11-18 06:30"` waits for the open trees and checks, stops them at that
+  time, then decodes, runs the census, and writes and checks records into `final7.txt`.
 
 ## Not checked
 
-[filled in]
+- No second SAT solver and no UNSAT certificate. The completeness of every list rests on `cdcl7` and on the cube
+  partition in `pool7`.
+  - The solver was checked only by reproducing the CaDiCaL lists of earlier pushes: 90 solutions at C = 35, 753 at
+    C = 37 (741 ends), 68 guns at C = 37.
+  - No list at C = 39 was produced by another solver.
+- The outcomes are exact runs of step7, which is oracle-checked, under the census's definitions. Several things
+  are outside them:
+  - transients longer than 1,500 generations;
+  - signals placed other than 24 units upstream;
+  - arrival phases other than the ones listed;
+  - two different signals in succession, other than the words of holes;
+  - the upper part of a run after the difference has gone 80 units up the stream ('dead' means the end was not
+    restored by then, not that it was watched burning);
+  - other events: one-cell changes of an arriving rake beyond those that make the listed kinds (the fifth review's
+    418 events per end were not re-run), and the five composite kinds are pairs of signals, not new signals.
+- The wire-B classes are read at generations 200..216 only. That the 125 caps stand for ever, and the count on the
+  infinite train, are measured (to 266 generations), not proved. The finite line is proved periodic for ever on the
+  oracle (a finite object, whole state).
+- The 5 x 5 tube was closed only to C <= 27, and period 8 not at all (29 open cube leaves at C = 35). No 5 x 5 guns
+  were enumerated.
+- The tables count ends by C, the plane bound of `sat_gun.build`, for the 3 x 3 tube. Ends longer than C <= 39 are
+  not seen, nor ends outside the tube.
+- Oracle records are samples (ten per outcome class), not every pair.
 
 ## Forecasts scored
 
-[filled in]
+(`PREDICTIONS.md`, written before any census result.)
+
+1. 0.85, enumerator reproduces 741: the transfer-matrix enumerator was abandoned. The CDCL route reproduced 741
+   exactly, so the forecast is scored as true in substance.
+2. 0.55, the 3 x 3 set is infinite: not tested (the transfer graph was abandoned).
+3. 0.5, the 5 x 5 tube closed to a bound of at least 6 units: no. It closed at C <= 27, about 2 units beyond the
+   train.
+4. 0.6, more than ten times as many 5 x 5 ends: no (3 ends at C <= 27; the 3 x 3 tube has none there).
+5. 0.07, a listener: no, within the bounds.
+6. 0.08, an end answering a hole with U: no.
+7. 0.05, a 5 x 5 gun surviving E: no 5 x 5 gun census was run; no 3 x 3 gun survives E at C <= 39.
+8. 0.15, an end that stops the lower edge of wire B: **yes** (125 at C <= 37; 1,223 at C <= 39).
+9. 0.8, the 5 x 5 ends heal or die on H: true (all 3).
+10. 0.6, period 8 adds nothing at C = 35: none was found in 374 of 403 leaves; not closed.
+11. 0.35, some end echoes: no (3 x 3, C <= 39).
+
+## Final state (2026-11-18 08:00 UTC)
+
+Nothing of push 7 is running. `final7.txt` is the wrap-up log (`finish7.sh`).
+- Oracle (`verify7.py`): 210 PASS with rings of at most 260 units. The heavy run (`--minL 261`) gave 41 PASS. The
+  new 5 x 5 and period-8 records with short rings gave 39 PASS. **0 FAIL** in all three (`final7.txt`). Whether the
+  long-ring part of the 47 new records is wholly inside the heavy 41 was not cross-checked.
+- The cube trees in p7 are resumable: re-run `pool7.py fb35_3p8 4 W 900 2` to close period 8.

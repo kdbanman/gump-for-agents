@@ -107,3 +107,48 @@ billed by the hour, no limit."
   design or refuse; queue items 4 to 7 when briefed; the lead's optional longer run at 111 cells.
 - **Usage:** the last reading is in `USAGE.md`. The owner allowed a few turns before the reset (2026-11-17, "feel
   free to take a few turns until the reset") and offered the CPU ("leave a core free, but the rest is yours").
+
+### Addendum, 2026-11-18 03:15Z (the owner's message, with a brief drafted by the lead)
+
+- The owner reset the Fable window on 2026-11-18 and asked this session to be the measurement side of a theory
+  swarm (branch of its own, `research/blast/`) that runs until 2026-11-18 11:00Z on why each kind of face dies at
+  its rate. Heavy work goes to Opus subagents ("Stay on Opus").
+- Two Opus subagents started at 03:10Z on "how each kind of face dies, watched": wrapped faces and tubes
+  (`research/dying2/`, 4 threads) and the rimmed hull face at R = 11 and 13 (`research/dying2/hull/`, 3 threads).
+  They commit their own paths at least hourly and must finish by 10:30Z. A background loop here pushes the branch
+  every hour until about 12:15Z. The signals subagent was cut to 2 threads and may close period 8 if it can.
+- Still running: the 120-cell tube on the card (until about 13:00Z on the 18th; the script pushes its rows) and the
+  CPU second code on 4 threads (`chain_cpu.sh`, until about 19:30Z).
+- Owed: a row in `USAGE.md` at every turn, pushed (the lead goes by those rows); when the subagents report, read
+  the hand-backs, push, and tell the lead in one message; then what the state above lists for the 120-cell tube.
+
+## Addendum, 2026-11-18 09:00Z
+
+- All three Opus subagents have finished and their work is pushed (branch at d241ef8 or later): research/dying2/ (wrapped
+  faces and tubes, head fcc27ac), research/dying2/hull/ (4727bf3), research/signals/push7/ (d34dbf5). Checked by this
+  session: the commits and files exist; verify7.py objects7.json --maxL 260 was rerun here and printed ALL PASS (52 min).
+  Not checked by this session: any number in the two dying2 READMEs; the heavy verify pass (--minL 261).
+- A cross-reading nobody has checked: the chance that a dip reaching k live cells ends in death is lower on the hull face
+  (0.77, 0.50, 0.30 at k = 1, 2, 3) than on the wrapped faces (0.85, 0.63, 0.42). The two subagents may not define q(k)
+  identically: compare research/dying2/hull/condq.py with research/dying2/dyan.py before using it.
+- The lead has NOT been messaged about any of this. Weekly Fable usage was 99% at 08:52Z, and a message could cost the
+  lead a turn before the reset at 11:00Z; everything is on the branch. Owed when chain 3 ends (about 13:00Z): one message
+  to the lead (Orchestrator) covering the 120-cell tube (interim, six of eight runs: 24.497 +- 0.019 against the forecast
+  24.576), the three subagents, and the CPU second code; then the scoring block and README row as listed above.
+- Threads now: the CPU second code uses 4 of 16; nothing else of ours is running on the CPU.
+
+## Addendum, 2026-11-18T12:04Z
+
+- Chain 3 is finished and scored (README "Chain 3", `PREDICTIONS.md` block 9): the 120-cell tube is 24.5086 ± 0.0169,
+  below every forecast.
+- **Running on the card until about 12:30Z on 2026-11-20:** `research/scratch/gpu-local/chain4.sh` (log `chain4.log`
+  beside it): (1,19),(0,42), 126 cells, eight runs of 180 minutes, then (1,20),(0,44), 132 cells, the same. Forecasts:
+  block 9. The script commits and pushes its rows itself after each face (`chain4_summary.txt` with them). Owed after
+  each face: `eq_analyze.py H K D save`, a scoring block, a README row, a `USAGE.md` line, one message to the lead.
+  It may be stopped between runs if the lead's queue has something more urgent (a run writes its row only at its end).
+- **Running on the CPU until about 19:30Z on 2026-11-18:** `chain_cpu.sh`, the 96-cell tube's third stretch. Owed:
+  the final `fr.py summary` values in the README.
+- The lead was messaged at about 12:15Z on 2026-11-18 about the 120-cell tube, the three subagents and the CPU
+  second code. No new note in `research/GPU-QUEUE.md` since 04:54Z on 2026-11-17 (fetched 12:02Z on 2026-11-18).
+- The theory session's report is `research/blast/REPORT.md` on `origin/claude/exciting-hamilton-0h2tr1`; it reads
+  `research/dying2/` from this branch.

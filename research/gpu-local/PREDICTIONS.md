@@ -278,3 +278,39 @@ is running and is scored later. (`python research/gpu-local/eq_analyze.py H K D`
 - The bends against the short-tube lines are 0.040 ± 0.007 for the loop of 13 (I said about 0.03) and 0.014 to 0.019 for
   the loop of 16 (I said 0.012). So the loop of 13 bends as much as the loop of 12 did (0.039), not three quarters of it.
 - Kind-5 lives so far in the chain: none.
+
+## 9. The 120-cell tube scored; forecasts for chain 4 (the 126- and 132-cell tubes of the same family) (2026-11-18T12:04Z, HEAD d4f0c41)
+
+Written after the eight rows of (1, 18), (0, 40) and before any row of chain 4
+(`research/scratch/gpu-local/chain4.sh`).
+
+**The 120-cell tube of block 7, scored** (`python research/gpu-local/eq_analyze.py 1 18 40`): eight runs, 3,494
+deaths, **24.5086 ± 0.0169** (seeds' χ² 4.4 on 7). My forecast 24.576 ± 0.020: off by −0.067, 2.6 combined errors.
+"Within 0.04 of 24.576" (75%): no. "If the tube's slope keeps falling it is lower": it is. "Kind-5 lives: none"
+(85%): none in the whole chain. The forecasts frozen by the theory session (`research/blast/REPORT.md` on
+`claude/exciting-hamilton-0h2tr1`) were 24.56 ± 0.03 to 24.60 ± 0.07, all above it too.
+
+I used the chord from 96 to 108 cells for the last 12 cells. The measured chord from 108 to 120 is 0.1957 ± 0.0016.
+I gave the falling slope a quarter of the probability and it deserved more: the chords had already gone 0.2044
+(54 to 84, the lead's line), 0.2023, 0.2013.
+
+**Chain 4** (my own choice of run; the card would otherwise be idle until the lead's next note). Same family as
+the 84-, 108- and 120-cell tubes: a = 1, loop vector (2, −4), 12 cells per unit of length. Guard on;
+`eqtorus.py check` first on each face.
+
+| torus (H, K), (0, D) | cells | loops² | runs | my forecast | the line through 84, 96, 108 | the theory session's K = 2 form |
+|---|---:|---|---|---:|---:|---:|
+| (1, 19), (0, 42) | 126 | 12, 111, 117 | 8 of 180 min | 25.685 ± 0.035 | 25.801 ± 0.012 | about 25.776 |
+| (1, 20), (0, 44) | 132 | 12, 121, 133, 133 | 8 of 180 min | 26.855 ± 0.060 | 27.013 ± 0.013 | about 26.979 |
+
+- Basis: the 120-cell value plus 0.196 per cell, with ± 0.004 on that slope. The K = 2 column is my own
+  continuation of that form from its 24.571 at 120 cells (slope 0.2008 there, limit 0.2004), not a number its
+  authors wrote.
+- Expected deaths: about 1,100 at 126 cells (± 0.030) and about 340 at 132 cells (± 0.055).
+- The 126-cell tube below 25.74: 80%. Below 25.70: 60%. If it is above 25.76 then the 120-cell value was a low
+  fluctuation (I give that 10%).
+- The chord from 120 to 132 cells below 0.2004 (the limit of the fitted form): 75%. Below 0.190: 20%.
+- Kind-5 lives: none, 85%. Firewalls: none, 90% (no 12-tube has had one since 84 cells).
+- What would change my mind about the cause: I have no mechanism for a slope below the fitted limit. The theory
+  session reports that long tubes stop busting all at once (the two halves crash in different generations); if
+  that makes death cheaper per cell, the slope should go on falling at 132 cells.

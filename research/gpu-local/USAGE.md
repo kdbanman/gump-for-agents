@@ -15,3 +15,11 @@ window is not listed by the reading on this plan. Weekly windows reset 2026-11-1
 | 2026-11-16 10:13 | not listed | 75% | 88% |
 | 2026-11-17 01:13 | not listed | 76% | 89% |
 | 2026-11-17 11:43 | not listed | 82% | 94% (two Opus subagents on the CPU since 05:00Z) |
+| 2026-11-18 03:05 | not listed | 40% | 2% (the owner reset the Fable window) |
+| 2026-11-18 05:30 | not listed | 82% | 82% (three Opus subagents on the CPU; the theory swarm in another session) |
+| 2026-11-18 06:53 | not listed | 91% | 97% (hull face-death subagent finished; this session takes no further turn it can avoid before the reset) |
+| 2026-11-18 07:55 | not listed | 93% | 99% (signals push 7 subagent finished, pushed at d34dbf5; its verify7 light pass is being rerun by this session) |
+| 2026-11-18 08:48 | not listed | 93% | 99% (verify7.py objects7.json --maxL 260 rerun by this session: ALL PASS, 52 min) |
+| 2026-11-18 08:52 | not listed | 94% | 99% (all three Opus subagents finished: dying2, dying2/hull, signals push 7; the two chains continue) |
+| 2026-11-18 12:02 | not listed | 5% | 9% (after the weekly reset; chain 3 ended, chain 4 starting) |
+| 2026-11-18 12:07 | not listed | 5% | 10% (chain 4 started on the card; the hourly push loop ended) |
