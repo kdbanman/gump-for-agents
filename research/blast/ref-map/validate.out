@@ -1,0 +1,12 @@
+h9 N=510 H=28 lift x1: identical to the oracle for 1100 generations, both replicas; final populations [239, 209]
+h9 NEGATIVE CONTROL (one neighbour of cell 255 swapped): MISMATCH replica 1 at generation 1 (oracle pop 262, gs pop 261)
+VALIDATION PASSED
+h11 N=876 H=32 lift x1: identical to the oracle for 1100 generations, both replicas; final populations [398, 365]
+h11 NEGATIVE CONTROL (one neighbour of cell 438 swapped): MISMATCH replica 0 at generation 2 (oracle pop 397, gs pop 398)
+VALIDATION PASSED
+h13 N=1386 H=36 lift x1: identical to the oracle for 1100 generations, both replicas; final populations [655, 659]
+h13 NEGATIVE CONTROL (one neighbour of cell 693 swapped): MISMATCH replica 0 at generation 14 (oracle pop 636, gs pop 635)
+VALIDATION PASSED
+t63 N=504 H=42 lift x21: identical to the oracle for 1100 generations, both replicas; final populations [211, 223]
+t63 NEGATIVE CONTROL (one neighbour of cell 252 swapped): MISMATCH replica 0 at generation 1 (oracle pop 203, gs pop 202)
+VALIDATION PASSED
