@@ -14,10 +14,10 @@ One core, shared (about 57% of it).
 2. **The sampler is correctly built.** I found no fault in the proposal, the acceptance rule, the levels or the
    estimator; its level function is a minimum over a window of the whole path, so the over-full generation and
    the crash are not conditioned against. It is unbiased in expectation for any number of sweeps. Against brute
-   force of the same chain it reads -0.015 +- 0.006 (48 cells; 2.4 sd, which I could neither explain nor remove),
-   +0.029 +- 0.021 (63), -0.02 +- 0.08 (84): no bias larger than about 0.03 where truth is cheap.
+   force of the same chain it reads -0.010 +- 0.005 (48 cells, 896 replications; 2.1 sd, which I could not
+   explain), +0.029 +- 0.021 (63), -0.02 +- 0.08 (84): no bias larger than about 0.02 at 48 cells, 0.07 at 63.
 3. **Its weakness is a heavy-tailed estimator, not a bias.** The initial states are never moved and only about one
-   proposal per chain and level does anything; the ~2,000 dying chains of a replication descend from 194 initial
+   proposal per chain and level does anything; the ~2,000 dying chains of a replication descend from 193 initial
    states at 48 cells, 92 at 63, 36 at 120 and **9.5 at 192 (wide; 24 on the tube)**. One replication scatters by a factor e^0.5 at 120
    cells and e^1.0 at 192. With 48+ replications (up to 120 cells) the quoted errors are honest. With 12-16
    replications at 192 cells they are not: the mean is carried by one or two replications.
@@ -42,7 +42,7 @@ One core, shared (about 57% of it).
 | 1 | dice chain within 0.02 of gump at 48 and 63 cells (brute force) | **CONFIRMED**, and extended to two tubes | chain - gump anchor: +0.012 +- 0.004 (48), -0.008 +- 0.011 (63), +0.015 +- 0.057 (84 tube); chain - gump by my code on the 60-cell tube (1,8),(0,20): +0.013 +- 0.019 |
 | 1' | (asked by the PI) the chain's share of deaths with a half-face fall equals gump's | **CONFIRMED** | 48 cells: 0.5914 +- 0.0019 against 0.5916 +- 0.0019; 63: 0.562 +- 0.006 against 0.558 +- 0.007; 60-cell tube: 0.583 +- 0.007 against 0.580 +- 0.006 |
 | 2 | sampler against gump's anchors at 63, 84, 96, 108, 108 cells | **CONFIRMED** as arithmetic on its files (`pool.py` returns its five values); the blindness of 96 and 108 was **NOT TESTED** (I did not audit commit times) | fresh seeds, 63 cells: 13.191 +- 0.020 (112 replications), all 144: 13.187 +- 0.018, i.e. +0.025 +- 0.018 from gump |
-| 2' | "exact for that chain" | **CONFIRMED** to 0.02-0.03 where truth is cheap; exact in expectation by construction, see (b) | sampler - brute force of the same chain: -0.015 +- 0.006 (48), +0.029 +- 0.021 (63), -0.02 +- 0.08 (84) |
+| 2' | "exact for that chain" | **CONFIRMED** to 0.02-0.03 where truth is cheap; exact in expectation by construction, see (b) | sampler - brute force of the same chain: -0.010 +- 0.005 (48), +0.029 +- 0.021 (63), -0.02 +- 0.08 (84) |
 | 3a | 120-cell tube 24.68 +- 0.09 (chain 24.710 +- 0.078) | **CORRECTED** (inside its error); its error is honest | chain: 24.532 +- 0.090 on 48 fresh replications, 24.617 +- 0.061 on all 96, 24.63 +- 0.05 with a fourfold-ensemble run; for gump (minus its offset 0.03 +- 0.04): **24.60 +- 0.07** |
 | 3b | 144 cells 29.44 +- 0.22 | **NOT TESTED** (8 replications; error itself uncertain) | - |
 | 3c | 192-cell tube 38.6 +- 0.25 | **CONFIRMED** within errors on 8 fresh replications; the error is not a clean standard error | chain: 38.93 +- 0.16 fresh, 38.73 +- 0.18 on all 24 |
@@ -136,23 +136,24 @@ Commands: `brute 6 11 3000000`, `brute 0 13 1500000` (48); `brute 6 15 2500000`,
 
   | cells | 48 | 63 | 120 | 192 wide | 192 tube |
   |---|---|---|---|---|---|
-  | distinct ancestors of the dying chains (mean; min..max) | 194 (176..216) | 92 (73..109) | 36 (26..49) | 9.5 (6..12) | 24 (20..26) |
+  | distinct ancestors of the dying chains (mean; min..max) | 193 (155..224) | 92 (73..109) | 36 (26..49) | 9.5 (6..12) | 24 (20..26) |
   | sd of ln(rate) of one replication | 0.11 | 0.22 | 0.50 | 1.18 | 0.63 |
 
   An unbiased estimator with such a tail reads **too long a lifetime in most small samples** and its scatter
   understates its error. That is a statement about 144 and 192 cells, not about 120.
 
-**Test where truth is cheap [measured]** (fresh seeds 7101-7104; split-slab's frozen parameters:
+**Test where truth is cheap [measured]** (fresh seeds 7101-7106; split-slab's frozen parameters:
 `WD=6 R/ss_diag G/g_4_0_4.bin sub SEED 64 14 3 8 8 4 32 24 PATHS 12`, `... g_1_4_21.bin sub SEED NREP 20 3 8 10 4 32 24 PATHS 12`):
 
 | cells | sampler, fresh seeds (replications) | sampler, all replications | brute force of the same chain (mine; mine and split-slab's pooled) | sampler - brute force |
 |---|---|---|---|---|
-| 48 | 9.923 +- 0.006 (384) | - | 9.9371 +- 0.0038; 9.9359 +- 0.0026 (+0.002 for the horizon) | **-0.015 +- 0.006** |
+| 48 | 9.928 +- 0.004 (896; runs of 64, 64, 256, 512: 9.919, 9.913, 9.927, 9.932) | - | 9.9371 +- 0.0038; 9.9359 +- 0.0026 (+0.002 for the horizon) | **-0.010 +- 0.005** |
 | 63 | 13.191 +- 0.020 (112) | 13.187 +- 0.018 (144) | 13.154 +- 0.011; 13.158 +- 0.010 | **+0.029 +- 0.021** |
 | 84 tube | (split-slab's 32:) 17.311 +- 0.060 | - | 17.333 +- 0.057 | -0.02 +- 0.08 |
 
-Chi-square of the three differences against zero: 7.3 on 3 (p = 0.06). The 48-cell difference is 2.4 sd and I
-chased it without finding a cause:
+Chi-square of the three differences against zero: 6.5 on 3 (p = 0.09). The 48-cell difference was 2.4 sd after
+384 replications and is 2.1 sd after 896 (the long runs gain about 0.003 from stuck lanes, see below, so call it
+-0.012). I chased it without finding a cause:
 - not the age of the lives: `CAP=5000 R/dice R/r_4_0_4.graph brute 6 21 3000000` (lives cut at age 5,000, so ages
   1,000 to 5,000 only) gives 9.9334 +- 0.0041 against 9.9371 +- 0.0038 for all ages;
 - not the sampler's pipeline (initial states, evaluation loop, score, horizon): with LAM1 = 0 the program counts
@@ -161,7 +162,9 @@ chased it without finding a cause:
   immortal "stuck" lanes of (a) accumulate in an ensemble that is never reseeded unless a face dies: a second,
   independent sighting of them, and a warning for long runs on small tori only;
 - so if it is real it sits in the levels and sweeps, where I found no error, and it has the other sign at 63
-  cells. **Bias excluded: more than about 0.03 at 48 cells and 0.07 at 63 cells (2 sd).**
+  cells. Were it a bias per level (5 levels at 48 cells), it would be -0.04 at 120 cells and -0.07 at 192; the
+  63-cell test (7 levels, +0.029 +- 0.021) speaks against that at 2 sd. **Bias excluded: more than about 0.02 at
+  48 cells and 0.07 at 63 cells (2 sd).**
 **Not tested: exactness at any size where the genealogy has collapsed** (96 cells and more). There the only
 checks are split-slab's against gump's anchors (to 0.06-0.09 each), and the larger ensemble below.
 
@@ -186,7 +189,8 @@ Per-replication ln tau at 192 cells (end of `data/final.txt`): wide 38.41 to 42.
   on 8 for the mean of ln rate); a fourfold ensemble halves the scatter of a replication (0.50 to 0.23 in ln rate,
   141 ancestors instead of 36) and reads the same value. Dice chain: **24.63 +- 0.05**. For gump, with
   split-slab's own offset d = +0.03 +- 0.04 (sampler against anchors on tubes of 84 to 108 cells): **24.60 +- 0.07**
-  in place of 24.68 +- 0.09. (This is also where its independent bookkeeping forecast sits: 24.59 +- 0.05.)
+  in place of 24.68 +- 0.09 (24.62 if the offset is the +0.01 that brute force sees up to 84 cells). This is
+  also where its independent bookkeeping forecast sits: 24.59 +- 0.05.
   What the error does not contain: any drift of the chain's offset from gump between 84 and 120 cells that brute
   force has not seen, and the unexplained 0.015 of (b).
 - **Wide 192 cells: 40.25 +- 0.26 against the wide line's 40.07: +0.18, not established.** My 8 fresh

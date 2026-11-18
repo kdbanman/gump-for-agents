@@ -54,3 +54,4 @@
 05:09:20 END
 05:09:20 START WD=6 nice -n 10 ./ss_diag g_1_30_64.bin sub 7402 4 77 3 8 32 4 32 24 out/paths_192t_s7402.txt 12 > out/sub_192t_s7402.txt
 05:10:50 END
+05:16:04 done 7106 (48 cells, 512 replications, run directly)
