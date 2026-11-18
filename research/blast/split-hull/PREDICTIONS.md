@@ -51,3 +51,25 @@ seen my own brute-force table at R = 9 only. The plan: measure nu(p) by plain ru
 - "Reach +- 0.03 at R = 17" (10%), "+- 0.10" (30%), "no usable number" (45%): **no usable number.**
 - "A miss would be upward" (75%): **wrong.** The clear miss (R = 11) is downward: the flips help the face die.
 - The gump forecasts (R = 17, R = 19, path duration) are not scored: no measurement.
+
+## Block 3: 04:11 UTC. A forecast of the 135-, 165- and 198-cell faces from brute-force dip rates (not a measurement)
+
+Known: the first brute-force tables (`levels.py`, exposures 3 to 12 x 10^7 hull-generations per size) and the four
+anchors. Found in them: -ln q(0.6) = ln tau + ln nu(0.6 P-bar) is 5.611, 8.668, 12.242, 16.330 at 45, 63, 84, 108
+cells, a straight line in the area to +0.003, -0.003, -0.002, +0.002 (slope 0.1701 per cell; a term in the edge k,
+if fitted, is -0.03 against the lifetime's -0.34). The same holds at 0.5 and 0.4 within their errors; at 0.7 and
+above a rim term appears. So I conjecture **ln tau = a + 0.1701 A - ln nu(0.6 P-bar)**, and nu(0.6 P-bar) can be
+measured by plain running at any size: -8.304 +- 0.008 (135 cells), -9.764 +- 0.022 (165), -11.34 +- 0.06 (198).
+
+| face | forecast of ln tau_face | error (anchors' errors through the line, nu's error, choice of fit) | competing values |
+|---|---|---|---|
+| R = 17, 135 cells | **29.23** | +- 0.025 | 29.230 (second difference repeats), 29.205, 29.163 |
+| R = 19, 165 cells | **35.80** | +- 0.045 | 35.81 if it repeats |
+| R = 21, 198 cells | **43.00** | +- 0.08 | |
+
+- P(the 135-cell face, once measured to +- 0.03, is nearer 29.230 than 29.163) = 85% (was 62% in block 1).
+- P(the line through -ln q(0.6) misses the measured 135-cell value by more than 0.05) = 15%.
+- Second differences of ln tau implied: 0.693 (k = 8), 0.68 +- 0.03 (k = 9), 0.63 +- 0.10 (k = 10). P(the k = 10
+  value, after the longer runs now started, is below 0.66) = 55%: the dip rate's own second difference looks
+  smaller at the largest size (-0.177, -0.177, -0.183, -0.166 +- 0.025, -0.11 +- 0.06), which I do not trust yet.
+- Longer runs at R = 17, 19, 21 are started now; they will move nu(0.6) within the errors above (P = 80% each).

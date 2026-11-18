@@ -20,16 +20,30 @@ AREA = {R: 3 * k * (k + 1) // 2 for R, k in zip(range(9, 23, 2), range(5, 12))}
 
 
 def brute(R):
-    f = os.path.join(RUNS, f'brute_R{R}.txt')
-    if not os.path.exists(f):
+    """Pool every runs/brute_R<R>*.txt: counts and exposures add (a level a file does not print because it lies
+    above that file's highest printed level is taken from the other files only)."""
+    import glob
+    cnt, expo, bases = {}, {}, []
+    for f in sorted(glob.glob(os.path.join(RUNS, f'brute_R{R}.txt')) + glob.glob(os.path.join(RUNS, f'brute_R{R}_*.txt'))):
+        tab, base = {}, None
+        for line in open(f):
+            t = line.split()
+            if t[:2] == ['#', 'PBAR']:
+                base = {k: float(v) for k, v in zip(t[1::2], t[2::2])}
+            elif t and t[0] == 'E':
+                tab[int(t[4])] = float(t[6])
+        if base is None or not tab:
+            continue
+        bases.append(base)
+        for L in range(0, max(tab) + 1):
+            cnt[L] = cnt.get(L, 0.0) + tab.get(L, 0.0); expo[L] = expo.get(L, 0.0) + base['exposure']
+    if not bases:
         return None
-    tab, base = {}, None
-    for line in open(f):
-        t = line.split()
-        if t[:2] == ['#', 'PBAR']:
-            base = {k: float(v) for k, v in zip(t[1::2], t[2::2])}
-        elif t and t[0] == 'E':
-            tab[int(t[4])] = (float(t[8]), float(t[10]), float(t[6]))
+    E = sum(b['exposure'] for b in bases); D = sum(b['deaths_any'] for b in bases)
+    base = {'exposure': E, 'deaths_any': D, 'PBAR': sum(b['PBAR'] * b['exposure'] for b in bases) / E,
+            'SIG': sum(b['SIG'] * b['exposure'] for b in bases) / E,
+            'direct_lntau': math.log(8 * E / D) if D else float('nan'), 'direct_err': 1 / math.sqrt(D) if D else float('nan')}
+    tab = {L: (math.log(cnt[L] / expo[L]), 1 / math.sqrt(cnt[L]), cnt[L]) for L in cnt if cnt[L] > 0}
     return base, tab
 
 
@@ -60,24 +74,24 @@ for R in (9, 11, 13, 15, 17):
         print(f'  {L:3d}  {tab[L][0]:9.4f}  {tab[L][1]:.4f}  {int(tab[L][2]):7d}  {-e:9.4f}  {er:.4f}  {d:+8.4f}  {d / s:+6.1f}')
 
 print('\nPART 2: brute-force dip rates at fixed fractions of P-bar (threshold-free), per hull-generation and per face')
-P = (0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3)
-rows = {}
+P = (0.85, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3)   # the first tables stop at floor(0.9 P-bar), so 0.9 itself cannot be interpolated
+rows, errs = {}, {}
 print('   R    A   P-bar   sigma_P  ' + '  '.join(f'ln nu({p})' for p in P))
 for R in (9, 11, 13, 15, 17, 19, 21):
     b = brute(R)
     if b is None:
         continue
     base, tab = b
-    Ls = sorted(tab)
-    out = []
+    out, oer = [], []
     for p in P:
         x = p * base['PBAR']; lo = int(math.floor(x))
         if lo in tab and lo + 1 in tab and tab[lo][2] >= 30:
-            out.append(tab[lo][0] + (x - lo) * (tab[lo + 1][0] - tab[lo][0]))
+            out.append(tab[lo][0] + (x - lo) * (tab[lo + 1][0] - tab[lo][0])); oer.append(tab[lo][1])
         else:
-            out.append(float('nan'))
-    rows[R] = (base, out)
+            out.append(float('nan')); oer.append(float('nan'))
+    rows[R] = (base, out); errs[R] = oer
     print(f'  {R:2d}  {AREA[R]:3d}  {base["PBAR"]:7.3f}  {base["SIG"]:6.3f}   ' + '  '.join(f'{v:9.3f}' for v in out))
+    print(f'      (Poisson errors)        ' + '  '.join(f'{v:9.3f}' for v in oer) + f'     exposure {base["exposure"]:.3g}')
 print('\n  ln tau (anchor) + ln nu(p) = -ln q(p): what is left of the lifetime once the attempt rate at p is taken out')
 print('   R    A   ' + '  '.join(f'-ln q({p})' for p in P))
 q = {}

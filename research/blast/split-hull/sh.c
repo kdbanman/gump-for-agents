@@ -473,7 +473,7 @@ int main(int argc, char **argv) {
            deaths ? log(8 * exposure / deaths) : NAN, deaths ? 1 / sqrt((double)deaths) : NAN);
     if (!M) {
         double cum = 0;
-        for (int L = 0; L <= L0; L++) { cum += exh[L]; if (cum > 0) printf("E R %d level %d count %.0f lnnu %.5f err %.5f\n", R, L, cum, log(cum / exposure), 1 / sqrt(cum)); }
+        for (int L = 0; L < LA; L++) { cum += exh[L]; if (cum > 0) printf("E R %d level %d count %.0f lnnu %.5f err %.5f\n", R, L, cum, log(cum / exposure), 1 / sqrt(cum)); }
         return 0;
     }
     // ---- stages
