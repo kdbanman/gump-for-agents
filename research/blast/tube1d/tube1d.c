@@ -294,6 +294,10 @@ static void cmd_bandp(long gens, int T0, int wm) {
   double *cnt = calloc(wm + 1, sizeof(double)), *births = calloc(wm + 1, sizeof(double)), samples = 0;
   u64 *prev = calloc((size_t)2 * (wm + 1) * nbin, 8), *any = malloc(8 * nbin), *e = malloc(8 * nbin);
   init_all(); for (int g = 0; g < T0; g++) step();
+  /* how long has each bin been empty (bit-sliced 6-bit saturating counters), and its mean over the bins of a window
+     at the generation the window first becomes empty: flat = the band emptied at once, tent = a hole that grew */
+  enum { AP = 6 }; u64 *agep = calloc((size_t)2 * nbin * AP, 8);
+  double *aprof = calloc((size_t)(wm + 1) * (wm + 1), sizeof(double)), *anum = calloc(wm + 1, sizeof(double));
   long restarts = 0; int cool[64]; for (int j = 0; j < 64; j++) cool[j] = 0;
   for (long g = 0; g < gens; g++) {
     step(); u64 ok = 0; for (int j = 0; j < 64; j++) { if (cool[j] > 0) cool[j]--; else ok |= 1ULL << j; }
@@ -301,9 +305,14 @@ static void cmd_bandp(long gens, int T0, int wm) {
       int c0 = f ? 0 : N - A; memset(any, 0, 8 * nbin); u64 all = 0;
       for (int c = c0; c < c0 + A; c++) { any[bin[c]] |= xa[c]; all |= xa[c]; }
       if (~all) for (int j = 0; j < 64; j++) if (~all >> j & 1) { init_lane(j); cool[j] = T0; ok &= ~(1ULL << j); restarts++; }
+      for (int b = 0; b < nbin; b++) { u64 *pl = agep + ((size_t)f * nbin + b) * AP, sat = ~0ULL; for (int q = 0; q < AP; q++) sat &= pl[q];
+        u64 carry = ~any[b] & ~sat; for (int q = 0; q < AP && carry; q++) { u64 t = pl[q] & carry; pl[q] ^= carry; carry = t; }
+        for (int q = 0; q < AP; q++) pl[q] &= ~any[b]; }
       for (int b = 0; b < nbin; b++) e[b] = ok;
       for (int m = 1; m <= wm; m++) { u64 *pv = prev + ((size_t)f * (wm + 1) + m) * nbin;
-        for (int b = 0; b < nbin; b++) { e[b] &= ~any[(b + m - 1) % nbin]; cnt[m] += __builtin_popcountll(e[b]); births[m] += __builtin_popcountll(e[b] & ~pv[b]); pv[b] = e[b]; } }
+        for (int b = 0; b < nbin; b++) { e[b] &= ~any[(b + m - 1) % nbin]; cnt[m] += __builtin_popcountll(e[b]); u64 ev = e[b] & ~pv[b]; births[m] += __builtin_popcountll(ev); pv[b] = e[b];
+          while (ev) { int j = __builtin_ctzll(ev); ev &= ev - 1; anum[m] += 1;
+            for (int i = 0; i < m; i++) { const u64 *pl = agep + ((size_t)f * nbin + (b + i) % nbin) * AP; int a = 0; for (int q = 0; q < AP; q++) a |= (int)((pl[q] >> j) & 1) << q; aprof[m * (wm + 1) + i] += a; } } } }
     }
     samples += (double)__builtin_popcountll(ok) * nf * nbin;
   }
@@ -312,6 +321,9 @@ static void cmd_bandp(long gens, int T0, int wm) {
   printf("# width(units) cells~ count  P(empty)  -lnP  err  appearances  mean_duration(gens)\n");
   for (int m = 1; m <= wm; m++) if (cnt[m] > 0) printf("%.1f %.1f %.0f %.4g %.4f %.4f %.0f %.3f\n", m * BW, (double)A * m * BW / LT, cnt[m], cnt[m] / samples, -log(cnt[m] / samples),
     1 / sqrt(births[m] > 0 ? births[m] : 1), births[m], cnt[m] / (births[m] > 0 ? births[m] : 1));
+  printf("# AGE: width | events | mean number of generations each 0.5-bin of the window had been empty when the window first became empty (bins from the edge to the middle, symmetrized)\n");
+  for (int m = 1; m <= wm; m++) if (anum[m] > 0) { printf("AGE %.1f %.0f |", m * BW, anum[m]);
+    for (int i = 0; i < (m + 1) / 2; i++) printf(" %.2f", (aprof[m * (wm + 1) + i] + aprof[m * (wm + 1) + m - 1 - i]) / (2 * anum[m])); putchar('\n'); }
 }
 
 /* ---- band experiment ---- */
@@ -352,8 +364,8 @@ int main(int argc, char **argv) {
   if (argc < 6) { fprintf(stderr, "usage: see header\n"); return 2; }
   const char *cmd = argv[1]; H_ = atoi(argv[2]); K_ = atoi(argv[3]); D_ = atoi(argv[4]); NL = atoi(argv[5]);
   if (!strcmp(cmd, "trace")) { NDICE = 0; seedrng(strtoull(argv[6], 0, 10)); build(argc > 8 && !strcmp(argv[8], "bad")); cmd_trace(atoi(argv[7])); return 0; }
-  if (!strcmp(cmd, "geom")) { NDICE = 0; build(0); printf("# A=%d girth vector (%d,%d) girth %.4f length %.4f\n# face-cell-index a x y xi eta\n", A, VA, VB, GIRTH, LT);
-    for (int a = 0; a < 3; a++) for (int x = 0; x < H_; x++) for (int y = 0; y < D_; y++) { int c = idx(NL - 1, a, x, y); printf("%d %d %d %d %.4f %.4f\n", c - (N - A), a, x, y, XI[c], ETA[c]); } return 0; }
+  if (!strcmp(cmd, "geom")) { NDICE = 0; build(0); printf("# A=%d girth vector (%d,%d) girth %.4f length %.4f\n# face-cell-index a x y xi eta (top face) xi eta (bottom face, layer 0; same index)\n", A, VA, VB, GIRTH, LT);
+    for (int a = 0; a < 3; a++) for (int x = 0; x < H_; x++) for (int y = 0; y < D_; y++) { int c = idx(NL - 1, a, x, y); int c0 = idx(0, a, x, y); printf("%d %d %d %d %.4f %.4f %.4f %.4f\n", c - (N - A), a, x, y, XI[c], ETA[c], XI[c0], ETA[c0]); } return 0; }
   NDICE = atoi(argv[6]); seedrng(strtoull(argv[7], 0, 10)); build(0); NW = (N + 63) / 64;
   if (!strcmp(cmd, "brute")) cmd_brute(atoi(argv[8]), atol(argv[9]), argc > 10 ? fopen(argv[10], "w") : NULL);
   else if (!strcmp(cmd, "ffs")) { const char *pfile = argc > 11 ? argv[11] : NULL; if (pfile && !strcmp(pfile, "-")) pfile = NULL; PATHS = pfile != NULL;

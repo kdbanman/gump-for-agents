@@ -21,3 +21,34 @@ generations are spread over the 3–10 generations before the death).
   torus (1,4),(0,28) is within 15 points of the tube's) = 65% — i.e. I expect it not to discriminate.
 - A3. The last live cells of a dying tube are one clump: P(the cells alive in the last 2 living generations span
   less than 2 units of the tube's length in more than 70% of deaths) = 70%.
+
+### Block A scored (03:45 UTC)
+
+- A1 **hit**: slope from w = 4 to w = 6 units is (18.678 − 13.682)/24 = 0.2082 ± 0.0024 per cell (forecast 0.205 ±
+  0.015), and it is 0.0255 below the slope from 1.5 to 3 units (0.2337). `bandp_g12_L12.txt`.
+- A2, A3: pending (paths of the 84-cell tube).
+
+## Block B, 03:47 UTC: the 120-cell tube (1,18),(0,40), and the long tubes — before any measurement of them
+
+What it rests on. (i) The anchors of the brief only: local prices of the loop²-12 tube 0.20192 per cell from 84 to
+96 cells and 0.20127 from 96 to 108. (ii) My measurement in a living 144-cell tube of the marginal price of an
+empty band right round the girth (deterministic gump, `tube1d bandp`): 0.2365 per cell at 2–2.5 units, then
+falling steadily, 0.2181 ± 0.0009 at 4, 0.2103 ± 0.0033 at 5, 0.2044 ± 0.005 at 5–6 units, with no sign yet of
+levelling, and the band empties as a flash (every 0.5-unit bin of a 5-unit band has been empty for 2.7–3.2
+generations when the band first is, edge and middle alike). So nothing says the price turns back up by 10 units,
+and nothing says it has levelled. (iii) NOT a measurement of the tube: my sampler (forward flux on the honest-dice
+surrogate) failed, see README; this forecast is an extrapolation and is not independent of the PI's block 0, which
+I had read.
+
+| quantity | forecast | P(within) |
+|---|---|---:|
+| ln τ_face, 120-cell tube (1,18),(0,40) | **24.563 ± 0.030** (22.1557 + 12 × 0.2006) | 55% |
+| local price 108 → 120 cells | 0.2006 ± 0.0025 | 55% |
+| asymptotic price of loop²-12 tubes (if someone reaches 240+ cells) | 0.197 ± 0.005: levels, neither returns to 0.2087 nor keeps falling as a parabola | 45% |
+
+P(local price at 240 cells below 0.193, "quadratic for ever") = 10%. P(price returns above 0.2060 anywhere beyond
+120 cells) = 7%.
+
+Band prices at other girths (jobs queued, not seen): P(marginal band price from 4 to 6 units at loop² 16 is above
+loop² 12's 0.2082) = 70%; P(at loop² 9 it is below) = 65%; P(at every girth the age profile is flat, i.e. a flash,
+edge-to-middle difference under 1 generation at 5 units) = 80%.
