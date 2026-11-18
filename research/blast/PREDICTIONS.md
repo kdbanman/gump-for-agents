@@ -66,3 +66,42 @@ Forecasts (probabilities are mine, now):
    P = 45%.
 5. Not a forecast, a gap: this reading gives a hull face nothing but constants (a front can cut off a corner
    cheaply, but the number of cheap cuts does not grow with the face), so it does not explain 0.231.
+
+### Block 1 scored so far (03:50 UTC)
+
+- Item 1 (band-first deaths, share ≈ 1 − e^(−D), under 5% on the torus): **refuted** by `anatomy`
+  (research/blast/anatomy/README.md §3): a band right round the girth is finally empty 4 generations early in
+  48–53% of deaths on loop-12 tubes, 57% on the wide torus, and no more often than a compact patch of the same
+  cells (54–58%). There is no band-first class; the statistic does not even discriminate. The front gas is dead.
+  (The quadratic growth of the tube discount with length stands as a description: χ² 61 on 34 for one exponent.)
+- Item 4 (wide tori carry the same term): contradicted by my own fit (README, 03:36).
+- Items 2 and 3: open; item 3's premise is gone.
+
+## Block 2: the PI, 03:50 UTC, after reading anatomy's account and before any sampler has reported
+
+What changed: `anatomy` finds two routes to an empty face [measured at 45–84 cells, one code, not yet refereed].
+Wrapped faces **bust**: the face over-fills (48.5 of 63 cells), overcrowding kills more than half of it in one
+generation, about 12 scattered cells remain and starve; flat in space, 6 generations. Hull faces **starve**: a
+tilted fade over 10 generations; their rim line has too few neighbours to be overcrowded and survives the
+over-full generation. A hole is retaken from its edge at 0.25–0.31 units per generation.
+
+My reading [conjectured]: there are two prices because there are two ways to empty a cell. Bust is cheap (about
+0.209 per cell) and needs the cell to be far from anything that survives a bust: a rim line, or living face.
+Starve is dear (about 0.231). "Far" means further than life comes back while the survivors of a bust starve and
+the rim itself is starved: about 0.3 units per generation × 10 generations ≈ 3 units. Every hull face measured so
+far (inradius 1.4 to 2.3 units) is inside that zone throughout; an empty patch in a living face is too (its
+perimeter-free price falls 0.273, 0.252, 0.237, 0.226 as it grows); a wrapped face has no zone at all.
+
+Forecasts:
+1. **The 135-cell hull face is nearer 29.230 than 29.163**: P = 80%. Point forecast 29.22 ± 0.03 (the second
+   difference stays 0.68–0.69). The 165-cell face: 35.79 ± 0.05; P(its second difference is still above 0.66) = 65%.
+2. **The hull's second difference does fall, later**: a face whose inradius exceeds about 3 units (k ≥ 11, 198
+   cells and up) has an interior that can bust; P(second difference below 0.66 somewhere by k = 12) = 50%.
+3. **Corner-free strips with two rims** (agent `rim`): at widths under about 5 units the price per cell of added
+   width is nearer 0.231 than 0.209: P = 70%.
+4. **Boom and bust persists on wrapped faces at 108–240 cells**: the share of deaths with a one-generation fall of
+   half the face does not drop below 40%: P = 55%. (If it drops, something local takes over and the wrapped
+   price must bend; the 12-tube's bend might be exactly that.)
+5. **The tube's advantage is in the boom or the bust, not the end-game**: at equal area a loop-12 tube has a
+   larger variance of the face population than a wide torus (more frequent over-full generations) or fewer
+   survivors of the bust; P(one of the two accounts for more than half of the discount) = 60%.
