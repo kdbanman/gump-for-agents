@@ -30,7 +30,7 @@ Nothing of `research/signals/` is imported. The lists of ends were enumerated ag
 | 4 | "the count cannot be read or reset; written once" | **corrected** | not by holes, but the object is the B/B′ counter of the second push: one-cell flips of the standing object add a unit at either end, take one off, or erase it; 44 of 608 flips of the plain object burn all of it |
 | 5 | the lists: 90 / 753 / 6,286 ends, 68 / 873 guns; 5 × 5 none at C ≤ 25 | **confirmed, independently** | own CNF and CaDiCaL: the same caps as sets at C ≤ 37, the same counts at C = 39; 89 / 741 / 6,196 and 67 / 867 with an own key |
 | 6 | `cdcl7.cpp` | **confirmed on tests** | 400 small CNFs against brute force, 62 larger ones against glucose4 (stops, resumes, splits included), the C = 33 instance: no difference |
-| 7 | the census tables (17 events per end) | **confirmed in full; oracle on a sample** | see §4 |
+| 7 | the census tables (17 events per end) | **confirmed in full on a second stepper; oracle sample at C ≤ 39 only** | every count of both tables and the nine vectors reproduced with own lists, own key, own code; ORC-N ends at C ≤ 39 on the oracle, every row equal. The oracle sample at C ≤ 37 was not run |
 | 8 | (a), (b): no listener, no answer | **confirmed within the bounds, with the criterion tightened** | every row is healed on the whole state or has no rake left in front of the end; "dead" as the push defines it would also hold a changed end that had sent one signal, so that was checked directly |
 | 9 | guns: 5 of 67 cap, 11 absorb U; at C ≤ 39 89 absorb U, 78 cap, "every one dies on E, N1 and EE" | **counts confirmed; "dies" refuted for 34 guns** | 34 of the 867 guns are left standing and changed by E, N1 or EE and fire a stream of holes for ever (oracle, exact orbit of period 4). §5 |
 | 10 | "E alone destroys the line: E kills every gun on file"; "nothing absorbs E" | **confirmed for the guns at C ≤ 37; refuted at C ≤ 39** | with gun 4: debris, as claimed. With any of the 34 and a healing end, E alone turns the line into a **clock of period 4N − 12** (oracle, five lengths). Also new: **E with N2 in front leaves one hole**, the end heals it and the line runs on |
@@ -253,7 +253,14 @@ The nine outcome vectors and their counts are the README's (485 / 113 / 93 / 16 
 undecided. One regularity the README does not state: in both bounds **the ends that cap wire B are exactly the ends
 that heal D6 = N2** (125 and 1,223).
 
-**Oracle samples.** TODO-orc
+**Oracle samples.** C ≤ 39: `python3 census7a.py fb $S/fb_39.json $S/cen39_orc_i.json --ids $(python3 sample_ids.py
+200 8 $S/cen39_fast_?.json) --part i/12` (2.5 min a part): ORC-N ends of a sample of 200 at random (seed 7) plus 8
+of every outcome vector, all 17 events each, on `reference/oracle.py`: all nine vectors are covered and **every row is
+equal to fast7's row in every field** (outcome, generation, units differing, cells, rake units;
+`python3 cen_report.py $S/cen39_fast_?.json --oracle $S/cen39_orc_*.json`). The remaining parts of the 12 were not
+run. **C ≤ 37: the oracle sample was not run** (253 ends were queued; the session was stopped first). What stands for
+that bound is fast7 on all 741 ends, four ends on the oracle with rows equal to fast7's (an early test), and the
+fact that the C ≤ 39 list contains every end of the smaller bound.
 
 **What "dead" hides.** The push calls a row dead when the disturbance has reached 80 units up the stream and the end
 is not equal to the undisturbed end. An end that had changed and sent a single signal up would be "dead" by that test
@@ -284,7 +291,9 @@ is sent U, N1, E and the pair EE from 24 units down its stream, and the upper ed
 | upper edge of wire B: cap / wall / debris / dead | 5 / 3 / 4 / 55 | 78 / 21 / 33 / 735 | 5; 78 / 21 / 33 / 735 |
 
 The counts are the README's. The five capping guns at C ≤ 37 are among the eleven that absorb U, as stated; at
-C ≤ 39 that is no longer so (44 of the 78 absorb U; the other 34 die of it, and they are the 34 guns of the next paragraph). TODO-gunorc
+C ≤ 39 that is no longer so (44 of the 78 absorb U; the other 34 die of it, and they are the 34 guns of the next paragraph). **None of
+the gun rows was put to the oracle as a census row** (all 67 at C ≤ 37 and a sample at C ≤ 39 were queued and not
+run); the oracle work on guns is what follows, on the 34.
 
 **"Every one dies on E, N1 and EE" is refuted for 34 of the 867 guns.** The push calls a gun dead when it is not
 restored by the time the difference has run 80 units along the stream. A gun that is left standing in another state
@@ -332,6 +341,20 @@ So every healing end tried (153 of 153) gives a clock, and its period is a multi
 file", "no gun survives E or N1" and "nothing absorbs E" are true of the 67 guns at C ≤ 37, which is what the push's
 lines were built from, and false in its own list at C ≤ 39.
 
+**No other gun does anything of the kind.** `python3 gun7.py others` (fast7, 110 s): all 867 guns, each of U, N1, E,
+EE, looked at on generations 330..338, some 280 generations after the signal arrives. What is on the 36 units below
+the gun:
+
+| signal | the plain train (gun restored) | the stream S | nothing | a standing wire | periodic remains, not uniform | not periodic yet |
+|---|---|---|---|---|---|---|
+| U | 89 | 0 | 55 | 722 | 1 | 0 |
+| E | 0 | **34** | 157 | 39 | 459 | 178 |
+| N1 | 0 | **34** | 783 | 6 | 32 | 12 |
+| EE | 0 | **34** | 763 | 21 | 18 | 31 |
+
+The 34 are the same guns in the three rows. No gun fires the plain train out of step and none fires a third uniform
+stream. The two right-hand columns were counted by machine and not examined.
+
 Not done here: whether anything turns the changed gun back (a second E meets holes on S), what the clock does with
 later signals, and a line with the reflector end, where the E would come from inside (§8, §9).
 
@@ -350,8 +373,13 @@ later signals, and a line with the reflector end, where the E would come from in
   exact to generation 300): n = 0: the end untouched. n = 1..6: least period 2 on generations 150..166 and 250..266,
   equal at 158 and 258, a stretch of 0, 2, 3, 4, 5, 6 units and one edge unit, pairwise different. As claimed (the
   push counts the edge unit in). In this frame the letters are mirrored (wire B reads d, the stretch 7).
-- **The 125 and the 113**: TODO-125.
-- **The push's own checkers on this machine**: TODO-push.
+- **The 125 and the 113** (`python3 final_checks.py`, 50 s): the 125 receiving ends of `wireB_caps.json` are, under
+  the own key, exactly the 125 ends my census calls cap; 113 of them heal a hole and K0 and 12 do not, as stated
+  (the vectors of §4). The five guns of that file were used throughout §2; that they are the five my gun census
+  calls cap was not compared (the check was written and not re-run after the gun census).
+- **The push's own checkers on this machine** (`check7.py`, `verify7.py`): **not run** (queued last; the session was
+  stopped first). So "step7 equals the oracle: ALL PASS" and the PASS lines of `verify7.py` are the push's word;
+  nothing in this review rests on step7.
 
 ## 7. The forecasts
 
@@ -398,7 +426,8 @@ or erase it (§2, `line7c.py flips 3`).
    (to 193 in a 400-unit line), with the time of the second hole as the place. Question (g) of the fourth push (a
    standing object left in a different lasting state by a hole than by a rake) is met by the line as a whole and
    by no end.
-3. *It is generic.* Every one of the 625 pairs of caps at C ≤ 37 does it; TODO-pairs39
+3. *It is generic.* Every one of the 625 pairs of caps at C ≤ 37 does it; whether the 78 guns and 1,223 ends at C ≤ 39 all do was being run when the
+   session was stopped (`line7f.py`; PAIRS39).
 
 **The larger find is on the gun side, and the push's own list holds it.** 34 of the 867 guns at C ≤ 39 are not
 killed by an answer: E (or N1, or two E) leaves the gun standing in a second state, in which it fires a hole with
@@ -470,4 +499,13 @@ Pushes 8 and 9 (in the tree, built on this line, not reviewed here) take up the 
 - **What a pulse does at the other caps.** §2 has five guns and five ends, two cells, one place each. The other 120
   ends, pulses of wire B′ inside a stretch, wide pulses: not mapped.
 - **Odd N** (the train has a spatial period of two units; every line here has N even), and lines shorter than 80.
-- **A line that makes its own E** (the reflector end with a capping gun): not built.
+- **A line that makes its own E** (the reflector end with a capping gun, or with one of the 34 that survive E): not
+  built.
+- **The changed guns beyond what §5 says.** Whether any signal turns one back; what the clock does with a later
+  hole, E or U; clocks at odd N or under 80 units; why 34 and why these (they are consecutive in the sorted list:
+  one family of caps); the mirror question for receiving ends at C ≤ 41. The remains of the other guns after E
+  (periodic and not uniform in several hundred rows) were classified by machine and not looked at.
+- **Stopped before they ran** (the lead called time): the oracle sample of 253 ends at C ≤ 37; the last parts of
+  the oracle sample at C ≤ 39; the gun census on the oracle (all 67, and a sample of the 867); the push's own
+  `check7.py` and `verify7.py`; the census with `--after 120` on the ends (which of the dead rows are fires and
+  which are walls); the pairing of the C ≤ 39 caps beyond what `line7f.py` had finished.
