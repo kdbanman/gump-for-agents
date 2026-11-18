@@ -238,7 +238,7 @@ def main():
         X = (rng.random((R, A)) < 0.5).astype(np.int8)
         age = np.zeros(R, dtype=np.int64)
         since = np.full(R, 10 ** 6, dtype=np.int64)       # transitions since the last half-fall
-        deaths = marked = 0; burn = 60; steps = 0; expo = 0
+        deaths = marked = 0; burn = 40; steps = 0; expo = 0
         nbarr = [np.array(l, dtype=np.int64) for l in nb]
         while deaths < mcN:
             k = np.stack([X[:, nbarr[i]].sum(1) for i in range(A)], axis=1)
