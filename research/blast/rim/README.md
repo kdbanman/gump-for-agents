@@ -24,45 +24,47 @@ sharp one.
 
 ## Answers
 
-Symmetric strips (w,w,L,0), ln τ_face (`data/table_out.txt`; errors 1/√deaths; XX = see table):
+Symmetric strips (w,w,L,0), ln τ_face (`data/table_out.txt`; errors 1/√deaths):
 
 | rows w \ L | 3 | 4 | 5 | 6 |
 |---|---:|---:|---:|---:|
 | 8 (12 cells per unit length) | 8.1447 ± 0.0015 | 11.0912 ± 0.0032 | 13.8608 ± 0.0082 | 16.4735 ± 0.0264 |
-| 10 (15) | 9.6694 ± 0.0026 | T104 | T105 | |
-| 12 (18) | T123 | 15.7736 ± 0.0247 | | |
+| 10 (15) | 9.6694 ± 0.0026 | 13.4383 ± 0.0076 | 16.8863 ± 0.0203 | |
+| 12 (18) | 11.2277 ± 0.0037 | 15.7736 ± 0.0247 | | |
 | 14 (21) | 12.7845 ± 0.0086 | | | |
 
 **1. ln τ is linear in the width at fixed length: a row costs the same wherever it is added; no support zone
 ends within 7 rows of a rim [measured].** The cost of two more rows (3L cells), g(L) = ln τ(w+2, L) − ln τ(w, L):
-L = 3: 1.525, 1.558, 1.557 (8→10→12→14 rows); L = 4: G4A (8→10), G4B (10→12); L = 5: G5 (8→10).
-So ln τ = a(L) + (w/2)·g(L) with g = 1.55, 2.35, G5S and a = 1.97, 1.72, A5 at L = 3, 4, 5.
-The **price per cell of added width** is g/(3L): **0.169 to 0.173 (L = 3), 0.195 to 0.196 (L = 4), W5 (L = 5)**.
+L = 3: 1.525, 1.558, 1.557 (8→10→12→14 rows); L = 4: 2.347 ± 0.008 (8→10), 2.335 ± 0.026 (10→12); L = 5: 3.026 ± 0.022 (8→10).
+So ln τ = a(L) + (w/2)·g(L) with g = 1.55, 2.35, 3.03 and a = 1.97, 1.72, 1.76 at L = 3, 4, 5.
+The **price per cell of added width** is g/(3L): **0.169 to 0.173 (L = 3), 0.195 to 0.196 (L = 4), 0.2017 ± 0.0015 (L = 5)**.
 Below the wrapped 0.2087 at every length reached, and rising with L.
 
 **2. The price per cell of added length at fixed width falls with length and does not depend on the width
-[measured]:** L 3→4: 0.2455 (8 rows), 0.2513 (10), 0.2525 (12); L 4→5: **0.2308 ± 0.0007** (8), L45W10 (10);
+[measured]:** L 3→4: 0.2455 (8 rows), 0.2513 (10), 0.2525 (12); L 4→5: **0.2308 ± 0.0007** (8), 0.2299 ± 0.0014 (10);
 L 5→6: **0.2177 ± 0.0023** (8). The hull's 0.231 appears here as the length price at one step (4→5) and is gone
 at the next (at L = 4 the strip is still a tube of girth 4; the step 5→6 is the clean one). Width and length disagree at every size: the death of a rimmed strip is not isotropic, and neither
 number is 0.209 or 0.231 as a constant.
 
 **3. The mixed second difference, the strip's analogue of the hull's second difference in k, per cell
-[measured]: 0.2741 ± 0.0029 (8→10 rows, L 3→4), 0.2590 ± 0.0087 (10→12, 3→4), MIX45 (8→10, 4→5).** It
-is the increment of g: 0.82, then G45INC (the hull's second differences: 0.800, 0.692, 0.692 ± 0.015; the wrapped
+[measured]: 0.2741 ± 0.0029 (8→10 rows, L 3→4), 0.2590 ± 0.0087 (10→12, 3→4), **0.2262 ± 0.0078** (8→10, 4→5).** It
+is the increment of g: 0.82, then 0.679 ± 0.023 (the hull's second differences: 0.800, 0.692, 0.692 ± 0.015; the wrapped
 price would give 0.626). At L 4→5 the corner-free strips of 48 to 75 cells are 0.6σ below the hull's 0.2307 and
 2.2σ above the wrapped 0.2087, **with no corner anywhere: corners are not needed for the excess.** But a strip
 has no constant price: one step earlier the same quantity is 0.27. Whether it goes on falling is not measured:
 if a(6) lies between a(4) and a(5), then g(6) = 3.69 ± 0.02 and the next increment is 0.66 ± 0.04 (0.220 ± 0.013
 per cell) [conjectured from that one assumption]. That cannot tell a plateau at 0.231 from a slow bend to 0.209.
 
-**4. A face's lifetime depends on its neighbours and on what is behind it, strongly, when those are small
-[measured].** An 8-row face lives ln τ = 11.091, 13.861, 16.47 (L = 4, 5, 6) beside 8-row faces over depth 8,
+Odd widths (obtuse and sharp rim rows both dense; (7,7,L), (9,9,L)) give g(4) = 2.348 ± 0.006, the same, but
+g(5) = 3.128 ± 0.018 and a mixed second difference of 0.260 ± 0.007 per cell. I do not trust it as a face
+number: the 7×7 rod may already be dying as a rod at L = 5 (see 4), which would lower (7,7,5) and inflate this.
+
+**4. A face's lifetime depends on what is behind and beside it when that is thin [measured].** An 8-row face lives ln τ = 11.091, 13.861, 16.47 (L = 4, 5, 6) beside 8-row faces over depth 8,
 and 11.051, 13.643, 15.350 beside 6-row faces over depth 6 (prism(8,6,L)): −0.04, −0.22, −1.12. A 6-row face
 lives 8.635, 10.542, 12.175 beside 8-row faces (depth 8) and 8.560, 9.850, 10.215, 10.166 (L = 4…7) in the 6×6
 rod, where ln τ **stops growing with length**: the thin rod dies as a rod (or its faces die by a band that then
-runs along it), at a rate that no longer falls with L. So "depth and neighbours do not matter" is a statement
-about thick slabs; a prism must be at least 8×8 layers to be read as a face law. Depth and neighbour width are
-not separated here (NB810).
+runs along it), at a rate that no longer falls with L. So "depth does not matter" is a statement
+about thick slabs; a prism must be at least 8×8 layers to be read as a face law. Between 8 and 10 rows nothing of the kind is left at L = 4: beside 10-row faces over depth 10, prism(8,10,4), the 8-row face lives 11.0799 ± 0.0054 against 11.0912 ± 0.0032 beside 8-row faces; the 10-row face beside 8-row faces over depth 8 lives 13.4239 ± 0.0174 against 13.4383 ± 0.0076. So the loss beside 6-row faces is the thin side (depth 6), not the neighbour's width as such.
 
 **5. Rim kinds differ by order one [measured].** Adding a sparse row beyond a dense sharp rim row ((7,7,4) →
 (8,8,4), 4 cells) raises ln τ by 1.491 (0.37 per cell); adding a dense row beyond a sparse sharp rim row
@@ -74,7 +76,7 @@ its cells have 6 neighbours inside the vessel (below).
 triangle itself, so "the cost of an obtuse rim" and "of a corner" are not separately defined by any corner-free
 vessel. What the strips give with nothing fitted to hulls is the size of the second difference (3) and one
 coincidence worth a test: the hull's step from k = 4 to 5 adds a row pair of length 5 and costs 3.015; a strip's
-row pair of length 5 costs G5. Not tested at any other length.
+row pair of length 5 costs 3.026 ± 0.022. Not tested at any other length.
 
 **7. Bust or starve (the PI's test) [measured: `python3 research/blast/rim/bust.py …`, `data/bust_out.txt`].**
 Share of single-face deaths with a one-generation fall of at least half the face's cells among the twelve
@@ -155,8 +157,11 @@ only through the two hull anchors).
 ## Not checked
 
 - One code, one seed for most points; errors are Poisson only.
-- Whether the thin rods die as rods or by a band on a face (4); depth and neighbour width are not separated.
+- Whether the thin rods die as rods or by a band on a face (4). Depth 6 against neighbour width 6 is not separated
+  (8 against 10 rows at L = 4 shows neither).
 - Rim kinds other than obtuse-dense + sharp-sparse were measured only at odd widths (5); `par` = 1 not run.
+- The bilinear law ln τ = a0 + c·A − α·w (+ β·L) FAILS on the strips (χ² 26 on 3, `data/fit_out.txt`): the length
+  price falls with L. An earlier draft of this file used it; nothing above depends on it.
 - The strips with a mixed second difference are tubes of girth 4 and 5 across 4 to 5 units of width. A wide
   face they are not. The comparison with the hull is of like sizes, not of asymptotes.
 - No obtuse rim was isolated from a sharp one (needs faces with corners: hexagons on truncated hulls).

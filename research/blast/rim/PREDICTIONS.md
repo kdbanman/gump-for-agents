@@ -88,3 +88,24 @@ agent anatomy.)
 - **R12.** The share rises with width at fixed length: (10,10,4) above 0.203 by more than 0.03: 55%.
   (12,12,3) and (14,14,3) (girth 3) above 0.25: 50%.
 - **R13.** Hull R = 9 (45 cells) by my code: below 0.06: 75%.
+
+## Scores (04:14 UTC; values from data/table_out.txt)
+
+| forecast | outcome |
+|---|---|
+| R1 (60%) (8,8,5,0) = 12.9 +- 0.6 | **miss**: 13.861 +- 0.008 |
+| R2 mixed second difference per cell: 35% in 0.200-0.217, 45% in 0.217-0.240, 20% outside | as specified (5 to 8 rows, L 5 to 8) not measurable: thin rods die as rods. Nearest: 0.226 +- 0.008 (8->10 rows, L 4->5), the 45% bin; 0.274 and 0.259 at L 3->4, outside |
+| R3 (75%) length slope exceeds 0.2087 per cell | **pass** at every step (0.2455, 0.2308, 0.2177 at 8 rows) |
+| R4 (55%) dense sharp rim is the cheaper mirror | not run (par 1) |
+| R5 (10,10,5) = 17.09 +- 0.15; 60% width price at L = 5 below 0.220 | value **miss** (16.886 +- 0.020); the 60% statement **pass** (0.2017) |
+| R6 (10,10,4) = 13.55 +- 0.12; (12,12,4) = 16.0 +- 0.2 | **pass** (13.438); **miss** (15.774) |
+| R7 (70%) (8,8,6) = 16.55 +- 0.06 | **miss**: 16.4735 +- 0.026 |
+| R8 8-row face beside 10-row faces: 55% longer by 0.02-0.15, 35% within 0.02 | the 35% outcome: -0.011 +- 0.006. L = 5 not run |
+| R9 (60%) par 1 lower | not run |
+| R10 (65%) (9,9,5) = 14.91 +- 0.06 | **miss**: 14.997 +- 0.018 (g(5) from odd widths 3.128, not 3.03) |
+| R11 (60%) (12,12,4) = 15.78 +- 0.05, no zone | **pass**: 15.774 +- 0.025 |
+| R12 (55%, 50%) bust share rises with width | **fail** both: 0.203 -> 0.196 (L = 4); 0.150, 0.108 at 12, 14 rows (L = 3) |
+| R13 (75%) hull R = 9 bust share below 0.06 | **pass**: 0.016 |
+| Blocks 5 and 6 (hull faces of 135 and 165 cells) | open |
+
+Of 11 scored: 5 pass, 6 miss.
