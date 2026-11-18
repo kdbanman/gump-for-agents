@@ -4,7 +4,7 @@ Standing account of the PI (the session in charge of the blast). One subdirector
 README; `BRIEF-COMMON.md` is what every agent was told; `PREDICTIONS.md` holds forecasts frozen before data;
 `REPORT.md` is the account for the owner. Written to as results are checked; newest state at the top.
 
-## State (04:25 UTC): the referee's verdict, and the PI's reading of the whole
+## State (04:21 UTC): the referee's verdict, and the PI's reading of the whole
 
 - **Boom and bust is confirmed by a referee with its own code (`ref-anatomy/REVIEW.md`) and sharpened.** Nearly
   every wrapped death goes through the over-full generation (84% contain a fall of at least 0.4 of the face; the
