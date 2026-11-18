@@ -54,6 +54,6 @@ if __name__ == '__main__':
             A = len(nb)
             res = subprocess.run([os.path.join(HERE, 'mc'), fn, r1, r2, '20000', '%d' % (budget / A), str(1000 + i)],
                                  capture_output=True, text=True)
-            a, deaths, expo, lntau, se, dens = res.stdout.split()
+            a, deaths, expo, lntau, se, dens = res.stdout.split()[:6]
             f.write(','.join([name, a, r1, r2, deaths, expo, lntau, se, dens, note]) + '\n'); f.flush()
             print(name, a, deaths, lntau, se, dens, note, flush=True)

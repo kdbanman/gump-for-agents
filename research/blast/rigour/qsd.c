@@ -13,7 +13,7 @@
    h = (vP)(empty) / |v| converges to 1 - lambda; from the quasi-stationary law the death time is exactly
    geometric with mean tau = 1/h.
 
-   usage: qsd graph rho1 rho2 [maxiter=4000] [tol=2e-12] [verbose 0/1] [tilt]
+   usage: qsd graph rho1 rho2 [maxiter=4000] [tol=2e-12] [verbose 0/1] [tilt|-] [bust]
    graph: A; then per cell "m1 m2 deg n1..ndeg"; then an elimination order (see geom.py).
    build: gcc -O3 -march=native -o qsd qsd.c -lm                                                    */
 #include <stdio.h>
@@ -194,7 +194,7 @@ int main(int argc, char **argv) {
     /* Tilt identity (README, Theorem 2): with eps_i(x) = -ln P(cell i dead next | x) and E = sum_i eps_i,
        h = E_mu[exp(-E)], so ln tau = int_0^1 <E>_s ds = sum_i c_i, c_i = int_0^1 <eps_i>_s ds,
        <.>_s the mean under mu_s ~ mu exp(-sE).  32-point Gauss-Legendre in s.  Also cumulants of E under mu. */
-    if (argc > 7) {
+    if (argc > 7 && argv[7][0] == 't') {
         enum { NG = 32 };
         double xs[NG], ws[NG];
         for (int i = 0; i < NG; i++) {            /* Gauss-Legendre nodes on [0,1] by Newton */
@@ -237,6 +237,68 @@ int main(int argc, char **argv) {
                k1 - m2c / 2 + m3c / 6 - (m4c - 3 * m2c * m2c) / 24);
         printf("tilt_path s:<E>_s/A:density_s");
         for (int g = 0; g < NG; g += 3) printf(" %.3f:%.5f:%.5f", xs[g], Es[g] / Z[g] / A, Ds[g] / Z[g] / A);
+        printf("\n");
+    }
+    /* Routes to death (exact).  From the quasi-stationary law, look at the last K living states X_{T-K..T-1}
+       before the death at T.  (a) share of the death flux whose last K states include one with population >= thr
+       (an over-full face);  (b) share whose last K transitions (the death itself included) include a fall of
+       at least A/2 cells in one generation.  Both by products with a marker: paths that avoid the marked event
+       are propagated, and the share is 1 - (their death mass) / (lambda^(K-1) h).  "living": the same event's
+       probability over a window of the same length for a face that is merely still alive at its end
+       (1 - surviving unmarked mass / lambda^(K-1), resp. lambda^K for K transitions): the baseline. */
+    if (argc > 8) {
+        double lam = 1 - h;
+        double *MU = malloc(sizeof(double) << A), *V = malloc(sizeof(double) << A), *ACC = malloc(sizeof(double) << A);
+        int pos0[MAXA], posv[MAXA];
+        memcpy(MU, T, sizeof(double) << A); memcpy(pos0, posold, sizeof pos0);
+#define RESTORE(P) do { for (int i_ = 0; i_ < A; i_++) { posold[i_] = (P)[i_]; at_kind[posold[i_]] = 0; at_id[posold[i_]] = i_; } nbits = A; } while (0)
+        int Ks[4] = {2, 4, 6, 10};
+        double fr[3] = {0.6, 0.7, 0.8};
+        for (int a = 0; a < 3; a++) {
+            int thr = (int)ceil(fr[a] * A - 1e-9);
+            printf("overfull_share thr %d (%.1fA)", thr, fr[a]);
+            for (int ki = 0; ki < 4; ki++) {
+                int K = Ks[ki];
+                RESTORE(pos0);
+                for (uint64_t s = 0; s < NA; s++) T[s] = (s && __builtin_popcountll(s) < thr) ? MU[s] : 0;
+                double D = 0, S = 0;
+                for (int j = 1; j <= K; j++) {
+                    if (j == K) { S = 0; for (uint64_t s = 1; s < NA; s++) S += T[s]; }
+                    matvec();
+                    if (j == K) { D = T[0]; break; }
+                    T[0] = 0;
+                    for (uint64_t s = 1; s < NA; s++) if (__builtin_popcountll(s) >= thr) T[s] = 0;
+                }
+                printf("  K=%d: %.6f (living %.6f)", K, 1 - D / (pow(lam, K - 1) * h), 1 - S / pow(lam, K - 1));
+            }
+            printf("\n");
+        }
+        int half = (A + 1) / 2;                      /* a fall of at least half the face: m - n' >= half */
+        printf("halffall_share (fall >= %d cells in one generation)", half);
+        int Kmax = 6; double Dnb_at[16], Snb_at[16];
+        RESTORE(pos0); memcpy(V, MU, sizeof(double) << A); memcpy(posv, pos0, sizeof posv);
+        for (int j = 1; j <= Kmax; j++) {
+            double Dnb = 0;
+            memset(ACC, 0, sizeof(double) << A);
+            int posn[MAXA];
+            for (int cls = half - 1; cls <= A; cls++) {      /* cls = half-1 stands for all populations < half */
+                RESTORE(posv);
+                double mass = 0;
+                for (uint64_t s = 0; s < NA; s++) { int n = __builtin_popcountll(s);
+                    T[s] = (s && ((cls == half - 1) ? (n < half) : (n == cls))) ? V[s] : 0; mass += T[s]; }
+                if (mass == 0) continue;
+                matvec();
+                memcpy(posn, posold, sizeof posn);
+                if (cls == half - 1) Dnb += T[0];
+                for (uint64_t s = 1; s < NA; s++)
+                    if (cls == half - 1 || cls - __builtin_popcountll(s) < half) ACC[s] += T[s];
+            }
+            Dnb_at[j] = Dnb;
+            memcpy(V, ACC, sizeof(double) << A); memcpy(posv, posn, sizeof posv);
+            Snb_at[j] = 0; for (uint64_t s = 1; s < NA; s++) Snb_at[j] += V[s];
+        }
+        for (int j = 1; j <= Kmax; j++) if (j == 1 || j == 2 || j == 4 || j == 6)
+            printf("  K=%d: %.6f (living %.6f)", j, 1 - Dnb_at[j] / (pow(lam, j - 1) * h), 1 - Snb_at[j] / pow(lam, j));
         printf("\n");
     }
     return 0;

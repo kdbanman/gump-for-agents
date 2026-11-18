@@ -23,3 +23,16 @@ Surrogate = one face layer on gump's rule over private coins (0.44, 0.42); see T
   so the step per 12 cells stays at 2.415 +- 0.02 (it was 2.423, then 2.415); a discount growing like length^2
   would put the step at 2.407 and the value at 24.563, which this forecast cannot tell apart. I do not expect the
   step to fall below 2.39 (80%).
+
+## Added 03:58 UTC (before the second-pass rows of (1,1),(0,14) and (1,1),(0,16) were read)
+
+Two-branch reading of the surrogate's tube (1,1),(0,D): deaths split into "bust" (a fall of half the face in one of
+the last 6 generations) and "starve"; the bust share p(D) falls from 0.81 (D = 6) to 0.42 (D = 12); with each branch
+exponential in D the step of ln tau is c_s + p (c_b - c_s), c_b - c_s = 0.29 per unit of length from the shares,
+c_s = 0.585 from the steps at D = 9..13.
+- **R7 (65%).** ln tau of (1,1),(0,16), 48 cells: 12.43 +- 0.07 (the step 14 -> 16 is 2 x 0.66, not 2 x 0.69 or more).
+- **R8 (60%).** Bust share at D = 16: 0.22 +- 0.06.
+- **R9 (gump; a test for agent anatomy's files, 55%).** If the fall of a tube's price with length is this crossover,
+  then on the loop^2 12 tubes of 84, 96, 108 cells the share of deaths with a half-face fall changes by 3 to 6
+  points per 12 cells (curvature of ln tau = -(d ln odds/dA)^2 p(1-p); the measured second difference
+  -0.008 per 12 cells needs |d ln odds/dA| = 0.015 per cell). If the share is flat to 1 point, the reading is dead.

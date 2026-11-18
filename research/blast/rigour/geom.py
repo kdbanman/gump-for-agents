@@ -9,6 +9,8 @@ s = x + y + z = C.  A face cell has 6 in-layer neighbours (offsets with zero sum
                    (|aE1 + bE2|^2 / 8 = a^2 + ab + b^2), 3HD cells; neighbours counted with multiplicity
   hull   R         rimmed triangular face of the octahedral hull |x|+|y|+|z| <= R (R odd): x,y,z >= 0, sum R;
                    A = 3k(k+1)/2 with R = 2k - 1; cells beneath outside the hull do not exist (no coin)
+  hull2  R         the same face, but a coin that is a cell of ANOTHER face's own layer (|x|+|y|+|z| = R) is coded
+                   as a ten in m1 or m2: mc.c gives those coins a third density (a rim held by a second face)
   strip  W D       W unit cells wide (free rim, dead outside), D long and periodic: unit cells (a, b), 0 <= a < W,
                    b mod D; every cell keeps its three coins
   patch  W D       W x D unit cells, free rim all round; every cell keeps its three coins
@@ -76,7 +78,7 @@ def torus(H, K, D, C=1):
     return nb, m
 
 
-def hull(R):
+def hull(R, second=False):
     cells = [(x, y, R - x - y) for x in range(R + 1) for y in range(R + 1 - x)
              if (x % 2) + (y % 2) + ((R - x - y) % 2) == 1]
     ix = {c: i for i, c in enumerate(cells)}
@@ -89,10 +91,11 @@ def hull(R):
             inside = sum(abs(c) for c in q) <= R
             if sum(off) == 0 and q in ix:
                 l.append(ix[q])
+            onface = sum(abs(c) for c in q) == R        # a cell of another face's own layer
             if sum(off) == -2 and inside:
-                m1 += 1
+                m1 += 10 if (second and onface) else 1
             if sum(off) == -4 and inside:
-                m2 += 1
+                m2 += 10 if (second and onface) else 1
         nb.append(l); m.append((m1, m2))
     return nb, m, cells
 
@@ -183,6 +186,8 @@ def build(kind, *args):
         nb, m = torus(*args)
     elif kind == 'hull':
         nb, m, _ = hull(*args)
+    elif kind == 'hull2':
+        nb, m, _ = hull(*args, second=True)
     elif kind == 'strip':
         nb, m = strip(*args)
     elif kind == 'patch':
