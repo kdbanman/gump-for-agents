@@ -18,14 +18,14 @@ def analyse(ring, graph):
     sz = faces_of(graph); off = np.concatenate([[0], np.cumsum(sz)]); nf = len(sz)
     mx, big, st = [], [], []
     for line in open(ring):
-        p = line.split()
-        if p[0] == 'Q':
-            b = np.frombuffer(p[1].encode() if len(p) > 1 else line[1:].strip().encode(), np.uint8) - 48
+        if line[0] == 'Q':
+            b = np.frombuffer(line[1:].strip().encode(), np.uint8).astype(int) - 48
             st.append([b[off[f]:off[f + 1]].sum() for f in range(nf)]); continue
+        p = line.split()
         mask = int(p[1]); fs = [f for f in range(nf) if (mask >> f) & 1]
         if len(fs) != 1 or len(p) < 3 + 13: continue
         f = fs[0]
-        P = np.array([(np.frombuffer(x.encode(), np.uint8)[off[f]:off[f + 1]] - 48).sum() for x in p[3:]])
+        P = np.array([int((np.frombuffer(x.encode(), np.uint8)[off[f]:off[f + 1]].astype(int) - 48).sum()) for x in p[3:]])
         F = P[1:13] - P[:12]; mx.append(F.max()); big.append(P.max())
     A = sz[0]; mx = np.array(mx); big = np.array(big); st = np.array(st, float)
     n = len(mx); h = (mx >= A / 2).mean(); h4 = (mx >= 0.4 * A).mean()

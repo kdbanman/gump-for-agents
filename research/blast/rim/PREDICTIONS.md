@@ -65,3 +65,26 @@ towards the wrapped value because the strip measurement is only 2 sigma from 0.2
 - **ln tau_face(165 cells, k = 10) = 35.79 +- 0.08** (second difference 0.68 +- 0.03 again; 35.813 if 0.692 holds
   twice, 35.61 if the wrapped price took over from k = 8).
 - P(the second difference at k = 8 lies in 0.66 to 0.72) = 65%.
+
+## Block 6: 03:58 UTC. Revision of block 5 after the long (8,8,6) run and (12,12,4); still before any 135-cell value
+
+New since block 5: (8,8,6) = 16.4735 +- 0.026 (two runs), so the length price at 8 rows goes 0.2455, 0.2308,
+0.2177 +- 0.0023 per cell over L 3->4->5->6: it is still falling at 72 cells. (12,12,4) = 15.774: the cost of a row
+pair at L = 4 is 2.343 (8->10) and 2.340 (10->12): linear in width, so ln tau = a(L) + (w/2) g(L) with
+g = 1.54, 2.342, 3.039 at L = 3, 4, 5 and a = 1.97, 1.72, 1.71. If a(6) = 1.71 too, g(6) = 3.69 and the
+increments of g are 0.80, 0.70, 0.65: the strips' analogue of the hull's second differences (0.80, 0.69, 0.69)
+would be bending towards 0.626. That is an inference with one assumption, not a measurement. Block 5 stands as
+frozen; this is what I would say now:
+
+- **ln tau_face(135) = 29.210 +- 0.035** (second difference at k = 8: 0.672 +- 0.025). P(nearer 29.230) = 62%,
+  P(nearer 29.163) = 38%.
+- **ln tau_face(165) = 35.74 +- 0.09.**
+
+## Block 7: 03:58 UTC, before the death rings of (10,10,4), (12,12,3), (14,14,3), hull 9, (10,10,5)
+
+Known: share of deaths with a one-generation fall of at least half the face in the last 12 generations:
+(8,8,4) 0.203 +- 0.004, (8,8,5) 0.158 +- 0.003. (Wrapped 0.51 to 0.60 and hull 0.016 to 0.022 at 63 to 84 cells,
+agent anatomy.)
+- **R12.** The share rises with width at fixed length: (10,10,4) above 0.203 by more than 0.03: 55%.
+  (12,12,3) and (14,14,3) (girth 3) above 0.25: 50%.
+- **R13.** Hull R = 9 (45 cells) by my code: below 0.06: 75%.
