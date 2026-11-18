@@ -145,3 +145,29 @@ compatible both with -0.02 and with an effect that grows with depth.
 - The truncation's effect on deaths at R >= 13; coin density and depth together; R = 9 anchors are protocol-dependent
   at the 0.01 level (a gump hull of that size is retired every 2,300 generations).
 - Errors of the tail comparisons are rough (samples four generations apart, sqrt(4/count)).
+
+## Brute force of the chain at R = 13 (added 06:40 UTC; the test named above as decisive)
+
+`rd G_13_6 run SEED 157030581 200 32`, seeds 1301 to 1304, four cores, 20 minutes (files `bf13_s130*.txt` in scratch;
+1.608e11 counted lane-generations). [measured]
+
+| what | ln tau (84 cells) | deaths |
+|---|---|---:|
+| hull dice chain, brute force, my stepper | **18.2005 +- 0.0223** (four jobs: 18.245, 18.169, 18.185, 18.205; their scatter 0.033, expected 0.045) | 2,004 |
+| chain - gump (18.141 +- 0.005) | **+0.060 +- 0.023** (2.6 errors) | |
+| chain - sampler on the chain (18.192 +- 0.025, 234 replications) | **+0.009 +- 0.034** | |
+| chain - my fresh sampler runs (18.130 +- 0.066) | +0.071 +- 0.070 | |
+
+No settled lanes (the histogram of P falls smoothly to P = 1; 5e-7 of the samples at P <= 6). P-bar 42.464, sigma 5.958.
+
+**Reading.** The chain sits on the sampler and not on gump. At 84 cells the sampler is exact to 0.03 and the +0.05 is
+the chain's own offset: the surrogate value "chain less a measured offset" stands, and what I wrote in (c) 4, that the
+growth of sampler-minus-gump is probably the estimator's unsampled tail, is **withdrawn for this size** (the giant
+replication at R = 15 and the downward drift of the R = 17 pool remain facts about the error bar). What does not
+stand is "the offset is constant": by brute force, chain minus gump is -0.003 +- 0.005, +0.024 +- 0.019, +0.060 +- 0.023 at
+45, 63, 84 cells, so (b)'s "0.03 and flat" was wrong beyond R = 11. Constant over R = 11 and 13: +0.039 +- 0.015, which
+gives 29.397 - 0.039 = 29.36 at 135 cells; a line in the area through the three brute-force offsets: +0.14 +- 0.05 at
+135 cells [extrapolated], which gives 29.26 +- 0.06. So 29.34 is the upper of two defensible readings, the growth from
+R = 11 to R = 13 is itself only 0.036 +- 0.030, and 29.30 +- 0.09 still covers both: nothing new is decided between
+29.230 and 29.163, and "above both" is still not shown. Not checked: why the chain's offset grows (coins, depth or the
+one-face protocol), and its value at 108 cells, which brute force cannot reach in this time.
