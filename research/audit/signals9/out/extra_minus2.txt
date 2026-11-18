@@ -1,0 +1,6 @@
+left store 2, armed store 0, CALL and R@CROSS-17 at generation 0: end 77 dd f 7^59 + the line; 1 pulse(s) left to the right; oracle = st9 at every even generation 0..300: True; nearest image 28; 15 s
+left store 2, armed store 1, CALL and R@CROSS-17 at generation 0: end 77 dd f 7^59 + the line; 0 pulse(s) left to the right; oracle = st9 at every even generation 0..300: True; nearest image 28; 14 s
+left store 2, armed store 2, CALL and R@CROSS-17 at generation 0: end 77 ddd f 7^58 + the line; 0 pulse(s) left to the right; oracle = st9 at every even generation 0..300: True; nearest image 28; 15 s
+left store 2, armed store 3, CALL and R@CROSS-17 at generation 0: end 77 d^4 f 7^57 + the line; 0 pulse(s) left to the right; oracle = st9 at every even generation 0..300: True; nearest image 28; 15 s
+left store 2, armed store 4, CALL and R@CROSS-17 at generation 0: end 77 d^5 f 7^56 + the line; 0 pulse(s) left to the right; oracle = st9 at every even generation 0..300: True; nearest image 28; 15 s
+left store 2, armed store 5, CALL and R@CROSS-17 at generation 0: end 77 d^6 f 7^55 + the line; 0 pulse(s) left to the right; oracle = st9 at every even generation 0..300: True; nearest image 28; 15 s

@@ -262,3 +262,16 @@ pictured as a fed, fuller margin: it is one fuller row, a thinner one behind it,
 
 22.5405 ± 0.0074 from the card's rows. The relation's 22.535 is 0.8 errors low, the straight line's 22.551 is 1.4 high.
 As with W13, it leans to the relation and decides nothing; the two together put the straight line at χ² 5.7 on 2.
+
+## W14–W16: the 126- and 132-cell tubes of loop² 12, running on the card (12:26 UTC, 2026-11-18, before any row)
+
+I froze nothing for the 120-cell tube and every forecast on file for it was high. These are fitted after seeing it
+(`research/audit/CHAIN3B-DYING2-CHECK.md`): three one-parameter bends give 25.70 to 25.71 at 126 cells and 26.87 to
+26.89 at 132; the straight line of 84 to 108 cells gives 25.801 and 27.013. The 120-cell point sits below every
+smooth bend, so either it is a low draw (and the next two come back to the bends) or the bend is sharpening (and
+they fall below).
+
+- **W14 (60%).** The 126-cell tube (1,19),(0,42) is within 0.05 of 25.705.
+- **W15 (55%).** The 132-cell tube (1,20),(0,44) is within 0.07 of 26.88.
+- **W16 (85%).** Both are more than 0.04 below the straight line (below 25.761 and 26.973).
+- If W14 fails, 70% that it fails low.

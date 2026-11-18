@@ -1,0 +1,144 @@
+# P3.15f: 788 placements; beside d^3 f with its first unit at u_obj + e, e = -5..5: a right-going pulse at the three timings.  Listed: every (placement, e) at which the stretch stands and some timing releases it (the wire plain and the object as it would have been at the end); then k = 1..8 for those.
+# 8530 (placement, e) stand; by the set of outcomes over the three timings: {('store:d^4 f',): 8090, 'does not stand': 138, ('changing', 'object changed', 'store:ddd f'): 10, ('changing',): 12, ('store:b d^4 f', 'store:d^4 f'): 1, ('released', 'store:5 d^5 f', 'store:d^4 f'): 1, ('store:5 d^6 f', 'store:5 ddd f', 'store:d^4 f'): 1, ('released', 'store:5 d^4 f', 'store:d^4 f'): 1, ('released', 'store:d^4 f', 'store:d^7 f'): 1, ('store:d^4 f', 'store:d^7 f', 'store:d^8 f'): 1, ('changing', 'object changed', 'wire changed, object as it would be'): 14, ('object changed', 'wire changed, object as it would be'): 100, ('released',): 22, ('wire changed, object as it would be',): 98, ('changing', 'wire changed, object as it would be'): 11, ('object changed', 'store:c 88 b ddd f'): 11, ('changing', 'object changed'): 39, ('store:ddd f',): 12, ('object changed',): 28, ('store:c 88 b ddd f',): 10, ('changing', 'store:c 88 b ddd f', 'wire changed, object as it would be'): 1, ('changing', 'store:d^4 f', 'wire changed, object as it would be'): 2, ('changing', 'object changed', 'store:d^4 f'): 14, ('released', 'store:d^4 f'): 5, ('store:c b ddd f', 'store:d^4 f'): 1, ('store:d^4 f', 'wire changed, object as it would be'): 21, ('store:ddd f', 'wire changed, object as it would be'): 2, ('store:d^4 f', 'store:ddd f'): 1, ('changing', 'released'): 2, ('object changed', 'store:d^4 f'): 4, ('object changed', 'store:c 88 b ddd f', 'wire changed, object as it would be'): 1, ('object changed', 'store:d^4 f', 'wire changed, object as it would be'): 1, ('released', 'store:d^4 f', 'wire changed, object as it would be'): 3, ('changing', 'store:d^4 f'): 5, ('changing', 'store:c 88 b ddd f'): 1, ('store:d^4 f', 'store:d^7 f'): 3}
+gi 0 t (0, -4, 6) e +1   (plain wire: eeeeee)
+     timing 0: k=1: store:dd f; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+     timing 1: k=1: released; k=2: released [b]; k=3: released [b]; k=4: released [b 7 b]; k=5: released [b 7 b 7 b]; k=6: released [b 7 b]; k=7: released [b 7 b 7 b]; k=8: released [b 7 b 7 b 7 b]
+     timing 2: k=1: store:5 ddd f; k=2: store:5 d^4 f; k=3: store:5 d^5 f; k=4: store:5 d^6 f; k=5: store:5 d^7 f; k=6: store:5 d^8 f; k=7: store:5 d^9 f; k=8: store:5 d^10 f
+gi 0 t (0, -4, 6) e +3   (plain wire: eeeeee)
+     timing 0: k=1: released [b]; k=2: released [b 7 b]; k=3: released [b 7 b 7 b]; k=4: released [b 7 b]; k=5: released [b 7 b 7 b]; k=6: released [b 7 b 7 b 7 b]; k=7: released [b 7 b 7 b 7 b]; k=8: released [b 7 b 7 b 7 b 7 b]
+     timing 1: k=1: store:5 dd f; k=2: store:5 ddd f; k=3: store:5 d^4 f; k=4: store:5 d^5 f; k=5: store:5 d^6 f; k=6: store:5 d^7 f; k=7: store:5 d^8 f; k=8: store:5 d^9 f
+     timing 2: k=1: store:dd f; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+gi 0 t (0, -4, 6) e +4   (plain wire: eeeeee)
+     timing 0: k=1: store:dd f; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+     timing 1: k=1: store:d^5 f; k=2: store:d^6 f; k=3: store:d^7 f; k=4: store:d^8 f; k=5: store:d^9 f; k=6: store:d^10 f; k=7: store:d^11 f; k=8: store:d^12 f
+     timing 2: k=1: released [b 7 b]; k=2: released [b 7 b 7 b]; k=3: released [b 7 b]; k=4: released [b 7 b 7 b]; k=5: released [b 7 b 7 b 7 b]; k=6: released [b 7 b 7 b 7 b]; k=7: released [b 7 b 7 b 7 b 7 b]; k=8: released [b 7 b 7 b 7 b 7 b 7 b]
+gi 1 t (0, 0, 12) e -1   (plain wire: xxxppp)
+     timing 0: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 1: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 2: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+gi 1 t (0, 0, 12) e +0   (plain wire: xxxppp)
+     timing 0: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+     timing 1: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+     timing 2: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+gi 3 t (0, 2, 12) e -1   (plain wire: xxxppp)
+     timing 0: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 1: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 2: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+gi 3 t (0, 2, 12) e +0   (plain wire: xxxppp)
+     timing 0: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+     timing 1: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+     timing 2: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+gi 11 t (0, 0, 10) e -3   (plain wire: ppxppe)
+     timing 0: k=1: does not stand; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+     timing 1: k=1: does not stand; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+     timing 2: k=1: does not stand; k=2: released [b^5]; k=3: released [b^7]; k=4: released [b^9]; k=5: released [b^11]; k=6: released [b^13]; k=7: released [b^15]; k=8: released [b^17]
+gi 12 t (0, 0, 10) e -1   (plain wire: xpxppp)
+     timing 0: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 1: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 2: k=1: released [b^5]; k=2: released [b^7]; k=3: released [b^9]; k=4: released [b^11]; k=5: released [b^13]; k=6: released [b^15]; k=7: released [b^17]; k=8: released [b^19]
+gi 12 t (0, 0, 10) e +0   (plain wire: xpxppp)
+     timing 0: k=1: released [b 7 b^6]; k=2: released [b 7 b^8]; k=3: released [b 7 b^10]; k=4: released [b 7 b^12]; k=5: released [b 7 b^14]; k=6: released [b 7 b^16]; k=7: released [b 7 b^18]; k=8: released [b 7 b^20]
+     timing 1: k=1: released [b]; k=2: released [b 7 b]; k=3: released [b 7 b 7 b]; k=4: released [b 7 b 7 b 7 b]; k=5: released [b 7 b 7 b 7 b 7 b]; k=6: released [b 7 b 7 b 7 b 7 b 7 b]; k=7: released [b 7 b 7 b 7 b 7 b 7 b 7 b]; k=8: released [b 7 b 7 b 7 b 7 b 7 b 7 b 7 b]
+     timing 2: k=1: changing; k=2: changing; k=3: changing; k=4: changing; k=5: changing; k=6: changing; k=7: changing; k=8: changing
+gi 17 t (0, 0, 12) e -1   (plain wire: xxxppp)
+     timing 0: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 1: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 2: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+gi 17 t (0, 0, 12) e +0   (plain wire: xxxppp)
+     timing 0: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+     timing 1: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+     timing 2: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+gi 19 t (0, 2, 12) e -1   (plain wire: xxxppp)
+     timing 0: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 1: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 2: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+gi 19 t (0, 2, 12) e +0   (plain wire: xxxppp)
+     timing 0: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+     timing 1: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+     timing 2: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+gi 22 t (0, 2, 10) e -1   (plain wire: xpxppp)
+     timing 0: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 1: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 2: k=1: released [b^5]; k=2: released [b^7]; k=3: released [b^9]; k=4: released [b^11]; k=5: released [b^13]; k=6: released [b^15]; k=7: released [b^17]; k=8: released [b^19]
+gi 22 t (0, 2, 10) e +0   (plain wire: xpxppp)
+     timing 0: k=1: released [b 7 b^6]; k=2: released [b 7 b^8]; k=3: released [b 7 b^10]; k=4: released [b 7 b^12]; k=5: released [b 7 b^14]; k=6: released [b 7 b^16]; k=7: released [b 7 b^18]; k=8: released [b 7 b^20]
+     timing 1: k=1: released [b]; k=2: released [b 7 b]; k=3: released [b 7 b 7 b]; k=4: released [b 7 b 7 b 7 b]; k=5: released [b 7 b 7 b 7 b 7 b]; k=6: released [b 7 b 7 b 7 b 7 b 7 b]; k=7: released [b 7 b 7 b 7 b 7 b 7 b 7 b]; k=8: released [b 7 b 7 b 7 b 7 b 7 b 7 b 7 b]
+     timing 2: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+gi 22 t (0, 2, 10) e +1   (plain wire: xpxppp)
+     timing 0: k=1: wire changed, object as it would be [b^7 a 8 b]; k=2: wire changed, object as it would be [b^7 a 8 bbb]; k=3: wire changed, object as it would be [b^7 a 8 b^5]; k=4: wire changed, object as it would be [b^10 a 8 b^4]; k=5: wire changed, object as it would be [b^10 a 8 b^6]; k=6: wire changed, object as it would be [b^10 a 8 b^8]; k=7: wire changed, object as it would be [b^13 a 8 b^7]; k=8: wire changed, object as it would be [b^13 a 8 b^9]
+     timing 1: k=1: released [b 7 b^9]; k=2: released [b 7 b^11]; k=3: released [b 7 b^13]; k=4: released [b 7 b^15]; k=5: released [b 7 b^17]; k=6: released [b 7 b^19]; k=7: released [b 7 b^21]; k=8: released [b 7 b^23]
+     timing 2: k=1: store:dd f; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+gi 27 t (0, 2, 10) e -1   (plain wire: xpxppp)
+     timing 0: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 1: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 2: k=1: released [b^5]; k=2: released [b^7]; k=3: released [b^9]; k=4: released [b^11]; k=5: released [b^13]; k=6: released [b^15]; k=7: released [b^17]; k=8: released [b^19]
+gi 27 t (0, 2, 10) e +0   (plain wire: xpxppp)
+     timing 0: k=1: released [b 7 b^6]; k=2: released [b 7 b^8]; k=3: released [b 7 b^10]; k=4: released [b 7 b^12]; k=5: released [b 7 b^14]; k=6: released [b 7 b^16]; k=7: released [b 7 b^18]; k=8: released [b 7 b^20]
+     timing 1: k=1: released [b]; k=2: released [b 7 b]; k=3: released [b 7 b 7 b]; k=4: released [b 7 b 7 b 7 b]; k=5: released [b 7 b 7 b 7 b 7 b]; k=6: released [b 7 b 7 b 7 b 7 b 7 b]; k=7: released [b 7 b 7 b 7 b 7 b 7 b 7 b]; k=8: released [b 7 b 7 b 7 b 7 b 7 b 7 b 7 b]
+     timing 2: k=1: changing; k=2: changing; k=3: changing; k=4: changing; k=5: changing; k=6: changing; k=7: changing; k=8: changing
+gi 33 t (0, 0, 10) e -2   (plain wire: xxpppp)
+     timing 0: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 1: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 2: k=1: released [b^5]; k=2: released [b^7]; k=3: released [b^9]; k=4: released [b^11]; k=5: released [b^13]; k=6: released [b^15]; k=7: released [b^17]; k=8: released [b^19]
+gi 33 t (0, 0, 10) e -1   (plain wire: xxpppp)
+     timing 0: k=1: released [b 7 b^6]; k=2: released [b 7 b^8]; k=3: released [b 7 b^10]; k=4: released [b 7 b^12]; k=5: released [b 7 b^14]; k=6: released [b 7 b^16]; k=7: released [b 7 b^18]; k=8: released [b 7 b^20]
+     timing 1: k=1: released [b]; k=2: released [b 7 b]; k=3: released [b 7 b 7 b]; k=4: released [b 7 b 7 b 7 b]; k=5: released [b 7 b 7 b 7 b 7 b]; k=6: released [b 7 b 7 b 7 b 7 b 7 b]; k=7: released [b 7 b 7 b 7 b 7 b 7 b 7 b]; k=8: released [b 7 b 7 b 7 b 7 b 7 b 7 b 7 b]
+     timing 2: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+gi 33 t (0, 0, 10) e +0   (plain wire: xxpppp)
+     timing 0: k=1: wire changed, object as it would be [b^7 a 8 b]; k=2: wire changed, object as it would be [b^7 a 8 bbb]; k=3: wire changed, object as it would be [b^7 a 8 b^5]; k=4: wire changed, object as it would be [b^10 a 8 b^4]; k=5: wire changed, object as it would be [b^10 a 8 b^6]; k=6: wire changed, object as it would be [b^10 a 8 b^8]; k=7: wire changed, object as it would be [b^13 a 8 b^7]; k=8: wire changed, object as it would be [b^13 a 8 b^9]
+     timing 1: k=1: released [b 7 b^9]; k=2: released [b 7 b^11]; k=3: released [b 7 b^13]; k=4: released [b 7 b^15]; k=5: released [b 7 b^17]; k=6: released [b 7 b^19]; k=7: released [b 7 b^21]; k=8: released [b 7 b^23]
+     timing 2: k=1: store:dd f; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+gi 35 t (0, 2, 10) e -2   (plain wire: xxpppp)
+     timing 0: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 1: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 2: k=1: released [b^5]; k=2: released [b^7]; k=3: released [b^9]; k=4: released [b^11]; k=5: released [b^13]; k=6: released [b^15]; k=7: released [b^17]; k=8: released [b^19]
+gi 35 t (0, 2, 10) e -1   (plain wire: xxpppp)
+     timing 0: k=1: released [b 7 b^6]; k=2: released [b 7 b^8]; k=3: released [b 7 b^10]; k=4: released [b 7 b^12]; k=5: released [b 7 b^14]; k=6: released [b 7 b^16]; k=7: released [b 7 b^18]; k=8: released [b 7 b^20]
+     timing 1: k=1: released [b]; k=2: released [b 7 b]; k=3: released [b 7 b 7 b]; k=4: released [b 7 b 7 b 7 b]; k=5: released [b 7 b 7 b 7 b 7 b]; k=6: released [b 7 b 7 b 7 b 7 b 7 b]; k=7: released [b 7 b 7 b 7 b 7 b 7 b 7 b]; k=8: released [b 7 b 7 b 7 b 7 b 7 b 7 b 7 b]
+     timing 2: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+gi 35 t (0, 2, 10) e +0   (plain wire: xxpppp)
+     timing 0: k=1: wire changed, object as it would be [b^7 a 8 b]; k=2: wire changed, object as it would be [b^7 a 8 bbb]; k=3: wire changed, object as it would be [b^7 a 8 b^5]; k=4: wire changed, object as it would be [b^10 a 8 b^4]; k=5: wire changed, object as it would be [b^10 a 8 b^6]; k=6: wire changed, object as it would be [b^10 a 8 b^8]; k=7: wire changed, object as it would be [b^13 a 8 b^7]; k=8: wire changed, object as it would be [b^13 a 8 b^9]
+     timing 1: k=1: released [b 7 b^9]; k=2: released [b 7 b^11]; k=3: released [b 7 b^13]; k=4: released [b 7 b^15]; k=5: released [b 7 b^17]; k=6: released [b 7 b^19]; k=7: released [b 7 b^21]; k=8: released [b 7 b^23]
+     timing 2: k=1: store:dd f; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+gi 38 t (0, 2, 12) e -2   (plain wire: xxxppp)
+     timing 0: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 1: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 2: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+gi 38 t (0, 2, 12) e -1   (plain wire: xxxppp)
+     timing 0: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+     timing 1: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+     timing 2: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+gi 42 t (0, -2, 6) e -2   (plain wire: xxxeee)
+     timing 0: k=1: store:dd f; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+     timing 1: k=1: store:dd f; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+     timing 2: k=1: changing; k=2: changing; k=3: released; k=4: released; k=5: released; k=6: released [b]; k=7: released [b]; k=8: released [b 7 b]
+gi 43 t (0, -2, 8) e +0   (plain wire: eeeeee)
+     timing 0: k=1: store:dd f; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+     timing 1: k=1: released; k=2: released [b]; k=3: released [b]; k=4: released [b 7 b]; k=5: released [b 7 b 7 b]; k=6: released [b 7 b]; k=7: released [b 7 b 7 b]; k=8: released [b 7 b 7 b 7 b]
+     timing 2: k=1: store:dd f; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+gi 43 t (0, -2, 8) e +1   (plain wire: eeeeee)
+     timing 0: k=1: store:dd f; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+     timing 1: k=1: store:dd f; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+     timing 2: k=1: released [b]; k=2: released [b 7 b]; k=3: released [b]; k=4: released [b 7 b]; k=5: released [b 7 b 7 b]; k=6: released [b 7 b 7 b]; k=7: released [b 7 b 7 b 7 b]; k=8: released [b 7 b 7 b 7 b 7 b]
+gi 43 t (0, -2, 8) e +2   (plain wire: eeeeee)
+     timing 0: k=1: released [b]; k=2: released [b 7 b]; k=3: released [b]; k=4: released [b 7 b]; k=5: released [b 7 b 7 b]; k=6: released [b 7 b 7 b]; k=7: released [b 7 b 7 b 7 b]; k=8: released [b 7 b 7 b 7 b 7 b]
+     timing 1: k=1: store:dd f; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+     timing 2: k=1: store:dd f; k=2: store:ddd f; k=3: store:d^4 f; k=4: store:d^5 f; k=5: store:d^6 f; k=6: store:d^7 f; k=7: store:d^8 f; k=8: store:d^9 f
+gi 44 t (0, 0, 12) e -2   (plain wire: xxxppp)
+     timing 0: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 1: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 2: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+gi 44 t (0, 0, 12) e -1   (plain wire: xxxppp)
+     timing 0: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+     timing 1: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+     timing 2: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+gi 46 t (0, 2, 12) e -2   (plain wire: xxxppp)
+     timing 0: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 1: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+     timing 2: k=1: released [b^4]; k=2: released [b^6]; k=3: released [b^8]; k=4: released [b^10]; k=5: released [b^12]; k=6: released [b^14]; k=7: released [b^16]; k=8: released [b^18]
+gi 46 t (0, 2, 12) e -1   (plain wire: xxxppp)
+     timing 0: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+     timing 1: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+     timing 2: k=1: released [b^7]; k=2: released [b^9]; k=3: released [b^11]; k=4: released [b^13]; k=5: released [b^15]; k=6: released [b^17]; k=7: released [b^19]; k=8: released [b^21]
+# 35 (placement, e) with a release at some timing; released at every timing and every k: 22; of those with all six plain-wire tests passed: 0
+# 327 s

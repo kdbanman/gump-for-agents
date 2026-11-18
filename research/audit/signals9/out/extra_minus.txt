@@ -1,0 +1,33 @@
+R@CROSS-17 with the CALL, k = 0: 0 pulses leave to the left, 1 to the right; end: 7^64 + the line; oracle = st9 at every even generation 0..300: True (15 s)
+R@CROSS-17 with the CALL, k = 1: 0 pulses leave to the left, 0 to the right; end: 7^64 + the line
+R@CROSS-17 with the CALL, k = 2: 1 pulses leave to the left, 0 to the right; end: 7^64 + the line; oracle = st9 at every even generation 0..300: True (15 s)
+R@CROSS-17 with the CALL, k = 3: 2 pulses leave to the left, 0 to the right; end: 7^64 + the line
+R@CROSS-17 with the CALL, k = 4: 3 pulses leave to the left, 0 to the right; end: 7^64 + the line
+R@CROSS-17 with the CALL, k = 5: 4 pulses leave to the left, 0 to the right; end: 7^64 + the line; oracle = st9 at every even generation 0..300: True (15 s)
+R@CROSS-17 with the CALL, k = 6: 5 pulses leave to the left, 0 to the right; end: 7^64 + the line
+R@CROSS-17 with the CALL, k = 7: 6 pulses leave to the left, 0 to the right; end: 7^64 + the line
+R@CROSS-17 with the CALL, k = 8: 7 pulses leave to the left, 0 to the right; end: 7^64 + the line
+R@CROSS-17 with the CALL, k = 9: 8 pulses leave to the left, 0 to the right; end: 7^64 + the line
+R@CROSS-17 with the CALL, k = 10: 9 pulses leave to the left, 0 to the right; end: 7^64 + the line
+R@CROSS-19 with the CALL, k = 0: 0 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-19 with the CALL, k = 1: 1 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-19 with the CALL, k = 2: 2 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-19 with the CALL, k = 3: 3 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-19 with the CALL, k = 4: 4 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-19 with the CALL, k = 5: 5 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-19 with the CALL, k = 6: 6 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-19 with the CALL, k = 7: 7 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-19 with the CALL, k = 8: 8 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-19 with the CALL, k = 9: 9 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-19 with the CALL, k = 10: 10 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-21 with the CALL, k = 0: 0 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-21 with the CALL, k = 1: 1 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-21 with the CALL, k = 2: 2 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-21 with the CALL, k = 3: 3 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-21 with the CALL, k = 4: 4 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-21 with the CALL, k = 5: 5 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-21 with the CALL, k = 6: 6 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-21 with the CALL, k = 7: 7 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-21 with the CALL, k = 8: 8 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-21 with the CALL, k = 9: 9 pulses leave to the left, 1 to the right; end: 7^64 + the line
+R@CROSS-21 with the CALL, k = 10: 10 pulses leave to the left, 1 to the right; end: 7^64 + the line

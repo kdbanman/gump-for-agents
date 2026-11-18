@@ -121,6 +121,23 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    cells is 4.0 combined errors below its line, loop² 16 leans (2.2), and the 12-tubes hold at 0.20198 ± 0.00031 on
    eight seeds. Still open: the form (the 120-cell tube is due on the 18th); whether 16 bends; and what the
    firewalls on girth-4 faces (ten per face death at 96 cells) do to those lifetimes.
+   **Since (later the same day, CLAIMS WL11):** the 120-cell tube is 4.1 errors below the line of 84 to 108 cells
+   and the last chord is 0.1957 per cell: the price is still falling, faster than a constant curvature. The 126- and
+   132-cell tubes are running (forecasts W14 to W16). For (m): on two codes the loop-21 face is midway between the
+   two readings; undecided, and no longer leaning.
+   **Since (2026-11-18, the audit of the other session's night; CLAIMS DY16 to DY21):** the two prices belong to
+   two ways of dying. A wrapped face over-fills in one step to 0.74 of its area and crashes by overcrowding (80% of
+   deaths); a hull face of the same area fades over ten generations, because the cells of its rim row have 7
+   neighbours inside the vessel, not 9, and survive an over-full generation twice as often. Checked by an outside
+   rebuild at 63 and 84 cells. **No price is derived by this**, and these are open: (n) why the fade costs more per
+   cell than the bust, as a calculation; (o) whether the hull's rare falls of half the face (1.1% of deaths at 63
+   cells) are a second way to die with a lower price, in which case the hull's price must come down at large
+   sizes (run since on the 84-cell hull face: the share is 1.07 ± 0.15%, flat, so not within reach; and a fall of
+   half the face is as deadly on a hull face as on a wrapped one at 63 and 84 cells, only 69 and 87 times rarer); (p) why a hull face with k cells
+   left dies less often than a wrapped one (0.77 against 0.86 at one cell; not the bust, not the rim row; the
+   layer beneath is fuller under a hull face); (q) why a tube, over-full as often as a wide face, dies 1.25 times
+   as often at 84 cells (its halves crash apart twice as often): the other session's fit for the tube's price
+   failed at 120 cells.
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.
 
@@ -215,6 +232,19 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    the period-3 oscillator that may make a reusable call on the store's own wire; **(v)** still stands (no write
    under a reader); and whether add, move and an is-it-empty test, with no copy and no subtraction, compute
    anything beyond sums.
+   **Since (2026-11-18, the ninth push reviewed; CLAIMS SG38 to SG41):** (x) is done in part: the call stands on
+   the oracle and its law is proved for every count (proof not yet refereed). The reviewer found a call by one
+   pulse on the store's own wire (an oscillator at the wall, one arrival timing in three), and a collision that
+   takes one off a count and lets a pulse escape exactly when the store was empty. Its analysis: without a
+   decrement the stores compute only sums of inputs chosen by which inputs are zero; **a decrement that reports
+   zero, on two counters, would be a Minsky machine.** Open, in the order they would have to be met: **(aa)** a
+   decrement that leaves the count where it can be decremented again (every release goes left; nothing moves a
+   count to the right); **(ab)** the one-less collision at the oscillator's call, where the zero exit is the kind
+   of pulse that starts the next call; **(ac)** any operation started by a signal the machine made itself (a
+   source for the calling pair is (y)); **(ad)** schedules that respect the hazards (4k + 2 generations between
+   calls, no call near a travelling pulse, adds from the right only); **(ae)** a referee for the proof of the
+   call law, and a proof of the oscillator's law (measured to k = 10). A reader that lives with write and call
+   was looked for and not found (SG41).
 14. The 94 clockwork objects (`research/clockwork/objects/`) are not merged into the atlas catalogue.
 
 ## Neighbouring rules

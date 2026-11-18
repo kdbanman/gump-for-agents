@@ -249,6 +249,54 @@ standing stretch of a third wire, one unit longer for every gap. It is the first
 gump whose size depends on a message. It is written inside a stream that is being
 destroyed, and when the gun at the far end dies its fire erases the mark.
 
+The seventh round ran on the processor of the machine in your house, and it found that a
+running stream can be made to stand still. Send the answer up a line that has a few gaps in
+it, and the whole line, gun included, turns into a standing wire of that third kind, capped
+at both ends and ticking every four generations. It keeps the number of gaps exactly, up to
+193 of them in the longest line tried. The reviewer of that round also overturned the
+sentence above about guns. Of 867 guns that can be listed at the next size up, 34 survive
+being answered. They come out changed, and from then on they fire a gap with every object.
+
+The eighth round built what the mark had promised, a memory. Take a length of the third
+wire and cap both ends. Two pulses, one sent in from each end, meet and leave a short
+stretch of a different texture where they met. Every later pulse that arrives is absorbed
+by the stretch and makes it one unit longer. So the wire holds a number, written as a
+length, as large as the wire allows, and holding it costs nothing: the whole object repeats
+every two generations for ever. Then take away one particular cell of the wire beside the
+stretch, at an even generation, and the stretch unzips. A count of k comes back out as
+exactly k pulses, two units apart. That is proved for every k, by an argument a second
+agent refereed and mended in three places, and I ran the proof's checks myself. A second
+store further along the wire catches the pulses and holds them.
+
+Two more things followed the same night. A count can be read without being spent: send two
+pulses side by side down a second wire that crosses the store, and one pulse comes back if
+the store is plain where they cross and none if it is not, and the store is exactly as it
+was. And a count can be called for by a signal. That is the step that matters, because a
+cell taken away by hand is my hand and not gump's. Lay a wire across the store one unit
+before its wall and send two pulses side by side along it. They pass on unchanged, and the
+stretch leaves as exactly k pulses. The crossing wire is as it was, so it can call again,
+and since a count set free runs into the next store and is added to what is there, one and
+three make four. I ran the verifiers of the call myself on the reference stepper, and a
+reviewer rebuilt it and proved it for every count; nobody has yet refereed that proof.
+
+So gump has a row of counters that can be added to, emptied into one another when a signal
+says so, and asked whether a place is empty. The reviewer worked out what such a row can
+compute, and it is very little: sums of its inputs, chosen by which inputs are zero. No
+copy, no doubling, no comparison. What it lacks is one operation, a subtraction of one that
+says when it has reached nothing. With that, two counters are a computer, in the plain
+sense that they can run any program.
+
+And the reviewer found that operation, in a form nobody can use yet. Send the call and one
+more pulse at exactly the right moment, and a store holding k gives back k − 1 pulses,
+while a store holding nothing lets the extra pulse go by. So the collision exists in the
+rule. It is timed by hand, the count it leaves goes off down the wire and has to be caught
+again, and nothing gump makes for itself can start it. The same reviewer found an
+oscillator that, set beside a store, lets a single pulse on the store's own wire do the
+calling, one arrival in three, which is the kind of pulse that zero exit is. Those two
+things have not been put together. I ran both on the reference stepper myself. Reading,
+writing and calling still do not live on one store: where the reader survives the other
+two, it gives the same answer whatever the count.
+
 ## The rule you meant to write
 
 In November 2026 you looked at a picture of the neighbourhood and said it was wrong: in its
@@ -484,6 +532,43 @@ survivors keep more than twice the company), and not an even patch either. It is
 thin scatter beyond it. And among faces with the same number of cells left, the ones about
 to die are the looser.
 
+All of that was watched on the faces of a box, the kind with a rim. On the eighteenth a
+second session spent a night watching a wrapped face and a rimmed face die side by side,
+which was the question the two prices had left. I had its report audited by an agent that
+took no part in it and built its own recorder from the reference stepper, and then I ran
+that recorder again on fresh seeds. The main finding holds, to the third digit.
+
+A wrapped face does not fade. It dies of a boom. From a perfectly ordinary generation, 33
+cells alive of 63, it fills in one step to about 47, three quarters of the face, with the
+layers under it over-full as well. In the next step nearly all of those cells die at once,
+and they die of crowding, not loneliness: 99 in 100 of them have six or more live
+neighbours. A dozen are left, in clumps, and five generations later the face is empty. Four
+deaths in five go this way. The boom itself is common and nearly always harmless. At 63
+cells a face survives 127 such crashes for each one it dies of, and at 84 cells about
+1,100.
+
+A rimmed face almost never dies like that, which is why the first study saw a fade: ten
+generations, no crash, and only one death in ninety with a fall of half the face in it. The
+reason is as small as a reason can be. A cell in the middle of a face has nine neighbours
+inside the box. A cell in the row along an edge has seven. In an over-full generation the
+middle of a rimmed face is exactly as crowded as a wrapped face, and two thirds of its
+cells die, the same share. A cell with seven neighbours is seldom crowded, and two thirds
+of the edge row lives. On a face of 63 cells half the cells are in that row. So the face
+comes out of the boom with thirty cells where a wrapped face has twenty, and carries on.
+
+I asked one thing more of it myself, with a forecast written first. If the rare crash on a
+rimmed face were a cheaper death waiting its turn, its share would grow with the face, and
+the price of a rimmed face would have to come down in the end. It does not grow: one death
+in ninety at 63 cells, one in ninety-three at 84. What the run showed instead is tidy. A
+crash of half the face is exactly as deadly on a rimmed face as on a wrapped one, one in
+about 130 at 63 cells and one in about 1,200 at 84. The rim only makes it seventy or
+eighty times rarer.
+
+So the two prices are the prices of two deaths, and a rim does not add a cost so much as
+close the cheap way out. That is a mechanism, and it is checked. It is not arithmetic yet:
+nobody can compute either price from it. And the same night's account of why a tube is
+cheaper did not survive: its nine forecasts for the 120-cell tube were all too high.
+
 ## How much of the room a seed sees
 
 You asked how many of the states a hull allows a seed ever visits. There is an exact
@@ -612,6 +697,11 @@ other and not with the file. Those forecasts then met their first test by accide
 dying-face study wanted a face with no rim and happened to pick one of the wrapped faces on
 the list. It outlived all four readings I had written down for it.
 
+I told you that no gun survives being answered, and wrote it into your journal. Thirty-four
+of 867 do, changed, and it was a reviewer cut short for lack of time who found them. And I
+told you the face with a way round of √21 leaned towards a cost. A second code moved it to
+the middle, and the lean is withdrawn.
+
 The notebook keeps these in place rather than tidied away. I think the record of being
 corrected is part of what this repository is for.
 
@@ -658,6 +748,7 @@ corrected is part of what this repository is for.
   makes no difference. What a rimmed face has that a wrapped one lacks is corners, which
   stand nearly empty, and one fuller row along each edge. So the difference must be in the
   dying, not the living, and nobody has yet watched the two kinds die side by side.
+  (They have now: the end of "How a face dies".)
 - Your card's answer on the queued face, and a surprise beside it. The face with a way round
   of √21 came in at 17.5387, between my two forecasts and nearer the one where a long way
   round still costs something: it leans, it does not decide. The surprise is the long
@@ -667,6 +758,10 @@ corrected is part of what this repository is for.
   tube gets longer. And the card measured thicker chaos behind a face and the price did not
   move, which closes that door a second way. I no longer think there is a price per cell.
   There is a rate at which each shape of face dies, and area is only the largest term in it.
+  (Since: a second code, on your machine's processor, puts the queued face at 17.5442, and the
+  two together sit exactly midway between my forecasts. I withdraw "leans". And the 120-cell
+  tube came in four errors below even the bent line: its last twelve cells were worth 0.196
+  each. The 126- and 132-cell tubes are running on your card, with my forecasts on file.)
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):

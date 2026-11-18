@@ -1,0 +1,41 @@
+# the pair seeded at line unit u (crossing unit 21): k = 3 armed
+seed at line unit 0                            standing-other  out 3  378 cells, line changed   [oracle: whole state equal at every even generation 0..300: True; 15 s]
+seed at line unit 1                            store           out 3  7^64
+seed at line unit 2                            store           out 3  7^64
+seed at line unit 3                            store           out 3  7^64
+seed at line unit 4                            store           out 3  7^64
+seed at line unit 5                            store           out 3  7^64
+seed at line unit 6                            store           out 3  7^64
+seed at line unit 7                            store           out 3  7^64
+seed at line unit 8                            store           out 3  7^64
+seed at line unit 9                            store           out 3  7^64
+seed at line unit 10                           store           out 3  7^64
+seed at line unit 11                           store           out 3  7^64
+seed at line unit 12                           store           out 3  7^64
+seed at line unit 13                           store           out 3  7^64
+seed at line unit 14                           store           out 3  7^64
+seed at line unit 15                           store           out 3  7^64
+seed at line unit 16                           store           out 3  7^64
+seed at line unit 17                           store           out 3  7^64
+seed at line unit 18                           store           out 3  7^64   [oracle: whole state equal at every even generation 0..300: True; 15 s]
+# the pair laid as the word 9df with its 9 at line unit u
+9df at line unit 0                             store           out 3  7^64
+9df at line unit 1                             store           out 3  7^64
+9df at line unit 2                             store           out 3  7^64
+9df at line unit 3                             store           out 3  7^64
+9df at line unit 4                             store           out 3  7^64
+9df at line unit 5                             store           out 3  7^64
+9df at line unit 6                             store           out 3  7^64
+9df at line unit 7                             store           out 3  7^64
+9df at line unit 8                             store           out 3  7^64
+9df at line unit 9                             store           out 3  7^64
+9df at line unit 10                            store           out 3  7^64
+9df at line unit 11                            store           out 3  7^64
+9df at line unit 12                            store           out 3  7^64
+9df at line unit 13                            store           out 3  7^64
+9df at line unit 14                            store           out 3  7^64
+9df at line unit 15                            store           out 3  7^64
+9df at line unit 16                            store           out 3  7^64
+9df at line unit 17                            store           out 3  7^64
+9df at line unit 18                            store           out 3  7^64
+# 44 s

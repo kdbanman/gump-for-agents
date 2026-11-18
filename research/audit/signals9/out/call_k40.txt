@@ -1,0 +1,2 @@
+PASS  k = 40: X(t) = V(t) + Lf(t) at every generation 0..416 (differences: []); st9 = oracle (differences: []); the store is exactly plain wire with 40 units b two apart, the leading one at unit 38 - (t - 28)/2, at every even generation 114..216 (2k + 34 until the lead reaches the cap) and at no earlier one: True; the line is at rest from 42; the whole state is the empty cell + the line at rest from 374; N = 141, torus (322, 90, 322), nearest image 28; 126 s
+ALL PASS

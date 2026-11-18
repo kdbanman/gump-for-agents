@@ -1,0 +1,4 @@
+1  k = 1..40: the CALL launched at generation 0 = the stator (0,1,2) of the crossing unit removed at generation s; s that fit: [(28,)]
+2  k = 1..40: the hand release with the line = (the hand release) + (the line at rest) at every generation: True
+   k with a fit other than s = 28 alone: []
+PASS

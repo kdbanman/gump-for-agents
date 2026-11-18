@@ -1,0 +1,5 @@
+PASS  1  st9.c = oracle = set stepper on six soups, 240 generations compared, 0 differences
+PASS  2  a wrong rule (B45/S34) differs from the oracle on 6 of 6 soups
+PASS  3  a9.Orc = oracle.masks(H), oracle.step on a cubic torus: the store with the line and a CALL, k = 3, 70 generations
+PASS  4  st9.c ring mode = the oracle on a cubic torus of side 48: a ring of 24 units with d^3 f and a pulse, 120 generations
+ALL PASS

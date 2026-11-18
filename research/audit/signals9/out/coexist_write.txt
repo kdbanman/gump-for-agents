@@ -1,0 +1,46 @@
+# empty wire + line + reader at w + j, everything in place; then by signals only:
+#   t=0 set (R@c-10, L@c+13)   t=120 read   t=300 add (L@c+12)   t=420 add (L@c+12)   t=540 read   t=720 CALL   t=1100 read
+reader at w-12: set -> 1302 cells; line ok; reader changed
+reader at w-11: set -> 944 cells; line ok; reader changed
+reader at w-10: set -> 1372 cells; line changed; reader changed
+reader at w-9: set -> 1407 cells; line changed; reader changed
+reader at w-8: set -> 2741 cells; line changed; reader changed
+reader at w-7: set -> 575 cells; line ok; reader changed
+reader at w-6: set -> 1808 cells; line changed; reader changed
+reader at w-5: set -> 573 cells; line ok; reader changed
+reader at w-4: set -> 1900 cells; line changed; reader changed
+reader at w-3: set -> 3126 cells; line changed; reader changed
+reader at w-2: does not stand with the empty wire and the line
+reader at w-1: does not stand with the empty wire and the line
+reader at w+0: does not stand with the empty wire and the line
+reader at w+1: does not stand with the empty wire and the line
+reader at w+2: does not stand with the empty wire and the line
+reader at w+3: set -> 421 cells; line ok; reader changed
+reader at w+4: set -> 398 cells; line ok; reader changed
+reader at w+5: set -> 514 cells; line ok; reader changed
+reader at w+6: set -> 471 cells; line ok; reader changed
+reader at w+7: set -> 456 cells; line ok; reader changed
+reader at w+8: set -> 475 cells; line ok; reader changed
+reader at w+9: set -> 451 cells; line ok; reader changed
+reader at w+10: set -> 269 cells; line ok; reader changed
+reader at w+11: set -> 645 cells; line ok; reader changed
+reader at w+12: set -> 1470 cells; line ok; reader changed
+reader at w+13: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+14: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+15: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+16: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+17: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+18: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+19: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+20: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+21: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+22: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+23: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+24: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+25: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+26: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+27: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+28: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+29: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+reader at w+30: set -> 7^32 d f 7^36; read echo; add -> 7^32 dd f 7^35; add -> 7^32 ddd f 7^34; read echo; CALL -> 7^70; read echo
+# 3 s

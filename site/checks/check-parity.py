@@ -33,27 +33,38 @@ EDITS = [
 # Plates added since OLD_REV, and old plates whose HTML was rewritten on purpose (each with where it comes from); the data
 # keys whose content may differ from the old page's. Anything not named here must still be as it was.
 NEW = {
+    "twoways": "2026-11-18: Two ways to die (NB how a face dies, audited from outside; CLAIMS DY16-DY21; research/audit/blast/data/)",
+    "register": "2026-11-18: A line that keeps a count (NB three more signals results in one night; CLAIMS SG35, SG36)",
+    "memory": "2026-11-18: A memory cell, live (NB the eighth signals push, reviewed; the ninth signals push, reviewed; CLAIMS SG33, SG34, "
+              "SG37-SG41; research/signals/push8/objects/cell8.json, push9/objects/call9.json)",
     "wrap": "phase 2 (2026-11-15 afternoon): What a short way round costs (NB the wrapping law tested; CLAIMS WL1-WL3); rewritten the "
             "evening of 2026-11-15 around the density law (NB why a tube is cheaper; CLAIMS WL4-WL6, W13); 2026-11-16: W13 measured, the "
-            "long tubes below their line, kappa 3.0 on them (NB the card's tube and wrapped faces; CLAIMS WL7, WL8)",
+            "long tubes below their line, kappa 3.0 on them (NB the card's tube and wrapped faces; CLAIMS WL7, WL8); "
+            "2026-11-18: eight seeds, loop² 13 and 16, the 120-cell tube, the loop-21 face on two codes (CLAIMS WL9-WL11)",
     "gun": "phase 2: A gun (NB the fourth signals push, reviewed; CLAIMS SG16-SG18)",
     "divider": "phase 2: A clock that edits the message (CLAIMS SG19, SG22)",
     "echo": "evening 2026-11-15: An echo, live (NB the fifth signals push reviewed; CLAIMS SG26; research/audit/signals5/end_echo.json); "
-            "night 2026-11-15: its result, no gun survives an echo and the reflector works once (NB the sixth signals push reviewed; CLAIMS SG30, SG31)",
+            "night 2026-11-15: its result, no gun survives an echo and the reflector works once (NB the sixth signals push reviewed; CLAIMS SG30, SG31); "
+            "2026-11-18: corrected, 34 of 867 guns survive the echo changed (CLAIMS SG36)",
     "meetings": "night 2026-11-15: When signals meet, live (NB the sixth signals push, reviewed; CLAIMS SG28, SG29; "
                 "research/signals/objects/echo-train.json, research/audit/signals6/sig6.py)",
     "ends": "evening 2026-11-15: Nothing listens (NB the fifth signals push, reviewed; CLAIMS SG23-SG25, SG27); night 2026-11-15: the events "
-            "review 5 had not followed, the count an echo writes, six pushes' forecasts (NB the sixth signals push reviewed; CLAIMS SG29, SG32)",
+            "review 5 had not followed, the count an echo writes, six pushes' forecasts (NB the sixth signals push reviewed; CLAIMS SG29, SG32); "
+            "2026-11-18: what now listens and what is missing (CLAIMS SG33-SG41; OPEN-PROBLEMS 13 (v), (y), (aa)-(ae))",
 }
 CHANGED = {
+    "stairs": "2026-11-18: the eyebrow says these are hull faces of a box (beside Two ways to die)",
+    "death": "2026-11-18: the eyebrow, heading and first caption say these are hull faces of a box and point to Two ways to die",
+    "dying": "2026-11-18: the two eyebrows say these are hull faces (the 'new' marks of 2026-11-14 removed)",
+    "luck": "2026-11-18: the eyebrow says these are hull faces of a box",
     "constant": "phase 2: nine wrapped faces in place of five (NB the nine wrapped faces reviewed; CLAIMS GL3); evening 2026-11-15: one "
                 "sentence on the price with no loop, if the density law holds (CLAIMS WL5); 2026-11-16: rewritten around the answer no, the "
                 "prices by kind of face, the two negatives (NB the hull face of 108 cells; a living hull face …; the card's tube and wrapped "
-                "faces; CLAIMS CN2-CN4, WL7, WL8)",
+                "faces; CLAIMS CN2-CN4, WL7, WL8); 2026-11-18: two ways of dying behind the prices, the long tubes on eight seeds and to 120 cells (CLAIMS DY16-DY21, WL10, WL11)",
     "next": "phase 2: Open now, from docs/WHAT-I-SEE.md 'What I would look at next' and OPEN-PROBLEMS 9 and 13; evening 2026-11-15: the echo "
             "and the sixth push, the loop of 21 queued (W13), the price with no loop (NB why a tube is cheaper; STATUS 20:27 UTC); night 2026-11-15: "
             "the sixth push done, OPEN-PROBLEMS 13 (q)-(t) open (NB the sixth signals push reviewed); 2026-11-16: how each kind of face "
-            "dies, the long tubes and the loop of 21 (OPEN-PROBLEMS 9 (k)-(m))",
+            "dies, the long tubes and the loop of 21 (OPEN-PROBLEMS 9 (k)-(m)); 2026-11-18: items 1, 3, 4 rewritten (OPEN-PROBLEMS 9 (l)-(q), 13 (aa)-(ae))",
 }
 CHANGED_DATA = {
     "tori": "nine faces, recomputed from research/data/gpu_local_eqtorus (CLAIMS GL3)",

@@ -1,0 +1,13 @@
+# hull_11 hull63_s21: neighbours inside the vessel, face-layer cells of face 0: 4: 3 cells, 7: 30 cells, 9: 30 cells
+3216 non-fatal generations with >= 48 cells; mean population then 48.65, one generation later 30.08, two later 29.58
+  cells with 9 neighbours inside (30 a face): occupancy 0.755; live cells that survive 0.342; live cells with >= 6 live neighbours 0.651; births per dead cell 0.254
+  cells with 7 neighbours inside (30 a face): occupancy 0.816; live cells that survive 0.661; live cells with >= 6 live neighbours 0.306; births per dead cell 0.475
+  cells with 4 neighbours inside (3 a face): occupancy 0.513; live cells that survive 0.846; live cells with >= 6 live neighbours 0.000; births per dead cell 0.249
+# slab_1_4_21 slab63_s11: neighbours inside the vessel, face-layer cells of face 0: 9: 63 cells
+2826 non-fatal generations with >= 48 cells; mean population then 48.64, one generation later 20.14, two later 21.66
+  cells with 9 neighbours inside (63 a face): occupancy 0.772; live cells that survive 0.333; live cells with >= 6 live neighbours 0.659; births per dead cell 0.274
+# hull_11 hull63_s21: neighbours inside the vessel, face-layer cells of face 0: 4: 3 cells, 7: 30 cells, 9: 30 cells
+33773 non-fatal generations with >= 45 cells; mean population then 45.87, one generation later 31.73, two later 31.06
+  cells with 9 neighbours inside (30 a face): occupancy 0.716; live cells that survive 0.407; live cells with >= 6 live neighbours 0.578; births per dead cell 0.303
+  cells with 7 neighbours inside (30 a face): occupancy 0.769; live cells that survive 0.687; live cells with >= 6 live neighbours 0.266; births per dead cell 0.451
+  cells with 4 neighbours inside (3 a face): occupancy 0.444; live cells that survive 0.813; live cells with >= 6 live neighbours 0.000; births per dead cell 0.202
