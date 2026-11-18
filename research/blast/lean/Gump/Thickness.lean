@@ -132,7 +132,7 @@ theorem interior_count (a : Axis) (d : Diag) :
 /-! ## Maximisers -/
 
 /-- A nonempty list has an element maximising any integer function. -/
-theorem exists_max (L : List Pt) (hne : L ≠ []) (f : Pt → Int) : ∃ p ∈ L, ∀ q ∈ L, f q ≤ f p := by
+theorem exists_max_of_list (L : List Pt) (hne : L ≠ []) (f : Pt → Int) : ∃ p ∈ L, ∀ q ∈ L, f q ≤ f p := by
   induction L with
   | nil => exact absurd rfl hne
   | cons a l ih =>
@@ -161,7 +161,7 @@ theorem exists_max_set (S : Pt → Bool) (L : List Pt) (hL : ∀ p, S p = true �
     intro h
     have : p0 ∈ L.filter S := List.mem_filter.2 ⟨hL p0 hp0, hp0⟩
     rw [h] at this; simp at this
-  obtain ⟨p, hp, hmax⟩ := exists_max (L.filter S) hne' f
+  obtain ⟨p, hp, hmax⟩ := exists_max_of_list (L.filter S) hne' f
   refine ⟨p, (List.mem_filter.1 hp).2, fun q hq => hmax q (List.mem_filter.2 ⟨hL q hq, hq⟩)⟩
 
 /-! ## Theorem 3 in the full lattice -/
@@ -547,20 +547,20 @@ theorem hullV_iff (C : Diag → Int) (p : Pt) :
   exact ⟨fun ⟨h1, h2⟩ => ⟨h1, fun d => h2 d (Diag.mem_all d)⟩, fun ⟨h1, h2⟩ => ⟨h1, fun d _ => h2 d⟩⟩
 
 /-- The integers in `[-M, M]`. -/
-def ints (M : Nat) : List Int := (List.range (2 * M + 1)).map (fun (i : Nat) => (i : Int) - (M : Int))
+def intsIn (M : Nat) : List Int := (List.range (2 * M + 1)).map (fun (i : Nat) => (i : Int) - (M : Int))
 
-theorem mem_ints (M : Nat) (x : Int) (h1 : -(M : Int) ≤ x) (h2 : x ≤ M) : x ∈ ints M := by
-  simp only [ints, List.mem_map, List.mem_range]
+theorem mem_intsIn (M : Nat) (x : Int) (h1 : -(M : Int) ≤ x) (h2 : x ≤ M) : x ∈ intsIn M := by
+  simp only [intsIn, List.mem_map, List.mem_range]
   exact ⟨(x + M).toNat, by omega, by omega⟩
 
 /-- The points of the box `[-M, M]³`. -/
-def box (M : Nat) : List Pt :=
-  (ints M).flatMap (fun x => (ints M).flatMap (fun y => (ints M).map (fun z => ⟨x, y, z⟩)))
+def boxPts (M : Nat) : List Pt :=
+  (intsIn M).flatMap (fun x => (intsIn M).flatMap (fun y => (intsIn M).map (fun z => ⟨x, y, z⟩)))
 
-theorem mem_box (M : Nat) (p : Pt) (hx : -(M : Int) ≤ p.x ∧ p.x ≤ M) (hy : -(M : Int) ≤ p.y ∧ p.y ≤ M)
-    (hz : -(M : Int) ≤ p.z ∧ p.z ≤ M) : p ∈ box M := by
-  simp only [box, List.mem_flatMap, List.mem_map]
-  exact ⟨p.x, mem_ints M _ hx.1 hx.2, p.y, mem_ints M _ hy.1 hy.2, p.z, mem_ints M _ hz.1 hz.2, rfl⟩
+theorem mem_boxPts (M : Nat) (p : Pt) (hx : -(M : Int) ≤ p.x ∧ p.x ≤ M) (hy : -(M : Int) ≤ p.y ∧ p.y ≤ M)
+    (hz : -(M : Int) ≤ p.z ∧ p.z ≤ M) : p ∈ boxPts M := by
+  simp only [boxPts, List.mem_flatMap, List.mem_map]
+  exact ⟨p.x, mem_intsIn M _ hx.1 hx.2, p.y, mem_intsIn M _ hy.1 hy.2, p.z, mem_intsIn M _ hz.1 hz.2, rfl⟩
 
 theorem natAbs_le_sum (C : Diag → Int) (l : List Diag) (d : Diag) (hd : d ∈ l) :
     (C d).natAbs ≤ (l.map (fun e => (C e).natAbs)).sum := by
@@ -574,7 +574,7 @@ theorem natAbs_le_sum (C : Diag → Int) (l : List Diag) (d : Diag) (hd : d ∈ 
 
 /-- A diagonal-hull vessel is finite: it lies in a box. -/
 theorem hullV_finite (C : Diag → Int) :
-    ∀ p, hullV C p = true → p ∈ box ((Diag.all.map (fun e => (C e).natAbs)).sum) := by
+    ∀ p, hullV C p = true → p ∈ boxPts ((Diag.all.map (fun e => (C e).natAbs)).sum) := by
   intro p hp
   obtain ⟨_, hd⟩ := (hullV_iff C p).1 hp
   let d : Diag := ⟨decide (0 ≤ p.x), decide (0 ≤ p.y), decide (0 ≤ p.z)⟩
@@ -583,7 +583,7 @@ theorem hullV_finite (C : Diag → Int) :
   have hdot : d.dot p = p.x.natAbs + p.y.natAbs + p.z.natAbs := by
     simp only [d, Diag.dot, sg]
     split <;> split <;> split <;> simp_all <;> omega
-  apply mem_box <;> omega
+  apply mem_boxPts <;> omega
 
 /-- **Theorem 3, last clause.** In a diagonal-hull vessel every component of a sealed set has a cell adjacent
 to the vessel's outside; indeed a cell with at least three neighbours outside. -/
@@ -591,7 +591,7 @@ theorem hull_component_touches (C : Diag → Int) (W : Pt → Bool) (hW : Sealed
     (hWV : ∀ p, W p = true → hullV C p = true) (p : Pt) (hp : W p = true) :
     ∃ q, Reach W p q ∧ 3 ≤ (nbrs q).countP (fun r => !hullV C r) := by
   obtain ⟨q, hq, h3⟩ := finite_closed_touches (hullV C) W (comp W p) hW (comp_sub W p) (comp_closed W p)
-    (box ((Diag.all.map (fun e => (C e).natAbs)).sum))
+    (boxPts ((Diag.all.map (fun e => (C e).natAbs)).sum))
     (fun q hq => hullV_finite C q (hWV q (comp_sub W p q hq))) ⟨p, comp_eq_true.2 (Reach.refl hp)⟩
   exact ⟨q, comp_eq_true.1 hq, h3⟩
 
