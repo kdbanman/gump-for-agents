@@ -306,3 +306,8 @@ item 2 is not addressed by it. **Item 1 is withdrawn.** Items 2 to 4 stand. Adde
 55%. (6) The width price at L = 6 is 0.203 to 0.208: 60%. (7) `strips/` reproduces `rim/`'s nine table entries
 within three combined errors each: 80%. (8) A row of a rimmed strip is cheaper than a row of a closed tube of the
 same girth (firewall deaths set aside) at L = 4 and 5: 65%.
+
+**Amendment to the score of block 5 item 1, 12:43 UTC, after the referee (`ref-hull/HOLES.md`).** The numbers
+stand, but the mixed difference is not a bulk cost at these sizes (−ln P is not bulk + perimeter + corner there).
+So item 1 is **missed at every size reached**, and "dead by its own criterion" is too strong: the reading is
+unsupported, and not refuted for holes wider than 4 unit cells, which nobody has reached.

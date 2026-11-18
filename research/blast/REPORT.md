@@ -101,7 +101,28 @@ and 0.218, and the wrapped 0.2087 is inside that; 0.231 is passed on the way dow
 and item 1 is withdrawn. The new agent (`strips/`) is now asked to check `rim/`'s table with its own code and to
 extend it one step in each direction (4 unit rows at L = 7, 5 unit rows at L = 6), with closed tubes of the same
 girth as the control.
-Not checked: everything in this entry is one agent's code and one long run per vessel until the referee reports.
+**Referee (12:43 UTC; `ref-hull/HOLES.md`, own code, `holes`' code not opened): no number broken, two readings
+corrected.**
+- The torus values are confirmed (five patch sizes within 1.8 errors; mixed differences 0.2637 ± 0.0005 and
+  0.2586 ± 0.0014 against 0.2646 and 0.2595; the errors are honest by seed scatter). **But −ln P is not bulk +
+  perimeter + corner at these sizes** (its pure second differences in one side are −0.018, −0.071, −0.103 at
+  2, 3, 4 units, where that form gives zero), so the mixed difference is the cost of one more row on a strip 2 to
+  4 units wide, not a bulk cost. What stands: at no size reached does a hole cost the lifetime price. What does
+  not: "wide holes cost 0.26". The PI's hypothesis is unsupported, not refuted for wide holes.
+- Hull interior, rim and corner patches: confirmed at radius 21 (interior minus torus +0.0004 ± 0.0003 and
+  +0.0009 ± 0.0010; rim −0.985, corner −3.207).
+- The 18-cell face: 4.8526 ± 0.0016 and 4.8570 ± 0.0013 from soups of 0.35 and 0.50, plateau confirmed. But 14.5%
+  of its first deaths empty two or more faces at once (2.5% at 30 cells, 0.2% at 45) and the hull lives 16
+  generations, about its relaxation time: counted per emptied face it is 4.693, and the rows formula's miss
+  falls from 0.27 to 0.10. It is doubtful as a member of the family; fits that lean on it (the agent's price of
+  0.223) lean on that.
+- The two narrow-torus lifetimes that disagreed with the table on file are a difference of definition: the table
+  sets aside face deaths that follow a transverse firewall (65% of deaths on the 2 × 8 torus, 13% on 3 × 6); the
+  referee reproduces both ways of counting (9.472 ± 0.007 against the table's 9.4888; 8.464 against `holes`' 8.450).
+  `holes`' "a hole is dearer than a closed torus by 0.044 at (3.5, 3.5)" stands (firewall shares 3% or less there);
+  its entries for tori two units wide and for 3 × 6 do not.
+- The bust statistics on the torus are confirmed to three digits.
+Not checked by the referee: the fits, the reading of the extra 0.05, triangles and strips, the radius-29 run.
 
 ## What was found
 

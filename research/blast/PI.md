@@ -67,8 +67,9 @@ after its own check; the PI never merges it.
      tetrahedron faces; mixed second differences in width and length give the price of the middle rows, against
      wrapped faces of the same loop. Decides "rows or corners" (block 6). Owed when it reports: read, score block
      6, write up; no budget for a referee, so say so in the report.
-  3. `ref-hull` resumed (a3624c82c86099e8a), refereeing `holes` with its own code: verdict in
-     `research/blast/ref-hull/HOLES.md`. Owed: fold the verdict into the report's entry on holes.
+  3. (done 12:43 UTC) `ref-hull` refereed `holes`: numbers confirmed, two readings corrected (the mixed difference
+     is not a bulk cost at these sizes; the 18-cell face is doubtful as a family member; the narrow-torus
+     disagreement is the firewall channel). In `REPORT.md`.
 - **The 120-cell tube** finishes on the card about 13:00 UTC (interim 24.497 +- 0.019). Check-in set for 13:40 UTC
   (`trig_017L4TdzGa4cQWGCtF5pZtxu`): fetch `origin/claude/gpu-local-1080`, score block 0 and block 5 item 7, add
   to `REPORT.md`. No budget left for a refit of the tube law: write the bend down and leave it.
