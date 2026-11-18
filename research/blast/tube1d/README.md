@@ -14,7 +14,7 @@ header), `validate.py` + `validate_all.sh` (oracle check), `bandfit.py`, `margfi
 
 ## 0. What stands
 
-1. **A tube dies as a whole, in a flash; no band dies first and no front sweeps** [measured, §4]. In 203 deaths of
+1. **A tube dies as a whole, in a flash; no band dies first and no front sweeps** [measured, §4]. In 323 deaths of
    the 84-cell tube the typical cell is last alive 6 generations before the end and the earliest tenth 7.7; no
    band right round the girth is finally empty 4 generations before the median cell in more than 2% of deaths;
    death times of 0.5-unit bands differ by 1.2 generations r.m.s. however far apart they are along the tube. What
@@ -31,13 +31,12 @@ header), `validate.py` + `validate_all.sh` (oracle check), `bandfit.py`, `margfi
    own price at that length (anchors: 0.2049, 0.2035, 0.2019, 0.2013 from 5→6 … 8→9 units). −ln P(band of width w
    empty) − ln τ_face(tube of length w) = 3.855 ± 0.022, 3.893 ± 0.053, 3.98 ± 0.20 at w = 5, 6, 7: a constant
    within errors. **Where it levels**: a straight line through the tubes fails (χ² = 26 for 3); tubes alone with an
-   exponential approach give c∞ = 0.199 (0.195 … 0.202); bands and tubes on one curve c∞ + B·e^(−ℓ/ξ) give c∞ =
-   0.1966 (0.1952 … 0.1976), ξ = 2.65 (2.45 … 2.95) units with χ² = 16.0 for 10; a power-law prefactor
-   τ ∝ ℓ^p·e^(12cℓ) gives c = 0.187, p = 1.39 with χ² = 23.0 for 11 on bands and tubes (strained) and c = 0.194 ±
-   0.003, p = 0.72 ± 0.27 on tubes alone (fine). So: **it does not return to the wide price 0.2087, it does not fall
-   as a parabola, and it levels between 0.195 and 0.202 unless the correction is a power law, which the tubes alone
-   cannot exclude.** The 120-cell tube will not decide (24.545–24.57 in every variant); 192 cells would (38.9–39.0
-   exponential, 38.65 joint power law). I could not push the band beyond 7 units (§9).
+   exponential approach give c∞ = 0.199 (0.195 … 0.202); bands and tubes with one c∞ and one ξ (item 6) give c∞ =
+   0.2004, ξ = 1.95 units; a power-law prefactor τ ∝ L^p·e^(12cL) fits the tubes as well (p = 0.75 ± 0.15, c = 0.194)
+   and bands and tubes together poorly (χ² = 23 for 11). So: **it does not return to the wide price 0.2087, it does
+   not fall as a parabola, and it levels at 0.199–0.202 unless the correction is a power law, which the tubes alone
+   cannot exclude.** The 120-cell tube hardly decides (24.53–24.61 across all variants); 192 cells would (39.0–39.2
+   exponential, 38.9 power law). I could not push the band beyond 7 units (§9).
 4. **Boom and bust hardly changes with tube length up to 7 units, but loses ground to thinning in bands**
    [measured, §4]: the share of deaths with a one-generation fall of at least half the face is 59.3 ± 2.0%, 56.7 ±
    1.1%, 56.3 ± 1.7%, 51.3 ± 4.7% at 48 (4×4), 60, 72 and 84 cells (tubes of length 5, 6, 7). My forecast that it
@@ -150,7 +149,7 @@ The durations are from the first run.)
   moves into the empty side at 0.25 units per generation and a sweep would have to be pushed against it: the
   sign asked for in the brief's (b) is "heals". (Only the face layer was killed; the layers beneath were left alive.)
 
-Other girths, a longer tube (finite-length check) and the long run with histories: §7 (filled as the jobs end).
+Other girths and a longer tube (finite-length check): §7.
 
 ## 4. How a tube dies: reactive paths [measured]
 
@@ -280,7 +279,7 @@ torus at +0.043). A death lasts 4–6 generations from boom to the last cell and
 (1.41 units) per generation, so a correlation over about 2 units of the conditioned event is unsurprising; I
 have no derivation.
 
-Not done: c(g) for other girths (bands at loop² 16, 13, 9 are in §7 if the jobs ended); nothing here bears on
+Not done: c(g) for other girths (loop² 16 turned out to be a different problem, §7); nothing here bears on
 rimmed faces.
 
 ## 6. The honest-dice surrogate and why forward flux failed on it [measured]
@@ -377,6 +376,17 @@ watched, in every lane**: a firewall neither heals nor spreads; its edges stand 
 geometry] A transverse {111} layer meets the face along a kagome line, and it closes round the tube only if the
 girth vector lies along such a line (loop² 9, 16, 25: the girths with firewalls on file); at loop² 12 and 13 it
 winds along the whole tube, so there is nothing local to cut.
+**Finite-length check** (`$S/tube1d bandp 1 38 80 8 0 6 8000000 500 14`: the 240-cell tube of length 20, one run,
+4.1·10¹⁰ band-position-generations; `data/bandp5_g12_L20.txt`). −ln P(band empty) in the length-20 tube minus the
+pooled length-12 value: +0.007, +0.014, +0.023, +0.031, +0.026 at 3, 3.5, 4, 4.5, 5 units (the pooled errors there
+are 0.001, 0.002, 0.004, 0.010, 0.022), then −0.01, −0.11, −0.32, −0.69 at 5.5, 6, 6.5, 7 units (one run; with the
+factor 2 on naive errors: ± 0.08, 0.15, 0.26, 0.4). So up to 5 units a band of the shorter tube is 1–3% likelier
+and the length-20 prices are higher by 0.0007, 0.0012, 0.0015, 0.0012 per cell at 2.5–3 … 4–4.5 units (0.2293,
+0.2235, 0.2205, 0.2177, then 0.2134 ± 0.004): a real but small finite-length effect, one tenth of the fall being
+measured. Beyond 5.5 units one run cannot tell. The boom share falls the same way in the longer tube: 68.8, 60.5,
+51.5, 44.1, 33.7 ± 3.5, 22.9 ± 5.4% at 3, 4, 5, 5.5, 6, 6.5 units (length 12: 68.8, 60.7, 52.6, 47.6, 43.3, 37.1), so
+the take-over by thinning is not an artefact of the short tube.
+
 So the band–tube constant, c∞(g) and ξ(g) of §5 exist only for loop² 12 here: at loop² 16 the band statistic
 measures firewalls (it would need lanes with a firewall censored, which `bandp` does not do), and the band jobs for
 loop² 13 and 9 and the length-20 check were not run for lack of time.
@@ -403,7 +413,7 @@ loop² 13 and 9 and the length-20 check were not run for lack of time.
   times what I ran), 10 units 10¹⁴; no estimator here goes further.
 - The joint fits treat the band slopes as independent with errors from five runs (floored at 0.0005) and ignore
   everything below 3 units, where more than one sub-leading term must matter.
-- The paths are from one seed per vessel; the 84-cell statistics rest on 203 deaths.
+- The paths are from one or two seeds per vessel; the 84-cell statistics rest on 323 deaths (113 with population series).
 - The settled test catches periods dividing 840 and period ≤ 2 only.
 - The surrogate's offset was measured at 48 cells (and 60, §7) only; nothing about its dependence on area or girth
   beyond that; the dice density is 0.414, not the swarm's 0.4155.

@@ -107,3 +107,12 @@ The band numbers quoted in block B were from the first run. Pooled over five run
 0.2141 ± 0.0024 (not 0.2103 ± 0.0033) and from 4 to 6 units 0.2117 ± 0.0021 (A1 still a hit). The forecast for the
 120-cell tube stands as frozen: 24.563 ± 0.030. Fits made after it: 24.545 (bands + tubes, exponential), 24.56–24.57
 (tubes, two-route form), 24.557 (tubes, power law p = 0.75), 24.584 (p = 1/2), 24.530 (p = 1).
+
+### Block B, band forecasts at other girths (04:23 UTC)
+
+- "Marginal band price from 4 to 6 units at loop² 16 above loop² 12's" (70%): **void**. At loop² 16 the band
+  statistic measures transverse firewalls and the dead stretches between them (price 0.02–0.08 per cell, bands
+  lasting 30–110 generations), not flashes.
+- "At loop² 9 it is below" (65%): not measured.
+- "At every girth the age profile is flat, a flash" (80%): **miss** at loop² 16 for the same reason (every bin has
+  been empty for 32–63+ generations); at loop² 12 it is flat.
