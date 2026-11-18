@@ -314,3 +314,17 @@ the 84-, 108- and 120-cell tubes: a = 1, loop vector (2, −4), 12 cells per uni
 - What would change my mind about the cause: I have no mechanism for a slope below the fitted limit. The theory
   session reports that long tubes stop busting all at once (the two halves crash in different generations); if
   that makes death cheaper per cell, the slope should go on falling at 132 cells.
+
+## 10. A second code on the 120-cell tube: forecast (2026-11-18T19:21Z, HEAD 30d881c)
+
+Written before any row of `fr.py run 1 18 40` (the CPU second code, 12 threads, 48 hours, seeds from 30000; rows
+append every 15 minutes to `research/data/gpu_local_cpu/fr_1_18_40_m8.csv`). The card's value is 24.5086 ± 0.0169,
+which is 0.081 ± 0.020 below the line through the 84-, 96- and 108-cell tubes (24.589 ± 0.010).
+
+- Expected: about 760 deaths, ± 0.036 (from the 96-cell tube's 311 deaths per thread-hour and the lifetime ratio).
+- The CPU value within two combined errors of the card's (within about 0.08 of 24.509): 90%.
+- The CPU value below 24.589: 90%. Below 24.55: 80%.
+- If it comes out at 24.59 or above, the card's value was a low fluctuation or the two codes differ at this size;
+  I give that 7%.
+- First look at chain 4, not a result: after two of the eight runs the 126-cell tube has 223 deaths and 25.848 ±
+  0.067, above my 25.685 ± 0.035 and beside the straight line's 25.801.

@@ -351,9 +351,10 @@ and 108-cell tube rows of the table above now hold eight seeds each.
   not yet reviewed by the lead). Engine-exact every generation on five tori; events equal life by life to a numpy
   implementation on four small vessels; 4 × 4: 9.9252 ± 0.0006. At 63 cells it gives 13.1607 ± 0.0017 at 8 layers
   (here 13.1622 ± 0.0007) and 13.1619 ± 0.0025 at 16 layers (here 13.1589 ± 0.0013: +0.0030 ± 0.0028). On the 96-cell
-  tube it has 19.7394 ± 0.0065 (23,904 deaths, twelve seeds, read at 12:00Z on 2026-11-18; the run ends about
-  19:30Z; here 19.7446 ± 0.0042: −0.005 ± 0.008). On the 84-cell face (1, 4), (0, 28) it has 17.5442 ± 0.0034
-  (84,908 deaths, eight seeds, finished; here 17.5387 ± 0.0031: +0.0055 ± 0.0046, 1.2 errors).
+  tube it has 19.7393 ± 0.0053 (36,161 deaths, twelve seeds, 116 thread-hours, finished 19:20Z on 2026-11-18; seeds'
+  χ² 7.1 on 11; here 19.7446 ± 0.0042: −0.005 ± 0.007). On the 84-cell face (1, 4), (0, 28) it has 17.5442 ± 0.0034
+  (84,908 deaths, eight seeds, finished; here 17.5387 ± 0.0031: +0.0055 ± 0.0046, 1.2 errors). A 48-hour run on
+  the 120-cell tube (1, 18), (0, 40) started at 19:30Z on 2026-11-18 (`PREDICTIONS.md` block 10).
   `python research/gpu-local/cpu/fr.py summary`.
 - **The 120-cell tube is lower than every forecast (2026-11-18): (1, 18), (0, 40) has 24.5086 ± 0.0169** (eight runs
   of 180 minutes, 3,494 deaths, seeds' χ² 4.4 on 7; no firewall, no settled or kind-5 life; hazard by age flat over

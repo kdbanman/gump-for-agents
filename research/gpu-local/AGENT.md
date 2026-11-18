@@ -152,3 +152,14 @@ billed by the hour, no limit."
   second code. No new note in `research/GPU-QUEUE.md` since 04:54Z on 2026-11-17 (fetched 12:02Z on 2026-11-18).
 - The theory session's report is `research/blast/REPORT.md` on `origin/claude/exciting-hamilton-0h2tr1`; it reads
   `research/dying2/` from this branch.
+
+## Addendum, 2026-11-18T19:21Z
+
+- The CPU chain of 2026-11-17 is finished and its final values are in the README ("Chain 3", the second-code bullet).
+- **Running on the CPU, 12 threads, until about 19:45Z on 2026-11-20:** `python research/gpu-local/cpu/fr.py run 1 18
+  40 48 30000 threads=12` (log `research/scratch/gpu-local/cpu120.log`): the second code on the 120-cell tube.
+  Forecast: `PREDICTIONS.md` block 10. Owed when it ends: `fr.py summary 1 18 40`, score block 10, a sentence in the
+  README, commit the rows, push, a `USAGE.md` line; tell the lead in the same message as a chain 4 face.
+- Chain 4 is on the card as above (two of eight runs of the 126-cell tube done at 19:20Z).
+- **Usage is the constraint again:** weekly Fable was 67% at 19:20Z on 2026-11-18, eight hours into the week. Take no
+  turn that a notification does not force; start no subagent.
