@@ -97,6 +97,14 @@ same for living windows of K transitions (25,000–56,000 windows; 6,000–16,00
   windows 0.53, 0.46, 0.38, 0.14, 0.12, 0.097): enriched 3.6–4 times at L ≥ 24, logit slope −0.13 per cell. Box
   deaths: 0.529, 0.379, 0.286, 0.151, 0.107, 0.097 (living 0.62, 0.53, 0.45, 0.18, 0.16, 0.12): BELOW chance at
   every size. So the box's "bust6" above is mostly chance falls inside a fade; the box has in effect one exit.
+- **The boom is shape-blind in 2D too, and the kill is what the ends stop** [measured; last block of
+  `data/tables.txt`, from the living rows' population histogram and one-step transition counts]. Upper tail
+  −ln P(n ≥ 0.75 L)/L, ring / box: 0.0962 / 0.0843, 0.0903 / 0.0806, 0.0857 / 0.0776, 0.0820 / 0.0750 at L = 20, 24,
+  28, 32: the difference times L is 0.24, 0.23, 0.23, 0.22, a constant: one rate per cell, and the box row is
+  over-full e^0.23 times MORE often. After a generation at least 0.85·L full, the next has 0.43–0.46 of the row
+  on the ring and 0.49–0.55 on the box, and falls to ≤ 0.15·L with probability 0.0107, 0.0045, 0.0022, 0.0009 on
+  the ring against 0.0008, 0.0002, 0.0002, 0.0001 on the box (L = 20 … 32; 1.5–4 million over-full generations
+  each): the crash succeeds 9–20 times less often with two ends.
 - The contrast in bust share is 2–3, not gump's 40 (0.6 against 0.016), and the ring's share FALLS with L (gump's
   wrapped share is flat or rising, 0.57 … 0.67). §3 says why.
 
@@ -167,7 +175,8 @@ by power iteration (relative convergence 10⁻¹¹ in h).
 | 20 | 10.7379 | 11.4127 | +0.6747 | 0.5261 | 0.4589 | 0.884 | 0.513 |
 | 21 | 11.2602 | 11.8718 | +0.6115 | 0.5223 | 0.4591 | — | — |
 | 22 | 11.7800 | 12.3311 | +0.5511 | 0.5198 | 0.4594 | — | 0.476 |
-| 24 | — | 13.2497 | — | — | 0.4593 | — | — |
+| 23 | — | 12.7905 | — | — | 0.4593 | — | — |
+| 24 | — | 13.2497 | — | — | 0.4592 | — | — |
 <!--/EX-->
 
 - **Two prices, exact, and not converging.** Segment local slope per cell 0.4608, 0.4613, 0.4602, 0.4591, 0.4589,
@@ -199,17 +208,50 @@ by power iteration (relative convergence 10⁻¹¹ in h).
 
 | L | ln τ ring | ln τ segment | segment − ring | slope ring | slope segment | flash share (6 steps) ring | segment |
 |---|---|---|---|---|---|---|---|
+| 8 | 2.4460 | 6.4775 | +4.0315 |  |  | 0.984 | 0.838 |
+| 10 | 3.3052 | 6.1046 | +2.7995 | 0.4296 | -0.1864 | 0.979 | 0.897 |
+| 12 | 4.0999 | 6.5518 | +2.4520 | 0.3974 | 0.2236 | 0.974 | 0.900 |
+| 14 | 4.5641 | 7.2958 | +2.7317 | 0.2321 | 0.3720 | 0.972 | 0.892 |
+| 16 | 5.0478 | 8.0891 | +3.0413 | 0.2418 | 0.3966 | — | 0.879 |
 
 **Rule B** (range 1, 2 coins of density 0.5, alive iff n + x ≥ 2 and n ≤ 2; a segment's end cell has n ≤ 3: it CAN be overcrowded):
 
 | L | ln τ ring | ln τ segment | segment − ring | slope ring | slope segment | flash share (6 steps) ring | segment |
 |---|---|---|---|---|---|---|---|
+| 8 | 5.9208 | 6.2836 | +0.3628 |  |  | 0.756 | 0.644 |
+| 10 | 7.3522 | 7.6983 | +0.3460 | 0.7157 | 0.7073 | 0.693 | 0.585 |
+| 12 | 8.7934 | 9.1334 | +0.3400 | 0.7206 | 0.7176 | 0.645 | 0.544 |
+| 14 | 10.2422 | 10.5799 | +0.3378 | 0.7244 | 0.7233 | 0.609 | 0.515 |
+| 16 | 11.6959 | 12.0328 | +0.3369 | 0.7269 | 0.7264 | 0.582 | 0.494 |
 <!--/OT-->
+
+- **Rule B is the control, and it has ONE price** [proved = exact]. Its end cells can be overcrowded, its
+  segments die by flash as its rings do (death straight from a half-full row: ring 0.52, segment 0.43 of the
+  flux at L = 16; cross2: 0.09 against 0.0000), and the ring − segment slope difference is 0.0084, 0.0030, 0.0011,
+  0.0004 at L = 10, 12, 14, 16: it decays like **e^(−L/ξ) with ξ = 2.0 cells** (ratio 0.36 per 2 cells) and
+  ln τ_seg − ln τ_ring tends to the constant 0.336. This is what "a rim is a boundary correction" looks like, and
+  it is what cross2 does NOT do (difference 0.060–0.069, flat, L = 16–22).
+- **Rule A has two prices in gump's order** [proved = exact; small sizes, L ≤ 16 = 5 ranges]. End cells never
+  overcrowded; segments die straight from a half-full row 0.000 of the time against 0.26–0.45 on rings, outlive
+  rings by e^2.5–e^4, and at L = 14–16 the ring's price is 0.24 per cell and the segment's 0.40: here the flash is
+  the CHEAPER exit, as in gump, and the rimmed shape pays more per cell, as in gump.
+- So across three rules: boundary cells that cannot be overcrowded at all ⇒ the flash is closed to the rimmed
+  shape and the two shapes pay different prices over the whole range reached; boundary cells that can be (B: an
+  end cell dies in an over-full generation with probability 0.25, an inner one 0.75) ⇒ one price, reached
+  exponentially fast. Which shape pays more depends on which exit is cheaper per cell, and that depends
+  on the rule (cross2: flash dearer; rule A and gump: flash cheaper).
 
 ## 6. What this says about gump [conjectured]
 
-1. "Capped threshold + a boundary with fewer neighbours ⇒ two exits, flash closed by the rim" holds in 2D and in
-   its exact surrogate. Generic to the class as far as tested.
+1. "Capped threshold + a boundary whose cells cannot be overcrowded ⇒ two exits, flash closed by the rim" holds
+   in 2D, in its exact surrogate and in a second exact rule (A); the exact control whose boundary cells can be
+   overcrowded (B) has one exit and one price. Fewer neighbours is not enough in one dimension: in B an end cell
+   survives an over-full generation with probability 0.75 against 0.25 inside (partly protected), and two such
+   points only shift ln τ by a constant. In cross2 and A the end cell is absolutely protected (4 neighbours
+   against a cap at 5; 6 against 7). Gump's rim line is of the PARTLY protected kind by count (7 neighbours
+   inside the vessel, cap at 6; `blast/rim`, survival 0.69 against 0.42), but it is a line of ~k cells, not two
+   points: a flash must beat all of them, a tax that grows with the rim. So the 1D control does not transfer
+   to gump as it stands; a 2D-face surrogate with a partly protected rim line is the missing case.
 2. Which geometry is dearer per cell is NOT generic: it is the order of the two exits' prices. In 2D the flash
    costs 0.455 and the fade 0.33 (the cap needs 5 of an edge cell's 6 neighbours; in gump 6 of 9, so gump's
    over-fill is cheap), so rings look dear at small L and both shapes end on the fade's price. In gump the flash
@@ -230,7 +272,9 @@ by power iteration (relative convergence 10⁻¹¹ in h).
 - The split by "a fall ≥ L/2 within K steps" is a classifier, not a decomposition into disjoint routes; chance
   falls contaminate it at L ≤ 16 (living baseline up to 0.2). Slopes are stable under K = 4, 6, 12; constants move
   by 0.3–0.4.
-- Exact segments have one code. Coin density fixed at 0.472. Exact runs stop at L = 22 (ring) / 24 (segment).
+- Exact segments: one exact code, checked by Monte Carlo to 1% at L = 12, 16 only. Coin density fixed at 0.472.
+  Exact runs stop at L = 22 (ring) / 24 (segment); rules A and B at L = 16, with no Monte Carlo check and no 2D
+  brute force behind them (they are rows over coins, not edges of a real automaton).
 - Why the fade is twice as fast with ends; whether the box's fade slope (rising 0.28 → 0.34) converges to the
   ring's 0.327.
 

@@ -62,7 +62,9 @@ except FileNotFoundError:
 def ex(pref, L):
     fn = f'{S}/{pref}{L}.out'
     if not os.path.exists(fn): return None
-    t = open(fn).read(); d = {'lntau': float(re.search(r'lntau (\S+)', t).group(1))}
+    t = open(fn).read()
+    if 'density' not in t: return None
+    d = {'lntau': float(re.search(r'lntau (\S+)', t).group(1))}
     d['pn'] = np.array([float(z) for z in re.search(r'pn (.*)', t).group(1).split()])
     d['fl'] = np.array([float(z) for z in re.search(r'deathflux (.*)', t).group(1).split()])
     d['dens'] = [float(z) for z in re.search(r'density (.*)', t).group(1).split()]
