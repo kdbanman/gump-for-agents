@@ -71,3 +71,12 @@ action of 0.2104 per cell (empirical tails) and 0.188 (Gaussian) against ln τ/A
 
 Seven hits or part-hits, four misses or part-misses, one void, three open. The misses that taught something: the
 face does not oscillate into its boom (6), and no one-variable map is the model (11).
+
+## Block C: 04:35 UTC, before the equal-area 72-cell runs with four layers recorded (run_f.sh) have finished
+
+Known: at 72 cells the frequency of the launch state gives +0.013 ± 0.002 of the tube's discount (0.164) when the
+state is P, +0.046 ± 0.007 when it is (P, U); the boom is four layers deep with the same profile on tube and torus.
+
+13. With the state (P, S), S = the population of layers 2–4 together: frequency part +0.08 ± 0.03.
+    P(it exceeds half of the discount, 0.082) = 45%; P(it is below the (P, U) value 0.046) = 10%.
+    With the single coordinate P + S: +0.07 ± 0.03.

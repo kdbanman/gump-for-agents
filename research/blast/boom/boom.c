@@ -5,7 +5,8 @@
  *   boom GRAPH trace INIT T OUT                      (validation; see validate.py)
  *   boom GRAPH run SEED DENS GENS T0 P0 MRES OUT [LAYERS]
  *       (with LAYERS, a file from layers.py: the populations of the third and fourth layers beneath each face are
- *        appended to every death line, 32 generations each, and OUT.W holds by P: count, sum W3, W3^2, W4, W4^2)
+ *        appended to every death line, 32 generations each; OUT.W holds by P: count, sum W3, W3^2, W4, W4^2;
+ *        OUT.GS doubles [(na+1)][nu+n3+n4+1]: face-generations by (P, U + W3 + W4))
  *       renewal lives from soups of density DENS; a life ends when a face is empty; statistics at age > T0 >= 34.
  *       OUT.sum   text summary;  OUT.M  doubles [(na+1)^2]: counts of face-generations P(t-1) -> P(t)
  *       OUT.G2    doubles [(na+1)^2][3]: by (P(t-2), P(t-1)): count, sum P(t), sum P(t)^2
@@ -118,6 +119,7 @@ int main(int argc, char **argv) {
       for (int f = 0; f < nf; f++) { if (fscanf(fl, "%d", &n3) != 1) return 1; for (int j = 0; j < n3; j++) if (fscanf(fl, "%d", &c3[f * 4096 + j]) != 1) return 1;
         if (fscanf(fl, "%d", &n4) != 1) return 1; for (int j = 0; j < n4; j++) if (fscanf(fl, "%d", &c4[f * 4096 + j]) != 1) return 1; }
       fclose(fl); h3 = calloc((size_t)nf * R * HL, 1); h4 = calloc((size_t)nf * R * HL, 1); W3n = malloc((size_t)nf * R); W4n = malloc((size_t)nf * R); }
+    int NS = nu + n3 + n4 + 1; double *GS = c3 ? calloc((size_t)NA * NS, 8) : NULL;      /* [P][U + W3 + W4] at t-1: face-generations */
     snprintf(path, sizeof path, "%s.deaths", argv[9]); FILE *fd = fopen(path, "w");
     for (int r = 0; r < R; r++) seed_rep(a, r);
     for (long g = 1; g <= GENS; g++) {
@@ -132,6 +134,7 @@ int main(int argc, char **argv) {
           if (age[r] > T0) {
             int p1 = hp[ix + i1], p2 = hp[ix + i2], u1 = hu[ix + i1];
             expoF += 1; M[(size_t)p1 * NA + P] += 1;
+            if (GS) GS[(size_t)p1 * NS + u1 + h3[ix + i1] + h4[ix + i1]] += 1;
             M3[((size_t)p2 * NA + p1) * NA + P] += 1; if (M4) M4[(((size_t)p1 * NU + u1) * NA + P) * NU + U]++;
             double *q = G2 + ((size_t)p2 * NA + p1) * 3; q[0] += 1; q[1] += P; q[2] += (double)P * P;
             q = GU + ((size_t)p1 * NU + u1) * 6; q[0] += 1; q[1] += P; q[2] += U; q[3] += (double)P * P; q[4] += (double)U * U; q[5] += (double)P * U;
@@ -165,6 +168,7 @@ int main(int argc, char **argv) {
     snprintf(path, sizeof path, "%s.M", argv[9]); FILE *o = fopen(path, "wb"); fwrite(M, 8, (size_t)NA * NA, o); fclose(o);
     snprintf(path, sizeof path, "%s.M3", argv[9]); o = fopen(path, "wb"); fwrite(M3, 8, (size_t)NA * NA * NA, o); fclose(o);
     if (M4) { snprintf(path, sizeof path, "%s.M4", argv[9]); o = fopen(path, "wb"); fwrite(M4, 4, (size_t)NA * NU * NA * NU, o); fclose(o); }
+    if (GS) { snprintf(path, sizeof path, "%s.GS", argv[9]); o = fopen(path, "wb"); fwrite(GS, 8, (size_t)NA * NS, o); fclose(o); }
     if (c3) { snprintf(path, sizeof path, "%s.W", argv[9]); o = fopen(path, "wb"); fwrite(WS, 8, (size_t)NA * 5, o); fclose(o); }
     snprintf(path, sizeof path, "%s.G2", argv[9]); o = fopen(path, "wb"); fwrite(G2, 8, (size_t)NA * NA * 3, o); fclose(o);
     snprintf(path, sizeof path, "%s.GU", argv[9]); o = fopen(path, "wb"); fwrite(GU, 8, (size_t)NA * NU * 6, o); fclose(o);
