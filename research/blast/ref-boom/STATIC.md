@@ -1,6 +1,6 @@
 # ref-boom, second task: is the wrapped price the static rarity of the four-layer over-full state?
 
-Agent `ref-boom`, 2026-11-18, 05:20–05:50 UTC. Labels: **[measured]**, **[proved]**, **[conjectured]**.
+Agent `ref-boom`, 2026-11-18, 05:20–05:45 UTC. Labels: **[measured]**, **[proved]**, **[conjectured]**.
 Stepper: `rb.c`, mode `static` (binary `rbs`; validated against the oracle on the 84- and 108-cell tori too:
 `RB=rbs python3 val.py 1 4 28 1000 [neg]`, `RB=rbs python3 val.py 6 0 6 1000 [neg]`; its counts in `run` mode are
 byte for byte those of the first build). Runs: `sh run5.sh` (one core, plain running, fresh seeds 201–206).
@@ -51,15 +51,18 @@ extrapolated linearly in A from the fit sizes.
 |---|---|---:|---|---|---|
 | 75 cells | δ = 0 | 492 | 15.53 ± 0.16 | 15.6442 (my run here: 15.686 ± 0.047) | −0.12 |
 | 84 cells | δ = +0.02 | 2,041 | 17.33 ± 0.10 | 17.5387 (my run here, 87 deaths: 17.36 ± 0.11) | −0.21 |
-FORECASTMORE
+| 108 cells | δ = +0.04 | 2,165 | 22.13 ± 0.11 | 22.5405 (no death in my run) | −0.41 |
 
 (Fit sizes 48, 57, 63. Rule: among boxes with at least 200 living events at the target size, the one with the
-smallest |J₄|. The δ = 0 box at 84 cells has 125 events and gives 17.37 ± 0.30.) Looser boxes forecast lower and
+smallest |J₄|. The δ = 0 box at 84 cells has 125 events and gives 17.37 ± 0.30; the
+δ = +0.02 box at 108 cells has 100 events and gives 22.19 ± 0.33. The quoted errors hold no term for curvature.) Looser boxes forecast lower and
 worse: at 75 cells 15.53, 15.46, 15.31, 15.11, 14.89, 14.68 for δ = 0, 0.02, …, 0.10 (ln d₄ of a loose box is not
-linear in A; its fall slows with size).
+linear in A: as the face grows the living states of a loose box pile up at its cheap, less lethal corner, and d₄
+falls faster than the fitted exponential; at 75 cells and δ = 0.04, d₄ is 0.0031 where the fit says 0.0046).
+All three forecasts are low, by 0.12, 0.21, 0.41: 0.7, 2.1 and 3.7 of their quoted errors.
 
 **A purely static forecast (d₄ and f held at their 48–63 values) fails**: 14.33 at 75 cells against 15.64, 14.70 at
-84 cells against 17.54. The
+84 cells against 17.54, 16.06 at 108 cells against 22.54. The
 forecast that works carries the fitted law d₄ ∝ e^(−0.057·A), i.e. it is "static rarity × a measured kill law", and
 its error grows with the distance from the fit sizes. The larger the face, the looser the box that plain running
 can populate, and the more of the price sits in the extrapolated kill.

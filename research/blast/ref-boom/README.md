@@ -10,6 +10,10 @@ against the price 0.2087" is refuted as evidence: Σ ν·d = 1/τ is an identity
 the lifetime slope of the sizes used (mine: 0.2154 ± 0.0011 against 0.2156 ± 0.0005 for 48–63 cells), and 0.2099 is
 0.212 ± 0.004. The launch hump narrows in θ nearly like 1/√A (s.d. ∝ A^0.58±0.03 cells), not at a fixed share of A.
 
+Second task (05:20–05:45 UTC): **`STATIC.md`** — is the price the static rarity of the four-layer over-full state?
+No: at the launch profile I₄ = 0.166 ± 0.003 per cell is static and J₄ = 0.057 ± 0.003 is still in the kill
+(`rb.c` mode `static`, binary `rbs`; `run5.sh`; `st.py` → `out_static.txt`).
+
 Files:
 - `rb.c`: stepper for the 8-layer slab torus (64 replicas, bit-sliced) with the statistics; modes `dump`, `run`,
   `island`. Build: `gcc -O3 -march=native -o rb rb.c` (`rbi`, `rbt` are builds of later states of the same file;

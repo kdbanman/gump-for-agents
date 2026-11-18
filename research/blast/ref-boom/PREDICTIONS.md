@@ -38,3 +38,13 @@ Guesses:
    of 17.54; (p = 0.2) at 108 cells within 0.5 of 22.54 (the boxes reachable at 108 will be too loose).
 8. (p = 0.6) no statistic of the four fillings one generation earlier predicts a fatal launch with a lift above 10
    at the top 1% of living states.
+
+## Second task, scored (05:43 UTC; numbers in STATIC.md)
+
+5. HIT: d₄ in the box at the launch profile is 0.117 at 63 cells (0.273 at 48).
+6. MISS: J₄ at δ = 0 is 0.057 ± 0.003, not below 0.05 (and not below 0.02): a quarter of the price stays in the kill.
+7. HIT at 75 cells (forecast 15.53 ± 0.16, anchor 15.6442); HIT at 84 (17.33 ± 0.10 against 17.5387, within 0.25);
+   HIT at 108 (22.13 ± 0.11 against 22.5405, within 0.5) -- but all three are low and the misses grow (0.12, 0.21,
+   0.41), and the purely static version fails by 1.3, 2.8, 6.5.
+8. HIT: the best statistic of the four fillings one generation earlier has a lift of 6.6-6.8 at the top 1% of living
+   states (48, 63 cells; 10 ± 3 at 75 cells with 462 deaths).
