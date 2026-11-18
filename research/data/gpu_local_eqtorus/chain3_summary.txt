@@ -8,3 +8,5 @@ torus (1,8),(0,32) x8 A = 96: 4 runs, exposure 5.657e+12, face deaths 25054, fir
   ln tau_face = 19.9284 +- 0.0063;  ln tau_fw = 16.978 +- 0.002
 torus (1,3),(0,32) x8 A = 96: 4 runs, exposure 5.179e+12, face deaths 25797, firewalls 0, guard 0 (their exposure 0.00e+00 of the total)
   ln tau_face = 19.8109 +- 0.0062
+torus (1,18),(0,40) x8 A = 120: 8 runs, exposure 7.695e+13, face deaths 3494, firewalls 0, guard 0 (their exposure 0.00e+00 of the total)
+  ln tau_face = 24.5086 +- 0.0169
