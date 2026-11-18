@@ -743,7 +743,13 @@ doubled (64): wide - tube = 1.614 ± 0.125 (lognormal ± 0.144)
 |---|---:|---:|---:|---:|---:|
 <!-- SEC11-END -->
 
-SEC11-COMMENT
+**(a) Doubled sweeps [measured, surrogate].** 26 replications each. Tube: 38.920 ± 0.075 against 38.764 ± 0.181
+with 32 sweeps (difference +0.16 ± 0.19). Wide torus: 40.534 ± 0.123 against 40.588 ± 0.319 (difference
+-0.05 ± 0.34). **No drift with the number of sweeps**, at the 0.2 to 0.3 level; what doubling changes is the
+scatter of ln(rate) between replications, 0.65 -> 0.37 on the tube and 1.02 -> 0.58 on the wide torus.
+
+SEC11B-COMMENT
+
 
 ## Files
 

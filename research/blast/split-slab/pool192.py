@@ -77,3 +77,27 @@ for L in ((1, 30, 64), (8, 0, 8)):
 t, w = res.get(((1, 30, 64), '16,384 chains (32 sweeps)')), res.get(((8, 0, 8), '16,384 chains (32 sweeps)'))
 if t and w:
     print(f'\n16,384 chains: wide - tube = {w["lt"] - t["lt"]:.3f} ± {math.hypot(w["se"], t["se"]):.3f} (lognormal ± {math.hypot(w["lnse"], t["lnse"]):.3f}); wide - line 40.07 = {w["lt"] - 40.07:+.3f} ± {max(w["se"], w["lnse"]):.3f}')
+
+print()
+print('**Sensitivity to the largest replication, and the combination I would defend.** Per set: share of the summed rate carried by the largest replication; ln tau without it. Combination: the three sets weighted by 1/e^2, e = the larger of the scatter error and the lognormal error; error inflated by sqrt(chi2/dof) if that exceeds 1.')
+print()
+print('| torus | set | n | ln tau ± e | largest replication carries | ln tau without it |')
+print('|---|---|---:|---|---:|---:|')
+comb = {}
+for L in ((1, 30, 64), (8, 0, 8)):
+    tag = '%d_%d_%d' % L; vals = []
+    for name, pat in (('4,096 chains, 32 sweeps', f'sub_{tag}_s*.txt'), ('4,096 chains, 64 sweeps', f'subx2_{tag}_s*.txt'), ('16,384 chains, 32 sweeps', f'sub16k_{tag}_s*.txt')):
+        r = rates(pat)
+        if len(r) < 3:
+            continue
+        st = stat(r); e = max(st['se'], st['lnse']); top = max(r) / sum(r); r2 = sorted(r)[:-1]
+        print(f'| ({L[0]},{L[1]}),(0,{L[2]}) | {name} | {len(r)} | {st["lt"]:.3f} ± {e:.3f} | {top:.2f} | {-math.log(sum(r2) / len(r2)):.3f} |')
+        vals.append((st['lt'], e))
+    w = [1 / e ** 2 for _, e in vals]; m = sum(wi * v for wi, (v, _) in zip(w, vals)) / sum(w); err = 1 / math.sqrt(sum(w))
+    chi = sum(((v - m) / e) ** 2 for v, e in vals); dof = max(1, len(vals) - 1); infl = max(1.0, math.sqrt(chi / dof))
+    comb[L] = (m, err * infl)
+    print(f'| ({L[0]},{L[1]}),(0,{L[2]}) | **combined** | | **{m:.3f} ± {err * infl:.3f}** (chi2 {chi:.1f} on {dof}) | | |')
+if len(comb) == 2:
+    t, w = comb[(1, 30, 64)], comb[(8, 0, 8)]; d, de = 0.041, 0.021
+    print(f'\ncombined, dice chain: tube {t[0]:.3f} ± {t[1]:.3f}; wide {w[0]:.3f} ± {w[1]:.3f}; wide - tube = {w[0] - t[0]:.3f} ± {math.hypot(t[1], w[1]):.3f}')
+    print(f'minus the calibrated offset of the chain and sampler against gump (+{d} ± {de}, anchors of 63 to 108 cells): tube {t[0] - d:.3f} ± {math.hypot(t[1], de):.3f}; wide {w[0] - d:.3f} ± {math.hypot(w[1], de):.3f} (wide line 40.07: {w[0] - d - 40.07:+.3f}); not included: a drift of the offset beyond 108 cells, bounded only to +0.17 ± 0.25 at 192 cells')
