@@ -75,3 +75,35 @@ has not converged; the measured local discount is already 0.0074 per cell from 9
 - Tube of loop² 12, 240 cells: **48.40 ± 0.25** (replaces 48.0 ± 0.35 of M1 as my best number; both are scored).
   Local slope from 120 to 240 cells: **0.1985 ± 0.002**. P = 55%.
 - The 120-cell forecast is unchanged (24.560 ± 0.020).
+
+## Block M4: 03:57 UTC (machine clock), after agent `anatomy`'s boom and bust and my own upper-tail measurements
+
+What I had seen: `research/blast/anatomy/README.md` (its four sentences and the table of §2 only); my `upper.py`,
+`boom.py` on the 48-cell torus and the 45- and 63-cell hull faces. Not yet: any ex5 run of a 63- or 66-cell wrapped
+face; any lifetime beyond the anchors.
+
+Reasoning. (i) The over-full tail is the same on tubes and wide faces of equal area to 0.001 per cell, so the
+tube's discount is not in the boom and nothing in the boom changes my tube numbers. (ii) On wrapped faces the share
+of deaths with a fall of half the face rises slowly with area (anatomy: 0.572, 0.590, 0.601 at 48, 63, 75 cells):
+the route without a bust costs about 0.004–0.005 per cell more than the route with one, so the wide line should
+bend down by about 0.0015 per cell as the bust route takes over (bust price ≈ 0.2069). (iii) A hull face cannot
+bust (its fall map stops at 0.40–0.44 A where the torus's reaches 0.19 A), so I move a little towards "the second
+difference repeats" at 135 and 165 cells.
+
+| face | cells | forecast | P(inside) | change from M1/M3 |
+|---|---:|---|---:|---|
+| tube loop² 12, (1,18),(0,40) | 120 | 24.560 ± 0.020 | 60% | none |
+| tube loop² 12 | 240 | 48.40 ± 0.25 | 55% | none (M3) |
+| wide torus | 200 | 41.716 ± 0.05 (wide line 41.742; at A cells: 13.1623 + 0.2069 (A − 63) − ln[(1 + 0.695 e^(−0.0045 (A − 63)))/1.695]) | 55% | sharpened |
+| hull face | 135 | 29.215 ± 0.030 | 55% | was 29.200 ± 0.035 |
+| hull face | 165 | 35.76 ± 0.08 | 50% | was 35.72 ± 0.09 |
+
+- The size at which the inside of a hull face busts on its own often enough to matter (half of the deaths go
+  through an interior fall of half the interior): **side k = 12 ± 2 unit cells, 234 cells (range 165–340)**
+  [conjectured; rests on a rim zone 1.4–1.5 lattice units wide and a coordination cost of 1–3 nats, neither
+  measured]. P(the hull's local second difference is still above 0.67 at (108, 135, 165)) = 60%.
+- P(the share of deaths with a half-face fall on a wide torus of 84 cells is above 0.60) = 65%; at 108 cells above
+  0.62: 55%.
+- P(at equal area the 66-cell tube and the 66-cell wide torus have the same over-full share of deaths five
+  generations or so before death, within 0.03) = 50%. If the tube's is lower by more than 0.03 its extra deaths are
+  starvation deaths; if equal, its discount sits in the kill after the bust.
