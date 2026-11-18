@@ -27,7 +27,7 @@ What it does give, and what was checked, is below.
 ## What was found
 
 1. **Boom and bust on wrapped faces [measured; three independent codes agree: `anatomy/`, `split-slab/`,
-   `tube1d/`; referee: see "Referees"].** Share of deaths containing a one-generation fall of at least half the
+   `tube1d/`; refereed by a fourth, `ref-anatomy/`, which could not break it].** Share of deaths containing a one-generation fall of at least half the
    face: 0.57, 0.57, 0.57, 0.59, 0.60, 0.67 ± 0.05 at 48, 54, 60, 63, 75, 84 cells (in a living face such a fall
    is seen in 0.15% of ten-generation windows). Population 33.2 → 48.5 → 11.6 on the 63-cell torus; the layer
    beneath goes 25 → 40 → 10 with it; 99% of the cells that die in the crash are overcrowded. The last-alive
@@ -130,7 +130,24 @@ PENDING_135
 
 ## Referees
 
-PENDING_REFEREES
+- **Boom and bust (`ref-anatomy/REVIEW.md`): confirmed, with corrections that change its reading.** Own stepper
+  from the oracle, fresh seeds, lifetimes within 1σ of the anchors at five vessels. Fall share 0.559 ± 0.006 on the
+  63-cell torus (anatomy 0.590), 0.572 ± 0.006 on the 60-cell tube, 0.0108 ± 0.0014 on the 63-cell hull face
+  (0.016); the fall is 48.83 → 11.18; 99.5% of the cells dying in it are overcrowded on the full count.
+  Corrections: (i) **"57–59%" is an artefact of the threshold.** The largest one-generation fall is one hump with
+  its median at "half the face"; 84% of wrapped deaths contain a fall of at least 0.4 of the face and 79% peak at
+  44 or more cells of 63 in their last 12 generations (11% of living windows). So nearly every wrapped death
+  goes through the over-full generation; there are not two classes. (ii) **The face does not breathe.** Lag-1 and
+  lag-2 autocorrelations of the face population are +0.136 and −0.031; the boom comes in one step from a normal
+  face (33.0 cells). (iii) **The layer beneath is the hidden variable.** A fatal fall takes it 39.9 → 9.9, a
+  non-fatal fall of half the face 34.5 → 18.6; in an over-full generation the next population is
+  105.4 − 1.40·P − 0.555·B. The same count of survivors is deadlier after a bust (q(4) = 0.334 against 0.236).
+  (iv) The price from 48 to 63 cells splits 0.130 per cell for the rarity of the fall and 0.088 for its being
+  fatal, not half and half. (v) On the hull the return map has no cliff (after 48 or more cells: 29.9 against
+  20.2), falls of half the face are 68 times rarer and as deadly; and a single live cell regrows a hull face more
+  readily than a wrapped one at its centre too (0.181 against 0.138), so the protection is the face's, not only
+  its rim line's. Not checked by the referee: holes, the band test, anything above 63 cells.
+PENDING_REFEREES_2
 
 ## What failed
 
