@@ -82,7 +82,7 @@ below the level and the reverse move is proposable). Frozen parameters (block 4)
 `sh research/blast/split-hull/dice.sh R SEED NREP`. Error: scatter of independent replications' rates.
 
 <!-- DICE -->
-**Results (05:42 UTC)** (`python3 research/blast/split-hull/dice_ana.py`, `dice_fill.py`; brute force of the chain:
+**Results (05:58 UTC)** (`python3 research/blast/split-hull/dice_ana.py`, `dice_fill.py`; brute force of the chain:
 `DICE=1 shd R SEED 0 GENS`, the base run of `sh.c` with the coins switched on):
 
 | R | cells | what | replications | ln τ, dice chain | gump anchor | chain − gump |
@@ -92,23 +92,23 @@ below the level and the reverse move is proposable). Frozen parameters (block 4)
 | 11 | 63 | brute force of the chain | 275 deaths | 13.70 ± 0.06 | 13.633 | +0.07 ± 0.06 |
 | 11 | 63 | sampler (tuning size) | 32 | 13.589 ± 0.039 | 13.633 | -0.044 ± 0.039 |
 | 13 | 84 | sampler, **blind** | 234 | 18.192 ± 0.025 | 18.141 | **+0.051 ± 0.026** (2.0 errors) |
-| 15 | 108 | sampler, **blind** | 184 | 23.347 ± 0.085 | 23.3392 | **+0.008 ± 0.086** (0.1 errors) |
-| 17 | 135 | sampler, **the new size** | 125 | **29.445 ± 0.041** | none | forecast 29.223 ± 0.014 |
+| 15 | 108 | sampler, **blind** | 310 | 23.384 ± 0.058 | 23.3392 | **+0.045 ± 0.059** (0.8 errors) |
+| 17 | 135 | sampler, **the new size** | 237 | **29.408 ± 0.053** | none | forecast 29.223 ± 0.014 |
 
 Both blind calibrations pass the rule set beforehand (within two errors); nothing was tuned after block 4. The two
-blind sizes together sit +0.047 ± 0.025 above gump (all four sizes: +0.010 ± 0.014). Scatter of one replication's
-rate, as a fraction of the mean: 0.11, 0.22, 0.39, 1.15, 0.46 at R = 9, 11, 13, 15, 17; the largest replication carries 4%, 4%, 1%, 7%, 3% of the sum; zero-rate replications: 0.
+blind sizes together sit +0.050 ± 0.024 above gump (all four sizes: +0.012 ± 0.014). Scatter of one replication's
+rate, as a fraction of the mean: 0.11, 0.22, 0.39, 1.03, 0.82, 0.69 at R = 9, 11, 13, 15, 17, 19; the largest replication carries 4%, 4%, 1%, 5%, 4%, 14% of the sum; zero-rate replications: 0.
 
-**R = 17 (135 cells) [measured on the dice chain; a surrogate for gump]:** ln τ = 29.445 ± 0.041 (125 replications; jackknife 0.041; mean of the replications' logarithms 29.527 ± 0.035).
-Minus the offset of the blind sizes: **29.398 ± 0.048** for gump; with no offset: 29.445 ± 0.041.
-Against the forecast 29.223 ± 0.014: +0.175 ± 0.050 (offset removed), +0.222 ± 0.043 (raw).
-If instead the offset drifts linearly with the area (weighted line through the four sizes: +0.00096 ± 0.00074 per cell,
-+0.082 ± 0.057 at 135 cells): **29.364 ± 0.070** for gump. In errors of each reading, the candidates sit at:
+**R = 17 (135 cells) [measured on the dice chain; a surrogate for gump]:** ln τ = 29.408 ± 0.053 (237 replications; jackknife 0.054; mean of the replications' logarithms 29.538 ± 0.029).
+Minus the offset of the blind sizes: **29.358 ± 0.058** for gump; with no offset: 29.408 ± 0.053.
+Against the forecast 29.223 ± 0.014: +0.135 ± 0.060 (offset removed), +0.185 ± 0.055 (raw).
+If instead the offset drifts linearly with the area (weighted line through the four sizes: +0.00104 ± 0.00068 per cell,
++0.088 ± 0.052 at 135 cells): **29.320 ± 0.074** for gump. In errors of each reading, the candidates sit at:
 | reading of the offset | value for gump | 29.230 (second difference repeats) | 29.223 (my forecast) | 29.163 (wrapped price) |
 |---|---|---|---|---|
-| none (the chain is gump) | 29.445 ± 0.041 | +5.2 | +5.1 | +6.9 |
-| constant, from the blind sizes | 29.398 ± 0.048 | +3.5 | +3.5 | +4.9 |
-| linear in the area | 29.364 ± 0.070 | +1.9 | +2.0 | +2.9 |
+| none (the chain is gump) | 29.408 ± 0.053 | +3.3 | +3.4 | +4.6 |
+| constant, from the blind sizes | 29.358 ± 0.058 | +2.2 | +2.3 | +3.4 |
+| linear in the area | 29.320 ± 0.074 | +1.2 | +1.3 | +2.1 |
 <!-- /DICE -->
 
 **After the first report (05:25 to 05:45 UTC): more replications, variations of the chain, and a warning about the errors.**
