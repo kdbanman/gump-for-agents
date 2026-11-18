@@ -249,21 +249,23 @@ by power iteration (relative convergence 10⁻¹¹ in h).
   flux at L = 16; cross2: 0.09 against 0.0000), and the ring − segment slope difference is 0.0084, 0.0030, 0.0011,
   0.0004 at L = 10, 12, 14, 16: it decays like **e^(−L/ξ) with ξ = 2.0 cells** (ratio 0.36 per 2 cells) and
   ln τ_seg − ln τ_ring tends to the constant 0.336. This is what "a rim is a boundary correction" looks like, and
-  it is what cross2 does NOT do (difference 0.060–0.069, flat, L = 16–22).
-- **Rule A has two prices in gump's order** [proved = exact; small sizes, L ≤ 16 = 5 ranges]. End cells never
-  overcrowded; segments die straight from a half-full row 0.000 of the time against 0.26–0.45 on rings, outlive
-  rings by e^2.5–e^4, and at L = 14–16 the ring's price is 0.24 per cell and the segment's 0.40: here the flash is
-  the CHEAPER exit, as in gump, and the rimmed shape pays more per cell, as in gump.
+  it is what cross2 does NOT do (difference 0.060–0.069, flat, L = 16–23).
+- **Rule A: the flash is closed to the segment; its prices are not settled** [exact numbers, weak reading]. End
+  cells never overcrowded; segments die straight from a half-full row 0.000 of the time against 0.26–0.45 on
+  rings and outlive rings by e^2.5–e^4. At L = 14–16 the ring's local price is 0.24 per cell and the segment's
+  0.40, which would be gump's order (flash cheaper, rimmed shape dearer), but the slopes are still moving (ring
+  0.43, 0.40, 0.23, 0.24; segment −0.19, 0.22, 0.37, 0.40), L = 16 is under three neighbourhood widths and the
+  ring is barely metastable (τ ≈ 150). A suggestion that the order of the two prices depends on the rule, no more.
 - So across three rules: boundary cells that cannot be overcrowded at all ⇒ the flash is closed to the rimmed
   shape and the two shapes pay different prices over the whole range reached; boundary cells that can be (B: an
   end cell dies in an over-full generation with probability 0.25, an inner one 0.75) ⇒ one price, reached
-  exponentially fast. Which shape pays more depends on which exit is cheaper per cell, and that depends
-  on the rule (cross2: flash dearer; rule A and gump: flash cheaper).
+  exponentially fast. Which shape pays more depends on which exit is cheaper per cell (cross2: flash dearer;
+  gump: flash cheaper; rule A: perhaps cheaper).
 
 ## 6. What this says about gump [conjectured]
 
 1. "Capped threshold + a boundary whose cells cannot be overcrowded ⇒ two exits, flash closed by the rim" holds
-   in 2D, in its exact surrogate and in a second exact rule (A); the exact control whose boundary cells can be
+   in 2D and in its exact surrogate (a second exact rule, A, agrees on the closed flash); the exact control whose boundary cells can be
    overcrowded (B) has one exit and one price. Fewer neighbours is not enough in one dimension: in B an end cell
    survives an over-full generation with probability 0.75 against 0.25 inside (partly protected), and two such
    points only shift ln τ by a constant. In cross2 and A the end cell is absolutely protected (4 neighbours
