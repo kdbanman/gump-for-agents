@@ -90,8 +90,12 @@ At equal area (63, 84, 108 cells), hull minus wide torus:
 | 0.5 | −0.453, −0.590, −0.773 | +0.923, +1.193, +1.572 | |
 | 0.4 | −0.479, −0.624, −0.737 | +0.950, +1.226, +1.536 | |
 
-**The wrapped face is cheaper because its dips are deadlier, not because it dips more.** (The levels are relative to
-each vessel's own P̄; the hull's P̄/A is 1–4% lower, which I did not correct for.)
+**The wrapped face is cheaper because its dips are deadlier, not because it dips more.** The same at equal ABSOLUTE
+level L = x·A (`python3 samelevel.py`, `out/SAMELEVEL.txt`; the hull's P̄/A is 1–4% lower than the torus's): at
+x = 0.31 the hull dips more often by 0.55, 0.61, 0.70 and its dip is less often fatal by 1.02, 1.22, 1.50 (63, 84,
+108 cells); at x = 0.21 by 0.73, 0.83, 0.88 and 1.21, 1.43, 1.68. Slopes of −ln q per cell at fixed x, hull against
+torus: 0.187 / 0.177 (x = 0.36), 0.167 / 0.157 (0.31), 0.144 / 0.132 (0.26), 0.118 / 0.108 (0.21): the hull's
+q is dearer by 0.010–0.012 per cell at every level down to 0.21·A, so the difference is below that.
 
 Share of first passages that come within 3 generations of an over-full face (P ≥ 0.7·A), by depth
 (`wnu.py` PART 4; hull: `./rh nu R SEED 120000 LAMA | grep NUB`, 6 seeds each at R = 11, 13, 15):
@@ -169,7 +173,6 @@ fronts that still have to be pushed across the rest.
 - Other thresholds than 0.7·A for "over-full" (its integer rounding differs between sizes); the share of deaths
   that follow an over-full face above 63 cells (no deaths in plain running there); how the rate of over-full
   generations and their lethality scale with the area.
-- Levels as a fixed density instead of a fraction of P̄ (matters for hull against torus, whose P̄/A differ by 1–4%).
 - Wide tori above 108 cells and tubes other than loop² 12; (1,9),(0,25) and (1,7),(0,19) are not strictly "wide"
   (loops² 19).
 - The slab stepper on the tubes' lattices against the oracle (one skew lattice was checked on its cover).
