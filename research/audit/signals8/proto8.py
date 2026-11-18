@@ -105,6 +105,10 @@ def secA(long_gens):
     for g in range(2, long_gens + 1, 2):
         r.to(g); ok &= np.array_equal(r.h, h0)
     say(ok, f'A  N = 7 (73 cells): equal to the start at every even generation up to {long_gens}')
+    r = Run('777ddf7'); h0 = r.h.copy(); ok = True
+    for g in range(2, long_gens + 1, 2):
+        r.to(g); ok &= np.array_equal(r.h, h0)
+    say(ok, f'A  N = 7 holding 2 (777ddf7): equal to the start at every even generation up to {long_gens}')
 
 
 def secB():
