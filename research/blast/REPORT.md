@@ -55,10 +55,13 @@ forecast of 29.22 that four routes agree on.
    deadly. A plane fitted to the last-alive times beats 95% of shuffles in 77% of hull deaths, at 0.6 lattice units
    per generation; the last cell is on the rim line 54% of the time. Neighbours inside the vessel, by enumeration:
    interior 9, rim row 7, corner 4 (`python3 research/blast/rim/budget.py`).
-3. **The two exits are in the rule, not in the chaos [exact, `rigour/`; being refereed by `ref-proofs/`].** The
+3. **The two exits are in the rule, not in the chaos [exact, `rigour/`; refereed: `ref-proofs/` recomputed the
+   shares to every digit with its own code].** The
    one-layer dice surrogate (the face layer on gump's rule, every cell drawing private coins for the three cells
    beneath it) was solved exactly on 25 small faces. The share of its death flux through a half-face fall is
    0.94, 0.57–0.79, 0.82 on wrapped faces of 9, 12, 15 cells and 0.017, 0.020, 0.003 on rimmed ones of 9, 12, 18.
+   The referee's rider: a tube one unit cell round falls to 0.21 at 15 cells, so what matters is whether the cells
+   can be overcrowded, not whether the face is wrapped.
 4. **The price of a wrapped face in two parts [measured, `boom/`, `model/`; being refereed by `ref-boom/`].**
    The rate is exactly a sum over launches, 1/τ = Σ_p ν(p)·d(p): ν the frequency of a generation with face
    population p in the living state, d the chance that it is the launch of a death. Both are exponential in the
@@ -126,20 +129,28 @@ forecast of 29.22 that four routes agree on.
 
 ## What was proved
 
-- **The tilt identity [proved for the dice surrogate; `rigour/THEOREMS.md`, Theorem 2; PENDING_PROOFS].** Let
+- **The tilt identity [proved for the dice surrogate; `rigour/THEOREMS.md`, Theorem 2; refereed: `ref-proofs/`
+  found no gap and checked it to 10⁻¹⁴ on ten shapes with its own code].** Let
   ε_i(x) = −ln P(cell i is dead next | x), E = Σ_i ε_i, and μ_s ∝ μ·e^(−sE) with μ the quasi-stationary law. Then
   ln τ = ∫₀¹ ⟨E⟩_s ds: the lifetime is exactly a sum over cells of local costs along a tilt, and
-  ⟨E⟩₁ ≤ ln τ ≤ ⟨E⟩₀ ≤ 2.509·A. Checked to 12 digits on the exact solutions.
+  ⟨E⟩₁ ≤ ln τ ≤ ⟨E⟩₀ ≤ 2.509·A (the upper exponential bound, with its constant). The referee's correction to the
+  reading: the split into costs per cell is not canonical, and all the non-locality sits in the tilted measures.
 - **One price, conditionally [Theorem 3].** If local means along the tilt depend on far geometry only up to
   K·e^(−r/ξ), then wrapped and rimmed faces have one bulk price, loops give discounts per cell, and a discount
-  growing like length² cannot persist. Gump's measurements contradict the conclusion at the sizes measured, so
-  either the hypothesis fails (two exits is how it would fail) or the rimmed slope has not converged.
+  growing like length² cannot persist. The referee: a valid implication (as written it needs a K₀/A added at the
+  end of the tilt), **and its hypothesis is failing, visibly** [measured, exact to 15 cells and by simulation to
+  30]: on wide tori the tilted law is a mixture of sparse faces and over-full faces, with the valley between the
+  two humps deepening as 1.2, 3.9, 15 at 12, 18, 27 cells, while triangles keep one hump through 30 cells. A jump
+  is forming along the tilt on wrapped faces. In the language of the theorem, the two exits are a first-order
+  transition in the emptying ensemble, which a rimmed face does not have at these sizes.
 - **The seam identity [proved; `image/README.md`; checked by enumeration on small automata].** A torus is its
   loop-free cover conditioned on the whole history of a seam, two graph steps thick, recurring one loop along,
-  reweighted by one over that history's probability. From it: the density deficits of several loops add to first
-  order, the deficit is per cell, and it does not depend on the tube's length, the three structural facts of the
-  density law. Its numbers were not derived: the picture at one instant carries none of f(9), a cell's own
-  six-generation history 10% of it.
+  reweighted by one over that history's probability. Refereed: `ref-proofs/` enumerated it on gump's own
+  one-layer rule (agreement to 10⁻¹⁵; a seam one unit thick fails). What does NOT follow from it without more, by
+  the referee's reading: that deficits add over loops, are per cell and do not depend on the tube's length, and
+  that the decay rate is a gap of the transfer matrix. Those are [conjectured] consequences. The numbers of the
+  density law were not derived: the picture at one instant carries none of f(9), a cell's own six-generation
+  history 10% of it.
 - No lower bound e^(cA) was proved for any model with the cap, and no inequality between shapes: the exact rows
   show that "a tube never outlives a wide face" and "a rim always costs" are both false as general statements.
 
@@ -188,7 +199,11 @@ face separates only K = 1 (24.608) from the rest. The 192-cell tube decides betw
   Markov state and the layer beneath is the hidden variable. Its own split of the price from 48 to 63 cells:
   0.130 per cell for the rarity of the fall, 0.088 for its fatality (a different cut of the same sum as item 4).
   Not checked: holes, the band test, anything above 63 cells.
-PENDING_REFEREES_2
+- **Proofs and exact numbers (`ref-proofs/REVIEW.md`): nothing marked proved broke.** 14 exact rows recomputed to
+  every digit with its own dense code; bust shares confirmed; Theorem 2, Lemma R (with its discrete form
+  corrected) and the seam identity confirmed; Theorem 3's hypothesis measured to be failing (above). Not checked:
+  the 18-cell exact rows, anything on gump itself.
+PENDING_REFEREES_3
 
 ## What failed
 
