@@ -43,6 +43,7 @@ def basics(r):
     du = r['U']; ks = sorted(du); c = np.cumsum([du[k] for k in ks]) / sum(du.values())
     q = lambda f: ks[int(np.searchsorted(c, f))]
     print(f"   generations launch -> empty: median {q(.5)} (10-90%: {q(.1)}-{q(.9)})")
+    print('   d(p)*1e4 [launches]: ' + '  '.join(f'{q}: {1e4 * L[q] / r["N"][q]:.3g} [{int(L[q])}]' for q in range(int(0.68 * A), int(0.87 * A) + 1)))
     r['lt'] = lt; r['lte'] = e; r['sd'] = sd; r['n'] = n; r['mth'] = m / A
     q0 = int(round(0.74 * A)); nu = r['N'] / r['E']; dd = L / np.maximum(r['N'], 1)
     print('   per extra cell near the hump: p, nu(p+1)/nu(p), d(p+1)/d(p), product:  ' + '  '.join(
