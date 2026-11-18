@@ -97,6 +97,24 @@ have 5 (overcrowded if the ninth, unrecorded neighbour lives), 0.6% fewer. The o
 numbers (tube60: 46.4 → 10.8, 81.2% + 18.2%). A fall of half the face is not itself rare (about 1.5·10⁻⁴ per
 generation on t63, from 12 such falls in 7,899 control windows, so ± 30%); roughly one in 130 is fatal
 (0.59·e^(−13.155) / 1.5·10⁻⁴).
+**The boom is one generation long** (`out/aligned_fall.txt`; populations aligned on the fall, t63, same 4,659
+deaths) [measured]:
+
+| generations from the fall | −8 | −4 | −3 | −2 | −1 | 0 | +1 | +2 | +3 | +4 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| face (63 cells; stationary 32.6) | 32.5 | 33.8 | 31.0 | 33.2 | **48.5** | 11.6 | 5.5 | 2.6 | 1.6 | 1.4 |
+| layer beneath (63 cells; stationary 27.4) | 27.2 | 29.0 | 26.9 | 25.2 | **39.9** | 9.8 | 10.1 | 11.6 | 14.7 | 19.4 |
+
+Two generations before the fall the face looks normal; then 15 more cells than usual are born at once in the face
+and 15 in the layer beneath, and the next generation both layers lose three quarters. The layer beneath is refilled
+from below within a few generations; the face has nothing above it and dies a median 4 generations after the fall
+(10–90%: 2–8). tube60 and t75 give the same table (46.4 → 10.8 of 60; 57.5 → 14.0 of 75). I recorded only two
+layers, so how deep the surge reaches is not known.
+
+Cross-check on another agent's stepper [measured]: the natural-death records of `split-slab` for the same 48-cell
+torus (`research/scratch/blast/split-slab/paths_test.txt`, 1,268 deaths, read at 03:55 UTC; its populations by lag)
+give a share of 0.565 ± 0.014 with a one-generation fall of ≥ 24 cells in the last 10 generations; mine is 0.572.
+
 On the hull face deaths are starvation: of the cells dying in the last 8 generations 36% are starved for certain
 (living face 17%), 24% overcrowded for certain (33%); on t63 the split is 24% / 44% (living face 11% / 46%).
 The layer beneath the face is depleted too but never emptied: its mean population is 15.5 (t63) and 19.0 (h63) at
@@ -210,7 +228,8 @@ on the 300-cell face.
 
 **Wide wrapped face.** A hole cannot kill it: a hole of a third of the face is back at half its population in 4
 generations and is never seen to grow (§6). What kills it is the face acting as one. One generation in 400 the
-face is over-full, 46 or more cells of 63 where 33 is normal; when it reaches 48 nearly every live cell has six or
+face is over-full, 46 or more cells of 63 where 33 is normal, and it gets there in a single generation, together
+with the layer beneath, from a state that looks ordinary; when it reaches 48 nearly every live cell has six or
 more live neighbours and dies, and every dead cell has too many to be born: about once in 6,700 generations half
 the face goes in one step and 12 cells are left (§2). Usually those 12 rebuild the face; roughly one time in 130
 (between 100 and 200) they starve first, in two to four generations.
