@@ -169,6 +169,45 @@ int main(int argc, char **argv) {
     }
     return 0;
   }
+
+  if (!strcmp(argv[1], "nu")) {   // plain running: dip rates at every level, all eight faces; rh nu R SEED GENS LAMA
+    long G = atol(argv[4]); int lamA = atoi(argv[5]);
+    build(0); seedrng(seed * 104729 + R);
+    static int age[NL], fl[NL][8], cm[NL][8], P8[NL][8];
+    static long D[400]; long expo = 0, deaths = 0, nP = 0; double sP = 0, sP2 = 0;
+    for (int l = 0; l < NL; l++) { soup(0, l); age[l] = 0; for (int f = 0; f < 8; f++) { fl[l][f] = 0; cm[l][f] = lamA; } }
+    int cur = 0; clock_t t0 = clock();
+    for (long g = 1; g <= G; g++) {
+      int nx = (cur + 1) % KH; step(cur, nx); cur = nx;
+      for (int f = 0; f < 8; f++) {   // bit-sliced population counter of face f
+        v4 cnt[8]; for (int b = 0; b < 8; b++) cnt[b] = (v4){0, 0, 0, 0};
+        for (int i = 0; i < nf[f]; i++) { v4 x = ld(S[cur][fc[f][i]]); for (int b = 0; b < 8; b++) { v4 t = cnt[b] & x; cnt[b] ^= x; x = t; } }
+        uint64_t pl[8][W]; for (int b = 0; b < 8; b++) memcpy(pl[b], &cnt[b], 32);
+        for (int l = 0; l < NL; l++) { int p = 0; for (int b = 0; b < 8; b++) p |= (int)((pl[b][l >> 6] >> (l & 63)) & 1) << b; P8[l][f] = p; }
+      }
+      for (int l = 0; l < NL; l++) {
+        age[l]++;
+        int counted = age[l] > 200, anye = 0;
+        for (int f = 0; f < 8; f++) if (P8[l][f] == 0) anye = 1;
+        if (counted) { expo++; for (int f = 0; f < 8; f++) { int p = P8[l][f]; sP += p; sP2 += (double)p * p; nP++; } }
+        if (anye) {
+          if (counted) { deaths++; for (int f = 0; f < 8; f++) if (P8[l][f] == 0 && fl[l][f]) { D[0]++; D[cm[l][f]]--; } }
+          soup(cur, l); age[l] = 0; for (int f = 0; f < 8; f++) { fl[l][f] = 0; cm[l][f] = lamA; }
+        } else if (age[l] >= 100) {
+          for (int f = 0; f < 8; f++) {
+            int p = P8[l][f];
+            if (p >= lamA) { fl[l][f] = 1; cm[l][f] = lamA; }
+            else if (fl[l][f] && p < cm[l][f]) { if (counted) { D[p]++; D[cm[l][f]]--; } cm[l][f] = p; }
+          }
+        }
+      }
+    }
+    printf("NU R %d seed %ld A %d lamA %d gens %ld expo %ld deaths %ld sumP %.1f sumP2 %.1f nP %ld sec %.1f cross", R, seed, A, lamA, G, expo, deaths, sP, sP2, nP,
+           (double)(clock() - t0) / CLOCKS_PER_SEC);
+    long c = 0; for (int L = 0; L < lamA; L++) { c += D[L]; printf(" %ld", c); }
+    printf("\n");
+    return 0;
+  }
   // ---- run ----
   long M = atol(argv[4]); long NS = atol(argv[5]); LAG = atoi(argv[6]); int STEP = atoi(argv[7]);
   int PMODE = argc > 8 ? atoi(argv[8]) : 0, DIV = argc > 9 ? atoi(argv[9]) : 16, DL = argc > 10 ? atoi(argv[10]) : 1;
