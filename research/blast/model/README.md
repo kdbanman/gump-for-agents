@@ -4,7 +4,79 @@ Agent `model` of the blast. Brief: `../BRIEF-COMMON.md`. Forecasts: `PREDICTIONS
 before the data it concerns was opened). Labels: **[measured]**, **[fitted]**, **[conjectured]**, **[post hoc]**.
 Nothing here is proved. The session was cut to about 70 minutes; "Not checked" at the end is long.
 
-## Short answer
+## The upper tail (added 03:57 on the PI's second brief, after agent `anatomy`'s boom and bust)
+
+**Does the over-full tail explain the wrapped price? Half of it, and none of the shape dependence.**
+
+a. **[measured] The over-full tail obeys a clean law per cell, and it is the same law on tubes and on wide faces.**
+   From the stationary histograms (1.5 × 10⁸ samples each; wide faces of 57–111 cells, loop² 12 tubes of 54–120
+   cells), at fixed filling x = P/A:
+
+   | x = P/A | −ln π(xA), wide faces | −ln π(xA), tubes of loop² 12 | Gaussian with the stationary ρ, s² |
+   |---|---|---|---|
+   | 0.70 | 1.93 + 0.0561·A (rms 0.01) | 1.93 + 0.0560·A | 0.044·A |
+   | 0.73 | 1.90 + 0.0755·A (0.02) | 1.92 + 0.0750·A | 0.060·A |
+   | 0.76 | 1.87 + 0.0984·A (0.02) | 1.83 + 0.0987·A | 0.078·A |
+   | 0.79 | 1.75 + 0.1265·A (0.02) | 1.69 + 0.1273·A | 0.099·A |
+
+   So the boom has a price per cell ψ(x) that is 1.27 times the Gaussian one (the distribution is skewed: its
+   upper side is thin, its lower side fat), with a constant of about +1.9 nats. At equal area the tube and the wide
+   face have the same over-full probabilities: ln P(P ≥ 0.73A) = −6.866 / −6.874 (66 cells), −8.103 / −8.123 (84),
+   −9.500 / −9.521 (108); the three 96-cell faces with one loop² of 12, 13, 16: −9.175, −9.190, −9.168, while
+   their lifetimes differ by 0.07–0.19. **The upper tail does not carry the shape dependence, nor the bending
+   with tube length.** The tube's larger variance per cell (0.402 against 0.378–0.388) does not grow with length
+   and sits entirely on the low side: at 0.40–0.55 P̄ a tube is e^0.26, e^0.48, e^0.86 times as likely as the wide
+   face of the same 66, 84, 108 cells (`pairs.py`), 2.1–2.25 times its lifetime discount in ln τ; the tube's tail
+   below that is steeper and gives half of the lead back. `python3 research/blast/model/upper.py`, `pairs.py`.
+
+b. **[measured] 1/τ = Σ_P π(P)·g_L(P) (exact for any lag L; g_L(P) = chance that a face with population P is dead
+   exactly L generations later), 48-cell torus, 48,059 deaths** (`ex5.c`, `boom.py`): four generations before death
+   18.6% of dying faces are over-full (P ≥ mean + 2 sd = 34 of 48) against 1.67% of living ones; summed over lags
+   2–9 the excess is 0.59 (anatomy's count of deaths with a half-face fall: 0.572). The integrand peaks at
+   P* = 36 (0.75 A, +2.5 sd), where −ln π = 6.12 and −ln g₄ = 7.11. **The fall map** (mean population one
+   generation after filling x): x = 0.70, 0.75, 0.80, 0.85, 0.90 → 0.42, 0.36, 0.29, 0.19, 0.12 of A, and the chance
+   of landing below half the mean is 0.012, 0.08, 0.34, 0.89, 0.995. g₄ rises by e^0.85 falling to e^0.4 per extra cell of
+   boom (1.5 × 10⁻⁴, 8.2 × 10⁻⁴, 3.2 × 10⁻³, 9.6 × 10⁻³, 3.1 × 10⁻² at P = 34, 36, 38, 40, 43) while π falls by
+   e^(−0.7) steepening to e^(−1.4) per cell: the optimum is where the two slopes meet (a tangent construction on the upper side).
+   **63-cell torus (5,028 deaths): the same picture at the same fractions.** 19.7% of dying faces are over-full
+   four generations before death (9.7% above mean + 3 sd, against 0.048% of living faces); the excess summed over
+   lags 2–9 is 0.68; the integrand peaks at P* = 47 (0.75 A), −ln π = 7.37, −ln g₄ = 9.34; the fall map is
+   0.75, 0.79, 0.83 → 0.36, 0.29, 0.23 of A, as at 48 cells: **the fall is a function of the filling alone.**
+   From 48 to 63 cells the peak's two factors grow by 0.083 per cell (boom) and 0.149 per cell (kill): 0.232
+   together against 0.215 for ln τ between the same two faces.
+   Only 11–14% of the visits to 10–14 cells come straight from an over-full generation, against 57% of the deaths:
+   at equal count the scattered survivors of a bust are roughly 8 times as deadly as a face that thinned
+   [inferred from marginals, not measured per death].
+
+c. **[measured] A hull face has no such route, and its fall map shows why.** 45 cells (35,637 deaths) and 63 cells
+   (2,442 deaths): the over-full share of dying faces at every lag 1–12 is at most the stationary share (at most
+   0.017 against 0.018; at most 0.025 against 0.019). The fall map of the hull stops: x = 0.80, 0.85, 0.90 → 0.48, 0.44,
+   0.39 of A at 45 cells (0.46, 0.40 at 63 cells) where the torus's reaches 0.29, 0.19, 0.12; the chance of landing
+   below half the mean from x = 0.85 is 0.005–0.011 on a hull against 0.89 on the torus. The hull's dying faces
+   fade instead: mean population 27, 23, 16, 10, 4 at 12, 9, 6, 4, 2 generations before death (63 cells).
+
+d. **[fitted from three sizes, anatomy's table and item a] The price of the bust route splits about 0.08–0.10 for
+   the boom and 0.11–0.13 for the kill.** The living rate of half-face falls (anatomy §2: 0.0075, 0.0015, 0.0009
+   at 48, 63, 75 cells, read here as per 10 generations) falls by 0.079 per cell overall (0.107 and 0.043 in the two
+   steps), which is ψ(0.735) of item a (0.079); the chance that such a fall ends in death is then 0.037, 0.0075,
+   0.0011 (−0.106 and −0.16 per cell; anatomy's errors not propagated). The kill is
+   the tail again: q(n) of the dip table at the survivors' count gives 0.049 at 9 cells (48-cell face) and 0.010
+   at 12 cells (63-cell face), −0.103 per cell. So c_bust ≈ ψ(x*) + κ with ψ measured from the living state alone
+   (no fitted number) and κ still measured from deaths: **the upper tail gives 40–50% of 0.2086; the other half is
+   the same quantity nobody can derive yet, the price λ ≈ 0.42–0.44 per surviving cell, now applied to about 0.2–0.3 A
+   scattered survivors instead of 0.5 A.** As a formula, min over x of [ψ(x) + λ·s(x)] with s the fall map does
+   not work at 48 cells: it gives 0.275 at x = 0.71–0.75 against ln τ/A = 0.207; the difference (3.3 nats) is the
+   number of (P, lag) cells that contribute and the spread of the fall, not a price.
+
+e. **[fitted] Two routes do not give the hull's 0.231 by themselves.** On wrapped faces the bust share rises slowly
+   with area (0.572, 0.590, 0.601 at 48, 63, 75 cells, anatomy): the route without a bust costs only 0.004–0.005 per
+   cell more than the route with one (about 0.213 against 0.207–0.209), not 0.022 more. At equal area the hull
+   starves *more* readily than the wrapped face's own no-bust route (ln τ 13.63 against 14.05 at 63 cells; 10.46
+   against 10.78 at 48), and lives longer only because it has no bust route (worth 0.85–0.9). What is specific to
+   the rim is the hull's tail price (0.50 per live cell against 0.42–0.44) and a negative rim term (the constant
+   b = −0.344 per unit of side that goes with 0.231); neither is derived here.
+
+## Short answer (written before the section above; the front gas has since been killed by agent `anatomy`: no band-first class of deaths)
 
 1. **[fitted] The front gas with one σ fails on the data on file; with a free weight per loop length it fails less,
    and the data prefer growth exponential in the area to a power of the length.** 54 pooled wrapped faces of 48–126
@@ -105,10 +177,11 @@ Nothing here is proved. The session was cut to about 70 minutes; "Not checked" a
 
 | # | model, in three lines | fitted numbers | against the anchors | kills it |
 |---|---|---:|---|---|
+| 0 | **Boom, bust, starve (anatomy's mechanism made quantitative; added last).** 1/τ = Σ_P π(P)·g(P): boom to x ≈ 0.75 A at ψ(x) per cell (measured from the living state, shape-blind), fall to s(x) ≈ 0.36 A (a map of the filling alone), then the survivors starve at the tail price. Hull: no fall, so starvation only. | 0 for the boom; the kill is measured, not derived | boom 0.083–0.098 per cell + kill 0.11–0.15 per cell = 0.21–0.23 (two sizes, peak term only); explains hull > wrapped at equal area (0.47 at 63 cells = no bust route, +0.87, less a readier starvation, −0.4); does NOT give the tube discount (the boom is identical on tubes) nor 0.231 | a wrapped face of 84–108 cells whose dying faces are not over-full at lag 4–5 at ten times the living share; or a tube whose over-full share of deaths equals the wide face's while its lifetime is shorter (then the tube's discount is in the kill) |
 | 1 | **Two ways to die, rates add (HAZ refitted).** 1/τ = e^(−a−cA)(1 + Σ_v r_q e^(g_q(A−63))): a short loop opens a second channel at price c − g_q. A description; the only form within reach of the errors. | 10 | χ² 87 on 44 (A ≥ 48), 107 on 48 (A ≥ 36); hull: not addressed | the 120-cell tube above 24.55 (HAZ says 24.51; it is already −2.6σ at 108 cells): then the channel's price is not constant |
 | 2 | **A tube has its own price (stationary cumulants).** Tubes are one-dimensional: ρ, κ₂, κ₃, κ₄ per cell independent of length; long-tube price c − Δ, Δ = tilt series of the cumulant differences, 0.007–0.011 for loop² 12. Short tubes cross over. | 0 (λ measured) | second order alone: discounts within 20% at 66–96 cells, ×1.7 at 54, ×0.8 at 108 (Σ z² 4594 on 20) | local slope of the loop² 12 tube from 120 to 240 cells outside 0.196–0.202 |
 | 3 | **Rim as an expansion in the side at the wrapped price.** Hull: ln τ = 0.2086·A + b·k + d + e/k. | 3 | χ² 16.8 on 2 (30–108 cells); two prices 152.8 on 2 | the 135-cell hull face at 29.23 or above (expansion: 29.17–29.21) |
-| 4 | **Front gas, weight per loop length free (FGq / SWq / GEN).** | 8–9 | χ² 358 / 251 / 222 on 46–45 | already: long tubes +6σ, loop² 16 faces −5σ |
+| 4 | **Front gas, weight per loop length free (FGq / SWq / GEN).** | 8–9 | χ² 358 / 251 / 222 on 46–45 | already: long tubes +6σ, loop² 16 faces −5σ; and anatomy found no band-first deaths |
 | 5 | **Front gas, one σ (FG).** | 5 | χ² 3160 on 49 | dead on file (the cutoff between loop² 19 and 21) |
 | 6 | **Tangent construction c = λρ − λ²s²/2 with measured λ.** | 1 (additive constant) | spread 0.63 in ln τ over five faces of 48–66 cells | dead as a predictor; survives as bookkeeping |
 | 7 | **Logistic mean field, c = −ln(1 − ρ) − ρ = 0.2116.** No fitted number, 1.4% high. | 0 | wrong tail (slope ln β = 0.73 at n → 0 against 0.35–0.45), wrong s² (0.48 against 0.38), dc/dρ = 1.07 | dead: a coincidence of the integral |
@@ -138,8 +211,10 @@ Nothing here is proved. The session was cut to about 70 minutes; "Not checked" a
   others: same code path, graphs from the same generator), and ex3's histogram bookkeeping (cross-checks: my ln τ
   from the same files agree with the anchors: 9.931 ± 0.005 / 9.9251, 11.874 ± 0.007 / 11.8751, 12.422 ± 0.008 /
   12.423, 13.152 ± 0.009 / 13.1622, 13.668 ± 0.012 / 13.646).
-- Runs: `queue1.sh` (long histograms; killed after the 66-cell tube to save time) and `queue2.sh` (short runs for the
-  moments, 150,000 generations × 512 replicas each, then the 84-cell pair). ex3 counts faces of at most 127 cells,
+- Runs: `queue1.sh` (long histograms; killed after the 66-cell tube to save time), `queue2.sh` (short runs for the
+  moments, 150,000 generations × 512 replicas each; the long 84-cell pair was abandoned) and `queue3.sh` in scratch
+  (ex5: `ex5.c` = ex3.c plus the population 1–15 generations before each death and the joint histogram of
+  consecutive populations; its lives file is byte-identical to sy's on the 4×4 torus; outputs `data/hist5_*.txt`). ex3 counts faces of at most 127 cells,
   so nothing above 120 cells.
 
 ## Failed, in a line each
@@ -153,7 +228,11 @@ Nothing here is proved. The session was cut to about 70 minutes; "Not checked" a
 ## Not checked
 
 - No derivation of λ from the rule (the brief's line 1): not attempted in the time.
-- The 84-cell pair's tails (tube against wide at equal area): running when this was written; see the last section if present.
+- The long 84-cell pair was abandoned; `pairs.py` uses the short runs there (down to 0.25–0.4 P̄ only).
+- The bust share per death (the largest fall of each death) was not measured here: `boom.py` works from marginals at
+  fixed lags, and the "8 times as deadly" and the split of item d lean on anatomy's table.
+- ex5's two added tables were checked only by the identities they must satisfy (Σ_P DL[L][P] = deaths at every lag;
+  the J table reproduces ln τ to 0.001–0.017).
 - Hull histograms (ρ, s², tail) were taken from `research/dying/README.md`, not rerun.
 - Errors of the hull fits use the tabulated statistical errors only; the 30-cell face may carry small-size effects
   that no expansion should be asked to fit.

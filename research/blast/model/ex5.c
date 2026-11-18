@@ -2,7 +2,8 @@
  * the face's population lag = 1..15 generations before it; (2) J[P'][P]: the joint histogram of the face's population at
  * consecutive generations (both at age > T0). Appended to HIST as lines 'dl LAG c0 .. c127' and 'J Pprev c0 .. c127'.
  * Identity used: for any fixed lag L, deaths/exposure = sum_P pi(P) g_L(P), g_L(P) = DL[L][P]/phist[P].
- * Nothing else is changed (the lives file stays byte-identical to sy's; checked by validate.py's same_lives on ex5).
+ * Nothing else is changed (the lives file stays byte-identical to sy's: checked by cmp on the 4x4 torus, seed 77,
+ * 20,000 generations; not on the other vessels).
  *
  * ex3.c: ex.c (round 2) for faces of up to 127 cells, plus dumps of deep excursions (round 3).
  *   ex3 GRAPH run SEED P GENS CHK OUT PBAR T0 HIST M3 DUMP CAP
