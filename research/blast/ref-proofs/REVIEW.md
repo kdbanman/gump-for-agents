@@ -109,6 +109,9 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
 
 ### A2. Theorem 3 (structure, conditional on SSM) — CONFIRMED as an implication; hypothesis CORRECTED; scope CORRECTED
 
+0. *Is the hypothesis stated exactly?* Nearly. Two imprecisions: "the ball is isomorphic to the ball in the
+   infinite layer" must include the coin counts (hull corners have two coins); and e_∞(s) exists only through the
+   hypothesis itself, since the infinite layer has no quasi-stationary law to tilt. Neither changes the proof.
 1. *The implication is valid and nearly empty.* (a) is the hypothesis summed over cells and integrated over s;
    (b)–(d) are geometry. Nothing is smuggled, and nothing is gained beyond "if the local means are local, the
    exponent is local".
@@ -123,7 +126,8 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
    two-humped for every s ≳ 0.3 on all six wrapped faces (from s ≈ 0.2 on the (1,1) tubes; weakest on the
    wide torus (2,0),(0,2): 0.044 at 11 of 12 against a valley of 0.010 at s = 0.5): a sparse hump and an over-full hump, e.g. tube (1,1),(0,5), s = 0.3:
    P(≤ 4 alive) = 0.61, P(≥ 10 of 15) = 0.28, valley 0.014 at 8; the valley at s = 0.3 deepens with size (0.029,
-   0.026, 0.014 at 9, 12, 15 cells on the (1,1) tubes). Rimmed faces (triangle, patch 2×2, patch 1×3) have one
+   0.026, 0.014 at 9, 12, 15 cells on the (1,1) tubes) while the over-full hump keeps its weight (0.42, 0.26, 0.30
+   of the law above the valley). Rimmed faces (triangle, patch 2×2, patch 1×3) have one
    hump at every s. The reason is plain: an over-full face has E ≈ 0 as surely as an empty one (every cell with 6
    live neighbours dies), so e^(−sE) selects both. rigour's proposed test (does Var_s(E)/A grow like A?) is
    blind to this, because E is small on *both* humps; the test must be on the population (or on the occupancy)
