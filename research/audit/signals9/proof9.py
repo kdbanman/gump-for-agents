@@ -125,9 +125,9 @@ def part_B():
     tube = lambda q: 1 <= q[0] + q[1] + q[2] <= 5 and -1 <= q[0] - q[1] + q[2] <= 5
     Q = {q for p in lam for q in [p] + nbrs(p) if tube(q) or any(tube(n) for n in nbrs(q))}
     U = sorted({n[0] >> 1 for q in Q for n in [q] + nbrs(q) if tube(n)})
-    say(rest == 42 and U == list(range(c - 1, c + 4)),
+    say(rest == 42 and U == list(range(c - 1, c + 4)) and not any(tube(q) for q in lam),
         f'B  the line alone with the CALL is the line at rest from generation {rest} (and at every even generation to 60); '
-        f'{len(lam)} cells are ever live in it; {len(Q)} cells have a closed neighbour among them and one in the wire\'s '
+        f'{len(lam)} cells are ever live in it, none of them in the wire\'s hull; {len(Q)} cells have a closed neighbour among them and one in the wire\'s '
         f'hull; those see the wire on units {U[0]}..{U[-1]} (c - 1 .. c + 3)')
 
 

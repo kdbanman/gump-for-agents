@@ -11,7 +11,7 @@
 4  st9.c ring mode = the oracle on a cubic torus of side 2R on which a wire closes on itself (R = 24, a ring of wire B
    with a stretch d^3 f and a right-going pulse, 120 generations).
 The call line's own runs (st9 = oracle at every generation of every run) are in call_oracle.py, trig9.py, beyond9.py
---orc, coexist9.py --orc and extra9.py.
+--orc, coexist9.py orc, extra9.py and verify_osc9.py.
 """
 import random
 from a9 import *

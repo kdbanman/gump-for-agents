@@ -6,7 +6,7 @@
     python3 coexist9.py seq          for every standing (k, j): read, CALL, read again
     python3 coexist9.py write        the reader and the line in place on an EMPTY wire: set, add, read, CALL, read
     python3 coexist9.py lineread     is the call line itself a reader?  words of the line beside 7, d, f and the walls
-    [--orc]                          replay the rows marked * on reference/oracle.py
+    python3 coexist9.py orc          three scenarios on reference/oracle.py, compared with st9 at every even generation
 
 From push 8b's JSON (objects/read-echo-B-small.json) only cells: the 169 cells of the reader (its crossing at store
 unit 0 of the standard frame) and the four cells of its probe (two pulses B in adjacent units).  Stepper st9.c.
