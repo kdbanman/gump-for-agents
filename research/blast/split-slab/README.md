@@ -556,12 +556,127 @@ and the timing statistics rest on 10 replications at 144 and 192 cells (640 dyin
 a replication). Not done: sections of other widths, the 96-cell tube (other twist), tubes of loop^2 13 and 16.
 
 
+## 10. Is the tube's discount the entropy of crash timing? (the PI's test, 05:05 UTC; analysis of section 9's cell files)
+
+The PI's chain: the crash generations of the sections of a dying tube form a chain with transfer matrix
+M = I + u (J - I) on W timings (lam1 = 1 + (W - 1) u, lam2 = 1 - u). Then, with nothing fitted, in the dying
+ensemble P1 = P(neighbouring sections crash in the same generation) = 1 / lam1 and
+
+    discount per cell of a long tube against one that could only crash at once = -ln P1 / (cells per section),
+
+which must not depend on the section length once sections are longer than one crash is coherent; and
+P(s_0 = s_k) = 1/W + (1 - 1/W) (lam2 / lam1)^k, correlation length a / ln(lam1 / lam2). The loop^2 12 tube's
+measured asymptotic discount is 0.0083 (tube1d's K = 2 fit) to about 0.0097 per cell.
+
+    python3 chain.py > data/chain_out.txt ;  python3 chain.py sens > data/chain_sens.txt
+
+Sections of 1, 2, 3, 4 lattice units (12 cells per unit), every offset of the cut averaged; crash generation and
+half-fall as in section 9; per replication first, mean ± standard error over the 10 replications of each tube
+(640 dying chains each; dice chain). "Ring-corrected": u solved from P1 with the exact formula for a periodic
+chain of N sections (W = 3). "W from the far plateau" = 1 / P(same) at the largest separation.
+
+**Tube (1,22),(0,48), 144 cells, 12 lattice units long, 10 replications.**
+
+Neighbouring sections, both sections with a half-fall:
+
+| section | cells | sections on the tube | share of sections with a half-fall | P1 = P(neighbours crash in the same generation) | discount per cell = -ln P1 / cells | ring-corrected ln lam1 / cells (W = 3) | P2 measured | P2 chain (W = 3) | P3 measured | P3 chain | P4 measured | P4 chain | xi of the chain (units) | W from the far plateau |
+|---|---:|---:|---:|---|---|---:|---|---:|---|---:|---|---:|---:|---:|
+| 1 unit | 12 | 12 | 0.64 | 0.794 ± 0.018 | 0.0192 ± 0.0019 | 0.0200 | 0.677 ± 0.028 | 0.656 | 0.611 ± 0.038 | 0.566 | 0.575 ± 0.046 | 0.510 | 2.6 | 1.9 (P = 0.54 at 6 units) |
+| 2 units | 24 | 6 | 0.54 | 0.839 ± 0.025 | 0.0073 ± 0.0013 | 0.0103 | 0.705 ± 0.053 | 0.752 | 0.644 ± 0.064 | 0.725 |  |  | 5.0 | 1.6 (P = 0.64 at 6 units) |
+| 3 units | 36 | 4 | 0.49 | 0.865 ± 0.027 | 0.0040 ± 0.0009 | 0.0077 | 0.719 ± 0.064 | 0.823 |  |  |  |  | 6.6 | 1.4 (P = 0.72 at 6 units) |
+| 4 units | 48 | 3 | 0.45 | 0.873 ± 0.032 | 0.0028 ± 0.0008 | 0.0067 |  |  |  |  |  |  | 7.6 | 1.1 (P = 0.87 at 4 units) |
+
+Neighbouring sections, all sections:
+
+| section | cells | sections on the tube | share of sections with a half-fall | P1 = P(neighbours crash in the same generation) | discount per cell = -ln P1 / cells | ring-corrected ln lam1 / cells (W = 3) | P2 measured | P2 chain (W = 3) | P3 measured | P3 chain | P4 measured | P4 chain | xi of the chain (units) | W from the far plateau |
+|---|---:|---:|---:|---|---|---:|---|---:|---|---:|---|---:|---:|---:|
+| 1 unit | 12 | 12 | 0.64 | 0.605 ± 0.020 | 0.0418 ± 0.0027 | 0.0418 | 0.524 ± 0.025 | 0.444 | 0.484 ± 0.032 | 0.379 | 0.447 ± 0.038 | 0.352 | 1.1 | 2.3 (P = 0.43 at 6 units) |
+| 2 units | 24 | 6 | 0.54 | 0.676 ± 0.030 | 0.0163 ± 0.0018 | 0.0174 | 0.576 ± 0.046 | 0.532 | 0.551 ± 0.049 | 0.492 |  |  | 2.8 | 1.8 (P = 0.55 at 6 units) |
+| 3 units | 36 | 4 | 0.49 | 0.700 ± 0.040 | 0.0099 ± 0.0016 | 0.0125 | 0.625 ± 0.052 | 0.617 |  |  |  |  | 3.8 | 1.6 (P = 0.62 at 6 units) |
+| 4 units | 48 | 3 | 0.45 | 0.686 ± 0.046 | 0.0078 ± 0.0014 | 0.0110 |  |  |  |  |  |  | 4.2 | 1.5 (P = 0.69 at 4 units) |
+
+
+**Tube (1,30),(0,64), 192 cells, 16 lattice units long, 10 replications.**
+
+Neighbouring sections, both sections with a half-fall:
+
+| section | cells | sections on the tube | share of sections with a half-fall | P1 = P(neighbours crash in the same generation) | discount per cell = -ln P1 / cells | ring-corrected ln lam1 / cells (W = 3) | P2 measured | P2 chain (W = 3) | P3 measured | P3 chain | P4 measured | P4 chain | xi of the chain (units) | W from the far plateau |
+|---|---:|---:|---:|---|---|---:|---|---:|---|---:|---|---:|---:|---:|
+| 1 unit | 12 | 16 | 0.60 | 0.748 ± 0.019 | 0.0241 ± 0.0021 | 0.0242 | 0.528 ± 0.034 | 0.592 | 0.409 ± 0.037 | 0.495 | 0.312 ± 0.047 | 0.436 | 2.1 | 4.4 (P = 0.23 at 8 units) |
+| 2 units | 24 | 8 | 0.48 | 0.721 ± 0.037 | 0.0136 ± 0.0021 | 0.0143 | 0.378 ± 0.067 | 0.570 | 0.275 ± 0.078 | 0.495 | 0.277 ± 0.072 | 0.473 | 3.5 | 3.6 (P = 0.28 at 8 units) |
+| 3 units | 36 | 5 (+ remainder) | 0.39 | 0.628 ± 0.074 | 0.0129 ± 0.0033 | 0.0129 | 0.318 ± 0.088 | 0.464 | 0.288 ± 0.081 | 0.391 | 0.505 ± 0.071 | 0.359 | 3.7 | 2.0 (P = 0.50 at 12 units) |
+| 4 units | 48 | 4 | 0.32 | 0.523 ± 0.089 | 0.0135 ± 0.0036 | 0.0141 | 0.348 ± 0.093 | 0.428 |  |  |  |  | 3.0 | 2.9 (P = 0.35 at 8 units) |
+
+Neighbouring sections, all sections:
+
+| section | cells | sections on the tube | share of sections with a half-fall | P1 = P(neighbours crash in the same generation) | discount per cell = -ln P1 / cells | ring-corrected ln lam1 / cells (W = 3) | P2 measured | P2 chain (W = 3) | P3 measured | P3 chain | P4 measured | P4 chain | xi of the chain (units) | W from the far plateau |
+|---|---:|---:|---:|---|---|---:|---|---:|---|---:|---|---:|---:|---:|
+| 1 unit | 12 | 16 | 0.60 | 0.531 ± 0.012 | 0.0527 ± 0.0019 | 0.0527 | 0.394 ± 0.022 | 0.392 | 0.318 ± 0.025 | 0.351 | 0.260 ± 0.029 | 0.339 | 0.8 | 5.1 (P = 0.20 at 8 units) |
+| 2 units | 24 | 8 | 0.48 | 0.514 ± 0.027 | 0.0277 ± 0.0022 | 0.0277 | 0.326 ± 0.043 | 0.383 | 0.247 ± 0.052 | 0.348 | 0.237 ± 0.053 | 0.341 | 1.5 | 4.2 (P = 0.24 at 8 units) |
+| 3 units | 36 | 5 (+ remainder) | 0.39 | 0.455 ± 0.044 | 0.0219 ± 0.0027 | 0.0219 | 0.266 ± 0.062 | 0.356 | 0.257 ± 0.061 | 0.337 | 0.369 ± 0.049 | 0.334 | 1.8 | 2.7 (P = 0.37 at 12 units) |
+| 4 units | 48 | 4 | 0.32 | 0.388 ± 0.054 | 0.0197 ± 0.0029 | 0.0197 | 0.270 ± 0.066 | 0.342 |  |  |  |  | 1.6 | 3.7 (P = 0.27 at 8 units) |
+
+
+**Wide tori cut into four quarters (every offset of the two cuts averaged): neighbouring quarters share an edge, diagonal ones a corner.**
+
+| torus | cells | cells per quarter | replications | P(same generation), neighbours, both with a half-fall | neighbours, all | diagonal, both | diagonal, all | -ln P1 / cells (both) | (all) |
+|---|---:|---:|---:|---|---|---|---|---|---|
+| (6,0),(0,6) | 108 | 27 | 16 | 0.976 ± 0.005 | 0.854 ± 0.015 | 0.971 ± 0.006 | 0.853 ± 0.016 | 0.0009 ± 0.0002 | 0.0059 ± 0.0006 |
+| (8,0),(0,8) | 192 | 48 | 6 | 0.998 ± 0.002 | 0.933 ± 0.036 | 1.000 ± 0.000 | 0.933 ± 0.036 | 0.0000 ± 0.0000 | 0.0014 ± 0.0008 |
+
+**Sensitivity of P1 to what counts as a crashed section (192-cell tube; both sections with a fall of at least thr of their cells).**
+
+| thr | 2 units: share of sections, P1, -ln P1 / cells | 3 units: share of sections, P1, -ln P1 / cells | 4 units: share of sections, P1, -ln P1 / cells |
+|---:|---|---|---|
+| 0.3 | 0.82, 0.590 ± 0.026, 0.0220 ± 0.0018 | 0.84, 0.508 ± 0.045, 0.0188 ± 0.0025 | 0.79, 0.433 ± 0.066, 0.0174 ± 0.0032 |
+| 0.4 | 0.67, 0.640 ± 0.034, 0.0186 ± 0.0022 | 0.60, 0.562 ± 0.057, 0.0160 ± 0.0028 | 0.52, 0.502 ± 0.079, 0.0144 ± 0.0033 |
+| 0.5 | 0.48, 0.721 ± 0.037, 0.0136 ± 0.0021 | 0.39, 0.628 ± 0.074, 0.0129 ± 0.0033 | 0.32, 0.523 ± 0.089, 0.0135 ± 0.0036 |
+| 0.6 | 0.24, 0.830 ± 0.037, 0.0077 ± 0.0019 | 0.17, 0.664 ± 0.110, 0.0114 ± 0.0046 | 0.13, 0.588 ± 0.125, 0.0111 ± 0.0044 |
+
+**Verdict, plainly.**
+
+- **In size, yes.** On the 192-cell tube -ln P1 / cells is **0.0136 ± 0.0021, 0.0129 ± 0.0033, 0.0135 ± 0.0036 for
+  sections of 2, 3 and 4 units**: it does not depend on the section length, as the chain requires, and it is 1.4 to
+  1.6 times the measured discount (0.0083 to 0.0097), about 2 sd above it. On wide faces the same statistic is
+  zero: neighbouring quarters of the wide 192-cell torus crash together in 0.998 ± 0.002 of deaths (0.0000 per
+  cell; 0.0009 ± 0.0002 at 108 cells). So the timing freedom that tubes have and wide faces lack is worth
+  about as much as the tube's discount.
+- **But the number is soft by a factor of about 2.** It moves with what counts as a crashed section (last
+  table): 0.019 to 0.022 if a fall of 0.3 to 0.4 of the section counts, 0.013 at 0.5, 0.008 to 0.011 at 0.6. Counting
+  every section (no condition) gives 0.020 to 0.028. Sections without a clear crash get a noisy crash generation,
+  which lowers P1 and inflates the implied discount; stricter selection keeps the sections that belong to the
+  largest busts. The measured discount lies inside the range 0.008 to 0.014 that thresholds 0.5 and 0.6 span; I
+  cannot say more sharply than that. Sections of 1 unit give 0.024: shorter than one crash is coherent.
+- **The 144-cell tube cannot test it.** There P1 does not fall with section length at all (0.84, 0.87, 0.87 for
+  2, 3, 4 units; -ln P1 / cells 0.0073, 0.0040, 0.0028; ring-corrected 0.0103, 0.0077, 0.0067): with 6, 4 or 3
+  sections on a ring most deaths are still one crash. Its ring-corrected values average 0.008 ± 0.001, lower than
+  the 192-cell tube's 0.014 ± 0.002. A chain with one bond weight for both lengths is not excluded (1.5 to 2.7
+  sd apart, depending on how the correlated errors are counted) and not confirmed: the test rests on ONE tube
+  length.
+- **The three-timing chain itself fails beyond nearest neighbours.** With u from P1 (W = 3) it predicts
+  P2 = 0.570, P3 = 0.495, P4 = 0.473 for 2-unit sections of the 192-cell tube; measured 0.378 ± 0.067,
+  0.275 ± 0.078, 0.277 ± 0.072. The timing decorrelates much faster than that chain allows: measured P2 is at
+  or below P1^2 = 0.52, the floor for ANY stationary reversible Markov chain of timings with that P1. Either a
+  change of timing rarely comes back (many timings: the far plateau, 0.23 to 0.28 at 8 units, says W of about 4,
+  and the differences are mostly 3 generations or more, section 9), or the crash generations carry noise, which
+  would also explain the factor 1.4 to 1.6 above.
+- **Correlation length.** The chain (W = 3, u from P1) gives 3.5 units for 2-unit sections. What the paths show
+  is shorter: P(same) minus its plateau falls from 0.44 at 2 units to 0.10 at 4 units and to nothing at 6: about
+  1.4 to 1.8 units. The 25% together at 6 to 8 units is the plateau (chance agreement among about four
+  generations), not a tail of the correlation.
+- **Bottom line [measured, surrogate, one length]:** the numbers support "a tube is cheaper because its
+  stretches need not crash in the same generation, and a wide face has no such freedom" and they put the worth of
+  that freedom at 0.008 to 0.014 per cell, the size of the tube's discount. They do not support the specific
+  one-parameter chain with three timings: nearest-neighbour agreement and the decay beyond it do not fit
+  together. A sharper test needs longer tubes (240 to 360 cells, where 2-unit and 4-unit sections both have many
+  bonds) and a crash time defined without a threshold.
+
 ## Files
 
 `geom.py` (graph, numpy stepper), `ss.c` (stepper; modes `dump`, `plain`, `ffs`, `lag`, `sub`), `validate.py`,
 `nuq.py`, `nuq_quad.py` (bookkeeping forecast), `howdie.py` (anatomy of natural deaths), `run_sub.py`,
 `table_sub.py`, `derived.py`, `subpaths.py`, `fill.py` (subset sampler: frozen-parameter driver, tables, dying
-paths), `sections.py`, `sec_table.py`, `fill9.py` (section 9), `chain_*.sh` (the runs as launched; several were
+paths), `sections.py`, `sec_table.py`, `fill9.py` (section 9), `chain.py` (section 10), `chain_*.sh` (the runs as launched; several were
 cut short and replaced, as their headers say), `data/` (validation log, plain-run histograms, lag profiles,
 paths, sampler outputs, `sections_full.txt`; `data/v1/` = sampler version 1), `PREDICTIONS.md`. Bulk, git-ignored,
 under `research/scratch/blast/split-slab/`: `subpaths_full/` (25 MB), `cells/` (per-cell records of section 9).
