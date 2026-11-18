@@ -5,7 +5,7 @@ cannot reach (one death per 6 × 10¹¹ hull-generations). Files: `sh.c` (steppe
 against `reference/oracle.py`), `chain.sh` and `variant.sh` (replications), `ana.py` (pooling), `levels.py` (dip rates
 by plain running, the lines, the forecasts), `fill.py`, `curate.py`, `PREDICTIONS.md` (forecasts), `paths/` (dying paths). Bulk output: `research/scratch/blast/split-hull/runs/`.
 
-## Short answer (04:34 UTC)
+## Short answer (04:34 UTC; point 4 added 05:25 UTC)
 
 1. **The sampler does not reach the 135-cell face, and I can say why [measured].** Forward-flux sampling on the
    face's population, clones separated by deep flips. Weak, unbiased separations (one flip three layers down) leave
@@ -42,6 +42,17 @@ by plain running, the lines, the forecasts), `fill.py`, `curate.py`, `PREDICTION
    R = 7 under this protocol: 6.8345 ± 0.0024 (180,727 first deaths), not the 6.804 on file (another protocol; a
    hull of that size lives 115 generations, less than the ageing-in).
 
+4. **Dice under the hull: a measurement of the 135-cell face on a surrogate chain [measured; added 05:00 to 05:30 UTC].**
+   Split-slab's subset simulation over honest coins, on a hull dice chain (true rule on six layers beneath the
+   watched face inside the real hull boundary, fair coins on the two layers below). Blind calibration against
+   gump: +0.093 ± 0.065 at R = 13 and +0.079 ± 0.074 at R = 15 (both pass the two-error rule set beforehand; tuning
+   sizes +0.001 ± 0.019 and −0.044 ± 0.039). **R = 17: ln τ = 29.453 ± 0.042 on the chain (120 replications);
+   for gump 29.367 ± 0.065 if the chain's offset is that of the blind sizes, 29.358 ± 0.093 if it drifts linearly
+   with area.** That is 1.4 to 2.2 errors above my forecast 29.223 and 2.1 to 3.2 above 29.163; taken as it stands
+   (no offset) it is above them by 5 and 7 errors. It does not separate 29.230 from 29.163 cleanly (they are 0.067 apart),
+   but it leans against the wrapped price taking over, and says the forecast of point 2 is, if anything, low.
+   Section "Dice under the hull".
+
 ## Dice under the hull (second attempt at the measurement itself, 04:45 to 05:35 UTC)
 
 After agent `split-slab` showed that subset simulation over honest dice works on wrapped faces
@@ -71,7 +82,7 @@ below the level and the reverse move is proposable). Frozen parameters (block 4)
 `sh research/blast/split-hull/dice.sh R SEED NREP`. Error: scatter of independent replications' rates.
 
 <!-- DICE -->
-**Results (05:12 UTC)** (`python3 research/blast/split-hull/dice_ana.py`, `dice_fill.py`; brute force of the chain:
+**Results (05:23 UTC)** (`python3 research/blast/split-hull/dice_ana.py`, `dice_fill.py`; brute force of the chain:
 `DICE=1 shd R SEED 0 GENS`, the base run of `sh.c` with the coins switched on):
 
 | R | cells | what | replications | ln τ, dice chain | gump anchor | chain − gump |
@@ -82,22 +93,22 @@ below the level and the reverse move is proposable). Frozen parameters (block 4)
 | 11 | 63 | sampler (tuning size) | 32 | 13.589 ± 0.039 | 13.633 | -0.044 ± 0.039 |
 | 13 | 84 | sampler, **blind** | 48 | 18.234 ± 0.065 | 18.141 | **+0.093 ± 0.065** (1.4 errors) |
 | 15 | 108 | sampler, **blind** | 48 | 23.418 ± 0.074 | 23.3392 | **+0.079 ± 0.074** (1.1 errors) |
-| 17 | 135 | sampler, **the new size** | 73 | **29.458 ± 0.060** | none | forecast 29.223 ± 0.014 |
+| 17 | 135 | sampler, **the new size** | 120 | **29.453 ± 0.042** | none | forecast 29.223 ± 0.014 |
 
 Both blind calibrations pass the rule set beforehand (within two errors); nothing was tuned after block 4. The two
 blind sizes together sit +0.087 ± 0.049 above gump (all four sizes: +0.003 ± 0.016). Scatter of one replication's
-rate, as a fraction of the mean: 0.11, 0.22, 0.45, 0.51, 0.52 at R = 9, 11, 13, 15, 17; the largest replication carries 4%, 4%, 7%, 6%, 5% of the sum; zero-rate replications: 0.
+rate, as a fraction of the mean: 0.11, 0.22, 0.45, 0.51, 0.46 at R = 9, 11, 13, 15, 17; the largest replication carries 4%, 4%, 7%, 6%, 3% of the sum; zero-rate replications: 0.
 
-**R = 17 (135 cells) [measured on the dice chain; a surrogate for gump]:** ln τ = 29.458 ± 0.060 (73 replications; jackknife 0.061; mean of the replications' logarithms 29.553 ± 0.049).
-Minus the offset of the blind sizes: **29.371 ± 0.078** for gump; with no offset: 29.458 ± 0.060.
-Against the forecast 29.223 ± 0.014: +0.148 ± 0.079 (offset removed), +0.235 ± 0.062 (raw).
+**R = 17 (135 cells) [measured on the dice chain; a surrogate for gump]:** ln τ = 29.453 ± 0.042 (120 replications; jackknife 0.042; mean of the replications' logarithms 29.535 ± 0.036).
+Minus the offset of the blind sizes: **29.367 ± 0.065** for gump; with no offset: 29.453 ± 0.042.
+Against the forecast 29.223 ± 0.014: +0.144 ± 0.066 (offset removed), +0.230 ± 0.044 (raw).
 If instead the offset drifts linearly with the area (weighted line through the four sizes: +0.00114 ± 0.00099 per cell,
-+0.095 ± 0.083 at 135 cells): **29.362 ± 0.102** for gump. In errors of each reading, the candidates sit at:
++0.095 ± 0.083 at 135 cells): **29.358 ± 0.093** for gump. In errors of each reading, the candidates sit at:
 | reading of the offset | value for gump | 29.230 (second difference repeats) | 29.223 (my forecast) | 29.163 (wrapped price) |
 |---|---|---|---|---|
-| none (the chain is gump) | 29.458 ± 0.060 | +3.8 | +3.8 | +4.9 |
-| constant, from the blind sizes | 29.371 ± 0.078 | +1.8 | +1.9 | +2.7 |
-| linear in the area | 29.362 ± 0.102 | +1.3 | +1.3 | +1.9 |
+| none (the chain is gump) | 29.453 ± 0.042 | +5.3 | +5.2 | +6.9 |
+| constant, from the blind sizes | 29.367 ± 0.065 | +2.1 | +2.2 | +3.2 |
+| linear in the area | 29.358 ± 0.093 | +1.4 | +1.4 | +2.1 |
 <!-- /DICE -->
 
 ## Deliverable 1: the stepper [measured]
@@ -286,6 +297,11 @@ forecast of point 2: this is the named way that forecast can fail, and I could n
 
 ## Not checked
 
+- Dice chain: whether its offset from gump stays near +0.09 at 135 cells (the two blind sizes bound a drift only to
+  ± 0.001 per cell); convergence of the Metropolis sweeps (doubling NSWEEP) at any size; coins at the living density
+  instead of fair coins (the PI's suggestion; not tried); the chain itself by brute force beyond R = 11 (13.70 ± 0.06
+  there, 275 deaths); replications of one run share the 512 stationary lanes (64 generations apart), R = 17 has
+  three seeds (40 replications each), the calibration sizes one seed each.
 - Whether the −ln q(0.6) line continues beyond 108 cells: that is the forecast itself. It fails at 30 cells.
 - Levels at fixed density instead of fixed fractions of P̄; the same decomposition on wrapped faces (the test that
   would say whether the two prices differ only in the attempt rate).

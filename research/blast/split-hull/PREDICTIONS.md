@@ -135,3 +135,16 @@ TWIN 24; WBACK 12. No tuning on R = 13 or 15.
   **29.223 +- 0.014** (block 3); P(the sampler's value, with its own error e, lies within 2 sqrt(e^2 + 0.03^2) of
   it) = 70%. I expect e near 0.10 with the replications I can afford, which will not separate 29.230 from 29.163
   by itself (0.067 apart): P(e <= 0.035) = 10%.
+
+## Scores of block 4 (05:25 UTC)
+
+- "Within two errors at both R = 13 and R = 15" (55%): **yes**: +0.093 +- 0.065 and +0.079 +- 0.074 (48 replications each).
+- "The chain by brute force at R = 11 within 0.04 of 13.633" (75%): **no**: 13.70 +- 0.06 (275 deaths; +0.07, inside
+  its own error, outside my 0.04).
+- "The sampler's R = 17 value within 2 sqrt(e^2 + 0.03^2) of 29.223" (70%): the chain gives 29.453 +- 0.042 (120
+  replications). Raw: +0.230 against an allowance of 0.103: **no**. With the blind sizes' offset removed
+  (29.367 +- 0.065): +0.144 against 0.143: **no, by a hair**. I had not said which; both miss.
+- "e <= 0.035" (10%): no (0.042). "e near 0.10": it came out better, 0.042.
+- So the forecast of block 3 (29.223 +- 0.014) is 1.4 to 2.2 errors below what the dice chain says, depending on
+  how the chain's offset is read. If the chain is right and its offset is 0.09, the second difference of ln tau at
+  k = 8 is 0.83 +- 0.07, larger than 0.69, not smaller.
