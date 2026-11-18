@@ -20,3 +20,4 @@ window is not listed by the reading on this plan. Weekly windows reset 2026-11-1
 | 2026-11-18 06:53 | not listed | 91% | 97% (hull face-death subagent finished; this session takes no further turn it can avoid before the reset) |
 | 2026-11-18 07:55 | not listed | 93% | 99% (signals push 7 subagent finished, pushed at d34dbf5; its verify7 light pass is being rerun by this session) |
 | 2026-11-18 08:48 | not listed | 93% | 99% (verify7.py objects7.json --maxL 260 rerun by this session: ALL PASS, 52 min) |
+| 2026-11-18 08:52 | not listed | 94% | 99% (all three Opus subagents finished: dying2, dying2/hull, signals push 7; the two chains continue) |
