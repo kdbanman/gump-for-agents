@@ -65,3 +65,13 @@ event; I, J, F as before, fitted on 48, 57, 63 cells; forecasts at 75 and 84 fro
     torus 17.5387) the forecast from the tube's own living-state frequency of L0(0.74) and L1(0.70, 0.30A) with the
     WIDE faces' kill law lands within 0.08 of 17.54, i.e. misses the tube by about +0.2: the tube's discount is in
     the kill (boom's finding), not in the static term.
+
+## Third task, scored (06:00 UTC; numbers in STATIC.md)
+
+9. HIT: L1(0.70, 0.20A): d = 0.036 at 63 cells, J = 0.068.
+10. HALF: J = -0.0002 +- 0.0015 (size-independent, as guessed); but I = 0.250, 0.034 above the lifetime slope
+    (the share of deaths that quick falls with area): MISS on the static rate.
+11. MISS: with d and f held constant the 75-cell forecast from L2(0.70, 4 cells) is 16.69 (+1.04); 84 cells: 4 events.
+12. HIT: L1(0.70, 0.30A) gives 22.526 +- 0.075 at 108 cells (anchor 22.5405); the face alone at 0.70A gives 22.655.
+13. HIT: the tube's forecast from its own living state with the wide kill law is 17.550 and 17.527, the wide value
+    (17.5387), 0.21-0.23 above the tube's 17.3175.

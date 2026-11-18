@@ -85,3 +85,82 @@ ordinary state must be in the arrangement, not in the counts. [conjectured]
 - Boxes of other shapes (a half-space along the best linear direction would have more events than a corner).
 - The errors of I₄ (temporal correlation of box events assumed, not measured); fits use 2–3 sizes.
 - The 0.25 for "certain death" is an extrapolation of J₄(δ) to zero.
+
+---
+
+# Third task (05:46–06:05 UTC): does the remaining 0.057 vanish when the state includes its own next generations?
+
+The one-step-ahead population of the face is the face population one generation later, so the "look-ahead state"
+is the run of face populations (P(t), P(t+1), P(t+2), P(t+3)). Mode `ahead` of `rb.c` (binary `rba`, validated:
+`RB=rba python3 val.py 1 4 21 1000 [neg]`, `… 1 12 28 1000 [neg]`) counts it over every counted generation with
+P(t) ≥ 0.62·A (a future cut by the death is entered as zeros) and writes the same run for every launch.
+`sh run6.sh; sh run7.sh; python3 ah.py a48 a57 a63 a75 a84 a108` → `out_ahead.txt`; tube: `python3 ah.py a48 a57 a63
+atube84` → `out_ahead_tube.txt`. Fresh seeds 301–307; 73,269 / 10,425 / 4,871 / 370 / 38 / 0 deaths at 48 / 57 / 63 /
+75 / 84 / 108 cells. Events are anchored at t; d = chance that t is the launch of a death given the event; I, J, F
+as above, fitted on 48, 57, 63 cells; I + J + F = 0.2155 for every event (identity; these runs' lifetime slope).
+Layer 2's look-ahead N₂(t+1) was not measured.
+
+## Answer
+
+**No static event of the living face whose rarity is the price was found; and one is unlikely to exist in
+fractions of the area. But something more useful came out: the kill exponent of a face event is a constant out to
+108 cells, so a face's lifetime can be read from its living state without waiting for a death.**
+
+1. **In fractions of A the chance of death always falls with area** [measured, 48–84 cells]:
+
+| event | I (static) | J (kill) | d at 48, 57, 63, 75, 84 cells | share of launches |
+|---|---|---|---|---|
+| face ≥ 0.74·A | 0.088 | 0.129 | 0.005, 0.002, 0.001, … | 0.57 |
+| ≥ 0.70·A now, ≤ 0.30·A next | 0.091 | 0.122 | 0.014, 0.004, 0.002, … | 0.78 |
+| ≥ 0.70·A now, ≤ 0.20·A next (the PI's event) | 0.150 ± 0.001 | 0.068 ± 0.001 | 0.100, 0.054, 0.036, 0.016, 0.006 | 0.43 |
+| ≥ 0.70·A now, ≤ 0.10·A next | 0.236 ± 0.008 | 0.020 ± 0.004 | 0.52, 0.44, 0.36, 0.24 (28 events) | 0.06 → 0.03 |
+| ≥ 0.70·A now, ≤ 0.10·A two generations on | 0.181 ± 0.002 | 0.036 ± 0.001 | 0.37, 0.27, 0.22, 0.14, 0.09 | 0.47 |
+| ≥ 0.70·A now, ≤ 0.10·A three generations on | 0.169 ± 0.001 | 0.045 ± 0.001 | 0.31, 0.21, 0.16, 0.09, 0.06 | 0.72 |
+
+   "Over-full now and nearly empty next" is worth about what the four fillings were worth (I = 0.150, J = 0.068
+   against 0.166 + 0.057); a bust to a tenth of the face still leaves J = 0.020 and costs 0.236, more than the price.
+2. **In cells it does not** [measured]: given ≥ 0.70·A now and at most k cells two generations later, d = 0.81, 0.48,
+   0.24, 0.11 for k = 2, 4, 6, 8, the same at 48, 57 and 63 cells to 0.005 (J = 0.000 ± 0.002; 75 cells: 0.55 ± 0.05,
+   0.25, 0.11; 84 cells: 0.24, 0.11). **The death is decided when about four cells are left (even odds), not at the
+   launch and not at the bust.** But the static rate of these events is 0.270, 0.250, 0.235, 0.222: above the price,
+   because a larger face takes longer to come down to a handful and the share of deaths that are this quick falls
+   (dead within three generations of the launch: 17%, 13%, 11%, 8%, 5% of deaths at 48…84 cells). At three
+   generations and k = 4 the static rate is 0.216 ± 0.002, the lifetime slope itself, but by cancellation of
+   J = +0.005 and F = −0.006: an accident of this range of sizes. Without the lag it is the dip law already in the
+   notebook: a face spends T_k = 9.09, 9.15, 8.84, 9.29, 9.58 generations at 1–4 cells per death (48…84 cells;
+   k = 6: 19.9, 20.2, 20.0, 21.9, 23.5; k = 8 grows: 40, 43, 44, 49, 58). That event's rarity is the price because
+   it is the death itself, seen a few generations early; it is not a state of the living face.
+3. **Out of sample: the kill law is a constant, and the living state carries the rest** [measured]. With ln d and
+   ln f of an event fitted linearly in A on 48, 57, 63 cells, and the event's living-state frequency measured at the
+   target size:
+
+| event | 75 cells (15.6442) | 84 cells (17.5387) | 108 cells (22.5405); no death in the run |
+|---|---|---|---|
+| face ≥ 0.74·A | 15.676 ± 0.037 (+0.03) | 17.568 ± 0.050 (+0.03) | 22.575 ± 0.086 (+0.03) |
+| face ≥ 0.70·A | 15.702 ± 0.031 (+0.06) | 17.606 ± 0.042 (+0.07) | 22.655 ± 0.072 (+0.11) |
+| ≥ 0.70·A now, ≤ 0.30·A next (frozen as forecast 12) | 15.672 ± 0.032 (+0.03) | 17.554 ± 0.043 (+0.02) | 22.526 ± 0.075 (−0.01) |
+| ≥ 0.70·A now, ≤ 0.25·A next | 15.642 ± 0.035 (0.00) | 17.514 ± 0.049 (−0.02) | 22.429 ± 0.096 (−0.11) |
+| ≥ 0.70·A now, ≤ 0.20·A next | 15.624 ± 0.052 (−0.02) | 17.492 ± 0.085 (−0.05) | 22.40 ± 0.31 (−0.14; 105 events) |
+| ≥ 0.70·A now, ≤ 0.20·A two generations on | 15.654 ± 0.034 (+0.01) | 17.528 ± 0.049 (−0.01) | 22.488 ± 0.109 (−0.05) |
+| straight line through the anchors of 48, 57, 63 | 15.75 (+0.11) | 17.69 (+0.16) | 22.87 (+0.33) |
+| the same events with d held constant (purely static) | 12.5–14.0 | 13.2–15.3 | 15.2–18.6 |
+
+   In one formula, fitted on 48–63 cells only: **ln τ(A) = −ln ν_A(face ≥ 0.74·A) + 0.1273·A − 1.37**, where ν_A is
+   the fraction of generations a living face of A cells is that full (2.6·10⁻⁴ at 84 cells, 3.7·10⁻⁵ at 108: tens
+   of thousands of events in two minutes where there is no death at all). It gives 15.68, 17.57, 22.58 against
+   15.64, 17.54, 22.54. So over wide tori of 48–108 cells the kill costs a fixed 0.127–0.129 per cell, and the whole
+   bend of the price with size (0.2158 below 63 cells, 0.2087 above) is in the living state's frequency of an
+   over-full face. This is a measured kill law times a static frequency, not a derivation: J is fitted.
+4. **It does not carry over to a tube, and that locates the tube's discount** [measured]. The 84-cell tube
+   (1,12),(0,28), loop² 12, anchor 17.3175 (my run: 17.37 ± 0.13, 57 deaths): its face is over-full as often as the
+   wide torus's (532,132 generations at ≥ 0.74·A in 2·10⁹ against 522,723), so the same formula gives 17.550 ± 0.050
+   (face ≥ 0.74·A) and 17.527 ± 0.043 (≥ 0.70·A now, ≤ 0.30·A next): the wide value, 0.21–0.23 above the tube. **The
+   tube's discount of 0.22 is entirely in the kill**, as boom said; the living-state estimator is blind to it.
+
+## Not checked
+
+- N₂(t+1) and any look-ahead of the layers beneath; events mixing the four fillings with the look-ahead.
+- Why J is constant (it is fitted on three sizes, tori with loops² 16, 19, 21, and tested on three more).
+- The errors hold the fit's slope error and a factor 3 on the counting error of the events; no term for curvature.
+  The forecasts with the tighter events run low at 108 cells (−0.11 to −0.14), the loosest run high (+0.11, +0.15).
+- Tubes other than the one above; rimmed faces (a hull face has no hump of launches at all, boom §8).

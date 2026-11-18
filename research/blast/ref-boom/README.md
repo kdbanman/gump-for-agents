@@ -13,6 +13,10 @@ the lifetime slope of the sizes used (mine: 0.2154 ± 0.0011 against 0.2156 ± 0
 Second task (05:20–05:45 UTC): **`STATIC.md`** — is the price the static rarity of the four-layer over-full state?
 No: at the launch profile I₄ = 0.166 ± 0.003 per cell is static and J₄ = 0.057 ± 0.003 is still in the kill
 (`rb.c` mode `static`, binary `rbs`; `run5.sh`; `st.py` → `out_static.txt`).
+Third task (05:46–06:05 UTC), second half of `STATIC.md`: look-ahead events of the face (`rb.c` mode `ahead`,
+binary `rba`; `run6.sh`, `run7.sh`; `ah.py` → `out_ahead.txt`, `out_ahead_tube.txt`). No static event whose rarity is
+the price; but ln τ(A) = −ln ν_A(face ≥ 0.74·A) + 0.1273·A − 1.37, fitted on 48–63 cells, gives 75, 84 and 108 cells
+to 0.03 without a death, and misses the 84-cell tube by its whole discount (0.22).
 
 Files:
 - `rb.c`: stepper for the 8-layer slab torus (64 replicas, bit-sliced) with the statistics; modes `dump`, `run`,
