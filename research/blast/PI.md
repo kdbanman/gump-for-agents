@@ -48,7 +48,7 @@ after its own check; the PI never merges it.
   without warning: after every milestone bring this file up to date ("State"), and within 60,000 tokens of the
   threshold do it at once.
 
-## State (overwritten; last written 16:41 UTC 2026-11-18)
+## State (overwritten; last written 16:40 UTC 2026-11-18)
 
 - **The blast is closed.** The owner at about 14:55 UTC: "Anything to finish or document here? We can do another
   blast at a later date, but for now let's see what you found!" Nothing is running: no agent, no job. Start none
@@ -65,10 +65,14 @@ after its own check; the PI never merges it.
 - **For a later blast** (the PI's list): a thick corner-free strip by a sampler or on the card ((6 unit rows,
   L = 6), about 24; (5 unit rows, L = 7), about 23.6); the 126- and 132-cell tubes against block 7; the noisy
   chain's own offset at 84 cells by brute force (`prod_A_brute84.sh`); a referee for `noisy/` and for `strips/`;
-  the lead's outside audit of the night's report (`research/audit/REVIEW-blast.md`); T1 to T3 in Lean if the owner
-  allows the install.
-- Not done: the lead has recomputed nothing; `research/check.sh` not run on the blast; no figures. The pull
-  request's description says "second phase" but predates the final 108-cell numbers.
+  T1 to T3 in Lean if the owner allows the install; what the audit left unchecked (its section 9).
+- **Pull request 36 was merged at 14:17 UTC** (head db1791c) after the outside audit
+  (`research/audit/REVIEW-blast.md`: mechanism confirmed by a rebuild; three statements qualified, which
+  `REPORT.md` now carries in its entry of 16:40 UTC). The commits after the merge (the interim and final 108-cell
+  numbers, the audit entry, this state) are in a **second pull request** from the same branch, with `main` merged
+  in (no rebase, no force push). The lead merges it; this session does not.
+- Not done: `research/check.sh` not run on the blast; no figures; nothing of the second phase has been recomputed
+  by the lead or the audit.
 
 ## Results that are easy to misremember (all in `REPORT.md`)
 

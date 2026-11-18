@@ -16,9 +16,11 @@ corrected.
   three quarters full (33 → 48.8 of 63 cells), together with the layers beneath it. Then four in five of its live
   cells have six or more live neighbours and die, almost nothing is born, and one generation later about 11
   scattered cells are left over layers that have crashed with them. Usually the fragments rebuild the face; about
-  one time in 130 none of them is large enough, and the face is empty five to seven generations after it was
-  normal. It happens everywhere on the face at once: no hole, no front, no band. Nearly every death of a wrapped
-  face goes this way.
+  one time in 130 at 63 cells (one in 1,100 at 84, the outside audit's count) none of them is large enough, and
+  the face is empty five to seven generations after it was normal. The crash is everywhere on the face at once:
+  no hole, no front, no band in it. What it leaves is a dozen cells in clumps, and the order in which those go is
+  patterned in space in about half the deaths (the audit's correction to this report's first wording). Nearly
+  every death of a wrapped face goes this way.
 - **A hull face fades instead.** Its rim cells have 7 neighbours inside the vessel where an interior cell has 9, so
   they are rarely overcrowded; the face lives through an over-full generation and is back to normal one generation
   later. It dies by a lopsided fade of about ten generations (of the cells that die in it, 58% starve and 42% are
@@ -262,6 +264,35 @@ zero. So the interim verdict stands: **the method, as tuned, does not decide the
 135-cell runs were not started. Not checked, beyond the list above: the error bars at ε = 1/32 and 1/64 are not
 to be read as Gaussian (at 1/32 the value moved from 23.386 at 200 replications to 23.228 at 300, and one
 replication carries 11% of the summed rate); no second set of seeds; no referee.
+
+### 16:40 UTC. The outside audit of the night's report (`research/audit/REVIEW-blast.md`, on `main`; the lead's, not this session's)
+
+The pull request was merged at 14:17 UTC after an audit that rebuilt the night's main claims from the oracle with
+its own code (`research/audit/blast/`; 234,823 deaths of a 63-cell wrapped face, 281,631 of a 63-cell hull face,
+a wide face and a tube at 84 cells). Read by the PI at 16:40 UTC; nothing below is recomputed here.
+- [measured by the audit] **Confirmed:** boom and bust on wrapped faces at 63 and 84 cells (launch at 0.7376·A
+  against this report's 0.738; fall 48.79 → 11.24 against 48.83 → 11.18); the fade on the hull face; the cause
+  given for it, now cell by cell (in an over-full generation the hull's interior cells survive as rarely as a
+  wrapped face's, 0.34 and 0.33, and its rim row twice as often, 0.66); the exactly solved surrogate to every
+  digit recomputed; the tilt identity.
+- **Three statements of this report it qualifies, and the report now carries the qualification:**
+  1. "No hole, no front, no band" holds for the crash (the two halves of the face fall in the same generation in
+     88% of deaths at 63 cells, 92% at 84) and is too strong for what follows it: the cells' last-alive times are
+     patterned in space in about half the deaths. `anatomy/`'s own table had a plane beating shuffles in 32.5% of
+     deaths against 11.9% on a living face, and the report passed over it. The short version is reworded.
+  2. "About one bust in 130 kills" is the 63-cell number; at 84 cells it is one in 1,100. Item 1 below should be
+     read with that.
+  3. "The same number of survivors is deadlier after a bust" (0.334 against 0.236): the direction is confirmed,
+     the size is smaller under the audit's definition (0.311 against 0.260).
+- **What the audit says is not a result**, and this report agrees: the tube's asymptote 0.2004 and its K = 2 curve
+  and 0.0046·L² (refuted at 120 cells, the 13:21 entry above); the 192-cell and staggered-crash statements, which
+  rest on a surrogate that is 0.12 ± 0.05 off at 120 cells; "0.079 + 0.136" as parts of the price; the
+  living-state estimator beyond 108 cells; the 135-cell forecasts.
+- New from the audit: the chance that a face with k cells left dies is lower on the hull than on a wrapped face
+  under one definition (0.77, 0.50, 0.30 against 0.86, 0.64, 0.44 at k = 1, 2, 3), and neither the bust nor the
+  shared rim row accounts for it. That was "unreconciled" in this report; it is a fact with no explanation.
+- Not checked by the audit (its section 9): anything above 84 cells on gump; `rim/`, `split-hull/`, `ref-hull/`,
+  the dice chains and their samplers; and the whole of the second phase above, which it predates.
 
 ## What was found
 
