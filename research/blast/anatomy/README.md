@@ -15,7 +15,7 @@ the automaton's speed limit in a face is 1 unit per generation). Labels: **[meas
    scattered cells are left, and those starve within a few generations. From the last generation with a normal
    population to the first empty one takes 6 generations (3–10).
 2. **A rimmed hull face dies differently: a tilted fade of about 10 generations (5–16), by starvation** [measured,
-   45 and 63 cells; 84: E84H]. Only 1.6% of its deaths contain such a fall. A plane fitted to the last-alive times beats 95%
+   45, 63 and 84 cells]. Only 1.6% of its deaths contain such a fall. A plane fitted to the last-alive times beats 95%
    of shuffles in 77% of deaths, with a speed of 0.6 units per generation.
 3. **There is no band-first class on tubes** [measured]: a strip of width 1 right round the girth is finally empty
    4 generations before the last cell in 48–53% of deaths (loop² 12), no more often than a compact patch of the
@@ -24,8 +24,9 @@ the automaton's speed limit in a face is 1 unit per generation). Labels: **[meas
 4. **Where the shapes part, in 1/τ = ν(p)·q(p) at 63 cells** [measured]: a hull face reaches a quarter of its
    population 2.1 times as often as the wide torus, reaches 4 cells exactly as often (ratio e^(+0.035±0.01)), and
    from there dies 0.6 times as often (q(4) = 0.18 against 0.30): the whole 0.47 of ln τ is in the last four cells.
-   The same end-game ratio holds at 45/48 cells (0.197 against 0.326), so the end-game is a constant factor and
-   cannot be the source of the hull's higher price per cell (84 cells: E84).
+   The end-game does not depend on size: q(4) = 0.197, 0.183, 0.197 on hull faces of 45, 63, 84 cells and
+   0.326, 0.302, 0.287 on wrapped faces of 48, 63, 75, so it is a constant factor and cannot be the source of
+   the hull's higher price per cell.
    A loop²-9 tube against the wide torus is the opposite: all of its 0.31 is in the descent from 28 to 16 cells,
    none in the end-game.
 
@@ -44,7 +45,7 @@ the automaton's speed limit in a face is 1 unit per generation). Labels: **[meas
 | t84 | torus (1,4),(0,28), loops² 21, 28 | 84 | T84D | T84L | 17.5387 ± 0.0031 |
 | h45 | hull radius 9 | 45 | 14,365 | 9.8142 ± 0.0083 | 9.819 |
 | h63 | hull radius 11 | 63 | 7,390 | 13.6205 ± 0.0116 | 13.633 |
-| h84 | hull radius 13 | 84 | H84D | H84L | 18.141 ± 0.005 |
+| h84 | hull radius 13 | 84 | 117 | 18.0636 ± 0.0925 | 18.141 ± 0.005 |
 
 There is no loop²-12 lattice at 63 cells; the PI's "63" is answered at 54 and 60. The loop²-9 tube has a second
 way to end (the chaos is cut right across: three empty transverse layers) as frequent as face death; its ln τ
@@ -87,9 +88,9 @@ P = 32, 2.0 at P = 8 (living face 1.34); h63 1.8 at 32, 4.2 at 8 (living face 1.
 
 | | t48 | tube54 | tube60 | t63 | tube63 | t75 | t84 | h45 | h63 | h84 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| deaths with a one-generation fall of ≥ half the face | 0.572 | 0.565 | 0.567 | 0.590 | 0.512 | 0.601 | T84F | 0.022 | 0.016 | H84F |
-| the same in a 10-generation window of the living face | 0.0075 | 0.0050 | 0.0022 | 0.0015 | 0.0017 | 0.0009 | T84C | 0.0001 | 0.0000 | H84C |
-| largest one-generation fall, median (cells) | 25 | 28 | 31 | 32 | 31 | 39 | T84M | 10 | 13 | H84M |
+| deaths with a one-generation fall of ≥ half the face | 0.572 | 0.565 | 0.567 | 0.590 | 0.512 | 0.601 | T84F | 0.022 | 0.016 | 0 of 117 |
+| the same in a 10-generation window of the living face | 0.0075 | 0.0050 | 0.0022 | 0.0015 | 0.0017 | 0.0009 | T84C | 0.0001 | 0.0000 | 0.0000 |
+| largest one-generation fall, median (cells) | 25 | 28 | 31 | 32 | 31 | 39 | T84M | 10 | 13 | 16 |
 
 [measured, t63, the 4,659 deaths with such a fall] Population before the fall 48.5 (10–90%: 46–52; the stationary
 probability of P ≥ 46 is 0.0024, mean 32.6, s.d. 4.94), after it 11.6 (8–15); births in that generation 1.9; of
@@ -121,6 +122,19 @@ One class, not two (`out/fall_hist.txt`) [measured]: on t63 the largest one-gene
 32–36 cells; 90% of deaths contain a fall of ≥ 20 cells and 84% one of ≥ 24 (living face: 6.4% and 2.0% of
 10-generation windows); only 7% of deaths have no fall above 16. "Half the face" cuts this one hump in the middle.
 On h63 the hump sits at 12–16 cells (living face 8–12); 10% of deaths contain a fall of ≥ 24.
+
+A crude split of the price (`python3 split.py` → `out/split.txt`) [measured, small counts; tori and tubes mixed]:
+falls of ≥ half the face happen in the living face at ln(rate per generation) = −7.20 ± 0.10 (48 cells, 101
+falls), −7.60 ± 0.14 (54), −8.42 ± 0.24 (60), −8.80 ± 0.29 (63, 12 falls); the share of them that is fatal is
+e^−3.30, e^−4.16, e^−4.56, e^−4.88. From 48 to 63 cells each factor falls by about 0.107 per cell: half of the
+0.2145 per cell is the rarity of the fall, half the rarity of its leftover (8 of 48, 12 of 63, 14 of 75 cells)
+failing to rebuild. The end-game proper is not where the area enters: q(1) = 0.872, 0.862, 0.868 and
+q(4) = 0.326, 0.302, 0.287 at 48, 63, 75 cells.
+
+Not an artefact of a slab of 8 layers [measured]: the same 48-cell torus on a slab of 12 layers
+(`python3 validate.py slab 4 0 4 1100 12`, then `an slab_4_0_4_L12.bin run 41 0.4 300000 1000 23 128 100000 t48L12`,
+`python3 crash.py slab_4_0_4_L12 t48L12`): ln τ 9.9208 ± 0.0086, share with a fall of half the face 0.563
+(8 layers: 9.9383, 0.572), 37.3 → 8.4 cells in both.
 
 Cross-check on another agent's stepper [measured]: the natural-death records of `split-slab` for the same 48-cell
 torus (`research/scratch/blast/split-slab/paths_test.txt`, 1,268 deaths, read at 03:55 UTC; its populations by lag)
@@ -164,6 +178,10 @@ Lead of the best band: percentiles 10/50/90/99 = 2/4/8/13 (tube60); width of the
 torus control. The shares are large only because the whole death lasts six generations and half the cells of a
 living face are dead at any moment. **The band-first reading is dead at 54–60 cells.**
 
+Hull face of 84 cells (h84, 117 deaths; `out/h84.txt`) [measured]: fade of 10 generations (6–17), plane beats 95%
+of shuffles in 0.80 (living face 0.37), speed 0.79 (0.52–1.09), s.d. of T 3.24, starved for certain 35% (living
+face 16%), last cell on the rim line 0.51 ± 0.05 (0.44 by count × occupancy). The same death as at 63 cells.
+
 ## 4. Where the last cells sit on a hull face  (`deaths.py hull_11 h63`, 3,000 deaths)
 
 | where | cells | stationary occupancy | P(the last cell is here) | share by count × occupancy | ratio |
@@ -189,7 +207,7 @@ q(p) = share of them ending in death. Differences of logarithms against the wide
 | tube loop² 9: Δ ln ν | +0.02 | +0.18 | +0.44 | +0.61 | +0.56 | +0.40 | +0.32 | +0.31 | +0.31 | +0.31 |
 
 q itself: q(4) = 0.302 (t63), 0.183 (h63), 0.299 (tube63); q(1) = 0.862, 0.770, 0.864. At 45/48 cells:
-q(4) = 0.326 (t48), 0.197 (h45); q(1) = 0.872, 0.780. At 84 cells: Q84. [measured]
+q(4) = 0.326 (t48), 0.197 (h45); q(1) = 0.872, 0.780. At 75 cells (t75): q(4) = 0.287, q(1) = 0.868; at 84 cells (h84, 117 deaths): q(4) = 0.197, q(1) = 0.785. [measured]
 The end-game is the same game on every wrapped face and a different, easier-to-survive game on a rimmed one, by a
 size-independent factor. A hull face is *easier* to bring down to a quarter (its P has mean 31.25, s.d. 5.24,
 against 32.58, 4.94), and all of its extra lifetime at 63 cells is won back below 8 cells.
