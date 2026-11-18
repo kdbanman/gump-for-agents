@@ -19,7 +19,7 @@ import oracle
 H, K, D, gens = map(int, sys.argv[1:5])
 neg = len(sys.argv) > 5
 A = 3 * H * D; N = 8 * A
-out = subprocess.run([os.path.join(here, 'rb'), 'dump', str(H), str(K), str(D), '7', str(gens)] + (['neg'] if neg else []),
+out = subprocess.run([os.path.join(here, os.environ.get('RB', 'rb')), 'dump', str(H), str(K), str(D), '7', str(gens)] + (['neg'] if neg else []),
                      capture_output=True, text=True, check=True).stdout.split('\n')
 assert list(map(int, out[0].split())) == [H, K, D, A, N]
 geo = np.array([list(map(int, l.split())) for l in out[1:1 + N]])

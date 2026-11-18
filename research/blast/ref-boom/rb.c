@@ -3,6 +3,9 @@
 // Written from docs/AUTOMATON.md and reference/oracle.py alone. 64 replicas, bit-sliced.
 //   rb dump H K D seed gens [neg]      geometry + trajectory of replica 3 (for val.py)
 //   rb run  H K D seed Mfacegens out   statistics of launches (see REVIEW.md)
+//   rb static H K D seed Mfacegens out   the same as run, plus: out.h4 (4D histogram of the populations of layers 1-4 over all
+//                                        counted face-generations with face >= 0.62 A), out.ll (layers 1-4 at launch-2, launch-1,
+//                                        launch of every death), out.smp (layers 1-4 of every face every 512 generations)
 //   rb island H K D seed Mfacegens out   the same, plus the island experiment (binary rbi; see below)
 #include <stdio.h>
 #include <stdlib.h>
@@ -109,11 +112,13 @@ static void island(const u64 *s, int r, int f, int q) {
 static long Np[128], Lp[128], dur[R + 2], profDn[128][5], profCn[128];
 static double profD[128][5][4], profC[128][4][4], normS[4], normS2[4];
 static long normN;
+// ---- static mode: joint law of the four top layer populations in the corner where deaths launch
+static int stat = 0, lo1, lo2, lo3, lo4, n1, n2, n3, n4; static unsigned *H4; static long Hout; static FILE *fl, *fs;
 static double lifeS, lifeS2; static long lifeN, lifeH[40];
 int main(int argc, char **argv) {
   if (argc < 7) { fprintf(stderr, "usage\n"); return 2; }
   H = atoi(argv[2]); K = atoi(argv[3]); D = atoi(argv[4]); rs = strtoull(argv[5], 0, 10) * 0x2545F4914F6CDD1DULL + 12345;
-  int dump = !strcmp(argv[1], "dump"); isl = !strcmp(argv[1], "island");
+  int dump = !strcmp(argv[1], "dump"); isl = !strcmp(argv[1], "island"); stat = !strcmp(argv[1], "static");
   build(dump && argc > 7 && !strcmp(argv[7], "neg"));
   memset(ring, 0, sizeof ring);
   for (int r = 0; r < 64; r++) reinit(ring[0], r);
@@ -136,11 +141,15 @@ int main(int argc, char **argv) {
   for (int r = 0; r < 64; r++) { burn[r] = BURN; born[r] = 0; for (int f = 0; f < 2; f++) { lastP[r][f] = 0; prevP[r][f] = 0; lastT[r][f] = 0; } }
   static u64 snap[MAXN + 1]; memcpy(snap, ring[0], sizeof snap);
   long t = 0, E = 0, deaths = 0, old = 0, nper = 0, burnfail = 0;
-  u64 pl0[7], pl1[7];
+  u64 pl0[7], pl1[7], plm[6][7];
+  if (stat) { char nm[600]; lo1 = (int)(0.62 * A); lo2 = (int)(0.45 * A); lo3 = (int)(0.38 * A); lo4 = (int)(0.33 * A);
+    n1 = A - lo1 + 1; n2 = A - lo2 + 1; n3 = A - lo3 + 1; n4 = A - lo4 + 1; H4 = calloc((size_t)n1 * n2 * n3 * n4, sizeof(unsigned));
+    snprintf(nm, 600, "%s.ll", out); fl = fopen(nm, "w"); snprintf(nm, 600, "%s.smp", out); fs = fopen(nm, "wb"); }
   while (E < target) {
     u64 *nxt = ring[(t + 1) & 63];
     step(ring[t & 63], nxt); t++;
     cnt(nxt, 0, pl0); cnt(nxt, 7 * A, pl1);
+    if (stat) for (int l = 1; l <= 6; l++) cnt(nxt, l * A, plm[l - 1]);
     u64 kill = 0, live = 0;
     for (int r = 0; r < 64; r++) {
       int p[2] = { ext(pl0, r), ext(pl1, r) };
@@ -154,6 +163,8 @@ int main(int argc, char **argv) {
       live |= 1ULL << r;
       for (int f = 0; f < 2; f++) {
         Np[p[f]]++;
+        if (stat && p[f] >= lo1) { int q2 = ext(plm[f ? 5 : 0], r), q3 = ext(plm[f ? 4 : 1], r), q4 = ext(plm[f ? 3 : 2], r);
+          if (q2 >= lo2 && q3 >= lo3 && q4 >= lo4) H4[(((size_t)(p[f] - lo1) * n2 + (q2 - lo2)) * n3 + (q3 - lo3)) * n4 + (q4 - lo4)]++; else Hout++; }
         if (p[f] > 0) E++;
         if (p[f] >= L) { lastT[r][f] = t; lastP[r][f] = p[f]; }
         else if (p[f] == 0) {
@@ -162,6 +173,7 @@ int main(int argc, char **argv) {
             int k = 0; while ((1L << (k + 1)) <= t - born[r] && k < 39) k++; lifeH[k]++; }
           Lp[lp]++; dur[d < R ? d : R]++;
           if (d <= R - 5) {
+            if (stat) { for (int lag = -2; lag <= 0; lag++) for (int k = 0; k < 4; k++) fprintf(fl, "%d ", lpop(tl + lag, f ? 7 - k : k, r)); fprintf(fl, "\n"); }
             for (int lag = -2; lag <= 2; lag++) { long tt = tl + lag; if (tt > t) continue;
               for (int k = 0; k < 4; k++) profD[lp][lag + 2][k] += lpop(tt, f ? 7 - k : k, r);
               profDn[lp][lag + 2]++; }
@@ -178,6 +190,9 @@ int main(int argc, char **argv) {
       prevP[r][0] = p[0]; prevP[r][1] = p[1];
     }
     if (isl && isPar[0] >= ISCAP && isPar[1] >= ISCAP && isPar[2] >= ISCAP) break;
+    if (stat && (t & 511) == 0) for (int r = 0; r < 64; r++) if (((live >> r) & 1) && !((kill >> r) & 1)) for (int f = 0; f < 2; f++) {
+      unsigned char b[4] = { (unsigned char)ext(f ? pl1 : pl0, r), (unsigned char)ext(plm[f ? 5 : 0], r), (unsigned char)ext(plm[f ? 4 : 1], r), (unsigned char)ext(plm[f ? 3 : 2], r) };
+      fwrite(b, 1, 4, fs); }
     if ((t & 31) == 0) {
       live &= ~kill;
       for (int k = 0; k < 4; k++) { long sm = 0;
@@ -204,6 +219,8 @@ int main(int argc, char **argv) {
     fprintf(fo, "C %d %d %ld %.0f %.0f %.0f %.0f\n", p, lg - 2, profCn[p], profC[p][lg][0], profC[p][lg][1], profC[p][lg][2], profC[p][lg][3]);
   if (isl) for (int b = 0; b < 3; b++) { fprintf(fo, "IC %d %ld %ld %ld over %ld\n", b, isPar[b], isC[b][0], isC[b][1], isOver);
     for (int z = 1; z <= A; z++) if (isN[b][z]) fprintf(fo, "I %d %d %ld %ld %ld\n", b, z, isN[b][z], isF[b][z], isU[b][z]); }
+  if (stat) { char nm[600]; snprintf(nm, 600, "%s.h4", out); FILE *fh = fopen(nm, "wb"); fwrite(H4, sizeof(unsigned), (size_t)n1 * n2 * n3 * n4, fh); fclose(fh);
+    fprintf(fo, "H4 %d %d %d %d %d %d %d %d %ld\n", lo1, lo2, lo3, lo4, n1, n2, n3, n4, Hout); fclose(fl); fclose(fs); }
   fprintf(fo, "T %ld %.6e %.6e\n", lifeN, lifeS, lifeS2);
   for (int k = 0; k < 40; k++) if (lifeH[k]) fprintf(fo, "TH %d %ld\n", k, lifeH[k]);
   fprintf(fo, "M %ld %.0f %.0f %.0f %.0f\n", normN, normS[0], normS[1], normS[2], normS[3]);

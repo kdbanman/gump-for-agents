@@ -20,3 +20,21 @@
 3. HIT (profile within 0.006 everywhere beneath the face); MISS (the under-fill before a fatal launch is 0.035,
    0.052, 0.040 of A, of which only 0.007, 0.017, 0.010 is generic).
 4. HIT (48 cells +0.6 s.e.; 63 cells −0.1 pooled, single runs −1.8 and +1.6).
+
+## Second task (static rarity of the four-layer state): frozen 05:28 UTC, before any static run was analysed
+
+Procedure, fixed now. Boxes B_δ = {x_k ≥ m_k − δ for k = 1..4}, m = (0.738, 0.637, 0.562, 0.504), δ = 0 … 0.10 in
+steps of 0.02; ln P_A(B) by multilinear interpolation of ln P over the integer thresholds. d₄(B) = launches in B /
+generations in B; f(B) = share of all launches in B. Forecast: ln τ(A′) = −ln P_A′(B) − ln d₄(B; A′) + ln f(B; A′),
+with ln d₄ and ln f extrapolated linearly in A from 48, 57, 63 cells (constant if the slope is within 2 s.e. of 0),
+and P_A′(B) measured at A′ by plain running. The box used for the forecast is the loosest δ whose d₄-slope J₄ is
+smallest in absolute value among boxes with at least 200 living-state events at A′.
+
+Guesses:
+5. (p = 0.6) d₄ in the box at the launch profile (δ = 0) is between 0.03 and 0.5 at 63 cells, not near 1.
+6. (p = 0.65) J₄ at δ = 0 is below 0.05 per cell (against J = 0.136 for the face alone): most of the price moves
+   into the static rarity of the four-layer state. (p = 0.5) J₄ < 0.02.
+7. (p = 0.5) the out-of-sample forecast at 75 cells lands within 0.15 of 15.66; (p = 0.3) at 84 cells within 0.25
+   of 17.54; (p = 0.2) at 108 cells within 0.5 of 22.54 (the boxes reachable at 108 will be too loose).
+8. (p = 0.6) no statistic of the four fillings one generation earlier predicts a fatal launch with a lift above 10
+   at the top 1% of living states.
