@@ -6,7 +6,7 @@
  *
  *   fd VESSEL trace INIT GENS OUT            replica 0 from the cells listed in INIT; OUT: its state, n bits a row,
  *                                            generations 0..GENS (the check against reference/oracle.py, geom.py)
- *   fd VESSEL run SEED GENS PREFIX THR [MAXD=40000] [OSUB=16] [RSUB=1009] [BURN=1000] [U0=32]
+ *   fd VESSEL run SEED GENS PREFIX THR [MAXD=40000] [OSUB=16] [RSUB=1009] [BURN=1000] [U0=32] [FALL]
  *
  * PREFIX.sum (text): exposure, deaths, and, in ordinary time (every 8th generation, replicas of age >= BURN):
  *   H p count          face-layer population p
@@ -15,6 +15,9 @@
  *   Q U m count        dips (from the first generation below U cells after one with >= U, to the next with >= U)
  *                      that recovered and whose minimum was m cells (m <= 7); U = U0 and U0 + 1.  The chance that a
  *                      dip reaching <= k cells ends in death is deaths / (deaths + sum of Q over m <= k).
+ *   QB U b m count     the same split by b = 1 if the dip held a one-generation fall of >= FALL cells (its first
+ *                      generation counts: the fall that took the face below U), else 0;
+ *   DB U b count       the deaths, split the same way.  FALL = ceil(0.4 A) unless given.
  * PREFIX.rec (binary): records of the last RING = 32 generations of one replica about one face:
  *   'D' a death (the last row is the empty generation), at most MAXD of them;
  *   'O' the face layer held >= THR cells 16 generations before the last row and no face of the replica died since
@@ -139,6 +142,8 @@ int main(int argc, char **argv) {
   uint32_t burn = argc > 10 ? (uint32_t)atoi(argv[10]) : 1000;
   int U[2]; U[0] = argc > 11 ? atoi(argv[11]) : 32; U[1] = U[0] + 1;
   static v8 armed[2][64]; static uint8_t lowmin[2][64][NREP]; static u64 Q[2][8];
+  static v8 pprev[64][8], fell[2][64]; static u64 QB[2][2][8], DB[2][2];
+  int FALL = argc > 12 ? atoi(argv[12]) : (int)(0.4 * lsz[0][0] + 0.999);
   memset(lowmin, 255, sizeof lowmin);
   char path[1024]; snprintf(path, sizeof path, "%s.rec", prefix); rec = fopen(path, "wb");
   if (!rec) { perror(path); return 1; }
@@ -169,16 +174,28 @@ int main(int argc, char **argv) {
       v8 any = p[0] | p[1] | p[2] | p[3] | p[4] | p[5] | p[6] | p[7];
       for (int w = 0; w < 8; w++) { fdead[f][w] = ~any[w]; dead[w] |= ~any[w]; }
       v8 low = ~(p[3] | p[4] | p[5] | p[6] | p[7]);          /* at most 7 cells */
+      v8 bigfall;                                            /* previous population >= this one + FALL */
+      { v8 c = (v8){0}, gt = (v8){0}, eq = ~(v8){0}, sum[9];
+        for (int b = 0; b < 8; b++) { v8 fb = ((FALL >> b) & 1) ? ~(v8){0} : (v8){0};
+          v8 t = p[b] ^ fb; sum[b] = t ^ c; c = (p[b] & fb) | (t & c); }
+        sum[8] = c;
+        eq &= ~sum[8];                                       /* this + FALL >= 256: never reached */
+        for (int b = 7; b >= 0; b--) { gt |= eq & pprev[f][b] & ~sum[b]; eq &= ~(pprev[f][b] ^ sum[b]); }
+        bigfall = gt | eq;
+        for (int b = 0; b < 8; b++) pprev[f][b] = p[b]; }
       for (int u = 0; u < 2; u++) {
         v8 gt = (v8){0}, eq = ~(v8){0};
         for (int b = 7; b >= 0; b--) { if ((U[u] >> b) & 1) eq &= p[b]; else { gt |= eq & p[b]; eq &= ~p[b]; } }
         v8 ge = gt | eq, hit = ge & armed[u][f];
         for (int w = 0; w < 8; w++) for (u64 m = hit[w]; m; m &= m - 1) {
           int r = w * 64 + __builtin_ctzll(m);
-          if (age[r] >= burn && lowmin[u][f][r] >= 1 && lowmin[u][f][r] <= 7) Q[u][lowmin[u][f][r]]++;
+          if (age[r] >= burn && lowmin[u][f][r] >= 1 && lowmin[u][f][r] <= 7) {
+            Q[u][lowmin[u][f][r]]++; QB[u][(fell[u][f][w] >> (r & 63)) & 1][lowmin[u][f][r]]++;
+          }
           lowmin[u][f][r] = 255;
         }
         armed[u][f] = (armed[u][f] & ~ge) | low;
+        fell[u][f] = (fell[u][f] | bigfall) & ~ge;
         for (int w = 0; w < 8; w++) for (u64 m = low[w]; m; m &= m - 1) {
           int s = __builtin_ctzll(m), r = w * 64 + s;
           int c = (int)((p[0][w] >> s) & 1) | (int)((p[1][w] >> s) & 1) << 1 | (int)((p[2][w] >> s) & 1) << 2;
@@ -216,6 +233,7 @@ int main(int argc, char **argv) {
       if (age[r] >= burn) {
         for (int f = 0; f < nf; f++) if ((fdead[f][w] >> s) & 1) {
           deaths++;
+          for (int u = 0; u < 2; u++) DB[u][(fell[u][f][w] >> s) & 1]++;
           for (int lag = 1; lag < RING; lag++) {
             const v8 *st = ring[(g - lag) % RING]; int c = 0;
             for (int k = 0; k < A; k++) c += bitof(st, lc[f][0][k], r);
@@ -225,7 +243,7 @@ int main(int argc, char **argv) {
         }
       } else young++;
       reseed(cur, r); age[r] = 0; lifeid[r]++;
-      for (int u = 0; u < 2; u++) for (int f = 0; f < nf; f++) { armed[u][f][w] &= ~(1ULL << s); lowmin[u][f][r] = 255; }
+      for (int u = 0; u < 2; u++) for (int f = 0; f < nf; f++) { armed[u][f][w] &= ~(1ULL << s); fell[u][f][w] &= ~(1ULL << s); lowmin[u][f][r] = 255; }
       for (int i = 0; i < n; i++) setbit(snap, i, r, !bitof(cur, i, r));      /* never equal to the old snapshot */
     }
     if (g % 840 == 0) {
@@ -233,7 +251,7 @@ int main(int argc, char **argv) {
       for (int i = 0; i < n; i++) d |= cur[i] ^ snap[i];
       for (int r = 0; r < NREP; r++) if (!((d[r >> 6] >> (r & 63)) & 1)) {
         settled++; reseed(cur, r); age[r] = 0; lifeid[r]++;
-        for (int u = 0; u < 2; u++) for (int f = 0; f < nf; f++) { armed[u][f][r >> 6] &= ~(1ULL << (r & 63)); lowmin[u][f][r] = 255; }
+        for (int u = 0; u < 2; u++) for (int f = 0; f < nf; f++) { armed[u][f][r >> 6] &= ~(1ULL << (r & 63)); fell[u][f][r >> 6] &= ~(1ULL << (r & 63)); lowmin[u][f][r] = 255; }
       }
       memcpy(snap, cur, sizeof(v8) * (n + 1));
     }
@@ -252,6 +270,10 @@ int main(int argc, char **argv) {
   for (int p = 0; p < MAXP; p++) for (int s = 0; s < MAXP; s++) if (K[p][s]) fprintf(o, "K %d %d %llu\n", p, s, (unsigned long long)K[p][s]);
   for (int lag = 1; lag < RING; lag++) for (int p = 0; p < MAXP; p++) if (L[lag][p]) fprintf(o, "L %d %d %llu\n", lag, p, (unsigned long long)L[lag][p]);
   for (int u = 0; u < 2; u++) for (int m = 1; m < 8; m++) fprintf(o, "Q %d %d %llu\n", U[u], m, (unsigned long long)Q[u][m]);
+  for (int u = 0; u < 2; u++) for (int b = 0; b < 2; b++) {
+    fprintf(o, "DB %d %d %llu fall %d\n", U[u], b, (unsigned long long)DB[u][b], FALL);
+    for (int m = 1; m < 8; m++) fprintf(o, "QB %d %d %d %llu\n", U[u], b, m, (unsigned long long)QB[u][b][m]);
+  }
   fclose(o);
   return 0;
 }

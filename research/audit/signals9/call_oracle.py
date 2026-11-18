@@ -55,7 +55,7 @@ def call(ks):
         for c in CALL:
             X.make(c); L.make(c)
         sx = X.cells(); dist = X.image_distance()
-        union_bad = []; st_bad = []; line_rest_from = None; final_from = None; train_from = None; lead0 = None
+        union_bad = []; st_bad = []; line_rest_from = None; final_from = None; train_at = []; lead_bad = []
         empty = wire('7' * N, first=first)
         for t in range(T + 1):
             if t == T_E1:
@@ -71,30 +71,28 @@ def call(ks):
                 line_rest_from = None
             if t % 2 == 0:
                 w = letters(v, N, first)
-                exact = v == wire(w.replace('?', '7'), first=first) and '?' not in w
                 bs = [i for i, ch in enumerate(w) if ch == 'b']
-                train = exact and set(w) <= set('7b') and len(bs) == k and all(q - p == 2 for p, q in zip(bs, bs[1:]))
-                if train:
-                    if train_from is None:
-                        train_from = t; lead0 = first + bs[0] + (t - 28) // 2
-                    if first + bs[0] + (t - 28) // 2 != lead0:
-                        train_from = -1
-                elif train_from is not None and final_from is None and not (exact and set(w) <= set('7b')):
-                    pass
+                if v == wire(w.replace('?', '7'), first=first) and set(w) <= set('7b') and len(bs) == k and \
+                        all(q - p == 2 for p, q in zip(bs, bs[1:])):
+                    train_at.append(t)
+                    if first + bs[0] != CROSS + 3 - (t - 28) // 2:
+                        lead_bad.append(t)
                 if v == empty:
                     final_from = t if final_from is None else final_from
                 else:
                     final_from = None
             if t < T:
                 X.step(); V.step(); L.step(); sx = run(sx, 1)
-        say(not union_bad and not st_bad and train_from == 2 * k + 34 and final_from is not None and line_rest_from is not None
-            and lead0 == CROSS + 3,
+        t_last = 28 + 2 * (CROSS + 3 - first)       # the last even generation with the leading pulse on the wire
+        want = list(range(2 * k + 34, t_last + 1, 2))
+        say(not union_bad and not st_bad and train_at == want and not lead_bad and final_from is not None
+            and line_rest_from == 42,
             f'k = {k}: X(t) = V(t) + Lf(t) at every generation 0..{T} (differences: {union_bad[:6]}); st9 = oracle '
-            f'(differences: {st_bad[:6]}); the store is plain wire with exactly {k} units b two apart at every even '
-            f'generation from {train_from} (2k + 34 = {2 * k + 34}) until the cap takes them, the leading one at unit '
-            f'{lead0} - (t - 28)/2 (CROSS + 3 = {CROSS + 3}); the line is at rest from {line_rest_from}; the whole state is '
-            f'the empty cell + the line at rest from {final_from}; N = {N}, torus {X.shape}, nearest image {dist}; '
-            f'{time.time() - t0:.0f} s')
+            f'(differences: {st_bad[:6]}); the store is exactly plain wire with {k} units b two apart, the leading one at '
+            f'unit {CROSS + 3} - (t - 28)/2, at every even generation {want[0]}..{want[-1]} (2k + 34 until the lead '
+            f'reaches the cap) and at no earlier one: {train_at == want and not lead_bad}; the line is at rest from '
+            f'{line_rest_from}; the whole state is the empty cell + the line at rest from {final_from}; N = {N}, '
+            f'torus {X.shape}, nearest image {dist}; {time.time() - t0:.0f} s')
 
 
 def expect(o, t, words, lines, firsts, offs, what):

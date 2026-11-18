@@ -1,0 +1,128 @@
+# a set under way: R@CROSS-a and L@CROSS+a+3 at generation 0 (they stop each other at CROSS + 1, CROSS + 2); CALL at 0
+set a = 2                                      store           out 1  7^64
+set a = 3                                      store           out 1  7^64
+set a = 4                                      store           out 1  7^64
+set a = 5                                      store           out 1  7^64
+set a = 6                                      store           out 1  7^64
+set a = 7                                      store           out 1  7^64
+set a = 8                                      store           out 1  7^64
+set a = 9                                      store           out 1  7^64
+set a = 10                                     store           out 1  7^64
+set a = 11                                     store           out 1  7^64
+set a = 12                                     store           out 1  7^64
+set a = 13                                     store           out 1  7^64
+set a = 14                                     standing-other  out 2  174 cells, line changed
+set a = 15                                     store           out 0  7^32 d f 7^30
+set a = 16                                     store           out 0  7^32 d f 7^30
+set a = 17                                     store           out 0  7^32 d f 7^30
+set a = 18                                     store           out 0  7^32 d f 7^30
+set a = 19                                     store           out 0  7^32 d f 7^30
+set a = 20                                     store           out 0  7^32 d f 7^30
+set a = 21                                     store           out 0  7^32 d f 7^30
+set a = 22                                     store           out 0  7^32 d f 7^30
+set a = 23                                     store           out 0  7^32 d f 7^30
+set a = 24                                     store           out 0  7^32 d f 7^30
+set a = 25                                     store           out 0  7^32 d f 7^30
+set a = 26                                     store           out 0  7^32 d f 7^30
+# an add under way: armed d^k f, L@(edge + a) at generation 0; CALL at 0
+add k = 1 a = 2                                store           out 2  7^64
+add k = 1 a = 3                                store           out 2  7^64
+add k = 1 a = 4                                store           out 2  7^64
+add k = 1 a = 5                                store           out 2  7^64
+add k = 1 a = 6                                store           out 2  7^64
+add k = 1 a = 7                                store           out 2  7^64
+add k = 1 a = 8                                store           out 2  7^64
+add k = 1 a = 9                                store           out 2  7^64
+add k = 1 a = 10                               store           out 2  7^64
+add k = 1 a = 11                               store           out 2  7^64
+add k = 1 a = 12                               store           out 2  7^64
+add k = 1 a = 13                               store           out 2  7^64
+add k = 1 a = 14                               store           out 2  7^64
+add k = 1 a = 15                               store           out 2  7^64
+add k = 1 a = 16                               store           out 2  7^64
+add k = 1 a = 17                               store           out 2  7^64
+add k = 1 a = 18                               store           out 2  7^64
+add k = 1 a = 19                               store           out 2  7^64
+add k = 1 a = 20                               store           out 2  7^64
+add k = 1 a = 21                               store           out 2  7^64
+add k = 1 a = 22                               store           out 2  7^64
+add k = 1 a = 23                               store           out 2  7^64
+add k = 1 a = 24                               store           out 2  7^64
+add k = 1 a = 25                               store           out 2  7^64
+add k = 1 a = 26                               store           out 2  7^64
+add k = 2 a = 2                                store           out 3  7^64
+add k = 2 a = 3                                store           out 3  7^64
+add k = 2 a = 4                                store           out 3  7^64
+add k = 2 a = 5                                store           out 3  7^64
+add k = 2 a = 6                                store           out 3  7^64
+add k = 2 a = 7                                store           out 3  7^64
+add k = 2 a = 8                                store           out 3  7^64
+add k = 2 a = 9                                store           out 3  7^64
+add k = 2 a = 10                               store           out 3  7^64
+add k = 2 a = 11                               store           out 3  7^64
+add k = 2 a = 12                               store           out 3  7^64
+add k = 2 a = 13                               store           out 3  7^64
+add k = 2 a = 14                               store           out 3  7^64
+add k = 2 a = 15                               store           out 3  7^64
+add k = 2 a = 16                               store           out 3  7^64
+add k = 2 a = 17                               store           out 3  7^64
+add k = 2 a = 18                               store           out 3  7^64
+add k = 2 a = 19                               store           out 3  7^64
+add k = 2 a = 20                               store           out 3  7^64
+add k = 2 a = 21                               store           out 3  7^64
+add k = 2 a = 22                               store           out 3  7^64
+add k = 2 a = 23                               store           out 3  7^64
+add k = 2 a = 24                               store           out 3  7^64
+add k = 2 a = 25                               store           out 3  7^64
+add k = 2 a = 26                               store           out 3  7^64
+add k = 3 a = 2                                store           out 4  7^64
+add k = 3 a = 3                                store           out 4  7^64
+add k = 3 a = 4                                store           out 4  7^64
+add k = 3 a = 5                                store           out 4  7^64
+add k = 3 a = 6                                store           out 4  7^64
+add k = 3 a = 7                                store           out 4  7^64
+add k = 3 a = 8                                store           out 4  7^64
+add k = 3 a = 9                                store           out 4  7^64
+add k = 3 a = 10                               store           out 4  7^64
+add k = 3 a = 11                               store           out 4  7^64
+add k = 3 a = 12                               store           out 4  7^64
+add k = 3 a = 13                               store           out 4  7^64
+add k = 3 a = 14                               store           out 4  7^64
+add k = 3 a = 15                               store           out 4  7^64
+add k = 3 a = 16                               store           out 4  7^64
+add k = 3 a = 17                               store           out 4  7^64
+add k = 3 a = 18                               store           out 4  7^64
+add k = 3 a = 19                               store           out 4  7^64
+add k = 3 a = 20                               store           out 4  7^64
+add k = 3 a = 21                               store           out 4  7^64
+add k = 3 a = 22                               store           out 4  7^64
+add k = 3 a = 23                               store           out 4  7^64
+add k = 3 a = 24                               store           out 4  7^64
+add k = 3 a = 25                               store           out 4  7^64
+add k = 3 a = 26                               store           out 4  7^64
+add k = 5 a = 2                                store           out 6  7^64
+add k = 5 a = 3                                store           out 6  7^64
+add k = 5 a = 4                                store           out 6  7^64
+add k = 5 a = 5                                store           out 6  7^64
+add k = 5 a = 6                                store           out 6  7^64
+add k = 5 a = 7                                store           out 6  7^64
+add k = 5 a = 8                                store           out 6  7^64
+add k = 5 a = 9                                store           out 6  7^64
+add k = 5 a = 10                               store           out 6  7^64
+add k = 5 a = 11                               store           out 6  7^64
+add k = 5 a = 12                               store           out 6  7^64
+add k = 5 a = 13                               store           out 6  7^64
+add k = 5 a = 14                               store           out 6  7^64
+add k = 5 a = 15                               store           out 6  7^64
+add k = 5 a = 16                               store           out 6  7^64
+add k = 5 a = 17                               store           out 6  7^64
+add k = 5 a = 18                               store           out 6  7^64
+add k = 5 a = 19                               store           out 6  7^64
+add k = 5 a = 20                               store           out 6  7^64
+add k = 5 a = 21                               store           out 6  7^64
+add k = 5 a = 22                               store           out 6  7^64
+add k = 5 a = 23                               store           out 6  7^64
+add k = 5 a = 24                               store           out 6  7^64
+add k = 5 a = 25                               store           out 6  7^64
+add k = 5 a = 26                               store           out 6  7^64
+# 82 s
