@@ -5,8 +5,9 @@ Investigator `ref-anatomy`, 2026-11-18, 04:20–04:55 UTC. Labels: **[measured]*
 
 ## The answer
 
-**No for the price, yes for the route and for the order of the shapes.** A chain on (P, B) with the measured
-one-step mean and covariance and Gaussian noise, nothing fitted:
+**Not quite for the price (0.161 per cell with Gaussian noise, 0.186–0.191 with the jump's measured law; gump
+0.2087), yes for the route and for the order of the shapes.** A chain on (P, B) with the measured one-step mean
+and covariance and Gaussian noise, nothing fitted:
 
 - finds the right route on a wrapped face by itself: a face at its normal filling over an *under-full* layer
   beneath, one jump up of both layers, the fall, then starvation: (33,25) → (46,42) → (16,7) → … (measured means:
@@ -25,8 +26,9 @@ point, taken at equal fillings (0.73, 0.667) on every size, the measured one-ste
 smaller than the Gaussian's by e^−0.42, e^−0.76, e^−1.19 at 48, 63, 84 cells (on the quadrant beyond it: 0.69,
 1.12, 1.65): an excess that grows by **0.022–0.027 per cell**, i.e. a jump exponent about 1.22 times the Gaussian's
 in the limit (`model` found 1.27 for the stationary tail). With the measured jump in place of the Gaussian one the
-minimum action rises by **0.186–0.191 per cell** (48–84 cells; 0.193–0.197 between 63 and 84): **9–11% short**.
-The rest is not located. It is *not* depth, at least not in the jump: the fatal surge fills five layers (48.8,
+minimum action rises by **0.186–0.191 per cell** (48–84 cells; 0.193–0.197 between 63 and 84): **9–11% short** before the smaller corrections.
+The fall itself obeys the Gaussian to 0.08 nats (measured from a box on the peak), and each size's own living map
+adds 0.0075 per cell; a ledger of all the measured corrections (§4) sums to 0.200–0.207. Depth is a small entry: the fatal surge fills five layers (48.8,
 39.9, 34.5, 30.7, 28.7 against a stationary 32.5, 27.3, 25.5, 26.1, 26.0, launched from a normal face over four
 thin layers), but in a linear Gaussian model of the top k layers the measured jump costs 5.45, 6.74, 7.08, 7.11,
 7.12 for k = 1…5: the second layer matters (+1.3), the third adds 0.34, the fourth and fifth 0.04.
@@ -212,8 +214,29 @@ times the measured discount, depending on which low map is used).
    with size unless it saturates; the drift's 1.5 cells / A raises the intercept only.
 4. Not the end-game: measured q(P) in place of the Gaussian kill changes the slope by 0.001–0.003.
 
-5. Not located: the remaining 0.018–0.023 per cell. Candidates not priced: the non-Gaussian law of the fall and of
-   the generations after it, depth in the fall, the collapse corrections.
+5. **The fall is Gaussian [measured]** (`sh run3.sh; python3 theory6.py` → `out/theory6.txt`; fd2 with its box on the
+   route's peak: 350,727 steps from (46±1, 42±2) at 63 cells, 550,431 from (35±1, 32±2) at 48). From the peak box
+   the next state has mean (19.2, 13.5), variances 8.9 and 10.4 (63 cells); landing on the route's (16,7): measured
+   −ln 6.25 ± 0.04 against the Gaussian's 6.20; 3 × 3 round it 3.97 against 3.96; the quadrant below it 4.46
+   against 4.38. At 48 cells, (12,5): 5.76 against 5.79. No correction there (|excess| ≤ 0.08 nats).
+
+**A ledger, per cell, 48 to 84 cells** [the entries are measured or computed as said; adding them is my
+assumption: the route was not re-optimised with all of them at once]:
+
+| | per cell |
+|---|---|
+| Gaussian minimum action, 63-cell map carried at equal fillings (S = 7.776, 10.052, 13.653) | 0.163 |
+| each size's own living map instead of the carried one (S = 7.641, 10.052, 13.788) | +0.0075 |
+| the jump's measured law instead of the Gaussian (item 1) | +0.022 to +0.027 |
+| layers 3–5 in the jump (0.38 nats at 63 cells, item 2; taken ∝ A) | +0.006 |
+| the fall's measured law (item 5) | 0 |
+| the end-game's measured q(P) instead of the Gaussian (item 4) | +0.001 to +0.003 |
+| **sum** | **0.200 to 0.207** |
+| gump, wide faces | 0.2087 |
+
+So the wrapped price is, to within a few percent and with nothing fitted: the Gaussian action of a two-layer jump
+onto the cliff, corrected by the jump's true one-step law (a tenth to an eighth of the price), with the fall and
+the kill adding what the map says they add.
 
 A reading of the whole [conjectured]: on a wrapped face the lifetime is the cost of one non-Gaussian jump of the
 top two or three layers onto the cliff of the return map, plus the fall and a short starvation; on the hull face,

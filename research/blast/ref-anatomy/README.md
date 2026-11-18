@@ -36,5 +36,6 @@ exact lifetime) on wide tori, the hull face and tubes. Reproduce: `sh run2.sh` (
   Gaussian action of the measured route.
   `theory4.py`: the jump priced with one to five layers; `theory5.py`: the jump's measured law against the Gaussian
   at equal fillings on 48, 63, 84 cells (the correction that takes the price from 0.161 to 0.186–0.191).
+  `run3.sh` + `theory6.py`: the fall's measured law from a box on the peak (it is Gaussian).
 
 Not checked: see `REVIEW.md` §5 and `THEORY.md` §5.
