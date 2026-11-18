@@ -50,10 +50,18 @@ time from the last passage below 0.15 Pbar to death: median 2, quartiles 1-4, 90
 at t_h: mean count 11.80; X = 0.7280 +- 0.0012; random-thinning null at the same counts 0.7423; ratio 0.9807
 lag 1: (deaths with >= 2 live cells: 3170) X = 0.2722, null at the same counts 0.3380
 lag 2: (deaths with >= 2 live cells: 6304) X = 0.3976, null at the same counts 0.4709
+lag 3: (deaths with >= 2 live cells: 7161) X = 0.5394, null at the same counts 0.5812
 lag 4: (deaths with >= 2 live cells: 7516) X = 0.6511, null at the same counts 0.6789
-lag 8: (deaths with >= 2 live cells: 7934) X = 0.8378, null at the same counts 0.8499
+lag 6: (deaths with >= 2 live cells: 7811) X = 0.7749, null at the same counts 0.7966
+lag 8: (deaths with >= 2 live cells: 7934) X = 0.8378, null at the same counts 0.8504
+lag 12: (deaths with >= 2 live cells: 7988) X = 0.8845, null at the same counts 0.8888
+lag 16: (deaths with >= 2 live cells: 7996) X = 0.8939, null at the same counts 0.8965
+lag 24: (deaths with >= 2 live cells: 7999) X = 0.8973, null at the same counts 0.8991
+lag 32: (deaths with >= 2 live cells: 7998) X = 0.8978, null at the same counts 0.8992
 final cut (empty band >= 1 cube edge across the axis) begins: median lag 4, quartiles 3-6, 90% 9 (65 = cut for all of the last 64)
-empty-band width (cube edges, deaths with >= 2 live cells) at lag: 1: 4.08, 2: 3.38, 3: 2.59, 4: 1.96, 6: 1.26, 8: 0.91, 12: 0.65, 16: 0.60
+population when the final cut opens (P/Pbar): mean 0.349, quartiles 0.276-0.430, 90% 0.491; cut opening at P > Pbar/2: 0.0924
+variant (added after the forecasts): band >= 2 cube edges: final cut begins at median lag 3, quartiles 2-5, 90% 8; P/Pbar then: mean 0.181, quartiles 0.123-0.246; opening at P > Pbar/2: 0.0082
+empty-band width (cube edges, deaths with >= 2 live cells) at lag: 1: 4.08, 2: 3.38, 3: 2.59, 4: 1.96, 6: 1.26, 8: 0.91, 12: 0.65, 16: 0.60, 24: 0.58, 32: 0.57
 
 ## dying against recovered, caught at the first generation of the excursion with P <= k
 k  dying: n, X, mean count, median time to death | recovered: n, X, mean count | q from catches | X at count == k: dying, recovered, null

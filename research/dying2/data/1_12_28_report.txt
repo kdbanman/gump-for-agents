@@ -1,0 +1,89 @@
+# 1_12_28: A = 84, shortest loop^2 12, axis length Lax = 9.899 cube edges, 1 seeds, 1.77 thread-hours
+stationary P (age > 512): Pbar = 43.296, sigma_P = 5.813; ln tau_face = 17.3505 +- 0.0200 (2500 face deaths, 0 firewalls, 0 settled); deaths at age > 512: 2500 (not inside an excursion: 0); records: 2500 deaths, 19628 recovered dips, 1308126 null
+point of no return k* (q = 1/2) = 2.59 live cells = 0.060 Pbar
+k  k/Pbar  ln nu(<=k)  q(k)  (dead+rec)  ln(nu q) - ln(death rate)
+  0 0.000  -17.350 1.0000      2500 +0.0000
+  1 0.023  -17.183 0.8460      2955 +0.0000
+  2 0.046  -16.877 0.6231      4012 +0.0000
+  3 0.069  -16.466 0.4130      6054 +0.0000
+  4 0.092  -16.055 0.2737      9134 +0.0000
+  5 0.115  -15.618 0.1769     14133 +0.0000
+  6 0.139  -15.170 0.1130     22128 +0.0000
+  7 0.162  -14.718 0.0719     34752 +0.0000
+  8 0.185  -14.259 0.0454     55012 +0.0000
+  9 0.208  -13.795 0.0286     87531 +0.0000
+ 10 0.231  -13.329 0.0179    139388 +0.0000
+ 12 0.277  -12.382 0.0070    359418 +0.0000
+ 21 0.485   -8.102 0.0001  25972178 +0.0000
+ 30 0.693   -4.437 0.0000 1014258013 +0.0000
+ 38 0.878   -2.204 0.0000 9461927904 +0.0000
+round-2 levels (reaches p: min P < p Pbar): p=0.9: k<=38, ln nu -2.204, q 2.64e-07; p=0.8: k<=34, ln nu -3.174, q 6.97e-07; p=0.7: k<=30, ln nu -4.437, q 2.46e-06; p=0.6: k<=25, ln nu -6.355, q 1.68e-05; p=0.5: k<=21, ln nu -8.102, q 9.63e-05; p=0.4: k<=17, ln nu -9.977, q 6.28e-04; p=0.3: k<=12, ln nu -12.382, q 6.96e-03; p=0.2: k<=8, ln nu -14.259, q 4.54e-02; p=0.1: k<=4, ln nu -16.055, q 2.74e-01
+tail slope of ln nu(<=k) over k = 5..19 (0.1-0.45 Pbar, unweighted): 0.4729 per live cell; [ln nu(0.9) - ln nu(0.5)] / A = 0.0702; [ln nu(0.9) + ln tau] / A = 0.1803
+
+## final dip (2500 deaths at age > 512; co-deaths 0; censored for t_h 0)
+lag  n  mean P/Pbar  quantiles 10 25 50 75 90 (P/Pbar)  beneath/own stationary
+    0   2500 0.0000  0.000 0.000 0.000 0.000 0.000   0.774
+    1   2500 0.0377  0.023 0.023 0.023 0.046 0.069   0.666
+    2   2500 0.0895  0.023 0.046 0.069 0.115 0.185   0.614
+    3   2500 0.2100  0.023 0.046 0.115 0.254 0.416   0.597
+    4   2500 0.4208  0.046 0.069 0.208 0.485 1.432   0.698
+    6   2500 0.6970  0.069 0.208 0.808 1.039 1.386   0.832
+    8   2500 0.8455  0.162 0.624 0.970 1.086 1.247   0.902
+   12   2500 0.9660  0.762 0.901 0.993 1.086 1.178   0.981
+   16   2500 0.9961  0.831 0.924 1.016 1.086 1.178   0.999
+   24   2500 1.0013  0.831 0.924 0.993 1.086 1.178   0.995
+   32   2500 0.9999  0.831 0.924 1.016 1.086 1.178   1.005
+   48   2500 0.9998  0.831 0.924 0.993 1.086 1.178   1.001
+   64   2500 0.9972  0.831 0.901 1.016 1.086 1.155   1.001
+  128   2500 0.9975  0.831 0.901 0.993 1.086 1.178   0.994
+  256   2500 0.9993  0.829 0.901 1.016 1.086 1.178   0.997
+  512   2500 1.0031  0.831 0.924 1.016 1.086 1.178   1.003
+ 1024   2500 1.0004  0.831 0.918 0.993 1.086 1.155   0.999
+ 2048   2500 0.9997  0.831 0.924 0.993 1.086 1.155   0.998
+ 3583   2500 1.0011  0.831 0.918 0.993 1.086 1.178   0.999
+plunge t_d - t_h: median 5.0, quartiles 4-7, mean 5.62; live cells at lag 1: mean 1.633 (1: 0.625, 2: 0.226)
+time from the last passage below 0.5 Pbar to death: median 5, quartiles 4-7, 90% 10
+time from the last passage below 0.3 Pbar to death: median 4, quartiles 3-6, 90% 9
+time from the last passage below 0.15 Pbar to death: median 3, quartiles 2-5, 90% 7
+
+## where the survivors sit: axial extent X (fraction of Lax = 9.90 occupied by the survivors, along the axis perpendicular to the shortest loop)
+at t_h: mean count 15.65; X = 0.7455 +- 0.0021; random-thinning null at the same counts 0.7836; ratio 0.9515
+lag 1: (deaths with >= 2 live cells: 938) X = 0.2313, null at the same counts 0.3306
+lag 2: (deaths with >= 2 live cells: 1924) X = 0.3406, null at the same counts 0.4595
+lag 3: (deaths with >= 2 live cells: 2219) X = 0.4644, null at the same counts 0.5577
+lag 4: (deaths with >= 2 live cells: 2340) X = 0.5830, null at the same counts 0.6366
+lag 6: (deaths with >= 2 live cells: 2447) X = 0.7321, null at the same counts 0.7758
+lag 8: (deaths with >= 2 live cells: 2472) X = 0.8219, null at the same counts 0.8495
+lag 12: (deaths with >= 2 live cells: 2492) X = 0.8896, null at the same counts 0.9000
+lag 16: (deaths with >= 2 live cells: 2498) X = 0.9026, null at the same counts 0.9104
+lag 24: (deaths with >= 2 live cells: 2500) X = 0.9059, null at the same counts 0.9122
+lag 32: (deaths with >= 2 live cells: 2500) X = 0.9054, null at the same counts 0.9120
+final cut (empty band >= 1 cube edge across the axis) begins: median lag 6, quartiles 4-8, 90% 11 (65 = cut for all of the last 64)
+population when the final cut opens (P/Pbar): mean 0.494, quartiles 0.370-0.554, 90% 0.762; cut opening at P > Pbar/2: 0.3720
+variant (added after the forecasts): band >= 2 cube edges: final cut begins at median lag 5, quartiles 3-7, 90% 10; P/Pbar then: mean 0.338, quartiles 0.231-0.416; opening at P > Pbar/2: 0.1332
+empty-band width (cube edges, deaths with >= 2 live cells) at lag: 1: 7.61, 2: 6.53, 3: 5.30, 4: 4.13, 6: 2.65, 8: 1.76, 12: 1.09, 16: 0.96, 24: 0.93, 32: 0.94
+
+## dying against recovered, caught at the first generation of the excursion with P <= k
+k  dying: n, X, mean count, median time to death | recovered: n, X, mean count | q from catches | X at count == k: dying, recovered, null
+1   2500 0.0000 0.67    1 |    455 0.0000 1.00 | 0.8460 | nan nan nan
+2   2500 0.0929 1.38    1 |   1512 0.0923 1.85 | 0.6231 | 0.1582 0.1089 0.2528
+3   2500 0.1751 2.07    2 |   3554 0.1810 2.73 | 0.4130 | 0.2724 0.2054 0.3936
+4   2500 0.2518 2.78    2 |   6634 0.2605 3.57 | 0.2737 | 0.3664 0.2923 0.4862
+5   2500 0.3164 3.47    3 |  11633 0.3207 4.46 | 0.1769 | 0.4316 0.3479 0.5472
+6   2500 0.3722 4.17    3 |  19628 0.3709 5.36 | 0.1130 | 0.4891 0.3953 0.5974
+recovered dips truncated (first passage outside the 512-generation record): 0
+mean P (live cells) around the catch at k, tau = -32, -16, -8, -4, -2, -1, 0, +1, +2, +4, +8, +16, +32 (dying: tau > 0 is up to death; P = 0 after)
+k=1 dying (n 2500):      42.99  43.31  40.91  27.88   6.90   3.15   0.67    nan    nan    nan    nan    nan    nan
+k=1 recovered (n 455):  43.41  42.92  41.22  27.23   6.17   3.06   1.00   2.02   2.96   6.17  17.85  35.72  48.00
+k=2 dying (n 2500):      43.09  43.38  42.68  35.64  10.15   4.56   1.38    nan    nan    nan    nan    nan    nan
+k=2 recovered (n 1512):  43.44  43.28  42.45  32.87   8.81   4.34   1.85   2.76   3.92   7.94  20.29  36.95  43.00
+k=3 dying (n 2500):      43.24  43.37  43.12  40.38  13.78   6.01   2.07    nan    nan    nan    nan    nan    nan
+k=3 recovered (n 3554):  43.34  43.34  43.06  37.21  11.73   5.66   2.73   3.57   4.98   9.80  22.71  37.45  43.00
+k=4 dying (n 2500):      43.07  43.37  43.20  42.09  17.75   7.41   2.78    nan    nan    nan    nan    nan    nan
+k=4 recovered (n 6634):  43.28  43.37  43.33  39.62  14.37   6.97   3.57   4.44   6.11  11.58  24.79  38.15  48.50
+k=5 dying (n 2500):      43.08  43.21  43.18  42.74  22.28   8.87   3.47    nan    nan    nan    nan    nan    nan
+k=5 recovered (n 11633):  43.31  43.28  43.30  40.66  17.26   8.24   4.46   5.35   7.30  13.26  26.69  38.63  37.33
+k=6 dying (n 2500):      43.18  43.22  43.34  42.41  26.69  10.28   4.17    nan    nan    nan    nan    nan    nan
+k=6 recovered (n 19628):  43.27  43.29  43.26  41.22  20.05   9.50   5.36   6.33   8.58  15.10  28.54  39.14  35.67
+recovered dips: generations from the minimum to recovery (P >= Pbar), median by minimum: 1: 15, 2: 14, 3: 13, 4: 12, 5: 12, 6: 11
+recovered dips: descent from the last generation at >= Pbar/2 to the minimum (the analogue of t_d - t_h), median and quartiles by minimum: 1: 5 (4-6, n 455), 2: 4 (4-5, n 1057), 3: 4 (3-5, n 2042), 4: 4 (3-5, n 3080), 5: 3 (3-4, n 4999), 6: 3 (3-4, n 7995)
