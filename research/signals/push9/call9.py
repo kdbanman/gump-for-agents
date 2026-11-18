@@ -5,7 +5,7 @@
                                 checked generations and writes objects/call9.json
     python3 call9.py --law      the call for k = 1..40 (push 8b's stepper)
 
-The object: push 8's cell (capL + N units of wire B + capL turned round) and, across it, a capped wire C of 24 units
+The object: push 8's cell (capL + N units of wire B + capL turned round) and, across it, a capped wire C of 26 units
 (the clock's caps, as in push 8b's wires.capped_C) along (1,1,0): the CALL LINE.  The line is placed so that it
 crosses the store wire at one unit c ("the crossing"); the pair stands exactly as the two alone (transparent).
   - a stretch d^k f whose first unit is c + 1 stands beside it;
@@ -16,7 +16,7 @@ crosses the store wire at one unit c ("the crossing"); the pair stands exactly a
     left plain; with no stretch there, or with the stretch anywhere else, nothing happens.
 States are written as push 8's letters (one hex digit per unit of the store wire) + the line at rest.  Operations:
 R@u, L@u = ONE live stator of unit u of the store wire removed ((0,1,2): a right-going pulse; (0,1,4): a left-going
-one); CALL = TWO cells of the line's tube made live at one generation, 11 units of the line before the crossing (they
+one); CALL = TWO cells of the line's tube made live at one generation, 15 units of the line before the crossing (they
 become the pair of pulses).  A check [generation, letters] says that the whole state is capL + those units + the
 right cap + the line at rest, cell for cell.
 """
@@ -25,10 +25,10 @@ import xlab9 as XL
 from xlab9 import lab, wires, letters, X, tr, unit, W8
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-NR = 12                                    # the line: wire C on its own units -12..11
+NR = (-18, 8)                              # the line: wire C on its own units -18..7 (the crossing is at its unit 3)
 LINE = XL.Line(nr=NR)
 SEED = [(0, 0, 1), (2, -2, 1)]             # made live at an even generation in a unit of wire C: the pair of pulses (own frame, unit 0)
-LAUNCH = 11                                # the seed is put LAUNCH line units before the crossing
+LAUNCH = 15                                # the seed is put LAUNCH line units before the crossing
 
 R_ = lambda i: list(tr(X.RIGHT, 4 + i))    # i = position of the unit among the wire's letters
 L_ = lambda i: list(tr(X.LEFT, 4 + i))
@@ -65,17 +65,17 @@ def runs():
     CALL = call_cells(c)
     e = '7' * 50
     s1 = '7' * 32 + 'df' + '7' * 16; s2 = '7' * 32 + 'ddf' + '7' * 15; s3 = '7' * 32 + 'dddf' + '7' * 14
-    out.append(mk('cycle', 'the empty cell with the call line across it.  set (two cells removed, 13 and 14 units from the crossing: the two pulses '
+    out.append(mk('cycle', 'the empty cell with the call line across it.  set (two cells removed, 12 and 15 units from the crossing: the two pulses '
                   'stop each other and leave d f just after the crossing), two left-going pulses add one each, CALL: three pulses leave and '
                   'the left cap swallows them; the cell and the line are as at the start.  Then the same again with one pulse added: two pulses leave',
                   e, c,
-                  [[0, [R_(18), L_(45)], []], [120, [L_(46)], []], [200, [L_(46)], []], [280, [], CALL],
-                   [520, [R_(18), L_(45)], []], [640, [L_(46)], []], [720, [], CALL]],
-                  [[0, e], [120, s1], [200, s2], [280, s3], [340, None], [346, None], [520, e], [640, s1], [720, s2], [780, None], [786, None], [960, e], [962, e]]))
+                  [[0, [R_(19), L_(46)], []], [120, [L_(46)], []], [200, [L_(46)], []], [280, [], CALL],
+                   [520, [R_(19), L_(46)], []], [640, [L_(46)], []], [720, [], CALL]],
+                  [[0, e], [120, s1], [200, s2], [280, s3], [324, None], [330, None], [520, e], [640, s1], [720, s2], [764, None], [770, None], [960, e], [962, e]]))
     s = '7' * 5 + 'df' + '7' * 25 + 'dddf' + '7' * 14
     out.append(mk('move', 'two stores holding 1 and 3, the call line across the wire one unit before the right one.  CALL: exactly three '
                   'pulses leave the right store and the left store then holds 1 + 3',
-                  s, c, [[0, [], CALL]], [[0, s], [60, None], [66, None], [260, '7' * 5 + 'ddddf' + '7' * 41], [262, '7' * 5 + 'ddddf' + '7' * 41]]))
+                  s, c, [[0, [], CALL]], [[0, s], [44, None], [50, None], [260, '7' * 5 + 'ddddf' + '7' * 40], [262, '7' * 5 + 'ddddf' + '7' * 40]]))
     s = '7' * 36 + 'dddf' + '7' * 10
     out.append(mk('idle', 'the same line with the stretch four units further on, and a CALL: nothing changes (the line calls only a stretch '
                   'that begins one unit after the crossing)',
@@ -114,7 +114,7 @@ def write():
         play(run)
     d = dict(note="the call line of push 9. Doubled coordinates; unit u = cells with x in {2u, 2u+1}; tr(c, k) = (x + 2k, y, z - 2k). "
                   "A state 'letters' = capL + for each letter i (hex digit h) the stators and the sites of h moved to unit 4 + i + capR moved "
-                  "to unit 4 + N + the run's extra cells (the call line at rest at an even generation: a capped wire C of 24 units along "
+                  "to unit 4 + N + the run's extra cells (the call line at rest at an even generation: a capped wire C of 26 units along "
                   "(1,1,0)). runs[].ops = [generation, cells removed (each must be live), cells made live (each must be dead)]; "
                   "runs[].checks = [generation, letters]: the whole state equals the state of those letters. H = side of the oracle's "
                   "cubic torus. crossing = position among the letters of the unit the line crosses.",

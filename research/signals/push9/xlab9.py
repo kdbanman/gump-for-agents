@@ -26,7 +26,8 @@ class Line:
         self.G, self.PHI, self.T0, self.US, self.UR = spec['G'], spec['PHI'], spec['T0'], spec['US'], spec['UR']
         self.g = lab.SYMS[self.G]; self.gi = survey.inv(self.g)
         self.pulse = lab.PULSE_C if reader == 'C' else lab.PULSE_B
-        self.rc = (wires.capped_C if reader == 'C' else wires.capped_B)(-nr, nr)
+        ua, ub = (-nr, nr) if isinstance(nr, int) else nr
+        self.rc = (wires.capped_C if reader == 'C' else wires.capped_B)(ua, ub)
         self.own = lab.run(lab.pk(self.rc), self.PHI)
 
     def tt(self, u):
