@@ -120,3 +120,32 @@ Forecasts:
   to 84 cells), and at equal area a hull face starves more readily than a wrapped face's own no-bust route; it
   lives longer only because it has no bust route at all (worth 0.85–0.9 at 63 cells).
 - Items 2, 4, 5: open.
+
+## Block 3: the PI, 04:45 UTC: the staggered crash, before anyone has looked at where along a long tube the crash falls
+
+What I know: `split-slab` (surrogate sampler, calibrated to ± 0.06 against gump at 63–108 cells) reports that the
+share of deaths with a one-generation fall of half the face stays 0.54–0.59 on wide tori to 192 cells and falls on
+loop-12 tubes: 0.50, 0.50, 0.38, 0.26, 0.17 at 84, 108, 120, 144, 192 cells. `tube1d`: in 84-cell tube deaths the
+death times of 0.5-unit bands differ by 1.2 generations r.m.s. and are uncorrelated beyond 2.5 units; band and
+tube lie on one curve c∞ + B·e^(−ℓ/ξ), ξ = 1.95, and the trace form wants K = 2. `boom`: a tube booms as often as
+a wide face and its crash leaves the same survivors; the discount is in the chance of death given the launch.
+Nobody has looked at the crash section by section.
+
+**Reading [conjectured].** A long tube does not stop busting; it stops busting all at once. Sections further apart
+than about two lattice units crash a generation or so apart, and each such freedom multiplies the death rate. A
+boundary between sections that crash at different times costs something per unit of its length, so the freedom
+pays only while the girth is short (hence the end near loop² 21), and a wide face stays rigid in time at every
+size (hence no bend in the wide price). In a tube the timings form a one-dimensional chain: the trace of a small
+transfer matrix on W timings, ln τ = a + sL − ln(1 + (W − 1)·e^(−L/ξ)); K = 2 is W = 3 (a generation early, on
+time, a generation late).
+
+Forecasts:
+1. Cut each dying tube into its two halves along the length and take each half's crash generation (the generation
+   of its largest one-generation fall). The share of deaths in which the halves crash in different generations
+   rises with length: about 30–45% at 84 cells, above 65% at 192. P = 60%.
+2. Each half's own crash is still a bust: in more than half of deaths of the 192-cell tube at least one half loses
+   half of its own cells in one generation. P = 60%. (If long tubes die by thinning with no local bust at all, the
+   reading is dead and the change of route is real.)
+3. On wide tori of 108 and 192 cells the two halves crash in the same generation in more than 75% of deaths. P = 55%.
+4. Crash times of sections 2 units long, along a 144- or 192-cell tube: r.m.s. difference between neighbours
+   1.0–1.6 generations, no growth with separation beyond 3 units. P = 50%.
