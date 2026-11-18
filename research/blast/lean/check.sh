@@ -1,6 +1,10 @@
 #!/bin/sh
-# Everything this directory claims, in one command (about 10 seconds; with --long about 80):
-#   sh research/blast/lean/check.sh [--long]
+# Everything this directory claims, in one command (about a minute cold; seconds once built):
+#   sh research/blast/lean/check.sh [--long] [--mathlib]
+# --long adds the side-11 log (4,218 generations), the differential test against the oracle (difftest.sh --quick,
+# about 3 minutes) and the kernel-checked census of the atlas catalogue (census_check.py, about a minute).
+# --mathlib builds the Mathlib package (needs `cd mathlib && lake exe cache get` once, network, 7 GB) and checks
+# its axioms: T5 and the certificate lemmas.
 # 1. the Lean development builds (every theorem is checked by Lean's kernel);
 # 2. no `sorry`, and no theorem rests on anything but Lean's three standard axioms;
 # 3. the Lean rule, run by the stepper built on `Gump.step`, prints the 2012 closed-cube logs in
@@ -8,13 +12,17 @@
 # 4. the same stepper equals reference/oracle.py state for state on three soups for 60 generations.
 # Needs Lean 4 (elan; the toolchain is pinned in lean-toolchain), python3 and numpy.
 set -e
-LONG=no; [ "$1" = "--long" ] && LONG=yes
+LONG=no; MATH=no
+for a in "$@"; do [ "$a" = "--long" ] && LONG=yes; [ "$a" = "--mathlib" ] && MATH=yes; done
 HERE=$(cd "$(dirname "$0")" && pwd); ROOT=$HERE/../../..; export PATH=$HOME/.elan/bin:$PATH
 cd $HERE
-lake build Gump gumpcheck 2>&1 | tail -1
+lake build Gump gumpcheck > .lake/build.log 2>&1 || { tail -20 .lake/build.log; echo "FAIL: build"; exit 1; }
+tail -1 .lake/build.log
+if grep -n "declaration uses 'sorry'" .lake/build.log; then echo "FAIL: sorry"; exit 1; fi
 if grep -n "sorry" Gump/*.lean Check.lean; then echo "FAIL: sorry"; exit 1; fi
+if grep -n "native_decide" Gump/*.lean; then echo "FAIL: native_decide"; exit 1; fi
 lake env lean Axioms.lean > .lake/axioms.txt
-if grep -v "depends on axioms: \[propext, Classical.choice, Quot.sound\]$" .lake/axioms.txt | grep -v "does not depend on any axioms$"; then echo "FAIL: an unexpected axiom"; exit 1; fi
+if grep -v "depends on axioms: \[propext, Classical.choice, Quot.sound\]$" .lake/axioms.txt | grep -v "does not depend on any axioms$" | grep -v "depends on axioms: \[propext\]$" | grep -v "depends on axioms: \[propext, Quot.sound\]$"; then echo "FAIL: an unexpected axiom"; exit 1; fi
 echo "$(wc -l < .lake/axioms.txt) headline theorems: no sorry, no axiom beyond propext, Classical.choice, Quot.sound"
 T=$(mktemp -d)
 for t in "08 13 29 23" "09 17 35 71" "10 17 37 65" "11 19 41 4218"; do
@@ -29,4 +37,16 @@ for s in 1 2 3; do
   .lake/build/bin/gumpcheck states $T/soup.txt | sed "s|$T/soup.txt|oracle, soup $s|"
 done
 rm -rf $T
+if [ "$LONG" = yes ]; then
+  sh difftest.sh --quick | tail -3
+  python3 census_check.py $ROOT/research/scratch/blast/lean/census | tail -2
+fi
+if [ "$MATH" = yes ]; then
+  ( cd mathlib && lake build > .lake/build.log 2>&1 || { tail -20 .lake/build.log; echo "FAIL: mathlib build"; exit 1; }
+    if grep -n "declaration uses 'sorry'" .lake/build.log; then echo "FAIL: sorry (mathlib)"; exit 1; fi
+    if grep -n "sorry\|native_decide" GumpMath/*.lean; then echo "FAIL: sorry or native_decide (mathlib)"; exit 1; fi
+    lake env lean Axioms.lean > .lake/axioms.txt
+    if grep -v "depends on axioms: \[propext, Classical.choice, Quot.sound\]$" .lake/axioms.txt; then echo "FAIL: an unexpected axiom (mathlib)"; exit 1; fi
+    echo "mathlib package: $(wc -l < .lake/axioms.txt) theorems, no sorry, no axiom beyond the standard three" )
+fi
 echo "lean: all checks passed"

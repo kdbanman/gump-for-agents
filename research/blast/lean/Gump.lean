@@ -11,3 +11,13 @@ import Gump.ThickTorus
 import Gump.ThickPocket
 import Gump.ThickHalf
 import Gump.ThickGeneric
+import Gump.Symm
+import Gump.FiniteCorrect
+import Gump.Periodic
+import Gump.Speed
+import Gump.Equivariance
+import Gump.Sharpness
+import Gump.Certify
+import Gump.Bits
+import Gump.Torus
+import Gump.Signals

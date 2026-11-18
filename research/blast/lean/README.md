@@ -47,6 +47,17 @@ program outside Lean becomes a theorem once Lean has checked its certificate.
 | Pockets of a dead sealed set evolve independently; a finite pocket is eventually periodic within t₀ + 2^N | `pocket_autonomous`, `finite_pocket_periodic`, `slab_finite_pocket_periodic` | `Gump/ThickPocket.lean` |
 | **New**: for a primitive integer direction, the far side of a plane is sealed iff the direction is a body diagonal | `beyond_sealed_iff`, `axis_halfspace_not_sealed` | `Gump/ThickHalf.lean` |
 | **New**: a nonempty sealed set is unbounded along every generic direction (lattice; in-plane in thick slabs) | `sealed_unbounded`, `slab_sealed_unbounded` | `Gump/ThickHalf.lean`, `Gump/ThickGeneric.lean` |
+| The neighbourhood is symmetric on cells (and not off them) | `nbrs_symm`, `nbrs_not_symm_off_cells` | `Gump/Symm.lean` |
+| **The executable stepper is `step`, and n steps of it are `run`**, with no hypothesis on the pattern: no birth is missed | `step_support`, `stepFin_config`, `runFin_config` | `Gump/FiniteCorrect.lean` |
+| The hull holds finitely many cells; **every finite seed is eventually periodic** (cycle within 2^N + 1); **no spaceships** | `mem_hullCells`, `eventually_periodic`, `finite_eventually_periodic`, `no_spaceship` | `Gump/Periodic.lean` |
+| Speed limit: a light cone of max-norm radius 2n; attained in one generation | `light_cone`, `dead_ball`, `live_near_seed`, `speed_two_attained` | `Gump/Speed.lean` |
+| The 48 lattice symmetries and the even translations commute with the dynamics; a seed's symmetry is preserved forever | `offsets_sym`, `step_act`, `run_act`, `symmetry_preserved` | `Gump/Equivariance.lean` |
+| Axis-aligned half-spaces do not confine; two dead layers are not a firewall | `axis_halfspace_not_confining`, `two_layers_not_firewall` | `Gump/Sharpness.lean` |
+| The six faces of a cube are a still life; a bit-parallel stepper is `step`; a kernel-checkable certificate that a cell list is an oscillator of exactly period P | `cube_still`, `Bits.bstep_spec`, `Bits.oscCert_spec`, `Bits.evCert_spec` | `Gump/Certify.lean`, `Gump/Bits.lean` |
+| The oracle's even-H array-index torus is `step` on the periodic configuration | `Torus.lift_tstep`, `Torus.lift_trun` | `Gump/Torus.lean` |
+| line-C (cap, N units of wire C, rake gun) has exact period 4 from generation 2N, for N = 2, 3, 12, 13 | `Signals.lineC_N_period_four` | `Gump/Signals.lean` (written by `signals_gen.py`) |
+| All 1,307 objects of `research/atlas/catalogue.jsonl` are oscillators of exactly their listed period (kernel-checked by a script; the generated theorems are not in the library) | `python3 research/blast/lean/census_check.py research/scratch/blast/lean/census` | scratch |
+| **T5** for gump on a finite vessel: the energy step, ΔE = D − Q, the energy's bounds, period ≤ 2 within 26N generations once overcrowding events stop, every oscillator of period ≥ 3 has them, the window budget | `energy_step`, `energy_identity`, `energy_bounds`, `period_two_of_no_O1`, `oscillator_period_two`, `hull_period_two_of_no_O1`, `budget` | `mathlib/GumpMath/Threshold.lean` |
 | Upper and lower certificates for a killed finite Markov chain: Q ≥ 0 and Qv ≤ λv give Qᵗv ≤ λᵗv and survival ≤ c·λᵗ·v; Qv ≥ μv gives survival ≥ μᵗ·v/C (first step of line 3 of the climb) | `pow_mulVec_le`, `le_pow_mulVec`, `survival_le`, `survival_ge` | `mathlib/GumpMath/Certificate.lean` |
 
 All **[proved, machine-checked]**; axioms: `propext`, `Classical.choice`, `Quot.sound` only (`Axioms.lean`).
@@ -59,9 +70,13 @@ both run by `check.sh` [measured]:
   line for line: sides 8, 9, 10, and side 11 through its 4,218 generations.
 - `gumpcheck states` compares the Lean stepper with `reference/oracle.py` state for state: three soups, 60
   generations each, no mismatch; with one cell of one generation moved, it fails at that generation.
-The stepper (`Gump/Finite.lean`) evaluates `Gump.step` itself, the function the theorems are about, at every
-live cell and every neighbour of one. Not yet proved in Lean: that no other cell can be born (it cannot: a dead
-cell with no live neighbour stays dead, and the neighbourhood is symmetric).
+The stepper (`Gump/Finite.lean`) evaluates `Gump.step` itself, and **`stepFin_config` proves it equal to `step`**
+(n steps equal to `run`), so what `gumpcheck` computes is the function the theorems are about; its file parsing
+and printing are not proved. A wider differential test, `sh research/blast/lean/difftest.sh` (6 minutes) [measured]:
+9,442 generations against the oracle with no mismatch, on every one of the 2^13 states of a cell and its twelve
+neighbours for each orientation, 238 soups over nine densities, catalogued objects (a still life, two oscillators,
+wire C, the rake gun), and the oracle's torus at seven sizes; 15 mutants of the rule (offsets, birth and survival
+sets, parity tests) are each caught.
 
 `STATEMENTS.md` (written by `statements.py`) puts each headline theorem's Lean statement, verbatim, next to the
 sentence it is meant to be and says where the two differ in strength. One proof, `hex_check` in `ThickHex.lean`,

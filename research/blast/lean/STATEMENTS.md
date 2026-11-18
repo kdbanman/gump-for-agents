@@ -116,6 +116,163 @@ theorem slab_closed (d : Diag) (A B : Int) (c : Config) (h : ∀ p, c p = true �
 - **Meant to be:** A, T4: a pattern contained in m consecutive layers stays in those layers.
 - **Difference:** Same, for any integers A ≤ s ≤ B.
 
+## The bridge: the stepper, symmetries, finite seeds
+
+### `nbrs_symm` (`Gump/Symm.lean`)
+
+```lean
+theorem nbrs_symm {p q : Pt} (hp : p.isCell = true) (hq : q.isCell = true) : q ∈ nbrs p ↔ p ∈ nbrs q
+```
+
+- **Meant to be:** (used by T5 and by the stepper) the neighbourhood is symmetric.
+- **Difference:** For cells; `nbrs_not_symm_off_cells` shows the hypothesis is needed.
+
+### `stepFin_config` (`Gump/FiniteCorrect.lean`)
+
+```lean
+theorem stepFin_config (live : Pattern) : (stepFin live).config = step live.config
+```
+
+- **Meant to be:** (the tie to the running automaton) the executable stepper misses no birth.
+- **Difference:** Equal to `step` as functions, with no hypothesis on the pattern.
+
+### `runFin_config` (`Gump/FiniteCorrect.lean`)
+
+```lean
+theorem runFin_config (live : Pattern) : ∀ n, (runFin live n).config = run live.config n
+```
+
+- **Meant to be:** the same for n generations.
+- **Difference:** Same.
+
+### `symmetry_preserved` (`Gump/Equivariance.lean`)
+
+```lean
+theorem symmetry_preserved (g : Sym) {v : Pt} (hv : v.even) (c : Config) (h : ∀ p, c (g.act v p) = c p) : ∀ n p, run c n (g.act v p) = run c n p
+```
+
+- **Meant to be:** A §2: the dynamics is invariant under translations by cube steps × O_h; a seed's symmetry is preserved forever.
+- **Difference:** Every one of the 48 × even translations commutes with the dynamics. That these are all the symmetries of the lattice is not proved.
+
+### `finite_eventually_periodic` (`Gump/Periodic.lean`)
+
+```lean
+theorem finite_eventually_periodic (c : Config) (L : List Pt) (hL : ∀ p, c p = true → p ∈ L) : ∃ μ T, 0 < T ∧ ∀ n, μ ≤ n → run c (n + T) = run c n
+```
+
+- **Meant to be:** A, T2 consequences: every finite seed is eventually periodic.
+- **Difference:** Same; `eventually_periodic` adds the bound μ + T ≤ 2^N + 1 with N the number of hull cells.
+
+### `no_spaceship` (`Gump/Periodic.lean`)
+
+```lean
+theorem no_spaceship (c : Config) (L : List Pt) (hL : ∀ p, c p = true → p ∈ L) (hne : ∃ p, c p = true) (T : Nat) (v : Pt) (h : ∀ p, c p = true → run c T (p + v) = true) : v = ⟨0, 0, 0⟩
+```
+
+- **Meant to be:** A, T2 consequences: no spaceships.
+- **Difference:** Stronger: a later generation need only contain a translate of the seed.
+
+### `light_cone` (`Gump/Speed.lean`)
+
+```lean
+theorem light_cone {c c' : Config} {p : Pt} : ∀ n r, (∀ q, Near (r + 2 * n) p q → c q = c' q) → ∀ q, Near r p q → run c n q = run c' n q
+```
+
+- **Meant to be:** A, speed limit: information moves at most 2 doubled units per generation in max-norm.
+- **Difference:** Same; `speed_two_attained` shows the bound is reached in one generation. Tightness beyond one generation is not proved.
+
+### `axis_halfspace_not_confining` (`Gump/Sharpness.lean`)
+
+```lean
+theorem axis_halfspace_not_confining : ¬ ∀ c : Config, (∀ p : Pt, 0 < p.x → c p = false) → ∀ p : Pt, 0 < p.x → step c p = false
+```
+
+- **Meant to be:** A, T2: axis-aligned half-spaces do not confine.
+- **Difference:** One half-space (x > 0), with a witness.
+
+### `two_layers_not_firewall` (`Gump/Sharpness.lean`)
+
+```lean
+theorem two_layers_not_firewall : ¬ ∀ c : Config, (∀ p : Pt, -1 < (⟨true, true, true⟩ : Diag).dot p → (⟨true, true, true⟩ : Diag).dot p ≤ 3 → c p = false) → ∀ p : Pt, -1 < (⟨true, true, true⟩ : Diag).dot p → (⟨true, true, true⟩ : Diag).dot p ≤ 3 → step c p = false
+```
+
+- **Meant to be:** A, T3: two dead layers are not enough.
+- **Difference:** One diagonal and one level, with a four-cell witness.
+
+### `cube_still` (`Gump/Certify.lean`)
+
+```lean
+theorem cube_still : run (lcfg [⟨1, 0, 0⟩, ⟨-1, 0, 0⟩, ⟨0, 1, 0⟩, ⟨0, -1, 0⟩, ⟨0, 0, 1⟩, ⟨0, 0, -1⟩]) 1 = lcfg [⟨1, 0, 0⟩, ⟨-1, 0, 0⟩, ⟨0, 1, 0⟩, ⟨0, -1, 0⟩, ⟨0, 0, 1⟩, ⟨0, 0, -1⟩]
+```
+
+- **Meant to be:** A: the 6 faces of a single cube are a still life.
+- **Difference:** "Smallest" is not proved.
+
+### `lift_tstep` (`Gump/Torus.lean`)
+
+```lean
+theorem lift_tstep (H : Nat) (hH : 0 < H) (heven : H % 2 = 0) (h : TState) : lift H (tstep H h) = step (lift H h)
+```
+
+- **Meant to be:** A §4: for even H the array-index torus is a proper torus.
+- **Difference:** The oracle's torus step, transcribed, equals `step` on the periodic lift. Even H only; the odd-H seam is not modelled.
+
+### `oscCert_spec` (`Gump/Bits.lean`)
+
+```lean
+theorem oscCert_spec (L : List Pt) (P : Nat) (h : oscCert L P = true) : 0 < P ∧ run (lcfg L) P = lcfg L ∧ ∀ k, 0 < k → k < P → run (lcfg L) k ≠ lcfg L
+```
+
+- **Meant to be:** (census) a cell list is an oscillator of exactly period P.
+- **Difference:** A certificate the kernel evaluates; used for line-C and for the 1,307 catalogue objects.
+
+## T5: the threshold lemma (Mathlib package)
+
+### `energy_identity` (`mathlib/GumpMath/Threshold.lean`)
+
+```lean
+theorem energy_identity (hc : ∀ p, c p = true → p.isCell = true) (hV : ∀ t p, run c t p = true → p ∈ V) (t : ℕ) : F V c (t + 1) - F V c t = drive V c t - diss V c t
+```
+
+- **Meant to be:** A, T5: for gump ΔE = D − Q exactly.
+- **Difference:** F = 2E, so drive and dissipation are doubled. The vessel is a finite set holding every live point of a run on the infinite lattice; tori are not covered.
+
+### `energy_bounds` (`mathlib/GumpMath/Threshold.lean`)
+
+```lean
+theorem energy_bounds (hc : ∀ p, c p = true → p.isCell = true) (hV : ∀ t p, run c t p = true → p ∈ V) (t : ℕ) : -12 * (V.card : ℤ) ≤ F V c t ∧ F V c t ≤ 14 * V.card
+```
+
+- **Meant to be:** `research/theory/threshold.md`: −6N ≤ E ≤ 7N.
+- **Difference:** Same, doubled.
+
+### `period_two_of_no_O1` (`mathlib/GumpMath/Threshold.lean`)
+
+```lean
+theorem period_two_of_no_O1 (hc : ∀ p, c p = true → p.isCell = true) (hV : ∀ t p, run c t p = true → p ∈ V) (T : ℕ) (hO : ∀ t, T ≤ t → ∀ p, 6 ≤ count (run c (t + 1)) p → run c t p = false) : ∃ t₀, T ≤ t₀ ∧ t₀ ≤ T + 26 * V.card ∧ ∀ t, t₀ ≤ t → run c (t + 2) = run c t
+```
+
+- **Meant to be:** A, T5: an orbit with no such events from some time on has period ≤ 2 (reached within 26N + 1 further steps).
+- **Difference:** Same, with the bound 26N.
+
+### `oscillator_period_two` (`mathlib/GumpMath/Threshold.lean`)
+
+```lean
+theorem oscillator_period_two (hc : ∀ p, c p = true → p.isCell = true) (hV : ∀ t p, run c t p = true → p ∈ V) (μ P : ℕ) (hP : 0 < P) (hper : ∀ t, μ ≤ t → run c (t + P) = run c t) (hO : ∀ t, μ ≤ t → ∀ p, 6 ≤ count (run c (t + 1)) p → run c t p = false) : ∀ t, μ ≤ t → run c (t + 2) = run c t
+```
+
+- **Meant to be:** A, T5: every oscillator of period ≥ 3 has them.
+- **Difference:** Contrapositive form: an eventually periodic orbit without overcrowding events has period dividing 2.
+
+### `budget` (`mathlib/GumpMath/Threshold.lean`)
+
+```lean
+theorem budget (hc : ∀ p, c p = true → p.isCell = true) (hV : ∀ t p, run c t p = true → p ∈ V) (T K : ℕ) : (∑ t ∈ Finset.range K, (mism V c (T + t) : ℤ)) ≤ 20 * ∑ t ∈ Finset.range K, (o1 V c (T + t) : ℤ) + 26 * V.card
+```
+
+- **Meant to be:** `threshold.md`: M/(N·T) ≤ 20·O1/(N·T) + 26/T.
+- **Difference:** Same, as a sum over any window. The uncapped rule U and the Goles–Olivos theorem for it are not formalised.
+
 ## T6 in full: sealed sets
 
 ### `sealed_iff_run_dead` (`Gump/Thickness.lean`)
