@@ -37,3 +37,22 @@ Qualitative, same time:
 - P(a tangent construction from the measured population histogram (mean, variance, tail slope of ln π(n))
   reproduces ln τ of the wrapped faces of 48–84 cells to within 0.3 with one common additive constant) = 35%.
   I expect it to fail: the first two histograms give a tail slope of only 0.35–0.37 per live cell.
+
+## Block M2: 03:41 UTC, the variance forecast (before I look at any histogram of a 66- or 84-cell face)
+
+Seen so far in my own histograms (48, 57, 63 wide, 60 tube): a loop raises the variance per cell of the face's
+population, s² = var(P)/A: 0.3877 (63, loops 21), 0.3937 (57, loops 19), 0.4045 (60, one loop 12), 0.4146 (48,
+three loops 16), while ρ moves by 0.002 at most. In the tangent estimate the discount of a wrapped face would then
+be D = A·(λ·f + ½λ²·δs²) with λ ≈ 0.39–0.41 the tail slope of ln π(n): it gives 0.12 (60 tube; measured 0.113),
+0.12 (4 × 4; 0.108), 0.03 (57; 0.036) with nothing fitted. **If that is the mechanism, the growth of the discount
+with tube length must be a growth of the variance excess.** Forecast:
+
+- s²(66-cell tube (1,5),(0,22)) − s²(66-cell wide (1,4),(0,22)) = **0.013 ± 0.005**. P = 55%.
+- s²(84-cell tube (1,12),(0,28)) − s²(84-cell wide (1,4),(0,28)) = **0.021 ± 0.005**. P = 50%.
+- Dead if the excess at 84 cells is below 0.012 (the variance excess does not grow with length; the growing
+  discount is then in the tail, not in the stationary fluctuations). P(dead) = 35%.
+
+Scores of block M1 known at this time (the 96-cell faces, opened only after commit e0f4d78): loop² 13 measured
+19.8109 ± 0.0062 against my 19.810 ± 0.012 (inside); loop² 16: 19.9373 ± 0.0060 for (4,0),(0,8) (outside: +0.017)
+and 19.9284 ± 0.0063 for (1,8),(0,32) (inside); "equal within 0.008": difference 0.0089 ± 0.0087 (narrowly missed).
+The header of block M1 says 03:40; the machine clock at its commit was 03:35.
