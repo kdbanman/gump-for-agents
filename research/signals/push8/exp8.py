@@ -102,3 +102,56 @@ def pulseR(u):
 def pulseL(u):
     """the left-going pulse at phase 0: unit u of wire B becomes a unit of wire C ((1,0,4) off, (0,2,3) on)"""
     return [tr((1, 0, 4), u), tr((0, 2, 3), u)]
+
+
+def hexletters(L, a, u0, u1):
+    """hex family letters of units u0..u1-1 at an even phase ('?' if a unit is not stators + sites; '_' empty)"""
+    out = []
+    for u in range(u0, u1):
+        uc = L.unit_cells(a, u)
+        if not uc:
+            out.append('_'); continue
+        rest = uc - set(W.ST)
+        if len(uc - rest) != 2 or not rest <= set(W.SITES):
+            out.append('?'); continue
+        out.append('%x' % sum(1 << i for i in range(4) if W.SITES[i] in rest))
+    return ''.join(out)
+
+
+def ring_test(word, n=40, gens=40, bg='7'):
+    """does `word` (hex letters) in a ring of n units of wire bg move rigidly?  returns (shift per 2 generations or None, hex string after gens)"""
+    L = Lab(0, n, ring=True)
+    s = bg * 10 + word + bg * (n - 10 - len(word))
+    a = L.arr(hexword(s, 0)); b = a.copy()
+    L.run(b, 2)
+    sh = None
+    for d in (-1, 0, 1):
+        if np.array_equal(b, L.arr(hexword(''.join(s[(i - d) % n] for i in range(n)), 0))):
+            sh = d
+    L.run(b, gens - 2)
+    return sh, hexletters(L, b, 0, n)
+
+
+def hexrle(s):
+    out = []; i = 0
+    while i < len(s):
+        j = i
+        while j < len(s) and s[j] == s[i]:
+            j += 1
+        out.append(s[i] + ('^%d' % (j - i) if j - i > 2 else s[i] * (j - i - 1))); i = j
+    return ''.join(out).replace('^', '{').replace('{', '^')
+
+
+def shoot(mid, sig, side, dist=10, nL=40, nR=40, G=120, g0=0):
+    """the word `sig` (hex) put in the wire B of line(mid, nL, nR) with its nearest unit `dist` units from the
+    stretch (side 'L': to the left of it, 'R': to the right), at generation g0; returns the hex letters at g0 + G
+    (units 4..4+N-1, run-length), the left and right cap states ('ok' if as undisturbed), and the period."""
+    obj, N = line(mid, nL, nR)
+    L = lab_for(N); a = L.arr(obj); L.run(a, g0); r = a.copy()
+    w0 = 4 + nL; w1 = w0 + len(mid) - 1
+    u = (w0 - dist - len(sig)) if side == 'L' else (w1 + 1 + dist)
+    L.flip(a, hexword('7' * len(sig), u) ^ hexword(sig, u))
+    L.run(a, G); L.run(r, G)
+    capl = 'ok' if np.array_equal(L.units(a, -6, 4), L.units(r, -6, 4)) else 'CHANGED'
+    capr = 'ok' if np.array_equal(L.units(a, 4 + N, N + 16), L.units(r, 4 + N, N + 16)) else 'CHANGED'
+    return hexrle(hexletters(L, a, 4, 4 + N)), capl, capr
