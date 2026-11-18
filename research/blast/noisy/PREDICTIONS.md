@@ -81,3 +81,46 @@ three eps" meaning these. New since block 2: brute force at 63 cells, eps = 0.10
   +0.003 +- 0.018, -0.024 +- 0.023; 100 replications each).
 - Scatter larger at eps = 0.03 than at 0.10 (65%): a tie in tuning (0.14 against 0.13 at 40 sweeps); with the frozen
   setting 0.21, 0.15, 0.13 at eps = 1/64, 1/16, 1/4: yes in direction.
+
+## Scores of block 2 (16:39 UTC; written by the PI, the agent having finished, from `python3 research/blast/noisy/fit.py`)
+
+- 84 cells by brute force (`prod_A_brute84.sh`): **not run** (the usage window closed first). Its three forecasts
+  are not scored.
+- 84 cells, sampler at eps = 1/16: 18.173 +- 0.029 after 100 replications (200 were planned), +0.032 +- 0.029 above
+  gump. Above gump by more than 0.03 (60%): **yes, by 0.002, which is no evidence either way.** Within two errors of
+  the brute force: not scored, there is no brute force.
+- 108 cells, blind (gump 23.3392 +- 0.0099), final: 23.422 +- 0.025, 23.228 +- 0.119, 23.368 +- 0.065 at eps = 1/16,
+  1/32, 1/64 (440, 300, 360 replications).
+  - Weighted mean within two of its errors of gump (55%): **no** (+0.069 +- 0.025, 2.8 errors).
+  - The line's intercept within two errors (75%): **yes** (-0.025 +- 0.083).
+  - The intercept's error 0.08 or less (45%): **no**, narrowly (0.082).
+  - The eps = 1/16 value alone above gump by more than 0.05 (45%): **yes** (+0.083 +- 0.027).
+- 135 cells (`prod_C_135.sh`): **not run**, by the PI's decision: an intercept good to 0.08 at 108 cells cannot
+  separate 29.230 from 29.163. The forecasts for it and the two on efficiency at 135 cells are not scored. At 108
+  cells one replication scatters by 0.52, 2.06 and 1.23 of the mean at eps = 1/16, 1/32, 1/64.
+
+## Block 3 (PI; frozen 17:58 UTC 2026-11-18, before the lead's rebuild has reported and before `diag.sh` has finished)
+
+Seen when this was written: `tails.py` on the committed rows (at 108 cells the largest replication is 20, 35 and 7
+times the mean at eps = 1/64, 1/32, 1/16; at 63 cells 1.4 to 2.0 times), and the ancestry lines of the first five
+108-cell replications of `diag.sh` (about 50 distinct initial chains at the last level). Not seen: any brute force
+of the chain above 63 cells; the odd-sweeps-off runs.
+
+The claim [conjectured]: **the +0.083 +- 0.027 at 108 cells and eps = 1/16 is the sampler's, not the chain's**: an
+unbiased estimate whose law has a rare heavy tail reads high in ln tau in most samples, and its error bar from the
+scatter does not know about the part of the tail it has not caught. An argument from the night's numbers: the
+dice chain, which replaces every deep cell every generation, was off by +0.024 and +0.060 at 63 and 84 cells by
+brute force; a chain that replaces a sixteenth as often should be off by thousandths.
+
+1. Brute force of the noisy chain at 84 cells and eps = 1/16 (anyone's code): within 0.015 of gump (18.141),
+   given an error of 0.01 or less: **80%**. Above gump by more than 0.03: 7%.
+2. Brute force at 84 cells at a large eps (0.25 to 1): above gump by 0.01 to 0.06: 60%; more than 0.06: 15%.
+3. The sampler at 108 cells and eps = 1/16 with the odd sweeps off (WBACK 0), 300 or more replications: within two
+   combined errors of the value with them on (23.422 +- 0.025): **75%**. Its scatter of one replication larger
+   than 0.52: 70%.
+4. In the full ancestry runs (30 replications at each eps, 108 cells): the median number of distinct initial
+   chains at the last level is between 35 and 70 at every eps: 75%. The replication with the largest rate in
+   each set has a largest-family share above the median's: 65%.
+5. A sampler that also moves the initial states, or a longer run of this one (2,000 replications at eps = 1/16),
+   brings the 108-cell value to within 0.03 of gump: 65% (not planned; written so that it can be scored).
+

@@ -3,10 +3,10 @@
 
     python3 research/blast/noisy/fit.py
 
-Part 1, brute force of the noisy chain (scratch brute.txt and brute84/*.txt; runs of one (R, M) pooled: exposures
+Part 1, brute force of the noisy chain (data/brute.txt and data/brute84/*.txt; runs of one (R, M) pooled: exposures
 and deaths add): ln tau of the watched face against eps, and minus gump's (the same quantity at M = 0 where it was
 run here, else the anchor on file).
-Part 2, the sampler (scratch runs/*.txt, frozen parameters only): per (R, eps) the pooled ln tau with its error, the
+Part 2, the sampler (data/runs/*.txt, frozen parameters only): per (R, eps) the pooled ln tau with its error, the
 number of replications, the largest share and how many replications carry half the rate; then per R the weighted
 straight line ln tau = a + b eps, its intercept a (the estimate for gump) with error, the weighted mean (b = 0), and
 gump's value on file where there is one.
@@ -14,7 +14,9 @@ gump's value on file where there is one.
 import glob, math, os, re, sys
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
-S = os.path.join(HERE, '..', '..', 'scratch', 'blast', 'noisy')
+# The rows: the committed copy in data/ (brute.txt, brute84/, runs/), unless a directory is given as the first
+# argument (for runs still in progress: research/scratch/blast/noisy).
+S = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, 'data')
 ANCHOR = {9: (9.819, 0.002), 11: (13.633, 0.001), 13: (18.141, 0.005), 15: (23.3392, 0.0099)}
 FROZEN = {'KFLIP': '15', 'TPRE': '32', 'TWIN': '24', 'WBACK': '12', 'DELTA': '3'}
 

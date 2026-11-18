@@ -351,3 +351,13 @@ then the chords fall fast (two exponentials through the three chords give a seco
 8. **Held** at L = 4 (−0.013 ± 0.001); at L = 5 the strip is cheaper by 0.003 ± 0.001, at L = 6 not (+0.001 ± 0.003).
 I expected the two prices of a strip to close on 0.209 faster than they do: at L of 6 to 7 they stand at 0.211 and
 0.218.
+
+### Block 5, items 5 and 6, scored 16:39 UTC (the noisy hull's runs are over; `python3 research/blast/noisy/fit.py`)
+
+5. First two parts **not measured**: at 84 cells the chain was run at ε = 1/16 only (+0.032 ± 0.029 above gump), so
+   neither "below 0.03 at ε = 0.03" nor "linear in ε" has a number. Third part (usable errors at 135 cells, 0.05 or
+   better in under 30 core-hours; 50%): **missed, by inference and not by a run.** At 108 cells about 10 core-hours
+   gave an intercept good to 0.082, so 0.05 would already cost near 30 core-hours there, and the 135-cell runs
+   were not started.
+6. The 135-cell hull face: **still open.** Nothing in either phase measured it.
+
