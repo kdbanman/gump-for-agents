@@ -23,6 +23,7 @@ SCR = os.path.join(ROOT, 'research', 'scratch', 'blast', 'image')
 QS = [9, 12, 13, 16, 19, 21, 25]
 TAU = 12
 NBLK = 4
+NCLS = 6
 HK = 6
 FMEAS = {9: 0.006267, 12: 0.002317, 13: 0.001605, 16: 0.000768, 19: 0.000275, 21: 0.000181, 25: 0.000079}
 
@@ -138,7 +139,8 @@ def run(L, W, burn, snaps, every, seed):
     inl = np.array([[(NB[c, j] < n and t[NB[c, j]] == t[c]) for j in range(12)] for c in F])
     m7 = (1 + (inl * (2 ** np.arange(1, 13))).sum(1)).astype(np.int32)[:, None]      # bit 0 = the cell itself
     nbF = NB[F]
-    wins = {'c1': 2, 'c7': 8192, 'c10': 8192, 'h6': 2 ** HK}
+    cls = np.array([(3 if cells[c][3] == 7 else 0) + cells[c][0] for c in F], np.int32)[:, None]   # (face, axis): codes are per class
+    wins = {'c1': 2, 'c7': 8192 * NCLS, 'c10': 8192 * NCLS, 'h6': 2 ** HK}
     H1 = {w: np.zeros((NBLK, wins[w])) for w in wins}
     H2 = {w: np.zeros((len(vecs), NBLK, wins[w])) for w in wins}
     PC = np.zeros((len(vecs), TAU + 1, NBLK)); S1 = np.zeros(NBLK); cnt = 0
@@ -165,7 +167,7 @@ def run(L, W, burn, snaps, every, seed):
         hist = np.zeros((nF, R), np.int32)
         for kk in range(HK):
             hist += unpack(ring[-1 - kk]).astype(np.int32) << kk
-        codes = {'c1': code & 1, 'c7': code & m7, 'c10': code, 'h6': hist}
+        codes = {'c1': code & 1, 'c7': (code & m7) + 8192 * cls, 'c10': code + 8192 * cls, 'h6': hist}
         cb = {w: codes[w] + wins[w] * blk for w in wins}
         for w in wins:
             H1[w] += np.bincount(cb[w].ravel(), minlength=NBLK * wins[w]).reshape(NBLK, -1)
@@ -211,10 +213,11 @@ def ana(files):
         res[(q, 'C0')] = (C0.mean(), C0.std(ddof=1) / np.sqrt(nb))
         for w in ('c7', 'c10', 'h6'):
             H1 = sum(d['H1_' + w].sum(0) for d in D)
-            P = H1 / H1.sum()
+            ncl = 1 if w == 'h6' else NCLS
+            P = H1 / H1.sum() * ncl                               # P(pattern | class)
             ok = P > 0
             x = (np.arange(len(P)) & 1).astype(float)
-            rw = (x * P).sum()
+            rw = (x * P).sum() / ncl
             fb = []
             for d in D:
                 for b in range(NBLK):
@@ -240,6 +243,43 @@ def ana(files):
         print(row + f'   (+- {np.mean(errs):.1f})')
 
 
+def ana2(files):
+    """more of the same tilt: other statistics of the tilted window law P_T(pi) ~ P2(pi,pi)/P(pi), window c10 and c7"""
+    D = [np.load(f) for f in files]
+    vecs = D[0]['vecs']; nb = NBLK * len(D)
+    code = np.arange(8192 * NCLS) % 8192
+    x = (code & 1).astype(float); n = np.array([bin(c >> 1).count('1') for c in code]).astype(float)
+    nxt = (((n == 4) | (n == 5)) | ((x == 1) & (n == 3))).astype(float)
+    stats = {'x now': x, 'x next': nxt, 'births (x=0, n in 45)': (1 - x) * ((n == 4) | (n == 5)),
+             'survivals (x=1, n in 345)': x * ((n >= 3) & (n <= 5)), 'n (slab neighbours)': n, 'n^2': n * n}
+    for w in ('c10', 'c7'):
+        H1 = sum(d['H1_' + w].sum(0) for d in D); P = H1 / H1.sum() * NCLS; ok = P > 0
+        print(f'\nwindow {w}: shift of <g> under the tilt, per +-v (for c7, n counts the in-layer neighbours only and the rule columns are meaningless)')
+        print('q    Z_W - 1 (x1e3)        ' + ''.join(f'{k:>28s}' for k in stats))
+        for q in QS:
+            vi = [i for i, v in enumerate(vecs) if v[0] == q]
+            rows = {k: [] for k in stats}; zz = []
+            for d in D:
+                npair = int(d['cnt']) * int(d['nF']) * (int(d['R']) // NBLK) * len(vi)
+                for b in range(NBLK):
+                    H2 = d['H2_' + w][vi, b, :].sum(0)
+                    wgt = np.where(ok, H2 / np.where(ok, P, 1), 0)
+                    zz.append(wgt.sum() / npair - 1)
+                    for k, gk in stats.items():
+                        rows[k].append((gk * wgt).sum() / wgt.sum() - (gk * P).sum() / NCLS)
+            zz = np.array(zz)
+            print(f'{q:<4d} {1e3 * zz.mean():+8.3f} +- {1e3 * zz.std(ddof=1) / np.sqrt(nb):.3f}   ' +
+                  ''.join(f'{np.mean(v):+16.6f} +- {np.std(v, ddof=1) / np.sqrt(nb):.6f}' for v in rows.values()))
+        print('unperturbed: ' + ', '.join(f'{k} = {(gk * P).sum() / NCLS:.6f}' for k, gk in stats.items()))
+    # history window: each of the HK generations of the cell gives an estimate of the same density shift
+    H1 = sum(d['H1_h6'].sum(0) for d in D); P = H1 / H1.sum()
+    print('\nwindow h6: shift of the density of generation t-k, k = 0..5 (the exact law gives the same number at every k)')
+    for q in QS:
+        vi = [i for i, v in enumerate(vecs) if v[0] == q]
+        H2 = sum(d['H2_h6'][vi].sum((0, 1)) for d in D); wgt = H2 / P
+        print(f'{q:<4d} ' + ' '.join(f'{((np.arange(64) >> k & 1) * wgt).sum() / wgt.sum() - ((np.arange(64) >> k & 1) * P).sum():+.6f}' for k in range(HK)))
+
+
 if __name__ == '__main__':
     c = sys.argv[1]
     if c == 'check':
@@ -254,3 +294,4 @@ if __name__ == '__main__':
         run(tuple(a[:3]), *a[3:])
     elif c == 'ana':
         ana(sys.argv[2:])
+        ana2(sys.argv[2:])
