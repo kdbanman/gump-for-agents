@@ -1,0 +1,1 @@
+# P3.15f: 788 placements; beside d^3 f with its first unit at u_obj + e, e = -5..5: a right-going pulse at the three timings.  Listed: every (placement, e) at which the stretch stands and some timing releases it (the wire plain and the object as it would have been at the end); then k = 1..8 for those.

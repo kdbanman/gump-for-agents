@@ -1,0 +1,3 @@
+# P3.15f: period 3, 15 cells, union 20; 2656 placements
+# 1576 stand beside plain wire; pulse outcomes, R at three timings then L at three timings (p = the pulse passed and everything is as it would have been, e = the pulse vanished and everything is as it would have been, x = anything else): {'eeeeee': 7, 'eeeppp': 7, 'eeeppx': 1, 'eeepxp': 1, 'eeepxx': 1, 'eeexxx': 1, 'epppxp': 2, 'pppppp': 1408, 'ppppxx': 8, 'pppxxx': 8, 'ppxppe': 2, 'pxpxxx': 1, 'pxxxxx': 4, 'xeeeee': 2, 'xexeee': 1, 'xexexx': 4, 'xppxxx': 1, 'xpxppp': 6, 'xpxxxx': 3, 'xxpppp': 2, 'xxpxxx': 2, 'xxxeee': 1, 'xxxppp': 8, 'xxxppx': 1, 'xxxpxp': 1, 'xxxpxx': 5, 'xxxxpx': 1, 'xxxxxp': 3, 'xxxxxx': 84}
+# 157 s

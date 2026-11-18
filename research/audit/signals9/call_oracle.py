@@ -50,7 +50,7 @@ def call(ks):
         t0 = time.time()
         nL = max(32, 2 * k + 12); nR = 8
         W, word, first = store(nL, k, nR); N = len(word)
-        T = 28 + 2 * k + 6 + 2 * (nL + 4) + 60
+        T = 28 + 2 * (nL + 2) + 4 * k + 40
         X = Orc(W | LINE, reach=CALL + [E1]); V = Orc(W, reach=[E1]); L = Orc(LINE, reach=CALL)
         for c in CALL:
             X.make(c); L.make(c)
