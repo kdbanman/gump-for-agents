@@ -221,7 +221,17 @@ int main(int argc, char **argv) {
   sm = seed0 * 0x2545F4914F6CDD1DULL + 4242;
   size_t ssz = (size_t)(n + 1) * W, csz = (size_t)T * M; long NC = (long)NBATCH * NL;
   u64 *init = malloc(NBATCH * ssz * 8), *init2 = malloc(NBATCH * ssz * 8), *pl = malloc(ssz * 8);
-  dart_t *DA = malloc(NC * csz * sizeof(dart_t)), *DA2 = malloc(NC * csz * sizeof(dart_t)), *Dp = malloc(NL * csz * sizeof(dart_t));
+  dart_t *DA = malloc(NC * csz * sizeof(dart_t)), *DA2 = malloc(NC * csz * sizeof(dart_t));
+  /* Hit lists: for every chain and generation, the darts that land on N, in order (square | coin << 15), so that a
+     trajectory is evaluated without scanning the darts that miss. HC = count (0xFFFF: more than HCAP, scan the darts).
+     They are a cache of the darts and are rebuilt for the generations a proposal touches. */
+  double qh = (double)nN / B; int HCAP = (int)(M * qh + 6 * sqrt(M * qh * (1 - qh)) + 8); if (HCAP > M) HCAP = M;
+  size_t hsz = (size_t)T * HCAP;
+  dart_t *HI = malloc(NC * hsz * sizeof(dart_t)), *HI2 = malloc(NC * hsz * sizeof(dart_t)); uint16_t *HC = malloc(NC * T * 2), *HC2 = malloc(NC * T * 2);
+  dart_t *uh = malloc((size_t)NL * KFLIP * HCAP * sizeof(dart_t)); uint16_t *uc = malloc((size_t)NL * KFLIP * 2); int *ug = malloc(sizeof(int) * NL * KFLIP), *un = malloc(sizeof(int) * NL);
+  size_t *upos = malloc(sizeof(size_t) * NL * KFLIP); dart_t *umask = malloc(sizeof(dart_t) * NL * KFLIP);
+  #define BUILD(dd, cntp, hp) do { int c_ = 0; for (int d_ = 0; d_ < M; d_++) { dart_t v_ = (dd)[d_]; int q_ = v_ & (B - 1); if (q_ < nN) { if (c_ < HCAP) (hp)[c_] = (dart_t)(q_ | (v_ & 0x8000)); c_++; } } \
+      *(cntp) = (uint16_t)(c_ > HCAP ? 0xFFFF : c_); } while (0)
   int *score = malloc(4 * NC), *score2 = malloc(4 * NC), *seeds = malloc(4 * NC), *gmin = malloc(4 * NC), *gmin2 = malloc(4 * NC);
   static int am[NL], sc[NL]; static short popser[NL][128]; static long page[NL];
   double *rate = malloc(8 * nrep); double sumlnP[128] = {0}, accs = 0, accn = 0; long nlevP[128] = {0}; int lamlist[128], nlam = 0;
@@ -230,10 +240,13 @@ int main(int argc, char **argv) {
      Score = minimum population of the watched face over generations TPRE+1 .. T, as long as the life lasts: the life
      ends at the first generation go at which another face is empty (that generation still counts, so a tie is a death
      of the watched face). A chain with any face empty at generation TPRE has no score (1 << 20). */
-  #define EVAL(initb, darts) do { static int go_[NL], bad_[NL]; memcpy(a, (initb), ssz * 8); \
+  #define EVAL(initb, darts, hcs, his) do { static int go_[NL], bad_[NL]; memcpy(a, (initb), ssz * 8); \
       for (int l_ = 0; l_ < NL; l_++) { go_[l_] = T + 1; bad_[l_] = 0; } \
       for (int t_ = 0; t_ < T; t_++) { step(); \
-        for (int l_ = 0; l_ < NL; l_++) { const dart_t *dd_ = (darts) + ((size_t)l_ * T + t_) * M; for (int d_ = 0; d_ < M; d_++) dart(l_, dd_[d_]); } \
+        for (int l_ = 0; l_ < NL; l_++) { int c_ = (hcs)[(size_t)l_ * T + t_]; \
+          if (c_ == 0xFFFF) { const dart_t *dd_ = (darts) + ((size_t)l_ * T + t_) * M; for (int d_ = 0; d_ < M; d_++) dart(l_, dd_[d_]); } \
+          else { const dart_t *hh_ = (his) + ((size_t)l_ * T + t_) * HCAP; u64 *base_ = a + (l_ >> 6), bit_ = 1ULL << (l_ & 63); \
+            for (int i_ = 0; i_ < c_; i_++) { dart_t v_ = hh_[i_]; u64 *x_ = base_ + (size_t)Ncell[v_ & 0x7FFF] * W; *x_ = (v_ >> 15) ? (*x_ | bit_) : (*x_ & ~bit_); } } } \
         observe(); \
         for (int l_ = 0; l_ < NL; l_++) { popser[l_][t_ + 1] = (short)pop[l_]; \
           if (go_[l_] > T && ((od[l_ >> 6] >> (l_ & 63)) & 1)) go_[l_] = t_ + 1; \
@@ -256,7 +269,8 @@ int main(int argc, char **argv) {
       memcpy(pl, a, ssz * 8); memcpy(init + bt * ssz, a, ssz * 8);
       dart_t *d = DA + (size_t)bt * NL * csz;
       for (size_t x = 0; x < NL * csz; x += 3) { u64 r = rnd(); for (int k = 0; k < 3 && x + k < NL * csz; k++) { u64 v = r >> (21 * k); d[x + k] = (dart_t)((v & (B - 1)) | (((v >> 20) & 1) << 15)); } }
-      EVAL(init + bt * ssz, d);
+      for (int l = 0; l < NL; l++) for (int t = 0; t < T; t++) BUILD(d + ((size_t)l * T + t) * M, HC + ((size_t)bt * NL + l) * T + t, HI + (((size_t)bt * NL + l) * T + t) * HCAP);
+      EVAL(init + bt * ssz, d, HC + (size_t)bt * NL * T, HI + (size_t)bt * NL * hsz);
       for (int l = 0; l < NL; l++) { int ok = valid[l] && sc[l] < (1 << 20); score[bt * NL + l] = ok ? sc[l] : (1 << 20); gmin[bt * NL + l] = am[l]; nvalid += ok; }
       memcpy(a, pl, ssz * 8);
     }
@@ -272,22 +286,33 @@ int main(int argc, char **argv) {
         const u64 *si = init + sb * ssz + (sl >> 6); u64 *di = init2 + db * ssz + (dl >> 6); int sk = sl & 63, dk = dl & 63;
         for (int i = 0; i < n; i++) di[(size_t)i * W] |= ((si[(size_t)i * W] >> sk) & 1) << dk;
         memcpy(DA2 + (size_t)j * csz, DA + (size_t)src * csz, csz * sizeof(dart_t));
+        memcpy(HI2 + (size_t)j * hsz, HI + (size_t)src * hsz, hsz * sizeof(dart_t)); memcpy(HC2 + (size_t)j * T, HC + (size_t)src * T, T * 2);
         score2[j] = score[src]; gmin2[j] = gmin[src]; }
-      { u64 *t1 = init; init = init2; init2 = t1; dart_t *t3 = DA; DA = DA2; DA2 = t3; int *t2 = score; score = score2; score2 = t2; t2 = gmin; gmin = gmin2; gmin2 = t2; }
-      for (int sw = 0; sw < NSWEEP; sw++) for (int bt = 0; bt < NBATCH; bt++) { dart_t *d = DA + (size_t)bt * NL * csz; memcpy(Dp, d, NL * csz * sizeof(dart_t));
+      { u64 *t1 = init; init = init2; init2 = t1; dart_t *t3 = DA; DA = DA2; DA2 = t3; t3 = HI; HI = HI2; HI2 = t3; uint16_t *t4 = HC; HC = HC2; HC2 = t4; int *t2 = score; score = score2; score2 = t2; t2 = gmin; gmin = gmin2; gmin2 = t2; }
+      for (int sw = 0; sw < NSWEEP; sw++) for (int bt = 0; bt < NBATCH; bt++) { dart_t *d = DA + (size_t)bt * NL * csz, *hi = HI + (size_t)bt * NL * hsz; uint16_t *hc = HC + (size_t)bt * NL * T;
         int foc = (WBACK > 0 && (sw & 1)); static int tlo[NL], thi[NL];
-        for (int l = 0; l < NL; l++) { tlo[l] = T; thi[l] = -1; for (int k = 0; k < KFLIP; k++) { u64 z = rnd(); int t;
+        /* the proposal is made in place: flip the bits, rebuild the hit lists of the generations touched (the old
+           lists are kept), and undo both if the move is refused */
+        for (int l = 0; l < NL; l++) { tlo[l] = T; thi[l] = -1; un[l] = 0; for (int k = 0; k < KFLIP; k++) { u64 z = rnd(); int t;
             if (foc) { int g0 = gmin[bt * NL + l]; t = g0 - WBACK + (int)((z >> 40) % (u64)WBACK); if (t < 0) t = 0; if (t < tlo[l]) tlo[l] = t; if (t > thi[l]) thi[l] = t; }
             else t = (int)((z >> 40) % (u64)T);
             int dd = (int)((z >> 8) % (u64)M), bitn = (int)((z >> 24) % (u64)cbits);
-            Dp[((size_t)l * T + t) * M + dd] ^= (dart_t)(bitn == CB ? 0x8000 : (1 << bitn)); } }
-        EVAL(init + bt * ssz, Dp);
+            size_t pos = ((size_t)l * T + t) * M + dd; dart_t mk = (dart_t)(bitn == CB ? 0x8000 : (1 << bitn));
+            upos[(size_t)l * KFLIP + k] = pos; umask[(size_t)l * KFLIP + k] = mk; d[pos] ^= mk;
+            int seen = 0; for (int j = 0; j < un[l]; j++) if (ug[(size_t)l * KFLIP + j] == t) seen = 1;
+            if (!seen) { int j = un[l]++; ug[(size_t)l * KFLIP + j] = t; uc[(size_t)l * KFLIP + j] = hc[(size_t)l * T + t];
+              memcpy(uh + ((size_t)l * KFLIP + j) * HCAP, hi + ((size_t)l * T + t) * HCAP, HCAP * sizeof(dart_t)); } }
+          for (int j = 0; j < un[l]; j++) { int t = ug[(size_t)l * KFLIP + j]; BUILD(d + ((size_t)l * T + t) * M, hc + (size_t)l * T + t, hi + ((size_t)l * T + t) * HCAP); } }
+        EVAL(init + bt * ssz, d, hc, hi);
         for (int l = 0; l < NL; l++) { accn++; int ok = sc[l] <= lam; if (ok && foc) ok = (tlo[l] >= am[l] - WBACK && thi[l] < am[l]);   /* the reverse move must be proposable */
-          if (ok) { memcpy(d + (size_t)l * csz, Dp + (size_t)l * csz, csz * sizeof(dart_t)); score[bt * NL + l] = sc[l]; gmin[bt * NL + l] = am[l]; accs++; } } }
+          if (ok) { score[bt * NL + l] = sc[l]; gmin[bt * NL + l] = am[l]; accs++; }
+          else { for (int k = 0; k < KFLIP; k++) d[upos[(size_t)l * KFLIP + k]] ^= umask[(size_t)l * KFLIP + k];
+            for (int j = 0; j < un[l]; j++) { int t = ug[(size_t)l * KFLIP + j]; hc[(size_t)l * T + t] = uc[(size_t)l * KFLIP + j];
+              memcpy(hi + ((size_t)l * T + t) * HCAP, uh + ((size_t)l * KFLIP + j) * HCAP, HCAP * sizeof(dart_t)); } } } }
       denom = NC; lam = lam - DELTA > 0 ? lam - DELTA : 0;
     }
     rate[rep] = prod / TWIN; printf(" rate %.5e lntau %.4f\n", rate[rep], rate[rep] > 0 ? -log(rate[rep]) : 99.0); fflush(stdout);
-    if (pp && rate[rep] > 0) for (int bt = 0; bt < NBATCH; bt++) { EVAL(init + bt * ssz, DA + (size_t)bt * NL * csz);   /* dying chains: population of the watched face by generation, backwards */
+    if (pp && rate[rep] > 0) for (int bt = 0; bt < NBATCH; bt++) { EVAL(init + bt * ssz, DA + (size_t)bt * NL * csz, HC + (size_t)bt * NL * T, HI + (size_t)bt * NL * hsz);   /* dying chains: population of the watched face by generation, backwards */
         for (int l = 0; l < NL; l++) if (sc[l] == 0) { int gd = am[l]; fprintf(pp, "S %d %d %d |", rep, bt * NL + l, gd);
           for (int g = gd - 1; g >= 1 && g >= gd - 24; g--) { fprintf(pp, " %d", popser[l][g]); } fprintf(pp, "\n"); } }
     memcpy(a, pl, ssz * 8);
