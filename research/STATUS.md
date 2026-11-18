@@ -468,6 +468,11 @@ _Last updated 2026-11-14 by the lead._
   `research/audit/blast/`); an adversarial review of the ninth signals push (`research/audit/REVIEW-signals-9.md`).
   **Next:** an Opus recomputation of the card's 120-cell tube and CPU rows and an audit of `research/dying2/` once
   its branch is merged; then records, the essay and the owner's journal, one site update and version 19.
+  **12:26 UTC:** pull requests 37 (the card) and 35 are merged; 38 is open. The Opus recomputation is in and
+  recorded (notebook "the 120-cell tube …"; CLAIMS WL11, 206 claims; WL8's lean withdrawn; forecasts W14 to W16
+  for the 126- and 132-cell tubes; open problem 9). **Running (Fable):** the outside audit of the other session's
+  report; the review of the ninth signals push. **Then:** records of both, the essay and the owner's journal, one
+  site update and version 19.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

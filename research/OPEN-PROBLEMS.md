@@ -121,6 +121,10 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    cells is 4.0 combined errors below its line, loop² 16 leans (2.2), and the 12-tubes hold at 0.20198 ± 0.00031 on
    eight seeds. Still open: the form (the 120-cell tube is due on the 18th); whether 16 bends; and what the
    firewalls on girth-4 faces (ten per face death at 96 cells) do to those lifetimes.
+   **Since (later the same day, CLAIMS WL11):** the 120-cell tube is 4.1 errors below the line of 84 to 108 cells
+   and the last chord is 0.1957 per cell: the price is still falling, faster than a constant curvature. The 126- and
+   132-cell tubes are running (forecasts W14 to W16). For (m): on two codes the loop-21 face is midway between the
+   two readings; undecided, and no longer leaning.
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.
 

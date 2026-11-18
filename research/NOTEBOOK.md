@@ -3934,3 +3934,47 @@ Written by signals, kept, read without change from a crossing wire, and given ba
 crossing wire, with stores feeding stores: a row of unary counters with add, move and an is-it-empty test. Each
 piece has run on the oracle; the pieces have not all been run together under one reviewer, the calling pair is
 still made by hand, and nothing copies or subtracts. Open problem 13 (u) to (x) carries the list.
+
+## 2026-11-18: the 120-cell tube is 24.5086 ± 0.0169, four errors below the straight line: a long tube's price is still falling; the loop-21 face on two codes decides nothing; what the tables of dying faces show
+
+Recomputed from the card's rows and tables by an Opus agent (`research/audit/CHAIN3B-DYING2-CHECK.md`, commit
+7c99398; `python3 research/audit/gpu_chain3b_lead_check.py`, 0.6 s, and `python3 research/audit/dying2_check.py`,
+0.2 s; both PASS for the lead at 12:26 UTC, who also re-derived the 120-cell value with its own estimator). Nothing
+was re-run.
+
+- **[measured; one code, one lattice] The 120-cell tube** (1, 18), (0, 40), one loop² of 12: **24.5086 ± 0.0169** (8
+  seeds, 3,494 deaths, seeds' χ² 4.4 on 7, no firewall). With 17.3175 ± 0.0031, 19.7446 ± 0.0042 and 22.1599 ±
+  0.0086 at 84, 96 and 108 cells the chords are 0.20227 ± 0.00043, 0.20127 ± 0.00079 and **0.19572 ± 0.00158** per
+  cell; the second difference at 108 cells is −0.067 ± 0.024. The straight line through 84 to 108 cells gives
+  24.5893 ± 0.0097: the face is 0.081 ± 0.020 below it, 4.1 combined errors. One line through all four has χ² 18.1
+  on 2.
+- **Every forecast on file was high.** The card's 24.576 ± 0.020 (2.6 of its errors); the theory session's eight,
+  from 24.56 to 24.608 (1.3 to 2.2 of theirs). The lead had frozen none.
+- **Forms fitted after seeing it** (one parameter beyond a line; none fits well, χ² 2.7 to 3.7 on 1, the bend
+  between 108 and 120 cells being sharper than any allows): a constant curvature of (−9.9 ± 2.5) × 10⁻⁵ per cell²,
+  a term k ln A (k = 1.88), a term k/A. They agree within 0.02 on the tubes now running: 25.70 to 25.71 at 126
+  cells and 26.87 to 26.89 at 132 (errors about 0.04 and 0.05), where the line says 25.801 and 27.013. The lead's
+  forecasts W14 to W16 are frozen in `research/wrap/PREDICTIONS.md` in the commit that carries this entry.
+- **[two codes] The CPU second code** agrees with the GPU at five faces, χ² 3.8 on 5. On the loop-21 face it gives
+  17.5442 ± 0.0034 against the GPU's 17.5387 ± 0.0031; **pooled 17.5411 ± 0.0023, 1.5 above 17.534 and 1.6 below
+  17.547: midway. The lean I recorded on the 16th is withdrawn** (WL8). With the 6 × 6 face the pair's χ² is now 2.9
+  against the density relation and 4.4 against "long ways round cost nothing", on 2: undecided. The 96-cell
+  12-tube on CPU alone is 4.7 errors below the frozen line, so the bend rests on two codes to 96 cells and on one
+  at 108 and 120.
+- **[measured by the card's two Opus studies, one code each; their tables recomputed from their CSVs] Dying faces by
+  lag** (`research/dying2/`, `research/dying2/hull/`). Four generations before a wrapped face is empty, the upper
+  tenth of dying faces are at 1.40 to 1.44 of the living mean, 0.72 to 0.75 of the face, on all four faces (63 and
+  84 cells wide, 84- and 96-cell tubes), where a living face's own upper tenth is at 1.16 to 1.20; the median dying
+  face is by then at 0.18 to 0.34. So 10 to 25% of wrapped faces are far over-full four generations before they are
+  empty. On hull faces of 63 and 84 cells the dying face's upper twentieth never exceeds the living one at lags 1
+  to 12. The tables cannot say "fuller than a living face ever is" (no stationary histogram on file), nor what
+  fraction of deaths pass through an over-full generation at some lag; an audit that rebuilds this on the oracle is
+  running.
+- **The chance of death once k cells are left** (0.85, 0.63, 0.42 wrapped; 0.77, 0.50, 0.30 hull) is the same
+  formula on different cells: a hull face's count includes its rim row, which a living neighbour shares. Not like
+  for like; a recount over unshared cells would be.
+- Discrepancies in the studies' READMEs (the check's section on them): "censored: none" is false (harmless below
+  k = 4); "q agrees at k ≤ 5" holds only among the three larger faces; the hull's plunge medians are one generation
+  longer by definition than the wrapped ones; a CSV with unquoted commas.
+- Not checked: the runs, the recorders and their validations; the CPU code (not reviewed); death records (in
+  scratch on the card's machine).
