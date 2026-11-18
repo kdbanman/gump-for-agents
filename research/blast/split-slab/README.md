@@ -653,13 +653,15 @@ Neighbouring sections, all sections:
   the 192-cell tube's 0.014 ± 0.002. A chain with one bond weight for both lengths is not excluded (1.5 to 2.7
   sd apart, depending on how the correlated errors are counted) and not confirmed: the test rests on ONE tube
   length.
-- **The three-timing chain itself fails beyond nearest neighbours.** With u from P1 (W = 3) it predicts
-  P2 = 0.570, P3 = 0.495, P4 = 0.473 for 2-unit sections of the 192-cell tube; measured 0.378 ± 0.067,
-  0.275 ± 0.078, 0.277 ± 0.072. The timing decorrelates much faster than that chain allows: measured P2 is at
-  or below P1^2 = 0.52, the floor for ANY stationary reversible Markov chain of timings with that P1. Either a
-  change of timing rarely comes back (many timings: the far plateau, 0.23 to 0.28 at 8 units, says W of about 4,
-  and the differences are mostly 3 generations or more, section 9), or the crash generations carry noise, which
-  would also explain the factor 1.4 to 1.6 above.
+- **No one-parameter chain fits both the bond and the decay.** With u from P1 and W = 3 the chain predicts
+  P2 = 0.570, P3 = 0.495, P4 = 0.473 for crashed 2-unit sections of the 192-cell tube; measured 0.378 ± 0.067,
+  0.275 ± 0.078, 0.277 ± 0.072 (2 to 3 sd below; W = 4 does no better: 0.55, 0.44). Measured P2 is even below
+  P1^2 = 0.52, which a Markov chain of timings cannot do; but these pairs are selected (both crashed, whatever
+  lies between), so that bound is not strict here. Without the selection (all sections) a chain with FOUR timings
+  does fit the whole decay (P1..P4 measured 0.514, 0.326, 0.247, 0.237; chain 0.514, 0.343, 0.283, 0.260; W = 3
+  gives a plateau of 1/3, too high), but its bond then implies 0.028 per cell, three times the discount, and
+  falls with section length (0.028, 0.022, 0.020): crash generations of sections without a clear crash are partly
+  noise. So: where the size is right the shape is not, and where the shape is right the size is not.
 - **Correlation length.** The chain (W = 3, u from P1) gives 3.5 units for 2-unit sections. What the paths show
   is shorter: P(same) minus its plateau falls from 0.44 at 2 units to 0.10 at 4 units and to nothing at 6: about
   1.4 to 1.8 units. The 25% together at 6 to 8 units is the plateau (chance agreement among about four
