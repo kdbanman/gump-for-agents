@@ -8,7 +8,7 @@ Modes (how drift and covariance are defined where the tally is thin, n < nmin):
   carry    thin cells take another size's map at equal fillings (bilinear), then nearest
   carryabs thin cells take another size's map at equal absolute P and equal filling of B, then nearest
 Death: P' < 0.5 (rounded to 0). Start: the mode of the living histogram."""
-import sys, numpy as np
+import sys, os, numpy as np
 
 class Map:
     def __init__(s, fn, d=0):
@@ -67,6 +67,7 @@ def build(m, mode='visited', nmin=200, src=None):
                 c = th[c0:c0 + 512]
                 d2 = ((c[:, None, :] - src_p[None, :, :]) ** 2).sum(-1); j = d2.argmin(1)
                 F[c[:, 0], c[:, 1]] = F[src_p[j, 0], src_p[j, 1]]
+    if os.environ.get('DP_PCAP'): sel = sel & (m.P <= int(os.environ['DP_PCAP']))   # forbid over-full faces: fade-only action
     P = m.P[sel].astype(float); B = m.B[sel].astype(float); f = F[sel]
     M = np.stack([P + f[:, 0] * m.A, B + f[:, 1] * m.nB], -1)
     vPP = np.maximum(f[:, 2] * m.A, 0.05); vBB = np.maximum(f[:, 3] * m.A, 0.05)
@@ -121,3 +122,4 @@ if __name__ == '__main__':
     print(f"  d={d} {mode} nmin={nmin} states={r['ns']}: S={r['S']:.3f} S/A={r['S']/m.A:.4f} chain ln tau={r['lntau']:.3f} (its {r['its']})")
     print("  route:", ' '.join(f"({p},{b})" for p, b in r['route']))
     print("  costs:", ' '.join(f"{c:.2f}" for c in r['cost']))
+    print("  n on the route:", ' '.join(f"{int(m.n[p, b])}" for p, b in r['route']))
