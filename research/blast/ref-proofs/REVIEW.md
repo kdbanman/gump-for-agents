@@ -164,7 +164,7 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
    a nat: 0.40 at 108 cells, against c·A ≈ 22) the bound is reached only when length × 0.40/22 ≈ 1, i.e. it
    allows quadratic growth for another factor of about 50 in length.
 
-### A3. Lemma R — CONFIRMED (calculus); discrete form CORRECTED; the 0.29 reading CONFIRMED within errors
+### A3. Lemma R — CONFIRMED (calculus); discrete form CORRECTED; the 0.29 reading CONFIRMED by my own simulation over D = 6–12
 
 - The three formulas are derivatives of −ln Σ_r h_r. Correct. They hold for *any* partition of deaths, so
   "step − p·(slope of the log-odds)" is identically −d ln h_starve/dA: the measured content is that h_starve is
@@ -179,11 +179,13 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
   0.22 ± 0.02 over D = 12–16: "0.29 per unit" is the early slope, not a constant. The README's list of shares has
   no entry for D = 13 (it runs 5…12, then 14) without saying so.
 - My own simulation of the tube (`ref.py torus 1 1 D --mc N --mconly`, `python3 tube_mine.py`, `data/tube_mine.txt`)
-  agrees with rigour's rows at D = 6, 8, 10: ln τ = 5.1075 ± 0.0041, 6.7300 ± 0.0050, 8.2788 ± 0.0071 (theirs 5.1064,
-  6.7278, 8.2757; +0.2σ, +0.3σ, +0.4σ) and bust shares 0.8119 ± 0.0016, 0.7136 ± 0.0023, 0.5782 ± 0.0035 (theirs 0.8105,
-  0.7131, 0.5772). From my points alone, per unit of length: −Δ ln h_bust = 0.876 ± 0.004 (6→8) and 0.880 ± 0.006
-  (8→10); −Δ ln h_starve = 0.601 ± 0.007 and 0.581 ± 0.007. So both branches are exponential in the length over
-  D = 6–10 and differ by 0.29 ± 0.01 per unit (0.097 per cell): rigour's number.
+  agrees with rigour's rows at D = 6, 8, 10, 12: ln τ = 5.1075 ± 0.0041, 6.7300 ± 0.0050, 8.2788 ± 0.0071,
+  9.7314 ± 0.0129 (theirs 5.1064, 6.7278, 8.2757, 9.7304; all within 0.4σ) and bust shares 0.8119 ± 0.0016,
+  0.7136 ± 0.0023, 0.5782 ± 0.0035, 0.4442 ± 0.0064 (theirs 0.8105, 0.7131, 0.5772, 0.4165 ± 0.0102: the last is
+  2.3σ below mine). From my points alone, per unit of length: −Δ ln h_bust = 0.876 ± 0.004, 0.880 ± 0.006,
+  0.858 ± 0.011 (6→8, 8→10, 10→12); −Δ ln h_starve = 0.601 ± 0.007, 0.581 ± 0.007, 0.588 ± 0.010; the log-odds fall
+  by 0.275 ± 0.008, 0.299 ± 0.009, 0.270 ± 0.015 per unit. So over D = 6–12 both branches are exponential in the
+  length and differ by 0.28 ± 0.01 per unit (0.094 per cell): rigour's 0.29, confirmed.
 - Rider (rigour states it): the second branch is defined by exclusion, with a marker tied to the whole face.
 
 ### Other statements marked [proved] in `THEOREMS.md`

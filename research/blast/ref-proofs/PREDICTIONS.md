@@ -34,5 +34,9 @@ valley, beyond the sampling noise.
   3.7·10⁵ and 1.25·10⁵).
 - T3: **passes** (triangles of 18 and 30 cells: one hump at s = 0.3 and 0.5; a flat plateau at s = 0.2 on 30 cells).
 - T4: **passes** (weight above the valley 0.235).
-- P1, P2 at D = 6, 8, 10: every ln τ within 0.4σ and every bust share within 0.5σ of rigour's. D = 12: see below.
-- P3, step 8→10: −Δ ln h_starve = 0.581 ± 0.007 (in [0.54, 0.63]), −Δ ln h_bust = 0.880 ± 0.006 (in [0.80, 0.95]).
+- P1: **passes** (ln τ within 0.4σ of rigour's at D = 6, 8, 10, 12).
+- P2: **passes**, narrowly (bust shares within 0.5σ at D = 6, 8, 10; at D = 12 mine is 0.4442 ± 0.0064 against
+  0.4165 ± 0.0102, 2.3σ).
+- P3: **passes** (8→10: 0.581 ± 0.007 and 0.880 ± 0.006; 10→12: 0.588 ± 0.010 and 0.858 ± 0.011).
+
+Seven of seven; none of these forecasts was bold.

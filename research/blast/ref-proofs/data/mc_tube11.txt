@@ -5,3 +5,4 @@ MC (independent simulation, deaths after 40 generations from a fair start): deat
 == torus_1_1_10 A 30 (simulation only)
 MC (independent simulation, deaths after 40 generations from a fair start): deaths 20006  halffall6 share 0.5782 +- 0.0035  lntau 8.2788 +- 0.0071
 == torus_1_1_12 A 36 (simulation only)
+MC (independent simulation, deaths after 40 generations from a fair start): deaths 6008  halffall6 share 0.4442 +- 0.0064  lntau 9.7314 +- 0.0129
