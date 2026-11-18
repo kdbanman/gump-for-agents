@@ -4,6 +4,33 @@ Standing account of the PI (the session in charge of the blast). One subdirector
 README; `BRIEF-COMMON.md` is what every agent was told; `PREDICTIONS.md` holds forecasts frozen before data;
 `REPORT.md` is the account for the owner. Written to as results are checked; newest state at the top.
 
+## Where it stands at the end (05:40 UTC): read `REPORT.md`; this is the index
+
+**The account for the owner is `REPORT.md`.** The sections below it in this file are the night's earlier states,
+kept as written; where they disagree with the report, the report is later and refereed.
+
+| directory | what it is | status |
+|---|---|---|
+| `anatomy/` | single deaths in space-time on tori, tubes, hull faces (45–84 cells): boom and bust; starvation on hulls | refereed by `ref-anatomy/` (confirmed, sharpened) |
+| `ref-anatomy/` | the referee's own stepper and numbers; `THEORY.md`: the two-layer map | the map refereed by `ref-map/` (wrapped half confirmed, hull half refuted) |
+| `boom/` | launches, the two-part split of the wrapped price, four-layer breath, fragmentation, tubes | refereed by `ref-boom/` (numbers confirmed; "0.2099 against 0.2087" is bookkeeping) |
+| `ref-boom/` | review; `STATIC.md`: is the price a static rarity of the four-layer state? | the second file is unrefereed |
+| `model/` | the boom's law per cell from the card's histograms; fits of every form on file; hull forms | unrefereed except where `boom/` and `ref-boom/` overlap |
+| `rigour/` | the exactly solved one-layer dice surrogate; Theorems 1–3, Lemma R | refereed by `ref-proofs/` (nothing proved broke; Theorem 3's hypothesis is failing) |
+| `image/` | the seam identity (a torus as its cover conditioned on a seam's history) | identity refereed by `ref-proofs/`; its consequences for the density law are conjecture |
+| `rim/` | corner-free prisms: strips with rims and no corners | unrefereed |
+| `split-slab/` | why splitting fails on gump; the dice-chain sampler to 192 cells; the staggered crash (§9–§11) | sampler refereed by `ref-slab/` (confirmed; 120-cell tube 24.60 ± 0.07; 192-cell errors understated) |
+| `tube1d/` | a band of a living tube is a closed tube; the one-curve fit with K = 2; loop² 16 saturates | unrefereed |
+| `split-hull/` | forward flux on hulls fails; dip rates to radius 21 and the forecast 29.22; dice under the hull | dip rates refereed by `ref-hull/` (confirmed); the dice chain by `ref-dicehull/` |
+| `toy/` | the 2D relative: the same two exits, prices reversed, a crossover | unrefereed |
+| `pi/` | the PI's own arithmetic (`frontgas_check.py`, `patch_vs_torus.py`) | unrefereed |
+| `PREDICTIONS.md` | the PI's forecasts, blocks 0–4, each frozen before its data, each scored | |
+
+Not done, for whoever comes next: nothing here has been recomputed by the lead; `research/check.sh` was not run
+against these directories (they add no tests to it); no figure was made; several agents left compiled binaries
+untracked in their directories (rebuild commands are in each README). The PI's safety snapshots in the git log
+are commits of agents' work in progress made so that nothing was lost when the usage window closed.
+
 ## State (04:21 UTC): the referee's verdict, and the PI's reading of the whole
 
 - **Boom and bust is confirmed by a referee with its own code (`ref-anatomy/REVIEW.md`) and sharpened.** Nearly
