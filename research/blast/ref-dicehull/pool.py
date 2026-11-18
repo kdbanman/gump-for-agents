@@ -49,7 +49,7 @@ for R in sorted(set(mine) | set(theirs)):
 # Like with like: the pooled value WITHOUT replications above 8 x the median (what a run that has not yet met a giant
 # replication reports), against gump's anchors; a weighted line in the area, extrapolated to 135 cells.
 print('\n"typical" pooled value (replications above 8 x median left out) minus gump, and its trend with the area:')
-ANCH = {9: 9.819, 11: 13.633, 13: 18.141, 15: 23.3392}; AREA = {9: 45, 11: 63, 13: 84, 15: 108, 17: 135}
+ANCH = {9: 9.819, 11: 13.633, 13: 18.141, 15: 23.3392}; AREA = {9: 45, 11: 63, 13: 84, 15: 108, 17: 135, 19: 165, 21: 198}
 xs, ys, es = [], [], []; typ = {}
 for R in sorted(set(mine) | set(theirs)):
     r = np.array((mine.get(R, {'r': []})['r']) + (theirs.get(R, {'r': []})['r'])); med = np.median(r); t = r[r <= 8 * med]
