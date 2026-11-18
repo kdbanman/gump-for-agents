@@ -372,4 +372,87 @@ theorem hull_period_two_of_no_O1 (c : Config) (hc : ∀ p, c p = true → p.isCe
   rw [List.mem_toFinset, mem_hullCells]
   exact ⟨run_isCell c hc t p hp, hull C c h t p hp⟩
 
+/-! ### The budget over a window (threshold.md section 3) -/
+
+/-- The number of O1 events at t + 1 in the vessel. -/
+def o1 (V : Finset Pt) (c : Config) (t : ℕ) : ℕ :=
+  (V.filter fun p => 6 ≤ count (run c (t + 1)) p ∧ run c t p = true).card
+
+/-- The number of mismatches x(t + 2) ≠ x(t) in the vessel. -/
+def mism (V : Finset Pt) (c : Config) (t : ℕ) : ℕ := (V.filter fun p => run c (t + 2) p ≠ run c t p).card
+
+theorem drive_le (t : ℕ) : drive V c t ≤ 19 * (o1 V c t : ℤ) := by
+  unfold drive o1
+  rw [Finset.card_filter]
+  push_cast
+  rw [Finset.mul_sum]
+  apply Finset.sum_le_sum
+  intro p _
+  split
+  · have := count_le (run c (t + 1)) p
+    have := ind_le_one (run c (t + 1) p)
+    simp only [hs, xs]
+    omega
+  · simp
+
+theorem mism_le (hc : ∀ p, c p = true → p.isCell = true) (t : ℕ) :
+    (mism V c t : ℤ) ≤ diss V c t + o1 V c t := by
+  unfold mism diss o1
+  rw [Finset.card_filter, Finset.card_filter]
+  push_cast
+  rw [← Finset.sum_add_distrib]
+  apply Finset.sum_le_sum
+  intro p _
+  have hd0 : (0 : ℤ) ≤ if count (run c (t + 1)) p ≤ 5 ∧ run c (t + 2) p ≠ run c t p then
+      |2 * hs c (t + 1) p - 7| else 0 := by split <;> simp
+  have ho0 : (0 : ℤ) ≤ if 6 ≤ count (run c (t + 1)) p ∧ run c t p = true then 1 else 0 := by split <;> simp
+  by_cases hm : run c (t + 2) p ≠ run c t p
+  · rw [if_pos hm]
+    by_cases h5 : count (run c (t + 1)) p ≤ 5
+    · rw [if_pos ⟨h5, hm⟩]
+      have : 1 ≤ |2 * hs c (t + 1) p - 7| := Int.one_le_abs (by simp only [hs]; omega)
+      linarith
+    · have h2 : run c (t + 2) p = false := by
+        show (p.isCell && rule (run c (t + 1) p) (count (run c (t + 1)) p)) = false
+        cases run c (t + 1) p <;> simp [rule] <;> omega
+      have h0 : run c t p = true := by
+        cases h : run c t p
+        · rw [h2, h] at hm; exact absurd rfl hm
+        · rfl
+      rw [if_neg (fun h => h5 h.1),
+        if_pos (⟨by omega, h0⟩ : 6 ≤ count (run c (t + 1)) p ∧ run c t p = true)]
+      simp
+  · rw [if_neg hm]
+    linarith
+
+/-- **The budget (threshold.md section 3).** Over any window of K generations from T, the number of
+mismatches x(t + 2) ≠ x(t) is at most 20 times the number of O1 events plus 26 |V|: sustained activity
+beyond period 2 needs overcrowding of cells that were live two generations earlier, at a rate of at
+least one event per 20 mismatches. -/
+theorem budget (hc : ∀ p, c p = true → p.isCell = true) (hV : ∀ t p, run c t p = true → p ∈ V)
+    (T K : ℕ) :
+    (∑ t ∈ Finset.range K, (mism V c (T + t) : ℤ)) ≤
+      20 * ∑ t ∈ Finset.range K, (o1 V c (T + t) : ℤ) + 26 * V.card := by
+  have hdiss : ∀ K, ∑ t ∈ Finset.range K, diss V c (T + t) =
+      ∑ t ∈ Finset.range K, drive V c (T + t) - (F V c (T + K) - F V c T) := by
+    intro K
+    induction K with
+    | zero => simp
+    | succ K ih =>
+      rw [Finset.sum_range_succ, Finset.sum_range_succ, ih]
+      have := energy_identity hc hV (T + K)
+      rw [show T + (K + 1) = T + K + 1 by omega]
+      linarith
+  have h1 : ∑ t ∈ Finset.range K, drive V c (T + t) ≤ 19 * ∑ t ∈ Finset.range K, (o1 V c (T + t) : ℤ) := by
+    rw [Finset.mul_sum]
+    exact Finset.sum_le_sum (fun t _ => drive_le _)
+  have h2 : ∑ t ∈ Finset.range K, (mism V c (T + t) : ℤ) ≤
+      ∑ t ∈ Finset.range K, diss V c (T + t) + ∑ t ∈ Finset.range K, (o1 V c (T + t) : ℤ) := by
+    rw [← Finset.sum_add_distrib]
+    exact Finset.sum_le_sum (fun t _ => mism_le hc _)
+  have hb1 := (energy_bounds hc hV (T + K)).1
+  have hb2 := (energy_bounds hc hV T).2
+  have := hdiss K
+  linarith
+
 end Gump.Threshold
