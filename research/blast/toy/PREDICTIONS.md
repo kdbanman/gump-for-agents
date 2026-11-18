@@ -101,3 +101,10 @@ Note on block 3's 2D items: the L = 36 run had been going for 30 seconds when bl
 seen its running death count (24, 47, 62 deaths; no shares, no populations). The ln τ value 15.47 and the bust
 share 0.30 are block 2's (committed nine minutes before the run started); only the boom-share forecast (0.24) is
 new in block 3, and nothing I had seen bears on it.
+
+## Scoring of block 3, exact ring L = 24 (04:54 UTC)
+
+ln τ = 12.8176 (forecast 12.814 ± 0.006): **hit**; slope 23–24 = 0.5186 (forecast 0.516 ± 0.004): **hit**; ring − segment
+slope difference 0.0594 ≥ 0.05: **hit**. "Both slopes below 0.5198" holds by 0.0008 and 0.0012, but the fall is
+levelling (0.5198, 0.5190, 0.5186): I read it as the wobble's trough, not the bend; my 0.55 for "the bend has
+begun" should count as a miss in spirit.
