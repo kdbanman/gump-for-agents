@@ -80,3 +80,8 @@ state is P, +0.046 ± 0.007 when it is (P, U); the boom is four layers deep with
 13. With the state (P, S), S = the population of layers 2–4 together: frequency part +0.08 ± 0.03.
     P(it exceeds half of the discount, 0.082) = 45%; P(it is below the (P, U) value 0.046) = 10%.
     With the single coordinate P + S: +0.07 ± 0.03.
+
+### Block C scored (04:39 UTC)
+
+13. Frequency part with (P, S): forecast +0.08 ± 0.03, measured +0.076 ± 0.011 (hit); it does not exceed half of the
+    discount (0.082), as I thought more likely than not; with P + S: forecast +0.07 ± 0.03, measured +0.046 ± 0.002 (inside).

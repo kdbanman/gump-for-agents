@@ -28,8 +28,9 @@ failing negative control each time (`validate.py`; the `.val` files in scratch).
    measured tails 0.211–0.219 (and it launches from the wrong place); two-variable (face, layer beneath) Gaussian
    **0.160–0.165** (right route, wrong price); the map with one generation of memory, measured tails, 0.191–0.194
    (right route). The sufficient state is (P(t−1), P(t)), not (P, layer beneath) (§5).
-6. **A loop-12 tube booms exactly as often as a wide face and its bust leaves the same survivors; the discount is in
-   the kill, in both classes of death** [measured, 54–84 cells] (§6). What in the kill grows like L² I did not find.
+6. **A loop-12 tube's face is over-full exactly as often as a wide face's and its bust leaves the same survivors;
+   the discount is in d, in both classes of death** [measured, 54–84 cells], **and about half of it is that the
+   four-layer over-fill is more frequent on the tube** (+0.076 ± 0.011 of 0.164 at 72 cells) (§6).
 
 ## 1. Vessels and lifetimes (`sh run_a.sh`, `sh run_d.sh`; ln τ_face = ln(face-generations / deaths))
 
@@ -217,8 +218,19 @@ layer. In over-full states E[P′] = 98.2 − 1.28·P − 0.50·U (63 cells; the
   against 0.967. Weighed properly (`python3 joint2.py tube72 w72`: the rate ratio that the frequencies of the launch
   states alone would give, with d(p, u) pooled over both shapes): **at 72 cells the frequency of P alone gives
   +0.013 ± 0.002 and the frequency of (P, U) gives +0.046 ± 0.007 of a discount of 0.164** (0.20 ± 0.06 in these
-  runs). So about a quarter of the discount is a more frequent two-layer over-fill; the rest is in the kill at a
-  given (P, U), or in layers I did not record.
+  runs). With the four layers (`sh run_f.sh; python3 joint3.py f72tube f72wide`; new runs, 505 and 419 deaths,
+  ln rate tube − wide +0.187 ± 0.066; launch state (P, S), S = layers 2–4 together):
+
+  | launch state | P | (P, U) | (P, S) | P + S |
+  |---|---|---|---|---|
+  | frequency part of the discount (0.164) | +0.010 ± 0.003 | +0.046 ± 0.007 | **+0.076 ± 0.011** | +0.046 ± 0.002 |
+
+  **About half of the tube's discount at 72 cells is that the four-layer over-fill a death needs is more frequent on
+  the tube** (variance per cell of the top four layers together 2.43 against 2.37, +2.5%; of the face alone +5%),
+  although the face alone is over-full exactly as often. The share grows with every layer added (6%, 28%, 46%), so
+  the remainder may be deeper layers rather than the kill; not settled. [conjectured] A tube's chaos, wrapped on a
+  short loop, breathes more as a slab; that is a property per cell, so it gives a lower price per cell for long
+  tubes rather than a discount in L², and the L² of 54–108 cells would be the approach to that price.
 - duration and path of the death: the same (mean launch → empty 6.2 against 6.3 generations at 60/63 cells; the
   dying face is 0.224, 0.122, 0.066 of A on tubes against 0.221, 0.118, 0.062 on wide faces one, two, three
   generations after the launch).
@@ -237,8 +249,8 @@ Rates by class against the wide faces' line (slope 0.20866 for every class, inte
 At 72–84 cells the bust share is 0.564 ± 0.020 on tubes against 0.602 ± 0.016 on wide faces (1.5σ): a tilt
 towards no-bust deaths on longer tubes is not excluded. Since the launches are one hump, the two classes are one
 route cut at an arbitrary fall, and I read this as: a tube changes the kill of every launch.
-Not found: what in the kill carries a term growing like L². Candidates I could not test: the layers below the second
-(a tube's chaos is itself wrapped), and the joint over-fill above.
+Not found: a term growing like L². The other half of the discount is in layers below the fourth or in the kill at a
+given four-layer state; I could not tell which.
 
 ## 7. The sampler (step 3): not delivered
 
@@ -262,7 +274,7 @@ falling, so over 45–63 cells the bust route is not cheaper per cell than starv
 
 ## 9. Forecasts (PREDICTIONS.md: block A commit a786dea before any run; block B commit 130a480)
 
-Scored at the end of PREDICTIONS.md: seven hits or part-hits, four misses or part-misses, one void, three open (the 120-cell tube among them).
+Scored at the end of PREDICTIONS.md: eight hits or part-hits, four misses or part-misses, one void, three open (the 120-cell tube among them).
 
 ## 10. Not checked
 
@@ -282,7 +294,7 @@ Scored at the end of PREDICTIONS.md: seven hits or part-hits, four misses or par
 ## Files
 
 `boom.c` (run / clone / island / trace), `geom.py`, `validate.py` (both copied from ../anatomy, paths changed),
-`run_a.sh`, `run_d.sh`, `run_e.sh` (what was run; `run_b.sh`, `run_c.sh` were stopped unrun), `vessels.txt`, `layers.py`;
+`run_a.sh`, `run_d.sh`, `run_e.sh`, `run_f.sh` (what was run; `run_b.sh`, `run_c.sh` were stopped unrun), `vessels.txt`, `layers.py`;
 `analyse.py`, `scale.py`, `hidden.py`, `island.py`, `islandscale.py`, `map.py`, `formula.py`, `map2.py`, `map3.py`,
-`closure.py`, `classrates.py`, `joint.py`, `joint2.py`, `lags.py`, `deep.py`; `out/` every table above. Bulk output:
+`closure.py`, `classrates.py`, `joint.py`, `joint2.py`, `joint3.py`, `lags.py`, `deep.py`; `out/` every table above. Bulk output:
 `research/scratch/blast/boom/` (regenerate with the run scripts; same seeds).

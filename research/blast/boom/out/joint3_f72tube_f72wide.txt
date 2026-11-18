@@ -1,0 +1,7 @@
+f72tube against f72wide (A = 72; 505 and 419 deaths): ln rate tube - wide = +0.187 +- 0.066
+  frequency part with the launch state = P:            +0.010 +- 0.003
+  frequency part with the launch state = (P, S):       +0.076 +- 0.011
+  frequency part with the launch state = P + S:        +0.046 +- 0.002
+  mean launch (P, S)/A: tube (0.732, 1.701), wide (0.734, 1.704)
+  f72tube: top four layers together: mean 1.7702 A, variance per cell 2.4315
+  f72wide: top four layers together: mean 1.7734 A, variance per cell 2.3724
