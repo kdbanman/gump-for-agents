@@ -183,7 +183,7 @@ a(L) = ln τ(4, L) − 4·g(L) = 2.020 ± 0.008, 1.750 ± 0.029, 1.535 ± 0.046,
 **The rows formula against the strip** (holes' fit to the hull, the octahedron's row prices used at both rims
 because the tetrahedron gives none): it has λ(w) = ln τ(w, L+1) − ln τ(w, L) = 2.543, 3.235, 3.927 for w = 4, 5, 6
 at every L. Measured: λ(4) = 2.940, 2.761, 2.652 ± 0.011, 2.613 ± 0.026 (L 3→4 … 6→7); λ(5) = 3.743, 3.505 ± 0.011, 3.376 ± 0.024;
-λ(6) = 4.536 (3→4). The measured values depend on L, which the formula cannot; at the largest L they are 3 to
+λ(6) = 4.536, 4.160 ± 0.035 (3→4, 4→5). The measured values depend on L, which the formula cannot; at the largest L they are 3 to
 4% above it and still falling. Its increment per middle row, 0.692, against the measured 0.802, 0.744, 0.724 ± 0.026.
 Not confirmed, not excluded as a limit.
 
