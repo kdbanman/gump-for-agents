@@ -1,0 +1,15 @@
+PASS  the oscillator alone has period exactly 3 ([15, 15, 16] cells); beside plain wire the pair is plain wire + osc_even at generations 2, 4, 6; absent from the free oscillator at generations = 2 mod 6: [(58, 1, -50)]
+PASS  pass: 7 checks, 4 cells removed, 720 generations; torus (168, 30, 168), nearest image of a start cell 26 sites; 9 s
+PASS  cycle: 13 checks, 9 cells removed, 960 generations; torus (168, 30, 168), nearest image of a start cell 26 sites; 12 s
+PASS  law-1: 5 checks, 1 cells removed, 300 generations; torus (168, 30, 168), nearest image of a start cell 26 sites; 4 s
+PASS  law-2: 5 checks, 1 cells removed, 300 generations; torus (168, 30, 168), nearest image of a start cell 26 sites; 4 s
+PASS  law-3: 5 checks, 1 cells removed, 300 generations; torus (168, 30, 168), nearest image of a start cell 26 sites; 4 s
+PASS  law-4: 5 checks, 1 cells removed, 300 generations; torus (168, 30, 168), nearest image of a start cell 26 sites; 3 s
+PASS  law-5: 5 checks, 1 cells removed, 300 generations; torus (168, 30, 168), nearest image of a start cell 26 sites; 4 s
+PASS  law-6: 5 checks, 1 cells removed, 300 generations; torus (168, 30, 168), nearest image of a start cell 26 sites; 4 s
+PASS  law-7: 5 checks, 1 cells removed, 300 generations; torus (168, 30, 168), nearest image of a start cell 26 sites; 3 s
+PASS  law-8: 5 checks, 1 cells removed, 300 generations; torus (168, 30, 168), nearest image of a start cell 26 sites; 4 s
+PASS  law-9: 5 checks, 1 cells removed, 300 generations; torus (168, 30, 168), nearest image of a start cell 26 sites; 4 s
+PASS  law-10: 5 checks, 1 cells removed, 300 generations; torus (168, 30, 168), nearest image of a start cell 26 sites; 4 s
+PASS  move: 3 checks, 1 cells removed, 300 generations; torus (168, 30, 168), nearest image of a start cell 26 sites; 4 s
+ALL PASS
