@@ -15,7 +15,7 @@ per cell, so "two prices" there is a crossover between exits, not two asymptotic
 
 1. A ring edge dies by boom and bust: the row over-fills (peak 19.4 of 24 against a living mean of 13.9), the cap
    kills it to 1–2 cells, they starve; flat along the ring. A box edge fades over 6–8 generations from the middle
-   towards its corners, with FEWER over-full generations before death than a living window has (0.8 times),
+   towards its corners, with FEWER over-full generations before death than a living window has (0.6–0.85 times),
    where the ring has 3.6–4 times as many.
 2. The ring's deaths are a mixture of two exits with their own exponential laws: flash
    ln τ = 0.30 + **0.455**·L and no-flash 4.03 + **0.327**·L. The flash share falls like a logistic in L (0.90 at
@@ -93,7 +93,7 @@ same for living windows of K transitions (25,000–56,000 windows; 6,000–16,00
   are within 2 of a corner 0.57, 0.45, 0.37, 0.33, 0.29, 0.27 of the time at L = 12 … 32 (uniform: 0.33 … 0.125):
   twice uniform at every size; the corner cell itself is last alive 0.6 generations later than the rest.
 - **Second classifier** (`python3 boom.py` → `data/boom.json`): "boom" = the row at least 0.8·L full in one of
-  its last 6 living generations. Ring deaths: 0.886, 0.828, 0.731, 0.555, 0.448, 0.353 at L = 12 … 32 (living
+  its last 6 living generations (thresholds 10, 13, 16, 20, 23, 26 cells). Ring deaths: 0.886, 0.828, 0.731, 0.555, 0.448, 0.353 at L = 12 … 32 (living
   windows 0.53, 0.46, 0.38, 0.14, 0.12, 0.097): enriched 3.6–4 times at L ≥ 24, logit slope −0.13 per cell. Box
   deaths: 0.529, 0.379, 0.286, 0.151, 0.107, 0.097 (living 0.62, 0.53, 0.45, 0.18, 0.16, 0.12): BELOW chance at
   every size. So the box's "bust6" above is mostly chance falls inside a fade; the box has in effect one exit.

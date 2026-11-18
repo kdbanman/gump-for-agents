@@ -60,3 +60,11 @@ From the two-exit split of the ring edge (flash ln τ = 0.296 + 0.4550·L, other
   forecast 13.249 ± 0.008, exact 13.2497: **hit**. Slope difference at 20–22 ≥ 0.055: 0.0618: **hit**. Segment
   flash share (6 steps) at L = 22: forecast 0.475 ± 0.01, exact 0.476: **hit**.
 - The 2D items (ring at L = 36, 40, 48) and the gump item are NOT scored: no data.
+
+## Block 3 — 2026-11-18 04:42 UTC, frozen while the runs are in progress and unread
+
+- Exact ring L = 23 and 24 (`ex1d 23 1 0.472`, `ex1d 24 1 0.472`): local slopes 22–23 = 0.518 ± 0.003 and
+  23–24 = 0.516 ± 0.004, i.e. ln τ = 12.298 ± 0.003 and 12.814 ± 0.006; both slopes below 0.5198 (the bend has
+  begun, not a wobble): probability 0.55. Ring − segment slope difference at 23–24 still ≥ 0.05: probability 0.85.
+- 2D ring edge L = 36 (`ed run 16 36 1 21 400 9e8`, ~300 deaths): bust share (6 steps) 0.30 ± 0.04 (block 2);
+  boom share (≥ 0.8 L in the last 6 generations) 0.24 ± 0.04; ln τ = 15.47 ± 0.08.
