@@ -127,16 +127,18 @@ read along one direction, not a front.
   the excursion rules, ring buffer and dumps, and must give the same lives, the same records bit for bit and the
   same tallies (exposure, ΣP, ΣP², the P histogram, the excursion table by minimum and end type, deaths inside and
   outside excursions). (1,4),(0,10) × 8, 30,000 generations, H = 256, R = 128, KDUMP = 3: lives (11,580), records
-  (2,270 deaths, 2,977 recovered dips, 199 null) and tallies IDENTICAL.
+  (2,270 deaths, 2,977 recovered dips, 199 null) and tallies IDENTICAL. (1,17),(0,32) × 8 (A = 96: all 7 bits of
+  the counter, 12-byte layers), 6,000 generations, H = 1024, R = 512, KDUMP = 40: lives (128), records (66,559
+  recovered dips, 1,280 null; no death in so short a run, so the script prints FAIL for want of one) and tallies
+  (318,198 excursions; the P histogram to its top) IDENTICAL; 27 minutes.
 - In the analysis: every death record ends with the first empty generation and has a live face one generation
   before; every recovered record's minimum equals its header's; q from the dumped catches equals the online q at
   every k ≤ KDUMP (W63: to four digits).
 
 ## Not checked
 
-- Lanes 128–255 against numpy (same code as 0–127). The production vessels have not had a numpy run with face deaths
-  in it (the check vessel has 30 cells; a run on the 96-cell tube without deaths, testing the counter and records at
-  A > 64, is in progress).
+- Lanes 128–255 against numpy (same code as 0–127). Death records were checked against numpy only on the 30-cell
+  vessel; on the 96-cell tube only recovered and null records (the same writer).
 - The null samples are taken at fixed generations, not conditioned on the life going on (round 1 conditioned on 64
   more generations; it moved P̄ by < 0.01 there).
 - No second code for anything here; no adversarial review.

@@ -159,8 +159,9 @@ def main(a, kk, b, kmax=5, maxdeath=10 ** 9, maxrec=10 ** 9, m=8):
     # ---------------- deaths ----------------
     PL = {l: [] for l in LAGS}; BL = {l: [] for l in LAGS}
     deltas, lag1, n_cens_h, codeath = [], [], 0, 0
-    Xh, kh, Xlag = [], [], {l: [] for l in (1, 2, 4, 8)}
-    cutstart, width_at = [], {l: [] for l in (1, 2, 3, 4, 6, 8, 12, 16)}
+    Xh, kh, Xlag = [], [], {l: [] for l in (1, 2, 3, 4, 6, 8, 12, 16, 24, 32)}
+    cutstart, width_at, cutP = [], {l: [] for l in range(1, 33)}, []
+    cutstart2, cutP2 = [], []
     passage = {p: [] for p in (0.5, 0.3, 0.15)}
     catch_d = {}                      # k -> list of (X at first passage <= k in the final excursion, count, time to death)
     trajP_d = {}                      # k -> P around the catch (tau = -32..0 before, up to death after)
@@ -190,6 +191,13 @@ def main(a, kk, b, kmax=5, maxdeath=10 ** 9, maxrec=10 ** 9, m=8):
             Wd = np.array([(1 - axial_extent(us[f], bt[t, 0])) * Lax if P[t] > 0 else Lax for t in range(max(0, L - 65), L)])
             nc = np.nonzero(Wd < 1.0)[0]
             cutstart.append(len(Wd) - 1 - nc[-1] - 1 if len(nc) else 65)
+            if len(nc) and cutstart[-1] >= 1:
+                cutP.append(P[L - 1 - cutstart[-1]])
+            nc2 = np.nonzero(Wd < 2.0)[0]
+            cs2 = len(Wd) - 1 - nc2[-1] - 1 if len(nc2) else 65
+            cutstart2.append(cs2)
+            if len(nc2) and cs2 >= 1:
+                cutP2.append(P[L - 1 - cs2])
             for l in width_at:
                 if l < len(Wd) and P[L - 1 - l] > 1:
                     width_at[l].append(Wd[len(Wd) - 1 - l])
@@ -261,16 +269,30 @@ def main(a, kk, b, kmax=5, maxdeath=10 ** 9, maxrec=10 ** 9, m=8):
     xn_h = np.array([xn[k] for k in kk_])
     pr(f'at t_h: mean count {kk_.mean():.2f}; X = {xh.mean():.4f} +- {xh.std() / math.sqrt(len(xh)):.4f}; random-thinning null at '
        f'the same counts {np.nanmean(xn_h):.4f}; ratio {xh.mean() / np.nanmean(xn_h):.4f}')
+    brow = []
     for l in Xlag:
         arr = np.array(Xlag[l]); ok = arr[:, 1] >= 2
         nulls = np.array([xnull(int(k)) for k in arr[ok, 1]])
+        brow.append([l, ok.sum(), arr[ok, 1].mean(), arr[ok, 0].mean(), np.nanmean(nulls), np.mean(width_at[l]) if width_at[l] else np.nan,
+                     (1 - np.nanmean(nulls)) * Lax])
         pr(f'lag {l}: (deaths with >= 2 live cells: {ok.sum()}) X = {arr[ok, 0].mean():.4f}' +
            (f', null at the same counts {np.nanmean(nulls):.4f}' if nulls is not None else ''))
+    np.savetxt(os.path.join(DATA, f'{tag}_band.csv'), np.array(brow), delimiter=',', comments='',
+               header='lag,n_ge2,mean_count,X,X_null_same_count,band_width_cube_edges,band_width_null', fmt='%.5g')
     cs = np.array(cutstart)
+    np.savetxt(os.path.join(DATA, f'{tag}_cutstart_hist.csv'), np.array([[l, (cs == l).sum()] for l in range(0, 66)]), delimiter=',',
+               comments='', header='final_cut_start_lag,deaths', fmt='%d')
     pr(f'final cut (empty band >= 1 cube edge across the axis) begins: median lag {np.median(cs):.0f}, quartiles '
        f'{np.quantile(cs, 0.25):.0f}-{np.quantile(cs, 0.75):.0f}, 90% {np.quantile(cs, 0.9):.0f} (65 = cut for all of the last 64)')
+    cp = np.array(cutP) / Pbar
+    pr(f'population when the final cut opens (P/Pbar): mean {cp.mean():.3f}, quartiles {np.quantile(cp, 0.25):.3f}-{np.quantile(cp, 0.75):.3f}, '
+       f'90% {np.quantile(cp, 0.9):.3f}; cut opening at P > Pbar/2: {np.mean(cp > 0.5):.4f}')
+    cs2 = np.array(cutstart2); cp2 = np.array(cutP2) / Pbar
+    pr(f'variant (added after the forecasts): band >= 2 cube edges: final cut begins at median lag {np.median(cs2):.0f}, quartiles '
+       f'{np.quantile(cs2, 0.25):.0f}-{np.quantile(cs2, 0.75):.0f}, 90% {np.quantile(cs2, 0.9):.0f}; P/Pbar then: mean {cp2.mean():.3f}, '
+       f'quartiles {np.quantile(cp2, 0.25):.3f}-{np.quantile(cp2, 0.75):.3f}; opening at P > Pbar/2: {np.mean(cp2 > 0.5):.4f}')
     pr('empty-band width (cube edges, deaths with >= 2 live cells) at lag: ' +
-       ', '.join(f'{l}: {np.mean(width_at[l]):.2f}' for l in width_at if width_at[l]))
+       ', '.join(f'{l}: {np.mean(width_at[l]):.2f}' for l in (1, 2, 3, 4, 6, 8, 12, 16, 24, 32) if width_at[l]))
     pr('\n## dying against recovered, caught at the first generation of the excursion with P <= k')
     pr('k  dying: n, X, mean count, median time to death | recovered: n, X, mean count | q from catches | X at count == k: dying, recovered, null')
     crow = []
