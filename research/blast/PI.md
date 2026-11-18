@@ -74,38 +74,36 @@ after its own check; the PI never merges it.
   without warning: after every milestone bring this file up to date ("State"), and within 60,000 tokens of the
   threshold do it at once.
 
-## State (overwritten; last written 18:07 UTC 2026-11-18)
+## State (overwritten; last written 19:39 UTC 2026-11-18)
 
 - **Open again, on the owner's word of about 17:50 UTC** (quoted above): Lean, at full ambition, and in-depth
   discussion on pull request 39. Before that the owner had closed the blast (14:55 UTC).
-- **Usage at 18:09 UTC: Fable weekly window 0.48, all-model weekly 0.25**; resets 2026-11-25 11:00 UTC; shared
-  with the lead's session. **Rule now (the owner, 18:22 UTC, quoted above):** no swarm; at most two subagents at a
-  time, Opus by preference; the PI's own interim stop at 0.60 of the Fable window. **The last-day blast** starts
-  2026-11-24 11:00 UTC (a scheduled wake is set for 11:05) and stops at 0.96 Fable or 0.90 all-model.
-- **Pull request 39** (kdbanman/gump-for-agents#39; subscribed; the lead merges). The lead's comments do NOT wake
-  this session (same GitHub account): poll with `pull_request_read` `get_comments` on every turn and by check-ins
-  (`send_later`). The lead's first review (17:34 UTC) is answered in a comment (fixes pushed; tail analysis;
-  forecasts in `noisy/PREDICTIONS.md` block 3). **Owed on the pull request:** a second comment with the results of
-  `diag.sh` (ancestry at 108 cells; odd sweeps off), and the depth series the PI offered (noise at depth >= d for
-  d = 2 .. 6 by brute force at 63 cells, `nz R brute SEED GENS M DW DO`), then score block 3 when the lead's
-  rebuild reports brute force at 84 cells.
-- **`lean-thickness` reported at 19:15 UTC and is integrated** (48 theorems in `lean/Gump/Thick*.lean`: T6 in
-  full, Lemma 1 both ways, the small sealed sets with one-layer minimality proved for every layer, the 9-core,
-  pockets, sealed half-spaces iff body diagonals; imports, `Axioms.lean` (46 theorems), README rows and
-  `STATEMENTS.md` (written by `statements.py`: add a row there for every new headline theorem) are in; pushed).
-  Its open ends: Proposition 5's minimality (36) is not in Lean; `set36` not compared with `sealed.py`'s set; the
-  torus clause is stated on the cover.
-- **In flight (agent, Opus at xhigh, started 18:25 UTC):** `lean-link` (the neighbourhood is symmetric; `stepFin`
-  proved equal to `step`; `difftest.sh`; a torus; eventual periodicity; speed limit; a bit-parallel stepper and
-  kernel-checked oscillator certificates; T5's window budget in `mathlib/`). It does not edit the shared files.
-  **Owed when it reports:** read its statements against their sources, add imports to `Gump.lean` (and
-  `GumpMath.lean`), lines to `Axioms.lean` and `check.sh` (add `--wfail`), rows to `lean/README.md` and
-  `statements.py`, run `sh research/blast/lean/check.sh`, commit (lean-only), push, tell the lead on the pull
-  request what is new. The lead asked where Lean is headed and proposed the signal laws (the gun's loop, the unzip
-  law, the call law) as theorems; the PI asked for where they are stated exactly (comment of 19:05 UTC).
-- **In flight (CPU):** tracked job `sh research/blast/noisy/diag.sh` (started 17:56 UTC, about 100 minutes; rows in
-  scratch `runs_diag/`; read with `python3 research/blast/noisy/anc.py` and `tails.py research/scratch/blast/noisy/runs_diag`).
-  Tracked job fetching Mathlib into `research/blast/lean/mathlib/` (`lake update`, `lake exe cache get`).
+- **Usage at 19:34 UTC: Fable weekly window 0.68, all-model weekly 0.38** (0.48 and 0.25 at 18:09); resets
+  2026-11-25 11:00 UTC; shared with the lead's session, whose rebuild is running. It passed the PI's own interim
+  stop of 0.60, so **from 19:39 UTC: no new agents and no new work of the PI's own until 2026-11-24 11:00 UTC or
+  the owner's word**; only what is owed (the `diag2.sh` rows to the lead; answers on the pull request, polled a
+  few times a day). The PI's own turns are costly while its context is large: keep them few and batched.
+  **The last-day blast** (the owner, 18:22 UTC): from 2026-11-24 11:00 UTC, stopping at 0.96 Fable or 0.90
+  all-model; a scheduled wake is set for 11:05 that day.
+- **Both Lean agents have reported and are integrated** (head ca137e7 for `lean/`): 74 theorems in core Lean,
+  12 in `mathlib/`; `sh research/blast/lean/check.sh [--long] [--mathlib]`; `lean/STATEMENTS.md` (50 rows, from
+  `statements.py`: add a row there for every new headline theorem); `lean/README.md` holds the table and the climb,
+  with the lead's pointers for the catalogue laws as line 2b. Open ends are listed in the README's line 1 and in
+  the agents' reports (not kept): `set36` not compared with `sealed.py`'s set; T5 not on tori; `gumpcheck`'s I/O
+  unproved; concurrent `lake build`s in one tree can delete each other's `.olean` files.
+- **For the last-day blast, in this order of value** (the PI's list): the 9-cell hull triangle of the dice
+  surrogate with a certified two-sided rate (the first lifetime theorem; `mathlib/GumpMath/Certificate.lean` is the
+  tool); the tape theorem and the gun's line for every N (line 2b); the unzip and call laws; both exits and the
+  price as theorems; a sampler for the noisy hull that moves the initial state; the thick strips and the 126- and
+  132-cell tubes of the earlier list.
+- **Pull request 39**: the lead will merge b80248c and cherry-pick f069674 (named as the answer commit at 19:45 UTC)
+  once its rebuild has reported; the Lean part is a second pass. Six comments by 19:07 UTC were read; the PI's
+  last is of {now} UTC (the eighth). Poll with `get_comments`, `perPage` 1, `page` 9 upward.
+- **In flight (CPU):** tracked job `sh research/blast/noisy/diag2.sh` (started 19:37 UTC, about an hour): the
+  sampler at 84 cells with the odd sweeps on and off (scratch `runs_diag/anc_R13_*`, `w0_R13_*`) and the depth
+  series (scratch `depth.txt`, six BRUTE lines, DW = 6 .. 1 at eps = 1/4, 63 cells; gump there is 13.633).
+  **Owed when it ends:** copy the rows to `noisy/data/runs_diag/` and `noisy/data/depth.txt`, a short entry in
+  `REPORT.md`, a comment for the lead with the numbers and the commit to cherry-pick (a commit without `lean/`).
 - **Lean** (`research/blast/lean/`, `README.md` there = the aim and the climb; `sh research/blast/lean/check.sh`).
   Lean 4.36.0 via elan in `~/.elan` (`export PATH=$HOME/.elan/bin:$PATH`; if the container was rebuilt, reinstall:
   `curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --no-modify-path`).
