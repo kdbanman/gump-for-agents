@@ -16,8 +16,8 @@ frozen before the runs they concern: 9 hits, 1 miss by 0.001; unscored: ring edg
 per cell, so "two prices" there is a crossover between exits, not two asymptotic prices.**
 
 1. A ring edge dies by boom and bust: the row over-fills (peak 19.4 of 24 against a living mean of 13.9), the cap
-   kills it to 1–2 cells, they starve; flat along the ring. A box edge fades over 6–8 generations from the middle
-   towards its corners, with FEWER over-full generations before death than a living window has (0.6–0.85 times),
+   kills it to 1–2 cells, they starve; flat along the ring. A box edge fades over 6–8 generations, its corner
+   cells holding out longest (no sweep along the row), with FEWER over-full generations before death than a living window has (0.6–0.85 times),
    where the ring has 3.6–4 times as many.
 2. The ring's deaths are a mixture of two exits with their own exponential laws: flash
    ln τ = 0.30 + **0.455**·L and no-flash 4.03 + **0.327**·L. The flash share falls like a logistic in L (0.90 at
@@ -93,11 +93,13 @@ same for living windows of K transitions (25,000–56,000 windows; 6,000–16,00
   population 13.85), two to three steps before the end. Flat: the spread of last-alive times over the cells of
   one death is 1.1–2.1 generations, and the last living cells are uniform along the ring (0.165 within 2 of an
   arbitrary point against 0.167).
-- **Box = a fade from the middle to the corners.** The population falls steadily over the last 8 generations
+- **Box = a fade whose last cells are at the corners.** The population falls steadily over the last 8 generations
   (L = 24: 11.8, 11.2, 10.5, 9.5, 8.7, 8.2, 6.1, 1.8 against 14.2 alive), the largest fall is 9 (living 6) from a
   peak BELOW the living one (15.9 against 17.9: no boom), spread 2.3–3.1 generations, and the last living cells
   are within 2 of a corner 0.57, 0.45, 0.37, 0.33, 0.29, 0.27 of the time at L = 12 … 32 (uniform: 0.33 … 0.125):
-  twice uniform at every size; the corner cell itself is last alive 0.6 generations later than the rest.
+  twice uniform at every size; the corner cell itself is last alive 0.6 generations later than the rest, and
+  beyond it the last-alive time does not depend on the distance from the end (L = 24: lags 4.68, 5.35, 5.30, 5.14,
+  5.17, 5.25 at distance 0 … 5): the corners hold out, but nothing sweeps along the row.
 - **Second classifier** (`python3 boom.py` → `data/boom.json`): "boom" = the row at least 0.8·L full in one of
   its last 6 living generations (thresholds 10, 13, 16, 20, 23, 26 cells). Ring deaths: 0.886, 0.828, 0.731, 0.555, 0.448, 0.353 at L = 12 … 32 (living
   windows 0.53, 0.46, 0.38, 0.14, 0.12, 0.097): enriched 3.6–4 times at L ≥ 24, logit slope −0.13 per cell. Box
