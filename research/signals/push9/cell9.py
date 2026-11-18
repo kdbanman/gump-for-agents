@@ -25,12 +25,20 @@ from lab9 import Lab, tr, unit, X, W
 HERE = Z.HERE
 TRIG = [(0, 0, 9), (0, 1, 8), (1, 0, 8), (1, 2, 10), (2, 1, 10), (2, 2, 9)]     # S6b beside the wall whose first unit is unit 0
 
+TRIGM = [(0, 1, -6), (0, 2, -5), (1, 0, -4), (1, 2, -6), (2, 0, -5), (2, 1, -4)]  # its image under the half-turn, for a stretch whose edge unit f is unit 1
+CUBE = [(-3, -2, 10), (-2, -3, 10), (-2, -2, 9), (-2, -2, 11), (-2, -1, 10), (-1, -2, 10)]   # S6a (one cube's faces) before the wall whose first unit is unit 0
+ONE = [(-4, -4, 11), (-4, -3, 12), (-3, -4, 12), (-3, -2, 10), (-2, -3, 10), (-2, -2, 11)]  # S6b in another place, same convention
+
 R_ = lambda u: list(tr(X.RIGHT, u))
 L_ = lambda u: list(tr(X.LEFT, u))
 
 
 def trig(w):
     return [list(tr(c, w)) for c in TRIG]
+
+
+def trigm(e):
+    return [list(tr(c, e - 1)) for c in TRIGM]
 
 
 def mk(name, text, start, ops, checks, w=None, H=None):
@@ -63,6 +71,36 @@ def runs():
                   s, [[0, [L_(4 + 43)]], [60, [L_(4 + 43)]], [120, [L_(4 + 43)]], [200, [R_(4 + 17)]]],
                   [[0, s], [60, None], [120, None], [200, '7' * 5 + 'df' + '7' * 22 + 'ddddf' + '7' * 13], [240, None],
                    [420, '7' * 5 + 'd' * 6 + 'f' + '7' * 35], [422, '7' * 5 + 'd' * 6 + 'f' + '7' * 35]], w=29))
+    # 5. the smallest loop with the operation 10 units from both stores (found by the search in the README)
+    s = '7df' + '7' * 19 + 'df'
+    out.append(mk('smallest-loop', 'the shortest wire (24 units, 166 cells) with two stores holding 1 and 1 and ONE cell removed 10 units '
+                  'from each: the right store empties into the left one, which then holds 1 + 2',
+                  s, [[0, [R_(4 + 12)]]], [[0, s], [30, None], [300, '7dddf' + '7' * 19], [302, '7dddf' + '7' * 19]], w=22))
+    # 6. the mirror image at the right edge, and two releases that meet: a sum
+    s = '7' * 6 + 'ddf' + '7' * 30 + 'dddf' + '7' * 6
+    r = mk('sum', 'two stores holding 2 and 3, the mirror-image still life at the right edge of the left one and the still life at the '
+           'wall of the right one; TWO cells removed between them in one generation (a left-going and a right-going pulse, 10 and 12 '
+           'units from the stores): both stores leave as blocks, the blocks meet and stand as ONE new store holding 2 + 3 + 1',
+           s, [[0, [L_(4 + 18), R_(4 + 27)]]], [[0, s], [40, None], [56, None], [300, '7' * 22 + 'ddddddf' + '7' * 20], [302, '7' * 22 + 'ddddddf' + '7' * 20]], w=39)
+    r['extra'] = trigm(4 + 8) + r['extra']
+    out.append(r)
+    # 7. the still life one unit further from the wall: the block is three units longer
+    s = '7' * 5 + 'df' + '7' * 22 + 'dddf' + '7' * 6
+    out.append(mk('call-far', 'as `loop`, the still life one unit further from the wall (a unit of plain wire between): the block has '
+                  '2k + 5 = 11 units and the left store then holds 1 + 6',
+                  s, [[0, [R_(4 + 17)]]], [[0, s], [44, None], [200, '7' * 5 + 'd' * 7 + 'f' + '7' * 26], [202, '7' * 5 + 'd' * 7 + 'f' + '7' * 26]], w=28))
+    # 8. clear: the cube before the wall
+    r = mk('clear', 'the six faces of one cube (S6a) standing before the wall of the right store: the pulse arrives, the store '
+           'leaves as pulses and the cube swallows every one: the right store is empty, the left store still holds 1, nothing else has changed',
+           s, [[0, [R_(4 + 17)]]], [[0, s], [40, None], [200, '7' * 5 + 'df' + '7' * 32], [202, '7' * 5 + 'df' + '7' * 32]], w=None)
+    r['extra'] = [list(tr(c, 4 + 29)) for c in CUBE]
+    out.append(r)
+    # 9. one: the still life S6b in another place before the wall
+    r = mk('one', 'S6b in another orientation before the wall of the right store (holding 3): the pulse arrives, ONE block of two '
+           'units leaves, the rest is swallowed: the left store holds 1 + 1 whatever the right store held',
+           s, [[0, [R_(4 + 17)]]], [[0, s], [40, None], [200, '7' * 5 + 'ddf' + '7' * 31], [202, '7' * 5 + 'ddf' + '7' * 31]], w=None)
+    r['extra'] = [list(tr(c, 4 + 29)) for c in ONE]
+    out.append(r)
     return out
 
 
@@ -72,7 +110,7 @@ def state(word, extra=()):
 
 
 def lab_for(N):
-    return Lab(-6, N + 16, -8, 12, -8, 20)
+    return Lab(-6, N + 16, -10, 12, -12, 20)
 
 
 def letters(Lb, a, N):

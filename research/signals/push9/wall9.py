@@ -3,9 +3,10 @@
 
     python3 wall9.py F.jsonl [--k 3] [--part i/n] --out G.jsonl
 
-Ring of 36 units of wire B with the stretch d^k f on units 18..18+k (wall: unit 17 | unit 18).  The object is placed
-with its highest unit at 17 + e for e = -3..3 (e <= 0: wholly before the wall; e > 0: reaching beside the stretch).
-Three scenarios for each e: 'rest' (nothing sent), 'A' and 'B' (a right-going pulse born at unit 18 - 11, 18 - 12:
+Ring of 60 units of wire B with the stretch d^k f on units 40..40+k (wall: unit 39 | unit 40; nothing released
+comes round the ring within the run).  The object is placed
+with its highest unit at 39 + e for e = -3..3 (e <= 0: wholly before the wall; e > 0: reaching beside the stretch).
+Three scenarios for each e: 'rest' (nothing sent), 'A' and 'B' (a right-going pulse born at unit 40 - 11, 40 - 12:
 the two parities), each read 76 generations after the start.
 
 Exact shortcut (the inert test): if at every generation of the scenario run WITHOUT the object every cell of the
@@ -15,7 +16,7 @@ is stepped (lab8) and read: the ring's letters (3 x 3 tube) and whether the cell
 undisturbed object.  Classes:
   inert      as above (the stretch stands / the pulse is absorbed as if the object were not there)
   absorbed, unchanged   the same end state reached with an interaction on the way
-  RELEASE nL mR   no unit of the ring is d, f or unreadable, the units 12..24 are plain, the object is as it was,
+  RELEASE nL mR   every unit of the ring is 7, b, 6 or f (no stretch, nothing unreadable), the object is as it was,
              and the ring holds n units b (left-going pulses) and m units 6 (right-going)
   ERASED     the same with no pulse at all
   other      anything else (the letters are kept)
@@ -26,7 +27,7 @@ import numpy as np
 import lab9 as Z
 from lab9 import Lab, tr, unit, X, W
 
-R = 36; W0 = 18; T = 76
+R = 60; W0 = 40; T = 76
 BOX = (-18, 18, -16, 22)      # ylo, yhi, wlo, whi of the reference box
 
 
@@ -101,7 +102,7 @@ def classify(L, a, ref_out, k, grown):
     same = Z.outside(L, a) == ref_out
     if same and s == '7' * (W0 - grown) + 'd' * (k + grown) + 'f' + '7' * (R - W0 - k - 1):
         return 'absorbed' if grown else 'unchanged'
-    if same and not (set(s) - set('7b6f')) and s[W0 - 6:W0 + 7] == '7' * 13:
+    if same and not (set(s) - set('7b6f')):
         nb = s.count('b'); n6 = s.count('6')
         if nb + n6:
             return f'RELEASE {nb}L {n6}R  {X.hexrle(Z.canon_ring(s))}'
