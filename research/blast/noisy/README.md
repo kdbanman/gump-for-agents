@@ -201,8 +201,10 @@ python3 research/blast/noisy/ana.py $S/tune                   # the tuning runs 
   replication is exact for the pool's own law, and the pool's tail becomes a common error (the lead's point).
   Test it where the answer is known, 63 cells and then 84 cells at ε = 1/4 (brute force +0.027 ± 0.038), before
   108 cells.
-- **Odd sweeps.** Read twice as reversible (here and by the rebuild). On minus off: +0.027 ± 0.028 at 84 cells,
-  +0.092 ± 0.050 at 108 (`data/runs_diag/`); `diag3.sh` sharpens the first.
+- **Odd sweeps.** Read twice as reversible (here and by the rebuild), and cleared by measurement at 84 cells and
+  ε = 1/16: on 18.142 ± 0.010 (1,050 replications), off 18.146 ± 0.009 (1,040), on minus off −0.001 ± 0.014, gump
+  18.141 ± 0.005 (`data/runs_diag/`, `diag2.sh`, `diag3.sh`). At 108 cells on minus off was +0.092 ± 0.050, with
+  both errors from a law whose tail the samples had not caught.
 - **The depth series** (`data/depth.txt`, `diag2.sh`): coins at depth ≥ d under the watched face at 63 cells and
   ε = 1/4 move its ln τ by −0.005, +0.019, +0.054, +0.101, +0.304, +0.674 for d = 6 … 1 (± 0.012 to 0.016).
 

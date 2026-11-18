@@ -140,3 +140,9 @@ Items 1 and 2 wait for a brute force at 84 cells; item 5 is not planned yet.
 2. Brute force at 84 cells at a large eps: the rebuild has +0.027 +- 0.038 at eps = 1/4 (725 deaths). In 0.01 to 0.06
    (60%): **held in value**, with an error as wide as the interval; it does not separate the alternatives.
 
+### Block 3, item 1 again (22:16 UTC)
+
+Still no brute force at 84 cells and eps = 1/16. The sampler, exact for the chain, has it at +0.002 +- 0.012 (odd
+sweeps on, 1,050 replications) and +0.005 +- 0.011 (off, 1,040) from gump: within 0.015, as forecast, by another
+route than the one the forecast named. Left open as written.
+
