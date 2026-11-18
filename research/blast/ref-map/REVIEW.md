@@ -93,7 +93,10 @@ At 84 cells S depends on the rule, because 120 deaths leave the last third of an
 | carry:5000, fade only | 19.839 | 0.2362 | fade |
 | carryall from 63 cells (`ref-anatomy`'s row: 19.441) | 19.583 | 0.2331 | fade |
 
-So S(84) = 18.8–19.8, and I would not quote it more closely than 19.4 ± 0.4.
+So S(84) = 18.8–19.8, and I would not quote it more closely than 19.4 ± 0.4. With a third tally merged (the dump run of section
+(f), 77 more deaths, 197 in all; `out/h13_three_tallies.txt`): 18.909, 19.231, 19.680 for carry:50, carry:200,
+carry:1000 (fade only: 18.950, 19.321, 19.680). The thin-cell values rise by 0.12–0.16 with more data, as the redraws
+said they would; the range and the tie between the two routes stay.
 
 Carrying a map between sizes at equal fillings gives S ∝ A by construction and is wrong by as much as the effects under
 discussion: the 45-cell map carried to 30 and 63 cells gives 6.825 and 14.202 (own maps: 6.275, 14.640); the 63-cell
@@ -147,7 +150,12 @@ the end-game off (`out/torus.txt`). `ref-anatomy`: 10.052, the same route. The c
 | torus 63 | 1,670 | 29.2, 27.8, 25.0, 23.0, 18.1, 11.0, 4.4, 1.7 | 25.8, 25.3, 23.6, 23.4, 20.8, 17.5, 15.7, 16.5 | P ≥ 46: 62.8 ± 1.2% (2.9%) |
 | hull 45 | 14,815 | 16.3, 15.0, 13.4, 11.5, 9.4, 6.5, 3.7, 1.6 | 16.2, 15.6, 14.9, 14.3, 13.7, 12.7, 12.2, 12.3 | P ≥ 32: 8.8 ± 0.2% (10.9%) |
 | hull 63 | 2,479 | 21.4, 19.2, 16.1, 13.0, 9.9, 6.5, 3.6, 1.6 | 22.5, 21.8, 20.5, 19.8, 19.4, 18.9, 19.3, 19.9 | P ≥ 45: 5.9 ± 0.5% (3.7%) |
-HULL84ROW
+| hull 84 | 77 | 23.9, 21.4, 16.9, 13.8, 10.4, 6.4, 3.6, 1.8 | 28.6, 29.4, 26.6, 27.4, 28.5, 28.7, 29.8, 31.1 | P ≥ 57: 10.4 ± 3.5% (7.3%); P ≥ 52: 28.6 ± 5.1% (70%) |
+
+At 84 cells gump's hull faces still fade (77 deaths: a median of 11 generations, 6–17, from the living mode to the empty
+face; no significant excess of over-full generations before the death), with the layer beneath at 27–29 of 84 (alive: 37)
+where the chain's fade takes it to 16–19. The chain's tie between the fade and the jump-and-crash at 84 cells is not
+seen in gump.
 
 A third of the torus's deaths at 63 cells have no generation with P ≥ 46 in their last 20 (a tenth none with P ≥ 43):
 the wrapped face has a fading minority too.
@@ -167,7 +175,8 @@ the wrapped face has a fading minority too.
 - Dying trajectories conditioned more finely than by the last over-full generation; any trajectory of the chain itself
   (only its cheapest route) to set beside them.
 - Torus sizes other than 63 cells; the tail's growth per cell; the ledger; tubes.
-- A second seed of any tally. The 84-cell action rests on 120 deaths and is given as a range, not a number.
+- A second seed of the 30-, 45-, 63-cell tallies (their dump runs were not analysed as maps). The 84-cell action rests on
+  120–197 deaths and is given as a range, not a number.
 - The death threshold (0.5), the variance floor (0.05) and the start (mode) were not varied.
 - My two jobs overlapped at times (a tally and a short analysis), each under `nice`; the load on the machine was 6–8.
 - `dp.py` has had no second reader. `poly2` and `visited` at 84 cells are reported as void, not as results.
