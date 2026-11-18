@@ -5,6 +5,8 @@
     python3 extra9.py near      a right-going store pulse that meets a CALL at an armed store: the three odd cases on the oracle
     python3 extra9.py held      one cell held live at the wall (the push's ghost9): the two cells it names, a sample of the rest
     python3 extra9.py line      shorter lines; the pair from the far end; the bus at other distances (st9)
+    python3 extra9.py minus     a CALL with a right-going store pulse born 17 units before the crossing: k - 1 pulses and a zero exit
+    python3 extra9.py hand      the forced cell against push 8's hand release, k = 1..40 (st9)
 """
 import sys, time
 from a9 import *
@@ -105,5 +107,50 @@ def line():
               'burn' if f is None else f'{len(f)} cells (start {len(S)}); line {"ok" if LL <= f else "changed"}'))
 
 
+def hand():
+    """the wire alone with the one cell e1 = (1,2,0) of the crossing unit made live at generation 29 (what a CALL does
+    to the store) against push 8's hand release (the stator (0,1,2) of the crossing unit removed at generation 28)"""
+    e1 = tr((1, 2, 0), c); res = {}
+    for k in range(1, 41):
+        n = 48 + k + 14
+        word = '7' * 48 + 'd' * k + 'f' + '7' * 13
+        S = wire(word, first=c + 1 - 48)
+        a = S; b = S; last = None; T = 2 * k + 80
+        for t in range(T + 1):
+            if t == 28: b = b - {RST(c)}
+            if t == 29:
+                assert e1 not in a
+                a = a | {e1}
+            if a != b: last = t
+            a = run(a, 1); b = run(b, 1)
+        res[k] = last + 1
+    print('k: first generation from which the two runs are equal cell for cell (to generation 2k + 80)')
+    print(' '.join(f'{k}:{v}' for k, v in res.items()))
+    print('equal from 2k + 32 exactly for every k = 1..40:', all(v == 2 * k + 32 for k, v in res.items()))
+
+
+def minus():
+    """a CALL and one right-going pulse of the store wire born 17 units before the crossing at the same generation:
+    how many pulses leave to the left (units b passing unit 8), whether a right-going pulse leaves to the right (a
+    unit 6 seen at unit CROSS + 14), and the end state.  k = 0..10 with st9; k = 0, 2, 5 also on the oracle."""
+    for a in (-17, -19, -21):
+        for k in range(0, 11):
+            ops = {0: ([RST(c + a)], seed())}; T = 420
+            S = wire(W(k)) | LINE
+            h = play(S, ops, T, engine='st')
+            left = right = 0
+            for g in range(0, T + 1, 2):
+                lw = letters(h[g] - LINE, N, FIRST)
+                left += lw[8 - FIRST] == 'b'; right += lw[c + 14 - FIRST] == '6'
+            end = h[T]
+            txt = rle(letters(end - LINE, N, FIRST)) if LINE <= end and end - LINE == wire(letters(end - LINE, N, FIRST)) else f'{len(end)} cells'
+            extra = ''
+            if a == -17 and k in (0, 2, 5):
+                t0 = time.time()
+                o = play(S, ops, 300, engine='orc')
+                extra = f'; oracle = st9 at every even generation 0..300: {all(o[g] == h[g] for g in range(0, 301, 2))} ({time.time() - t0:.0f} s)'
+            print(f'R@CROSS{a:+d} with the CALL, k = {k}: {left} pulses leave to the left, {right} to the right; end: {txt} + the line{extra}', flush=True)
+
+
 if __name__ == '__main__':
-    {'twice': twice, 'near': near, 'held': held, 'line': line}[sys.argv[1]]()
+    {'twice': twice, 'near': near, 'held': held, 'line': line, 'hand': hand, 'minus': minus}[sys.argv[1]]()

@@ -1,0 +1,7 @@
+k: first generation from which the two runs are equal cell for cell (to generation 2k + 80)
+1:34 2:36 3:38 4:40 5:42 6:44 7:46 8:48 9:50 10:52 11:54 12:56 13:58 14:60 15:62 16:64 17:66 18:68 19:70 20:72 21:74 22:76 23:78 24:80 25:82 26:84 27:86 28:88 29:90 30:92 31:94 32:96 33:98 34:100 35:102 36:104 37:106 38:108 39:110 40:112
+equal from 2k + 32 exactly for every k = 1..40: True
+
+real	0m2.660s
+user	0m2.871s
+sys	0m0.028s
