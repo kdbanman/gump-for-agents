@@ -17,7 +17,7 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..', '..'))
 SCR = os.path.join(ROOT, 'research', 'scratch', 'dying2-hull')
-EXE = os.path.join(SCR, 'hd.exe')
+EXE = os.path.join(SCR, 'hdx.exe')
 ENGINE = os.path.join(ROOT, 'engine', 'target', 'release', 'gump.exe')
 W, LANES, NF = 4, 256, 8
 

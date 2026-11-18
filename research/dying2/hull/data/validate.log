@@ -1,0 +1,18 @@
+face counter: 3000 gens x 256 lanes x 8 faces: all equal
+lane   0: engine every generation 1..3000: all equal (population [312, 440, 406])
+  negative control (a), against the engine one generation later: 2999 of 2999 generations differ
+  negative control (b), engine from a state with one face node flipped: 3000 of 3000 generations differ
+lane  63: engine every generation 1..3000: all equal (population [304, 419, 425])
+lane  64: engine every generation 1..3000: all equal (population [308, 405, 395])
+lane 130: engine every generation 1..3000: all equal (population [311, 393, 401])
+lane 255: engine every generation 1..3000: all equal (population [293, 441, 392])
+VALIDATE OK R = 11, gens 3000, seed 7
+face counter: 3000 gens x 256 lanes x 8 faces: all equal
+lane   0: engine every generation 1..3000: all equal (population [491, 608, 650])
+  negative control (a), against the engine one generation later: 2999 of 2999 generations differ
+  negative control (b), engine from a state with one face node flipped: 3000 of 3000 generations differ
+lane  63: engine every generation 1..3000: all equal (population [453, 617, 660])
+lane  64: engine every generation 1..3000: all equal (population [498, 632, 690])
+lane 130: engine every generation 1..3000: all equal (population [485, 675, 657])
+lane 255: engine every generation 1..3000: all equal (population [486, 611, 641])
+VALIDATE OK R = 13, gens 3000, seed 8

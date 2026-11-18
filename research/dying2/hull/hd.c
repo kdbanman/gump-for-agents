@@ -15,7 +15,7 @@
  *   excursions (research/dying/PREDICTIONS.md round 2 definition, per face, at ages > T0 with the previous generation
  *   also at age > T0): starts at the first P < U after a generation with P >= U; ends recovered at P >= U, dead at
  *   P = 0, censored when the life ends otherwise. Histograms of the minimum by end type; every excursion with
- *   minimum <= KDUMP is also written as a line (thread lane face start mingen end min type).
+ *   minimum <= 4 is also written as a line (thread lane face start mingen end min type).
  *   lives: one line per ended life: lane birth age kind facemask (faces empty at the end); open lives at the end, kind 0.
  *   P histogram over face-generations at age > T0.
  *
@@ -199,7 +199,7 @@ static void dump(blk_t *B, int type, int lane, int a, int b, int c, int d, int n
 }
 
 static void xline(blk_t *B, int lane, int f, int type) {
-  if (B->exc && B->xmin[f][lane] <= KDUMP)
+  if (B->exc && B->xmin[f][lane] <= 4)
     fprintf(B->exc, "%d %d %d %lld %lld %lld %d %d\n", B->tid, lane, f, B->xstart[f][lane], B->xming[f][lane], B->g,
             B->xmin[f][lane], type);
 }

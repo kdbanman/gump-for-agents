@@ -9,8 +9,8 @@ SCR=$ROOT/research/scratch/dying2-hull
 GCC=$(ls -d "$LOCALAPPDATA"/Microsoft/WinGet/Packages/BrechtSanders.WinLibs*/mingw64/bin 2>/dev/null | head -1)
 [ -n "$GCC" ] && export PATH="$GCC:$PATH"
 cd "$SCR"
-[ hd.exe -nt "$ROOT/research/dying2/hull/hd.c" ] || gcc -O3 -march=native -static -Wall -o hd.exe "$ROOT/research/dying2/hull/hd.c" -lpthread
+[ hdx.exe -nt "$ROOT/research/dying2/hull/hd.c" ] || gcc -O3 -march=native -static -Wall -o hdx.exe "$ROOT/research/dying2/hull/hd.c" -lpthread
 if [ "$R" = 11 ]; then U=32; K=12; else U=43; K=17; fi
 #        vessel     seed0 thr hours prefix     U  KDUMP CAPREC MAXDEATHS NULLEV NULLCAP HD   SD   HR   SR
-./hd.exe run hv_$R.bin $S 3 $H run_${R}_s$S $U $K 300 1500 9973 30000 4096 1024 1024 256
+./hdx.exe run hv_$R.bin $S 3 $H run_${R}_s$S $U $K 300 1500 9973 30000 4096 1024 1024 256
 echo "done R=$R seeds $S.. $(date -u)"
