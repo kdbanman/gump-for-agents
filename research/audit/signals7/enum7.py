@@ -148,6 +148,7 @@ def main():
     ap.add_argument('--lo', type=int, default=1); ap.add_argument('--hi', type=int, default=5); ap.add_argument('--T', type=int, default=4)
     ap.add_argument('--solver', default='cadical153'); ap.add_argument('--cube', nargs=2, type=int); ap.add_argument('--minutes', type=float, default=9)
     ap.add_argument('--out'); ap.add_argument('--norestep', action='store_true')
+    ap.add_argument('--progress', action='store_true', help='print each solution as it is found (for runs that an outer timeout may kill)')
     a = ap.parse_args()
     from pysat.solvers import Solver
     t0 = time.time()
@@ -178,6 +179,8 @@ def main():
             if not a.norestep:
                 assert restep(a.frame, cap, a.T), 'model does not re-step on the oracle'
             out.append([list(c) for c in cap])
+            if a.progress:
+                print(f'  solution {len(out)}: {len(cap)} cells at {time.time() - t0:.0f} s: {cap}', flush=True)
             sv.add_clause([(-X[0][i] if m[X[0][i] - 1] > 0 else X[0][i]) for i in range(len(cells))])
     if a.out:
         json.dump(dict(frame=a.frame, C=a.C, lo=a.lo, hi=a.hi, T=a.T, KS=KS, cube=a.cube, solver=a.solver, complete=complete, list=out), open(a.out, 'w'))

@@ -104,10 +104,12 @@ hole before the lower edge arrives (`line7c.py below`).
 
 **The other ends.** `python3 line7c.py robust 3 --gun g` (85 s per gun; all 5 guns × all 125 ends of
 `wireB_caps.json`, each line built by `lines.build`, alone of period 4, then E at 32 and n = 1..4 holes from 48):
-**625 of 625 pairs** give plain, then n units at unit 41. The push sampled 45. Spacings 4 and 5: 625 of 625
-(`robust 1 2 4 5 --gun g`, 4.5 min per gun) TODO-robust. **Spacings 1 and 2 are not "the same plain wire B for every
-n":** that holds for the 113 ends that heal holes and fails for all 12 that do not (ends 729..740 of the push's
-numbering, the vector `d…dhd cap`), with every gun. With those ends the pulses that ride down the wire B behind the
+**625 of 625 pairs** give plain, then n units at unit 41. The push sampled 45. Spacings 4 and 5: 625 of 625 each,
+at units 42 and 43 (`robust 1 2 4 5 --gun g`, 5 min per gun; `python3 robust_report.py` prints the tally: 2,500 runs
+per spacing). **Spacings 1 and 2 are not "the same plain wire B for every n":** that holds for the 113 ends that heal
+holes (2,260 of 2,260 runs at each spacing) and fails for all 12 that do not (ends 729..740 of
+`wireB_caps.json`, the vector `d…dhd cap`), with every one of the five guns: 120 of their 240 runs at spacing 1 and
+180 of 240 at spacing 2 leave a stretch (the others are n = 1, and n = 2 at spacing 1). With those ends the pulses that ride down the wire B behind the
 lower edge (REVIEW-signals-6 §3) are not swallowed: each adds a unit of B′ next to the end cap. `python3 line7e.py
 729 4` (3 min): first gap 1: n − 2 units at unit 6; first gap 2: n units at unit 6; first gap ≥ 3: n units at
 (h2 + e − 4)/2 as before; every word of 1..3 holes (2,047) and 17 dense words on 400 units (195 holes: 193 units), no
@@ -243,7 +245,58 @@ positive result (8), which was given 0.15.
 
 ## 8. What it means
 
-TODO-meaning
+**Is it the first memory in gump?** No. A state that signals write, that persists, and that differs by input has
+been on file since the first two pushes, and the standing line is one of those objects:
+- the wall B|B′ that swallows a pulse and moves one unit (`objects/transmission-B.json`, first push), and the second
+  push's `objects/register-BBp.json`: a finite object in empty space, cap, wire B, wall, wire B′, cap, whose wall is
+  moved one unit by each pulse from either side (section 9 of `research/signals/README.md`: "counter is the better
+  word");
+- the wall 8|C of the third push, which counts isolated pulses.
+The object the line ends as is that register with two walls (B, a stretch of B′, B) and two new caps, and it behaves
+as one: a pulse from above or below adds a unit at that end of the stretch, other one-cell changes take a unit off
+or erase it (§2, `line7c.py flips 3`).
+
+**What is new, and it is real.**
+1. *The caps.* 125 ends and 5 guns of the **rake train** (1,223 and 78 at C ≤ 39) are also ends of wire B. So a
+   running line, the system in which every train signal lives, turns itself into a capped register instead of
+   burning or being converted for ever. This is question (r) of the sixth push answered yes.
+2. *The writing is done by train signals.* Holes are what every bare end heals and forgets, or dies of (§4). Here a
+   word of holes leaves a standing trace for the first time: the number of holes, exactly and without bound
+   (to 193 in a 400-unit line), with the time of the second hole as the place. Question (g) of the fourth push (a
+   standing object left in a different lasting state by a hole than by a rake) is met by the line as a whole and
+   by no end.
+3. *It is generic.* Every one of the 625 pairs of caps at C ≤ 37 does it; TODO-pairs39
+
+**What limits it** (and the README says most of this): the write needs E, which nothing in the line makes (in the
+push and here E is put on by hand; the only standing source on file is the reflector end, cap A with C18.23a beside
+it, answering a hole); it happens once, because the train is spent; nothing is stored unless the second hole comes 3
+rakes or more behind the first (with a healing end), so the line cannot tell a lone hole from a close pair followed by
+anything.
+
+**What is still missing for a listener** (open problem 13 (p): a state that a later signal can read back).
+- *A read.* In push 7 nothing comes out of the object. The walls swallow what reaches them; the caps swallow the
+  pulse made by flipping (0,1,4) in the plain object and it stands unchanged (the pulse made by (0,1,2) burns the whole
+  object from the plain state, 44 flips of 608). What a pulse of each kind does at each of the 125 + 5 caps was not
+  mapped. A read needs something whose *output* depends on the stretch: a pulse that passes plain wire B and is
+  stopped by a stretch would do, if anything stood beyond the cap to receive it; no cap passes or reflects a pulse
+  (section 9: no wall of the family does either).
+- *The way back.* The count is written by train signals and stands in wire B. Nothing known turns a wire-B pulse into
+  a rake, a hole or an E: no gun takes its timing from wire B. So even a read would speak a language the next line
+  of this kind does not hear. This is the gap between the two halves of the signals work (wires and pulses since
+  the first push; the train and its signals since the fourth), and the line is the first bridge across it, one way.
+- *A trigger from inside.* E by hand. A line whose end is the reflector and whose gun is one of the five would make
+  its own E from the first hole and then count the rest; whether the reflector end stops the lower edge of wire B was
+  not tested by the push or here (it is not a bare end, so it is not among the 741).
+- *Re-arming.* Written once. A reset would be a way from capped wire B back to a running train.
+- *The listener in the strict sense* (an end left alive and changed while the train still runs) does not exist within
+  the bounds (§4): every end at C ≤ 39 heals on the whole state or loses its train.
+
+Two smaller things this review adds to the stock: **E meeting N2 leaves exactly one hole** (§2; with U against K3 the
+second meeting that turns an up-signal into a down-signal, and one that saves the gun), and the twelve non-healing
+caps, with which the line counts every word of two or more holes and writes the count at the end cap instead of in
+mid-wire.
+
+Pushes 8 and 9 (in the tree, built on this line, not reviewed here) take up the read.
 
 ## 9. Not checked
 
