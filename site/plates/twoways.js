@@ -54,11 +54,12 @@
   // 3. survival by class of cell in a non-fatal generation with at least 48 of 63 cells (rimtest.txt)
   const HC = $('#f-tw-cells'), rh = B.rim.hull, rw = B.rim.wrapped[0];
   const rows = [['wrapped face, any cell (' + rw[0] + ' neighbours inside, ' + rw[1] + ' cells)', rw, CW], ['hull face, interior (' + rh[0][0] + ' inside, ' + rh[0][1] + ' cells)', rh[0], CH], ['hull face, rim row (' + rh[1][0] + ' inside, ' + rh[1][1] + ' cells)', rh[1], CH], ['hull face, corner (' + rh[2][0] + ' inside, ' + rh[2][1] + ' cells)', rh[2], CH]];
-  const box = E('div', { class: 'bars' }, HC);
-  E('p', { class: 'dy-gl' }, box, 'live cells that survive to the next generation');
-  rows.forEach(([n, r]) => barRow(box, n, r[2], r[2].toFixed(3), r === rh[1] ? 'hot' : ''));
-  E('p', { class: 'dy-gl', style: 'margin-top:10px' }, box, 'live cells with six or more live neighbours (overcrowded)');
-  rows.forEach(([n, r]) => barRow(box, n, r[3], r[3].toFixed(3), r === rh[1] ? 'hot' : ''));
+  E('p', { class: 'dy-gl' }, HC, 'live cells that survive to the next generation');
+  const b1 = E('div', { class: 'bars' }, HC);
+  rows.forEach(([n, r]) => barRow(b1, n, r[2], r[2].toFixed(3), r === rh[1] ? 'hot' : ''));
+  E('p', { class: 'dy-gl', style: 'margin-top:12px' }, HC, 'live cells with six or more live neighbours (overcrowded)');
+  const b2 = E('div', { class: 'bars' }, HC);
+  rows.forEach(([n, r]) => barRow(b2, n, r[3], r[3].toFixed(3), r === rh[1] ? 'hot' : ''));
   $('#x-tw-cells').textContent = 'In a generation with at least 48 of 63 cells alive that the face survives, one seed of each. The interior of a hull face busts exactly as a wrapped face does (' + rh[0][2] + ' against ' + rw[2] + '); its rim row, half the face, survives ' + rh[1][2] + ': with 7 neighbours inside the box its cells are seldom overcrowded. One generation later the hull face holds ' + B.rimnext[0] + ' cells, the wrapped face ' + B.rimnext[1] + '. The corner cells are three of 63, shown from the same table. Grade B: the audit’s code alone, re-run by the lead on fresh seeds (0.341, 0.327, 0.655); one size: a larger hull face, where the rim row is a smaller share, has not been looked at.';
   // 4. q(k): the chance a dip that has come down to k cells ends in death
   const HQ = $('#f-tw-q'), QF = [[W, CW, 2.4, '', 'wrapped, 63 cells'], [Hl, CH, 2.4, '', 'hull, 63 cells'], [wd, CW, 1.3, '4 3', 'wrapped, 84 cells (wide)'], [tb, CT, 1.3, '4 3', 'wrapped, 84 cells (tube)']];

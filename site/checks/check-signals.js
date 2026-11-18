@@ -15,7 +15,7 @@
 // The objects are read from research/signals/objects/*.json; site/data/signals.json (what the Signals page
 // fetches) must hold the same.
 const fs = require('fs'), path = require('path'), crypto = require('crypto'), { execFileSync } = require('child_process');
-const { makeGump } = require('../assets/gump-core.js'), { sigCore } = require('../assets/signals-core.js');
+const { makeGump, makeSparse } = require('../assets/gump-core.js'), { sigCore } = require('../assets/signals-core.js');
 const repo = path.join(__dirname, '..', '..'), obj = n => JSON.parse(fs.readFileSync(path.join(repo, 'research', 'signals', 'objects', n + '.json'), 'utf8'));
 const PAGE_RINGS = [12, 20], PAGE_RING = 20, GATE_RING = 24, CLOCK_N = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];   // what the page uses (figures9.js)
 let bad = 0;
@@ -273,5 +273,67 @@ if (ref) jobs.forEach(([name, L, T], k) => {
   console.log(`oracle against the page's stepper, ${name}: ${T + 1} generations, ${mism} mismatches  ${mism ? 'WRONG' : 'ok'}`);
   if (mism) bad++;
 });
+// 8. the memory cell (plate "A memory cell"): data/memory.json must hold the object files' runs; each run the page offers is
+//    stepped by makeSparse on the file's torus with the file's hand operations, and at every check generation of the file the
+//    whole state must equal the state of the file's letters (what verify_cell8.py / verify_call9.py check on the oracle), and
+//    the page's stepper must agree with reference/oracle.py, the same operations applied, at every generation
+{
+  const MJ = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', 'memory.json'), 'utf8'));
+  const files = {};
+  for (const r of MJ.runs) {
+    const f = files[r.file] || (files[r.file] = JSON.parse(fs.readFileSync(path.join(repo, r.file), 'utf8')));
+    for (const k of ['capL', 'capR', 'stators', 'sites']) if (JSON.stringify(f[k]) !== JSON.stringify(MJ.obj[k])) fail(`data/memory.json obj.${k} differs from ${r.file}`);
+    const fr = f.runs.find(x => x.name === r.name);
+    if (!fr) { fail(`run ${r.name} not in ${r.file}`); continue; }
+    for (const k of ['N', 'H', 'start', 'checks']) if (JSON.stringify(fr[k]) !== JSON.stringify(r[k])) fail(`data/memory.json run ${r.name}.${k} differs from ${r.file}`);
+    if (JSON.stringify(fr.extra || []) !== JSON.stringify(r.extra) || JSON.stringify(fr.ops.map(o => [o[0], o[1], o[2] || []])) !== JSON.stringify(r.ops)) fail(`data/memory.json run ${r.name} extra or ops differ from ${r.file}`);
+  }
+  const mjobs = [], hashes = [];
+  for (const r of MJ.runs) {
+    const L = sigCore.memory(MJ.obj, r), g = makeSparse(r.H); g.setCells(L.start);
+    const G = Math.max(...r.checks.map(c => c[0])), hs = []; let okc = 0, nc = 0, opsOk = true;
+    for (let t = 0; t <= G; t++) {
+      const cur = [...g.live].sort((a, b) => a - b);
+      for (const [cg, w] of r.checks) if (cg === t) { nc++; if (L.state(w).map(p => g.idx(p[0], p[1], p[2])).sort((a, b) => a - b).join() === cur.join()) okc++; }
+      hs.push(crypto.createHash('md5').update(cur.join(',')).digest('hex'));
+      const op = L.ops[t];
+      if (op) { op[0].forEach(p => { if (!g.has(p)) opsOk = false; g.set(p, false); }); op[1].forEach(p => { if (g.has(p)) opsOk = false; g.set(p, true); }); }
+      if (t < G) g.step();
+    }
+    const ok = okc === nc && opsOk;
+    console.log(`memory cell, run "${r.name}" of ${r.file.split('/').slice(-3).join('/')}: ${G + 1} generations on the page's sparse stepper; the file's whole-state checks ${okc} of ${nc}; operations on live / dead cells as stated ${opsOk}  ${ok ? 'ok' : 'WRONG'}`);
+    if (!ok) bad++;
+    const H = r.H, md = v => ((v % H) + H) % H, ix3 = p => [md(p[0]), md(p[1]), md(p[2])];
+    mjobs.push({ H, T: G, cells: L.start.map(ix3), ops: Object.entries(L.ops).map(([t, [off, on]]) => [+t, off.map(ix3), on.map(ix3)]) });
+    hashes.push([r.name, hs]);
+  }
+  const pym = `
+import sys, json, hashlib
+import numpy as np
+sys.path.insert(0, 'reference')
+import oracle
+for job in json.load(sys.stdin):
+    H = job['H']; m = oracle.masks(H); h = np.zeros((H, H, H), dtype=np.int8)
+    for c in job['cells']: h[tuple(c)] = 1
+    ops = {t: (off, on) for t, off, on in job['ops']}
+    out = []
+    for t in range(job['T'] + 1):
+        idx = np.flatnonzero(h.ravel())
+        out.append(hashlib.md5(','.join(map(str, idx.tolist())).encode()).hexdigest())
+        if t in ops:
+            for c in ops[t][0]: h[tuple(c)] = 0
+            for c in ops[t][1]: h[tuple(c)] = 1
+        if t < job['T']: h = oracle.step(h, m)
+    print(json.dumps(out))
+`;
+  try {
+    const refm = execFileSync('python3', ['-c', pym], { cwd: repo, input: JSON.stringify(mjobs), encoding: 'utf8', maxBuffer: 1 << 26 }).trim().split('\n').map(l => JSON.parse(l));
+    hashes.forEach(([name, hs], k) => {
+      let mism = 0; hs.forEach((h, t) => { if (h !== refm[k][t]) mism++; });
+      console.log(`oracle against the page's sparse stepper, memory cell "${name}": ${hs.length} generations, ${mism} mismatches  ${mism ? 'WRONG' : 'ok'}`);
+      if (mism) bad++;
+    });
+  } catch (e) { fail('could not run reference/oracle.py for the memory cell: ' + e.message.split('\n')[0]); }
+}
 console.log(bad ? `FAILED (${bad})` : 'ALL PASS');
 process.exit(bad ? 1 : 0);
