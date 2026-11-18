@@ -16,3 +16,4 @@ window is not listed by the reading on this plan. Weekly windows reset 2026-11-1
 | 2026-11-17 01:13 | not listed | 76% | 89% |
 | 2026-11-17 11:43 | not listed | 82% | 94% (two Opus subagents on the CPU since 05:00Z) |
 | 2026-11-18 03:05 | not listed | 40% | 2% (the owner reset the Fable window) |
+| 2026-11-18 05:30 | not listed | 82% | 82% (three Opus subagents on the CPU; the theory swarm in another session) |

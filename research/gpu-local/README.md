@@ -350,8 +350,15 @@ and 108-cell tube rows of the table above now hold eight seeds each.
   not yet reviewed by the lead). Engine-exact every generation on five tori; events equal life by life to a numpy
   implementation on four small vessels; 4 × 4: 9.9252 ± 0.0006. At 63 cells it gives 13.1607 ± 0.0017 at 8 layers
   (here 13.1622 ± 0.0007) and 13.1619 ± 0.0025 at 16 layers (here 13.1589 ± 0.0013: +0.0030 ± 0.0028). On the 96-cell
-  tube it has 19.723 ± 0.016 so far (3,899 deaths; the run continues to about ± 0.007), 1.3σ below the value here.
+  tube it has 19.7479 ± 0.0076 (17,290 deaths, eight seeds; here 19.7446 ± 0.0042: +0.003 ± 0.009). On the
+  84-cell face (1, 4), (0, 28) it has 17.5445 ± 0.0039 so far (67,195 deaths; here 17.5387 ± 0.0031: +0.006 ±
+  0.005; read at 05:30Z on 2026-11-18, the run continues).
   `python research/gpu-local/cpu/fr.py summary`.
+- **Interim, 05:30Z on 2026-11-18, five of the eight runs of the 120-cell tube (not scored yet):** (1, 18), (0, 40)
+  has 24.5034 ± 0.0213 (2,201 deaths, no firewall, no kind-5 life). The forecast of block 7 was 24.576 ± 0.020:
+  the face is 0.073 below it, 2.5 combined errors. The chord from 108 to 120 cells is 0.1953 ± 0.0019 per cell,
+  against 0.2013 ± 0.0008 (96 → 108) and 0.2023 ± 0.0004 (84 → 96): the price per cell of the 12-tube goes on
+  falling with length. `python research/gpu-local/eqtorus.py summary 1 18 40`.
 - Not checked: no second code on the loop-16 and loop-13 faces at 96 cells; hazard by age on the five faces was
   saved (`hist_H_K_D.json`) and not read.
 
