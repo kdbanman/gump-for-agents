@@ -4,6 +4,62 @@ Standing account of the PI (the session in charge of the blast). One subdirector
 README; `BRIEF-COMMON.md` is what every agent was told; `PREDICTIONS.md` holds forecasts frozen before data;
 `REPORT.md` is the account for the owner. Written to as results are checked; newest state at the top.
 
+## State (04:15 UTC): what wave 1 found (four agents reported; referees running)
+
+Each line names the agent's directory, where the command for every number is. Nothing here is refereed yet
+unless it says so. [measured] = one code unless two are named.
+
+1. **How a wrapped face dies: boom and bust [measured, three independent codes: `anatomy`, `split-slab`,
+   `tube1d`; referee `ref-anatomy` running].** The face over-fills in one generation (33 → 48.5 of 63 cells; the
+   layer beneath 25 → 40), then every live cell is overcrowded and nothing is born (→ 11.6 cells), and about one
+   time in 130 the scattered survivors starve within four generations. Share of deaths with a one-generation fall
+   of at least half the face: 0.57, 0.57, 0.57, 0.59, 0.60, 0.67 ± 0.05 at 48 … 84 cells; flat in space (the
+   last-alive times of the cells of one death spread by 1.85 generations); no hole, no front, no band first.
+   A hole or band made by hand is retaken from its edge at 0.25–0.31 units per generation and never grows.
+2. **How a hull face dies: it starves [measured, `anatomy`, `model`].** Its rim line has too few neighbours
+   inside the vessel to be overcrowded (7 against 9: `rim`, by enumeration), survives the over-full generation
+   (0.69 per live cell against 0.42 inside) and the fall stops at 0.40–0.48 of the face where a wrapped face
+   reaches 0.19; 1.6% of hull deaths contain such a fall. The face fades over about 10 generations, tilted at
+   0.6 units per generation, the last cell on the rim line 54% of the time.
+3. **The same two exits exist with no chaos beneath [exact, `rigour`; referee `ref-proofs` running].** In the
+   one-layer dice surrogate solved exactly (6–18 cells) the share of the death flux through a half-face fall is
+   0.94 / 0.57–0.79 / 0.82 on wrapped faces and 0.017 / 0.020 / 0.003 on rimmed ones. So bust-on-wrapped,
+   starve-on-rimmed is the rule's cap and the lattice, not the chaos.
+4. **The boom has a law per cell and is blind to shape [measured, `model`, from the card's histograms].**
+   −ln P(P = xA) = 1.9 + ψ(x)·A, ψ = 0.056, 0.075, 0.098, 0.127 at x = 0.70, 0.73, 0.76, 0.79 (1.27 times the
+   Gaussian value), the same on loop-12 tubes and wide faces to 0.001 per cell. The wrapped price splits about
+   0.08–0.10 for the boom and 0.11–0.13 for the kill (the survivors failing to rebuild). The kill is not derived.
+5. **Tubes [measured; readings differ].** A tube's living state does not depend on its length (`model`); its
+   over-full deaths are as frequent as a wide face's of the same area (506 against 513 at 66 cells, `model`); its
+   extra deaths are thinnings without a bust. `tube1d`: the probability that a band of width w right round the
+   girth of a long living tube is empty is e^(−3.81 ± 0.02) / τ(closed tube of length w) at 5, 6, 7 units: a
+   band and a tube are the same object, and the marginal price of both falls as c∞ + B·e^(−ℓ/ξ) with
+   c∞ = 0.1989 (0.198–0.200) for loop² 12 and ξ = 2.05 lattice units. `model`'s one-number formula
+   D = ln(b + (1 − b)·e^Δ) (b the bust share, Δ the tube's lead in the stationary lower tail) gives 0.118, 0.207,
+   0.301, 0.394 against 0.125, 0.220, 0.302, 0.381 at 66–108 cells. Not settled: whether the bend is a shift
+   between exits (the exact surrogate's tube: bust share 0.81 → 0.23 and a step that saturates, `rigour`) or a
+   correlation length (`tube1d`: the bust share of whole tubes is flat, 0.59, 0.56, 0.51 ± 0.05 at 48, 72, 84).
+6. **Rims without corners pay the hull's price [measured, `rim`, small strips].** In corner-free prisms the mixed
+   second difference in width and length is 0.231 ± 0.011; width and length do not cost the same; the data
+   want ln τ = a + 0.23·A − 0.21 per row, the shape of the hull's own fit (0.2306·A − 0.337·k). So the 0.231 is
+   not made by corners. `model`: 0.2086·A + b·k + d + e/k also fits the hull's five faces (χ² 17 on 2).
+7. **The density law has a proof of its form, not of its numbers [proved, `image`; under referee].** A torus is
+   its cover conditioned on the whole history of a seam recurring one loop along; additivity over loops, a
+   deficit per cell and independence of the tube's length follow. The equal-time picture carries none of f.
+8. **A theorem [proved for the dice surrogate, `rigour`; under referee].** ln τ = ∫₀¹⟨E⟩_s ds under a tilt of the
+   quasi-stationary law by the one-step emptying cost E = Σ_i ε_i: the lifetime is exactly a sum of local costs,
+   and ⟨E⟩₁ ≤ ln τ ≤ ⟨E⟩₀ ≤ 2.509·A.
+9. **Samplers.** Downward levels on the face population do not help on wrapped faces, because the rare step is
+   the over-full generation and the crash jumps every level at once (`split-slab`, `tube1d`: both built it, both
+   found this). On hull faces the route is a fade and forward flux applies (`split-hull`, calibrating; `ref-hull`
+   building a second code). `boom` is building the two-stage estimate (over-fill, then kill by cloning).
+10. **Dead:** the PI's front gas (no band-first class); the tangent construction as a predictor; "two prices =
+    two routes" in its simple form (the no-bust route of a wrapped face costs 0.004–0.005 per cell more than its
+    bust route, not 0.022).
+
+Forecasts for the 120-cell tube (1,18),(0,40), all frozen before any measurement of it: PI 24.56 ± 0.03; `tube1d`
+24.563 ± 0.030; `model` 24.575 ± 0.025; `rigour` 24.570 ± 0.025; `split-slab` in its PREDICTIONS.md.
+
 ## State (03:20 UTC)
 
 Wave 1 launching: eight Fable agents, one angle each.
