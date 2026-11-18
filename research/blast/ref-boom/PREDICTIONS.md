@@ -58,3 +58,6 @@ event; I, J, F as before, fitted on 48, 57, 63 cells; forecasts at 75 and 84 fro
 10. (p = 0.6) L2(0.70, 4 cells): |J| ≤ 0.015 and I within 0.012 of the lifetime slope of the fit sizes.
 11. (p = 0.5) the forecast at 75 cells from L2(0.70, 4 cells) with d and f held constant is within 0.2 of 15.64;
     (p = 0.4) at 84 cells within 0.3 of 17.54.
+12. (05:54 UTC, before the 108-cell look-ahead run finished) (p = 0.6) The forecast at 108 cells from L1(0.70, 0.30A)
+    (living frequency at 108 cells, d and f extrapolated linearly from 48, 57, 63) is within 0.15 of 22.5405;
+    (p = 0.5) the same from the face alone, {P ≥ 0.70A}, is within 0.25.
