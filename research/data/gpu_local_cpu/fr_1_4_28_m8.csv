@@ -1,0 +1,5 @@
+torus,m,A,seed,chunk,start_utc,wall_s,gens,exposure,face,fw,settled,settled12,settled_cyc,open,threads,lanes,agesum_ended,code,cmd
+"1,4,28",8,84,9001,0,2026-11-17T05:53:17Z,299.9,11411456,2921332736,132,0,0,0,0,256,4,256,632664186,fr.c:b0e98b16a4,"python -u research/gpu-local/cpu/fr.py run 1 4 28 0.0833 9000 m=8 threads=4 chunk=5"
+"1,4,28",8,84,9003,0,2026-11-17T05:53:17Z,299.9,11214848,2871001088,126,0,0,0,0,256,4,256,658979698,fr.c:b0e98b16a4,"python -u research/gpu-local/cpu/fr.py run 1 4 28 0.0833 9000 m=8 threads=4 chunk=5"
+"1,4,28",8,84,9000,0,2026-11-17T05:53:17Z,299.9,11284480,2888826880,134,0,0,0,0,256,4,256,632351776,fr.c:b0e98b16a4,"python -u research/gpu-local/cpu/fr.py run 1 4 28 0.0833 9000 m=8 threads=4 chunk=5"
+"1,4,28",8,84,9002,0,2026-11-17T05:53:17Z,300.0,11399168,2918187008,135,0,0,0,0,256,4,256,604477916,fr.c:b0e98b16a4,"python -u research/gpu-local/cpu/fr.py run 1 4 28 0.0833 9000 m=8 threads=4 chunk=5"

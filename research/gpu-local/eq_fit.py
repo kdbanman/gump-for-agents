@@ -12,7 +12,9 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 
 pts = []
-for path in glob.glob(os.path.join(ROOT, 'research', 'data', 'gpu_local_eqtorus', 'eqtorus_*.csv')):
+# the equilateral family only: the directory also holds tube and wrapped faces (README, "Tube and wrapped faces")
+EQUILATERAL = ['4_0_4', '1_7_19', '1_4_21', '5_0_5', '3_3_9', '2_4_14', '1_5_31', '6_0_6', '1_10_37']
+for path in [os.path.join(ROOT, 'research', 'data', 'gpu_local_eqtorus', f'eqtorus_{t}.csv') for t in EQUILATERAL]:
     rows = list(csv.DictReader(open(path)))
     E = sum(int(r['exposure']) for r in rows); F = sum(int(r['face']) for r in rows)
     pts.append((int(rows[0]['A']), rows[0]['torus'], math.log(2 * E / F), 1 / math.sqrt(F), F))

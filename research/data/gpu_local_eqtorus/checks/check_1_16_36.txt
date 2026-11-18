@@ -1,4 +1,4 @@
-=== check 1 16 36  2026-11-16T04:10:03Z
+=== check 1 16 36 2026-11-17T02:42:37Z
 diag (-1, 1, 1): period 4 (2 layers of [432] cells), neighbour-consistency violations 0, period = gcd of generator values: True
 diag (1, -1, 1): period 16 (8 layers of [108] cells), neighbour-consistency violations 0, period = gcd of generator values: True
 diag (1, 1, -1): period 4 (2 layers of [432] cells), neighbour-consistency violations 0, period = gcd of generator values: True
