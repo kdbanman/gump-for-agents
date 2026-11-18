@@ -27,6 +27,7 @@ kept as written; where they disagree with the report, the report is later and re
 | `holes/` | second phase: the chance that a patch of a living face is empty; hull interior = wrapped face; the 18-cell hull face | refereed by `ref-hull/HOLES.md` (numbers confirmed, two readings corrected) |
 | `strips/` | second phase: `rim/`'s corner-free strips re-measured with independent code and extended; closed tubes of the same girth; firewalls in thin strips; the tetrahedron has no steady state | unrefereed (itself a check of `rim/`'s table, which stands) |
 | `noisy/` | second phase: ε-noisy gump on the whole hull and a sampler over the noise, for the 135-cell face; `data/runs/` holds the long runs' raw rows | unrefereed; validated against brute force at 45 and 63 cells, blind at 108 cells (see `REPORT.md`) |
+| `lean/` | gump in Lean 4: the rule, T1 to T4, sealed sets and the hull machine-checked in core Lean; the Lean rule tied to the oracle and the 2012 logs; `README.md` there holds the aim and the climb; `mathlib/` is the package for theorems that need Mathlib | unrefereed; `sh research/blast/lean/check.sh` |
 | `ref-hull/WRAPPED.md`, `ref-hull/HOLES.md` | the hull referee's second and third tasks (rimmed against wrapped faces; the referee of `holes/`) | |
 | `ref-report/` | the referee of the report itself against its sources (night) | |
 | `PI.md` | the investigator's standing file: the owner's words, usage rules, what is running and owed | |

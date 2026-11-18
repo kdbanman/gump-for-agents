@@ -294,6 +294,22 @@ a wide face and a tube at 84 cells). Read by the PI at 16:40 UTC; nothing below 
 - Not checked by the audit (its section 9): anything above 84 cells on gump; `rim/`, `split-hull/`, `ref-hull/`,
   the dice chains and their samplers; and the whole of the second phase above, which it predates.
 
+### 18:07 UTC. Gump in Lean: the first theorems are machine-checked (`lean/`; unrefereed)
+
+On the owner's word of about 17:50 UTC ("go ahead and install lean, and start work in its direction"). Lean 4.36.0.
+- [proved, machine-checked] In core Lean, no Mathlib: the lattice and the rule; **T1** (layer histogram); "a dead
+  sealed set stays dead whatever happens elsewhere" and "unions of sealed sets are sealed" (the opening of **T6**);
+  **T2** (octahedral confinement) and the diagonal hull; **T3** (firewall), both halves; **T4** (closed slabs). No
+  `sorry`; axioms `propext`, `Classical.choice`, `Quot.sound` only. T2 and T3 are two instances of the sealed-set
+  lemma. Reproduce: `sh research/blast/lean/check.sh`.
+- [measured] The Lean rule is gump: run by a stepper that evaluates the verified `step`, it prints the four 2012
+  closed-cube logs in `reference/golden/` line for line (side 11 through its 4,218 generations, with `--long`) and
+  equals `reference/oracle.py` state for state on three soups for 60 generations; a corrupted state is caught.
+- The aim and the climb are in `lean/README.md`: every theorem of the project checked, and the measured laws
+  turned into theorems, the face law with its constant included.
+Not checked: no second agent has read the Lean statements against `docs/AUTOMATON.md`; that the stepper misses no
+birth is argued, not yet proved in Lean.
+
 ## What was found
 
 1. **Boom and bust on wrapped faces [measured by four independent codes: `anatomy/`, `split-slab/`, `tube1d/`,

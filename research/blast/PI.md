@@ -64,36 +64,33 @@ after its own check; the PI never merges it.
   without warning: after every milestone bring this file up to date ("State"), and within 60,000 tokens of the
   threshold do it at once.
 
-## State (overwritten; last written 17:28 UTC 2026-11-18)
+## State (overwritten; last written 18:07 UTC 2026-11-18)
 
-- **The blast is closed.** The owner at about 14:55 UTC: "Anything to finish or document here? We can do another
-  blast at a later date, but for now let's see what you found!" Nothing is running: no agent, no job. Start none
-  without the owner's word.
-- **Usage at 13:56 UTC: Fable window 0.39, weekly 0.20** (PI turns only since then).
-- **Last job, ended 16:37 UTC:** the noisy hull's blind test at 108 cells, complete. Final numbers are in the last
-  second-phase entry of `REPORT.md` (weighted mean +0.069 +- 0.025 above gump; intercept at zero noise -0.025 +-
-  0.083) and in the short version; `noisy/PREDICTIONS.md` block 2 and the PI's block 5 items 5 and 6 are scored.
-  The 135-cell runs were not started and the 135-cell face stays open.
-- **After the closing message the owner asked whether the theory is amenable to Lean.** Answered in chat, not in
-  the repository: T1 to T4 easy in core Lean, T5 and T6 moderate, the dice-surrogate theorems possible with weeks
-  of work, the measured laws not until there is a paper proof. Installing Lean here was refused by the session's
-  permission layer and was not worked around; nothing was machine-checked.
-- **For a later blast** (the PI's list): a thick corner-free strip by a sampler or on the card ((6 unit rows,
-  L = 6), about 24; (5 unit rows, L = 7), about 23.6); the 126- and 132-cell tubes against block 7; the noisy
-  chain's own offset at 84 cells by brute force (`prod_A_brute84.sh`); a referee for `noisy/` and for `strips/`;
-  T1 to T3 in Lean if the owner allows the install; what the audit left unchecked (its section 9).
-- **Pull request 36 was merged at 14:17 UTC** (head db1791c) after the outside audit
-  (`research/audit/REVIEW-blast.md`: mechanism confirmed by a rebuild; three statements qualified, which
-  `REPORT.md` now carries in its entry of 16:40 UTC). The commits after the merge (the interim and final 108-cell
-  numbers, the audit entry, this state) are in a **second pull request, kdbanman/gump-for-agents#39,** from the same branch, with `main` merged
-  in (no rebase, no force push). The lead merges it; this session does not.
-- **This session is subscribed to pull request 39** (since 17:27 UTC; events arrive as turns). On an event: answer
-  a question or a challenge on the pull request in depth, from the files, with the command behind each number;
-  fix what a review shows to be wrong in `research/blast/` (small, own paths), commit and push; anything larger,
-  or anything that asks for runs, agents or access, goes to the owner first. If the subscription rules are not in
-  context, call `subscribe_pr_activity` again before acting.
-- Not done: `research/check.sh` not run on the blast; no figures; nothing of the second phase has been recomputed
-  by the lead or the audit.
+- **Open again, on the owner's word of about 17:50 UTC** (quoted above): Lean, at full ambition, and in-depth
+  discussion on pull request 39. Before that the owner had closed the blast (14:55 UTC).
+- **Usage at 17:53 UTC: Fable weekly window 0.45, all-model weekly 0.24; resets 2026-11-25 11:00 UTC.** The window
+  is shared with the lead's session, which is running a rebuild; it rose 0.41 to 0.45 in 26 minutes with this
+  session nearly idle. The owner's last number was a 50% target (10:05 UTC). The PI has asked whether it still
+  holds; until answered: **no agents**, the PI works alone and sparingly.
+- **Pull request 39** (kdbanman/gump-for-agents#39; subscribed; the lead merges). The lead's comments do NOT wake
+  this session (same GitHub account): poll with `pull_request_read` `get_comments` on every turn and by check-ins
+  (`send_later`). The lead's first review (17:34 UTC) is answered in a comment (fixes pushed; tail analysis;
+  forecasts in `noisy/PREDICTIONS.md` block 3). **Owed on the pull request:** a second comment with the results of
+  `diag.sh` (ancestry at 108 cells; odd sweeps off), and the depth series the PI offered (noise at depth >= d for
+  d = 2 .. 6 by brute force at 63 cells, `nz R brute SEED GENS M DW DO`), then score block 3 when the lead's
+  rebuild reports brute force at 84 cells.
+- **In flight (CPU):** tracked job `sh research/blast/noisy/diag.sh` (started 17:56 UTC, about 100 minutes; rows in
+  scratch `runs_diag/`; read with `python3 research/blast/noisy/anc.py` and `tails.py research/scratch/blast/noisy/runs_diag`).
+  Tracked job fetching Mathlib into `research/blast/lean/mathlib/` (`lake update`, `lake exe cache get`).
+- **Lean** (`research/blast/lean/`, `README.md` there = the aim and the climb; `sh research/blast/lean/check.sh`).
+  Lean 4.36.0 via elan in `~/.elan` (`export PATH=$HOME/.elan/bin:$PATH`; if the container was rebuilt, reinstall:
+  `curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --no-modify-path`).
+  Done: Basic, Layers (T1), Sealed (T2, T3 both halves, T4, hull, sealed lemma, union), Finite + Check (the rule
+  against the oracle and the 2012 logs). Next, in the README's order: T6 in full, the cube still life and the
+  small sealed sets, stepper correctness, T5 (in `mathlib/`), then certified rates for the dice surrogate.
+- **Language** (the owner, 17:50 UTC): goals at full size; estimates and obstacles as facts or hypotheses only.
+  Every brief and every README written from now on is read once against that before it goes out.
+- Not done: nothing of the second phase or of `lean/` has been recomputed or read by the lead or a referee.
 
 ## Results that are easy to misremember (all in `REPORT.md`)
 
