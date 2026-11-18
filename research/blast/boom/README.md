@@ -15,9 +15,10 @@ failing negative control each time (`validate.py`; the `.val` files in scratch).
    p, d the chance that it is a launch; both factors are exponential in the area at fixed θ = p/A, and
    **min_θ [I_up(θ) + J(θ)] = 0.2099 at θ = 0.74: I_up = 0.078 (37%), J = 0.132 ± 0.003 (63%)** [measured; the
    anchors' wide-face price is 0.2087]. Each extra live cell at the launch is half as frequent and twice as deadly.
-3. **The launch is a two-layer event that comes in one step from a normal face** [measured]: face 0.75·A, layer
-   beneath 0.64·A (normal 0.43; +2 s.d. given the face); one generation later face 0.21·A and layer beneath 0.15·A;
-   then the face halves every generation (0.22, 0.12, 0.064 of A) until it is empty, 5–7 generations after the launch.
+3. **The launch is a breath of the top four layers that comes in one step from a normal face** [measured]: face
+   0.73·A, layers 2, 3, 4 at 0.63, 0.56, 0.51 (normal 0.43, 0.41, 0.42), after a generation in which layers 2–4 were
+   slightly under-full; one generation later 0.24, 0.16, 0.19, 0.29; then the face halves every generation (0.22,
+   0.12, 0.064 of A) and is empty 5–7 generations after the launch, before the chaos has climbed back from below.
 4. **The kill is a fragmentation** [measured]: a surviving cluster of 7 or more cells regrows the face 99.4% of the
    time whatever lies beneath, so a death needs the bust to leave only fragments (in dying states the largest
    cluster is 5 cells of 12). "Every cluster fails on its own, by its size" with nothing fitted gives d(p) within a
@@ -105,6 +106,33 @@ J(θ) ≈ 0.5·(1 − θ) for θ ≥ 0.74, and 0 at θ = 1 (a full face is empty
 | launch + 2 | 7.5 | 9.3 | |
 
 A lower launch needs a fuller layer beneath (48 cells: (P, U) = (30, 31.4), (36, 30.7), (42, 28.0)).
+
+**The boom is at least four layers deep, and the layers beneath are under-full one generation earlier**
+(`sh run_e.sh; python3 deep.py e48 e63 e60` → `out/deep_*.txt`; populations of layers 1–4 as shares of A, means over
+the natural deaths; s.d. of one layer's population in the living state: 0.087·A at 48 cells) [measured]:
+
+| generation relative to the launch | face | layer 2 | layer 3 | layer 4 |
+|---|---|---|---|---|
+| living state (63 cells) | 0.517 | 0.435 | 0.406 | 0.416 |
+| −2 | 0.496 | 0.419 | 0.399 | 0.407 |
+| −1 | 0.525 | **0.399** | **0.355** | **0.377** |
+| 0 (launch) | 0.732 | **0.637** | **0.562** | **0.507** |
+| +1 | 0.230 | 0.154 | 0.191 | 0.297 |
+| +2 | 0.127 | 0.158 | 0.242 | 0.347 |
+| +3 | 0.070 | 0.176 | 0.311 | 0.409 |
+
+(63-cell torus, 2,692 deaths. The 48-cell torus, 12,139 deaths: 0.731, 0.634, 0.562, 0.509 at the launch and 0.235,
+0.157, 0.189, 0.293 one generation later; the 60-cell tube, 3,678 deaths: 0.728, 0.633, 0.561, 0.508 and 0.234,
+0.157, 0.189, 0.297. The profile is the same share of A on every vessel to 0.005, tube or torus.)
+
+So the launch is a breath of the top of the slab: with the face normal, layers 2–4 are a little under-full (by 0.4
+to 0.6 s.d. each); one generation later all four layers are over-full together (the face and layer 2 by 2.3 s.d.,
+layer 3 by 1.8, layer 4 by 1.1; given the face's population, layers 2, 3, 4 are +1.9, +1.6, +1.1 s.d.); then all
+four crash, and the chaos comes back from below at about one layer in one to two generations (layer 4 is normal
+again three generations after the launch, layer 3 is at three quarters, layer 2 has not moved), while the face
+halves every generation. A death is the face losing that race. [conjectured] This is why five layers of true rule
+are needed to reproduce the lifetime (research/theory/exponent), and why the layer beneath alone is not a
+sufficient second variable.
 
 Islands (`boom island`): each stored over-full state is stepped once; the live face cells are grouped into clusters
 (connected through in-layer neighbours); the state is then run untouched, and once per cluster with every other face
@@ -240,19 +268,21 @@ Scored at the end of PREDICTIONS.md: seven hits or part-hits, four misses or par
 
 - Anything above 84 cells. I_up + J rests on d at 48, 63, 75 cells; the 48-cell torus has loops² of 16.
 - The clone estimate's error bars are too small where fatal parents are few (84 cells).
-- Layers below the second; the spatial pattern of the over-fill; why the layer beneath over-fills with the face.
+- Layers below the fourth, and the other face of the slab at the launch (in an 8-layer slab layer 4 of one face is
+  layer 5 of the other); the spatial pattern of the over-fill; the joint frequency of the four-layer over-fill on
+  tubes against wide faces (only (P, U) was counted).
 - `closure.py`'s chains are built and tested on the same run (states with few visits could flatter chain 2 and
   chain PU; at 48 cells the dying states have thousands of visits each).
 - The class rates at 72 and 84 cells have 500 and 44 deaths per shape.
 - The binary was rebuilt by `validate.py` whenever `boom.c` had changed (counters M3/M4 at 04:08, the island mode
-  at 04:16); the kernel never changed and each later vessel was validated on the binary that ran it; t63, t48, t84,
+  at 04:16, the layer counters at 04:28, after which the 48-cell torus was validated again); the kernel never changed and each later vessel was validated on the binary that ran it; t63, t48, t84,
   tube84 were validated and run on the first build.
 - No second reader for any of the Python.
 
 ## Files
 
 `boom.c` (run / clone / island / trace), `geom.py`, `validate.py` (both copied from ../anatomy, paths changed),
-`run_a.sh`, `run_d.sh` (what was run; `run_b.sh`, `run_c.sh` were stopped unrun), `vessels.txt`;
+`run_a.sh`, `run_d.sh`, `run_e.sh` (what was run; `run_b.sh`, `run_c.sh` were stopped unrun), `vessels.txt`, `layers.py`;
 `analyse.py`, `scale.py`, `hidden.py`, `island.py`, `islandscale.py`, `map.py`, `formula.py`, `map2.py`, `map3.py`,
-`closure.py`, `classrates.py`, `joint.py`, `lags.py`; `out/` every table above. Bulk output:
+`closure.py`, `classrates.py`, `joint.py`, `joint2.py`, `lags.py`, `deep.py`; `out/` every table above. Bulk output:
 `research/scratch/blast/boom/` (regenerate with the run scripts; same seeds).
