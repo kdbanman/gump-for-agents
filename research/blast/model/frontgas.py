@@ -14,6 +14,7 @@ length of the face across the loop in lattice units):
   SWq   a + c x - ln(1 + exp(g x) sum_v K_q L_v/5.25)                     8 parameters (K_q = share at 63 cells)
   GEN   a + c x - ln(1 + exp(g x) sum_v K_q (L_v/5.25)^m)                 9 parameters; nests FGq, SWq, HAZ1
   HAZ   a + c x - ln(1 + sum_q n_q r_q exp(g_q x)), q in 12, 13, 16, 19   10 parameters (research/wrap/models.py)
+  EXPA  a + c x - sum_q n_q r_q exp(g_q x)                                10 parameters (log-discounts add)
 
     python3 research/blast/model/frontgas.py [AMIN]     # default AMIN = 48; 36 includes the small faces
 """
@@ -74,6 +75,9 @@ def model(name, th, p):
     if name == 'HAZ':
         r = dict(zip((12, 13, 16, 19), th[2:6])); gq = dict(zip((12, 13, 16, 19), th[6:10]))
         return a + c * x - math.log1p(sum(r[int(qq)] * math.exp(gq[int(qq)] * x) for qq in q if int(qq) in r))
+    if name == 'EXPA':    # as HAZ but log-discounts add instead of rates
+        r = dict(zip((12, 13, 16, 19), th[2:6])); gq = dict(zip((12, 13, 16, 19), th[6:10]))
+        return a + c * x - sum(r[int(qq)] * math.exp(gq[int(qq)] * x) for qq in q if int(qq) in r)
     raise ValueError(name)
 
 
@@ -81,10 +85,11 @@ START = {'FG': [13.19, 0.208, 0.66, 0.5, 2.3], 'FG2': [13.19, 0.208, 0.66, 0.5],
          'FGq': [13.19, 0.208, 2.3, 0.0045, 0.004, 0.0023, 0.0007, 0.0002],
          'GEN': [13.16, 0.2086, 1.0, 0.016, 0.13, 0.10, 0.055, 0.013, 0.001],
          'SWq': [13.16, 0.2086, 0.016, 0.13, 0.10, 0.055, 0.013, 0.001],
-         'HAZ': [13.16, 0.2086, 0.13, 0.10, 0.055, 0.013, 0.03, 0.03, 0.025, 0.02]}
+         'HAZ': [13.16, 0.2086, 0.13, 0.10, 0.055, 0.013, 0.03, 0.03, 0.025, 0.02],
+         'EXPA': [13.16, 0.2086, 0.12, 0.095, 0.052, 0.013, 0.03, 0.03, 0.025, 0.02]}
 NAMES = {'FG': 'a c sigma K m', 'FG2': 'a c sigma K', 'SW': 'a c sigma K g', 'FGq': 'a c m K12 K13 K16 K19 K21',
          'GEN': 'a c m g K12 K13 K16 K19 K21', 'SWq': 'a c g K12 K13 K16 K19 K21',
-         'HAZ': 'a c r12 r13 r16 r19 g12 g13 g16 g19'}
+         'HAZ': 'a c r12 r13 r16 r19 g12 g13 g16 g19', 'EXPA': 'a c r12 r13 r16 r19 g12 g13 g16 g19'}
 
 
 def lm(res, th0, iters=400):
@@ -136,7 +141,7 @@ if __name__ == '__main__':
     pts = data(amin)
     print(f'{len(pts)} pooled faces with A >= {amin}, shortest loop^2 >= 12; areas {sorted({p["A"] for p in pts})}')
     out = {}
-    for name in ('FG', 'FG2', 'SW', 'FGq', 'SWq', 'GEN', 'HAZ'):
+    for name in ('FG', 'FG2', 'SW', 'FGq', 'SWq', 'GEN', 'HAZ', 'EXPA'):
         th, err, chi, z = fit(name, pts)
         out[name] = (th, z)
         print(f'\n{name:4s} chi2 {chi:8.1f} on {len(pts) - len(th)} dof ({len(th)} parameters)')
