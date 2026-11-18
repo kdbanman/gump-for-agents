@@ -271,7 +271,7 @@ int main(int argc, char **argv) {
             fputc('\n', cf); } fflush(cf); }
       if (pp && rate[rep] > 0) for (int bt = 0; bt < NBATCH; bt++) { EVAL(init + bt * ssz, D + bt * dsz);   /* dying paths of the dice chain: face population by generation */
           for (int l = 0; l < NL; l++) if (sc[l] == 0) { int gd = TPRE + 1; while (popser[l][gd] > 0) gd++; fprintf(pp, "S %d %d %d |", rep, bt * NL + l, gd);
-            for (int g = gd - 1; g >= 1 && g >= gd - 24; g--) fprintf(pp, " %d", popser[l][g]); fprintf(pp, "\n"); } }
+            for (int g = gd - 1; g >= 1 && g >= gd - (getenv("FULLPATH") ? 127 : 24); g--) fprintf(pp, " %d", popser[l][g]);   /* REFEREE: FULLPATH=1 prints the whole series back to generation 1 */ fprintf(pp, "\n"); } }
       memcpy(a, pl, ssz * 8);
     }
     double m = 0, v = 0; for (int i = 0; i < nrep; i++) m += rate[i]; m /= nrep; for (int i = 0; i < nrep; i++) v += (rate[i] - m) * (rate[i] - m);
