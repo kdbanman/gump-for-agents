@@ -19,6 +19,14 @@ its jump-and-crash route and the +0.8 nat non-Gaussian tail of the jump at 63 ce
 order hull > torus and the hull's ln τ to within 10% at every size (30–84: −8%, +4%, +7%, +4 to +9%), no better; (4) gump's hull faces of 30–63 cells do die by fades and its torus faces mostly by a jump and a crash [measured, section (f)], but the
 chain says so only for one choice of the layer beneath, and at 84 cells its two routes tie.
 
+In fairness to the claim: as a ratio the number is not confined to one size (S/A = 0.2324 at 63 cells and 0.224–0.236 at
+84), and with the rule that carries most of the 84-cell map from 63 cells the last increment is 0.248 and c = 0.247. What
+fails is the identification with gump's 0.231, which is a slope with a negative term in k beside it: no pair or triple of
+sizes at which the action is pinned gives that pair of numbers. And [conjectured] the ratio will not stay: at 84 cells the
+jump-and-crash route already ties with the fade, and on a face whose rim is a vanishing share the chain's map is the
+torus's, whose jump costs 0.16 per cell. A chain with one map cannot keep two prices at large sizes unless the fade
+stays cheaper for ever, and at 84 cells it has stopped being cheaper.
+
 ## Per claim
 
 | # | claim | verdict | my numbers |
