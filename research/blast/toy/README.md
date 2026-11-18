@@ -50,6 +50,9 @@ per cell, so "two prices" there is a crossover between exits, not two asymptotic
   site-by-site kernel, h computed as the flux into the empty row. `ex1d 12 1 0.472` → 6.4169049205 and
   `ex1d 16 1 0.472` → 8.6349890757: the lab's 6.4169 and 8.6350 (`research/theory/exponent/exact1d.c`, an
   independent code). `exg L ring 2 2 3 4 0.472` reproduces `ex1d` to all printed digits (ring 12, segment 11).
+- `python3 dense_check.py` → **ALL OK**: the full 2^L × 2^L transition matrix built cell by cell in numpy and its
+  killed block's top eigenvalue agree with `exg` to 9 digits on rings and segments of 8–9 cells, for cross2 and
+  for rules A and B of §5 (an independent exact code, small L only).
 - `python3 mc_check.py L ring` (plain numpy Monte Carlo of the surrogate, an independent code): segment L = 12:
   ln τ 7.7379 ± 0.011 and 7.7505 ± 0.008 (exact 7.7402), flash share (6 steps) 0.698 ± 0.005 and 0.707 ± 0.004
   (exact 0.7046); ring L = 12: 6.4220 ± 0.009 (6.4169), 0.9548 ± 0.0018 (0.9560); segment L = 16: 9.567 ± 0.017 and
@@ -284,9 +287,10 @@ by power iteration (relative convergence 10⁻¹¹ in h).
 - The split by "a fall ≥ L/2 within K steps" is a classifier, not a decomposition into disjoint routes; chance
   falls contaminate it at L ≤ 16 (living baseline up to 0.2). Slopes are stable under K = 4, 6, 12; constants move
   by 0.3–0.4.
-- Exact segments: one exact code, checked by Monte Carlo to 1% at L = 12, 16 only. Coin density fixed at 0.472.
-  Exact runs stop at L = 22 (ring) / 24 (segment); rules A and B at L = 16, with no Monte Carlo check and no 2D
-  brute force behind them (they are rows over coins, not edges of a real automaton).
+- Exact codes above L = 9: one kernel routine (`ex1d` = `exg`), checked against the lab's `exact1d.c` on rings
+  of 12 and 16, by Monte Carlo to 1% on a ring of 12 and segments of 12 and 16, and by a dense matrix at L = 8–9.
+  Coin density fixed at 0.472. Rules A and B stop at L = 16 and are rows over coins, not edges of a real
+  automaton: no 2D brute force stands behind them.
 - Why the fade is twice as fast with ends; whether the box's fade slope (rising 0.28 → 0.34) converges to the
   ring's 0.327.
 - No box edge at L = 36.
@@ -303,7 +307,7 @@ by power iteration (relative convergence 10⁻¹¹ in h).
 
 ```sh
 cd research/blast/toy
-python3 validate.py && python3 counts.py
+python3 validate.py && python3 counts.py && python3 dense_check.py && python3 mc_check.py 12 0
 sh run_bf.sh        # ring and box, L = 12..32: 8 min on one core
 sh run_exact.sh     # exact rings and segments to L = 22 / 24: 10 min, 0.5 GB (waits for run_bf.sh's bf.done)
 sh run_other.sh     # two more rules, exact: 3 min (waits for exact.done)

@@ -74,3 +74,14 @@ From the two-exit split of the ring edge (flash ln τ = 0.296 + 0.4550·L, other
 - Bust share (6 steps): forecast 0.30 ± 0.04 (two-exit fit: 0.298); measured 0.290 ± 0.024. **Hit.**
 - Boom share: forecast 0.24 ± 0.04; measured 0.224 ± 0.022. **Hit.**
 - ln τ: forecast 15.47 ± 0.08; measured 15.441 ± 0.054 (the file: 15.581 ± 0.045). **Hit.**
+
+## Block 4 — 2026-11-18 04:46 UTC: is the ring's second exit made by the strip's width? (frozen before the run)
+
+Worry: the strip is 16 rows wide at every L, and 3-column cuts (cost 48 cells) outnumber edge deaths 6:1 at
+L = 28 and 150:1 at L = 36. A strip that is nearly cut gives its edge row two ends, so the ring's "no-flash exit
+at the box's price" could be an artefact of W = 16 rather than a property of a ring edge.
+Test: `ed run 32 28 1 31 1200 3.2e8` (strip 32 × 28: a cut costs 96 cells). W = 16 gave bust6 = 0.536 ± 0.011, boom
+share 0.448 ± 0.011, ln τ = 12.416 ± 0.022.
+- Forecast: unchanged within errors (bust6 0.536 ± 0.05, ln τ 12.42 ± 0.06): probability 0.55.
+- Otherwise (0.45): bust6 ≥ 0.62 and ln τ ≥ 12.50, i.e. the exit is partly the cut channel's doing and §3 of the
+  README must say so.
