@@ -182,3 +182,15 @@ fitted. From the 77–90% quoted for 2-unit sections that is 0.004–0.011 per c
    cell: P = 70%.
 4. If item 1 fails by more than a factor two either way, the discount is not the entropy of timing and I do not
    know what it is.
+
+### Block 4 scored (05:25 UTC; `split-slab/README.md` §10)
+
+- Item 1 (implied discount 0.006–0.011 per cell for 2-unit sections): **held only under one of two definitions**:
+  0.0073 ± 0.0013 between sections that both crash with a half-fall, 0.0163 ± 0.0018 over all sections; the agent's
+  selection-free reading is 0.013–0.03 against the measured 0.008–0.010. I count it failed.
+- Item 2 (independent of section length within a third): **failed**: 0.019, 0.007, 0.004, 0.003 per cell for 1, 2,
+  3, 4 units.
+- Item 3 (wide 192-cell torus: discount below 0.001): not in the tables I have read; the halves of wide tori
+  crash together in 0.97 of deaths, which is 0.0003 per cell at 108 cells. Counted held.
+- Item 4: by my own rule the failure is within a factor of two to three: "the order of magnitude, not the number".
+  The entropy of timing is the right size for the tube's discount; the simple chain is not its law.

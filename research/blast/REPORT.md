@@ -75,19 +75,20 @@ hull face was **not** measured by any method that passed calibration cleanly; wh
    (−ln P(population = xA) = 1.9 + ψ(x)·A with ψ = 0.056, 0.075, 0.098, 0.127 at x = 0.70, 0.73, 0.76, 0.79, from
    the card's histograms of 16 faces, 1.27 times a Gaussian's, and identical on tubes and wide faces). The second
    is still measured from deaths.
-   **A measured map that finds both routes and nearly both prices [computed, `ref-anatomy/THEORY.md`; being
-   refereed by `ref-map/`].** Take the face population P and the population B of the layer beneath, measure
-   their one-step map in living gump (drift and covariance against the two fillings), and let a face be a Markov
-   chain on (P, B) with Gaussian noise. With nothing fitted the chain's cheapest way to an empty face is, on a
-   wrapped face, one jump up and a crash, (33, 25) → (46, 42) → (16, 7), where gump's dying faces go (33.3, 25.2)
-   → (48.8, 39.9) → (11.2, 9.9); and on a hull face a 13-generation fade with no over-full generation. Its action
-   per cell is 0.1608 on wrapped faces (23% short; `boom/` found 0.160–0.165 independently) and **0.2313 on the
-   63-cell hull face, where gump's rimmed price is 0.231**. The wrapped shortfall is the non-Gaussian tail of the
-   single jump (the measured chance of the jump is below the Gaussian's by 0.42, 0.76, 1.19 nats at 48, 63, 84
-   cells, i.e. +0.022 to +0.027 per cell); with it and the smaller measured corrections added linearly the wrapped
-   number is 0.200–0.207. So the two prices may be two least actions of one measured map: a single jump whose tail
-   has to be measured, and a slow fade for which a Gaussian is enough. Caution: the hull number is one size and
-   one code; whether it is a price (differences between sizes) or an accident is what the referee is asked.
+   **A measured two-layer map finds the wrapped route and four fifths of its price; it does not give the hull's
+   [computed, `ref-anatomy/THEORY.md`, `boom/`; refereed by `ref-map/`].** Take the face population P and the
+   population B of the layer beneath, measure their one-step map in living gump, and let a face be a Markov chain
+   on (P, B) with Gaussian noise. With nothing fitted its cheapest way to an empty wrapped face is one jump up and
+   a crash, (33, 25) → (45, 43) → (16, 6), where gump's dying faces go (33.3, 25.2) → (48.6, 39.7) → (12.1, 9.9); its
+   action is 0.1606 per cell at 63 cells (three codes agree on 0.160–0.165), 23% short of 0.2087. The shortfall is
+   mostly the non-Gaussian tail of the single jump (+0.80 ± 0.03 nats at 63 cells by the referee; +0.42, 0.76, 1.19
+   at 48, 63, 84 cells by the author, about +0.025 per cell); with it and smaller measured corrections added
+   linearly the author gets 0.200–0.207 [conjectured: a ledger, not re-optimised]. **For the hull the same chain
+   gave 0.2313 per cell at 63 cells, the rimmed price to three digits, and the referee refuted it as a price:** it
+   is the action at one size divided by the area (0.209, 0.226, 0.232 at 30, 45, 63 cells); the increments per cell
+   are 0.2605, 0.2477 where gump's are 0.2010, 0.2119; the chain's own lifetimes run above gump's by 0.37, 0.75,
+   about 1.0 at 45, 63, 84 cells; and which route the hull chain takes depends on what is called "the layer
+   beneath". One map does not hold two prices.
 5. **Tubes [measured; the reading in the last bullet is conjecture].**
    - "1.85" and "3.0" are two slopes of one curve: against the wide-face line the discount of a loop²-12 tube is
      0.0046·L² from 54 to 108 cells (L the tube's length in lattice units).
@@ -124,7 +125,12 @@ hull face was **not** measured by any method that passed calibration cleanly; wh
      route: it is the same crash, out of step. [conjectured, the PI] Each freedom of timing multiplies the rate,
      which is the discount; a boundary between sections that crash at different times costs per unit of its
      length, which is why the discount needs a short girth and ends near loop² 21; and the K = 2 of the trace form
-     is a count of timings. Not tested: whether one section's crash triggers the next.
+     is a count of timings. Tested the same hour (`split-slab/` §10, forecast in block 4): if timings formed a
+     simple chain, −ln P(neighbouring sections crash together) per cell would be the discount, whatever the
+     section length. It is 0.019, 0.007, 0.004, 0.003 per cell for sections of 1, 2, 3, 4 units among sections that
+     crash, and 0.013–0.03 without that selection, against a measured 0.008–0.010: **the order of magnitude, not
+     the number, and not independent of the section length.** The discount is of the size of the entropy of timing;
+     the simple chain is not its law. Not tested: whether one section's crash triggers the next.
 6. **Rims [measured, `rim/`, `split-hull/`; `ref-hull/` checking the second].**
    - Corner-free strips (prisms bounded by two diagonal families, periodic along their common direction) have
      the hull's number in their mixed second difference, 0.2262 ± 0.0078 per cell with no corner anywhere, so the
@@ -206,7 +212,16 @@ trend) and half by construction ("the wrapped price takes over" would be a 2% be
 test). Beyond 135 cells the dip rate's own second difference shrinks (−0.176, −0.181, −0.176, −0.168 ± 0.002,
 −0.160 ± 0.004 from 63 to 198 cells), so this route puts the 165- and 198-cell faces at 35.780 ± 0.014 and 43.011
 ± 0.019, below "the second difference repeats" (35.812, 43.085), and levels disagree by ± 0.03 and ± 0.05 there.
-PENDING_DICEHULL
+**A first surrogate measurement, late in the night (`split-hull/README.md`, "Dice under the hull"; being
+refereed by `ref-dicehull/` as I write).** The method that worked on slabs, moved to the hull: gump's true rule on
+every hull cell within five layers of the watched face, fair coins on the two layers below, sampled by subset
+simulation over the coins. Chain against gump: 9.820 ± 0.019 against 9.819 and 13.589 ± 0.039 against 13.633
+(tuning sizes), **18.234 ± 0.065 against 18.141 and 23.418 ± 0.074 against 23.339 (blind; both pass the two-error
+rule set beforehand, both high, +0.087 ± 0.049 together)**, and at 135 cells the chain reads **29.458 ± 0.060**
+(73 replications). Taken at face value, less the blind sizes' offset, that is 29.37 ± 0.08 for gump: 1.8 errors
+above every forecast and above "the second difference repeats", and 2.6 above "the wrapped price takes over". I do
+not ask you to believe it yet: the offset may grow with size (0.00, −0.04, +0.09, +0.08 at 45 … 108 cells), the
+chain truncates the neighbouring faces, and no second code has run it. PENDING_DICEHULL_FINAL
 What would measure it: the surrogate route that worked for wrapped faces (honest coins a few layers under the
 watched face of a hull), calibrated on 45–108 cells.
 
@@ -248,7 +263,18 @@ face separates only K = 1 (24.608) from the rest. The 192-cell tube decides betw
   (clusters of 1, 2, 3, 4–6, 7–12 cells fail 0.900, 0.634, 0.276, 0.078, 0.0051) all reproduced by its own code.
   "min(I_up + J) = 0.2099 against 0.2087" is arithmetic on the same runs. Its sentence for you: there is no formula
   yet; a formula must produce 0.738, 0.079 and 0.136 from the rule.
-PENDING_REFEREES_4
+- **The surrogate sampler for wrapped faces (`ref-slab/REVIEW.md`): confirmed, with two corrections.** Own stepper
+  for the dice chain: chain minus gump +0.012 ± 0.004 (48 cells), −0.008 ± 0.011 (63), +0.015 ± 0.057 (84-cell
+  tube); half-face-fall shares equal to gump's to 0.004. No fault found in the sampler's code (the score is a
+  minimum over a window of the whole path, so the over-fill is not conditioned against); sampler minus brute force
+  of the same chain −0.010 ± 0.005, +0.029 ± 0.021, −0.02 ± 0.08 at 48, 63, 84 cells. Corrections: the 120-cell
+  tube pools to **24.60 ± 0.07 for gump** over nine runs (χ² 2.8 on 8); "the wide 192-cell face is above the line"
+  is not established (its fresh runs 39.75 ± 0.46, all pooled 40.25 ± 0.26, line 40.07, and one replication
+  carries a quarter to a half of the rate), the 192-cell tube reads 38.73 ± 0.18, about 1.5 ± 0.3 below the wide
+  face; the long-tube shares are a trend (192 cells: tube 0.15 ± 0.06, wide 0.70 ± 0.05), not numbers.
+- **The two-layer map (`ref-map/REVIEW.md`): the wrapped half confirmed at 63 cells, the hull half refuted** (item
+  4).
+PENDING_REFEREES_5
 
 ## What failed
 
