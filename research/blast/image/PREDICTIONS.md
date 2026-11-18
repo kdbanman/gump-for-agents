@@ -56,3 +56,9 @@ generations, and the 6-generation histories of the cell and one in-layer perpend
 | H4 | two neighbouring cells' 6-generation histories give more than twice the single cell's at loop² 9 | 35% |
 | H5 | sampled every 5 generations, the period-4 lag pattern of C(v,τ) is gone (\|mean over τ ≡ 2 mod 4\| < 12 × 10⁻⁶ at loop² ≥ 12): it was the ensemble's mean density depending on the generation number mod 4, not a correlation | 55% |
 | H6 | the mean face density by generation mod 4 differs between two phases by more than 3 × 10⁻⁵ at more than 2.5 standard errors | 40% |
+
+## Scores (04:07 UTC; tables and numbers in README.md, "Forecasts scored")
+
+Block 1: I1 passes, I6 passes by the letter, I2, I3, I4, I5, I7 fail: 2 of 7. Block 2: L1–L3 not run, L4 fails.
+Block 3: H4 passes by the letter but is not resolved, H1, H2, H3, H5, H6 fail: 1 of 6. My central expectation (the
+10-cell picture carries about 30% of f(9)) was wrong: it carries nothing; the cell's history does.

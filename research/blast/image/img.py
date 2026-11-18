@@ -558,6 +558,33 @@ def ana_pat(files):
         print(f'   dead for the last 3 generations: adds {1e6 * con[dead].sum():+.1f}e-6; alive for the last 3: {1e6 * con[live].sum():+.1f}e-6; all others {1e6 * (con.sum() - con[dead].sum() - con[live].sum()):+.1f}e-6')
 
 
+def run_phase(L, W, gens, seed):
+    """mean face density at every generation from the soup (is there a slowly damped oscillation of period 4?)"""
+    h, k, d = L
+    cells, idx, NB = vessel(L)
+    n = len(cells)
+    t = np.array([c[3] for c in cells])
+    F = np.nonzero((t == 0) | (t == 7))[0]
+    X = np.zeros((n + 1, W), np.uint64)
+    X[:n] = soup(np.random.default_rng(seed), n, W)
+    blk = np.zeros((gens + 1, NBLK))
+    for g in range(gens + 1):
+        blk[g] = np.bitwise_count(X[F]).reshape(len(F), NBLK, -1).sum((0, 2)) / (len(F) * 64 * W / NBLK)
+        X = step(X, NB)
+    os.makedirs(SCR, exist_ok=True)
+    np.save(os.path.join(SCR, f'phase_{h}_{k}_{d}_s{seed}.npy'), blk)
+    m = blk.mean(1)
+    print('generation: mean face density (first 24): ' + ' '.join(f'{v:.4f}' for v in m[:24]))
+    for lo, hi in ((40, 100), (100, 200), (200, 400), (400, gens + 1)):
+        if hi > gens + 1 or lo >= hi:
+            continue
+        seg = blk[lo:hi]; g = np.arange(lo, hi)
+        dev = np.array([seg[g % 4 == ph].mean(0) for ph in range(4)]); dev -= dev.mean(0)
+        print(f'generations {lo}..{hi - 1}: density by generation mod 4 minus their mean, x 1e6: ' +
+              ', '.join(f'{ph}: {1e6 * dev[ph].mean():+.1f} +- {1e6 * dev[ph].std(ddof=1) / np.sqrt(NBLK):.1f}' for ph in range(4)) +
+              f';  drift over the segment {1e6 * (seg[len(seg) // 2:].mean() - seg[:len(seg) // 2].mean()):+.1f}')
+
+
 def ana3(files):
     """lag files: the c10 window's tilt seen in the cell's own density k generations after (+) or before (-) the pattern"""
     D = [np.load(f) for f in files if 'lag' in np.load(f).files and int(np.load(f)['lag'])]
@@ -600,6 +627,9 @@ if __name__ == '__main__':
         ana_patch(sys.argv[2:])
     elif c == 'anapat':
         ana_pat(sys.argv[2:])
+    elif c == 'phase':
+        a = [int(v) for v in sys.argv[2:]]
+        run_phase(tuple(a[:3]), *a[3:])
     elif c == 'ana':
         ana(sys.argv[2:])
         ana2(sys.argv[2:])
