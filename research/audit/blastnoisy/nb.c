@@ -25,6 +25,8 @@
  *       (the last line is the result):
  *       RES n A nN B M mode seed gens exposure d0..d7 ties young settled
  *       (d_f: lives older than BURN at whose end face f was empty; ties: those of d0 with another face empty too)
+ *       and, after each RES line, the same by the age of the hull (lower edges 0, 1e3, 3e3, 1e4, ... generations):
+ *       AGE lower_edge exposure d0 d0+...+d7
  */
 #include <stdio.h>
 #include <stdlib.h>
@@ -221,6 +223,9 @@ int main(int argc, char **argv) {
   for (int r = 0; r < NREP; r++) reseed(a, r);
   v8 *snap = aligned_alloc(64, sizeof(v8) * (n + 1)); memcpy(snap, a, sizeof(v8) * (n + 1));
   u64 exposure = 0, d[8] = {0}, ties = 0, young = 0, settled = 0;
+#define NAB 12
+  static const uint32_t aedge[NAB] = {0, 1000, 3000, 10000, 30000, 100000, 300000, 1000000, 3000000, 10000000, 30000000, 100000000};
+  static u64 aE[NAB], aD0[NAB], aD[NAB]; static uint8_t abin[NREP];
   for (u64 g = 1; g <= gens; g++) {
     step(a, b); { v8 *t = a; a = b; b = t; }
     darts(a, mode);
@@ -230,21 +235,26 @@ int main(int argc, char **argv) {
       for (int k = 0; k < A; k++) any |= a[lc[f][0][k]];
       fdv[f] = ~any; dead |= ~any;
     }
-    for (int r = 0; r < NREP; r++) { age[r]++; exposure += age[r] > burn; }
+    for (int r = 0; r < NREP; r++) {
+      age[r]++;
+      if (abin[r] + 1 < NAB && age[r] >= aedge[abin[r] + 1]) abin[r]++;
+      if (age[r] > burn) { exposure++; aE[abin[r]]++; }
+    }
     for (int w = 0; w < 8; w++) while (dead[w]) {
       int s = __builtin_ctzll(dead[w]); dead[w] &= dead[w] - 1; int r = w * 64 + s;
       if (age[r] > burn) {
         int nd = 0;
         for (int f = 0; f < 8; f++) if ((fdv[f][w] >> s) & 1) { d[f]++; nd++; }
         if (((fdv[0][w] >> s) & 1) && nd > 1) ties++;
+        aD[abin[r]] += (u64)nd; aD0[abin[r]] += (fdv[0][w] >> s) & 1;
       } else young++;
-      reseed(a, r); age[r] = 0;
+      reseed(a, r); age[r] = 0; abin[r] = 0;
       for (int i = 0; i < n; i++) setbit(snap, i, r, !bitof(a, i, r));
     }
     if (!M && g % 840 == 0) {
       v8 df = (v8){0};
       for (int i = 0; i < n; i++) df |= a[i] ^ snap[i];
-      for (int r = 0; r < NREP; r++) if (!((df[r >> 6] >> (r & 63)) & 1)) { settled++; reseed(a, r); age[r] = 0; }
+      for (int r = 0; r < NREP; r++) if (!((df[r >> 6] >> (r & 63)) & 1)) { settled++; reseed(a, r); age[r] = 0; abin[r] = 0; }
       memcpy(snap, a, sizeof(v8) * (n + 1));
     }
     if (g % report == 0 || g == gens) {
@@ -252,6 +262,7 @@ int main(int argc, char **argv) {
              (unsigned long long)seed, (unsigned long long)g, (unsigned long long)exposure);
       for (int f = 0; f < 8; f++) printf(" %llu", (unsigned long long)d[f]);
       printf(" ties %llu young %llu settled %llu\n", (unsigned long long)ties, (unsigned long long)young, (unsigned long long)settled);
+      for (int k = 0; k < NAB; k++) if (aE[k]) printf("AGE %u %llu %llu %llu\n", aedge[k], (unsigned long long)aE[k], (unsigned long long)aD0[k], (unsigned long long)aD[k]);
       fflush(stdout);
     }
   }

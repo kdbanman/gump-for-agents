@@ -5,7 +5,8 @@ descends from one of the NBATCH x 512 fresh chains.  Appended to each REP line:
     anc_ens  distinct fresh chains the last ensemble (the chains at the level above 0, after the sweeps) descends from
     anc_hit  distinct fresh chains the chains with score 0 descend from;  lanes_hit: distinct lanes among those
     top_hit  share of the score-0 chains that descend from the commonest one;  n_hit: their number
-The sampler itself is unchanged (same random numbers, same REP numbers; checked by run.sh).
+The sampler itself is unchanged (same random numbers, same REP numbers; checked by run.sh), except that the age
+a lane must have reached to give an initial state, 1,000 generations in nz.c, can be set with NZBURN.
 
     python3 research/audit/blastnoisy/patch_anc.py SRC/nz.c OUT/nz_anc.c
 """
@@ -33,4 +34,9 @@ rep('rate[rep] = prod / TWIN; printf(" rate %.5e lntau %.4f\\n", rate[rep], rate
     '      if (lev > 1 && lam == 0) for (long j = 0; j < NC; j++) if (score[j] <= 0 && !ls[anc[j] % NL]) { ls[anc[j] % NL] = 1; dl++; }\n'
     '      printf(" anc_ens %d anc_hit %d lanes_hit %d top_hit %.4f n_hit %d\\n", de, dh, dl, nh ? (double)top / nh : 0.0, nh); }\n'
     '    fflush(stdout);')
+# the age a lane must have to give an initial state (and the generations of burn-in of a run): 1000 in nz.c;
+# here the environment variable NZBURN replaces it when set (default 1000: nothing changes)
+rep("#define BURN 1000", "static long BURN = 1000;")
+rep('const char *mode = argv[2]; u64 seed0 = strtoull(argv[3], 0, 10);',
+    'const char *mode = argv[2]; u64 seed0 = strtoull(argv[3], 0, 10);\n  if (getenv("NZBURN")) BURN = atol(getenv("NZBURN"));')
 open(sys.argv[2], 'w').write(s)
