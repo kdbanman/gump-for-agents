@@ -31,8 +31,8 @@ pulse was found, and no call by a single pulse that leaves the second wire stand
 |---|---|---|
 | the call line on the oracle: `cycle`, `move`, `idle`, `idle-empty`, `chain`, `bus` | `python3 verify_call9.py` | 106 s |
 | the still life on the oracle: `trigger`, `control`, `loop`, `write-then-call`, `smallest-loop`, `sum`, `call-far`, `clear`, `one` | `python3 verify_trigger9.py` | 62 s |
-| every stepper and shortcut used here = the oracle | `python3 check9.py` | @@CHECKT@@ |
-| the call law, k = 1..40 | `python3 call9.py --law` | @@LAWT@@ |
+| every stepper and shortcut used here = the oracle | `python3 check9.py` | about 4 min |
+| the call law, k = 1..40 | `python3 call9.py --law` | 2 s |
 | the block law, k = 1..40, both parities | `python3 cell9.py --law` | 16 s |
 | the CALL acts as push 8's hand release | `python3 reduce9.py` | 17 s |
 
@@ -234,7 +234,21 @@ two in adjacent units, each at two launch positions.
 
 ## 7 Tools, and how each is checked against the oracle
 
-`python3 check9.py` (@@CHECKT@@): @@CHECK@@
+`python3 check9.py` (about 4 min; run as `--only A,B`, `--only C,D` and `--only E`: 76 s, 107 s, 52 s). The oracle side is
+`oracle.step` on a cubic torus; the two sets of live cells are compared at every generation. All five parts pass:
+
+- **A** push 8's `lab8` (dense box), as `cell9.py` uses it: the 9 runs of `objects/trigger9.json`, 2,245 generations.
+- **B** `lab8`'s ring mode with an object beside the ring, as the scans and laws use it: the release by the still
+  life; the hazard on plain wire; a placement of P4.10a and one of P3.11a that do not pass a pulse; 200 generations each.
+- **C** `lab9.c`'s stepper with a constant bias (the held-cell censuses) against the oracle with the cell forced
+  live after every step: 3 held cells, 121 generations each.
+- **D** push 8b's sparse stepper, as `cross9.py`, `xlab9.py`, `call9.py` and `reduce9.py` use it: the 6 runs of
+  `objects/call9.json`, 2,394 generations.
+- **E** `wall9.py`'s inert shortcut: 3,843 (placement, e) of the still lifes of at most 6 cells that it calls inert for
+  the pulse scenario, each stepped and equal to the union of the two separate runs.
+
+Not covered by `check9.py`: an oscillator at the wall of a stretch (the P3.15f rows) was not compared with the oracle
+as such; B3 and B4 are oscillators beside plain wire.
 
 | file | what it is |
 |---|---|
