@@ -1,0 +1,8 @@
+cell (0, 1, 8) of the stretch's first unit held live, d^1 f: stands True; a right-going pulse: 7^32 ? 7^31 (359 cells; plain wire + the cell: True)
+cell (0, 1, 8) of the stretch's first unit held live, d^3 f: stands True; a right-going pulse: 7^32 ? 7^31 (359 cells; plain wire + the cell: True)
+cell (0, 1, 8) of the stretch's first unit held live, d^5 f: stands True; a right-going pulse: 7^32 ? 7^31 (359 cells; plain wire + the cell: True)
+cell (0, 1, 8) held live beside PLAIN wire: a right-going pulse: 293 cells, restored: False, letters b^30 a 8 ? 8^31
+cell (-2, 1, 10) of the stretch's first unit held live, d^1 f: stands True; a right-going pulse: 7^31 ? 7^32 (359 cells; plain wire + the cell: True)
+cell (-2, 1, 10) of the stretch's first unit held live, d^3 f: stands True; a right-going pulse: 7^31 ? 7^32 (359 cells; plain wire + the cell: True)
+cell (-2, 1, 10) of the stretch's first unit held live, d^5 f: stands True; a right-going pulse: 7^31 ? 7^32 (359 cells; plain wire + the cell: True)
+cell (-2, 1, 10) held live beside PLAIN wire: a right-going pulse: 291 cells, restored: False, letters b^29 a 8 ? 8^32

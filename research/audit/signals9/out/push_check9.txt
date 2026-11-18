@@ -1,0 +1,6 @@
+PASS A: lab8 = oracle on the 9 runs of trigger9.json, 2245 generations compared  [66 s]
+PASS B: lab8's ring mode = oracle: B1 equal to generation 200; B2 equal to generation 200; B3 (P4.10a gi=0 ph=0 t=[0, -4, -6]) equal to generation 200; B4 (P3.11a gi=0 ph=0 t=[0, -6, -6]) equal to generation 200  [30 s]
+PASS C: bias stepper = oracle with the cell forced live, 3 held cells, 363 generations compared  [3 s]
+PASS D: push 8b's stepper = oracle on the 6 runs of call9.json, 2394 generations compared  [142 s]
+PASS E: wall9's inert shortcut: 3843 of 4746 (placement, e) called inert for the pulse scenario, each stepped and equal to the union  [62 s]
+ALL PASS

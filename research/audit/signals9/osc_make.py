@@ -106,6 +106,15 @@ def main():
     add('move', 'stores holding 2 (plain, on the left) and 3 (with the oscillator at its wall); ONE cell removed between them at an '
         'allowed place and generation: the left store then holds exactly 2 + 3',
         W([(5, 2), (WALL, 3)]), {0: [RST(17)]}, 300, {0: W([(5, 2), (WALL, 3)]), 294: W([(5, 5)]), 300: W([(5, 5)])})
+    # 5 branch: the same pulse sent from the left of a place where a second store may stand
+    add('branch-empty', 'no store at units 12..14: ONE right-going pulse born at unit 2 passes that place, reaches the oscillator '
+        'at the allowed timing and releases the store at the wall: exactly three pulses leave, the wire is empty',
+        W([(WALL, 3)]), {0: [RST(2)]}, 330,
+        {0: W([(WALL, 3)]), 70: train(70, 30, 3), 72: train(72, 30, 3), 324: e, 330: e})
+    add('branch-full', 'a store holding 2 at units 12..14: the same pulse is absorbed by it (it then holds 3, its wall one unit '
+        'to the left) and the store at the oscillator is not released',
+        W([(12, 2), (WALL, 3)]), {0: [RST(2)]}, 300,
+        {0: W([(12, 2), (WALL, 3)]), 120: W([(11, 3), (WALL, 3)]), 300: W([(11, 3), (WALL, 3)])})
     d = {'note': 'A call on the store\'s own wire by ONE pulse, with the period-3 oscillator P3.15f of research/atlas/catalogue.jsonl '
          'beside the wire at the wall (review of signals push 9).  Doubled coordinates; unit u = cells with x in {2u, 2u+1}; '
          'tr(c, k) = (x + 2k, y, z - 2k).  A state `letters` at generation t = capL moved to unit first - 4 + for each letter i '

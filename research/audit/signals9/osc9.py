@@ -104,7 +104,7 @@ class Case:
         """remove the stators `rem` at generation 0; returns (final class, what was seen leaving on the left); with
         `see` (a test on the letters of an exact state) the class 'plain' becomes 'eaten' unless the test held once.
         The state is looked at every 6 generations (a multiple of both periods) and the run stops when it repeats."""
-        per = 6 if self.P == 3 else (2 * self.P if self.P % 2 else self.P)
+        per = 6 if self.P in (1, 2, 3, 6) else (2 * self.P if self.P % 2 else self.P)
         T = T or 40 * per
         saw = see is None
         base = wire(word, first=FIRST)
@@ -221,11 +221,91 @@ def wall(oid, only=None, ks=range(1, KMAX + 1), erange=range(-5, 6)):
           f'{sum(c["all_released"] and c["plain"] == "pppppp" for c in cases)}')
 
 
+def still(max_cells=8, erange=range(-2, 5)):
+    """the catalogue's still lifes of at most max_cells cells: standing placements, and beside d^3 f (first d at u_obj + e,
+    e = -2..4, which is the push's `highest unit at wall - 1 + e`, e = -3..3) one right-going pulse: what happens"""
+    ids = []
+    for l in open(CAT):
+        d = json.loads(l)
+        if d['period'] == 1 and len(d['cells']) <= max_cells:
+            ids.append(d['id'])
+    print(f'# {len(ids)} still lifes of at most {max_cells} cells: {ids}')
+    tot = {'placements': 0, 'standing': 0}; kinds = {}; passes = {}
+    for oid in ids:
+        orb, P = orbit_of(oid)
+        pl = placements(orb)
+        nst = 0; loc = {}
+        for gi, t, pc, un in pl:
+            cs = Case(pc, un, P)
+            if not cs.stands(W()):
+                continue
+            nst += 1
+            r = cs.shoot(W(), [RST(U0 - 12)], see=lambda lw: '6f' in lw[U0 + 6 - FIRST:])[0]
+            l = cs.shoot(W(), [LST(U0 + 12)], see=lambda lw: 'b' in lw[:U0 - 8 - FIRST])[0]
+            key = ('pass' if r == 'plain' else 'eaten' if r == 'eaten' else 'other', 'pass' if l == 'plain' else 'eaten' if l == 'eaten' else 'other')
+            passes[key] = passes.get(key, 0) + 1
+            for e in erange:
+                wl = U0 + e
+                if not cs.stands(W(3, wl)):
+                    s0 = run(wire(W(3, wl), first=FIRST) | cs.obj0, 240)
+                    k = 'falls: plain wire and the object 240 generations on' if s0 == wire(W(), first=FIRST) | cs.obj0 else 'does not stand, other'
+                else:
+                    cls, seen = cs.shoot(W(3, wl), [RST(wl - 12)])
+                    k = ('trigger: ' + (seen or 'nothing seen')) if cls == 'plain' else cls if not cls.startswith('store') else \
+                        ('absorbed as usual' if cls == 'store:d^4 f' else 'another store')
+                loc[k] = loc.get(k, 0) + 1; kinds[k] = kinds.get(k, 0) + 1
+        tot['placements'] += len(pl); tot['standing'] += nst
+        print(f'{oid}: {len(orb[0])} cells, {len(pl)} placements, {nst} standing; triggers {sum(v for k, v in loc.items() if k.startswith("trigger"))}', flush=True)
+    print(f'# total: {tot}; pulses on plain wire (right-going, left-going): {dict(sorted(passes.items()))}')
+    print(f'# beside d^3 f, {len(list(erange))} offsets: ' + '; '.join(f'{k}: {v}' for k, v in sorted(kinds.items())))
+
+
+def falls(max_cells=8, erange=range(-2, 5)):
+    """the still lifes of at most max_cells cells beside d^3 f where the stretch does not stand: what it becomes with
+    nothing sent (the first exact state, at an even generation up to 120, that is letters 7, b, 6, f + the object and
+    holds a b or a 6; and the state 240 generations on)"""
+    kinds = {}
+    for l in open(CAT):
+        d = json.loads(l)
+        if d['period'] != 1 or len(d['cells']) > max_cells:
+            continue
+        orb, P = orbit_of(d['id'])
+        for gi, t, pc, un in placements(orb):
+            cs = Case(pc, un, P)
+            if not cs.stands(W()):
+                continue
+            for e in erange:
+                wl = U0 + e
+                if cs.stands(W(3, wl)):
+                    continue
+                base = wire(W(3, wl), first=FIRST)
+                if len(base | cs.obj0) != len(base) + len(cs.obj0):
+                    kinds['overlap'] = kinds.get('overlap', 0) + 1; continue
+                s = base | cs.obj0; seen = None
+                for g in range(2, 122, 2):
+                    s = run(s, 2, cap=60000)
+                    if s is None:
+                        break
+                    if seen is None and cs.obj0 <= s:
+                        lw = letters(s - cs.obj0, N, FIRST)
+                        if '?' not in lw and s == wire(lw, first=FIRST) | cs.obj0 and not (set(lw) - set('7b6f')) and ('b' in lw or '6' in lw):
+                            seen = rle(lw.strip('7'))
+                end = None if s is None else run(s, 120, cap=60000)
+                k = ('ends as plain wire + the object' if end == wire(W(), first=FIRST) | cs.obj0 else 'ends otherwise') + f'; leaves as {seen}'
+                kinds[k] = kinds.get(k, 0) + 1
+    for k, v in sorted(kinds.items(), key=lambda kv: -kv[1]):
+        print(f'{v:6d}  {k}')
+
+
 if __name__ == '__main__':
     t0 = time.time()
     oid = 'P3.15f'
     if sys.argv[1] == 'scan':
         scan(oid)
+    elif sys.argv[1] == 'still':
+        still()
+    elif sys.argv[1] == 'falls':
+        falls()
     elif sys.argv[1] == 'wall':
         only = None
         if '--push' in sys.argv:       # the eight placements the push names

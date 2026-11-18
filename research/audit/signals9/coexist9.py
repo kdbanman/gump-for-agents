@@ -182,6 +182,50 @@ def cmd_lineread():
         print(f'{wd:>10}  ' + ' '.join(row))
 
 
+def cmd_orc():
+    """three scenarios on reference/oracle.py, compared with st9 at every even generation"""
+    def both(name, start, ops, T):
+        t0 = time.time()
+        st = play(start, ops, T, engine='st')
+        try:
+            o = play(start, ops, T, engine='orc')
+            same = all(o[g] == st[g] for g in range(0, T + 1, 2)); extra = f'nearest image {o["image_distance"]}, torus {o["shape"]}'
+        except AssertionError as ex:
+            same = None; extra = 'the oracle run left its guarded box: ' + str(ex)[:60]
+        print(f'{name}: oracle = st9 at every even generation 0..{T}: {same}; {extra}; {time.time() - t0:.0f} s', flush=True)
+        return st
+    # (a) everything in place on an empty wire, the reader at w + 14: set, read, add, add, read, CALL, read
+    U = w + 14; fixed = LINE | reader(U)
+    S = wire(W(0)) | fixed
+    ops = {0: ([RST(c - 10), LST(c + 13)], []), 180: ([LST(c + 12)], []), 300: ([LST(c + 12)], []),
+           420: ([], CALL)}
+    st = both('(a) reader at w+14, line, empty wire: set at 0, add at 180 and 300, CALL at 420', S, ops, 620)
+    for t, want in ((120, W(1)), (298, W(2)), (418, W(3)), (620, W(0))):
+        print(f'      t = {t}: whole state = {rle(want)} + line + reader: {st[t] == wire(want) | fixed}')
+    # the reads, on the oracle: probe at 120 (store d f), at 420 - 60 = 360 (d d d f) and after the CALL
+    for t in (120, 360, 620):
+        base = st[t]
+        oa = Orc(base, reach=probe(U)); ob = Orc(base, reach=probe(U))
+        for q in probe(U): ob.flip(q)
+        oa.step(30); ob.step(30); d30 = len(oa.cells() ^ ob.cells())
+        oa.step(30); ob.step(30)
+        print(f'      read launched at t = {t} (oracle): the probed run differs from the unprobed one in {d30} cells 30 generations on '
+              f'and in {len(oa.cells() ^ ob.cells())} cells 60 generations on')
+    # (b) the reader inside the stretch (placed with the store standing): read, then CALL
+    U = w + 3; fixed = LINE | reader(U); S = wire(W(5)) | fixed
+    oa = Orc(S, reach=probe(U)); ob = Orc(S, reach=probe(U))
+    for q in probe(U): ob.flip(q)
+    oa.step(30); ob.step(30); d30 = len(oa.cells() ^ ob.cells()); oa.step(30); ob.step(30)
+    print(f'(b) d^5 f armed, reader at w+3 (inside the stretch): stands {Orc(S).step(2).cells() == S}; read (oracle): {d30} cells differ 30 '
+          f'generations on, {len(oa.cells() ^ ob.cells())} 60 generations on')
+    st = both('(b) then a CALL', S, {0: ([], CALL)}, 90)
+    print(f'      t = 90: {len(st[90])} cells (start {len(S)}); line {"ok" if LINE <= st[90] else "changed"}; reader {"ok" if reader(U) <= st[90] else "changed"}')
+    # (c) the reader left of the line: the released pulses reach it
+    U = w - 6; fixed = LINE | reader(U); S = wire(W(4)) | fixed
+    st = both('(c) d^4 f armed, reader at w-6 (left of the line): a CALL', S, {0: ([], CALL)}, 120)
+    print(f'      t = 120: {len(st[120])} cells (start {len(S)}); line {"ok" if LINE <= st[120] else "changed"}; reader {"ok" if reader(U) <= st[120] else "changed"}')
+
+
 if __name__ == '__main__':
     t0 = time.time()
     globals()['cmd_' + sys.argv[1]]()
