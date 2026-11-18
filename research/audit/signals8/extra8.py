@@ -7,6 +7,7 @@
     python3 extra8.py first      the first push's receiver (objects/transmission-B.json) in letters, and its 36th shot
     python3 extra8.py beside     the place the push did not look: push 9's six-cell still life beside the wall (oracle)
     python3 extra8.py capr7      a stretch against push 7's right cap
+    python3 extra8.py small6     the protocol on N = 6 and the set on N = 5, on the oracle
 """
 import sys, re, json, time, itertools
 from collections import Counter
@@ -151,6 +152,20 @@ def capr7():
             c = S.cells(h); b = h.copy(); S.run(b, 4)
             res.append((k, gap, len(c), 'periodic' if np.array_equal(b, h) else 'moving', a8.rle(a8.letters_of(c, 4, 4 + len(w)))))
     say(None, f"capr7: d^k f with `gap` units of wire between its edge and push 7's right cap, 400 generations (k, gap, cells, state, letters): {res}")
+
+
+def small6():
+    """the protocol on N = 6 (68 cells) and the set on N = 5 (63 cells), on the oracle"""
+    O = a8.Orc(-6, 6 + 16); h = O.arr(a8.cell_state('777777')); n0 = int(h.sum()); log = []
+    for ops in ([tr(SR, 5), tr(SL, 8)], [tr(SL, 9)], [tr(SR, 5)]):
+        for c in ops:
+            O.kill(h, c)
+        h = O.run(h, 200); c = O.cells(h); w = a8.letters_of(c, 4, 10)
+        log.append(w if c == a8.cell_state(w) else '?')
+    O5 = a8.Orc(-6, 5 + 16); h5 = O5.arr(a8.cell_state('77777')); n5 = int(h5.sum())
+    O5.kill(h5, tr(SR, 5)); O5.kill(h5, tr(SL, 8)); h5 = O5.run(h5, 200); w5 = a8.letters_of(O5.cells(h5), 4, 9)
+    say(log == ['77df77', '77ddf7', '777777'] and n0 == 68 and w5 == '77df7' and O5.cells(h5) == a8.cell_state(w5) and n5 == 63,
+        f'small6: N = 6 ({n0} cells), oracle: R@5 + L@8 -> {log[0]}; L@9 -> {log[1]}; R@5 -> {log[2]} (whole states); N = 5 ({n5} cells): R@5 + L@8 -> {w5}')
 
 
 if __name__ == '__main__':

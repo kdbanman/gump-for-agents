@@ -192,9 +192,11 @@ def main():
     for k in direct:
         T = 4 * k + 12; ob = Orbit(k, T, nr=8)
         good = np.array_equal(ob.X[4 * k + 8], ob.pulses(4 * k + 8)) and np.array_equal(ob.X[T], ob.pulses(T)) and ob.far_ok(T)
+        fin = [t for t in range(2 * k, T + 1, 2) if np.array_equal(ob.X[t], ob.pulses(t))]
+        good &= fin == list(range(2 * k + 6, T + 1, 2))
         okD &= good; done.append(k)
-        print(f'     direct k = {k}: {good}  [{time.time() - T0:.0f} s]', flush=True)
-    say(okD, f'D  direct oracle runs, k in {done}: exactly k pulses two apart at 4k + 8 and 4k + 12, nothing else, nothing near a cap')
+        print(f'     direct k = {k}: {good} (final from generation {fin[0] if fin else None})  [{time.time() - T0:.0f} s]', flush=True)
+    say(okD, f'D  direct oracle runs, k in {done}: exactly k pulses two apart at every even generation from 2k + 6 to 4k + 12 (and not at 2k + 4, 2k + 2, 2k), nothing else, nothing near a cap')
     print('ALL PASS' if OK[0] else 'SOME FAIL')
     sys.exit(0 if OK[0] else 1)
 

@@ -37,14 +37,14 @@ b = one unit of wire C in wire B = a left-going pulse, `6f` = a right-going puls
 | 11 | eight release laws to k = 40; catch to k = 12 | **confirmed** | st8 for every k; oracle at k = 5, 17 (laws) and 3, 7, 12 (catch) |
 | 12 | caps of push 7's line (section 3) | **confirmed** | oracle: right cap swallows at one phase and the line burns at the other; a stretch against capL is erased in 4k + 4 |
 | 13 | the reads on push 7's line | **confirmed, at both phases** | oracle at 882 and 884: (b7)^n out, the n = 1 line left; the count read of the EMPTY line at 884 destroys the line |
-| 14 | no read triggered by an arriving pulse | **confirmed within its bounds; the bounds are narrower than the summary reads, and the claim is overtaken** | k = 3 re-run and re-read: none of 48; one six-cell still life BESIDE the wall (push 9's) makes an arriving pulse release the count: oracle run here |
+| 14 | no read triggered by an arriving pulse | **confirmed within its bounds; the bounds are narrower than the summary reads, and the claim is overtaken** | k = 3: the 48 states replayed with st8 (96 of 96 outcomes equal, six on the oracle): none releases; one six-cell still life BESIDE the wall (push 9's) makes an arriving pulse release the count: oracle run here |
 | 15 | no read that keeps the count; no second-wire probe; no re-arming | **not found stands; not rebuilt** | counts of the second-wire scan reproduced with the push's code; nothing independent |
 | 16 | "`df` is the first push's mark" and what is new | **confirmed; see section 4** | the absorbing wall and the mark's absorption are the first two pushes'; the release, the transfer, the cell and the line reads are new |
 | 17 | forecasts | **arithmetic confirmed (0.101)** | forecast 9 holds by one two-cell event only; README's "No new mover" beside it is wrong |
 
 ## 1. The cell and its protocol, rebuilt
 
-`python3 proto8.py` (5 min; oracle only; 27 PASS lines; `out/proto8.txt`).
+`python3 proto8.py` (251 s; oracle only; 27 PASS lines; `out/proto8.txt`).
 
 - **Stands.** The empty cell has 38 + 5N cells and period exactly 2 for N = 4..30. N = 7 (73 cells) empty, and
   holding 2 (`777ddf7`), equal the start at every even generation to 20,000. Every stored state used, and
@@ -109,7 +109,9 @@ b = one unit of wire C in wire B = a left-going pulse, `6f` = a right-going puls
   nothing; N = 5 (63 cells) one set; N = 6 (68 cells) 2 sets, 2 adds, 7 single operations that empty a cell
   holding 2; N = 7: 4 sets, 6 adds, 16 emptying operations, of which one shows two separate pulses in an exact
   state. The push's "N = 4, 5, 6: none" is true of its criterion (two pulses seen at once), not of the protocol.
-  Only capL and its image were tried as caps by anyone.
+  On the oracle (`python3 extra8.py small6`, 2 s): N = 6, R@5 + L@8 gives `77df77`, L@9 gives `77ddf7`, R@5 gives
+  the empty cell, whole states; N = 5, R@5 + L@8 gives `77df7`. Only capL and its image were tried as caps by
+  anyone.
 
 ## 2. The reads of push 7's line
 
@@ -128,7 +130,7 @@ each read was run at 882 and at 884.
 
 ## 3. The proof that the count read gives k pulses for every k
 
-`python3 proof8.py --direct 11,12,13,14,15,16,17,18,20,25,30,40` (75 s, oracle, ALL PASS; `out/proof8.txt`).
+`python3 proof8.py --direct 11,12,13,14,15,16,17,18,20,25,30,40` (62 s, oracle, ALL PASS; `out/proof8.txt`).
 
 **It is a proof.** The induction step follows from what is checked. With Y(t) = X_k(t) on units ≤ m(t) + 1 and
 τX_k(t − 2) on units ≥ m(t): a unit u ≤ m(t) has its three-unit neighbourhood in the left chart and u ≤ m(t+1) + 1;
@@ -155,7 +157,7 @@ Three places the docstring passes over, each closed:
    checked here at both parities for t = 80..92. As written the induction places the seam inside the train only
    at t ≥ T = 80, so it gives the final state of k + 1 from max(80, t_k + 2) on, i.e. from 2k + 58 for k ≥ 11:
    later than the stated 4k + 8 for 11 ≤ k ≤ 24. Closed two ways. (i) Direct runs (k = 11..18, 20, 25, 30, 40:
-   exact at 4k + 8 and 4k + 12). (ii) An argument: at an even t at which both charts are final (t ≥ 2k + 8, given
+   exact at every even generation from 2k + 6 to 4k + 12, and not at 2k + 4). (ii) An argument: at an even t at which both charts are final (t ≥ 2k + 8, given
    the claim for k from 2k + 6), they differ exactly at the units lead and lead + 2k, so H excludes
    m − lead in {−1, 0, 1} and m − (lead + 2k) in {−1, 0, 1}; from one even generation to the next m − lead rises
    by at most 2 and falls by at most 1 (m(t) ≤ m(t − 2) + 1, steps ≤ 1, the lead one unit on); so a seam ahead of
@@ -165,8 +167,8 @@ Three places the docstring passes over, each closed:
 
 Base facts with my code: H(10) on t = 2..80 by my own dynamic programme, a path from w + 3 to lead + 3 (it runs
 two or three units behind the leading pulse throughout); the agreement sets hold 64 to 66 of the 72 units tested.
-Direct oracle runs of the conclusion: k = 11..18, 20, 25, 30, 40. **Sharper than stated:** for k = 1..10 the state
-is final from generation 2k + 6, not 4k + 8.
+Direct oracle runs of the conclusion: k = 11..18, 20, 25, 30, 40. **Sharper than stated:** the state is final
+from generation 2k + 6, not 4k + 8, in every run (k = 1..18, 20, 25, 30, 40).
 
 The other seven release laws are measured, not proved (`python3 laws8.py law --K 40 --orc 5,17`, 140 s: all eight
 exact for k = 1..40 with st8, k = 5 and 17 on the oracle).
@@ -192,12 +194,12 @@ New here: (a) the stretch as one object `d^k f`, symmetric under the half-turn (
 7's edge unit = f, absorption at the f end for every k; (b) **the release**: one cell beside the wall sends the
 whole count out as k pulses and leaves the wire plain, with exact laws and a proof; (c) the transfer; (d) the cell
 as a free-standing object of period 2 with a protocol; (e) the reads of push 7's line and what its two caps do;
-(f) the compound movers R⁺, L⁺.
+(f) the compound movers R⁺, L⁺ of wire B (not in the earlier account).
 
 The release was one step away in review 1: its "36th shot, with the wall beside A" is the count-read operation.
-On the first push's receiver, which is `df` followed by two units that are not family units (`extra8.py first`),
-the same shot turns the wire to the left into wire C (`b^47`) and no train of pulses comes out, which is why it
-read as fire.
+On the first push's receiver, which is `df` followed by two units that are not family units (`extra8.py first`,
+st8, the receiver laid in a capped cell), shots 1 to 35 add one each and the 36th turns the wire to the left into
+wire C (`b^47`); no train of separate pulses comes out, which is why it read as fire.
 
 ## 5. The numbers that rest on lab8
 
@@ -225,15 +227,19 @@ read as fire.
 
 ## 6. The negatives and their bounds
 
-**"Nothing that travels as a signal starts the read."** `python3 latch8.py --k 3 --pairs --words 3` (the push's
-code; 202 s here): 7,239 candidates, 48 distinct states. Read one by one from its output:
+**"Nothing that travels as a signal starts the read."** `python3 latch8.py --k 3 --pairs --words 3 --out F.json`
+(the push's code, from its directory; 202 s here): 7,239 candidates, 48 distinct states.
+`python3 latch_check.py F.json --orc 6` (60 s; `out/latch_check.txt`): each of the 48 rebuilt from its recorded
+event with st8 and sent the pulse at both distances: the letters of the structure and of the outcome equal the
+push's in 96 of 96 runs; six rows on the oracle equal st8 on the whole state. Read one by one:
 
 - 9 of the 48 are not structures: the plain line with the stretch already released (1,299 candidates end there)
   and 8 plain stores or pairs of stores with another count or place. 6 are the eaters `6?`, `6??`. 5 are a
   standing `d?` or `d??` with the stretch gone or kept; the pulse makes `dd?`, `dd??`: another absorbing counter.
   In 6 the pulse turns the wire on the left into wire C. 22 burn.
-- None leaves plain wire and a train. Confirmed for k = 3. The k = 2, four-unit-word run (148 states, 20 minutes)
-  was not re-run.
+- None releases the stretch. (One state, a standing `c9f` where the stretch had already been released by the
+  candidate event itself, ends as family letters without d: the pulse turns the wire on its left into wire C.)
+  Confirmed for k = 3. The k = 2, four-unit-word run (148 states, 20 minutes) was not re-run.
 - What was searched, exactly: states reached within 200 generations from one- or two-cell flips or family words
   of at most 3 (4) units **inside the wire's tube**, within 12 units of the wall, period dividing 4; one arriving
   signal, the plain right-going pulse, at two distances; one side. Not searched: any object beside the wire, any
