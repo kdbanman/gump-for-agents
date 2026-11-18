@@ -34,3 +34,20 @@ exactly, and θ* = (mean peak of deaths)/A.
    lifetime within 0.3 in ln τ of the true one at 48 and 63 cells: P = 45%.
 8. **Hull.** The share of hull-face deaths with a half-face fall at 84 cells is below the 1.6% at 63 (so no trend
    towards a switch by 700 cells): P = 55%.
+
+## Block B: 04:05 UTC, after a 100,000-generation test on the 48-cell torus (4,812 deaths), before any production run has been read
+
+Seen so far (test48 only): launches are one hump at 0.74·A (s.d. 0.06·A) whatever the level L; clones of one parent
+count as 2.3 independent ones of 64; the one-variable map with the run's own one-step statistics gives a minimum
+action of 0.2104 per cell (empirical tails) and 0.188 (Gaussian) against ln τ/A = 0.2068.
+
+9. **The 120-cell tube (1,18),(0,40)**: ln τ_face = 24.56 ± 0.04 (the discount against the wide line keeps its
+   second difference: 0.226, 0.302, 0.392 → 0.496). P = 55%. This is extrapolation of the anchors, written before my
+   own plain runs at 108 and 120 cells; any number my decomposition gives later is entered below it.
+10. **Where the tube's discount sits at 108 cells** (plain runs give ν(p) there; discount 0.38–0.39 in ln τ): the
+    tube's ln ν at θ = 0.74 exceeds the 6×6 torus's by less than half of the discount (under 0.19): P = 65%. Point
+    forecast +0.10. Variance per cell of the face population, tube over torus: 1.03 ± 0.02.
+11. **Minimum action of the one-variable map with empirical one-step tails, at 63 cells (run t63)**: 0.210 ± 0.004
+    per cell; P = 60%. Gaussian version 0.185–0.195: P = 60%.
+12. **Launch hump** at 63, 75, 84 cells and on the tubes: mean launch 0.74 ± 0.015 of A everywhere (no drift with
+    A, none between tube and torus beyond 0.01): P = 60%.
