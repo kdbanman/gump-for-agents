@@ -13,10 +13,11 @@ sum 1/2 d' Sigma^-1 d (d = step minus mean), its route, and the chain's exact li
 """
 import sys, os, math
 import numpy as np
+np.seterr(divide='ignore', invalid='ignore')
 from math import erf, sqrt
 HERE = os.path.dirname(os.path.abspath(__file__))
 S_ = os.path.join(HERE, '..', '..', 'scratch', 'blast', 'ref-anatomy')
-out = open(os.path.join(HERE, 'out', 'theory.txt'), 'w')
+out = open(os.path.join(HERE, 'out', os.environ.get('THEORY_OUT', 'theory.txt')), 'w')
 def pr(*a):
     s = ' '.join(str(x) for x in a); print(s, flush=True); out.write(s + '\n')
 
@@ -72,8 +73,11 @@ def qtable(name):
             q[int(w[1])] = int(w[3]) / int(w[2])
     return q
 
-def chain(src, A, nmin=200, label="", verbose=True, iters=200, qt=None):
+def chain(src, A, nmin=200, label="", verbose=True, iters=200, qt=None, fb=None):
     M, C, ok = per_cell(src, A, nmin)
+    if fb is not None:                              # where src is not populated, the fallback map carried at equal fillings
+        M2, C2, ok2 = per_cell(fb, A, nmin)
+        M = np.where(ok[..., None], M, M2); C = np.where(ok[..., None], C, C2); ok = ok | ok2
     idx = np.argwhere(ok); Ns = len(idx)
     Z = idx.astype(float); mu = M[ok]; c = C[ok]
     vp = np.maximum(c[:, 0], 0.05); vb = np.maximum(c[:, 1], 0.05); cpb = c[:, 2]
@@ -114,9 +118,10 @@ def chain(src, A, nmin=200, label="", verbose=True, iters=200, qt=None):
     if qt:
         for pc in (8, 12, 16, 20):
             term = np.array([-math.log(qt[int(p)]) if (p <= pc and int(p) in qt) else np.inf for p in Z[:, 0]])
-            Vh = np.minimum(cdead, term)
+            isT = np.isfinite(term)                       # at or below pc cells the Gaussian map is switched off
+            Vh = np.where(isT, term, cdead)
             for it in range(200):
-                Vn = np.minimum(np.minimum(cdead, term), (cost + Vh[None, :]).min(1))
+                Vn = np.where(isT, term, np.minimum(cdead, (cost + Vh[None, :]).min(1)))
                 if np.abs(np.where(np.isfinite(Vn), Vn, 0) - np.where(np.isfinite(Vh), Vh, 0)).max() < 1e-6: Vh = Vn; break
                 Vh = Vn
             rt = [zs]
@@ -181,6 +186,9 @@ if __name__ == '__main__':
     QT = {'t63': qtable('t63'), 'h63': qtable('h63'), 'tube60': qtable('tube60'), 't48': qtable('t48'), 't84': qtable('t63'), 'tube84': qtable('tube60')}
     for n in names:
         nmin = 200 if D[n]['hd']['deaths'] > 500 else 50
+        if n == 't48':
+            pr('[t48, own map] not computed: fd2.c does not restart settled replicas, and on the 48-cell torus 0.12% of lives end settled (a static slab with a few face cells alive); they pile up in a few cells such as (7,7) with zero variance. The living and over-full cells used in the collapse test are not touched by this; the low cells are.')
+            continue
         R[n] = chain(D[n], D[n]['A'], nmin=nmin, label=f'{n}, own map', qt=QT.get(n))
         pr(f'    gump: ln tau = {gump[n]} = {gump[n]/D[n]["A"]:.4f} per cell')
     pr('== the 63-cell torus map carried to other sizes at equal fillings (the collapse used as a law)')
