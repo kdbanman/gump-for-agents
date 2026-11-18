@@ -728,11 +728,11 @@ dying chains of its final ensemble.
 | (1,30),(0,64) | default (32) | 26 | 38.764 ± 0.181 | 38.61 .. 38.96 | 0.65 | 0.143 | 39.17 |
 | (1,30),(0,64) | doubled (64) | 26 | 38.920 ± 0.066 | 38.86 .. 38.99 | 0.37 | 0.075 | 38.91 |
 | (1,30),(0,64) | pooled | 52 | 38.839 ± 0.102 | 38.75 .. 38.94 | 0.53 | 0.078 | 39.04 |
-| (1,30),(0,64) | 16,384 chains (32 sweeps) | 4 | 38.926 ± 0.286 | 38.67 .. 39.27 | 0.50 | 0.266 | 39.32 |
-| (8,0),(0,8) | default (32) | 18 | 40.588 ± 0.193 | 40.42 .. 40.80 | 1.02 | 0.319 | 40.91 |
+| (1,30),(0,64) | 16,384 chains (32 sweeps) | 8 | 38.861 ± 0.128 | 38.75 .. 38.99 | 0.35 | 0.129 | 38.95 |
+| (8,0),(0,8) | default (32) | 18 | 40.588 ± 0.193 | 40.42 .. 40.79 | 1.02 | 0.319 | 40.91 |
 | (8,0),(0,8) | doubled (64) | 26 | 40.534 ± 0.106 | 40.44 .. 40.64 | 0.58 | 0.123 | 40.73 |
 | (8,0),(0,8) | pooled | 44 | 40.556 ± 0.098 | 40.46 .. 40.66 | 0.79 | 0.141 | 40.78 |
-| (8,0),(0,8) | 16,384 chains (32 sweeps) | 4 | 40.552 ± 0.212 | 40.36 .. 40.73 | 0.55 | 0.298 | 40.57 |
+| (8,0),(0,8) | 16,384 chains (32 sweeps) | 8 | 40.520 ± 0.156 | 40.39 .. 40.68 | 0.50 | 0.186 | 40.57 |
 
 (1,30),(0,64): doubled - default = +0.156 ± 0.193 (lognormal errors: ± 0.162); tube forms: 39.17 (K = 1), 39.01 (K = 2), 38.92 (K = 3), 38.86 (power law)
 (8,0),(0,8): doubled - default = -0.054 ± 0.220 (lognormal errors: ± 0.342); wide-face line: 40.07
@@ -747,14 +747,22 @@ doubled (64): wide - tube = 1.614 ± 0.125 (lognormal ± 0.144)
 | (1,30),(0,64) | 1 | 39.06 | 90 | 23.3 | 0.10 |
 | (1,30),(0,64) | 2 | 39.32 | 97 | 27.2 | 0.10 |
 | (1,30),(0,64) | 3 | 38.32 | 82 | 4.0 | 0.49 |
-| (1,30),(0,64) | mean of 4 | | 90.5 | 19.4 | 0.20 |
+| (1,30),(0,64) | 4 | 38.78 | 98 | 15.5 | 0.20 |
+| (1,30),(0,64) | 5 | 38.95 | 91 | 21.0 | 0.12 |
+| (1,30),(0,64) | 6 | 38.76 | 78 | 4.2 | 0.46 |
+| (1,30),(0,64) | 7 | 38.73 | 92 | 13.0 | 0.21 |
+| (1,30),(0,64) | mean of 8 | | 90.1 | 16.4 | 0.22 |
 | (8,0),(0,8) | 0 | 40.57 | 45 | 10.4 | 0.19 |
 | (8,0),(0,8) | 1 | 40.32 | 30 | 3.5 | 0.49 |
 | (8,0),(0,8) | 2 | 41.45 | 33 | 5.3 | 0.38 |
 | (8,0),(0,8) | 3 | 40.26 | 45 | 10.7 | 0.20 |
-| (8,0),(0,8) | mean of 4 | | 38.2 | 7.5 | 0.32 |
+| (8,0),(0,8) | 4 | 41.17 | 41 | 4.6 | 0.39 |
+| (8,0),(0,8) | 5 | 39.97 | 32 | 2.1 | 0.68 |
+| (8,0),(0,8) | 6 | 40.81 | 33 | 8.9 | 0.19 |
+| (8,0),(0,8) | 7 | 40.41 | 34 | 6.1 | 0.29 |
+| (8,0),(0,8) | mean of 8 | | 36.6 | 6.5 | 0.35 |
 
-16,384 chains: wide - tube = 1.626 ± 0.356 (lognormal ± 0.399); wide - line 40.07 = +0.482 ± 0.298
+16,384 chains: wide - tube = 1.659 ± 0.202 (lognormal ± 0.227); wide - line 40.07 = +0.450 ± 0.186
 
 **Sensitivity to the largest replication, and the combination I would defend.** Per set: share of the summed rate carried by the largest replication; ln tau without it. Combination: the three sets weighted by 1/e^2, e = the larger of the scatter error and the lognormal error; error inflated by sqrt(chi2/dof) if that exceeds 1.
 
@@ -762,15 +770,15 @@ doubled (64): wide - tube = 1.614 ± 0.125 (lognormal ± 0.144)
 |---|---|---:|---|---:|---:|---|
 | (1,30),(0,64) | 4,096 chains, 32 sweeps | 26 | 38.764 ± 0.181 | 0.17 | 38.917 | 38.800 ± 0.142 |
 | (1,30),(0,64) | 4,096 chains, 64 sweeps | 26 | 38.920 ± 0.075 | 0.07 | 38.949 | 38.913 ± 0.075 |
-| (1,30),(0,64) | 16,384 chains, 32 sweeps | 4 | 38.926 ± 0.286 | 0.46 | 39.254 | 38.904 ± 0.270 |
-| (1,30),(0,64) | **combined** | | **38.899 ± 0.067** (chi2 0.6 on 2) | | | |
+| (1,30),(0,64) | 16,384 chains, 32 sweeps | 8 | 38.861 ± 0.129 | 0.22 | 38.970 | 38.853 ± 0.130 |
+| (1,30),(0,64) | **combined** | | **38.889 ± 0.061** (chi2 0.7 on 2) | | | |
 | (8,0),(0,8) | 4,096 chains, 32 sweeps | 18 | 40.588 ± 0.319 | 0.14 | 40.686 | 40.470 ± 0.300 |
 | (8,0),(0,8) | 4,096 chains, 64 sweeps | 26 | 40.534 ± 0.123 | 0.10 | 40.597 | 40.515 ± 0.122 |
-| (8,0),(0,8) | 16,384 chains, 32 sweeps | 4 | 40.552 ± 0.298 | 0.34 | 40.674 | 40.496 ± 0.302 |
-| (8,0),(0,8) | **combined** | | **40.543 ± 0.107** (chi2 0.0 on 2) | | | |
+| (8,0),(0,8) | 16,384 chains, 32 sweeps | 8 | 40.520 ± 0.186 | 0.22 | 40.632 | 40.495 ± 0.187 |
+| (8,0),(0,8) | **combined** | | **40.535 ± 0.098** (chi2 0.0 on 2) | | | |
 
-combined, dice chain: tube 38.899 ± 0.067; wide 40.543 ± 0.107; wide - tube = 1.644 ± 0.126
-minus the calibrated offset of the chain and sampler against gump (+0.041 ± 0.021, anchors of 63 to 108 cells): tube 38.858 ± 0.070; wide 40.502 ± 0.109 (wide line 40.07: +0.432); not included: a drift of the offset beyond 108 cells, bounded only to +0.17 ± 0.25 at 192 cells
+combined, dice chain: tube 38.889 ± 0.061; wide 40.535 ± 0.098; wide - tube = 1.646 ± 0.115
+minus the calibrated offset of the chain and sampler against gump (+0.041 ± 0.021, anchors of 63 to 108 cells): tube 38.848 ± 0.064; wide 40.494 ± 0.100 (wide line 40.07: +0.424); not included: a drift of the offset beyond 108 cells, bounded only to +0.17 ± 0.25 at 192 cells
 <!-- SEC11-END -->
 
 **(a) Doubled sweeps [measured, surrogate].** 26 replications each. Tube: 38.920 ± 0.075 against 38.764 ± 0.181
@@ -778,7 +786,29 @@ with 32 sweeps (difference +0.16 ± 0.19). Wide torus: 40.534 ± 0.123 against 4
 -0.05 ± 0.34). **No drift with the number of sweeps**, at the 0.2 to 0.3 level; what doubling changes is the
 scatter of ln(rate) between replications, 0.65 -> 0.37 on the tube and 1.02 -> 0.58 on the wide torus.
 
-SEC11B-COMMENT
+**(b) Replications of 16,384 chains [measured, surrogate].** 8 each (stopped at 05:45 UTC; tables above).
+- Tube: **38.861 ± 0.129**; per replication 90 distinct ancestors among the dying chains (78 to 98), effective
+  number 16, largest family 0.22 of them on average (0.46 and 0.49 in two replications).
+- Wide torus: **40.520 ± 0.186**; 37 distinct ancestors (30 to 45), effective number 6.5, largest family 0.35
+  on average (0.68 in one replication). The referee's point stands at this ensemble size too: on the wide
+  torus a replication is a handful of families.
+- The three settings agree: tube 38.764 ± 0.181 / 38.920 ± 0.075 / 38.861 ± 0.129 (chi2 0.7 on 2), wide
+  40.588 ± 0.319 / 40.534 ± 0.123 / 40.520 ± 0.186 (chi2 0.0 on 2), for 4,096 chains with 32 sweeps, with 64
+  sweeps, and 16,384 chains. Weighted: **tube 38.889 ± 0.061, wide 40.535 ± 0.098 on the dice chain**; minus the
+  calibrated offset against gump (+0.041 ± 0.021): tube 38.85, wide 40.49.
+- **Errors I would defend:** twice the weighted ones, **tube 38.85 ± 0.12, wide 40.49 ± 0.20**, because the
+  scatter between replications comes from a few families each and a tail of rare, much larger replications
+  cannot be seen in 60 and 52 of them (the referee's fresh wide runs read 39.75 ± 0.46). On top of that, common
+  to both: the offset of the surrogate against gump is calibrated only to 108 cells; its drift to 192 cells is
+  bounded to +0.17 ± 0.25 and would lower both numbers for gump. The difference **wide - tube = 1.65 ± 0.12
+  (defended: ± 0.2)** does not carry that drift.
+- **Does a wide face still pay 0.2087 per cell at 192 cells (line 40.07)?** The surrogate says 40.49 ± 0.20,
+  +0.42 above the line: 2 sd on the defended error, and inside what a drift of the surrogate could make. Not
+  refuted, not confirmed; taken at face value it is 0.2120 ± 0.0016 per cell from 63 to 192 cells.
+- **Is the tube 1.2 to 1.5 below it?** Against the line: 40.07 - 38.85 = 1.22 ± 0.12. Against the wide torus of
+  the same chain: 1.65 ± 0.2. tube1d's forms 39.17 / 39.01 / 38.92 / 38.86 (K = 1 / 2 / 3 / power law) are
+  2.7, 1.3, 0.6, 0.1 defended sd from 38.85: K = 1 is disfavoured, the others are not separated.
+
 
 
 ## Files

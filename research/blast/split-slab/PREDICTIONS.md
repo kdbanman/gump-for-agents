@@ -129,3 +129,9 @@ offsets +0.026 ± 0.031 (63), +0.019 ± 0.046 (84), +0.087 ± 0.067 (96), +0.072
 144-cell tube 29.29 ± 0.19; 192-cell tube 38.76 ± 0.18; wide 192-cell torus 40.59 ± 0.19 (lognormal error 0.32).
 The forecast of record for the 120-cell tube is unchanged: 24.59 ± 0.05 (bookkeeping); both of mine together
 24.61 ± 0.04.
+
+Added 05:46 UTC (README section 11): the 192-cell tori with doubled sweeps (26 replications each) and with 16,384
+chains (8 each). Dice chain: tube 38.889 ± 0.061, wide 40.535 ± 0.098 (three settings agree); for gump, with the
+errors I would defend: tube 38.85 ± 0.12, wide 40.49 ± 0.20, wide - tube 1.65 ± 0.2; a drift of the surrogate beyond
+108 cells (+0.17 ± 0.25 at 192) is not included and would lower both. My forecast for gump's wide 192-cell torus:
+40.35 ± 0.25; P(above 40.30) = 50%.
