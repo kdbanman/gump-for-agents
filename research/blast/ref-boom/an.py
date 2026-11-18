@@ -43,7 +43,11 @@ def basics(r):
     du = r['U']; ks = sorted(du); c = np.cumsum([du[k] for k in ks]) / sum(du.values())
     q = lambda f: ks[int(np.searchsorted(c, f))]
     print(f"   generations launch -> empty: median {q(.5)} (10-90%: {q(.1)}-{q(.9)})")
-    r['lt'] = lt; r['lte'] = e
+    r['lt'] = lt; r['lte'] = e; r['sd'] = sd; r['n'] = n; r['mth'] = m / A
+    q0 = int(round(0.74 * A)); nu = r['N'] / r['E']; dd = L / np.maximum(r['N'], 1)
+    print('   per extra cell near the hump: p, nu(p+1)/nu(p), d(p+1)/d(p), product:  ' + '  '.join(
+        f'{q}: {nu[q + 1] / nu[q]:.3f} {dd[q + 1] / dd[q]:.3f} {nu[q + 1] * dd[q + 1] / nu[q] / dd[q]:.3f}' for q in range(q0 - 3, q0 + 4, 2)))
+    print('   d(p) at theta ~ 0.68, 0.74, 0.80, 0.86: ' + '  '.join(f'p={int(round(t * A))}: nu {nu[int(round(t * A))]:.3e} d {dd[int(round(t * A))]:.3e}' for t in (0.68, 0.74, 0.80, 0.86)))
     return r
 
 
@@ -146,7 +150,11 @@ def profile(r):
 
 runs = [basics(load(n)) for n in sys.argv[1:]]
 by = {r['A']: r for r in runs}
-print('\n== launch width against area: A, s.d./A, s.d./sqrt(A)')
+print('\n== launch width against area: A, mean theta, s.d. cells, s.d./A, s.d./sqrt(A), relative error')
+for r in runs: print(f"   {r['A']}  {r['mth']:.4f}  {r['sd']:.3f}  {r['sd'] / r['A']:.4f}  {r['sd'] / np.sqrt(r['A']):.4f}  {1 / np.sqrt(2 * r['n']):.3f}")
+if len(runs) > 1:
+    g = np.polyfit(np.log([r['A'] for r in runs]), np.log([r['sd'] for r in runs]), 1, w=[np.sqrt(2 * r['n']) for r in runs])[0]
+    print(f'   s.d. ~ A^gamma, weighted fit over all sizes: gamma = {g:.3f}   (Laplace: 0.5; a fixed shape in theta: 1)')
 if 48 in by and 63 in by: twoterm([by[48], by[63]], 'two sizes')
 if 57 in by and 63 in by and 48 in by: twoterm([by[48], by[57], by[63]], 'three sizes')
 if 75 in by and 63 in by and 48 in by: twoterm([by[48], by[63], by[75]], "boom's sizes for d")
