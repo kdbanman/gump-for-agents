@@ -70,7 +70,7 @@ def fit(xs, ys, es, cols, x0s):
     return b, np.sqrt(np.diag(cov)), chi2, out
 kof = lambda R: (R + 1) // 2
 Aof = lambda R: 3 * kof(R) * (kof(R) + 1) // 2
-FIT = [R for R in (9, 11, 13, 15) if R in info]; EXT = [R for R in (17, 19, 21) if R in info]
+FIT = [R for R in (9, 11, 13, 15) if R in info]; EXT = [R for R in (7, 17, 19, 21) if R in info]
 def block(name, level):
     pts = [(R, lnnu(R, level(R))) for R in FIT]
     if any(v is None for _, v in pts) or len(pts) < 4: print(f" {name}: not enough events at the fit sizes"); return
@@ -113,7 +113,7 @@ def lndiff(R, L1, L2):
     e = float(np.std(vals, ddof=1) / math.sqrt(len(vals))) if vals else math.hypot(a[1], b[1])
     return a[0] - b[0], max(e, 1e-4)
 print("\nPART E: a test that needs no lifetime. ln q(p1) - ln q(p2) = ln nu(p2) - ln nu(p1) exactly, so 'no rim term in -ln q below 0.6'")
-print("        says y = ln nu(0.6 P-bar) - ln nu(p P-bar) is a straight line in A at EVERY size. Line fitted on R = 9..15 only, then compared at R = 17, 19, 21.")
+print("        says y = ln nu(0.6 P-bar) - ln nu(p P-bar) is a straight line in A at EVERY size. Line fitted on R = 9..15 only, then compared at R = 7 and at R = 17, 19, 21.")
 def partE(name, lev1, lev2):
     pts = [(R, lndiff(R, lev1(R), lev2(R))) for R in FIT]
     if any(v is None for _, v in pts): print(f" {name}: not enough events"); return
