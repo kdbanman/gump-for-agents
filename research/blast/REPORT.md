@@ -24,11 +24,11 @@ points an hour with eight to ten agents, so the work ran from 03:10 to about 05:
   solved exactly, has the same two exits with the same dependence on shape.
 
 That is the mechanism in plain words, and it is why the differences between shapes "are not in the living state":
-the living states are the same and the exits differ. It is not a derivation of 0.2087 or of 0.231. The nearest
-thing to a formula is a split of the wrapped price into two measured parts, 0.078 for the over-fill and 0.132 for
-its being fatal, 0.2099 together against 0.2087 (being refereed as I write). The 135-cell hull face was **not**
-measured: the sampler built for it is biased, for a reason now understood, and what stands in its place is a
-forecast of 29.22 that four routes agree on.
+the living states are the same and the exits differ. It is not a derivation of 0.2087 or of 0.231, and there is
+no formula yet: the wrapped price splits into 0.079 for the over-full face and 0.136 for the layers beneath and
+the kill, but a referee showed that their sum is bookkeeping on the same runs, not a prediction. The 135-cell
+hull face was **not** measured by any method that passed calibration cleanly; what stands is a forecast of 29.22 ±
+0.02 that four routes agree on, and a first surrogate measurement described below.
 
 ## What was found
 
@@ -62,11 +62,16 @@ forecast of 29.22 that four routes agree on.
    0.94, 0.57–0.79, 0.82 on wrapped faces of 9, 12, 15 cells and 0.017, 0.020, 0.003 on rimmed ones of 9, 12, 18.
    The referee's rider: a tube one unit cell round falls to 0.21 at 15 cells, so what matters is whether the cells
    can be overcrowded, not whether the face is wrapped.
-4. **The price of a wrapped face in two parts [measured, `boom/`, `model/`; being refereed by `ref-boom/`].**
-   The rate is exactly a sum over launches, 1/τ = Σ_p ν(p)·d(p): ν the frequency of a generation with face
-   population p in the living state, d the chance that it is the launch of a death. Both are exponential in the
-   area at fixed filling θ = p/A, and min_θ [I_up(θ) + J(θ)] = **0.2099 at θ = 0.74: 0.078 for the over-fill, 0.132
-   ± 0.003 for the kill**, against 0.2087 measured. The first part is a property of the living state alone
+4. **The price of a wrapped face in two parts: a split, not a formula [measured, `boom/`, `model/`; refereed by
+   `ref-boom/`, which confirmed the numbers and refuted the headline].** The rate is exactly a sum over
+   launches, 1/τ = Σ_p ν(p)·d(p): ν the frequency of a generation with face population p in the living state, d the
+   chance that it is the launch of a death. At the launch point θ = p/A = 0.738 (referee: 0.7380 ± 0.0002, 0.7386,
+   0.7375, 0.7381 at 48, 57, 63, 75 cells; the hump's width grows like A^0.58, not like A) the two slopes in the
+   area are **0.079 for the over-full face and 0.136 ± 0.001 for the rest** (the layers beneath and the kill).
+   `boom` reported their sum, 0.2099, against the measured 0.2087 as if it were a test. It is not: the sum rule is
+   an identity, so the sum at the hump returns the lifetime slope of the very runs used (0.2154 ± 0.0011 from 48
+   and 63 cells, whose lifetimes have slope 0.2156); landing near 0.2087 was an accident of the sizes. What is
+   real: the split, and that the first part is a property of the living state alone
    (−ln P(population = xA) = 1.9 + ψ(x)·A with ψ = 0.056, 0.075, 0.098, 0.127 at x = 0.70, 0.73, 0.76, 0.79, from
    the card's histograms of 16 faces, 1.27 times a Gaussian's, and identical on tubes and wide faces). The second
    is still measured from deaths.
@@ -237,7 +242,13 @@ face separates only K = 1 (24.608) from the rest. The 192-cell tube decides betw
   the 18-cell exact rows, anything on gump itself.
 - **The 135-cell forecast (`ref-hull/REVIEW.md`): rates confirmed, forecast fair at 29.22 ± 0.02, conditional;**
   see "The 135-cell face". Its own forward-flux sampler failed in the same way as the first.
-PENDING_REFEREES_3
+- **The two-part price (`ref-boom/REVIEW.md`): numbers confirmed, headline refuted.** One hump of launches at
+  0.738·A, the four-layer profile at the launch, the under-full layers one generation before (real but weak: 0.4–0.6
+  standard deviations per layer, a fifth to a third of it generic to any over-full face) and the island table
+  (clusters of 1, 2, 3, 4–6, 7–12 cells fail 0.900, 0.634, 0.276, 0.078, 0.0051) all reproduced by its own code.
+  "min(I_up + J) = 0.2099 against 0.2087" is arithmetic on the same runs. Its sentence for you: there is no formula
+  yet; a formula must produce 0.738, 0.079 and 0.136 from the rule.
+PENDING_REFEREES_4
 
 ## What failed
 
