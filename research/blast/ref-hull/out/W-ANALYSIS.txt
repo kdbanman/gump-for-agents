@@ -1,0 +1,75 @@
+PART 1: tori, P-bar, direct lifetime where deaths occurred, dip rates ln nu(p P-bar) per face-generation
+ tube (1,12),(0,28) A 84: K 8 exposure 1.23e+09 face-gens; P-bar 43.2957 = 0.51542 A, sigma 5.813, lamA 44; anchor 17.3175; direct ln(2E/D) = 17.3177 +- 0.1644 (37 first deaths; faces empty per death 1.0000); share of face-gens with P >= 0.7A: 2.41e-03
+     p 0.8: -3.0006+-0.0001  p 0.7: -4.3321+-0.0002  p 0.6: -5.9541+-0.0006  p 0.5: -7.8104+-0.0014  p 0.4: -9.8249+-0.0039
+ tube (1,17),(0,32) A 96: K 8 exposure 1.23e+09 face-gens; P-bar 49.4808 = 0.51542 A, sigma 6.214, lamA 50; anchor 19.7446; 4 first deaths; share of face-gens with P >= 0.7A: 8.55e-04
+     p 0.8: -3.1540+-0.0001  p 0.7: -4.6418+-0.0003  p 0.6: -6.4648+-0.0007  p 0.5: -8.5553+-0.0021  p 0.4: -10.8482+-0.0065
+ tube (1,16),(0,36) A 108: K 8 exposure 1.23e+09 face-gens; P-bar 55.6662 = 0.51543 A, sigma 6.591, lamA 56; anchor 22.1599; 1 first deaths; share of face-gens with P >= 0.7A: 5.75e-04
+     p 0.8: -3.3053+-0.0002  p 0.7: -4.9483+-0.0005  p 0.6: -6.9736+-0.0010  p 0.5: -9.3036+-0.0030  p 0.4: -11.8640+-0.0113
+ wide (4,0),(0,4) A 48: K 8 exposure 1.61e+09 face-gens; P-bar 24.4463 = 0.50930 A, sigma 5.006, lamA 25; anchor 9.9251; direct ln(2E/D) = 9.9422 +- 0.0036 (77268 first deaths; faces empty per death 1.0000); share of face-gens with P >= 0.7A: 1.65e-02
+     p 0.8: -2.5776+-0.0019  p 0.7: -3.4726+-0.0019  p 0.6: -4.5007+-0.0019  p 0.5: -5.5567+-0.0018  p 0.4: -6.5712+-0.0018
+ wide (1,7),(0,19) A 57: K 8 exposure 1.63e+09 face-gens; P-bar 29.4467 = 0.51661 A, sigma 4.775, lamA 30; anchor 11.8751; direct ln(2E/D) = 11.8762 +- 0.0094 (11356 first deaths; faces empty per death 1.0001); share of face-gens with P >= 0.7A: 1.18e-02
+     p 0.8: -2.6324+-0.0004  p 0.7: -3.6726+-0.0004  p 0.6: -4.9119+-0.0004  p 0.5: -6.2227+-0.0006  p 0.4: -7.4972+-0.0011
+ wide (1,4),(0,21) A 63: K 8 exposure 1.64e+09 face-gens; P-bar 32.5835 = 0.51720 A, sigma 4.942, lamA 33; anchor 13.1622; direct ln(2E/D) = 13.1609 +- 0.0178 (3149 first deaths; faces empty per death 1.0000); share of face-gens with P >= 0.7A: 4.88e-03
+     p 0.8: -2.7061+-0.0001  p 0.7: -3.8451+-0.0002  p 0.6: -5.2216+-0.0003  p 0.5: -6.6935+-0.0007  p 0.4: -8.1390+-0.0014
+ wide (1,9),(0,25) A 75: K 8 exposure 1.23e+09 face-gens; P-bar 38.8048 = 0.51740 A, sigma 5.367, lamA 39; anchor 15.6442; direct ln(2E/D) = 15.6556 +- 0.0716 (195 first deaths; faces empty per death 1.0000); share of face-gens with P >= 0.7A: 3.27e-03
+     p 0.8: -2.8758+-0.0001  p 0.7: -4.1944+-0.0002  p 0.6: -5.8075+-0.0005  p 0.5: -7.5762+-0.0013  p 0.4: -9.3586+-0.0035
+ wide (1,4),(0,28) A 84: K 8 exposure 1.23e+09 face-gens; P-bar 43.4730 = 0.51754 A, sigma 5.662, lamA 44; anchor 17.5387; 26 first deaths; share of face-gens with P >= 0.7A: 2.40e-03
+     p 0.8: -3.0093+-0.0001  p 0.7: -4.4668+-0.0003  p 0.6: -6.2708+-0.0007  p 0.5: -8.2682+-0.0018  p 0.4: -10.2878+-0.0058
+ wide (6,0),(0,6) A 108: K 8 exposure 1.23e+09 face-gens; P-bar 55.9138 = 0.51772 A, sigma 6.392, lamA 56; anchor 22.5405; 1 first deaths; share of face-gens with P >= 0.7A: 5.71e-04
+     p 0.8: -3.3432+-0.0002  p 0.7: -5.1942+-0.0006  p 0.6: -7.5367+-0.0013  p 0.5: -10.1404+-0.0052  p 0.4: -12.7346+-0.0199
+
+PART 2: wide faces. -ln q(p) = ln tau + ln nu(p P-bar) and -ln nu(p P-bar): straight lines in the area?
+ p = 0.8: A = [48, 57, 63, 75, 84, 108]
+     -ln q  = 7.347 9.243 10.456 12.768 14.529 19.197;  line -2.093 + 0.19885 A (+- 0.00007), chi2 5454.3 on 4; residuals -0.105 +0.001 +0.021 -0.053 -0.081 -0.186;  hull slope 0.20332
+     -ln nu = 2.578 2.632 2.706 2.876 3.009 3.343;  line +1.826 + 0.01404 A (+- 0.00001), chi2 2396.5 on 4; residuals +0.077 +0.006 -0.005 -0.004 +0.003 +0.000
+ p = 0.7: A = [48, 57, 63, 75, 84, 108]
+     -ln q  = 6.452 8.203 9.317 11.450 13.072 17.346;  line -2.232 + 0.18303 A (+- 0.00007), chi2 4805.6 on 4; residuals -0.101 +0.002 +0.019 -0.045 -0.070 -0.189;  hull slope 0.18953
+     -ln nu = 3.473 3.673 3.845 4.194 4.467 5.194;  line +1.978 + 0.02965 A (+- 0.00001), chi2 2784.4 on 4; residuals +0.072 +0.005 -0.000 -0.007 -0.001 +0.014
+ p = 0.6: A = [48, 57, 63, 75, 84, 108]
+     -ln q  = 5.424 6.963 7.941 9.837 11.268 15.004;  line -2.234 + 0.16128 A (+- 0.00007), chi2 3086.5 on 4; residuals -0.083 +0.004 +0.014 -0.026 -0.046 -0.181;  hull slope 0.17016
+     -ln nu = 4.501 4.912 5.222 5.807 6.271 7.537;  line +2.029 + 0.05059 A (+- 0.00002), chi2 3061.4 on 4; residuals +0.043 -0.001 +0.005 -0.016 -0.008 +0.044
+     (ln tau itself on these tori: slope 0.21436 +- 0.00004, chi2 4849.8)
+     same area, hull against wide torus, -ln nu and -ln q: A 63: torus nu 5.222 hull nu 4.966 (hull dips more often by 0.256); torus q 7.941 hull q 8.667;  A 84: torus nu 6.271 hull nu 5.897 (hull dips more often by 0.373); torus q 11.268 hull q 12.243;  A 108: torus nu 7.537 hull nu 7.010 (hull dips more often by 0.527); torus q 15.004 hull q 16.330
+ p = 0.5: A = [48, 57, 63, 75, 84, 108]
+     -ln q  = 4.368 5.652 6.469 8.068 9.271 12.400;  line -2.082 + 0.13558 A (+- 0.00008), chi2 1587.6 on 4; residuals -0.057 +0.007 +0.009 -0.018 -0.036 -0.160;  hull slope 0.14626
+     -ln nu = 5.557 6.223 6.694 7.576 8.268 10.140;  line +1.912 + 0.07572 A (+- 0.00005), chi2 590.1 on 4; residuals +0.010 -0.005 +0.011 -0.014 -0.004 +0.051
+     same area, hull against wide torus, -ln nu and -ln q: A 63: torus nu 6.694 hull nu 6.240 (hull dips more often by 0.453); torus q 6.469 hull q 7.392;  A 84: torus nu 8.268 hull nu 7.678 (hull dips more often by 0.590); torus q 9.271 hull q 10.463;  A 108: torus nu 10.140 hull nu 9.367 (hull dips more often by 0.773); torus q 12.400 hull q 13.972
+ p = 0.4: A = [48, 57, 63, 75, 84, 108]
+     -ln q  = 3.354 4.378 5.023 6.286 7.251 9.806;  line -1.853 + 0.10907 A (+- 0.00012), chi2 577.1 on 4; residuals -0.029 +0.014 +0.005 -0.042 -0.058 -0.121;  hull slope 0.11925
+     -ln nu = 6.571 7.497 8.139 9.359 10.288 12.735;  line +1.594 + 0.10368 A (+- 0.00010), chi2 143.2 on 4; residuals +0.001 -0.006 +0.013 -0.011 -0.015 -0.057
+     same area, hull against wide torus, -ln nu and -ln q: A 63: torus nu 8.139 hull nu 7.660 (hull dips more often by 0.479); torus q 5.023 hull q 5.973;  A 84: torus nu 10.288 hull nu 9.664 (hull dips more often by 0.624); torus q 7.251 hull q 8.477;  A 108: torus nu 12.735 hull nu 11.997 (hull dips more often by 0.737); torus q 9.806 hull q 11.342
+
+PART 3: tube against wide face of the same area: where does the tube's discount in ln tau sit?
+ A = 84: wide (1, 4, 28) ln tau 17.5387, tube (1, 12, 28) ln tau 17.3175: discount 0.2212 +- 0.0044; P-bar wide 43.4730 tube 43.2957
+     p = 0.8: discount in -ln nu = +0.0087 +- 0.0002;  in -ln q = +0.2125 +- 0.0044
+            at the same absolute level L = 34.78: in -ln nu = +0.0473, in -ln q = +0.1739
+     p = 0.7: discount in -ln nu = +0.1346 +- 0.0004;  in -ln q = +0.0866 +- 0.0044
+            at the same absolute level L = 30.43: in -ln nu = +0.1769, in -ln q = +0.0443
+     p = 0.6: discount in -ln nu = +0.3167 +- 0.0009;  in -ln q = -0.0955 +- 0.0045
+            at the same absolute level L = 26.08: in -ln nu = +0.3593, in -ln q = -0.1381
+     p = 0.5: discount in -ln nu = +0.4578 +- 0.0023;  in -ln q = -0.2366 +- 0.0049
+            at the same absolute level L = 21.74: in -ln nu = +0.4978, in -ln q = -0.2766
+     p = 0.4: discount in -ln nu = +0.4629 +- 0.0070;  in -ln q = -0.2417 +- 0.0082
+            at the same absolute level L = 17.39: in -ln nu = +0.4967, in -ln q = -0.2755
+ A = 108: wide (6, 0, 6) ln tau 22.5405, tube (1, 16, 36) ln tau 22.1599: discount 0.3806 +- 0.0142; P-bar wide 55.9138 tube 55.6662
+     p = 0.8: discount in -ln nu = +0.0379 +- 0.0002;  in -ln q = +0.3427 +- 0.0142
+            at the same absolute level L = 44.73: in -ln nu = +0.0889, in -ln q = +0.2917
+     p = 0.7: discount in -ln nu = +0.2459 +- 0.0008;  in -ln q = +0.1347 +- 0.0142
+            at the same absolute level L = 39.14: in -ln nu = +0.3027, in -ln q = +0.0779
+     p = 0.6: discount in -ln nu = +0.5631 +- 0.0016;  in -ln q = -0.1825 +- 0.0143
+            at the same absolute level L = 33.55: in -ln nu = +0.6214, in -ln q = -0.2408
+     p = 0.5: discount in -ln nu = +0.8368 +- 0.0060;  in -ln q = -0.4562 +- 0.0154
+            at the same absolute level L = 27.96: in -ln nu = +0.8917, in -ln q = -0.5111
+     p = 0.4: discount in -ln nu = +0.8706 +- 0.0229;  in -ln q = -0.4900 +- 0.0269
+            at the same absolute level L = 22.37: in -ln nu = +0.9171, in -ln q = -0.5365
+
+PART 4: dips preceded within 3 generations by an over-full face (P >= 0.7 A): share of first passages at each level
+ tube (1, 12, 28) A 84: p 0.8: 3.99e-02 (2051373/51388360);  p 0.6: 1.45e-01 (309003/2134413);  p 0.4: 3.22e-01 (18402/57065);  p 0.2: 5.50e-01 (439/798);  deaths (P = 0): 0.108 (4/37)
+ tube (1, 17, 32) A 96: p 0.8: 1.72e-02 (771007/44921576);  p 0.6: 7.98e-02 (115882/1452167);  p 0.4: 2.38e-01 (3872/16299);  p 0.2: 4.92e-01 (65/132)
+ tube (1, 16, 36) A 108: p 0.8: 1.26e-02 (496333/39277136);  p 0.6: 6.22e-02 (61116/982959);  p 0.4: 1.92e-01 (1466/7626);  p 0.2: 2.78e-01 (10/36)
+ wide (4, 0, 4) A 48: p 0.8: 1.86e-01 (18862390/101471896);  p 0.6: 4.18e-01 (5578644/13346031);  p 0.4: 6.14e-01 (1007702/1642318);  p 0.2: 6.62e-01 (154879/234030);  deaths (P = 0): 0.343 (26487/77269)
+ wide (1, 7, 19) A 57: p 0.8: 1.37e-01 (13569200/98716512);  p 0.6: 3.63e-01 (3241988/8939265);  p 0.4: 6.05e-01 (394553/652301);  p 0.2: 6.83e-01 (37414/54795);  deaths (P = 0): 0.307 (3486/11357)
+ wide (1, 4, 21) A 63: p 0.8: 6.12e-02 (6557334/107206869);  p 0.6: 2.38e-01 (1647635/6912701);  p 0.4: 4.77e-01 (224409/470776);  p 0.2: 6.26e-01 (15153/24191);  deaths (P = 0): 0.278 (874/3149)
+ wide (1, 9, 25) A 75: p 0.8: 4.59e-02 (3134982/68368224);  p 0.6: 1.96e-01 (639460/3257892);  p 0.4: 4.87e-01 (40720/83608);  p 0.2: 6.56e-01 (1607/2449);  deaths (P = 0): 0.251 (49/195)
+ wide (1, 4, 28) A 84: p 0.8: 4.20e-02 (2023427/48199950);  p 0.6: 1.71e-01 (383061/2237533);  p 0.4: 4.75e-01 (16597/34926);  p 0.2: 6.49e-01 (386/595);  deaths (P = 0): 0.346 (9/26)
+ wide (6, 0, 6) A 108: p 0.8: 1.39e-02 (488685/35235196);  p 0.6: 1.08e-01 (55026/511095);  p 0.4: 4.01e-01 (1219/3039)
