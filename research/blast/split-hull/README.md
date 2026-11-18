@@ -5,18 +5,23 @@ cannot reach (one death per 6 × 10¹¹ hull-generations). Files: `sh.c` (steppe
 against `reference/oracle.py`), `chain.sh` (replications), `ana.py` (pooling), `PREDICTIONS.md` (forecasts),
 `paths/` (dying paths). Bulk output: `research/scratch/blast/split-hull/runs/`.
 
-## State (03:55 UTC; calibration running, no result at R >= 13 yet)
+## State (04:03 UTC): the frozen sampler is biased at R = 11; R = 17 will not be reached tonight
 
 - **Stepper validated [measured].** `python3 research/blast/split-hull/validate.py 1200`: `sh.c`'s bit-sliced hull
   stepper equals `reference/oracle.py` cell for cell at R = 11 and R = 15 (3 soups x 1,200 generations each), together
   with the face population counter, the emptiness bits of the seven other faces, the age counters, the ring of
   lagged states (the state two generations ago), frozen lanes and the packed-configuration round trip. Negative
   control (one neighbour swapped): fails at generation 5 (R = 11) and 3 (R = 15). Last line: `VALIDATION PASSED`.
-- **Parameters frozen at 03:52 UTC on R = 9 and 11 only:** M = 300,000 trials a stage, LAG = 2 (flips at depth 5,
-  two generations before the crossing), one flip per 6 sites of S, levels 3 cells apart, H = 0.5, stores of 100,000.
-  The tuning runs were seeds 1 to 26 at R = 9 and 11 (not in the tables); the frozen runs use seeds R x 1000 + k.
-- Calibration table: being filled by `chain.sh` (R = 9, 11, 13, 15), then R = 17.
-
+- **Protocol check by brute force [measured]** (the sampler's own base runs, plain running, no cloning):
+  R = 9: ln(8E/D) = 9.825 +- 0.010 (10,788 first deaths; anchor 9.819). R = 11: 13.626 +- 0.065 (234; anchor 13.633).
+- **Parameters frozen at 03:52 UTC** after four tuning seeds at R = 11 (13.604 +- 0.06): M = 300,000 trials a stage,
+  LAG = 2, one flip per 6 sites of S, levels 3 cells apart, H = 0.5, stores of 100,000.
+- **Frozen sampler at the tuning sizes, 12 replications each [measured]** (`sh chain.sh 9 9001 12`,
+  `sh chain.sh 11 11001 12`, `python3 ana.py 9 11`):
+  R = 9: 9.792 +- 0.018, estimate - anchor = -0.027 +- 0.018. R = 11: 13.461 +- 0.044, **estimate - anchor =
+  -0.173 +- 0.044 (3.9 sigma): biased**, the flips help the face die. Four seeds were too few to see it.
+- R = 13 and 15 are running with the frozen setting for the record; brute-force tables of dip rates at all sizes
+  and a level-by-level comparison (`levels.py`) are queued.
 
 ## The sampler, exactly (for the referee who rewrites it from the oracle)
 

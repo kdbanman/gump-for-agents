@@ -399,6 +399,7 @@ int main(int argc, char **argv) {
     for (int w = 0; w < WMAX; w++) { for (int b = 0; b < 64; b++) cfg_soup(T + (size_t)b * NCW); word_in(w, T); }
     memset(lage, 0, sizeof lage); memset(linA, 0, sizeof linA);
     double psum = 0, psum2 = 0, pcnt = 0, exposure = 0, d0w = 0; long ncross = 0, deaths = 0, nold = 0, nstore = 0;
+    static uint8_t exmin[NL]; static double exh[256]; memset(exmin, 255, sizeof exmin);   // brute-force table of excursion minima
     int phase = 0;        // 0 burn-in, 1 pilot (P-bar), 2 flags settle, 3 counting
     long g = 0, gphase = 0; double PBAR = 0, SIG = 0;
     int cap = M ? CAPN : 1;
@@ -424,6 +425,9 @@ int main(int argc, char **argv) {
             int counted = (phase == 3 && lage[lane] > T0);
             if (counted) exposure += 1;
             int reseed = 0, cross = 0;
+            // excursion below lambda_A: booked at its end with its minimum (brute force; the sampler does not use it)
+            if (nd || p >= LA) { int mn = (nd && p == 0) ? 0 : exmin[lane]; if (nd && p > 0 && p < mn) mn = p; if (counted && mn < LA) exh[mn] += 1; exmin[lane] = 255; }
+            else if (p < exmin[lane]) exmin[lane] = p;
             if (nd) {
                 if (counted) {
                     deaths++;
@@ -452,7 +456,11 @@ int main(int argc, char **argv) {
     printf("# PBAR %.4f SIG %.4f LA %d L0 %d exposure %.0f ncross %ld lnPhi0 %.5f deaths_any %ld d0w %.3f old %ld direct_lntau %.4f direct_err %.4f\n",
            PBAR, SIG, LA, L0, exposure, ncross, lnphi, deaths, d0w, nold,
            deaths ? log(8 * exposure / deaths) : NAN, deaths ? 1 / sqrt((double)deaths) : NAN);
-    if (!M) return 0;
+    if (!M) {
+        double cum = 0;
+        for (int L = 0; L <= L0; L++) { cum += exh[L]; if (cum > 0) printf("E R %d level %d count %.0f lnnu %.5f err %.5f\n", R, L, cum, log(cum / exposure), 1 / sqrt(cum)); }
+        return 0;
+    }
     // ---- stages
     Ncur = (int)nstore;
     order = malloc(sizeof(int) * CAPN);
