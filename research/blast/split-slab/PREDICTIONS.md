@@ -117,3 +117,8 @@ committed; if the GPU's value lands above 24.64 the sampler was the better of th
 New forecast, for whoever runs it (no data of mine or anyone's): the wide 192-cell torus (8,0),(0,8) of gump
 itself. The wide line says 40.08; my sampler says 40.72 ± 0.26 on the dice chain. P(gump's value is above 40.30)
 = 45%: I do not know whether the wide price rises or my sampler drifts.
+
+Added 04:43 UTC, after one more run (the wide 144-cell torus (4,4),(0,12), 14 replications: 29.74 ± 0.24 against
+the wide line's 30.06): the sampler's errors at 144 and 192 cells are too small by up to a factor 2 (wide tori
+-0.33 at 144, +0.64 at 192 against the line). Block 4's scores for 144 and 192 cells ("held") therefore mean
+little, and my 45% for the wide 192-cell torus above 40.30 goes down to 30%.

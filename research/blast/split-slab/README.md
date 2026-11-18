@@ -20,12 +20,13 @@ anchors, reach 120 cells and beyond. What came out, in order of how far I trust 
    the *dice chain* (6 layers of gump over 2 layers of fair coins; brute force puts it within 0.02 of gump at 48 and
    63 cells). Exact for that chain. Against the gump anchors: +0.01 ± 0.04 (63 cells), -0.01 ± 0.06 (84),
    +0.09 ± 0.07 (96, blind), +0.02 ± 0.06 (108 tube, blind), -0.01 ± 0.09 (108 equilateral, blind). It gives
-   24.68 ± 0.09 for the 120-cell tube, 29.44 ± 0.22 at 144 cells, 38.6 ± 0.25 for the 192-cell tube and
-   40.7 ± 0.26 for the wide 192-cell torus (the last two with 12-16 replications and a possible drift of ± 0.3).
+   24.68 ± 0.09 for the 120-cell tube. Beyond that (144 and 192 cells, tubes and wide tori, 8-16 replications
+   each) its lifetimes are too noisy to decide anything: section 6 says by how much.
 6. **[measured, surrogate] Wide faces keep dying by a face-wide boom and bust up to 192 cells; long tubes stop
-   doing so** (section 6, last table): the share of deaths with a one-generation fall of half the face is 0.54
-   to 0.59 on wide tori of 63, 108 and 192 cells, and 0.50, 0.50, 0.38, 0.26, 0.17 on loop^2 12 tubes of 84, 108,
-   120, 144, 192 cells.
+   doing so** (section 6, last table): the share of deaths with a one-generation fall of half the face is 0.54,
+   0.59, 0.68, 0.55 on wide tori of 63, 108, 144, 192 cells, and 0.50, 0.50, 0.38, 0.26, 0.17 on loop^2 12 tubes
+   of 84, 108, 120, 144, 192 cells. This comparison is within the dying ensemble and does not suffer from the
+   noise of the lifetimes.
 
 Marks: **[proved]**, **[measured]**, **[conjectured]**. Runs used one core (the machine gave it 40-50%).
 `G/` = `research/scratch/blast/split-slab/`; build and geometry:
@@ -245,6 +246,7 @@ TPRE = 32, TWIN = 24, WBACK = 12.
 | 108 | (6,0),(0,6) | 24 | 22.536 ± 0.087 | 22.5405 ± 0.0074 | -0.005 ± 0.088 |
 | 120 | (1,18),(0,40) | 48 | 24.710 ± 0.078 | — | — |
 | 144 | (1,22),(0,48) | 8 | 29.473 ± 0.214 | — | — |
+| 144 | (4,4),(0,12) | 14 | 29.738 ± 0.239 | — | — |
 | 192 | (1,30),(0,64) | 16 | 38.647 ± 0.245 | — | — |
 | 192 | (8,0),(0,8) | 12 | 40.723 ± 0.257 | — | — |
 
@@ -252,6 +254,7 @@ offset d = dice chain - gump, weighted mean over the tubes of 84, 96, 108 cells:
   (1,18),(0,40), 120 cells: dice chain 24.710 ± 0.078; minus d: 24.681 ± 0.086
   (1,22),(0,48), 144 cells: dice chain 29.473 ± 0.214; minus d: 29.444 ± 0.217
   (1,30),(0,64), 192 cells: dice chain 38.647 ± 0.245; minus d: 38.618 ± 0.248
+  (4,4),(0,12), 144 cells: dice chain 29.738 ± 0.239; minus d: 29.709 ± 0.242
   (8,0),(0,8), 192 cells: dice chain 40.723 ± 0.257; minus d: 40.694 ± 0.259
 <!-- SUB-RESULTS-END -->
 
@@ -272,27 +275,29 @@ offset d = dice chain - gump, weighted mean over the tubes of 84, 96, 108 cells:
 - **120 cells [measured, surrogate].** Dice chain 24.710 ± 0.078 (48 replications); minus the offset d:
   **24.68 ± 0.09** for gump. Independent of section 5's 24.59 ± 0.05 (other randomness, other assumptions) and
   0.9 sd from it; weighted together 24.61 ± 0.045.
-- **Long tubes and the wide torus [measured, surrogate; few replications].** At 144 and 192 cells one replication
-  scatters by 0.6 to 1.0 in relative terms and there are 8 to 16 of them: the errors quoted are themselves
-  uncertain, and the mean is carried by the largest replications. Read with that:
-  - the tube's slope from 108 to 192 cells is (38.647 - 22.178) / 84 = **0.196 ± 0.003 per cell** (120 to 144:
-    0.198 ± 0.010; 144 to 192: 0.191 ± 0.007). The quadratic discount 0.0046 (A/12)^2 and the straight line near
-    0.198 both predict 0.198 to 0.199 over this range and cannot be separated below 240 cells; **the return to
-    the wide price (0.2086) is excluded at about 4 sd**, in this chain;
-  - at 192 cells the tube lies 2.08 ± 0.36 below the wide torus (8,0),(0,8) *of the same chain* (the three
-    readings put the discount at 1.18, 1.29 and 0.47);
-  - **the wide torus itself reads 40.72 ± 0.26, above the wide line 13.1622 + 0.20866 (A - 63) = 40.08**
-    (+0.64, 2.5 sd; slope 0.2165 ± 0.0033 from the 108-cell to the 192-cell wide torus). Either the wide price
-    rises beyond 126 cells or the sampler loses accuracy between 108 and 192 cells (too few sweeps would make it
-    read high, and then the tube is lower still). Twelve replications cannot say which; this is the first thing
-    to run next.
+- **Long tubes and wide tori beyond the anchors [measured, surrogate; few replications; NOT decisive].** At 144
+  and 192 cells one replication scatters by 0.6 to 1.0 in relative terms and there are 8 to 16 of them; the mean
+  is carried by the largest replications and the quoted errors are too small, by up to a factor 2 on this
+  evidence: against the wide line 13.1622 + 0.20866 (A - 63), the two wide tori read **-0.33 ± 0.24 at 144 cells**
+  ((4,4),(0,12): 29.74 against 30.06) and **+0.64 ± 0.26 at 192 cells** ((8,0),(0,8): 40.72 against 40.08), chi2
+  8 on 2 if the line holds. Together they neither confirm nor refute that 0.2087 holds to 192 cells.
+  With that warning:
+  - the tube's slope from 108 to 192 cells is (38.647 - 22.178) / 84 = 0.196 ± 0.003 per cell with the quoted
+    error, ± 0.006 with the doubled one (120 to 144: 0.198 ± 0.010; 144 to 192: 0.191 ± 0.007). The quadratic
+    discount 0.0046 (A/12)^2 and the straight line near 0.198 both predict 0.198 to 0.199 here and cannot be
+    separated below 240 cells; the return to the wide price (0.2086) is disfavoured at about 2 sd, no more;
+  - tube against wide torus of the same chain and area: 0.27 ± 0.32 at 144 cells and 2.08 ± 0.36 at 192 (the
+    three readings: 0.66 / 0.77 / 0.47 at 144 and 1.18 / 1.29 / 0.47 at 192). The two sizes do not tell one story;
+  - what it would take: about 100 replications per torus (15 core-minutes each at 192 cells), or more chains per
+    replication; and a convergence test (doubling NSWEEP), which was not done at these sizes.
   - The 240-cell tube was not run.
 - **Dying paths [measured, surrogate]** (`python3 subpaths.py G/subpaths_full/FILE [FILE ...] A`, outputs in
   `data/subpaths_stats.txt`; per-replication means ± their standard error; "fall" = the largest one-generation
   fall of the face population in the last 16 generations). The sampler's deaths at 63 cells reproduce the natural
   route of section 4: a fall of at least A/2 in 0.54 ± 0.02 of deaths (natural gump 0.558), of at least 0.4 A in
   0.81 ± 0.02 (0.823), from 46.1 to 14.0 cells (47 to 14). **Wide tori keep the face-wide boom and bust up to
-  192 cells; along the loop^2 12 tubes it fades out as the tube lengthens:**
+  192 cells; along the loop^2 12 tubes it fades out as the tube lengthens** (rows in order of size; (1,4),(0,21),
+  (6,0),(0,6), (4,4),(0,12), (8,0),(0,8) are wide, the others tubes):
 
 <!-- PATHTABLE-BEGIN -->
   | torus | cells | replications | fall >= A/2 | fall >= 0.4 A | largest fall | it starts from | and leaves | generations from it to the death |
@@ -302,6 +307,7 @@ offset d = dice chain - gump, weighted mean over the tubes of 84, 96, 108 cells:
   | (6,0),(0,6) | 108 | 24 | 0.59 ± 0.03 | 0.88 ± 0.02 | 0.51 A | mean + 3.5 sd = 0.73 A | 0.22 A | 5.94 ± 0.07 |
   | (1,16),(0,36) | 108 | 16 | 0.50 ± 0.04 | 0.72 ± 0.03 | 0.48 A | mean + 2.9 sd = 0.70 A | 0.22 A | 6.36 ± 0.10 |
   | (1,18),(0,40) | 120 | 32 | 0.38 ± 0.03 | 0.65 ± 0.03 | 0.44 A | mean + 2.5 sd = 0.66 A | 0.23 A | 6.56 ± 0.09 |
+  | (4,4),(0,12) | 144 | 14 | 0.68 ± 0.05 | 0.95 ± 0.01 | 0.53 A | mean + 4.2 sd = 0.74 A | 0.21 A | 6.34 ± 0.10 |
   | (1,22),(0,48) | 144 | 8 | 0.26 ± 0.05 | 0.59 ± 0.05 | 0.41 A | mean + 2.3 sd = 0.64 A | 0.23 A | 7.13 ± 0.18 |
   | (8,0),(0,8) | 192 | 12 | 0.55 ± 0.08 | 0.91 ± 0.04 | 0.51 A | mean + 4.5 sd = 0.72 A | 0.22 A | 6.91 ± 0.22 |
   | (1,30),(0,64) | 192 | 16 | 0.17 ± 0.06 | 0.33 ± 0.07 | 0.34 A | mean + 1.5 sd = 0.58 A | 0.24 A | 8.33 ± 0.26 |
@@ -312,9 +318,10 @@ offset d = dice chain - gump, weighted mean over the tubes of 84, 96, 108 cells:
   removes half the face. On the 192-cell tube it starts from a face that is hardly over-full (0.58 A, mean + 1.5
   sd), removes a third, and the death comes 8 generations later instead of 5 to 6. **[conjectured]** The tube
   does not have to fill everywhere at once: a stretch of it booms and busts and the rest follows within the
-  time information needs to travel along it, which would be why a tube is cheaper per cell and cheaper the
-  longer it is, and why the discount shows only once the tube is longer than a few of its girths (the 84- and
-  108-cell tubes, 2 to 2.6 girths long, still die like wide faces half the time). The path files hold
+  time information needs to travel along it, which would be why a long tube is cheaper per cell the longer it
+  is. The route changes between 2.6 and 3 girths of length (84 and 108 cells: 2.0 and 2.6 girths, still face-wide
+  half the time; 192 cells: 4.6 girths); the discount of the short tubes (0.22 at 84 cells) is already there
+  before it does, so that part has another cause. The path files hold
   populations only; whether the emptying travels along the axis needs per-cell records, which this mode does not
   write.
 <!-- COMMENTARY-END -->
@@ -344,7 +351,8 @@ offset d = dice chain - gump, weighted mean over the tubes of 84, 96, 108 cells:
 - Gump beyond 84 cells was never run to a death here; everything at 96 cells and more is either the bookkeeping
   continuation (section 5) or the dice chain (section 6).
 - Whether the dice chain's offset from gump, or the sampler's accuracy at fixed effort, drifts beyond 108 cells:
-  the wide 192-cell torus reads 0.64 ± 0.26 above the wide line, unexplained. No run at 240 cells or more, none on
+  the wide tori read 0.33 below and 0.64 above the wide line at 144 and 192 cells, more than their quoted errors
+  allow. The tori of 144 and 192 cells were not validated against the oracle (same builder and stepper). No run at 240 cells or more, none on
   tubes of loop^2 13 or 16, none on a 300-cell torus.
 - The sampler's sweeps were never checked for convergence by doubling them at a large size; version 1 (uniform
   proposals only) read 0.10 and 0.15 higher than version 2 at 63 and 84 cells, inside its own errors.
