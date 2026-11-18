@@ -12,15 +12,18 @@ import sys, numpy as np
 
 class Map:
     def __init__(s, fn, d=0):
-        rows = []
-        for line in open(fn):
-            w = line.split()
-            if w[0] == '#': s.hdr = {w[i]: w[i + 1] for i in range(1, len(w) - 1, 2)}
-            elif w[0] == 'T' and int(w[1]) == d: rows.append([float(v) for v in w[2:]])
-        h = s.hdr; s.A = int(h['A']); s.nB = int(h['nB'] if d == 0 else h['nB2']); s.NF = int(h['NF'])
-        s.expo = float(h['expo']); s.deaths = float(h['deaths'])
-        sh = (s.A + 1, s.nB + 1); s.n = np.zeros(sh); t = np.zeros(sh + (5,))
-        for r in rows: s.n[int(r[0]), int(r[1])] = r[2]; t[int(r[0]), int(r[1])] = r[3:]
+        s.n = None; s.expo = 0.0; s.deaths = 0.0
+        for f1 in fn.split('+'):          # several tallies of one vessel are summed
+            rows = []
+            for line in open(f1):
+                w = line.split()
+                if w[0] == '#': s.hdr = {w[i]: w[i + 1] for i in range(1, len(w) - 1, 2)}
+                elif w[0] == 'T' and int(w[1]) == d: rows.append([float(v) for v in w[2:]])
+            h = s.hdr; s.A = int(h['A']); s.nB = int(h['nB'] if d == 0 else h['nB2']); s.NF = int(h['NF'])
+            s.expo += float(h['expo']); s.deaths += float(h['deaths'])
+            sh = (s.A + 1, s.nB + 1)
+            if s.n is None: s.n = np.zeros(sh); t = np.zeros(sh + (5,))
+            for r in rows: s.n[int(r[0]), int(r[1])] += r[2]; t[int(r[0]), int(r[1])] += r[3:]
         n = np.maximum(s.n, 1)
         s.mP = t[..., 0] / n; s.mB = t[..., 1] / n
         s.vPP = t[..., 2] / n - s.mP ** 2; s.vBB = t[..., 3] / n - s.mB ** 2; s.vPB = t[..., 4] / n - s.mP * s.mB
@@ -34,8 +37,9 @@ def build(m, mode='visited', nmin=200, src=None):
     if mode == 'visited':
         sel = ok
     else:
-        sel = (m.P >= 1)
+        sel = (m.P >= 1) & (m.P <= 0.85 * m.A) & (m.B <= 0.85 * m.nB)
         thin = sel & ~ok
+        if mode == 'carryall': ok = ok & False; thin = sel; mode = 'carry'   # every cell from the other size's map
         if mode.startswith('poly'):
             q = int(mode[4:]); x = m.P / m.A; b = m.B / m.nB
             feats = np.stack([x ** i * b ** j for i in range(q + 1) for j in range(q + 1 - i)], -1)
@@ -96,7 +100,7 @@ def chain(m, P, B, M, vPP, vBB, vPB, tau=True, verbose=False):
         Zt = Z + Dm; K = np.exp(-C); K /= Zt[:, None].astype(np.float32); kd = Dm / Zt
         v = m.n[P.astype(int), B.astype(int)].astype(np.float32) + 1e-3; v /= v.sum()
         rate = None
-        for it in range(3000):
+        for it in range(600):          # capped: a rule whose chain has a second basin does not converge; its ln tau is then void
             v2 = v @ K; v2 /= v2.sum()
             if it % 50 == 49:
                 r = float(v2.astype(float) @ kd)

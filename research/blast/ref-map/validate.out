@@ -10,3 +10,6 @@ VALIDATION PASSED
 t63 N=504 H=42 lift x21: identical to the oracle for 1100 generations, both replicas; final populations [211, 223]
 t63 NEGATIVE CONTROL (one neighbour of cell 252 swapped): MISMATCH replica 0 at generation 1 (oracle pop 203, gs pop 202)
 VALIDATION PASSED
+h7 N=264 H=24 lift x1: identical to the oracle for 1100 generations, both replicas; final populations [15, 18]
+h7 NEGATIVE CONTROL (one neighbour of cell 132 swapped): MISMATCH replica 1 at generation 2 (oracle pop 127, gs pop 128)
+VALIDATION PASSED
