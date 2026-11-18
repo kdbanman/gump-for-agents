@@ -1,0 +1,34 @@
+prism(8,8,6,0), face d1+ (obtuse rim row dense, sharp rim row sparse); row index from the nearer rim
+   row/class            inside  in-layer  1 beneath  2 beneath  in another face layer   cells
+   obt0dense                7        4         2         1            4              12
+   obt1sparse               9        6         2         1            2               6
+   obt2dense                9        6         2         1            1              12
+   obt3sparse               9        6         2         1            0               6
+   sharp0sparse             6        4         2         0            4               6
+   sharp1dense              8        5         2         1            2              12
+   sharp2sparse             9        6         2         1            1               6
+   sharp3dense              9        6         2         1            0              12
+prism(8,8,6,1), face d1+ (obtuse rim row sparse, sharp rim row dense)
+   row/class            inside  in-layer  1 beneath  2 beneath  in another face layer   cells
+   obt0sparse               7        4         2         1            4               6
+   obt1dense                8        5         2         1            1              12
+   obt2sparse               9        6         2         1            0               6
+   obt3dense                9        6         2         1            0              12
+   sharp0dense              6        4         1         1            4              12
+   sharp1sparse             8        6         2         0            2               6
+   sharp2dense              9        6         2         1            1              12
+   sharp3sparse             9        6         2         1            0               6
+hull R = 11, face (1,1,1): class = the two smallest coordinates (0 = on an edge; (0,0) = the corner cell)
+   row/class            inside  in-layer  1 beneath  2 beneath  in another face layer   cells
+   r=(0, 0)                 4        2         2         0            4               3
+   r=(0, 1)                 7        4         2         1            5               6
+   r=(0, 2)                 7        4         2         1            5               6
+   r=(0, 3)                 7        4         2         1            4               6
+   r=(0, 4)                 7        4         2         1            4               6
+   r=(0, 5)                 7        4         2         1            4               6
+   r=(1, 2)                 9        6         2         1            3               6
+   r=(1, 4)                 9        6         2         1            2               6
+   r=(2, 2)                 9        6         2         1            2               3
+   r=(2, 3)                 9        6         2         1            1               6
+   r=(2, 4)                 9        6         2         1            1               6
+   r=(3, 4)                 9        6         2         1            0               3

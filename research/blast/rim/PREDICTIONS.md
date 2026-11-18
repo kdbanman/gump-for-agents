@@ -39,3 +39,29 @@ beside narrower faces die sooner. At L = 3 a row costs 0.169 to 0.174 per cell f
   (Beside 6-row faces it lived 0.04, 0.22, 1.17 less at L = 4, 5, 6, but the 8 x 6 rod may be dying as a rod.)
 - **R9.** par 1 (obtuse rim row sparse, sharp rim row dense), (8,8,4,1) against (8,8,4,0) = 11.090: lower, by 0.2
   to 1.2: 60% (the dense sharp row was cheap in the odd widths: 0.107 a cell).
+
+## Block 4: 03:47 UTC, before (9,9,5), the second seeds, (12,12,4), (14,14,3)
+
+Known now: (10,10,4) 13.433, (10,10,5) 16.900 +- 0.028. The cost of two more rows at length L, g(L) =
+ln tau(w+2, L) - ln tau(w, L): 1.52 to 1.56 (L = 3), 2.344 (L = 4), 3.036 +- 0.032 (L = 5); the mixed second
+difference over w 8 -> 10, L 4 -> 5 is 0.692 +- 0.034, per cell 0.231 +- 0.011.
+
+- **R10.** (9,9,5): 14.91 +- 0.06, i.e. g(5) from the odd widths 7 -> 9 equals 3.04 +- 0.06 (the even widths'). 65%.
+- **R11.** (12,12,4): 15.78 +- 0.05, i.e. g(4) from 10 -> 12 rows equals the 2.344 of 8 -> 10 within 0.05 (no
+  zone: a row costs the same wherever it is added). 60%. If there is a support zone narrower than 5 rows it comes
+  out LOWER (P = 25%); higher: 15%.
+
+## Block 5: 03:47 UTC. The 135-cell and 165-cell hull faces (k = 9, 10), before reading any other agent's value
+
+What I have: the hull's own values (second differences 0.800, 0.692, 0.692 +- 0.015) and my strips. In corner-free
+strips of 8 to 10 rows the mixed second difference per cell is 0.231 +- 0.011 at L 4 -> 5 (0.273 at 3 -> 4,
+where a tube of girth 3 is cheap), and at L = 3 the cost of a row does not fall as the strip widens from 8 to 12
+rows (1.525, 1.561): no sign of a support zone that ends. So the hull's 0.2307 is not made by corners and is not
+bending at the widths I can reach. I extrapolate the hull by a constant second difference 0.692, shaded a little
+towards the wrapped value because the strip measurement is only 2 sigma from 0.2087.
+
+- **ln tau_face(135 cells, k = 9) = 29.222 +- 0.030.** (2 x 23.3392 - 18.1407 = 28.5377 +- 0.021, plus a second
+  difference 0.684 +- 0.020.) P(nearer 29.230 than 29.163) = 72%; P(nearer 29.163) = 28%.
+- **ln tau_face(165 cells, k = 10) = 35.79 +- 0.08** (second difference 0.68 +- 0.03 again; 35.813 if 0.692 holds
+  twice, 35.61 if the wrapped price took over from k = 8).
+- P(the second difference at k = 8 lies in 0.66 to 0.72) = 65%.
