@@ -154,6 +154,18 @@ than those that recover, at every k (T84, count = k: X = 0.158, 0.272, 0.366, 0.
 0.292, 0.348, 0.395 for k = 2…6; T96 alike), and they fell faster: at k = 4, P four generations before the catch was
 42.1 against 39.6 (T84), 47.1 against 43.1 (T96).
 
+## E84, the equilateral 84-cell face (interim, 06:10 UTC: 1,075 death records, 928 in the stats) [measured]
+
+`dyan.py 2 4 14 kmax=6` → `data/2_4_14_*`. Own ln τ_face 17.568 ± 0.033 (GPU 17.547). k* = 2.63 cells; q(1…5) =
+0.849, 0.635, 0.420, 0.274, 0.177 (T84: 0.846, 0.623, 0.413, 0.274, 0.177). Median plunge 5 (3–7); 1.70 cells at
+lag 1. **Against T84, the same area:** ln τ is 0.22 longer here; at P̄/2 the tube dips more often (ln ν −8.10
+against −8.66, +0.56) and such a dip is less likely to kill it (ln q −9.25 against −8.90, −0.35); at ≤ 10 cells
+ln ν is −13.33 against −13.63 (+0.30) with q equal. So the tube's discount is all in reaching the last few cells,
+and none in q below about 10 cells. Survivors at t_h: X 0.776 against 0.788 random (0.985; T84 0.952). The 2-edge
+band opens at a median lag of 4 at 0.17 P̄ (T84: 5, at 0.34 P̄), like W63's: **only the tubes open a band while a
+third of the face is still alive.** (E84's axis is 6.48 edges against T84's 9.90; in fractions of the axis the
+2-edge band is a larger share of E84, which favours an early cut there, so the contrast is not an artefact of length.)
+
 ## Runs
 
 | face | command | seeds | started (UTC) | state |
