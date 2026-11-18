@@ -1,5 +1,6 @@
 /* ss_diag.c (research/blast/ref-slab): split-slab's ss.c, UNCHANGED sampler, plus referee diagnostics in mode sub
- * (DIAG lines: per level the acceptance of uniform / focused sweeps, the number of distinct ancestors = distinct
+ * (DIAG lines: per level the acceptance of uniform / focused sweeps, in brackets the share of proposals that were
+ * accepted AND changed the chain's score or the generation of its minimum (the moves that do something), the number of distinct ancestors = distinct
  * fresh chains, hence distinct initial states, among the ensemble; and among the dying chains at the end).
  * Original header follows.
  * ss.c (research/blast/split-slab): bit-sliced gump on a slab graph, 512 lanes, with
@@ -244,7 +245,7 @@ int main(int argc, char **argv) {
           for (size_t i = 0; i < nd2; i++) dd[i * W] |= ((sd[i * W] >> sk) & 1) << dk;
           score2[j] = score[src]; gmin2[j] = gmin[src]; anc2[j] = anc[src]; }
         { u64 *t1 = init; init = init2; init2 = t1; t1 = D; D = D2; D2 = t1; int *t2 = score; score = score2; score2 = t2; t2 = gmin; gmin = gmin2; gmin2 = t2; t2 = anc; anc = anc2; anc2 = t2; }
-        double la[2] = {0, 0}, ln_[2] = {0, 0}; { memset(mark, 0, NC); long nd_ = 0; for (long j = 0; j < NC; j++) if (!mark[anc[j]]) { mark[anc[j]] = 1; nd_++; } dpos += snprintf(diag + dpos, sizeof diag - dpos, " %d:anc%ld", lam, nd_); }
+        double la[2] = {0, 0}, ln_[2] = {0, 0}, lc[2] = {0, 0}; { memset(mark, 0, NC); long nd_ = 0; for (long j = 0; j < NC; j++) if (!mark[anc[j]]) { mark[anc[j]] = 1; nd_++; } dpos += snprintf(diag + dpos, sizeof diag - dpos, " %d:anc%ld", lam, nd_); }
         for (int sw = 0; sw < NSWEEP; sw++) for (int bt = 0; bt < NBATCH; bt++) { u64 *d = D + bt * dsz; memcpy(Dp, d, dsz * 8);
           int foc = (WBACK > 0 && (sw & 1)); static int tlo[NL], thi[NL];
           for (int l = 0; l < NL; l++) { tlo[l] = T; thi[l] = -1; for (int k = 0; k < KFLIP; k++) { u64 z = rnd(); size_t pos;
@@ -254,9 +255,9 @@ int main(int argc, char **argv) {
               Dp[pos * W + (l >> 6)] ^= 1ULL << (l & 63); } }
           EVAL(init + bt * ssz, Dp); u64 acc[W] = {0};
           for (int l = 0; l < NL; l++) { accn++; ln_[foc]++; int ok = sc[l] <= lam; if (ok && foc) ok = (tlo[l] >= am[l] - WBACK && thi[l] < am[l]);   /* the reverse move must be proposable */
-            if (ok) { acc[l >> 6] |= 1ULL << (l & 63); score[bt * NL + l] = sc[l]; gmin[bt * NL + l] = am[l]; accs++; la[foc]++; } }
+            if (ok) { if (sc[l] != score[bt * NL + l] || am[l] != gmin[bt * NL + l]) lc[foc]++; acc[l >> 6] |= 1ULL << (l & 63); score[bt * NL + l] = sc[l]; gmin[bt * NL + l] = am[l]; accs++; la[foc]++; } }
           for (size_t x = 0; x < dsz; x++) { int w = (int)(x % W); d[x] = (d[x] & ~acc[w]) | (Dp[x] & acc[w]); } }
-        dpos += snprintf(diag + dpos, sizeof diag - dpos, ",u%.2f,f%.2f", la[0] / (ln_[0] > 0 ? ln_[0] : 1), la[1] / (ln_[1] > 0 ? ln_[1] : 1));
+        dpos += snprintf(diag + dpos, sizeof diag - dpos, ",u%.2f(%.3f),f%.2f(%.3f)", la[0] / (ln_[0] > 0 ? ln_[0] : 1), lc[0] / (ln_[0] > 0 ? ln_[0] : 1), la[1] / (ln_[1] > 0 ? ln_[1] : 1), lc[1] / (ln_[1] > 0 ? ln_[1] : 1));
         denom = NC; lam = lam - DELTA > 0 ? lam - DELTA : 0;
       }
       rate[rep] = prod / TWIN; printf(" rate %.5e lntau %.4f\n", rate[rep], rate[rep] > 0 ? -log(rate[rep]) : 99.0);

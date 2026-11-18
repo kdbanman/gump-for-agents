@@ -56,4 +56,4 @@ else:
         return (Wt * x).sum() / Wt.sum(), ((Wt[ix] * x[ix]).sum(1) / Wt[ix].sum(1)).std()
     print(f'A = {A}, {n} replications: fall >= A/2: plain {S.mean():.3f} +- {S.std(ddof=1) / math.sqrt(n):.3f}, rate-weighted {wm(S)[0]:.3f} +- {wm(S)[1]:.3f} | '
           f'>= 0.4 A: plain {Q.mean():.3f} +- {Q.std(ddof=1) / math.sqrt(n):.3f}, rate-weighted {wm(Q)[0]:.3f} +- {wm(Q)[1]:.3f} | largest fall {F.mean():.3f} A (weighted {wm(F)[0]:.3f}), from {T.mean():.3f} A (weighted {wm(T)[0]:.3f}), lag {L.mean():.2f} (weighted {wm(L)[0]:.2f}) | '
-          f'per-replication shares range {S.min():.2f}..{S.max():.2f}, effective replications by rate weight {Wt.sum() ** 2 / (Wt ** 2).sum():.1f}')
+          f'per-replication shares range {S.min():.2f}..{S.max():.2f}, effective replications by rate weight {Wt.sum() ** 2 / (Wt ** 2).sum():.1f}; correlation of ln rate with the share {np.corrcoef(np.log(Wt), S)[0, 1]:+.2f} (n = {n})')
