@@ -118,3 +118,20 @@ and the measured nu(0.6 P-bar) = -8.302 +- 0.003, -9.754 +- 0.005, -11.368 +- 0.
 29.218 +- 0.012, 35.781 +- 0.021, 43.02 +- 0.05. Every nu moved within its first error (forecast of 80% each: held).
 P(the 135-cell face, measured to +- 0.03, lies within 0.05 of 29.223) = 75%. The way I expect to be wrong if I am:
 low, through one-generation busts taking a growing share of deaths (README, "The bust route").
+
+## Block 4: 04:50 UTC. Dice under the hull (subset simulation on a hull dice chain), frozen before any run at R >= 11
+
+Known: at R = 9 only, the hull dice chain (true rule on depth 0..5 beneath the watched face, fair coins on depth 6
+and 7, everything inside the true hull boundary) gives 9.837 +- 0.018 by brute force (gump: 9.819) and 9.84 +- 0.07
+from four replications of split-slab's subset sampler adapted to it (`hd.c`).
+Parameters, by split-slab's frozen recipe with my measured P-bar and sigma_P, fixed now for all sizes:
+LAM1 = round(P-bar - 2.5 sigma_P) = 10, 18, 28, 38, 51 for R = 9, 11, 13, 15, 17; DELTA 3; NBATCH 8 (4,096 chains);
+NSWEEP = round(A / 6) = 8, 10, 14, 18, 22; KFLIP 5 (split-slab's 4 scaled by ND / 2A = 1.2 to 1.33); TPRE 32;
+TWIN 24; WBACK 12. No tuning on R = 13 or 15.
+
+- P(the sampler lands within two of its own errors of the anchors at BOTH R = 13 and R = 15) = 55%.
+- P(the chain itself, by brute force at R = 11, is within 0.04 of 13.633) = 75%.
+- If both calibrations pass, the forecast for the sampler's R = 17 value is the one already frozen:
+  **29.223 +- 0.014** (block 3); P(the sampler's value, with its own error e, lies within 2 sqrt(e^2 + 0.03^2) of
+  it) = 70%. I expect e near 0.10 with the replications I can afford, which will not separate 29.230 from 29.163
+  by itself (0.067 apart): P(e <= 0.035) = 10%.
