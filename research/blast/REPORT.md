@@ -294,6 +294,37 @@ a wide face and a tube at 84 cells). Read by the PI at 16:40 UTC; nothing below 
 - Not checked by the audit (its section 9): anything above 84 cells on gump; `rim/`, `split-hull/`, `ref-hull/`,
   the dice chains and their samplers; and the whole of the second phase above, which it predates.
 
+### 19:37 UTC. The noisy hull's sampler under the review's questions: the tail, the families, the odd sweeps (`noisy/`; the lead's rebuild is still to report)
+
+Asked by the lead on pull request 39. Rows: `research/blast/noisy/data/runs_diag/` (from `sh research/blast/noisy/diag.sh`).
+- [measured] **The law of one replication has a rare heavy tail at 108 cells** (`python3 research/blast/noisy/tails.py`).
+  At 63 and 84 cells the largest replication is 1.4 to 2.5 times the mean; at 108 cells 20, 35 and 7 times at
+  ε = 1/64, 1/32, 1/16, with the median at 0.80, 0.73, 0.90 of the mean. An unbiased estimate with such a law reads
+  high in ln τ in most samples; its error bar from the scatter knows nothing of the part of the tail it has not
+  caught. One replication of 35 times the mean among the 440 at ε = 1/16 would move that value by −0.077.
+- [measured] **Ancestry** (`python3 research/blast/noisy/anc.py research/blast/noisy/data/runs_diag`; `nz.c` now
+  prints it, with no change to its random numbers). The dying chains of one replication descend from a median of
+  47, 54 and 56 distinct initial states at ε = 1/64, 1/32, 1/16 (30 replications each; 130 at 63 cells, 86 at 84),
+  and the largest family holds 0.15 to 0.22 of them. So a typical replication is not one start reweighted. The
+  tail is: in each set the replication with the largest rate has a largest family of 0.32 to 0.71.
+- [measured] **Odd sweeps off** (every sweep proposes anywhere; 420 replications at 108 cells, ε = 1/16):
+  **23.330 ± 0.043, which is −0.009 ± 0.044 from gump** and 0.092 ± 0.050 below the value with the odd sweeps on
+  (23.422 ± 0.025; 1.8 combined errors). Its replications scatter more (0.88 of the mean against 0.52), its
+  families are fewer (median 38), and 32 of its 420 replications have one family holding half or more of the dying
+  chains; those 32 carry 0.21 of the summed rate. A fresh 30 replications with the odd sweeps on read 23.339 ± 0.075.
+- What this says. Read as code, the odd sweeps leave the conditional law invariant (the window before the first
+  minimum always holds the same number of bits, and a move is refused unless its reverse is proposable), so both
+  forms estimate the same number without bias and differ by 1.8 errors. [conjectured] The +0.083 of the 14:57 entry
+  is the sampler's, not gump's: either a tail not yet caught with the odd sweeps on, or a fault in them that the
+  reading missed. Not decided. `diag2.sh` (running) repeats on against off at 84 cells, where the lead's rebuild
+  will have the chain by brute force. **The sentence of the 14:57 entry "that offset is real for this chain or for
+  its sampler, and it grows with the face" should be read with this: nothing here shows an offset of the chain.**
+- What it means for the method: its variance at 108 cells is in the initial states, which the moves never touch.
+  A sampler that also moves the initial state (an independence move among stationary snapshots, accepted iff the
+  score stays under the level) is the next form to build; forecast in `noisy/PREDICTIONS.md`, block 3, item 5.
+Not checked: the brute force of the chain at 84 cells (the rebuild's, and block 3's first two forecasts wait on
+it); ancestry with the odd sweeps on beyond 30 replications per ε; no second code for the sampler.
+
 ## What was found
 
 1. **Boom and bust on wrapped faces [measured by four independent codes: `anatomy/`, `split-slab/`, `tube1d/`,

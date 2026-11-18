@@ -5,7 +5,8 @@
 
 Per (R, M, WBACK): the number of replications; at the last level (lambda = 0) the number D of distinct initial
 chains that the dying chains descend from (median, smallest, largest) and the share of the largest family (median,
-largest); the same at the first level and at mid-height; then the replications ordered by rate: rate over the mean,
+largest); the same at the first level and at mid-height; then how many replications have a largest family of half or more and
+what share of the summed rate they carry; then the replications ordered by rate: rate over the mean,
 D and largest share at lambda = 0, for the five largest and the median one.
 """
 import glob, math, os, re, sys
@@ -32,6 +33,8 @@ for key in sorted(G):
     for name, pick in (('first level', lambda lv: lv[0]), ('mid level', lambda lv: lv[len(lv) // 2]), ('lambda = 0', lambda lv: lv[-1])):
         d = [pick(lv)[1] for _, lv in rows]; t = [pick(lv)[2] for _, lv in rows]
         print(f'    {name:11s}: distinct initial chains median {med(d)}, range {min(d)} to {max(d)};  largest family median {med(t):.3f}, largest {max(t):.3f}')
+    big = [r for r, lv in rows if lv[-1][2] >= 0.5]
+    print(f'    replications whose largest family holds half or more of the dying chains: {len(big)} of {K}; they carry {sum(big) / (mean * K):.3f} of the summed rate')
     srt = sorted(rows, key=lambda x: -x[0])
     show = srt[:5] + [srt[K // 2]]
     print('    by rate (rate/mean: D, largest share at lambda = 0): ' + ';  '.join(f'{r / mean:.2f}: {lv[-1][1]}, {lv[-1][2]:.2f}' for r, lv in show) + '  (last = median replication)')

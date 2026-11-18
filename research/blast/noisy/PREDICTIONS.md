@@ -124,3 +124,13 @@ brute force; a chain that replaces a sixteenth as often should be off by thousan
 5. A sampler that also moves the initial states, or a longer run of this one (2,000 replications at eps = 1/16),
    brings the 108-cell value to within 0.03 of gump: 65% (not planned; written so that it can be scored).
 
+### Scores of block 3, items 3 and 4 (19:37 UTC; `ana.py` and `anc.py` on `data/runs_diag/`)
+
+3. Odd sweeps off at 108 cells and eps = 1/16, 420 replications: 23.330 +- 0.043. Within two combined errors of the
+   value with them on (75%): **held, narrowly** (0.092 +- 0.050 below, 1.8 errors). Scatter above 0.52 (70%):
+   **held** (0.88). What I did not forecast: with the odd sweeps off the value agrees with gump (-0.009 +- 0.044).
+4. Median number of distinct initial chains at the last level between 35 and 70 at every eps (75%): **held** (47, 54,
+   56). The replication with the largest rate has a largest-family share above the median's (65%): **held** at all
+   three eps (0.40 against 0.22; 0.71 against 0.18; 0.32 against 0.15).
+Items 1 and 2 wait for a brute force at 84 cells; item 5 is not planned yet.
+
