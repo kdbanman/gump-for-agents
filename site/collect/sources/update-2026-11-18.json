@@ -790,12 +790,9 @@
   "call": {
    "words": [
     "reusable",
-    "(1 and 3 give 4)",
-    "Measured for k = 1 to 40",
-    "not proved",
-    "once"
+    "(1 and 3 give 4)"
    ],
-   "quote": "A call: two adjacent pulses on a capped wire C crossing the store wire one unit before a stretch's wall pass on unchanged and the stretch `d^k f` leaves as exactly k pulses two units apart, store wire plain, line as it was; reusable; a called count is caught by another store exactly (1 and 3 give 4). Measured for k = 1 to 40 and reduced by measurement to the release of SG34; not proved. Also a six-cell still life at the wall that lets a pulse of the store's own wire release the stretch, once",
+   "quote": "A call: two adjacent pulses on a capped wire C crossing the store wire one unit before a stretch's wall pass on unchanged and the stretch `d^k f` leaves as exactly k pulses two units apart, store wire plain, line as it was; reusable; a called count is caught by another store exactly (1 and 3 give 4); chain; bus.",
    "src": "CLAIMS SG38",
    "how": "quoted"
   },
@@ -810,20 +807,10 @@
   },
   "gradeSG38": {
    "words": [
-    "no review",
-    "re-run by the lead"
+    "the proof itself read by nobody but its author"
    ],
-   "quote": "C (the push's code, on the oracle's step, re-run by the lead; no review) + B (the still life: one run repeated by a second code)",
+   "quote": "A (the push's code and the reviewer's own harness and stepper, both on the oracle's step: k = 1..12, 16, 20, 25, 30, 40, cycle, move, chain, bus, the still life k = 1..8); B (the proof's base runs re-run by the lead; the proof itself read by nobody but its author)",
    "src": "CLAIMS SG38, level column",
-   "how": "quoted"
-  },
-  "notfound": {
-   "words": [
-    "a way to make the calling pair from one pulse",
-    "copying, doubling, subtracting or comparing counts"
-   ],
-   "quote": "**Not found:** a way to make the calling pair from one pulse; a call on the store's own wire that can be reused (a period-3 oscillator is a candidate, one timing tried, nothing on the oracle); copying, doubling, subtracting or comparing counts.",
-   "src": "NB 2026-11-18, three more signals results in one night (the ninth push, not reviewed)",
    "how": "quoted"
   },
   "compute": {
@@ -856,13 +843,136 @@
    "src": "research/OPEN-PROBLEMS.md, item 13 (y), (z)",
    "how": "quoted from the file"
   },
-  "openu": {
+  "callproof": {
    "words": [
-    "an adversarial review of the ninth push"
+    "one cell made live at one generation",
+    "proved for every k ≥ 1",
+    "proof not refereed",
+    "measured to k = 40"
    ],
-   "quote": "**Open now: (u′)** an adversarial review of the ninth push and a proof of the call for every k;",
+   "quote": "The call's whole effect on the store wire is one cell made live at one generation, and the call law is proved for every k ≥ 1 on the infinite store wire for the line and seed place of `call9.json` (proof not refereed; the finite cell's cap measured to k = 40).",
+   "src": "CLAIMS SG38",
+   "how": "quoted"
+  },
+  "callhaz": {
+   "words": [
+    "a call near a travelling store pulse can destroy the wire",
+    "a pulse from the left disarms an armed store",
+    "4k + 2"
+   ],
+   "quote": "Corrected by review: a call near a travelling store pulse can destroy the wire; a pulse from the left disarms an armed store; two calls need 4k + 2 generations between them.",
+   "src": "CLAIMS SG38",
+   "how": "quoted"
+  },
+  "still": {
+   "words": [
+    "once"
+   ],
+   "quote": "Also a six-cell still life at the wall that lets a pulse of the store's own wire release the stretch as a block `b^(2k+2)`, once",
+   "src": "CLAIMS SG38",
+   "how": "quoted"
+  },
+  "osc": {
+   "words": [
+    "one arrival timing in three",
+    "(k = 1..10)",
+    "it calls twice"
+   ],
+   "quote": "The period-3 oscillator P3.15f beside the wall makes the call a call by one pulse on the store's own wire: a right-going pulse passes it on plain wire at one arrival timing in three (the other two change wire or oscillator), and at that timing releases `d^k f` as exactly k separate pulses (k = 1..10) with the oscillator as it would have been; it calls twice; 2 + 3 = 5 in a store on the left.",
+   "src": "CLAIMS SG39",
+   "how": "quoted"
+  },
+  "branch": {
+   "words": [
+    "releases the far store if that place is empty"
+   ],
+   "quote": "Sent past a place where a second store may stand, the pulse releases the far store if that place is empty and is absorbed if a store is there",
+   "src": "CLAIMS SG39",
+   "how": "quoted"
+  },
+  "gradeSG39": {
+   "words": [
+    "no second code"
+   ],
+   "quote": "B (the reviewer's object and verifier, oracle only, re-run by the lead: ALL PASS; no second code, no review of the review)",
+   "src": "CLAIMS SG39, level column",
+   "how": "quoted"
+  },
+  "minus": {
+   "words": [
+    "exactly k − 1 pulses",
+    "for k = 0 the pulse goes on to the right",
+    "One relative timing only; both signals made by hand"
+   ],
+   "quote": "One less, with a zero exit: a call and one right-going store pulse born 17 units before the crossing at the same generation release exactly k − 1 pulses to the left and nothing to the right for k ≥ 1, and for k = 0 the pulse goes on to the right; a store on the left holding 2 ends with 2 + (k − 1), or 2 when k = 0. One relative timing only; both signals made by hand",
+   "src": "CLAIMS SG40",
+   "how": "quoted"
+  },
+  "gradeSG40": {
+   "words": [
+    "no second code"
+   ],
+   "quote": "B (the reviewer's code on the oracle's step; the oracle runs re-run by the lead and matched; no second code)",
+   "src": "CLAIMS SG40, level column",
+   "how": "quoted"
+  },
+  "coexist": {
+   "words": [
+    "do not coexist usefully on one store"
+   ],
+   "quote": "Write, read and call do not coexist usefully on one store: push 8b's reader left of the line reads plain wire whatever the count and is destroyed by a release; inside the stretch it tells the stretch but a call then destroys reader, line and wire; 13 or more units right of the wall it survives set, add, add, call and answers the same for counts 1, 3 and 0.",
+   "src": "CLAIMS SG41",
+   "how": "quoted"
+  },
+  "gradeSG41": {
+   "words": [
+    "not re-run"
+   ],
+   "quote": "C (the reviewer's code; not re-run). Not tried: 8b's other 22 placements, its reader b8",
+   "src": "CLAIMS SG41, level column",
+   "how": "quoted"
+  },
+  "machine": {
+   "words": [
+    "move-and-clear into the left neighbour"
+   ],
+   "quote": "Set, add one, move-and-clear into the left neighbour, clear, and an emptiness test.",
+   "src": "NB 2026-11-18, the ninth signals push, reviewed (what the machine is: the reviewer's argument, not a ledger row)",
+   "how": "quoted"
+  },
+  "missing": {
+   "words": [
+    "a decrement that reports zero",
+    "hand-timed and relocating"
+   ],
+   "quote": "**The missing operation that matters most is a decrement that reports zero**: with an increment, that on two counters is a Minsky machine. The one-less collision is that operation, hand-timed and relocating.",
+   "src": "NB 2026-11-18, the ninth signals push, reviewed",
+   "how": "quoted"
+  },
+  "nocopy": {
+   "words": [
+    "no copy, doubling, subtraction, comparison or parity"
+   ],
+   "quote": "so every output is a sum of some of the inputs plus a constant, chosen only by which inputs are zero: no copy, doubling, subtraction, comparison or parity.",
+   "src": "NB 2026-11-18, the ninth signals push, reviewed",
+   "how": "quoted"
+  },
+  "onecell": {
+   "words": [
+    "the line never feels the store"
+   ],
+   "quote": "At every generation the whole state is the store wire alone with one cell, (1,2,0) of the crossing unit, made live at generation 29, plus the free line: the line never feels the store.",
+   "src": "NB 2026-11-18, the ninth signals push, reviewed",
+   "how": "quoted"
+  },
+  "openaa": {
+   "words": [
+    "(aa)",
+    "(ae)"
+   ],
+   "quote": "**(aa)** a decrement that leaves the count where it can be decremented again (every release goes left; nothing moves a count to the right); **(ab)** the one-less collision at the oscillator's call, where the zero exit is the kind of pulse that starts the next call; **(ac)** any operation started by a signal the machine made itself (a source for the calling pair is (y)); **(ad)** schedules that respect the hazards (4k + 2 generations between calls, no call near a travelling pulse, adds from the right only); **(ae)** a referee for the proof of the call law, and a proof of the oscillator's law (measured to k = 10).",
    "file": "research/OPEN-PROBLEMS.md",
-   "src": "research/OPEN-PROBLEMS.md, item 13 (u′)",
+   "src": "research/OPEN-PROBLEMS.md, item 13 (aa)-(ae)",
    "how": "quoted from the file"
   }
  },
@@ -961,6 +1071,11 @@
    "label": "The 120-cell tube and the dying-face tables, recomputed",
    "line": "The 120-cell tube and the four long 12-tubes from the rows; the GTX 1080 studies of dying faces from their CSVs.",
    "file": "research/audit/CHAIN3B-DYING2-CHECK.md"
+  },
+  {
+   "label": "Review of the ninth signals push",
+   "line": "Own harness and sparse stepper on the oracle: the call stands to k = 40 and its law is proved for every k (not refereed); three hazards; a call by one pulse at P3.15f; one less, with a zero exit; write, read and call do not coexist.",
+   "file": "research/audit/REVIEW-signals-9.md"
   }
  ],
  "milestones": [
@@ -988,6 +1103,11 @@
    "date": "2026-11-18T13:30Z",
    "text": "How a face dies, audited from outside: a wrapped face crashes, a hull face fades; the rim row is why",
    "src": "git aef91e3"
+  },
+  {
+   "date": "2026-11-18T13:45Z",
+   "text": "The ninth signals push reviewed: the call proved for every count (not refereed); a call by one pulse; one less, with a zero exit",
+   "src": "git 7e0f12c"
   }
  ]
 }
