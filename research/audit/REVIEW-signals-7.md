@@ -51,7 +51,8 @@ flips of record `n1`; holes are H moved by 6 units each.
 | E and n = 2..6 holes | 100 | 4 | 420 | the same with B′ on units 41..40+n and the edge unit at 41+n |
 
 "Periodic from g" is state(g + 4) = state(g) on the whole array, so the object stands for ever: no longer run can add
-to that. (A run of 40,000 generations on the helix was made all the same: `python3 line7a.py long`, see §9.) The push
+to that. (A run of 40,000 generations on the helix was made all the same, `python3 line7a.py long`, 10 min: the
+same onsets, periods and populations for the line alone and n = 0..6, final states pairwise different.) The push
 checked period dividing 8 on generations 880..896; the object is periodic 780 generations earlier, with period 4.
 
 Cell for cell (`line7a_box.npz`, generation 1,200): the object of n = 2 is the object of n = 1 with (0,2,3) on and
@@ -97,10 +98,45 @@ the place is the time of the second hole, one unit per rake period.
 at 24, 30, a third hole at any rake up to 398 adds its unit to the stretch at unit 17 (62 words, `late`): the hole at
 398 meets the upper edge near unit 207 at generation ≈ 390, and the unit is added some 380 generations later, 190
 units away, long after the lower cap has formed (generation ≈ 45). The carrier is a pulse of wire B running down from
-the upper edge (the walls of section 9 move one unit towards a pulse). TODO-late2
+the upper edge (the walls of section 9 move one unit towards a pulse).
+`python3 line7c.py late2 400` (6 min) makes the extra hole at the gun's mouth (unit 398) at a chosen generation g, on
+lines already carrying holes at 24, 30 or at 24, 30, 36: for every g tried from 1 to 777 it is counted (made at 777,
+its unit is in place at unit 17 by generation 1,537: the pulse runs 380 units of wire B). **The last hole that can
+be written is the last rake the gun fires**: the upper edge reaches the gun at generation ≈ 780, the object is
+periodic from 781, and from then on there is no rake to remove. The same one-cell change at the same place at
+g = 781..817 is a flip beside the gun cap of the standing object and destroys it (12 to 25 cells left) in 29 of 30
+cases; in one a different object of period 4 is left.
 
 **Holes below E** (between E and the end, so that they never meet it) change nothing: 65 words, the end heals the
 hole before the lower edge arrives (`line7c.py below`).
+
+**One-cell changes of the standing object, and later pulses** ("the count cannot be read or reset").
+`python3 line7c.py flips 1` (32 s) and `flips 3` (2 min): every cell of the 5 × 5 tube in two units below, two units
+above and (for n = 3) the units at the stretch, flipped at each of the four phases, run until the whole array has
+period 4.
+- The plain object, 608 flips: 540 leave it as it was, 44 **destroy all of it** (12 cells of debris), the others
+  leave a local mark or a partial burn. None makes a stretch.
+- The object with three units, 1,368 flips: 962 leave it as it was; 4 from above and 4 from below add a unit at that
+  end of the stretch, and 4 beside it add one; 8 from below and 136 beside the stretch **erase it** (plain wire B);
+  8 beside it take a unit off; 194 destroy the object (12 cells left); 45 leave a local mark or a partial burn; 3
+  had not settled by generation 900.
+So the count can be incremented at either end, decremented and erased by single cells: the object is the B/B′
+counter of the second push (section 9) with two walls. "Cannot be reset" is true of holes, which no longer have a
+train to ride on.
+
+`python3 pulse7.py` (3 min; nine lines: the five guns with end 70, gun 4 with ends 3, 40, 70, 729, 735) follows the
+two flips that matter. Flipping (0,1,2) of a wire-B unit at an even generation sends one pulse up (it reaches the gun
+cap 58 units on after 116 generations); flipping (0,1,4) sends one down; at odd generations the flip heals.
+- *Up-pulse, plain object.* The cap has period 4 and the wire period 2, so there are two arrival phases. At one the
+  gun cap swallows the pulse and the object is unchanged; at the other **the gun cap burns and the whole object with
+  it** (6 to 20 cells left; with gun 10, 412 cells are left standing with period 2). All five guns.
+- *Up-pulse, object with a stretch.* Absorbed at the lower wall at both phases: the stretch is one unit longer at
+  its lower end. The stretch shields the gun.
+- *Down-pulse.* Absorbed at the upper wall if it meets a stretch (one unit longer at the upper end). Otherwise it
+  reaches the end cap: the healing ends (3, 40, 70) swallow it and nothing changes; the non-healing ends (729, 735)
+  keep it as one unit of B′ at the cap, a second stretch.
+So a later pulse already **reads one bit, by destruction**: sent up at the burning phase, it leaves the object
+standing if and only if a stretch is there. Nothing comes out of the object in either case.
 
 **The other ends.** `python3 line7c.py robust 3 --gun g` (85 s per gun; all 5 guns × all 125 ends of
 `wireB_caps.json`, each line built by `lines.build`, alone of period 4, then E at 32 and n = 1..4 holes from 48):
@@ -212,7 +248,11 @@ TODO-guns
   the oracle (ring of 96 units, whole ring), in the stated direction. Review 6's nine signals mapped into the absorber
   frame by the mirror: K3 is the push's D7, N2 is D6, N3 is D3. So the ends were sent every known down-signal (H, K0,
   K3, N2, N3, N4) and the pairs HH, K0K0; the README's "K0, D3, D4 (= two K0)" lists N3 between two names without
-  saying so. The one-cell tallies (24 / 66 / 22) were not recounted.
+  saying so.
+- **The one-cell census** (`python3 onecell.py`, 2 min, oracle, ring of 240 units, 100 generations after the flip, in
+  both frames): 24 vanish / 66 break / 22 ride, 8 up and 14 down, as the README says. The riders are H (8 flips),
+  K0 (6), E (6) and U (2): six of the 112 one-cell flips make an E, which is what "one cell removed makes one" rests
+  on.
 - **The count on the infinite train** (`python3 record7a.py`, 1 min, oracle, end 70 on a finite train, units ≥ −54
   exact to generation 300): n = 0: the end untouched. n = 1..6: least period 2 on generations 150..166 and 250..266,
   equal at 158 and 258, a stretch of 0, 2, 3, 4, 5, 6 units and one edge unit, pairwise different. As claimed (the
@@ -274,12 +314,11 @@ rakes or more behind the first (with a healing end), so the line cannot tell a l
 anything.
 
 **What is still missing for a listener** (open problem 13 (p): a state that a later signal can read back).
-- *A read.* In push 7 nothing comes out of the object. The walls swallow what reaches them; the caps swallow the
-  pulse made by flipping (0,1,4) in the plain object and it stands unchanged (the pulse made by (0,1,2) burns the whole
-  object from the plain state, 44 flips of 608). What a pulse of each kind does at each of the 125 + 5 caps was not
-  mapped. A read needs something whose *output* depends on the stretch: a pulse that passes plain wire B and is
-  stopped by a stretch would do, if anything stood beyond the cap to receive it; no cap passes or reflects a pulse
-  (section 9: no wall of the family does either).
+- *A read.* The stored bit already decides the fate of a later pulse (§2: a pulse sent up at the burning phase
+  destroys the plain object and is absorbed by a stretch), and a stretch can be lengthened from either side by
+  later pulses. But in push 7 nothing comes *out* of the object: each cap swallows or burns, each wall swallows and
+  moves, and no wall of the family passes or reflects a pulse (section 9). A read worth the name needs an output
+  that depends on the stretch and leaves through a cap or beside the wire.
 - *The way back.* The count is written by train signals and stands in wire B. Nothing known turns a wire-B pulse into
   a rake, a hole or an E: no gun takes its timing from wire B. So even a read would speak a language the next line
   of this kind does not hear. This is the gap between the two halves of the signals work (wires and pulses since
