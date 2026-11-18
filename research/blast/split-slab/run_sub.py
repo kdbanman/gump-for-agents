@@ -19,6 +19,9 @@ os.makedirs(os.path.join(SCR, 'subpaths_full'), exist_ok=True)
 full = os.path.join(SCR, 'subpaths_full', f'subpaths_{H}_{K}_{D}_s{seed}.txt')     # every dying chain (bulk, scratch)
 cmd.append(full if (len(sys.argv) > 6 and sys.argv[6] == 'paths') else '-')
 cmd.append(os.environ.get('WBACK', '12'))
+if len(sys.argv) > 6 and sys.argv[6] == 'cells':     # per-cell record of dying chains (bulk, scratch): G/cells/cells_H_K_D_sSEED.txt
+    os.makedirs(os.path.join(SCR, 'cells'), exist_ok=True)
+    cmd.append(os.path.join(SCR, 'cells', f'cells_{H}_{K}_{D}_s{seed}.txt'))
 env = dict(os.environ, WD='6')
 with open(out, 'w') as f:
     f.write('# ' + ' '.join(cmd) + '   (WD=6)\n'); f.flush()

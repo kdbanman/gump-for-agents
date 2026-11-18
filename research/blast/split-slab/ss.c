@@ -160,18 +160,22 @@ int main(int argc, char **argv) {
        beneath a dying face by lag before its death, and per death the face cells' last-alive generations. */
     sm = strtoull(argv[3], 0, 10) * 0x2545F4914F6CDD1DULL + 7; long gens = atol(argv[4]);
     #define RB 64
-    static u64 rc[RB][8][NB][W]; static long born[NL]; static u64 fring[RB][2][512][W]; FILE *pp = argc > 5 ? fopen(argv[5], "w") : 0;
+    static u64 rc[RB][8][NB][W]; static long born[NL]; static u64 fring[RB][2][512][W]; FILE *pp = (argc > 5 && strcmp(argv[5], "-")) ? fopen(argv[5], "w") : 0; FILE *cf = (argc > 6 && strcmp(argv[6], "-")) ? fopen(argv[6], "w") : 0; FILE *nf = argc > 7 ? fopen(argv[7], "w") : 0;   /* NULLFILE: windows of living faces */
     double sum[RB][8] = {{0}}, sq[RB][8] = {{0}}, m1[8] = {0}, m2[8] = {0}; long nd = 0, ns = 0; double E = 0;
     if (A > 512) return 1;
     if (pp) fprintf(pp, "# A %d; one line per natural face death: P face age pop(-1) pop(-2) ... pop(-24) | last[c] for c = 0..A-1 (cell c of the dying face: last generation alive relative to the death generation, -1..-63; -64 = not alive in the last 63 generations)\n", A);
     for (int l = 0; l < NL; l++) { lane_soup(l); born[l] = 0; }
     for (long g = 1; g <= gens; g++) { step(); int slot = g % RB; for (int y = 0; y < 8; y++) laypop(y * A, rc[slot][y]);
       for (int c2 = 0; c2 < A; c2++) { memcpy(fring[slot][0][c2], a + (size_t)c2 * W, 64); memcpy(fring[slot][1][c2], a + (size_t)(7 * A + c2) * W, 64); }
+      if (nf && (g & 255) == 0) { int l = (int)((g >> 8) % NL); if (g - born[l] > 1000 + RB && lane_count(rc[slot][0], l) > 0) { fprintf(nf, "C %ld 0 %ld |", g >> 8, g);
+          for (int lag = 0; lag < 16; lag++) { fputc(' ', nf); for (int c2 = 0; c2 < A; c2++) fputc('0' + (int)((fring[((g - lag) % RB + RB) % RB][0][c2][l >> 6] >> (l & 63)) & 1), nf); } fputc('\n', nf); } }
       if ((g & 15) == 0) for (int l = 0; l < NL; l++) if (g - born[l] > 1000) { for (int y = 0; y < 8; y++) { int r = lane_count(rc[slot][y], l); m1[y] += r; m2[y] += (double)r * r; } ns++; }
       for (int w = 0; w < W; w++) { u64 z0 = ~0ULL, z1 = ~0ULL; for (int k = 0; k < NB; k++) { z0 &= ~rc[slot][0][k][w]; z1 &= ~rc[slot][7][k][w]; }
         u64 z = z0 | z1;
         while (z) { int k = __builtin_ctzll(z); z &= z - 1; int l = 64 * w + k; int f = (z0 >> k) & 1 ? 0 : 1; long age = g - born[l];
           if (age > 1000 + RB) { nd++; E += 2.0 * (age - 1000 - RB);
+            if (cf) { fprintf(cf, "C %ld %d %ld |", nd, f, g); for (int lag = 1; lag <= 16; lag++) { fputc(' ', cf);
+                for (int c2 = 0; c2 < A; c2++) fputc('0' + (int)((fring[((g - lag) % RB + RB) % RB][f][c2][w] >> k) & 1), cf); } fputc('\n', cf); }
             for (int lag = 0; lag < RB; lag++) { int sl = (int)(((g - lag) % RB + RB) % RB);
               for (int d = 0; d < 8; d++) { int y = f ? 7 - d : d; int q = lane_count(rc[sl][y], l); sum[lag][d] += q; sq[lag][d] += (double)q * q; } }
             if (pp) { fprintf(pp, "P %d %ld", f, age); for (int lag = 1; lag <= 24; lag++) fprintf(pp, " %d", lane_count(rc[((g - lag) % RB + RB) % RB][f ? 7 : 0], l)); fprintf(pp, " |");
@@ -196,7 +200,9 @@ int main(int argc, char **argv) {
     if (!WD) { fprintf(stderr, "sub needs WD\n"); return 1; }
     u64 seed0 = strtoull(argv[3], 0, 10); int nrep = atoi(argv[4]); int LAM1 = atoi(argv[5]), DELTA = atoi(argv[6]), NBATCH = atoi(argv[7]), NSWEEP = atoi(argv[8]), KFLIP = atoi(argv[9]);
     int TPRE = atoi(argv[10]), TWIN = atoi(argv[11]); int T = TPRE + TWIN; FILE *pp = (argc > 12 && strcmp(argv[12], "-")) ? fopen(argv[12], "w") : 0; if (T > 127) return 1;
-    int WBACK = argc > 13 ? atoi(argv[13]) : 0;   /* > 0: every second sweep proposes flips only in the WBACK generations of dice before the chain's minimum */
+    int WBACK = argc > 13 ? atoi(argv[13]) : 0;
+    FILE *cf = argc > 14 ? fopen(argv[14], "w") : 0; int rec = 0; static u64 fhist[128][512][W];   /* CELLFILE: face cells of dying chains by generation */
+    if (cf && A > 512) return 1;   /* > 0: every second sweep proposes flips only in the WBACK generations of dice before the chain's minimum */
     size_t ssz = (size_t)(n + 1) * W, dsz = (size_t)T * 2 * A * W; long NC = (long)NBATCH * NL;
     u64 *init = malloc(NBATCH * ssz * 8), *init2 = malloc(NBATCH * ssz * 8), *D = malloc(NBATCH * dsz * 8), *D2 = malloc(NBATCH * dsz * 8), *Dp = malloc(dsz * 8), *pl = malloc(ssz * 8);
     int *score = malloc(4 * NC), *score2 = malloc(4 * NC), *seeds = malloc(4 * NC), *gmin = malloc(4 * NC), *gmin2 = malloc(4 * NC); static int am[NL]; static short popser[NL][128]; static int sc[NL]; static long page[NL];
@@ -205,7 +211,8 @@ int main(int argc, char **argv) {
         for (int i_ = 0; i_ < WD * A; i_++) { const int *q_ = nb + 12 * (size_t)i_; vec x_[12], me_, o_; for (int u_ = 0; u_ < 12; u_++) memcpy(&x_[u_], a + (size_t)q_[u_] * W, 64); \
           memcpy(&me_, a + (size_t)i_ * W, 64); o_ = rule(x_, me_); memcpy(b + (size_t)i_ * W, &o_, 64); } \
         memcpy(b + (size_t)WD * A * W, (diceb) + (size_t)t_ * 2 * A * W, (size_t)2 * A * W * 8); { u64 *sw_ = a; a = b; b = sw_; } \
-        u64 c_[NB][W]; laypop(0, c_); for (int l_ = 0; l_ < NL; l_++) popser[l_][t_ + 1] = lane_count(c_, l_); } \
+        u64 c_[NB][W]; laypop(0, c_); for (int l_ = 0; l_ < NL; l_++) popser[l_][t_ + 1] = lane_count(c_, l_); \
+        if (rec) for (int c2_ = 0; c2_ < A; c2_++) memcpy(fhist[t_ + 1][c2_], a + (size_t)c2_ * W, 64); } \
       for (int l_ = 0; l_ < NL; l_++) { int m_ = 1 << 20, a_ = T; if (popser[l_][TPRE] > 0) for (int g_ = TPRE + 1; g_ <= T; g_++) if (popser[l_][g_] < m_) { m_ = popser[l_][g_]; a_ = g_; } sc[l_] = m_; am[l_] = a_; } } while (0)
     printf("# sub A %d WD %d LAM1 %d DELTA %d chains %ld NSWEEP %d KFLIP %d TPRE %d TWIN %d\n", A, WD, LAM1, DELTA, NC, NSWEEP, KFLIP, TPRE, TWIN);
     sm = seed0 * 0x2545F4914F6CDD1DULL + 4242; for (int l = 0; l < NL; l++) { lane_soup(l); page[l] = 0; }
@@ -249,6 +256,12 @@ int main(int argc, char **argv) {
         denom = NC; lam = lam - DELTA > 0 ? lam - DELTA : 0;
       }
       rate[rep] = prod / TWIN; printf(" rate %.5e lntau %.4f\n", rate[rep], rate[rep] > 0 ? -log(rate[rep]) : 99.0); fflush(stdout);
+      if (cf && rate[rep] > 0) for (int bt = 0; bt < NBATCH; bt++) { rec = 1; EVAL(init + bt * ssz, D + bt * dsz); rec = 0; int nw_ = 0;
+          /* per batch the first 8 dying chains: C rep chain gd | cells at gd-1 | cells at gd-2 | ... (16 generations, A characters each) */
+          for (int l = 0; l < NL && nw_ < 8; l++) if (sc[l] == 0) { int gd = TPRE + 1; while (popser[l][gd] > 0) gd++; if (gd <= 17) continue; nw_++;
+            fprintf(cf, "C %d %d %d |", rep, bt * NL + l, gd);
+            for (int g = gd - 1; g >= gd - 16; g--) { fputc(' ', cf); for (int c2 = 0; c2 < A; c2++) fputc('0' + (int)((fhist[g][c2][l >> 6] >> (l & 63)) & 1), cf); }
+            fputc('\n', cf); } fflush(cf); }
       if (pp && rate[rep] > 0) for (int bt = 0; bt < NBATCH; bt++) { EVAL(init + bt * ssz, D + bt * dsz);   /* dying paths of the dice chain: face population by generation */
           for (int l = 0; l < NL; l++) if (sc[l] == 0) { int gd = TPRE + 1; while (popser[l][gd] > 0) gd++; fprintf(pp, "S %d %d %d |", rep, bt * NL + l, gd);
             for (int g = gd - 1; g >= 1 && g >= gd - 24; g--) fprintf(pp, " %d", popser[l][g]); fprintf(pp, "\n"); } }
