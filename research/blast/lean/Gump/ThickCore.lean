@@ -169,4 +169,75 @@ theorem skeleton_infinite (c : Config) (t : Nat) (L : List Pt) (hL : ∀ p, skel
   intro hp
   exact not_sealed_of_finite _ L hL ⟨p, by simpa using hp⟩ (core_sealed _)
 
+/-! ## The skeleton of a slab -/
+
+/-- `p` lies in some subset of `D` sealed in the vessel `V`. -/
+def InCoreIn (V D : Pt → Bool) (p : Pt) : Prop :=
+  ∃ S : Pt → Bool, SealedIn V S ∧ (∀ q, S q = true → D q = true) ∧ S p = true
+
+/-- The largest subset of `D` sealed in the vessel `V`. -/
+noncomputable def coreIn (V D : Pt → Bool) : Pt → Bool :=
+  fun p => @decide (InCoreIn V D p) (Classical.propDecidable _)
+
+theorem coreIn_eq_true {V D : Pt → Bool} {p : Pt} : coreIn V D p = true ↔ InCoreIn V D p := by
+  simp [coreIn]
+
+theorem coreIn_sub (V D : Pt → Bool) : ∀ p, coreIn V D p = true → D p = true := by
+  intro p hp
+  obtain ⟨S, _, hSD, hSp⟩ := coreIn_eq_true.1 hp
+  exact hSD p hSp
+
+theorem coreIn_largest (V D S : Pt → Bool) (hS : SealedIn V S) (hSD : ∀ q, S q = true → D q = true) :
+    ∀ p, S p = true → coreIn V D p = true :=
+  fun _ hp => coreIn_eq_true.2 ⟨S, hS, hSD, hp⟩
+
+theorem coreIn_sealed (V D : Pt → Bool) : SealedIn V (coreIn V D) := by
+  intro p hp
+  obtain ⟨S, hS, hSD, hSp⟩ := coreIn_eq_true.1 hp
+  refine Nat.le_trans ?_ (hS p hSp)
+  apply List.countP_mono_left
+  intro q _ hq
+  simp only [Bool.and_eq_true, Bool.not_eq_true'] at hq ⊢
+  refine ⟨hq.1, ?_⟩
+  cases hSq : S q with
+  | false => rfl
+  | true => rw [coreIn_largest V D S hS hSD q hSq] at hq; exact absurd hq.2 (by simp)
+
+/-- The skeleton `K_V(t)` of a slab `V`: the largest set of dead cells of the slab that is sealed in the slab.
+This is the `K(t)` that `research/theory/thickness.md` §3 measures in torus slabs (here on the infinite
+slab). -/
+noncomputable def slabSkeleton (d : Diag) (A B : Int) (c : Config) (t : Nat) : Pt → Bool :=
+  coreIn (slab d A B) (fun p => slab d A B p && !run c t p)
+
+theorem slabSkeleton_dead (d : Diag) (A B : Int) (c : Config) (t : Nat) :
+    DeadOn (run c t) (slabSkeleton d A B c t) := by
+  intro p hp
+  have := coreIn_sub _ _ p hp
+  simp only [Bool.and_eq_true, Bool.not_eq_true'] at this
+  exact this.2
+
+/-- **A dead set sealed in the slab joins the skeleton and never leaves it.** If the history is dead outside
+the slab and `W` (cells of the slab, sealed in it) is dead at time `t`, then `W ⊆ K_V(t + k)` for every `k`. -/
+theorem slabSkeleton_contains (d : Diag) (A B : Int) (c : Config) (hout : DeadOn c (fun q => !slab d A B q))
+    (W : Pt → Bool) (hW : SealedIn (slab d A B) W) (hWV : ∀ p, W p = true → slab d A B p = true)
+    (t : Nat) (hdead : DeadOn (run c t) W) : ∀ k p, W p = true → slabSkeleton d A B c (t + k) p = true := by
+  have hout' := run_dead_outside_slab d A B c hout
+  intro k
+  have hdk : DeadOn (run c (t + k)) W := by
+    induction k with
+    | zero => exact hdead
+    | succ k ih => exact hW.step_dead (hout' (t + k)) ih
+  apply coreIn_largest _ _ W hW
+  intro q hq
+  simp [hWV q hq, hdk q hq]
+
+/-- **The skeleton of a slab only grows** (for a history dead outside the slab): `K_V(t) ⊆ K_V(t + k)`. -/
+theorem slabSkeleton_mono (d : Diag) (A B : Int) (c : Config) (hout : DeadOn c (fun q => !slab d A B q))
+    (t k : Nat) : ∀ p, slabSkeleton d A B c t p = true → slabSkeleton d A B c (t + k) p = true :=
+  slabSkeleton_contains d A B c hout _ (coreIn_sealed _ _)
+    (fun p hp => by
+      have := coreIn_sub _ _ p hp
+      simp only [Bool.and_eq_true] at this; exact this.1)
+    t (slabSkeleton_dead d A B c t) k
+
 end Gump
