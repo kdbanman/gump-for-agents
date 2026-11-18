@@ -19,12 +19,14 @@
  *   nb VESSEL trace INIT GENS OUT M SEED MODE        INIT: lines "replica cell" (replicas 0..3 are written);
  *                                                    OUT: generations 0..GENS, 4 rows of n bits each
  *   nb VESSEL dstat M MODE NGEN SEED                 statistics of one generation's darts (hits and coins)
- *   nb VESSEL run SEED GENS M MODE [BURN=200] [REPORT=2000000]
+ *   nb VESSEL run SEED GENS M MODE [BURN=200] [REPORT=2000000] [MAXAGE=0]
  *       life protocol of the README: soup 0.35, a life ends at the first generation with any face empty, a
  *       hull-generation counts when the age after the step exceeds BURN.  A line of totals every REPORT generations
  *       (the last line is the result):
  *       RES n A nN B M mode seed gens exposure d0..d7 ties young settled
  *       (d_f: lives older than BURN at whose end face f was empty; ties: those of d0 with another face empty too)
+ *       With MAXAGE > 0 a hull that reaches that age is replaced by a new soup (not a death): every counted
+ *       hull-generation then has BURN < age <= MAXAGE (the hazard of young hulls).
  *       and, after each RES line, the same by the age of the hull (lower edges 0, 1e3, 3e3, 1e4, ... generations):
  *       AGE lower_edge exposure d0 d0+...+d7
  */
@@ -218,6 +220,7 @@ int main(int argc, char **argv) {
   M = atoi(argv[5]); int mode = argv[6][0];
   uint32_t burn = argc > 7 ? (uint32_t)atoi(argv[7]) : 200;
   u64 report = argc > 8 ? strtoull(argv[8], 0, 10) : 2000000;
+  uint32_t maxage = argc > 9 ? (uint32_t)atol(argv[9]) : 0;
   if (M) setup_binom();
   static uint32_t age[NREP];
   for (int r = 0; r < NREP; r++) reseed(a, r);
@@ -251,6 +254,7 @@ int main(int argc, char **argv) {
       reseed(a, r); age[r] = 0; abin[r] = 0;
       for (int i = 0; i < n; i++) setbit(snap, i, r, !bitof(a, i, r));
     }
+    if (maxage) for (int r = 0; r < NREP; r++) if (age[r] >= maxage) { reseed(a, r); age[r] = 0; abin[r] = 0; }
     if (!M && g % 840 == 0) {
       v8 df = (v8){0};
       for (int i = 0; i < n; i++) df |= a[i] ^ snap[i];
