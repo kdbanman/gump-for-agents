@@ -90,6 +90,11 @@ after its own check; the PI never merges it.
    line) to 29.34 (constant offset).
 4. Wide face of 192 cells: living-state estimator 40.03 +- 0.24 (on the 0.2087 line, if its kill law holds beyond
    108 cells) against the dice sampler's 40.49 +- 0.20.
+6. `rim/` (night) already timed corner-free strips on a periodic prism: no price by depth (rows 3 to 5 cost the
+   same at L = 3), width price 0.172, 0.196, 0.2017 at L = 3, 4, 5, length price 0.2455, 0.2308, 0.2177 at L 3→4,
+   4→5, 5→6. The PI forgot this once after a compaction and briefed `strips` to redo it; `strips` was redirected
+   at 12:40 UTC to check and extend it. Narrow tubes are cut by transverse firewalls (T3); the lead's table
+   `research/constant/out/points.txt` sets those deaths aside (column fw%).
 5. The PI's front-gas reading is dead. The staggered crash on long tubes is measured on the surrogate only (gump
    agrees at 63 and 84 cells). The timing-chain number is "order of magnitude, not the number".
 

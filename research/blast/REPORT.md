@@ -89,8 +89,18 @@ makes the triangle's second difference 3·c_⌊k/3⌋, the same for three consec
 from side 6 up, **the 135-cell face repeats 0.231 by construction (29.230) whatever deeper rows cost, and cannot
 decide the question it was meant to decide; the 165-cell face is the first that can** (35.746 if rows three deep
 cost 0.2087, 35.812 if 0.231). The 18-cell face breaks the rows formula at sides 4 and 5, where the corners
-overlap. The rival reading puts the surplus in the corners. Triangles cannot separate the two; a rimmed strip
-without corners can, at lifetimes plain running reaches (`strips/`, running; forecasts in block 6).
+overlap. The rival reading puts the surplus in the corners. Triangles cannot separate the two.
+**Correction, 12:32 UTC:** when I wrote the sentence above and block 6 of the forecasts I had forgotten that `rim/`
+timed exactly such faces last night (strips on a periodic prism, no corners; "What was found", item 6), and that
+its numbers already speak against both readings. At a loop of 3 units a row costs the same whether it is the
+third, fourth or fifth from a rim (1.525, 1.558, 1.557 per row of 9 cells), so there is no price by depth; and a
+strip of 48 to 75 cells shows the hull's excess with no corner anywhere, so corners are not needed. What a strip
+has instead is two prices that depend on its loop L: added width costs 0.172, 0.196, 0.2017 per cell at L = 3, 4,
+5 (rising), added length 0.2455, 0.2308, 0.2177 at L 3→4, 4→5, 5→6 (falling). They can only meet between 0.202
+and 0.218, and the wrapped 0.2087 is inside that; 0.231 is passed on the way down. Block 6 is therefore not blind
+and item 1 is withdrawn. The new agent (`strips/`) is now asked to check `rim/`'s table with its own code and to
+extend it one step in each direction (4 unit rows at L = 7, 5 unit rows at L = 6), with closed tubes of the same
+girth as the control.
 Not checked: everything in this entry is one agent's code and one long run per vessel until the referee reports.
 
 ## What was found

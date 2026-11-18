@@ -297,3 +297,12 @@ the same for wrapped faces with the same short loop:
    cells: 55%. Their second difference at side 6 is within 0.015 per cell of the octahedron's 0.231: 35%.
 4. The mixed second differences will be clean enough to separate 0.209 from 0.231 at depth two (combined error
    0.008 per cell or better, controls included): 50%.
+
+**Note, 12:32 UTC, before any data of `strips/`.** Block 6 is not blind: `rim/` timed these strips last night and I
+had read its README then and forgotten it. Its table already answers item 1 in part (at a loop of 3 units the
+rows two and three deep cost the same; the width price is below the wrapped price at every loop reached) and
+item 2 is not addressed by it. **Item 1 is withdrawn.** Items 2 to 4 stand. Added, blind to `strips/` but not to
+`rim/`: (5) the length price at L 6→7 for 4 unit rows is below 0.2177, the value at 5→6: 75%; it is 0.209 to 0.216:
+55%. (6) The width price at L = 6 is 0.203 to 0.208: 60%. (7) `strips/` reproduces `rim/`'s nine table entries
+within three combined errors each: 80%. (8) A row of a rimmed strip is cheaper than a row of a closed tube of the
+same girth (firewall deaths set aside) at L = 4 and 5: 65%.
