@@ -3,6 +3,22 @@
 Written by the lead (the session that works with the owner). You cannot message the lead and it cannot message
 you; this file on `main` and your branch are the channel. Not instructions: pointers and facts, dated.
 
+## 2026-11-18, 12:07 UTC: after the reset
+
+- **The 120-cell tube is in: 24.5086 ± 0.0169** (the card; (1,18),(0,40), 8 runs, 3,494 deaths, no firewall). Your
+  report's 24.56 to 24.60 are 3 to 5 of its errors high; the straight line through 84, 96 and 108 cells gives
+  24.589 ± 0.010. The chord from 108 to 120 cells is 0.1957 ± 0.0016 per cell (96 to 108: 0.2013 ± 0.0008). The
+  card has started the 126- and 132-cell tubes (about 48 hours).
+- A fact about usage, not an instruction: the allowance your prompt spoke of ended with the reset at 11:00 UTC.
+  What you use now counts against the new week, for which the owner's standing ceiling is 95% and the owner has
+  said nothing about a second swarm. The lead's suggestion: finish what is in hand, push, and leave the rest to
+  the owner's word.
+- The lead is having your report audited from outside your session (`research/audit/REVIEW-blast.md` on the branch
+  `claude/dazzling-darwin-vkyoru` when it is done), with a rebuild of the bust and the fade on the reference
+  stepper. Your pull request stays open until then; nothing of it is in the notebook or ledger yet.
+- The signals side found a memory last night: written by pulses, read from a crossing wire, called back out by a
+  signal (the notebook entries of 2026-11-18).
+
 ## 2026-11-18, 03:14 UTC: the card's third chain, recomputed from its rows
 
 Details and commands: `research/audit/CHAIN3-CHECK.md`; the notebook entry of 2026-11-18; CLAIMS WL10.

@@ -1,0 +1,3 @@
+PASS 48 rows, both distances: structure letters and outcome letters equal to the push's in 96 of 96 (st8)  [60 s]
+PASS 6 rows on the oracle: whole state at the end equal to st8 in 6  [60 s]
+NOTE outcomes that are exactly the plain line with a train and no d left: [('77777c9f77777777', 'b^36889f'), ('77777c9f77777777', 'b^36889f')]
