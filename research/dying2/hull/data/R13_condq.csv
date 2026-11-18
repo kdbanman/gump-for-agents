@@ -1,86 +1,89 @@
 k,class,value,q,q_se,n
-2,all,,0.37469,0.0095647,3505
-2,rim-row survivors,0,0.34822,0.018272,926
-2,rim-row survivors,1,0.38693,0.014082,1642
-2,rim-row survivors,2,0.3804,0.018542,937
-2,survivors within 1.5 of a corner,0,0.36428,0.011097,2572
-2,survivors within 1.5 of a corner,1,0.42462,0.02111,748
-2,survivors within 1.5 of a corner,2,0.336,0.040532,185
-2,spread below median,1.41,0.32711,0.013101,1743
-2,spread above median,1.41,0.42915,0.013773,1762
-2,clumped and rim<=k/2,,0.32136,0.015648,1209
-2,clumped and rim>k/2,,0.34063,0.023932,534
-2,spread and rim<=k/2,,0.42574,0.015675,1359
-2,spread and rim>k/2,,0.44095,0.028823,403
-3,all,,0.19179,0.0086517,3571
-3,rim-row survivors,0,0.15391,0.02063,506
-3,rim-row survivors,1,0.20494,0.016398,1060
-3,rim-row survivors,2,0.1959,0.013517,1483
-3,rim-row survivors,3,0.19572,0.02294,522
-3,survivors within 1.5 of a corner,0,0.17791,0.010681,2175
-3,survivors within 1.5 of a corner,1,0.2348,0.017717,1024
-3,survivors within 1.5 of a corner,2,0.19746,0.032965,257
-3,survivors within 1.5 of a corner,3,0.12642,0.038319,115
-3,spread below median,1.90,0.14678,0.010711,1762
-3,spread above median,1.90,0.25058,0.013739,1809
-3,clumped and rim<=k/2,,0.12608,0.01549,716
-3,clumped and rim>k/2,,0.16298,0.01467,1046
-3,spread and rim<=k/2,,0.26202,0.020457,850
-3,spread and rim>k/2,,0.24071,0.018522,959
-4,all,,0.09996,0.0069946,3464
-4,rim-row survivors,0,0.058491,0.01811,272
-4,rim-row survivors,1,0.089561,0.014091,754
-4,rim-row survivors,2,0.10406,0.012017,1221
-4,rim-row survivors,3,0.11196,0.014212,956
-4,rim-row survivors,4,0.13541,0.030132,261
-4,survivors within 1.5 of a corner,0,0.087132,0.0088763,1827
-4,survivors within 1.5 of a corner,1,0.12124,0.014064,1077
-4,survivors within 1.5 of a corner,2,0.11803,0.023375,379
-4,survivors within 1.5 of a corner,3,0.094168,0.032037,147
-4,survivors within 1.5 of a corner,4,0.079663,0.059914,34
-4,spread below median,2.43,0.077514,0.0084796,1732
-4,spread above median,2.43,0.12995,0.011514,1732
-4,clumped and rim<=k/2,,0.071024,0.0095793,1219
-4,clumped and rim>k/2,,0.095682,0.01769,513
-4,spread and rim<=k/2,,0.12627,0.014751,1028
-4,spread and rim>k/2,,0.13585,0.018378,704
-6,all,,0.029466,0.0042067,3524
-6,rim-row survivors,0,0.011739,0.013482,102
-6,rim-row survivors,1,0.015953,0.0092639,309
-6,rim-row survivors,2,0.026857,0.0086309,735
-6,rim-row survivors,3,0.026957,0.0075795,972
-6,rim-row survivors,4,0.039157,0.0098962,933
-6,rim-row survivors,5,0.043552,0.015922,422
-6,rim-row survivors,6,0.053575,0.051829,51
-6,survivors within 1.5 of a corner,0,0.02071,0.0052263,1419
-6,survivors within 1.5 of a corner,1,0.032848,0.0079661,1135
-6,survivors within 1.5 of a corner,2,0.044919,0.013958,574
-6,survivors within 1.5 of a corner,3,0.042865,0.019708,263
-6,survivors within 1.5 of a corner,4,0.03649,0.027942,109
-6,spread below median,2.76,0.024716,0.0052972,1762
-6,spread above median,2.76,0.035099,0.0066851,1762
-6,clumped and rim<=k/2,,0.019588,0.0055085,1199
-6,clumped and rim>k/2,,0.040543,0.013064,563
-6,spread and rim<=k/2,,0.030567,0.0084065,919
-6,spread and rim>k/2,,0.041041,0.010772,843
-9,all,,0.0048858,0.0018502,3486
-9,rim-row survivors,1,0.0019587,0.0060312,83
-9,rim-row survivors,2,0.001453,0.0031195,247
-9,rim-row survivors,3,0.0029297,0.003242,555
-9,rim-row survivors,4,0.0043709,0.0036648,765
-9,rim-row survivors,5,0.0056894,0.0042478,839
-9,rim-row survivors,6,0.008973,0.0068988,598
-9,rim-row survivors,7,0.011783,0.012424,280
-9,rim-row survivors,8,0.0126,0.025621,76
-9,survivors within 1.5 of a corner,0,0.0027221,0.0023708,921
-9,survivors within 1.5 of a corner,1,0.0049255,0.0033244,1116
-9,survivors within 1.5 of a corner,2,0.0057932,0.0045107,746
-9,survivors within 1.5 of a corner,3,0.008317,0.0080224,413
-9,survivors within 1.5 of a corner,4,0.0085193,0.011666,190
-9,survivors within 1.5 of a corner,5,0.016371,0.033184,70
-9,spread below median,3.05,0.0038793,0.0021887,1743
-9,spread above median,3.05,0.006292,0.0031887,1743
-9,clumped and rim<=k/2,,0.0026103,0.002095,1112
-9,clumped and rim>k/2,,0.0077946,0.0059918,631
-9,spread and rim<=k/2,,0.0044372,0.0043721,567
-9,spread and rim>k/2,,0.0074783,0.0043943,1176
+2,all,,0.37588,0.0067163,7254
+2,rim-row survivors,0,0.35781,0.013013,1888
+2,rim-row survivors,1,0.38127,0.0099076,3357
+2,rim-row survivors,2,0.38443,0.012813,2009
+2,survivors within 1.5 of a corner,0,0.36839,0.0078311,5289
+2,survivors within 1.5 of a corner,1,0.41801,0.01471,1568
+2,survivors within 1.5 of a corner,2,0.32336,0.027596,397
+2,spread below median,1.41,0.321,0.0091202,3622
+2,spread above median,1.41,0.44078,0.0097072,3632
+2,clumped and rim<=k/2,,0.31429,0.010912,2497
+2,clumped and rim>k/2,,0.33649,0.01659,1125
+2,spread and rim<=k/2,,0.43584,0.011155,2748
+2,spread and rim>k/2,,0.45663,0.01968,884
+3,all,,0.19176,0.0061023,7248
+3,rim-row survivors,0,0.16009,0.014679,1048
+3,rim-row survivors,1,0.20024,0.011536,2115
+3,rim-row survivors,2,0.19354,0.0094537,3035
+3,rim-row survivors,3,0.20539,0.016612,1050
+3,survivors within 1.5 of a corner,0,0.17959,0.0075213,4473
+3,survivors within 1.5 of a corner,1,0.23273,0.012656,2015
+3,survivors within 1.5 of a corner,2,0.1945,0.022908,523
+3,survivors within 1.5 of a corner,3,0.12624,0.026927,237
+3,spread below median,1.90,0.14915,0.0075998,3595
+3,spread above median,1.90,0.24728,0.0096627,3653
+3,clumped and rim<=k/2,,0.13239,0.011225,1452
+3,clumped and rim>k/2,,0.1617,0.010262,2143
+3,spread and rim<=k/2,,0.2495,0.014183,1711
+3,spread and rim>k/2,,0.24532,0.013198,1942
+4,all,,0.099971,0.004945,7035
+4,rim-row survivors,0,0.060789,0.012825,572
+4,rim-row survivors,1,0.088617,0.010034,1484
+4,rim-row survivors,2,0.10515,0.0086118,2469
+4,rim-row survivors,3,0.11111,0.0099003,1972
+4,rim-row survivors,4,0.13037,0.020743,538
+4,survivors within 1.5 of a corner,0,0.087084,0.0062583,3720
+4,survivors within 1.5 of a corner,1,0.12179,0.010036,2164
+4,survivors within 1.5 of a corner,2,0.12194,0.016713,778
+4,survivors within 1.5 of a corner,3,0.089575,0.021983,304
+4,survivors within 1.5 of a corner,4,0.064613,0.038061,69
+4,spread below median,2.39,0.079254,0.006069,3517
+4,spread above median,2.39,0.12736,0.0080506,3518
+4,clumped and rim<=k/2,,0.072908,0.006974,2409
+4,clumped and rim>k/2,,0.095254,0.012048,1108
+4,spread and rim<=k/2,,0.12303,0.010212,2116
+4,spread and rim>k/2,,0.13435,0.013061,1402
+6,all,,0.028778,0.0029574,6997
+6,rim-row survivors,0,0.010833,0.0095952,184
+6,rim-row survivors,1,0.017036,0.0067946,634
+6,rim-row survivors,2,0.024153,0.0057163,1479
+6,rim-row survivors,3,0.028239,0.0055431,1953
+6,rim-row survivors,4,0.036101,0.0067285,1825
+6,rim-row survivors,5,0.044223,0.011727,811
+6,rim-row survivors,6,0.066375,0.041721,111
+6,survivors within 1.5 of a corner,0,0.020712,0.0037173,2827
+6,survivors within 1.5 of a corner,1,0.032411,0.0055887,2286
+6,survivors within 1.5 of a corner,2,0.041695,0.0095754,1128
+6,survivors within 1.5 of a corner,3,0.041576,0.014264,505
+6,survivors within 1.5 of a corner,4,0.038204,0.020501,214
+6,survivors within 1.5 of a corner,5,0.065513,0.073924,36
+6,spread below median,2.76,0.024634,0.0037463,3498
+6,spread above median,2.76,0.033844,0.0046902,3499
+6,clumped and rim<=k/2,,0.020471,0.003977,2422
+6,clumped and rim>k/2,,0.037562,0.0089949,1076
+6,spread and rim<=k/2,,0.028994,0.005846,1828
+6,spread and rim>k/2,,0.040245,0.0076266,1671
+9,all,,0.004962,0.0013181,7091
+9,rim-row survivors,0,0.0026263,0.0098817,48
+9,rim-row survivors,1,0.0013597,0.0034675,164
+9,rim-row survivors,2,0.0020631,0.0027486,483
+9,rim-row survivors,3,0.0032203,0.0024386,1101
+9,rim-row survivors,4,0.0043447,0.0025492,1572
+9,rim-row survivors,5,0.0055564,0.0029164,1720
+9,rim-row survivors,6,0.0084521,0.0046115,1261
+9,rim-row survivors,7,0.011576,0.0087858,563
+9,rim-row survivors,8,0.015218,0.020595,159
+9,survivors within 1.5 of a corner,0,0.0029651,0.0017614,1889
+9,survivors within 1.5 of a corner,1,0.0046945,0.002277,2233
+9,survivors within 1.5 of a corner,2,0.0061887,0.0033145,1557
+9,survivors within 1.5 of a corner,3,0.007896,0.0054712,816
+9,survivors within 1.5 of a corner,4,0.0089773,0.0084214,394
+9,survivors within 1.5 of a corner,5,0.017428,0.024642,139
+9,survivors within 1.5 of a corner,6,0.015545,0.034147,52
+9,spread below median,3.05,0.0038918,0.0015512,3545
+9,spread above median,3.05,0.0064549,0.0022799,3546
+9,clumped and rim<=k/2,,0.0027816,0.0015599,2202
+9,clumped and rim>k/2,,0.0068497,0.0037862,1343
+9,spread and rim<=k/2,,0.0046804,0.0031239,1166
+9,spread and rim>k/2,,0.0076537,0.0031656,2380
