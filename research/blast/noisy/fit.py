@@ -61,6 +61,7 @@ for f in sorted(glob.glob(os.path.join(S, 'runs', '*.txt'))):
         elif line.startswith('REP') and ' rate ' in line and key:
             groups.setdefault(key, []).append(float(line.split(' rate ')[1].split()[0]))
 byR = {}
+allR = {}
 print('   R   eps        M   NSWEEP    K    ln tau            scatter   largest share   carry half   running value (every 100)')
 for key in sorted(groups):
     R, M, eps, nsw = key; r = np.array(groups[key]); K = len(r)
@@ -71,6 +72,7 @@ for key in sorted(groups):
     run = ' '.join(f'{-math.log(r[:n].mean()):.3f}' for n in list(range(100, K, 100)) + [K])
     print(f'  {R:2d}  {eps:.5f}  {M:4d}   {nsw:>4s}   {K:4d}   {est:.3f} +- {err:.3f}    {r.std(ddof=1) / m:.2f}      {srt[0] / r.sum():.3f}          {half:3d}       {run}')
     byR.setdefault(R, []).append((eps, est, err))
+    allR.setdefault(R, []).extend(list(r))
 for R in sorted(byR):
     pts = sorted(byR[R]); x = np.array([p[0] for p in pts]); y = np.array([p[1] for p in pts]); e = np.array([p[2] for p in pts]); w = 1 / e ** 2
     wm = (w * y).sum() / w.sum(); wme = 1 / math.sqrt(w.sum()); chi0 = float((w * (y - wm) ** 2).sum())
@@ -84,3 +86,12 @@ for R in sorted(byR):
         if len(x) >= 2:
             s += f', intercept - gump {co[0] - a:+.3f} +- {math.hypot(math.sqrt(C[0, 0]), ae):.3f}'
     print(s)
+    if len(x) >= 2:
+        # Every replication weighted equally, over all eps. The weighted mean above gives most weight to the sample
+        # that happened to meet no large replication (a lower rate and a smaller error at once), so where one
+        # replication's rate is long-tailed (108 cells) this line is the fair summary, if the chain has no offset.
+        r = np.array(allR[R]); m = r.mean(); eq = -math.log(m); eqe = r.std(ddof=1) / math.sqrt(len(r)) / m
+        s2 = f'          all {len(r)} replications weighted equally: {eq:.3f} +- {eqe:.3f}'
+        if R in ANCHOR:
+            a, ae = ANCHOR[R]; s2 += f', minus gump {eq - a:+.3f} +- {math.hypot(eqe, ae):.3f}'
+        print(s2 + '   (weights of the weighted mean: ' + ' : '.join(f'{v:.2f}' for v in w / w.max()) + ')')

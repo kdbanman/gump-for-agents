@@ -51,11 +51,17 @@ section).**
 - **The 120-cell tube is 24.5086 ± 0.0169, below every forecast, this report's included.** A tube's line bends
   (0.2023, 0.2013, 0.1957 per cell from 84 to 120 cells) and the night's fitted tube law is refuted.
 - **The 135-cell hull face is still not decided.** A second sampler (gump on the whole hull, coin replacements at
-  a low rate deep under the watched face) is exact at zero noise and shows no offset at 45 and 63 cells. Its
-  blind test at 108 cells: at the largest noise rate it reads +0.083 ± 0.027 above gump; extrapolated to zero
-  noise it agrees with gump, but only to ± 0.08 (the last entry of the next section; unrefereed). That is too
-  coarse for the 135-cell face, whose two readings are 0.067 apart, and the 135-cell runs were not started. The
-  extrapolations stand at 29.20 to 29.22 ± 0.03, against 29.230 and 29.163.
+  a low rate deep under the watched face) is exact at zero noise and matches brute force at 45 and 63 cells. Its
+  blind test at 108 cells reads 23.422 ± 0.025, 23.228 ± 0.119 and 23.368 ± 0.065 at noise rates 1/16, 1/32, 1/64
+  against gump's 23.3392; with every replication weighted equally that is +0.009 ± 0.044 from gump. One
+  replication's rate is long-tailed there, so those errors understate, and the +0.083 at 1/16 is most likely a
+  tail the sample did not meet, not a property of gump. The lead's independent rebuild confirms the chain and
+  the sampler and reaches the same reading. The sampler never moves the initial state, and that is what stops it
+  at 108 cells; it does not reach the 135-cell face. The extrapolations stand at 29.20 to 29.22 ± 0.03, against
+  29.230 and 29.163.
+- **Noise under a face lengthens its life, and only the near layers matter** (63 cells, coins at rate 1/4 from
+  depth d down): nothing at d = 6, +0.02 at 5, +0.05 at 4, +0.10 at 3, +0.30 at 2, +0.67 at 1 (in ln τ, each
+  ± 0.012 to 0.016; one code, one seed a row). The lead's rebuild has the d = 6 null at 45, 63 and 84 cells.
 - New small facts: thin strips and narrow tubes are cut across by firewalls before a face dies; a tetrahedron of
   gump has no steady state (its corners are shaved off); the 18-cell hull face lives 4.855 ± 0.015 and is too
   small to belong to the family.
@@ -251,6 +257,11 @@ about 10 core-hours in all). [measured] Gump: 23.3392 ± 0.0099.
 | 1/64 | 360 | 23.368 ± 0.065 | +0.029 ± 0.066 | 1.23 | 0.056 |
 
 - Weighted mean over the three: 23.408 ± 0.023, which is **+0.069 ± 0.025 above gump** (2.8 errors; χ² 3.0 on 2).
+  **Corrected 20:52 UTC, after the lead's rebuild: this is not a fair summary.** Its weights are 0.15 : 0.04 : 1
+  (ε = 1/64 : 1/32 : 1/16): a sample that meets a large replication gets a lower ln τ and a larger error at once,
+  hence no weight. With all 1,100 replications weighted equally the value is 23.349 ± 0.043, **+0.009 ± 0.044
+  from gump** (`fit.py` now prints both). The line in ε and its intercept below rest on the same errors and are
+  withdrawn: the rebuild's bootstrap interval for the intercept is [−0.20, +0.15].
 - A line in ε: intercept at ε = 0 **23.314 ± 0.082, which is −0.025 ± 0.083 from gump**; slope +1.7 ± 1.4 per unit
   of ε (χ² 1.6 on 1).
 - Reproduce: `python3 research/blast/noisy/fit.py` (rows in `research/blast/noisy/data/runs/`; the runs are
@@ -340,6 +351,40 @@ Asked by the lead on pull request 39. Rows: `research/blast/noisy/data/runs_diag
   score stays under the level) is the next form to build; forecast in `noisy/PREDICTIONS.md`, block 3, item 5.
 Not checked: the brute force of the chain at 84 cells (the rebuild's, and block 3's first two forecasts wait on
 it); ancestry with the odd sweeps on beyond 30 replications per ε; no second code for the sampler.
+
+### 20:52 UTC. The lead's rebuild of the noisy hull; on against off at 84 cells; how deep a face's death is decided (`noisy/`)
+
+**The rebuild** (the lead's, read on pull request 39 and not recomputed here; `research/audit/REVIEW-blast-noisy.md`
+and `research/audit/blastnoisy/` on its branch). The chain is confirmed from the README alone. Brute force of
+the watched face minus gump: 45 cells −0.000 ± 0.003, +0.007 ± 0.004, +0.001 ± 0.003 at ε = 1/16, 1/4, 1; 63 cells
++0.015 ± 0.007, −0.011 ± 0.009, −0.004 ± 0.013; **84 cells +0.027 ± 0.038 at ε = 1/4**. The sampler is exact for
+the mean rate at 45 and 63 cells against that brute force. At 108 cells the numbers reproduce to the digit and
+the summary did not stand (the correction is written into the 14:57 entry above). Its reading of the +0.083: 65%
+the sampler's tail, 20% the chain, 15% a fluctuation. About one replication in 280 has a rate above ten times
+the median; those carry 8% of the summed rate; the ε = 1/16 sample met none.
+- [measured] **On against off at 84 cells, ε = 1/16** (`sh research/blast/noisy/diag2.sh`; rows in
+  `noisy/data/runs_diag/`; `python3 research/blast/noisy/ana.py research/blast/noisy/data/runs_diag`): odd sweeps
+  on 18.171 ± 0.020 (250 replications), off 18.144 ± 0.019 (240); gump 18.141 ± 0.005. So on is +0.030 ± 0.021
+  from gump, off +0.003 ± 0.020, and on minus off is +0.027 ± 0.028. With the 100 earlier replications, on is
+  +0.031 ± 0.017. All within errors of each other and of the rebuild's brute force. Not closed: on sits above off
+  at both sizes (1.0 and 1.8 errors) and above gump at 63, 84 and 108 cells. `diag3.sh` (running) brings on
+  minus off at 84 cells to about ± 0.014.
+- [measured] **The depth series** (63 cells, brute force, coins at rate ε = 1/4 at depth ≥ d under the watched
+  face and ≥ 3 under the others; gump 13.633 ± 0.001; `noisy/data/depth.txt`, one seed and 12,000,000 generations
+  a row, 3,750 to 7,400 deaths of the watched face):
+
+  | d | 6 | 5 | 4 | 3 | 2 | 1 |
+  |---|---|---|---|---|---|---|
+  | ln τ of the watched face minus gump | −0.005 ± 0.012 | +0.019 ± 0.012 | +0.054 ± 0.012 | +0.101 ± 0.012 | +0.304 ± 0.014 | +0.674 ± 0.016 |
+  | added by layer d alone | | +0.024 | +0.035 | +0.047 | +0.203 | +0.370 |
+
+  Coins under a face lengthen its life, never shorten it. The two layers a face cell touches (T1: two
+  neighbours one layer down, one neighbour two layers down) carry +0.37 and +0.20; each layer below adds about
+  0.7 of the one above it (+0.047, +0.035, +0.024), and the sixth is at the noise. [conjectured] That is the same
+  sign and size as the night's dice chain's offset (coins everywhere under six layers: +0.024 at 63 cells), and it
+  says what a surrogate under a face must get right: the first two layers exactly, the next three approximately.
+Not checked: the depth series has one code and one seed a row, and the region's size changes with d (57 to 132
+cells); the 84-cell brute force at ε = 1/16 (block 3, item 1) has not been run by anyone; no second seeds.
 
 ## What was found
 
