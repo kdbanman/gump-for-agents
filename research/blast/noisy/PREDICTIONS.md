@@ -58,3 +58,13 @@ Forecasts.
   29.163) = 75%; P(above 29.30) = 30%; P(the intercept's error after one round is 0.06 or less) = 25%.
 - Efficiency: P(one replication at 135 cells and eps = 1/64 scatters by more than the mean) = 55%; P(at eps = 1/16,
   by more than 0.6 of the mean) = 50%.
+
+### Amendment to block 2, 12:53 UTC, before any run above 84 cells
+
+Timed at 84 cells, a replication costs 10, 21 and 55 s at eps = 1/64, 1/16, 1/4, and the part that grows is the
+darts, in proportion to eps |N|: at 135 cells eps = 1/4 would cost about 600 s per replication. So **at 108 and 135
+cells the three values are eps = 1/16, 1/32, 1/64**, not 1/4, 1/16, 1/64 (1/4 stays at 63 and 84 cells, where it is
+cheap). The lever arm for the line in eps shrinks from 16 to 4; the forecasts of block 2 stand as written, with "the
+three eps" meaning these. New since block 2: brute force at 63 cells, eps = 0.10 with a second seed, pooled +0.005 +-
+0.007 (the +0.032 was a fluctuation), and eps = 1/16: +0.001 +- 0.010; the sampler at 84 cells and eps = 1/16 stands at
+18.180 +- 0.037 after 63 replications (gump 18.141).
