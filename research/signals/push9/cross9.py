@@ -81,13 +81,13 @@ def main():
             for name, ats in (('1@9', (9,)), ('1@10', (10,)), ('2@9', (9, 10)), ('2@10', (10, 11))):
                 P = lab.pk([lab.app(g, q, tt) for at in ats for q in wires.pulse(pulse, ur - at)])
                 Xs = lab.xor(Y, P)
-                seen = []; Xt = Xs
+                seen = []; Xt = lab.run(Xs, phi)          # phi = 1: one more generation, so that the store is read at its even phase
                 for dt in (30, 6, 8, 16):
                     Xt = lab.run(Xt, dt); seen.append(letters(Xt, 4, 4 + N))
                 X260 = lab.run(Xt, 200); s260 = letters(X260, 4, 4 + N)
                 if all(v == want for v in seen) and s260 == want:
                     c['store unchanged'] += 1; continue
-                Jt = lab.run(J, (phi + 260) % 4)
+                Jt = lab.run(J, (2 * phi + 260) % 4)
                 other = lambda k: frozenset(q for q in lab.up(k) if not in_tube(q) and q not in capcells)
                 reader_ok = other(X260) == other(Jt)
                 moving = [X.hexrle(v.strip('7') or '7') for v in seen]
