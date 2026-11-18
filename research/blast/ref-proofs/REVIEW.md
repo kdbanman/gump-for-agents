@@ -186,7 +186,9 @@ generations, every initial state of the torus and every completion of the cover.
 
 it holds for all 4,096 histories to 10⁻¹⁵, normalisation included, and no cover history with a recurring seam
 falls off the torus's support (529–572 seam histories are shared by several strip histories, so the test is not
-vacuous). With a seam ONE unit cell thick: 3,354 off-support histories, relative error 6.3. `chk_identity.py`
+vacuous). With a seam ONE unit cell thick: 3,354 off-support histories, relative error 6.3. The threefold cover
+(`python3 seam3.py`, tube (1,0),(0,3) against (1,0),(0,9), 𝒯^(2m)(s₀,s₀) taken from the double cover) also holds to
+3·10⁻¹⁴, with a rest band only one unit cell thick. `chk_identity.py`
 rerun: PASS (its fourth case, rule 30 with L = 4, has no seam class with more than one strip history and tests
 nothing).
 

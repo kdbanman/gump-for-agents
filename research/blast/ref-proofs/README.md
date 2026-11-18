@@ -27,6 +27,7 @@ This file says what is here and how to rerun it.
 | `ref.py` | graphs from the 12 offsets; coins enumerated; dense 2^A kernel; quasi-stationary law; tilt identity, two price maps, population law along the tilt; bust shares; Lemma 0 by reachability; simulation | `python3 ref.py hull 3 --eig --tilt --bust`; `python3 ref.py torus 1 1 4 --tilt --bust --lemma0`; `python3 ref.py torus 1 1 3 --mc 300000` | `data/exact9.txt`, `data/exact12.txt`, `data/eig12.txt`, `data/mc_*.txt` |
 | `ref15.py` | the same kernel lumped over the translations of a tube (1,K),(0,D) | `python3 ref15.py 1 5`; `python3 ref15.py 0 5` (40 s, 2 GB) | `data/exact15_*.txt` |
 | `seam.py` | seam identity on one layer of gump's rule, tube (1,0),(0,4) against its double cover, with a negative control | `python3 seam.py` (6 s) | `data/seam.txt` |
+| `seam3.py` | the same for a threefold cover and a rest band one unit cell thick | `python3 seam3.py` (4 s) | `data/seam3.txt` |
 | `lemmaR.py` | branch rates of rigour's tube rows | `python3 lemmaR.py` | `data/lemmaR.txt` |
 | | covering relation; living baselines | inline scripts, results kept | `data/cover.txt`, `data/living_baseline.txt` |
 
