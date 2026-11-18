@@ -116,3 +116,12 @@ The band numbers quoted in block B were from the first run. Pooled over five run
 - "At loop² 9 it is below" (65%): not measured.
 - "At every girth the age profile is flat, a flash" (80%): **miss** at loop² 16 for the same reason (every bin has
   been empty for 32–63+ generations); at loop² 12 it is flat.
+
+## Block E, 04:24 UTC: bands at loop² 13 (tube (1,3),(0,50), length 12.0, one run of 1.2·10⁷ generations) — before its output
+
+- E1. Price per cell of an empty band from 3.5 to 4 units: 0.2200 ± 0.0020 (loop² 12: 0.2190 ± 0.0005). P(within) =
+  55%; P(above loop² 12's) = 65%.
+- E2. A flash again (age profile flat, edge-to-middle difference under 1 generation at 5 units; durations of
+  complete emptiness under 3 generations): 90%.
+- E3. Boom share at 5 units within 5 points of loop² 12's 52.6%: 60%.
+- E4. −ln P(band of 6 units) − ln τ_face((1,3),(0,25), length 6.005, 15.5250) = 3.9 ± 0.3: 60%.
