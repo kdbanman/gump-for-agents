@@ -154,10 +154,11 @@ than those that recover, at every k (T84, count = k: X = 0.158, 0.272, 0.366, 0.
 0.292, 0.348, 0.395 for k = 2…6; T96 alike), and they fell faster: at k = 4, P four generations before the catch was
 42.1 against 39.6 (T84), 47.1 against 43.1 (T96).
 
-## E84, the equilateral 84-cell face (interim, 06:10 UTC: 1,075 death records, 928 in the stats) [measured]
+## E84, the equilateral 84-cell face [measured]
 
-`dyan.py 2 4 14 kmax=6` → `data/2_4_14_*`. Own ln τ_face 17.568 ± 0.033 (GPU 17.547). k* = 2.63 cells; q(1…5) =
-0.849, 0.635, 0.420, 0.274, 0.177 (T84: 0.846, 0.623, 0.413, 0.274, 0.177). Median plunge 5 (3–7); 1.70 cells at
+`chain84.sh` (second line; seed 84101, 2.04 thread-hours): 2,500 deaths, 19,148 recovered dips (minimum ≤ 6).
+`dyan.py 2 4 14 kmax=6` → `data/2_4_14_*`. Own ln τ_face 17.559 ± 0.020 (GPU 17.547). k* = 2.63 cells; q(1…5) =
+0.853, 0.633, 0.422, 0.277, 0.179 (T84: 0.846, 0.623, 0.413, 0.274, 0.177). Median plunge 5 (3–7); 1.70 cells at
 lag 1. **Against T84, the same area:** ln τ is 0.22 longer here; at P̄/2 the tube dips more often (ln ν −8.10
 against −8.66, +0.56) and such a dip is less likely to kill it (ln q −9.25 against −8.90, −0.35); at ≤ 10 cells
 ln ν is −13.33 against −13.63 (+0.30) with q equal. So the tube's discount is all in reaching the last few cells,
