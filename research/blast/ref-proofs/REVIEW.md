@@ -176,7 +176,8 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
   0.566, 0.594, 0.562, 0.571, 0.626, 0.594 (± 0.014–0.024) for D = 8→9 … 14→16: constant at 0.585 within the errors (χ² about 9 on 5; neighbouring steps share a point).
   −Δ ln h_bust = 0.92, 0.92, 0.84, 0.90, 0.88, 0.79, 0.87: 0.87 with scatter beyond its errors (0.918 ± 0.008
   against 0.842 ± 0.011 on neighbouring steps). The log-odds fall by 0.30 per unit over D = 7–12 and by
-  0.22 ± 0.02 over D = 12–16: "0.29 per unit" is the early slope, not a constant. The README's list of shares has
+  0.22 ± 0.02 over D = 12–16 on rigour's rows (0.25 ± 0.02 with my D = 12 share, below): the slope may ease on
+  long tubes; D = 14, 16 rest on 567 and 984 deaths. The README's list of shares has
   no entry for D = 13 (it runs 5…12, then 14) without saying so.
 - My own simulation of the tube (`ref.py torus 1 1 D --mc N --mconly`, `python3 tube_mine.py`, `data/tube_mine.txt`)
   agrees with rigour's rows at D = 6, 8, 10, 12: ln τ = 5.1075 ± 0.0041, 6.7300 ± 0.0050, 8.2788 ± 0.0071,
