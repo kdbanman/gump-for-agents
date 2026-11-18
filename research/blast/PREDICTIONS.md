@@ -245,3 +245,12 @@ to ε = 0 at the target size.
    below 29.19 with 25%.** (29.230 is "the second difference repeats", 29.163 "the wrapped price takes over".)
 7. The 120-cell tube's final value will be within 0.03 of the interim (24.47–24.53): 85%. So my 24.56 ± 0.03 will
    score as missed by about two of its errors, and the dice chain's 24.60 ± 0.07 as 1.4 errors high.
+
+### Block 5b (PI; 11:17 UTC): the card's recorder against boom and bust
+
+The card's own study of dying faces on gump (`research/dying2/` on its branch; another code, another machine)
+tabulates the dying face's population by lag before death, with quantiles. I have seen the 63-cell torus's table
+(four generations before death the 90th percentile is 1.44 of the mean population, the living 90th percentile
+1.20, the median 0.34) and none of the others. If boom and bust is right:
+1. The 84-cell torus and the two tubes (84, 96 cells) show a 90th percentile of at least 1.35 at lag 4, 5 or 6: 80%.
+2. The hull faces (63 and 84 cells) do not: their 95th percentile stays at or below 1.25 at every lag from 2 to 12: 75%.
