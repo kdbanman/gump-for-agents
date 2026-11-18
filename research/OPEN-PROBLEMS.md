@@ -132,7 +132,8 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    rebuild at 63 and 84 cells. **No price is derived by this**, and these are open: (n) why the fade costs more per
    cell than the bust, as a calculation; (o) whether the hull's rare falls of half the face (1.1% of deaths at 63
    cells) are a second way to die with a lower price, in which case the hull's price must come down at large
-   sizes (the lead's run on the 84-cell hull face, forecast in the notebook); (p) why a hull face with k cells
+   sizes (run since on the 84-cell hull face: the share is 1.07 ± 0.15%, flat, so not within reach; and a fall of
+   half the face is as deadly on a hull face as on a wrapped one at 63 and 84 cells, only 69 and 87 times rarer); (p) why a hull face with k cells
    left dies less often than a wrapped one (0.77 against 0.86 at one cell; not the bust, not the rim row; the
    layer beneath is fuller under a hull face); (q) why a tube, over-full as often as a wide face, dies 1.25 times
    as often at 84 cells (its halves crash apart twice as often): the other session's fit for the tube's price

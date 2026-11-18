@@ -4063,6 +4063,22 @@ octahedron of radius 11, 63 cells a face; A is the face's area.
   than a wrapped one at 63 cells, about 0.13 per rim cell, and the rim grows with the side), the share stays near
   1.1% out to hundreds of cells. **The lead: 65% that the share at 84 cells is between 0.8 and 1.6%, 25% above
   1.6%, 10% below 0.8%.** Above 1.6% would mean the hull face's price bends within reach of a measurement.
+- **The result (13:49 UTC; table `research/audit/blast/data/lead_hull84.txt`): 1.07 ± 0.15% at 84 cells (52 of 4,859
+  deaths), against 1.14 ± 0.04% at 63. The forecast's middle band held.** Growth by e^(0.022 × 21) = 1.59 is
+  excluded at 4.6 errors; growth by 1.13 (0.006 a cell) is 1.4 errors off and not excluded. So between 63 and 84
+  cells the hull face's deaths by a fall of half the face keep step with its deaths by fading: no sign of a
+  second, cheaper way to die that would bring the hull's price down within reach. What the run shows beside it
+  (one code, the audit's; one run each size):
+  - **a fall of half the face is as deadly on a hull face as on a wrapped one, at both sizes**: 1 in 143 and 1 in
+    1,280 (hull, 63 and 84 cells) against 1 in 127 and 1 in 1,100 (wrapped). The whole difference is how often
+    one happens: 69 times less often on the hull face at 63 cells (1.96 × 10⁻⁶ against 1.35 × 10⁻⁴ per
+    face-generation) and 87 times at 84 (1.80 × 10⁻⁷ against 1.57 × 10⁻⁵). Per cell added, the frequency of such a
+    fall costs 0.103 (wrapped) and 0.114 (hull), and its chance of killing 0.103 and 0.104;
+  - the end-game on the hull does not change with size: q(1..3) = 0.772, 0.505, 0.297 at 84 cells (0.771, 0.502,
+    0.300 at 63); a last single cell dies 0.699 (interior), 0.698 (rim row);
+  - launch to empty face median 11 generations (10 at 63); 7.3 ± 0.4% of deaths hold a fall of 0.4·A (6.9%);
+  - ln τ_face = 18.1444 ± 0.0143 for the 84-cell hull face by this code (on file 18.14).
+  Not done: the 108-cell hull face (out of reach of this code on four cores); a second code.
 - Not checked by anyone outside that session: anything above 84 cells on gump; the fragmentation table; "three
   quarters of the price is static"; the two-layer map and the fits of `model/`; the `rim/` strips; the six-layer
   dice chains; the 2D relative by brute force; the seam identity (read, not rebuilt). In the audit's code: only one

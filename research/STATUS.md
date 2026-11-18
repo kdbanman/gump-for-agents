@@ -486,7 +486,8 @@ _Last updated 2026-11-14 by the lead._
   notebook "the ninth signals push, reviewed"; CLAIMS SG38 raised, SG39 to SG41 added, 215 claims; open problem
   13 (aa) to (ae)). The call stands and is proved for every count; a call by one pulse on the store's own wire; a
   collision that subtracts one and reports zero; write, read and call do not coexist. No Fable agent is running.
-  **Running:** the lead's 84-cell hull run; the site agent (Opus), told of the review. **Then:** version 19,
+  **13:49 UTC:** the 84-cell hull run is in and recorded (share of deaths with a fall of half the face 1.07 ± 0.15%,
+  flat; the forecast held; DY17, DY18, DY20). `research/check.sh` 20/20 at 13:46 UTC. **Running:** the site agent (Opus), told of the review. **Then:** version 19,
   `research/check.sh`, merge pull request 38, the other session's pull request at a quiet point.
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
