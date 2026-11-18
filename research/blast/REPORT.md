@@ -91,6 +91,18 @@ corrections, agree within errors and neither excludes "the wrapped price takes o
      face launches from a shallower state and takes its chance on the kill. Out of sample, with the kill law fitted
      on 48–63 cells and only living-state frequencies at the target size: 15.53 ± 0.16, 17.33 ± 0.10, 22.13 ± 0.11
      at 75, 84, 108 cells against 15.64, 17.54, 22.54; low, and lower with size.
+   - **A wide face's lifetime read from its living state, with a fitted kill law [measured, `ref-boom/STATIC.md`,
+     second half; not refereed].** No static event whose rarity is the whole price was found: for "at least 0.70
+     full now and at most 0.20 full next generation" (a function of the present state) the static rate is 0.150 per
+     cell and death given it still falls as e^(−0.068 per cell); a deeper crash costs more than the price. Death is
+     decided when about four cells are left (given 2, 4, 6, 8 cells two generations after an over-full face the
+     chance of death is 0.81, 0.48, 0.24, 0.11 at every size). What does work is cruder: **ln τ(A) = −ln ν_A(face
+     ≥ 0.74·A) + 0.1273·A − 1.37**, the two numbers fitted on 48, 57, 63 cells and the frequency ν measured in the
+     living state at the target size, gives 15.676 ± 0.037, 17.568 ± 0.050, 22.575 ± 0.086 at 75, 84, 108 cells
+     against 15.6442, 17.5387, 22.5405 (the 108-cell run contained no death). So over wide faces the kill costs a
+     fixed 0.127 per cell and the bend of the price with size (0.2158 below 63 cells, 0.2087 above) is all in how
+     often the living face is over-full. On the 84-cell tube the same formula returns the wide value, 0.23 too
+     high: a tube's face is over-full exactly as often, and its whole discount is in the kill.
    - **A measured two-layer map finds the wrapped route and falls 23% short of its price; it does not give the
      hull's [computed, `ref-anatomy/THEORY.md`, `boom/`; refereed by `ref-map/`].** Let a face be a Markov chain
      on (face population, population of the layer beneath) with the drift and covariance measured in living gump
@@ -323,7 +335,9 @@ face separates only K = 1 (24.608) from the rest. The GPU's value for it lands a
    next state to try is one the rule itself names: the number of face cells that will be alive next generation
    (a function of the present state). If "over-full now and nearly empty next" has a static rarity equal to the
    price, the price is a large deviation of the living state, measurable at any size without a death.
-   PENDING_LOOKAHEAD
+   Tried at the end of the night (item 4, last bullet): no such event was found, but a two-number kill law on
+   top of a living-state frequency forecasts wide faces to 108 cells. The same estimator reaches 126–192 cells by
+   plain running and would say, without a single death, whether the wide price keeps bending.
 3. **Whether 0.2087 lasts.** On the surrogate a wide 192-cell face still busts as one; its lifetime is 0.42 ± 0.20
    above the line with a possible drift of the surrogate underneath. Nobody has seen gump itself above 126 cells.
 4. **A tube's asymptote** (0.2004 with K = 2, or lower with a power in front): tubes of 240–360 cells on the
