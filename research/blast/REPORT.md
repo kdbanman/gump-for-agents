@@ -29,9 +29,9 @@ corrected.
 That is the mechanism in plain words, and it is why the differences between shapes "are not in the living state":
 the living states are the same and the exits differ. It is **not** a derivation of 0.2087 or of 0.231, and there
 is no formula yet. The 135-cell hull face is **not decided**: a forecast of 29.22 ± 0.02 (conditional on a
-four-point straight line) and a first measurement on a coin-driven surrogate, 29.30 ± 0.09 after its referee's
-corrections, agree within errors and neither excludes "the wrapped price takes over" (29.163) by more than 1.5 to
-3 errors.
+four-point straight line) and a first measurement on a coin-driven surrogate (29.34, +0.06, −0.10 by its author
+after 385 replications; 29.30 ± 0.09 by its referee on fewer) agree within about one error, and "the wrapped price
+takes over" (29.163) is 1.5 to 3 errors below each.
 
 ## What was found
 
@@ -174,6 +174,16 @@ corrections, agree within errors and neither excludes "the wrapped price takes o
      running, radius 7 to 21) and q = 1/(τν): −ln q(0.6) is a straight line in the area with no rim term over 45,
      63, 84, 108 cells, −2.049 + 0.17014·A (χ² 1.1 on 2). About nine tenths of the lifetime's rim term is in how
      often the face dips to 0.6 of its population; from there to empty a hull face pays 0.170 per cell.
+   - **Where the 0.022 between rimmed and wrapped faces sits in that decomposition [measured, `ref-hull/WRAPPED.md`;
+     one code; lifetimes taken from the anchors].** On wide tori of 63, 84, 108 cells −ln q(0.6) rises 0.157 per
+     cell (0.158, then 0.156) against the hull's 0.170; the stretch from 0.6 to 0.4 of the population costs 0.051
+     per cell on both, so 0.013 of the difference sits below 0.4 of the population, and the other 0.008 in the
+     hull's dip term. A wrapped face dips LESS often than a hull face of its area (by 0.26, 0.37, 0.53 in ln ν at
+     63, 84, 108 cells) and dies sooner because its dips are 2 to 3.8 times more often fatal: they are a different
+     event. 40–48% of a wrapped face's dips to 0.4 of its population, and 71% of its deaths at 63 cells, come
+     within a few generations of an over-full face (1–3% and 5% on the hull). A loop-12 tube against a wide face
+     in the same decomposition: it reaches 0.4–0.5 of its population e^0.46 and e^0.85 times more often at 84 and
+     108 cells, and those dips are less often fatal by 0.24 and 0.47.
 7. **The same two exits in gump's 2D relative, with the prices the other way round [measured and exact, `toy/`;
    unrefereed].** In B34/S234 on the range-2 cross an edge row that is a ring dies by boom and bust (the row
    over-fills to 19.4 of 24 where 13.9 is normal, the cap takes it to one or two cells), and the edge of a box,
@@ -254,9 +264,24 @@ extrapolated, not measured: 0.8 errors above 29.230 and 1.5 above 29.163. On the
 fade at every size (11 generations; a fall of half the face in 0.1%, 1.3%, 0.3% of deaths at 84, 108, 135 cells,
 though falls of 0.4 of the face rise from 3% to 9%).
 
-So: forecast 29.22 ± 0.02 (conditional), surrogate 29.30 ± 0.09, the old GPU value 29.34 ± 0.25. They agree with
-each other and with "the second difference repeats"; the wrapped price taking over is 1.5 to 3 errors away on
-each, on evidence that is partly by construction. Nothing is decided. PENDING_LASTRUN
+**The last run (`split-hull/`, 06:14 UTC; after the referee, not itself refereed).** With fresh stationary lanes
+per seed: 84 cells, 234 replications, chain − gump +0.051 ± 0.026; 108 cells, 460 replications, +0.059 ± 0.046;
+**135 cells, 385 replications, chain 29.397 ± 0.037**. The heavy tail has now been met at 135 cells: the running
+pooled value fell from 29.498 (first 50) to 29.397, the first large replication arriving between 200 and 250, as
+the referee said it would. Less the pooled blind offset (+0.053 ± 0.022): 29.344 ± 0.043; the value the agent
+defends for gump is **29.34, +0.06, −0.10**, the downward error wider because the offset may be partly a sampling
+bias that grows with size. A first reading at 165 cells: chain 36.09 ± 0.07 on 65 replications, tail not yet met
+(so probably 0.05–0.1 high), 36.04 less the offset, against 35.78 by the dip-rate route. Where the chain's excess
+over the dip-rate forecast sits: not between 0.6 and 0.5 of the population (gump's own tables are on trend there
+at 135 cells, 0.000 ± 0.017), possibly between 0.5 and 0.4 (+0.09 ± 0.07), and on the chain all of it is in the
+passage from the last seven or eight cells to none, where plain running cannot check and the sampler scatters
+most.
+
+So: forecast 29.22 ± 0.02 (conditional); surrogate 29.34 (+0.06, −0.10) by its author and 29.30 ± 0.09 by its
+referee; the old GPU value 29.34 ± 0.25. They agree with each other within about one error, and all sit at or
+above "the second difference repeats" (29.230); the wrapped price taking over (29.163) is 1.5 to 3 errors below
+each, on evidence that is partly by construction in the forecast and partly an extrapolated offset in the
+surrogate. That is a lean against "two prices is a small-size effect that ends by 135 cells", not a decision.
 The deciding test, named by the referee: brute-force the chain itself at 84 cells (0.03 in about an hour on four
 cores), which separates "the chain is not gump" from "the sampler's unsampled tail"; then many more initial states
 per replication, and the 165-cell face.
@@ -271,8 +296,8 @@ per replication, and the 165-cell face.
 | | 24.570 ± 0.025 | `rigour` |
 | | 24.59 ± 0.05 | `split-slab`, bookkeeping (blind test on the 108-cell tube: 22.171 ± 0.057 against 22.160) |
 | | 24.60 ± 0.07 | `split-slab`'s surrogate sampler as pooled by its referee: the only measurement of anything |
-| 135-cell hull face | 29.22 ± 0.02 (conditional); surrogate 29.30 ± 0.09 | see above |
-| 165-cell hull face | 35.780 ± 0.014 (dip-rate route), 35.79 ± 0.05 (PI), 35.74 ± 0.09 (`rim`), 35.76 ± 0.08 (`model`) | |
+| 135-cell hull face | 29.22 ± 0.02 (conditional); surrogate 29.34 (+0.06, −0.10) and 29.30 ± 0.09 | see above |
+| 165-cell hull face | 35.780 ± 0.014 (dip-rate route), 35.79 ± 0.05 (PI), 35.74 ± 0.09 (`rim`), 35.76 ± 0.08 (`model`); surrogate 36.04 ± 0.07, tail not met | |
 | 192-cell tube (1,30),(0,64) | 39.17 / 39.01 / 38.92 / 38.86 for K = 1 / 2 / 3 / a power law; surrogate 38.85 ± 0.12 | `tube1d`; `split-slab` |
 | wide 192-cell torus | 40.07 (the line); 40.35 ± 0.25 (`split-slab`, for gump) | |
 | 240-cell tube | 48.63 (K = 2); 48.40 ± 0.25 (`model`) | |
@@ -295,7 +320,8 @@ face separates only K = 1 (24.608) from the rest. The GPU's value for it lands a
   measurements to their first quoted errors; long-tube shares are a trend.
 - `ref-hull/`: dip rates confirmed; 29.22 ± 0.02 fair and conditional; its own sampler failed like the first.
 - `ref-dicehull/`: the hull chain confirmed; the 135-cell reading corrected from "29.40, above every forecast" to
-  29.30 ± 0.09, nothing decided.
+  29.30 ± 0.09, nothing decided. (The agent's later run of 385 replications, 29.34 +0.06 −0.10, came after this
+  review and bears it out.)
 - `ref-report/`: this report against its sources; its corrections are applied here.
 - Unrefereed: `rim/`, `toy/`, `tube1d/`, `model/` (mostly), `split-slab/` §9–§11, `ref-boom/STATIC.md`,
   `ref-anatomy/THEORY.md` beyond what `ref-map/` checked, `pi/`.
@@ -342,8 +368,8 @@ face separates only K = 1 (24.608) from the rest. The GPU's value for it lands a
    above the line with a possible drift of the surrogate underneath. Nobody has seen gump itself above 126 cells.
 4. **A tube's asymptote** (0.2004 with K = 2, or lower with a power in front): tubes of 240–360 cells on the
    surrogate, with the timing of their sections recorded.
-5. **`ref-hull`'s cheap test:** dip rates to 0.6 and 0.4 of the population on wrapped tori, to see whether the
-   0.022 per cell between rimmed and wrapped faces lives in the dips or in what follows.
+5. **The wrapped face's own decomposition by area** (`ref-hull`'s next step): the rate of over-full generations at
+   two or three thresholds and the chance that one ends in death, on wide tori of 57–84 cells and on tubes.
 6. **A lower bound.** Nothing with the cap in it has one.
 
 ## What I found beautiful
