@@ -8,6 +8,9 @@
  *       OUT.sum   text summary;  OUT.M  doubles [(na+1)^2]: counts of face-generations P(t-1) -> P(t)
  *       OUT.G2    doubles [(na+1)^2][3]: by (P(t-2), P(t-1)): count, sum P(t), sum P(t)^2
  *       OUT.GU    doubles [(na+1)(nu+1)][6]: by (P, U)(t-1): count, sum P', sum U', sum P'^2, sum U'^2, sum P'U'
+ *       OUT.M3    doubles [(na+1)^3]: counts P(t-2), P(t-1) -> P(t);  OUT.M4 (na <= 64) uint32 [(na+1)(nu+1)]^2:
+ *                 counts (P, U)(t-1) -> (P, U)(t), U = population of the layer beneath the face
+ *                 (M3 and M4 were added at 04:08 UTC; the runs of run_a.sh and run_b.sh used the binary without them)
  *       OUT.deaths text: one line per death: face age then P(t-1..t-32) then U(t-1..t-32)
  *       OUT.par   parents: for each population p >= P0 a uniform reservoir of MRES states with P = p:
  *                 header int32 {nrec, recsize, n, HL}; record = packed state, face, P, P(t-1..t-32), U(t-1..t-32)
@@ -101,6 +104,8 @@ int main(int argc, char **argv) {
     for (int f = 0; f < nf; f++) if (F[f].na != na || F[f].nu != nu) { fprintf(stderr, "faces differ\n"); return 1; }
     int NA = na + 1, NU = nu + 1;
     double *M = calloc((size_t)NA * NA, 8), *G2 = calloc((size_t)NA * NA * 3, 8), *GU = calloc((size_t)NA * NU * 6, 8);
+    double *M3 = calloc((size_t)NA * NA * NA, 8);                                   /* [P(t-2)][P(t-1)][P(t)] */
+    uint32_t *M4 = na <= 64 ? calloc((size_t)NA * NU * NA * NU, 4) : NULL;          /* [P(t-1)][U(t-1)][P(t)][U(t)] */
     unsigned char *hp = calloc((size_t)nf * R * HL, 1), *hu = calloc((size_t)nf * R * HL, 1), *Pn = malloc((size_t)nf * R), *Un = malloc((size_t)nf * R);
     long *age = calloc(R, sizeof(long)); long deaths = 0, nS = 0; double expoF = 0;
     int NP = na - P0 + 1; double *rc = calloc(NP, 8); unsigned char *res = calloc((size_t)NP * MRES, recsize);
@@ -118,6 +123,7 @@ int main(int argc, char **argv) {
           if (age[r] > T0) {
             int p1 = hp[ix + i1], p2 = hp[ix + i2], u1 = hu[ix + i1];
             expoF += 1; M[(size_t)p1 * NA + P] += 1;
+            M3[((size_t)p2 * NA + p1) * NA + P] += 1; if (M4) M4[(((size_t)p1 * NU + u1) * NA + P) * NU + U]++;
             double *q = G2 + ((size_t)p2 * NA + p1) * 3; q[0] += 1; q[1] += P; q[2] += (double)P * P;
             q = GU + ((size_t)p1 * NU + u1) * 6; q[0] += 1; q[1] += P; q[2] += U; q[3] += (double)P * P; q[4] += (double)U * U; q[5] += (double)P * U;
             if (P == 0) { deaths++; fprintf(fd, "%d %ld", f, age[r]);
@@ -145,6 +151,8 @@ int main(int argc, char **argv) {
     }
     fclose(fd);
     snprintf(path, sizeof path, "%s.M", argv[9]); FILE *o = fopen(path, "wb"); fwrite(M, 8, (size_t)NA * NA, o); fclose(o);
+    snprintf(path, sizeof path, "%s.M3", argv[9]); o = fopen(path, "wb"); fwrite(M3, 8, (size_t)NA * NA * NA, o); fclose(o);
+    if (M4) { snprintf(path, sizeof path, "%s.M4", argv[9]); o = fopen(path, "wb"); fwrite(M4, 4, (size_t)NA * NU * NA * NU, o); fclose(o); }
     snprintf(path, sizeof path, "%s.G2", argv[9]); o = fopen(path, "wb"); fwrite(G2, 8, (size_t)NA * NA * 3, o); fclose(o);
     snprintf(path, sizeof path, "%s.GU", argv[9]); o = fopen(path, "wb"); fwrite(GU, 8, (size_t)NA * NU * 6, o); fclose(o);
     snprintf(path, sizeof path, "%s.par", argv[9]); o = fopen(path, "wb"); int32_t nrec = 0;
