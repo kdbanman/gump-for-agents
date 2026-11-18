@@ -98,7 +98,7 @@ after its own check; the PI never merges it.
   132-cell tubes of the earlier list.
 - **Pull request 39**: the lead will merge b80248c and cherry-pick f069674 (named as the answer commit at 19:45 UTC)
   once its rebuild has reported; the Lean part is a second pass. Six comments by 19:07 UTC were read; the PI's
-  last is of {now} UTC (the eighth). Poll with `get_comments`, `perPage` 1, `page` 9 upward.
+  last is of 19:45 UTC (the eighth). Poll with `get_comments`, `perPage` 1, `page` 9 upward.
 - **In flight (CPU):** tracked job `sh research/blast/noisy/diag2.sh` (started 19:37 UTC, about an hour): the
   sampler at 84 cells with the odd sweeps on and off (scratch `runs_diag/anc_R13_*`, `w0_R13_*`) and the depth
   series (scratch `depth.txt`, six BRUTE lines, DW = 6 .. 1 at eps = 1/4, 63 cells; gump there is 13.633).
@@ -109,8 +109,7 @@ after its own check; the PI never merges it.
   `curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --no-modify-path`).
   Done: Basic, Layers (T1), Sealed (T2, T3 both halves, T4, hull, sealed lemma, union), Finite + Check (the rule
   against the oracle and the 2012 logs); `mathlib/` (Mathlib v4.36.0 fetched, 7 GB in `.lake`, not in git):
-  `Certificate.lean` (upper and lower survival certificates for a killed chain). Next, in the README's order: T6 in full, the cube still life and the
-  small sealed sets, stepper correctness, T5 (in `mathlib/`), then certified rates for the dice surrogate.
+  `Certificate.lean` (upper and lower survival certificates for a killed chain) and `Threshold.lean` (T5).
 - **Language** (the owner, 17:50 UTC): goals at full size; estimates and obstacles as facts or hypotheses only.
   Every brief and every README written from now on is read once against that before it goes out.
 - Not done: nothing of the second phase or of `lean/` has been recomputed or read by the lead or a referee.
