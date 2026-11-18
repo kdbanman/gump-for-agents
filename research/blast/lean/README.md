@@ -35,6 +35,18 @@ program outside Lean becomes a theorem once Lean has checked its certificate.
 | **T3**, second half: the two sides never influence each other again | `firewall_separates` | `Gump/Sealed.lean` |
 | **T4**, a pattern in the layers A ≤ s ≤ B stays in them | `slab_closed` | `Gump/Sealed.lean` |
 
+| **T6 / Theorem 3**, no finite sealed set in the full lattice (any nonempty finite set of points) | `no_finite_sealed`, `not_sealed_of_finite`, `exists_six_outside` | `Gump/Thickness.lean` |
+| **Theorem 3**, no finite set sealed in a slab of three or more layers | `slab_not_sealed_of_finite`, `layers_not_sealed_of_finite` | `Gump/Thickness.lean` |
+| **Lemma 1**, both halves: a set of cells is sealed iff, dead, it stays dead whatever happens elsewhere (lattice, any vessel, slabs) | `exists_birth`, `sealed_iff_run_dead`, `sealedIn_iff_step_dead`, `sealedIn_slab_iff_run_dead` | `Gump/Thickness.lean` |
+| **Theorem 3**, components: infinite in the lattice and in thick slabs; in a hull vessel each touches the outside | `sealed_component_infinite`, `slab_component_infinite`, `hull_component_touches`, `finite_closed_touches` | `Gump/Thickness.lean` |
+| **Theorem 3**, torus clause, on the universal cover | `torus_slab_loop`, `torus_loop` | `Gump/ThickTorus.lean` |
+| **Theorem 4 (i)**: every hexagon ring is sealed in its layer; no nonempty sealed set of five or fewer cells in any layer (the source had this by SAT in a patch; here it is proved for every layer) | `hexagon_sealed`; `layer_sealed_six`, `layer_no_sealed_le_five` | `Gump/ThickHex.lean`, `Gump/ThickSmall.lean` |
+| **Theorem 4 (ii)**: half-planes of a layer are sealed; false in two layers | `halfPlane_sealed`, `layer_halfPlane_dead`, `two_layer_halfPlane_not_sealed` | `Gump/ThickSmall.lean` |
+| **Proposition 5**, existence: a 36-cell set sealed in every two-layer slab | `set36_sealed`, `set36_all_sealed`, `two_layers_finite_sealed` | `Gump/ThickSmall.lean` |
+| **T6, remark**: the largest sealed subset is the 9-core and the complement of the threshold-4 bootstrap closure; K(t) only grows | `sealed_iff_nine`, `core_nine`, `core_iff_not_bp`, `skeleton_mono`, `slabSkeleton_mono` | `Gump/ThickCore.lean` |
+| Pockets of a dead sealed set evolve independently; a finite pocket is eventually periodic within t₀ + 2^N | `pocket_autonomous`, `finite_pocket_periodic`, `slab_finite_pocket_periodic` | `Gump/ThickPocket.lean` |
+| **New**: for a primitive integer direction, the far side of a plane is sealed iff the direction is a body diagonal | `beyond_sealed_iff`, `axis_halfspace_not_sealed` | `Gump/ThickHalf.lean` |
+| **New**: a nonempty sealed set is unbounded along every generic direction (lattice; in-plane in thick slabs) | `sealed_unbounded`, `slab_sealed_unbounded` | `Gump/ThickHalf.lean`, `Gump/ThickGeneric.lean` |
 | Upper and lower certificates for a killed finite Markov chain: Q ≥ 0 and Qv ≤ λv give Qᵗv ≤ λᵗv and survival ≤ c·λᵗ·v; Qv ≥ μv gives survival ≥ μᵗ·v/C (first step of line 3 of the climb) | `pow_mulVec_le`, `le_pow_mulVec`, `survival_le`, `survival_ge` | `mathlib/GumpMath/Certificate.lean` |
 
 All **[proved, machine-checked]**; axioms: `propext`, `Classical.choice`, `Quot.sound` only (`Axioms.lean`).
@@ -51,8 +63,12 @@ The stepper (`Gump/Finite.lean`) evaluates `Gump.step` itself, the function the 
 live cell and every neighbour of one. Not yet proved in Lean: that no other cell can be born (it cannot: a dead
 cell with no live neighbour stays dead, and the neighbourhood is symmetric).
 
-Not checked: nothing here is refereed by a second agent; the statements were read against `docs/AUTOMATON.md` by
-their author only.
+`STATEMENTS.md` (written by `statements.py`) puts each headline theorem's Lean statement, verbatim, next to the
+sentence it is meant to be and says where the two differ in strength. One proof, `hex_check` in `ThickHex.lean`,
+uses `decide +kernel` (the kernel evaluates the check; no axiom is added); nothing uses `native_decide`.
+
+Not checked: nothing here is refereed by a second agent; the statements were read against their sources by their
+authors and by the PI only. `set36` was found by a fresh SAT run and not compared with `sealed.py`'s set.
 
 ## The climb
 

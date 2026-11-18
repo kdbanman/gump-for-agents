@@ -3,3 +3,11 @@ import Gump.Spec
 import Gump.Layers
 import Gump.Sealed
 import Gump.Finite
+import Gump.Thickness
+import Gump.ThickSmall
+import Gump.ThickHex
+import Gump.ThickCore
+import Gump.ThickTorus
+import Gump.ThickPocket
+import Gump.ThickHalf
+import Gump.ThickGeneric
