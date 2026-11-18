@@ -1,0 +1,38 @@
+gen_4_0_4_c1: cells 384, T 1500, population at T 192 (min over run 115), MATCH (populations at every generation, cell sets at [1, 2, 3, 10, 100, 1500])
+gen_4_0_4_c1: negative control (one neighbour slot of node 192 redirected): FAILS AS IT SHOULD
+gen_4_0_4_c1: ex3 lives file identical to sy's (6176 bytes)
+gen_1_7_19_c1: cells 456, T 1500, population at T 182 (min over run 145), MATCH (populations at every generation, cell sets at [1, 2, 3, 10, 100, 1500])
+gen_1_7_19_c1: negative control (one neighbour slot of node 228 redirected): FAILS AS IT SHOULD
+gen_1_7_19_c1: ex3 lives file identical to sy's (2644 bytes)
+gen_1_4_21_c1: cells 504, T 1500, population at T 246 (min over run 142), MATCH (populations at every generation, cell sets at [1, 2, 3, 10, 100, 1500])
+gen_1_4_21_c1: negative control (one neighbour slot of node 252 redirected): FAILS AS IT SHOULD
+gen_1_4_21_c1: ex3 lives file identical to sy's (2192 bytes)
+gen_1_8_20_c1: cells 480, T 1500, population at T 238 (min over run 135), MATCH (populations at every generation, cell sets at [1, 2, 3, 10, 100, 1500])
+gen_1_8_20_c1: negative control (one neighbour slot of node 240 redirected): FAILS AS IT SHOULD
+gen_1_8_20_c1: ex3 lives file identical to sy's (2336 bytes)
+gen_1_5_22_c1: cells 528, T 1500, population at T 240 (min over run 150), MATCH (populations at every generation, cell sets at [1, 2, 3, 10, 100, 1500])
+gen_1_5_22_c1: negative control (one neighbour slot of node 264 redirected): FAILS AS IT SHOULD
+gen_1_5_22_c1: ex3 lives file identical to sy's (2152 bytes)
+gen_1_4_22_c1: cells 528, T 1500, population at T 262 (min over run 168), MATCH (populations at every generation, cell sets at [1, 2, 3, 10, 100, 1500])
+gen_1_4_22_c1: negative control (one neighbour slot of node 264 redirected): FAILS AS IT SHOULD
+gen_1_4_22_c1: ex3 lives file identical to sy's (2152 bytes)
+gen_1_12_28_c1: cells 672, T 1500, population at T 320 (min over run 232), MATCH (populations at every generation, cell sets at [1, 2, 3, 10, 100, 1500])
+gen_1_12_28_c1: negative control (one neighbour slot of node 336 redirected): FAILS AS IT SHOULD
+gen_1_12_28_c1: ex3 lives file identical to sy's (2052 bytes)
+gen_1_4_28_c1: cells 672, T 1500, population at T 342 (min over run 230), MATCH (populations at every generation, cell sets at [1, 2, 3, 10, 100, 1500])
+gen_1_4_28_c1: negative control (one neighbour slot of node 336 redirected): FAILS AS IT SHOULD
+gen_1_4_28_c1: ex3 lives file identical to sy's (2048 bytes)
+oct_9_c_c1: cells 510, T 1500, population at T 242 (min over run 163), MATCH (populations at every generation, cell sets at [1, 2, 3, 10, 100, 1500])
+oct_9_c_c1: negative control (one neighbour slot of node 255 redirected): FAILS AS IT SHOULD
+oct_9_c_c1: ex3 lives file identical to sy's (19388 bytes)
+oct_11_c_c1: cells 876, T 1500, population at T 388 (min over run 309), MATCH (populations at every generation, cell sets at [1, 2, 3, 10, 100, 1500])
+oct_11_c_c1: negative control (one neighbour slot of node 438 redirected): FAILS AS IT SHOULD
+oct_11_c_c1: ex3 lives file identical to sy's (2496 bytes)
+oct_13_c_c1: cells 1386, T 1500, population at T 620 (min over run 531), MATCH (populations at every generation, cell sets at [1, 2, 3, 10, 100, 1500])
+oct_13_c_c1: negative control (one neighbour slot of node 693 redirected): FAILS AS IT SHOULD
+oct_13_c_c1: ex3 lives file identical to sy's (2048 bytes)
+ALL OK
+
+real	0m57.901s
+user	0m57.745s
+sys	0m0.175s

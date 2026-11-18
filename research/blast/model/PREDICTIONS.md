@@ -56,3 +56,22 @@ Scores of block M1 known at this time (the 96-cell faces, opened only after comm
 19.8109 ± 0.0062 against my 19.810 ± 0.012 (inside); loop² 16: 19.9373 ± 0.0060 for (4,0),(0,8) (outside: +0.017)
 and 19.9284 ± 0.0063 for (1,8),(0,32) (inside); "equal within 0.008": difference 0.0089 ± 0.0087 (narrowly missed).
 The header of block M1 says 03:40; the machine clock at its commit was 03:35.
+
+## Block M3: 03:47 UTC, a revision of the 240-cell tube after my own stationary measurements (still before any tube beyond 108 cells is known to me)
+
+Scores of M2 (my runs, `moments.py`): s² excess of the 66-cell tube over the 66-cell wide face 0.0164 (forecast
+0.013 ± 0.005: inside); of the 84-cell tube over the 84-cell wide face 0.0203 (forecast 0.021 ± 0.005: inside; the
+"dead" clause not met). **But the reasoning was half wrong:** the tube's own variance per cell does not grow with
+its length (0.4024, 0.4021, 0.4022, 0.4023, 0.4023 at 78, 84, 96, 108, 120 cells); the excess grows because the
+wide faces' variance per cell still falls with area (0.3877, 0.3819, 0.3784 at 63, 75, 108 cells).
+
+New for the 240-cell tube: on tubes of loop² 12 all four cumulants per cell of the stationary population are
+independent of length from 78 cells on (ρ 0.51543, κ₂ 0.4023, κ₃ −0.489, κ₄ +2.03 per cell; wide faces at 108
+cells: 0.51772, 0.378, −0.30, +0.77 and still shrinking). A tube is a one-dimensional object with its own
+fluctuation law per unit length, so I now expect a price per cell of its own, c − Δ with Δ = 0.007–0.011 (the
+tilt series λf + λ²δκ₂/2 − λ³δκ₃/6 + λ⁴δκ₄/24 at λ = 0.41 gives 0.0009 + 0.0027 + 0.002–0.004 + 0.0015–0.0024 and
+has not converged; the measured local discount is already 0.0074 per cell from 96 to 108 cells).
+
+- Tube of loop² 12, 240 cells: **48.40 ± 0.25** (replaces 48.0 ± 0.35 of M1 as my best number; both are scored).
+  Local slope from 120 to 240 cells: **0.1985 ± 0.002**. P = 55%.
+- The 120-cell forecast is unchanged (24.560 ± 0.020).
