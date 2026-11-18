@@ -655,11 +655,12 @@ Neighbouring sections, all sections:
   length.
 - **No one-parameter chain fits both the bond and the decay.** With u from P1 and W = 3 the chain predicts
   P2 = 0.570, P3 = 0.495, P4 = 0.473 for crashed 2-unit sections of the 192-cell tube; measured 0.378 ± 0.067,
-  0.275 ± 0.078, 0.277 ± 0.072 (2 to 3 sd below; W = 4 does no better: 0.55, 0.44). Measured P2 is even below
+  0.275 ± 0.078, 0.277 ± 0.072 (2 to 3 sd below; W = 4 or 5 do no better: 0.56, 0.48, 0.45). Measured P2 is even below
   P1^2 = 0.52, which a Markov chain of timings cannot do; but these pairs are selected (both crashed, whatever
-  lies between), so that bound is not strict here. Without the selection (all sections) a chain with FOUR timings
-  does fit the whole decay (P1..P4 measured 0.514, 0.326, 0.247, 0.237; chain 0.514, 0.343, 0.283, 0.260; W = 3
-  gives a plateau of 1/3, too high), but its bond then implies 0.028 per cell, three times the discount, and
+  lies between), so that bound is not strict here. Without the selection (all sections) a chain with FOUR OR
+  FIVE timings does fit the whole decay (P1..P4 measured 0.514, 0.326, 0.247, 0.237; chain on the ring of 8
+  sections: W = 4: 0.514, 0.344, 0.287, 0.273; W = 5: 0.514, 0.326, 0.256, 0.238; W = 3: 0.383, 0.348, 0.341, too
+  high), but its bond then implies 0.028 per cell, three times the discount, and
   falls with section length (0.028, 0.022, 0.020): crash generations of sections without a clear crash are partly
   noise. So: where the size is right the shape is not, and where the shape is right the size is not.
 - **Correlation length.** The chain (W = 3, u from P1) gives 3.5 units for 2-unit sections. What the paths show
