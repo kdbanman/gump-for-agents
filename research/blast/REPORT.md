@@ -27,8 +27,9 @@ That is the mechanism in plain words, and it is why the differences between shap
 the living states are the same and the exits differ. It is not a derivation of 0.2087 or of 0.231, and there is
 no formula yet: the wrapped price splits into 0.079 for the over-full face and 0.136 for the layers beneath and
 the kill, but a referee showed that their sum is bookkeeping on the same runs, not a prediction. The 135-cell
-hull face was **not** measured by any method that passed calibration cleanly; what stands is a forecast of 29.22 ±
-0.02 that four routes agree on, and a first surrogate measurement described below.
+hull face has two readings that disagree: a forecast of 29.22 ± 0.02 that four routes agree on, and a first
+measurement on a coin-driven surrogate, calibrated blind at 84 and 108 cells, that reads about 29.40 (+0.06,
+−0.15). Neither says the wrapped price takes over (29.163).
 
 ## What was found
 
@@ -212,18 +213,38 @@ trend) and half by construction ("the wrapped price takes over" would be a 2% be
 test). Beyond 135 cells the dip rate's own second difference shrinks (−0.176, −0.181, −0.176, −0.168 ± 0.002,
 −0.160 ± 0.004 from 63 to 198 cells), so this route puts the 165- and 198-cell faces at 35.780 ± 0.014 and 43.011
 ± 0.019, below "the second difference repeats" (35.812, 43.085), and levels disagree by ± 0.03 and ± 0.05 there.
-**A first surrogate measurement, late in the night (`split-hull/README.md`, "Dice under the hull"; being
-refereed by `ref-dicehull/` as I write).** The method that worked on slabs, moved to the hull: gump's true rule on
-every hull cell within five layers of the watched face, fair coins on the two layers below, sampled by subset
-simulation over the coins. Chain against gump: 9.820 ± 0.019 against 9.819 and 13.589 ± 0.039 against 13.633
-(tuning sizes), **18.234 ± 0.065 against 18.141 and 23.418 ± 0.074 against 23.339 (blind; both pass the two-error
-rule set beforehand, both high, +0.087 ± 0.049 together)**, and at 135 cells the chain reads **29.458 ± 0.060**
-(73 replications). Taken at face value, less the blind sizes' offset, that is 29.37 ± 0.08 for gump: 1.8 errors
-above every forecast and above "the second difference repeats", and 2.6 above "the wrapped price takes over". I do
-not ask you to believe it yet: the offset may grow with size (0.00, −0.04, +0.09, +0.08 at 45 … 108 cells), the
-chain truncates the neighbouring faces, and no second code has run it. PENDING_DICEHULL_FINAL
-What would measure it: the surrogate route that worked for wrapped faces (honest coins a few layers under the
-watched face of a hull), calibrated on 45–108 cells.
+**A first measurement on a surrogate, late in the night (`split-hull/README.md`, "Dice under the hull").** The
+method that worked on slabs, moved to the hull: gump's true rule on every hull cell within five layers of the
+watched face, fair coins on the two layers below, sampled by subset simulation over the coins; parameters frozen
+before any run above 63 cells.
+
+| radius | cells | replications | chain − gump |
+|---|---:|---:|---|
+| 9 (tuning) | 45 | 32 | +0.001 ± 0.019 |
+| 11 (tuning) | 63 | 32 | −0.044 ± 0.039 (brute force of the chain, 1,097 deaths: +0.006 ± 0.030) |
+| 13 (blind) | 84 | 234 | +0.051 ± 0.026 |
+| 15 (blind) | 108 | 184 | +0.008 ± 0.086 |
+| 17 | 135 | 125 | chain 29.445 ± 0.041 |
+
+Less the pooled blind offset (+0.047 ± 0.025, no clear drift with size) the 135-cell face reads **29.398 ± 0.048**:
+3.5 errors above the dip-rate forecast and above "the second difference repeats" (29.230), 4.9 above "the wrapped
+price takes over" (29.163). The agent's own caution, which I share: the rates of single replications are
+heavy-tailed (at 108 cells one replication in 130 came out at 13 times the typical rate and moved the pooled value
+by 0.07; none such has appeared yet at 135 cells), so the error is lopsided: **about 29.40, +0.06, −0.15**; its
+odds are 3 to 2 that gump's value is above 29.30 and 1 in 10 that it is below 29.20. Coins two layers deeper change
+nothing at 63 cells; coins at the living density move the chain by +0.06 ± 0.04. On the chain a hull face still
+dies by a fade at every size (11 generations; a fall of half the face in 0.1%, 1.3%, 0.3% of deaths at 84, 108,
+135 cells; last cells on the rim line 1.2–1.3 times its share): no sign of the hull crossing to the other exit.
+PENDING_DICEHULL_FINAL
+
+So the forecast and the first measurement disagree by about 0.18, and the measurement sits on the side nobody
+forecast: the hull's second difference growing (0.86 ± 0.05 at face value), not repeating and not relaxing to the
+wrapped price. Both readings agree on the one thing the question was asked for: there is no sign at 135 cells
+that "two prices" is a small-size effect that goes away. Which of them is right is open, and the old GPU value
+(29.34 ± 0.25) sits between them.
+
+What would settle it: about 500 replications each at 108 and 135 cells of the same chain (three core-hours),
+watching the largest replication's share of the sum, and the 165-cell face.
 
 ## Forecasts frozen before the data
 
@@ -234,7 +255,7 @@ watched face of a hull), calibrated on 45–108 cells.
 | | 24.575 ± 0.025 | `model` |
 | | 24.570 ± 0.025 | `rigour` |
 | | 24.59 ± 0.05 | `split-slab`, bookkeeping (blind test on the 108-cell tube: 22.171 ± 0.057 against 22.160) |
-| | 24.68 ± 0.09 | `split-slab`, surrogate sampler (the only one that is a measurement of anything) |
+| | 24.60 ± 0.07 | `split-slab`'s surrogate sampler as pooled by its referee (the only one that is a measurement of anything) |
 | 192-cell tube (1,30),(0,64) | 39.17 / 39.01 / 38.92 / 38.86 for K = 1 / 2 / 3 / a power law | `tube1d` |
 | 240-cell tube | 48.63 (K = 2); 48.40 ± 0.25 (`model`) | |
 | 200-cell wide torus | 41.716 ± 0.05 (the line) | `model` |
@@ -274,7 +295,18 @@ face separates only K = 1 (24.608) from the rest. The 192-cell tube decides betw
   face; the long-tube shares are a trend (192 cells: tube 0.15 ± 0.06, wide 0.70 ± 0.05), not numbers.
 - **The two-layer map (`ref-map/REVIEW.md`): the wrapped half confirmed at 63 cells, the hull half refuted** (item
   4).
-PENDING_REFEREES_5
+- **Is the wrapped price a static rarity of the four-layer state? (`ref-boom/STATIC.md`, an investigation, not
+  refereed): three quarters of it.** By plain running on tori of 48–108 cells: the living state's frequency of
+  "all four layers at or above the launch profile" falls as e^(−0.166 ± 0.003 per cell), and given that state the
+  chance of death is 0.273, 0.162, 0.117, 0.061 at 48, 57, 63, 75 cells, i.e. e^(−0.057 ± 0.003 per cell), where
+  given the face alone it falls as e^(−0.136). Tightening the state raises the chance of death towards 1 (0.85 at
+  48 cells, six hundredths above the profile) but the state of near-certain death costs 0.23–0.25 per cell, more
+  than the price: the face launches from a shallower state and takes its chance on the kill. Out of sample, with
+  the kill law fitted on 48–63 cells and only living-state frequencies at the target size: 15.53 ± 0.16, 17.33 ±
+  0.10, 22.13 ± 0.11 at 75, 84, 108 cells against 15.64, 17.54, 22.54; low, and lower with size. One generation
+  before the launch nothing carries the price (a static cost of 0.005 per cell): **the price is paid in one
+  generation.**
+PENDING_REFEREES_6
 
 ## What failed
 
@@ -303,9 +335,13 @@ PENDING_REFEREES_5
 
 ## What is not known, in order of what I would do next
 
-1. **Measure the 135- and 165-cell hull faces** with coins under the face (the method that worked on slabs).
-2. **The kill.** 0.132 of the 0.21 is still only measured. The state that decides it is at least four layers
-   deep and two generations long; a derivation needs the joint law of that state in the living chaos.
+1. **Settle the 135-cell hull face** (29.22 forecast against 29.40 on the coin-driven chain) and measure the
+   165-cell one, with enough replications to tame the heavy tail.
+2. **The kill.** Of the 0.21 per cell, 0.079 is the rarity of an over-full face, 0.166 the rarity of an
+   over-full stack of four layers, and the remaining 0.05 is still only measured from deaths. The next step is
+   within-layer structure of the top two layers at the launch (how many cells will be overcrowded next
+   generation): if the remainder goes to zero at a static cost near the price, the price is a static large
+   deviation of the living state, measurable at any size without a death.
 3. **Whether 0.2087 lasts.** On the surrogate a wide 192-cell face still busts as one and sits at or above the
    line. Nobody has seen gump itself above 126 cells.
 4. **Whether 0.231 is a price.** The dip rate keeps its second difference to 198 cells; the 0.170 per cell from
