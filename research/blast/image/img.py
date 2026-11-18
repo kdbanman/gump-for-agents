@@ -427,7 +427,7 @@ def ana_hist(files):
         print(row + f'   (+- {np.mean(errs):.1f})')
 
 
-def run_patch(L, W, burn, snaps, every, seed):
+def run_patch(L, W, burn, snaps, every, seed, *qs):
     """the tilt of ONE cell's history window (h6, h9), read in the population of a patch round it at the newest generation:
     the cell (G1), the cell + its in-layer neighbours (G7), all face cells within two in-layer steps (G2s), within three (G3s).
     By translation symmetry the patch sum is the first-order sum, over the windows of all cells of the patch, of their effect on one cell."""
@@ -439,7 +439,7 @@ def run_patch(L, W, burn, snaps, every, seed):
     nF = len(F)
     pos = {int(c): i for i, c in enumerate(F)}
     R = 64 * W
-    QP = [9, 12, 13, 16]
+    QP = list(qs) if qs else [9, 12, 13, 16]       # far loop lengths (25, 28, 36) measure the floor that does not fall with distance
     vecs = [(q, X, Y) for q in QP for X in range(-7, 8) for Y in range(-7, 8)
             if X * X + X * Y + Y * Y == q and (X > 0 or (X == 0 and Y > 0))]
     perms = []
@@ -536,7 +536,7 @@ def ana_patch(files):
                         num = np.where(ok, d['HG_' + w][r][vi, b, :].sum(0) / np.where(ok, P, 1), 0).sum()
                         fb.append(G0[r] - num / den)
                 row += f'{np.mean(fb):+14.6f} +- {np.std(fb, ddof=1) / np.sqrt(nb):.6f}'
-            print(row + f'   {FMEAS[q]:.6f}')
+            print(row + f'   {FMEAS.get(q, 0.0):.6f}')
 
 
 def ana_pat(files):

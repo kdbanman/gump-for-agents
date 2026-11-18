@@ -62,3 +62,16 @@ generations, and the 6-generation histories of the cell and one in-layer perpend
 Block 1: I1 passes, I6 passes by the letter, I2, I3, I4, I5, I7 fail: 2 of 7. Block 2: L1–L3 not run, L4 fails.
 Block 3: H4 passes by the letter but is not resolved, H1, H2, H3, H5, H6 fail: 1 of 6. My central expectation (the
 10-cell picture carries about 30% of f(9)) was wrong: it carries nothing; the cell's history does.
+
+## Block 4: 04:08 UTC, a control on my own claim 4, before its run
+
+Seen since the scores: the 6-generation recurrence excess Z_W − 1 does not fall to zero with distance (0.32 ± 0.14
+and 0.31 ± 0.12 × 10⁻³ at loop² 21 and 25, where f is 30–80 times smaller than at 9), and the patch sums at loop² 12–16
+grow in proportion to the patch (about 10⁻⁴ per cell), which is what a distance-independent floor would do. Control:
+`img.py patch 13 0 13 64 300 80 5 32 25 28 36`, the same patch sums at loop² 25, 28, 36, where the true f is below
+0.00008.
+
+| # | forecast | P |
+|---|---|---:|
+| C1 | the mean 53-cell patch sum over loop² 25, 28, 36 exceeds 0.002 (a floor at least a third of the loop² 12 value: claim 4's "same ratio at four lengths" is then not established beyond loop² 9) | 50% |
+| C2 | it is below 0.001 (claim 4 stands as written) | 25% |
