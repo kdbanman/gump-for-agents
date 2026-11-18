@@ -12,7 +12,7 @@ and one new exact fact bears on Theorem 3's hypothesis (A2, point 3).
 
 ## A. `rigour`
 
-### A4. Exact numbers — CONFIRMED (12 rows, all printed digits)
+### A4. Exact numbers — CONFIRMED (14 rows, all printed digits)
 
 `python3 ref.py <kind> <args> --eig --tilt --bust --lemma0` (9 cells: seconds; 12 cells: under a minute);
 `python3 ref15.py 1 5` and `ref15.py 0 5` (15 cells, 40 s each). ln τ = −ln h, h = 1 − λ₁ of the killed kernel.
@@ -29,11 +29,13 @@ and one new exact fact bears on Theorem 3's hypothesis (A2, point 3).
 | torus_1_0_4 (tube girth 1, 12) | 4.133012406313 | 4.133012406313 | 1.6034503556457e-02 |
 | patch_2_2 (12) | 3.385498701050 | 3.385498701050 | 3.3860751741881e-02 |
 | strip_2_2 (12) | 4.489319585589 | 4.489319585589 | 1.1228281095304e-02 |
+| strip_1_4 (12) | 2.637394865006 | 2.637394865006 | 7.1547417662109e-02 |
+| patch_1_4 (12) | 1.981228922366 | 1.981228922366 | 1.3789966515401e-01 |
 | torus_1_1_5 (tube, 15) | 4.387194740124 | 4.387194740124 | 1.2435565327880e-02 |
 | torus_1_0_5 (tube girth 1, 15) | 4.633525444726 | 4.633525444726 | 9.7204297869186e-03 (theirs …197: 12 digits) |
 
 Density, the shares of deaths from 1, 2, 3 live cells and p₁..p₄ also agree to the digits printed (`data/exact9.txt`,
-`data/exact12.txt`, `data/exact15_*.txt`). `numpy.linalg.eigvals` on the full killed kernel gives the same h for
+`data/exact12.txt`, `data/exact12b.txt`, `data/exact15_*.txt`). `numpy.linalg.eigvals` on the full killed kernel gives the same h for
 all five 9-cell shapes and for torus_2_0_2 (4095 × 4095; `data/eig12.txt`), with |λ₂/λ₁| = 0.62 (triangle), 0.81,
 0.66, 0.76, 0.93 (patch 1×3), 0.62 (12-cell torus): one dominant eigenvalue, as rigour says (its "0.62–0.81"
 leaves out the 1×3 patch at 0.93). An independent simulation (`ref.py … --mc 300000`, deaths later than 40
@@ -173,7 +175,10 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
 - Theorem 1 — CONFIRMED (Jensen; ⟨E⟩₀/A = 0.8398 on torus_2_0_2 as stated; cumulant sums 10.08, 1.82 reproduced).
 - Covering relation P(lift x → lift y) = P(x → y)^m — CONFIRMED on (1,0),(0,2) under (2,0),(0,2), all 64 × 64
   pairs, 10⁻¹⁶ (`data/cover.txt`).
-- NOT TESTED: the three "refuted inequalities" beyond the rows above (they rest on 18-cell and Monte Carlo rows).
+- The refuted inequalities (B3) — CONFIRMED where they rest on rows I reproduced: the girth-one tube outlives
+  every other torus of equal area at 9, 12, 15 cells (3.394 > 2.695; 4.133 > 3.982 > 3.712; 4.634 > 4.387), the
+  strip 2×2 outlives every 12-cell torus (4.489), free strips one unit cell wide die sooner as they lengthen
+  (2.799 at 9 cells, 2.637 at 12). NOT TESTED: their 18-cell and Monte Carlo parts.
 
 ## B. `image`: the seam identity
 
@@ -205,7 +210,7 @@ Answers to the three questions:
    conditioning on the *strip* being alive at t₁, an event of the torus's whole history; for seam histories with
    a live cell at t₁ the factor P_C(C alive) cancels and (★) holds verbatim between the two living states, with
    Z replaced by P_T(alive at t₁); for seam histories dead at t₁ it does not, and the cover's dead histories
-   enter. (ii) For a deterministic rule from a normalised soup the weights of all histories of a ring sum to 1,
+   enter. For the density that is enough: ρ_T(c | alive) = E_C[x_c·Q]/P_T(alive at t₁) exactly, for a seam cell c. (ii) For a deterministic rule from a normalised soup the weights of all histories of a ring sum to 1,
    so Tr 𝒯^n = 1 for every n: 𝒯 has the single non-zero eigenvalue 1, and in the infinite cover **Z = 1
    exactly**, i.e. P_T(seam history = s) = P_C(image of the seam = s | seam = s). (My K = 2 check confirms the
    normalisation: it holds only if (Tr 𝒯²)² = Tr 𝒯⁴.) At finite t₁ bands further apart than the light cone are

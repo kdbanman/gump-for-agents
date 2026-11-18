@@ -5,7 +5,7 @@ This file says what is here and how to rerun it.
 
 ## Result in five lines
 
-1. [measured, exact] 12 rows of `rigour/data/exact.csv` (9, 12, 15 cells; triangle, tubes, tori, strips, patches)
+1. [measured, exact] 14 rows of `rigour/data/exact.csv` (9, 12, 15 cells; triangle, tubes, tori, strips, patches)
    reproduced to every printed digit by an independent dense code; bust shares reproduced on 8 faces to 6 digits
    and on 2 by simulation (0.9365 ± 0.0004, 0.0170 ± 0.0002).
 2. [proved, checked] Theorem 2 (tilt identity), Theorem 1, Lemma 0, (K), Lemma R, the covering relation: correct.
@@ -41,4 +41,4 @@ map and bust share (0.0030); image's measurements; the seam identity on more tha
 the two-humped tilted law persists in large faces. No stepper of gump was used: `ref.py` is the surrogate's kernel
 and `seam.py` runs only the one-layer rule (B45/S345 on the six in-layer neighbours, closed by T4), neither was
 compared with `reference/oracle.py` (rigour's graph was; my kernel agrees with rigour's solver to 12–13 digits on
-12 shapes, which ties my graphs to theirs).
+14 shapes, which ties my graphs to theirs).
