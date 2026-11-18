@@ -1,7 +1,7 @@
 /-
 Consequences of T2 for finite patterns (`docs/AUTOMATON.md` section 3): the diagonal hull holds finitely
 many cells, so every finite seed is eventually periodic, within 2^N + 1 generations where N is the
-length of the list of the hull's cells; and there are no spaceships: no finite nonempty pattern
+number of cells of the hull; and there are no spaceships: no finite nonempty pattern
 reappears translated by a nonzero vector, at any generation.
 -/
 import Gump.Sealed
@@ -121,10 +121,42 @@ theorem mem_hullCells (C : Diag → Int) (p : Pt) :
     have := l1_le_hullR C p h.2
     exact mem_box (by omega) (by omega) (by omega)
 
+/-- The box lists each point once. -/
+theorem box_nodup (R : Nat) : (box R).Nodup := by
+  unfold box
+  rw [List.nodup_iff_pairwise_ne, List.pairwise_flatMap]
+  refine ⟨fun i _ => ?_, ?_⟩
+  · rw [List.pairwise_flatMap]
+    refine ⟨fun j _ => ?_, ?_⟩
+    · rw [List.pairwise_map]
+      refine List.Pairwise.imp ?_ List.pairwise_lt_range
+      intro a b hab e
+      simp only [Pt.mk.injEq] at e
+      omega
+    · refine List.Pairwise.imp ?_ List.pairwise_lt_range
+      intro a b hab x hx y hy e
+      simp only [List.mem_map, List.mem_range] at hx hy
+      obtain ⟨k, _, rfl⟩ := hx
+      obtain ⟨k', _, rfl⟩ := hy
+      simp only [Pt.mk.injEq] at e
+      omega
+  · refine List.Pairwise.imp ?_ List.pairwise_lt_range
+    intro a b hab x hx y hy e
+    simp only [List.mem_flatMap, List.mem_map, List.mem_range] at hx hy
+    obtain ⟨j, _, k, _, rfl⟩ := hx
+    obtain ⟨j', _, k', _, rfl⟩ := hy
+    simp only [Pt.mk.injEq] at e
+    omega
+
+/-- **The list of the hull's cells has no repetition**, so its length is the number of cells of the hull. -/
+theorem hullCells_nodup (C : Diag → Int) : (hullCells C).Nodup :=
+  List.Pairwise.filter _ (box_nodup _)
+
 /-! ### Every finite seed is eventually periodic -/
 
 /-- **Every pattern inside a diagonal hull is eventually periodic**, and enters its cycle within
-2^N + 1 generations, N the number of entries of the list of the hull's cells: there are μ and T > 0 with
+2^N + 1 generations, N = `(hullCells C).length` the number of cells of the hull (`mem_hullCells`,
+`hullCells_nodup`): there are μ and T > 0 with
 μ + T ≤ 2^N + 1 and `run c (n + T) = run c n` for every n ≥ μ. -/
 theorem eventually_periodic (c : Config) (C : Diag → Int) (h : ∀ p, c p = true → ∀ d, d.dot p ≤ C d) :
     ∃ μ T, 0 < T ∧ μ + T ≤ 2 ^ (hullCells C).length + 1 ∧ ∀ n, μ ≤ n → run c (n + T) = run c n := by
