@@ -208,6 +208,13 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    8b reads a store from a crossing wire without disturbing it, with a pair of pulses, but nothing writes under a
    reader; not reviewed). **(w)** A read that keeps the count; re-arming a spent gun. **(x)** Given (u): the
    smallest loop, and what a row of unary counters with calls can compute.
+   **Since (05:36 UTC the same night; CLAIMS SG35 to SG38):** (u) has an answer that is not yet reviewed: two
+   pulses on a crossing wire C call the count out as k pulses, reusably, and stores feed stores (ninth push). The
+   seventh push's review found 34 guns that survive the echo changed. **Open now: (u′)** an adversarial review of the
+   ninth push and a proof of the call for every k; **(y)** a source for the calling pair (one pulse into two); **(z)**
+   the period-3 oscillator that may make a reusable call on the store's own wire; **(v)** still stands (no write
+   under a reader); and whether add, move and an is-it-empty test, with no copy and no subtraction, compute
+   anything beyond sums.
 14. The 94 clockwork objects (`research/clockwork/objects/`) are not merged into the atlas catalogue.
 
 ## Neighbouring rules
