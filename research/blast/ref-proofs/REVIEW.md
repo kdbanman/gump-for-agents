@@ -64,7 +64,8 @@ crash and small rimmed faces thin out.** Riders, none of which rigour hides but 
 carry:
 1. *Half-falls are ordinary life on a small wrapped face.* 27% of all 6-generation windows of a living 9-cell
    torus contain one (0.6% on the triangle). The death flux is enriched over that baseline by a factor 3.5
-   (wrapped) against 2.7 (triangle); in odds, 40 against 2.7 at 9 cells, 5.5–10 against 2.5 at 12. The contrast
+   (wrapped) against 2.7 (triangle); in odds, 40 against 2.7 at 9 cells, 5.5–10 against 2.5 at 12 (the 12-cell
+   baselines are rigour's; I recomputed the baselines at 9 cells only). The contrast
    between shapes is first of all a contrast in how often faces crash at all, then in how deadly a crash is. The
    triangle is as often populous as the torus (P(≥ 7 of 9 alive) = 0.133 against 0.161) but a populous triangle
    does not crash: its rim cannot be overcrowded. That is rigour's mechanism and my numbers agree with it.
@@ -78,7 +79,7 @@ NOT TESTED: 0.0030 on the 18-cell triangle; all shares above 15 cells (Monte Car
 
 ### A1. Theorem 2 (tilt identity) — CONFIRMED as an identity; its reading CORRECTED
 
-Checked line by line and numerically on 12 shapes (`--tilt`: ∫₀¹⟨E⟩_s ds − ln τ = 4·10⁻¹⁵ to 1.4·10⁻¹⁴, 48-point
+Checked line by line and numerically on the 10 shapes of 9 and 12 cells (`--tilt`: ∫₀¹⟨E⟩_s ds − ln τ = 4·10⁻¹⁵ to 1.4·10⁻¹⁴, 48-point
 Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 digits).
 - τ is E_μT = 1/h, h = Σμ(x)d(x) = 1 − λ₁: the mean death time from the quasi-stationary law. Correct, and
   P_μ(T > t) = λ₁^t is standard.
@@ -96,10 +97,10 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
   local costs" with other values (triangle, corners: 0.048 by the tilt; 0.170, 0.037, 0.006 by the chain rule in
   cell order; both sum to 2.483715746334; `--tilt` prints both). "A wrapped face has exactly one price per cell"
   is the statement that ln τ/A is a number. (iii) All non-locality sits in μ_s. At s = 1 the measure is the last
-  living state: 70–76% one live cell, ⟨E⟩₁ = 0.73–1.63 in total at 9–12 cells. So the lower bound ⟨E⟩₁ ≤ ln τ is
+  living state: 57–76% one live cell, ⟨E⟩₁ = 0.70–1.63 in total at 9–12 cells. So the lower bound ⟨E⟩₁ ≤ ln τ is
   O(1), and for large faces the identity says ln τ ≈ −ln μ(nearly empty states): the whole problem (the tail of
   the quasi-stationary law) is inside the tilted measure, untouched. The upper bound is honest and weak
-  (⟨E⟩₀/A = 0.76–1.18 against ln τ/A = 0.21–0.37).
+  (⟨E⟩₀/A = 0.69–1.19 against ln τ/A = 0.21–0.38).
 
 ### A2. Theorem 3 (structure, conditional on SSM) — CONFIRMED as an implication; hypothesis CORRECTED; scope CORRECTED
 
@@ -121,7 +122,7 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
    live neighbours dies), so e^(−sE) selects both. rigour's proposed test (does Var_s(E)/A grow like A?) is
    blind to this, because E is small on *both* humps; the test must be on the population (or on the occupancy)
    under μ_s. Whether the mixture survives in large faces is open: at s = 1 its weight is the one-generation
-   annihilation share, which dies like e^(−0.18·A); at s ≈ 0.2 the two humps are still of equal weight at 15 cells.
+   annihilation share, which dies like e^(−0.18·A); at s = 0.2 the two humps are of comparable weight at 15 cells (0.55 sparse, 0.37 over-full).
    (Also: rigour's "largest slope 2.3 on the 9-cell triangle" is 2.60–2.63 = Var_s(E)/A at s = 0–0.1 by my code
    and by its own cumulant k2 = 2.5998; the 12-cell torus's 1.5 is right.)
 4. *The link "two exits ⇒ SSM fails" is not an implication.* The exits are properties of paths (six
@@ -150,7 +151,7 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
   ln τ(D+1) − ln τ(D) = c_s − ln(1 − p(D)(1 − e^(−(c_b − c_s)))), not c_s + p(c_b − c_s) (Jensen; the difference is
   0.007–0.011 per unit here, the size of the errors).
 - `python3 lemmaR.py` (rigour's rows, weighted; `data/lemmaR.txt`): −Δ ln h_starve per unit of length =
-  0.566, 0.594, 0.562, 0.571, 0.626, 0.594 (± 0.014–0.024) for D = 8→9 … 14→16: constant at 0.585, χ² = 9.4 on 5.
+  0.566, 0.594, 0.562, 0.571, 0.626, 0.594 (± 0.014–0.024) for D = 8→9 … 14→16: constant at 0.585 within the errors (χ² about 9 on 5; neighbouring steps share a point).
   −Δ ln h_bust = 0.92, 0.92, 0.84, 0.90, 0.88, 0.79, 0.87: 0.87 with scatter beyond its errors (0.918 ± 0.008
   against 0.842 ± 0.011 on neighbouring steps). The log-odds fall by 0.30 per unit over D = 7–12 and by
   0.22 ± 0.02 over D = 12–16: "0.29 per unit" is the early slope, not a constant. The README's list of shares has
@@ -159,7 +160,7 @@ Gauss–Legendre; price map and cumulants of the triangle equal rigour's to 8 di
 
 ### Other statements marked [proved] in `THEOREMS.md`
 
-- (K) — CONFIRMED by enumeration on all 12 graphs (min d_i = 0.0813; hull corners have coins (2,0), two
+- (K) — CONFIRMED by enumeration on the 10 graphs of 9 and 12 cells (min d_i = 0.0813; hull corners have coins (2,0), two
   neighbours).
 - Lemma 0 — CONFIRMED: proof read (steps (1)–(4) hold; in (4) the lines' Y cells have k = 1 or 2 as claimed), and
   checked by exhaustive reachability on five tori (`--lemma0`): one class of 2^A − 2 states containing u, the
@@ -213,7 +214,7 @@ Answers to the three questions:
 
 ## How hard I tried, and what I did not do
 
-- Tried to break: the identity of Theorem 2 on 12 shapes (holds to 10⁻¹⁴); its constant (own enumeration);
+- Tried to break: the identity of Theorem 2 on 10 shapes (holds to 10⁻¹⁴); its constant (own enumeration);
   Lemma 0 by exhaustive reachability; the bust shares by a different exact formulation and by simulation; the seam
   identity on gump's rule with a negative control. None broke.
 - Not done: 18 cells and beyond; any Monte Carlo row of rigour's; `mc.c`, `qsd.c` read only for the definition of
