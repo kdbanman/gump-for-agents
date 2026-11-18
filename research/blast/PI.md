@@ -48,20 +48,34 @@ after its own check; the PI never merges it.
   without warning: after every milestone bring this file up to date ("State"), and within 60,000 tokens of the
   threshold do it at once.
 
-## State (overwritten; last written 10:13 UTC 2026-11-18)
+## State (overwritten; last written 11:16 UTC 2026-11-18)
 
-- Running: nothing. Everything is committed and pushed. A wake-up is set for 11:04 UTC (`send_later`).
-- At the wake-up: read usage (expect about 0.00); fetch and merge `origin/main`; look for the 120-cell tube's rows
-  (`research/gpu-local/`, the card's branch `claude/gpu-local-1080`) and score the frozen forecasts (24.56 +- 0.03,
-  PI; 24.60 +- 0.07, dice chain) before anything else is concluded from them; re-read `REPORT.md`, "The 135-cell
-  face: not decided" and "What is not known", then brief the second phase.
-- Candidates for the second phase, in the PI's order (from `REPORT.md`, "What is not known"): pin the hull dice
-  chain's offset from gump at 108 cells and so decide the 135-cell face; whether the kill part of the wrapped price
-  (0.057 per cell beyond the four-layer static rarity 0.166) can be derived; wide faces beyond 126 cells by two
-  independent methods (the estimator's 40.03 +- 0.24 against the sampler's 40.49 +- 0.20 at 192 cells); the tube's
-  asymptote. Each headline result gets a referee with code from the oracle alone.
-- Not done: the lead has recomputed nothing; `research/check.sh` not run on the blast; no figures; `README.md`'s
-  index lacks rows for `ref-report`, `ref-hull/WRAPPED.md` and the last section of `ref-dicehull`.
+- **Usage at 11:05 UTC: Fable window 0.00, weekly 0.00** (reset confirmed; next reset 2026-11-25 11:00 UTC).
+  Second phase started. Forecasts frozen first: `PREDICTIONS.md`, block 5.
+- **Running (two Fable agents, xhigh):**
+  1. `holes` (new; `research/blast/holes/`; 2 cores; about two hours): the chance that a patch of a living face is
+     empty at an instant, on a wide torus and by position inside a large hull face; is the bulk cost of a hole the
+     lifetime price (0.2087), is the hull's interior a wrapped face, where does the rim's surplus sit; then a
+     forecast of the 135-, 165- and 198-cell hull faces with at most one fitted number, frozen before it sees
+     `noisy/`. Owed when it reports: read; a referee with its own code if the result carries weight; write up.
+  2. `split-hull` resumed (same agent as last night; new directory `research/blast/noisy/`; 2 cores, then 4):
+     ε-noisy gump on the whole hull (true rule everywhere, coin replacements at rate ε deep under the watched
+     face), offset against ε by brute force at 45-84 cells, sampler adapted, 108 cells blind, then 135 cells at
+     three values of ε extrapolated to ε = 0. It hands back scripts for the long runs; **the PI starts them in the
+     background and resumes the agent when they finish** (waiting costs nothing that way). Owed: a referee
+     (`ref-dicehull` resumed: independent brute force of the noisy chain at 84 cells) before the number is believed.
+- **The 120-cell tube** finishes on the card about 13:00 UTC (interim, six of eight runs: 24.497 +- 0.019; the PI's
+  frozen 24.56 +- 0.03, the dice chain's 24.60 +- 0.07, the card's own 24.576 +- 0.020). Owed: fetch
+  `origin/claude/gpu-local-1080`, score, add to `REPORT.md`; then perhaps `tube1d` resumed to refit the tube law
+  (the K = 2 saturation form with an asymptote of 0.2004 looks dead if the final value stays near 24.50).
+- **Seen on the card's branch and not yet in `REPORT.md`:** its independent recorder on gump itself shows the
+  over-full generation in dying wrapped faces (63-cell torus, 8,000 deaths: four generations before death the 90th
+  percentile of the face population is 1.44 of the mean, where the living 90th percentile is 1.20, and the median
+  is 0.34), and that the chance of death once k cells are left is the same on four wrapped faces (0.85, 0.63, 0.42
+  at k = 1, 2, 3) and lower on hull faces (0.77, 0.50, 0.30, the same at 63 and 84 cells).
+- Budget rule as above: no new agent from 0.40, wrap-up from 0.45, nothing running at 0.50.
+- Not done from the night: the lead has recomputed nothing; `research/check.sh` not run on the blast; no figures;
+  `README.md`'s index lacks rows for `ref-report`, `ref-hull/WRAPPED.md`, the last section of `ref-dicehull`.
 
 ## Results that are easy to misremember (all in `REPORT.md`)
 
@@ -91,4 +105,4 @@ split-slab a6cf747f951a40794 · split-hull a3569cf285a0ef651 · tube1d aa106621b
 rim ab5a56882ea42ba61 · image ab0b5ef769471d467 · model ad6a0e85503ffe25e · rigour a2335f9a30eb2ed29 · ref-anatomy
 af7880128daa2f79e · boom a2dbcc30895945c85 · ref-hull a3624c82c86099e8a · ref-proofs acbbdf05e14446ed9 · toy
 a3b1895b4d4aa8150 · ref-slab a4e28709559ebdb39 · ref-boom aa591e3c315277243 · ref-map a27ed0edc09805b60 ·
-ref-dicehull a9ef40337c5ff214d · ref-report a53b2a899cdd90aef.
+ref-dicehull a9ef40337c5ff214d · ref-report a53b2a899cdd90aef · holes a8c03752d247770de (second phase).
