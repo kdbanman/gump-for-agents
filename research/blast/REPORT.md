@@ -33,6 +33,29 @@ four-point straight line) and a first measurement on a coin-driven surrogate (be
 depending on how the surrogate's own offset from gump continues) agree within about one error, and "the wrapped
 price takes over" (29.163) is 1.5 to 3 errors below each.
 
+**What the second phase added (the same day from 11:00 UTC; three solvers and one referee; details in the next
+section).**
+
+- **Boom and bust is confirmed on gump itself by another session's code**: four generations before death a
+  wrapped face is at 0.72 to 0.75 of full on four faces (the launch level here: 0.738), and hull faces show no
+  such generation. Forecast first; held.
+- **The lifetime price is not the cost of a hole in the living state.** That was the PI's idea; it failed at
+  every size reached (refereed).
+- **The two prices are probably not both asymptotic [conjectured, from three measured facts].** Alive, the
+  interior of a hull face is a wrapped face from two rows in (refereed). No row of a corner-free rimmed strip
+  costs more than a wrapped row at the same loop (two codes agree). And the hull's 0.231 is a marginal price, a
+  second difference, which sits above the average price for as long as the average is still rising with size;
+  closed faces show the same. At what size the hull's marginal price comes down is not known.
+- **The 120-cell tube is 24.5086 ± 0.0169, below every forecast, this report's included.** A tube's line bends
+  (0.2023, 0.2013, 0.1957 per cell from 84 to 120 cells) and the night's fitted tube law is refuted.
+- **The 135-cell hull face is still not decided.** A second sampler (gump on the whole hull, coin replacements at
+  a low rate deep under the watched face) is exact at zero noise and shows no offset at 45 and 63 cells, but its
+  blind test at 108 cells reads above gump (see the last entry of the next section). It does not reach the
+  135-cell face. The extrapolations stand at 29.20 to 29.22 ± 0.03, against 29.230 and 29.163.
+- New small facts: thin strips and narrow tubes are cut across by firewalls before a face dies; a tetrahedron of
+  gump has no steady state (its corners are shaved off); the 18-cell hull face lives 4.855 ± 0.015 and is too
+  small to belong to the family.
+
 ## Second phase (after the usage reset at 11:00 UTC): additions, newest last
 
 *(The night's report follows unchanged below. What is added here is dated; forecasts for this phase are block 5
@@ -185,6 +208,34 @@ gives is the size at which the hull's marginal price comes down. The agents' for
 from this side are 29.20 ± 0.03 (`strips/`), 29.21 ± 0.03 (`holes/`), against 29.230 for "the second difference
 repeats"; they are extrapolations and do not decide it. Not checked: second seeds for most long runs; the
 thickness of the 4-row strip at L of 6 and more; nobody has rewritten `strips/`' stepper.
+
+### 14:57 UTC. The noisy hull: a sampler with all eight faces real; its blind test at 108 cells is not clean (`noisy/`; unrefereed)
+
+The chain: gump's rule on every cell of the hull, all eight faces real; after each generation the cells 6 or
+more layers under the watched face and 3 or more under every other face are hit by darts that set a cell to a
+fair coin, at a rate ε per cell and generation. ε = 0 is gump. The sampler is the night's subset simulation, over
+the darts; it is exact for the chain at any ε > 0 [proved, standard]. The aim was to extrapolate in ε at the
+target size and not in size.
+- [measured] At zero noise the stepper is gump bit for bit (`python3 research/blast/noisy/validate.py 1200`), and
+  brute force of the chain shows **no offset from gump at 45 and 63 cells at any ε up to 0.3** (63 cells: weighted
+  mean +0.003 ± 0.004). The sampler against brute force at 63 cells: −0.024 ± 0.023, +0.019 ± 0.018, +0.003 ±
+  0.018 at ε = 1/64, 1/16, 1/4. At 84 cells, ε = 1/16: 18.173 ± 0.029, which is +0.032 ± 0.029 above gump.
+- [measured, interim] **108 cells, blind (gump: 23.3392 ± 0.0099).** With about a third of the planned
+  replications: 23.433 ± 0.052 at ε = 1/16 (96 replications), 23.49 ± 0.09 at 1/32 (19), 23.39 ± 0.09 at 1/64
+  (about 150, scatter 1.0 per replication). Weighted mean **+0.093 ± 0.044 above gump**; the line's intercept at
+  ε = 0 is +0.05 ± 0.13. Reproduce: `python3 research/blast/noisy/fit.py` on the rows in
+  `research/blast/noisy/data/runs/`.
+- What that says: the offset from gump grows with the face (+0.008 ± 0.009, +0.032 ± 0.029, +0.09 ± 0.04 at 63, 84,
+  108 cells) as the night's dice chain's did, and at small ε, where the chain is nearest to gump, the sampler's
+  replications scatter too much to extrapolate. **The method does not reach the 135-cell face** better than the
+  night's surrogate did (29.26 ± 0.06 to 29.34), and the 135-cell runs were not started.
+- A fact about the machine: the planned runs were cut at 14:07 UTC because this container is stopped whenever
+  the session has no turn, agent or tracked job in flight, and detached processes die with it. The rest of the
+  108-cell runs were restarted at 14:57 UTC as a tracked job (`sh research/blast/noisy/pi_resume_B.sh`, four
+  cores, 105 minutes); the final numbers are appended below when it ends.
+Not checked: no referee has rewritten the chain or the sampler (the window had no room for one); whether the
+offset at 108 cells is the chain's or the sampler's (the script `prod_A_brute84.sh`, 10 core-hours, would say at
+84 cells); other noise regions.
 
 ## What was found
 

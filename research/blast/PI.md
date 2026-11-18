@@ -48,36 +48,27 @@ after its own check; the PI never merges it.
   without warning: after every milestone bring this file up to date ("State"), and within 60,000 tokens of the
   threshold do it at once.
 
-## State (overwritten; last written 13:21 UTC 2026-11-18)
+## State (overwritten; last written 14:57 UTC 2026-11-18)
 
-- **Usage at 13:56 UTC: Fable window 0.39, weekly 0.20; about 0.40 at 14:02.** By the rule no agent is started or
-  resumed from here on. The rest of the window (to 0.50) is for the PI's own check-ins on the long runs: keep
-  them few (every two to three hours) and short. The noisy sampler therefore stays **unrefereed**; say so.
-- **No agent is running** (14:00 UTC). `strips` reported (commit 7a670fd): `rim/`'s table stands; no row of a rimmed
-  strip costs more than a wrapped row; marginal against average price; thin strips are cut by firewalls; the
-  tetrahedron has no steady state. In `REPORT.md`; block 6 scored.
-- **Long runs of the noisy hull (no agent; detached processes, `setsid nohup`; output
-  `research/scratch/blast/noisy/runs/sub_R<R>_M<M>_s<seed>.txt`, usable at any time):**
-  - Stage B, 108 cells blind (gump 23.3392 +- 0.0099): started 13:19 UTC on two cores:
-    `run_sub.sh 15 128 15100 22` and `run_sub.sh 15 32 15400 36`; at 14:00 UTC the other two:
-    `run_sub.sh 15 128 15200 22` and `run_sub.sh 15 64 15300 30` (2.2 h each; all four done by about 16:15).
-    Then `python3 research/blast/noisy/fit.py`: intercept at eps = 0 against 23.3392.
-  - Running values at 14:02 (`fit.py`; 73 and 127 replications): 108 cells at eps = 1/16: 23.448 +- 0.056 (+0.11
-    above gump, 1.9 errors); at 1/64: 23.387 +- 0.092 with a scatter of 1.0 per replication. If the full run keeps
-    an offset near +0.1 at eps = 1/16, the chain is not gump at that size and rate, and the small-eps points are
-    too noisy to extrapolate: then run `prod_A_brute84.sh` (the chain's own offset at 84 cells by brute force,
-    10 core-hours) before spending 32 core-hours on 135 cells, and report the method as not reaching 135 cells
-    better than about +- 0.15.
-  - Stage C, 135 cells: `sh research/blast/noisy/prod_C_135.sh 1` (4 cores, 8 h a round; later rounds 2, 3 add
-    up) only after B is read.
-  - At each wake-up copy the `runs/` files of stages B and C to `research/blast/noisy/data/runs/` and commit
-    (the scratch directory dies with the container).
-  - `noisy` stage 1 as reported (commit e98b53e): chain = gump at M = 0 bit for bit; no offset at 45 and 63
-    cells at any eps up to 0.3 (63 cells: weighted mean +0.003 +- 0.004); sampler against brute force at 63 cells
-    within errors; 84 cells at eps = 1/16: 18.173 +- 0.029 (gump 18.141). Its forecast: 135 cells 29.27 +- 0.08.
-- **Done this phase:** `holes` reported and refereed (in `REPORT.md`); the 120-cell tube scored (24.5086 +-
-  0.0169, below every forecast; chords 0.2023, 0.2013, 0.1957); block 7 frozen (126- and 132-cell tubes).
-- The pull request's description and `README.md`'s index were brought up to date at 14:05 UTC. Not done: the lead has recomputed nothing; `research/check.sh` not run on the blast; no figures.
+- **The owner at about 14:55 UTC: "Anything to finish or document here? We can do another blast at a later date,
+  but for now let's see what you found!"** So the blast is being closed: no agent, no new experiment. What is left
+  is the one job in flight and the record.
+- **Usage at 13:56 UTC: Fable window 0.39, weekly 0.20.** No agent is started or resumed.
+- **In flight (CPU only):** the rest of the noisy hull's blind test at 108 cells, a tracked background job
+  started 14:57 UTC (`sh research/blast/noisy/pi_resume_B.sh`, about 105 minutes; it then copies the rows to
+  `research/blast/noisy/data/runs/` and prints `fit.py`). **Owed when it ends:** put the final 108-cell numbers
+  into the last second-phase entry of `REPORT.md` and its short version, score `noisy/PREDICTIONS.md` block 2 and
+  the PI's block 5 items 5 and 6 (the 135-cell item stays open), commit, push, one line to the owner. Do not start
+  the 135-cell runs.
+- **Done this phase and written into `REPORT.md` (short version and dated entries):** the card's recorder and boom
+  and bust; `holes` (failed hypothesis, refereed); `strips` (checks and extends `rim/`); the 120-cell tube scored;
+  the noisy hull's stage 1 and interim 108-cell test. Forecast blocks 5 to 7 in `PREDICTIONS.md`. The pull
+  request's description, `README.md`'s index and `TO-THE-LEAD.md` are current as of 14:05 UTC.
+- **For a later blast** (the PI's list): a thick corner-free strip by a sampler or on the card ((6 unit rows,
+  L = 6), about 24; (5 unit rows, L = 7), about 23.6); the 126- and 132-cell tubes against block 7; the chain's own
+  offset at 84 cells by brute force (`prod_A_brute84.sh`); a referee for `noisy/` and for `strips/`; the lead's
+  outside audit of the night's report (`research/audit/REVIEW-blast.md`, not yet on main at 14:05 UTC).
+- Not done: the lead has recomputed nothing; `research/check.sh` not run on the blast; no figures.
 
 ## Results that are easy to misremember (all in `REPORT.md`)
 
@@ -105,6 +96,12 @@ after its own check; the PI never merges it.
 - Wait in the foreground: `end=$(( $(date +%s) + N )); until [ "$(date +%s)" -ge "$end" ]; do sleep 5; done` with
   the tool timeout at 600000. The PI's sense of elapsed time runs fast: read `date -u` before writing any time.
 - Deadlines given to agents in briefs can be moved by a message to the agent; the window fills faster than the clock.
+- **The container is stopped whenever the session has no turn, agent or tracked job in flight, and every process
+  dies with it** (seen 14:07 UTC: four `setsid nohup` jobs gone, uptime reset; files survive). Long CPU runs must
+  be tracked background jobs of the Bash tool (two hours at most each) or run while an agent is at work.
+- Resumed agents with contexts of 500,000 tokens or more cost several points of the window per hour each. Prefer
+  a fresh agent with a tight brief, and read every directory's README (the index in `README.md`) before briefing:
+  the PI once briefed an agent to redo what `rim/` had done.
 
 ## Session-private ids (valid only in this session; an agent resumed by id keeps its context)
 
