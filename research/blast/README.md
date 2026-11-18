@@ -22,7 +22,7 @@ gives D/L² = 0.0045 … 0.0048 for tubes of loop² 12 over a factor two in leng
 length, and its coefficient falls with girth as e^(−2σg), σ ≈ 0.66 per lattice unit, the edge cost of an empty
 patch. Reading: two-stage deaths through a band right round the girth; a gas of fronts.
 
-### The PI's own check of the front-gas form on the faces on file (03:45 UTC) [fitted; one code; loader of research/wrap]
+### The PI's own check of the front-gas form on the faces on file (03:36 UTC) [fitted; one code; loader of research/wrap]
 
 `python3 research/blast/pi/frontgas_check.py 64 48` (10 s; 54 pooled wrapped faces of 48 cells and up; errors floored
 at 0.0015).
