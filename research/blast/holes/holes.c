@@ -24,7 +24,8 @@
 // TRACK=1 also records how patches of 2x2, 3x3, 4x4 empty (class P only): at each generation at which a patch is
 // empty and was not empty in any of the 4 generations before, the patch's population and the population of the
 // cells of the second layer adjacent to it over the last 10 generations (2x2: every 64th generation only).
-// Output: "T grid a b I0 J0 stride c0..c7" (counts by lane group) and "P grid a b I0 J0 n .. old .. re .. bust ..
+// Also counted: triangles of side s (unit cells I >= I0, J >= J0, I + J <= I0 + J0 + s - 1: the shape of a hull face of
+// side s), written as shape "s 9". Output: "T grid a b I0 J0 stride c0..c7" (counts by lane group) and "P grid a b I0 J0 n .. old .. re .. bust ..
 // full .. nben .. face <10 lags> ben <10 lags> fall <21 bins>".
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,6 +40,7 @@ typedef uint64_t v4 __attribute__((vector_size(32)));
 #define AM 8
 #define BM 8
 #define NGRP 8
+#define NB (BM + 1)   // table columns: b = 1..BM rhombi a x b; b = BM+1: the triangle of side a
 #define NLAG 10
 #define RINGMAX 12
 #define NTR 3
@@ -158,7 +160,7 @@ static void *zalloc(size_t n) { n = (n + 63) & ~(size_t)63; void *p = aligned_al
 static Grid *newgrid(int G, int wrap, int npos, Grid *share, int track) {
   Grid *g = &grids[ngrid++]; memset(g, 0, sizeof *g);
   g->G = G; g->wrap = wrap; g->npos = npos; g->track = track;
-  size_t nc = (size_t)AM * BM * npos;
+  size_t nc = (size_t)AM * NB * npos;
   g->tab = share ? share->tab : zalloc(nc * NGRP * 8);
   g->vc = share ? share->vc : zalloc(nc * PL * sizeof(v4));
   g->touched = share ? share->touched : zalloc(nc);
@@ -249,7 +251,7 @@ static inline void vadd(v4 *pl, v4 v) {
   fprintf(stderr, "counter overflow\n"); exit(1);
 }
 static void flush(Grid *g) {
-  size_t nc = (size_t)AM * BM * g->npos;
+  size_t nc = (size_t)AM * NB * g->npos;
   for (size_t q = 0; q < nc; q++) if (g->touched[q]) {
     v4 *pl = g->vc + q * PL; uint64_t *t8 = g->tab + q * NGRP;
     for (int k = 0; k < PL; k++) {
@@ -274,6 +276,36 @@ static void count_grid(const v4 *st, Grid *g, int dotrack, int sub, int sub64) {
       E[I][J] = e; Ra[I][J] = e; any |= nz(e);
     }
     rowA[I] = any;
+  }
+  {   // triangles: side s at (I0, J0) = unit cells I >= I0, J >= J0, (I - I0) + (J - J0) <= s - 1 (a hull face's shape)
+    static v4 T1[GMAX][GMAX], T2[GMAX][GMAX];
+    v4 (*Tr)[GMAX] = T1, (*Tn)[GMAX] = T2; int rowT[GMAX], rowN[GMAX];
+    for (int I = 0; I < G; I++) { rowT[I] = rowA[I]; if (rowA[I]) for (int J = 0; J < G; J++) Tr[I][J] = E[I][J]; }
+    for (int sdo = 1; sdo <= AM; sdo++) {
+      if (sdo > 1) {
+        int anyall = 0;
+        for (int I = 0; I < G; I++) {
+          int I2 = I + 1; rowN[I] = 0;
+          if (I2 >= G) { if (!wrap) continue; I2 -= G; }
+          if (!rowA[I] || !rowT[I] || !rowT[I2]) continue;
+          int any = 0;
+          for (int J = 0; J < G; J++) {
+            int J2 = J + 1;
+            if (J2 >= G) { if (!wrap) { Tn[I][J] = zero; continue; } J2 -= G; }
+            v4 v = E[I][J] & Tr[I2][J] & Tr[I][J2]; Tn[I][J] = v; any |= nz(v);
+          }
+          rowN[I] = any; anyall |= any;
+        }
+        if (!anyall) break;
+        v4 (*tmp)[GMAX] = Tr; Tr = Tn; Tn = tmp; for (int I = 0; I < G; I++) rowT[I] = rowN[I];
+      }
+      if (sdo <= 2 && !sub) continue;
+      const size_t q0 = (size_t)((sdo - 1) * NB + BM) * npos;
+      for (int I = 0; I < G; I++) if (rowT[I]) for (int J = 0; J < G; J++) {
+        v4 v = Tr[I][J];
+        if (nz(v)) { size_t q = q0 + (npos > 1 ? I * G + J : 0); vadd(g->vc + q * PL, v); g->touched[q] = 1; }
+      }
+    }
   }
   for (int a = 1; a <= AM; a++) {
     if (a > 1) {
@@ -304,7 +336,7 @@ static void count_grid(const v4 *st, Grid *g, int dotrack, int sub, int sub64) {
         }
         if (!anyall) break;
       }
-      const size_t q0 = (size_t)((a - 1) * BM + (b - 1)) * npos;
+      const size_t q0 = (size_t)((a - 1) * NB + (b - 1)) * npos;
       const int docount = (a * b > 4) || sub;
       int s = -1;
       if (dotrack && g->track && a == b) for (int q = 0; q < NTR; q++) if (TA[q] == a) s = q;
@@ -342,11 +374,11 @@ static void dump(const char *out, int argc, char **argv, long ngen, double secs,
   int ntab = isSlab ? 4 : 1;
   for (int gi = 0; gi < ntab; gi++) {
     Grid *g = &grids[gi]; flush(g);
-    for (int a = 1; a <= AM; a++) for (int b = 1; b <= BM; b++) for (int pos = 0; pos < g->npos; pos++) {
-      uint64_t *t8 = g->tab + ((size_t)((a - 1) * BM + (b - 1)) * g->npos + pos) * NGRP, tot = 0;
+    for (int a = 1; a <= AM; a++) for (int b = 1; b <= NB; b++) for (int pos = 0; pos < g->npos; pos++) {
+      uint64_t *t8 = g->tab + ((size_t)((a - 1) * NB + (b - 1)) * g->npos + pos) * NGRP, tot = 0;
       for (int q = 0; q < NGRP; q++) tot += t8[q];
       if (!tot) continue;
-      fprintf(F, "T %d %d %d %d %d %d", gi, a, b, g->npos > 1 ? pos / g->G : 0, g->npos > 1 ? pos % g->G : 0, a * b > 4 ? 1 : SUBS);
+      fprintf(F, "T %d %d %d %d %d %d", gi, a, b, g->npos > 1 ? pos / g->G : 0, g->npos > 1 ? pos % g->G : 0, (b <= BM ? a * b > 4 : a > 2) ? 1 : SUBS);
       for (int q = 0; q < NGRP; q++) fprintf(F, " %llu", (unsigned long long)t8[q]);
       fprintf(F, "\n");
     }
