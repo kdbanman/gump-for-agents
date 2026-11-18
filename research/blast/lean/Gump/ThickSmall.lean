@@ -484,4 +484,21 @@ theorem two_layer_halfPlane_not_sealed :
   revert this
   decide
 
+/-- **The faces of a slab are sealed** (the dead sets that the measurements of thickness.md §2 find as the
+smallest on small torus slabs of three layers): the cells of a slab with `d·p ≤ C` are sealed in the slab, for
+every `C`. -/
+theorem slab_lower_sealed (d : Diag) (A B C : Int) : SealedIn (slab d A B) (slab d A C) := by
+  intro p hp
+  simp only [slab, Bool.and_eq_true, decide_eq_true_eq] at hp
+  refine Nat.le_trans ?_ (below_le_three p.axis d.neg)
+  unfold nbrs
+  rw [List.countP_map]
+  apply List.countP_mono_left
+  intro o _ h
+  simp only [Function.comp, slab, Bool.and_eq_true, Bool.not_eq_true', Bool.and_eq_false_imp,
+    decide_eq_true_eq, decide_eq_false_iff_not, Diag.dot_add] at h
+  simp only [decide_eq_true_eq, Diag.neg_dot]
+  have := h.2 h.1.1
+  omega
+
 end Gump

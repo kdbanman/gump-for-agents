@@ -231,4 +231,69 @@ four neighbours on the near side, which is why cubes grow into octahedra). -/
 theorem axis_halfspace_not_sealed (C : Int) : ¬ Sealed (beyond ⟨1, 0, 0⟩ C) :=
   beyond_not_sealed ⟨1, 0, 0⟩ ⟨1, 0, 0⟩ (by decide) (by decide) C
 
+/-! ## Theorem 3 along every generic direction -/
+
+/-- For a direction orthogonal to no offset, exactly six of the twelve offsets point forward. -/
+theorem forward_count (a : Axis) (v : Pt) (hv : ∀ o ∈ offsets a, dotv v o ≠ 0) :
+    (offsets a).countP (fun o => decide (1 ≤ dotv v o)) = 6 := by
+  have h := behind_count a v.neg 1 (by decide)
+  have e1 : (offsets a).countP (fun o => decide (dotv v.neg o ≤ -1)) =
+      (offsets a).countP (fun o => decide (1 ≤ dotv v o)) := by
+    apply List.countP_congr; intro o _
+    have : dotv v.neg o = - dotv v o := by simp only [dotv, Pt.neg, Int.neg_mul]; omega
+    simp only [decide_eq_true_eq, this]; omega
+  have e2 : (reps a).countP (fun o => decide (1 ≤ dotv v.neg o ∨ dotv v.neg o ≤ -1)) = 6 := by
+    have hlen : (reps a).length = 6 := by cases a <;> rfl
+    rw [← hlen, List.countP_eq_length]
+    intro o ho
+    have hmem : o ∈ offsets a := by
+      have := (List.Perm.mem_iff (offsets_perm_reps a)).2 (List.mem_append_left _ ho)
+      exact this
+    have hne := hv o hmem
+    have : dotv v.neg o = - dotv v o := by simp only [dotv, Pt.neg, Int.neg_mul]; omega
+    simp only [decide_eq_true_eq, this]; omega
+  rw [← e1, h, e2]
+
+/-- A nonempty set on which an integer function is bounded above has a point where it is largest. -/
+theorem exists_max_of_bdd (S : Pt → Bool) (f : Pt → Int) (M : Int) (hb : ∀ p, S p = true → f p ≤ M) :
+    ∀ n : Nat, ∀ p₀, S p₀ = true → (M - f p₀).toNat ≤ n → ∃ p, S p = true ∧ ∀ q, S q = true → f q ≤ f p := by
+  intro n
+  induction n with
+  | zero =>
+    intro p₀ hp₀ hn
+    refine ⟨p₀, hp₀, fun q hq => ?_⟩
+    have := hb q hq; omega
+  | succ n ih =>
+    intro p₀ hp₀ hn
+    by_cases h : ∃ q, S q = true ∧ f p₀ < f q
+    · obtain ⟨q, hq, hlt⟩ := h
+      exact ih q hq (by have := hb q hq; omega)
+    · exact ⟨p₀, hp₀, fun q hq => by
+        apply Classical.byContradiction; intro hn'; exact h ⟨q, hq, by omega⟩⟩
+
+/-- **Theorem 3, full lattice, sharper: a nonempty sealed set is unbounded in every generic direction.** For
+every integer `v` orthogonal to none of the 36 offsets and every bound `M`, a nonempty sealed set has a point
+with `v·p > M`. (Genericity is needed: the half-spaces `d·p ≤ C` are sealed and bounded along `d`.) -/
+theorem sealed_unbounded (S : Pt → Bool) (hS : Sealed S) (hne : ∃ p, S p = true) (v : Pt)
+    (hv : ∀ a, ∀ o ∈ offsets a, dotv v o ≠ 0) (M : Int) : ∃ p, S p = true ∧ M < dotv v p := by
+  apply Classical.byContradiction
+  intro hno
+  have hb : ∀ p, S p = true → dotv v p ≤ M := fun p hp => by
+    apply Classical.byContradiction; intro h; exact hno ⟨p, hp, by omega⟩
+  obtain ⟨p₀, hp₀⟩ := hne
+  obtain ⟨p, hp, hmax⟩ := exists_max_of_bdd S (dotv v) M hb _ p₀ hp₀ (Nat.le_refl _)
+  have h3 := hS p hp
+  have h6 : 6 ≤ (nbrs p).countP (fun q => !S q) := by
+    rw [← forward_count p.axis v (hv p.axis)]
+    unfold nbrs
+    rw [List.countP_map]
+    apply List.countP_mono_left
+    intro o _ ho
+    simp only [decide_eq_true_eq] at ho
+    simp only [Function.comp]
+    cases hq : S (p + o) with
+    | false => rfl
+    | true => have := hmax _ hq; rw [dotv_add] at this; omega
+  omega
+
 end Gump
