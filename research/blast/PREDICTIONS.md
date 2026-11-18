@@ -258,3 +258,42 @@ tabulates the dying face's population by lag before death, with quantiles. I hav
 (96-cell tube; 1.354 at lag 6); in cells 62.0, 62.0, 69.0, i.e. 0.738, 0.738, 0.719 of the face. 2 **held**: the
 hull's 95th percentile at lags 1–12 is at most 39 of a mean 31.25 (1.248; living 1.25–1.28) and 52 of 42.45 (1.225;
 living 1.225). The second was near its edge at 63 cells.
+
+### Block 5, items 1 to 4, scored 12:26 UTC from `holes/README.md` (commit f88da5d; not yet refereed)
+
+1. **Missed, and dead by its own criterion.** The bulk cost of a hole from mixed second differences is 0.254 to
+   0.265 per cell at every size reached (short side 2.5 unit cells or more), flat, not 0.2087. I gave 65%.
+   The smallest value can be had from the table already on file (2 × 2, 2 × 3, 3 × 3 patches: (12.128 − 2·8.793 +
+   6.254)/3 = 0.265). Caveat that keeps a thread alive: no hole reached is wider than 4 unit cells, and an
+   emptied patch is retaken from its edge at a quarter of a unit per generation.
+2. **Held**, far inside the margin: two or more rows from every rim of a 360-cell hull face, patches of 12 to 27
+   cells have the torus's −ln P within 0.002 in total.
+3. **Missed**: a patch on the rim is likelier to be empty, not less likely, and the cost per cell of further rows
+   against the rim is at or below the torus's. The living state's cost of emptiness shows no rim surplus.
+4. **Could not be built**: the two measurements supply no number for a formula. (The agent's own extrapolation of
+   the anchors, with its new 18-cell face: 135 cells at 29.21 ± 0.03.)
+
+## Block 6: rows or corners (PI; frozen 12:26 UTC 2026-11-18, before the strip experiment is briefed)
+
+What I had seen: `holes/README.md`. Its "rows formula" (a price per cell that depends only on the cell's depth
+in rows from the nearest rim) makes the hull's second difference in the side k equal to 3·c_r with r = ⌊k/3⌋:
+constant over three consecutive sides. With the anchors that reads c_1 = 0.266 (k = 5), c_2 = 0.2313 and 0.2301
+(k = 6, 7), and the 18-cell face breaks it at k = 4 (0.355). If rows are the right reading for sides 6 and up, the
+135-cell face repeats 0.2307 by construction (29.230) **whatever the price of deeper rows is**, and the first face
+that can show a deeper price is the 165-cell one (35.746 if depth-3 rows cost 0.2087, 35.812 if 0.2307; the
+198-cell face 42.89 against 43.09). The other reading: the surplus over the wrapped price sits in the three
+corners and their overlap, and the row two deep already costs the wrapped price.
+
+A face that is a strip between two rims, periodic along them, has rows and no corners (an infinite prism cut by
+four of the eight diagonal half-spaces; one rim is the octahedron's, the other is the sharper one of a
+tetrahedron). The price of its middle rows, from mixed second differences of ln τ in width and length, against
+the same for wrapped faces with the same short loop:
+
+1. The rows two deep in a strip (width 4 → 5 → 6 rows) cost more per cell than a wrapped face's rows at the same
+   loop length **by 0.012 or more: 45%**; within ± 0.012: 45%; cheaper by 0.012 or more: 10%.
+2. The strip's row prices are not monotone in depth (the second row from a rim dearer than both the rim row and
+   the third): 65%.
+3. Tetrahedron faces (all three rims sharp) live shorter than octahedron faces of the same area at 45 and 63
+   cells: 55%. Their second difference at side 6 is within 0.015 per cell of the octahedron's 0.231: 35%.
+4. The mixed second differences will be clean enough to separate 0.209 from 0.231 at depth two (combined error
+   0.008 per cell or better, controls included): 50%.
