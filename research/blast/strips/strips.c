@@ -13,9 +13,12 @@
 //   strips info VESSEL P1 P2
 //   strips val  VESSEL P1 P2 SEED GENS NEG OUT     dump for validate.py (NEG=1: one swapped neighbour)
 //   strips life VESSEL P1 P2 SEED T0 MAXDEATHS MAXSECS [LAGS]
+//   strips trunc VESSEL P1 P2 SEED GENS            how far the pattern's own hull has been shaved (see the code)
 // life: every lane starts from soup of density 1/2; a life ends at the first generation at which a face is empty
-// (a death), or when the lane's state repeats with a period <= 12 (censored; checked every 64 generations); the
-// lane is then restarted from soup. Exposure and deaths are counted for lanes older than T0 (tested every 16
+// (a death), or when the lane's state repeats with a period <= 12 or equals the snapshot taken at the last multiple
+// of 4096 generations (censored; both checked every 64 generations; the second was added at 13:25 UTC after
+// debris of longer period was found to pile up exposure in vessels of under 300 cells); the lane is then
+// restarted from soup. Exposure and deaths are counted for lanes older than T0 (tested every 16
 // generations). tau_face = faces * exposure / deaths. For periodic vessels a "firewall" (three cyclically
 // consecutive dead layers of a diagonal whose layers wind round the period; T3) is looked for every 8
 // generations and, exactly, in the generation before each death; the second booking ("nofw", the lead's) ends
@@ -238,6 +241,39 @@ int main(int argc, char **argv) {
     }
     fclose(F); return 0;
   }
+  if (!strcmp(mode, "trunc")) {
+    // strips trunc VESSEL P1 P2 SEED GENS: no restarts. At generations 50, 100, 200, ... over the lanes none of whose faces
+    // has yet been empty: how many layers have been shaved off the vessel along the directions OPPOSITE to its faces'
+    // normals (the pattern's own diagonal hull, T2), and the mean population of a face.
+    uint64_t seed = strtoull(argv[5], 0, 10); long gens = atol(argv[6]);
+    seedrng(seed); soup_all(S[0]);
+    uint64_t al[8]; for (int i = 0; i < 8; i++) al[i] = ~0ULL;
+    int vext[MAXF]; for (int k = 0; k < NF; k++) { vext[k] = -1000; for (int c = 0; c < N; c++) { int v = -(hd[k][0] * cx[c] + hd[k][1] * cy[c] + hd[k][2] * cz[c]); if (v > vext[k]) vext[k] = v; } }
+    printf("# trunc %s %d %d seed %llu: N %d, cells/face %d, layers from a face to the opposite extreme %d\n", ves, p1, p2, (unsigned long long)seed, N, nfc[0], (vext[0] + hc[0]) / 2 + 1);
+    long next = 50;
+    for (long t = 1; t <= gens; t++) {
+      step(S[(t - 1) & 1], S[t & 1]); const V *st = S[t & 1];
+      for (int f = 0; f < NF; f++) { V o = _mm512_setzero_si512(); for (int q = 0; q < nfc[f]; q++) o = _mm512_or_si512(o, st[fcell[f][q]]);
+        uint64_t w[8]; _mm512_storeu_si512((void *)w, o); for (int i = 0; i < 8; i++) al[i] &= w[i]; }
+      if (t == next) {
+        next *= 2; long na = 0; double sd = 0, sp = 0, smin = 0, smax = 0;
+        for (int lane = 0; lane < NLANE; lane++) if ((al[lane >> 6] >> (lane & 63)) & 1) {
+          na++; double dmin = 1e9, dmax = 0;
+          for (int k = 0; k < NF; k++) {
+            int m = -1000, pop = 0;
+            for (int c = 0; c < N; c++) if (getbit(st, c, lane)) { int v = -(hd[k][0] * cx[c] + hd[k][1] * cy[c] + hd[k][2] * cz[c]); if (v > m) m = v; }
+            for (int q = 0; q < nfc[k]; q++) pop += getbit(st, fcell[k][q], lane);
+            double d = (vext[k] - m) / 2.0; sd += d / NF; sp += (double)pop / NF; if (d < dmin) dmin = d; if (d > dmax) dmax = d;
+          }
+          smin += dmin; smax += dmax;
+        }
+        if (na) printf("TRUNC %s %d gen %7ld lanes with no face yet empty %4ld: layers shaved off opposite a face: mean %.2f (least %.2f, most %.2f of the %d); face population %.2f\n",
+                       ves, p1, t, na, sd / na, smin / na, smax / na, NF, sp / na);
+        else break;
+      }
+    }
+    return 0;
+  }
   if (strcmp(mode, "life") || argc < 9) { fprintf(stderr, "usage: see header\n"); return 1; }
   uint64_t seed = strtoull(argv[5], 0, 10); int T0 = atoi(argv[6]); long maxd = atol(argv[7]); double maxs = atof(argv[8]);
   int dolag = argc > 9 ? atoi(argv[9]) : 0;
@@ -251,7 +287,8 @@ int main(int argc, char **argv) {
   int A = nfc[0];
   const V ones = _mm512_set1_epi64(-1), zero = _mm512_setzero_si512();
   struct timespec ts0, ts1; clock_gettime(CLOCK_MONOTONIC, &ts0);
-  long t = 0; double secs = 0, nextprog = 60;
+  long t = 0, snapt = -1; double secs = 0, nextprog = 60; uint64_t nlong = 0;
+  V *SNAP = aligned_alloc(64, sizeof(V) * (N + 1));
   signal(SIGTERM, onsig); signal(SIGINT, onsig);
 #define ADDEXP(lane, tend) { long a0 = ms[lane] - birth[lane], a1 = (tend) - birth[lane]; \
     for (int b = 0; b < NBIN; b++) { long lo = (long)T0 << b, hi = (b == NBIN - 1) ? (1L << 62) : ((long)T0 << (b + 1)); \
@@ -321,6 +358,26 @@ int main(int argc, char **argv) {
         } }
       }
     }
+    if ((t & 63) == 0) {   // long periods: the state equals the snapshot taken at the last multiple of 4096 (censored at the snapshot)
+      if (snapt >= 0) {
+        V diff = zero; for (int c = 0; c < N; c++) diff = _mm512_or_si512(diff, _mm512_xor_si512(st[c], SNAP[c]));
+        V eq = _mm512_xor_si512(diff, ones);
+        if (nzv(eq)) {
+          uint64_t pw[8]; _mm512_storeu_si512((void *)pw, eq);
+          for (int i = 0; i < 8; i++) { uint64_t x = pw[i]; while (x) {
+            int bit = __builtin_ctzll(x), lane = 64 * i + bit; x &= x - 1;
+            if (birth[lane] > snapt) continue;
+            if (mat[lane]) {
+              long te = ms[lane] > snapt ? ms[lane] : snapt;   // at risk only up to the snapshot
+              ncens++; nlong++; expo -= t - te; if ((nofw[i] >> bit) & 1) expo_nf -= t - te;
+              ADDEXP(lane, te);
+            }
+            RESTART(lane);
+          } }
+        }
+      }
+      if ((t & 4095) == 0) { memcpy(SNAP, st, sizeof(V) * (N + 1)); snapt = t; }
+    }
     if (dolag && (t & 127) == 0) {   // living distribution: face 0 of 16 lanes
       for (int k = 0; k < 16; k++) { int lane = (int)((t / 128 * 16 + k) % NLANE); if (!mat[lane]) continue;
         int pop = 0; for (int q = 0; q < A; q++) pop += getbit(st, fcell[0][q], lane); liveh[pop]++; }
@@ -336,8 +393,8 @@ int main(int argc, char **argv) {
   for (int l = 0; l < NLANE; l++) { if (mat[l]) ADDEXP(l, t); if (t - birth[l] > maxage) maxage = t - birth[l]; }
   uint64_t be = 0; for (int b = 0; b < NBIN; b++) be += bexp[b];
   printf("# life %s %d %d seed %llu T0 %d: N %d faces %d cells/face %d gens %ld secs %.1f (%.2f ns per cell-generation of 512 lanes); "
-         "censored as periodic %llu; deaths before T0 %llu; deaths with two faces at once %llu; oldest lane at the end %ld; exposure by bins %llu\n",
-         ves, p1, p2, (unsigned long long)seed, T0, N, NF, A, t, secs, 1e9 * secs / ((double)t * N), (unsigned long long)ncens,
+         "censored as periodic %llu (of them by the 4096-snapshot %llu); deaths before T0 %llu; deaths with two faces at once %llu; oldest lane at the end %ld; exposure by bins %llu\n",
+         ves, p1, p2, (unsigned long long)seed, T0, N, NF, A, t, secs, 1e9 * secs / ((double)t * N), (unsigned long long)ncens, (unsigned long long)nlong,
          (unsigned long long)early, (unsigned long long)multi, maxage, (unsigned long long)be);
   for (int b = 0; b < NBIN; b++) if (bdth[b])
     printf("  age %8ld..: deaths %9llu exposure %14llu ln tau_face %.4f +- %.4f\n", (long)T0 << b, (unsigned long long)bdth[b],
