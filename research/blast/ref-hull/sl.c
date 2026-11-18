@@ -15,7 +15,7 @@
 #define W 4
 #define NL (64*W)
 #define MAXC 5400
-#define KH 8
+#define KH 16
 typedef uint64_t v4 __attribute__((vector_size(32)));
 
 static int R, N, A, LAG = 2, nw;
@@ -131,6 +131,82 @@ int main(int argc, char **argv) {
       }
       int nx = (cur + 1) % KH; step(cur, nx); cur = nx;
     }
+    return 0;
+  }
+  if (!strcmp(argv[1], "hole")) {   // sl hole n 0 n SEED GENS : counts of empty a x b rhombi of class-P unit cells, both faces, all translates
+    long G = atol(argv[6]); int n = TH;
+    if (TK != 0 || TH != TD || n > 16) return 1;
+    build(0); seedrng(seed * 7919 + 13);
+    static int uc[2][16][16][3];
+    for (int I = 0; I < n; I++) for (int J = 0; J < n; J++) {
+      int c[3] = {2 * I, 6 - 2 * I - 2 * J, 2 * J};
+      for (int k = 0; k < 3; k++) {
+        int p[3] = {c[0], c[1], c[2]}; p[k] += 1;
+        uc[0][I][J][k] = cellof(p[0], p[1], p[2]); uc[1][I][J][k] = cellof(-p[0], -p[1], -p[2]);
+      }
+      for (int f = 0; f < 2; f++) for (int k = 0; k < 3; k++) {   // a unit cell is a triangle of mutual neighbours in a face layer
+        int A0 = uc[f][I][J][k], B0 = uc[f][I][J][(k + 1) % 3], ok = 0;
+        for (int q = 0; q < 12; q++) if (nb[A0][q] == B0) ok = 1;
+        if (!ok || A0 >= N || abs(cx[A0] + cy[A0] + cz[A0]) != 7) { fprintf(stderr, "bad unit cell\n"); return 2; }
+      }
+    }
+    static v4 U[16][16], RO[5][16][16], RE[16][16];
+    static long cnt[5][5][8]; long gens = 0;
+    for (int l = 0; l < NL; l++) for (int c = 0; c < N; c++) setbit(0, c, l, urand() < 0.5);
+    int cur = 0;
+    for (long g = 1; g <= G; g++) {
+      int nx = (cur + 1) % KH; step(cur, nx); cur = nx;
+      if (g <= 500) continue;
+      gens++;
+      for (int f = 0; f < 2; f++) {
+        for (int I = 0; I < n; I++) for (int J = 0; J < n; J++) { U[I][J] = ld(S[cur][uc[f][I][J][0]]) | ld(S[cur][uc[f][I][J][1]]) | ld(S[cur][uc[f][I][J][2]]); RO[1][I][J] = U[I][J]; }
+        for (int b = 2; b <= 4; b++) for (int I = 0; I < n; I++) for (int J = 0; J < n; J++) RO[b][I][J] = RO[b - 1][I][J] | U[I][(J + b - 1) % n];
+        for (int b = 1; b <= 4; b++) for (int a = 1; a <= 4; a++) {
+          for (int I = 0; I < n; I++) for (int J = 0; J < n; J++) {
+            RE[I][J] = (a == 1) ? RO[b][I][J] : (RE[I][J] | RO[b][(I + a - 1) % n][J]);
+            v4 e = ~RE[I][J]; uint64_t w[4]; memcpy(w, &e, 32);
+            for (int q = 0; q < 4; q++) if (w[q]) { cnt[a][b][2 * q] += __builtin_popcountll(w[q] & 0xffffffffULL); cnt[a][b][2 * q + 1] += __builtin_popcountll(w[q] >> 32); }
+          }
+        }
+      }
+    }
+    for (int a = 1; a <= 4; a++) for (int b = 1; b <= 4; b++) {
+      printf("HOLE torus n %d seed %ld gens %ld a %d b %d denom %ld counts", n, seed, gens, a, b, gens * 32 * 2 * n * n);
+      for (int q = 0; q < 8; q++) printf(" %ld", cnt[a][b][q]);
+      printf("\n");
+    }
+    return 0;
+  }
+  if (!strcmp(argv[1], "life")) {   // sl life H K D SEED GENS T0 TMAX DENS : first empty face, with the firewall channel resolved
+    long G = atol(argv[6]); int T0 = atoi(argv[7]), TMAX = atoi(argv[8]); double dens = argc > 9 ? atof(argv[9]) : 0.5;
+    build(0); seedrng(seed * 31337 + 5);
+    static int lay[8][1400], nlay[8];
+    for (int c = 0; c < N; c++) { int si = (cx[c] + cy[c] + cz[c] + 7) / 2; lay[si][nlay[si]++] = c; }
+    static int age[NL], fw[NL];
+    long E1 = 0, F = 0, Wn = 0, E2 = 0, Dfw = 0, frozen = 0, cens = 0;
+    for (int l = 0; l < NL; l++) { for (int c = 0; c < N; c++) setbit(0, c, l, urand() < dens); age[l] = 0; fw[l] = 0; }
+    int cur = 0;
+    for (long g = 1; g <= G; g++) {
+      int nx = (cur + 1) % KH; step(cur, nx); cur = nx;
+      uint64_t lw[8][W];
+      for (int k = 0; k < 8; k++) { v4 o = (v4){0, 0, 0, 0}; for (int i = 0; i < nlay[k]; i++) o |= ld(S[cur][lay[k][i]]); memcpy(lw[k], &o, 32); }
+      for (int l = 0; l < NL; l++) {
+        age[l]++;
+        int dead[8]; for (int k = 0; k < 8; k++) dead[k] = !((lw[k][l >> 6] >> (l & 63)) & 1);
+        int faceempty = dead[0] || dead[7], inner = 0;
+        for (int k = 1; k <= 4; k++) if (dead[k] && dead[k + 1] && dead[k + 2]) inner = 1;
+        int counted = age[l] > T0, refill = 0;
+        if (counted) { E2++; if (!fw[l]) E1++; }
+        if (faceempty) { if (counted) { if (!fw[l]) F++; else Dfw++; } refill = 1; }
+        else if (!fw[l] && inner) { if (counted) Wn++; fw[l] = age[l]; }
+        else if (fw[l] && age[l] - fw[l] > 300) { if (counted) frozen++; refill = 1; }
+        else if (age[l] >= TMAX) { cens++; refill = 1; }
+        if (refill) { for (int c = 0; c < N; c++) setbit(cur, c, l, urand() < dens); age[l] = 0; fw[l] = 0; }
+      }
+    }
+    printf("LIFE torus %d,%d,%d A %d dens %.2f seed %ld T0 %d TMAX %d E1 %ld F %ld W %ld E2 %ld Dfw %ld frozen %ld cens %ld | face channel ln(2E1/F) %.4f +- %.4f | firewall share W/(F+W) %.3f | first empty face, all ln(2E2/(F+Dfw)) %.4f +- %.4f\n",
+           TH, TK, TD, A, dens, seed, T0, TMAX, E1, F, Wn, E2, Dfw, frozen, cens, log(2.0 * E1 / (F > 0 ? F : 1)), 1 / sqrt(F > 0 ? F : 1), (double)Wn / (F + Wn > 0 ? F + Wn : 1),
+           log(2.0 * E2 / (F + Dfw > 0 ? F + Dfw : 1)), 1 / sqrt(F + Dfw > 0 ? F + Dfw : 1));
     return 0;
   }
   // nu: plain running, both faces; first passages of every level from above lamA; split by a preceding over-full generation

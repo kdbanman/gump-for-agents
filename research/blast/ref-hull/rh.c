@@ -12,7 +12,7 @@
 #define W 4
 #define NL (64*W)
 #define MAXC 5400
-#define KH 8
+#define KH 16
 typedef uint64_t v4 __attribute__((vector_size(32)));
 
 static int R, N, A, LAG = 2, nw;
@@ -121,7 +121,8 @@ static inline void setbit(int h, int c, int l, int b) {
   uint64_t m = 1ULL << (l & 63);
   if (b) S[h][c][l >> 6] |= m; else S[h][c][l >> 6] &= ~m;
 }
-static void soup(int h, int l) { for (int c = 0; c < N; c++) setbit(h, c, l, urand() < 0.35); }
+static double DENS = 0.35;
+static void soup(int h, int l) { for (int c = 0; c < N; c++) setbit(h, c, l, urand() < DENS); }
 static void extract(int h, int l, uint64_t *cfg) {
   memset(cfg, 0, nw * 8);
   for (int c = 0; c < N; c++) if ((S[h][c][l >> 6] >> (l & 63)) & 1) cfg[c >> 6] |= 1ULL << (c & 63);
@@ -213,6 +214,94 @@ int main(int argc, char **argv) {
     printf(" bust"); c = 0; for (int L = 0; L < lamA; L++) { c += Db[L]; printf(" %ld", c); }
     printf("\n");
     fprintf(stderr, "TIES R %d seed %ld first deaths %ld faces empty at those generations %ld ratio %.5f\n", R, seed, deaths, fdead, deaths ? (double)fdead / deaths : 0.0);
+    return 0;
+  }
+  if (!strcmp(argv[1], "life")) {   // rh life R SEED GENS TMAX DENS CENSOR : hazard of the first empty face by age of the soup
+    long G = atol(argv[4]); int TMAX = atoi(argv[5]); DENS = atof(argv[6]); int censor = atoi(argv[7]);
+    build(0); seedrng(seed * 2713 + R);
+    static long dth[4100], rsk[4100], per[4100]; long facesum = 0, ndeath = 0, reachT = 0, tie2 = 0, lateF = 0, lateD = 0, lateT = 0; double sP = 0; long nPp = 0;
+    static int age[NL];
+    if (TMAX > 4000) return 1;
+    for (int l = 0; l < NL; l++) { soup(0, l); age[l] = 0; }
+    int cur = 0; static const int lags[6] = {7, 8, 9, 10, 11, 12};
+    for (long g = 1; g <= G; g++) {
+      int nx = (cur + 1) % KH; step(cur, nx); cur = nx; facestats(cur);
+      uint64_t pm[W] = {0, 0, 0, 0};
+      if (censor) for (int q = 0; q < 6; q++) {
+        v4 d = (v4){0, 0, 0, 0}; int old = (cur - lags[q] + KH) % KH;
+        for (int c = 0; c < N; c++) d |= ld(S[cur][c]) ^ ld(S[old][c]);
+        uint64_t w[4]; memcpy(w, &d, 32); for (int i = 0; i < W; i++) pm[i] |= ~w[i];
+      }
+      for (int l = 0; l < NL; l++) {
+        int a = ++age[l]; rsk[a]++;
+        if (a > 40 && a <= 100) { sP += P[l]; nPp++; }
+        int k = anyemp(l) ? nempty(l) : 0;
+        if (k) { dth[a]++; ndeath++; facesum += k; if (k >= 2) tie2++; if (a > 40) { lateD++; lateF += k; if (k >= 2) lateT++; } soup(cur, l); age[l] = 0; }
+        else if (censor && a > 12 && ((pm[l >> 6] >> (l & 63)) & 1)) { per[a]++; soup(cur, l); age[l] = 0; }
+        else if (a >= TMAX) { reachT++; soup(cur, l); age[l] = 0; }
+      }
+    }
+    long nper = 0; for (int a = 0; a <= TMAX; a++) nper += per[a];
+    printf("# life hull R %d A %d N %d soup %.2f censor %d seed %ld: first deaths %ld, faces empty per first death %.4f, share with two or more %.4f; after generation 40: %.4f and %.4f; censored as periodic %ld; reached TMAX %ld; face density in generations 41-100: %.4f\n",
+           R, A, N, DENS, censor, seed, ndeath, (double)facesum / ndeath, (double)tie2 / ndeath, lateD ? (double)lateF / lateD : 0.0, lateD ? (double)lateT / lateD : 0.0, nper, reachT, nPp ? sP / nPp / A : 0.0);
+    int step_ = TMAX <= 400 ? 20 : TMAX / 10;
+    for (int a0 = 1; a0 <= TMAX; a0 += step_) {
+      long d = 0, e = 0, pp = 0; for (int a = a0; a < a0 + step_ && a <= TMAX; a++) { d += dth[a]; e += rsk[a]; pp += per[a]; }
+      if (d > 0) printf("  generations %4d..%4d: deaths %10ld exposure %12ld periodic %8ld  ln(8E/D) %.4f +- %.4f\n", a0, a0 + step_ - 1, d, e, pp, log(8.0 * e / d), 1 / sqrt((double)d));
+    }
+    return 0;
+  }
+  if (!strcmp(argv[1], "hole")) {   // rh hole R SEED GENS : empty rhombi of class-P unit cells on the hull's faces (all 48 images pooled)
+    long G = atol(argv[4]); DENS = 0.5; build(0); seedrng(seed * 911 + R);
+    int kk = (R + 1) / 2;
+    enum { NT = 8 };
+    static const char *tname[NT] = {"interior(margin>=2) 2x2", "interior(margin>=2) 2x3", "interior(margin>=2) 3x3", "rim 3x3 (first row on a rim, other rims >=3 rows away)", "corner 2x2", "corner 2x3", "corner 3x3", "interior(margin>=2) 1x1"};
+    static const int ta[NT] = {2, 2, 3, 3, 2, 2, 3, 1}, tb[NT] = {2, 3, 3, 3, 2, 3, 3, 1};
+    static int img[200000][28], imgn[200000], imgt[200000]; int nimg = 0; long nimgt[NT] = {0};
+    static const int perms[6][3] = {{0, 1, 2}, {0, 2, 1}, {1, 0, 2}, {1, 2, 0}, {2, 0, 1}, {2, 1, 0}};
+    for (int t = 0; t < NT; t++) for (int I0 = 0; I0 < kk; I0++) for (int J0 = 0; J0 < kk; J0++) {
+      int a = ta[t], b = tb[t];
+      int mmin = kk - 1 - (I0 + a - 1) - (J0 + b - 1); if (mmin < 0) continue;
+      int ok;
+      if (t <= 2 || t == 7) ok = (I0 >= 2 && J0 >= 2 && mmin >= 2);
+      else if (t == 3) ok = (J0 == 0 && I0 >= 3 && mmin >= 3);
+      else ok = (I0 == 0 && J0 == 0);
+      if (!ok) continue;
+      for (int sg = 0; sg < 8; sg++) for (int pi = 0; pi < 6; pi++) {
+        int nc = 0;
+        for (int i = I0; i < I0 + a; i++) for (int j = J0; j < J0 + b; j++) {
+          int m = kk - 1 - i - j; int c0[3] = {2 * i, 2 * m, 2 * j};
+          for (int q = 0; q < 3; q++) {
+            int p[3] = {c0[0], c0[1], c0[2]}; p[q] += 1;
+            int t3[3] = {p[perms[pi][0]], p[perms[pi][1]], p[perms[pi][2]]};
+            if (sg & 1) t3[0] = -t3[0]; if (sg & 2) t3[1] = -t3[1]; if (sg & 4) t3[2] = -t3[2];
+            int id = idx[t3[0] + R][t3[1] + R][t3[2] + R];
+            if (id < 0) { fprintf(stderr, "bad patch cell\n"); return 2; }
+            img[nimg][nc++] = id;
+          }
+        }
+        imgn[nimg] = nc; imgt[nimg] = t; nimg++; nimgt[t]++;
+      }
+    }
+    static long cnt[NT][8]; long gens = 0, refills = 0;
+    for (int l = 0; l < NL; l++) soup(0, l);
+    int cur = 0;
+    for (long g = 1; g <= G; g++) {
+      int nx = (cur + 1) % KH; step(cur, nx); cur = nx;
+      if (g % 64 == 0) { facestats(cur); for (int l = 0; l < NL; l++) if (anyemp(l)) { soup(cur, l); refills++; } }
+      if (g <= 500) continue;
+      gens++;
+      for (int q = 0; q < nimg; q++) {
+        v4 o = ld(S[cur][img[q][0]]); for (int i = 1; i < imgn[q]; i++) o |= ld(S[cur][img[q][i]]);
+        v4 e = ~o; uint64_t w[4]; memcpy(w, &e, 32);
+        for (int i = 0; i < 4; i++) if (w[i]) { cnt[imgt[q]][2 * i] += __builtin_popcountll(w[i] & 0xffffffffULL); cnt[imgt[q]][2 * i + 1] += __builtin_popcountll(w[i] >> 32); }
+      }
+    }
+    for (int t = 0; t < NT; t++) {
+      printf("HOLE hull R %d seed %ld gens %ld refills %ld type %d images %ld denom %ld counts", R, seed, gens, refills, t, nimgt[t], gens * 32 * nimgt[t]);
+      for (int q = 0; q < 8; q++) printf(" %ld", cnt[t][q]);
+      printf(" # %s\n", tname[t]);
+    }
     return 0;
   }
   // ---- run ----
