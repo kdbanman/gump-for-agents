@@ -1,0 +1,32 @@
+PASS  t = 0: whole state = these letters + the line at rest: 7^50
+PASS  t = 100: whole state = these letters + the line at rest: 7^32 d f 7^16
+PASS  t = 170: whole state = these letters + the line at rest: 7^32 dd f 7^15
+PASS  t = 240: whole state = these letters + the line at rest: 7^32 ddd f 7^14
+PASS  t = 330: whole state = these letters + the line at rest: 7^32 d^4 f 7^13
+PASS  t = 372: whole state = these letters + the line at rest: 7^27 b 7 b 7 b 7 b 7^16
+PASS  t = 378: whole state = these letters + the line at rest: 7^24 b 7 b 7 b 7 b 7^19
+PASS  t = 600: whole state = these letters + the line at rest: 7^50
+PASS  t = 700: whole state = these letters + the line at rest: 7^32 d f 7^16
+PASS  t = 780: whole state = these letters + the line at rest: 7^32 dd f 7^15
+PASS  t = 822: whole state = these letters + the line at rest: 7^27 b 7 b 7^20
+PASS  t = 828: whole state = these letters + the line at rest: 7^24 b 7 b 7^23
+PASS  t = 1000: whole state = these letters + the line at rest: 7^50
+PASS  t = 1002: whole state = these letters + the line at rest: 7^50
+PASS  C1 cycle: st9 = oracle at every generation 0..1002 ([]); torus (140, 90, 140), nearest image 28; 45 s
+PASS  C2 move: 7^5 d f 7^25 ddd f 7^14 + line, CALL -> 7^5 d^4 f 7^40 + line at rest (left store 1 + 3 = 4; its edge was 25 units before the crossing)
+PASS  C2 move: 7^9 dd f 7^20 d^5 f 7^12 + line, CALL -> 7^9 d^7 f 7^33 + line at rest (left store 2 + 5 = 7; its edge was 20 units before the crossing)
+PASS  C2 move: 7^18 d f 7^12 d f 7^16 + line, CALL -> 7^18 dd f 7^29 + line at rest (left store 1 + 1 = 2; its edge was 12 units before the crossing)
+PASS  C2 move: 7^24 d^4 f 777 dd f 7^15 + line, CALL -> 7^24 d^6 f 7^19 + line at rest (left store 4 + 2 = 6; its edge was 3 units before the crossing)
+      22 s
+PASS  C3 chain: 7^8 dd f 7^21 ddd f 7^28 with two lines (684 cells) has period 2; torus (196, 90, 168), nearest image 44
+PASS  C3 chain: CALL on the right line -> 7^8 d^5 f 7^50, both lines at rest (the left store holds 2 + 3; its wall is still one unit after its crossing)
+PASS  C3 chain: CALL on the left line, 44 generations on: 77 b 7 b 7 b 7 b 7 b 7^53: five pulses, both lines at rest
+PASS  C3 chain: 220 generations later: the empty wire and both lines
+      27 s
+PASS  C4 bus: two store wires 5 line units apart (7^5 d f 7^25 ddd f 7^14 | 7^5 d f 7^25 dd f 7^15) and ONE line of 31 units (767 cells): period 2; one CALL -> 7^5 d^4 f 7^40 | 7^5 ddd f 7^41, the line at rest; torus (150, 100, 140), nearest image 28
+      12 s
+ALL PASS
+
+real	1m46.768s
+user	1m42.176s
+sys	0m1.122s

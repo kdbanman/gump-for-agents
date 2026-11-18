@@ -1,0 +1,10 @@
+PASS  k = 0: store (268 cells) + line (162) has period exactly 2 and at the odd generation is the union of the two alone; torus (132, 90, 132), nearest image of a live cell 28 sites away
+PASS  k = 1: store (279 cells) + line (162) has period exactly 2 and at the odd generation is the union of the two alone; torus (136, 90, 136), nearest image of a live cell 28 sites away
+PASS  k = 2: store (284 cells) + line (162) has period exactly 2 and at the odd generation is the union of the two alone; torus (138, 90, 138), nearest image of a live cell 28 sites away
+PASS  k = 3: store (289 cells) + line (162) has period exactly 2 and at the odd generation is the union of the two alone; torus (140, 90, 140), nearest image of a live cell 28 sites away
+PASS  k = 4: store (294 cells) + line (162) has period exactly 2 and at the odd generation is the union of the two alone; torus (142, 90, 142), nearest image of a live cell 28 sites away
+PASS  k = 5: store (299 cells) + line (162) has period exactly 2 and at the odd generation is the union of the two alone; torus (144, 90, 144), nearest image of a live cell 28 sites away
+PASS  k = 6: store (304 cells) + line (162) has period exactly 2 and at the odd generation is the union of the two alone; torus (146, 90, 146), nearest image of a live cell 28 sites away
+PASS  k = 7: store (309 cells) + line (162) has period exactly 2 and at the odd generation is the union of the two alone; torus (148, 90, 148), nearest image of a live cell 28 sites away
+PASS  k = 8: store (314 cells) + line (162) has period exactly 2 and at the odd generation is the union of the two alone; torus (150, 90, 150), nearest image of a live cell 28 sites away
+ALL PASS

@@ -280,3 +280,71 @@ def image_distance_set(cells, shape):
         d = int(np.abs(p[:, None, :] - q[None, :, :]).max(2).min())
         best = d if best is None else min(best, d)
     return best
+
+
+# ---------------------------------------------------------------- the line's frame, fixed (asserted)
+LG = ((0, 2, 1), (1, -1, -1))        # standard wire C (x, y, z) -> (x, -z, -y) + LT: its axis (1,0,-1) -> (1,1,0)
+LT = (28, -34, -72)                  # with this translation the line's 26 units of wire C are its units 0..25
+LCROSS = 21                          # the line's unit at the crossing (21 units before it, 4 after)
+assert all(app(LG, tr(c, j), LT) in LINE for j in range(26) for c in WIREC)
+lstep = lambda cells, n: frozenset((c[0] + 2 * n, c[1] + 2 * n, c[2]) for c in cells)   # n units along the line
+lcell = lambda q, u=0: app(LG, tr(q, u), LT)       # a cell of the standard frame, unit u of the line
+assert [lcell((0, 0, 1), 6), lcell((2, -2, 1), 6)] == CALL   # the CALL: (0,0,1), (2,-2,1) of line unit 6, 15 before the crossing
+
+
+def lletters(cells, units=range(26)):
+    return line_letters(cells, LG, LT, units)
+
+
+def lword(word, first):
+    """the cells of a word of family units on the line (own frame), unit `first` on; and the plain cells they replace"""
+    new = frozenset(lcell(q, 0) for i, ch in enumerate(word) for q in unit_cells(int(ch, 16), first + i))
+    old = frozenset(lcell(q, 0) for i in range(len(word)) for q in unit_cells(0xb, first + i))
+    return new, old
+
+
+def with_lword(state, word, first):
+    new, old = lword(word, first)
+    assert old <= state
+    return (state - old) | new
+
+
+def play(start, ops, gens, engine='st', every=2, reach=(), keep=None):
+    """ops: {generation: (cells removed, cells made live)}; removed cells must be live and made cells dead.
+    Returns {generation: frozenset} for generations divisible by `every` (or in `keep`)."""
+    out = {}
+    if engine == 'orc':
+        rc = list(reach) + [c for r, m in ops.values() for c in list(r) + list(m)]
+        o = Orc(start, reach=rc)
+        for g in range(gens + 1):
+            if g in ops:
+                for c in ops[g][0]: o.remove(c)
+                for c in ops[g][1]: o.make(c)
+            if g % every == 0 or (keep and g in keep):
+                out[g] = o.cells()
+            if g < gens:
+                o.step()
+        out['image_distance'] = o.image_distance(); out['shape'] = o.shape
+        return out
+    s = frozenset(start)
+    for g in range(gens + 1):
+        if g in ops:
+            r, m = frozenset(ops[g][0]), frozenset(ops[g][1])
+            assert r <= s and not (m & s), ('operation does not apply', g)
+            s = (s - r) | m
+        if g % every == 0 or (keep and g in keep):
+            out[g] = s
+        if g < gens:
+            s = run(s, 1)
+    return out
+
+
+def long_line(n, at=23):
+    """the line with n more units of wire C put in before its unit `at` (the cells from unit `at` on move n units)"""
+    out = set()
+    for c in LINE:
+        u = (c[0] - LT[0]) >> 1
+        out.add((c[0] + 2 * n, c[1] + 2 * n, c[2]) if u >= at else c)
+    out |= {lcell(q, at + j) for j in range(n) for q in WIREC}
+    assert len(out) == 162 + 5 * n
+    return frozenset(out)
