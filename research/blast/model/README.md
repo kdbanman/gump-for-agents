@@ -76,6 +76,13 @@ e. **[fitted] Two routes do not give the hull's 0.231 by themselves.** On wrappe
    the rim is the hull's tail price (0.50 per live cell against 0.42–0.44) and a negative rim term (the constant
    b = −0.344 per unit of side that goes with 0.231); neither is derived here.
 
+f. **[measured] Where the 63-cell hull face parts from the 63-cell torus in π(n)** (`hullpi.py`): the hull is
+   e^0.9 times as often at 14–16 cells (lower mean, larger variance), e^0.2 at 3–4 cells, e^(−0.26) at one cell, and
+   dies from one cell 0.60 times per generation against 0.75: together the 0.47–0.49 of ln τ. Its tail is steeper:
+   0.460 per live cell over 4–12 cells against 0.382. That is the only place where the histogram shows the hull's
+   higher price; put into the tangent estimate (with all its faults, item 6 below) it raises the price per cell by
+   6% where 11% is measured.
+
 ## Short answer (written before the section above; the front gas has since been killed by agent `anatomy`: no band-first class of deaths)
 
 1. **[fitted] The front gas with one σ fails on the data on file; with a free weight per loop length it fails less,
