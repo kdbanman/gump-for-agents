@@ -1,0 +1,28 @@
+TORUS 12 x 12 x 8: 8 seeds, 64 groups of 32 lanes; replica-generations 5.11e+08
+  f(1x1) = 1.9718 +- 0.0000 (jackknife over 64 groups; over 8 seeds: 0.0000); hits 20485396636; holes: 1.9718; mine - holes +0.0000; a x b minus b x a (must be 0 by symmetry): +0.0000 +- 0.0000
+  f(1x2) = 3.6260 +- 0.0000 (jackknife over 64 groups; over 8 seeds: 0.0000); hits 7835590017; holes: 3.6260; mine - holes -0.0000; a x b minus b x a (must be 0 by symmetry): +0.0000 +- 0.0000
+  f(2x2) = 6.1598 +- 0.0001 (jackknife over 64 groups; over 8 seeds: 0.0001); hits 310917298; holes: 6.1598; mine - holes -0.0000; a x b minus b x a (must be 0 by symmetry): +0.0000 +- 0.0000
+  f(2x3) = 8.6753 +- 0.0003 (jackknife over 64 groups; over 8 seeds: 0.0004); hits 50254544; holes: 8.6753; mine - holes +0.0000; a x b minus b x a (must be 0 by symmetry): +0.0001 +- 0.0003
+  f(3x3) = 11.9819 +- 0.0016 (jackknife over 64 groups; over 8 seeds: 0.0019); hits 920738; holes: 11.9849; mine - holes -0.0030; a x b minus b x a (must be 0 by symmetry): +0.0000 +- 0.0000
+  f(2x4) = 11.1414 +- 0.0008 (jackknife over 64 groups; over 8 seeds: 0.0012); hits 4267501; holes: 11.1417; mine - holes -0.0003; a x b minus b x a (must be 0 by symmetry): +0.0008 +- 0.0014
+  f(3x4) = 15.2238 +- 0.0052 (jackknife over 64 groups; over 8 seeds: 0.0056); hits 71981; holes: 15.2298; mine - holes -0.0060; a x b minus b x a (must be 0 by symmetry): -0.0096 +- 0.0079
+  f(4x4) = 19.1495 +- 0.0473 (jackknife over 64 groups; over 8 seeds: 0.0169); hits 710; holes: 19.2377; mine - holes -0.0882; a x b minus b x a (must be 0 by symmetry): +0.0000 +- 0.0000
+  mixed second difference per cell M(1.5, 1.5)/3 = 0.2932 +- 0.0000 (seeds: 0.0000); holes: 0.2932
+  mixed second difference per cell M(1.5, 2.5)/3 = 0.2814 +- 0.0001 (seeds: 0.0001); holes: 0.2814
+  mixed second difference per cell M(2.5, 2.5)/3 = 0.2637 +- 0.0005 (seeds: 0.0005); holes: 0.2646
+  mixed second difference per cell M(2.5, 3.5)/3 = 0.2586 +- 0.0014 (seeds: 0.0013); holes: 0.2595
+  mixed second difference per cell M(3.5, 3.5)/3 = 0.2279 +- 0.0147 (seeds: 0.0059); holes: 0.2543
+  mixed second difference per cell M(1.5, 3.5)/3 = 0.2690 +- 0.0002 (seeds: 0.0003); holes: 0.2691
+  pure second differences f(a+1,b) - 2 f(a,b) + f(a-1,b) (zero if f were bulk + perimeter + corner):
+    b = 2: a = 2: -0.0182 +- 0.0002;  a = 3: -0.0495 +- 0.0006
+    b = 3: a = 2: -0.0714 +- 0.0014;  a = 3: -0.0646 +- 0.0037
+    b = 4: a = 2: -0.1026 +- 0.0049;  a = 3: -0.1567 +- 0.0442
+HULL: 4 seeds, 32 groups
+  interior, margin >= 2, 2x2: f = 6.1601 +- 0.0003; holes (R = 29 or its R = 21 check): 6.1599; mine - holes +0.0002; my torus 6.1598 +- 0.0001: hull - torus +0.0004 +- 0.0003
+  interior, margin >= 2, 2x3: f = 8.6763 +- 0.0010; holes (R = 29 or its R = 21 check): 8.6760; mine - holes +0.0003; my torus 8.6753 +- 0.0003: hull - torus +0.0009 +- 0.0010
+  interior, margin >= 2, 3x3: f = 11.9770 +- 0.0064; holes (R = 29 or its R = 21 check): 11.9862; mine - holes -0.0092; my torus 11.9819 +- 0.0016: hull - torus -0.0049 +- 0.0066
+  3x3 with its first row on a rim: f = 10.9969 +- 0.0034; holes (R = 29 or its R = 21 check): 11.0049; mine - holes -0.0080; against my torus 3x3: -0.985
+  corner 2x2: f = 4.0559 +- 0.0002; holes (R = 29 or its R = 21 check): 4.0556; mine - holes +0.0003
+  corner 2x3: f = 6.0616 +- 0.0004; holes (R = 29 or its R = 21 check): 6.0608; mine - holes +0.0008
+  corner 3x3: f = 8.7752 +- 0.0016; holes (R = 29 or its R = 21 check): 8.7750; mine - holes +0.0002; against my torus 3x3: -3.207
+  interior, margin >= 2, 1x1: f = 1.9702 +- 0.0000; holes (R = 29 or its R = 21 check): 1.9708; mine - holes -0.0006; my torus 1.9718 +- 0.0000: hull - torus -0.0016 +- 0.0000

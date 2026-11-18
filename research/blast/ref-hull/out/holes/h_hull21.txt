@@ -1,0 +1,32 @@
+HOLE hull R 21 seed 1 gens 249500 refills 0 type 0 images 288 denom 2299392000 counts 4866186 4842480 4870668 4859540 4856618 4859234 4852794 4864748 # interior(margin>=2) 2x2
+HOLE hull R 21 seed 1 gens 249500 refills 0 type 1 images 144 denom 1149696000 counts 197647 193644 197824 196633 196353 196211 196681 197446 # interior(margin>=2) 2x3
+HOLE hull R 21 seed 1 gens 249500 refills 0 type 2 images 48 denom 383232000 counts 2384 2268 2452 2342 2360 2412 2434 2492 # interior(margin>=2) 3x3
+HOLE hull R 21 seed 1 gens 249500 refills 0 type 3 images 48 denom 383232000 counts 6454 6399 6597 6301 6501 6467 6254 6623 # rim 3x3 (first row on a rim, other rims >=3 rows away)
+HOLE hull R 21 seed 1 gens 249500 refills 0 type 4 images 48 denom 383232000 counts 6637946 6644930 6631852 6644564 6631506 6643078 6643988 6646634 # corner 2x2
+HOLE hull R 21 seed 1 gens 249500 refills 0 type 5 images 48 denom 383232000 counts 894776 894364 890881 897314 890850 892440 895574 895238 # corner 2x3
+HOLE hull R 21 seed 1 gens 249500 refills 0 type 6 images 48 denom 383232000 counts 59250 59952 58954 60000 58914 58928 59450 59744 # corner 3x3
+HOLE hull R 21 seed 1 gens 249500 refills 0 type 7 images 720 denom 5748480000 counts 801642270 801404946 801637194 801602304 801543900 801553062 801514656 801510444 # interior(margin>=2) 1x1
+HOLE hull R 21 seed 2 gens 249500 refills 0 type 0 images 288 denom 2299392000 counts 4848524 4853228 4847158 4859016 4854160 4849140 4855160 4854022 # interior(margin>=2) 2x2
+HOLE hull R 21 seed 2 gens 249500 refills 0 type 1 images 144 denom 1149696000 counts 195250 197036 194991 197425 196139 194890 195666 195588 # interior(margin>=2) 2x3
+HOLE hull R 21 seed 2 gens 249500 refills 0 type 2 images 48 denom 383232000 counts 2266 2414 2454 2522 2396 2430 2552 2496 # interior(margin>=2) 3x3
+HOLE hull R 21 seed 2 gens 249500 refills 0 type 3 images 48 denom 383232000 counts 6424 6417 6267 6374 6327 6231 6470 6412 # rim 3x3 (first row on a rim, other rims >=3 rows away)
+HOLE hull R 21 seed 2 gens 249500 refills 0 type 4 images 48 denom 383232000 counts 6628978 6635318 6619400 6645972 6638986 6645598 6638746 6635884 # corner 2x2
+HOLE hull R 21 seed 2 gens 249500 refills 0 type 5 images 48 denom 383232000 counts 892385 890078 890379 895932 894198 895661 893360 893123 # corner 2x3
+HOLE hull R 21 seed 2 gens 249500 refills 0 type 6 images 48 denom 383232000 counts 57830 58888 58824 60242 59350 59526 59388 59308 # corner 3x3
+HOLE hull R 21 seed 2 gens 249500 refills 0 type 7 images 720 denom 5748480000 counts 801373506 801490926 801441798 801532350 801427974 801402570 801601146 801526848 # interior(margin>=2) 1x1
+HOLE hull R 21 seed 3 gens 249500 refills 0 type 0 images 288 denom 2299392000 counts 4847270 4851576 4848630 4856384 4864190 4848140 4874578 4861222 # interior(margin>=2) 2x2
+HOLE hull R 21 seed 3 gens 249500 refills 0 type 1 images 144 denom 1149696000 counts 195130 194920 195366 195121 198254 195445 197209 197359 # interior(margin>=2) 2x3
+HOLE hull R 21 seed 3 gens 249500 refills 0 type 2 images 48 denom 383232000 counts 2286 2260 2436 2372 2602 2420 2478 2476 # interior(margin>=2) 3x3
+HOLE hull R 21 seed 3 gens 249500 refills 0 type 3 images 48 denom 383232000 counts 6325 6390 6430 6119 6464 6549 6752 6443 # rim 3x3 (first row on a rim, other rims >=3 rows away)
+HOLE hull R 21 seed 3 gens 249500 refills 0 type 4 images 48 denom 383232000 counts 6635472 6623106 6632268 6658638 6618516 6636010 6649248 6642808 # corner 2x2
+HOLE hull R 21 seed 3 gens 249500 refills 0 type 5 images 48 denom 383232000 counts 892556 893554 892204 894958 890480 891941 894439 895213 # corner 2x3
+HOLE hull R 21 seed 3 gens 249500 refills 0 type 6 images 48 denom 383232000 counts 59186 59862 59026 58484 58964 58592 59688 58956 # corner 3x3
+HOLE hull R 21 seed 3 gens 249500 refills 0 type 7 images 720 denom 5748480000 counts 801511662 801569040 801500220 801528552 801568380 801484740 801731040 801646428 # interior(margin>=2) 1x1
+HOLE hull R 21 seed 4 gens 249500 refills 0 type 0 images 288 denom 2299392000 counts 4845190 4867018 4860082 4864358 4849580 4853292 4861440 4855346 # interior(margin>=2) 2x2
+HOLE hull R 21 seed 4 gens 249500 refills 0 type 1 images 144 denom 1149696000 counts 195186 197103 195268 195979 195989 195653 196388 196201 # interior(margin>=2) 2x3
+HOLE hull R 21 seed 4 gens 249500 refills 0 type 2 images 48 denom 383232000 counts 2306 2462 2520 2338 2402 2366 2274 2430 # interior(margin>=2) 3x3
+HOLE hull R 21 seed 4 gens 249500 refills 0 type 3 images 48 denom 383232000 counts 6418 6493 6414 6328 6382 6539 6474 6419 # rim 3x3 (first row on a rim, other rims >=3 rows away)
+HOLE hull R 21 seed 4 gens 249500 refills 0 type 4 images 48 denom 383232000 counts 6635418 6641110 6636174 6643508 6633170 6646140 6632302 6630902 # corner 2x2
+HOLE hull R 21 seed 4 gens 249500 refills 0 type 5 images 48 denom 383232000 counts 893140 891786 890162 897039 891194 893902 891789 891455 # corner 2x3
+HOLE hull R 21 seed 4 gens 249500 refills 0 type 6 images 48 denom 383232000 counts 59118 58682 58950 60232 58780 59602 59622 58646 # corner 3x3
+HOLE hull R 21 seed 4 gens 249500 refills 0 type 7 images 720 denom 5748480000 counts 801376128 801545004 801638268 801641454 801518232 801598722 801383292 801440748 # interior(margin>=2) 1x1

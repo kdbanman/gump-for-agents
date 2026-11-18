@@ -182,31 +182,50 @@ int main(int argc, char **argv) {
     build(0); seedrng(seed * 31337 + 5);
     static int lay[8][1400], nlay[8];
     for (int c = 0; c < N; c++) { int si = (cx[c] + cy[c] + cz[c] + 7) / 2; lay[si][nlay[si]++] = c; }
+    // layers of the three other body diagonals (T3 holds for each): s' = d'.p is defined modulo M = gcd(d'.v1, d'.v2)
+    static int ol[3][64][1400], nol[3][64], nlayo[3];
+    { static const int dd[3][3] = {{1, 1, -1}, {1, -1, 1}, {-1, 1, 1}};
+      int v1[3] = {2 * TH + 2 * TK, -2 * TH, -2 * TK}, v2[3] = {2 * TD, 0, -2 * TD};
+      for (int d = 0; d < 3; d++) {
+        int p1 = abs(dd[d][0] * v1[0] + dd[d][1] * v1[1] + dd[d][2] * v1[2]), p2 = abs(dd[d][0] * v2[0] + dd[d][1] * v2[1] + dd[d][2] * v2[2]);
+        int M = p1, y = p2; while (y) { int t = M % y; M = y; y = t; }
+        nlayo[d] = M / 2; if (M == 0 || nlayo[d] > 64) nlayo[d] = 0;
+        for (int c = 0; c < N && nlayo[d]; c++) { int sp = dd[d][0] * cx[c] + dd[d][1] * cy[c] + dd[d][2] * cz[c]; sp = ((sp % M) + M) % M; ol[d][sp / 2][nol[d][sp / 2]++] = c; }
+        fprintf(stderr, "diagonal %d: %d layers\n", d, nlayo[d]);
+      } }
     static int age[NL], fw[NL];
-    long E1 = 0, F = 0, Wn = 0, E2 = 0, Dfw = 0, frozen = 0, cens = 0;
+    long E1 = 0, F = 0, Wn = 0, E2 = 0, Dfw = 0, frozen = 0, cens = 0, Fsame = 0, Wslab = 0, Wother = 0;
     for (int l = 0; l < NL; l++) { for (int c = 0; c < N; c++) setbit(0, c, l, urand() < dens); age[l] = 0; fw[l] = 0; }
     int cur = 0;
     for (long g = 1; g <= G; g++) {
       int nx = (cur + 1) % KH; step(cur, nx); cur = nx;
       uint64_t lw[8][W];
       for (int k = 0; k < 8; k++) { v4 o = (v4){0, 0, 0, 0}; for (int i = 0; i < nlay[k]; i++) o |= ld(S[cur][lay[k][i]]); memcpy(lw[k], &o, 32); }
+      uint64_t ofw[W] = {0, 0, 0, 0};   // lanes with three consecutive dead layers along one of the other diagonals
+      for (int d = 0; d < 3; d++) if (nlayo[d] >= 4) {
+        uint64_t dl[64][W];
+        for (int k = 0; k < nlayo[d]; k++) { v4 o = (v4){0, 0, 0, 0}; for (int i = 0; i < nol[d][k]; i++) o |= ld(S[cur][ol[d][k][i]]); v4 e = ~o; memcpy(dl[k], &e, 32); }
+        for (int k = 0; k < nlayo[d]; k++) for (int i = 0; i < W; i++) ofw[i] |= dl[k][i] & dl[(k + 1) % nlayo[d]][i] & dl[(k + 2) % nlayo[d]][i];
+      }
       for (int l = 0; l < NL; l++) {
         age[l]++;
+        int other = (ofw[l >> 6] >> (l & 63)) & 1;
         int dead[8]; for (int k = 0; k < 8; k++) dead[k] = !((lw[k][l >> 6] >> (l & 63)) & 1);
         int faceempty = dead[0] || dead[7], inner = 0;
         for (int k = 1; k <= 4; k++) if (dead[k] && dead[k + 1] && dead[k + 2]) inner = 1;
         int counted = age[l] > T0, refill = 0;
         if (counted) { E2++; if (!fw[l]) E1++; }
-        if (faceempty) { if (counted) { if (!fw[l]) F++; else Dfw++; } refill = 1; }
-        else if (!fw[l] && inner) { if (counted) Wn++; fw[l] = age[l]; }
+        if (faceempty) { if (counted) { if (fw[l]) Dfw++; else if (inner || other) Fsame++; else F++; } refill = 1; }
+        else if (!fw[l] && (inner || other)) { if (counted) { Wn++; if (inner) Wslab++; else Wother++; } fw[l] = age[l]; }
         else if (fw[l] && age[l] - fw[l] > 300) { if (counted) frozen++; refill = 1; }
         else if (age[l] >= TMAX) { cens++; refill = 1; }
         if (refill) { for (int c = 0; c < N; c++) setbit(cur, c, l, urand() < dens); age[l] = 0; fw[l] = 0; }
       }
     }
-    printf("LIFE torus %d,%d,%d A %d dens %.2f seed %ld T0 %d TMAX %d E1 %ld F %ld W %ld E2 %ld Dfw %ld frozen %ld cens %ld | face channel ln(2E1/F) %.4f +- %.4f | firewall share W/(F+W) %.3f | first empty face, all ln(2E2/(F+Dfw)) %.4f +- %.4f\n",
-           TH, TK, TD, A, dens, seed, T0, TMAX, E1, F, Wn, E2, Dfw, frozen, cens, log(2.0 * E1 / (F > 0 ? F : 1)), 1 / sqrt(F > 0 ? F : 1), (double)Wn / (F + Wn > 0 ? F + Wn : 1),
-           log(2.0 * E2 / (F + Dfw > 0 ? F + Dfw : 1)), 1 / sqrt(F + Dfw > 0 ? F + Dfw : 1));
+    long Dall = F + Fsame + Dfw;
+    printf("LIFE torus %d,%d,%d A %d dens %.2f seed %ld T0 %d TMAX %d E1 %ld F %ld Fsame %ld W %ld Wslab %ld Wother %ld E2 %ld Dfw %ld frozen %ld cens %ld | faces emptied with no firewall before or at that generation: ln(2E1/F) %.4f +- %.4f ; ln(2E2/F) %.4f | firewall share (W+Fsame)/(F+Fsame+W) %.3f | first empty face, all: ln(2E2/Dall) %.4f +- %.4f\n",
+           TH, TK, TD, A, dens, seed, T0, TMAX, E1, F, Fsame, Wn, Wslab, Wother, E2, Dfw, frozen, cens, log(2.0 * E1 / (F > 0 ? F : 1)), 1 / sqrt(F > 0 ? F : 1), log(2.0 * E2 / (F > 0 ? F : 1)),
+           (double)(Wn + Fsame) / (F + Fsame + Wn > 0 ? F + Fsame + Wn : 1), log(2.0 * E2 / (Dall > 0 ? Dall : 1)), 1 / sqrt(Dall > 0 ? Dall : 1));
     return 0;
   }
   // nu: plain running, both faces; first passages of every level from above lamA; split by a preceding over-full generation
