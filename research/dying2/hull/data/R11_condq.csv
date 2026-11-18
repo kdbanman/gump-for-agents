@@ -8,6 +8,10 @@ k,class,value,q,q_se,n
 2,survivors within 1.5 of a corner,2,0.36336,0.033759,284
 2,spread below median,1.22,0.32292,0.014815,1383
 2,spread above median,1.22,0.40833,0.012158,2281
+2,clumped and rim<=k/2,,0.30349,0.019449,771
+2,clumped and rim>k/2,,0.34909,0.022775,612
+2,spread and rim<=k/2,,0.38543,0.013876,1716
+2,spread and rim>k/2,,0.4864,0.024731,565
 3,all,,0.19381,0.0086807,3671
 3,rim-row survivors,0,0.16962,0.024553,402
 3,rim-row survivors,1,0.18334,0.016167,1005
@@ -19,6 +23,10 @@ k,class,value,q,q_se,n
 3,survivors within 1.5 of a corner,3,0.13226,0.035312,148
 3,spread below median,1.73,0.1549,0.010994,1810
 3,spread above median,1.73,0.2433,0.013538,1861
+3,clumped and rim<=k/2,,0.13813,0.017161,658
+3,clumped and rim>k/2,,0.16529,0.014253,1152
+3,spread and rim<=k/2,,0.22722,0.020766,749
+3,spread and rim>k/2,,0.25488,0.01782,1112
 4,all,,0.10523,0.0071443,3535
 4,rim-row survivors,0,0.061032,0.021283,206
 4,rim-row survivors,1,0.080195,0.014144,655
@@ -32,6 +40,10 @@ k,class,value,q,q_se,n
 4,survivors within 1.5 of a corner,4,0.10923,0.060411,51
 4,spread below median,2.13,0.085883,0.0088976,1766
 4,spread above median,2.13,0.13017,0.011484,1769
+4,clumped and rim<=k/2,,0.074018,0.010166,1135
+4,clumped and rim>k/2,,0.11248,0.017363,631
+4,spread and rim<=k/2,,0.11354,0.014623,937
+4,spread and rim>k/2,,0.15216,0.018197,832
 6,all,,0.030687,0.0042461,3618
 6,rim-row survivors,0,0.0064579,0.012975,53
 6,rim-row survivors,1,0.018927,0.012049,224
@@ -48,6 +60,10 @@ k,class,value,q,q_se,n
 6,survivors within 1.5 of a corner,5,0.049647,0.061765,33
 6,spread below median,2.43,0.025057,0.0051998,1809
 6,spread above median,2.43,0.038096,0.0069928,1809
+6,clumped and rim<=k/2,,0.020025,0.0055367,1178
+6,clumped and rim>k/2,,0.03832,0.0118,631
+6,spread and rim<=k/2,,0.03136,0.0091767,799
+6,spread and rim>k/2,,0.045099,0.010489,1010
 9,all,,0.0056462,0.001943,3620
 9,rim-row survivors,1,0.0011831,0.0055741,56
 9,rim-row survivors,2,0.0022535,0.0044915,191
@@ -66,3 +82,7 @@ k,class,value,q,q_se,n
 9,survivors within 1.5 of a corner,6,0.012604,0.037869,32
 9,spread below median,2.65,0.0048814,0.0024529,1810
 9,spread above median,2.65,0.0066048,0.0031041,1810
+9,clumped and rim<=k/2,,0.0033499,0.0024996,1037
+9,clumped and rim>k/2,,0.0081789,0.0054338,773
+9,spread and rim<=k/2,,0.0038754,0.0041735,460
+9,spread and rim>k/2,,0.0080121,0.0041567,1350

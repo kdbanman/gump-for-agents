@@ -99,6 +99,11 @@ def main(R, prefixes, ks=(2, 3, 4, 6, 9)):
         for nm, mk in (('spread below median', it[:, 4] < med), ('spread above median', it[:, 4] >= med)):
             qq = q(mk.astype(float)); rows.append((nm, f'{med:.2f}', *qq))
             line.append(f'      {nm} ({med:.2f}): q {qq[0]:.3f} +- {qq[1]:.3f} (n {qq[2]})')
+        # rim against spread: is the rim effect the spread effect? (rim-row survivors <= k/2 or > k/2, in each spread half)
+        for sn, sm in (('clumped', it[:, 4] < med), ('spread', it[:, 4] >= med)):
+            for rn, rm in (('rim<=k/2', it[:, 2] <= k / 2), ('rim>k/2', it[:, 2] > k / 2)):
+                qq = q((sm & rm).astype(float)); rows.append((f'{sn} and {rn}', '', *qq))
+                line.append(f'      {sn}, {rn}: q {qq[0]:.3f} +- {qq[1]:.3f} (n {qq[2]})')
         print('\n'.join(line))
         out += [(k,) + r_ for r_ in rows]
     with open(os.path.join(an.DATA, f'R{R}_condq.csv'), 'w') as fh:
