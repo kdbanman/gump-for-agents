@@ -8,8 +8,8 @@ the automaton's speed limit in a face is 1 unit per generation). Labels: **[meas
 
 ## The answer in four sentences
 
-1. **A wrapped face (wide torus or tube) dies by boom and bust, not by a hole or a front** [measured, 48 to 75
-   cells]. In 51–60% of deaths at least half of all the cells of the face die in one generation (in 84% at least
+1. **A wrapped face (wide torus or tube) dies by boom and bust, not by a hole or a front** [measured, 48 to 84
+   cells]. In 51–67% of deaths at least half of all the cells of the face die in one generation (in 84% at least
    24 of 63; the distribution has one hump): in a single generation the face and the layer beneath fill to about
    three quarters (33 → 48.5 of 63 cells), every live cell is then overcrowded, almost nothing is born, about 12
    scattered cells are left, and those starve within a few generations. From the last generation with a normal
@@ -32,8 +32,7 @@ the automaton's speed limit in a face is 1 unit per generation). Labels: **[meas
 
 ## Vessels, lifetimes (check of the stepper against the anchors)
 
-`sh run1.sh; sh run2.sh; sh run3.sh` (about 5, 2 and 20 minutes on one idle core; run3.sh also starts an 84-cell
-torus, t84, which had not finished when this was written and is not used). ln τ_face = ln(faces·exposure/deaths).
+`sh run1.sh; sh run2.sh; sh run3.sh` (about 5, 2 and 20 minutes on one idle core). ln τ_face = ln(faces·exposure/deaths).
 
 | run | vessel | cells | deaths | ln τ_face here | anchor |
 |---|---|---:|---:|---|---|
@@ -43,9 +42,14 @@ torus, t84, which had not finished when this was written and is not used). ln τ
 | t63 | torus (1,4),(0,21), loops² 21 | 63 | 7,899 | 13.1547 ± 0.0113 | 13.1622 ± 0.0007 |
 | tube63 | (1,6),(0,21), loop² 9, 6.1 long | 63 | 8,023 | 12.8448 ± 0.0112 | none; 7,811 lives ended by a transverse firewall instead |
 | t75 | torus (1,9),(0,25), loops² 19, 25 | 75 | 1,144 | 15.6501 ± 0.0296 | 15.6442 ± 0.0030 |
+| t84 | torus (1,4),(0,28), loops² 21, 28 | 84 | 109 | 17.7602 ± 0.0958 | 17.5387 ± 0.0031 (2.3σ apart: see the note) |
 | h45 | hull radius 9 | 45 | 14,365 | 9.8142 ± 0.0083 | 9.819 |
 | h63 | hull radius 11 | 63 | 7,390 | 13.6205 ± 0.0116 | 13.633 |
 | h84 | hull radius 13 | 84 | 117 | 18.0636 ± 0.0925 | 18.141 ± 0.005 |
+
+Note on t84: 109 deaths where the anchor predicts 136, and q(1) = 0.79 ± 0.035 where the smaller wrapped faces give
+0.86–0.87. Either a 2.3–2.7σ fluctuation or something I have not found; the run is short (the machine was shared).
+I use it for the kind of death (which is not in doubt) and not for rates. It should be rerun.
 
 There is no loop²-12 lattice at 63 cells; the PI's "63" is answered at 54 and 60. The loop²-9 tube has a second
 way to end (the chaos is cut right across: three empty transverse layers) as frequent as face death; its ln τ
@@ -86,11 +90,11 @@ P = 32, 2.0 at P = 8 (living face 1.34); h63 1.8 at 32, 4.2 at 8 (living face 1.
 
 ## 2. Boom and bust  (`python3 crash.py VESSEL RUN` → `out/RUN_crash.txt`)
 
-| | t48 | tube54 | tube60 | t63 | tube63 | t75 | h45 | h63 | h84 |
-|---|---|---|---|---|---|---|---|---|---|
-| deaths with a one-generation fall of ≥ half the face | 0.572 | 0.565 | 0.567 | 0.590 | 0.512 | 0.601 | 0.022 | 0.016 | 0 of 117 |
-| the same in a 10-generation window of the living face | 0.0075 | 0.0050 | 0.0022 | 0.0015 | 0.0017 | 0.0009 | 0.0001 | 0.0000 | 0.0000 |
-| largest one-generation fall, median (cells) | 25 | 28 | 31 | 32 | 31 | 39 | 10 | 13 | 16 |
+| | t48 | tube54 | tube60 | t63 | tube63 | t75 | t84 | h45 | h63 | h84 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| deaths with a one-generation fall of ≥ half the face | 0.572 | 0.565 | 0.567 | 0.590 | 0.512 | 0.601 | 0.670 ± 0.045 | 0.022 | 0.016 | 0 of 117 |
+| the same in a 10-generation window of the living face | 0.0075 | 0.0050 | 0.0022 | 0.0015 | 0.0017 | 0.0009 | 0 of 109 | 0.0001 | 0.0000 | 0.0000 |
+| largest one-generation fall, median (cells) | 25 | 28 | 31 | 32 | 31 | 39 | 46 | 10 | 13 | 16 |
 
 [measured, t63, the 4,659 deaths with such a fall] Population before the fall 48.5 (10–90%: 46–52; the stationary
 probability of P ≥ 46 is 0.0024, mean 32.6, s.d. 4.94), after it 11.6 (8–15); births in that generation 1.9; of
@@ -290,9 +294,11 @@ regrow the face more often than on a wrapped face (0.20–0.28 for one cell agai
   with area on each shape. Measured only at 63 cells (hull/torus = e^(+0.035)). At 84 cells, from the anchors'
   lifetimes and q(4) = 0.197 (h84, measured) against about 0.28 (wrapped, extrapolated from 0.326, 0.302, 0.287),
   ln ν(4) is −16.52 for the hull face and about −16.27 for the wrapped one: the hull face would reach 4 cells
-  only 0.78 times as often. So the rimmed face's extra price is in the descent, not in the end-game [conjectured
-  from one size and one extrapolation].
-- That boom and bust persists beyond 75 cells. A face over-full everywhere at once is a collective state; at
+  only 0.78 times as often. Measured directly on the two short 84-cell runs (`python3 decomp.py t84 h84` →
+  `out/decomp84.txt`): Δ ln ν = +0.79 at 16 cells, −0.14 ± 0.07 at 4 cells, −0.30 at 0, with t84 itself in doubt
+  (note above). So the rimmed face's extra price seems to be in the descent, not in the end-game [conjectured].
+- That boom and bust persists beyond 84 cells (its share does not fall with size: 0.57, 0.59, 0.60, 0.67 at 48,
+  63, 75, 84 cells; at 84 the face goes 65.1 → 15.3). A face over-full everywhere at once is a collective state; at
   some size it should lose to something local. The trend of its share with size is in the table of §2.
 - Why a short loop makes deep dips more frequent.
 
@@ -321,7 +327,7 @@ Seven of fifteen. Every forecast that assumed a sweep was wrong.
 
 ## 9. What was not checked
 
-- Nothing above 84 cells (wrapped faces: 75; an 84-cell torus run was cut by the deadline), and no reactive paths from the samplers of `split-slab`, `split-hull`, `tube1d` (their
+- Nothing above 84 cells, the 84-cell runs have only 109 and 117 deaths, and no reactive paths from the samplers of `split-slab`, `split-hull`, `tube1d` (their
   files had not appeared by 03:45 UTC). Whether boom and bust is the route at 108–360 cells is the open question.
 - "Align before averaging": I fitted every death singly but did not build the aligned average profile T(r).
 - The third layer is not in the death records (8 of a face cell's 9 neighbours are), hence "overcrowded for
