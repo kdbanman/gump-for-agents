@@ -171,7 +171,7 @@ int main(int argc, char **argv) {
   }
 
   if (!strcmp(argv[1], "nu")) {   // plain running: dip rates at every level, all eight faces; rh nu R SEED GENS LAMA
-    long G = atol(argv[4]); int lamA = atoi(argv[5]);
+    long G = atol(argv[4]); int lamA = atoi(argv[5]); int WIN = argc > 6 ? atoi(argv[6]) : 3; long nover = 0;
     build(0); seedrng(seed * 104729 + R);
     static int age[NL], fl[NL][8], cm[NL][8], P8[NL][8];
     static int since[NL][8]; static long Db[400]; for (int l = 0; l < NL; l++) for (int f = 0; f < 8; f++) since[l][f] = 99;
@@ -190,15 +190,15 @@ int main(int argc, char **argv) {
         age[l]++;
         int counted = age[l] > 200, anye = 0;
         for (int f = 0; f < 8; f++) if (P8[l][f] == 0) anye = 1;
-        if (counted) { expo++; for (int f = 0; f < 8; f++) { int p = P8[l][f]; sP += p; sP2 += (double)p * p; nP++; } }
+        if (counted) { expo++; for (int f = 0; f < 8; f++) { int p = P8[l][f]; sP += p; sP2 += (double)p * p; nP++; if (10 * p >= 7 * A) nover++; } }
         if (anye) {
-          if (counted) { deaths++; for (int f = 0; f < 8; f++) { if (P8[l][f] == 0) fdead++; if (P8[l][f] == 0 && fl[l][f]) { D[0]++; D[cm[l][f]]--; if (since[l][f] <= 3) { Db[0]++; Db[cm[l][f]]--; } } } }
+          if (counted) { deaths++; for (int f = 0; f < 8; f++) { if (P8[l][f] == 0) fdead++; if (P8[l][f] == 0 && fl[l][f]) { D[0]++; D[cm[l][f]]--; if (since[l][f] <= WIN) { Db[0]++; Db[cm[l][f]]--; } } } }
           soup(cur, l); age[l] = 0; for (int f = 0; f < 8; f++) { fl[l][f] = 0; cm[l][f] = lamA; since[l][f] = 99; }
         } else if (age[l] >= 100) {
           for (int f = 0; f < 8; f++) {
             int p = P8[l][f];
             if (p >= lamA) { fl[l][f] = 1; cm[l][f] = lamA; }
-            else if (fl[l][f] && p < cm[l][f]) { if (counted) { D[p]++; D[cm[l][f]]--; if (since[l][f] <= 3) { Db[p]++; Db[cm[l][f]]--; } } cm[l][f] = p; }
+            else if (fl[l][f] && p < cm[l][f]) { if (counted) { D[p]++; D[cm[l][f]]--; if (since[l][f] <= WIN) { Db[p]++; Db[cm[l][f]]--; } } cm[l][f] = p; }
             if (10 * p >= 7 * A) since[l][f] = 0; else if (since[l][f] < 99) since[l][f]++;
           }
         }
@@ -208,7 +208,7 @@ int main(int argc, char **argv) {
            (double)(clock() - t0) / CLOCKS_PER_SEC);
     long c = 0; for (int L = 0; L < lamA; L++) { c += D[L]; printf(" %ld", c); }
     printf("\n");
-    printf("NUB R %d seed %ld A %d lamA %d expo %ld cross", R, seed, A, lamA, expo);
+    printf("NUB R %d win %d seed %ld A %d lamA %d expo %ld nover %ld deaths %ld cross", R, WIN, seed, A, lamA, expo, nover, deaths);
     c = 0; for (int L = 0; L < lamA; L++) { c += D[L]; printf(" %ld", c); }
     printf(" bust"); c = 0; for (int L = 0; L < lamA; L++) { c += Db[L]; printf(" %ld", c); }
     printf("\n");

@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
     return 0;
   }
   // nu: plain running, both faces; first passages of every level from above lamA; split by a preceding over-full generation
-  long G = atol(argv[6]); int lamA = atoi(argv[7]);
+  long G = atol(argv[6]); int lamA = atoi(argv[7]); int WIN = argc > 8 ? atoi(argv[8]) : 3;   // window (generations) for 'preceded by an over-full face'
   build(0); seedrng(seed * 104729 + 31 * TH + 7 * TK + TD);
   static int age[NL], fl[NL][2], cm[NL][2], P2[NL][2], since[NL][2];
   static long Dn[400], Db[400]; long expo = 0, deaths = 0, nP = 0, fdead = 0, nover = 0; double sP = 0, sP2 = 0;
@@ -153,21 +153,21 @@ int main(int argc, char **argv) {
       int counted = age[l] > 200, anye = (P2[l][0] == 0 || P2[l][1] == 0);
       if (counted) { expo++; for (int f = 0; f < 2; f++) { int p = P2[l][f]; sP += p; sP2 += (double)p * p; nP++; if (10 * p >= 7 * A) nover++; } }
       if (anye) {
-        if (counted) { deaths++; for (int f = 0; f < 2; f++) if (P2[l][f] == 0) { fdead++; if (fl[l][f]) { Dn[0]++; Dn[cm[l][f]]--; if (since[l][f] <= 3) { Db[0]++; Db[cm[l][f]]--; } } } }
+        if (counted) { deaths++; for (int f = 0; f < 2; f++) if (P2[l][f] == 0) { fdead++; if (fl[l][f]) { Dn[0]++; Dn[cm[l][f]]--; if (since[l][f] <= WIN) { Db[0]++; Db[cm[l][f]]--; } } } }
         soup(cur, l); age[l] = 0; for (int f = 0; f < 2; f++) { fl[l][f] = 0; cm[l][f] = lamA; since[l][f] = 99; }
       } else {
         for (int f = 0; f < 2; f++) {
           int p = P2[l][f];
           if (age[l] >= 100) {
             if (p >= lamA) { fl[l][f] = 1; cm[l][f] = lamA; }
-            else if (fl[l][f] && p < cm[l][f]) { if (counted) { Dn[p]++; Dn[cm[l][f]]--; if (since[l][f] <= 3) { Db[p]++; Db[cm[l][f]]--; } } cm[l][f] = p; }
+            else if (fl[l][f] && p < cm[l][f]) { if (counted) { Dn[p]++; Dn[cm[l][f]]--; if (since[l][f] <= WIN) { Db[p]++; Db[cm[l][f]]--; } } cm[l][f] = p; }
           }
           if (10 * p >= 7 * A) since[l][f] = 0; else if (since[l][f] < 99) since[l][f]++;
         }
       }
     }
   }
-  printf("NU T %d,%d,%d seed %ld A %d lamA %d gens %ld expo %ld deaths %ld fdead %ld nover %ld sumP %.1f sumP2 %.1f nP %ld sec %.1f cross", TH, TK, TD, seed, A, lamA, G, expo, deaths, fdead, nover, sP, sP2, nP,
+  printf("NU T %d,%d,%d win %d seed %ld A %d lamA %d gens %ld expo %ld deaths %ld fdead %ld nover %ld sumP %.1f sumP2 %.1f nP %ld sec %.1f cross", TH, TK, TD, WIN, seed, A, lamA, G, expo, deaths, fdead, nover, sP, sP2, nP,
          (double)(clock() - t0) / CLOCKS_PER_SEC);
   long c = 0; for (int L = 0; L < lamA; L++) { c += Dn[L]; printf(" %ld", c); }
   printf(" bust"); c = 0; for (int L = 0; L < lamA; L++) { c += Db[L]; printf(" %ld", c); }

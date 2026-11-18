@@ -8,7 +8,8 @@ against the torus's 0.051 per cell), the part whose curvature is already driftin
 LESS often than a hull face of the same area (by 0.26, 0.37, 0.53 in ln ν(0.6 P̄) at 63, 84, 108 cells) and dies
 sooner only because its dips are 2 to 3.8 times more often fatal, and they are a different event: 11–24% of its dips
 to 0.6 P̄, 40–48% of those to 0.4 P̄ and two thirds of those to 0.2 P̄ come within 3 generations of an over-full
-face (P ≥ 0.7·A), against 1–3% at every depth on the hull; a tube's discount is the opposite case, all in ν and
+face (P ≥ 0.7·A), against 1–3% at every depth on the hull, and 71% of its DEATHS at 63 cells come within 10
+generations of one (chance 5%), against 5% on the hull face of 63 cells (chance 3%); a tube's discount is the opposite case, all in ν and
 twice over (tubes reach 0.4–0.5 P̄ e^0.46 and e^0.85 times more often than a wide face at 84 and 108 cells, and
 those dips are less often fatal by 0.24 and 0.47).
 
@@ -113,12 +114,26 @@ chance would give 1.5%, 0.7%, 0.2%.) Reading:
   found 1.6–2.2% among deaths). On a wide torus the deeper the dip, the more likely it is the down-stroke of an
   over-fill: a bust-preceded dip to 0.6 P̄ goes on to 0.4 P̄ 4.4 times (84 cells) to 5.5 times (108) more often than
   a plain one.
+**Deaths** (`python3 win.py out/win`; window W as last argument of `sl nu` / `rh nu`; 4 seeds each): share of first
+deaths of a face that come within W generations of an over-full face, and the share chance alone would give
+(1 − (1 − r)^W, r the rate of over-full face-generations):
+
+| vessel | cells | r | W = 6 | W = 10 | W = 20 |
+|---|---:|---|---|---|---|
+| wide torus (1,7),(0,19) | 57 | 1.2e-2 | 61.7% (chance 6.8%) | 76.0% (11%) of 4,348 | 82% (21%) |
+| wide torus (1,4),(0,21) | 63 | 4.9e-3 | 57.7% (2.9%) | **71.3% (4.8%) of 1,494** | 74% (9.3%) |
+| hull R = 9 | 45 | 9.1e-3 | 3.9% (5.3%) | 7.4% (8.7%) of 40,720 | 13.9% (16.6%) |
+| hull R = 11 | 63 | 3.1e-3 | 2.7% (1.8%) | **5.3% (3.1%) of 2,447** | 9% (6%) |
+
+At least seven wrapped deaths in ten are the end of a bust that began with an over-full face at most ten generations
+earlier; on the hull the share is at chance (below it at 45 cells). An over-full face is still far from fatal: at 63
+cells about 0.7 × e^−13.16 / 4.9e-3 = 3 × 10⁻⁴ of over-full face-generations end in death.
+
 - So on a wrapped face ν(0.6)·q(0.6) is a mixture of two events with different odds, and "−ln q" is not "what
   follows a dip": for most deep dips the attempt began one to three generations earlier, going UP. They should be
   counted separately. The honest decomposition for a wrapped face is rate of over-full generations × chance that
-  one ends in death, plus the plain route; I did not measure the fate of the two classes down to P = 0 (the
-  3-generation window, read at the moment of death, catches only 25–35% of deaths on the 57–75-cell tori, because
-  the last cells take longer than that to go).
+  one ends in death (3 × 10⁻⁴ at 63 cells for the threshold 0.7·A), plus the plain route (at most 29% of deaths at
+  63 cells); I did not measure how the two factors scale with the area, nor a better threshold than 0.7·A.
 - [conjectured] The rim is what removes the bust route on the hull (a fuller rim row, empty corners: the face
   cannot over-fill and crash as one), and the hull pays for it below 0.4 P̄, where its q-slope is 0.013 per cell
   dearer; that is the durable part of "two prices".
@@ -151,8 +166,9 @@ fronts that still have to be pushed across the rest.
 
 - The anchors (taken as given), and whether the anchors' protocol matches mine exactly at 48 cells (it does at 57–84
   to within my brute-force errors). The 48-cell torus is not used.
-- The hull's rate of over-full generations (only the share of dips preceded by one); other thresholds than 0.7·A
-  and other windows than 3 generations; the fate of bust-preceded and plain dips down to P = 0 separately.
+- Other thresholds than 0.7·A for "over-full" (its integer rounding differs between sizes); the share of deaths
+  that follow an over-full face above 63 cells (no deaths in plain running there); how the rate of over-full
+  generations and their lethality scale with the area.
 - Levels as a fixed density instead of a fraction of P̄ (matters for hull against torus, whose P̄/A differ by 1–4%).
 - Wide tori above 108 cells and tubes other than loop² 12; (1,9),(0,25) and (1,7),(0,19) are not strictly "wide"
   (loops² 19).

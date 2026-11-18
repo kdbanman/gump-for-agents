@@ -1,0 +1,12 @@
+hull R 11 A 63 window  6: over-full rate 3.10e-03/face-gen, chance level 0.018;  deaths: 0.027 (65/2447);  dips to 0.2 P-bar: 0.047;  dips to 0.4 P-bar: 0.039;  dips to 0.6 P-bar: 0.029
+hull R 11 A 63 window 10: over-full rate 3.10e-03/face-gen, chance level 0.031;  deaths: 0.053 (130/2447);  dips to 0.2 P-bar: 0.061;  dips to 0.4 P-bar: 0.049;  dips to 0.6 P-bar: 0.038
+hull R 11 A 63 window 20: over-full rate 3.10e-03/face-gen, chance level 0.060;  deaths: 0.094 (111/1179);  dips to 0.2 P-bar: 0.088;  dips to 0.4 P-bar: 0.074;  dips to 0.6 P-bar: 0.064
+hull R 9 A 45 window  6: over-full rate 9.05e-03/face-gen, chance level 0.053;  deaths: 0.039 (1572/40720);  dips to 0.2 P-bar: 0.067;  dips to 0.4 P-bar: 0.066;  dips to 0.6 P-bar: 0.062
+hull R 9 A 45 window 10: over-full rate 9.05e-03/face-gen, chance level 0.087;  deaths: 0.074 (3014/40720);  dips to 0.2 P-bar: 0.095;  dips to 0.4 P-bar: 0.091;  dips to 0.6 P-bar: 0.087
+hull R 9 A 45 window 20: over-full rate 9.05e-03/face-gen, chance level 0.166;  deaths: 0.139 (4260/30627);  dips to 0.2 P-bar: 0.158;  dips to 0.4 P-bar: 0.155;  dips to 0.6 P-bar: 0.153
+torus 1,4,21 A 63 window  6: over-full rate 4.88e-03/face-gen, chance level 0.029;  deaths: 0.577 (862/1494);  dips to 0.2 P-bar: 0.681;  dips to 0.4 P-bar: 0.488;  dips to 0.6 P-bar: 0.248
+torus 1,4,21 A 63 window 10: over-full rate 4.88e-03/face-gen, chance level 0.048;  deaths: 0.713 (1065/1494);  dips to 0.2 P-bar: 0.690;  dips to 0.4 P-bar: 0.497;  dips to 0.6 P-bar: 0.263
+torus 1,4,21 A 63 window 20: over-full rate 4.88e-03/face-gen, chance level 0.093;  deaths: 0.754 (845/1120);  dips to 0.2 P-bar: 0.705;  dips to 0.4 P-bar: 0.521;  dips to 0.6 P-bar: 0.298
+torus 1,7,19 A 57 window  6: over-full rate 1.17e-02/face-gen, chance level 0.068;  deaths: 0.617 (2683/4348);  dips to 0.2 P-bar: 0.759;  dips to 0.4 P-bar: 0.631;  dips to 0.6 P-bar: 0.384
+torus 1,7,19 A 57 window 10: over-full rate 1.17e-02/face-gen, chance level 0.111;  deaths: 0.760 (3305/4348);  dips to 0.2 P-bar: 0.776;  dips to 0.4 P-bar: 0.648;  dips to 0.6 P-bar: 0.413
+torus 1,7,19 A 57 window 20: over-full rate 1.18e-02/face-gen, chance level 0.211;  deaths: 0.823 (2731/3318);  dips to 0.2 P-bar: 0.801;  dips to 0.4 P-bar: 0.687;  dips to 0.6 P-bar: 0.480
