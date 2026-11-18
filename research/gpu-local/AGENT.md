@@ -121,3 +121,18 @@ billed by the hour, no limit."
   CPU second code on 4 threads (`chain_cpu.sh`, until about 19:30Z).
 - Owed: a row in `USAGE.md` at every turn, pushed (the lead goes by those rows); when the subagents report, read
   the hand-backs, push, and tell the lead in one message; then what the state above lists for the 120-cell tube.
+
+## Addendum, 2026-11-18 09:00Z
+
+- All three Opus subagents have finished and their work is pushed (branch at d241ef8 or later): research/dying2/ (wrapped
+  faces and tubes, head fcc27ac), research/dying2/hull/ (4727bf3), research/signals/push7/ (d34dbf5). Checked by this
+  session: the commits and files exist; verify7.py objects7.json --maxL 260 was rerun here and printed ALL PASS (52 min).
+  Not checked by this session: any number in the two dying2 READMEs; the heavy verify pass (--minL 261).
+- A cross-reading nobody has checked: the chance that a dip reaching k live cells ends in death is lower on the hull face
+  (0.77, 0.50, 0.30 at k = 1, 2, 3) than on the wrapped faces (0.85, 0.63, 0.42). The two subagents may not define q(k)
+  identically: compare research/dying2/hull/condq.py with research/dying2/dyan.py before using it.
+- The lead has NOT been messaged about any of this. Weekly Fable usage was 99% at 08:52Z, and a message could cost the
+  lead a turn before the reset at 11:00Z; everything is on the branch. Owed when chain 3 ends (about 13:00Z): one message
+  to the lead (Orchestrator) covering the 120-cell tube (interim, six of eight runs: 24.497 +- 0.019 against the forecast
+  24.576), the three subagents, and the CPU second code; then the scoring block and README row as listed above.
+- Threads now: the CPU second code uses 4 of 16; nothing else of ours is running on the CPU.
