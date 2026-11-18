@@ -234,6 +234,9 @@ echo.
 | `junc.py`, `junc2.py`, `posmap.py`, `cell.py`, `rw.py`, `inject.py` | sections 2, 4, 5 | `st.c` only; the reads they found are the objects |
 | `survey5.py` | the other 30 pulse-carrying wires of the first push as readers | written, **not run** |
 
+`posmap.py`, `rw.py cross24` and `rw.py train` read the output of the two `junc2.py` runs (280 s together), and
+`reads.py` that of `survey2.py`; all bulk output goes to `research/scratch/signals/p8b/`.
+
 ## 8. Not checked
 
 - On the oracle: the five objects only (reader `b13` and `r246` at unit 42, n = 1..4; the short stores; the small
