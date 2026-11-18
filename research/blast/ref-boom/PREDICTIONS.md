@@ -48,3 +48,13 @@ Guesses:
    0.41), and the purely static version fails by 1.3, 2.8, 6.5.
 8. HIT: the best statistic of the four fillings one generation earlier has a lift of 6.6-6.8 at the top 1% of living
    states (48, 63 cells; 10 ± 3 at 75 cells with 462 deaths).
+
+## Third task (look-ahead events of the face): frozen 05:48 UTC, before any look-ahead run was analysed
+
+Events anchored at t: L1(a, b) = {P(t) ≥ aA, P(t+1) ≤ bA}; L2(a, k) = {P(t) ≥ aA, P(t+1) < A/2, P(t+2) ≤ k};
+L3(a, k) = {P(t) ≥ aA, P(t+1), P(t+2) < A/2, P(t+3) ≤ k}. d = chance that t is the launch of a death given the
+event; I, J, F as before, fitted on 48, 57, 63 cells; forecasts at 75 and 84 from the living-state frequency there.
+9. (p = 0.6) L1(0.70, 0.20): d between 0.02 and 0.3 at 63 cells and J between 0.02 and 0.08: not size-independent.
+10. (p = 0.6) L2(0.70, 4 cells): |J| ≤ 0.015 and I within 0.012 of the lifetime slope of the fit sizes.
+11. (p = 0.5) the forecast at 75 cells from L2(0.70, 4 cells) with d and f held constant is within 0.2 of 15.64;
+    (p = 0.4) at 84 cells within 0.3 of 17.54.

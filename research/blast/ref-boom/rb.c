@@ -6,6 +6,9 @@
 //   rb static H K D seed Mfacegens out   the same as run, plus: out.h4 (4D histogram of the populations of layers 1-4 over all
 //                                        counted face-generations with face >= 0.62 A), out.ll (layers 1-4 at launch-2, launch-1,
 //                                        launch of every death), out.smp (layers 1-4 of every face every 512 generations)
+//   rb ahead  H K D seed Mfacegens out   the same as run, plus: out.a3 = counts of (P(t), P(t+1), P(t+2)) of a face over all counted
+//                                        generations with P(t) >= 0.62 A; out.a4 = counts of (P(t), P(t+3)) restricted to P(t+1), P(t+2) < A/2;
+//                                        out.ll2 = P at launch, +1, +2, +3 (0 after the death) and the duration, for every death
 //   rb island H K D seed Mfacegens out   the same, plus the island experiment (binary rbi; see below)
 #include <stdio.h>
 #include <stdlib.h>
@@ -114,11 +117,13 @@ static double profD[128][5][4], profC[128][4][4], normS[4], normS2[4];
 static long normN;
 // ---- static mode: joint law of the four top layer populations in the corner where deaths launch
 static int stat = 0, lo1, lo2, lo3, lo4, n1, n2, n3, n4; static unsigned *H4; static long Hout; static FILE *fl, *fs;
+// ---- ahead mode: joint law of the face population now and one, two, three generations ahead
+static int ah = 0, alo, an1; static unsigned *A3, *A4; static FILE *fa; static unsigned char fpr[64][2][64];
 static double lifeS, lifeS2; static long lifeN, lifeH[40];
 int main(int argc, char **argv) {
   if (argc < 7) { fprintf(stderr, "usage\n"); return 2; }
   H = atoi(argv[2]); K = atoi(argv[3]); D = atoi(argv[4]); rs = strtoull(argv[5], 0, 10) * 0x2545F4914F6CDD1DULL + 12345;
-  int dump = !strcmp(argv[1], "dump"); isl = !strcmp(argv[1], "island"); stat = !strcmp(argv[1], "static");
+  int dump = !strcmp(argv[1], "dump"); isl = !strcmp(argv[1], "island"); stat = !strcmp(argv[1], "static"); ah = !strcmp(argv[1], "ahead");
   build(dump && argc > 7 && !strcmp(argv[7], "neg"));
   memset(ring, 0, sizeof ring);
   for (int r = 0; r < 64; r++) reinit(ring[0], r);
@@ -142,6 +147,8 @@ int main(int argc, char **argv) {
   static u64 snap[MAXN + 1]; memcpy(snap, ring[0], sizeof snap);
   long t = 0, E = 0, deaths = 0, old = 0, nper = 0, burnfail = 0;
   u64 pl0[7], pl1[7], plm[6][7];
+  if (ah) { char nm[600]; alo = (int)(0.62 * A); an1 = A - alo + 1; A3 = calloc((size_t)an1 * (A + 1) * (A + 1), sizeof(unsigned));
+    A4 = calloc((size_t)an1 * (A + 1), sizeof(unsigned)); snprintf(nm, 600, "%s.ll2", out); fa = fopen(nm, "w"); }
   if (stat) { char nm[600]; lo1 = (int)(0.62 * A); lo2 = (int)(0.45 * A); lo3 = (int)(0.38 * A); lo4 = (int)(0.33 * A);
     n1 = A - lo1 + 1; n2 = A - lo2 + 1; n3 = A - lo3 + 1; n4 = A - lo4 + 1; H4 = calloc((size_t)n1 * n2 * n3 * n4, sizeof(unsigned));
     snprintf(nm, 600, "%s.ll", out); fl = fopen(nm, "w"); snprintf(nm, 600, "%s.smp", out); fs = fopen(nm, "wb"); }
@@ -153,6 +160,7 @@ int main(int argc, char **argv) {
     u64 kill = 0, live = 0;
     for (int r = 0; r < 64; r++) {
       int p[2] = { ext(pl0, r), ext(pl1, r) };
+      fpr[r][0][t & 63] = (unsigned char)p[0]; fpr[r][1][t & 63] = (unsigned char)p[1];
       if (burn[r] > 0) {
         for (int f = 0; f < 2; f++) if (p[f] >= L) { lastT[r][f] = t; lastP[r][f] = p[f]; }
         if (p[0] == 0 || p[1] == 0) { kill |= 1ULL << r; burnfail++; }
@@ -163,12 +171,18 @@ int main(int argc, char **argv) {
       live |= 1ULL << r;
       for (int f = 0; f < 2; f++) {
         Np[p[f]]++;
+        if (ah && t - born[r] >= 3) { int h0 = fpr[r][f][(t - 3) & 63]; if (h0 >= alo) { int h1 = fpr[r][f][(t - 2) & 63], h2 = fpr[r][f][(t - 1) & 63];
+          A3[((size_t)(h0 - alo) * (A + 1) + h1) * (A + 1) + h2]++; if (h1 < L && h2 < L) A4[(size_t)(h0 - alo) * (A + 1) + p[f]]++; } }
         if (stat && p[f] >= lo1) { int q2 = ext(plm[f ? 5 : 0], r), q3 = ext(plm[f ? 4 : 1], r), q4 = ext(plm[f ? 3 : 2], r);
           if (q2 >= lo2 && q3 >= lo3 && q4 >= lo4) H4[(((size_t)(p[f] - lo1) * n2 + (q2 - lo2)) * n3 + (q3 - lo3)) * n4 + (q4 - lo4)]++; else Hout++; }
         if (p[f] > 0) E++;
         if (p[f] >= L) { lastT[r][f] = t; lastP[r][f] = p[f]; }
         else if (p[f] == 0) {
           deaths++; int lp = lastP[r][f]; long tl = lastT[r][f], d = t - tl;
+          if (ah) { int h2a = fpr[r][f][(t - 2) & 63], h1a = fpr[r][f][(t - 1) & 63];   // anchors whose future is cut by the death: zeros after it
+            if (t - born[r] >= 2 && h2a >= alo) { A3[((size_t)(h2a - alo) * (A + 1) + h1a) * (A + 1)]++; if (h1a < L) A4[(size_t)(h2a - alo) * (A + 1)]++; }
+            if (t - born[r] >= 1 && h1a >= alo) { A3[(size_t)(h1a - alo) * (A + 1) * (A + 1)]++; A4[(size_t)(h1a - alo) * (A + 1)]++; }
+            if (d < 60) { for (int j = 0; j < 4; j++) fprintf(fa, "%d ", tl + j <= t ? fpr[r][f][(tl + j) & 63] : 0); fprintf(fa, "%ld\n", d); } }
           if (!((kill >> r) & 1)) { double lf = (double)(t - born[r]); lifeN++; lifeS += lf; lifeS2 += lf * lf;   // life of the slab: counted generations to its first face death
             int k = 0; while ((1L << (k + 1)) <= t - born[r] && k < 39) k++; lifeH[k]++; }
           Lp[lp]++; dur[d < R ? d : R]++;
@@ -221,6 +235,8 @@ int main(int argc, char **argv) {
     for (int z = 1; z <= A; z++) if (isN[b][z]) fprintf(fo, "I %d %d %ld %ld %ld\n", b, z, isN[b][z], isF[b][z], isU[b][z]); }
   if (stat) { char nm[600]; snprintf(nm, 600, "%s.h4", out); FILE *fh = fopen(nm, "wb"); fwrite(H4, sizeof(unsigned), (size_t)n1 * n2 * n3 * n4, fh); fclose(fh);
     fprintf(fo, "H4 %d %d %d %d %d %d %d %d %ld\n", lo1, lo2, lo3, lo4, n1, n2, n3, n4, Hout); fclose(fl); fclose(fs); }
+  if (ah) { char nm[600]; snprintf(nm, 600, "%s.a3", out); FILE *fh = fopen(nm, "wb"); fwrite(A3, sizeof(unsigned), (size_t)an1 * (A + 1) * (A + 1), fh); fclose(fh);
+    snprintf(nm, 600, "%s.a4", out); fh = fopen(nm, "wb"); fwrite(A4, sizeof(unsigned), (size_t)an1 * (A + 1), fh); fclose(fh); fprintf(fo, "AH %d %d\n", alo, an1); fclose(fa); }
   fprintf(fo, "T %ld %.6e %.6e\n", lifeN, lifeS, lifeS2);
   for (int k = 0; k < 40; k++) if (lifeH[k]) fprintf(fo, "TH %d %ld\n", k, lifeH[k]);
   fprintf(fo, "M %ld %.0f %.0f %.0f %.0f\n", normN, normS[0], normS[1], normS[2], normS[3]);
