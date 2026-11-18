@@ -65,11 +65,11 @@ def crash(pop, m):
     return k + 1, pop[k + 1] / m, pop[k] / m
 
 
-def main():
-    H, K, D = map(int, sys.argv[1:4])
+def analyse(H, K, D, files, verbose=True):
+    say = print if verbose else (lambda *a, **k: None)
     A, q, R, length, parts = partitions(H, K, D)
-    units = {}
-    for fi, fn in enumerate(sys.argv[4:]):
+    units = {}; RES = {'A': A, 'R': R, 'length': length}
+    for fi, fn in enumerate(files):
         natural = None
         for line in open(fn):
             if line[0] != 'C':
@@ -81,7 +81,10 @@ def main():
             key = (fi, int(t[1])) if 'gump' not in fn else (fi, int(t[1]), 'n')
             units.setdefault(key, []).append(X)
     nun = len(units); ndeath = sum(len(v) for v in units.values())
-    print(f'torus ({H},{K}),(0,{D}): A = {A}, shortest loop^2 {q}, {R} rings, length {length:.2f} lattice units; {ndeath} deaths in {nun} units ({", ".join(sys.argv[4:])})')
+    say(f'torus ({H},{K}),(0,{D}): A = {A}, shortest loop^2 {q}, {R} rings, length {length:.2f} lattice units; {ndeath} deaths in {nun} units ({", ".join(files)})')
+    RES['units'] = nun; RES['deaths'] = ndeath
+    if nun == 0:
+        return RES
 
     def agg(fun):
         """fun(X) -> dict of numbers (nan allowed) per death; returns mean +- se over units of the per-unit means"""
@@ -101,8 +104,8 @@ def main():
     def face(X):
         pop = X.sum(1).astype(float); k, b, a = crash(pop, A)
         return {'k': k, 'before': b, 'after': a, 'half': float(b - a >= 0.5), 'bust': float(b >= 0.68 and b - a >= 0.5)}
-    r = agg(face)
-    print(f'  whole face: half-fall {fmt(r, "half")}; over-full bust (before >= 0.68, fall >= 0.5) {fmt(r, "bust")}; before {fmt(r, "before")} after {fmt(r, "after")}; crash generation k = {fmt(r, "k")}')
+    r = agg(face); RES['face'] = r
+    say(f'  whole face: half-fall {fmt(r, "half")}; over-full bust (before >= 0.68, fall >= 0.5) {fmt(r, "bust")}; before {fmt(r, "before")} after {fmt(r, "after")}; crash generation k = {fmt(r, "k")}')
     for name, lab in parts.items():
         ns = int(lab.max()) + 1; sizes = [int((lab == s).sum()) for s in range(ns)]
         seclen = length / ns if name != 'quarter' else float('nan')
@@ -114,7 +117,7 @@ def main():
                 k, b, a = crash(X[:, lab == s].sum(1).astype(float), sizes[s]); ks.append(k); bs.append(b); fs.append(b - a)
             ks = np.array(ks); bs = np.array(bs); fs = np.array(fs)
             half = fs >= 0.5; bust = half & (bs >= 0.68)
-            out = {'sec_half': half.mean(), 'sec_bust': bust.mean(), 'sec_before': bs.mean(), 'sec_after': (bs - fs).mean(),
+            out = {'anyhalf': float(half.any()), 'anybust': float(bust.any()), 'sec_half': half.mean(), 'sec_bust': bust.mean(), 'sec_before': bs.mean(), 'sec_after': (bs - fs).mean(),
                    'distinct': len(set(ks.tolist())), 'spread': float(ks.max() - ks.min()), 'differ': float(len(set(ks.tolist())) > 1),
                    'allbust': float(bust.all()), 'allhalf': float(half.all()), 'nbust': float(bust.sum()),
                    'd0': float(ks.max() - ks.min() == 0), 'd1': float(ks.max() - ks.min() == 1), 'd2': float(ks.max() - ks.min() == 2), 'd3': float(ks.max() - ks.min() >= 3)}
@@ -130,20 +133,28 @@ def main():
                 for sep in range(1, ns // 2 + 1):
                     dd = [(ks[s] - ks[(s + sep) % ns]) ** 2 for s in range(ns)]
                     out[f'msd{sep}'] = float(np.mean(dd))
+                    # (added after the PI's forecast was read) the same over pairs of sections that BOTH have a half-fall
+                    db = [(ks[s] - ks[(s + sep) % ns]) ** 2 for s in range(ns) if half[s] and half[(s + sep) % ns]]
+                    out[f'msdb{sep}'] = float(np.mean(db)) if db else float('nan')
             return out
-        r = agg(f)
-        print(f'  partition "{name}": {ns} sections of {sizes} cells' + (f', {seclen:.2f} lattice units each' if name != 'quarter' else ''))
-        print(f'    per section: half-fall {fmt(r, "sec_half")}; local bust {fmt(r, "sec_bust")}; before {fmt(r, "sec_before")}, after {fmt(r, "sec_after")}; section crashes in the face\'s crash generation {fmt(r, "sec_same_as_face")}')
-        print(f'    sections crash in different generations: {fmt(r, "differ")} of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: {fmt(r, "d0")} / {fmt(r, "d1")} / {fmt(r, "d2")} / {fmt(r, "d3")}; mean spread {fmt(r, "spread")}; distinct crash generations per death {fmt(r, "distinct")}')
-        print(f'    all sections half-fall {fmt(r, "allhalf")}; all sections bust locally {fmt(r, "allbust")}; sections busting locally per death {fmt(r, "nbust")} of {ns}')
+        r = agg(f); RES[name] = r; RES[name + '_ns'] = ns; RES[name + '_len'] = seclen
+        say(f'  partition "{name}": {ns} sections of {sizes} cells' + (f', {seclen:.2f} lattice units each' if name != 'quarter' else ''))
+        say(f'    per section: half-fall {fmt(r, "sec_half")}; local bust {fmt(r, "sec_bust")}; before {fmt(r, "sec_before")}, after {fmt(r, "sec_after")}; section crashes in the face\'s crash generation {fmt(r, "sec_same_as_face")}')
+        say(f'    sections crash in different generations: {fmt(r, "differ")} of deaths; spread (latest - earliest) 0 / 1 / 2 / >= 3 generations: {fmt(r, "d0")} / {fmt(r, "d1")} / {fmt(r, "d2")} / {fmt(r, "d3")}; mean spread {fmt(r, "spread")}; distinct crash generations per death {fmt(r, "distinct")}')
+        say(f'    at least one section half-falls {fmt(r, "anyhalf")}, busts locally {fmt(r, "anybust")}; all sections half-fall {fmt(r, "allhalf")}; all sections bust locally {fmt(r, "allbust")}; sections busting locally per death {fmt(r, "nbust")} of {ns}')
         if name != 'quarter':
-            print('    r.m.s. difference of crash generations by separation: ' + '; '.join(
+            say('    the same over pairs of sections that both have a half-fall: ' + '; '.join(
+                f'{sep * seclen:.1f} units: {math.sqrt(r[f"msdb{sep}"][0]):.2f}' for sep in range(1, ns // 2 + 1) if f'msdb{sep}' in r))
+            say('    r.m.s. difference of crash generations by separation: ' + '; '.join(
                 f'{sep * seclen:.1f} units: {math.sqrt(r[f"msd{sep}"][0]):.2f}' for sep in range(1, ns // 2 + 1) if f'msd{sep}' in r))
-        print(f'    deaths WITHOUT a face-wide half-fall ({fmt(r, "noface")} of deaths): share of sections with half-fall {fmt(r, "nf_sec_half")}, busting locally {fmt(r, "nf_sec_bust")}; '
+        say(f'    deaths WITHOUT a face-wide half-fall ({fmt(r, "noface")} of deaths): share of sections with half-fall {fmt(r, "nf_sec_half")}, busting locally {fmt(r, "nf_sec_bust")}; '
               f'at least one section busts {fmt(r, "nf_any_bust")}, at least half of them {fmt(r, "nf_halfplus_bust")}, every section half-falls {fmt(r, "nf_all_half")}; '
               f'sections differ in crash generation {fmt(r, "nf_differ")}, mean spread {fmt(r, "nf_spread")}; mean before {fmt(r, "nf_sec_before")}')
-        print(f'    deaths WITH a face-wide half-fall: share of sections with half-fall {fmt(r, "wf_sec_half")}, busting locally {fmt(r, "wf_sec_bust")}; sections differ in crash generation {fmt(r, "wf_differ")}, mean spread {fmt(r, "wf_spread")}')
+        say(f'    deaths WITH a face-wide half-fall: share of sections with half-fall {fmt(r, "wf_sec_half")}, busting locally {fmt(r, "wf_sec_bust")}; sections differ in crash generation {fmt(r, "wf_differ")}, mean spread {fmt(r, "wf_spread")}')
+
+
+    return RES
 
 
 if __name__ == '__main__':
-    main()
+    analyse(int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), sys.argv[4:])
