@@ -16,8 +16,9 @@ rimmed price is the hull's Gaussian fade action.
 
 What may be said: (1) the number S(63) = 14.6 and the 13-generation fade reproduce; (2) the torus's 0.161 per cell,
 its jump-and-crash route and the +0.8 nat non-Gaussian tail of the jump at 63 cells reproduce; (3) the chain gets the
-order hull > torus and the hull's ln τ to within 10% at every size (30–84: −8%, +4%, +7%, +4 to +9%), no better; (4) gump's hull faces of 30–63 cells do die by fades and its torus faces mostly by a jump and a crash [measured, section (f)], but the
-chain says so only for one choice of the layer beneath, and at 84 cells its two routes tie.
+order hull > torus and the hull's ln τ to within 10% at every size (30–84: −8%, +4%, +7%, +4 to +9%), no better; (4) gump's hull
+faces of 30–84 cells do die by fades and its torus faces mostly by a jump and a crash [measured, section (f)], but the
+chain says so only for one choice of the layer beneath, and at 84 cells its two routes tie where gump's faces still fade.
 
 In fairness to the claim: as a ratio the number is not confined to one size (S/A = 0.2324 at 63 cells and 0.224–0.236 at
 84), and with the rule that carries most of the 84-cell map from 63 cells the last increment is 0.248 and c = 0.247. What
@@ -25,7 +26,7 @@ fails is the identification with gump's 0.231, which is a slope with a negative 
 sizes at which the action is pinned gives that pair of numbers. And [conjectured] the ratio will not stay: at 84 cells the
 jump-and-crash route already ties with the fade, and on a face whose rim is a vanishing share the chain's map is the
 torus's, whose jump costs 0.16 per cell. A chain with one map cannot keep two prices at large sizes unless the fade
-stays cheaper for ever, and at 84 cells it has stopped being cheaper.
+stays cheaper for ever, and at 84 cells, in the chain, it has stopped being cheaper (gump's 84-cell faces still fade).
 
 ## Per claim
 
@@ -33,7 +34,7 @@ stays cheaper for ever, and at 84 cells it has stopped being cheaper.
 |---|---|---|---|
 | 1a | torus route (33,25) → (46,42) → (16,7) → starvation, found by the chain | **CONFIRMED** (63 cells) | (33,25) → (45,43) → (16,6) → (11,6) → (6,6) → …; costs 6.01 (jump), 2.01 (crash) |
 | 1b | gump's dying faces go (33.3,25.2) → (48.8,39.9) → (11.2,9.9) | **CONFIRMED** (63 cells) | aligned on the last generation with P ≥ 46 before the death: (33.3, 25.2) → (48.6, 39.7) → (12.1, 9.9), then a median of 5 generations (3–9) to the empty face. 65.4 ± 1.2% of 1,670 deaths have such a generation in their last 20 (a living face: at most 4.8%); 85.1 ± 0.9% have one with P ≥ 43 in their last 12 (living: at most 20%) |
-| 1c | hull face, 63 cells: a fade of about 13 generations, no over-full generation | **CORRECTED** | true for B = the whole layer beneath at 30, 45, 63 cells (12, 12, 13 steps). With B = the part under the face the cheapest route is a jump and a crash at every size ((34,20) → (40,29) → (22,6) at 63). At 84 cells, whole layer, the jump-and-crash (46,38) → (52,49) → (27,12) ties with the fade: 18.77 against 18.78 (rule carry:50), 19.07 against 19.17 (carry:200). **Gump itself [measured]:** hull faces of 30, 45, 63 cells die by fades, a median of 9 and 10 generations (4–16, 5–17) from the last time at the living mode to the empty face at 45 and 63 cells, with no excess of over-full generations before the death at 45 cells and a small one at 63 (P ≥ 45 in the last 12: 5.9 ± 0.5% against at most 3.7% alive). So the whole-layer chain is right in kind and the under-face chain finds a route gump does not take. But in gump's fades the layer beneath stays at 19–20 of 63 while the face goes from 16 to 2; the chain's route takes it down to 12–13 |
+| 1c | hull face, 63 cells: a fade of about 13 generations, no over-full generation | **CORRECTED** | true for B = the whole layer beneath at 30, 45, 63 cells (12, 12, 13 steps). With B = the part under the face the cheapest route is a jump and a crash at every size ((34,20) → (40,29) → (22,6) at 63). At 84 cells, whole layer, the jump-and-crash (46,38) → (52,49) → (27,12) ties with the fade: 18.77 against 18.78 (rule carry:50), 19.07 against 19.17 (carry:200). **Gump itself [measured]:** hull faces of 30, 45, 63 cells die by fades, a median of 9 and 10 generations (4–16, 5–17) from the last time at the living mode to the empty face at 45 and 63 cells, with no excess of over-full generations before the death at 45 cells and a small one at 63 (P ≥ 45 in the last 12: 5.9 ± 0.5% against at most 3.7% alive). So the whole-layer chain is right in kind and the under-face chain finds a route gump does not take. But in gump's fades the layer beneath stays at 19–20 of 63 while the face goes from 16 to 2; the chain's route takes it down to 12–13. At 84 cells (77 deaths) gump's faces still fade, layer beneath at 27–29 of 84 |
 | 2a | minimum action 0.1608 per cell on wrapped faces | **CONFIRMED at 63 cells**; 48–108 NOT TESTED | S = 10.116 (0.1606); 10.248 (0.1627) with nearest-cell filling |
 | 2b | minimum action 0.2313 per cell on the hull face (gump's rimmed price 0.231) | number **CONFIRMED** (S(63) = 14.640 ± 0.047, S/A = 0.2324); reading as a price **REFUTED** | see "the deciding test" |
 | 3 | the jump's tail: measured chance below the Gaussian's by 0.76 nats at 63 cells | **CONFIRMED at 63 cells** | +0.802 ± 0.027 on the point (46,42); 3×3 +0.716; 5×5 +0.599; quadrant +1.124 ± 0.013 |
