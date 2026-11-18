@@ -109,3 +109,12 @@ measured by plain running at any size: -8.304 +- 0.008 (135 cells), -9.764 +- 0.
   now put "the hull/torus gap is all in the dip rates" at 10%. What my tables show is narrower: among hull faces
   of 45 to 108 cells, q below 0.6 P-bar has no term that grows with the edge. The rim can still change q by a
   fixed factor (the last cells sit on the rim line, agent anatomy), and the torus can have another slope.
+
+## Block 3, final values (04:36 UTC; all runs in, law unchanged, nothing refitted by hand)
+
+ln tau_face from "-ln q(0.6) is a straight line" (weighted fit -2.049 + 0.17014 A over the four anchors, chi2 1.1 on 2)
+and the measured nu(0.6 P-bar) = -8.302 +- 0.003, -9.754 +- 0.005, -11.368 +- 0.011:
+**29.223 +- 0.014 (135 cells), 35.779 +- 0.020 (165), 43.007 +- 0.027 (198).** From fixed-density levels (0.28 A):
+29.218 +- 0.012, 35.781 +- 0.021, 43.02 +- 0.05. Every nu moved within its first error (forecast of 80% each: held).
+P(the 135-cell face, measured to +- 0.03, lies within 0.05 of 29.223) = 75%. The way I expect to be wrong if I am:
+low, through one-generation busts taking a growing share of deaths (README, "The bust route").
