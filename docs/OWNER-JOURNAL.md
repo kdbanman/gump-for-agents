@@ -35,6 +35,10 @@ What speaks to it (the lead, same day):
   (CLAIMS DY3). Trajectories are another matter: a flipped cell changes everything downstream, and how fast that
   damage travels is measured in `research/phase/`. "Different trajectory, same statistics" is the pair
   "sensitive, and quick to forget".
+  *Added 2026-11-18:* the isolation has now been tested with everything else left running. Overwrite the cells six
+  or more layers under one face of a closed octahedron with fresh coins every generation and that face's lifetime
+  does not move (−0.4 ± 1.3% at 63 cells; CLAIMS X4). Coins three layers under a face lengthen its life by up to a
+  fifth (X5), which nobody can explain yet. Notebook 2026-11-18, "the noisy hull, rebuilt from outside".
 - **Signals as a lens on it.** `research/signals/` (started 2026-11-15): whether anything can carry a signal. In
   the chaos the two numbers above say no usable signal survives a cube or two; the open case is the ordered
   remains (wires, sheets, clocks), where nothing forgets.

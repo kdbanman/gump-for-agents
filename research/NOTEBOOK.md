@@ -4173,3 +4173,64 @@ sparse stepper of its own, equal to the oracle on soups and at every generation 
   itself still made by a hand; the reader and the call do not live on one store where the reading says anything;
   and "nothing found lets what is stored decide what is sent next" now has two exceptions on the oracle (the
   branch runs and the zero exit), both with the deciding pulse made by a hand.
+
+
+## 2026-11-18: the noisy hull, rebuilt from outside: coins six layers under a hull face leave its lifetime alone, coins three layers under lengthen it, and the sampler's offset at 108 cells is its own tail
+
+**What was reviewed.** The other session's `research/blast/noisy/` (pull request 39, at the owner's request): gump
+on the closed octahedral hull, where after each generation M darts set cells of a deep region (depth ≥ 6 under one
+watched face, ≥ 3 under the other seven; B cells) to fair coins, ε = M/B, and a subset-simulation sampler over the
+dart bits estimates the watched face's death rate at sizes brute force cannot reach. Its blind test at 108 cells
+read 23.422 ± 0.025, 23.228 ± 0.119, 23.368 ± 0.065 at ε = 1/16, 1/32, 1/64; weighted mean +0.069 ± 0.025 above
+gump (23.3392 ± 0.0099), reported as "real for this chain or for its sampler".
+
+**How.** An independent rebuild by a second agent: `research/audit/REVIEW-blast-noisy.md`, code
+`research/audit/blastnoisy/` (`nb.c`, a chain and sampler written from the README, not from the author's `nz.c`).
+`sh research/audit/blastnoisy/run.sh check` (3 minutes): `nb` equals the oracle with the noise off and a slow numpy
+reference with it on. Tables: `python3 research/audit/blastnoisy/summary.py`. The lead re-ran both.
+
+- **[measured; two codes] Coins six or more layers under a hull face leave its lifetime unchanged.** Watched face
+  minus gump, brute force with `nb`: 45 cells −0.000 ± 0.003, +0.007 ± 0.004, +0.001 ± 0.003 at ε = 1/16, 1/4, 1;
+  63 cells +0.015 ± 0.007, −0.011 ± 0.009, −0.004 ± 0.013; 84 cells at ε = 1/4 +0.027 ± 0.038 (725 deaths). The
+  author's own rows agree: brute force at 45 and 63 cells (`research/blast/noisy/data/brute.txt`), sampler at 63
+  cells +0.008 ± 0.009 and at 84 cells +0.032 ± 0.029 (`python3 research/blast/noisy/fit.py`). At ε = 1 every cell
+  of the region is a fresh coin every generation.
+- **[measured; one code] Coins three layers under a face lengthen its life.** The other seven faces gain +0.026,
+  +0.067, +0.131 in ln τ at 63 cells (ε = 1/16, 1/4, 1), in three classes by how they meet the watched face (whose
+  deeper margin shields part of their underside): edge-sharing +0.090, corner-sharing +0.151, opposite +0.201 at
+  ε = 1. At 84 cells, ε = 1/4: +0.127 ± 0.016. A face with noise close under it lives up to a fifth longer.
+- **[measured] The sampler is exact for the mean rate where brute force can check it.** Sampler minus brute force:
+  −0.000 ± 0.009, −0.006 ± 0.008 at 45 cells; −0.003 ± 0.010, +0.013 ± 0.012 at 63; unmoved by the level spacing
+  (1, 3, 6) and the number of sweeps (19, 38, 76), χ² 5.3 on 4.
+- **[measured] At 108 cells its error bar is not to be trusted.** The author's numbers reproduce from the committed
+  rows. The dying chains of a replication descend from 50 to 60 distinct initial states (about 130 at 63 cells, 85
+  to 90 at 84), which the moves never touch; in the largest replications one initial state holds 63 to 92% of them
+  (rate against largest family: correlation +0.95). One replication's law has a heavy tail (the author's
+  `tails.py`: the largest is 20, 35, 7 times the mean at ε = 1/64, 1/32, 1/16; 1.4 to 2.5 times at 63 and 84
+  cells). The weighted mean is not a fair summary (weights 1 : 0.04 : 0.15). **Equal-weight mean of all 1,100
+  rates: 23.349 ± 0.043, +0.009 ± 0.044 from gump**; the fitted line's intercept has bootstrap interval
+  [−0.20, +0.15]. The author's own answer (`research/blast/REPORT.md`, 19:37 UTC entry; rows in
+  `research/blast/noisy/data/runs_diag/`): with the restricted odd sweeps turned off, 420 replications at ε = 1/16
+  read 23.330 ± 0.043 (−0.009 ± 0.044); 30 fresh seeds with them on read 23.339 ± 0.075.
+- **[conjectured] The +0.07 to +0.08 is the sampler's tail, not gump's and not the noisy chain's.** Both sides read
+  the odd sweeps as reversible; they are exact at 45 and 63 cells; nothing measured shows an offset of the chain.
+  Not decided between "a tail not yet caught" and a fault that only shows at 108 cells. What would decide it:
+  about 1,500 more replications at ε = 1/16 (15 core-hours, `sh research/audit/blastnoisy/run.sh sampler`). The
+  135-cell face is not decided by this sampler as it stands; the author proposes a move on the initial state.
+- **The lead's own check of the 84-cell chain.** The rebuild's noise-free control (seed 1304) had uneven deaths per
+  face (360 259 312 292 320 267 313 281; χ² 25 on 7). Three fresh seeds are flat (χ² 6.7, 8.0, 5.7):
+  `research/audit/blastnoisy/nb research/audit/blastnoisy/hull_13.bin run 1311 45000000 0 F` (and 1312, 1313;
+  rows `research/audit/blastnoisy/data/brute/lead_b13_M0_s131*.txt`). Pooled over five control seeds, all faces:
+  ln τ = 18.137 ± 0.009 against the anchor 18.141 ± 0.005. Seed 1304 was chance.
+- **What it adds to "coins will do"** (2026-11-14, CLAIMS X1). There the bulk under a face was thrown away and the
+  face cut out; here the whole hull runs and the coins are dropped into it. The isolation is the same and sharper:
+  at 63 cells full noise six layers down changes the lifetime by −0.4 ± 1.3%, at 45 cells +0.1 ± 0.3%, at 84 cells
+  a quarter noise +2.7 ± 3.8%. The edge of the isolation lies between three and six layers, and inside it noise
+  helps the face rather than hurting it. Why it helps is not known (a fuller layer beneath? compare open problem
+  9 (p)).
+- **Not checked:** 84 cells beyond ε = 1/4; anything at 108 cells by brute force (τ ≈ e^23.3 is out of reach); the
+  seven faces' gain by a second code; depths between three and six (the author's `diag2.sh` series was running);
+  the author's odd-sweeps-off rows were read, not re-run; `research/blast/lean/` and `research/blast/strips/` on
+  the same pull request are not reviewed and are not in `main`.
+- **Bears on the owner's journal** (2026-11-17, the isolation note): faces are isolated from what lies six layers
+  under them even when that is replaced by pure noise while everything else runs.

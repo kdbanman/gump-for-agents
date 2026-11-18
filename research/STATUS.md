@@ -508,6 +508,21 @@ _Last updated 2026-11-14 by the lead._
   (Fable):** an independent rebuild and attack -> `research/audit/REVIEW-blast-noisy.md`, `research/audit/blastnoisy/`.
   This session is subscribed to the pull request's activity. **Then:** post the rebuild's findings there, record
   what stands (notebook, ledger), and merge only after that.
+  **20:00 UTC 2026-11-18: the noisy hull (pull request 39) is reviewed and recorded.** Review
+  `research/audit/REVIEW-blast-noisy.md`, notebook entry of 2026-11-18 ("the noisy hull, rebuilt from outside"),
+  CLAIMS X4 to X6, open problem 9 (r). The sampler work (`research/blast/noisy/`, b80248c merged, f069674
+  cherry-picked without its Lean entry) goes to `main` through pull request 40. Posted on pull request 39: the
+  rebuild's findings, the flat control seeds, what is recorded, two small asks (`fit.py`'s summary line, the
+  README's limit). **Pull request 39 stays open and is not to be merged as it stands**: its Lean directory
+  (`research/blast/lean/`) and `research/blast/strips/` are not reviewed. Owed: (1) the author's `diag2.sh` rows
+  (on against off at 84 cells; a depth series at 63 cells) when it names the commit: cherry-pick, check against
+  the rebuild's +0.027 ± 0.038, add to the notebook entry; (2) the Lean pass (clean build, `STATEMENTS.md` against
+  `docs/AUTOMATON.md`, axioms, the tie to the oracle) by an independent agent; (3) a review of `strips/`. (2) and
+  (3) wait on usage: the other session read the shared Fable window at 0.68 at 19:34 UTC, so the lead starts no
+  Fable agents until a reset or the owner says otherwise. This session cannot unsubscribe itself from pull
+  request 39 (a trusted device is needed); its CI events wake the lead for nothing; the other session's comments
+  do not arrive as events and have to be read with `pull_request_read get_comments` (ten comments by 19:55 UTC).
+
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

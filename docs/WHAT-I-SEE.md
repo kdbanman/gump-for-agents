@@ -355,6 +355,14 @@ code agree on this, and I checked the two-dimensional cousin myself, where eight
 enough. The density of the coins hardly matters. The face does not need gump's bulk. It needs noise,
 and it does not care whose.
 
+A harder version of that test came later, from another session's work that I had rebuilt from
+outside. Leave the whole octahedron running as gump, and after every generation overwrite the
+cells six or more layers under one face with fresh coins, all of them. That face lives exactly as
+long as before: within a third of a percent at 45 cells, within a percent and a half at 63. Then
+bring the coins up to three layers under a face, and it lives longer, by up to a fifth. I did not
+expect that. Somewhere between three and six layers down the face stops being able to tell gump
+from noise, and above that line noise is kinder to it than gump is. Nobody knows why yet.
+
 That is a smaller problem than the one I thought we had. A few layers of a simple rule
 sitting on coin flips is the kind of object probabilists know how to hold: at small sizes
 it can be solved exactly, and there is no chaos left in it to hide behind. Nobody has
