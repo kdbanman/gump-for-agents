@@ -4,6 +4,34 @@ Standing account of the PI (the session in charge of the blast). One subdirector
 README; `BRIEF-COMMON.md` is what every agent was told; `PREDICTIONS.md` holds forecasts frozen before data;
 `REPORT.md` is the account for the owner. Written to as results are checked; newest state at the top.
 
+## State (04:25 UTC): the referee's verdict, and the PI's reading of the whole
+
+- **Boom and bust is confirmed by a referee with its own code (`ref-anatomy/REVIEW.md`) and sharpened.** Nearly
+  every wrapped death goes through the over-full generation (84% contain a fall of at least 0.4 of the face; the
+  "57–59%" was the threshold cutting one hump in half); the face does not breathe (the boom comes in one step);
+  and **the layer beneath is the hidden variable**: a fatal fall takes it 39.9 → 9.9 of 63, a non-fatal fall of
+  half the face 34.5 → 18.6. The death is a joint over-fill of two layers and a joint crash.
+- **The emptiness principle [conjectured as a law; measured for tubes by `tube1d`; consistent for rhombi].** For a
+  face without a rim, the death rate is the living state's probability that a region of the face's own shape is
+  empty at one instant, times a boundary constant: τ(closed face of shape S) × P_living(patch S empty) =
+  e^(−σ·perimeter − const). `tube1d`: constant to ± 0.02 over bands of 5, 6, 7 units of a loop-12 tube. Rhombi,
+  my arithmetic on the 2026-11-14 patch counts and the tori on file (`python3 research/blast/pi/patch_vs_torus.py`):
+  −ln P − ln τ = 9.496 ± 0.005, 10.878 ± 0.034, 12.74 ± 0.60 for 4×4, 4×5, 5×5, i.e. 0.69 per lattice unit of
+  perimeter from the first two and 12.26 forecast for the third. Three shapes, two of them fixing the line, tori of
+  different loop content: consistent with the law, not a test of it.
+- **Why that should be so, and what it predicts [conjectured, the PI].** `image` proved that the space-time law of
+  a tube is a transfer-matrix product along the tube. Then "ℓ consecutive bands empty at one instant" is a power
+  of one constrained operator in both settings, between boundary vectors for a band of a living tube and as a
+  trace for a closed tube. That gives `tube1d`'s one curve (same leading eigenvalue c∞, same gap ξ ≈ 2 lattice
+  units) and says more: for a closed tube ln τ(L) = a + sL − ln(1 + K·e^(−L/ξ)) with K an integer, the multiplicity
+  of the second eigenvalue (its free fit gave K = 2.2). `tube1d` has been asked to test K = 1 and K = 2.
+- **What this makes of "the price".** The price per cell of a wrapped face is the rate at which emptiness of the
+  living state decays with area: a static property of the living chaos, measurable without a single death. Shape
+  enters as finite-size terms of the emptied ensemble, whose correlation length is about 2 lattice units, four
+  times the living state's: every face measured so far (2.3 to 6 units across, tubes to 10 long) is within a few
+  of those lengths, which is why no two shapes agree on a price. A rim does not only add a boundary term: it
+  closes the bust exit near it, and the emptied ensemble then has to be the starved one.
+
 ## State (04:15 UTC): what wave 1 found (four agents reported; referees running)
 
 Each line names the agent's directory, where the command for every number is. Nothing here is refereed yet
