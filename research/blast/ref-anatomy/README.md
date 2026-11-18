@@ -23,4 +23,16 @@ Reproduce: `sh run.sh` (one core, about 10 minutes of wall time; bulk output und
   h45 = hull radius 9.
 - `PREDICTIONS.md`: forecasts for the hull run (written before its output was read) and their scores.
 
-Not checked: see `REVIEW.md` §5.
+**Second job (investigator): `THEORY.md`**: the joint one-step map (P, B) → (P′, B′) of the face and the layer
+beneath, its collapse across 48, 63, 84 cells, and what a Gaussian chain obeying it does (minimum action, route,
+exact lifetime) on wide tori, the hull face and tubes. Reproduce: `sh run2.sh` (7 minutes, one core), then
+`python3 theory.py; python3 theory2.py; python3 theory3.py` (about 5 minutes) → `out/theory.txt`,
+`out/theory2.txt`, `out/theory3.txt`.
+
+- `fd2.c`: same stepper, tallies per (P, B) cell the moments of (P′, B′) and of the third layer; `validate_fd2.out`
+  (`FD=fd2 python3 validate.py NAME`). It does not restart settled replicas (matters at 48 cells only; THEORY §5).
+- `theory.py`: the chain, the minimum action, the collapse test, the jump's measured law; `theory2.py`: tube against
+  torus at equal size, own maps at 48 and 84 cells; `theory3.py`: the first five layers round a fall, and the
+  Gaussian action of the measured route.
+
+Not checked: see `REVIEW.md` §5 and `THEORY.md` §5.

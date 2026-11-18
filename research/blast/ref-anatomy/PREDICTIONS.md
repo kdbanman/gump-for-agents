@@ -40,3 +40,11 @@ times the Gaussian exponent. Not known: any joint map, any action.
    cell per cell (70%); in over-full generations by 0.15 or more (50%).
 7. The loop²-12 tube's map equals the wide torus's at equal fillings to 0.005 over the living and over-full region
    (60%), so the action does not reproduce the tube's lower lifetime (60%).
+
+### Scored (04:42 UTC; `out/theory.txt`, `out/theory2.txt`)
+
+1 hit (0.1595). 2 miss (13.07: the chain's lifetime at the map's own size is nearly forced, which I had not seen).
+3 hit in kind (x = 0.730, then 0.254). 4 two of three (higher: yes; ratio 1.45, not 1.05–1.25; a 13-generation
+fade with no over-full generation: yes). 5 half (neighbouring sizes agree to 0.006–0.008 in drift and 4% in
+variance; 48 against 84 differ by 0.014; the 1/A pattern was not foreseen). 6 hit (−0.04; −0.24). 7 first half hit
+(0.001), second half miss (3% more noise does give the tube a lower action).
