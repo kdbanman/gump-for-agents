@@ -183,12 +183,13 @@ dying face have equal weight the tilted measure is a mixture and its local means
 ## Where the others stop
 
 **B2 (a lower bound e^{cA}).** Not proved, for any density. What is established here:
-- *No monotone one-step minorant* (board, graveyard 14) is confirmed in the strongest form for S(G): by (K) no
-  cell is ever safe, and by Lemma 0 (3) there is a state from which the face dies in one step with the *largest*
-  possible entropy of outcomes; any comparison must use several generations.
+- *No monotone one-step minorant* (board, graveyard 14) holds for S(G) in the plainest form: by (K) no cell is
+  ever safe, so from every state the face is empty one generation later with positive probability, and the
+  all-alive wrapped face is empty with probability 1. Any comparison with a monotone process must use several
+  generations.
 - *The smallest block cannot be one unit cell wide* **[measured, exact]**: free strips one unit cell wide are
   subcritical, ln τ = 2.80, 2.64, 2.45, 2.31 for 9, 12, 15, 18 cells (falling with length), and patches 1 × D have
-  ln τ ≈ 1.9–2.1 at every length. Strips two unit cells wide do grow (README table). A block event must
+  ln τ = 1.88, 1.98, 2.04, 2.07 at the same sizes. Strips two unit cells wide do grow (README table). A block event must
   therefore live on at least 2 unit cells of width, and the exact transfer product reaches 18 cells with a free
   rim: the block probability "a 2 × 3 patch alive at time 0 has a live cell in each half at time T whatever its
   outside does" can be computed exactly only as a game against the outside (min over outside histories), which
