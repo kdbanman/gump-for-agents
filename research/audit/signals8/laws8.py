@@ -162,7 +162,7 @@ TRIGGERS = [  # (name, unit relative to the stretch's first unit, cell, phase, k
 
 def law_one(trig, k, sim='box'):
     name, du, c, g0, form = trig
-    nl = 2 * k + 60; G = 4 * k + 100 + g0
+    nl = 2 * k + 60; G = 4 * k + 100 + 4 * g0                       # read at a generation = 0 mod 4 (push 7's right cap has period 4)
     x = Line('7' * nl + 'd' * k + 'f' + '7' * 20, a8.CAPR7, sim).run(g0).flip(tr(c, 4 + nl + du)).run(G - g0)
     w = x.letters(); ex = x.exact()
     x.run(2); w2 = x.letters()

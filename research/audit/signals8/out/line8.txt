@@ -1,0 +1,11 @@
+PASS A  the five written lines are periodic (period dividing 4) at 882; wire units 4..79: n = 1: 7^76; n = 2..5: 7^37 d^n f 7^(38-n); cells [419, 420, 420, 420, 420]  [109 s]
+NOTE A  period 2 exactly? {1: False, 2: False, 3: False, 4: False, 5: False} (the right cap has period 4)  [109 s]
+PASS B  count read at 882, n = 2, 3, 4: 40 generations later the wire carries exactly (b7)^n; 221 generations later the whole state is the n = 1 line  [133 s]
+NOTE B  count read at 882, n = 1 (nothing stored): train after 40: 6f; 221 later: the n = 1 line exactly  [133 s]
+PASS B  count read at 884, n = 2, 3, 4: 40 generations later the wire carries exactly (b7)^n; 221 generations later the whole state is the n = 1 line  [159 s]
+NOTE B  count read at 884, n = 1 (nothing stored): train after 40: 6f; 221 later: [?^43_^33; 238 cells; caps CHANGED]  [159 s]
+PASS C  bit read from the right (stator (0,1,4) of unit 70) at 882: n = 1: crosses, capL swallows, the n = 1 line; n = 2, 3, 4: absorbed, the line of n + 1 holes exactly  [177 s]
+NOTE C  bit read from the left (stator (0,1,2) of unit 20) at 882, 300 generations later: {1: 'the n = 1 line exactly', 2: '[7^36dddf7^36; 420 cells; caps as in the n = 1 line]', 3: '[7^36d^4f7^35; 420 cells; caps as in the n = 1 line]'}  [198 s]
+PASS C  bit read from the right (stator (0,1,4) of unit 70) at 884: n = 1: crosses, capL swallows, the n = 1 line; n = 2, 3, 4: absorbed, the line of n + 1 holes exactly  [218 s]
+NOTE C  bit read from the left (stator (0,1,2) of unit 20) at 884, 300 generations later: {1: '[b^32a_^43; 188 cells; caps CHANGED]', 2: '[7^36dddf7^36; 420 cells; caps as in the n = 1 line]', 3: '[7^36d^4f7^35; 420 cells; caps as in the n = 1 line]'}  [241 s]
+ALL PASS
