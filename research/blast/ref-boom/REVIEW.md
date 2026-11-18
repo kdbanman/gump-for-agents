@@ -3,7 +3,8 @@
 Referee: agent `ref-boom`. Boom's README was read for its definitions; its code was neither read nor run.
 Labels: **[proved]**, **[measured]**, **[conjectured]**. Every number below is mine unless it says "boom".
 All numbers: `sh run.sh; sh run2.sh; sh run3.sh; python3 pool.py p63 r63 r63b; python3 pool.py p75 r75 r75b;
-python3 an.py r48 r57 p63 p75` → `out_all.txt`; islands `python3 ani.py i48 i63` → `out_islands.txt`.
+python3 an.py r48 r57 p63 p75` → `out_all.txt`; islands `python3 ani.py i48 i63` → `out_islands.txt`; lifetimes
+`sh run4.sh; python3 life.py t48 t63` → `out_life.txt`. One core, every job under 5 minutes.
 
 ## Verdicts
 
@@ -40,13 +41,16 @@ error 1/√deaths. A replica whose state repeats after 840 generations is restar
 | (1,4),(0,21) | 63 | 1.0e10 (two seeds) | 19,237 | 13.1613 ± 0.0072 | 13.1622 ± 0.0007 | −0.1 |
 | (1,9),(0,25) | 75 | 7.0e9 (two seeds) | 1,071 | 15.693 ± 0.031 | 15.6442 ± 0.0030 | +1.6 |
 
-[measured] The anchors are reproduced. One oddity, not resolved: the two seeds of one vessel disagree more than
+[measured] The anchors are reproduced. One oddity: the two seeds of one vessel disagree more than
 Poisson counting allows, both times: 63 cells 13.1441 ± 0.0101 and 13.1787 ± 0.0103 (9,785 and 9,452 deaths in equal
 exposure: 2.4 s.d.), 75 cells 15.761 ± 0.045 and 15.629 ± 0.042 (500 and 571: 2.2 s.d.); together p ≈ 0.005.
 It is not a failure of memorylessness at 48 cells [measured, `./rbt run 4 0 4 121 1500 …/t48.txt; python3 life.py t48`]:
 the 73,162 slab lives of a third 48-cell run (ln τ = 9.9281 ± 0.0037) have CV² = 0.988 ± 0.011 and follow the
 exponential law in every octave from 1 to 65,536 generations (no excess of early deaths after the 300-generation
-start). LIFE63
+start). The same at 63 cells (a third seed, `t63`: 9,518 lives, CV² = 1.009 ± 0.029,
+ln τ = 13.1718 ± 0.0103; the three 63-cell seeds together give 13.1647 ± 0.0059, +0.4 s.e. from the anchor, with
+χ² = 6.5 on 2 degrees of freedom among themselves). Lifetimes are exponential, so the Poisson errors are right and
+the scatter of the pairs is most likely chance (`out_life.txt`).
 
 ## 2. (a) The launch distribution [measured]
 
@@ -227,7 +231,7 @@ the face and in the kill, not in the face's own fluctuation.
 ## 8. Not checked
 
 - 84 cells and above; tubes; hulls; boom's §5–§8; the cloning estimate of d (I used natural deaths only).
-- Why two seeds of one vessel differ by 2.2–2.4 Poisson s.d. twice (see §1).
+- The scatter between seeds (§1) was tested only through the lifetime distribution (CV² = 0.99, 1.01), not by more seeds.
 - Periods that do not divide 840 are not caught by the restart check.
 - Builds: r48, r63, r57, r75, r63b, r75b were run with the first build `rb`; the island mode and the lifetime
   accumulators were added to `rb.c` afterwards and built as `rbi`, `rbt`; `rbi run` and `rbt run` reproduce

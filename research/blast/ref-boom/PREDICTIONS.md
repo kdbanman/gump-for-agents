@@ -11,3 +11,12 @@
    also there before NON-fatal generations with the same over-full face (a property of any over-full generation,
    not a precursor specific to deaths), to within 0.015·A.
 4. (p = 0.7) My ln τ at 48 and 63 cells within 2 standard errors of the anchors 9.9251, 13.1622.
+
+## Scored (05:10 UTC; numbers in REVIEW.md)
+
+1. MISS by 0.001 as stated: 0.2154 ± 0.0011 at θ = 0.74 (grid minimum 0.2139) with linear interpolation; the
+   quadratic version (0.2168) is inside the interval. The reason given held (it is the lifetime slope, 0.2156).
+2. HIT (mean 0.7380, 0.7375); HIT (s.d. ratio 1.168).
+3. HIT (profile within 0.006 everywhere beneath the face); MISS (the under-fill before a fatal launch is 0.035,
+   0.052, 0.040 of A, of which only 0.007, 0.017, 0.010 is generic).
+4. HIT (48 cells +0.6 s.e.; 63 cells −0.1 pooled, single runs −1.8 and +1.6).
