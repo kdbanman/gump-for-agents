@@ -13,7 +13,7 @@
    h = (vP)(empty) / |v| converges to 1 - lambda; from the quasi-stationary law the death time is exactly
    geometric with mean tau = 1/h.
 
-   usage: qsd graph rho1 rho2 [maxiter=4000] [tol=1e-13] [verbose 0/1] [tilt]
+   usage: qsd graph rho1 rho2 [maxiter=4000] [tol=2e-12] [verbose 0/1] [tilt]
    graph: A; then per cell "m1 m2 deg n1..ndeg"; then an elimination order (see geom.py).
    build: gcc -O3 -march=native -o qsd qsd.c -lm                                                    */
 #include <stdio.h>
@@ -131,7 +131,7 @@ int main(int argc, char **argv) {
     fclose(f);
     rho1 = atof(argv[2]); rho2 = atof(argv[3]);
     int maxiter = argc > 4 ? atoi(argv[4]) : 4000;
-    double tol = argc > 5 ? atof(argv[5]) : 1e-13;
+    double tol = argc > 5 ? atof(argv[5]) : 2e-12;   /* relative change of h; rounding noise of the sums is about 1e-13 at 2^24 states */
     make_q();
     for (int i = 0; i < A; i++) depmask[i] = 1ULL << i;
     for (int c = 0; c < A; c++) for (int j = 0; j < deg[c]; j++) depmask[nb[c][j]] |= 1ULL << c;
@@ -161,7 +161,7 @@ int main(int argc, char **argv) {
         if (hprev > 0 && fabs(h - hprev) <= tol * h) good++; else good = 0;
         if (argc > 6 && atoi(argv[6]) && it % 20 == 0) fprintf(stderr, "it %d h %.15g\n", it, h);
         hprev = h;
-        if (good >= 8) break;
+        if (good >= 4) break;
     }
     /* statistics of the quasi-stationary law mu = T */
     double pn[MAXA + 1], hn[MAXA + 1], occ[MAXA], docc[MAXA], mean = 0, var = 0, hsum = 0;
