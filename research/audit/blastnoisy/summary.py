@@ -35,6 +35,12 @@ for (A, M) in sorted(br):
     bw[(A, M)] = (lw, ew)
     print(f"   {A:5d} {M / r['B']:7.4f} {M:4d}  {r['n']:3d}   {r['d0']:8d}      {lw:8.4f} +- {ew:.4f}   {lw - a[0]:+.4f} +- {math.hypot(ew, a[1]):.4f}   "
           f"{lo:8.4f} +- {eo:.4f}   {lo - a[0]:+.4f} +- {math.hypot(eo, a[1]):.4f}")
+for A in sorted({k[0] for k in br}):
+    v = [(bw[(A, M)][0] - ANCH[A][0], bw[(A, M)][1]) for (a_, M) in sorted(br) if a_ == A and M > 0]
+    if len(v) > 1:
+        w = sum(1 / e ** 2 for _, e in v)
+        print(f'   {A} cells, watched face, weighted over eps > 0: {sum(x / e ** 2 for x, e in v) / w:+.4f} +- {1 / math.sqrt(w):.4f}'
+              f' (chi2 {sum(((x - sum(y / f ** 2 for y, f in v) / w) / e) ** 2 for x, e in v):.1f} on {len(v) - 1})')
 
 
 def runs(files):
@@ -90,6 +96,9 @@ for key in sorted(k for k in mine if k[:4] == (11, 63, 16, 18)):
     v, e, K, sc = est(rs)
     d = '' if key == fk else f'{v - fz[0]:+.4f} +- {math.hypot(e, fz[1]):.4f}'
     print(f'   {key[4]:5d} {key[5]:6d}  {K:5d}         {v:8.4f} +- {e:.4f}   {sc:.2f}      {d}')
+sens = [est(mine[k] + (pr.get(k) or []))[:2] for k in sorted(k for k in mine if k[:4] == (11, 63, 16, 18))]
+w = sum(1 / e ** 2 for _, e in sens); mw = sum(v / e ** 2 for v, e in sens) / w
+print(f'   weighted mean of the {len(sens)} settings {mw:.4f} +- {1 / math.sqrt(w):.4f}; chi2 {sum(((v - mw) / e) ** 2 for v, e in sens):.1f} on {len(sens) - 1}')
 print('\n4. Ancestry of the last level (quartiles over replications; the sampler starts 4,096 fresh chains a replication)')
 print('   cells   eps    DELTA NSWEEP  reps   fresh chains the score-0 chains descend from   share of the commonest one   its share against the rate (correlation)')
 for key in sorted(mine):

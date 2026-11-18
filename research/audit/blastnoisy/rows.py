@@ -90,5 +90,5 @@ for key in sorted(groups, key=lambda k: (int(dict(k)['R']), -float(dict(k)['eps'
               f"replications with <= 2 ancestors: {int((an[:, 1] <= 2).sum())} of {len(an)}")
         # does the estimate depend on how many ancestors survive?
         lo = an[:, 1] <= np.median(an[:, 1])
-        if lo.sum() and (~lo).sum():
+        if len(an) == len(r) and lo.sum() and (~lo).sum():
             print(f"    mean rate / overall mean: replications with anc_hit <= median {r[lo].mean() / m:.3f} ({int(lo.sum())}), above {r[~lo].mean() / m:.3f} ({int((~lo).sum())})")
