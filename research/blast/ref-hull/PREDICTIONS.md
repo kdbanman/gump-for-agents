@@ -36,3 +36,5 @@ over the three intervals); the two candidates 29.230 (second difference repeats;
   keep shrinking (centred on R = 21: between −0.15 and −0.11, P = 0.6), and on wide tori −ln ν(0.6 P̄) will be a
   straight line in the area with slope 0.035–0.045 per cell (P = 0.5), i.e. the hull's bend is heading for the
   wrapped price in ν while q has the same slope 0.170 for both (P = 0.4).
+  (Note, 04:59 UTC: this last forecast was written when the second difference centred on R = 19 read −0.153 ± 0.006;
+  with sixteen more seeds it reads −0.160 ± 0.004. The forecast stands as written and is now less likely.)
