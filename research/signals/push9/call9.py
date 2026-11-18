@@ -14,11 +14,11 @@ crosses the store wire at one unit c ("the crossing"); the pair stands exactly a
   - TWO right-going pulses of the line in adjacent units (the CALL) pass the crossing and go on unchanged; if the
     stretch's first unit is c + 1 the stretch leaves as exactly k left-going pulses two units apart and the wire is
     left plain; with no stretch there, or with the stretch anywhere else, nothing happens.
-States are written as push 8's letters (one hex digit per unit of the store wire) + the line at rest.  Operations:
-R@u, L@u = ONE live stator of unit u of the store wire removed ((0,1,2): a right-going pulse; (0,1,4): a left-going
-one); CALL = TWO cells of the line's tube made live at one generation, 15 units of the line before the crossing (they
-become the pair of pulses).  A check [generation, letters] says that the whole state is capL + those units + the
-right cap + the line at rest, cell for cell.
+States are written as push 8's letters (one hex digit per unit of the store wire; several store wires: their words
+joined by '|') + the lines at rest.  Operations: R@u, L@u = ONE live stator of unit u of a store wire removed
+((0,1,2): a right-going pulse; (0,1,4): a left-going one); CALL = TWO cells of a line's tube made live at one
+generation, 15 units of the line before its first crossing (they become the pair of pulses).  A check
+[generation, letters] says that the whole state is the store wires of those letters + the lines at rest, cell for cell.
 """
 import os, sys, json
 import xlab9 as XL
@@ -29,34 +29,51 @@ NR = (-18, 8)                              # the line: wire C on its own units -
 LINE = XL.Line(nr=NR)
 SEED = [(0, 0, 1), (2, -2, 1)]             # made live at an even generation in a unit of wire C: the pair of pulses (own frame, unit 0)
 LAUNCH = 15                                # the seed is put LAUNCH line units before the crossing
+STEP = (2, 2, 0)                           # one unit of the line: a second store wire moved by n STEP is crossed n units further on
 
-R_ = lambda i: list(tr(X.RIGHT, 4 + i))    # i = position of the unit among the wire's letters
-L_ = lambda i: list(tr(X.LEFT, 4 + i))
+R_ = lambda i, off=(0, 0, 0): [a + b for a, b in zip(tr(X.RIGHT, 4 + i), off)]    # i = position of the unit among the wire's letters
+L_ = lambda i, off=(0, 0, 0): [a + b for a, b in zip(tr(X.LEFT, 4 + i), off)]
 
 
-def line_cells(c):
+def line_cells(c, line=LINE):
     """the line at rest (even generation), crossing at wire position c"""
-    return [list(q) for q in lab.up(LINE.cells(4 + c))]
+    return [list(q) for q in lab.up(line.cells(4 + c))]
 
 
-def call_cells(c):
-    tt = LINE.tt(4 + c)
-    return [list(lab.app(LINE.g, tr(q, LINE.UR - LAUNCH), tt)) for q in SEED]
+def call_cells(c, line=LINE):
+    tt = line.tt(4 + c)
+    return [list(lab.app(line.g, tr(q, line.UR - LAUNCH), tt)) for q in SEED]
 
 
-def state(word, extra):
-    N = len(word)
-    cells = X.CAPL | X.hexword(word, 4) | frozenset(tr(q, 4 + N) for q in X.CAPR2)
+def state(word, extra, offsets=((0, 0, 0),)):
+    cells = set()
+    for w, off in zip(word.split('|'), offsets):
+        N = len(w)
+        one = X.CAPL | X.hexword(w, 4) | frozenset(tr(q, 4 + N) for q in X.CAPR2)
+        mv = {(q[0] + off[0], q[1] + off[1], q[2] + off[2]) for q in one}
+        assert not (cells & mv)
+        cells |= mv
     n = len(cells)
-    cells = cells | frozenset(tuple(q) for q in extra)
+    cells |= {tuple(q) for q in extra}
     assert len(cells) == n + len(extra)
-    return cells
+    return frozenset(cells)
 
 
-def mk(name, text, start, c, ops, checks):
-    N = len(start)
-    return dict(name=name, text=text, N=N, H=2 * (N + 16 + N % 2), start=start, crossing=c, extra=line_cells(c) if c is not None else [],
-                ops=ops, checks=checks)
+def read(keys, N, offsets=((0, 0, 0),)):
+    out = []
+    for off in offsets:
+        k = lab.pk([(q[0] - off[0], q[1] - off[1], q[2] - off[2]) for q in lab.up(keys)
+                    if abs(q[1] - off[1]) <= 2 and abs(q[0] - off[0] + q[2] - off[2] - 3) <= 2])
+        out.append(letters(k, 4, 4 + N))
+    return '|'.join(out)
+
+
+def mk(name, text, start, crossings, ops, checks, offsets=((0, 0, 0),), extra=None):
+    N = len(start.split('|')[0])
+    if extra is None:
+        extra = [q for c in crossings for q in line_cells(c)]
+    return dict(name=name, text=text, N=N, H=2 * (N + 16 + N % 2), start=start, crossings=list(crossings), offsets=[list(o) for o in offsets],
+                extra=extra, ops=ops, checks=checks)
 
 
 def runs():
@@ -68,25 +85,43 @@ def runs():
     out.append(mk('cycle', 'the empty cell with the call line across it.  set (two cells removed, 12 and 15 units from the crossing: the two pulses '
                   'stop each other and leave d f just after the crossing), two left-going pulses add one each, CALL: three pulses leave and '
                   'the left cap swallows them; the cell and the line are as at the start.  Then the same again with one pulse added: two pulses leave',
-                  e, c,
+                  e, [c],
                   [[0, [R_(19), L_(46)], []], [120, [L_(46)], []], [200, [L_(46)], []], [280, [], CALL],
                    [520, [R_(19), L_(46)], []], [640, [L_(46)], []], [720, [], CALL]],
                   [[0, e], [120, s1], [200, s2], [280, s3], [324, None], [330, None], [520, e], [640, s1], [720, s2], [764, None], [770, None], [960, e], [962, e]]))
     s = '7' * 5 + 'df' + '7' * 25 + 'dddf' + '7' * 14
     out.append(mk('move', 'two stores holding 1 and 3, the call line across the wire one unit before the right one.  CALL: exactly three '
                   'pulses leave the right store and the left store then holds 1 + 3',
-                  s, c, [[0, [], CALL]], [[0, s], [44, None], [50, None], [260, '7' * 5 + 'ddddf' + '7' * 40], [262, '7' * 5 + 'ddddf' + '7' * 40]]))
+                  s, [c], [[0, [], CALL]], [[0, s], [44, None], [50, None], [260, '7' * 5 + 'ddddf' + '7' * 40], [262, '7' * 5 + 'ddddf' + '7' * 40]]))
     s = '7' * 36 + 'dddf' + '7' * 10
     out.append(mk('idle', 'the same line with the stretch four units further on, and a CALL: nothing changes (the line calls only a stretch '
                   'that begins one unit after the crossing)',
-                  s, c, [[0, [], CALL]], [[0, s], [80, s], [200, s]]))
-    out.append(mk('idle-empty', 'a CALL with no stretch on the wire: nothing changes', e, c, [[0, [], CALL]], [[0, e], [80, e], [200, e]]))
+                  s, [c], [[0, [], CALL]], [[0, s], [80, s], [200, s]]))
+    out.append(mk('idle-empty', 'a CALL with no stretch on the wire: nothing changes', e, [c], [[0, [], CALL]], [[0, e], [80, e], [200, e]]))
+    # two stores and two lines on one wire: a count moved twice
+    N = 64; cA, cB = 20, 44
+    s = '7' * (cA + 1) + 'ddf' + '7' * (cB - cA - 3) + 'dddf' + '7' * (N - cB - 5)
+    sA = '7' * (cA + 1) + 'dddddf' + '7' * (N - cA - 7)
+    out.append(mk('chain', 'two stores holding 2 and 3 on one wire, each with its own call line.  CALL on the right line: the left store '
+                  'holds exactly 2 + 3 and the right line has done nothing to it.  CALL on the left line: five pulses leave; the wire is empty',
+                  s, [cA, cB], [[0, [], call_cells(cB)], [200, [], call_cells(cA)]],
+                  [[0, s], [44, None], [200, sA], [244, None], [250, None], [460, '7' * N], [462, '7' * N]]))
+    # one line across two store wires
+    n = 5; off = tuple(n * v for v in STEP)
+    bus = XL.Line(nr=(NR[0], NR[1] + n))
+    ex = line_cells(c, bus)
+    s = '7' * 5 + 'df' + '7' * 25 + 'dddf' + '7' * 14 + '|' + '7' * 5 + 'df' + '7' * 25 + 'ddf' + '7' * 15
+    f = '7' * 5 + 'ddddf' + '7' * 40 + '|' + '7' * 5 + 'dddf' + '7' * 41
+    out.append(mk('bus', 'two parallel store wires five units of the line apart, each with two stores (1 and 3; 1 and 2), and ONE call line '
+                  'across both, one unit before the right store of each.  One CALL: three pulses leave on the first wire and two on the '
+                  'second; the left stores then hold 1 + 3 and 1 + 2',
+                  s, [c], [[0, [], call_cells(c, bus)]], [[0, s], [56, None], [300, f], [302, f]], offsets=((0, 0, 0), off), extra=ex))
     return out
 
 
 def play(run, show=True):
-    N = run['N']; extra = run['extra']
-    U = lab.pk(state(run['start'], extra))
+    N = run['N']; extra = run['extra']; offs = [tuple(o) for o in run['offsets']]
+    U = lab.pk(state(run['start'], extra, offs))
     assert lab.same(lab.run(U, 2), U), 'start state is not standing'
     ops = {g: (off, on) for g, off, on in run['ops']}
     G = max(g for g, _ in run['checks'])
@@ -94,12 +129,12 @@ def play(run, show=True):
     for g in range(G + 1):
         for chk in run['checks']:
             if chk[0] == g:
-                got = letters(Xs, 4, 4 + N)
+                got = read(Xs, N, offs)
                 if chk[1] is None:
                     chk[1] = got
-                assert lab.same(Xs, lab.pk(state(chk[1], extra))), (run['name'], g, got, chk[1])
+                assert lab.same(Xs, lab.pk(state(chk[1], extra, offs))), (run['name'], g, got, chk[1])
                 if show:
-                    print(f"  {run['name']:11s} generation {g:4d}: {X.hexrle(got)}")
+                    print(f"  {run['name']:11s} generation {g:4d}: {' | '.join(X.hexrle(w) for w in got.split('|'))}")
         if g in ops:
             off, on = ops[g]
             live = set(lab.up(Xs))
@@ -113,11 +148,12 @@ def write():
     for run in rs:
         play(run)
     d = dict(note="the call line of push 9. Doubled coordinates; unit u = cells with x in {2u, 2u+1}; tr(c, k) = (x + 2k, y, z - 2k). "
-                  "A state 'letters' = capL + for each letter i (hex digit h) the stators and the sites of h moved to unit 4 + i + capR moved "
-                  "to unit 4 + N + the run's extra cells (the call line at rest at an even generation: a capped wire C of 26 units along "
-                  "(1,1,0)). runs[].ops = [generation, cells removed (each must be live), cells made live (each must be dead)]; "
-                  "runs[].checks = [generation, letters]: the whole state equals the state of those letters. H = side of the oracle's "
-                  "cubic torus. crossing = position among the letters of the unit the line crosses.",
+                  "A state 'letters' (words joined by '|', one per store wire) = for each word j: capL + for each letter i (hex digit h) the "
+                  "stators and the sites of h moved to unit 4 + i + capR moved to unit 4 + N, all moved by offsets[j]; + the run's extra "
+                  "cells (the call lines at rest at an even generation: capped wires C along (1,1,0)). runs[].ops = [generation, cells "
+                  "removed (each must be live), cells made live (each must be dead)]; runs[].checks = [generation, letters]: the whole "
+                  "state equals the state of those letters. H = side of the oracle's cubic torus. crossings = positions among the letters "
+                  "of the units the lines cross.",
              capL=sorted(map(list, X.CAPL)), capR=sorted(map(list, X.CAPR2)), stators=W8.ST, sites=W8.SITES, runs=rs)
     json.dump(d, open(os.path.join(HERE, 'objects', 'call9.json'), 'w'))
     print('wrote objects/call9.json')

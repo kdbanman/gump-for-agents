@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """beside9 (push 9): catalogue objects standing beside wire B, and what they do to pulses.
 
-    python3 beside9.py --sel still --max-cells 12 [--part i/n] --out F.jsonl
+    python3 beside9.py --sel still|p2|osc --max-cells 12 [--max-union U] [--part i/n] --out F.jsonl
 
 For each object of research/atlas/catalogue.jsonl in the selection, every placement (lab9.placements: 48
 orientations, the phases that differ, every even translation for which the two closed neighbourhoods meet):
@@ -60,11 +60,11 @@ def pulse_lap(cells, P, kind, R=24):
     return f'{X.hexrle(s)} obj={"same" if same_out else "changed"}{" touch" if L.touch else ""}'
 
 
-def select(sel, maxc, minc=0):
+def select(sel, maxc, minc=0, maxu=10 ** 9):
     out = []
     for o in Z.catalogue():
         P = o['period']; n = len(o['cells'])
-        if n > maxc or n < minc:
+        if n > maxc or n < minc or o['union'] > maxu:
             continue
         if sel == 'still' and P != 1:
             continue
@@ -79,12 +79,12 @@ def select(sel, maxc, minc=0):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--sel', default='still'); ap.add_argument('--max-cells', type=int, default=12)
-    ap.add_argument('--min-cells', type=int, default=0)
+    ap.add_argument('--min-cells', type=int, default=0); ap.add_argument('--max-union', type=int, default=10 ** 9)
     ap.add_argument('--part', default='0/1'); ap.add_argument('--out', required=True)
     ap.add_argument('--ids', default='')
     a = ap.parse_args()
     i, n = map(int, a.part.split('/'))
-    objs = select(a.sel, a.max_cells, a.min_cells)
+    objs = select(a.sel, a.max_cells, a.min_cells, a.max_union)
     if a.ids:
         want = set(a.ids.split(',')); objs = [o for o in Z.catalogue() if o['id'] in want]
     objs = objs[i::n]
