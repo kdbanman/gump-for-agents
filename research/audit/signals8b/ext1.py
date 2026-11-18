@@ -17,7 +17,7 @@ import sys
 import qa, rd, lines
 from qa import pk, up, run, xor, union, same
 
-OWN = rd.capped(-14, 14)
+OWN = rd.capped(-40, 40)     # long, so that every launch is on plain wire well inside the caps
 OWNK = pk(OWN)
 
 
@@ -26,7 +26,7 @@ def odd_form(cells):
     return up(xor(run(xor(OWNK, pk(cells)), 1), run(OWNK, 1)))
 
 
-def launch(P, J, cells, t0, T=400):
+def launch(P, J, cells, t0, T=600, at=30):
     """probe `cells` (own frame, even-generation form) launched t0 generations after J.  Returns (code, travelling)."""
     if (t0 + P.phase) % 2 == 0:
         fl = {t0: pk(P(cells))}
@@ -34,7 +34,7 @@ def launch(P, J, cells, t0, T=400):
         fl = {t0: pk(P(odd_form(cells)))}        # launched one generation earlier in its even form
         # odd_form is the state at an odd own generation: flip it at t0
     r = rd.lock(J, fl, t0 + T)
-    trav = rd.describe(P, r['diffs'].get(t0 + 30, pk([])))
+    trav = rd.describe(P, r['diffs'].get(t0 + at, pk([])))
     if r['tube']:
         return 'STORE', trav
     if r['first'] is None:
@@ -75,7 +75,7 @@ if __name__ == '__main__':
                 P, ur, v, J = joint(n, name)
                 print(f'{name} at unit 42, n={n}: install {v}')
                 for side in 'LR':
-                    mk = (lambda j: rd.pR(ur - 9 - j)) if side == 'L' else (lambda j: rd.pL(ur + 9 + j))
+                    mk = (lambda j: rd.pR(ur - 12 - j)) if side == 'L' else (lambda j: rd.pL(ur + 12 + j))
                     words = {'single': [0]}
                     for s in range(1, 13):
                         words[f'pair {s} apart'] = [0, s]
@@ -88,27 +88,33 @@ if __name__ == '__main__':
                         cells = set()
                         for j in offs:
                             cells ^= set(mk(j))
-                        code, trav = launch(P, J, sorted(cells), 0)
-                        print(f'   {side} {w:16s} {code:13s} travelling at 30: {trav}')
+                        code, trav = launch(P, J, sorted(cells), 0, at=60)
+                        print(f'   {side} {w:16s} {code:13s} travelling at 60: {trav}')
     elif cmd == 'repeat':
         for name in READERS:
             mk, ur = READERS[name]
             for n in (1, 2, 6):
                 P, ur, v, J = joint(n, name)
-                pair = pk(P(rd.pR(ur - 9) + rd.pR(ur - 10)))
-                X = Y = J; outs = []
-                for i in range(60):
-                    X = xor(X, pair)
-                    X30 = run(X, 30); Y30 = run(Y, 30)
-                    outs.append(rd.describe(P, xor(X30, Y30)))
-                    X = run(X30, 26); Y = run(Y30, 26)
-                print(f'{name} n={n}: 60 reads 56 generations apart: outputs {sorted(set(outs))}; state after the last = unprobed: {same(run(X, 60), run(Y, 60))}')
-                row = '   second pair dt after the first: '
-                for dt in range(2, 62, 2):
-                    r = rd.lock(J, {0: pair, dt: pair}, dt + 300)
+                pair = pk(P(rd.pR(ur - 12) + rd.pR(ur - 13)))
+                for gap in (64, 30):
+                    X = Y = J; outs = []; tube = 0
+                    for i in range(100):
+                        X = xor(X, pair)
+                        for t in range(gap):
+                            X = run(X, 1); Y = run(Y, 1)
+                            d = xor(X, Y)
+                            tube += bool(len(d) and qa.tube_mask(d).any())
+                            if t == 35:
+                                outs.append(rd.describe(P, d))
+                    end = same(run(X, 200), run(Y, 200))
+                    print(f'{name} n={n}: 100 reads {gap} generations apart: travelling 36 generations after each launch: {sorted(set(outs))}; '
+                          f'generations with the store tube touched: {tube}; 200 generations after the last the state = unprobed: {end}')
+                good = []; bad = []
+                for dt in range(2, 82, 2):
+                    r = rd.lock(J, {0: pair, dt: pair}, dt + 400)
                     ok = r['first'] is not None and not r['tube']
-                    row += f" {dt}:{'ok' if ok else 'BAD'}[{rd.describe(P, r['diffs'].get(dt + 30, pk([])))}]"
-                print(row)
+                    (good if ok else bad).append(dt)
+                print(f'   a second pair dt generations after the first (dt even, 2..80): restored, tube untouched for dt = {good}; not restored for dt = {bad}')
     elif cmd == 'units':
         for name in READERS:
             mk, ur = READERS[name]

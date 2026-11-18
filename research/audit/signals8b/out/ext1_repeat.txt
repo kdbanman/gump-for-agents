@@ -1,0 +1,22 @@
+B13 n=1: 100 reads 64 generations apart: travelling 36 generations after each launch: ['L@-39 L@-7', 'L@-7']; generations with the store tube touched: 0; 200 generations after the last the state = unprobed: True
+B13 n=1: 100 reads 30 generations apart: travelling 36 generations after each launch: []; generations with the store tube touched: 0; 200 generations after the last the state = unprobed: True
+   a second pair dt generations after the first (dt even, 2..80): restored, tube untouched for dt = [2, 4, 6, 10, 14, 18, 22, 26, 30, 34, 38, 42, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80]; not restored for dt = [8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 46, 48, 50]
+B13 n=2: 100 reads 64 generations apart: travelling 36 generations after each launch: ['-']; generations with the store tube touched: 0; 200 generations after the last the state = unprobed: True
+B13 n=2: 100 reads 30 generations apart: travelling 36 generations after each launch: []; generations with the store tube touched: 0; 200 generations after the last the state = unprobed: True
+   a second pair dt generations after the first (dt even, 2..80): restored, tube untouched for dt = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80]; not restored for dt = []
+B13 n=6: 100 reads 64 generations apart: travelling 36 generations after each launch: ['-']; generations with the store tube touched: 0; 200 generations after the last the state = unprobed: True
+B13 n=6: 100 reads 30 generations apart: travelling 36 generations after each launch: []; generations with the store tube touched: 0; 200 generations after the last the state = unprobed: True
+   a second pair dt generations after the first (dt even, 2..80): restored, tube untouched for dt = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80]; not restored for dt = []
+B8 n=1: 100 reads 64 generations apart: travelling 36 generations after each launch: ['L@-38 L@-6', 'L@-6']; generations with the store tube touched: 0; 200 generations after the last the state = unprobed: True
+B8 n=1: 100 reads 30 generations apart: travelling 36 generations after each launch: []; generations with the store tube touched: 0; 200 generations after the last the state = unprobed: True
+   a second pair dt generations after the first (dt even, 2..80): restored, tube untouched for dt = [2, 4, 6, 10, 14, 18, 22, 26, 30, 34, 38, 42, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80]; not restored for dt = [8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 46, 48, 50]
+B8 n=2: 100 reads 64 generations apart: travelling 36 generations after each launch: ['-']; generations with the store tube touched: 0; 200 generations after the last the state = unprobed: True
+B8 n=2: 100 reads 30 generations apart: travelling 36 generations after each launch: []; generations with the store tube touched: 0; 200 generations after the last the state = unprobed: True
+   a second pair dt generations after the first (dt even, 2..80): restored, tube untouched for dt = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80]; not restored for dt = []
+B8 n=6: 100 reads 64 generations apart: travelling 36 generations after each launch: ['-']; generations with the store tube touched: 0; 200 generations after the last the state = unprobed: True
+B8 n=6: 100 reads 30 generations apart: travelling 36 generations after each launch: []; generations with the store tube touched: 0; 200 generations after the last the state = unprobed: True
+   a second pair dt generations after the first (dt even, 2..80): restored, tube untouched for dt = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 66, 68, 70, 72, 74, 76, 78, 80]; not restored for dt = []
+
+real	0m28.584s
+user	0m28.334s
+sys	0m0.024s
