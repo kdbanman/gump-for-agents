@@ -16,16 +16,16 @@ rimmed price is the hull's Gaussian fade action.
 
 What may be said: (1) the number S(63) = 14.6 and the 13-generation fade reproduce; (2) the torus's 0.161 per cell,
 its jump-and-crash route and the +0.8 nat non-Gaussian tail of the jump at 63 cells reproduce; (3) the chain gets the
-order hull > torus and the hull's ln τ to within 10% at every size (30–84: −8%, +4%, +7%, +4 to +9%), no better; (4) "fade on the hull, jump on
-the torus" is not a property of the hull: it depends on which layer beneath is counted, and at 84 cells the two routes tie.
+order hull > torus and the hull's ln τ to within 10% at every size (30–84: −8%, +4%, +7%, +4 to +9%), no better; (4) gump's hull faces of 30–63 cells do die by fades and its torus faces mostly by a jump and a crash [measured, section (f)], but the
+chain says so only for one choice of the layer beneath, and at 84 cells its two routes tie.
 
 ## Per claim
 
 | # | claim | verdict | my numbers |
 |---|---|---|---|
 | 1a | torus route (33,25) → (46,42) → (16,7) → starvation, found by the chain | **CONFIRMED** (63 cells) | (33,25) → (45,43) → (16,6) → (11,6) → (6,6) → …; costs 6.01 (jump), 2.01 (crash) |
-| 1b | gump's dying faces go (33.3,25.2) → (48.8,39.9) → (11.2,9.9) | NOT TESTED | I recorded no dying trajectories |
-| 1c | hull face, 63 cells: a fade of about 13 generations, no over-full generation | **CORRECTED** | true for B = the whole layer beneath at 30, 45, 63 cells (12, 12, 13 steps). With B = the part under the face the cheapest route is a jump and a crash at every size ((34,20) → (40,29) → (22,6) at 63). At 84 cells, whole layer, the jump-and-crash (46,38) → (52,49) → (27,12) ties with the fade: 18.77 against 18.78 (rule carry:50), 19.07 against 19.17 (carry:200) |
+| 1b | gump's dying faces go (33.3,25.2) → (48.8,39.9) → (11.2,9.9) | **CONFIRMED** (63 cells) | aligned on the last generation with P ≥ 46 before the death: (33.3, 25.2) → (48.6, 39.7) → (12.1, 9.9), then a median of 5 generations (3–9) to the empty face. 65.4 ± 1.2% of 1,670 deaths have such a generation in their last 20 (a living face: at most 4.8%); 85.1 ± 0.9% have one with P ≥ 43 in their last 12 (living: at most 20%) |
+| 1c | hull face, 63 cells: a fade of about 13 generations, no over-full generation | **CORRECTED** | true for B = the whole layer beneath at 30, 45, 63 cells (12, 12, 13 steps). With B = the part under the face the cheapest route is a jump and a crash at every size ((34,20) → (40,29) → (22,6) at 63). At 84 cells, whole layer, the jump-and-crash (46,38) → (52,49) → (27,12) ties with the fade: 18.77 against 18.78 (rule carry:50), 19.07 against 19.17 (carry:200). **Gump itself [measured]:** hull faces of 30, 45, 63 cells die by fades, a median of 9 and 10 generations (4–16, 5–17) from the last time at the living mode to the empty face at 45 and 63 cells, with no excess of over-full generations before the death at 45 cells and a small one at 63 (P ≥ 45 in the last 12: 5.9 ± 0.5% against at most 3.7% alive). So the whole-layer chain is right in kind and the under-face chain finds a route gump does not take. But in gump's fades the layer beneath stays at 19–20 of 63 while the face goes from 16 to 2; the chain's route takes it down to 12–13 |
 | 2a | minimum action 0.1608 per cell on wrapped faces | **CONFIRMED at 63 cells**; 48–108 NOT TESTED | S = 10.116 (0.1606); 10.248 (0.1627) with nearest-cell filling |
 | 2b | minimum action 0.2313 per cell on the hull face (gump's rimmed price 0.231) | number **CONFIRMED** (S(63) = 14.640 ± 0.047, S/A = 0.2324); reading as a price **REFUTED** | see "the deciding test" |
 | 3 | the jump's tail: measured chance below the Gaussian's by 0.76 nats at 63 cells | **CONFIRMED at 63 cells** | +0.802 ± 0.027 on the point (46,42); 3×3 +0.716; 5×5 +0.599; quadrant +1.124 ± 0.013 |
@@ -129,6 +129,21 @@ the end-game off (`out/torus.txt`). `ref-anatomy`: 10.052, the same route. The c
 `python3 box.py …/t63.tal`: 1.34·10⁸ steps from the box |P − 33| ≤ 1, |B − 25| ≤ 2; mean (34.17, 28.94), variances 20.83,
 19.27, covariance 6.47; landing on (46,42): 1,371 times, −ln 11.491 against the Gaussian's 10.689.
 
+## (f) How gump's faces die [measured]
+
+`sh run.sh` (its last block: `GS_DUMP` writes the last 24 generations of (P, B) of every dying face), then
+`python3 dying.py <dump> <tally> <A> <mode> <threshold>` → `out/dying.txt`.
+
+| vessel | deaths | mean P at t−8 … t−1 | mean B (whole layer) at t−8 … t−1 | deaths with P ≥ threshold in the last 12 generations (a living face: at most) |
+|---|---:|---|---|---|
+| torus 63 | 1,670 | 29.2, 27.8, 25.0, 23.0, 18.1, 11.0, 4.4, 1.7 | 25.8, 25.3, 23.6, 23.4, 20.8, 17.5, 15.7, 16.5 | P ≥ 46: 62.8 ± 1.2% (2.9%) |
+| hull 45 | 14,815 | 16.3, 15.0, 13.4, 11.5, 9.4, 6.5, 3.7, 1.6 | 16.2, 15.6, 14.9, 14.3, 13.7, 12.7, 12.2, 12.3 | P ≥ 32: 8.8 ± 0.2% (10.9%) |
+| hull 63 | 2,479 | 21.4, 19.2, 16.1, 13.0, 9.9, 6.5, 3.6, 1.6 | 22.5, 21.8, 20.5, 19.8, 19.4, 18.9, 19.3, 19.9 | P ≥ 45: 5.9 ± 0.5% (3.7%) |
+HULL84ROW
+
+A third of the torus's deaths at 63 cells have no generation with P ≥ 46 in their last 20 (a tenth none with P ≥ 43):
+the wrapped face has a fading minority too.
+
 ## Forecasts (`PREDICTIONS.md`, commit 5d9d07c, before any analysis): 3 hits, 1 half, 1 mostly
 
 1. S(63, hull) within 10% of 14.57: 14.640. Hit.
@@ -141,7 +156,8 @@ the end-game off (`out/torus.txt`). `ref-anatomy`: 10.052, the same route. The c
 
 ## Not checked
 
-- Gump's own dying trajectories on any vessel (claim 1b; whether 84-cell hull faces die by a fade or by a jump).
+- Dying trajectories conditioned more finely than by the last over-full generation; any trajectory of the chain itself
+  (only its cheapest route) to set beside them.
 - Torus sizes other than 63 cells; the tail's growth per cell; the ledger; tubes.
 - A second seed of any tally. The 84-cell action rests on 120 deaths and is given as a range, not a number.
 - The death threshold (0.5), the variance floor (0.05) and the start (mode) were not varied.

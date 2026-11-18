@@ -45,6 +45,7 @@ static void vcount(const uint64_t *s, const int *idx, int m, uint8_t *out) {
     for (int b = 0; b < 8; b++) v |= _pdep_u64((c[b] >> (8 * k)) & 0xff, 0x0101010101010101ULL) << b;
     memcpy(out + 8 * k, &v, 8); } }
 static uint8_t C0[MAXF][3][64], C1[MAXF][3][64];
+static uint8_t ring[64][MAXF][32][3];   /* last 32 generations of (P, B, B2) of every face, dumped at its death if GS_DUMP is set */
 static void counts(const uint64_t *s, uint8_t c[MAXF][3][64]) {
   for (int f = 0; f < NF; f++) for (int j = 0; j < 3; j++) vcount(s, lst[f][j], nl[f][j], c[f][j]); }
 static void restart(uint64_t *s, int r) { uint64_t m = 1ULL << r; for (int i = 0; i < N; i++) s[i] = (s[i] & ~m) | (rnd() & m); }
@@ -71,6 +72,7 @@ int main(int argc, char **argv) {
   if (argc > 7) { bp = atoi(argv[6]); bb = atoi(argv[7]); }
   for (int r = 0; r < 64; r++) burn[r] = burn0;
   int64_t expo = 0, deaths = 0, settled = 0, restarts = 0;
+  FILE *dump = getenv("GS_DUMP") ? fopen(getenv("GS_DUMP"), "w") : 0; long ndump = 0;
   uint8_t (*cc)[3][64] = C0, (*cn)[3][64] = C1;
   counts(cur, cc); memcpy(snap1, cur, sizeof SA); memcpy(snap2, cur, sizeof SA);
   for (long t = 1; t <= gens; t++) {
@@ -82,7 +84,10 @@ int main(int argc, char **argv) {
           for (int d = 0; d < 2; d++) { int B = cc[f][1 + d][r], Bn = cn[f][1 + d][r]; int64_t *q = T[d][P][B];
             q[0]++; q[1] += Pn; q[2] += Bn; q[3] += Pn * Pn; q[4] += Bn * Bn; q[5] += Pn * Bn;
             if (d == 0 && abs(P - bp) <= 1 && abs(B - bb) <= 2) HB[Pn][Bn]++; }
-          if (Pn == 0) { deaths++; dead = 1; } } }
+          if (Pn == 0) { deaths++; dead = 1;
+            if (dump && ndump < 50000) { ndump++; for (int j = 24; j >= 1; j--) { uint8_t *e = ring[r][f][(t - j) & 31];
+                fprintf(dump, "%d %d %d ", e[0], e[1], e[2]); } fprintf(dump, "\n"); } } } }
+      for (int f = 0; f < NF; f++) { uint8_t *e = ring[r][f][t & 31]; e[0] = cn[f][0][r]; e[1] = cn[f][1][r]; e[2] = cn[f][2][r]; }
       if (dead) { restart(nxt, r); burn[r] = burn0; any = 1; restarts++; } }
     if (t % 120 == 0) { uint64_t df = 0; for (int i = 0; i < N; i++) df |= nxt[i] ^ snap1[i];
       if (t % 2520 == 0) { uint64_t d2 = 0; for (int i = 0; i < N; i++) d2 |= nxt[i] ^ snap2[i]; df &= d2; }
@@ -90,6 +95,7 @@ int main(int argc, char **argv) {
       memcpy(snap1, nxt, sizeof SA); if (t % 2520 == 0) memcpy(snap2, nxt, sizeof SA); }
     if (any) counts(nxt, cn);
     uint64_t *tmp = cur; cur = nxt; nxt = tmp; uint8_t (*tc)[3][64] = cc; cc = cn; cn = tc; }
+  if (dump) fclose(dump);
   FILE *out = fopen(argv[5], "w");
   fprintf(out, "# N %d NF %d A %d nB %d nB2 %d gens %ld burn %d expo %lld deaths %lld settled %lld restarts %lld box %d %d\n", N, NF,
           nl[0][0], nl[0][1], nl[0][2], gens, burn0, (long long)expo, (long long)deaths, (long long)settled, (long long)restarts, bp, bb);

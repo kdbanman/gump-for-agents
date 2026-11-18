@@ -11,6 +11,7 @@ Standing account. The verdicts and numbers are in `REVIEW.md`. Nothing here used
 - `dp.py`: the Gaussian chain: minimum action by value iteration, route, exact ln τ by power iteration; extrapolation rules.
 - `hullsum.py` → `out/hullsum.txt`: the three hull sizes under every rule; prices from differences.
 - `box.py`: the jump's one-step law from the launch box on the torus.
+- `dying.py` → `out/dying.txt`: how gump's own faces die (last 24 generations of every dying face, dumped by `gs` under `GS_DUMP`).
 - `PREDICTIONS.md`: forecasts frozen before the tallies were analysed (commit 5d9d07c), scored in `REVIEW.md`.
 
 ## Results in one screen (details, errors and commands in `REVIEW.md`)
@@ -28,5 +29,8 @@ Standing account. The verdicts and numbers are in `REVIEW.md`. Nothing here used
   `DP_PCAP=46 python3 dp.py 'h13.tal+h13b.tal' 0 carry 50 h11.tal` against the same without `DP_PCAP`.
 - [computed] Torus 63 cells: S = 10.116 (0.1606 per cell), route (33,25) → (45,43) → (16,6). `python3 dp.py t63.tal 0 visited 50`.
 - [measured] The jump's tail at 63 cells: +0.802 ± 0.027 nats on (46,42). `python3 box.py t63.tal`.
+- [measured] Gump's dying faces: torus 63 cells, (33.3, 25.2) → (48.6, 39.7) → (12.1, 9.9) about the last over-full generation,
+  which 65.4 ± 1.2% of deaths have in their last 20 generations; hull faces of 30, 45, 63 cells fade (median 9–10 generations
+  from the living mode to empty) with the layer beneath at 19–20 of 63, not the chain's 12–13. `python3 dying.py …` (see `REVIEW.md` (f)).
 - Tallies are under `research/scratch/blast/ref-map/` (ignored by git); `sh run.sh` regenerates them (same seeds, same numbers).
 - Not checked: listed at the end of `REVIEW.md`.
