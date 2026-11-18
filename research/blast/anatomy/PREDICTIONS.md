@@ -44,3 +44,15 @@ right round the girth is finally empty ≥ 4 generations before the last cell di
 | 13 | the same on the wide 63-cell torus (best of three directions, strips of ~16 cells) | 0.30 | 55% within 0.15–0.45 |
 | 14 | a compact patch (the 12 cells nearest some cell) on the tube is finally empty ≥ 4 generations early at least as often as a band | yes | 65% |
 | 15 | the tube's excess of band-first deaths over what the compact-patch control and the torus control give is real (ratio band share tube / torus above 1.3) | yes | 50% |
+
+## Scores (04:00 UTC; details and commands in README.md §8)
+
+Block 1: 1 miss (0.325 against 0.50, interval 0.35–0.65); 2 miss (R² 0.151 against 0.30); 3 miss (speed 1.0, the
+speed limit, against 0.35); 4 miss (8.8% against 60%); 5 near (0.007 / 0.538 / 0.455 against 0.02 / 0.60 / 0.38;
+rim enriched 1.10, corners depleted: both calls right); 6 near (0.655 against 0.70 on the loop²-9 tube);
+7 hit (the hull is ahead by 0.57 at p = 10; all of its 0.47 is won below 8 cells); 8 hit; 9 hit at the edge
+(0.25–0.31 against 0.4, interval 0.25–0.6); 10 hit; 11 the 3-cell value inside its interval, all three too high.
+Block 2: 12 hit (0.526); 13 miss (0.572 against 0.30); 14 hit; 15 no (ratio 0.92; I had given 50%).
+The PI's band forecast (9%, 12%, under 5% on the torus): 48.5%, 52.6% (60 cells), 57.2%: no band-first class.
+Every forecast of mine that assumed a sweep on a wrapped face was wrong: the death there is a one-generation
+surge and bust.

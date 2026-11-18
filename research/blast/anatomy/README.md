@@ -111,6 +111,11 @@ from below within a few generations; the face has nothing above it and dies a me
 (10–90%: 2–8). tube60 and t75 give the same table (46.4 → 10.8 of 60; 57.5 → 14.0 of 75). I recorded only two
 layers, so how deep the surge reaches is not known.
 
+What is unusual two generations before the fall is not the number of live cells but their arrangement
+(`out/primed.txt`, t63) [measured]: with 33.2 cells alive (normal), 27.9 of them have 3–5 of their 8 recorded
+neighbours alive (normally 22.0) and 18.8 dead cells have 4–5 (normally 12.6). The face is evenly spread: hardly
+any cell is overcrowded or starved, so nearly all survive and nearly every gap is filled, in one step.
+
 Cross-check on another agent's stepper [measured]: the natural-death records of `split-slab` for the same 48-cell
 torus (`research/scratch/blast/split-slab/paths_test.txt`, 1,268 deaths, read at 03:55 UTC; its populations by lag)
 give a share of 0.565 ± 0.014 with a one-generation fall of ≥ 24 cells in the last 10 generations; mine is 0.572.

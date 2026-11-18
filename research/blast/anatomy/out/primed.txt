@@ -1,0 +1,2 @@
+primed  (4659 states): face 33.2, beneath 25.2; dead face cells with 4-5 known live neighbours 18.8 (and with 3: 5.5); live face cells with 3-5: 27.9 (with 2: 2.9); so next population between 46.7 and 55.1
+ctl     (4659 states): face 32.6, beneath 27.4; dead face cells with 4-5 known live neighbours 12.6 (and with 3: 6.0); live face cells with 3-5: 22.0 (with 2: 3.4); so next population between 34.6 and 44.0
