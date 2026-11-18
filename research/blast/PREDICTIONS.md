@@ -165,3 +165,20 @@ Forecasts:
   6 units).
 - So: "a long tube does not stop busting, it stops busting all at once" stands [measured on the surrogate; gump
   matches at 63 and 84 cells]; the link from the freedom of timing to the size of the discount is still conjecture.
+
+## Block 4: the PI, 05:10 UTC: the timing chain, before `split-slab` computes the bond statistic
+
+If crash timings along a dying tube form a chain in which every change between neighbours carries a weight, then
+in the dying ensemble P(two neighbouring sections crash in the same generation) = 1/λ₁ exactly, and the tube's
+discount per cell against a tube that could only crash at once is −ln P / (cells per section), with nothing
+fitted. From the 77–90% quoted for 2-unit sections that is 0.004–0.011 per cell, against a measured 0.008–0.010
+(wide price 0.2087 less the loop-12 tube's asymptote 0.199–0.2004).
+
+1. Computed properly in the bulk of the 144- and 192-cell tubes, the implied discount is 0.006–0.011 per cell for
+   2-unit sections: P = 55%.
+2. It does not depend on the section length (1 to 4 units) by more than a third: P = 35%. (Crashes shorter than
+   a section's own coherence would break this at 1 unit.)
+3. On the wide 192-cell torus the same statistic between neighbouring quarters gives a discount below 0.001 per
+   cell: P = 70%.
+4. If item 1 fails by more than a factor two either way, the discount is not the entropy of timing and I do not
+   know what it is.
