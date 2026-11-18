@@ -286,4 +286,53 @@ theorem layer_no_sealed_le_five (d : Diag) (s : Int) (L : List Pt) (hne : L ≠ 
   have := layer_sealed_six d s L hne hV hS
   omega
 
+/-! ## Proposition 5, existence: a finite sealed set in two layers -/
+
+/-- A 36-cell set of the two-layer slab `1 ≤ s ≤ 3` along `(1, 1, 1)`: 18 cells in the layer `s = 1`, then 18
+in the layer `s = 3`. Found by a SAT search (CaDiCaL, smallest sealed set through `(1, 0, 0)` within the box
+`[-8, 8]³`; the same size as the set printed by `research/theory/sealed.py minsat 2 7 36`, not checked to be the
+same set). -/
+def set36 : List Pt :=
+  [⟨-3, 0, 4⟩, ⟨-3, 2, 2⟩, ⟨-2, -1, 4⟩, ⟨-2, 0, 3⟩, ⟨-2, 1, 2⟩, ⟨-2, 2, 1⟩, ⟨-1, -2, 4⟩, ⟨-1, 2, 0⟩,
+   ⟨0, -3, 4⟩, ⟨0, -2, 3⟩, ⟨0, 1, 0⟩, ⟨0, 2, -1⟩, ⟨1, -2, 2⟩, ⟨1, 0, 0⟩, ⟨2, -3, 2⟩, ⟨2, -2, 1⟩,
+   ⟨2, -1, 0⟩, ⟨2, 0, -1⟩,
+   ⟨-2, 0, 5⟩, ⟨-2, 1, 4⟩, ⟨-2, 2, 3⟩, ⟨-2, 3, 2⟩, ⟨-1, 0, 4⟩, ⟨-1, 2, 2⟩, ⟨0, -2, 5⟩, ⟨0, -1, 4⟩,
+   ⟨0, 2, 1⟩, ⟨0, 3, 0⟩, ⟨1, -2, 4⟩, ⟨1, 2, 0⟩, ⟨2, -2, 3⟩, ⟨2, -1, 2⟩, ⟨2, 0, 1⟩, ⟨2, 1, 0⟩,
+   ⟨3, -2, 2⟩, ⟨3, 0, 0⟩]
+
+/-- 36 distinct cells, 18 in each of the two layers. -/
+theorem set36_shape :
+    set36.length = 36 ∧ set36.Nodup ∧ (∀ p ∈ set36, slab d111 1 3 p = true) ∧
+      (set36.filter (fun p => d111.dot p == 1)).length = 18 := by
+  decide
+
+/-- **Proposition 5, existence.** The 36-cell set is sealed in the two-layer slab. -/
+theorem set36_sealed : SealedIn (slab d111 1 3) (fun p => set36.contains p) := by
+  have h : ∀ p ∈ set36, (nbrs p).countP (fun q => slab d111 1 3 q && !set36.contains q) ≤ 3 := by
+    decide
+  intro p hp
+  exact h p (by simpa using hp)
+
+/-- The parity trap: the slab `0 ≤ s ≤ 4` holds the same cells as `1 ≤ s ≤ 3` (two layers), since cells have
+odd `s`. -/
+theorem slab_parity (d : Diag) (k : Int) (p : Pt) : slab d (2 * k) (2 * k + 4) p = slab d (2 * k + 1) (2 * k + 3) p := by
+  cases hc : p.isCell with
+  | false => simp [slab, hc]
+  | true =>
+    have := dot_odd d p hc
+    simp only [slab, hc, Bool.true_and]
+    apply Bool.eq_iff_iff.2
+    simp only [decide_eq_true_eq]; omega
+
+/-- **Three layers are needed in Theorem 3.** In the slab `0 ≤ s ≤ 4` (two layers: `B - A = 4` is not enough,
+the levels must hold three odd numbers) there is a nonempty finite sealed set. -/
+theorem two_layers_finite_sealed :
+    ∃ L : List Pt, L ≠ [] ∧ (∀ p ∈ L, slab d111 0 4 p = true) ∧
+      SealedIn (slab d111 0 4) (fun p => L.contains p) := by
+  have h04 : ∀ p, slab d111 0 4 p = slab d111 1 3 p := fun p => slab_parity d111 0 p
+  refine ⟨set36, by decide, fun p hp => by rw [h04]; exact set36_shape.2.2.1 p hp, ?_⟩
+  intro p hp
+  simp only [h04]
+  exact set36_sealed p hp
+
 end Gump
