@@ -15,6 +15,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <time.h>
+#include <math.h>
 typedef uint64_t u64;
 typedef u64 vec __attribute__((vector_size(32)));
 #define NR 256
@@ -92,6 +93,43 @@ int main(int argc, char **argv) {
         return 0;
     }
 
+    if (!strcmp(argv[2], "island")) {
+        /* fd GEOM island SEED BATCHES K c1 ... cK : after 1000 generations of burn-in, in every replica keep ONE live
+           cell of face 0, chosen at random among the live ones of the K candidates, and kill every other cell of face 0
+           (the face layer only).  Then run until face 0 is empty (dead) or has >= P0 cells again (regrown), 400 generations at most. */
+        int B = atoi(argv[4]), K = atoi(argv[5]), cand[MAXA];
+        for (int k = 0; k < K; k++) cand[k] = atoi(argv[6 + k]);
+        int a = A[0], P0 = (int)(0.476 * a + 0.999);
+        long trials = 0, regrown = 0, died = 0, undecided = 0, skipped = 0;
+        for (int b = 0; b < B; b++) {
+            for (int r = 0; r < NR; r++) soup(r);
+            for (int t = 0; t < BURN; t++) step();
+            static int st[NR];
+            for (int r = 0; r < NR; r++) {
+                int w = r >> 6; u64 m = 1ULL << (r & 63); int live[MAXA], nl = 0;
+                for (int k = 0; k < K; k++) if (W(S[cand[k]], w) & m) live[nl++] = cand[k];
+                int pop = 0; for (int j = 0; j < a; j++) if (W(S[fc[0][j]], w) & m) pop++;
+                int anyempty = 0;
+                for (int f = 1; f < F; f++) { int q = 0; for (int j = 0; j < a; j++) if (W(S[fc[f][j]], w) & m) q++; if (!q) anyempty = 1; }
+                if (nl == 0 || pop < P0 - 8 || anyempty) { st[r] = 3; skipped++; continue; }
+                int keep = live[rnd() % nl];
+                for (int j = 0; j < a; j++) if (fc[0][j] != keep) W(S[fc[0][j]], w) &= ~m;
+                st[r] = 0; trials++;
+            }
+            for (int t = 0; t < 400; t++) {
+                step();
+                for (int r = 0; r < NR; r++) if (st[r] == 0) {
+                    int w = r >> 6; u64 m = 1ULL << (r & 63); int pop = 0;
+                    for (int j = 0; j < a; j++) if (W(S[fc[0][j]], w) & m) pop++;
+                    if (pop == 0) { st[r] = 1; died++; } else if (pop >= P0) { st[r] = 2; regrown++; }
+                }
+            }
+            for (int r = 0; r < NR; r++) if (st[r] == 0) undecided++;
+        }
+        double q = (double)regrown / trials;
+        printf("trials %ld regrown %ld died %ld undecided %ld skipped %ld  share regrown %.4f +- %.4f\n", trials, regrown, died, undecided, skipped, q, sqrt(q * (1 - q) / trials));
+        return 0;
+    }
     double secs = atof(argv[4]);
     long LGAP = atol(argv[5]), OSUB = atol(argv[6]), CSUB = atol(argv[7]);
     char fn[512];

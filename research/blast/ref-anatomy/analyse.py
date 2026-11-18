@@ -109,6 +109,12 @@ for j in range(4):
         if tot:
             pr(f'   L={LEV[j]:2d} {"fatal    " if ft else "not fatal"}: n={tot:8d}  lag 1: {r1[3]/tot:.4f}  within 2: {r1[4]/tot:.4f}  within 4: {r1[5]/tot:.4f}  (+- {np.sqrt(0.25/tot):.4f} at most)')
 
+pr('[does the way down matter?] q(L) split by whether the first generation at <= L came within 4 generations of P >= %d' % OF44)
+for j in range(4):
+    r = {(x[1], x[2]): x[5] for x in pre if x[0] == LEV[j]}
+    qa = r[(1, 1)] / max(r[(1, 1)] + r[(1, 0)], 1); qb = r[(0, 1)] / max(r[(0, 1)] + r[(0, 0)], 1)
+    pr(f'   L={LEV[j]:2d}: after a bust q = {qa:.4f} +- {np.sqrt(qa*(1-qa)/max(r[(1,1)]+r[(1,0)],1)):.4f} (n={r[(1,1)]+r[(1,0)]}); otherwise q = {qb:.4f} +- {np.sqrt(qb*(1-qb)/max(r[(0,1)]+r[(0,0)],1)):.4f} (n={r[(0,1)]+r[(0,0)]})')
+
 # ---------- windows
 nby = (N + 7) // 8; rec = 64 + 16 * nby
 raw = np.fromfile(os.path.join(S, tag + '.win'), np.uint8)
@@ -160,6 +166,9 @@ pr(f'[claim 1/2] deaths with a one-generation fall >= {HALF} in the last 12 gene
    f'living windows of 12 generations: {(fallL >= HALF).mean():.4f} ({(fallL >= HALF).sum()} of {len(L)}); expected from the rate: {12*falls/n:.4f}')
 pr(f'   largest fall, deaths: median {np.median(fallD):.0f} (10/25/75/90%: {qs(fallD,(10,25,75,90))}); living: median {np.median(fallL):.0f} ({qs(fallL,(10,25,75,90))})')
 pr(f'   fatal share of falls: deaths with such a fall / all falls = {sh*g["deaths"]/falls:.5f} = 1 in {falls/(sh*g["deaths"]):.0f}')
+pr('   sensitivity to one cell of threshold: ' + ', '.join(f'>= {k}: {(fallD >= k).mean():.4f}' for k in range(HALF - 2, HALF + 3)))
+anyw = (PH[D][:, 0:47] - PH[D][:, 1:48]).max(1)
+pr(f'   the same share with the fall looked for in the last 47 generations instead of 12: {(anyw >= HALF).mean():.4f}')
 for th in (0.3, 0.4, 0.5, 0.6):
     k = int(np.ceil(th * A)); s_ = (fallD >= k).mean()
     pr(f'   threshold {th:.1f} of the face (>= {k}): deaths {s_:.4f}, living windows {(fallL >= k).mean():.4f}')
@@ -178,7 +187,7 @@ pr(f'[generations from the last P >= {P0} to death] median {np.median(last):.0f}
 # state-based statistics on deaths
 nd = min(len(D), 4000)
 ben = np.zeros((nd, 16)); rows = []
-dying_last8 = np.zeros(3); crash_stats = []; disp_fatal = []; pre_traj = []
+post = np.zeros(2); dying_last8 = np.zeros(3); crash_stats = []; disp_fatal = []; pre_traj = []
 for a_, i in enumerate(D[:nd]):
     st = states(i); f = fidx[i]; fc = faces[f]
     ben[a_] = st[:, beneath[f]].sum(1)
@@ -192,6 +201,9 @@ for a_, i in enumerate(D[:nd]):
         crash_stats.append((PH[i][kf - 1], PH[i][kf], born.sum(), died.sum(), (died & (nc >= 6)).sum(), (died & (nc <= 2)).sum(), 47 - kf,
                             ((b[fc] == 1) & (nc >= 6)).sum(), b[beneath[f]].sum(), a2[beneath[f]].sum()))
         disp_fatal.append(dispersion(b[fc], f))
+        for k in range(kf + 1, 48):
+            b_ = st[k - 1 - 32]; nc_ = ncount(b_)[fc]; died_ = (b_[fc] == 1) & (st[k - 32][fc] == 0)
+            post += [died_.sum(), (died_ & (nc_ <= 2)).sum()]
         pre_traj.append(PH[i][kf - 7:kf + 1])
 ben = ben[:, 3:]
 pr('[layer beneath the dying face, t = -12..0: mean, 10/50/90%]')
@@ -213,6 +225,7 @@ if crash_stats:
        f'cells dying {cs[:,3].mean():.2f} of which overcrowded {cs[:,4].sum()/cs[:,3].sum():.4f}, starved {cs[:,5].sum()/cs[:,3].sum():.4f}; '
        f'live cells overcrowded before the fall {cs[:,7].sum()/cs[:,0].sum():.4f}')
     pr(f'   generations from the fall to the empty face: mean {cs[:,6].mean():.2f}, 10/50/90% {qs(cs[:,6])}; distribution 1..8: ' + ' '.join(f'{(cs[:,6]==k).mean():.3f}' for k in range(1, 9)))
+    pr(f'   face cells dying in the generations after the fall: starved {post[1]/post[0]:.4f}, overcrowded {1-post[1]/post[0]:.4f}')
     pr(f'   layer beneath: before the fall {cs[:,8].mean():.2f}, after {cs[:,9].mean():.2f}')
     pr('   P in the 6 generations before the over-full one, the over-full one, and after the fall (mean; 10/50/90%):')
     for k in range(8):
@@ -248,4 +261,27 @@ ovl = np.zeros(2)
 for i in L[:1500]:
     st = states(i)[-1]; fc = faces[fidx[i]]; nc = ncount(st)[fc]; ovl += [st[fc].sum(), ((st[fc] == 1) & (nc >= 6)).sum()]
 pr(f'[live face cells overcrowded on a living face] {ovl[1]/ovl[0]:.4f}')
+if v['kind'] == 'hull':
+    rng = np.random.default_rng(1)
+    def tilt(idx, lab, nmax=2000, nsh=100):
+        beat = []; speed = []; r2s = []; r2n = []
+        for i in idx[:nmax]:
+            st = states(i); f = fidx[i]; fc = faces[f]; pts = cells[fc].astype(float)
+            keep = np.abs(pts).max(1) < 10                      # drop the 3 corners and their 6 neighbours
+            alive = st[:, fc][:, keep]                          # 16 x 54, t-15..t
+            T = np.where(alive.any(0), 15 - np.argmax(alive[::-1], axis=0), -1).astype(float) - 15   # last alive, -15..0; never alive: -16
+            X = pts[keep] / np.sqrt(8.0)                        # hexagonal units (|a| = 2 sqrt 2 doubled units)
+            X = X - X.mean(0); n_ = np.cross(X[1] - X[0], X[2] - X[0])
+            U, s_, Vt = np.linalg.svd(X, full_matrices=False); Q = U[:, :2]
+            Tc = T - T.mean()
+            if (Tc ** 2).sum() == 0: continue
+            r2 = ((Q.T @ Tc) ** 2).sum() / (Tc ** 2).sum()
+            sh = np.array([((Q.T @ rng.permutation(Tc)) ** 2).sum() for _ in range(nsh)]) / (Tc ** 2).sum()
+            b = r2 > np.percentile(sh, 95); beat.append(b); r2s.append(r2); r2n.append(np.median(sh))
+            if b:
+                gvec = np.linalg.lstsq(X @ Vt[:2].T, Tc, rcond=None)[0]; speed.append(1 / np.linalg.norm(gvec))
+        sp = np.array(speed)
+        pr(f'[tilt, {lab}, {len(beat)} windows of 16 generations, 54 cells, last-alive times censored at -16] plane beats 95% of {nsh} shuffles: {np.mean(beat):.3f} +- {np.sqrt(np.mean(beat)*(1-np.mean(beat))/len(beat)):.3f}; '
+           f'median R^2 {np.median(r2s):.3f} (shuffles {np.median(r2n):.3f}); speed where it does, median {np.median(sp):.2f} (quartiles {np.percentile(sp,25):.2f}-{np.percentile(sp,75):.2f}) units per generation')
+    tilt(D, 'deaths'); tilt(L, 'living faces')
 out.close()
