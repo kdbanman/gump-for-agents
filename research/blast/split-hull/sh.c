@@ -7,7 +7,7 @@
 // The exact statement of the algorithm is in README.md ("The sampler, exactly"); this file is its implementation.
 //
 //   gcc -O3 -march=native -o sh sh.c -lm
-//   ./sh R SEED M [D=3] [STEP=2] [H=0.125] [PATHFILE]     one replication of the whole estimator
+//   ./sh R SEED M [LAG=1] [NFLIP=1] [STEP=2] [H=0.125] [PATHFILE or -] [CAP=200000]   one replication of the estimator
 //   ./sh R SEED 0 GENS                                    brute force: base run only for GENS generations
 //   gcc -O3 -march=native -shared -fPIC -DLIB -o libsh.so sh.c -lm     (validation against reference/oracle.py)
 #define _GNU_SOURCE
@@ -31,7 +31,8 @@ typedef uint64_t u64;
 
 static int R, n, A, NC, NCW, DEPTH;
 static int *co, *nb, nf[8], *fcell[8], nS, *S;
-static u64 *X, *Y, Fz[WMAX], faceor[8][WMAX], *fmask[8];
+static u64 *Xr[8], *X, Fz[WMAX], faceor[8][WMAX], *fmask[8];
+static int NS = 2, cs = 0, LAG = 1, NFLIP = 1;   // ring of NS = LAG+1 state arrays; X = Xr[cs] is the present
 static uint8_t pop[NL];
 
 // ---------------------------------------------------------------- geometry
@@ -78,25 +79,32 @@ int geom_init(int R_, int D_) {
             }
     }
     S = malloc(sizeof(int) * n); nS = 0;
-    int r2 = R - 2 * DEPTH;
+    int r2 = R - 2 * DEPTH;   // perturbation sites: layer DEPTH beneath face 0, at least two layers beneath every other face
     for (int i = 0; i < n; i++) {
-        int *p = co + 3 * i;
-        if (p[0] + p[1] + p[2] == r2 && abs(p[0]) + abs(p[1]) + abs(p[2]) <= r2) S[nS++] = i;
+        int *p = co + 3 * i, okk = (p[0] + p[1] + p[2] == r2);
+        for (int f = 1; f < 8 && okk; f++) {
+            int sx = (f & 1) ? -1 : 1, sy = (f & 2) ? -1 : 1, sz = (f & 4) ? -1 : 1;
+            if (sx * p[0] + sy * p[1] + sz * p[2] > R - 4) okk = 0;
+        }
+        if (okk) S[nS++] = i;
     }
-    X = aligned_alloc(64, sizeof(u64) * (size_t)(NC + 1) * WMAX);
-    Y = aligned_alloc(64, sizeof(u64) * (size_t)(NC + 1) * WMAX);
-    memset(X, 0, sizeof(u64) * (size_t)(NC + 1) * WMAX);
-    memset(Y, 0, sizeof(u64) * (size_t)(NC + 1) * WMAX);
+    for (int k = 0; k < NS; k++) {
+        Xr[k] = aligned_alloc(64, sizeof(u64) * (size_t)(NC + 1) * WMAX);
+        memset(Xr[k], 0, sizeof(u64) * (size_t)(NC + 1) * WMAX);
+    }
+    cs = 0; X = Xr[0];
     memset(Fz, 0, sizeof Fz);
     free(idx);
     return n;
 }
 
 // ---------------------------------------------------------------- stepper
-// One generation for words 0..W-1. Lanes whose bit is set in Fz are frozen (kept as they are).
+// One generation for words 0..W-1, written into the next array of the ring. Lanes whose bit is set in Fz are frozen:
+// nothing of theirs is overwritten in any array of the ring.
 // Columns 0..n-1: cells. Columns n+8c..n+8c+7: bit planes of the age of face-0 cell c (generations since it was
 // last alive, 0 if alive, saturating at 255).
 static void step(int W) {
+    u64 *Y = Xr[(cs + 1) % NS];
     u64 c0[WMAX] __attribute__((aligned(64))), c1[WMAX] __attribute__((aligned(64)));
     u64 c2[WMAX] __attribute__((aligned(64))), c3[WMAX] __attribute__((aligned(64)));
     for (int i = 0; i < n; i++) {
@@ -114,7 +122,7 @@ static void step(int W) {
         for (int w = 0; w < W; w++) {
             u64 n45 = ~c3[w] & c2[w] & ~c1[w], n3 = ~c3[w] & ~c2[w] & c1[w] & c0[w];
             u64 nw = n45 | (x[w] & n3);
-            y[w] = (nw & ~Fz[w]) | (x[w] & Fz[w]);
+            y[w] = (nw & ~Fz[w]) | (y[w] & Fz[w]);
         }
     }
     for (int c = 0; c < A; c++) {
@@ -127,11 +135,11 @@ static void step(int W) {
             for (int k = 0; k < 8; k++) {
                 u64 v = p[k * WMAX + w], nv = (v ^ carry) & ~al[w];
                 carry &= v;
-                o[k * WMAX + w] = (nv & ~Fz[w]) | (v & Fz[w]);
+                o[k * WMAX + w] = (nv & ~Fz[w]) | (o[k * WMAX + w] & Fz[w]);
             }
         }
     }
-    u64 *t = X; X = Y; Y = t;
+    cs = (cs + 1) % NS; X = Xr[cs];
 }
 
 // pop[lane] = population of face 0; faceor[f][w] = OR of face f's cells (bit clear: that lane's face f is empty).
@@ -169,22 +177,24 @@ static void transpose64(u64 a[64]) {   // out[c] bit b = in[b] bit c
             a[k + j] ^= t; a[k] ^= t << j;
         }
 }
-static void word_out(int w, u64 *T) {   // T[b*NCW + blk]: packed configuration of lane w*64+b
-    u64 a[64];
+static void word_out_s(int w, u64 *T, int sl) {   // T[b*NCW + blk]: packed configuration of lane w*64+b in ring array sl
+    u64 a[64]; const u64 *X = Xr[sl];
     for (int blk = 0; blk < NCW; blk++) {
         for (int c = 0; c < 64; c++) { int col = blk * 64 + c; a[c] = col < NC ? X[(size_t)col * WMAX + w] : 0; }
         transpose64(a);
         for (int b = 0; b < 64; b++) T[(size_t)b * NCW + blk] = a[b];
     }
 }
-static void word_in(int w, const u64 *T) {
-    u64 a[64];
+static void word_out(int w, u64 *T) { word_out_s(w, T, cs); }
+static void word_in_s(int w, const u64 *T, int sl) {
+    u64 a[64]; u64 *X = Xr[sl];
     for (int blk = 0; blk < NCW; blk++) {
         for (int b = 0; b < 64; b++) a[b] = T[(size_t)b * NCW + blk];
         transpose64(a);
         for (int c = 0; c < 64; c++) { int col = blk * 64 + c; if (col < NC) X[(size_t)col * WMAX + w] = a[c]; }
     }
 }
+static void word_in(int w, const u64 *T) { word_in_s(w, T, cs); }
 static void lane_load(int lane, const u64 *cfg) {
     int w = lane >> 6, b = lane & 63; u64 m = 1ULL << b;
     for (int col = 0; col < NC; col++) {
@@ -192,12 +202,13 @@ static void lane_load(int lane, const u64 *cfg) {
         *p = (*p & ~m) | (((cfg[col >> 6] >> (col & 63)) & 1) << b);
     }
 }
-static void lane_extract(int lane, u64 *cfg) {
-    int w = lane >> 6, b = lane & 63;
+static void lane_extract_s(int lane, u64 *cfg, int sl) {
+    int w = lane >> 6, b = lane & 63; const u64 *X = Xr[sl];
     memset(cfg, 0, 8 * NCW);
     for (int col = 0; col < NC; col++) cfg[col >> 6] |= ((X[(size_t)col * WMAX + w] >> b) & 1) << (col & 63);
 }
 
+static void lane_extract(int lane, u64 *cfg) { lane_extract_s(lane, cfg, cs); }
 static u64 rs[4];
 static inline u64 rotl(u64 x, int k) { return (x << k) | (x >> (64 - k)); }
 static inline u64 rnd(void) {
@@ -234,7 +245,7 @@ static int cfg_age(const u64 *c, int i) { int a = 0; for (int k = 0; k < 8; k++)
 // The perturbation: with probability 1/2 kill one live cell of S chosen uniformly, otherwise revive one dead cell of
 // S chosen uniformly (the other kind if there is none of the kind drawn).
 static void cfg_flip(u64 *c) {
-    int live[512], dead[512], nl = 0, nd = 0;
+    int live[4096], dead[4096], nl = 0, nd = 0;
     for (int k = 0; k < nS; k++) { if (cbit(c, S[k])) live[nl++] = S[k]; else dead[nd++] = S[k]; }
     int kill = rnd() >> 63, i;
     if (kill && nl == 0) kill = 0;
@@ -242,6 +253,7 @@ static void cfg_flip(u64 *c) {
     i = kill ? live[rndn(nl)] : dead[rndn(nd)];
     c[i >> 6] ^= 1ULL << (i & 63);
 }
+static void cfg_flips(u64 *c) { for (int k = 0; k < NFLIP; k++) cfg_flip(c); }
 
 #ifdef LIB
 // ---------------------------------------------------------------- validation interface (ctypes)
@@ -249,7 +261,8 @@ void v_coords(int *out) { memcpy(out, co, sizeof(int) * 3 * n); }
 int v_A(void) { return A; }
 int v_nS(void) { return nS; }
 void v_sites(int *out) { memcpy(out, S, sizeof(int) * nS); }
-void v_clear(void) { memset(X, 0, sizeof(u64) * (size_t)(NC + 1) * WMAX); memset(Fz, 0, sizeof Fz); }
+void v_clear(void) { for (int k = 0; k < NS; k++) memset(Xr[k], 0, sizeof(u64) * (size_t)(NC + 1) * WMAX); memset(Fz, 0, sizeof Fz); }
+void v_setlag(int m) { LAG = m; NS = m + 1; }
 void v_set(int lane, const uint8_t *cells) {
     for (int i = 0; i < n; i++) { u64 *p = X + (size_t)i * WMAX + (lane >> 6); *p = (*p & ~(1ULL << (lane & 63))) | ((u64)(cells[i] & 1) << (lane & 63)); }
 }
@@ -278,85 +291,101 @@ int v_roundtrip(void) {
 // ---------------------------------------------------------------- the sampler
 enum { IDLE, RUN, SUCC };
 static int Wact, LA, L0, Lnext, final_stage;
-static int lage[NL], linA[NL], lstate[NL], lanc[NL], lt0[NL], llen[NL], lk[NL];
-static u64 *cur, *nxt, *T; static int *canc, *ct, *nanc, *nt, Ncur, Nnxt, M;
+static int lage[NL], linA[NL], lstate[NL], lanc[NL], lt0[NL], llen[NL], lk[NL], lfs[NL];
+static u64 *cur, *nxt, *T, *TS[8]; static int *canc, *ct, *nanc, *nt, Ncur, Nnxt, M;
 static long launched, done, ntimeout, nrun; static double succw, lensum; static int *order;
-// paths
 static uint8_t *pages; static int *panc, *pT, *pk, npath; static long pseen;
-static void path_add(const u64 *c, int anc, int Tl, int k) {
+static void path_add(const u64 *c, int anc, int Tl, int k) {   // c: the state at the death generation
     long slot; pseen++;
     if (npath < PMAX) slot = npath++; else { slot = (long)rndn(pseen); if (slot >= PMAX) return; }
     panc[slot] = anc; pT[slot] = Tl; pk[slot] = k;
     for (int i = 0; i < A; i++) pages[slot * A + i] = cfg_age(c, i);
 }
-static void store_success(const u64 *c, int anc, int Tl, int k) {
-    memcpy(nxt + (size_t)Nnxt * NCW, c, 8 * NCW); nanc[Nnxt] = anc; nt[Nnxt] = Tl; Nnxt++;
-    if (final_stage) path_add(c, anc, Tl, k);
+static int CAPN; static long nseen;
+// lag: the state LAG generations before the success (what the next stage's clones start from)
+static void store_success(const u64 *lag, int anc, int Tl) {   // reservoir of CAPN: a uniform subset of the successes
+    long slot; nseen++;
+    if (Nnxt < CAPN) slot = Nnxt++; else { slot = (long)rndn(nseen); if (slot >= CAPN) return; }
+    memcpy(nxt + (size_t)slot * NCW, lag, 8 * NCW); nanc[slot] = anc; nt[slot] = Tl;
+}
+static void flush_succ(int w) {   // store the successes sitting frozen in word w
+    int need = 0;
+    for (int b = 0; b < 64; b++) { int lane = w * 64 + b; if (lstate[lane] == SUCC) { need |= 1 << ((lfs[lane] + 1) % NS); if (final_stage) need |= 1 << lfs[lane]; } }
+    if (!need) return;
+    for (int sl = 0; sl < NS; sl++) if (need >> sl & 1) word_out_s(w, TS[sl], sl);
+    for (int b = 0; b < 64; b++) {
+        int lane = w * 64 + b;
+        if (lstate[lane] != SUCC) continue;
+        int Tl = lt0[lane] + llen[lane] - LAG;
+        store_success(TS[(lfs[lane] + 1) % NS] + (size_t)b * NCW, lanc[lane], Tl);
+        if (final_stage) path_add(TS[lfs[lane]] + (size_t)b * NCW, lanc[lane], Tl, lk[lane]);
+        lstate[lane] = IDLE;
+    }
 }
 static void refresh(int w) {
+    flush_succ(w);
     word_out(w, T);
     u64 fz = Fz[w];
-    while (fz) {
+    while (fz && launched < M) {
         int b = __builtin_ctzll(fz), lane = w * 64 + b; fz &= fz - 1;
         u64 *c = T + (size_t)b * NCW;
-        if (lstate[lane] == SUCC) store_success(c, lanc[lane], lt0[lane] + llen[lane], lk[lane]);
-        lstate[lane] = IDLE;
-        while (launched < M) {
-            int j = order[launched % Ncur]; launched++;
-            memcpy(c, cur + (size_t)j * NCW, 8 * NCW); cfg_flip(c);
-            int p0 = cfg_pop0(c);
-            if (p0 <= Lnext) {   // already at or below the next level: an immediate success
-                int k = p0 == 0 ? cfg_ndead(c) : 1;
-                done++; succw += (final_stage ? 1.0 / k : 1.0);
-                store_success(c, canc[j], ct[j], k);
-                continue;
-            }
-            lstate[lane] = RUN; lanc[lane] = canc[j]; lt0[lane] = ct[j]; llen[lane] = 0; nrun++;
-            Fz[w] &= ~(1ULL << b);
-            break;
-        }
+        int j = order[launched % Ncur]; launched++;
+        memcpy(c, cur + (size_t)j * NCW, 8 * NCW); cfg_flips(c);
+        lstate[lane] = RUN; lanc[lane] = canc[j]; lt0[lane] = ct[j]; llen[lane] = 0; nrun++;
+        Fz[w] &= ~(1ULL << b);
     }
     word_in(w, T);
 }
 static void compact(void) {
-    static u64 *buf; static int ma[NL], mt[NL], ml[NL];
+    static u64 *buf; static int ma[NL], mt[NL], ml[NL], src[NL];
     if (!buf) buf = malloc(8 * (size_t)NL * NCW);
-    int na = 0;
-    for (int w = 0; w < Wact; w++) {
-        word_out(w, T);
-        for (int b = 0; b < 64; b++) {
-            int lane = w * 64 + b; u64 *c = T + (size_t)b * NCW;
-            if (lstate[lane] == SUCC) store_success(c, lanc[lane], lt0[lane] + llen[lane], lk[lane]);
-            else if (lstate[lane] == RUN) { memcpy(buf + (size_t)na * NCW, c, 8 * NCW); ma[na] = lanc[lane]; mt[na] = lt0[lane]; ml[na] = llen[lane]; na++; }
-            lstate[lane] = IDLE;
+    int na = 0, Wold = Wact;
+    for (int w = 0; w < Wold; w++) flush_succ(w);
+    for (int lane = 0; lane < Wold * 64; lane++) if (lstate[lane] == RUN) { src[na] = lane; ma[na] = lanc[lane]; mt[na] = lt0[lane]; ml[na] = llen[lane]; na++; }
+    int Wnew = na ? (na + 63) / 64 : 1;
+    for (int sl = 0; sl < NS; sl++) {
+        int k = 0;
+        for (int w = 0; w < Wold; w++) {
+            int any = 0;
+            for (int b = 0; b < 64; b++) any |= lstate[w * 64 + b] == RUN;
+            if (!any) continue;
+            word_out_s(w, T, sl);
+            for (int b = 0; b < 64; b++) if (lstate[w * 64 + b] == RUN) { memcpy(buf + (size_t)k * NCW, T + (size_t)b * NCW, 8 * NCW); k++; }
         }
-        Fz[w] = ~0ULL;
-    }
-    Wact = na ? (na + 63) / 64 : 1;
-    for (int w = 0; w < Wact; w++) {
-        memset(T, 0, 8 * (size_t)64 * NCW);
-        for (int b = 0; b < 64; b++) {
-            int lane = w * 64 + b;
-            if (lane < na) { memcpy(T + (size_t)b * NCW, buf + (size_t)lane * NCW, 8 * NCW); lstate[lane] = RUN; lanc[lane] = ma[lane]; lt0[lane] = mt[lane]; llen[lane] = ml[lane]; Fz[w] &= ~(1ULL << b); }
+        for (int w = 0; w < Wnew; w++) {
+            memset(T, 0, 8 * (size_t)64 * NCW);
+            for (int b = 0; b < 64; b++) if (w * 64 + b < na) memcpy(T + (size_t)b * NCW, buf + (size_t)(w * 64 + b) * NCW, 8 * NCW);
+            word_in_s(w, T, sl);
         }
-        word_in(w, T);
     }
+    for (int lane = 0; lane < NL; lane++) lstate[lane] = IDLE;
+    for (int w = 0; w < WMAX; w++) Fz[w] = ~0ULL;
+    for (int lane = 0; lane < na; lane++) { lstate[lane] = RUN; lanc[lane] = ma[lane]; lt0[lane] = mt[lane]; llen[lane] = ml[lane]; Fz[lane >> 6] &= ~(1ULL << (lane & 63)); }
+    Wact = Wnew;
 }
 
 int main(int argc, char **argv) {
-    if (argc < 4) { fprintf(stderr, "usage: sh R SEED M [D STEP H PATHFILE] | sh R SEED 0 GENS\n"); return 2; }
+    if (argc < 4) { fprintf(stderr, "usage: sh R SEED M [LAG NFLIP STEP H PATHFILE|- CAP] | sh R SEED 0 GENS\n"); return 2; }
     int Rr = atoi(argv[1]); u64 seed = strtoull(argv[2], 0, 10); M = atoi(argv[3]);
     long bfgens = (M == 0 && argc > 4) ? atol(argv[4]) : 0;
-    int D = (M && argc > 4) ? atoi(argv[4]) : 3, STEP = (M && argc > 5) ? atoi(argv[5]) : 2;
-    double H = (M && argc > 6) ? atof(argv[6]) : 0.125;
-    const char *pathfile = (M && argc > 7) ? argv[7] : 0;
+    LAG = (M && argc > 4) ? atoi(argv[4]) : 1; NFLIP = (M && argc > 5) ? atoi(argv[5]) : 1;
+    int STEP = (M && argc > 6) ? atoi(argv[6]) : 2;
+    double H = (M && argc > 7) ? atof(argv[7]) : 0.125;
+    const char *pathfile = (M && argc > 8 && strcmp(argv[8], "-")) ? argv[8] : 0;
+    CAPN = (M && argc > 9) ? atoi(argv[9]) : 200000;
+    if (CAPN > M && M) CAPN = M;
+    if (LAG < 1 || LAG > 7) { fprintf(stderr, "LAG must be 1..7\n"); return 2; }
+    NS = LAG + 1;
+    int D = 2 * LAG + 1;     // a flip there cannot reach the face layer within LAG generations
     geom_init(Rr, D); seed_rng(seed);
+    if (nS < 2) { fprintf(stderr, "no perturbation sites at depth %d in R = %d\n", D, Rr); return 2; }
     {   // self-test of the transpose
         u64 a[64], b[64]; for (int i = 0; i < 64; i++) a[i] = b[i] = rnd();
         transpose64(b);
         for (int i = 0; i < 64; i++) for (int j = 0; j < 64; j++) if (((b[i] >> j) & 1) != ((a[j] >> i) & 1)) { fprintf(stderr, "transpose broken\n"); return 1; }
     }
     T = malloc(8 * (size_t)64 * NCW);
+    for (int k = 0; k < NS; k++) TS[k] = malloc(8 * (size_t)64 * NCW);
     u64 *tmp = malloc(8 * NCW);
     // ---- base run: NL independent hulls from fresh soups
     for (int w = 0; w < WMAX; w++) { for (int b = 0; b < 64; b++) cfg_soup(T + (size_t)b * NCW); word_in(w, T); }
@@ -364,7 +393,7 @@ int main(int argc, char **argv) {
     double psum = 0, psum2 = 0, pcnt = 0, exposure = 0, d0w = 0; long ncross = 0, deaths = 0, nold = 0, nstore = 0;
     int phase = 0;        // 0 burn-in, 1 pilot (P-bar), 2 flags settle, 3 counting
     long g = 0, gphase = 0; double PBAR = 0, SIG = 0;
-    int cap = M ? M : 1;
+    int cap = M ? CAPN : 1;
     cur = malloc(8 * (size_t)cap * NCW); nxt = malloc(8 * (size_t)cap * NCW);
     canc = malloc(sizeof(int) * cap); ct = malloc(sizeof(int) * cap); nanc = malloc(sizeof(int) * cap); nt = malloc(sizeof(int) * cap);
     LA = 1000; L0 = -1;
@@ -376,7 +405,7 @@ int main(int argc, char **argv) {
             phase = 2; gphase = 0; memset(linA, 0, sizeof linA);
         }
         if (phase == 2 && gphase == 100) { phase = 3; gphase = 0; }
-        if (phase == 3 && ((M && nstore >= M) || (!M && gphase >= bfgens))) break;
+        if (phase == 3 && ((M && nstore >= CAPN) || (!M && gphase >= bfgens))) break;
         step(WMAX); observe(WMAX);
         for (int lane = 0; lane < NL; lane++) {
             int w = lane >> 6, b = lane & 63, p = pop[lane], nd = (p == 0);
@@ -384,47 +413,41 @@ int main(int argc, char **argv) {
             lage[lane]++;
             int counted = (phase == 3 && lage[lane] > T0);
             if (counted) exposure += 1;
-            int reseed = 0;
+            int reseed = 0, cross = 0;
             if (nd) {
                 if (counted) {
                     deaths++;
-                    if (p == 0) {
-                        d0w += 1.0 / nd;
-                        if (linA[lane]) {   // straight from above P-bar to nothing: a crossing that is already a death
-                            ncross++;
-                            if (M && nstore < M && rndu() < H) { lane_extract(lane, cur + (size_t)nstore * NCW); canc[nstore] = nstore; ct[nstore] = 0; nstore++; }
-                        }
-                    }
+                    if (p == 0) { d0w += 1.0 / nd; if (linA[lane]) cross = 1; }   // straight from above P-bar to nothing
                 }
                 reseed = 1;
             } else {
                 if (phase == 1 && lage[lane] > T0) { psum += p; psum2 += (double)p * p; pcnt += 1; }
                 if (lage[lane] >= TFLAG) {
                     if (p >= LA) linA[lane] = 1;
-                    else if (p <= L0 && linA[lane]) {
-                        linA[lane] = 0;
-                        if (counted) {
-                            ncross++;
-                            if (M && nstore < M && rndu() < H) { lane_extract(lane, cur + (size_t)nstore * NCW); canc[nstore] = nstore; ct[nstore] = 0; nstore++; }
-                        }
-                    }
+                    else if (p <= L0 && linA[lane]) { linA[lane] = 0; cross = counted; }
                 }
                 if (lage[lane] > AGEMAX) { nold++; reseed = 1; }
+            }
+            if (cross) {
+                ncross++;
+                if (M && nstore < CAPN && rndu() < H) {   // keep the state LAG generations before the crossing
+                    lane_extract_s(lane, cur + (size_t)nstore * NCW, (cs + 1) % NS); canc[nstore] = nstore; ct[nstore] = 0; nstore++;
+                }
             }
             if (reseed) { cfg_soup(tmp); lane_load(lane, tmp); lage[lane] = 0; linA[lane] = 0; }
         }
     }
     double lnphi = log(ncross / exposure);
-    printf("# R %d n %d A %d nS %d D %d STEP %d H %g seed %llu M %d\n", R, n, A, nS, D, STEP, H, (unsigned long long)seed, M);
+    printf("# R %d n %d A %d nS %d LAG %d D %d NFLIP %d STEP %d H %g CAP %d seed %llu M %d\n", R, n, A, nS, LAG, D, NFLIP, STEP, H, CAPN, (unsigned long long)seed, M);
     printf("# PBAR %.4f SIG %.4f LA %d L0 %d exposure %.0f ncross %ld lnPhi0 %.5f deaths_any %ld d0w %.3f old %ld direct_lntau %.4f direct_err %.4f\n",
            PBAR, SIG, LA, L0, exposure, ncross, lnphi, deaths, d0w, nold,
            deaths ? log(8 * exposure / deaths) : NAN, deaths ? 1 / sqrt((double)deaths) : NAN);
     if (!M) return 0;
     // ---- stages
     Ncur = (int)nstore;
-    order = malloc(sizeof(int) * M);
+    order = malloc(sizeof(int) * CAPN);
     pages = malloc((size_t)PMAX * A); panc = malloc(sizeof(int) * PMAX); pT = malloc(sizeof(int) * PMAX); pk = malloc(sizeof(int) * PMAX);
-    char *mark = malloc(M);
+    char *mark = malloc(CAPN);
     double lnq = 0; int lev = L0, zero = 0, stage = 0;
     while (lev > 0) {
         Lnext = lev - STEP > 0 ? lev - STEP : 0; final_stage = (Lnext == 0);
@@ -433,38 +456,31 @@ int main(int argc, char **argv) {
         for (int i = Ncur - 1; i > 0; i--) { int j = (int)rndn(i + 1), t = order[i]; order[i] = order[j]; order[j] = t; }
         for (int lane = 0; lane < NL; lane++) lstate[lane] = IDLE;
         for (int w = 0; w < WMAX; w++) Fz[w] = ~0ULL;
-        Wact = WMAX; launched = done = 0; succw = 0; lensum = 0; Nnxt = 0; nrun = 0; long gens = 0;
+        Wact = WMAX; launched = done = 0; succw = 0; lensum = 0; Nnxt = 0; nrun = 0; nseen = 0; long gens = 0;
         while (done < M) {
             if (launched < M) { for (int w = 0; w < Wact; w++) if (__builtin_popcountll(Fz[w]) >= THR) refresh(w); }
             else if (nrun * 2 <= (long)Wact * 64 && Wact > 1) compact();
-            if (done >= M) break;
             step(Wact); observe(Wact); gens++;
             for (int w = 0; w < Wact; w++) {
                 u64 run = ~Fz[w];
                 while (run) {
                     int b = __builtin_ctzll(run), lane = w * 64 + b; run &= run - 1;
+                    if (++llen[lane] < LAG) continue;   // catching up with the parent: the face is the parent's own
                     int p = pop[lane], od = 0, fin = 0;
                     for (int f = 1; f < 8; f++) od += !((faceor[f][w] >> b) & 1);
-                    llen[lane]++;
                     if (p == 0) { fin = SUCC; lk[lane] = 1 + od; succw += final_stage ? 1.0 / (1 + od) : 1.0; }
                     else if (od) fin = IDLE;
                     else if (p <= Lnext) { fin = SUCC; lk[lane] = 1; succw += 1.0; }
                     else if (p >= LA) fin = IDLE;
                     else if (llen[lane] > TMAX) { fin = IDLE; ntimeout++; }
                     else continue;
-                    lstate[lane] = fin; Fz[w] |= 1ULL << b; done++; nrun--; lensum += llen[lane];
+                    lstate[lane] = fin; lfs[lane] = cs; Fz[w] |= 1ULL << b; done++; nrun--; lensum += llen[lane] - LAG;
                 }
             }
         }
-        for (int w = 0; w < Wact; w++) {   // flush the successes still sitting in lanes
-            int any = 0;
-            for (int b = 0; b < 64; b++) any |= lstate[w * 64 + b] == SUCC;
-            if (!any) continue;
-            word_out(w, T);
-            for (int b = 0; b < 64; b++) { int lane = w * 64 + b; if (lstate[lane] == SUCC) { store_success(T + (size_t)b * NCW, lanc[lane], lt0[lane] + llen[lane], lk[lane]); lstate[lane] = IDLE; } }
-        }
+        for (int w = 0; w < Wact; w++) flush_succ(w);
         double p = succw / M; lnq += log(p);
-        memset(mark, 0, M); int dist = 0; double tsum = 0;
+        memset(mark, 0, CAPN); int dist = 0; double tsum = 0;
         for (int i = 0; i < Nnxt; i++) { if (!mark[nanc[i]]) { mark[nanc[i]] = 1; dist++; } tsum += nt[i]; }
         printf("L %d from %d to %d trials %d succw %.3f p %.6f stored %d ancestors %d meanlen %.2f meanT %.2f gens %ld lnnu_next %.5f\n",
                stage, lev, Lnext, M, succw, p, Nnxt, dist, lensum / (M > 0 ? M : 1), Nnxt ? tsum / Nnxt : 0.0, gens, lnphi + lnq);
@@ -477,8 +493,8 @@ int main(int argc, char **argv) {
            lnphi, lnq, zero ? INFINITY : -(lnphi + lnq), zero, ntimeout, pseen);
     if (pathfile && npath) {
         FILE *fp = fopen(pathfile, "w");
-        fprintf(fp, "# R %d seed %llu M %d A %d ; face-0 cell coordinates (doubled) follow, then one line per dying path:\n", R, (unsigned long long)seed, M, A);
-        fprintf(fp, "# ancestor T k age[0..A-1]   (age = generations before the death generation at which the cell was last alive; 255 = 255 or more)\n");
+        fprintf(fp, "# R %d seed %llu M %d A %d LAG %d NFLIP %d STEP %d ; line C: doubled coordinates of the face-0 cells; then one line per dying path:\n", R, (unsigned long long)seed, M, A, LAG, NFLIP, STEP);
+        fprintf(fp, "# ancestor T k age[0..A-1]   (ancestor: index of the 0.9 P-bar crossing the path descends from; T: generations from that crossing to the death; k: faces empty at the death;\n# age: generations before the death generation at which the cell was last alive, 255 = 255 or more)\n");
         fprintf(fp, "C");
         for (int i = 0; i < A; i++) fprintf(fp, " %d,%d,%d", co[3 * i], co[3 * i + 1], co[3 * i + 2]);
         fprintf(fp, "\n");
