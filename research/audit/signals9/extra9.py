@@ -152,5 +152,22 @@ def minus():
             print(f'R@CROSS{a:+d} with the CALL, k = {k}: {left} pulses leave to the left, {right} to the right; end: {txt} + the line{extra}', flush=True)
 
 
+def minus2():
+    """the same collision with a second store (holding 2, units 6..8) on the left: what it holds afterwards.  Oracle."""
+    for k in range(0, 6):
+        t0 = time.time()
+        w = list(W(k)); w[6 - FIRST] = w[7 - FIRST] = 'd'; w[8 - FIRST] = 'f'
+        S = wire(''.join(w)) | LINE
+        ops = {0: ([RST(c - 17)], seed())}; T = 300
+        h = play(S, ops, T, engine='st'); o = play(S, ops, T, engine='orc')
+        same = all(o[g] == h[g] for g in range(0, T + 1, 2))
+        right = sum(letters(h[g] - LINE, N, FIRST)[c + 14 - FIRST] == '6' for g in range(0, T + 1, 2))
+        end = h[T]; lw = letters(end - LINE, N, FIRST)
+        exact = LINE <= end and end - LINE == wire(lw)
+        print(f'left store 2, armed store {k}, CALL and R@CROSS-17 at generation 0: end {rle(lw) if exact else str(len(end)) + " cells"} + the line; '
+              f'{right} pulse(s) left to the right; oracle = st9 at every even generation 0..{T}: {same}; nearest image {o["image_distance"]}; '
+              f'{time.time() - t0:.0f} s', flush=True)
+
+
 if __name__ == '__main__':
-    {'twice': twice, 'near': near, 'held': held, 'line': line, 'hand': hand, 'minus': minus}[sys.argv[1]]()
+    {'twice': twice, 'near': near, 'held': held, 'line': line, 'hand': hand, 'minus': minus, 'minus2': minus2}[sys.argv[1]]()
