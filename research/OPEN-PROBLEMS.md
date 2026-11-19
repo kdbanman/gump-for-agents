@@ -137,10 +137,11 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    left dies less often than a wrapped one (0.77 against 0.86 at one cell; not the bust, not the rim row; the
    layer beneath is fuller under a hull face); (q) why a tube, over-full as often as a wide face, dies 1.25 times
    as often at 84 cells (its halves crash apart twice as often): the other session's fit for the tube's price
-   failed at 120 cells; (r) why fresh coins three layers under a hull face lengthen its life by up to a fifth while
-   coins six layers under do nothing (CLAIMS X4, X5; notebook 2026-11-18, noisy hull), and where between three and
-   six layers the edge lies. A sampler for faces beyond brute force exists and is exact at 45 and 63 cells, but its
-   error at 108 cells is not trustworthy until it also moves the initial state (X6).
+   failed at 120 cells; (r) why fresh coins under a hull face lengthen its life: directly under it they nearly
+   double it, the first two layers carry five sixths of the effect, six layers down nothing is left (CLAIMS X4, X5,
+   X7; notebook 2026-11-18 and 2026-11-19, noisy hull). The control is not run: coins at the density of the layer
+   they replace. A sampler for faces beyond brute force exists, is exact at 45, 63 and 84 cells, and its error at
+   108 cells is not trustworthy until it also moves the initial state (X6).
 10. **Interior firewalls** cost ≈0.12 per cell of the band; no account of that number.
 11. **The favoured nine-cell state of a dying symmetric face** (10× over-represented) has been counted, not looked at.
 
