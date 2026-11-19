@@ -39,6 +39,9 @@ What speaks to it (the lead, same day):
   or more layers under one face of a closed octahedron with fresh coins every generation and that face's lifetime
   does not move (−0.4 ± 1.3% at 63 cells; CLAIMS X4). Coins three layers under a face lengthen its life by up to a
   fifth (X5), which nobody can explain yet. Notebook 2026-11-18, "the noisy hull, rebuilt from outside".
+  *Added 2026-11-19:* measured layer by layer by two programs (X7): coins directly under a face nearly double its
+  life, the first two layers down carry five sixths of the effect, and with the coins six layers down nothing is
+  left. So the isolation has a profile, and it is about two layers thick.
 - **Signals as a lens on it.** `research/signals/` (started 2026-11-15): whether anything can carry a signal. In
   the chaos the two numbers above say no usable signal survives a cube or two; the open case is the ordered
   remains (wires, sheets, clocks), where nothing forgets.

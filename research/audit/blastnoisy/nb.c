@@ -156,7 +156,10 @@ int main(int argc, char **argv) {
   fclose(fp);
   if (nf != 8 || nlay < 6) { fprintf(stderr, "not a hull file with 6 layers a face\n"); return 1; }
   char *out = calloc(n, 1);
-  for (int f = 0; f < nf; f++) for (int l = 0; l < (f == 0 ? 6 : 3); l++) for (int k = 0; k < lsz[f][l]; k++) out[lc[f][l][k]] = 1;
+  /* NB_DW (default 6): layers of the watched face kept free of noise; other values are for the depth series only */
+  int dw = getenv("NB_DW") ? atoi(getenv("NB_DW")) : 6;
+  if (dw < 1 || dw > nlay) { fprintf(stderr, "NB_DW out of range\n"); return 1; }
+  for (int f = 0; f < nf; f++) for (int l = 0; l < (f == 0 ? dw : 3); l++) for (int k = 0; k < lsz[f][l]; k++) out[lc[f][l][k]] = 1;
   Nl = malloc(sizeof(int) * n); nN = 0;
   for (int i = 0; i < n; i++) if (!out[i]) Nl[nN++] = i;
   for (B = 1, logB = 0; B < 4 * nN; B <<= 1) logB++;

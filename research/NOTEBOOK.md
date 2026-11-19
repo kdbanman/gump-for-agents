@@ -4234,3 +4234,53 @@ reference with it on. Tables: `python3 research/audit/blastnoisy/summary.py`. Th
   the same pull request are not reviewed and are not in `main`.
 - **Bears on the owner's journal** (2026-11-17, the isolation note): faces are isolated from what lies six layers
   under them even when that is replaced by pure noise while everything else runs.
+
+
+## 2026-11-19: the noisy hull, second round: how deep a face's death is decided (two codes), and the sampler's odd sweeps cleared at 84 cells
+
+Continues the entry of 2026-11-18 ("the noisy hull, rebuilt from outside"). The other session answered the review on
+pull request 39 with two commits (cherry-picked: `research/blast/noisy/`, `research/blast/REPORT.md` entries of 20:52
+and 22:16 UTC 2026-11-18). The lead repeated its depth series with the rebuild's chain.
+
+- **[measured; two codes, other seeds] The depth series at 63 cells.** Coins at ε = 1/4 (each cell of the region is
+  redrawn as a fair coin with probability 0.22 a generation) at depth ≥ d under the watched face and ≥ 3 under the
+  other seven; 12,000,000 generations of 512 hulls a row; the watched face's ln τ minus gump's (13.633 ± 0.001):
+
+  | d | the author's `nz.c` | the rebuild's `nb.c` | difference | pooled |
+  |---|---|---|---|---|
+  | 6 | −0.005 ± 0.012 | +0.010 ± 0.012 | +0.015 ± 0.017 | +0.003 ± 0.008 |
+  | 5 | +0.019 ± 0.012 | +0.028 ± 0.012 | +0.010 ± 0.017 | +0.023 ± 0.008 |
+  | 4 | +0.054 ± 0.012 | +0.026 ± 0.012 | −0.028 ± 0.017 | +0.040 ± 0.008 |
+  | 3 | +0.101 ± 0.012 | +0.123 ± 0.012 | +0.022 ± 0.017 | +0.112 ± 0.009 |
+  | 2 | +0.304 ± 0.014 | +0.326 ± 0.014 | +0.023 ± 0.019 | +0.315 ± 0.010 |
+  | 1 | +0.674 ± 0.016 | +0.667 ± 0.016 | −0.007 ± 0.023 | +0.670 ± 0.011 |
+
+  The two codes agree row by row (χ² 7.1 on 6). `sh research/audit/blastnoisy/depth.sh` (13 minutes on 4 cores,
+  after `sh research/audit/blastnoisy/run.sh check`), then `python3 research/audit/blastnoisy/depth.py`; the
+  author's rows are `research/blast/noisy/data/depth.txt`. The region has the same size in both codes at every d
+  (57, 78, 96, 114, 123, 132 cells). `nb.c` gained a depth setting for this (`NB_DW`, default 6);
+  `run.sh check` passes with it.
+- **Layer by layer (pooled).** Letting the coins into the first layer under the face adds +0.355 ± 0.015 to ln τ,
+  the second +0.203 ± 0.013, the third +0.072 ± 0.012, the fourth +0.017 ± 0.012, the fifth +0.020 ± 0.012; with
+  the coins six layers down nothing is left (+0.003 ± 0.008). The first two layers carry five sixths of the effect.
+  Coins directly under a face nearly double its life (e^0.670 = 1.95). The author's reading from its one seed,
+  "each layer below adds about 0.7 of the one above", does not survive the pooling (ratios 0.57, 0.35, then noise).
+- **[measured] Coins under a face lengthen its life at every depth and never shorten it.** Why is not known. The
+  control has not been run: coins with the density of the layer they replace, which would separate "noise" from
+  "a different density". The other seven faces gain too as d falls (+0.066 ± 0.005 at d = 6 to +0.119 ± 0.005 at
+  d = 1 in the rebuild's rows), because the region grows near them.
+- **[measured; the author's rows, recomputed by the lead from them, not re-run] The sampler's odd sweeps are
+  cleared.** At 84 cells, ε = 1/16: restricted odd sweeps on, 1,050 replications, 18.142 ± 0.010; off, 1,040
+  replications, 18.146 ± 0.009; gump 18.141 ± 0.005 (`python3 research/blast/noisy/ana.py
+  research/blast/noisy/data/runs_diag`, the R 13 groups). The author gives on minus off as −0.001 ± 0.014 with its
+  earlier 100 replications and has withdrawn the fault reading. At 84 cells one replication's law has no long tail
+  (largest share 0.004), so a fault would have shown. The +0.083 at 108 cells is left with one explanation, the
+  tail of one replication's rate [still conjectured: nothing new was run at 108 cells].
+- **A by-product.** Through a sampler that is exact at that size, the noisy chain at 84 cells and ε = 1/16 is
+  within 0.012 of gump, three times tighter than the brute force (+0.027 ± 0.038 at ε = 1/4).
+- **The author's changes asked for by the review are in:** `fit.py` prints the equal-weight line (+0.009 ± 0.044 at
+  108 cells) beside the weighted one; `noisy/README.md` has "The method's limit"; the report's headline is rewritten.
+- **Not checked:** one seed a code a depth; ε = 1/4 and 63 cells only; the density control; whether the layer
+  increments depend on the size of the face; the author's on-against-off replications were not re-run with `nb`.
+- **Bears on the owner's journal** (the isolation note): the isolation of a face from what lies under it now has a
+  measured profile, two layers deep for most of it and gone by the sixth.

@@ -186,3 +186,25 @@ python3 research/blast/noisy/ana.py $S/tune                   # the tuning runs 
 - **`diag.sh`**: the frozen sampler with new seeds and the ancestry lines (63, 84, 108 cells), then the 108-cell
   sampler at ε = 1/16 with the odd sweeps off (WBACK 0). Output in scratch `runs_diag/`; results in `REPORT.md`.
 
+## The method's limit (PI, 20:52 UTC 2026-11-18, after the lead's rebuild; this belongs next to the method)
+
+- **The sampler never moves the initial state.** Across initial states it is plain sampling of a long-tailed
+  quantity (the chance that a given stationary state dies within the window). At 63 and 84 cells that tail is
+  mild and the sampler matches brute force. At 108 cells about one replication in 280 has a rate above ten
+  times the median, one initial state can hold most of the dying chains, and a replication's rate follows that
+  share. So at 108 cells **the error from the scatter of replications understates**, a sample that has met no
+  large replication reads high in ln τ, and an inverse-variance mean over ε favours exactly those samples.
+  `fit.py` prints the equal-weight value beside the weighted one for this reason.
+- **What to change, if this is taken up again:** the initial states, not ε. Either an independence move over
+  stationary snapshots (accepted iff the score stays under the level) with a pool drawn afresh for each
+  replication, or a pool large enough that its largest weight is small: with one shared finite pool every
+  replication is exact for the pool's own law, and the pool's tail becomes a common error (the lead's point).
+  Test it where the answer is known, 63 cells and then 84 cells at ε = 1/4 (brute force +0.027 ± 0.038), before
+  108 cells.
+- **Odd sweeps.** Read twice as reversible (here and by the rebuild), and cleared by measurement at 84 cells and
+  ε = 1/16: on 18.142 ± 0.010 (1,050 replications), off 18.146 ± 0.009 (1,040), on minus off −0.001 ± 0.014, gump
+  18.141 ± 0.005 (`data/runs_diag/`, `diag2.sh`, `diag3.sh`). At 108 cells on minus off was +0.092 ± 0.050, with
+  both errors from a law whose tail the samples had not caught.
+- **The depth series** (`data/depth.txt`, `diag2.sh`): coins at depth ≥ d under the watched face at 63 cells and
+  ε = 1/4 move its ln τ by −0.005, +0.019, +0.054, +0.101, +0.304, +0.674 for d = 6 … 1 (± 0.012 to 0.016).
+
