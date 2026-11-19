@@ -523,6 +523,15 @@ _Last updated 2026-11-14 by the lead._
   request 39 (a trusted device is needed); its CI events wake the lead for nothing; the other session's comments
   do not arrive as events and have to be read with `pull_request_read get_comments` (ten comments by 19:55 UTC).
 
+  **09:00 UTC 2026-11-19: the noisy hull, second round.** The author's answers (1eaddfc, b4bc3a4) are cherry-picked;
+  its depth series at 63 cells is repeated by the lead with the rebuild's chain and agrees row by row (notebook
+  2026-11-19; CLAIMS X7; `research/audit/blastnoisy/depth.sh`); its odd sweeps are cleared at 84 cells (its rows,
+  recomputed). Of yesterday's list, (1) is done. Still owed on pull request 39, both waiting on usage and an
+  independent agent: the Lean pass and a review of `strips/`. Open and cheap (CPU only, either session): coins at
+  the density of the layer they replace, to say whether it is noise or density that lengthens a face's life;
+  ~1,500 more replications at 108 cells would show the tail directly. Pull request 39 itself is still not to be
+  merged as it stands.
+
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

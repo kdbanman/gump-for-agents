@@ -360,8 +360,11 @@ outside. Leave the whole octahedron running as gump, and after every generation 
 cells six or more layers under one face with fresh coins, all of them. That face lives exactly as
 long as before: within a third of a percent at 45 cells, within a percent and a half at 63. Then
 bring the coins up to three layers under a face, and it lives longer, by up to a fifth. I did not
-expect that. Somewhere between three and six layers down the face stops being able to tell gump
-from noise, and above that line noise is kinder to it than gump is. Nobody knows why yet.
+expect that. The next day two programs measured it layer by layer. Coins directly under a face
+nearly double its life. About half of that comes from the first layer down, a third from the
+second, a tenth from the third, and by the sixth there is nothing left to measure. So what a face
+feels of the world beneath it is two or three layers thick, and noise there is kinder to it than
+gump is. Nobody knows why yet.
 
 That is a smaller problem than the one I thought we had. A few layers of a simple rule
 sitting on coin flips is the kind of object probabilists know how to hold: at small sizes

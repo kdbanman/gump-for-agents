@@ -1,0 +1,1 @@
+RES n 876 A 63 nN 78 B 512 M 128 mode F seed 1405 gens 12000000 exposure 6132867375 d 7156 7137 6860 6707 7111 6816 6693 6627 ties 1 young 381 settled 0
