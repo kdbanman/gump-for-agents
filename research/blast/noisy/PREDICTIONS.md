@@ -146,3 +146,20 @@ Still no brute force at 84 cells and eps = 1/16. The sampler, exact for the chai
 sweeps on, 1,050 replications) and +0.005 +- 0.011 (off, 1,040) from gump: within 0.015, as forecast, by another
 route than the one the forecast named. Left open as written.
 
+## Block 4 (PI; frozen 2026-11-19, 20:30 UTC, before anyone has run the density control)
+
+The control (the lead's proposal): the depth series' d = 1 and d = 2 rows at 63 cells and eps = 1/4, with each coin
+drawn at the replaced layer's own mean density in gump on the same hull instead of 1/2. Fair coins gave +0.670 and
++0.315 (pooled over two codes). Seen when this was written: the audit's layer densities on a wrapped slab (0.518,
+0.434, 0.406 of a layer for the face and the two layers under it) and its remark that the layer under a nearly
+empty hull face is fuller than under a wrapped one. Not seen: any run with biased coins.
+
+My reading [conjectured]: most of the gain is the loss of correlation, not the density. At rate 1/4 the coins move
+a layer's density by a quarter of the way from about 0.43 to 0.5, which is small; what they do that gump does not
+is hand a fading face live cells beneath it at times when gump's own layer is fading with it.
+
+1. At matched density the d = 1 gain is at least 0.40 (of the 0.67): **70%**. At most 0.15: 12%.
+2. At matched density the d = 2 gain is at least 0.18 (of the 0.315): 65%.
+3. Coins at a density well below the layer's own (a third of it) still lengthen the d = 1 life: 55%.
+4. The sign never turns: no coin density between 0.2 and 0.8 at d = 1 shortens the watched face's life: 80%.
+

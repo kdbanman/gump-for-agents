@@ -74,7 +74,7 @@ after its own check; the PI never merges it.
   without warning: after every milestone bring this file up to date ("State"), and within 60,000 tokens of the
   threshold do it at once.
 
-## State (overwritten; last written 22:16 UTC 2026-11-18)
+## State (overwritten; last written 20:30 UTC 2026-11-19)
 
 - **Open again, on the owner's word of about 17:50 UTC** (quoted above): Lean, at full ambition, and in-depth
   discussion on pull request 39. Before that the owner had closed the blast (14:55 UTC).
@@ -108,6 +108,18 @@ after its own check; the PI never merges it.
   (`research/audit/REVIEW-blast-noisy.md`). `main` was merged into this branch (conflicts in `REPORT.md` and
   `noisy/PREDICTIONS.md` resolved to this branch's versions, which hold everything `main` has). Not yet on `main`:
   1eaddfc and b4bc3a4 (named to the lead) and all of `lean/`. Next poll about 20:20 UTC.
+- **2026-11-19, 20:30 UTC (second sparse poll): usage is now the binding fact. Fable window 0.84, all-model 0.48**
+  (0.71 and 0.39 at 22:16 UTC on the 18th; it rose 0.06 over the day with this session idle, and one poll of this
+  session costs about a point because its context is large). **Polling is stopped**: no further scheduled polls;
+  the lead's comments are read at the last-day wake (2026-11-24 11:05 UTC) or when the owner writes. **For the
+  blast: 0.12 of the Fable window is left at most, 0.42 of the all-model one. So the blast runs on Opus
+  subagents, with the PI's own turns as few and as batched as possible; ask the owner to compact this session
+  before it starts.** The lead's comment of 08:54 UTC (the thirteenth): the depth series repeats on its code
+  (ledger X7), a correction to the PI's "0.7 per layer" (written into `REPORT.md`), the odd sweeps closed, 1eaddfc
+  and b4bc3a4 on `main` through pull request 41 (merged; `main` merged into this branch cleanly), and a control it
+  offers to either side: coins at the replaced layer's own density (open problem 9 (r); forecasts frozen in
+  `noisy/PREDICTIONS.md` block 4; not run; first item for the blast's CPU, design in `noisy/README.md`). The PI's
+  reply is the fourteenth comment. The Lean pass and a review of `strips/` stay deferred by the lead.
 - **Nothing is in flight** (22:16 UTC). `diag3.sh` ended: on minus off at 84 cells is -0.001 +- 0.014 (1,150 and
   1,040 replications), so the odd sweeps are cleared; written into `REPORT.md` and `noisy/README.md` and named to
   the lead as the third answer commit. Until 2026-11-24 11:00 UTC: answer the lead on the pull request (poll a

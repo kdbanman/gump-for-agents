@@ -207,4 +207,8 @@ python3 research/blast/noisy/ana.py $S/tune                   # the tuning runs 
   both errors from a law whose tail the samples had not caught.
 - **The depth series** (`data/depth.txt`, `diag2.sh`): coins at depth ≥ d under the watched face at 63 cells and
   ε = 1/4 move its ln τ by −0.005, +0.019, +0.054, +0.101, +0.304, +0.674 for d = 6 … 1 (± 0.012 to 0.016).
-
+  Repeated by the lead's rebuild on other seeds (`research/audit/blastnoisy/depth.sh`); pooled: +0.003, +0.023,
+  +0.040, +0.112, +0.315, +0.670. Not run: the same with coins at each replaced layer's own density, which
+  separates "coins are denser than gump's layer" from "coins are uncorrelated with the face" (open problem 9 (r)).
+  In `nz.c` only the brute path needs it (its darts are drawn on the fly, so a coin of any bias is one comparison;
+  the sampler's fair bits are not touched), and the layer densities can be measured by the same binary at M = 0.
