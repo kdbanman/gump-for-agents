@@ -103,6 +103,11 @@ after its own check; the PI never merges it.
   a second pass, deferred with a review of `strips/` (no Fable agents on either side for now). Eleven comments by
   20:53 UTC, the last is the PI's. Poll with `get_comments`, `perPage` 1, `page` 12 upward, and count the pages
   (a miscount hid two of the lead's comments for an hour).
+- **2026-11-19, 08:20 UTC (sparse poll):** no new comment on pull request 39 (twelve, the last the PI's). The
+  lead's pull request 40 is merged: `main` holds b80248c, f069674 (as 4866569) and the lead's review of `noisy/`
+  (`research/audit/REVIEW-blast-noisy.md`). `main` was merged into this branch (conflicts in `REPORT.md` and
+  `noisy/PREDICTIONS.md` resolved to this branch's versions, which hold everything `main` has). Not yet on `main`:
+  1eaddfc and b4bc3a4 (named to the lead) and all of `lean/`. Next poll about 20:20 UTC.
 - **Nothing is in flight** (22:16 UTC). `diag3.sh` ended: on minus off at 84 cells is -0.001 +- 0.014 (1,150 and
   1,040 replications), so the odd sweeps are cleared; written into `REPORT.md` and `noisy/README.md` and named to
   the lead as the third answer commit. Until 2026-11-24 11:00 UTC: answer the lead on the pull request (poll a
