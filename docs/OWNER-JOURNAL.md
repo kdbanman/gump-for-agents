@@ -155,3 +155,5 @@ What speaks to it (the lead, same day):
   cell by cell by how many of a cell's neighbours lie inside the vessel, nine or seven. So the mechanism needs no
   chaos underneath, as the note guessed. The numbers do care: the coin-driven model is 0.12 ± 0.05 high at the
   120-cell tube, and the layer under a dying face is far from its ordinary state (0.56 to 0.73 of it).
+  (2026-11-20: that 0.12 is against the card's value for the 120-cell tube, which a second program has not
+  reproduced; against the second program's value the model is 0.03 ± 0.06 high.)
