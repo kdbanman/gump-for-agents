@@ -328,3 +328,37 @@ which is 0.081 ± 0.020 below the line through the 84-, 96- and 108-cell tubes (
   I give that 7%.
 - First look at chain 4, not a result: after two of the eight runs the 126-cell tube has 223 deaths and 25.848 ±
   0.067, above my 25.685 ± 0.035 and beside the straight line's 25.801.
+
+## 11. Chain 4 scored; forecasts for chain 5 (the 120-cell tube again, more of the 126) (2026-11-20T12:35Z, HEAD 0f1a4e0)
+
+Written after the sixteen rows of chain 4 and before any row of chain 5 (`research/scratch/gpu-local/chain5.sh`).
+
+**Block 9, scored** (`python research/gpu-local/eq_analyze.py 1 19 42`, `… 1 20 44`):
+
+| torus (H, K), (0, D) | cells | my forecast | measured | measured − forecast | in combined errors |
+|---|---:|---:|---:|---:|---:|
+| (1, 19), (0, 42) | 126 | 25.685 ± 0.035 | 25.7572 ± 0.0320 | +0.072 | 1.5 |
+| (1, 20), (0, 44) | 132 | 26.855 ± 0.060 | 26.9057 ± 0.0584 | +0.051 | 0.6 |
+
+- "The 126-cell tube below 25.74" (80%): no. "Below 25.70" (60%): no. "Above 25.76, so the 120-cell value was a
+  low fluctuation" (10%): 25.757, under the mark by 0.003.
+- "The chord from 120 to 132 cells below 0.2004" (75%): 0.1998 ± 0.0051 with the card's 120-cell value, which is yes
+  by the letter and decides nothing. "Below 0.190" (20%): no.
+- Kind-5 lives none (85%): none. Firewalls none (90%): none.
+- Deaths: I expected about 1,100 and 340; there are 977 and 293.
+- I was wrong to build on one face. I put 10% on the 120-cell value being a low draw; the second code (block 10,
+  interim 24.594 ± 0.040 at 613 deaths) and the 126-cell face both say it probably is, in part.
+
+**Block 10** (the second code at 120 cells) is scored when its run ends, about 19:30Z on 2026-11-20.
+
+**Chain 5** (my own choice again: the lead's queue has no new note). Guard on; checks first.
+
+| torus (H, K), (0, D) | cells | runs | my forecast for the new seeds alone |
+|---|---:|---|---:|
+| (1, 18), (0, 40) | 120 | 8 more of 180 min, seeds 12018011 to 12018018 | 24.545 ± 0.030 |
+| (1, 19), (0, 42) | 126 | 8 more of 180 min, seeds 12619011 to 12619018 | 25.765 ± 0.040 |
+
+- The new 120-cell seeds above the first eight's 24.5086: 80%. Above 24.589 (the line through 84 to 108 cells): 8%.
+- The new 126-cell seeds' χ² below 14.1 on 7 (the 95% point): 90%. If it is above again, the deaths of long tubes are
+  over-dispersed between runs and every error at these sizes is too small.
+- Kind-5 lives none: 85%. Firewalls none: 90%.

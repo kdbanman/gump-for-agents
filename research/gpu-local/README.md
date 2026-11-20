@@ -356,7 +356,8 @@ and 108-cell tube rows of the table above now hold eight seeds each.
   (84,908 deaths, eight seeds, finished; here 17.5387 ± 0.0031: +0.0055 ± 0.0046, 1.2 errors). A 48-hour run on
   the 120-cell tube (1, 18), (0, 40) started at 19:30Z on 2026-11-18 (`PREDICTIONS.md` block 10).
   `python research/gpu-local/cpu/fr.py summary`.
-- **The 120-cell tube is lower than every forecast (2026-11-18): (1, 18), (0, 40) has 24.5086 ± 0.0169** (eight runs
+- **The 120-cell tube is lower than every forecast (2026-11-18; see "Chain 4" below, where a second code and two
+  longer tubes do not confirm the size of this drop): (1, 18), (0, 40) has 24.5086 ± 0.0169** (eight runs
   of 180 minutes, 3,494 deaths, seeds' χ² 4.4 on 7; no firewall, no settled or kind-5 life; hazard by age flat over
   five bins, 0.94 to 1.06, the oldest life being 0.17 of the face time). `python research/gpu-local/eq_analyze.py 1 18 40`.
   - My forecast was 24.576 ± 0.020 (2.6 combined errors above). The theory session's frozen forecasts
@@ -372,6 +373,44 @@ and 108-cell tube rows of the table above now hold eight seeds each.
     code at this size]. Chain 4 (`PREDICTIONS.md` block 9) runs the 126- and 132-cell tubes of the same family.
 - Not checked: no second code on the loop-16 and loop-13 faces at 96 cells; hazard by age on the five faces was
   saved (`hist_H_K_D.json`) and not read.
+
+### Chain 4 (2026-11-20): the 126- and 132-cell tubes; the 120-cell drop is not confirmed
+
+Forecasts in `PREDICTIONS.md` block 9, scored in block 11. Same family as the 84-, 108- and 120-cell tubes (a = 1,
+loop vector (2, −4)).
+
+| torus (H, K), (0, D) | cells | loops² | seeds | face deaths | firewalls | ln τ_face | seeds' χ² |
+|---|---:|---|---:|---:|---:|---:|---:|
+| (1, 19), (0, 42) | 126 | 12, 111, 117 | 8 | 977 | 0 | 25.7572 ± 0.0320 | 20.0 on 7 |
+| (1, 20), (0, 44) | 132 | 12, 121, 133, 133 | 8 | 293 | 0 | 26.9057 ± 0.0584 | 12.0 on 7 |
+| (1, 18), (0, 40), the CPU second code, interim at 12:30Z | 120 | 12, 103, 103 | 12 | 613 | 0 | 24.5939 ± 0.0404 | 18.3 on 11 |
+
+- **The second code does not reproduce the card's 120-cell value.** `fr.c` has 24.594 ± 0.040 after 492 thread-hours
+  (the run ends about 19:30Z on 2026-11-20); the card has 24.5086 ± 0.0169. They are 0.085 ± 0.044 apart (1.9 errors).
+  The CPU value sits on the line through the 84-, 96- and 108-cell tubes (24.589 ± 0.010). If both are right the
+  pooled value is 24.521 ± 0.016.
+- **The longer tubes lie between the straight line and the falling slope I forecast.** The 126-cell tube is 0.044 ±
+  0.034 below the line (25.801) and 0.072 above my forecast; the 132-cell tube is 0.107 ± 0.060 below the line (27.013).
+- **What survives [measured]: the slope of the 12-tube goes on falling, gently.** With the pooled 120-cell value,
+  one line through 96 to 132 cells has slope 0.1999 ± 0.0005 (χ² 5.8 on 3); from 108 cells up it is 0.1979 ± 0.0011
+  (χ² 1.9 on 2); a quadratic through 96 to 132 has curvature −0.00010 ± 0.00006 per cell² (1.7 errors). The chords
+  were 0.2023 ± 0.0004 (84 → 96) and 0.2013 ± 0.0008 (96 → 108). The fall to 0.1957 read from the card's 120-cell
+  face alone is not confirmed.
+- Against my continuation of the theory session's K = 2 form (24.571, 25.776, 26.979) the faces are −0.050 ± 0.016
+  (120 cells, pooled), −0.019 ± 0.032 and −0.073 ± 0.058: all below, the first carried by the card's value.
+- **The seeds of the 126-cell tube scatter more than counting allows** (χ² 20.0 on 7, p = 0.006). One run (seed
+  12619006) has 161 deaths where the other seven have 102 to 133. Its deaths are spread evenly through the run (27,
+  35, 22, 19, 32, 26 by sixths) and are no more closely spaced than chance (2 gaps under a fiftieth of the mean gap,
+  3.2 expected), so it is not a burst at one moment of the run. The excess is mostly in lives younger than 10⁹
+  generations (53, against 24 to 40 in the others). With the error scaled by √(χ²/7) the face is 25.757 ± 0.054. The
+  second code's twelve seeds at 120 cells scatter too (18.3 on 11, p = 0.075), and the 132-cell seeds (12.0 on 7,
+  p = 0.10); the card's eight at 120 cells do not (4.4 on 7). Not understood. If the deaths of long tubes are
+  over-dispersed between runs, every error at these sizes is too small by up to a factor 1.7.
+  `python research/gpu-local/deaths_in_time.py . 1_19_42 1_18_40` (it reads the runs' json files under
+  `research/scratch/gpu-local/`, which are not in git).
+- Not checked: no second code at 126 or 132 cells; whether a run's rate depends on its 2,560 opening soups; the
+  hazard by age beyond 0.05 of the face time (no life is older).
+- Chain 5 (`PREDICTIONS.md` block 11) puts eight new seeds on the 120-cell tube and eight more on the 126-cell tube.
 
 ## The asymmetric hull face (queue item 3) [measured]
 

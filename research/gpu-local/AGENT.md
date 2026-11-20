@@ -163,3 +163,19 @@ billed by the hour, no limit."
 - Chain 4 is on the card as above (two of eight runs of the 126-cell tube done at 19:20Z).
 - **Usage is the constraint again:** weekly Fable was 67% at 19:20Z on 2026-11-18, eight hours into the week. Take no
   turn that a notification does not force; start no subagent.
+
+## Addendum, 2026-11-20T12:35Z
+
+- Chain 4 is finished and scored (README "Chain 4", `PREDICTIONS.md` block 11). The card's low 120-cell value is not
+  confirmed by the second code or by the 126- and 132-cell tubes; what survives is a gentle fall of the slope.
+- **Running on the card until about 12:50Z on 2026-11-22:** `research/scratch/gpu-local/chain5.sh` (log `chain5.log`):
+  eight new seeds on (1,18),(0,40), then eight more on (1,19),(0,42), 180 minutes each. It commits and pushes its
+  rows after each face. Owed after each: `eq_analyze.py H K D save` (it pools all sixteen seeds), score block 11, a
+  README sentence under "Chain 4", a `USAGE.md` line, one message to the lead.
+- **Running on the CPU until about 19:30Z on 2026-11-20:** the second code on the 120-cell tube (log
+  `research/scratch/gpu-local/cpu120.log`). Owed: score block 10, replace the interim row in README "Chain 4".
+  After that the CPU is idle: 13 threads are free. A second-code run on the 126-cell tube is the obvious next use.
+- The lead was told of chain 4 at about 12:50Z on 2026-11-20. No note in `research/GPU-QUEUE.md` since 04:54Z on
+  2026-11-17 (fetched 12:33Z on 2026-11-20).
+- **Usage:** weekly Fable 86% and all models 51% at 12:33Z on 2026-11-20, resetting 2026-11-25 11:00Z. Take no turn
+  that a notification does not force; start no subagent; keep each forced turn to a few calls.
