@@ -362,3 +362,27 @@ Written after the sixteen rows of chain 4 and before any row of chain 5 (`resear
 - The new 126-cell seeds' χ² below 14.1 on 7 (the 95% point): 90%. If it is above again, the deaths of long tubes are
   over-dispersed between runs and every error at these sizes is too small.
 - Kind-5 lives none: 85%. Firewalls none: 90%.
+
+## 12. Block 10 scored (the second code at 120 cells); forecasts for the CPU's next runs (2026-11-20T19:30Z, HEAD e9f188b)
+
+**Block 10, scored** (`python research/gpu-local/cpu/fr.py summary 1 18 40`): twelve seeds, 576 thread-hours, 716
+deaths, **24.5969 ± 0.0374** (seeds' χ² 17.6 on 11). I expected about 760 deaths and ± 0.036.
+
+- "Within two combined errors of the card's 24.5086 ± 0.0169" (90%): no, by a little: +0.088 ± 0.041, 2.2 errors.
+- "Below 24.589" (90%): no. "Below 24.55" (80%): no.
+- "At 24.59 or above: the card's value was a low fluctuation or the two codes differ at this size" (7%): this is
+  the case that happened. Which of the two it is, is not known. The first two new seeds of chain 5 on the card
+  (not a result: 848 deaths) give 24.549 ± 0.034 by themselves.
+
+**The CPU's next runs** (`research/scratch/gpu-local/chain_cpu2.sh`, 12 threads, written before any row):
+
+| torus (H, K), (0, D) | cells | run | the card | my forecast for the second code |
+|---|---:|---|---:|---:|
+| (1, 16), (0, 36) | 108 | 24 hours, seeds from 31000 | 22.1599 ± 0.0086 | 22.165 ± 0.014 (about 8,000 deaths, ± 0.011) |
+| (1, 18), (0, 40) | 120 | 48 more hours, seeds from 32000 | 24.5165 ± 0.0152 so far | the new seeds alone 24.565 ± 0.040 |
+
+- Why 108 cells first: the two codes agree to 0.007 at 96 cells and are 0.088 ± 0.041 apart at 120. If they differ
+  by something that grows with the face, 108 cells shows it at a quarter of the cost.
+- The second code within two combined errors of the card at 108 cells: 90%. More than 0.03 above the card: 6%.
+- The new CPU seeds at 120 cells below the first twelve's 24.597: 70%.
+- Seeds' χ² at 108 cells below 19.7 on 11 (the 95% point): 92%.

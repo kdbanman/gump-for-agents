@@ -179,3 +179,15 @@ billed by the hour, no limit."
   2026-11-17 (fetched 12:33Z on 2026-11-20).
 - **Usage:** weekly Fable 86% and all models 51% at 12:33Z on 2026-11-20, resetting 2026-11-25 11:00Z. Take no turn
   that a notification does not force; start no subagent; keep each forced turn to a few calls.
+
+## Addendum, 2026-11-20T19:30Z
+
+- The second code's 48 hours at 120 cells are done and scored (`PREDICTIONS.md` block 12): 24.5969 ± 0.0374, which is
+  2.2 errors above the card's first eight seeds.
+- **Running on the CPU, 12 threads, until about 19:45Z on 2026-11-23:** `research/scratch/gpu-local/chain_cpu2.sh`
+  (log `chain_cpu2.log`): `fr.py run 1 16 36 24 31000`, then `fr.py run 1 18 40 48 32000`. It commits and pushes
+  `research/data/gpu_local_cpu` after each stage. Owed after each: `fr.py summary`, score block 12, a sentence in
+  README "Chain 4".
+- Chain 5 is on the card as above (two of its sixteen runs done at 19:29Z on 2026-11-20).
+- **Usage:** weekly Fable 87%, all models 52% at 19:29Z on 2026-11-20. The same rule: no turn that a notification
+  does not force, no subagent.

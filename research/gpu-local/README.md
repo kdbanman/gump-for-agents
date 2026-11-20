@@ -383,12 +383,14 @@ loop vector (2, −4)).
 |---|---:|---|---:|---:|---:|---:|---:|
 | (1, 19), (0, 42) | 126 | 12, 111, 117 | 8 | 977 | 0 | 25.7572 ± 0.0320 | 20.0 on 7 |
 | (1, 20), (0, 44) | 132 | 12, 121, 133, 133 | 8 | 293 | 0 | 26.9057 ± 0.0584 | 12.0 on 7 |
-| (1, 18), (0, 40), the CPU second code, interim at 12:30Z | 120 | 12, 103, 103 | 12 | 613 | 0 | 24.5939 ± 0.0404 | 18.3 on 11 |
+| (1, 18), (0, 40), the CPU second code | 120 | 12, 103, 103 | 12 | 716 | 0 | 24.5969 ± 0.0374 | 17.6 on 11 |
 
-- **The second code does not reproduce the card's 120-cell value.** `fr.c` has 24.594 ± 0.040 after 492 thread-hours
-  (the run ends about 19:30Z on 2026-11-20); the card has 24.5086 ± 0.0169. They are 0.085 ± 0.044 apart (1.9 errors).
+- **The second code does not reproduce the card's 120-cell value.** `fr.c` has 24.597 ± 0.037 after 576 thread-hours
+  (716 deaths, finished 19:29Z on 2026-11-20); the card has 24.5086 ± 0.0169. They are 0.088 ± 0.041 apart (2.2 errors).
   The CPU value sits on the line through the 84-, 96- and 108-cell tubes (24.589 ± 0.010). If both are right the
-  pooled value is 24.521 ± 0.016.
+  pooled value is 24.524 ± 0.015 (the fits below used 24.521 ± 0.016, from the interim CPU value). Whether the card drew
+  low or the codes differ at this size is not known; the CPU now runs the 108-cell tube, where the card has ± 0.009
+  (`PREDICTIONS.md` block 12).
 - **The longer tubes lie between the straight line and the falling slope I forecast.** The 126-cell tube is 0.044 ±
   0.034 below the line (25.801) and 0.072 above my forecast; the 132-cell tube is 0.107 ± 0.060 below the line (27.013).
 - **What survives [measured]: the slope of the 12-tube goes on falling, gently.** With the pooled 120-cell value,
