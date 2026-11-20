@@ -532,6 +532,17 @@ _Last updated 2026-11-14 by the lead._
   ~1,500 more replications at 108 cells would show the tail directly. Pull request 39 itself is still not to be
   merged as it stands.
 
+  **2026-11-20: the 120-cell tube's drop is not confirmed** (the card session's own correction; notebook
+  2026-11-20, CLAIMS WL11 qualified, open problem 9 (q)). Its chain 5 runs about 48 hours (eight new seeds at 120
+  cells, eight more at 126); its seeds scatter more than counting allows, not understood. Owed when it reports:
+  score its block 11, re-read W14 to W16, and correct the site and the overview page (Version 19 still shows the
+  drop as found). **Usage, by the card session's reading at 12:33 UTC 2026-11-20: weekly all models 51%, Fable
+  86%, reset 2026-11-25 11:00 UTC** (the other session read Fable at 84% at 20:19 UTC on the 19th). Ceiling 95%:
+  the lead takes no turn that is not forced, starts no agents, and both other sessions are quiet. Also owed, in
+  this order when the window allows: the other session's aa3d7a3 (its report text after the depth series), the
+  density control (coins at the replaced layer's density; its forecast is frozen in `noisy/PREDICTIONS.md` block
+  4), the Lean pass, a review of `strips/`.
+
   **A sustained Fable agent on open problem 13 (can anything carry a signal?) was started 07:16 UTC** at the
   owner's suggestion (`research/signals/`: README is its standing account, the lead's forecasts S1–S5 in
   PREDICTIONS.md). When it hands back: read its README, have a second agent try to break any positive finding,

@@ -4284,3 +4284,33 @@ and 22:16 UTC 2026-11-18). The lead repeated its depth series with the rebuild's
   increments depend on the size of the face; the author's on-against-off replications were not re-run with `nb`.
 - **Bears on the owner's journal** (the isolation note): the isolation of a face from what lies under it now has a
   measured profile, two layers deep for most of it and gone by the sixth.
+
+
+## 2026-11-20: correction: the 120-cell tube's drop below the straight line is not confirmed
+
+Corrects the entry of 2026-11-18 ("the 120-cell tube is 24.5086 ± 0.0169, four errors below the straight line") and
+CLAIMS WL11. Source: the card session's own correction, `research/gpu-local/README.md` ("Chain 4") and
+`research/gpu-local/PREDICTIONS.md` (blocks 9 and 11) on `origin/claude/gpu-local-1080` at e9f188b. The lead read
+that account and did not recompute it from the rows.
+
+- **[measured; the second code] The CPU code does not reproduce the card's value.** `fr.c` at 120 cells, interim
+  at 12:30 UTC: 24.594 ± 0.040 (613 deaths, 12 seeds) against the card's 24.5086 ± 0.0169: 0.085 ± 0.044 apart, 1.9
+  errors. The CPU value sits on the line through the 84-, 96- and 108-cell tubes (24.589 ± 0.010). Pooled, if both
+  are right: 24.521 ± 0.016.
+- **[measured; one code] Two longer tubes of the same family** (the card's chain 4, no firewall, no kind-5 life):
+  126 cells (1, 19), (0, 42): 25.7572 ± 0.0320 (977 deaths); 132 cells (1, 20), (0, 44): 26.9057 ± 0.0584 (293
+  deaths). They are 0.044 and 0.107 below that line and above the card's falling-slope forecasts.
+- **What survives:** the 12-tube's price per cell falls gently with length. With the 120-cell values pooled, the
+  slope from 108 cells up is 0.1979 ± 0.0011 against 0.2013 ± 0.0008 (96 to 108). Not the 0.1957 ± 0.0016 of the
+  earlier entry, and the statements built on it are withdrawn until chain 5 reports: "four errors below the
+  straight line", "below 0.2004", and "all nine forecasts for the 120-cell tube were high" (the other session's
+  forecasts, 24.56 ± 0.03 to 24.60 ± 0.07, agree with the CPU value).
+- **A caution on every error at these sizes.** The eight seeds at 126 cells scatter more than counting allows (χ²
+  20.0 on 7, p 0.006): one run has 161 deaths against 102 to 133 in the others, spread evenly through the run, so
+  not a burst. The CPU seeds at 120 cells scatter too (18.3 on 11). Errors may be too small by up to 1.7. Not
+  understood. A seed whose rate is steadily different for a whole run means something set at the start persists
+  for the run and changes the face's death rate; that would be a finding in itself.
+- **Running:** the card's chain 5 (eight new seeds on the 120-cell tube, then eight more on the 126), forecasts
+  pushed first (block 11), about 48 hours from 2026-11-20.
+- **Not checked by the lead:** any of these numbers from the rows; the CPU run's final value (it ended about 19:30
+  UTC on 2026-11-20). The site and the overview page (Version 19) still show the drop as found.

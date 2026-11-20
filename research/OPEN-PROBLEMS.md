@@ -137,7 +137,9 @@ how sure we are, and what would settle it. Remove an item when it is settled (an
    left dies less often than a wrapped one (0.77 against 0.86 at one cell; not the bust, not the rim row; the
    layer beneath is fuller under a hull face); (q) why a tube, over-full as often as a wide face, dies 1.25 times
    as often at 84 cells (its halves crash apart twice as often): the other session's fit for the tube's price
-   failed at 120 cells; (r) why fresh coins under a hull face lengthen its life: directly under it they nearly
+   failed at 120 cells (2026-11-20: withdrawn for now; the card's 120-cell value is not reproduced by the second
+   code, which sits on the straight line and inside that fit's forecasts; and seeds at 120 and 126 cells scatter
+   more than counting allows, which is not understood: notebook 2026-11-20); (r) why fresh coins under a hull face lengthen its life: directly under it they nearly
    double it, the first two layers carry five sixths of the effect, six layers down nothing is left (CLAIMS X4, X5,
    X7; notebook 2026-11-18 and 2026-11-19, noisy hull). The control is not run: coins at the density of the layer
    they replace. A sampler for faces beyond brute force exists, is exact at 45, 63 and 84 cells, and its error at
