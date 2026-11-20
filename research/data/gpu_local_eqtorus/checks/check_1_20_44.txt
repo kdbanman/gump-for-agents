@@ -1,0 +1,12 @@
+=== check 1 20 44 2026-11-19T12:15:53Z
+diag (-1, 1, 1): period 4 (2 layers of [528] cells), neighbour-consistency violations 0, period = gcd of generator values: True
+diag (1, -1, 1): period 16 (8 layers of [132] cells), neighbour-consistency violations 0, period = gcd of generator values: True
+diag (1, 1, -1): period 4 (2 layers of [528] cells), neighbour-consistency violations 0, period = gcd of generator values: True
+CHECK OK
+cuts: {1: None, 2: 396, 3: None} nodes 1056
+torus (1,20),(0,44) x8: GPU [shared WB=2 J=2 blocks=40] vs engine torus 44 (x44), 2000 gens x 5 lanes: all equal
+torus (1,20),(0,44) x8: GPU [shared WB=2 J=4 blocks=20] vs engine torus 44 (x44), 2000 gens x 5 lanes: all equal
+torus (1,20),(0,44) x8: GPU [global WT=1024] vs engine torus 44 (x44), 2000 gens x 5 lanes: all equal
+torus (1,20),(0,44) x8 [control shift]: GPU [shared WB=2 J=4 blocks=20] vs engine torus 44 (x44), 300 gens x 5 lanes: 1500 mismatches, first at generation 1
+torus (1,20),(0,44) x8 [control flip]: GPU [shared WB=2 J=4 blocks=20] vs engine torus 44 (x44), 300 gens x 5 lanes: 1500 mismatches, first at generation 1
+ALL OK
