@@ -191,3 +191,30 @@ billed by the hour, no limit."
 - Chain 5 is on the card as above (two of its sixteen runs done at 19:29Z on 2026-11-20).
 - **Usage:** weekly Fable 87%, all models 52% at 19:29Z on 2026-11-20. The same rule: no turn that a notification
   does not force, no subagent.
+
+## Addendum, 2026-11-21T17:34Z: both chains stopped at the owner's request; how to resume
+
+- The owner, 2026-11-21 about 17:25Z: "is there any way the state can be captured so that they could be resumed? i
+  would like to use those resources for something else for a bit". Both chains were stopped at 17:30Z. **Nothing is
+  running. Do not restart anything until the owner says the card and the CPU are free again.**
+- Nothing needed capturing: every run is an independent seed. Rows on file are complete runs. Scored as far as
+  they went in `PREDICTIONS.md` block 13; README "Chain 4", last bullet.
+- **To resume on the card** (21 hours; the script commits and pushes its rows at the end):
+  `bash research/scratch/gpu-local/chain5b.sh > research/scratch/gpu-local/chain5b.log 2>&1` in the background.
+  It runs `eqtorus.py check 1 19 42`, then `eqtorus.py run 1 19 42 180 SEED max_launch=262144 raw_cap=3000000` for
+  SEED = 12619022 to 12619028 (new numbers: 12619012 and 12619013 were cut off). If the script is gone, those
+  commands are all of it. Owed after: `eq_analyze.py 1 19 42 save`, score block 11's 126-cell lines.
+- **To resume on the CPU** (48 hours, 12 threads; commits and pushes its rows at the end):
+  `bash research/scratch/gpu-local/chain_cpu2b.sh > research/scratch/gpu-local/chain_cpu2b.log 2>&1` in the
+  background: `python -u research/gpu-local/cpu/fr.py run 1 18 40 48 32100 threads=12`. Owed after: `fr.py summary
+  1 18 40`, score block 12's last line.
+- **A trap met while stopping:** stopping the background task did not stop the chain. The top-level `bash.exe` kept
+  running and started the next seed each time a child was killed, and the CPU script went on to commit and push.
+  What worked: find the two oldest `bash.exe` (start times equal to the chains' start lines in their logs) and
+  `taskkill /PID <pid> /T /F` each, then check that no `python.exe` with `eqtorus.py` or `fr.py` in its command
+  line and no `fr.exe` is left, and that `nvidia-smi` shows the card idle.
+- **Open and not understood:** seeds scatter more than counting allows on every tube of 120 cells or more, on both
+  codes (README "Chain 4", last bullet). Worth a look before more seeds are bought: per-run death counts against
+  the opening soups, and whether the second code's lanes within one thread are independent.
+- The lead has not been told of chain 5 or of the stop (weekly Fable 88% at 17:30Z on 2026-11-21, reset 2026-11-25
+  11:00Z). Its queue file had no new note at the last fetch (12:33Z on 2026-11-20).

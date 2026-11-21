@@ -413,6 +413,29 @@ loop vector (2, −4)).
 - Not checked: no second code at 126 or 132 cells; whether a run's rate depends on its 2,560 opening soups; the
   hazard by age beyond 0.05 of the face time (no life is older).
 - Chain 5 (`PREDICTIONS.md` block 11) puts eight new seeds on the 120-cell tube and eight more on the 126-cell tube.
+- **After chain 5 and the CPU's 108-cell run (stopped early on 2026-11-21 at the owner's request; `PREDICTIONS.md`
+  block 13):**
+  - The card's eight new seeds at 120 cells give 24.550 ± 0.017 by themselves, between its first eight (24.509) and
+    the second code (24.597). All sixteen: **24.5291 ± 0.0120** (6,893 deaths). The second code is 0.068 ± 0.039
+    above that (1.7 errors). The first eight were a low draw of about 1.7 errors.
+  - The two codes agree at 108 cells: `fr.c` 22.1565 ± 0.0153 (4,259 deaths), the card 22.1599 ± 0.0086. So there is
+    no sign of a difference between the codes that grows with the face.
+  - The 126-cell tube has nine seeds: 25.7691 ± 0.0303.
+  - With these, the chords are 0.1974 ± 0.0012 (108 → 120), 0.207 ± 0.005 (120 → 126), 0.189 ± 0.011 (126 → 132), and
+    0.1978 ± 0.0025 from 108 to 132 cells. The line through 84, 96 and 108 cells is 0.060 ± 0.016, 0.032 ± 0.033 and
+    0.107 ± 0.060 above the three long tubes. The gentle fall stands; nothing sharper does.
+  - **Seeds scatter more than counting allows on every tube of 120 cells or more, on both codes.** χ² of the seeds:
+    the card 27.9 on 15 (120 cells; the first eight 4.4 on 7, so the new eight carry it), 21.4 on 8 (126), 12.0 on 7
+    (132); `fr.c` 17.6 on 11 (120) and 18.7 on 11 (108). Together 97.6 on 52 (p about 10⁻⁴). The faces up to 108
+    cells on the card do not show it (10.0 on 7, 6.8 on 7, 6.0 on 9; `fr.c` at 96 cells 7.1 on 11). I have no
+    explanation. Independent replicas that restart at each death cannot give more scatter than counting, so either
+    the replicas of one run are not independent or something varies from run to run; deaths are not bunched in time
+    within a run (`deaths_in_time.py`, checked on the first eight 120-cell seeds and the first eight 126-cell seeds
+    only). Until this is understood, read the errors of the tubes of 120 cells and more as too small by about 1.4
+    (the square root of 97.6 / 52).
+  - To finish what was stopped: `bash research/scratch/gpu-local/chain5b.sh` (seven more 126-cell seeds on the
+    card, 21 hours) and `bash research/scratch/gpu-local/chain_cpu2b.sh` (the second code at 120 cells, 48 hours on
+    12 threads). Both are in `AGENT.md` in full.
 
 ## The asymmetric hull face (queue item 3) [measured]
 

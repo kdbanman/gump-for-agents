@@ -386,3 +386,19 @@ deaths, **24.5969 ± 0.0374** (seeds' χ² 17.6 on 11). I expected about 760 dea
 - The second code within two combined errors of the card at 108 cells: 90%. More than 0.03 above the card: 6%.
 - The new CPU seeds at 120 cells below the first twelve's 24.597: 70%.
 - Seeds' χ² at 108 cells below 19.7 on 11 (the 95% point): 92%.
+
+## 13. Blocks 11 and 12 scored as far as the runs went (both chains stopped at the owner's request) (2026-11-21T17:34Z, HEAD a433c53)
+
+The owner asked for the card and the CPU on 2026-11-21 at about 17:30Z. Both chains were stopped then. The rows on
+file are complete runs only (a card run writes its row at its end; the CPU code writes one every 15 minutes).
+
+- **Block 11, the 120-cell tube again on the card:** the eight new seeds alone give 24.550 ± 0.017 (3,399 deaths);
+  I said 24.545 ± 0.030. "Above the first eight's 24.5086" (80%): yes. "Above 24.589" (8%): no. All sixteen seeds:
+  **24.5291 ± 0.0120**, seeds' χ² 27.9 on 15. Kind-5 lives none, firewalls none: as forecast.
+- **Block 11, the 126-cell tube:** one of the eight new runs finished (seed 12619011, 110 deaths); two were cut off
+  and left no row. Nine seeds: 25.7691 ± 0.0303, χ² 21.4 on 8. Not scored until the other seven are run.
+- **Block 12, the second code at 108 cells:** 21.75 of the 24 hours ran: 4,259 deaths, **22.1565 ± 0.0153**, seeds'
+  χ² 18.7 on 11. I said 22.165 ± 0.014 from about 8,000 deaths: the value is 0.6 of an error away, and I had the
+  death rate too high by 1.7. "Within two combined errors of the card's 22.1599 ± 0.0086" (90%): yes, −0.003 ±
+  0.018. "More than 0.03 above the card" (6%): no. "χ² below 19.7 on 11" (92%): yes, by 1.0.
+- **Block 12, the second code at 120 cells again:** not run (stopped seconds after it began; no row).

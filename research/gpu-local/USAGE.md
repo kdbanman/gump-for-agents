@@ -26,3 +26,4 @@ window is not listed by the reading on this plan. Weekly windows reset 2026-11-1
 | 2026-11-18 19:20 | not listed | 37% | 67% (CPU chain ended; a 48-hour second-code run on the 120-cell tube starting; no subagents) |
 | 2026-11-20 12:33 | not listed | 51% | 86% (chain 4 ended; chain 5 starting; the CPU second code at 120 cells runs to 19:30Z; no subagents) |
 | 2026-11-20 19:29 | not listed | 52% | 87% (CPU second code at 120 cells ended; CPU chain 2 starting; chain 5 on the card; no subagents) |
+| 2026-11-21 17:30 | not listed | 55% | 88% (both chains stopped at the owner's request; nothing running) |
