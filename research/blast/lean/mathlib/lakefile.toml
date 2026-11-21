@@ -1,0 +1,14 @@
+name = "gumpmath"
+defaultTargets = ["GumpMath"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.36.0"
+
+[[require]]
+name = "gump"
+path = ".."
+
+[[lean_lib]]
+name = "GumpMath"

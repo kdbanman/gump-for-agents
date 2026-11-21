@@ -49,6 +49,16 @@ after its own check; the PI never merges it.
   included, by proving them. A brief to an agent names the summit, not the first ledge. And: comments by the lead
   on the pull request come from the same GitHub account as this session's and do not wake it, so the pull
   request is polled by scheduled check-ins.)
+- 2026-11-18, about 18:22 UTC, in answer to the PI's question about a usage ceiling: "for now, let's hold off on
+  blast/swarm usage rates.  subagents are still allowed, just not big pushes." and "but on the last day before
+  usage resets, you can do another blast up to 0.96 of fable usage, and 0.9 of total usage, whichever comes
+  first.  (feel free to use opus subagents too)."
+  (How the PI reads it: the 50% target of 10:05 UTC is replaced. Until 2026-11-24 11:00 UTC: an ordinary pace, at
+  most two subagents at a time, Opus by preference so that the Fable window is kept for the last day, and the PI
+  stops interim spending of its own if the Fable window passes 0.60. From 2026-11-24 11:00 UTC to the reset at
+  2026-11-25 11:00 UTC: a blast, stopping at 0.96 of the Fable window (`seven_day_overage_included`) or 0.90 of
+  the all-model window (`seven_day`), whichever comes first. Opus is allowed on Agent calls from now on; xhigh on
+  solvers and referees stands.)
 
 ## Usage and context
 
@@ -64,36 +74,67 @@ after its own check; the PI never merges it.
   without warning: after every milestone bring this file up to date ("State"), and within 60,000 tokens of the
   threshold do it at once.
 
-## State (overwritten; last written 17:28 UTC 2026-11-18)
+## State (overwritten; last written 20:30 UTC 2026-11-19)
 
-- **The blast is closed.** The owner at about 14:55 UTC: "Anything to finish or document here? We can do another
-  blast at a later date, but for now let's see what you found!" Nothing is running: no agent, no job. Start none
-  without the owner's word.
-- **Usage at 13:56 UTC: Fable window 0.39, weekly 0.20** (PI turns only since then).
-- **Last job, ended 16:37 UTC:** the noisy hull's blind test at 108 cells, complete. Final numbers are in the last
-  second-phase entry of `REPORT.md` (weighted mean +0.069 +- 0.025 above gump; intercept at zero noise -0.025 +-
-  0.083) and in the short version; `noisy/PREDICTIONS.md` block 2 and the PI's block 5 items 5 and 6 are scored.
-  The 135-cell runs were not started and the 135-cell face stays open.
-- **After the closing message the owner asked whether the theory is amenable to Lean.** Answered in chat, not in
-  the repository: T1 to T4 easy in core Lean, T5 and T6 moderate, the dice-surrogate theorems possible with weeks
-  of work, the measured laws not until there is a paper proof. Installing Lean here was refused by the session's
-  permission layer and was not worked around; nothing was machine-checked.
-- **For a later blast** (the PI's list): a thick corner-free strip by a sampler or on the card ((6 unit rows,
-  L = 6), about 24; (5 unit rows, L = 7), about 23.6); the 126- and 132-cell tubes against block 7; the noisy
-  chain's own offset at 84 cells by brute force (`prod_A_brute84.sh`); a referee for `noisy/` and for `strips/`;
-  T1 to T3 in Lean if the owner allows the install; what the audit left unchecked (its section 9).
-- **Pull request 36 was merged at 14:17 UTC** (head db1791c) after the outside audit
-  (`research/audit/REVIEW-blast.md`: mechanism confirmed by a rebuild; three statements qualified, which
-  `REPORT.md` now carries in its entry of 16:40 UTC). The commits after the merge (the interim and final 108-cell
-  numbers, the audit entry, this state) are in a **second pull request, kdbanman/gump-for-agents#39,** from the same branch, with `main` merged
-  in (no rebase, no force push). The lead merges it; this session does not.
-- **This session is subscribed to pull request 39** (since 17:27 UTC; events arrive as turns). On an event: answer
-  a question or a challenge on the pull request in depth, from the files, with the command behind each number;
-  fix what a review shows to be wrong in `research/blast/` (small, own paths), commit and push; anything larger,
-  or anything that asks for runs, agents or access, goes to the owner first. If the subscription rules are not in
-  context, call `subscribe_pr_activity` again before acting.
-- Not done: `research/check.sh` not run on the blast; no figures; nothing of the second phase has been recomputed
-  by the lead or the audit.
+- **Open again, on the owner's word of about 17:50 UTC** (quoted above): Lean, at full ambition, and in-depth
+  discussion on pull request 39. Before that the owner had closed the blast (14:55 UTC).
+- **Usage at 19:34 UTC: Fable weekly window 0.68, all-model weekly 0.38** (0.48 and 0.25 at 18:09); resets
+  2026-11-25 11:00 UTC; shared with the lead's session, whose rebuild is running. It passed the PI's own interim
+  stop of 0.60, so **from 19:39 UTC: no new agents and no new work of the PI's own until 2026-11-24 11:00 UTC or
+  the owner's word**; only what is owed (the `diag2.sh` rows to the lead; answers on the pull request, polled a
+  few times a day). The PI's own turns are costly while its context is large: keep them few and batched.
+  **The last-day blast** (the owner, 18:22 UTC): from 2026-11-24 11:00 UTC, stopping at 0.96 Fable or 0.90
+  all-model; a scheduled wake is set for 11:05 that day.
+- **Both Lean agents have reported and are integrated** (head ca137e7 for `lean/`): 74 theorems in core Lean,
+  12 in `mathlib/`; `sh research/blast/lean/check.sh [--long] [--mathlib]`; `lean/STATEMENTS.md` (50 rows, from
+  `statements.py`: add a row there for every new headline theorem); `lean/README.md` holds the table and the climb,
+  with the lead's pointers for the catalogue laws as line 2b. Open ends are listed in the README's line 1 and in
+  the agents' reports (not kept): `set36` not compared with `sealed.py`'s set; T5 not on tori; `gumpcheck`'s I/O
+  unproved; concurrent `lake build`s in one tree can delete each other's `.olean` files.
+- **For the last-day blast, in this order of value** (the PI's list): the 9-cell hull triangle of the dice
+  surrogate with a certified two-sided rate (the first lifetime theorem; `mathlib/GumpMath/Certificate.lean` is the
+  tool); the tape theorem and the gun's line for every N (line 2b); the unzip and call laws; both exits and the
+  price as theorems; a sampler for the noisy hull that moves the initial state; the thick strips and the 126- and
+  132-cell tubes of the earlier list.
+- **Pull request 39** (title and text rewritten 20:53 UTC): the lead's rebuild has reported (comments of 19:37 and
+  19:49 UTC: chain and sampler confirmed; the weighted mean withdrawn for the equal-weight value, +0.009 +- 0.044
+  from gump at 108 cells; the limit is the unmoved initial state). The lead has b80248c merged and f069674
+  cherry-picked in its branch (pull request 40); **1eaddfc is named as the next answer commit**. The Lean part is
+  a second pass, deferred with a review of `strips/` (no Fable agents on either side for now). Eleven comments by
+  20:53 UTC, the last is the PI's. Poll with `get_comments`, `perPage` 1, `page` 12 upward, and count the pages
+  (a miscount hid two of the lead's comments for an hour).
+- **2026-11-19, 08:20 UTC (sparse poll):** no new comment on pull request 39 (twelve, the last the PI's). The
+  lead's pull request 40 is merged: `main` holds b80248c, f069674 (as 4866569) and the lead's review of `noisy/`
+  (`research/audit/REVIEW-blast-noisy.md`). `main` was merged into this branch (conflicts in `REPORT.md` and
+  `noisy/PREDICTIONS.md` resolved to this branch's versions, which hold everything `main` has). Not yet on `main`:
+  1eaddfc and b4bc3a4 (named to the lead) and all of `lean/`. Next poll about 20:20 UTC.
+- **2026-11-19, 20:30 UTC (second sparse poll): usage is now the binding fact. Fable window 0.84, all-model 0.48**
+  (0.71 and 0.39 at 22:16 UTC on the 18th; it rose 0.06 over the day with this session idle, and one poll of this
+  session costs about a point because its context is large). **Polling is stopped**: no further scheduled polls;
+  the lead's comments are read at the last-day wake (2026-11-24 11:05 UTC) or when the owner writes. **For the
+  blast: 0.12 of the Fable window is left at most, 0.42 of the all-model one. So the blast runs on Opus
+  subagents, with the PI's own turns as few and as batched as possible; ask the owner to compact this session
+  before it starts.** The lead's comment of 08:54 UTC (the thirteenth): the depth series repeats on its code
+  (ledger X7), a correction to the PI's "0.7 per layer" (written into `REPORT.md`), the odd sweeps closed, 1eaddfc
+  and b4bc3a4 on `main` through pull request 41 (merged; `main` merged into this branch cleanly), and a control it
+  offers to either side: coins at the replaced layer's own density (open problem 9 (r); forecasts frozen in
+  `noisy/PREDICTIONS.md` block 4; not run; first item for the blast's CPU, design in `noisy/README.md`). The PI's
+  reply is the fourteenth comment. The Lean pass and a review of `strips/` stay deferred by the lead.
+- **Nothing is in flight** (22:16 UTC). `diag3.sh` ended: on minus off at 84 cells is -0.001 +- 0.014 (1,150 and
+  1,040 replications), so the odd sweeps are cleared; written into `REPORT.md` and `noisy/README.md` and named to
+  the lead as the third answer commit. Until 2026-11-24 11:00 UTC: answer the lead on the pull request (poll a
+  few times a day, `get_comments` `perPage` 1 from `page` 13), nothing else.
+- **New this evening, in `REPORT.md`** (entry of 20:53 UTC): the depth series (coins at depth >= d under a 63-cell
+  face at rate 1/4: -0.005, +0.019, +0.054, +0.101, +0.304, +0.674 for d = 6 .. 1): one code, one seed a row.
+- **Lean** (`research/blast/lean/`, `README.md` there = the aim and the climb; `sh research/blast/lean/check.sh`).
+  Lean 4.36.0 via elan in `~/.elan` (`export PATH=$HOME/.elan/bin:$PATH`; if the container was rebuilt, reinstall:
+  `curl -sSf https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh | sh -s -- -y --no-modify-path`).
+  Done: Basic, Layers (T1), Sealed (T2, T3 both halves, T4, hull, sealed lemma, union), Finite + Check (the rule
+  against the oracle and the 2012 logs); `mathlib/` (Mathlib v4.36.0 fetched, 7 GB in `.lake`, not in git):
+  `Certificate.lean` (upper and lower survival certificates for a killed chain) and `Threshold.lean` (T5).
+- **Language** (the owner, 17:50 UTC): goals at full size; estimates and obstacles as facts or hypotheses only.
+  Every brief and every README written from now on is read once against that before it goes out.
+- Not done: nothing of the second phase or of `lean/` has been recomputed or read by the lead or a referee.
 
 ## Results that are easy to misremember (all in `REPORT.md`)
 
@@ -129,6 +170,8 @@ after its own check; the PI never merges it.
   the PI once briefed an agent to redo what `rim/` had done.
 
 ## Session-private ids (valid only in this session; an agent resumed by id keeps its context)
+
+Second-phase Lean agents (Opus): lean-thickness a4e16ed4e4f3a8c9b · lean-link a27ca9c827a98f418.
 
 split-slab a6cf747f951a40794 · split-hull a3569cf285a0ef651 · tube1d aa106621bb873fec2 · anatomy a94ca87ca9da97616 ·
 rim ab5a56882ea42ba61 · image ab0b5ef769471d467 · model ad6a0e85503ffe25e · rigour a2335f9a30eb2ed29 · ref-anatomy

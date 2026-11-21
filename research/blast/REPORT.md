@@ -60,8 +60,10 @@ section).**
   at 108 cells; it does not reach the 135-cell face. The extrapolations stand at 29.20 to 29.22 ± 0.03, against
   29.230 and 29.163.
 - **Noise under a face lengthens its life, and only the near layers matter** (63 cells, coins at rate 1/4 from
-  depth d down): nothing at d = 6, +0.02 at 5, +0.05 at 4, +0.10 at 3, +0.30 at 2, +0.67 at 1 (in ln τ, each
-  ± 0.012 to 0.016; one code, one seed a row). The lead's rebuild has the d = 6 null at 45, 63 and 84 cells.
+  depth d down; two codes, this session's and the lead's rebuild, agreeing row by row): pooled, +0.003, +0.023,
+  +0.040, +0.112, +0.315, +0.670 in ln τ for d = 6 … 1 (each ± 0.008 to 0.011). The two layers a face cell touches
+  carry five sixths of it. Why coins lengthen a life and never shorten it is not known: the control that would
+  say (coins at the replaced layer's own density) has not been run.
 - New small facts: thin strips and narrow tubes are cut across by firewalls before a face dies; a tetrahedron of
   gump has no steady state (its corners are shaved off); the 18-cell hull face lives 4.855 ± 0.015 and is too
   small to belong to the family.
@@ -305,6 +307,22 @@ a wide face and a tube at 84 cells). Read by the PI at 16:40 UTC; nothing below 
 - Not checked by the audit (its section 9): anything above 84 cells on gump; `rim/`, `split-hull/`, `ref-hull/`,
   the dice chains and their samplers; and the whole of the second phase above, which it predates.
 
+### 18:07 UTC. Gump in Lean: the first theorems are machine-checked (`lean/`; unrefereed)
+
+On the owner's word of about 17:50 UTC ("go ahead and install lean, and start work in its direction"). Lean 4.36.0.
+- [proved, machine-checked] In core Lean, no Mathlib: the lattice and the rule; **T1** (layer histogram); "a dead
+  sealed set stays dead whatever happens elsewhere" and "unions of sealed sets are sealed" (the opening of **T6**);
+  **T2** (octahedral confinement) and the diagonal hull; **T3** (firewall), both halves; **T4** (closed slabs). No
+  `sorry`; axioms `propext`, `Classical.choice`, `Quot.sound` only. T2 and T3 are two instances of the sealed-set
+  lemma. Reproduce: `sh research/blast/lean/check.sh`.
+- [measured] The Lean rule is gump: run by a stepper that evaluates the verified `step`, it prints the four 2012
+  closed-cube logs in `reference/golden/` line for line (side 11 through its 4,218 generations, with `--long`) and
+  equals `reference/oracle.py` state for state on three soups for 60 generations; a corrupted state is caught.
+- The aim and the climb are in `lean/README.md`: every theorem of the project checked, and the measured laws
+  turned into theorems, the face law with its constant included.
+Not checked: no second agent has read the Lean statements against `docs/AUTOMATON.md`; that the stepper misses no
+birth is argued, not yet proved in Lean.
+
 ### 19:37 UTC. The noisy hull's sampler under the review's questions: the tail, the families, the odd sweeps (`noisy/`; the lead's rebuild is still to report)
 
 Asked by the lead on pull request 39. Rows: `research/blast/noisy/data/runs_diag/` (from `sh research/blast/noisy/diag.sh`).
@@ -364,9 +382,15 @@ the median; those carry 8% of the summed rate; the ε = 1/16 sample met none.
 
   Coins under a face lengthen its life, never shorten it. The two layers a face cell touches (T1: two
   neighbours one layer down, one neighbour two layers down) carry +0.37 and +0.20; each layer below adds about
-  0.7 of the one above it (+0.047, +0.035, +0.024), and the sixth is at the noise. [conjectured] That is the same
+  0.7 of the one above it (+0.047, +0.035, +0.024), and the sixth is at the noise. **Corrected 2026-11-19 by the
+  lead's repeat on a second code and other seeds** (`sh research/audit/blastnoisy/depth.sh`; its rows agree with
+  these, χ² 7.1 on 6): pooled, the layers add +0.355 ± 0.015, +0.203 ± 0.013, +0.072 ± 0.012, +0.017 ± 0.012,
+  +0.020 ± 0.012 from the first down, so "0.7 of the one above" was this seed; the ratios are 0.57, 0.35, then
+  noise. What stands: the two layers a face cell touches carry five sixths of the effect, the third a tenth,
+  the fourth and fifth together +0.04 ± 0.02. [conjectured] That is the same
   sign and size as the night's dice chain's offset (coins everywhere under six layers: +0.024 at 63 cells), and it
-  says what a surrogate under a face must get right: the first two layers exactly, the next three approximately.
+  says what a surrogate under a face must get right: two layers exactly, the third roughly, and below that it
+  hardly matters.
 Not checked: the depth series has one code and one seed a row, and the region's size changes with d (57 to 132
 cells); the 84-cell brute force at ε = 1/16 (block 3, item 1) has not been run by anyone; no second seeds.
 
