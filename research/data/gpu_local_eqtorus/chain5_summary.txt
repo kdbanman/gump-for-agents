@@ -1,0 +1,4 @@
+torus (1,18),(0,40) x8 A = 120: 16 runs, exposure 1.55e+14, face deaths 6893, firewalls 0, guard 0 (their exposure 0.00e+00 of the total)
+  ln tau_face = 24.5291 +- 0.0120
+torus (1,19),(0,42) x8 A = 126: 8 runs, exposure 7.5e+13, face deaths 977, firewalls 0, guard 0 (their exposure 0.00e+00 of the total)
+  ln tau_face = 25.7572 +- 0.0320
