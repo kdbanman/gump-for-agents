@@ -43,12 +43,14 @@ def main():
         r = load(p)
         if r:
             rows[os.path.basename(p)[:-4]] = r
-    gumps = {"9": [rows[t] for t in rows if t.startswith("r9_gump_s96")], "11": [rows["gump_R11_s1001"]] if "gump_R11_s1001" in rows else []}
+    gumps = {"9": [rows[t] for t in rows if t.startswith("r9_gump_s96")], "11": [rows[t] for t in rows if t in ("gump_R11_s1001", "gump_R11_s1206")]}
     for R in ("9", "11"):
         if not gumps[R]:
             continue
         g = stats(gumps[R])
         print(f"R = {R}: my gump ln tau {g['lt']:.4f} +- {g['er']:.4f} ({g['D']:.0f} deaths); dips {g['dips']:.4e}, deadliness {g['dead']:.5f} +- {g['edead']:.5f}, P1 {g['P1']:.4f} +- {g['eP1']:.4f}")
+        for r in gumps[R]:
+            q = stats([r]); print(f"    one gump seed: ln tau {q['lt']:.4f} +- {q['er']:.4f}, dips {q['dips']:.5e} (+- {q['dips'] / math.sqrt(q['dn']):.1e} if Poisson), deadliness {q['dead']:.5f}, P1 {q['P1']:.4f}")
         for t, r in rows.items():
             if not t.startswith(f"full{R}_"):
                 continue

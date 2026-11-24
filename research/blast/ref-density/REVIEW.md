@@ -247,3 +247,80 @@ Score: 21 hits, 1 miss (14), 1 half-wrong conjecture, 1 not blind (8). I was too
 - A full bath (every replaced cell fresh every generation); the decomposition's other order (no chain defines it).
 - Whether depths ≥ 2 or the layer's memory are what orders the chains (defect 1 says what it is not, not what it is).
 - 84 cells; any radius but 9 and 11.
+
+## Second review (2026-11-24, 17:04–17:40 UTC): the skin depth at full replacement (section 2 at commit 2d67675)
+
+Claim refereed: **a face with four real layers (the face and depths 1–3) over fresh independent coins dies at gump's
+rate and in gump's way; with three real layers it lives longer.** Column A only (coins at depth ≥ d under the watched
+face and ≥ 3 under the other seven), every coin fresh every generation at gump's mean density for its depth.
+
+**My chain** [`rd.c`, `RD_FULL=1`]: after every step, every cell of N in every lane whose life did not just end is set
+to a fresh coin of its depth's bias (a 32-bit half of a fresh xoshiro word < round(p 2³²)); the next step reads the
+coins; the faces are not in N. Validation: `python3 research/blast/ref-density/validate.py <rd> 1200` passes on the
+new binary (the stepper is untouched; the dart path's output is unchanged, same RESULT line on a 20,000-generation
+test); `RD_FULL=1 RD_FULLTEST=400 rd 9 run 778 1 0 3 <biases>` and `RD_FULLTEST=200 rd 11 run 779 1 0 4 <biases>`
+(`data/fulltest.txt`): from all-alive, all-dead and striped states the redrawn cells' density matches the bias at
+every depth (18 tests, |z| ≤ 2.2), the same test against bias + 0.01 fails (z −17 to −22), the covariances between
+neighbouring N cells, adjacent lanes and two successive draws of one cell are zero (|z| ≤ 2.1), and no cell outside
+N changes (0 of 10⁷ words). The region is theirs: |N| = 27 at R = 9, d = 4 (their 9 + 9 + 9) and 96 at R = 11 (their
+18 + 21 + 21 + 18 + 18). **Biases, my own measurement** (gump rows `r9_gump_s9001`, `gump_R11_s1001`): 45 cells,
+depths 3–6: 0.41448, 0.41678, 0.41677, 0.41448 (theirs 0.41451, 0.41679, 0.41679, 0.41451); 63 cells, depths 3–8:
+0.41490, 0.41655, 0.41565, 0.41564, 0.41655, 0.41490 (theirs 0.4150, 0.41650, 0.41570, 0.41570, 0.41650, 0.41499):
+agreement to 10⁻⁴. Rows: `RD_FULL=1 sh research/blast/ref-density/row.sh TAG R SEED GENS 0 d b:<biases>` (files
+`data/rows/full{9,11}_A_d*`); table: `python3 research/blast/ref-density/skin2.py`. My gump references, same code
+and estimator: 45 cells 9.8190 ± 0.0026 (two seeds; theirs 9.8177 ± 0.0036), 63 cells 13.6336 ± 0.0108 (two seeds).
+
+| row (column A) | theirs Δ | mine Δ (against my gump) | difference |
+|---|---:|---:|---:|
+| 45 cells, d = 3 | +0.169 ± 0.008 | +0.169 ± 0.005 (65,569 deaths) | 0.0σ |
+| **45 cells, d = 4** | +0.004 ± 0.007 | **+0.007 ± 0.004** (76,807) | +0.3σ |
+| 63 cells, d = 3 | +0.295 ± 0.023 | +0.311 ± 0.024 (2,247) | +0.5σ |
+| **63 cells, d = 4** | +0.016 ± 0.012 | **+0.013 ± 0.018** (4,840) | −0.1σ |
+| 45 cells, d = 4, every bias −0.01 | — | +0.003 ± 0.004 | |
+| 45 cells, d = 4, every bias +0.01 | — | +0.001 ± 0.004 | |
+| 63 cells, d = 4, every bias +0.01 | — | +0.019 ± 0.021 | |
+
+Way of dying at d = 4, against my gump in my code (dips = descents from ≥ H to ≤ H − 1 per lane-generation, H = 11
+and 16; deadliness = share of them that die before the face is back at H; P₁ from ≤ 1 cell):
+
+| | d ln dips | d ln deadliness | P₁ (gump) |
+|---|---:|---:|---:|
+| 45 cells, d = 4 (theirs +0.005, −0.004, 0.771) | **+0.0046 ± 0.0004** | −0.011 ± 0.004 | 0.7712 ± 0.0013 (0.7715 ± 0.0009) |
+| 45 cells, d = 4 at bias −0.01 / +0.01 | +0.0058 / +0.0041 | −0.008 / −0.005 | 0.7722 / 0.7714 |
+| 63 cells, d = 4 (theirs +0.002 and +0.001, +0.003 and −0.010) | +0.0016 ± 0.0005 | −0.015 ± 0.018 | 0.770 ± 0.005 (0.769 ± 0.004) |
+| 45 cells, d = 3 (theirs −0.055, −0.111) | −0.0554 | −0.113 | 0.7655 (gump 0.7715) |
+| 63 cells, d = 3 (theirs −0.088, −0.196) | −0.0877 | −0.223 | 0.768 |
+
+**Findings.**
+1. **The claim reproduces at both sizes** [measured]: four rows within 0.5σ, independent code, RNG, seeds and bias
+   measurement. Three real layers add +0.17 and +0.31; four add nothing measurable (+0.007 ± 0.004, +0.013 ± 0.018).
+2. **No tuning is hidden in "gump's mean density"** [measured at 45 cells, one row at 63]. Shifting every bias by
+   ± 0.01 moves Δ(4) by nothing measurable (+0.003, +0.007, +0.001 ± 0.004; slope −0.07 ± 0.31 per unit of density,
+   against ≈ 2.5–3 per unit for darts at d = 1). Below three real layers the coins' density hardly matters at all, so
+   the null result does not rest on matching it to four decimals.
+3. **"In gump's way" holds to 1%, not exactly** [measured]. At d = 4 the face dips more often: +0.46% at 45 cells
+   (11σ by counts; my two gump seeds differ by 0.10%, about Poisson, so the counting error is not much larger; the
+   same +0.4% to +0.6% in all three d = 4 rows at different biases, and +0.005 in the agent's independent row) and
+   +0.16% at 63 cells (3σ); the deadliness moves the other way (−1.1 ± 0.4% at 45 cells), so the life does not
+   change. A coin bath under three real layers leaves a resolved trace in the living face's excursions, too small
+   to show in the lifetime. The README's bound "|Δ ln dips| ≤ 0.005" is correct; "as frequent as gump's" reads as
+   stronger than what is measured.
+4. **The order "coins drawn, then the rule reads them" is the same in both codes and cannot matter** [read; proved].
+   Both do step → redraw N → face check, and the next step reads the coins (`step(); noise_full(); observe();` in
+   nzd.c). The rule's output on N is overwritten before any cell reads it, and N holds no face cell. So "draw, then
+   step" and "step, then draw" differ only in the first generation of each life (soup instead of coins), which lies
+   inside the 200 generations of ageing-in.
+5. **The coin stream of their skin rows** [read]. The 45-cell skin rows (seeds 9101–9104) and the 63-cell ones before
+   the agent's fix (7c64966) use the old second stream, in which consecutive seeds' coins are one sequence offset by
+   one word. At full replacement the consumption is fixed (16 words per cell and 64 lanes per generation), so the
+   d = 3 and d = 4 rows reuse each other's raw words at other cells and times. Each row is a valid sample of its
+   chain; the rows are not independent of each other in their coins. My independent rows reproduce them, so it did
+   not matter here.
+
+Forecasts (`PREDICTIONS.md`, block "Second review", committed 17:07:22, rows from 17:07:44): S1–S4 **hit** (0.0σ,
++0.3σ, +0.5σ, −0.1σ); S5 **miss** (P₁ and deadliness yes, the dips' frequency at 45 cells no: +0.46%, 11σ); S6 **miss**
+(I expected the density to matter a little below the skin; it does not, to ± 0.004).
+
+Not checked (second review): column B; d = 1, 2, 5, 6 at full replacement; d = 4 with darts (ε < 1); faces above 63
+cells; the bias shift at 63 cells beyond one row (+0.01 only, ± 0.021); the dips' overdispersion beyond two gump
+seeds per size; the agent's `cells.py`.
