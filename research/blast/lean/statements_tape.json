@@ -136,6 +136,11 @@
     "reader_run",
     "§15, `prove_reader.py`: capL of the clock eats every word of the B/C tape and remembers nothing: at every even generation, for every word, the state is capL and the tape moved on, cell for cell.",
     "Same, for every word w (any function from units to {B, C}; its letters on the units ≥ 0 are on the tape): `readerC w` (capL on the units < 0, `tape w` on the units ≥ 0) is at generation 2n `readerC` of w moved n units. One double step (`reader_step`) is tape windows on the units ≥ 2 and one kernel check per word on the units 0 .. 3 (`readerOK_ok`, the source's 16 closed states). The source's `--U 4` variant and other caps in the census (`readers.py`) are not covered."
+   ],
+   [
+    "reader9_run",
+    "`REVIEW-signals-9.md` §3, what is left (ii): whether the third push's reader theorem covers the call line's left cap (`call9.json` `capL`; that the cap takes a train of any length is measured to k = 40).",
+    "Covered, by a new theorem: call9's capL (18 cells, not the clock's capL) eats every word too: capL9 on the units < 4 and any word on the units ≥ 4 is at generation 2n capL9 and the word moved n units (`readerCall`). Proved by `reader_run_gen` (`ClockReader`'s proof written for any cap passing 16 zone checks), `cap9OK_ok`. This is the cap at the end of a bare store wire: the finite cell of the call law (the cap during the call, with the call line across the cell) is not covered."
    ]
   ]
  }

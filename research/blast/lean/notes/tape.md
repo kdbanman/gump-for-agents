@@ -4,9 +4,9 @@ Lean arm, 2026-11-24, 11:16–13:15 UTC, 13:16–14:25 UTC and 14:32–16:30 UTC
 (+ `TapeSignalsData.lean`), `Gump/Line.lean` (+ `LineData.lean`), `Gump/Clock.lean` (+ `ClockData.lean`),
 `Gump/Unzip.lean`, `Gump/UnzipProof.lean`, `Gump/Call.lean` (+ `CallData.lean`), `Gump/CallProof.lean`,
 `Gump/CallBox.lean`, `Gump/CallLine.lean`, `Gump/CallUnion.lean` (+ `CallUnionData.lean`), `Gump/CallUnionLocal.lean`,
-`Gump/ClockLit.lean` (+ `ClockLitData.lean`), `Gump/LineBeam.lean` (+ `LineBeamData.lean`), `Gump/ClockReader.lean`;
+`Gump/ClockLit.lean` (+ `ClockLitData.lean`), `Gump/LineBeam.lean` (+ `LineBeamData.lean`), `Gump/ClockReader.lean`, `Gump/CallReader.lean` (+ `CallReaderData.lean`);
 `AxiomsTape.lean`; scripts `tape_lib.py`, `tape_line.py`, `tape_signals.py`, `tape_clock.py`, `tape_call.py`,
-`tape_statements_check.py`, `tape_unzip.py`, `tape_call_front.py`, `tape_callunion.py`, `tape_lit.py`, `tape_beam.py`; rows in `statements_tape.json`. Every result below is in the **kernel tier**: no
+`tape_statements_check.py`, `tape_unzip.py`, `tape_call_front.py`, `tape_callunion.py`, `tape_lit.py`, `tape_beam.py`, `tape_reader.py`; rows in `statements_tape.json`. Every result below is in the **kernel tier**: no
 `native_decide` anywhere, every base run is `decide +kernel` on `Gump.Bits`' stepper, and every theorem in
 `AxiomsTape.lean` rests on at most `propext`, `Classical.choice`, `Quot.sound`. Nothing here is refereed.
 
@@ -23,6 +23,7 @@ Lean arm, 2026-11-24, 11:16–13:15 UTC, 13:16–14:25 UTC and 14:32–16:30 UTC
 | – | a stretch d^k f stands (period 2) for every k (push 8 §6, infinite-wire form) | `Unzip.stretch_stands` | proved (a base fact of 5) |
 | 7 | the beam: period exactly 4 for every N ≥ 1 (§21, `prove_beam.py`) | `Beam.beam_period` | **proved** (third session) |
 | 8 | capL of the clock eats every word and remembers nothing (§15, `prove_reader.py`) | `Clock.reader_run`, `reader_step` | **proved**, every word (third session) |
+| 9 | the call line's left cap (call9.json) eats every word (REVIEW-signals-9 §3, left open (ii)) | `Reader.reader9_run`, `reader_run_gen` | **proved**, every word (third session) |
 
 ### Headline statements, verbatim
 
@@ -221,6 +222,13 @@ tape and keeps no trace (the source's (i) and (ii) at once: the state is never a
 The proof is local, like the transient's: tape windows on the units ≥ 2, empty space on the units ≤ −7, and on the
 units −6 .. 1 one kernel check for each of the 16 words on the units 0 .. 3 (`readerOK_ok`), the source's closed set
 of 16 cap states.
+
+The same proof, written once for any cap on the units −4 .. −1 that passes the 16 zone checks (`Gump/CallReader.lean`,
+`reader_run_gen`), covers the left cap of push 9's call line (`call9.json` `capL`, 18 cells, a different cap from the
+clock's): `reader9_run`, in call9's coordinates (cap on the units 0 .. 3, the store wire from unit 4). The second
+review of push 9 had left open whether section 15's theorem covers this cap (its "what is left" (ii)); it does not
+literally (another cap), and the law holds for it all the same. What this does not give: the finite cell during a
+call (the call line crosses the cell; the cap is reached by the train only once the wire in front of it is plain tape).
 
 ## Not checked, and caveats
 

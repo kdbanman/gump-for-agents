@@ -12,6 +12,7 @@ import Gump.CallUnionLocal
 import Gump.ClockLit
 import Gump.LineBeam
 import Gump.ClockReader
+import Gump.CallReader
 open Gump Gump.Tape
 #print axioms glue_run
 #print axioms run_shiftC
@@ -98,3 +99,8 @@ open Gump Gump.Tape
 #print axioms Gump.Clock.readerOK_ok
 #print axioms Gump.Clock.reader_step
 #print axioms Gump.Clock.reader_run
+#print axioms Gump.Reader.reader_step_gen
+#print axioms Gump.Reader.reader_run_gen
+#print axioms Gump.Reader.cap9OK_ok
+#print axioms Gump.Reader.capL9_ucfg
+#print axioms Gump.Reader.reader9_run
