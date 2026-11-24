@@ -12,6 +12,7 @@ import GumpMath.ChainTiltLimit
 import GumpMath.ChainBits
 import GumpMath.ChainKagome
 import GumpMath.ChainTorus
+import GumpMath.ChainRate
 open Gump.Chain
 -- Theorem 2 (the tilt identity) and its analytic core
 #print axioms neg_log_Z_one
@@ -104,3 +105,6 @@ open Gump.Chain
 #print axioms Kagome.wrapped_upper_bound
 #print axioms Kagome.wrapped_rotation
 #print axioms Kagome.torus_2_0_2_one_price
+-- the quasi-stationary rate is the rate from every start
+#print axioms KilledChain.decay_bounds
+#print axioms KilledChain.lifetime_from_bounds

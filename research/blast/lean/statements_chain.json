@@ -76,6 +76,16 @@
     "qsd_exists_unique",
     "Lemma 0 ⇒ the quasi-stationary law μ is unique and charges every non-empty state.",
     "Uniqueness among laws with λ > 0. With λ = 0 allowed, the point mass at a state that dies surely (the all-alive wrapped face) is also a solution of μQ = λμ: the source's statement needs λ > 0, which the usual definition of a QSD (P_μ(T > t) > 0) contains silently."
+   ],
+   [
+    "decay_bounds",
+    "Lemma 0 / Darroch–Seneta: from the quasi-stationary law the death time is geometric with ratio λ; the source's τ is meant as the lifetime of a face.",
+    "New: from every state x of the living class, (m/M)λ^t ≤ P_x(T > t) and P_x(T > t+1) ≤ (M/m)λ^t, m ≤ w ≤ M the Perron column vector, and every QSD with λ > 0 has this λ. So the decay rate from every start is λ."
+   ],
+   [
+    "lifetime_from_bounds",
+    "(the tie between τ = E_μ T and a lifetime measured from a fair start)",
+    "New: (m/M)/(1-λ) ≤ E_x T ≤ 1 + (M/m)/(1-λ) for x in the class; ln E_x T = ln τ up to ln(M/m) + O(1). The spread M/m is not bounded."
    ]
   ]
  },
