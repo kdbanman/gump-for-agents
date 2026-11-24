@@ -32,7 +32,7 @@
  *   DENS: mean density of core k (= N cells at depth k for D0 = 1, i.e. depth k under face 0, >= 3 under others)
  *         and of the full layer k (all hull cells at depth k under face 0).
  *   BYF: for lanes with face population F <= 20: counts of samples, sum of core-1 and full-1 live counts by F.
- *   DESC k: descents of the watched face from >= 16 live cells (armed at an exposure generation) to <= k, and how
+ *   DESC k: descents of the watched face from >= round(A/4) live cells (16 at A = 63) (armed at an exposure generation) to <= k, and how
  *         many of them ended in the watched face's death before it was back at >= 16 (descents cut by another
  *         face's death are counted in neither 'died' nor 'back'; reported separately).
  *   LAG (first LAGGENS generations, all lanes): Pearson correlation over pairs within one life, both times
@@ -251,11 +251,14 @@ int main(int argc, char **argv) {
     if (cmode == 0) { printf("BIAS"); for (int k = 0; k <= 10; k++) printf(" %d:%.6f", k, thr[full[k][0]] / 4294967296.0); printf("\n"); }
     fflush(stdout);
     /* state */
+    const int HDESC = (int)floor(nface[0] / 4.0 + 0.5);   /* descents from >= round(A/4) (16 at 63 cells) */
     static int age[LANES], F[LANES], C1[LANES], L1[LANES], armed[LANES], minlev[LANES];
     for (int l = 0; l < LANES; l++) { soup(l); age[l] = 0; armed[l] = 0; }
     double expo = 0, deaths = 0, deaths_any = 0, deaths_other = 0;
     double dens_core[40] = {0}, dens_full[40] = {0};
     double byf_n[64] = {0}, byf_c1[64] = {0}, byf_l1[64] = {0}, byf_c1sq[64] = {0};
+    double post_core1 = 0, post_n = 0, byf_pn[64] = {0}, byf_pc1[64] = {0};   /* core 1 after the darts */
+    static int cntl[LANES];
     double fhist[200] = {0};
     double desc[17] = {0}, died[17] = {0}, cut[17] = {0};
     /* lag accumulators: 7 pairs x 9 lags: n, sx, sy, sxx, syy, sxy */
@@ -286,7 +289,7 @@ int main(int argc, char **argv) {
         int dolag = g <= laggens;
         if (dolag) { lanecount(core1, ncore1, C1); lanecount(full1, nfull1, L1); }
         for (int l = 0; l < LANES; l++) {
-            int counted = age[l] > 200, f = F[l];
+            int counted = age[l] > 200, f = F[l]; cntl[l] = counted;
             if (counted) fhist[f] += 1;
             if (counted && f <= 20) {
                 int c1v, l1v;
@@ -296,14 +299,14 @@ int main(int argc, char **argv) {
             }
             /* descents */
             int ended = (emp[l >> 6] >> (l & 63)) & 1;
-            if (f >= 16) { armed[l] = counted; minlev[l] = 99; }
+            if (f >= HDESC) { armed[l] = counted; minlev[l] = 99; }
             else if (armed[l] && f < minlev[l]) {
-                for (int k = f; k < minlev[l] && k <= 15; k++) desc[k] += 1;
+                for (int k = f; k < minlev[l] && k < HDESC && k <= 15; k++) desc[k] += 1;
                 minlev[l] = f;
             }
             if (ended && armed[l] && minlev[l] <= 15) {
                 int wd = (wdead[l >> 6] >> (l & 63)) & 1;
-                for (int k = minlev[l]; k <= 15; k++) { if (wd) died[k] += 1; else cut[k] += 1; }
+                for (int k = minlev[l]; k < HDESC && k <= 15; k++) { if (wd) died[k] += 1; else cut[k] += 1; }
             }
             if (dolag) {
                 int a = age[l];
@@ -329,6 +332,12 @@ int main(int argc, char **argv) {
                 setb(c, l, v);
             }
         }
+        for (int l = 0; l < LANES; l++) {          /* core 1 after the darts (the state the next step reads) */
+            if (!cntl[l] || age[l] == 0) continue;
+            int c1v = 0; if (F[l] <= 20 || (l & 7) == 0) for (int i = 0; i < ncore1; i++) c1v += getb(core1[i], l);
+            if ((l & 7) == 0) { post_core1 += c1v; post_n += 1; }
+            if (F[l] <= 20) { byf_pn[F[l]] += 1; byf_pc1[F[l]] += c1v; }
+        }
         if (g % ckpt == 0 || g == gens) {
             printf("CKPT %ld expo %.0f deaths %.0f lntau %.4f err %.4f any %.0f\n", g, expo, deaths, log(expo / deaths), 1 / sqrt(deaths), deaths_any);
             fflush(stdout);
@@ -340,6 +349,8 @@ int main(int argc, char **argv) {
       printf("FACE mean %.4f sd %.4f\n", s / n, sqrt(s2 / n - (s / n) * (s / n))); }
     for (int k = 1; k <= 8 && k <= R; k++) printf("DENS core %d n %d %.5f\n", k, ncore[k], ncore[k] ? dens_core[k] / (expo * ncore[k]) : 0);
     for (int k = 1; k <= 3; k++) printf("DENS full %d n %d %.5f\n", k, nfull[k], dens_full[k] / (expo * nfull[k]));
+    printf("DENS core1 after darts (lanes 0 mod 8) %.5f\n", post_core1 / (post_n * ncore1));
+    for (int f = 1; f <= 20; f++) if (byf_pn[f] > 0) printf("BYFPOST %d n %.0f core1 %.5f\n", f, byf_pn[f], byf_pc1[f] / (byf_pn[f] * ncore1));
     for (int f = 0; f <= 20; f++) if (byf_n[f] > 0) printf("BYF %d n %.0f core1 %.5f full1 %.5f core1var %.5f\n", f, byf_n[f], byf_c1[f] / (byf_n[f] * ncore1), byf_l1[f] / (byf_n[f] * nfull1), byf_c1sq[f] / byf_n[f] - pow(byf_c1[f] / byf_n[f], 2));
     for (int k = 0; k <= 15; k++) printf("DESC %d desc %.0f died %.0f cut %.0f\n", k, desc[k], died[k], cut[k]);
     if (laggens) {
