@@ -93,7 +93,10 @@ section).**
   proposed mechanism (lives ordered by the support's density under a low face, the layer leading the face) does
   not survive the referee. One code, unrefereed: the equivalent coin bias is not a constant (0.16 to 0.385 by
   replacement and size); with every cell not on a face a fresh coin every generation, 0.385 gives gump's life at
-  45 and 63 cells (84 cells: −0.28 ± 0.15, undecided), but there the face dies differently.
+  45 and 63 cells but not at 84 (−0.165 ± 0.043), and there the face dies differently. **A skin four layers
+  thick decides the rate**: with every cell from depth 4 down a fresh coin at gump's own density every generation,
+  the 45- and 63-cell faces die at gump's rate and in gump's way (+0.004 ± 0.007, +0.016 ± 0.012; dips, their
+  deadliness and death from one cell all match); with three real layers they live 0.17 and 0.30 longer.
 
 ## Second phase (after the usage reset at 11:00 UTC): additions, newest last
 
@@ -963,13 +966,57 @@ p\*(full) below 0.17, 55%, **false and in the wrong direction** (0.30): the PI r
 a larger gain to cancel and so a lower p\*, and the opposite happens; p\*(full) within 0.04 of 0.19, 35%, false
 (0.12); the 45-cell p\* within 0.03 of the 63-cell one, 55%, true (0.20); one full-replacement density giving the
 45-cell life within 0.15, 35%, false as specified (0.12; true with every cell not on a face a coin, a setting not
-forecast). Block 6 (frozen 15:2x UTC, before the third task) is not yet scored.
+forecast). Block 6 (frozen 15:04 UTC, before the third task) is scored in the next section.
 
-### The density agent's third task
+### The density agent's third task: a skin four layers thick (`density/README.md`, third-task sections; commit 2d67675)
 
-*[Placeholder: the density agent's third task (the 0.385 coincidence at 45 cells, the skin depth at full
-replacement, the 84-cell row, a wrapped face) was still running when this entry was written; the PI fills this in
-and scores block 6.]*
+One code (`nzd.c`, its coin stream repaired after the referee's defect 8 and re-validated), one seed a row unless
+said; forecasts committed before the runs (the agent's at 7a84d46, the PI's block 6). Not yet refereed when written.
+`python3 research/blast/density/skin.py` prints the table.
+
+- [measured] **Four real layers give gump's rate and gump's way of dying.** Every cell at depth ≥ d under the
+  watched face (column A) or under every face (column B) is a fresh coin every generation at gump's own mean density
+  for that depth; Δ = ln τ − gump's:
+
+  | real layers kept (d) | 45 cells, A | 45 cells, B | 63 cells, A | 63 cells, B |
+  |---|---|---|---|---|
+  | 1 (the face alone) | +0.564 ± 0.009 | +2.338 ± 0.020 | +1.186 ± 0.037 | +3.530 ± 0.118 |
+  | 2 | +0.342 ± 0.008 | +0.884 ± 0.010 | +0.694 ± 0.029 | +1.439 ± 0.041 |
+  | 3 | +0.169 ± 0.008 | (= A) | +0.295 ± 0.023 | (= A) |
+  | **4** | **+0.004 ± 0.007** | −0.006 ± 0.007 | **+0.016 ± 0.012** (two seeds) | +0.016 ± 0.020 |
+  | 5, 6 | | | +0.027 ± 0.021, +0.010 ± 0.020 | −0.012 ± 0.020 (d = 5) |
+
+  From d = 4 on the eight rows average +0.003 ± 0.004, and the excursions match gump's too: the frequency of dips
+  below a quarter of the face within 0.005 in the logarithm, their deadliness within 0.024, death from one cell
+  0.763–0.785 against gump's 0.770. With three real layers the face lives longer (0.17, 0.30, the excess growing
+  with the face), mostly through less deadly dips. Only with the face alone over coins under every face does death
+  from one cell change (0.88–0.92). The wrapped face agrees (a new slab stepper, bit-exact against the oracle on a
+  covering torus): four real layers +0.003 ± 0.005 (45 cells), +0.029 ± 0.023 (63); three, +0.15 and +0.25.
+- [conjectured] **The reading.** The rate at which a face of gump dies, and the way it dies, are properties of the
+  face and the three layers under it over a memoryless, uncorrelated bath at gump's density: a finite-depth object,
+  and a finite Markov chain for each face. That it holds at larger faces is not measured (the excess at three
+  layers grows with the face, so a small excess at four that also grows is not excluded: at 63 cells the six rows
+  with d ≥ 4 average +0.013 ± 0.008).
+- [measured] **The 0.385 coincidence is an accident.** The coins of the "every cell not on a face" chain replace
+  cells whose own density in gump, at its lowest over the face thresholds, is 0.357 (45 cells) and 0.367 (63), not
+  0.385; only the 9-cell core at 63 cells with the threshold "face ≤ 10" lands on 0.384 (0.390 at 45 cells). On the
+  wrapped face p\* is 0.3550 ± 0.0002 and 0.3659 ± 0.0004 at 45 and 63 cells against a layer density under a low
+  face of 0.12 and 0.30.
+- [measured] **On coins alone one density does not hold a third size.** 84 cells at p = 0.385: Δ = −0.165 ± 0.043
+  (559 deaths in 14 chunks on the repaired stream; the three older chunks agree). So p\* creeps up with the face
+  (about 0.3867 at 84 cells if the steepness keeps growing with the face, which is conjectured).
+- [measured] The agent folded the referee's corrections into a dated section of its README (earlier sentences kept
+  and marked), and its coin stream now starts from a hash of the seed (`validate.py` passes, the old start kept as
+  a negative control).
+- **The PI's block 6** (frozen before the runs; `noisy/PREDICTIONS.md`): the 45-cell layer's minimum within 0.005
+  of 0.385, 45%, false; the 84-cell row below −0.10, 70%, true; at 63 cells, column A: Δ(1) > 2, 75%, **false**
+  (+1.19; true only under every face); Δ(2) in (0.3, 1.5), 55%, true; |Δ(3)| < 0.15, 45%, false (+0.30);
+  |Δ(4)| < 0.05, 45%, true; the way of dying is gump's at the first d that matches, 60%, true.
+- Not checked: any second code for these rows (the density referee was asked for the d = 3 and d = 4 rows after
+  this was written; see the end of this entry if it reported); 84-cell skin rows; skins with darts instead of full
+  replacement or at face-conditioned densities; whether d = 4 is a threshold or a decay that falls under the errors
+  there; the slab's death and excursion bookkeeping beyond the stepper; the 45-cell wrapped face's mean population
+  with the skin is 22.7 against gump's 21.4, which the agent does not understand.
 
 ### What was not checked
 

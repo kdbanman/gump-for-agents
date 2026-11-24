@@ -194,7 +194,7 @@ is needed to cancel a larger gain.
 4. With ε = 1 and the p* that matches gump at 63 cells, the 45-cell life is within 0.15 of gump's in ln τ (one
    density gives the face law's slope as well as one point): 35%.
 
-### Scores of block 5 (15:2x UTC 2026-11-24; from `density`'s second task, `research/blast/density/README.md`, commit b7f5904; one seed per row, one code)
+### Scores of block 5 (15:04 UTC 2026-11-24; from `density`'s second task, `research/blast/density/README.md`, commit b7f5904; one seed per row, one code)
 
 | item | forecast | outcome | Brier |
 |---|---|---|---|
@@ -209,7 +209,7 @@ happens. At partial replacement most of the support is still made by gump's rule
 that mix; with nothing but coins under it a face needs far denser coins (0.32 to 0.385) to live as long as it does
 in gump, and below about 0.35 a hull on coins alone dies at once.
 
-## Block 6 (PI; frozen 15:2x UTC 2026-11-24, before any of these runs)
+## Block 6 (PI; frozen 15:04 UTC 2026-11-24, before any of these runs)
 
 Seen when written: `density`'s two hand-backs. In particular: with every cell not on a face replaced by a fresh
 coin every generation, p = 0.385 gives gump's life at 45 and 63 cells (+0.009 ± 0.007, −0.028 ± 0.020), the 84-cell
@@ -224,3 +224,20 @@ under the 63-cell face has density 0.384 when the face is at most 10 cells (its 
    Δ(2) between +0.3 and +1.5: 55%; |Δ(3)| < 0.15: 45%; |Δ(4)| < 0.05: 45%.
 4. At the smallest d with |Δ| < 0.1, the face's way of dying is gump's: from one cell it dies between 74% and 80%
    of the time, and dips below 16 cells are within 20% of gump's frequency: 60%.
+
+### Scores of block 6 (17:25 UTC 2026-11-24; from `density`'s third task, `research/blast/density/README.md`, commit 2d67675; one code, not yet refereed)
+
+| item | forecast | outcome | Brier |
+|---|---|---|---|
+| 1 | the 45-cell layer's minimum under a low face within 0.005 of 0.385: 45% | the core's lowest is 0.390, the cells the coins actually replace thin to 0.357: **false** (the coincidence is an accident) | 0.20 |
+| 2 | the 84-cell row at 0.385 below −0.10: 70% | −0.165 ± 0.043 on 559 deaths: **true** | 0.09 |
+| 3a | Δ(1) > +2 at 63 cells: 75% | under the watched face +1.186 ± 0.037: **false** (true only with coins under every face, +3.53) | 0.56 |
+| 3b | Δ(2) in (+0.3, +1.5): 55% | +0.694 ± 0.029: **true** | 0.20 |
+| 3c | \|Δ(3)\| < 0.15: 45% | +0.295 ± 0.023: **false** | 0.20 |
+| 3d | \|Δ(4)\| < 0.05: 45% | +0.016 ± 0.012 (two seeds): **true** | 0.30 |
+| 4 | at the first d that matches, the way of dying is gump's: 60% | d = 4: death from one cell 0.765–0.776 (gump 0.770), dips within 0.005 in the logarithm: **true** | 0.16 |
+
+What I had wrong: I expected the face alone over a bath at gump's density to live more than e² longer; under the
+watched face only it is e^1.19, because the rims keep their real layers. What I did not expect to be so clean: the
+step from three real layers to four removes all of the excess that can be measured, at both sizes and on both kinds
+of face.
