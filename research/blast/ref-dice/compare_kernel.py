@@ -5,6 +5,7 @@ built by myface.py from reference/oracle.py alone, in exact rationals.
     python3 compare_kernel.py DUMP [--oracle]      DUMP = output of `lake env lean Dump_<face>.lean`
                                                  (LeanDump.lean.tmpl + one `#eval dump ...` line)
 
+Negative controls: --mutant (rho1 = 12/25 in my kernel), --mutant-nb (cell 0 loses a neighbour) must FAIL.
 With --oracle the alive probabilities are ALSO derived by stepping reference/oracle.py (oracle_alive.py) and compared.
 Exit status 1 on any mismatch.
 """
@@ -51,7 +52,10 @@ def main():
         ln, l1, l2 = nb[i]
         if sorted(ln) != sorted(F['nb'][i]) or (l1, l2) != (F['m1'][i], F['m2'][i]):
             bad += 1; print('NB MISMATCH', i, nb[i], F['nb'][i], F['m1'][i], F['m2'][i])
-    at = myface.a_table(F)
+    # negative controls: --mutant (rho1 = 12/25 in MY kernel), --mutant-nb (cell 0 loses one neighbour)
+    if '--mutant-nb' in sys.argv:
+        F['nb'][0] = F['nb'][0][1:]
+    at = myface.a_table(F, r1=Fraction(12, 25) if '--mutant' in sys.argv else myface.R1)
     nA = 0
     for x in range(2 ** A):
         if a[x] != at[x]:

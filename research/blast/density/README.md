@@ -236,3 +236,105 @@ python3 research/blast/density/drift.py research/blast/density/data/layers/lay_g
 The PI's reading ("what they do that gump does not is hand a fading face live cells beneath it at times when gump's own
 layer is fading with it") is what the layer diagnostics show: gump's replaced core thins from 0.430 to 0.384 under a low
 face, the coin chains' does not (0.423–0.435).
+
+---
+
+## 2026-11-24, second task (from 13:55 UTC): is the equivalent coin density p\* a constant?
+
+Question (the PI): at ε = 1/4, d = 1, 63 cells, coins of density p\* ≈ 0.19 at every replaced depth leave the
+watched face's life unchanged. Is p\* a property of gump's support, the same at every replacement rate and face size,
+so that a face of gump behaves like a face over independent coins of density p\*? Forecasts: `PREDICTIONS.md`
+(committed at 70de9e5 before any row of this task ran; scored at the end of this section).
+
+**New in the program [measured].** `NZD_FULL=1`: full replacement. After every step each cell of the noise region, in
+every lane, is set to a fresh coin of its depth's bias, independent of everything (64 lanes at a time, bit-serially
+from 16 words of the second stream, so the bias is exactly round(p 2¹⁶)/2¹⁶). This is the PI's "ε = 1": the dart
+process cannot reach it (M darts at B squares replace a cell with probability 1 − (1 − 1/B)^M: 0.63 at M = B, the
+dart ε = 1; 0.98 at M = 4B), so full replacement is a separate mode, not a dart setting. `NZD_CLUST=c` (with full
+replacement): per depth, lane and generation, with probability c every replaced cell of that depth takes one common
+coin, else each its own: the density is unchanged and two replaced cells of the same depth are correlated by c (a
+count of n such cells has variance (1 + (n − 1) c) times binomial). `row.sh` takes `DO=` from the environment.
+`validate.py 1200` passes with both (`data/validate_1200.txt`): full replacement sets every replaced cell to a coin of
+the right bias from an all-dead and an all-alive state, changes nothing else, two calls are independent, and outside
+the noise region the stepper is the oracle's step of the previous state (200 generations, two lanes, R = 11 and 9);
+the clustered coin has the right density, correlation c within a depth and none across; negative controls (a bias
+0.21 checked as 0.19; c = 0.3 checked as 0) fail. `zeros.py` locates each zero: a weighted line through the rows with
+|Δ| < 0.2 (at least the two that bracket it), p\* = −a/b with its error by the delta method from the row errors (death
+counts), scaled by √(χ²/dof) when that exceeds 1, plus the gump reference's error / slope. Gump references: 63 cells
+13.633 ± 0.001; 45 cells 9.8177 ± 0.0036 (the watched face: nz's 9.8161 ± 0.0044 pooled with this session's
+`R9_gump` row, 9.821 ± 0.006). Every row is one seed; rows are `data/rows/<tag>_s<seed>.txt`, made by
+`sh research/blast/density/row.sh <tag> R <seed> GENS M 1 P [NZD_FULL=1] [NZD_CLUST=c] [DO=1]` (the BIAS line of each
+file repeats its settings; M = 256 at R = 11 and 64 at R = 9 for ε = 1/4, 64 and 16 for ε = 1/16, 0 with NZD_FULL).
+
+### p\* by replacement and size [measured]
+
+`python3 research/blast/density/zeros.py` (every row listed there with its Δ ± error and deaths):
+
+| replaced | 45 cells | 63 cells |
+|---|---|---|
+| darts, ε = 1/16 (q = 0.061 a cell and generation) | 0.16 ± 0.03 (slope 0.23 ± 0.07; rows p = 0.1, 0.2, 0.3) | **0.173 ± 0.010** (slope 0.88 ± 0.10; 0.1, 0.2, 0.3) |
+| darts, ε = 1/4 (q = 0.221) | **0.180 ± 0.006** (slope 0.93 ± 0.07; 0.1 … 0.3, six rows) | **0.191 ± 0.003** (slope 5 ± 1; 0.175, 0.2E4_225) |
+| full replacement (q = 1) | **0.266 ± 0.002** (slope 4.0 ± 0.3; 0.26 … 0.31, five rows) | **0.316 ± 0.001** (slope 11 ± 1; 0.30, 0.317, 0.32) |
+| full replacement, noise region also at depth ≥ 1 under the other faces (DO = 1) | **0.3848 ± 0.0001** (slope 49 ± 1; 0.38, 0.39) | DO1_63 |
+
+Rows near each zero have 4,400–21,000 deaths (63 cells: 4.4–7.2 × 10³; 45 cells: 0.9–2.1 × 10⁴). The replaced core under
+the watched face is 3 cells in each of layers 1 and 2 at 45 cells, 9 at 63 cells; with DO = 1 it is 30 of layer 1's 45
+cells at 45 cells and 45 of 63 at 63 cells (the rest of layer 1 lies on another face: the hull's edges).
+
+- **p\* is not a constant [measured].** It rises with the replacement: at 63 cells 0.173, 0.191, 0.316 for q = 0.06,
+  0.22, 1; at 45 cells 0.16, 0.180, 0.266, and 0.385 when nearly the whole support is replaced (DO = 1). Between ε = 1/16
+  and 1/4 it moves little (63 cells: +0.018 ± 0.010; 45 cells: +0.02 ± 0.03), as the effect there is close to linear
+  in q (the slope rises in proportion: 0.88 → ~5 at 63 cells, 0.23 → 0.93 at 45). From 1/4 to full replacement it
+  jumps by 0.09–0.13.
+- **Nor is it the same at both sizes at full replacement [measured]:** 0.266 ± 0.002 against 0.316 ± 0.001. With the
+  63-cell p\* the 45-cell face lives *longer* than gump's: `R9_full_p0.317` gives +0.210 ± 0.007. At ε = 1/4 the two
+  sizes agree within 1.6 σ (0.180 ± 0.006, 0.191 ± 0.003).
+- **What p\* measures [conjectured].** With partial replacement the coins are mixed with rule-made cells that they hold
+  up (part 1: the LOW10 coins at 0.384 raised the replaced cells to 0.423 under a low face), so a low coin density
+  already matches gump; p\* ≈ 0.18–0.19 is a property of that mixture, not of gump's support alone. With the replaced
+  share growing (full replacement, then DO = 1) p\* climbs towards the density of an independent support that does
+  gump's job by itself: 0.385 at 45 cells, a little below gump's own layer densities under a face (layers 1 and 2:
+  0.44 and 0.46 overall, 0.34 and 0.45 under a low face; part 1). At 45 cells the replaced core is a smaller share of
+  the face's support than at 63 cells (3 of 45 cells against 9 of 63 in layer 1), which is one reason the
+  full-replacement p\* differs between the sizes (DO = 1 replaces 2/3 of layer 1 at both).
+- **The face over a fully independent support is near a threshold [measured at 45 cells].** With DO = 1, Δ = −3.25,
+  −3.92, −1.75, −0.49, −0.24, +0.26, +0.73 at p = 0.25, 0.30, 0.35, 0.375, 0.38, 0.39, 0.40: below 0.35 the whole hull
+  dies within a few thousand generations (longest life 1,000–6,000; at 0.25 the faces hold 3 cells on average), and
+  the life rises by a factor e^1 for every 0.02 in p near p\*. (Below 0.35 the rate is not a stationary one: lives end
+  before or soon after the 200 generations of ageing-in; those rows only say "short".)
+
+
+### Same rate, another way of dying (item 4) [measured]
+
+`python3 research/blast/density/collect.py` (excursion split against the gump rows of the same size). At full
+replacement and p = 0.317 (63 cells, `full_p0.317`, 12 M generations, 7,151 deaths, Δ = +0.029 ± 0.012, i.e. at p\*
+within 0.002):
+
+| k | 1 | 2 | 4 | 6 | 10 | 15 |
+|---|---|---|---|---|---|---|
+| Δ ln f_k (descents from ≥ 16 to ≤ k, per hull-generation) | −0.071 ± 0.015 | −0.142 | −0.263 ± 0.008 | −0.341 | −0.434 | −0.420 |
+| Δ ln P_k (share of them that die before recovering) | +0.053 ± 0.008 | +0.124 | +0.244 ± 0.015 | +0.322 | +0.415 | +0.401 ± 0.017 |
+
+The rate is gump's, the way there is not. Over independent coins the face dips below 16 cells a third less often
+(Δ ln f_15 = −0.42), but a dip is 1.5 times as likely to end in death (Δ ln P_15 = +0.40), and the excess risk is spread
+along the whole descent: +0.16 between 15 and 4 cells, +0.19 between 4 and 1, +0.05 at the last cell. **At one cell the
+face dies with probability 0.81 (gump: 0.77).** The same at 45 cells (`R9_full_p0.27`, Δ = +0.013): Δ ln f_4 = −0.154,
+Δ ln P_4 = +0.144, Δ ln P_1 = +0.028 ± 0.005. Reading [conjectured]: in gump many of the face's dips are shared with its
+support (part 1: the layer fades with the face and leads it), and a dip driven by the support is undone when the
+support recovers; over independent coins a dip is the face's own, rarer, and harder to undo.
+
+### Clustering at fixed density (item 5) [measured]
+
+Full replacement with clustered coins, same density (`NZD_CLUST=c`):
+
+| | c = 0 | c = 0.1 | c = 0.3 |
+|---|---|---|---|
+| 45 cells, p = 0.27 | +0.013 ± 0.011 | −0.043 ± 0.010 (effect −0.056 ± 0.015) | −0.157 ± 0.010 (effect −0.170 ± 0.015) |
+| 63 cells, p = 0.32 | +0.030 ± 0.015 | −0.260 ± 0.013 (**effect −0.290 ± 0.020**) | not run |
+
+**Clustering of the support shortens the life at fixed density**, and much more under the larger face: c = 0.1 (a
+count of 9 replaced cells then has 1.8 times the binomial variance, which is what gump's replaced core of layer 1 has
+under a low face, part 1) costs 0.29 in ln τ at 63 cells, as much as lowering the density by 0.026 (slope 11). This
+separates the two variables that moved together in part 1: both matter. The clustering of c = 0.1 is worth a density
+of 0.026 at 63 cells and 0.014 at 45 (effect / slope). Not run: clustering at ε = 1/4, or a clustering that copies
+gump's (here every replaced cell of a depth shares the common coin, near or far).

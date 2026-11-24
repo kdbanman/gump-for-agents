@@ -24,7 +24,7 @@ import myface
 from compare_kernel import KIND
 
 getcontext().prec = 40
-ITERS = 200
+ITERS = int(__import__("os").environ.get("ITERS", "200"))
 CELLS = {
     'hull3': [(0, 0, 3), (0, 1, 2), (0, 2, 1), (0, 3, 0), (1, 0, 2), (1, 2, 0), (2, 0, 1), (2, 1, 0), (3, 0, 0)],
 }
@@ -164,7 +164,7 @@ def main():
         simulate(at, A, muf, Nsim, half)
 
 
-def simulate(at, A, muf, Nsim, half, seed=12345):
+def simulate(at, A, muf, Nsim, half, seed=int(__import__("os").environ.get("SEED", "12345"))):
     rng = np.random.default_rng(seed)
     n = 2 ** A
     af = np.array([[float(a) for a in row] for row in at])       # n x A
