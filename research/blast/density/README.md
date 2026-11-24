@@ -360,7 +360,12 @@ gump's (here every replaced cell of a depth shares the common coin, near or far)
 +0.43, +0.68, +0.98, +1.11 at p = 0.1, 0.175, 0.2, 0.3, 0.4, 0.5, 0.7, 0.8: no density between 0.2 and 0.8 shortens
 the life (0.6 not run).
 
-DIRECT_ROWS
+### One density at both sizes, tested directly [measured]
+
+Rows at p = 0.385 itself, DO = 1, full replacement: 45 cells `R9_fullDO1_p0.385` (10⁶ generations, 25,307 deaths)
+Δ = **+0.009 ± 0.007**; 63 cells `fullDO1_p0.385` (4 × 10⁶, 2,523 deaths) Δ = **−0.028 ± 0.020**. Both are gump's
+life within 1.4 σ, as the interpolated zeros said (+0.01 and −0.03 expected). Its excursions at 63 cells: Δ ln P_1 =
++0.234 ± 0.006 (death from one cell 0.97), Δ ln f_15 ≈ −2.0, Δ ln P_15 ≈ +2.0.
 
 ### Answer to the question [measured, with the reading conjectured]
 
@@ -391,7 +396,7 @@ The PI's block 5 (`research/blast/noisy/PREDICTIONS.md`, read after the above wa
 for the PI to score: (1) p\*(1/16) within 0.03 of p\*(1/4) at 63 cells: 0.173 against 0.191, yes; (2) p\*(full) below
 0.17, or within 0.04 of 0.19: no (0.316); (3) the 45-cell p\* at 1/4 within 0.03 of the 63-cell one: 0.180 against
 0.191, yes; (4) at full replacement and the 63-cell p\*, the 45-cell life within 0.15 of gump's: no with DO = 3
-(+0.210 ± 0.007), yes with DO = 1 (DIRECT_45).
+(+0.210 ± 0.007), yes with DO = 1 (+0.009 ± 0.007 at p = 0.385).
 
 ### Not checked (second task)
 
