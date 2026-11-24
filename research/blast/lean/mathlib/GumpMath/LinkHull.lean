@@ -156,19 +156,19 @@ theorem face_full_of (hc : CellsOK F) (hA : 0 < F.A) (h0 : Lemma0F F) :
     rw [Q_pos_iffF hs hc]
     simp only [stepF, List.all_eq_true, List.mem_range]
     intro i hi
-    rw [show ((U : Fin _) : ℕ) = u from rfl, hall i hi, Bool.or_true]
+    exact Bool.or_eq_true_iff.2 (Or.inr (hall i hi))
   have hreach' : ∀ x, K.CanSurvive x → ∃ k, 0 < (K.Q ^ k) x U := by
     intro x ⟨y, hy⟩
     have hst := (Q_pos_iffF hs hc x y).1 hy
-    have hy0 : ((y : Fin _) : ℕ) ≠ 0 := fun e => y.2 ((empty_iff F _).2 e)
+    have hy0 : (y.1 : ℕ) ≠ 0 := fun e => y.2 ((empty_iff F y.1).2 e)
     obtain ⟨i, hi⟩ := Nat.exists_testBit_of_ne_zero hy0
-    have hiA := lt_A_of_testBit (y : Fin _) i hi
+    have hiA := lt_A_of_testBit y.1 i hi
     have hal : aliveF F x i = true := by
       simp only [stepF, List.all_eq_true, List.mem_range] at hst
       have := hst i hiA
       rw [hi] at this
       simpa using this
-    have hx0 : ((x : Fin _) : ℕ) ≠ 0 := fun e => x.2 ((empty_iff F _).2 e)
+    have hx0 : (x.1 : ℕ) ≠ 0 := fun e => x.2 ((empty_iff F x.1).2 e)
     exact rtg_pow hs hc (hreach x x.1.2 hx0 ⟨i, hiA, hal⟩) x.1.2 hx0 hu hu0
   obtain ⟨hirr, hout, μ0, lam0, hq0, hlam0, hpos0, huniq⟩ := one_class' K U huall hreach'
   have hlam : 0 < lam := lt_of_lt_of_le (huall U) (hD.diag U)
