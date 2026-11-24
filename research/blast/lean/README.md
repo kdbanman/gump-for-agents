@@ -18,7 +18,8 @@ program outside Lean becomes a theorem once Lean has checked its certificate.
 
 ## What is checked now
 
-`sh research/blast/lean/check.sh` (about 10 seconds; `--long` adds the 4,218-generation log). The Mathlib package:
+`sh research/blast/lean/check.sh` (about two minutes from nothing on one core, seconds once built; `--long` adds
+the 4,218-generation log, the differential test and the census, about five minutes). The Mathlib package:
 `cd research/blast/lean/mathlib && lake exe cache get && lake build` (Mathlib v4.36.0; the cache is 7 GB on disk).
 
 | statement (`docs/AUTOMATON.md`) | Lean name | file |
@@ -79,10 +80,20 @@ wire C, the rake gun), and the oracle's torus at seven sizes; 15 mutants of the 
 sets, parity tests) are each caught.
 
 `STATEMENTS.md` (written by `statements.py`) puts each headline theorem's Lean statement, verbatim, next to the
-sentence it is meant to be and says where the two differ in strength. One proof, `hex_check` in `ThickHex.lean`,
-uses `decide +kernel` (the kernel evaluates the check; no axiom is added); nothing uses `native_decide`.
+sentence it is meant to be and says where the two differ in strength. Several proofs use `decide +kernel` (the kernel evaluates a decision procedure; no axiom is added): `hex_check`,
+`cube_still`, an example in `Bits.lean`, the four `Signals` theorems and every census theorem. Nothing in the
+first tier uses `native_decide`.
 
-Not checked: nothing here is refereed by a second agent; the statements were read against their sources by their
+**Refereed on 2026-11-24** (`research/blast/ref-lean/REVIEW.md`; the statements of 2026-11-18, not the proofs and
+not the later files). No theorem broken: of the 50 rows, 36 say the same as their source, 7 say more and 7 say
+less (three acknowledged; four T5 rows that did not say "no tori" and now do). Its own tests from the oracle
+found no disagreement (55 checks), `collectAxioms` on all 1,782 core and 86 Mathlib constants found nothing
+beyond the standard three, and a clean clone builds and passes. **What it did break was `check.sh`**: three of
+its four comparisons with the oracle sat behind pipes and could not fail it, it did not run on a fresh clone,
+and `gumpcheck states` passed on files that compared nothing. All three are repaired (the attacks are in
+`research/blast/ref-lean/attack_gumpcheck.sh`).
+
+Not checked: the proofs are the kernel's; nothing written after 2026-11-18 is refereed; the statements were read against their sources by their
 authors and by the PI only. `set36` was found by a fresh SAT run and not compared with `sealed.py`'s set.
 
 ## The climb

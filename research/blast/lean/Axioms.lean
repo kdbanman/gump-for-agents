@@ -76,3 +76,4 @@ open Gump
 #print axioms Signals.lineC_3_period_four
 #print axioms Signals.lineC_12_period_four
 #print axioms Signals.lineC_13_period_four
+#print axioms exists_six_outside

@@ -25,26 +25,58 @@ def sameSet (a b : Pattern) : Bool := a.size == b.size && a.all (fun p => b.cont
 def checkStates (file : String) : IO UInt32 := do
   let lines ← IO.FS.lines file
   let mut gens : Array Pattern := #[]
+  let mut declared : Array Nat := #[]
+  let mut counts : Array Nat := #[]
   let mut cur : Pattern := {}
+  let mut n := 0
   let mut started := false
+  let mut bad := 0
   for l in lines do
     if l.startsWith "G" then
-      if started then gens := gens.push cur
+      if started then
+        gens := gens.push cur
+        counts := counts.push n
       cur := {}
+      n := 0
       started := true
+      match (l.splitOn " ").filter (· ≠ "") with
+      | [_, _, k] =>
+        match k.toNat? with
+        | some k => declared := declared.push k
+        | none => bad := bad + 1
+      | _ => bad := bad + 1
+    else if l.all Char.isWhitespace then
+      pure ()
     else
       match parsePt l with
-      | some p => cur := cur.insert p
-      | none => pure ()
-  if started then gens := gens.push cur
-  let mut bad := 0
+      | some p =>
+        if started then
+          cur := cur.insert p
+          n := n + 1
+        else bad := bad + 1
+      | none => bad := bad + 1
+  if started then
+    gens := gens.push cur
+    counts := counts.push n
+  -- A file that cannot be read in full, or that holds nothing to compare, is a failure, not a pass.
+  if bad > 0 then
+    IO.println s!"FAIL: {bad} lines of {file} could not be read (expected \"G g n\" headers and \"x y z\" lines)"
+    return 2
+  if gens.size < 2 then
+    IO.println s!"FAIL: {file} holds {gens.size} generations; two or more are needed to compare anything"
+    return 2
+  for i in [0:gens.size] do
+    if declared[i]! != counts[i]! || gens[i]!.size != counts[i]! then
+      IO.println s!"FAIL: generation {i} of {file}: the header says {declared[i]!} cells, {counts[i]!} lines follow, {gens[i]!.size} of them distinct"
+      return 2
+  let mut mism := 0
   for i in [1:gens.size] do
     let mine := stepFin gens[i-1]!
     if !(sameSet mine gens[i]!) then
-      bad := bad + 1
+      mism := mism + 1
       IO.println s!"MISMATCH at generation {i}: oracle {gens[i]!.size} cells, Lean {mine.size} cells"
-  IO.println s!"{file}: {gens.size - 1} generations compared with the oracle state for state, {bad} mismatches (seed {gens[0]!.size} cells, last {gens[gens.size-1]!.size} cells)"
-  return (if bad == 0 then 0 else 1)
+  IO.println s!"{file}: {gens.size - 1} generations compared with the oracle state for state, {mism} mismatches (seed {gens[0]!.size} cells, last {gens[gens.size-1]!.size} cells)"
+  return (if mism == 0 then 0 else 1)
 
 def cubeSeed (lo hi : Int) : Pattern := Id.run do
   let n := (hi - lo + 1).toNat

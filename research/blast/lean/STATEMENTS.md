@@ -96,7 +96,7 @@ theorem firewall (d : Diag) (C : Int) (c : Config) (h : ∀ p, C < d.dot p → d
 ```
 
 - **Meant to be:** A, T3: if three consecutive layers C+2, C+4, C+6 are all dead, they stay dead forever.
-- **Difference:** Stronger: the band is C < s ≤ C + 6 for any integer C.
+- **Difference:** Stronger in the band (C < s ≤ C + 6 for any integer C); it holds for every configuration of the lattice, infinite ones included. The source adds "applies to toroidal patterns too": that is not stated as a theorem; it follows for even H from this row applied to the periodic lift (`Torus.lift_trun`).
 
 ### `firewall_separates` (`Gump/Sealed.lean`)
 
@@ -244,7 +244,7 @@ theorem energy_bounds (hc : ∀ p, c p = true → p.isCell = true) (hV : ∀ t p
 ```
 
 - **Meant to be:** `research/theory/threshold.md`: −6N ≤ E ≤ 7N.
-- **Difference:** Same, doubled.
+- **Difference:** Doubled. Says less than the source in one respect, like every T5 row here: the vessel is a finite set holding the run on the infinite lattice (a hull, or any region dead outside for ever); A, T5 also covers tori, which are not formalised.
 
 ### `period_two_of_no_O1` (`mathlib/GumpMath/Threshold.lean`)
 
@@ -253,7 +253,7 @@ theorem period_two_of_no_O1 (hc : ∀ p, c p = true → p.isCell = true) (hV : �
 ```
 
 - **Meant to be:** A, T5: an orbit with no such events from some time on has period ≤ 2 (reached within 26N + 1 further steps).
-- **Difference:** Same, with the bound 26N.
+- **Difference:** The bound is 26N. "No such events" is the source's own condition, no O1 event (no overcrowded cell that was alive one generation earlier), which is weaker than no overcrowding. No tori (see `energy_bounds`).
 
 ### `oscillator_period_two` (`mathlib/GumpMath/Threshold.lean`)
 
@@ -262,7 +262,7 @@ theorem oscillator_period_two (hc : ∀ p, c p = true → p.isCell = true) (hV :
 ```
 
 - **Meant to be:** A, T5: every oscillator of period ≥ 3 has them.
-- **Difference:** Contrapositive form: an eventually periodic orbit without overcrowding events has period dividing 2.
+- **Difference:** Contrapositive form: an eventually periodic orbit with no O1 events has period dividing 2. No tori.
 
 ### `budget` (`mathlib/GumpMath/Threshold.lean`)
 
@@ -271,7 +271,7 @@ theorem budget (hc : ∀ p, c p = true → p.isCell = true) (hV : ∀ t p, run c
 ```
 
 - **Meant to be:** `threshold.md`: M/(N·T) ≤ 20·O1/(N·T) + 26/T.
-- **Difference:** Same, as a sum over any window. The uncapped rule U and the Goles–Olivos theorem for it are not formalised.
+- **Difference:** As a sum over any window. No tori. The uncapped rule U and the Goles–Olivos theorem for it are not formalised.
 
 ## T6 in full: sealed sets
 
@@ -463,3 +463,86 @@ theorem sealed_unbounded (S : Pt → Bool) (hS : Sealed S) (hne : ∃ p, S p = t
 
 - **Meant to be:** (new; sharpens Theorem 3) a nonempty sealed set is unbounded along every generic direction.
 - **Difference:** New; `slab_sealed_unbounded` is the in-plane version in thick slabs.
+
+## The catalogue's "for every N" laws: the tape, the gun's line, the rake train's signals (tape files)
+
+### `tape_run` (`Gump/Tape.lean`)
+
+```lean
+theorem tape_run (w : Int → Letter) (n : Nat) : run (tape w) (2 * n) = tape (fun u => w (u + n))
+```
+
+- **Meant to be:** `research/signals/README.md` §10, the tape: every pattern made of B units and C units moves towards −v at one unit per 2 generations; every infinite sequence over {B, C} is an exact solution moving at one unit per 2 generations (reviewed in `research/audit/REVIEW-signals-2.md` row 5; part A of `REVIEW-signals-9.md` §3 for wire B, the same letters `7`, `b`).
+- **Difference:** Same, on the whole lattice, for every word w : ℤ → {B, C} (finite, one-sided and two-sided words alike). Stated at even generations; nothing is said about the odd ones (the source needs nothing there either).
+
+### `tape_local_run` (`Gump/Tape.lean`)
+
+```lean
+theorem tape_local_run (w : Int → Letter) (a b : Int) : ∀ (n : Nat) (c : Config), (∀ q, a - 2 * n ≤ unitOf q → unitOf q ≤ b + 2 * n → c q = tape w q) → ∀ p, a ≤ unitOf p → unitOf p ≤ b → run c (2 * n) p = tape (fun u => w (u + n)) p
+```
+
+- **Meant to be:** The form the gluing arguments use (`REVIEW-signals-9.md` §3, W(k) 'by A both continue for ever'): what lies on a stretch of tape determines the stretch 2n generations later.
+- **Difference:** Stronger than the source states: any configuration that is the tape of w on the units a − 2n .. b + 2n is, 2n generations later, the tape of the shifted word on a .. b, whatever lies outside.
+
+### `line_orbit` (`Gump/Line.lean`)
+
+```lean
+theorem line_orbit (N : Nat) (hN : 2 ≤ N) (s p : Nat) (hp : 0 < p) : run (lineC N) (s + p) = run (lineC N) s ↔ 2 * N ≤ s ∧ p % 4 = 0
+```
+
+- **Meant to be:** §21: the line (capA + N units of bare wire C + the gun) has period exactly 4 from generation 2N on for every N ≥ 2; `verify_line.py` (D): and not from generation 2N − 1 (measured there for N = 2, 3, 12, 13, 30).
+- **Difference:** Stronger: for every N ≥ 2 the state at s returns after p > 0 generations iff s ≥ 2N and 4 ∣ p, so the preperiod is exactly 2N for every N (the source proves period 4 from 2N by induction and measures the 2N − 1 clause). Object in the coordinates of `objects/line-C.json`; base runs S(4,1), N = 2, 3 by the kernel.
+
+### `line_period_four` (`Gump/Line.lean`)
+
+```lean
+theorem line_period_four (N : Nat) (hN : 2 ≤ N) : run (lineC N) (2 * N + 4) = run (lineC N) (2 * N) ∧ (∀ k, 0 < k → k < 4 → run (lineC N) (2 * N + k) ≠ run (lineC N) (2 * N)) ∧ run (lineC N) (2 * N - 1 + 4) ≠ run (lineC N) (2 * N - 1)
+```
+
+- **Meant to be:** §21 in the form of `Gump.Signals.lineC_N_period_four` (N = 2, 3, 12, 13).
+- **Difference:** Same as `line_orbit`, specialised: period 4 from 2N, no smaller, not from 2N − 1.
+
+### `S_succ` (`Gump/Line.lean`)
+
+```lean
+theorem S_succ {N : Nat} {m : Int} (h : S N m) : S (N + 1) (m + 1) ∧ ∀ t, X (N + 1) t = glue m (L N t) (shiftC 1 (X N t))
+```
+
+- **Meant to be:** `research/signals/prove_line.py`'s induction S(N, m) → S(N+1, m+1): Y(t) = L_N(t) on units ≤ m and τX_N(t) on units > m is X_{N+1}.
+- **Difference:** Same argument; the witness of 'not period 2' is carried at a unit > m and that of 'not from 2N − 1' at a unit ≤ m + 1, which the source does not need.
+
+### `train_step` (`Gump/TapeSignals.lean`)
+
+```lean
+theorem train_step (t : Nat) : step (train t) = train (t + 1)
+```
+
+- **Meant to be:** §30, `echo6.check_train`: the plain rake train (rake5 on even units, rakef on odd at generation 0) is an orbit and moves one unit towards −v every 2 generations.
+- **Difference:** Same, on the whole lattice (the train infinite along the wire); `train_shift` is the motion.
+
+### `signal_run` (`Gump/TapeSignals.lean`)
+
+```lean
+theorem signal_run (K : Kind) (u : Int) (hu : u % 2 = K.par % 2) (n : Nat) : run (xorC (train 1) (lcfg (sig K u))) (2 * n) = xorC (train (1 + 2 * n)) (lcfg (sig K (u + K.dir * n)))
+```
+
+- **Meant to be:** §30 and `prove_echo.py` (E, U, H, K0), `REVIEW-signals-6.md` §2 and `research/audit/signals6/sig6.py` (K3, N1, N2, N3, N4): each of the nine signals rides the infinite train for ever, rigidly, one unit per 2 generations.
+- **Difference:** Same, for every lowest unit of the kind's parity and every n: run (train 1 ⊕ sig K u) (2n) = train (1 + 2n) ⊕ sig K (u + dir·n). That these are all the train's signals is not claimed (nor by the source).
+
+### `glue_run` (`Gump/TapeBase.lean`)
+
+```lean
+theorem glue_run (m : Int) (X Z : Nat → Config) (hX : ∀ t p, unitOf p ≤ m → step (X t) p = X (t + 1) p) (hZ : ∀ t p, m + 1 ≤ unitOf p → step (Z t) p = Z (t + 1) p) (hXZ : ∀ t p, m ≤ unitOf p → unitOf p ≤ m + 1 → X t p = Z t p) : ∀ t, run (glue m (X 0) (Z 0)) t = glue m (X t) (Z t)
+```
+
+- **Meant to be:** The gluing step of §11, §21, push 8 and `REVIEW-signals-9.md` §3: two orbits that agree on the units m, m + 1, one obeying the rule on units ≤ m and the other on units > m, glue to an orbit.
+- **Difference:** Same, with a fixed seam (the moving seam of push 8 and the call law is not formalised).
+
+### `orbit_classify` (`Gump/TapeBase.lean`)
+
+```lean
+theorem orbit_classify (c : Config) (μ : Nat) (hμ : 1 ≤ μ) (h4 : run c (μ + 4) = run c μ) (h2 : run c (μ + 2) ≠ run c μ) (ht : run c (μ + 3) ≠ run c (μ - 1)) : ∀ s p, 0 < p → (run c (s + p) = run c s ↔ μ ≤ s ∧ p % 4 = 0)
+```
+
+- **Meant to be:** (the meaning of 'period exactly 4 from generation μ, and not from μ − 1')
+- **Difference:** A general lemma: the three facts X(μ+4) = X(μ), X(μ+2) ≠ X(μ), X(μ+3) ≠ X(μ−1) give: X(s+p) = X(s) iff s ≥ μ and 4 ∣ p.

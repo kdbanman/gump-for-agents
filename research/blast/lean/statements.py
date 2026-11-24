@@ -33,7 +33,7 @@ ROWS = [
   ('Sealed.union', 'A, T6: unions of sealed sets are sealed.', 'Same, for two sets.'),
   ('confinement', 'A, T2: if every cell with s > C is dead, that stays true forever.', 'Stronger: C is any integer, not only a lattice level.'),
   ('hull', 'A, T2: any finite pattern stays forever inside its diagonal hull, and the hull can only shrink.', 'Stated for any intersection of half-spaces d·p ≤ C d that contains the pattern; finiteness is not needed.'),
-  ('firewall', 'A, T3: if three consecutive layers C+2, C+4, C+6 are all dead, they stay dead forever.', 'Stronger: the band is C < s ≤ C + 6 for any integer C.'),
+  ('firewall', 'A, T3: if three consecutive layers C+2, C+4, C+6 are all dead, they stay dead forever.', 'Stronger in the band (C < s ≤ C + 6 for any integer C); it holds for every configuration of the lattice, infinite ones included. The source adds "applies to toroidal patterns too": that is not stated as a theorem; it follows for even H from this row applied to the periodic lift (`Torus.lift_trun`).'),
   ('firewall_separates', 'A, T3: the two sides never influence each other again.', 'Stated for the side below the band; the other side is the same theorem for the opposite diagonal.'),
   ('slab_closed', 'A, T4: a pattern contained in m consecutive layers stays in those layers.', 'Same, for any integers A ≤ s ≤ B.'),
  ]),
@@ -53,10 +53,10 @@ ROWS = [
  ]),
  ('T5: the threshold lemma (Mathlib package)', [
   ('energy_identity', 'A, T5: for gump ΔE = D − Q exactly.', 'F = 2E, so drive and dissipation are doubled. The vessel is a finite set holding every live point of a run on the infinite lattice; tori are not covered.'),
-  ('energy_bounds', '`research/theory/threshold.md`: −6N ≤ E ≤ 7N.', 'Same, doubled.'),
-  ('period_two_of_no_O1', 'A, T5: an orbit with no such events from some time on has period ≤ 2 (reached within 26N + 1 further steps).', 'Same, with the bound 26N.'),
-  ('oscillator_period_two', 'A, T5: every oscillator of period ≥ 3 has them.', 'Contrapositive form: an eventually periodic orbit without overcrowding events has period dividing 2.'),
-  ('budget', '`threshold.md`: M/(N·T) ≤ 20·O1/(N·T) + 26/T.', 'Same, as a sum over any window. The uncapped rule U and the Goles–Olivos theorem for it are not formalised.'),
+  ('energy_bounds', '`research/theory/threshold.md`: −6N ≤ E ≤ 7N.', 'Doubled. Says less than the source in one respect, like every T5 row here: the vessel is a finite set holding the run on the infinite lattice (a hull, or any region dead outside for ever); A, T5 also covers tori, which are not formalised.'),
+  ('period_two_of_no_O1', 'A, T5: an orbit with no such events from some time on has period ≤ 2 (reached within 26N + 1 further steps).', 'The bound is 26N. "No such events" is the source\'s own condition, no O1 event (no overcrowded cell that was alive one generation earlier), which is weaker than no overcrowding. No tori (see `energy_bounds`).'),
+  ('oscillator_period_two', 'A, T5: every oscillator of period ≥ 3 has them.', 'Contrapositive form: an eventually periodic orbit with no O1 events has period dividing 2. No tori.'),
+  ('budget', '`threshold.md`: M/(N·T) ≤ 20·O1/(N·T) + 26/T.', 'As a sum over any window. No tori. The uncapped rule U and the Goles–Olivos theorem for it are not formalised.'),
  ]),
  ('T6 in full: sealed sets', [
   ('sealed_iff_run_dead', 'Th, Lemma 1 with its converse: W is sealed iff, dead, it stays dead whatever happens elsewhere.', 'Same, for sets of cells (points that are not cells are never alive).'),
