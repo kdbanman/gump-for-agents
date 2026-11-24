@@ -167,4 +167,56 @@ theorem lifetime_from_bounds (K : KilledChain σ) (p : σ → Prop) [DecidablePr
     have e : M / m / (1 - r) = M / m * (1 - r)⁻¹ := by ring
     rw [e]; linarith
 
+/-- **The same bounds with λ < 1 proved** from (K), every state dying with positive probability (repair D6):
+(m/M)/(1 - λ) ≤ E_x T ≤ 1 + (M/m)/(1 - λ) for every x in the living class. -/
+theorem lifetime_from_bounds_K (K : KilledChain σ) (p : σ → Prop) [DecidablePred p] [Nonempty {x // p x}]
+    (hirr : Irreducible (K.block p)) (hout : ∀ y, ¬ p y → ∀ z, K.Q y z = 0)
+    (hK : ∀ x, 0 < K.death x) :
+    ∃ r m M : ℝ, 0 ≤ r ∧ r < 1 ∧ 0 < m ∧ m ≤ M ∧
+      (∀ ν lam, K.IsQSD ν lam → 0 < lam → lam = r) ∧
+      (∀ x, p x → m / M / (1 - r) ≤ K.lifetimeFrom x ∧ K.lifetimeFrom x ≤ 1 + M / m / (1 - r)) := by
+  obtain ⟨r, m, M, hr, hm, hmM, hq, hlo, hup⟩ := K.decay_bounds p hirr hout
+  obtain ⟨⟨x0, hx0⟩⟩ := ‹Nonempty {x // p x}›
+  have : Nonempty σ := ⟨x0⟩
+  -- every row loses at least δ = min death
+  set δ := univ.inf' univ_nonempty K.death with hδ
+  have hδ0 : 0 < δ := by rw [hδ, Finset.lt_inf'_iff]; exact fun x _ => hK x
+  have hδle : ∀ x, δ ≤ K.death x := fun x => Finset.inf'_le _ (mem_univ x)
+  have hdeath1 : ∀ x, K.death x ≤ 1 := fun x => by
+    have : 0 ≤ ∑ y, K.Q x y := Finset.sum_nonneg (fun y _ => K.nonneg x y)
+    simp only [death]; linarith
+  have hδ1 : δ ≤ 1 := (hδle x0).trans (hdeath1 x0)
+  have hrow : ∀ x, (K.Q *ᵥ (fun _ => (1 : ℝ))) x ≤ (1 - δ) * 1 := fun x => by
+    have h := hδle x
+    simp only [Matrix.mulVec, dotProduct, mul_one, death] at h ⊢
+    linarith
+  have hpow := Gump.Certificate.pow_mulVec_le K.Q K.nonneg (fun _ => (1 : ℝ)) (1 - δ) (by linarith) hrow
+  have hr1 : r < 1 := by
+    by_contra hge
+    push Not at hge
+    obtain ⟨t, ht⟩ := exists_pow_lt_of_lt_one (div_pos hm (hm.trans_le hmM)) (by linarith : 1 - δ < 1)
+    have h1 := hlo t x0 hx0
+    have h2 := hpow t x0
+    have h3 : 1 ≤ r ^ t := one_le_pow₀ hge
+    have h4 : m / M ≤ m / M * r ^ t := le_mul_of_one_le_right (div_pos hm (hm.trans_le hmM)).le h3
+    simp only [survFrom] at h1
+    linarith
+  refine ⟨r, m, M, hr, hr1, hm, hmM, hq, fun x hx => ?_⟩
+  have hgeo : Summable (fun t : ℕ => r ^ t) := summable_geometric_of_lt_one hr hr1
+  have hsum1 : Summable (fun t => K.survFrom (t + 1) x) :=
+    Summable.of_nonneg_of_le (fun t => K.survFrom_nonneg _ _) (fun t => hup t x) (hgeo.mul_left _)
+  have hsum : Summable (fun t => K.survFrom t x) := (summable_nat_add_iff 1).1 hsum1
+  constructor
+  · have := Summable.tsum_le_tsum (fun t => hlo t x hx) (hgeo.mul_left _) hsum
+    rw [tsum_mul_left, tsum_geometric_of_lt_one hr hr1] at this
+    unfold lifetimeFrom
+    calc m / M / (1 - r) = m / M * (1 - r)⁻¹ := by ring
+      _ ≤ _ := this
+  · unfold lifetimeFrom
+    rw [hsum.tsum_eq_zero_add, survFrom_zero]
+    have := Summable.tsum_le_tsum (fun t => hup t x) hsum1 (hgeo.mul_left _)
+    rw [tsum_mul_left, tsum_geometric_of_lt_one hr hr1] at this
+    have e : M / m / (1 - r) = M / m * (1 - r)⁻¹ := by ring
+    rw [e]; linarith
+
 end Gump.Chain.KilledChain

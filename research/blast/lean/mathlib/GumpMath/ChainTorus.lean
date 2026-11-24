@@ -200,3 +200,155 @@ theorem torus_2_0_2_one_price [Fintype (Torus 2 0 2)] [DecidableEq (Torus 2 0 2)
   wrapped_rotation 2 0 2 torus_2_0_2_invariant.1 torus_2_0_2_invariant.2 h1 h1' h2 h2'
 
 end Gump.Chain.Kagome
+
+/-! ### |T| = H·D (repair D3 of `research/blast/ref-chain/REVIEW.md`) -/
+
+namespace Gump.Chain.Kagome
+open Finset
+
+/-- The representatives (a, b), 0 ≤ a < H, 0 ≤ b < D. -/
+def torusRep (H K D : ℤ) : Fin H.toNat × Fin D.toNat → Torus H K D :=
+  fun p => QuotientAddGroup.mk ((p.1 : ℤ), (p.2 : ℤ))
+
+theorem torusRep_bijective (H K D : ℤ) (hH : 0 < H) (hD : 0 < D) :
+    Function.Bijective (torusRep H K D) := by
+  constructor
+  · rintro ⟨a, b⟩ ⟨a', b'⟩ h
+    have h' := QuotientAddGroup.eq.1 h
+    obtain ⟨m, n, hmn⟩ := AddSubgroup.mem_closure_pair.1 h'
+    have e1 := congrArg Prod.fst hmn
+    have e2 := congrArg Prod.snd hmn
+    simp only [Prod.fst_add, Prod.snd_add, Prod.smul_fst, Prod.smul_snd, smul_eq_mul, Prod.fst_neg,
+      Prod.snd_neg, mul_zero, add_zero] at e1 e2
+    have ha := a.isLt; have ha' := a'.isLt; have hb := b.isLt; have hb' := b'.isLt
+    have hHn : ((H.toNat : ℕ) : ℤ) = H := Int.toNat_of_nonneg hH.le
+    have hDn : ((D.toNat : ℕ) : ℤ) = D := Int.toNat_of_nonneg hD.le
+    have ha1 : ((a : ℕ) : ℤ) < H := by
+      have := (Nat.cast_lt (α := ℤ)).2 ha; linarith [hHn]
+    have ha1' : ((a' : ℕ) : ℤ) < H := by
+      have := (Nat.cast_lt (α := ℤ)).2 ha'; linarith [hHn]
+    have hb1 : ((b : ℕ) : ℤ) < D := by
+      have := (Nat.cast_lt (α := ℤ)).2 hb; linarith [hDn]
+    have hb1' : ((b' : ℕ) : ℤ) < D := by
+      have := (Nat.cast_lt (α := ℤ)).2 hb'; linarith [hDn]
+    have ha0 : (0 : ℤ) ≤ ((a : ℕ) : ℤ) := Int.natCast_nonneg _
+    have ha0' : (0 : ℤ) ≤ ((a' : ℕ) : ℤ) := Int.natCast_nonneg _
+    have hb0 : (0 : ℤ) ≤ ((b : ℕ) : ℤ) := Int.natCast_nonneg _
+    have hb0' : (0 : ℤ) ≤ ((b' : ℕ) : ℤ) := Int.natCast_nonneg _
+    have hm : m = 0 := by
+      rcases lt_trichotomy m 0 with hm | hm | hm
+      · have : m * H ≤ -H := by nlinarith
+        linarith
+      · exact hm
+      · have : H ≤ m * H := by nlinarith
+        linarith
+    subst hm
+    simp only [zero_mul, zero_add] at e1 e2
+    have hn : n = 0 := by
+      rcases lt_trichotomy n 0 with hn | hn | hn
+      · have : n * D ≤ -D := by nlinarith
+        linarith
+      · exact hn
+      · have : D ≤ n * D := by nlinarith
+        linarith
+    subst hn
+    simp only [zero_mul] at e2
+    have h1 : (a : ℕ) = a' := by omega
+    have h2 : (b : ℕ) = b' := by omega
+    simp [Fin.ext_iff, h1, h2]
+  · intro x
+    induction x using QuotientAddGroup.induction_on with
+    | H z =>
+      obtain ⟨a, b⟩ := z
+      set q := a / H
+      set b' := b - q * K
+      have ha0 : 0 ≤ a % H := Int.emod_nonneg a hH.ne'
+      have ha1 : a % H < H := Int.emod_lt_of_pos a hH
+      have hb0 : 0 ≤ b' % D := Int.emod_nonneg b' hD.ne'
+      have hb1 : b' % D < D := Int.emod_lt_of_pos b' hD
+      refine ⟨(⟨(a % H).toNat, by omega⟩, ⟨(b' % D).toNat, by omega⟩), ?_⟩
+      simp only [torusRep]
+      rw [QuotientAddGroup.eq]
+      have hmem : (-(((a % H).toNat : ℤ), ((b' % D).toNat : ℤ)) + (a, b) : ℤ × ℤ) =
+          q • (H, K) + (b' / D) • (0, D) := by
+        have e1 : (((a % H).toNat : ℤ)) = a % H := Int.toNat_of_nonneg ha0
+        have e2 : (((b' % D).toNat : ℤ)) = b' % D := Int.toNat_of_nonneg hb0
+        rw [e1, e2]
+        have h1 := Int.mul_ediv_add_emod a H
+        have h2 := Int.mul_ediv_add_emod b' D
+        ext
+        · simp only [Prod.fst_add, Prod.fst_neg, Prod.smul_fst, smul_eq_mul]; linarith
+        · simp only [Prod.snd_add, Prod.snd_neg, Prod.smul_snd, smul_eq_mul]
+          simp only [b'] at h2 ⊢; linarith
+      show -(((a % H).toNat : ℤ), ((b' % D).toNat : ℤ)) + (a, b) ∈ lattice H K D
+      rw [hmem]
+      exact add_mem (zsmul_mem (AddSubgroup.subset_closure (by simp)) _)
+        (zsmul_mem (AddSubgroup.subset_closure (by simp)) _)
+
+/-- **|ℤ²/⟨(H,K),(0,D)⟩| = H·D.** -/
+theorem torus_card (H K D : ℤ) (hH : 0 < H) (hD : 0 < D) [Fintype (Torus H K D)] :
+    (Fintype.card (Torus H K D) : ℤ) = H * D := by
+  rw [← Fintype.card_of_bijective (torusRep_bijective H K D hH hD)]
+  simp [Fintype.card_prod, Fintype.card_fin, Int.toNat_of_nonneg hH.le, Int.toNat_of_nonneg hD.le]
+
+theorem torus_card_real (H K D : ℤ) (hH : 0 < H) (hD : 0 < D) [Fintype (Torus H K D)] :
+    (Fintype.card (Torus H K D) : ℝ) = (H : ℝ) * D := by
+  have := torus_card H K D hH hD
+  exact_mod_cast this
+
+section HD
+variable (H K D : ℤ) (hH : 0 < H) (hD : 0 < D) [Fintype (Torus H K D)] [DecidableEq (Torus H K D)]
+variable {ρ1 ρ2 : ℝ} (h1 : 0 < ρ1) (h1' : ρ1 < 1) (h2 : 0 < ρ2) (h2' : ρ2 < 1)
+include hH hD
+
+/-- **One price per orientation on the wrapped face (H,K),(0,D)**, with A = 3HD:
+log τ = H·D·(c_X + c_Y + c_Z), for the unique quasi-stationary law with λ > 0. -/
+theorem wrapped_one_price_HD :
+    ∃ μ lam, (kernel (te1 H K D) (te2 H K D) ρ1 ρ2 h1 h1' h2 h2').toSubsetChain.killed.IsQSD μ lam ∧
+      0 < lam ∧
+      (∀ ν lam', (kernel (te1 H K D) (te2 H K D) ρ1 ρ2 h1 h1' h2 h2').toSubsetChain.killed.IsQSD ν lam' →
+        0 < lam' → ν = μ ∧ lam' = lam) ∧
+      (∀ (o : Orient) (p q : Torus H K D),
+        (kernel (te1 H K D) (te2 H K D) ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ (o, p) =
+        (kernel (te1 H K D) (te2 H K D) ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ (o, q)) ∧
+      Real.log ((kernel (te1 H K D) (te2 H K D) ρ1 ρ2 h1 h1' h2 h2').toSubsetChain.killed.lifetime μ) =
+        (H : ℝ) * D *
+          ∑ o : Orient, (kernel (te1 H K D) (te2 H K D) ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ (o, 0) := by
+  obtain ⟨μ, lam, hμ, hlam, huniq, hor, hlog⟩ :=
+    kagome_one_price (te1 H K D) (te2 H K D) h1 h1' h2 h2' (torus_generated H K D)
+  refine ⟨μ, lam, hμ, hlam, huniq, hor, ?_⟩
+  rw [hlog, torus_card_real H K D hH hD]
+
+/-- **One price per cell on a rotation-invariant wrapped face, A = 3HD**: log τ = 3·H·D·c. -/
+theorem wrapped_rotation_HD (hl1 : (K, -H - K) ∈ lattice H K D) (hl2 : (D, -D) ∈ lattice H K D) :
+    ∃ μ lam, (kernel (te1 H K D) (te2 H K D) ρ1 ρ2 h1 h1' h2 h2').toSubsetChain.killed.IsQSD μ lam ∧
+      0 < lam ∧
+      (∀ c c' : Cell (Torus H K D),
+        (kernel (te1 H K D) (te2 H K D) ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ c =
+        (kernel (te1 H K D) (te2 H K D) ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ c') ∧
+      Real.log ((kernel (te1 H K D) (te2 H K D) ρ1 ρ2 h1 h1' h2 h2').toSubsetChain.killed.lifetime μ) =
+        3 * (H : ℝ) * D *
+          (kernel (te1 H K D) (te2 H K D) ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ (Orient.X, 0) := by
+  obtain ⟨μ, lam, hμ, hlam, hall, hlog⟩ := wrapped_rotation H K D hl1 hl2 h1 h1' h2 h2'
+  refine ⟨μ, lam, hμ, hlam, hall, ?_⟩
+  rw [hlog, torus_card_real H K D hH hD]; ring
+
+end HD
+
+/-- **The 12-cell torus (2,0),(0,2)**: unique quasi-stationary law, and log τ = 12·c exactly. -/
+theorem torus_2_0_2_twelve [Fintype (Torus 2 0 2)] [DecidableEq (Torus 2 0 2)]
+    {ρ1 ρ2 : ℝ} (h1 : 0 < ρ1) (h1' : ρ1 < 1) (h2 : 0 < ρ2) (h2' : ρ2 < 1) :
+    ∃ μ lam, (kernel (te1 2 0 2) (te2 2 0 2) ρ1 ρ2 h1 h1' h2 h2').toSubsetChain.killed.IsQSD μ lam ∧
+      0 < lam ∧
+      (∀ c c' : Cell (Torus 2 0 2),
+        (kernel (te1 2 0 2) (te2 2 0 2) ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ c =
+        (kernel (te1 2 0 2) (te2 2 0 2) ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ c') ∧
+      Real.log ((kernel (te1 2 0 2) (te2 2 0 2) ρ1 ρ2 h1 h1' h2 h2').toSubsetChain.killed.lifetime μ) =
+        12 * (kernel (te1 2 0 2) (te2 2 0 2) ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ (Orient.X, 0) := by
+  obtain ⟨μ, lam, hμ, hlam, hall, hlog⟩ :=
+    wrapped_rotation_HD 2 0 2 (by norm_num) (by norm_num) h1 h1' h2 h2'
+      torus_2_0_2_invariant.1 torus_2_0_2_invariant.2
+  refine ⟨μ, lam, hμ, hlam, hall, ?_⟩
+  rw [hlog]; norm_num
+
+end Gump.Chain.Kagome

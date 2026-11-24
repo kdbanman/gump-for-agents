@@ -210,12 +210,16 @@ noncomputable def localDeath : G.toSubsetChain.killed.LocalDeath V where
   le_one := fun i a => by linarith [G.nonneg i a]
   prod := G.death_eq
 
-/-- **Theorem 2 for every product kernel** (every face of the surrogate, wrapped or rimmed). -/
+/-- **Theorems 1 and 2 for every product kernel** (every face of the surrogate, wrapped or rimmed), for the
+dominant quasi-stationary law (`IsDominantQSD`: λ maximal, λ ≥ Q u u, the decay rate of the longest-lived
+start), with the cells' own death probabilities 1 - a_i as the local factors. -/
 theorem tilt_identity_product [Nonempty V] :
-    ∃ μ lam, G.toSubsetChain.killed.IsQSD μ lam ∧
+    ∃ μ lam, G.toSubsetChain.killed.IsDominantQSD μ lam ∧
       Real.log (G.toSubsetChain.killed.lifetime μ) =
         ∫ s in (0:ℝ)..1, tiltMean μ G.localDeath.energy s G.localDeath.energy ∧
-      Real.log (G.toSubsetChain.killed.lifetime μ) = ∑ i, G.localDeath.price μ i := by
+      Real.log (G.toSubsetChain.killed.lifetime μ) = ∑ i, G.localDeath.price μ i ∧
+      Real.log (G.toSubsetChain.killed.lifetime μ) ≤ ∑ x, μ x * G.localDeath.energy x ∧
+      ∀ u, 1 / (1 - G.toSubsetChain.killed.Q u u) ≤ G.toSubsetChain.killed.lifetime μ := by
   have : Nonempty (Living V) := ⟨⟨univ, univ_nonempty⟩⟩
   exact KilledChain.tilt_identity_exists _ G.localDeath
 

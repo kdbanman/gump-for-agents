@@ -157,25 +157,26 @@ end KilledChain
 
 open KilledChain in
 /-- **Theorems 1 and 2 for a stochastic matrix with an absorbing empty face and a product death
-probability** (the shape of the surrogate in `GumpMath/DiceDef.lean`): there is a quasi-stationary law,
-log τ = ∫₀¹ ⟨E⟩_s ds = ∑_i c_i, and if every local factor 1 - a_i is at least the smallest atom of the
-coins, log τ ≤ -log min(ρ1²ρ2, (1-ρ1)²(1-ρ2)) · A. -/
+probability** (the shape of the surrogate in `GumpMath/DiceDef.lean`), for the dominant quasi-stationary law
+(`IsDominantQSD`): log τ = ∑_i c_i with c_i the price of the cell's own factor 1 - a_i, τ ≥ 1/(1 - Q u u) for
+every living u, and if every local factor 1 - a_i is at least the smallest atom of the coins,
+log τ ≤ -log min(ρ1²ρ2, (1-ρ1)²(1-ρ2)) · A. -/
 theorem surrogate_theorems {V : Type*} [Fintype V] (P : Matrix S S ℝ) (o : S) (hne : ∃ x, x ≠ o)
     (hP : ∀ x y, 0 ≤ P x y) (hrow : ∀ x, ∑ y, P x y = 1) (a : V → S → ℝ)
     (ha0 : ∀ i x, 0 ≤ a i x) (ha1 : ∀ i x, a i x < 1)
     (hprod : ∀ x, x ≠ o → P x o = ∏ i, (1 - a i x)) {ρ1 ρ2 : ℝ}
     (h1 : 0 < ρ1) (h1' : ρ1 < 1) (h2 : 0 < ρ2) (h2' : ρ2 < 1)
     (hatom : ∀ i x, atomMin ρ1 ρ2 ≤ 1 - a i x) :
-    ∃ μ lam, (ofStochastic P o hP hrow).IsQSD μ lam ∧
+    ∃ μ lam, (ofStochastic P o hP hrow).IsDominantQSD μ lam ∧
       Real.log ((ofStochastic P o hP hrow).lifetime μ) =
         ∑ i, (ofStochastic_local P o hP hrow a ha0 ha1 hprod).price μ i ∧
       Real.log ((ofStochastic P o hP hrow).lifetime μ) ≤
-        -Real.log (atomMin ρ1 ρ2) * Fintype.card V := by
+        -Real.log (atomMin ρ1 ρ2) * Fintype.card V ∧
+      ∀ u, 1 / (1 - (ofStochastic P o hP hrow).Q u u) ≤ (ofStochastic P o hP hrow).lifetime μ := by
   obtain ⟨x, hx⟩ := hne
   have : Nonempty {x : S // x ≠ o} := ⟨⟨x, hx⟩⟩
   set L := ofStochastic_local P o hP hrow a ha0 ha1 hprod
-  obtain ⟨μ, lam, hμ⟩ := (ofStochastic P o hP hrow).exists_qsd
-  refine ⟨μ, lam, hμ, (tilt_identity L hμ).2.1, ?_⟩
-  exact upper_bound_coins L hμ h1 h1' h2 h2' (fun i x => hatom i x)
+  obtain ⟨μ, lam, hD, -, he, -, hu⟩ := (ofStochastic P o hP hrow).tilt_identity_exists L
+  exact ⟨μ, lam, hD, he, upper_bound_coins L hD.qsd h1 h1' h2 h2' (fun i x => hatom i x), hu⟩
 
 end Gump.Chain

@@ -122,8 +122,11 @@ theorem one_sub_aliveProbR_two (ρ1 ρ2 : ℝ) (k : ℕ) (s : Bool) :
 
 /-- **Theorems 1 and 2 for every face of the surrogate.**  If cell i of a face with A ≥ 1 cells is alive
 next with probability `aliveProbR ρ1 ρ2 (m1 i) (m2 i) (k x i) (x.testBit i)`, where each cell has coins
-(2,1) and k ≤ 6, or coins (2,0) and k ≤ 2, then the killed chain at the empty face has a quasi-stationary
-law, log τ = ∑_i c_i, and log τ ≤ -log min(ρ1²ρ2, (1-ρ1)²(1-ρ2)) · A. -/
+(2,1) and k ≤ 6, or coins (2,0) and k ≤ 2, then the killed chain at the empty face has a dominant
+quasi-stationary law (`IsDominantQSD`: λ maximal among all, λ ≥ Q u u, the decay rate of the longest-lived
+start), log τ = ∑_i c_i with c_i the price of **cell i's own death probability** 1 - aliveProbR(cell i)
+(the local factor is named, repair D1), τ ≥ 1/(1 - Q u u) for every living u, and
+log τ ≤ -log min(ρ1²ρ2, (1-ρ1)²(1-ρ2)) · A. -/
 theorem bit_surrogate (A : ℕ) (hA : 0 < A) (ρ1 ρ2 : ℝ) (h1 : 0 < ρ1) (h1' : ρ1 < 1) (h2 : 0 < ρ2)
     (h2' : ρ2 < 1) (m1 m2 : ℕ → ℕ) (k : ℕ → ℕ → ℕ)
     (hcell : ∀ (x : Fin (2 ^ A)) i, i < A →
@@ -131,10 +134,15 @@ theorem bit_surrogate (A : ℕ) (hA : 0 < A) (ρ1 ρ2 : ℝ) (h1 : 0 < ρ1) (h1'
     let a : ℕ → ℕ → ℝ := fun x i => aliveProbR ρ1 ρ2 (m1 i) (m2 i) (k x i) ((x : ℕ).testBit i)
     ∃ (hP : ∀ x y, 0 ≤ bitP A a x y) (μ : {x : Fin (2 ^ A) // x ≠ empty A} → ℝ) (lam : ℝ)
       (L : (ofStochastic (bitP A a) (empty A) hP bitP_row).LocalDeath (Fin A)),
-      (ofStochastic (bitP A a) (empty A) hP bitP_row).IsQSD μ lam ∧
+      (ofStochastic (bitP A a) (empty A) hP bitP_row).IsDominantQSD μ lam ∧
+      (∀ (i : Fin A) (x : {x : Fin (2 ^ A) // x ≠ empty A}),
+        L.dc i x = 1 - aliveProbR ρ1 ρ2 (m1 i) (m2 i) (k ((x : Fin (2 ^ A)) : ℕ) i)
+          (((x : Fin (2 ^ A)) : ℕ).testBit i)) ∧
       Real.log ((ofStochastic (bitP A a) (empty A) hP bitP_row).lifetime μ) = ∑ i, L.price μ i ∧
       Real.log ((ofStochastic (bitP A a) (empty A) hP bitP_row).lifetime μ) ≤
-        -Real.log (atomMin ρ1 ρ2) * A := by
+        -Real.log (atomMin ρ1 ρ2) * A ∧
+      ∀ u, 1 / (1 - (ofStochastic (bitP A a) (empty A) hP bitP_row).Q u u) ≤
+        (ofStochastic (bitP A a) (empty A) hP bitP_row).lifetime μ := by
   intro a
   have hd : ∀ (x : Fin (2 ^ A)) i, i < A → atomMin ρ1 ρ2 ≤ 1 - a x i := by
     intro x i hi
@@ -182,9 +190,11 @@ theorem bit_surrogate (A : ℕ) (hA : 0 < A) (ρ1 ρ2 : ℝ) (h1 : 0 < ρ1) (h1'
   have hprod : ∀ x, x ≠ empty A → bitP A a x (empty A) = ∏ i, (1 - a' i x) := fun x _ => by
     rw [bitP_zero]
     exact (Fin.prod_univ_eq_prod_range (fun i => 1 - a x i) A).symm
-  obtain ⟨μ, lam, hμ, he, hb⟩ := surrogate_theorems (V := Fin A) (bitP A a) (empty A) hne hP bitP_row a'
+  set L := ofStochastic_local (bitP A a) (empty A) hP bitP_row a' (fun i x => hge0 x i i.2)
+    (fun i x => hle1 x i i.2) hprod
+  obtain ⟨μ, lam, hμ, he, hb, hu⟩ := surrogate_theorems (V := Fin A) (bitP A a) (empty A) hne hP bitP_row a'
     (fun i x => hge0 x i i.2) (fun i x => hle1 x i i.2) hprod h1 h1' h2 h2' (fun i x => hd x i i.2)
-  refine ⟨hP, μ, lam, _, hμ, he, ?_⟩
+  refine ⟨hP, μ, lam, L, hμ, fun i x => rfl, he, ?_, hu⟩
   simpa using hb
 
 /-- **Lemma 0 on bit masks.**  If in the state u every cell can be alive next, and every state that can
