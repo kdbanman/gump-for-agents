@@ -3,6 +3,7 @@
 Classical.choice, Quot.sound. -/
 import Gump.Tape
 import Gump.Line
+import Gump.TapeSignals
 open Gump Gump.Tape
 #print axioms glue_run
 #print axioms run_shiftC
@@ -17,3 +18,8 @@ open Gump Gump.Tape
 #print axioms Gump.Line.S_four
 #print axioms Gump.Line.line_orbit
 #print axioms Gump.Line.line_period_four
+#print axioms Gump.Tape.Signals.train_step
+#print axioms Gump.Tape.Signals.train_shift
+#print axioms Gump.Tape.Signals.sigCheck_ok
+#print axioms Gump.Tape.Signals.signal_step
+#print axioms Gump.Tape.Signals.signal_run
