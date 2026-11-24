@@ -35,7 +35,6 @@ the 4,218-generation log, the differential test and the census, about five minut
 | **T3**, firewall: three dead layers stay dead | `firewall` | `Gump/Sealed.lean` |
 | **T3**, second half: the two sides never influence each other again | `firewall_separates` | `Gump/Sealed.lean` |
 | **T4**, a pattern in the layers A ≤ s ≤ B stays in them | `slab_closed` | `Gump/Sealed.lean` |
-
 | **T6 / Theorem 3**, no finite sealed set in the full lattice (any nonempty finite set of points) | `no_finite_sealed`, `not_sealed_of_finite`, `exists_six_outside` | `Gump/Thickness.lean` |
 | **Theorem 3**, no finite set sealed in a slab of three or more layers | `slab_not_sealed_of_finite`, `layers_not_sealed_of_finite` | `Gump/Thickness.lean` |
 | **Lemma 1**, both halves: a set of cells is sealed iff, dead, it stays dead whatever happens elsewhere (lattice, any vessel, slabs) | `exists_birth`, `sealed_iff_run_dead`, `sealedIn_iff_step_dead`, `sealedIn_slab_iff_run_dead` | `Gump/Thickness.lean` |
