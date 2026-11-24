@@ -277,13 +277,15 @@ In flight at 15:50: tape (third task), density (third task). Next: when `tape` r
 `tape` third hand-back (40520c7), now idle: the clock from a single cell for every N (`lit_clock_exact`,
 `lit_enters_at`, `lit_first`), `Clock.reader_run`, `Reader.reader9_run`, `Beam.beam_period`,
 `Divider.divider_period`; not done: the meetings of §31.
-16:15 UTC: integrator ae578bc595e5e8719 launched (75 minutes: STATEMENTS and its check, two text slips, lean README,
+15:47 UTC: integrator ae578bc595e5e8719 launched (75 minutes: STATEMENTS and its check, two text slips, lean README,
 `check.sh --mathlib` and `--long`, blast README, REPORT entry and short version, `pi/COMMENT-DRAFT.md`). `ref-tape`
 resumed for a third review (tape's third task, 45 minutes); `ref-chain` for a fourth (every hull face, DiceMean; 40
 minutes). `density` third task still running (to about 17:35).
 **Owed when the integrator returns:** read its diff of REPORT.md and the comment draft; fill the density third-task
 placeholder; score block 6; commit by path; push; post the comment on PR 39 with `gh api`; tell the owner; update
 State above.
+`ref-tape` third review clean (90494b6): one prose slip (base times 4, 8, 12, 16 in Lean's `Xb` convention, not
+"11, 15, 19, 23"), sent to the integrator.
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in

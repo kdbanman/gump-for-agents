@@ -524,3 +524,56 @@ corrections replace them where they conflict.
    `validate.py` checks it: the coin fields of seeds 5000 and 5001 at p = 0.385 agree on 0.528 of cells (independent:
    0.526), 0.619 with the old start (the negative control). In the third task the 84-cell chunks are pooled only from
    the fixed binary, and the one repeated row (skin A, d = 4, 63 cells) uses it.
+
+### 2. The skin depth at full replacement [measured]
+
+Every cell at depth ≥ d under the watched face is a fresh coin every generation (full replacement), at the mean density
+gump has *at that depth among the replaced cells* (overall, not conditioned on the face; `cells.py` on the layer runs
+above, e.g. at 63 cells column A uses `1:0.4301,2:0.4094,3:0.4149,4:0.4166,5:0.4157,6:0.4157,7:0.4165,8:0.4150`). In
+these rows the replaced cells' density, when the face's next step reads them, is exactly the coin bias. Column A: depth
+≥ d under the watched face and ≥ 3 under the other seven (the face keeps d real layers in its middle, its rims keep
+more). Column B: depth ≥ d under every face (every face keeps exactly d real layers; B with d = 3 is A with d = 3). Rows:
+`DO=<3|d> NZD_FULL=1 sh research/blast/density/row.sh <tag> R <seed> GENS 0 d <biases>` (seeds in the table's files,
+`data/rows/{R9_,}skin{A,B}_d*_s*.txt`; 10⁶ generations at 45 cells, 4 × 10⁶ at 63, one 8 × 10⁶ repeat on the fixed
+stream); table: `python3 research/blast/density/skin.py`. "Dips" = descents from ≥ H to < H per hull-generation (H = 16
+at 63 cells, 11 at 45: a quarter of the face); "deadliness" = the share of them that end in death before the face is
+back at H; P₁ = the share of descents to ≤ 1 cell that die (gump: 0.7726 ± 0.0013 at 45 cells, 0.770 ± 0.004 at 63).
+
+| rows | Δ ln τ | Δ ln dips | Δ ln deadliness | P₁ |
+|---|---:|---:|---:|---:|
+| 45 cells, A, d = 1 (the bath of gump's own densities) | +0.564 ± 0.009 | −0.293 | −0.268 | 0.768 ± 0.003 |
+| 45, A, d = 2 | +0.342 ± 0.008 | −0.139 | −0.199 | 0.767 ± 0.003 |
+| 45, A = B, d = 3 | +0.169 ± 0.008 | −0.055 | −0.111 | 0.764 ± 0.003 |
+| **45, A, d = 4** | **+0.004 ± 0.007** | +0.005 | −0.004 | 0.771 ± 0.002 |
+| 45, B, d = 1 (every face on coins below itself) | +2.338 ± 0.020 | −2.441 | +0.108 | **0.915 ± 0.005** |
+| 45, B, d = 2 | +0.884 ± 0.010 | −0.467 | −0.413 | 0.767 ± 0.004 |
+| **45, B, d = 4** | **−0.006 ± 0.007** | +0.002 | +0.007 | 0.771 ± 0.002 |
+| 63 cells, A, d = 1 (the bath) | +1.186 ± 0.037 | −0.662 | −0.512 | 0.784 ± 0.013 |
+| 63, A, d = 2 | +0.694 ± 0.029 | −0.283 | −0.400 | 0.759 ± 0.011 |
+| 63, A = B, d = 3 | +0.295 ± 0.023 | −0.088 | −0.196 | 0.758 ± 0.009 |
+| **63, A, d = 4** (two seeds, pooled; +0.007 ± 0.020 and +0.020 ± 0.015) | **+0.016 ± 0.012** | +0.002, +0.001 | +0.003, −0.010 | 0.765, 0.776 ± 0.007 |
+| 63, A, d = 5 | +0.027 ± 0.021 | −0.005 | −0.011 | 0.766 ± 0.008 |
+| 63, A, d = 6 | +0.010 ± 0.020 | −0.005 | +0.006 | 0.764 ± 0.008 |
+| 63, B, d = 1 | +3.530 ± 0.118 | −3.315 | −0.204 | **0.878 ± 0.036** |
+| 63, B, d = 2 | +1.439 ± 0.041 | −0.700 | −0.728 | 0.763 ± 0.015 |
+| **63, B, d = 4** | **+0.016 ± 0.020** | −0.001 | −0.004 | 0.763 ± 0.008 |
+| 63, B, d = 5 | −0.012 ± 0.020 | −0.001 | +0.024 | 0.785 ± 0.007 |
+
+**A face with four real layers under it (the face and depths 1–3) dies at gump's rate and in gump's way**, at both
+sizes and in both columns: from d = 4 on, every Δ ln τ is within 1.4 σ of zero (the eight rows with d ≥ 4: weighted mean
++0.003 ± 0.004; the six at 63 cells +0.013 ± 0.008), and so are the frequency of dips (|Δ ln| ≤ 0.005), their
+deadliness (≤ 0.024) and the death from one cell (0.763–0.785 against 0.770). With three real layers the face lives
+longer by 0.17 (45 cells) and 0.30 (63 cells), the excess growing with the face, and most of it is in the deadliness of
+a dip (−0.11, −0.20) rather than in how often it dips (−0.06, −0.09). With two the excess is 0.34–1.44; with one (the
+face alone over coins at gump's own densities, column B) +2.3 and +3.5, and only that row changes the death from one
+cell (0.88–0.92). **So the face law, rate and excursions both, is a property of a skin four layers thick [measured at
+45 and 63 cells; that it holds at larger faces is conjectured]**: below depth 3 gump's support can be replaced by
+independent fresh coins of its own mean density, layer by layer, without any measurable change (to ± 0.02 in ln τ, ±
+0.01 in the excursion statistics); above it, it cannot. This is also the corrected form of part 1's "an independent bath
+of gump's density overestimates the life": a bath from depth 1 (A, d = 1) adds +0.56 at 45 cells and +1.19 at 63.
+
+Reading [conjectured]: the coins differ from gump's layers in memory and in correlations (with the face and among
+themselves), and those differences matter only within three layers of the face; gump's layers at depth ≥ 4 carry no
+information about the face that the face can use (part 1: their density does not move with the face, ± 0.005, and
+their correlation with it is < 0.01). Not checked: d = 4 at ε < 1 (darts); whether it is "depth ≥ 4" or a smooth decay
+that drops below the errors there (d = 3 → 4 removes 0.17 and 0.30; d = 4 → 5 nothing measurable).
