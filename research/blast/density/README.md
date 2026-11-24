@@ -9,7 +9,7 @@ uncorrelated with the face. Which one does it?
 **In brief (2026-11-24, 13:55 UTC).** Mostly correlation [measured]: at d = 1, coins at each replaced layer's own mean
 density keep +0.532 ± 0.011 of the fair coins' +0.678 ± 0.016 (d = 2: +0.244 of +0.332); at the layer's density under
 a low face +0.463 ± 0.010. Coins that copy the layer's current state shorten the life (−0.17, −0.43). The mechanism
-[measured on five chains; its sufficiency conjectured]: gump's support fades with its face (the replaced core of layer 1
+[measured on four annealed chains; its sufficiency conjectured]: gump's support fades with its face (the replaced core of layer 1
 from 0.430 to 0.384 when the face has ≤ 10 cells), the coins' does not (0.42–0.44), and the lives order by that
 low-face density; the births per supported dead face cell are the same in every chain, and a face down to one cell
 dies as often (0.77) with coins as without, so the coins slow the whole descent rather than rescue the last cell. The
