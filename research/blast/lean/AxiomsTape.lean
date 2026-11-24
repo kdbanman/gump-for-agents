@@ -9,6 +9,7 @@ import Gump.Call
 import Gump.UnzipProof
 import Gump.CallProof
 import Gump.CallUnionLocal
+import Gump.ClockLit
 open Gump Gump.Tape
 #print axioms glue_run
 #print axioms run_shiftC
@@ -73,3 +74,16 @@ open Gump Gump.Tape
 #print axioms Gump.Call.local_union
 #print axioms Gump.Call.call_law_a
 #print axioms Gump.Call.call_law
+#print axioms Gump.Clock.lit_init
+#print axioms Gump.Clock.zonesLit_ok
+#print axioms Gump.Clock.lit_step_big
+#print axioms Gump.Clock.smallOK_ok
+#print axioms Gump.Clock.lit_step_small
+#print axioms Gump.Clock.lit_step
+#print axioms Gump.Clock.lit_word
+#print axioms Gump.Clock.baseLitCheck_ok
+#print axioms Gump.Clock.chart_entry
+#print axioms Gump.Clock.FL_entry
+#print axioms Gump.Clock.lit_enters
+#print axioms Gump.Clock.exact_period_run
+#print axioms Gump.Clock.lit_clock

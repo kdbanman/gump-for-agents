@@ -1,11 +1,12 @@
 # The catalogue's "for every N" laws in Lean (tape files)
 
-Lean arm, 2026-11-24, 11:16–13:15 UTC and 13:16–14:25 UTC. Files: `Gump/TapeBase.lean`, `Gump/Tape.lean`, `Gump/TapeSignals.lean`
+Lean arm, 2026-11-24, 11:16–13:15 UTC, 13:16–14:25 UTC and 14:32–16:30 UTC. Files: `Gump/TapeBase.lean`, `Gump/Tape.lean`, `Gump/TapeSignals.lean`
 (+ `TapeSignalsData.lean`), `Gump/Line.lean` (+ `LineData.lean`), `Gump/Clock.lean` (+ `ClockData.lean`),
 `Gump/Unzip.lean`, `Gump/UnzipProof.lean`, `Gump/Call.lean` (+ `CallData.lean`), `Gump/CallProof.lean`,
-`Gump/CallBox.lean`, `Gump/CallLine.lean`, `Gump/CallUnion.lean` (+ `CallUnionData.lean`), `Gump/CallUnionLocal.lean`;
+`Gump/CallBox.lean`, `Gump/CallLine.lean`, `Gump/CallUnion.lean` (+ `CallUnionData.lean`), `Gump/CallUnionLocal.lean`,
+`Gump/ClockLit.lean` (+ `ClockLitData.lean`);
 `AxiomsTape.lean`; scripts `tape_lib.py`, `tape_line.py`, `tape_signals.py`, `tape_clock.py`, `tape_call.py`,
-`tape_statements_check.py`, `tape_unzip.py`, `tape_call_front.py`, `tape_callunion.py`; rows in `statements_tape.json`. Every result below is in the **kernel tier**: no
+`tape_statements_check.py`, `tape_unzip.py`, `tape_call_front.py`, `tape_callunion.py`, `tape_lit.py`; rows in `statements_tape.json`. Every result below is in the **kernel tier**: no
 `native_decide` anywhere, every base run is `decide +kernel` on `Gump.Bits`' stepper, and every theorem in
 `AxiomsTape.lean` rests on at most `propext`, `Classical.choice`, `Quot.sound`. Nothing here is refereed.
 
@@ -14,7 +15,7 @@ Lean arm, 2026-11-24, 11:16–13:15 UTC and 13:16–14:25 UTC. Files: `Gump/Tape
 | # | law (source) | Lean | status |
 |---|---|---|---|
 | 1 | the tape: every word over {B, C} moves one unit per 2 generations (§10; REVIEW-signals-2 row 5; REVIEW-signals-9 §3 A) | `Tape.tape_run`, `tape_local_run` | **proved**, whole lattice, every word |
-| 2 | a clock of every length: period exactly 4N + 2 for every N ≥ 1 (§11, `prove_clock.py`) | `Clock.clockOf_period` (named), `clock_cycle`, `lit_clock_small`, `X0_lit`; `clock_every_length` (existential, says less) | **proved** for the named cycle; that one cell lights the lit clock into it is proved for N ≤ 6 only |
+| 2 | a clock of every length: period exactly 4N + 2 for every N ≥ 1 (§11, `prove_clock.py`) | `Clock.clockOf_period` (named), `clock_cycle`, `lit_clock_small`, `X0_lit`; `clock_every_length` (existential, says less) | **proved** for the named cycle, and (third session) **from a single cell for every N**: `ClockLit.lit_clock`, `lit_enters`, `lit_word` |
 | 3 | the gun's line: period exactly 4 from generation 2N, every N ≥ 2 (§21, `prove_line.py`) | `Line.line_orbit`, `line_period_four` | **proved, stronger**: preperiod exactly 2N |
 | 4 | nine rigid signals on the rake train (§30–35, `prove_echo.py`, `sig6.py`) | `Tape.Signals.signal_run`, `train_step`, `train_shift` | **proved**, every place, every time |
 | 5 | the unzip law (push 8 §5, `prove_unzip8.py`; REVIEW-signals-8 §3) | `Unzip.unzip_law`, `unzip_law_sharp` | **proved**, both the push's bound and the review's sharp one, by a new argument |
@@ -39,6 +40,13 @@ theorem call_law_b (k : Nat) (hk : 1 ≤ k) (n : Nat) (hn : k + 17 ≤ n) :
 theorem call_law : CallLaw
 theorem clockOf_period (N : Nat) (hN : 1 ≤ N) :
     run (clockOf N) (4 * N + 2) = clockOf N ∧ (∀ k, 0 < k → k < 4 * N + 2 → run (clockOf N) k ≠ clockOf N) ∧ …
+theorem lit_word (N : Nat) (h6 : 6 ≤ N) : ∀ m, m ≤ mmax N → run (lcfg (litList N)) (2 * m) = ucfg (FL N m)
+theorem lit_enters (N : Nat) (h6 : 6 ≤ N) :
+    run (lcfg (litList N)) (2 * mmax N) = run (clockOf N) (2 * (N - 6) + 3)
+theorem lit_clock (N : Nat) (hN : 1 ≤ N) (g : Nat) (hg : litEntry N ≤ g) :
+    (∃ s, run (lcfg (litList N)) g = run (clockOf N) s) ∧
+    run (run (lcfg (litList N)) g) (4 * N + 2) = run (lcfg (litList N)) g ∧
+    ∀ k, 0 < k → k < 4 * N + 2 → run (run (lcfg (litList N)) g) k ≠ run (lcfg (litList N)) g
 def UnzipLawSharp : Prop :=
   ∀ k : Nat, 1 ≤ k → (∀ n : Nat, k + 3 ≤ n → run (countRead k) (2 * n) = tape (pulses k (2 - n))) ∧
     run (countRead k) (2 * (k + 2)) ≠ tape (pulses k (2 - (k + 2)))
@@ -160,6 +168,34 @@ So **the call law stands whole for every k ≥ 1** (`call_law : CallLaw`). Not c
 left": the finite cell (the left cap taking a train of any length), other seed places, and "at no earlier
 generation".
 
+## The clock from a single cell (third session)
+
+`Gump/ClockLit.lean`. The lit clock of N units is `litList N`: capL, N units of wire C, capR moved N units, and the
+cell (1,0,4) of unit N / 2 (`objects/clock-C.json`). Its transient is a word of push 8's hex letters between the two
+caps (`FL N m`, given unit by unit, caps as `capLU`/`capRU` from `tape_lit.py`): **at generation 2m the rake f is at
+unit N/2 + m, units of wire B (the pulses p<) at N/2 − m, N/2 − m + 2, …, N/2 + m − 2, wire C elsewhere**, for
+m ≤ mmax N = ⌈N/2⌉ − 1, when the rake reaches unit N − 1 (`lit_word`; the formula checked on the oracle for
+N = 6 .. 30 by `tape_lit.py`). So the one cell is a rake that runs right at the speed of a pulse, shedding one pulse per double step, while the
+pulses it shed run left at the same speed: the train's head stays two units behind the rake and its tail moves left
+one unit per double step, so the train spreads at both ends.
+
+- One double step (`lit_step`): for N ≥ 16 by the method of `UnzipProof`: tape windows on the wire, and three zone
+  families normalised and checked by the kernel at once (`zonesLit_ok`: the left cap with the train's tail at
+  a = min(N/2 − m, 9), 9 checks; the right cap with the rake at distance b = min(d, 9), 9 checks; the rake itself
+  with c = min(m, 2) pulses behind it, 3 checks); for 6 ≤ N ≤ 15 the whole clock in one box per (N, m)
+  (`smallOK_ok`, 45 checks, the box moved by 2N in z because the wire runs along (2, 0, −2)). `step_zoneU` is
+  `UnzipProof.step_zone` for words given unit by unit; `run2_empty` is the light cone on empty units.
+- The match (`FL_entry`): at time 2j + 8 every chart of the surgery shows base time 8 or 10
+  (`chart_entry`: chart j i (2j + 8) = 8 + 2((j − i) mod 2), by omega), and three kernel facts about the base
+  (`baseLitCheck_ok`): Xb 8 and Xb 10 on the units ≤ 3 are capL then wire B on the odd (resp. even) units, and Xb 8 on
+  the units ≥ 3 is B, C, f, capR. So the last word `FL N (mmax N)` is `Y_{N−6}` at time 2(N − 6) + 8, which is
+  `run (clockOf N) (2(N − 6) + 3)` by `clockY_run` (`lit_enters`).
+- `lit_clock`: from `litEntry N` on, every state of the lit clock is on the cycle of `clockOf N` and has exact
+  period 4N + 2 (`exact_period_run`: the states of an exact-period orbit have that exact period); N ≤ 5 is
+  `clockOf`'s definition.
+- What it does not say: the entry generation is not shown minimal ("at no earlier generation"), and the odd-N entry
+  is shown at N − 1, not at the measured N − 2.
+
 ## Not checked, and caveats
 
 - The objects: the Lean cell lists are written by the scripts from the JSON files (`line-C.json`, `clock-C.json`,
@@ -169,13 +205,9 @@ generation".
   clocks of 1 and 2 units side by side satisfy it for N = 7. `clockOf_period` names the object: the lit clock at
   generation max(N − 2, 0) for N ≤ 5, the surgery's cycle `clockY (N − 6)` for N ≥ 6. `X0_lit` proves the base X0 is
   the lit clock of six units at generation 41, so `clockOf 6` is the lit clock's state at 53 (`clockY_zero_lit`).
-- **The PI's second item, not done**: that one cell lights the clock of N ≥ 7 units into the surgery's cycle. Where
-  it stops: a proof needs (1) the lit clock's transient for every N as a word family (a rake `f` running from unit
-  N/2 towards capR, its train of B units behind it reaching capL near generation N; the method of UnzipProof applies,
-  with zones at both caps), and (2) the identification of the state at generation N − 2 with `clockY (N − 6)` at
-  some time, which means reading the base's unit 3 at every chart time as a letter and matching the chart formula.
-  Neither is written. Measured: the lit clock enters its cycle at max(N − 2, 0) (to N = 400, second review), and the
-  referee found `clockY j` to be one state of the lit clock's cycle for j ≤ 6.
+- The lit clock from one cell (third session, `Gump/ClockLit.lean`): proved for every N. For odd N the match is at
+  generation N − 1 (`2 * mmax N`), one generation after the measured entry N − 2, because generation N − 2 is odd and
+  its state is not a word of hex letters; "at no earlier generation" is not proved (see below).
 - `line_orbit` is about line-C exactly as in the JSON (capA and gun of that file), not about other caps or guns.
 - Nine signals: that these are all the rigid signals of the train is not claimed.
 - `glue_run_moving` and `Call.pulses_at` are proved but not used by any headline proof.
@@ -194,7 +226,11 @@ generation".
 
 The journal's 10:30 entry of 2026-11-15 ("a clock (a wire between two caps, period 4N + 2 for N units of wire)") and
 its correction (the clock stands, its proof rebuilt by a reviewer): the clock of every length is now checked by
-Lean's kernel, and so is the tape that the signals rest on, the gun's line, the train's nine signals, push 8's
+Lean's kernel, and since the third session as the journal has it, from a single cell: one added cell lights the
+clock of N units, for every N, into an oscillator of exact period 4N + 2 (`lit_clock`). The transient is itself a
+small picture: the cell is a rake that runs to the right cap shedding pulses that run left, the train widening at
+both ends; when
+the rake reaches the cap the clock is on its cycle. Also checked by the kernel: the tape that the signals rest on, the gun's line, the train's nine signals, push 8's
 count read ("the count leaves as a train of pulses") for every k, and push 9's call, whole. The unzip proof found something small and
 pretty: the count read is a front of fixed shape, `f 9`, sweeping through the stretch at the speed of a pulse while
 the pulses it sheds run the other way, so the whole release for every k is three local pictures.

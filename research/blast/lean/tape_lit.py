@@ -7,9 +7,8 @@ reference/oracle.py.
 The lit clock of N units (capL, N units of wire C, capR moved N units, the cell (1,0,4) of unit N / 2) at generation
 2m, for 2m <= 2 * ceil(N/2) - 2, is unit by unit: capL's units (-4 .. -1), on the units 0 .. N - 1 the hex letters
 f (15, the rake) at N/2 + m, 7 (wire B) at N/2 - m + 2i for i < m, b (11, wire C) elsewhere, and capR's units.
-Checked here for N = 6 .. 30 at every such m. Also checked: when the rake is at N - 1 (generation N - 2 for even N,
-N - 1 for odd N) the state is the surgery's Y_{N-6} at time 2(N - 6) + 8 (Gump.Clock.chart), and for every chart i the
-chart time is 8 + 2((N - 6 - i) mod 2).
+Checked here for N = 6 .. 30 at every such m (this tests the word family's formula; Gump/ClockLit.lean proves it for
+every N >= 6, `lit_word`, and that its last word, the rake at unit N - 1, is the surgery's state, `FL_entry`).
 """
 import sys
 from tape_lib import load, orbit_box, tr, unit, units, lean_list

@@ -111,6 +111,21 @@
     "X0_lit",
     "(referee ref-tape's observation) the surgery's base X0 is a state of the catalogue's lit clock.",
     "Same: the lit clock of six units at generation 41 is X0, so `clockY 0` is its state at generation 53 (`clockY_zero_lit`). For j ≥ 1 that `clockY j` is a state of the lit clock of 6 + j units is not proved."
+   ],
+   [
+    "lit_word",
+    "(PI's brief, third task) the lit clock's transient as a word family for every N: from one cell the rake f runs from unit N/2 towards capR, shedding units of wire B (pulses p<) behind it.",
+    "Same, for every N ≥ 6: at generation 2m (m ≤ mmax N = ⌈N/2⌉ − 1) the lit clock is `FL N m`: f at N/2 + m, wire B at N/2 − m + 2i (i < m), wire C elsewhere, caps untouched. Checked on the oracle for N = 6 .. 30 by `tape_lit.py`; proved by local double steps (tape windows, three zone families, `zonesLit_ok`) for N ≥ 16 and by whole-clock kernel steps (`smallOK_ok`) for 6 ≤ N ≤ 15."
+   ],
+   [
+    "lit_enters",
+    "§11 and the owner's journal (2026-11-15, 10:30): one cell lights the clock of N units into the cycle `clockOf N`; matched at generation N − 2 with `clockY (N − 6)`.",
+    "For even N: at generation N − 2 exactly (2 · mmax N = N − 2), the state of `clockOf N` at generation 2(N − 6) + 3, i.e. `Y_{N−6}` at surgery time 2(N − 6) + 8 (`FL_entry`). For odd N the theorem matches at N − 1 (2 · mmax N = N − 1), one generation after the measured entry N − 2: generation N − 2 is odd and not a hex word, so it is not proved. That no earlier generation is on the cycle is not proved here."
+   ],
+   [
+    "lit_clock",
+    "§11, `verify_clock.py`: the clock lit by one cell is an oscillator of period exactly 4N + 2, for every N ≥ 1.",
+    "Same, for every N ≥ 1: from generation `litEntry N` (max(N − 2, 0) for N ≤ 5; N − 2 for even, N − 1 for odd N ≥ 6) every state of the lit clock is a state of the cycle of `clockOf N` and has exact period 4N + 2. With `lit_enters` this makes the journal's 4N + 2 clock a theorem from a single cell."
    ]
   ]
  }
