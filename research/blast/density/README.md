@@ -6,6 +6,16 @@ Solver session, 2026-11-24 (from 11:16 UTC). Question (open problem 9 (r)): fair
 uncorrelated with the face. Which one does it?
 
 
+**In brief (2026-11-24, 13:55 UTC).** Mostly correlation [measured]: at d = 1, coins at each replaced layer's own mean
+density keep +0.532 ± 0.011 of the fair coins' +0.678 ± 0.016 (d = 2: +0.244 of +0.332); at the layer's density under
+a low face +0.463 ± 0.010. Coins that copy the layer's current state shorten the life (−0.17, −0.43). The mechanism
+[measured on five chains; its sufficiency conjectured]: gump's support fades with its face (the replaced core of layer 1
+from 0.430 to 0.384 when the face has ≤ 10 cells), the coins' does not (0.42–0.44), and the lives order by that
+low-face density; the births per supported dead face cell are the same in every chain, and a face down to one cell
+dies as often (0.77) with coins as without, so the coins slow the whole descent rather than rescue the last cell. The
+gain vanishes at a coin density of about 0.19: for its face, gump's own layers are worth independent coins of 0.19.
+Frozen coins (+1.18) are a separate, disorder effect. Block 4: items 1, 2, 4 true, 3 false.
+
 ## Files
 
 - `nzd.c`: the brute-force path of `research/blast/noisy/nz.c` (copied; `nz.c` is not edited) with coins whose bias
@@ -213,3 +223,16 @@ python3 research/blast/density/collect.py                    # the table, pooled
 python3 research/blast/density/chains.py research/blast/density/data/layers/lay*.txt   # the support table
 python3 research/blast/density/drift.py research/blast/density/data/layers/lay_gump_d1_s6001.txt research/blast/density/data/layers/lay_mean_d1_s6111.txt
 ```
+
+## Scores of block 4 of `research/blast/noisy/PREDICTIONS.md` (opened 13:52 UTC, after commit 5b07607 held every result above)
+
+| item | forecast | outcome |
+|---|---|---|
+| 1. at matched density the d = 1 gain is ≥ 0.40 | 70% | **true**: +0.532 ± 0.011 at the layers' mean density (two seeds), +0.463 ± 0.010 at their low-face density. (The 12% for "≤ 0.15": false.) |
+| 2. at matched density the d = 2 gain is ≥ 0.18 | 65% | **true**: +0.244 ± 0.013 (one seed); +0.281 ± 0.013 at the low-face density |
+| 3. coins at a third of the layer's density (≈ 0.14) still lengthen the d = 1 life | 55% | **false**: p = 0.1 gives −0.322 ± 0.022, p = 0.2 +0.043 ± 0.024; the gain crosses zero at p ≈ 0.19, so at 0.14 the life is shorter (≈ −0.2 by interpolation) |
+| 4. no coin density between 0.2 and 0.8 shortens the d = 1 life | 80% | **true as far as measured** (0.2, 0.3, 0.4, 0.5, 0.7 all ≥ 0; 0.6 and 0.8 not run), with the margin at 0.2 only 1.8 σ. Coins whose density *follows* the layer (shuffled) do shorten it, −0.17 and −0.43, but they are not a fixed density. |
+
+The PI's reading ("what they do that gump does not is hand a fading face live cells beneath it at times when gump's own
+layer is fading with it") is what the layer diagnostics show: gump's replaced core thins from 0.430 to 0.384 under a low
+face, the coin chains' does not (0.423–0.435).
