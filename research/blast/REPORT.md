@@ -879,6 +879,17 @@ referee broke a theorem.
   `Lemma0F (hull R)` (`hull_full_sym`, `LinkFaceAut.lean`), which is kernel-proved for R = 1, 3, …, 13 (3 to 84
   cells, `LinkHullCert.lean`; the referee regenerated the certificates byte for byte from tables it built from the
   oracle). `hull R` has no cells for even R, so "every R" means every R with A > 0, as the rows say. **Later the same day (after this was written): proved for every R by a general argument, `HullGen.hull_lemma0` and `hull_full_every` (`LinkHullGen.lean`), with the rotation and reflection as automorphisms for every R (`rot_aut`, `refl_aut`, `hull_prices_sym`, `LinkHullSym.lean`); refereed clean (`ref-chain/REVIEW.md`, fifth review: unconditional, elaborates at R = 21 with no certificate; the construction's steps hold on oracle-built hulls R = 3…13).**
+- **Added after the integration: the meetings of signals** (core Lean; `Gump/TapeSuper.lean`, `TapeMeet*.lean`;
+  refereed, `ref-tape` fourth review). Superposition from the light cone alone: configurations more than 4n apart
+  in max norm run independently for n generations (`Gump.run_or_far`; tight at n = 1 on the oracle), and along a
+  wire on any background (`superpose_units`). One meeting per pair of opposite signals (`Signals.pair_run`); U
+  meets K0 and both vanish, the plain train exactly from generation 2n + 4 from every distance 3 + 2n
+  (`meet_U_K0`); the three fronts for ever from every distance (`meet_UH`, `meet_EH`, `meet_EK`, `rigid_front`).
+  **A correction to the catalogue:** §31's table says U–H gives "the same: wire B between the same two edges" as
+  E–H; the lower edges are the same, but E–H's upper edge carries a three-unit defect just below its four topmost
+  units of wire B and U–H's does not (the referee decided it on the oracle from the catalogue's objects at three
+  distances each: the corrected row is right). Not covered: same-direction pairs, the K3 meetings, E–K0's medium
+  on the oracle (only its front recurrence was checked by the referee).
 - **Referees' defects and repairs** (details in `lean/README.md`, "Refereed on 2026-11-24"). `ref-chain`: seven, the
   main ones in what statements left existential (an unnamed local factorisation that let all prices but one be zero; "some
   QSD" admitting the λ = 0 point mass; |T| = HD), repaired and closed by its second review. `ref-tape`: an
@@ -890,7 +901,7 @@ referee broke a theorem.
   corrected here.
 - **Not proved.** The limit of the price per cell (only under gluing inequalities or pointwise convergence, neither
   known for the surrogate) and any lower bound ln τ ≥ c·A (B2). (Uniqueness on hull faces beyond R = 13 stood here when the entry was first written; it was proved for every R later the same day, see the link paragraph above.) λ intervals beyond the five 9-cell faces (the 12-cell certificate exists; its build did not
-  finish). The meetings of signals (§31). And the surrogate is not gump: it gives each cell private coins, and from
+  finish). (The meetings of signals, §31, stood here and were proved later the same day, see above.) And the surrogate is not gump: it gives each cell private coins, and from
   the full 9-cell hull face its one-step law differs by total variation 0.33 from gump's over shared coins
   [measured exactly, `PYTHONPATH=reference python3 research/blast/ref-dice/shared.py`]; 12 of the 15 cells beneath that
   face lie on the hull's other faces.
