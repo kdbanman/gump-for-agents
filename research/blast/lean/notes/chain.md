@@ -45,11 +45,19 @@ by the fundamental theorem of calculus on log Z); `tiltMean_antitone` (d⟨E⟩_
 as ∑ w (E Z − N)² ≥ 0); `integral_tiltMean_bounds`; `price_mem` (c_i ∈ [0, ε_max]); `IsQSD.last_living_law`
 (μ₁ = μ d / h is the law of X_{T−1}: ∑_t P_μ(X_t = x) d(x) = μ(x) d(x)/h).
 
-Existence of μ, for every face (`ChainExist.lean`): `KilledChain.exists_qsd` (every finite killed chain on a nonempty
-set has a quasi-stationary law: perturb to Q + J/(k+1), take Wielandt's positive Perron vector, normalise, extract a
-convergent subsequence in simplex × [0, 1 + |σ|]); `tilt_identity_exists` (Theorem 2 on every face, hull faces and
-strips included, where Lemma 0 is not available); `ProductKernel.tilt_identity_product` (every product kernel
-P(x,y) = ∏_i (a_i(x) or 1 − a_i(x)) with 0 ≤ a_i < 1, i.e. S(G) for any face).
+Existence of μ, for every face (`ChainExist.lean`): `KilledChain.exists_qsd` gives, for every finite killed chain on
+a nonempty set, the **dominant** quasi-stationary law, `IsDominantQSD` (repair D2 of `research/blast/ref-chain/REVIEW.md`:
+"some QSD" admitted the λ = 0 point mass on a surely-dying state, log τ = 0): λ ≥ λ' for every quasi-stationary law
+(ν, λ'), λ ≥ Q u u for every state u (so λ > 0 and τ ≥ 1/(1 − Q u u) on any face with a state that can persist), and λ
+is the exponential decay rate of the longest-lived start (P_x(T > t) ≤ C_ε (λ + ε)^t for every x and ε > 0;
+P_x(T > t) ≥ λ^t for some x at every t). Proof: perturb to Q + J/(k+1), take Wielandt's positive Perron row and column
+vectors (equal roots r_k), extract a convergent subsequence in simplex × [0, 1 + |σ|]; every QSD has λ' ≤ r_k (pair it
+with the column vector), r_k ≥ Q u u (the row vector's u-entry), and P_x(T > t) ≤ (max w/min w) r_k^t
+(`Certificate.survival_le` with `pow_entry_mono`). `tilt_identity_exists` (Theorems 1 and 2 on every face, hull faces
+and strips included, where Lemma 0 is not available, for that law); `ProductKernel.tilt_identity_product` (every
+product kernel P(x,y) = ∏_i (a_i(x) or 1 − a_i(x)) with 0 ≤ a_i < 1, i.e. S(G) for any face, with the cells' own
+factors 1 − a_i). Not proved: that this λ is the spectral radius of Q, or that it is the decay rate from every start
+reaching its support (on wrapped faces `decay_bounds` gives that, with uniqueness).
 
 Perron–Frobenius, built here because Mathlib has none (`ChainPerron.lean`): `exists_pos_eigenvector` (an irreducible
 non-negative matrix on a finite set has a strictly positive eigenvector, eigenvalue ≥ 0: Wielandt's argument,
@@ -98,10 +106,13 @@ the matrix, and Z(s) = ∑_x μ(x) e^{−sE(x)} is a finite sum of exponentials.
 - **Every wrapped face (H,K),(0,D) literally** (`ChainTorus.lean`): `Torus H K D = ℤ²/⟨(H,K),(0,D)⟩`,
   `torus_finite` (H, D > 0), `torus_generated`, then `wrapped_lemma0`, `wrapped_one_price`, `wrapped_upper_bound`,
   `wrapped_rotation` (invariance as (K, −H−K), (D, −D) ∈ Λ), and the example `torus_2_0_2_one_price` (the 12-cell
-  torus of `exact.csv`: unique QSD, ln τ = 12·c).
+  torus of `exact.csv`: unique QSD, ln τ = 3|T|·c). `torus_card` (repair D3): |T| = H·D for H, D > 0, whence
+  `wrapped_one_price_HD` (ln τ = HD·(c_X + c_Y + c_Z)), `wrapped_rotation_HD` (ln τ = 3HD·c) and `torus_2_0_2_twelve`
+  (ln τ = 12·c).
 - The rate (`ChainRate.lean`): `decay_bounds` (from every state x of the living class, (m/M)λ^t ≤ P_x(T > t) and
   P_x(T > t+1) ≤ (M/m)λ^t, m ≤ w ≤ M the Perron column vector; every QSD with λ > 0 has this λ), and
-  `lifetime_from_bounds` ((m/M)/(1−λ) ≤ E_x T ≤ 1 + (M/m)/(1−λ)): the QSD rate is the decay rate from every start,
+  `lifetime_from_bounds` ((m/M)/(1−λ) ≤ E_x T ≤ 1 + (M/m)/(1−λ), conditional on λ < 1; `lifetime_from_bounds_K`
+  proves λ < 1 from (K), repair D6): the QSD rate is the decay rate from every start,
   and a lifetime measured from any start is τ up to the factor M/m (not bounded here; a path argument gives only
   ln(M/m) = O(A)).
 - Lemma R (`ChainRoutes.lean`): `routes_first` (d log τ/dA = ∑ p_r c_r), `routes_second` (d/dA ∑ p c = −∑ p (c − c̄)²
@@ -130,32 +141,53 @@ Weaker hypothesis, proved sufficient (`ChainTiltLimit.lean`): `tilt_riemann_boun
 log τ ≤ (1/n)∑_{k=0}^{n−1}⟨E⟩_{k/n} on every face, width ≤ ε_max A/n, from monotonicity alone) and
 **`price_of_pointwise`**: along any sequence of faces with costs ≤ ε_max, if ⟨E⟩_{s,G_n}/A_n → f(s) for every
 s ∈ (0,1] — at any rate, not uniformly, with no spatial locality, and with jumps of f allowed — then
-log τ/A → ∫₀¹ f. So Theorem 3 (d)'s "one price for rimmed and wrapped faces" follows from the two families having the
+log τ/A → ∫₀¹ f; and `price_of_ae` (the referee's, taken over) asks this only for almost every s, so the finite
+curves need not converge at the jump point itself. So Theorem 3 (d)'s "one price for rimmed and wrapped faces" follows from the two families having the
 same pointwise limit of the per-cell tilted energy; a first-order jump along the tilt (the referee's two humps) does
 not obstruct it. Its finite form, `price_compare`: if the per-cell tilted energies of two faces differ by at most δ at the n + 1 tilts
 k/n and each falls by at most w over [0, 1], their prices per cell differ by at most δ + w/n. Conversely
-`SSM.einf_continuousOn` makes the referee's objection a theorem: (SSM) on a family with
-arbitrarily small error terms forces e_∞ to be continuous on [0,1], so a jump of the limit curve refutes (SSM).
+`SSM.einf_continuousOn` (SSM on a family with arbitrarily small error terms forces e_∞ continuous on [0,1]), with
+the referee's `SSM.tilt_limit` (under SSM, ⟨E⟩_{s,G_n}/A_n → e_∞(s) at every s) and `jump_refutes_SSM` (taken over
+from `research/blast/ref-chain/RefChainSSM.lean`), makes the referee's objection a theorem in full: a family whose
+per-cell tilted energies converge to a function not continuous on [0,1] satisfies no (SSM), whatever e_∞, K, K₀.
 
-## Places where the source needed more than it said
+## Places where the source needed more than it said (corrected after the referee, D5)
 
-1. **A quasi-stationary law needs λ > 0 to be unique.** The all-alive wrapped face dies surely, so the point mass on
-   it solves μQ = λμ with λ = 0 (τ = 1). Lemma 0's "the quasi-stationary law μ is unique" holds among λ > 0
-   (`qsd_exists_unique`, `lemma0_qsd`), which the usual definition (P_μ(T > t) > 0) contains silently.
-2. **Existence of μ on faces without Lemma 0** (hull faces, strips) is used and not proved in the source: proved
-   here for every finite killed chain (`exists_qsd`); uniqueness there remains unproved.
-3. **The constant 2.509 is a truncation.** ε_max = −ln(0.44²·0.42) = 2.50946… > 2.509; the argument gives
-   ln τ ≤ 2.50946·A, proved as ≤ 2.51·A. (ln τ ≤ 2.509·A is true of the surrogate, but not by this argument.)
-4. **c_∞ = ∫e_∞ needs e_∞ integrable** (`SSM.toIntSSM` takes it as a hypothesis); and only the integrated bound is
-   used by (a)–(d), so the hypothesis "uniform in s" is stronger than the proof needs.
-5. **The seam identity divides by the cover's recurrence weight (F^L)(s,s)**, which can vanish. For F ≥ 0 and a
-   cover a whole number of loops long this happens only where the torus's own weight vanishes
-   (`pow_mul_diag_ge`: (F^{jm})(a,a) ≥ ((F^m)(a,a))^j), so the identity holds there with both sides 0; for a cover
-   whose extra length is not a multiple of the loop it can fail. The sharp K = 2 form needs Tr F^m = Tr F^{2m} = 1
-   (the referee's Z = 1), assumed here.
-6. **Lemma 0's step (1)** ("by (K) and the product form, the possible next states of x are exactly the subsets of
-   M(x)") needs (K) for every cell in every state; proved for product kernels (`ProductKernel.supp`).
-7. Lemma R's discrete form: the source's version was already corrected by the referee; the corrected one is proved.
+My first list overstated. As corrected by `research/blast/ref-chain/REVIEW.md` (D5): **none of these is a gap in the
+mathematics of the source**; one is a genuine omission of a standard fact.
+1. *λ > 0 for uniqueness*: not a gap. It is a property of my weak `IsQSD` (the eigen-equation only), under which the
+   point mass on the surely-dying all-alive state is a solution with λ = 0; under the standard definition of a QSD
+   (P_μ(T > t) > 0 for all t) the source's "unique" is right as written.
+2. *Existence of μ off Lemma 0* (hull faces, strips): a genuine omission of a standard fact; proved here, for the
+   dominant law (`exists_qsd`). Uniqueness there remains unproved.
+3. *2.509*: rounding. ε_max = −ln(0.44²·0.42) = 2.50946… (0.081312·e^{2.509} = 0.99954 < 1, so ln τ ≤ 2.509·A does not
+   follow from the unweighted argument; the earlier referee's "2.509·A is right" carries the same rounding). Proved:
+   ln τ ≤ 2.51·A on every face; on wrapped faces the sharper `kagome_sharp_bound` (≤ 2.2412·A) implies ≤ 2.509·A.
+4. *e_∞ integrable*: redundant whenever (SSM) has content: `SSM.toIntSSM'` / `SSM.toIntSSM_of_small` derive `IntSSM`
+   with no integrability hypothesis from (SSM) and arbitrarily small error terms.
+5. *Division by (F^L)(s,s) in the seam identity*: does not arise in the source, whose covers are whole multiples of
+   the loop (`seam_identity` covers those). The referee measured that off multiples the identity still holds wherever
+   (F^L)(a,a) > 0 and fails otherwise (the 2-cycle); that form is not formalised. The sharp K = 2 form needs
+   Tr F^m = Tr F^{2m} = 1 (the referee's Z = 1), assumed.
+6. *(K) for every cell in every state* (Lemma 0's step (1)): the source's standing assumption, stated as such.
+7. Lemma R's discrete form: the earlier referee's correction, proved here.
+
+## Which upper bounds are Lean theorems (D7)
+
+- `KilledChain.upper_bound_coins` with `emax_main`: ln τ ≤ −ln min(ρ1²ρ2,(1−ρ1)²(1−ρ2))·A ≤ 2.51·A, for every QSD of any
+  chain whose local factors are all ≥ the smallest coin atom (every face of the surrogate: `bit_surrogate`,
+  `kagome_upper_bound`, `wrapped_upper_bound`).
+- `Kagome.kagome_sharp_bound` (`ChainSharp.lean`, the referee's paper proof formalised): ln τ ≤ 2.2412·A for every QSD
+  of the surrogate on the kagome layer over any finite T (every wrapped face), at (0.44, 0.42). Hypotheses: none
+  beyond the model. The constant is (2ε_max + ε₂)/3 = 2.241096 (ε₂ = −ln(0.56²·0.58) = 1.70437), proved with
+  ε_max ≤ 2.5095, ε₂ ≤ 1.7045. Ingredients: `indeg` (every cell is the neighbour of exactly six slots), `card_S_le`
+  (3·#{live, k = 3} ≤ 2A), `energy_le_sharp` (E(x) ≤ (2ε_max + ε₂)/3·A for every state). Not for hull faces.
+- The dice agent's `Gump.Dice.lntau_le_regular` (commit ce1b0a1, `DiceBound2.lean`, not mine): −ln(1 − λ) < 1.9228·A
+  for every QSD of a `Gump.Dice.Face` with all its coins and `regular` (six slots out and six in per cell), at the
+  dice densities; regularity is proved for `torus 1 0 3`, `torus 1 1 3`, `torus 2 0 2`. It is about its own faces, not
+  this model; on those three it implies 2.2411.
+- "ln τ ≤ 2.509·A is true of the surrogate" (my earlier sentence): now a theorem on wrapped faces only (via
+  `kagome_sharp_bound`); unproved on hull faces.
 
 ## Instantiation plan (for `GumpMath/Dice*.lean`)
 
@@ -163,7 +195,10 @@ arbitrarily small error terms forces e_∞ to be continuous on [0,1], so a jump 
 `Gump.Dice.Face.P` over ℝ for any a; `bitP_row` (the rows sum to 1: `sum_bits`, induction over the top bit),
 `bitP_zero`, `bitP_pos_iff`; `aliveProbR` is `Gump.Dice.aliveProb` transcribed over ℝ, with
 `one_sub_aliveProbR_three`/`_two` identifying 1 − aliveProb with `death3`/`death2`; and `bit_surrogate` gives
-Theorems 1 and 2 for every face whose cells have coins (2,1) and k ≤ 6, or (2,0) and k ≤ 2; `bit_one_class` gives
+Theorems 1 and 2 for every face whose cells have coins (2,1) and k ≤ 6, or (2,0) and k ≤ 2, for the dominant QSD and
+with the local factor of each cell **named** as 1 − aliveProbR of that cell (repair D1: the referee's `exists_lumped`
+shows an unnamed factorisation makes "ln τ = Σ c_i" empty, all prices but one 0; no other theorem here has an
+existential local factorisation); `bit_one_class` gives
 Lemma 0's uniqueness on bit masks from a state u where every cell can be alive and reachability of u. What remains
 for the instantiation, in a later step that may import both: (1) `(F.P ρ1 ρ2 x y : ℝ) = bitP F.A (fun x i =>
 aliveProbR ρ1 ρ2 (F.m1 i) (F.m2 i) (F.k x i) (x.testBit i)) x y` by `push_cast` (and `bin` against `binR`);
