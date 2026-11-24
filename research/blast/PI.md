@@ -253,6 +253,13 @@ the 84-cell row, a wrapped face if time; two and a half hours).
 does not exist, proved by the referee in `ref-dice/QsdSurvival.lean`; notes and rows); private against shared coins
 differ by total variation 0.33 in one step. `dice` resumed for the repairs (30 minutes); `ref-dice`
 (a4857c15ecf3e29cc) resumed for a second review of dice's second task (50 minutes).
+15:10–15:45: `ref-chain` second review clean (256c1a5); `dice` repairs in (08db9dd, `DiceMean.lean`), dice idle;
+`ref-dice` second review clean (b5c5e42). **For the integration:** two text fixes the dice referee found late: the
+`DiceBound3` header still says the classification "is not proved for every R" (`hull_type` proves it); the
+`torus113_bust_flux` row reuses the hull's "0.152 from the full face" (on that torus, from state 73, it is 0.934).
+Also at integration: regenerate `STATEMENTS.md` and make `check.sh` fail when it is stale; run
+`check.sh --mathlib --long` with nothing else building; `CellsOK` for every hull R is measured (R ≤ 15), not proved.
+A background job (bj01hgfn5) pushes every 40 s until about 16:55 UTC.
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in

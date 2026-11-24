@@ -15,7 +15,7 @@ exactly") and of the density README, before I read `nz.c` or `nzd.c` (I never op
   densities are read after the darts (they include the fresh coins), and adjacent seeds share their coin stream.
 - **The mechanism does not stand as stated.** "The lives order by the low-face density of the replaced core"
   [measured on their four chains] fails on three further chains of mine: the whole-layer copy has gump's low-face
-  density (0.386 against 0.384) and gump's clustering, yet lives 0.20 less; the scan chains at p = 0.1 and 0.2 have
+  density (0.386 against 0.384) and, before the darts, gump's clustering, yet lives 0.20 less; the scan chains at p = 0.1 and 0.2 have
   low-face densities *below* the core copy's or near it (0.311, 0.354 against 0.348) yet live 0.12 and 0.45 longer.
 - **The reading has further soft spots**: "the layer leads by 1–2 generations" (the cross-correlation peaks at lag 0;
   the asymmetry is real and points layer → face, the reverse of the causal sentence it is quoted for); "density
@@ -47,7 +47,7 @@ exactly") and of the density README, before I read `nz.c` or `nzd.c` (I never op
 - **Life protocol and estimator**: as the noisy README states it (soup 0.35, age 0; a lane-generation is exposure iff
   age > 200 after the step; a life ends when any face is empty; a watched death is a life ended with the watched face
   empty, alone or tied, at an exposure generation; re-seed). ln τ = ln(exposure / watched deaths) ± 1/√deaths. No
-  settled-life guard; the longest life in every row is below 1.4 × 10⁶ generations (no stuck lane). Diagnostics are
+  settled-life guard; the longest life in every row is below 1.6 × 10⁶ generations, as in the agent's rows (no stuck lane). Diagnostics are
   read after the step and before the darts; for the replaced core of layer 1 also after the darts.
 - Rows: `sh research/blast/ref-density/row.sh TAG R SEED GENS M D0 COIN [LAGGENS]`, full outputs in `data/rows/TAG.txt`
   (the line `SETUP` gives every parameter); `nzdrow.sh` runs nzd.c, outputs in `data/nzd/`. Every number below:
@@ -114,7 +114,8 @@ R = 9 agrees). The eight-face values agree too (mine 13.802 ± 0.007, theirs 13.
    | mean-density coins | +0.535 | 0.435 | 0.436 | 1.58 |
    | fair coins | +0.653 | 0.457 | 0.445 | 1.54 |
 
-   The whole-layer copy has gump's low-face density and gump's clustering and lives 0.20 shorter; the p = 0.2 chain
+   The whole-layer copy has gump's low-face density and (before the darts) gump's clustering and lives 0.20
+   shorter (7σ); the p = 0.2 chain
    is thinner than gump under a low face and lives as long; p = 0.1 is the thinnest of all and outlives the core copy.
    The scan chains also change the deeper replaced layers (their rule-made density is 0.44–0.46 at depths 2–4,
    against gump's 0.41–0.42), so they are not a clean test of layer 1 alone; the whole-layer copy is (its deeper
