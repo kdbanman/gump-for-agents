@@ -9,8 +9,8 @@ exactly") and of the density README, before I read `nz.c` or `nzd.c` (I never op
 ## In brief
 
 - **The numbers stand.** Every headline row I reran reproduces with independent code and seeds, all within 2σ
-  (table). The layer densities and lagged correlations reproduce to the third decimal. The largest tension is fair
-  coins at d = 1 (my first seed +0.631 ± 0.025 against +0.678 ± 0.016; see the note under the table).
+  (table). The layer densities and lagged correlations reproduce to the third decimal. The largest tension was fair
+  coins at d = 1 (first seed −1.6σ; with a second seed −1.0σ; note under the table).
 - **The program does what the README says.** Two defects of form, none of substance: the noisy chains' layer
   densities are read after the darts (they include the fresh coins), and adjacent seeds share their coin stream.
 - **The mechanism does not stand as stated.** "The lives order by the low-face density of the replaced core"
@@ -58,15 +58,14 @@ exactly") and of the density README, before I read `nz.c` or `nzd.c` (I never op
 | row | theirs: ln τ (Δ) | mine: ln τ (Δ) | deaths, mine | difference |
 |---|---|---|---:|---:|
 | gump | 13.633 ± 0.001 (own seed 13.644 ± 0.012) | 13.632 ± 0.014; all eight faces 13.631 ± 0.005 | 4,913 (39,315) | −0.1σ (−0.3σ) |
-| fair coins | 14.311 ± 0.016 (+0.678) | 14.264 ± 0.025 (+0.631) | 1,632 | −1.6σ |
-| fair coins, second seed | | PENDING-FAIR2 | | |
+| fair coins | 14.311 ± 0.016 (+0.678) | seeds 1012, 1013: 14.264 ± 0.025, 14.324 ± 0.033; pooled 14.286 ± 0.020 (+0.653) | 2,554 | −1.0σ |
 | mean-density coins | 14.165 ± 0.011 (+0.532) | 14.168 ± 0.026 (+0.535) | 1,437 | +0.1σ |
 | copy from the replaced cells | 13.199 ± 0.013 (−0.434) | 13.188 ± 0.020 (−0.445) | 2,392 | −0.5σ |
 | copy from the whole layer | 13.464 ± 0.011 (−0.169) | 13.428 ± 0.026 (−0.205) | 1,505 | −1.3σ |
 | every depth at p = 0.1 | 13.312 ± 0.022 (−0.322) | 13.306 ± 0.024 (−0.327) | 1,701 | −0.2σ |
 | every depth at p = 0.2 | 13.676 ± 0.024 (+0.043) | 13.635 ± 0.023 (+0.002) | 1,837 | −1.2σ |
 | zero of the scan (linear, 0.1–0.2) | p* = 0.188 ± 0.007 | p* = 0.199 ± 0.007 | | +1.1σ |
-| LOW10 coins | 14.096 ± 0.010 (+0.463) | PENDING-LOW10 | | |
+| LOW10 coins | 14.096 ± 0.010 (+0.463) | 14.081 ± 0.029 (+0.448) | 1,176 | −0.5σ |
 | mean-density coins, d = 2 | 13.877 ± 0.013 (+0.244) | PENDING-MEAND2 | | |
 | fair coins, d = 2 | 13.965 ± 0.014 (+0.332) | PENDING-FAIRD2 | | |
 | mean-density coins, ε = 1/16 | 13.797 ± 0.013 (+0.164) | PENDING-E16 | | |
@@ -90,11 +89,12 @@ sample gives about ± 0.0005 for the face-≤-10 densities. The lag table is fro
 (−0.3σ); core copy, two seeds each, 9.645 ± 0.006 against 9.655 ± 0.007 (−1.1σ); p = 0.2, 9.840 ± 0.010 against
 9.832 ± 0.010 (+0.6σ). P₁ agrees in every pair (0.764–0.778).
 
-**The fair-coin tension.** My first fair seed is 14.264 ± 0.025. nzd.c run by me at R = 11 with my seed 9201 (4 × 10⁶
-generations) gives 14.344 ± 0.029, the agent's seed 14.311 ± 0.016; nzd pooled 14.319 ± 0.014, mine −0.055 ± 0.029
-(−1.9σ). The excess deaths in my row sit in P₁ (0.785 ± 0.009 against nzd's 0.758 and 0.761), not in the descent
-rates (Δ ln f₁ −0.657 against −0.654). The eight-face values agree (mine 13.802 ± 0.007, theirs 13.808 ± 0.005). I
-find no difference of law between the two programs (both read; my law check above; R = 9 agrees). PENDING-FAIRNOTE
+**Fair coins, the one row that was ever in tension.** My first seed read 14.264 ± 0.025 (−1.6σ), its excess deaths
+in P₁ (0.785 ± 0.009 against 0.761), not in the descent rates (Δ ln f₁ −0.657 against −0.654). nzd.c run by me at
+R = 11 with my seed 9201 (4 × 10⁶ generations) gives 14.344 ± 0.029 (nzd pooled with the agent's seed: 14.319 ±
+0.014); my second seed 14.324 ± 0.033 with P₁ 0.753. Pooled mine 14.286 ± 0.020: −1.0σ against the agent, −1.4σ
+against nzd pooled. A fluctuation; I find no difference of law between the programs (both read; the law check above;
+R = 9 agrees). The eight-face values agree too (mine 13.802 ± 0.007, theirs 13.808 ± 0.005).
 
 ## Defects, ranked by how much they matter
 
@@ -109,8 +109,9 @@ find no difference of law between the two programs (both read; my law check abov
    | every depth at 0.2 | +0.002 | **0.354** | 0.397 | 1.69 |
    | gump | 0 | 0.384 | 0.384 | 1.80 |
    | copy from the whole layer | −0.205 | **0.386** | 0.398 | 1.77 |
+   | LOW10 coins | +0.448 | 0.422 | 0.433 | 1.58 |
    | mean-density coins | +0.535 | 0.435 | 0.436 | 1.58 |
-   | fair coins | +0.631 | 0.457 | 0.445 | 1.54 |
+   | fair coins | +0.653 | 0.457 | 0.445 | 1.54 |
 
    The whole-layer copy has gump's low-face density and gump's clustering and lives 0.20 shorter; the p = 0.2 chain
    is thinner than gump under a low face and lives as long; p = 0.1 is the thinnest of all and outlives the core copy.
@@ -138,8 +139,10 @@ find no difference of law between the two programs (both read; my law check abov
    density is 0.4405, 0.4202, 0.4257, 0.4280 at depths 1–4 against gump's 0.4301, 0.4094, 0.4149, 0.4165 (+0.010 to
    +0.011 at every depth; after the darts 0.438 at depth 1, theirs 0.438). Fresh coins at gump's density hold up more
    rule-made life than gump's correlated layer does. The chain whose replaced core is at gump's realized density is
-   LOW10 (0.428 after the darts, their `lay2_low10_d1_s6122.txt`; the README says so); on it the density share is
-   0.678 − 0.463 = 0.215 ± 0.019, a third, not "a fifth to a quarter".
+   LOW10 (0.428 after the darts in theirs and in mine; the README says so); on it the density share is
+   0.678 − 0.463 = 0.215 ± 0.019 in theirs, 0.653 − 0.448 = 0.205 ± 0.035 in mine: a third, not "a fifth to a
+   quarter" (mine along the README's own path, fair − mean: 0.118 ± 0.033). Even LOW10 is matched only at depth 1:
+   its rule-made deeper layers are at 0.421, 0.426, 0.428 (depths 2–4) against gump's 0.409, 0.415, 0.417.
 4. **"Independence from the face" is narrower than what the rows show** [inference]. Their conditioned coins (bias
    = gump's P(alive | m live face neighbours), overall or under a low face) are not independent of the face, yet keep
    +0.497 and +0.446 of the +0.532 (not rerun by me). Gump's local dependence on the face is weak (0.375 / 0.450 /
