@@ -198,6 +198,76 @@ theorem stepN_mask (S S' : Pt → Prop) [DecidablePred S] [DecidablePred S']
     · rw [h _ (Face.hull_cell_mem R i hi) hs, Bool.or_true]
     · simp [hs]
 
+
+/-! ### The six in-layer neighbours -/
+
+theorem mk_add_mk (a b c d e f : ℤ) : (⟨a, b, c⟩ : Pt) + ⟨d, e, f⟩ = ⟨a + d, b + e, c + f⟩ := rfl
+
+/-- The in-layer offsets of a cell with the given normal. -/
+def inl (a : Axis) : List Pt := (offsets a).filter fun v => decide (d111.dot v = 0)
+
+theorem inl_X : inl .X = [⟨0, 2, -2⟩, ⟨0, -2, 2⟩, ⟨1, -1, 0⟩, ⟨-1, 1, 0⟩, ⟨1, 0, -1⟩, ⟨-1, 0, 1⟩] := by decide
+theorem inl_Y : inl .Y = [⟨2, 0, -2⟩, ⟨-2, 0, 2⟩, ⟨-1, 1, 0⟩, ⟨1, -1, 0⟩, ⟨0, 1, -1⟩, ⟨0, -1, 1⟩] := by decide
+theorem inl_Z : inl .Z = [⟨2, -2, 0⟩, ⟨-2, 2, 0⟩, ⟨-1, 0, 1⟩, ⟨1, 0, -1⟩, ⟨0, -1, 1⟩, ⟨0, 1, -1⟩] := by decide
+
+theorem kc_eq (S : Pt → Prop) [DecidablePred S] (p : Pt) :
+    kc R S p = (inl p.axis).countP fun v => decide (p + v ∈ Gump.Dice.hullCells R ∧ S (p + v)) := by
+  unfold kc nbrs inl
+  rw [List.countP_map, List.countP_filter]
+  refine List.countP_congr fun v _ => ?_
+  simp only [Function.comp, Diag.dot_add, add_eq_left, Bool.and_eq_true, decide_eq_true_eq]
+  exact and_comm
+
+theorem axis_X (x y z : ℤ) (hx : x % 2 = 1) : Pt.axis ⟨x, y, z⟩ = .X := by simp [Pt.axis, hx]
+theorem axis_Y (x y z : ℤ) (hx : x % 2 = 0) (hy : y % 2 = 1) : Pt.axis ⟨x, y, z⟩ = .Y := by simp [Pt.axis, hx, hy]
+theorem axis_Z (x y z : ℤ) (hx : x % 2 = 0) (hy : y % 2 = 0) : Pt.axis ⟨x, y, z⟩ = .Z := by
+  simp [Pt.axis, hx, hy]
+
+/-- **No z-cell alive: at most four live neighbours.** -/
+theorem kc_le_four (S : Pt → Prop) [DecidablePred S] (hS : ∀ q, S q → q.z % 2 = 0) (p : Pt)
+    (hp : p ∈ Gump.Dice.hullCells R) : kc R S p ≤ 4 := by
+  rw [kc_eq]
+  have hmono : (inl p.axis).countP (fun v => decide (p + v ∈ Gump.Dice.hullCells R ∧ S (p + v))) ≤
+      (inl p.axis).countP (fun v => decide ((p.z + v.z) % 2 = 0)) :=
+    List.countP_mono_left fun v _ h => by
+      simp only [decide_eq_true_eq] at h ⊢
+      exact hS _ h.2
+  refine hmono.trans ?_
+  obtain ⟨-, -, -, -, hpar⟩ := parity R p hp
+  obtain ⟨x, y, z⟩ := p
+  simp only at hpar
+  rcases hpar with ⟨hx, hy, hz⟩ | ⟨hx, hy, hz⟩ | ⟨hx, hy, hz⟩
+  · rw [axis_X x y z hx, inl_X]
+    simp only [List.countP_cons, List.countP_nil, decide_eq_true_eq]
+    split_ifs <;> omega
+  · rw [axis_Y x y z hx hy, inl_Y]
+    simp only [List.countP_cons, List.countP_nil, decide_eq_true_eq]
+    split_ifs <;> omega
+  · rw [axis_Z x y z hx hy, inl_Z]
+    simp only [List.countP_cons, List.countP_nil, decide_eq_true_eq]
+    split_ifs <;> omega
+
+/-- **One live cell: at most one live neighbour.** -/
+theorem kc_le_one (c p : Pt) : kc R (fun q => q = c) p ≤ 1 := by
+  rw [kc_eq]
+  have hmono : (inl p.axis).countP (fun v => decide (p + v ∈ Gump.Dice.hullCells R ∧ p + v = c)) ≤
+      (inl p.axis).countP (fun v => decide (p + v = c)) :=
+    List.countP_mono_left fun v _ h => by
+      simp only [decide_eq_true_eq] at h ⊢
+      exact h.2
+  refine hmono.trans ?_
+  obtain ⟨x, y, z⟩ := p
+  obtain ⟨a, b, d⟩ := c
+  cases Pt.axis ⟨x, y, z⟩ <;>
+  · simp only [inl_X, inl_Y, inl_Z, List.countP_cons, List.countP_nil, decide_eq_true_eq, mk_add_mk, Pt.mk.injEq]
+    split_ifs <;> omega
+
+/-- A live in-layer neighbour in the hull gives k ≥ 1. -/
+theorem kc_pos (S : Pt → Prop) [DecidablePred S] (p v : Pt) (hv : v ∈ inl p.axis)
+    (hm : p + v ∈ Gump.Dice.hullCells R) (hs : S (p + v)) : 1 ≤ kc R S p := by
+  rw [kc_eq]
+  exact List.countP_pos_iff.2 ⟨v, hv, by simp [hm, hs]⟩
+
 /-! ### The coin rule as arithmetic -/
 
 theorem canB_1_true (k : ℕ) : canB 2 1 k true = true ↔ k ≤ 5 := by
