@@ -190,3 +190,45 @@ as a chain of generators, which needs one more induction in `rows_of_reps`.
     python3 dice_sym.py torus 2 0 2          # 12 cells with the symmetry reduction
     cd mathlib && lake build GumpMath.DiceHull3 && lake env lean AxiomsDice.lean
     sh research/blast/lean/check.sh --mathlib
+
+## Second task (2026-11-24, 14:00–15:30 UTC): the exits as path statements, Theorem 1 on every hull face
+
+All [proved], standard three axioms (`AxiomsDice.lean`), each module built alone.
+
+1. **The bust share is the share of the death flux through a bust** (`GumpMath/DiceFlux.lean`). Paths are explicit:
+   `pathE n f x` sums f over every list x = X₀, …, Xₙ of states with the product of its transition probabilities
+   (`pathWeight`); `dies l` (the last state is empty, no earlier one), `bustLast K l` (a fall pop u ≥ pop v + ⌈A/2⌉
+   among the last K transitions, the death included; `qsd.c`'s halffall marker). `pathE_succ` (one step of the
+   Markov property, by `Fin.consEquiv`), `pathE_noBust` (P_x(T = K, no fall) = `noBust K x`), `pathE_window`
+   (the window recursion), `death_flux` (P_μ(T = n+1) = λ^n (1 − λ)), and **`flux_share`**: for every QSD with
+   0 < λ < 1, every K ≥ 1 and every generation m + K, P_μ(T = m+K, bust in the last K)/P_μ(T = m+K) =
+   `bustShare K μ λ`. Hence `hull3_bust_flux` (∈ (0.017017, 0.017018)) and `torus113_bust_flux`
+   (∈ (0.936852, 0.936853), λ > 0) are statements about the exits themselves. The prose step of §3 is gone. Not
+   formed: the sum over all generations (each generation has the same ratio, so it is the same number).
+2. **Theorem 1 on every hull face** (`DiceHull.lean`): `hull_cells` (every R, by orientation with `simp` + `omega`):
+   every cell has two coins one layer in; the corners have none two layers in and at most two in-layer neighbours.
+   A corner dies on both coins tails whatever its state (`corner_cell`). `survival_le_hull`: P_x(T > t) ≤
+   (1 − δ₀^A)^t; `lntau_le_hull`: ln τ < 2.5095·A, every R, every QSD.
+3. **The weighted bound with a rim** (`DiceBound3.lean`, `DiceHullAll.lean`). The weights cancel on any
+   *balanced* face (every cell is in as many slots as it has neighbours); a live cell carries w^(deg − k).
+   `hull_balanced` (every R: the hull's relation is symmetric with no repetitions, from `Gump.nbrs_symm` and the
+   nodup lists), `hull_type` (every R: (degree, m1, m2) ∈ {(6,2,1), (4,2,1), (2,2,0)}), `type_check` (kernel).
+   With the best single weight w = 1341/1000 (binding: an edge cell, live with 3 of 4 neighbours, against a dead
+   one with 3) δ = 0.109 and **`lntau_le_hull_all`: ln τ < 2.2165·A for every hull face**, every R. (2.2160 is
+   the optimum of a uniform weight over the three types [computed, `python3` scan of w in steps of 0.001]; a
+   weight per type of cell would do better and is not tried.) `lntau_le_hull_small` is the earlier kernel-checked
+   form for R ≤ 11.
+
+**Not done.**
+- `Face.regular` for every `torus H K D`. Parts (six slots per cell, all slots cells) are routine. The in-degree
+  needs the reduction lemma: red is reduction modulo the lattice spanned by H·E1 + K·E2 and D·E2, so
+  red(p_j − v) = p_i whenever red(p_i + v) = p_j. In coordinates this is (a + sH) mod H = a mod H and the matching
+  floor-division identity, with H, D variables; `omega` cannot do it (it handles division by constants only). The
+  proof plan: decode/encode lemmas for `abCell`/`coordA`/`coordB` (omega, division by 2), an offset table per
+  orientation, the two lattice lemmas from `Int.add_mul_emod_self`/`Int.add_mul_ediv_right`, then the
+  v ↦ −v bijection. Estimated 1.5–2 hours; not started. `lntau_le_regular` still holds only where `regular` is
+  checked (three tori).
+- The 12-cell torus: skipped, as the brief allowed (no build was attempted under the 4 GB rule).
+
+Reproduce: `cd research/blast/lean/mathlib && lake build GumpMath.DiceFlux` (then DiceHull, DiceBound3,
+DiceHullAll, one at a time; DiceBound3 about 2 minutes, the others under a minute), `lake env lean AxiomsDice.lean`.
