@@ -66,8 +66,8 @@ exactly") and of the density README, before I read `nz.c` or `nzd.c` (I never op
 | every depth at p = 0.2 | 13.676 ± 0.024 (+0.043) | 13.635 ± 0.023 (+0.002) | 1,837 | −1.2σ |
 | zero of the scan (linear, 0.1–0.2) | p* = 0.188 ± 0.007 | p* = 0.199 ± 0.007 | | +1.1σ |
 | LOW10 coins | 14.096 ± 0.010 (+0.463) | 14.081 ± 0.029 (+0.448) | 1,176 | −0.5σ |
-| mean-density coins, d = 2 | 13.877 ± 0.013 (+0.244) | PENDING-MEAND2 | | |
-| fair coins, d = 2 | 13.965 ± 0.014 (+0.332) | PENDING-FAIRD2 | | |
+| mean-density coins, d = 2 | 13.877 ± 0.013 (+0.244) | 13.936 ± 0.027 (+0.303) | 1,359 | +2.0σ |
+| fair coins, d = 2 | 13.965 ± 0.014 (+0.332) | 13.971 ± 0.028 (+0.338) | 1,313 | +0.2σ |
 | mean-density coins, ε = 1/16 | 13.797 ± 0.013 (+0.164) | PENDING-E16 | | |
 | gump: replaced core of layer 1, all time | 0.4301 | 0.4301 | | |
 | … the same, face ≤ 10 (≤ 4) | 0.3836 (0.401) | 0.3843 (0.4016) | | |
@@ -143,7 +143,8 @@ R = 9 agrees). The eight-face values agree too (mine 13.802 ± 0.007, theirs 13.
    rule-made life than gump's correlated layer does. The chain whose replaced core is at gump's realized density is
    LOW10 (0.428 after the darts in theirs and in mine; the README says so); on it the density share is
    0.678 − 0.463 = 0.215 ± 0.019 in theirs, 0.653 − 0.448 = 0.205 ± 0.035 in mine: a third, not "a fifth to a
-   quarter" (mine along the README's own path, fair − mean: 0.118 ± 0.033). Even LOW10 is matched only at depth 1:
+   quarter" (mine along the README's own path, fair − mean: 0.118 ± 0.033 at d = 1; at d = 2 0.035 ± 0.039 against
+   their 0.088 ± 0.019, my mean-density d = 2 row sitting 2.0σ above theirs). Even LOW10 is matched only at depth 1:
    its rule-made deeper layers are at 0.421, 0.426, 0.428 (depths 2–4) against gump's 0.409, 0.415, 0.417.
 4. **"Independence from the face" is narrower than what the rows show** [inference]. Their conditioned coins (bias
    = gump's P(alive | m live face neighbours), overall or under a low face) are not independent of the face, yet keep
@@ -216,15 +217,15 @@ R = 9 agrees). The eight-face values agree too (mine 13.802 ± 0.007, theirs 13.
 | 13 | copy from the whole layer | 0.80 | **hit** (−1.3σ) |
 | 14 | the ordering by low-face density survives a fifth chain | 0.60 | **miss** (0.386, gump's density, Δ −0.20) |
 | 15 | LOW10 d = 1 | 0.80 | **hit** (−0.5σ) |
-| 16 | mean density d = 2 | 0.80 | PENDING-S16 |
+| 16 | mean density d = 2 | 0.80 | **hit** (+2.0σ) |
 | 17 | the p = 0.2 chain's support above 0.35 after the darts (informed by R = 9) | 0.80 | **hit** (0.399) |
-| 18 | fair d = 2 | 0.80 | PENDING-S18 |
+| 18 | fair d = 2 | 0.80 | **hit** (+0.2σ) |
 | 19 | mean density, ε = 1/16 | 0.80 | PENDING-S19 |
 | 20 | my second fair seed lands above the first | 0.65 | **hit** (14.324 against 14.264) |
 
 ## Not checked
 
-- The conditioned coins (+0.497, +0.446), frozen coins (+1.18), the scan at 0.3, 0.4, 0.7, LOW10 and fair at d = 2,
+- The conditioned coins (+0.497, +0.446), frozen coins (+1.18), the scan at 0.3, 0.4, 0.7, LOW10 at d = 2, second seeds of the d = 2 rows,
   the births-per-supply and drift columns of the support table, the agent's `validate.py`, its REC recount.
 - Errors of the layer densities (correlated samples; only the rough per-descent estimate above).
 - Whether the dart law's small departures from independent per-cell coins matter (both programs share the law).
