@@ -145,7 +145,12 @@
    [
     "lit_enters_exact",
     "(PI's brief, third task) the lit clock enters the cycle of `clockOf N` at generation N − 2, \"at no earlier generation\" if true.",
-    "For even N ≥ 6: on the cycle at generation N − 2 and at no earlier generation (`lit_first_even`: no state before N − 2 is any state of the cycle; the witness is the left end at generation N − 3, one kernel-checked cell per base time). Odd N: not proved; the left end at N − 3 equals that of base times 11, 15, 19, 23 (`tape_lit.py`), so this witness does not work, and the theorem's entry for odd N is N − 1 (`lit_enters`), not the measured N − 2."
+    "For even N ≥ 6: on the cycle at generation N − 2 and at no earlier generation (`lit_first_even`: no state before N − 2 is any state of the cycle; the witness is the left end at generation N − 3, one kernel-checked cell per base time)."
+   ],
+   [
+    "lit_first",
+    "(PI's brief, third task) \"at no earlier generation\": the lit clock of N units is on no state of the cycle of `clockOf N` before generation N − 2.",
+    "Same, for every N ≥ 6: even N by the left end at N − 3 (`lit_first_even`), odd N by the right end at N − 3 (`lit_first_odd`: C, f, C, capR is the right end of no base state; the left end would not do, it is that of base times 11, 15, 19, 23). With `lit_clock` the entry is exactly N − 2 for even N; for odd N it is N − 2 or N − 1 (the state at N − 2 is measured on the cycle, not proved)."
    ]
   ]
  }

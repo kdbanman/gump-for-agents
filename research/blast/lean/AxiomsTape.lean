@@ -110,3 +110,8 @@ open Gump Gump.Tape
 #print axioms Gump.Clock.cycle_left
 #print axioms Gump.Clock.lit_first_even
 #print axioms Gump.Clock.lit_enters_exact
+#print axioms Gump.Clock.firstCheckR_ok
+#print axioms Gump.Clock.lit_right
+#print axioms Gump.Clock.cycle_right
+#print axioms Gump.Clock.lit_first_odd
+#print axioms Gump.Clock.lit_first

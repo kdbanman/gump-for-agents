@@ -11,7 +11,7 @@ Checked here for N = 6 .. 30 at every such m (this tests the word family's formu
 every N >= 6, `lit_word`, and that its last word, the rake at unit N - 1, is the surgery's state, `FL_entry`).
 """
 import sys
-from tape_lib import load, orbit_box, tr, unit, units, lean_list
+from tape_lib import load, orbit_box, tr, unit, units, shift, lean_list
 
 ob = load('research/signals/objects/clock-C.json')
 capL = [tuple(c) for c in ob['capL']]
@@ -65,6 +65,15 @@ print(('PASS' if good else 'FAIL'), 'even N = 6 .. 20: the units <= 2 at generat
       '[' + ', '.join(f'⟨{x}, {y}, {z}⟩' for x, y, z in wit) + ']', file=sys.stderr)
 odd = {N: [n for n in range(26) if base[n] == units(orbit_box(lit(N), N - 3)[N - 3], -99, 2)] for N in (7, 9, 11)}
 print('odd N: base times whose units <= 2 equal the lit clock\'s at N - 3:', odd, file=sys.stderr)
+# Odd N (Gump/ClockLitFirst.lean, `witR`): at generation N - 3 (even) the units >= N - 3, moved back N - 6 units, are the
+# same for every odd N and differ from the units >= 3 of each base state.
+baseR = [units(o6[41 + n], 3, 999) for n in range(26)]
+right = {N: shift(units(orbit_box(lit(N), N - 3)[N - 3], N - 3, 999), -(N - 6)) for N in range(7, 22, 2)}
+good = all(right[N] == right[7] for N in right) and all(baseR[n] != right[7] for n in range(26))
+ok &= good
+witR = [sorted(baseR[n] ^ right[7])[0] for n in range(26)]
+print(('PASS' if good else 'FAIL'), 'odd N = 7 .. 21: the right end at generation N - 3 is on no base state; witR =',
+      '[' + ', '.join(f'⟨{x}, {y}, {z}⟩' for x, y, z in witR) + ']', file=sys.stderr)
 if not ok:
     sys.exit(1)
 print(f'''/-
