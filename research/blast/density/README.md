@@ -433,3 +433,37 @@ python3 research/blast/density/zeros.py     # every p* of the table, with the ro
 python3 research/blast/density/collect.py   # the excursion split per size
 # exploration (300,000 generations, seed 77, not used for any number): data/explore/full63_p*.txt
 ```
+
+---
+
+## 2026-11-24, third task (from 15:05 UTC): the coincidence, the skin depth, 84 cells
+
+Forecasts: `PREDICTIONS.md`, third block (committed at 7a84d46 before any run; scored at the end). New in the program:
+per-cell densities in layer runs (`CELL` lines: each cell's density over the counted hull-generations, overall and
+given the watched face has ≤ 20, 15, 10, 6, 4, 2 cells; a group's density is the mean of its cells'; checked on a
+20,000-generation run against the group lines: equal to 5 decimals for the face, layer 1 and its core);
+`cells.py FILE` prints every group by depth k and least depth j under the other faces ("DO ≥ j k"), its minimum over
+the thresholds, and the bias strings below. The brute path is unchanged (`validate.py 1200` passes; the rows ran on
+`nzd_prod4`, commit 44ce0cc).
+
+### 1. The coincidence p\* ≈ gump's support at its thinnest: an accident [measured]
+
+`NZD_LAYERS=1 nzd 9 brute 9901 2000000 0 1 3` and `nzd 11 brute 9911 1000000 0 1 3` (gump; `data/layers/lay3_gump_R9_s9901.txt`,
+`lay3_gump_R11_s9911.txt`), then `python3 research/blast/density/cells.py FILE`. Density in gump, overall → its minimum
+over the face thresholds (at which):
+
+| cells of layer 1 (depth 1 under the watched face) | 45 cells | 63 cells |
+|---|---|---|
+| all of layer 1 (45; 63 cells) | 0.435 → 0.319 (≤ 4) | 0.441 → 0.341 (≤ 6) |
+| **the ones the coins replace in the DO = 1 rows** (not on another face: 30; 45 cells) | 0.442 → **0.357** (≤ 4) | 0.444 → **0.367** (≤ 10) |
+| at depth ≥ 2 under the other faces (9; 18) | 0.426 → 0.393 (≤ 6) | 0.429 → 0.386 (≤ 10) |
+| the core, depth ≥ 3 under the others (3; 9) | 0.428 → 0.390 (≤ 6) | 0.430 → **0.384** (≤ 10) |
+| every cell the DO = 1 coins replace, all depths (264; 510) | 0.426 → 0.420 (≤ 6) | 0.424 → 0.420 (≤ 15) |
+
+The coins of the DO = 1 rows (density p at every cell not on a face) give gump's life at p\* = 0.3848 (45 cells) and
+0.3854 (63 cells). The cells they replace in layer 1 have, in gump, 0.357 and 0.367 at their thinnest, 0.02–0.03 lower;
+everything they replace, 0.420; the whole of layer 1, 0.32–0.34. Only the 9-cell core at 63 cells, at the ≤ 10
+threshold, lands on p\* (0.3844); at 45 cells the core's minimum is 0.390 and it is reached at another threshold. **The
+coincidence does not survive**: it compares the coins with a group they mostly do not replace, at one threshold, at one
+size. (Not checked: errors of these conditional densities; they rest on 3 × 10³ to 2 × 10⁷ correlated hull-generations
+depending on threshold and size. The 63-cell values agree with the 4 M-generation group run of part 1 to 0.002.)

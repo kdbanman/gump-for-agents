@@ -117,12 +117,12 @@ R = 9 agrees). The eight-face values agree too (mine 13.802 ± 0.007, theirs 13.
    | fair coins | +0.653 | 0.457 | 0.445 | 1.54 |
 
    The whole-layer copy has gump's low-face density and (before the darts) gump's clustering and lives 0.20
-   shorter (7σ); the p = 0.2 chain
-   is thinner than gump under a low face and lives as long; p = 0.1 is the thinnest of all and outlives the core copy.
-   The scan chains also change the deeper replaced layers (their rule-made density is 0.44–0.46 at depths 2–4,
-   against gump's 0.41–0.42), so they are not a clean test of layer 1 alone; the whole-layer copy is (its deeper
-   replaced layers are within 0.004 of gump's before the darts). Whatever sets the life, it is not the low-face density of the replaced core,
-   nor its clustering, alone. `python3 research/blast/ref-density/collect.py` (section "Descents").
+   shorter (7σ); the p = 0.2 chain is thinner than gump under a low face and lives as long; p = 0.1 is the thinnest
+   of all and outlives the core copy. The scan chains also change the deeper replaced layers (their rule-made density
+   is 0.44–0.46 at depths 2–4, against gump's 0.41–0.42), so they are not a clean test of layer 1 alone; the
+   whole-layer copy is (its deeper replaced layers are within 0.004 of gump's before the darts). Whatever sets the
+   life, it is not the low-face density of the replaced core, nor its clustering, alone.
+   `python3 research/blast/ref-density/collect.py` (section "Descents"; the after-dart column is `BYFPOST`).
 2. **"Gump's layer 1 leads the face's population by one to two generations" contradicts the loop it supports**
    [numbers measured, reading inference]. The lagged correlations reproduce to three decimals (table), but the
    cross-correlation of the whole layer 1 with the face **peaks at lag 0** (+0.375 > +0.296 at lags 1 and 2):
@@ -227,8 +227,9 @@ R = 9 agrees). The eight-face values agree too (mine 13.802 ± 0.007, theirs 13.
 
 ## Not checked
 
-- The conditioned coins (+0.497, +0.446), frozen coins (+1.18), the scan at 0.3, 0.4, 0.7, LOW10 at d = 2, second seeds of the d = 2 rows,
-  the births-per-supply and drift columns of the support table, the agent's `validate.py`, its REC recount.
+- The conditioned coins (+0.497, +0.446), frozen coins (+1.18), the scan at 0.3, 0.4, 0.7, LOW10 at d = 2, second
+  seeds of the d = 2 rows, the births-per-supply and drift columns of the support table, the agent's `validate.py`,
+  its REC recount.
 - Errors of the layer densities (correlated samples; only the rough per-descent estimate above).
 - Whether the dart law's small departures from independent per-cell coins matter (both programs share the law).
 - A full bath (every replaced cell fresh every generation); the decomposition's other order (no chain defines it).
