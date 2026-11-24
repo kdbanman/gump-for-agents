@@ -11,6 +11,7 @@ import GumpMath.ChainInst
 import GumpMath.ChainTiltLimit
 import GumpMath.ChainBits
 import GumpMath.ChainKagome
+import GumpMath.ChainTorus
 open Gump.Chain
 -- Theorem 2 (the tilt identity) and its analytic core
 #print axioms neg_log_Z_one
@@ -95,3 +96,11 @@ open Gump.Chain
 #print axioms Kagome.nbrs_rot_perm
 #print axioms Kagome.kagome_rotation
 #print axioms Kagome.kagome_upper_bound
+-- every wrapped face (H,K),(0,D)
+#print axioms Kagome.torus_finite
+#print axioms Kagome.torus_generated
+#print axioms Kagome.wrapped_lemma0
+#print axioms Kagome.wrapped_one_price
+#print axioms Kagome.wrapped_upper_bound
+#print axioms Kagome.wrapped_rotation
+#print axioms Kagome.torus_2_0_2_one_price
