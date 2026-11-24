@@ -507,3 +507,158 @@ theorem kagome_one_price (hgen : AddSubgroup.closure ({e1, e2} : Set T) = ⊤) :
 
 end Price
 end Gump.Chain.Kagome
+
+/-! ### The rotation by 2π/3: one price per cell on equilateral tori -/
+
+namespace Gump.Chain.Kagome
+open Finset Relation
+
+variable {T : Type*} [AddCommGroup T] [Fintype T] [DecidableEq T] (e1 e2 : T)
+
+/-- The rotation (x, y, z) ↦ (y, z, x) of the layer x + y + z = 1 sends X cells to Z cells, Y to X, Z to Y. -/
+def orot : Orient ≃ Orient where
+  toFun o := match o with | .X => .Z | .Y => .X | .Z => .Y
+  invFun o := match o with | .X => .Y | .Y => .Z | .Z => .X
+  left_inv o := by cases o <;> rfl
+  right_inv o := by cases o <;> rfl
+
+variable (R : T ≃+ T)
+
+/-- The rotation on cells, for an automorphism R of T with R e1 = -e2, R e2 = e1 - e2 (E1 ↦ -E2,
+E2 ↦ E1 - E2 under (x,y,z) ↦ (y,z,x)). -/
+def rot : Cell T ≃ Cell T := Equiv.prodCongr orot R.toEquiv
+
+theorem rot_apply (c : Cell T) : rot R c = (orot c.1, R c.2) := rfl
+
+variable {e1 e2 R} (hR1 : R e1 = -e2) (hR2 : R e2 = e1 - e2)
+include hR1 hR2
+
+theorem nbrs_rot_perm (c : Cell T) : (nbrs e1 e2 (rot R c)).Perm ((nbrs e1 e2 c).map (rot R)) := by
+  rcases c with ⟨o, p⟩
+  cases o
+  · have h : (nbrs e1 e2 ((Orient.X, p) : Cell T)).map (rot R) = nbrs e1 e2 (rot R (Orient.X, p)) := by
+      simp only [nbrs, List.map_cons, List.map_nil, rot_apply, orot, Equiv.coe_fn_mk, map_add, map_sub,
+        hR1, hR2, List.cons.injEq, Prod.mk.injEq, true_and, and_true]
+      repeat' constructor
+      all_goals abel
+    rw [h]
+  · have h : (nbrs e1 e2 ((Orient.Y, p) : Cell T)).map (rot R) =
+        [(Orient.X, R p + e1 - e2), (Orient.X, R p - e1 + e2), (Orient.Z, R p), (Orient.Z, R p + e2),
+          (Orient.Y, R p), (Orient.Y, R p + e1)] := by
+      simp only [nbrs, List.map_cons, List.map_nil, rot_apply, orot, Equiv.coe_fn_mk, map_add, map_sub,
+        hR1, hR2, List.cons.injEq, Prod.mk.injEq, true_and, and_true]
+      repeat' constructor
+      all_goals abel
+    rw [h]
+    simp only [rot_apply, orot, Equiv.coe_fn_mk, nbrs]
+    exact (((List.perm_append_comm (l₁ := [(Orient.Y, R p), (Orient.Y, R p + e1)])
+      (l₂ := [(Orient.Z, R p), (Orient.Z, R p + e2)])).cons _).cons _).trans (List.Perm.swap _ _ _)
+  · have h : (nbrs e1 e2 ((Orient.Z, p) : Cell T)).map (rot R) =
+        [(Orient.Y, R p - e2), (Orient.Y, R p + e2), (Orient.Z, R p), (Orient.Z, R p - e1 + e2),
+          (Orient.X, R p), (Orient.X, R p - e1)] := by
+      simp only [nbrs, List.map_cons, List.map_nil, rot_apply, orot, Equiv.coe_fn_mk, map_add, map_sub,
+        hR1, hR2, List.cons.injEq, Prod.mk.injEq, true_and, and_true]
+      repeat' constructor
+      all_goals abel
+    rw [h]
+    simp only [rot_apply, orot, Equiv.coe_fn_mk, nbrs]
+    exact (((List.perm_append_comm (l₁ := [(Orient.X, R p), (Orient.X, R p - e1)])
+      (l₂ := [(Orient.Z, R p), (Orient.Z, R p - e1 + e2)])).cons _).cons _).trans (List.Perm.swap _ _ _)
+
+theorem k_rot (x : Finset (Cell T)) (c : Cell T) :
+    k e1 e2 (x.map (rot R).toEmbedding) (rot R c) = k e1 e2 x c := by
+  unfold k
+  rw [(nbrs_rot_perm hR1 hR2 c).countP_eq, List.countP_map]
+  congr 1
+  funext d
+  simp
+
+section RotPrice
+variable {ρ1 ρ2 : ℝ} (h1 : 0 < ρ1) (h1' : ρ1 < 1) (h2 : 0 < ρ2) (h2' : ρ2 < 1)
+include h1 h1' h2 h2'
+
+theorem a_rot (x : Finset (Cell T)) (c : Cell T) :
+    (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').a (rot R c) (x.map (rot R).toEmbedding) =
+      (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').a c x := by
+  simp only [kernel, k_rot hR1 hR2]
+  congr 2
+  simp
+
+theorem P_rot (x y : Finset (Cell T)) :
+    (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').P (x.map (rot R).toEmbedding) (y.map (rot R).toEmbedding) =
+      (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').P x y := by
+  unfold ProductKernel.P
+  rw [← Equiv.prod_comp (rot R)]
+  refine Finset.prod_congr rfl (fun c _ => ?_)
+  have hm : (rot R c ∈ y.map (rot R).toEmbedding) ↔ c ∈ y := by simp
+  simp only [hm, a_rot hR1 hR2 h1 h1' h2 h2']
+
+omit h1 h1' h2 h2' in
+/-- The rotation acting on the non-empty states. -/
+def rotState : Living (Cell T) ≃ Living (Cell T) :=
+  Equiv.subtypeEquiv (Equiv.finsetCongr (rot R)) (fun x => by simp [Equiv.finsetCongr_apply])
+
+/-- **One price per cell on tori invariant under the rotation by 2π/3**: if T has an automorphism R with
+R e1 = -e2 and R e2 = e1 - e2, the three orientations have the same price c and log τ = 3|T| · c = A · c. -/
+theorem kagome_rotation (hgen : AddSubgroup.closure ({e1, e2} : Set T) = ⊤) :
+    ∃ μ lam, (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').toSubsetChain.killed.IsQSD μ lam ∧ 0 < lam ∧
+      (∀ c c' : Cell T, (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ c =
+        (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ c') ∧
+      Real.log ((kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').toSubsetChain.killed.lifetime μ) =
+        3 * Fintype.card T * (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').localDeath.price μ (Orient.X, 0) := by
+  obtain ⟨μ, lam, hμ, hlam, huniq, hor, hlog⟩ := kagome_one_price e1 e2 h1 h1' h2 h2' hgen
+  set G := kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2'
+  have hrot : ∀ c : Cell T, G.localDeath.price μ (rot R c) = G.localDeath.price μ c := by
+    intro c
+    refine KilledChain.price_invariant G.localDeath hμ hlam (fun ν lam' h h' => (huniq ν lam' h h').1)
+      (rotState (R := R)) (fun x y => ?_) (rot R) (fun i x => ?_) c
+    · show G.P (x.1.map (rot R).toEmbedding) (y.1.map (rot R).toEmbedding) = G.P x.1 y.1
+      rw [P_rot hR1 hR2]
+    · show 1 - G.a (rot R i) (x.1.map (rot R).toEmbedding) = 1 - G.a i x.1
+      rw [a_rot hR1 hR2]
+  have hXZ : G.localDeath.price μ (Orient.Z, 0) = G.localDeath.price μ (Orient.X, 0) := by
+    have := hrot (Orient.X, 0); simpa [rot_apply, orot] using this
+  have hYX : G.localDeath.price μ (Orient.Y, 0) = G.localDeath.price μ (Orient.X, 0) := by
+    have := hrot (Orient.Y, 0)
+    simp only [rot_apply, orot, Equiv.coe_fn_mk, map_zero] at this
+    exact this.symm
+  have hall : ∀ c : Cell T, G.localDeath.price μ c = G.localDeath.price μ (Orient.X, 0) := by
+    rintro ⟨o, p⟩
+    rw [hor o p 0]
+    cases o
+    · rfl
+    · exact hYX
+    · exact hXZ
+  refine ⟨μ, lam, hμ, hlam, fun c c' => by rw [hall c, hall c'], ?_⟩
+  rw [hlog]
+  have : ∑ o : Orient, G.localDeath.price μ (o, 0) = 3 * G.localDeath.price μ (Orient.X, 0) := by
+    rw [Finset.sum_congr rfl (fun o _ => hall (o, 0))]
+    simp
+    left; rfl
+  rw [this]; ring
+
+end RotPrice
+end Gump.Chain.Kagome
+
+namespace Gump.Chain.Kagome
+variable {T : Type*} [AddCommGroup T] [Fintype T] [DecidableEq T] (e1 e2 : T)
+
+theorem card_orient : Fintype.card Orient = 3 := rfl
+
+/-- **Theorem 1 with its constant on every wrapped face**: for every quasi-stationary law,
+log τ ≤ -log min(ρ1²ρ2, (1-ρ1)²(1-ρ2)) · A with A = 3|T|; at (0.44, 0.42) this is ≤ 2.51 · A (`emax_main`). -/
+theorem kagome_upper_bound {ρ1 ρ2 : ℝ} (h1 : 0 < ρ1) (h1' : ρ1 < 1) (h2 : 0 < ρ2) (h2' : ρ2 < 1)
+    {μ : Living (Cell T) → ℝ} {lam : ℝ}
+    (hμ : (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').toSubsetChain.killed.IsQSD μ lam) :
+    Real.log ((kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').toSubsetChain.killed.lifetime μ) ≤
+      -Real.log (atomMin ρ1 ρ2) * (3 * Fintype.card T) := by
+  have := KilledChain.upper_bound_coins (kernel e1 e2 ρ1 ρ2 h1 h1' h2 h2').localDeath hμ h1 h1' h2 h2'
+    (fun i x => by
+      show atomMin ρ1 ρ2 ≤ 1 - (1 - death3 ρ1 ρ2 (decide (i ∈ x.1)) (k e1 e2 x.1 i))
+      rw [sub_sub_cancel]
+      exact threeCoins_death_ge h1.le h1'.le h2.le h2'.le _ _ (k_le_six e1 e2 _ _))
+  rw [Fintype.card_prod, card_orient] at this
+  push_cast at this
+  exact this
+
+end Gump.Chain.Kagome
