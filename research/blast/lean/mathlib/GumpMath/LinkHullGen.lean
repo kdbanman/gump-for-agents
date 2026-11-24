@@ -223,6 +223,10 @@ theorem axis_Y (x y z : ℤ) (hx : x % 2 = 0) (hy : y % 2 = 1) : Pt.axis ⟨x, y
 theorem axis_Z (x y z : ℤ) (hx : x % 2 = 0) (hy : y % 2 = 0) : Pt.axis ⟨x, y, z⟩ = .Z := by
   simp [Pt.axis, hx, hy]
 
+theorem axX (q : Pt) (h : q.x % 2 = 1) : q.axis = .X := by obtain ⟨a, b, c⟩ := q; exact axis_X a b c h
+theorem axY (q : Pt) (hx : q.x % 2 = 0) (hy : q.y % 2 = 1) : q.axis = .Y := by
+  obtain ⟨a, b, c⟩ := q; exact axis_Y a b c hx hy
+
 /-- **No z-cell alive: at most four live neighbours.** -/
 theorem kc_le_four (S : Pt → Prop) [DecidablePred S] (hS : ∀ q, S q → q.z % 2 = 0) (p : Pt)
     (hp : p ∈ Gump.Dice.hullCells R) : kc R S p ≤ 4 := by
@@ -267,6 +271,142 @@ theorem kc_pos (S : Pt → Prop) [DecidablePred S] (p v : Pt) (hv : v ∈ inl p.
     (hm : p + v ∈ Gump.Dice.hullCells R) (hs : S (p + v)) : 1 ≤ kc R S p := by
   rw [kc_eq]
   exact List.countP_pos_iff.2 ⟨v, hv, by simp [hm, hs]⟩
+
+
+/-! ### The growth region, its potential and the descent -/
+
+/-- The x- and y-cells that are not corners. -/
+def T (q : Pt) : Prop := q.z % 2 = 0 ∧ ¬ corner q
+
+instance : DecidablePred T := fun q => by unfold T; infer_instance
+
+/-- An x-cell on the edge y = 0, or a y-cell on the edge x = 0 below the top row. -/
+def stuck (q : Pt) : Prop := (q.x % 2 = 1 ∧ q.y = 0) ∨ (q.y % 2 = 1 ∧ q.x = 0 ∧ q.z ≠ (R : ℤ) - 1)
+
+instance : DecidablePred (stuck R) := fun q => by unfold stuck; infer_instance
+
+/-- The potential: three per two layers below the top, one more if stuck. -/
+def phi (q : Pt) : ℤ := 3 * ((R : ℤ) - 1 - q.z) + if stuck R q then 1 else 0
+
+/-- The base cell, the y-cell of the top row. -/
+def c0 : Pt := ⟨0, 1, (R : ℤ) - 1⟩
+
+def G (n : ℕ) (q : Pt) : Prop := T q ∧ phi R q ≤ n
+
+instance (n : ℕ) : DecidablePred (G R n) := fun q => by unfold G; infer_instance
+
+theorem mem_hull_iff (x y z : ℤ) : (⟨x, y, z⟩ : Pt) ∈ Gump.Dice.hullCells R ↔
+    0 ≤ x ∧ 0 ≤ y ∧ 0 ≤ z ∧ x + y + z = R ∧
+      ((x % 2 = 1 ∧ y % 2 = 0 ∧ z % 2 = 0) ∨ (x % 2 = 0 ∧ y % 2 = 1 ∧ z % 2 = 0) ∨
+        (x % 2 = 0 ∧ y % 2 = 0 ∧ z % 2 = 1)) := by
+  rw [Gump.Dice.mem_hullCells]
+  simp only [Pt.isCell, Bool.or_eq_true, Bool.and_eq_true, bne_iff_ne, ne_eq, beq_iff_eq]
+  constructor
+  · rintro ⟨h1, h2, h3, h4, h5⟩; exact ⟨h1, h2, h3, h4, by omega⟩
+  · rintro ⟨h1, h2, h3, h4, h5⟩; exact ⟨h1, h2, h3, h4, by omega⟩
+
+theorem c0_mem (hR : 3 ≤ R) (hodd : R % 2 = 1) : c0 R ∈ Gump.Dice.hullCells R := by
+  unfold c0; rw [mem_hull_iff]; omega
+
+theorem c0_T (hR : 3 ≤ R) (hodd : R % 2 = 1) : T (c0 R) := by
+  unfold T c0 corner; simp only; omega
+
+theorem phi_c0 : phi R (c0 R) = 0 := by
+  unfold phi c0 stuck; simp
+
+theorem phi_zero (hodd : R % 2 = 1) (q : Pt) (hq : q ∈ Gump.Dice.hullCells R) (hT : T q) (h : phi R q ≤ 0) :
+    q = c0 R := by
+  obtain ⟨x, y, z⟩ := q
+  rw [mem_hull_iff] at hq
+  unfold T corner at hT
+  unfold phi stuck at h
+  unfold c0
+  simp only at hT h
+  rw [Pt.mk.injEq]
+  split_ifs at h <;> omega
+
+theorem phi_le (q : Pt) (hq : q ∈ Gump.Dice.hullCells R) : phi R q ≤ 3 * R := by
+  obtain ⟨x, y, z⟩ := q
+  rw [mem_hull_iff] at hq
+  unfold phi; split_ifs <;> simp only <;> omega
+
+/-- **The descent**: every cell of T but c0 has an in-layer neighbour in T of smaller potential (and is an
+in-layer neighbour of it). -/
+theorem descent (hR : 3 ≤ R) (p : Pt) (hp : p ∈ Gump.Dice.hullCells R) (hT : T p) (hne : p ≠ c0 R) :
+    ∃ v ∈ inl p.axis, p + v ∈ Gump.Dice.hullCells R ∧ T (p + v) ∧ phi R (p + v) < phi R p ∧
+      ∃ w ∈ inl (p + v).axis, p + v + w = p := by
+  obtain ⟨x, y, z⟩ := p
+  have hm := hp
+  rw [mem_hull_iff] at hm
+  unfold T corner at hT
+  unfold c0 at hne
+  simp only [ne_eq, Pt.mk.injEq] at hT hne
+  obtain ⟨h1, h2, h3, h4, hpar⟩ := hm
+  rcases hpar with ⟨hx, hy, hz⟩ | ⟨hx, hy, hz⟩ | ⟨hx, hy, hz⟩
+  · rw [axis_X x y z hx, inl_X]
+    by_cases hy2 : 2 ≤ y
+    · refine ⟨⟨0, -2, 2⟩, by simp, ?_, ?_, ?_, ⟨0, 2, -2⟩, ?_, ?_⟩
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold T corner; simp only; omega
+      · rw [mk_add_mk]; unfold phi stuck; simp only; split_ifs <;> omega
+      · rw [axX (⟨x, y, z⟩ + ⟨0, -2, 2⟩) (by simp only [Pt.add_x]; omega), inl_X]; simp
+      · apply Pt.ext' <;> simp only [Pt.add_x, Pt.add_y, Pt.add_z] <;> omega
+    · refine ⟨⟨-1, 1, 0⟩, by simp, ?_, ?_, ?_, ⟨1, -1, 0⟩, ?_, ?_⟩
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold T corner; simp only; omega
+      · rw [mk_add_mk]; unfold phi stuck; simp only; split_ifs <;> omega
+      · rw [axY (⟨x, y, z⟩ + ⟨-1, 1, 0⟩) (by simp only [Pt.add_x]; omega) (by simp only [Pt.add_y]; omega), inl_Y]; simp
+      · apply Pt.ext' <;> simp only [Pt.add_x, Pt.add_y, Pt.add_z] <;> omega
+  · rw [axis_Y x y z hx hy, inl_Y]
+    by_cases hx2 : 2 ≤ x
+    · refine ⟨⟨-2, 0, 2⟩, by simp, ?_, ?_, ?_, ⟨2, 0, -2⟩, ?_, ?_⟩
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold T corner; simp only; omega
+      · rw [mk_add_mk]; unfold phi stuck; simp only; split_ifs <;> omega
+      · rw [axY (⟨x, y, z⟩ + ⟨-2, 0, 2⟩) (by simp only [Pt.add_x]; omega) (by simp only [Pt.add_y]; omega), inl_Y]; simp
+      · apply Pt.ext' <;> simp only [Pt.add_x, Pt.add_y, Pt.add_z] <;> omega
+    · refine ⟨⟨1, -1, 0⟩, by simp, ?_, ?_, ?_, ⟨-1, 1, 0⟩, ?_, ?_⟩
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold T corner; simp only; omega
+      · rw [mk_add_mk]; unfold phi stuck; simp only; split_ifs <;> omega
+      · rw [axX (⟨x, y, z⟩ + ⟨1, -1, 0⟩) (by simp only [Pt.add_x]; omega), inl_X]; simp
+      · apply Pt.ext' <;> simp only [Pt.add_x, Pt.add_y, Pt.add_z] <;> omega
+  · omega
+
+/-- **Into T**: every cell outside T (a z-cell or a corner) has an in-layer neighbour in T. -/
+theorem enterT (hR : 3 ≤ R) (p : Pt) (hp : p ∈ Gump.Dice.hullCells R) (hT : ¬ T p) :
+    ∃ v ∈ inl p.axis, p + v ∈ Gump.Dice.hullCells R ∧ T (p + v) ∧ ∃ w ∈ inl (p + v).axis, p + v + w = p := by
+  obtain ⟨x, y, z⟩ := p
+  have hm := hp
+  rw [mem_hull_iff] at hm
+  unfold T corner at hT
+  simp only at hT
+  obtain ⟨h1, h2, h3, h4, hpar⟩ := hm
+  rcases hpar with ⟨hx, hy, hz⟩ | ⟨hx, hy, hz⟩ | ⟨hx, hy, hz⟩
+  · rw [axis_X x y z hx, inl_X]
+    refine ⟨⟨-1, 1, 0⟩, by simp, ?_, ?_, ⟨1, -1, 0⟩, ?_, ?_⟩
+    · rw [mk_add_mk, mem_hull_iff]; omega
+    · rw [mk_add_mk]; unfold T corner; simp only; omega
+    · rw [axY (⟨x, y, z⟩ + ⟨-1, 1, 0⟩) (by simp only [Pt.add_x]; omega) (by simp only [Pt.add_y]; omega), inl_Y]; simp
+    · apply Pt.ext' <;> simp only [Pt.add_x, Pt.add_y, Pt.add_z] <;> omega
+  · rw [axis_Y x y z hx hy, inl_Y]
+    refine ⟨⟨1, -1, 0⟩, by simp, ?_, ?_, ⟨-1, 1, 0⟩, ?_, ?_⟩
+    · rw [mk_add_mk, mem_hull_iff]; omega
+    · rw [mk_add_mk]; unfold T corner; simp only; omega
+    · rw [axX (⟨x, y, z⟩ + ⟨1, -1, 0⟩) (by simp only [Pt.add_x]; omega), inl_X]; simp
+    · apply Pt.ext' <;> simp only [Pt.add_x, Pt.add_y, Pt.add_z] <;> omega
+  · rw [axis_Z x y z hx hy, inl_Z]
+    by_cases hc : y = 0 ∧ z = 1
+    · refine ⟨⟨0, 1, -1⟩, by simp, ?_, ?_, ⟨0, -1, 1⟩, ?_, ?_⟩
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold T corner; simp only; omega
+      · rw [axY (⟨x, y, z⟩ + ⟨0, 1, -1⟩) (by simp only [Pt.add_x]; omega) (by simp only [Pt.add_y]; omega), inl_Y]; simp
+      · apply Pt.ext' <;> simp only [Pt.add_x, Pt.add_y, Pt.add_z] <;> omega
+    · refine ⟨⟨1, 0, -1⟩, by simp, ?_, ?_, ⟨-1, 0, 1⟩, ?_, ?_⟩
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold T corner; simp only; omega
+      · rw [axX (⟨x, y, z⟩ + ⟨1, 0, -1⟩) (by simp only [Pt.add_x]; omega), inl_X]; simp
+      · apply Pt.ext' <;> simp only [Pt.add_x, Pt.add_y, Pt.add_z] <;> omega
 
 /-! ### The coin rule as arithmetic -/
 
