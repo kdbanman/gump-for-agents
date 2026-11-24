@@ -54,7 +54,7 @@ The "density part = 0.15 of 0.68" depends on the path: the mean-density coin cha
 | 21 | my second whole-layer copy seed (1014): replaced core 1 after the darts at face ≤ 10 within 0.005 of gump's 0.384, and Δ ln τ < −0.10 | 0.80 |
 | 22 | nzd.c's own layer diagnostics on the whole-layer copy chain (seed 9301, 10⁶ generations): LAYER core1 at pop ≤ 10 within 0.01 of gump's 0.384 | 0.80 |
 
-## Second review (17:14 UTC): the skin depth at full replacement (density README, section 2 at 2d67675); before any row
+## Second review (committed 17:07:22 UTC, rows started 17:07:44): the skin depth at full replacement (density README, section 2 at 2d67675); before any row
 
 Seen before writing: their table; my R = 9 gump densities by depth (0.41448, 0.41678, 0.41677, 0.41448 at depths 3–6,
 theirs 0.41451, 0.41679, 0.41679, 0.41451); three 20,000–50,000-generation timing runs of the full mode.
