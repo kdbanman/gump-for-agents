@@ -1,0 +1,67 @@
+[
+ {
+  "section": "The link: Theorems 1 and 2 and Lemma 0 for the dice agent's Face.P (GumpMath/Link*.lean)",
+  "rows": [
+   [
+    "P_cast",
+    "(the chain notes' instantiation step (1)) Face.P over ℝ is the chain arm's bitP.",
+    "Same, for every Gump.Dice.Face and all ρ1, ρ2 (aliveProb_cast: the dice agent's binomial sums cast to ℝ are aliveProbR)."
+   ],
+   [
+    "toDice",
+    "(the bridge) the chain's quasi-stationary laws are the dice agent's Gump.Dice.IsQSD.",
+    "Extension by 0 at the empty face; ofDice is the converse."
+   ],
+   [
+    "face_theorems",
+    "THEOREMS.md, Theorems 1 and 2, for Face.P itself: the dominant QSD, ln τ = Σ_i c_i with c_i the price of cell i's own death probability, ln τ ≤ ε_max·A.",
+    "For every Face whose cells have coins (2,1), or (2,0) with at most two neighbours (CellsOK), at 0 < ρ1, ρ2 < 1; the chain is ofStochastic of (F.P : ℝ) at F.empty. face_theorems_allcoins: every face with all its coins."
+   ],
+   [
+    "aliveProbR_pos_iff",
+    "(Lemma 0, step (1), for the coin law) a cell can be alive next iff some coin outcome puts k + heads in the window.",
+    "For 0 < ρ1, ρ2 < 1, any coin counts."
+   ],
+   [
+    "face_class",
+    "THEOREMS.md, Lemma 0, face by face: u leads to every living state in one step and every state that can survive leads to u.",
+    "From a certificate (u, nxt, dist) checked by the kernel against the dice agent's checked tables (uOK, reachOK)."
+   ],
+   [
+    "face_lifetime",
+    "(the assembly) the lifetime theorem of a certified face.",
+    "Given the tables, the reachability certificate and the dice agent's interval for λ for every QSD with λ > 0."
+   ],
+   [
+    "price_sym",
+    "THEOREMS.md, Theorem 2: equal prices for cells exchanged by a symmetry.",
+    "For every permutation of the cells preserving the dice agent's tables (Data.symOK, DiceSym.lean), given uniqueness of the QSD with λ > 0."
+   ],
+   [
+    "hull3_full",
+    "rigour/README.md claim 3 and THEOREMS.md (Lemma 0, Theorems 1, 2) for the face (hull 3): its quasi-stationary law exists, is unique and charges every living state; ln τ = 2.4837157463…; ln τ is a sum of per-cell prices.",
+    "One theorem about Gump.Dice.Face.P at (0.44, 0.42): the dominant QSD is unique among λ > 0 and positive on every living state; 0.9165673655948901373 ≤ λ ≤ 0.9165673655948901374 (the dice agent's certificate) and 2.4837157463 < ln τ < 2.4837157464; survival from every state that can survive is between (m/M)λ^t and (M/m)λ^(t−1); ln τ = Σ_i c_i with c_i the price of cell i's own death probability 1 − F.a x i; equal prices within the classes corners {0,3,8}, the other six cells. τ = E_μ T is defined through the killed chain's survival sums."
+   ],
+   [
+    "torus103_full",
+    "rigour/README.md claim 3 and THEOREMS.md (Lemma 0, Theorems 1, 2) for the face (torus 1 0 3): its quasi-stationary law exists, is unique and charges every living state; ln τ = 3.3935247190…; ln τ is a sum of per-cell prices.",
+    "One theorem about Gump.Dice.Face.P at (0.44, 0.42): the dominant QSD is unique among λ > 0 and positive on every living state; 0.9664099275695942426 ≤ λ ≤ 0.9664099275695942427 (the dice agent's certificate) and 3.3935247190 < ln τ < 3.3935247191; survival from every state that can survive is between (m/M)λ^t and (M/m)λ^(t−1); ln τ = Σ_i c_i with c_i the price of cell i's own death probability 1 − F.a x i; equal prices within the classes {0,1,3,4,6,7} and {2,5,8} (c_X = c_Y ≠ c_Z, as the referee measured). τ = E_μ T is defined through the killed chain's survival sums."
+   ],
+   [
+    "torus113_full",
+    "rigour/README.md claim 3 and THEOREMS.md (Lemma 0, Theorems 1, 2) for the face (torus 1 1 3): its quasi-stationary law exists, is unique and charges every living state; ln τ = 2.6946266059…; ln τ is a sum of per-cell prices.",
+    "One theorem about Gump.Dice.Face.P at (0.44, 0.42): the dominant QSD is unique among λ > 0 and positive on every living state; 0.9324323935928482210 ≤ λ ≤ 0.9324323935928482211 (the dice agent's certificate) and 2.6946266059 < ln τ < 2.6946266060; survival from every state that can survive is between (m/M)λ^t and (M/m)λ^(t−1); ln τ = Σ_i c_i with c_i the price of cell i's own death probability 1 − F.a x i; equal prices within the classes one class: all nine prices equal. τ = E_μ T is defined through the killed chain's survival sums."
+   ],
+   [
+    "strip13_full",
+    "rigour/README.md claim 3 and THEOREMS.md (Lemma 0, Theorems 1, 2) for the face (strip 1 3): its quasi-stationary law exists, is unique and charges every living state; ln τ = 2.7988780569…; ln τ is a sum of per-cell prices.",
+    "One theorem about Gump.Dice.Face.P at (0.44, 0.42): the dominant QSD is unique among λ > 0 and positive on every living state; 0.9391216736592712685 ≤ λ ≤ 0.9391216736592712686 (the dice agent's certificate) and 2.7988780569 < ln τ < 2.7988780570; survival from every state that can survive is between (m/M)λ^t and (M/m)λ^(t−1); ln τ = Σ_i c_i with c_i the price of cell i's own death probability 1 − F.a x i; equal prices within the classes {0,2,3,5,6,8} and {1,4,7}. τ = E_μ T is defined through the killed chain's survival sums."
+   ],
+   [
+    "patch13_full",
+    "rigour/README.md claim 3 and THEOREMS.md (Lemma 0, Theorems 1, 2) for the face (patch 1 3): its quasi-stationary law exists, is unique and charges every living state; ln τ = 1.8804189341…; ln τ is a sum of per-cell prices.",
+    "One theorem about Gump.Dice.Face.P at (0.44, 0.42): the dominant QSD is unique among λ > 0 and positive on every living state; 0.8474738060566295030 ≤ λ ≤ 0.8474738060566295031 (the dice agent's certificate) and 1.8804189341 < ln τ < 1.8804189342; survival from every state that can survive is between (m/M)λ^t and (M/m)λ^(t−1); ln τ = Σ_i c_i with c_i the price of cell i's own death probability 1 − F.a x i; equal prices within the classes {0,8}, {1,7}, {2,6}, {3,5}, {4}. τ = E_μ T is defined through the killed chain's survival sums."
+   ]
+  ]
+ }
+]
