@@ -1,0 +1,28 @@
+# ref-density: forecasts, written before any production row (2026-11-24, 14:10 UTC)
+
+Probability that each headline row of `research/blast/density/README.md` (commit 9a105d3) reproduces in my own code
+(`rd.c`, validated against the oracle) within 3 combined standard errors. Rows at 63 cells, ε = 1/4, d = 1 unless noted.
+
+Already seen before writing (honesty): one 20,000-generation gump test run (`rd 11 run 1 20000 0 1 f 0 10000`) printed
+core-1 density 0.4301, core-2 0.4093, face mean 31.26, sd 5.24, and a thin by-population line at F = 10 (0.383).
+The two layer-density rows below are therefore not blind.
+
+| # | row | theirs | P(within 3σ) |
+|---|---|---|---:|
+| 1 | gump baseline, ln τ | 13.633 ± 0.001 (their seed 13.644 ± 0.012) | 0.95 |
+| 2 | fair coins, Δ ln τ | +0.678 ± 0.016 | 0.85 |
+| 3 | coins at each replaced layer's mean density, Δ | +0.532 ± 0.011 | 0.80 |
+| 4 | copy from the replaced cells (core shuffle), Δ | −0.434 ± 0.013 | 0.65 (the copy's timing — sequential or snapshot — and whether the source may be the cell itself are definitional; I copy the current, sequentially updated state, self included) |
+| 5 | scan p = 0.1, Δ | −0.322 ± 0.022 | 0.80 |
+| 6 | scan p = 0.2, Δ | +0.043 ± 0.024 | 0.80 |
+| 7 | sign change of the scan between 0.1 and 0.2 | p* ≈ 0.19 | 0.80 |
+| 8 | layer-1 core density, all time | 0.4301 | (seen: 0.4301) |
+| 9 | layer-1 core density, face ≤ 10 | 0.3836 | 0.85 (partly seen) |
+| 10 | P_1 (a face down to one cell dies) | 0.77, the same with and without coins (± 0.02) | 0.75 |
+| 11 | lag: corr(full layer 1 at t−L, face at t) ≈ +0.30 at L = 1–2, ≈ +0.09 the other way | as stated | 0.70 |
+| 12 | R = 9, my chain against `nzd.c` run by me at the same settings (gump and fair d = 1) | — | 0.90 |
+
+Conjectured before looking: the asymmetry of row 11, if it reproduces, follows from the face being far more
+persistent than layer 1 (different autocorrelations), not from a lead in time of one over the other (P = 0.6).
+The "density part = 0.15 of 0.68" depends on the path: the mean-density coin chain's layer is denser than gump's
+(P = 0.7 that its replaced layer-1 core sits above 0.435 all-time).

@@ -1,0 +1,7 @@
+R=11 (876 cells) seed 101: 3 soups x 1200 generations: identical (state, watched population, 8 face-empty flags)
+R=11 (876 cells) seed 202: 3 soups x 1200 generations: identical (state, watched population, 8 face-empty flags)
+R=11 negative control (RD_NEGCTL=1): FAILS as it must, first at lane 0 gen 1
+R=9 (510 cells) seed 101: 3 soups x 1200 generations: identical (state, watched population, 8 face-empty flags)
+R=9 (510 cells) seed 202: 3 soups x 1200 generations: identical (state, watched population, 8 face-empty flags)
+R=9 negative control (RD_NEGCTL=1): FAILS as it must, first at lane 0 gen 1
+VALIDATION PASSED
