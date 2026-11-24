@@ -1,0 +1,45 @@
+hull3 (A=9): 42 s
+  states with v = 0: 0 (indices []), all die surely: True
+  lambda in [0.9165673655948901373589070, 0.9165673655948901373589070]  (width 1.1e-57)
+  ln tau = -ln(1-lambda) in [2.48371574633378442986, 2.48371574633378442986]
+  QSD: min mu 2.599e-06, mu>=0: True, max |mu Q - lam mu| = 1.4e-17
+  |lambda_2/lambda_1| = 0.6224
+  r(full)/max r = 0.726362  (full = state 511)
+  sup_{x,t<=200} P_x(T>t)/lambda^t = 1.6315 (at t=79);  min_{t<=200} P_full(T>t)/lambda^t = 1.0000;  limit P_full(T>t)/lambda^t -> 1.185073
+  bust share K=6 (exact recursion, mu and lambda to ~1e-25) = 0.0170176867
+torus103 (A=9): 35 s
+  states with v = 0: 1 (indices [511]), all die surely: True
+  lambda in [0.9664099275695942426060723, 0.9664099275695942426060723]  (width 5.7e-51)
+  ln tau = -ln(1-lambda) in [3.39352471905166397625, 3.39352471905166397625]
+  QSD: min mu 1.540e-04, mu>=0: True, max |mu Q - lam mu| = 1.0e-17
+  |lambda_2/lambda_1| = 0.6613
+  r(full)/max r = 0.000000  (full = state 511)
+  sup_{x,t<=200} P_x(T>t)/lambda^t = 1.1152 (at t=71);  min_{t<=200} P_full(T>t)/lambda^t = 0.0000;  limit P_full(T>t)/lambda^t -> 0.000000
+  bust share K=6 (exact recursion, mu and lambda to ~1e-25) = 0.6465904363
+torus113 (A=9): 45 s
+  states with v = 0: 1 (indices [511]), all die surely: True
+  lambda in [0.9324323935928482210249284, 0.9324323935928482210249284]  (width 1.8e-35)
+  ln tau = -ln(1-lambda) in [2.69462660594438826266, 2.69462660594438826266]
+  QSD: min mu 4.685e-04, mu>=0: True, max |mu Q - lam mu| = 3.5e-17
+  |lambda_2/lambda_1| = 0.8082
+  r(full)/max r = 0.000000  (full = state 511)
+  sup_{x,t<=200} P_x(T>t)/lambda^t = 1.4518 (at t=98);  min_{t<=200} P_full(T>t)/lambda^t = 0.0000;  limit P_full(T>t)/lambda^t -> 0.000000
+  bust share K=6 (exact recursion, mu and lambda to ~1e-25) = 0.9368529753
+strip13 (A=9): 55 s
+  states with v = 0: 0 (indices []), all die surely: True
+  lambda in [0.9391216736592712685176338, 0.9391216736592712685176338]  (width 1.1e-39)
+  ln tau = -ln(1-lambda) in [2.79887805692471638801, 2.79887805692471638801]
+  QSD: min mu 1.381e-04, mu>=0: True, max |mu Q - lam mu| = 1.4e-17
+  |lambda_2/lambda_1| = 0.7567
+  r(full)/max r = 0.974763  (full = state 511)
+  sup_{x,t<=200} P_x(T>t)/lambda^t = 1.6293 (at t=132);  min_{t<=200} P_full(T>t)/lambda^t = 1.0000;  limit P_full(T>t)/lambda^t -> 1.588178
+  bust share K=6 (exact recursion, mu and lambda to ~1e-25) = 0.0083587156
+patch13 (A=9): 90 s
+  states with v = 0: 0 (indices []), all die surely: True
+  lambda in [0.8474738060566295030494555, 0.8474738060566295030494555]  (width 2.2e-38)
+  ln tau = -ln(1-lambda) in [1.88041893412125736745, 1.88041893412125736745]
+  QSD: min mu 1.497e-05, mu>=0: True, max |mu Q - lam mu| = 1.2e-17
+  |lambda_2/lambda_1| = 0.9269
+  r(full)/max r = 0.995191  (full = state 511)
+  sup_{x,t<=200} P_x(T>t)/lambda^t = 3.9234 (at t=173);  min_{t<=200} P_full(T>t)/lambda^t = 1.0000;  limit P_full(T>t)/lambda^t -> 3.904495
+  bust share K=6 (exact recursion, mu and lambda to ~1e-25) = 0.0014056307

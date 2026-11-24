@@ -44,7 +44,7 @@ total variation. The source says this; it is not a defect of the Lean.
    (`1 - D / (pow(lam, K - 1) * h)`, `qsd.c` 301). Numerically, without μ (`window_exact.py`): propagate (state,
    generations since the last fall) from the full hull face or from state 73 of the torus (1,1),(0,3). The bust
    share of the deaths at generation t is 0.0170176867 (hull) and 0.9368529753 (torus) for every t ≥ 60, equal to
-   my μ-based value to 10 digits. By simulation (`numerics.py FACE --sim N`), from μ, deaths with T ≥ 6:
+   my μ-based value to 10 digits. The same holds on the other three faces (`window_exact.out`). By simulation (`numerics.py FACE --sim N`), from μ, deaths with T ≥ 6:
    hull 0.01678 ± 0.00017 (seed 12345, 1e6 deaths) and 0.01720 ± 0.00012 (SEED=777, 2e6); torus (1,1),(0,3)
    0.93687 ± 0.00030. From the full hull face, deaths at T ≥ 40: 0.01566 ± 0.00063 and 0.01672 ± 0.00046. All lie
    within 2.2σ of 0.017018 / 0.936853. Note that it is *not* the share among all deaths from a fixed start: 0.0127
