@@ -146,8 +146,10 @@ made live at generation 29. `tape_statements_check.py` checks the transcription 
 - `glue_run_moving` and `Call.pulses_at` are proved but not used by any headline proof.
 - `call_law_b` is about V_k, the store wire alone with one forced cell; that V_k is what the store wire does under
   the line (part (a)) is the unproved half of the call law.
-- Timing: `sh check.sh` passes in 10 s with everything built; a cold build of the tape files takes about 2 min
-  (Clock.lean ≈ 50 s, mostly `omega` on the charts; UnzipProof.lean ≈ 35 s; CallProof.lean ≈ 45 s).
+- Timing: `sh check.sh` passes in 10 s with everything built, and in 291 s from scratch (all 82 modules, a copy of
+  the workspace with an empty `.lake`, machine load about 7 on 4 cores). Cold times of the tape files under that
+  load: Clock 123 s (mostly `omega` on the charts), CallProof 50 s, UnzipProof 49 s, Unzip 47 s, TapeSignals 38 s,
+  Tape 20 s, Line 13 s, the rest under 10 s.
 
 ## Bearing on the owner's journal
 
