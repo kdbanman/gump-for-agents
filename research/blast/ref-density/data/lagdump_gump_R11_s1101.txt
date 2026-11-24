@@ -7,3 +7,7 @@ cross-correlation corr(X(t-L), Y(t)), L = 0..8
        F -> F      +1.000 +0.517 +0.340 +0.264 +0.207 +0.165 +0.131 +0.106 +0.088
    full1 -> full1  +1.000 +0.056 +0.177 +0.143 +0.095 +0.099 +0.082 +0.070 +0.064
    core1 -> core1  +1.000 -0.117 +0.001 +0.021 -0.008 +0.002 +0.002 -0.001 +0.001
+VAR(4)     F(t) on its own past: R2 0.2792; adding full1's past: R2 0.3170 (+0.0377); coefficients own +0.364 +0.016 +0.068 +0.034 | full1 +0.129 +0.163 +0.050 +0.004
+VAR(4) full1(t) on its own past: R2 0.0527; adding F's past: R2 0.0601 (+0.0073); coefficients own +0.018 +0.185 +0.124 +0.044 | F -0.007 -0.084 +0.072 +0.037
+VAR(4)     F(t) on its own past: R2 0.2792; adding core1's past: R2 0.2817 (+0.0024); coefficients own +0.462 +0.051 +0.061 +0.038 | core1 -0.031 +0.036 +0.002 -0.003
+VAR(4) core1(t) on its own past: R2 0.0142; adding F's past: R2 0.0182 (+0.0040); coefficients own -0.115 -0.002 +0.017 -0.001 | F -0.030 -0.053 +0.047 -0.002

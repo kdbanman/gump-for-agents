@@ -228,6 +228,11 @@ In flight at 14:05: tape (call law (a)), chain (link), dice (second task), densi
 Planned when cores free up: a solver on the lower bound B2 by block renormalisation (`research/blast/b2/`); `density`
 again for the depth series at ε = 1 (how many real layers a face needs under it to die at gump's rate); then the
 integrator.
+`tape` handed back the second time (ba36f77): `call_law : CallLaw` whole for every k ≥ 1 (a second bit box of
+128 × 128 × 16, `Gump.Call.Box.bstep_spec`), `clockOf_period` (D1 repaired), D3 repaired; not done: one cell lighting
+the clock for N ≥ 7. Resumed a third time (clock lighting for every N, then the catalogue's next laws of its choice;
+two hours). `ref-tape` (ae67c18db5283c79c) resumed for a second review of the call law (a), the new box and the
+clock repair (50 minutes).
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in

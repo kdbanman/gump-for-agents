@@ -6,9 +6,8 @@
 Rows with one bias at every depth (scan_*, e4_*, e16_*, full_*, R9_*) are grouped by face size and replacement
 (eps = M/B with darts, or "full" = NZD_FULL=1). For each group: Delta = ln tau - gump (63 cells: 13.633 +- 0.001;
 45 cells: gump's watched face, nz's 9.8161 +- 0.0044 pooled with this directory's R9_gump rows), +- from death counts.
-p* from a weighted straight line through the rows with |Delta| < WIN (default 0.2; at least the two rows that
-bracket the zero), its error by the delta method from the fit's covariance (the gump reference's error added to
-every row). Also the slope dDelta/dp there.
+p* from a weighted straight line (row errors from their death counts) through the rows with |Delta| < WIN (default 0.2; at least the two rows that
+bracket the zero), its error by the delta method from the fit's covariance. Also the slope dDelta/dp there.
 """
 import glob, math, os, re, sys
 from collections import defaultdict
@@ -25,11 +24,12 @@ for d in dirs:
         br = [l for l in t.splitlines() if l.startswith('BRUTE')][0]
         bias = [l for l in t.splitlines() if l.startswith('BIAS')][0]
         A = int(re.search(r' A (\d+)', br).group(1)); M = int(re.search(r' M (\d+)', br).group(1)); B = int(re.search(r' B (\d+)', br).group(1))
-        DW = int(re.search(r' DW (\d+)', br).group(1))
+        DW = int(re.search(r' DW (\d+)', br).group(1)); DO = int(re.search(r' DO (\d+)', br).group(1))
         E = float(re.search(r'exposure ([0-9.e+]+)', br).group(1)); n0 = int(re.search(r' watched (\d+)', br).group(1))
         full = ' full 1 ' in bias; frozen = ' frozen 1 ' in bias
+        mc = re.search(r' clust ([0-9.]+)', bias); clust = float(mc.group(1)) if mc else 0.0
         vals = re.findall(r'\d+\(\d+\):([0-9.]+|s|c[0-9./]+)', bias)
-        rows.append(dict(f=os.path.basename(f), A=A, M=M, B=B, DW=DW, E=E, n0=n0, full=full, frozen=frozen, vals=vals))
+        rows.append(dict(f=os.path.basename(f), A=A, M=M, B=B, DW=DW, DO=DO, E=E, n0=n0, full=full, frozen=frozen, clust=clust, vals=vals))
 # gump references
 g45 = [(9.8161, 0.0044)]
 for r in rows:
@@ -41,9 +41,10 @@ groups = defaultdict(list)
 for r in rows:
     if r['M'] == 0 and not r['full'] or r['frozen'] or r['DW'] != 1: continue
     if len(set(r['vals'])) != 1 or not re.match(r'^[0-9.]+$', r['vals'][0]): continue
-    key = (r['A'], 'full' if r['full'] else f'eps {r["M"] / r["B"]:.4f}')
+    lab = ('full' + (f' clustered c = {r["clust"]:.2f}' if r['clust'] else '')) if r['full'] else f'eps {r["M"] / r["B"]:.4f}'
+    key = (r['A'], lab + ('' if r['DO'] == 3 else f', noise also at depth >= {r["DO"]} under the other faces'))
     v = math.log(r['E'] / r['n0']); g, ge = G[r['A']]
-    groups[key].append((float(r['vals'][0]), v - g, math.hypot(1 / math.sqrt(r['n0']), ge), r['f'], r['n0']))
+    groups[key].append((float(r['vals'][0]), v - g, 1 / math.sqrt(r['n0']), r['f'], r['n0']))
 for key in sorted(groups):
     pts = sorted(groups[key])
     print(f'\n{key[0]} cells, {key[1]}:')
@@ -62,7 +63,8 @@ for key in sorted(groups):
     det = S * Sxx - Sx * Sx; b = (S * Sxy - Sx * Sy) / det; a = (Sy - b * Sx) / S
     va, vb, cab = Sxx / det, S / det, -Sx / det
     ps = -a / b; dpa, dpb = -1 / b, a / b ** 2
-    eps_ = math.sqrt(dpa ** 2 * va + dpb ** 2 * vb + 2 * dpa * dpb * cab)
+    ge = G[key[0]][1]   # the gump reference's error is common to every row: it shifts the line, p* by ge / slope
+    eps_ = math.sqrt(dpa ** 2 * va + dpb ** 2 * vb + 2 * dpa * dpb * cab + (ge / b) ** 2)
     chi = sum((D - a - b * p) ** 2 / e ** 2 for p, D, e, *_ in sel)
     print(f'   line through {len(sel)} rows (p {min(x[0] for x in sel):.3f} .. {max(x[0] for x in sel):.3f}): '
           f'p* = {ps:.4f} +- {eps_:.4f}, slope {b:.2f} +- {math.sqrt(vb):.2f} per unit p, chi2 {chi:.2f} on {len(sel) - 2}')

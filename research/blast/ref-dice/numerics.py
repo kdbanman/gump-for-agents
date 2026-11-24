@@ -171,7 +171,7 @@ def simulate(at, A, muf, Nsim, half, seed=12345):
     pw = 1 << np.arange(A)
     pop = np.array([bin(x).count('1') for x in range(n)])
     for mode in ('mu', 'full'):
-        M = 200000
+        M = 200000 if mode == 'mu' else 4000     # few chains from full: each runs long enough to reach T >= 40
         p0 = np.concatenate([[0.0], muf / muf.sum()])
         def start(k):
             return rng.choice(n, size=k, p=p0) if mode == 'mu' else np.full(k, n - 1)
