@@ -7,6 +7,7 @@ import Gump.TapeSignals
 import Gump.Clock
 import Gump.Call
 import Gump.UnzipProof
+import Gump.CallProof
 open Gump Gump.Tape
 #print axioms glue_run
 #print axioms run_shiftC
@@ -47,3 +48,7 @@ open Gump Gump.Tape
 #print axioms Gump.Unzip.countRead_W
 #print axioms Gump.Unzip.unzip_law_sharp
 #print axioms Gump.Unzip.unzip_law
+#print axioms Gump.Call.zonesV_ok
+#print axioms Gump.Call.forcedCheck_spec
+#print axioms Gump.Call.V0_W
+#print axioms Gump.Call.call_law_b
