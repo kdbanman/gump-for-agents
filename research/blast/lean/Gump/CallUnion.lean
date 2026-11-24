@@ -160,6 +160,16 @@ def zoneBoxOK : Bool :=
 
 theorem zoneBoxOK_ok : zoneBoxOK = true := by decide +kernel
 
+theorem zone_arith (px py pz ux uy uz vx vy vz : Int)
+    (h1 : 1 ≤ px + ux + (py + uy) + (pz + uz)) (h1' : px + ux + (py + uy) + (pz + uz) ≤ 5)
+    (h2 : -1 ≤ px + ux - (py + uy) + (pz + uz))
+    (g2 : px + vx - (py + vy) + (pz + vz) ≤ -5) (g4 : px + vx - (py + vy) - (pz + vz) ≤ 139)
+    (g5 : -(px + vx) + (py + vy) + (pz + vz) ≤ -135)
+    (a1 : -4 ≤ ux + uy + uz) (a2 : ux + uy + uz ≤ 4) (a3 : -4 ≤ ux - uy + uz) (a4 : ux - uy + uz ≤ 4)
+    (b3 : -4 ≤ vx - vy + vz) (b4 : vx - vy + vz ≤ 4) (b5 : -4 ≤ -vx + vy + vz) (b6 : -vx + vy + vz ≤ 4) :
+    64 ≤ px ∧ px ≤ 76 ∧ -1 ≤ py ∧ py ≤ 7 ∧ -4 ≤ px + pz ∧ px + pz ≤ 4 := by
+  omega
+
 /-- **The interaction set.** A cell whose closed neighbourhood meets the tube and the line's hull is in Z. -/
 theorem zone_cover (p : Pt) (hc : p.isCell = true) (hA : ∃ q ∈ p :: nbrs p, HV q) (hB : ∃ q ∈ p :: nbrs p, HL q) :
     p ∈ zoneZ := by
@@ -174,14 +184,18 @@ theorem zone_cover (p : Pt) (hc : p.isCell = true) (hA : ∃ q ∈ p :: nbrs p, 
       exact ⟨o, rfl, offsets_diag _ o ho⟩
   obtain ⟨q1, hq1, h1⟩ := hA
   obtain ⟨q2, hq2, h2⟩ := hB
-  obtain ⟨o1, rfl, a1, a2, a3, a4, a5, a6, a7, a8⟩ := near q1 hq1
-  obtain ⟨o2, e2, b1, b2, b3, b4, b5, b6, b7, b8⟩ := near q2 hq2
+  obtain ⟨o1, rfl, a1, a2, a3, a4, -, -, -, -⟩ := near q1 hq1
+  obtain ⟨o2, e2, -, -, b3, b4, b5, b6, -, -⟩ := near q2 hq2
   subst e2
+  have hV := h1
+  have hL := h2
   unfold HV at h1; unfold HL at h2
   simp only [Pt.add_x, Pt.add_y, Pt.add_z] at h1 h2
-  have bx : 64 ≤ p.x ∧ p.x ≤ 76 := by omega
-  have by' : -1 ≤ p.y ∧ p.y ≤ 7 := by omega
-  have bz : -4 ≤ p.x + p.z ∧ p.x + p.z ≤ 4 := by omega
+  obtain ⟨c1, c2, c3, -⟩ := h1
+  obtain ⟨-, -, d2, d4, d5, -, -, -⟩ := h2
+  obtain ⟨bx1, bx2, by1, by2, bz1, bz2⟩ :=
+    zone_arith p.x p.y p.z o1.x o1.y o1.z o2.x o2.y o2.z c1 c2 c3 d2 d4 d5 a1 a2 a3 a4 b3 b4 b5 b6
+  clear c1 c2 c3 d2 d4 d5 a1 a2 a3 a4 b3 b4 b5 b6 near
   have hok := zoneBoxOK_ok
   simp only [zoneBoxOK, List.all_eq_true, List.mem_range, Bool.or_eq_true, Bool.not_eq_true',
     Bool.and_eq_false_iff] at hok
@@ -194,10 +208,10 @@ theorem zone_cover (p : Pt) (hc : p.isCell = true) (hA : ∃ q ∈ p :: nbrs p, 
   · rw [hc] at h; exact absurd h (by decide)
   · exfalso
     simp only [List.any_eq_false, HVb, decide_eq_false_iff_not] at h
-    exact h _ hq1 (by unfold HV; simp only [Pt.add_x, Pt.add_y, Pt.add_z]; exact h1)
+    exact h _ hq1 (decide_eq_true hV)
   · exfalso
     simp only [List.any_eq_false, HLb, decide_eq_false_iff_not] at h
-    exact h _ hq2 (by unfold HL; simp only [Pt.add_x, Pt.add_y, Pt.add_z]; exact h2)
+    exact h _ hq2 (decide_eq_true hL)
   · exact (List.contains_iff_mem).mp h
 
 end Gump.Call
