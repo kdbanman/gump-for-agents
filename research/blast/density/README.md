@@ -627,3 +627,68 @@ face dies at gump's rate and in gump's way (to ± 0.03 in ln τ, ± 0.05 in the 
 with three it lives longer by 0.15 (45) and 0.25 (63). One difference not understood: on the 45-cell wrapped face the
 face's mean population with coins from layer 4 is 22.7 against gump's 21.4 although its rate and excursions match (at
 63 cells 32.58 against 32.58).
+
+### 3. 84 cells on coins alone at p = 0.385 [measured]
+
+Full replacement with DO = 1 at R = 13 (every cell not on a face a fresh coin of bias 0.385 every generation), chunks
+of 5 × 10⁶ generations on the hashed coin stream (`chunks84.sh`, binary from commit 7c64966, seeds 20001, 20011, … and
+40001, 40011, …); `python3 research/blast/density/pool84.py`:
+
+R84_RESULT
+
+Lives at 84 cells outlast a chunk (the longest life is the chunk's length), so each chunk is mostly 512 lanes
+running from their soups; the rate is taken from exposure after the 200 generations of ageing-in, as everywhere.
+Against gump's 18.141 ± 0.005 (all faces, ties included; the watched face alone sits a few thousandths lower, the
+referee's defect 9, negligible here).
+
+### Scores of `PREDICTIONS.md` (third task)
+
+| item | forecast | outcome |
+|---|---|---|
+| 1. 63 cells: the DO = 1 layer-1 cells' thinnest density within 0.01 of 0.385 | 25% | **false**: 0.367 |
+| 1. 45 cells, the same (30 cells) | 30% | **false**: 0.357 |
+| 1. both | 12% | **false** |
+| 2a. A, d = 1, 63 cells: Δ > +0.5 | 85% | **true**: +1.186 ± 0.037 |
+| 2a. B, d = 1, 63 cells: Δ > +2 | 75% | **true**: +3.53 ± 0.12 |
+| 2b. A, d = 3, 63: \|Δ\| < 0.10 | 55% | **false**: +0.295 ± 0.023 |
+| 2b. A, d = 4, 63: \|Δ\| < 0.05 | 60% | **true**: +0.016 ± 0.012 (two seeds pooled) |
+| 2c. B, d = 3 (= A, d = 3), 63: \|Δ\| < 0.10 | 35% | **false** |
+| 2c. B, d = 4, 63: \|Δ\| < 0.10 | 50% | **true**: +0.016 ± 0.020 |
+| 2d. Δ falls monotonically with d (both columns, both sizes) | 70% | **true down to d = 4**; beyond, the rows scatter about zero (63 cells A: +0.016, +0.027, +0.010 at d = 4, 5, 6), so strictly it is false at d = 5, within errors |
+| 2e. first row with \|Δ\| < 0.05: P₁ = 0.77 ± 0.03, dips and deadliness within ± 0.10 | 35% | **true** in both columns (d = 4) |
+| 2f. the way of dying converges more slowly in d than the rate | 65% | **false**: both converge at d = 4; at d = 3 P₁ is already gump's while the rate is not |
+| 3. 84 cells pooled: \|Δ\| < 0.10 | 40% | R84_SCORE1 |
+| 3. Δ < −0.10 | 45% | R84_SCORE2 |
+
+The PI's block 6 (`research/blast/noisy/PREDICTIONS.md`, read after the above was committed), as these rows bear on it:
+(1) 45-cell layer 1 conditioned on a low face within 0.005 of 0.385: the whole layer's minimum is 0.319, the cells the
+coins replace 0.357, the 2-deep cells 0.393, the core 0.390 (none within 0.005); (2) 84 cells with ≥ 300 deaths below
+−0.10: R84_BLOCK6; (3) 63 cells, Δ(1) > +2: column B +3.53, column A +1.19; Δ(2) in [+0.3, +1.5]: A +0.69, B +1.44
+(both in); |Δ(3)| < 0.15: +0.295 (no); |Δ(4)| < 0.05: +0.016 (A), +0.016 (B) (yes); (4) at the smallest d with |Δ| < 0.1
+(d = 4) P₁ in [0.74, 0.80] and dips within 20% of gump's: yes (0.763–0.776; |Δ ln dips| ≤ 0.002).
+
+### Not checked (third task)
+
+- The skin rows use coins at gump's *overall* mean density per depth; coins at the face-conditioned densities, or
+  darts (ε < 1) from depth 4, were not run. Whether d = 4 is a threshold or the place where a smooth decay falls below
+  ± 0.02 is not separated (d = 3 → 4 removes 0.17–0.30; d = 4 → 6 nothing measurable).
+- Every skin row except one is one seed; those rows draw their coins from the old (shared, offset) stream, which
+  matters only when rows are combined: the d ≥ 4 means quoted combine rows of different d and seeds offset by 1–20 words.
+- The slab stepper is bit-exact against the oracle; its death and excursion bookkeeping is a copy of nzd.c's (validated
+  there) and was not recounted on the slab. The 45- and 63-cell tori differ in shape; the wrapped p\* creep is not
+  separated from shape. The gump wrapped references are this session's rows (two each), consistent with the anchor at 63.
+- The 45-cell wrapped face's mean population with a four-layer skin (22.7 against 21.4) is not understood.
+- 84 cells: one density, one size beyond 63; no skin rows at 84 cells.
+
+### Reproduce (third task)
+
+```sh
+python3 research/blast/density/validate.py 1200; python3 research/blast/density/validate_slab.py 600
+S=research/scratch/blast/density; gcc -O3 -march=native -o $S/nzd_lay3 research/blast/density/nzd.c -lm
+NZD_LAYERS=1 $S/nzd_lay3 9 brute 9901 2000000 0 1 3 > lay3_gump_R9.txt; python3 research/blast/density/cells.py lay3_gump_R9.txt
+DO=4 NZD_FULL=1 NZD_BIN=nzd_prod4 sh research/blast/density/row.sh skinB_d4 11 9214 4000000 0 4 4:0.4171,5:0.4163,6:0.4164,7:0.4172
+python3 research/blast/density/skin.py          # the skin table (hull)
+HKD=1_4_15 SLABBIN=slab2 sh research/blast/density/slabrows.sh skin45_L4:7404:1000000:4:0.3779,0.3728,0.4031,0.4767
+python3 research/blast/density/slabrec.py       # wrapped faces: p*, the skin, the way of dying
+UNTIL=$(( $(date +%s) + 3600 )) SEED0=20001 sh research/blast/density/chunks84.sh; python3 research/blast/density/pool84.py
+```

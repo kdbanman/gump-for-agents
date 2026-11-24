@@ -299,6 +299,11 @@ under "Added after the integration (2026-11-24)" and may regenerate `STATEMENTS.
 third task and that chain and tape are still on two extensions), tell the owner. When chain and tape return: a
 short referee pass each (resume ref-chain, ref-tape), a REPORT addendum, final `check.sh --mathlib --long`.
 Stop everything at Fable 0.96 or all-model 0.90 (15:01: 0.91 / 0.67).
+`chain` back (0992cd4): `hull_full_every R hA` (LinkHullGen.lean: Lemma 0 on every hull face by a general proof,
+no hypothesis) and `rot_aut`, `refl_aut`, `hull_prices_sym` for every R (LinkHullSym.lean); `check.sh --mathlib`
+passes (240 Mathlib theorems). `ref-chain` resumed for a fifth review (40 minutes). **Mine to update:** the
+"What is not proved" bullet on hull uniqueness beyond R = 13 in `lean/README.md`, the same clause in the REPORT entry
+and the short version ("every hull face up to 84 cells"), and the comment draft.
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in
