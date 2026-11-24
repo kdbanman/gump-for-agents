@@ -18,9 +18,18 @@ program outside Lean becomes a theorem once Lean has checked its certificate.
 
 ## What is checked now
 
-`sh research/blast/lean/check.sh` (about two minutes from nothing on one core, seconds once built; `--long` adds
-the 4,218-generation log, the differential test and the census, about five minutes). The Mathlib package:
-`cd research/blast/lean/mathlib && lake exe cache get && lake build` (Mathlib v4.36.0; the cache is 7 GB on disk).
+`sh research/blast/lean/check.sh` (`--long` adds the 4,218-generation log, the differential test and the census;
+`--mathlib` builds and checks the Mathlib package, after `cd research/blast/lean/mathlib && lake exe cache get` once:
+Mathlib v4.36.0, 7 GB on disk). **Last run, 2026-11-24 by the integration, in the shared tree with most modules
+built and nothing else building:** `--mathlib` from 15:48:40 UTC, 193 s wall (it rebuilt `DiceBound3` after a
+comment edit, and the modules that import it); then `--long` from 15:53:16 UTC, 331 s (differential test 185 s,
+census 70 s). Both end `lean: all checks passed`: 52 core modules and 73 Mathlib modules build; `STATEMENTS.md` is
+current (205 rows); 187 `#print axioms` lines in the core package and 221 in the Mathlib package (220 with
+`[propext, Classical.choice, Quot.sound]`, one with `[propext, Quot.sound]`), none beyond the standard three; the
+2012 logs of sides 8 to 11 identical; three soups equal to the oracle for 60 generations; the differential test
+passes with every mutant caught; 1,307 of 1,307 catalogue objects certified. From an empty `.lake` the core check
+took 852 s at load 12 to 14 on 4 cores (`notes/tape.md`, 14:15 UTC, before the tape agent's third task); the Dice
+exit modules peak near 7 GB and must be built one at a time.
 
 | statement (`docs/AUTOMATON.md`) | Lean name | file |
 |---|---|---|
@@ -98,7 +107,7 @@ chain with rational entries; the first theorems in the repository about a lifeti
 | **Five 9-cell faces** (hull triangle R = 3, tori (1,0),(0,3) and (1,1),(0,3), strip 1×3, patch 1×3): for every QSD, λ in a 19-digit interval and −ln(1 − λ) to ten digits (hull: (2.4837157463, 2.4837157464)); λ > 0 assumed on the tori | `hull3_lifetime`, `hull3_tau`, `torus103_tau`, `torus113_tau`, `strip13_tau`, `patch13_tau` | `GumpMath/DiceHull3.lean`, `DiceTorus103.lean`, `DiceTorus113.lean`, `DiceStrip13.lean`, `DicePatch13.lean` | yes (λ bracketed by the referee's own exact enclosure; `*_lifetime` pins the decay rate with loose constants, 1384 against a true 1.63) |
 | **Both exits at 9 cells**: the share of the death flux whose last six transitions hold a fall of ⌈A/2⌉ cells is in (0.017017, 0.017018) on the hull triangle and (0.936852, 0.936853) on the torus (1,1),(0,3), at every generation, for every QSD | `hull3_bust`, `torus113_bust`, `flux_share`, `death_flux`, `hull3_bust_flux`, `torus113_bust_flux` | `GumpMath/DiceHull3Exit.lean`, `DiceTorus113Exit.lean`, `DiceFlux.lean` | yes (the flux step a theorem since `flux_share`; second review) |
 | **Theorem 1 at every size**: ln τ < 2.5095·A on every face with all its coins and on every hull face; < 2.2165·A on every hull face; < 1.9228·A on every wrapped face | `lntau_le_all`; `lntau_le_hull`; `lntau_le_hull_all` (with `hull_type`, `hull_balanced`); `torus_regular`, `lntau_le_torus` | `GumpMath/DiceBound.lean`, `DiceHull.lean`, `DiceHullAll.lean`, `DiceBound3.lean`, `DiceTorusReg.lean`, `DiceBound2.lean` | yes (true with room: 1.9228 is 4.1 to 6.4 times ln τ/A on tori up to 12 cells) |
-| τ is the mean lifetime: P_μ(T > t) = λ^t and E_μ T = 1/(1 − λ) for every QSD, on every face whose empty state is absorbing | `qsd_survival`, `qsd_mean`, `qsd_mean_all`, `hull3_mean`, `qsd_mean_hull` | `GumpMath/DiceMean.lean` | the proof is the referee's (`ref-dice/QsdSurvival.lean`); the module **not refereed** |
+| τ is the mean lifetime: P_μ(T > t) = λ^t and E_μ T = 1/(1 − λ) for every QSD, on every face whose empty state is absorbing | `qsd_survival`, `qsd_mean`, `qsd_mean_all`, `hull3_mean`, `qsd_mean_hull` | `GumpMath/DiceMean.lean` | yes (the proof is `ref-dice`'s, `QsdSurvival.lean`; the module read by `ref-chain`, fourth review) |
 
 **The chain theory** (`mathlib/GumpMath/Chain*.lean`, 16 modules: `rigour/THEOREMS.md` on an abstract finite killed
 chain, with Perron–Frobenius built here because Mathlib has none):
@@ -119,8 +128,8 @@ chain, with Perron–Frobenius built here because Mathlib has none):
 | **The five 9-cell faces, complete**: dominant QSD, the only one with λ > 0, positive; λ in the certified interval and ln τ (τ = E_μT) to ten digits; ln τ = Σ_i c_i with each cell's own death probability as its factor; equal prices within the classes of table automorphisms; two-sided decay at λ from every start that can survive | `hull3_full`, `torus103_full`, `torus113_full`, `strip13_full`, `patch13_full`; `hull3_complete` (adds survFrom = `Face.survival` and the dice bounds) | `LinkFaces.lean`, `LinkSurv.lean` | yes (second and third reviews; every price class as coarse as the numerics allow) |
 | **The 12-cell torus (2,0),(0,2)**: unique dominant QSD, all twelve prices equal (ln τ = 12·c), ln τ < 1.9228·12; no λ interval | `torus202_full` | `LinkTorus202.lean` | yes |
 | **Every wrapped face** (H,K),(0,D), H, D > 0, no hypothesis: all the clauses of the 9-cell theorems but the λ interval, ln τ = HD(c₀ + c₁ + c₂), one price per cell on rotation-invariant tori, ln τ < 1.9228·A | `torusNb_all`, `wrapped_full_all`, `wrapped_theorems_all`, `wrapped_area` | `LinkWrappedAll.lean`, `LinkWrappedArea.lean`, `LinkWrapped*.lean` | yes (third review: clean; checked on 208 tori and more) |
-| **Every hull face** R, no hypothesis: dominant law, tilt identity with named factors, ln τ < 2.2165·A, survFrom = `Face.survival` | `cellsOK_hull`, `hull_theorems` | `LinkHull.lean` | **not refereed** (5e8aa76) |
-| **Every hull face under `Lemma0F (hull R)`**: uniqueness, positivity, decay at λ, equal prices along every table automorphism; `Lemma0F` itself kernel-proved for R = 1, 3, …, 13 (3 to 84 cells), the triangle's rotation and reflection for R = 3, …, 13 | `hull_full_all`, `face_full_of`, `lemma0_of_cert`, `price_aut`, `hull_full_sym`; `hull1_lemma0` … `hull13_lemma0` | `LinkHull.lean`, `LinkFaceAut.lean`, `LinkHullCert.lean` | **not refereed** |
+| **Every hull face** R, no hypothesis: dominant law, tilt identity with named factors, ln τ < 2.2165·A, survFrom = `Face.survival` | `cellsOK_hull`, `hull_theorems` | `LinkHull.lean` | yes (`ref-chain`, fourth review: clean; `hull R` has no cells for even R, so "every R" is every R with A > 0, i.e. odd R, as the rows say) |
+| **Every hull face under `Lemma0F (hull R)`**: uniqueness, positivity, decay at λ, equal prices along every table automorphism; `Lemma0F` itself kernel-proved for R = 1, 3, …, 13 (3 to 84 cells), the triangle's rotation and reflection for R = 3, …, 13 | `hull_full_all`, `face_full_of`, `lemma0_of_cert`, `price_aut`, `hull_full_sym`; `hull1_lemma0` … `hull13_lemma0` | `LinkHull.lean`, `LinkFaceAut.lean`, `LinkHullCert.lean` | yes (fourth review: the certificates regenerate byte for byte from the referee's oracle-built tables; `autOK` rejects permutations that keep neighbours but not coins and the reverse; on hull 3 the prices are 0.0481050722 at the three corners and 0.3899000883 at the other six, as the classes claim) |
 
 ### What is not proved (as of 2026-11-24)
 
@@ -213,12 +222,15 @@ Three more referees read the day's new files, each with its own code from `refer
   statements, the Link theorems say what their rows say about `Face.P` itself. Third review: clean; the generators
   rewrite the committed modules byte for byte. Not checked by it: the 19th digit of the λ intervals, a full kernel
   re-run of a reachability certificate (memory), `CellsOK` beyond 108 cells, tori above 12 cells for prices,
-  `DiceMean.lean`. Its fourth review (every hull face: `LinkHull`, `LinkFaceAut`, `LinkHullCert`; `DiceMean`) had
-  not reported when this was written.
+  `DiceMean.lean`. Fourth review (`LinkHull`, `LinkFaceAut`, `LinkHullCert` up to 5e8aa76, and `DiceMean`): clean.
+  `Lemma0F` is true on every face checked and slightly stronger than uniqueness needs; false on a face where the law
+  is not unique (`two_not_lemma0`). Not checked by it: prices on hull 5 (18 cells) and larger, `Lemma0F (hull R)` for
+  R ≥ 15 (nobody claims it), `lntau_le_hull_all` (the dice referee's second review covers it), the rebuilt
+  `LinkHullCert.olean` (it re-elaborated the source).
 
-Not checked: the proofs are the kernel's. Not refereed: `LinkHull.lean`, `LinkFaceAut.lean`, `LinkHullCert.lean`,
-`DiceMean.lean`. Nobody has checked these statements against the sources but their authors, the PI and the referees
-named above. `set36` was found by a fresh SAT run and not compared with `sealed.py`'s set.
+Not checked: the proofs are the kernel's. Every file of 2026-11-24 has been read by a referee. Nobody has checked these statements against the sources but their authors, the PI and the referees
+named above. `set36` was found by a fresh SAT run; `ref-lean` compared it with `sealed.py minsat 2 7 36`'s set: the same up to the slab's
+symmetries and even in-layer translations (`ref-lean/set36_compare.py`), not checked literally cell for cell.
 
 ## The climb
 
