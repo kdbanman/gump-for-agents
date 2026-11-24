@@ -216,6 +216,16 @@
     "thm3d",
     "Theorem 3 (d): along a sequence with rim/A → 0 and ℓ → ∞, ln τ / A → c_∞, the same number for rimmed and wrapped faces.",
     "Stated with A → ∞ and Σ_i e^{-r_i/ξ} = o(A) as the hypotheses."
+   ],
+   [
+    "tilt_riemann_bounds",
+    "(new; THEOREMS.md Theorem 2's monotonicity, used quantitatively) ln τ from finitely many tilted means.",
+    "New: (1/n)Σ_{k=1}^{n}⟨E⟩_{k/n} ≤ ln τ ≤ (1/n)Σ_{k=0}^{n-1}⟨E⟩_{k/n} on every face, a bracket of width ≤ ε_max A/n."
+   ],
+   [
+    "price_of_pointwise",
+    "(new; replaces (SSM) in Theorem 3 (d)) the price per cell from a bulk limit at each tilt.",
+    "New and weaker than (SSM): if ⟨E⟩_{s,G_n}/A_n → f(s) for every s ∈ (0,1] (no rate, no uniformity in s, no locality; jumps of f allowed), then ln τ/A → ∫₀¹ f. Two families have one price when their pointwise limits agree."
    ]
   ]
  },

@@ -8,6 +8,7 @@ import GumpMath.ChainSeam
 import GumpMath.ChainSSM
 import GumpMath.ChainPrice
 import GumpMath.ChainInst
+import GumpMath.ChainTiltLimit
 open Gump.Chain
 -- Theorem 2 (the tilt identity) and its analytic core
 #print axioms neg_log_Z_one
@@ -70,3 +71,6 @@ open Gump.Chain
 #print axioms KilledChain.isQSD_of
 #print axioms KilledChain.one_class
 #print axioms surrogate_theorems
+-- Theorem 3 without (SSM): monotonicity of the tilt
+#print axioms tilt_riemann_bounds
+#print axioms price_of_pointwise
