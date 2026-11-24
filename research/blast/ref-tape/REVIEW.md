@@ -56,7 +56,7 @@ files (`rt_compare.py`).
 | `unzip_law_sharp`, `unzip_law` | **same** (the "not at 2k + 4" of REVIEW-signals-8 §3 is the Lean's ≠ with the expected final state). Even generations only, as in the source. Nothing is said about odd ones (2k + 5 is odd). | `hexCells h` for all 16 letters equals cell8.json's stators and sites. `store k` and `countRead k` (stator (0,1,2) of unit −1 removed) on units −5…k + 5, and `tape (pulses k (−3))`, equal for k = 1, 2, 3, 5. | k = 1…20: the state at 2n is `tape (pulses k (2−n))` **exactly** for n ≥ k + 3 (checked n = 1…k + 7). Only units whose light cone sees one copy of the stretch are compared, i.e. units −1−2n…k + 2n, the whole torus in y, z. |
 | `stretch_stands`, `hex_local` | **same** (infinite wire; the finite cell is not covered, as the row says). | as above | k = 1…12 and 20: every even generation 0…40 equals the start, and generation 1 differs. |
 | `glue_run`, `glue_run_moving`, `orbit_classify` | **same** (lemmas). The row `glue_run` is stale (D3). | | |
-| `call_law_b` | **same** as REVIEW-signals-9 §3 (b), for V_k. Part (a) is not proved (disclosed). | `storeAt k` (d^k f on units 36…36+k), the 162 cells of the line (`call9.json` run 0 `extra`), the two CALL cells (run 0 ops[3]), e1 = (71, 2, −70) and cross = 35: equal. | k = 1…10, ring of 76 units, torus (152, 104, 152). (a) X_k = V_k ⊔ Lf and the two are disjoint, whole torus, every generation 0…2k + 38. Not vacuous: the birth of e1 at 29 is needed. (b) V_k(2n) is the k pulses at c + 3 − (n − 14) **exactly** for n ≥ k + 17 (checked n = k + 14…k + 19). The free line is at rest (= `line`) at every even generation from 42. |
+| `call_law_b` | **same** as REVIEW-signals-9 §3 (b), for V_k. Part (a) is not proved (disclosed). | `storeAt k` (d^k f on units 36…36+k), the 162 cells of the line (`call9.json` run 0 `extra`), the two CALL cells (run 0 ops[3]), e1 = (71, 2, −70) and cross = 35: equal. | k = 1…10, rings of L = max(76, 4k + 48) units (76 to 88), torus (2L, 104, 2L). (a) X_k = V_k ⊔ Lf and the two are disjoint, whole torus, every generation 0…2k + 38. Not vacuous: the birth of e1 at 29 is needed. (b) V_k(2n) is the k pulses at c + 3 − (n − 14) **exactly** for n ≥ k + 17 (checked n = k + 14…k + 19). The free line is at rest (= `line`) at every even generation from 42. |
 | `pieceCheck_spec`, `forcedCheck_spec`, `bstep_spec` | **sound as stated** (§3). | | |
 
 Statement details I checked, all fine:
@@ -130,9 +130,10 @@ unsound kernel.
   - the call beyond k = 10 and beyond generation 2k + 38;
   - signals beyond a ring of 48 units and 96 generations.
   The oracle runs for the unzip, the train, the signals and the call are rings on the array torus. For the unzip
-  and the call, only units whose light cone sees a single copy of the defect are compared. The call's (a) is a
-  statement about the torus run, which equals the infinite run near the crossing for t ≤ 2k + 38 by the light cone
-  with the ring of 76 units.
+  and the call's (b), only units whose light cone meets a single copy of the defect are compared: L > k + 4n + 1
+  for the unzip, and L > 4k + 44 and L > 3k + 42 for the call. The call's (a) is checked on the whole torus. Near
+  the crossing (units c − 1…c + 3, where the review shows the two parts can interact) that is the infinite run for
+  t ≤ 2k + 38, because L > 3k + 40.
 - **Not tested on the oracle:** whether `pieceCheck` and `forcedCheck` accept every true claim. Only soundness
   matters for the theorems.
 - **The finite objects of pushes 8 and 9** (caps, cells). The Lean does not claim them.
@@ -148,7 +149,7 @@ Run these from `research/blast/ref-tape/`, against a built copy (see §4) at `C 
 | compare with the catalogue (119 PASS) | `python3 rt_compare.py dump.txt` (negative control: 5 mutations of the dump, 5 FAIL, `logs/compare_mutated.log`) | 2 s |
 | oracle: tape / line / clock / two clocks / train / signals / stands | `python3 rt_dyn.py tape` (and `line`, `clock`, `twoclocks`, `train`, `signals`, `stands`) | 0.3–11 s each |
 | oracle: unzip k = 1…10, 11…20 | `python3 rt_dyn.py unzip`, `python3 rt_dyn.py unzip 11-20` | 2 s, 15 s |
-| oracle: call k = 1…5, 6…10 | `python3 rt_dyn.py call`, `python3 rt_dyn.py call 6-10` | 19 s, 33 s |
+| oracle: call k = 1…10 | `python3 rt_dyn.py call 1-10` (`call` alone: k = 1…5) | 65 s |
 | axiom sweep and names | `cd $C && lake env lean <here>/RtAxioms.lean` | 12 s |
 | false certificate at the box edge, audit controls | `cd $C && lake env lean <here>/RtCert.lean` | 2 s |
 
