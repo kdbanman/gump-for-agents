@@ -74,7 +74,7 @@ theorem hasDerivAt_num (μ E f : σ → ℝ) (s : ℝ) :
     have h1 : HasDerivAt (fun s => -(s * E x)) (-(1 * E x)) s :=
       ((hasDerivAt_id s).mul_const (E x)).neg
     have h2 := ((h1.exp).const_mul (μ x)).mul_const (f x)
-    convert h2 using 1; simp only [tw]; ring
+    convert h2 using 1 <;> simp only [tw] <;> ring
   rw [← Finset.sum_neg_distrib]
   exact HasDerivAt.fun_sum h
 
