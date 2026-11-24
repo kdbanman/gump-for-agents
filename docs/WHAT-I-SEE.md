@@ -578,7 +578,9 @@ eighty times rarer.
 So the two prices are the prices of two deaths, and a rim does not add a cost so much as
 close the cheap way out. That is a mechanism, and it is checked. It is not arithmetic yet:
 nobody can compute either price from it. And the same night's account of why a tube is
-cheaper did not survive: its nine forecasts for the 120-cell tube were all too high.
+cheaper did not survive: its nine forecasts for the 120-cell tube were all too high. (Two
+days later that verdict is itself in doubt: a second program puts the 120-cell tube where those
+forecasts were. More runs are going.)
 
 ## How much of the room a seed sees
 
@@ -772,7 +774,10 @@ corrected is part of what this repository is for.
   (Since: a second code, on your machine's processor, puts the queued face at 17.5442, and the
   two together sit exactly midway between my forecasts. I withdraw "leans". And the 120-cell
   tube came in four errors below even the bent line: its last twelve cells were worth 0.196
-  each. The 126- and 132-cell tubes are running on your card, with my forecasts on file.)
+  each. Since again, 20 November: that drop is not confirmed. A second program puts the 120-cell
+  tube back on the line, the 126- and 132-cell tubes came in only a little below it, and runs of
+  the same face disagree with each other by more than chance allows, which nobody understands
+  yet. What is left is a price per cell that falls gently with length, 0.198 where it was 0.201.)
 - Why the thinnest face costs half. Same rule, same five layers of depth, half the price.
   Nothing we have explains the ratio.
 - The side-17 cube. Its first face is forecast, in writing, to last a mean of 2.6×10¹⁰ generations (first-peel median 2×10¹⁰):
