@@ -227,3 +227,81 @@ Attacks on copies of the hull-3 data, all as expected:
     (cd $L && lake env lean $OLDPWD/DiceAxiomSweep.lean)   # also Perturb.lean (2 expected errors), Regular.lean,
                                                            # QsdSurvival.lean (E_mu T = 1/(1-lambda), ~1 min)
     python3 nb_compare.py regular.out
+
+## Second review (2026-11-24, 15:40–16:20 UTC): the dice commits after a65957b, up to 6f70d2d
+
+Object: `DiceFlux.lean`, `DiceHull.lean`, `DiceBound3.lean`, `DiceHullAll.lean`, `DiceRegular.lean`,
+`DiceTorusReg.lean`, `AxiomsDice.lean`, the rows of `statements_dice.json` and the dated "Second task" section of
+`notes/dice.md`, all as at 6f70d2d (the six modules were byte-identical in the working tree and their oleans newer;
+nothing rebuilt). Not refereed: the Link* modules (another arm), and `DiceMean.lean` and the row edits made in the
+working tree after 6f70d2d.
+
+**Verdict: no defect in the statements.** `flux_share` makes defect 2 above a theorem. `torus_regular`,
+`hull_type` and `hull_balanced` are what my oracle-built faces show. The three new bounds are true, with room.
+
+1. **`DiceFlux.lean`.**
+   - Read: `pathE n f x` = Σ over every ω : Fin n → states of `pathWeight (x :: ω)` · f(x :: ω), where
+     `pathWeight` is the product of P over consecutive pairs. That is E_x[f(X₀..Xₙ)].
+   - `dies` means "last state ∅, no earlier one", i.e. T = n exactly.
+   - `bustLast K` means "a fall pop u ≥ pop v + ⌈A/2⌉ among the last K transitions, the death included". That is
+     `qsd.c`'s marker (m − n' ≥ half, half = (A+1)/2) as I read it in the first review.
+   - `flux_share` holds for every QSD with 0 < λ < 1, every K ≥ 1 and every generation m + K: P_μ(T = m+K, bust in
+     the last K) / P_μ(T = m+K) = `bustShare`. `death_flux` gives P_μ(T = n+1) = λⁿ(1 − λ).
+   - Checked: Lean's own `pathE` with `dies` and with `dies ∧ bustLast`, on `hull 1` and `torus 1 1 1`, n = 3 and 4,
+     K = 2 and 3, every start. It equals an exact Python enumeration of all paths: 24 cases, 0 mismatches, bust mass
+     non-zero (`Review2.lean`, `review2_paths.py review2.out`) [measured, exact].
+   - My window propagation **started from μ** (`review2.py e`, `review2_de.out`) gives bust share 0.0170176867
+     (hull 3) and 0.9368529753 (torus (1,1),(0,3)) at every generation t = 6 … 12. It also gives
+     P_μ(T = t)/(λ^(t−1)(1 − λ)) = 1.000000000000. At t < 6 the share is smaller (truncated windows), which is why
+     the theorem needs m + K [measured, float64].
+   - So `hull3_bust_flux` and `torus113_bust_flux` are theorems about the exits. My defect 2 is closed. The sum over
+     all generations ≥ K is not formed; that is trivial, since every term has the same ratio.
+2. **`DiceTorusReg.lean`.**
+   - Read: `Tr` reduces modulo the lattice (Int ediv/emod with H, D > 0). `Tr_shift`, `Tr_sub`, `Tr_id` and the
+     decided `offsets_table` give `red_symm`, then `torus_count_symm`, `red_mem` and six slots. That proves
+     `torus_regular` for every H, D > 0 and every K, including K ≥ D. `lntau_le_torus` is `lntau_le_regular`
+     applied to it. Its hypothesis `hA : 0 < A` is redundant (A = 3HD).
+   - Thin and skewed tori I had not tried: (1,1),(0,1), (1,5),(0,1), (2,1),(0,1), (3,2),(0,1), (1,3),(0,2),
+     (1,5),(0,2), (2,3),(0,2), (5,3),(0,2), (1,7),(0,3), (4,6),(0,5). On these, cells are their own neighbours
+     (6 self-slots at H = D = 1, 4 at A = 6) and slots repeat (multiplicity 2). Lean's `Face.nb`, `m1`, `m2` equal
+     mine on all ten, and Lean's three `regular` conjuncts evaluate true on all ten (`Review2.lean`,
+     `nb_compare.py review2.out`). Mine are regular on 16 such tori (`review2.py c`).
+   - **The constant**: ln τ/A on every torus with A ≤ 12 that I can diagonalise is 0.299 to 0.471 (`review2.py d`),
+     so 1.9228 lies 4.1 to 6.4 times above the truth: 4.1× at 3 cells, 5.1–6.4× at 9, 5.6–6.2× at 12. It is close to
+     the worst single state, max_x −ln P(x, ∅)/A = 1.52–1.82, which is what a one-step bound can reach.
+3. **`DiceHull.lean`, `DiceBound3.lean`, `DiceHullAll.lean`.**
+   - My oracle-built hulls R = 1, 3, …, 15 (`review2.py a`) show exactly the types (degree, m1, m2) = (6,2,1)
+     inside, (4,2,1) on the edges and (2,2,0) at the three corners. The counts are 3 corners, 6(R−1)/2 edge cells
+     and the rest inside; R = 1 has only corners.
+   - Every neighbour relation is symmetric with no repeated neighbour, so in-degree = out-degree. That is
+     `balanced`, and it is exactly what the weighted cancellation Σ bup = Σ bdown needs: in-degree equal to degree
+     cell by cell. The wrapped faces' "six" is a special case.
+   - Weighted check re-derived exactly: at w = 1341/1000 the minimum weighted factor over the three types is
+     0.109039 ≥ 0.109, giving 2.2160·A, or 2.2165 with δ rounded to 0.109. 1.341 is the best uniform w on a 0.001
+     grid, as the notes say. `hull_cells` / `corner_cell` (corners die on two tails, (1 − ρ1)² ≥ δ₀) is consistent
+     with my tables.
+   - **With room on the 9-cell triangle**: ln τ = 2.4837 against 2.2165·9 = 19.95 (8.0×) and 2.5095·9 = 22.6. For
+     R = 5: 4.2317 (README) against 39.9. The per-state quantity the bound controls, max_x −ln P(x, ∅)/A, is 1.745
+     on hull 3 against 2.2165.
+   - One stale sentence: `DiceBound3.lean`'s header (lines 11–13) still says the classification "is not proved for
+     every R". `DiceHullAll.hull_type` now proves it. Docstring only.
+4. **Hygiene, rows, names.**
+   - `DiceAxiomSweep2.lean` (`axiom_sweep2.out`, `dice_names2.txt`) covers all 1,808 constants (1,470 theorems)
+     of the 28 Dice modules at 6f70d2d. The axiom sets are ⊆ {propext, Classical.choice, Quot.sound}: no sorryAx,
+     no declared axiom, no opaque. The only flags are compiler artefacts (`_unsafe_rec` of `pathWeight`, `dies`,
+     `noFallAll`, `Nm`, `Dm` and the earlier ones; `Tree.ctorIdx._impl`).
+   - All 16 new `AxiomsDice.lean` names exist (`#check`, no error).
+   - The 6f70d2d rows for `flux_share`, `death_flux`, the two `*_bust_flux`, `lntau_le_hull`, `lntau_le_hull_all`,
+     `torus_regular` and `lntau_le_torus` say what the theorems say.
+   - Aside, on the working tree after 6f70d2d (not refereed): the `torus113_bust_flux` row repeats "from the full
+     hull face it is about 0.152". That number is the hull's. On that torus the full face dies surely; from x₀ = 73
+     the share of all deaths is 0.934 (`window_exact.out`).
+
+Not checked in this round: no rebuild, so the kernel checks (`offsets_table`, `type_check`, `hull*_wcheck`,
+`regular_torus*`) are taken from the existing oleans. I did not run 12-cell or larger exact diagonalisations
+beyond A = 12. The proofs of `deg_X/Y/Z` and `m2_X/Y/Z` were read only through their statements; my hull tables
+for R ≤ 15 are the independent check.
+
+Reproduce: `python3 review2.py` (a–e; about 3 min); `(cd ../lean/mathlib && lake env lean $PWD/Review2.lean) >
+review2.out`, then `python3 review2_paths.py review2.out` and `python3 nb_compare.py review2.out`;
+`lake env lean .../DiceAxiomSweep2.lean`.
