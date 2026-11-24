@@ -383,8 +383,8 @@ a list with one entry given the wrong orientation fails on every torus. `wrapped
 no hypothesis but H, D > 0 (and 0 < ρ1, ρ2 < 1); the clauses are those of the 9-cell `*_full` theorems plus
 `survFrom = Face.survival` and ln τ < 1.9228·A. [measured] prices on 19 tori of 6–12 cells: "c_i = c_j whenever
 i ≡ j mod 3" holds everywhere and i mod 3 is the orientation; "all prices equal when (K, −H−K) and (D, −D) are
-periods" holds on the four rotation-invariant ones ((1,1),(0,3), (1,4),(0,3), (2,0),(0,2) and the same lattice
-twice). No finer equality is claimed; the truth is coarser than claimed on every non-invariant torus I ran: two
+periods" holds on the three rotation-invariant ones ((1,1),(0,3) and (1,4),(0,3), one lattice twice, and
+(2,0),(0,2)). No finer equality is claimed; the truth is coarser than claimed on every non-invariant torus I ran: two
 classes, two orientations sharing a price (e.g. (1,0),(0,4): 0.350267 ×2, 0.332719), which the theorem does not
 assert — it claims less, honestly. `wrapped_area`: ln τ = HD(c₀ + c₁ + c₂) to ≤ 5·10⁻¹⁵ on all 19, for the cells
 0, 1, 2 = the three orientations at the origin (`c3`); its second form is the rotation clause with A = 3HD.
