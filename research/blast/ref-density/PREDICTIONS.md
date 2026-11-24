@@ -38,3 +38,11 @@ The "density part = 0.15 of 0.68" depends on the path: the mean-density coin cha
 | 17 | the scan chain at p = 0.2 has its replaced layer-1 core above 0.35 after the darts (so "worth coins of 0.19" is not the density of an equivalent support) | — | 0.80 |
 
 (Row 17 is not blind: the R = 9 chain at p = 0.2, seen before writing it, has 0.393 after the darts.)
+
+## Added 14:56 UTC, before these rows started (seen by then: gump, fair, mean, core copy, scan p = 0.1 at 63 cells)
+
+| # | row | theirs | P(within 3σ) |
+|---|---|---|---:|
+| 18 | fair coins, d = 2, Δ | +0.332 ± 0.014 | 0.80 |
+| 19 | mean-density coins at ε = 1/16, d = 1, Δ | +0.164 ± 0.013 | 0.80 |
+| 20 | my second fair seed (d = 1) lands above my first (14.264), i.e. the first was low | — | 0.65 |
