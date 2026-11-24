@@ -199,6 +199,20 @@ theorem stepN_mask (S S' : Pt → Prop) [DecidablePred S] [DecidablePred S']
     · simp [hs]
 
 
+/-! ### The coin rule as arithmetic -/
+
+theorem canB_1_true (k : ℕ) : canB 2 1 k true = true ↔ k ≤ 5 := by
+  simp [canB, List.range_succ, Gump.rule]; omega
+
+theorem canB_1_false (k : ℕ) : canB 2 1 k false = true ↔ 1 ≤ k ∧ k ≤ 5 := by
+  simp [canB, List.range_succ, Gump.rule]; omega
+
+theorem canB_0_true (k : ℕ) : canB 2 0 k true = true ↔ 1 ≤ k ∧ k ≤ 5 := by
+  simp [canB, List.range_succ, Gump.rule]; omega
+
+theorem canB_0_false (k : ℕ) : canB 2 0 k false = true ↔ 2 ≤ k ∧ k ≤ 5 := by
+  simp [canB, List.range_succ, Gump.rule]; omega
+
 /-! ### The six in-layer neighbours -/
 
 theorem mk_add_mk (a b c d e f : ℤ) : (⟨a, b, c⟩ : Pt) + ⟨d, e, f⟩ = ⟨a + d, b + e, c + f⟩ := rfl
@@ -272,6 +286,43 @@ theorem kc_pos (S : Pt → Prop) [DecidablePred S] (p v : Pt) (hv : v ∈ inl p.
   rw [kc_eq]
   exact List.countP_pos_iff.2 ⟨v, hv, by simp [hm, hs]⟩
 
+
+theorem kc_le_five (S : Pt → Prop) [DecidablePred S] (hS : ∀ q, S q → q.z % 2 = 0 ∨ q.z = 1) (p : Pt)
+    (hp : p ∈ Gump.Dice.hullCells R) (hpz : p.z % 2 = 0) : kc R S p ≤ 5 := by
+  rw [kc_eq]
+  have hmono : (inl p.axis).countP (fun v => decide (p + v ∈ Gump.Dice.hullCells R ∧ S (p + v))) ≤
+      (inl p.axis).countP (fun v => decide ((p.z + v.z) % 2 = 0 ∨ p.z + v.z = 1)) :=
+    List.countP_mono_left fun v _ h => by
+      simp only [decide_eq_true_eq] at h ⊢
+      exact hS _ h.2
+  refine hmono.trans ?_
+  obtain ⟨-, -, -, -, hpar⟩ := parity R p hp
+  obtain ⟨x, y, z⟩ := p
+  simp only at hpar hpz
+  rcases hpar with ⟨hx, hy, hz⟩ | ⟨hx, hy, hz⟩ | ⟨hx, hy, hz⟩
+  · rw [axis_X x y z hx, inl_X]
+    simp only [List.countP_cons, List.countP_nil, decide_eq_true_eq]
+    split_ifs <;> omega
+  · rw [axis_Y x y z hx hy, inl_Y]
+    simp only [List.countP_cons, List.countP_nil, decide_eq_true_eq]
+    split_ifs <;> omega
+  · omega
+
+theorem inl_nodup (a : Axis) : (inl a).Nodup := by cases a <;> decide
+
+/-- Two live in-layer neighbours in the hull give k ≥ 2. -/
+theorem kc_two (S : Pt → Prop) [DecidablePred S] (p v w : Pt) (hv : v ∈ inl p.axis) (hw : w ∈ inl p.axis)
+    (hvw : v ≠ w) (hmv : p + v ∈ Gump.Dice.hullCells R) (hsv : S (p + v))
+    (hmw : p + w ∈ Gump.Dice.hullCells R) (hsw : S (p + w)) : 2 ≤ kc R S p := by
+  rw [kc_eq, List.countP_eq_length_filter]
+  set l := (inl p.axis).filter fun v => decide (p + v ∈ Gump.Dice.hullCells R ∧ S (p + v))
+  have hsub : ({v, w} : Finset Pt) ⊆ l.toFinset := by
+    intro a ha
+    simp only [Finset.mem_insert, Finset.mem_singleton] at ha
+    rcases ha with rfl | rfl <;> simp [l, List.mem_filter, *]
+  calc 2 = ({v, w} : Finset Pt).card := (Finset.card_pair hvw).symm
+    _ ≤ l.toFinset.card := Finset.card_le_card hsub
+    _ ≤ l.length := List.toFinset_card_le l
 
 /-! ### The growth region, its potential and the descent -/
 
@@ -408,18 +459,191 @@ theorem enterT (hR : 3 ≤ R) (p : Pt) (hp : p ∈ Gump.Dice.hullCells R) (hT : 
       · rw [axX (⟨x, y, z⟩ + ⟨1, 0, -1⟩) (by simp only [Pt.add_x]; omega), inl_X]; simp
       · apply Pt.ext' <;> simp only [Pt.add_x, Pt.add_y, Pt.add_z] <;> omega
 
-/-! ### The coin rule as arithmetic -/
 
-theorem canB_1_true (k : ℕ) : canB 2 1 k true = true ↔ k ≤ 5 := by
-  simp [canB, List.range_succ, Gump.rule]; omega
+/-! ### The walks, the growth and the last two steps -/
 
-theorem canB_1_false (k : ℕ) : canB 2 1 k false = true ↔ 1 ≤ k ∧ k ≤ 5 := by
-  simp [canB, List.range_succ, Gump.rule]; omega
+section Reach
+variable {R}
 
-theorem canB_0_true (k : ℕ) : canB 2 0 k true = true ↔ 1 ≤ k ∧ k ≤ 5 := by
-  simp [canB, List.range_succ, Gump.rule]; omega
+theorem walk_step (p d w : Pt) (hp : p ∈ Gump.Dice.hullCells R) (hd : d ∈ Gump.Dice.hullCells R) (hT : T d)
+    (hw : w ∈ inl d.axis) (hdw : d + w = p) (hne : d ≠ p) :
+    StepN (Gump.Dice.hull R) (mask R (fun q => q = p)) (mask R (fun q => q = d)) := by
+  refine stepN_mask R _ _ ⟨d, hd, rfl⟩ (fun q _ hqd => ?_)
+  rw [hqd, if_neg hT.2, decide_eq_false hne, canB_1_false]
+  exact ⟨kc_pos R _ d w hw (by rw [hdw]; exact hp) hdw, (kc_le_one R p d).trans (by norm_num)⟩
 
-theorem canB_0_false (k : ℕ) : canB 2 0 k false = true ↔ 2 ≤ k ∧ k ≤ 5 := by
-  simp [canB, List.range_succ, Gump.rule]; omega
+theorem walk_T (hR : 3 ≤ R) (hodd : R % 2 = 1) :
+    ∀ n : ℕ, ∀ p ∈ Gump.Dice.hullCells R, T p → phi R p ≤ n →
+      Relation.ReflTransGen (StepN (Gump.Dice.hull R)) (mask R (fun q => q = p)) (mask R (fun q => q = c0 R)) := by
+  intro n
+  induction n with
+  | zero =>
+    intro p hp hT hphi
+    rw [phi_zero R hodd p hp hT (by exact_mod_cast hphi)]
+  | succ n ih =>
+    intro p hp hT hphi
+    by_cases hc : p = c0 R
+    · rw [hc]
+    · obtain ⟨v, -, hm, hTd, hlt, w, hw, hdw⟩ := descent R hR p hp hT hc
+      have hne : p + v ≠ p := fun e => by rw [e] at hlt; exact lt_irrefl _ hlt
+      refine Relation.ReflTransGen.head (walk_step p (p + v) w hp hm hTd hw hdw hne) ?_
+      exact ih (p + v) hm hTd (by push_cast at hphi; omega)
+
+theorem walk_all (hR : 3 ≤ R) (hodd : R % 2 = 1) (p : Pt) (hp : p ∈ Gump.Dice.hullCells R) :
+    Relation.ReflTransGen (StepN (Gump.Dice.hull R)) (mask R (fun q => q = p)) (mask R (fun q => q = c0 R)) := by
+  by_cases hT : T p
+  · exact walk_T hR hodd (phi R p).toNat p hp hT (Int.self_le_toNat _)
+  · obtain ⟨v, -, hm, hTd, w, hw, hdw⟩ := enterT R hR p hp hT
+    have hne : p + v ≠ p := fun e => by rw [e] at hTd; exact hT hTd
+    exact Relation.ReflTransGen.head (walk_step p (p + v) w hp hm hTd hw hdw hne)
+      (walk_T hR hodd (phi R (p + v)).toNat (p + v) hm hTd (Int.self_le_toNat _))
+
+theorem grow_step (hR : 3 ≤ R) (hodd : R % 2 = 1) (n : ℕ) :
+    StepN (Gump.Dice.hull R) (mask R (G R n)) (mask R (G R (n + 1))) := by
+  refine stepN_mask R _ _ ⟨c0 R, c0_mem R hR hodd, c0_T R hR hodd, by rw [phi_c0]; positivity⟩
+    (fun q hq hG' => ?_)
+  rw [if_neg hG'.1.2]
+  have h4 := kc_le_four R (G R n) (fun q h => h.1.1) q hq
+  by_cases hG : G R n q
+  · rw [decide_eq_true hG, canB_1_true]; omega
+  · rw [decide_eq_false hG, canB_1_false]
+    have hc : q ≠ c0 R := fun e => hG (by rw [e]; exact ⟨c0_T R hR hodd, by rw [phi_c0]; positivity⟩)
+    obtain ⟨v, hv, hm, hTd, hlt, -⟩ := descent R hR q hq hG'.1 hc
+    have hphi := hG'.2
+    exact ⟨kc_pos R _ q v hv hm ⟨hTd, by push_cast at hphi; omega⟩, by omega⟩
+
+theorem grow (hR : 3 ≤ R) (hodd : R % 2 = 1) :
+    ∀ n : ℕ, Relation.ReflTransGen (StepN (Gump.Dice.hull R)) (mask R (G R 0)) (mask R (G R n)) := by
+  intro n
+  induction n with
+  | zero => exact Relation.ReflTransGen.refl
+  | succ n ih => exact ih.tail (grow_step hR hodd n)
+
+theorem G0 (hR : 3 ≤ R) (hodd : R % 2 = 1) : mask R (G R 0) = mask R (fun q => q = c0 R) :=
+  mask_congr R _ _ fun q hq => ⟨fun h => phi_zero R hodd q hq h.1 (by exact_mod_cast h.2),
+    fun h => by rw [h]; exact ⟨c0_T R hR hodd, by rw [phi_c0]; simp⟩⟩
+
+theorem GN : mask R (G R (3 * R)) = mask R T :=
+  mask_congr R _ _ fun q hq => ⟨fun h => h.1, fun h => ⟨h, by have := phi_le R q hq; push_cast; omega⟩⟩
+
+/-- The two z-cells beside the x- and y-corners. -/
+def Zp (q : Pt) : Prop := q = ⟨(R : ℤ) - 1, 0, 1⟩ ∨ q = ⟨0, (R : ℤ) - 1, 1⟩
+
+def TZ (q : Pt) : Prop := T q ∨ Zp (R := R) q
+
+instance : DecidablePred (Zp (R := R)) := fun q => by unfold Zp; infer_instance
+instance : DecidablePred (TZ (R := R)) := fun q => by unfold TZ; infer_instance
+
+theorem step_TZ (hR : 3 ≤ R) (hodd : R % 2 = 1) :
+    StepN (Gump.Dice.hull R) (mask R T) (mask R (TZ (R := R))) := by
+  refine stepN_mask R _ _ ⟨c0 R, c0_mem R hR hodd, Or.inl (c0_T R hR hodd)⟩ (fun q hq h => ?_)
+  have h4 := kc_le_four R T (fun q h => h.1) q hq
+  by_cases hT : T q
+  · rw [if_neg hT.2, decide_eq_true hT, canB_1_true]; omega
+  · have hZ : Zp (R := R) q := h.resolve_left hT
+    have hnc : ¬ corner q := by
+      unfold Zp at hZ; rcases hZ with e | e <;> rw [e] <;> unfold corner <;> simp only <;> omega
+    rw [if_neg hnc, decide_eq_false hT, canB_1_false]
+    refine ⟨?_, by omega⟩
+    unfold Zp at hZ
+    rcases hZ with e | e <;> rw [e]
+    · refine kc_pos R T _ ⟨0, 1, -1⟩ ?_ ?_ ?_
+      · rw [axis_Z _ _ _ (by omega) (by omega), inl_Z]; simp
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold T corner; simp only; omega
+    · refine kc_pos R T _ ⟨1, 0, -1⟩ ?_ ?_ ?_
+      · rw [axis_Z _ _ _ (by omega) (by omega), inl_Z]; simp
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold T corner; simp only; omega
+
+def U (q : Pt) : Prop := q.z % 2 = 0
+
+instance : DecidablePred U := fun q => by unfold U; infer_instance
+
+theorem step_U (hR : 3 ≤ R) (hodd : R % 2 = 1) :
+    StepN (Gump.Dice.hull R) (mask R (TZ (R := R))) (mask R U) := by
+  refine stepN_mask R _ _ ⟨c0 R, c0_mem R hR hodd, (c0_T R hR hodd).1⟩ (fun q hq hU => ?_)
+  have h5 := kc_le_five R (TZ (R := R)) (fun q h => by
+    rcases h with h | h
+    · exact Or.inl h.1
+    · unfold Zp at h; rcases h with e | e <;> rw [e] <;> simp) q hq hU
+  obtain ⟨x, y, z⟩ := q
+  have hm := hq
+  rw [mem_hull_iff] at hm
+  unfold U at hU
+  simp only at hU
+  obtain ⟨h1, h2, h3, h4, hpar⟩ := hm
+  by_cases hc : corner ⟨x, y, z⟩
+  · have hnT : ¬ TZ (R := R) ⟨x, y, z⟩ := by
+      unfold TZ T Zp corner at *; simp only [Pt.mk.injEq] at *; omega
+    rw [if_pos hc, decide_eq_false hnT, canB_0_false]
+    refine ⟨?_, by omega⟩
+    unfold corner at hc
+    simp only at hc
+    rcases hpar with ⟨hx, hy, hz⟩ | ⟨hx, hy, hz⟩ | ⟨hx, hy, hz⟩
+    · refine kc_two R _ _ ⟨-1, 1, 0⟩ ⟨-1, 0, 1⟩ ?_ ?_ (by decide) ?_ ?_ ?_ ?_
+      · rw [axis_X _ _ _ hx, inl_X]; simp
+      · rw [axis_X _ _ _ hx, inl_X]; simp
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold TZ T corner; simp only; omega
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold TZ Zp; right; left; simp only [Pt.mk.injEq]; omega
+    · refine kc_two R _ _ ⟨1, -1, 0⟩ ⟨0, -1, 1⟩ ?_ ?_ (by decide) ?_ ?_ ?_ ?_
+      · rw [axis_Y _ _ _ hx hy, inl_Y]; simp
+      · rw [axis_Y _ _ _ hx hy, inl_Y]; simp
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold TZ T corner; simp only; omega
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold TZ Zp; right; right; simp only [Pt.mk.injEq]; omega
+    · omega
+  · have hT : TZ (R := R) ⟨x, y, z⟩ := Or.inl ⟨hU, hc⟩
+    rw [if_neg hc, decide_eq_true hT, canB_1_true]
+    exact h5
+
+/-- **Every cell can be alive next from u** (every cell whose normal is not z alive). -/
+theorem aliveF_u (hR : 3 ≤ R) (hodd : R % 2 = 1) (i : ℕ) (hi : i < (Gump.Dice.hull R).A) :
+    aliveF (Gump.Dice.hull R) (mask R U) i = true := by
+  rw [aliveF_mask R U i hi]
+  have hq := Face.hull_cell_mem R i hi
+  generalize (Gump.Dice.hull R).cell i = q at hq ⊢
+  have h4 := kc_le_four R U (fun q h => h) q hq
+  obtain ⟨x, y, z⟩ := q
+  have hm := hq
+  rw [mem_hull_iff] at hm
+  obtain ⟨h1, h2, h3, h4', hpar⟩ := hm
+  rcases hpar with ⟨hx, hy, hz⟩ | ⟨hx, hy, hz⟩ | ⟨hx, hy, hz⟩
+  · rw [decide_eq_true (show U ⟨x, y, z⟩ from hz)]
+    by_cases hc : y = 0 ∧ z = 0
+    · rw [if_pos (show corner ⟨x, y, z⟩ from Or.inl hc), canB_0_true]
+      refine ⟨kc_pos R U _ ⟨-1, 1, 0⟩ ?_ ?_ ?_, by omega⟩
+      · rw [axis_X _ _ _ hx, inl_X]; simp
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold U; simp only; omega
+    · rw [if_neg (show ¬ corner ⟨x, y, z⟩ by unfold corner; simp only; omega), canB_1_true]; omega
+  · rw [decide_eq_true (show U ⟨x, y, z⟩ from hz)]
+    by_cases hc : x = 0 ∧ z = 0
+    · rw [if_pos (show corner ⟨x, y, z⟩ from Or.inr (Or.inl hc)), canB_0_true]
+      refine ⟨kc_pos R U _ ⟨1, -1, 0⟩ ?_ ?_ ?_, by omega⟩
+      · rw [axis_Y _ _ _ hx hy, inl_Y]; simp
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold U; simp only; omega
+    · rw [if_neg (show ¬ corner ⟨x, y, z⟩ by unfold corner; simp only; omega), canB_1_true]; omega
+  · rw [decide_eq_false (show ¬ U ⟨x, y, z⟩ by unfold U; simp only; omega)]
+    by_cases hc : x = 0 ∧ y = 0
+    · rw [if_pos (show corner ⟨x, y, z⟩ from Or.inr (Or.inr hc)), canB_0_false]
+      refine ⟨kc_two R U _ ⟨1, 0, -1⟩ ⟨0, 1, -1⟩ ?_ ?_ (by decide) ?_ ?_ ?_ ?_, by omega⟩
+      · rw [axis_Z _ _ _ hx hy, inl_Z]; simp
+      · rw [axis_Z _ _ _ hx hy, inl_Z]; simp
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold U; simp only; omega
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold U; simp only; omega
+    · rw [if_neg (show ¬ corner ⟨x, y, z⟩ by unfold corner; simp only; omega), canB_1_false]
+      refine ⟨kc_pos R U _ ⟨1, 0, -1⟩ ?_ ?_ ?_, by omega⟩
+      · rw [axis_Z _ _ _ hx hy, inl_Z]; simp
+      · rw [mk_add_mk, mem_hull_iff]; omega
+      · rw [mk_add_mk]; unfold U; simp only; omega
+
+end Reach
 
 end Gump.Link.HullGen
