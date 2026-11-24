@@ -3,7 +3,7 @@
 *Referee: an agent with no part in the work, 2026-11-24. Brief: break the statements, the definitions, the trust
 base and the tie to `reference/oracle.py`. Examined: commit `2cfee2e` (its `research/blast/lean/` is `6cc1a68`; the
 Lean files there are byte-identical to `9ed370d` of 2026-11-18, only `check.sh` and `statements.py` changed on
-11-24). Files named `Dice*`, `Tape*`, `Line*`, `Clock*`, `Chain*` were not read. Everything here is reproducible from
+11-24). Files named `Dice*`, `Tape*`, `Line*`, `Clock*`, `Chain*` were not reviewed (one oracle test of `Line.lean`'s headline is in §8). Everything here is reproducible from
 the scripts in this directory; bulk output is under `research/scratch/blast/ref-lean/`.*
 
 **Verdict in one paragraph.** I found no theorem whose Lean statement is false to its source or quietly weaker
@@ -110,7 +110,7 @@ met by named witnesses in the library: `hexRing_walk`, `two_layers_finite_sealed
 
 ## 4. Falsification by computation: `falsify.py`
 
-`python3 research/blast/ref-lean/falsify.py` (about 6 minutes on one core; log in
+`python3 research/blast/ref-lean/falsify.py` (34 s on one core; 55 PASS lines; log in
 `research/scratch/blast/ref-lean/falsify_all.log`): 0 FAIL lines. Written from `oracle.py` (offsets, masks, step on
 padded even-H arrays), with Lean definitions transcribed literally where they might differ (`lean_isCell`,
 `lean_axis`, `lean_nbrs`, `T5`, the `tstep` loop). The tests are `nbrs`, `layer`, `set36`, `beyond`, `t5`, `spaceship`
@@ -168,7 +168,8 @@ and by D1 its result does not reach the verdict. Log: `research/scratch/blast/re
 
 **census.** The generated theorem is exactly `oscCert_spec`'s conclusion for the catalogue's phase-0 cells.
 `census_check.py` treats a chunk as failed if lean exits non-zero or prints "error". Its exit status is lost
-by D1.
+by D1, so I ran it standalone in the clean clone: 1,307 of 1,307, all five negative controls rejected, exit 0, 78 s
+(`research/scratch/blast/ref-lean/census.log`).
 
 ## 7. Not checked
 
@@ -181,4 +182,13 @@ by D1.
   beyond |u_i| ≤ 6. One-layer convex confinement beyond 120 small soups.
 - The files written today (`Dice*`, `Tape*`, `Line*`, `Clock*`, `Chain*`, and the untracked files of the working
   tree). `check.sh`'s `MODS` glob builds whatever `Gump/*.lean` holds, so any in-flux file there also enters
-  `check.sh`.
+  `check.sh`. Commits after `2cfee2e` (`4c65854`, `530940e`, …) are outside this review.
+
+## 8. Outside the brief: `Line.lean`'s headline, by the oracle
+
+`Gump/Line.lean` was committed at 11:33 today (`530940e`) and I did not review it. Its headline is
+`line_orbit (N) (hN : 2 ≤ N) (s p) (hp : 0 < p) : run (lineC N) (s + p) = run (lineC N) s ↔ 2 * N ≤ s ∧ p % 4 = 0`.
+I tested the informal reading with the oracle: line-C(N) built from `line-C.json` as its `note` says, every
+s ≤ 2N + 8 and 1 ≤ p ≤ 12, for N = 2..14, 20 and 25. It holds in every case
+(`python3 research/blast/ref-lean/line_orbit_oracle.py 14`, 12 s; log `research/scratch/blast/ref-lean/line_orbit.log`).
+I did not check that the Lean `lineList N` is that object.

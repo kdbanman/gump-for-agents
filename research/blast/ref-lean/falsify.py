@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Referee's falsification tests for the Lean statements of research/blast/lean (REVIEW.md, section 2).
 
-    python3 research/blast/ref-lean/falsify.py [TEST ...]      (all tests if none named; about 10 minutes)
+    python3 research/blast/ref-lean/falsify.py [TEST ...]      (all tests if none named; about a minute)
 
 Written from reference/oracle.py alone (offsets, masks, step), not from the Lean proofs. Where a Lean
 *definition* might differ from the informal one, it is transcribed literally (functions named lean_*), and
