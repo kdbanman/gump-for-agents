@@ -100,7 +100,7 @@
    [
     "torus113_bust_flux",
     "README claim 4: wrapped (1,1),(0,3), bust share 0.9369.",
-    "For every QSD with λ > 0 and every generation m+6, in (0.936852, 0.936853). The share is the stationary share of the death flux (deaths from the quasi-stationary law), not the share of all deaths from a fixed start (from the full hull face it is about 0.152, ref-dice)."
+    "For every QSD with λ > 0 and every generation m+6, in (0.936852, 0.936853). The share is the stationary share of the death flux (deaths from the quasi-stationary law), not the share of all deaths from a fixed start (on this torus the full face dies surely; from state 73 the share of all deaths is 0.934, ref-dice)."
    ],
    [
     "lntau_le_hull",

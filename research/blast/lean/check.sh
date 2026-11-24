@@ -16,6 +16,9 @@ LONG=no; MATH=no
 for a in "$@"; do [ "$a" = "--long" ] && LONG=yes; [ "$a" = "--mathlib" ] && MATH=yes; done
 HERE=$(cd "$(dirname "$0")" && pwd); ROOT=$HERE/../../..; export PATH=$HOME/.elan/bin:$PATH
 cd $HERE
+# STATEMENTS.md must be what statements.py writes from the sources and the statements_*.json rows (a stale copy once
+# went unnoticed); --check writes nothing and exits non-zero on any difference
+python3 statements.py --check || { echo "FAIL: STATEMENTS.md is stale"; exit 1; }
 # every module in Gump/ is built, whether or not Gump.lean imports it
 MODS=$(ls Gump/*.lean | sed 's|Gump/\(.*\)\.lean|Gump.\1|')
 mkdir -p .lake

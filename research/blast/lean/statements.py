@@ -3,6 +3,8 @@
 script, next to the sentence it is meant to be and any difference in strength.
 
     python3 research/blast/lean/statements.py        (run from anywhere; rewrites STATEMENTS.md)
+    python3 research/blast/lean/statements.py --check   (writes nothing; exits 1 if STATEMENTS.md differs from
+                                                         what this script would write; run by check.sh)
 
 A = docs/AUTOMATON.md, section 3.  Th = research/theory/thickness.md, section 2 (section 4 where said).
 The rows are kept here, in ROWS; a name that is not found in the sources is an error.
@@ -99,5 +101,14 @@ for title, rows in ROWS:
     for name, src, diff in rows:
         f, st = statement(name)
         out += [f'### `{name}` (`{f}`)', '', '```lean', st, '```', '', f'- **Meant to be:** {src}', f'- **Difference:** {diff}', '']
-open(os.path.join(HERE, 'STATEMENTS.md'), 'w').write('\n'.join(out))
-print(sum(len(r) for _, r in ROWS), 'statements written')
+text = '\n'.join(out)
+n = sum(len(r) for _, r in ROWS)
+target = os.path.join(HERE, 'STATEMENTS.md')
+if '--check' in sys.argv[1:]:
+    old = open(target).read() if os.path.exists(target) else None
+    if old != text:
+        sys.exit('STATEMENTS.md is stale: it is not what statements.py writes (run python3 research/blast/lean/statements.py)')
+    print(f'STATEMENTS.md is current: {n} statements')
+else:
+    open(target, 'w').write(text)
+    print(n, 'statements written')

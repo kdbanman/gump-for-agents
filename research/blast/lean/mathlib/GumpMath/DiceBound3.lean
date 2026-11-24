@@ -9,8 +9,9 @@ local check `wcheck` (every cell, every k ≤ deg, both states, with the cell's 
 
 For the hull faces the best single weight is w = 1341/1000 (the edge cells, four neighbours, are the binding
 case): δ = 0.109 and **ln τ < 2.2165 · A** (`lntau_le_hull_weighted`, checked by the kernel for R = 3, 5, 7, 9, 11, `lntau_le_hull_small`;
-the classification of the hull's cells behind it, degree 6 inside, 4 on an edge, 2 at a corner, is not proved for
-every R). Against 2.5095 · A unweighted (`DiceHull.lean`, every R).
+the classification of the hull's cells behind it, degree 6 inside, 4 on an edge, 2 at a corner, is proved for every
+R by `DiceHullAll.hull_type`, which gives the bound for every R as `lntau_le_hull_all`). Against 2.5095 · A unweighted
+(`DiceHull.lean`, every R).
 -/
 import GumpMath.DiceBound2
 import GumpMath.DiceHull
