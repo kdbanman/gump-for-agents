@@ -218,6 +218,16 @@ hours. ref-density ad8647ed13bc7c8ae started 13:58 (own code from the oracle, tw
 `chain` handed back its repairs at 13:57 (f32bb82: D1–D7 all repaired; `exists_qsd` now gives `IsDominantQSD`;
 `torus_card`; `kagome_sharp_bound` ln τ ≤ 2.2412·A on wrapped faces) and was resumed at 14:00 for the instantiation
 on `Gump.Dice.Face.P` (new files `GumpMath/Link*.lean`, `notes/link.md`), two hours.
+`dice` (ab2a647cc91d04eeb) handed back at 14:02 (a65957b; `notes/dice.md`): `hull3_lifetime`, `hull3_tau` (ln τ in
+(2.4837157463, 2.4837157464) for every QSD of the 9-cell hull triangle), four more 9-cell faces, both exits,
+Theorem 1 at every size (`lntau_le_all` < 2.5095·A; `lntau_le_regular` < 1.9228·A); 12 cells not done (memory).
+Resumed at 14:05 for the bust-share formula, `Face.regular` on every torus, Theorem 1 on hull faces, and the 12-cell
+torus if under 4 GB; 90 minutes. ref-dice a4857c15ecf3e29cc started 14:05 (two hours,
+`research/blast/ref-dice/REVIEW.md`).
+In flight at 14:05: tape (call law (a)), chain (link), dice (second task), density (p*), ref-density, ref-dice.
+Planned when cores free up: a solver on the lower bound B2 by block renormalisation (`research/blast/b2/`); `density`
+again for the depth series at ε = 1 (how many real layers a face needs under it to die at gump's rate); then the
+integrator.
 
 **13:15 UTC 2026-11-24.** `chain` handed back (notes: `lean/notes/chain.md`, last commit 23163ec; 15 `Chain*.lean`
 modules, 82 headline theorems, `check.sh --mathlib` passed at 13:10). `ref-lean` handed back earlier (repairs in
