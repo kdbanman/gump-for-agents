@@ -101,7 +101,7 @@ theorem price_interval (a : ℕ → ℝ) (C C' : ℝ) (ha : ∀ n, 0 ≤ a n)
   have hM : ∀ n, n ≠ 0 → a n ≤ (a 1 + |C|) * n := by
     intro n hn
     induction n, Nat.one_le_iff_ne_zero.2 hn using Nat.le_induction with
-    | base => simp; exact le_abs_self C
+    | base => simp
     | succ n hn1 ih =>
       have h1 := hsub n 1
       have h2 := ih (by omega)
