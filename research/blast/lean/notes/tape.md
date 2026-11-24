@@ -213,7 +213,7 @@ one unit per double step, so the train spreads at both ends.
   ≥ N − 3, moved back N − 6 units, the units ≥ 3 of a state of the base (chart j) (`cycle_left`, `cycle_right`). Even
   N: the lit clock's units ≤ 2 at N − 3 are one generation of capL + C C B C, the same for every even N, and differ
   from all 26 base states (`firstCheck_ok`, one witness cell each, from `tape_lit.py`). Odd N: that left end equals
-  the base's at times 11, 15, 19, 23, so the witness is the right end instead: at N − 3 (an even generation for odd
+  the base's at times 4, 8, 12, 16 (Lean's `Xb` convention; 11, 15, 19, 23 counted from X0, `Xb_nat`), so the witness is the right end instead: at N − 3 (an even generation for odd
   N, so a word) the units ≥ N − 3 are C, f, C, capR, the right end of no base state (`firstCheckR_ok`).
   `lit_enters_exact`: for even N the entry is exactly N − 2.
 - **Odd N at N − 2** (`Gump/ClockLitOdd.lean`, `lit_odd_entry`): generation N − 2 is odd for odd N, one generation
@@ -282,7 +282,7 @@ Read for laws stated for every size or every word and not yet in Lean: `research
    lift beyond re-running them.
 
 No law attempted failed as the catalogue states it. One detail found on the way: for odd N the lit clock's left end at
-generation N − 3 is that of the base at times 11, 15, 19, 23, so "not yet on the cycle" there is seen only at the right
+generation N − 3 is that of the base at times 4, 8, 12, 16 in `Xb`'s convention (11, 15, 19, 23 counted from X0), so "not yet on the cycle" there is seen only at the right
 end (`lit_first_odd`).
 
 ## Not checked, and caveats

@@ -1871,7 +1871,7 @@ theorem lit_first (N : Nat) (h6 : 6 ≤ N) (g : Nat) (hg : g < N - 2) (k : Nat) 
 ```
 
 - **Meant to be:** (PI's brief, third task) "at no earlier generation": the lit clock of N units is on no state of the cycle of `clockOf N` before generation N − 2.
-- **Difference:** Same, for every N ≥ 6: even N by the left end at N − 3 (`lit_first_even`), odd N by the right end at N − 3 (`lit_first_odd`: C, f, C, capR is the right end of no base state; the left end would not do, it is that of base times 11, 15, 19, 23). With `lit_enters_at` the entry is exactly N − 2 for every N ≥ 6.
+- **Difference:** Same, for every N ≥ 6: even N by the left end at N − 3 (`lit_first_even`), odd N by the right end at N − 3 (`lit_first_odd`: C, f, C, capR is the right end of no base state; the left end would not do, it is that of the base at times 4, 8, 12, 16 in Lean's `Xb` convention, i.e. generations 11, 15, 19, 23 counted from X0, `Xb_nat`; ref-tape third review). With `lit_enters_at` the entry is exactly N − 2 for every N ≥ 6.
 
 ### `lit_enters_at` (`Gump/ClockLitOdd.lean`)
 

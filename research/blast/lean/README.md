@@ -64,6 +64,89 @@ All **[proved, machine-checked]**; axioms: `propext`, `Classical.choice`, `Quot.
 T2 and T3 are proved here as two instances of one lemma (a dead sealed set stays dead), which is how T6 says they
 should be read. T2 and T3 are stated for every integer level C, not only for lattice layers; no parity is needed.
 
+### Added on 2026-11-24 (the last-day blast)
+
+Every row is **[proved, machine-checked]** (kernel tier: `decide +kernel` for every base run and certificate, no
+`native_decide` anywhere, axioms within the standard three; `AxiomsTape.lean` in the core, `mathlib/AxiomsDice.lean`,
+`AxiomsChain.lean`, `AxiomsLink.lean`). The last column says whether a referee has read the statement against its
+source and attacked it (reviews in `research/blast/ref-tape/`, `ref-dice/`, `ref-chain/`); the authors' accounts are
+`notes/tape.md`, `notes/dice.md`, `notes/chain.md`, `notes/link.md`, and every row's difference from its source is in
+`STATEMENTS.md`.
+
+**The catalogue's "for every N" laws** (core Lean; objects are the catalogue's cell lists, `research/signals/`):
+
+| statement | Lean name | file | refereed |
+|---|---|---|---|
+| **The tape theorem**: every word over {B, C} on the wire moves one unit per two generations, on the whole lattice (signals §10) | `tape_run`, `tape_local_run` | `Gump/Tape.lean`, `Gump/TapeBase.lean` | yes (`ref-tape`, first review: same; `tape_local_run` says more) |
+| **The gun's line**: line-C of N ≥ 2 units returns after p > 0 from generation s iff s ≥ 2N and 4 ∣ p (period exactly 4, preperiod exactly 2N) (§21) | `Line.line_orbit`, `line_period_four` | `Gump/Line.lean` | yes (same as the row, more than the source) |
+| **A clock of every length**: a named state of capL + N units of wire C + capR has exact period 4N + 2, every N ≥ 1 (§11) | `Clock.clockOf_period`, `clock_cycle`, `lit_clock_small`, `X0_lit` (`clock_every_length`, an existential, says less) | `Gump/Clock.lean` | yes (first review's D1, repaired; second review: `clockOf_period` names its object) |
+| **The clock from a single cell**: the one added cell lights the clock of N units into an oscillator of exact period 4N + 2, every N; for N ≥ 6 it is on the cycle at generation N − 2 and at no earlier one | `Clock.lit_clock`, `lit_word`, `lit_enters`, `lit_first`, `lit_enters_at`, `lit_clock_exact` | `Gump/ClockLit.lean`, `ClockLitFirst.lean`, `ClockLitOdd.lean` | yes (third review, at 40520c7: no defect; oracle N = 6–30, entry exactly at N − 2, exact period 4N + 2) |
+| **Nine rigid signals** on the rake train, at every place and every time (§30–35) | `Tape.Signals.signal_run`, `train_step`, `train_shift` | `Gump/TapeSignals.lean` | yes (same) |
+| **The unzip law, sharp**: for every k ≥ 1 push 8's count read is the tape of its k pulses at every even generation from 2k + 6 on, and not at 2k + 4 (push 8 §5; REVIEW-signals-8 §3) | `Unzip.unzip_law_sharp`, `unzip_law`, `stretch_stands` | `Gump/UnzipProof.lean`, `Gump/Unzip.lean` | yes (same) |
+| **The call law, whole**: REVIEW-signals-9 §3 (a) the store wire and the free line evolve as a disjoint union at every generation, and (b) the wire carries the k pulses from 2k + 34 on, every k ≥ 1 | `Call.call_law : CallLaw` (`call_law_a`, `call_law_b`, `line_rest`); a second bit box `Call.Box.bstep_spec` | `Gump/CallProof.lean`, `CallBox.lean`, `CallLine.lean`, `CallUnion.lean`, `CallUnionLocal.lean` | yes ((b) in the first review, (a) and the box in the second) |
+| **The readers**: capL of the clock eats every word and keeps no trace (§15); the call line's left cap (`call9.json`, another cap) eats every word too | `Clock.reader_run`, `reader_step`; `Reader.reader9_run`, `reader_run_gen` | `Gump/ClockReader.lean`, `Gump/CallReader.lean` | yes (third review; the finite cell, the call crossing it and the gluing to `call_law`'s V_k are not covered, as the row says) |
+| **The beam**: gun, N units of train and absorber have period exactly 4, every N ≥ 1 (§21) | `Beam.beam_period` | `Gump/LineBeam.lean` | yes (third review; oracle N = 1–20, 30) |
+| **The divider**: period exactly 8 from generation 2N − 3, every N ≥ 8, and not periodic from 2N − 4 (§21b) | `Divider.divider_period` | `Gump/LineDivider.lean` | yes (third review; oracle N = 8–20, 24, 30; N = 3–7 obey the same law on the oracle, so N ≥ 8 is the proof's limit, not the automaton's) |
+
+**The dice surrogate's lifetime** (`mathlib/`; `Face.P` in `GumpMath/DiceDef.lean` is the one-layer surrogate of
+`research/blast/rigour/`, gump's rule on a face with each cell's cells beneath replaced by its own coins, as a killed
+chain with rational entries; the first theorems in the repository about a lifetime):
+
+| statement | Lean name | file | refereed |
+|---|---|---|---|
+| The definition is the source's surrogate | `Face.P`, `hull`, `torus`, `strip`, `patch` | `GumpMath/DiceDef.lean` | yes (`ref-dice`: all 1,310,720 entries of the five 9-cell kernels equal its own, built from the oracle) |
+| **Five 9-cell faces** (hull triangle R = 3, tori (1,0),(0,3) and (1,1),(0,3), strip 1×3, patch 1×3): for every QSD, λ in a 19-digit interval and −ln(1 − λ) to ten digits (hull: (2.4837157463, 2.4837157464)); λ > 0 assumed on the tori | `hull3_lifetime`, `hull3_tau`, `torus103_tau`, `torus113_tau`, `strip13_tau`, `patch13_tau` | `GumpMath/DiceHull3.lean`, `DiceTorus103.lean`, `DiceTorus113.lean`, `DiceStrip13.lean`, `DicePatch13.lean` | yes (λ bracketed by the referee's own exact enclosure; `*_lifetime` pins the decay rate with loose constants, 1384 against a true 1.63) |
+| **Both exits at 9 cells**: the share of the death flux whose last six transitions hold a fall of ⌈A/2⌉ cells is in (0.017017, 0.017018) on the hull triangle and (0.936852, 0.936853) on the torus (1,1),(0,3), at every generation, for every QSD | `hull3_bust`, `torus113_bust`, `flux_share`, `death_flux`, `hull3_bust_flux`, `torus113_bust_flux` | `GumpMath/DiceHull3Exit.lean`, `DiceTorus113Exit.lean`, `DiceFlux.lean` | yes (the flux step a theorem since `flux_share`; second review) |
+| **Theorem 1 at every size**: ln τ < 2.5095·A on every face with all its coins and on every hull face; < 2.2165·A on every hull face; < 1.9228·A on every wrapped face | `lntau_le_all`; `lntau_le_hull`; `lntau_le_hull_all` (with `hull_type`, `hull_balanced`); `torus_regular`, `lntau_le_torus` | `GumpMath/DiceBound.lean`, `DiceHull.lean`, `DiceHullAll.lean`, `DiceBound3.lean`, `DiceTorusReg.lean`, `DiceBound2.lean` | yes (true with room: 1.9228 is 4.1 to 6.4 times ln τ/A on tori up to 12 cells) |
+| τ is the mean lifetime: P_μ(T > t) = λ^t and E_μ T = 1/(1 − λ) for every QSD, on every face whose empty state is absorbing | `qsd_survival`, `qsd_mean`, `qsd_mean_all`, `hull3_mean`, `qsd_mean_hull` | `GumpMath/DiceMean.lean` | the proof is the referee's (`ref-dice/QsdSurvival.lean`); the module **not refereed** |
+
+**The chain theory** (`mathlib/GumpMath/Chain*.lean`, 16 modules: `rigour/THEOREMS.md` on an abstract finite killed
+chain, with Perron–Frobenius built here because Mathlib has none):
+
+| statement | Lean name | file | refereed |
+|---|---|---|---|
+| **Theorem 2, the tilt identity**: ln τ = ∫₀¹⟨E⟩_s ds = Σ_i c_i, the tilted mean decreasing, ⟨E⟩₁ ≤ ln τ ≤ ⟨E⟩₀ = E_μ[E], for every QSD | `tilt_identity`, `neg_log_Z_one`, `IsQSD.lifetime_eq`, `price_mem` | `ChainTilt.lean` | yes |
+| A dominant QSD on every finite killed chain (λ ≥ every QSD's, ≥ Q u u, the decay rate of the longest-lived start); Perron–Frobenius (Wielandt); one class ⇒ one QSD with λ > 0; equal prices along symmetries | `exists_qsd`, `tilt_identity_exists`; `exists_pos_eigenvector`, `left_eigen_unique`, `qsd_exists_unique`, `price_invariant` | `ChainExist.lean`, `ChainPerron.lean` | yes (first review's D2, the λ = 0 point mass, repaired by `IsDominantQSD`) |
+| **Theorem 1**: ln τ ≤ 2.51·A on every face of the surrogate; ≤ 2.2412·A on the kagome layer over any finite torus | `upper_bound_coins`, `emax_main`, `kagome_sharp_bound` | `ChainCoins.lean`, `ChainSharp.lean` | yes |
+| **Lemma 0 with its geometry on every wrapped face** (H,K),(0,D): one QSD with λ > 0, positive; one price per orientation, ln τ = HD(c_X + c_Y + c_Z); one price per cell on rotation-invariant tori | `kagome_lemma0`, `wrapped_lemma0`, `wrapped_one_price_HD`, `wrapped_rotation_HD`, `torus_card` | `ChainKagome.lean`, `ChainTorus.lean` | yes (D3, \|T\| = HD, repaired) |
+| The rate from every start; Lemma R (routes); the seam identity (the modelling step a hypothesis) | `decay_bounds`, `lifetime_from_bounds_K`; `routes_first`, `routes_second`, `two_routes_step`; `seam_identity`, `seam_sharp` | `ChainRate.lean`, `ChainRoutes.lean`, `ChainSeam.lean` | yes |
+| Theorem 3 from (SSM), as an implication; one price from pointwise (or almost-everywhere) convergence of the per-cell tilted energy, a jump along the tilt allowed; (SSM) forces a continuous limit; the price exists under gluing inequalities | `thm3a`–`thm3d`; `price_of_pointwise`, `price_of_ae`, `tilt_riemann_bounds`, `jump_refutes_SSM`; `price_exists_of_sub`, `price_interval` | `ChainSSM.lean`, `ChainTiltLimit.lean`, `ChainPrice.lean` | yes (D4: `price_of_ae` is the referee's, taken over) |
+
+**The link: the chain theorems for `Face.P` itself** (`mathlib/GumpMath/Link*.lean`):
+
+| statement | Lean name | file | refereed |
+|---|---|---|---|
+| **The five 9-cell faces, complete**: dominant QSD, the only one with λ > 0, positive; λ in the certified interval and ln τ (τ = E_μT) to ten digits; ln τ = Σ_i c_i with each cell's own death probability as its factor; equal prices within the classes of table automorphisms; two-sided decay at λ from every start that can survive | `hull3_full`, `torus103_full`, `torus113_full`, `strip13_full`, `patch13_full`; `hull3_complete` (adds survFrom = `Face.survival` and the dice bounds) | `LinkFaces.lean`, `LinkSurv.lean` | yes (second and third reviews; every price class as coarse as the numerics allow) |
+| **The 12-cell torus (2,0),(0,2)**: unique dominant QSD, all twelve prices equal (ln τ = 12·c), ln τ < 1.9228·12; no λ interval | `torus202_full` | `LinkTorus202.lean` | yes |
+| **Every wrapped face** (H,K),(0,D), H, D > 0, no hypothesis: all the clauses of the 9-cell theorems but the λ interval, ln τ = HD(c₀ + c₁ + c₂), one price per cell on rotation-invariant tori, ln τ < 1.9228·A | `torusNb_all`, `wrapped_full_all`, `wrapped_theorems_all`, `wrapped_area` | `LinkWrappedAll.lean`, `LinkWrappedArea.lean`, `LinkWrapped*.lean` | yes (third review: clean; checked on 208 tori and more) |
+| **Every hull face** R, no hypothesis: dominant law, tilt identity with named factors, ln τ < 2.2165·A, survFrom = `Face.survival` | `cellsOK_hull`, `hull_theorems` | `LinkHull.lean` | **not refereed** (5e8aa76) |
+| **Every hull face under `Lemma0F (hull R)`**: uniqueness, positivity, decay at λ, equal prices along every table automorphism; `Lemma0F` itself kernel-proved for R = 1, 3, …, 13 (3 to 84 cells), the triangle's rotation and reflection for R = 3, …, 13 | `hull_full_all`, `face_full_of`, `lemma0_of_cert`, `price_aut`, `hull_full_sym`; `hull1_lemma0` … `hull13_lemma0` | `LinkHull.lean`, `LinkFaceAut.lean`, `LinkHullCert.lean` | **not refereed** |
+
+### What is not proved (as of 2026-11-24)
+
+- **The price per cell.** The limit of ln τ/A is proved to exist only under hypotheses (gluing inequalities with
+  defects, `price_exists_of_sub`; or pointwise convergence of the per-cell tilted energy, `price_of_pointwise`); no
+  gluing inequality is known for the surrogate. **No lower bound** ln τ ≥ c·A (B2 of `THEOREMS.md`) for any infinite
+  family; the upper bounds above are all there is, and they sit well above the truth.
+- **Uniqueness on hull faces beyond R = 13**: `Lemma0F (hull R)` and the triangle's automorphisms are kernel-checked
+  face by face up to 84 cells (a module for R = 15, 17 passed 10 GB of memory and was stopped). The general proof is
+  the formalisation of the certificate's uniform construction (`notes/link.md`, "where the general proof stops").
+  Uniqueness on strips is not proved.
+- **λ intervals beyond the five 9-cell faces.** The 12-cell certificate was generated (with the 48-element symmetry
+  reduction, `DiceSym.lean`) but its build was killed at 12 GB in one declaration and ran over 25 minutes split; it is
+  not committed. 15 and 18 cells need the transfer product of `qsd.c` with a correctness proof, not written.
+- **The meetings of signals** (§31; REVIEW-signals-6 §3): they need a superposition lemma for two far-apart signals
+  and outcome runs wider than the 64-box (the 128-box of `CallBox` or a moving window). Also not covered: the finite
+  cell during a call, other seed places, "at no earlier generation" for the call law; that the nine signals are all
+  of the train's rigid signals is not claimed.
+- **That the surrogate is gump.** `Face.P` gives each cell private coins; gump over coins on its own cells beneath
+  shares each coin between face cells. From the full R = 3 hull face the one-step laws differ by total variation
+  0.33 (`ref-dice`, defect 5, measured exactly), and 12 of the 15 cells beneath that face lie on the hull's other
+  faces. Every lifetime theorem here is about the surrogate.
+- (SSM), the hypothesis of Theorem 3, is not proved (the chain agent's judgment, with reasons, is that it is false as
+  stated: `notes/chain.md`). From 2026-11-18 and still open: T5 on tori; that 36 is the least two-layer sealed set;
+  `gumpcheck`'s file parsing and printing.
+
 **Is the Lean rule gump?** A proof in Lean is about Lean's definition of the rule. Two ties to the ground truth,
 both run by `check.sh` [measured]:
 - `gumpcheck cube` runs the Lean rule on the 2012 closed-cube seeds and prints the logs in `reference/golden/`
@@ -78,10 +161,13 @@ neighbours for each orientation, 238 soups over nine densities, catalogued objec
 wire C, the rake gun), and the oracle's torus at seven sizes; 15 mutants of the rule (offsets, birth and survival
 sets, parity tests) are each caught.
 
-`STATEMENTS.md` (written by `statements.py`) puts each headline theorem's Lean statement, verbatim, next to the
-sentence it is meant to be and says where the two differ in strength. Several proofs use `decide +kernel` (the kernel evaluates a decision procedure; no axiom is added): `hex_check`,
-`cube_still`, an example in `Bits.lean`, the four `Signals` theorems and every census theorem. Nothing in the
-first tier uses `native_decide`.
+`STATEMENTS.md` (written by `statements.py`; 205 rows on 2026-11-24) puts each headline theorem's Lean statement,
+verbatim, next to the sentence it is meant to be and says where the two differ in strength. `check.sh` fails if it is
+stale (`python3 statements.py --check`: writes nothing, exits 1 on any difference; a referee had found it stale and
+the check silent). Several proofs use `decide +kernel` (the kernel evaluates a decision procedure; no axiom is
+added): `hex_check`, `cube_still`, an example in `Bits.lean`, the four `Signals` theorems, every census theorem, and
+since 2026-11-24 every base run of the catalogue laws and every certificate of the Dice and Link modules. Nothing in
+either package uses `native_decide`; there is no `*Native.lean` file.
 
 **Refereed on 2026-11-24** (`research/blast/ref-lean/REVIEW.md`; the statements of 2026-11-18, not the proofs and
 not the later files). No theorem broken: of the 50 rows, 36 say the same as their source, 7 say more and 7 say
@@ -92,8 +178,47 @@ its four comparisons with the oracle sat behind pipes and could not fail it, it 
 and `gumpcheck states` passed on files that compared nothing. All three are repaired (the attacks are in
 `research/blast/ref-lean/attack_gumpcheck.sh`).
 
-Not checked: the proofs are the kernel's; nothing written after 2026-11-18 is refereed; the statements were read against their sources by their
-authors and by the PI only. `set36` was found by a fresh SAT run and not compared with `sealed.py`'s set.
+Three more referees read the day's new files, each with its own code from `reference/oracle.py`:
+- **`ref-tape`** (`research/blast/ref-tape/REVIEW.md`, three reviews, at 6be19d4, ba36f77, 40520c7). No theorem
+  broken; the Lean objects are the catalogue's cell for cell; the laws hold on the oracle beyond the base cases, with
+  their sharp boundaries; no axiom beyond the three in 3,556 constants. Defects and repairs: D1 `clock_every_length`
+  is an existential that two short clocks side by side satisfy for N = 7 (repaired: `clockOf_period` names the
+  object, the row says "less"); D2 `STATEMENTS.md` stale and `check.sh` blind to it (repaired: regenerated, and
+  `statements.py --check` in `check.sh`); D3 three stale passages (repaired). The third review found one slip of
+  prose: the odd-N base times of `lit_first` are 4, 8, 12, 16 in Lean's `Xb` convention (11, 15, 19, 23 counted
+  from X0); corrected in the row and in `notes/tape.md`, still in the header comment of `Gump/ClockLitFirst.lean`.
+  Not checked by it: the internal steps of the zone and base checks (`zonesLit_ok`, `smallOK_ok`, `oddCheck_ok`,
+  `baseLitCheck_ok`, the readers' zone checks, the divider's `S`), the tape agent's scripts, sizes beyond N = 30
+  and words beyond eight random words of 64 letters, `local_union`'s internal steps, k beyond 20 for the call law.
+- **`ref-dice`** (`research/blast/ref-dice/REVIEW.md`, two reviews, at a65957b and 6f70d2d). Could not break the Dice
+  modules: `Face.P` equals its own kernel on all 1,310,720 entries of the five 9-cell faces, its exact λ lie inside
+  every certified interval, the checkers reject perturbed certificates. Defects and repairs: (1) the lemma cited for
+  E_μT = 1/(1 − λ) did not exist (the referee proved it, `ref-dice/QsdSurvival.lean`; adopted as `DiceMean.lean`);
+  (2) the bust share was the death flux's only through prose (now the theorem `flux_share`); (3) a reversed sentence
+  in the notes (corrected); (4) the `hull3_lifetime` row overstated (it pins the decay rate, with constants 1384
+  against a true 1.63; the row says so); (5) the surrogate is gump over *private* coins (said in the notes; total
+  variation 0.33 from gump over shared coins); (6) `DiceSym` had no client in the Dice modules (said). Second review:
+  no defect in the statements; two text slips (the `DiceBound3` header, the `torus113_bust_flux` row's 0.152, which
+  is the hull's: on that torus from state 73 the share of all deaths is 0.934), corrected on 2026-11-24 by the
+  integration. Not checked by it: no rebuild (the kernel checks are taken from the built oleans), no 12-cell or
+  larger certificate, the agent's Python, `DiceMean.lean`.
+- **`ref-chain`** (`research/blast/ref-chain/REVIEW.md`, three reviews, up to 55cf4a5). Proofs sound, hygiene clean,
+  no number broke; the wrapped-face statements say what the source says, on a layer model confirmed against the
+  oracle. Defects (first review) and repairs (f32bb82): D1 `bit_surrogate`'s local factorisation was existential, so
+  "ln τ = Σ c_i" could hold with all prices but one zero (the factor is now named); D2 "some QSD" admitted the λ = 0
+  point mass with ln τ = 0 (now `IsDominantQSD`); D3 |T| = HD unproved (`torus_card`); D4 `price_of_pointwise` asked
+  convergence at the jump point itself (`price_of_ae`, the referee's, taken over); D5 the notes' list of the source's
+  gaps overstated (corrected: none is a gap in the mathematics); D6 `lifetime_from_bounds` conditional on r < 1
+  (`lifetime_from_bounds_K`); D7 rows (corrected; `kagome_sharp_bound` added). Second review: D1–D7 closed in the
+  statements, the Link theorems say what their rows say about `Face.P` itself. Third review: clean; the generators
+  rewrite the committed modules byte for byte. Not checked by it: the 19th digit of the λ intervals, a full kernel
+  re-run of a reachability certificate (memory), `CellsOK` beyond 108 cells, tori above 12 cells for prices,
+  `DiceMean.lean`. Its fourth review (every hull face: `LinkHull`, `LinkFaceAut`, `LinkHullCert`; `DiceMean`) had
+  not reported when this was written.
+
+Not checked: the proofs are the kernel's. Not refereed: `LinkHull.lean`, `LinkFaceAut.lean`, `LinkHullCert.lean`,
+`DiceMean.lean`. Nobody has checked these statements against the sources but their authors, the PI and the referees
+named above. `set36` was found by a fresh SAT run and not compared with `sealed.py`'s set.
 
 ## The climb
 
@@ -120,20 +245,45 @@ smaller goal; where a tool is missing from Lean's libraries, building it is part
    cells are within the kernel's reach. Statements quantify over the whole lattice with finite support. If a base
    run is too long for the kernel, `native_decide` for base runs only, in a separate tier of the axioms table, each
    such run also in the differential test. First move: the tape theorem, then the gluing induction for (3).
+   **Done on 2026-11-24, all six, in the kernel tier with no `native_decide`:** the tape theorem, the gun's line
+   (preperiod exactly 2N), the clock of every length and from a single cell (exact period 4N + 2, entry exactly at
+   N − 2), the nine signals, the unzip law in the review's sharp form (by a new argument, not the source's seam
+   path), the call law whole (both parts, with a second bit box); and beyond the list the two readers, the beam and
+   the divider. Open: the meetings of signals (§31: a superposition lemma for two far-apart signals, and outcome
+   runs wider than the 64-box); the finite cell during a call; the divider for N = 3 … 7 (the oracle obeys the law
+   there; the induction's base starts at 8).
 3. **Finite vessels as Markov chains, with certified rates.** The dice surrogate and the noisy hull are finite
    chains with honest randomness. For a non-negative matrix Q and a positive vector v, Qv ≤ λv entrywise gives
    survival ≤ C·λᵗ, and Qv ≥ λv gives survival ≥ c·λᵗ: two inductions, no spectral theory. So a vector computed
    outside Lean certifies a two-sided bound on a death rate inside it, in exact rational arithmetic. First move: the 9-cell hull triangle of the
    one-layer dice surrogate, its rate in a proved interval set beside the exactly solved value (ln τ =
    2.4837157463, reproduced by the outside audit): the first theorem in the repository about a lifetime.
+   **Done on 2026-11-24:** that theorem (`hull3_tau`, λ to 19 digits, ln τ in (2.4837157463, 2.4837157464)) and four
+   more 9-cell faces. Next: 12 cells (the certificate exists; its symmetry check is the cost: check invariance under
+   two or three generators rather than all 48 automorphisms), then the transfer product of `qsd.c` with its
+   correctness proof for 15 and 18 cells, then the noisy hull.
 4. **The blast's theorems** (`rigour/THEOREMS.md`): Lemma 0, Theorem 1 (ln τ ≤ 2.509·A), the tilt identity,
    Lemma R, the seam identity, and Theorem 3 with its hypothesis proved or refuted rather than assumed.
+   **Done on 2026-11-24** on an abstract killed chain and then for `Face.P` itself: the tilt identity on every face;
+   Theorem 1 at 2.51·A everywhere, 2.2165·A on every hull face, 2.2412·A and 1.9228·A on every wrapped face; Lemma 0
+   with its geometry and one price per orientation on every wrapped face; on hull faces under `Lemma0F`,
+   kernel-checked to R = 13; Lemma R; the seam identity (its modelling step a hypothesis); Theorem 3 as an
+   implication, and a weaker hypothesis (pointwise convergence of the per-cell tilted energy) proved sufficient.
+   Open: `Lemma0F (hull R)` for every R (the certificate's construction is uniform in R; its formalisation is the
+   next move), Lemma 0 on strips, and (SSM) itself.
 5. **Both exits as theorems.** That a wrapped face of the surrogate dies by the bust and a rimmed one by the fade
    is measured and exactly computed at small sizes. Prove it for all sizes: a lower bound on the bust's share on
    wrapped faces, an upper bound on rimmed ones.
+   **Done on 2026-11-24 at 9 cells:** the bust carries 0.936852–0.936853 of the death flux on the torus (1,1),(0,3)
+   and 0.017017–0.017018 on the hull triangle (`torus113_bust_flux`, `hull3_bust_flux`). All sizes: open.
 6. **The price.** A proved interval for the cost per cell of a face's death, first for the surrogate (the limit
    exists by Theorem 2's local sum; pin it between certified bounds from finite strips), then for gump under
    noise at depth, then with the noise taken to zero.
+   **State on 2026-11-24:** upper bounds only (Theorem 1's constants, all well above the truth); the limit exists
+   under gluing inequalities with defects (`price_exists_of_sub`, `price_interval`) or under pointwise convergence of
+   the tilted energy (`price_of_pointwise`), and no gluing inequality is known for the surrogate; the lower bound B2
+   is open for every density. The surrogate of these theorems gives each cell private coins: it is not gump over
+   shared coins (total variation 0.33 in one step from the full 9-cell hull face, `ref-dice`).
 7. **The summit.** The face law for gump with its constant, and why a hull face and a wrapped face pay different
    prices at the sizes measured, as theorems.
 
