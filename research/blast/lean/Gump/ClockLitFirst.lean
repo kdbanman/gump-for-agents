@@ -5,7 +5,7 @@ generation g < N − 2 is no state of that cycle. The witness is the left end: a
 lit clock are the same for every even N (one generation of capL + C C B C, `lit_left`), while every state of the cycle
 shows on its units ≤ 3 one of the 26 states of the base (`cycle_left`), and the kernel finds for each of the 26 a
 cell of the units ≤ 2 where they differ (`firstCheck_ok`; the 26 cells from `tape_lit.py`). For odd N the left end
-does not tell (at generation N − 3 it is that of base times 11, 15, 19, 23), but the right end does: at generation
+does not tell (at generation N − 3 it is that of the base at times 4, 8, 12, 16 in `Xb`'s convention, generations 11, 15, 19, 23 counted from X0), but the right end does: at generation
 N − 3 (even for odd N, so a word) the units ≥ N − 3 are C, f, C, capR, the right end of no base state
 (`firstCheckR_ok`), while every cycle state shows there a base state's units ≥ 3 (`cycle_right`). So `lit_first`:
 for every N ≥ 6 no state before generation N − 2 is on the cycle.

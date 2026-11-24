@@ -73,7 +73,7 @@ ROWS = [
   ('layer_sealed_six', 'Th, Theorem 4 (i): no sealed set has fewer cells.', 'Stronger than the source, where minimality was a SAT search in a patch: here every nonempty finite set sealed in a layer has at least 6 cells, for every layer and diagonal.'),
   ('halfPlane_sealed', 'A, T6 and Th, Theorem 4 (ii): every half-plane of a layer is sealed.', 'Same, for any integer direction.'),
   ('layer_halfPlane_dead', 'Th, Theorem 4 (ii): a one-layer pattern never leaves the convex hull of its live cells.', 'Weaker in form: stated half-plane by half-plane. That the complement of a convex hull of lattice points is a union of integer half-planes is not formalised.'),
-  ('set36_all_sealed', 'A, T6 and Th, Proposition 5: in two layers a 36-cell set is sealed.', 'Existence only, for every two-layer slab. The set is from a fresh SAT run and has not been compared with `sealed.py`\'s. Minimality (36) is not in Lean.'),
+  ('set36_all_sealed', 'A, T6 and Th, Proposition 5: in two layers a 36-cell set is sealed.', 'Existence only, for every two-layer slab. The set is from a fresh SAT run; the referee compared it with `sealed.py`\'s and found it the same up to the slab\'s symmetries (`ref-lean/REVIEW.md`, `set36_compare.py`). Minimality (36) is not in Lean.'),
   ('sealed_iff_nine', 'A, T6 remark: "at most 3 neighbours outside" is "at least 9 inside".', 'Same.'),
   ('core_nine', 'A, T6 remark: the largest dead sealed set is the 9-core of the graph induced on the dead cells.', 'Same; `core D` is the union of the sealed subsets of D.'),
   ('core_iff_not_bp', 'A, T6 remark: it is the set never reached when the live cells are closed under bootstrap percolation with threshold 4.', 'Same; the closure is defined as the least closed superset, not by rounds.'),

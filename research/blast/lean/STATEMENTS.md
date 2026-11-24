@@ -390,7 +390,7 @@ theorem set36_all_sealed (d : Diag) (t : Pt) (ht : t.IsEven) : SealedIn (slab d 
 ```
 
 - **Meant to be:** A, T6 and Th, Proposition 5: in two layers a 36-cell set is sealed.
-- **Difference:** Existence only, for every two-layer slab. The set is from a fresh SAT run and has not been compared with `sealed.py`'s. Minimality (36) is not in Lean.
+- **Difference:** Existence only, for every two-layer slab. The set is from a fresh SAT run; the referee compared it with `sealed.py`'s and found it the same up to the slab's symmetries (`ref-lean/REVIEW.md`, `set36_compare.py`). Minimality (36) is not in Lean.
 
 ### `sealed_iff_nine` (`Gump/ThickCore.lean`)
 
@@ -1206,7 +1206,7 @@ theorem torus113_bust (μ : Fin (2 ^ (torus 1 1 3).A) → ℝ) (lam : ℝ) (hq :
 ```
 
 - **Meant to be:** README claim 4: wrapped (1,1),(0,3), bust share 0.9369 (qsd.c halffall_share K=6: a fall of ≥ ⌈A/2⌉ cells in one generation among the last 6 transitions).
-- **Difference:** bustShare 6 μ λ ∈ (0.936852, 0.936853) for every QSD with λ > 0. bustShare is defined as 1 - μ·noBust 6 / (λ^5 (1-λ)); that this is the share of the death flux is the stationarity argument in DiceExit.lean's header, in prose, not formalised. The share is the stationary share of the death flux (deaths from the quasi-stationary law), not the share of all deaths from a fixed start (from the full hull face it is about 0.152, ref-dice).
+- **Difference:** bustShare 6 μ λ ∈ (0.936852, 0.936853) for every QSD with λ > 0. bustShare is defined as 1 - μ·noBust 6 / (λ^5 (1-λ)); that this is the share of the death flux is the stationarity argument in DiceExit.lean's header, in prose, not formalised (it is now a theorem in path form: `flux_share`, `torus113_bust_flux`). The share is the stationary share of the death flux (deaths from the quasi-stationary law), not the share of all deaths from a fixed start (on this torus, from state 73, that share is 0.934, ref-dice second review).
 
 ### `hull3_bust` (`mathlib/GumpMath/DiceHull3Exit.lean`)
 
